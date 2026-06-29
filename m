@@ -1,247 +1,130 @@
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30BDC3ACF1C;
-	Mon, 29 Jun 2026 09:49:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042A33368A4;
+	Mon, 29 Jun 2026 09:55:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782726542; cv=none; b=KzIqLWnfvEL4lkfPTplA1KxuUsi1IAOzjbtg54/gFiuwNbD9TS2sf77DCw07Q5wbkhBipdLBbxa1pJqjXJPaS/VkS7wq/OZ/S+xR0oVohfTs64L5RCPT8s/pqb8TitSiaOnI9T7Fdusx9pz5Brt7r/fCSadQvJVj97hyarcSOsA=
+	t=1782726912; cv=none; b=YlVv4sL1W0XuO6SlAM8JmXJo08ByE8ZxxwkunQG7zKdPQ4LcOg6VNNvpyLjKAfXYtopfBkuQvb5qyS4Hm5GwF87epGTKRCu2Xq0X40+cgldSYW4RHD0bb1RY3e9qXpD5ucAPYZIRvbmuuk/CK6futXV2txbZzHesNHkn9JrIrx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782726542; c=relaxed/simple;
-	bh=GnsEYCjbe0S9jknU3l2IswJZuKVjKzGgWHpOCZ0UyCE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kselWC5VotA6xlumqlWPr2rqoaag5EarpbRZCzzJVZacOG7sT+74N1vuhPo5cPaeaGfyNrvi78IjHeypd73n5YXF5JG8HrgsES/xcouQghlTZInpHsIuUlb2g+cN10Rwgrep3k2apEU+1hhdZXJu44mU8tbn6aASBZGJ8u9zhi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=c+1ykNIK; arc=none smtp.client-ip=113.46.200.224
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1782726912; c=relaxed/simple;
+	bh=f3q6bXn0NIBEAK6I0Ih2vsMbY0Bsy5W2xdS5eAuynWw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=EvS+LVlJ11vk6CZxzCZv+lq6mE60dZKxLRHr7326ES2ljqPMeZDAQ6nC6i7s6hk2zJqD4jAmeh0HmF5Nt5wTvDKNoiBuP8o7wdiVKl0jfFTc6CibRzd3I+DAUsXBJAt+rSl+KJxnTfVvxkVpmx47WTx0wOEYwKjBwZOLJEoHGvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=Fc+UwHQQ; arc=none smtp.client-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="c+1ykNIK"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=u/3+3WmAyBCxJj1hXY/2UJ7mv0ILXHI87iQztv7VJmk=;
-	b=c+1ykNIKEcttl9rsWOhf3KGhszIQPHyR7u28Cchxm0JpfPnJDFUdBFhKmPBJnjP8o/WQW+I8z
-	5O1ONH0OfVfIe+WtV4VQJvjyVHAxaw6YwWydZ4ZlYHyqID1vcv1YjRJ9qJPSiT15yQEliXf/Iwz
-	irw6wy7sb89jLE6PXhHTxWI=
-Received: from mail.maildlp.com (unknown [172.19.162.92])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4gph7C2V8Wz1cyrh;
-	Mon, 29 Jun 2026 17:39:03 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 5D7184058A;
-	Mon, 29 Jun 2026 17:48:10 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by dggpemf500011.china.huawei.com
- (7.185.36.131) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 29 Jun
- 2026 17:48:07 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
-	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
-	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
-	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <robh@kernel.org>, <saravanak@kernel.org>,
-	<akpm@linux-foundation.org>, <baoquan.he@linux.dev>, <rppt@kernel.org>,
-	<pasha.tatashin@soleen.com>, <pratyush@kernel.org>, <ruirui.yang@linux.dev>,
-	<rdunlap@infradead.org>, <peterz@infradead.org>,
-	<feng.tang@linux.alibaba.com>, <dapeng1.mi@linux.intel.com>,
-	<elver@google.com>, <enelsonmoore@gmail.com>, <kuba@kernel.org>,
-	<ebiggers@kernel.org>, <lirongqing@baidu.com>, <leitao@debian.org>,
-	<kees@kernel.org>, <coxu@redhat.com>, <cfsworks@gmail.com>, <jbohac@suse.cz>,
-	<osandov@fb.com>, <ryan.roberts@arm.com>, <tangyouling@kylinos.cn>,
-	<sourabhjain@linux.ibm.com>, <ritesh.list@gmail.com>, <gaohan@iscas.ac.cn>,
-	<david@kernel.org>, <wangruikang@iscas.ac.cn>, <muchun.song@linux.dev>,
-	<vishal.moola@gmail.com>, <junhui.liu@pigmoral.tech>, <guoren@kernel.org>,
-	<namcao@linutronix.de>, <rick.p.edgecombe@intel.com>, <djbw@kernel.org>,
-	<liaoyuanhong@vivo.com>, <fuqiang.wang@easystack.cn>,
-	<vishal.l.verma@intel.com>, <chenjiahao16@huawei.com>, <x86@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-	<linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
-	<devicetree@vger.kernel.org>, <kexec@lists.infradead.org>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH v17 09/10] arm64: kexec_file: Add support for crashkernel CMA reservation
-Date: Mon, 29 Jun 2026 17:47:45 +0800
-Message-ID: <20260629094746.191843-10-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260629094746.191843-1-ruanjinjie@huawei.com>
-References: <20260629094746.191843-1-ruanjinjie@huawei.com>
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="Fc+UwHQQ"
+Received: by chaosmail.tech (Postfix) id B14E41CB983;
+	Mon, 29 Jun 2026 09:55:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1782726909;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+YzvGyIZGWqJterH6R4RynhALjA6a9xiCLrxLVoeC4w=;
+	b=Fc+UwHQQo2NxWjgRzvGxl1QIgMQD7BScXQiePANR2JeABG3vvVJAUHo3VDIRWKUNVgmTGz
+	Upf2PwJEqYTgl6+cff5D95qVmmbpB4QIWDjM3wNgqnXYZP+2mKMHZJb8XBuvkV51SYCi6O
+	UDxw+Pxu4KZm2dOG/VYC16O1xP3RSrs=
+From: Sasha Finkelstein <k@chaosmail.tech>
+Date: Mon, 29 Jun 2026 11:54:48 +0200
+Subject: [PATCH v3] Fail the build on RUST=y and RUST_IS_AVAILABLE=n
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- dggpemf500011.china.huawei.com (7.185.36.131)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260629-evolve-to-crab-v3-1-12829a7c536b@chaosmail.tech>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XOTQ7CIBAF4KsY1mIA+4OuvIdxAcPUYmoxgETT9
+ O5C3Zg0Ll/y5nszkYDeYiDHzUQ8JhusG3PYbzcEejVekVqTMxFMNKzmjGJyQ0IaHQWvNJWgFW8
+ bacDUJB89PHb2tYDnyzeHp74hxKKURm9DdP69LCZeen/xxCmngknTyQqbVuMp/+TCXdlhFxF6U
+ haS+DEEXxkiG8AlMjzIDupqZczz/AHzWsJiBwEAAA==
+X-Change-ID: 20260510-evolve-to-crab-8cba1768dcd5
+To: Alice Ryhl <aliceryhl@google.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Benno Lossin <lossin@kernel.org>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Boqun Feng <boqun@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, Jonathan Corbet <corbet@lwn.net>, 
+ Miguel Ojeda <ojeda@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Trevor Gross <tmgross@umich.edu>
+Cc: Neal Gompa <neal@gompa.dev>, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ Sasha Finkelstein <k@chaosmail.tech>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782726908; l=2541;
+ i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
+ bh=f3q6bXn0NIBEAK6I0Ih2vsMbY0Bsy5W2xdS5eAuynWw=;
+ b=UH4AUJLl9RZp4/7YRw+22GJCRfeVpk+RpTcTKjUd2YB5tOiWepux8Gl31tsMfeCQB5uQomUeF
+ xbl22mcpWyTAjPkHWO45udA3XkG62ptMjceKVN0JMChjVeMM17rfLM9
+X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-Commit 35c18f2933c5 ("Add a new optional ",cma" suffix to the
-crashkernel= command line option") and commit ab475510e042 ("kdump:
-implement reserve_crashkernel_cma") added CMA support for kdump
-crashkernel reservation.
+The current approach of silently disabling all rust drivers if the
+toolchain is missing results in users that try to compile their own
+kernels getting a "successful" build and then being confused about where
+did their drivers go. In comparison, missing openssl results in a build
+failure, not a disappearance of everything that depends on it.
 
-Crash kernel memory reservation wastes production resources if too
-large, risks kdump failure if too small, and faces allocation difficulties
-on fragmented systems due to contiguous block constraints. The new
-CMA-based crashkernel reservation scheme splits the "large fixed
-reservation" into a "small fixed region + large CMA dynamic region": the
-CMA memory is available to userspace during normal operation to avoid
-waste, and is reclaimed for kdump upon crash—saving memory while
-improving reliability.
+This also means that allyesconfig will depend on rust, but since the
+rust experiment concluded with "rust is here to stay", i believe that
+allyesconfig should be building rust drivers too.
 
-So extend crashkernel CMA reservation support to arm64. The following
-changes are made to enable CMA reservation:
-
-- Parse and obtain the CMA reservation size along with other crashkernel
-  parameters.
-- Call reserve_crashkernel_cma() to allocate the CMA region for kdump.
-- Include the CMA-reserved ranges for kdump kernel to use.
-- Exclude the CMA-reserved ranges from the crash kernel memory to
-  prevent them from being exported through /proc/vmcore, which is already
-  done in the crash core.
-
-Update kernel-parameters.txt to document CMA support for crashkernel on
-arm64 architecture.
-
-Tested-by: Breno Leitao <leitao@debian.org>
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-Acked-by: Baoquan He <bhe@redhat.com>
-Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+Reviewed-by: Gary Guo <gary@garyguo.net>
+Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+Reviewed-by: Neal Gompa <neal@gompa.dev>
+Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 ---
-v7:
-- Correct the inclusion of CMA-reserved ranges for kdump
-  kernel in of/kexec.
-v3:
-- Add Acked-by.
-v2:
-- Free cmem in prepare_elf_headers()
-- Add the mtivation.
----
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- arch/arm64/kernel/machine_kexec_file.c          | 2 +-
- arch/arm64/mm/init.c                            | 5 +++--
- drivers/of/fdt.c                                | 9 +++++----
- drivers/of/kexec.c                              | 9 +++++++++
- include/linux/crash_reserve.h                   | 4 +++-
- 6 files changed, 22 insertions(+), 9 deletions(-)
+Changes in v3:
+- Collect r-b tags
+- Rebase on 7.2
+- Link to v2: https://patch.msgid.link/20260521-evolve-to-crab-v2-1-c18e0e98fc54@chaosmail.tech
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index b5493a7f8f22..6774223c53b0 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1089,7 +1089,7 @@ Kernel parameters
- 			It will be ignored when crashkernel=X,high is not used
- 			or memory reserved is below 4G.
- 	crashkernel=size[KMG],cma
--			[KNL, X86, ppc] Reserve additional crash kernel memory from
-+			[KNL, X86, ARM64, PPC] Reserve additional crash kernel memory from
- 			CMA. This reservation is usable by the first system's
- 			userspace memory and kernel movable allocations (memory
- 			balloon, zswap). Pages allocated from this memory range
-diff --git a/arch/arm64/kernel/machine_kexec_file.c b/arch/arm64/kernel/machine_kexec_file.c
-index b019b31df48c..854d872dfd0f 100644
---- a/arch/arm64/kernel/machine_kexec_file.c
-+++ b/arch/arm64/kernel/machine_kexec_file.c
-@@ -42,7 +42,7 @@ int arch_kimage_file_post_load_cleanup(struct kimage *image)
- #ifdef CONFIG_CRASH_DUMP
- unsigned int arch_get_system_nr_ranges(void)
- {
--	unsigned int nr_ranges = 2; /* for exclusion of crashkernel region */
-+	unsigned int nr_ranges = 2 + crashk_cma_cnt; /* for exclusion of crashkernel region */
- 	phys_addr_t start, end;
- 	u64 i;
+Changes in v2:
+- No longer a RFC, let's make it happen.
+- Update the docs.
+- Link to v1: https://patch.msgid.link/20260510-evolve-to-crab-v1-1-208df84e67be@chaosmail.tech
+---
+ Documentation/rust/quick-start.rst | 6 +++---
+ init/Kconfig                       | 1 -
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
+index a6ec3fa94d33..764c81d0dd59 100644
+--- a/Documentation/rust/quick-start.rst
++++ b/Documentation/rust/quick-start.rst
+@@ -321,9 +321,9 @@ Configuration
+ -------------
  
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index 97987f850a33..227f58522dad 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -96,8 +96,8 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit;
+ ``Rust support`` (``CONFIG_RUST``) needs to be enabled in the ``General setup``
+-menu. The option is only shown if a suitable Rust toolchain is found (see
+-above), as long as the other requirements are met. In turn, this will make
+-visible the rest of options that depend on Rust.
++menu. In turn, this will make visible the rest of options that depend on Rust.
++You can check the value of ``RUST_IS_AVAILABLE`` to determine if your toolchain
++is configured correctly.
  
- static void __init arch_reserve_crashkernel(void)
- {
-+	unsigned long long crash_base, crash_size, cma_size = 0;
- 	unsigned long long low_size = 0;
--	unsigned long long crash_base, crash_size;
- 	bool high = false;
- 	int ret;
+ Afterwards, go to::
  
-@@ -106,11 +106,12 @@ static void __init arch_reserve_crashkernel(void)
- 
- 	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
- 				&crash_size, &crash_base,
--				&low_size, NULL, &high);
-+				&low_size, &cma_size, &high);
- 	if (ret)
- 		return;
- 
- 	reserve_crashkernel_generic(crash_size, crash_base, low_size, high);
-+	reserve_crashkernel_cma(cma_size);
- }
- 
- static phys_addr_t __init max_zone_phys(phys_addr_t zone_limit)
-diff --git a/drivers/of/fdt.c b/drivers/of/fdt.c
-index 26f66046cc32..a64afc3ded3d 100644
---- a/drivers/of/fdt.c
-+++ b/drivers/of/fdt.c
-@@ -878,11 +878,12 @@ static unsigned long chosen_node_offset = -FDT_ERR_NOTFOUND;
- /*
-  * The main usage of linux,usable-memory-range is for crash dump kernel.
-  * Originally, the number of usable-memory regions is one. Now there may
-- * be two regions, low region and high region.
-- * To make compatibility with existing user-space and older kdump, the low
-- * region is always the last range of linux,usable-memory-range if exist.
-+ * be 2 + CRASHK_CMA_RANGES_MAX regions, low region, high region and cma
-+ * regions. To make compatibility with existing user-space and older kdump,
-+ * the high and low region are always the first two ranges of
-+ * linux,usable-memory-range if exist.
-  */
--#define MAX_USABLE_RANGES		2
-+#define MAX_USABLE_RANGES		(2 + CRASHK_CMA_RANGES_MAX)
- 
- /**
-  * early_init_dt_check_for_usable_mem_range - Decode usable memory range
-diff --git a/drivers/of/kexec.c b/drivers/of/kexec.c
-index b6837e299e7f..029903b986cb 100644
---- a/drivers/of/kexec.c
-+++ b/drivers/of/kexec.c
-@@ -458,6 +458,15 @@ void *of_kexec_alloc_and_setup_fdt(const struct kimage *image,
- 			if (ret)
- 				goto out;
- 		}
-+
-+		for (int i = 0; i < crashk_cma_cnt; i++) {
-+			ret = fdt_appendprop_addrrange(fdt, 0, chosen_node,
-+					"linux,usable-memory-range",
-+					crashk_cma_ranges[i].start,
-+					crashk_cma_ranges[i].end - crashk_cma_ranges[i].start + 1);
-+			if (ret)
-+				goto out;
-+		}
- #endif
- 	}
- 
-diff --git a/include/linux/crash_reserve.h b/include/linux/crash_reserve.h
-index f0dc03d94ca2..30864d90d7f5 100644
---- a/include/linux/crash_reserve.h
-+++ b/include/linux/crash_reserve.h
-@@ -14,9 +14,11 @@
- extern struct resource crashk_res;
- extern struct resource crashk_low_res;
- extern struct range crashk_cma_ranges[];
-+
-+#define CRASHK_CMA_RANGES_MAX 4
- #if defined(CONFIG_CMA) && defined(CONFIG_ARCH_HAS_GENERIC_CRASHKERNEL_RESERVATION)
- #define CRASHKERNEL_CMA
--#define CRASHKERNEL_CMA_RANGES_MAX 4
-+#define CRASHKERNEL_CMA_RANGES_MAX (CRASHK_CMA_RANGES_MAX)
- extern int crashk_cma_cnt;
- #else
- #define crashk_cma_cnt 0
--- 
-2.34.1
+diff --git a/init/Kconfig b/init/Kconfig
+index 5230d4879b1c..0eca3dfd9349 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -2207,7 +2207,6 @@ config PROFILING
+ config RUST
+ 	bool "Rust support"
+ 	depends on HAVE_RUST
+-	depends on RUST_IS_AVAILABLE
+ 	select EXTENDED_MODVERSIONS if MODVERSIONS
+ 	depends on !MODVERSIONS || GENDWARFKSYMS
+ 	depends on !GCC_PLUGIN_RANDSTRUCT
+
+---
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+change-id: 20260510-evolve-to-crab-8cba1768dcd5
+
+Best regards,
+--  
+Sasha Finkelstein <k@chaosmail.tech>
 
