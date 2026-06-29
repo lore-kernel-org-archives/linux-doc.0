@@ -1,207 +1,242 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980AE3644C1
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 11:28:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF292765D7
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 11:37:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782732526; cv=none; b=suINR9t555MOItiALMXW+H7jChQSiLTQABtL/SjZ72/UUijGEtUdLuB4LqKwWrFTuWIMytFJftxdiwxOUnScE9Lvdt9eoeIgdfi5xK2j/CLbLbEhDgedTw8KmCdu2WFJfKdk/IX4GGksfl7geiU8gji13xoZuOrCGvekNFMfM1A=
+	t=1782733027; cv=none; b=upNzSbzo/mgKV+8OXSi0JO5cLVqU29fJyXwWJs+l8kfw4cb4SmCv3WUze+y5+3DJ5XfoXC5RszpTbMT12KfseFNJmiUNJHu+LsP87tIrckz9FSHFAbBmLeUMqVQgOCFdKgxmI62ASANcQGQUklSDtSl7b2WFPTmdAa2uqb4lAp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782732526; c=relaxed/simple;
-	bh=VScsbI2kLcswloPr3kiwqADGVDsXFCoZ45B/FNKe4Lk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QUfclaC6utCvsS2LzWGcATUutx9zaBUs7s9cq5KJzCtOpfum6//yZTfQ9kpewMl7VILOsiX7OXNjrG2k64SCzfOn9gdDyRYdth/cvoa4P59VrQ0YoXGUszEPpLfFFZRkA4y/oT1ht86yaR4kqXkTkFvonJ7IyD6jrIgm1f9WAbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z+0/8IVN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782733027; c=relaxed/simple;
+	bh=iDCRbWuTzGPKPAF84DB5LVHydBbLuJ1mYtyMDohMEvA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j1qUjvuY+RvuLKvz8GqVzUBKWyWt2M28QcpiV6Qdgg41vby/2eALnXfcEC3CP9dDIMO7469FEOxk2RL56A+yPvsvGU/AHCuUZdggCFwLqsjYn5lQqyc1dyasH4fCD2s4BfNGhjaPfqE42FZYhYOQZOG+G3tgv+HfsZpV+nrl5jY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AsPana00; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z+0/8IVN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3831A1F00A3D
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 11:28:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782732525;
-	bh=2SGF5N2MQo78vGzqyV7/apPuXFO2rP32pwgUlpuOhCM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Z+0/8IVNPNzLaX+cAHumKXyLIGetyMOrlba45W400NLvAFGsm1b4czPFceeKYdEUa
-	 g8HgTaWUDgmu+CZyz3EYnoBr6ox7+YRsFbnFoiNC8XayyFYh0MRYaWjMrn6l3LeZT8
-	 pKJ0WR8FO6dz/tYWm5ULT+k33cQLB7RhKgRnIXSyXT3zQ9EEmyaIaMeuCH8hyerZ4S
-	 g4rRsM3VRgwuReJJdH3T8aVxHhqwOStoWfx5LYMYR1pit6hvseU0QkJaex3qBeJIPn
-	 /SMntij8ibUAP9GYL5bpLF5RJkODA334aMwug2ZyKIGeZnOJRRtFLZstcI9XaBpo/b
-	 ih6xxN0jsRAtA==
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-474bf35cccdso111749f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 04:28:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RqmtWQkmS5gx29cq7dD04PXTPyE6X8PYrymqPy2jGn/xZmV27pYseJHwpf8To+yJUVzf+AT6Uekm6s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEsfJoMDdn8fkRsvYr7axq7JNctJQsVVcQnX76vzRXu9aouhOd
-	7qUgdsivFcF5/+iuC5xLE249MM3ahk9+C6ErWXNsQWzViSgmIK1dSYjg88fCd68vYngZvBko8YU
-	wutx1Y0A7JKl6YlNnbzsZpfFxCtTDvfM=
-X-Received: by 2002:a05:6000:2c03:b0:464:79f0:9162 with SMTP id
- ffacd0b85a97d-474ff09dd29mr78407f8f.19.1782732523175; Mon, 29 Jun 2026
- 04:28:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AsPana00"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2c7c61b5292so26939255ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 04:37:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782733026; x=1783337826; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+TUP1LM09mE01dTMgP9xd0rTmvGkZOWNWCmE4JCIidU=;
+        b=AsPana006WgP+ITyLN0Bo8jugmTreaF/60l3Fre+/i/rOUOoHVdssghAiQg09Lggnh
+         cU7xCHPETe9775Ic0SXmv0WQAVdXZGXQWZEzqYeldUY0MgB94MXebqE9nce6ROkiOou+
+         6LbY5ftFFPV1jYDxYaeUXzg7bcxFzBRHuDH/1cJDlTpipeJNaiP6qO3VqN3V5Oanz+67
+         Fg4Rr+lPep74EhSeIt0MuHPzkZzuD7ic3Stjj3ivlQHl4TTbBiXIE1KhfL7EKZAAZ6Uj
+         BT9UCUZXJGenai/Ah/liEpO4nKxdsxLK3t6ki5LO6jnUhYek55hqFjhR3DTm3tuc4SMn
+         yGjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782733026; x=1783337826;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+TUP1LM09mE01dTMgP9xd0rTmvGkZOWNWCmE4JCIidU=;
+        b=e9uatQAq2ue+aYccVEUoca82jpT7DN0/RrMpMmc2iyb95yNpAVDoUG4tLdPfPM1LW/
+         EslBz05eYnTYGnOayGvn3dzCWxTmkwMI5rX+n4dj7mhyDfw5izo0GELc0eVYB5TliILh
+         X5unCj0iP4SJskVBY6L5lsyTlMsQeH13kZkPyW+XRu7v0H4B/xEbyFUUnHhfp2LSRJM9
+         Qs0GofxyU4tHFgvVQvjTi05r2dSZeeRqjgCYHGz2/tQqxUCWNKCLL8nPt1fQ+YGmuyWN
+         nrNvjIJjpgxuBOngp3fKan/PHY838PQ3SelqBgpiyVjgObqOdKysC/5D2mGKoc57MoIi
+         wH6A==
+X-Forwarded-Encrypted: i=1; AHgh+RpCfXPEVkXGyey5FZBXKm5ZzZu63K5qpJNjTT65SaXzLHFS2tGGPfC9A13fhIlOh/agvrQSzjYXO+c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVgbWrA6QNTeo/QHjJ4YXXpBck3/odhWC/NNKs1yyWIIcxExqv
+	K1rDmLteClQc4JQHnq5IaBKMdnaKWm1sivJT25QDS5Ok1h3pqul7zokF
+X-Gm-Gg: AfdE7cnhTkLgxtvYnCQjkUZIaCiqfqaSllh5GJhSK1utaGbjpuJS1+GVXejV5aFbuPt
+	MIZrxCuzEZkgQse1fgY6FSh1E4/k3HAjsIgErzFESMFmNtKfBX/StIDATb5dPhNL45gDxYhXEZa
+	uPb9towCninDinc5W/5XoKQVE7iHTczRrUM56DZ61U1nMhiNDUh4SaTs0+po5eRBtQrrKHJd7lJ
+	zfn+lg8IYXAXxdUFpF8GQzEpXq6STYd8brCZVTz8QDOIyFmOIcfnerOLoyft459TVL8zqPBfJ8n
+	uK9ZhBvNb7apsLvMTSJ8Id4xmPsA92qS5SdtGZhzEaGboEf6neD/vH1r4qSqXignQw7piTdm11i
+	SqzUh64SIpO1a84nvCnzDMIYbWi1/+iwRHC70p2nnkL214xoRgLwblAMq/uoqMqUzSNxTskBdMG
+	+fLvZmB/t3S8IQG+xqIhbKVCflU4t69kKM
+X-Received: by 2002:a17:903:b48:b0:2c9:e5ff:995d with SMTP id d9443c01a7336-2c9e5ff9c0bmr40545955ad.31.1782733025674;
+        Mon, 29 Jun 2026 04:37:05 -0700 (PDT)
+Received: from [10.125.192.77] ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c9b43af119sm43120405ad.48.2026.06.29.04.36.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jun 2026 04:37:05 -0700 (PDT)
+Message-ID: <db3b3d03-61a9-1c88-4e8e-c9319b048626@gmail.com>
+Date: Mon, 29 Jun 2026 19:36:53 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260629094746.191843-1-ruanjinjie@huawei.com> <20260629094746.191843-7-ruanjinjie@huawei.com>
-In-Reply-To: <20260629094746.191843-7-ruanjinjie@huawei.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Mon, 29 Jun 2026 19:28:27 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTS5xMdFcuYBd2d+jvZTTSAJ_A6Eid0LqB-3WVAcT4NptA@mail.gmail.com>
-X-Gm-Features: AVVi8Cfb_YoOBZUDhpGGsfHfl7o1RJdl6tur8fEdDE_oRtNsU4-e7q_E2QvES68
-Message-ID: <CAJF2gTS5xMdFcuYBd2d+jvZTTSAJ_A6Eid0LqB-3WVAcT4NptA@mail.gmail.com>
-Subject: Re: [PATCH v17 06/10] riscv: kexec_file: Use crash_prepare_headers()
- helper to simplify code
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com, 
-	will@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name, 
-	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com, 
-	chleroy@kernel.org, pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu, 
-	alex@ghiti.fr, tglx@kernel.org, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, hpa@zytor.com, robh@kernel.org, 
-	saravanak@kernel.org, akpm@linux-foundation.org, baoquan.he@linux.dev, 
-	rppt@kernel.org, pasha.tatashin@soleen.com, pratyush@kernel.org, 
-	ruirui.yang@linux.dev, rdunlap@infradead.org, peterz@infradead.org, 
-	feng.tang@linux.alibaba.com, dapeng1.mi@linux.intel.com, elver@google.com, 
-	enelsonmoore@gmail.com, kuba@kernel.org, ebiggers@kernel.org, 
-	lirongqing@baidu.com, leitao@debian.org, kees@kernel.org, coxu@redhat.com, 
-	cfsworks@gmail.com, jbohac@suse.cz, osandov@fb.com, ryan.roberts@arm.com, 
-	tangyouling@kylinos.cn, sourabhjain@linux.ibm.com, ritesh.list@gmail.com, 
-	gaohan@iscas.ac.cn, david@kernel.org, wangruikang@iscas.ac.cn, 
-	muchun.song@linux.dev, vishal.moola@gmail.com, junhui.liu@pigmoral.tech, 
-	namcao@linutronix.de, rick.p.edgecombe@intel.com, djbw@kernel.org, 
-	liaoyuanhong@vivo.com, fuqiang.wang@easystack.cn, vishal.l.verma@intel.com, 
-	chenjiahao16@huawei.com, x86@kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	kexec@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jun 29, 2026 at 5:48=E2=80=AFPM Jinjie Ruan <ruanjinjie@huawei.com>=
- wrote:
->
-> Use the newly introduced crash_prepare_headers() function to replace
-> the existing prepare_elf_headers(), allocate cmem and exclude crash kerne=
-l
-> memory in the crash core, which reduce code duplication.
->
-> Only the following two architecture functions need to be implemented:
-> - arch_get_system_nr_ranges(). Call get_nr_ram_ranges_callback()
->   to pre-counts the max number of memory ranges.
->
-> - arch_crash_populate_cmem(). Use prepare_elf64_ram_headers_callback()
->   to collects the memory ranges and fills them into cmem.
->
-> Cc: Paul Walmsley <pjw@kernel.org>
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Cc: Albert Ou <aou@eecs.berkeley.edu>
-> Cc: Alexandre Ghiti <alex@ghiti.fr>
-> Cc: Guo Ren <guoren@kernel.org>
-> Reviewed-by: Sourabh Jain <sourabhjain@linux.ibm.com>
-> Acked-by: Baoquan He <bhe@redhat.com>
-> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> ---
->  arch/riscv/kernel/machine_kexec_file.c | 47 +++++++-------------------
->  1 file changed, 12 insertions(+), 35 deletions(-)
->
-> diff --git a/arch/riscv/kernel/machine_kexec_file.c b/arch/riscv/kernel/m=
-achine_kexec_file.c
-> index fa2946aa9b8f..1dfb1d9eb691 100644
-> --- a/arch/riscv/kernel/machine_kexec_file.c
-> +++ b/arch/riscv/kernel/machine_kexec_file.c
-> @@ -45,6 +45,15 @@ static int get_nr_ram_ranges_callback(struct resource =
-*res, void *arg)
->         return 0;
->  }
->
-> +unsigned int arch_get_system_nr_ranges(void)
-> +{
-> +       unsigned int nr_ranges =3D 2; /* For exclusion of crashkernel reg=
-ion */
-> +
-> +       walk_system_ram_res(0, -1, &nr_ranges, get_nr_ram_ranges_callback=
-);
-> +
-> +       return nr_ranges;
-> +}
-> +
->  static int prepare_elf64_ram_headers_callback(struct resource *res, void=
- *arg)
->  {
->         struct crash_mem *cmem =3D arg;
-> @@ -56,41 +65,9 @@ static int prepare_elf64_ram_headers_callback(struct r=
-esource *res, void *arg)
->         return 0;
->  }
->
-> -static int prepare_elf_headers(void **addr, unsigned long *sz)
-I agree to make arch_crash_populate_cmem more generic, and leave
-arch_crash_populate_cmem & prepare_elf64_ram_headers_callback here as
-callbacks.
-
-Reviewed-by: Guo Ren <guoren@kernel.org>
-
-> +int arch_crash_populate_cmem(struct crash_mem *cmem)
->  {
-> -       struct crash_mem *cmem;
-> -       unsigned int nr_ranges;
-> -       int ret;
-> -
-> -       nr_ranges =3D 2; /* For exclusion of crashkernel region */
-> -       walk_system_ram_res(0, -1, &nr_ranges, get_nr_ram_ranges_callback=
-);
-> -
-> -       cmem =3D kmalloc_flex(*cmem, ranges, nr_ranges);
-> -       if (!cmem)
-> -               return -ENOMEM;
-> -
-> -       cmem->max_nr_ranges =3D nr_ranges;
-> -       cmem->nr_ranges =3D 0;
-> -       ret =3D walk_system_ram_res(0, -1, cmem, prepare_elf64_ram_header=
-s_callback);
-> -       if (ret)
-> -               goto out;
-> -
-> -       /* Exclude crashkernel region */
-> -       ret =3D crash_exclude_mem_range(cmem, crashk_res.start, crashk_re=
-s.end);
-> -       if (ret)
-> -               goto out;
-> -
-> -       if (crashk_low_res.end) {
-> -               ret =3D crash_exclude_mem_range(cmem, crashk_low_res.star=
-t, crashk_low_res.end);
-> -               if (ret)
-> -                       goto out;
-> -       }
-> -
-> -       ret =3D crash_prepare_elf64_headers(cmem, true, addr, sz);
-> -
-> -out:
-> -       kfree(cmem);
-> -       return ret;
-> +       return walk_system_ram_res(0, -1, cmem, prepare_elf64_ram_headers=
-_callback);
->  }
->
->  static char *setup_kdump_cmdline(struct kimage *image, char *cmdline,
-> @@ -282,7 +259,7 @@ int load_extra_segments(struct kimage *image, unsigne=
-d long kernel_start,
->         if (image->type =3D=3D KEXEC_TYPE_CRASH) {
->                 void *headers;
->                 unsigned long headers_sz;
-> -               ret =3D prepare_elf_headers(&headers, &headers_sz);
-> +               ret =3D crash_prepare_headers(true, &headers, &headers_sz=
-, NULL);
->                 if (ret) {
->                         pr_err("Preparing elf core header failed\n");
->                         goto out;
-> --
-> 2.34.1
->
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.0
+Subject: Re: [PATCH v4 2/5] mm/zswap: Factor writeback loop out of
+ shrink_worker()
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: nphamcs@gmail.com, akpm@linux-foundation.org, tj@kernel.org,
+ hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org,
+ mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev,
+ roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
+References: <20260618044857.69439-1-jiahao.kernel@gmail.com>
+ <20260618044857.69439-3-jiahao.kernel@gmail.com>
+ <ajnGTt8tkbAWX8Oc@google.com>
+ <0916e673-861f-b472-7417-afbffbcc98ad@gmail.com>
+ <CAO9r8zPSZLaqLXw87V3q4tZa8WD7xCympKqfLMLB+o-++GksJQ@mail.gmail.com>
+ <91297bc0-268c-e9c2-57ae-6066eee5df2f@gmail.com>
+ <CAO9r8zOYgjbuG5i+LrCcMK764nVpOS+muo-5Q45ZFdiVus-dTA@mail.gmail.com>
+ <f1cd1ec9-48b0-1b03-0514-6c9958f3c77f@gmail.com>
+ <CAO9r8zPVzMKFbCixxD-qgtRrkFxWVrHiZZeLc=eyTPKPVQgX4g@mail.gmail.com>
+From: Hao Jia <jiahao.kernel@gmail.com>
+In-Reply-To: <CAO9r8zPVzMKFbCixxD-qgtRrkFxWVrHiZZeLc=eyTPKPVQgX4g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
---=20
-Best Regards
- Guo Ren
+
+On 2026/6/27 01:09, Yosry Ahmed wrote:
+>>>> /*
+>>>>     * Take one step of a memcg-tree writeback walk driven by the caller's
+>>>>     * iterator, and fold the result into @s, the retry bookkeeping shared
+>>>>     * across steps. @memcg is the iterator's current memcg, or NULL once
+>>>>     * it has wrapped around after a full pass over the tree.
+>>>>     *
+>>>>     * The function returns -EAGAIN to signal the caller to abort the walk
+>>>>     * after encountering the following conditions MAX_RECLAIM_RETRIES times:
+>>>>     * - No writeback-candidate memcgs were found in a memcg tree walk.
+>>>>     * - Shrinking a writeback-candidate memcg failed.
+>>>
+>>> Orthogonal to this patch, but I wonder if this can be simplified. I
+>>> wonder if these two conditions can be replaced with "shrinking a memcg
+>>> that has zswap entries failed". The "no writeback-candidate memcgs in
+>>> the tree" case seems like we should abort right away instead of
+>>> retrying?
+>>>
+>>> Nhat, WDYT?
+>>>
+>>
+>> Perhaps something like the following is what you had in mind? I've
+>> drafted the implementation below to make it easier for Nhat to compare
+>> with the previous behavior.
+> 
+> Hmm I think if we pursue this it should be in a separate patch or even
+> outside of this series, ideally with numbers/proof that it's not
+> introducing regressions to the scenario that lead to its introduction.
+> 
+
+Got it. I will temporarily leave this part out of the current patch series.
+
+>>
+>>
+>>>>     *
+>>>>     * Return: The number of compressed bytes written back (>= 0), or -EAGAIN
+>>>>     * once the retry budget is exhausted and the caller should abort the walk.
+>>>>     */
+>>>> static long zswap_shrink_one(struct mem_cgroup *memcg,
+>>>
+>>> Nit: zswap_shrink_one_memcg()
+>>>
+>>> BTW, the existing writeback logic has been broken for a while now when
+>>> memcg is disabled. I think we constantly hit the !memcg case and run
+>>> out of retries. Not sure if your patch changes this in any way, or if
+>>> you want to fix that while you're at it :)
+>>
+>> Yes, I'd be happy to do that. However, would it be better to submit a
+>> separate fix patch or combine it with this one?
+> 
+> A separate patch. Feel free to send it with this series to avoid
+> conflicts, but probably as patch 1 as we'll want to CC stable on it.
+> 
+
+Done, and I've just submitted the v5 patch.
+
+[v5] 
+https://lore.kernel.org/all/20260629112032.20423-1-jiahao.kernel@gmail.com
+
+Please take a look when you have a chance. Thank you very much for your 
+review!
+
+> [..]
+> 
+>> /* Track progress of a memcg-tree writeback walk. */
+>> struct zswap_shrink_state {
+>>       int scans;
+>>       int failures;
+>> };
+>>
+>> /*
+>>    * Take one step of a memcg-tree writeback walk driven by the caller's
+>>    * iterator, and fold the result into @s, the retry bookkeeping shared
+>>    * across steps. @memcg is the iterator's current memcg, or NULL once
+>>    * it has wrapped around after a full pass over the tree.
+>>    *
+>>    * The function returns -EBUSY to signal the caller to abort the walk when
+>>    * either of the following occurs:
+>>    * - A full pass over the tree found no writeback-candidate memcg.
+>>    * - Shrinking a writeback-candidate memcg failed MAX_RECLAIM_RETRIES
+>> times.
+>>    *
+>>    * When memory cgroup is disabled, the iterator always yields NULL. All
+>>    * zswap entries then live on the root list_lru, so NULL is treated as the
+>>    * root memcg and shrunk directly rather than as a completed tree pass.
+> 
+> I think this chunk should be moved above the code returning -EBUSY
+> when mem_cgroup_disabled() is true, and probably made more succinct as
+> it should be obvious.
+
+Done in v5.
+
+> 
+>>    *
+>>    * Return: The number of compressed bytes written back (>= 0), or -EBUSY
+>>    * when the caller should abort the walk.
+>>    */
+>> static long zswap_shrink_one_memcg(struct mem_cgroup *memcg,
+>>                      struct zswap_shrink_state *s)
+>> {
+>>       bool disabled = mem_cgroup_disabled();
+> 
+> No need to store this in a variable AFAICT, it's a static branch and
+> it's clearer to just call it directly in both call sites imo.
+
+Done, and I've just submitted the v5 patch.
+
+Thanks,
+Hao
+> 
+>>       long shrunk;
+>>
+>>       /*
+>>        * If the iterator has completed a full pass, update the shrink state
+>>        * and check whether we should keep going.
+>>        * With memcg disabled the iterator always yields NULL, so fall through
+>>        * and shrink the root memcg directly instead.
+>>        */
+>>       if (!memcg && !disabled) {
+>>           /*
+>>            * Abort if no writeback-candidate memcgs in the last tree walk.
+>>            * Otherwise reset the scans count and continue.
+>>            */
+>>           if (!s->scans)
+>>               return -EBUSY;
+>>           s->scans = 0;
+>>           return 0;
+>>       }
+>>
+>>       shrunk = shrink_memcg(memcg, NR_ZSWAP_WB_BATCH);
+>>
+>>       /*
+>>        * There are no writeback-candidate pages in the memcg. With memcg
+>>        * enabled this is not an issue as long as we can find another memcg
+>>        * with pages in zswap, so skip without counting it as a candidate.
+>>        * With memcg disabled the root LRU is the only target, so we should
+>>        * abort if it has no writeback-candidate pages.
+>>        */
+>>       if (shrunk == -ENOENT)
+>>           return disabled ? -EBUSY : 0;
+>>       s->scans++;
+>>
+>>       if (shrunk <= 0 && ++s->failures == MAX_RECLAIM_RETRIES)
+>>           return -EBUSY;
+>>
+>>       return shrunk;
+>> }
+
