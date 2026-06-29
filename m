@@ -1,33 +1,33 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FEA01A6838;
-	Mon, 29 Jun 2026 10:45:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87E801A6838;
+	Mon, 29 Jun 2026 10:48:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782729949; cv=none; b=OKNnT1MMCoCIRqARmWCcrO+k2rR68MG/ypZlh+8tyb8aujs3M4B8Fxn3mcrgAO0s7VmlQxbER7RaGoyI/UczEU5oi2WFD3Bk3qqq2PIlGbEqUjaKC2ugCrk/hqmfU8ni+PJ6A9pbIpGNv6nItTfOXBFjK2aepPw7aWHYPhzvs6s=
+	t=1782730128; cv=none; b=tpKgMCX2+2oNdBaSmASfr9iz7edTQTAKyx63voPUbOWhm6zxzRFkt0FsNdMPzzF1Ury4kz/JiZmgvcRlIusZ4WbbhEIDnQ5TwBFGfTLOcKURfGeIg/xh65w5+MSplB5VBjWVbuOPMT8DRc1z6yWuvK95hb97WcVXR1NE3TGFh/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782729949; c=relaxed/simple;
-	bh=uX4j+xfZpBFC+x937A72Gq+CfgKKBY1FxADnDSRx2Ug=;
+	s=arc-20240116; t=1782730128; c=relaxed/simple;
+	bh=HyjFYxbAqFE497eLVxXFT95li2NffwINS9WOP9Nk9NU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fyJCgYJzNfuDx+yRnz84JOcRsaBlIP3VCPvaT7ecOwpivPq0Dj01q4vhL9EHPtFFMonxgftyMCdAwxjGDnxoXtaWUJYW41NsE4cTYNl29vb1SzZ9iuvX7u1mB9sqbq6yTyu+fvFvjfh/G6EWK60Vp+gGQUZ5MnkJxTjSZqwrp8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ptglBkdm; arc=none smtp.client-ip=217.140.110.172
+	 In-Reply-To:Content-Type; b=R0PGROlvYlWdNziTqyOxuNrxnY2TQl01FHEklRvhdQkMjkW4wJ0fqhWRXQumP/kKx1lk1DdC+uzRB3nPSpnEUwATYELsuWodlcbIiHP49AG8kL1nSv9jorBUdhoFrR2PVQ1ZuLSNSnabrrPZRanVhz9HZlqvzmgFIOBeYLWjr/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=NYbdVGAf; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ptglBkdm"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="NYbdVGAf"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D2071A00;
-	Mon, 29 Jun 2026 03:45:43 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7DC46176C;
+	Mon, 29 Jun 2026 03:48:41 -0700 (PDT)
 Received: from [10.1.36.193] (e121487-lin.cambridge.arm.com [10.1.36.193])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EACD63F836;
-	Mon, 29 Jun 2026 03:45:45 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CC8243F836;
+	Mon, 29 Jun 2026 03:48:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1782729947; bh=uX4j+xfZpBFC+x937A72Gq+CfgKKBY1FxADnDSRx2Ug=;
+	t=1782730125; bh=HyjFYxbAqFE497eLVxXFT95li2NffwINS9WOP9Nk9NU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ptglBkdmuBFUT2TS0QAktHWeKPIB5DAKQTbSMef6iwFfmDsR9E04rUNOEmuaj9dpD
-	 vf+4Ja80YdjmnvdNiGo39XI+lN6Aq+y/0aK9aLpSD7SC8G1ehTrXJtT/rPr7KkcI6J
-	 XxLF59lFn9CMNn49WoscuOUJ3oW/fzkYKRtGc0M4=
-Message-ID: <381fb71c-0a2c-4dec-98a3-56ad88e190c6@arm.com>
-Date: Mon, 29 Jun 2026 11:45:44 +0100
+	b=NYbdVGAflN1iz+6isb+2ix0etO1gfPGgn2t+Gy6GsbFSqiYbcWp1RgRs6+2cRMYdy
+	 jcf6JhT8aQsybQdchLAuD6LErxTtolTB9n1aPQXnFNlL0v5Vhqj4u98+3fIru2Gtxp
+	 6CZWCTXP+lUvlLkbs12dOJF6mHTE1YIeG8kobicM=
+Message-ID: <97b62a6f-a514-46bb-9ee8-81f563220f6a@arm.com>
+Date: Mon, 29 Jun 2026 11:48:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/2] arm64: errata: NVIDIA Olympus device store/load
- ordering
+Subject: Re: [PATCH v4 2/2] arm64: io: apply the device store-release
+ workaround once per block write
 To: Shanker Donthineni <sdonthineni@nvidia.com>,
  Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
 Cc: Jason Gunthorpe <jgg@nvidia.com>, linux-arm-kernel@lists.infradead.org,
@@ -44,59 +44,35 @@ Cc: Jason Gunthorpe <jgg@nvidia.com>, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
  Jason Sequeira <jsequeira@nvidia.com>
 References: <20260625182425.3194066-1-sdonthineni@nvidia.com>
+ <20260625182425.3194066-3-sdonthineni@nvidia.com>
 Content-Language: en-GB
 From: Vladimir Murzin <vladimir.murzin@arm.com>
-In-Reply-To: <20260625182425.3194066-1-sdonthineni@nvidia.com>
+In-Reply-To: <20260625182425.3194066-3-sdonthineni@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 6/25/26 19:24, Shanker Donthineni wrote:
-> This series works around the NVIDIA Olympus device store/load ordering
-> erratum (T410-OLY-1027): a Device-nGnR* load can be observed by a
-> peripheral before an older, non-overlapping Device-nGnR* store to the
-> same peripheral, breaking the program order that drivers rely on for
-> MMIO and potentially leaving a device in an incorrect state.
+> The generic memset_io()/memcpy_toio() are built on __raw_write*(), so on
+> parts with the NVIDIA Olympus device store/load ordering erratum the
+> ARM64_WORKAROUND_DEVICE_STORE_RELEASE workaround promotes every store in
+> the block to a store-release. Each stlr* carries a barrier cost, so block
+> MMIO becomes O(n) store-releases, making a block copy many times slower
+> than a single ordered burst and growing with the transfer size.
 > 
-> Patch 1 adds the workaround. It promotes the raw MMIO store helpers
-> (__raw_writeb/w/l/q, and therefore writel()/writel_relaxed()) to
-> store-release on affected CPUs, and promotes the trailing DGH of the
-> write-combining __iowrite{32,64}_copy() helpers to dmb osh. Everything is
-> gated on a new ARM64_WORKAROUND_DEVICE_STORE_RELEASE cpucap and patched
-> in only on affected parts, so it is a no-op elsewhere.
+> Provide arm64 memset_io()/memcpy_toio() that emit plain str* in the loop
+> and order the whole block against subsequent loads with a single
+> trailing dmb osh on affected CPUs (a no-op elsewhere, preserving the
+> relaxed contract of these helpers). This keeps block MMIO writes at
+> one-barrier cost rather than scaling with the transfer size.
 > 
-> Patch 2 provides arm64 memset_io()/memcpy_toio(). The generic versions
-> are built on __raw_write*(), so patch 1 would promote every store in a
-> block to a store-release; as each STLR drains the write-combining buffer,
-> block MMIO becomes O(n) store-releases. The arm64 versions emit plain
-> STR in the loop and order the whole block with a single trailing dmb osh,
-> keeping block MMIO at one-barrier cost.
+> Performance (NVIDIA Olympus, write-combining MMIO to a device BAR, single
+> PE pinned; per-call cost in ns; consecutive writes ping-pong between two
+> buffers so repeated stores are not coalesced; iowrite64/iowrite32 =
+> __iowrite{64,32}_copy()):
 > 
-> Performance: NVIDIA Olympus, write-combining MMIO to a device BAR, single
-> PE pinned; per-call cost in ns. Consecutive writes ping-pong between two
-> buffers so repeated stores are not coalesced. iowrite64/iowrite32 =
-> __iowrite{64,32}_copy().
-> 
-> Table 1 - workaround off (CONFIG_NVIDIA_OLYMPUS_1027_ERRATUM=n)
-> +-------+-----------+-----------+-----------+-------------+
-> |  size | iowrite64 | iowrite32 | memset_io | memcpy_toio |
-> +-------+-----------+-----------+-----------+-------------+
-> |    8B |   67.9 ns |   67.8 ns |    3.6 ns |    3.6 ns   |
-> |   16B |   67.9 ns |   67.8 ns |    4.0 ns |    4.0 ns   |
-> |   32B |   67.9 ns |   67.9 ns |    4.6 ns |    4.6 ns   |
-> |   64B |   69.1 ns |   69.1 ns |   69.1 ns |   69.0 ns   |
-> |  128B |  138.3 ns |  138.3 ns |  138.4 ns |  138.3 ns   |
-> |  256B |  276.6 ns |  276.6 ns |  276.6 ns |  276.7 ns   |
-> |  512B |  276.6 ns |  276.5 ns |  276.6 ns |  276.6 ns   |
-> |   1KB |  276.6 ns |  278.4 ns |  276.6 ns |  276.6 ns   |
-> |   2KB |  278.4 ns |  278.4 ns |  275.9 ns |  276.6 ns   |
-> |   4KB |  365.7 ns |  365.7 ns |  365.7 ns |  365.7 ns   |
-> +-------+-----------+-----------+-----------+-------------+
-> relaxed/no-flush: memset_io()/memcpy_toio() issue plain stores with no
-> trailing dgh() or barrier, unlike __iowrite*_copy() which ends with dgh().
-> 
-> Table 2 - workaround on, arm64 memset_io/memcpy_toio (this series)
+> Table 1 - arm64 memset_io/memcpy_toio (this patch)
 > +-------+-----------+-----------+-----------+-------------+
 > |  size | iowrite64 | iowrite32 | memset_io | memcpy_toio |
 > +-------+-----------+-----------+-----------+-------------+
@@ -113,7 +89,7 @@ On 6/25/26 19:24, Shanker Donthineni wrote:
 > +-------+-----------+-----------+-----------+-------------+
 > all four helpers end with a single trailing barrier (dmb osh).
 > 
-> Table 3 - workaround on, generic per-store memset_io/memcpy_toio
+> Table 2 - generic per-store memset_io/memcpy_toio
 > +-------+-----------+-----------+-------------+--------------+
 > |  size | iowrite64 | iowrite32 |   memset_io |  memcpy_toio |
 > +-------+-----------+-----------+-------------+--------------+
@@ -132,26 +108,148 @@ On 6/25/26 19:24, Shanker Donthineni wrote:
 > workaround promotes to store-release, so every store is individually
 > ordered - hence O(n) in the store count.
 > 
-> Tables 2 and 3 show why patch 2 is needed: the generic per-store block
-> writers collapse to O(n) under the workaround (4KB ~314x slower, ~115 us
-> vs ~366 ns), while the arm64 versions stay flat at one-barrier cost.
+> The arm64 versions stay flat at one-barrier cost while the generic
+> per-store writers collapse to O(n): at 4KB ~314x slower (~115 us vs
+> ~366 ns).
+> 
+> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
+> ---
+>  arch/arm64/include/asm/io.h |  5 +++
+>  arch/arm64/kernel/io.c      | 82 +++++++++++++++++++++++++++++++++++++
+>  2 files changed, 87 insertions(+)
+> 
+> diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
+> index 69e0fa004d31..649503f347bc 100644
+> --- a/arch/arm64/include/asm/io.h
+> +++ b/arch/arm64/include/asm/io.h
+> @@ -266,6 +266,11 @@ __iowrite64_copy(void __iomem *to, const void *from, size_t count)
+>  }
+>  #define __iowrite64_copy __iowrite64_copy
+>  
+> +void memset_io(volatile void __iomem *dst, int c, size_t count);
+> +#define memset_io memset_io
+> +void memcpy_toio(volatile void __iomem *dst, const void *src, size_t count);
+> +#define memcpy_toio memcpy_toio
+> +
+>  /*
+>   * I/O memory mapping functions.
+>   */
+> diff --git a/arch/arm64/kernel/io.c b/arch/arm64/kernel/io.c
+> index fe86ada23c7d..b5fd9ee6d9eb 100644
+> --- a/arch/arm64/kernel/io.c
+> +++ b/arch/arm64/kernel/io.c
+> @@ -5,9 +5,91 @@
+>   * Copyright (C) 2012 ARM Ltd.
+>   */
+>  
+> +#include <linux/align.h>
+>  #include <linux/export.h>
+>  #include <linux/types.h>
+>  #include <linux/io.h>
+> +#include <linux/unaligned.h>
+> +
+> +#include <asm/alternative.h>
+> +
+> +/*
+> + * ARM64_WORKAROUND_DEVICE_STORE_RELEASE promotes every raw MMIO store
+> + * (__raw_write*()) to a store-release on affected CPUs. The generic
+> + * memset_io()/memcpy_toio() are built on those helpers, so the workaround would
+> + * emit one store-release per element and turn a block write into O(n) ordered
+> + * stores - far more costly than the single barrier a block actually needs.
+> + *
+> + * Provide arm64 versions that emit plain STR in the loop and order the whole
+> + * block against subsequent loads with one trailing DMB OSH, patched in only on
+> + * affected CPUs (a no-op elsewhere, so the relaxed contract of these helpers is
+> + * preserved).
+> + *
+> + * This capability is currently enabled only for the NVIDIA Olympus device
+> + * store/load ordering erratum, where a Device-nGnR* load may be observed before
+> + * an older, non-overlapping Device-nGnR* store to the same peripheral.
+> + */
+> +static __always_inline void iomem_block_store_barrier(void)
+> +{
+> +	asm volatile(ALTERNATIVE("nop", "dmb osh",
+> +				 ARM64_WORKAROUND_DEVICE_STORE_RELEASE)
+> +		     : : : "memory");
+> +}
+> +
+> +void memset_io(volatile void __iomem *dst, int c, size_t count)
+> +{
+> +	u64 qc = (u8)c;
+> +
+> +	qc *= ~0ULL / 0xff;
+> +
+> +	while (count && !IS_ALIGNED((__force unsigned long)dst, sizeof(u64))) {
+> +		asm volatile("strb %w0, [%1]" : : "rZ"((u8)c), "r"(dst) : "memory");
+> +		dst++;
+> +		count--;
+> +	}
+> +	while (count >= sizeof(u64)) {
+> +		asm volatile("str %x0, [%1]" : : "rZ"(qc), "r"(dst) : "memory");
+> +		dst += sizeof(u64);
+> +		count -= sizeof(u64);
+> +	}
+> +	while (count) {
+> +		asm volatile("strb %w0, [%1]" : : "rZ"((u8)c), "r"(dst) : "memory");
+> +		dst++;
+> +		count--;
+> +	}
+> +
+> +	iomem_block_store_barrier();
+> +}
+> +EXPORT_SYMBOL(memset_io);
+> +
+> +void memcpy_toio(volatile void __iomem *dst, const void *src, size_t count)
+> +{
+> +	while (count && !IS_ALIGNED((__force unsigned long)dst, sizeof(u64))) {
+> +		asm volatile("strb %w0, [%1]"
+> +			     : : "rZ"(*(const u8 *)src), "r"(dst) : "memory");
+> +		src++;
+> +		dst++;
+> +		count--;
+> +	}
+> +	while (count >= sizeof(u64)) {
+> +		asm volatile("str %x0, [%1]"
+> +			     : : "rZ"(get_unaligned((const u64 *)src)), "r"(dst)
 
-That's interesting. With the way the patch set is structured, it
-now looks like:
+Why do we need get_unaligned() here? I understand this came from
+the generic implementation, where it needs to handle architectures
+that do not support unaligned accesses. But IIUC this is not an
+issue for arm64, and there was no special handling in memcpy_toio()
+before 0110feaaf6d0 ("arm64: Use new fallback IO memcpy/memset").
+Am I missing something?
 
-1. Fix the erratum, but cause a performance regression.
-2. Restore the performance regression and (re)apply the erratum
-   workaround.
+> +			     : "memory");
+> +		src += sizeof(u64);
+> +		dst += sizeof(u64);
+> +		count -= sizeof(u64);
+> +	}
+> +	while (count) {
+> +		asm volatile("strb %w0, [%1]"
+> +			     : : "rZ"(*(const u8 *)src), "r"(dst) : "memory");
+> +		src++;
+> +		dst++;
+> +		count--;
+> +	}
+> +
+> +	iomem_block_store_barrier();
 
-Would it make sense to avoid introducing the performance
-regression in the first place by structuring the patch set
-slightly differently?
+It is perhaps a matter of taste, but having the inline assembly
+here (and in memset_io()) might make the code clearer. To a
+casual reader, it would be obvious that the barrier is not
+guaranteed and is only applicable to ARM64_WORKAROUND_DEVICE_STORE_RELEASE,
+without having to jump back and forth through the code.
 
-1. (Re)introduce arm64 memset_io()/memcpy_toio().
-2. Fix the erratum once for all
-
-What do you reckon?
+Obliviously maintainers might have different preference ;) 
 
 Cheers
 Vladimir
+
+> +}
+> +EXPORT_SYMBOL(memcpy_toio);
+>  
+>  /*
+>   * This generates a memcpy that works on a from/to address which is aligned to
+> -- 2.54.0.windows.1
+> 
 
