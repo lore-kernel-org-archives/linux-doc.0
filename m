@@ -1,231 +1,95 @@
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFE33DD500
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 08:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DEAF2E7378;
+	Mon, 29 Jun 2026 08:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782722163; cv=none; b=KBhOBU+byfHHrUL/vkhI2/5ndhCFP7x8FL+iY8pleTAiXK1UjGwKS6wX67r5hU6A4a2AsfxdzGr1TVXUjHaTi/8tiGnjD5kpGGH9F/JHh7gD5NA7iT2WZ+GXN4dcVSVtreAm6krSNEKNpgJczIx5lwc2xOYSValxZNNZZqxODA4=
+	t=1782723086; cv=none; b=FFWY9+9RJkNsaeacDC2PTDOnJQdED0ZH3Ufs3VpfdGMnabX/45miAxsqB9S7RUgoKnDUl0/QzILfPGriKOgsygE6BxaZLFFlaB38ev3hUGIdwJDkVEiYarIc7nnvAn5h4lHTsb0M5tTSRoGSzdZM57Ynuub4YchMPiPWw7O6rmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782722163; c=relaxed/simple;
-	bh=D/jkgR4QXNxQDk+Ho/BN3hqOkJbsyn9lYgjtOPBi/MI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Lo9D5tHtc3QJLRC1Ofq0nPfuXDpWq3Hg//34CUDPfhpMeHSJKi4m2trPdmSLy+Rcbpcr2x1aINrvNSwc7iJkvEo2mmqfnao3ueOjYjn/XHhOyHWodK5gDEDnBlnN9Pe4CK3ZdODghsE2v65vSWg1/U7UauIpdAO5Vsjik1p9/+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qnwZGyQP; arc=none smtp.client-ip=74.125.82.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782723086; c=relaxed/simple;
+	bh=1ZKXjT4eRy/z6NRQl9SKqaX+obrsecDlzBy8qDMBC9k=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=hEPyhPo84zh0Mo2htzVEuCFsD1nqoOZk94tGxnfyJDudWT2hpBiM/HEapX2HHitTS5TfW47PP9NLbrwBY0zZCsry5vtMKgLdZPsgQrSSHFeWm0ah0Be3rEYPyYiaUww0II0a2Lh9nFFe3UesuVNq2c22FQa6tR+2mark3RDKrFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UyQJ+M1g; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qnwZGyQP"
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-30b6dad2382so5776645eec.0
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 01:36:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782722160; x=1783326960; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jUWp1VWWw9zueZ4k+oQ3Wcp5KSo43CPvtGJhU4FTiZY=;
-        b=qnwZGyQP+hZVwxBpQL0cqOPuWq/V9EJfzqMHUjLGmqZWmeUw/tLvaPxtnBzgl5RtyI
-         Kd5lGV0NO1Rd1FQney6fFYHIhRVcFps2nMfMUlx+35UaMUmEqChj+igByiJTVoB37Uqt
-         PrS9XFFkm3vfWcUTYaIZS60NcFg1R3aAHZ7R9RHKtBze/I199PpWDTtjY/WafUhs7tXv
-         bQ+cC4YKlDsX7yiniFrM2y13AP+0jhmF9H/uSXS7dlrM5R+bcTeplv3NxbzFzP7AWVxG
-         JrYsjikaAXJpZVpzgzNSSf73OU1tKOtgAJ2zgD3kCgUVYSchekPsdcw8zDxbQB96q3cn
-         A+yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782722160; x=1783326960;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jUWp1VWWw9zueZ4k+oQ3Wcp5KSo43CPvtGJhU4FTiZY=;
-        b=CRGJLizRLrTFIg2Eoq9vXBCalk2Qztfy6cMfy47MKGDWPXpFuL9AbwOwdIVvFBlc4Z
-         1ZiQD7mbjjY1YaxM7xWmki1qHwKm4gtGnDjF/BlMYr9gHNfCw0HvykVVek/7Fydzv2+o
-         dWyNQH6PB9+NYWpDSljT5lV0YarqwKXE86KDKG5NcnAsziZLmjUvcMefIsbtpCZ1JEfc
-         QSN3VX6ChNxVpQDyARk3dKlx8orhjZByooDCVwbQCdwN7aEfr5+jWBRPRBKwg8MbdOKc
-         Y47T27GwNzgB4U3ru9rZ1w5KGovT2EbUrbovF3ILstq4+8TWZ5+dMYqze6sOIkl5+6u4
-         QhHQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpJfKGJ8AaLEf5BOfeKHeMbuLA5Wj3zrs2uEbgpVlH4EJKMNTe3OmfKIINMTnP0rr/2tlgeGk/LjL0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzS46MISpi4pWdzGyzMLAxEwmdyYytXsUBIgJyv2YL+WkZ+qNBo
-	DkyR8bv/avmZyrMXVQ6dNYZbx72ylmOAgcAIcP7grhsn6Qh1tBW49OBM
-X-Gm-Gg: AfdE7ckAfcezlDBpz7v+mj/P3S9e1P5yXaL95cJVmmMi1pKUGnJlqD4ArRTiWa1gYgw
-	9XuK+VK2gq/RvZAIE7xjaAOBGeG1GEr2lguZ/809ewA87L+e5/+5smMb9Km78oeUPJbUZ9QfpVJ
-	g3WaFyxbo6n8AQ/NEux9vrJjvA8YDanm33eAOpjDDbVFjYS6NO+idKxPIIjjIeYYxGdQFzYFvXK
-	gK7ztSrUj0P+8HYi5BqmaaIMlJAjvQXTEGDwl3//3901HODhwZUdBACpXqJM6E7dhfMLcnde0Q5
-	3w6eywEVL7S5pHm9Ix9r27Pfdd6TO+ZEzr8/cO3TofdwpV9WpCvzaDRd806h78wzAc4K7UqBnAR
-	l1aj4nhD4QyD3clpIrdZfm/A0/RBmJA6L5N6Arx4Q0khNnpJUzlrSn3S9PFZ+P//NU1IFHiwS+p
-	36VsT22Yf6x/VvBGSe
-X-Received: by 2002:a05:7301:6007:b0:2ed:27a3:eae3 with SMTP id 5a478bee46e88-30c84d409dfmr14058054eec.26.1782722159974;
-        Mon, 29 Jun 2026 01:35:59 -0700 (PDT)
-Received: from lucas ([2804:29b8:5089:a52e:286c:f020:71b0:64f2])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c9e220bsm45902686eec.21.2026.06.29.01.35.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 01:35:59 -0700 (PDT)
-From: =?UTF-8?q?Lucas=20de=20Lima=20N=C3=B3brega?= <lucaslnobrega38@gmail.com>
-To: rafael@kernel.org,
-	viresh.kumar@linaro.org,
-	mingo@redhat.com,
-	peterz@infradead.org,
-	juri.lelli@redhat.com,
-	vincent.guittot@linaro.org
-Cc: dietmar.eggemann@arm.com,
-	rostedt@goodmis.org,
-	bsegall@google.com,
-	mgorman@suse.de,
-	vschneid@redhat.com,
-	kprateek.nayak@amd.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-pm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Lucas=20de=20Lima=20N=C3=B3brega?= <lucaslnobrega38@gmail.com>
-Subject: [PATCH] sched/topology: Allow EAS without schedutil for artificial Energy Models
-Date: Mon, 29 Jun 2026 05:35:42 -0300
-Message-ID: <20260629083542.10041-1-lucaslnobrega38@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UyQJ+M1g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 249C01F000E9;
+	Mon, 29 Jun 2026 08:51:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782723084;
+	bh=XRMxQ/1KD4SMniSfvO3J1a/rKusbAij00E6gOFZB7NI=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References;
+	b=UyQJ+M1gOrQaYc9JFSFf1GeFFCRHDLeL8aUMbOtRUNzFmXEi46Wl4Q6q5b4T+iZeh
+	 TT7xCFldS5+7xbtqG6QeM0k4wvOE8lR6yPLarT98SVsnr0HwNeULTRguvZSqMQUZgB
+	 CKXklRRxtJ2Q7UD6O9xDV23w2g7xa2JTMrG7cZ8tbPjyw3YfuzTiko3YQvdZoFzDbZ
+	 Js1VW+PSlIrTRGft+d0hKUTopnhK3/EO/fuwuf4WhVl//EadesoF6El0JJelar2jQ2
+	 8pjy1+MYH/GBdFnVSQC2HX1q2wJf3UqFkRGcZ3H2MRZ7VLVzMLDgxBC776gwg2H4/8
+	 hL7zTqW8mXu8Q==
+Date: Mon, 29 Jun 2026 10:51:22 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>
+cc: Benjamin Tissoires <bentiss@kernel.org>, 
+    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
+    Denis Benato <denis.benato@linux.dev>, 
+    Zhouwang Huang <honjow311@gmail.com>, linux-input@vger.kernel.org, 
+    linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v11 0/4] Add MSI Claw HID Configuration Driver
+In-Reply-To: <20260529072111.7565-1-derekjohn.clark@gmail.com>
+Message-ID: <qq26pn5q-96qs-0o7o-9r10-5r78p3862qn6@xreary.bet>
+References: <20260529072111.7565-1-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-EAS currently refuses to enable energy-aware scheduling on a root
-domain unless schedutil is the active CPUFreq governor for all of its
-CPUs (cpufreq_ready_for_eas()). This requirement exists to protect the
-accuracy of the energy estimate: EAS predicts the OPP a CPU will run
-at from its utilization, which is only meaningful if the active
-governor actually requests OPPs that way, and schedutil is the only
-one that does.
+On Fri, 29 May 2026, Derek J. Clark wrote:
 
-That requirement does not apply to artificial Energy Models
-(EM_PERF_DOMAIN_ARTIFICIAL). An artificial EM is built from a
-get_cost() callback instead of real power numbers, and only encodes a
-cost ranking between CPUs (e.g. P-cores cost more than E-cores at a
-given utilization). It never claims to predict real energy use at any
-specific OPP, so there is no per-OPP accuracy for the governor
-requirement to protect, regardless of which governor is in control or
-whether it tracks utilization at all.
+> This series adds an HID Configuration driver for the MSI Claw line of
+> Handheld Gaming PC's. The MSI Claw HID interface provides multiple
+> features, such as the ability to switch between xinput, dinput, and a
+> desktop mode, RGB control, rumble intensity, and mapping of the rear "M"
+> keys. There are additional gamepad modes that are not included in this
+> driver as they appear to be used in assembly line testing or are
+> incomplete in the firmware. During my testing I found them to be unstable.
+> 
+> The initial version of this driver was written by Denis Benato, which
+> contained the initial reverse-engineering and implementation for the
+> gamepad mode switching. This work was later expanded by Zhouwang Huang
+> to include more gamepad modes and additional features. Finally, I
+> refactored the entire driver, fixed multiple bugs, and refined the overall
+> format to conform to kernel driver best practices and style guide.
+> 
+> Claude was used initially by Zhouwang Huang to quickly parse HID captures
+> during the reverse-engineering of some of the features. Since Claude had
+> already been used, as a test of its capabilities I had it implement the
+> rumble intensity attribute after I had already rewritten most of the
+> driver, which I then manually edited to fix some mistakes. I also used
+> Claude to review the driver and these patches for any mistakes and bugs.
+> 
+> Assisted-by: Claude:claude-sonnet-4-6
+> Co-developed-by: Denis Benato <denis.benato@linux.dev>
+> Signed-off-by: Denis Benato <denis.benato@linux.dev>
+> Co-developed-by: Zhouwang Huang <honjow311@gmail.com>
+> Signed-off-by: Zhouwang Huang <honjow311@gmail.com>
+> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> ---
+> v11:
+>   - Restore dropped changes from v10.
 
-intel_pstate registers exactly this kind of artificial EM for hybrid
-(P/E-core) systems without SMT, regardless of whether it operates in
-active or passive mode. In active mode it never uses schedutil, since
-HWP picks frequency autonomously, so on these systems EAS never
-engages even though SD_ASYM_CPUCAPACITY, frequency invariance and the
-EM are all in place: find_energy_efficient_cpu() is never reached
-because is_rd_overutilized() is hardcoded to true whenever
-sched_energy_enabled() is false. cppc_cpufreq registers the same kind
-of ranking-only artificial EM and is affected the same way with any
-non-schedutil governor.
+Thanks Derek.
 
-Allow EAS to be enabled when every CPU's EM in the root domain is
-artificial, even when schedutil is not the active governor.
+Sashiko had quite a few insightful comments, I find especially the one 
+with IRQ-vs-kernel context deadlock on drvdata->profile_lock valid.
 
-Tested on a Raptor Lake-P laptop with nosmt=force and intel_pstate in
-active/HWP mode: find_energy_efficient_cpu() was never called before
-this change (confirmed via the sched_overutilized_tp tracepoint and
-ftrace) and is exercised as expected afterwards.
+Could you please go through those, and address it?
 
-Signed-off-by: Lucas de Lima Nóbrega <lucaslnobrega38@gmail.com>
----
- Documentation/admin-guide/pm/intel_pstate.rst |  9 ++++--
- Documentation/scheduler/sched-energy.rst      |  7 ++++-
- kernel/sched/topology.c                       | 28 +++++++++++++++++--
- 3 files changed, 38 insertions(+), 6 deletions(-)
+Thanks again for all the effort,
 
-diff --git a/Documentation/admin-guide/pm/intel_pstate.rst b/Documentation/admin-guide/pm/intel_pstate.rst
-index 25fe5d88f..c8fef1e60 100644
---- a/Documentation/admin-guide/pm/intel_pstate.rst
-+++ b/Documentation/admin-guide/pm/intel_pstate.rst
-@@ -409,13 +409,16 @@ Energy-Aware Scheduling Support
- If ``CONFIG_ENERGY_MODEL`` has been set during kernel configuration and
- ``intel_pstate`` runs on a hybrid processor without SMT, in addition to enabling
- :ref:`CAS` it registers an Energy Model for the processor.  This allows the
--Energy-Aware Scheduling (EAS) support to be enabled in the CPU scheduler if
--``schedutil`` is used as the  ``CPUFreq`` governor which requires ``intel_pstate``
--to operate in the :ref:`passive mode <passive_mode>`.
-+Energy-Aware Scheduling (EAS) support to be enabled in the CPU scheduler.
- 
- The Energy Model registered by ``intel_pstate`` is artificial (that is, it is
- based on abstract cost values and it does not include any real power numbers)
- and it is relatively simple to avoid unnecessary computations in the scheduler.
-+Because of that, EAS does not require ``schedutil`` to be used as the
-+``CPUFreq`` governor in this case: the cost ranking it relies on does not
-+depend on the governor tracking utilization when requesting frequencies, so
-+EAS works the same way regardless of whether ``intel_pstate`` operates in the
-+active or in the :ref:`passive mode <passive_mode>`.
- There is a performance domain in it for every CPU in the system and the cost
- values for these performance domains have been chosen so that running a task on
- a less performant (small) CPU appears to be always cheaper than running that
-diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
-index 4e47aaf10..c23ca226d 100644
---- a/Documentation/scheduler/sched-energy.rst
-+++ b/Documentation/scheduler/sched-energy.rst
-@@ -379,7 +379,12 @@ Consequently, the only sane governor to use together with EAS is schedutil,
- because it is the only one providing some degree of consistency between
- frequency requests and energy predictions.
- 
--Using EAS with any other governor than schedutil is not supported.
-+Using EAS with any other governor than schedutil is not supported, unless the
-+EM in use is artificial (see EM_PERF_DOMAIN_ARTIFICIAL).  An artificial EM only
-+encodes a cost ranking between CPUs/OPPs instead of a real power table, so it
-+does not make any claim about energy use at a specific OPP and its conclusions
-+do not depend on the governor actually tracking utilization when requesting
-+frequencies.
- 
- 
- 6.5 Scale-invariant utilization signals
-diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
-index 5847b83d9..124a4bb4d 100644
---- a/kernel/sched/topology.c
-+++ b/kernel/sched/topology.c
-@@ -212,6 +212,27 @@ static unsigned int sysctl_sched_energy_aware = 1;
- static DEFINE_MUTEX(sched_energy_mutex);
- static bool sched_energy_update;
- 
-+/*
-+ * An artificial EM (see EM_PERF_DOMAIN_ARTIFICIAL) only encodes a cost
-+ * ranking between CPUs and does not claim to predict energy use at any
-+ * particular OPP.  Unlike a real power-based EM, its conclusions do not
-+ * rely on the active governor tracking utilization when selecting
-+ * frequencies, so the schedutil requirement below does not apply to it.
-+ */
-+static bool perf_domains_are_artificial(const struct cpumask *cpu_mask)
-+{
-+	int i;
-+
-+	for_each_cpu(i, cpu_mask) {
-+		struct em_perf_domain *pd = em_cpu_get(i);
-+
-+		if (!pd || !em_is_artificial(pd))
-+			return false;
-+	}
-+
-+	return true;
-+}
-+
- static bool sched_is_eas_possible(const struct cpumask *cpu_mask)
- {
- 	bool any_asym_capacity = false;
-@@ -249,7 +270,8 @@ static bool sched_is_eas_possible(const struct cpumask *cpu_mask)
- 		return false;
- 	}
- 
--	if (!cpufreq_ready_for_eas(cpu_mask)) {
-+	if (!cpufreq_ready_for_eas(cpu_mask) &&
-+	    !perf_domains_are_artificial(cpu_mask)) {
- 		if (sched_debug()) {
- 			pr_info("rd %*pbl: Checking EAS: cpufreq is not ready\n",
- 				cpumask_pr_args(cpu_mask));
-@@ -403,7 +425,9 @@ static void sched_energy_set(bool has_eas)
-  *    1. an Energy Model (EM) is available;
-  *    2. the SD_ASYM_CPUCAPACITY flag is set in the sched_domain hierarchy.
-  *    3. no SMT is detected.
-- *    4. schedutil is driving the frequency of all CPUs of the rd;
-+ *    4. schedutil is driving the frequency of all CPUs of the rd, or the EM
-+ *       of all of them is artificial (i.e. a cost ranking rather than a
-+ *       real power table, see EM_PERF_DOMAIN_ARTIFICIAL);
-  *    5. frequency invariance support is present;
-  */
- static bool build_perf_domains(const struct cpumask *cpu_map)
 -- 
-2.54.0
+Jiri Kosina
+SUSE Labs
 
