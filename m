@@ -1,113 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1511F2D3A7C;
-	Mon, 29 Jun 2026 16:41:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782751306; cv=none; b=QU4I9a6h0rfmvBzx0phQfRMRmGxxaGEBDQdpbcpICt/YLdnIywngvWToYHE9RhQjhsKmz1COpbjeimJ4TsZxPYyaDV/ih9zsUAZn2Tcirweilh+Ttq8NW8P/xPCijLrVGLUKdQvTYmeK2mgHqc1PXOJ0bRkxsdf5agweJXxFaa8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782751306; c=relaxed/simple;
-	bh=xkeCTYBbkf9fD6r5UlGo6S77Cv8UH4h9zN2K0taQ+CI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D3Ng/CPzJlyD8sUfcTx5Jll97rh4y7aITEAbGk9z8c6JkbwawplQSYmBRjRN77X5IYM0075nHNLZPQ559rIohgE4YnIVF7wFBFWgwHQfv/6FJVy2Hs1NNjsswyDxBBSBULJ7bnykZJZYsrNJYNrbkwL5aOFS0G0WJyMshTHFkgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eVR95rtH; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC554657D0
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 16:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782751657; cv=pass; b=Hn4xw5VtF3CyRx0ZoeOa8Ty9BUQEfiOnMpf8/EiPU0d12hbyVfsRrhTUTODW/rnyj96gQVPJ1+HlLIZAf+GHJWibBfWx5PLcFbL0G/mK8BHUyr1Gza/U+/2+VT+JNjBnOYtKTnEnNMksY5ovc0z917g9j7wtAITu0kP+gm/U1lU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782751657; c=relaxed/simple;
+	bh=tBpXEs4b12PdFKZ5qWeLI8+rTNsHCCaM/hrxzWpfqDc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hVYPZ9VL/unOoObKy3SQCbU1hfdUeZBZHB7nN2a4QocbqGCfZ5MxTz5POrc9i2IahFWFsvHSDcBx1MOs6KzgXh3mPGBLXrgJ5e64iDuAWcPHl0VP/jSo84kB0D40g/PRNJI2jdlfzHJCp23jbx3dOatWYpFPwpjheONv7k9QsDs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MkHrbVgH; arc=pass smtp.client-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eVR95rtH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 962F91F000E9;
-	Mon, 29 Jun 2026 16:41:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782751304;
-	bh=6I0lCoT9IF60QDyIh+ZhX4HddS6YXtol5+VWTGt3/y4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=eVR95rtHMhGP8g9buGMjlNiwjuu9WnyHUxI6njcy9vcgWEYxK3zAGhLLqir+AeiHc
-	 if5OtenX38+7wQ08KK+fyJMu6njCI2hGyf9r22fMdgUgn2QOEl25Pvs9cTaerXqJcG
-	 i+0X05eAxwD5evx9sdce3sx/M0WBmLfWsH/6BOXgFihoq1oQuukyoTt62eNznUuHlN
-	 Ckk1yYpcWeuX+390cDM+qPwFzJ5ilqDqivSOm4tiLxKGvnSPF3WrH9WAoPrtfFHE9T
-	 ObKFzm3fY7PLVV3gBA9LXDtfKKO9pchED8FVDiqafHd97gCuV1pjHjfMAccIo2JYPG
-	 Qa08mIxed9twQ==
-Message-ID: <34025f75-a0b6-4a4f-a093-f6f2e7411947@kernel.org>
-Date: Mon, 29 Jun 2026 18:41:38 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MkHrbVgH"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-30c965eab27so6759161eec.0
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 09:47:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782751655; cv=none;
+        d=google.com; s=arc-20260327;
+        b=nZPjXN7WbEIKCGgTJZb9J8kF29Un39+0kZorDQHDTFzabxUJezLCmN/XrtU76gG5OB
+         sCvHfJRQhwigXtCwgFIst5tAO0xaR2Vx58roHqqgCUGww5hcg5XSupDWkZ9Rhf/Q+qdl
+         ovtHzTvL/Kse6Qrzb0IzXrPdtnFSeqrjg4V2aV+Q6Z1iXUkU0C7gN3YED3iFXQ9d2WCG
+         YJ00H6lmhfBzF2+sr7eDvXwcCr9x1bctX1ZK6aoH0sOwg1/y/bJpEdCJ2/tRFRtmS/ih
+         8jMHM3tVYL2SvkhOIHAqBWSOe/w0Pdp6P5Gb+EKnInHeC5wZYJEPAzktRwl9nwNH+2Ne
+         dTdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=601baKGJW1PrXMaYCYLVau32k8IxTv3AZbP8T2S5iVI=;
+        fh=DLF9Gk4mFh9dAT9tAxmFa2kbqBg9L7aSXndzOXEfjgc=;
+        b=b98jR4sUNgc5/knbyyWwvEwExBEwVlc02L7XBdZbwiuXZQvUc+lMej5juckl0mMny7
+         KZWAxWq9hiaG2m4piTx5HX8YBrkqwoTuMpFDkWOha2wF6KzO0Je2bzx0hZqi9aLjX0L7
+         cu5DVp+/vr3h2pz1AO1Y5sdnaUvB4Q4N3YrzF3uJ89wpmx+bX3hbPeq2+eHMt3usciCE
+         Frl/uhhjUJzp9SxdIdT21By4t30Fk/IL3d7KljhP6jVoer5rQqCWqidPA/qaxu4PVzzP
+         zIeIV+11JSaxamiOfBAmWXlBS79ZmgM1UtU49GXq5j7JpbkD1F1sZDzUdTl1Uji2Yxah
+         eB5w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782751655; x=1783356455; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=601baKGJW1PrXMaYCYLVau32k8IxTv3AZbP8T2S5iVI=;
+        b=MkHrbVgHH/mcTxBUJfQDzJ5yQQqVCyTcGa8C/2GC7RiQfkS1gkrpkKKm9DTNnvVxuD
+         p97uP9jtkNKFc5HA+wkZKYEroPXwORv3Gp5lZpOYlb5TGd4dHe7LQ3D8dJDt7ZwyLSbY
+         q0uglD25mQUv1t/ejNxR6HfGKWjh6GoZsYPT0WbMnYKIa3QWX1BBhDT3wj+8YXZZCPY5
+         pU4FYEztGjD29SKfDca0Cau2jccQUvg+Y31uH3YYtkvabrN8GBG7qR8K7GJPzzltsQil
+         UWlqsRi0rGYXtuG+LI9dj/IszgF0ntRT4NR6IcyTi/Gc3wktZOY4bP28K5O+l6xv1Ksf
+         C2MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782751655; x=1783356455;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=601baKGJW1PrXMaYCYLVau32k8IxTv3AZbP8T2S5iVI=;
+        b=neOXecQreA17Wu5AJUY82RLwjPa1ny+DsLZeg3QbSRDYLdNGmknOCsuF5OJxGw6itJ
+         gsAEcdE5zZJlQhMPQ01XJSMWKFi30kxaJcFdxmOBrP/2EB1juO1TuWuywuadfehd1Go0
+         tBDgTknD7+UBxriJgbfNVRSozN3zGQiUNkCwGaLX2GGtq7rumARFFWlb3Zrh/LEKKcFv
+         ufYDbo32eYjfLPS5Vh7WXzv7mbV7blbP0+T05uklwFaaTYQqrxO+htxflIfVZfYNF1pj
+         Dcd7pZZAvFfN9P9Nb8fMqQ0FjvP5VANedb8dzzergC5q3umJ7YthD0aBklErSV2cPQox
+         NHKg==
+X-Forwarded-Encrypted: i=1; AHgh+RoigsM+7b7+AmuUkfsUpe3KhXXKZvSxF3ikQcnnAbKoqdWL1glMrYYhbAXpea7zLGwe/EyG/AoOa3s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy45FH9KIKZypsI8xCyfPkdSi8qak1si0HA9brzt+Xe3vXQ209p
+	28P23ikItMFlTxnYhL67KBOUoUNfcY+3Ot2Qy0FemmJSdjw7lHiBnH4xbZxdwQ1bh/HMTpYTX7w
+	xPUyDl+6nSNOFMf7iiGeu179X8Tgk794=
+X-Gm-Gg: AfdE7cn7/MHy2HlNgXzr1DMtsfBgW1c/N7z7GN616K2+ikycqP0hM5bNUOxjD+hFDdu
+	sOLG7MEJuPChrrEtsvmXbUIees6Pjm+nJ4k1DVUfMZcOlnFU1GxR53xPrhYSdaYJBMWGlqeTo2X
+	KV7eLNX81CssSureFEs9O36XNEmZlbS3LH96PKp9GVX3YjBKrVEo0cNwq5GheMbqHc86ruJUMQ/
+	3h1snK1mV8ndhPZ2qP9EQauMk4kni3naD6WVf25kTeCrLehZlf36T0dJva+QVHXL/BeN//LCSN2
+	1p2KOo4pLNbbF9ZNqafM7z9qQcM7hIcelIaBaRoNL5F9M1xjJHlScB1Q8hgl
+X-Received: by 2002:a05:7300:6404:b0:30b:9e56:e547 with SMTP id
+ 5a478bee46e88-30ee11d7ac9mr202818eec.6.1782751655331; Mon, 29 Jun 2026
+ 09:47:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs/mm: Fix braces
-To: Manuel Ebner <manuelebner@mailbox.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>, Andrew Morton
- <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260629161156.90213-2-manuelebner@mailbox.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260629161156.90213-2-manuelebner@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260628191337.937-1-kimjinseob88@gmail.com> <9b179166-3057-4867-be04-b071a809f70f@baylibre.com>
+In-Reply-To: <9b179166-3057-4867-be04-b071a809f70f@baylibre.com>
+From: Kim Jinseob <kimjinseob88@gmail.com>
+Date: Tue, 30 Jun 2026 01:47:23 +0900
+X-Gm-Features: AVVi8Cc9YZz7_2pOlAonXf0N4-dBQu_ZF09jB20zGNo43CtfKyfG9QaFkvAGcio
+Message-ID: <CALMSewKHWfcq5D-0Bi8gAnCAUep6D1=HrgaM5WP-RucdU3fYmw@mail.gmail.com>
+Subject: Re: [PATCH RFC v6 0/5] iio: add Open Sensor Fusion IIO driver
+To: David Lechner <dlechner@baylibre.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/29/26 18:11, Manuel Ebner wrote:
-> Correct typos in mm documentation by balancing parentheses.
-> 
-> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
-> ---
+Andy, you are right. I should have included the previous-version links in t=
+he
+cover letter.
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+I also did not consistently track and answer all review comments across
+revisions. I carried several comments into later revisions, but that was no=
+t
+sufficient. I should have made sure every reviewer comment was either
+addressed in the code or explicitly answered before posting the next revisi=
+on.
 
--- 
-Cheers,
+Sorry for that.
 
-David
+For reference, the earlier public versions are:
+
+v1:
+https://lore.kernel.org/r/20260520072843.3593-1-kimjinseob88@gmail.com
+
+v2:
+https://lore.kernel.org/r/20260524085312.15369-1-kimjinseob88@gmail.com
+
+v3:
+https://lore.kernel.org/r/20260529121005.1470-1-kimjinseob88@gmail.com
+
+v4:
+https://lore.kernel.org/r/20260607234343.22109-1-kimjinseob88@gmail.com
+
+v5:
+https://lore.kernel.org/r/20260616072242.3942-1-kimjinseob88@gmail.com
+
+v6:
+https://lore.kernel.org/r/20260628191337.937-1-kimjinseob88@gmail.com
+
+David, understood. If the next revision is just asking for normal review an=
+d
+I do not have specific open questions, I will drop the RFC tag. If I still
+mark it RFC, I will state the specific questions clearly in the cover lette=
+r.
+
+I will not post another revision until I have gone through the previous
+review comments and made sure each one is either addressed in the code or
+explicitly answered. I will also include the previous-version links in the
+next cover letter.
+
+Thanks
+
+Jinseob
+
+
+2026=EB=85=84 6=EC=9B=94 30=EC=9D=BC (=ED=99=94) =EC=98=A4=EC=A0=84 12:25, =
+David Lechner <dlechner@baylibre.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> On 6/28/26 2:13 PM, Jinseob Kim wrote:
+> > Open Sensor Fusion (OSF) devices expose a UART/serdev host interface
+> > for a sensor aggregation hub.  This RFC adds a Linux IIO driver that
+> > parses OSF frames and creates IIO devices at runtime from capability
+> > reports provided by the device firmware.
+> >
+> > When the corresponding capabilities are reported, the driver exposes
+> > accelerometer, gyroscope, magnetometer, and temperature data as IIO
+> > devices named osf-accel, osf-gyro, osf-magn, and osf-temp.
+> >
+> > This remains RFC while the binding, protocol subset, runtime discovery
+> > model, and driver-facing ABI are reviewed.
+>
+> If you are just looking for review and don't have specific questions,
+> then it is time to drop the RFC.
+>
