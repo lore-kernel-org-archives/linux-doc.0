@@ -1,205 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4FE947279B;
-	Mon, 29 Jun 2026 17:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2CF381AEB
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 18:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782753836; cv=none; b=SQn1W4eMmENBh2UjKNlGbIDfOHfdHjhn5gR/e0jMBWWlPWLURLM4RqiYyt/iJekv3YFTcn5KcQiu8tswhMTW+Ix3GrgScd9wTspc99On89wqS3TOlmkvsqgXG3jd+Rvq3kkEY0AR4AKD+SLMCJzRa8SRpB93D8eb+JnSTrxod3U=
+	t=1782757076; cv=none; b=RFcsiVC8cmTpR9vK63oMwIE8h2+Br+M/fcAMd51ZtRdq/MV+DsdxDliWabgS/0CPIIxeWUbcUfPFDGv7KoL1Q6LonElAUd51finL3v6ATIwQm/X8lr289c4FcnBo1ipmswDLOwvVM0k6F2vZ2RVf8jS465YZKkZojE8N/vkIhw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782753836; c=relaxed/simple;
-	bh=Ks5DiytMryhPPL4xciS+WbhqW0Vz83GIDZnVvZDTgVk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RYHYl52UaS/ch8ZkaAKjww4v581urFjFIRwMRJj1xJhat60fTU1eb4g8vxhu7xRSrIHZWEJaPDMjWX60qk4FIlojIdsdisZ/tt0/nTSheFU45OnBylSEhzeVnHFNUt1lhuyNh5D+1wRN/21MSXW3ollp5+6a4zOXCFkJxU66ujg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AlqhmIho; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1782757076; c=relaxed/simple;
+	bh=9Imzwz6EgRLo5/3ynxMxR6x7BHSZy7sXOrf/tVTTZgw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jBFM/hQMtRW1F5xOisqffrzeyjqYXQgYDFZCEOS4aHtvx38G4ITHJsxALAXphtfM7jplrORw7Yqa2fZm4Lr8PfuNZtU2lyXOSkd1kJGQSSptPVftiSssIXwT7YdiTaflUQsmTM/YB7w030gKku4Iv6coX+ClTvfKWPrSUuW7iG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s5/UGfiK; arc=none smtp.client-ip=74.125.82.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AlqhmIho"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 80D5EC2BCF5;
-	Mon, 29 Jun 2026 17:23:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1782753836;
-	bh=Ks5DiytMryhPPL4xciS+WbhqW0Vz83GIDZnVvZDTgVk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=AlqhmIhoqgh4xqqLEgcWR+63udKLV1zr6BZ6tZUO/jt6j2CoDJNr3UlN5kq9h91eM
-	 dD/P1TgpK6xdYnFSeo52iGbA70KmvILUS1wHq7qk5yDAevd4gQTSt09gpM02zw0UdT
-	 pPE1SvRFFVJijWkylgGxaai0lghhJbQAxCQ/J2D+QbOilAKMfbJA4l9N9CReqcsX6V
-	 pj4mwNTkQdyBRpHBI/d6BEvX77tQFjLZYe4B7ri9kKQB3M58vV2OHw3ib6BLd79peR
-	 tPXYVozm/7iwsnrHwuncIM3ekDUDcTI/idjGceAFW8ur35y8Rj/fsQbxvfgSxSt/7x
-	 CR+dmoe7N2zEw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79774C43458;
-	Mon, 29 Jun 2026 17:23:56 +0000 (UTC)
-From: Selvamani Rajagopal via B4 Relay <devnull+Selvamani.Rajagopal.onsemi.com@kernel.org>
-Date: Mon, 29 Jun 2026 10:23:45 -0700
-Subject: [PATCH net-next v6 15/15] Documentation: networking: Add timestamp
- related APIs to OA TC6 framework
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s5/UGfiK"
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-30eac9abd79so2682187eec.1
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 11:17:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782757074; x=1783361874; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VfUxWLWQvY9mB/81AVkSpyLi8QxfdBiALIQMC7mv16k=;
+        b=s5/UGfiKQYDxEg2MV5pd+YF5sVbXxMhJFk+RIJk3bwUUYT6nqIjHNfGBDHQQJ4Z+kA
+         bCvBr4meDT1R25dHUFI4KcYhvsbLAgq60br2UhPc0J6087FfrwpDbwf1FNeWTI38y1GF
+         6jfy+Q1XEIdf8RB7ARtSQlEJ6Q3fMcXq2Zc0tC/QBy6Gr+FyBsjnOm95H7yqy/tMqLV9
+         9VccLQIyBRGue+/fYPOOu4u5b+00vROgQEripJPUn71xJJo+KSIAGsY79EQNfBZdcdPJ
+         XQdIWaeSX/GufGb9HpRlKBG3TWM7+6Dsnm5D8bGMbhE51jXYVJiY7a/HKcgHxXdbTlDf
+         O3kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782757074; x=1783361874;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VfUxWLWQvY9mB/81AVkSpyLi8QxfdBiALIQMC7mv16k=;
+        b=pOP+EA8eNi3IRSNjQnOGI2EivCU4P3vLUmPtQAcDEjCAFCI7vcAVaYELm56m7L7vYZ
+         r+QZUL7575xSHdmcZUBraGp6VXvRKHIeXci07gN6usD8wOb9ztJJmZ56jQ8sPVy2r9xV
+         PzzQksQnJJwdSyAYXp8T+2NCMxLt5BnvhipFaeYextQjEP3CWzDwmZOPTzwUqfIszqQT
+         9Ia7Wy2ZUjUIGqE3rMBhPqqIiInl5bY1Hj6WrUNo9w2YGxVEVsNPO1d+JcW33VMSzfxl
+         onpaEXm1JRcP1ulXBcfoqSjkr1PFPe8V2eYCoibYaiDoQU2yCptSUicU8mFS9x9JX0TX
+         E0YA==
+X-Forwarded-Encrypted: i=1; AHgh+RrBFlJdDcSVuO5E0mGc6l5+kfj2Ev7D53olvPvGQRy9nMoMPmt/6NLuiKEE876Bj1i6HlIsWSwoitU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxD37mbxD3e9jY3ZRaYDBtfOkm9GSUllqtZ74aTpbyZV6OUg9nR
+	15MA54dslom7locy3Xmu6AziEY09ghkHDfFiKgLxmqOMbx+T/dwfrAiV
+X-Gm-Gg: AfdE7cn0otCpAHUhr79Mjd+jWWzalARsvoR4nuDbcEr2v2d6rfg3cL9hlan5wk7YhiJ
+	qbc+flUdTaMt6nrl295LJEUNfZGAfx5JvFj4rFFLbwBR/iCDtfA5TB+FtlJ2ZwPWJLci677KAuq
+	pJOrxXAMQHicD5H0dhiGridztgE4+qJOI49VRjme3jgNT3XyDykW5zUvo0Nptkx3qRuqTNjk/52
+	Yw8G/BJMRre8857FckxcjGQnBbwjE58kIQrFZxiY501lJO4eGtjuSCzbKK1kw7YUNcuShuteGhF
+	1jfVOuLfPq75PIgm0CrUWSBdgPknJk2nThT247L+WCuFLTrp9O3s21gbabzfasLauVuqdEox9HB
+	57hQywplJl+lUKE94A5GmAl7IXo+Co+E98PlUehM5vtOlsxZKAXCG2ZdiJIUkL2SPD2bBFfj80Y
+	uzZ7vOu1B8xtnCtbmAyKJzntPa1mFeClI2SX9zS9Aioqdw
+X-Received: by 2002:a05:7300:72cd:b0:30b:f5c1:4484 with SMTP id 5a478bee46e88-30ee13a2040mr379952eec.35.1782757074358;
+        Mon, 29 Jun 2026 11:17:54 -0700 (PDT)
+Received: from fedora ([2601:644:937c:6c90:6d4e:7b2d:4a39:fb0c])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee2fc12e7sm70363eec.8.2026.06.29.11.17.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 11:17:53 -0700 (PDT)
+Date: Mon, 29 Jun 2026 11:17:51 -0700
+From: Vishal Moola <vishal.moola@gmail.com>
+To: Manuel Ebner <manuelebner@mailbox.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs/mm: Fix braces
+Message-ID: <akK2z2q_OWiNBpYO@fedora>
+References: <20260629161156.90213-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260629-s2500-mac-phy-support-v6-15-18ce79500371@onsemi.com>
-References: <20260629-s2500-mac-phy-support-v6-0-18ce79500371@onsemi.com>
-In-Reply-To: <20260629-s2500-mac-phy-support-v6-0-18ce79500371@onsemi.com>
-To: Andrew Lunn <andrew@lunn.ch>, 
- Piergiorgio Beruto <pier.beruto@onsemi.com>, 
- Heiner Kallweit <hkallweit1@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
- Selva Rajagopal <selvamani.rajagopal@onsemi.com>, 
- Richard Cochran <richardcochran@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
- Jerry Ray <jerry.ray@microchip.com>, 
- Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782753817; l=5404;
- i=Selvamani.Rajagopal@onsemi.com; s=20260531; h=from:subject:message-id;
- bh=JW25hgT0kCWM94H070UZ8n9koUMRIcHtnQFDviGNI3M=;
- b=GefbTPQisljgUOfuJsMZBmx2eLEpt4ysoL3/sRSpFmrTL57fWSfRMa8DbKNr/fusMZaErRsHq
- mjv9qsvxBGrCJ92zQ4enYdZZNN1x06CT1KjhZBlkUZRmS2KY57Sj4J1
-X-Developer-Key: i=Selvamani.Rajagopal@onsemi.com; a=ed25519;
- pk=5QRdM0HS/LGWWcUZZ9hVfZ+qbPQGZCumcTXOiN7Fyug=
-X-Endpoint-Received: by B4 Relay for
- Selvamani.Rajagopal@onsemi.com/20260531 with auth_id=803
-X-Original-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-Reply-To: Selvamani.Rajagopal@onsemi.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260629161156.90213-2-manuelebner@mailbox.org>
 
-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+On Mon, Jun 29, 2026 at 06:11:56PM +0200, Manuel Ebner wrote:
+> Correct typos in mm documentation by balancing parentheses.
+> 
+> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
 
-Added new APIs to support hardware timestamp feature as defined in
-OPEN Alliance 10BASE-T1x MAC-PHY serial interface specification.
-
-Expanded read/write APIs to take new mms parameter to avoid
-bit manipulation before calling regular read/write APIs
-
-Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-
----
-changes in v6
-  - No change
-changes in v5
-  - Fixed "no blank line" issues in four places
-changes in v4
-  - Added information for new APIs in OA TC6 framework
-changes in v3
-  - Added more information for documentation
-changes in v2
-  - Removed the changes to the existing API
-  - Updated information about newly added APIs
-changes in v1
-  - Added changes to an existing API
-  - Added documentation to new hardware timestamp related APIs
----
- Documentation/networking/oa-tc6-framework.rst | 80 +++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
-
-diff --git a/Documentation/networking/oa-tc6-framework.rst b/Documentation/networking/oa-tc6-framework.rst
-index fe2aabde923a..325d299d1a7d 100644
---- a/Documentation/networking/oa-tc6-framework.rst
-+++ b/Documentation/networking/oa-tc6-framework.rst
-@@ -153,6 +153,10 @@ OPEN Alliance TC6 Framework
- - Forwards the received Ethernet frame from 10Base-T1x MAC-PHY to n/w
-   subsystem.
- 
-+- If supported by the hardware and enabled, updates hardware timestamp
-+  in skb, when indicated by one of the three timestamp capture registers
-+  through TSC fields of the header.
-+
- Data Transaction
- ~~~~~~~~~~~~~~~~
- 
-@@ -495,3 +499,79 @@ the MAC-PHY.
- Zero align receive frame feature can be enabled to align all receive ethernet
- frames data to start at the beginning of any receive data chunk payload with a
- start word offset (SWO) of zero.
-+
-+.. c:function:: int oa_tc6_ptp_register(struct oa_tc6 *tc6, \
-+                                        struct ptp_clock_info *info);
-+
-+Registers the PTP hardware clock related functions with the kernel.
-+This API simply registers. Initialization of the fields in the
-+ptp_clock_info structure are left to the vendor as programming hardware
-+timer is expected to be vendor dependent. The fields max_adj, owner,
-+and all the functions for the clock operations, like adjfine, gettimex64,
-+settime64, adjtime are expected to be initialized in the structure before
-+calling the registering the hardware clock.
-+
-+.. c:function:: void oa_tc6_ptp_unregister(struct oa_tc6 *tc6);
-+
-+Unregisters the PTP hardware clock related callbacks.
-+
-+.. c:function:: int oa_tc6_ioctl(struct oa_tc6 *tc6, struct ifreq *rq, \
-+                                 int cmd);
-+
-+ioctl interface to handle hardware timestamp and PHY related commands.
-+
-+.. c:function:: int oa_tc6_get_ts_info(struct oa_tc6 *tc6, \
-+                                       struct kernel_ethtool_ts_info *info);
-+
-+Provides timestamp related settings that are supported to ethtool.
-+
-+.. c:function:: void oa_tc6_hwtstamp_get(struct oa_tc6 *tc6, \
-+                                         struct kernel_hwtstamp_config *cfg);
-+
-+Returns hardware timestamp configuration. Part of net_device_ops callbacks.
-+
-+.. c:function:: void oa_tc6_get_ts_stats(struct oa_tc6 *tc6, \
-+                                         struct ethtool_ts_stats *ts_stats);
-+
-+Provides hardware timestamp related traffic statistics for ethtool.
-+
-+.. c:function:: int oa_tc6_hwtstamp_set(struct oa_tc6 *tc6, \
-+                                         struct kernel_hwtstamp_config *cfg);
-+
-+Helper to set hardware timestamp configuration. Part of net_device_ops
-+callbacks.
-+
-+.. c:function:: void oa_tc6_set_vend1_mms(struct oa_tc6 *tc6, int mms);
-+
-+Helper to map MDIO_MMD_VEND1 command to vendor specific Memory Map Select
-+(MMS) value. This function offers flexibility for vendors that may have
-+used any MMS value between 10 and 15 as allowed by the specification.
-+MDIO_MMD_VEND2 is already mapped to MMS4 in the OA TC6 frame work code.
-+
-+.. c:function:: int oa_tc6_write_registers_mms(struct oa_tc6 *tc6, \
-+                                               u16 address, u16 mms, \
-+                                               u32 value[], u8 length);
-+
-+Writing multiple consecutive registers starting from @address for the
-+given @mms memory map selector in the MAC-PHY. Maximum of 128 consecutive
-+registers can be written starting at @address.
-+
-+.. c:function:: int oa_tc6_write_register_mms(struct oa_tc6 *tc6, \
-+                                              u16 address, u16 mms, \
-+                                              u32 value);
-+
-+Write a single register addressed by @address and @mms in the MAC-PHY.
-+
-+.. c:function:: int oa_tc6_read_registers_mms(struct oa_tc6 *tc6, \
-+                                              u16 address, u16 mms, \
-+                                              u32 value[], u8 length);
-+
-+Reading multiple consecutive registers starting from @address for the
-+given @mms memory map selector value, in the MAC-PHY. Maximum of 128
-+consecutive registers can be read starting at @address.
-+
-+.. c:function:: int oa_tc6_read_register_mms(struct oa_tc6 *tc6, \
-+                                             u16 address, u16 mms, \
-+                                             u32 *value);
-+
-+Read a single register addressed by @address and @mms in the MAC-PHY.
-
--- 
-2.43.0
-
-
+Reviewed-by: Vishal Moola <vishal.moola@gmail.com>
