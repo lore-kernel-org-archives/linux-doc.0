@@ -1,143 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F722DAFAF;
-	Mon, 29 Jun 2026 05:25:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782710710; cv=none; b=Bw9PTgWdMqF4PHTDhDwIxzBdVaXo3yzRhVjo3xorJwFRgv5/GT2onDkYppfByGw7y0Ch4112ceMdpew4IZ60gCFVUq4eTFMNSR9iQuexwexELSV1asEfV9Egm9wWo5xCaL/U047phJPjvkWm8kXxu0ujdgnp/GHe33TU6LPeH90=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782710710; c=relaxed/simple;
-	bh=51SbA0jGnxqNWvpeRRkHetKTCez8YJZ0xDZsTksal/Y=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ETEPXASsbQd3cCV117/JOUMh3CdssW5PsGEOvTTLronn+R3g+jTa6/xNMl7Hu193bWVHOWm8NbDo3C/AdOx8UhlNbgp+4VBcYpDZzHYE8dRYFc7xBnBFlNaF7KMd4yYGxfp1PokvPP8rOvpJ3fq+9i45T1uzy0tUb6gRZEiFH/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LUj7ft3P; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F15238C41B
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 05:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782711071; cv=pass; b=YZPXM8Mq1HBognaswlxWecl0UI+wokNACdceeWCVmqsjCzwwoaQXk6XC79hfVJKrgOHPwHexlh3Za4R2F/VgEBo69PpJq76cPxQi+RUXty7IU379VP3ksSrh7H36V0eUqassljOnNv8LtuVheENAg4wZ8AtPJRCyC7v4Ub8ix5U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782711071; c=relaxed/simple;
+	bh=epmWe8s3QLJXcy4rA2U5Y/B/KOdqRodzVHArrGYs0W4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ih80u0gWmN9DkNv26HL80kb+vIWF6B3riR3oMX/EtX26s9Wqd8i3aEMTXBrzAT3xdlNWq2YMBElU5lWrOLFmm+DR6mv1+D9TVAAEJQobxj2oF90HstdUm49G/aPnNy3mJvFaLuVWkJ0iMHjr0v0DeCP0BAuFuWX6/KavdYiB+KI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AV4j0iMx; arc=pass smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LUj7ft3P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9B851F000E9;
-	Mon, 29 Jun 2026 05:24:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782710709;
-	bh=I4QovRmTUMwVkgulHibygRiywyOv9hK7zL5eAPAH6Eo=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=LUj7ft3Pmls8xOBdjYNe/nsqu5eYXLISGKMDxWthhf8l+ZKPlxYYRdOKev9ljwXgS
-	 hG64GxOMXf7zeMWGW8SmvXsttp43bd85MklRw1ZA2j2zhExebXVigI89eVFEvCmAHr
-	 /kt049iHWbqbks13lJjkG7Ol2/AXBmaqSLWuLK7yO01qsV7llosVcCaIYDjysTbhtR
-	 wLxkKywyG/zylm0CLC2VelXXnx3EiP1pAEBVFCk19P70nEjjlTrLDCdyz1hKcCZAaj
-	 fbUZaGIMxYe4B+TaZTGKG+WlwLQDqC3wEeZs+d5lbqGC1rujNyzWXuyXLdwR1F+eUd
-	 zsyiOsPeF5b9Q==
-Message-ID: <8458cf47-43f3-4328-bc6a-9aac31f1acf4@kernel.org>
-Date: Mon, 29 Jun 2026 07:24:51 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AV4j0iMx"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c125bcfd9a1so82715366b.1
+        for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 22:31:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782711062; cv=none;
+        d=google.com; s=arc-20260327;
+        b=H3bNHNTmMgTMV7kSwc2fBmPv8aRoFPaw5OPQSzVR6FNZf8pJPCQ0b85KQGgGOVEZW3
+         uAXj04dh2epAnCo9Gud5mdCJC49p50Xb+3Th218Rcmclk2+0cQG+PcTGr1wSLX5168dx
+         tkV5TO/2+BEBZ9wiUOR2qdxx09RGdkNLex4Y6Mc5oBGdn4G7BR+8+cfDfaUCIyeN/s7D
+         OXla+mzYanOmz1d01n3Sdl7D0wVetno3BXzbiNz/8acRf3G2V2vS8FnFizfMROaUi1Fy
+         H3wuxLB9DZR/f4x5WbMt0Ja4SCeLV+34BttNttbDvLwFgRELxu/m/sHP+Qa3EQ5wk03r
+         Yq9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=epmWe8s3QLJXcy4rA2U5Y/B/KOdqRodzVHArrGYs0W4=;
+        fh=OZun9AXUD167QjVOTL9+Su+rvP4roegNE11vVdDzzGE=;
+        b=hivDS0gQhbWXz+GoPIdYJoETB8vQs5VgBhJGv+W/WMQJb1VyX2ijEQidaiWTb0p+Bx
+         iBIWAhI1QmrNy7owJe93SBKAvmtKkqn+1+mO5zv8OECQD1C1MLP3oBe0/IQqLlE+QWwW
+         9VGu4HRsIUx58GEfuXRc9FsKtmfUpyKUpHb32bbh5QlWh1pbNn5xGwPci+bUZGieAbuh
+         hfjEAcxCkRfcxTjRb5YYdXJ5vAGU/sKEQGU+gd5o2szmpUj17mUsjT4FLxwThSages5/
+         TVPYJa+yY9TlnDQNOzZ4CVjExDfab06bRS0bX+VV0EeCAk1mr7eOo7cyP44cnSZvN//N
+         gOPg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782711062; x=1783315862; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=epmWe8s3QLJXcy4rA2U5Y/B/KOdqRodzVHArrGYs0W4=;
+        b=AV4j0iMxr+XjllNcw9Eu7cPbbJJRXgdZRub0lsu6FrFGGmGRRomZmdBv4ITGv20bbK
+         ijAiIDEi0drAUIap7BTghHqkmP58Fvu6iVRH3nzKiup5rSoPwdZpbvxrOlEc5a3O0uOy
+         0nwUaHB9GbI6cdw2ReM4r3WYhh4gY8bZl7AmAXIk6YTzBbDMfLmCl6fklSGkqaSMqkZu
+         eliHS0scf2+h5x0y2jZujNZOX0yBLI8ekRw2Q6sObbclqM2zrXffjAUIGVEo4taiVRzM
+         jfAZ330NqTAFuNCRZ/Rmopgfx+3P8T5VD8PpotMvU7YDUQkYknXK5rou7ipfD0Vcpuo9
+         8Q4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782711062; x=1783315862;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=epmWe8s3QLJXcy4rA2U5Y/B/KOdqRodzVHArrGYs0W4=;
+        b=DnS8VmqNB/xhKZHSkIjXenmRh+svmoW0haonS8k+bF6EIUnh8u9JWknbsch6IiHPsF
+         TacOxBCkcnlwQU/0Xbp4Kfccdgsx0VneyPzl76p1R5gbNihcWp1B/I9+OxLowlEfcRFl
+         JuAj486OKfSXx0THuEVVKJu1sB0udqsvONJ3VIrmZ2oPZM8Xj+rwtwVk1ERX5DxmcXIF
+         4yUgLLrR7z5l95xNW5SvZSR7hBCpaVdfe53t6kzlpLht7QfkHOUkhY4/XbAIotYpYDxs
+         d1o0V5eQBEWgRhzbKu5XXVB7CW2QENJt0J7BW0f7phBkGzE6P+igWWeOHbXW6HpPsQDm
+         v0Qw==
+X-Forwarded-Encrypted: i=1; AHgh+RrM5PKQDRUV1lqulvpU1Zcri4lCKG3Fx1SD+KFloUFnd9HFc4SQfJdVkdvxHk7ZGFb2rjYpH2QN+18=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzM9454cfrUQq4JuLU4HtjWxMaTBpVwhPWMJWSMiUp7DSDaJrdq
+	F+6mrek8HtvDL+/ZEbZ616gf8ILOtf6LUu9pOubztTqzYKGbdQMIKsov9YpDD5Rmg77E5rw3vg4
+	39cdUuRWuhOH/AnNGcTEKO7S3vxYF2iY=
+X-Gm-Gg: AfdE7cmvknY32gsMuGMlUMz9dsF8XN93dBvOKTBb+cjgJH3n/z6ncETe9eldriAo3fd
+	kpiSIBwuSNYcthJwx6BsG8QIf6XQ6zHJOvoko2r9mRn31qrz8GDxRugRka+tXVWQiGu1jtj5u5R
+	yLufRTt34dXBhvyrHUdFuG58k+/W70r1WhFfMW3bZ23UgDyO6wbUCcopQEOqusL8LErRJwy2gJ0
+	kM6Pk28q2b6At3uzJWIL7+HISdLP87VaQQw0JR3JChaJsqaWJpMwaDzT9rbNiwuuQ+cMCyk2SUO
+	gWa4waA=
+X-Received: by 2002:a17:906:c141:b0:c12:2aac:2b4b with SMTP id
+ a640c23a62f3a-c12336c2698mr415388166b.44.1782711062080; Sun, 28 Jun 2026
+ 22:31:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-deletions] net: remove ax25 and amateur radio
- (hamradio) subsystem
-From: Jiri Slaby <jirislaby@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc: netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
- andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, federico.vaga@vaga.pv.it,
- carlos.bilbao@kernel.org, avadhut.naik@amd.com, alexs@kernel.org,
- si.yanteng@linux.dev, dzm91@hust.edu.cn, 2023002089@link.tyut.edu.cn,
- tsbogend@alpha.franken.de, dsahern@kernel.org, jani.nikula@intel.com,
- mchehab+huawei@kernel.org, gregkh@linuxfoundation.org, tytso@mit.edu,
- herbert@gondor.apana.org.au, ebiggers@kernel.org, johannes.berg@intel.com,
- geert@linux-m68k.org, pablo@netfilter.org, tglx@kernel.org,
- mashiro.chen@mailbox.org, mingo@kernel.org, dqfext@gmail.com,
- jreuter@yaina.de, sdf@fomichev.me, pkshih@realtek.com,
- enelsonmoore@gmail.com, mkl@pengutronix.de, toke@toke.dk, kees@kernel.org,
- crossd@gmail.com, jlayton@kernel.org, wangliang74@huawei.com,
- aha310510@gmail.com, takamitz@amazon.co.jp, kuniyu@google.com,
- linux-doc@vger.kernel.org, linux-mips@vger.kernel.org
-References: <20260421021824.1293976-1-kuba@kernel.org>
- <0883a8e0-e8b4-4f22-bfc6-dd4a0fcf8b7a@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <0883a8e0-e8b4-4f22-bfc6-dd4a0fcf8b7a@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260623161035.5792-1-nikhilsolanke5@gmail.com> <20260628231634.6752f74d.michal.pecio@gmail.com>
+In-Reply-To: <20260628231634.6752f74d.michal.pecio@gmail.com>
+From: Nikhil Solanke <nikhilsolanke5@gmail.com>
+Date: Mon, 29 Jun 2026 11:00:44 +0530
+X-Gm-Features: AVVi8Cetk7IhAA3m56dYLZoJwEj6Rfc_rSgjh_WDaPAAo5ultThdmtlYIIEH2Xw
+Message-ID: <CAFgddh+AUNH9Ji-Qd=BKEDZWJrzPMWN20-g-htQDPSdSehZStQ@mail.gmail.com>
+Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, stern@rowland.harvard.edu, 
+	stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 27. 06. 26, 21:04, Jiri Slaby wrote:
-> On 21. 04. 26, 4:18, Jakub Kicinski wrote:
->> Remove the amateur radio (AX.25, NET/ROM, ROSE) protocol implementation
->> and all associated hamradio device drivers from the kernel tree.
->> This set of protocols has long been a huge bug/syzbot magnet,
->> and since nobody stepped up to help us deal with the influx
->> of the AI-generated bug reports we need to move it out of tree
->> to protect our sanity.
->>
->> The code is moved to an out-of-tree repo:
->> https://github.com/linux-netdev/mod-orphan
->> if it's cleaned up and reworked there we can accept it back.
->>
->> Minimal stub headers are kept for include/net/ax25.h (AX25_P_IP,
->> AX25_ADDR_LEN, ax25_address) and include/net/rose.h (ROSE_ADDR_LEN)
->> so that the conditional integration code in arp.c and tun.c continues
->> to compile and work when the out-of-tree modules are loaded.
-> ...
->>   delete mode 100644 include/uapi/linux/scc.h
-> Unfortunately, this broke builds of LLVM -- compiler-rt in particular 
-> (and GCC builds allegedly too). They dropped the include and its use 
-> [1], but IMO we should keep the uapi header with those two structs 
-> (scc_modem + scc_stat) for some time.
-> 
-> [1] https://github.com/llvm/llvm-project/ 
-> commit/3dc4fd6dd41100f051a63642f449b16324389c96
+> And here it's USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE, but in the commit
+> message it was USB_QUIRK_CONFIG_SIZE.
 
-And net-tools are broken by the uapi/linux/rose.h removal:
-   rose.c:39:10: fatal error: linux/rose.h: No such file or directory
-at:
-https://github.com/ecki/net-tools/blob/2ab3c5efdb5c220bc9a649fded56c361136bff1a/lib/rose.c#L39
+Yes, I have fixed it already.
 
-> 
-> thanks,
--- 
-js
-suse labs
+> Honestly, I would suggest a third option: something with "255" instead
+> of "Windows", because not everybody knows how windows queries
+> descriptors, but everybody knows what 255 is.
 
+Well naming ain't my strong suit (if I name something, it will
+definitely get called out). Do you have a specific name in mind? if
+your concern lies more in people not knowing what Windows does, should
+i just make it apparent in a comment where it is set?
+
+> That's a lot of capital letters, USBCONFIG_WINDOWS_REQ_SIZE never
+> appears outside this function and personally I would just spell it out
+> as 255 here with appropriate comment.
+
+I wanted to avoid the plausible "avoid magic numbers" criticism. If
+everybody else is fine with bare 255, I will just do that then.
+
+
+> > + bigbuffer = (unsigned char *) desc;
+> > + desc = NULL;
+>
+> What happens in the next iteration of the loop?
+
+Disaster to say the least. A memcpy in bigbuffer and memset(0,..) on
+desc would be the correct approach here, wouldn't it?
+
+On that note, I discovered that usb_get_descriptor just blindly trusts
+the caller with the allocation of buf, it never checks if buf is null
+or not. There is only a check for the size. and then there is a
+memset(buf, 0, size). This results in a segfault if buf is NULL and
+size > 0. Perhaps it's time for a new patch to fix this?
+
+> I wonder if it wouldn't make sense to split announce_device() so that
+> the first line is printed as soon as usb_new_device() starts, before
+> enumeration is attempted and possibly fails.
+
+Do you want something like announce_device_ids() where it would only
+print out the first "New Usb device found..." line? and then
+announce_device_strings()?
+
+Perhaps even another macro announce_device that does both? But its
+only used in one place, so I doubt it would be necessary.
+
+> That would be a separate patch, of course.
+
+If i have to make this change, should this be a completely separate
+patch or is it fine to include it in this patchseries?
+
+Thanks,
+Nikhil Solanke
