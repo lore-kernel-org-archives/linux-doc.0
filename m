@@ -1,112 +1,71 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF962C11C6
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 21:20:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AAFC253B42;
+	Mon, 29 Jun 2026 22:29:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782768016; cv=none; b=FCPzfIPPPrdFEFXaeL2HlwgKUPdlqVDntjDAB39YSAe6IImYmV5n+gbda3OawCpi5wMBMPHoF5JpeZhuLY1SLGTY6d+1kmN6s9+Ofpntfr7u0tDJP1bCujjoQzgWOyrEjwD0cVUh4bp26pKhTjT12kZQ/e/k+hVCppjL+rB3d0g=
+	t=1782772175; cv=none; b=BDGJFyZdCbo3tZu0G147Un2yHDnIGM0clTVbwidxRpIRSOdSEE6R1XcIA74kvVTgMJ8lFbTLHA9PI3JvQSCKXr7EnP9Jqmr1OYMzeYiRlX5afw4sg0COaUvGTaVpaKeSy6mKKOqGqsBg48edsdApz6vUgjBFgqM9bVDxMEXLYfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782768016; c=relaxed/simple;
-	bh=a0NbH/lMavkQTt9B4gU2I29i7gNbfnGqYmp4Ii51Ld0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dKkaqFOiq/oOqWMzP9Kl2Z6ZN6DMskvI+1h6wjUHHj1wymatgy3HDHPLUpWt9Mxr4XYUUeseiIiQBkZbsuKuo7bkoedn/jxf4IQfGgjnmDsiHmQpJMNTHgotmeq0ckEu5whEInEBOUa/YdS3uck6X6tpOZUxrmyCl0f0UHTwShI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J8x+GOGx; arc=none smtp.client-ip=74.125.82.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782772175; c=relaxed/simple;
+	bh=qy9IqYhxXGKd5+INDu43oHcD21WBEQTtF4OGoGLHMcU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iliBd6Df/shVSltOtsh8Gafy6kZuGOmpb8IsZn/DbNeHRjq7CFUyDldI3TYMUEwd3GznGt3Z+bkE2b4iD9akwW4MMSXzwWcU+t4WHY4FGmN2P4+bODV1CXhAaFNuKd0aOYVbcKzw6gQOhN/Gfg6er83C9ThaL2D3ayH8DVCgLlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZAxJNYJX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J8x+GOGx"
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-139f71a5201so1181049c88.0
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 14:20:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782768014; x=1783372814; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WKCpvBw+RV7e30hMtzWTVtYjU2K+4YOPvBtrFzvbfCA=;
-        b=J8x+GOGxRyAgZrqelJINipEnuF5jajswEelqkDAyKzSOwcTDhy+XAlQXGlanZDERN+
-         mn2QCgiHT1CybiJfu/eYwA3EXyiOXWhOAVmI8BmsCJ/r09JKcfk1wpEk0t1fUdxDgE8c
-         h0u65PabuEo7rO2EOmLzU3HFDCmTxGlzuoc9fo/3LdmyUMOIpMIcZZRI+wBPmeg7G8BD
-         aXIasqq5/emzndQUTdke0LUPymb1igAesckUk9XNJ1AwON6SbazvyS9/OR8eXnZV2A/+
-         T/n5u0LysdLsDSgAB/rxsywl4t8xAaF6VZefjyWQydTL/Jg72ZBrdxyfNHLdO3FX9si0
-         /+lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782768014; x=1783372814;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=WKCpvBw+RV7e30hMtzWTVtYjU2K+4YOPvBtrFzvbfCA=;
-        b=dCYjkMseTygP7aS4ZLgGCCafkmVDHR6eUTVTu+v5qtEM49bMsTERZ4pkJybdRkKV1z
-         4wLF1Oj2M+HMgRDSCLbbT0T9i2dMwP2AMEcIK6TzdYeU9Av3G0nYD39VaHJ45J3Aw8md
-         8pLFfUIexoDyFIHtf2mXABpmuRMQIZezGZ2YBRu7J3ouV/A9X1CVHZ0M11YjooSIlXfK
-         q3+p1DNIN4oQcLgK3baZwxuDGU8lDKGfktZstDjkJo9Klz8/8SoNQFAB4VgfMxyWuxXZ
-         JTvTYIT901dxD071XmZV+Cqtwa7egLhXM3Y/XWyI2YsOEr2W9k0poeuD60pXCVT/uZon
-         Duiw==
-X-Forwarded-Encrypted: i=1; AFNElJ94BOLDTeA+rMW2CW9Bo9ZdeG3anc68xZbHMQDwnMePR0xRhP39II1EiaTzo87R9cSKuVx8d3Z0bnI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywp0k6+o/pNG7r8PNg/yoe0ugJx4y/il/GZYk/NOlccVcmcO/sO
-	0FgkEu8n7UDfidZsFX3cLKpMlgblSUSJSuHukruU1cr8W4DAg6G1JPfv
-X-Gm-Gg: AfdE7cm8yCXdnd/jaTXEpjeVOn4GgVQzCbZBo7QhAENlJcc6VY8I71RVUnn44H1DzIv
-	WIkvNm13DXzf+EsEurViqA8KU+hPn4nJHfNwPU+/+frXj0ixtziMPfK6bd0CvZhWLrclJ30bCp3
-	4drc80nRKesSRuFibNvnLDPoX07uYRPZpg/fgKCG6C0aE1B8iTEOsqjLVNkJhXli6VozwHY0M/s
-	Sj1s2un509oEqZPYxYZNJ6XeWxUUj98VoFj823l3mlBjIHba63qD5e3kzaKSCiQo4uNaOu+855W
-	/ZiAjlqeWMbq22ZaMn/yHdm1T3TfQpHG2KX9sGM7Kzt88yXgpIRyJlLcV6k/QaDmyf9iSo1x1N+
-	lf3La3VkUeWhOyxs3c+qaBU3+OQn48pjBAEg9jxCyteMA17owwDT44X3p4meLezk6dCR09qEw+m
-	h25jrh8EXT8V01UNV8N2lmanfd3w==
-X-Received: by 2002:a05:7022:698d:b0:139:85c2:d7aa with SMTP id a92af1059eb24-13b2a52c9cfmr547955c88.18.1782768013877;
-        Mon, 29 Jun 2026 14:20:13 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b2aba8008sm855319c88.11.2026.06.29.14.20.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 14:20:13 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 29 Jun 2026 14:20:12 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Conor Dooley <conor@kernel.org>
-Cc: linux-hwmon@vger.kernel.org, Lars Randers <lranders@mail.dk>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	Valentina.FernandezAlanis@microchip.com
-Subject: Re: [PATCH v4] hwmon: add a driver for the temp/voltage sensor on
- PolarFire SoC
-Message-ID: <5f9ff7eb-44d1-4f74-8368-b08298f67fc4@roeck-us.net>
-References: <20260629-wriggle-headscarf-c85a4070dddb@spud>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZAxJNYJX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96FF81F000E9;
+	Mon, 29 Jun 2026 22:29:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782772173;
+	bh=BNvTIvo405RKspjZMPp+9avnaKrNvmNbScCG2di6J6s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=ZAxJNYJXtwhOSa5pxtT0ze8Ib8SG83A1gbK3Iz8/VE+oKhN3ZVrwMkQbtarYV0WP/
+	 g0tivZDwOd2Pv+i7ees0T0yrzOZTzgRMJE5Ye5supcXnFDayEic3pOBU32NKkMeIvi
+	 Rf6NJjjv14yPkD13Kga9Ow7e8deyJDYUGgFND1ItMDAcfC3bR8aU42hYoDDNIl5O3k
+	 r+ua2Wj+1zZYFzTKbznYAdHz+aUE6Vsjy4myC/Ks+f/AKsywl1C/W5fXkq0R6rMkw7
+	 sF+EaPpsGL3fYKeD8m26wLxl+Gg+YTg7fT7n6KKllIuseBwp9eCZ02DT+4PNi7VNKW
+	 IhZ+RK1W4pw2Q==
+Date: Mon, 29 Jun 2026 15:29:30 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jiri Slaby <jirislaby@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+ pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, federico.vaga@vaga.pv.it,
+ carlos.bilbao@kernel.org, avadhut.naik@amd.com, alexs@kernel.org,
+ si.yanteng@linux.dev, dzm91@hust.edu.cn, 2023002089@link.tyut.edu.cn,
+ tsbogend@alpha.franken.de, dsahern@kernel.org, jani.nikula@intel.com,
+ mchehab+huawei@kernel.org, gregkh@linuxfoundation.org, tytso@mit.edu,
+ herbert@gondor.apana.org.au, ebiggers@kernel.org, johannes.berg@intel.com,
+ geert@linux-m68k.org, pablo@netfilter.org, tglx@kernel.org,
+ mashiro.chen@mailbox.org, mingo@kernel.org, dqfext@gmail.com,
+ jreuter@yaina.de, sdf@fomichev.me, pkshih@realtek.com,
+ enelsonmoore@gmail.com, mkl@pengutronix.de, toke@toke.dk, kees@kernel.org,
+ crossd@gmail.com, jlayton@kernel.org, wangliang74@huawei.com,
+ aha310510@gmail.com, takamitz@amazon.co.jp, kuniyu@google.com,
+ linux-doc@vger.kernel.org, linux-mips@vger.kernel.org
+Subject: Re: [PATCH net-deletions] net: remove ax25 and amateur radio
+ (hamradio) subsystem
+Message-ID: <20260629152930.4c2131ed@kernel.org>
+In-Reply-To: <8458cf47-43f3-4328-bc6a-9aac31f1acf4@kernel.org>
+References: <20260421021824.1293976-1-kuba@kernel.org>
+	<0883a8e0-e8b4-4f22-bfc6-dd4a0fcf8b7a@kernel.org>
+	<8458cf47-43f3-4328-bc6a-9aac31f1acf4@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260629-wriggle-headscarf-c85a4070dddb@spud>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 29, 2026 at 10:30:59AM +0100, Conor Dooley wrote:
-> From: Lars Randers <lranders@mail.dk>
-> 
-> Add a driver for the temperature and voltage sensors on PolarFire SoC.
-> The temperature reports how hot the die is, and the voltages are the
-> SoC's 1.05, 1.8 and 2.5 volt rails respectively.
-> 
-> The hardware supports alarms in theory, but there is an erratum that
-> prevents clearing them once triggered, so no support is added for them.
-> 
-> The hardware measures voltage with 16 bits, of which 1 is a sign bit and
-> the remainder holds the voltage as a fixed point integer value. It's
-> improbable that the hardware will work if the voltages are negative, so
-> the driver ignores the sign bits.
-> 
-> There's no dt support etc here because this is the child of a simple-mfd
-> syscon.
-> 
-> Signed-off-by: Lars Randers <lranders@mail.dk>
-> Co-developed-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+On Mon, 29 Jun 2026 07:24:51 +0200 Jiri Slaby wrote:
+> And net-tools are broken by the uapi/linux/rose.h removal:
+>    rose.c:39:10: fatal error: linux/rose.h: No such file or directory
+> at:
+> https://github.com/ecki/net-tools/blob/2ab3c5efdb5c220bc9a649fded56c361136bff1a/lib/rose.c#L39
 
-Applied.
-
-Thanks,
-Guenter
+Looks like the code for rose is already well separated from the rest.
+Should we just ask net-tools to delete it? Or do you feel strongly
+about restoring the now-defunct header?
