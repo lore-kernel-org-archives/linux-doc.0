@@ -1,114 +1,134 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9F844CF34
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 16:28:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782750488; cv=pass; b=AE7tn1mMkwCgAZCuyE9VC9iTkrtpPOsOMRBnnSEg6D2FmgzbOn4wrykoMVUejy38HQIUo7548L1+1vhtSwV4pmifMrXsG7S2rOH9zZEYnK53v6b+RHdV4il4jBLEvRWVO13U+hnXjtm3E7HKVRCLEtrIVPLkkZ++tDktShhfyGU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782750488; c=relaxed/simple;
-	bh=f3Ydu9U2B8nV7R2Vpyp8/5o/pxh5j8YUPxzD36rae+Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e/ISddCv/dEYYuRnhyDq0KFQH88XycZea5FznMMvRfGzNA7PsblEoYTiYavL7PftiO+PXIHhPOcYQ+x2WoQdKjID3fMQ8g7e8Qm+FH3wxoSxibGbdiyX16AtXOi2gNl7hqOUzudpIUQbCg8ysgzAk9h2H35HmblKIB8x8lME3Co=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rCvhyoe5; arc=pass smtp.client-ip=209.85.219.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC43E4534BB;
+	Mon, 29 Jun 2026 16:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782750643; cv=none; b=XbkXutDUkTp8mtclr5eXzSW+/kDo82mCMNoc4jTxJr56a1FaUsy8Oy5u8XfCRwFDkxOENEl/C/5OrzZXfiNlv19ByvmHtzPoVySaRMvd/pChbIBUJVCK3jv5p49nJBBn9Ij/g9l1gu1GObt6YzUEVerD4MwL+Dqpyeu2IK5h2dw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782750643; c=relaxed/simple;
+	bh=y1DEQxrlV1SWeli+zA3icxlXqvyOVPMHr1EpbgC6R8w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W0VAGD4RKBn9dJA2LjYEBvqLzW5Huw5oY1uOpoVnHKgqpQrxIvN8ZVDGvxe7+8fVfVwRFMeLF2r5oyr9maRn9UmHKNXCK56HQDQ3aAueOoyZgcz8p8fPEbFdSi/S3+Xxdmtqe68jKuTQzT/wu6V1J1b4TZd4duGbywdb4538kxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=OtWOq4ik; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Kgkjw0VN; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rCvhyoe5"
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-8dd21386a9aso37661816d6.2
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 09:28:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782750485; cv=none;
-        d=google.com; s=arc-20260327;
-        b=qS/Jy6M6QNWqNmEPZ+SPsGGrfx/Ft6yKAPpEKEQvZVRVM2r/K/y5DiHAfMqCbC8Z04
-         DNYPLvD4WgnsjAc/WPSODFsJmF+rKb9orn5onEVNA55peNQVbOMzMfcUq2E23vv7xPbw
-         qi41z59Tqg8QITcz0H3/5TIoFNGbbL+4ecp6kvsGiJOfuNJntQf7gyqlpep6sNY4BGQc
-         rGKeDSWpa4mlyqsAfBVMR8Ac0NipCYkeRIxsX8tvLLmixUUnTalFx8wctnEbTgug5+9g
-         pdzEuQ0H7BQYf9Yyd0J86sfpBCJlaW4+XHvIk5v+iPGCNmaA9aBXUpfHd3CdpfGANsRl
-         dxQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=f3Ydu9U2B8nV7R2Vpyp8/5o/pxh5j8YUPxzD36rae+Y=;
-        fh=CvAoNJxu24rG0D2SJaE2994iI9FE2xtVN6/18KyIvjo=;
-        b=bACVnxxAIdC2T/otiPX4M7Zb1gTJ8HQAshz4G53OrYq2r2z/1tMZ2kcaH4sOVBIu0g
-         KAWCKEj5BHn4zXTyzhG6GSj3eBUDIo3boXB4dZ27tH7FxZyyfH8SzxnV9s4/UkzBKThZ
-         GrnxGIHXY812c+9DF1yNGGwPg/aCIuCDa+AgiDhiyxhEQWdp0m1mDxqlVW4z+uEjKsgg
-         hDE2vDD+ExtWqvVo1e5tWr/VCB3lCTqJIOJIDUDAdrJ051Y/qqwL5eA6PFVsStIS7hf3
-         9GPGoD4b4UTToQ8TmN3acsnOljkwWIlaLjJBV/GiaNjtdZljAbtdFp5Mm6CUTxpHVXDj
-         WWGg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782750485; x=1783355285; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f3Ydu9U2B8nV7R2Vpyp8/5o/pxh5j8YUPxzD36rae+Y=;
-        b=rCvhyoe5k8swqElpYqg6YQZR91IDA+t6cFzIGmWt5nztGXRfjKDoopCT5BubvEhT84
-         OqCwQHpnqvEP3+rjJK4kDoUMg/W3JtkyFo2gdvm1G55aGoylawXI5tO1Wr4QK5AXMRL3
-         TEG+sDLa2R6Jm3PtZbGojDDTkhT8F3fEEiK39UnglvpVQryKxY2foqQoKuo9FnEem6M0
-         fRcchj3fr5+NkwqcbKydqFd+bkzaua1rgvdZJSeX2pH4TK0gJyDcC+4lZ7GKCnWjRIiR
-         8eKrz4jmajnDl7xSnWzE70VNuhs7YuBGywfiSgTsv91WDFMp9QnwqQT3kQ9U9O9pvgu/
-         CHJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782750485; x=1783355285;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=f3Ydu9U2B8nV7R2Vpyp8/5o/pxh5j8YUPxzD36rae+Y=;
-        b=RFjtMQxHccRUdU7GrbxmiPVGYfH3HvBHKbbni3M631Ti5CzoLaLWi8blaGwYYHndVI
-         DtRfw/6GZBmfHI79sA2pyG7fy8mkoUnJx6QxoqFTXh+qYCbhfiPaYVCTV+RV/Vnt8AS1
-         vI1sabc6a0wOuVJ4+Oba84lsKlUWMPBIycynrrsQhGOi+xVG+e+5I9sgTbAItdPxnb8v
-         cylhLVntnuwdE3C5utqPv7T5nTw0hkYFrir5VaspiWHCf6llMxWll+KkFCAeeGkPiS5Y
-         rUYsyW/mhO94I72Iv/hqeyhpOrLofRN2pymlelfSDxueY8jkeQJ663L1RHzLC3l5KyHS
-         VdcQ==
-X-Gm-Message-State: AOJu0YzEinLFJsYAXen2S2TcW62e2pkeLl3U7rYHeUjCPQJctKbcd2nH
-	3OxCUIOJ5b9EQ8yrXWkePhE8Xial6ZpOZeE8vWVFETku65c9TcEiNsBntuyyhJODIjAldYvLQn5
-	pko8qnZwuGc0Emj+uczOl0ZNt0jajces=
-X-Gm-Gg: AfdE7ckAkx2XrD3kN+4Ld+A735bQduBYylWMkIiyna5mAbnRVbBcJs6cliw3DYlsRai
-	70wBzJweXSCqIY6nTCctIbtcc08fwFsNOehbonLWLUy3L22XEPfpRVML4p23/gQgCgNDD61sQ0u
-	znkJmmxRGPtNJ8njse/ABTaW+vlIavUODquurV+iYt/EI6ToPbqeYoGe11osvHfbO9UYpjAfrh8
-	3q4bt1wN4gHpBvo7A64x7dsuyKu0+jyTsCqpi5tRIngyWsEOCEfQig61FiVuKtB5bYBeIE+ScT+
-	/r+UHXPGYW2gjzv5CbRX7eQXlBeeQGYq+HwGWQ7snk0wYHaswPWO9Y4j/RW9BQOL9VnB6fQeD+x
-	ODjZrvJu7
-X-Received: by 2002:a0c:e086:0:b0:8ef:3f4a:51f3 with SMTP id
- 6a1803df08f44-8f1b8b7ceb3mr316356d6.12.1782750484653; Mon, 29 Jun 2026
- 09:28:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="OtWOq4ik";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Kgkjw0VN"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gpsG746ZCz8twN;
+	Mon, 29 Jun 2026 18:30:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1782750639;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Izq61Gfdmn3fOpPis7spxvMBkAhgZwLG7r4XL2awBrw=;
+	b=OtWOq4ikRWnlQNisfymhIs5JPXrTakP8Mg8CD77vjkcHqNglAfXYhg0diHKDAaO0A5PQ/w
+	75HPUyUPp2nbY+mNXGGyyQzn5BH9eulmyLEHbaCtSoVazMI1S1g+ZQrxyZJeL1fzFQPcLg
+	X5N+nVIyeDIaF7t2o2YKY4wXEP9xiSCIW8YIdoO/OIYSWEZj3Dad6BHWyrF+dXxmnvJZ45
+	r+AjAvJScrNP05b+BLn/ja+y8RJsyHJxE5zg5K1jyfrinb3Mn9aTXQYKbuqsCjJL2zeDfs
+	w8GBenccIg0/rukbTDWOqIpySxGkteFqSwLkkHYqt00crGtxGYge7O0NGXYtUA==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=Kgkjw0VN;
+	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1782750637;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Izq61Gfdmn3fOpPis7spxvMBkAhgZwLG7r4XL2awBrw=;
+	b=Kgkjw0VNjm4POD+1QDP30Qb9vp+eCLS0MYEjOlIORof049ernSl1uaP+F0lI1sVWC0GHDj
+	yc2TK9Zn4rjsnyRkuzD6eVw8XDc/HWwqmc3vRf7cIygcsFQOX/uoYRPrYlR4SD1ztiaJuT
+	NHvqinbzIBACoOIwuBc7edvKzbuyYklpJ4RtX+JphgspzsrqgtC8/Q5bVri9oTEOP6D+JT
+	cajlxNa7stxeqZ5xMcdVerq39qGkN8z2gMzct0XL7qwiHQuhF077Q0UcV+Boq2bD0KOb1/
+	EHCyHhjmDq/B9B7dc+CIcMLfBQk/zlJzDasYuYVfaTuEK+ytuXBMiNQRHKDifQ==
+To: Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Manuel Ebner <manuelebner@mailbox.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] docs/mm: Fix braces
+Date: Mon, 29 Jun 2026 18:11:56 +0200
+Message-ID: <20260629161156.90213-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260614235044.42810-1-danielmaraboo@gmail.com>
-In-Reply-To: <20260614235044.42810-1-danielmaraboo@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Mon, 29 Jun 2026 13:27:53 -0300
-X-Gm-Features: AVVi8CfNe0qjOrtWnM-uYnNY45a7sLOQMYEGzEIz0yspYWXKFM97vgBTiVWB25c
-Message-ID: <CAMAsx6fOBdRKzf8S7Wf3k5+y7K3jrP4-kszC35iuXX5L_FaUiQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] docs: pt_BR: Translate coding and posting guidelines
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: ccad1faff904b96f4ab
+X-MBO-RS-META: woghhkiocwkn4d56kdjf4ot9xkz6uyfr
+X-Rspamd-Queue-Id: 4gpsG746ZCz8twN
 
-Em dom., 14 de jun. de 2026 =C3=A0s 20:51, Daniel Pereira
-<danielmaraboo@gmail.com> escreveu:
->
-> This patch series translates chapters 4 and 5 of the kernel development
-> process documentation ("4.Coding.rst" and "5.Posting.rst") into
-> Brazilian Portuguese (pt_BR).
->
+Correct typos in mm documentation by balancing parentheses.
 
-Hi Jonathan,
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
+---
+[v2]
+ fix commit message
+ add tags
+---
+ Documentation/mm/hmm.rst           | 4 ++--
+ Documentation/mm/process_addrs.rst | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-I hope you=E2=80=99re having a good week. I am just following up on the pt_=
-BR
-translation patch series I sent a couple of weeks ago. Please let me
-know if you have any feedback or if there is anything I should adjust.
+diff --git a/Documentation/mm/hmm.rst b/Documentation/mm/hmm.rst
+index 7d61b7a8b65b..54c461e7a143 100644
+--- a/Documentation/mm/hmm.rst
++++ b/Documentation/mm/hmm.rst
+@@ -191,7 +191,7 @@ like a CPU page fault. The usage pattern is::
+       mmap_read_unlock(mm);
+ 
+       take_lock(driver->update);
+-      if (mmu_interval_read_retry(&ni, range.notifier_seq) {
++      if (mmu_interval_read_retry(&ni, range.notifier_seq)) {
+           release_lock(driver->update);
+           goto again;
+       }
+@@ -316,7 +316,7 @@ between device driver specific code and shared common code:
+    system memory and device private memory.
+ 
+    One of the first steps migrate_vma_setup() does is to invalidate other
+-   device's MMUs with the ``mmu_notifier_invalidate_range_start(()`` and
++   device's MMUs with the ``mmu_notifier_invalidate_range_start()`` and
+    ``mmu_notifier_invalidate_range_end()`` calls around the page table
+    walks to fill in the ``args->src`` array with PFNs to be migrated.
+    The ``invalidate_range_start()`` callback is passed a
+diff --git a/Documentation/mm/process_addrs.rst b/Documentation/mm/process_addrs.rst
+index 851680ead45f..b391502fbfd6 100644
+--- a/Documentation/mm/process_addrs.rst
++++ b/Documentation/mm/process_addrs.rst
+@@ -724,7 +724,7 @@ the zap and the invocation of :c:func:`!free_pgtables`.
+ 
+ Since it is assumed that all such steps have been taken, page table entries are
+ cleared without page table locks (in the :c:func:`!pgd_clear`, :c:func:`!p4d_clear`,
+-:c:func:`!pud_clear`, and :c:func:`!pmd_clear` functions.
++:c:func:`!pud_clear`, and :c:func:`!pmd_clear` functions).
+ 
+ .. note:: It is possible for leaf page tables to be torn down independent of
+           the page tables above it as is done by
+-- 
+2.54.0
 
-
-Best regards,
-
-Daniel
