@@ -1,65 +1,65 @@
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1CA395AEA
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 20:45:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077991DE894
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 20:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782765928; cv=none; b=IytAQad0z+SFVqdbb5h4Hene/Ho1RtP7brnpErWYYJ/Hq6/Qk4H0XmQoS20wCCz+NtgND9VL7lRmB2+K/uxIO8/agw0p9wd7aywgBxRVwufA+LQUj6okPvo7i4LXVhzNhYjjgen8nKDcOcArrAcFFKGeKK+tpCvVetEv2otI4y4=
+	t=1782766007; cv=none; b=NgnlGY1R2Wq1U0eb7OkSHT0iyCbb8qqHZgN5CktI26UwrTDzZpermJLvsD2T9hZFt1JvNmvDj77R3GHR60EAS7bliUz2nMKJnXDgk2XytI3vKjInwt6fsEiLu4YHGPLelcI19mQh2D0A3YGKYyVVNEgvHp/WO5j64TRxKtR7s1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782765928; c=relaxed/simple;
-	bh=aUo2fs4FT+hE48GV5P+GStTsMbREsfe3Tb3pBmp4FQg=;
+	s=arc-20240116; t=1782766007; c=relaxed/simple;
+	bh=oIaVpra9xMtdelgZVCpUbmy/Ukn2n3p3s4KE0a0Mppk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=guJNaf0mUGfKc+vLEfK1SI/4DDnJm+S4gZLntGMbPpdBqDh6NbwFOyPnuJpSnhJ0ZuPz+EkOq3HrPPj9hnudLxGfeDkeE+8SoBvEFJKcIkdT/f06PodlC8a/k+Rg1+WpP31Vu0oJdVNtIvgrmSXlYIeeNKZLXK2+wi0T6GaW8Zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=noz3EiNW; arc=none smtp.client-ip=74.125.82.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jf7vVb5Lex0LeF+OoYI8lDMsRmlxFB0TvKEN8HyGOJdFqcxl4pdMuTsWkqle9jwvL3taaDGJBT8awwIYs6kWRlWq0nudteISDsUAgwwt3yp9Exx612vPN2mgmxsf98gptOqlWPXdvfJaBIlPyWwuE7DeWbS/+p9w0Uy9YFDUIsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DhpvQPFc; arc=none smtp.client-ip=74.125.82.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="noz3EiNW"
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-30c944aacbaso3783640eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 13:45:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DhpvQPFc"
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-30e9eefa268so168129eec.1
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 13:46:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782765925; x=1783370725; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782766005; x=1783370805; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZUhtUwuKqgT7pYEC6i5bQMYErh/JXD0EygWPd2bnAfo=;
-        b=noz3EiNW2GS6wNTX3Get0RCJzdxjbkfVt4AGO3Shrtzd2tDLpYZ3Zr9V7L64TkgDwS
-         uVY41+sTh4m1FYEjkUHaAG2ONknpQ/dgH7F3HtczHTKXm1dL9Sk0FdB/1d4+q0p4SNPS
-         iJ+4v2qA/4ZvTlxhV1k2VQhA6D5MjI5l3iIIZU4wvxGhm+B3yZu3cuK5bPdR9HNpBVKM
-         YXP5K4bHxuTEEFgHIMA/U49I9WXZlaOCK191XQlhfPifDshHlXVsbLvIexkRqquenjiF
-         qxcgRo8Y2jJcrNJGTQ6TCa6FBfUew1PWOhqV01Yqj24Qk1hlikH1axxN7irgS/GXVagC
-         jjTg==
+        bh=+vZehTvB7/q/A8O6AeI86T/3FAK982m0Qh+Y627rtqU=;
+        b=DhpvQPFcKxrbY9kR99SihTtstpzjjh6ypng8ZKtOarkL68llY29nW1qIpxZa+oRAWX
+         aSSFoMTIyYTwgFQcfUyqSkAljEushl0sczIT4v9sxOnee4uZ2seKQWDAc75MrvH5KSrJ
+         GnX9SxSmLbnZq51v5NRMsNX45mTVtXyyiKLON07Uax5QPc3EvQhIysKfPePoIOSrNaz+
+         klxx6NjpbyFo7jQ9BBPvZsHiw0O5pJ0fdRMOuy6hKvEIxaPlHGztfzgt5CYg3ky85AHO
+         2xJyBDCp6efgAHpQwVXobk3lIe/oWxpA6Y1JUgbKDf5YVv1d35EyAK3cd9oe1y0FlOFs
+         86Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782765925; x=1783370725;
+        d=1e100.net; s=20251104; t=1782766005; x=1783370805;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ZUhtUwuKqgT7pYEC6i5bQMYErh/JXD0EygWPd2bnAfo=;
-        b=fgiGD9fCtf6b4m+mfGR0/mETPLxNHZPQenDQU10bpHU8Ou5OqPxuWHOVxGnYG46ut/
-         Xaxp/75qLdVWmHMrE6aWhN+Kd9Zh0fFDPuWWxz9TURSuil0v/u44B0TLo7MDem4bgn29
-         q/QOPTPdPTO7dLX0QmlyWiX4B8pVpR2LptlAYhyq3yh369me8IPCAeKj508aITt3t/gl
-         a3OOAs55Ks/JsWmykL1WBF6biHrp7z9vRKEc94jvulO0sNB//WFAsLOO0rK7QXq5enJH
-         GG8k9TSRvF1N5E9X1cmjTdNTHd0eZb164HaYweioeup6MYA+FbeLSZ5rxiw15XLMQhbz
-         sjXg==
-X-Forwarded-Encrypted: i=1; AHgh+RomSUSGeAHXR/U1nm94c4AxKOq5SKndeeWf3Z5cnKuU9w5J5hVcqtGJBmqnmFvIy6axnCMWcRTPyeA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlLDyapQh/MJdOIoRenIoxzIFWL44kQOhHtn5LV2LjDgXzAd8G
-	RP3aKuZ6PY4V90HgZoN7Xp69aviIe4QSajNorFg2qyBeyppsGkAHTOYD
-X-Gm-Gg: AfdE7clp3BvtxsNlFrsGWjehex4rkSRZ8VRK1WlCgAP3hWNuexV1EG+EigeoVp44Xod
-	9f2UaP9Fe8In6yKZgbFLT5T0X+2onyFYFriF6UvBSZ8nzbqT1x9XHOASPrLl9wa/OM04f9GVHOd
-	qtZdGvkUCxDA9lXgS1sTJcb9PPYWI1dZ6v4MDZcySN6hW5rXHfVrGflPAHht21cmlZck60nkYnC
-	X0hnbCJjy3PatLeGqtydFVtIkFiZ89Xx/QG8dWrLV1ld0GoIDY5AmoHu5acjsqfeKceAWr+FNg3
-	3frD4gRJzDIKT71CZa3W04eCwHoNX1XNSEj9PQmoYYmrhzx/1pknhetREVlwk8s3dm/oxJE6K6q
-	360Mxs3Mz1tVc/A8QXU5ru5UaqMwkuFvDruMGltNKdYaQ+xw10zg37besQFxr0/7oLYiYPuy75R
-	Z3bLadxD33CsebEYQMaz7oMiobVg==
-X-Received: by 2002:a05:7300:8187:b0:304:d14b:b706 with SMTP id 5a478bee46e88-30ee144dff7mr588108eec.27.1782765925449;
-        Mon, 29 Jun 2026 13:45:25 -0700 (PDT)
+        bh=+vZehTvB7/q/A8O6AeI86T/3FAK982m0Qh+Y627rtqU=;
+        b=I7U1QVa39MChGooQkuSDNhT6G5c66GYem87+nH6H7gojtc8XRoH/Ycct6Iwny2L9Gy
+         REn5EAaOfAySn3FLjD8xvLDohjOoAov49UN3ReC/evbkSsCnTSWLen2EWmmyLRmMOUs9
+         XCV72xyrXGLIclXUdKa9rvg9rVkyDnP+5hHTRO6RetMd/vDADZHmuF1bq2wgc+aCm2fG
+         RDCyjv0yJQRIjVGQ2P27ebt45UyQ/JkiSYMDdUS6V9oepu0zd3GcKIjJMBwvma8vS9Tg
+         LM20ZbIfBiWba9NAO6OMLyUyIfA0QQTs1HjWo5/FKZA9JMbcPP7P7XWsaIOn9XZhlKXX
+         cFPQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrZq/B0uQfe5p6vh7nkBSLc6Xy3FmzifPx7gdgBvVV7yo4GJBeIerQENGCt8D/5ETg4UB0+xUmge0k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7tIofVCiay0bPqiWIkvqxZ6f8cvxD+Fe1lwqKa9lw1fnpEPzH
+	TiGLbcx9eOjJqQz8ZhM28wBrNL+FX01Km52SgsT00oZ60fGZl0T8Cia1
+X-Gm-Gg: AfdE7clwDuG24TrZQuZ1MMpfWJcIIfMHOQWZ+OQOh4ZqYhfz3hZIBpO5Pf8qbFTXwpJ
+	jpZv7z74wjqnmpEnljYorX0uf0sbnraswRYgCG83XNArNs+uA2eR2h0BB9ewLBUO3duDCQQ4UBN
+	MkIZuqBXxQ135bnKK9hiR3KBjrkovW9i1jUbhg2bL4N3t/Nj8Zofvnhztyf3PfLZwPqLV2YMx9r
+	EU4fe++/KNrdZePXnHA4AfZebau6QFHHq2i2UXHE52AML1jq7C6WfUwfLXEe4pVM+2XUF9vXgPE
+	KP2ret4ORf6syjMYohqm5saMl8YA/RtDV4oG97b9GKS8K3o9Ct4xlor1Vrl68y0fBmZaNHBdF6M
+	P1r+ET4AZ1eDIiBNYM2bmPdj0k4sc5jKj9SAKxbuFYciUYTLpmDOQ8oz5TjY5oSneVud1Ud/nZ5
+	spqB4BuLuBOukU2MovKhEYmT6AGw==
+X-Received: by 2002:a05:7301:9c83:b0:2ef:8b91:212 with SMTP id 5a478bee46e88-30ee128cd28mr682632eec.14.1782766005075;
+        Mon, 29 Jun 2026 13:46:45 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee3168af7sm1150173eec.19.2026.06.29.13.45.24
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee320827fsm715977eec.25.2026.06.29.13.46.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 13:45:25 -0700 (PDT)
+        Mon, 29 Jun 2026 13:46:44 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 29 Jun 2026 13:45:24 -0700
+Date: Mon, 29 Jun 2026 13:46:43 -0700
 From: Guenter Roeck <linux@roeck-us.net>
 To: Matti Vaittinen <mazziesaccount@gmail.com>
 Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
@@ -78,11 +78,10 @@ Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
 	Robert Coulson <robert.coulson@ericsson.com>,
 	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 2/9] hwmon: adm1275: Prevent reading uninitialized
- stack
-Message-ID: <d4e79a19-a207-448f-b854-ead8cce8b6f0@roeck-us.net>
+Subject: Re: [PATCH v2 3/9] hwmon: adm1275: Detect coefficient overflow
+Message-ID: <dfce0e79-7a8d-4861-8343-27f4581eb044@roeck-us.net>
 References: <cover.1782458224.git.mazziesaccount@gmail.com>
- <c8ad38e0cdb347261c6245de2b7965e747f28d22.1782458224.git.mazziesaccount@gmail.com>
+ <d9e3320dbd62e094ff89598cb3aac5b5e716f9e7.1782458224.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -91,39 +90,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c8ad38e0cdb347261c6245de2b7965e747f28d22.1782458224.git.mazziesaccount@gmail.com>
+In-Reply-To: <d9e3320dbd62e094ff89598cb3aac5b5e716f9e7.1782458224.git.mazziesaccount@gmail.com>
 
-On Fri, Jun 26, 2026 at 10:22:04AM +0300, Matti Vaittinen wrote:
+On Fri, Jun 26, 2026 at 10:23:58AM +0300, Matti Vaittinen wrote:
 > From: Matti Vaittinen <mazziesaccount@gmail.com>
 > 
-> While adding support for the ROHM BD127X0 hot-swap controllers, sashiko
-> reported an error in device-name comparison, which can lead to reading
-> uninitialized stack memory.
+> Sashiko detected potential coefficient overflow if large shunt resistor
+> is used. When going unnoticed it can cause "drastically incorrect
+> telemetry scaling factors" as Sashiko put it.
 > 
-> Quoting Sashiko:
-> 
-> This is a pre-existing issue, but I noticed that just before this block in
-> adm1275_probe(), there might be an out-of-bounds stack read:
-> 
->     ret = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, block_buffer);
->     if (ret < 0) { ... }
->     for (mid = adm1275_id; mid->name[0]; mid++) {
->             if (!strncasecmp(mid->name, block_buffer, strlen(mid->name)))
->                     break;
->     }
-> 
-> Since i2c_smbus_read_block_data() reads up to 32 bytes into the
-> uninitialized stack array block_buffer without appending a null
-> terminator, strncasecmp() could read past the valid bytes returned in ret.
-> 
-> For example, if the device returns a shorter string like "adm12", checking
-> it against "adm1275" up to the length of "adm1275" will continue reading
-> into uninitialized stack bounds.
-> 
-> Prevent reading uninitialized memory by zeroing the stack array.
+> I am not convinced such "drastically incorrect telemetry scaling
+> factors" could have gone unnoticed, so I suspect such large shunt
+> resistors aren't really used. Well, it shouldn't hurt to detect the
+> error and abort the probe before Really Wrong current / power -values
+> are reported to user by the hwmon.
 > 
 > Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> Fixes: 87102808d039 ("hwmon: (pmbus/adm1275) Validate device ID")
+> ---
+> Revision history:
+> v1 => v2:
+>  - New patch
+> 
+> This patch returns -EOVERFLOW with an error print if overflow is
+> detected. IF there really are systems where the overflow truly occurs,
+> then this change will cause the probe to fail - which might hurt the
+> boot process. It might be safer to only print the warning. One could
+> also try changing the order of the shunt resistor value division (/1000)
+> and the multiplication and see if overflow goes away - but it'll be
+> somewhat more complex then. Hence, I just decided to error-out if this
+> happens, and leave this for the people facing the real overflow to fix
+> (if needed)... It's still fair to mention this might cause issues.
+
+Let's see if it happens.
 
 Applied.
 
