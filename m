@@ -1,304 +1,303 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012037.outbound.protection.outlook.com [40.107.200.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21963C1F46
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 07:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782717491; cv=none; b=q7lHzFzUTt2J7SA2wY9PuMCuRMQOvWM9mGBZKO9OtzpzWitiM//eaclSO447T+KZRbN+lf3p2A3YIhbTE7gyjOPe8+yErF4GsIlrdmt8z1XOLSAn8+ROMJy8vrPh1kXNIe5BPYHCjgm1kiO2eMJl3DSLc7SPdRqMv6nUKdhpWs8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782717491; c=relaxed/simple;
-	bh=blN7kUYjZ29Lu9JrwtLJvpjU1Wy8lfqujnHxweqK+8c=;
-	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lzT+bWm43ezL8G2T0qGlR+LlkW+3zKxmBNpxEKBg65T/HwkFsQrVc2OFKFxZKsrYLUMMuucMchPe83BfUKYWChA1GBRRhf3JxqiVdb7VTSi9Ax0B1rgy/1/5FyNHbE7nXwdHZKkTMn9LWyoOCH1yeag/ngfo4UB0mv8cTrlrYm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UoKebr6L; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFED03D47AF;
+	Mon, 29 Jun 2026 07:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782717904; cv=fail; b=ma8r205fAIAJtidYfCTQ6izTqrqr/QA9BI2HQW4nnr50MTt4hLBNqdLq4iXCjvQZKv7fOnLCIsFOZVufXSfQb3K5WCD8BywZ4zutXzj2YVmKIi3TFGSU+Euqc0BShp8yNPlcbRzWRzqLjWcwzrFkAHUkZ/BB2s3Idng35Wyij4o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782717904; c=relaxed/simple;
+	bh=t8+58R5aJk95JglvqPVCbVp13gQOel9Cvlxa/WsQf7M=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=PkyurvcrPPjqnVp88advKNfCbHA1Rskn5ZCj6GalwG1KEedxKsf1tqE0FbjSYRjA/yFjtRUehPAfDFktjWkKi3iRwJjUpZYfw4//agNdh3XmeX2XYLf0T6R5YL15cN6YeGbvLk6Z5XiValRLzIcy8sjBCVbw+Shl/V1/goe6/00=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com; spf=pass smtp.mailfrom=altera.com; dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b=dSXLOAnm; arc=fail smtp.client-ip=40.107.200.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altera.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UoKebr6L"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-47488efcf30so106396f8f.3
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 00:18:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782717487; x=1783322287; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=BovyFstc80MYHmYyIZVG50kULX+1YfHlAuIHPTiI6jk=;
-        b=UoKebr6L7g61S2ib1/fbHXwppvTCC1ASPVOG2gTWyXjTEcnJTr1ZZ1tFbyCkBNX28I
-         ay9ZQqGMkmaKqeiUNL1Bpy+ituRDCsTu/jrTTful/YsQ2V4upAJBk1RlUzHnFE9F7iSy
-         Js1x1pW7T8syZXAMpb57x+17cn2zG3kTfBddZIGdcHwvZHOrz7jgTy3bLZSPOWXhcwaN
-         8zc6BJLiedrnyhgzyP+TwCMskBECBxC/d3Dw7oYdqOCuPPd1d84yvCVWdq6Lx6En/Rgt
-         knW2V5g7iTNkQhlBWIoSQbBRyuezOLGGLv/URcDeJtqZD8CfouiGkrVZPu4z0tPrf6Ys
-         VK0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782717487; x=1783322287;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BovyFstc80MYHmYyIZVG50kULX+1YfHlAuIHPTiI6jk=;
-        b=gljqCES3V0BKk4PlYSGStv+jwNuBtCc9Z2rDt3zIkRywNymKAmkEcaeWlprKO3EJes
-         D9Zg1flBW1H814VqDp55O5TfM6rRTaIsBqelqzQ+APbHF6/EHQNFiz3O2bnR0GgoEhLX
-         qhKXjKgo2DuBZ/zUwSm2SJ/809kD8bZmPJ5mYQ43XU9s0dQWfRePBuwH4hswxqPNBW13
-         XfNX9DcfGSaozwrQPN8kFYL0eFIDJlh8pd6WfKctfksnhdOtPloXiy2tv1LW78/h+/OU
-         w74TSY5NQnJi9h2hohuwDCawiqdxG7C7Tz6NpOUM4vqdvkxR3vI0Go9VmqtK3jHvYK8x
-         5ymw==
-X-Forwarded-Encrypted: i=1; AHgh+RoGlwpMXB7NmzS9TZFjUwTwW0V2DaHZMQNa26q/yQLGJd+a73pa+HPBbQgfweMAOgjL5ke9uNXC08Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyImO9r/hZjlJYASMm4BX31HQG2MgMfqJh03nYUuNOHAzws4vGE
-	AZVNGiT61KgegVUKsc5ieoC9xZj+f7j+pWlBeC1KScFzMyYJtsZbIpXG
-X-Gm-Gg: AfdE7clQVNVZNVpdd3TEvt50WhfmpOp54SQZD0yyzmko42C2guAx8V3O+wCFxemEWqz
-	/049rEdEp/E+GjljVak1FfRF45RYQkiQgh9AdkLEqa49GCp6UI87Z0pFtjAMVaGgjaoisg2Frr8
-	qREbAYM45hYb74nJOi01mA91zWSAaogJGoJwsaGlFzcZjEnaiW+OSn7XqMmRY6pmlT0ixei9l+b
-	odjRcZObYRMSCS9Q60mfrEbya1ZlN9Si5Fw4pHXf+BkaVGwubOS1ZNQbv2ekppclt8vvVQrXTni
-	mcjwZNRqOTdlv2o5UIFwCyc1yqxGTwMBN/b2Po5eDhp7sibu7cdqNOG07y38LcjbJ7H3PHbz/Jm
-	Le5YzO0+EtNvfsD/bQgH0dbnUov+sDCsgGmtYRQtoD/C0rvTTY1Td9e34KmFEqT8ta526FxeYOb
-	fBz+kYI68wt9ZPgAVuIzPZH5CcA3PGHVQpoqFsHMhV0xvwOq6IKVgDXnNxBLqcAIM+CU8=
-X-Received: by 2002:a5d:6a48:0:b0:46d:32:3340 with SMTP id ffacd0b85a97d-46fb8d93892mr12284633f8f.36.1782717486707;
-        Mon, 29 Jun 2026 00:18:06 -0700 (PDT)
-Received: from Ansuel-XPS. (host-80-183-219-152.pool80183.interbusiness.it. [80.183.219.152])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47290ed4377sm13297042f8f.37.2026.06.29.00.18.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 00:18:05 -0700 (PDT)
-Message-ID: <6a421c2d.1e0bfc4f.b2eb6.06fb@mx.google.com>
-X-Google-Original-Message-ID: <akIcKbA8zsoalq-G@Ansuel-XPS.>
-Date: Mon, 29 Jun 2026 09:18:01 +0200
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
+	dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b="dSXLOAnm"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=K0S9Ox4yVnGm3cDvTFo1oFI7URTpAPGPxxfj/1tJGO7pUwcaYeYVbnVC3WhYD/DaScN7bF7kyvHV7CUkx8LpnHR6WG2nXnmiN7UwvZOe/7jm/7AWNA8qUuf7WT1CWHo49J7Pz0a1//+6lPT10P33oyNEwE8h5KWdyBKwCljQu8KYNmT+SIZ4xWiPmFTQ4MABxmUkafOi7msq82s7jV3IzAcuPkYQi3JQ+9nugobiYACQwuTAmRhQu7b7SUe0nOBTHxNPz+LhicMdq0tL5RKyySIHmebQ4HEUizWF+TbKvDNBQFPUtowwiG6XDfG73Z5iypwtKa4+HPx7thX8BSIn7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BFzqrEY7uJ77vk17i+s2XijlFpRLuyzrmq4tNM2x4kU=;
+ b=VG4ixvmhg9JIiyXEFjs+SfO60U6b4mZdBwJwLj8p0OQ5lnnE+ZLs39ka134jns9wCiylTB7a4Atax6BwgLrXiVAFiH/+YTqzclR/N8kBUW2kz+TAscxKcb4Da3pwTRTtevxpy+tqYIIkO0F/ci+wGsEtx9aVC2X667eD3obcOOts65f5Zt7A5wIjluBtREQE2zQpeFuebKrliD5qkKLZ2HRhxVm7fhunf6gdFCYb1dhgpRURHsGlvt4DeDfZw6pSm+o3G7hvk+mwezJ5ntz3+RsUOKwfVs0zKTsYd8rN7hbDSmKqwpeF3hT9lVLnCnkuJ3ECrZDI1E+rGrBQRNLCIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=altera.com; dmarc=pass action=none header.from=altera.com;
+ dkim=pass header.d=altera.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altera.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BFzqrEY7uJ77vk17i+s2XijlFpRLuyzrmq4tNM2x4kU=;
+ b=dSXLOAnmZQ4aDwmCqsrlNoC6flV/SwHTeUmX6ttY/aW5kMGi9pCXCQyHmHzf7gJoBPZNV5kJwEg3nFR+PNwMZpxrAeBP0X3vkVyeO6bSmN6g9sovVVqOPxJDhSVys81WRnUjIlgaCPyyBXLk2/BcJEy1Q1HRrXBvP7YxfdOTAwnmZ+snln75HuwcsVVXWKI2YFFEYbfDxGjcGl1WkDdwJqBZs4QsayG+xbq3ctRHfJkt7FhzTgCP2Pmqlt/9iKQlL6FR2dfjCvBwucR64S+oEkG7Eaf9mT3kqgYjWEUS6Q8CU79mLXBELvyUn+7Pyc5bXTSzF8mj7D/ZsUZ/lAQmNg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=altera.com;
+Received: from SJ0PR03MB5950.namprd03.prod.outlook.com (2603:10b6:a03:2d3::20)
+ by DS4PR03MB8376.namprd03.prod.outlook.com (2603:10b6:8:328::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.16; Mon, 29 Jun
+ 2026 07:24:59 +0000
+Received: from SJ0PR03MB5950.namprd03.prod.outlook.com
+ ([fe80::53a0:bf93:6b6b:de01]) by SJ0PR03MB5950.namprd03.prod.outlook.com
+ ([fe80::53a0:bf93:6b6b:de01%4]) with mapi id 15.21.0159.018; Mon, 29 Jun 2026
+ 07:24:59 +0000
+From: tze.yee.ng@altera.com
+To: Dinh Nguyen <dinguyen@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, llvm@lists.linux.dev
-Subject: Re: [RFC PATCH net-next v8 03/12] net: phylink: add
- phylink_release_pcs() to externally release a PCS
-References: <20260618125752.1223-1-ansuelsmth@gmail.com>
- <20260618125752.1223-4-ansuelsmth@gmail.com>
- <a271385e-302d-45c7-a1df-aebd380b427b@bootlin.com>
- <6a3fc312.6161eb1e.3441bb.c0de@mx.google.com>
- <178defc6-8e60-4b0b-b3b0-f0f2a4003b68@bootlin.com>
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 1/2] firmware: stratix10-svc: add async HWMON read commands and register socfpga-hwmon device
+Date: Mon, 29 Jun 2026 00:24:54 -0700
+Message-ID: <d8a647b3873f8e1ee6b3efb22b5aa34c34146ea5.1782715159.git.tze.yee.ng@altera.com>
+X-Mailer: git-send-email 2.43.7
+In-Reply-To: <cover.1782715159.git.tze.yee.ng@altera.com>
+References: <cover.1782715159.git.tze.yee.ng@altera.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ2PR07CA0005.namprd07.prod.outlook.com
+ (2603:10b6:a03:505::29) To SJ0PR03MB5950.namprd03.prod.outlook.com
+ (2603:10b6:a03:2d3::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <178defc6-8e60-4b0b-b3b0-f0f2a4003b68@bootlin.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR03MB5950:EE_|DS4PR03MB8376:EE_
+X-MS-Office365-Filtering-Correlation-Id: b67d2c76-ca6b-4df4-d620-08ded5af86dd
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|56012099006|11063799006|6133799003|55112099003|3023799007|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	YVyQE5e2peiu2fRwQKg/xuNRGSinruktCWkxbtqJ4o73K3ZTxSimQ2dg63AuFhvSE8ml9sSg1uvS0FR62QVpHYaZ8Edii9DoaKuWiu8miw3EmrR9ohxAKdSfhbDOjpkweMZQWCuYITBw/owlX0Q/+NWhLj5Sw3zgYlvPVx5WVe13N1AvRcWyf+L8e5gj42UbsQqasZkw9i7FuWaBlGI7+kd/gRL5jCpO+yAjHooZ3TUKw19byIC3OAPAeiBprh6jzUtFuJlwR0ViUoMilpx2gPGmysSP0S/jdPnaBpNaYiSkBypE1TyMDHpQQH7DuGoC8s6JU1L+C3ifrf4NBGCC+Yc6bsvfG4TdWgdg8GmE73TZlx3QKuC2GZ5i/TJH4owCa5pz7zIA10+s7SiP7hWnYyL3lIJ14U8qDvmIIcq3yRRWEVUzyZ6UFyVBNfC8vhEegMbGD/QFJpsGSsM5o2YRjqR7YbAvnkt5XYYbz6XRdl8ZnbqEXrAhQFdGhL2Lvu3T2OgwibQL9czprefcZdfKUKWFlnecBHW+cXlQl521BoCdD3tsVyV4Nz9XBfGZhESbXT/4Ia17pLxx9u8/XxvyDyzgwk09DjAaK9tCafoYNxVwY5G+BHbsbcmm/vY1gT/V+cx2LbGk9DUxeoyDcwpY/0OYGepdCrCVRZ0nmvEfJnk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB5950.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(56012099006)(11063799006)(6133799003)(55112099003)(3023799007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?WdM79OfkDE6SCvkvOzydKC8IW3nKmRBe3T+9HdDh/1jdUEgN19pww1TJ8hcd?=
+ =?us-ascii?Q?hNXVeqlo6iT0LZbgLSZOXivtfCUcKanvHNPxm6+aBoEmlsw4wyEBn6855X9o?=
+ =?us-ascii?Q?fCr2LIF9NBiT6AacnY5qXmYrazOWNzZpnck/JCSW8gIjfLRQgh9Xk1jI2/X6?=
+ =?us-ascii?Q?jUbrVnWeFQktsN5d1zrDih8nwyz29rk3fuXDroP9j0k1x4roVbixd+a8b2XV?=
+ =?us-ascii?Q?102CXKrkQ21pvfI6NYvWKni3EIZxTtQl1Rj4d0DxlZ2+MVFX5wZiK2DRdNNq?=
+ =?us-ascii?Q?Cxt1A+2P3/jvl0gh8ULn3CBMVmzGvOXzjqsrYLxjavOplTYV1ZfVeDfcn9yX?=
+ =?us-ascii?Q?y1oIl+AZJ+nMckeQIGAnZZkyT0J7evPtdo/m/X/6yllnYhZecy/cHe72M5AZ?=
+ =?us-ascii?Q?WH/zujXSOumSkifqcngCCm+84WLcVxOtJj25jt8VxhmybCsIoGyJZs5MFt4u?=
+ =?us-ascii?Q?CsIdJJa/ixMRHJYbdn2X8rQbyxyuGKEdyhXBlqGVfrKzs+cbAtr3JgKGiV5i?=
+ =?us-ascii?Q?1fpUIZA7Vlb6Rq6PwOxsuXO8ikkRW5eF+/IUm8jZ0kBDO9jKu0E37msuhAy6?=
+ =?us-ascii?Q?DMpkHU0rtHAz+79nIu/ll7oBlUctSiAjLWRQEJN5gJynkDTNZ8NlrP5aOvxU?=
+ =?us-ascii?Q?lYXHhMQ/nwJP+1ib4rFeEuYnJ3qfeir9y1LWOuO3ULhbQ7svtHEBdxRL81Qx?=
+ =?us-ascii?Q?zSW+prMGvD60LXOp+wybvM/IwSlpD6DBDt5uhxqtUN7x1/lLOWNeV+jDLW/b?=
+ =?us-ascii?Q?mTr9gTtCui+Z2FIIz3MprfWQGL0CrXGdFhr4VLsn6OB3Seli46+x83YOzQUa?=
+ =?us-ascii?Q?0rY+lFAm5KUIj6PX8S7MrOpWz6rRh97bNxPEVKu5K5yitxJXK+avGRslzyi0?=
+ =?us-ascii?Q?TraU5uRMU9pkLBzUFuBCASBGcRYJuiHbnpkgpyKD7zMT0Z82AQzXqYdL1JtI?=
+ =?us-ascii?Q?NZHGoX3/an0eiJ1QyEmmG52YitRQJwtxVQ2HDOqR6Dz9t6JXwLDA9eX+xZBQ?=
+ =?us-ascii?Q?JtnjXdyd2mQhWeFr/jYZmjW2FgezgN395JiV3WA7fd9fUREY4ob6PXCkeAVj?=
+ =?us-ascii?Q?TSDDbgBFDKkg/X0cK5bYQfCW2v3YnYmugO/uYIM+AoJF2iziBgKoWn54bAmf?=
+ =?us-ascii?Q?uloV1F0Cvlu76N/HrznXZYG46/SjnLfSdt14lRo3iPs2Y+6g7lCmF7kQnM81?=
+ =?us-ascii?Q?y5gN83alTu0ZtvK7AOC0qJYBmGXwqVtasfUG0LOuCE6z7M+INXy9Wj3mFr0e?=
+ =?us-ascii?Q?Uh7USl5O2Ql49KxpjylJrpsp3Cowc+Zbl9QDPnlk2S1IuVSl/J5NYFTQgi/I?=
+ =?us-ascii?Q?hz5Hb8KWWYmRXMeTE7b2fui6va+4Nox7FKLrn0v+wEMLbMgXRgipNCMvtreU?=
+ =?us-ascii?Q?tDQWv4WgTqSF5jReGQiVysZhJX/BHbQ8Qfs1lf03uAmj0Dcr833HNHxDCw9S?=
+ =?us-ascii?Q?dy5gnUPevE0YPk9vzAL+JyrU4SPINeiytQlYBvsi/ej23ILeGgIX8R8WRSk6?=
+ =?us-ascii?Q?21k8bRwPSfRbf2jsO2vRDv8ZzM+uGf9iW4uU2j8CehR4WHoUWCa+wMUfc3b7?=
+ =?us-ascii?Q?Jb7dxiQUNO5rVquEwahYgdH8Nskh99yNis1+k8repM1uotOQNwi7d9atl4t4?=
+ =?us-ascii?Q?tFolyhIiD3MKn2ntwM/+ODEhnrNqQBPtcbeznfecr1ntkfL15JfIYQOk5HzQ?=
+ =?us-ascii?Q?cCRpARJwntelhisxWrzfoM9uKr2ZEgtcEoONocK/7qB39fGVTViPJQh1I9ik?=
+ =?us-ascii?Q?6zvO2ik9qQ=3D=3D?=
+X-OriginatorOrg: altera.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b67d2c76-ca6b-4df4-d620-08ded5af86dd
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB5950.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 07:24:59.3305
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fbd72e03-d4a5-4110-adce-614d51f2077a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Xu9WIsES8A7b8l+WNodmIdE0s+sVdtUVPfJyNW6j6L/nmqpFGluv1J00h/V8H6jOpOlmBnDI/r44PfiRqzUjPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR03MB8376
 
-On Mon, Jun 29, 2026 at 09:04:49AM +0200, Maxime Chevallier wrote:
-> Hi Christian,
-> 
-> On 6/27/26 14:33, Christian Marangi wrote:
-> > On Thu, Jun 25, 2026 at 04:13:14PM +0200, Maxime Chevallier wrote:
-> >> Hello Christian,
-> >>
-> >> On 6/18/26 14:57, Christian Marangi wrote:
-> >>> Add phylink_release_pcs() to externally release a PCS from a phylink
-> >>> instance. This can be used to handle case when a single PCS needs to be
-> >>> removed and the phylink instance needs to be refreshed.
-> >>>
-> >>> On calling phylink_release_pcs(), the PCS will be removed from the
-> >>> phylink internal PCS list and the phylink supported_interfaces value is
-> >>> reparsed with the remaining PCS interfaces.
-> >>>
-> >>> Also a phylink resolve is triggered to handle the PCS removal.
-> >>>
-> >>> The flag force_major_config is set to make phylink resolve reconfigure
-> >>> the interface (even if it didn't change).
-> >>> This is needed to handle the special case when the current PCS used
-> >>> by phylink is removed and a major_config is needed to propagae the
-> >>> configuration change. With this option enabled we also force mac_config
-> >>> even if the PHY link is not up for the in-band case.
-> >>>
-> >>> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> >>> ---
-> >>>  drivers/net/phy/phylink.c | 56 +++++++++++++++++++++++++++++++++++++++
-> >>>  include/linux/phylink.h   |  2 ++
-> >>>  2 files changed, 58 insertions(+)
-> >>>
-> >>> diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
-> >>> index c38bcd43b8c8..064d6f5a06da 100644
-> >>> --- a/drivers/net/phy/phylink.c
-> >>> +++ b/drivers/net/phy/phylink.c
-> >>> @@ -158,6 +158,8 @@ static const phy_interface_t phylink_sfp_interface_preference[] = {
-> >>>  static DECLARE_PHY_INTERFACE_MASK(phylink_sfp_interfaces);
-> >>>  
-> >>>  static void phylink_run_resolve(struct phylink *pl);
-> >>> +static void phylink_link_down(struct phylink *pl);
-> >>> +static void phylink_pcs_disable(struct phylink_pcs *pcs);
-> >>>  
-> >>>  /**
-> >>>   * phylink_set_port_modes() - set the port type modes in the ethtool mask
-> >>> @@ -918,6 +920,60 @@ static void phylink_resolve_an_pause(struct phylink_link_state *state)
-> >>>  	}
-> >>>  }
-> >>>  
-> >>> +/**
-> >>> + * phylink_release_pcs - Removes a PCS from the phylink PCS available list
-> >>> + * @pcs: a pointer to the phylink_pcs struct to be released
-> >>> + *
-> >>> + * This function release a PCS from the phylink PCS available list if
-> >>> + * actually in use. It also refreshes the supported interfaces of the
-> >>> + * phylink instance by copying the supported interfaces from the phylink
-> >>> + * conf and merging the supported interfaces of the remaining available PCS
-> >>> + * in the list and trigger a resolve.
-> >>> + */
-> >>> +void phylink_release_pcs(struct phylink_pcs *pcs)
-> >>> +{
-> >>> +	struct phylink *pl;
-> >>> +
-> >>> +	ASSERT_RTNL();
-> >>> +
-> >>> +	pl = pcs->phylink;
-> >>> +	if (!pl)
-> >>> +		return;
-> >>> +
-> >>> +	mutex_lock(&pl->state_mutex);
-> >>> +
-> >>> +	list_del(&pcs->list);
-> >>> +	pcs->phylink = NULL;
-> >>> +
-> >>> +	/*
-> >>> +	 * Check if we are removing the PCS currently
-> >>> +	 * in use by phylink. If this is the case, tear down
-> >>> +	 * the link, force phylink resolve to reconfigure the
-> >>> +	 * interface mode, disable the current PCS and set the
-> >>> +	 * phylink PCS to NULL.
-> >>> +	 */
-> >>> +	if (pl->pcs == pcs) {
-> >>> +		phylink_link_down(pl);
-> >>> +		phylink_pcs_disable(pl->pcs);
-> >>> +
-> >>> +		pl->force_major_config = true;
-> >>> +		pl->pcs = NULL;
-> >>> +	}
-> >>> +
-> >>> +	mutex_unlock(&pl->state_mutex);
-> >>> +
-> >>> +	/* Refresh supported interfaces */
-> >>> +	phy_interface_copy(pl->supported_interfaces,
-> >>> +			   pl->config->supported_interfaces);
-> >>> +	list_for_each_entry(pcs, &pl->pcs_list, list)
-> >>> +		phy_interface_or(pl->supported_interfaces,
-> >>> +				 pl->supported_interfaces,
-> >>> +				 pcs->supported_interfaces);
-> >>
-> >> I've given more thought to that 'supported_interfaces' thing. This
-> >> patchset redefines the meaning of
-> >>
-> >>   pl->config->supported_interfaces
-> >>
-> >> Currently, it's filled by the MAC driver and means "Every interface
-> >> we can support, including the ones provided by PCSs that we can use
-> >> with this MAC".
-> >>
-> >> It now becomes "Every interface we support without needing a PCS", at
-> >> least the way I understand that.
-> >>
-> > 
-> > Wait but with the current code using the OR logic, it still follows
-> > "Every interface we can support...". The modes that needs a PCS are
-> > specificed with the pcs_interfaces mask in phylink_config.
-> 
-> you current code is correct, I was mostly concerned about the doc
-> that goes along with it :)
+From: Tze Yee Ng <tze.yee.ng@altera.com>
 
-Oh yep thanks, I will update also that entry. Also maybe check the .rst
-introduced and tell me if something is confusing or badly described.
+Add asynchronous Stratix 10 service layer support for hardware monitor
+temperature and voltage read commands in stratix10_svc_async_send() and
+stratix10_svc_async_prepare_response().
 
-> 
-> So in the end, we'd have something like (simplified):
-> 
-> pl->config.supported_interfaces = RGMII_xx | SGMII | 1000BaseX
-> pl->config.pcs_interfaces = SGMII | 1000BaseX
-> 
-> pcs->supported_interface = SGMII| 1000BaseX
-> 
-> correct ?
-> 
+Register a socfpga-hwmon platform device from the service layer driver
+when hardware monitor support is enabled, similar to the RSU device.
 
-Correct. phylink_config describing that for SGMII and 1000BaseX a PCS is
-required and the related PCS declaring support for those modes.
+Signed-off-by: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
+Signed-off-by: Tze Yee Ng <tze.yee.ng@altera.com>
+---
+Changes in v2:
+- - Extend patch scope beyond async SMC support: register socfpga-hwmon
+  platform device from stratix10-svc when CONFIG_SENSORS_ALTERA_SOCFPGA_HWMON
+  is enabled
+- Follow RSU-style registration; RSU probe error handling is unchanged
+- Add err_unregister_clients to unregister hwmon and RSU on populate failure
+- Unregister hwmon platform device in stratix10-svc remove()
+---
+ drivers/firmware/stratix10-svc.c             | 46 ++++++++++++++++++--
+ include/linux/firmware/intel/stratix10-smc.h | 38 ++++++++++++++++
+ 2 files changed, 81 insertions(+), 3 deletions(-)
 
-Code will skip searching for a PCS for RGMII.
-
-> > 
-> > The late add and release operates on the phylink supported_interfaces ONLY
-> > when the MAC didn't specify support for it (by removing it as only the PCS
-> > will declare support for it)
-> > 
-> > The confusion is present because everything is validated later on
-> > major_config so those supported_interfaces are just an HINT that are later
-> > verified with get_caps and with the pcs_validate OPs.
-> > 
-> > Adding the supported_interfaces to phylink is really to keep an original
-> > reference of the value. This is to address a pattern I have notice where
-> > the MAC driver always OR the interfaces with the one supported by the PCS.
-> > (I remember it was pointed out by Russell)
-> > 
-> > But I'm more than open to discussion as this is something marginal to the
-> > whole implementation, I'm also questioning if this OR is actually useful to
-> > anything on the nth tought on this.
-> > 
-> > One thing that I notice is that parsing this early with AND might be
-> > problematic at phylink_create, but I still have to evaluate that.
-> > 
-> > My take is that would be good to have some review also on the other logic
-> > as I think I reached a point where Sashiko starts to comments on more or
-> > less unreal problem.
-> 
-> True, TBH all the fwnode part is something I'm a bit less familiar with though
-> so maybe someone else can browse through that.
-> 
-> FWIW, I've tested that whole series on a board that has "legacy" PCS board
-> that has mvpp2 and 2 possible PCSs, and it seems to work fine so no regressions
-> there :)
-> 
-> A side note with the "legacy" naming, I'd rather have it called "built-in" or
-> something like that, I don't see a clear path to porting the existing code to
-> fwnode without breaking DT compat, as it's likely we'll have to remove the PCS
-> register ranges out of the MAC's range. 
-
-I think also built-in might be confusing as a SoC might have a PCS built-in
-but just as a separate device on a different register map.
-
-A better description might be "externally-managed" but that is very long...
-
-Also the use of fwnode and DT is just to reference them and use the normal
-helper but the implementation is liberal on custom implementation for the
-current code.
-
-Everything is around the pcs_interface mask, num_possible_pcs and the
-fill_available_pcs.
-
-Nobody stops from implementing custom parser in fill_available_pcs and
-return a PCS pointer created directly by the MAC. (In such case late and
-release won't be needed as everything is present when phylink_create is
-called)
-
-On OpenWrt we migrated every SoC that used ""exotic"" pcs reference (Qcom,
-Realtek, MTK, Airoha) but I don't have a board that used something like the
-'pcs' property.
-
-> 
-> Thanks for this work anyway, this is great !
-> 
-> Maxime
-
+diff --git a/drivers/firmware/stratix10-svc.c b/drivers/firmware/stratix10-svc.c
+index 00e134e663c8..a72b03c37ea8 100644
+--- a/drivers/firmware/stratix10-svc.c
++++ b/drivers/firmware/stratix10-svc.c
+@@ -45,6 +45,7 @@
+ 
+ /* stratix10 service layer clients */
+ #define STRATIX10_RSU				"stratix10-rsu"
++#define SOCFPGA_HWMON				"socfpga-hwmon"
+ 
+ /* Maximum number of SDM client IDs. */
+ #define MAX_SDM_CLIENT_IDS			16
+@@ -104,9 +105,11 @@ struct stratix10_svc_chan;
+ /**
+  * struct stratix10_svc - svc private data
+  * @stratix10_svc_rsu: pointer to stratix10 RSU device
++ * @stratix10_svc_hwmon: pointer to stratix10 HWMON device
+  */
+ struct stratix10_svc {
+ 	struct platform_device *stratix10_svc_rsu;
++	struct platform_device *stratix10_svc_hwmon;
+ };
+ 
+ /**
+@@ -1323,6 +1326,14 @@ int stratix10_svc_async_send(struct stratix10_svc_chan *chan, void *msg,
+ 		args.a0 = INTEL_SIP_SMC_ASYNC_RSU_NOTIFY;
+ 		args.a2 = p_msg->arg[0];
+ 		break;
++	case COMMAND_HWMON_READTEMP:
++		args.a0 = INTEL_SIP_SMC_ASYNC_HWMON_READTEMP;
++		args.a2 = p_msg->arg[0];
++		break;
++	case COMMAND_HWMON_READVOLT:
++		args.a0 = INTEL_SIP_SMC_ASYNC_HWMON_READVOLT;
++		args.a2 = p_msg->arg[0];
++		break;
+ 	default:
+ 		dev_err(ctrl->dev, "Invalid command ,%d\n", p_msg->command);
+ 		ret = -EINVAL;
+@@ -1416,6 +1427,10 @@ static int stratix10_svc_async_prepare_response(struct stratix10_svc_chan *chan,
+ 		 */
+ 		data->kaddr1 = (void *)&handle->res;
+ 		break;
++	case COMMAND_HWMON_READTEMP:
++	case COMMAND_HWMON_READVOLT:
++		data->kaddr1 = (void *)&handle->res.a2;
++		break;
+ 
+ 	default:
+ 		dev_alert(ctrl->dev, "Invalid command\n ,%d", p_msg->command);
+@@ -2000,16 +2015,38 @@ static int stratix10_svc_drv_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_put_device;
+ 
++	if (IS_ENABLED(CONFIG_SENSORS_ALTERA_SOCFPGA_HWMON)) {
++		svc->stratix10_svc_hwmon =
++			platform_device_alloc(SOCFPGA_HWMON, 0);
++		if (!svc->stratix10_svc_hwmon) {
++			dev_err(dev, "failed to allocate %s device\n",
++				SOCFPGA_HWMON);
++		} else {
++			svc->stratix10_svc_hwmon->dev.parent = dev;
++
++			ret = platform_device_add(svc->stratix10_svc_hwmon);
++			if (ret) {
++				dev_err(dev, "failed to add %s device: %d\n",
++					SOCFPGA_HWMON, ret);
++				platform_device_put(svc->stratix10_svc_hwmon);
++				svc->stratix10_svc_hwmon = NULL;
++			}
++		}
++	}
++
+ 	ret = of_platform_default_populate(dev_of_node(dev), NULL, dev);
+ 	if (ret)
+-		goto err_unregister_rsu_dev;
++		goto err_unregister_clients;
+ 
+ 	pr_info("Intel Service Layer Driver Initialized\n");
+ 
+ 	return 0;
+ 
+-err_unregister_rsu_dev:
+-	platform_device_unregister(svc->stratix10_svc_rsu);
++err_unregister_clients:
++	if (svc->stratix10_svc_hwmon)
++		platform_device_unregister(svc->stratix10_svc_hwmon);
++	if (svc->stratix10_svc_rsu)
++		platform_device_unregister(svc->stratix10_svc_rsu);
+ 	goto err_free_fifos;
+ err_put_device:
+ 	platform_device_put(svc->stratix10_svc_rsu);
+@@ -2037,6 +2074,9 @@ static void stratix10_svc_drv_remove(struct platform_device *pdev)
+ 
+ 	of_platform_depopulate(ctrl->dev);
+ 
++	if (svc->stratix10_svc_hwmon)
++		platform_device_unregister(svc->stratix10_svc_hwmon);
++
+ 	platform_device_unregister(svc->stratix10_svc_rsu);
+ 
+ 	for (i = 0; i < SVC_NUM_CHANNEL; i++) {
+diff --git a/include/linux/firmware/intel/stratix10-smc.h b/include/linux/firmware/intel/stratix10-smc.h
+index 9116512169dc..18ac6fe96d9d 100644
+--- a/include/linux/firmware/intel/stratix10-smc.h
++++ b/include/linux/firmware/intel/stratix10-smc.h
+@@ -695,6 +695,44 @@ INTEL_SIP_SMC_FAST_CALL_VAL(INTEL_SIP_SMC_FUNCID_FPGA_CONFIG_COMPLETED_WRITE)
+ #define INTEL_SIP_SMC_ASYNC_POLL \
+ 	INTEL_SIP_SMC_ASYNC_VAL(INTEL_SIP_SMC_ASYNC_FUNC_ID_POLL)
+ 
++/**
++ * Request INTEL_SIP_SMC_ASYNC_HWMON_READTEMP
++ * Async call to request temperature
++ *
++ * Call register usage:
++ * a0 INTEL_SIP_SMC_ASYNC_HWMON_READTEMP
++ * a1 transaction job id
++ * a2 Temperature Channel
++ * a3-a17 not used
++ *
++ * Return status
++ * a0 INTEL_SIP_SMC_STATUS_OK, INTEL_SIP_SMC_STATUS_REJECTED
++ * or INTEL_SIP_SMC_STATUS_BUSY
++ * a1-a17 not used
++ */
++#define INTEL_SIP_SMC_ASYNC_FUNC_ID_HWMON_READTEMP	0xE8
++#define INTEL_SIP_SMC_ASYNC_HWMON_READTEMP \
++	INTEL_SIP_SMC_ASYNC_VAL(INTEL_SIP_SMC_ASYNC_FUNC_ID_HWMON_READTEMP)
++
++/**
++ * Request INTEL_SIP_SMC_ASYNC_HWMON_READVOLT
++ * Async call to request voltage
++ *
++ * Call register usage:
++ * a0 INTEL_SIP_SMC_ASYNC_HWMON_READVOLT
++ * a1 transaction job id
++ * a2 Voltage Channel
++ * a3-a17 not used
++ *
++ * Return status
++ * a0 INTEL_SIP_SMC_STATUS_OK, INTEL_SIP_SMC_STATUS_REJECTED
++ * or INTEL_SIP_SMC_STATUS_BUSY
++ * a1-a17 not used
++ */
++#define INTEL_SIP_SMC_ASYNC_FUNC_ID_HWMON_READVOLT	0xE9
++#define INTEL_SIP_SMC_ASYNC_HWMON_READVOLT \
++	INTEL_SIP_SMC_ASYNC_VAL(INTEL_SIP_SMC_ASYNC_FUNC_ID_HWMON_READVOLT)
++
+ /**
+  * Request INTEL_SIP_SMC_ASYNC_RSU_GET_SPT
+  * Async call to get RSU SPT from SDM.
 -- 
-	Ansuel
+2.43.7
+
