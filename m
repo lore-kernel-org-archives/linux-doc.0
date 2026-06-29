@@ -1,102 +1,95 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1AB643DA40
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 15:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33FD19DF62;
+	Mon, 29 Jun 2026 15:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782746742; cv=none; b=pcSKNl1vXfYyIKJpJfGCLnTbFWt/TYC05m+kU6rKGOBS7Q87XRd0tAB0rFCKLrSuyoHkkyiwCoKdshTNAbUuo3M4+zcKCMcQgJ1iAUQxsz8OiQYSE5e4lTm0jjQ3/SKs8HXws26ACTLNn7NQmwtE4UXfrHeF9OuYQC2/+Yg0ZsM=
+	t=1782747138; cv=none; b=CJjSewyeyEl6epNTqyVCZMeNsQ8XSCo4Q+wogNj9Ax9LwdA74k8ARhfhza/g+u0966buq1HLit2a5gVeJd70VSwxAdxa0Nvu4sXavSAzsOeZ5UohyL3nd6/WobjfU55wT50zy0tL8/TNl/j9aKNJcGlVX+cqEDYV/6x8PNM3ykk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782746742; c=relaxed/simple;
-	bh=bMEqNXZ9mHubK+aM6jy3pBJZxkKeyMW8AyvCDDB+Lrs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n7+tJgRl8bUaeYyOaZS4dtzeLeC/lb89h34raCpgt/zLdUTXBu52eQkoZxfTa/fMc/2FRjViW1qNWhfb8qKG/A9eeINRD2P5A5ctBkP5GO5fkMd6koAFY89O718O4rNHmYGTVhWc0OksMMNNbAXsww+3zOboHOJxtkiwbKnD8+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=mJaLXTBL; arc=none smtp.client-ip=209.85.160.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1782747138; c=relaxed/simple;
+	bh=nzGFSONTbjRflbqwbSz64iM1d9EbDo/lGLeH4NqmteQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KQmk2Ua1twYEUySCroPd4bnoGxvO9sxG5I8Qm4lBBgwG5pF26TPrwvv79gBnlWIkI8h6GNmPh4apaZfU5eaWJdojKuuZ/Ci0J1Wb8UJ8akBu31wRVR/VJX27USD9rR+X/aoEErd8K3DNBiK1/xm0bpzZgFdvjGZAtB0F6RTqFq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tZ8jOueB; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=OCtJ+HAF; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="mJaLXTBL"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-4486c5813afso661043fac.0
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 08:25:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1782746740; x=1783351540; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XaJaAgaoRCLCjD+AlsRhR9FrqAL4y+0Revc/YO4kdQc=;
-        b=mJaLXTBLa1qxGRMHQu77viTO4XIUoCRPMKffn6Frhl+5jxJuXvfhWmKOKLWFtpX3Pq
-         6X5ukd4WrfEay3JhK5jUJ9HkVhQ2QrBsnXW3BgscFG95s5xJJgcswBGiJxFiZG8iphwy
-         miNpmJs3NhOy8nYPpfH+YJ+MKLXGomTyMRfd1ihBvymSHnOTLbunt/Q6iUpgmw7ZTDoq
-         vpjseUl3AKApgG1Gm77XvO+Q0vos+Vi/M1fir6bwwlNRBimriXLFJ9eGIkbJhayPIs7E
-         rVo22cdcFtJLWF39Qo1T7JWSlgqA7XTQ7GNaNAavYX5pztGqX+zi4rrG6ek+MEzcrsjX
-         k6aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782746740; x=1783351540;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XaJaAgaoRCLCjD+AlsRhR9FrqAL4y+0Revc/YO4kdQc=;
-        b=TlKK06Ool4L4+Q4ZrYks02gEEhbIyN61HbZn0wucn4NnmAuGvY7Z6Ro8fY+r4brHNe
-         Svu+WxNZ4gPuYqivCUaCK1/L6NS7b6G3T9ZJphiZkMiCGILK9N2OJnzPKdS8iO3wBkU8
-         xh+pR0szvoIU21Ujl3xecv0QD3AHX0HSAMHXtke1lX1D5SQAH/yIUDzk7BVpXLltI8r7
-         LO632HxjcF0u32d1v0mv9bj+YohmWMNliWEPZqcSB2S0WhfoLl8ZA6hFOE4VaYbfhO51
-         jgd9EBgo14OcfjvLcoNwxWQcCLM9H1CvVj4sXl/qMHMusqG1/UaL0aFchz9QeFc9c+Gp
-         PqSg==
-X-Forwarded-Encrypted: i=1; AHgh+RqLqfF32ShuylIHKo1cdVX9oFpREdWe+gTjfdOBqQFfVnXe+Xj1skL9zHjFKkjsy2pPVlfyAf9ouBc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLKUO3rnKTk7Wxnov6uqTOegAl392LAASqWop0HpsLcMtDNmNp
-	OnqKAD1C+38YCInYd4xwNDDvSeDAKt7K+FmS96EMAl+1FZchWlUT2+BCQFrtRg6pD7Q=
-X-Gm-Gg: AfdE7cnEmO7PoX/BxBtG+z+SZTyKGcJCCKOnUQAwYOpgvTP7KFGkL1HjSeUMHxEkLj0
-	0Is+10EbgSNsg3NDc4OjqtqmiCRVlippmqYBGoA1X6Oi3UCzKo5mC6tz3EsvEIB8wR2DP+H/dvk
-	LwJrMv3jLIA4xRDnnFWz4BK+ZBA5JzVRm4jWrnXOLef3YlkGrmXg0xpcW6toNTN8nsW/m5ysZKG
-	vPRNH5FQhh8QeAZBhG+aK+uN3zlwB45sfPh79DZ9egJP5+4NOT5fPTOv8chFEmKqu36qm4xonaN
-	h09MgsrQ1wp4nHG941BxOT5pu+hhmq2mXc/YqLVdZlHOTb0Njj7H5UryEOcvxKaJp9uXaIamRCO
-	lHBGFzcJWu7GCyysfzj4ztMlUEIpt54oYP7XP0D7o4Nzat5nbCldQOo5vB8U/YRJW/HWzFEcsOm
-	A64IQ39KYoptROIWdLWqk5bMetRS68+b1tSfWsoZo1QGFj3kwZLHz04YF671eHnn8=
-X-Received: by 2002:a05:6870:9693:b0:448:6e54:4819 with SMTP id 586e51a60fabf-4486e544f3emr4992977fac.16.1782746739826;
-        Mon, 29 Jun 2026 08:25:39 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:3533:aa22:9a69:df1c? ([2600:8803:e7e4:500:3533:aa22:9a69:df1c])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-448dbb2302csm70720fac.7.2026.06.29.08.25.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jun 2026 08:25:39 -0700 (PDT)
-Message-ID: <9b179166-3057-4867-be04-b071a809f70f@baylibre.com>
-Date: Mon, 29 Jun 2026 10:25:38 -0500
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="tZ8jOueB";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="OCtJ+HAF"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gpqyk6nvsz9vHr;
+	Mon, 29 Jun 2026 17:32:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1782747135;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Y6lUgVlBAJF6R12RVGW7gesy7dokdiVnQ2CN1iL6Jrs=;
+	b=tZ8jOueBTHdXSDIIC0YVWJBrLMiPxN8F6xNC1i9/V5ZBDoE8pY+CW1XXz9DaRDdiIz0f9Y
+	BvhV+5fdBT16zXrqAiCnCh82twliL6QlDbm9cytsQxCnxI+VLdiriAlvUEEKiMqXa5DbO6
+	aZASBFJ0/Q2wWxjrNG+xM/KcGHTe/uzNIS5/G1+Gz4P6my8uIQE2vAs/l4yyOKxSYBhZYp
+	gOHfAanc3NH/k2TKj36X8LbBTOOCUDZGjvX05vU3IEjRbd49cDOD+gjZ1X8wM5F4XhRMeD
+	HMu7NvpuRAwhgRk6mqRXbjfPMahaAvVIqxafKnHTQYSyQO19yKNNLmnp6l/DIQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=OCtJ+HAF;
+	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1782747133;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Y6lUgVlBAJF6R12RVGW7gesy7dokdiVnQ2CN1iL6Jrs=;
+	b=OCtJ+HAFA7u/nvf8J/hkD9LiBQjlCreX+ekBq3IjHn2nUx1H5uy3PGfFuBDw6LvZEn7wKi
+	Vw23reWZucr2qEffCGTLiFUw6R6Zd8StUjCnz+VnppAu5osPJl7Lh8ETCBccfLdDO3gsH4
+	PmuauDv1RWdnpryzBIutmwSn2aK4OHGXDrH+b2pKSh8boHw0aBBuN5JICdRcHNwlZ4Ws1J
+	4vu1A5yvbT4PJdl4NzRztnh7HNIuQ6CPOA8EWwKlJmMgnZmWGuJ+mhHxGEmf9LGu/Ag9/e
+	HwxGNxw4aRRmY7Ck16MrdIO3iMnjgM5SQHZfoB9PYfVdB59sVoihqlLrPLJbFA==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	SeongJae Park <sj@kernel.org>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH v2] docs: kernel-hacking: fix typo
+Date: Mon, 29 Jun 2026 17:29:13 +0200
+Message-ID: <20260629152912.86500-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v6 0/5] iio: add Open Sensor Fusion IIO driver
-To: Jinseob Kim <kimjinseob88@gmail.com>, Jonathan Cameron
- <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260628191337.937-1-kimjinseob88@gmail.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20260628191337.937-1-kimjinseob88@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: njxes6uhzxir5ug3thb4rp8tafse8914
+X-MBO-RS-ID: 8078d810e0019ddfb82
+X-Rspamd-Queue-Id: 4gpqyk6nvsz9vHr
 
-On 6/28/26 2:13 PM, Jinseob Kim wrote:
-> Open Sensor Fusion (OSF) devices expose a UART/serdev host interface
-> for a sensor aggregation hub.  This RFC adds a Linux IIO driver that
-> parses OSF frames and creates IIO devices at runtime from capability
-> reports provided by the device firmware.
-> 
-> When the corresponding capabilities are reported, the driver exposes
-> accelerometer, gyroscope, magnetometer, and temperature data as IIO
-> devices named osf-accel, osf-gyro, osf-magn, and osf-temp.
-> 
-> This remains RFC while the binding, protocol subset, runtime discovery
-> model, and driver-facing ABI are reviewed.
+'GP_KERNEL' -> 'GFP_KERNEL'
+Remove trailing '`' without clear purpose
 
-If you are just looking for review and don't have specific questions,
-then it is time to drop the RFC.
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+---
+ Documentation/kernel-hacking/locking.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
+index c969c76ef7cb..674475123593 100644
+--- a/Documentation/kernel-hacking/locking.rst
++++ b/Documentation/kernel-hacking/locking.rst
+@@ -1317,7 +1317,7 @@ from user context, and can sleep.
+ 
+    -  put_user()
+ 
+--  kmalloc(GP_KERNEL) <kmalloc>`
++-  kmalloc(GFP_KERNEL) <kmalloc>
+ 
+ -  mutex_lock_interruptible() and
+    mutex_lock()
+-- 
+2.54.0
 
