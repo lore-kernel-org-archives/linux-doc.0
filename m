@@ -1,100 +1,171 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.153.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADC644E038
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 17:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8B2428473
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 17:07:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.153.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782752504; cv=none; b=S2ImTkvviy1/bIg2coWS9IlG8pKu8GJ0DjucXLx/bj8Ha5pdTAfDmNba99X+9iui9azezgJN7k1XA16VzbMXjHEHDiyVS+13Qb7TAEZHnLZwJ2VSjNPLW8VEE/DiolGCIWwilo0XnMSNTxG2tNv19vkBRk5zvxNCpWY9pIpbozw=
+	t=1782752854; cv=none; b=EvYWqD4QhuP7L6QYaRsa3OS+b8NY0TbW2DYAF6+avk2a961Qx7oc9oe4QK3NFYHvzWVl/+kVOscu1NqMMmXbuxF1kYj6xI8RAJJgEO9yiUEsXnuJ2TEnYY860BGyWjKCzkFPKz4fj45FTP+lC77TJt6/85nsX8LV3FNYe9QQVh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782752504; c=relaxed/simple;
-	bh=0ZbNq3krgb6G8hdaDapKsW5xowxyl35n00VG63vlvsE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H2PZ/BvyLMjMpzOUhtnTuSBqW/QQgl+SnWc6yOx3oD9Ndy5iez6aGnMaOV1SBNpf5eBWQXdtk86Bneum5QQO+wLtMP8KZe2znbv35zN4AxkOJVSSO8DL+twQO0rIah8vM5xiNX4Cqq8673oPf7PvGFS/rUzj8YT/c7eLSUfjpNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=YsFHHwbp; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1782752854; c=relaxed/simple;
+	bh=b4m9ugKTd4P2FLzaPcwmBvTb4oJlDyBJ/58sBPB1jek=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=dnDVFlo0KAKHFbpUGoAfma4uGoQZiFnQ1twCyL8DiOnY9kDLlrskSUmJObB4XkNy1YOfgkX5sgUTNS+/rYzunIWAGXvjgsem5h5VEGsjLGL0uf7houTil9PyFeFOEkKn1OuuNw5rD3UU+za0HHGrhD7/bcRoGmOsNN1sC+J0Tag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=EFguHKN3; arc=none smtp.client-ip=170.10.153.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="YsFHHwbp"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-51a14efe25fso39292831cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 10:01:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1782752502; x=1783357302; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YeHN7utODULOILBow3SQ4SKTKi+vOT1iFpqN2h/hBuo=;
-        b=YsFHHwbpRsX5WjoNxm3vYRCqhksFNPQnB0Jc2ywinYZG01tXjjJH3fkHn/Div+1sMs
-         ZhqEsZ3KP5/hCtwmCB0sggQycScKKihHnrWvN4HLpcOJuNZTlKnq+N2iGObngd0tVmR2
-         sNCaSLYR9ResDcJSB9fXvvlTivQR+tJU0vmOPohlYuGpV8zozEEJARYh8Cc8bA0gcbt/
-         mPAqGodfzl0Ws6ujYVGVqZHCS1Omy0pqmvxo2PmF2iMoXoZYTgsg4O1eIA98ZRCZYVFz
-         SIZNs95vuTXa4A2PxaBZ2HnF6UIEM5kPpV4hO2xHaCIgQsKcJicrKhkSKSda3VKHsaRQ
-         GEKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782752502; x=1783357302;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YeHN7utODULOILBow3SQ4SKTKi+vOT1iFpqN2h/hBuo=;
-        b=Jj4boDGY6MzJfntB/9p1SWWE+HHXOwJ4/JcSpvngiSUENv5qmt9zwh1TXTRpTRe/Wd
-         9ANQC2PG5s5Qg9Okfr/nae9QG2njQAWOkX9rbzeaHpkfD4G91Z9GnrMSufVb0U7MI82c
-         PZu9atsr/0TLLhm/Wt8R7fEN1dizt1Wurzg9UjEpNNdNDGjwJhoOh2IkBDHy9M6XYMtB
-         bIXK9Kc4+v3yrYOfzVSBR8CHAuHhvidN9q74ZaTURUMunFkhbuDS9PS1d8UYquKSAbp2
-         BKsFT/QpQXHD/waoLSFoWH1MovJUyR1lXUDjP2D68H9lFjLyeHRQHt3pTCmzT3zIWFBX
-         ++zw==
-X-Forwarded-Encrypted: i=1; AFNElJ+wDR/7KNGlYRsGu3yCLYuBe4xnkfKrZPgPSNuSCd53TbFcWoYPVTGWDydVE83J5xgnX1GGKlEXuxc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzge103Q2DqDP7d+cZEyZtJcLIfccv2CakNCZdhNFXr72l5rjOZ
-	h9g4kbtMQbkj+kYML5332wYvBuHntKTlTwGpSyzUXT97kpJwzJxxy9RP2Ha4YFm2Hg==
-X-Gm-Gg: AfdE7ck450BHmW3sYK6C1eUQOUHUyiYbK195QwxOy5xxBhZTqJVkdlZ4MU0mal06oo2
-	Qrd4l1znbJKP6Y3ZpzZ7sDk8x8UL+isHR/YNp+MnuLqCFFuQeIFRs16p27TRFaZTeSeXSaNTnR5
-	rXQvetchj7Y+xnbb5Vd2uc2s0TypYUxIKutCAExE7fm8vrM8gQm8cY8v/TLUa9lWaI2ow9VJOwi
-	IH8W5Kq938EkxoOLx1/VQo4OLb/TKWmQWcQ71pXJ4jDZQw3Rp+qXBerxTXPU4NNvjKKTitAVVlH
-	QLOTgJ+MrifHu4G0EQQAsVJU4011jRI6R1DDvVrB+t14443OkeJoUJXDX29U8BknBG9uAt+eTC+
-	KQJsBRxc8Nq3PgUum72me000dkSGIa47/+BWntlbJPD0ZrvQItYqHMIkP3U9FkkVKh2sB37S5BO
-	bYlpQ8zNk48+nJVPyIoGBFXB4sLZj05rSR42PsMxJ79q5/QmF4+Z4BMIJk
-X-Received: by 2002:a05:622a:551b:b0:517:8446:3afc with SMTP id d75a77b69052e-51c1074e85cmr2361671cf.14.1782752501737;
-        Mon, 29 Jun 2026 10:01:41 -0700 (PDT)
-Received: from rowland.harvard.edu ([2607:fb60:1011:2006:2008:aeb7:73d7:d8ff])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51c1080d4f4sm881251cf.4.2026.06.29.10.01.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 10:01:41 -0700 (PDT)
-Date: Mon, 29 Jun 2026 13:01:38 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Cc: Michal Pecio <michal.pecio@gmail.com>, linux-usb@vger.kernel.org,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-Message-ID: <e7d49127-0215-4b29-9a2a-e1dc0d889b70@rowland.harvard.edu>
-References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
- <20260628231634.6752f74d.michal.pecio@gmail.com>
- <CAFgddh+AUNH9Ji-Qd=BKEDZWJrzPMWN20-g-htQDPSdSehZStQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="EFguHKN3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
+	s=mimecast20250127; t=1782752846;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b4m9ugKTd4P2FLzaPcwmBvTb4oJlDyBJ/58sBPB1jek=;
+	b=EFguHKN3GQif3CTC6EHEC999PAH0vYQ+dw10Dp8Q7ntVKVkuEjWWOqEa2CGcvve13cBfj6
+	Q5PXpzxTkbJL5D57jwrtsx5b8nE1RqRiitQ4EHGqmdgtmCrMDx5xlCI03IifeH0YwCJY/n
+	Ro06Wl10qZFah6VAx8JRXzFrisZWH0aST0Qto//S38wkL9Tizo46PVLSk8wg/WcBprj4i5
+	ViXIG9G4mb3u6Ge7NIubUffi1yB3CLy6FS+g5K3CIuS0CATbHasAdqP4SGZNbZrGnEEBwO
+	LQ8oXNnENBaulUlfq7iHDmnEBpuOqHeZ94kMINPQRBMYva9W2iFTsH7oBaGSxg==
+Received: from CH4PR04CU002.outbound.protection.outlook.com
+ (mail-northcentralusazon11013005.outbound.protection.outlook.com
+ [40.107.201.5]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ usb-mta-30-T3DZkBkHNxCvUwWnVkNcsA-1; Mon, 29 Jun 2026 10:07:20 -0700
+X-MC-Unique: T3DZkBkHNxCvUwWnVkNcsA-1
+X-Mimecast-MFC-AGG-ID: T3DZkBkHNxCvUwWnVkNcsA_1782752832
+Received: from CYYPR02MB9828.namprd02.prod.outlook.com (2603:10b6:930:b8::20)
+ by MN2PR02MB6623.namprd02.prod.outlook.com (2603:10b6:208:1dd::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.18; Mon, 29 Jun
+ 2026 17:07:10 +0000
+Received: from CYYPR02MB9828.namprd02.prod.outlook.com
+ ([fe80::2767:f7d2:778c:8dca]) by CYYPR02MB9828.namprd02.prod.outlook.com
+ ([fe80::2767:f7d2:778c:8dca%4]) with mapi id 15.21.0159.012; Mon, 29 Jun 2026
+ 17:07:09 +0000
+From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+To: Rob Herring <robh@kernel.org>
+CC: Andrew Lunn <andrew@lunn.ch>, Piergiorgio Beruto <Pier.Beruto@onsemi.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Andrew
+ Lunn <andrew+netdev@lunn.ch>, Parthiban Veerasooran
+	<parthiban.veerasooran@microchip.com>, Richard Cochran
+	<richardcochran@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Jerry Ray
+	<jerry.ray@microchip.com>
+Subject: RE: [PATCH net-next v5 14/15] dt-bindings: net: add onsemi's S2500
+Thread-Topic: [PATCH net-next v5 14/15] dt-bindings: net: add onsemi's S2500
+Thread-Index: AQHc/B9zVG+75VEz+E+ClqG9Xmjc7bY/Aa4AgBbXfAA=
+Date: Mon, 29 Jun 2026 17:07:09 +0000
+Message-ID: <CYYPR02MB9828308552BBC60427E8EF2283E82@CYYPR02MB9828.namprd02.prod.outlook.com>
+References: <20260614-s2500-mac-phy-support-v5-0-89874b72f725@onsemi.com>
+ <20260614-s2500-mac-phy-support-v5-14-89874b72f725@onsemi.com>
+ <20260615041056.GA1426553-robh@kernel.org>
+In-Reply-To: <20260615041056.GA1426553-robh@kernel.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CYYPR02MB9828:EE_|MN2PR02MB6623:EE_
+x-ms-office365-filtering-correlation-id: fa98b7d8-8cb7-4f92-fec8-08ded600db33
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|7416014|376014|366016|1800799024|38070700021|22082099003|18002099003|11063799006|56012099006|4143699003
+x-microsoft-antispam-message-info: Y68FVuxUprv+ldfFpy2CqPt8vssOsXvBzHFuYg/B+ECNuou+Yxj2aK2xx7IPj0geNXEfgX85KYsd/wDAMtFGXU0y1TsZOonKHXpWMg0fda1yz//Uw6Fn7TE11CzzERUVfx9gsleQW2p0bjHkiZLZFt+CsXZDZzKOOOAJLsViUqJ//sTUmNCPclesEaSeW57RJpNXoafdSGVGK1tmisUvvvuL+c8TpMT6UpwcD8Ii3xrmssaMp1hFMX+q74uM6Ays+LYtwUQ70KYsASFpNzAtHSxZn2GL/JabeU6kZUajuNxk6F4n2o5W6HyAMUuutJkksOmaTjDwHXg1JL7l51wF06nRUUiUUPn2NqfF3otLi78dqRNdQ1xyw4esDEZkoRyqjpQRMiXEQzRXR0Pvsk2Yc8njLIXvsJq47NkCOigkBD091o8C4rZasLLsNvhmJujOzLnHacJzOYuTrDlL2C06WXNSfkkswz0wH/hxE20jEExjt1tM805Fce6zLU1+yAqgmKnAwIfwEHpPyWf6kmcSRsq1/pd5HxVC7h71fkFocp4iQwFSfwlUSpDgN3qIT0v1qdMHFsF5XzMlqfFoL4ESNb/FXUUMiMj7hp9oUYVgOEaET8AzJ8MCrMT0jQBk4tx40o+PMlIr89WwvmThc9FKlySUdzHrsaldjICoVvf85afb+PD7Axn322o/PcrreKlkrdviYRo59g0Epxv6jAr4+ayAA99TSq+CfemWw6bywyw=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYYPR02MB9828.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(366016)(1800799024)(38070700021)(22082099003)(18002099003)(11063799006)(56012099006)(4143699003);DIR:OUT;SFP:1101
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?U3ZkQ3N3TGNTVW5EK3Ixb3ZoUkZETWJsNVJXQmNjKzI2L3JzN3pJclg5Y3RH?=
+ =?utf-8?B?dUhOWENrL04wNGpkci9FOC9BdlY2ZlVGMHZWaWxZNndQclBKRUtWN1F0NlFj?=
+ =?utf-8?B?VDRwNzUwM1QxaERIZ0FHTnBzTHNHOVhPa3hlNW9JQ0tqb2Q0S1ArTkdYTGE3?=
+ =?utf-8?B?YmovdTFEaEVjQldBQ3gwZzZTWnVaMkJ3MkFiMkZFZ3lSdmJ1Wlhqb2RvbTQw?=
+ =?utf-8?B?NGUxSzJtUnNoR0xueENoWjRUcktna1VyZFlIUjFCT0pudHBnc3ZLU29meE9v?=
+ =?utf-8?B?cEQ2RGtBVllrUytScVFrR2ZHVEZ0UGhlTit6U1JiNmQzRzdYN2FhaFhVTCta?=
+ =?utf-8?B?SXhmakFQaDY5YUVMTEltNFI4NGV3VTRZeWd0WndkbTNXQWtNbmp6ZEZSRk1a?=
+ =?utf-8?B?WGVkR2Rva1Y3QjltQ0lpRU4ybGtQQy9VQjRtSjZJdXBKTW1TZ2l0NlZ6SGpr?=
+ =?utf-8?B?YlVjdDl2ZjlMTVpveDQvK0FDQzJwMk9WbmFtWWlmN1MwUmxld0E1R0ROMmox?=
+ =?utf-8?B?UHBpTk0xQzZURi8zVEpQR0VWQVpJOTc4RXltNzJPZ1dVQzFUQzVrRWRhRUlP?=
+ =?utf-8?B?QmZtaHZ5SkxCMko2Z1B0anNtdlNkWXZ6NGRNN2FGZkdEbFZoZ2ZTWlBpWWNH?=
+ =?utf-8?B?ZVRDNm5EMGIyREthWXhYUXhMcmQ4OUNnMW16MHZObjJtbnd3UmJmL1NxVVR3?=
+ =?utf-8?B?c3JUR0dLUjlzUnI1bXlIazJmRmV6S0FVT2E3VTdNQk94OVVUNjFNbHlHd0xz?=
+ =?utf-8?B?cGo1WmlBQ2pjbFpNWFNQd0tKL004YjFkbjZpZzFJRHZqSDNBcEJ6L21uZFcv?=
+ =?utf-8?B?M3FHUnI2U0tMblN3ZHRMN21UYzFvR1lwQ2lWS0tlTFFTZitKNmNRR21GVjNk?=
+ =?utf-8?B?VnhUVUhBeE4xOFZJTHNTbDMrRllydm1nOUxwNTRNQVZaRG1SMHduMnRRYXh3?=
+ =?utf-8?B?RmZqdGw1bWNWV0l1SlYyYTlhR0FucGo2NDlNZU4wV3NHT3pLWnlVdFJXRmQx?=
+ =?utf-8?B?KzdXcVVwZTRSUWhmcU9MZUh4NmQrZjhqVVA5ejlvR2hUL1FBZXFGS0lONmN5?=
+ =?utf-8?B?QmRDWjFxUURpMnFjaWh3ZU9RMVgzZ3IyUWRsZlk3RDFiUWJ5Y3NEbnI5a055?=
+ =?utf-8?B?d21SV2FjSkV5MlpNUkY0dGp1QkxZZmhLdXdrck9EdHBJZmpueWFzRUJzRWsx?=
+ =?utf-8?B?K05TWDAwZlRZWFNNZ1VybXBWbU1ET0ZzWllBRldrK0JFOG1KZnZ4Q2xYRW9X?=
+ =?utf-8?B?dmdMZ0hqSURUWU8wM3VaV0cyS0ZjcVQwUTViam9IRjhQanZTT0JLK3BTV0FO?=
+ =?utf-8?B?Q1VVdVIyTW9lRXZmbWF5bGNRRnB5N0tPakhtOWk5d3lja0toQlNIeFBlV1lI?=
+ =?utf-8?B?SFVZaVFuOFhJaVVOd2puN2w4RlhhSnNQcnQ4UC8rQSswdUVONFBtdW9OK1E3?=
+ =?utf-8?B?YytIU2x0azdGQWdVb1J0OXNBVHZsemE3RkNxNmhmUWZyZy9QK2RsaDB0UTlZ?=
+ =?utf-8?B?NVNEdFNpQVJDTHVLSDZramhrZXE1OFNXZ1JQNjQ1OTUxbU51cWVaWlN3c0tH?=
+ =?utf-8?B?cWZjcXJhZXpRdG1ORTNNV2xCamdpR21RK2JOWmR1dG05WEZlQXkvVDhDaG45?=
+ =?utf-8?B?RURoWUZkZWw0QzZjakkrT0lWayt5bEc3TEpUUEh0RGRTQjd2Sk5RbldJa05X?=
+ =?utf-8?B?SXVyWkhiWU9lcGN6RUdJTXp1ckY4SGNyUjRQWDJjV1FwQW5SVmx3alh5M28v?=
+ =?utf-8?B?UUNKbGZ3SjVVVGlZYUpmalBmYWVXdXlObUVaUVFlL3FQQXc4dC81N3JTMmsw?=
+ =?utf-8?B?QmhzNUw3ZHUzNDRBUTBvMjgxTnBhNW1IWWYzdjlsaFNTYkd1NG1BS3o0K2Nj?=
+ =?utf-8?B?TlpSWlJYNFFwVGw3UTFvVFgrSkxSMEV2SUc4c0s5dUxzcGlRV0c4V0hSemFI?=
+ =?utf-8?B?KzhldGhmM0wxbXlhTFVxOUpRNTBvL1psMVBrb0pyZW5OU3UzejB4WXR1Nmox?=
+ =?utf-8?B?dXBwMlpuTThaQkFrWjRjUHdJczNGaDk3SWc0eldpUnNuemt3dURLQzhYQnB0?=
+ =?utf-8?B?aTNFUDdtTzYzKzBxVTZlM2ZkaWQ4ZzJ5M0tEVVZsNzhlNGFGdUJpeFdMTGRF?=
+ =?utf-8?B?Mk0vZDl5YmltQzRjcUxFY2tvT3hQZ0dWbEdaNGpKc08rQ1VYL2xwUlZPcWtM?=
+ =?utf-8?B?NWNnU3pJdXg1Z1FPTXN0eDA2QzR6eUlIQTVKYVlPSXBMWk5TL01ObG90RWJl?=
+ =?utf-8?B?WnU3M0RieEVVNXgwRVd4T3ZFbk12dFZVT2tXa210SWdVSVhqWC9hVTVUWDJn?=
+ =?utf-8?B?VzdsZGpaaFFqQVpXaXBBR05KYXZHNUVoOEs2aERNaVEweXJBcTZhb3RaNTdY?=
+ =?utf-8?Q?LfX0m9AkewxwuFgY=3D?=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFgddh+AUNH9Ji-Qd=BKEDZWJrzPMWN20-g-htQDPSdSehZStQ@mail.gmail.com>
+X-Exchange-RoutingPolicyChecked: od8VgRKhRsd8h29O65oZT24+CPWosfImA7Hxv7gVVTbuopifc0l0S8vQ7qMhucFp69IJbfMo0nsNXDIQihj2LCn9dggDLb3FmRhLXyslw8eurB4XZLWU3ahvwOVU6riE8/E877VJAh1kSFSsGgY+ba+xV5xdZMv/Iyu2BtF7Q6krN9gmPKizW4FY4RUgmMJJUTOVfAntZ8n64Oq0eDC9ar8MW+uSFkDcJ58PT8D7Z5MxHs611fJ7DWSIncwpn3BlKc+ieoKrYBQCgPpPlUK6HvaGoSBhkQJcLNam3dCDD63a+5LL23MZeYPM3pECXS4iDe2GkN62RHeWXTJ5Qkd4ag==
+X-OriginatorOrg: onsemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR02MB9828.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa98b7d8-8cb7-4f92-fec8-08ded600db33
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2026 17:07:09.8861
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: I9XIjRyjPPNBiJP98aTcLEcAMbr+K1HNguqOw63dOZerQgC4PmkyYEnRAcig7ki2kJHd6MlryVCqg0conz4SVOL8tA4MRUHhxDRkwy/H0rE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6623
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Bqn_dfP47Jr3pIEM7y3NrmxjVgtKf-hIlJi8KBHhF4Q_1782752832
+X-Mimecast-Originator: onsemi.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-On Mon, Jun 29, 2026 at 11:00:44AM +0530, Nikhil Solanke wrote:
-> On that note, I discovered that usb_get_descriptor just blindly trusts
-> the caller with the allocation of buf, it never checks if buf is null
-> or not. There is only a check for the size. and then there is a
-> memset(buf, 0, size). This results in a segfault if buf is NULL and
-> size > 0. Perhaps it's time for a new patch to fix this?
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSb2IgSGVycmluZyA8cm9iaEBr
+ZXJuZWwub3JnPg0KPiBTZW50OiBTdW5kYXksIEp1bmUgMTQsIDIwMjYgOToxMSBQTQ0KPiBUbzog
+U2VsdmFtYW5pIFJhamFnb3BhbCA8U2VsdmFtYW5pLlJhamFnb3BhbEBvbnNlbWkuY29tPg0KPiBT
+dWJqZWN0OiBSZTogW1BBVENIIG5ldC1uZXh0IHY1IDE0LzE1XSBkdC1iaW5kaW5nczogbmV0OiBh
+ZGQgb25zZW1pJ3MgUzI1MDANCj4gDQo+IA0KPiANCj4gQW5kIHlvdSBhcmUgbWlzc2luZyB0YWdz
+IGZyb20gcHJpb3IgdmVyc2lvbnMuIEl0IGlzIHlvdXIgcmVzcG9uc2liaWxpdHkNCj4gdG8gYWRk
+IHRoZW0uDQoNCkkgYWRkZWQgdGhlIHByaW9yIHZlcnNpb24ncyBsaW5rIHVuZGVyIGVhY2ggdmVy
+c2lvbi4gU29tZWhvdyAiYjQgcHJlcCAtLXNob3ctcmV2aXNpb24iIGNvbW1hbmQgZG9lc24ndCBw
+aWNrdXAgdGhlIG9sZGVyDQp2ZXJzaW9ucy4gSXQgc2hvd3MgdjQgYW5kIHY1IGNvcnJlY3RseSBh
+cyB0aGUgZW1haWxzIGNvbnRhaW5pbmcgcGF0Y2hlcyB3ZXJlIHNlbnQgaW4gYSB0aHJlYWRlZCBt
+YW5uZXIuDQoNCkJ1dCB3aXRoIHYxLHYyLHYzLCBhcyBlYWNoIHBhdGNoIHdhcyBzZW50IHRocm91
+Z2ggaW5kaXZpZHVhbCBlbWFpbCAod2l0aCBwcm9wZXIgc3ViamVjdCBsaW5lLCBvZiBjb3Vyc2Up
+IHVzaW5nIG91dGxvb2suIA0KSSBkb24ndCBrbm93IGlmIHRoZXJlIGlzIGEgd2F5IHRvIGZpeCB0
+aGlzLiANCg0KPiANCj4gPiBjaGFuZ2VzIGluIHY1DQo+ID4gLSBubyBjaGFuZ2VzDQo+ID4gY2hh
+bmdlcyBpbiB2NDoNCj4gPiAtIGFkZGVkIHNwaS1tYXgtZnJlcXVlbmN5IGFzIHN1Z2dlc3RlZCBi
+eSBBSSByZXZpZXcNCj4gPiAtIGNoYW5nZWQgaW50ZXJydXB0IHRvIElSUV9UWVBFX0VER0VfRkFM
+TElORyBhcyBpdCBpcw0KPiA+IGJlaW5nIHRha2VuIGNhcmUgaW4gbmV0IChzdGFibGUpIGJyYW5j
+aA0KPiA+IGNoYW5nZXMgaW4gdjMNCj4gPiAtIFJlbW92ZWQgVVJMIGxpbmsgdGhhdCBmYWlsZWQg
+dmVyaWZpY2F0aW9uDQo+ID4gY2hhbmdlcyBpbiB2Mg0KPiA+IC0gcmVtb3ZlZCBzcGktbWF4LWZy
+ZXF1ZW5jeSBlbnRyeQ0KPiA+IC0gY2hhbmdlZCB0aGUgY29tcGF0aWJsZSBzdHJpbmcgdG8gczI1
+MDANCj4gPiBjaGFuZ2VzIGluIHYxDQo+ID4gLSBBZGRlZCB0aGUgZmlyc3QgdmVyc2lvbiBvZiBZ
+QU1MIGZpbGUgZm9yIG9uc2VtaSBNQUMtUEhZDQo+ID4NCg0K
 
-There's nothing wrong with trusting the caller to do the right thing.  
-Besides, if a segfault does occur then it will be pretty obvious that 
-the caller needs to be fixed.
-
-What would you do if buf is NULL?  Return an error code?  That won't 
-help anyone locate the bug.  Put an error message in the log?  Segfaults 
-are much more visible.
-
-Not to mention that nobody has complained about this code failing, so it 
-seems unlikely that buf ever is NULL.
-
-Alan Stern
