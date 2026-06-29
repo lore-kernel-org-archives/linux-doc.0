@@ -1,310 +1,174 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010030.outbound.protection.outlook.com [52.101.193.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2865F38655B
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 18:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05E0383334;
+	Mon, 29 Jun 2026 18:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.30
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782757328; cv=pass; b=cnXDDAeOesMSDcn42pu1EzLIdUVHQii1w6Xs3pBbj5CkNyUyVnxcA89H6+twR9DYN6VfgB2RZx4lBTd0gcFU+DYz+i1RkQk1gnLVqNjW2/7rb5eaktRbTc0YgojYmhHAKC3Nde+PYjg8f/qZEX03cEb//DKcah6MsyfitYWoZIQ=
+	t=1782757330; cv=fail; b=qnKeKIVjqLbfBDmDJt7fqQI51mpYnH8HpS1zUEQUC2zUUTf8C+hEC0GkdAVUFxC2nNndwn+6Xxlau/AZr7sfwVRJiERvonP/IJ+qER8QhLSmyI2KQTOsVzUF89DuFuHF+nmWWrsGMGzKtkPAt0PIGi89NSTBySdwR7O/DnGMH+A=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782757328; c=relaxed/simple;
-	bh=rTCC+Q2QI/RNZdcYErq5nB4Tg1Xxg7Ybj1fhnVetaOY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iRLtq7dFHYBY19chKZ0YbFbB0XSH06yvmYWEzTtRhWQAmM7q0uf5g3T9s3v8P/z+NTFDP6KKXLPGR8LYzm+tZoyYazZPyLO40+7T120lqC7c7aX5BEy/qWhvk/sMmoLNkS6CGleSku5TMzuZ2aUEMZ5rmA1EGnZGuXsj9A2a9fQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lZVlrTnH; arc=pass smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782757330; c=relaxed/simple;
+	bh=fVyXj5zdqHH5oGlQp7bMStK+bAbqiyE3Siz5x7yEac0=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uHEcoQHbNhhQvQhXhusQJk7iWyiBfifsLMYCaGuAP5RlYDJdu27oF0UnfkBJ16jMkVNCuvKwQHX6q7mmHGucHoB34CmzO70MCrDXR1yZ/uIlOfwwmOp3bDKr3swKVBJOpT/MuJsw5i239wzArES742QXAuHiRQhFfR15xI60sfk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kRdxBfXv; arc=fail smtp.client-ip=52.101.193.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lZVlrTnH"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47231f1f8f3so2815623f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 11:22:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782757321; cv=none;
-        d=google.com; s=arc-20260327;
-        b=nOC3XHqfGuTYvroLhQ29JmF4TXCqko1egRf87zqG8McaWR0GbiX2zP1K+XO83r4Heg
-         RFnnvXI3c8A7Kc38HI1E1KlqgumY9q3tWHA7CZ2bK420LjtYDzWXgGG8/qF9I7f3+g0W
-         LGu0TPheORd4rEoB+cBZ256/Y7pJVi0on28SLbgptFjLIGmuF3SqRDCieRUqHdskQIW1
-         pUfnL3UrxpxxVSTVKXidTc1BP+DTEXJZLtwB3Fi6nDWBCEJ7wTtlNyg83I8kU7/aQcLQ
-         FGZ2IQhkx9EKx6cFm3rV3Fges4md7kbbqhdnJrn/V0DS2gDWo3dBKqb54tj5LJDotE1Q
-         j9Dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=5NfKOjNU6srylE75C2adpej95bKtXYvziT0LYJSnVds=;
-        fh=J1YXTG+6nSb549YyPaUD10n68hYU6y9I217txeJzeuA=;
-        b=paKcKib3s5IxO0vrkp2AdA/Y/Zd8WTFePhL6NL3a0Jb61sjEtE6/lxFzdBmG+W6u9x
-         wrd0LSW4Pe/OuFUWUyRBgW49Ecgqq0i9it0Vw21Ejpp9InSR9Zd455gwPoKtCTCU50o6
-         zoZCFRbulvIdwGtEB/H5+8xhBH0kdQ7vt3u8yEy7IuQO0GARmlz8Bv8+BzJRotOnFtfE
-         VDiBQG8x8x2kn3B3QNYWqNVxU8RM4wjg7ZLVpCH6Q7AD1WTA2W+ywDgSL2R8nsg6kEvn
-         et99dGS4GIlq4NrMN0jIsjzXa5OQTftgMjKFE61wmgyLe+6KFmkpMzlQQl5S2ac3Z1me
-         60uA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782757321; x=1783362121; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5NfKOjNU6srylE75C2adpej95bKtXYvziT0LYJSnVds=;
-        b=lZVlrTnHAIE6MHhnr76cv5+Q9ab3WEF37l1jXtbCTR0zXFkwPQGjAcZs9ooF4TN2HA
-         0zv3vLRXJ/Z4ZopSsJuTeilRNAlXpdGx3QyUDpnwM2wLstJ3OzCQas6HEMKgpo0BeKYJ
-         qj7xeSFA26oJJb7ArIsLKQ8MBfTpLrvdPRsvqW2zDgjdJLFbP4TP+j14v/s7S+CqLrcc
-         8O0IDAPaVGDl2vZiXU9ZFXkSR/oXnO0+fTzcGsoxpCfMkTGKGgQauqdKcH0ChPVIRWEr
-         tD9o1Y7MPxLmN+a05ofn6At1meODNOzZbpa3hAkbYofXv4rW3ruTPeITd8d1GbJVn0wM
-         sevQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782757321; x=1783362121;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5NfKOjNU6srylE75C2adpej95bKtXYvziT0LYJSnVds=;
-        b=jhJ8tm8zbV+AeDES67lBfM/rAICAp5tci7czRJ9qGVtDEacf960KwIVQfyW1UtSfSj
-         j/Sl9jZGjQi0OKsApqvFRwfEvcnU15Q1v+6QrXs2L2k1YiDt9kkmwJ8UQesgd4W40bZh
-         kSWBRUYJ9iendTw1zNTlNW4N2YxpyloYtj68AKU7QeLekyaKOuduFNLUdL0OjJ5umPfC
-         0mkOvGSr6cViWNtjxG9HkXeiG9MOuK4NWe8e9g1OdHhDt2bVETa/D88EPWkP3bW5AW+6
-         fi30CprX6ffUXXHaemKdOvkaud56nz6u2yOiU+BiwnN4GB+aiEN+g3QCBjes/tLIFkLO
-         89Lg==
-X-Forwarded-Encrypted: i=1; AHgh+RqAka1A9kXc+o5zwGH7jgpL1wPYWfXDoiiGDOmUhlrGDV17drObotDdw69NwyYvdlnDSj9TYw5KWj8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz39rkJmsp7nsjL+2t8GNKxEvIvIrvk9VBcYXsM2VVcUh1rQ28R
-	hwQLTQ3aMT5K2ns2iVoHV2FqKvkI6gzQOuQLswDvDZ9D7TOuUzdBgyfp5aEH3041tSyml+nN+9C
-	q3M7UE1Y8h5THGJ6LZy4gkkv8/8AlHLA=
-X-Gm-Gg: AfdE7cm3KwClRKZNPNYLA9cfKwjUBcPIdUo3XIpe/0DIr6eBa84V0wXFo59P6TbvDLc
-	xgh6tZV5eooK0i78kiIhQJFb0/D8Lrh2volXqBOyEO0MuFCTP72jjogYhtWi1QyqmiHQxlexvvD
-	OEnCQo1pq+Hv29YoQHl/omyQEGU4IqoxaYInWYtt8T4Rh/rLAYD7iVddxeSx0Gc1tih2KdCvloi
-	87sF/hHEUfDgP1pU84lCazmasDTBuzohY8dXaEy98isaLH0xG6P/fxZwGYRlFvwAD8Uj4Lxyebo
-	QwT4vtHrETskxP+5/L89dnNlFVkP1g==
-X-Received: by 2002:a05:6000:460d:b0:473:6e8d:7f3 with SMTP id
- ffacd0b85a97d-475506e96a8mr558778f8f.1.1782757321163; Mon, 29 Jun 2026
- 11:22:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kRdxBfXv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UfsKMA0dGiOFbL2EPqVSqtMS/sOfWNz2pJte31j6MWCWHA58OeHSo4Fmyi4g9gYeX7SJd8NFhKNTkI/5OWbvW1qv7sq4YgJDHB8OWKT9tRyiPs0KHf0WF6oS2YlH4H/8lNfT7WRT45Qtii4pKxMP3it8maD8N2SneM0J6KDmB3cv8OSCqcw8x+j9UqrFA/T2dUjoIC0vP4s9nKl8FP5Uw0pe0C0RO7SRm0fGsBZzxc6zXaPhq8Noautvnq8IzWugy1IF9LUJGzla5Bxb7zRNT9Ww6QmSRg5R04wGmH/5MJgj2GACcVM47TrAo+dXQsEu4Q1BkPtlmia0mteK2+6inw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x0ssyvs/U1sTkp+FNP0wLHykEqzDAbYDYyk47uS+6O0=;
+ b=QHX4scWjjwmJVZki+WEzDlkBPrHppV6QTk1zFMc5Z3SVmc7j9LtSeMAwnQRFHciV+xWbJYrfCpbAHbO0wzl/gt0OSI98nrB5gMB4NpVLAUB1Hw3wckB0vdHYPvSQLlIZ35zZlR7YrOCbnAXka2VKh1da/JlCv62/Xe0Ptz3aQeBPUxC2OKYluHFOxX1Ok0eipkOGW+DtCTahjCQMh6DP4STsmcxiCzuC01mSjNS5WFsr3NEa1tOHNcHCiRnbtmIS5FaI7eaUdvWBTsZ0LOSMItzJcgwQSZ9saejeu1pKkUjULQdyM2T6R+WsfBHEWFewobrtdQt5o2JObZ4AUI6e7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=resnulli.us smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x0ssyvs/U1sTkp+FNP0wLHykEqzDAbYDYyk47uS+6O0=;
+ b=kRdxBfXvEo44zefKwek1tDdynR53xjHOivZ7RmMrd9rg3hohgz5Ev4bCkNE8G1jl+s8MebM3djuvDWu5yVVyRhvYmcHl21PqN6jZFMqOm+5PizXnn7LkLUqqF09ARzE2mPzPnQD8/qC9OnT9Dq+NIG4VTd+moJdpBv6x35j8WuRJNZ+T97Oj61OOfWVVX/rnJPitjA/aU1hDi7UfC05f+NW9twXwK3Bj6YDapxG89uBft4gcQuSncXOkwXbcSWfX/YtWfnjNsmFSB0KwDu/WiTUKJsukmyPRz7J47FjVXycIMq0V3VcR4MJqpG+NFrm0BT1QUDTNhoRd228ORtmZSg==
+Received: from BY3PR03CA0009.namprd03.prod.outlook.com (2603:10b6:a03:39a::14)
+ by PH7PR12MB6833.namprd12.prod.outlook.com (2603:10b6:510:1af::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 29 Jun
+ 2026 18:21:57 +0000
+Received: from SJ5PEPF00000204.namprd05.prod.outlook.com
+ (2603:10b6:a03:39a:cafe::aa) by BY3PR03CA0009.outlook.office365.com
+ (2603:10b6:a03:39a::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.19 via Frontend Transport; Mon,
+ 29 Jun 2026 18:21:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SJ5PEPF00000204.mail.protection.outlook.com (10.167.244.37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Mon, 29 Jun 2026 18:21:57 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 29 Jun
+ 2026 11:21:29 -0700
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 29 Jun
+ 2026 11:21:29 -0700
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.7)
+ with Microsoft SMTP Server id 15.2.2562.20 via Frontend Transport; Mon, 29
+ Jun 2026 11:21:25 -0700
+From: Mark Bloch <mbloch@nvidia.com>
+To: Jiri Pirko <jiri@resnulli.us>, Eric Dumazet <edumazet@google.com>, "Jakub
+ Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>
+CC: Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+	Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	<netdev@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, Mark Bloch <mbloch@nvidia.com>
+Subject: [PATCH net-next V4 5/6] devlink: Add API to apply eswitch mode boot default
+Date: Mon, 29 Jun 2026 21:21:00 +0300
+Message-ID: <20260629182102.245150-6-mbloch@nvidia.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260629182102.245150-1-mbloch@nvidia.com>
+References: <20260629182102.245150-1-mbloch@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260611-rva23u64-hwprobe-v2-v4-0-3f01a2449488@gmail.com> <20260611-rva23u64-hwprobe-v2-v4-6-3f01a2449488@gmail.com>
-In-Reply-To: <20260611-rva23u64-hwprobe-v2-v4-6-3f01a2449488@gmail.com>
-From: Jesse T <mr.bossman075@gmail.com>
-Date: Mon, 29 Jun 2026 14:21:24 -0400
-X-Gm-Features: AVVi8CeVJe5kDV9ivsXrbK-CzxJfU-Om1AQNkB7-XLVhzZDb1etpOuW05CkKE0c
-Message-ID: <CAJFTR8RK2sR88ePKREmZw-9FRkWEpV_FH6s7M9TegaObqU1cwA@mail.gmail.com>
-Subject: Re: [PATCH v4 06/16] riscv: Add Ziccamoa, Ziccif, Ziccrse, and Za64rs
- to cpufeature and hwprobe
-To: Guodong Xu <docular.xu@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Zong Li <zong.li@sifive.com>, Deepak Gupta <debug@rivosinc.com>, 
-	Anup Patel <anup@brainfault.org>, Atish Patra <atish.patra@linux.dev>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Yixun Lan <dlan@kernel.org>, Chen Wang <unicorn_wang@outlook.com>, 
-	Inochi Amaoto <inochiama@gmail.com>, linux-doc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Conor Dooley <conor@kernel.org>, devicetree@vger.kernel.org, 
-	spacemit@lists.linux.dev, sophgo@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, Palmer Dabbelt <palmer@sifive.com>, 
-	Andrew Jones <andrew.jones@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF00000204:EE_|PH7PR12MB6833:EE_
+X-MS-Office365-Filtering-Correlation-Id: e0a78e6a-7759-4e0a-c44c-08ded60b4df1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|36860700016|376014|7416014|82310400026|1800799024|22082099003|18002099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	cIW3u/SIjmdfo6PoN3iTzPyXbO0XUBrWYsLI7xf0zeCXpYQ/FboyEkewmdyExQAiNartDkA204O1Ak2pFCMlT1VJnV5PEWdsZ6UBNasRge+B8hOuZjsGM7bZEXUvBAb+ln1d7bBSl9AEeEM6G6C2m/QARLZ2xXIU5+3rPOqfjHL/MD/UMAly5pB2BzyZpq1iGR8bqfbw9B+IGC37kjG4ZAx7+1c2neU5Jt+mTXl4NSlgXSze/DX1ra3z1qUBHRSkU4Yir0SJ/zquEAjzbCPjRPBwCAleTE0FkZcOISGUMA4FOKNyHrvf+dGb9vG+07JWu/tQvhWuuNkgM+R/sh8BZ+VVy++woe3sESm82jqLP36vn7PHCV6WZdFe20pG+KmePjrLHNwlLIg6if49K9Nf7e6WWhGC61NqsWoQPltutkfzWkGQcUq6baYq6M0xhnV4tVRslRj+prYJB6pPBayKSn8sbMmpCuLm1W1iQZ2mJtKgqK/cdptnmXnLiV33wU0cQVnWnBzt0r0xXeSJEoJxdISjwYQ7nAqdnVta9dJUfhM8zhQWAbvye33t4ui6DOD5rkkiZKtl3bZwWz9ETq/pTCwodsBrUtuJZrm7ocB5OH8lfv3ur9vZ2KbzJj7UBhalW82NNSMlMA66zosCaTaOkO9yyLRfJo5PPS18BXsgQH9kv6EU5MrqA4I1gbXb8L8fsQ5QVkdwp7gNScVlB8cqLQ==
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(376014)(7416014)(82310400026)(1800799024)(22082099003)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	6M6KZieGpAiMUEAS7p+O4OGJ5MzYa89Fc9l284mgAtfZeIP4Sbk6BT7Ctf2sKyaJL8NVXVNvTvUrwVIuT1ZfbDgIhwTbQGK8DKCrsSDvGycPZRm0WFMGbDRyO3LEyeEXbd7NBOIXNzMxBnmMlnLxEKFOxWjs5d6u+LvgzBtekmSfUb62di6x7Vu4wLN73pDoFnGPi+M/4EGjqfz2hMSbApozcQAIGMWwwmf6rSoea8/T9noLF476k2/xOVk8xAnXqD+jMkptDtLeXL57f3fqfIF+eVs+/QTtPQ86/Hq/LE1AcWxlEhiBUResV6mjdK8gypiNgsv0bOY3D/BQeOvbKfo+HPOWZs0oyZVU6wP8CLiFlp0qPptiIg7fF3IuLZ3dU5l7Inraw+TJ58/7yBppJ+Ur9rDmunJYX4w1JYTYS9GSlQxia5c4EqeqsjDD/MVL
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 18:21:57.3533
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0a78e6a-7759-4e0a-c44c-08ded60b4df1
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ5PEPF00000204.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6833
 
-On Thu, Jun 11, 2026 at 4:14=E2=80=AFPM Guodong Xu <docular.xu@gmail.com> w=
-rote:
->
-> From: Andrew Jones <andrew.jones@oss.qualcomm.com>
->
-> Add Ziccamoa, Ziccif, and Za64rs to riscv_isa_ext[] so they can be
-> parsed from devicetree/ACPI ISA strings. Ziccrse is already present
-> in cpufeature; this patch only adds its hwprobe exposure.
->
-> Expose all four extensions via hwprobe through new bits in
-> RISCV_HWPROBE_KEY_IMA_EXT_1 (RISCV_HWPROBE_EXT_ZICCAMOA, _ZICCIF,
-> _ZICCRSE, _ZA64RS), so userspace can probe each of these
-> RVA23U64-mandatory extensions individually.
->
-> Rationale for the validation dependencies added for Ziccamoa and Za64rs:
->
-> 1) Ziccamoa depends on Zaamo.  The RVA23 profile prose was updated
-> post-ratification to spell out the Zaamo reference: commit
-> 2b218613752d in riscv/riscv-profiles ("Improve description of
-> Ziccamoa (#224)") reworded the rva23-profile.adoc (and other profiles
-> that include Ziccamoa) text from "must support all atomics in A" to
-> "must support all atomics in the Zaamo extension" [1].
->
-> 2) Za64rs depends on Zalrsc. The unprivileged ISA manual src/zars.adoc,
-> integrated in commit ebe06adc22cd ("Integrate profiles as Volume III
-> (#2771)"), defines Za64rs as: "The Za64rs extension requires that the
-> reservation sets used by the instructions in the Zalrsc extension be
-> contiguous, naturally aligned, and at most 64 bytes in size" [2].
->
-> Link: https://github.com/riscv/riscv-profiles/commit/2b218613752d63287286=
-b5ae801b820cbd8cc10c [1]
-> Link: https://github.com/riscv/riscv-isa-manual/blob/main/src/unpriv/zars=
-.adoc [2]
-> Signed-off-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
-> Signed-off-by: Guodong Xu <docular.xu@gmail.com>
+Add devl_apply_default_esw_mode() for drivers that can apply the
+devlink_eswitch_mode= boot default once their device is ready instead of
+waiting for the asynchronous registration work.
 
-Reviewed-by: Jesse Taube <jtaubepe@redhat.com>
+Signed-off-by: Mark Bloch <mbloch@nvidia.com>
+---
+ include/net/devlink.h |  1 +
+ net/devlink/core.c    | 22 ++++++++++++++++++++++
+ 2 files changed, 23 insertions(+)
 
-> ---
-> v4: No change.
-> v3: Indent the added hwprobe.rst entries to match the normalized style; n=
-o other change.
-> v2:
-> - Rebased to v7.1-rc2.
-> - Reworded subject and expanded commit message.
-> - Validation added for Ziccamoa depending on Zaamo and Za64rs depending
->   on Zalrsc.
-> ---
->  Documentation/arch/riscv/hwprobe.rst  | 16 ++++++++++++++++
->  arch/riscv/include/asm/hwcap.h        |  3 +++
->  arch/riscv/include/uapi/asm/hwprobe.h |  4 ++++
->  arch/riscv/kernel/cpufeature.c        | 21 +++++++++++++++++++++
->  arch/riscv/kernel/sys_hwprobe.c       |  4 ++++
->  5 files changed, 48 insertions(+)
->
-> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/ri=
-scv/hwprobe.rst
-> index 49d9fb68632d0..893e1a1215d23 100644
-> --- a/Documentation/arch/riscv/hwprobe.rst
-> +++ b/Documentation/arch/riscv/hwprobe.rst
-> @@ -405,3 +405,19 @@ The following keys are defined:
->    * :c:macro:`RISCV_HWPROBE_EXT_ZICCLSM`: The Zicclsm extension is suppo=
-rted,
->      as defined in the RISC-V Profiles specification starting from commit
->      b1d80660 ("Updated to ratified state.")
-> +
-> +  * :c:macro:`RISCV_HWPROBE_EXT_ZICCAMOA`: The Ziccamoa extension is sup=
-ported,
-> +    as defined in the RISC-V Profiles specification starting from commit
-> +    b1d80660 ("Updated to ratified state.")
-> +
-> +  * :c:macro:`RISCV_HWPROBE_EXT_ZICCIF`: The Ziccif extension is support=
-ed,
-> +    as defined in the RISC-V Profiles specification starting from commit
-> +    b1d80660 ("Updated to ratified state.")
-> +
-> +  * :c:macro:`RISCV_HWPROBE_EXT_ZICCRSE`: The Ziccrse extension is suppo=
-rted,
-> +    as defined in the RISC-V Profiles specification starting from commit
-> +    b1d80660 ("Updated to ratified state.")
-> +
-> +  * :c:macro:`RISCV_HWPROBE_EXT_ZA64RS`: The Za64rs extension is support=
-ed,
-> +    as defined in the RISC-V Profiles specification starting from commit
-> +    b1d80660 ("Updated to ratified state.")
-> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwca=
-p.h
-> index e8f4a7dd96a93..0acb7a01ecc0f 100644
-> --- a/arch/riscv/include/asm/hwcap.h
-> +++ b/arch/riscv/include/asm/hwcap.h
-> @@ -113,6 +113,9 @@
->  #define RISCV_ISA_EXT_ZICFILP          104
->  #define RISCV_ISA_EXT_ZICFISS          105
->  #define RISCV_ISA_EXT_ZICCLSM          106
-> +#define RISCV_ISA_EXT_ZICCAMOA         107
-> +#define RISCV_ISA_EXT_ZICCIF           108
-> +#define RISCV_ISA_EXT_ZA64RS           109
->
->  #define RISCV_ISA_EXT_XLINUXENVCFG     127
->
-> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/u=
-api/asm/hwprobe.h
-> index 6819df159c51e..58d1e86e47ae7 100644
-> --- a/arch/riscv/include/uapi/asm/hwprobe.h
-> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
-> @@ -117,6 +117,10 @@ struct riscv_hwprobe {
->  #define RISCV_HWPROBE_KEY_IMA_EXT_1            16
->  #define                RISCV_HWPROBE_EXT_ZICFISS       (1ULL << 0)
->  #define                RISCV_HWPROBE_EXT_ZICCLSM       (1ULL << 1)
-> +#define                RISCV_HWPROBE_EXT_ZICCAMOA      (1ULL << 2)
-> +#define                RISCV_HWPROBE_EXT_ZICCIF        (1ULL << 3)
-> +#define                RISCV_HWPROBE_EXT_ZICCRSE       (1ULL << 4)
-> +#define                RISCV_HWPROBE_EXT_ZA64RS        (1ULL << 5)
->
->  /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
->
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
-e.c
-> index 1fb595581adcf..b9538e69fa1b3 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -90,6 +90,24 @@ static int riscv_ext_f_depends(const struct riscv_isa_=
-ext_data *data,
->         return -EPROBE_DEFER;
->  }
->
-> +static int riscv_ext_zaamo_depends(const struct riscv_isa_ext_data *data=
-,
-> +                                  const unsigned long *isa_bitmap)
-> +{
-> +       if (__riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_ZAA=
-MO))
-> +               return 0;
-> +
-> +       return -EPROBE_DEFER;
-> +}
-> +
-> +static int riscv_ext_zalrsc_depends(const struct riscv_isa_ext_data *dat=
-a,
-> +                                   const unsigned long *isa_bitmap)
-> +{
-> +       if (__riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_ZAL=
-RSC))
-> +               return 0;
-> +
-> +       return -EPROBE_DEFER;
-> +}
-> +
->  static int riscv_ext_zicbom_validate(const struct riscv_isa_ext_data *da=
-ta,
->                                      const unsigned long *isa_bitmap)
->  {
-> @@ -502,6 +520,8 @@ const struct riscv_isa_ext_data riscv_isa_ext[] =3D {
->         __RISCV_ISA_EXT_SUPERSET_VALIDATE(zicbom, RISCV_ISA_EXT_ZICBOM, r=
-iscv_xlinuxenvcfg_exts, riscv_ext_zicbom_validate),
->         __RISCV_ISA_EXT_DATA_VALIDATE(zicbop, RISCV_ISA_EXT_ZICBOP, riscv=
-_ext_zicbop_validate),
->         __RISCV_ISA_EXT_SUPERSET_VALIDATE(zicboz, RISCV_ISA_EXT_ZICBOZ, r=
-iscv_xlinuxenvcfg_exts, riscv_ext_zicboz_validate),
-> +       __RISCV_ISA_EXT_DATA_VALIDATE(ziccamoa, RISCV_ISA_EXT_ZICCAMOA, r=
-iscv_ext_zaamo_depends),
-> +       __RISCV_ISA_EXT_DATA(ziccif, RISCV_ISA_EXT_ZICCIF),
->         __RISCV_ISA_EXT_DATA(zicclsm, RISCV_ISA_EXT_ZICCLSM),
->         __RISCV_ISA_EXT_DATA(ziccrse, RISCV_ISA_EXT_ZICCRSE),
->         __RISCV_ISA_EXT_SUPERSET_VALIDATE(zicfilp, RISCV_ISA_EXT_ZICFILP,=
- riscv_xlinuxenvcfg_exts,
-> @@ -516,6 +536,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] =3D {
->         __RISCV_ISA_EXT_DATA(zihintpause, RISCV_ISA_EXT_ZIHINTPAUSE),
->         __RISCV_ISA_EXT_DATA(zihpm, RISCV_ISA_EXT_ZIHPM),
->         __RISCV_ISA_EXT_DATA(zimop, RISCV_ISA_EXT_ZIMOP),
-> +       __RISCV_ISA_EXT_DATA_VALIDATE(za64rs, RISCV_ISA_EXT_ZA64RS, riscv=
-_ext_zalrsc_depends),
->         __RISCV_ISA_EXT_DATA(zaamo, RISCV_ISA_EXT_ZAAMO),
->         __RISCV_ISA_EXT_DATA(zabha, RISCV_ISA_EXT_ZABHA),
->         __RISCV_ISA_EXT_DATA(zacas, RISCV_ISA_EXT_ZACAS),
-> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwpr=
-obe.c
-> index 9cf62266f1890..b15ac9adf7920 100644
-> --- a/arch/riscv/kernel/sys_hwprobe.c
-> +++ b/arch/riscv/kernel/sys_hwprobe.c
-> @@ -206,6 +206,10 @@ static void hwprobe_isa_ext1(struct riscv_hwprobe *p=
-air,
->                  */
->                 EXT_KEY(isainfo->isa, ZICFISS, pair->value, missing);
->                 EXT_KEY(isainfo->isa, ZICCLSM, pair->value, missing);
-> +               EXT_KEY(isainfo->isa, ZICCAMOA, pair->value, missing);
-> +               EXT_KEY(isainfo->isa, ZICCIF, pair->value, missing);
-> +               EXT_KEY(isainfo->isa, ZICCRSE, pair->value, missing);
-> +               EXT_KEY(isainfo->isa, ZA64RS, pair->value, missing);
->         }
->
->         /* Now turn off reporting features if any CPU is missing it. */
->
-> --
-> 2.43.0
->
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+diff --git a/include/net/devlink.h b/include/net/devlink.h
+index dd546dbd57cf..b71d282c6d52 100644
+--- a/include/net/devlink.h
++++ b/include/net/devlink.h
+@@ -1652,6 +1652,7 @@ static inline struct devlink *devlink_alloc(const struct devlink_ops *ops,
+ 
+ int devl_register(struct devlink *devlink);
+ void devl_unregister(struct devlink *devlink);
++void devl_apply_default_esw_mode(struct devlink *devlink);
+ void devlink_register(struct devlink *devlink);
+ void devlink_unregister(struct devlink *devlink);
+ void devlink_free(struct devlink *devlink);
+diff --git a/net/devlink/core.c b/net/devlink/core.c
+index 998e4ffd5dce..d8f273e1732c 100644
+--- a/net/devlink/core.c
++++ b/net/devlink/core.c
+@@ -299,6 +299,28 @@ void devlink_default_esw_mode_apply_disable(struct devlink *devlink)
+ 	devlink->default_esw_mode_apply_pending = false;
+ }
+ 
++/**
++ * devl_apply_default_esw_mode - Apply devlink eswitch mode boot default
++ * @devlink: devlink
++ *
++ * Apply a matching devlink_eswitch_mode= boot default immediately. Drivers may
++ * use this helper when the device is ready for an eswitch mode change and the
++ * caller already holds the devlink instance lock.
++ *
++ * Any pending asynchronous default apply is cleared before applying the
++ * default, so work queued by devl_register() will not apply it again.
++ *
++ * Context: Caller must hold the devlink instance lock.
++ */
++void devl_apply_default_esw_mode(struct devlink *devlink)
++{
++	devl_assert_locked(devlink);
++
++	devlink->default_esw_mode_apply_pending = false;
++	devlink_default_esw_mode_apply(devlink);
++}
++EXPORT_SYMBOL_GPL(devl_apply_default_esw_mode);
++
+ static void devlink_default_esw_mode_apply_cancel(struct devlink *devlink)
+ {
+ 	if (cancel_delayed_work_sync(&devlink->default_esw_mode_apply_dw))
+-- 
+2.43.0
+
