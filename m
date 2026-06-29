@@ -1,61 +1,64 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180FC379966;
-	Mon, 29 Jun 2026 14:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA8C35675B;
+	Mon, 29 Jun 2026 14:13:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782742276; cv=none; b=Ny+a7rqqdXcbdy6n0X/gf8+n9ZaK3G3CNakY5u7mhbmB60fta/f+YaXkdILDi9eZqyzwatpHMYkpphtLxc9fmh3aB1rX6qmQ1ji4yvmRN4YErik3sb4UThedETE8IodOXFRZGaTbAjDTk7SaWrJZyw80UKD3y8k8JGGvsttHozE=
+	t=1782742384; cv=none; b=YTla0rxTtkabfmNiSXyuhWx9wr0jiHhuhsuDwakCwvriK4ljNbU5gs6EKbHdp2d8g08nb2XzeGE0VYHoCQOmpn7NJ4d41QoARwDJcngebIdz/EK/KzqhmOn8OX/4NpISEBNwoZTSSw9yoFzPPXXJpPnkEx4Ezll7lVVp59RA65g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782742276; c=relaxed/simple;
-	bh=w3Rk58VFHsHRk8+/VRDIy/78iRnDfVByA+Q+K0PFJ2Y=;
+	s=arc-20240116; t=1782742384; c=relaxed/simple;
+	bh=tKHtzoYf+ONSIaUJBs5LTkbQeLS8Vw/N8hPM7z+LNrU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n5qG+Y4r40CCl6UqvVRHGt1mNm7qUEty6uMzQGPQyb2HhI7FdelXAeH0FpZ1av21R9BKKL0BZgPYyUvSMkWqB+CIAePYd6qL4+ZP1TIsxhRltA2P+r+5z/Aq5eNbXrm6jIuEb4A+GomYNDaaikh4KrvMIEpdS09FiR6m5IuAkoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=ba9IDNG5; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=W5PNoJAbVcVi13Yo0VPntbVs1MQl/OG47u8UBT+E5d+8CKL+lWJR1VJEg/AtGoSowdOHsIn0lEZYSaAGycO+grHLm99yN2NghcTTlYaJ6i/qc8rZMQhJJAq7jgDAeQbpCbcmjKdnLWyPCt1oeVg6WcWiSnrXd6J+vzyrG4h5Vk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IUJ1kk8t; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ba9IDNG5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=ljs7RGaTifxfFw5bn73caHjn9tTVbQSLKh5eLK8il9o=; b=ba9IDNG5qaNFbWiu8XAchmSY7m
-	H6B6cvKMhQWm/IMhepYGlwO/sminRwaTuwNC8KnxE/eQq9T2JAkYRli3bDTmSTZlGpakGnAx2jn8K
-	rpI80xwM6ZaTeTrrSNeZf5BpQdHsMauMtaeRbYFLZK+927daMOnNxGnPZlJide3yZp3g=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1weChI-009las-3j; Mon, 29 Jun 2026 16:10:52 +0200
-Date: Mon, 29 Jun 2026 16:10:52 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
-Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Wen-Zhi Huang <wen-zhi.huang@mediatek.com>,
-	Shi-Wei Yeh <shi-wei.yeh@mediatek.com>,
-	Minano Tseng <Minano.tseng@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [External Mail] Re: [PATCH v3 2/7] net: wwan: t9xx: Add control
- plane transaction layer
-Message-ID: <92b1e341-31a1-4f60-80d5-ccf8f742a38a@lunn.ch>
-References: <20260624-t9xx_driver_v1-v3-0-73ff03f60c48@compal.com>
- <20260624-t9xx_driver_v1-v3-2-73ff03f60c48@compal.com>
- <2a90ae6b-2b6d-4340-b557-915252cc3488@lunn.ch>
- <49939d4d682f4c1fb359973ea2cdbd00@compal.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IUJ1kk8t"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782742382; x=1814278382;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tKHtzoYf+ONSIaUJBs5LTkbQeLS8Vw/N8hPM7z+LNrU=;
+  b=IUJ1kk8tWIE1O5CP70MOak48GS0VVaiBx2skXhCBHk4YJKFH9+KOuQga
+   AhIBGkaVISht7nf0ciKWGR68Oznv6sSfDzKSB7nob/pXeb4PLqnZlbFKx
+   lyATNBUbRJw0jk66q6NUUMnPakVDJZyEyRB1bFG9DMKqa5z54n1+ooaPk
+   Jx5If7xvY3IJtK7cMb6vauwX0Mn+9JCCwZN6PvRxNRmz5PqEK9PiK/sFw
+   B5U2342r3rBJOKlPOOlVsytAFB5eQDQaLXWOALxt2xqk4nzEqUYRkVFN7
+   encvr3e50CVjlNFxNxIwb0sAdmyd5yCNI3JMW7IPU2WXhmyYFb337fmwi
+   w==;
+X-CSE-ConnectionGUID: lkSszQRBQDChiMe6uaQUAw==
+X-CSE-MsgGUID: MAjGVTpcRFKWQnMbx+seuw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11831"; a="83438253"
+X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
+   d="scan'208";a="83438253"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 07:13:01 -0700
+X-CSE-ConnectionGUID: 0fjlTSkHS1Wmu1mSwb6SIg==
+X-CSE-MsgGUID: t2VRGnY9THqgHT5uGXYA0A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
+   d="scan'208";a="252607197"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.207])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 07:12:58 -0700
+Date: Mon, 29 Jun 2026 17:12:55 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jinseob Kim <kimjinseob88@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC v6 0/5] iio: add Open Sensor Fusion IIO driver
+Message-ID: <akJ9Z6jHGP-fUPFz@ashevche-desk.local>
+References: <20260628191337.937-1-kimjinseob88@gmail.com>
+ <akJ8itlDBJfaYRj2@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,25 +67,32 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <49939d4d682f4c1fb359973ea2cdbd00@compal.com>
+In-Reply-To: <akJ8itlDBJfaYRj2@ashevche-desk.local>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-> > > -	devm_kfree(dev, mdev);
-> > > +	mtk_dev_free(mdev);
-> >
-> > Why are you removing devm_ calls?
+On Mon, Jun 29, 2026 at 05:09:21PM +0300, Andy Shevchenko wrote:
+> On Mon, Jun 29, 2026 at 04:13:32AM +0900, Jinseob Kim wrote:
+> > Open Sensor Fusion (OSF) devices expose a UART/serdev host interface
+> > for a sensor aggregation hub.  This RFC adds a Linux IIO driver that
+> > parses OSF frames and creates IIO devices at runtime from capability
+> > reports provided by the device firmware.
+> > 
+> > When the corresponding capabilities are reported, the driver exposes
+> > accelerometer, gyroscope, magnetometer, and temperature data as IIO
+> > devices named osf-accel, osf-gyro, osf-magn, and osf-temp.
+> > 
+> > This remains RFC while the binding, protocol subset, runtime discovery
+> > model, and driver-facing ABI are reviewed.
 > 
-> mtk_dev_alloc/mtk_dev_free are paired wrappers so the caller
-> doesn't need to know the underlying allocation mechanism.
-> The devm_kfree is still called inside mtk_dev_free.
+> Where are the lore links to the previous versions?
 
-Two different issues here:
+Besides that you utterly ignorant in replying to the comments of the reviewers.
+v3 and v5 left unanswered, third time in this version I give the very same
+comments. What the heck?!
 
-1) If you don't want to use devm_, don't use devm_ from the
-beginning. A patch should not change how a previous patch works, since
-you are wasting reviewer time reviewing code which you later change.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-2) Do you understand what devm_ actually does? Since you use
-devm_free() i don't think you actually understand what devm_ is all
-about.
 
-	Andrew
