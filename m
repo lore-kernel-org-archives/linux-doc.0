@@ -1,94 +1,106 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D16918871F;
-	Mon, 29 Jun 2026 22:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCBF6391855;
+	Mon, 29 Jun 2026 22:40:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782772338; cv=none; b=fGpot0ijp8ipv6Hhvdyu1iuVoswE23RPmSkfbPS0i4nl4Dh2YcaHQEWemcRST9auIh9q8kvkzimSDaDCSXPYTparQtnoJLGIbmaCE9dbMtV3ZDeNAvdQq8Wr4Miq0k1X92s5RSuLDrdb7WGWgI3egQvf3SYRw2wGvotPc88V3Ds=
+	t=1782772827; cv=none; b=ZOjb3OUkNPHnr3MHyXcEg1Ywel+M656l8Zb3nKBuQMbHrnqyNoBSJOPbmDKLfN5CAoPsFeMmwmpRRjeriWYGVaRGHTrnQX5ASJqles8CoI0x63zVRA2QtjcFM2CnWD3fT2sYFLtx3X08YOIEuRZMZCiEEobWkifkwwezbqfFCH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782772338; c=relaxed/simple;
-	bh=IXrpKVvAGTKjMpceWk5fUweh3BAp8LTUBT3p1WLWfxo=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=MSROXhIrgaqwHy5nZHN+9OUc48QAWDBY8kauJOPGz2YlOtPHyTdSOtWU/fMghnkNtHhWhP8LezyKH5DAoQaMR3bsun0Pl2rZNyLWBl9SJ0iTGU64XqE/FRQy/xPY+8pHMQRT3WBJSlrGpJIhvK93brKbvorffdcSXbP1vDk1e88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OjNsIWKa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782772827; c=relaxed/simple;
+	bh=dPZ3segv2FAUEfe6M9Awn0cpqW7tus+ys1U4WhpcUyk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rPXS+5v9GUMYyXov/XCTZhaQG3cbb89Pa8jKkdKeW/kEawRtZWiM1+S2ri/tnY3sULsxMh+ZGxqPFbSh8RpyqLhn/2yWvVQUFCQizBHoGtYOBHLr7cY1HT6KvFCKQomXt3j5jBxHonQ5yJD1XXbAKd/dUCvFXzZoiSEGXyiqliA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R0CggxJv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OjNsIWKa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 616801F000E9;
-	Mon, 29 Jun 2026 22:32:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R0CggxJv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EE4F1F000E9;
+	Mon, 29 Jun 2026 22:40:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782772337;
-	bh=pNIootMACp5Mc2ZXQFXywYqm5t/dy3sZdSpdHUXYKic=;
+	s=k20260515; t=1782772826;
+	bh=415hvTDl6HOVAKxexnyqVh+Y4i8kKG1abfryN7EQEiA=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=OjNsIWKaQi53tNU7SKNp444fLcKcTTwQT5+VnkHcfqAiir5KZ4zykg1ovEIfBMKlS
-	 5ynroOAsNTo7qOUIHBripxDjuQipAyy0XT1S7gE+7jCU5YSgFCe8jlK1kdH7KhWqdF
-	 v5YseNTfMUC78pns4BbxQ/Ixv9fA/H1UL+kM4HMZh0u94/np4gBJZvdfR9bu/64OuA
-	 OishKAmSNe0tGmUFmXK6Duf6r/veGgUuhY9VSM+ZPq0wA/3CzMthh8dU0uSS2wAFLC
-	 aqS/UaGF0+9+RySDFlmqlUK3+1Vtb1vpoeg0qDRopitVQrjze7Q8zt2FrsMv0YgnlJ
-	 P8Im2HHb0JUJQ==
-Date: Tue, 30 Jun 2026 07:32:11 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo
- <acme@kernel.org>
-Cc: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, Steven Rostedt
- <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v13 04/11] perf/probe: Ignore comment lines in
- dynamic_events/kprobe_events file
-Message-Id: <20260630073211.2a505d1f31e5fae1bf03b81a@kernel.org>
-In-Reply-To: <178271361825.1176915.16095297120719039761.stgit@devnote2>
-References: <178271357142.1176915.7193483024740701480.stgit@devnote2>
-	<178271361825.1176915.16095297120719039761.stgit@devnote2>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	b=R0CggxJv9p3Sttd5H4gaQXOAKmn0OOGkjqSgCvUbYI/wg/0skGxuvU2kgaR1qgtH7
+	 XEEkTD/CzHhb8WzRlT4n6VtB5ghdvZT+5tPLalrggUMWjRuW32mySe4V52FFZRzaRH
+	 0KWJpZmoJDnmc3xcXghEXC0OY69OEilsps8uJSGB7uwkUrjMtCCAVcOfQrqnu6BGCh
+	 EUHmb+a39im0lMrnQXbBw3GuNbh0tJGV0ZbON1hk5EmP/A9UHBQWZDrcGxkuuvsxMo
+	 19L74gFt2bVfhFbPjkfZ9gDCa32BctTOzBP30Eu2H5IFA7Bl1XVDCo3VmeWdi/Am9E
+	 mUgtDY8VU6oCg==
+Date: Mon, 29 Jun 2026 15:40:24 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, davem@davemloft.net, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Russell King <linux@armlinux.org.uk>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Oleksij Rempel <o.rempel@pengutronix.de>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>, Florian Fainelli
+ <f.fainelli@gmail.com>, thomas.petazzoni@bootlin.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
+ ethtool pause validation
+Message-ID: <20260629154024.1aca45b0@kernel.org>
+In-Reply-To: <01e3d32b-6d50-4179-8e2f-25cdf8ff6c32@bootlin.com>
+References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
+	<20260526172447.10ca4b9e@kernel.org>
+	<5cb8e2b4-8eb6-4446-9b90-1cd4c7964cd9@lunn.ch>
+	<38bafe7e-d419-46f7-8fa7-87e9183e578c@bootlin.com>
+	<58f37d6e-973b-4242-be82-0561ccdb1a6f@lunn.ch>
+	<65d26fd2-fbb3-49cd-a9ac-07863d9a8909@bootlin.com>
+	<5b7dbdbc-93fd-4664-abad-0f47855fab55@lunn.ch>
+	<20260626173352.7dc8f106@kernel.org>
+	<12b66ea3-42df-4ecb-8eb7-44471407b83f@bootlin.com>
+	<20260627143028.5afed23a@kernel.org>
+	<3b8abe17-5da7-4a7e-a42c-eb39a631843e@lunn.ch>
+	<01e3d32b-6d50-4179-8e2f-25cdf8ff6c32@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi Arnaldo, Namhyung,
+On Mon, 29 Jun 2026 17:24:51 +0200 Maxime Chevallier wrote:
+> On 6/28/26 01:46, Andrew Lunn wrote:
+> > On Sat, Jun 27, 2026 at 02:30:28PM -0700, Jakub Kicinski wrote:  
+> >> The common way of checking prereqs in the tests is to call a function
+> >> called require_xyz() which then raises a skip. At a quick glance - the
+> >> rss_api and xdp_metadata are good tests to get a sense of the usual format.  
+> > 
+> > The counter example is the ksft_disruptive() decorator.
+> > 
+> > Pythons own unittest framework makes use of decorators to skip
+> > tests. Its the Pythonic way.  
 
-I forgot to CC this. Can I pick this patch via linux-trace tree,
-or would you pick this?
-This is a part of typecast series [1] only for debugging.
+Problem is vast majority of our developers do not know "Pythonic" ways.
+And bash tests for HW are an absolute pile of impossible to debug
+dookie. Half of the time bash doesn't print anything when test fails,
+so good luck figuring out what happened on someone else's setup 10%
+of the time :|
 
-[1] https://lore.kernel.org/all/178271361825.1176915.16095297120719039761.stgit@devnote2/
+I'm hoping to strike a balance with keeping Python relatively dumb,
+and pulling as many people as possible away form bash.
 
-Thanks,
-
-On Mon, 29 Jun 2026 15:13:38 +0900
-"Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
-
-> From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> So maybe in the end, we can try to have something a bit less python-y, while still
+> using extensive documentation using sphynx doc format ?
 > 
-> Since dynamic_events/kprobe_events files show the fetcharg debug
-> information as comment lines, its reader needs to ignore it.
+> Let me send a V2 with the full test list, we'll see how much scaffolding
+> we can build for ethtool testing, and how. I suspect that running/skipping based on
+> the device's capabilities is going to be used throughout lots of tests
+> beyond pause.
 > 
-> Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> ---
->  tools/perf/util/probe-file.c |    2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/tools/perf/util/probe-file.c b/tools/perf/util/probe-file.c
-> index 4032572cbf55..4d12693a83b3 100644
-> --- a/tools/perf/util/probe-file.c
-> +++ b/tools/perf/util/probe-file.c
-> @@ -197,6 +197,8 @@ struct strlist *probe_file__get_rawlist(int fd)
->  		idx = strlen(p) - 1;
->  		if (p[idx] == '\n')
->  			p[idx] = '\0';
-> +		if (buf[0] == '#')
-> +			continue;
->  		ret = strlist__add(sl, buf);
->  		if (ret < 0) {
->  			pr_debug("strlist__add failed (%d)\n", ret);
-> 
+> For now the important part is to get that test list right, and iterate on the
+> test implementation once we agree on what to test, why and how.
 
+Maybe we should step back and figure out the full story for the
+self-documentation thing. The good tests under tools...drivers/net
+already have module and test-case level doc. So we can come up with
+a way of extracting that and weaving that into NIPA? That way we are
+all on the same page?
 
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+How should the test info be presented? I think it'd fit best in here:
+https://netdev.bots.linux.dev/devices.html ? Or do you have something
+else in mind?
