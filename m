@@ -1,255 +1,123 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87E801A6838;
-	Mon, 29 Jun 2026 10:48:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20FA936C9DF;
+	Mon, 29 Jun 2026 11:09:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782730128; cv=none; b=tpKgMCX2+2oNdBaSmASfr9iz7edTQTAKyx63voPUbOWhm6zxzRFkt0FsNdMPzzF1Ury4kz/JiZmgvcRlIusZ4WbbhEIDnQ5TwBFGfTLOcKURfGeIg/xh65w5+MSplB5VBjWVbuOPMT8DRc1z6yWuvK95hb97WcVXR1NE3TGFh/o=
+	t=1782731354; cv=none; b=aLWX6UDqetqFS0YRq1VhdB9mIZQRQyXW7WjdSsLmGnrsk5Xg1ZzQLnhj68Y+It4PJPO7TmHjjMxkXrXzAj4UHRYBBpFeKOYkrtCBolV2rHiTUxVac2PI7eGdsnTU3p5uiOXftCDNjCN4ygbJI34AkG3Fbst1PQxBRWBQlbFXLsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782730128; c=relaxed/simple;
-	bh=HyjFYxbAqFE497eLVxXFT95li2NffwINS9WOP9Nk9NU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R0PGROlvYlWdNziTqyOxuNrxnY2TQl01FHEklRvhdQkMjkW4wJ0fqhWRXQumP/kKx1lk1DdC+uzRB3nPSpnEUwATYELsuWodlcbIiHP49AG8kL1nSv9jorBUdhoFrR2PVQ1ZuLSNSnabrrPZRanVhz9HZlqvzmgFIOBeYLWjr/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=NYbdVGAf; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1782731354; c=relaxed/simple;
+	bh=0JVaisx8P3BN0kvizEnsZWrMuJQmerA6vkqRIS0IYUE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=naMgM1rVshYQHn2djJJcPdUy7oZZaJPZ1smKYXwPzhRW7hCTUIRfkgUNIF2/Lls/1E4hYCamGkdy9u0mzLkpzx8cULiVn+2KPNcTpn+xDVjwfH2QBDMuKxidqpQBBCWoErP3+N8Gl2gFk7cPTx7bRq7EXOHQg04DrWAUbRioACc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=IYO2wbW3; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=FOjyrO2r; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="NYbdVGAf"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7DC46176C;
-	Mon, 29 Jun 2026 03:48:41 -0700 (PDT)
-Received: from [10.1.36.193] (e121487-lin.cambridge.arm.com [10.1.36.193])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CC8243F836;
-	Mon, 29 Jun 2026 03:48:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1782730125; bh=HyjFYxbAqFE497eLVxXFT95li2NffwINS9WOP9Nk9NU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NYbdVGAflN1iz+6isb+2ix0etO1gfPGgn2t+Gy6GsbFSqiYbcWp1RgRs6+2cRMYdy
-	 jcf6JhT8aQsybQdchLAuD6LErxTtolTB9n1aPQXnFNlL0v5Vhqj4u98+3fIru2Gtxp
-	 6CZWCTXP+lUvlLkbs12dOJF6mHTE1YIeG8kobicM=
-Message-ID: <97b62a6f-a514-46bb-9ee8-81f563220f6a@arm.com>
-Date: Mon, 29 Jun 2026 11:48:41 +0100
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="IYO2wbW3";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="FOjyrO2r"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gpk7B0m8hz9tsv;
+	Mon, 29 Jun 2026 13:09:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1782731350;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Meef8qNImpDHUFJ5L/HsHQVGu/aE8D0eYWBfpqirRHE=;
+	b=IYO2wbW3lu3B2+b14mV8+XPBzMZA9GzaqOVte2UtOCUdKgnQHkfU3kxaOy5XderPIrIJhK
+	9H2mdjpo4tf+52MhqNNNMCmO40lOomSU/c3RqD/Zhj9UOYxtyQkTcN65ZadexpDKocbGOO
+	5HRos1HsiLunOhCV0CH5LL9nrL3gF0pwWPJMZulULYeTAc0WuQyimLoYGJYDscnygPP156
+	cblZ14AwOwOqjdcp9EK4GPaaB/M6VOWypbbQfsaYxLvGhpnQmmK///vMftRdZz7E5ercMo
+	7b/yNpo1z5Xlp1bt41FG6svp2WluysCXr6L7dL3wsK4iEq6gp6F9pIt68Bn/+A==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=FOjyrO2r;
+	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1782731348;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Meef8qNImpDHUFJ5L/HsHQVGu/aE8D0eYWBfpqirRHE=;
+	b=FOjyrO2r63m8uFNJQuRuS6OpasekekNV4mW9jxbt06LW6ZAaeySIhWqfVR3lbdtqSKhPWc
+	AVUAyY3wX65SmujqwDcSpMG4UuX6y6sWMBvsBymCWzlJ5iJXN2DOf9rYC/951oXf/EHljY
+	/FOn2eGa8ShR1vmtZdkIUYixNK1IVd40D/Z9Exip6bkhQP9CAykCoBPih2sWOlswAo4UIF
+	pW5iF7chViVMPYW7inBr5MG1HjBbGM1l5c/QiHdElsWC59gWBDCWq6ti89v8QwErC4R6rX
+	5FqyqWc+SlsRrr6/RaFopOExp0rzR36vFFFL0hEEAMRcwblfMFmznhXgKQ2CQQ==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH v2] Documentation: admin-guide: fix brackets and translation issue
+Date: Mon, 29 Jun 2026 13:08:13 +0200
+Message-ID: <20260629110812.69420-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] arm64: io: apply the device store-release
- workaround once per block write
-To: Shanker Donthineni <sdonthineni@nvidia.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, linux-arm-kernel@lists.infradead.org,
- Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
- Jason Sequeira <jsequeira@nvidia.com>
-References: <20260625182425.3194066-1-sdonthineni@nvidia.com>
- <20260625182425.3194066-3-sdonthineni@nvidia.com>
-Content-Language: en-GB
-From: Vladimir Murzin <vladimir.murzin@arm.com>
-In-Reply-To: <20260625182425.3194066-3-sdonthineni@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: j58bo89rhnaf9tj8pf9ywq3xmb763oih
+X-MBO-RS-ID: fff32459a65cb7c1feb
+X-Rspamd-Queue-Id: 4gpk7B0m8hz9tsv
 
-Hi,
+Add missing ']' and replace 'neuer Name' with 'new Name'.
 
-On 6/25/26 19:24, Shanker Donthineni wrote:
-> The generic memset_io()/memcpy_toio() are built on __raw_write*(), so on
-> parts with the NVIDIA Olympus device store/load ordering erratum the
-> ARM64_WORKAROUND_DEVICE_STORE_RELEASE workaround promotes every store in
-> the block to a store-release. Each stlr* carries a barrier cost, so block
-> MMIO becomes O(n) store-releases, making a block copy many times slower
-> than a single ordered burst and growing with the transfer size.
-> 
-> Provide arm64 memset_io()/memcpy_toio() that emit plain str* in the loop
-> and order the whole block against subsequent loads with a single
-> trailing dmb osh on affected CPUs (a no-op elsewhere, preserving the
-> relaxed contract of these helpers). This keeps block MMIO writes at
-> one-barrier cost rather than scaling with the transfer size.
-> 
-> Performance (NVIDIA Olympus, write-combining MMIO to a device BAR, single
-> PE pinned; per-call cost in ns; consecutive writes ping-pong between two
-> buffers so repeated stores are not coalesced; iowrite64/iowrite32 =
-> __iowrite{64,32}_copy()):
-> 
-> Table 1 - arm64 memset_io/memcpy_toio (this patch)
-> +-------+-----------+-----------+-----------+-------------+
-> |  size | iowrite64 | iowrite32 | memset_io | memcpy_toio |
-> +-------+-----------+-----------+-----------+-------------+
-> |    8B |  231.6 ns |  231.6 ns |  232.4 ns |  232.4 ns   |
-> |   16B |  231.7 ns |  231.9 ns |  232.7 ns |  232.6 ns   |
-> |   32B |  231.9 ns |  232.7 ns |  232.9 ns |  232.9 ns   |
-> |   64B |  232.7 ns |  235.0 ns |  233.7 ns |  233.6 ns   |
-> |  128B |  233.6 ns |  235.8 ns |  234.4 ns |  234.3 ns   |
-> |  256B |  237.7 ns |  276.8 ns |  264.0 ns |  276.7 ns   |
-> |  512B |  237.7 ns |  277.1 ns |  238.1 ns |  277.6 ns   |
-> |   1KB |  253.7 ns |  279.3 ns |  276.1 ns |  294.1 ns   |
-> |   2KB |  295.0 ns |  318.7 ns |  288.5 ns |  308.3 ns   |
-> |   4KB |  365.9 ns |  381.4 ns |  365.7 ns |  381.3 ns   |
-> +-------+-----------+-----------+-----------+-------------+
-> all four helpers end with a single trailing barrier (dmb osh).
-> 
-> Table 2 - generic per-store memset_io/memcpy_toio
-> +-------+-----------+-----------+-------------+--------------+
-> |  size | iowrite64 | iowrite32 |   memset_io |  memcpy_toio |
-> +-------+-----------+-----------+-------------+--------------+
-> |    8B |  231.6 ns |  231.6 ns |    229.0 ns |    229.0 ns  |
-> |   16B |  231.7 ns |  231.9 ns |    458.4 ns |    458.5 ns  |
-> |   32B |  231.9 ns |  232.7 ns |    917.4 ns |    917.5 ns  |
-> |   64B |  232.7 ns |  234.8 ns |   1835.4 ns |   1835.5 ns  |
-> |  128B |  233.6 ns |  235.8 ns |   3670.9 ns |   3670.8 ns  |
-> |  256B |  237.7 ns |  276.7 ns |   7341.6 ns |   7341.6 ns  |
-> |  512B |  237.7 ns |  279.4 ns |  14001.4 ns |  14001.3 ns  |
-> |   1KB |  253.7 ns |  279.1 ns |  28631.5 ns |  28631.8 ns  |
-> |   2KB |  279.4 ns |  317.9 ns |  57276.3 ns |  57275.2 ns  |
-> |   4KB |  365.7 ns |  381.5 ns | 114564.4 ns | 114563.6 ns  |
-> +-------+-----------+-----------+-------------+--------------+
-> the generic memset_io()/memcpy_toio() build on __raw_write*(), which the
-> workaround promotes to store-release, so every store is individually
-> ordered - hence O(n) in the store count.
-> 
-> The arm64 versions stay flat at one-barrier cost while the generic
-> per-store writers collapse to O(n): at 4KB ~314x slower (~115 us vs
-> ~366 ns).
-> 
-> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
-> ---
->  arch/arm64/include/asm/io.h |  5 +++
->  arch/arm64/kernel/io.c      | 82 +++++++++++++++++++++++++++++++++++++
->  2 files changed, 87 insertions(+)
-> 
-> diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
-> index 69e0fa004d31..649503f347bc 100644
-> --- a/arch/arm64/include/asm/io.h
-> +++ b/arch/arm64/include/asm/io.h
-> @@ -266,6 +266,11 @@ __iowrite64_copy(void __iomem *to, const void *from, size_t count)
->  }
->  #define __iowrite64_copy __iowrite64_copy
->  
-> +void memset_io(volatile void __iomem *dst, int c, size_t count);
-> +#define memset_io memset_io
-> +void memcpy_toio(volatile void __iomem *dst, const void *src, size_t count);
-> +#define memcpy_toio memcpy_toio
-> +
->  /*
->   * I/O memory mapping functions.
->   */
-> diff --git a/arch/arm64/kernel/io.c b/arch/arm64/kernel/io.c
-> index fe86ada23c7d..b5fd9ee6d9eb 100644
-> --- a/arch/arm64/kernel/io.c
-> +++ b/arch/arm64/kernel/io.c
-> @@ -5,9 +5,91 @@
->   * Copyright (C) 2012 ARM Ltd.
->   */
->  
-> +#include <linux/align.h>
->  #include <linux/export.h>
->  #include <linux/types.h>
->  #include <linux/io.h>
-> +#include <linux/unaligned.h>
-> +
-> +#include <asm/alternative.h>
-> +
-> +/*
-> + * ARM64_WORKAROUND_DEVICE_STORE_RELEASE promotes every raw MMIO store
-> + * (__raw_write*()) to a store-release on affected CPUs. The generic
-> + * memset_io()/memcpy_toio() are built on those helpers, so the workaround would
-> + * emit one store-release per element and turn a block write into O(n) ordered
-> + * stores - far more costly than the single barrier a block actually needs.
-> + *
-> + * Provide arm64 versions that emit plain STR in the loop and order the whole
-> + * block against subsequent loads with one trailing DMB OSH, patched in only on
-> + * affected CPUs (a no-op elsewhere, so the relaxed contract of these helpers is
-> + * preserved).
-> + *
-> + * This capability is currently enabled only for the NVIDIA Olympus device
-> + * store/load ordering erratum, where a Device-nGnR* load may be observed before
-> + * an older, non-overlapping Device-nGnR* store to the same peripheral.
-> + */
-> +static __always_inline void iomem_block_store_barrier(void)
-> +{
-> +	asm volatile(ALTERNATIVE("nop", "dmb osh",
-> +				 ARM64_WORKAROUND_DEVICE_STORE_RELEASE)
-> +		     : : : "memory");
-> +}
-> +
-> +void memset_io(volatile void __iomem *dst, int c, size_t count)
-> +{
-> +	u64 qc = (u8)c;
-> +
-> +	qc *= ~0ULL / 0xff;
-> +
-> +	while (count && !IS_ALIGNED((__force unsigned long)dst, sizeof(u64))) {
-> +		asm volatile("strb %w0, [%1]" : : "rZ"((u8)c), "r"(dst) : "memory");
-> +		dst++;
-> +		count--;
-> +	}
-> +	while (count >= sizeof(u64)) {
-> +		asm volatile("str %x0, [%1]" : : "rZ"(qc), "r"(dst) : "memory");
-> +		dst += sizeof(u64);
-> +		count -= sizeof(u64);
-> +	}
-> +	while (count) {
-> +		asm volatile("strb %w0, [%1]" : : "rZ"((u8)c), "r"(dst) : "memory");
-> +		dst++;
-> +		count--;
-> +	}
-> +
-> +	iomem_block_store_barrier();
-> +}
-> +EXPORT_SYMBOL(memset_io);
-> +
-> +void memcpy_toio(volatile void __iomem *dst, const void *src, size_t count)
-> +{
-> +	while (count && !IS_ALIGNED((__force unsigned long)dst, sizeof(u64))) {
-> +		asm volatile("strb %w0, [%1]"
-> +			     : : "rZ"(*(const u8 *)src), "r"(dst) : "memory");
-> +		src++;
-> +		dst++;
-> +		count--;
-> +	}
-> +	while (count >= sizeof(u64)) {
-> +		asm volatile("str %x0, [%1]"
-> +			     : : "rZ"(get_unaligned((const u64 *)src)), "r"(dst)
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+---
+->[v2]
+  Fixed one-line summary
+---
+ Documentation/admin-guide/kernel-parameters.txt | 6 +++---
+ Documentation/admin-guide/media/bttv.rst        | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-Why do we need get_unaligned() here? I understand this came from
-the generic implementation, where it needs to handle architectures
-that do not support unaligned accesses. But IIUC this is not an
-issue for arm64, and there was no special handling in memcpy_toio()
-before 0110feaaf6d0 ("arm64: Use new fallback IO memcpy/memset").
-Am I missing something?
-
-> +			     : "memory");
-> +		src += sizeof(u64);
-> +		dst += sizeof(u64);
-> +		count -= sizeof(u64);
-> +	}
-> +	while (count) {
-> +		asm volatile("strb %w0, [%1]"
-> +			     : : "rZ"(*(const u8 *)src), "r"(dst) : "memory");
-> +		src++;
-> +		dst++;
-> +		count--;
-> +	}
-> +
-> +	iomem_block_store_barrier();
-
-It is perhaps a matter of taste, but having the inline assembly
-here (and in memset_io()) might make the code clearer. To a
-casual reader, it would be obvious that the barrier is not
-guaranteed and is only applicable to ARM64_WORKAROUND_DEVICE_STORE_RELEASE,
-without having to jump back and forth through the code.
-
-Obliviously maintainers might have different preference ;) 
-
-Cheers
-Vladimir
-
-> +}
-> +EXPORT_SYMBOL(memcpy_toio);
->  
->  /*
->   * This generates a memcpy that works on a from/to address which is aligned to
-> -- 2.54.0.windows.1
-> 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 00375193bd26..17363d525ae3 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6414,9 +6414,9 @@ Kernel parameters
+ 	reboot=		[KNL]
+ 			Format (x86 or x86_64):
+ 				[w[arm] | c[old] | h[ard] | s[oft] | g[pio]] | d[efault] \
+-				[[,]s[mp]#### \
++				[[,]s[mp]####] \
+ 				[[,]b[ios] | a[cpi] | k[bd] | t[riple] | e[fi] | p[ci]] \
+-				[[,]f[orce]
++				[[,]f[orce]]
+ 			Where reboot_mode is one of warm (soft) or cold (hard) or gpio
+ 					(prefix with 'panic_' to set mode for panic
+ 					reboot only),
+@@ -6917,7 +6917,7 @@ Kernel parameters
+ 			apic=verbose is specified.
+ 			Example: apic=debug show_lapic=all
+ 
+-	slab_debug[=options[,slabs][;[options[,slabs]]...]	[MM]
++	slab_debug[=options[,slabs][;[options[,slabs]]...]]	[MM]
+ 			Enabling slab_debug allows one to determine the
+ 			culprit if slab objects become corrupted. Enabling
+ 			slab_debug can create guard zones around objects and
+diff --git a/Documentation/admin-guide/media/bttv.rst b/Documentation/admin-guide/media/bttv.rst
+index 58cbaf6df694..78c3e560b806 100644
+--- a/Documentation/admin-guide/media/bttv.rst
++++ b/Documentation/admin-guide/media/bttv.rst
+@@ -1239,7 +1239,7 @@ Models:
+ - Galaxis DVB Card C CI
+ - Galaxis DVB Card S
+ - Galaxis DVB Card C
+-- Galaxis plug.in S [neuer Name: Galaxis DVB Card S CI
++- Galaxis plug.in S [new Name: Galaxis DVB Card S CI]
+ 
+ Hauppauge
+ ~~~~~~~~~
+-- 
+2.54.0
 
