@@ -1,181 +1,245 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15582773D3
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 18:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854523C3C15
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 18:49:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782758260; cv=pass; b=hMtqWZj8ntqBWufumd99jCM/982Zg+Uzz2u4XfBkIHhXP0LBcAir9NU+tMaBCKESHYjgmlaT472IRGXNc0mQLt9I7E3g7yQ1qkf8lwZtALkQe5pkpdwUBhV9ow14UY5jmY3PLqXlLGw4c/TqDuNmySu6xwe9YQSd/7gS7ovDdLE=
+	t=1782758965; cv=pass; b=i9dRzSNdAJtxBjPeJddnXRiSQrBQXotilVPPl6QnejSA5cDimGrvl4Y1leHmZbcnJ3qOprltUkKz8bZrIiC8HruDB7ePXd0JHthmvmHnTxP4dRgIAIafIRZdHtwbrd+P6f3cPn4r9ZA5TFHDE0g57/n+IuI8hyPLTUZQ+ewnGPc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782758260; c=relaxed/simple;
-	bh=8aAWH9rSKkLqi+1sE6zKTPYetQDRKFAsL6S7Z65BNdc=;
+	s=arc-20240116; t=1782758965; c=relaxed/simple;
+	bh=gjkwCD9KgKGHy8EtAtCOPoXjV5xDJqzXABt3GGvQ5js=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aDrDL6VsUYl3tN7G3HkEPb0LXDceqenUqomDgVl41Rg3l4zRjgldPdMVDs3ZYrkAVnn05heSAu4u9jLCfqSPN6IXJCNwq5x1wSE8JQS/469Y/6wLUk4O2x/7NBLykKiYvn+wAAgyaApiNSX2O8HaHplPjbaiNUS6vwL/A/hYJok=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U5Fp93nT; arc=pass smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=Pwj7hNtDtF8n3iJ12lGNG/XjP8uVyiN9m43khdihM3Tcmr+A2dqDWv7Ly7Z/+HTXzm7GdzFrEY0ym/FGCZoBt6EgW4TTC63r6qA3WW9HkUY1f/736TU1qNFQJkUca+5w2wdFnT6+Hb66i9SG5Kwu0WeGRZbZkJp7fkQ4hXAkki4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SUz25hiz; arc=pass smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U5Fp93nT"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-493b29be0d6so9994435e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 11:37:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782758257; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SUz25hiz"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-137335bc3caso7505796c88.0
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 11:49:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782758963; cv=none;
         d=google.com; s=arc-20260327;
-        b=BLoxbHE+dfGlBwrKahrgOm8D2/3QeT9CZpe/LZFzz4dXmHL8MdqOQFuDjmFGe1K0+1
-         w7ZEISTXt5umGsyP/Lrydq4GI9xqUoJrFP4Tva5ZU6xYR8l9g7Zge0+DlcX45FKjIdev
-         JnCAh9dKWYgtPukgfJ9XPWfTmW3+DHc3fNVLV3swSQbPoYZoJji+DFxkR467M2TIkezA
-         dwaCYVt4ShBtNOiECo3evfke8tRwFKGyojrmzJzZfv+YrBLejVm3/6ULaGGveYdfsWbB
-         COvNIkeU+ZjRf4SZyZQZ+qtdiYhE54WMuN94vm9lkeqmO24uevl6z7tX5nMOpd+KaHH7
-         nTiQ==
+        b=p0NlKDhjiA3+oCdkpCmjsLy+Q5FKw7cBOYYQJ1OTJj3VdlFOOXAx4/qxZ33o8s0gmn
+         ed+SNxbVDHPBzxHgZzncSkieHJ9xnxtI/6K5flR1copOS3dMDHKB6fs+sxWBcGL/VsKP
+         6zxuZJ3AGG3YNBrOaaXc+SpSGZwH28dLkRkSSKQRhlob+osFPea/1Bf8LD+VLofPHM8r
+         SfuKB2h2V1II+dZFOyGW1axP8YO+EFSkewNuyTamGkntEymmg5rDD/7GejYRilmLMWh3
+         MC8IBZCWRSvoBQg6pzW9rSptodgUNyMqwoMCTumEq5Azub1yvx6Mw8Fhny73RaLlH0xa
+         l/VQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=66IdtV4A4O3twwyEenTNgYY676iFrQKRg0yaSc+sXIk=;
-        fh=7JR9czDgoVl6xaTTwsJt6VKXz1JV9KXF6ZaZxJwbSMg=;
-        b=lWO12JDd9lNZh8tVdbePcLnsVIzwsdl4qirz+mTu5RyMz4Q3+uR/ODB5jMyhfP+z7/
-         Zj2rJmo2OF424axFepLZxr5g9zP4eOg/uhhf59cngRHgubknQldKROOxIiJWJ8etxKhZ
-         bcAuTdBqnZ+xuIbkok6IdN0+XkJnBW3gdp1iPz2fXf0s7Y/hRxxVPlm6Lc0MdxXqM587
-         8Om77aTlFGMb2Hn8XYlyAXgjiO4tQeexjyw9Eib0EVV8sLxj15j3zSdmMuBMdVPpj5/y
-         Lq631Wkbcp6yXFwEiVbQePoHaWKYgr8pQmZO0iuc7rjKtW2cznk2Rx636SNwefODenTF
-         FH1A==;
+        bh=VpmUvFbjkT4TIDiuBxTmd8SHESx8y5cMZtvBxkjxfFU=;
+        fh=pr9xGB/MYP5W4jLU9M6pHC7wZ+3lU2Xp50NIF3hffb0=;
+        b=bSzyIBceaEhWIUI5nCdUdJgmYWIWK2zOq/KdtvvXKy3eoibKX1amC6/JhP5UsLomw8
+         e7QWQ/3/EuLFw0v4wHRUsgLtd7wrWOoa20hrYZttit6M1PWdig4W6ZxudreV5OSnmwjt
+         a+QRGRZe+j6hCwyvplw4zLnQlDhxWitr6m07iO4tWCLaGV4jl8jfV/l33eTbyQ+FMT8J
+         6AB1j7aizFHXfzuIWEQ+hcVzZCja/z6ankGd/GjdhiLOgk4fvI6R5NGnLUOe25oWOfqG
+         ktgCU8CUaSR0qtfAjgsIIHtn26T4EEvET2Xt0syFZPTlPyhqpuRLZ9HkmjMCrqTRhyHd
+         S59A==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782758257; x=1783363057; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1782758963; x=1783363763; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=66IdtV4A4O3twwyEenTNgYY676iFrQKRg0yaSc+sXIk=;
-        b=U5Fp93nTXSbWZZCX2vfq+8hUv0N+r81FKZYkh4BVQtSTh+9asUjllfKaBOnSbste5H
-         LcGUKugFN7YVsczAoPr73GXhXH7TwNUjpz9+1gBJca9w3D4DYgqmzzZeA30UDDN8hDV0
-         AmdPxp1P6JZnjyvIu2QsLjNx0nDEZnL7ySTvHJE3SH9uuuPoB55iq+wAkj4hSAKhW+nT
-         +DaM0sQisepBX609REXRWmwh6KNEzyFdkEB/2fwELanP4/WqtOlNqEvYAYnu9ooLL39r
-         ybSn8GFPwUBxqC5wfk0A/cs8agheZEZXw8AMoyVDcJxk7XmOyPPFl0+S57ZsuVLPOoPM
-         T2Zw==
+        bh=VpmUvFbjkT4TIDiuBxTmd8SHESx8y5cMZtvBxkjxfFU=;
+        b=SUz25hiz759chD3xNIzc0sJx+q/299X+xY/QGMSIw9rKs4N49ktSpjxz4qDoOoY44/
+         jdhLH6ceBcHNOAIz6o/5OT+cCoCQcLXuT/oX2gXMJHChOhjXrbwar4IKF7G66linW72U
+         ro9N6SMeLZPoyuaV02oDeS9eehQLjO3flGqj8wBIo3jx/iO1a2orGYtFvxITu1FgrgiO
+         DqS8cUK7YpujZ1QFdqcNedH/vBax7hE77z6ZK7xVMBMSLoQ3rK/xKAEZb+abZEVIlgjZ
+         mKmi0hqCt4kzKDNPFIk1IsFUKsEsM9R94C5/dLIpGdtvf16eHwpBCqbckOEhPeT1Pr3J
+         01EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782758257; x=1783363057;
+        d=1e100.net; s=20251104; t=1782758963; x=1783363763;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=66IdtV4A4O3twwyEenTNgYY676iFrQKRg0yaSc+sXIk=;
-        b=YJHCYBe7EfWEopyId3OffytYiNESn0B97EO63Q7UJgTuKP1DLgakwRWm03Tl8OXtHF
-         FFX5A+wX7JJG8RmCjUFbhLNjvl7wKK9rRH/8OxvqB+Rzs3VE4yYqCygRwMyfPw0gSbxm
-         yIUy2EX3D1Lf2cYrNqRjmi87n2SFHPVtUmDIsGNtP6sVza2I4hr6JPJ4o9KfcGiXmvvP
-         3ZTyao685ZUG8cuON7Rh9O8tjZ88DP8+vz117gTyHNT/D4jK2usSeUrX/pSt58iZ5Rad
-         xLNg/fzhEwhDXfeWeXlXotFjfzzLMgMUBYaU5hvP5+pYIkdqSi3t93izXl/BFscSFVWy
-         GFrw==
-X-Forwarded-Encrypted: i=1; AFNElJ9yk/pdD95Djpj7shDsVtiI7anD1UpcgqvWjrAqJkah3NDHrwNKqm75dUaERAokiY9pZz/LeMZwh9o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvYDdBf4GaUO3e3tPEzSSKo6iW+NXVYxWRkOBdAYJB3IBkBvIs
-	aapsprLXfQw8EjvZ/98JvteQeGG246lZe4skiziQFJZDPgLju9WEfkYBjnUHBRrqEHp2uK03Gy/
-	J1CS6gBMM6CAPwtkXDLDNTciBtoEPFRE=
-X-Gm-Gg: AfdE7cklT3fhpz2f+AWi3uGcE+S0pZipuv2nf28wedX57g3LIVBbfsdDViqAiC+wQxt
-	9S3eE+HJnL88OFzJShHFckhVLKhr7Ey08TAwvVh9/VhOMvy22UsgRt+5BxtxcIWCw/yi3Yd3Wn2
-	HnojCG2oVIggV/sOX6y/jgnSNvSS6C18lsHGs06Y/kOPldRA2dnGuBOFvOzf4XORQIuVKsR6MSS
-	dEVHDyVEPqop0mobJ8hAVQpf59xkwUuhaTP6zsaARD77GIz63Z37l4ZSvNlFKaQ+mx4ur2ndmPf
-	ZjHStBl4uBiAT0SgUAO/hGBmaXEd
-X-Received: by 2002:a05:600c:524e:b0:48f:e230:29f5 with SMTP id
- 5b1f17b1804b1-493b8ce540fmr4782905e9.16.1782758257412; Mon, 29 Jun 2026
- 11:37:37 -0700 (PDT)
+        bh=VpmUvFbjkT4TIDiuBxTmd8SHESx8y5cMZtvBxkjxfFU=;
+        b=kQ6a1yGHbDgYIuRqARmIso/xI/anxIUlMKz9G3IIEpux+CPrIG7yeuNq9VlXaS989P
+         3igmr0WX7lOPWupAVooUxJP6CL6VKrMmBLXGylU4skQdVd9yp22MgOKLXCvZe2e30ILH
+         vrGBe0YoLvvn2hnxj2Y4Y9hjkXDSFjcsRAEJ1xJoqoBcY21Ghpksz1aZ3c6WQySYZMID
+         c2yP2iNdu6KZyHfqjpuvikORKLe/mUozpXOdUjVK3uqWh0y1NO6I/e68bvVom8PDUU+8
+         TK2vq7NG7b3rpn1Ny64MbNg5SkDmtGAgkegGRWj5K8lsHUxdfczrpsRKaeu/ZNjp0jKr
+         vsHg==
+X-Forwarded-Encrypted: i=1; AFNElJ8JBzZno0g4gtp47QEig35ttvak8nUoAnTSN/vk6OK4U7N+eJgMY2F3LFZXNOL7g3PJrv/893hC0fw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrYS+kSe16auk/usssiZxsaIrsT292h2FuPibd1G7+EolGsZ7H
+	z6bONuZ+YyoEupKIJgJNYMZ5z8laSzYBB7usiOUryXP3SZBV2ammTbVJwRpkHODJaxbBWPXJB+h
+	SqgJ4X/h2t2iywQMoQjYue6pCvJ+2JrhejPDp/kAV
+X-Gm-Gg: AfdE7cnhkyzSOycT4CKPB3R2ibpidxjrkCoM72Q7FyJWwmzeNPZ+sq2FPLkmZDcdArZ
+	tI//V6tjCWpdZw7bby81yVkmWmpuZgXOC5Cj8mZCo1EGt01pHutoY0DXe+wKwVLfr6gjQ4FY9IZ
+	Cp9ylMqyGjs0gLGQnxzd7Cr9HLXiVxtUd8E70Rqu9MUAARqnYNtd8N9y2DqvB6nsFObn/RpFDLD
+	B3R8XGpdflw8wAiqKLGxf/2WJicTu8sRK0gDX1/5VIAL+NgIAQtBqIzvipUMuRM/nc1PaABWInc
+	hjDfwpQ=
+X-Received: by 2002:a05:7022:6620:b0:136:c443:80e5 with SMTP id
+ a92af1059eb24-13b2a13e510mr391503c88.6.1782758962590; Mon, 29 Jun 2026
+ 11:49:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260629112032.20423-1-jiahao.kernel@gmail.com> <20260629112032.20423-2-jiahao.kernel@gmail.com>
-In-Reply-To: <20260629112032.20423-2-jiahao.kernel@gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Mon, 29 Jun 2026 11:37:24 -0700
-X-Gm-Features: AVVi8CeUNnnZ1b5gr34nY8C8rkHWBFp3tMR1RyjfkvKK-T1UYPS0l8SmSsuAXg0
-Message-ID: <CAKEwX=MniM-4-aV17aH3UiDd_Xd2RH743fFZaxEnYX9qvnokeA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/6] mm/zswap: Fix global shrinker when memory cgroup
- is disabled
-To: Hao Jia <jiahao.kernel@gmail.com>
-Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
-	shakeel.butt@linux.dev, mhocko@kernel.org, yosry@kernel.org, mkoutny@suse.com, 
-	chengming.zhou@linux.dev, muchun.song@linux.dev, roman.gushchin@linux.dev, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Hao Jia <jiahao1@lixiang.com>, stable@vger.kernel.org
+References: <20260522202410.3104264-1-dmatlack@google.com> <20260522202410.3104264-4-dmatlack@google.com>
+ <178144432039.1257322.9644414453415904478.b4-review@b4> <ajBgj_aSuzMZG47e@google.com>
+ <2vxzechulmcp.fsf@kernel.org>
+In-Reply-To: <2vxzechulmcp.fsf@kernel.org>
+From: David Matlack <dmatlack@google.com>
+Date: Mon, 29 Jun 2026 11:48:55 -0700
+X-Gm-Features: AVVi8CddGN9A_Ob4R4wlMhPsXSn8oI36PZ00eW8upPHQmIA_C2z2tuBHbPtHPrY
+Message-ID: <CALzav=fN8m9+rso7RSLR35bozZpNKv6McOR3jv1-ngxApM1BCg@mail.gmail.com>
+Subject: Re: [PATCH v6 03/12] PCI: liveupdate: Track incoming preserved PCI devices
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, kexec@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>, 
+	Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
+	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, Leon Romanovsky <leonro@nvidia.com>, 
+	Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pranjal Shrivastava <praan@google.com>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 29, 2026 at 4:20=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.com> w=
-rote:
+On Thu, Jun 25, 2026 at 7:35=E2=80=AFAM Pratyush Yadav <pratyush@kernel.org=
+> wrote:
 >
-> From: Hao Jia <jiahao1@lixiang.com>
+> Hi David,
 >
-> When memory cgroup is disabled, mem_cgroup_iter() always returns NULL.
-> Therefore, the global shrinker shrink_worker() always takes the !memcg
-> branch. After MAX_RECLAIM_RETRIES empty walks, the worker simply gives up=
-,
-> so it fails to write back anything.
+> On Mon, Jun 15 2026, David Matlack wrote:
 >
-> Therefore, when memory cgroup is disabled, fall through with the !memcg
-> branch and shrink the root memcg directly. Stop the loop once
-> shrink_memcg() reports -ENOENT, since the root LRU is the only target and
-> -ENOENT means it has been exhausted.
+> > On 2026-06-14 01:38 PM, Pasha Tatashin wrote:
+> >> On Fri, 22 May 2026 20:24:01 +0000, David Matlack <dmatlack@google.com=
+> wrote:
+> [...]
+> >> > +  }
+> >> > +
+> >> > +  pci_info(dev, "Device was preserved by previous kernel across Liv=
+e Update\n");
+> >> > +  dev->liveupdate.incoming =3D dev_ser;
+> >> > +
+> >> > +  /*
+> >> > +   * Hold the ref on the incoming FLB until pci_liveupdate_finish()=
+ so
+> >> > +   * that dev->liveupdate.incoming does not get freed while it is i=
+n use.
+> >> > +   */
+> >>
+> >> How would that work? If finish is not called FLB stays around until th=
+e
+> >> next reboot.
+> >
+> > True... I think if the PCI core trusts drivers to call
+> > pci_liveupdate_finish() then we don't need to hold onto the incoming
+> > reference here.
 >
-> Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
-> Cc: stable@vger.kernel.org
-> Reported-by: Yosry Ahmed <yosry@kernel.org>
-> Closes: https://lore.kernel.org/all/CAO9r8zPVzMKFbCixxD-qgtRrkFxWVrHiZZeL=
-c=3DeyTPKPVQgX4g@mail.gmail.com
-> Signed-off-by: Hao Jia <jiahao1@lixiang.com>
+> That was my point when I was arguing against refcounts on outgoing FLBs.
+> This is very easy to abuse, especially when we are talking about device
+> drivers. And this refcounting mechanism makes the FLB no longer
+> file-lifecycle-bound, since now it is entirely up to drivers to decide
+> the lifecycle of this data.
 
-Ah good catch.
+The PCI core holds a reference to the incoming FLB for as long as it
+maintains a pointer to that FLB in struct pci_dev
+(dev->liveupdate.incoming). The lifetime of that pointer is aligned
+with the lifetime of the file as long as the driver calls
+pci_liveupdate_finish() in its file finish() callback.
 
+If there is a bug in the driver that causes it to not call
+pci_liveupdate_finish() then the FLB will leak past the file yes. But
+the alternative would be to leak a pointer to freed memory in
+dev->liveupdate.incoming, which could lead to UAF.
 
+Leaking the FLB seems safer than UAF, which is why I went for the
+refcounting approach.
 
-> ---
->  mm/zswap.c | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
+Another approach entirely would be to drop the
+dev->liveupdate.incoming and do the xarray lookup everytime instead.
+
 >
-> diff --git a/mm/zswap.c b/mm/zswap.c
-> index 761cd699e0a3..0f8f04f22888 100644
-> --- a/mm/zswap.c
-> +++ b/mm/zswap.c
-> @@ -1356,7 +1356,12 @@ static void shrink_worker(struct work_struct *w)
->                 } while (memcg && !mem_cgroup_tryget_online(memcg));
->                 spin_unlock(&zswap_shrink_lock);
+> I have been thinking about this a bit more in the last couple days, and
+> I wonder if we are doing this right. Here's an idea I have been thinking
+> of.
 >
-> -               if (!memcg) {
-> +               /*
-> +                * Reaching a NULL memcg means a full hierarchy pass comp=
-leted.
-> +                * Exclude the memcg-disabled case, where it is always NU=
-LL, and
-> +                * fall through to shrink the root LRU directly.
-> +                */
-> +               if (!memcg && !mem_cgroup_disabled()) {
->                         /*
->                          * Continue shrinking without incrementing failur=
-es if
->                          * we found candidate memcgs in the last tree wal=
-k.
+> We should make live update a first class citizen in PCI. Instead of
+> patching in liveupdate via the liveupdate.incoming field, and letting
+> drivers figure out when to use it, we should separate out probe and
+> retrieve paths entirely.
+>
+> Probe and retrieve are fundamentally different operations. While they
+> may share some common initialization logic for the _software_ state, how
+> they interface with the hardware is completely different. I think mixing
+> the two will result in driver code being more spaghetti by having
+> liveupdate checks sprayed out all over.
 
-nit: I wonder if we can just merge this comment with the new comment
-you just added.
+We are only planning on supporting Live Update for VFIO drivers for
+the forseeable future. The VFIO work during probe is almost entirely
+software state setup. The only hardware logic we need to "if" out in
+the vfio-pci driver's probe() is putting the device into a low-power
+mode via the runtime power manager. So I don't think we will get any
+benefit from this approach, and it would be a lot more intrusive to
+both the PCI core driver framework, and VFIO itself, to support this.
 
-> @@ -1378,8 +1383,15 @@ static void shrink_worker(struct work_struct *w)
->                  * with pages in zswap. Skip this without incrementing at=
-tempts
->                  * and failures.
->                  */
-> -               if (ret =3D=3D -ENOENT)
-> +               if (ret =3D=3D -ENOENT) {
-> +                       /*
-> +                        * With memcg disabled the root LRU is the only t=
-arget, so
-> +                        * we should abort if it has no writeback-candida=
-te pages.
-> +                        */
-> +                       if (mem_cgroup_disabled())
-> +                               break;
+> This series doesn't add support for any drivers, but looking at some of
+> the code we have downstream, I see this problem. The liveupdate code is
+> all over the place in the driver and it is very hard to wrap one's head
+> around how the device is actually retrieved.
 
-Hmm do we need to do this? Consider a system with cgroup enabled but
-with just one cgroup (root?). The behavior would just be trying that
-cgroup for MAX_RECLAIM_RETRIES failure attempts, correct?
+You can find the vfio-pci driver changes here:
 
-In that case, we don't need to do this check, and we would get the
-same behavior. The loop would terminate after MAX_RECLAIM_RETRIES :)
+  https://lore.kernel.org/kvm/20260511234802.2280368-1-vipinsh@google.com/
 
-Could you fact-check me? :)
+Let's keep the discussion focused on upstream VFIO drivers since that
+is all we are planning to support right now due to LUO's requirement
+of file-based preservation. The downstream driver changes we are
+carrying is not reflective of what we want to support upstream.
+
+> So I think PCI core should track preserved devices, and if the device is
+> preserved, it should skip the probe and wait for retrieve. Retrieve does
+> the full initialization of the device. This fits in with the LUO model
+> as well. You can make retrieve a callback of struct pci_driver and do
+> some wrappers to talk with LUO, so device drivers don't directly
+> interface with LUO at all.
+>
+> We should do similar things on the shutdown path. Shutdown is a
+> fundamentally different operation from freeze, and so we should separate
+> them out as well.
+
+This is speculative. In practice, we haven't needed to change VFIO's
+shutdown() or probe() functions so far. The only change I anticipate
+needing is skipping runtime power management "put" during probe() I
+mentioned above.
+
+If we actually made retrieve() a first-class callback and used that
+instead of probe(), VFIO would internally just call its probe()
+function because that would be the cleanest way to set up all the
+software state it needs to manage the device.
+
+> This solves the lifetime problem as well. When PCI core is initializing,
+> it knows for sure that no retrievals are going to happen. That's because
+> none of the drivers have registered yet. So it can safely access the FLB
+> and initialize its state. After that, drivers can register themselves
+> and start accepting retrieve() calls. Once the last driver goes away,
+> the FLB is freed automatically.
+
+It's not so simple. The PCI core does not really initialize itself.
+Scanning devices gets triggered externally, e.g. by ACPI, device
+trees, runtime hotplug events, etc., and that is when the PCI core
+gets notified about a device. None of this is synchronized with "when
+drivers have registered", which I assume you are referring to
+registering with LUO.
+
+>
+> I am sorry for suggesting a big refactor at v6, but the early versions
+> looked good to me at the time, and I only thought more deeply about this
+> when trying to figure out how we can make the lifetimes cleaner.
+>
+> What do you think? Does this make sense?
+>
+> --
+> Regards,
+> Pratyush Yadav
