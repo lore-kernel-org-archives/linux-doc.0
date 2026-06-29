@@ -1,65 +1,65 @@
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077991DE894
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 20:46:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6761E38239A
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 20:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782766007; cv=none; b=NgnlGY1R2Wq1U0eb7OkSHT0iyCbb8qqHZgN5CktI26UwrTDzZpermJLvsD2T9hZFt1JvNmvDj77R3GHR60EAS7bliUz2nMKJnXDgk2XytI3vKjInwt6fsEiLu4YHGPLelcI19mQh2D0A3YGKYyVVNEgvHp/WO5j64TRxKtR7s1M=
+	t=1782766144; cv=none; b=sPfTGR/nSEQCgxbCUqYifVmMzHIA9/iE6e1Xn+FYB/msq72dABJf2Gyjc2uNoYHuIafsObPHURdqOWc9C9Ma+PZhXLCT39NbEnfKybxjyboyCzaYW3v//fynnIvuuER8SW/dRfLo52c2tpHrZ8I26+Qx6eL+pEjExcvYuqpNRJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782766007; c=relaxed/simple;
-	bh=oIaVpra9xMtdelgZVCpUbmy/Ukn2n3p3s4KE0a0Mppk=;
+	s=arc-20240116; t=1782766144; c=relaxed/simple;
+	bh=rwJU3WYOnqf0gEpLs11o/YLJOMO9LRJt51RJ0YywOlg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jf7vVb5Lex0LeF+OoYI8lDMsRmlxFB0TvKEN8HyGOJdFqcxl4pdMuTsWkqle9jwvL3taaDGJBT8awwIYs6kWRlWq0nudteISDsUAgwwt3yp9Exx612vPN2mgmxsf98gptOqlWPXdvfJaBIlPyWwuE7DeWbS/+p9w0Uy9YFDUIsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DhpvQPFc; arc=none smtp.client-ip=74.125.82.172
+	 Content-Type:Content-Disposition:In-Reply-To; b=ppFVD1DuRWutCHDkzKAuG9Pgwzv+VHz7KrDDocibSi1f7IJPm9+5AUVa6xUE4bGK6Zpotc+lU8+UpiQ8y6cyjeJzn0LY8+7EYwjaFWi6of0/gzPLQnWc2Y5vxKb6KUxbTWVSPgJZVicbccUz5wTVJOE7O7zU/uz7AnDGPzosYxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LbQktx23; arc=none smtp.client-ip=74.125.82.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DhpvQPFc"
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-30e9eefa268so168129eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 13:46:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LbQktx23"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-13b24ddadedso1350871c88.0
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 13:49:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782766005; x=1783370805; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782766142; x=1783370942; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+vZehTvB7/q/A8O6AeI86T/3FAK982m0Qh+Y627rtqU=;
-        b=DhpvQPFcKxrbY9kR99SihTtstpzjjh6ypng8ZKtOarkL68llY29nW1qIpxZa+oRAWX
-         aSSFoMTIyYTwgFQcfUyqSkAljEushl0sczIT4v9sxOnee4uZ2seKQWDAc75MrvH5KSrJ
-         GnX9SxSmLbnZq51v5NRMsNX45mTVtXyyiKLON07Uax5QPc3EvQhIysKfPePoIOSrNaz+
-         klxx6NjpbyFo7jQ9BBPvZsHiw0O5pJ0fdRMOuy6hKvEIxaPlHGztfzgt5CYg3ky85AHO
-         2xJyBDCp6efgAHpQwVXobk3lIe/oWxpA6Y1JUgbKDf5YVv1d35EyAK3cd9oe1y0FlOFs
-         86Zw==
+        bh=hPnhh7jgS4UPbJkDdwhyat1goHs+cg4UMrEmlJGrCmA=;
+        b=LbQktx235j+Y5OYmup4u3Cn8q4Q6rwY2SfV1EZ2sR8+7BlE2O7MasBNZwNppLTRrZ6
+         kB+gAv3QflpBskQAppLEVLQ/goPR1D7GVzVBq+9HdNUrRDlW+4E/0SO8f+W1FjG1FCEI
+         9h20RRqd3KTNxeKkbTu/QX8yC3MRC8Q36OWLDv45JqEUGlJp8tPO87J+cJR8wPJA9AEw
+         O4JpS6ym3fMo/xrbac4Zi0z4nzrR9jnGhaUeDdveNP4ecL65ZZwlXu+W9xkfEIpLk1uO
+         qWI04QhxgmsOMGszFNCgqwIABvTY4UHhSShIl0X1XKTzLxEgUvgW8j3o6J8IuTwyklA2
+         bVbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782766005; x=1783370805;
+        d=1e100.net; s=20251104; t=1782766142; x=1783370942;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=+vZehTvB7/q/A8O6AeI86T/3FAK982m0Qh+Y627rtqU=;
-        b=I7U1QVa39MChGooQkuSDNhT6G5c66GYem87+nH6H7gojtc8XRoH/Ycct6Iwny2L9Gy
-         REn5EAaOfAySn3FLjD8xvLDohjOoAov49UN3ReC/evbkSsCnTSWLen2EWmmyLRmMOUs9
-         XCV72xyrXGLIclXUdKa9rvg9rVkyDnP+5hHTRO6RetMd/vDADZHmuF1bq2wgc+aCm2fG
-         RDCyjv0yJQRIjVGQ2P27ebt45UyQ/JkiSYMDdUS6V9oepu0zd3GcKIjJMBwvma8vS9Tg
-         LM20ZbIfBiWba9NAO6OMLyUyIfA0QQTs1HjWo5/FKZA9JMbcPP7P7XWsaIOn9XZhlKXX
-         cFPQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrZq/B0uQfe5p6vh7nkBSLc6Xy3FmzifPx7gdgBvVV7yo4GJBeIerQENGCt8D/5ETg4UB0+xUmge0k=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7tIofVCiay0bPqiWIkvqxZ6f8cvxD+Fe1lwqKa9lw1fnpEPzH
-	TiGLbcx9eOjJqQz8ZhM28wBrNL+FX01Km52SgsT00oZ60fGZl0T8Cia1
-X-Gm-Gg: AfdE7clwDuG24TrZQuZ1MMpfWJcIIfMHOQWZ+OQOh4ZqYhfz3hZIBpO5Pf8qbFTXwpJ
-	jpZv7z74wjqnmpEnljYorX0uf0sbnraswRYgCG83XNArNs+uA2eR2h0BB9ewLBUO3duDCQQ4UBN
-	MkIZuqBXxQ135bnKK9hiR3KBjrkovW9i1jUbhg2bL4N3t/Nj8Zofvnhztyf3PfLZwPqLV2YMx9r
-	EU4fe++/KNrdZePXnHA4AfZebau6QFHHq2i2UXHE52AML1jq7C6WfUwfLXEe4pVM+2XUF9vXgPE
-	KP2ret4ORf6syjMYohqm5saMl8YA/RtDV4oG97b9GKS8K3o9Ct4xlor1Vrl68y0fBmZaNHBdF6M
-	P1r+ET4AZ1eDIiBNYM2bmPdj0k4sc5jKj9SAKxbuFYciUYTLpmDOQ8oz5TjY5oSneVud1Ud/nZ5
-	spqB4BuLuBOukU2MovKhEYmT6AGw==
-X-Received: by 2002:a05:7301:9c83:b0:2ef:8b91:212 with SMTP id 5a478bee46e88-30ee128cd28mr682632eec.14.1782766005075;
-        Mon, 29 Jun 2026 13:46:45 -0700 (PDT)
+        bh=hPnhh7jgS4UPbJkDdwhyat1goHs+cg4UMrEmlJGrCmA=;
+        b=CZ2PEC1Qlp8PG8SwYbKK7cbzXz+VX/NrjCpz9ldgNHSEiiBZC6e5l21YBqMxqak8iF
+         P1b7a8vdJImOqhTeoSFkSBLqWZ/z3rfKBgHgK+BKTfncvKMfchsTE0GqZzQgDom5llWt
+         OpJksybL5NIsUo9VvH40wxU82rOHxlsa/Z0qbciVwAnjCkJHRaIDOTccJAWOZKkOPBR4
+         +94wsenzg1Gd2p8JObk7Y8zVjrfEi23qdVoqZJDOVSjyvAOMW+YXRIMxbk8f7nYNMEbJ
+         aH1mVQvuxPfoKQCyTMHWVLbtyvVLx2DUgB8GDA1QoldAUhZRyQCfjiKkz6OIDx2KZZVT
+         vn3A==
+X-Forwarded-Encrypted: i=1; AFNElJ+EAHiGOarXpWpq3jAuYPVko4054caRkd2sQ3U/qi1nnCIH05CBwrRyQYFkAJTIQXiTHdbwZ22WwiY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVnR0kkXOJbjM0DnpL/ehowvt46Nt5TPzSSFxI0nrQg4exNyQu
+	1cDy9Zb8L5g7ttyRuvJMp8EVSgiP7XedZJdyv9w7B7cN+Ez+AKrw5ZlS
+X-Gm-Gg: AfdE7cnSQ4hWVOZUMPx4DE47TtsE6zC9JHnXGEb6is7k3/Dqs9JbkOG0vMIZOPwV4HS
+	NvZXvblNf1Kq1o1rZmg5bdNM1TgKNMM/bBA/RBUB+mu5AKvD3tnNJ3SSFCSp9Jzs/wxXOkYDuCP
+	emUE0ivY3cUG+cJfSRl59ii3pgYUtHGwglszbwiCAvRAfIqUSgKQZbqJkcjmrMn6mU29Uelkouv
+	8tRbeXAcJaftphSMwOimWHyxU9vsH7YtftKdsRsnkBMLmrPwRdXQZOc+XJ0VzrazzfTi3wuOmHM
+	lLBNDs/Iobglqt7vp0bCkBkJLeqwd85vbX2/6KE13xenvl+s/kuJQ1f52m8PJHQhJZHlm4rfBoZ
+	zgnaTL59nD/W5rtXeMjT6eY8ECPDFOVc/AlBe1HRjwMbSOWwIEGgROor5OBU70yqTtqL4T4nRhk
+	/UfE8t96lVjcXtag5Y19o48e8KQw==
+X-Received: by 2002:a05:7022:ea30:b0:139:ba7d:84a7 with SMTP id a92af1059eb24-13b2a1665b5mr614140c88.13.1782766142434;
+        Mon, 29 Jun 2026 13:49:02 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee320827fsm715977eec.25.2026.06.29.13.46.44
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b2ab0fc3fsm1198786c88.2.2026.06.29.13.49.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 13:46:44 -0700 (PDT)
+        Mon, 29 Jun 2026 13:49:02 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 29 Jun 2026 13:46:43 -0700
+Date: Mon, 29 Jun 2026 13:49:01 -0700
 From: Guenter Roeck <linux@roeck-us.net>
 To: Matti Vaittinen <mazziesaccount@gmail.com>
 Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
@@ -78,10 +78,10 @@ Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
 	Robert Coulson <robert.coulson@ericsson.com>,
 	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 3/9] hwmon: adm1275: Detect coefficient overflow
-Message-ID: <dfce0e79-7a8d-4861-8343-27f4581eb044@roeck-us.net>
+Subject: Re: [PATCH v2 4/9] hwmon: adm1275: Support module auto-loading
+Message-ID: <87afc89f-f87d-4d83-9b14-1d34af73181a@roeck-us.net>
 References: <cover.1782458224.git.mazziesaccount@gmail.com>
- <d9e3320dbd62e094ff89598cb3aac5b5e716f9e7.1782458224.git.mazziesaccount@gmail.com>
+ <9eca6831f9fe2d781bb88337397c39b10e36f5c6.1782458224.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -90,38 +90,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d9e3320dbd62e094ff89598cb3aac5b5e716f9e7.1782458224.git.mazziesaccount@gmail.com>
+In-Reply-To: <9eca6831f9fe2d781bb88337397c39b10e36f5c6.1782458224.git.mazziesaccount@gmail.com>
 
-On Fri, Jun 26, 2026 at 10:23:58AM +0300, Matti Vaittinen wrote:
+On Fri, Jun 26, 2026 at 10:24:21AM +0300, Matti Vaittinen wrote:
 > From: Matti Vaittinen <mazziesaccount@gmail.com>
 > 
-> Sashiko detected potential coefficient overflow if large shunt resistor
-> is used. When going unnoticed it can cause "drastically incorrect
-> telemetry scaling factors" as Sashiko put it.
+> Populating the i2c_device_id -table is not enough to make the
+> driver module automatically load when device-tree node for the
+> power-monitor is parsed at boot.
 > 
-> I am not convinced such "drastically incorrect telemetry scaling
-> factors" could have gone unnoticed, so I suspect such large shunt
-> resistors aren't really used. Well, it shouldn't hurt to detect the
-> error and abort the probe before Really Wrong current / power -values
-> are reported to user by the hwmon.
+> Adding the of_device_id tables causes the driver module to be
+> automatically load at boot. Testing has been done with rather old Debian
+> system.
+> 
+> When inspecting the generated module-aliases with the insmod, following
+> entries seem to be the difference:
+> 
+> alias:          of:N*T*Cadi,adm1075C*
+> alias:          of:N*T*Cadi,adm1075
+> 
+> I suspect these are required for the module loading to work.
 > 
 > Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> ---
-> Revision history:
-> v1 => v2:
->  - New patch
-> 
-> This patch returns -EOVERFLOW with an error print if overflow is
-> detected. IF there really are systems where the overflow truly occurs,
-> then this change will cause the probe to fail - which might hurt the
-> boot process. It might be safer to only print the warning. One could
-> also try changing the order of the shunt resistor value division (/1000)
-> and the multiplication and see if overflow goes away - but it'll be
-> somewhat more complex then. Hence, I just decided to error-out if this
-> happens, and leave this for the people facing the real overflow to fix
-> (if needed)... It's still fair to mention this might cause issues.
-
-Let's see if it happens.
 
 Applied.
 
