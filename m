@@ -1,134 +1,172 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F90F282F13
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 13:50:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4910C224B15;
+	Mon, 29 Jun 2026 14:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782741005; cv=none; b=TpRY0343fA+LoWW8auQxI92GdWCHzKHB8+SS2+gJcBI/d9tYmb7RPpVg1q6A2MawAMB29RsHDZyausKWoA9xMRJSQ17m+MAJPo7Yoef20ebZsh3rLEIkXDpQ/Rc1C4d0zcJZwOJMNRo8O68DW0KH6pn20+UcXEP+UDzDO7BfLcA=
+	t=1782741934; cv=none; b=ug5ddtsSAQz2NMDvjHir6/GfoZMNqH6JTKFX0MHe/Ovcmsqeg/JumYL1aJTz8JcVPojI6GlCCi3DNtwuE9NjI92pEYBYt4BPkIToSIC9ldZbsNboIDCkNxr3fWJxIXIRnvAMtj3bHu0SQ2n/bPFx37j3qfg1tLcW104JQv1gxbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782741005; c=relaxed/simple;
-	bh=oZQ+GwMytrTPHNJ1MesQiy5LlutyAVV/lnrR2pnvp7Q=;
+	s=arc-20240116; t=1782741934; c=relaxed/simple;
+	bh=c5scqsKrFR923loW0LJkY5W0jRYL4ryhQKo4XfRhyYI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mdZVIJgFEU+GqP49xpP0zwwUpQD0HNNWz6KBvdSNsziOMSkUngCYTgbyPH1+eFkP2UTfxvuOGiC5y0/B94MujkLmz0hRA+ALmHjUjpRj748Yv1NmlWBP8HJ2MJ8CpquOaO+LLLLo+NeYGQwrp0mtff1X86fIPJ483irRzpe/y44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=biccHkv0; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=LJ6l4MN6xtjbGNOTNIXKHj4EHgNoXLOC3wMxL1EvQT1zPPcoe+5Bbcy9SJt6jv9K6Tabz5ubA1893V+g8Y7/NNV7Lh8Zqv0LvPvbF3YkzRIrmtvPFkOu3pGtKN4+bnurL2xJy+ijACGXq9vD+Iepjmy6VIq1tgaWUhPNXbOMo4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RpX260gs; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="biccHkv0"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4924593f45dso43923935e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 06:50:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1782741002; x=1783345802; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wAT8dl0QuouSJVL6hKIvFeb/VtDClMwNys/m3MOu4Hs=;
-        b=biccHkv0ELVBcZhjHQx47JVw0r/2DFF9ZOhiTWfvqdcqUz+xjZ1ZlmprP29s5P5pIp
-         9PfK7VzhwHvU8Vf+gWgJzE5M1xg2pbsY2GpJs6A8tJzLcOk9xd3czl4PWZjJFr9mrG3q
-         o3On2yZVHQgMsuqPiXbI7n3eDrwgF+3Yr4ygFbqAXOhIPM24elA6vFiDGEbOqv8Fnnde
-         cBdLXlSje27HrV3qQvvonONTEpe7+VdYCN4CQO5o20IldtTmQlg886gnaORivqeBUdgi
-         OE8EaZLm1r8hr2OWMgE8lLpb0HYBegz1OSbwoHiDCdlBLJLqDEYN+3DM/fr/0MrE7hTa
-         akIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782741002; x=1783345802;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wAT8dl0QuouSJVL6hKIvFeb/VtDClMwNys/m3MOu4Hs=;
-        b=QohqEoRzbQ768zpeeEXXB2DxYcBiRIO7QeapclhfahYNNfWBk4SWqS7chw+m3BUFWC
-         uAhJyViTG3c+d8nxsi5S3f7g1rEnACbCiOdQXZZAMPZY2FR1BKiJ4j3CZomn6/5J1K87
-         9eXuQURtQGov5v80x2zckjMASA3piE74iac6c8RIj8hzljCr4+xJnOPxFZYEDNKObru/
-         ZZP/nafhhtrC6qHqXxj2vVuCqS/JGSsVHt/mVS6ussfrqLTfq0pw4v1oRHeSpbZwX4YG
-         yKEUfQzKvFzjZn+dOiK0OtY8XGJM6zOT7lR7vqvN5+ZEUhdiGh7fpUM16iDFFwX+rb69
-         b1bQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+YuMPL5vSijEBsvESTVZrizzWw8letd0/iCxzJEs5vYP2DbAyFpBkfkkcRsGnqSDcwsJvyt/Efkw8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwE0w4HKlX0umn7P4ytcjT/mDbWUcBb/Fkea+ag6wSbCioYeALT
-	wpa97FZwwWTDaJqXF5HqTlpjQ1lVZvcXxkJp2cgJs6JsEA8U6RU53bUXHk7RnrFkdKw=
-X-Gm-Gg: AfdE7cmnAojhoDgmRTPfAYUEyoTNqW9EzlMHUT0Zt9IVAyV8GDjwLX5g2k6oZbapDYO
-	XEOIbOrzByEaXJj9oy9btdZAp3Iz8CsH9ISPFJXO7jplXQckB4G1s+knSaZ2+sZlLZyPx4DYN53
-	/z8iR3kDB1GtDcztREA2wSj/f/6w06fe2Z8fJViDt6V0n+kimVrqlKhcqLjOTEZKZrKZeHhQGix
-	SlAkJ1jyxWl3h7PqvJtsPU2/j7DtSN+xcfSy1kuyiu7BKsJwqeLlp3OJ7Tn4mgYibIFBezJ4seT
-	8c3ba/vGex2dRkiJst2+6rydfpur4FdcURgUEou+DMzpQspMKsOegPP95ZFyjC1H3Mcha4djfnC
-	QTdY/Zg9d1woQS0BC37qhcr159KE5lak+7hJCXKyzjw/gcK7fyzsNEYEiLZlGfDe3Nf1uDRbIqW
-	PiYhxsNB2Xqms6qs252CoyVSR270Ye
-X-Received: by 2002:a05:600c:4f8f:b0:490:e5c1:b8bf with SMTP id 5b1f17b1804b1-492668561cdmr258645505e9.13.1782741001997;
-        Mon, 29 Jun 2026 06:50:01 -0700 (PDT)
-Received: from localhost.localdomain ([62.77.90.70])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49269071e49sm323349855e9.10.2026.06.29.06.50.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 06:50:01 -0700 (PDT)
-Date: Mon, 29 Jun 2026 15:49:59 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Sun Shaojie <sunshaojie@kylinos.cn>
-Cc: cgroups@vger.kernel.org, corbet@lwn.net, cui.tao@linux.dev, 
-	hannes@cmpxchg.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	skhan@linuxfoundation.org, tj@kernel.org
-Subject: Re: [PATCH v3] cgroup/cpu: document cpu.stat.local and clarify
- cpu.stat behavior
-Message-ID: <akJ37sqf6nOTW9hW@localhost.localdomain>
-References: <aj6PQPz4IDoVTnPL@localhost.localdomain>
- <20260629060636.200118-1-sunshaojie@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RpX260gs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782741934; x=1814277934;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=c5scqsKrFR923loW0LJkY5W0jRYL4ryhQKo4XfRhyYI=;
+  b=RpX260gsvp2lt3nXY9rz3qhR2ipPusHxZj8y+6NQHdLFq2cd78vkU83i
+   /Xc8X4LnLyx62ehJbw/lCNzv17oxAJ5G7mpgwcPUN3oRhps5S5kkE7Xxu
+   xj/t0QIW4ig2yvCiAwMycIP5AUD8w183qwqkCq0DPCojkCuHi4vLB6Hmc
+   mmvuvib1gP6WimCVlu0KoXAUDZgXWLJqgb70ET1wMcyLZE4QxLJyYmHbc
+   qxEXV2YWCc3sTt6jPw6Jn8BDns1Jaq/lXto3KFb5LStPxgI5KYoql7QNg
+   Mlpi3Qt1XRrlFuAMYxgGIInTRYJalKQO7qGYz3OjbbQdRitFioxiTMqv1
+   Q==;
+X-CSE-ConnectionGUID: iiRb8/+KRUumIiicUngCJg==
+X-CSE-MsgGUID: ugdVhjuOQKmoBFeDYXAgEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11831"; a="83437526"
+X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
+   d="scan'208";a="83437526"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 07:05:33 -0700
+X-CSE-ConnectionGUID: D2WYEo3GTRqDo8mRszrxIA==
+X-CSE-MsgGUID: BXYOOxUDQuWINzIO0K/3dw==
+X-ExtLoop1: 1
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.207])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 07:05:29 -0700
+Date: Mon, 29 Jun 2026 17:05:27 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jinseob Kim <kimjinseob88@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC v6 3/5] iio: osf: add protocol decoding
+Message-ID: <akJ7p17eay2mnW-Y@ashevche-desk.local>
+References: <20260628191337.937-1-kimjinseob88@gmail.com>
+ <20260628191337.937-4-kimjinseob88@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hahg446l5ehwp2pu"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260629060636.200118-1-sunshaojie@kylinos.cn>
+In-Reply-To: <20260628191337.937-4-kimjinseob88@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+
+On Mon, Jun 29, 2026 at 04:13:35AM +0900, Jinseob Kim wrote:
+> Add helpers for decoding Open Sensor Fusion frame headers and supported
+> message payloads.
+> 
+> The decoder validates the OSF0 wire magic, protocol major version,
+> header length, payload bounds, reserved fields and CRC before exposing
+> decoded frame contents to the rest of the driver.
+> 
+> Use explicit little-endian wire storage sizes and designated
+> initializers for decoded output structures.
+
+...
+
+> +#include <linux/bits.h>
+> +#include <linux/crc32.h>
+> +#include <linux/errno.h>
+> +#include <linux/limits.h>
+> +#include <linux/types.h>
+> +#include <linux/unaligned.h>
+
+...
+
+> +#define OSF_FRAME_MAGIC		0x3046534f /* "OSF0" little-endian */
+
+#define OSF_FRAME_MAGIC		0x3046534f /* "OSF0", little-endian */
+
+(mind a comma).
+
+...
+
+> +int osf_protocol_decode_sensor_sample(const struct osf_frame *frame,
+> +				      struct osf_sensor_sample *sample)
+> +{
+> +	u16 channel_count;
+> +	u16 sample_format;
+> +	u16 sensor_type;
+> +	size_t expected_len;
+> +	const u8 *payload;
+> +
+> +	if (!frame || !sample || !frame->payload)
+> +		return -EINVAL;
+> +
+> +	if (frame->message_type != OSF_MSG_SENSOR_SAMPLE)
+> +		return -EPROTO;
+> +
+> +	if (frame->payload_len < OSF_SENSOR_SAMPLE_BASE_LEN)
+> +		return -EMSGSIZE;
+> +
+> +	payload = frame->payload;
+> +	sensor_type = get_unaligned_le16(payload);
+> +	channel_count = get_unaligned_le16(payload + 4);
+> +	sample_format = get_unaligned_le16(payload + 6);
+> +
+> +	if (!osf_sensor_type_valid(sensor_type))
+> +		return -EPROTO;
+> +
+> +	if (!channel_count)
+> +		return -EPROTO;
+> +
+> +	if (sample_format != OSF_SAMPLE_FORMAT_S32)
+> +		return -EPROTO;
+> +
+> +	if (get_unaligned_le32(payload + 12))
+> +		return -EPROTO;
+
+> +	if (channel_count > (SIZE_MAX - OSF_SENSOR_SAMPLE_BASE_LEN) /
+> +	    sizeof(__le32))
+> +		return -EOVERFLOW;
+
+Dead code because it's always 'false'? Hasn't compiler given a warning?
+Always compile your code with `make W=1` using both compilers: clang and GCC.
+
+> +	expected_len = OSF_SENSOR_SAMPLE_BASE_LEN + channel_count * sizeof(__le32);
+> +	if (frame->payload_len != expected_len)
+> +		return -EMSGSIZE;
+> +
+> +	*sample = (struct osf_sensor_sample) {
+> +		.sensor_type = sensor_type,
+> +		.sensor_index = get_unaligned_le16(payload + 2),
+> +		.channel_count = channel_count,
+> +		.sample_format = sample_format,
+> +		.scale_nano = get_unaligned_le32(payload + 8),
+> +		.samples = payload + OSF_SENSOR_SAMPLE_BASE_LEN,
+> +	};
+> +
+> +	return 0;
+> +}
+
+...
+
+> +	if (capability_count > (SIZE_MAX - OSF_CAP_REPORT_BASE_LEN) /
+> +	    OSF_CAP_SENSOR_ENTRY_LEN)
+> +		return -EOVERFLOW;
+
+Ditto.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
---hahg446l5ehwp2pu
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3] cgroup/cpu: document cpu.stat.local and clarify
- cpu.stat behavior
-MIME-Version: 1.0
-
-On Mon, Jun 29, 2026 at 02:06:36PM +0800, Sun Shaojie <sunshaojie@kylinos.c=
-n> wrote:
-> Add documentation for the cpu.stat.local interface file, which reports
-> the throttled_usec stat -- the actual throttling time incurred by the
-> cgroup's own runqueues, which may include throttling inherited from
-> ancestor cgroup bandwidth limits. Unlike cpu.stat's throttled_usec
-> which only accounts for throttling caused by the cgroup's own CFS
-> bandwidth limit.
->=20
-> When the controller is not enabled, the stat is not reported.
->=20
-> Also clarify cpu.stat descriptions: note that the three base CPU usage
-> stats (usage_usec, user_usec, system_usec) include descendant cgroups,
-> and that the five CFS bandwidth stats are non-hierarchical -- they only
-> account for throttling caused by the cgroup's own bandwidth limit.
->=20
-> Signed-off-by: Sun Shaojie <sunshaojie@kylinos.cn>
-> ---
-> Changes in v3:
-> - Clarify that the three base CPU usage stats include descendant
->   cgroups.
-> - Add a note explaining that the five CFS bandwidth stats are
->   non-hierarchical.
-> ---
->  Documentation/admin-guide/cgroup-v2.rst | 23 ++++++++++++++++++++++-
->  1 file changed, 22 insertions(+), 1 deletion(-)
-
-Acked-by: Michal Koutn=FD <mkoutny@suse.com>
-
-Thanks!
-
---hahg446l5ehwp2pu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCakJ4AxsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+AgkVwEAlNPhk0y07Lvgta96yMTx
-CLPWHx/DdRQqT7zBtXFBPlMBAMnF/6AANVrGAHXQGdGxQWg6nqe2FYZ38zgQ+Kf4
-jOsF
-=6Q2U
------END PGP SIGNATURE-----
-
---hahg446l5ehwp2pu--
