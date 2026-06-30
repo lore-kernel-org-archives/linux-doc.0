@@ -1,287 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B591411687;
-	Tue, 30 Jun 2026 16:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA5E22424C;
+	Tue, 30 Jun 2026 16:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782836545; cv=none; b=fZ/ZZnHQrubUgiBkAskyQd8/ighmbYBMYE3j9+Pe/9skhJfejmcVXRVRgOn9egv6bDRMtzcSzAes6hlP288poTskULOPS6JOavlqAmBm/HsZj4FBClOH3yizb47S0jE9ofAIz4zwwEvhbgAmZVys77DBFkeOHYBnsYDQHlYcJUI=
+	t=1782836661; cv=none; b=O7EJU2HW9/eO7q7j0t46W24odreTSlmJA+kFz5QWbv916Wh6IWwt37u5ynEa8+kTijniB+c/7cHqitd8lSFRApouludtFHoxSkngLFcvFQI4CeHGDytFtmacWWN8Mj7RIYpobWCX3UcqdOzr1E4BwdVaVxIcUhU+aODiN/9+rBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782836545; c=relaxed/simple;
-	bh=yomOaMMl+vcnji15fJRLYYv6WVklrScE4szp52y4iTw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C1WGauKAkYv3QAs9aDN51QRu37Bn8oIG7CpKH6Fg8/v5Hr/3XkYz0zyc4dEkd/ftVQMAMhmmoKebuPhTR+m2PxjAZx4Snq4LYzp4cgUBnFV6pkbRAg/+m4W5/51GwttbkgrGfTvdHjkx1BPSNQgNko/N8gniOF0Qt4AcGyqgono=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dul5b6bc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782836661; c=relaxed/simple;
+	bh=jA+Z5cSC4JkMlTEcMPICRNGh0TWd7xD+/PkK+LHbEkI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BzautW5UrxyUhbTsegYN+nLNpOwnGvpXai3QbsGdX2cufcHOCf0VBGbEXSkpz3AbsNVCK7qE1UwmPwEmtAUJ4FHw5YYFlQ6JbogqNdj3cSPJvlnZtK4cLRsdEH8PXCrdiTE/PaENEr2ri13K+zQhrQtw+a3d21vEgQbGvBgW2xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aTTXsdkT; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dul5b6bc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E8681F000E9;
-	Tue, 30 Jun 2026 16:22:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782836543;
-	bh=sslHSl9vky2DIRPZzDKqYfXMiyTPmeA8uuP0XK5gK7k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=dul5b6bcSmqXLVoo6tIeMdmES/vM+PkaSomaF+A3lC8ejOh+Po+qF6DKRh7QRQ2qj
-	 RNt5b/KsKki68SFNDJku6wPb9CW+ZISWaf0sLRJDquJs7b1haH+BphobIlZQ/XsrxK
-	 7E3ztX8E7Fe4NBFIGjf/w9wLbnZk4d6dZkciTmjJWFaotbV52J/Fblih8ggVQ3AfyZ
-	 w9Ki3HlFWs5/xZeCkmZ2vLV+jhuhzcM6fttlAUrOL/P1tLzQNNB3zopW6CYS3jjrCV
-	 y7Wuixcf3Ctz91L2/ZgKY6aqX969OGCbE8ZsQQCg3RbEHpHi0Lejl3t7SC7x1470r5
-	 Bsvt3p8kOJEYw==
-Date: Tue, 30 Jun 2026 18:22:09 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-pci@vger.kernel.org, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] PCI: rcar-gen4: Configure AXIINTC if iMSI-RX not
- used
-Message-ID: <ck6i6tdw4ngde6vmtamfrvryg47ixycpmd74ny5hpzury5ekpr@ibgrw7o6uewj>
-References: <20260618220427.14325-1-marek.vasut+renesas@mailbox.org>
- <20260618220427.14325-2-marek.vasut+renesas@mailbox.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aTTXsdkT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782836660; x=1814372660;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=jA+Z5cSC4JkMlTEcMPICRNGh0TWd7xD+/PkK+LHbEkI=;
+  b=aTTXsdkTovPhZjBYaKleTJ4/+2a3bF0b90/KIpB+bqrY+WgZ12PAAOcR
+   RHmc1xR8Z8hda6yE7PZi6SELpadpfJ2mdtLQICaboVXISLVglfOuWqpR1
+   wn+wGmBkrV5EjUfvhDsv17/Ldac2rpruQO2wBa0wQ1Bf5GJB3TIuH6JN2
+   iP0Z1wo1FpgR1kvIigWLnpgs1NIxzrXHmWeEVuwcwRnozY7XAIXpGqxom
+   zzHPdJur4p50EY2+HjtfWmp2lHmMss4vaN5eYzlSEK4jYz3hFYntrAORm
+   2ZW3pmdtJznuGXg59jrtxwNIaYV5SBKiTsEe6T+d47J9O/nyq/zQRr2FE
+   g==;
+X-CSE-ConnectionGUID: Me/vS7ygRiWMvHi99tfDlA==
+X-CSE-MsgGUID: 2GlluxpcRJ6R0n+/r8Or3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="100983374"
+X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
+   d="scan'208";a="100983374"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 09:24:19 -0700
+X-CSE-ConnectionGUID: P5X392gpQj6ht692ZNvZ0w==
+X-CSE-MsgGUID: Y/RTZ8sDRUCfvUTyYMkP/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
+   d="scan'208";a="251255791"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.124.232.239]) ([10.124.232.239])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 09:24:05 -0700
+Message-ID: <6df5cb10-645c-42de-b0f8-3fdf61067653@intel.com>
+Date: Wed, 1 Jul 2026 00:24:02 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260618220427.14325-2-marek.vasut+renesas@mailbox.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 04/46] KVM: Decouple kvm_has_arch_private_mem from
+ CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+To: Sean Christopherson <seanjc@google.com>
+Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev,
+ binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com,
+ david@kernel.org, jmattson@google.com, jthoughton@google.com,
+ michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com,
+ qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com,
+ shivankg@amd.com, steven.price@arm.com, tabba@google.com,
+ willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com,
+ forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com,
+ aneesh.kumar@kernel.org, liam@infradead.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+ linux-coco@lists.linux.dev
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
+ <20260618-gmem-inplace-conversion-v8-4-9d2959357853@google.com>
+ <6b1f0c77-f059-4f8d-8f46-443b944c59a0@intel.com>
+ <akO_Y0-ERgBoCqoQ@google.com>
+Content-Language: en-US
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <akO_Y0-ERgBoCqoQ@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 19, 2026 at 12:01:59AM +0200, Marek Vasut wrote:
-> In case MSI are enabled, but DWC built-in iMSI-RX is not in use, the
-> MSI are handled via GIC ITS. Configure all controller MSI registers
-> fully.
+On 6/30/2026 9:06 PM, Sean Christopherson wrote:
+> On Tue, Jun 30, 2026, Xiaoyao Li wrote:
+>> On 6/19/2026 8:31 AM, Ackerley Tng via B4 Relay wrote:
+>>>    arch/x86/include/asm/kvm_host.h | 4 +++-
+>>>    include/linux/kvm_host.h        | 2 +-
+>>>    2 files changed, 4 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+>>> index 8e8eb8a5e8a6b..1bde67cf6eb0e 100644
+>>> --- a/arch/x86/include/asm/kvm_host.h
+>>> +++ b/arch/x86/include/asm/kvm_host.h
+>>> @@ -2394,7 +2394,9 @@ void kvm_configure_mmu(bool enable_tdp, int tdp_forced_root_level,
+>>>    		       int tdp_max_root_level, int tdp_huge_page_level);
+>>> -#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>>> +#if defined(CONFIG_KVM_SW_PROTECTED_VM) ||	\
+>>> +	defined(CONFIG_KVM_INTEL_TDX) ||	\
+>>> +	defined(CONFIG_KVM_AMD_SEV)
+>>
+>> Maybe we can just remove the #ifdef and make it always avaiable?
 > 
-> Set or clear MSI capability register MSICAP0 MSI enable MSIE bit and
-> PCIe Interrupt Status 0 Enable register PCIEINTSTS0EN MSI interrupt
-> enable MSI_CTRL_INT bit according to MSI enable state, set both bits
-> if MSI are enabled, clear both bits if MSI are disabled.
+> No, because common KVM keys off the macro to determine whether or not PRIVATE is
+> a supported attribute:
 > 
-> If MSI are disabled, or MSI are enabled and iMSI-RX is used, then
-> deconfigure AXIINTCADDR and AXIINTCCONT to 0, which disables any
-> pass through of MSI TLPs onto the AXI bus and then further into
-> GIC ITS translation registers.
+>    #ifdef kvm_arch_has_private_mem
+>    static u64 kvm_supports_private_mem(struct kvm *kvm)
+>    {
+> 	return !kvm || kvm_arch_has_private_mem(kvm);
+>    }
+>    #else
+>    #define kvm_supports_private_mem(kvm) false
+>    #endif
 > 
-> If MSI are enabled and iMSI-RX is not used, the configure AXIINTCADDR
-> with target address of GIC ITS translation registers, and configure
-> AXIINTCCONT to enable MSI TLP pass through onto AXI bus and into the
-> GIC ITS. This specific configuration allows handling of MSI via the
-> GIC ITS instead of integrated iMSI-RX.
+> And also whether or not to provide the in-place conversion param (without PRIVATE,
+> conversions aren't supported in general):
 > 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>    #ifdef kvm_arch_has_private_mem
+>    bool __ro_after_init gmem_in_place_conversion = !IS_ENABLED(CONFIG_KVM_VM_MEMORY_ATTRIBUTES);
+>    module_param(gmem_in_place_conversion, bool, 0444);
+>    EXPORT_SYMBOL_FOR_KVM_INTERNAL(gmem_in_place_conversion);
+>    #endif
+> 
+> I agree the #ifdeffery is ugly, but kvm_supports_private_mem() in particular
+> needs to evaluate to false if PRIVATE memory isn't supported.
 
-Same as patch 3, SoB chain is broken. Rest LGTM!
+I agree with the above after seeing the later patches. But just to the 
+state where this patch applies on top, the #ifdef is not necessary.
 
-- Mani
-
-> ---
-> NOTE: This would not be possible without prior work from Shimoda-san
-> ---
-> Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-> Cc: Manivannan Sadhasivam <mani@kernel.org>
-> Cc: Marc Zyngier <maz@kernel.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-pci@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
-> V2: Pull GITS_TRANSLATER address from DT, which also fixes missing +0x40
->     offset of the GITS_TRANSLATER register
-> ---
->  drivers/pci/controller/dwc/pcie-rcar-gen4.c | 118 +++++++++++++++++++-
->  1 file changed, 113 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> index 8b03c42f8c84c..6300ab4dc38b3 100644
-> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> @@ -13,8 +13,11 @@
->  #include <linux/interrupt.h>
->  #include <linux/io.h>
->  #include <linux/iopoll.h>
-> +#include <linux/irqchip/arm-gic-v3.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> +#include <linux/of_address.h>
-> +#include <linux/of_irq.h>
->  #include <linux/pci.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
-> @@ -31,6 +34,10 @@
->  #define DEVICE_TYPE_RC		BIT(4)
->  #define BIFUR_MOD_SET_ON	BIT(0)
->  
-> +/* MSI Capability */
-> +#define MSICAP0			0x0050
-> +#define MSICAP0_MSIE		BIT(16)
-> +
->  /* PCIe Interrupt Status 0 */
->  #define PCIEINTSTS0		0x0084
->  
-> @@ -55,6 +62,14 @@
->  #define APP_HOLD_PHY_RST	BIT(16)
->  #define APP_LTSSM_ENABLE	BIT(0)
->  
-> +/* INTC address */
-> +#define AXIINTCADDR		0x0a00
-> +
-> +/* INTC control & mask */
-> +#define AXIINTCCONT		0x0a04
-> +#define INTC_EN			BIT(31)
-> +#define INTC_MASK		GENMASK(11, 2)
-> +
->  /* PCIe Power Management Control */
->  #define PCIEPWRMNGCTRL		0x0070
->  #define APP_CLK_REQ_N		BIT(11)
-> @@ -305,13 +320,103 @@ static struct rcar_gen4_pcie *rcar_gen4_pcie_alloc(struct platform_device *pdev)
->  	return rcar;
->  }
->  
-> +static int rcar_gen4_pcie_host_msi_addr(struct dw_pcie_rp *pp, u32 *msi_addr)
-> +{
-> +	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
-> +	struct device_node *msi_node = NULL;
-> +	struct device *dev = dw->dev;
-> +	struct resource res;
-> +	u64 addr;
-> +	int ret;
-> +
-> +	/*
-> +	 * Either the "msi-parent" or the "msi-map" phandle needs to exist
-> +	 * to obtain the MSI node.
-> +	 */
-> +	of_msi_xlate(dev, &msi_node, 0);
-> +	if (!msi_node)
-> +		return -ENODEV;
-> +
-> +	/* Check if "msi-parent" or the "msi-map" points to ARM GICv3 ITS. */
-> +	if (!of_device_is_compatible(msi_node, "arm,gic-v3-its"))
-> +		return dev_err_probe(dev, -ENODEV, "Compatible MSI controller not found\n");
-> +
-> +	/* Derive GITS_TRANSLATER address from GICv3 */
-> +	ret = of_address_to_resource(msi_node, 0, &res);
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret, "MSI controller resources not obtained\n");
-> +
-> +	addr = res.start + GITS_TRANSLATER;
-> +	if (addr >= SZ_4G)
-> +		return dev_err_probe(dev, -EINVAL, "MSI controller address above 32bit range\n");
-> +
-> +	*msi_addr = addr;
-> +	return 0;
-> +}
-> +
-> +static int rcar_gen4_pcie_host_msi_init(struct dw_pcie_rp *pp)
-> +{
-> +	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
-> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
-> +	u32 val;
-> +	int ret;
-> +
-> +	/* Make sure MSICAP0 MSIE is configured. */
-> +	val = dw_pcie_readl_dbi(dw, MSICAP0);
-> +	if (pci_msi_enabled())
-> +		val |= MSICAP0_MSIE;
-> +	else
-> +		val &= ~MSICAP0_MSIE;
-> +	dw_pcie_writel_dbi(dw, MSICAP0, val);
-> +
-> +	if (!pci_msi_enabled() || pp->use_imsi_rx) {
-> +		/* Clear AXIINTC mapping. */
-> +		writel(0, rcar->base + AXIINTCADDR);
-> +		writel(0, rcar->base + AXIINTCCONT);
-> +	} else {
-> +		ret = rcar_gen4_pcie_host_msi_addr(pp, &val);
-> +		if (ret)
-> +			goto err;
-> +
-> +		/* Point AXIINTC to GIC ITS and enable. */
-> +		writel(val, rcar->base + AXIINTCADDR);
-> +		writel(INTC_EN | INTC_MASK, rcar->base + AXIINTCCONT);
-> +	}
-> +
-> +	/* Configure MSI interrupt signal */
-> +	val = readl(rcar->base + PCIEINTSTS0EN);
-> +	if (pci_msi_enabled())
-> +		val |= MSI_CTRL_INT;
-> +	else
-> +		val &= ~MSI_CTRL_INT;
-> +	writel(val, rcar->base + PCIEINTSTS0EN);
-> +
-> +	return 0;
-> +
-> +err:
-> +	/* Deconfigure MSICAP0 MSIE. */
-> +	val = dw_pcie_readl_dbi(dw, MSICAP0);
-> +	val &= ~MSICAP0_MSIE;
-> +	dw_pcie_writel_dbi(dw, MSICAP0, val);
-> +
-> +	/* Clear AXIINTC mapping. */
-> +	writel(0, rcar->base + AXIINTCADDR);
-> +	writel(0, rcar->base + AXIINTCCONT);
-> +
-> +	/* Deconfigure MSI interrupt signal */
-> +	val = readl(rcar->base + PCIEINTSTS0EN);
-> +	val &= ~MSI_CTRL_INT;
-> +	writel(val, rcar->base + PCIEINTSTS0EN);
-> +
-> +	return ret;
-> +}
-> +
->  /* Host mode */
->  static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
->  {
->  	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
->  	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
->  	int ret;
-> -	u32 val;
->  
->  	gpiod_set_value_cansleep(dw->pe_rst, 1);
->  
-> @@ -328,16 +433,19 @@ static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
->  	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_0, 0x0);
->  	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_1, 0x0);
->  
-> -	/* Enable MSI interrupt signal */
-> -	val = readl(rcar->base + PCIEINTSTS0EN);
-> -	val |= MSI_CTRL_INT;
-> -	writel(val, rcar->base + PCIEINTSTS0EN);
-> +	ret = rcar_gen4_pcie_host_msi_init(pp);
-> +	if (ret)
-> +		goto err;
->  
->  	msleep(PCIE_T_PVPERL_MS);	/* pe_rst requires 100msec delay */
->  
->  	gpiod_set_value_cansleep(dw->pe_rst, 0);
->  
->  	return 0;
-> +
-> +err:
-> +	rcar_gen4_pcie_common_deinit(rcar);
-> +	return ret;
->  }
->  
->  static void rcar_gen4_pcie_host_deinit(struct dw_pcie_rp *pp)
-> -- 
-> 2.53.0
-> 
-
--- 
-மணிவண்ணன் சதாசிவம்
+Maybe add some log to explain it will be helpful.
