@@ -1,193 +1,352 @@
-Received: from mx0b-00128a01.pphosted.com (mx0b-00128a01.pphosted.com [148.163.139.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD923BB69E;
-	Tue, 30 Jun 2026 08:07:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.139.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E68338C2C0
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 08:11:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.169
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782806881; cv=fail; b=M+qMeKoY/AZZHuh6B3zUVIdOZELWDkBPjcv7VXb7gnH7o/DUJAr58dQAwqSAXW8LQpHDCd1hQeL4S82FsT6PVCuP7IvyCsBbGgYzpgdRDUOcxY3dHNvsSsE79D+0LI6BgSV1LfcAjBFvsbMixo2GJNDUe44J0sAVyeRC0jw5uXA=
+	t=1782807083; cv=pass; b=JeGhdths4Ee07KhlMJKEGJ4JZjGIFI8HEwSNR1s5UzW8slpX1otzXVdbVjhTQK8fpm+g+Ja00wD6aKhlWTQLktmYoUtoOPF689iJ3sS34V0n/6ZLkhCguH9LAvF2VaEhixssXaTTkAthCRpOcZJGkj5DlonKY3lGnzDbSKrUknk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782806881; c=relaxed/simple;
-	bh=6GmKtYhi57fuluwx1i+v7OvuZ6GuO87bPFqQJZKeB9E=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=nlzg1A1/AA7QxB1CDlNWuW/+EtUohhjtqKKT8KZIF3Gr56Ekp+x0rGAAYy5uhHOAg8ui4HKmT7h7X8gOdjs/nbNjvP2Z8S/nEgakMD08rErM/x9cxYxF4hUeSUnZmP46+YyjAVSrVlGjt9XDoIkAlEutIYtSo7ldlMw4LIG781I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=NiPxBWu8; arc=fail smtp.client-ip=148.163.139.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1782807083; c=relaxed/simple;
+	bh=3CRqg4jjJBFOEEQUI8942ovOs3MSz8reLt9alwmH2Zg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CnZRg+PIXPu1t+7fc9H8Abz+L3A8Zr7mwO3UB9D/gWWXOGiISbf0g7kNmo+FIe4j4HaghQUnwSqMLQahLJMZwLoLEIMrv+na4x4WfKLJYICKC8seMC5Bow/9w773J50nnpw0HoDNN12hV/WiKtEICrXl/pLKW14ePDPEBvZnWXI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iufYDOjd; arc=pass smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="NiPxBWu8"
-Received: from pps.filterd (m0375854.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65U5iB0R3988098;
-	Tue, 30 Jun 2026 04:07:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=AE+Lj
-	DFhfXOGCn3te5NMwm7V4nKSES+9JGBwBYzBWWM=; b=NiPxBWu87yJv2rIT0Vcro
-	30WAy8Q2evAEtwl0SM72WkxBZ2eyyJfo0wDqfs5JVpcozKu/iN7Pc/fifhht4df3
-	W8QvJ94bnsFriRlvQJ4m6T8t4qkAsK13NT/8JLujEFTqZjK4AsBqdSr3etjMXdrS
-	H5x8YG5ez0tqAzWNyiFvsW1bg0fnmlprCIcxVRWR5Gt8bh/1BshxC181b+N3BLDQ
-	RJNt+sFoQ5zMs4cSoYkLfiZ62JrTU30Yg8+c0U1QkcVXeyuTCp/F2vxJYWbtvjQF
-	h7q61B9u1xWPkkC1Xvfp/LrbA+6RqhdWn8zuQR2fadrbupB8lG16Xz4QqYt1chIC
-	A==
-Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012014.outbound.protection.outlook.com [40.93.195.14])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4f47wpgnkc-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 30 Jun 2026 04:07:31 -0400 (EDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cjze/qEWXRbwkOBynCOs3XWR9FE6wVwlIB1qQJ+gzbA8hvihYRiF6qi6995/hiK5VrgE//05EZdBIJbCEDcvBU/O+ApweqK4OLEH0eLBKzzVtzExfSfTKs99sQjJUnvrhQNVZosVTjBxxnPnYF+K0qXeKPBwawKVLAOwc4d+5eUCcgh6Ak76Y+NWBqBPfZ4NI8clQljI52rlfiOuyM4MuShcmcbC5u+TXsjB/9ogS3NRRcXwwEIT7XdtI+NuLfhFtCU7gf94LPSgddrNlWc4ITJ/0PqeroauqF/wfOlhQx43dt0Ym4OxS+3/5sPTKS344S/eHCAbife+1nnBSBqbzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AE+LjDFhfXOGCn3te5NMwm7V4nKSES+9JGBwBYzBWWM=;
- b=LUZTNYPdfSKwMLP2TS6m05NQGwiF8lTvJE6JgzJ7hA3x7DMUp3Mn10cx28NjH4ZxeOYg5qLq3NszOULgOKQOujNrSpVwUuh5fm7nn1Bm/K7mWDVDjOlxKiCOk6VqtHwF7YgILL+Hc3u4d0S4l+acdGOUDV51VcqpJuE088predmWgyzdgCcSUqLGpfVpW+9WgtcUKlmXT0DADIR3vSk1rktdU9YMjhq9tY0xZQ6vSTo+0NpuevNjF3k2kjAJKqEUryCXKRmgWpcq7LF+kC+PZYYKb9zI8j7efWT0ITLuFX71jagtWQLYS171hwhkpU1HCCttEPwSEl6rlCL5dkdRLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
- dkim=pass header.d=analog.com; arc=none
-Received: from PH0PR03MB6351.namprd03.prod.outlook.com (2603:10b6:510:ab::18)
- by BY1PR03MB7214.namprd03.prod.outlook.com (2603:10b6:a03:530::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Tue, 30 Jun
- 2026 08:07:27 +0000
-Received: from PH0PR03MB6351.namprd03.prod.outlook.com
- ([fe80::1578:4572:29b5:2442]) by PH0PR03MB6351.namprd03.prod.outlook.com
- ([fe80::1578:4572:29b5:2442%4]) with mapi id 15.21.0181.008; Tue, 30 Jun 2026
- 08:07:27 +0000
-From: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH 5/6] dt-bindings: hwmon: (pmbus/max20830): add max20830c
- and max20840c support
-Thread-Topic: [PATCH 5/6] dt-bindings: hwmon: (pmbus/max20830): add max20830c
- and max20840c support
-Thread-Index: AQHdCDrV9DcJHzJAJkShiqvkOjk0BLZWt0GAgAADMOA=
-Date: Tue, 30 Jun 2026 08:07:27 +0000
-Message-ID:
- <PH0PR03MB63512440FF07E171477CD42BF1F72@PH0PR03MB6351.namprd03.prod.outlook.com>
-References: <20260630-dev-max20830c-v1-0-a02786bde470@analog.com>
- <20260630-dev-max20830c-v1-5-a02786bde470@analog.com>
- <20260630-gerbil-of-phenomenal-jest-4dce8b@quoll>
-In-Reply-To: <20260630-gerbil-of-phenomenal-jest-4dce8b@quoll>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR03MB6351:EE_|BY1PR03MB7214:EE_
-x-ms-office365-filtering-correlation-id: 4a4aadd5-8158-4543-2b13-08ded67ea05a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|23010399003|7416014|376014|1800799024|38070700021|22082099003|4143699003|11063799006|18002099003|56012099006;
-x-microsoft-antispam-message-info:
- 2uxJz6ItJT6a1X9SItd9XQ90mEbwg4yjf3mpd3bgLrOso/i0vaUVPqKPUcoiED3hnbI8lr6JPk7ERVfR8yi02TgmvDdXTFUaGKhGhDPg0w26HDxWIMmxm7chr4dmGNOP1JZQjkDmlxSTb5GEdkXKy7EAR1VvlByWdbTlHpuvio+eAziLI95VPy9xOUlWftyW6+iqOw8w+yVcP5GreAJ9wgParmLipCN3sCPl9JZStgy8Avn/c4rC7vA2rMtL8w7luTwAmIS1+ij2UWSMKM9OmK/WdjC0nQhirG8BujL6FeEfPEaVAu+nGUSQTePwYs9Zp5be3gencw1qsxD50K3WDq7cDCsIFLxXNi9CIEPOHH7+y6mFHlvfVzPSKzQI3M9ptq3glXQa2aWoBStHF2z8uZo+PJAddC3hDDuIfpFbvwXF9s1ApO5I7xinoOClpIcOkd82hH1OznO0h2uGizmtSk4JiXSYpUXlgfrDg/qqrzv26oU+z9h8H9vwj4QbQOAWsyWFYDXow5CJxWpW2vwAT2HmI5P1SriPBUGugDwDig2JhcHGsceH+/9Wf9afIX8+F2P+ouRZ51ZSLy6C+2W0x76fAg4o0HF+WgYPcyXfuwBSrb9N6fLgfbveDdw/wecCeX93VyfntXiGE797ahq3MJG8JwAsRDyGHKIr4LwHmy5FDpu2cs/X2cWzoxXucBtXCI5TdyKVe2kzzB6EOVDnkYUKCtKCG5In6exw0H69yi4=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR03MB6351.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(7416014)(376014)(1800799024)(38070700021)(22082099003)(4143699003)(11063799006)(18002099003)(56012099006);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?l6hKQ6tNG74L5xpXjnnltUUKM3npTCE6Xkdt4tI4n8bBbyCe0cxlhA7mX3sj?=
- =?us-ascii?Q?WKPdNkuXREtJXP3qTVrkh+jmkSAhLNO6mRyIR6QY0tBHqre27SLqtdDJVzMf?=
- =?us-ascii?Q?O46F/ig70uBJO8C4K6ziFpJMV5uBmOGSxf+h/21II2ky4fImIDmhbPgh7kR4?=
- =?us-ascii?Q?1HaoyMmNUrdHxfCCKh8Wy+OYEzF+z0eGYleqjj+EIMheOqbTcOg/34wGNqjR?=
- =?us-ascii?Q?VO9URL+l7EYkgedM2baTUYLap2/RxTJ0QpZwQv4gWyNk/WNZb3OHLkp4v9AP?=
- =?us-ascii?Q?k/jhORh6rAVo6Ij2eYuQpCMfqF27V+UPuZ3HxbqWvdkFFwbGfbOL5Qi/omlC?=
- =?us-ascii?Q?tTF8FlQsmGctK8zxU2bav5vLz1QSpBBugZBzPzOfP03cSXZnd6OmVCCln7/z?=
- =?us-ascii?Q?jtGn5/E80HnepkrsRtuPBA5Ilgom1ZKd8jNiUErBypculsphad7sy52SLBuG?=
- =?us-ascii?Q?AeoDK1WGZvUmAxcbXPhS8bgCYuQEGaf8pHreozjPrZVKPIW/Hyz98EhW5t5g?=
- =?us-ascii?Q?wsCf1/1N+Wn7HhCXzP7Tm1sXzaBQd+LwRXThAHwjw3X4XiJhAIJmkQ9AKVKG?=
- =?us-ascii?Q?3tsP8Et39DxK4mcUWf308i3PdfUJSe5sZLsjPxAbv6+430maxXCy2mni6MO2?=
- =?us-ascii?Q?axJ0BKPQpMRIKNsNHC7JAF7+wOWQIHxS3ZuNJgPB1PHLM1/+xnaFhG1TWE2D?=
- =?us-ascii?Q?qIZLMxPmyzuQpj4f/qJtqnYeuAlZPsLiK/gNnT/gjKs0oTpOznNBwZJB4J5d?=
- =?us-ascii?Q?xv3QjzjU2fkoUbxoypjkJK5R+Rj0bq4pSViJu+yRhqPI54gQfRHXAKeo5uyt?=
- =?us-ascii?Q?AtlUu8FHD01NBd1kFzKd2mWxdfKiFpPp27cdHCMAY2Z/rsVuHdvwHgzOUlEf?=
- =?us-ascii?Q?RgGnVbP1ghkh9CFPZIFPdqAS16GDz8DLcMZ5jNiYJA9LblsyidnVL0WLNain?=
- =?us-ascii?Q?XiGa2uBPhc7GRjH6TcqOyvjLLyPk/ObJhYEFwM16c+iYZi8CkAlRZsP5qXw6?=
- =?us-ascii?Q?QRvxOqzoVKwOxWM3ji5DdREXTNTzfHDeeOa1uZ45Sc6hZ0/i4y2uzh5S9nIi?=
- =?us-ascii?Q?1zcGMSD2qONLhD/VeYDkuhh7FNGG4iGLDMEQprfUuxD44AsR5SIazmWZhU58?=
- =?us-ascii?Q?tZOcn1ahh+whCvrV9ZLrkfXa2zbwn38zYr6S7x/bITtwWNhZVD5wdwFHKfNR?=
- =?us-ascii?Q?6y0XtUCQ1dfvy5Xe/QP7MOPBoR3UwKmqbNBv+h1Lo/yitWi+Iq/BeLzznQuF?=
- =?us-ascii?Q?wsXKtSikgYse5TJpsxKSa7Kul1gc6U6lYjJFPycfQ8ivGQbjhhcUBQtZNqRQ?=
- =?us-ascii?Q?3/MFyqwKfcuD3zKgB+/TA4oKji3iDamRRGHHMe92S8ospS2AIMtLCTBdBg/X?=
- =?us-ascii?Q?Wu2ptD2/DnkzBsxQ4XAuxg/+mUVKlzDIa6yIIXS0G4JI90lg9YVLt9PnmFds?=
- =?us-ascii?Q?37nsl+ySdS0nvMsUA6OzMC6+Mv4uJkvw5lCb6lo8IKteblPeRR1eUDDNLEh5?=
- =?us-ascii?Q?zdw59c/xEnyfLrldHhfYd1OtMxzWyhezmLnccjET8ksEsaeTAiiAq5BRq7XP?=
- =?us-ascii?Q?RfN1mcrR/NsDRQYBE5MH3xmQ1cf/aq/2sCdkxWEtwhjzLNz6Egp2b9BuOKUb?=
- =?us-ascii?Q?IQbY177WmLScVC5KRU4kG59AtrLLheYP9isPhtzKRG3zgkYTisbDeJYGLLlf?=
- =?us-ascii?Q?C27nqv15Mm7XdqqAaa9ARILK7Xi3FaauP2n1AKmFRIacDOcw7/lO3igpEYJu?=
- =?us-ascii?Q?LxvYN108AKrmdhN8QVUnDFjSskH5lPU=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iufYDOjd"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-39b19e7d6fcso8883311fa.1
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 01:11:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782807080; cv=none;
+        d=google.com; s=arc-20260327;
+        b=nEm3mLWM8CYoViemC7SXCZ/J6qgfGUVk8P69ZnRoWZUEvoDLjf6opr2M16Ifje0q4h
+         M0+lbfcrwPUKhaTW2APp0dmw6UJcEya7M/1ghwzsxs1p03FLSuusrqyWshyIATR1+v+L
+         MUYmMfkVoizLrD5cP3KDNxgMqV1SivI1UtTFjKhs42g4TLn+4mrgym96G2cqK4On5G1A
+         WlGa79pV1i9+5af2p4/YBZVLtFl2HRFw28wCizKScYatTSka3avTS8pgDAQIqf8NmKSX
+         xxPe8h07eP8RXtO23PszRi50CpCU57jiiM3RN/GYU1OKFRKokA9lXW5ASmJUACTy17V/
+         bieA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=EIFNyBiGV125IWoTbnKZBjGH67zjqTCIkC6QJio46H8=;
+        fh=sEEfHMF1l4DCqk9DttKB1QLVrf1gYIwfrj0Pi7qWFT8=;
+        b=JTzsrPf0B1/PIUgaZrHH1ALKLUmzLj2K3to0ZLXm4vIRMxfflJtYghjw+26vTsNzSw
+         zTRMzlJr/yGKPGqGhn3qTBDoAOA6FGXjiKCrZK8auiS3yYtws5rZxp9i9WblvUEVZWBn
+         ueAD7yz62+fMbGMtMh+ISOuQtWrzJF+enLVOeakgjzT5Wc0iMygOEHlCvuPYTV33BqHO
+         rtArrf8hcCDOedaXb9YnOKr4r9xdMj+lXSr4TQGFq43us5FGKyaJpm31I2Yv6S/crjq5
+         nMfcQ70JxE+Wy7drs1UCB33uT3aWbADq2Za2bUwKNfV6UPoQbBakQa6mqLC6wwq7Kj11
+         f8aw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782807080; x=1783411880; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EIFNyBiGV125IWoTbnKZBjGH67zjqTCIkC6QJio46H8=;
+        b=iufYDOjdYk0okCaFTB0r7dUmStmH3pa11qY+Q6kUIpywK31XfoPuxkZpftFUCHVOSU
+         ExIy9R3kfe2n0/lT2hoDbPOlRj+ggbxLyqydy/rXDBGPITrs04Q8WeRxx1ARnGCNkVc2
+         hSgT9ZFdskYa0nVDNuNPJJYdZ/z8YOjSr34L3bR1l4aEJkLH+pnSs8noTx5ZGj35pQct
+         uUZg85LGGjgLMTcO1fa9mmM4idS6FSRW3WZqY7a8xXKzfO1rq1EO9Lfi2ikzOM0irTrj
+         GgDimL176VojqvPHurttq7EO/w8EZkOwMwlQpUR3lZ19whvxDW6CBVbRGMKT0m2nydia
+         OZ9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782807080; x=1783411880;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=EIFNyBiGV125IWoTbnKZBjGH67zjqTCIkC6QJio46H8=;
+        b=X4GH2b+YqinItskXrze5Qlk3Rul6im+wAnanalYjjuGZznEr0rMaPa0HA4EUjXs1VS
+         HndtaWkXvoFa1yp5futZXNZNZ3tzKA19rT1PGuvXJEU8fZhcfNCPrqVX6tyPCj5Gt216
+         YJMDjzHOTYuQDN8S3Vq15mTbJrRMtrZ/UnTqxp5i6Hr6AvHt8avzQIFDx9kszXmw/whs
+         6O5VpAklicMmxplr069AuZW+rbSCgMy+/dh2FRLTZVXhmndb2xETAKkdxlabWE7Is4EU
+         BcPq3RxEpRtuVbQkBAXLm1MmEyqhNVnPx96gqW/UDsCVM3Yh9C6xfBjE8YcxFANDBx75
+         1low==
+X-Forwarded-Encrypted: i=1; AHgh+RrjQexeulMpoik11HD8b5x4WfYffHjwqhH74KxSdDTeovJds6PhUT73R9oblEsAimIp+gqMYvER0zI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzca03Yj4P40D3zxhiPfpGLUiBst6FA0bK2QGg4rk4TjB39p2bQ
+	BNVjYevd81iBY3zXOuA39M9OehFsCRrJ/sveyS6eFsHoNJOYSCvrzW4/qXsPAR2kThBxZnzOwiM
+	jgsEDapTwU+QbfqKvPNkeaErt92yf94E=
+X-Gm-Gg: AfdE7ckA+AfMD5rAAvHgZHoMSYDGC/TvyHiIdWSRVqLS8unNphNGlfU/iak+nbT+gew
+	wO5eEgmMP3jbChlO+dXCcoXZWwhdSOvzQ2Zha7gjbbT8fc6AV5SBNgsi6QV/1znv1iMNmi+GiXx
+	7aIE2JH+5hCUDW7qA10fPe8KpgQHyWWfL2SK9FhOqoLKvG1EX6mQWhvhu/ILNe6UWlfAKj3CYuB
+	OgvAe1/CXlBiGcoz7cPBUHfkrDxRT3DAtM+s3iFzjB65cYiA1HE7uNkKz55Bg+AZdB0Dfrd7+8I
+	VzsM7+HXPMm7LSNEaajun79lWPtqsKQ=
+X-Received: by 2002:a2e:9657:0:b0:396:668f:b7f9 with SMTP id
+ 38308e7fff4ca-39b1ddfdee0mr4316791fa.24.1782807079383; Tue, 30 Jun 2026
+ 01:11:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	VrqfvSywe68cKzOt7Le/LiDqBN41pipyffQc0GHRpMFfztd0o6QBpzefpMZAmL2sYw/rpuvxIo2D4uFylycQ6cwrR9f1pgOZehxP4JRSpcjzGuQieIEu+QftkSV9UAb3YAshjlQD+c2mB0/O3JZpT2J434CqHTcNRdhrSRD9FivLy0o6peNixB288P/RdVJmsQPmHPGAD6XcAQOPnKUDR0c8J2grfZeG9VuyLWQW5CBI37Yttar3H5v9R8gzVsaO41cLmurnjQ9ii4gqQPoxxxC6B/mxna2345wck+wIxYTb7s80FTsRckyK03245u7t0ISDxtI977RUApDNoDP4rA==
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR03MB6351.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a4aadd5-8158-4543-2b13-08ded67ea05a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2026 08:07:27.7123
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0k5DrliynGK3/OfQeMiWriH0cbls0Zq7sJg9m+++WBJ6COfXmdd5IOOk3qyIxzCw1/KO8/VPSJzvSqaaMCfPvr5Sc41OzwXgGHJCIKDTqWA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR03MB7214
-X-Authority-Analysis: v=2.4 cv=UoRT8ewB c=1 sm=1 tr=0 ts=6a437943 cx=c_pps
- a=C5q/T6pJLpFJxMBEEzTjbA==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22
- a=iZSIUCweCk2Oy3QsdGPA:22 a=X4gfy60VziH7o14k9qoA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: 60i90cH12UjK4-OM9_h3oSBCYcq7PV5P
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjMwMDA3MCBTYWx0ZWRfX+d8UPLKYFE2c
- W2b7ke+ygQWOwaXczuqWW9HIjO06T6ezq/WVvwpJ/OLJ7jfQ+fIUwQnq+Xgh0IVjBNRJzSXOjD5
- 6lKaXtqo5uDP5oz32ELJu5qQJGhdTwVtqQwYYD/4wP8dUGKjmlGR
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjMwMDA3MCBTYWx0ZWRfX6KIIRHuzgGZd
- T3C8OGmruOwpswWi3tLlInOS/B4+9YqzCpn/f8J/1BVKVYv9LEICQX+hISQszWUKTO9sykWflYf
- Y7YWR6147Q+hkxtKlQCc+Jglkz5VLzxWgkRrUx8ms9QIzDjaUGtvrANGBGMpbUGLBJlP0yzeTYf
- iiFCGQlU7nYHGN/xOBRH+amSFcA7AukblDt++nOJlxITxkBRcdz6+idfwjlLtGKvY8CvGRb+LZn
- 8qqULjHK58MCud56bcEk4lXXtFCO3Yp8dBbtkc6g1Lzbaa9f3N/6Yt1LNCmRT1YZMQqUH5Exqv4
- jqfc4l9UKrCjd1+/DvtHRq0aP+PEuGIIDEq7PSuX2NuATERnNXNTabMKXey9OpnB4lZYHcVo726
- fVw0uEXUQS1vHsRPPlCrVvDeb7JDXe3gwf3YlKCz9vD0x84LaRAaG/Uo0KbhRAhg1JT5EIDvXtI
- JlzYxVXpqpbjVxyObuA==
-X-Proofpoint-GUID: 60i90cH12UjK4-OM9_h3oSBCYcq7PV5P
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-30_02,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0 spamscore=0
- clxscore=1011 bulkscore=0 priorityscore=1501 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606300070
+References: <20260629083542.10041-1-lucaslnobrega38@gmail.com>
+ <CAJZ5v0iVD90XPsWgT8B+fw9vmFRZTVL7MasPP-=Ci0OdUmNR=A@mail.gmail.com> <6021784.DvuYhMxLoT@rafael.j.wysocki>
+In-Reply-To: <6021784.DvuYhMxLoT@rafael.j.wysocki>
+From: Lucas Lima <lucaslnobrega38@gmail.com>
+Date: Tue, 30 Jun 2026 05:11:06 -0300
+X-Gm-Features: AVVi8CdboQGFGMh_5EKoVOk7TQrzmHfNsXbHneuVGM6SxXOiX2PsDmgqMWtLEV0
+Message-ID: <CAMVixxV83tSLEi_o1vmHjqfgPnnXDwo2LjP_m-Y7iEWfvUAP2g@mail.gmail.com>
+Subject: Re: [PATCH] sched/topology: Allow EAS without schedutil for
+ artificial Energy Models
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: viresh.kumar@linaro.org, mingo@redhat.com, peterz@infradead.org, 
+	juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
+	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, 
+	kprateek.nayak@amd.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
+Em seg., 29 de jun. de 2026 =C3=A0s 16:06, Rafael J. Wysocki
+<rafael@kernel.org> escreveu:
+>
+> On Monday, June 29, 2026 5:16:17 PM CEST Rafael J. Wysocki (Intel) wrote:
+> > On Mon, Jun 29, 2026 at 10:36=E2=80=AFAM Lucas de Lima N=C3=B3brega
+> > <lucaslnobrega38@gmail.com> wrote:
+> > >
+> > > EAS currently refuses to enable energy-aware scheduling on a root
+> > > domain unless schedutil is the active CPUFreq governor for all of its
+> > > CPUs (cpufreq_ready_for_eas()). This requirement exists to protect th=
+e
+> > > accuracy of the energy estimate: EAS predicts the OPP a CPU will run
+> > > at from its utilization, which is only meaningful if the active
+> > > governor actually requests OPPs that way, and schedutil is the only
+> > > one that does.
+> > >
+> > > That requirement does not apply to artificial Energy Models
+> > > (EM_PERF_DOMAIN_ARTIFICIAL). An artificial EM is built from a
+> > > get_cost() callback instead of real power numbers, and only encodes a
+> > > cost ranking between CPUs (e.g. P-cores cost more than E-cores at a
+> > > given utilization). It never claims to predict real energy use at any
+> > > specific OPP, so there is no per-OPP accuracy for the governor
+> > > requirement to protect, regardless of which governor is in control or
+> > > whether it tracks utilization at all.
 > >
-> >  properties:
-> >    compatible:
-> > -    const: adi,max20830
-> > +    oneOf:
-> > +      - const: adi,max20830
-> > +      - items:
-> > +          - enum:
-> > +              - adi,max20830c
-> > +              - adi,max20840c
-> > +          - const: adi,max20830  # Fallback compatible
->=20
-> Drop the comment, it is obvious. Can this be not a fallback compatible?
->=20
+> > But it is still about comparing the cost of running on different CPUs
+> > at different performance levels.
+> >
+> > For instance, say the scale-invariant utilization of a task is 256 and
+> > it can run either by itself on a P-core, or with another task whose
+> > utilization is 128 on an E-core, and say the P-core's and E-core's
+> > capacity is 1024 and 512, respectively.
+> >
+> > Say the cost function tells EAS that running a P-core at 1/4 of the
+> > capacity is cheaper than running an E-core at 3/4 capacity, so it will
+> > pick up the P-core to run that task, but if cpufreq ramps up the
+> > frequency of the P-core to the max when the task gets to it, it may
+> > actually turn out to be more expensive.
+> >
+> > This means that EAS still has an expectation regarding cpufreq which
+> > is that it will generally tend to run tasks at the performance level
+> > corresponding to the sum of their scale-invariant utilization at least
+> > roughly.
+> >
+> > IIUC this actually has nothing to do with whether or not the energy
+> > model used by EAS is artificial.  The schedutil requirement is about
+> > choosing a performance level proportional to the utilization (which
+> > schedutil generally tends to do by design).
+> >
+> > > intel_pstate registers exactly this kind of artificial EM for hybrid
+> > > (P/E-core) systems without SMT, regardless of whether it operates in
+> > > active or passive mode. In active mode it never uses schedutil, since
+> > > HWP picks frequency autonomously, so on these systems EAS never
+> > > engages even though SD_ASYM_CPUCAPACITY, frequency invariance and the
+> > > EM are all in place: find_energy_efficient_cpu() is never reached
+> > > because is_rd_overutilized() is hardcoded to true whenever
+> > > sched_energy_enabled() is false. cppc_cpufreq registers the same kind
+> > > of ranking-only artificial EM and is affected the same way with any
+> > > non-schedutil governor.
+> > >
+> > > Allow EAS to be enabled when every CPU's EM in the root domain is
+> > > artificial, even when schedutil is not the active governor.
+> > >
+> > > Tested on a Raptor Lake-P laptop with nosmt=3Dforce and intel_pstate =
+in
+> > > active/HWP mode: find_energy_efficient_cpu() was never called before
+> > > this change (confirmed via the sched_overutilized_tp tracepoint and
+> > > ftrace) and is exercised as expected afterwards.
+> >
+> > If this is about allowing EAS to work with intel_pstate running in the
+> > active mode, you may argue that what the processor firmware is doing
+> > when intel_pstate runs in the active mode is not much different from
+> > what schedutil would do.  So a driver implementing an internal
+> > governor (that is, using the .set_policy() callback) would need to
+> > declare that its internal governor is as good as schedutil from EAS'
+> > perspective and so it will pass the "cpufreq readiness" check.
+>
+> And I have a prototype patch (on top of 7.2-rc1) doing this which is
+> appended.
+>
+> I wonder if it works for you (that is, if it allows intel_pstate and EAS =
+to
+> work together both with schedutil and when intel_pstate operates in the
+> active mode with the "powersave" policy on your system).
 
-After considering the feedback from patch 6/6 regarding this fallback, I th=
-ink I
-would not make this fallback compatible. Will edit out.
+It does work, thank you.
 
-Regards,
-Alexis
+>
+> Also I wonder why exactly you want intel_pstate in the active mode to
+> work with EAS.  Do you see any significant improvement in that case?
+
+About that specific topic i do not have any testing data, but it felt
+like schedutil drains more battery than pstate active (likely due to
+worse c-states management) and presents more stutters in general usage
+(I would guess it's slower to react to load changes). After bypassing sched=
+util
+those very observations were gone, and the responsiveness of the system
+looked very similar to EAS disabled, pstate active. Since EAS does
+prioritize spreading
+onto E cores, which do consume less energy by my testing, IMHO it's
+almost too good
+to be leaving it unused.
+
+I also want to point out that gaming (mainly minecraft) stutters a lot more=
+ with
+EAS on, even when pstate is set to active. So i wonder what do you think ab=
+out
+capturing the system power mode (currently only clamps frequency) and
+disabling eas_compatible when set to "performance"? That would need
+updating cpufreq_policy, but feels reasonable to let the user disable EAS
+for latency sensitive tasks, since E cores struggle at those.
+
+I also want to point out that gaming (mainly Minecraft) stutters a lot
+more with EAS,
+even when pstate is set to active. So I wonder what you think about
+capturing the
+platform power profile (via the platform_profile subsystem) and
+disabling eas_compatible
+when set to "performance"? That would need a notifier from
+platform_profile to re-evaluate eas_compatible
+across active policies when the profile changes at runtime, but feels
+reasonable to let the
+user disable EAS for latency-sensitive tasks, since E-cores struggle at tho=
+se.
+
+I know that for now, my observations are only anecdotal, but if needed
+I'm eager to test those assumptions!
+
+>
+> ---
+>  drivers/cpufreq/cpufreq.c        |    2 +-
+>  drivers/cpufreq/intel_pstate.c   |   11 +++++++++++
+>  include/linux/cpufreq.h          |   16 +++++++---------
+>  kernel/sched/cpufreq_schedutil.c |    7 ++-----
+>  4 files changed, 21 insertions(+), 15 deletions(-)
+>
+> --- a/drivers/cpufreq/cpufreq.c
+> +++ b/drivers/cpufreq/cpufreq.c
+> @@ -3058,7 +3058,7 @@ static bool cpufreq_policy_is_good_for_e
+>                 return false;
+>         }
+>
+> -       return sugov_is_governor(policy);
+> +       return policy->eas_compatible;
+>  }
+>
+>  bool cpufreq_ready_for_eas(const struct cpumask *cpu_mask)
+> --- a/drivers/cpufreq/intel_pstate.c
+> +++ b/drivers/cpufreq/intel_pstate.c
+> @@ -2921,6 +2921,9 @@ static int intel_pstate_set_policy(struc
+>                 if (!hwp_boost)
+>                         intel_pstate_clear_update_util_hook(policy->cpu);
+>                 intel_pstate_hwp_set(policy->cpu);
+> +
+> +               policy->eas_compatible =3D hwp_is_hybrid &&
+> +                               cpu->policy !=3D CPUFREQ_POLICY_PERFORMAN=
+CE;
+>         }
+>         /*
+>          * policy->cur is never updated with the intel_pstate driver, but=
+ it
+> @@ -2930,6 +2933,9 @@ static int intel_pstate_set_policy(struc
+>
+>         mutex_unlock(&intel_pstate_limits_lock);
+>
+> +       if (policy->eas_compatible)
+> +               em_rebuild_sched_domains();
+> +
+>         return 0;
+>  }
+>
+> @@ -3030,6 +3036,11 @@ static void intel_pstate_cpu_exit(struct
+>         pr_debug("CPU %d exiting\n", policy->cpu);
+>
+>         policy->fast_switch_possible =3D false;
+> +
+> +       if (policy->eas_compatible) {
+> +               policy->eas_compatible =3D false;
+> +               em_rebuild_sched_domains();
+> +       }
+>  }
+>
+>  static int __intel_pstate_cpu_init(struct cpufreq_policy *policy)
+> --- a/include/linux/cpufreq.h
+> +++ b/include/linux/cpufreq.h
+> @@ -118,6 +118,13 @@ struct cpufreq_policy {
+>         bool                    strict_target;
+>
+>         /*
+> +        * Set if the current governor meets EAS' expectations regarding
+> +        * performance scaling (that is, it selects performance levels
+> +        * proportional to CPU utilization at least roughly).
+> +        */
+> +       bool                    eas_compatible;
+> +
+> +       /*
+>          * Set if inefficient frequencies were found in the frequency tab=
+le.
+>          * This indicates if the relation flag CPUFREQ_RELATION_E can be
+>          * honored.
+> @@ -657,15 +664,6 @@ module_exit(__governor##_exit)
+>  struct cpufreq_governor *cpufreq_default_governor(void);
+>  struct cpufreq_governor *cpufreq_fallback_governor(void);
+>
+> -#ifdef CONFIG_CPU_FREQ_GOV_SCHEDUTIL
+> -bool sugov_is_governor(struct cpufreq_policy *policy);
+> -#else
+> -static inline bool sugov_is_governor(struct cpufreq_policy *policy)
+> -{
+> -       return false;
+> -}
+> -#endif
+> -
+>  static inline void cpufreq_policy_apply_limits(struct cpufreq_policy *po=
+licy)
+>  {
+>         if (policy->max < policy->cur)
+> --- a/kernel/sched/cpufreq_schedutil.c
+> +++ b/kernel/sched/cpufreq_schedutil.c
+> @@ -797,6 +797,7 @@ out:
+>          * Schedutil is the preferred governor for EAS, so rebuild sched =
+domains
+>          * on governor changes to make sure the scheduler knows about the=
+m.
+>          */
+> +       policy->eas_compatible =3D true;
+>         em_rebuild_sched_domains();
+>         mutex_unlock(&global_tunables_lock);
+>         return 0;
+> @@ -839,6 +840,7 @@ static void sugov_exit(struct cpufreq_po
+>         sugov_policy_free(sg_policy);
+>         cpufreq_disable_fast_switch(policy);
+>
+> +       policy->eas_compatible =3D false;
+>         em_rebuild_sched_domains();
+>  }
+>
+> @@ -931,9 +933,4 @@ struct cpufreq_governor *cpufreq_default
+>  }
+>  #endif
+>
+> -bool sugov_is_governor(struct cpufreq_policy *policy)
+> -{
+> -       return policy->governor =3D=3D &schedutil_gov;
+> -}
+> -
+>  cpufreq_governor_init(schedutil_gov);
+>
+>
+>
