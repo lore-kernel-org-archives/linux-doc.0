@@ -1,171 +1,148 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011061.outbound.protection.outlook.com [52.101.62.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B4836C9E4
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 18:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782845895; cv=none; b=n9X0sN5X0z7vQ53V2gAjia5/zvMwpiE9vD5tKonJT92QC5gLcB5vwHitNZsN9eBcpSxrBUEsEvP4U94dwYZdMcPA6i498OJY5xelvwP0vnylUvPOBEOwgwM/EUeb7lj4GZqamENdRmzsJ3N5tvTAVwt8arQKLiqHwneJD5/i3Yk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782845895; c=relaxed/simple;
-	bh=liAWauqxfOKg8u1XRrlELemjS47RKtHwe0SGtDx/hgo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AkNsyUhuQPx0qZkUwgwh/icKeAHDLDz07YwptjbY4uVD7aFR7JUr2AEcV9jSrrNqmCq3BU5p4fUhBA+QVu9AR3ygx68Ldv7DavigrIn2ZqzctJrO2TP025bCXh7UT9I9LFyS//cD0MwjWHoUt1lh1f5XszC7PUMecyMfBjMhGBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mu7pUNv/; arc=none smtp.client-ip=74.125.82.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60829357739;
+	Tue, 30 Jun 2026 18:59:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.61
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782845973; cv=fail; b=DDooiLGqvVw/hln5m+pYXHcAd1AUzTUKoszMJmpJwT6hbQLBOk0A8ft/86u71ykGDOYNPQW/FrsBGZmEiM4Z/YJ2Uutp81Z9L/af6PwDH0IPbwBx2xesyAZdcNQ+Wv/fjn2HhxFsJOgdU7JwwI6HYxCsdWYS1aQ38/kjHZ4IQlI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782845973; c=relaxed/simple;
+	bh=JCZRcyYHfIZJ71gFsORU5Y63B9TJPIq8stJec04NneQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=W4zM+OArBT7KlTZ/mNt82FJifGSpXC+mX3tFauTfFW0cgaI0nNiWxpDHVPgf3aMgec4TjXPK6L3+KDjed6LSRZATFGo4+gMGXuJCRecXrvuJ1bVPX8wZ98EaqGjRHpt8uipsXwSE/ReIcYnUHacjOh59PPiCEmTfa4H+mXlIYpM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=WM/H6Xkg; arc=fail smtp.client-ip=52.101.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mu7pUNv/"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-30b6dad2382so9026986eec.0
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 11:58:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782845893; x=1783450693; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=K0MD1jiUBRZgyv6uUhm4ka/YEfBEnwUyewin9caeOzM=;
-        b=Mu7pUNv/RLtkeQD8wGWmounbwbETrojCL9jbCfEiPtGaWoiT04EcBj6Uca7RWvb7k7
-         MHXGgZhPTzhy0kTKQMf3UwN1YHaGqAuWFu/oMF2HoPsES+M2Ft+Ptavdpm+GRg/sqZOu
-         d4SyFKp3kvSTVco7w5LDxVN40xfCypX0T2MQ8UGipgFwdzaMsEgKmp6TYbP1HxrWlAta
-         L2irbMEQ5iYIMREuci14axXQjuHjz7VgxywLGIYkoWtB580Q9khTDwRxCMyhUGq5NIOf
-         c8vD/wKt7upQj6UppoWyXu33GjeOTulfKgkIgSmqC+UR4CzMBMu2aFNDixXgouAgE4OX
-         KQug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782845893; x=1783450693;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K0MD1jiUBRZgyv6uUhm4ka/YEfBEnwUyewin9caeOzM=;
-        b=m2iscpkaw0FBW3y7P3tqKm62sh8HmHkof8Nc51UHM7W+3r8JrW+TdftHkeAa5IvkT9
-         kt8vSzkbbeOI2mCFrBTvwJgHB5gN/0BHTC7MdfppF4dqfg/d06i0qZF8T/pvOSEVCH6W
-         LIeRmFDkq0z4xMFyA1e4MeS1/H0EQt+akFbud33Biezkpb6Zec0qV28TmfY6mLOWUHiX
-         VlRioez6NDtSjhOqmufN61vs1UqxtYvcgbFVsBTzSX7ugJ3TTJiF9dTi2OTESLyOVrvz
-         A0obxdsiaqN8GPu2JzVbKyOquuzqn5c2eV/BwkaAHQnG9Ie1BSl+a5B0zqaBm+Ij30up
-         oX1g==
-X-Forwarded-Encrypted: i=1; AHgh+Romhwe2UOoQlgl7K/4YV34yRlTo9wcJ4C9pLbWLraa20VlP9QttQb4B5XVrlhi33kr2lZs194HrdoE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyd2Im741S9xLTy1/zAWsNdAkev5ETWx8IraVeKI/kphKCuNrDf
-	MxmGRBmzJIBRGvEMAdq5XJGx9sQ9JYlJ7pe/52gThwYkFEXgYgfdYniM
-X-Gm-Gg: AfdE7cljJoHrpuVlQTAaRg21LrstwXAbihp09LM0Wpo9qo7zoIL/lApGmIiUU1YuiSE
-	g2tn1Ho6gtQzJy1wBfDyg97ze676EyoDJ5YT5Rxtp4FeJHFJtc93DDI6a9RMEU+vFFSIJi0NBL6
-	dZ7NNol5mPWADE0gn3Lb2W0gPWidn/wzQfOxHEOO7e0mdmFrWjiTlRhpM7u/tJ8R0pYrFcqIRJm
-	WwrK8ITwsKZnRtjLdVo+3N2ugvC2ixsDBp3RWE2LZCAlVwzPkh6MOPspccu3s5P4Oac/iIQInxO
-	8GDUsgKLXRuzMEPoqUdiRAOUW2UlpNwIIHUundCykfDMGbdrRpoyYo/jCXx7uBdm8+y1X5seaGX
-	fBkDoDZuI/R92qkUaZ2kIDxfSY3neu1OEWfpo3898xOyQVlRRByRrTl9eVudZ6mB9xkxbJ7Cbg1
-	yyq5UtvhVwYeZW4bd5XlsKGtKiiaO3tXQhXR/H2xEOUegZIanwXWLPtV1OEYipE6pfW4aMydQ9
-X-Received: by 2002:a05:693c:62d0:b0:30e:e786:689e with SMTP id 5a478bee46e88-30ee7866ad4mr1661655eec.31.1782845893207;
-        Tue, 30 Jun 2026 11:58:13 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee2f584bdsm11317161eec.4.2026.06.30.11.58.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2026 11:58:12 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <26438725-805a-4b04-85bc-a22e936c222d@roeck-us.net>
-Date: Tue, 30 Jun 2026 11:58:10 -0700
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="WM/H6Xkg"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=N5VVHa43HTVfQUIH+NFqo/VO5O31zarm9Zu96bHan0IKMOoVnNmFyyq911kF5eBKhNnf5kSLsNNRRzFI138j1vyaD6ZuZTS+0J59VuoJ+MtiEvfuk2/ZPE6YmWjKR3btIRyVnXc6vnLupVycXp4pTYHHkYt6O3RveEbZSA0tv+5Z0HSAFMeoHDCc/FcP9Anbw9fXH9IxUOyUpdMtu5fg52oTbezjwFYs/XmhSj/YWJJr4dxn7ldftgNiQ2v8tbNbLZ50vW5J0SRsZ3hqoKSQw2d3i509/pjIHcEjGsBNNDbwyQaotPqQ/YbOK6IJiUdbv8SU/q5Nf27Al2PM4bPjow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ue7ED4xUmaRorcU0Tu5/PTarITmn0eYnD26XCskUUtM=;
+ b=fZfjqydoEHM75qrNJkCNzUzNoWMWc5xeplFIXDpaAgp6R6wN/3heNNLZsHCfhDvFYoQz1cpS2Ze+mN44ozJoZOo6Tje3TDar1H6XSUHoXU1r+uDSTUsjhjkPAcEu5Hqe+KcfeVlQu06rl+hqRgW1JPyM8ryuk/pwyNNmEhQZMz7vgMZlvwuYqOqbO1yOSXbKdS8E1Tldmy2rNHHEoGoozTWpsSLIZD5WBT6YsEbf/vDTxTbu68ZgDsKkr0AIcty3xkGtSPV2TsQDsccRkbjzBaAUzDYFtMeLKRZTI5YP1TdAvVz6POql8jhCVBZ639zAvcUx6R4HLVGy7MYCiqg+CA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ue7ED4xUmaRorcU0Tu5/PTarITmn0eYnD26XCskUUtM=;
+ b=WM/H6XkgyUZ2T4DWVolp308L5BXxzYG1Kt7DGOP3Ucum7eLnjElV+L9IVD4rbx7CSzUqEOcXJynk/pmGNBpcw6QYZbYNIBk8IAz5y86R4onKxl0KhKqLxRP/RaxyPhDDFtLQB8kcuH9d1WlVqLg1fxN4O/Q6s5XKyP0Ya+LH7ME=
+Received: from DM6PR02CA0154.namprd02.prod.outlook.com (2603:10b6:5:332::21)
+ by IA4PR12MB9762.namprd12.prod.outlook.com (2603:10b6:208:5d3::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Tue, 30 Jun
+ 2026 18:59:25 +0000
+Received: from CH3PEPF00000011.namprd21.prod.outlook.com
+ (2603:10b6:5:332:cafe::89) by DM6PR02CA0154.outlook.office365.com
+ (2603:10b6:5:332::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.8 via Frontend Transport; Tue, 30
+ Jun 2026 18:59:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ CH3PEPF00000011.mail.protection.outlook.com (10.167.244.116) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.202.0 via Frontend Transport; Tue, 30 Jun 2026 18:59:25 +0000
+Received: from BLRKPRNAYAK.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 30 Jun
+ 2026 13:59:22 -0500
+From: K Prateek Nayak <kprateek.nayak@amd.com>
+To: Mario Limonciello <mario.limonciello@amd.com>, "Rafael J. Wysocki"
+	<rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, Huang Rui
+	<ray.huang@amd.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>
+CC: Perry Yuan <perry.yuan@amd.com>, K Prateek Nayak <kprateek.nayak@amd.com>,
+	<linux-pm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [RFC PATCH 0/6] cpufreq/amd-pstate: Rework dynamic_epp as an energy_performance_preference mode
+Date: Tue, 30 Jun 2026 18:58:58 +0000
+Message-ID: <20260630185904.5602-1-kprateek.nayak@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] dt-bindings: hwmon: pmbus: Support for onsemi's
- FD5121
-To: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>,
- Conor Dooley <conor@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-References: <20260622-support-fd5121-from-onsemi-v1-0-b31767689c65@onsemi.com>
- <20260622-support-fd5121-from-onsemi-v1-2-b31767689c65@onsemi.com>
- <20260623-anybody-gutter-e6ca04f53bdb@spud>
- <CYYPR02MB98280DF78A07EADACFD084EE83EE2@CYYPR02MB9828.namprd02.prod.outlook.com>
- <20260623-scared-judgingly-7efc1c188670@spud>
- <CYYPR02MB9828EECB3F6AFDD2A7BD3E9B83ED2@CYYPR02MB9828.namprd02.prod.outlook.com>
- <eed3e19b-8cc7-4aef-b058-b2242c94c940@roeck-us.net>
- <CYYPR02MB982898B8E8EC0513EF55D44083EC2@CYYPR02MB9828.namprd02.prod.outlook.com>
- <CYYPR02MB98281A2314A718EC3841464583F72@CYYPR02MB9828.namprd02.prod.outlook.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <CYYPR02MB98281A2314A718EC3841464583F72@CYYPR02MB9828.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PEPF00000011:EE_|IA4PR12MB9762:EE_
+X-MS-Office365-Filtering-Correlation-Id: ad0cd092-7aef-4281-3e97-08ded6d9b45c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|36860700016|376014|23010399003|18002099003|11063799006|56012099006|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	R/wevXyFGiVVqr3/kvNg/PEU+q+nvqAaKTPs7VoOhXI0PVBfpCQfbwPRc73rcoMmcAkb4g1sBoBNZZJDZklerb6aHYUsHb0IUEnTyNcRGJSN+mnEY12Tl+UYo4H4IwHIo6EwotJamrZEOT7uiy/8W82+pm3vWlqEcvuYH9vRz4R+4JWOUXuNW5nzdIwtAHVt7H3nEa5XUyNc0BZEaAa0ThIGKHK0L57vIC1g8hWe+N20H/R3F1e8xNa41woMZQR/Jhtk/fk6EMWBXK8FDs/s1TskmdbDrwtsczoKwHpIYYaZWvMaMMjfIeXMGAbUL1k/bRGsZ44tfPsTLZJJ0ZDMbyIyhCzDjQ8kbsoJQkFJhkD+U6lOn44roExikxENQjBVNHH0oAUCSBJRdFSTHXn7Jwjkenq/9rhNkVfiGLKGEWzoT1Vney8eopczThxSrbC/CCtIjDATJ2cbqk2gIcIgDvTwd4fcccuclfFfxe0x5Wf8ptNnUVI2qqFbxKi5Ckgl0ncXgIrY1wweuu9SQBsU95WWJ+bJnwv8UDG7ot9vIRibA4W10fHggmzxIRi32CVShGzzrZNQfrGETb/Okfc/8+xHm0zQDEOVa2qvq+NvDpZAxNoFciXIVV+h8n19erfaedtu0M8VE5/cu4yPyXy3doRDPMNOuQQMfLIdwo4zZvOdswAg2dHRcsBvYjA45l5DPh+s6EfvpgJioaC6ynsxMg==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700016)(376014)(23010399003)(18002099003)(11063799006)(56012099006)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	OhRCHRz5Y1v1P45TWpdp5J5CrjaQwDbi6qlgQMZXvK83mtNdm2hp/Zwv7cWa/LTLSJKciO3uCEgZQgX/nmEbzALPGid7SFU3AZLS5icvGaZ+lGpcKeRMGOkCpE5kzqfyC0jtPNYwyVeTK4K0lC001FTUD2oak6iWpBnhaIPvCS3lzBPPIuLKnU9gI+FE9WMl/WiQLzpjR4ceE0kjOS3nc7WZytXsRmVo/9GsAfhFTbwxd0+daS4LgWrF5pQqToGFLgdKxtLLwVKPU6sMcjWHpfTORPeWkukpZN/vemKEAhR4sciYQaN1Npc1bBNGQfxQBdJuDNkpzLEz1ue/BpK2fAex2t9ZoqYDzqeXdggT1FH7NjxSG30szejRZmgTI7i6oKPLsD9aQWDvE9FIgbiO/FODiECD0U2Ufi48IwZGKV0QET6bND0xF5GP+dPLN9Y0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 18:59:25.4842
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad0cd092-7aef-4281-3e97-08ded6d9b45c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH3PEPF00000011.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR12MB9762
 
-On 6/30/26 10:22, Selvamani Rajagopal wrote:
-> 
->> -----Original Message-----
->> From: Selvamani Rajagopal
->> Subject: RE: [PATCH 2/3] dt-bindings: hwmon: pmbus: Support for onsemi's FD5121
->>
->>>
->>> One of the problems here is that the chip datasheet is not public,
->>
->> Agree on both points. No datasheets on our website. And chips not available through
->> distributors. Little
->> early in the process. I am working with our product team to see how to move forward. So,
->> there will be some
-> 
-> Guenter,
-> 
-> After your question, I realized that there is no point in merging this in kernel until the product is available
-> with distributors. I don't have any time frame for that. Sorry for the inconvenience/wasted reviewing time
-> for the team.
-> 
-> Is there any way, we can mark this series "abandoned" or "on hold" for an extended period?
-> 
+Like custom_epp, move dnamic_epp functionality into a
+energy_performance_preference selection which makes the integration more
+natural with the rest of the driver functionality.
 
-I marked the series as "Changes Requested", which I think matches the state.
+RFC is mainly to check if this is a good idea and if the "dynamic_epp"
+sysfs needs to be retained? I've retained it in the series, changing it
+to a RO attribute to reflect if the feature is disabled from kenel
+cmdline but it seems unnecessary with the feature available as an
+"energy_performance_preference" which can be toggled anytime.
 
-I could mark it as "Deferred" or "Abandoned", but none of those really
-reflects the status.
+Series is based on linux-pm:bleeding-edge at commit 03842bb4dfb5
+("Merge branch 'experimental/acpi-driver-work' into bleeding-edge")
+(30-06-2026) with Marco's series from [1] applied on top.
 
-Thanks,
-Guenter
+[1] https://lore.kernel.org/lkml/20260609073042.81275-1-scardracs@disroot.org/
+---
+K Prateek Nayak (6):
+  cpufreq/amd-pstate: Extract platform profile to EPP conversion into a
+    helper
+  cpufreq/amd-pstate: Add dynamic EPP as an
+    "energy_performance_preference" mode
+  cpufreq/amd-pstate: Repurpose "amd_dynamic_epp" cmdline and
+    corresponding sysfs
+  Documentation/amd-pstate: Update dynamic_epp documentation with new
+    behavior
+  cpufreq/amd-pstate: Reduce the scope of exported symbols
+  cpufreq/amd-pstate-ut: Add unit test for "dynamic" EPP mode
+
+ Documentation/admin-guide/pm/amd-pstate.rst |  61 ++++--
+ drivers/cpufreq/amd-pstate-ut.c             |  48 +++--
+ drivers/cpufreq/amd-pstate.c                | 221 ++++++++++++--------
+ drivers/cpufreq/amd-pstate.h                |   8 +
+ 4 files changed, 206 insertions(+), 132 deletions(-)
+
+
+base-commit: 03842bb4dfb516e7c3c6323fede451823c4629dc
+prerequisite-message-id: 20260609073042.81275-1-scardracs@disroot.org
+prerequisite-patch-id: 15637b279250c6f653e42afb1c7ed7970be2627e
+prerequisite-patch-id: f8c8f4064db0f33251d420723da8c92d9d803890
+prerequisite-patch-id: 72386a2a5a24597eccbeb16624dcfd8b27770c16
+-- 
+2.34.1
 
