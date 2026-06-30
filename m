@@ -1,198 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from lankhorst.se (unknown [141.105.120.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E32D3793C2;
-	Tue, 30 Jun 2026 20:55:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8F22FE56A;
+	Tue, 30 Jun 2026 21:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.105.120.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782852922; cv=none; b=bXRRh2m2UQuPOm2JJG/JztukbhDdV1/pXYeWPFCslIuvu+tfTcATNilO4qVkscepNvyPBw5qGl/pxJk+VB3UWlG0/y3Ee4ZwGM4f6Q7qwzvsdykQ/A3hDo7f7g2aiV0Hs6xz5OrfHxqLetrLehp0m3PT3v9h+EO9yP798rfbFjw=
+	t=1782853511; cv=none; b=Zmz7QjMFJ3G0vMMvBT02du+KW/svoOncAmlGUgjDfFr0KwUo7DAQCIOvp2ffL8mFsrd3GxHQWUoSeE0qO6ItmGCC6S6WbORJEGFetS2+mUYuO731bH9OOrjdEpLs/xTOUZ7/lT9wJM06wKLrE4Rs5KtI0u4P9ZaCeBYUl7s8P9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782852922; c=relaxed/simple;
-	bh=7sJKF/xH/OZnhgj123YyTtu81KiJuyu6J7CCCg5dllM=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=k1AKXtn9zwWXNY8j7dojtzKEM0+ni9dhBtsFA/xz3D1zveSiooHSpPGjY4qihKH500Licf57j7LRSirPCF6L0rOYdZ6U4nBghdvlwL1touRxM97Rq8Z5Y5NjZXP2W6BI42d1QRJ7paHLrioEIkGEWMI2Ant2WALk+03cAHlOLLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=nIdg9WVc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782853511; c=relaxed/simple;
+	bh=+cbhdqNensUJxiX/smKQ0OfprDwHcpCabVotqLwQDkA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aSFyq6GdFdrapYaf5vK0oo3sukkTyd7gyXuJX4gK86KLLkAPp1M2koImMc/CD95wXzwoLtipF+opu5P4W81nZ3deYygCcxj/fZtS5pQRXWWF8fm0eG/6eisYIXp1oILfO+jUEwnaKycj1Kw4dbtTFwUDH1pcrdqhDv9NmVHAs+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=ne1obNUa; arc=none smtp.client-ip=141.105.120.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lankhorst.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="nIdg9WVc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41C2A1F000E9;
-	Tue, 30 Jun 2026 20:55:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1782852920;
-	bh=PqXMviszUJ70wdko7x9w/HLJnkvQD9s/VmU8YDU8zkI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=nIdg9WVcgKuztuJWZsgQgB8qhrK7N0juK0z53//izV+A18lotNu+7Pz/5jMQGMLFy
-	 kVKPTUdFinPIsjTZAmG634V62nO9lUIJFNJsmgFSOE7zu2L0AlpVuQSpq2gCxmhvzG
-	 /hh3A1WHx/9z1qQaUHx9JqA99cUwh+egfdsAqxGA=
-Date: Tue, 30 Jun 2026 13:55:19 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Miaohe Lin <linmiaohe@huawei.com>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Mike
- Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal
- Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, Naoya Horiguchi
- <nao.horiguchi@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>,
- lance.yang@linux.dev, Steven Rostedt <rostedt@goodmis.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- kernel-team@meta.com
-Subject: Re: [PATCH v10 0/6] mm/memory-failure: add panic option for
- unrecoverable pages
-Message-Id: <20260630135519.404f3be5cb3850a0208f1791@linux-foundation.org>
-In-Reply-To: <20260630-ecc_panic-v10-0-c6ed5b62eea2@debian.org>
-References: <20260630-ecc_panic-v10-0-c6ed5b62eea2@debian.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="ne1obNUa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
+	s=default; t=1782853501;
+	bh=+cbhdqNensUJxiX/smKQ0OfprDwHcpCabVotqLwQDkA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ne1obNUaObnlr8ZmJZyL/XaSJfHHSMdoCLb2zySqY5GgBqLhShRTbZ7azjMIsEVSn
+	 JVY8b6UBcoV/NkooefXk0k4DvPqO4fX3eeV2ehXwZ7MrQrLQj0HwDALvgtkVRpOdE0
+	 lssdyQewQk0QxfO9t//7NsAfkhhPxMdxI0D9pVtO7JghfO2nKxn60FLD+RVNm37sNO
+	 4O5Jb3I1kddyOtT3UntjptZ00khZP1aKOJN5duvLD1koAhVKHJlNc/dEstzDA6hcvn
+	 +kIdQTzTE1Pu57xcPFK+zUvS3diNJ7bv/JNsvl+GeE6+6/th5KTAO98Fwe2Fn0eu5f
+	 rDXM5MZOpOIcA==
+Message-ID: <2021ac83-3f17-4a77-94ec-5156618c00fe@lankhorst.se>
+Date: Tue, 30 Jun 2026 23:05:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] cgroup/dmem: add per-region event counters
+To: Hongfu Li <lihongfu@kylinos.cn>, Natalie Vock <natalie.vock@gmx.de>,
+ tj@kernel.org
+Cc: cgroups@vger.kernel.org, corbet@lwn.net, dri-devel@lists.freedesktop.org,
+ hannes@cmpxchg.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mkoutny@suse.com, mripard@kernel.org, skhan@linuxfoundation.org,
+ hongfu.li@linux.dev
+References: <ajwnf0uzT4PMHYZx@slm.duckdns.org>
+ <20260625021053.488107-1-lihongfu@kylinos.cn>
+ <b549422c-7c35-434d-ad4a-49a4676970ac@gmx.de>
+ <c645a8df-1d76-4e4d-bb97-47c539f7a205@kylinos.cn>
+Content-Language: en-US
+From: Maarten Lankhorst <dev@lankhorst.se>
+In-Reply-To: <c645a8df-1d76-4e4d-bb97-47c539f7a205@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 30 Jun 2026 05:46:03 -0700 Breno Leitao <leitao@debian.org> wrote:
+Hello,
 
-> A multi-bit ECC error on a kernel-owned page that the memory failure
-> handler cannot recover is currently swallowed: PG_hwpoison is set, the
-> event is logged, and the kernel keeps running.  The corrupted memory
-> remains accessible to the kernel and either drives silent data
-> corruption or surfaces seconds-to-minutes later as an apparently
-> unrelated crash.  In a large fleet that delayed, unattributable crash
-> turns into significant engineering effort to root-cause; in a kdump
-> configuration, by the time the crash happens the original error
-> context (faulting PFN, MCE/GHES record, page state) is long gone.
+On 6/25/26 12:21, Hongfu Li wrote:
+> Hi,
 > 
-> This series adds an opt-in sysctl,
-> vm.panic_on_unrecoverable_memory_failure, that converts an
-> unrecoverable kernel-page hwpoison event into an immediate panic with
-> a clean dmesg/vmcore that still contains the original failure
-> context.  The default is disabled so existing workloads see no
-> change.
+> On 6/25/26 4:57 PM, Natalie Vock wrote:
+>> Hi,
+>>
+>> On 6/25/26 04:10, Hongfu Li wrote:
+>>> Hi, Tejun
+>>> Thanks for the review comments.
+>>>
+>>>>> Add dmem.events to report hierarchical low/max event counts per DMEM
+>>>>> region.  Increment counters on dmem.max allocation failures and
+>>>>> dmem.low protection events.  The file is available for non-root cgroups
+>>>>> only.
+>>>>
+>>>> Please don't double space in descs or comments. Also, maybe it's obvious but
+>>>> it'd help if you list why and how this is useful. Why do we want to add
+>>>> this?
+>>>
+>>> I'll fix the double spacing in the commit message and comments.
+>>>
+>>> As for the motivation: dmem already exposes per-region limits and current
+>>> usage, but not how often those limits actually matter at runtime. Without
+>>> event counters, it's hard to tell whether allocation failures come from
+>>> this cgroup, a parent limit, or pressure elsewhere in the hierarchy.
+>>> dmem.events provides that visibility for tuning dmem.low/dmem.max and
+>>> diagnosing recurring device memory pressure.
+>>
+>> Shouldn't you be able to deduce this rather trivially from just looking at the current usage together with the low/max limits you already set? I'm not sure I really see anything this events file provides that analysis of current usage and set limits doesn't? If your usage is highly variable, the separately-developed dmem.peak file might also suit your needs, but still, not sure what you can do with dmem.events that you can't already do with these tools. 
+> Thanks for the question.
+> 
+> Besides exposing counters, dmem.events notifies userspace on changes via
+> cgroup_file_notify(). This allows tools to monitor limit-related events
+> (for example, allocation failures or low-protection fallbacks) asynchronously,
+> without the need to periodically poll dmem.current against the limits. While
+> you could infer some conditions from current usage and limits, polling is
+> inefficient and cannot capture transient events in real time. dmem.peak only
+> records the highest usage, not these specific events.
+> 
+> So dmem.events provides both lower overhead and richer, actionable information.
 
-Updated, thanks.
+Agreed, they're separate but both useful.
 
-Sashiko said things:
-	https://sashiko.dev/#/patchset/20260630-ecc_panic-v10-0-c6ed5b62eea2@debian.org
+The peak tells you what the maximum memory consumption is.
+The events are sent when a limit is reached, but more will also count how often limit is reached and reclaim needs to happen.
 
+So if you have 4 cgroups, and 1 of them sends a lot of events, that tells you that you may want
+to increase that cgroup's limits dynamically to have a more performant system.
 
-> Changes in v10:
-> - Reuse kselftest declarations
-> - Residual race harmless documentation
-> - Link to v9: https://lore.kernel.org/r/20260609-ecc_panic-v9-0-432a74002e74@debian.org
-
-Here's how v10 altered mm.git:
-
-
- mm/memory-failure.c                          |    6 +-
- tools/testing/selftests/mm/hwpoison-panic.sh |   42 +++++++++--------
- 2 files changed, 28 insertions(+), 20 deletions(-)
-
---- a/mm/memory-failure.c~b
-+++ a/mm/memory-failure.c
-@@ -1366,8 +1366,10 @@ static inline bool is_kernel_owned_page(
- 	 * Page-type bits live only on the head page, so resolve any tail
- 	 * first.  The check takes no refcount; recheck the head afterwards
- 	 * so a concurrent split or compound free cannot leave us trusting
--	 * a stale view.  A free->alloc->free in the same window is still
--	 * possible but closing it would require taking a reference here.
-+	 * a stale view.  A residual free->alloc->free cannot be closed here
-+	 * (frozen slab and large-kmalloc pages cannot be pinned), but is
-+	 * harmless: where a wrong verdict could panic, memory_failure() has
-+	 * already set PageHWPoison, which bars the page from the allocator.
- 	 */
- retry:
- 	head = compound_head(page);
---- a/tools/testing/selftests/mm/hwpoison-panic.sh~b
-+++ a/tools/testing/selftests/mm/hwpoison-panic.sh
-@@ -35,7 +35,11 @@
- 
- set -u
- 
--ksft_skip=4
-+# KTAP output helpers (ktap_print_msg, ktap_skip_all, ktap_exit_fail_msg, ...).
-+DIR="$(dirname "$(readlink -f "$0")")"
-+# shellcheck source=../kselftest/ktap_helpers.sh
-+source "${DIR}"/../kselftest/ktap_helpers.sh
-+
- sysctl_path=/proc/sys/vm/panic_on_unrecoverable_memory_failure
- inject_path=/sys/devices/system/memory/hard_offline_page
- kpageflags_path=/proc/kpageflags
-@@ -53,24 +57,24 @@ pagesize=$(getconf PAGE_SIZE)
- 
- kind=${1:-rodata}
- 
--ksft_print() { echo "# $*"; }
--ksft_exit_skip() { ksft_print "$*"; exit "$ksft_skip"; }
--ksft_exit_fail() { echo "not ok 1 $*"; exit 1; }
--
- if [ "$(id -u)" -ne 0 ]; then
--	ksft_exit_skip "must run as root"
-+	ktap_skip_all "must run as root"
-+	exit "$KSFT_SKIP"
- fi
- 
- if [ ! -w "$sysctl_path" ]; then
--	ksft_exit_skip "$sysctl_path not present (kernel without the sysctl?)"
-+	ktap_skip_all "$sysctl_path not present (kernel without the sysctl?)"
-+	exit "$KSFT_SKIP"
- fi
- 
- if [ ! -w "$inject_path" ]; then
--	ksft_exit_skip "$inject_path not present (no MEMORY_HOTPLUG?)"
-+	ktap_skip_all "$inject_path not present (no MEMORY_HOTPLUG?)"
-+	exit "$KSFT_SKIP"
- fi
- 
- if [ "${RUN_DESTRUCTIVE:-0}" != "1" ]; then
--	ksft_exit_skip "destructive test; re-run with RUN_DESTRUCTIVE=1 inside a disposable VM"
-+	ktap_skip_all "destructive test; re-run with RUN_DESTRUCTIVE=1 inside a disposable VM"
-+	exit "$KSFT_SKIP"
- fi
- 
- # Pick a PFN inside the kernel image rodata region of /proc/iomem.
-@@ -208,21 +212,22 @@ pgtable)
- 	missing_msg="no usable page-table PFN found in $kpageflags_path"
- 	;;
- *)
--	ksft_exit_fail "unknown kind '$kind' (expected: rodata|slab|pgtable)"
-+	ktap_exit_fail_msg "unknown kind '$kind' (expected: rodata|slab|pgtable)"
- 	;;
- esac
- 
- if [ -z "$phys_addr" ]; then
--	ksft_exit_skip "$missing_msg"
-+	ktap_skip_all "$missing_msg"
-+	exit "$KSFT_SKIP"
- fi
- 
--ksft_print "enabling $sysctl_path"
-+ktap_print_msg "enabling $sysctl_path"
- prior=$(cat "$sysctl_path")
--echo 1 > "$sysctl_path" || ksft_exit_fail "failed to enable sysctl"
-+echo 1 > "$sysctl_path" || ktap_exit_fail_msg "failed to enable sysctl"
- 
- pfn=$((phys_addr / pagesize))
--ksft_print "injecting hwpoison at phys 0x$(printf '%x' "$phys_addr") (pfn 0x$(printf '%x' "$pfn"), kind=$kind)"
--ksft_print "expecting kernel panic: 'Memory failure: <pfn>: unrecoverable page'"
-+ktap_print_msg "injecting hwpoison at phys 0x$(printf '%x' "$phys_addr") (pfn 0x$(printf '%x' "$pfn"), kind=$kind)"
-+ktap_print_msg "expecting kernel panic: 'Memory failure: <pfn>: unrecoverable page'"
- 
- # A successful run never returns from the inject -- it panics the kernel.
- # Reaching the code below therefore means no panic fired.  Note whether
-@@ -243,7 +248,8 @@ try_unpoison "$pfn"
- # if it raced to another type the run is inconclusive, so skip instead.
- kpageflags_bit_set "$pfn" "$recheck_bit"
- case $? in
--0)	ksft_exit_fail "$verdict (page still $kind)" ;;
--1)	ksft_exit_skip "target PFN no longer $kind; raced before inject, inconclusive" ;;
--*)	ksft_exit_fail "$verdict (could not reconfirm page type via $kpageflags_path)" ;;
-+0)	ktap_exit_fail_msg "$verdict (page still $kind)" ;;
-+1)	ktap_skip_all "target PFN no longer $kind; raced before inject, inconclusive"
-+	exit "$KSFT_SKIP" ;;
-+*)	ktap_exit_fail_msg "$verdict (could not reconfirm page type via $kpageflags_path)" ;;
- esac
-_
-
+Kind regards,
+~Maarten Lankhorst
