@@ -1,123 +1,165 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.151.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172B43DCDB0
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 17:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B7432D0FC
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 17:36:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.151.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782840645; cv=none; b=VBkzIc3oFo23HhGNCmHY7cTX0/gU8lfY8SBc7NN+0atmk5zp4b1OTPQnxNg4lTVYvrKyxNCngyhQAR1Lhz5cgQStm7m4W9YIBpCPpA6qo4VH812m5/QpTR4uoI17vrkHLXZ4ICz66VjipMj3w4oBGSJi5i/VvmdfxldP25CWCrs=
+	t=1782841018; cv=none; b=pZe/e4q0J52gziKoGLKNOP+So8jncb/3pkIY9vc/9CZUhIsBA6Je7SmbQIRA9Ju7pkQBor8YsynRU5Zf0wYQbG5XJO2TBOpOex+GP2vdFT1vCamWgH0nEM0imHBMbMpu3ALxH5OZBuAp6jbm4cxh1gHsuUUhkcIe9P/haVSngbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782840645; c=relaxed/simple;
-	bh=z6KmvGsEhliMX2kFxBWlW+oEtiV14/kK8zifG4u1OSc=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=kSsy6APeFKFpE/F6xqEHdWdORDbKZyKbc94R/pmheWEFqwpZtiiOBu/np28pmiyg9SIa8ATPsVw4M9iZ5PqfQrSiG5P/FWsobDtE+XisBPuIK0yZcs/ndOcoRtqxGwvTdKA2GiQaJb8EAu52FEMwlnXE23++tRyMGKcwBHGhaBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=va8T1XPx; arc=none smtp.client-ip=209.85.210.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1782841018; c=relaxed/simple;
+	bh=uxRcFC5SITi4KTqlRWPoUbEPLxbmRADOPbF7cjvktNc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=rl2YjONRKnord7xVTpbf9+JVR6iwbaxY6j/jTUZmNwp0iveHA0DuSBuRCcLI6YyF++gn62M2m56035qjenD8Vhr+vguTR7jUFWs7c78LuT1ztzb8ErM3mtgOE+zbHJPNB80+Fa8MRkCaILNHKPv4hebHMwzoSM+iBOnILdEGM6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=Mfnbn8q+; arc=none smtp.client-ip=170.10.151.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="va8T1XPx"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-8479cc04d8fso2082128b3a.2
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 10:30:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782840643; x=1783445443; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KxXDGdZP36dVSNVXo6OGlh08WQ4jD0j+gPBa9WDdARQ=;
-        b=va8T1XPx241WJZyMEqRecMsZNoozWVV3DSK3GRDxwRDu8pb+FaUDxvQ5brfllHB2mb
-         dAnUKRoC0cNaUKbLGVwrhM4GjxwMAoB02Px6M8cmBBwMJ1w/7SIOscdj4QoNkv7a23sB
-         g/ixTI7xYfEOSc2Gi1Gpci3vR1Eg0bbdHXY0zfCwAuV3prfmSphh+nVFeYU4aK61ivib
-         FQODMfShZw8A/MhhSqcIpUTuE86h4GiWe5K/5gu7IACEP5E+aUzCLA2lNaezL2VKC473
-         B2x9HYz2ebDgFjVz4Y340jix0kBpJyCBYdZgixQL84fEjsu/AUySgEyhHcv2MyYhwqbA
-         Gwug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782840643; x=1783445443;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KxXDGdZP36dVSNVXo6OGlh08WQ4jD0j+gPBa9WDdARQ=;
-        b=K4SjPrSAMS6ZIUBJPqt7GpyQ54XBaWVBWnJfq2Xxhf9FQIDyRLOy+g5ocXh1RjYJfY
-         PXPOqQDIkELCq+zkIy1pczB0PHMnm1p8HjJra0kMokfsgbmZnyfTM74XAeILQ56Dw4El
-         5dV4/QU3Um6uUUUB77319G+iGiMgkT6XZpnWrOECNFQn+ya3qJAfMA9+h5c7vbFwza2P
-         0pElNNwPq7erxwpjTZz4qw7sXjpXPJU1zKtBE0prKs92RT0rPdQfjT/OH4eJhs+h8bjU
-         gQHXRCdNwpK5s+IZ9IgtHdvxCL6aVEC8OvSLBh0kOulAu0NNwmN45eEE0fDt1Q9IG3nR
-         W9MQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp963DHp1bP2ui53nnnXtpl+l0cAFAeGs/EY7Z75ywoLdBr2kdEpZLgfPT+n+62k9DiCWci/vrIVi4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnqVfm/VfFAynYrIfT2PII4O8Bb48KteCxw4v+UbcVS+JxsI2B
-	ft6xpoGDaWB8AsYrQYk12eDJYeWZbpnzSrfxS4hggHKns53EVg7MCcT82GVaLZsD7Y9nbMJpfww
-	mMD+XUw==
-X-Received: from pfbfb9.prod.google.com ([2002:a05:6a00:2d89:b0:847:84b8:2dcf])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:b84:b0:842:6004:3fcf
- with SMTP id d2e1a72fcca58-847adeaa420mr1564771b3a.29.1782840642918; Tue, 30
- Jun 2026 10:30:42 -0700 (PDT)
-Date: Tue, 30 Jun 2026 10:30:42 -0700
-In-Reply-To: <a1b06afb-af6e-4666-8c7d-990e7fa150fa@intel.com>
+	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="Mfnbn8q+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
+	s=mimecast20250127; t=1782841012;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uxRcFC5SITi4KTqlRWPoUbEPLxbmRADOPbF7cjvktNc=;
+	b=Mfnbn8q+AsfcMeGMW2igbWJoYhoYMXOGiozTbEhQFeKzMBLu2MTG5tLP7ecNAFXYx20BXC
+	2DjrKSb1lRJfH/Hrik3UnhWVsb3P/Htbe180QtH9H8d9G0IE1PQpgYIDFI3/a3Ri20DOtF
+	/FCICpKEV7w+/NC8VenL1bfW69psPgPTgBiOpuVV1BQOYW9/V2wmYguvKGCasx0WYCEuYa
+	TqL9ROPhPiO1J4QrUVRHw/Jk8LLW2O3c2arb++1u+Q+7+lWV6BY31Qj2zpihKw4DT9Dli3
+	N+UudNPqevN9jCh2aNr+glaxfIihGMeY9ufePC/duVgTUckl+smuEthPfK6J9g==
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010022.outbound.protection.outlook.com [52.101.61.22])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id usb-mta-11-1xFjJetvO_aNny73j89smg-1; Tue,
+ 30 Jun 2026 10:36:48 -0700
+X-MC-Unique: 1xFjJetvO_aNny73j89smg-1
+X-Mimecast-MFC-AGG-ID: 1xFjJetvO_aNny73j89smg_1782841006
+Received: from CYYPR02MB9828.namprd02.prod.outlook.com (2603:10b6:930:b8::20)
+ by IA0PR02MB9751.namprd02.prod.outlook.com (2603:10b6:208:48d::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Tue, 30 Jun
+ 2026 17:36:42 +0000
+Received: from CYYPR02MB9828.namprd02.prod.outlook.com
+ ([fe80::2767:f7d2:778c:8dca]) by CYYPR02MB9828.namprd02.prod.outlook.com
+ ([fe80::2767:f7d2:778c:8dca%4]) with mapi id 15.21.0159.012; Tue, 30 Jun 2026
+ 17:36:42 +0000
+From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+To: =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+CC: Andrew Lunn <andrew@lunn.ch>, Piergiorgio Beruto <Pier.Beruto@onsemi.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Andrew
+ Lunn <andrew+netdev@lunn.ch>, Parthiban Veerasooran
+	<parthiban.veerasooran@microchip.com>, Richard Cochran
+	<richardcochran@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Simon
+ Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, Jerry Ray <jerry.ray@microchip.com>
+Subject: RE: [PATCH net-next v6 12/15] onsemi: s2500: Add driver support for
+ TS2500 MAC-PHY
+Thread-Topic: [PATCH net-next v6 12/15] onsemi: s2500: Add driver support for
+ TS2500 MAC-PHY
+Thread-Index: AQHdB+wZw4OihCeBzE+Ub6CPdp8aWLZXVjmAgAAF9cA=
+Date: Tue, 30 Jun 2026 17:36:42 +0000
+Message-ID: <CYYPR02MB98284F87BFAA4474F4B5563F83F72@CYYPR02MB9828.namprd02.prod.outlook.com>
+References: <20260629-s2500-mac-phy-support-v6-0-18ce79500371@onsemi.com>
+ <20260629-s2500-mac-phy-support-v6-12-18ce79500371@onsemi.com>
+ <akP3jrbFLBfS5UqV@monoceros>
+In-Reply-To: <akP3jrbFLBfS5UqV@monoceros>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CYYPR02MB9828:EE_|IA0PR02MB9751:EE_
+x-ms-office365-filtering-correlation-id: 1b72aa3c-2e24-40fb-1c8a-08ded6ce2648
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|23010399003|1800799024|7416014|376014|38070700021|11063799006|18002099003|4143699003|22082099003|56012099006
+x-microsoft-antispam-message-info: 2ukM29N4zImMNaTTPN9fsXljLudtTZ5nvUT8p2xOeYwG/Ss1MUkX+pCYS+ebQVxV/LgoYguBiywgQyJu05s/4WmYNQriK7eic4IajQ8Uc2gHai8weJ1RQ7/0pWsHAyuqgJcXlrMpxsrhtHrAiIv16mk2Rueepb2b+4tBeMutn0162TUu27Vay35KIaawfDKp8veom4cmoa8rZbVYNc0qzeTYxMoJWDkQ8xYHMX8bsusecxm5ZQs7b2vjlFO99cT3oZ1HV84XVbcjOGFGkR6kG9ackq505wEL+rz7dVieApcJXifoVWgIpPWwYr8ypi19fE5sfI7qxpaIkjmIsOslzgK0aH5ZitZGH8GkWb7BAbHuF1RUO349G/8++GN1yrLoaIjyi55Cvl4nVD5k9H6OJ6vVQa9Vn3AWzK606b8rLGLO1KmWP0HyJ1SFBnMwvrknRuovwyI8M5T34oCECSOkpJfzqFkL4q/EpYLAYJathPyLAmrA/IOrEegihkYXHdCQlW+uJ25FrdLViNjgvLTFLXSd+q3OhoOf2hR8uJreYKjfnYCfQTO+PyjuWxBGaLlvkaoGRjiojVKm5nTI81qUZLB9twaBjUsiKcpqmQKMUcifxRUdBNjkO5EowNhzcBxJ/3JC/VOuhFmIq2OpCbc1qiBfApK1YfaT+w/DfL8xop+zwPsJ0Qsewr9zRIzeE21cGK9yJduIe15trm1AAiEabn3Vbm8fFxeRBQNQO9uRD4g=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYYPR02MB9828.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(7416014)(376014)(38070700021)(11063799006)(18002099003)(4143699003)(22082099003)(56012099006);DIR:OUT;SFP:1101
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?GmQMYKZfcJT1JsDMTWoz8xjpSS92kptDxa9v5+/Zqse0diq19sUVAOT7FE?=
+ =?iso-8859-1?Q?gwmuCoiCQPwmclbQLyYZE/mHltMDcZEP7++Eh6WM3gGQUbR5231eXj1JKV?=
+ =?iso-8859-1?Q?jYIl7dM5PsDq2JJr/htfDpcqdXQUw9dW7wbVKvW7PheMMXzRpt/awXdCY7?=
+ =?iso-8859-1?Q?Rp72CcvptusXQtG/BpGFpmX6g6A4lu1BWQJQXymvnrV3rqOiVN4NFqUr5a?=
+ =?iso-8859-1?Q?jODKB6wz07YRz9ONNVBlV5pQ1X+A46ldnDuE24zEC6OrGw6191Qym0FY/5?=
+ =?iso-8859-1?Q?uD79UZGoxK0of+QdKCo4A5O+Z7HtD9uCvXaWqiT7LKX68w7aoU/dpPoWnB?=
+ =?iso-8859-1?Q?PsJ6PIB4IIi6eah5FBy/t9DbRqn0HSrrnRjesAOY0i127dJnx0/y0IOGWi?=
+ =?iso-8859-1?Q?1MEDNsdHvBsUUs7mZz0wqOncddWZ5aqTPX3XcNeTfGwTVBHJPNgevWSgFI?=
+ =?iso-8859-1?Q?GF2kCM13v90H8ErNuzMF4F6pkMrEpyZlZ18AhOhypg1fH9QA8oHZuRVH6a?=
+ =?iso-8859-1?Q?/byKFdZLSlj1wwIboWIQa9qWhDeJt1UT/vSFH/YX6P0zMqCJZz3Sakh0/H?=
+ =?iso-8859-1?Q?VxmrbsrbTyaCzNSmbYECE2Nsi8LnYPL/VO5PFcTxTPSjXb00UYgE7z14Wh?=
+ =?iso-8859-1?Q?UW7mrPCWBb5CrLyovDO7l1YWkd5ajxK/YzgyJiOnaNMEkI19u46lu8U8v2?=
+ =?iso-8859-1?Q?/rkIDNDhvyfIy29xIKiepT6+vy/3GHgfo+1CKY0nh7bH7LQXhTu/6GPHK5?=
+ =?iso-8859-1?Q?biE4rWCeSZXAVkybyGJhFfrPN8CxSoFczTB24XlKOETqTGwC7G3XkBhAkd?=
+ =?iso-8859-1?Q?a/Cc0/AN8zE4pl8hwF3PXO4AAH+KhCuOSfKEGWjGI2KQJa5FaFD3E8ZVdv?=
+ =?iso-8859-1?Q?2MQPO+uWvTari45zmATaYanbWySpJ9d3/R5gGAZY+VgxHapJS9ulnOtInS?=
+ =?iso-8859-1?Q?I8e+V4FywiS+eS99J3HduQlFZFCeq5jGRgFkszkbNGfLP0OEs/lMqU9s9q?=
+ =?iso-8859-1?Q?un+yUJPtoGCml6MiRFrRvM9zMPeEjXc40b8CwwCTZeJN2KPz8I7LnJ2WIK?=
+ =?iso-8859-1?Q?CBFRmXMZ9MqWZyIK996eZ+ppUtBLLfkUuXGpeDRKM81bnqcZGdfPpQDOcP?=
+ =?iso-8859-1?Q?kpcRr9IQp57FE5L4Q+G299Y0ZTQ67jF/Qqh1+JLeWrEzmQ5s+L+Kob8lU1?=
+ =?iso-8859-1?Q?Ti0eo8tTP2c7t9hxxwCJY0v8rsR3nGj/UsZUDndtZILhN/AsWT3uQy5qoP?=
+ =?iso-8859-1?Q?ilELtK6q8YqSSrg1yidGsMHaPWBQGFH5l0RqJVKu+IhrPN9RW2HlW6qmPh?=
+ =?iso-8859-1?Q?aN6jPH4gz7+g6yQuWUuCMwM2+rV0oVE0WJ166bSFZusaUzIACwaXJeYJtK?=
+ =?iso-8859-1?Q?U5dtOEA5xXSHou3yILNX4jxmKecttvDNSR57v0x5dTjfcdlkC1sSf1h2iv?=
+ =?iso-8859-1?Q?KZ3RwC6BEPi4YHn4SfMltU+gy237hJF6yLXJqq+GFmiQdaWf84tOFRL6Cp?=
+ =?iso-8859-1?Q?lgy16S3MFwrgLVgNUA9joQO0rYmFK+3tfe8RKqBxymJUE8E9HS803UoGyR?=
+ =?iso-8859-1?Q?duXqUzeyJ2TN8ZMf5NRG2bF22KvMAqdUYS2nwFjMCzsWIlUl55kzztlpeU?=
+ =?iso-8859-1?Q?2R7sRkGrqF7DWwtUfFU9+8GXFDUCMltrykWt3O72RSnbz/sdxr0r5ML1qm?=
+ =?iso-8859-1?Q?sgEr6HE55OHv0pFMuZ7v86QP3TCKj+BIHJqXEga55tQqqMPRgUg0Wwdj6w?=
+ =?iso-8859-1?Q?PaW2qwzIxuISrtPBvOm2cQ4TuDk0OpXNByULAxzpekp6eeP+hygkd0+zfH?=
+ =?iso-8859-1?Q?Atsa7sbSTpPnUNYYjYAiwMmHg+vUBg4=3D?=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
- <20260618-gmem-inplace-conversion-v8-7-9d2959357853@google.com> <a1b06afb-af6e-4666-8c7d-990e7fa150fa@intel.com>
-Message-ID: <akP9Qv_IPVEh7GAB@google.com>
-Subject: Re: [PATCH v8 07/46] KVM: Rename memory attribute APIs to prepare for
- in-place gmem conversion
-From: Sean Christopherson <seanjc@google.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+X-Exchange-RoutingPolicyChecked: Govf/IVlFvSSLrX501cjvQHXTW1NDhAaCO7B1EWZ+0B4fFYIlYxgHtXCZ3yjBND8cBRPF3cSIJbjRoN3LbVfvzctcuc5P/M8SA8+TL8iSzbQxOLc1QkvAMBmCUH/Fdbjw4odRdeApcGwZk18HxwvbV3AxuAPKtxkKpZZ6PoKjS2BhQJpF/sovEQtsaj+Gyy5hwu/G2ZJldlI9P11rOJTsQZW8HjL84w7TCUkPaUvDWXh8ub8cME163BLyrzxR5fZbe4iO3xIfktdOXCf6VYk0DtQ9AEFyx+jgSHWJA26pYZToCQaNBil9fJIxsXYGywymH1BApj0mFmvW6uibWRDmQ==
+X-OriginatorOrg: onsemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR02MB9828.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b72aa3c-2e24-40fb-1c8a-08ded6ce2648
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2026 17:36:42.6812
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ymUmzxMmhLZ0RPgea1J6E/9ITv9m8GadJ+uoStAZvkkSVM4VnphC9hyYPW0jwLL3Gd70FoiaxtJ9Hnlwt/28f1rMNmrsd5KEjBIRi0GJHQs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR02MB9751
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 6eEFwRVPw8lxUYlw1lk6ZUSJt4KXjhAiH-tsBJ3H4XM_1782841006
+X-Mimecast-Originator: onsemi.com
+Content-Language: en-US
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 30, 2026, Xiaoyao Li wrote:
-> On 6/19/2026 8:31 AM, Ackerley Tng via B4 Relay wrote:
-> > -bool kvm_range_has_memory_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
-> > -				     unsigned long mask, unsigned long attrs);
-> > +bool kvm_range_has_vm_memory_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
-> > +					unsigned long mask, unsigned long attrs);
-> >   bool kvm_arch_pre_set_memory_attributes(struct kvm *kvm,
-> >   					struct kvm_gfn_range *range);
-> >   bool kvm_arch_post_set_memory_attributes(struct kvm *kvm,
-> 
-> We have
-> 
->  - kvm_pre_set_memory_attributes()
->  - kvm_arch_pre_set_memory_attributes()
->  - kvm_arch_post_set_memory_attributes()
+> -----Original Message-----
+> From: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+> Sent: Tuesday, June 30, 2026 10:08 AM
+> Subject: Re: [PATCH net-next v6 12/15] onsemi: s2500: Add driver support =
+for TS2500
+> MAC-PHY
+>=20
+> > +static const struct spi_device_id s2500_ids[] =3D {
+> > +=09{ "s2500" },
+> > +=09{}
+>=20
+> (i.e. use a named initializer, a space between { and } and no empty line
+> before MODULE_DEVICE_TABLE()).
+>=20
+> Also the driver should probably have a
+>=20
+> =09MODULE_DEVICE_TABLE(of, s2500_of_match);
+>=20
+> Best regards
+> Uwe
 
-Yeah, that's probably for the best.
+Thanks for your review. Will take care of your three comments
+(space between {}, no empty line, missing MODULE_DEVICE_TABLE macro)
 
-> left, do they need to be renamed as well?
-> 
-> then the interesting one is kvm_vm_set_mem_attributes(), which contains "vm"
-> already while it means "vm ioctl". Do we need to rename it to
-> kvm_vm_set_vm_mem_attributes()?
-
-I say "no" on this last one, the fact that the function is scoped to a VM ioctl
-is enough to communicate that it applies to per-VM attributes.
-
-Actually, since it's a local helper, we could go with kvm_set_vm_mem_attributes()
-to be consistent with the other functions.  That just leaves
-kvm_vm_ioctl_set_mem_attributes(), which I think it appropriately scoped.
