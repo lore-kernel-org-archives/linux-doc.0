@@ -1,298 +1,84 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5523DE42E
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 18:15:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782843323; cv=pass; b=ViUbEOmHpgiH4WxVHyTv9gBE1WH6GKabUTrVMZ6o+Em8HzuQ7JGjWMxuTTijcG6of21l3Ulp85dd7fGKQ0WO6kcsdozuVIVlGllrhcggfRE+CS63X2vdeIc8ka1aVSO3bYF+W3mcKLN4Ko/jfanhw8XBoYKaf0eyysJeErGjWLo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782843323; c=relaxed/simple;
-	bh=CECvrklXu3ex6EzfGgtlEfLqawSDQLf8UXGyG/TNXfg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bn89KeFLKkKXjvKGRt+onPZvXlo708YtdpojuAwQGNkvV9SKnbNL38xXh13FOhIrb7N2EXnuOnfyeuYTwDl0y8vxC413519PcQ4F93XYQOyU8RyMBGobGwmi5S6dRbIRvJRLdJKv8Z+L74LtX9dA4j9XEf0bWdv4+jukJyfyGYw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nmO4nqlt; arc=pass smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A4933E34B;
+	Tue, 30 Jun 2026 18:45:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782845108; cv=none; b=GiFta5aOFXYCaKBF8OWdovIMa+39gcUVkw8UpnC7jn7CRviVpZxNRi67INBxPLDrWR8/rZGD1fTL68/edUbkmELQy75xQMrn4s9yIAF8cdwd1ybKo+fjymtWgXGpanjW54XdSR4Vz7s+HYmQUbtOZ107ibb4f44COKLiCcVtssM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782845108; c=relaxed/simple;
+	bh=HWuef1dlSVTJu7gF5ZW1fEGsnqAMyGvK5B5poXvEiJA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ft7bAWFtqhgOgbCt/EVpbnvz2Cd78yosbS57IQdTHnb+NvPu1m1QVL3NlMxbPEtjcN/+jdu+QHLH0C7WGFRWJb5pqLFMmEScTYVjMbdBfu5M+bt/wzvlNuk/k8rOicPpSDScxWRL/XYWO/chFWzCjC0QSgTFO+ejRvETj0b/GV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CEPvZMAE; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nmO4nqlt"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5aeae350e0aso3545005e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 11:15:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782843318; cv=none;
-        d=google.com; s=arc-20260327;
-        b=WJGz9DruV93xy31PkhnSS5rIPLTepRUb1qnHOV4CC6rTJ42dFEYwKc5f8hSHqnIM5c
-         gxvfATQ8x/EvgajY8XG3fR3t8I6Qhf+hSTbbw5oIhnq15ooFZ7LOUWxIvoJkyvDxQ4+w
-         A1IfWSpO6zbkYMT0uKOSRpFqqnGZmXurPARQHtKaie2EffujB8xnRBPgTi76p7hoejFT
-         MQE7TVY8BM3lfUxgX+owLeRA6RE5z9zpJJZpIAzxBctpYWmIneQnmMgZtdgmnm7XjOEZ
-         dNzOtyj5eQeWpXkrusuHrPK2F/6Z4ug3tdmZTtdGitEXyLhAVaNZ7CZSE+wfMdO2qEXm
-         kLSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=D5+NNVuz/78npjn+WBVd7tH9J0s1hX9Om4dXEd+goZE=;
-        fh=BCnrLkJVhnJBaceoQ25Mcy4NXicAtpA5aKrGZZUnAS8=;
-        b=Gjd9acTIMmaX6AkuiPfXq7RMa+3MpLqucVdb9xVp3/sGM5J4o/Y3UTXwKhiveeDXXC
-         Y0SwqHO1L+f1NAGasDZJPYZu4Tvs6LH2aWxFMFVMXoc8pFQZZcPuZ0z1LXAzBHCAeXcZ
-         9ZDwL3A/tHyu1EqPaZa0I0uRrOxLTVTkFtxAdaIyXmerK9emHEpn1BjpcwF0/+fJgL0o
-         CJBZpRujgdNfBF6smCjk9szFXPutvOQ5n/d7z/jIXfCUnewQMf/wpz5l+pxkqthIsHOy
-         6mJ5Q/qt7k8BvrVRZz0U6ridN2J4OCxA6RBq98HKyQB5pr5V+dhmqY5DLqUQXjeoCET1
-         hoJg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782843318; x=1783448118; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D5+NNVuz/78npjn+WBVd7tH9J0s1hX9Om4dXEd+goZE=;
-        b=nmO4nqlte9qDj6P4v6U0mT7U+xl5/CFwB4aahxaofY7dafSqGT3O5OlzlSQe6h3Mg+
-         gwxi0/OEUYRRpAaQSK/Gpna4CEtd/w6qiJ/o5EbjXUGZVZsDrhh+ySXwzuElEYVVAM+3
-         mpBcPWIbttQg/Dmxbcm2qgrLGqfca6x2c6rsH+zVkXXoMPutyynmLhkdb7oL6Gr34Rvv
-         5Wt9b9hwWTOO9xnRP7LVMSBGcRTL4zksvM3kwjZ6zdWC508LGwXtkC1Vancxc4Xxsa3h
-         PV1QqvDcVlVArVig0V/+8Oid+sz9mloB+JylNAo1qFoIi0LIILRpxvGPUhnaEhZQEjnH
-         vHqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782843318; x=1783448118;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=D5+NNVuz/78npjn+WBVd7tH9J0s1hX9Om4dXEd+goZE=;
-        b=eDZhaSsWRHm3++dBuqmZVWjIvAIj3NKJN2Ax8zeizdNSTTm4FKc43XpjV8WKv/pxtq
-         S8yPusq6Q6Vy3KhpfEad4MtB2SfzlqBTDJ52XJur2a58x3pxq48btDyJEBzUargMS0g2
-         pA2GV6TdGzh/VwJ61DlWb6SwYz5nCN908CxmQEwmI9AEqr7Ejz0lBtPF3bNYXQwE/oOJ
-         W9/t0Re2r0NC5B0kvlSeIGKzbEqdxb+aJfgf3lzS4GRQlnsWmC4cRG9M/c3tdvBKEWUE
-         bbGKC4k4LYRaLomY/QNkiYNpWoq768VQw22psSYbMiOI4ESXA4BVep+Yf8mdzFLXeA/i
-         azIg==
-X-Forwarded-Encrypted: i=1; AHgh+RptFLGr4HVubIHTYUmKpvlIEErfWg2YxQ4cuGsz/1Cc8L0ex8V4ov9x2WETBUBDdNBEngxLX/8qkvE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXfZlSf1TXpV8yBygz/TOJqsp8mZMaI/C8SNUO6nE0G93+w1M+
-	wGab32sYdOXy9ARhd6J+CsatCRChb9WNWDtwBlCyOyBou6lANBXiWZf+18+MWMceRMUOte/vRA+
-	pC6b8jqm5IQ/KR7U6MAjtV+e+MobfTPA=
-X-Gm-Gg: AfdE7cnAr7KTjsbRu+VobsGgD+7dSACXLIez2x8YrVnyqV3Ngdph3s0SzsQcOPakxya
-	ugVdc+HyyA0GimgOsWjw9JzoDBdAayF0bx4iGLMbzZg3GaI4mYZ17/FD57Qlt3NdDjU7344Uf29
-	+pQSKkf72m+f7ABfRQF5Xz25z/n0vZitlHwg28STmXSwEUtOR+2ji6BtIQJgdGipvhaSTzVFVJ2
-	CXV3K3JeEWqfscioaPsSznDVi/j1rEI8j8NFk6nQ3w1KD+xJojnpwfM1q3Fd1z4w3DK/u2/nvm6
-	vFz4E5nZia+gACYrs//O9OjrAoQmiQ==
-X-Received: by 2002:a05:6512:1248:b0:5ae:b2cf:8204 with SMTP id
- 2adb3069b0e04-5aec10a3841mr527354e87.2.1782843317436; Tue, 30 Jun 2026
- 11:15:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CEPvZMAE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=jReEXMEt9w7e8G03i0VZobwWvCQscFhS+MP89RBwgUY=; b=CEPvZMAEUl5oWd4tHF/wDMOX+Z
+	V/7/eF8tTgTAjXDeLq16jkyOqccJFN7TCrkdiUJxXrOlZeSBmj4xmXWDSFgnPtjmwN6krQWCS9td9
+	OCrBkvICmi8YoAsgTYlXO/0sivMgUtErAjsNqYqFC9JYj6+0w8j4su2Ftxd2n62XJPCAoVw84iJyl
+	tBWqAFrGXnnvJy5G/vjIjZIiPVvlHcJ+DDopZDCd2UrYtJn/6N7GZYo+H24+5UdClwS0lvkSlZJLy
+	c96SrpxUj7cVrPtSRerCMsGs5pdXR2S41++hC1UW0oYybqIk7b8bCXEdDpon4STiYT/Uabl9XA6Hn
+	cpLP1XvA==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wedRo-00000005O2g-2yzs;
+	Tue, 30 Jun 2026 18:44:40 +0000
+Date: Tue, 30 Jun 2026 19:44:40 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Jianyue Wu <wujianyue000@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	David Hildenbrand <david@kernel.org>,
+	Michal Hocko <mhocko@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Baoquan He <baoquan.he@linux.dev>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 2/3] mm: rename swap.c to folio.c
+Message-ID: <akQOmJOy1TYrhlq5@casper.infradead.org>
+References: <20260701-ch-swap-series-plus-folio-lru-cleanup-v6-0-d4f648963382@gmail.com>
+ <20260701-ch-swap-series-plus-folio-lru-cleanup-v6-2-d4f648963382@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260629083542.10041-1-lucaslnobrega38@gmail.com>
- <CAJZ5v0iVD90XPsWgT8B+fw9vmFRZTVL7MasPP-=Ci0OdUmNR=A@mail.gmail.com>
- <6021784.DvuYhMxLoT@rafael.j.wysocki> <CAMVixxV83tSLEi_o1vmHjqfgPnnXDwo2LjP_m-Y7iEWfvUAP2g@mail.gmail.com>
- <CAJZ5v0h=u3dGbujFpU2yObyLXT0ZLZTxpG2+zLZLP7wpKsBvQw@mail.gmail.com>
-In-Reply-To: <CAJZ5v0h=u3dGbujFpU2yObyLXT0ZLZTxpG2+zLZLP7wpKsBvQw@mail.gmail.com>
-From: Lucas Lima <lucaslnobrega38@gmail.com>
-Date: Tue, 30 Jun 2026 15:15:03 -0300
-X-Gm-Features: AVVi8CfOYvRgKX1BVKZ9ztJkm1g1dlsELv7d9f73_ROHxL9yp_qLWTCJsZ7m5FQ
-Message-ID: <CAMVixxXpT90bkwGTpL+T-d3ve7BTK3xXwBcaMfhvJ7R+DkxXiw@mail.gmail.com>
-Subject: Re: [PATCH] sched/topology: Allow EAS without schedutil for
- artificial Energy Models
-To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Cc: viresh.kumar@linaro.org, mingo@redhat.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, 
-	kprateek.nayak@amd.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260701-ch-swap-series-plus-folio-lru-cleanup-v6-2-d4f648963382@gmail.com>
 
-Em ter., 30 de jun. de 2026 =C3=A0s 10:07, Rafael J. Wysocki (Intel)
-<rafael@kernel.org> escreveu:
->
-> On Tue, Jun 30, 2026 at 10:11=E2=80=AFAM Lucas Lima <lucaslnobrega38@gmai=
-l.com> wrote:
-> >
-> > Em seg., 29 de jun. de 2026 =C3=A0s 16:06, Rafael J. Wysocki
-> > <rafael@kernel.org> escreveu:
-> > >
-> > > On Monday, June 29, 2026 5:16:17 PM CEST Rafael J. Wysocki (Intel) wr=
-ote:
-> > > > On Mon, Jun 29, 2026 at 10:36=E2=80=AFAM Lucas de Lima N=C3=B3brega
-> > > > <lucaslnobrega38@gmail.com> wrote:
-> > > > >
-> > > > > EAS currently refuses to enable energy-aware scheduling on a root
-> > > > > domain unless schedutil is the active CPUFreq governor for all of=
- its
-> > > > > CPUs (cpufreq_ready_for_eas()). This requirement exists to protec=
-t the
-> > > > > accuracy of the energy estimate: EAS predicts the OPP a CPU will =
-run
-> > > > > at from its utilization, which is only meaningful if the active
-> > > > > governor actually requests OPPs that way, and schedutil is the on=
-ly
-> > > > > one that does.
-> > > > >
-> > > > > That requirement does not apply to artificial Energy Models
-> > > > > (EM_PERF_DOMAIN_ARTIFICIAL). An artificial EM is built from a
-> > > > > get_cost() callback instead of real power numbers, and only encod=
-es a
-> > > > > cost ranking between CPUs (e.g. P-cores cost more than E-cores at=
- a
-> > > > > given utilization). It never claims to predict real energy use at=
- any
-> > > > > specific OPP, so there is no per-OPP accuracy for the governor
-> > > > > requirement to protect, regardless of which governor is in contro=
-l or
-> > > > > whether it tracks utilization at all.
-> > > >
-> > > > But it is still about comparing the cost of running on different CP=
-Us
-> > > > at different performance levels.
-> > > >
-> > > > For instance, say the scale-invariant utilization of a task is 256 =
-and
-> > > > it can run either by itself on a P-core, or with another task whose
-> > > > utilization is 128 on an E-core, and say the P-core's and E-core's
-> > > > capacity is 1024 and 512, respectively.
-> > > >
-> > > > Say the cost function tells EAS that running a P-core at 1/4 of the
-> > > > capacity is cheaper than running an E-core at 3/4 capacity, so it w=
-ill
-> > > > pick up the P-core to run that task, but if cpufreq ramps up the
-> > > > frequency of the P-core to the max when the task gets to it, it may
-> > > > actually turn out to be more expensive.
-> > > >
-> > > > This means that EAS still has an expectation regarding cpufreq whic=
-h
-> > > > is that it will generally tend to run tasks at the performance leve=
-l
-> > > > corresponding to the sum of their scale-invariant utilization at le=
-ast
-> > > > roughly.
-> > > >
-> > > > IIUC this actually has nothing to do with whether or not the energy
-> > > > model used by EAS is artificial.  The schedutil requirement is abou=
-t
-> > > > choosing a performance level proportional to the utilization (which
-> > > > schedutil generally tends to do by design).
-> > > >
-> > > > > intel_pstate registers exactly this kind of artificial EM for hyb=
-rid
-> > > > > (P/E-core) systems without SMT, regardless of whether it operates=
- in
-> > > > > active or passive mode. In active mode it never uses schedutil, s=
-ince
-> > > > > HWP picks frequency autonomously, so on these systems EAS never
-> > > > > engages even though SD_ASYM_CPUCAPACITY, frequency invariance and=
- the
-> > > > > EM are all in place: find_energy_efficient_cpu() is never reached
-> > > > > because is_rd_overutilized() is hardcoded to true whenever
-> > > > > sched_energy_enabled() is false. cppc_cpufreq registers the same =
-kind
-> > > > > of ranking-only artificial EM and is affected the same way with a=
-ny
-> > > > > non-schedutil governor.
-> > > > >
-> > > > > Allow EAS to be enabled when every CPU's EM in the root domain is
-> > > > > artificial, even when schedutil is not the active governor.
-> > > > >
-> > > > > Tested on a Raptor Lake-P laptop with nosmt=3Dforce and intel_pst=
-ate in
-> > > > > active/HWP mode: find_energy_efficient_cpu() was never called bef=
-ore
-> > > > > this change (confirmed via the sched_overutilized_tp tracepoint a=
-nd
-> > > > > ftrace) and is exercised as expected afterwards.
-> > > >
-> > > > If this is about allowing EAS to work with intel_pstate running in =
-the
-> > > > active mode, you may argue that what the processor firmware is doin=
-g
-> > > > when intel_pstate runs in the active mode is not much different fro=
-m
-> > > > what schedutil would do.  So a driver implementing an internal
-> > > > governor (that is, using the .set_policy() callback) would need to
-> > > > declare that its internal governor is as good as schedutil from EAS=
-'
-> > > > perspective and so it will pass the "cpufreq readiness" check.
-> > >
-> > > And I have a prototype patch (on top of 7.2-rc1) doing this which is
-> > > appended.
-> > >
-> > > I wonder if it works for you (that is, if it allows intel_pstate and =
-EAS to
-> > > work together both with schedutil and when intel_pstate operates in t=
-he
-> > > active mode with the "powersave" policy on your system).
-> >
-> > It does work, thank you.
->
-> Great, thanks!
->
-> So this approach is more straightforward IMV and that's why I prefer it.
->
-> I'll need to revise the new flag description so it mentions the need
-> for a "matching" EM to produce reasonable results and there are a few
-> intel_pstate patches in-flight, so this one will need to be rebased.
-> It also needs a changelog, of course.
->
-> > >
-> > > Also I wonder why exactly you want intel_pstate in the active mode to
-> > > work with EAS.  Do you see any significant improvement in that case?
-> >
-> > About that specific topic i do not have any testing data, but it felt
-> > like schedutil drains more battery than pstate active (likely due to
-> > worse c-states management) and presents more stutters in general usage
-> > (I would guess it's slower to react to load changes). After bypassing s=
-chedutil
-> > those very observations were gone, and the responsiveness of the system
-> > looked very similar to EAS disabled, pstate active. Since EAS does
-> > prioritize spreading
-> > onto E cores, which do consume less energy by my testing, IMHO it's
-> > almost too good
-> > to be leaving it unused.
->
-> Fair enough.
->
-> > I also want to point out that gaming (mainly minecraft) stutters a lot =
-more with
-> > EAS on, even when pstate is set to active. So i wonder what do you thin=
-k about
-> > capturing the system power mode (currently only clamps frequency) and
-> > disabling eas_compatible when set to "performance"? That would need
-> > updating cpufreq_policy, but feels reasonable to let the user disable E=
-AS
-> > for latency sensitive tasks, since E cores struggle at those.
->
-> Switching the governor (or policy if you will) to "performance" on any
-> CPU should cause eas_compatible to be cleared for it due to the
-> cpu->policy !=3D CPUFREQ_POLICY_PERFORMANCE check and then the scheduler
-> will refuse to use EAS after rebuilding the sched domains.
->
-> Or do you mean something else?
+On Wed, Jul 01, 2026 at 12:27:33AM +0800, Jianyue Wu wrote:
+> @@ -17057,7 +17057,6 @@ F:	include/linux/swap.h
+>  F:	include/linux/swapfile.h
+>  F:	include/linux/swapops.h
+>  F:	mm/page_io.c
+> -F:	mm/swap.c
+>  F:	mm/swap.h
+>  F:	mm/swap_table.h
+>  F:	mm/swap_state.c
 
-I actually mean performance mode in platform profile really, as it's the mo=
-re
-straightforward way for the user to request for more responsiveness
-from the system.
-For now, putting platform profile at performance does not change the
-governor from
-powersave, and as such, EAS is not disabled. A notifier from platform_profi=
-le
-to re-evaluate eas_compatible when the profile changes would address this."
+I would argue that folio.c is now not part of the "MEMORY MANAGEMENT -
+SWAP" responsibility.  Agree that it's part of the LRU maintainership
+still.
 
->
-> > I know that for now, my observations are only anecdotal, but if needed
-> > I'm eager to test those assumptions!
->
-> So it would be good to have some data indicating that it is beneficial
-> to use EAS when intel_pstate operates in the active mode ("powersave"
-> policy).
-
-Will be on it.
-
->
-> Also, enabling EAS by default for the active mode may be problematic
-> because people may see (and report) performance regressions due to it.
-> OTOH, EAS can be disabled via sysctl, so that may not be a big deal.
-
-I feel that concern further motivates my proposal. I would not expect
-the average user to use sysctl to change EAS or even to know
-about cpufreq governors at all, so linking EAS to platform profiles
-already exposed by the desktop might avoid complaints.
