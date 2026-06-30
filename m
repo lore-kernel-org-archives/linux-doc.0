@@ -1,168 +1,110 @@
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B564545BD5F
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 15:48:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC6546AF12;
+	Tue, 30 Jun 2026 15:50:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782834507; cv=none; b=KRM3UGMdeeZz0knSQPQfdEmoxYcuiQw74eK7Zn25B7UjJ1u1GobWW4HNz6v+krG9DAE8Uu5KwKF9kBZNH5Sc6DU8+0xhcI4WTbEhI7kax26eOnX47vsyM7LR30giPUMVy2DW/HBRX7y0CjAOJ4z6alQg7hYpALoO6+ejZcVchi4=
+	t=1782834623; cv=none; b=tt43vawGwdxekQMmbDhVgpljv7rFND0WbEv9T2gR0AqYu6+cWlr34a+J2Hsth3mJjXy3f3UkPjiS4Sp7Djb/76Ph2OC1Ue7YOeSJCK1LHZMcdWz9pQZYmTMlSQC/pwcgTJwusMo+Aj9xAjYxAmJxiiil6VvFcfaVipburUn9utY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782834507; c=relaxed/simple;
-	bh=5daw7GHF082XZFOBtpOcz+XZJghpPd5rcNaXIs/Gqfo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j8k/FII4s2fM7UsKPF7mGhPueKgA9+p4R8wPXLswVhV2vrISs6kpjSSB8SOhhmCcj4EIun0I/+yIkBPeZm9hQnnBgEOCmc6jM8XYgGOnFufN96xiGPLhrwCpPXitbksivtSf/T42sESKE+WYm1UrL+PpiiUzwPxi2b16tc0ekFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VnbjuEFR; arc=none smtp.client-ip=74.125.82.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782834623; c=relaxed/simple;
+	bh=wJVOvcEEpbA1CW16gcTsNnjYtnN5mAQFWxq+X6OZbkg=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=BEm8+WtTBi+2+DDzz4P6JnpUppnDXg/VZbTwe3r1IN5paHrhf9eYjHO7lwI832Cs17lDcGC6kYhlEs3LYlFC+4WJ9ivV73rveBcRcwY50TArUmtffNyMi31GGS48lN8Fj+nVS+O2/G9Zdxt/iyRet1bdMJU+tsViap2U8Hxl8QQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hYaFsO0F; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VnbjuEFR"
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-139a5f4ca15so5699905c88.1
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 08:48:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782834506; x=1783439306; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=UxCj86Vqc8nQPo8juJb5HDgI5Ftj5c58cIVgplQr+NU=;
-        b=VnbjuEFRE3gvIfQcvUsm6IxIqPkhKen7u7C4QKPO/ANzDUwqrBXme0hGI1s+Wh9JLU
-         k5F5KvSXArAxlX4iwduWiSXH4cThMZ2Fj5G9Km5bcPGurQtgTWTND5H2es2klNJYTDL5
-         xfmy8C1r7WD93i26rGgE7sI/ni7Q3Q+3MvtRvnIhIkq5dEa85so+bgMUn65wDhybQare
-         shftXkHlbSQwUYVCEOWXM9rq5PLHh14zl9oOYjzZNBbR0Z7plDyxscEWeIUvWacdidZ+
-         zT6GBBnah4d59T7uwC8iAdrPwpuWXp7zqYa3ESHfGSz7kcjvLrjoEAF9gnLlC2WQGv6l
-         UIBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782834506; x=1783439306;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UxCj86Vqc8nQPo8juJb5HDgI5Ftj5c58cIVgplQr+NU=;
-        b=BhbrjrHsl2QmDqpuHczTfOIedPlVg70SBY52ymmFLOA7dL9Nex3TPnogq975ysH9TY
-         6tKGPXT7qauzC6xIl/4asXBY/Lc5DsXWZF9h1h9ScEbiTRbDoVJWvMpmnZl1UDejx0YD
-         mbyOdG5fwzOs0hodOIBteavYbuoy1gWs9Q8+NU5vzMGnoViep4GEIPa3hhyFQHyc3r9L
-         Ida/hohdUMgb1XyOdtrZ7kJU8TJNtg8IlOvsLiRMGNDNqkxFOO1GlwKuy1C96XHG2QD8
-         dhqwzxICyADCFKF3JqCX3xKX1f+FizhBlO0Px3Gg4kcz+ZtQ53eqfw0A5GuLWid7sskR
-         iCJg==
-X-Forwarded-Encrypted: i=1; AHgh+RpqrBg7LCsw3v70UxWkCWniXK/Bjf5pkYH3U6zEFwx3RSgzL+xjLKPL2nhtO0WM6hxGDwFzNKZ0+Ys=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXqhFZTTDHMAlEnrvuSnDzJ5AE6SGV/naRqQvxnef6Y1mO4wsa
-	2z6gETwVFAesBCPGdLO40ogw+FhT6jNcdxNhGBGCx43/diJaKEIsBUsm
-X-Gm-Gg: AfdE7ckmaol6CNvDRbVH/o2vYMsXpidUi2SuyNJ1dJSibPHOnEki8ZYSm/fAs4Lu/gU
-	Zvv+VwVfPocU2hqLGBB+YhU7d4A+6Uc2bKgiyfvYY2zhNryBJEwlItwQLZn41GvrdEV2kLMehYJ
-	SI5/T69vkXIhaotvH/FuXjqHUaOM4ouv+kLWdwjawY+0Klf6EoGLGDt0oUZyycsKg7hExqYCa89
-	EWoIunoIATvVKXvKm7wm/YNe9Mcx/ijeN6q4Kp6wGhJqkIzYGfHsdO5308XypHtcHRsg6FjrXKo
-	eOhrEbcAUM34bxc+Y77igtRQaOWfcs8sdOp2bCHCLKE+O/grwesCmhOOAjUww9+oNcVqWwQ+Tll
-	eoLw90HiQXpDro+YEXBBPPUp/zm3SI8PR8ouAzsEtO86Q2As7d48/ewgOF/PZZ0aoM2rdzZrsZ0
-	PGNuXxneXBOgLOfrLUEVXANFHanPUVFqpZOBq+ZpplwZDPZa9N2l4kPpVnJRm8IQ==
-X-Received: by 2002:a05:7300:5bab:b0:30a:e530:ebc6 with SMTP id 5a478bee46e88-30ee12f0e92mr2823150eec.12.1782834505729;
-        Tue, 30 Jun 2026 08:48:25 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee2f5e4d1sm9007145eec.6.2026.06.30.08.48.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2026 08:48:25 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <d6e011d7-ef9b-4cc8-91c6-3f329017d213@roeck-us.net>
-Date: Tue, 30 Jun 2026 08:48:23 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hYaFsO0F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 272C01F00A3A;
+	Tue, 30 Jun 2026 15:50:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782834617;
+	bh=orBYolOiVh8P+Gs6dp8/inZibU5jKERhYsBdgyU7ewg=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=hYaFsO0FH9QTvOvjL+VAVldlJ2YPFGk7Uv9Z6QoYCVHtTYFvz5GLpT1JPoGmvuzja
+	 MTy6IgtdK2zMOgBks1ci94yQnYzuxOJiLmpU/slEb508GaEKc1CAdIz3+/Zq6Bt0w9
+	 2FVSSC8lyJ1ZeKB8y1XDpUIRQvZEcPOZths6ZliY3SggfKoZOFKnqpC88EFu33XLTW
+	 sn6AnFxz4EW0LATrsCAmY8ssBo7Q13rik2AkR7zp8ALgguCfUFUhwRyu2d3NhQu+/K
+	 Y2AM6LawUcaWvPp3WCkTdmmqcN+TndJjAv7WwB1TzTqCVHBCGCID2JuhETb5Xb/WQQ
+	 rTUnWQuYsWNdQ==
+From: Mike Rapoport <rppt@kernel.org>
+To: corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com, 
+ will@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name, 
+ maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com, 
+ chleroy@kernel.org, pjw@kernel.org, palmer@dabbelt.com, 
+ aou@eecs.berkeley.edu, alex@ghiti.fr, tglx@kernel.org, mingo@redhat.com, 
+ bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com, robh@kernel.org, 
+ saravanak@kernel.org, akpm@linux-foundation.org, baoquan.he@linux.dev, 
+ pasha.tatashin@soleen.com, pratyush@kernel.org, ruirui.yang@linux.dev, 
+ rdunlap@infradead.org, peterz@infradead.org, feng.tang@linux.alibaba.com, 
+ dapeng1.mi@linux.intel.com, elver@google.com, enelsonmoore@gmail.com, 
+ kuba@kernel.org, ebiggers@kernel.org, lirongqing@baidu.com, 
+ leitao@debian.org, kees@kernel.org, coxu@redhat.com, cfsworks@gmail.com, 
+ jbohac@suse.cz, osandov@fb.com, ryan.roberts@arm.com, 
+ tangyouling@kylinos.cn, sourabhjain@linux.ibm.com, ritesh.list@gmail.com, 
+ gaohan@iscas.ac.cn, david@kernel.org, wangruikang@iscas.ac.cn, 
+ muchun.song@linux.dev, vishal.moola@gmail.com, junhui.liu@pigmoral.tech, 
+ guoren@kernel.org, namcao@linutronix.de, rick.p.edgecombe@intel.com, 
+ djbw@kernel.org, liaoyuanhong@vivo.com, fuqiang.wang@easystack.cn, 
+ vishal.l.verma@intel.com, chenjiahao16@huawei.com, x86@kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev, 
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
+ devicetree@vger.kernel.org, kexec@lists.infradead.org, 
+ Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <20260629094746.191843-1-ruanjinjie@huawei.com>
+References: <20260629094746.191843-1-ruanjinjie@huawei.com>
+Subject: Re: [PATCH v17 00/10] arm64/riscv: Add support for crashkernel CMA
+ reservation
+Message-Id: <178283459765.548295.14688999641870037803.b4-ty@b4>
+Date: Tue, 30 Jun 2026 18:49:57 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] dt-bindings: hwmon: (pmbus/max20830): add
- enable-gpios property
-To: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>,
- Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20260630-dev-max20830c-v1-0-a02786bde470@analog.com>
- <20260630-dev-max20830c-v1-1-a02786bde470@analog.com>
- <20260630-cuddly-quiet-jackdaw-b7ab3d@quoll>
- <PH0PR03MB63514D6ACDFF20DF4D1A4855F1F72@PH0PR03MB6351.namprd03.prod.outlook.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <PH0PR03MB63514D6ACDFF20DF4D1A4855F1F72@PH0PR03MB6351.namprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.2
 
-On 6/30/26 01:07, Torreno, Alexis Czezar wrote:
->> [External]
->>
->> On Tue, Jun 30, 2026 at 10:46:43AM +0800, Alexis Czezar Torreno wrote:
->>> Adding a missing entry for the MAX20830 EN (enable) pin.
->>
->> ... because? Device has it? Was missing?
+On Mon, 29 Jun 2026 17:47:36 +0800, Jinjie Ruan wrote:
+> arm64/riscv: Add support for crashkernel CMA reservation
 > 
-> Yes, device has it and I forgot to include it in the past.
+> The crash memory allocation, and the exclude of crashk_res, crashk_low_res
+> and crashk_cma memory are almost identical across different architectures,
+> This patch set handle them in crash core in a general way, which eliminate
+> a lot of duplication code.
 > 
+> [...]
 
-Pretty much every PMBus chip has it. Many non-PMBus hardware
-monitoring chips have it. Problem is that there is no practical
-use case that I am aware of to connect it to a GPIO pin,
-especially for PMBus chips because PMBus (and the chip) has
-a command to override it. Connecting the Enable pin to a GPIO
-output would mean another extra and unnecessary wire on a board
-plus the need for additional software to support - in a more
-complex way - what is already supported by the chip itself.
+Applied to crashkernel-cma branch of liveupdate/linux.git tree, thanks!
 
-This will even more complicated if anyone ever adds regulator
-support to the driver. In order to fully support this, the driver
-would have to add support for enabling the chip through the
-GPIO pin (or to override it permanently, making it pointless
-to have it) even though it is highly unlikely that this code
-can ever be tested on real hardware.
+[01/10] riscv: kexec_file: Fix crashk_low_res not exclude bug
+        commit: 5fc6e7d45373571d03cd04fd4c6069c0a97fa75a
+[02/10] powerpc/crash: sort crash memory ranges before preparing elfcorehdr
+        commit: 202b5de3ec34317d6a8944239fe227ef8f6853ec
+[03/10] crash: Add crash_prepare_headers() to exclude crash kernel memory
+        commit: 5beabef0cffaa1ea6e27e85dbd526b7a28e0e7c7
+[04/10] arm64: kexec_file: Use crash_prepare_headers() helper to simplify code
+        commit: 201b561cbc6c594aa1ef718a1204dd45720d96dd
+[05/10] x86/crash: Use crash_prepare_headers() helper to simplify code
+        commit: a8f09f2a7485956c3653696f6cb94faadd243645
+[06/10] riscv: kexec_file: Use crash_prepare_headers() helper to simplify code
+        commit: 7b078a0aa2753dcf5cae88e5349a25ac39998a9b
+[07/10] LoongArch: kexec_file: Use crash_prepare_headers() helper to simplify code
+        commit: 51ed0950adf05c99e393818887a2616dd4ab3e34
+[08/10] powerpc/kexec_file: Use crash_exclude_core_ranges() helper
+        commit: b0e06c5a30742bc6bc8523fe9c71c1a043a7661d
+[09/10] arm64: kexec_file: Add support for crashkernel CMA reservation
+        commit: c12c63d05dfe7088aa8b1b872fe261e25537c823
+[10/10] riscv: kexec_file: Add support for crashkernel CMA reservation
+        commit: a037fe3c58ed489ca8ad8531bd7e16b90a84badc
 
-That is why I was asking for a use case. "The chip has the
-pin" is not a use case.
+tree: https://git.kernel.org/pub/scm/linux/kernel/git/liveupdate/linux
+branch: crashkernel-cma
 
-Thanks,
-Guenter
+--
+Sincerely yours,
+Mike.
+
 
