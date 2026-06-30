@@ -1,428 +1,220 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963B03FA5D8;
-	Tue, 30 Jun 2026 12:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDAC410D3B
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 12:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782823626; cv=none; b=XkF2hcKOa8rhEo8/ZBXhwugjBu1p1Yn/s3Sd81Srv0ZKf01q443JB6UVDd+yc4QXSVnzV/6ldWtqKIdyoOIXBuNMM+SRb3o1KSMYQgc26OWSsfT0Owpxe78/NiA2KrHqxijkVlXhxdZZgd7H2URIXp5sCEL3AbWrXJXgwgiIXFU=
+	t=1782823642; cv=none; b=YWosLFCRh8PL0wugPFBrL6w+AtE2et9lJs6iUBaedm4qRY+AtKPTcGOL4hhrsQKjpjOfil81x6gOgyfWAu4SHiG1FMUqGowbmmRhto9gDv2dInX768QzrPcwgqL9rp6O7ttdrmWJkesPI1PbfzN1dc/tFpESrhjGtJ6R5DHniXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782823626; c=relaxed/simple;
-	bh=LhHpIL13VlXl5A9ex5WeFsEyWTDNrnYxT7YP0ThqPOQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XlgPfhdEICc9AgGX6MSfsFeMEbyMdg+94+YOI/0ea2bAKzf2frDlbEBnRLC4bJlZaHb8Ft/YS3Kt02uB2F8WJnNYdRy3BseuY7xG6NA8YRxSCwzqvOt0eSPNQ8sBcFCYQ7YS40ekNvJAv4RJoQV+XgoHr2pQrdKOguwC3RZLD9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=WdR/1pAE; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1782823642; c=relaxed/simple;
+	bh=ZVBeHha1k2vE2amoq3LsXDdvgPvbuiAS6/2YyjkZND0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XjWDZHnaEreVEwsTDLh/RTUkn+iCvfOD8e19Jgv5I5CFxg1E8DBd8wzhS5yuhE9/1nKENz+0vt9hejW/FmoN1ZUUu2p1Cv4f0oRIjEq/chVsJf7saquiHUBYcN82svfvLOXuW7pEM9gB6L+1s0vygy8jRbMsgGD0L9TUlbWd0TI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=miSxAtH2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="WdR/1pAE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=PcmIXFIqufc4bTO1b76BL7YZU2wOX//eQFq2svpht7k=; b=WdR/1pAEJ27eeWqLfaPQslY2ua
-	ypaNnSKKCMj15sR3OfL0ttkSd9S2K46BQi7cDAkg2jd8LNI4rSxEaIe/rZzWfKJe/bvfn/OG7mby8
-	ffbDEDKj+9JhDOsGyqRCXHvYtFOWHpDW/0Cu6pgRK46TGnczMPnqJQkQBlqcey5MIgoL+qKRCp+LF
-	f+egXOZlOeE3wZkggHmsLuBwEGEeA91ad60UFXV7VSjJMZslpshoprZsaaage53k2Digb2E5bb9I4
-	uBT/HBUaxODrg0DBJ+HZtzsg+nznIh0Ui7R8/KHY3MttOea4+1O81p21NOkRBQy/XKgn4p9JvHQxT
-	RDCcaHfg==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1weXri-0074cY-24;
-	Tue, 30 Jun 2026 12:47:03 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Tue, 30 Jun 2026 05:46:09 -0700
-Subject: [PATCH v10 6/6] selftests/mm: add hwpoison-panic destructive test
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="miSxAtH2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F8E81F0155D
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 12:47:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782823640;
+	bh=3hpl5N15Cp3bDGaVKf/IMkruIfT5vBza60oFnQTiN6Y=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=miSxAtH2dRKj88p8sfRP2R2l2s8bIlqG7vsU5hZAPREtihCT/B8LUIiNXZgEeeZ8S
+	 OW85tJ/kbEeDJI9qp2yO7tdET+8Pud38SWgNthKrOrIUXQ2iW3bTXCeQzlLuL7js/M
+	 n+r+anG0lpga2QQru2p+L3CnqV4W3Ht+QUspvZPnUhxAn4/NKYUcFNcyi8FGItQd6y
+	 oelA/eHbbM1TvJK3m+RcMVZ+PYfG2ArxmfsImdP6Y0XFQY6qRbZ9mEGRZ65oCnB6PN
+	 fj9FNCn1fN1CUC1rv+NuIznzBH+KmGRmQQhkwtJEEFCS7YtaZ9qPDxcd3Q5/i9/nKy
+	 qtNsmIYaMDf7w==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5aeb8870485so1762001e87.2
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 05:47:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RosYoaDi8WMeBKZowc59OoCJNa9ecI+yeobGCZ7CWiZ3fpzYYj1/9q9iUKaesieLIo53c1HBCOWPyY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIu0JtJD5kLvb6YpZei0UNSgGCRSGzmvFFTQoRNB5yvM0i6YjV
+	FmuaO08MOxT3sv3EikI6uKde6BXDXxSNU/sn9Uh2p5cr92LgNYckCMPB4qCDRi60H3EBnz73xIR
+	US6i9+1ZoxKVq3ZaMWgaG1MkOU8EqK2o=
+X-Received: by 2002:a05:6512:2520:b0:5ae:bb51:9d3d with SMTP id
+ 2adb3069b0e04-5aebdb88d77mr834195e87.15.1782823638974; Tue, 30 Jun 2026
+ 05:47:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260630-ecc_panic-v10-6-c6ed5b62eea2@debian.org>
-References: <20260630-ecc_panic-v10-0-c6ed5b62eea2@debian.org>
-In-Reply-To: <20260630-ecc_panic-v10-0-c6ed5b62eea2@debian.org>
-To: Miaohe Lin <linmiaohe@huawei.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Shuah Khan <shuah@kernel.org>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- "Liam R. Howlett" <liam@infradead.org>, lance.yang@linux.dev, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- "Liam R. Howlett" <liam@infradead.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Breno Leitao <leitao@debian.org>, linux-trace-kernel@vger.kernel.org, 
- kernel-team@meta.com
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=13525; i=leitao@debian.org;
- h=from:subject:message-id; bh=LhHpIL13VlXl5A9ex5WeFsEyWTDNrnYxT7YP0ThqPOQ=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqQ7qdKmH0N8viZGd8VfikZ05M5mhwWJhvdB7Rs
- JlB8uivUnaJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCakO6nQAKCRA1o5Of/Hh3
- bcc6D/wPumnvTrF4dSBiX3u9LJYysGNgfGiXQJt3rEGR5DJ9lyt5tOvOZbkpiYr69aEA7Son3vo
- DO5ONSFTMKqybAfbbwOKSSHErSEHH8ta9VYMy9aiZ/eX/ZUBJl5zccy2yzfaFKQNQeWWM69ep9h
- RcWLjOftnolEK+1NAir178bouyOTXUcXK+d53ILO7iEPnF7ifHP0lXx48AdErUOrHP6SFYOD/vn
- RzEFXLP0PZmpSghNGiirfOylCFWQsDX8J/g/adff6GxKxbvRuEly2zjrKF42EcrTedW7VoqMVir
- ecwyRHNL03Y403P7q6og9pbK4SiGBkcaqA4AjQvNDAjLfz/sQ+7yp3z4iWF2SvpgpueGd9LLg58
- dgRyAsQ4QZEH6W/RveLOEEc3HY7isXrWvD2hZkez9lGqiDrMdbJ3RL6XcBONyJpqrYQVa1g5e4z
- fC6RKLdWXp/7w0EmBZjHjq/hLq11eaFN/UrCab5R/mKPwcL1c+sByBescGXKtA2OURC+SU2AWUa
- vdzq2l+dTVBWn+F7YGhH6Lb3BTlapN6BA/lPwIIJ+wfc2MCamCda9ceydRNYB/s0n1HUXCAZYXX
- ZkFPCvh/WdXySkM0IUXOa4sgglVVPMX8MBNEx4BQAje7i4woZSTDHPX8qj4AR8zB9H/kECfiSOb
- uMN5+jvQ+u8Noaw==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+References: <20260629083542.10041-1-lucaslnobrega38@gmail.com>
+ <CAJZ5v0iVD90XPsWgT8B+fw9vmFRZTVL7MasPP-=Ci0OdUmNR=A@mail.gmail.com> <CAMVixxWkriVFgvS_WBVJu3LYGJYOcEx50hpr2TrNnPi-1O7mjw@mail.gmail.com>
+In-Reply-To: <CAMVixxWkriVFgvS_WBVJu3LYGJYOcEx50hpr2TrNnPi-1O7mjw@mail.gmail.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Tue, 30 Jun 2026 14:47:06 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0j7F0VXFqyN6Xmd4=D+pM4E5KXnbe_-2CZg5bex67oRjQ@mail.gmail.com>
+X-Gm-Features: AVVi8Ceo33b48XBVc36p14q1rRSBhBn8RksP1tpVea80x12RdrQYaUlzPwCD6iY
+Message-ID: <CAJZ5v0j7F0VXFqyN6Xmd4=D+pM4E5KXnbe_-2CZg5bex67oRjQ@mail.gmail.com>
+Subject: Re: [PATCH] sched/topology: Allow EAS without schedutil for
+ artificial Energy Models
+To: Lucas Lima <lucaslnobrega38@gmail.com>
+Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, viresh.kumar@linaro.org, mingo@redhat.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, 
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
+	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com, corbet@lwn.net, 
+	skhan@linuxfoundation.org, linux-pm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a destructive selftest that verifies
-vm.panic_on_unrecoverable_memory_failure actually panics when a
-hwpoison error hits a kernel-owned page.
+On Mon, Jun 29, 2026 at 11:13=E2=80=AFPM Lucas Lima <lucaslnobrega38@gmail.=
+com> wrote:
+>
+> Em seg., 29 de jun. de 2026 =C3=A0s 12:16, Rafael J. Wysocki (Intel)
+> <rafael@kernel.org> escreveu:
+> >
+> > On Mon, Jun 29, 2026 at 10:36=E2=80=AFAM Lucas de Lima N=C3=B3brega
+> > <lucaslnobrega38@gmail.com> wrote:
+> > >
+> > > EAS currently refuses to enable energy-aware scheduling on a root
+> > > domain unless schedutil is the active CPUFreq governor for all of its
+> > > CPUs (cpufreq_ready_for_eas()). This requirement exists to protect th=
+e
+> > > accuracy of the energy estimate: EAS predicts the OPP a CPU will run
+> > > at from its utilization, which is only meaningful if the active
+> > > governor actually requests OPPs that way, and schedutil is the only
+> > > one that does.
+> > >
+> > > That requirement does not apply to artificial Energy Models
+> > > (EM_PERF_DOMAIN_ARTIFICIAL). An artificial EM is built from a
+> > > get_cost() callback instead of real power numbers, and only encodes a
+> > > cost ranking between CPUs (e.g. P-cores cost more than E-cores at a
+> > > given utilization). It never claims to predict real energy use at any
+> > > specific OPP, so there is no per-OPP accuracy for the governor
+> > > requirement to protect, regardless of which governor is in control or
+> > > whether it tracks utilization at all.
+> >
+> > But it is still about comparing the cost of running on different CPUs
+> > at different performance levels.
+> >
+> > For instance, say the scale-invariant utilization of a task is 256 and
+> > it can run either by itself on a P-core, or with another task whose
+> > utilization is 128 on an E-core, and say the P-core's and E-core's
+> > capacity is 1024 and 512, respectively.
+> >
+> > Say the cost function tells EAS that running a P-core at 1/4 of the
+> > capacity is cheaper than running an E-core at 3/4 capacity, so it will
+> > pick up the P-core to run that task, but if cpufreq ramps up the
+> > frequency of the P-core to the max when the task gets to it, it may
+> > actually turn out to be more expensive.
+> >
+> > This means that EAS still has an expectation regarding cpufreq which
+> > is that it will generally tend to run tasks at the performance level
+> > corresponding to the sum of their scale-invariant utilization at least
+> > roughly.
+> >
+> > IIUC this actually has nothing to do with whether or not the energy
+> > model used by EAS is artificial.  The schedutil requirement is about
+> > choosing a performance level proportional to the utilization (which
+> > schedutil generally tends to do by design).
+>
+> You're right, and I want to walk back the "artificial EM doesn't need
+> this" framing entirely -- it doesn't survive your example. What I want
+> to argue instead is narrower: that even though intel_pstate active
+> mode tracks demand much more weakly than schedutil, the specific
+> conclusion this simplified EM's cost ranking relies on (E-cores cost
+> less than P-cores at matched conditions) still holds up against
+> measured energy, and that's a different, more modest claim than "OPP
+> tracks utilization closely enough for per-bin accuracy."
+>
+> I measured the actual frequency behavior on this test machine (one
+> P-core, one E-core, isolated, stress-ng --cpu-load duty cycles at
+> 20/40/60/80/100%, turbostat Bzy_MHz =3D average frequency only during
+> the busy portion of each cycle) under three regimes:
+>
+>                     20%    40%    60%    80%   100%   span
+>   passive+schedutil  P    2523   2879   3786   4537   4567  2044
+>                       E    2335   2416   2574   3070   3399  1064
+>   active EPP=3Dbalance  P   2225   2285   2497   2646   2778   553
+>                       E   2101   2215   2375   2462   2555   454
+>   active EPP=3Dperf     P   4483   4519   4496   4537   4564    81
+>                       E   3364   3377   3380   3387   3399    35
+>
+> It is visible now that intel_pstate active
+> mode does *not* track demand anywhere near as tightly as schedutil,
+> and i don't think that claim survives scrutiny, dropping it.
+>
+> What does survive, I think, is narrower: E-cores measured consistently
+> cheaper per unit of completed work than P-cores, across every matched-
+> parallelism configuration I tested (data below), regardless of which
+> exact OPP HWP autonomously picked underneath. I don't have data on
+> idle-state residency to know truly whether the race-to-idle behavior unde=
+r
+> EPP=3Dperformance recovers any of that gap through deeper C-states --
+> that's an open question I haven't tested.
+>
+>   1 core alone:          P 7.27 J/unit   E 6.25 J/unit   (P +16%)
+>   1 core, packed x2:     P 7.24 J/unit   E 6.13 J/unit   (P +18%)
+>   2 cores, spread:       P 4.84 J/unit   E 3.82 J/unit   (P +27%)
+>
+> P consistently costs more than E for the same completed work at every
+> matched parallelism level I tried. Separately, I also measured that
+> spreading work across more E-cores is itself far more efficient than
+> packing it onto fewer (8 E-cores spread: 1.74 J/unit vs the same total
+> work packed onto 1 E-core: 6.10 J/unit. In fact, this is the most
+> efficient placement --
+> even better than global spreading) -- I also have traced
+> find_energy_efficient_cpu()
+> produced spread placement in practice under this patch with real tasks,
+> and it roughly does follow this heavy preference for E cores during light=
+ load.
+> Note: P cores occasionally seem to spike, likely due to misfit tasks
+> which are larger
+> than E core capacity when nosmt=3Dforce is active  (512). To place E
+> cores capacities
+> at half of P cores' feels weird, as the vast majority of workloads enjoy =
+only a
+> 40-60% performance disparity between them both (the outliers observed are
+> mostly float point heavy tasks, software ipc class 2).
+>
+> >
+> > > intel_pstate registers exactly this kind of artificial EM for hybrid
+> > > (P/E-core) systems without SMT, regardless of whether it operates in
+> > > active or passive mode. In active mode it never uses schedutil, since
+> > > HWP picks frequency autonomously, so on these systems EAS never
+> > > engages even though SD_ASYM_CPUCAPACITY, frequency invariance and the
+> > > EM are all in place: find_energy_efficient_cpu() is never reached
+> > > because is_rd_overutilized() is hardcoded to true whenever
+> > > sched_energy_enabled() is false. cppc_cpufreq registers the same kind
+> > > of ranking-only artificial EM and is affected the same way with any
+> > > non-schedutil governor.
+> > >
+> > > Allow EAS to be enabled when every CPU's EM in the root domain is
+> > > artificial, even when schedutil is not the active governor.
+> > >
+> > > Tested on a Raptor Lake-P laptop with nosmt=3Dforce and intel_pstate =
+in
+> > > active/HWP mode: find_energy_efficient_cpu() was never called before
+> > > this change (confirmed via the sched_overutilized_tp tracepoint and
+> > > ftrace) and is exercised as expected afterwards.
+> >
+> > If this is about allowing EAS to work with intel_pstate running in the
+> > active mode, you may argue that what the processor firmware is doing
+> > when intel_pstate runs in the active mode is not much different from
+> > what schedutil would do.  So a driver implementing an internal
+> > governor (that is, using the .set_policy() callback) would need to
+> > declare that its internal governor is as good as schedutil from EAS'
+> > perspective and so it will pass the "cpufreq readiness" check.
+>
+> Given the data above, I don't think I can honestly word that
+> declaration as "as good as schedutil" -- it isn't, by a factor of
+> 2-25x depending on EPP. If a flag like this still makes sense, I'd
+> want its justification to say something narrower: "this driver's
+> internal governor, combined with this EM's coarse type-based ranking,
+> still produces correct placement decisions in practice" rather than
+> claiming OPP-tracking parity.
 
-Three "kinds" of kernel-owned page can be targeted, selectable via
-the script's first positional argument (default: rodata):
+Yes, that sounds better.
 
-  rodata  - a PG_reserved page in the kernel rodata range, sourced
-            from the "Kernel rodata" sub-resource of "System RAM" in
-            /proc/iomem.  That entry is reported on every major
-            architecture and guarantees the chosen PFN is backed by
-            struct page (an online System RAM range, not a firmware
-            hole), is PG_reserved, and is read-only -- so even if
-            the panic fails to fire for some reason, the resulting
-            PG_hwpoison marker on rodata does not corrupt writable
-            kernel state.
+> I'm not sure if that's a distinction
+> that belongs in the flag's contract itself, or just in this
+> patch's commit message -- happy to go either way, or to test more
+> if that would help decide.
 
-  slab    - a slab page found by walking /proc/kpageflags for the
-            first PFN with KPF_SLAB set (and KPF_HWPOISON / KPF_NOPAGE
-            / KPF_COMPOUND_TAIL clear).  Exercises the get_any_page()
-            path on a non PG_reserved kernel-owned page and so
-            catches regressions where get_any_page() collapses
-            kernel-owned pages into a transient -EIO instead of
-            -ENOTRECOVERABLE.
-
-  pgtable - same as slab, but the PFN is selected via KPF_PGTABLE.
-
-PageLargeKmalloc, the fourth page type matched by
-is_kernel_owned_page(), is intentionally not covered: it is a
-PAGE_TYPE_OPS flag with no /proc/kpageflags bit, so selecting such
-a PFN from userspace is not feasible.  The slab and pgtable
-variants already exercise the same get_any_page() positive-check
-branch.
-
-The script enables the sysctl and writes the selected physical
-address to /sys/devices/system/memory/hard_offline_page.  A
-successful run crashes the kernel with
-
-  Memory failure: <pfn>: unrecoverable page
-
-A return from the inject means no panic fired.  Before reporting, the
-script restores the sysctl and best-effort unpoisons the target PFN
-through the hwpoison debugfs interface (hard_offline_page() injects
-with MF_SW_SIMULATED, so the page stays unpoisonable), then re-reads
-/proc/kpageflags: a PFN that is still the kernel-owned type it selected
-is a genuine failure, while one that raced to a different type before
-the inject is skipped as inconclusive.  Test outcome is therefore
-observed externally (serial console, kdump) rather than from the
-script's own exit code.
-
-The script is intentionally NOT wired into run_vmtests.sh: every
-successful run panics the kernel, which is incompatible with the
-sequential "run each category in the same VM" model that
-run_vmtests.sh assumes.  It is also not registered as a TEST_PROGS /
-ksft_* wrapper so a default kselftest run does not opt itself into
-a panic.  The script is meant to be executed manually inside a
-disposable VM (e.g. virtme-ng), one variant per VM boot, and
-requires RUN_DESTRUCTIVE=1 in the environment as a safety net.
-
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- tools/testing/selftests/mm/Makefile          |   4 +
- tools/testing/selftests/mm/hwpoison-panic.sh | 255 +++++++++++++++++++++++++++
- 2 files changed, 259 insertions(+)
-
-diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
-index e6df968f0971c..ed321ae709dac 100644
---- a/tools/testing/selftests/mm/Makefile
-+++ b/tools/testing/selftests/mm/Makefile
-@@ -174,6 +174,10 @@ TEST_PROGS += ksft_userfaultfd.sh
- TEST_PROGS += ksft_vma_merge.sh
- TEST_PROGS += ksft_vmalloc.sh
- 
-+# Destructive: every successful run panics the kernel.  Installed and
-+# kept executable, but not run from a default kselftest invocation.
-+TEST_PROGS_EXTENDED += hwpoison-panic.sh
-+
- TEST_FILES := test_vmalloc.sh
- TEST_FILES += test_hmm.sh
- TEST_FILES += va_high_addr_switch.sh
-diff --git a/tools/testing/selftests/mm/hwpoison-panic.sh b/tools/testing/selftests/mm/hwpoison-panic.sh
-new file mode 100755
-index 0000000000000..d953d13673324
---- /dev/null
-+++ b/tools/testing/selftests/mm/hwpoison-panic.sh
-@@ -0,0 +1,255 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Verify vm.panic_on_unrecoverable_memory_failure by injecting a hwpoison
-+# error on a kernel-owned page and confirming the kernel panics.
-+#
-+# Three "kinds" of kernel-owned page can be targeted, selectable via the
-+# first positional argument (default: rodata):
-+#
-+#   rodata  - a PG_reserved page in the kernel rodata range
-+#             (sourced from /proc/iomem "Kernel rodata").  Exercises
-+#             memory_failure() -> get_any_page() on a PageReserved page.
-+#
-+#   slab    - a slab page found via /proc/kpageflags (KPF_SLAB).
-+#             Exercises memory_failure() -> get_any_page() on a non
-+#             PG_reserved kernel-owned page.  This path is what catches
-+#             regressions where get_any_page() collapses kernel-owned
-+#             pages into a transient -EIO instead of -ENOTRECOVERABLE.
-+#
-+#   pgtable - a page-table page found via /proc/kpageflags (KPF_PGTABLE).
-+#             Same path as slab, different page type.
-+#
-+# This test is DESTRUCTIVE: a successful run crashes the kernel.  It is
-+# meant to be executed inside a disposable VM (e.g. virtme-ng) with a
-+# serial console captured by the harness.  It is skipped unless the
-+# caller opts in via RUN_DESTRUCTIVE=1.
-+#
-+# Test passes externally: the kernel must panic with
-+#   "Memory failure: <pfn>: unrecoverable page"
-+# A return from the inject means no panic fired: that is a failure,
-+# unless the target PFN raced to a different page type before injection,
-+# in which case the run is inconclusive and is skipped.
-+#
-+# Author: Breno Leitao <leitao@debian.org>
-+
-+set -u
-+
-+# KTAP output helpers (ktap_print_msg, ktap_skip_all, ktap_exit_fail_msg, ...).
-+DIR="$(dirname "$(readlink -f "$0")")"
-+# shellcheck source=../kselftest/ktap_helpers.sh
-+source "${DIR}"/../kselftest/ktap_helpers.sh
-+
-+sysctl_path=/proc/sys/vm/panic_on_unrecoverable_memory_failure
-+inject_path=/sys/devices/system/memory/hard_offline_page
-+kpageflags_path=/proc/kpageflags
-+unpoison_path=/sys/kernel/debug/hwpoison/unpoison-pfn
-+
-+# /proc/kpageflags bit positions (see include/uapi/linux/kernel-page-flags.h)
-+KPF_SLAB=7
-+KPF_COMPOUND_TAIL=16
-+KPF_HWPOISON=19
-+KPF_NOPAGE=20
-+KPF_PGTABLE=26
-+KPF_RESERVED=32
-+
-+pagesize=$(getconf PAGE_SIZE)
-+
-+kind=${1:-rodata}
-+
-+if [ "$(id -u)" -ne 0 ]; then
-+	ktap_skip_all "must run as root"
-+	exit "$KSFT_SKIP"
-+fi
-+
-+if [ ! -w "$sysctl_path" ]; then
-+	ktap_skip_all "$sysctl_path not present (kernel without the sysctl?)"
-+	exit "$KSFT_SKIP"
-+fi
-+
-+if [ ! -w "$inject_path" ]; then
-+	ktap_skip_all "$inject_path not present (no MEMORY_HOTPLUG?)"
-+	exit "$KSFT_SKIP"
-+fi
-+
-+if [ "${RUN_DESTRUCTIVE:-0}" != "1" ]; then
-+	ktap_skip_all "destructive test; re-run with RUN_DESTRUCTIVE=1 inside a disposable VM"
-+	exit "$KSFT_SKIP"
-+fi
-+
-+# Pick a PFN inside the kernel image rodata region of /proc/iomem.
-+# This is preferred over a top-level "Reserved" entry because top-level
-+# Reserved ranges are often firmware holes that have no backing struct
-+# page; pfn_to_online_page() returns NULL on those and memory_failure()
-+# bails out with -ENXIO before reaching the panic path.
-+#
-+# "Kernel rodata" is reported as a sub-resource of "System RAM" on every
-+# major architecture, which guarantees:
-+#   - the PFN is backed by struct page (within an online memory range);
-+#   - PG_reserved is set on the page (kernel image area);
-+#   - the memory is read-only, so setting PG_hwpoison on it does not
-+#     corrupt writable kernel state if the panic somehow does not fire.
-+#
-+# /proc/iomem entries look like (indented for sub-resources):
-+#     "  02500000-02ffffff : Kernel rodata"
-+pick_rodata_phys_addr() {
-+	awk -v pagesize="$(getconf PAGE_SIZE)" '
-+	# Convert a hex string to a number without relying on the gawk-only
-+	# strtonum().  mawk lacks it and would otherwise spuriously skip
-+	# this test on distros that ship mawk as /usr/bin/awk.
-+	function hex2num(s,   n, i, c, v) {
-+		n = 0
-+		for (i = 1; i <= length(s); i++) {
-+			c = tolower(substr(s, i, 1))
-+			v = index("0123456789abcdef", c) - 1
-+			if (v < 0)
-+				return -1
-+			n = n * 16 + v
-+		}
-+		return n
-+	}
-+	/: Kernel rodata[[:space:]]*$/ {
-+		sub(/^[[:space:]]+/, "")
-+		n = split($0, a, /[- ]/)
-+		start = hex2num(a[1])
-+		end   = hex2num(a[2])
-+		if (end <= start)
-+			next
-+		# Page-align upward and emit the first byte of that page.
-+		pfn = int((start + pagesize - 1) / pagesize)
-+		printf "0x%x\n", pfn * pagesize
-+		exit 0
-+	}
-+	' /proc/iomem
-+}
-+
-+# Walk /proc/kpageflags and return the phys addr of the first PFN that
-+# has bit $1 set, with KPF_HWPOISON, KPF_NOPAGE and KPF_COMPOUND_TAIL
-+# all clear (so we attack a real, non-tail, not-already-poisoned page).
-+#
-+# We skip the first 16 MiB of PFNs to step past low-memory special
-+# ranges (BIOS/EFI/ACPI/etc.) that often are PG_reserved and would not
-+# exhibit the slab/pgtable type we are looking for.
-+pick_kpageflags_phys_addr() {
-+	local want_bit=$1
-+	local pagesize skip_pfn
-+
-+	[ -r "$kpageflags_path" ] || return
-+
-+	pagesize=$(getconf PAGE_SIZE)
-+	skip_pfn=$(((16 * 1024 * 1024) / pagesize))
-+
-+	od -An -tx8 -v -w8 -j "$((skip_pfn * 8))" "$kpageflags_path" 2>/dev/null | \
-+	awk -v want_bit="$want_bit" \
-+	    -v hwp_bit="$KPF_HWPOISON" \
-+	    -v nopage_bit="$KPF_NOPAGE" \
-+	    -v tail_bit="$KPF_COMPOUND_TAIL" \
-+	    -v base_pfn="$skip_pfn" \
-+	    -v pagesize="$pagesize" '
-+	# Test whether bit "b" is set in the 16-hex-digit value "hex".
-+	# Done with substring + per-digit lookup so we never rely on awk
-+	# bitwise operators (mawk lacks them), 64-bit FP precision or the
-+	# gawk-only strtonum().
-+	function bit_set(hex, b,    di, bi, c, v) {
-+		di = int(b / 4)
-+		bi = b - di * 4
-+		c = substr(hex, length(hex) - di, 1)
-+		v = index("0123456789abcdef", tolower(c)) - 1
-+		if (bi == 0) return (v % 2) == 1
-+		if (bi == 1) return int(v / 2) % 2 == 1
-+		if (bi == 2) return int(v / 4) % 2 == 1
-+		return int(v / 8) % 2 == 1
-+	}
-+	{
-+		gsub(/^[[:space:]]+/, "")
-+		h = $1
-+		if (bit_set(h, want_bit) &&
-+		    !bit_set(h, hwp_bit) &&
-+		    !bit_set(h, nopage_bit) &&
-+		    !bit_set(h, tail_bit)) {
-+			pfn = base_pfn + NR - 1
-+			printf "0x%x\n", pfn * pagesize
-+			exit 0
-+		}
-+	}
-+	'
-+}
-+
-+# Return 0 if /proc/kpageflags bit $2 is set for PFN $1, 1 if it is
-+# clear, or 2 if the word cannot be read.  Used to re-confirm the target
-+# page type after a non-panicking inject.
-+kpageflags_bit_set() {
-+	local word
-+
-+	word=$(od -An -tx8 -v -j "$(($1 * 8))" -N 8 "$kpageflags_path" 2>/dev/null | tr -d '[:space:]')
-+	[ -n "$word" ] || return 2
-+	(( (16#$word >> $2) & 1 ))
-+}
-+
-+# Best-effort: drop the PG_hwpoison marker set by the inject so a failed
-+# run does not leave a poisoned page behind.  hard_offline_page() injects
-+# with MF_SW_SIMULATED, so the page stays unpoisonable through the
-+# hwpoison debugfs interface (needs CONFIG_HWPOISON_INJECT + debugfs).
-+try_unpoison() {
-+	[ -w "$unpoison_path" ] || return 0
-+	echo "$1" > "$unpoison_path" 2>/dev/null || true
-+}
-+
-+case "$kind" in
-+rodata)
-+	phys_addr=$(pick_rodata_phys_addr)
-+	recheck_bit=$KPF_RESERVED
-+	missing_msg='no "Kernel rodata" entry in /proc/iomem'
-+	;;
-+slab)
-+	phys_addr=$(pick_kpageflags_phys_addr "$KPF_SLAB")
-+	recheck_bit=$KPF_SLAB
-+	missing_msg="no usable slab PFN found in $kpageflags_path"
-+	;;
-+pgtable)
-+	phys_addr=$(pick_kpageflags_phys_addr "$KPF_PGTABLE")
-+	recheck_bit=$KPF_PGTABLE
-+	missing_msg="no usable page-table PFN found in $kpageflags_path"
-+	;;
-+*)
-+	ktap_exit_fail_msg "unknown kind '$kind' (expected: rodata|slab|pgtable)"
-+	;;
-+esac
-+
-+if [ -z "$phys_addr" ]; then
-+	ktap_skip_all "$missing_msg"
-+	exit "$KSFT_SKIP"
-+fi
-+
-+ktap_print_msg "enabling $sysctl_path"
-+prior=$(cat "$sysctl_path")
-+echo 1 > "$sysctl_path" || ktap_exit_fail_msg "failed to enable sysctl"
-+
-+pfn=$((phys_addr / pagesize))
-+ktap_print_msg "injecting hwpoison at phys 0x$(printf '%x' "$phys_addr") (pfn 0x$(printf '%x' "$pfn"), kind=$kind)"
-+ktap_print_msg "expecting kernel panic: 'Memory failure: <pfn>: unrecoverable page'"
-+
-+# A successful run never returns from the inject -- it panics the kernel.
-+# Reaching the code below therefore means no panic fired.  Note whether
-+# the write itself succeeded, then put the machine back: restore the
-+# sysctl and best-effort unpoison the page we just marked.
-+if echo "$phys_addr" > "$inject_path"; then
-+	verdict="inject returned without panic; sysctl ineffective"
-+else
-+	verdict="inject failed before reaching the panic path"
-+fi
-+
-+echo "$prior" > "$sysctl_path"
-+try_unpoison "$pfn"
-+
-+# The page type can change between selection and injection (e.g. a slab
-+# or page-table page is freed and reused).  Only treat a missing panic as
-+# a failure if the target PFN is still the kernel-owned type we aimed at;
-+# if it raced to another type the run is inconclusive, so skip instead.
-+kpageflags_bit_set "$pfn" "$recheck_bit"
-+case $? in
-+0)	ktap_exit_fail_msg "$verdict (page still $kind)" ;;
-+1)	ktap_skip_all "target PFN no longer $kind; raced before inject, inconclusive"
-+	exit "$KSFT_SKIP" ;;
-+*)	ktap_exit_fail_msg "$verdict (could not reconfirm page type via $kpageflags_path)" ;;
-+esac
-
--- 
-2.53.0-Meta
-
+I think that the point regarding the need to combine the given
+governor with a "matching" EM is fair and it needs to be documented.
+I'll try to find suitable wording.
