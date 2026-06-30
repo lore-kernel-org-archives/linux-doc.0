@@ -1,223 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B51141167B
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 13:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5124C407CFD
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 13:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782824833; cv=none; b=F0n6mlNRARpioiD1cjBfpirSM5zAZ5eM6UD5Li/OMstdMSahpIiOvNpbXXa9q6DpJNBkmhScoD29GV/aN9qFp3PYc9wFRe2g604TUa3DgMuQ5+MC5/4kYH+rVp20ZM4w7IkcTBtUlxKInk3VCb3sYYvwlYohTcdDHM9fff2jfgM=
+	t=1782826030; cv=none; b=FBGZYEGtelHexGEJFxmoP84NNdiR2bNXZ4ggGf+UY6iSMB+6fBWYRGe0efBwiKAW6JHeGuNi0Ihd2AEgAOUqiMAJDiuYb5ZrlWRm0KdPts2s+mySMxC5jEcJmEGbprXLDV3sMmavUY0b1EBgeVxCRT8OcLfuP7Ytr3w1OQvHyMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782824833; c=relaxed/simple;
-	bh=hkQVXksvs1+hoKg4jRPyHwvVG0kaAtmGUHOGd/K67MI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HQqq1Cv3W7uYHTL7Tsom/8yKZ3UcIVL38tARYyT/7dbwqT1hGnWm68hsA8n5Z6EsWDlANNgBXaOY3NV1pkDg50HaBgqPyyoHTdxdS6hwyqMthzyBJummxuYN8fI8AiqUcMjq9EqULIIoa7lMnVK1yryIgTkL9/4vkg7iq81c+fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kYv7X4Ni; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782826030; c=relaxed/simple;
+	bh=kfZMo0p6hs1cAypJ2ukMYvmmWfmbsMXBTl6UnRGRZI0=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=AhkPz87gfKZIp5GawaYdHE6Md3QoXYw95LPGyA7iqm7jvyMO73OJrBsaK/Peot5fKBksCXc+8OE/vCFACwgvATiCnaxdqPv7AlWJVN31FWwcoi4TxFNSruzSY9rw5psnGmcTCi05rKgrfT3BuHFQyjA7WVo+LHAjD/9KGSqhocg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vbTNfpwp; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kYv7X4Ni"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9B851F00ACA
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 13:07:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782824831;
-	bh=Gkte/lktTVRUYYoKzhVuxXn3p42paF+z9eeBGVuqlbE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=kYv7X4Nieka6wLjaDOnH5oIbtsHGXeJ0VQpyQhp+RzGxJyKpeoNq5mGU03rTDpI0M
-	 4UTJRKALTzIa1uckXAT0eRvQeA0HmbWBOmv5ExDtqUOeSys4lpUYpsVwxgCnA6kGSm
-	 AG2Zi+k0p+YCxJ80mJOLdzLuK0f5UBbooV4codRcid1GpKluC744vw/OcIv/J4eXsZ
-	 x7iJkB418npqM88Ar6zS+q4be6Dah3wwDx2JO+MW0bg/hTxpWpx5bJw9cA6o15syql
-	 veGyN7iR535r1/eRXdC8BTT/Tc2Z/BCcI5SwmAhN5QVhZyqhZCGrCGI8us8ju0Wr7t
-	 lVaH2ty2v22kQ==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5aea0fff535so4643211e87.3
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 06:07:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrQ9zVpTsKsTVY1Tc99Ivswc0YlAN27GJGnq0L9r5pE4O/eZtsYmVNwTwiZnBcp8C7HpO0rD1aooy8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5di06LNXyTyHcRBUk2m0IljRwiLWfAzR5QXRVlBZWO+4IN6pI
-	6w/AaTanmgcaymAjIJ6phW13M7qGtPMjhyVlfsJqSv5Q615cgmSsd8QtO7H/gO9e1WtXrDjJEwK
-	K2TllngXCGAtxl+QJwJM34FarFxjsDx8=
-X-Received: by 2002:a05:6512:1152:b0:5ae:a536:3733 with SMTP id
- 2adb3069b0e04-5aebdb9ad7fmr982702e87.20.1782824830105; Tue, 30 Jun 2026
- 06:07:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vbTNfpwp"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-8478d2bea7cso597545b3a.1
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 06:27:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782826027; x=1783430827; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AhLYh/cBIA1fFqX5RYZRm50yWfU0LfaJB+fi+NtWOq0=;
+        b=vbTNfpwpTjalJknxI+tlYlqfWqrvuhra6xbl8pSkBmpk7DDaYEaMG7BBBJ5oytQaM3
+         aCApDzw5WAm7up9RG4nE5tMWR/z9n83YWdSkogblMs4HhDZ0pNhYqle79o1d0AHFkYp7
+         EMr3QWLyYMr0ZERrsEBMijg1zEa+o51TFYcpwpk795Hlh+qtGijeNembBBdUIUB9EL32
+         D0ZMfTQBU64qtCZM4tbpeVJ+63+AUb5FJP5Qyq9At9vHjZqsFJhn930RxoPjQrJ56MU1
+         PU9TRtlaSsyGsJ7JYMeh2C/wmJG0vbJ053fJeh8jpimlwr0PrAxO1lk588E6hIyjx6GO
+         0vgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782826027; x=1783430827;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AhLYh/cBIA1fFqX5RYZRm50yWfU0LfaJB+fi+NtWOq0=;
+        b=YtPrUHgv3GTpT78Un7X9uv7sEynIaF8PPMaK2ku3PktnKGFZtD4MHBpAVJ/O7Y17yf
+         T4UutxShUZ3IFB31QRZIlAI86bGJEHzmJVHwQMWHK794/jtUcYF2Vo68RWIAAvGLJCjA
+         x1dLV81lWRDvNW4EwXhiBmXCl/W9EU3Y8CYngWPfyzTP5rRnFlk5knoR9FGuj1+7Dsxf
+         7GrrdJTmeXXaeTl3mGZobwPNKG3ooijOQVPVVV8opRxwH5cWzf/fRbNZNlvRePp6ePZp
+         kJEJNLdKvpUH4IxgW+3UyEBmalYjsKiIpDDgnuCys1fzkwiTYa8SAM9Ib09l8GmrUbXR
+         e+BQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpZxNla8/7oK00U5RR4GlTka6xPv1mW3nWEJuZRpCfi+s4P9y9bgQzDDWaH5hpE2Ed5iwtNrmlPE/A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyUQm0BHIQjX5pc4UtjfhSUqp8k8/EKp65sGYXCNY0ZWqZHtxt
+	1FC/+Ce/LDrrgMXEOk+3l9GolJcAoVIk2dIg03i/NY+vedVMK/4MJfr3Bg+BSdhITSWddlvQNzw
+	aZCa+6A==
+X-Received: from pfqy13.prod.google.com ([2002:aa7:9e0d:0:b0:845:ec34:5047])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:1143:b0:845:ebe6:417d
+ with SMTP id d2e1a72fcca58-847a8224797mr1270415b3a.24.1782826026676; Tue, 30
+ Jun 2026 06:27:06 -0700 (PDT)
+Date: Tue, 30 Jun 2026 06:27:06 -0700
+In-Reply-To: <akMoFqj/8Af2i/Al@yzhao56-desk.sh.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260629083542.10041-1-lucaslnobrega38@gmail.com>
- <CAJZ5v0iVD90XPsWgT8B+fw9vmFRZTVL7MasPP-=Ci0OdUmNR=A@mail.gmail.com>
- <6021784.DvuYhMxLoT@rafael.j.wysocki> <CAMVixxV83tSLEi_o1vmHjqfgPnnXDwo2LjP_m-Y7iEWfvUAP2g@mail.gmail.com>
-In-Reply-To: <CAMVixxV83tSLEi_o1vmHjqfgPnnXDwo2LjP_m-Y7iEWfvUAP2g@mail.gmail.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Tue, 30 Jun 2026 15:06:57 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0h=u3dGbujFpU2yObyLXT0ZLZTxpG2+zLZLP7wpKsBvQw@mail.gmail.com>
-X-Gm-Features: AVVi8CcY6rkGlx5o1pyPGlP_agrlwjJ1tUDigieSRG0BpjTO4pVCVRKxAjoWu74
-Message-ID: <CAJZ5v0h=u3dGbujFpU2yObyLXT0ZLZTxpG2+zLZLP7wpKsBvQw@mail.gmail.com>
-Subject: Re: [PATCH] sched/topology: Allow EAS without schedutil for
- artificial Energy Models
-To: Lucas Lima <lucaslnobrega38@gmail.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, viresh.kumar@linaro.org, mingo@redhat.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com, corbet@lwn.net, 
-	skhan@linuxfoundation.org, linux-pm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <ajpGxu2uQys+S2F8@yzhao56-desk.sh.intel.com> <ajxasFBzp_9KnQLq@google.com>
+ <CAEvNRgG1nHipzw4=eBgwhvyXi8xYo7FQD_sy9Ax6FDf7YDu3Og@mail.gmail.com>
+ <ajyRg3BwGu5dCfOn@yzhao56-desk.sh.intel.com> <CAEvNRgH5KOHoemnC9QOn_oK97=KeAH1XuX3ps36-pJ0Fn0aBHQ@mail.gmail.com>
+ <aj3TGLGWT1kMFIVH@yzhao56-desk.sh.intel.com> <CAEvNRgHb6WmOha6Pct_Tn8Ucuov95L=fj5=2R9gcHfx=b2V_+A@mail.gmail.com>
+ <akI9m02jgKAdi4gX@yzhao56-desk.sh.intel.com> <akMPZePBdwQlD74H@google.com> <akMoFqj/8Af2i/Al@yzhao56-desk.sh.intel.com>
+Message-ID: <akPEKslqAhygyjhg@google.com>
+Subject: Re: [PATCH v8 23/46] KVM: TDX: Make source page optional for KVM_TDX_INIT_MEM_REGION
+From: Sean Christopherson <seanjc@google.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: Ackerley Tng <ackerleytng@google.com>, "aik@amd.com" <aik@amd.com>, 
+	"andrew.jones@linux.dev" <andrew.jones@linux.dev>, 
+	"binbin.wu@linux.intel.com" <binbin.wu@linux.intel.com>, "brauner@kernel.org" <brauner@kernel.org>, 
+	"chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>, "david@kernel.org" <david@kernel.org>, 
+	"jmattson@google.com" <jmattson@google.com>, "jthoughton@google.com" <jthoughton@google.com>, 
+	"michael.roth@amd.com" <michael.roth@amd.com>, "oupton@kernel.org" <oupton@kernel.org>, 
+	"pankaj.gupta@amd.com" <pankaj.gupta@amd.com>, "qperret@google.com" <qperret@google.com>, 
+	Rick P Edgecombe <rick.p.edgecombe@intel.com>, "rientjes@google.com" <rientjes@google.com>, 
+	"shivankg@amd.com" <shivankg@amd.com>, "steven.price@arm.com" <steven.price@arm.com>, 
+	"tabba@google.com" <tabba@google.com>, "willy@infradead.org" <willy@infradead.org>, 
+	"wyihan@google.com" <wyihan@google.com>, "forkloop@google.com" <forkloop@google.com>, 
+	"pratyush@kernel.org" <pratyush@kernel.org>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
+	"aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>, "liam@infradead.org" <liam@infradead.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	"x86@kernel.org" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, Jun 30, 2026 at 10:11=E2=80=AFAM Lucas Lima <lucaslnobrega38@gmail.=
-com> wrote:
->
-> Em seg., 29 de jun. de 2026 =C3=A0s 16:06, Rafael J. Wysocki
-> <rafael@kernel.org> escreveu:
-> >
-> > On Monday, June 29, 2026 5:16:17 PM CEST Rafael J. Wysocki (Intel) wrot=
-e:
-> > > On Mon, Jun 29, 2026 at 10:36=E2=80=AFAM Lucas de Lima N=C3=B3brega
-> > > <lucaslnobrega38@gmail.com> wrote:
-> > > >
-> > > > EAS currently refuses to enable energy-aware scheduling on a root
-> > > > domain unless schedutil is the active CPUFreq governor for all of i=
-ts
-> > > > CPUs (cpufreq_ready_for_eas()). This requirement exists to protect =
-the
-> > > > accuracy of the energy estimate: EAS predicts the OPP a CPU will ru=
-n
-> > > > at from its utilization, which is only meaningful if the active
-> > > > governor actually requests OPPs that way, and schedutil is the only
-> > > > one that does.
-> > > >
-> > > > That requirement does not apply to artificial Energy Models
-> > > > (EM_PERF_DOMAIN_ARTIFICIAL). An artificial EM is built from a
-> > > > get_cost() callback instead of real power numbers, and only encodes=
- a
-> > > > cost ranking between CPUs (e.g. P-cores cost more than E-cores at a
-> > > > given utilization). It never claims to predict real energy use at a=
-ny
-> > > > specific OPP, so there is no per-OPP accuracy for the governor
-> > > > requirement to protect, regardless of which governor is in control =
-or
-> > > > whether it tracks utilization at all.
-> > >
-> > > But it is still about comparing the cost of running on different CPUs
-> > > at different performance levels.
-> > >
-> > > For instance, say the scale-invariant utilization of a task is 256 an=
-d
-> > > it can run either by itself on a P-core, or with another task whose
-> > > utilization is 128 on an E-core, and say the P-core's and E-core's
-> > > capacity is 1024 and 512, respectively.
-> > >
-> > > Say the cost function tells EAS that running a P-core at 1/4 of the
-> > > capacity is cheaper than running an E-core at 3/4 capacity, so it wil=
-l
-> > > pick up the P-core to run that task, but if cpufreq ramps up the
-> > > frequency of the P-core to the max when the task gets to it, it may
-> > > actually turn out to be more expensive.
-> > >
-> > > This means that EAS still has an expectation regarding cpufreq which
-> > > is that it will generally tend to run tasks at the performance level
-> > > corresponding to the sum of their scale-invariant utilization at leas=
-t
-> > > roughly.
-> > >
-> > > IIUC this actually has nothing to do with whether or not the energy
-> > > model used by EAS is artificial.  The schedutil requirement is about
-> > > choosing a performance level proportional to the utilization (which
-> > > schedutil generally tends to do by design).
-> > >
-> > > > intel_pstate registers exactly this kind of artificial EM for hybri=
-d
-> > > > (P/E-core) systems without SMT, regardless of whether it operates i=
-n
-> > > > active or passive mode. In active mode it never uses schedutil, sin=
-ce
-> > > > HWP picks frequency autonomously, so on these systems EAS never
-> > > > engages even though SD_ASYM_CPUCAPACITY, frequency invariance and t=
-he
-> > > > EM are all in place: find_energy_efficient_cpu() is never reached
-> > > > because is_rd_overutilized() is hardcoded to true whenever
-> > > > sched_energy_enabled() is false. cppc_cpufreq registers the same ki=
-nd
-> > > > of ranking-only artificial EM and is affected the same way with any
-> > > > non-schedutil governor.
-> > > >
-> > > > Allow EAS to be enabled when every CPU's EM in the root domain is
-> > > > artificial, even when schedutil is not the active governor.
-> > > >
-> > > > Tested on a Raptor Lake-P laptop with nosmt=3Dforce and intel_pstat=
-e in
-> > > > active/HWP mode: find_energy_efficient_cpu() was never called befor=
-e
-> > > > this change (confirmed via the sched_overutilized_tp tracepoint and
-> > > > ftrace) and is exercised as expected afterwards.
-> > >
-> > > If this is about allowing EAS to work with intel_pstate running in th=
-e
-> > > active mode, you may argue that what the processor firmware is doing
-> > > when intel_pstate runs in the active mode is not much different from
-> > > what schedutil would do.  So a driver implementing an internal
-> > > governor (that is, using the .set_policy() callback) would need to
-> > > declare that its internal governor is as good as schedutil from EAS'
-> > > perspective and so it will pass the "cpufreq readiness" check.
-> >
-> > And I have a prototype patch (on top of 7.2-rc1) doing this which is
-> > appended.
-> >
-> > I wonder if it works for you (that is, if it allows intel_pstate and EA=
-S to
-> > work together both with schedutil and when intel_pstate operates in the
-> > active mode with the "powersave" policy on your system).
->
-> It does work, thank you.
+On Tue, Jun 30, 2026, Yan Zhao wrote:
+> On Tue, Jun 30, 2026 at 08:35:49AM +0800, Sean Christopherson wrote:
+> > Gah, I thought I had sent this out this morning, long before Ackerley's response.
+> > But I got distracted by a meeting and forgot to get back to this... *sigh*
+> > 
+> > Sending what I already wrote, even though there's a lot of overlap with Ackerley's
+> > mail.
+> > 
+> > On Mon, Jun 29, 2026, Yan Zhao wrote:
+> > > On Fri, Jun 26, 2026 at 08:28:32AM -0700, Ackerley Tng wrote:
+> > > > Yan Zhao <yan.y.zhao@intel.com> writes:
+> > > > > But if a user configures 0 uaddr as valid, writes to it, and then passes 0 as
+> > > > > source_addr(not from gmem), I'm not sure if it's good for the kernel to silently
+> > > > > treat 0 uaddr as an identifier for in-place copy from the private PFN in gmem.
+> > > > >
+> > > > 
+> > > > I'd say the original uAPI perhaps just didn't document 0 as an
+> > > > unsupported uaddr. Given that commit 2a62345b3052 already merged, uAPI
+> > > > was perhaps accidentally changed and no customer complained, I think we
+> > > > can move forward with 0 as an invalid src_address? I wouldn't think
+> > > > anyone relies on 0 intentionally being a valid address.
+> > > > 
+> > > > I could document that, if it helps?
+> > > What about just documenting that 0 is an unsupported uaddr which will be
+> > > re-purposed as an indicator to use the target pfn as the source, regardless of
+> > > whether gmem_in_place_conversion is true? i.e.,
+> > > 
+> > > if (!src_page) 
+> > > 	src_page = pfn_to_page(pfn);
+> > 
+> > Because KVM can't generally use the target page as the source without in-place
+> > conversion, it's not supported today, and out-of-place conversion is being
+> > deprecated.
+> By "out-of-place conversion", do you mean using per-VM memory attribute
+> conversion?
 
-Great, thanks!
+Yep, I couldn't come up with a better description.
 
-So this approach is more straightforward IMV and that's why I prefer it.
+> > > I don't get why the two scenarios should be treated differently:
+> > > 1. gmem_in_place_conversion==true, shared memory is not from gmem 
+> > > 2. gmem_in_place_conversion==false, shared memory is not from gmem
+> > > 
+> > > In both case, a 0 uaddr could be mapped to a valid page not from gmem.
+> > 
+> > That's immaterial.  KVM's ABI (that we're solidifying) is that an address of '0'
+> > for the source means NULL.  The fact that userspace could have a valid mapping
+> > at virtual address '0' is irrelevant.
+> So, I'm wondering if we can document that 0 uaddr could always mean using target
+> PFN.
 
-I'll need to revise the new flag description so it mentions the need
-for a "matching" EM to produce reasonable results and there are a few
-intel_pstate patches in-flight, so this one will need to be rebased.
-It also needs a changelog, of course.
+I would document it as saying "no source page", and then state that a source page
+is required if in-place conversion isn't enabled/supported/allowed.
 
-> >
-> > Also I wonder why exactly you want intel_pstate in the active mode to
-> > work with EAS.  Do you see any significant improvement in that case?
->
-> About that specific topic i do not have any testing data, but it felt
-> like schedutil drains more battery than pstate active (likely due to
-> worse c-states management) and presents more stutters in general usage
-> (I would guess it's slower to react to load changes). After bypassing sch=
-edutil
-> those very observations were gone, and the responsiveness of the system
-> looked very similar to EAS disabled, pstate active. Since EAS does
-> prioritize spreading
-> onto E cores, which do consume less energy by my testing, IMHO it's
-> almost too good
-> to be leaving it unused.
+> i.e., for both scenarios 1 and 2, al long as 0 uaddr is specified, we always
+> use target PFN as source for in-place add.
+> 
+> > Again, just because something is technically possible doesn't mean it needs to
+> > be supported by every piece of KVM's uAPI.
+> > 
+> > > So why not update the uAPI to handle both cases consistently? :)
+> > 
+> > Because retroactively adding support for out-of-place conversion is pointless
+> > (requires a userspace update for a feature that's being deprecated), KVM can't
+> > generally support using the source for out-of-place conversion (it's effectively
+> > an obscure zero-page optimization), and IMO rejecting the out-of-place conversion
+> > scenario is valuable for KVM developers, e.g. to help newcomers understand what
+> > exactly is and isn't possible.
+> Ok. You mean per-VM memory attribute is deprecating, and source page from !gmem
+> backend is also deprecating, so we don't want to change uAPI for scenarios under
+> gmem_in_place_conversion==false. Right?
 
-Fair enough.
+Right.
 
-> I also want to point out that gaming (mainly minecraft) stutters a lot mo=
-re with
-> EAS on, even when pstate is set to active. So i wonder what do you think =
-about
-> capturing the system power mode (currently only clamps frequency) and
-> disabling eas_compatible when set to "performance"? That would need
-> updating cpufreq_policy, but feels reasonable to let the user disable EAS
-> for latency sensitive tasks, since E cores struggle at those.
+> 
+> > Side topic, isn't TDX broken if target page has already been added to the TD?
+> > IIUC, kvm_tdp_mmu_map_private_pfn() will be a glorified nop due to the page
+> > already having a valid S-EPT mapping, and so KVM will incorrectly allow a double
+> Not sure if my understand out-of-place conversion correctly.
+> Given target PFNs and GFNs are not duplicated, what would cause double add? :)
 
-Switching the governor (or policy if you will) to "performance" on any
-CPU should cause eas_compatible to be cleared for it due to the
-cpu->policy !=3D CPUFREQ_POLICY_PERFORMANCE check and then the scheduler
-will refuse to use EAS after rebuilding the sched domains.
+I was working through what would happen if userspace did KVM_TDX_INIT_MEM_REGION
+on the same target page multiple times.
 
-Or do you mean something else?
+> 
+> > add.  Ahhh, no, because KVM will return RET_PF_SPURIOUS and
+> > kvm_tdp_mmu_map_private_pfn() will then return -EIO.
+> My asking was if we could document uaddr always means using target PFN, since
+> TDX's in-place add does not rely on gmem in-place conversion.
 
-> I know that for now, my observations are only anecdotal, but if needed
-> I'm eager to test those assumptions!
-
-So it would be good to have some data indicating that it is beneficial
-to use EAS when intel_pstate operates in the active mode ("powersave"
-policy).
-
-Also, enabling EAS by default for the active mode may be problematic
-because people may see (and report) performance regressions due to it.
-OTOH, EAS can be disabled via sysctl, so that may not be a big deal.
+Yeah, I was on a tangent, ignore everything from "Side topic" on.
