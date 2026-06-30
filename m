@@ -1,164 +1,123 @@
-Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.153.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65913DC4CC
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 17:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.153.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172B43DCDB0
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 17:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782840198; cv=none; b=sq4ZFJdCpfSCSJ3iaThWBROwB/WkpAfGDpQPfmggv+bun4lywufQ/TJZvo8vsNlFC+5WqfNWA8mbK0CkGo7AI+YFpsH4sEdJYEuldBIQzjsmEIUct1JqorJkRvROYt9yl48bgqsM23KUd3WJ2Okta1QrzMWq+fx4Y99C+H+j2Wo=
+	t=1782840645; cv=none; b=VBkzIc3oFo23HhGNCmHY7cTX0/gU8lfY8SBc7NN+0atmk5zp4b1OTPQnxNg4lTVYvrKyxNCngyhQAR1Lhz5cgQStm7m4W9YIBpCPpA6qo4VH812m5/QpTR4uoI17vrkHLXZ4ICz66VjipMj3w4oBGSJi5i/VvmdfxldP25CWCrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782840198; c=relaxed/simple;
-	bh=EIKLfVxeX4UjvjUsMH57nMal050P+38lR90m+Sb2wOE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=Ye2D7gtUwV51eX54Pvs9KmbBB6gA2DrIvSR9Ik7rKy2W1rXKqv0aQq+GZoVA7Fam5TxreNI9duenHNk5jJ2S+5/d3IDSKf98T9PxOVAg/IxIT5+fbr970v2tDeSi/Ndb7M2ni4P/zYYcMr4U4OXkY5NKKmKOLDxWQ2aTpGIlfMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=Kk02CUiV; arc=none smtp.client-ip=170.10.153.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
+	s=arc-20240116; t=1782840645; c=relaxed/simple;
+	bh=z6KmvGsEhliMX2kFxBWlW+oEtiV14/kK8zifG4u1OSc=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=kSsy6APeFKFpE/F6xqEHdWdORDbKZyKbc94R/pmheWEFqwpZtiiOBu/np28pmiyg9SIa8ATPsVw4M9iZ5PqfQrSiG5P/FWsobDtE+XisBPuIK0yZcs/ndOcoRtqxGwvTdKA2GiQaJb8EAu52FEMwlnXE23++tRyMGKcwBHGhaBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=va8T1XPx; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="Kk02CUiV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
-	s=mimecast20250127; t=1782840187;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EIKLfVxeX4UjvjUsMH57nMal050P+38lR90m+Sb2wOE=;
-	b=Kk02CUiVhbe51GEeWYKMt9I7et0FioTW+Qei+tMUm2G05PWBE8ZrWSafT5i8uSyTF2lV+2
-	Fu9FJVHoGfXjve1lwvUS1T+1t0zTocI+EoK6e4fkyI68zY1THJB+JUaX+GxI2uZVFe3CKc
-	gDVCogBnS1P1HhRT1RrPYqJQOD36MvTQiXNw93XNllEGkEcVaLDhDmbGUvrC+GoQmuF8+t
-	2hYK3KxSGeT3+8nm6nl0+JwihCEh9vDqvHaMnipqjk7ytGb9kotaenqyuhsKa2MiAG9maT
-	CYhoicFGhY+sq7xDeH67jLlWcixox+Tbf3CCjtzBNhMonMSh4dT+bB598dUsLQ==
-Received: from SN4PR0501CU005.outbound.protection.outlook.com
- (mail-southcentralusazon11011012.outbound.protection.outlook.com
- [40.93.194.12]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- usb-mta-6-d_aydLttNQ-2cXcaXHyDpg-1; Tue, 30 Jun 2026 10:23:02 -0700
-X-MC-Unique: d_aydLttNQ-2cXcaXHyDpg-1
-X-Mimecast-MFC-AGG-ID: d_aydLttNQ-2cXcaXHyDpg_1782840179
-Received: from CYYPR02MB9828.namprd02.prod.outlook.com (2603:10b6:930:b8::20)
- by DS0PR02MB11038.namprd02.prod.outlook.com (2603:10b6:8:293::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Tue, 30 Jun
- 2026 17:22:57 +0000
-Received: from CYYPR02MB9828.namprd02.prod.outlook.com
- ([fe80::2767:f7d2:778c:8dca]) by CYYPR02MB9828.namprd02.prod.outlook.com
- ([fe80::2767:f7d2:778c:8dca%4]) with mapi id 15.21.0159.012; Tue, 30 Jun 2026
- 17:22:57 +0000
-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-To: Guenter Roeck <linux@roeck-us.net>, Conor Dooley <conor@kernel.org>
-CC: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, "linux-hwmon@vger.kernel.org"
-	<linux-hwmon@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>
-Subject: RE: [PATCH 2/3] dt-bindings: hwmon: pmbus: Support for onsemi's
- FD5121
-Thread-Topic: [PATCH 2/3] dt-bindings: hwmon: pmbus: Support for onsemi's
- FD5121
-Thread-Index: AQHdAtUG0MJr3kYk70C0stjgUT+1+7ZMZ+AAgAA2+5CAAAYPAIABpgGwgAALPACAABXNEIAI9fUA
-Date: Tue, 30 Jun 2026 17:22:57 +0000
-Message-ID: <CYYPR02MB98281A2314A718EC3841464583F72@CYYPR02MB9828.namprd02.prod.outlook.com>
-References: <20260622-support-fd5121-from-onsemi-v1-0-b31767689c65@onsemi.com>
- <20260622-support-fd5121-from-onsemi-v1-2-b31767689c65@onsemi.com>
- <20260623-anybody-gutter-e6ca04f53bdb@spud>
- <CYYPR02MB98280DF78A07EADACFD084EE83EE2@CYYPR02MB9828.namprd02.prod.outlook.com>
- <20260623-scared-judgingly-7efc1c188670@spud>
- <CYYPR02MB9828EECB3F6AFDD2A7BD3E9B83ED2@CYYPR02MB9828.namprd02.prod.outlook.com>
- <eed3e19b-8cc7-4aef-b058-b2242c94c940@roeck-us.net>
- <CYYPR02MB982898B8E8EC0513EF55D44083EC2@CYYPR02MB9828.namprd02.prod.outlook.com>
-In-Reply-To: <CYYPR02MB982898B8E8EC0513EF55D44083EC2@CYYPR02MB9828.namprd02.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CYYPR02MB9828:EE_|DS0PR02MB11038:EE_
-x-ms-office365-filtering-correlation-id: 0038a05a-09b3-4d2c-fef6-08ded6cc3a4e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|23010399003|7416014|1800799024|366016|18002099003|22082099003|38070700021|4143699003|11063799006|56012099006
-x-microsoft-antispam-message-info: LpcHQD2hfBbekgUxnyaBGIp8UTb6ChfCmVAU9y9kRBxta96mQq0c7sZjqEowtLOchCvBWLjMR8V592z0UMdlHq/AQHB8TVGtACbIjMBMsDZJeHZUaUk1EnHnEfyzcSmECkO6uFqaMJQV9bUqAeyizbv4T4+CFxbHYdfH2YecQYnaFVIsddUhEX7f1sFpegwOVmGQws0JgBMH2P1QO9Ol4JDo6UDqXFr22sz/q9VxSnjrWOMvggpStLfkxqlO0RGramirJvVxKaEurA5owK95W6COsSlicEMHXSTluiYVaJrv9ciEfmAVnKRKk6uTcocqqoeOfTyNkkN0awWMZJIwWMC96KnkPC8695XC2CTscGnu+8ElBa8QWA0mNv9/71K8iostdgDIh5jkwmMgWB/iyqVfej911AJY8THmdwvYxkj0AO0cikOLMU2XU5YqdIwD0uXOPaMCIUuIbMNqsAbfxE1z5iKFYoQ1NCzv03ITHGx/I0G17Zp+LDy5vPN5C39CkM9m7xZFCL7rmB/zJXLbKMCIKBFTl+TAoSjjCoXFK9VnRlh05FdQOk3q/O6INrxqn2tQ3uSUQfzPQfVMJSc2Q3jEP6mPbN2IJtDmHj3jbykKNyhENiA73YTVBRrVvdd+6Gzs00GGaWEhZh2ifM1ZuGN0Z7QNx8VlO6P/2iyI8XQgz9qJpjg1ZTJugTM6+vNcokxUpzwyqCDRRfi/uc/uLkML9VS02KAPZv4D2WNAVgg=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYYPR02MB9828.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(1800799024)(366016)(18002099003)(22082099003)(38070700021)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VFNWS09KL3lMZEhqdzFmNzZRYncrQXNxL0cyVkhmQUV0b1dkK3ZHSFZkaXNl?=
- =?utf-8?B?MU40akZJd0JhQmtjckd1QWR1TDlMS0IvZHAxWnVwK0N6WDZwcGU5d2NPNlAr?=
- =?utf-8?B?K3pIZ0g2cHdhRUpsUFc0eXllbExJODQ1eElEWGt5QmxjbkNsMHk3Zm4ydzRZ?=
- =?utf-8?B?dElVZWQrU3I3WTVmK0NEQ1pLeG1LV1VrNE8wUlNzTUVSRHJnTFg0c2FVdEpj?=
- =?utf-8?B?REw5bFhvU3JIajYraDhnYWg5N3dWeEdGVVJXSjFsdzNVaG5udFRpb2J1VU1N?=
- =?utf-8?B?VEpkdEgwYXArd2ZTY3p4dUdCRHE0QXRFTE1LQjE1Tjl6RkVXeHpPdC9iWGph?=
- =?utf-8?B?Nk1YY1dGUWwxZFoxazZuSjRRQzlPYzVQay9DaTJKWWVscHh4UkNMNDhqZEFp?=
- =?utf-8?B?QzFhRTRjU3NTUmJ3SktmZ0RTR0wzL040alV1Mm1SNzFtdm1hNlErQjFNczk1?=
- =?utf-8?B?QUJhemh1ZDAyU0VmaUMveFlzQzN1d2JJMm5MbnZLMU9yNzJyaU1RL0lnL2sy?=
- =?utf-8?B?T0F1RG1TdS9YaTF2QnQvc3VUdkltREV2bUY3UkV1RUJRQUMzaWlTMkx3WFFY?=
- =?utf-8?B?VEZaaXNZTUVHcVBDanF2WW5nUEhoaC96YjUxYjB2cWdjZEdaQUFJTlpMNzVu?=
- =?utf-8?B?T2hGNkpkRG54dkRhYVlnT3N0U2tXWXBteXFkbGh2Tm1TWXhwbU1PazVvN3c0?=
- =?utf-8?B?cm9MUnk2aTdRMFJXKzdjQVZ6eUpjTFhiSC9UclQyRm91N3FHN3pPTldPcUlK?=
- =?utf-8?B?NkQzSWZWSWJKazFEaDhKYng4aUFYMTcvUzlHeG1LcjBFOU0wWWc5NGVRRTRh?=
- =?utf-8?B?Ym0zTEo2bCtxRGRacHV2MGpYVGF6amZYMURab24wM2tUaWQzQklWNTc3VTJF?=
- =?utf-8?B?bWdmWWYydFU2WVBNaGZmK0pxdktoczN4OW12ZHkxSDNrSDJNMHlrN1laam5M?=
- =?utf-8?B?czBGTXgzREJycGpXT2pIcjRQRVdkRDJ5bUhwallQMmNmTGNkRlo1TUVaUjFm?=
- =?utf-8?B?WE1sL2tkeG8zUCtMcFRUZkVNVmJCYmpKeXZ1SVBuMzdISlZaMSsvZm0zNi9S?=
- =?utf-8?B?TjZtdC9zM2IvZlJtQVY2d29kQ1ZpcFZodUxqSHkrcFhkOGt0QWxQZEN3MW1H?=
- =?utf-8?B?RFZqRXhiMTdRUHROeHpjaTJ2OEJuaCtoY242b0lsSjJxeE55WjB5NGc3V2Rk?=
- =?utf-8?B?dkgwNFhJLzlIMnFWY3hnd2VDWVlVOHhQbTI2WkJVM1kySU9sbFZ0N0pkYUU5?=
- =?utf-8?B?ZHJXZ1lzMTZKRW5vSE5IODA4LzNnZ3dqWG9TN3d3cDN2MGVKMExkWndwQjJL?=
- =?utf-8?B?VThtT0JkNkw5UU1TcVB4a1AvVEtxcjJ0NGhJc3FESVUxeGFNZitYYUltejd3?=
- =?utf-8?B?SkVRa3FJaGVoaVZCVnl3TUhPbFZWY2tBV1UwbktodWI2eXpoNU50OURRS0hG?=
- =?utf-8?B?MG9vMlozMDg1cXVNQ0lUMTdaVXJwOEdaT2tMdmpnbnpyanFmRDVMN0FVVDBT?=
- =?utf-8?B?SjlMU0gvY2syeEcvc0dZRk41dGMxSnZRSlhqK0VDNHZDZU9iOVB4cUxLVk1s?=
- =?utf-8?B?bUNMdE9DcTQxOEZvT0ozd0lSQlhYeUNrNGk1ZjJXNnVjb3ZCclUzM3ZNY3p4?=
- =?utf-8?B?bXQ1MnhlREVjUFNsMlVGR2lka3BlcTBPNUwxeHdCY001OHNNeW15bm16MnYr?=
- =?utf-8?B?dUQxZ01jYkpaRERndVJUd1hsbE5SN0EyTzVMNDVJaEM5KzRSZmhLTEp4UGRV?=
- =?utf-8?B?YVloT2twM3lWWmhvRHM4UEQ2M2ZYUC9qSndoaHBjTUMvTmxlRzlMK0laMVNB?=
- =?utf-8?B?LzAyajdVMFlWTkdyTjNFbGZMVFN4bWhVNGVJNElwWnJ6ODlZbkZ6SXlycWZS?=
- =?utf-8?B?ZEhyYkV4Ly9FS3BmdVlVV2pqMUU1b2Z4ck5xM01pUEptZ1FNUDBrc0RMNy9s?=
- =?utf-8?B?K0xUN09vZFJFa3BzSGExTnl3SmNMbDBqeUxTbWs1TktIVS9nWDk5ZURlTHdT?=
- =?utf-8?B?UXFuUzRreTZHOXA5czlOUFZQZXlkT3VQRzdFcEZlUGdNV0hWMmRUN005VUU0?=
- =?utf-8?B?UzZXYnQ0bUpGOEZkc3N3OGVaSG12WjJpazlNcTB2a0E1V0l5QnplbURKb01D?=
- =?utf-8?B?STNNbEMyWHlzMFRzZDlBTmVHOXVPRHJPSjRVcTNIbzBvMVZMc29pTTNjcmxQ?=
- =?utf-8?B?TEhFRlBnY3Bma2JJZjhWdHkvdTI5QWhveEpmOGs4Mkx3MnhtTGxEZlNkVVY3?=
- =?utf-8?B?WVdrMGVNQm5aUDQ4cVJhclNzbHhoaEIxKzFkYlFFeUd3STVUc2hEdDVzeVYz?=
- =?utf-8?B?QVRaR1Z3eWFpMEc3cFlMMCtOQTEyek5OWldPd1JFUWUwaUNFanVhdFlvRVRs?=
- =?utf-8?Q?N/0ZctGC0aaWhJLs=3D?=
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="va8T1XPx"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-8479cc04d8fso2082128b3a.2
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 10:30:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782840643; x=1783445443; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KxXDGdZP36dVSNVXo6OGlh08WQ4jD0j+gPBa9WDdARQ=;
+        b=va8T1XPx241WJZyMEqRecMsZNoozWVV3DSK3GRDxwRDu8pb+FaUDxvQ5brfllHB2mb
+         dAnUKRoC0cNaUKbLGVwrhM4GjxwMAoB02Px6M8cmBBwMJ1w/7SIOscdj4QoNkv7a23sB
+         g/ixTI7xYfEOSc2Gi1Gpci3vR1Eg0bbdHXY0zfCwAuV3prfmSphh+nVFeYU4aK61ivib
+         FQODMfShZw8A/MhhSqcIpUTuE86h4GiWe5K/5gu7IACEP5E+aUzCLA2lNaezL2VKC473
+         B2x9HYz2ebDgFjVz4Y340jix0kBpJyCBYdZgixQL84fEjsu/AUySgEyhHcv2MyYhwqbA
+         Gwug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782840643; x=1783445443;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KxXDGdZP36dVSNVXo6OGlh08WQ4jD0j+gPBa9WDdARQ=;
+        b=K4SjPrSAMS6ZIUBJPqt7GpyQ54XBaWVBWnJfq2Xxhf9FQIDyRLOy+g5ocXh1RjYJfY
+         PXPOqQDIkELCq+zkIy1pczB0PHMnm1p8HjJra0kMokfsgbmZnyfTM74XAeILQ56Dw4El
+         5dV4/QU3Um6uUUUB77319G+iGiMgkT6XZpnWrOECNFQn+ya3qJAfMA9+h5c7vbFwza2P
+         0pElNNwPq7erxwpjTZz4qw7sXjpXPJU1zKtBE0prKs92RT0rPdQfjT/OH4eJhs+h8bjU
+         gQHXRCdNwpK5s+IZ9IgtHdvxCL6aVEC8OvSLBh0kOulAu0NNwmN45eEE0fDt1Q9IG3nR
+         W9MQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp963DHp1bP2ui53nnnXtpl+l0cAFAeGs/EY7Z75ywoLdBr2kdEpZLgfPT+n+62k9DiCWci/vrIVi4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnqVfm/VfFAynYrIfT2PII4O8Bb48KteCxw4v+UbcVS+JxsI2B
+	ft6xpoGDaWB8AsYrQYk12eDJYeWZbpnzSrfxS4hggHKns53EVg7MCcT82GVaLZsD7Y9nbMJpfww
+	mMD+XUw==
+X-Received: from pfbfb9.prod.google.com ([2002:a05:6a00:2d89:b0:847:84b8:2dcf])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:b84:b0:842:6004:3fcf
+ with SMTP id d2e1a72fcca58-847adeaa420mr1564771b3a.29.1782840642918; Tue, 30
+ Jun 2026 10:30:42 -0700 (PDT)
+Date: Tue, 30 Jun 2026 10:30:42 -0700
+In-Reply-To: <a1b06afb-af6e-4666-8c7d-990e7fa150fa@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: WegMjY46DNehs23QXhNQWOHQqtOgeeeSKkKBXmH3ZF0TaT5/1IitJjHmgB0tbKijqfd82XsEgGcNLe8Hp0Jbsi6imZ2CTryZdPs8vwnZmiBG84lDBghC/pRY5A/YppGj099ej67xT0oZ1lOS+yBWn/Ukm82SAAq9A5MpMhbdFqUePNoPtdrt6tlAbbZHjcBndzVbMsreC1Yg4PxlwpePiMkYcMXk8F26y/cJTPzwNMCvOfJKqgZ+DB+vLbOaxlGlMmZEWxdOxVNAV2bwFH9Nmi1Kysq5qvEXyBHGmEsjeJvc4qIts4wU8P4+6XhO1dl0736PHDAB/vIUhfX8ArxFmg==
-X-OriginatorOrg: onsemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR02MB9828.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0038a05a-09b3-4d2c-fef6-08ded6cc3a4e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2026 17:22:57.2755
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9ib4rDwxjGkqHOsWAXFpWcyPLr0bIxhnYghUjt3dr3/VU9/W5ZDz9Ha4H93aX1Q6BE9pKxvT8uIbJnSWEzXpg55ILgzrjIEMxrKGK2TrwFA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR02MB11038
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: jLy_q6S3-vb6OO17QKZAfxerwRJYB2DZqBxMLpvHjOE_1782840179
-X-Mimecast-Originator: onsemi.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Mime-Version: 1.0
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
+ <20260618-gmem-inplace-conversion-v8-7-9d2959357853@google.com> <a1b06afb-af6e-4666-8c7d-990e7fa150fa@intel.com>
+Message-ID: <akP9Qv_IPVEh7GAB@google.com>
+Subject: Re: [PATCH v8 07/46] KVM: Rename memory attribute APIs to prepare for
+ in-place gmem conversion
+From: Sean Christopherson <seanjc@google.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFNlbHZhbWFuaSBSYWphZ29w
-YWwNCj4gU3ViamVjdDogUkU6IFtQQVRDSCAyLzNdIGR0LWJpbmRpbmdzOiBod21vbjogcG1idXM6
-IFN1cHBvcnQgZm9yIG9uc2VtaSdzIEZENTEyMQ0KPiANCj4gPg0KPiA+IE9uZSBvZiB0aGUgcHJv
-YmxlbXMgaGVyZSBpcyB0aGF0IHRoZSBjaGlwIGRhdGFzaGVldCBpcyBub3QgcHVibGljLA0KPiAN
-Cj4gQWdyZWUgb24gYm90aCBwb2ludHMuIE5vIGRhdGFzaGVldHMgb24gb3VyIHdlYnNpdGUuIEFu
-ZCBjaGlwcyBub3QgYXZhaWxhYmxlIHRocm91Z2gNCj4gZGlzdHJpYnV0b3JzLiBMaXR0bGUNCj4g
-ZWFybHkgaW4gdGhlIHByb2Nlc3MuIEkgYW0gd29ya2luZyB3aXRoIG91ciBwcm9kdWN0IHRlYW0g
-dG8gc2VlIGhvdyB0byBtb3ZlIGZvcndhcmQuIFNvLA0KPiB0aGVyZSB3aWxsIGJlIHNvbWUNCg0K
-R3VlbnRlciwNCg0KQWZ0ZXIgeW91ciBxdWVzdGlvbiwgSSByZWFsaXplZCB0aGF0IHRoZXJlIGlz
-IG5vIHBvaW50IGluIG1lcmdpbmcgdGhpcyBpbiBrZXJuZWwgdW50aWwgdGhlIHByb2R1Y3QgaXMg
-YXZhaWxhYmxlIA0Kd2l0aCBkaXN0cmlidXRvcnMuIEkgZG9uJ3QgaGF2ZSBhbnkgdGltZSBmcmFt
-ZSBmb3IgdGhhdC4gU29ycnkgZm9yIHRoZSBpbmNvbnZlbmllbmNlL3dhc3RlZCByZXZpZXdpbmcg
-dGltZQ0KZm9yIHRoZSB0ZWFtLg0KDQpJcyB0aGVyZSBhbnkgd2F5LCB3ZSBjYW4gbWFyayB0aGlz
-IHNlcmllcyAiYWJhbmRvbmVkIiBvciAib24gaG9sZCIgZm9yIGFuIGV4dGVuZGVkIHBlcmlvZD8g
-DQoNCj4gDQo+ID4gZWl0aGVyLg0KPiA+DQo+ID4gR3VlbnRlcg0KPiA+DQoNCg==
+On Tue, Jun 30, 2026, Xiaoyao Li wrote:
+> On 6/19/2026 8:31 AM, Ackerley Tng via B4 Relay wrote:
+> > -bool kvm_range_has_memory_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
+> > -				     unsigned long mask, unsigned long attrs);
+> > +bool kvm_range_has_vm_memory_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
+> > +					unsigned long mask, unsigned long attrs);
+> >   bool kvm_arch_pre_set_memory_attributes(struct kvm *kvm,
+> >   					struct kvm_gfn_range *range);
+> >   bool kvm_arch_post_set_memory_attributes(struct kvm *kvm,
+> 
+> We have
+> 
+>  - kvm_pre_set_memory_attributes()
+>  - kvm_arch_pre_set_memory_attributes()
+>  - kvm_arch_post_set_memory_attributes()
 
+Yeah, that's probably for the best.
+
+> left, do they need to be renamed as well?
+> 
+> then the interesting one is kvm_vm_set_mem_attributes(), which contains "vm"
+> already while it means "vm ioctl". Do we need to rename it to
+> kvm_vm_set_vm_mem_attributes()?
+
+I say "no" on this last one, the fact that the function is scoped to a VM ioctl
+is enough to communicate that it applies to per-VM attributes.
+
+Actually, since it's a local helper, we could go with kvm_set_vm_mem_attributes()
+to be consistent with the other functions.  That just leaves
+kvm_vm_ioctl_set_mem_attributes(), which I think it appropriately scoped.
