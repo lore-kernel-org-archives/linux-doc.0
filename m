@@ -1,70 +1,70 @@
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A643D37473A
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 20:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05CAC374735
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 20:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782851209; cv=none; b=IvowWHmsBlbyGBj3t140C1bTHVTCx0wgpTX5xxNYdVgQqjgQ1V+VtmxEziaOM4ieg4304itN1eO6O+by4qUSxivAMqR/50YvfIABxxW+ODdyQR2SZB18aqx5MQmzBBal4aaazG0ZTi/i+HilVh2RpcNJFXIUv4pMNOVnWxX/cfs=
+	t=1782851211; cv=none; b=To/fJGDJUV8Nup3ze+9W3efiRqlfC02GYR9Ge6njpzM0aT9EYzYlg2UF2ILj44+hv7YplfU5AYVPctJ36cSfMgUpqQiUNOWHPzeVvgBBSaZzfyEEiCmcoLM0Dy7waiUt/ukKRoSj8zxY11EB5gjWoxK1t0GKOEHMH4b+r63jF3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782851209; c=relaxed/simple;
-	bh=OzLE0gez8qaH4E+YjKFLltIk1GEL1cwboolr3Pok0W4=;
+	s=arc-20240116; t=1782851211; c=relaxed/simple;
+	bh=abSYI2SBQJ0cbMdb9Cg7uHmRYeUhDUoJkU9oMQWrCUs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ni3y5C+NjTSlKdUQ6suU1v6AFUESvUynDryBCaCJDtBeckpjCTIJO2WYvTP7Hpdi1uYSuA5zSTaYNtCa4LORT2k/mVrL902EHiEVl1Q3WmZvgYu2HX8ECVu8OROv1ktvMWuStzrbiiHStrGHkhrrIsRA7l1mXCkcivqbxBXgBdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lN0h3bXp; arc=none smtp.client-ip=74.125.82.47
+	 MIME-Version:Content-Type; b=bZn+5u+oXvzw9b8w+Gmv/3IBiUW7TwWcT+KqJRK/ePPpoLO/tGOEFTcw0qioYy642UzYcuOjEVb+H+wEfUyJs43qc9yLMYt01fOAlxkCFjq0j92asGIk60QambT8zHsT6VudvmAc2XqNbDUyX1kwKOgQpDKASlxl3H5T2LgKwy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o2Af4KSK; arc=none smtp.client-ip=74.125.82.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lN0h3bXp"
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-137335bc3caso10526762c88.0
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 13:26:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o2Af4KSK"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-13b2b92b0bfso2384810c88.1
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 13:26:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782851205; x=1783456005; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782851208; x=1783456008; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BQ90GiMOeUT/ZYRB4/rCxS2hvlXtzagegwet9vO1cPE=;
-        b=lN0h3bXpoqJ10KRaKWtJGVd5vtp7GZONoZkfKI8qtchKyF5yJSiPLrfT9JwP/0/bEY
-         PtaA+52PmSLrKTiCx+wkHxgVX5VbSMgUHr1yZppWFPQ7JhCxBdeheA7ICuT1QXUykCmO
-         GkUROa3Y53giY6/VTCsqS2Dwd++lbpgioBLLW4O4gveE7Cl2APPbZSUqi+WA2JTdPwKv
-         Wgwta9j5klkNOdvDbeZYmfDAIYrIrV1wY5d0w3sCgSpZOs/9yaHWSZrS0l/FvvwVLU9+
-         YNjruK6XjRes7T/28rcncnyzv1GIM7NCwBAhTQx9zfyeWSeInPuiCpgZ/gpXWEdSg9Zc
-         JCeg==
+        bh=Rbe5hkoDkfozuf88JSIWpxCfTQWq0gYZOpTOEPkxRZY=;
+        b=o2Af4KSKzvxT3m4GEiUBHdBzxM/EZjPhPjTGZrWVDsAjO/UEhbGVpKug2eEmeArQ6V
+         2Ognod4tR9O4k9b8IKY1s1RRZ1yPAnEG1fArAinxLszFRJYFmwOguMMAQe9SLE28qORG
+         FF4OtZIJoQCmwcdyK+ibFA4HeS5zicslz+71QcUYIZAvh0hYyXwpwBWZmQIl+9mz0g14
+         hv07/pcH1IqgXYuAcwPD/ASEOy0hBsFF/rhqGcr0mf4AqViSjtqq7o1RLw8NTx1TPqsM
+         ZdJlPe+Pq9JDiG2lFHpa9xcpNdhuyUlgcI+tmQfELWyQIwBvLU98OdF0+MeOH7YBCcjY
+         YA/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782851205; x=1783456005;
+        d=1e100.net; s=20251104; t=1782851208; x=1783456008;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=BQ90GiMOeUT/ZYRB4/rCxS2hvlXtzagegwet9vO1cPE=;
-        b=CnFuMKsKJFFjX09LfxEJo4CD+1tIr3Q5cUFmE1nmiJDJ3j0/UVEvO+ssHXKo6mxI/M
-         daj3I5akg1PEPXU8qyO+enRTeG90DyBmZ/0AufRwZJ4dQlFbHz/AJiGMZw2aUyi1wpWw
-         nsSh4SjlppU6GzHR7GRJQDVUx+PyqEufOYXDTe4EfH/DFsqwLoIQVOZ5QGHN7egTRYio
-         PqoIphfOqVJKG0UJI30dXEWg5PDAoqJ0ZMcw+gtcxWtZ8/I/OxaDYHtwdJYXRjyqcZEc
-         BgiN/BDHjPtevSfHsfPY+Qp9rEjrCltCWax+7HYmGKzNfOsQgwuDLoCODygU3yWQxjAE
-         zZ5A==
-X-Gm-Message-State: AOJu0YyEMekl0I3BorAdlHqlMCR32VjW8qcmKPwptr3HEeSQeZOysmqt
-	VWKvCmPJ32ocBfKWVv5XWQEkuXCJHZcqw4tb2gFvU7ZQkElkW5rjyWZa
-X-Gm-Gg: AfdE7ckVRK5WG4uP5K74saVR6mNScVOZ2NhULqiltC9Skywm9yuwpMyB9jY5FctNNqY
-	rT0hsrSkvitTzhyfzlCiP1bYo+KOuVYi11Mq8NUrKixb++/aHm+evsRUNYA+6kteDLqiXl/ToJ5
-	oRw/Gdyte9pcNDOQzsx0k93glKsFuYEex/GUp9LsdDP1DfmtY+FdmwH8NdxnjX0lHPxPPGRrecR
-	aTgccFH4EOBcmK52xsRmUaLbSwJwUaUCpxK8V51WuQW4/bEjDNum4uWWwH8G30qBjLzSU4lOhMz
-	JeNfRc55cIbXeJpi/9SxnpoQ3mpW3Y9cu2Ax58rQ5yXt4yFhrNk6PrUccA6SOQJKvalqptNhjwJ
-	y9Mk0bVNFiGweTVXr016unQHsptapppGcG0laav7mZ9/PFkI8HhljCSW3rBIEpF/U3nfWzrAS1g
-	sxUMYmqI3XnSVx0RXaFu9SFtsikSmfkpIibUzpUzRTqsow7W/n8qKwNG/dPgw2HSNf/wDdiVjoH
-	W7P9PSUtcZJ4G6dOINzVbCHaLD95xRqj9LgT5idz3wCV3E38rC04TX6KzBLkUWGOw==
-X-Received: by 2002:a05:7300:7241:b0:304:c9f1:a0f6 with SMTP id 5a478bee46e88-30ee147093fmr4563208eec.33.1782851203702;
-        Tue, 30 Jun 2026 13:26:43 -0700 (PDT)
+        bh=Rbe5hkoDkfozuf88JSIWpxCfTQWq0gYZOpTOEPkxRZY=;
+        b=R/KlhemAZqSTh/kttLFZWYcmFNLUb3NKbnZLJuMA18hoAX4LyKapbiIVnpHbuigQll
+         3453+pETPpugOx5FqfEkODvAZqfCphklBWe4MzJ2bMJdEIXxGGFrlf9mp2Cc1gEx8ok3
+         uJA4rRtsCuUYcOCzV/huAfK210uBbfA266W/jxh5E4vWi8BjFUZQWcYLfFF7jRlN5gQi
+         LyUgt2XbD+ljLdftff/OJ27aiQOikx6eZO4FARx0M9+a/3rUD5xw2NyJzuqpKoWXihOg
+         /0z1uDw61xoxmzVt9xt9MOW4rkjDggz21z3N4TKbtBeLAIGa6dPLDCyUxl/OS2sRJ+Se
+         FYjQ==
+X-Gm-Message-State: AOJu0YzuPyeYIGiLVwCnBeErBq2XWBCmdoL7yFmDClJHZWeAKV1+sgS0
+	llB9OOb9jJ3KW7BuJrN7DEwq2GrUSLMsJj/I6ZuIemiJfRkDaUZCLwmC+tufeQ==
+X-Gm-Gg: AfdE7cljCBijijoRFbq+rrUfpHvO+MmKIaaSvKazdgdgAELv06LfIpXTWqE6K5qj/ac
+	ZNgR1zZOHRxnzDV7d79ehXomIIjGvc5ISoNw4AsYLSOLlvMKBp0vX/00XlkNrE6J/T+EcVtboFo
+	0TVB/2wd9ljC1vMZ8R4BGn5fngT7I7SNmXRKzjIfXxS1sF8ILlAK6DR8h6x1O735dqlJKclHcdk
+	RQGvDZmo91AazMwLagVwT8EOAZwDuE8Y088jdHUFPwWhbKaLr0StytHCeC478IW1uxrTrPa9iEf
+	u/k2zjMIISPiApWLJ3FrTCXvwScukpfijqYUN+Y+wn5tWFFy+qv6jUUxRB8BvrnXxPTs8lo27eY
+	ztEKu2wzkdneA8BsSZXt3uaVuXl0N0/ka87Mjf32JOgu+fha+Xj+ynp6NuasaFYSUDnvljrpra1
+	Qoh6JBEvXmKyuPiQcHNc/vpcs6ZJLhIK75RuASAOCo52a3WplK8qQ2Kw7grHV30gmyiHNw6bzge
+	ELiZMQ8yxfGSYBAHoDl75/WT6hdTMH0qOzUDyGdahTWycfdTkspgpsaaMKHnu9B2A==
+X-Received: by 2002:a05:7022:312:b0:139:ed5d:3a5 with SMTP id a92af1059eb24-13b2a1dd5acmr3425505c88.42.1782851207434;
+        Tue, 30 Jun 2026 13:26:47 -0700 (PDT)
 Received: from localhost.localdomain (smtp.hostdime.com.br. [187.45.177.18])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee2fbe011sm11157638eec.9.2026.06.30.13.26.41
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee2fbe011sm11157638eec.9.2026.06.30.13.26.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 13:26:43 -0700 (PDT)
+        Tue, 30 Jun 2026 13:26:46 -0700 (PDT)
 From: Daniel Pereira <danielmaraboo@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org,
 	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: [PATCH 3/7] docs: pt_BR: Add translation for applying-patches and update index
-Date: Tue, 30 Jun 2026 17:25:37 -0300
-Message-ID: <20260630202549.278894-4-danielmaraboo@gmail.com>
+Subject: [PATCH 4/7] docs: pt_BR:  translate backporting.rst documentation
+Date: Tue, 30 Jun 2026 17:25:38 -0300
+Message-ID: <20260630202549.278894-5-danielmaraboo@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260630202549.278894-1-danielmaraboo@gmail.com>
 References: <20260630202549.278894-1-danielmaraboo@gmail.com>
@@ -77,484 +77,639 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 
-Translate the 'applying-patches' documentation into Brazilian Portuguese,
-ensuring alignment with the upstream structural guidelines.
+Translate the 'backporting' guide into Brazilian Portuguese, ensuring
+strict alignment with the upstream content and structure.
 
-Additionally, add the translated document to the main process index
-toctree to integrate it into the documentation build tree.
+The translation covers conflict resolution strategies, understanding git
+conflict markers, and the process of submitting backports to the stable
+kernel tree.
+
+Additionally, maintain the strict 80-column line length limit across
+the entire file to ensure proper Sphinx rendering.
 
 Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
 ---
  Documentation/translations/pt_BR/index.rst    |   1 +
- .../pt_BR/process/applying-patches.rst        | 447 ++++++++++++++++++
- 2 files changed, 448 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/applying-patches.rst
+ .../pt_BR/process/backporting.rst             | 598 ++++++++++++++++++
+ 2 files changed, 599 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/backporting.rst
 
 diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index 7a488f662..555bf1d3a 100644
+index 555bf1d3a..08faaacf3 100644
 --- a/Documentation/translations/pt_BR/index.rst
 +++ b/Documentation/translations/pt_BR/index.rst
-@@ -68,6 +68,7 @@ kernel e sobre como ver seu trabalho integrado.
- 
+@@ -69,6 +69,7 @@ kernel e sobre como ver seu trabalho integrado.
     Introdução <process/1.Intro>
     Guia do Processo de Desenvolvimento <process/development-process>
-+   Como aplicar patches <process/applying-patches>
+    Como aplicar patches <process/applying-patches>
++   Backporting e resolução de conflitos <process/backporting>
     Index de documentos do Kernel <process/kernel-docs>
     Regras de licenciamento <process/license-rules>
     Como começar <process/howto>
-diff --git a/Documentation/translations/pt_BR/process/applying-patches.rst b/Documentation/translations/pt_BR/process/applying-patches.rst
+diff --git a/Documentation/translations/pt_BR/process/backporting.rst b/Documentation/translations/pt_BR/process/backporting.rst
 new file mode 100644
-index 000000000..313401bc2
+index 000000000..ce3f9fb4f
 --- /dev/null
-+++ b/Documentation/translations/pt_BR/process/applying-patches.rst
-@@ -0,0 +1,447 @@
++++ b/Documentation/translations/pt_BR/process/backporting.rst
+@@ -0,0 +1,598 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+Aplicando Patches ao Kernel Linux
-++++++++++++++++++++++++++++++++++
-+
-+Autor Original:
-+    Jesper Juhl, Agosto de 2005
-+
-+.. note::
-+
-+   Este documento está obsoleto. Na maioria dos casos, em vez de usar ``patch``
-+   manualmente, você quase certamente desejará considerar o uso do Git.
-+
-+Uma pergunta feita com frequência na Linux Kernel Mailing List é como aplicar
-+an patch ao kernel ou, mais especificamente, a qual kernel base um patch para
-+uma das muitas árvores/branches deve ser aplicado. Esperamos que este documento
-+explique isso a você.
-+
-+Além de explicar como aplicar e reverter patches, uma breve descrição das
-+diferentes árvores do kernel (e exemplos de como aplicar seus patches
-+específicos) também é fornecida.
-+
-+
-+O que é um Patch?
-+=================
-+
-+Um patch é um pequeno documento de texto que contém uma diferença (delta) de
-+alterações entre duas versões diferentes de uma árvore de código-fonte. Os
-+patches são criados com o programa ``diff``.
-+
-+Para aplicar um patch corretamente, você precisa saber de qual base ele foi
-+gerado e em qual nova versão o patch transformará a árvore de código-fonte.
-+Ambas as informações devem estar presentes nos metadados do arquivo de patch
-+ou ser possíveis de deduzir a partir do nome do arquivo.
-+
-+
-+Como eu aplico ou reverto um patch?
-+===================================
-+
-+Você aplica um patch com o programa ``patch``. O programa patch lê um arquivo
-+de diff (ou patch) e faz as alterações descritas nele na árvore de
-+código-fonte.
-+
-+Os patches para o kernel Linux são gerados relativamente ao diretório pai que
-+contém o diretório do código-fonte do kernel.
-+
-+Isso significa que os caminhos para os arquivos dentro do arquivo de patch
-+contêm o nome dos diretórios do código-fonte do kernel contra os quais ele foi
-+gerado (ou alguns outros nomes de diretório como "a/" e "b/").
-+
-+Como é improvável que isso corresponda ao nome do diretório do código-fonte do
-+kernel na sua máquina local (mas frequentemente é uma informação útil para ver
-+contra qual versão um patch sem identificação foi gerado), você deve entrar no
-+seu diretório de código-fonte do kernel e, em seguida, remover o primeiro
-+elemento do caminho dos nomes de arquivos no arquivo de patch ao aplicá-lo (o
-+argumento ``-p1`` para o ``patch`` faz isso).
-+
-+Para reverter um patch aplicado anteriormente, use o argumento -R para o patch.
-+Portanto, se você aplicou um patch desta forma::
-+
-+    patch -p1 < ../patch-x.y.z
-+
-+Você pode revertê-lo (desfazê-lo) assim::
-+
-+    patch -R -p1 < ../patch-x.y.z
-+
-+
-+Como eu passo um arquivo de patch/diff para o ``patch``?
-+========================================================
-+
-+Isso (como de costume no Linux e em outros sistemas operacionais do tipo UNIX)
-+pode ser feito de várias maneiras diferentes.
-+
-+Em todos os exemplos abaixo, eu passo o arquivo (em formato não compactado) para
-+o patch via stdin usando a seguinte sintaxe::
-+
-+    patch -p1 < path/to/patch-x.y.z
-+
-+Se você quer apenas ser capaz de seguir os exemplos abaixo e não deseja
-+conhecer mais do que uma maneira de usar o patch, então você pode parar a
-+leitura desta seção aqui.
-+
-+O patch também pode receber o nome do arquivo a ser usado através do argumento
-+-i, desta forma::
-+
-+    patch -p1 -i path/to/patch-x.y.z
-+
-+Se o seu arquivo de patch estiver compactado com gzip ou xz e você não quiser
-+descompactá-lo antes de aplicá-lo, você pode passá-lo para o patch desta outra
-+forma::
-+
-+    xzcat path/to/patch-x.y.z.xz | patch -p1
-+    bzcat path/to/patch-x.y.z.gz | patch -p1
-+
-+Se você deseja descompactar o arquivo de patch manualmente primeiro antes de
-+aplicá-lo (o que presumo que você tenha feito nos exemplos abaixo), basta
-+executar gunzip ou xz no arquivo -- desta forma::
-+
-+    gunzip patch-x.y.z.gz
-+    xz -d patch-x.y.z.xz
-+
-+O que deixará você com um arquivo patch-x.y.z em texto puro que você pode
-+passar para o patch via stdin ou pelo argumento ``-i``, conforme sua preferência.
-+
-+Alguns outros argumentos úteis para o patch são ``-s``, que faz com que o patch
-+seja silencioso (exceto por erros), o que é bom para evitar que erros sumam da
-+tela rolando rápido demais; e ``--dry-run``, que faz com que o patch apenas
-+imprima uma lista do que aconteceria, mas sem realizar nenhuma alteração de
-+fato. Por fim, ``--verbose`` diz ao patch para imprimir mais informações sobre o
-+trabalho que está sendo realizado.
-+
-+
-+Erros comuns ao aplicar patches
-+===============================
-+
-+Quando o patch aplica um arquivo de patch, ele tenta verificar a integridade do
-+arquivo de diferentes maneiras.
-+
-+Verificar se o arquivo parece um arquivo de patch válido e checar se o código ao
-+redor dos trechos sendo modificados corresponde ao contexto fornecido no patch
-+são apenas duas das verificações básicas de integridade que o patch faz.
-+
-+Se o patch encontrar algo que não pareça totalmente correto, ele tem duas
-+opções. Ele pode se recusar a aplicar as alterações e abortar, ou pode tentar
-+encontrar uma maneira de fazer o patch ser aplicado com algumas pequenas
-+alterações.
-+
-+Um exemplo de algo que não está "totalmente correto" e que o patch tentará
-+corrigir é se todo o contexto coincidir, as linhas sendo alteradas coincidirem,
-+mas os números das linhas forem diferentes. Isso pode acontecer, por exemplo, se
-+o patch fizer uma alteração no meio do arquivo, mas, por algum motivo, algumas
-+linhas tiverem sido adicionadas ou removidas perto do início do arquivo. Nesse
-+caso, tudo parece correto, apenas mudou um pouco para cima ou para baixo, e o
-+patch geralmente ajustará os números das linhas e aplicará o patch.
-+
-+Sempre que o patch aplicar um patch que ele teve de modificar um pouco para
-+fazer caber, ele avisará você dizendo que o patch foi aplicado com **fuzz**.
-+Você deve ser cauteloso com tais alterações porque, embora o patch
-+provavelmente tenha acertado, ele nem /sempre/ acerta, e o resultado às vezes
-+será incorreto.
-+
-+Quando o patch encontra uma alteração que não consegue corrigir com fuzz, ele a
-+rejeita imediatamente e deixa um arquivo com a extensão ``.rej`` (um arquivo de
-+rejeição). Você pode ler esse arquivo para ver exatamente qual alteração não
-+pôde ser aplicada, para que possa corrigi-la manualmente, se desejar.
-+
-+Se você não tem nenhum patch de terceiros aplicado ao seu código-fonte do
-+kernel, mas apenas patches do kernel.org, e você aplica os patches na ordem
-+correta, e não fez nenhuma modificação por conta própria nos arquivos de
-+origem, então você nunca deveria ver uma mensagem de fuzz ou de rejeição (reject)
-+do patch. Se você ainda assim vir tais mensagens, então há um alto risco de que
-+sua árvore de código-fonte local ou o arquivo de patch estejam corrompidos de
-+alguma forma. Nesse caso, você provavelmente deveria tentar baixar o patch
-+novamente e, se as coisas ainda não estiverem certas, aconselha-se começar com
-+uma árvore limpa baixada na íntegra do kernel.org.
-+
-+Vamos examinar um pouco mais algumas das mensagens que o patch pode produzir.
-+
-+Se o patch parar e apresentar um prompt ``File to patch:``, então o patch não
-+conseguiu encontrar um arquivo para ser modificado. O mais provável é que você
-+tenha esquecido de especificar -p1 ou esteja no diretório errado. Com menos
-+frequência, você encontrará patches que precisam ser aplicados com ``-p0`` em
-+vez de ``-p1`` (a leitura do arquivo de patch deve revelar se este é o caso -- se
-+for, isso é um erro da pessoa que criou o patch, mas não é fatal).
-+
-+Se você receber ``Hunk #2 succeeded at 1887 with fuzz 2 (offset 7 lines).`` ou
-+uma mensagem semelhante a essa, significa que o patch teve que ajustar o local
-+da alteração (neste exemplo, ele precisou se mover 7 linhas de onde esperava
-+fazer a alteração para fazê-la caber).
-+
-+O arquivo resultante pode ou não estar correto, dependendo do motivo pelo qual o
-+arquivo estava diferente do esperado.
-+
-+Isso geralmente acontece se você tentar aplicar un patch que foi gerado contra uma
-+versão de kernel diferente daquela que você está tentando modificar.
-+
-+Se você receber uma mensagem como ``Hunk #3 FAILED at 2387.``, significa que o
-+patch não pôde ser aplicado corretamente e o programa patch não foi capaz de
-+encontrar um caminho usando o fuzz. Isso gerará um arquivo ``.rej`` com a
-+alteração que fez o patch falhar e também um arquivo ``.orig`` mostrando o
-+conteúdo original que não pôde ser alterado.
-+
-+Se você receber ``Reversed (or previously applied) patch detected!  Assume -R? [n]``
-+então o patch detectou que a alteração contida no patch parece já ter sido feita.
-+
-+Se você realmente aplicou este patch anteriormente e apenas o reaplicou por erro,
-+basta dizer [n]ão (n) e abortar este patch. Se você aplicou este patch
-+anteriormente e realmente pretendia revertê-lo, mas esqueceu de especificar -R,
-+você pode dizer [**y**]es (sim) aqui para fazer o patch revertê-lo para você.
-+
-+Isso também pode acontecer se o criador do patch inverteu os diretórios de
-+origem e destino ao criar o patch e, nesse caso, reverter o patch irá, na
-+verdade, aplicá-lo.
-+
-+Uma mensagem semelhante a ``patch: **** unexpected end of file in patch`` ou
-+``patch unexpectedly ends in middle of line`` significa que o patch não conseguiu
-+fazer sentido do arquivo que você passou para ele. Ou o seu download está
-+quebrado, ou você tentou passar para o patch um arquivo de patch compactado sem
-+descompactá-lo primeiro, ou o arquivo de patch que você está usando foi alterado
-+por um cliente de e-mail ou agente de transferência de e-mail em algum lugar pelo
-+caminho, por exemplo, dividindo uma linha longa em duas linhas. Frequentemente,
-+esses avisos podem ser corrigidos facilmente juntando (concatenando) as duas
-+linhas que foram divididas.
-+
-+Como já mencionei acima, esses erros nunca deveriam acontecer se você aplicar um
-+patch do kernel.org na versão correta de uma árvore de código-fonte não
-+modificada. Portanto, se você obtiver esses erros com patches do kernel.org,
-+você provavelmente deve assumir que o seu arquivo de patch ou a sua árvore está
-+quebrada, e eu o aconselharia a recomeçar com um download limpo de uma árvore
-+completa do kernel e do patch que deseja aplicar.
-+
-+Existem alternativas ao ``patch``?
-+==================================
-+
-+Sim, existem alternativas.
-+
-+Você pode usar o programa ``interdiff`` (http://cyberelk.net/tim/patchutils/) para
-+gerar um patch que represente as diferenças entre dois patches e, em seguida,
-+aplicar o resultado.
-+
-+Isso permitirá que você passe de algo como 5.7.2 para 5.7.3 em um único
-+passo. A flag -z do interdiff permite até mesmo passar patches em formato
-+compactado com gzip ou bzip2 diretamente, sem o uso de zcat, bzcat ou
-+descompactação manual.
-+
-+Aqui está como você passaria de 5.7.2 para 5.7.3 em um único passo::
-+
-+    interdiff -z ../patch-5.7.2.gz ../patch-5.7.3.gz | patch -p1
-+
-+Embora o interdiff possa economizar um ou dois passos, geralmente recomenda-se
-+realizar os passos adicionais, já que o interdiff pode errar em alguns casos.
-+
-+Outra alternativa é o ``ketchup``, que é um script em python para download e
-+aplicação automática de patches (https://www.selenic.com/ketchup/).
-+
-+Outras ferramentas úteis são o diffstat, que mostra um resumo das alterações
-+feitas por um patch; o lsdiff, que exibe uma lista curta dos arquivos afetados
-+em um arquivo de patch, junto com (opcionalmente) os números das linhas de
-+início de cada patch; e o grepdiff, que exibe uma lista dos arquivos modificados
-+por um patch onde o patch contém uma determinada expressão regular.
-+
-+
-+Onde posso baixar os patches?
-+=============================
-+
-+Os patches estão disponíveis em https://kernel.org/
-+Os patches mais recentes estão vinculados na página principal, mas eles também
-+possuem locais específicos.
-+
-+Os patches 5.x.y (-stable) e 5.x residem em
-+
-+    https://www.kernel.org/pub/linux/kernel/v5.x/
-+
-+Os patches incrementais 5.x.y residem em
-+
-+    https://www.kernel.org/pub/linux/kernel/v5.x/incr/
-+
-+Os patches -rc não são armazenados no servidor web, mas são gerados sob
-+demanda a partir de tags do git, tais como
-+
-+    https://git.kernel.org/torvalds/p/v5.1-rc1/v5.0
-+
-+Os patches estáveis -rc residem em
-+
-+    https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/
-+
-+
-+Os kernels 5.x
-+==============
-+
-+Estes são os lançamentos estáveis base publicados por Linus. O lançamento com o
-+número mais alto é o mais recente.
-+
-+Se regressões ou outras falhas graves forem encontradas, um patch de correção
-+-stable será lançado (veja abaixo) sobre esta base. Assim que um novo kernel
-+base 5.x é lançado, um patch é disponibilizado contendo o delta entre o kernel
-+5.x anterior e o novo.
-+
-+Para aplicar um patch mudando da versão 5.6 para a 5.7, você faria o seguinte
-+(note que tais patches **NÃO** se aplicam sobre kernels 5.x.y, mas sim sobre o
-+kernel base 5.x -- se você precisar mudar de 5.x.y para 5.x+1, você deve
-+primeiro reverter o patch do 5.x.y).
-+
-+Aqui estão alguns exemplos::
-+
-+    # mudando de 5.6 para 5.7
-+
-+    $ cd ~/linux-5.6            # muda para o dir do fonte do kernel
-+    $ patch -p1 < ../patch-5.7      # aplica o patch do 5.7
-+    $ cd ..
-+    $ mv linux-5.6 linux-5.7        # renomeia o dir do fonte
-+
-+    # mudando de 5.6.1 para 5.7
-+
-+    $ cd ~/linux-5.6.1          # muda para o dir do fonte do kernel
-+    $ patch -p1 -R < ../patch-5.6.1     # reverte o patch do 5.6.1
-+                        # o dir do fonte agora é o 5.6
-+    $ patch -p1 < ../patch-5.7      # aplica o novo patch do 5.7
-+    $ cd ..
-+    $ mv linux-5.6.1 linux-5.7      # renomeia o dir do fonte
-+
-+Os kernels 5.x.y
-+================
-+
-+Kernels com versões de 3 dígitos são kernels -stable (estáveis). Eles contêm
-+correções críticas relativamente pequenas para problemas de segurança ou
-+regressões significativas descobertas em um determinado kernel 5.x.
-+
-+Esta é a ramificação recomendada para usuários que desejam o kernel estável mais
-+recente e não estão interessados em ajudar a testar versões de desenvolvimento
-+ou experimentais.
-+
-+Se nenhum kernel 5.x.y estiver disponível, então o kernel 5.x com o número mais
-+alto será o atual kernel estável.
-+
-+A equipe -stable fornece patches normais, bem como incrementais. Abaixo está
-+como aplicar esses patches.
-+
-+Patches normais
-+~~~~~~~~~~~~~~~
-+
-+Estes patches não são incrementais, o que significa que, por exemplo, o patch
-+5.7.3 não se aplica sobre o código-fonte do kernel 5.7.2, mas sim sobre o
-+código-fonte do kernel base 5.7.
-+
-+Portanto, para aplicar o patch 5.7.3 ao seu código-fonte existente do kernel
-+5.7.2, você deve primeiro remover o patch 5.7.2 (de modo que reste apenas o
-+código-fonte do kernel base 5.7) e então aplicar o novo patch 5.7.3.
-+
-+Aqui está um pequeno exemplo::
-+
-+    $ cd ~/linux-5.7.2          # muda para o dir do fonte do kernel
-+    $ patch -p1 -R < ../patch-5.7.2     # reverte o patch do 5.7.2
-+    $ patch -p1 < ../patch-5.7.3        # aplica o novo patch do 5.7.3
-+    $ cd ..
-+    $ mv linux-5.7.2 linux-5.7.3        # renomeia o dir do fonte do kernel
-+
-+Patches incrementais
-+~~~~~~~~~~~~~~~~~~~~
-+
-+Os patches incrementais são diferentes: em vez de serem aplicados sobre o kernel
-+base 5.x, eles são aplicados sobre o kernel estável anterior (5.x.y-1).
-+
-+Aqui está o exemplo para aplicar estes::
-+
-+    $ cd ~/linux-5.7.2          # muda para o dir do fonte do kernel
-+    $ patch -p1 < ../patch-5.7.2-3      # aplica o novo patch do 5.7.3
-+    $ cd ..
-+    $ mv linux-5.7.2 linux-5.7.3        # renomeia o dir do fonte do kernel
-+
-+
-+Os kernels -rc
-+==============
-+
-+Estes são os kernels candidatos a lançamento (release-candidate). São kernels
-+de desenvolvimento publicados por Linus sempre que ele considera que a árvore
-+atual do git (a ferramenta de gerenciamento de código-fonte do kernel) está em
-+um estado razoavelmente íntegro e adequado para testes.
-+
-+Estes kernels não são estáveis e você deve esperar quebras ocasionais se pretender
-+executá-los. Esta é, no entanto, a mais estável das principais ramificações de
-+desenvolvimento e é também o que eventualmente se tornará o próximo kernel
-+estável, por isso é importante que seja testado pelo maior número possível de
-+pessoas.
-+
-+Esta é uma boa ramificação para pessoas que querem ajudar a testar kernels de
-+desenvolvimento, mas não querem executar algumas das coisas realmente
-+experimentais (essas pessoas devem ver as seções sobre os kernels -next e -mm
-+abaixo).
-+
-+Os patches -rc não são incrementais; eles se aplicam a um kernel base 5.x, assim
-+como os patches 5.x.y descritos acima. A versão do kernel antes do sufixo -rcN
-+indica a versão do kernel na qual este kernel -rc eventualmente se tornará.
-+
-+Portanto, 5.8-rc5 significa que este é o quinto candidato a lançamento para o
-+kernel 5.8 e o patch deve ser aplicado sobre o código-fonte do kernel 5.7.
-+
-+Aqui estão 3 exemplos de como aplicar esses patches::
-+
-+    # primeiro, um exemplo de mudança do 5.7 para o 5.8-rc3
-+
-+    $ cd ~/linux-5.7            # muda para o dir do fonte do 5.7
-+    $ patch -p1 < ../patch-5.8-rc3      # aplica o patch do 5.8-rc3
-+    $ cd ..
-+    $ mv linux-5.7 linux-5.8-rc3        # renomeia o dir do fonte
-+
-+    # agora vamos mudar do 5.8-rc3 para o 5.8-rc5
-+
-+    $ cd ~/linux-5.8-rc3            # muda para o dir do 5.8-rc3
-+    $ patch -p1 -R < ../patch-5.8-rc3   # reverte o patch do 5.8-rc3
-+    $ patch -p1 < ../patch-5.8-rc5      # aplica o novo patch do 5.8-rc5
-+    $ cd ..
-+    $ mv linux-5.8-rc3 linux-5.8-rc5    # renomeia o dir do fonte
-+
-+    # por fim, vamos tentar mudar do 5.7.3 para o 5.8-rc5
-+
-+    $ cd ~/linux-5.7.3          # muda para o dir do fonte do kernel
-+    $ patch -p1 -R < ../patch-5.7.3     # reverte o patch do 5.7.3
-+    $ patch -p1 < ../patch-5.8-rc5      # aplica o novo patch do 5.8-rc5
-+    $ cd ..
-+    $ mv linux-5.7.3 linux-5.8-rc5      # renomeia o dir do fonte do kernel
-+
-+
-+Os patches -mm e a árvore linux-next
++====================================
++Backporting e resolução de conflitos
 +====================================
 +
-+Os patches -mm são patches experimentais publicados por Andrew Morton.
++:Autor: Vegard Nossum <vegard.nossum@oracle.com>
 +
-+No passado, a árvore -mm também era usada para testar patches de subsistemas,
-+mas essa função agora é realizada por meio da árvore
-+`linux-next` (https://www.kernel.org/doc/man-pages/linux-next.html).
-+Os mantenedores de subsistemas enviam seus patches primeiro para a linux-next e,
-+durante a janela de mesclagem (merge window), enviam-nos diretamente para Linus.
++.. contents::
++    :local:
++    :depth: 3
++    :backlinks: none
 +
-+Os patches -mm servem como uma espécie de campo de testes para novos recursos e
-+outros patches experimentais que não são mesclados por meio de uma árvore de
-+subsistema. Assim que tais patches provam seu valor na -mm por um tempo, Andrew
-+os envia para Linus para inclusão na linha principal (mainline).
++Introdução
++==========
 +
-+A árvore linux-next é atualizada diariamente e inclui os patches -mm. Ambas
-+estão em constante fluxo e contêm muitos recursos experimentais, uma grande
-+quantidade de patches de depuração (debugging) não apropriados para a linha
-+principal etc., sendo as mais experimentais das ramificações descritas neste
-+documento.
++Alguns desenvolvedores podem nunca precisar lidar de fato com backporting de
++patches, mesclagem de ramificações (branches) ou resolução de conflitos em seu
++trabalho diário, portanto, quando um conflito de mesclagem aparece, pode ser
++assustador. Felizmente, resolver conflitos é uma habilidade como qualquer outra,
++e existem muitas técnicas úteis que você pode usar para tornar o processo mais
++suave e aumentar sua confiança no resultado.
 +
-+Estes patches não são apropriados para uso em sistemas que devem ser estáveis e
-+são mais arriscados de executar do que qualquer uma das outras ramificações
-+(certifique-se de ter backups atualizados -- isso vale para qualquer kernel
-+experimental, mas ainda mais para patches -mm ou ao usar um kernel da árvore
-+linux-next).
++Este documento tem como objetivo ser um guia abrangente e passo a passo para
++backporting e resolução de conflitos.
 +
-+O teste dos patches -mm e da linux-next é imensamente apreciado, pois todo o
-+objetivo deles é eliminar regressões, travamentos (crashes), bugs de corrupção
-+de dados, quebras de compilação (e qualquer outro bug em geral) antes que as
-+alterações sejam mescladas na árvore principal do Linus, que é mais estável.
++Aplicando o patch a uma árvore
++==============================
 +
-+Mas os testadores da -mm e da linux-next devem estar cientes de que quebras são
-+mais comuns do que em qualquer outra árvore.
++Às vezes, o patch que você está fazendo backport já existe como um commit do
++git, caso em que você apenas faz o cherry-pick dele diretamente usando
++``git cherry-pick``. No entanto, se o patch vier de um e-mail, como costuma
++acontecer no caso do kernel Linux, você precisará aplicá-lo a uma árvore usando
++``git am``.
 +
++Se você já usou o ``git am``, provavelmente já sabe que ele é bastante exigente
++sobre o patch ser aplicado perfeitamente à sua árvore de código-fonte. Na
++verdade, você provavelmente já teve pesadelos com arquivos ``.rej`` e tentando
++editar o patch para fazê-lo ser aplicado.
 +
-+Isso conclui esta lista de explicações sobre as várias árvores do kernel.
-+Espero que agora você tenha clareza sobre como aplicar os vários patches e
-+ajudar a testar o kernel.
++Recomenda-se fortemente, em vez disso, encontrar uma versão base apropriada onde
++o patch se aplique de forma limpa e *então* fazer o cherry-pick dele para a sua
++árvore de destino, pois isso fará com que o git exiba marcadores de conflito e
++permitirá que você resolva os conflitos com a ajuda do git e de quaisquer outras
++ferramentas de resolução de conflitos que preferir usar. Por exemplo, se você
++quiser aplicar um patch que acabou de chegar na LKML a um kernel estável mais
++antigo, você pode aplicá-lo ao kernel principal (mainline) mais recente e, em
++seguida, fazer o cherry-pick dele para a sua ramificação estável mais antiga.
 +
-+Agradecimentos a Randy Dunlap, Rolf Eike Beer, Linus Torvalds, Bodo Eggert,
-+Johannes Stezenbach, Grant Coady, Pavel Machek e outros que posso ter esquecido
-+por suas revisões e contribuições para este documento.
++Geralmente é melhor usar exatamente a mesma base a partir da qual o patch foi
++gerado, mas isso não importa tanto, desde que ele se aplique de forma limpa e
++não esteja muito longe da base original. O único problema ao aplicar o patch na
++base "errada" é que isso pode trazer mais alterações não relacionadas no
++contexto do diff ao fazer o cherry-pick dele para a ramificação mais antiga.
++
++Um bom motivo para preferir o ``git cherry-pick`` em vez do ``git am`` é que o
++git conhece o histórico preciso de um commit existente, de modo que ele saberá
++quando o código foi movido de lugar e teve seus números de linha alterados; isso,
++por sua vez, torna menos provável que o patch seja aplicado no lugar errado (o
++que pode resultar em erros silenciosos ou conflitos confusos).
++
++Se você estiver usando o `b4`_. e estiver aplicando o patch diretamente de um
++e-mail, você pode usar o ``b4 am`` com as opções ``-g``/``--guess-base`` e
++``-3``/``--prep-3way`` para fazer parte disso automaticamente (veja a
++`apresentação do b4`_ para mais informações). No entanto, o restante deste
++artigo assumirá que você está fazendo um ``git cherry-pick`` simples.
++
++.. _b4: https://people.kernel.org/monsieuricon/introducing-b4-and-patch-attestation
++.. _apresentação do b4: https://youtu.be/mF10hgVIx9o?t=2996
++
++Assim que tiver o patch no git, você pode prosseguir e fazer o cherry-pick dele
++em sua árvore de código-fonte. Não se esqueça de fazer o cherry-pick com ``-x``
++se quiser um registro por escrito de onde o patch veio!
++
++Note que, se você estiver enviando um patch para a ramificação estável (stable),
++o formato é ligeiramente diferente; a primeira linha após a linha de assunto
++precisa ser::
++
++    commit <upstream commit> upstream
++
++ou::
++
++    [ Upstream commit <upstream commit> ]
++
++Resolvendo conflitos
++====================
++
++Ih, rapaz; o cherry-pick falhou com uma mensagem vagamente ameaçadora::
++
++    CONFLICT (content): Merge conflict
++
++O que fazer agora?
++
++Em geral, os conflitos aparecem quando o contexto do patch (ou seja, as linhas
++que estão sendo alteradas e/ou as linhas que cercam as alterações) não
++corresponde ao que está na árvore à qual você está tentando aplicar o patch.
++
++No caso de backports, o que provavelmente aconteceu foi que a ramificação
++(branch) a partir da qual você está fazendo o backport contém patches que não
++estão na ramificação para a qual você está fazendo o backport. No entanto, o
++inverso também é possível. Em qualquer caso, o resultado é um conflito que
++precisa ser resolvido.
++
++Se a sua tentativa de cherry-pick falhar com um conflito, o git edita os
++arquivos automaticamente para incluir os chamados marcadores de conflito,
++mostrando onde está o conflito e como as duas ramificações divergiram. Resolver
++o conflito normalmente significa editar o resultado final de forma que ele leve
++em consideração esses outros commits.
++
++A resolução do conflito pode ser feita manualmente em um editor de texto comum
++ou usando uma ferramenta dedicada de resolução de conflitos.
++
++Muitas pessoas preferem usar seu editor de texto comum e editar o conflito
++diretamente, pois pode ser mais fácil entender o que você está fazendo e
++controlar o resultado final. Definitivamente, existem prós e contras em cada
++método, e às vezes há valor em usar ambos.
++
++Não abordaremos o uso de ferramentas de mesclagem (merge tools) dedicadas aqui,
++além de fornecer algumas indicações de várias ferramentas que você poderia usar:
++
++-  `Modo Emacs Ediff <https://www.emacswiki.org/emacs/EdiffMode>`__
++-  `vimdiff/gvimdiff <https://linux.die.net/man/1/vimdiff>`__
++-  `KDiff3 <http://kdiff3.sourceforge.net/>`__
++-  `TortoiseMerge <https://tortoisesvn.net/TortoiseMerge.html>`__
++-  `Meld <https://meldmerge.org/help/>`__
++-  `P4Merge <https://www.perforce.com/products/helix-core-apps/merge-diff-tool-p4merge>`__
++-  `Beyond Compare <https://www.scootersoftware.com/>`__
++-  `IntelliJ <https://www.jetbrains.com/help/idea/resolve-conflicts.html>`__
++-  `VSCode <https://code.visualstudio.com/docs/editor/versioncontrol>`__
++
++Para configurar o git para funcionar com elas, veja ``git mergetool --help`` ou
++a `documentação oficial do git-mergetool`_.
++
++.. _documentação oficial do git-mergetool: https://git-scm.com/docs/git-mergetool
++
++Patches pré-requisitos
++----------------------
++
++A maioria dos conflitos acontece porque a ramificação para a qual você está
++fazendo o backport não possui alguns patches em comparação com a ramificação a
++partir da qual você está fazendo o backport. No caso mais geral (como a
++mesclagem de duas ramificações independentes), o desenvolvimento poderia ter
++ocorrido em qualquer uma das ramificações, ou as ramificações simplesmente
++divergiram -- talvez a sua ramificação mais antiga tenha recebido alguns outros
++backports que, por si só, precisaram de resoluções de conflitos, causando uma
++divergência.
++
++É importante sempre identificar o commit ou os commits que causaram o conflito,
++pois, caso contrário, você não poderá ter confiança na correção da sua
++resolução. Como um bônus adicional, especialmente se o patch for em uma área com
++a qual você não está muito familiarizado, os registros de alterações (changelogs)
++desses commits frequentemente lhe darão o contexto para entender o código e os
++problemas ou armadilhas potenciais com a sua resolução de conflito.
++
++git log
++~~~~~~~
++
++Um bom primeiro passo é olhar o ``git log`` para o arquivo que possui o
++conflito -- isso geralmente é suficiente quando não há muitos patches no
++arquivo, mas pode ficar confuso se o arquivo for grande e frequentemente
++modificado por patches. Você deve executar o ``git log`` no intervalo de commits
++entre a sua ramificação atualmente ativa (``HEAD``) e o pai do patch que você está
++escolhendo (``<commit>``), ou seja::
++
++    git log HEAD..<commit>^ -- <path>
++
++Melhor ainda, se você quiser restringir essa saída a uma única função (porque é
++onde o conflito aparece), você pode usar a seguinte sintaxe::
++
++    git log -L:'\<function\>':<path> HEAD..<commit>^
++
++.. note::
++     O ``\<`` e o ``\>`` ao redor do nome da função garantem que as
++     correspondências fiquem ancoradas em um limite de palavra. Isso é
++     importante, pois essa parte é na verdade uma regex e o git segue apenas a
++     primeira correspondência; portanto, se você usar
++     ``-L:thread_stack:kernel/fork.c``, ele poderá fornecer apenas resultados
++     para a função ``try_release_thread_stack_to_cache``, embora existam muitas
++     outras funções naquele arquivo contendo a string ``thread_stack`` em seus
++     nomes.
++
++Outra opção útil para o ``git log`` é a ``-G``, que permite filtrar por certas
++strings que aparecem nos diffs dos commits que você está listando::
++
++    git log -G'regex' HEAD..<commit>^ -- <path>
++
++Esta também pode ser uma maneira prática de encontrar rapidamente quando algo
++(por exemplo, uma chamada de função ou uma variável) foi alterado, adicionado
++ou removido. A string de busca é uma expressão regular, o que significa que você
++pode potencialmente buscar por coisas mais específicas, como atribuições a um
++membro específico de uma struct::
++
++    git log -G'\->index\>.*='
++
++git blame
++~~~~~~~~~
++
++Outra maneira de encontrar commits pré-requisitos (embora apenas o mais recente
++para um determinado conflito) é executar o ``git blame``. Neste caso, você
++precisa executá-lo no commit pai do patch para o qual está fazendo o
++cherry-pick e no arquivo onde o conflito apareceu, ou seja::
++
++    git blame <commit>^ -- <path>
++
++Este comando também aceita o argumento ``-L`` (para restringir a saída a uma
++única função), mas, neste caso, você especifica o nome do arquivo no final do
++comando, como de costume::
++
++    git blame -L:'\<function\>' <commit>^ -- <path>
++
++Navegue até o local onde o conflito ocorreu. A primeira coluna da saída do
++blame é o ID do commit do patch que adicionou uma determinada linha de código.
++
++Pode ser uma boa ideia dar um ``git show`` nesses commits e ver se eles se
++parecem com a possível origem do conflito. Às vezes, haverá mais de um desses
++commits, seja porque múltiplos commits alteraram linhas diferentes da mesma área
++de conflito *ou* porque múltiplos patches subsequentes alteraram a mesma linha
++(ou linhas) várias vezes. Neste último caso, você pode ter que executar o
++``git blame`` novamente e especificar a versão mais antiga do arquivo para
++analisar, a fim de cavar mais fundo no histórico do arquivo.
++
++Patches pré-requisitos vs. incidentais
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Tendo encontrado o patch que causou o conflito, você precisa determinar se ele
++é um pré-requisito para o patch que você está fazendo o backport ou se é apenas
++incidental e pode ser pulado. Um patch incidental seria aquele que toca no mesmo
++código que o patch para o qual você está fazendo o backport, mas não altera a
++semântica do código de nenhuma forma relevante. Por exemplo, um patch de limpeza
++de espaços em branco é completamente incidental -- da mesma forma, um patch que
++simplesmente renomeia uma função ou uma variável também seria incidental. Por
++outro lado, se a função que está sendo alterada sequer existe na sua ramificação
++atual, então isso não seria nada incidental e você precisa considerar com
++cuidado se o patch que adiciona a função deve ser aplicado via cherry-pick
++primeiro.
++
++Se você descobrir que há um patch pré-requisito necessário, então você precisa
++parar e fazer o cherry-pick dele em vez disso. Se você já resolveu alguns
++conflitos em um arquivo diferente e não quer fazer isso de novo, você pode
++criar uma cópia temporária daquele arquivo.
++
++Para abortar o cherry-pick atual, vá em frente e execute
++``git cherry-pick --abort`` e, em seguida, reinicie o processo de cherry-pick
++com o ID do commit do patch pré-requisito.
++
++Entendendo os marcadores de conflito
++------------------------------------
++
++Diffs combinados
++~~~~~~~~~~~~~~~~
++
++Digamos que você tenha decidido não fazer o cherry-pick (ou o revert) de patches
++adicionais e quer apenas resolver o conflito. O Git terá inserido marcadores de
++conflito no seu arquivo. Por padrão, isso se parecerá com algo como::
++
++    <<<<<<< HEAD
++    this is what's in your current tree before cherry-picking
++    =======
++    this is what the patch wants it to be after cherry-picking
++    >>>>>>> <commit>... title
++
++Isso é o que você veria se abrisse o arquivo no seu editor. No entanto, se você
++executasse o ``git diff`` sem nenhum argumento, a saída seria algo assim::
++
++    $ git diff
++    [...]
++    ++<<<<<<<< HEAD
++     +this is what's in your current tree before cherry-picking
++    ++========
++    + this is what the patch wants it to be after cherry-picking
++    ++>>>>>>>> <commit>... title
++
++Quando você está resolvendo um conflito, o comportamento do ``git diff`` difere
++do seu comportamento normal. Note as duas colunas de marcadores de diff em vez
++da coluna única usual; este é o chamado "`diff combinado`_", aqui mostrando o
++diff de 3 vias (ou diff-de-diffs) entre:
++
++#. a ramificação atual (antes do cherry-pick) e o diretório de trabalho atual, e
++#. a ramificação atual (antes do cherry-pick) e o arquivo como ele fica após o
++   patch original ter sido aplicado.
++
++.. _diff combinado: https://git-scm.com/docs/diff-format#_combined_diff_format
++
++Diffs melhores
++~~~~~~~~~~~~~~
++
++Diffs combinados de 3 vias incluem todas as outras alterações que aconteceram
++no arquivo entre a sua ramificação atual e a ramificação a partir da qual você
++está fazendo o cherry-pick. Embora isso seja útil para detectar outras
++alterações que você precisa levar em consideração, também torna a saída do
++``git diff`` um tanto intimidadora e difícil de ler. Em vez disso, você pode
++preferir executar ``git diff HEAD`` (ou ``git diff --ours``), que mostra apenas
++o diff entre a ramificação atual antes do cherry-pick e o diretório de trabalho
++atual. Ele se parece com isso::
++
++    $ git diff HEAD
++    [...]
++    +<<<<<<<< HEAD
++     this is what's in your current tree before cherry-picking
++    +========
++    +this is what the patch wants it to be after cherry-picking
++    +>>>>>>>> <commit>... title
++
++Como você pode ver, isso é lido exatamente como qualquer outro diff e deixa claro
++quais linhas estão na ramificação atual e quais linhas estão sendo adicionadas
++porque fazem parte do conflito de mesclagem ou do patch que está sendo aplicado
++via cherry-pick.
++
++Estilos de mesclagem e diff3
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++O estilo padrão de marcador de conflito mostrado acima é conhecido como o estilo
++``merge``. Também está disponível um outro estilo, conhecido como o estilo
++``diff3``, que se parece com isso::
++
++    <<<<<<< HEAD
++    this is what is in your current tree before cherry-picking
++    ||||||| parent of <commit> (title)
++    this is what the patch expected to find there
++    =======
++    this is what the patch wants it to be after being applied
++    >>>>>>> <commit> (title)
++
++Como você pode ver, isso tem 3 partes em vez de 2, e inclui o que o git
++esperava encontrar lá, mas não encontrou. É *altamente recomendável* usar este
++estilo de conflito, pois deixa muito mais claro o que o patch realmente alterou;
++ou seja, ele permite que você compare as versões de antes e depois do arquivo
++para o commit do qual está fazendo o cherry-pick. Isso permite que você tome
++melhores decisões sobre como resolver o conflito.
++
++Para alterar os estilos de marcadores de conflito, você pode usar o seguinte
++comando::
++
++    git config merge.conflictStyle diff3
++
++Existe uma terceira opção, ``zdiff3``, introduzida no `Git 2.35`_, que possui as
++mesmas 3 seções do ``diff3``, mas onde as linhas comuns foram cortadas, tornando
++a área de conflito menor em alguns casos.
++
++.. _Git 2.35: https://github.blog/2022-01-24-highlights-from-git-2-35/
++
++Iterando em resoluções de conflito
++----------------------------------
++
++O primeiro passo em qualquer processo de resolução de conflito é entender o
++patch para o qual você está fazendo o backport. Para o kernel Linux, isso é
++especialmente importante, pois uma alteração incorreta pode levar ao travamento
++de todo o sistema -- ou pior, a uma vulnerabilidade de segurança não detectada.
++
++Entender o patch pode ser fácil ou difícil, dependendo do próprio patch, do
++registro de alterações (changelog) e da sua familiaridade com o código que está
++sendo alterado. No entanto, uma boa pergunta para cada alteração (ou cada bloco/
++hunk do patch) seria: "Por que este hunk está no patch?" As respostas a essas
++perguntas orientarão a sua resolução de conflito.
++
++Processo de resolução
++~~~~~~~~~~~~~~~~~~~~~
++
++Às vezes, a coisa mais fácil a fazer é apenas remover tudo, exceto a primeira
++parteda do conflito, deixando o arquivo essencialmente inalterado, e aplicar
++as alterações manualmente. Talvez o patch esteja alterando um argumento de
++chamada de função de ``0`` para ``1``, enquanto uma alteração conflitante
++adicionou um parâmetro totalmente novo (e insignificante) ao final da lista de
++parâmetros; nesse caso, é bastante fácil alterar o argumento de ``0`` para ``1``
++manualmente e deixar o restante dos argumentos como estão. Esta técnica de
++aplicar alterações manualmente é mais útil se o conflito tiver trazido muito
++contexto não relacionado com o qual você não precisa realmente se preocupar.
++
++Para conflitos particularmente difíceis com muitos marcadores de conflito, você
++pode usar ``git add`` ou ``git add -i`` para indexar (stage) seletivamente as
++suas resoluções para tirá-las do caminho; isso também permite que você use
++``git diff HEAD`` para ver sempre o que ainda resta a ser resolvido ou
++``git diff --cached`` para ver como está o seu patch até o momento.
++
++Lidando com arquivos renomeados
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Uma das coisas mais irritantes que podem acontecer ao fazer o backport de um
++patch é descobrir que um dos arquivos modificados foi renomeado, pois isso
++geralmente significa que o git sequer colocará marcadores de conflito, mas
++apenas lavará as mãos e dirá (parafraseando): "Caminho não mesclado! Faça você o
++trabalho..."
++
++Geralmente existem algumas maneiras de lidar com isso. Se o patch para o
++arquivo renomeado for pequeno, como uma alteração de uma única linha, a coisa
++mais fácil é prosseguir, aplicar a alteração manualmente e dar o caso por
++encerrado. Por outro lado, se a alteração for grande ou complicada, você
++definitivamente não vai querer fazê-la manualmente.
++
++Como uma primeira tentativa, você pode tentar algo assim, que reduzirá o limite
++(threshold) de detecção de renomeação para 30% (por padrão, o git usa 50%, o que
++significa que dois arquivos precisam ter pelo menos 50% em comum para que ele
++considere um par de adição/remoção como uma renomeação potencial)::
++
++  git cherry-pick -strategy=recursive -Xrename-threshold=30
++
++Às vezes, a coisa certa a fazer será fazer o backport também do patch que
++realizou a renomeação, mas esse definitivamente não é o caso mais comum. Em vez
++disso, o que você pode fazer é renomear temporariamente o arquivo na
++ramificação para a qual está fazendo o backport (usando ``git mv`` e commitando
++o resultado), reiniciar a tentativa de cherry-pick do patch, renomear o arquivo
++de volta (``git mv`` e commitando novamente) e, finalmente, esmagar (squash) o
++resultado usando ``git rebase -i`` (veja o `tutorial de rebase`_) para que ele
++apareça como um único commit quando você terminar.
++
++.. _tutorial de rebase: [https://medium.com/@slamflipstrom/a-beginners-guide-to-squashing-commits-with-git-rebase-8185cf6e62ec](https://medium.com/@slamflipstrom/a-beginners-guide-to-squashing-commits-with-git-rebase-8185cf6e62ec)
++
++Pegadinhas
++----------
++
++Argumentos de função
++~~~~~~~~~~~~~~~~~~~~
++
++Preste atenção às alterações em argumentos de função! É fácil deixar passar
++detalhes e pensar que duas linhas são iguais quando, na verdade, elas diferem em
++algum pequeno detalhe, como qual variável foi passada como argumento
++(especialmente se as duas variáveis forem de apenas um caractere e parecerem
++iguais, como i e j).
++
++Tratamento de erros
++~~~~~~~~~~~~~~~~~~~
++
++Se você fizer o cherry-pick de um patch que inclua uma instrução ``goto``
++(geralmente para tratamento de erros), é absolutamente imperativo verificar em
++dobro se o rótulo (label) de destino ainda está correto na ramificação para a
++qual você está fazendo o backport. O mesmo vale para instruções ``return``,
++``break`` e ``continue`` adicionadas.
++
++O tratamento de erros geralmente fica localizado no final da função, portanto,
++pode não fazer parte do conflito, mesmo que possa ter sido alterado por outros
++patches.
++
++Uma boa maneira de garantir que você revise os caminhos de erro é sempre usar
++``git diff -W`` e ``git show -W`` (também conhecido como ``--function-context``)
++ao inspecionar suas alterações. Para código em C, isso mostrará toda a função
++que está sendo alterada em um patch. Uma das coisas que frequentemente dão
++errado durante backports é que algo mais na função mudou em qualquer uma das
++ramificações a partir da qual ou para a qual você está fazendo o backport. Ao
++incluir a função inteira no diff, você obtém mais contexto e pode identificar
++mais facilmente problemas que de outra forma poderiam passar despercebidos.
++
++Código refatorado
++~~~~~~~~~~~~~~~~~
++
++Algo que acontece com bastante frequência é o código ser refatorado ao "isolar"
++uma sequência ou padrão de código comum em uma função auxiliar. Ao fazer o
++backport de patches para uma área onde tal refatoração ocorreu, você efetivamente
++precisa fazer o inverso ao realizar o backport: um patch para um único local pode
++precisar ser aplicado a múltiplos locais na versão que recebeu o backport. (Um
++indicativo para este cenário é que uma função foi renomeada -- mas nem sempre é o
++caso.)
++
++Para evitar backports incompletos, vale a pena tentar descobrir se o patch
++corrige um bug que aparece em mais de um lugar. Uma maneira de fazer isso seria
++usar o ``git grep``. (Isso, na verdade, é uma boa ideia de se fazer em geral, não
++apenas para backports.) Se você descobrir que o mesmo tipo de correção se
++aplicaria a outros lugares, também vale a pena ver se esses lugares existem no
++upstream -- se não existirem, é provável que o patch precise ser ajustado. O
++``git log`` é seu amigo para descobrir o que aconteceu com essas áreas, já que o
++``git blame`` não mostrará código que foi removido.
++
++Se você encontrar outras instâncias do mesmo padrão na árvore do upstream e não
++tiver certeza se isso também é um bug, pode valer a pena perguntar ao autor do
++patch. Não é incomum encontrar novos bugs durante o processo de backport!
++
++Verificando o resultado
++=======================
++
++colordiff
++---------
++
++Tendo commitado um novo patch sem conflitos, você pode agora comparar o seu
++patch com o patch original. É altamente recomendável que você use uma
++ferramenta como o `colordiff`_ que possa mostrar dois arquivos lado a lado e
++colori-los de acordo com as alterações entre eles::
++
++    colordiff -yw -W 200 <(git diff -W <upstream commit>^-) <(git diff -W HEAD^-) | less -SR
++
++.. _colordiff: https://www.colordiff.org/
++
++Aqui, ``-y`` significa fazer uma comparação lado a lado; ``-w`` ignora
++espaços em branco e ``-W 200`` define a largura da saída (caso contrário, ele
++usará 130 por padrão, o que costuma ser um pouco pouco).
++
++A sintaxe ``rev^-`` é um atalho prático para ``rev^..rev``, essencialmente
++fornecendo apenas o diff para aquele único commit; veja também a
++`documentação oficial do git rev-parse`_.
++
++.. _documentação oficial do git rev-parse: https://git-scm.com/docs/git-rev-parse#_other_rev_parent_shorthand_notations
++
++Novamente, note a inclusão de ``-W`` para o ``git diff``; isso garante que você
++verá a função completa para qualquer função que tenha mudado.
++
++Uma coisa incrivelmente importante que o colordiff faz é destacar as linhas que
++são diferentes. Por exemplo, se um ``goto`` de tratamento de erros teve seus
++rótulos alterados entre o patch original e o que sofreu o backport, o colordiff
++irá mostrá-los lado a lado, mas destacados em uma cor diferente. Assim, é fácil
++ver que as duas instruções ``goto`` estão saltando para rótulos diferentes. Da
++mesma forma, linhas que não foram modificadas por nenhum dos patches, mas que
++diferem no contexto, também serão destacadas e, portanto, se destacarão durante
++uma inspeção manual.
++
++Claro, esta é apenas uma inspeção visual; o teste real é compilar e executar o
++kernel (ou programa) com o patch aplicado.
++
++Testes de compilação (Build testing)
++------------------------------------
++
++Não abordaremos os testes em tempo de execução aqui, mas pode ser uma boa ideia
++compilar apenas os arquivos tocados pelo patch como uma verificação rápida de
++sanidade. Para o kernel Linux, você pode compilar arquivos únicos assim,
++assumindo que você tenha o ``.config`` e o ambiente de compilação configurados
++corretamente::
++
++    make caminho/para/o/arquivo.o
++
++Note que isso não descobrirá erros de ligação (linker errors), então você ainda
++deve fazer uma compilação completa após verificar que o arquivo único compila.
++Ao compilar o arquivo único primeiro, você pode evitar ter que esperar por uma
++compilação completa *caso* haja erros de compilador em qualquer um dos arquivos
++que você alterou.
++
++Testes em tempo de execução
++---------------------------
++
++Mesmo um teste de compilação ou de boot bem-sucedido não é necessariamente o
++suficiente para descartar uma dependência ausente em algum lugar. Embora as
++chances sejam pequenas, pode haver alterações de código onde duas modificações
++independentes no mesmo arquivo resultem em nenhum conflito, nenhum erro em tempo
++de compilação e erros em tempo de execução apenas em casos excepcionais.
++
++Um exemplo concreto disso foi um par de patches para o código de entrada de
++chamada de sistema (system call entry code), onde o primeiro patch salvava/
++restaurava um registrador e um patch posterior fazia uso do mesmo registrador
++em algum lugar no meio dessa sequência. Como não havia sobreposição entre as
++alterações, era possível fazer o cherry-pick do segundo patch, não ter conflitos
++e acreditar que tudo estava bem, quando na verdade o código estava agora
++sobrescrevendo (scribbling over) um registrador não salvo.
++
++Embora a vasta maioria dos erros seja capturada durante a compilação ou ao
++exercitar o código superficialmente, a única maneira de *realmente* verificar um
++backport é revisar o patch final com o mesmo nível de escrutínio que você daria
++(ou deveria dar) a qualquer outro patch. Ter testes unitários e testes de
++regressão ou outros tipos de testes automáticos pode ajudar a aumentar a
++confiança na correção de um backport.
++
++Enviando backports para a árvore estável (stable)
++=================================================
++
++À medida que os mantenedores da árvore estável tentam aplicar correções da linha
++principal (mainline) em seus kernels estáveis via cherry-pick, eles podem enviar
++e-mails solicitando backports quando encontram conflitos; veja, por exemplo,
++<https://lore.kernel.org/stable/2023101528-jawed-shelving-071a@gregkh/>.
++Esses e-mails normalmente incluem os passos exatos que você precisa seguir para
++fazer o cherry-pick do patch para a árvore correta e enviá-lo.
++
++Uma coisa a se certificar é que o seu registro de alterações (changelog) esteja
++em conformidade com o formato esperado::
++
++  <original patch title>
++
++  [ Upstream commit <mainline rev> ]
++
++  <rest of the original changelog>
++  [ <summary of the conflicts and their resolutions> ]
++  Signed-off-by: <your name and email>
++
++A linha "Upstream commit" às vezes é ligeiramente diferente dependendo da versão
++estável. Versões mais antigas usavam este formato::
++
++  commit <mainline rev> upstream.
++
++O mais comum é indicar a versão do kernel à qual o patch se aplica na linha de
++assunto do e-mail (usando, por exemplo,
++``git send-email --subject-prefix='PATCH 6.1.y'``), mas você também pode
++colocá-la na área do Signed-off-by: ou abaixo da linha ``---``.
++
++Os mantenedores da árvore estável esperam envios separados para cada versão
++estável ativa, e cada envio também deve ser testado separadamente.
++
++Algumas palavras finais de conselho
++===================================
++
++1) Aborde o processo de backport com humildade.
++2) Entenda o patch para o qual você está fazendo o backport; isso significa ler
++   tanto o registro de alterações (changelog) quanto o código.
++3) Seja honesto sobre a sua confiança no resultado ao enviar o patch.
++4) Peça aprovações explícitas (acks) aos mantenedores relevantes.
++
++Exemplos
++========
++
++O texto acima mostra, de forma geral, o processo idealizado de backport de um
++patch. Para um exemplo mais concreto, veja este tutorial em vídeo onde dois
++patches são portados da linha principal (mainline) para a estável (stable):
++`Backporting Linux Kernel Patches`_.
++
++.. _Backporting Linux Kernel Patches: https://youtu.be/sBR7R1V2FeA
 \ No newline at end of file
 -- 
 2.47.3
