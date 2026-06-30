@@ -1,93 +1,171 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4F03DC878;
-	Tue, 30 Jun 2026 18:54:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B4836C9E4
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 18:58:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782845696; cv=none; b=Ypajy8BW3+4TSSMiSYyg/uw7A/Vqp8EeBHUqk+uWl+YvbvE8qSsqNYOj88NPhZEF5l9EfQPrMNC0DLPdslHlrWaRtlOBE4yhoF9Q9igNEiRzxht+rmOGyimNMZh9ZGETDC4pm0bYMmQJTfNYeV1BQxTqLpWJHuuDPmjwWQEq3TE=
+	t=1782845895; cv=none; b=n9X0sN5X0z7vQ53V2gAjia5/zvMwpiE9vD5tKonJT92QC5gLcB5vwHitNZsN9eBcpSxrBUEsEvP4U94dwYZdMcPA6i498OJY5xelvwP0vnylUvPOBEOwgwM/EUeb7lj4GZqamENdRmzsJ3N5tvTAVwt8arQKLiqHwneJD5/i3Yk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782845696; c=relaxed/simple;
-	bh=FwNZkbJdSST8fC2ftafXVwZvCJ7fq7cSZN1CGj/QIIE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rsoIq3QnXXHnb54hX6kNhM1X0w/9xYz2JmeYGqWjBSfa2zWOlGoWr4hiZhIYzI4OjuJ0H4wtpP4MlTTYfWqW1/pAJYf+kzKCes9ZE0U0ElInEPvq1Vc3N5pfBmTusmS9q+h/DcW9PDgefI3+ryp4+40GIb+D2WhQrsgMYRGbBYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=YHgxIvR3; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1782845895; c=relaxed/simple;
+	bh=liAWauqxfOKg8u1XRrlELemjS47RKtHwe0SGtDx/hgo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AkNsyUhuQPx0qZkUwgwh/icKeAHDLDz07YwptjbY4uVD7aFR7JUr2AEcV9jSrrNqmCq3BU5p4fUhBA+QVu9AR3ygx68Ldv7DavigrIn2ZqzctJrO2TP025bCXh7UT9I9LFyS//cD0MwjWHoUt1lh1f5XszC7PUMecyMfBjMhGBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mu7pUNv/; arc=none smtp.client-ip=74.125.82.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="YHgxIvR3"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gqXQ20M2xz9v04;
-	Tue, 30 Jun 2026 20:54:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1782845690;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vr4HR9o4bYN/u1Xmikecvzv0kr8u0OB0yw2Vfhj17qU=;
-	b=YHgxIvR3ckrJnx98eN5oTd2SluZRPvaQKPuTED3Qv4JPMCL9w+u4zGuNiFl5vyHEHnv80h
-	TJviGQ+wnch5U6MjORiq/QAZ/fULi2yivlIC2alYQgra1IHELh+ISYcS0FTh2Ln6GV5mhC
-	HD0gYcL/DvVuvib1Ks1DLB0WRt6lTrO3bnY+eLqP9xoTnSSyJJ3jSwXzTudYXyMHwtwxXZ
-	24H6tQ8dI19qGyQqZEtaon1oRPixGNsVHRuww0I9dO3SUCFCY+1LZWvcBFZVQTi86Y2bby
-	vZrS1B/4lodkJ30N6tH7RJkBK4lXDpr95WxdFbBYsBWEREdb6zcdF+HB9Pbgcg==
-Message-ID: <6edf96b1cc0ead6654b23f2d2b74353cbed621f7.camel@mailbox.org>
-Subject: Re: [PATCH v2 5/5] watchdog: dev: convert to kernel-doc comments
-From: Manuel Ebner <manuelebner@mailbox.org>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
-	 <linux@roeck-us.net>, linux-watchdog@vger.kernel.org, Jonathan Corbet
-	 <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	linux-doc@vger.kernel.org
-Date: Tue, 30 Jun 2026 20:54:45 +0200
-In-Reply-To: <20260529212024.2119204-6-rdunlap@infradead.org>
-References: <20260529212024.2119204-1-rdunlap@infradead.org>
-	 <20260529212024.2119204-6-rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mu7pUNv/"
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-30b6dad2382so9026986eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 11:58:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782845893; x=1783450693; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=K0MD1jiUBRZgyv6uUhm4ka/YEfBEnwUyewin9caeOzM=;
+        b=Mu7pUNv/RLtkeQD8wGWmounbwbETrojCL9jbCfEiPtGaWoiT04EcBj6Uca7RWvb7k7
+         MHXGgZhPTzhy0kTKQMf3UwN1YHaGqAuWFu/oMF2HoPsES+M2Ft+Ptavdpm+GRg/sqZOu
+         d4SyFKp3kvSTVco7w5LDxVN40xfCypX0T2MQ8UGipgFwdzaMsEgKmp6TYbP1HxrWlAta
+         L2irbMEQ5iYIMREuci14axXQjuHjz7VgxywLGIYkoWtB580Q9khTDwRxCMyhUGq5NIOf
+         c8vD/wKt7upQj6UppoWyXu33GjeOTulfKgkIgSmqC+UR4CzMBMu2aFNDixXgouAgE4OX
+         KQug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782845893; x=1783450693;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=K0MD1jiUBRZgyv6uUhm4ka/YEfBEnwUyewin9caeOzM=;
+        b=m2iscpkaw0FBW3y7P3tqKm62sh8HmHkof8Nc51UHM7W+3r8JrW+TdftHkeAa5IvkT9
+         kt8vSzkbbeOI2mCFrBTvwJgHB5gN/0BHTC7MdfppF4dqfg/d06i0qZF8T/pvOSEVCH6W
+         LIeRmFDkq0z4xMFyA1e4MeS1/H0EQt+akFbud33Biezkpb6Zec0qV28TmfY6mLOWUHiX
+         VlRioez6NDtSjhOqmufN61vs1UqxtYvcgbFVsBTzSX7ugJ3TTJiF9dTi2OTESLyOVrvz
+         A0obxdsiaqN8GPu2JzVbKyOquuzqn5c2eV/BwkaAHQnG9Ie1BSl+a5B0zqaBm+Ij30up
+         oX1g==
+X-Forwarded-Encrypted: i=1; AHgh+Romhwe2UOoQlgl7K/4YV34yRlTo9wcJ4C9pLbWLraa20VlP9QttQb4B5XVrlhi33kr2lZs194HrdoE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyd2Im741S9xLTy1/zAWsNdAkev5ETWx8IraVeKI/kphKCuNrDf
+	MxmGRBmzJIBRGvEMAdq5XJGx9sQ9JYlJ7pe/52gThwYkFEXgYgfdYniM
+X-Gm-Gg: AfdE7cljJoHrpuVlQTAaRg21LrstwXAbihp09LM0Wpo9qo7zoIL/lApGmIiUU1YuiSE
+	g2tn1Ho6gtQzJy1wBfDyg97ze676EyoDJ5YT5Rxtp4FeJHFJtc93DDI6a9RMEU+vFFSIJi0NBL6
+	dZ7NNol5mPWADE0gn3Lb2W0gPWidn/wzQfOxHEOO7e0mdmFrWjiTlRhpM7u/tJ8R0pYrFcqIRJm
+	WwrK8ITwsKZnRtjLdVo+3N2ugvC2ixsDBp3RWE2LZCAlVwzPkh6MOPspccu3s5P4Oac/iIQInxO
+	8GDUsgKLXRuzMEPoqUdiRAOUW2UlpNwIIHUundCykfDMGbdrRpoyYo/jCXx7uBdm8+y1X5seaGX
+	fBkDoDZuI/R92qkUaZ2kIDxfSY3neu1OEWfpo3898xOyQVlRRByRrTl9eVudZ6mB9xkxbJ7Cbg1
+	yyq5UtvhVwYeZW4bd5XlsKGtKiiaO3tXQhXR/H2xEOUegZIanwXWLPtV1OEYipE6pfW4aMydQ9
+X-Received: by 2002:a05:693c:62d0:b0:30e:e786:689e with SMTP id 5a478bee46e88-30ee7866ad4mr1661655eec.31.1782845893207;
+        Tue, 30 Jun 2026 11:58:13 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee2f584bdsm11317161eec.4.2026.06.30.11.58.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jun 2026 11:58:12 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <26438725-805a-4b04-85bc-a22e936c222d@roeck-us.net>
+Date: Tue, 30 Jun 2026 11:58:10 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: n97cy6t3qdyxsuxktwfqxt75fb9zpkay
-X-MBO-RS-ID: 7fdc7aeb57fecc5718a
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] dt-bindings: hwmon: pmbus: Support for onsemi's
+ FD5121
+To: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>,
+ Conor Dooley <conor@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+References: <20260622-support-fd5121-from-onsemi-v1-0-b31767689c65@onsemi.com>
+ <20260622-support-fd5121-from-onsemi-v1-2-b31767689c65@onsemi.com>
+ <20260623-anybody-gutter-e6ca04f53bdb@spud>
+ <CYYPR02MB98280DF78A07EADACFD084EE83EE2@CYYPR02MB9828.namprd02.prod.outlook.com>
+ <20260623-scared-judgingly-7efc1c188670@spud>
+ <CYYPR02MB9828EECB3F6AFDD2A7BD3E9B83ED2@CYYPR02MB9828.namprd02.prod.outlook.com>
+ <eed3e19b-8cc7-4aef-b058-b2242c94c940@roeck-us.net>
+ <CYYPR02MB982898B8E8EC0513EF55D44083EC2@CYYPR02MB9828.namprd02.prod.outlook.com>
+ <CYYPR02MB98281A2314A718EC3841464583F72@CYYPR02MB9828.namprd02.prod.outlook.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <CYYPR02MB98281A2314A718EC3841464583F72@CYYPR02MB9828.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2026-05-29 at 14:20 -0700, Randy Dunlap wrote:
-> [...]
->=20
-> @@ -659,7 +659,7 @@ __ATTRIBUTE_GROUPS(wdt);
-> =C2=A0#define wdt_groups	NULL
-> =C2=A0#endif
-> =C2=A0
-> -/*
-> +/**
-> =C2=A0 * watchdog_ioctl_op - call the watchdog drivers ioctl op if define=
-d
+On 6/30/26 10:22, Selvamani Rajagopal wrote:
+> 
+>> -----Original Message-----
+>> From: Selvamani Rajagopal
+>> Subject: RE: [PATCH 2/3] dt-bindings: hwmon: pmbus: Support for onsemi's FD5121
+>>
+>>>
+>>> One of the problems here is that the chip datasheet is not public,
+>>
+>> Agree on both points. No datasheets on our website. And chips not available through
+>> distributors. Little
+>> early in the process. I am working with our product team to see how to move forward. So,
+>> there will be some
+> 
+> Guenter,
+> 
+> After your question, I realized that there is no point in merging this in kernel until the product is available
+> with distributors. I don't have any time frame for that. Sorry for the inconvenience/wasted reviewing time
+> for the team.
+> 
+> Is there any way, we can mark this series "abandoned" or "on hold" for an extended period?
+> 
 
-Maybe this is better:
-  * watchdog_ioctl_op - call the watchdog drivers ioctl operation if define=
-d
-=C2=A0
-> [...]=C2=A0
-> @@ -732,7 +732,7 @@ static ssize_t watchdog_write(struct fil
-> =C2=A0	return len;
-> =C2=A0}
-> =C2=A0
-> -/*
-> +/**
-> =C2=A0 * watchdog_ioctl - handle the different ioctl's for the watchdog d=
-evice
+I marked the series as "Changes Requested", which I think matches the state.
 
-I think it's plural:
-  * watchdog_ioctl - handle the different ioctls for the watchdog device
+I could mark it as "Deferred" or "Abandoned", but none of those really
+reflects the status.
 
-> =C2=A0 * @file:	File handle to the device
-> =C2=A0 * @cmd:	Watchdog command
+Thanks,
+Guenter
 
-Thanks
- Manuel
