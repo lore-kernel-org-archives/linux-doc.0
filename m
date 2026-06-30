@@ -1,152 +1,287 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE7B46AF31
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 16:10:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B591411687;
+	Tue, 30 Jun 2026 16:22:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782835820; cv=none; b=EqYGLwrRnVdkpk694Zjpc97GnE+VWU7d/20LOG2g45pCl8iBcquUTiGJ43G4yJYc12qQz4TWoRnglIH6MJFBC443wEIWVjC/EqYnaeb/EUTmXQimTHSCpyxM8KMoiTSNABAsDXiHxCGT0Z0NSKsnOkh2tCNb0Jl1Rbp1Lc9Scm4=
+	t=1782836545; cv=none; b=fZ/ZZnHQrubUgiBkAskyQd8/ighmbYBMYE3j9+Pe/9skhJfejmcVXRVRgOn9egv6bDRMtzcSzAes6hlP288poTskULOPS6JOavlqAmBm/HsZj4FBClOH3yizb47S0jE9ofAIz4zwwEvhbgAmZVys77DBFkeOHYBnsYDQHlYcJUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782835820; c=relaxed/simple;
-	bh=HTNp9J5o9oIGQiCBLTet8+69QCDehQ9dtlU8XsDpxho=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fKAPGn6/o2syZk5qlI34DGmsagPmVbdBirhfHP31YmvRk+tZ97guf3f75gt+pH1NQUrD8Akf7NpKGxi67FCcs9hQNOlz4Sm20yBh8NLTKaTL7I9d4Nnrp5vx6BCaeSqQz9vgGs1wimSxCLtg3eM9xkzEZcAaVgOPzBfc576C8qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RaP2Jv7c; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782836545; c=relaxed/simple;
+	bh=yomOaMMl+vcnji15fJRLYYv6WVklrScE4szp52y4iTw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C1WGauKAkYv3QAs9aDN51QRu37Bn8oIG7CpKH6Fg8/v5Hr/3XkYz0zyc4dEkd/ftVQMAMhmmoKebuPhTR+m2PxjAZx4Snq4LYzp4cgUBnFV6pkbRAg/+m4W5/51GwttbkgrGfTvdHjkx1BPSNQgNko/N8gniOF0Qt4AcGyqgono=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dul5b6bc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RaP2Jv7c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 094521F00ACF
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 16:10:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dul5b6bc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E8681F000E9;
+	Tue, 30 Jun 2026 16:22:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782835818;
-	bh=k7zChJl8MwHEyfkHkyO60Kplml0v/iOPphL5IgITDh8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=RaP2Jv7cYX1bNGREFeq7tshSNm/SWgYSS88YwrjEXc8F4U0mUzFD4557v+Z/5LeND
-	 V1nuZejIU+u+MIRn7O9cB3RnHz2Edc23OMyorbL67IChaAH3TZs+pnpyGoyO63SwlW
-	 QtoGzj6Im4O8FAakxrB8rSSzAGHYZ81UfVHDTHxvHLbKk+SKS5gDGEtRMXkjnDM+aL
-	 TEoXzHIgiIgTYGjDe6Loz97mgHvn5aOeagJKjTJHsgFuwsoFsY1MnC5Ot5jHdGJftk
-	 GSS6BaVRIFj5pjezXTnYaI9suwSIUgs/Xn463XnjJVOa9gSs9LxwGllHAKhp/1xpuR
-	 rgoPWLbK+E+Qg==
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-697bd41a4ecso5862813a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 09:10:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RolksgWBH+0T/9VgJdOQy9KpYaBqpvEAP/jjE7oKJ3X//TU5NhxTW4YDiCsAIwSYL343vTUq667co4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuDO8A0VmJGuQe3pXrTdR1Z0WeKe3I/gLu7u1RYRyuuyMHUQpv
-	y+XYhjGGkbwpdXV+QDiUsnH+dLAmbL7HFRiaYYuSPgFe5lm0KIQ61rOUBHaFFdd19meyTG2YCQZ
-	DyDXbO9pjd43mjpQkztBMha54uV4nOiw=
-X-Received: by 2002:a17:907:e155:b0:c11:f6cd:e120 with SMTP id
- a640c23a62f3a-c1297c09d89mr49816466b.25.1782835816933; Tue, 30 Jun 2026
- 09:10:16 -0700 (PDT)
+	s=k20260515; t=1782836543;
+	bh=sslHSl9vky2DIRPZzDKqYfXMiyTPmeA8uuP0XK5gK7k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dul5b6bcSmqXLVoo6tIeMdmES/vM+PkaSomaF+A3lC8ejOh+Po+qF6DKRh7QRQ2qj
+	 RNt5b/KsKki68SFNDJku6wPb9CW+ZISWaf0sLRJDquJs7b1haH+BphobIlZQ/XsrxK
+	 7E3ztX8E7Fe4NBFIGjf/w9wLbnZk4d6dZkciTmjJWFaotbV52J/Fblih8ggVQ3AfyZ
+	 w9Ki3HlFWs5/xZeCkmZ2vLV+jhuhzcM6fttlAUrOL/P1tLzQNNB3zopW6CYS3jjrCV
+	 y7Wuixcf3Ctz91L2/ZgKY6aqX969OGCbE8ZsQQCg3RbEHpHi0Lejl3t7SC7x1470r5
+	 Bsvt3p8kOJEYw==
+Date: Tue, 30 Jun 2026 18:22:09 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pci@vger.kernel.org, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] PCI: rcar-gen4: Configure AXIINTC if iMSI-RX not
+ used
+Message-ID: <ck6i6tdw4ngde6vmtamfrvryg47ixycpmd74ny5hpzury5ekpr@ibgrw7o6uewj>
+References: <20260618220427.14325-1-marek.vasut+renesas@mailbox.org>
+ <20260618220427.14325-2-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260629112032.20423-1-jiahao.kernel@gmail.com>
- <20260629112032.20423-5-jiahao.kernel@gmail.com> <akMJ8UfeZXrVe5LN@google.com>
- <cbbdf506-b67d-193c-2c94-bacf828d559f@gmail.com>
-In-Reply-To: <cbbdf506-b67d-193c-2c94-bacf828d559f@gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Tue, 30 Jun 2026 09:10:04 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zNCEis2QHROEsM5QZsb_H4ofNjA_sE-pM7SVxtgHg_rqg@mail.gmail.com>
-X-Gm-Features: AVVi8Cdt9VAUjUs2EYnk1zT9l08rcztQNfD1M7IbhQzMhnu027BpAaMiWC_e3cE
-Message-ID: <CAO9r8zNCEis2QHROEsM5QZsb_H4ofNjA_sE-pM7SVxtgHg_rqg@mail.gmail.com>
-Subject: Re: [PATCH v5 4/6] mm/zswap: Implement proactive writeback
-To: Hao Jia <jiahao.kernel@gmail.com>
-Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
-	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, 
-	nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
-	roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260618220427.14325-2-marek.vasut+renesas@mailbox.org>
 
-> > Before going through more versions we need to figure out if this will
-> > pivot to be a proactive demotion interfcae for swap tiering.
-> >
->
-> Yes. Should I drop patches 4-6 in the next version and wait for swap
-> tiering to be finalized?
-> We can try to get the non-memcg parts (patches 1-3) merged upstream
-> first. This would also give them plenty of time to bake and catch any
-> potential regressions. Thoughts?
+On Fri, Jun 19, 2026 at 12:01:59AM +0200, Marek Vasut wrote:
+> In case MSI are enabled, but DWC built-in iMSI-RX is not in use, the
+> MSI are handled via GIC ITS. Configure all controller MSI registers
+> fully.
+> 
+> Set or clear MSI capability register MSICAP0 MSI enable MSIE bit and
+> PCIe Interrupt Status 0 Enable register PCIEINTSTS0EN MSI interrupt
+> enable MSI_CTRL_INT bit according to MSI enable state, set both bits
+> if MSI are enabled, clear both bits if MSI are disabled.
+> 
+> If MSI are disabled, or MSI are enabled and iMSI-RX is used, then
+> deconfigure AXIINTCADDR and AXIINTCCONT to 0, which disables any
+> pass through of MSI TLPs onto the AXI bus and then further into
+> GIC ITS translation registers.
+> 
+> If MSI are enabled and iMSI-RX is not used, the configure AXIINTCADDR
+> with target address of GIC ITS translation registers, and configure
+> AXIINTCCONT to enable MSI TLP pass through onto AXI bus and into the
+> GIC ITS. This specific configuration allows handling of MSI via the
+> GIC ITS instead of integrated iMSI-RX.
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Patches 1-2 can be sent and merged separately, yes. For patch 2,
-please include some numbers for the writeback performance before and
-after batching.
+Same as patch 3, SoB chain is broken. Rest LGTM!
 
-Patch 3 does refactoring in preparation for patch 4, so I don't think
-it makes sense on its own.
+- Mani
 
-> >> +int zswap_proactive_writeback(struct mem_cgroup *memcg, u64 bytes_to_=
-writeback)
-> >> +{
-> >> +    struct zswap_shrink_state s =3D {};
-> >> +    struct mem_cgroup *iter =3D NULL;
-> >> +    u64 bytes_written =3D 0;
-> >> +    int ret =3D 0;
-> >> +
-> >> +    if (!memcg)
-> >> +            return -EINVAL;
-> >
-> > Can this ever happen? It would be a bug in the caller.
->
-> IIRC=EF=BC=8CWriting the following to the NUMA node sysfs entry triggers =
-this
-> check:
-> echo "10M source=3Dzswap" > /sys/devices/system/node/nodeN/reclaim
+> ---
+> NOTE: This would not be possible without prior work from Shimoda-san
+> ---
+> Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+> Cc: Manivannan Sadhasivam <mani@kernel.org>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-pci@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: Pull GITS_TRANSLATER address from DT, which also fixes missing +0x40
+>     offset of the GITS_TRANSLATER register
+> ---
+>  drivers/pci/controller/dwc/pcie-rcar-gen4.c | 118 +++++++++++++++++++-
+>  1 file changed, 113 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> index 8b03c42f8c84c..6300ab4dc38b3 100644
+> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> @@ -13,8 +13,11 @@
+>  #include <linux/interrupt.h>
+>  #include <linux/io.h>
+>  #include <linux/iopoll.h>
+> +#include <linux/irqchip/arm-gic-v3.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> +#include <linux/of_address.h>
+> +#include <linux/of_irq.h>
+>  #include <linux/pci.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> @@ -31,6 +34,10 @@
+>  #define DEVICE_TYPE_RC		BIT(4)
+>  #define BIFUR_MOD_SET_ON	BIT(0)
+>  
+> +/* MSI Capability */
+> +#define MSICAP0			0x0050
+> +#define MSICAP0_MSIE		BIT(16)
+> +
+>  /* PCIe Interrupt Status 0 */
+>  #define PCIEINTSTS0		0x0084
+>  
+> @@ -55,6 +62,14 @@
+>  #define APP_HOLD_PHY_RST	BIT(16)
+>  #define APP_LTSSM_ENABLE	BIT(0)
+>  
+> +/* INTC address */
+> +#define AXIINTCADDR		0x0a00
+> +
+> +/* INTC control & mask */
+> +#define AXIINTCCONT		0x0a04
+> +#define INTC_EN			BIT(31)
+> +#define INTC_MASK		GENMASK(11, 2)
+> +
+>  /* PCIe Power Management Control */
+>  #define PCIEPWRMNGCTRL		0x0070
+>  #define APP_CLK_REQ_N		BIT(11)
+> @@ -305,13 +320,103 @@ static struct rcar_gen4_pcie *rcar_gen4_pcie_alloc(struct platform_device *pdev)
+>  	return rcar;
+>  }
+>  
+> +static int rcar_gen4_pcie_host_msi_addr(struct dw_pcie_rp *pp, u32 *msi_addr)
+> +{
+> +	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
+> +	struct device_node *msi_node = NULL;
+> +	struct device *dev = dw->dev;
+> +	struct resource res;
+> +	u64 addr;
+> +	int ret;
+> +
+> +	/*
+> +	 * Either the "msi-parent" or the "msi-map" phandle needs to exist
+> +	 * to obtain the MSI node.
+> +	 */
+> +	of_msi_xlate(dev, &msi_node, 0);
+> +	if (!msi_node)
+> +		return -ENODEV;
+> +
+> +	/* Check if "msi-parent" or the "msi-map" points to ARM GICv3 ITS. */
+> +	if (!of_device_is_compatible(msi_node, "arm,gic-v3-its"))
+> +		return dev_err_probe(dev, -ENODEV, "Compatible MSI controller not found\n");
+> +
+> +	/* Derive GITS_TRANSLATER address from GICv3 */
+> +	ret = of_address_to_resource(msi_node, 0, &res);
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "MSI controller resources not obtained\n");
+> +
+> +	addr = res.start + GITS_TRANSLATER;
+> +	if (addr >= SZ_4G)
+> +		return dev_err_probe(dev, -EINVAL, "MSI controller address above 32bit range\n");
+> +
+> +	*msi_addr = addr;
+> +	return 0;
+> +}
+> +
+> +static int rcar_gen4_pcie_host_msi_init(struct dw_pcie_rp *pp)
+> +{
+> +	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
+> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> +	u32 val;
+> +	int ret;
+> +
+> +	/* Make sure MSICAP0 MSIE is configured. */
+> +	val = dw_pcie_readl_dbi(dw, MSICAP0);
+> +	if (pci_msi_enabled())
+> +		val |= MSICAP0_MSIE;
+> +	else
+> +		val &= ~MSICAP0_MSIE;
+> +	dw_pcie_writel_dbi(dw, MSICAP0, val);
+> +
+> +	if (!pci_msi_enabled() || pp->use_imsi_rx) {
+> +		/* Clear AXIINTC mapping. */
+> +		writel(0, rcar->base + AXIINTCADDR);
+> +		writel(0, rcar->base + AXIINTCCONT);
+> +	} else {
+> +		ret = rcar_gen4_pcie_host_msi_addr(pp, &val);
+> +		if (ret)
+> +			goto err;
+> +
+> +		/* Point AXIINTC to GIC ITS and enable. */
+> +		writel(val, rcar->base + AXIINTCADDR);
+> +		writel(INTC_EN | INTC_MASK, rcar->base + AXIINTCCONT);
+> +	}
+> +
+> +	/* Configure MSI interrupt signal */
+> +	val = readl(rcar->base + PCIEINTSTS0EN);
+> +	if (pci_msi_enabled())
+> +		val |= MSI_CTRL_INT;
+> +	else
+> +		val &= ~MSI_CTRL_INT;
+> +	writel(val, rcar->base + PCIEINTSTS0EN);
+> +
+> +	return 0;
+> +
+> +err:
+> +	/* Deconfigure MSICAP0 MSIE. */
+> +	val = dw_pcie_readl_dbi(dw, MSICAP0);
+> +	val &= ~MSICAP0_MSIE;
+> +	dw_pcie_writel_dbi(dw, MSICAP0, val);
+> +
+> +	/* Clear AXIINTC mapping. */
+> +	writel(0, rcar->base + AXIINTCADDR);
+> +	writel(0, rcar->base + AXIINTCCONT);
+> +
+> +	/* Deconfigure MSI interrupt signal */
+> +	val = readl(rcar->base + PCIEINTSTS0EN);
+> +	val &= ~MSI_CTRL_INT;
+> +	writel(val, rcar->base + PCIEINTSTS0EN);
+> +
+> +	return ret;
+> +}
+> +
+>  /* Host mode */
+>  static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
+>  {
+>  	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
+>  	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+>  	int ret;
+> -	u32 val;
+>  
+>  	gpiod_set_value_cansleep(dw->pe_rst, 1);
+>  
+> @@ -328,16 +433,19 @@ static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
+>  	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_0, 0x0);
+>  	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_1, 0x0);
+>  
+> -	/* Enable MSI interrupt signal */
+> -	val = readl(rcar->base + PCIEINTSTS0EN);
+> -	val |= MSI_CTRL_INT;
+> -	writel(val, rcar->base + PCIEINTSTS0EN);
+> +	ret = rcar_gen4_pcie_host_msi_init(pp);
+> +	if (ret)
+> +		goto err;
+>  
+>  	msleep(PCIE_T_PVPERL_MS);	/* pe_rst requires 100msec delay */
+>  
+>  	gpiod_set_value_cansleep(dw->pe_rst, 0);
+>  
+>  	return 0;
+> +
+> +err:
+> +	rcar_gen4_pcie_common_deinit(rcar);
+> +	return ret;
+>  }
+>  
+>  static void rcar_gen4_pcie_host_deinit(struct dw_pcie_rp *pp)
+> -- 
+> 2.53.0
+> 
 
-Oh yeah, I forgot about that one :)
-
-If we keep this, probably combine the !memcg and writeback check below.
-
->
-> >
-> >> +    if (!mem_cgroup_zswap_writeback_enabled(memcg))
-> >> +            return -EINVAL;
-> >> +    if (!bytes_to_writeback)
-> >> +            return 0;
-> >
-> > Do we need this? I think the loop will just never enter and
-> > mem_cgroup_iter_break() will do nothing.
->
-> Will do.
-> >
-> >> +
-> >> +    while (bytes_written < bytes_to_writeback) {
-> >> +            long shrunk;
-> >> +
-> >> +            cond_resched();
-> >> +
-> >> +            if (signal_pending(current)) {
-> >> +                    ret =3D -EINTR;
-> >> +                    break;
-> >> +            }
-> >> +
-> >> +            /*
-> >> +             * Use a local iterator to walk the memcg and its online =
-descendants
-> >> +             * in a round-robin manner. Upon exiting the loop, mem_cg=
-roup_iter_break()
-> >> +             * must be called to drop the iterator reference.
-> >> +             */
-> >> +            do {
-> >> +                    iter =3D mem_cgroup_iter(memcg, iter, NULL);
-> >> +            } while (iter && !mem_cgroup_tryget_online(iter));
-> >> +
-> >> +            shrunk =3D zswap_shrink_one_memcg(iter, &s);
-> >> +            if (shrunk > 0)
-> >> +                    bytes_written +=3D shrunk;
-> >> +
-> >> +            /* drop the extra reference taken by mem_cgroup_tryget_on=
-line() */
-> >> +            mem_cgroup_put(iter);
-> >
-> >
-> > Can we just use mem_cgroup_online() instead since mem_cgroup_iter()
-> > already graps a ref?
-> >
-> Will do.
-
-If you're looking for another cleanup to do, shrink_worker() should
-probably also use mem_cgroup_online() and avoid taking/dropping an
-extra ref :)
+-- 
+மணிவண்ணன் சதாசிவம்
