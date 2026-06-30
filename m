@@ -1,98 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF2C346E4E;
-	Tue, 30 Jun 2026 14:17:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87EF426F47C;
+	Tue, 30 Jun 2026 14:17:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782829041; cv=none; b=MyDbJBdi1fcSnxhCqrqnSt49JO+FYvx0wFcdS+Dk2r+2ihArzXyMotauzm5gbP/3E3jhFLM6SE4iLNa+fBmKih4h6NZwpH5jf+gBSW72fto6+/EiOoi75lLNEtKiOHPq0ePsQAudRtsOFlLjEE+MyQ5qyphvjLK7iLw6IiaIhk8=
+	t=1782829057; cv=none; b=CqTZJjiMEh9SYdCXfLfqPNXKzhGb21Pni+DH4f2WKvas6LrwNHxCDrH2ysWQJOF2Yfz53ggRVYlWRzOwj3FQ8IYsjvPURMJRW/9FkpC3h8b87Zraq+1javSEEScHqvyYPCPmgDBibzYL6S7o07bKreLtbMGgorbSuy9ooHcgpoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782829041; c=relaxed/simple;
-	bh=ppUvSfipw7c6xcLfal4fQeQOLzjCHT19gdfd4FLcNE0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WlJPf2tslBgHKy2NWlSdHwHzNXhPbzosq5nPT44WmEFGlIrQcQaymexLOKIXhS/lGnkGp9jqBGYaC4w5bIZ8G0rgEtmULt/c+NvtW15NFWSUkrIqwgQjq5p8e6QHOjezdlTs9vSx8ylD4LgHhGruw8lHBcazT19Cjw7C8yWXYjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=clWEcGmN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782829057; c=relaxed/simple;
+	bh=UZymSPBa0XWWbwns/JOidAA5gjvPwF8fgglUWlRV/6Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cd3BJRdMaHuMqGmrZ5aAA9ioFnBhHlXK8jyl7cFSuUC7HIjz35m1jKv1/8vSVvxw8gXMqlQnN7VJUwL0RT/rzq3fbtnOKusDa7YdEKCqZk32+szd71IWvRFIR5TSV8OE8My9SvR54/guuCD4Joh0sR3DPcg7q4ugIEDhPkwt604=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MpvryAXc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="clWEcGmN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 749B61F00A3A;
-	Tue, 30 Jun 2026 14:17:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MpvryAXc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36A4E1F000E9;
+	Tue, 30 Jun 2026 14:17:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782829040;
-	bh=OpK4VCXxOfi2NsgnoYaHvYKbtIJiOdgK8j0XiL9E3ag=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=clWEcGmNF63o9sOxWnH5qazA03avsmWr+SnkHLK13JF6pV0jeRIdWPjNFAIUp5QeJ
-	 nugKWFJbl0XPR4FwsMi6UTmo91gYvstXD7sQMr6LhHE7x8D/NSmyaC41eOT+28mItS
-	 FRCHdNz79S+ZPu+9SeBVZ0w8N5B9Bklvr7Vjo97JRg3zKoxCUvzzaE0Silomr7b1gb
-	 UPUP4YVuFx38GGlwmfssibjcxJmhnlSATSwVlKRlB84tRJuKFSaHDMcGIKiLcHdQ1t
-	 sU2UiJ9XptJ/6cu1UEI+WkLvkLzbdcmJBewYtFibfUtE6t1XaSsI793SwhuW03vDh3
-	 q+6aGRIwNPm2Q==
-Date: Tue, 30 Jun 2026 15:17:15 +0100
-From: Will Deacon <will@kernel.org>
-To: Shanker Donthineni <sdonthineni@nvidia.com>
-Cc: Vladimir Murzin <vladimir.murzin@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
-	Jason Sequeira <jsequeira@nvidia.com>
-Subject: Re: [PATCH v4 2/2] arm64: io: apply the device store-release
- workaround once per block write
-Message-ID: <akPP62P_mKN21GTv@willie-the-truck>
-References: <20260625182425.3194066-1-sdonthineni@nvidia.com>
- <20260625182425.3194066-3-sdonthineni@nvidia.com>
- <97b62a6f-a514-46bb-9ee8-81f563220f6a@arm.com>
- <d75592c9-5292-4704-b024-6450ea0e8278@nvidia.com>
+	s=k20260515; t=1782829056;
+	bh=8vfRiINSDbirl30Dmm17gH3r0ZINd4Brr0niqjDS/TE=;
+	h=From:To:Cc:Subject:Date;
+	b=MpvryAXchpyZO7mGub1FHBvvvj9h2FyGUTCQqdpcpHzs6b4BwS62GwPEfLkxV9+Ic
+	 xznRbtcnDWntPb8Y0MzcvWGbukxiERNdlZi10+dJLsJGpW36Y2V/TIOO85+M7hDA4z
+	 6OUbwEta+oYPz9ehSP+A66TAbJJ+ftvyuYIgpMkcTbn1z6q+qHMuUwUL0Gg/+2fn7R
+	 5Fm0gaZ4xlsVjXBHsWgU7WIco4Qn2nhDOaWy7B/Ch7lJKXSewS2mz7umL2CjkHzns2
+	 sNSSc3AJUmpXpyijIKBL7OOaUyjKE49ZLQiZbrkPLPScBzT+SjxHYa0lSCjVz9mWIX
+	 O2sh0WBEvnsHw==
+From: SJ Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SJ Park <sj@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@davidgow.net>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH 00/11] mm/damon: update, optimize, and clean up doc, tests, and code
+Date: Tue, 30 Jun 2026 07:17:14 -0700
+Message-ID: <20260630141726.92246-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d75592c9-5292-4704-b024-6450ea0e8278@nvidia.com>
 
-On Mon, Jun 29, 2026 at 06:09:11PM -0500, Shanker Donthineni wrote:
-> On 6/29/2026 5:48 AM, Vladimir Murzin wrote:
-> > > +                          : "memory");
-> > > +             src += sizeof(u64);
-> > > +             dst += sizeof(u64);
-> > > +             count -= sizeof(u64);
-> > > +     }
-> > > +     while (count) {
-> > > +             asm volatile("strb %w0, [%1]"
-> > > +                          : : "rZ"(*(const u8 *)src), "r"(dst) : "memory");
-> > > +             src++;
-> > > +             dst++;
-> > > +             count--;
-> > > +     }
-> > > +
-> > > +     iomem_block_store_barrier();
-> > It is perhaps a matter of taste, but having the inline assembly
-> > here (and in memset_io()) might make the code clearer. To a
-> > casual reader, it would be obvious that the barrier is not
-> > guaranteed and is only applicable to ARM64_WORKAROUND_DEVICE_STORE_RELEASE,
-> > without having to jump back and forth through the code.
-> > 
-> > Obliviously maintainers might have different preference ;)
+Patches 1 and 2 update the design and ABI documents for recently added
+DAMON features.  Patches 3-7 add or update more unit and self tests for
+DAMON to cover recently changed or added functions and sysfs files.
+Patch 8 optimizes damon_commit_target_regions() to skip unnecessary
+adjacent ranges setup.  Patches 9-11 clean and fix up recently added
+DAMON sysfs interface code for readability.
 
-Oblivious maintainer here :)
+Changes from RFC v1.3
+- RFC v1.3: https://lore.kernel.org/20260626001644.85825-1-sj@kernel.org
+- Drop RFC tag.
+- Rebase to latest mm-new.
+Changes from RFC v1.2
+- RFC v1.2: https://lore.kernel.org/20260625142357.103500-1-sj@kernel.org
+- Fix broken sphinx syntax in patch 1.
+- Drop unused counts[] for damon_rand() test in patch 3.
+Changes from RFC v1.1
+- RFC v1.1: https://lore.kernel.org/20260625050756.91115-1-sj@kernel.org
+- Document nid requirement for node_eligible_mem_bp.
+- Fix typos: s/memmcg/memcg/, s/geets/gets/.
+- Drop damon_rnd() randomness test case; test boundness only.
+- Fixup dests dir selftest to do real test with correct file permission
+  checks.
+Changes from RFC
+- RFC: https://lore.kernel.org/20260624142008.87180-1-sj@kernel.org
+- Rebase directly to latest mm-new.
 
-> Regarding the barrier, iomem_block_store_barrier() is declared
-> static __always_inline, so it does not add a function call. The nop/dmb
-> osh alternative is emitted directly in each caller. I used the helper to
-> avoid duplicating the alternative sequence.
-> 
-> I understand that placing the assembly directly in both functions could
-> make its conditional nature more obvious. I do not have a strong preference
-> and am happy to follow Will’s and Catalin’s preference here.
+SJ Park (11):
+  Docs/mm/damon/design: update for DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP
+  Docs/ABI/damon: document probe files
+  mm/damon/tests/core-kunit: test damon_rand()
+  selftests/damon/sysfs.sh: test multiple probe dirs creation
+  selftests/damon/sysfs.sh: test {core,ops}_filters/ directories
+  selftests/damon/sysfs.sh: test dests dir
+  selftests/damon/sysfs.sh: test all files in quota goal dir
+  mm/damon/core: reduce range setup in damon_commit_target_regions()
+  mm/damon/sysfs: split probe setup function out
+  mm/damon/sysfs: split out filters setup function
+  mm/damon/sysfs: fix typos in probe_{add,rm}_dirs: s/attr/probe/
 
-I agree with Vladimir that it would be clearer to inline the conditional
-barrier.
+ .../ABI/testing/sysfs-kernel-mm-damon         |  40 +++++++
+ Documentation/mm/damon/design.rst             |   6 +-
+ mm/damon/core.c                               |  22 +++-
+ mm/damon/sysfs.c                              | 102 ++++++++++--------
+ mm/damon/tests/core-kunit.h                   |  15 +++
+ tools/testing/selftests/damon/sysfs.sh        |  71 +++++++++++-
+ 6 files changed, 203 insertions(+), 53 deletions(-)
 
-It would be even better if we could avoid having to duplicate this code
-to start with, but I can't immediately think of a better alternative.
 
-Will
+base-commit: bb5dde77be397d614ef968578e3bf6cf9674df3c
+-- 
+2.47.3
