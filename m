@@ -1,132 +1,161 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.151.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 484593DB338
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 17:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782839449; cv=pass; b=meB5WiMsiuwO+TjfWf0Ab8QKFMxBDC8MlDGnlHPf7eRg+urCZ3dpMmlJZStFIFaFoJQ//fna2GarSYR8SsphJeGhgNrPiKOSaDK5uZZxqmgsIVZwzsjt0ibJPTo7HTFbphF3I+qxrGzgEM0TU62bjOzIV16Jp9bWtBn3bETJ0Hw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782839449; c=relaxed/simple;
-	bh=Q+NKeElSU3Mey9uyDYNttOsH+dbdUz4bwovoPjDwSTA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rMX2scsTgR0tylcjZRECY6zLp2ABtNlyxl+6FSm3pGbqo5kF2i2frMv4Ol4odUu0ZhPLl8MQKacPuP1d5IyIPrGO1cSBXxLbHtvh80QT90+oVrqVhhRoOrV/GeLxpKfSHYNPH+49JSjlAMeYG2gOii9AqrmCYq1BD8Jn0yzmzoU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aD0UN9K0; arc=pass smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330A53DB30A
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 17:14:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.151.120
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782839672; cv=none; b=p/0SyWQSrTVgq5yzQIvVKbjEjfTyaO69cBs8OIQaBf4bq/oOwM2bc36P9KUvlcjOhYRhp3/rzR5kNUaaZ4EzrFkZFAH1FUECemVod7UEPg238ecejZQ7DCFJu9KFdQ/COGy1kwbXfJj3y6dTAVKAJpGEtLORafftRRip3kocrbg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782839672; c=relaxed/simple;
+	bh=m9TVrxcnxhO86FrvxHgEYfX9XQEO6Xu7u4U/yRG5r7w=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=hcqEgDYAbBCHPIoXlFKOMOKBMB2OUTyDfa2CTpIMK5UMeLsR8701nPc7O1rBBqw7yfv9CkU6kDGKNGA3kWnoEDg+21zxg0G5QDxXWbTKUiEtTh5vi3YOse4/+rGlhMyS29G++YcTa9PqjT4UOlR3KtztiwvTZ8R82d392IGFtq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=FWNgd6no; arc=none smtp.client-ip=170.10.151.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aD0UN9K0"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c124c3c876aso517216666b.1
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 10:10:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782839446; cv=none;
-        d=google.com; s=arc-20260327;
-        b=andZv5T6ebIIYNkx2TRNjO5OsOD8QPJcqvgWwasm3QKROEN08C5rMsraE8I2V04ZGV
-         sQU+/rJAnKxbl8C8GsIPaox1vYy3XAY7o6jsJs206trGBoIwLGrL3bv/Ab7tiobbm3gi
-         g7mehF90dFbBzhKDi0+2CjNZ2CGHPVQXP3iXdJCrn165kjxRR9B/j6VItIfPeqAbFds+
-         k2UkqPD/FzSB+P5g6XeYYmJ53+5YDSQDZQMTd2/3mt1tRnYXoSLKS53MmALpeWkJZSIW
-         BXQl0rkB+DGmeONqI53QmTFz8fzP3xmmf+mv33kCJoGvs2kugdPQUqfODcNqnigJXZD+
-         4wJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=64A1s13t8IpGGSBhMh8O8eYrTFpABwP1rR+WIQ9DsoI=;
-        fh=JfcuYBLwM3NOS2Nuow0Zfu8paZyxXMFFaWPM8Oi8DKg=;
-        b=D0XcOjVbpI3jc6UbZo9V1F8+MbsQxnSvoB+2HEoiCxWgcO802+hPO6uFg1BdlK98nN
-         VnyVhfBKj3i3lGZ0emGyktgTNyj2y8bWCl8HlMdKDIYPdBUeFGUg98/s+R0Ccxr6nxOI
-         UEbs2ipVkJU6aePpeoKeucJtc6T9d4mz3ry0++4K+JVhAP6qqAl5t9KluDsrxvgcbe5o
-         7PnEOdnR4ZbAttWlOHEUtHdHjE292agm/BvQgllDPJkva0PB6cM84pP9w8ypi+rkdqQK
-         1wiI4fMWKvSfQkmP/ZZdAXxzBFMCflA8ncHCJ6ZZWpImzJM/D36IIjTrrAMwI1euSthL
-         NhTA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782839446; x=1783444246; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=64A1s13t8IpGGSBhMh8O8eYrTFpABwP1rR+WIQ9DsoI=;
-        b=aD0UN9K0I2je6VboJYEwgYK/1RyEHdtZCobpZKj1h227f+0T94gqS5Uu2Z6SxTLT/s
-         PFX1n5ScwuxOhL0q5YiTfGIy4PjNbSi9lZr348jFAwbRvO/KMTTe6v7VVTYV1YUbm9UG
-         Lj1gnmQyJjV2zBkY2fbKjQg6ZDVv3KA6l/fukd/sHKRYMV/Kn9yXshmkW9JgiYpb2+/i
-         ZlA3uU/nxcw7IDniepvYdidEtkgqB1m5UNzSZ9uN7hYKpuccCybt0uRnSSMUdf6iTlHE
-         sOrbJLR3YtoaZNa/jBiDHXnf8Mw1x9VumT1EU+4EofBM+/J9/kDQt3PDhtgvHDr2KAiA
-         m2mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782839446; x=1783444246;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=64A1s13t8IpGGSBhMh8O8eYrTFpABwP1rR+WIQ9DsoI=;
-        b=owTF+i7LbOPfobJFDp1egWo9Vzzh6hZ/oMkcSbf3xvjRS7eZfeshPQKa1r1CE9uV3D
-         5cEw7C/BN8Hq0z0rUuZBbxvZicgzs9KTquAIWuyWi3tnJea7yRki1HKLa7VzUQP2LpT1
-         YsfWV5HdQET805VHloYGMw8+FuPh7ZJUwZjCw38tIze2CIpMOwzxYIaoJuoboNSysAiv
-         pMJUy2e9Ccp5GmbTWTK1J1Bp07S1z4vYXiNNbWMIurCD2+FJRym8h7DIeOWbXo9jeEZj
-         E03SXZQ5M/84x3uuwIP/jV/1MWnkW8Z7UZjdaNYxWAG80D/fc2idReRWLxa9wPFo0cZt
-         Zz5A==
-X-Forwarded-Encrypted: i=1; AHgh+RpU4+Bi4NbpMTr5hXH+QGPkiKPZGIOW/W54QrCbgqm0A+Om1mR8vgo5INmyMDuF5zUgkiZZSRys4k0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YycBhxV4FUv0TZEaEwjUVLyzrnZHJaxe0Y9sjp37s7Q4WMBtT0g
-	gXAHffJOgCndIyjT8Ky19yRM+sTctLU6HAEsfWxOHkQ+trjDhPLFtoo7rBgi74w2giGZUvRfrS3
-	Z+92C7jQt5yeNukHoSw8uTJ7C4BIRLsQ=
-X-Gm-Gg: AfdE7ck+uJl73y4XDam1hHYuJFh1chDlC4hwADXn1hAnvVyBGlaJEnzh+XdrP4fl9es
-	oPCPNCxUcJAMZ9BYNaV/+vqUXTf9nYRPceI2lXOSM3EZ7Iw+crb8zDcV/JByy6gXMHd9bk6038g
-	ja4tx415azonKXx73RBPFfTRD6dzwrTur16D4GoV1b8O7XwY5s3Y33ImLgmF+b61MOyjKCDO1Dt
-	b251iodqwIExsfG6ILJNdHAIz0aeRWnCulJcjjNI80RN4uBdpVErrcFPB1IDQ4UqgMxOLotx7e1
-	rFTDf5gUFaVJcmi0ifxbN9IY+sBqbEs=
-X-Received: by 2002:a17:906:6a84:b0:c12:8296:1a76 with SMTP id
- a640c23a62f3a-c12872d6ec8mr174161766b.33.1782839445331; Tue, 30 Jun 2026
- 10:10:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="FWNgd6no"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
+	s=mimecast20250127; t=1782839670;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m9TVrxcnxhO86FrvxHgEYfX9XQEO6Xu7u4U/yRG5r7w=;
+	b=FWNgd6noqmsiqWJnOPZZrKSJxejkk3qV46QHPYj19+w60n3DbK+olWpPwR0C/8EYoxQLgh
+	TpKJJKSpJgG6Hg7PqP5YmbenEzaBovSGvCI/gEy3nV1iwjOBppJhWt2b56CfeprtXUNVfO
+	mmm6bDCCr9//fv8X6HVqru3L3aZ5HtCRobAW9hZsPlPjmyIZR7BMH4qFvPlQACFoG9ooPc
+	EjkifSEzJQV/QsetCCX56xLGo1vEYMfet8g7sSP97ocJJH2qi0G1FnClQPXfGJN4MPSzIG
+	0u30vgXpTU23AX2JwFOzRiEsxgzjnDY6l5QDXNRb+Sx2W9vxz+zaraH2nolJTA==
+Received: from PH8PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11012008.outbound.protection.outlook.com [40.107.209.8])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id usb-mta-21-Irtr-vrlP9u8Rn29JVIcrQ-1; Tue,
+ 30 Jun 2026 10:13:21 -0700
+X-MC-Unique: Irtr-vrlP9u8Rn29JVIcrQ-1
+X-Mimecast-MFC-AGG-ID: Irtr-vrlP9u8Rn29JVIcrQ_1782839600
+Received: from CYYPR02MB9828.namprd02.prod.outlook.com (2603:10b6:930:b8::20)
+ by CYYPR02MB9761.namprd02.prod.outlook.com (2603:10b6:930:c1::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Tue, 30 Jun
+ 2026 17:13:19 +0000
+Received: from CYYPR02MB9828.namprd02.prod.outlook.com
+ ([fe80::2767:f7d2:778c:8dca]) by CYYPR02MB9828.namprd02.prod.outlook.com
+ ([fe80::2767:f7d2:778c:8dca%4]) with mapi id 15.21.0159.012; Tue, 30 Jun 2026
+ 17:13:13 +0000
+From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+To: =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+CC: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: RE: [PATCH 3/3] hwmon: (pmbus/fd5121): Add support FD5121, FD5123 and
+ FD5125
+Thread-Topic: [PATCH 3/3] hwmon: (pmbus/fd5121): Add support FD5121, FD5123
+ and FD5125
+Thread-Index: AQHdAtUEg1iU98CpwE61O70G8ttbHLZXWzyAgAAFy/A=
+Date: Tue, 30 Jun 2026 17:13:13 +0000
+Message-ID: <CYYPR02MB9828907FBC60D12DFD947EF383F72@CYYPR02MB9828.namprd02.prod.outlook.com>
+References: <20260622-support-fd5121-from-onsemi-v1-0-b31767689c65@onsemi.com>
+ <20260622-support-fd5121-from-onsemi-v1-3-b31767689c65@onsemi.com>
+ <akPy0zCESKoGgsF1@monoceros>
+In-Reply-To: <akPy0zCESKoGgsF1@monoceros>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CYYPR02MB9828:EE_|CYYPR02MB9761:EE_
+x-ms-office365-filtering-correlation-id: 8392d583-c178-4d45-50f5-08ded6cade4b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|23010399003|366016|56012099006|11063799006|4143699003|22082099003|18002099003|38070700021
+x-microsoft-antispam-message-info: l0RsdMPMMeTmRnQtZM0JHWR7wCpgUiIr3kgeU7bz94R0mFk1JVwQ7UQCdWgFjU+kf7wxkJpmETMLBFCieNDqJkcFaf19HVvc1NEOo75QlZrp7u05RCtVgGFSIyONtyhWFZ5iNJ7ZxyUzBnDoneJAMvmORxBTcfCn7KC3vUT2ADOFPwEAI5fAhl/f1Qnswg8Bft9m0ImHDAOPxtkPfp/HUDOgakdmdH/3HDReC6NIsAGzkBvm2FU6HDIBX3/55IJZw6wKAgmUjluYoO4ce/x3VxJ3JgsV7cTcF71moo3OFl31OcI6TDeG3Mfx/NIUn86rgud+YurN2/82xq9qbt9jgAxpH2Le47FlGco8rhvrhxFhHKmH9Rqg94JjIeTWYhDcqGnrwIBd8EaMe0Ha8cnsBuVR+wrfS0n+HXnBiNdHMYOxcyy20hwcmwFHqkqndmmblntepQo94hfBbAZTnigSYEaqTBX/zuz04ZpLAq5ZTeQ3cZu4TTeykt5BHmZAz3TuT7v6Fy4R9ByuNL/YgzlgHw5PQzFP/8RxEJNjMskQfHMH6QaGLsNBCdTOUuYvobEN6VAVJyYBlf2tLuYQVzAeeMA6y7BwzGlDQBK1sqUbAVVeGUwVmneECN1dbPB5ezlR8YrXfjdrY9vSbXNBNluuyyL0m01EWkHeXp/yaznci7tzoVE7211TFEbv6w6N1sAKsA2sdpdL8COUXLALHKg7rYYUXjv3oCQtRI5NKOLYPO0=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYYPR02MB9828.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(23010399003)(366016)(56012099006)(11063799006)(4143699003)(22082099003)(18002099003)(38070700021);DIR:OUT;SFP:1101
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?gNdi9LCRBFurJKSaZJ3QpTBXMFYkNLo0S1JroTVlxocbTZWsGfyBdOxspA?=
+ =?iso-8859-1?Q?WR2mR/u7hIaEAGJtHE+1u+RMhruREorDvEfuk1ampiXeaqSYYBe9P9NHPh?=
+ =?iso-8859-1?Q?wd7OmDDQqFOjA0Y4X7C9nW+ldF10Okrs0giNo1tOZ8W8j5K4MDFK4th2Bo?=
+ =?iso-8859-1?Q?DRNy4rUJF2lxJadc1ieFohvTvHIyjVIhdINifbQi7v/92BfWrqIJEw10D+?=
+ =?iso-8859-1?Q?7KHXwbTGDG14wD8zmcr8aaq88fT5pKvi1eE/0Ao6whvimaizpfD0Zuzh37?=
+ =?iso-8859-1?Q?9mmP2pSOgvsiOq//z7Tts167NfSRXpYpDf2TdgMKIAiFGYqvpWdYbEmn0j?=
+ =?iso-8859-1?Q?jxS1KQ/OyRavCdlqwRHHi7t8E4Tv5GUhAZ2ltsMH8wqKIrRv2IKjcEXnH9?=
+ =?iso-8859-1?Q?TPu1BN08MrX1nBXlzTCWhQoJCO+70ZY3x6zRFk2zxq/hiO5JcVp/BVtk+J?=
+ =?iso-8859-1?Q?r0USadW1r7Tkem80CebTU58pB90HOrB21mjpuPplH0LK/a9ldFXzsOtIPX?=
+ =?iso-8859-1?Q?ob+JQkxF+c/dY57PV4xWv1OQG7YgPb8zi9hQHb5qCGKIQbauDQhMcHwWPJ?=
+ =?iso-8859-1?Q?tqceBSYnERrvrW7xNgVVGPgKGpCdpNLWmEjd8IpQqC3Uo4yozHJfqr6UAX?=
+ =?iso-8859-1?Q?zg4vgCwfrA1xpsikB6F9ZKjalNPqDmkj/kS/xTkOtSFMRwM2G8FkqvMgaa?=
+ =?iso-8859-1?Q?mvDpnf+3HepMTR8/eQZWFgVFAQWLZ6EA3E0bn2EeEOyTm8zsxEUH2XY4g5?=
+ =?iso-8859-1?Q?jJMdOV/oSsK6gsO1x2ligL455gKWv8mQ2sDvcbsbxiUrgDLL1OnwzVIr82?=
+ =?iso-8859-1?Q?CtkmIq+vF26kqJ9U41Une7zyUawpgBJ8aYA6tC7lQ4rh6Z8DmPWRXT1VH+?=
+ =?iso-8859-1?Q?U6Pt1Tq6wRErsotIFJEit2rYQoth4QFSzUZBxxMw9tcYeG52krZmx4oUzp?=
+ =?iso-8859-1?Q?E389N1pLJ6FD3fU22VvHAOWYZKBMY5Iwzz5XuMmW/7Uswp4HLfftpjlBPL?=
+ =?iso-8859-1?Q?3K497sETIgfligP+ZfIpNnCZkkwMNocVx9ivvu9yjHyoJv70HQnqdwo760?=
+ =?iso-8859-1?Q?Yj6NpRM45O7h807FKtrYEQhrEldnDYFov2ndRW5Ik28Zbqs0RSeoadhjLJ?=
+ =?iso-8859-1?Q?1g9YNXv+JiCdy5yegjhyGdCrLDViIX2n/eLo4RsdBoFeJsdXl6KYtske3x?=
+ =?iso-8859-1?Q?aTD/4/xzNzCh7MYh+o4TbCnSaPtPHnOJQuGHbz1Do0xp/pCZuWh35vSatW?=
+ =?iso-8859-1?Q?cllMhNcvbLZYVtRHkRIXDfq4UEZh6nvRgYwS7UxCAsKulo2VTxf2eL6h9i?=
+ =?iso-8859-1?Q?OnZG5KsSCWM14h+wumGR6N5dJVoWbncNKGkMMv8tSxaP2BBRY1QE2r9bTy?=
+ =?iso-8859-1?Q?/p5LpASaZvJy6h1N5Xuu6eKRCzjQtKE2u9JmupFr6aEL6A+XaTsf4aPaBz?=
+ =?iso-8859-1?Q?AoiC9JhXmkn/y/9LNgJV+lnfosnsUt8U5uSMjc8pgRJ9uQe1jbmp1XiEkp?=
+ =?iso-8859-1?Q?dlIsMYaKQN48tjRUTKC+X75Q+n+JgSTE73ndS+oMlQZ0Lb9x/5K31sADe2?=
+ =?iso-8859-1?Q?LLnZyZ8LkY2Huhgoq19pc/UyyqGSOqXqH+BVVQ261rcotbBASAv6ZAmYQ3?=
+ =?iso-8859-1?Q?jr/xI+4RdE6FNBxyS5dl9e7mVqDgLrTPooSmZ2brpr69rmC1sBLucQE3YW?=
+ =?iso-8859-1?Q?WojIbnl0AO8D5dZg8UxWA2WFOL69lsc1MyaeDg/OJtX8LCri3DQyKa23ZC?=
+ =?iso-8859-1?Q?QrYKIfpIcko98YIDsDPSS/jSiWy8bARphaypkSj/Ocz4cUCywEbdY1vhv1?=
+ =?iso-8859-1?Q?8tT/bQim/aPoQGJ9KXhU6kQTky23kPw=3D?=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
- <20260628231634.6752f74d.michal.pecio@gmail.com> <CAFgddh+AUNH9Ji-Qd=BKEDZWJrzPMWN20-g-htQDPSdSehZStQ@mail.gmail.com>
- <e7d49127-0215-4b29-9a2a-e1dc0d889b70@rowland.harvard.edu>
-In-Reply-To: <e7d49127-0215-4b29-9a2a-e1dc0d889b70@rowland.harvard.edu>
-From: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Date: Tue, 30 Jun 2026 22:40:33 +0530
-X-Gm-Features: AVVi8CfKnnvidb5guFAdpaAe6CVJqAOJJ5DDmKL1Krrb-F8QVvOrevg30QCfF0c
-Message-ID: <CAFgddhLeQ1cJv-E4mYWR8cs7T2USkrEd5i=uxqkNCH2UWaQ5=g@mail.gmail.com>
-Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Michal Pecio <michal.pecio@gmail.com>, linux-usb@vger.kernel.org, 
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-Exchange-RoutingPolicyChecked: KujRT+zDU8QI6UbRgf0ilQfZLauFmkx14LHSrhMVY05vAPoQJk5cTVtClNtcbzhV0xEBmBVbUZ8QS1Dxnafur9vgkQuPBzA6BuBDWP/IKIMOGne4cADmobBnkAWpoMY9cmwwPeOkfqRx4OQbyH/FQIxb4pPWc3wQzRExhIH+pAu9oAJyM9fAxcAyxe8R7MmJTCrBbu7QEQjGQ26Bg8wp0hLhMaJ1X/qlXkjp69IvKWh5zJRqcmO/XiDL9F+FeWqLf37jmYG+TFg0tDlQiE5XbTDpewNQpYPHTnXgUYUDalKpf/UutGvaNwGlgFQNXdxm2cVdMtKXtviU9qvc7G1h5A==
+X-OriginatorOrg: onsemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR02MB9828.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8392d583-c178-4d45-50f5-08ded6cade4b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2026 17:13:13.4305
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PbXemPLh4PaDGKJpf1XWG0URRSQqZ4t7MruKiCawzXxvJ+xOVHkm8Czt5ptDGXC4bRcVxdTdJY9O1G4jK/EkNSBqtvy0n/Rq66LsjbFcrDY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR02MB9761
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: nIRTND2x-8l-oG-BjrBr_pi61Tmt9RiRskiEWCzzeKU_1782839600
+X-Mimecast-Originator: onsemi.com
+Content-Language: en-US
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 
-> There's nothing wrong with trusting the caller to do the right thing.
-> Besides, if a segfault does occur then it will be pretty obvious that
-> the caller needs to be fixed.
->
-> What would you do if buf is NULL?  Return an error code?  That won't
-> help anyone locate the bug.  Put an error message in the log?  Segfaults
-> are much more visible.
 
-Understood. I guess my coding style is a little "too paranoid" and
-"check everything and report errors". I understood now why this may
-not always be the best approach in low level programming like kernel
-development.
+> -----Original Message-----
+> From: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+> Sent: Tuesday, June 30, 2026 9:50 AM
+> Subject: Re: [PATCH 3/3] hwmon: (pmbus/fd5121): Add support FD5121, FD512=
+3 and
+> FD5125
+>=20
+>=20
+> Please make this:
+>=20
+> static const struct i2c_device_id fd5121_id[] =3D {
+> { .name =3D "fd5121", .driver_data =3D chip_fd5121 },
+> { .name =3D "fd5123", .driver_data =3D chip_fd5123 },
+> { .name =3D "fd5125", .driver_data =3D chip_fd5125 },
+> { }
+> };
+> MODULE_DEVICE_TABLE(i2c, fd5121_id);
 
-Anyways, I have done all the requested changes. Here's a short summary:
-- put strings in a single line
-- copy bytes from desc to bigbuffer instead of pointer aliasing. (so
-no krealloc too)
-- change tabs to spaces in documentation
-- reworded some comments
-- drop USB_CONFIG_WINDOWS_REQ_SIZE macro
-- revert USB_DELAY_INIT to original behavior. no delay before 1st request.
 
-Let me know if I missed any changes mentioned in previous discussions
-(or misunderstood and made unnecessary changes :') ).
+Thank you.
 
-> I wonder if it wouldn't make sense to split announce_device() so that
-> the first line is printed as soon as usb_new_device() starts, before
-> enumeration is attempted and possibly fails.
+>=20
+>=20
+> Best regards
+> Uwe
 
-The current patch still logs device ids upon failure in
-usb_enumerate_device(). Do you want me to implement that suggestion?
-
-Thanks,
-Nikhil Solanke
