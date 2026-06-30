@@ -1,290 +1,191 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04323E5EF3;
-	Tue, 30 Jun 2026 07:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782806317; cv=none; b=iCiVLfnklwF2Fwh9ds0HTkUKm5oESOLlwh7GTN6IuWzfyjYLVGeHqOhZdSkXRBIWnPfwgzdXwps2vfmVyvpEwMjSzIJDDN9ulk7+x5+2n6dU7FiSG0f6eDqvuz9bA/EedRUothB/rhUDzLlBQRkdt71q9nh6i8ZNpFUIVdq4sME=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782806317; c=relaxed/simple;
-	bh=WhkV2GCW6baR6H5mG7INLxuiuBWgPvq7BV3N6NZEY/U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=N2sAstjrT8ixV8BD7rALZv83PjdM7cfvQpnnvmVZggZe63HBghRGEbLlg1x7UZ6/JACLbzXAR7VwcYkmmYfveRYUV5ZWDR8OAwVNMcm09tE4p9JUkQJaxEasdtemnMVe7x1wxtgXM3M6Zm92/CpppRvmwOPllUKzIAQyf2Nag7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=eIEFlTFu; arc=none smtp.client-ip=220.197.31.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E684E2222AA;
+	Tue, 30 Jun 2026 08:07:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.135.77
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782806841; cv=fail; b=Uz/eXk92fPEu+exXBxIRHngfF5SILBqiYXnRy18SUaFtBxKsRVEBM2L3+cJrO+S7+bhPpfu23l2Mep1uDYs6/MH07VbcZHiKvOCT8jE4qQv6nREPG1KZSA77+SJHv5PrBiEBkOP6lhbA1A3ggbAkhWrI33x0AfhljQisp0hEm4k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782806841; c=relaxed/simple;
+	bh=4qSNp9umrf+Cos8cNOc+2/rpOLPcRfpHfOy/nrTlbFQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=RS/FNCQPxwD/EY0ryguPeVyI2jidMsj/p1P8+weQd1x6xjzp1mckjcf29X9Ml8qs50rci/Peavjr1pW9MHR8+lbjRqnOuSNV2U5UWmcnQoQwKQI6RvxpN5uyTe8ch90D3SGLSfi40cGZQt6pNHY+z+Ux7tQv1qZ2TbIbdtIUkqg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=szjTYgUE; arc=fail smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="eIEFlTFu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=BN
-	fFV4XdnfcPNnXm+sJNTcmizJskETSgNCohDoXgSug=; b=eIEFlTFuwyyRFJASAi
-	1BOk+H27YrXjaN129H4WWsfLZuk9Fm8DQIBbaCH/ZIu41if88qKHuT88ZF/iFOGL
-	oOA20VfK3g5/ozt9HA4FoqjvHQ/CqZCE1oAIasIoD9cr22EBO6Ehs8fnivsHZIkh
-	7p+Lycbiq0feaTwRmBPspjnws=
-Received: from zhaoxin-MS-7E12.. (unknown [])
-	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wC3016WdkNqrv3WGg--.10119S2;
-	Tue, 30 Jun 2026 15:56:08 +0800 (CST)
-From: Xin Zhao <jackzxcui1989@163.com>
-To: brauner@kernel.org,
-	ljs@kernel.org,
-	rppt@kernel.org,
-	pfalcato@suse.de,
-	viro@zeniv.linux.org.uk,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	akpm@linux-foundation.org,
-	liam@infradead.org,
-	david@kernel.org,
-	vbabka@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	mingo@redhat.com,
-	peterz@infradead.org,
-	juri.lelli@redhat.com,
-	vincent.guittot@linaro.org,
-	mjguzik@gmail.com,
-	ebiederm@xmission.com,
-	jack@suse.cz,
-	jlayton@kernel.org,
-	chuck.lever@oracle.com,
-	alex.aring@gmail.com,
-	arnd@arndb.de,
-	keescook@chromium.org,
-	mcgrof@kernel.org,
-	j.granados@samsung.com,
-	allen.lkml@gmail.com
-Cc: kuba@kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	Xin Zhao <jackzxcui1989@163.com>
-Subject: [PATCH v5] coredump: Add bit 9 of coredump_filter for pre-exit files before dumping
-Date: Tue, 30 Jun 2026 15:56:04 +0800
-Message-Id: <20260630075604.52533-1-jackzxcui1989@163.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="szjTYgUE"
+Received: from pps.filterd (m0516787.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65U5gSpT4162621;
+	Tue, 30 Jun 2026 04:07:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=3SXZa
+	1ytJhUHT1M7XYtSMODdF0WTdpE1LKswWrgLe2c=; b=szjTYgUEvMUt03Ssr2QMo
+	76szvJKdnl+EYY2OFGbZxlM5QTZcLExZYw2VRuf5sUK1K92Nep0ASX+o5UuLZyDT
+	aEXRdjzJtkrpewMcITgDPssqPQjBnCWPXOfBO9anYyzsQiKAts5mqBEqx3Mi1F+3
+	xhZyVSCQRSgi+bGoRPyNsKIXaeeV5FagSo1ejwnf82u1ZHiVMBMJnLsM5odv780X
+	Up7f/QtNZoM9KB1+KwWQnxVbYF7Se6zKe273Df3I8JTTQa1/7n88Vw6SAuGsgxGy
+	L2l9y6auDY2juIXRO5/ga6zFdCbKDeL6WpmSRiRlD1gOekU9rwV0GHUMvEuJAxCX
+	w==
+Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011059.outbound.protection.outlook.com [52.101.62.59])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4f4604sb8a-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 30 Jun 2026 04:07:04 -0400 (EDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pSN+qETkAe7R77cTg/uPeQA0EXXfuIY8doZmHVss/sST7QvjcsAAQeQqIBVKp8kYztRBgRVQqTfXfYIgM1eO1WPjXrEBPTdfoI1D/o7Ow7znrdCy+LtfG2SXCLBF0geTOailaeg3UPti/figUXkfWC8G4bYfJ516NjKliXX1qVhnRtl+Bh6pGErwHnUDg2memfnDT8DtocaXgpR2hStDx8cXYTvJDKVr6QJKJ/AWx1u5Zkqmq5/+FtE6EJE90oAHXSgDN/2kptSHb9DorMCHA8mSYfXUVWl4KmiUBxJ2Zrb0xEkgaqunBqivvyqvgfKdXv1jfiokYy0bbUPr4w5/dQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3SXZa1ytJhUHT1M7XYtSMODdF0WTdpE1LKswWrgLe2c=;
+ b=M+3oaaR/nWsf7sR7jyP7XcVafp88yxtNjq+Wobp+fdMurgDUAcYtd5tj4E0mg0YC57LDLIbW44nYcL4E3qWbB8VP4nqeTIJoRAxGFu1t/ZjAHbfN+9SJD65QAWC1L3jxEeTdNgNYKQhh4jOh7upEikBOa9wn2x6XxszGDzsm7zts3j3CyVdouhYWTkloHJ6vMmlwPEoCcJp+FhPNNb9Py5NrbN6OE4zIhaxVnnve6G7Jd+zHWwSWzLyVVwtNqI5ELZfOhVHavEQX8e5RmB1KFwrGl+pe2xsY0ROQc8T08WFH9TJzXKPP/O6UKnlUlxslP1qucwesjuQlvLkL1OitWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
+Received: from PH0PR03MB6351.namprd03.prod.outlook.com (2603:10b6:510:ab::18)
+ by BY1PR03MB7214.namprd03.prod.outlook.com (2603:10b6:a03:530::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Tue, 30 Jun
+ 2026 08:07:02 +0000
+Received: from PH0PR03MB6351.namprd03.prod.outlook.com
+ ([fe80::1578:4572:29b5:2442]) by PH0PR03MB6351.namprd03.prod.outlook.com
+ ([fe80::1578:4572:29b5:2442%4]) with mapi id 15.21.0181.008; Tue, 30 Jun 2026
+ 08:07:02 +0000
+From: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>
+To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>
+CC: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: RE: [PATCH 6/6] hwmon: (pmbus/max20830): add support for max20830c
+ and max20840c
+Thread-Topic: [PATCH 6/6] hwmon: (pmbus/max20830): add support for max20830c
+ and max20840c
+Thread-Index: AQHdCDrPjQujEK8MeUujhrP1WqLJTLZWdMEAgABEj/A=
+Date: Tue, 30 Jun 2026 08:07:02 +0000
+Message-ID:
+ <PH0PR03MB63514C57CA17984F0B6FEEC8F1F72@PH0PR03MB6351.namprd03.prod.outlook.com>
+References: <20260630-dev-max20830c-v1-0-a02786bde470@analog.com>
+ <20260630-dev-max20830c-v1-6-a02786bde470@analog.com>
+ <e5c7fcae-57aa-4461-987d-7f004d066873@roeck-us.net>
+In-Reply-To: <e5c7fcae-57aa-4461-987d-7f004d066873@roeck-us.net>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR03MB6351:EE_|BY1PR03MB7214:EE_
+x-ms-office365-filtering-correlation-id: 996268e8-d28d-4390-839b-08ded67e915d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|23010399003|7416014|376014|1800799024|38070700021|22082099003|4143699003|11063799006|18002099003|56012099006;
+x-microsoft-antispam-message-info:
+ 2msSqgBV0qQAyYJZU7qgBayAjeFgZRXdsigb8WwTL36i/ndUlOg8HSP9OFboffXzGZzTlzMlEL+8ozW3ysV0OiWZfB5DwmxnLK6RnCjYfjxA3m8c6GbXlj0+XrooB6cRUiDjDXSrvfl3YQ7WZLehIVtvJnwlsRspVYGZqLz0ZC1XcjPnsAdQYK5aveb1WNvFavhjYaofxkXaLFCQO6LGTdAJ2D/PuAOvBjCplxGEz0D5XP+bVMaKQI5emTzFhKrUP7VaHj7DxMjwacgdR8DJ0QOiglijm4Y960ndfM4aQgPzOjkESis6hGtsfbbjZ7gnfRpRK2dF7ZJdNVxkCF3nBq3A5i+SV7sc3sJpKmuEnWMKNEx+lOQqAhwb9BYtI9OtcF+KdKZ8KQ0VewaWuwOF1bOGhKsmmzKdHmQn3CVUbYnE8lcbjjCetAa7LgxiorXq8xBIw8hyLOIh/yyGZd7LLlS9xI9QwQyulzNKhdagwF2OunRP6ylaikVevXja7nT4oRsjWtjlo6/EynEu/6i1V4/E1g/ei8q86HKS6oDIWtRHiz5WhY6SpuM23BRMgkiLaNoSZlzfaBiTCV2gYABjaRe23te+9soM3jAQt1wSSZ+zHyH+0rGjruZW9KubbyHRlzdeKtsh/pP5PcGV41ZkilDnmyu6ABl+zKzoen6io0rhZYk+jmUCgojUjcAerLso+I5PCzSwrcUHIPjYbFvHJomwAmUL0TBBGMGB/hY9f8g=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR03MB6351.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(7416014)(376014)(1800799024)(38070700021)(22082099003)(4143699003)(11063799006)(18002099003)(56012099006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?KD+wksj03XRqXIXey8/hP2KcW8AQWVM9U5ZMHLI3XwyK1xR0egYE47lQrGtK?=
+ =?us-ascii?Q?4TR5vTaAqZss145EnqmgqvQg0eReINRtECzbV+G4t9yMdJsMKWxuvbxxeOiS?=
+ =?us-ascii?Q?u8vzWNBXPqYhU/tewUUznmwJgiIkvadICfsjUkQVufK+AFQM7bWRB81E9jiE?=
+ =?us-ascii?Q?er+hEaMJa1GpCJpEhwLg+NUcGn41xGtvQEdM+2EVOzAo9H8f/Ai+hJJ4UGny?=
+ =?us-ascii?Q?KPuearsPIudnu5QOfiS/SuEEWgRQJNbhr1R4b1KxgOXZJ26detNyiWBGEVAy?=
+ =?us-ascii?Q?UTHKzBM5n/bff+dIy2oYagTUIyEWN6Iw7/5w1EBgItrNTl/4LNkUAIhTvxlq?=
+ =?us-ascii?Q?1l4N34cPUg5yTXXQsqBlK7qbC6lxRcvT5X46aOU4Y4+dssEtr4P8knUNEgOi?=
+ =?us-ascii?Q?uaxeMA3fdeErBsu+A6P59qgRKO1jRy1ISSgPYVyGIcpp2Ll6zko+Fpcz9ov1?=
+ =?us-ascii?Q?ZS9NJj8dd39egjihUHoIEtRHVnVH70D+r6t3mTZ7TyluYmRyeAZVLk6q0SBH?=
+ =?us-ascii?Q?x0BMWrZVJnHyXYXjO1CRcnCJj6OFkRM26B56mgxGofAw8R0nKIRqlzYBp/L6?=
+ =?us-ascii?Q?n3g0vyopr59ieXu6xkd/tMVNEQUWCiTO3cXamgLqLq/XFamCK9Q0HKIIh86F?=
+ =?us-ascii?Q?iWPF1MnbQ21cy0k99zJbbQ9PByJwTBiUyCB8YLSiANpyj5IcJBhTokF5y7xB?=
+ =?us-ascii?Q?vwf9jACHwnNLeTVEIs5PVr/xuaUogtZ4J6bFAVt77RWD087OWtBFrVvUdxuo?=
+ =?us-ascii?Q?kVGiskg2vB2by1s49gSUes+/ud+v3aikM3X9qm/fIClecNVMQhZCBc4fGv5k?=
+ =?us-ascii?Q?rQMD4chuuhudZyouuCU9BKDYAK3qY1lTLDGuM31KAPe6Et8JCU5Aal+bB8rj?=
+ =?us-ascii?Q?814vSUnUJnJLrQF4EoCUZy4w3crlqQ8WqfZtkjBw6LtXjQVf4bpoqfxFCaZG?=
+ =?us-ascii?Q?nhnUBymq+80sVrrlKlUcB0I3cHKP7KgZQuM9ute7hyap+g4E49/PsCP7GKeI?=
+ =?us-ascii?Q?CGUlS24RQpjBng81trxyPhzRFmgKZTpTx86s9J+mNwP5oAXtsrQRJW2i7GpW?=
+ =?us-ascii?Q?RwBZlMg8j2RCuQQNArRYicwqIfGHkDGJ2kzyMOKRmims1oklpzS9ug5ExrGJ?=
+ =?us-ascii?Q?7NApjtkvEzfGRuipIMzrWAQfgYy3IHzQnECcv9fmcjVyqYTMCaeyjJpqDkjX?=
+ =?us-ascii?Q?NlQ0x07j2MTM4gAwkpJIE/DrcWyOBkN68dNLEycokJAznWHkN5XHy7ci3fiN?=
+ =?us-ascii?Q?uWyvzM9K2ovUd4NPIE8UwxpJjDu6ICXIIUxEQRq650FbDIp7DWHy4OXctVWm?=
+ =?us-ascii?Q?mQ9DkjfnjeI3V1rvScf0x6LqJEO7igJqvxxQiRzXN3Rw/g8xReGIxADaCTC3?=
+ =?us-ascii?Q?DtME4HZ9Xz8pPIBe6DzZjTxl9mk9zZ1Qam/JXX143wclj8gc4p6RiEGnUkjJ?=
+ =?us-ascii?Q?X/hFPpv+Kxh4aBaXK6YQg7PLbOlaS9DW8sSrcOP6VfhgQDeafXOeKJJRVLmH?=
+ =?us-ascii?Q?sHlHdyCv/hoatbxZVi1ltkVXqMLQ8NOdSY/N1j/+KT0sjuosyNrUpx/naLu/?=
+ =?us-ascii?Q?rVo4wjaCy7qovSyFwE65ILsOXhv5IPGRfrtKl7Kxn5NDmJRBpP4VGXZdgR23?=
+ =?us-ascii?Q?aQtAgXP2vdStndjGmw7nTzYfgKSoPXl6qz2YjOhdGitJhmDg6fBq7P+4kKsw?=
+ =?us-ascii?Q?CG0dP9qP0emcm62zFYU144qjXlteJfjC3FWTK2YSsG2S65GwFTF6W8PyJyVY?=
+ =?us-ascii?Q?Pscr3XMggy/2/e3IEVRTgrjrf/V2XK4=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wC3016WdkNqrv3WGg--.10119S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3JF4fKw18Xw1UZrWDGr4Uurg_yoWfAF4rpF
-	WrKayfKF18KF4xtFZ7GF47Xa4rAwsYgrWagry2gw43Aa15A34xur4ft3W3XwnrAr93Ka1U
-	XF4jqr9ruryqqFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0p_FApUUUUUU=
-X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbC6BkvOWpDdpnEkwAA32
+X-Exchange-RoutingPolicyChecked:
+	O3MKlSxeu1iu7SGL8aIhROjebP+oytQj3r6m/Eamib8hAqT1mHXtA8pL76zD3OwK8Qvbd2oKIVIdY9lpwrL1Lr4UixAZpk/XeB/EEgHDuP2urD2XvVVbzWXJaxJ5BVxhxkO2h5lYJSIzvqVQutUGHRaXbnHdd4wnrqWS5ItzbesOQ6CmpNjjKJEBBzkxTBHpxvTiGb83Mw5zeAAF1ZcQA2R7FDFlILLtl4VVg7oDfyEtommrV+hNjNPOpF8ZSP3BSkxz3LOG8ba82UI8r5vOTBf2JSnO5TboSdi1WOqcf7fj7DYch9P0ub1q/OBO6w2f4peBpYwENXYUTdAoZ4H0zQ==
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR03MB6351.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 996268e8-d28d-4390-839b-08ded67e915d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2026 08:07:02.5839
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kQ7SXUHl6HyqherLbyIznlsa1tmUB9G0cSMM/FUOf08Az57oB3xcBJNZRZb4tf4EVqYpZ+vskmhWdQ4QkH168VGnrCGpJSH+FqbNu5T8zu4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR03MB7214
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjMwMDA3MCBTYWx0ZWRfX3Yvv3vkHqY+9
+ OiJDClYxFrXrHKhaODXnvclnUqbpLOfyMycraLxEeuAbnTTmyKjU890yyJsvN/Pujpc/wpMZ45a
+ JGouWvdyAwhSIasmMG3Itfbbk0kTXF63gjEyByePqsZG0f5ZKvKw
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjMwMDA3MCBTYWx0ZWRfX+svQB5SxYU+G
+ 5IIlF9nAceqfWyVz7kYc7BcDgSeJ26hyOiBuCseIFi3CqrcSCmZPZDWqrnKavjlE1C2YhQmoypx
+ 5vJj9apmFrxd82Exvw7Us39R/nZCput4rycOJ8ZrYgDYWQdsn8j+4Rsof/B5/bjX8iDg4M2412j
+ 6y+opMRDMR5njrBa8/27FS3VH+XCJCdM9QEPTMffCyO1rahq1dvlWqoWy28eYG0Mg2QgqP4zjNx
+ PKNQsnOrjq3MBl361/j9r5Zj9+UOVHbTUXIs4ZKQ1KPhwiFJ/tZQSnbSCDDTZyZnjcL4FwZqm3p
+ YhN64S9rqH9D3129K5K1cKx6sFpU+CiixZ1pEZdhYKfAOAG6uvAzcScCno37Z7+mEKDOECCulnp
+ p9J/9Q5bYodFRS/6IpiFiowXpbEq/ialuDZPOXhBIrOpIWBjQOJE4v6BEw/Qaz/gNNUJLSIjmuh
+ lSKeOnlez3ULTfBxn4A==
+X-Authority-Analysis: v=2.4 cv=BMCDalQG c=1 sm=1 tr=0 ts=6a437929 cx=c_pps
+ a=huIvVN+S9WGU6koxVvae6w==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22
+ a=OmVn7CZJonkx5R5zMQLL:22 a=P2IJGS_-wxdQfiGR8TUA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: yperXxrm6R-wxACOyyPeEZPX2xE-2YWh
+X-Proofpoint-GUID: yperXxrm6R-wxACOyyPeEZPX2xE-2YWh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-30_02,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0
+ phishscore=0 priorityscore=1501 adultscore=0 malwarescore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606300070
 
-A coredump typically takes seconds or even longer to complete. If we
-happen to hold a write lock with flock just before triggering the
-coredump, that write lock will not be released during the entire coredump
-process. As a result, other processes attempting to acquire the same write
-lock may experience significant delays. Another typical scenario is that
-some custom management modules for shared memory also need to release the
-reference counts of the related buffers as soon as possible, rather than
-waiting until the coredump is complete.
 
-Add a new bit(9) of coredump_filter to tag whether need to dump fd list.
-We set it by default because tools like systemd-coredump go through the
-fds. Some other coredump pipe programs like minicoredump do not use fds by
-default. If you are sure that your coredump backend does not use the fds,
-you can clear bit 9, which will allow some file resources without VMA
-references to be released earlier.
+> >
+> >   static const struct of_device_id max20830_of_match[] =3D {
+> > -	{ .compatible =3D "adi,max20830" },
+> > +	{ .compatible =3D "adi,max20830", .data =3D &max20830_chip },
+> > +	{ .compatible =3D "adi,max20830c", .data =3D &max20830c_chip },
+> > +	{ .compatible =3D "adi,max20840c", .data =3D &max20840c_chip },
+>=20
+> "adi,max20830" is a fallback for the other two chips, but that is not how=
+ the
+> code is implemented.
+>=20
 
-In fput(), check FP_DUMPCORE task flags to NOT release file by task work,
-otherwise file put operation will NOT execute util coredump finish.
+I may be inclined to just not use fallback as it seems to be more complicat=
+ed
+and a bit unnecessary. There's also other devices that may be added on top
+of this so it lessens the complexity. Will edit the bindings regarding this=
+.
 
-Test Case One - flock
-Test program send signal SIGABRT to the program which owns the flock,
-output the wait time(unit ms) to successfully attach the flock.
-Test program malloc 500MB heap and memset it.
-If NOT set bit9 of coredump_filter, waitms is 11280.
-If set bit9 of coredump_filter, waitms is 0.
-
-Test Case Two - ion buffer
-Test programs include ion buffer publisher and ion buffer subscriber.
-Ion buffer publisher output the ion buffer hold_time if the subscriber
-NOT send ack to publisher and NOT release it. The subscriber will trig
-coredump by itself in some time.
-If NOT set bit9 of subscriber coredump_filter, max hold_time is 19591ms.
-If set bit9 of subscriber coredump_filter, max hold_time is 320ms.
-
-Signed-off-by: Xin Zhao <jackzxcui1989@163.com>
----
-
-Change in v5:
-- Not add another bootargs for the feature,
-  as suggested by Christian Brauner and Lorenzo Stoakes.
-  Add bit9 of coredump_filter to tag whether need to dump fd list.
-  Set bit9 to 1 as default.
-- Al Viro, Christian Brauner and Lorenzo Stoakes point out so many
-  problems of the code related to umap that was added in v4, delete all of
-  it which is unnecessary. The management of reference counting for shared
-  memory generally does not need to be released through the release
-  operation of files that have VMA references. Traversing all the threads
-  within the process and executing exit_files() is sufficient.
-- Fulfill comments and commit log,
-  as suggested by Pedro Falcato and Lorenzo Stoakes.
-
-Change in v4:
-- Christian pointed out that the coredump process will traverse file
-  descriptors (fd), so certain fds should not be closed by default.
-  Rework the whole feature, add /proc/<pid>/coredump_pre_exit for user
-  pre-exit resources selection, default is NOT pre-exit anything.
-- Mateusz suggested that walking the fd table and release the file-lock is
-  reasonable. No longer release all the fd(s). Based on user config, only
-  the flock fd(s) and the fd(s) correspondent to file-backed shared memory
-  will be released at most.
-- Link to v4: https://lore.kernel.org/all/20260624145552.70143-1-jackzxcui1989@163.com/
-
-Change in v3:
-- Add comment and commit-log to explain why do the MMF_DUMP_MAPPED_SHARED
-  mm_flags_test() check, note that memory mapped files keep their own
-  separate references to the files. The case to work around is that early
-  unlocking a flock on a file allows other processes to lock and modify
-  the mapped data protected by the flock,
-  as suggested by Pedro Falcato.
-- Link to v3: https://lore.kernel.org/all/20260619122419.3954581-1-jackzxcui1989@163.com/
-
-Change in v2:
-- Get rid of the implement of adding new fcntl API, the issue does not
-  worth inflicting the cost on everyone,
-  as suggested by Al Viro.
-- Call exit_files() in coredump_wait(),
-  as suggested by Eric W. Biederman.
-  Add MMF_DUMP_MAPPED_SHARED mm_flags_test() check to filter cases that
-  need to dump file-backed shared memory.
-- Link to v2: https://lore.kernel.org/lkml/20260618150301.3226517-1-jackzxcui1989@163.com/
-
-v1:
-- Link to v1: https://lore.kernel.org/all/20260618030700.2511668-1-jackzxcui1989@163.com/
----
- Documentation/filesystems/proc.rst | 14 ++++++++++++--
- fs/coredump.c                      | 21 +++++++++++++++++++++
- fs/file_table.c                    |  7 ++++++-
- include/linux/mm_types.h           |  6 ++++--
- 4 files changed, 43 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index db6167bef..d590a1dda 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1939,6 +1939,7 @@ The following 9 memory types are supported:
-   - (bit 6) hugetlb shared memory
-   - (bit 7) DAX private memory
-   - (bit 8) DAX shared memory
-+  - (bit 9) fd list
- 
-   Note that MMIO pages such as frame buffer are never dumped and vDSO pages
-   are always dumped regardless of the bitmask status.
-@@ -1946,13 +1947,22 @@ The following 9 memory types are supported:
-   Note that bits 0-4 don't affect hugetlb or DAX memory. hugetlb memory is
-   only affected by bit 5-6, and DAX is only affected by bits 7-8.
- 
-+  Note that bit 9 is set by default because tools like systemd-coredump go
-+  through the fds. If you do not set bit 9, files that are not referenced by
-+  any VMA are released before dumping core. Some file release logic, such as
-+  exiting flock or releasing references to shared buffers is executed much
-+  earlier.
-+
-+The default value of coredump_filter is 0x233; this means all anonymous memory
-+segments, ELF header pages, hugetlb private memory and fd list are dumped.
-+
- The default value of coredump_filter is 0x33; this means all anonymous memory
- segments, ELF header pages and hugetlb private memory are dumped.
- 
- If you don't want to dump all shared memory segments attached to pid 1234,
--write 0x31 to the process's proc file::
-+write 0x231 to the process's proc file::
- 
--  $ echo 0x31 > /proc/1234/coredump_filter
-+  $ echo 0x231 > /proc/1234/coredump_filter
- 
- When a new process is created, the process inherits the bitmask status from its
- parent. It is useful to set up coredump_filter before the program runs.
-diff --git a/fs/coredump.c b/fs/coredump.c
-index bb6fdb1f4..ed4d30916 100644
---- a/fs/coredump.c
-+++ b/fs/coredump.c
-@@ -521,6 +521,25 @@ static int zap_threads(struct task_struct *tsk,
- 	return nr;
- }
- 
-+/*
-+ * If do not dump fd list, files that are not referenced by any VMA
-+ * can be released before dumping core. Therefore, some file release
-+ * logic, such as exiting flock or releasing references to shared
-+ * buffers is executed much earlier. Note that do_coredump() often
-+ * takes several seconds or even longer to execute.
-+ */
-+static void coredump_pre_exit(void)
-+{
-+	struct task_struct *tsk = current, *t;
-+
-+	if (mm_flags_test(MMF_DUMP_FD_LIST, tsk->mm))
-+		return;
-+
-+	for_each_thread(tsk, t) {
-+		exit_files(t);
-+	}
-+}
-+
- static int coredump_wait(int exit_code, struct core_state *core_state)
- {
- 	struct task_struct *tsk = current;
-@@ -1124,6 +1143,8 @@ static void do_coredump(struct core_name *cn, struct coredump_params *cprm,
- 	if (cn->mask & COREDUMP_REJECT)
- 		return;
- 
-+	coredump_pre_exit();
-+
- 	/* get us an unshared descriptor table; almost always a no-op */
- 	/* The cell spufs coredump code reads the file descriptor tables */
- 	if (unshare_files())
-diff --git a/fs/file_table.c b/fs/file_table.c
-index 16e52e7fc..399db62f6 100644
---- a/fs/file_table.c
-+++ b/fs/file_table.c
-@@ -566,7 +566,12 @@ static void __fput_deferred(struct file *file)
- 		return;
- 	}
- 
--	if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
-+	/*
-+	 * coredump_pre_exit() may release files before dumping core.
-+	 * Cannot use task_work in the case, needs to release files
-+	 * earlier."
-+	 */
-+	if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD | PF_DUMPCORE))) {
- 		init_task_work(&file->f_task_work, ____fput);
- 		if (!task_work_add(task, &file->f_task_work, TWA_RESUME))
- 			return;
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index c7db35be6..e865edb04 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -1954,14 +1954,16 @@ enum {
- #define MMF_DUMP_HUGETLB_SHARED  8
- #define MMF_DUMP_DAX_PRIVATE	9
- #define MMF_DUMP_DAX_SHARED	10
-+#define MMF_DUMP_FD_LIST	11
- 
- #define MMF_DUMP_FILTER_SHIFT	MMF_DUMPABLE_BITS
--#define MMF_DUMP_FILTER_BITS	9
-+#define MMF_DUMP_FILTER_BITS	10
- #define MMF_DUMP_FILTER_MASK \
- 	((BIT(MMF_DUMP_FILTER_BITS) - 1) << MMF_DUMP_FILTER_SHIFT)
- #define MMF_DUMP_FILTER_DEFAULT \
- 	(BIT(MMF_DUMP_ANON_PRIVATE) | BIT(MMF_DUMP_ANON_SHARED) | \
--	 BIT(MMF_DUMP_HUGETLB_PRIVATE) | MMF_DUMP_MASK_DEFAULT_ELF)
-+	 (1 << MMF_DUMP_HUGETLB_PRIVATE) | MMF_DUMP_MASK_DEFAULT_ELF |\
-+	 (1 << MMF_DUMP_FD_LIST))
- 
- #ifdef CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS
- # define MMF_DUMP_MASK_DEFAULT_ELF	BIT(MMF_DUMP_ELF_HEADERS)
--- 
-2.34.1
-
+Regards,
+Alexis
