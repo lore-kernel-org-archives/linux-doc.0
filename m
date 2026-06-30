@@ -1,68 +1,67 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916DD2E7162
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 15:04:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31D82D0C98
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 15:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782831873; cv=none; b=b3ScrB2xQJGL+djFzodSInbAYr8mg7EHyxCZH5OpAs6SVjEqk0FIbtXE/MiSUYBiooYYkkVPuRpQE6i2oSdeM/wKGU6R3yzsiYK47HYMU8RibezK4WsLJsX/pHe3+zMxpbg3g/IY/pHJ1750Omm9xVOBBxeQz6Gdb/OTby++2qo=
+	t=1782831966; cv=none; b=pUv7Aa+XTDmtOVOqRXsVB71E6rnKQG83rbd0wemRDLLX3dg9KfsodU5UJ1S5lTqWvk7GjVpXJZo+6mOEh7eKQvZhlm3UyYp7h98VogZ/ylPDKJfeOBCazbZD7r1tNHmeQBXa50lvMlzEzvea23XAfqPqDFXhCmP+SLZdebah59o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782831873; c=relaxed/simple;
-	bh=5lDDuE8sF6kNY2fJhhlJq4uLAFQQc2okOrHn1iHu+Xk=;
+	s=arc-20240116; t=1782831966; c=relaxed/simple;
+	bh=PJjRJZxJL/UeW4KERlFdeotWgWnB827NyxxhJhOJ66E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L3WH7yK21PlLv9ga1+U83fiGkMER75Qjf+nmkWS4ImOqpiiwuwBv3uQmXiw6W2d0KnTDSxpaGx3T3S0wTgHqu5UrJMM9EawkYLfdeagustvmbUw43SUPEL0WPqzAEKLHgE1dYxkXzDumZX2at2fO+NEhTmLgfmNFJ4pp4Vl//rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=piOq93U5; arc=none smtp.client-ip=209.85.216.44
+	 In-Reply-To:Content-Type; b=MsO3OSN8ytDe7PyaDC3myn8Sk996skw2+pjQWBXlTBuoJLtOg7RZCb+QKsu9OlJner73sdGnhRdiiH7M0IXy+0fs1r+fjpaKa01P7wyIX+IZSB/d4J15qHWKA1ep/HYxVfwNg/KR1JA2unC3aCo+D067WJOEKvCWJ5CyWHgc8fQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ywkn2HXL; arc=none smtp.client-ip=209.85.215.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="piOq93U5"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-37d70036426so2177686a91.3
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 08:04:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ywkn2HXL"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c96c92c0980so984848a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 08:06:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782831872; x=1783436672; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+        d=gmail.com; s=20251104; t=1782831965; x=1783436765; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=joxhazWjMjnT6/LFzkaTg751wYRM1xoJ6XVmP2fPgN0=;
-        b=piOq93U5GifRehseEE6sTt1aVMHi0rz1VOA5WjJ7W/il9YHe8cznrMxnfhxSKzJnZB
-         nUd4xZzBWEdcqGQeL3NbMQuxX7k/3eY9q1cavVgilOuXyl7AIOyON1ZTajzS6MjBjv7F
-         5lIHztkDLDtUV8HyZkQCB55YiTPHZw97dVp4NBi08VvxRfWe7RXVfUtOpP5/VkDxQH7e
-         tpPFbBS9aJEiztKdaOWimXUZGEu4wkve1pXBgr4guDA3nTjraqM30MjQL5j9DlFxGZwf
-         7OCFlYbDgigzHrwO47UAeaXdTdRNC4AwlvIkT6Y2slzw8RAas+31qZ3Q7imgkG3g2pCy
-         qElQ==
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=UFGyoA2Rfep2QWMuhmcB9t0qic4TnIIqSNqMYevCqLs=;
+        b=Ywkn2HXLu8UBrdYFIuFoGWuBiCNrRfBBtugeSXlwTHmnkSAH+8aFaCJD3LMwTRPrjk
+         jGMJUQr6FYbfIxQsxf5Gv6nsN5BNfZYCFIiCotNOOsbuypi7DTcrCOJ2ySQr0i64BVFC
+         Btq8vE9j+W+ue1g24yd09/x4K9h77kxmzNhopkx2/amOY7+i1MdfUgwHUb3Ngn/nY+sM
+         oYz5Vjmd6yQq5K2qWbdgFpM7AbuNlOQqj8RtJXgGS1QY7VbiRAppIcpsgUyKFwncOPQ1
+         2DoV8k488EkLEA9rAL8uE0gV1ntLD703/fmeb6UjJIJwJhf5PL4ND4bJSTmzZNrKGtss
+         AQnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782831872; x=1783436672;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+        d=1e100.net; s=20251104; t=1782831965; x=1783436765;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=joxhazWjMjnT6/LFzkaTg751wYRM1xoJ6XVmP2fPgN0=;
-        b=eCD5onBlGBMpHPzhCt1emfYGlH+oLqWxk8yRiZhu9BZTBe51E7I0b42DoD6fK5W3kS
-         92NkANqS5Mglqb+/DV1BzPph14zXc/jxFPnUgtuNg2RPgpeJVqazHB8WYm0eQrx1K/sf
-         TqI6xDasdHgZDuacg/4HGGQ4Odt32NE4owCoviN4Qo5U+68VfTr8GRD1AmRLzndaG3ib
-         TqDGCLMlA+q/PwPWAaOtUtyeKBHOqmHWRYWItRE9+vp3sjmwtN1AZOr0IPS5sT2jsb6h
-         ifInjvuukIoTi/Xio4uja1d9XahF1MRompTAdgOePDzK0pCuls0uTJckp5h4Ne/haBkr
-         1zPw==
-X-Forwarded-Encrypted: i=1; AHgh+RrKbevW53nPKH9Lpp/ZUH8gntT5hFoeF7H+IZHjv9nzk/mLJT5FHKeRx+do6SEsYEhlw4UrcI0MFlU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxaaYgNsqqMEYd46YKNHZVGUP4GkOlXHlIUFivSvf7lXJtKCeyN
-	sPjpMRSftGvA1Uw8LSgVgnE+2xqba7hAoIbmr9pU3zDQydvH5eEBJ6Z5
-X-Gm-Gg: AfdE7cksg60a/eoqhQv+YRaH/GOS79S2ofVC01+Su9IVkacYCqjUolpIcvwNDmUi9j4
-	a3yG9LuGuS4csDYeCaZ3OU+8HgGlsO8Ouh50AUFa2J+1LdFJXOrXTB+i7Lzu8KYAC4EmSPJOdAo
-	g+yQhVs8z75b5Tyab0fuNWbO2BT0pvSXNA4ukWfueBm7SW/kkau0+cQN4wnebiKms/efK04E5AO
-	RtdhgGAuN50AU/0kGVKn1uOqapaD4RIJtR/Q71691atq4fZ7vLgAsB6Yrwdv/oWy1pJ+X1Gzd6e
-	zCJ7KAJ8mTqNpWA3MlDgxNZGyhPUr3Vxmze7O/2zN+mpYdycWkDbEOkEc9a5D4KOK2okJzYBLm8
-	ngJKGD0w/PoJ1DQuHeEzKbjokC6Mar2vKmXqaN3JmgNHKJoNLAfOe+GgXuhVlevJfynfTd/uftr
-	N9XoOhS9rdb9RrpvQmpaGg5GMASHL/HM64DDqSjTcKlKOA6QM/8gTawYLMb9e/DA==
-X-Received: by 2002:a17:90b:1cc6:b0:37f:caeb:69e3 with SMTP id 98e67ed59e1d1-38052757ac6mr2977364a91.23.1782831871633;
-        Tue, 30 Jun 2026 08:04:31 -0700 (PDT)
+         :subject:date:message-id:reply-to;
+        bh=UFGyoA2Rfep2QWMuhmcB9t0qic4TnIIqSNqMYevCqLs=;
+        b=KOxi514mu+3EyqW+YK8BYEOye3shvfZXbygYD69ILSJ44OELEnBn3UezT1553//mrx
+         UqLm/UUpU392N+u+QXcLS8ok7FQjhNNktr1IU3SREk8h46ZrhOZt99v2YpLv1iuH9Uq6
+         ruiAs6FWnWdqtCNy4vpB7mG9wGj/WPMlSmnizvF0+B1rbCMu153+dy7qzYE9QKJLkWUW
+         iTwuov1dds7d7PCtIN2f7V3NJHxtgLgT0vL8WYhigc/K9asbz66cV3rlbX2R5poIwm5h
+         LH0/hYpA9Y4CYNfxnQXD4SwAY/NHL2yiy3ormdWgZLYXMhVCi/sDgcyxLz0mZVJJPPum
+         pL7w==
+X-Forwarded-Encrypted: i=1; AFNElJ8lipsm/GhSycP9FElwSa0blibZkFSenb3WEFXbptAxF+QDgXft8w0LVFw8vy6OF7LYYUEWUKThUec=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHh//u1dHKe3IQoYxxsrIBQodfhN7/6a9Nhn1/x5VMDf4UrNXQ
+	/zZmaU8DsclFzx290hpi8BkQCuZ/kuqd/Y9KH1YTmpapaEy6H5amibBS
+X-Gm-Gg: AfdE7clZgK3WMXEc2ha+VnXUbQSkJ/FQowX4EMECzr4dBXO6SjFUWf+eryHwS8Nu92G
+	yitbAPnL9m/kVzPEHfYhOcEInYtiTUoRRPDgEHEhV2U/2jyaUL5gok/PFjFvZRTOS0DvzNbCwWf
+	eAIBwRJRlnoVCX9UINv+VazbCtcHnn8y5lbn+W3aM5hNheRPFpFb2OVim1QBGarf5/RhV0WOTAA
+	IX6FPuejCcn/hDCbon46E4GiaumnvoTqIFLpbVN/GwB5822exv1IoY+fV5AmMeZdaw6cKjoYkAP
+	FjlzDiozXf0gDQsmDRdO9iOE+ZoOymZetw+W94kNP5kEFwt7W2RSBfNYcOG1Oion5ivrih3U8eh
+	uK/M6iSKro7N+44jhmJ38sAtXkSQOp3ZfzDz/1mltf4MNktUmj3njiVIFAlGbbjjLYbTpy6ZIO9
+	PNDzmuQHvsdDXkPorZGj4r8MVTRLg6HvcNKhnbvRRXPBfdOLTm58X2qLr1xgwvDqPrqkRqskLI
+X-Received: by 2002:a05:6a20:729b:b0:3bf:6f9f:3381 with SMTP id adf61e73a8af0-3bfc5275c76mr2888665637.33.1782831964766;
+        Tue, 30 Jun 2026 08:06:04 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c9bbf95b8a4sm1765218a12.18.2026.06.30.08.04.30
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c9bbf95a7bfsm1775759a12.15.2026.06.30.08.06.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2026 08:04:30 -0700 (PDT)
+        Tue, 30 Jun 2026 08:06:04 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <adfd2c4d-6d42-4aeb-9eff-6a059550ec80@roeck-us.net>
-Date: Tue, 30 Jun 2026 08:04:29 -0700
+Message-ID: <22c253eb-d2bd-4e2d-9d8c-baff07306a30@roeck-us.net>
+Date: Tue, 30 Jun 2026 08:06:02 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,20 +69,21 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] hwmon: (pmbus/max20830): add support for max20830c
- and max20840c
+Subject: Re: [PATCH 5/6] dt-bindings: hwmon: (pmbus/max20830): add max20830c
+ and max20840c support
 To: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
  "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 References: <20260630-dev-max20830c-v1-0-a02786bde470@analog.com>
- <20260630-dev-max20830c-v1-6-a02786bde470@analog.com>
- <e5c7fcae-57aa-4461-987d-7f004d066873@roeck-us.net>
- <PH0PR03MB63514C57CA17984F0B6FEEC8F1F72@PH0PR03MB6351.namprd03.prod.outlook.com>
+ <20260630-dev-max20830c-v1-5-a02786bde470@analog.com>
+ <20260630-gerbil-of-phenomenal-jest-4dce8b@quoll>
+ <PH0PR03MB63512440FF07E171477CD42BF1F72@PH0PR03MB6351.namprd03.prod.outlook.com>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -129,32 +129,34 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <PH0PR03MB63514C57CA17984F0B6FEEC8F1F72@PH0PR03MB6351.namprd03.prod.outlook.com>
+In-Reply-To: <PH0PR03MB63512440FF07E171477CD42BF1F72@PH0PR03MB6351.namprd03.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 6/30/26 01:07, Torreno, Alexis Czezar wrote:
 > 
 >>>
->>>    static const struct of_device_id max20830_of_match[] = {
->>> -	{ .compatible = "adi,max20830" },
->>> +	{ .compatible = "adi,max20830", .data = &max20830_chip },
->>> +	{ .compatible = "adi,max20830c", .data = &max20830c_chip },
->>> +	{ .compatible = "adi,max20840c", .data = &max20840c_chip },
+>>>   properties:
+>>>     compatible:
+>>> -    const: adi,max20830
+>>> +    oneOf:
+>>> +      - const: adi,max20830
+>>> +      - items:
+>>> +          - enum:
+>>> +              - adi,max20830c
+>>> +              - adi,max20840c
+>>> +          - const: adi,max20830  # Fallback compatible
 >>
->> "adi,max20830" is a fallback for the other two chips, but that is not how the
->> code is implemented.
+>> Drop the comment, it is obvious. Can this be not a fallback compatible?
 >>
 > 
-> I may be inclined to just not use fallback as it seems to be more complicated
-> and a bit unnecessary. There's also other devices that may be added on top
-> of this so it lessens the complexity. Will edit the bindings regarding this.
+> After considering the feedback from patch 6/6 regarding this fallback, I think I
+> would not make this fallback compatible. Will edit out.
 > 
 
-You are missing the point. The fallback is perfectly valid. Technically
-the driver does not even need to support adi,max20830c and adi,max20840c.
-That is only used to validate that the chip is supported. That does not
-need a separate devicetree entry.
+The chips are technically identical (register compatible) except for
+the device ID string. That can be evaluated in the driver without
+requiring a separate compatible entry in the devicetree description.
 
 Guenter
 
