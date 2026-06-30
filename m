@@ -1,144 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA5E22424C;
-	Tue, 30 Jun 2026 16:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FE1478875
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 16:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782836661; cv=none; b=O7EJU2HW9/eO7q7j0t46W24odreTSlmJA+kFz5QWbv916Wh6IWwt37u5ynEa8+kTijniB+c/7cHqitd8lSFRApouludtFHoxSkngLFcvFQI4CeHGDytFtmacWWN8Mj7RIYpobWCX3UcqdOzr1E4BwdVaVxIcUhU+aODiN/9+rBU=
+	t=1782836871; cv=none; b=rJQLNnSM9/YADRsQk3SVOH2X7JlU7qZxS7IAHHVBtQ5tGaVePyIC7gWNypeHiUNYU69BtpYQXrZr+8UqQHDd5U+mmRxGCFXfbl7kUjAMZzp51QbCdC4fCS//zG8qZsvXtUzbVXS/4PIRDieNwidoAml6msYjoi8JmVK06uXJdcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782836661; c=relaxed/simple;
-	bh=jA+Z5cSC4JkMlTEcMPICRNGh0TWd7xD+/PkK+LHbEkI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BzautW5UrxyUhbTsegYN+nLNpOwnGvpXai3QbsGdX2cufcHOCf0VBGbEXSkpz3AbsNVCK7qE1UwmPwEmtAUJ4FHw5YYFlQ6JbogqNdj3cSPJvlnZtK4cLRsdEH8PXCrdiTE/PaENEr2ri13K+zQhrQtw+a3d21vEgQbGvBgW2xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aTTXsdkT; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782836871; c=relaxed/simple;
+	bh=ozZ242VPVy2flVhjMUpvLDowV2A3SAEMfd76chEaS/I=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=p5VUhZgvDg0UxgJebxLA8dv3x2mjFy0+Ic+PEwX1FKxhF42pqNCoi8dYA6MzRT/NGxZsrZcuVF4ylxZwhIAazQm2gAvk0f946/EgCSgWy99hePOYtT94TxfHL3jsQe449eGWrePM3+QPwynbnMXg/M1X+S5zfU0eDroChtH8kRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lyIn165u; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aTTXsdkT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782836660; x=1814372660;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=jA+Z5cSC4JkMlTEcMPICRNGh0TWd7xD+/PkK+LHbEkI=;
-  b=aTTXsdkTovPhZjBYaKleTJ4/+2a3bF0b90/KIpB+bqrY+WgZ12PAAOcR
-   RHmc1xR8Z8hda6yE7PZi6SELpadpfJ2mdtLQICaboVXISLVglfOuWqpR1
-   wn+wGmBkrV5EjUfvhDsv17/Ldac2rpruQO2wBa0wQ1Bf5GJB3TIuH6JN2
-   iP0Z1wo1FpgR1kvIigWLnpgs1NIxzrXHmWeEVuwcwRnozY7XAIXpGqxom
-   zzHPdJur4p50EY2+HjtfWmp2lHmMss4vaN5eYzlSEK4jYz3hFYntrAORm
-   2ZW3pmdtJznuGXg59jrtxwNIaYV5SBKiTsEe6T+d47J9O/nyq/zQRr2FE
-   g==;
-X-CSE-ConnectionGUID: Me/vS7ygRiWMvHi99tfDlA==
-X-CSE-MsgGUID: 2GlluxpcRJ6R0n+/r8Or3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="100983374"
-X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
-   d="scan'208";a="100983374"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 09:24:19 -0700
-X-CSE-ConnectionGUID: P5X392gpQj6ht692ZNvZ0w==
-X-CSE-MsgGUID: Y/RTZ8sDRUCfvUTyYMkP/A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
-   d="scan'208";a="251255791"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.124.232.239]) ([10.124.232.239])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 09:24:05 -0700
-Message-ID: <6df5cb10-645c-42de-b0f8-3fdf61067653@intel.com>
-Date: Wed, 1 Jul 2026 00:24:02 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lyIn165u"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2c99672293cso26932315ad.2
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 09:27:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782836868; x=1783441668; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=d3PcY56r3Gc4NP6LZch/40tRd41JkmPS9gpOd8qwacw=;
+        b=lyIn165ulRLgbctjYIENKSwx73Ef2XYB21dGOfX07uklKpgIPD7l7E3xPolOCT4+Io
+         zhesAnATV7dzztYF/vOSVVUeQZlIitTHPKPFwbfbQfui6R+Pw57lqvonMW+4OF5EoFKg
+         im9OkgwD1Lq1eq49ra/YyAE/n/Lk6JA5fPo1pMd4YQE0KcSxIAGwj6MvYrew6MB1WOpD
+         hVUCogjR0J2UOEt0Mr+MwIyxkSd1/rAijKSgwQFREok6YlfeZyENo0DgCqgFDYcbae9w
+         BbZ54p1fYPAUrmjQBuT+ZVJjJ2CjifKBDOexoHOp7OAR+CEM1QhXaje4AUeJ1zFEMiX3
+         yKmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782836868; x=1783441668;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d3PcY56r3Gc4NP6LZch/40tRd41JkmPS9gpOd8qwacw=;
+        b=Yw2f2GTSeE7n7cnC/KIZzsTUVw6v+q5RA/3P1ey61uTKxv01yOFbSaext6aFVPu8gd
+         U9I+J897hJ/IS/VpdG9dVEr+qciTSXTYwtw0YfiMou01g5bnbzrblUcMpMERdlS/uzU4
+         /+GBXXMXoOZ5dyF2NChfwSsqwSr243bCadSCcR6N/5Md0MRhPeJG3CRzPKy62y541Fgj
+         88RvDvtFpDtyZGJZWocmieUJA9P0Q3dQNRs+qcmy+hqTQv6vAC95XbCpGMqMUI9/kPMA
+         RxiwSxRxoP3wtFheJhmMc4ZUHLinBeZKJFeqMn9+0ezuRKmBUkxh3FNgApZkP+R6r0Ti
+         H5Vw==
+X-Forwarded-Encrypted: i=1; AHgh+RoBsc4WJZQOtFejVOHkHgmBBJCnpoNfY0tJsuubW9vQ2yAIpzS7bt+Xtv/0gI7PZQItg4VgAKn3SxU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw87F5TejMnsdRC0/mW6MkYuCLllu6TuNxXk+ESO5lPakGyac2v
+	EvjPfFnXicZE31G60ji+TDunE4GM/Br3/LtdGlBujQAGFVamIIDGXHQ0
+X-Gm-Gg: AfdE7ck6sVM6rgfJBs4mPBeObCTXL6EcBKbHbo98nuAHQHfT/PpVpD07byD2kz1x4S2
+	PsEeCaejPwrU03JFQ6emDTVaxIiIE3ZdZG25XpOKA5N/T1fCWV+vwuIjNlx5c2u2OBPnHPInP9W
+	2Snr2YX4VEKGFb/1Q3c1XLOAD1jpq+ZJFHVrQ9Qe5nPogr/B+Ihidpm3t3uZB90ky6wjxNh9PXx
+	Ljei/ljO2R/9UY8P7iJ2GDXnYI95Bc7xBGf/QVdSXf3SrWUkgkQYCfNaqvt5y2Icn8C7MwdiBN1
+	M5JXdYG1sgWHe/JrjVNynj7FiEzd+/wi/zmDoKkyeO0HWqeELUwMKaxxfm2n5KtsEgW0u3qLlyu
+	UiNUNVKC0zln1qmZir8ZgWr0dbsbulRRugZIIbs6nPbb37bRanOivvBeokzTDeeW/BU0tsk8ASa
+	2og2ZgUeVKssf8jKNjrUouZpVOmZNdDIpZQTQo9gS0vYKJYCvGPZ1urlC5Ua3tLi8ITzagXXu2
+X-Received: by 2002:a17:903:19c7:b0:2c8:248a:5dbb with SMTP id d9443c01a7336-2ca5a52fcb9mr11637185ad.7.1782836867835;
+        Tue, 30 Jun 2026 09:27:47 -0700 (PDT)
+Received: from NV-J4GCB44.localdomain ([103.74.125.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca37c87bcesm17829375ad.29.2026.06.30.09.27.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 09:27:46 -0700 (PDT)
+From: Jianyue Wu <wujianyue000@gmail.com>
+Subject: [PATCH v6 0/3] mm: clean up folio LRU and swap declarations
+Date: Wed, 01 Jul 2026 00:27:31 +0800
+Message-Id: <20260701-ch-swap-series-plus-folio-lru-cleanup-v6-0-d4f648963382@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 04/46] KVM: Decouple kvm_has_arch_private_mem from
- CONFIG_KVM_VM_MEMORY_ATTRIBUTES
-To: Sean Christopherson <seanjc@google.com>
-Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev,
- binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com,
- david@kernel.org, jmattson@google.com, jthoughton@google.com,
- michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com,
- qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com,
- shivankg@amd.com, steven.price@arm.com, tabba@google.com,
- willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com,
- forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com,
- aneesh.kumar@kernel.org, liam@infradead.org,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>,
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-coco@lists.linux.dev
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
- <20260618-gmem-inplace-conversion-v8-4-9d2959357853@google.com>
- <6b1f0c77-f059-4f8d-8f46-443b944c59a0@intel.com>
- <akO_Y0-ERgBoCqoQ@google.com>
-Content-Language: en-US
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <akO_Y0-ERgBoCqoQ@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHPuQ2oC/5XNy07DMBCF4VepvGaQ74lZ8R6IhS+TxpIbRzYJo
+ CrvjlsWRLAJyzPSfP+VVCwRK3k6XUnBNdaYpzb0w4n40U5nhBjaJpxyTZVg4Eeo73aG7z+Y01J
+ hyClmSGUBn9BOywzBdD3zvRA8eNKsueAQP+6dl9e2x1jfcvm8Z1d+u/63sHKgwJyx0nqulJPP5
+ 4uN6dHnC7kVVvGjasqPqqKpyjmndDf03pjfqtyr4qgqm+qRcmaQURr+qGqnCnpUVU2VmnfW2R4
+ Dw726bdsXvo/CUNwBAAA=
+To: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+ Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+ Youngjun Park <youngjun.park@lge.com>, Qi Zheng <qi.zheng@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+ David Hildenbrand <david@kernel.org>, Michal Hocko <mhocko@kernel.org>, 
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+ Hugh Dickins <hughd@google.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Baoquan He <baoquan.he@linux.dev>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Jianyue Wu <wujianyue000@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openssh-sha256; t=1782836859; l=4374;
+ i=wujianyue000@gmail.com; s=id_ed25519; h=from:subject:message-id;
+ bh=ozZ242VPVy2flVhjMUpvLDowV2A3SAEMfd76chEaS/I=;
+ b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgW51Zh3v9nG0Wlld2Ti8ylp1TnO7yB
+ H+z9CbXty/WEAQAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
+ QBW38YUDJC5EEUVI/W3wuOcivo/VsltkPoCjaJuVPuRzifRN6yDdlZpgv7Kaoq6mACvD7+phjlW
+ qMJxGX9lJFgM=
+X-Developer-Key: i=wujianyue000@gmail.com; a=openssh;
+ fpr=SHA256:gVWBPJbHGWlCIw+V8F63Ff0k21S7AB5+rZt8+huemvg
 
-On 6/30/2026 9:06 PM, Sean Christopherson wrote:
-> On Tue, Jun 30, 2026, Xiaoyao Li wrote:
->> On 6/19/2026 8:31 AM, Ackerley Tng via B4 Relay wrote:
->>>    arch/x86/include/asm/kvm_host.h | 4 +++-
->>>    include/linux/kvm_host.h        | 2 +-
->>>    2 files changed, 4 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
->>> index 8e8eb8a5e8a6b..1bde67cf6eb0e 100644
->>> --- a/arch/x86/include/asm/kvm_host.h
->>> +++ b/arch/x86/include/asm/kvm_host.h
->>> @@ -2394,7 +2394,9 @@ void kvm_configure_mmu(bool enable_tdp, int tdp_forced_root_level,
->>>    		       int tdp_max_root_level, int tdp_huge_page_level);
->>> -#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
->>> +#if defined(CONFIG_KVM_SW_PROTECTED_VM) ||	\
->>> +	defined(CONFIG_KVM_INTEL_TDX) ||	\
->>> +	defined(CONFIG_KVM_AMD_SEV)
->>
->> Maybe we can just remove the #ifdef and make it always avaiable?
-> 
-> No, because common KVM keys off the macro to determine whether or not PRIVATE is
-> a supported attribute:
-> 
->    #ifdef kvm_arch_has_private_mem
->    static u64 kvm_supports_private_mem(struct kvm *kvm)
->    {
-> 	return !kvm || kvm_arch_has_private_mem(kvm);
->    }
->    #else
->    #define kvm_supports_private_mem(kvm) false
->    #endif
-> 
-> And also whether or not to provide the in-place conversion param (without PRIVATE,
-> conversions aren't supported in general):
-> 
->    #ifdef kvm_arch_has_private_mem
->    bool __ro_after_init gmem_in_place_conversion = !IS_ENABLED(CONFIG_KVM_VM_MEMORY_ATTRIBUTES);
->    module_param(gmem_in_place_conversion, bool, 0444);
->    EXPORT_SYMBOL_FOR_KVM_INTERNAL(gmem_in_place_conversion);
->    #endif
-> 
-> I agree the #ifdeffery is ugly, but kvm_supports_private_mem() in particular
-> needs to evaluate to false if PRIVATE memory isn't supported.
+The previous version moved the folio LRU helpers out of mm/swap.c in
+one step. Based on review feedback from Johannes, Baoquan and Barry,
+split the cleanup into smaller steps:
 
-I agree with the above after seeing the later patches. But just to the 
-state where this patch applies on top, the #ifdef is not necessary.
+  - move the page-cluster sysctl next to swap readahead in mm/swap_state.c
+  - rename mm/swap.c to mm/folio.c after the swap-specific bits move out
+  - move MM-internal reclaim declarations out of include/linux/swap.h
 
-Maybe add some log to explain it will be helpful.
+After this series, swap cache and swap-in readahead stay in mm/swap_state.c,
+folio LRU helpers live in mm/folio.c, and MM-internal reclaim/workingset
+declarations move from include/linux/swap.h to mm/internal.h (public LRU
+helpers used outside mm/ remain in swap.h).
+
+The first patch handles the swap-specific page-cluster state before the
+file rename, so the rename commit only carries folio LRU code. The last
+patch keeps the LRU helpers used outside mm/ in include/linux/swap.h and
+moves the internal reclaim/workingset declarations to mm/internal.h.
+
+This series is based on akpm/mm-unstable as of 2026-06-29
+(81652c5a65d4).
+
+To: Andrew Morton <akpm@linux-foundation.org>
+To: Chris Li <chrisl@kernel.org>
+To: Kairui Song <kasong@tencent.com>
+To: Kemeng Shi <shikemeng@huaweicloud.com>
+To: Nhat Pham <nphamcs@gmail.com>
+To: Baoquan He <bhe@redhat.com>
+To: Barry Song <baohua@kernel.org>
+To: Youngjun Park <youngjun.park@lge.com>
+To: Qi Zheng <qi.zheng@linux.dev>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+To: Axel Rasmussen <axelrasmussen@google.com>
+To: Yuanchu Xie <yuanchu@google.com>
+To: Wei Xu <weixugc@google.com>
+To: Johannes Weiner <hannes@cmpxchg.org>
+To: David Hildenbrand <david@kernel.org>
+To: Michal Hocko <mhocko@kernel.org>
+To: Lorenzo Stoakes <ljs@kernel.org>
+To: Liam R. Howlett <liam@infradead.org>
+To: Vlastimil Babka <vbabka@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+To: Michal Hocko <mhocko@suse.com>
+To: Hugh Dickins <hughd@google.com>
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Jianyue Wu <wujianyue000@gmail.com>
+
+Changes in v6:
+- Rename mm/swap.c to mm/folio.c instead of folio_lru.c.
+- Link to v5: https://lore.kernel.org/r/20260630-ch-swap-series-plus-folio-lru-cleanup-v5-0-4627aba8ed1e@gmail.com
+
+Changes in v5:
+- Rebased onto akpm/mm-unstable (81652c5a65d4).
+- Fix mm/swap.h for CONFIG_SWAP=n after rebase.
+- Tested swap-in readahead on x86 with swap: vm.page-cluster present
+  and writable, swap in/out under anon memory pressure, page-cluster 0
+  and 3 paths, no oops in dmesg; run_vmtests.sh passed.
+- Link to v4: https://lore.kernel.org/r/20260603-ch-swap-series-plus-folio-lru-cleanup-v4-0-ce0219e100d9@gmail.com
+
+Changes in v4:
+- Address Baoquan He's review on v3: align patch 2 subject with
+  rename-only scope; fix vm.rst sysctl documentation; refresh file
+  header comments in mm/folio_lru.c and swap.h declaration comments.
+- Expand patch 1 commit message on CONFIG_SWAP=n vm.page-cluster
+  registration (also on CONFIG_SWAP=n kernels).
+- Link to v3: https://lore.kernel.org/all/20260602-ch-swap-series-plus-folio-lru-cleanup-v3-0-5bbb567f8c99@gmail.com
+
+---
+Jianyue Wu (3):
+      mm/swap: colocate page-cluster sysctl with swap readahead
+      mm: rename swap.c to folio.c
+      mm: move reclaim-internal declarations out of swap.h
+
+ Documentation/admin-guide/sysctl/vm.rst |  3 --
+ Documentation/core-api/mm-api.rst       |  2 +-
+ MAINTAINERS                             |  3 +-
+ include/linux/swap.h                    | 75 +++------------------------------
+ mm/Makefile                             |  2 +-
+ mm/{swap.c => folio.c}                  | 46 ++------------------
+ mm/internal.h                           | 67 +++++++++++++++++++++++++++++
+ mm/memfd.c                              |  1 +
+ mm/swap.h                               |  9 +++-
+ mm/swap_state.c                         | 37 ++++++++++++++++
+ mm/vmscan.c                             |  2 +-
+ 11 files changed, 126 insertions(+), 121 deletions(-)
+---
+base-commit: 81652c5a65d4ae28e9b18c16ef917a40025c3653
+change-id: 20260531-ch-swap-series-plus-folio-lru-cleanup-d9781c8332dc
+
+Best regards,
+-- 
+Jianyue Wu <wujianyue000@gmail.com>
+
