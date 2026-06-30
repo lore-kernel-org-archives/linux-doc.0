@@ -1,148 +1,117 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A261C3E1D1D
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 04:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847BA25B084
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 05:01:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782795231; cv=none; b=GmQGWFRLqDichWvsQMOY5kViGduc9mejyM5HXJZdH4nYLVFw3F1jCHOPyZVojJnkYkcsKK3sPO0O7liAkpnShPNEgOZ+yNXBvNcuZViSIo+Ur59OOWYZqbwUDJAmhKL4TyU+YYaYl+vVm0hTNhNZ/yDzSrxPlzHtSEwLDIjt5Mg=
+	t=1782795676; cv=none; b=MMxuUYPJnwZ7QeXvm8rtTutyMHDUIZDur64pLhUo+gMTkgp0x1jEaQ3cD/2woV3B1H5ZP2Q0WLLsaY4yzu6Wo1YTjUzhtVLezpajSwPtm+avSmg4fUe0uOPHve7NKqsnTQDPSx2Q5N54uYlOTJLvKqi/cxL6djPx79YrOaNsfVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782795231; c=relaxed/simple;
-	bh=GWZK5uFIxA58sOim+D5js6WZNmhLN/QK+82zh6v+r20=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SmcQeXMzC7u5VFbsMfBXCIaBxBlJDmbb+wBAogqbroHl+rrBEMlNsIus8aepkIJ4E9jwUKuMKgsSayoC9AiSSf+4jtrU3u5S57zoH/zoRIQ9HkcnfIhWAW++Q3SmumYQpXzoA8S0ra8dIyO1k/qU8yBqt+nE8YGtptr7ZnQOPX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ixdeT7PD; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782795676; c=relaxed/simple;
+	bh=PxlqGfu9wKBk7SBXMQzy4ahw57Kh2J5Y1OMYSAaUekY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uwAliQyPW1iu8e4ap3hl354u+zsoO84XeTl29tgiEBqvUYPTV06R81VVbWEFjUsvROIfhl+i8cItXFhYcznPdoXwLcFisuxPr9ywCB046pviI+2HzszpTBCquzelXBy888BphREl0A2540GPnnZGPmUrM6fYk0BXnjQMn5fAL4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xq9ZcR/G; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ixdeT7PD"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-842358aaf36so1750114b3a.2
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 21:53:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782795230; x=1783400030; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=ewddZF6yjaIWU9H37hyRpIMEFzAEtlWMegUSvPKP7O8=;
-        b=ixdeT7PDQ8x4Zc7RGbArjKpI1iBtg4zI4zquYvGcjCpPtKY/xDa4lzO6J6XeuiivPX
-         7tNtk20BBZ+dMHH2Vx9fr0H/c+5IZdAqrETvVurev3AHkp+T/+8xHYEU5vvMWhRLpguZ
-         dI3y+dR/YlGKoAwTdntCisbT8xJg/AogctMKSpgjXmEdUVzCnC662GnWDORXyvDRPyIP
-         mpYHppH2qur1Td4J4IkgI1sTnuWfYP3uyfV+77MUOGPrauvco86NZ6YmZc2AOfOrxf3q
-         uaREo4OY7AoUKnL53aF5AJlLw0j/VYDAzg2egpoADa3dXgoH7tXpSlz4AsF6e+Axr/8R
-         APPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782795230; x=1783400030;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ewddZF6yjaIWU9H37hyRpIMEFzAEtlWMegUSvPKP7O8=;
-        b=Lc8bvwT1bF5bWh9GIhQYEI4I/FFeKrEreXLw7dgmEt+hLGNvzUmhUwI40xnoALA8/Q
-         ctfNtO0sjZuKOTWLiVlqKMBwOBlpCDQQDniA5Sda7MPxMKmSFfUEUeolZZMKCRLu7tg5
-         xWFxf+9bq1DvHoW2BAxt8ckMdZ/LnGY8uR/HeeGzL9CYYmFIORpfntwn7tyynx6J73XS
-         wwDx/1Vw4hfiRan9DlTSy44paCoHRw3X0WW5yKv+s+iop1iUtHGed6jUkNzvG7C9GF/E
-         RT0dhOV/WJ+zmkpKsm6Ic9slfiW7s2mpfsS7v93Yk4+AY8qjNSDyOrCHuTDZjeHXiIvN
-         0kQw==
-X-Forwarded-Encrypted: i=1; AHgh+RphzjWVOW2O19PzeE8PP9nz6cwCAjs1QtjUHNQn6ltl4eILkapuGe4LNZuOhPrxQXINw2iZH/pwEtQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyU0ymYra8GDWpmcaHPtpXHS8JaGNNOKFsCSs95jNxUXVfMAvZN
-	xqO4gggqlJ/9uoWYLMX7cJwSD2bEuyX4QC/yTgZ7Nl+SG/SZcAto5E4q
-X-Gm-Gg: AfdE7clWpxKL0cy4TLG1dPJB/KeKeYi+a8PAg7QTE33vjGRi3jQE9ZmeNKqGKsYewSq
-	kUgdFIXxqt4zLbI0RaygYj+UhNrtJMX3fmSCqg7l0k00SaC1sheYHKRD5+kE0Uu7ugHvh2YTF6D
-	u+5xWGgJz335/9z7fhwPFsnAgt7wBx5+lrnG4rhF2g5OhwZHR2nQ7YcTqvAp+AbH0EqBMxa5oVt
-	RRQytgXjR/ibCAGn6CkoMbn96UD8V54xpTjXLQiV9FWmX36RZyXQsrAnddvTn1GQc6xOHkFEasp
-	VzxffiHrAd61LYm1iKz5E+RgP4B3+fIuoTbuaFwhT4UAqmd9p7DeQ2WkvSg0nXFMOW3TIadoRfz
-	W3jv5WSx1d7thhJjuvDYX0s2tgxCJ+djAm0GFeZVSWbG3bsb/6KB5bL+MIW0n1W90xq6Bd+EsL6
-	2Yt0y2+9IftkT/7Ko4eNg5qe/wjQSrJApiZBqp7LTQT+UU0/4B775pQKaIlVPyLg==
-X-Received: by 2002:a05:6a00:cc4:b0:847:99a7:c751 with SMTP id d2e1a72fcca58-8479f1c6f6bmr1697370b3a.25.1782795229875;
-        Mon, 29 Jun 2026 21:53:49 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847a037b015sm967606b3a.50.2026.06.29.21.53.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jun 2026 21:53:48 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <d306dab2-efcb-4626-b480-c4e8779cdeed@roeck-us.net>
-Date: Mon, 29 Jun 2026 21:53:47 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xq9ZcR/G"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782795675; x=1814331675;
+  h=date:from:to:cc:subject:message-id;
+  bh=PxlqGfu9wKBk7SBXMQzy4ahw57Kh2J5Y1OMYSAaUekY=;
+  b=Xq9ZcR/Gc0IhSfwJkm8KFr2vEHt7aKrKGWp9gz+/31OqzveDLzE8973F
+   /e4t3MmzauhK/8v4pg4FppzeMl/TrEQjLXEUUo2pD/oinFw5Yg3vg0bv7
+   TAZNpzA/nqYMEFmkfp4i0iUPKg7+A3UgA0OecSuvJiJ/Pvx9irEG29L5q
+   /mI4qTxFyasF47tZQSRj5JFxuXhJz+6xqgeQh8cqAAoCdbq43CMPziAnz
+   7Ugjcdu+3Svoakm9kqfc7FT8+lxl9H9+kVO9ADMazu5ikGRT2f+HbADvo
+   Q4RVPQWzssiyEuHSQ+/eBkwlFOBn/laWEzU6+z8DjYSYPkOdAKClidTv3
+   A==;
+X-CSE-ConnectionGUID: Y5fM+2KCQOW3oD/vkSLnnw==
+X-CSE-MsgGUID: jFKZbkrgSHKxPfDqQB6pKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="100929077"
+X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
+   d="scan'208";a="100929077"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 22:01:14 -0700
+X-CSE-ConnectionGUID: Tsk7h8PpQaCxTI2TCSohMA==
+X-CSE-MsgGUID: N+mQC6LkTK2Utq2M+k4MTA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
+   d="scan'208";a="282224357"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 29 Jun 2026 22:01:12 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1weQas-000000000Lt-1VEc;
+	Tue, 30 Jun 2026 05:01:10 +0000
+Date: Tue, 30 Jun 2026 07:00:35 +0200
+From: kernel test robot <lkp@intel.com>
+To: Waqar Hameed <waqar.hameed@axis.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs:
+ Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline
+ emphasis start-string without end-string. [docutils]
+Message-ID: <202606300641.u5PDL60Y-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/6] hwmon: (pmbus/max20830): add VOUT feedback resistor
- scaling support
-To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260630-dev-max20830c-v1-0-a02786bde470@analog.com>
- <20260630-dev-max20830c-v1-4-a02786bde470@analog.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260630-dev-max20830c-v1-4-a02786bde470@analog.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-On 6/29/26 19:46, Alexis Czezar Torreno wrote:
-> Implement support for external voltage divider scaling using the
-> adi,vout-rfb1-ohms and adi,vout-rfb2-ohms device tree properties.
-> 
-> When the desired output voltage exceeds VREF, a resistor divider
-> (RFB1 and RFB2) is used to scale down the feedback voltage. The
-> driver reads these resistor values from device tree and applies
-> the scaling formula: VOUT_actual = VOUT_measured × (1 + RFB1/RFB2)
-> 
-> The properties are optional. If not specified, the driver assumes
-> no voltage divider is present and reports the raw VOUT reading.
-> 
+tree:   https://github.com/intel-lab-lkp/linux/commits/Waqar-Hameed/power-supply-Add-sysfs-entry-for-system-load-control/20260629-235714
+head:   7f627c0c3f8b6254753610a05254e70cd6a2032d
+commit: fad2c985b1a8f0d628768cd211f4afe3cb39e9d2 power: supply: rt9471: Use POWER_SUPPLY_PROP_LOAD_SWITCH
+date:   13 hours ago
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260630/202606300641.u5PDL60Y-lkp@intel.com/reproduce)
 
-This will require a detailed explanation why only PMBUS_READ_VOUT
-would require scaling but not any of the other vout related commands.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606300641.u5PDL60Y-lkp@intel.com/
 
-Guenter
+All warnings (new ones prefixed by >>):
 
+   ============  ===========================================
+   1             automatic adjustment of input current limit
+   0             no adjustment of input current limit. This
+   helps for more unusual power sources like
+   solar modules. [docutils]
+>> Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline emphasis start-string without end-string. [docutils]
+   WARNING: ./block/blk-map.c:366 Excess function parameter 'op' description in 'bio_copy_kern'
+   Documentation/devicetree/kernel-api:11: ./drivers/of/base.c:2161: WARNING: Inline emphasis start-string without end-string. [docutils]
+   Documentation/devicetree/kernel-api:11: ./drivers/of/base.c:2351: WARNING: Inline emphasis start-string without end-string. [docutils]
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:370: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
+   Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'. [duplicate_declaration.c]
+
+
+vim +1 Documentation/ABI/testing/sysfs-class-power-rt9471
+
+ab8174bbc39669 ChiYuan Huang 2023-01-13  @1  What:		/sys/class/power_supply/rt9471-*/sysoff_enable
+ab8174bbc39669 ChiYuan Huang 2023-01-13   2  Date:		Feb 2023
+ab8174bbc39669 ChiYuan Huang 2023-01-13   3  KernelVersion:	6.3
+ab8174bbc39669 ChiYuan Huang 2023-01-13   4  Contact:	ChiYuan Huang <cy_huang@richtek.com>
+ab8174bbc39669 ChiYuan Huang 2023-01-13   5  Description:
+ab8174bbc39669 ChiYuan Huang 2023-01-13   6  		This entry allows enabling the sysoff mode of rt9471 charger devices.
+ab8174bbc39669 ChiYuan Huang 2023-01-13   7  		If enabled and the input is removed, the internal battery FET is turned
+ab8174bbc39669 ChiYuan Huang 2023-01-13   8  		off to reduce the leakage from the BAT pin. See device datasheet for details.
+ab8174bbc39669 ChiYuan Huang 2023-01-13   9  		It's commonly used when the product enter shipping stage. After entering
+ab8174bbc39669 ChiYuan Huang 2023-01-13  10  		shipping mode, only 'VBUS' or 'Power key" pressed can make it leave this
+ab8174bbc39669 ChiYuan Huang 2023-01-13  11  		mode. 'Disable' also can help to leave it, but it's more like to abort
+ab8174bbc39669 ChiYuan Huang 2023-01-13  12  		the action before the device really enter shipping mode.
+ab8174bbc39669 ChiYuan Huang 2023-01-13  13  
+fad2c985b1a8f0 Waqar Hameed  2026-06-29  14  		Note: use /sys/class/power_supply/rt9471-*/load_switch instead.
+fad2c985b1a8f0 Waqar Hameed  2026-06-29  15  
+ab8174bbc39669 ChiYuan Huang 2023-01-13  16  		Access: Read, Write
+ab8174bbc39669 ChiYuan Huang 2023-01-13  17  		Valid values:
+ab8174bbc39669 ChiYuan Huang 2023-01-13  18  		- 1: enabled
+ab8174bbc39669 ChiYuan Huang 2023-01-13  19  		- 0: disabled
+ab8174bbc39669 ChiYuan Huang 2023-01-13  20  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
