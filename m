@@ -1,46 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618203793DE
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 19:37:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA683D171B;
+	Tue, 30 Jun 2026 19:44:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782848226; cv=none; b=F8kBNsN1z5MbaGhV/xcb+SgK7Kjvu16qszs4OrTVK57rM/jaQWbeBoqP+eEaQfcEyaA5GH0q7/0QzkWU3MGjtj1iRnvYkqx2gxeOHwAD2Uf96AMfeOQ2fxAkqVkrpjKNS1rU894POiGfpMgY60qeQjKXjJ6GQcbheyMLqnh4TZU=
+	t=1782848666; cv=none; b=l956qf5TiLKpq1w/LcjRxSy6yhCj2t5CghtpEQRQ1ZBo5knNfeqzyoFjimeX6yYhJ/BIK6zbNrrRrtsL4mSfgAp0cUs2j3Z+MbNDdisEbJGp8jbFA1+5fSw1LUYN2kkkfgYlDTUAE/NXgztvkq3xXtDAsZISeTyKNGbtpy+EfbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782848226; c=relaxed/simple;
-	bh=Fe7IiDSdVzdQ+S86wA2h242xE2qW702JlNHBnT0ABfE=;
+	s=arc-20240116; t=1782848666; c=relaxed/simple;
+	bh=S4bQ5oB3FYqOo0il1Tq3otYqu+DjSIcENJSyTwn3yW0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Oze23OVsm04ObXs/+DwcRJL3nk5zL0qpOjeGhPQW6eD6wTkAwhBZDLQHqe2EyEekRv015c6AjwAncerXGoDc3PnL3lOrN7f4wuaQvAd8hiv/F9+kNzY3LR7lHj9eDaNy7p7u/rc3n3porILWxotY+TN9cNBpgHWCRC/GwrE1NTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=PBAK3++P; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=A1YG9nJU6YpAMUWUCKY1Twmrj+nFszufvjyyvIRxLCjBChtzR7FQHMz8Xcrtd3Mm/tkMpsuU4uXus9PgVZT1pNJjfuJlj3dwiI5QWYJg2oGSzomHEivUZdJtTP3GqWXrVSiwH2bPQ88yjNAHjvTWZXyEruCvCBWxn8qjIlxoE64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=jYjmeuCa; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="PBAK3++P"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A7CDF41596
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="jYjmeuCa"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 27E8040E27
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1782848224; bh=pEs+4XQ1Ba+IYSxgxY+euRNOFB0wGqJfBtAS9aNcbk8=;
+	t=1782848664; bh=7uFqC5xhgw4sKw8sqaWYA+AQq1bYc/FIBWG7fBx2FnA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=PBAK3++Ps5wMCwgjHgtEVMpc4VjNo+qfzjum6+TO0cOmiBtfST8Io4Fd1GSERkP6b
-	 AZgTOlMg9Dv6+oDTXmWIzKN5uQUKWsj5IS6C/Da24qB5uT5DgEG9OI1itO7i31kbKM
-	 Qsh5lQe8UFbOLv8I3g9ezJnoT51/0luluXv7Gfu0xcgwhIb9u6Ju+6qhxiKxTwhIoo
-	 PXXWbY1vXaLAHJAGC6WDdc+pMYv3CC1UWR/+OxvURlHjOPCvNQw5kJdXJBBV2tJQD5
-	 5DbZI8DW9WEdZqvgWMjc8sbXzhUeXl4Hwn+iMlPlrUR39lG3F+JqLUW+ph6QyB8x2x
-	 6OC/D2qslkhYw==
+	b=jYjmeuCaISFrLjnnWS5KGnJWVOQ4feQgDwfSQfpJ+whIcKBkB/Rro5cv1XRSHFfPI
+	 k6CUE5RNn5KJHC2rJNUbDGuRK/gutrhKjKAVdJ2KJ7PShFskFzZChO63olaNYJiW4j
+	 SIeZZDrMukDklDhHbts3lF0W283qQ4tQT3VWUuRi9I60MpLNE+KA+0cfLv3t6LK6YW
+	 k1HASv7lXLnA6nRgGuvnE1WnjqW7LnQ3xThGE96TShqXOeOUqh4d5TsAbvAU+jxzvT
+	 WrlDNge1YskdU4feKrQ+HawtRPZBXuFDIU//bl8ZwRn9+Qs7MnGIAsieKhJ4BwQLSD
+	 piXW8uFkODBzg==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A7CDF41596;
-	Tue, 30 Jun 2026 19:37:04 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 27E8040E27;
+	Tue, 30 Jun 2026 19:44:24 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
 Cc: Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] Docs: conf.py: fix typos in comments
-In-Reply-To: <20260626005248.1121464-1-rdunlap@infradead.org>
-References: <20260626005248.1121464-1-rdunlap@infradead.org>
-Date: Tue, 30 Jun 2026 13:37:03 -0600
-Message-ID: <87wlvfrfa8.fsf@trenco.lwn.net>
+ <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, Thomas Gleixner
+ <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Andrew Morton
+ <akpm@linux-foundation.org>
+Subject: Re: [PATCH] Docs: SMP: add an SMP docbook chapter
+In-Reply-To: <20260625210331.1050915-1-rdunlap@infradead.org>
+References: <20260625210331.1050915-1-rdunlap@infradead.org>
+Date: Tue, 30 Jun 2026 13:44:23 -0600
+Message-ID: <87se63rey0.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,17 +53,20 @@ Content-Type: text/plain
 
 Randy Dunlap <rdunlap@infradead.org> writes:
 
-> Change "variabled" to "variables".
-> Change "relative patch" to "relative path".
+> Add SMP primitives to the core-api documentation.
 >
 > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 > ---
 > Cc: Jonathan Corbet <corbet@lwn.net>
 > Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Thomas Gleixner <tglx@kernel.org>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
 >
->  Documentation/conf.py |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/core-api/SMP.rst   |   11 +++++++++++
+>  Documentation/core-api/index.rst |    1 +
+>  2 files changed, 12 insertions(+)
 
 Applied, thanks.
 
