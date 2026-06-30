@@ -1,67 +1,68 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC224271A71
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 15:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916DD2E7162
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 15:04:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782831632; cv=none; b=dbcQHJmKV4z2PQti8UoIH71mgHZWQ0VNoJbo/a1nrf+CDf4bXwmpGaBREKzeqIahQrf1VsaLSrNEre/EIKA2jHFZIGdEIrg3/8GXg1wgRsQQkWlodEOEaocAHB/ZqTD71h4/gpazvwQp+vfPlBmoM79AxPODr8Oc5DME9BvIt8g=
+	t=1782831873; cv=none; b=b3ScrB2xQJGL+djFzodSInbAYr8mg7EHyxCZH5OpAs6SVjEqk0FIbtXE/MiSUYBiooYYkkVPuRpQE6i2oSdeM/wKGU6R3yzsiYK47HYMU8RibezK4WsLJsX/pHe3+zMxpbg3g/IY/pHJ1750Omm9xVOBBxeQz6Gdb/OTby++2qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782831632; c=relaxed/simple;
-	bh=zsUvrd2m+fDvbvu0jCqns5QboOKew/3wncsy9gxRn5E=;
+	s=arc-20240116; t=1782831873; c=relaxed/simple;
+	bh=5lDDuE8sF6kNY2fJhhlJq4uLAFQQc2okOrHn1iHu+Xk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g0ViVbjEN/SS3wCFL4nhFKPG401fEt38Ob/ErTd0PRwbNTVPlFt8hDE50aP7xB87yLEHaWvW3u6oJv6DCv+5gatT4p3Z21/8LHAMAYdS6IgpEggcKYJ92M8lQP7LjebWDBIVi0oWas8e18tfrZwaLLuYm/NRx3uehG8kKfklQMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oEuKQyws; arc=none smtp.client-ip=209.85.210.49
+	 In-Reply-To:Content-Type; b=L3WH7yK21PlLv9ga1+U83fiGkMER75Qjf+nmkWS4ImOqpiiwuwBv3uQmXiw6W2d0KnTDSxpaGx3T3S0wTgHqu5UrJMM9EawkYLfdeagustvmbUw43SUPEL0WPqzAEKLHgE1dYxkXzDumZX2at2fO+NEhTmLgfmNFJ4pp4Vl//rA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=piOq93U5; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oEuKQyws"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7e9bb2d0417so1973517a34.0
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 08:00:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="piOq93U5"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-37d70036426so2177686a91.3
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 08:04:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782831630; x=1783436430; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
+        d=gmail.com; s=20251104; t=1782831872; x=1783436672; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=8eys4MjS1LrvZQSXZngMUJ2qDI9a0JK11nUoQ/9sW8A=;
-        b=oEuKQywsE5nK6tLgDvSGivD3ryfOGyf+I8kr/TkWmf/WieQs5UW8ORWe02uIiCdLS2
-         Pk5T+g3/uBJwNFGJ+Sf3ym+WCE5AQ/i23NMmPpwA7/N4nAWDowzrWyU3yVCZFK2MIUqw
-         f+ERBBSQa1cf56odfeHQW6SN54v8Udo9zbHDlc63YFUOB0d9jhXJDHNveB2k/QHtvkJ5
-         Od5gmrC62FzXJLuHGq09OOymhnnIPRanPWfxnIU3NegKh8rdYxR2g+tnTW+OY9uVaGSI
-         wZrhHUwvhs1/6GWNlPsYntxI7fcqgKtOyR3Faoyh1SAJ6t265XRPSv+wfCKA/NL5FSPK
-         5hBg==
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=joxhazWjMjnT6/LFzkaTg751wYRM1xoJ6XVmP2fPgN0=;
+        b=piOq93U5GifRehseEE6sTt1aVMHi0rz1VOA5WjJ7W/il9YHe8cznrMxnfhxSKzJnZB
+         nUd4xZzBWEdcqGQeL3NbMQuxX7k/3eY9q1cavVgilOuXyl7AIOyON1ZTajzS6MjBjv7F
+         5lIHztkDLDtUV8HyZkQCB55YiTPHZw97dVp4NBi08VvxRfWe7RXVfUtOpP5/VkDxQH7e
+         tpPFbBS9aJEiztKdaOWimXUZGEu4wkve1pXBgr4guDA3nTjraqM30MjQL5j9DlFxGZwf
+         7OCFlYbDgigzHrwO47UAeaXdTdRNC4AwlvIkT6Y2slzw8RAas+31qZ3Q7imgkG3g2pCy
+         qElQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782831630; x=1783436430;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
+        d=1e100.net; s=20251104; t=1782831872; x=1783436672;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8eys4MjS1LrvZQSXZngMUJ2qDI9a0JK11nUoQ/9sW8A=;
-        b=qENGfCLo8xoYGLtwnW2yCF1BuP31CpUxVG+LIpnlretk/KsDRh1eSqCpSCjB3BkSou
-         bQEH6in0frt5DatG3gLHz1zvn1SzNAKNtjvMoRzNwPIbgycDCA8bNsj6ad0FU8bv/A+/
-         oE4NVEAFVldSKUddwsouFYcG7aRR3SajRUxu3n/4UW6IfJyS/Hr38GO65okKZVpah6by
-         bhUyvgzqOLXkKGv6Lj93txlf2xijvS8S9h0aDwr8IEJ0m8Q+InMkeBekWodtYoAZJPte
-         YfGtb83Xl1TpViW6wOxUyOyhJMPLkT8TDP31msIhr5HpF8UMBi6LZFlSMlt4u42Hb0AW
-         szDQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/r6o6ikcB7huKkpZBy0glTsdbswjeEKvDVejCR4ufdSyX0GdocvgkpUszYcnAKHm15OhfkzrwfNyc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8uQg7GswPCz0GrX2q5NWyLBgzBxFhhuI6ceS06UTeNmgFESp0
-	cQZi3K4cJgPkcmrVvRJl2Iip5T8oD0nn2kdplueW8aakP1FnP8WAupZj
-X-Gm-Gg: AfdE7cldRHfszQjAhW1LROgJ7W/C7leBP/85qUUk9L5dc9LD7mSaGxGETnweDjcpAIl
-	6D9u6zbN+w9P/5GyZabxgwJ7gJWxzroPKw8RT3ARoppo/SU6qNTGHwbcc4a1aSS/lkE4aJMLpbb
-	yhEbxPkGoa9wH3xnk+d4lwQp04z5YfSQ9yvNUgS7YJBKCrR50aUgQj4y0T5aMICVZGIwWGgXrDP
-	YOFM7nmVSnYVyRr0nGDcEJy9lVC+1xTSlH+rVCxPfFq+W1Tp/qtFVkA/X64BCYDTFNNGbAdU+5e
-	EbDt1l23WUW+iuffTXmXiYBmeArePmX+05gYt9PeROB9KB3wxgFnvxVAhg5CB0TgADBU7kDn1sW
-	eNRgRmgSvNCczYGg8LdfQWzT2N2tC2eq8VBzYAUyw0mElVqaguGK0pdPBW9Pi+wr7jmX4iIDTIC
-	Lx5nyQJOUJMRrj6NXlkjaJ2Kd+Nq68Y8EAJzka3QandoNJbMLhhEP+6IZqvuNoUw==
-X-Received: by 2002:a05:6830:3107:b0:7dc:db3c:1d82 with SMTP id 46e09a7af769-7e9ec628239mr3486725a34.10.1782831629625;
-        Tue, 30 Jun 2026 08:00:29 -0700 (PDT)
+         :subject:date:message-id:reply-to:content-type;
+        bh=joxhazWjMjnT6/LFzkaTg751wYRM1xoJ6XVmP2fPgN0=;
+        b=eCD5onBlGBMpHPzhCt1emfYGlH+oLqWxk8yRiZhu9BZTBe51E7I0b42DoD6fK5W3kS
+         92NkANqS5Mglqb+/DV1BzPph14zXc/jxFPnUgtuNg2RPgpeJVqazHB8WYm0eQrx1K/sf
+         TqI6xDasdHgZDuacg/4HGGQ4Odt32NE4owCoviN4Qo5U+68VfTr8GRD1AmRLzndaG3ib
+         TqDGCLMlA+q/PwPWAaOtUtyeKBHOqmHWRYWItRE9+vp3sjmwtN1AZOr0IPS5sT2jsb6h
+         ifInjvuukIoTi/Xio4uja1d9XahF1MRompTAdgOePDzK0pCuls0uTJckp5h4Ne/haBkr
+         1zPw==
+X-Forwarded-Encrypted: i=1; AHgh+RrKbevW53nPKH9Lpp/ZUH8gntT5hFoeF7H+IZHjv9nzk/mLJT5FHKeRx+do6SEsYEhlw4UrcI0MFlU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaaYgNsqqMEYd46YKNHZVGUP4GkOlXHlIUFivSvf7lXJtKCeyN
+	sPjpMRSftGvA1Uw8LSgVgnE+2xqba7hAoIbmr9pU3zDQydvH5eEBJ6Z5
+X-Gm-Gg: AfdE7cksg60a/eoqhQv+YRaH/GOS79S2ofVC01+Su9IVkacYCqjUolpIcvwNDmUi9j4
+	a3yG9LuGuS4csDYeCaZ3OU+8HgGlsO8Ouh50AUFa2J+1LdFJXOrXTB+i7Lzu8KYAC4EmSPJOdAo
+	g+yQhVs8z75b5Tyab0fuNWbO2BT0pvSXNA4ukWfueBm7SW/kkau0+cQN4wnebiKms/efK04E5AO
+	RtdhgGAuN50AU/0kGVKn1uOqapaD4RIJtR/Q71691atq4fZ7vLgAsB6Yrwdv/oWy1pJ+X1Gzd6e
+	zCJ7KAJ8mTqNpWA3MlDgxNZGyhPUr3Vxmze7O/2zN+mpYdycWkDbEOkEc9a5D4KOK2okJzYBLm8
+	ngJKGD0w/PoJ1DQuHeEzKbjokC6Mar2vKmXqaN3JmgNHKJoNLAfOe+GgXuhVlevJfynfTd/uftr
+	N9XoOhS9rdb9RrpvQmpaGg5GMASHL/HM64DDqSjTcKlKOA6QM/8gTawYLMb9e/DA==
+X-Received: by 2002:a17:90b:1cc6:b0:37f:caeb:69e3 with SMTP id 98e67ed59e1d1-38052757ac6mr2977364a91.23.1782831871633;
+        Tue, 30 Jun 2026 08:04:31 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e9ec34f898sm2536235a34.27.2026.06.30.08.00.27
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c9bbf95b8a4sm1765218a12.18.2026.06.30.08.04.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2026 08:00:28 -0700 (PDT)
+        Tue, 30 Jun 2026 08:04:30 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <3c64cad4-6472-49ad-b2f9-1128330117f8@roeck-us.net>
-Date: Tue, 30 Jun 2026 08:00:26 -0700
+Message-ID: <adfd2c4d-6d42-4aeb-9eff-6a059550ec80@roeck-us.net>
+Date: Tue, 30 Jun 2026 08:04:29 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,24 +70,20 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 9/9] hwmon: adm1275: Support ROHM BD12790
-To: Matti Vaittinen <matti.vaittinen@linux.dev>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+Subject: Re: [PATCH 6/6] hwmon: (pmbus/max20830): add support for max20830c
+ and max20840c
+To: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Wensheng Wang <wenswang@yeah.net>,
- Ashish Yadav <ashish.yadav@infineon.com>,
- Vasileios Amoiridis <vasileios.amoiridis@cern.ch>,
- Kim Seer Paller <kimseer.paller@analog.com>,
- ChiShih Tsai <tomtsai764@gmail.com>,
- Chris Packham <chris.packham@alliedtelesis.co.nz>,
- Robert Coulson <robert.coulson@ericsson.com>, linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <cover.1782458224.git.mazziesaccount@gmail.com>
- <b209c1b47712b69f17b52cfd7a7a38ed76024ca7.1782458224.git.mazziesaccount@gmail.com>
- <2cf72420-8513-4856-a3cb-fe2629588d1b@roeck-us.net>
- <de7f3cf69c1fcea85dbb1ab58dd75b2a90191aca@linux.dev>
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20260630-dev-max20830c-v1-0-a02786bde470@analog.com>
+ <20260630-dev-max20830c-v1-6-a02786bde470@analog.com>
+ <e5c7fcae-57aa-4461-987d-7f004d066873@roeck-us.net>
+ <PH0PR03MB63514C57CA17984F0B6FEEC8F1F72@PH0PR03MB6351.namprd03.prod.outlook.com>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -132,45 +129,32 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <de7f3cf69c1fcea85dbb1ab58dd75b2a90191aca@linux.dev>
+In-Reply-To: <PH0PR03MB63514C57CA17984F0B6FEEC8F1F72@PH0PR03MB6351.namprd03.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6/29/26 22:04, Matti Vaittinen wrote:
-> June 30, 2026 at 12:08 AM, "Guenter Roeck" <linux@roeck-us.net mailto:linux@roeck-us.net?to=%22Guenter%20Roeck%22%20%3Clinux%40roeck-us.net%3E > wrote:
+On 6/30/26 01:07, Torreno, Alexis Czezar wrote:
 > 
-> 
->>
->> On Fri, Jun 26, 2026 at 10:26:02AM +0300, Matti Vaittinen wrote:
->>
 >>>
->>> From: Matti Vaittinen <mazziesaccount@gmail.com>
->>>   
->>>   Add support for ROHM BD12790 hot-swap controller which is largely
->>>   similar to Analog Devices adm1272.
->>>   
->>>   The BD12790 uses the same selectable 60V/100V voltage ranges and
->>>   15mV/30mV current-sense ranges as the ADM1272, and the same VRANGE
->>>   (bit 5) and IRANGE (bit 0) layout in PMON_CONFIG. It therefore uses
->>>   a dedicated coefficient table that mirrors adm1272_coefficients, with
->>>   the following differences derived from BD12790 datasheet Table 1 (p.18):
->>>   - power 60V/30mV: m=17560 (vs. 17561)
->>>   - power 100V/30mV: m=10536 (vs. 10535)
->>>   - temperature: b=31880 (vs. 31871, reflecting T[11:0] = 4.2*T + 3188)
->>>   
->>>   Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
->>>   Assisted-by: GitHub Copilot:claude-sonnet-4.6
->>>
->> Applied, after fixing the comment about BD12790 coefficients as suggested.
+>>>    static const struct of_device_id max20830_of_match[] = {
+>>> -	{ .compatible = "adi,max20830" },
+>>> +	{ .compatible = "adi,max20830", .data = &max20830_chip },
+>>> +	{ .compatible = "adi,max20830c", .data = &max20830c_chip },
+>>> +	{ .compatible = "adi,max20840c", .data = &max20840c_chip },
+>>
+>> "adi,max20830" is a fallback for the other two chips, but that is not how the
+>> code is implemented.
+>>
 > 
-> Thanks for going the extra mile and fixing while applying. I am glad I didn't need to re-spin for this! :)
-> 
-> And it seems gmail is getting more and more useless :( This (and couple of other replies) never emerged in my gmail inbox. So, just as a heads-up - gmail may silently drop some messages when reveiving. :(
+> I may be inclined to just not use fallback as it seems to be more complicated
+> and a bit unnecessary. There's also other devices that may be added on top
+> of this so it lessens the complexity. Will edit the bindings regarding this.
 > 
 
-That is Google / gmail deciding that my e-mails are spam. Happens a lot lately.
-They actually send me a note about it when they do it, but AFAICS there is nothing
-I can do to prevent it.
+You are missing the point. The fallback is perfectly valid. Technically
+the driver does not even need to support adi,max20830c and adi,max20840c.
+That is only used to validate that the chip is supported. That does not
+need a separate devicetree entry.
 
 Guenter
 
