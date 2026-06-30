@@ -1,204 +1,161 @@
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BD03E1687
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 05:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782796340; cv=pass; b=DRqQKPpyRzxNQRUda5jGxRmAcojfP0YlQiEzoIrroNu/aDdxbKF/Cw8RM2u7fe/gLABlZlYa6JvuoLFRcMVayPFacqBMUxSs5c001nge2+6WapjfZUkyhxZ6iqx3snccTfMcbVJZVN+1RonZaZJK9xYrlcZfPQL7JU4hXVO+bWo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782796340; c=relaxed/simple;
-	bh=Jg2KFnUPXXVh2w7pTC0cl0+cUJGWiqwyAJlmxHSLgmo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hI88figrJKgNxHiKUoFRLSEyO9gfEBZjiMDif2zQTtZKizk5L+mDHfl+DV+yqbO2gbVEOgRrWvkVo+yljFfNL8uXBCZtXCd3sbGNu8t+IbM4PUw9hlmRoLlcfl4ka2+/WyWifmaQ9FkPfnIlm88yRHdRUvP/9TngPou+ZSN9KhA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mV8ju92r; arc=pass smtp.client-ip=74.125.82.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2DF3DFC62;
+	Tue, 30 Jun 2026 05:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782798184; cv=none; b=ilCg2DFCybm3IZr6twgrdz3EAU01HPq/KWhAVfTlVUHv/XGtlnLkgFsrC/dMV9ZTiaHoXxERsmP2njwg4rQPuQyt7LbL6EBoGgqUeexynkZmfLCY8T/dfP1Bi3QbavqQokqqJWWMf1YJO6TLe+XBvs/1k853kzDxOoD1ICU1TAY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782798184; c=relaxed/simple;
+	bh=tEEuT4CIyRD62q1uJ0Hh4ARuooiWtwdiF0w2YbEVei8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PvG1mO1kP3cOd8uL6NLnxuDZy5ve0+40U+xkKbOBsx/gVDJqTR+SQaCNgj9aFRSmVYigiHm6d/L2SasqUQFwu7NvIDooNnX7RQoPP2OmCR/gyCTBefm1b04OapYgo/E8VjwhkYgQXlnXmJATPqk1TxkqC0jPtXqbWT93k8yAKS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lpt+CfYR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mV8ju92r"
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-30b6dad2382so7520568eec.0
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 22:12:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782796338; cv=none;
-        d=google.com; s=arc-20260327;
-        b=W/o6+UB1kaX+a5sE+2gxN4kyMn5Kcks8zUKtfjhIcqYcafGn9Vdjeat0bmdS6lciP/
-         eNpAOF6U1rPWawN6TGhyauD7fCxOp4tMSXMBebzEeM6T8Az30LT5RhKzLAuyJa7VdrMm
-         +K8e33SthLRWDthKr2PGxGO0Cr0ZeCHXpHid/Qe1q8ZNKk7Sk/MTNBWz5HEkrH/Zn9Xw
-         /qKR5nwYHtNfWeZTWlDZW8HTCsA7c0sZ4Vtkex0pQD9ObXfNVBa12YZLwvKBnTKrFbmY
-         f+eGEE6u2FMdnn5AX5/+GXtDgafdIU8N4lORMqY06S6ksEVSIrJGGqbrYymmzihLOH4n
-         oAWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=nK415PdI5kDIUChilJR/Nj79A+EUwz7TNDqGP9JEC+o=;
-        fh=mhpJpP/0iFDOitEs0VlnmkIXY0itQGMnAHQPOvH24Us=;
-        b=j64yGUTl5GReZ/2iS6vp7PxYUnvo6LWy3gkW1P9LP25wkb+j/XfdYJvix31t/N4b4h
-         ZLTZ6oozbWBteEq+7t6HAsWNHMwzLyicOaMS7655RFZfXLQ34ka+IA/DKf53a7d+UWn0
-         R0IK5nw+nZt8Hze43cj0OZnLcfdSzmuYBTaIapQdR39ecifQRGpu4rqviTpOfcWbJLkk
-         oHhoUz3CJU6p5uv0u6b+ezJH9XBAHLUFuabvSV5KLBfDD48E/s6Mt4Rwe42zMmgtJR+L
-         bfcTgrTCMul03t8aN8fBKbz6r2scvDd8b3eKiC2GmOvCygzUzktdKtLT+QbK43ct6sxO
-         B9Eg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782796338; x=1783401138; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nK415PdI5kDIUChilJR/Nj79A+EUwz7TNDqGP9JEC+o=;
-        b=mV8ju92r7uOn2Vc5X3KF/aO35sAnvxGpHAEEtkEwxYqBpoRIC0O8HGBLhigIazDu5C
-         CMz9Tky6dBMv+y1GWeiKmZ9I4WZJMSRswHIrJvBxWuXPD6RZBVMgZbK5A1dBObS+/mTi
-         50EBpFSpf28gbnuCnUj3xiC/nAajU1slP01IqJnu4s+tUEtDJMS37gB5R751kNdkd9u6
-         0Rl+F/wCIL8cCVyCVPqVCjrqS/iCoyFnWeBUfBI8eM/i4+kdmVpCRCCv+AGBK2OQc5eH
-         QVbRS5M2jgNEEnPoYzRm5WwmgopdZNamqhhW2Ud/XzJl+fRjoJakmL2h0LJeFKXVkrQu
-         jKgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782796338; x=1783401138;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nK415PdI5kDIUChilJR/Nj79A+EUwz7TNDqGP9JEC+o=;
-        b=YN30WYxL0+hOqt9tSlsi5lkSe9AVDxnRgcePxluSw19bdRb3THlM8F60BQeUAFPKwq
-         SZxm/nQ+aGxdLjmgTnQdaZgEzHHIayqkyYuO5GjxeJAQYCRb9h38hazIacSdUinbJ9Tl
-         1yg6iz7WpviQqzFOfEMVwWwPOnfdXgDNI3F9pk6t8htTVcbkSsXgvLVukihLx4YijvIq
-         lHfjwqsueh0/l1HLMYECDml4ROH0EUK4Hbv4hX3nDaLCLAOBH7iFm9tQ5L1swBqOO6pk
-         lgDXDEc5F0HrJbq1cugfdM5bYi8WihBxzTTda/04Gp/eW+BWQPuvjAOwQeCnsMm2Wwli
-         mHEA==
-X-Forwarded-Encrypted: i=1; AHgh+RqkSYc2e5yZgHRIHxVBRNyiqM9/9CUwAzAEKtrFi9noOqlsMVmX4BoQe9Q+6DDY5KFQiDVhfQLPCnM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDNFFTbjWwBAW7/ykukhxh3f2080guBzJA8ih9/Qjgz5NIScua
-	daH/1H5BKsh4NlLo7edSuyG+7Oxcs+Kv85a/Z7DWKCDln6gzCx3p8CxJODSLUHOvl4us9kVvO68
-	tzRihq0GJxqdAIgl9ZwnQBiO1VJiIDMY=
-X-Gm-Gg: AfdE7cne9liYkwjXixKW+qb62HqNJwQPARHMyyRV7x/jK47lrFveL8SE5rt6WZ+AXON
-	gcGpck7SHFwfyt7IbO+XtHmthJBFQxw3A4a20RVuj60fYtv6YU45FOz/R7eMops8C5cEflR2tes
-	u+ckzu440Ij0IfKoRrUROkmNGyyH13gX4naNsqZKxY3h8/bzy0/LNK5SnC9QDww5hmiV5Ia4lbf
-	59zo0h9dEvamMIM1Bmsut5LfrQmsfSOV55Bc+rz0kXQxzZGxOQBfIqxG/IoZa/b8KSeachWak7f
-	BmUVtUQbLZ47a37uR0kcM/T1p6jhTxoMJJLYsWzusTaGPn4RWRUZnrbcjVLWdFXHHnAjmdg=
-X-Received: by 2002:a05:7300:fd10:b0:30c:b4c2:e46f with SMTP id
- 5a478bee46e88-30ee13a132cmr1443873eec.36.1782796338376; Mon, 29 Jun 2026
- 22:12:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lpt+CfYR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A289E1F000E9;
+	Tue, 30 Jun 2026 05:42:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782798183;
+	bh=igxwWpzlFSopf+el4O8TcHKJCfMcOLCTi+hDs6e1D+Q=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=lpt+CfYRk3Q99LpJlwFxgTN9RsRnY/igkojf9nPokh5MzHw2L/Rd0ry+lKFWEA7YR
+	 4Dxc3bjWtLs1ulYOpcKOhQHS2VD07EP9h3zD4+S4OO6CsoYOqOUh9//cSIMfjO/GYP
+	 w8V2nNCpf+OvIisd7iT//Y3rhZQIHgNV2Ihif4C2beREDT2iqrLNXvaK/Mmar6+sgO
+	 5JbF+bLh59RAXxFeUtYhGqdhI/As66DJW49vyCfOPmF5Y6sfL5kffgvUNYtx3Yl4Jj
+	 tojaWUW3L38ftWUqjHIbhbB3iPwS5U6Uy/+oqjJ/3AhYyyM2qsvWuhBzcG7lsnc0vM
+	 spNRjylVEiQNg==
+Message-ID: <3246b02a-cf54-4777-a238-207925a2dfcd@kernel.org>
+Date: Tue, 30 Jun 2026 07:42:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260628191337.937-1-kimjinseob88@gmail.com> <20260628191337.937-5-kimjinseob88@gmail.com>
- <akJ818gkVzLN7HqU@ashevche-desk.local> <20260630000623.0c030d5f@jic23-huawei>
-In-Reply-To: <20260630000623.0c030d5f@jic23-huawei>
-From: Kim Jinseob <kimjinseob88@gmail.com>
-Date: Tue, 30 Jun 2026 14:12:06 +0900
-X-Gm-Features: AVVi8CdocNxkcjtLkEqmDLkN2xM35fTtk5KMTfZs6X8uWqKmDEmufDHm8OnrplU
-Message-ID: <CALMSewJo-tnQL9KRyvABHpAf0-k=yOd1N=JzgK91rk0R0j_CBA@mail.gmail.com>
-Subject: Re: [PATCH RFC v6 4/5] iio: osf: add authenticated stream parser
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-deletions] net: remove ax25 and amateur radio
+ (hamradio) subsystem
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+ pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, federico.vaga@vaga.pv.it,
+ carlos.bilbao@kernel.org, avadhut.naik@amd.com, alexs@kernel.org,
+ si.yanteng@linux.dev, dzm91@hust.edu.cn, 2023002089@link.tyut.edu.cn,
+ tsbogend@alpha.franken.de, dsahern@kernel.org, jani.nikula@intel.com,
+ mchehab+huawei@kernel.org, gregkh@linuxfoundation.org, tytso@mit.edu,
+ herbert@gondor.apana.org.au, ebiggers@kernel.org, johannes.berg@intel.com,
+ geert@linux-m68k.org, pablo@netfilter.org, tglx@kernel.org,
+ mashiro.chen@mailbox.org, mingo@kernel.org, dqfext@gmail.com,
+ jreuter@yaina.de, sdf@fomichev.me, pkshih@realtek.com,
+ enelsonmoore@gmail.com, mkl@pengutronix.de, toke@toke.dk, kees@kernel.org,
+ crossd@gmail.com, jlayton@kernel.org, wangliang74@huawei.com,
+ aha310510@gmail.com, takamitz@amazon.co.jp, kuniyu@google.com,
+ linux-doc@vger.kernel.org, linux-mips@vger.kernel.org
+References: <20260421021824.1293976-1-kuba@kernel.org>
+ <0883a8e0-e8b4-4f22-bfc6-dd4a0fcf8b7a@kernel.org>
+ <8458cf47-43f3-4328-bc6a-9aac31f1acf4@kernel.org>
+ <20260629152930.4c2131ed@kernel.org>
+Content-Language: en-US
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <20260629152930.4c2131ed@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Understood. I missed applying the earlier style feedback consistently
-across this file, and I should have explicitly replied where a previous
-comment was not addressed.
+On 30. 06. 26, 0:29, Jakub Kicinski wrote:
+> On Mon, 29 Jun 2026 07:24:51 +0200 Jiri Slaby wrote:
+>> And net-tools are broken by the uapi/linux/rose.h removal:
+>>     rose.c:39:10: fatal error: linux/rose.h: No such file or directory
+>> at:
+>> https://github.com/ecki/net-tools/blob/2ab3c5efdb5c220bc9a649fded56c361136bff1a/lib/rose.c#L39
+> 
+> Looks like the code for rose is already well separated from the rest.
+> Should we just ask net-tools to delete it? Or do you feel strongly
+> about restoring the now-defunct header?
 
-I will these:
-- reuse the existing OSF magic definition instead of duplicating a byte arr=
-ay
-  in the stream parser;
-- use loop-local variables where the variable is not used outside the loop;
-- rework the stream error handling so authenticated and unauthenticated
-  failures are handled deliberately;
-- either update partial_frames where appropriate or remove the unused
-  statistic.
+No strong opinion from me. net-tools are easy to fix.
 
-I will also check lore for the previous versions and track the earlier revi=
-ew
-comments before posting another revision, making sure each one is either
-addressed in code or explicitly answered.
+The builds of LLVMs (versions 15 to 21 at least) are broken nonetheless. 
+They are easy to fix as well -- by backporting the fix from main or 22. 
+(15--21 are likely unmaintained upstream already, but still 
+used/required widely).
 
-Thanks,
-Jinseob
+$ osc whatdependson openSUSE:Factory llvm19 standard x86_64
+llvm19 :
+       MozillaThunderbird
+       firefox-esr
+       ghc
+       gtkd
+       ldc
+       lfortran
+       python-PyMuPDF
+       redumper
+       tilix
+       zig0.14
 
-2026=EB=85=84 6=EC=9B=94 30=EC=9D=BC (=ED=99=94) =EC=98=A4=EC=A0=84 8:06, J=
-onathan Cameron <jic23@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> On Mon, 29 Jun 2026 17:10:31 +0300
-> Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
->
-> > On Mon, Jun 29, 2026 at 04:13:36AM +0900, Jinseob Kim wrote:
-> > > Add a UART byte-stream parser for Open Sensor Fusion frames.
-> > >
-> > > The parser searches for the OSF0 wire magic, keeps partial frames
-> > > buffered, checks header length and payload bounds, and passes complet=
-e
-> > > candidate frames to the core decoder.
-> > >
-> > > Rejected candidate frames drop only the current head byte before
-> > > resynchronizing, so a corrupted unauthenticated payload length cannot
-> > > make the parser skip later valid frames.
-> >
-> > ...
-> >
-> > > +#define OSF_STREAM_MAGIC_LEN       4
-> > > +#define OSF_STREAM_MAX_PAYLOAD_LEN                         \
-> > > +   (OSF_STREAM_MAX_FRAME_LEN - OSF_FRAME_HEADER_LEN - OSF_FRAME_CRC_=
-LEN)
-> > > +
-> > > +static const u8 osf_stream_magic[OSF_STREAM_MAGIC_LEN] =3D {
-> > > +   'O', 'S', 'F', '0',
-> > > +};
-> >
-> > You have already this in the header (as FourCC), use that.
-> >
-> > ...
-> >
-> > > +static size_t osf_stream_discard_to_magic(struct osf_stream *stream)
-> > > +{
-> > > +   size_t old_len =3D stream->len;
-> > > +   size_t match_len;
-> >
-> > > +   size_t i;
-> > > +
-> > > +   for (i =3D 0; i < stream->len; i++) {
-> >
-> >       for (size_t i =3D 0; i < stream->len; i++) {
-> >
-> > > +           match_len =3D stream->len - i;
-> > > +           if (match_len > OSF_STREAM_MAGIC_LEN)
-> > > +                   match_len =3D OSF_STREAM_MAGIC_LEN;
-> > > +
-> > > +           if (osf_stream_magic_match(stream->buf + i, match_len)) {
-> > > +                   if (i)
-> > > +                           osf_stream_discard(stream, i);
-> > > +                   return i;
-> > > +           }
-> > > +   }
-> > > +
-> > > +   stream->len =3D 0;
-> > > +   return old_len;
-> > > +}
-> >
-> > ...
-> >
-> > I stop here, because it's obvious that you neglected and ignored my pre=
-vious
-> > reviews. No explanation given, nothing. This is not how you should inte=
-ract
-> > with the community.
-> >
-> > Come again when each of the given comment will be either addressed or a=
-rgued.
-> >
-> Likewise.  Please make sure to address every comment either through
-> changes or through reply to the earlier thread.  Perhaps some emails
-> have gone astray (it happens!). It can be a good idea to take a quick
-> look at lore.kernel.org to make sure you aren't missing any feedback
-> on a previous version.
->
-> Thanks,
->
-> Jonathan
->
->
+$ osc whatdependson openSUSE:Factory llvm21 standard x86_64
+llvm21 :
+       OpenImageDenoise
+       chromium
+       embree
+       ispc
+       leechcraft
+       python-PyMuPDF
+       python314
+       python314:base
+       python314:doc
+       python315
+       python315:base
+       python315:doc
+       rpcs3
+       rust-keylime
+       zig0.16
+
+
+thanks,
+-- 
+js
+suse labs
