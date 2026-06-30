@@ -1,98 +1,96 @@
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D80F31E828
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 22:21:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 665D4331A44
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 22:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782858112; cv=pass; b=rCeW4dAoykI0NJyDtG1+sV3fOCxP+3U39TEs2Km+Ot2Z8gev1Nmn1QEmS4aMeuNk+5W+79T7xmh7lNcOLcg4Axmcr3UbNDBYCl9Ak47KHQhinusCczJfZr/sxa4l5YyKXrUDhGAQPWUJdmW9vD/NE+IOy56Tcm0MV1WlZAK8Z20=
+	t=1782858927; cv=pass; b=lPUHvehbMcc1DrxH0Ygzd9ej5jV+1Bb8OmTC8+ogjexGM8KhoK4K2g6pUfnG7uyu1iKQqvOY/kOGKKaXnpIO5TN7hayCtXYbEqSO39Vwex6PNm/i8G4Bckq7OGAEh4gjErC4rUJUCshC00CbYznIB46meU/oNnblTXaR7oF2ZFo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782858112; c=relaxed/simple;
-	bh=DR0tH2IO3fN80hPp68tJnACbZx0ZviQ8SFdx1MtberI=;
+	s=arc-20240116; t=1782858927; c=relaxed/simple;
+	bh=IIH6gb9Aspc978S77GNhCcY8LVqXRyGmxXPBoO9kTVQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V70R7dBUOpUwcST7PsBKSsT3oJfJWhp6WDRPN2zrbE0+LlV+bqfHjN6GZwvpA+rKVox4GXW9oW8472RDbvDwKqoEMk2fWXtGznxFavYTz5SdMV+VOu2NwyNlyrXS52tZ9kNavi3lr33aX28FTBFwA4KaWGBS7jDkjqm3byuR3w8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=B9WuzwHb; arc=pass smtp.client-ip=74.125.82.42
+	 To:Cc:Content-Type; b=WxthELNlmbkDLM9IuLj/D4vIJJ9mbCjVm9S2ysKNvCIlQlsLhmoM7yFpQQcTY3saswpx1mmUQDJqe93Micbx3aGJnqM+eWyk42bQSmAZXfxdep9n8upUr78d4fBcMV3Da7XXK1vYAtZnynW686bckGO7rDPeU9dKyhBWhs1HMqQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tIU74OsF; arc=pass smtp.client-ip=74.125.82.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="B9WuzwHb"
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-139f1dfc9faso5304261c88.0
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 15:21:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782858111; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tIU74OsF"
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-139a5f4ca15so6219897c88.1
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 15:35:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782858923; cv=none;
         d=google.com; s=arc-20260327;
-        b=SKW4dJ8JZzs2PgB5gEciDKNY13jbJjURyyVdkBICmYKxS15oLSp9OZQKkMIdKFD/N6
-         zskLO/UQ6jRjgswwJGYLkrQ6djN76CvH9aqomum2J5FUSBxhYomC+QvkTZ7FzwYAc0SX
-         qzo49miGLLBvsQhgL/U96LKSjZNusfZ7biJlsH1ipkBtOLmnwsHx2ZExkHjVvaOamsXt
-         NqLZZnahXFnpOabpg/ieUgJsHYgOBOg/yk8S3xxwg6Zi2r5K7msbcIdHg1hcY5mCgHH5
-         MwmI6lUyKXRfkIgBSY9h3mIVPRa0PaExGpHdKwlRDHeueakBbTZYYTvr/uWGhlpSw+HY
-         UYvg==
+        b=qe8pHHZE89TfLDEo0RaYoDnDDzaruGDRizo8kZKkQE00OMVmHKdw79cqo3grg8EwN/
+         eZ0l0fvJjuxRCNi8kboWZCXRFyELMhu01PwQrvblTdhEpgKY+QwoVh8rc9PptfqKFXOz
+         K941yN95oMbgWTtXkqt4PX5WOaTQaFmJMBggk4Sp9zoCrTeLYqMxARAbtYPYji1hljxx
+         OTGa5wyLSZ3w8dzIgawVfssBSDkdLBbKVV2TghWAyG+TWlA8txHYGa/aqI6hesO7We5h
+         ziKTwLtjCGhFDDo/5ulgwqiOfbtXJXFYote+GszNBOKYZLPTADxUQCFwawcVbAenCG4e
+         Yqcw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=DR0tH2IO3fN80hPp68tJnACbZx0ZviQ8SFdx1MtberI=;
-        fh=PufW3gezjinlAeJWTBlHm0lI2nqCobRW28KCnyMdrN4=;
-        b=Yvn3UUfFl5cjy+38au5nOxp9NHajc9knoJFWbzWmzj+vj5YIsjF0+iUMMCgUb6HEVU
-         2rn1wd3hhfrBOXKhpoG0Zz/dUSQo4lsewGJoQW+SfHjK7gACxsIaF4q4dSaYaLzxdhLE
-         slJYoJECnYiot8vHnIlvQXPmOy4/V2/jr4Sin3KPuhgcbR0wyaPdEHOzeroMn4HRv7Sl
-         SbNAFVNP2XUw4UM5aOaH5/WkOrD+ZKD5s30MF8eAKr8Dt/mMUeQ7v+MS/yCY9VMpAvWr
-         hPG6kbckKvOR2q6M2uxPRqs+hSqnDIgCfjaAIWIHEWgR/fo+KANSWd7ju7vtL3UYN+4j
-         e4uA==;
+        bh=OLXeb8c7iyYBBm1u3dFIHz9SDW0xbbNuKTG6qGPD7go=;
+        fh=wPcOBMrVHcWeRXkjr+235xaHvOeNf2FfENsKd/8esII=;
+        b=QDtGncRhhOKLtGpLVt7hFX7hXoD9mb1qh7f0MEY7yZoUXP23JdVY5zd/yj+QGKiioT
+         tMo1x4H5LZfCjd/zn6Ga2GH2UyT3TUl1z5KVm+giRXxjuVSaAcusVc5YjT0A945ez/aI
+         SmwKLwAg3c7g1QX9I8hA0Xs8g57MfLIt2isVJBwjmeXG/UhRuhtkHTIWWpmGbRnAzsMp
+         tDWzA9pVsTkQF5OIqX57/ChhWuCU8HoymWHjH+7KAlw5XdM9gipLlTE2a9ZBIQCQbRlP
+         y22JaUE3aEbv9KpDLsZmuLWqrPzcwqpwWFT4Co1KrtKjut5vV0ZmYfZB++KyGNQRq4yo
+         WXDw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782858111; x=1783462911; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DR0tH2IO3fN80hPp68tJnACbZx0ZviQ8SFdx1MtberI=;
-        b=B9WuzwHbaigQyM1oU0Z7GSraufv3HeZOr/QIAwzQkrrT3V5/MUv1/kl/SB9w2vG347
-         /L+sF5wU1VT+LS1ZmXHhVAjX5/KkN1qwDKIlNhSsPg0vz6uwEWIWeJ8dr+xm6tvIqpcO
-         L142kxDDlLQ3g9eMCRDgEzU+FJgyXK+vEcpF9P5/SGuNqY85f3JULLbCTGpEEavIWo+o
-         v7ovR2UdNNmPWdFjy5YbzwG3Qh1EC6hJ3+vkhqWRosXL5ST6ZbTPfoYY0C2WYMH6aw7C
-         VU44FFbeUKUFVxsLpHba80xb1FgZwqnTruJE8YDLo7ytL1duo0jBDKOPc6wYx7ycUF0l
-         9rig==
+        d=google.com; s=20251104; t=1782858923; x=1783463723; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OLXeb8c7iyYBBm1u3dFIHz9SDW0xbbNuKTG6qGPD7go=;
+        b=tIU74OsFUlV3w0RTbXhocTIMXQyGIfdxV4w2f0/ZyNa30O5QCKoAji2YPY6tUioxzw
+         buympSlkGYL6Bpn4SaMaEvcx4JTonwICxKPb1ktbWYiyCbn9r8dd7bGW/jX4QJdqsLLe
+         gqRKdDNMnEQHh5gJ6pV/TDeTpHyjMYiMdEXAQWByHY1FKAR0p74n3fJ1iv6etIpHbDLc
+         HsPkgXZDMaVb9vXoBwpdsXd5hV8ojGNHFpXzQEz2Q4sP/8xrEY4SxKtyEBwxWvDp05+T
+         0yMU3daHBKYyhevq2Hut6rfWQvHVZiKaB5i47V++4rRCr/c7hTUxE1iOUPqiAWx4OY2g
+         08Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782858111; x=1783462911;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DR0tH2IO3fN80hPp68tJnACbZx0ZviQ8SFdx1MtberI=;
-        b=bygvzwPCDeDvocHE6kPePKFJNZNnHfSR31KEqbU67pOoAmwHN8t1k9cciPkX3gosyW
-         73fby4dLCXHXo7SypNnioL3m4pmsv2cTzIy3xUndE4dxFGh4i68Q0hvTYG3R3QIIMamv
-         ZGDQicz0UltYCo/Hiha28tOawiRdRHZGW7bMlsrqmsrgXzPjRN8UeVjgejaY5qxUk4tT
-         +EuMfD1Jt9GW8mFnd98/DEbm8y98PwuGVKMY/sEYiIyxfFeFdzUrnUejG9QSPI/xwzFI
-         Er3aN4ULnh3t+Cd1taiXZCMdXhEXO668ZW6eoffsjG4a80awPLd6I0QYFOuu+3yuYuOi
-         pSCA==
-X-Forwarded-Encrypted: i=1; AFNElJ96BkUo3PCYfey4WJVEbft3eiZTXfdmV/vQilg1Pu12y5wQX/4cf0IPvfq0QMHoBKTaJERcAPHd5mQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1tEbTEN7zu/XNH87XqcfQrl0/Bp+ksJ1YZWZXwRzQiokzM0+C
-	y0+ZqdIF4Zbo0UFtVskPvGkc+wzOFSzcMu3Jwy6W0BP9hR58vLM/XH+Ql0rcU/B9hesz3ieUKss
-	Ub8K/WfH9f8xRNi8XUM82g/0DtHroh26QWVZilaER
-X-Gm-Gg: AfdE7clq8hd8qdl/8Swc+gqtR/IpF1pMhtkBR1COlsJ08+k6dDgoHhLHZG9NkejoLC6
-	VClLU4ZvHTnxzB7Sl6ev3G4/veem6cHCWxRLzIvBZYmn1cAIz1x9G51Us5w6iffQm/0P3YNyegW
-	5KEaJCX83Cb8B7dBC9UtsCV8hFenpb8JTPZFgiXnS5vep9S7/dp1kFJnJT3+JNMeH3ouFnMRyvD
-	/SINY+7rd1CDYt5hxIhwTFeiXMbJH3EMB77Q29mnQBi2TjrSC7amLB9UGCGpCHls8y/+uBs
-X-Received: by 2002:a05:7022:923:b0:139:ed5d:5c9f with SMTP id
- a92af1059eb24-13b2a1c08bamr3407677c88.40.1782858109859; Tue, 30 Jun 2026
- 15:21:49 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782858923; x=1783463723;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=OLXeb8c7iyYBBm1u3dFIHz9SDW0xbbNuKTG6qGPD7go=;
+        b=h1G3o7nDVn9qX1qsZPdILJQHteZasgdYaBTjx0ScGNvepJzLL5rOesGxYBw7y7up0K
+         SJAjJUElSOawi6r5Pnnws6VsLeu25SlyWqjIKKtc1sNv1TzyUQTiChr8xIceB3QfGWVK
+         xFGQs2EiCcWlGJxNcJs+Q9nPvx2T4EU/jn4I0e5MAYIxabP1lHJ+PexsBeWe0dZvoLHS
+         Qb1ShON1pUkg+nHiiISGCWOFbPWT0kCzRNgmjgLf2qCJZKdGD55gLbIW6g6zq43p5t3c
+         Q/RhJQRLAB0F1WmOxvqhZaE4HJXAKjNMaskRUd8i0cnmpFEOcmwbeCVn4+RbT55BYSoK
+         kViA==
+X-Forwarded-Encrypted: i=1; AFNElJ/we7oOA79CQpcA+JI4zBF3lRyNxtcPyVJis+h+Yts2QLdI4RZzZhE4PHC1Lf6ZqBIdHqM1bOTQqJc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwkC3DmO6b8MlpoCifyiZDtWyk/72ysQDf+HyMyAb2uN8XteqI
+	KsmHCG7syQJ0v7DaDHwFKDCFPkWL9Xu2UWI4bCSHC2MEObCD126vQM33wz3ADMF0NAlbCbQmIsE
+	XkcOhr1yBPjcY3MCVEFCD5cqmF4B9vqG5yYvXLWq8
+X-Gm-Gg: AfdE7cm91yd0v1YyxYJj43NwTlHS2Hy/NF7K5OM3olfogoazNEl+SHyEzSaN8gKiYrR
+	Ggf15ElgF89yKxKYVv+JclBbAIhuIovcGL2injfWBPaesYXxhYTnoQ8WxH0cdCEV9aNPqJbeYyM
+	ZpP2FxTRCkcDp+PqLnSRpBF6kYGPdYf7rjNRtAK1U97ai1kaN1PX49ZeoHYgnN5T97qGu9x7wpX
+	wAKFXg7QXK9YY53qzlP42vT8ec97243LS/Syp5Xf1loxRyOJycN6Qbh03EEuXI/y1H5TE8m
+X-Received: by 2002:a05:7022:f690:b0:139:ed59:4b8e with SMTP id
+ a92af1059eb24-13b2a1c7f1dmr3156303c88.50.1782858922721; Tue, 30 Jun 2026
+ 15:35:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260522202410.3104264-1-dmatlack@google.com> <20260522202410.3104264-9-dmatlack@google.com>
- <aiXWmR-ettxin4LC@google.com> <aiaeOVomxQZhoM3K@google.com>
- <20260608181640.GO1962447@nvidia.com> <aigtS3UDdhUGp3m0@google.com> <aigyn66-xQ_9JBW6@google.com>
-In-Reply-To: <aigyn66-xQ_9JBW6@google.com>
+References: <20260522202410.3104264-1-dmatlack@google.com> <20260522202410.3104264-10-dmatlack@google.com>
+ <aiaoc6Y6qeF_5Wn9@google.com> <20260608181906.GP1962447@nvidia.com>
+In-Reply-To: <20260608181906.GP1962447@nvidia.com>
 From: David Matlack <dmatlack@google.com>
-Date: Tue, 30 Jun 2026 15:21:22 -0700
-X-Gm-Features: AVVi8CdGaAQOsRR3GiQD5WoDqKgNzoVt-sa6rd2Hjmz3ldGohaSjMHvZ8NY85tg
-Message-ID: <CALzav=d-JD6ZbUNEbRMQwnvOhCBJ3ruodr3wbHM=1WA++MCKCw@mail.gmail.com>
-Subject: Re: [PATCH v6 08/12] PCI: liveupdate: Inherit ACS flags in incoming
- preserved devices
-To: Pranjal Shrivastava <praan@google.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+Date: Tue, 30 Jun 2026 15:34:56 -0700
+X-Gm-Features: AVVi8Cd-vdSCkwSqwAz2qbX9b8clCFCtpt-XfTl_1BZFKIa6zUmlOyUobbTWOp8
+Message-ID: <CALzav=eGkCom7rM0Mj_AEhcvfryLctRWghPaGkD2V5_bMiXTEg@mail.gmail.com>
+Subject: Re: [PATCH v6 09/12] PCI: liveupdate: Inherit ARI Forwarding Enable
+ on preserved bridges
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Pranjal Shrivastava <praan@google.com>, kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
 	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
 	Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
@@ -106,50 +104,97 @@ Cc: Jason Gunthorpe <jgg@nvidia.com>, kexec@lists.infradead.org, linux-doc@vger.
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 9, 2026 at 8:35=E2=80=AFAM Pranjal Shrivastava <praan@google.co=
-m> wrote:
+On Mon, Jun 8, 2026 at 11:19=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
+ote:
 >
-> On Tue, Jun 09, 2026 at 03:12:11PM +0000, Pranjal Shrivastava wrote:
-> > On Mon, Jun 08, 2026 at 03:16:40PM -0300, Jason Gunthorpe wrote:
-> > > On Mon, Jun 08, 2026 at 10:49:29AM +0000, Pranjal Shrivastava wrote:
+> On Mon, Jun 08, 2026 at 11:33:07AM +0000, Pranjal Shrivastava wrote:
+> > On Fri, May 22, 2026 at 08:24:07PM +0000, David Matlack wrote:
+> > > Inherit the ARI Forwarding Enable on preserved bridges and update
+> > > pci_dev->ari_enabled accordingly during a Live Update. This ensures t=
+hat
+> > > the preserved devices on the bridge's secondary bus can be identified
+> > > with the same expanded 8-bit function number after a Live Update.
 > > >
-> > > > My point was that a FW exploit can meddle with the bitfields of the
-> > > > ACS_CTRL to spoof and mis-report the ACS flags.
+> > > Signed-off-by: David Matlack <dmatlack@google.com>
+> > > ---
+> > >  drivers/pci/liveupdate.c | 18 ++++++++++++++++++
+> > >  drivers/pci/liveupdate.h |  6 ++++++
+> > >  drivers/pci/pci.c        |  8 +++++++-
+> > >  3 files changed, 31 insertions(+), 1 deletion(-)
 > > >
-> > > Devices can also ignore the ACS flags. I don't think this is an area
-> > > where we should be worrying about devices being actively hostile.
+> > > diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+> > > index a93b7ef065f2..701276ef6cfb 100644
+> > > --- a/drivers/pci/liveupdate.c
+> > > +++ b/drivers/pci/liveupdate.c
+> > > @@ -128,6 +128,10 @@
+> > >   *    way after Live Update and ensures that IOMMU groups do not cha=
+nge. Note
+> > >   *    that a device will use its inherited ACS flags for the lifetim=
+e of its
+> > >   *    struct pci_dev (i.e. even after pci_liveupdate_finish()).
+> > > + *
+> > > + *  * The PCI core inherits ARI Forwarding Enable on all bridges wit=
+h downstream
+> > > + *    preserved devices to ensure that all preserved devices on the =
+bridge's
+> > > + *    secondary bus are addressable after the Live Update.
+> > >   */
+> > >
+> > >  #define pr_fmt(fmt) "PCI: liveupdate: " fmt
+> > > @@ -756,6 +760,20 @@ int pci_liveupdate_enable_acs(struct pci_dev *de=
+v)
+> > >     return 0;
+> > >  }
+> > >
+> > > +int pci_liveupdate_configure_ari(struct pci_dev *dev)
+> > > +{
+> > > +   u16 val;
+> > > +
+> > > +   guard(rwsem_read)(&pci_liveupdate.rwsem);
+> > > +
+> > > +   if (!dev->liveupdate.incoming)
+> > > +           return -EINVAL;
+> > > +
+> > > +   pcie_capability_read_word(dev, PCI_EXP_DEVCTL2, &val);
 > >
-> > I'm wondering what happens if we preserve IOMMU groups across a kexec,
-> > but a switch's ACS capability is dropped or the ACS_RR bit gets cleared=
-?
-> > The incoming kernel assumes that it's the same ACS cap from the old one
-> >
-> > Now, the incoming kernel restores the groups assuming they're still
-> > isolated, but the hardware no longer enforces it, silently allowing DMA=
-s
-> > & breaking isolation?
+> > Again, I might be thinking out loud here, but since these are
+> > hot-pluggable devices, with some FW / SW running on them, I'm a little
+> > worried while assuming the HW registers can be trusted across a kexec.
+
+This is, in-part [*], why I explicitly read the capability rather than
+caching what the previous kernel thinks it was in struct pci_dev_ser.
+
+In other words, the kerenl does not assume that hardware registers
+remain unchanged across kexec. It reads them after kexec to determine
+what state the device is in and inherits that.
+
+[*] The other reason is just to keep the ABI as minimal as possible.
+
+> > Say, if the bridge experiences a reset (e.g. link drop etc) during the
+> > kexec blackout, the PCI_EXP_DEVCTL2 register could revert to its defaul=
+t
+> > state, meaning the ARI bit will be 0.
 >
-> Again, to clarify, I'm aware that we aren't preserving IOMMU groups,
-> the incoming kernel has to rebuild the groups. My concern is that if the
-> ACS_RR bit is cleared during the kexec window, the produced grouping woul=
-d
-> be different than the old kernel. What happens if two devices on the
-> same bridge were assigned to 2 different VMs?
+> This does seem like something to be concerned about, but realistically
+> I think if you get a PCIe error I'm not sure the incoming kernel is
+> equipped to handle it at all :\
+>
+> Just resuming the driver is going to fail too, I don't know how VFIO
+> can learn and forward the event, and so on..
+>
+> But maybe it is worth being a little more defensive here
 
-In this patch the kernel reads PCI_ACS_CTRL after kexec to determine
-the bridge's state and uses that information going forward. We don't
-assume that if ACS_RR was set on the previous kernel then it is still
-set now.
+If this were to happen, the kernel would see that ARI is disabled on
+the bridge after kexec and proceed with that state (ARI disabled).
+Devices (devfn) 8+ on the bus would not be available to use or restore
+(the kernel would not discover them during scanning). It should be
+fairly obvious to the user that something went wrong (devices they are
+trying to restore do not even exist) and they can reboot at that point
+to recover.
 
-So if ACS_RR were cleared during kexec somehow, the new kernel would
-see that and place those devices into the same group. Someitme after
-that (I'm a little fuzzy on the iommufd restore path during Live
-Update) the kernel would try and fail to restore the 2 devices into
-separate domains because they are in the same group and thus the 2
-different VMs would fail to come up.
+This should be extremely rare though as it requires a PCIe error that
+affects the bridge to race with kexec.
 
-Of course maybe ACS_RR can somehow get cleared after the kernel reads
-it, but at that point the issue has nothing to do with Live Update.
-
-So that's what would happen if ACS_RR ever got cleared during kexec
-and seems reasonable to me?
+This seems like a reasonable way to handle this scenario, at least in
+the initial version. We can always look at more gracefully handling
+PCIe errors during kexec for Live Update if-and-when there is value.
