@@ -1,352 +1,98 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E68338C2C0
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 08:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782807083; cv=pass; b=JeGhdths4Ee07KhlMJKEGJ4JZjGIFI8HEwSNR1s5UzW8slpX1otzXVdbVjhTQK8fpm+g+Ja00wD6aKhlWTQLktmYoUtoOPF689iJ3sS34V0n/6ZLkhCguH9LAvF2VaEhixssXaTTkAthCRpOcZJGkj5DlonKY3lGnzDbSKrUknk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782807083; c=relaxed/simple;
-	bh=3CRqg4jjJBFOEEQUI8942ovOs3MSz8reLt9alwmH2Zg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CnZRg+PIXPu1t+7fc9H8Abz+L3A8Zr7mwO3UB9D/gWWXOGiISbf0g7kNmo+FIe4j4HaghQUnwSqMLQahLJMZwLoLEIMrv+na4x4WfKLJYICKC8seMC5Bow/9w773J50nnpw0HoDNN12hV/WiKtEICrXl/pLKW14ePDPEBvZnWXI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iufYDOjd; arc=pass smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D401F37DEB6
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 09:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782810863; cv=none; b=NULSgtsRu2+dQ/B3CbOCvHOnJHBrLFmqiuM1Hqds5zdAoFQPUn8FRpB32/QZeK79Ti/y6AnX/AxyuUQlQDQcWv1Oxv8whupw9gslceTefooUrfoSEX1Vm6eVEnc8oXHnFdD9Nn8cAcNwME6vz79WYO6slob09khe8OXjLhPSank=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782810863; c=relaxed/simple;
+	bh=v75CRjgxFA/pyoEsru7YfSISG9bmd5def/H4rNBDfeQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sLLRGrXSGvvIbhism/U+AKkV5KJChRN9xu6f9gFQF819UUwChmJarBzh0WVvLnTBISGMnVP/FqHmw35vF4RCnFT3zsmCcUZtbYrHGqWMrO9a5vGIilVUwxz7o+ou01DfSJ8F42GLOqXiFo31EBq9dXgskrVUAP1dVNZyvGtdzk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HuAvpylI; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iufYDOjd"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-39b19e7d6fcso8883311fa.1
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 01:11:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782807080; cv=none;
-        d=google.com; s=arc-20260327;
-        b=nEm3mLWM8CYoViemC7SXCZ/J6qgfGUVk8P69ZnRoWZUEvoDLjf6opr2M16Ifje0q4h
-         M0+lbfcrwPUKhaTW2APp0dmw6UJcEya7M/1ghwzsxs1p03FLSuusrqyWshyIATR1+v+L
-         MUYmMfkVoizLrD5cP3KDNxgMqV1SivI1UtTFjKhs42g4TLn+4mrgym96G2cqK4On5G1A
-         WlGa79pV1i9+5af2p4/YBZVLtFl2HRFw28wCizKScYatTSka3avTS8pgDAQIqf8NmKSX
-         xxPe8h07eP8RXtO23PszRi50CpCU57jiiM3RN/GYU1OKFRKokA9lXW5ASmJUACTy17V/
-         bieA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EIFNyBiGV125IWoTbnKZBjGH67zjqTCIkC6QJio46H8=;
-        fh=sEEfHMF1l4DCqk9DttKB1QLVrf1gYIwfrj0Pi7qWFT8=;
-        b=JTzsrPf0B1/PIUgaZrHH1ALKLUmzLj2K3to0ZLXm4vIRMxfflJtYghjw+26vTsNzSw
-         zTRMzlJr/yGKPGqGhn3qTBDoAOA6FGXjiKCrZK8auiS3yYtws5rZxp9i9WblvUEVZWBn
-         ueAD7yz62+fMbGMtMh+ISOuQtWrzJF+enLVOeakgjzT5Wc0iMygOEHlCvuPYTV33BqHO
-         rtArrf8hcCDOedaXb9YnOKr4r9xdMj+lXSr4TQGFq43us5FGKyaJpm31I2Yv6S/crjq5
-         nMfcQ70JxE+Wy7drs1UCB33uT3aWbADq2Za2bUwKNfV6UPoQbBakQa6mqLC6wwq7Kj11
-         f8aw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782807080; x=1783411880; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EIFNyBiGV125IWoTbnKZBjGH67zjqTCIkC6QJio46H8=;
-        b=iufYDOjdYk0okCaFTB0r7dUmStmH3pa11qY+Q6kUIpywK31XfoPuxkZpftFUCHVOSU
-         ExIy9R3kfe2n0/lT2hoDbPOlRj+ggbxLyqydy/rXDBGPITrs04Q8WeRxx1ARnGCNkVc2
-         hSgT9ZFdskYa0nVDNuNPJJYdZ/z8YOjSr34L3bR1l4aEJkLH+pnSs8noTx5ZGj35pQct
-         uUZg85LGGjgLMTcO1fa9mmM4idS6FSRW3WZqY7a8xXKzfO1rq1EO9Lfi2ikzOM0irTrj
-         GgDimL176VojqvPHurttq7EO/w8EZkOwMwlQpUR3lZ19whvxDW6CBVbRGMKT0m2nydia
-         OZ9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782807080; x=1783411880;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EIFNyBiGV125IWoTbnKZBjGH67zjqTCIkC6QJio46H8=;
-        b=X4GH2b+YqinItskXrze5Qlk3Rul6im+wAnanalYjjuGZznEr0rMaPa0HA4EUjXs1VS
-         HndtaWkXvoFa1yp5futZXNZNZ3tzKA19rT1PGuvXJEU8fZhcfNCPrqVX6tyPCj5Gt216
-         YJMDjzHOTYuQDN8S3Vq15mTbJrRMtrZ/UnTqxp5i6Hr6AvHt8avzQIFDx9kszXmw/whs
-         6O5VpAklicMmxplr069AuZW+rbSCgMy+/dh2FRLTZVXhmndb2xETAKkdxlabWE7Is4EU
-         BcPq3RxEpRtuVbQkBAXLm1MmEyqhNVnPx96gqW/UDsCVM3Yh9C6xfBjE8YcxFANDBx75
-         1low==
-X-Forwarded-Encrypted: i=1; AHgh+RrjQexeulMpoik11HD8b5x4WfYffHjwqhH74KxSdDTeovJds6PhUT73R9oblEsAimIp+gqMYvER0zI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzca03Yj4P40D3zxhiPfpGLUiBst6FA0bK2QGg4rk4TjB39p2bQ
-	BNVjYevd81iBY3zXOuA39M9OehFsCRrJ/sveyS6eFsHoNJOYSCvrzW4/qXsPAR2kThBxZnzOwiM
-	jgsEDapTwU+QbfqKvPNkeaErt92yf94E=
-X-Gm-Gg: AfdE7ckA+AfMD5rAAvHgZHoMSYDGC/TvyHiIdWSRVqLS8unNphNGlfU/iak+nbT+gew
-	wO5eEgmMP3jbChlO+dXCcoXZWwhdSOvzQ2Zha7gjbbT8fc6AV5SBNgsi6QV/1znv1iMNmi+GiXx
-	7aIE2JH+5hCUDW7qA10fPe8KpgQHyWWfL2SK9FhOqoLKvG1EX6mQWhvhu/ILNe6UWlfAKj3CYuB
-	OgvAe1/CXlBiGcoz7cPBUHfkrDxRT3DAtM+s3iFzjB65cYiA1HE7uNkKz55Bg+AZdB0Dfrd7+8I
-	VzsM7+HXPMm7LSNEaajun79lWPtqsKQ=
-X-Received: by 2002:a2e:9657:0:b0:396:668f:b7f9 with SMTP id
- 38308e7fff4ca-39b1ddfdee0mr4316791fa.24.1782807079383; Tue, 30 Jun 2026
- 01:11:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HuAvpylI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782810862; x=1814346862;
+  h=date:from:to:cc:subject:message-id;
+  bh=v75CRjgxFA/pyoEsru7YfSISG9bmd5def/H4rNBDfeQ=;
+  b=HuAvpylItPkph+B0SJfATFsxLEVqKMyp77e4Zre0shEQdHvZ4A00qgVr
+   o+YJQKj9kKveuUCUAVYqjJIdf+Ns7wrdtUs5YORpSYmniC492UooAZMIa
+   UlwO4sKWQYTcNXFttTzalrx0n3RoUeGngKkWQ2NqpwtWIz6suzVyN+Sd6
+   PWAWMn4YJ9oUkBQXAuBhoCwQKIcmS7Ey1X7VugbLY8fFoNw3vmcSyheWL
+   5669IayIXw/L7G01eZ1yttOdiY/hRkq31dL+mKR7zndrQTOaLlxUbwp9Q
+   73lJR5/R5Cch9U7+6M8DQovc89q04DbvHF6GOJ+MMDZfeJk2X8x2+02ct
+   A==;
+X-CSE-ConnectionGUID: gJTlZ+k9SSuJkHaGr2KiqQ==
+X-CSE-MsgGUID: 10eHWHhmQ8SnUVfowp8v9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="82630466"
+X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
+   d="scan'208";a="82630466"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 02:14:21 -0700
+X-CSE-ConnectionGUID: GKN7wfrnS4SYgUAlmS+Zow==
+X-CSE-MsgGUID: YpjrdLywTLan7IxxLjDa0A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
+   d="scan'208";a="276484927"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 30 Jun 2026 02:14:19 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1weUXn-000000000R1-0H4d;
+	Tue, 30 Jun 2026 09:14:15 +0000
+Date: Tue, 30 Jun 2026 11:13:54 +0200
+From: kernel test robot <lkp@intel.com>
+To: Waqar Hameed <waqar.hameed@axis.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs:
+ Documentation/ABI/testing/sysfs-class-power-rt9467:1: WARNING: Inline
+ emphasis start-string without end-string. [docutils]
+Message-ID: <202606301107.ZU8YbyPc-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260629083542.10041-1-lucaslnobrega38@gmail.com>
- <CAJZ5v0iVD90XPsWgT8B+fw9vmFRZTVL7MasPP-=Ci0OdUmNR=A@mail.gmail.com> <6021784.DvuYhMxLoT@rafael.j.wysocki>
-In-Reply-To: <6021784.DvuYhMxLoT@rafael.j.wysocki>
-From: Lucas Lima <lucaslnobrega38@gmail.com>
-Date: Tue, 30 Jun 2026 05:11:06 -0300
-X-Gm-Features: AVVi8CdboQGFGMh_5EKoVOk7TQrzmHfNsXbHneuVGM6SxXOiX2PsDmgqMWtLEV0
-Message-ID: <CAMVixxV83tSLEi_o1vmHjqfgPnnXDwo2LjP_m-Y7iEWfvUAP2g@mail.gmail.com>
-Subject: Re: [PATCH] sched/topology: Allow EAS without schedutil for
- artificial Energy Models
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: viresh.kumar@linaro.org, mingo@redhat.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, 
-	kprateek.nayak@amd.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Em seg., 29 de jun. de 2026 =C3=A0s 16:06, Rafael J. Wysocki
-<rafael@kernel.org> escreveu:
->
-> On Monday, June 29, 2026 5:16:17 PM CEST Rafael J. Wysocki (Intel) wrote:
-> > On Mon, Jun 29, 2026 at 10:36=E2=80=AFAM Lucas de Lima N=C3=B3brega
-> > <lucaslnobrega38@gmail.com> wrote:
-> > >
-> > > EAS currently refuses to enable energy-aware scheduling on a root
-> > > domain unless schedutil is the active CPUFreq governor for all of its
-> > > CPUs (cpufreq_ready_for_eas()). This requirement exists to protect th=
-e
-> > > accuracy of the energy estimate: EAS predicts the OPP a CPU will run
-> > > at from its utilization, which is only meaningful if the active
-> > > governor actually requests OPPs that way, and schedutil is the only
-> > > one that does.
-> > >
-> > > That requirement does not apply to artificial Energy Models
-> > > (EM_PERF_DOMAIN_ARTIFICIAL). An artificial EM is built from a
-> > > get_cost() callback instead of real power numbers, and only encodes a
-> > > cost ranking between CPUs (e.g. P-cores cost more than E-cores at a
-> > > given utilization). It never claims to predict real energy use at any
-> > > specific OPP, so there is no per-OPP accuracy for the governor
-> > > requirement to protect, regardless of which governor is in control or
-> > > whether it tracks utilization at all.
-> >
-> > But it is still about comparing the cost of running on different CPUs
-> > at different performance levels.
-> >
-> > For instance, say the scale-invariant utilization of a task is 256 and
-> > it can run either by itself on a P-core, or with another task whose
-> > utilization is 128 on an E-core, and say the P-core's and E-core's
-> > capacity is 1024 and 512, respectively.
-> >
-> > Say the cost function tells EAS that running a P-core at 1/4 of the
-> > capacity is cheaper than running an E-core at 3/4 capacity, so it will
-> > pick up the P-core to run that task, but if cpufreq ramps up the
-> > frequency of the P-core to the max when the task gets to it, it may
-> > actually turn out to be more expensive.
-> >
-> > This means that EAS still has an expectation regarding cpufreq which
-> > is that it will generally tend to run tasks at the performance level
-> > corresponding to the sum of their scale-invariant utilization at least
-> > roughly.
-> >
-> > IIUC this actually has nothing to do with whether or not the energy
-> > model used by EAS is artificial.  The schedutil requirement is about
-> > choosing a performance level proportional to the utilization (which
-> > schedutil generally tends to do by design).
-> >
-> > > intel_pstate registers exactly this kind of artificial EM for hybrid
-> > > (P/E-core) systems without SMT, regardless of whether it operates in
-> > > active or passive mode. In active mode it never uses schedutil, since
-> > > HWP picks frequency autonomously, so on these systems EAS never
-> > > engages even though SD_ASYM_CPUCAPACITY, frequency invariance and the
-> > > EM are all in place: find_energy_efficient_cpu() is never reached
-> > > because is_rd_overutilized() is hardcoded to true whenever
-> > > sched_energy_enabled() is false. cppc_cpufreq registers the same kind
-> > > of ranking-only artificial EM and is affected the same way with any
-> > > non-schedutil governor.
-> > >
-> > > Allow EAS to be enabled when every CPU's EM in the root domain is
-> > > artificial, even when schedutil is not the active governor.
-> > >
-> > > Tested on a Raptor Lake-P laptop with nosmt=3Dforce and intel_pstate =
-in
-> > > active/HWP mode: find_energy_efficient_cpu() was never called before
-> > > this change (confirmed via the sched_overutilized_tp tracepoint and
-> > > ftrace) and is exercised as expected afterwards.
-> >
-> > If this is about allowing EAS to work with intel_pstate running in the
-> > active mode, you may argue that what the processor firmware is doing
-> > when intel_pstate runs in the active mode is not much different from
-> > what schedutil would do.  So a driver implementing an internal
-> > governor (that is, using the .set_policy() callback) would need to
-> > declare that its internal governor is as good as schedutil from EAS'
-> > perspective and so it will pass the "cpufreq readiness" check.
->
-> And I have a prototype patch (on top of 7.2-rc1) doing this which is
-> appended.
->
-> I wonder if it works for you (that is, if it allows intel_pstate and EAS =
-to
-> work together both with schedutil and when intel_pstate operates in the
-> active mode with the "powersave" policy on your system).
+tree:   https://github.com/intel-lab-lkp/linux/commits/Waqar-Hameed/power-supply-Add-sysfs-entry-for-system-load-control/20260629-235714
+head:   7f627c0c3f8b6254753610a05254e70cd6a2032d
+commit: 7d5467fb719bb1294f12059ff16ae2faf74cf1de power: supply: rt9467: Use POWER_SUPPLY_PROP_LOAD_SWITCH
+date:   17 hours ago
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260630/202606301107.ZU8YbyPc-lkp@intel.com/reproduce)
 
-It does work, thank you.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606301107.ZU8YbyPc-lkp@intel.com/
 
->
-> Also I wonder why exactly you want intel_pstate in the active mode to
-> work with EAS.  Do you see any significant improvement in that case?
+All warnings (new ones prefixed by >>):
 
-About that specific topic i do not have any testing data, but it felt
-like schedutil drains more battery than pstate active (likely due to
-worse c-states management) and presents more stutters in general usage
-(I would guess it's slower to react to load changes). After bypassing sched=
-util
-those very observations were gone, and the responsiveness of the system
-looked very similar to EAS disabled, pstate active. Since EAS does
-prioritize spreading
-onto E cores, which do consume less energy by my testing, IMHO it's
-almost too good
-to be leaving it unused.
+   ============  ===========================================
+   1             automatic adjustment of input current limit
+   0             no adjustment of input current limit. This
+   helps for more unusual power sources like
+   solar modules. [docutils]
+>> Documentation/ABI/testing/sysfs-class-power-rt9467:1: WARNING: Inline emphasis start-string without end-string. [docutils]
+   Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline emphasis start-string without end-string. [docutils]
+   WARNING: ./block/blk-map.c:366 Excess function parameter 'op' description in 'bio_copy_kern'
+   Documentation/devicetree/kernel-api:11: ./drivers/of/base.c:2161: WARNING: Inline emphasis start-string without end-string. [docutils]
+   Documentation/devicetree/kernel-api:11: ./drivers/of/base.c:2351: WARNING: Inline emphasis start-string without end-string. [docutils]
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:370: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
 
-I also want to point out that gaming (mainly minecraft) stutters a lot more=
- with
-EAS on, even when pstate is set to active. So i wonder what do you think ab=
-out
-capturing the system power mode (currently only clamps frequency) and
-disabling eas_compatible when set to "performance"? That would need
-updating cpufreq_policy, but feels reasonable to let the user disable EAS
-for latency sensitive tasks, since E cores struggle at those.
 
-I also want to point out that gaming (mainly Minecraft) stutters a lot
-more with EAS,
-even when pstate is set to active. So I wonder what you think about
-capturing the
-platform power profile (via the platform_profile subsystem) and
-disabling eas_compatible
-when set to "performance"? That would need a notifier from
-platform_profile to re-evaluate eas_compatible
-across active policies when the profile changes at runtime, but feels
-reasonable to let the
-user disable EAS for latency-sensitive tasks, since E-cores struggle at tho=
-se.
+vim +1 Documentation/ABI/testing/sysfs-class-power-rt9467
 
-I know that for now, my observations are only anecdotal, but if needed
-I'm eager to test those assumptions!
+eedb923279b78c ChiaEn Wu 2023-01-03 @1  What:		/sys/class/power_supply/rt9467-*/sysoff_enable
 
->
-> ---
->  drivers/cpufreq/cpufreq.c        |    2 +-
->  drivers/cpufreq/intel_pstate.c   |   11 +++++++++++
->  include/linux/cpufreq.h          |   16 +++++++---------
->  kernel/sched/cpufreq_schedutil.c |    7 ++-----
->  4 files changed, 21 insertions(+), 15 deletions(-)
->
-> --- a/drivers/cpufreq/cpufreq.c
-> +++ b/drivers/cpufreq/cpufreq.c
-> @@ -3058,7 +3058,7 @@ static bool cpufreq_policy_is_good_for_e
->                 return false;
->         }
->
-> -       return sugov_is_governor(policy);
-> +       return policy->eas_compatible;
->  }
->
->  bool cpufreq_ready_for_eas(const struct cpumask *cpu_mask)
-> --- a/drivers/cpufreq/intel_pstate.c
-> +++ b/drivers/cpufreq/intel_pstate.c
-> @@ -2921,6 +2921,9 @@ static int intel_pstate_set_policy(struc
->                 if (!hwp_boost)
->                         intel_pstate_clear_update_util_hook(policy->cpu);
->                 intel_pstate_hwp_set(policy->cpu);
-> +
-> +               policy->eas_compatible =3D hwp_is_hybrid &&
-> +                               cpu->policy !=3D CPUFREQ_POLICY_PERFORMAN=
-CE;
->         }
->         /*
->          * policy->cur is never updated with the intel_pstate driver, but=
- it
-> @@ -2930,6 +2933,9 @@ static int intel_pstate_set_policy(struc
->
->         mutex_unlock(&intel_pstate_limits_lock);
->
-> +       if (policy->eas_compatible)
-> +               em_rebuild_sched_domains();
-> +
->         return 0;
->  }
->
-> @@ -3030,6 +3036,11 @@ static void intel_pstate_cpu_exit(struct
->         pr_debug("CPU %d exiting\n", policy->cpu);
->
->         policy->fast_switch_possible =3D false;
-> +
-> +       if (policy->eas_compatible) {
-> +               policy->eas_compatible =3D false;
-> +               em_rebuild_sched_domains();
-> +       }
->  }
->
->  static int __intel_pstate_cpu_init(struct cpufreq_policy *policy)
-> --- a/include/linux/cpufreq.h
-> +++ b/include/linux/cpufreq.h
-> @@ -118,6 +118,13 @@ struct cpufreq_policy {
->         bool                    strict_target;
->
->         /*
-> +        * Set if the current governor meets EAS' expectations regarding
-> +        * performance scaling (that is, it selects performance levels
-> +        * proportional to CPU utilization at least roughly).
-> +        */
-> +       bool                    eas_compatible;
-> +
-> +       /*
->          * Set if inefficient frequencies were found in the frequency tab=
-le.
->          * This indicates if the relation flag CPUFREQ_RELATION_E can be
->          * honored.
-> @@ -657,15 +664,6 @@ module_exit(__governor##_exit)
->  struct cpufreq_governor *cpufreq_default_governor(void);
->  struct cpufreq_governor *cpufreq_fallback_governor(void);
->
-> -#ifdef CONFIG_CPU_FREQ_GOV_SCHEDUTIL
-> -bool sugov_is_governor(struct cpufreq_policy *policy);
-> -#else
-> -static inline bool sugov_is_governor(struct cpufreq_policy *policy)
-> -{
-> -       return false;
-> -}
-> -#endif
-> -
->  static inline void cpufreq_policy_apply_limits(struct cpufreq_policy *po=
-licy)
->  {
->         if (policy->max < policy->cur)
-> --- a/kernel/sched/cpufreq_schedutil.c
-> +++ b/kernel/sched/cpufreq_schedutil.c
-> @@ -797,6 +797,7 @@ out:
->          * Schedutil is the preferred governor for EAS, so rebuild sched =
-domains
->          * on governor changes to make sure the scheduler knows about the=
-m.
->          */
-> +       policy->eas_compatible =3D true;
->         em_rebuild_sched_domains();
->         mutex_unlock(&global_tunables_lock);
->         return 0;
-> @@ -839,6 +840,7 @@ static void sugov_exit(struct cpufreq_po
->         sugov_policy_free(sg_policy);
->         cpufreq_disable_fast_switch(policy);
->
-> +       policy->eas_compatible =3D false;
->         em_rebuild_sched_domains();
->  }
->
-> @@ -931,9 +933,4 @@ struct cpufreq_governor *cpufreq_default
->  }
->  #endif
->
-> -bool sugov_is_governor(struct cpufreq_policy *policy)
-> -{
-> -       return policy->governor =3D=3D &schedutil_gov;
-> -}
-> -
->  cpufreq_governor_init(schedutil_gov);
->
->
->
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
