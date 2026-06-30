@@ -1,134 +1,223 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF058411673
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 13:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B51141167B
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 13:07:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782824809; cv=none; b=dUegMArv8EY9owTNei+ub8CL24yuC5cRpBFC6+CiuLeJPFRLDVDCe8/LGB46Sit76/VxNcTf4oJEYA6Yq7RhKhmZklDnpXKTBkoTTIt0oF+5KyTvD32vHEMLWkhXBEdJlp7DLys72XUMWadrzxsAmOuoIMa7W1IpoMQxP5scwAM=
+	t=1782824833; cv=none; b=F0n6mlNRARpioiD1cjBfpirSM5zAZ5eM6UD5Li/OMstdMSahpIiOvNpbXXa9q6DpJNBkmhScoD29GV/aN9qFp3PYc9wFRe2g604TUa3DgMuQ5+MC5/4kYH+rVp20ZM4w7IkcTBtUlxKInk3VCb3sYYvwlYohTcdDHM9fff2jfgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782824809; c=relaxed/simple;
-	bh=CyC5ny1bAKX8WJocn0Ihrx94MGIS+dltREW/5h3LDKw=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=P6iu9zVhZyECa0nUw7Nm10501i0rsDSvRipqudomfRsuAq1NWVf2jLOYAtk9h4aJ9FFr5UCpcBsg/FNJZ/Wo0L7qASoXILrds9rENNj1A4f5NWcXhvNcbiSAkJp6niEJNIyv05LAHD/BNI5Qfzx9O78Z6JfUyPQYuzJ3cLVgbrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sraIy6fQ; arc=none smtp.client-ip=209.85.216.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1782824833; c=relaxed/simple;
+	bh=hkQVXksvs1+hoKg4jRPyHwvVG0kaAtmGUHOGd/K67MI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HQqq1Cv3W7uYHTL7Tsom/8yKZ3UcIVL38tARYyT/7dbwqT1hGnWm68hsA8n5Z6EsWDlANNgBXaOY3NV1pkDg50HaBgqPyyoHTdxdS6hwyqMthzyBJummxuYN8fI8AiqUcMjq9EqULIIoa7lMnVK1yryIgTkL9/4vkg7iq81c+fU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kYv7X4Ni; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sraIy6fQ"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-37e1f96b248so1348806a91.3
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 06:06:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782824806; x=1783429606; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GKmnhEmEL5Q9+VdT5YV6KYZqx0ZeftgvFW7GNXKQRJU=;
-        b=sraIy6fQUAc9T2fRHpKRf5UIjBi0jiWOeptfzHjJGemwp260d1pQnh1JKRazxc0NNJ
-         ovXNZnB36PaChp8qyWvb1TQiY+ALfjd1/FBY95Iol2/sTjiT5FAZr+46ZaTJUQQszlWB
-         /Od4z6goREAn123zyfofwdZAkLf82+ijSFBaxAii4NMcyBu9TpVI7WoQx0cAAkBpeof+
-         YOi9dY3u/m/Hl+q4OmjZ7tqKvUvfkTeQXEiitrQdM/DL8NefX/Vbd4RQzHBi2Hors8EI
-         j3u1K5XdOQZWeIEc2laW5j3gRFd3ToFT4TiJIXqHi8sfbxG8P90ThZCIA3p24G6PMaP8
-         YK7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782824806; x=1783429606;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GKmnhEmEL5Q9+VdT5YV6KYZqx0ZeftgvFW7GNXKQRJU=;
-        b=Jnn4iaKCqWMUyODHM/EazR+CJYtOR8rGV9dbLvpmCMsr08pMxZe9D//GBWGz5lCiZK
-         2IgjhISVprXKw3bSSvSggodEwDXreqUCg8NUU91hvyuWdXzkY1pjxXqGChPC5NRwdlWZ
-         P9NIk76LPEHCOncZaL6siOXPF0bHGcrCAghIWGeFN13ZCDB9XZ3aBUB2395bxBqXgFfo
-         KrWWwZDlg7ZiP42AlL5gWjT6on7IrniOStrlzQ0tj/hvd/OSlycQOAGNAHAnK1VXhr+I
-         xvwR+ORSAlDetGhkKlR/HuywK6waPGDMKgk7+Xo1UWYeq8qHdomsaRZlKlPhNTWC4fFl
-         Ia1w==
-X-Forwarded-Encrypted: i=1; AHgh+RpRz4hkQP303QtvrX0PBfJdRAJ6Notglv/0ghbI4byM/gvAKyYg+NkDTcCZp3VHfBk9q9QewJLRpaI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjmHqyUrA4c8gSonG3dcK4U+Yjcoo/OkOXq7YTULHjcsJGdANn
-	GTcM/JlHReD5XpvrEwu87cpJz4hYFiucyWVuqsdkMxTuZ4LO/bpKVs7DEiPne7o7Z8zRJNRXkNL
-	LYrJj3Q==
-X-Received: from pjboo8.prod.google.com ([2002:a17:90b:1c88:b0:37d:8595:7a08])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:390b:b0:380:540:d49a
- with SMTP id 98e67ed59e1d1-3808bd2ffe9mr347677a91.7.1782824805381; Tue, 30
- Jun 2026 06:06:45 -0700 (PDT)
-Date: Tue, 30 Jun 2026 06:06:43 -0700
-In-Reply-To: <6b1f0c77-f059-4f8d-8f46-443b944c59a0@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kYv7X4Ni"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9B851F00ACA
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 13:07:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782824831;
+	bh=Gkte/lktTVRUYYoKzhVuxXn3p42paF+z9eeBGVuqlbE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=kYv7X4Nieka6wLjaDOnH5oIbtsHGXeJ0VQpyQhp+RzGxJyKpeoNq5mGU03rTDpI0M
+	 4UTJRKALTzIa1uckXAT0eRvQeA0HmbWBOmv5ExDtqUOeSys4lpUYpsVwxgCnA6kGSm
+	 AG2Zi+k0p+YCxJ80mJOLdzLuK0f5UBbooV4codRcid1GpKluC744vw/OcIv/J4eXsZ
+	 x7iJkB418npqM88Ar6zS+q4be6Dah3wwDx2JO+MW0bg/hTxpWpx5bJw9cA6o15syql
+	 veGyN7iR535r1/eRXdC8BTT/Tc2Z/BCcI5SwmAhN5QVhZyqhZCGrCGI8us8ju0Wr7t
+	 lVaH2ty2v22kQ==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5aea0fff535so4643211e87.3
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 06:07:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrQ9zVpTsKsTVY1Tc99Ivswc0YlAN27GJGnq0L9r5pE4O/eZtsYmVNwTwiZnBcp8C7HpO0rD1aooy8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5di06LNXyTyHcRBUk2m0IljRwiLWfAzR5QXRVlBZWO+4IN6pI
+	6w/AaTanmgcaymAjIJ6phW13M7qGtPMjhyVlfsJqSv5Q615cgmSsd8QtO7H/gO9e1WtXrDjJEwK
+	K2TllngXCGAtxl+QJwJM34FarFxjsDx8=
+X-Received: by 2002:a05:6512:1152:b0:5ae:a536:3733 with SMTP id
+ 2adb3069b0e04-5aebdb9ad7fmr982702e87.20.1782824830105; Tue, 30 Jun 2026
+ 06:07:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
- <20260618-gmem-inplace-conversion-v8-4-9d2959357853@google.com> <6b1f0c77-f059-4f8d-8f46-443b944c59a0@intel.com>
-Message-ID: <akO_Y0-ERgBoCqoQ@google.com>
-Subject: Re: [PATCH v8 04/46] KVM: Decouple kvm_has_arch_private_mem from CONFIG_KVM_VM_MEMORY_ATTRIBUTES
-From: Sean Christopherson <seanjc@google.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+References: <20260629083542.10041-1-lucaslnobrega38@gmail.com>
+ <CAJZ5v0iVD90XPsWgT8B+fw9vmFRZTVL7MasPP-=Ci0OdUmNR=A@mail.gmail.com>
+ <6021784.DvuYhMxLoT@rafael.j.wysocki> <CAMVixxV83tSLEi_o1vmHjqfgPnnXDwo2LjP_m-Y7iEWfvUAP2g@mail.gmail.com>
+In-Reply-To: <CAMVixxV83tSLEi_o1vmHjqfgPnnXDwo2LjP_m-Y7iEWfvUAP2g@mail.gmail.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Tue, 30 Jun 2026 15:06:57 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0h=u3dGbujFpU2yObyLXT0ZLZTxpG2+zLZLP7wpKsBvQw@mail.gmail.com>
+X-Gm-Features: AVVi8CcY6rkGlx5o1pyPGlP_agrlwjJ1tUDigieSRG0BpjTO4pVCVRKxAjoWu74
+Message-ID: <CAJZ5v0h=u3dGbujFpU2yObyLXT0ZLZTxpG2+zLZLP7wpKsBvQw@mail.gmail.com>
+Subject: Re: [PATCH] sched/topology: Allow EAS without schedutil for
+ artificial Energy Models
+To: Lucas Lima <lucaslnobrega38@gmail.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, viresh.kumar@linaro.org, mingo@redhat.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, 
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
+	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com, corbet@lwn.net, 
+	skhan@linuxfoundation.org, linux-pm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 30, 2026, Xiaoyao Li wrote:
-> On 6/19/2026 8:31 AM, Ackerley Tng via B4 Relay wrote:
-> >   arch/x86/include/asm/kvm_host.h | 4 +++-
-> >   include/linux/kvm_host.h        | 2 +-
-> >   2 files changed, 4 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-> > index 8e8eb8a5e8a6b..1bde67cf6eb0e 100644
-> > --- a/arch/x86/include/asm/kvm_host.h
-> > +++ b/arch/x86/include/asm/kvm_host.h
-> > @@ -2394,7 +2394,9 @@ void kvm_configure_mmu(bool enable_tdp, int tdp_forced_root_level,
-> >   		       int tdp_max_root_level, int tdp_huge_page_level);
-> > -#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
-> > +#if defined(CONFIG_KVM_SW_PROTECTED_VM) ||	\
-> > +	defined(CONFIG_KVM_INTEL_TDX) ||	\
-> > +	defined(CONFIG_KVM_AMD_SEV)
-> 
-> Maybe we can just remove the #ifdef and make it always avaiable?
+On Tue, Jun 30, 2026 at 10:11=E2=80=AFAM Lucas Lima <lucaslnobrega38@gmail.=
+com> wrote:
+>
+> Em seg., 29 de jun. de 2026 =C3=A0s 16:06, Rafael J. Wysocki
+> <rafael@kernel.org> escreveu:
+> >
+> > On Monday, June 29, 2026 5:16:17 PM CEST Rafael J. Wysocki (Intel) wrot=
+e:
+> > > On Mon, Jun 29, 2026 at 10:36=E2=80=AFAM Lucas de Lima N=C3=B3brega
+> > > <lucaslnobrega38@gmail.com> wrote:
+> > > >
+> > > > EAS currently refuses to enable energy-aware scheduling on a root
+> > > > domain unless schedutil is the active CPUFreq governor for all of i=
+ts
+> > > > CPUs (cpufreq_ready_for_eas()). This requirement exists to protect =
+the
+> > > > accuracy of the energy estimate: EAS predicts the OPP a CPU will ru=
+n
+> > > > at from its utilization, which is only meaningful if the active
+> > > > governor actually requests OPPs that way, and schedutil is the only
+> > > > one that does.
+> > > >
+> > > > That requirement does not apply to artificial Energy Models
+> > > > (EM_PERF_DOMAIN_ARTIFICIAL). An artificial EM is built from a
+> > > > get_cost() callback instead of real power numbers, and only encodes=
+ a
+> > > > cost ranking between CPUs (e.g. P-cores cost more than E-cores at a
+> > > > given utilization). It never claims to predict real energy use at a=
+ny
+> > > > specific OPP, so there is no per-OPP accuracy for the governor
+> > > > requirement to protect, regardless of which governor is in control =
+or
+> > > > whether it tracks utilization at all.
+> > >
+> > > But it is still about comparing the cost of running on different CPUs
+> > > at different performance levels.
+> > >
+> > > For instance, say the scale-invariant utilization of a task is 256 an=
+d
+> > > it can run either by itself on a P-core, or with another task whose
+> > > utilization is 128 on an E-core, and say the P-core's and E-core's
+> > > capacity is 1024 and 512, respectively.
+> > >
+> > > Say the cost function tells EAS that running a P-core at 1/4 of the
+> > > capacity is cheaper than running an E-core at 3/4 capacity, so it wil=
+l
+> > > pick up the P-core to run that task, but if cpufreq ramps up the
+> > > frequency of the P-core to the max when the task gets to it, it may
+> > > actually turn out to be more expensive.
+> > >
+> > > This means that EAS still has an expectation regarding cpufreq which
+> > > is that it will generally tend to run tasks at the performance level
+> > > corresponding to the sum of their scale-invariant utilization at leas=
+t
+> > > roughly.
+> > >
+> > > IIUC this actually has nothing to do with whether or not the energy
+> > > model used by EAS is artificial.  The schedutil requirement is about
+> > > choosing a performance level proportional to the utilization (which
+> > > schedutil generally tends to do by design).
+> > >
+> > > > intel_pstate registers exactly this kind of artificial EM for hybri=
+d
+> > > > (P/E-core) systems without SMT, regardless of whether it operates i=
+n
+> > > > active or passive mode. In active mode it never uses schedutil, sin=
+ce
+> > > > HWP picks frequency autonomously, so on these systems EAS never
+> > > > engages even though SD_ASYM_CPUCAPACITY, frequency invariance and t=
+he
+> > > > EM are all in place: find_energy_efficient_cpu() is never reached
+> > > > because is_rd_overutilized() is hardcoded to true whenever
+> > > > sched_energy_enabled() is false. cppc_cpufreq registers the same ki=
+nd
+> > > > of ranking-only artificial EM and is affected the same way with any
+> > > > non-schedutil governor.
+> > > >
+> > > > Allow EAS to be enabled when every CPU's EM in the root domain is
+> > > > artificial, even when schedutil is not the active governor.
+> > > >
+> > > > Tested on a Raptor Lake-P laptop with nosmt=3Dforce and intel_pstat=
+e in
+> > > > active/HWP mode: find_energy_efficient_cpu() was never called befor=
+e
+> > > > this change (confirmed via the sched_overutilized_tp tracepoint and
+> > > > ftrace) and is exercised as expected afterwards.
+> > >
+> > > If this is about allowing EAS to work with intel_pstate running in th=
+e
+> > > active mode, you may argue that what the processor firmware is doing
+> > > when intel_pstate runs in the active mode is not much different from
+> > > what schedutil would do.  So a driver implementing an internal
+> > > governor (that is, using the .set_policy() callback) would need to
+> > > declare that its internal governor is as good as schedutil from EAS'
+> > > perspective and so it will pass the "cpufreq readiness" check.
+> >
+> > And I have a prototype patch (on top of 7.2-rc1) doing this which is
+> > appended.
+> >
+> > I wonder if it works for you (that is, if it allows intel_pstate and EA=
+S to
+> > work together both with schedutil and when intel_pstate operates in the
+> > active mode with the "powersave" policy on your system).
+>
+> It does work, thank you.
 
-No, because common KVM keys off the macro to determine whether or not PRIVATE is
-a supported attribute:
+Great, thanks!
 
-  #ifdef kvm_arch_has_private_mem
-  static u64 kvm_supports_private_mem(struct kvm *kvm)
-  {
-	return !kvm || kvm_arch_has_private_mem(kvm);
-  }
-  #else
-  #define kvm_supports_private_mem(kvm) false
-  #endif
+So this approach is more straightforward IMV and that's why I prefer it.
 
-And also whether or not to provide the in-place conversion param (without PRIVATE,
-conversions aren't supported in general):
+I'll need to revise the new flag description so it mentions the need
+for a "matching" EM to produce reasonable results and there are a few
+intel_pstate patches in-flight, so this one will need to be rebased.
+It also needs a changelog, of course.
 
-  #ifdef kvm_arch_has_private_mem
-  bool __ro_after_init gmem_in_place_conversion = !IS_ENABLED(CONFIG_KVM_VM_MEMORY_ATTRIBUTES);
-  module_param(gmem_in_place_conversion, bool, 0444);
-  EXPORT_SYMBOL_FOR_KVM_INTERNAL(gmem_in_place_conversion);
-  #endif
+> >
+> > Also I wonder why exactly you want intel_pstate in the active mode to
+> > work with EAS.  Do you see any significant improvement in that case?
+>
+> About that specific topic i do not have any testing data, but it felt
+> like schedutil drains more battery than pstate active (likely due to
+> worse c-states management) and presents more stutters in general usage
+> (I would guess it's slower to react to load changes). After bypassing sch=
+edutil
+> those very observations were gone, and the responsiveness of the system
+> looked very similar to EAS disabled, pstate active. Since EAS does
+> prioritize spreading
+> onto E cores, which do consume less energy by my testing, IMHO it's
+> almost too good
+> to be leaving it unused.
 
-I agree the #ifdeffery is ugly, but kvm_supports_private_mem() in particular
-needs to evaluate to false if PRIVATE memory isn't supported.
+Fair enough.
+
+> I also want to point out that gaming (mainly minecraft) stutters a lot mo=
+re with
+> EAS on, even when pstate is set to active. So i wonder what do you think =
+about
+> capturing the system power mode (currently only clamps frequency) and
+> disabling eas_compatible when set to "performance"? That would need
+> updating cpufreq_policy, but feels reasonable to let the user disable EAS
+> for latency sensitive tasks, since E cores struggle at those.
+
+Switching the governor (or policy if you will) to "performance" on any
+CPU should cause eas_compatible to be cleared for it due to the
+cpu->policy !=3D CPUFREQ_POLICY_PERFORMANCE check and then the scheduler
+will refuse to use EAS after rebuilding the sched domains.
+
+Or do you mean something else?
+
+> I know that for now, my observations are only anecdotal, but if needed
+> I'm eager to test those assumptions!
+
+So it would be good to have some data indicating that it is beneficial
+to use EAS when intel_pstate operates in the active mode ("powersave"
+policy).
+
+Also, enabling EAS by default for the active mode may be problematic
+because people may see (and report) performance regressions due to it.
+OTOH, EAS can be disabled via sysctl, so that may not be a big deal.
