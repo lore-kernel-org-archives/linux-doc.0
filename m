@@ -1,70 +1,70 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803B737473A
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 20:26:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E818847799C
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 20:26:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782851198; cv=none; b=seF25gYNkUkN4lNzaR2JEOPI8xY9Nz3hvc6z4EPJ7KuvoVCNrBBBujpjApW7vKmxmxQ+2QAd9b6w8C5Tvqfw5BPvmTswykJ3O9ZzyycmE7kfF53FrxIsBsvwXNSaBxlhCrCdLbOxruGhVlVtxBfVFJ8+CoJnfw5FrOS8wGtFJ9k=
+	t=1782851201; cv=none; b=ITUZskL6eSjpV1+QQKxo0l6i11ZDHKMwBSSULaT1hXZNMWefYrW/1LFeyMvnbno85kH0xyfS4xqs37eGhCN69lDqP+D6HC+MmpttENLkJjN2X683hHauj5B4qa6PXlblhSuIxx7jiinsCApz2ZgiMUM1oi/hB+yKkWJG6OFX9EM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782851198; c=relaxed/simple;
-	bh=FqVOdpuzAHBsw8nEO1VV4p4wxR5IFGtD9tOsudK8acE=;
+	s=arc-20240116; t=1782851201; c=relaxed/simple;
+	bh=Mz9/oAG57I4a5BJtj/VsHHAgtvRlhmL4N68haQmHu6g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tdcSqBCf4N2TOx29dcUiUt/541cP/m3bH96MmO6wSxeCKlL+E9TIMugzxDbJMniijy4v3CONIgyzqwfoQtxeoUkXXPVQt9jxs7Pu8srsITMleJig2OMJBohoQqAprxh5/GYYurLTWuNTjv/BI62JEYMboVQE0pP4ZwobDeHCfb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ovN6SAAM; arc=none smtp.client-ip=74.125.82.177
+	 MIME-Version:Content-Type; b=A4q9L/9zQ+FrF8JmJsGSM+wrL8KcDZoQkeqywq++uvNnYwNS5Xh7vksK3r5jQrIMDel26aPvClZfQOc6x6QJY9F5eWGpdoBH8oTMzLhUM/bFBzUcldeBRb2ZzEoPjAzlOTJXh5QbRB2cd4hgXoP0SODrkcPr1FF2lysl1tSQZcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WOEgTAoY; arc=none smtp.client-ip=74.125.82.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ovN6SAAM"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-30edbb0dc5fso3986101eec.0
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 13:26:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WOEgTAoY"
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-30b9e755555so1527551eec.1
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 13:26:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782851195; x=1783455995; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782851199; x=1783455999; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=m27rrbJvFuMrjDXhhCoAIIB5VxVsXeOv9/xgOpgywZc=;
-        b=ovN6SAAMi2+EH+HWuIYO9mYM18LOhqS0g98KuIqRGxSc7nmlz4ha0Kk9w1lId0AuCk
-         Z6/pGBgYixgYz1jyBLf2aOTW4p+0HZA9JmmjJT9jFpopOJxKUPamVoZuxW95yDljNyQf
-         0VLQzHQolwzEGavoRoXWRwSwIHpR6Yt44vp1C6L/r48eOXK1ndkYIphsJD5SEi2YslP9
-         TdLgumU5gokzB/k5n5LUSzboZLQFe/MvPDnFzPresxjaMsry5QenffvadYSdYDljJAG1
-         Nh2+xR0xHTiTWPUiDP52+cDAHeBfJhuPxNJ8T/z3dATD8W/QwsIIVCiD63ScPGeaVO6M
-         Smkg==
+        bh=Emf8MUOawezzOgbDhWHGFkRKpN0IPTZNDFI4oJL9RPQ=;
+        b=WOEgTAoY/VgCXUlT/ZCqAVBZHATHLHgaLFl0DcEAV0/OZBYXdlAKIZgyMBh/w9+u2B
+         gcRE6KcrNmBWMraI99tHpn5wMDilsOeL2+HXPO02pohMj3dhJn5CSG4NrldyisS5dtaq
+         mdMgKDIk8avkS257Ktg7g3sv7eL5tSwJm+MGDQJl7JbrA/boHtNhiMy7OPQVQaWr3SKG
+         Zp6akATrQg9pRdpv6ttxVp/90OsOdV9mo6EwovkSLDy72ERGl34y8E+XmhjwUfB0L/A3
+         XOSEEL3hAo3rxqah4hkz3Qqt7uz8U96R/zYwnVRu3CtlTccHGm/6bH1BNY+l/pwVBvX3
+         26yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782851195; x=1783455995;
+        d=1e100.net; s=20251104; t=1782851199; x=1783455999;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=m27rrbJvFuMrjDXhhCoAIIB5VxVsXeOv9/xgOpgywZc=;
-        b=gJ37NcSSVDZq1P5gyTiIlucA33KI6rBatlSuYB+DtMO/XjHqTmt6o71OvCEtP52z1P
-         3plYzqrf5df0+fjReaIbE/pidG3V096d/EYVbcTBdzoig1sOYV9azAwvXcvKddq9Vmo7
-         6yWIi20ydQub6Rufd4EBjq11Nj1OkLmOgYSqtbm1soBzgMSg5zgB5FFE8V5dvAa9vwk4
-         4TWcI9xRCocdMgLe2TY45e+0xJ3WsY8T/zjeXvJ+YZ3imUncx5b8MU00jw+Z6+rlrKL+
-         7I4lXS/e9scM2/afbVVtgtss0A/AJc9jmYNNUrfWPdTQkbtQ1/OWGOy2YawlSq51Sq1l
-         V0rQ==
-X-Gm-Message-State: AOJu0YyEupqBGklnRIrtC3HPnbygAoateLrW+q7KzA+st/LQt6HFnAYi
-	OhujBoEIxSVsdjqlyeSuuwTEMpEXVdcRQYfU8Eoh5Sdfvie2+NK2pGXBwa1ihg==
-X-Gm-Gg: AfdE7clVQaD8sZLqkr/YZ09h/kkEijt0RDNfKmB8SKbOFGtLZA6OewssgIihkrWlD3D
-	gFwCc12eYlQifLiyUaa4/dkzYPR8pBJYRP0zHmS0qcSBOGNLBEencc9hCep1xtadyiPFVFZ486O
-	co3HLlW7RAX3Fbs9VZLgMvFg8drDi4ehvqclTKoCGv3C82O27KjncnEzqsqfmMwvJAv3aYS4Gla
-	i6Q6VtHBbpc0J7CNqqlRnLkvpM8fJJox3QwWRx0OdRa6SUwA0itFkS7Ttg+canNKxv/YMXHLcBd
-	5Q3KfN2KJ2J4xs6yUZ2x0LQS36yrFnqs/uILgArquMJcNsDB/PVASl9aK4ZINbD2JaQEAp1SQM4
-	F2SZHh+EaT48FSy/TG6z39YFPoqK6dV9ZDnE72IdMDfreVsMRvfaXOECPqN8IRqYoD6Q0XFK07s
-	1AXon/7imdVe8/fDr31jolshxZ9xskuIGTU5AU7dyhNuti2zwZF+obGIpt+/YNUCvmhPDCVR8ck
-	BKWMktAxabkQE8gdKl2XSdPThEGHKgQpCQaMjBHJKptc5LcFVCSu+Rz8nk1r2WpFQ==
-X-Received: by 2002:a05:7300:fb8f:b0:30e:c341:9c with SMTP id 5a478bee46e88-30ee15171d6mr4054656eec.45.1782851195131;
-        Tue, 30 Jun 2026 13:26:35 -0700 (PDT)
+        bh=Emf8MUOawezzOgbDhWHGFkRKpN0IPTZNDFI4oJL9RPQ=;
+        b=dsbXV9tEebsmlmQoixP4vro4GJKG0iGpB1lZhPiVRAj/20ut5PI4yCoo7EzHSvdclR
+         4igfDeuVrky/T5gaW3pBCbT1g7d+zShoVdVEZdZhWdkSNLWvA9CNHmxcZO/M1BaOk9TF
+         Mvzwe/EUugerQe0zUQUuglcpxYEHsPyaZghpiXtxrn24RfBHDiTZNQ+30eh+SE51HqpW
+         SPPwujaJsdVHQ+XzOCxuaj18bXDefp7tEJO/7A22HKK8tylgT2DvxpQ88bN0S24I4QL2
+         NOintJ6cuS3DHd7xgvp0OXWkE0meXEXsGTmPUnEY2Qklr5+gWJtOCRGO6ZE0WwE8Dvu1
+         g7Xw==
+X-Gm-Message-State: AOJu0YwiN4KurN6uQda2E81KHZyX4egWdM55/5tRGbkhkNfq73u+fmxI
+	CG9+Ww97d6nM3U9nkSSevNzX3qY7Mbd/RAuqLTOlpPdbzNPhLf3ZP4Qj
+X-Gm-Gg: AfdE7ck4mKIEs8bkjUSNS624I0amIZA7qr4eL4i28WxLBsqGMgj1REE8qu3jsEMYGr8
+	1xHM66+fQ+wkgO8VN4Q4el5N0rG8YcSzgC3fCqu6b+5SaozlMy+ysBfqktrCBENkvE6c7wZAAUy
+	k9dABknmBIT/ET84B6l4dDNNjv1ChjXu2RYIkXUucn0iR1V3Lc+5Eb5WynRjcpNMs8d8cb6RazF
+	fy0xiDwJeurG8MB3/IaBv2Gi1apVC/An/Vyo0TV7IlhU9IjYjcw2lhTP4gsLaqY4toFmWnTPEOz
+	+GHyWEvMd1cxeEvQD1sjHdDpUn7VUUmifeVaQ3OS08SsPguzwZyVXUafzE0Bz974LTdTb+ei8II
+	6cer5UriOVgEIvZAAofmnpgD4GmLcSkKfHWm3PbwX0/H2B1JgEaUpFiIQf3LDl4A6kKKeh2hLjr
+	dFAvG529nOLbUAcZPhnfumVzve4OFBdP+tqx82E54etD+5hgFyrt1Mg2DuTk03wQ9IJZJe3cL4P
+	4vIQe4eYBmLcZPNNcOYKl1Fr0AEABjCQLVUJ7eiSM+w6q45b2PympCrD2PpY2KRwA==
+X-Received: by 2002:a05:7300:724c:b0:307:26a3:75e4 with SMTP id 5a478bee46e88-30ef07fec50mr1545160eec.4.1782851197478;
+        Tue, 30 Jun 2026 13:26:37 -0700 (PDT)
 Received: from localhost.localdomain (smtp.hostdime.com.br. [187.45.177.18])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee2fbe011sm11157638eec.9.2026.06.30.13.26.33
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee2fbe011sm11157638eec.9.2026.06.30.13.26.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 13:26:34 -0700 (PDT)
+        Tue, 30 Jun 2026 13:26:36 -0700 (PDT)
 From: Daniel Pereira <danielmaraboo@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org,
 	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: [PATCH 1/7] docs: pt_BR: process: Translate the patch followthrough guide
-Date: Tue, 30 Jun 2026 17:25:35 -0300
-Message-ID: <20260630202549.278894-2-danielmaraboo@gmail.com>
+Subject: [PATCH 2/7] docs: pt_BR: process: translate 7.AdvancedTopics and 8.Conclusion
+Date: Tue, 30 Jun 2026 17:25:36 -0300
+Message-ID: <20260630202549.278894-3-danielmaraboo@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260630202549.278894-1-danielmaraboo@gmail.com>
 References: <20260630202549.278894-1-danielmaraboo@gmail.com>
@@ -77,251 +77,322 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 
-Translates the section 6.followthrough.rst to Brazilian Portuguese
-for the process directory.
+Translate the "Advanced topics" and "Conclusion" sections into Brazilian
+Portuguese, creating the 7.AdvancedTopics.rst and 8.Conclusion.rst
+documents, and updating development-process.rst to include them.
+
+This translation covers patch management practices with Git, community
+guidelines for patch review, and the closing overview of the kernel
+development cycle.
+
+Ensure all text conforms to the strict 80-column line length limit
+to maintain Sphinx rendering alignment.
 
 Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
 ---
- .../pt_BR/process/6.Followthrough.rst         | 220 ++++++++++++++++++
- .../pt_BR/process/development-process.rst     |   1 +
- 2 files changed, 221 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/6.Followthrough.rst
+ .../pt_BR/process/7.AdvancedTopics.rst        | 201 ++++++++++++++++++
+ .../pt_BR/process/8.Conclusion.rst            |  73 +++++++
+ .../pt_BR/process/development-process.rst     |   2 +
+ 3 files changed, 276 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/7.AdvancedTopics.rst
+ create mode 100644 Documentation/translations/pt_BR/process/8.Conclusion.rst
 
-diff --git a/Documentation/translations/pt_BR/process/6.Followthrough.rst b/Documentation/translations/pt_BR/process/6.Followthrough.rst
+diff --git a/Documentation/translations/pt_BR/process/7.AdvancedTopics.rst b/Documentation/translations/pt_BR/process/7.AdvancedTopics.rst
 new file mode 100644
-index 000000000..d6bdaa2cb
+index 000000000..97466fad1
 --- /dev/null
-+++ b/Documentation/translations/pt_BR/process/6.Followthrough.rst
-@@ -0,0 +1,220 @@
++++ b/Documentation/translations/pt_BR/process/7.AdvancedTopics.rst
+@@ -0,0 +1,201 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+Acompanhamento
-+==============
++Tópicos avançados
++=================
 +
-+Neste ponto, você seguiu as diretrizes apresentadas até aqui e, com a
-+adição de suas próprias habilidades de engenharia, enviou uma série perfeita
-+de patches. Um dos maiores erros que até mesmo desenvolvedores experientes
-+do kernel podem cometer é concluir que o seu trabalho agora está concluído.
-+Na verdade, o envio de patches indica uma transição para a próxima etapa
-+do processo, possivelmente com uma quantidade considerável de trabalho
-+ainda por fazer.
++Neste ponto, esperamos que você já tenha uma boa noção de como funciona o
++processo de desenvolvimento. No entanto, ainda há mais a aprender! Esta seção
++cobrirá uma série de tópicos que podem ser úteis para desenvolvedores que
++desejam se tornar parte regular do processo de desenvolvimento do kernel Linux.
 +
-+É raro um patch ser tão bom em seu primeiro envio que não haja margem para
-+melhorias. O processo de desenvolvimento do kernel reconhece esse fato e,
-+como resultado, é fortemente orientado para o aprimoramento do código
-+enviado. Espera-se que você, como autor desse código, trabalhe junto à
-+comunidade do kernel para garantir que seu código esteja de acordo com os
-+padrões de qualidade do kernel. A falha em participar desse processo muito
-+provavelmente impedirá a inclusão de seus patches na árvore principal
-+(*mainline*).
++Gerenciamento de patches com o git
++----------------------------------
 +
++O uso de controle de versão distribuído para o kernel começou no início de
++2002, quando Linus começou a testar o aplicativo proprietário BitKeeper.
++Embora o BitKeeper fosse controverso, a abordagem de gerenciamento de versão
++de software que ele incorporava certamente não era. O controle de versão
++distribuído permitiu uma aceleração imediata do projeto de desenvolvimento do
++kernel. Atualmente, existem várias alternativas gratuitas ao BitKeeper. Para o
++bem ou para o mal, o projeto do kernel adotou o git como sua ferramenta de
++escolha.
 +
-+Trabalhando com revisores
-+-------------------------
++Gerenciar patches com o git pode facilitar muito a vida do desenvolvedor,
++especialmente à medida que o volume desses patches cresce. O git também tem suas
++pontas soltas e apresenta certos riscos; é uma ferramenta jovem e poderosa que
++ainda está sendo refinada por seus desenvolvedores. Este documento não tentará
++ensinar o leitor a usar o git; isso seria material suficiente para um documento
++longo por si só. Em vez disso, o foco aqui será em como o git se encaixa
++especificamente no processo de desenvolvimento do kernel. Os desenvolvedores
++que desejam se atualizar com o git encontrarão mais informações em:
 +
-+Um patch de qualquer relevância resultará em uma série de comentários de outros
-+desenvolvedores à medida que eles revisam o código. Trabalhar com revisores
-+pode ser, para muitos desenvolvedores, a parte mais intimidadora do processo
-+de desenvolvimento do kernel. No entanto, a vida pode se tornar muito mais
-+fácil se você mantiver algumas coisas em mente:
++	https://git-scm.com/
 +
-+* Se você explicou bem o seu patch, os revisores entenderão o seu valor
-+  e o porquê de você ter tido o trabalho de escrevê-lo. Contudo, esse valor
-+  não os impedirá de fazer uma pergunta fundamental: como será manter um
-+  kernel com este código inserido nele daqui a cinco ou dez anos? Muitas das
-+  mudanças que podem lhe pedir para fazer — desde ajustes de estilo de código
-+  até reescritas substanciais — vêm do entendimento de que o Linux ainda estará
-+  por aqui e sob desenvolvimento daqui a uma década.
++	https://www.kernel.org/pub/software/scm/git/docs/user-manual.html
 +
-+* A revisão de código é um trabalho árduo e uma ocupação relativamente
-+  ingrata; as pessoas lembram quem escreveu o código do kernel, mas há pouca
-+  fama duradoura para aqueles que o revisaram. Portanto, os revisores podem
-+  ficar ranzinzas, especialmente quando veem os mesmos erros sendo cometidos
-+  repetidamente. Se você receber uma revisão que pareça irritada, insultuosa
-+  ou abertamente ofensiva, resista ao impulso de responder à altura. A revisão
-+  de código diz respeito ao código, não às pessoas, e os revisores de código
-+  não estão atacando você pessoalmente.
++e em vários tutoriais encontrados na web.
 +
-+* Da mesma forma, os revisores de código não estão tentando promover os
-+  interesses de seus empregadores em detrimento dos seus. Os desenvolvedores
-+  do kernel geralmente esperam continuar trabalhando no kernel daqui a muitos
-+  anos, mas entendem que seu empregador pode mudar. Quase sem exceção, eles
-+  estão verdadeiramente trabalhando em prol da criação do melhor kernel possível;
-+  eles não estão tentando causar desconforto aos concorrentes de seus empregadores.
++A primeira ordem do dia é ler os sites acima e obter uma compreensão sólida de
++como o git funciona antes de tentar usá-lo para disponibilizar patches para
++outros. Um desenvolvedor que utiliza o git deve ser capaz de obter uma cópia do
++repositório principal, explorar o histórico de revisões, comitar alterações na
++árvore, usar branches, etc. A compreensão das ferramentas do git para a
++reescrita de histórico (como o rebase) também é útil. O git vem com sua própria
++terminologia e conceitos; um novo usuário do git deve saber sobre refs, remote
++branches, o index, fast-forward merges, pushes e pulls, detached HEADs, etc.
++Tudo isso pode ser um pouco intimidante no início, mas os conceitos não são tão
++difíceis de entender com um pouco de estudo.
 +
-+* Esteja preparado para solicitações aparentemente tolas de mudanças no estilo
-+  de codificação e pedidos para refatorar parte do seu código em seções
-+  compartilhadas do kernel. Uma das funções dos mantenedores é manter as coisas
-+  com a mesma aparência. Às vezes, isso significa que aquele truque inteligente
-+  (*clever hack*) em seu driver para contornar um problema
++Usar o git para gerar patches para submissão por e-mail pode ser um bom exercício
++enquanto você se atualiza.
 +
-+Note que você não precisa concordar com todas as mudanças sugeridas pelos
-+revisores. Se você acredita que o revisor entendeu mal o seu código, explique
-+o que realmente está acontecendo. Se tiver uma objeção técnica a uma mudança
-+sugerida, descreva-a e justifique a sua solução para o problema. Se as suas
-+explicações fizerem sentido, o revisor as aceitará. Contudo, caso a sua
-+explicação não seja persuasiva — especialmente se outros começarem a concordar
-+com o revisor —, reserve um tempo para repensar as coisas. Pode ser fácil ficar
-+ceguificado por sua própria solução para um problema, a ponto de não perceber
-+que algo está fundamentalmente errado ou que, talvez, você não esteja sequer
-+resolvendo o problema certo.
++Quando estiver pronto para começar a disponibilizar árvores git para que outros
++possam examinar, você, logicamente, precisará de um servidor a partir do qual um
++pull possa ser feito. Configurar um servidor desse tipo com o git-daemon é
++relativamente simples se você tiver um sistema acessível à internet. Caso
++contrário, sites de hospedagem públicos e gratuitos (o GitHub, por exemplo)
++estão começando a surgir na rede. Desenvolvedores estabelecidos podem obter uma
++conta no kernel.org, mas estas não são fáceis de conseguir; consulte
++https://kernel.org/faq/ para mais informações.
 +
-+Andrew Morton sugeriu que todo comentário de revisão que não resulte em uma
-+alteração de código deveria, em vez disso, resultar em um comentário adicional
-+no próprio código; isso pode ajudar os futuros revisores a evitar as dúvidas
-+que surgiram da primeira vez.
++O fluxo de trabalho normal do git envolve o uso de muitas branches. Cada linha
++de desenvolvimento pode ser separada em uma "topic branch" distinta e mantida de
++forma independente. Branches no git são baratas, não há razão para não fazer um
++uso livre delas. E, em qualquer caso, você não deve fazer o seu desenvolvimento
++em nenhuma branch a partir da qual pretenda pedir para que outros deem pull.
++Branches disponíveis publicamente devem ser criadas com cuidado; mescle patches
++de branches de desenvolvimento quando eles estiverem em sua forma final e prontos
++para seguir em frente — não antes.
 +
-+Um erro fatal é ignorar os comentários de revisão na esperança de que eles
-+desapareçam. Eles não vão desaparecer. Se você reenviar o código sem ter
-+respondido aos comentários que recebeu da vez anterior, é provável que descubra
-+que os seus patches não vão a lugar nenhum.
++O git fornece algumas ferramentas poderosas que podem permitir que você
++reescreva o seu histórico de desenvolvimento. Um patch inconveniente (um que
++quebre o bisection, por exemplo, ou que tenha algum outro tipo de bug óbvio)
++pode ser corrigido localmente ou feito desaparecer completamente do histórico.
++Uma série de patches pode ser reescrita como se tivesse sido escrita no topo da
++linha principal de hoje, mesmo que você esteja trabalhando nela há meses. As
++alterações podem ser movidas de forma transparente de uma branch para outra. E
++assim por diante. O uso criterioso da capacidade do git de revisar o histórico
++pode ajudar na criação de conjuntos de patches limpos e com menos problemas.
 +
-+Por falar em reenviar código: tenha em mente que os revisores não vão se
-+lembrar de todos os detalhes do código que você enviou da última vez. Portanto,
-+é sempre uma boa ideia lembrar os revisores dos problemas levantados
-+anteriormente e de como você lidou com eles; o registro de alterações
-+(*changelog*) do patch é um bom lugar para esse tipo de informação. Os revisores
-+não deveriam ter que vasculhar os arquivos das listas de discussão para se
-+familiarizarem com o que foi dito na última vez; se você ajudá-los a começar
-+com o pé direito, eles estarão de melhor humor quando revisitarem o seu código.
++O uso excessivo dessa capacidade pode levar a outros problemas, no entanto, além
++de uma simples obsessão pela criação do histórico de projeto perfeito. Reescrever
++o histórico reescreverá as alterações contidas nele, transformando uma árvore do
++kernel testada (assim se espera) em uma não testada. Mas, além disso, os
++desenvolvedores não podem colaborar facilmente se não tiverem uma visão
++compartilhada do histórico do projeto; se você reescrever o histórico que outros
++desenvolvedores já deram pull em seus repositórios, tornará a vida deles muito
++mais difícil. Portanto, uma regra prática simples se aplica aqui: o histórico
++que foi exportado para terceiros deve ser visto geralmente como imutável dali em
++diante.
 +
-+E se você tentou fazer tudo certo e as coisas ainda não estão avançando? A
-+maioria das divergências técnicas pode ser resolvida por meio de discussão,
-+mas há momentos em que alguém simplesmente precisa tomar uma decisão. Se você
-+acredita genuinamente que essa decisão está indo contra você de forma errada,
-+você sempre pode tentar recorrer a uma instância superior. Até o momento em
-+que este texto foi escrito, essa instância superior costuma ser Andrew Morton.
-+Andrew goza de um enorme respeito na comunidade de desenvolvimento do kernel;
-+ele frequentemente consegue destravar uma situação que parece desesperadoramente
-+bloqueada. Recorrer a Andrew, no entanto, não deve ser feito de ânimo leve e nem
-+antes que todas as outras alternativas tenham sido esgotadas. E tenha em mente,
-+é claro, que ele também pode não concordar com você.
++Sendo assim, uma vez que você faz o push de um conjunto de alterações para o seu
++servidor disponível publicamente, essas alterações não devem ser reescritas. O
++git tentará aplicar essa regra se você tentar dar push em alterações que não
++resultem em um fast-forward merge (ou seja, alterações que não compartilham o
++mesmo histórico). É possível anular essa verificação, e pode haver momentos em
++que seja necessário reescrever uma árvore exportada. Mover changesets entre
++árvores para evitar conflitos na linux-next é um exemplo. No entanto, tais ações
++devem ser raras. Esta é uma das razões pelas quais o desenvolvimento deve ser
++feito em branches privadas (que podem ser reescritas, se necessário) e apenas
++movido para branches públicas quando estiver em um estado razoavelmente avançado.
 +
-+O que acontece a seguir
-+-----------------------
++À medida que a linha principal (ou outra árvore na qual um conjunto de
++alterações se baseia) avança, é tentador fazer o merge com essa árvore para
++permanecer na vanguarda. Para uma branch privada, o rebasing pode ser uma maneira
++fácil de acompanhar outra árvore, mas o rebasing não é uma opção uma vez que uma
++árvore é exportada para o mundo. Quando isso acontece, um merge completo deve
++ser feito. Fazer merges ocasionalmente faz todo o sentido, mas merges excessivamente
++frequentes podem poluir o histórico desnecessariamente. A técnica sugerida neste
++caso é fazer merges raramente, e geralmente apenas em release points específicos
++(como um lançamento -rc da linha principal). Se você estiver inseguro sobre
++mudanças específicas, sempre poderá realizar merges de teste em uma branch
++privada. A ferramenta "rerere" do git pode ser útil nessas situações; ela se
++lembra de como os conflitos de merge foram resolvidos para que você não precise
++fazer o mesmo trabalho duas vezes.
 +
-+Se um patch for considerado algo bom para ser adicionado ao kernel, e assim
-+que a maioria dos problemas de revisão tiver sido resolvida, o próximo passo
-+geralmente é a entrada na árvore de um mantenedor de subsistema. Como isso
-+funciona varia de um subsistema para o outro; cada mantenedor tem sua própria
-+maneira de fazer as coisas. Em particular, pode haver mais de uma árvore — uma,
-+talvez, dedicada a patches planejados para a próxima janela de mesclagem
-+(*merge window*), e outra para trabalhos de longo prazo.
++Uma das maiores reclamações recorrentes sobre ferramentas como o git é esta: o
++movimento em massa de patches de um repositório para outro torna fácil a
++inclusão de mudanças desaconselháveis que entram na linha principal abaixo do
++radar de revisão. Os desenvolvedores do kernel costumam ficar descontentes quando
++veem esse tipo de coisa acontecer; disponibilizar uma árvore git com patches não
++revisados ou fora do tópico pode afetar a sua capacidade de ter suas árvores
++puxadas no futuro. Citando Linus:
 +
-+Para patches que se aplicam a áreas para quais não há uma árvore de subsistema
-+óbvia (patches de gerenciamento de memória, por exemplo), a árvore padrão
-+geralmente acaba sendo a *-mm*. Patches que afetam múltiplos subsistemas
-+também podem acabar passando pela árvore *-mm*.
++::
 +
-+A inclusão em uma árvore de subsistema pode trazer um nível mais alto de
-+visibilidade para um patch. Agora, outros desenvolvedores que trabalham com
-+aquela árvore receberão o patch por padrão. As árvores de subsistemas tipicamente
-+alimentam a *linux-next* também, tornando seus conteúdos visíveis para a
-+comunidade de desenvolvimento como um todo. Neste ponto, há uma boa chance de
-+você receber mais comentários de um novo conjunto de revisores; esses
-+comentários precisam ser respondidos da mesma forma que na rodada anterior.
++    Você pode me enviar patches, mas para eu puxar um patch git de você, eu
++    preciso saber que você sabe o que está fazendo, e preciso ser capaz de
++    confiar nas coisas *sem* ter que ir lá e verificar cada mudança
++    individualmente à mão.
 +
-+O que também pode acontecer neste ponto, dependendo da natureza do seu patch,
-+é surgirem conflitos com o trabalho que está sendo feito por outros. No pior
-+dos casos, conflitos pesados de patches podem fazer com que alguns trabalhos
-+sejam deixados em segundo plano, para que os patches restantes possam ser
-+ajustados e mesclados. Outras vezes, a resolução de conflitos envolverá trabalhar
-+junto a outros desenvolvedores e, possivelmente, mover alguns patches entre
-+árvores para garantir que tudo se aplique de forma limpa. Este trabalho pode ser
-+árduo, mas console-se com uma vantagem: antes do surgimento da árvore *linux-next*,
-+esses conflitos frequentemente só apareciam durante a janela de mesclagem e
-+tinham que ser resolvidos às pressas. Agora eles podem ser resolvidos com calma,
-+antes que a janela de mesclagem se abra.
++(https://lwn.net/Articles/224135/).
 +
-+Um belo dia, se tudo correr bem, você fará login e verá que o seu patch foi
-+mesclado ao kernel principal (*mainline*). Parabéns! No entanto, assim que a
-+comemoração terminar (e você tiver se adicionado ao arquivo MAINTAINERS), vale
-+a pena lembrar de um pequeno fato importante: o trabalho ainda não acabou. A
-+mesclagem na árvore principal traz os seus próprios desafios.
++Para evitar esse tipo de situação, certifique-se de que todos os patches
++dentro de uma determinada branch permaneçam estritamente alinhados ao tópico
++associado; uma branch de "correções de drivers" não deveria fazer alterações no
++código central de gerenciamento de memória. E, acima de tudo, não use uma árvore
++git para burlar o processo de revisão. Publique ocasionalmente um resumo da
++árvore na lista de discussão relevante e, quando for o momento certo, solicite
++que a árvore seja incluída na linux-next.
 +
-+Para começar, a visibilidade do seu patch aumentou ainda mais. Pode haver
-+uma nova rodada de comentários de desenvolvedores que não estavam cientes do
-+patch antes. Pode ser tentador ignorá-los, já que não há mais nenhuma dúvida
-+sobre a mesclagem do seu código. No entanto, resista a essa tentação; você
-+ainda precisa ser receptivo aos desenvolvedores que tiverem dúvidas ou
-+sugestões.
++Se e quando outros começarem a enviar patches para inclusão em sua árvore, não
++se esqueça de revisá-los. Certifique-se também de manter as informações corretas
++de autoria; a ferramenta "am" do git faz o melhor que pode a esse respeito, mas
++você pode ter que adicionar uma linha "From:" ao patch se ele tiver sido
++retransmitido a você por terceiros.
 +
-+Mais importante ainda: a inclusão na árvore principal coloca o seu código
-+nas mãos de um grupo muito maior de testadores. Mesmo que você tenha contribuído
-+com um driver para um hardware que ainda não está disponível, você se
-+surpreenderá com a quantidade de pessoas que compilarão seu código em seus
-+próprios kernels. E, logicamente, onde há testadores, haverá relatórios de
-+erros (*bug reports*).
-+
-+O pior tipo de relatório de erro são as regressões (*regressions*). Se o seu
-+patch causar uma regressão, você descobrirá uma quantidade desconfortável de
-+olhos voltados para você; as regressões precisam ser corrigidas o mais rápido
-+possível. Se você não estiver disposto ou for incapaz de corrigir a regressão
-+(e ninguém mais fizer isso por você), seu patch quase certamente será removido
-+durante o período de estabilização. Além de anular todo o trabalho que você teve
-+para colocar seu patch na árvore principal, ter um patch removido como resultado
-+da falha em corrigir uma regressão pode muito bem tornar mais difícil para você
-+mesclar trabalhos no futuro.
-+
-+Depois que todas as regressões tiverem sido tratadas, pode haver outros erros
-+comuns com os quais lidar. O período de estabilização é a sua melhor oportunidade
-+para corrigir esses problemas e garantir que a estreia do seu código em um
-+lançamento do kernel principal seja o mais sólida possível. Portanto, por favor,
-+responda aos relatórios de erros e corrija os problemas, se for viável. É para
-+isso que serve o período de estabilização; você pode começar a criar novos
-+patches fantásticos assim que quaisquer problemas com os antigos tiverem sido
-+resolvidos.
-+
-+E não se esqueça de que existem outros marcos que também podem gerar relatórios
-+de erros: o próximo lançamento estável da árvore principal, o momento em que
-+distribuidores proeminentes adotarem uma versão do kernel que contenha o seu
-+patch, etc. Continuar respondendo a esses relatórios é uma questão de orgulho
-+básico pelo seu trabalho. Se isso não for motivação suficiente, contudo, também
-+vale a pena considerar que a comunidade de desenvolvimento se lembra dos
-+desenvolvedores que perdem o interesse em seu próprio código após a mesclagem.
-+A próxima vez que você enviar um patch, eles o avaliarão sob a suposição de
-+que você não estará por perto para mantê-lo depois.
++Ao solicitar um pull, certifique-se de fornecer todas as informações
++relevantes: onde está a sua árvore, qual branch deve ser puxada e quais
++alterações resultarão do pull. O comando git request-pull pode ser útil a esse
++respeito; ele formatará a solicitação da maneira que outros desenvolvedores
++esperam e também verificará se você se lembrou de dar push nessas alterações
++para o servidor público.
 +
 +
-+Outras coisas que podem acontecer
-+---------------------------------
++Revisão de patches
++------------------
 +
-+Um dia, você poderá abrir o seu cliente de e-mail e ver que alguém lhe enviou
-+um patch para o seu código. Afinal, essa é uma das vantagens de ter o seu
-+código disponível publicamente. Se você concordar com o patch, poderá encaminhá-lo
-+para o mantenedor do subsistema (certifique-se de incluir uma linha ``From:``
-+adequada para que a atribuição de autoria esteja correta e adicione a sua
-+própria assinatura — *signoff*) ou enviar uma resposta com um ``Acked-by:``
-+e deixar que o remetente original o envie para cima.
++Alguns leitores certamente objetarão a inclusão desta seção em "tópicos
++avançados" sob o argumento de que mesmo desenvolvedores iniciantes do kernel
++deveriam estar revisando patches. É certamente verdade que não há melhor maneira
++de aprender a programar no ambiente do kernel do que examinando o código
++postado por outros. Além disso, revisores estão sempre em falta; ao examinar o
++código, você pode fazer uma contribuição significativa para o processo como um
++todo.
 +
-+Se você não concordar com o patch, envie uma resposta educada explicando o
-+motivo. Se possível, diga ao autor quais alterações precisam ser feitas para
-+que o patch seja aceitável para você. Existe uma certa resistência em mesclar
-+patches que sofrem oposição do autor e mantenedor do código, mas isso tem limite.
-+Se você for visto como alguém que está bloqueando um bom trabalho sem necessidade,
-+esses patches eventualmente seguirão outro fluxo ao seu redor e entrarão na
-+árvore principal de qualquer maneira. No kernel do Linux, ninguém tem poder de
-+veto absoluto sobre nenhum código. Exceto, talvez, o Linus.
++Revisar código pode ser uma perspectiva intimidadora, especialmente para um novo
++desenvolvedor do kernel que pode se sentir nervoso em questionar — em público —
++um código que foi postado por aqueles com mais experiência. No entanto, mesmo o
++código escrito pelos desenvolvedores mais experientes pode ser aprimorado. Talvez
++o melhor conselho para revisores (todos os revisores) seja este: formule os
++comentários de revisão como perguntas em vez de críticas. Perguntar "como o lock
++é liberado neste caminho?" sempre funcionará melhor do que afirmar "o bloqueio
++aqui está errado."
 +
-+Em ocasiões muito raras, você poderá ver algo completamente diferente: outro
-+desenvolvedor envia uma solução diferente para o seu problema. Nesse ponto,
-+as chances são de que um dos dois patches não seja mesclado, e o argumento
-+"o meu chegou primeiro" não é considerado um argumento técnico convincente.
-+Se o patch de outra pessoa deslocar o seu e entrar na árvore principal, existe
-+realmente apenas uma maneira de responder: fique satisfeito pelo fato de o seu
-+problema ter sido resolvido e siga adiante com o seu trabalho. Ter o próprio
-+trabalho deixado de lado dessa maneira pode ser doloroso e desanimador, mas a
-+comunidade se lembrará da sua reação muito depois de terem esquecido de quem
-+foi o patch que realmente foi mesclado.
++Outra técnica útil em caso de desacordo é pedir que outros se manifestem. Se uma
++discussão chegar a um impasse após algumas trocas de mensagens, peça a opinião
++de outros revisores ou mantenedores. Frequentemente, aqueles que concordam com
++um revisor permanecem em silêncio, a menos que sejam solicitados. A opinião de
++múltiplas pessoas carrega exponencialmente mais peso.
++
++Diferentes desenvolvedores revisarão o código sob diferentes pontos de vista.
++Alguns estão preocupados principalmente com o estilo de codificação e se as
++linhas de código possuem espaços em branco no final (trailing white space).
++Outros se concentrarão principalmente em saber se a alteração implementada pelo
++patch como um todo é algo bom para o kernel ou não. Ainda assim, outros buscarão
++por bloqueios problemáticos, uso excessivo de pilha (stack usage), possíveis
++problemas de segurança, duplicação de código encontrado em outros lugares,
++documentação adequada, efeitos adversos no desempenho, alterações na ABI do
++espaço do usuário (user-space ABI), etc. Todos os tipos de revisão, se levarem a
++um código melhor entrando no kernel, são bem-vindos e valem a pena.
++
++Não há exigência estrita para o uso de tags específicas como ``Reviewed-by``. Na
++verdade, revisões em texto simples são mais informativas e incentivadas mesmo
++quando uma tag é fornecida, por exemplo: "Analisei os aspectos A, B e C deste
++envio e tudo me parece correto." Alguma forma de mensagem de revisão ou resposta
++é obviamente necessária, caso contrário, os mantenedores não saberão que o
++revisor sequer examinou o patch!
++
++Por último, mas não menos importante, a revisão de patches pode se tornar um
++processo negativo, focado em apontar problemas. Por favor, reserve um elogio de
++vez em quando, particularmente para os novatos!
+diff --git a/Documentation/translations/pt_BR/process/8.Conclusion.rst b/Documentation/translations/pt_BR/process/8.Conclusion.rst
+new file mode 100644
+index 000000000..d5af31e7c
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/8.Conclusion.rst
+@@ -0,0 +1,73 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Para mais informações
++=====================
++
++Há inúmeras fontes de informação sobre o desenvolvimento do kernel Linux e
++tópicos relacionados. A primeira delas sempre será o diretório Documentation
++encontrado na distribuição do código-fonte do kernel. Comece com o arquivo de
++nível superior :ref:`process/howto.rst <process_howto>`; leia também
++:ref:`process/submitting-patches.rst <submittingpatches>`. Muitas APIs internas
++do kernel são documentadas usando o mecanismo kerneldoc; "make htmldocs" ou
++"make pdfdocs" podem ser usados para gerar esses documentos em formato HTML ou
++PDF (embora a versão do TeX fornecida por algumas distribuições esbarre em
++limites internos e falhe em processar os documentos corretamente).
++
++Vários sites discutem o desenvolvimento do kernel em todos os níveis de
++detalhes. O autor gostaria de sugerir humildemente o https://lwn.net/ como uma
++fonte; informações sobre muitos tópicos específicos do kernel podem ser
++encontradas através do índice do kernel do LWN em:
++
++	https://lwn.net/Kernel/Index/
++
++Além disso, um recurso valioso para os desenvolvedores do kernel é:
++	https://kernelnewbies.org/
++
++E, claro, não se deve esquecer o https://kernel.org/, o local definitivo
++para informações sobre os lançamentos do kernel.
++
++Há uma série de livros sobre o desenvolvimento do kernel:
++
++	Linux Device Drivers, 3rd Edition (Jonathan Corbet, Alessandro
++	Rubini, and Greg Kroah-Hartman).  Online at
++	https://lwn.net/Kernel/LDD3/.
++
++	Linux Kernel Development (Robert Love).
++
++    Understanding the Linux Kernel (Daniel Bovet and Marco Cesati).
++
++Todos esses livros, no entanto, sofrem de um defeito comum: eles tendem a estar
++um pouco obsoletos quando chegam às prateleiras, e já estão nelas há algum
++tempo. Ainda assim, há uma boa quantidade de informações úteis a serem
++encontradas ali.
++
++A documentação para o git pode ser encontrada em:
++
++	https://www.kernel.org/pub/software/scm/git/docs/
++
++	https://www.kernel.org/pub/software/scm/git/docs/user-manual.html
++
++
++Conclusão
++=========
++
++Parabéns a qualquer pessoa que tenha chegado ao fim deste documento longo e
++detalhado. Esperamos que ele tenha fornecido uma compreensão útil de como o
++kernel Linux é desenvolvido e de como você pode participar desse processo.
++
++No fim das contas, é a participação que importa. Qualquer projeto de software
++de código aberto não é nada mais do que a soma do que seus colaboradores
++dedicam a ele. O kernel Linux progrediu tão rápido e tão bem porque foi ajudado
++por um grupo impressionantemente grande de desenvolvedores, todos trabalhando
++para torná-lo melhor. O kernel é um exemplo primordial do que pode ser feito
++quando milhares de pessoas trabalham juntas em direção a um objetivo comum.
++
++O kernel, no entanto, sempre pode se beneficiar de uma base maior de
++desenvolvedores. Há sempre mais trabalho a fazer. Mas, de forma igualmente
++importante, a maioria dos outros participantes do ecossistema Linux pode se
++beneficiar ao contribuir para o kernel. Colocar o código na linha principal
++(mainline) é a chave para uma maior qualidade de código, menores custos de
++manutenção e distribuição, um nível mais alto de influência sobre a direção do
++desenvolvimento do kernel e muito mais. É uma situação em que todos os
++envolvidos ganham. Abra o seu editor e venha se juntar a nós; você será mais do
++que bem-vindo.
 diff --git a/Documentation/translations/pt_BR/process/development-process.rst b/Documentation/translations/pt_BR/process/development-process.rst
-index e9f04df62..ca86b481a 100644
+index ca86b481a..d303ab92b 100644
 --- a/Documentation/translations/pt_BR/process/development-process.rst
 +++ b/Documentation/translations/pt_BR/process/development-process.rst
-@@ -22,3 +22,4 @@ conhecimento profundo de programação de kernel para ser compreendida.
-    3.Early-stage
+@@ -23,3 +23,5 @@ conhecimento profundo de programação de kernel para ser compreendida.
     4.Coding
     5.Posting
-+   6.Followthrough
+    6.Followthrough
++   7.AdvancedTopics
++   8.Conclusion
 -- 
 2.47.3
 
