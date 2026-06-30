@@ -1,75 +1,82 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCEC73C0610
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 16:49:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985CF3C1973
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 17:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782838188; cv=none; b=QFuEtvaGSmfO+txCoD/knIHwUStf+TfoxKWlxVsEHtwvI9BRwQrz3T3vplAIxhaeA8IOGGnoqwKB5B+cX9hvSXopTUGiTr+iQYSPUrzG+bQfslp92ur0HMDpGao9SBtZB0z0CObKBJgDP+uaIzjRzuv3tvPx5vGJA0GK19sLCsM=
+	t=1782839298; cv=none; b=m1i+nparPj1CrZth+DHPw58dfI5qqtjidXleN+vefkw9jfr6zSAXH0ae59dS2v/z4H37yEQBfLT9g4YGEAJe7gLG0YyJaSU6Gi/sZ9q+dp852QH5V6OnZVj6M0LdnP66VBMtqRli/9oGUfl554NkY6BpV6zSNVp4JQ3XfOrl0lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782838188; c=relaxed/simple;
-	bh=rtMdkV9IwEXLbkkLP094U8i8H2CiP0u09H3hvlPY6tA=;
+	s=arc-20240116; t=1782839298; c=relaxed/simple;
+	bh=XTU3GZzTxPoqO/NCvfqbI9XRN0RZRKYwxhKHOqFhT8k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=psEGMYN6587l6ETNdMF2PyeCKlDuxFL8e8IZlnIaPcRNpl6BsJGlUYvY2RXpKSTM/PUVA01yzck3GoIIlEFW/vqgaSf3W3XTFUP4j1qrLiTa8TVsqCyDfRo+rTbJuszzcIFTXtHgxFNa5xIIHtXGNW0ljqYoxZjSpGmoq6pV9OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=l7vaE8A4; arc=none smtp.client-ip=209.85.128.45
+	 Content-Type:Content-Disposition:In-Reply-To; b=noxe4i7BvuQeBbZB3ooCVlS4qA2o1A8ciSQdE9IQMZzdAttv41xbKyhiU9jeW/iVCJ/xvWBfxaFV45X4PagnyEa/nngv02h3Qv8kxsU+YXhMxn+zqVbffJQGzngHO2ewFBcHg5ceV8gY+fMcJFNVLeAQzXnDdjrfaskJAPR6i+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=DDaMxoFd; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="l7vaE8A4"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4924593f45dso60108315e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 09:49:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="DDaMxoFd"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-493a5d32e8cso29464555e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2026 10:08:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1782838185; x=1783442985; darn=vger.kernel.org;
+        d=baylibre.com; s=google; t=1782839295; x=1783444095; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=G4j65jgi9OyXPyz5lY7LXj8iIi4kSLf/fC5SZxsJGCg=;
-        b=l7vaE8A4t/08NB6gf+bLCUyG2GWR6hcnl5qExBYXmGsf8u603WUNSjkWXfR+NRTKFz
-         cv4yGXh8t2d/er2pvWzH8NB1jJZiOvqLGjmBZIRwBGzudqSNJqOibunxYH5GzMegXmVe
-         b5FF+L9RhNLfM9SNUYwuuRx/avKjiLQPtozorW5yrnurbwqoUyN77QY7Zrws9YJf7z5p
-         I1x3cIIf/Xab90c6u0i5GOgC+e5poLSgyncOvwY3Ufi+2GGkBuOqn6vsZ+/e057Ve2cZ
-         useRmjpuM28xKeevQQ0Oy8QuwtBvjWEkAhQAgV3O/jacR3HuVu40bp2uFR1pt2KUOPyK
-         xq6A==
+        bh=9qwsJL/V5cXTs1YYwm/4hgyvuOLQs7ZaFMiDXmAVm8g=;
+        b=DDaMxoFd3f0AxJkaRsJ+6sWV2kruspJqZKka8i/rm+oLMELWrT0nURmlTmvS6u5l04
+         otE8AMz+VkbUEm6XFFnYlV3FUa0x5rqMlgK6Kp7fPE9GewBrgdfXIF7FlLSBEJI4VdNw
+         fkyCGq04UbjfFDIBjsSNnFvY/zxx+3kaoHt6k7KokUKuHtUCfDam4Y9nDn9ad6R0qRnT
+         T7JBpebtfSA2l4ADzTktpLnnKDUCfluMpngSctbaZ4Nlf+8O8Rw07Zj/L8p1Wq6hApkG
+         HcEqNSoUKzXGM4RMiXTQtztIBQRbIEbBzMXV/6SlaFNVixNOrSaoOfpCtg9G//SMHUL6
+         Cx0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782838185; x=1783442985;
+        d=1e100.net; s=20251104; t=1782839295; x=1783444095;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=G4j65jgi9OyXPyz5lY7LXj8iIi4kSLf/fC5SZxsJGCg=;
-        b=QC/lwWYrfDNMM+y2pNWQq3GgV1iB8X+ncMFmhJrqLbd9Qd4AI9BFndft0hMdYaMxrU
-         wBDr1R+8qB0tdxkDGdTgE44Nrn1cEY9SQ6kipit0fhUcTRs3VttHOHBJL7MxaPIO1NTr
-         rfE7kDRc0ELleZBnUkbga1dzP0diPEj/dmnXdHSvT3WS3wSzlh6jhUQRleLFS2kOOxax
-         rzyS1dNePTuDa27td2JIKu9l/D9zFWkcGOagi38dN0HT6FUHfpqpLj9juhk+bWYLGuha
-         e1GDpFpnH0zPGqh5kqvLQbWoCUYOnOAbViI9mm/yNUXI/zPnjD1sDaJzFDTmSgYNRUc8
-         lGrQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8UBqiHNJmkDuhja4kiu+LokBBz8dm3t8pbynOjyjL429IHyTNhlMDw09JX2x0wBBSgNzmnysNa1VA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUUiV2bSwkwOpvYmO5nTKQEM27NlVjAcqE0eEYQ1h5pd022/0T
-	3j3px1sh9nZfCQtxD2cScHdaPagprzwRYpfMQUB5gTtouhUXERqnBFPm1DugZOI2iw4=
-X-Gm-Gg: AfdE7cmwoPoHipO22sI3nbaUBfufgJtOD0BZreHH0ZOlXp2oPw81GknRhUpcPG8FB/3
-	c3QlQ/TbW9DPS/H+Bg0s2ju+JdhslrN7qV8dzPu6bsp9QevT2RZSQt6X4vZT4uGGd6EFi4Btuou
-	qicuUHK49exWXyiO2m7LcDvWt4FAeFtzvvBy/QO2fmU9WCmdDMMXWaovkqXS0l1/8AfgmWoQYbQ
-	sX3gRaPNbaI9TCfd9eFCnzBwBhrv5/0hPjRKktn+Nv+tsEIMqujyDOyuDb3wyNSTZduveTfLMKH
-	o++1qkdnb1azZgqfogzzVFxLNrarCpUoOsBEC24rJdyVMzGeSAnCOmjDyV/szWEBQ+eYmRmYeIN
-	L2oLenBBd8BThbVGFouIHSA52BnK5pHEeXmUsojzpEECa7i56afeyd84vJv02DC+jQFGRCrbpSP
-	tqRrSo79QY1NuZm21luTAm/9iPopwnuo2MdxyO8xCkaYr+/8QCayMrLqP+DA1CVrHpnf6LGBRzV
-	N4g
-X-Received: by 2002:a05:600c:c4a8:b0:493:b163:42e8 with SMTP id 5b1f17b1804b1-493bda6fdb5mr20931735e9.21.1782838185304;
-        Tue, 30 Jun 2026 09:49:45 -0700 (PDT)
+        bh=9qwsJL/V5cXTs1YYwm/4hgyvuOLQs7ZaFMiDXmAVm8g=;
+        b=YlBQvY2Gshk7rkJACPzS/DKZmD3Lq17i9Pdx3zP6rL6uwAiub3TxwZ7e6d5A5AvdNK
+         z9EhrMiZSNv540yScr4qdG79RbSwq6FWU1Tx5GnF9m/ZQZ+jp3gIZmHwND1fscyu3MzR
+         P6QI2aMK59+x9pF6Hom78AhPsxlaQYEgs+9X3oQxdUg1oD7DGtXjcgg4mi1peGiKXZk9
+         T3r6XaK6JH/CL10MMoWpJsopy83yWaBwQCjddbE9QtE68V0gv/7G6uRlZ55CymoiQW5C
+         jKUU10UIgLc2tpi4RXFAEaXHLWsEidNGglEgXo32uwfcfFgLquBL1OxuWFvKwXEnkwL4
+         Xf3w==
+X-Forwarded-Encrypted: i=1; AFNElJ80X4uoNxhTAI2Okdlx4KXKvAY2pT/Ij9yJ5+a3v/OtP460zj3Bk6r0UEbefsuem0IuM+iW3l4Y7+0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxuPCIAsXWY7Rj4dfvqCWJAokRXzANUgsuQoRujTC7ZECMNuZPE
+	73/QemWNV/dEJew4aWG7zCDDSHiry7yr/57kfsGhtcYteqT1HAW1MjxdE37a3t7hilQ=
+X-Gm-Gg: AfdE7ckh4A0vQf4E3kQSGDscDCwtflBJ12a29+3xMWGYrzk4J1XyuSFPxv+AqQPcvmt
+	ynCqsyNqMFekVgCKjxL18PVni+XzrnegPx81hnN9/cRDCaXzyE1hP3oIH2IuqkAEyt8Jf4vpvbR
+	mUmXsJRdwhw4vB6DsOUN9s+CmJMeFhGGN1zdIpujqz1CB98VfNU7fEFYIJ+rw6kE6lW5rafM8nj
+	tI5RiuuaRx6dFX6LSNideUxw53QjnKAi1dVC2SdjLoq/PmcsgxgOdMp8ytiClvL860qvxmqN0lz
+	kpyiZrK6euKiaZ2bumJRuhYV1+5m82GdmeHvcxPLmIl1CQJInGXfKgpv0MxrPkxcjanVT9S1duf
+	tm8M/scgeYhKJ6dHf82gTLD8XAu+WN1wCGB0KwyGVR9pdYB8DINeeYY7Glo5NlNE6U2TA9jhLcQ
+	mfiRlFk9aZx5Slcqh5KzJxolwGdlwkxStdfDwyobBmaK8Wlvu8wOlkT6ytMOOu4G9RNPDBW/t3C
+	Owg
+X-Received: by 2002:a05:600c:8216:b0:493:bed9:b53d with SMTP id 5b1f17b1804b1-493bed9b678mr2175265e9.31.1782839295000;
+        Tue, 30 Jun 2026 10:08:15 -0700 (PDT)
 Received: from localhost (p200300f65f47db042a9b551def0a6b94.dip0.t-ipconnect.de. [2003:f6:5f47:db04:2a9b:551d:ef0a:6b94])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47563d19573sm8888485f8f.4.2026.06.30.09.49.44
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493be4eee27sm8674355e9.12.2026.06.30.10.08.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 09:49:44 -0700 (PDT)
-Date: Tue, 30 Jun 2026 18:49:43 +0200
+        Tue, 30 Jun 2026 10:08:14 -0700 (PDT)
+Date: Tue, 30 Jun 2026 19:08:13 +0200
 From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 To: Selvamani.Rajagopal@onsemi.com
-Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 3/3] hwmon: (pmbus/fd5121): Add support FD5121, FD5123
- and FD5125
-Message-ID: <akPy0zCESKoGgsF1@monoceros>
-References: <20260622-support-fd5121-from-onsemi-v1-0-b31767689c65@onsemi.com>
- <20260622-support-fd5121-from-onsemi-v1-3-b31767689c65@onsemi.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, 
+	Piergiorgio Beruto <pier.beruto@onsemi.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, Richard Cochran <richardcochran@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jerry Ray <jerry.ray@microchip.com>
+Subject: Re: [PATCH net-next v6 12/15] onsemi: s2500: Add driver support for
+ TS2500 MAC-PHY
+Message-ID: <akP3jrbFLBfS5UqV@monoceros>
+References: <20260629-s2500-mac-phy-support-v6-0-18ce79500371@onsemi.com>
+ <20260629-s2500-mac-phy-support-v6-12-18ce79500371@onsemi.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,59 +84,59 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="u6m33inkfsihecrv"
+	protocol="application/pgp-signature"; boundary="ntx7bzi7dfhkiyke"
 Content-Disposition: inline
-In-Reply-To: <20260622-support-fd5121-from-onsemi-v1-3-b31767689c65@onsemi.com>
+In-Reply-To: <20260629-s2500-mac-phy-support-v6-12-18ce79500371@onsemi.com>
 
 
---u6m33inkfsihecrv
+--ntx7bzi7dfhkiyke
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
-Subject: Re: [PATCH 3/3] hwmon: (pmbus/fd5121): Add support FD5121, FD5123
- and FD5125
+Subject: Re: [PATCH net-next v6 12/15] onsemi: s2500: Add driver support for
+ TS2500 MAC-PHY
 MIME-Version: 1.0
 
 Hello,
 
-On Mon, Jun 22, 2026 at 10:55:39PM -0700, Selvamani Rajagopal via B4 Relay wrote:
-> +static const struct i2c_device_id fd5121_id[] = {
-> +	{ "fd5121", chip_fd5121 },
-> +	{ "fd5123", chip_fd5123 },
-> +	{ "fd5125", chip_fd5125 },
-> +	{ }
+On Mon, Jun 29, 2026 at 10:23:42AM -0700, Selvamani Rajagopal via B4 Relay wrote:
+> +static const struct spi_device_id s2500_ids[] = {
+> +	{ "s2500" },
+> +	{}
 > +};
-> +MODULE_DEVICE_TABLE(i2c, fd5121_id);
+> +
+> +MODULE_DEVICE_TABLE(spi, s2500_ids);
 
-Please make this:
+For consistency, please make this:
 
-	static const struct i2c_device_id fd5121_id[] = {
-		{ .name = "fd5121", .driver_data = chip_fd5121 },
-		{ .name = "fd5123", .driver_data = chip_fd5123 },
-		{ .name = "fd5125", .driver_data = chip_fd5125 },
+	static const struct spi_device_id s2500_ids[] = {
+		{ .name = "s2500" },
 		{ }
 	};
-	MODULE_DEVICE_TABLE(i2c, fd5121_id);
+	MODULE_DEVICE_TABLE(spi, s2500_ids);
 
-See e.g.
-https://lore.kernel.org/lkml/20260515103150.164887-2-u.kleine-koenig@baylibre.com/
-for the rationale.
+(i.e. use a named initializer, a space between { and } and no empty line
+before MODULE_DEVICE_TABLE()).
+
+Also the driver should probably have a
+
+	MODULE_DEVICE_TABLE(of, s2500_of_match);
 
 Best regards
 Uwe
 
---u6m33inkfsihecrv
+--ntx7bzi7dfhkiyke
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpD86MACgkQj4D7WH0S
-/k5bLAf/c8DmOIdxOv/xejVDjCK5jLy3cR+Vqq+WWDgS3Rz3ZhpAEklzEkWMqJqh
-kklRmY2QqyiXyqGXD0SUZCOWg7WDqimHZTemuz1jpyxGrjoL8BTjbonwh/RH2vhv
-dTOKPu9R9QCpbNJZSBHPWs2ayh+eB1cwYFDWQD059rIaF7c+6CA/CwrXhCUt4nrH
-K3UQjBiKdQjAiZCAqH4AuMbAFuyaxBKb0qpCR2p/UDSPLt4Y/ESPvtL91ujnRPIC
-FANUpF+dJ+8clrwjrIRB15yCZecr72SV61k3oSjw2poBZge33gvyY0F6fzXyJejv
-C0fYoQWddbxnvIKJlLT6Z3+Qh4NKLQ==
-=Q4zi
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpD9/kACgkQj4D7WH0S
+/k6pCwf/QtIw3bESK2sU/WMtvyyN/Abtx6fXW06GvQb6J8/Pp/DEz3MY7edpNCJK
+0gDMu5RmoFvl6UIJ1rnjlwuETiSQ8W9VN93JWaUm212dxEho9GpPJ+JqkB1703AS
+yHiC55snCYwK/u/sGhSBEO9tZX+Kv5oipsznoQOEUwci40Kc5fZfRhLFWdze/Y/M
+O0PINCia51Hs6WRhTU1X3P7oywz7Vk4YhmykaK5FrdBL1HjiH8Un7C2KjEq0vt87
+QZJ8Q0rZ2cZ/w9liMwdBKXjiCl1haQuliCLTrDN7u+KzKsjSg5JeL/QJCgaAwznH
+d15YeQi0JeqfHWlWVAFdiRlLfp5W/A==
+=Oe8T
 -----END PGP SIGNATURE-----
 
---u6m33inkfsihecrv--
+--ntx7bzi7dfhkiyke--
