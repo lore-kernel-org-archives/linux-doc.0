@@ -1,146 +1,133 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD16403AF2;
-	Wed,  1 Jul 2026 12:11:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0660E48AE3D
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 12:26:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782907886; cv=none; b=oktjIwrXtLc17y6Pl9z1Hd/qW4gkRYWGtzB57gBwnq8np5jZYk0V72InUGbAQjbn1Iiki40/sUnCWZCQ/aDzc2/CUM3KRiVtrE0hVSKHBsDNlsIJhLDejhe51DSITSq2qRArOhEQd3gE1q6CLxe4DgBrAeUuEeR2KZaywqiyzD4=
+	t=1782908819; cv=none; b=oX0vsnoNgLRdssWZ7OAmnh+/mI5g91ZtWM/8rosEY0SLVZsA7P2ThAH5GShp5XIDPlpduk/S9KhwTZg5+iv5/H5mV/CAuIl5dbMCnp+WNQytge1m8FsF+LzTxP9eBOi3R9QqlPQ9zxiL1oUbWINzqo3RR0I98L3DaaFywbSg9ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782907886; c=relaxed/simple;
-	bh=x8Om0EKvLql6Zu+HVTcHCRu9d9Jk5BnVdQjtZdu4zlI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oYL1NWYnvAtTuQ5XVcykscGmRFbEB/c0TjKhd7NFp5mSX+1LugTL5boaSqTB9XjwjP9kAjLj4fn9Soke3fH4WUW4+EW/S8g+SWj8UPlOq+eAEzUXMXXvkqCUr3vrcUm4yH/Y8AbShtayQD4VPeVoedxTTyGH76P2wvuR+R6ixE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4gqzPx5sMnz8XrrJ;
-	Wed, 01 Jul 2026 20:11:17 +0800 (CST)
-Received: from szxl2zmapp06.zte.com.cn ([10.1.32.108])
-	by mse-fl1.zte.com.cn with SMTP id 661CB6SP047127;
-	Wed, 1 Jul 2026 20:11:06 +0800 (+08)
-	(envelope-from wang.yechao255@zte.com.cn)
-Received: from localhost.localdomain (unknown [10.234.74.162])
-	by smtp (Zmail) with SMTP;
-	Wed, 1 Jul 2026 20:11:09 +0800
-X-Zmail-TransId: 3e816a4503dd008-1d60a
-X-Zmail-LocalSMTP: 1
-X-ZMAIL-USEORIGINALEMLTOOUTBOUND: 1
-X-Zmail-RealSender: wang.yechao255@zte.com.cn
-From: Wang Yechao <wang.yechao255@zte.com.cn>
-To: Anup Patel <anup@brainfault.org>, kvm@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Atish Patra <atish.patra@linux.dev>,
-        Alexandre Ghiti <alex@ghiti.fr>,
-        Wang Yechao <wang.yechao255@zte.com.cn>,
-        linux-doc <linux-doc@vger.kernel.org>
-Subject: [PATCH v4 5/5] RISC-V: KVM: Add the eager_page_split module parameter
-Date: Wed,  1 Jul 2026 20:09:48 +0800
-Message-ID: <20260701120954.129873-6-wang.yechao255@zte.com.cn>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20260701120954.129873-1-wang.yechao255@zte.com.cn>
-References: <20260701120954.129873-1-wang.yechao255@zte.com.cn>
+	s=arc-20240116; t=1782908819; c=relaxed/simple;
+	bh=1oy6yYsFIa4tkiku09U9A3W8leiavm3SrlWQsBeINWs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=kfgNcqvZsyMYpMnFl6k5DquPcxMT9R4cgBp+iM2YC1yv3wGW6vHpZKPkIAsG8BAVojzJf8RR4iHL3Vq9Bbl1s8K4lb65+VyEIdULiIh6CGc7zAm8VWB/itVGv8lOavqF3Ct+5v5Tft1QRLNOjdcNXTMGkVYqnQZ+DBvOwuw4748=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TGjFmb7I; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=t/YH8diw; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TGjFmb7I";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="t/YH8diw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782908817;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=XGzPh4RZs7guwUzUy8JZigwRdcEdUWtzLIpj0iGZF90=;
+	b=TGjFmb7IqCt1DPbo1ZERMZxO8+A+agYObtKKWeEyELtO2/2W8Fo9+NHbumevIUnE54VKqS
+	5AKiQ57z7xE08F0Fnew/2F3fcgTh+i+ZoXgdWrboRhSJs4oG0JvhwwXtS2LhYwrL6qFYcN
+	j4GiQutY8Ou9XNKCZ2iGQwVPYFnpC9U=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-659-_56PhR2IOiCP46l14Hp_8A-1; Wed, 01 Jul 2026 08:26:55 -0400
+X-MC-Unique: _56PhR2IOiCP46l14Hp_8A-1
+X-Mimecast-MFC-AGG-ID: _56PhR2IOiCP46l14Hp_8A_1782908814
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-475eba52438so468542f8f.3
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 05:26:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1782908814; x=1783513614; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=XGzPh4RZs7guwUzUy8JZigwRdcEdUWtzLIpj0iGZF90=;
+        b=t/YH8diwrvYNanVSpXeUNQY8DTnGlnQQOiBoDS+sE24eiI4CVYAbPdPmL9ss5uC1Cb
+         0SzQyoxPaMGn4ZwyXLIXg/4SdjRKqvFeSkwZx+7hDRzGllkIy2ti4ZEN165R4iN81ARq
+         /yEuQrH2P30y5bKmpRVHzqR4YbEpldGyEyGhz0YEBcxibWk02KTREshuvRqEz0fnFrNR
+         8yBdbWfVxe9uxAmzI1lRzKNlhIV1KWbDz5m/CZ3N7DzeEfJXpd1F5NdOs/6Ml655Nly2
+         efmaiOa98mzoVPu8UcCKI8EJvTnMH3efF2qyTDUbr7FrbXLRa6Oarxley3TpIUgovr9x
+         /xbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782908814; x=1783513614;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=XGzPh4RZs7guwUzUy8JZigwRdcEdUWtzLIpj0iGZF90=;
+        b=mZI6mrB/PpXWiGZUpXhRk6tHtum3favjhbkVEUeiCtkLUKHv533M5jt5zbqKf4QFOm
+         3LFICctVar9EkaOyqAWH2aDhJQjOs+l9SG1AW44B48CYlzFmm6XcdMupqYZa31UeSk3e
+         FDlwsq0HNrlToq1klGxGntMEz3mpxRlZ5lqMP/gZtZrPlGXy1pEuM9r2Swvax37JvAzg
+         78kGdqP/XKqiVLe2bSE3iHS3JKPypeaxCxfZ6ysuVWmkxhzGiFRnegs/t2J2hftm+Y76
+         E7y4QSNXEn5v77JPeM2y9qpuZKczkSSU5JExyj95Sbb/ZXviCbLVFzngcsYR3867Vwz3
+         svqA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr9/lqSZjRN79ApCU37GKyczTHY9IE4WG5y0zHvzdMSuG5ulxzTvb6uiQPYBhRqVZalMwjAyySKtdU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1aDi8r441pWmpWevIeVsU93YKZwWUvRzfZlWN52XDKrCN3Rml
+	U9Fq1o9TP1Z5vxyW8KOGPI1n/3esjkyimC7D7sC92gE4ygY7SsxzRoLm+Z4tRYUS5Ojt4rxgP8M
+	YHKASEhEp2JZ5hhTSfX4U84xScfl6udqBKyUsySxxuCrPDFRNsKsQWjKCqi2Zng==
+X-Gm-Gg: AfdE7cmwHzmoW19sNSt+i9MZ0f5pPVhFIplTRntXFVlmu1+E0PinR1Ux3UgGS9ZOxB9
+	1OEIywlfJ68oTFlmir3CN6RNTD7+l/CgK7Sjxgmock+U4f8nGl/NvgbX+JNSoK2T8j1nDutf6AA
+	aSkKu0p/oxDMDa3T6m1TQvUzAeKlECY46IJa4XGEclctzlQ/ESkFntmpsdfFqH+Qmkl4hLZ/371
+	U+i5LtVj5vU7hivkAoUeSIQ4LBLnC3w02KxcIvDtu/I20qCs/CyIWsuu5HsPt4aLvx03Yk+djtT
+	DTbThD7Ms6DCfwiEQSid+8znSTmGV3li5rmYrLVq1QU0PNNBrQFAnvAHJvAmB14W97eM70Eeeln
+	4zYIVZO1NI1EHt8XaykLfJuAsATbk/4BulrMsJOBLyGMfp8irVaw5Bt1KBObuKx2Ptg==
+X-Received: by 2002:adf:ed02:0:b0:46a:bcab:3c2 with SMTP id ffacd0b85a97d-477b5296a0emr360384f8f.34.1782908814526;
+        Wed, 01 Jul 2026 05:26:54 -0700 (PDT)
+X-Received: by 2002:adf:ed02:0:b0:46a:bcab:3c2 with SMTP id ffacd0b85a97d-477b5296a0emr360351f8f.34.1782908814132;
+        Wed, 01 Jul 2026 05:26:54 -0700 (PDT)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb (212-8-243-115.hosted-by-worldstream.net. [212.8.243.115])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47566fe448dsm16621132f8f.27.2026.07.01.05.26.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jul 2026 05:26:53 -0700 (PDT)
+Message-ID: <9bc739eec41b6616e9f81cbe50759cefb1c3ad9c.camel@redhat.com>
+Subject: Re: [PATCH v2 1/4] rv/rtapp/sleep: Make the error more informative
+ for user
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Nam Cao <namcao@linutronix.de>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+ linux-trace-kernel@vger.kernel.org, 	linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Wed, 01 Jul 2026 14:26:51 +0200
+In-Reply-To: <d97b4b5c476e5792b6875ec9bbf8dc214f999516.1781852967.git.namcao@linutronix.de>
+References: <cover.1781852967.git.namcao@linutronix.de>
+	 <d97b4b5c476e5792b6875ec9bbf8dc214f999516.1781852967.git.namcao@linutronix.de>
+Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
+ keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
+ 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
+ Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
+ Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
+ cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
+ T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
+ eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
+ 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-MAIL:mse-fl1.zte.com.cn 661CB6SP047127
-X-TLS: YES
-X-ENVELOPE-SENDER: wang.yechao255@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Wed, 01 Jul 2026 20:11:17 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6A4503E5.000/4gqzPx5sMnz8XrrJ
 
-Add an eager_page_split module parameter for RISC-V KVM, following
-the same approach as on x86. This parameter controls whether eager
-page splitting is enabled. The default value is on.
+On Fri, 2026-06-19 at 09:21 +0200, Nam Cao wrote:
+> -static void handle_sched_wakeup(void *data, struct task_struct *task)
+> +static void handle_sched_exit(void *data, bool is_switch)
+> =C2=A0{
+> -	ltl_atom_pulse(task, LTL_WAKE, true);
+> +	ltl_atom_pulse(current, LTL_SCHEDULE_IN, true);
+> =C2=A0}
 
-When eager page splitting is enabled, KVM proactively splits large
-pages (huge pages) into smaller pages when needed for dirty logging
-or other operations. Disabling it can be beneficial for VM workloads
-that rarely perform writes, or that only write to a small region of
-memory, as it allows huge pages to remain intact for read accesses.
+Well, this triggers also in a spurious schedule: current -> current, can
+that be a problem? Otherwise you may either use sched_switch over next
+or pulse only if is_switch.
 
-Signed-off-by: Wang Yechao <wang.yechao255@zte.com.cn>
----
- Documentation/admin-guide/kernel-parameters.txt |  7 +++++--
- arch/riscv/kvm/mmu.c                            | 13 ++++++++++---
- 2 files changed, 15 insertions(+), 5 deletions(-)
+It probably isn't a big deal though, since there's no SLEEP prior.. But
+we may want to avoid the noise.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a68003c3599cc..b4c68a896fa79 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3047,7 +3047,7 @@ Kernel parameters
- 			Default is 0 (don't ignore, but inject #GP)
- 
- 	kvm.eager_page_split=
--			[KVM,X86] Controls whether or not KVM will try to
-+			[KVM,X86,RISCV] Controls whether or not KVM will try to
- 			proactively split all huge pages during dirty logging.
- 			Eager page splitting reduces interruptions to vCPU
- 			execution by eliminating the write-protection faults
-@@ -3067,7 +3067,10 @@ Kernel parameters
- 			the KVM_CLEAR_DIRTY ioctl, and only for the pages being
- 			cleared.
- 
--			Eager page splitting is only supported when kvm.tdp_mmu=Y.
-+			On x86, eager page splitting is only supported when
-+			kvm.tdp_mmu=Y.
-+
-+			On RISCV, eager page splitting is supported by default.
- 
- 			Default is Y (on).
- 
-diff --git a/arch/riscv/kvm/mmu.c b/arch/riscv/kvm/mmu.c
-index 29a7ac023d4db..a534f596c8ca0 100644
---- a/arch/riscv/kvm/mmu.c
-+++ b/arch/riscv/kvm/mmu.c
-@@ -16,6 +16,9 @@
- #include <asm/kvm_mmu.h>
- #include <asm/kvm_nacl.h>
- 
-+static bool __read_mostly eager_page_split = true;
-+module_param(eager_page_split, bool, 0644);
-+
- static void mmu_wp_memory_region(struct kvm *kvm, int slot)
- {
- 	struct kvm_memslots *slots = kvm_memslots(kvm);
-@@ -167,8 +170,10 @@ void kvm_arch_mmu_enable_log_dirty_pt_masked(struct kvm *kvm,
- 
- 	kvm_riscv_gstage_wp_range(&gstage, start, end);
- 
--	if (kvm_dirty_log_manual_protect_and_init_set(kvm))
--		mmu_split_huge_pages(&gstage, start, end);
-+	if (kvm_dirty_log_manual_protect_and_init_set(kvm)) {
-+		if (READ_ONCE(eager_page_split))
-+			mmu_split_huge_pages(&gstage, start, end);
-+	}
- }
- 
- void kvm_arch_sync_dirty_log(struct kvm *kvm, struct kvm_memory_slot *memslot)
-@@ -238,7 +243,9 @@ void kvm_arch_commit_memory_region(struct kvm *kvm,
- 		if (kvm_dirty_log_manual_protect_and_init_set(kvm))
- 			return;
- 		mmu_wp_memory_region(kvm, new->id);
--		mmu_split_memory_region(kvm, new->id);
-+
-+		if (READ_ONCE(eager_page_split))
-+			mmu_split_memory_region(kvm, new->id);
- 	}
- }
- 
--- 
-2.43.5
+Looks good overall.
+
+Reviewed-by: Gabriele Monaco <gmonaco@redhat.com>
+
+Thanks,
+Gabriele
 
