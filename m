@@ -1,141 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF8246AED1;
-	Wed,  1 Jul 2026 11:18:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060EA477E2A
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 11:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782904734; cv=none; b=elMn/x79wMJ5UyMSj+4x67THzv9j5Q8KS9iry7M7CWGhRlkFpvILiJf0jsVfJpJYrSVm53OKN3VyHkzUb/R450jS1qsROYKu6HX+sjeBOyuV86rumqFd4o13IV3uGSCPU7VtwWGqiyxcAGsm9m1Xhc94idaPXJ+cFeUOSNGAXh0=
+	t=1782905241; cv=none; b=mAp/X82+ir8DBPmAAFXMZzfQqOsGnBL6BJJOpRsQvA7/vSnTpyShdJcARFnqRHXIsGM+joHy5eL96jEq9htjoJw9qS4XwHFStB2Xd+DdrY7H3f0nnOEaVBRmvnLh/fMzxRW3P8zqdXsnEsa6R7Z90PshikrVKoNJOSivh/5WTeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782904734; c=relaxed/simple;
-	bh=KamIF/GbQilflin+sZ24rcVjwHbCunBsl6fGoIU62PA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tPsf36bdNNdRJmlagAJ4grMkf38KL0r9m9rFwNILZOOcOeyKjFVIqynuvZ3X0OCbC7IUm5w/+kkOukyDwG3l2SVDGhfgdm1KhbtXlZF2kjPK4vgdiT3pXVuL1ghPgpSZEvtmF7X5emBJHOgFkRsiUsfzpvixy1hxyE2zFHoPXuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dndkJ/bV; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782905241; c=relaxed/simple;
+	bh=CCOzFLkfJgt+CMumxNevtMRsu20SLhTsRhYEhL2ZFrw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=einidtKuIvK6lXdM++0ZV632Qrh0uCWUQ7y/CXecaoBQ+pdHiBT8b/Tk5+jgCPqsWw0D331S+oOasfW/Xm/rxRF5Q8ulN34dsnL40MZr5XNl+2UrF2CQmnhG3gT/eAz518cpzWr4S9+kaDhpZIguHFaHpSiFKYKvI5EHvs8YwXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CRrwGtXk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dndkJ/bV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782904732; x=1814440732;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=KamIF/GbQilflin+sZ24rcVjwHbCunBsl6fGoIU62PA=;
-  b=dndkJ/bVaRCVaQzTmC4eOUHdIbDPWWipZbV2aOIFYUgA3LgEp7wbC2Fe
-   OTGygtlSlA3cku7q9IDPHGtQHg1LhhPkV+mMTsu0vHiqdjoGIOEeinfOU
-   F7J0MdA+MbLru1MYrhn3i6lGH74iehhi0xHrOqIiTDF2tMT5KxniTXYeW
-   SH3fMovFU6YfEHDi1hs6TSVIr4qhVIHpTFQAlXnhBC4b8uIooM4d/2RTS
-   pK3lYsmvyMHbkpeD8y6znLxMDdoJaR3xNI89uo879LcuEZStJbns8ne45
-   TIZpG43M44JFaLjHjjiPMXDyo9ETzkM+SxBrDUD4WUgzsiEqQmVStfr9P
-   g==;
-X-CSE-ConnectionGUID: dmsaC05wSCGtx9ZNbqtT8A==
-X-CSE-MsgGUID: OYdVayxLQl2wHyN9HqHIEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="94789715"
-X-IronPort-AV: E=Sophos;i="6.25,141,1779174000"; 
-   d="scan'208";a="94789715"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 04:18:50 -0700
-X-CSE-ConnectionGUID: aLlyHiwUTXyhs4lgY+f9QQ==
-X-CSE-MsgGUID: bSTU4KQCQOiPSgzMr577Lw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,141,1779174000"; 
-   d="scan'208";a="256461895"
-Received: from unknown (HELO [10.239.158.49]) ([10.239.158.49])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 04:18:31 -0700
-Message-ID: <ec45ccb5-e219-4e5e-969a-127c6166fd27@intel.com>
-Date: Wed, 1 Jul 2026 19:18:27 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CRrwGtXk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0BC51F00A3E
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 11:27:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782905238;
+	bh=6Z4qh1P94ZbI1sFyg6TBGTHtGazITFuVN1NDcYfzFck=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=CRrwGtXk5CpcQ4AnjsykpbmP3ScPNzaF5Vj6YCK1/v7TjVJCKU4vkfMGpgK7Uy5Lt
+	 HFt7Fp1OEc0LFiM6qsTOR8ZSZImEz4Gpxhwx3Ktxc+fOcwEUCjlGVssQZzOTe83SoW
+	 JaNdHE5AVwc87VEB40KH9MOHU7bVpmelxV9GW5Pc6tMzr/IEmhjdg064z5fLBkQL4U
+	 ICA2RR4BKnos5QyFENCkrDKXx/bC+7yrMBQTvH8grHQqK+k70uXDNW7zNf1yUyG0K4
+	 H7xT0sQmXtf2mBHiv5iZWnXEqTUZyYzCDPMfwamtW4KJ4Phwuh9IBawmkKVCp8rmxK
+	 TskJWw0BHcQ7A==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aeb77b3afbso535573e87.1
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 04:27:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Ro1mRtXz+f9UaM14JzTdtiwKBz4RODTkISp8l4dfVb2tuoymDDpBhW8Ufl1L86dellUQtUGI2M0678=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdftEIceVw/V4ara8TG3C5SCJ6BdBqy1eqWjGpqZ4eFAIEUhSr
+	4sjLxw/IoJMFu0dGE/pYwL4Z6BNIsCf9+GorXXTk2yvw/eRpkQNbCdHvF09GejvSUmgubfecoVq
+	IyJ/RyQ4aVQRu+kXzO7D0NWrBjpPiFFU=
+X-Received: by 2002:a05:6512:2c0f:b0:5ae:be88:6db3 with SMTP id
+ 2adb3069b0e04-5aec67b2b36mr324767e87.29.1782905237123; Wed, 01 Jul 2026
+ 04:27:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 25/46] KVM: guest_memfd: Enable INIT_SHARED on
- guest_memfd for x86 Coco VMs
-To: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev,
- binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com,
- david@kernel.org, jmattson@google.com, jthoughton@google.com,
- michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com,
- qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com,
- shivankg@amd.com, steven.price@arm.com, tabba@google.com,
- willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com,
- forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com,
- aneesh.kumar@kernel.org, liam@infradead.org,
- Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
- <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-coco@lists.linux.dev
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
- <20260618-gmem-inplace-conversion-v8-25-9d2959357853@google.com>
-Content-Language: en-US
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20260618-gmem-inplace-conversion-v8-25-9d2959357853@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260701045640.3130090-1-tzungbi@kernel.org> <20260701045640.3130090-2-tzungbi@kernel.org>
+ <2026070110-unrented-crummiest-d6af@gregkh>
+In-Reply-To: <2026070110-unrented-crummiest-d6af@gregkh>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Wed, 1 Jul 2026 13:27:04 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jNq5SMtAxLb6UqUO6OrZSYKK1+AfY6CQAcym7q0GntKA@mail.gmail.com>
+X-Gm-Features: AVVi8CfypQtJjqXcSgyTkGn6D_6xva6NAxRxk7oopv5I9Wg-xygkFTB1rarCSVg
+Message-ID: <CAJZ5v0jNq5SMtAxLb6UqUO6OrZSYKK1+AfY6CQAcym7q0GntKA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] PM: sleep: Rename module parameters prefix to "pm_sleep"
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Danilo Krummrich <dakr@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Pavel Machek <pavel@kernel.org>, 
+	Len Brown <lenb@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev, tfiga@chromium.org, 
+	senozhatsky@chromium.org, Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/19/2026 8:32 AM, Ackerley Tng via B4 Relay wrote:
-> From: Sean Christopherson <seanjc@google.com>
-> 
-> Now that guest_memfd supports tracking private vs. shared within gmem
-> itself, allow userspace to specify INIT_SHARED on a guest_memfd instance
-> for x86 Confidential Computing (CoCo) VMs, so long as in-place conversion
-> is enabled, i.e. when it's actually possible for a guest_memfd instance to
-> contain shared memory.
-> 
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
-> Reviewed-by: Fuad Tabba <tabba@google.com>
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+On Wed, Jul 1, 2026 at 9:20=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Jul 01, 2026 at 04:56:39AM +0000, Tzung-Bi Shih wrote:
+> > Currently, the module parameters defined in drivers/base/power/main.c
+> > use the default prefix "main" (derived from the filename).  The prefix
+> > is too generic and non-descriptive.
+> >
+> > Redefine MODULE_PARAM_PREFIX to "pm_sleep." to group the module
+> > parameters under the namespace instead.  This makes the parameters more
+> > descriptive.
+>
+> You just changed the user/kernel api, right?  That will break things...
 
-Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
+Or not, if that part of the ABI is not really used or the users of it
+can live with the change.
 
-> ---
->   arch/x86/kvm/x86.c | 13 +++++++------
->   1 file changed, 7 insertions(+), 6 deletions(-)
-> 
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 2fde594e86d72..57a543dadb851 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -14116,14 +14116,15 @@ bool kvm_arch_no_poll(struct kvm_vcpu *vcpu)
->   }
->   
->   #ifdef CONFIG_KVM_GUEST_MEMFD
-> -/*
-> - * KVM doesn't yet support initializing guest_memfd memory as shared for VMs
-> - * with private memory (the private vs. shared tracking needs to be moved into
-> - * guest_memfd).
-> - */
->   bool kvm_arch_supports_gmem_init_shared(struct kvm *kvm)
->   {
-> -	return !kvm_arch_has_private_mem(kvm);
-> +	/*
-> +	 * INIT_SHARED is supported if in-place conversion is enabled, or if
-> +	 * the VM doesn't support private memory.  If the VM has private memory
-> +	 * and in-place conversion is disabled, then guest_memfd can _only_ be
-> +	 * used for private memory.
-> +	 */
-> +	return gmem_in_place_conversion || !kvm_arch_has_private_mem(kvm);
->   }
->   
->   #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_PREPARE
-> 
+This actually is an attempt to correct a mistake in the ABI and only
+one module parameter is affected by this change
+(dpm_watchdog_all_cpu_backtrace).  I'm not expecting the people using
+it to get a particular heartburn about the change.   Or if they do,
+we'll back off.
 
+I'm now thinking though that using "pm" as the new prefix might be better.
