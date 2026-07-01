@@ -1,94 +1,119 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2346175A9C;
-	Wed,  1 Jul 2026 13:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D09224B04
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 13:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782911946; cv=none; b=uLEj0zYdcnN3HmENznWo4IWN7VKi99yt4tOJ2CIkrQsUxY2OR0pcbxBOsm4a+qX18PEjcOSt6PeZ9JFrxHAvr574p4rhaL1Ezawkfoy40UWAavDHUur6cTLtiH/IonjrE9GxhaDjmkT7pCjySOMWBhjiXj6y7RWPXMuzdK6MsV4=
+	t=1782914002; cv=none; b=RVx5YVyBbTh8aXj8dGeAj2lEPmuxPke3PlXfjlq9z+YVP9Z068ME0zl4WLhdjb+84Cr7oxBOmoXDhc3IvK/Qv24lCSP3sOeJq550ulIbyhDyc9+NQDYge0Z6k04//fuCpJNT/ndcw4KIimKHGNjAVg+b8xHk23gYuahRQDqer5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782911946; c=relaxed/simple;
-	bh=mAdFDQ8AcvQAgDJvsxsyvsNAwB4oMDL8D6ztJxqCDx0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cRHjGIkHnwNTzqKUPqalPG1c7yvCD9+rdeF/Le1R3Y3R5CFvES2JyjA7KzQZQ3K6eak0GbRqIjwBySGq6E/BECEARj/FTv1pUQTpBGMj9XisgzN+NS6BjOTWxV7jU6l6HM/BZJkLnOlcAnK5q9BWzVniBppEEgP2S+dLGW+jvgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=sZdKUQnu; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1782914002; c=relaxed/simple;
+	bh=k6UrRFYCyc5Lzmrh2nnW7+82Ut94TI2p/klH6GO/JIw=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=jvWfz/sZYX929B70Uw9o3Ff+TVQ//5Zs6i/dtqDFcsTnPO8dYz51Yd+/JzioKIx6kTlpIqwzjYTrt2xEWH7CGGhQ7FO8Ang61ErQsSXWxl83XwmgCtzhFxLCtiA+HDnAIA7AMzGfL9IsfmR/kR+97XEs4siOHlrJCvrWnHfCSYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hGcnKqXu; arc=none smtp.client-ip=209.85.215.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="sZdKUQnu"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=D3XkahpkJHZpP7dKJ9sD5EcAJKoxvPM2S4aUH1ixxHo=; b=sZdKUQnuG3GVEcwsy01q/E56EH
-	kR3NcZf0ZDbyP5/gtSTrYi9pIGjTrvdkN6u/stI1MXtXpVGZaWsuL6l+eepq0TZZizOnBlqAQ9e02
-	bh4hQlzz3BnVJI8nbiftEcrTUx6P141DzFl8wTB4rwge90+T3OXLeZcKHLVksf3a1eTl9PWBW0YOh
-	JXU5f0kjWsZylIbTHQVD2evFrPXKPw56C/ECDe+0WHZ7TfAN8+Z3UCJrvDe3QLem8lRrlZGMjrRfD
-	313qMOfdYW3HIVGC9VePWhqf/6el6nUKHcOgILwPlzFdSFDjZbwCpOEEI/9JhIH+IxVVyLBgHFwK6
-	ilRr+l+g==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1weupo-007rq6-2l;
-	Wed, 01 Jul 2026 13:18:37 +0000
-Date: Wed, 1 Jul 2026 06:18:30 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Nathan Chancellor <nathan@kernel.org>, paulmck@kernel.org, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	bpf@vger.kernel.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org, 
-	kernel-team@meta.com, Nicolas Schier <n.schier@fritz.com>
-Subject: Re: [PATCH v7 0/9] bootconfig: embed kernel.* cmdline at build time
-Message-ID: <akUTHGb7NANeqyNd@gmail.com>
-References: <20260626-bootconfig_using_tools-v7-0-24ab72139c29@debian.org>
- <20260626233327.b5c9c8de494acdde4ddf5c02@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hGcnKqXu"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-c860544c077so909412a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 06:53:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782914001; x=1783518801; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2dlvRC/ivhzraYV58bWG4aEWroXr163d0LU1VPS4Meg=;
+        b=hGcnKqXuDyYBtXoz9E2s3EvKuJde3fA/I5zDuDTQCmF6lWrrXkDMU0cj8a8RKAbP2J
+         /vFmnMvZyvCBxsw0bVZY0nlu3fLi+eNFRQFTgMYadZw4hFSdmS/v4cq+UYOB10mH2fKc
+         Szj8jhMEgAmjeeJjbDE5B7hVFPJH5CyBa1CXPLHY7v2XvnL4ofCnHuVvdiQe+zsrf+0E
+         zwBQmocxPDeUJnF8rRf28lut7Wfx6N04gQwxVdiGJfSMIt7wlS62ph7/xmfuprtT4hG1
+         T3TGu0K0scVdN/7hVThvmPEt3PaNQmGmRP3JQIV1R8F6k88Im7Vfc3/qVuo7HGoLufi+
+         67Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782914001; x=1783518801;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2dlvRC/ivhzraYV58bWG4aEWroXr163d0LU1VPS4Meg=;
+        b=ELZreOraYzuZAjRUsEqVIG0/ddoi31I7V6MWBoHe+0lCNYcnlwj5kj9ozweDOY+VaB
+         cApoqT2ntK12vKBT/+rzeU0vOXo1/u7U6Nu38XA1dhJIaagzjiXS3e3jVMNhcCPW0Gb3
+         m0za3ZRnQw/8IYt0+GYL9ZhOGuuUrfi+Zspa98ofbw2+CFTIZEsb9+ZZoUM5NLH6yrD6
+         s7p27/eaVdNdA/GmVMeHQUlA0nxaDDuMgTIKWdj+tdMBUFKhf8c9KWRVoLsR/sN1wdLZ
+         51w1FVVis0rY0f+VKjexfpgwrMkgewsHFYdVT/u8diuqp0f40X1Rn9x7lim1hfThZg1b
+         ++Hg==
+X-Forwarded-Encrypted: i=1; AFNElJ8yHNiBPVc8D8nluEBbDi0sd03w+lKt5ttuPkSV/HWZYUYOoYoH4/bv7G9vjOYUd6W/Nr1GbvUZ7O0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyb0gAvbJ99gGqgzgGcv6dQ/Wuu7to1r3Yp87r3ZyWfEv/3DYH5
+	ZrYuORhgmaCH1mDCWeyrlLb9UdzOQdIF7bwGThNBKh6OZLdle+aRU73pyeAOt/Q1GKqHLODUg9W
+	HhcIMsw==
+X-Received: from pgam26.prod.google.com ([2002:a05:6a02:2b5a:b0:c99:aff5:707d])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:6a11:b0:3bf:acb2:5d48
+ with SMTP id adf61e73a8af0-3bff4227b8fmr926021637.38.1782914000204; Wed, 01
+ Jul 2026 06:53:20 -0700 (PDT)
+Date: Wed, 1 Jul 2026 06:53:19 -0700
+In-Reply-To: <25fdb77d-20f6-4b3a-8b3a-dbba0dc47046@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260626233327.b5c9c8de494acdde4ddf5c02@kernel.org>
-X-Debian-User: leitao
+Mime-Version: 1.0
+References: <20260618-gmem-inplace-conversion-v8-24-9d2959357853@google.com>
+ <aji/2svhcc84rn5w@yzhao56-desk.sh.intel.com> <CAEvNRgHYTFnHbsLLgMTCSitmnp1_j9Pomikm9qmpGTh1w8YE5Q@mail.gmail.com>
+ <ajx5Vrz9ma--hrGH@google.com> <ajyJhZcgfYFtGfS2@yzhao56-desk.sh.intel.com>
+ <aj0Jf30PS2f7x1nt@yzhao56-desk.sh.intel.com> <aj087H1UWSFxbShR@google.com>
+ <aj3H2sxymOYTWTnE@yzhao56-desk.sh.intel.com> <aj7NwCRwWEfLK-gQ@google.com> <25fdb77d-20f6-4b3a-8b3a-dbba0dc47046@intel.com>
+Message-ID: <akUbz_kJvYulaboo@google.com>
+Subject: Re: [PATCH v8 24/46] KVM: guest_memfd: Make in-place conversion the default\
+From: Sean Christopherson <seanjc@google.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: Yan Zhao <yan.y.zhao@intel.com>, Ackerley Tng <ackerleytng@google.com>, aik@amd.com, 
+	andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org, 
+	chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com, 
+	jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org, 
+	pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com, 
+	rientjes@google.com, shivankg@amd.com, steven.price@arm.com, tabba@google.com, 
+	willy@infradead.org, wyihan@google.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, Jun 26, 2026 at 11:33:27PM +0900, Masami Hiramatsu wrote:
-> On Fri, 26 Jun 2026 05:50:09 -0700
-> Breno Leitao <leitao@debian.org> wrote:
+On Wed, Jul 01, 2026, Xiaoyao Li wrote:
+> On 6/27/2026 3:06 AM, Sean Christopherson wrote:
+> > On Fri, Jun 26, 2026, Yan Zhao wrote:
+> > > My first impression of gmem_in_place_conversion=true was that it enforces gmem
+> > > in-place conversion. However, it actually only enforces per-gmem private/shared
+> > > attribute.
+> > > My worry was that people might think it's a kernel bug if userspace can still
+> > > have shared memory from other sources after they configured
+> > > gmem_in_place_conversion=true.
+> > Ah, I see where you're coming from.  FWIW, truly enforcing in-place conversion
+> > is flat out impossible.  E.g. userspace can simply replace the memslot, at which
+> > point the memory effectively reverts to shared.
 > 
-> > The userspace pieces (xbc_snprint_cmdline() in lib/, tools/bootconfig -C)
-> > already landed; this series wires the rendered cmdline into the kernel.
-> > 
-> > Motivation: today the embedded bootconfig is parsed at runtime, after
-> > parse_early_param() has already run, so early_param() handlers can't
-> > see embedded values. Folding the kernel.* subtree into the cmdline at
-> > build time gives a CONFIG_CMDLINE-equivalent for embedded-bootconfig
-> > users without forcing them to maintain two cmdline sources.
-> > 
-> > Behaviorally, the "kernel" subtree is rendered to a flat string at
-> > build time and stashed in .init.rodata. setup_arch() prepends it to
-> > boot_command_line before parse_early_param() runs. Overflow is a soft
-> > error: the helper logs and leaves boot_command_line untouched rather
-> > than panicking, so an oversized embedded bconf cannot brick a boot.
-> > 
-> 
-> Thanks for update!! This looks good to me.
-> Let me pick it and test it.
+> would something like below enforce the in-place conversion?
 
-Thanks Masami,
+No.
 
-Let me know if you need anything else from my side.
+> Userspace can create a memslot without gmem fd, but that memslot can only
+> serve as shared memory and cannot be converted. So it doesn't violate the
+> in-place conversion.
 
-Once these land in linux-next, I'll merge them into Meta's kernel tree
-and put them into production. Looking forward to seeing how it works out.
-
-Really appreciate all your support getting this across the line.
---breno
+But userspace can delete said memslot and replace it with a memslot pointing at
+a guest_memfd instance that was created without INIT_SHARED, at which point
+userspace has effected a shared=>private conversion.
