@@ -1,101 +1,154 @@
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52BC63B6356;
-	Wed,  1 Jul 2026 11:13:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.18.0.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55D13B14BF
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 11:14:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782904387; cv=none; b=PQ2KJAh8EGm+lDlJoyOOUuo1pHFzv+0/b6Jh9QRxp90uiIFwyCM86eOAFb8mlX6M9N1oLbV4Tj8CR45Wngtkdc564R833HqtZ/zEiTQ0Xc1ZpfZI1/D9l6sWh+F/ONU3lzNnLIM3aVWki6PRx98QRenTwpkKCLuTmletaTero4o=
+	t=1782904457; cv=none; b=Bzi84B0O9TIDIl9g/TFahtR1zL6q3SKBH+Gco2FWAvUQebM3gTqOfVX5Xlpd/8Ypci6QwphTSXLv/IyeINgXIbhGNfR7suCyaFSVt4+E8nLinwK0Xh/+Bzgulc/X78Y9wwkynIKrRdr39YwUE8wcQpuSliROQMF1kKAOYR64edw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782904387; c=relaxed/simple;
-	bh=lmqv6nwOMIQ1/A6MU3tdd/l8iraWfFOg4UXcDmZWx3Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Tba9GsrutolAMYiyhx1zdpjFS9uxZyv1y4rYtqyKsfFGB/9VC/XODoiX9dxmnd6d/6SYN/s5xlO8F+KvLx2AHzoboocOfBHkwJId8HTEPuE06M5i17I+8lX7wcRoWMGn46vxNxjE318vnudf2sR+lrfT3C7Tld7rKTMcssOg8RI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=212.18.0.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail-out.m-online.net (Postfix) with ESMTP id 4gqxxr4nzTz1sHPn;
-	Wed,  1 Jul 2026 13:05:20 +0200 (CEST)
-Received: from frontend03.mail.m-online.net (unknown [192.168.6.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 4gqxxq4lg4z1sHPX;
-	Wed,  1 Jul 2026 13:05:19 +0200 (CEST)
-Received: from localhost (dynscan3.mnet-online.de [192.168.6.87])
-	by mail.m-online.net (Postfix) with ESMTP id 4gqxxp59v1z1qqlT;
-	Wed,  1 Jul 2026 13:05:18 +0200 (CEST)
-X-Virus-Scanned: amavis at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.6.182])
- by localhost (dynscan3.mail.m-online.net [192.168.6.87]) (amavis, port 10024)
- with ESMTP id tQZ9_tKXpaIT; Wed,  1 Jul 2026 13:05:09 +0200 (CEST)
-X-Auth-Info: Pt4uSQGEyIjPFT3BPFolkb81GA8tMoI4Th+4yeNg3MiwksamljRMriYVf7/YBrTR
-Received: from hawking (unknown [80.255.5.134])
+	s=arc-20240116; t=1782904457; c=relaxed/simple;
+	bh=97jJnVXBJlZLEpZ2lBZdijodE87x2KbhjGFu6B+E/V0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=euf7GZ1gV/JgDOA43ICNN8Lofqrc9pzdOmCzK2EhNYZohrm1KAlLGSzdIxfQAuU/2obmu45XgBOoSTLViPG0CIdrSDxSU6aWbGth9AyiBOnlxZRqCZIHprjcqL39WH8tlNZidSnPdFZkwsEgnmYYajre+uPiyVKfVlaRaTq6dm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iOmXZPsU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bWVfbAr0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=J/mRPrZ5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LTOtvQR8; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iOmXZPsU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bWVfbAr0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="J/mRPrZ5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LTOtvQR8"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Wed,  1 Jul 2026 13:05:09 +0200 (CEST)
-From: Andreas Schwab <schwab@linux-m68k.org>
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: "Eric W. Biederman" <ebiederm@xmission.com>,  Deepak Gupta via B4 Relay
- <devnull+debug.rivosinc.com@kernel.org>,  Thomas Gleixner
- <tglx@linutronix.de>,  Ingo Molnar <mingo@redhat.com>,  Borislav Petkov
- <bp@alien8.de>,  Dave Hansen <dave.hansen@linux.intel.com>,
-  x86@kernel.org,  "H. Peter Anvin" <hpa@zytor.com>,  Andrew Morton
- <akpm@linux-foundation.org>,  "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-  Vlastimil Babka <vbabka@suse.cz>,  Lorenzo Stoakes
- <lorenzo.stoakes@oracle.com>,  Paul Walmsley <paul.walmsley@sifive.com>,
-  Palmer Dabbelt <palmer@dabbelt.com>,  Albert Ou <aou@eecs.berkeley.edu>,
-  Conor Dooley <conor@kernel.org>,  Rob Herring <robh@kernel.org>,
-  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Arnd Bergmann <arnd@arndb.de>,
-  Christian Brauner <brauner@kernel.org>,  Peter Zijlstra
- <peterz@infradead.org>,  Oleg Nesterov <oleg@redhat.com>,  Kees Cook
- <kees@kernel.org>,  Jonathan Corbet <corbet@lwn.net>,  Shuah Khan
- <shuah@kernel.org>,  Jann Horn <jannh@google.com>,  Conor Dooley
- <conor+dt@kernel.org>,  Miguel Ojeda <ojeda@kernel.org>,  Alex Gaynor
- <alex.gaynor@gmail.com>,  Boqun Feng <boqun.feng@gmail.com>,  Gary Guo
- <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>,  Andreas
- Hindborg <a.hindborg@kernel.org>,  Alice Ryhl <aliceryhl@google.com>,
-  Trevor Gross <tmgross@umich.edu>,  Benno Lossin <lossin@kernel.org>,
-  linux-kernel@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  linux-mm@kvack.org,  linux-riscv@lists.infradead.org,
-  devicetree@vger.kernel.org,  linux-arch@vger.kernel.org,
-  linux-doc@vger.kernel.org,  linux-kselftest@vger.kernel.org,
-  alistair.francis@wdc.com,  richard.henderson@linaro.org,
-  jim.shu@sifive.com,  andybnac@gmail.com,  kito.cheng@sifive.com,
-  charlie@rivosinc.com,  atishp@rivosinc.com,  evan@rivosinc.com,
-  cleger@rivosinc.com,  alexghiti@rivosinc.com,  samitolvanen@google.com,
-  broonie@kernel.org,  rick.p.edgecombe@intel.com,
-  rust-for-linux@vger.kernel.org,  Zong Li <zong.li@sifive.com>
-Subject: Re: [PATCH v23 06/28] riscv/mm : ensure PROT_WRITE leads to VM_READ
- | VM_WRITE
-In-Reply-To: <CAKC1njRapOxS6ibQdCuES1E3aAjsA+yGz4yZ1xJAZHU2vkAm_A@mail.gmail.com>
-	(Deepak Gupta's message of "Tue, 2 Jun 2026 09:19:50 -0700")
-References: <20251112-v5_user_cfi_series-v23-0-b55691eacf4f@rivosinc.com>
-	<20251112-v5_user_cfi_series-v23-6-b55691eacf4f@rivosinc.com>
-	<87jyslndo4.fsf@igel.home>
-	<CAKC1njS=AHu6uHrH4ae8VxcdEbhgiPXYCAoN3F_mnppBd3SwOA@mail.gmail.com>
-	<875x44o9hj.fsf@igel.home>
-	<CAKC1njSn_rtCj8ii876PNQTk0nsCTfWsb4DzdymufHVthh1Rkg@mail.gmail.com>
-	<871peqgp9v.fsf@igel.home>
-	<CAKC1njR+dTdvp+BmLGPtgd8dufiUwBtkQ9a-qinELT_Fmi13sQ@mail.gmail.com>
-	<87wlwif04z.fsf@igel.home>
-	<87tsrli6lt.fsf@email.froward.int.ebiederm.org>
-	<CAKC1njRapOxS6ibQdCuES1E3aAjsA+yGz4yZ1xJAZHU2vkAm_A@mail.gmail.com>
-Date: Wed, 01 Jul 2026 13:05:09 +0200
-Message-ID: <mvm8q7vt1ga.fsf@suse.de>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F0DD67598B;
+	Wed,  1 Jul 2026 11:14:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782904454; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5Yo48ALSMv+SDMF+5eUPALzxwluiPRufT6oTCmzn1Qc=;
+	b=iOmXZPsU4Srs/JWyYBJ4Re9SKdr9uoBn1b7f/5WNRdHhmkY6xYJIo8isAQ/FsJxXaDvyUr
+	KdQ4mBd60u4hNPQZ130ep4T3WaQTDvFvg3rJwM9j3c++0PsOuRCrwyy2uq/v6gr/8GGYl9
+	klt4qCrprDRrT/wzkM0W2Wg92T2ngiQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782904454;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5Yo48ALSMv+SDMF+5eUPALzxwluiPRufT6oTCmzn1Qc=;
+	b=bWVfbAr0JtOgnQPYEOt4erWqf21BRfR+9dhj/dN0oHHkDDv6Nm6g0Vm5ESBIdgeauyzTqm
+	Tv84kYH5kMZ+cSCA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="J/mRPrZ5";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LTOtvQR8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782904453; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5Yo48ALSMv+SDMF+5eUPALzxwluiPRufT6oTCmzn1Qc=;
+	b=J/mRPrZ5ahTdbEwoOA6VeixXDTEBOh7AknxSfYBL1g6iY0o8FeH6XonVJmOs91BuxBZWvt
+	RkQeBjtxoIi3QheTdS21ettAO2BTjD94I5CxXmWq/xgpMRnQQL/bRVc9qXr+KhszbJH96K
+	iU+P7lRyRtkI8Q6CIATgdvUaj+p/xYg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782904453;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5Yo48ALSMv+SDMF+5eUPALzxwluiPRufT6oTCmzn1Qc=;
+	b=LTOtvQR8mdX8Vi1+Qw0Q2m+3y6dZdDhtQ4Mqr5l12E0wq40zWDojJIBzUZQTV+n3RORDuy
+	E0btJELhRW8uKHBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C225F779AA;
+	Wed,  1 Jul 2026 11:14:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id nYElLoX2RGonfgAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 01 Jul 2026 11:14:13 +0000
+Message-ID: <8103a626-d07b-4b20-b10e-d258485176ee@suse.de>
+Date: Wed, 1 Jul 2026 13:14:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] nvme: Introduce service-time iopolicy
+To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, onathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-nvme@lists.infradead.org, linux-doc@vger.kernel.org
+References: <20260617114602.2224074-1-kanie@linux.alibaba.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260617114602.2224074-1-kanie@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: F0DD67598B
+X-Spam-Score: -4.51
 
-Any news? This is still broken in 7.2-rc1.
+On 6/17/26 1:45 PM, Guixin Liu wrote:
+> Hi all,
+>    I developed the service-time iopolicy in nvme native
+> multipath, please review, all comments are wellcome.
+> 
+> Guixin Liu (2):
+>    nvme-multipath: add service-time I/O policy
+>    docs: nvme-multipath: document service-time I/O policy
+> 
+>   Documentation/admin-guide/nvme-multipath.rst |  31 +++-
+>   drivers/nvme/host/multipath.c                | 165 ++++++++++++++++++-
+>   drivers/nvme/host/nvme.h                     |   6 +
+>   drivers/nvme/host/sysfs.c                    |   5 +-
+>   4 files changed, 202 insertions(+), 5 deletions(-)
+> 
+We're still waiting for the adaptive I/O policy to be included, so I
+guess this patch should build on top of that.
 
+Cheers,
+
+Hannes
 -- 
-Andreas Schwab, schwab@linux-m68k.org
-GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
-"And now for something completely different."
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
