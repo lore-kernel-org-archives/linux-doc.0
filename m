@@ -1,143 +1,178 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C56739282B
-	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 21:38:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740E5282F1B;
+	Wed,  1 Jul 2026 21:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782941940; cv=none; b=ZeYEKb/ooUcYOHbAaCsoa9jbJPNS1WlPqOMAqjaQ57spi/mFXzGFmLcIJIYpoSfYHfTuHC0a3i/4fjeb6nHUXjnyetJ2uxfLKyq4S2ZyxZVNjjJmpPGr1qHm+E/iwFP+dp5CeZuuHQV2JQnd9K7+//DYcl7mBJlfjqjHLyFqw2Q=
+	t=1782942024; cv=none; b=HV+Q3sYz0xZhIuwEypqE5XeXBVkjMBdW1h2A15ey0kGuN4ZYmrCSxx71GBP2uW9FIQK3dZB3u1+r5EnKLPuJa39ol0VL3gI6NWSF3auqQWHM7cGtrVRG74KdZkyg4x7yw8VbY6J4BVtvsifhhw5G1Ot8oaxfowKvugI8d4UBpSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782941940; c=relaxed/simple;
-	bh=s3SRCVocvxtBq/BBjpyMKtPRDxFAsPXDOITHXqUnO4o=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=lAlM2Qfxb4AFkuPunFGQf5GKFbU6W4iXoJsqzPJZm4nv5qyswSeGWHdLmMkmASBPH6wWevsKiE40KkmncIZdi2jp6S5yY7bYgjLODcAXgQ/Id5m0ttjYpkGxu6P/gEypjkXAbl+I+oF1fxnTOvCgqlPlNF3noJ/CGCQljTE4/Ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jYZHQ0FZ; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1782942024; c=relaxed/simple;
+	bh=PZzeuqPCmB1eNY7dOEhMPK9sqw12cOhCvMQRpwOxku4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f4oT7ngM5AG5irJHPn5l/Yx82CzTk/tW+kcwKrdLFA18jM+CgxXDoakDuS1R5lOQtxSP+wfO6Bw+TC3nLNa0xAYaNHl7xqLjnpDSqsiULgvnEuN82sSE4/lE6XCGO7z8h80ipd2jHTKYji2Edi8KD/Q3LLUYohtOO1N59sI8X5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SCq/sOkT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jYZHQ0FZ"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2c987913b08so14210395ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 14:38:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782941937; x=1783546737; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GRkq9jmjNuS5m4BJgbbAEXZCpunnA1N0v1XvrStDBgY=;
-        b=jYZHQ0FZXAGO1JEGSty/T2GCc1OXGTQApUcOJesNOIlH8l85iNchenlCCV/1DZdGoT
-         ksIP9vNV78wNEvoOdkfuVCk6HMJpet5vE+JYsUm2vMRnZSVKK+VjR8H5InwAYOPHBbc1
-         aaJNkmEDURJ64lc302othmdm5JZAy42dA9ZCFHGr9qu9CrPaRnRwtS3P9Atu6psHqXVV
-         JrnvTWDS98Y8L0Ll9o+oukfL5b0Id9i/dljxhUWkxi5cia+UxSpSDi9ntkDAhZMITm4O
-         WOAVy5C64JRZJT5tOn8mcx2DNNJSYvpif1Q3nkBbkuEKGWAOgnzxXw/pAWQrh3tafiBr
-         L2oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782941937; x=1783546737;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GRkq9jmjNuS5m4BJgbbAEXZCpunnA1N0v1XvrStDBgY=;
-        b=ehDRdl7nvocYv49bJMTRvfoFUa6RaF9koXP1RYohtijf9XDbzDV0JQp34/STQTAllV
-         JXKnWAx9Ro/W6nESnQo2jaVwMoNuyfdcWiaaW+6IzIxU+nzsrO1bDxX0HyHHaXwVavdT
-         Lg40y8JdcTW8l9Cz4DL9/k5JsKU/k2gsvph8S6JtFRc41+mpngWHbPd7tUSw9ayPPNt0
-         CCBW9hnJXTnIcwd65H7LvNk544LQyvIQmTeylXkyjKWpdJsrCi45v166KCU6wUxuVW+c
-         NG4+J0E3kjwu8fTdhemXn3limxjQ7KE8FZZdbp9pobNACc3WpKusrs3tNzxd5iAYXfzG
-         6SXg==
-X-Forwarded-Encrypted: i=1; AHgh+RqWtNfq1YF322OhtJXWd21uZoc3bMooO3Dj+wEjiBJSoGJdfzDyChR3UBIf0jDESwCyeYAQBW4bPqw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfSDTul7OFvqpx0FKK4eBmMEOoBKGVw+bohxN+9vwIYg6so3TK
-	hr6R6li4F6oqaXcUQGMSoZA+IgeWzHXOlSZPUzd9NNYO5Z86NkiAMksKV2nwOooNWlijlFNmjRK
-	6qqqD/g==
-X-Received: from plbka15.prod.google.com ([2002:a17:903:334f:b0:2bd:9574:2958])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:d2c2:b0:2c9:fa36:ab73
- with SMTP id d9443c01a7336-2ca7e6f0b6emr36500665ad.8.1782941936636; Wed, 01
- Jul 2026 14:38:56 -0700 (PDT)
-Date: Wed, 1 Jul 2026 14:38:55 -0700
-In-Reply-To: <20260608145455.89187-7-dwmw2@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SCq/sOkT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBBBA1F000E9;
+	Wed,  1 Jul 2026 21:40:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782942023;
+	bh=f2TSNTOr28pG9ZvaTCLDevfHgzOLh/rc5rNXG29p8PM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=SCq/sOkT45tDAkzdEFwrD/HkginQBUz1Ej4va8PnsL9nRX0nH5CIWdWwyRhbBCF2Z
+	 8V6YwHPkKkApjNku8RGI+bsfR52LVIM2G7/5S/0HFNuOGFcgqrUdvycRV5FIalks2W
+	 cBVSAvc6LtoQ2gPbX0EniXgbF4O8ZhxNNp59VbxP1eQMd2iTiC42sd8eYD6ErBg0FR
+	 AcEcAkRb6Qq8AceLsauO5oDx/KW24ycJJYAtZaBaz2eo0J8URrjdagQQXvjgJowU7Y
+	 vBH1s2JB9QhxpCMHqmntUZBE3kyUHDQ9w0dJ2MlDvxEs4jGEEcebm3EpDF3eyZcCap
+	 lYnEj1f1/Ht9Q==
+Message-ID: <8155d7c7-2a10-4fec-bfde-0aeb017724ac@kernel.org>
+Date: Wed, 1 Jul 2026 16:40:20 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260608145455.89187-1-dwmw2@infradead.org> <20260608145455.89187-7-dwmw2@infradead.org>
-Message-ID: <akWI72WrPKy-PBqo@google.com>
-Subject: Re: [PATCH v5 06/34] KVM: x86: Explicitly disable TSC scaling without CONSTANT_TSC
-From: Sean Christopherson <seanjc@google.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Sascha Bischoff <Sascha.Bischoff@arm.com>, 
-	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, 
-	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 3/6] cpufreq/amd-pstate: Repurpose "amd_dynamic_epp"
+ cmdline and corresponding sysfs
+Content-Language: en-US
+To: K Prateek Nayak <kprateek.nayak@amd.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Huang Rui <ray.huang@amd.com>
+Cc: Perry Yuan <perry.yuan@amd.com>, linux-pm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260630185904.5602-1-kprateek.nayak@amd.com>
+ <20260630185904.5602-4-kprateek.nayak@amd.com>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20260630185904.5602-4-kprateek.nayak@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 08, 2026, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
+
+
+On 6/30/26 13:59, K Prateek Nayak wrote:
+> Since dynamic_epp has been converted to an
+> "energy_performance_preference", toggling the feature via the sysfs file
+> is now redundant.
 > 
-> KVM does make an attempt to cope with non-constant TSC, and has
-> notifiers to handle host TSC frequency changes. However, it *only*
-> adjusts the KVM clock, and doesn't adjust TSC frequency scaling when
-> the host changes.
+> Repurpose "amd_dynamic_epp=enable" command line to opt into dynamic EPP
+> by default when the active driver is loaded, or switched into. The
+> "disable" counterpart will "dynamic" option out of
+> "energyy_performance_preference" to ensure dynamic EPP feature can never
+> be toggled.
 > 
-> This is presumably because non-constant TSCs were fixed in hardware
-> long before TSC scaling was implemented, so there should never be real
-> CPUs which have TSC scaling but *not* CONSTANT_TSC.
+> Use a tri-state enum to differentiate if the user has supplied a command
+> line parameter or not to enable the feature by default vs keeping the
+> current defaults as is and allowing users to toggle it later via the
+> "dynamic" option in "energy_performance_preference" selection.
 > 
-> Such a combination could potentially happen in some odd L1 nesting
-> environment, but it isn't worth trying to support it. Just make the
-> dependency explicit.
-> 
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> Reviewed-by: Paul Durrant <paul@xen.org>
+> Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
+
+Honestly - I have to question if we even want to have the kernel command 
+line option anymore.  If userspace can easily opt in and out as in this 
+series, do we still need a kernel command line for default policy?
+
+I'm of the opinion rip it out, less to maintain.
+
 > ---
->  arch/x86/kvm/svm/svm.c | 3 ++-
->  arch/x86/kvm/vmx/vmx.c | 2 +-
->  2 files changed, 3 insertions(+), 2 deletions(-)
+>   drivers/cpufreq/amd-pstate.c | 48 +++++++++---------------------------
+>   1 file changed, 12 insertions(+), 36 deletions(-)
 > 
-> diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-> index e7fdd7a9c280..7817752533fe 100644
-> --- a/arch/x86/kvm/svm/svm.c
-> +++ b/arch/x86/kvm/svm/svm.c
-> @@ -5546,7 +5546,8 @@ static __init int svm_hardware_setup(void)
->  				     XFEATURE_MASK_BNDCSR);
->  
->  	if (tsc_scaling) {
-> -		if (!boot_cpu_has(X86_FEATURE_TSCRATEMSR)) {
-> +		if (!boot_cpu_has(X86_FEATURE_TSCRATEMSR) ||
-> +		    !boot_cpu_has(X86_FEATURE_CONSTANT_TSC)) {
->  			tsc_scaling = false;
->  		} else {
->  			pr_info("TSC scaling supported\n");
-> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-> index a29896a9ef14..ed207cc7692d 100644
-> --- a/arch/x86/kvm/vmx/vmx.c
-> +++ b/arch/x86/kvm/vmx/vmx.c
-> @@ -8672,7 +8672,7 @@ __init int vmx_hardware_setup(void)
->  	if (!enable_apicv || !cpu_has_vmx_ipiv())
->  		enable_ipiv = false;
->  
-> -	if (cpu_has_vmx_tsc_scaling())
-> +	if (cpu_has_vmx_tsc_scaling() && boot_cpu_has(X86_FEATURE_CONSTANT_TSC))
+> diff --git a/drivers/cpufreq/amd-pstate.c b/drivers/cpufreq/amd-pstate.c
+> index c7eec6b96dcc..61f30820d95a 100644
+> --- a/drivers/cpufreq/amd-pstate.c
+> +++ b/drivers/cpufreq/amd-pstate.c
+> @@ -82,12 +82,18 @@ struct quirk_entry {
+>   	u32 lowest_freq;
+>   };
+>   
+> +enum dynamic_epp_state {
+> +	DYNAMIC_EPP_USER_TOGGLE = -1,	/* User can toggle dynamic EPP. (Default) */
+> +	DYNAMIC_EPP_DISABLED,		/* Dynamic EPP disabled from command line. */
+> +	DYNAMIC_EPP_DEFAULT_ENABLED,	/* Dynamic EPP enabled from command line. */
+> +};
+> +
+> +static enum dynamic_epp_state dynamic_epp = DYNAMIC_EPP_USER_TOGGLE;
+>   static struct cpufreq_driver *current_pstate_driver;
+>   static struct cpufreq_driver amd_pstate_driver;
+>   static struct cpufreq_driver amd_pstate_epp_driver;
+>   static int cppc_state = AMD_PSTATE_UNDEFINED;
+>   static bool amd_pstate_prefcore = true;
+> -static bool dynamic_epp;
+>   static struct quirk_entry *quirks;
+>   
+>   /*
+> @@ -1839,39 +1845,9 @@ static ssize_t dynamic_epp_show(struct device *dev,
+>   	return sysfs_emit(buf, "%s\n", str_enabled_disabled(dynamic_epp));
+>   }
+>   
+> -static ssize_t dynamic_epp_store(struct device *a, struct device_attribute *b,
+> -				 const char *buf, size_t count)
+> -{
+> -	bool enabled;
+> -	int ret;
+> -
+> -	ret = kstrtobool(buf, &enabled);
+> -	if (ret)
+> -		return ret;
+> -
+> -	guard(mutex)(&amd_pstate_driver_lock);
+> -
+> -	if (cppc_state != AMD_PSTATE_ACTIVE) {
+> -		pr_debug("dynamic_epp can only be toggled in active mode\n");
+> -		return -EINVAL;
+> -	}
+> -
+> -	/* Nothing to do */
+> -	if (dynamic_epp == enabled)
+> -		return count;
+> -
+> -	/* reinitialize with desired dynamic EPP value */
+> -	dynamic_epp = enabled;
+> -	ret = amd_pstate_change_driver_mode(cppc_state);
+> -	if (ret)
+> -		dynamic_epp = false;
+> -
+> -	return ret ? ret : count;
+> -}
+> -
+>   static DEVICE_ATTR_RW(status);
+>   static DEVICE_ATTR_RO(prefcore);
+> -static DEVICE_ATTR_RW(dynamic_epp);
+> +static DEVICE_ATTR_RO(dynamic_epp);
+>   
+>   static struct attribute *pstate_global_attributes[] = {
+>   	&dev_attr_status.attr,
+> @@ -1983,7 +1959,7 @@ static int amd_pstate_epp_cpu_init(struct cpufreq_policy *policy)
+>   		cpudata->current_profile = PLATFORM_PROFILE_BALANCED;
+>   	}
+>   
+> -	if (dynamic_epp) {
+> +	if (dynamic_epp == DYNAMIC_EPP_DEFAULT_ENABLED) {
+>   		/* Dynamic EPP is only available with the POWERSAVE policy. */
+>   		policy->policy = CPUFREQ_POLICY_POWERSAVE;
+>   		ret = amd_pstate_set_dynamic_epp(policy);
+> @@ -2076,7 +2052,7 @@ static int amd_pstate_epp_set_policy(struct cpufreq_policy *policy)
+>   		 * If dynamic_epp is enabled by default, toggle it on
+>   		 * when switching to CPUFREQ_POLICY_POWERSAVE.
+>   		 */
+> -		if (dynamic_epp) {
+> +		if (dynamic_epp == DYNAMIC_EPP_DEFAULT_ENABLED) {
+>   			WARN_ON_ONCE(policy->policy != CPUFREQ_POLICY_POWERSAVE);
+>   
+>   			cpudata->current_profile = PLATFORM_PROFILE_BALANCED;
+> @@ -2410,9 +2386,9 @@ static int __init amd_prefcore_param(char *str)
+>   static int __init amd_dynamic_epp_param(char *str)
+>   {
+>   	if (!strcmp(str, "disable"))
+> -		dynamic_epp = false;
+> +		dynamic_epp = DYNAMIC_EPP_DISABLED;
+>   	if (!strcmp(str, "enable"))
+> -		dynamic_epp = true;
+> +		dynamic_epp = DYNAMIC_EPP_DEFAULT_ENABLED;
+>   
+>   	return 0;
+>   }
 
-We should clear SECONDARY_EXEC_TSC_SCALING in setup_vmcs_config().  Failure to
-clear the vmcs_config bit will advertise the feature to L2 and allow it to be
-enabled in vmcs12, but KVM will ultimately not honor the scaling in vmcs02:
-
-	if (kvm_caps.has_tsc_control)
-		vmcs_write64(TSC_MULTIPLIER, vcpu->arch.tsc_scaling_ratio);
-
-This series kinda sorta gets there with "KVM: x86: Remove pvclock_gtod_data and
-private timekeeping code", but that change looks misplaced?  And I think clearing
-the bit this late will lead to false failures in vmx_check_processor_compat() due
-to the golden config clearing the bit, but the local config having it set.
-
-
->  		kvm_caps.has_tsc_control = true;
->  
->  	kvm_caps.max_tsc_scaling_ratio = KVM_VMX_TSC_MULTIPLIER_MAX;
-> -- 
-> 2.54.0
-> 
