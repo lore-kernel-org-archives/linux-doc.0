@@ -1,159 +1,111 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6793B47F9
-	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 09:39:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544783F86F7
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 09:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782898775; cv=none; b=SsidJXTQELOyttFUvawNjATDnWIIr7z8+UeWnuozejehu2hbcVTxANc22cPBIodSJ+dNGpv1vf0/Y7DvY1TngKmYdL/z+I8+IKM2BS9B15O/NBnXOM2SzIXROyisLtzO5LiuejSBi9GAqGKUcgmckYZTI25ruPOTpO28j3kRXWs=
+	t=1782899296; cv=none; b=Znr8e38K9KXYqfk1b8bIfwJsMrmRcTVYLl/wwjHTcmrLYVPanG8nXURMnas3pN2MLk4dwZBGf/YbuAP1u6oFhNywVtAvB253uIhTcLGFbCbN65++L4L1yIA0irs1xzLsFCcq3ELv4/sP68fumGTsbQxMFbt/Cldj6sYxs3SQvns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782898775; c=relaxed/simple;
-	bh=1E+cYhGlSjW1xiBWX7Lf4NQ3+nhN+zb1AQgSa0kzBzM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ly/NMqCvsgbLnAmLYTIig7FtvVSjflu/hjt69MsuDckmy7lQJJyg9Mjvs0ZUaoutSPWKqr0P6sFFwiYnZQ64AFwwBXtHvGNrKrldJMUDvEzMVfXhJ4inJvmhGw7eTmINVY+T9fuv4e93XakBLWJ5jSd4286T3GxRJ10O5FRAhYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gW/DFc23; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782899296; c=relaxed/simple;
+	bh=mz0vRNQWV5JarJs5YU7f1UVIX6UZW0zFBNIMdXMVDrg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rZY0hv0I2CtpygHwFOK7X6bTj6456RjCN1IeUrI3EeFxR000VjsC+YlI3N9dsM3pfl0ecg+M2neY2cC29xqfeHC9DIGs3rgNVe+/1ugxO6PzOUygonfBnH39ZKgjelatz+kmf2mG9keNAQilHvcaTk6VeugEG/fK0jUhNuuJ0cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=snFLCVVT; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gW/DFc23"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2c6b67d5fa1so2749675ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 02:39:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="snFLCVVT"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4720d22c94aso409786f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 02:48:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782898773; x=1783503573; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Oqs6VzWQewb1OvRu2nCVMyJUKa4LqJKmS9q20XGY1/U=;
-        b=gW/DFc23F9TYT9Do92R/WcdUNB6zbEhcBEW0jNEn4qrK8ID4r3F5H3ExVN5s+8zy13
-         pf2uL1VmetRAeCAlhmZ8w7tqPR0Am8DwLNiZPuGACXU59f0vR03ftDVSizgG9lDApWrM
-         ARC4lnVLtu86yG6tCkUNmKr9uzEVrzERA7RK2Np8fdrZVKv9J3KnOXn90E6rXEMhbsvE
-         eJ6yutBTCkWw6g5TjmqOSFQpwkzNDQYR7TBQbeAW2CGxrs7xEhPVJnsETIYvmv6RdQXt
-         ISa7gY3cfUxi0Y5eGWH6tKvBFNzvawf0n0kbiuD/2+r+n2zayMV0252DdQWN4IgRKLMq
-         sRdQ==
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1782899292; x=1783504092; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mz0vRNQWV5JarJs5YU7f1UVIX6UZW0zFBNIMdXMVDrg=;
+        b=snFLCVVT9Q8TYu0Ii4Luf+Z7+h1E+Sy0+rdd597Lp2CjdotKOm/YaflZZZPoK3xZI/
+         DFIfniTh9a5XVRHuIHi0uZA23X7NwexbGAOdHumZkIpWcaTuS04LwGIJJEreOsuk6bu5
+         GAWiBfDZ7zflO7KEWgz8jnuAtb7bcGTZxgdQYuTFY61A4HtvoZgPX0Ts/8aseRqJ0B/r
+         JSXWco1PowUxxWYJq42RcPJ51V4Z1WoeegiuwtPrcxDOzRdfdVDo5Z0yETlUZHYr9yDO
+         qaPFo7aIDBrzLRccVCicxd+4TBhie0aGG8YLJMN3zYUcsFkjeK+88UQZkaKGTQBh0XYY
+         sEsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782898773; x=1783503573;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Oqs6VzWQewb1OvRu2nCVMyJUKa4LqJKmS9q20XGY1/U=;
-        b=Ip0HRwKNw9qGcj5oKZdw+IvZfgf4gj9D49jxA6BR1favZh95to6GAigUkSy+AlObko
-         HhYZhMPlYXs1TFY7mE8JH7cvzusfwCrpSD+BCYZJyofoDGr4pieHxJI02kjSaX4Tgeed
-         iJ71mmRVOp26EVM0OtOb8NoQZHKRnmCHYXyy/wPku+wmAmylMUVJd1pYOK0VCf6EeGGg
-         toQzW1B5BJ7GWF5xFTkpTfHZuTL+uZJrgTkW6TnSDien4Wht2e7ULAvySNKyVHI7hPNY
-         GVzxjRMyjHsngVaa82O64HZmMUnFcVtg3wuJX8maL1+3df9iYzJ8RBjvHAwbn09bVu4p
-         rd5w==
-X-Forwarded-Encrypted: i=1; AHgh+Ro8j+OOdkMEJqw3Wy9ELScsR3XMOt0WLdLuxLS7PDQJZO0xs9oVSeH5cQ2VOMuAFIVFOHAGFp/nJyc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0ZDUT7b2INUmhX3/fFVyUj74tHaE9LMx7v8slpqA6wlTE/hg7
-	BHlzdGrKQ8MeXet3oF76Sw3e1M2l9BNBPuQqPm4JYV/wrV6ROTv4y5ts
-X-Gm-Gg: AfdE7cmzcUZB39A/yv/jKjc2qvWThGvBxiTxSeb5RGMdJJ2mSOPA9FjlSa6U6PE/Rwq
-	mAUqTCaTbpweEqoDZRrJpF0YBLRZRkxn0uNWpsqr+90hjwe/DwKKk8viNL7KqzZZDJad7cVB75Q
-	RNV8jNWPavIVLf2JpGigsZM7o025MYm0TMhmfBlv08+7CnSe3Ukj9RaTBPshwh/pjrFY0CVQP9R
-	nS31+MMU3vSVgcOd8CmgxiYueJKDSPzsHMxtvANerAyQOGLWCR2+DSbw4LmMyCqhcoucVBB9iEr
-	dK8+p5weNQJMEyaZlpJtWErEz/ljF0rc8ltDAamUmzgfHoAKaW6BvKXSHEfVf/aHQa3h4ZY/+0J
-	IuIF83pQT+8x2Y2T6YjHcYyDP79DBIXaYmqdY3MOYsc5or8S47em74w7ZPGIhasdgEBKI5no55C
-	JJbAiMNKq/m1yb723E+H6OJfr4wRWzraYH
-X-Received: by 2002:a17:902:da8b:b0:2c9:9a2e:dab0 with SMTP id d9443c01a7336-2ca7e71509cmr10989425ad.3.1782898773219;
-        Wed, 01 Jul 2026 02:39:33 -0700 (PDT)
-Received: from [10.125.192.77] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca382acd0csm29148225ad.62.2026.07.01.02.39.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Jul 2026 02:39:32 -0700 (PDT)
-Message-ID: <e2ec0924-52b3-25f3-8432-4b8e33a101dd@gmail.com>
-Date: Wed, 1 Jul 2026 17:39:15 +0800
+        d=1e100.net; s=20251104; t=1782899292; x=1783504092;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mz0vRNQWV5JarJs5YU7f1UVIX6UZW0zFBNIMdXMVDrg=;
+        b=TIRzDTzxW81JW07Cx+PJSZBq6QtksLah38quyrvQB8o1n9eEwh8vS4XxPFgKWvA/aH
+         pJYHwG0T41nZL+j91D+h+Olmrrb9BH4vHh0dfUOl+J8IDpnwC2Sujf2/Ca8FnmG38FCV
+         u1QCiHcZnAEOTqqrzPKAACuPopDOL/9p5FVXpYvtkSj0TU2wpPilOXmdz5SXSNicuby7
+         W4zNJMIL9S3EDC4uIZyyjWWQbb0TDrimO8PhBMgJjB1EH/e7UUqbKFW6nL6q0GJJCo+0
+         ZPPrdzrxAdh4w/7kAV1vQUBSvSX3SE45duLWiHQmlCLGUcd5I3H1kfKTDEJqxlPeVgaj
+         eHEA==
+X-Forwarded-Encrypted: i=1; AFNElJ/eqXga6xDuWr3P6q14K+bZNShtXRitNACDCjpAff9qxkNLX/ZIgtibL9z1sVVqnGThhp6Cpg63pkU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUBZh1eIM9ZT1R/zU5b+hTjSiWt5X6Np4pHO/Mu9yxVnMQN6UT
+	/0AOkmsKBzusYe1JgUIYnFz5gOyJndvXmvmufzttShGwHmC1fRTL4MNGo0cn4/BpaBI=
+X-Gm-Gg: AfdE7ckhqy3x0TnV4itDHQoH4cyohMj+Qt7ufKzLGVhctLoyXC/mteuvBMukp4HCN4w
+	uU4DTsII3Ob1NSdZdYrPo6nHZQQUOhU8Hz7f1VZkZdxcy5TBWAxo+cdedzRakv2NQCNe9Qp0R5m
+	QNDGQVu/B70UjJBvpymZXGaeTxfwwkihdVgxTA1AP6NEUrEcEzo3+be75D3zj88MEu/9Sl+9Lxe
+	yoGkREZW5B6ibH71S8CoD7K6dnfDebNbdRnSrCHHxC6hCv2a0L7gEhm3w2k3pwujCevhQ/gm0t/
+	kgSlXRg1220rq3JGtOZ3ZIvg/e61gUb9mZqFIi6exNQmDofHb6YccHVT+ene/fyJltp0bamM+26
+	Lp1vYNcVk7g4QZdjs9MBPKvkAeqRrRGKbUF4JOrwH+Eykmm+iPYn43rW+eIZYPo4SczN6MHeSuD
+	sLOdIQ0ek+9L98bmmGqKCeug==
+X-Received: by 2002:a05:600c:8b44:b0:492:5bb6:6d4b with SMTP id 5b1f17b1804b1-493c2ba5968mr15237255e9.34.1782899292593;
+        Wed, 01 Jul 2026 02:48:12 -0700 (PDT)
+Received: from localhost ([140.209.217.212])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4756778fac3sm14575152f8f.32.2026.07.01.02.48.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jul 2026 02:48:12 -0700 (PDT)
+Date: Wed, 1 Jul 2026 11:48:07 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Mark Bloch <mbloch@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
+	Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next V4 4/6] devlink: Apply eswitch mode boot defaults
+Message-ID: <akThPmvUHvCMT2cp@FV6GYCPJ69>
+References: <20260629182102.245150-1-mbloch@nvidia.com>
+ <20260629182102.245150-5-mbloch@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v5 1/6] mm/zswap: Fix global shrinker when memory cgroup
- is disabled
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, tj@kernel.org,
- hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org,
- mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev,
- roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>,
- stable@vger.kernel.org
-References: <20260629112032.20423-1-jiahao.kernel@gmail.com>
- <20260629112032.20423-2-jiahao.kernel@gmail.com>
- <CAKEwX=MniM-4-aV17aH3UiDd_Xd2RH743fFZaxEnYX9qvnokeA@mail.gmail.com>
- <fe15eb9f-0b6c-dcaa-d0a7-5f08c3f92bfb@gmail.com>
- <CAO9r8zPBe9BPwP8NXz7pdH7T+8HLNsRAckL2Vfcnz0c23TH=iw@mail.gmail.com>
-From: Hao Jia <jiahao.kernel@gmail.com>
-In-Reply-To: <CAO9r8zPBe9BPwP8NXz7pdH7T+8HLNsRAckL2Vfcnz0c23TH=iw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260629182102.245150-5-mbloch@nvidia.com>
+
+Mon, Jun 29, 2026 at 08:20:59PM +0200, mbloch@nvidia.com wrote:
+>Apply parsed devlink_eswitch_mode= defaults after devlink registration
+>and after successful reload.
+>
+>devl_register() may still be called before the device is ready for an
+
+How so? I would assume that driver calls devl_register only after
+everything is up and running and ready. If not, isn't it a bug?
 
 
+>eswitch mode change, so keep a per-devlink delayed work item and pending
+>flag for the registration path. Registration queues the work, and the
+>worker tries to take the devlink instance lock.
+>
+>If the lock is busy, the worker requeues itself with a delay.
+>
+>For successful reloads that performed DRIVER_REINIT, devlink_reload()
+>already holds the devlink instance lock and the driver has completed
+>reload_up(). Clear pending work and apply the default directly from the
+>reload path instead of queueing work.
+>
+>If a user sets eswitch mode through netlink before the pending
+>registration work runs, clear the pending flag so the queued default does
+>not override that user request. Cancel pending default apply work when
+>freeing the devlink instance.
 
-On 2026/7/1 00:02, Yosry Ahmed wrote:
->> How about something like this? If there are no objections, I'll fold
->> this into the next version.
->>
->>       mm/zswap: Fix global shrinker when memory cgroup is disabled
->>
->>       When memory cgroup is disabled, mem_cgroup_iter() always returns NULL.
->>       Therefore, the global shrinker shrink_worker() always takes the !memcg
->>       branch. After MAX_RECLAIM_RETRIES empty walks, the worker simply
->> gives up,
->>       so it fails to write back anything.
->>
->>       Therefore, when memory cgroup is disabled, fall through with the !memcg
->>       branch and shrink the root memcg directly.
->>
->>       With memcg disabled, shrink_memcg() only returns -ENOENT when the root
->>       LRU is empty, which means the total pages are already below thr.
->> The loop
->>       then safely bails out via the zswap_total_pages() <= thr check. For any
->>       other return value from shrink_memcg(), the loop is guaranteed to
->> terminate,
->>       either after MAX_RECLAIM_RETRIES failures or once the threshold is met.
->>
->>       Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
->>       Cc: stable@vger.kernel.org
->>       Reported-by: Yosry Ahmed <yosry@kernel.org>
->>       Closes:
->> https://lore.kernel.org/all/CAO9r8zPVzMKFbCixxD-qgtRrkFxWVrHiZZeLc=eyTPKPVQgX4g@mail.gmail.com
->>       Signed-off-by: Hao Jia <jiahao1@lixiang.com>
-> 
-> Feel free to add:
-> 
-> Acked-by: Yosry Ahmed <yosry@kernel.org>
-
-Thank you for taking the time to review this.
-> 
-> A small nit below.
-> 
->>
->> diff --git a/mm/zswap.c b/mm/zswap.c
->> index 4b5149173b0e..9d4f19fc440e 100644
->> --- a/mm/zswap.c
->> +++ b/mm/zswap.c
->> @@ -1361,11 +1361,12 @@ static void shrink_worker(struct work_struct *w)
->>                   } while (memcg && !mem_cgroup_tryget_online(memcg));
->>                   spin_unlock(&zswap_shrink_lock);
->>
->> -               if (!memcg) {
->> -                       /*
->> -                        * Continue shrinking without incrementing
->> failures if
->> -                        * we found candidate memcgs in the last tree walk.
->> -                        */
->> +               /*
->> +                * A NULL memcg ends a full hierarchy pass (except when
->> memcg is
->> +                * disabled, where it is always NULL: fall through to
->> the root LRU).
->> +                * Count a failure only if the pass found no candidates.
-> 
-> I think "last pass" is clearer than just "pass" here?
-
-
-Will do.
-
-Thanks,
-Hao
+These AI generated code descriptive messages are generally not very
+useful :(
 
