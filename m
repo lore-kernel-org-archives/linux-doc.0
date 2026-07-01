@@ -1,56 +1,56 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B9B4F7988
-	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 19:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA90941228A
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 19:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782934378; cv=none; b=OpjRIGqkA0X8Z33cPB+1FlWGDG+0Tg7YScE1J2Ub6ZYmNYMcdMQNRyqLhJ4hdmr4idpcn8P190bINbZVTlhdC+ulk5w3NJjJG5KqgkTbBiJEwBYrZw4CT7oEXeJoETu0KoWlUUFhzHzWISJCa60r9vl7hIIlMCaG8QMOL/N9Zgw=
+	t=1782934380; cv=none; b=MWnePUKAmNWiTLjQh5PsCbO1SEd2Rhx5TaipNxPWUcKaOX2dBk6CMwNEY3ahKkvgxs3pDjV6WG2KgSb3uF1FFy+LdMsQne8x3DhLP0GY2NKruk1Ww5cKV8lR05JrhRhnRtNyvqUjTq2Ink2LObbX6eHP9hO3rZBm4dLbIUfjg+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782934378; c=relaxed/simple;
-	bh=9x/WoAyEJ+5eY0VNcPunpgzEF61GW0nMgcwZdXKTf70=;
+	s=arc-20240116; t=1782934380; c=relaxed/simple;
+	bh=qoYpZpdKAvs3c+m3l1ZOE6Nj7iAKGdPQ69UNTM7lOtU=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=nX1EivFOAzfzaQu2Qc0PD7I04U8aMgsO/13Xj1+zIthUfNojMAFIYbw3DJaGFa9Cf+dlUMlv0qa22gyGWRQ/K1ipsZZI9tUmyqlZUjoYB73HxMSxhCz2V3YgF8Kt8Ehy6JgZKH94nLv9re/ekq3y2x7LridW/Mx0aBbH4gNb7Bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jmpH0/th; arc=none smtp.client-ip=209.85.214.202
+	 To:Cc:Content-Type; b=kgUIIpBmTpQw8EOwGEoCZoAGitgqwnEQK0ZflU5NXN3txzSOXZYwjnicN9cM66gvTwMSbsqqDVo6bThRbxyC/Fg8SAkUATzXF9IzDF9DGv/jVnAUHhs7zHf9MooYw53TOpfXTEE6jTmF3ew3UuQ7yyJJGhQagFFmotO4p/KO8iU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UTADQx2Q; arc=none smtp.client-ip=209.85.215.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jmpH0/th"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2c81db324caso14284235ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 12:32:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UTADQx2Q"
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c88d7a75507so1270517a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 12:32:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782934374; x=1783539174; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1782934376; x=1783539176; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:reply-to:from:to:cc:subject:date:message-id:reply-to;
-        bh=h0seWmgtqawiMKFH9SI3lPf42xnOLUsMbO7m+HkPiqQ=;
-        b=jmpH0/thpRzPxXS0u+2BbGUFeIiEjPQ+YBpryVrVZO3jv+lWbLKK1I718d2E/NLFBg
-         IBgsbLvvZAu74SZN3pe/V/j7252FjW+1/8pbsOqhrP07oZj7zMeSH5sOBd8clFAbO4Vp
-         L2bCLGbyFi/xKA/xYZBRQMiwxZt+HuHW4GMIBVlpa0hABvS0q9ca96Vz3aqrFDNsK2UN
-         cr4/FJzy+SibNiEJQtJfqlml6d+JLdG4It+aRaoA604qPlWNYAQNhV0QY9m2bdbfqQ+V
-         ZklrCozvi07w0E+XDJIE9AA2qYQJuVR62M7ChkR1kgQJfEMqLP+QBpnuViSuGZHrxm4Y
-         MzbQ==
+        bh=3ZuhwNx9YXpitDLlgZzJCjWGiYgYUv+Ggq0FniuPOLw=;
+        b=UTADQx2Qv+UkuYpZZzj6mDpjUB1/x1XUWBXs33eVIdTmwxCubn5aucvgGyZiIBiGX/
+         2TPZ8G72wpzaHNDFjufo4YNQENKFFOaBsntR93nlbouFrd7pi/CzWncg0qUVX+sM6YIE
+         PDxiCreYu6NWCtZQk7uI8Occpw5OUR4jZ9nrgb1Y4XtSEvoQLNygWDGBHI3E0VMQVa+v
+         PSgS+ovotPVCjzAoBDN2mYbIz6VQuVNeOmxbTzQS4wPP30RLzj2fOiYJ1RJL40e3gNF/
+         U3IvxDBU/KDo5NCD0EpiGoHLQl42WWqzSVU/mZAkeC29qAYoNjPrjwQBPYZ26E3mEnBm
+         869w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782934374; x=1783539174;
+        d=1e100.net; s=20251104; t=1782934376; x=1783539176;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:reply-to:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=h0seWmgtqawiMKFH9SI3lPf42xnOLUsMbO7m+HkPiqQ=;
-        b=JO82XnXXf0z1xx8AMgKrtDeriLQuYPPh4dCm+QSjIt6t+GLxOPnlvgjKv13f8KuFMI
-         zKMfZyXvELJAC8jZT1kgUqJvY+oQBZZ/C0K+DOrGbk/xD5bT1Dx13wt8hpxVEwxEPDsJ
-         /ZWoQrLiysiieA0RdTMx5EdGmdqVLSKWxJJaT0hrfmGFzS/1YIvthGtKoZw0kvoijpgA
-         Rg6NTmLdGn9miiqDuOo9sh3IIgGjY6hBW8N4JYGIeIqDxBfs5afv/LYMQAzu+6VZtz+4
-         25+ZyBXI00upE6cAQ6SGT+E8WTrlJcU4/f+VhDsvsT4X6KPrSE4eOW8tvOvYjRO3IsWZ
-         S3Tg==
-X-Forwarded-Encrypted: i=1; AHgh+RoG9R/iLayv3qFXmN8auwLmfd+JKbuuR3cj0voUj3qKct1Rnq0i/1BuUFCIpQclHn6yaivtnaA8UrY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfpPRdtPMQxlfs51gZsaRsj5d1LyGMzVg033CSpF1rD2haiOH+
-	2wUvidPQdA0LjanU0dQmGsVxZDY03xIVxHHTFKh4J9FdmvMupeM6nfXxugqxvB4zG9kmfF7HxOn
-	/+G6pBA==
-X-Received: from plll3.prod.google.com ([2002:a17:902:d043:b0:2c7:ed23:f47c])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:d4cd:b0:2c8:1f58:55dd
- with SMTP id d9443c01a7336-2ca7e710f10mr31641185ad.9.1782934373673; Wed, 01
- Jul 2026 12:32:53 -0700 (PDT)
+        bh=3ZuhwNx9YXpitDLlgZzJCjWGiYgYUv+Ggq0FniuPOLw=;
+        b=ck4EVdpYuR+HOY7Xk5VXlqegfnZaONxO090BN9sxG+atMfm+z/Kvg1dSRcTOXhSDaB
+         x95mFJ1VMimKZwX9CpagnU7e7SSMgSVHfLl8U8WQa7clwWw4TtFveX4jv1lsxYYoR4z4
+         hqzVe63E2xOd93ehYC4elogBQshR9nkHTM/ffxjHaLcR5Og/oaIjI41ZjXOkYORqmHW1
+         MyR537mXLRwbEv37RsG1kbt65hgT371Ri59VGP069cARe2VByu10e7Op/wIhV3MbifJj
+         qSDy1TZk5e0UgWHOv/k8SFTMH6ecG5WxIxYHZzkHgLrshd0LcE17Pzx+KCypt3ezqcG4
+         NLhg==
+X-Forwarded-Encrypted: i=1; AFNElJ8kaoNQiqIO4xV/4MhhPKeKlRw12SDLWRc39lKSgcJP2a+hSiBgE5Z1Lo1AMVtBJpMDcwPh7WnMlCE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yydh6E+xEu0abaREesbGQJTgoj/o+ztTlDrNMQ0Rf9hNXbksUUJ
+	iTxuz8rdW0x65JUSxlaiK/Te6kz24E+ayxmMmV9z8toowyRTd7DAToQoOr6wxvo+q6Iid29F/t+
+	5hpLMZw==
+X-Received: from pglx30.prod.google.com ([2002:a63:171e:0:b0:c9e:a22d:15c4])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:6e8f:b0:3bf:d0c8:2aa4
+ with SMTP id adf61e73a8af0-3bfed1c3990mr3189645637.8.1782934375853; Wed, 01
+ Jul 2026 12:32:55 -0700 (PDT)
 Reply-To: Sean Christopherson <seanjc@google.com>
-Date: Wed,  1 Jul 2026 12:31:43 -0700
+Date: Wed,  1 Jul 2026 12:31:45 -0700
 In-Reply-To: <20260701193212.749551-1-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -60,8 +60,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260701193212.749551-1-seanjc@google.com>
 X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
-Message-ID: <20260701193212.749551-23-seanjc@google.com>
-Subject: [PATCH v5 22/51] x86/kvm: Mark TSC as reliable when it's constant and nonstop
+Message-ID: <20260701193212.749551-25-seanjc@google.com>
+Subject: [PATCH v5 24/51] x86/kvm: Get CPU base frequency from CPUID when it's available
 From: Sean Christopherson <seanjc@google.com>
 To: Jonathan Corbet <corbet@lwn.net>, Paolo Bonzini <pbonzini@redhat.com>, 
 	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
@@ -86,105 +86,57 @@ Cc: Shuah Khan <skhan@linuxfoundation.org>, "H. Peter Anvin" <hpa@zytor.com>,
 	Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 
-Mark the TSC as reliable if the hypervisor (KVM) has enumerated the TSC
-as constant and nonstop.  Like most (all?) virtualization setups, any
-secondary clocksource that's used as a watchdog is guaranteed to be less
-reliable than a constant, nonstop TSC, as all clocksources the kernel uses
-as a watchdog are all but guaranteed to be emulated when running as a KVM
-guest.  I.e. any observed discrepancies between the TSC and watchdog will
-be due to jitter in the watchdog.
+If CPUID.0x16 is present and valid, use the CPU frequency provided by
+CPUID instead of assuming that the virtual CPU runs at the same
+frequency as TSC and/or kvmclock.  Back before constant TSCs were a
+thing, treating the TSC and CPU frequencies as one and the same was
+somewhat reasonable, but now it's nonsensical, especially if the
+hypervisor explicitly enumerates the CPU frequency.
 
-This is especially true for KVM, as the watchdog clocksource is usually
-emulated in host userspace, i.e. reading the clock incurs a roundtrip
-cost of thousands of cycles.
-
-Marking the TSC reliable addresses a flaw where the TSC will occasionally
-be marked unstable if the host is under moderate/heavy load.
-
-Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- arch/x86/include/asm/kvm_para.h |  2 +-
- arch/x86/kernel/kvm.c           | 12 +++++++++++-
- arch/x86/kernel/kvmclock.c      | 14 +++++---------
- 3 files changed, 17 insertions(+), 11 deletions(-)
+ arch/x86/kernel/kvm.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/arch/x86/include/asm/kvm_para.h b/arch/x86/include/asm/kvm_para.h
-index 4a47c16e2df8..4a49fc286b4c 100644
---- a/arch/x86/include/asm/kvm_para.h
-+++ b/arch/x86/include/asm/kvm_para.h
-@@ -118,7 +118,7 @@ static inline long kvm_sev_hypercall3(unsigned int nr, unsigned long p1,
- }
- 
- #ifdef CONFIG_KVM_GUEST
--void kvmclock_init(void);
-+void kvmclock_init(bool prefer_tsc);
- void kvmclock_disable(void);
- bool kvm_para_available(void);
- unsigned int kvm_arch_para_features(void);
 diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
-index 909d3e5e5bcd..1cef54e1e7d9 100644
+index 1cef54e1e7d9..6c7011ff7bd1 100644
 --- a/arch/x86/kernel/kvm.c
 +++ b/arch/x86/kernel/kvm.c
-@@ -978,6 +978,7 @@ static void __init kvm_init_platform(void)
- 		.mask_hi = (BIT_ULL(boot_cpu_data.x86_phys_bits) - 1) >> 32,
- 	};
- 	u32 timing_info_leaf;
-+	bool tsc_is_reliable;
+@@ -50,6 +50,7 @@
+ #include <asm/e820/api.h>
  
- 	if (cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT) &&
- 	    kvm_para_has_feature(KVM_FEATURE_MIGRATION_CONTROL)) {
-@@ -1040,7 +1041,16 @@ static void __init kvm_init_platform(void)
+ static unsigned int kvm_tsc_khz_cpuid __initdata;
++static unsigned int kvm_cpu_khz_cpuid __initdata;
+ 
+ DEFINE_STATIC_KEY_FALSE_RO(kvm_async_pf_enabled);
+ 
+@@ -928,6 +929,11 @@ static unsigned int __init kvm_get_tsc_khz(void)
+ 	return kvm_tsc_khz_cpuid;
+ }
+ 
++static unsigned int __init kvm_get_cpu_khz(void)
++{
++	return kvm_cpu_khz_cpuid;
++}
++
+ unsigned int kvm_arch_para_features(void)
+ {
+ 	return cpuid_eax(kvm_cpuid_base() | KVM_CPUID_FEATURES);
+@@ -1041,6 +1047,14 @@ static void __init kvm_init_platform(void)
  		}
  	}
  
--	kvmclock_init();
-+        /*
-+         * If the TSC counts at a constant frequency across P/T states and in
-+         * deep C-states, treat the TSC reliable, as guaranteed by KVM.
-+         */
-+	tsc_is_reliable = boot_cpu_has(X86_FEATURE_CONSTANT_TSC) &&
-+			  boot_cpu_has(X86_FEATURE_NONSTOP_TSC);
-+	if (tsc_is_reliable)
-+		setup_force_cpu_cap(X86_FEATURE_TSC_RELIABLE);
++	/*
++	 * Prefer CPUID.0x16 over KVM's PV CPUID when possible, as the base CPU
++	 * frequency isn't necessarily the same as the TSC frequency.
++	 */
++	kvm_cpu_khz_cpuid = __cpu_khz_from_cpuid();
++	if (kvm_cpu_khz_cpuid)
++		x86_init.hyper.get_cpu_khz = kvm_get_cpu_khz;
 +
-+	kvmclock_init(tsc_is_reliable);
- 	x86_platform.apic_post_init = kvm_apic_init;
- 
- 	/*
-diff --git a/arch/x86/kernel/kvmclock.c b/arch/x86/kernel/kvmclock.c
-index f55d0305d1f3..2e7ab54cb9dc 100644
---- a/arch/x86/kernel/kvmclock.c
-+++ b/arch/x86/kernel/kvmclock.c
-@@ -307,7 +307,7 @@ static int kvmclock_setup_percpu(unsigned int cpu)
- 	return p ? 0 : -ENOMEM;
- }
- 
--void __init kvmclock_init(void)
-+void __init kvmclock_init(bool prefer_tsc)
- {
- 	u8 flags;
- 
-@@ -356,15 +356,11 @@ void __init kvmclock_init(void)
- 	kvm_get_preset_lpj();
- 
- 	/*
--	 * X86_FEATURE_NONSTOP_TSC is TSC runs at constant rate
--	 * with P/T states and does not stop in deep C-states.
--	 *
--	 * Invariant TSC exposed by host means kvmclock is not necessary:
--	 * can use TSC as clocksource.
--	 *
-+	 * If TSC is preferred over kvmlock, drop kvmclock's rating so that TSC
-+	 * is chosen as the clocksource (but still register kvmclock in case
-+	 * the kernel doesn't want to use TSC for whatever reason).
- 	 */
--	if (boot_cpu_has(X86_FEATURE_CONSTANT_TSC) &&
--	    boot_cpu_has(X86_FEATURE_NONSTOP_TSC))
-+	if (prefer_tsc)
- 		kvm_clock.rating = 299;
- 
- 	clocksource_register_hz(&kvm_clock, NSEC_PER_SEC);
+         /*
+          * If the TSC counts at a constant frequency across P/T states and in
+          * deep C-states, treat the TSC reliable, as guaranteed by KVM.
 -- 
 2.55.0.rc0.799.gd6f94ed593-goog
 
