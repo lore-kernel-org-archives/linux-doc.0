@@ -1,568 +1,208 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E12E2D2397;
-	Wed,  1 Jul 2026 18:31:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03160284690;
+	Wed,  1 Jul 2026 18:35:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782930682; cv=none; b=hC4RQwFSkhPbv6+Qo4+Mgt08ZsGefczYK3o/ObWzz6IDHyHOMQO2oV5Ba97MSw+Dfrbceze59FrEn8y3D6DIBiRN6Zb5Z8RN10Me7pBl0m1tkMr2QxePm46IvuqsbyU3TV5ucILPjQUf7L6cj2uoFRYX9/9SzPQQNiL2244l25E=
+	t=1782930912; cv=none; b=qp4E0aAe0AWlFGmUW5PITUCOoNyHGu8I38iVnWzzOBH3zbLoTMYvmPQh5yTYRx8c+DCJoIz36T7eZGD0ps8nfoOMqwpkvE0s65L+3EmFRQsLPMjwGRiUoPQG5nd0aIz2Oc1zbd8Dy6HJI7vbi6NL8WcVFha2Zoey56HkSx8Pdd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782930682; c=relaxed/simple;
-	bh=R4PrjPPldbkza6k4mQFltyh8jCayrmqUnrZsmEVd700=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=CBpruavM2Zeyx/GLiZ6+JiA85T938EJyiySfI40tLQ1QUXu8g2nAHAJxdn1mA17Oh5nvPfiKCVeCdn8XSYUWnLRcthvNdV77uYYxD+Lup+JZJJbhhnoZhF/Ej15jVEzgRxaNCt9t0B0irPiQHfD6YtqfSlkSQFnfceRDkf/ks2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=sjQ+NwvX; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1782930912; c=relaxed/simple;
+	bh=onPqx6ZjIzqd37uXgSs8nr1eT3SYIEFY7RZedaocxoc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=sOZNSNAFm4aw5DkGjOPAdUAzvUAFlAFY8HOdTj02R2OKaGZgL8v/vY21pazNur3k5DgurJNiejqYcSAHVRTWMBcAU2iWLBGkI31mT+d5Ihr2gP96FkeZ7gMXjdtkHOSqWEObN/gueZWsJfjxFCrN7Vw8Zqyso2SEapJ7dd43AxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V6f1fIYf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="sjQ+NwvX"
-Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 661IT8Ra2191034
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Wed, 1 Jul 2026 11:29:08 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 661IT8Ra2191034
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026062701; t=1782930551;
-	bh=syy/ox+gzg6WwJpXFhS25G5cfX2XqjSCA2Oh6WGRHtw=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=sjQ+NwvX3+MD5NIDGiYs+hr3FBy9zy664qemA2dwqMcL7OP+Xmso771H8OxcnLi4l
-	 vCEiK24hKWmVbNgHj8qxzgrIvFmotzsro4LnLc0IPkN2ERHhLo++HRSPM7lbe8b0jG
-	 oQ9J27yhe/mb3rKM07COC2c2dwVHvRitGxRT4JAh+byH0dfoeQzLY41ndCLwfS1Rau
-	 MNk0ePRjiicRT9L9ka77tnbKn09y6Z7Q7fN0VWXb/tY/fcPo86Wi94xJhkNqTrFZBW
-	 yq3/jzvH3xVufd9bV+xTOTuCHTq2arfKB0qkc7qTr6TIBVg3K9+9sffc0s+KArbCQ2
-	 SEmT6q5BX6nYQ==
-Date: Wed, 01 Jul 2026 11:29:01 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: =?ISO-8859-1?Q?Michal_Such=E1nek?= <msuchanek@suse.de>,
-        Peter Zijlstra <peterz@infradead.org>
-CC: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-        Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>, Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Andrew Donnellan <andrew+kernel@donnellan.id.au>,
-        Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Ryan Roberts <ryan.roberts@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>,
-        Shrikanth Hegde <sshegde@linux.ibm.com>, Zong Li <zong.li@sifive.com>,
-        Nam Cao <namcao@linutronix.de>, Deepak Gupta <debug@rivosinc.com>,
-        Lukas Gerlach <lukas.gerlach@cispa.de>,
-        Rui Qi <qirui.001@bytedance.com>, Kees Cook <kees@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BRFC=5D_entry=3A_Untangle_the_return_value_of?=
- =?US-ASCII?Q?_syscall=5Fenter=5Ffrom=5Fuser=5Fmode_from_syscall_NR?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <akVRcPsD_R_CE1qW@kunlun.suse.cz>
-References: <akVRcPsD_R_CE1qW@kunlun.suse.cz>
-Message-ID: <BA7CD91D-C0E5-47A1-B49C-BC6AF6604182@zytor.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V6f1fIYf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E39BD1F000E9;
+	Wed,  1 Jul 2026 18:35:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782930910;
+	bh=hGRRhpJKLIVS47ba9cjlowm3lQkiwpC43K9003c20WU=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=V6f1fIYfByUYzwqpa3caAT5WklCyi2w1Ezpy3b0qih1To3GV9c3xGvxg5DTMEtjx5
+	 qaEauZCRVpS+3Vd2rU5GgFkSZYocSB948MrgI6qsx4zTNbNh80+WpL3t3KuigRDeIf
+	 V+YokgAOcHSizPgZw0IqCJZfkJIwZAME8TZ1ADRWGb9Q7KUn5rA25IkIyQi0nOVpOq
+	 UbAsdh2t2IItAYcBurGudmgZc1cydVOQ2ZJtEopExRXpKQ9pEmN622h0WEHXB4/iS0
+	 fQI4UMxT4B+YWTOjcDW7/e/R4xKW8Su46VyTlFD4oIEtpCs0eRWOLbhZbKWaXPnlpA
+	 gUGT7/QG7WLWQ==
+Message-ID: <bffcce9436c47e8762e6f4fa4cae9f7ddd183b8f.camel@kernel.org>
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+From: Jeff Layton <jlayton@kernel.org>
+To: Christian Brauner <brauner@kernel.org>, Linus Torvalds
+	 <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: Jens Axboe <axboe@kernel.dk>, David Hildenbrand <david@kernel.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+Date: Wed, 01 Jul 2026 14:35:08 -0400
+In-Reply-To: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-On July 1, 2026 10:42:08 AM PDT, "Michal Such=C3=A1nek" <msuchanek@suse=2Ed=
-e> wrote:
->The return value of syscall_enter_from_user_mode is used both for the
->adjusted syscall number and the indicator that a syscall should be
->skipped=2E
->
->As seccomp can be invoked on any syscall, including invalid ones this
->somewhat undermines seccomp=2E
->
->While the seccomp variants that terminate the process do not need to
->care about this for the filter that sets the syscall return value this
->disctinction is required=2E
->
->Pass the syscall number as a pointer to the inline entry functions, and
->use the return value exclusively for the indication that the syscall is
->already handled=2E
->
->This should avoid the need for the s390 PIF_SYSCALL_RET_SET which is the
->workaround for exactly this deficiency=2E
->
->If this is desirable the patch could be split into some series that
->adjusts the code flow where needed so that the final change is mostly
->mechanical=2E
->
->There is also another way to handle this problem=2E
->
->With x86 using bit 30 to denote compatibility syscall it sounds like
->declaring syscall number a 30bit quantity would work=2E
->
->Then bit 31 could be used to denote an invalid syscall that can never be
->executed, and the -1 returned from syscall_enter_from_user_mode would
->then be inherently invalid=2E
->
->That is so long as no architectures use syscall numbers outside of this
->range so far, and the limitation is considered fine=2E
->
->Signed-off-by: Michal Such=C3=A1nek <msuchanek@suse=2Ede>
->---
-> Documentation/core-api/entry=2Erst | 12 ++++++----
-> arch/loongarch/kernel/syscall=2Ec  |  6 ++---
-> arch/powerpc/kernel/syscall=2Ec    |  3 ++-
-> arch/riscv/kernel/traps=2Ec        |  6 ++---
-> arch/s390/kernel/syscall=2Ec       |  6 ++---
-> arch/x86/entry/syscall_32=2Ec      | 39 +++++++++++++++-----------------
-> arch/x86/entry/syscall_64=2Ec      | 19 ++++++++--------
-> include/linux/entry-common=2Eh     | 38 ++++++++++++++-----------------
-> 8 files changed, 63 insertions(+), 66 deletions(-)
->
->diff --git a/Documentation/core-api/entry=2Erst b/Documentation/core-api/=
-entry=2Erst
->index 71d8eedc0549=2E=2Eb0bfae31fe7c 100644
->--- a/Documentation/core-api/entry=2Erst
->+++ b/Documentation/core-api/entry=2Erst
->@@ -68,12 +68,14 @@ invoked from low-level assembly code looks like this:
->   noinstr void syscall(struct pt_regs *regs, int nr)
->   {
-> 	arch_syscall_enter(regs);
->-	nr =3D syscall_enter_from_user_mode(regs, nr);
+On Wed, 2026-07-01 at 17:54 +0200, Christian Brauner wrote:
+> I remain very confused by our coding assistant contribution guidelines.
+> I'm going to be a bit polemic now but this seriously in good faith.
 >=20
->-	instrumentation_begin();
->-	if (!invoke_syscall(regs, nr) && nr !=3D -1)
->-	 	result_reg(regs) =3D __sys_ni_syscall(regs);
->-	instrumentation_end();
->+	/* Skip syscall when -1 is returned */
->+	if (!syscall_enter_from_user_mode(regs, &nr)) {
->+		instrumentation_begin();
->+		if (!invoke_syscall(regs, nr) && nr !=3D -1)
->+			result_reg(regs) =3D __sys_ni_syscall(regs);
->+		instrumentation_end();
->+	}
+> Why precisely do we require all this detailed information about what
+> specific coding assistant was used?
 >=20
-> 	syscall_exit_to_user_mode(regs);
->   }
->diff --git a/arch/loongarch/kernel/syscall=2Ec b/arch/loongarch/kernel/sy=
-scall=2Ec
->index 94c1c3b5b0b5=2E=2Efc18ac56b91c 100644
->--- a/arch/loongarch/kernel/syscall=2Ec
->+++ b/arch/loongarch/kernel/syscall=2Ec
->@@ -58,7 +58,7 @@ typedef long (*sys_call_fn)(unsigned long, unsigned lon=
-g,
+> I find it very irritating that our git history has effectively started
+> to function a bit like a free advertising platform for a bunch of AI
+> companies and their proprietary agents and models.
 >=20
-> void noinstr __no_stack_protector do_syscall(struct pt_regs *regs)
-> {
->-	unsigned long nr;
->+	unsigned long nr, ret;
-> 	sys_call_fn syscall_fn;
+> And it reamins unclear to me what exactly we do get out of this detailed
+> information: Do we want to run statistical analysis on what agent and
+> model is used the most and publish that on LWN at some point?
 >=20
-> 	nr =3D regs->regs[11];
->@@ -70,11 +70,11 @@ void noinstr __no_stack_protector do_syscall(struct p=
-t_regs *regs)
-> 	regs->orig_a0 =3D regs->regs[4];
-> 	regs->regs[4] =3D -ENOSYS;
+> I acknowledge that my stance is even more radical: imho we would just
+> stop it with any disclosure requirements completely. It's useless imho.
+> We already see that other than core contributors most people don't care
+> and will just not disclose their usage of AI. I think this is entirely
+> pointless and worse it brings in undefined legal status as well. It's
+> not like recent events of pulling certain models from the face of the
+> earth have made this any less concerning.
 >=20
->-	nr =3D syscall_enter_from_user_mode(regs, nr);
->+	ret =3D syscall_enter_from_user_mode(regs, &nr);
+> But fine, if we want to do this can we please just dumb it down to
 >=20
-> 	add_random_kstack_offset();
+> Assisted-by: LLM
 >=20
->-	if (nr < NR_syscalls) {
->+	if (nr < NR_syscalls && !ret) {
-> 		syscall_fn =3D sys_call_table[array_index_nospec(nr, NR_syscalls)];
-> 		regs->regs[4] =3D syscall_fn(regs->orig_a0, regs->regs[5], regs->regs[=
-6],
-> 					   regs->regs[7], regs->regs[8], regs->regs[9]);
->diff --git a/arch/powerpc/kernel/syscall=2Ec b/arch/powerpc/kernel/syscal=
-l=2Ec
->index a9da2af6efa8=2E=2E45d11d518c51 100644
->--- a/arch/powerpc/kernel/syscall=2Ec
->+++ b/arch/powerpc/kernel/syscall=2Ec
->@@ -20,7 +20,8 @@ notrace long system_call_exception(struct pt_regs *regs=
-, unsigned long r0)
-> 	syscall_fn f;
+> or
 >=20
-> 	add_random_kstack_offset();
->-	r0 =3D syscall_enter_from_user_mode(regs, r0);
->+	if (unlikely(syscall_enter_from_user_mode(regs, &r0)))
->+		return syscall_get_error(current, regs);
+> Assisted-by: Coding Assistant
 >=20
-> 	if (unlikely(r0 >=3D NR_syscalls)) {
-> 		if (unlikely(trap_is_unsupported_scv(regs))) {
->diff --git a/arch/riscv/kernel/traps=2Ec b/arch/riscv/kernel/traps=2Ec
->index 8c62c771a656=2E=2E9326a4a50696 100644
->--- a/arch/riscv/kernel/traps=2Ec
->+++ b/arch/riscv/kernel/traps=2Ec
->@@ -325,7 +325,7 @@ asmlinkage __visible __trap_section  __no_stack_prote=
-ctor
-> void do_trap_ecall_u(struct pt_regs *regs)
-> {
-> 	if (user_mode(regs)) {
->-		long syscall =3D regs->a7;
->+		long ret, syscall =3D regs->a7;
+> or something else. That still gives the "careful review" signal to
+> reviewers that want to pay special attention to LLM generated work while
+> avoiding this slew of metadata.
 >=20
-> 		regs->epc +=3D 4;
-> 		regs->orig_a0 =3D regs->a0;
->@@ -333,11 +333,11 @@ void do_trap_ecall_u(struct pt_regs *regs)
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  Documentation/process/coding-assistants.rst | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 >=20
-> 		riscv_v_vstate_discard(regs);
+> diff --git a/Documentation/process/coding-assistants.rst b/Documentation/=
+process/coding-assistants.rst
+> index 899f4459c52d..fe34f3e7e828 100644
+> --- a/Documentation/process/coding-assistants.rst
+> +++ b/Documentation/process/coding-assistants.rst
+> @@ -43,12 +43,8 @@ When AI tools contribute to kernel development, proper=
+ attribution
+>  helps track the evolving role of AI in the development process.
+>  Contributions should include an Assisted-by tag in the following format:=
+:
+> =20
+> -  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
+> +  Assisted-by: LLM [TOOL1] [TOOL2]
+> =20
+> -Where:
+> -
+> -* ``AGENT_NAME`` is the name of the AI tool or framework
+> -* ``MODEL_VERSION`` is the specific model version used
+>  * ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
+>    (e.g., coccinelle, sparse, smatch, clang-tidy)
+> =20
+> @@ -56,4 +52,4 @@ Basic development tools (git, gcc, make, editors) shoul=
+d not be listed.
+> =20
+>  Example::
+> =20
+> -  Assisted-by: Claude:claude-3-opus coccinelle sparse
+> +  Assisted-by: LLM coccinelle sparse
 >=20
->-		syscall =3D syscall_enter_from_user_mode(regs, syscall);
->+		ret =3D syscall_enter_from_user_mode(regs, &syscall);
->=20
-> 		add_random_kstack_offset();
->=20
->-		if (syscall >=3D 0 && syscall < NR_syscalls) {
->+		if (syscall >=3D 0 && syscall < NR_syscalls && !ret) {
-> 			syscall =3D array_index_nospec(syscall, NR_syscalls);
-> 			syscall_handler(regs, syscall);
-> 		}
->diff --git a/arch/s390/kernel/syscall=2Ec b/arch/s390/kernel/syscall=2Ec
->index 75d5a3cab14e=2E=2E9e5b873c011d 100644
->--- a/arch/s390/kernel/syscall=2Ec
->+++ b/arch/s390/kernel/syscall=2Ec
->@@ -95,7 +95,7 @@ SYSCALL_DEFINE0(ni_syscall)
->=20
-> void noinstr __do_syscall(struct pt_regs *regs, int per_trap)
-> {
->-	unsigned long nr;
->+	unsigned long nr, ret;
->=20
-> 	enter_from_user_mode(regs);
-> 	add_random_kstack_offset();
->@@ -121,7 +121,7 @@ void noinstr __do_syscall(struct pt_regs *regs, int p=
-er_trap)
-> 		regs->psw=2Eaddr =3D current->restart_block=2Earch_data;
-> 		current->restart_block=2Earch_data =3D 1;
-> 	}
->-	nr =3D syscall_enter_from_user_mode_work(regs, nr);
->+	ret =3D syscall_enter_from_user_mode_work(regs, &nr);
-> 	/*
-> 	 * In the s390 ptrace ABI, both the syscall number and the return value
-> 	 * use gpr2=2E However, userspace puts the syscall number either in the
->@@ -129,7 +129,7 @@ void noinstr __do_syscall(struct pt_regs *regs, int p=
-er_trap)
-> 	 * work, the ptrace code sets PIF_SYSCALL_RET_SET, which is checked her=
-e
-> 	 * and if set, the syscall will be skipped=2E
-> 	 */
->-	if (unlikely(test_and_clear_pt_regs_flag(regs, PIF_SYSCALL_RET_SET)))
->+	if (unlikely(test_and_clear_pt_regs_flag(regs, PIF_SYSCALL_RET_SET) || =
-ret))
-> 		goto out;
-> 	regs->gprs[2] =3D -ENOSYS;
-> 	if (likely(nr < NR_syscalls)) {
->diff --git a/arch/x86/entry/syscall_32=2Ec b/arch/x86/entry/syscall_32=2E=
-c
->index 31b9492fe851=2E=2E525e99691b31 100644
->--- a/arch/x86/entry/syscall_32=2Ec
->+++ b/arch/x86/entry/syscall_32=2Ec
->@@ -128,7 +128,7 @@ static __always_inline bool int80_is_external(void)
->  */
-> __visible noinstr void do_int80_emulation(struct pt_regs *regs)
-> {
->-	int nr;
->+	long nr;
->=20
-> 	/* Kernel does not use INT $0x80! */
-> 	if (unlikely(!user_mode(regs))) {
->@@ -168,8 +168,7 @@ __visible noinstr void do_int80_emulation(struct pt_r=
-egs *regs)
-> 	nr =3D syscall_32_enter(regs);
->=20
-> 	local_irq_enable();
->-	nr =3D syscall_enter_from_user_mode_work(regs, nr);
->-	do_syscall_32_irqs_on(regs, nr);
->+	syscall_enter_from_user_mode_work(regs, &nr);
->=20
-> 	instrumentation_end();
-> 	syscall_exit_to_user_mode(regs);
->@@ -208,7 +207,7 @@ __visible noinstr void do_int80_emulation(struct pt_r=
-egs *regs)
->  */
-> DEFINE_FREDENTRY_RAW(int80_emulation)
-> {
->-	int nr;
->+	long nr;
->=20
-> 	enter_from_user_mode(regs);
->=20
->@@ -232,8 +231,10 @@ DEFINE_FREDENTRY_RAW(int80_emulation)
-> 	nr =3D syscall_32_enter(regs);
->=20
-> 	local_irq_enable();
->-	nr =3D syscall_enter_from_user_mode_work(regs, nr);
->-	do_syscall_32_irqs_on(regs, nr);
->+	if (!syscall_enter_from_user_mode_work(regs, &nr)) {
->+		nr &=3D GENMASK(31, 0);
->+		do_syscall_32_irqs_on(regs, nr);
->+	}
->=20
-> 	instrumentation_end();
-> 	syscall_exit_to_user_mode(regs);
->@@ -245,20 +246,17 @@ DEFINE_FREDENTRY_RAW(int80_emulation)
-> /* Handles int $0x80 on a 32bit kernel */
-> __visible noinstr void do_int80_syscall_32(struct pt_regs *regs)
-> {
->-	int nr =3D syscall_32_enter(regs);
->-
->-	/*
->-	 * Subtlety here: if ptrace pokes something larger than 2^31-1 into
->-	 * orig_ax, the int return value truncates it=2E This matches
->-	 * the semantics of syscall_get_nr()=2E
->-	 */
->-	nr =3D syscall_enter_from_user_mode(regs, nr);
->-	instrumentation_begin();
->+	long nr =3D syscall_32_enter(regs);
->=20
-> 	add_random_kstack_offset();
->-	do_syscall_32_irqs_on(regs, nr);
->+	if (!syscall_enter_from_user_mode(regs, &nr)) {
->+		instrumentation_begin();
->=20
->-	instrumentation_end();
->+		nr &=3D & GENMASK(31, 0);
->+		do_syscall_32_irqs_on(regs, nr);
->+
->+		instrumentation_end();
->+	}
-> 	syscall_exit_to_user_mode(regs);
-> }
-> #endif /* !CONFIG_IA32_EMULATION */
->@@ -301,10 +299,9 @@ static noinstr bool __do_fast_syscall_32(struct pt_r=
-egs *regs)
-> 		return false;
-> 	}
->=20
->-	nr =3D syscall_enter_from_user_mode_work(regs, nr);
->-
->-	/* Now this is just like a normal syscall=2E */
->-	do_syscall_32_irqs_on(regs, nr);
->+	if (!syscall_enter_from_user_mode_work(regs, &nr))
->+		/* Now this is just like a normal syscall=2E */
->+		do_syscall_32_irqs_on(regs, nr);
->=20
-> 	instrumentation_end();
-> 	syscall_exit_to_user_mode(regs);
->diff --git a/arch/x86/entry/syscall_64=2Ec b/arch/x86/entry/syscall_64=2E=
-c
->index 71f032504e73=2E=2E3400c2f43a62 100644
->--- a/arch/x86/entry/syscall_64=2Ec
->+++ b/arch/x86/entry/syscall_64=2Ec
->@@ -84,19 +84,20 @@ static __always_inline bool do_syscall_x32(struct pt_=
-regs *regs, int nr)
-> }
->=20
-> /* Returns true to return using SYSRET, or false to use IRET */
->-__visible noinstr bool do_syscall_64(struct pt_regs *regs, int nr)
->+__visible noinstr bool do_syscall_64(struct pt_regs *regs, long nr)
-> {
->-	nr =3D syscall_enter_from_user_mode(regs, nr);
->-
->-	instrumentation_begin();
-> 	add_random_kstack_offset();
->+	if (!syscall_enter_from_user_mode(regs, &nr)) {
->=20
->-	if (!do_syscall_x64(regs, nr) && !do_syscall_x32(regs, nr) && nr !=3D -=
-1) {
->-		/* Invalid system call, but still a system call=2E */
->-		regs->ax =3D __x64_sys_ni_syscall(regs);
->-	}
->+		instrumentation_begin();
->=20
->-	instrumentation_end();
->+		if (!do_syscall_x64(regs, nr) && !do_syscall_x32(regs, nr)) {
->+			/* Invalid system call, but still a system call=2E */
->+			regs->ax =3D __x64_sys_ni_syscall(regs);
->+		}
->+
->+		instrumentation_end();
->+	}
-> 	syscall_exit_to_user_mode(regs);
->=20
-> 	/*
->diff --git a/include/linux/entry-common=2Eh b/include/linux/entry-common=
-=2Eh
->index 416a3352261f=2E=2E4991071d01fe 100644
->--- a/include/linux/entry-common=2Eh
->+++ b/include/linux/entry-common=2Eh
->@@ -69,10 +69,8 @@ static inline void syscall_enter_audit(struct pt_regs =
-*regs, long syscall)
-> 	}
-> }
->=20
->-static __always_inline long syscall_trace_enter(struct pt_regs *regs, un=
-signed long work)
->+static __always_inline long syscall_trace_enter(struct pt_regs *regs, un=
-signed long work, unsigned long *syscall)
-> {
->-	long syscall, ret =3D 0;
->-
-> 	/*
-> 	 * Handle Syscall User Dispatch=2E  This must comes first, since
-> 	 * the ABI here can be something that doesn't make sense for
->@@ -93,27 +91,25 @@ static __always_inline long syscall_trace_enter(struc=
-t pt_regs *regs, unsigned l
->=20
-> 	/* Handle ptrace */
-> 	if (work & (SYSCALL_WORK_SYSCALL_TRACE | SYSCALL_WORK_SYSCALL_EMU)) {
->-		ret =3D arch_ptrace_report_syscall_entry(regs);
->-		if (ret || (work & SYSCALL_WORK_SYSCALL_EMU))
->+		if (arch_ptrace_report_syscall_entry(regs) || (work & SYSCALL_WORK_SYS=
-CALL_EMU))
-> 			return -1L;
-> 	}
->=20
-> 	/* Do seccomp after ptrace, to catch any tracer changes=2E */
-> 	if (work & SYSCALL_WORK_SECCOMP) {
->-		ret =3D __secure_computing();
->-		if (ret =3D=3D -1L)
->-			return ret;
->+		if (__secure_computing())
->+			return -1L;
-> 	}
->=20
-> 	/* Either of the above might have changed the syscall number */
->-	syscall =3D syscall_get_nr(current, regs);
->+	*syscall =3D syscall_get_nr(current, regs);
->=20
-> 	if (unlikely(work & SYSCALL_WORK_SYSCALL_TRACEPOINT))
->-		syscall =3D trace_syscall_enter(regs, syscall);
->+		*syscall =3D trace_syscall_enter(regs, *syscall);
->=20
->-	syscall_enter_audit(regs, syscall);
->+	syscall_enter_audit(regs, *syscall);
->=20
->-	return ret ? : syscall;
->+	return 0;
-> }
->=20
-> /**
->@@ -126,12 +122,12 @@ static __always_inline long syscall_trace_enter(str=
-uct pt_regs *regs, unsigned l
->  * enabled after invoking enter_from_user_mode(), enabling interrupts an=
-d
->  * extra architecture specific work=2E
->  *
->- * Returns: The original or a modified syscall number
->+ * Returns: The original or a modified syscall number as syscall
->  *
->- * If the returned syscall number is -1 then the syscall should be
->- * skipped=2E In this case the caller may invoke syscall_set_error() or
->- * syscall_set_return_value() first=2E  If neither of those are called a=
-nd -1
->- * is returned, then the syscall will fail with ENOSYS=2E
->+ * If the returned value is -1 then the syscall should be skipped=2E In =
-this case
->+ * the caller may invoke syscall_set_error() or syscall_set_return_value=
-()
->+ * first=2E  If neither of those are called and -1 is returned, then the=
- syscall
->+ * will fail with ENOSYS=2E
->  *
->  * It handles the following work items:
->  *
->@@ -139,14 +135,14 @@ static __always_inline long syscall_trace_enter(str=
-uct pt_regs *regs, unsigned l
->  *     ptrace_report_syscall_entry(), __secure_computing(), trace_sys_en=
-ter()
->  *  2) Invocation of audit_syscall_entry()
->  */
->-static __always_inline long syscall_enter_from_user_mode_work(struct pt_=
-regs *regs, long syscall)
->+static __always_inline long syscall_enter_from_user_mode_work(struct pt_=
-regs *regs, long *syscall)
-> {
-> 	unsigned long work =3D READ_ONCE(current_thread_info()->syscall_work);
->=20
-> 	if (work & SYSCALL_WORK_ENTER)
->-		syscall =3D syscall_trace_enter(regs, work);
->+		return syscall_trace_enter(regs, work, syscall);
->=20
->-	return syscall;
->+	return 0;
-> }
->=20
-> /**
->@@ -167,7 +163,7 @@ static __always_inline long syscall_enter_from_user_m=
-ode_work(struct pt_regs *re
->  * Returns: The original or a modified syscall number=2E See
->  * syscall_enter_from_user_mode_work() for further explanation=2E
->  */
->-static __always_inline long syscall_enter_from_user_mode(struct pt_regs =
-*regs, long syscall)
->+static __always_inline long syscall_enter_from_user_mode(struct pt_regs =
-*regs, long *syscall)
-> {
-> 	long ret;
->=20
+> ---
+> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+> change-id: 20260701-work-coding-assistants-650ae1202ee0
 
-Negative numbers most definitely not be assigned as valid system calls, no=
-t now, not ever=2E=20
 
-Therein lies some serious madness=2E
+In general, collecting data for nebulous purposes usually turns out to
+be a bad idea. If we're not 100% clear on why we want this data, then
+we're probably better off not collecting it at all.
 
-I believe setting the syscall number to -1 to skip is an ABI already in e=
-=2Eg=2E ptrace, so I doubt we can just get rid of it anyway=2E=20
-
-I would say as follows:
-
-Let's formally define that:=20
-
-- valid system call numbers are positive 32-bit numbers, using the appropr=
-iate ABI convention for "int"=2E
-
-- bits [30:n] for some value of n are reserved for architecture-specific f=
-lags/modes=2E MIPS uses an offset of 2000 decimal between its syscall ABIs,=
- which would imply n ~ 11, although I personally think that is too restrict=
-ive (MIPS could in fact use such a flag to provide an escape into a larger =
-number space if we ever need more than 2000 system calls=2E)
-
-I would suggest n =3D 24, at least for now=2E It is easier to give up addi=
-tional bits later than to claw them back when already used=2E=20
-
-Thus:=20
-
-1=2E The type for a system call is int=2E
-
-2=2E A valid system call number is always going to be positive=2E
-
-3=2E Bits [30:24] are available for architecture ABI use=2E The "architect=
-ure independent" part of the system call number is therefore 24 bits wide=
-=2E
-
-4=2E The exact ABI is platform-specific, obviously, but as a general guide=
-line (especially for new platforms/ABIs) should follow the rules for a plat=
-form "int" if practical=2E Notably, when passing a value in a register larg=
-er than 32 bits, which side of the calling interface is responsible for sig=
-n-extending a value passed in a register=2E If caller side, the kernel shou=
-ld validate, if callee side the kernel should ignore the additional bits an=
-d do the extension=2E
-
-5=2E A negative system call number is guaranteed to return -ENOSYS (unless=
- intercepted by seccomp, ptrace, or another mechanism under user space cont=
-rol=2E)
-
-6=2E If the platform needs to algorithmically modify the system call numbe=
-r due to platform-specific concerns (say, the platform uses a 16-bit specia=
-l purpose register for the syscall number, or it has multiple kernel entry =
-points with different behavior), it should if at all possible transcode the=
- system call number as necessary to match this convention in APIs that are =
-exposed to general kernel code=2E=20
-
-For example, in the future I could very much see the IA32 code in the x86 =
-kernel using bit 29 internally to indicate an ia32 system call, simplifying=
- the is_compat implementation on x86=2E It should not mean that passing bit=
- 29 to either the syscall instruction or int $0x80 will be accepted=2E
-
+With that in mind: if we're going to water down the tag, then I say
+just remove the requirement altogether. If we later decide that we want
+to start collecting more detailed info for some (clear) purpose then we
+can revisit the idea.
+--=20
+Jeff Layton <jlayton@kernel.org>
