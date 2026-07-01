@@ -1,159 +1,254 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5598FE56A;
-	Wed,  1 Jul 2026 16:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3308262FD0
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 16:50:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782924147; cv=none; b=pBLp8gwJ2tpyqsNTxn8tvWm5vOQhodGvKYS+DszFNcJRVoNNVb2migvaS4TpFNb002TMTRnCr9H9EyU89Vf6iR7mQsjQtCNC2+ZtsJu6AXp/m4lmUvNO7QA9aOPV82wD1sn2/ppX+XgWzHjTZt56NHIq8FHW7MBoDLkP8tTM9bA=
+	t=1782924628; cv=none; b=N/M8tGJTS0XrqgLVTNWR4Xzh8WMzL57i5sNgdrLWDV8j932iiG8BH1SiffuBYOxVIJ6KcZPcTLQFhnHOxXNmGGMr3KK+w+yUTN9ytzyC/KgFjuR+bbfU+sAz5BZy8/5JIAIkLW764CKTajtjVn8re0Fcj0Aaf1DRKDEFddefQu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782924147; c=relaxed/simple;
-	bh=JV3/sxdtPP+vlzrUPxIFT8jz3RHyj3ceI3GzMi4VcQg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WF7iJhrhfjXWmPygScFxzBEl72/XlMW39eNPHeaQwPRImCJa1bs0kucpUPcGITDZqRyiDLtsYcrMDYirwEkRoOkAo325X2vrtWmCWDlN1ODD5Vlm2gMUQJuxSOKCsVxeHjCjE7Z3W33bFsxt1DKbH8ihHiRsJdgf4vweJcOI9tM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=iWVq1AI3; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1782924628; c=relaxed/simple;
+	bh=09HS8lyN13KQlLKIZ6ncHOBX6ivzk1EYRrfPdUFLHGc=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jgk4ZvZtGRIL0WZKcDd9W2icFkQDsASNpCBcw2rLAKsy90pa2dhBaKZxs6KzwfJpB6XmBg/jn6gU5YaQHc7TK1AAhlGpj0epOet03WUjU25hY+wpc3dzDpRA6g4Lkgx/NhpEezs2eX3Ze2IelUHGItXdLhKx/8WLrnqG5//OSew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lU8GDwPb; arc=none smtp.client-ip=74.125.224.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="iWVq1AI3"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 661AIPro746230;
-	Wed, 1 Jul 2026 16:42:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=vfd7fg
-	pkFX21IgweqOwfIHJW9Pzg0/MLhWeZvynjXjs=; b=iWVq1AI3OkNlgS1jygrBVb
-	cHqI5PoBF7AnMqMFC3+6CEyja9RYnMImJ97MozJvK11Z2l4xARQD1fN9xTfiigSq
-	tuXgbG0MSEzjpWBBvWAbxqATaF5SR1/yBreYHAfHfE8/cwr+j8+uyqKLnMMue1p0
-	RQncnAdeGl5yMfJjrntQXrYYDLYoaGnf/xJGVkvYDG8bwlu4vysRrtFYVZ3yTAQW
-	rha6p1y5Ihmf7lAGU0jFbJIEPqpruPNYGowm0Yu8BbtzpsLMtyv/jbXCE6kBQft9
-	YpJSeozCVo3mU968MJzsANYBuIQPfpONgDjgv8Ue2QBH8WPRnNyLDh8UrJZrYCrQ
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f26qg5j9h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 Jul 2026 16:42:05 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 661GYcwf018702;
-	Wed, 1 Jul 2026 16:42:03 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f2s7w88kb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 Jul 2026 16:42:03 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 661Gfx3A26804678
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 1 Jul 2026 16:41:59 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 84BB620043;
-	Wed,  1 Jul 2026 16:41:59 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F32DA20040;
-	Wed,  1 Jul 2026 16:41:46 +0000 (GMT)
-Received: from [9.67.14.28] (unknown [9.67.14.28])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  1 Jul 2026 16:41:46 +0000 (GMT)
-Message-ID: <065ab092-a3ca-40b8-b335-a6568b9722a6@linux.ibm.com>
-Date: Wed, 1 Jul 2026 22:11:45 +0530
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lU8GDwPb"
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-6626b5ace23so2134003d50.0
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 09:50:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782924626; x=1783529426; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YyDFYMVFanlLOtM66Vof6yYAS25wK6bFjDnPECv+0bg=;
+        b=lU8GDwPbBUjd5eSHaeTflDlGlXhck53HO1IavAqZPdaydNj9ZrcsohMG/v5YCbCzMq
+         vmjIduBVZiUXOpJpB9n+I968tjS7c+Sqnsopd5KwGzB3a55FfGYM1uKlKG+zrzQA3UxS
+         6DfCY+LG8Pf23WXs3BHJnlnSgNCr11AIFnKbkbJ/EJw1d9ixtsqouQS3vONbNwDuHXLv
+         mOa8KpW/q5ILWpEkL38/5FwxD7m02CsIUoqrzU7XZ9J+NqzxckJP87iyOoVq5yz4SsIy
+         BhoQW+kWrP7SCQrIDfFSrjgMnmpCkr6zLWqqotct+8uPOMXpNBJNj/K2JnI3xW9b+yOe
+         MrxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782924626; x=1783529426;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YyDFYMVFanlLOtM66Vof6yYAS25wK6bFjDnPECv+0bg=;
+        b=hk6rW79CKsxaHDmoivoTrpZKPtKpfNaTwZrjbtLZdqxvmo6xuvp2vmgV4y+Gv6dwH/
+         Qj0CXB3AD2T41Rwi8JO4d4zF0V/zLTIuAIix1f/v59OdcREvgbuVDaeAc6y7c3bEaigt
+         Ld5b3WhTlFpCRLQKESJHA1/OG1u81ErOKI6T5Pl55pOieoBiqOUpDA9DNTYMyoCzjpPO
+         H1cbkS6Z/PFtVWzXe1Kr5+Jv7QkIOVPby5+/iscxVLJHB0WaHSuJH+wOQmqnxWo8A0ph
+         vn4oRrK3cFXeMOwJynOXB8o628jzbPBmS0Fa7zdgv1MAdTYhAeXnGz4SdLaKH1mGJV+U
+         iWKQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rpd6kmNC/c7bXdCz24r0QDb3d8GYZgvmJY562t3JkvpC9NC0IW8zgkpVYQCE28dEqmCPdEgqpsdhbM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjZsmohs/OA/O4EE0evyjVNNO56xn2oLSlQYuSuBn3Nz3qvHrW
+	VaBWh+5Jl2eWtE4fb69kSgxzQxhb2EOTFx8rrjWeJGQLzX4O2fCHDr/9
+X-Gm-Gg: AfdE7ckE521yJYtLTs9OLGh8A1j9WR2lvEUwCJglpEUr7NV2ifrJjpNSl1+2iEN+b4j
+	XyNNcfyjjVDn13SWifiLthjfFDR9qGrzj2hvsCj3Wg3sPWF6ANjt2Ea2sxa0gk3X6Isk31YYyA+
+	Oldz4oySPIs3tgjvHgquTlb3wEBOR3NExKf8+BymNP89rC8ipPe5RYMl6HtMVaelLteoP8y7svn
+	ObvPOsnCSVffVT7D77N9tGG2UPqKbYyQooi2zHjIRaneMlnTlF19pRFFdJnGIGauXjb2+erTyr5
+	72Tr+/QGsCD0uaW3idMWfNrBFft1duWB/LYSQk+M8iXzCyn2zFi2ZIyu4SKLgGcXoquJPxUc+NO
+	namZQdwTcIL36dx/c4+lDmZ4GWcAnm8HupeTfoO5IK/8mpROd3Y5HDnNNgcTyNhiGtzV+1GKrxD
+	MLG9J0
+X-Received: by 2002:a05:690e:450d:20b0:666:1ff5:fbf5 with SMTP id 956f58d0204a3-6661ff61996mr565918d50.13.1782924625901;
+        Wed, 01 Jul 2026 09:50:25 -0700 (PDT)
+Received: from localhost ([24.129.38.94])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6650053f901sm2552638d50.1.2026.07.01.09.50.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jul 2026 09:50:25 -0700 (PDT)
+From: Yury Norov <yury.norov@gmail.com>
+X-Google-Original-From: Yury Norov <ynorov@nvidia.com>
+Date: Wed, 1 Jul 2026 12:50:24 -0400
+To: Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
+	corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
+	pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
+	huschle@linux.ibm.com, rostedt@goodmis.org,
+	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
+	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
+	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
+	christian.loehle@arm.com, tj@kernel.org,
+	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
+	rdunlap@infradead.org, kernellwp@gmail.com,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 09/23] sched/core: Push current task from non
+ preferred CPU
+Message-ID: <akVFULP9qV2NPy3k@yury>
+References: <20260701141654.500125-1-sshegde@linux.ibm.com>
+ <20260701141654.500125-10-sshegde@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 06/23] sched/fair: Load balance only among preferred
- CPUs
-To: Yury Norov <yury.norov@gmail.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        kprateek.nayak@amd.com, iii@linux.ibm.com, corbet@lwn.net,
-        tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
-        seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
-        rostedt@goodmis.org, dietmar.eggemann@arm.com, maddy@linux.ibm.com,
-        srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org,
-        vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com,
-        pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org,
-        tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-        rdunlap@infradead.org, kernellwp@gmail.com, linux-doc@vger.kernel.org
-References: <20260701141654.500125-1-sshegde@linux.ibm.com>
- <20260701141654.500125-7-sshegde@linux.ibm.com> <akU99bo6zRsyWmqY@yury>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <akU99bo6zRsyWmqY@yury>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=RYqgzVtv c=1 sm=1 tr=0 ts=6a45435d cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8
- a=EKe7ZLQl2c3Sbcnk6XUA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDE3MyBTYWx0ZWRfXzyE/H0RdiWim
- 0+YY1jKMsFIkQ5qCDrso1lSdLFIFz2dlS1bH4iihrvWEpf5RbmkyXN0Ev0e5ZyLy81ZECIMyevJ
- 05guXPVL+gFYybIGT4P5hUE5v2qWHZM=
-X-Proofpoint-GUID: aFRNraO90OH-ETita6ciPPczY2a3zFJ2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDE3MyBTYWx0ZWRfXxoOXjpiycIyo
- 0g3N2Cto7n0qeq7D7zp1LpukZbEiNBQzLPznnEX6R2FvSyn2Tzpf006W5gFqAKVzX74dDbyJPox
- NVsoYGS7Oa3J4flda/uhxC3aEOo9cmhpHgz6sfDZAWJpV94kZVUvjihNBTAvv+yO0oTfPiXSb8s
- Oa8LSGT9ibhith155FHjeKmQVOA7pT5mVJKCP52ETWBT9lv61TWhauP1VmP18y0dFYSwCsfHwra
- kbQWGdNASXOPJtXjKLB0l76Tm22jLAE4f01vm6gTD3sxNqfq2vWOuds5EVaUSTKiZvcZP6qfuOa
- nM22LzESc9/Qv5Ofxpmx0pCFcviBnRYh81skHwtTWj//8D5GPhsVgLVr8ANPOb/GpOkqLfq93lH
- SJWC6GbuoIIUWAtjZ+Nb+FPlEVeCetnhhViyzsDg+uXXUVAUbpfMUC5IByfeqa619wVDTqGRsgA
- cgkR6DkR0j2ikWz2/Sg==
-X-Proofpoint-ORIG-GUID: UuxSCPqT855JJyaGmG22wXLz_llXJs4f
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-01_03,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0
- adultscore=0 priorityscore=1501 suspectscore=0 bulkscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607010173
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260701141654.500125-10-sshegde@linux.ibm.com>
 
-
-
-On 7/1/26 9:49 PM, Yury Norov wrote:
-> On Wed, Jul 01, 2026 at 07:46:37PM +0530, Shrikanth Hegde wrote:
->> Consider only preferred CPUs for load balance.
->>
->> With this, load balance will end up choosing a preferred CPUs for pull.
->> This makes it not fight against the push task mechanism which happens
->> at tick. Also, this stops active balance to happen on non-preferred CPU
->> pulling the load.
->>
->> This means there is no load balancing if the task is pinned only to
->> non-preferred CPUs. They will continue to run where they were previously
->> running before the CPUs was marked as non-preferred.
->>
->> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
->> ---
->>   kernel/sched/fair.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
->> index ce05acf52d35..9b2931b559d6 100644
->> --- a/kernel/sched/fair.c
->> +++ b/kernel/sched/fair.c
->> @@ -13391,7 +13391,8 @@ static int sched_balance_rq(int this_cpu, struct rq *this_rq,
->>   	};
->>   	bool need_unlock = false;
->>   
->> -	cpumask_and(cpus, sched_domain_span(sd), cpu_active_mask);
->> +	/* Spread load among preferred CPUs */
+On Wed, Jul 01, 2026 at 07:46:40PM +0530, Shrikanth Hegde wrote:
+> Actively push out task running on a non-preferred CPU. Since the task is
+> running on the CPU, need to stop the cpu and push the task out.
+> However, if the task is pinned only to non-preferred CPUs, it will continue
+> running there. This will help in maintaining the userspace affinities
+> unlike CPU hotplug or isolated cpusets.
 > 
-> We don't have a "Spread load among active CPUs" comment. Don't think
-> it's more difficult to understand what happens if you replace one mask
-> with another.
+> Though code is similar to  __balance_push_cpu_stop and quite close to
+> push_cpu_stop, it is being kept separate as it provides a cleaner
+> implementation with CONFIG_PREFERRED_CPU.
 > 
+> Add push_task_work_done flag to protect work buffer.
+> Works only with FAIR class.
+> 
+> For now, only current running task is pushed out. This keeps the code
+> simpler. In future optimization maybe done to move all the queued
+> task on the rq.
+> 
+> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+> ---
+>  kernel/sched/core.c  | 87 ++++++++++++++++++++++++++++++++++++++++++++
+>  kernel/sched/sched.h |  8 ++++
+>  2 files changed, 95 insertions(+)
+> 
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index aa4201bb8082..56905bac9525 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -5797,6 +5797,9 @@ void sched_tick(void)
+>  	unsigned long hw_pressure;
+>  	u64 resched_latency;
+>  
+> +	if (!cpu_preferred(cpu))
+> +		sched_push_current_non_preferred_cpu(rq);
+> +
+>  	if (housekeeping_cpu(cpu, HK_TYPE_KERNEL_NOISE))
+>  		arch_scale_freq_tick();
+>  
+> @@ -11315,3 +11318,87 @@ void sched_change_end(struct sched_change_ctx *ctx)
+>  		p->sched_class->prio_changed(rq, p, ctx->prio);
+>  	}
+>  }
+> +
+> +#ifdef CONFIG_PREFERRED_CPU
+> +/* npc - non preferred CPU */
+> +static DEFINE_PER_CPU(struct cpu_stop_work, npc_push_task_work);
+> +
+> +static int sched_non_preferred_cpu_push_stop(void *arg)
+> +{
+> +	struct task_struct *p = arg;
+> +	struct rq *rq = this_rq();
+> +	struct rq_flags rf;
+> +	int cpu;
+> +
+> +	/* sanity check and clear */
+> +	if (cpu_preferred(rq->cpu)) {
+> +		scoped_guard (rq_lock, rq)
 
-Alright, I will drop it.
+No whitespace please:
 
->> +	cpumask_and(cpus, sched_domain_span(sd), cpu_preferred_mask);
->>   
->>   	schedstat_inc(sd->lb_count[idle]);
->>   
->> -- 
->> 2.47.3
+$ git grep "scoped_guard" | wc -l
+2153
+$ git grep "scoped_guard (" | wc -l
+84
 
+> +			rq->push_task_work_done = 0;
+> +		put_task_struct(p);
+> +		return 0;
+> +	}
+> +
+> +	raw_spin_lock_irq(&p->pi_lock);
+> +
+> +	/* This could take rq lock. So call it before rq lock is taken */
+> +	cpu = select_fallback_rq(rq->cpu, p);
+> +	rq_lock(rq, &rf);
+> +	rq->push_task_work_done = 0;
+> +	update_rq_clock(rq);
+> +
+> +	context_unsafe_alias(rq);
+> +
+> +	if (task_rq(p) == rq && task_on_rq_queued(p))
+> +		rq = __migrate_task(rq, &rf, p, cpu);
+> +
+> +	rq_unlock(rq, &rf);
+> +	raw_spin_unlock_irq(&p->pi_lock);
+> +	put_task_struct(p);
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Push the current task running on non-preferred CPU.
+> + * Using this non preferred CPU will lead to more vCPU preemptions
+> + * in the host. So it is better not to use this CPU.
+> + *
+> + * Since task is running, call a stopper to push the task out. This is
+> + * similar to how task moves during hotplug. In select_fallback_rq a
+> + * preferred CPU will be chosen and henceforth task shouldn't come back to
+> + * this CPU again.
+> + *
+> + * Works for FAIR class only
+> + *
+> + * If task is affined only non-preferred CPUs, it can't be moved out
+> + */
+> +void sched_push_current_non_preferred_cpu(struct rq *rq)
+> +{
+> +	struct task_struct *push_task = rq->curr;
+> +
+> +	/* Preferred feature works only for FAIR class */
+> +	if (push_task->sched_class != &fair_sched_class)
+> +		return;
+
+This is useless - task_has_preferred_cpus() checks that already.
+
+> +
+> +	if (kthread_is_per_cpu(push_task) ||
+> +	    is_migration_disabled(push_task))
+> +		return;
+> +
+> +	/* Don't push the task if it is affined only on non preferred CPUs */
+> +	if (!task_has_preferred_cpus(push_task))
+> +		return;
+> +
+> +	/* There is already a stopper thread for this. Dont race with it. */
+> +	if (rq->push_task_work_done == 1)
+> +		return;
+> +
+> +	/* sched_tick runs with interrupts disabled. */
+> +	get_task_struct(push_task);
+> +
+> +	scoped_guard (rq_lock, rq)
+> +		rq->push_task_work_done = 1;
+> +
+> +	stop_one_cpu_nowait(rq->cpu, sched_non_preferred_cpu_push_stop,
+> +			    push_task, this_cpu_ptr(&npc_push_task_work));
+> +}
+> +#endif
+> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+> index 36ae20310891..711fc8bd7ebc 100644
+> --- a/kernel/sched/sched.h
+> +++ b/kernel/sched/sched.h
+> @@ -1277,6 +1277,8 @@ struct rq {
+>  
+>  	struct list_head cfs_tasks;
+>  
+> +	bool			push_task_work_done;
+> +
+>  	struct sched_avg	avg_rt;
+>  	struct sched_avg	avg_dl;
+>  #ifdef CONFIG_HAVE_SCHED_AVG_IRQ
+> @@ -4239,4 +4241,10 @@ static inline bool task_has_preferred_cpus(struct task_struct *p)
+>  	return cpumask_intersects(p->cpus_ptr, cpu_preferred_mask);
+>  }
+>  
+> +#ifdef CONFIG_PREFERRED_CPU
+> +void sched_push_current_non_preferred_cpu(struct rq *rq);
+> +#else	/* !CONFIG_PREFERRED_CPU */
+> +static inline void sched_push_current_non_preferred_cpu(struct rq *rq) { }
+> +#endif
+> +
+>  #endif /* _KERNEL_SCHED_SCHED_H */
+> -- 
+> 2.47.3
