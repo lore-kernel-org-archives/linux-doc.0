@@ -1,224 +1,235 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E9F377551;
-	Wed,  1 Jul 2026 05:15:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782882911; cv=none; b=s2sQmtIr8lag5j3H7nNEYEVvMyx36PDzF+dIRK5KdC4WUJb8EAk7TAFJzbYeJY/UDL//55DFckx8QhxAB4kqYhlyPKwCPNFMWYo97Dej4mplFKEyeFJ3xsFhCLf7NTVt5ALPpVB4IssQIWXCeXPT36qjTCIJZbAd6RPOId+6k7k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782882911; c=relaxed/simple;
-	bh=Rv7EEFx1mIsXpETccnsLN04i5GP/3kqEEav2HKplUCA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AKz5M4TVLpOm75il/HAcU2GSDO8PtwIKzZOydM+i1qBLHRes1qTgPacl/5LO9NQxNFqEfMgUmVFNxUyAbdsfCosm54GNMWkVQwxMzuKSWXdjFa9Eg9q6xwlkY6xBdXVhMVSKwJtUajajKRGyOwsidqEVl5ca0pbA+6VCqOXh+Kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=kksbbEZv; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8280035DA77;
+	Wed,  1 Jul 2026 05:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782884264; cv=fail; b=hqEVDREqThUSU+R+0zprFi22+eop98ElMjI9h8l2MvTkub0iGuS1BcL9RzcB6jeC23+7d1XNEzhf4GxZ/HGFydm7PHiSlQdVZoglrvHtiScBhUQfyngTW9UUfXGBFCWZintcmKxRLaqDUvPqRsnMaVI50pV3SB6ehMA+mTSzXBE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782884264; c=relaxed/simple;
+	bh=0KNHwoj7DbnVR5JqH2oIL7C7VJSF9VamTSFh1L3biDY=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=JYmCwpUE0XSUIcCpyRmP6rFUWLwR/0HRDuqtK3Zq0WCbFG/ZCueO0uab0zXoOGWvPodJwHzjyi9GQGdSvEvm2f5TEArmHekB5zkZJ2R59H7sKXbLI1f0SC6O/m+n96fB+1ZYBKLSvGUFaL6Kf/eMU4WT5qN+me+M+f99uIG5wA0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S6JSCdCL; arc=fail smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="kksbbEZv"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6613Igbq3760289;
-	Wed, 1 Jul 2026 05:14:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=E80IxCKDLZdgTEyKI
-	iEEd2vjIqfJG2YG606BV3dpUpc=; b=kksbbEZvJEDgztmBJqS6lQftnhQXdWgV2
-	WF0dTt7ABkAHGb6QEjExOAGxb6+PeyZytB7XCLbz++NoGACSTtX2qHAzsEWSOAfV
-	O3FHQb5/Bxj+RmIyYAHkireeohr3PGVAVPTsDCRx0ZTOZ/gc8F69jNqErxR7PqL8
-	RIeHAaY86d/QEavWKWWLgRP7lEs0UJXJHoXLEhcTXQlPGPWtYNqIWocbOXZdS1aw
-	WA7ogmtRFySe8TFVk2CeR1WkK9X2JmFJWofGfN36MAekooH62tL13X526Ugs8D8Y
-	ClHvsjzQBAEgU8Zafreke3T8g7HdsdUV1Xo7ovabOJ5YiICM1CoqQ==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f26mjtbv0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 Jul 2026 05:14:52 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66154beJ005002;
-	Wed, 1 Jul 2026 05:14:51 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4f2uhydg6x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 Jul 2026 05:14:51 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6615ElFV24117692
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 1 Jul 2026 05:14:47 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A07D820049;
-	Wed,  1 Jul 2026 05:14:47 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 23D6D20040;
-	Wed,  1 Jul 2026 05:14:44 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.124.211.190])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  1 Jul 2026 05:14:43 +0000 (GMT)
-From: Amit Machhiwal <amachhiw@linux.ibm.com>
-To: linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Amit Machhiwal <amachhiw@linux.ibm.com>,
-        Anushree Mathur <anushree.mathur@linux.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Ritesh Harjani <ritesh.list@gmail.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v5 4/4] KVM: PPC: Document KVM_PPC_GET_COMPAT_CAPS ioctl
-Date: Wed,  1 Jul 2026 10:44:09 +0530
-Message-ID: <20260701051409.51820-5-amachhiw@linux.ibm.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260701051409.51820-1-amachhiw@linux.ibm.com>
-References: <20260701051409.51820-1-amachhiw@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S6JSCdCL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782884263; x=1814420263;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=0KNHwoj7DbnVR5JqH2oIL7C7VJSF9VamTSFh1L3biDY=;
+  b=S6JSCdCLMR+MtAp+tvt0o5KpbyDjx2n2J843y0UEeDN0MIyK7IG3IulO
+   /dAwzXXjzE4T9Ec6G3+9T78CabAINhi55seCLlSm6J8TFhYf0qGgt6a2Z
+   nq6ChaIsPOz6u0kXQs/YbD7/EV1CEP44Z3zmEcbMi79S6XfDAVuVOQ+XI
+   QI7ODYNsWamamh+R9B6h8DPNzkIaFF58YKgDts7eTGBAOTQcRnrsjnMWS
+   ZeTgkO7W5zyYzdbsul+TikpTBRL4qGouGV9wNvcfr7vNMJfjgtxA8d07g
+   icOfiHFqfhl0qrCCCWE6La7yXJeFyDfi7ibyCzwU51GSFn1pEP1LZTCkG
+   A==;
+X-CSE-ConnectionGUID: hI/RPIzLQuS2q5ch490weg==
+X-CSE-MsgGUID: j5xa2cZJSDuSVe0p2qeD7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="87440446"
+X-IronPort-AV: E=Sophos;i="6.24,235,1774335600"; 
+   d="scan'208";a="87440446"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 22:37:42 -0700
+X-CSE-ConnectionGUID: mR1EAXhsRGy7aIqE7OeHEQ==
+X-CSE-MsgGUID: Mp9G7KFMQCCLQt0+6acP6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,235,1774335600"; 
+   d="scan'208";a="282528555"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 22:37:42 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Tue, 30 Jun 2026 22:37:41 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43 via Frontend Transport; Tue, 30 Jun 2026 22:37:41 -0700
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.13) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Tue, 30 Jun 2026 22:37:40 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=D60LdlRoVenvGP4ZsMhixPbnQDAa1NqWO+648CapqSCJOWNtfH2wmrOB2TdS9Xcq0BYknNG3aiBd8SplQJaeOiQY50OkgblyiWAZV0BIA+k0csKfXgkSpKgcAeyj3x/U8m7gJU1cN7/meaJI9jmFXRbthBMI+8PB9lcnk771S3SPIjd6EJL7uwEaZotpW8CXuRBZWgegUNbuopNxmtZsI6fM/u6WfCDqlNepE+gPP5MEED/A5SXjgae2hMbd4hOarMNmLI4yHhlh+SWrXailNfRKod6EVrGFxpjJrk3N9PrF19gx1i35T65jvZwu9XWMsx+orEzQ1tAb8MtLU5Jong==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=recBmhl2hh7JPrs76CBKBs0nIBb7/gHoiZqz+wg8Kms=;
+ b=Y91eQfR/78OJxKT8OhdqansbtvWqaoTlUiwWLVTMbl2i8zZ4R/rwa2q2L+1Ld/5WyIigW+/6+eMyQzko7msFnIv459ROU2dqHedgx3LXaNYdGZUNvNyjm0Qel07EHhj7W3v0dqRNeFi57i1H9Vq2NGeoN/uDmK7QzeKjTkgZK41qDcb4Mnt9zIeYGDmAP1MEbBW5HCGh16ZzC/HT8pNVBiHBObKj3BCO8/Ef0hA0fwNOCeh7rThWeNGS9qGDUN5zBs5th1koVSo2nHUMW3QzMaZjSi/NGgqhDlLNQ3CxYXx7rq0yMFF7c5IaAkIN10Y2Gr6d/8dZ7lKkFeuJ7+Zcjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB7457.namprd11.prod.outlook.com (2603:10b6:8:140::18)
+ by IA4PR11MB8943.namprd11.prod.outlook.com (2603:10b6:208:569::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Wed, 1 Jul
+ 2026 05:37:32 +0000
+Received: from DS0PR11MB7457.namprd11.prod.outlook.com
+ ([fe80::4ea:83b3:a90:5436]) by DS0PR11MB7457.namprd11.prod.outlook.com
+ ([fe80::4ea:83b3:a90:5436%3]) with mapi id 15.21.0181.008; Wed, 1 Jul 2026
+ 05:37:26 +0000
+Date: Wed, 1 Jul 2026 13:37:23 +0800
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+CC: "Hansen, Dave" <dave.hansen@intel.com>, "kirill.shutemov@linux.intel.com"
+	<kirill.shutemov@linux.intel.com>, "linux-coco@lists.linux.dev"
+	<linux-coco@lists.linux.dev>, "Huang, Kai" <kai.huang@intel.com>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "kas@kernel.org" <kas@kernel.org>,
+	"seanjc@google.com" <seanjc@google.com>, "mingo@redhat.com"
+	<mingo@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
+	"nik.borisov@suse.com" <nik.borisov@suse.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "Annapurve,
+ Vishal" <vannapurve@google.com>, "tglx@kernel.org" <tglx@kernel.org>, "Gao,
+ Chao" <chao.gao@intel.com>, "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org"
+	<x86@kernel.org>
+Subject: Re: [PATCH v6 06/11] x86/virt/tdx: Optimize tdx_pamt_get/put()
+Message-ID: <akSnk+cZ+/gN9WYc@yzhao56-desk.sh.intel.com>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
+ <20260526023515.288829-7-rick.p.edgecombe@intel.com>
+ <ahVghgNAe4JrmlQH@intel.com>
+ <fe08f03a22acfe758cd97f7c2880deeafbc5fe58.camel@intel.com>
+ <aiGq7XjmMrsqdBY5@thinkstation>
+ <aiJhScChLZkH44eB@intel.com>
+ <aiK1_q8beMcIEiwO@thinkstation>
+ <572868d7-4794-4fec-b80f-97d8434d5fb6@intel.com>
+ <aiaQaCzL8o2yLu/2@yzhao56-desk.sh.intel.com>
+ <173092378dcc803463b8d2af9f6f3ab6a908f77b.camel@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <173092378dcc803463b8d2af9f6f3ab6a908f77b.camel@intel.com>
+X-ClientProxiedBy: TPYP295CA0054.TWNP295.PROD.OUTLOOK.COM (2603:1096:7d0:8::6)
+ To DS0PR11MB7457.namprd11.prod.outlook.com (2603:10b6:8:140::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDA0NiBTYWx0ZWRfX4R5o/5XJK5AS
- kgfFwIrFim/X/cp7GGk6IsBxHs+YL9kap9IHciKSveFcnLr30LJhaIBHiPjbmnJk01Cnx0+F3Z/
- TROx67urqgLKPd8dxNg/T/eLbC35/Ipyq1tKbjR/7oyoT78EcmTcHrbeG6fc9cwWX36zShp6Hwd
- ks9ey+6Oy/ovGE9qb3Na/bfTVsH1xkPVEb6Rhc1apI+6THnuaAc+bF85TN9f3ATEIupmzJ/RooG
- ohRn9b2iDTgZ7xc/VYPE8ckANCLuBHoMKjN77qEn/clyY+Z8iM1FhZVEoV+MfeBnbnspMxq+3r+
- IL4fTgK9u38Sud0JWozfARUQTTAQOsAA7yWeqmYz/vCH3rUNYioBYPWU2KxjtMInc2krK6T6YGr
- xJ41Pv9XohNM/1xVCY0tn28OnOdmuM+bZJmxGNTdFF3EZXDFNxSQkAo0tjPP3apNkPXL1oHTctl
- CYhFMJulkni3wP957DA==
-X-Proofpoint-GUID: AGg3uB9dIx5Oe_b3jSGqQJQrpCaDgkzo
-X-Authority-Analysis: v=2.4 cv=Z8bc2nRA c=1 sm=1 tr=0 ts=6a44a24c cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=RzCfie-kr_QcCd8fBx8p:22 a=VnNF1IyMAAAA:8 a=hQeoMbdVOOR6M4iuoH8A:9
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDA0NiBTYWx0ZWRfX3GGeuCGBMGG2
- NdKG0Ez7iwRmp+aEj2bm5Z+uZxpj/Gx8nbVLA+RQjptBqnHDp3JrycHI07EXdnrS1wd7K39eNbU
- upCuEQrreZlcjrAqvQzdslR3ApNXFTk=
-X-Proofpoint-ORIG-GUID: BMOTeKnrgBkY-1nC6moSJ13IWjwAXBZM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-01_01,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0 spamscore=0 priorityscore=1501 impostorscore=0
- malwarescore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607010046
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7457:EE_|IA4PR11MB8943:EE_
+X-MS-Office365-Filtering-Correlation-Id: efebb5ce-67dd-45cc-f0e2-08ded732d531
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|23010399003|366016|56012099006|22082099003|11063799006|4143699003|18002099003;
+X-Microsoft-Antispam-Message-Info: jlskwydxvWqMZ+XT0TC6nOFl2xyiXTo7A3vwQIVoaCseSfmS322ddzbEAH1/Qo0cZLHw6wfzuIZdRYmU68JQcvUqhT23cT0I9btAMVWGBEy0H4wpxMPVAAnOox71ansv+OV00qsvULSS0AYCXwSXuFbiYns8/KqpuWZx0qzXFcC0jK9AxTu4Ra+tF+4DbEfhq9mI3lNxY4Y4SrE7nyWTwKutcXcdseoyjEcCaWJvWnrSSjWPkjsyZX0Gm0XS/T1QQuIvi0fcR/ymsnch2pWO5EplwKuhKAjMFszfDVxxjxtjUm9+VBVVsOjziL7fGRLn3Fqh7FmggN7uNbpESFEOF3lYahNSMA97ytCkSByKpHjDiyeGQANhgJ48IqY+NZwGa5kzk2GdbcIs8e726cIiprt/0j0exXh97SPDfzJc2VSIYK/FzsGKeu9XVlfedn2uZZ+nSPPp0dcdZOPmb+GRrE5nOvT88FzfHRqvJlYhXL33I+bkbSuSfdyjkj279I6zMfarmtvUU7KFRMq7xXSKQ4DqDf8jlXafs5luYlZNkzB1fDyg+vbwnYDk1MuDo3pTkycHeoMAH94ZNwsBH61XD1p28ScQtN49S1xJw3wvSyI7IjG9Q9D9Xe9wcvjV4j4121vUBNE3ytRuD8YtgF2Hz2ZK5/67lSR557SiZnBPrPU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7457.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(23010399003)(366016)(56012099006)(22082099003)(11063799006)(4143699003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?0hNGECzGM3z7cJLvz9vGXVWil/J7MkjtBfooAwmB2H/bDDRdya2o0BrnQd?=
+ =?iso-8859-1?Q?s3nFPT/mIq/knzZiE6N6tpZoTKtHC0aMk+9V9DNiHq3uQQI/f3/kdhRnFc?=
+ =?iso-8859-1?Q?DVa/MopnGXlyiRvHKz13xvx/pX7BLutHAvU8gE4gGZ+sJD0dXmsszXwwIw?=
+ =?iso-8859-1?Q?jeSU6gI57dVgkQqeVL3UhP33WlXivLrKbXlFaHVvSwEOvbPfYh50FGah3q?=
+ =?iso-8859-1?Q?tzYx5aaVc9H17QSWQ0Hd1F3FZucZGNeo1Kf1GJ0SkgyyQcf8xsU9A0iq0v?=
+ =?iso-8859-1?Q?qZ3axzMnF7lEGeBJfxqk9J4EmIeUIWgpOotVcPM1BIxt8YkaPAoH9+aaA/?=
+ =?iso-8859-1?Q?Pu8s/6JSowB9nSWCGCqO/JN+69uU8MQKbabrmlKGTaIjugfQBNCVUhFUZc?=
+ =?iso-8859-1?Q?Pp2SbY78JgW/0CTx52HF7pNsYc3QX6nj/HMduPRxkaxwjBm2MU7ThZVUQj?=
+ =?iso-8859-1?Q?iTFcBFUoFsbOuXSSRXLAWvZ0C8gbO5mQVZOKMxwrjfyoUXn9YobyBM1nGT?=
+ =?iso-8859-1?Q?HNa0c8bsOyOh2TBEe+tROsEX1++OiSP+hN2O55N1QKwkxXd/h+O6jmMs2m?=
+ =?iso-8859-1?Q?JhX5DqDE9cJPFunxIo8FMjqSq3TJ56/OUFk69EmrR3TH6x/W5B0bju19ws?=
+ =?iso-8859-1?Q?poTGPRSrZw6A/R4rkg7hVLI4vTtxvXam+LGpIocexfhwTaN5qkEymsaB8U?=
+ =?iso-8859-1?Q?Yhn2v5J0sleFGiOrKWv5WCiwECWzgY7bJQrHnDSeEVYn4bwCcWS7593rZi?=
+ =?iso-8859-1?Q?syJ8XRp0INK+yUsLqMuhdTws1PnwErgynsdyUDhjLA4y/LXQXTzgHWHlHW?=
+ =?iso-8859-1?Q?dLlsKjLqo2mfQ+fDHNVg2fCJCdv3SkEbyM5pWE7bNtOtjXJKV8H/wZMaDk?=
+ =?iso-8859-1?Q?T42V4tNtVS68bsYEzNYAzkjtB6HWWDrguDJ9d1ye1mpqb5re2Wd+HgjFF2?=
+ =?iso-8859-1?Q?d1HWyNME1FBzmVDqYpwyK3qQ8u3PM34BtgqAv+2OAaCr/ocgsBQ3HMe/et?=
+ =?iso-8859-1?Q?W+FHkGei/cAVBlodQslPB4SqmAie4noxhpSvqt/8GvNFF2LunbYy69SJqF?=
+ =?iso-8859-1?Q?TJI0YsLktGh0yTO6HXpRdODfZiu1T46H18v7ojHTdjByjU08Y+gomLW7sQ?=
+ =?iso-8859-1?Q?+xyk8xxfPPvXfAtsEXKhJs8lYCeuUoZgcMf7XY+v6pv2o1bvDafJW/oUH5?=
+ =?iso-8859-1?Q?UEeHqs7vnUDYQM/DHns6ixFtR3WN1lD8j7/hHKoKyymqtfARfBPg4jlF/A?=
+ =?iso-8859-1?Q?a8TuoH9mBE7mpi1vlIQvOH+9HcdOe0OApD3tVAWisbvkkiQ29qcw0cLl2d?=
+ =?iso-8859-1?Q?Z0hSPJjwE2t1peDh7UfSNT/1uNctwSLfE9pDdkAYeyDyZ6OcOyPXp6JyJL?=
+ =?iso-8859-1?Q?wW8PxDgOlXqrRF77+wbr4OKpZkiryCRMMF3pqbw9Qh7POErBLtT6tDshMF?=
+ =?iso-8859-1?Q?jNYIbzZRUQaSd/fLiqI6V1aZPsZVnpXnMbu6fzJ8r9jIA/LAe8kFIPU1XK?=
+ =?iso-8859-1?Q?ChNnq+Eg4br9O6vqjH8Hgh8YretunBZQlQisuOW4uaW3wsiHU8deWVqw/b?=
+ =?iso-8859-1?Q?GTel0h7UGCzeCOqYzD6Gi4n7PbaaH7+O0TgWtxnDT8tngeDERr0+QM1oW4?=
+ =?iso-8859-1?Q?c1FybGMpnVjV59eURNEEf3ZpLGuzUZbCIh4TIcb6K1lZ9bcM0bB5FGGGbu?=
+ =?iso-8859-1?Q?tanc9LYa09YwiV83rzewKxS+F656WXiPgRq+j6SaDwCh+nS3H33vii+svn?=
+ =?iso-8859-1?Q?RI+efFEonVA4jQ4j2d9u91fMY2rEnblwGWqlG6VzBo4lqXJKjkoCY1iQdW?=
+ =?iso-8859-1?Q?5Ev2FOY9Xg=3D=3D?=
+X-Exchange-RoutingPolicyChecked: UtGLFXwIzKBQSsPIyKmtif/JuQNyMmuneu35zba2dpptc/m5+M6RsNeIWQKqmWzXxe/W7NIMCYwj3Z3SLXe9owX2a/8ZFaymvwhvNulx1uxK6ggNXG0DxpJw/KT91u6jEj7zeQDsewBdUIVj/lkhU4UAXCejo4v7RscqB9Jvdn+vAd1C1HfzgB7GAQeBbwDKW1BhlJvY5moDeRMpZ/MNH3LEE8al29C8b0WC205XznmANImgNl8DLiYtDieRTUpnptBsTk3RBVoedTek3C5WZStWj2t/zcSd/cykQzBY3mVpHmtJmqzOruLKg+1vTj7+LDVxlTtC2hrzMKp0eh6vQQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: efebb5ce-67dd-45cc-f0e2-08ded732d531
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7457.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 05:37:26.0592
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4zCnoDd+OMlimoP6D/do5IhZK/le4J1MQGUurEoQxP+jpAoJBTFqtzT+GC2rq51HndQxVnAqitr19VM964NvYA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB8943
+X-OriginatorOrg: intel.com
 
-Add documentation for the KVM_PPC_GET_COMPAT_CAPS ioctl to the KVM API
-documentation.
+On Wed, Jul 01, 2026 at 09:45:24AM +0800, Edgecombe, Rick P wrote:
+> Oh! You already did some testing.
+> 
+> On Mon, 2026-06-08 at 17:50 +0800, Yan Zhao wrote:
+> > > How important is this patch? I see "Optimize" but I read "Optional".
+> > This patch reduces the number of global pamt_lock acquisitions.
+> > 
+> > Reference testing data with/without the optimization:
+> > (collected on my SPR test machine)
+> > 
+> > Booting/teardown of 1 TD (8 vcpus/8G memory) per iteration:
+> >                 |--------------|-------------|------------|
+> >                 |    avg (us)  |   max (us)  |   min (us) | 
+> >                 |  w/o  |  w/  |  w/o  | w/  | w/o  |  w/ |
+> > ----------------|-------|------|-------|-----|------|-----|
+> > __tdx_pamt_get()|   2   |  0   |  578  | 505 |  2   |  0  |
+> 
+>  ^ it looks like the old version. Is this on a huge page stack? Or just plain
+> dynamic PAMT?
+It's DPAMT v6 with the huge page stack. But the data was collected with huge
+pages disabled.
 
-The ioctl exposes host processor compatibility modes supported for
-nested KVM guests on PowerPC systems. The documentation covers error
-code descriptions including E2BIG for forward compatibility, the
-extensible size-based versioning contract using
-KVM_PPC_COMPAT_CAPS_SIZE_VER0, the rationale for rejecting non-zero
-reserved fields to prevent ABI ambiguity, bit numbering clarification
-for IBM MSB-0 convention, and KVM-specific capability bit constants.
+> 
+> > __tdx_pamt_put()|   0   |  0   |  563  | 496 |  0   |  0  |
+> > ----------------|--------------|-------------|------------|
+> > 
+> > Boot/teardown of 5 TDs (each TD: 8 vcpus/8G memory) concurrently:
+> >                 |--------------|-------------|------------|
+> >                 |    avg (us)  |   max (us)  |   min (us) | 
+> >                 |  w/o  |  w/  |  w/o  | w/  | w/o  |  w/ |
+> > ----------------|-------|------|-------|-----|------|-----|
+> > __tdx_pamt_get()|  15   |  0   |  1723 | 1386|  2   |  0  |
+> > __tdx_pamt_put()|   0   |  0   |   562 |  733|  0   |  0  |
+> > ----------------|--------------|-------------|------------|
+> 
+> 
+> Did you record total time, or number of invocations that we could use to turn
+> this into some more real world impact?
+Below data was collected on SPR, averaged over 3 runs (huge pages disabled):
 
-Signed-off-by: Amit Machhiwal <amachhiw@linux.ibm.com>
----
-Changes in this version:
-  - Updated error table: EINVAL now reflects size < VER0 or flags != 0;
-    added E2BIG for new userspace on old kernel
-  - Replaced stale strict-size-validation paragraph with description of
-    the copy_struct_from_user/to_user extensibility model and
-    KVM_PPC_COMPAT_CAPS_SIZE_VER0 versioning contract
-  - Added rationale for flags == 0 enforcement to prevent ABI ambiguity
+Bootup+teardown of 1 TD (8 vcpus/8G memory):
 
- Documentation/virt/kvm/api.rst | 79 ++++++++++++++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
+                |--------------|-------------|------------|
+                |    avg (us)  |   #cnt      | total (us) | 
+                |  w/o  |  w/  |  w/o  | w/  | w/o  |  w/ |
+----------------|-------|------|-------|-----|------|-----|
+__tdx_pamt_get()|   2   |  0   |  706k |704k |2025k | 51k |
+__tdx_pamt_put()|   0   |  0   |  706k |704k | 130k | 34k |
+----------------|--------------|-------------|------------|
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index a5f9ee92f43e..43810c451317 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -6566,6 +6566,85 @@ KVM_S390_KEYOP_SSKE
-   Sets the storage key for the guest address ``guest_addr`` to the key
-   specified in ``key``, returning the previous value in ``key``.
- 
-+4.145 KVM_PPC_GET_COMPAT_CAPS
-+-----------------------------
-+:Capability: KVM_CAP_PPC_COMPAT_CAPS
-+:Architectures: powerpc
-+:Type: vm ioctl
-+:Parameters: struct kvm_ppc_compat_caps (out)
-+:Returns: 0 on success, negative value on failure
-+
-+Errors include:
-+
-+  ======== ============================================================
-+  EFAULT   if ``struct kvm_ppc_compat_caps`` cannot be read from or
-+           written to userspace
-+  EINVAL   if the ``size`` field is smaller than
-+           ``KVM_PPC_COMPAT_CAPS_SIZE_VER0``, if the ``flags`` field
-+           is non-zero, or if the backend fails to retrieve or map
-+           CPU compatibility capabilities
-+  E2BIG    if ``size`` is larger than the kernel's struct size
-+           (new userspace on old kernel); the kernel writes back its
-+           own struct size into the ``size`` field so userspace can
-+           retry with the correct size
-+  ENOTTY   if the backend does not implement the ``get_compat_caps``
-+           operation (e.g., on non-pseries platforms or when the
-+           required KVM operations are not available)
-+  ======== ============================================================
-+
-+IBM POWER system server-based processors provide a compatibility mode feature
-+where an Nth generation processor can operate in modes consistent with earlier
-+generations such as (N-1) and (N-2).
-+
-+This ioctl provides userspace with information about the CPU compatibility modes
-+supported by the current host processor for booting the nested KVM guests on
-+KVM on PowerNV (nested API v1) and KVM on PowerVM (nested API v2) platforms.
-+
-+::
-+
-+  struct kvm_ppc_compat_caps {
-+	__u64	size;			/* Size of this structure */
-+	__u64	flags;			/* Reserved for future use, must be 0 */
-+	__u64	compat_capabilities;	/* Capabilities supported by the host */
-+  };
-+
-+Before calling this ioctl, userspace must set the ``size`` field to
-+``sizeof(struct kvm_ppc_compat_caps)`` and zero the ``flags`` field.
-+The kernel rejects non-zero ``flags`` with ``-EINVAL`` to prevent
-+uninitialized stack values from being silently accepted, keeping the
-+field available for future use without ABI ambiguity.
-+
-+The ioctl uses ``copy_struct_from_user()`` and ``copy_struct_to_user()``
-+to support extensible versioning: if userspace passes a struct smaller
-+than the current kernel version (``size >= KVM_PPC_COMPAT_CAPS_SIZE_VER0``),
-+the kernel zero-pads unknown trailing fields. If userspace passes a larger
-+struct (``size > sizeof(struct kvm_ppc_compat_caps)``), the kernel writes
-+back its own struct size into the ``size`` field and returns ``-E2BIG``,
-+allowing userspace to discover the kernel's struct size and retry.
-+``KVM_PPC_COMPAT_CAPS_SIZE_VER0`` (24) is a frozen constant marking the
-+size of the initial struct version.
-+
-+The ``compat_capabilities`` bit field describes the processor compatibility
-+modes supported by the host. The following bits indicate support for specific
-+processor modes (using IBM's MSB-0 convention where bit 0 is the most
-+significant bit):
-+
-+- ``KVM_PPC_COMPAT_CAP_POWER9``  (bit 1) -- KVM guests can run in Power9 processor mode
-+- ``KVM_PPC_COMPAT_CAP_POWER10`` (bit 2) -- KVM guests can run in Power10 processor mode
-+- ``KVM_PPC_COMPAT_CAP_POWER11`` (bit 3) -- KVM guests can run in Power11 processor mode
-+
-+.. note::
-+
-+   The bit numbering above uses IBM's MSB-0 convention (bit 0 is the most
-+   significant bit). In the actual implementation, these are defined as:
-+
-+   - ``KVM_PPC_COMPAT_CAP_POWER9``  = ``(1ULL << 62)``
-+   - ``KVM_PPC_COMPAT_CAP_POWER10`` = ``(1ULL << 61)``
-+   - ``KVM_PPC_COMPAT_CAP_POWER11`` = ``(1ULL << 60)``
-+
-+   Userspace should use the defined constants from ``<linux/kvm.h>`` rather
-+   than hardcoding bit positions.
-+
- .. _kvm_run:
- 
- 5. The kvm_run structure
--- 
-2.50.1 (Apple Git-155)
+
+Bootup+teardown of 5 TDs (each TD: 8 vcpus/8G memory) concurrently:
+                |--------------|-------------|------------|
+                |    avg (us)  |   #cnt      | total (us) | 
+                |  w/o  |  w/  |  w/o  | w/  | w/o  |  w/ |
+----------------|-------|------|-------|-----|------|-----|
+__tdx_pamt_get()|  15   |  0   | 3431k |3420k|55517k|334k |
+__tdx_pamt_put()|   0   |  0   | 3431k |3420k| 2066k|137k |
+----------------|--------------|-------------|------------|
+
+
+
+
