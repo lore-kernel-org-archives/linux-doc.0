@@ -1,262 +1,175 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 132843793C1;
-	Wed,  1 Jul 2026 16:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E188E37DAAD
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 16:55:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782924630; cv=none; b=pEMHIAUnVRGGbODt6BoaW0wF1MUFGA0JZRaR97Lfysg0MjlvIsJcCiaB0C5pvZrqwPlRVg+pfUqU1XRQ4ge3uQzGc17EeoHqP0Lptq4TtQLOmmiiHrP94EKY76+HO3kf4xFyPSWeRy24OskTOQ9A5ktsIXchqZnEUXlYdNKHZTI=
+	t=1782924903; cv=none; b=O0ncuCgx7Lio3h5YOeVlplAa4+5Ot9iUzGHI30t/fuBGjvatfGTpOpqybx6mH45fLhhTW6sjKDgHTVf0gD+Y+ouwrjmqf9q57r1bB80YpIH7WWoW+x+2fuVU3KpmNOL3rBHfAY4b8UA9zOZV5BJZo5TL9jT09tC7TvHWyLP0EJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782924630; c=relaxed/simple;
-	bh=gh5plY+WxASKr2+AhTsT1fDadsHLqdIkP509U2L9sT4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tigjHKp2mzk81acCJaisdLkFGvk4lnfJLXnEFHQ4v9vCdrCbePnrLJUjSvizVUR17oUO5UeGWZLO0Hm0zrFBNS2VXThgOdoAYEivX3WSmRPpiD41JEkvISme9yOmsLg3X+I6JhB1axEwzeSClwt7bGDJWHHcEm4C+kbvv9cLyyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=RpkNLMnM; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1782924903; c=relaxed/simple;
+	bh=L5c3o9vgdgjXHGOQSuIW9q3/2N3iJk6DLv8bljpS7DA=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=WA/uFBcUSOMLXBc8gc9cSCrHRqxKhYE7r7QvJYMm6NKaJrasRjhhZ3mplibSBETP8LOQJxWEbvyzsnTohfvACWpQcPWltmJCecEJ0y+Eg3MT+x0gyZsTHMg8WsM42Gr3tNqk6/hyFa3uPJa7Vhzk/b3Azv2H91yIyB+EzkWmmuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Bm16Jk10; arc=none smtp.client-ip=209.85.215.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="RpkNLMnM"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 661Gmpra1455829;
-	Wed, 1 Jul 2026 16:50:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=Bn2vUF
-	QD9ZzGNZ5++6E5kPytVx/s7sPCXAECbL29t3c=; b=RpkNLMnMlgpKa0Dc2CQjR8
-	jMRGrQDo2Hmgiw/OXydpn3waPybQFDt3FlZcJ4REfgtISxqKfzO3A6uAKoESd1Bq
-	z9H5z+ixljz5/NqE3y0twZy0ruqA+72lPRXvBiA0oEK8PbWeNemzyE5OrfbihRjS
-	MHL4f7jL7WoQrJPKa/PaM6+BsDNl7Yc1z/I0VRCwWA7dnS7hhnDAuGPgDU78Q4h3
-	kswXI6ZQFCFvcV08nXQb7bGOAqCTliuDiYSVL0gH/R2U12EdjUI2H7cIA2Nqs+GG
-	/VHC4szPssWvRPGYqVCUSdlM6odLS/ozxt5DqUH3x5YRerhpXSt7TIzcGaS8E2eA
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f26pe5p1b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 Jul 2026 16:50:09 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 661GYfas015607;
-	Wed, 1 Jul 2026 16:50:08 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4f2u2gg2a0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 Jul 2026 16:50:08 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 661Go4f840108436
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 1 Jul 2026 16:50:04 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CD7CF20043;
-	Wed,  1 Jul 2026 16:50:04 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 17EEB20040;
-	Wed,  1 Jul 2026 16:49:52 +0000 (GMT)
-Received: from [9.67.14.28] (unknown [9.67.14.28])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  1 Jul 2026 16:49:51 +0000 (GMT)
-Message-ID: <0b50873f-90aa-4b1c-913c-475c80fa21c8@linux.ibm.com>
-Date: Wed, 1 Jul 2026 22:19:50 +0530
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Bm16Jk10"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-c916d17dd43so1000491a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 09:55:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782924901; x=1783529701; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lbVYdv7/FNdOOvrw/bcfsmdKoQ369BNbAkiBiKDICVU=;
+        b=Bm16Jk10DzFwFM1c7L4fhwdbnVfS0QXzyMzWyFobsZ2zse54L5EUYVd/71MHkeSFHj
+         KO50Lstmu5WUaTKkOpNvDhN544ttzDQhhydyddDJJB3vI2q8CnNVUX0LvodCKgB2r/ON
+         WlIi271UjYatvD6h1k3itEZwUQUUsJxdOvwekCs1tgd8LZ7rVLPbargP99LeV7LtI9q2
+         w+7CnH/Un7Qa9TMiL/hb+t4YlX9LnzrYuIwvc5e61wC+rtzAy8nozGPD0HriOIhqfpLb
+         vDY094LXpJ432U4I3O2M6nbsCzPKbRKqfC/xXGmdm2OXVsrOSL6cDSS9LAK/BYlbHv7r
+         XRCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782924901; x=1783529701;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lbVYdv7/FNdOOvrw/bcfsmdKoQ369BNbAkiBiKDICVU=;
+        b=aS/MFlTqPnYYRoReZbB+E26yvx9DEfjX5mr7Qq1sHG1uWYdjk+cBcxc0oJx9eW8nQI
+         nlNEqRchtFIvAJVeFWfq9XzuaDh+dhIG90kjEtq5RccK/3Zt5ltT9+ntDWEx6NwQh4Vg
+         HTO/8prxs7rsVJVhRxQGmvPSAFNTKSY8bMAVz1vC7A8vppytiYzKAUkk5YNO5ZqoI/it
+         wzdvaM+4QTPjO3q8/sqiH/FxKYquXnmt96SI8ajd7OlKo7IZDCd1NbqoSxTSzqTNGBEf
+         4td+VeMFsKFRf5iquDV1FjcDaQfglxseiOhnG8MtlyTYPYheQYO+i9UO6tmQC5hF90xk
+         0KyQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+BKWOQ74nK16A8T1pNXPHpnFEYP5rvqE8lmDi0uCCk23ksMK3mD6c6lArIMRvzmhxviEnhSG8Nx9w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKS8VWjXgxU93Vetsbgrn+EPeNAIeGqDKo8aI9VPtn0dT8dLD9
+	w4jwjJbsXiqi2lUwOzXeLZErA3SR+lrbLjTPr/NpLdJQ4LVvGLeXmHYzvNZUQNWRVNcDczKB/2J
+	VcHMmYA==
+X-Received: from pgja21.prod.google.com ([2002:a63:cd55:0:b0:c82:7761:9936])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:a49:b0:3b3:bf95:f7e3
+ with SMTP id adf61e73a8af0-3bfed477967mr2785820637.43.1782924900819; Wed, 01
+ Jul 2026 09:55:00 -0700 (PDT)
+Date: Wed, 1 Jul 2026 09:55:00 -0700
+In-Reply-To: <739e6834-40b3-405b-ada4-d31c38d8416a@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 05/23] sched/core: Try to use a preferred CPU in
- is_cpu_allowed
-To: Yury Norov <yury.norov@gmail.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        kprateek.nayak@amd.com, iii@linux.ibm.com, corbet@lwn.net,
-        tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
-        seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
-        rostedt@goodmis.org, dietmar.eggemann@arm.com, maddy@linux.ibm.com,
-        srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org,
-        vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com,
-        pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org,
-        tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-        rdunlap@infradead.org, kernellwp@gmail.com, linux-doc@vger.kernel.org
-References: <20260701141654.500125-1-sshegde@linux.ibm.com>
- <20260701141654.500125-6-sshegde@linux.ibm.com> <akU7vr4cpAhPRFeL@yury>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <akU7vr4cpAhPRFeL@yury>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: -g6NenWMGHeeItdf2V-h-POD5JWNcu7v
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDE3OCBTYWx0ZWRfX1+U1RmfjSAnF
- VqrEx1bm/TuWERdjvsaunlijXUzlb+r+0ZtRGRX3ooRV+xwHE7HoctSmyq+cT/j2uLNhbYOu+uH
- SROhPbOQfPZ2qPpVSZbb7IsQwVlPrMk=
-X-Authority-Analysis: v=2.4 cv=edsNubEH c=1 sm=1 tr=0 ts=6a454542 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VnNF1IyMAAAA:8
- a=CaffZ-6qSc-cPHz8f-YA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDE3OCBTYWx0ZWRfX2+hthRcf9Ula
- ISCj70ybM9XbI+XMxfekyJ2cQcJ9gLGWgEPM+kvthyoN2qR+GpAb3w1ZGik4GoJkuPimlk1YPMG
- KF7m4oXqTz6pywI9pPVf3Mkxxb6/pOrAO9eNFitrEGzrO4oSHf7JQeV4e5CwHf7wWANIXCT/PAd
- TfEqzthHCOx7oZbXrzxzVotae3kOk+0ng6NoXaLf6XnTGofFgBEi2gfD+vB1puAzKnCH+qP+P+u
- MH2HtAhj5wMZOzWZopINyoc7IQCDwaIyOeXo5vA3TNbyqQu2oTvf6z5yfWnY1Z8r2qSHcf64PJJ
- nh8j1cuLrRTArLtNktSBB+uwbE/X915CHgjHwg4HwP7RwM/NgXJ9exbzyAJJkgDOx93eYx1W4FA
- MY/BHyXJMT4oJ8bLCRzwu/k48MyPqUPqcE4r24pEbYdlVorO98VSNHSIPw9fQnSnm91YSU2s+qS
- 3B7Sm86PCFDw9L28Fqg==
-X-Proofpoint-ORIG-GUID: CkkQf_4HOdHj5zA-HvnPfKWC0HzLnls-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-01_04,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 adultscore=0 impostorscore=0 bulkscore=0
- spamscore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607010178
+Mime-Version: 1.0
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
+ <20260618-gmem-inplace-conversion-v8-6-9d2959357853@google.com> <739e6834-40b3-405b-ada4-d31c38d8416a@intel.com>
+Message-ID: <akVGZOeR1ytfkamK@google.com>
+Subject: Re: [PATCH v8 06/46] KVM: Enumerate support for PRIVATE memory iff
+ kvm_arch_has_private_mem is defined
+From: Sean Christopherson <seanjc@google.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Yury,
+On Wed, Jul 01, 2026, Xiaoyao Li wrote:
+> On 6/19/2026 8:31 AM, Ackerley Tng via B4 Relay wrote:
+> > From: Ackerley Tng <ackerleytng@google.com>
+> > 
+> > Explicitly guard reporting support for KVM_MEMORY_ATTRIBUTE_PRIVATE based
+> > on kvm_arch_has_private_mem being #defined in anticipation of decoupling
+> > kvm_supported_mem_attributes() from CONFIG_KVM_VM_MEMORY_ATTRIBUTES.
+> 
+> Well, after this series, kvm_supported_mem_attributes() is renamed to
+> kvm_supported_vm_mem_attributes(), and it's still under
+> CONFIG_KVM_VM_MEMORY_ATTRIBUTES.
+> 
+> > guest_memfd support for memory attributes will be unconditional to avoid
+> > yet more macros (all architectures that support guest_memfd are expected to
+> > use per-gmem attributes at some point), at which point enumerating support
+> > KVM_MEMORY_ATTRIBUTE_PRIVATE based solely on memory attributes being
+> > supported _somewhere_ would result in KVM over-reporting support on arm64.
+> 
+> I don't understand it. This patch only changes the behavior of
+> kvm_supported_mem_attributes(), the usage of which is guarded by
+> CONFIG_KVM_VM_MEMORY_ATTRIBUTESq. This is config is only visible to x86 due
+> to patch 03. How does it affect arm64?
 
-On 7/1/26 9:39 PM, Yury Norov wrote:
-> On Wed, Jul 01, 2026 at 07:46:36PM +0530, Shrikanth Hegde wrote:
->> When possible, choose a preferred CPUs to pick.
->>
->> Push task mechanism uses stopper thread which going to call
->> select_fallback_rq and use this mechanism to pick only a preferred CPU.
->>
->> When task is affined only to non-preferred CPUs it should continue to
->> run there. Detect that by checking if cpus_ptr and cpu_preferred_mask
->> intersect or not.
->>
->> This takes care of wakeup path optimization for FAIR tasks.
->> is_cpu_allowed is called to ensure wakeup happens on preferred CPUs.
->> With that, additional checks in available_idle_cpu is not necessary.
->>
->> Add a comment on rare case of O(N**2) in select_fallback_rq.
->>
->> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
->> ---
->> v5->v6:
->> - Drop optimization for select_fallback_rq
->> - Keep comment on N**2
->>
->>   kernel/sched/core.c  | 29 ++++++++++++++++++++++++++++-
->>   kernel/sched/sched.h |  9 +++++++++
->>   2 files changed, 37 insertions(+), 1 deletion(-)
->>
->> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
->> index a45f7c308329..1fb1c17e8387 100644
->> --- a/kernel/sched/core.c
->> +++ b/kernel/sched/core.c
->> @@ -2500,6 +2500,8 @@ static inline bool rq_has_pinned_tasks(struct rq *rq)
->>    */
->>   static inline bool is_cpu_allowed(struct task_struct *p, int cpu)
->>   {
->> +	bool task_has_preferred_cpu;
->> +
->>   	/* When not in the task's cpumask, no point in looking further. */
->>   	if (!task_allowed_on_cpu(p, cpu))
->>   		return false;
->> @@ -2508,9 +2510,30 @@ static inline bool is_cpu_allowed(struct task_struct *p, int cpu)
->>   	if (is_migration_disabled(p))
->>   		return cpu_online(cpu);
->>   
->> +	/*
->> +	 * This is essential to maintain user affinities when preferred
->> +	 * CPUs change. A task pinned on non-preferred CPU should continue
->> +	 * to run there, since this is non-user triggered.
->> +	 *
->> +	 * If CPU is non-preferred and task can run on other CPUs which are
->> +	 * currently preferred, then choose those other CPUs instead.
->> +	 * Overhead is minimal when CPU is preferred.
->> +	 *
->> +	 * For majority of the cases this would still keep select_fallback_rq
->> +	 * as O(N). task_has_preferred_cpus which is O(N) is called only if
->> +	 * !cpu_preferred. Then task running there is expected to move out.
->> +	 * So subsequent it should run on preferred CPU. This becomes O(N**2)
->> +	 * only for tasks pinned only non preferred CPUs. That is rare case.
->> +	 */
-> 
-> The is_cpu_allowed() is ~20 lines now, and your patch doubles that count.
-> Can you keep this type of thoughts in commit message? 90% of setups
-> will disable preferred CPUs, and I guess 99% of developers don't care.
-> 
-> This is the code, not a scientific paper, after all.
-> 
+Hrm, yeah, this is messed up.  Ahh, I think Ackerley shuffled things around and
+"broke" stuff in the process.  In v7[1] and earlier, the diff was this:
 
-Ok. I will update the comments and share updated one soon
-as reply to this.
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 091f201251159..68142bc962953 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -722,7 +722,7 @@ static inline int kvm_arch_vcpu_memslots_id(struct kvm_vcpu *vcpu)
+ }
+ #endif
+ 
+-#ifndef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
++#ifndef kvm_arch_has_private_mem
+ static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
+ {
+ 	return false;
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 306153abbafa5..abb9cfa3eb04d 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -2421,8 +2421,10 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
+ #ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+ static u64 kvm_supported_mem_attributes(struct kvm *kvm)
+ {
++#ifdef kvm_arch_has_private_mem
+ 	if (!kvm || kvm_arch_has_private_mem(kvm))
+ 		return KVM_MEMORY_ATTRIBUTE_PRIVATE;
++#endif
+ 
+ 	return 0;
+ }
 
->> +	task_has_preferred_cpu = !cpu_preferred(cpu) &&
->> +				 task_has_preferred_cpus(p);
-> 
-> Maybe it's just me, but the name looks illogical. Because if
-> 'cpu' is preferred, the task indeed has some preferred CPUs.
-> 
-> Maybe 'can_sched_on_preferred' or something like that?
-> 
+which makes a *lot* more sense given the changelog (and IMO for the ordering in
+general).  In v8 here, Ackerley combined part of a change[2] (that I provided
+off-list) with part of this commit, to create patch 4, "KVM: Decouple
+kvm_has_arch_private_mem from CONFIG_KVM_VM_MEMORY_ATTRIBUTESthe".
 
-ok.
+Ackerley, the cover letter says:
 
->> +
->>   	/* Non kernel threads are not allowed during either online or offline. */
->> -	if (!(p->flags & PF_KTHREAD))
->> +	if (!(p->flags & PF_KTHREAD)) {
->> +		if (task_has_preferred_cpu)
->> +			return false;
->>   		return cpu_active(cpu);
->> +	}
-> 
-> The comment on top of the block seems to be applicable to the 2nd
-> return only, right?
-> 
+  + Reshuffled the earlier commits that deal with preparing KVM to stop
+    seeing VM memory attributes as the only source of attributes.
 
-First return is for !kthread and second return is kthread.
-It is applicable for both. (since kthreads are FAIR class)
+but there's no explanation for *why* the reshuffling was done.  Reorganizing
+code like this at v8 of a series this size is a big "no-no" unless there's a
+*really* good reason to do so.  In addition to the resulting confusion, changes
+like this invalidate Fuad's Reviewed-by.  And since it's obviously quite difficult
+to tease out exactly what changed, it's not realistic to re-review things without
+doing a deep audit of the series, which no one wants to do for a series that is/was
+so close to being fully ready.  And without such an audit, I can't accept the
+patches, because I can't trust that what I am accepting is what I and others have
+reviewed.
 
-But on that thought, do unbound kthreads run too often or
-are they usually bound to a CPU? If it is later, we can even drop
-that second return.
+So, except where there is/was a *need* to shuffle things around relative to v7,
+I think we should revert back to the v7 ordering for v9.  And where there is a
+need to rework things, each and every one of those needs to be explicitly
+documented, because "Reshuffled the earlier commits" is grossly insufficient.
 
->>   
->>   	/* KTHREAD_IS_PER_CPU is always allowed. */
->>   	if (kthread_is_per_cpu(p))
->> @@ -2520,6 +2543,10 @@ static inline bool is_cpu_allowed(struct task_struct *p, int cpu)
->>   	if (cpu_dying(cpu))
->>   		return false;
->>   
->> +	/* Try on preferred CPU first if possible*/
->> +	if (task_has_preferred_cpu)
->> +		return false;
-> 
-> Would it look better if you drop the comment and:
->          
->          if (need_sched_on_preferred)
->                  return false;
-> 
->> +
->>   	/* But are allowed during online. */
-> 
-> This comment is the continuation of the cpu_dying() case. With your
-> change it's not anymore, and it needs to be reworded.
-> 
->>   	return cpu_online(cpu);
->>   }
->> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
->> index 26ae13c86b69..36ae20310891 100644
->> --- a/kernel/sched/sched.h
->> +++ b/kernel/sched/sched.h
->> @@ -4230,4 +4230,13 @@ DEFINE_CLASS_IS_UNCONDITIONAL(sched_change)
->>   
->>   #include "ext/ext.h"
->>   
->> +static inline bool task_has_preferred_cpus(struct task_struct *p)
->> +{
->> +	/* Only FAIR tasks honor preferred CPU state */
->> +	if (unlikely(p->sched_class != &fair_sched_class))
->> +		return false;
->> +
->> +	return cpumask_intersects(p->cpus_ptr, cpu_preferred_mask);
->> +}
->> +
->>   #endif /* _KERNEL_SCHED_SCHED_H */
->> -- 
->> 2.47.3
-
+[1] https://lore.kernel.org/all/20260522-gmem-inplace-conversion-v7-3-2f0fae496530@google.com
+[2] https://github.com/sean-jc/linux/commit/8a475b1bcf89f1cf776ed9ce7d6bb587aab0d421
