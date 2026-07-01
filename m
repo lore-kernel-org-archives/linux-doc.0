@@ -1,137 +1,151 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from flow-a1-smtp.messagingengine.com (flow-a1-smtp.messagingengine.com [103.168.172.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596063B47CB
-	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 12:34:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA04048123B;
+	Wed,  1 Jul 2026 12:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782909290; cv=none; b=OOIqoIRT0g4tNI9A7RyrmVFJfa7COKm12O0zSvz5U977HMzpNrbCRyKUWyI3bzowi/KfZUSTMbf89ZY9HO28cFvby5to2Hbk6glxwihrKk6svo2guEsU6lGij15wgbDQSJVR+KFDRqGQ+pP5oIg7oHI77SVA0xE51NZw5v9cMxQ=
+	t=1782909810; cv=none; b=Q6hxOeqcW9xDZak9TUNnBuLA0FW21/dBGa471TROQACSC8x9q3FzSR735NMD4ocOcfXcnIylI6m738eShvS7nrH/EMmFapuPQGyyWiY32hdxyrgrrz4JxixJGUhvlpacv9ijca5xJEDg8UkMBFyf5mmUrQc+b6BQPnI0DcB3XXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782909290; c=relaxed/simple;
-	bh=WBSQH5doQ0XyZPnhEPmZ+vvlhRHyRdY4NTxRVrsDXZQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=oPE0NJk6edFaw5TIc3jB4EfokeHH0WkfGSKbfZPH8aNesv0P5g4Lj+rF2GZH4HIC6zk0SPSeO/iVMTrpK6doK7fQiLWtdV7yh0xMd/l3ZPehGUOtFvlctsdSIbbnSoBPU/QyYyKwe6D+A5YVeZDDAl5BgTzjMIYjjpIykfeBsdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dBYOpptC; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=bhx/G5H8; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1782909810; c=relaxed/simple;
+	bh=1wVVq0yz5bIv51CSd40HyRHA57swpP7dvKTHWieSxvg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jCm2iK11Ol2jyoWsZhfVsxMNX/KGhFNFEeKW/o9m8ouGmpe4DXe0rpooqFXeN6Y+R3J0T6Fy3LClWNs2b+L5GEBB+RDCpJA/LcGb8x5eZQUglRaHjNhUrs88cVnCdpnhnvDKOTUggLNwWU50BHOgHObZVjgkOHOjJQP0IB+sgZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=rD8WSX0D; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=e6T9RzQu; arc=none smtp.client-ip=103.168.172.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dBYOpptC";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="bhx/G5H8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782909287;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=6SImA3bc67S49Aleri4ZSDqcnWVDlr+FWuRlVb8TQRg=;
-	b=dBYOpptCDbM06q4RmuScC1uO/LUxuuOnxt/LyHhuMM/xyZE15sea+7YAd4hDDa1myLAAZb
-	vLuo6hLVIvDMIX98wCvfoE4wSCeyckoYJA+iN8uLlusi4GC4tKwVKuYOjlqaLOHs2LzlCd
-	eS7wwpLz3hMeSpqU/H4bYiG94mXLiPM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-394-qBTOl1IINq-_qrAR_97omg-1; Wed, 01 Jul 2026 08:34:44 -0400
-X-MC-Unique: qBTOl1IINq-_qrAR_97omg-1
-X-Mimecast-MFC-AGG-ID: qBTOl1IINq-_qrAR_97omg_1782909283
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-493bd52dae6so4673725e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 05:34:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1782909283; x=1783514083; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6SImA3bc67S49Aleri4ZSDqcnWVDlr+FWuRlVb8TQRg=;
-        b=bhx/G5H8q65VxTs2nFGWH9gsr4OveWDjo2XvSQEsCmBEImzMkaFPmuqpxqzZSberMC
-         OLC4hWKIGXj1JjBJF6EzDZsWspKbbM45KAQ/jtdMbjLYutSnYbXjtvKi43Fr8I3yIxGj
-         jHLYlHwRNZfxFqK+WFFqnI3TEgqcNpEI0mOCDqjuZ7DM1nN7X0ivSze8u5UlS30IEhEn
-         9dKJRETypQbxM64DERQ47TVVicSmaRFqUCjIBHCdwGAtyg3UcKMkUTAwH2kwVU6lrrwn
-         0bz6HwTonLLMtNbTD++2s0Jpq8d2Fhw8WVSyaa8kEJBW+41gOwhnF5k9+py5l2Vtl4Cn
-         m7rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782909283; x=1783514083;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6SImA3bc67S49Aleri4ZSDqcnWVDlr+FWuRlVb8TQRg=;
-        b=CH8ubzXgPPGXX6NfMgqiL//zr+z+8Aw7aTLQQQ6oQkugj2fzP+5iAsSF1DmwBbjTbp
-         NwDBJZ5Sg0XOrwvqrjhdaAHxdQ4rj+vFsqcznbKgJPQcHgUAdF0BMwPeY5MBiStjVrrr
-         s3/k/S1zlGwX12oKIhGlKW6Oajhumy24f1OPdmmnFkGF4DvbXpvCnpN0QN/taOvG3Km1
-         uOhs50QPH98YkUynsRzENFwL6T6JCwMAtqe5Ll5lxUwyTsGjsWeeiGlak1HFPmQFDLXQ
-         wE+EN8T80SJAVrvYQGjVfHfLkbTxZmS9ZuFfikB0Yex69J6/11QtjQHGuw0m1DsPI01R
-         bDyQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+LH7uB0UIdXtaAaSWxzBCk/IwuVZkMHrkicoXYAYbO9F6P7KbC7EvlYdNM436vEDfqar4rTMKyCEw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw97DHHO/KgH9z7+HChmpAhQuAREa+tpS1jyvKMjxE3mjaKPZU9
-	bgDB0LsKMFg4s5UAEBzVqKABO4/n+CI+AdnybKlIN9pfok+03EG0D101Z4XnV+hFj6KnzVcFxXL
-	ibFDjtQXMNwbhELT8QscnUeCvW7j+9F785AFVr7YaAU7ErObWcH0lPxExyGABEg==
-X-Gm-Gg: AfdE7cksmNZWs7Vjdt6crPGk2v5Ial7ARELAI0NRB/Gy9wJMSFDLAOrQ6XlftY4R3Ls
-	QWaNYgrzYjau3KfnJFVc2KHfZvxfBckxVg6gEursQ8NjSf5ceJV66rU/ynE2DPtwXu8bZ1W6+vh
-	1Hr6YAtGHe/E5TdXuasFSqsunhZ1gaCkrTgLYvOuLO3+Qxo2PkwGI33eTuivXax/rVNKXoF7Xjs
-	i9Hd9bXr6ZK5x5Cv/DcIkvw7X9IkhJm4CEZ2bq6VVQBWn5FIIOg2gEIidt9YdxJEjB/6gH93rGp
-	BnDzqo1Oh4hrAwyp1z7aV3zAy5Fa/DVd1oke8x+HIIm4qvrAh7oxK6C9noyzz3iV6RZ4iqz/CYU
-	QaXPiY1O9Xq/S3xzPaC+MDcgPlZXBUjElyyEuq2aOFZNZea5YvevBAN+E/GaV4I/9fw==
-X-Received: by 2002:a05:600c:68d0:b0:490:e5c1:b8bf with SMTP id 5b1f17b1804b1-493c2b4d01dmr14992045e9.13.1782909282921;
-        Wed, 01 Jul 2026 05:34:42 -0700 (PDT)
-X-Received: by 2002:a05:600c:68d0:b0:490:e5c1:b8bf with SMTP id 5b1f17b1804b1-493c2b4d01dmr14991685e9.13.1782909282587;
-        Wed, 01 Jul 2026 05:34:42 -0700 (PDT)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb (212-8-243-115.hosted-by-worldstream.net. [212.8.243.115])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47563d19573sm15953957f8f.4.2026.07.01.05.34.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 05:34:42 -0700 (PDT)
-Message-ID: <84105e8f975673f9c49ed4a5c47f0437fa4f7dc4.camel@redhat.com>
-Subject: Re: [PATCH v2 1/4] rv/rtapp/sleep: Make the error more informative
- for user
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Nam Cao <namcao@linutronix.de>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
- linux-trace-kernel@vger.kernel.org, 	linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Wed, 01 Jul 2026 14:34:40 +0200
-In-Reply-To: <9bc739eec41b6616e9f81cbe50759cefb1c3ad9c.camel@redhat.com>
-References: <cover.1781852967.git.namcao@linutronix.de>
-		 <d97b4b5c476e5792b6875ec9bbf8dc214f999516.1781852967.git.namcao@linutronix.de>
-	 <9bc739eec41b6616e9f81cbe50759cefb1c3ad9c.camel@redhat.com>
-Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
- keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
- 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
- Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
- Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
- cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
- T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
- eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
- 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="rD8WSX0D";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="e6T9RzQu"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailflow.phl.internal (Postfix) with ESMTP id 266B0138003F;
+	Wed,  1 Jul 2026 08:43:28 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Wed, 01 Jul 2026 08:43:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1782909808; x=
+	1782913408; bh=hCwzeqiZqQn1EeYlAWoOxLI45HYxj+0NX1TXbYFjUzw=; b=r
+	D8WSX0DqJbUdVz6AHBANjrmqDRkZc5VPtN43qTs/l4g4FbmQ5ZNUhXHyUxTW5a8Y
+	mwQNE/fAFil76hhDIRE2bl2rP018JTTf2up0OWj3fKZFXWvSD1TTJYXoZcwbUL9e
+	N8mhhlFkhZDv/6daIsHEV6cjlwUDHiO7Djorc3maReyyHci3smWnPJgEwXP+5/YY
+	RLc5A/cdTRt21PcRZ1fyAZxD0rQOlOEkMn5qiOUak/9hNxNvK7KuGy1QeR/Q19kZ
+	7ep47fhIHtdXlMEMfioWzVT9ZgALg1XuhA/6PGkZ2wPGl9BAs+hcuWtDojS1aaDX
+	E2TdL81IBtmxrcm76wSEQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; t=1782909808; x=1782913408; bh=h
+	CwzeqiZqQn1EeYlAWoOxLI45HYxj+0NX1TXbYFjUzw=; b=e6T9RzQuQ+I8UBQTW
+	hK5sN8FkEBKswUHmZADrc7HYz141TSunuSm0Ltk7KfsSHywxsJKM6FiOlloXeesv
+	Nz8/ikOxJibwkEGJotHqcYv7extfpVHNBiG7m58p/1XDA2o8M4EUKs2PMTDW6fYj
+	ph5dA5nXfzmqIMFliMhIoqCeVydBiezKGBSF8ALjSzdeQhYxt8naXsaM0oOYkiVK
+	NzhBe6bq+eH5iKYqYfjw/Vkx1rrXPoo/c7g8BFitl3h3fiYr600XEZ2aGqSCRoQ7
+	/aYlIVXJcNI/RvS0zuWXaOClVUPq9NUeLRe6oWAeX5DkWI2xje1IhmjtOcWWX7Bo
+	0nrBg==
+X-ME-Sender: <xms:bwtFakFc93EQo32GPTamIwyMo15cpW4yXdOzJuQ490gK4ZbGV1QP_A>
+    <xme:bwtFajssi38r77oeM_nZjUW3kj9vNcOBCAb2aVrdXzjUayg15pYf01URb087tqx8b
+    aaTos902Z78KAah6Y-iOYrO-XFLXlBfPU_cwafaRJ6yhHyvRrVAHSw>
+X-ME-Received: <xmr:bwtFaqb4UsVkTTrUxhfHOTvaeq3qm4oYArIAgYaD-DqFpbU8ZUPKjHX->
+X-ME-Proxy-Cause: dmFkZTGBq7gKXug1IiWhHduKANkZDifvXsa10TKTCAkjtHbpw+32P+uDSNsh7UkqvDQz35
+    5GsHfrpOhzNQ1YRMDLdtqkOKtNwAwX1eLMORyfL/k5Bv0/h3xMPq24mqgBlnnW8okBxo49
+    osinnLxNinneVAeoo0euooMolnMfXRKLx9mOA7Ss2txEYNyheFI/9Kz5qGOBqwW1sTiJ1O
+    NGHLHrFzxgzZEsteBMU+UgtmSy0K5UPUyve8VnY5EyBP2gFc6UCU/NWsqHftDntCABhJO3
+    q+i4+j3A4csrukzVj2fTKrlpDZ5cL1beypvxpyUHK5JKJ7qqdrnCdx/RDBFzK8sd0MvTQ2
+    b6tx4BWzeTxZCDDwqPet4r4u4VOMJPIEHG8KeWRWTnyDQiIDKwfhOyD35FPvjJo/fF4Dja
+    oFv9NvtVaNCz7/CyCHmkrUB5DVuEfyRZsMRrKZrpeGY+8fNeX+So2Oq7yUokfyCFfe9cbV
+    DR+Bm9SGLnZA1NU+e9ZN732JieVRyWPFTqXtSorON0ESvsu3svlaYKmx7UzOa+sG1gHBaD
+    quBZ6qBwr/9cIsLX/QEs0udoJXjywOnAX3HK13DiqFdqhDgDY6Y2NzLHCd06vRlpE2U4EA
+    8uDzq3K1h70plC4Lb+r0eLwID2YFChNe5w17lDWvaW0TYiF5RxHUHireU+UQ
+X-ME-Proxy: <xmx:bwtFaj6iLiK-9MEumjjtE1fJfcbrcdkK_EbXMv1NbH30RojajsfYQQ>
+    <xmx:bwtFai_TsGE6KhYgsquBnJlVhSiTiL75VlJKXapyb0m8HEPtJybDVg>
+    <xmx:bwtFavZwBPUPChVBH9uUZ1U6k4H0bsUFuUJjzPpNc3sIZCYakHfviA>
+    <xmx:bwtFar7_FkGf7EJV5h5wOH1JzcZmZzv7E8xaYwiZkZOabmmGdkFCag>
+    <xmx:cAtFaheSxioz6neWGl0J38gnpNquBZl-HzMHqRRqmeAgFuY9Ov-f6PVJ>
+Feedback-ID: i9dce4b48:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 1 Jul 2026 08:43:22 -0400 (EDT)
+From: Baran Tuna <barant@fastmail.com>
+To: David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Baran Tuna <barant@fastmail.com>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v2] docs: Fix typos under GPU TODO
+Date: Wed,  1 Jul 2026 15:42:39 +0300
+Message-ID: <20260701124239.9713-1-barant@fastmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <01433E06-1132-4580-93FD-D6E82341A041@infradead.org>
+References: <01433E06-1132-4580-93FD-D6E82341A041@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2026-07-01 at 14:26 +0200, Gabriele Monaco wrote:
-> On Fri, 2026-06-19 at 09:21 +0200, Nam Cao wrote:
-> > -static void handle_sched_wakeup(void *data, struct task_struct *task)
-> > +static void handle_sched_exit(void *data, bool is_switch)
-> > =C2=A0{
-> > -	ltl_atom_pulse(task, LTL_WAKE, true);
-> > +	ltl_atom_pulse(current, LTL_SCHEDULE_IN, true);
-> > =C2=A0}
->=20
-> Well, this triggers also in a spurious schedule: current -> current, can
-> that be a problem? Otherwise you may either use sched_switch over next
+Fix minor spelling mistakes in GPU TODO section of documentation.
+No functional changes.
 
-sched_switch would obviously be in the wrong context.. Ignore that.
+Signed-off-by: Baran Tuna <barant@fastmail.com>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+---
+ Documentation/gpu/todo.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-> or pulse only if is_switch.
->=20
-> It probably isn't a big deal though, since there's no SLEEP prior.. But
-> we may want to avoid the noise.
->=20
-> Looks good overall.
->=20
-> Reviewed-by: Gabriele Monaco <gmonaco@redhat.com>
->=20
-> Thanks,
-> Gabriele
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index cdddf8db35f5..b8c01e3fb655 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -55,7 +55,7 @@ There are still drivers that use drm_simple_display_pipe. The task here is to
+ convert them to use regular atomic helpers. Search for a driver that calls
+ drm_simple_display_pipe_init() and inline all helpers from drm_simple_kms_helper.c
+ into the driver, such that no simple-KMS interfaces are required. Please also
+-rename all inlined fucntions according to driver conventions.
++rename all inlined functions according to driver conventions.
+ 
+ Contact: Thomas Zimmermann, respective driver maintainer
+ 
+@@ -277,8 +277,8 @@ Various hold-ups:
+ - Need to switch to drm_gem_fb_create(), as now drm_gem_fb_create() checks for
+   valid formats for atomic drivers.
+ 
+-- Many drivers subclass drm_framebuffer, we'd need a embedding compatible
+-  version of the varios drm_gem_fb_create functions. Maybe called
++- Many drivers subclass drm_framebuffer, we'd need an embedding compatible
++  version of the various drm_gem_fb_create functions. Maybe called
+   drm_gem_fb_create/_with_dirty/_with_funcs as needed.
+ 
+ Contact: Simona Vetter
+@@ -303,7 +303,7 @@ everything after it has done the write-protect/mkwrite trickery:
+ 
+       vma->vm_page_prot = pgprot_wrprotect(vma->vm_page_prot);
+ 
+-- Set the mkwrite and fsync callbacks with similar implementions to the core
++- Set the mkwrite and fsync callbacks with similar implementations to the core
+   fbdev defio stuff. These should all work on plain ptes, they don't actually
+   require a struct page.  uff. These should all work on plain ptes, they don't
+   actually require a struct page.
+@@ -891,7 +891,7 @@ Querying errors from drm_syncobj
+ ================================
+ 
+ The drm_syncobj container can be used by driver independent code to signal
+-complection of submission.
++completion of submission.
+ 
+ One minor feature still missing is a generic DRM IOCTL to query the error
+ status of binary and timeline drm_syncobj.
+-- 
+2.54.0
 
