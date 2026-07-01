@@ -1,57 +1,57 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE69933F8DC;
-	Wed,  1 Jul 2026 14:20:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87803340293;
+	Wed,  1 Jul 2026 14:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782915626; cv=none; b=GxmdaFGfsOoM1fPjsKKXKNG3mynIocz4OVsm+vLm9LO04yIk2TJ0w/94YT4PAY3f8AZnUmDltaPXhqAiymQAj6ZtG7lQe/hmWDn+tIAq9RoL1OxnPOgi3eYx0HAkih26xBIgrV5qBr23mejmzlW2CzJj9n1sIY/+m4epqZrLTzU=
+	t=1782915639; cv=none; b=fZ92UpcI1sgqfYOPeOddeVfUOBlId/vkF6ucswyjij9n86C583rL8YRbZqR3iIew2jij/yuoUwlLm0oxUoCdWBtmp0mZqMY76fMj5my1Uqd7t7fDyWuP7Fm+dUFONKUrwLC+3Mo1eU14aLH8giWOFMZIEqh6OAmQYt60IuoLD8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782915626; c=relaxed/simple;
-	bh=P89zDqT0u75Gvci3kfovt5fGP3cJXV/hF8o9S2BU3/4=;
+	s=arc-20240116; t=1782915639; c=relaxed/simple;
+	bh=WSfwx7Mwz7o4MEqwWcMvPUKUPvqhoN9VpjUUIwukDAI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tptjwz+G5miE1HXq84xrItj3fxEAgGJrXCpc8BoFNx8VCB3CCE3IAKsoJdpLHFNcGe4QhQhNdV/1JEvXIWrLvZlIjfgzppL9uajRhggtHR/qxzZ94GVuh6B1ZtqP6VjtUK4WdKE3xzklNGgxF2T+vBQIqwIQjBHb+BiSQ9B+Ii4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=EPhLRGPy; arc=none smtp.client-ip=148.163.158.5
+	 MIME-Version; b=qRfkwCzo0cRb0nIpXZoyf/XXAjwivv4yk5quPSfjyIhNhZ0HbdTwlMLC5KC3CwkGH2LzIv1mI01rYh1/yqpJT31eV4GQofIpiCii/zh1dF6hNKUeMA0lnKpJVAk198HK+JbdlBH4MYwKG3+RBdfItldnKyYKLTd+n2UkjiRIAaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=R4epaOh4; arc=none smtp.client-ip=148.163.156.1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="EPhLRGPy"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 661AILPZ494370;
-	Wed, 1 Jul 2026 14:20:07 GMT
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="R4epaOh4"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 661AIXnN551306;
+	Wed, 1 Jul 2026 14:20:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=Ks2MkHjo3rrKva+xR
-	FBR62UpV0gEykX8kkNK4APUdcY=; b=EPhLRGPyYxQJocu2FHFd+7+KSJxL9D476
-	uYG4mRWqWIoLiEgoz7BcyGfuKZ0+qY6CdQ3LBbuUk8B5fDVWH88p81wXFkpvy7SX
-	l+PUiPHJ0jbs1K+zBE0UzW+O6Z3/zlquMQ+mW5fF1ylSvBaoGTwflILeK9MHkwUK
-	WK27b2P3+NqTj4EP/sOJKgz+LZZRT0GPrqe8SJ+guTR4Ukw6pxKd5PK0TNVROTuW
-	WeNtjXJInP/7NjrPRDS6cFqV42rV33zdkqw3pSQxLQoa3cB4+0erXTE1NmYroro7
-	pw5pN22gSKhXarbtfANUC2QA2K1FmHWY8Ft8QFO1GyscJQqvWQbSQ==
+	:mime-version:references:subject:to; s=pp1; bh=mcHPD7FtCDWlrWIuy
+	t8Cs1qc5tH62JQr4+VMIuk32Fo=; b=R4epaOh48tCnc1eVezxXZ/tpyd9DQM/yH
+	W8+Vt8RKDwtKaZLX2jNw5X+QYBbX1AbhIYnNSpBPTp6ZsNdNNG+cN7ObcmMVvRFv
+	+8EBSlT1mjex2Gmdftj4T/1RWRr3+ZJzWj18B830G/KEKJ8TqEQvYosVKSihJoIz
+	5UCLq/CDEhcLyjF3ME0fzIXkOR2Lxhps1yU/b2ZKd8Nm7paFGNLrp+eCq0bULrtS
+	6vchJnNFxcoyVpz57QJJTjd3CirDA0uNdaE/TtI79CEedrpWSp6voMcnxthdPyIW
+	kQIEgZp4uK0qYnEx4+maR+33/bbBtXrMt9OXkvPRXmsVtpHTbsAbQ==
 Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f26rf4h8h-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f26n5vybb-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 Jul 2026 14:20:06 +0000 (GMT)
+	Wed, 01 Jul 2026 14:20:21 +0000 (GMT)
 Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 661EJaJx027955;
-	Wed, 1 Jul 2026 14:20:05 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4f2ruqfub9-1
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 661EJaK5027955;
+	Wed, 1 Jul 2026 14:20:20 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4f2ruqfucd-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 Jul 2026 14:20:05 +0000 (GMT)
+	Wed, 01 Jul 2026 14:20:20 +0000 (GMT)
 Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 661EK20Z27001586
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 661EKGqW50397510
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 1 Jul 2026 14:20:02 GMT
+	Wed, 1 Jul 2026 14:20:16 GMT
 Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DE0DC20049;
-	Wed,  1 Jul 2026 14:20:01 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 6D02F20040;
+	Wed,  1 Jul 2026 14:20:16 +0000 (GMT)
 Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3B87D20040;
-	Wed,  1 Jul 2026 14:19:48 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id B063A2004B;
+	Wed,  1 Jul 2026 14:20:02 +0000 (GMT)
 Received: from li-7bb28a4c-2dab-11b2-a85c-887b5c60d769.ibm.com.com (unknown [9.67.14.28])
 	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  1 Jul 2026 14:19:47 +0000 (GMT)
+	Wed,  1 Jul 2026 14:20:02 +0000 (GMT)
 From: Shrikanth Hegde <sshegde@linux.ibm.com>
 To: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
         juri.lelli@redhat.com, vincent.guittot@linaro.org,
@@ -66,9 +66,9 @@ Cc: sshegde@linux.ibm.com, tglx@kernel.org, gregkh@linuxfoundation.org,
         tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
         rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
         linux-doc@vger.kernel.org
-Subject: [PATCH v6 12/23] virt: Introduce steal monitor driver
-Date: Wed,  1 Jul 2026 19:46:43 +0530
-Message-ID: <20260701141654.500125-13-sshegde@linux.ibm.com>
+Subject: [PATCH v6 13/23] virt/steal_monitor: Restore to active on module disable
+Date: Wed,  1 Jul 2026 19:46:44 +0530
+Message-ID: <20260701141654.500125-14-sshegde@linux.ibm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260701141654.500125-1-sshegde@linux.ibm.com>
 References: <20260701141654.500125-1-sshegde@linux.ibm.com>
@@ -81,150 +81,73 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=a4kAM0SF c=1 sm=1 tr=0 ts=6a452217 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDE1MCBTYWx0ZWRfX7hgNb02BTydS
+ NoHtXfdG6ZRSRLh1yx3ZJiMlm7aEZHnlCSsxC/L0n4O3FyU7qNWGo1YQ77jXXIxtuw6udyL6QnZ
+ VH0JhkIbTrQ//bFtqmOLWL0cl0GP8Y0pZpEmteg8Vnm17p/YtM+2IDzTTRPumm5jvsqv0SzanJd
+ xL6ozyO3j1itEh3I+TGHk2s3XXQ6x72uRnojdkjRRR+skol69h4FZxbi/ZcD2QwCqsTcFndxOgg
+ 1CmswIY8rcfcwro/UZa1DVydKYxDXmqkafYjHsdLxZ4MZwQK75pfUlb8B7QxmvOnMl1FvFpicos
+ ABR03j8gvweOBBgnwrHGNyx6hpotIunJQiPs5QpdRtp3BC5vtreROkdbHLULA4c5kb8fvzrsByH
+ i6uJ5Z+uCIFklJeQnVWTWzcriDIx0j0PZMHTu/WTdJrUEIZK08pRsPJ7i865PXQjBSdGuqdi9GT
+ py9X2DJeeruStEI4l2g==
+X-Authority-Analysis: v=2.4 cv=V45NF+ni c=1 sm=1 tr=0 ts=6a452225 cx=c_pps
  a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
  a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8 a=tbi7dcW0GDkor9mk7j8A:9
-X-Proofpoint-ORIG-GUID: 0L9d1DATtL3aG2zxErwWs2I_Mr6-Vn9O
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDE1MCBTYWx0ZWRfX68hkzBAmW+HQ
- HkJZVOpr9VU8r96vOqQSEZDAZLPhxS+dnkrFDnjUXboDtvMDjeF3nOXkEtHn0SNjmS77Uwy8Vel
- KjaYEV3CEbAGs4ejpnXQHPaJZmYx2eVy3Xv9WMt72ZxMRzfwBAiKWsCsqYe9h+YD9aRxZ6LmDwR
- /5vVDb4kvF708gYvgjug4Hnl+Ln48yYXJC0D5HgtJmRRo5iXS9BqzOqgL6ukRkfMvxGCTp/kpn7
- /n5mO5dOWcGW4cfj8l5wDA6VPwFf5UHsOE2cXsnQk8tdK3O9zFsXDf1Fsa/25+dVm61y46d47Xr
- sqZv03nV+5lrrRLzqxWrFkw1XqgR/vTQSdkADdePzTN6BGwmpEuliawsNhrv0Xq2Wlg+nVsJOu0
- 6zFkTBQYaQSQV9ZjrgQwNyKl548k42hZhPaOVFbq/dZR4K+G7skK2DosxuRa/7AS05unzTs2Ooa
- 3uMRaOBxzduno9iwtdg==
-X-Proofpoint-GUID: rK4Y49NUX6tEZrKu_E-TzYhtXStpuNw7
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDE1MCBTYWx0ZWRfX8QAUB2jXjWC2
- sK5XwIiIIVnOrxvv6ctCqakvYPPX5+xNpoCMobQBi6ZQRaQqQWHqDDbg57N7O51E/vJTSCaB6yJ
- IaS5lbT50QD0rMisYFe1JHUrkqWpL3U=
+ a=U7nrCbtTmkRpXpFmAIza:22 a=VnNF1IyMAAAA:8 a=8xc5pq_vJk3O0FTEJYkA:9
+X-Proofpoint-ORIG-GUID: i3yEzC19rjdbpqYQOP1ipw2p6jrvvveS
+X-Proofpoint-GUID: USQlpUnSDvGEFc2HfnoWXkGbsxN5uIIp
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDE1MCBTYWx0ZWRfX4Qu34TaUdG0l
+ gp5rRIr3ie44WzaZpxq/XvnecobwWcfbT7tq+Wsw1Crgy8f/rIkizA6BghsMfqgRlMaasAr2IcU
+ X3xjVmFoWU39EawJRCuEj1TjpPBCTTY=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-07-01_03,2026-06-26_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0
- spamscore=0 priorityscore=1501 adultscore=0 malwarescore=0 phishscore=0
+ phishscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0 priorityscore=1501
+ adultscore=0 clxscore=1015 impostorscore=0 malwarescore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607010150
 
-Introduce a new driver in virt named steal_monitor. This driver
-will compute the steal time and drive the policy decisions of preferred
-CPU state.
+When the module is not in use, preferred CPUs must be same
+as active CPUs.
 
-More on it can be found in the Documentation/driver-api/steal-monitor.rst
-Introduce the skeleton code first.
-
-There is no new kconfig. It depends on CONFIG_PREFERRED_CPU.
-- If CONFIG_PREFERRED_CPU=y, it gets compiled as a module. It is not
-  loaded by default.
-- If CONFIG_PREFERRED_CPU=n, module isn't compiled.
-
-File layout of the driver is designed with having arch specific
-files in the future.
-
-- sm_core.c - contains main driver code. This includes the periodic
-  work function and take action on steal time.
-- defaults.c - contains the default implementation defined with __weak
-  symbols.
-- sm_core.h - header file which includes data structure.
+Even if one disables the module during high steal time, it
+still restores the preferred CPUs to be same as active CPUs
+to keep disable path simple.
 
 Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
 ---
- drivers/virt/Makefile                |  1 +
- drivers/virt/steal_monitor/Makefile  | 14 ++++++++++++
- drivers/virt/steal_monitor/sm_core.c | 33 ++++++++++++++++++++++++++++
- drivers/virt/steal_monitor/sm_core.h | 11 ++++++++++
- 4 files changed, 59 insertions(+)
- create mode 100644 drivers/virt/steal_monitor/Makefile
- create mode 100644 drivers/virt/steal_monitor/sm_core.c
- create mode 100644 drivers/virt/steal_monitor/sm_core.h
+v5->v6:
+- Add cpus_read_lock() for hotplug safety
 
-diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
-index f29901bd7820..aff715cea42d 100644
---- a/drivers/virt/Makefile
-+++ b/drivers/virt/Makefile
-@@ -9,4 +9,5 @@ obj-y				+= vboxguest/
- 
- obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
- obj-$(CONFIG_ACRN_HSM)		+= acrn/
-+obj-$(CONFIG_PREFERRED_CPU)	+= steal_monitor/
- obj-y				+= coco/
-diff --git a/drivers/virt/steal_monitor/Makefile b/drivers/virt/steal_monitor/Makefile
-new file mode 100644
-index 000000000000..24cee55342ce
---- /dev/null
-+++ b/drivers/virt/steal_monitor/Makefile
-@@ -0,0 +1,14 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# Steal time monitor to alter preferred CPU state.
-+#
-+# Arch can implement strong function definitions and override the
-+# default by adding them in arch specific file. It must ensure
-+# that preferred is always subset of active.
-+#
-+# It is always compiled as module if CONFIG_PREFERRED_CPU=y
-+# One has to enable the module.
-+#
-+obj-$(subst y,m,$(CONFIG_PREFERRED_CPU)) += steal_monitor.o
-+
-+steal_monitor-y := sm_core.o
+ drivers/virt/steal_monitor/sm_core.c | 3 +++
+ drivers/virt/steal_monitor/sm_core.h | 1 +
+ 2 files changed, 4 insertions(+)
+
 diff --git a/drivers/virt/steal_monitor/sm_core.c b/drivers/virt/steal_monitor/sm_core.c
-new file mode 100644
-index 000000000000..e320559c6576
---- /dev/null
+index e320559c6576..222c23286043 100644
+--- a/drivers/virt/steal_monitor/sm_core.c
 +++ b/drivers/virt/steal_monitor/sm_core.c
-@@ -0,0 +1,33 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Steal time Monitor.
-+ *
-+ * Periodically compute steal time. Based on the thresholds either
-+ * reduce/increase the preferred CPUs which can be made use
-+ * by the workload to avoid vCPU preemption to an extent possible.
-+ *
-+ * Available as module with CONFIG_PREFERRED_CPU=y
-+ *
-+ * Copyright (C) 2026 IBM
-+ * Author: Shrikanth Hegde <sshegde@linux.ibm.com>
-+ */
+@@ -23,6 +23,9 @@ static int __init steal_monitor_init(void)
+ static void __exit steal_monitor_exit(void)
+ {
+ 	pr_info("steal_monitor is disabled\n");
 +
-+#include "sm_core.h"
-+
-+static int __init steal_monitor_init(void)
-+{
-+	pr_info("steal_monitor is enabled\n");
-+	return 0;
-+}
-+
-+static void __exit steal_monitor_exit(void)
-+{
-+	pr_info("steal_monitor is disabled\n");
-+}
-+
-+module_init(steal_monitor_init);
-+module_exit(steal_monitor_exit);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("IBM Corporation");
-+MODULE_DESCRIPTION("Virtualization Steal Time Monitor");
++	guard(cpus_read_lock)();
++	cpumask_copy(&__cpu_preferred_mask, cpu_active_mask);
+ }
+ 
+ module_init(steal_monitor_init);
 diff --git a/drivers/virt/steal_monitor/sm_core.h b/drivers/virt/steal_monitor/sm_core.h
-new file mode 100644
-index 000000000000..684a258526e1
---- /dev/null
+index 684a258526e1..40913aeccf16 100644
+--- a/drivers/virt/steal_monitor/sm_core.h
 +++ b/drivers/virt/steal_monitor/sm_core.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef __VIRT_STEAL_CORE_H
-+#define __VIRT_STEAL_CORE_H
-+
-+#include <linux/types.h>
-+
-+#include <linux/module.h>
-+#include <linux/kernel.h>
-+#include <linux/init.h>
-+
-+#endif /* __VIRT_STEAL_CORE_H */
+@@ -7,5 +7,6 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/init.h>
++#include <linux/cpuhplock.h>
+ 
+ #endif /* __VIRT_STEAL_CORE_H */
 -- 
 2.47.3
 
