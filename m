@@ -1,127 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261B643C06F;
-	Wed,  1 Jul 2026 11:04:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91D240BCCE;
+	Wed,  1 Jul 2026 11:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782903887; cv=none; b=UByFasq+b2+oJRC3mzxkNHtiHfWPQrSgpxJP1vX5Iz0y+OzN2leV8fzZLXfpvkCwYQskT+HG6hbguLnCn/puYOeQvvNhBYsVxGj1+lljpJhkNujXqPUgaDsvE1zMrkjwNq+qc+A3vs6d5OoLBaTw2+JBJSP1mAXr8yKpO4XbV3c=
+	t=1782904070; cv=none; b=iAiCYDOwdMC5Fk8lvbbDtVzSIV843u61DFo5MU77MF+OFGnaIbGVBUFvbrmQBkQYFtoSAKpii1qkYCRBjuXpQjqgohTdjDiMlODhcAptRsnKh4uy6jmQp4iXoIf5wKEPoAcWuOFQOgtidp+5V90yfUyxLLK98vpTo0wDV9kJhRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782903887; c=relaxed/simple;
-	bh=iNoJHRXlCQkKiqMlZrlzGN5KLrGu8DA2/8z4Ei4QI/k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bklAYi1QXZ1pffa2gqM46+CpMYRAEmZt59AYEqk5fIwU3XtmecW74tbkDse4qH2jpS7Gq1Eiyakppve2cz3tmKSqJw1wZ5jqUXm8dhrT3/6nuLadVihBnqcOeWCl7NOZm2cKCuBIcIRM/w92kTN5yYJtfbmGHgrV9sxncYJhAYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RgF0apzc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782904070; c=relaxed/simple;
+	bh=hCvnNk/pEx9Q3BuA3GT3urPlvNsb9ZGbJEO+TxrHDhk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ISrNKXq/pgcspmDOaD6vqghancW5wO0j1g1oXIIcH7YQ7L6uw0liZdMNqwM/8jb+ys7O1IL+d1alxdidV6SBxUwBgeJAFTfi+7XXNdcU58nWX3UFtu4OlG+Tu8Ky/okdRC3R+mvLVlNw85S1s1sUG+4KOtZwKW2R/uEFm8KVhbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LNtiPidL; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RgF0apzc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD7721F000E9;
-	Wed,  1 Jul 2026 11:04:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782903883;
-	bh=AnOUujFcKX3gpwz4D3fgVf4ygLddSqv9i61Ak3jx5rY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RgF0apzc2I8IGgQvXFBNTYGTj/QWPBWdU5Bh6iXatZRH4VqyZx+5vC0kZ0AeRgoD1
-	 HIrJbxmsJ/d8btCgzU1jENoUJdZn347X5FUjLieGAxHA7BBwoOUTNJ2erhM/lYZAj/
-	 kDldJSP0wW47BO3yL563p/nUT8y7CJQ63ssCuMY+0+CCaC823zHDMbWpWpaOWZEAcK
-	 +zeQl9Mg/yc9srbtD6sFr7YUwaA2xThoefpcBJ5uhUIqp8kpBl87731KoZrtnvAtSe
-	 tQJZV2J3BcyWH05lvsRFbo2NceNQcewoAeoFdJispYiHIoZAhcAHednAhBvPWLP7WO
-	 epwBmjZFpULrw==
-Date: Wed, 1 Jul 2026 12:04:37 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mark Brown <broonie@kernel.org>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>,
-	linux-spi@vger.kernel.org
-Subject: Re: [PATCH v5 1/3] dt-bindings: spi: Add spi,device-addr peripheral
- property
-Message-ID: <20260701-immodest-carrot-611d255656b5@spud>
-References: <20260701-ad5529r-driver-v5-0-ed087900e642@analog.com>
- <20260701-ad5529r-driver-v5-1-ed087900e642@analog.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LNtiPidL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782904069; x=1814440069;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=hCvnNk/pEx9Q3BuA3GT3urPlvNsb9ZGbJEO+TxrHDhk=;
+  b=LNtiPidLDPr2cCEfm6nmkpfeRNI4QV3/W9S1PF5JTllnEv0I5stLmP7R
+   qJuecNfxVWxxeXE1ZFI90KMcIRSlQa2fjEy+w3ivHinUaseH7HJYePVui
+   YMP73yvTHQM8rC+OltN8X/9K5IctoVX+GfNQFQi/Aa0Ib0PIFcGVluWQZ
+   fs3D5IUYSOR+IoI313VcgY4t4gi/6mrajCQ33iaotHUCevuI03XwGAUs8
+   iXhqpbLpaR7r6hCZIdOhv9n2w1m/MV0nytJ+yUQykx+VtdMs5KWiGNLoR
+   /bEUEmcL4nrfExvkAcvK50aiXyP87Y2TJO1Fl2xhVQYMZJTtOPxRBC6oo
+   w==;
+X-CSE-ConnectionGUID: hFZnprObTNePX2nhndIJYw==
+X-CSE-MsgGUID: SfODCpYrQSa2FJ7OeXRYNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="87546077"
+X-IronPort-AV: E=Sophos;i="6.25,141,1779174000"; 
+   d="scan'208";a="87546077"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 04:07:48 -0700
+X-CSE-ConnectionGUID: qj8BVJ/XRI6zgtwRVeHuag==
+X-CSE-MsgGUID: hj6+vDsNStmOM/iX4E14dg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,141,1779174000"; 
+   d="scan'208";a="248074941"
+Received: from unknown (HELO [10.239.158.49]) ([10.239.158.49])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 04:07:34 -0700
+Message-ID: <25fdb77d-20f6-4b3a-8b3a-dbba0dc47046@intel.com>
+Date: Wed, 1 Jul 2026 19:07:31 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="VqqCijwUkRPHXQ13"
-Content-Disposition: inline
-In-Reply-To: <20260701-ad5529r-driver-v5-1-ed087900e642@analog.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 24/46] KVM: guest_memfd: Make in-place conversion the
+ default\
+To: Sean Christopherson <seanjc@google.com>, Yan Zhao <yan.y.zhao@intel.com>
+Cc: Ackerley Tng <ackerleytng@google.com>, aik@amd.com,
+ andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org,
+ chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com,
+ jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org,
+ pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com,
+ rientjes@google.com, shivankg@amd.com, steven.price@arm.com,
+ tabba@google.com, willy@infradead.org, wyihan@google.com,
+ forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com,
+ aneesh.kumar@kernel.org, liam@infradead.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+ linux-coco@lists.linux.dev
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
+ <20260618-gmem-inplace-conversion-v8-24-9d2959357853@google.com>
+ <aji/2svhcc84rn5w@yzhao56-desk.sh.intel.com>
+ <CAEvNRgHYTFnHbsLLgMTCSitmnp1_j9Pomikm9qmpGTh1w8YE5Q@mail.gmail.com>
+ <ajx5Vrz9ma--hrGH@google.com> <ajyJhZcgfYFtGfS2@yzhao56-desk.sh.intel.com>
+ <aj0Jf30PS2f7x1nt@yzhao56-desk.sh.intel.com> <aj087H1UWSFxbShR@google.com>
+ <aj3H2sxymOYTWTnE@yzhao56-desk.sh.intel.com> <aj7NwCRwWEfLK-gQ@google.com>
+Content-Language: en-US
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <aj7NwCRwWEfLK-gQ@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---VqqCijwUkRPHXQ13
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 6/27/2026 3:06 AM, Sean Christopherson wrote:
+> On Fri, Jun 26, 2026, Yan Zhao wrote:
+>> My first impression of gmem_in_place_conversion=true was that it enforces gmem
+>> in-place conversion. However, it actually only enforces per-gmem private/shared
+>> attribute.
+>> My worry was that people might think it's a kernel bug if userspace can still
+>> have shared memory from other sources after they configured
+>> gmem_in_place_conversion=true.
+> Ah, I see where you're coming from.  FWIW, truly enforcing in-place conversion
+> is flat out impossible.  E.g. userspace can simply replace the memslot, at which
+> point the memory effectively reverts to shared.
 
-On Wed, Jul 01, 2026 at 08:40:39AM +0200, Janani Sunil wrote:
-> Some SPI devices support sharing a single chip select across multiple
-> physical chips by encoding a device address in the SPI frame itself.
-> Add a generic spi,device-addr property to document this per-peripheral
-> address. This property belongs in channel or sub-device nodes of
-> peripherals that use this addressing scheme.
->=20
-> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-> ---
->  Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/spi/spi-peripheral-props.y=
-aml b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-> index 880a9f624566..3774e8018355 100644
-> --- a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-> +++ b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-> @@ -142,6 +142,11 @@ properties:
->      minItems: 2
->      maxItems: 4
-> =20
-> +  spi,device-addr:
+would something like below enforce the in-place conversion?
 
-To match other generic spi properties, s/,/-/.
+Userspace can create a memslot without gmem fd, but that memslot can 
+only serve as shared memory and cannot be converted. So it doesn't 
+violate the in-place conversion.
 
-However, you don't actually use this as a spi peripheral's property in
-your device binding, so you've got your wires crossed here somewhere.
-
-If it's a generic dac channel property (as you use it) it should be in
-dac.yaml (or adc.yaml for the other device that I asked you to add it
-for as proof of being generic), or it is a spi peripheral property and
-needs to go into the dac node itself.
-
-pw-bot: changes-requested
-
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Device address used when multiple peripherals share a single chip =
-select.
-> +
->    st,spi-midi-ns:
->      deprecated: true
->      description: |
->=20
-> --=20
-> 2.43.0
->=20
-
---VqqCijwUkRPHXQ13
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCakT0RQAKCRB4tDGHoIJi
-0oAXAQCicLyE78yFQYPOZCjJeHOLd/F4aci3owp0A2ld0WboDAD+PNHYrKK5luFd
-0otItNvp4UEA7giSba5VSuOwoQ6lqw4=
-=BtpN
------END PGP SIGNATURE-----
-
---VqqCijwUkRPHXQ13--
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -2122,6 +2122,8 @@ static int kvm_set_memory_region(struct kvm *kvm,
+         new->flags = mem->flags;
+         new->userspace_addr = mem->userspace_addr;
+         if (mem->flags & KVM_MEM_GUEST_MEMFD) {
++               if (gmem_in_place_conversion)
++                       new->flags |= KVM_MEMSLOT_GMEM_ONLY;
+                 r = kvm_gmem_bind(kvm, new, mem->guest_memfd, 
+mem->guest_memfd_offset);
+                 if (r)
+                         goto out;
