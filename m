@@ -1,526 +1,159 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4255F3B52FA
-	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 09:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6793B47F9
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 09:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782898694; cv=none; b=uycjfRnIEquYHUnkeBJSFTOqqJnb/p4HtkKBJQrzzg20hFMHYbQ7MRX7Hhui5ZA81GrmugCbYVNvHZ+0hTIfin6aC+xu0ER346/2P9m2PkrJAjxOB/enQV/MXihMP4vTiYIFn3ehtpCyDLgZye0HXYVS7at2ue6rv7vSFiDQvik=
+	t=1782898775; cv=none; b=SsidJXTQELOyttFUvawNjATDnWIIr7z8+UeWnuozejehu2hbcVTxANc22cPBIodSJ+dNGpv1vf0/Y7DvY1TngKmYdL/z+I8+IKM2BS9B15O/NBnXOM2SzIXROyisLtzO5LiuejSBi9GAqGKUcgmckYZTI25ruPOTpO28j3kRXWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782898694; c=relaxed/simple;
-	bh=bqgHMpRFSgGpk0AqOluAyO4FRLxnNblUBJ9bU6f+as4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uUu8/JAy/kzckeLTQSHMUPk31DXCYt2HseJ5SkBbbAN1DtuB5PYxlTH756236L3hRa+bhMN9Y5w6PrlBoRVcR7JkjljdNcngZJJuZChzTQguxq5zLli9uTo3BW6M5J3tAaP7A7uujPmhqFWwIIBS+hGP1DR4QJRByiHRXn/gqdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=o7Jc64IG; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1782898775; c=relaxed/simple;
+	bh=1E+cYhGlSjW1xiBWX7Lf4NQ3+nhN+zb1AQgSa0kzBzM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ly/NMqCvsgbLnAmLYTIig7FtvVSjflu/hjt69MsuDckmy7lQJJyg9Mjvs0ZUaoutSPWKqr0P6sFFwiYnZQ64AFwwBXtHvGNrKrldJMUDvEzMVfXhJ4inJvmhGw7eTmINVY+T9fuv4e93XakBLWJ5jSd4286T3GxRJ10O5FRAhYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gW/DFc23; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="o7Jc64IG"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-493b27c7451so15963885e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 02:38:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gW/DFc23"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2c6b67d5fa1so2749675ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 02:39:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1782898687; x=1783503487; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nUnu+0Gw8HzfquafR9sctwwF95xwBUzlKcuLZcG2ARA=;
-        b=o7Jc64IGC/mjmA8FzgPnInOVyEaAn5OJvk65HU8OPnvilmSwhEWd8/t7nDoTLJ9G7I
-         +3in0juB6vlbdU8JNa9U4H51n8VNHaJPXmwg06p4XKqTv5/S1huc3y8ls5OxGJJT/Hbt
-         vL/2+3BQIge3troOS8fmouDZtUlc2gj5onwalZARN/fH8jzFaw/Rlex9mC3q0S1ZExgf
-         vNbTGu8aU6cphdhDrN8YuFr6EWshqmBdELYABCrWVG9pl40obydlC7bJc/2tgHQkuFKe
-         9KEjmSMZY2hh0a4Uablhv+muinvXLs2vk1+4+OHd7Gx3zUfXzLzbZUzM2ByfAEDZzd9R
-         bVtA==
+        d=gmail.com; s=20251104; t=1782898773; x=1783503573; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Oqs6VzWQewb1OvRu2nCVMyJUKa4LqJKmS9q20XGY1/U=;
+        b=gW/DFc23F9TYT9Do92R/WcdUNB6zbEhcBEW0jNEn4qrK8ID4r3F5H3ExVN5s+8zy13
+         pf2uL1VmetRAeCAlhmZ8w7tqPR0Am8DwLNiZPuGACXU59f0vR03ftDVSizgG9lDApWrM
+         ARC4lnVLtu86yG6tCkUNmKr9uzEVrzERA7RK2Np8fdrZVKv9J3KnOXn90E6rXEMhbsvE
+         eJ6yutBTCkWw6g5TjmqOSFQpwkzNDQYR7TBQbeAW2CGxrs7xEhPVJnsETIYvmv6RdQXt
+         ISa7gY3cfUxi0Y5eGWH6tKvBFNzvawf0n0kbiuD/2+r+n2zayMV0252DdQWN4IgRKLMq
+         sRdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782898687; x=1783503487;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nUnu+0Gw8HzfquafR9sctwwF95xwBUzlKcuLZcG2ARA=;
-        b=XR1OG/67RssdWVGn+XbWpAY5EmRniWOfsoAn9w2eB9Rh3ltnedThKFcBxlB1svKnir
-         t8fl+5V6U+MmSr0IuKuwrgMP97l34Gp+tXKuGmC7u/v6T1j0/CNfGS2D9UwaT4uEgPgM
-         a3fkv0LRnXGqelt+LN5qIvQ+GHR9GD6sbDzu5EB2rnIU+Pt/1CKwbd0eGVzvXLrLR3mn
-         NYx+SsR13dyZ+/59FqKopJYb7k8SeFi46UP7UTfk/W3CcwW0oxwHCMGNmsi5ybOW79T1
-         SuT8T8rIdMwaGtfJfk+kytNEGSuL2Tb/CiAvu2csYJfV0LkWzJ47LGELYQaFWT3mVsdx
-         3O8w==
-X-Forwarded-Encrypted: i=1; AFNElJ+K50Rk9u+i8/27XWyjXTzmQ8nQKPEuGvmXcTfAKbuqvRA2PONeamg14EK1nmyyl2xoNioaQw5Hm64=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuwkGD6e6YyzJO4MKPRUtvOrkQsjCg6szHum2C3iynsUEZS2Wx
-	kZKTTVUVJyPzEvOVB33+l9h5rggUPwT/YlNftmY/KHBVodo0GG69c60KCMqoergigyA=
-X-Gm-Gg: AfdE7ckuH9t0iKZyMkDA2spjKrCLbwSveRPgxx1j3iue3/UsDmsjYSklJVb7QCTGC0g
-	DENSxAbYpjuiXZdbPWg39Hig47Z4vbzdKFhiYRBDu3Rp6qBZIcWPMtPG4jO/G/JmHudDwdVEcME
-	PVVpXxv+CNbITH5nqOzwctbqF4lMXGFwoTSBQORfKXWA3HXm7X5x5UUsG1NFqClRILCjbqR8Fq6
-	19Ujzy3cPvev8/pts2QcnnODU2r3G9+YpsSLzncZe0A/rGkf7QvS99cPRHmuiY1y/lKmYiMK1t3
-	E4d4K62gjYvhyTxbjFWfWu2eLqrDHjY9Rrh5hAZL0Wtb96XayHX5SQIUlFXwVN5GQVhogRDTxNf
-	ammgOG0zLn3HB0UPwBH49xXGmUWPXfVglQ9qBPSoIVZh+1WydsRc5Oa5NbLnGqEK4udVLFH1r3K
-	pd5zkekl/siBVLy9MZD6JZ8w==
-X-Received: by 2002:a05:600c:8715:b0:493:b36b:4933 with SMTP id 5b1f17b1804b1-493bc2099a9mr74044725e9.3.1782898687239;
-        Wed, 01 Jul 2026 02:38:07 -0700 (PDT)
-Received: from localhost ([140.209.217.212])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-475643cd64bsm16217328f8f.14.2026.07.01.02.38.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 02:38:06 -0700 (PDT)
-Date: Wed, 1 Jul 2026 11:38:03 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Mark Bloch <mbloch@nvidia.com>
-Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
-	Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next V4 3/6] devlink: Parse eswitch mode boot defaults
-Message-ID: <akTencQhKSanuFeW@FV6GYCPJ69>
-References: <20260629182102.245150-1-mbloch@nvidia.com>
- <20260629182102.245150-4-mbloch@nvidia.com>
+        d=1e100.net; s=20251104; t=1782898773; x=1783503573;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Oqs6VzWQewb1OvRu2nCVMyJUKa4LqJKmS9q20XGY1/U=;
+        b=Ip0HRwKNw9qGcj5oKZdw+IvZfgf4gj9D49jxA6BR1favZh95to6GAigUkSy+AlObko
+         HhYZhMPlYXs1TFY7mE8JH7cvzusfwCrpSD+BCYZJyofoDGr4pieHxJI02kjSaX4Tgeed
+         iJ71mmRVOp26EVM0OtOb8NoQZHKRnmCHYXyy/wPku+wmAmylMUVJd1pYOK0VCf6EeGGg
+         toQzW1B5BJ7GWF5xFTkpTfHZuTL+uZJrgTkW6TnSDien4Wht2e7ULAvySNKyVHI7hPNY
+         GVzxjRMyjHsngVaa82O64HZmMUnFcVtg3wuJX8maL1+3df9iYzJ8RBjvHAwbn09bVu4p
+         rd5w==
+X-Forwarded-Encrypted: i=1; AHgh+Ro8j+OOdkMEJqw3Wy9ELScsR3XMOt0WLdLuxLS7PDQJZO0xs9oVSeH5cQ2VOMuAFIVFOHAGFp/nJyc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0ZDUT7b2INUmhX3/fFVyUj74tHaE9LMx7v8slpqA6wlTE/hg7
+	BHlzdGrKQ8MeXet3oF76Sw3e1M2l9BNBPuQqPm4JYV/wrV6ROTv4y5ts
+X-Gm-Gg: AfdE7cmzcUZB39A/yv/jKjc2qvWThGvBxiTxSeb5RGMdJJ2mSOPA9FjlSa6U6PE/Rwq
+	mAUqTCaTbpweEqoDZRrJpF0YBLRZRkxn0uNWpsqr+90hjwe/DwKKk8viNL7KqzZZDJad7cVB75Q
+	RNV8jNWPavIVLf2JpGigsZM7o025MYm0TMhmfBlv08+7CnSe3Ukj9RaTBPshwh/pjrFY0CVQP9R
+	nS31+MMU3vSVgcOd8CmgxiYueJKDSPzsHMxtvANerAyQOGLWCR2+DSbw4LmMyCqhcoucVBB9iEr
+	dK8+p5weNQJMEyaZlpJtWErEz/ljF0rc8ltDAamUmzgfHoAKaW6BvKXSHEfVf/aHQa3h4ZY/+0J
+	IuIF83pQT+8x2Y2T6YjHcYyDP79DBIXaYmqdY3MOYsc5or8S47em74w7ZPGIhasdgEBKI5no55C
+	JJbAiMNKq/m1yb723E+H6OJfr4wRWzraYH
+X-Received: by 2002:a17:902:da8b:b0:2c9:9a2e:dab0 with SMTP id d9443c01a7336-2ca7e71509cmr10989425ad.3.1782898773219;
+        Wed, 01 Jul 2026 02:39:33 -0700 (PDT)
+Received: from [10.125.192.77] ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca382acd0csm29148225ad.62.2026.07.01.02.39.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Jul 2026 02:39:32 -0700 (PDT)
+Message-ID: <e2ec0924-52b3-25f3-8432-4b8e33a101dd@gmail.com>
+Date: Wed, 1 Jul 2026 17:39:15 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260629182102.245150-4-mbloch@nvidia.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.0
+Subject: Re: [PATCH v5 1/6] mm/zswap: Fix global shrinker when memory cgroup
+ is disabled
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, tj@kernel.org,
+ hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org,
+ mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev,
+ roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>,
+ stable@vger.kernel.org
+References: <20260629112032.20423-1-jiahao.kernel@gmail.com>
+ <20260629112032.20423-2-jiahao.kernel@gmail.com>
+ <CAKEwX=MniM-4-aV17aH3UiDd_Xd2RH743fFZaxEnYX9qvnokeA@mail.gmail.com>
+ <fe15eb9f-0b6c-dcaa-d0a7-5f08c3f92bfb@gmail.com>
+ <CAO9r8zPBe9BPwP8NXz7pdH7T+8HLNsRAckL2Vfcnz0c23TH=iw@mail.gmail.com>
+From: Hao Jia <jiahao.kernel@gmail.com>
+In-Reply-To: <CAO9r8zPBe9BPwP8NXz7pdH7T+8HLNsRAckL2Vfcnz0c23TH=iw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Mon, Jun 29, 2026 at 08:20:58PM +0200, mbloch@nvidia.com wrote:
->Add devlink_eswitch_mode= kernel command line parsing for a default
->eswitch mode.
->
->The supported syntax selects either all devlink handles or one explicit
->comma-separated handle list:
->
->  devlink_eswitch_mode=*=<mode>
->
->  devlink_eswitch_mode=<handle>[,<handle>...]=<mode>
->
->where <mode> is one of legacy, switchdev or switchdev_inactive. All
->selected handles receive the same mode. Assigning different modes to
->different handle lists in the same parameter value is not supported.
->
->Store the parsed selector and mode in devlink core so the default can be
->applied by a downstream patch.
->
->Document the devlink_eswitch_mode= syntax and duplicate handle handling.
->
->Signed-off-by: Mark Bloch <mbloch@nvidia.com>
->---
-> .../admin-guide/kernel-parameters.txt         |  25 ++
-> .../networking/devlink/devlink-defaults.rst   |  78 ++++++
-> Documentation/networking/devlink/index.rst    |   1 +
-> net/devlink/core.c                            | 227 ++++++++++++++++++
-> 4 files changed, 331 insertions(+)
-> create mode 100644 Documentation/networking/devlink/devlink-defaults.rst
->
->diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->index b5493a7f8f22..117300dd589c 100644
->--- a/Documentation/admin-guide/kernel-parameters.txt
->+++ b/Documentation/admin-guide/kernel-parameters.txt
->@@ -1249,6 +1249,31 @@ Kernel parameters
-> 	dell_smm_hwmon.fan_max=
-> 			[HW] Maximum configurable fan speed.
+
+
+On 2026/7/1 00:02, Yosry Ahmed wrote:
+>> How about something like this? If there are no objections, I'll fold
+>> this into the next version.
+>>
+>>       mm/zswap: Fix global shrinker when memory cgroup is disabled
+>>
+>>       When memory cgroup is disabled, mem_cgroup_iter() always returns NULL.
+>>       Therefore, the global shrinker shrink_worker() always takes the !memcg
+>>       branch. After MAX_RECLAIM_RETRIES empty walks, the worker simply
+>> gives up,
+>>       so it fails to write back anything.
+>>
+>>       Therefore, when memory cgroup is disabled, fall through with the !memcg
+>>       branch and shrink the root memcg directly.
+>>
+>>       With memcg disabled, shrink_memcg() only returns -ENOENT when the root
+>>       LRU is empty, which means the total pages are already below thr.
+>> The loop
+>>       then safely bails out via the zswap_total_pages() <= thr check. For any
+>>       other return value from shrink_memcg(), the loop is guaranteed to
+>> terminate,
+>>       either after MAX_RECLAIM_RETRIES failures or once the threshold is met.
+>>
+>>       Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
+>>       Cc: stable@vger.kernel.org
+>>       Reported-by: Yosry Ahmed <yosry@kernel.org>
+>>       Closes:
+>> https://lore.kernel.org/all/CAO9r8zPVzMKFbCixxD-qgtRrkFxWVrHiZZeLc=eyTPKPVQgX4g@mail.gmail.com
+>>       Signed-off-by: Hao Jia <jiahao1@lixiang.com>
 > 
->+	devlink_eswitch_mode=
->+			[NET]
->+			Format:
->+			<selector>=<mode>
->+
->+			<selector>:
->+			* | <handle>[,<handle>...]
->+
->+			<handle>:
->+			<bus-name>/<dev-name>
->+
->+			Configure default devlink eswitch mode for matching
->+			devlink instances during device initialization.
->+
->+			<mode>:
->+			legacy | switchdev | switchdev_inactive
->+
->+			Examples:
->+			devlink_eswitch_mode=*=switchdev
->+			devlink_eswitch_mode=pci/0000:08:00.0=switchdev
->+			devlink_eswitch_mode=pci/0000:08:00.0,pci/0000:09:00.1=switchdev_inactive
->+
->+			See Documentation/networking/devlink/devlink-defaults.rst
->+			for the full syntax.
->+
-> 	dfltcc=		[HW,S390]
-> 			Format: { on | off | def_only | inf_only | always }
-> 			on:       s390 zlib hardware support for compression on
->diff --git a/Documentation/networking/devlink/devlink-defaults.rst b/Documentation/networking/devlink/devlink-defaults.rst
->new file mode 100644
->index 000000000000..380c9e99210e
->--- /dev/null
->+++ b/Documentation/networking/devlink/devlink-defaults.rst
->@@ -0,0 +1,78 @@
->+.. SPDX-License-Identifier: GPL-2.0
->+
->+==============================
->+Devlink Eswitch Mode Defaults
->+==============================
->+
->+Devlink eswitch mode defaults allow the eswitch mode to be provided on the
->+kernel command line and applied to matching devlink instances during device
->+initialization.
->+
->+The devlink device is selected by its devlink handle. For PCI devices this is
->+the same handle shown by ``devlink dev show``, for example
->+``pci/0000:08:00.0``.
->+
->+Kernel command line syntax
->+==========================
->+
->+Defaults are specified with the ``devlink_eswitch_mode=`` kernel command line
->+parameter.
->+
->+The general syntax is::
->+
->+  devlink_eswitch_mode=<selector>=<mode>
->+
->+``<selector>`` is either ``*`` or one or more devlink handles::
->+
->+  * | <bus-name>/<dev-name>[,<bus-name>/<dev-name>...]
->+
->+``*`` applies the mode to every devlink instance. All handles in the same
->+selector receive the same eswitch mode.
->+
->+``<mode>`` is one of ``legacy``, ``switchdev`` or ``switchdev_inactive``.
->+
->+Syntax rules
->+------------
->+
->+The following syntax rules apply:
->+
->+* Specify the default in one ``devlink_eswitch_mode=`` parameter. Repeated
->+  ``devlink_eswitch_mode=`` parameters are not accumulated.
->+* The ``devlink_eswitch_mode=`` value is limited by the kernel command line
->+  size.
->+* Whitespace is not allowed within the parameter value.
->+* ``<selector>`` must be either ``*`` or a handle list. ``*`` cannot be
->+  combined with explicit handles.
->+* ``<bus-name>`` and ``<dev-name>`` must not be empty.
->+* ``<dev-name>`` may contain ``:``. This allows PCI names such as
->+  ``0000:08:00.0``.
->+* Handles must not contain whitespace, ``*``, ``=`` or more than one ``/``.
->+* A comma separates handles.
->+* Comma-separated default assignments are not supported.
->+* Duplicate handles are rejected and the devlink eswitch mode default is
->+  ignored.
->+
->+The eswitch mode default corresponds to the userspace command::
->+
->+  devlink dev eswitch set <handle> mode <value>
->+
->+
->+Examples
->+========
->+
->+Set all devlink instances to switchdev mode::
->+
->+  devlink_eswitch_mode=*=switchdev
->+
->+Set one PCI devlink instance to switchdev mode::
->+
->+  devlink_eswitch_mode=pci/0000:08:00.0=switchdev
->+
->+Set two PCI devlink instances to switchdev inactive mode::
->+
->+  devlink_eswitch_mode=pci/0000:08:00.0,pci/0000:09:00.1=switchdev_inactive
->+
->+The following is invalid because comma-separated default assignments are not
->+supported::
->+
->+  devlink_eswitch_mode=pci/0000:08:00.0=switchdev,pci/0000:09:00.0=switchdev_inactive
-
-Interesting. I would think that this is something user may want to set
-for some usecases, no?
-
-
->diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
->index 32f70879ddd0..93f09cb18c44 100644
->--- a/Documentation/networking/devlink/index.rst
->+++ b/Documentation/networking/devlink/index.rst
->@@ -56,6 +56,7 @@ general.
->    :maxdepth: 1
+> Feel free to add:
 > 
->    devlink-dpipe
->+   devlink-defaults
->    devlink-eswitch-attr
->    devlink-flash
->    devlink-health
->diff --git a/net/devlink/core.c b/net/devlink/core.c
+> Acked-by: Yosry Ahmed <yosry@kernel.org>
 
-Wanna have this in a separate file perhaps? "default.c"?
-
-
->index fe9f6a0a67d5..5126509a9c4e 100644
->--- a/net/devlink/core.c
->+++ b/net/devlink/core.c
->@@ -4,6 +4,10 @@
->  * Copyright (c) 2016 Jiri Pirko <jiri@mellanox.com>
->  */
+Thank you for taking the time to review this.
 > 
->+#include <linux/init.h>
->+#include <linux/list.h>
->+#include <linux/slab.h>
->+#include <linux/string.h>
-> #include <net/genetlink.h>
-> #define CREATE_TRACE_POINTS
-> #include <trace/events/devlink.h>
->@@ -16,6 +20,193 @@ EXPORT_TRACEPOINT_SYMBOL_GPL(devlink_trap_report);
+> A small nit below.
 > 
-> DEFINE_XARRAY_FLAGS(devlinks, XA_FLAGS_ALLOC);
+>>
+>> diff --git a/mm/zswap.c b/mm/zswap.c
+>> index 4b5149173b0e..9d4f19fc440e 100644
+>> --- a/mm/zswap.c
+>> +++ b/mm/zswap.c
+>> @@ -1361,11 +1361,12 @@ static void shrink_worker(struct work_struct *w)
+>>                   } while (memcg && !mem_cgroup_tryget_online(memcg));
+>>                   spin_unlock(&zswap_shrink_lock);
+>>
+>> -               if (!memcg) {
+>> -                       /*
+>> -                        * Continue shrinking without incrementing
+>> failures if
+>> -                        * we found candidate memcgs in the last tree walk.
+>> -                        */
+>> +               /*
+>> +                * A NULL memcg ends a full hierarchy pass (except when
+>> memcg is
+>> +                * disabled, where it is always NULL: fall through to
+>> the root LRU).
+>> +                * Count a failure only if the pass found no candidates.
 > 
->+static char *devlink_default_esw_mode_param;
->+static bool devlink_default_esw_mode_match_all;
->+static enum devlink_eswitch_mode devlink_default_esw_mode;
->+static LIST_HEAD(devlink_default_esw_mode_nodes);
->+
->+struct devlink_default_esw_mode_node {
->+	struct list_head list;
->+	char *bus_name;
->+	char *dev_name;
->+};
->+
->+static int __init
->+devlink_default_esw_mode_to_value(const char *str,
->+				  enum devlink_eswitch_mode *mode)
->+{
->+	if (!strcmp(str, "legacy")) {
->+		*mode = DEVLINK_ESWITCH_MODE_LEGACY;
->+		return 0;
->+	}
->+	if (!strcmp(str, "switchdev")) {
->+		*mode = DEVLINK_ESWITCH_MODE_SWITCHDEV;
->+		return 0;
->+	}
->+	if (!strcmp(str, "switchdev_inactive")) {
->+		*mode = DEVLINK_ESWITCH_MODE_SWITCHDEV_INACTIVE;
->+		return 0;
->+	}
->+
->+	return -EINVAL;
->+}
->+
->+static int __init
->+devlink_default_esw_mode_handle_parse(char *handle, char **bus_name,
->+				      char **dev_name)
->+{
->+	char *slash;
->+	char *p;
->+
->+	if (!*handle)
->+		return -EINVAL;
->+
->+	for (p = handle; *p; p++) {
->+		if (*p == '*' || *p == '=')
->+			return -EINVAL;
->+	}
->+
->+	slash = strchr(handle, '/');
->+	if (!slash || slash == handle || !slash[1])
->+		return -EINVAL;
->+	if (strchr(slash + 1, '/'))
->+		return -EINVAL;
->+
->+	*slash = '\0';
->+
->+	*bus_name = handle;
->+	*dev_name = slash + 1;
->+	return 0;
->+}
->+
->+static struct devlink_default_esw_mode_node *
->+devlink_default_esw_mode_node_find(const char *bus_name, const char *dev_name)
->+{
->+	struct devlink_default_esw_mode_node *node;
->+
->+	list_for_each_entry(node, &devlink_default_esw_mode_nodes, list) {
->+		if (!strcmp(node->bus_name, bus_name) &&
->+		    !strcmp(node->dev_name, dev_name))
->+			return node;
->+	}
->+
->+	return NULL;
->+}
->+
->+static int __init
->+devlink_default_esw_mode_node_add(const char *bus_name, const char *dev_name)
->+{
->+	struct devlink_default_esw_mode_node *node;
->+
->+	if (devlink_default_esw_mode_node_find(bus_name, dev_name))
->+		return -EEXIST;
->+
->+	node = kzalloc_obj(*node);
->+	if (!node)
->+		return -ENOMEM;
->+
->+	INIT_LIST_HEAD(&node->list);
->+	node->bus_name = kstrdup(bus_name, GFP_KERNEL);
->+	node->dev_name = kstrdup(dev_name, GFP_KERNEL);
->+	if (!node->bus_name || !node->dev_name) {
->+		kfree(node->bus_name);
->+		kfree(node->dev_name);
->+		kfree(node);
->+		return -ENOMEM;
->+	}
->+
->+	list_add_tail(&node->list, &devlink_default_esw_mode_nodes);
->+	return 0;
->+}
->+
->+static int __init devlink_default_esw_mode_handles_parse(char *handles)
->+{
->+	char *handle;
->+	int err;
->+
->+	if (!strcmp(handles, "*")) {
->+		devlink_default_esw_mode_match_all = true;
->+		return 0;
->+	}
->+
->+	while ((handle = strsep(&handles, ",")) != NULL) {
->+		char *bus_name;
->+		char *dev_name;
->+
->+		err = devlink_default_esw_mode_handle_parse(handle, &bus_name,
->+							    &dev_name);
->+		if (err)
->+			return err;
->+
->+		err = devlink_default_esw_mode_node_add(bus_name, dev_name);
->+		if (err)
->+			return err;
->+	}
->+
->+	return 0;
->+}
->+
->+static void __init
->+devlink_default_esw_mode_node_free(struct devlink_default_esw_mode_node *node)
->+{
->+	kfree(node->bus_name);
->+	kfree(node->dev_name);
->+	kfree(node);
->+}
->+
->+static void __init devlink_default_esw_mode_nodes_clear(void)
->+{
->+	struct devlink_default_esw_mode_node *node;
->+	struct devlink_default_esw_mode_node *node_tmp;
->+
->+	list_for_each_entry_safe(node, node_tmp,
->+				 &devlink_default_esw_mode_nodes, list) {
->+		list_del(&node->list);
->+		devlink_default_esw_mode_node_free(node);
->+	}
->+
->+	devlink_default_esw_mode_match_all = false;
->+}
->+
->+static int __init devlink_default_esw_mode_parse(char *str)
->+{
->+	char *handles;
->+	char *separator;
->+	char *mode;
->+	enum devlink_eswitch_mode esw_mode;
->+	int err;
->+
->+	if (!*str)
->+		return -EINVAL;
->+
->+	separator = strrchr(str, '=');
->+	if (!separator || separator == str || !separator[1])
->+		return -EINVAL;
->+
->+	*separator = '\0';
->+	handles = str;
->+	mode = separator + 1;
->+
->+	err = devlink_default_esw_mode_to_value(mode, &esw_mode);
->+	if (err)
->+		return err;
->+
->+	err = devlink_default_esw_mode_handles_parse(handles);
->+	if (err)
->+		devlink_default_esw_mode_nodes_clear();
->+	else
->+		devlink_default_esw_mode = esw_mode;
->+
->+	return err;
->+}
->+
->+static int __init devlink_default_esw_mode_setup(char *str)
->+{
->+	devlink_default_esw_mode_param = str;
->+	return 1;
->+}
->+__setup("devlink_eswitch_mode=", devlink_default_esw_mode_setup);
->+
-> static struct devlink *devlinks_xa_get(unsigned long index)
-> {
-> 	struct devlink *devlink;
->@@ -382,6 +573,14 @@ struct devlink *devlinks_xa_lookup_get(struct net *net, unsigned long index)
-> /**
->  * devl_register - Register devlink instance
->  * @devlink: devlink
->+ *
->+ * Make @devlink visible to userspace. Drivers must call this only after the
->+ * instance is fully initialized and its devlink operations can be called.
->+ *
->+ * Context: Caller must hold the devlink instance lock. Use devlink_register()
->+ * when the lock is not already held.
->+ *
->+ * Return: 0 on success.
->  */
-> int devl_register(struct devlink *devlink)
-> {
->@@ -580,6 +779,31 @@ static int __init devlink_init(void)
-> {
-> 	int err;
-> 
->+	if (devlink_default_esw_mode_param) {
->+		char *def;
->+
->+		def = kstrdup(devlink_default_esw_mode_param, GFP_KERNEL);
->+		if (!def) {
->+			devlink_default_esw_mode_param = NULL;
->+			pr_warn("devlink: devlink_eswitch_mode parameter ignored, failed to allocate memory\n");
->+		} else {
->+			err = devlink_default_esw_mode_parse(def);
->+			kfree(def);
->+			if (err == -EEXIST) {
->+				devlink_default_esw_mode_param = NULL;
->+				pr_warn("devlink: duplicate eswitch mode handles ignored\n");
->+			} else if (err == -EINVAL) {
->+				devlink_default_esw_mode_param = NULL;
->+				pr_warn("devlink: invalid devlink_eswitch_mode parameter ignored\n");
->+			} else if (err == -ENOMEM) {
->+				devlink_default_esw_mode_param = NULL;
->+				pr_warn("devlink: devlink_eswitch_mode parameter ignored, failed to allocate memory\n");
->+			} else if (err) {
->+				goto out;
->+			}
-
-Move this to a separate helper alongside the other "default" functions?
+> I think "last pass" is clearer than just "pass" here?
 
 
->+		}
->+	}
->+
-> 	err = register_pernet_subsys(&devlink_pernet_ops);
-> 	if (err)
-> 		goto out;
->@@ -595,7 +819,10 @@ static int __init devlink_init(void)
-> out_unreg_pernet_subsys:
-> 	unregister_pernet_subsys(&devlink_pernet_ops);
-> out:
->+	if (err)
->+		devlink_default_esw_mode_nodes_clear();
-> 	WARN_ON(err);
->+
-> 	return err;
-> }
-> 
->-- 
->2.43.0
->
+Will do.
+
+Thanks,
+Hao
+
