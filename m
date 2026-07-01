@@ -1,151 +1,256 @@
-Received: from flow-a1-smtp.messagingengine.com (flow-a1-smtp.messagingengine.com [103.168.172.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA04048123B;
-	Wed,  1 Jul 2026 12:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05FA248124D
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 12:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782909810; cv=none; b=Q6hxOeqcW9xDZak9TUNnBuLA0FW21/dBGa471TROQACSC8x9q3FzSR735NMD4ocOcfXcnIylI6m738eShvS7nrH/EMmFapuPQGyyWiY32hdxyrgrrz4JxixJGUhvlpacv9ijca5xJEDg8UkMBFyf5mmUrQc+b6BQPnI0DcB3XXQ=
+	t=1782910357; cv=none; b=An27T4rNN4R7+N1Shz3ka/cb9PHTOP8q9bIbxyF8RjnvHLxVnhKP6ralcjdsG8BTs3v9TZXNjt7fcOnv89LVT6nJRhdLXKcCx5nH/3h0N1yGbPbW229EgYW5lWXnRzWtAYA8/2y7L/XtetZT2OmY6rxqFKRwH6jEf91zDVSd6IM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782909810; c=relaxed/simple;
-	bh=1wVVq0yz5bIv51CSd40HyRHA57swpP7dvKTHWieSxvg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jCm2iK11Ol2jyoWsZhfVsxMNX/KGhFNFEeKW/o9m8ouGmpe4DXe0rpooqFXeN6Y+R3J0T6Fy3LClWNs2b+L5GEBB+RDCpJA/LcGb8x5eZQUglRaHjNhUrs88cVnCdpnhnvDKOTUggLNwWU50BHOgHObZVjgkOHOjJQP0IB+sgZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=rD8WSX0D; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=e6T9RzQu; arc=none smtp.client-ip=103.168.172.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
+	s=arc-20240116; t=1782910357; c=relaxed/simple;
+	bh=clw0EOfLxOw8mtsU7lPIxvK677hYKTd1sOOAfWfxJ+Y=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=UXA4IwY8n/SpX75tMASR00PFURZlR7sppjhHrTQRIh0b0lZsCpZQtywKYTCvbBj4j5JzqpAkhiB1kpYKOHQrfrsZUzRyhFl9fFBRPWyr6XGrzZlzRAhcJKFYvl0h4w2nk7FowK20HmPgYkxfSs0qGqN+Tmm8G1q5+BR1kbfAdKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WxCrr9QU; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="rD8WSX0D";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="e6T9RzQu"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailflow.phl.internal (Postfix) with ESMTP id 266B0138003F;
-	Wed,  1 Jul 2026 08:43:28 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Wed, 01 Jul 2026 08:43:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1782909808; x=
-	1782913408; bh=hCwzeqiZqQn1EeYlAWoOxLI45HYxj+0NX1TXbYFjUzw=; b=r
-	D8WSX0DqJbUdVz6AHBANjrmqDRkZc5VPtN43qTs/l4g4FbmQ5ZNUhXHyUxTW5a8Y
-	mwQNE/fAFil76hhDIRE2bl2rP018JTTf2up0OWj3fKZFXWvSD1TTJYXoZcwbUL9e
-	N8mhhlFkhZDv/6daIsHEV6cjlwUDHiO7Djorc3maReyyHci3smWnPJgEwXP+5/YY
-	RLc5A/cdTRt21PcRZ1fyAZxD0rQOlOEkMn5qiOUak/9hNxNvK7KuGy1QeR/Q19kZ
-	7ep47fhIHtdXlMEMfioWzVT9ZgALg1XuhA/6PGkZ2wPGl9BAs+hcuWtDojS1aaDX
-	E2TdL81IBtmxrcm76wSEQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1782909808; x=1782913408; bh=h
-	CwzeqiZqQn1EeYlAWoOxLI45HYxj+0NX1TXbYFjUzw=; b=e6T9RzQuQ+I8UBQTW
-	hK5sN8FkEBKswUHmZADrc7HYz141TSunuSm0Ltk7KfsSHywxsJKM6FiOlloXeesv
-	Nz8/ikOxJibwkEGJotHqcYv7extfpVHNBiG7m58p/1XDA2o8M4EUKs2PMTDW6fYj
-	ph5dA5nXfzmqIMFliMhIoqCeVydBiezKGBSF8ALjSzdeQhYxt8naXsaM0oOYkiVK
-	NzhBe6bq+eH5iKYqYfjw/Vkx1rrXPoo/c7g8BFitl3h3fiYr600XEZ2aGqSCRoQ7
-	/aYlIVXJcNI/RvS0zuWXaOClVUPq9NUeLRe6oWAeX5DkWI2xje1IhmjtOcWWX7Bo
-	0nrBg==
-X-ME-Sender: <xms:bwtFakFc93EQo32GPTamIwyMo15cpW4yXdOzJuQ490gK4ZbGV1QP_A>
-    <xme:bwtFajssi38r77oeM_nZjUW3kj9vNcOBCAb2aVrdXzjUayg15pYf01URb087tqx8b
-    aaTos902Z78KAah6Y-iOYrO-XFLXlBfPU_cwafaRJ6yhHyvRrVAHSw>
-X-ME-Received: <xmr:bwtFaqb4UsVkTTrUxhfHOTvaeq3qm4oYArIAgYaD-DqFpbU8ZUPKjHX->
-X-ME-Proxy-Cause: dmFkZTGBq7gKXug1IiWhHduKANkZDifvXsa10TKTCAkjtHbpw+32P+uDSNsh7UkqvDQz35
-    5GsHfrpOhzNQ1YRMDLdtqkOKtNwAwX1eLMORyfL/k5Bv0/h3xMPq24mqgBlnnW8okBxo49
-    osinnLxNinneVAeoo0euooMolnMfXRKLx9mOA7Ss2txEYNyheFI/9Kz5qGOBqwW1sTiJ1O
-    NGHLHrFzxgzZEsteBMU+UgtmSy0K5UPUyve8VnY5EyBP2gFc6UCU/NWsqHftDntCABhJO3
-    q+i4+j3A4csrukzVj2fTKrlpDZ5cL1beypvxpyUHK5JKJ7qqdrnCdx/RDBFzK8sd0MvTQ2
-    b6tx4BWzeTxZCDDwqPet4r4u4VOMJPIEHG8KeWRWTnyDQiIDKwfhOyD35FPvjJo/fF4Dja
-    oFv9NvtVaNCz7/CyCHmkrUB5DVuEfyRZsMRrKZrpeGY+8fNeX+So2Oq7yUokfyCFfe9cbV
-    DR+Bm9SGLnZA1NU+e9ZN732JieVRyWPFTqXtSorON0ESvsu3svlaYKmx7UzOa+sG1gHBaD
-    quBZ6qBwr/9cIsLX/QEs0udoJXjywOnAX3HK13DiqFdqhDgDY6Y2NzLHCd06vRlpE2U4EA
-    8uDzq3K1h70plC4Lb+r0eLwID2YFChNe5w17lDWvaW0TYiF5RxHUHireU+UQ
-X-ME-Proxy: <xmx:bwtFaj6iLiK-9MEumjjtE1fJfcbrcdkK_EbXMv1NbH30RojajsfYQQ>
-    <xmx:bwtFai_TsGE6KhYgsquBnJlVhSiTiL75VlJKXapyb0m8HEPtJybDVg>
-    <xmx:bwtFavZwBPUPChVBH9uUZ1U6k4H0bsUFuUJjzPpNc3sIZCYakHfviA>
-    <xmx:bwtFar7_FkGf7EJV5h5wOH1JzcZmZzv7E8xaYwiZkZOabmmGdkFCag>
-    <xmx:cAtFaheSxioz6neWGl0J38gnpNquBZl-HzMHqRRqmeAgFuY9Ov-f6PVJ>
-Feedback-ID: i9dce4b48:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Jul 2026 08:43:22 -0400 (EDT)
-From: Baran Tuna <barant@fastmail.com>
-To: David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Baran Tuna <barant@fastmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v2] docs: Fix typos under GPU TODO
-Date: Wed,  1 Jul 2026 15:42:39 +0300
-Message-ID: <20260701124239.9713-1-barant@fastmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <01433E06-1132-4580-93FD-D6E82341A041@infradead.org>
-References: <01433E06-1132-4580-93FD-D6E82341A041@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WxCrr9QU"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8478fe07f65so333209b3a.0
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 05:52:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782910355; x=1783515155; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JeCbitpqWG7NX4xrzGZKImDD1kM8ZvDaFxEivFDYFVQ=;
+        b=WxCrr9QUgSWK0HT3XmipwkCa93wZvNc1tkmClzS31BcaojNAp7uzRENty3lbT5Ern3
+         xJDQ/C80laYQZba6IJHKMv6LB3LGmbrfolq/n8Ca1EmgGDurTtT7K7AHZ0fFWBd8Mhjw
+         3s4mDE9I1s9SU0iLjZz8xVgP/hpDqfyIIvAIMiptWDxsp+EgU/H1WMcfuAY8ioTv5sKV
+         qgFsQQ4FH+IFkuwIW+cBVQ7/9c/c799o2tYggi6b3UNS+enII2HuuuBEb+ujR6k3qxQH
+         fV8mLkhM5tPYvUHGMxAa3pXM60hiQ6xeE6o9/pgyzri4LBB2dp+AXxX8EzHvIKUSnkZB
+         SoDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782910355; x=1783515155;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JeCbitpqWG7NX4xrzGZKImDD1kM8ZvDaFxEivFDYFVQ=;
+        b=F7LTWkyvwO3bex0M7nwRNtwtNxCR6i53HaNRk6GRy/K1vAjpT424JIBV/zp8bYO2sO
+         S28tDAVf2yBl4NU0v8gKWGxpU8xOkzM8XP7HTUn7SPwj+ICr4QHHNi86lp2qLF1N7/eR
+         DbcpjSyk1viMa/VqLNfRZ9b+66BTQyxdmaqhws7R0vbqm1sVDci2Z2GprGb+R6t4Ghgv
+         6rvXHVrVizjD26Qo4klf+vlzcTMrErxmilw1Dsh+XnojmjgwRkgFVaIb3HyuaHydmFBO
+         hZczKv5Whk6D5Ya6srT367ml/0QHZyEJ/WuhU5xDW3vWBEsfpx9cAQSSSAQgBqcnoNgE
+         Wirg==
+X-Gm-Message-State: AOJu0YwU/SL6X5spMfWiXQuU3tm+7kwDVbMFFKNRavJkHr1wxbTIjGnY
+	YfyUblNjQxBXvi2SVZjg3kHqFMebmlXFQhaAjFl1N6BKbDG/t9lhR2Jq
+X-Gm-Gg: AfdE7cnej4sd+yr20JoUipylXWmJfQ8E7k8COeRs5ngY5XDTPUPmFVCsn+S3So5+KHT
+	EhuFKdorVKcCAjtWNZv4ZpWjYnaR3Lc/cOg3KN8i4pd/V1Dkl/v4+2BxVYsdniWDgTGpcRqOgiL
+	A95yIT7wPjYPqxforgQzUzUPfS2R17vpJG8xFU11uDeYY2H43VHDR1DvCBut0m0savAJWvxG0Ml
+	2Nx7QPomjEBGRzG/nHgoUZsGZM8J/vn1PMLoJeGWVdeYqKsP4EV1DAtRxbLpZXWPP/4cG02idR/
+	M4n1SLZn6qafWpnxXPvnaboo3MJhHxA5p9MsTqnRzxEZtQ7PNWhNUNdkM7A14ObkyplwdFXIOfN
+	t94a7Ea3Uv0KHLe59ISHrGD/6/12YBaI73faxkOSy/M1n3UMNGDksjfebjFDaEhvTOjdVmZ43qv
+	fiRafts/Jpnb7nFp4CjwPl
+X-Received: by 2002:a05:6a00:9299:b0:847:8704:1c54 with SMTP id d2e1a72fcca58-847c07419cbmr1308909b3a.22.1782910355086;
+        Wed, 01 Jul 2026 05:52:35 -0700 (PDT)
+Received: from [127.0.1.1] ([120.244.9.45])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847a03778basm3999403b3a.49.2026.07.01.05.52.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jul 2026 05:52:34 -0700 (PDT)
+From: Guodong Xu <docular.xu@gmail.com>
+Subject: [PATCH v5 00/17] riscv: hwprobe: Expose RVA23U64 base behavior
+Date: Wed, 01 Jul 2026 08:52:13 -0400
+Message-Id: <20260701-rva23u64-hwprobe-v2-v5-0-2c61f94a695a@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAH0NRWoC/3XOQQ7CIBAF0KsY1mJgGCp15T2MC6DUYrQ10KKm6
+ d2laqILTWbzk5n3ZyTRBe8i2SxGElzy0XdtDnK5ILbR7cFRX+VMgEHBJFM0JA1iKJA210vojKM
+ JKK+ArUVpjVGO5MtLcLW/PdXd/pXjYI7O9jM1bzQ+9l24P2sTzHvvBs5/NuRhFLiVWiLWvLLb4
+ KONvQ4r253JXJLEhymY+M2IzEgJpV4bUELh9nDW/vQx8Mv49wpmQ9SMa0AsUalvY5qmB/vY9oF
+ TAQAA
+X-Change-ID: 20260508-rva23u64-hwprobe-v2-1d20739cbb8e
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, Zong Li <zong.li@sifive.com>, 
+ Deepak Gupta <debug@rivosinc.com>, Anup Patel <anup@brainfault.org>, 
+ Atish Patra <atish.patra@linux.dev>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>, 
+ Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
+ Chen Wang <chen.wang@linux.dev>
+Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+ kvm-riscv@lists.infradead.org, Paul Walmsley <paul.walmsley@sifive.com>, 
+ Conor Dooley <conor@kernel.org>, Jesse Taube <jtaubepe@redhat.com>, 
+ Charlie Jenkins <thecharlesjenkins@gmail.com>, 
+ Andrew Jones <andrew.jones@oss.qualcomm.com>, devicetree@vger.kernel.org, 
+ spacemit@lists.linux.dev, sophgo@lists.linux.dev, 
+ linux-kselftest@vger.kernel.org, Guodong Xu <docular.xu@gmail.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, 
+ Charlie Jenkins <charlie@rivosinc.com>, Jesse Taube <jesse@rivosinc.com>, 
+ Qingwei Hu <qingwei.hu@bytedance.com>, Andy Chiu <andybnac@gmail.com>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7202; i=docular.xu@gmail.com;
+ h=from:subject:message-id; bh=clw0EOfLxOw8mtsU7lPIxvK677hYKTd1sOOAfWfxJ+Y=;
+ b=owGbwMvMwCXWtEl1Z3CGpCDjabUkhixX3ibBuQlLRO5Iir2Xy9ZNzjX0Lsr5ZnqiosC1/v7Na
+ 2csrz7tKGVhEONikBVTZDl8tCV76yufaN/nnD9g5rAygQxh4OIUgIns9GT47+au1G12duU7n6fJ
+ +VWn06qLt6x807xO3qm/SmfC3ckLixj+im3cdP7hprcPTArvWK4QUF3ZPKFDMi9Kbrb9f1PTo0u
+ m8gAA
+X-Developer-Key: i=docular.xu@gmail.com; a=openpgp;
+ fpr=90B1DC3DF0BD10FD1227BD6344F254AF42F143EE
 
-Fix minor spelling mistakes in GPU TODO section of documentation.
-No functional changes.
+This series builds on Andrew Jones's earlier RFC [1]. It lets userspace
+check for RVA23U64 conformance in one call, instead of walking hwprobe +
+prctl across every mandatory extension.
 
-Signed-off-by: Baran Tuna <barant@fastmail.com>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+The series adds a small framework that resolves profile-class bases (IMA
+and RVA23U64) from the kernel's ISA extension bitmap at init time, and
+surfaces the result through both /proc/cpuinfo and hwprobe. Later patches
+can add RVA23S64, and backward RVA22 / RVA20 detection, to
+riscv_set_isa_bases() without changes to the surrounding code.
+
+Series outline (v5):
+
+  Housekeeping, clean-ups:
+   1.  dt-bindings: sort the multi-letter Z extensions alphanumerically.
+   2.  hwprobe.rst: normalize indentation.
+   3.  hwprobe.rst: document EXT_ZICFISS / EXT_ZICFILP.
+   4.  Standardize the single-letter extension macros to uppercase
+       (RISCV_ISA_EXT_a -> RISCV_ISA_EXT_A, etc.).
+
+  Per-extension cpufeature parsing + hwprobe export:
+   5.  Zicclsm.
+   6.  Ziccamoa, Ziccif, Ziccrse, Za64rs.
+   7.  B (the Zba/Zbb/Zbs set).
+
+  Zic64b (new first-class extension):
+   8.  dt-bindings: require a cbom/cbop/cboz block-size property whenever
+       the matching Zicbom/Zicbop/Zicboz is present (new in v5).
+   9.  Zic64b dt-binding, with a schema check.
+  10.  Zic64b cpufeature parsing + hwprobe export.
+  11-13. dts: declare zic64b in the SpacemiT K3, SpacemiT K1, and Sophgo
+         SG2044 device trees.
+
+  RVA23U64 base detection and exposure:
+  14.  riscv_have_user_pmlen(): accessor for user pointer-masking PMLEN
+       support.
+  15.  cpufeature: per-hart and host-wide isa_bases bitmaps; IMA and
+       RVA23U64 detection lives here.
+  16.  /proc/cpuinfo: print "isa bases:" and "hart isa bases:", e.g.
+       rva23u64.
+  17.  hwprobe: expose RVA23U64.
+
+Tested on both K3 Pico ITX and QEMU with -cpu rva23s64,sv39=on:
+  - /proc/cpuinfo reports "isa bases : rv64ima rva23u64" on both the
+    aggregated and per-hart lines.
+  - hwprobe RISCV_HWPROBE_KEY_BASE_BEHAVIOR returns
+    BASE_BEHAVIOR_IMA | BASE_BEHAVIOR_RVA23U64.
+
+Based on v7.2-rc1. A branch is available for all patches in the series: [2].
+
+Link: https://lore.kernel.org/linux-riscv/20260206002349.96740-1-andrew.jones@oss.qualcomm.com/ [1]
+Link: https://github.com/docularxu/linux/commits/b4/rva23u64-hwprobe-v5/ [2]
+
+Changes in v5:
+- Rebased onto v7.2-rc1.
+- New patch: make riscv,cbom/cbop/cboz-block-size required whenever the
+  matching Zicbom/Zicbop/Zicboz extension is present (Conor).
+- Ziccamoa/Za64rs: drop the Zaamo/Zalrsc validate callbacks (Conor).
+- Zic64b dt-binding: fix a double space in the commit message (Conor).
+- Collected Reviewed-by and Acked-by tags in v4.
+- Link to v4: https://patch.msgid.link/20260611-rva23u64-hwprobe-v2-v4-0-3f01a2449488@gmail.com
+
+Changes in v4:
+- New patch: sort the multi-letter Z extensions alphanumerically in the
+  dt-binding (Conor), and place zic64b at its sorted position.
+- Zic64b cpufeature: validate only the CBO block sizes that are present;
+  overlaps Qingwei Hu's earlier patch, so it is now authored by Qingwei.
+- Document EXT_ZICFISS / EXT_ZICFILP: cite the riscv-cfi v1.0 tag commit.
+- Picked up Inochi Amaoto's Acked-by (SG2044 dts) and Andrew Jones's
+  Reviewed-by (documentation patch).
+- Link to v3: https://patch.msgid.link/20260603-rva23u64-hwprobe-v2-v3-0-5529a7b28384@gmail.com
+
+Changes in v3:
+- Add Zic64b as a first-class ISA extension: dt-binding, cpufeature
+  parsing with a validate check, hwprobe export, and device-tree
+  declarations for K3/K1/SG2044.
+- Patch 1 is now a clean up of hwprobe.rst indentation.
+- Document RISCV_HWPROBE_EXT_ZICFILP alongside ZICFISS.
+- Move the Zicclsm hwprobe.rst entry to the IMA_EXT_1 section to match
+  its bit allocation.
+- Collect Anup Patel's Acked-by/Reviewed-by on Patch 3, the capitalization.
+- In cpufeature.c, set the local ext_mask with __set_bit().
+- Update Guodong Xu's email to docular.xu@gmail.com.
+- Link to v2: https://patch.msgid.link/20260511-rva23u64-hwprobe-v2-v2-0-21c5a544f1dc@riscstar.com
+
+Changes in v2 (since Andrew's RFC v1):
+- Rebased onto v7.1-rc2.
+- Reworked rva23u64 detection into per-hart and host isa_bases bitmaps,
+  shared by /proc/cpuinfo and hwprobe.
+- Scoped to IMA and RVA23U64 (RVA23S64, RVA20/RVA22 cpuinfo output deferred).
+- Link to v1:  https://lore.kernel.org/linux-riscv/20260206002349.96740-1-andrew.jones@oss.qualcomm.com
+
+Signed-off-by: Guodong Xu <docular.xu@gmail.com>
 ---
- Documentation/gpu/todo.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Andrew Jones (4):
+      riscv: hwprobe.rst: Make indentation consistent
+      riscv: Add Ziccamoa, Ziccif, Ziccrse, and Za64rs to cpufeature and hwprobe
+      riscv: Add B to hwcap and hwprobe
+      riscv: Add a getter for user PMLEN support
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index cdddf8db35f5..b8c01e3fb655 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -55,7 +55,7 @@ There are still drivers that use drm_simple_display_pipe. The task here is to
- convert them to use regular atomic helpers. Search for a driver that calls
- drm_simple_display_pipe_init() and inline all helpers from drm_simple_kms_helper.c
- into the driver, such that no simple-KMS interfaces are required. Please also
--rename all inlined fucntions according to driver conventions.
-+rename all inlined functions according to driver conventions.
- 
- Contact: Thomas Zimmermann, respective driver maintainer
- 
-@@ -277,8 +277,8 @@ Various hold-ups:
- - Need to switch to drm_gem_fb_create(), as now drm_gem_fb_create() checks for
-   valid formats for atomic drivers.
- 
--- Many drivers subclass drm_framebuffer, we'd need a embedding compatible
--  version of the varios drm_gem_fb_create functions. Maybe called
-+- Many drivers subclass drm_framebuffer, we'd need an embedding compatible
-+  version of the various drm_gem_fb_create functions. Maybe called
-   drm_gem_fb_create/_with_dirty/_with_funcs as needed.
- 
- Contact: Simona Vetter
-@@ -303,7 +303,7 @@ everything after it has done the write-protect/mkwrite trickery:
- 
-       vma->vm_page_prot = pgprot_wrprotect(vma->vm_page_prot);
- 
--- Set the mkwrite and fsync callbacks with similar implementions to the core
-+- Set the mkwrite and fsync callbacks with similar implementations to the core
-   fbdev defio stuff. These should all work on plain ptes, they don't actually
-   require a struct page.  uff. These should all work on plain ptes, they don't
-   actually require a struct page.
-@@ -891,7 +891,7 @@ Querying errors from drm_syncobj
- ================================
- 
- The drm_syncobj container can be used by driver independent code to signal
--complection of submission.
-+completion of submission.
- 
- One minor feature still missing is a generic DRM IOCTL to query the error
- status of binary and timeline drm_syncobj.
--- 
-2.54.0
+Charlie Jenkins (1):
+      riscv: Standardize extension capitalization
+
+Guodong Xu (10):
+      dt-bindings: riscv: sort multi-letter Z extensions alphanumerically
+      riscv: hwprobe.rst: Document EXT_ZICFISS and EXT_ZICFILP
+      dt-bindings: riscv: Require block-size for Zicbom, Zicbop, and Zicboz
+      dt-bindings: riscv: Add Zic64b extension description
+      riscv: dts: spacemit: k3: Add Zic64b ISA extension
+      riscv: dts: spacemit: k1: Add Zic64b ISA extension
+      riscv: dts: sophgo: sg2044: Add Zic64b ISA extension
+      riscv: cpufeature: Introduce ISA bases bitmap and rva23u64 detection
+      riscv: cpu: Output isa bases lines in cpuinfo
+      riscv: hwprobe: Introduce rva23u64 base behavior
+
+Jesse Taube (1):
+      riscv: Add Zicclsm to cpufeature and hwprobe
+
+Qingwei Hu (1):
+      riscv: Add Zic64b to cpufeature and hwprobe
+
+ Documentation/arch/riscv/hwprobe.rst               | 240 ++++++++++++---------
+ .../devicetree/bindings/riscv/extensions.yaml      | 230 ++++++++++++--------
+ arch/riscv/boot/dts/sophgo/sg2044-cpus.dtsi        | 128 +++++------
+ arch/riscv/boot/dts/spacemit/k1.dtsi               |  80 +++----
+ arch/riscv/boot/dts/spacemit/k3.dtsi               |  48 ++---
+ arch/riscv/include/asm/cpufeature.h                |  14 ++
+ arch/riscv/include/asm/hwcap.h                     |  24 ++-
+ arch/riscv/include/asm/processor.h                 |   4 +
+ arch/riscv/include/asm/switch_to.h                 |   4 +-
+ arch/riscv/include/uapi/asm/hwcap.h                |   1 +
+ arch/riscv/include/uapi/asm/hwprobe.h              |  10 +-
+ arch/riscv/kernel/cpu.c                            |  26 +++
+ arch/riscv/kernel/cpufeature.c                     | 165 ++++++++++++--
+ arch/riscv/kernel/process.c                        |  12 ++
+ arch/riscv/kernel/sys_hwprobe.c                    |  34 ++-
+ arch/riscv/kvm/isa.c                               |  16 +-
+ arch/riscv/kvm/main.c                              |   2 +-
+ arch/riscv/kvm/vcpu_fp.c                           |  20 +-
+ arch/riscv/kvm/vcpu_onereg.c                       |   6 +-
+ arch/riscv/kvm/vcpu_vector.c                       |  10 +-
+ tools/testing/selftests/riscv/hwprobe/which-cpus.c |   2 +-
+ 21 files changed, 688 insertions(+), 388 deletions(-)
+---
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+change-id: 20260508-rva23u64-hwprobe-v2-1d20739cbb8e
+
+Best regards,
+--  
+Guodong Xu <docular.xu@gmail.com>
 
