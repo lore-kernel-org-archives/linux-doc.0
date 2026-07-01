@@ -1,459 +1,255 @@
-Received: from mx0b-0002e601.pphosted.com (mx0b-0002e601.pphosted.com [148.163.154.28])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED4B3AE701;
-	Wed,  1 Jul 2026 06:25:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.154.28
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782887144; cv=fail; b=Gcc0QdefNq4E+QQww+zcD9ne+YFQrXRWFzFTgzWGAnkRYPD1Us0OUN2QmK64eNmtLVM45hCTlH/3eo9wrS0rGu+G4EXygtBvgdTqBd1XywRBQbBuAMKCXDaEArGp//FLjhp/4cWxCRdTNb+dk0M9b//aCG8pi12bh1GacJi+GAs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782887144; c=relaxed/simple;
-	bh=KT//ln9l7C8ekLsK3x79b+oCmVXvQNO8jop7bKDTw0U=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dis2qstxjP4ksHw2VsvhmPJk6kSXUbBJx2vqITC/WlN/iY6CWGTNKHM3nNMU1vajeN5S34swuoLSofR7usg6TvFHvQ0lRXZSIAmnRSY68l3hnBKM3HAUARuD7Ce6gS7TC0ZF++ShUmZAwLCF8aa4MKt9dmRiV/OE/kuADt1Ai10=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b=qeiHV/ph; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=rH//uDuJ; arc=fail smtp.client-ip=148.163.154.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C823939C2;
+	Wed,  1 Jul 2026 06:41:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782888097; cv=none; b=jpmWLZIxDTPFX9vlnapl2NF/uGSlL9GYGheMszsY7A0/yWkOXVio7BuVZtikqckik8r3BnZfIni1zA4zcJAEVnSmYZZ9NOUzcuJfcMn2rgqYaugz78yRTGj/b8yx1oigkq1tQkyMy5mdCzN7fXRD1jJpUkej4TVG1Ww/oiS28b4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782888097; c=relaxed/simple;
+	bh=Dfq57po5r9m5Jjzu3Nnky6cW7ciigIazOtfol1C5sZE=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=khqaqzFeaR2jHEwNjZPMV3F33/vVwlx4aX+43IzaAaeagfKAsGF2ccSRuv2slEvAK5h0cRFe6vX5GSoDy1nXtPHtyNI3mQfWlFqb6KiYO4Sv/HWQSU/xvxkj0ArKiBhwVeP5G3qQeyjUsej67IsRXqP4oENAqaBcpACQ11Z0GLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=mvhv7zXl; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b="qeiHV/ph";
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="rH//uDuJ"
-Received: from pps.filterd (m0374956.ppops.net [127.0.0.1])
-	by mx0b-0002e601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6612uOgV2538133;
-	Wed, 1 Jul 2026 01:25:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	proofpoint-05-2026; bh=q1OMlnLqhJ/nuYl7HOrfRPHTY5k1p1Y5aURnyZGWW
-	Q4=; b=qeiHV/phV4GHzquhPti8KZG/K7h5KLH2g6YqTJc4OI+IEDa2bXNV2ZZ+o
-	oOL7mbC16ANBuhMy8zm//lnO7UVW4c7lQTQZZtmK1dHjEtzOUJ3da3Fsrq8RQl1z
-	nblpbYvo5OyQ5bO5AUcPm7PhpxKiATuLfFqfzOjydt1cZIgDqg7dG++phO7Zqq+1
-	y398CcXFsY1wsX0z1VMKh5XYIpinNq0Z0HUtFkHQB8iM2iZraMTPX71GhkaMn5CS
-	7RS27jLliXPzob74IG/02s2H7EhzPvlRC1VWUZ1iXYBubbw5BMIJnRkqHrnCbn27
-	PFp70MzGgO+Vn9vakNAXN9JkGHQQQ==
-Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012018.outbound.protection.outlook.com [40.93.195.18])
-	by mx0b-0002e601.pphosted.com (PPS) with ESMTPS id 4f4nva2ftq-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 01 Jul 2026 01:25:32 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=I/5XA1CV4fT+IHkoBCdZ5tszyRZkU19QaU4Jp0PEpWQcnz9B30DwkcVLsFEINQUjrY1btUeS4CRGo7WdomT2Kpa5HuxG24LantO+0q5zF3G34Ck0yL5Y7d6DAxTiPi4gj63LL5OrYOPgLqmYWIdj6e/IOO3joyJydzQgbObI1adzte2ZxfzDZ8XLfLG6SPFl+cCu3Zc4mABDJw3V04Hq2Iw/nLHBVPbAby/NNKweNzEmsXZFwD1QoQx1McYYEoUgR5dIGa0qX4BawW7hrdWUdjRfrIqjxBP5E9VJdVU6wOIvlLaIbYMpthV2WdkM7EmcAvY3Li9nYUvKzk2Z+MLKxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q1OMlnLqhJ/nuYl7HOrfRPHTY5k1p1Y5aURnyZGWWQ4=;
- b=MFY0ermx6ZQfU4/QPFHXvnPyfQF46kZJKXrcd4LBQWm8aeamFWE3Z+KLltBIURxrpD0Cnh0Z0UyQUVHpcbZhoZOgBMqEAcjPe29ekGH+mFrGcHduqrNLLY1ernP/smgmmcajKv7XaadU5gbF3L962MVjycuvM5RhbGXb+38XYe+JXjOf8ddFXrVRWVr1ly3V+VGDoPCfSQt6kSsOvPNFai483kjO1UAjJkdGXbjrpEiM1rQUMO49hCL1k/2HaCf0GWWtZvaje8ef0rFr9694Ttc+NJj04zN8IZ9nubvGlpxv/RVpdijiEY2NOvghzlWB+tITjUL2YeURHTz9XeMl0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.195) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q1OMlnLqhJ/nuYl7HOrfRPHTY5k1p1Y5aURnyZGWWQ4=;
- b=rH//uDuJzDVKBvTnWrQ7rK2jldFv8/E4gK61EwFzSnyDFWcWQDtPyBiZOS/B1mNTkb5GPYE2MveZCBqhGAB6GtTzgESWvEF/pJN5zZnKL7Z8p//+7wXrYc8kljhLY/WmUKQW1rMFt72fHd0UjMUhzUkP6JUh6Hn9EMQIYSpPp7I=
-Received: from BN9PR03CA0049.namprd03.prod.outlook.com (2603:10b6:408:fb::24)
- by BLAPR10MB5042.namprd10.prod.outlook.com (2603:10b6:208:30c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 1 Jul 2026
- 06:25:29 +0000
-Received: from BN3PEPF0000B06E.namprd21.prod.outlook.com
- (2603:10b6:408:fb:cafe::a5) by BN9PR03CA0049.outlook.office365.com
- (2603:10b6:408:fb::24) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.8 via Frontend Transport; Wed, 1
- Jul 2026 06:25:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
-Received: from flwvzet201.ext.ti.com (198.47.21.195) by
- BN3PEPF0000B06E.mail.protection.outlook.com (10.167.243.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.202.0 via Frontend Transport; Wed, 1 Jul 2026 06:25:27 +0000
-Received: from DFLE204.ent.ti.com (10.64.6.62) by flwvzet201.ext.ti.com
- (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 1 Jul
- 2026 01:25:26 -0500
-Received: from DFLE211.ent.ti.com (10.64.6.69) by DFLE204.ent.ti.com
- (10.64.6.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 1 Jul
- 2026 01:25:26 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE211.ent.ti.com
- (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
- Transport; Wed, 1 Jul 2026 01:25:26 -0500
-Received: from a1257480.dhcp.ti.com (a1257480.dhcp.ti.com [172.24.231.175])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6616PA6N710280;
-	Wed, 1 Jul 2026 01:25:23 -0500
-From: Jaspinder Budhal <j-budhal@ti.com>
-To: <ogabbay@kernel.org>, <corbet@lwn.net>, <skhan@linuxfoundation.org>
-CC: <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <j-budhal@ti.com>, <srk@ti.com>, <s-vadapalli@ti.com>
-Subject: [RFC PATCH 2/2] accel/npac: Add NPAC client driver
-Date: Wed, 1 Jul 2026 11:55:05 +0530
-Message-ID: <20260701062505.1091840-3-j-budhal@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260701062505.1091840-1-j-budhal@ti.com>
-References: <20260701062505.1091840-1-j-budhal@ti.com>
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="mvhv7zXl"
+Received: from pps.filterd (m0516787.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6612wVKe2535986;
+	Wed, 1 Jul 2026 02:41:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=qUglXI7CW4uvKCtK/SNFE+NCDmg
+	BovA/shKP9ModlF8=; b=mvhv7zXlDWLSbJa36OnUb3uKFKy0XMM7TXTllQVtoJp
+	pgs3dRPljn+Q9c+A3te2I9i00It56gwJgVKnTPzYEkInxqZvv5tLF6CjmECDVICl
+	Is76Enlrew8a5/0u96pLH9Dg05XOIzfclOLaaXc6myWtnYcmCJkkrsRJhSWD0MNx
+	7yZSJCkPgYhhRtLbu3/tVYItRMR4OziYTyVUoidPXbvF36tBIb2KyTcUdO2KVSWf
+	rQQ49nvxrSkCKCseNsaOG9cbhFl7kdcawiN8aFALuvwFOY66K1bpBy0zzpc3Hzlr
+	2P5jFUSHIoQvrA2dbfTX39f1ojoVklbD1zcNFUXUCDA==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4f4604xp9g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 01 Jul 2026 02:41:14 -0400 (EDT)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 6616fCBs061163
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 1 Jul 2026 02:41:12 -0400
+Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
+ ASHBMBX8.ad.analog.com (10.64.17.5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Wed, 1 Jul 2026 02:41:12 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
+ ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Wed, 1 Jul 2026 02:41:12 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Wed, 1 Jul 2026 02:41:12 -0400
+Received: from HYB-e1y2fvUQ3cx.ad.analog.com (HYB-e1y2fvUQ3cx.ad.analog.com [10.44.3.62] (may be forged))
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 6616etN8002283;
+	Wed, 1 Jul 2026 02:40:57 -0400
+From: Janani Sunil <janani.sunil@analog.com>
+Subject: [PATCH v5 0/3] iio: dac: Add support for AD5529R DAC
+Date: Wed, 1 Jul 2026 08:40:38 +0200
+Message-ID: <20260701-ad5529r-driver-v5-0-ed087900e642@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B06E:EE_|BLAPR10MB5042:EE_
-X-MS-Office365-Filtering-Correlation-Id: ec02c275-8ff9-4534-f7c7-08ded7398afc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|82310400026|36860700016|376014|1800799024|13003099007|18002099003|3023799007|22082099003|56012099006|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	HiZK1KgMNmd48bhwEDV2884bc7nxMzLDTu/6ok6ym/VNSOde8iQMNiBLOknH5oEUMAfuDuLto1as4vRQlpiMLQMKJNW/kTG+TOVoWB5+WoCNcxodgG7qdvNe3/B6M+0QQG09i6pUxnIN+TDibxLjiH/0JB+rjpRlLkToTcz2KPyKfM+P7vnBMd5iAHBhrZdSI3SqhE8FJf2r7Sus3fFH6i6f//wlMFW1hBd46t9s1qbY2YcU8KKHhjJbyJkSCQ7NXGgurJ1J+GKSNNNb1v8lmV6gd8riLp8YulRt9KWH1ENdpCSiv90IYUF8e0hpddfEl0zMcME3tgFkpVshD9EMTaEqlVm6FneUWhi2FXe7FGThEZ8yon+yY7zjxwgeDw0lng/rBAb0igwT5rpmCUABMcKvyoi69n8ygI3ouW7u+j6Aog5CB6SwcLKblrbAO7Kz07jkHOcwX6XitGOXeIwL0HMeWr+LDS4cmq0KsA81anssbbhqhVczjY8tzwM2JDi4pq8/7UD7MGUFgibG5eRu0Y2RZy82zxy2cROEp8UxS0c8D0t6EN7EQBJ2zwGRObkd0sRVyH7IfdCZQaknV0tQ1m9ZcHr8BXTDUGLORm0a4FmCaNdoAxc9YjN5kUsGwjiDttX33Ysd0qIE2IRdtFTgPQ==
-X-Forefront-Antispam-Report:
-	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(23010399003)(82310400026)(36860700016)(376014)(1800799024)(13003099007)(18002099003)(3023799007)(22082099003)(56012099006)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	pTjUXHnVwCx2+CARFAeL0+7ljtiMYccs5uJibXQ46w4d3o3WDlnmcP2d5h68WK1fgKSfgetdBHLueahRP8MFUPu/30j4PygyLZ48i/VsxRUWPMTjCeZBl1JcxKIzHZs8WHt3jSU3GpaziutbAdwccGBTAQEviQufrxWLYB0AB16rMOkPZAuTBC9dyn2/2Eoh9mHHUfWdnuVcoSEdgfEDmv+z0CXxpuaec3qsE3u9aHreYHABvinYM33dnNS6YBIAyFuqQGy3A0UY9pQXzxxUTF+9NDwuwm7jby1YH8gT7DHy5fMZt7tO5do02VW2m74j4b71IzXYX2Snur9kKo+bXocrA8PIric7FwZE71ebc2aqwS7X/P5aetEUl6ajgKY3CLT4nLSCjsGNbHJszrxVokr6TBI8iJGgHCLcBQgMunsLkMVB86tReuNOsHLce23y
-X-Exchange-RoutingPolicyChecked:
-	ieAjJZvX3ItP/WVcY8x1phdWkWD40Q3xQPnXIYwwnZrI5vh10AnCm09AXNT36Y/+UeMDaoSlEDeCyBYYzhEi099AeCv0nL6Y1Nyorh+XBbFKFgHqaEiayeHJpRLLMTCPbMzxKI5W1Bkkkj0Pvmk35bHYBQawdBwwPGd1MmxN5I8YPhipXICMlxnHHhxc7ZvRz9XHenor2EJYB7Qli/LOrnaHbYH4ddvp6VDnvjPW5Rex15XSg76coBYei4SZpfFf1yM4TXYFzMpBMiMbMFCM4OFUeGAcMsAlxRWP4+A2ZEh2FahWswkz87mGTsMEKlwBsa/s3UR8vip0QGUUyWHRAA==
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 06:25:27.6941
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec02c275-8ff9-4534-f7c7-08ded7398afc
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN3PEPF0000B06E.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5042
-X-Proofpoint-GUID: ZyT12Tfkugtjo7-0-0CJ5hrCOKuFY8UF
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDA2NCBTYWx0ZWRfX+zIV9mN6pCJr
- SR7gaQer603U6xIpNoJo34mizNyGeiDCfGiadnycSlpOzYzJdUWhBO0Wa936BnuiR/dr9ypdL8V
- r5D5LPlc9xL5cuhhK7MOztu/5mY3uadRjUTn+ru7fkVOanysjHdzcA1bplyhO/3J35ppIJNFF0q
- pZwEaLv3bpbI3Oupfl0ndZsUJ2Zs6MI0n19QeoWmL6ZqLFV0nx9WWHVHHhrPjXXVrRGPu3MLodI
- cduXm8YclvSEFYeFC31mv7a5Nr4iX2SRgfTdzXUtmj+tLCu7k/j8D6pPSG8VbbiReHZ8twAUwf0
- 1VO/g0tPZYuDhYKTZuQ1w6tW64TkKAVrxMBD7Fd218ZmDn5rI9OK+z2RxKG5hmXSATB5yu2UPrT
- /Y1PDmY6UIVQYEgidD4ElRyMUITdsVfeBzwlWFcQa2VSFJpq/xlOWXT9E0QtDGOSJ9g+0m7BP4f
- AV4sLOM6PBX9PZ5iSlw==
-X-Authority-Analysis: v=2.4 cv=FqA1OWrq c=1 sm=1 tr=0 ts=6a44b2dc cx=c_pps
- a=QNQPV3WJHVGG3OZWPlqtww==:117 a=tJyPKKxUohctrY4NYmUjkA==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=RAioF0-LDSMA:10 a=V5UXEbMT0ywA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22 a=jwouBfj2j3NM8CExmVVE:22
- a=sozttTNsAAAA:8 a=SldqRqN-pHjL7LJduoQA:9
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDA2NCBTYWx0ZWRfX9nLqwd9q3PvJ
- ZkCktrWxUB5oJSZbBi6VGVDYVkBfch4Y+hb8t+EEftIZP1OBeF3raweD2vo5y495RPBONDpfbWd
- ro+rO+GMGNC5/ETBc+4n6NetHoVsWNI=
-X-Proofpoint-ORIG-GUID: ZyT12Tfkugtjo7-0-0CJ5hrCOKuFY8UF
+X-B4-Tracking: v=1; b=H4sIAGa2RGoC/3XMTQrCMBCG4atI1kbyM5lGV95DXKTJVAPaSipBK
+ b27qRuV4Gr4Bp53YiOlSCPbrSaWKMcxDn0ZZr1i/uz6E/EYymZKKBRGNNwFY9Q28ZBipsQtYtu
+ GYBECsYJuibr4eAcPx7LPcbwP6fnuZ7l8/6ay5IK3ACg67cvt9q53l+G08cOVLa2svr2tvCqet
+ DQAEq0JTeX1l5fbyuviFTZeNFo6h7by8PEoag+LJ/BCKQ1Ouh8/z/MLtmnGwG0BAAA=
+X-Change-ID: 20260507-ad5529r-driver-866bbdd864de
+To: Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich
+	<Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        "David
+ Lechner" <dlechner@baylibre.com>,
+        =?utf-8?q?Nuno_S=C3=A1?=
+	<nuno.sa@analog.com>,
+        Andy Shevchenko <andy@kernel.org>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Jonathan
+ Corbet" <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mark Brown
+	<broonie@kernel.org>
+CC: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        Janani Sunil
+	<jan.sun97@gmail.com>, <linux-spi@vger.kernel.org>,
+        Janani Sunil
+	<janani.sunil@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782888055; l=6064;
+ i=janani.sunil@analog.com; s=20260507; h=from:subject:message-id;
+ bh=Dfq57po5r9m5Jjzu3Nnky6cW7ciigIazOtfol1C5sZE=;
+ b=16F5p5ocXhNDqOBfK1qxuWYjW6Y1Jq/Nt/2s0KDttL6hkMLVEPdcseshtfhoZzYz77tp1XpvI
+ gLpheYxA2KmBR/pU+a1jyewenp0BoMEnGyRZEIfTfThbey3g7ZVzXEn
+X-Developer-Key: i=janani.sunil@analog.com; a=ed25519;
+ pk=e25MyjRLPY3RWrYm/LrJ+/+t1MZJUbkgIW5CZg+g+hA=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDA2NiBTYWx0ZWRfXwIlP3UEp/eYX
+ IpdiobVcblJIUAah97w48ExcXUzfghseiAC7quhmLKVkkYBXJMXCTOEReixt8R2BAYKPT1y0ei1
+ n7T8T5R89QtasyQqA+FRC3vMOgX/uizWN6Ro8IZEQl6Fb9mq3NSW
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDA2NiBTYWx0ZWRfX86LQ5DsifUkh
+ Gg3amKolj/rtmODfPtx8LeVdFLfRXrVYTXPumosI/QwHx7lXLwjWyPGQzNVhdizFGUu3oc1dYqd
+ 7Mg68IsP7olecZHdIwO8odY+Egav+7Mtwo8BYa0KIH8phQyE4OIpUPy01wyZf1/1wtBnlzVKeFk
+ GWJnSG+9x5KJh1oWXzlYXCoTBK6TFpCYcEv+GXc5OAs3H85G/jFan8PJUJuxXC9N43juoZlAVtv
+ E4hIKltqKEH0+zvTV1ZrxMvyWhWz2PB56FlvzoyQen1n3kxnvSKB2iUHridRqbTqHLFDx4FAQe4
+ UHp+DPTpz/8toF67+Psb2qhm3p/BSGn22vebFBVkB+gijuFZZhnDnQnUyaTvaIyy7tGnuxPXY8Y
+ DrnPZhIxx5XaWO4NKiTOrv5PiZcuhmnWL1eN210537GAnLDyBMS82TOC9IzNkhEU7UJRjaSKQkV
+ RPB2TZe4JhzqadrcETQ==
+X-Authority-Analysis: v=2.4 cv=BMCDalQG c=1 sm=1 tr=0 ts=6a44b68a cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=0sLvza09kfJOxVLZPwjg:22 a=OmVn7CZJonkx5R5zMQLL:22 a=VwQbUJbxAAAA:8
+ a=gAnH3GRIAAAA:8 a=RFyswZHjbAIkJhqxi8oA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: _gw89hjhpOuGvgTuEmRthpiRa67A21wV
+X-Proofpoint-GUID: _gw89hjhpOuGvgTuEmRthpiRa67A21wV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-07-01_01,2026-06-26_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 malwarescore=0 adultscore=0 clxscore=1011
- bulkscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0 phishscore=0
+ clxscore=1011 bulkscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0
+ phishscore=0 priorityscore=1501 adultscore=0 malwarescore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607010064
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607010066
 
-Add the Linux client driver for the Network Packet ACcelerator (NPAC).
-The driver communicates with the NPAC host driver via RPMsg,
-allowing offloading of ethernet-related packet processing tasks.
+This patch series adds support for Analog Devices AD5529R, a 16 channel
+16 and 12 bit voltage Digital-to-Analog Converter (DAC) with integrated
+precision reference. The AD5529R operates from both unipolar and
+bipolar supplies. The device communicates via SPI interface.
 
-The driver provides the basic framework for receiving offload commands
-via IOCTL and communicating with the NPAC hardware accelerator.
+**Device Overview:**
+The AD5529R features 16 independent DAC channels, with 16 or 12 bit
+resolution, allowing independently programmable output ranges. The
+internal 4.096V precision reference sets the accuracy of the output
+voltage.
 
-Signed-off-by: Jaspinder Budhal <j-budhal@ti.com>
+**Features Implemented:**
+- Support for AD5529R 12-bit and 16-bit variants via device match data.
+- Reset support via GPIO.
+- Dual regmap configuration to handle 8 and 16 bit registers.
+- Per-channel output range configuration from devicetree.
+- Optional external reference and bipolar supply handling.
+
+**Patch Summary:**
+1. **dt-bindings**: Binding documentation with channel configuration.
+2. **driver**: Implement IIO DAC Driver with regmap support.
+
+**Testing:**
+The driver was compiled and tested on the EVAL-AD5529R-ARDZ using a
+coraZ7 with a mainline v7.0 kernel.
+
+**Driver Rationale:**
+AD5529R introduces:
+1. A unique register layout
+2. Mixed 8-bit and 16-bit register accesses
+3. Hardware specific features like function generators, multi-die
+hotpath registers etc.
+
+The device warrants its own drivers due to these fundamental
+architectural differences, that would require substantial changes to
+existing drivers without providing reusable benefits. The standalone
+driver also allows future extensions for related devices in the same
+family.
+
+**Not Implemented in this Series:**
+The binding includes generic, per-channel device addressing needed for
+multi-device support using a shared CS, but the driver presently
+supports only a single device.
+
+Signed-off-by: Janani Sunil <janani.sunil@analog.com>
 ---
- drivers/accel/Kconfig         |   1 +
- drivers/accel/Makefile        |   1 +
- drivers/accel/npac/Kconfig    |  13 ++
- drivers/accel/npac/Makefile   |   3 +
- drivers/accel/npac/npac_drv.c | 218 ++++++++++++++++++++++++++++++++++
- 5 files changed, 236 insertions(+)
- create mode 100644 drivers/accel/npac/Kconfig
- create mode 100644 drivers/accel/npac/Makefile
- create mode 100644 drivers/accel/npac/npac_drv.c
+Changes in v5:
+- Move register bitfield definitions next to their parent register
+  addresses.
+- Remove spurious extra indent.
+- Rename ad5529r_output_ranges_mv[] to ad5529r_output_ranges_mV[].
+- Remove extra parentheses in regmap_reg_range() for the readback range.
+- Use reset_control_reset() instead of reset_control_deassert().
+- Use 10 * USEC_PER_MSEC instead of a bare 10000 in fsleep().
+- Use fwnode_property_present() to explicitly guard the optional property.
+- Rewrite external_vref detection using explicit if/else.
+- Follow reverse christmas tree variable declaration order.
+- Improve invalid channel error message to include the maximum.
+- Add a new spi property to include the SPI device address.
+- Update ad5529r devicetree binding to allow more than 16 channels to include multiple DACs.
+- Update cover letter to add a mention about the multi device support.
+- Update driver commit message to describe the device further.
+- Link to v4: https://lore.kernel.org/r/20260609-ad5529r-driver-v4-0-2e4c02234a1a@analog.com
 
-diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
-index bdf48ccafcf2..a6d8c1ebfcf1 100644
---- a/drivers/accel/Kconfig
-+++ b/drivers/accel/Kconfig
-@@ -28,6 +28,7 @@ source "drivers/accel/amdxdna/Kconfig"
- source "drivers/accel/ethosu/Kconfig"
- source "drivers/accel/habanalabs/Kconfig"
- source "drivers/accel/ivpu/Kconfig"
-+source "drivers/accel/npac/Kconfig"
- source "drivers/accel/qaic/Kconfig"
- source "drivers/accel/rocket/Kconfig"
- 
-diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
-index 1d3a7251b950..0df7b9f2ae18 100644
---- a/drivers/accel/Makefile
-+++ b/drivers/accel/Makefile
-@@ -4,5 +4,6 @@ obj-$(CONFIG_DRM_ACCEL_AMDXDNA)		+= amdxdna/
- obj-$(CONFIG_DRM_ACCEL_ARM_ETHOSU)	+= ethosu/
- obj-$(CONFIG_DRM_ACCEL_HABANALABS)	+= habanalabs/
- obj-$(CONFIG_DRM_ACCEL_IVPU)		+= ivpu/
-+obj-$(CONFIG_DRM_ACCEL_NPAC_CLIENT)	+= npac/
- obj-$(CONFIG_DRM_ACCEL_QAIC)		+= qaic/
- obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
-\ No newline at end of file
-diff --git a/drivers/accel/npac/Kconfig b/drivers/accel/npac/Kconfig
-new file mode 100644
-index 000000000000..a9543ac2c7aa
---- /dev/null
-+++ b/drivers/accel/npac/Kconfig
-@@ -0,0 +1,13 @@
-+config DRM_ACCEL_NPAC_CLIENT
-+	tristate "NPAC Client Driver"
-+	depends on DRM_ACCEL
-+	depends on RPMSG
-+	help
-+	  This driver is the NPAC (Network Packet ACcelerator) client,
-+	  communicating with the NPAC host driver running on a remote
-+	  processor over RPMsg. The driver registers with the DRM accelerator
-+	  framework and exposes /dev/accel/accel* as the userspace interface
-+	  for ACL rule offload operations.
-+	  If you have a device with NPAC and wish to use it with this
-+	  driver, say M to compile this driver as a module, or Y to
-+	  compile it into the kernel.
-diff --git a/drivers/accel/npac/Makefile b/drivers/accel/npac/Makefile
-new file mode 100644
-index 000000000000..89f4773d7041
---- /dev/null
-+++ b/drivers/accel/npac/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+obj-$(CONFIG_DRM_ACCEL_NPAC_CLIENT) += npac_drv.o
-diff --git a/drivers/accel/npac/npac_drv.c b/drivers/accel/npac/npac_drv.c
-new file mode 100644
-index 000000000000..7516382ba74b
---- /dev/null
-+++ b/drivers/accel/npac/npac_drv.c
-@@ -0,0 +1,218 @@
-+// SPDX-License-Identifier: GPL-2.0-only OR MIT
-+/*
-+ * Copyright (C) 2026 Texas Instruments Incorporated - https://www.ti.com/
-+ */
-+
-+#include <drm/drm_accel.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_file.h>
-+#include <drm/drm_gem.h>
-+#include <drm/drm_ioctl.h>
-+#include <linux/completion.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/rpmsg.h>
-+
-+#define NPAC_RPMSG_SERVICE_NAME	"ti.npac"
-+#define NPAC_ACK_TIMEOUT_MS	1000
-+
-+/**
-+ * enum npac_acl_cmd - IOCTL command numbers for NPAC ACL operations.
-+ */
-+enum npac_acl_cmd {
-+	/** @NPAC_ACL_ADD_RULE: Add an ACL rule. */
-+	NPAC_ACL_ADD_RULE,
-+
-+	/** @NPAC_ACL_DELETE_RULE: Delete an ACL rule. */
-+	NPAC_ACL_DELETE_RULE,
-+};
-+
-+/**
-+ * enum npac_acl_match_type - Match field selector for an ACL rule.
-+ */
-+enum npac_acl_match_type {
-+	/** @NPAC_ACL_MATCH_SRC_IPV4: Match on source IPv4 address. */
-+	NPAC_ACL_MATCH_SRC_IPV4 = 1,
-+
-+	/** @NPAC_ACL_MATCH_DST_IPV4: Match on destination IPv4 address. */
-+	NPAC_ACL_MATCH_DST_IPV4,
-+
-+	/** @NPAC_ACL_MATCH_SRC_MAC: Match on source MAC address. */
-+	NPAC_ACL_MATCH_SRC_MAC,
-+
-+	/** @NPAC_ACL_MATCH_DST_MAC: Match on destination MAC address. */
-+	NPAC_ACL_MATCH_DST_MAC,
-+};
-+
-+/**
-+ * enum npac_acl_verdict - Action to apply when an ACL rule matches.
-+ */
-+enum npac_acl_verdict {
-+	/** @NPAC_ACL_VERDICT_ALLOW: Accept the matched packet. */
-+	NPAC_ACL_VERDICT_ALLOW = 1,
-+
-+	/** @NPAC_ACL_VERDICT_DROP: Drop the matched packet. */
-+	NPAC_ACL_VERDICT_DROP,
-+};
-+
-+/* Sized for the largest match field: a 6-byte MAC address. */
-+#define NPAC_ACL_MATCH_VALUE_MAX	6
-+
-+struct npac_acl_offload_rule {
-+	__u32 match_type;
-+	__u32 verdict;
-+	__u8  match_value[NPAC_ACL_MATCH_VALUE_MAX];
-+};
-+
-+#define DRM_IOCTL_NPAC_ACL_ADD_RULE \
-+	DRM_IOWR(DRM_COMMAND_BASE + NPAC_ACL_ADD_RULE, struct npac_acl_offload_rule)
-+
-+#define DRM_IOCTL_NPAC_ACL_DELETE_RULE \
-+	DRM_IOWR(DRM_COMMAND_BASE + NPAC_ACL_DELETE_RULE, struct npac_acl_offload_rule)
-+
-+struct npac_device {
-+	struct drm_device drm;
-+	struct rpmsg_device *rpdev;
-+	struct mutex req_lock; /* lock for request */
-+	struct completion ack;
-+};
-+
-+static inline struct npac_device *drm_to_npac_device(struct drm_device *dev)
-+{
-+	return container_of(dev, struct npac_device, drm);
-+}
-+
-+static int npac_add_rule_ioctl(struct drm_device *dev, void *data,
-+			       struct drm_file *file)
-+{
-+	struct npac_device *npac = drm_to_npac_device(dev);
-+	struct npac_acl_offload_rule *rule = data;
-+	int ret;
-+
-+	dev_dbg(dev->dev, "add rule ioctl received\n");
-+
-+	mutex_lock(&npac->req_lock);
-+	reinit_completion(&npac->ack);
-+	ret = rpmsg_send(npac->rpdev->ept, rule, sizeof(*rule));
-+	if (ret) {
-+		dev_err(dev->dev, "rpmsg_send failed: %d\n", ret);
-+		mutex_unlock(&npac->req_lock);
-+		return ret;
-+	}
-+	if (!wait_for_completion_timeout(&npac->ack,
-+					 msecs_to_jiffies(NPAC_ACK_TIMEOUT_MS))) {
-+		dev_err(dev->dev, "ack timed out\n");
-+		mutex_unlock(&npac->req_lock);
-+		return -ETIMEDOUT;
-+	}
-+	mutex_unlock(&npac->req_lock);
-+	return 0;
-+}
-+
-+static int npac_delete_rule_ioctl(struct drm_device *dev, void *data,
-+				  struct drm_file *file)
-+{
-+	struct npac_device *npac = drm_to_npac_device(dev);
-+	struct npac_acl_offload_rule *rule = data;
-+	int ret;
-+
-+	dev_dbg(dev->dev, "delete rule ioctl received\n");
-+
-+	mutex_lock(&npac->req_lock);
-+	reinit_completion(&npac->ack);
-+	ret = rpmsg_send(npac->rpdev->ept, rule, sizeof(*rule));
-+	if (ret) {
-+		dev_err(dev->dev, "rpmsg_send failed: %d\n", ret);
-+		mutex_unlock(&npac->req_lock);
-+		return ret;
-+	}
-+	if (!wait_for_completion_timeout(&npac->ack,
-+					 msecs_to_jiffies(NPAC_ACK_TIMEOUT_MS))) {
-+		dev_err(dev->dev, "ack timed out\n");
-+		mutex_unlock(&npac->req_lock);
-+		return -ETIMEDOUT;
-+	}
-+	mutex_unlock(&npac->req_lock);
-+	return 0;
-+}
-+
-+static const struct drm_ioctl_desc npac_drm_ioctls[] = {
-+	DRM_IOCTL_DEF_DRV(NPAC_ACL_ADD_RULE,    npac_add_rule_ioctl,    DRM_ROOT_ONLY),
-+	DRM_IOCTL_DEF_DRV(NPAC_ACL_DELETE_RULE, npac_delete_rule_ioctl, DRM_ROOT_ONLY),
-+};
-+
-+DEFINE_DRM_ACCEL_FOPS(npac_fops);
-+
-+static const struct drm_driver npac_drm_driver = {
-+	.driver_features	= DRIVER_COMPUTE_ACCEL,
-+	.ioctls			= npac_drm_ioctls,
-+	.num_ioctls		= ARRAY_SIZE(npac_drm_ioctls),
-+	.fops			= &npac_fops,
-+	.name			= "npac",
-+	.desc			= "NPAC Client Driver",
-+};
-+
-+static int npac_cb(struct rpmsg_device *rpdev, void *data, int len,
-+		   void *priv, u32 src)
-+{
-+	struct npac_device *npac = dev_get_drvdata(&rpdev->dev);
-+
-+	dev_dbg(&rpdev->dev, "ack received\n");
-+	complete(&npac->ack);
-+	return 0;
-+}
-+
-+static int npac_probe(struct rpmsg_device *rpdev)
-+{
-+	struct npac_device *npac;
-+	int ret;
-+
-+	npac = devm_drm_dev_alloc(&rpdev->dev, &npac_drm_driver,
-+				  struct npac_device, drm);
-+	if (IS_ERR(npac))
-+		return PTR_ERR(npac);
-+
-+	npac->rpdev = rpdev;
-+	mutex_init(&npac->req_lock);
-+	init_completion(&npac->ack);
-+	dev_set_drvdata(&rpdev->dev, npac);
-+
-+	ret = drm_dev_register(&npac->drm, 0);
-+	if (ret) {
-+		dev_err(&rpdev->dev, "Failed to register DRM accel device: %d\n", ret);
-+		return ret;
-+	}
-+
-+	dev_info(&rpdev->dev, "NPAC Client driver probed\n");
-+	return 0;
-+}
-+
-+static void npac_remove(struct rpmsg_device *rpdev)
-+{
-+	struct npac_device *npac = dev_get_drvdata(&rpdev->dev);
-+
-+	drm_dev_unplug(&npac->drm);
-+
-+	dev_info(&rpdev->dev, "NPAC Client Driver removed\n");
-+}
-+
-+static struct rpmsg_device_id npac_id_table[] = {
-+	{ .name = NPAC_RPMSG_SERVICE_NAME },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(rpmsg, npac_id_table);
-+
-+static struct rpmsg_driver npac_driver = {
-+	.drv.name	= KBUILD_MODNAME,
-+	.id_table	= npac_id_table,
-+	.probe		= npac_probe,
-+	.callback	= npac_cb,
-+	.remove		= npac_remove,
-+};
-+
-+module_rpmsg_driver(npac_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("NPAC Client Driver");
-+MODULE_AUTHOR("Jaspinder Budhal <j-budhal@ti.com>");
+Changes in v4:
+- Fix DT child-node regex for hexadecimal channel addresses.
+- Wrap long DT binding description lines.
+- Simplify optional `vref-supply` and `hvss-supply` handling.
+- Update REF_SEL programming for optional external reference use.
+- Clean up range parsing and error messages.
+- Simplify debugfs register access by calling regmap helpers directly.
+- Add clarifying comments for reset settling time and RAW reads from `DAC_INPUT_A`.
+- Remove an unused vref regulator pointer and an include.
+- Rename the REF_SEL bit define and clean up small driver details.
+- Toggle pins defined as PWM pins, instead of GPIOs
+- Update cover letter to sync up latest changes.
+- Link to v3: https://lore.kernel.org/r/20260519-ad5529r-driver-v3-0-267c0731aa68@analog.com
+
+Changes in v3:
+- Split into adi,ad5529r-16 and adi,ad5529r-12 device tree compatibles
+- Add DT-based output range configuration via adi,output-range-microvolt
+- Expand DT binding: vref-supply, clear/tg GPIOs, interrupts, muxout
+- Correct power supply voltage specifications as per datasheet
+- Reduce SPI frequency limit to 25MHz as per datasheet specs
+- Switch to autoincrement addressing mode, remove +1 register offsets
+- Use DT match data instead of device ID detection for fallback support
+- Implement dynamic scale/offset calculation per configured channel range
+- Added explicit val_format_endian and reg_stride for 16-bit regmap bus
+- Code cleanup: alphabetical includes, ARRAY_SIZE(), unused defines
+- Minor: .sign→.format field, simplify read/write order, optional hvss-supply
+- Remove redundant driver documentation ad5529r.rst
+- Link to v2: https://lore.kernel.org/r/20260508-ad5529r-driver-v2-0-e315441685d7@analog.com
+
+Changes in v2:
+- Fix IIO scale to use millivolts per ABI requirement
+- Fix documentation voltage calculations (2.5V not 2.048V)
+- Fix bipolar ranges in documentation (±5V, ±10V, ±15V, ±20V)
+- Fix alphabetical ordering in documentation index
+- Add missing newline to documentation file
+- Fix scale units description (millivolts not microvolts)
+- Include a section for driver rationale in the cover letter
+- Reword contents in cover letter 12/16 bit generic->variant
+- Add dependency array for spi-cpha and spi-cpol properties
+- Link to v1: https://lore.kernel.org/r/20260507-ad5529r-driver-v1-0-b4460f3cb44f@analog.com
+
+---
+Janani Sunil (3):
+      dt-bindings: spi: Add spi,device-addr peripheral property
+      dt-bindings: iio: dac: Add AD5529R
+      iio: dac: Add AD5529R DAC driver support
+
+ .../devicetree/bindings/iio/dac/adi,ad5529r.yaml   | 216 +++++++++
+ .../bindings/spi/spi-peripheral-props.yaml         |   5 +
+ MAINTAINERS                                        |   8 +
+ drivers/iio/dac/Kconfig                            |  17 +
+ drivers/iio/dac/Makefile                           |   1 +
+ drivers/iio/dac/ad5529r.c                          | 531 +++++++++++++++++++++
+ 6 files changed, 778 insertions(+)
+---
+base-commit: 93df88612859e8e19dec93c69d563b4b73e9bd4b
+change-id: 20260507-ad5529r-driver-866bbdd864de
+
+Best regards,
 -- 
-2.34.1
+Janani Sunil <janani.sunil@analog.com>
 
