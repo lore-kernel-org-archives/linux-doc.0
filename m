@@ -1,221 +1,156 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD5A257845
-	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 18:48:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E79175A9C;
+	Wed,  1 Jul 2026 18:53:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782931709; cv=none; b=goh9iHUmKvlXzJXf8Kk36CMSp1amp0X/WEOky6cdcS38bpmO3nS85l92/+YpfBiUuxv51uqTGb4kc5SjzCI9Q3IagUl67MK5+TSh1wVyF5TbKygPpOqeYa8oGaqCUySZpoKdSC09+oDW6riHYIv8N8R/Dam+hW6tLeOBYWHX1RU=
+	t=1782931985; cv=none; b=taoxjxrZRYkCz0fvpSEUvWK8iKknKD5ePgnLQUfVEZaMjHnKnUt3tl+wP7cmoAmGaVJtpcYMbl8nOJgC43S6DUMdtGjdhPG+AWwIzzY2yXMb4k+AN7YtP6ACTbdE82JQPqV3cY6K2vbZpbJECCqzzl907TGz5WdDVwrfCHrcji8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782931709; c=relaxed/simple;
-	bh=LnkCdH2rMub+8Ev/aOXfC79aCCrMwEvlNrm835YI6yE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GtAMvz0BqxQUihiq454IS4ON+ZZXyN3vYRqmTZ1OfYz3Mjq0lsnQ1Bt8/4XlejpyJn9s2Uyk43wrB0nhnHVFVFIvGnq4UlQc7PdMKmce6SgQIGTpXviscluBQlU/iJEQOXIdUU+deFf18iksYa3zUEPB1xDBCLdL4U7bgkrpHxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=AKuzG8IN; arc=none smtp.client-ip=209.85.210.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1782931985; c=relaxed/simple;
+	bh=JJ2bCvF9V9faRtkSVez83R/oSccusPAWgLiUuakKyvM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QrK0op8V/aZDo3Eid5DBPhyRSMseFhjN9crhTESnJoA6YGwBfOUT8DCVvM/syRsEoQWmKeZGP3Xws9HYX1IYN3RmVsZ7Sa0QT1/tdzm13HM9OCK5NBijwIWt2iTe9Phs+wFxS7AKQhHv4O+zowEPt4p+A9TodMJY+4oRLsrFtak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P6cpzUM4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="AKuzG8IN"
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7eb29ed2bbdso303907a34.2
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 11:48:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1782931705; x=1783536505; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IBSe02IJYN/TMgS7bk4uMJRY3rWTVEa0aWjrt+rH1dg=;
-        b=AKuzG8IN7WIejScqYHN3/zLuFUilZDbw1BSHqTO0SRwOcKWf+Ry6H2SlMAPpZreA8I
-         ojkK5kcfCrNE75SHnx9jP7OwScoEE/TalruftQKiCHIX+7KmbodNLd2m2e/P9CRma3El
-         HTnYwKUp9j7Y42qFkLfQz6CKbXK6e8NLxtEjbc0SCrUgDMS+8meQmgLtmdp/xGUJwH4u
-         zehk4OCXROzqSgSBI44IXUWM3qHTWu4YDHHloMSHbS5BvRBMzkpWe6mn1ceqRWjNILaz
-         q94YOa926lABbu6/IldZqp2JEk2Atxt2Iu2yFWjR6Tej2xy1QUgc9Ks7k3hF0uHt0nle
-         MkbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782931705; x=1783536505;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IBSe02IJYN/TMgS7bk4uMJRY3rWTVEa0aWjrt+rH1dg=;
-        b=Pms1tV8jKPDjSg7TgvSZiRikBBvJ2DZ/z9dkBoPxO5Aj5xewqpk/H81QbyrUyxcB6d
-         8vEQQTdnIgLcLerQtMpP49EJ1ZvOA/mnLIcVzkeecdWEQP1qFShPNXF7pyNYlanM5QQS
-         9NmFEvijKwwLORZ8vyJkIufrsWMcqW6tkmVCs6W8eWnOuIkE9g2V9UbNf//R0SRx52Mh
-         5HtLfVvCDNltBEPyiz5TNqQXsU61X8CkPak3J4SUcVOag9MgVF4VAZwoeHp1dYW6FT2q
-         DSohQqIeEWPjKaYeU+3T1n0jMpcNSvuLvObpvYg1OmAM/RBqkDkDOpsHu/XqP3wMrL4q
-         SwEQ==
-X-Forwarded-Encrypted: i=1; AFNElJ87t0YA1hJcqw/GhR6Vd7LLQhPd9FqrejWB1uXjIcfeg1sojblAFDvRHzzoLO4ZR5qCDlRrdH7yQYI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyREhBeZapeO160z/Nm0rmx3zGlGEsE++X0wxbnUAj+Te3trBMp
-	22lA1oxRQYxR7L6s6zQnjsXE5P0o0/rJnEQPRhT9uEIjE/v+Dr/ZCwUtiHNhHuIs3KU=
-X-Gm-Gg: AfdE7cmvZ83StDTIXmWx4sULi53M5DhNhF7RAVIHO9Ainb8i8KnkBVKUbYDqJnZsYc/
-	5KTujezPewc6IYl3yQL0MlRxFdjR/nXDAINA30RBsbm36mv9kTVSGR1AvlWEio4pjhtX2sf7DbJ
-	ItnlXPM/cMFmsQoPFsW5wgt5uFleqoWe8eU1zrYTSkfRoV5t275FUM5L0IVWpJwh+i+uCg3svK1
-	TMyGTPbvbrbA03aEq4CyKGYHmegX3z1pkuv1efI6GPwTHbw9oybH1DkV25GvsMTLm0E2kF5Mn30
-	6xsmKTr8mBYib9hNe57z+DMC6FaVKN4Ab2r+wS0srVk4ssH5pWSEMf5zcewe0jmHjqQ30i97mcS
-	maXzlFZwTVrEBIjVrtrMio+Nms1IOW6nGmOqtNZvl+jKtFx3iDYcoFhGqX7+zTg4TkNFxJXz4uY
-	UWcS3gbVv74nlNgnyiMG3YonKgXMSBwIfYafLIJXhnI50LjEPJZPUnHXlmSnIT
-X-Received: by 2002:a05:6830:380f:b0:7dc:dd58:50b8 with SMTP id 46e09a7af769-7eb48b1b007mr1592458a34.13.1782931705380;
-        Wed, 01 Jul 2026 11:48:25 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:d4c1:7681:5df:9500? ([2600:8803:e7e4:500:d4c1:7681:5df:9500])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7eb542f07basm728183a34.10.2026.07.01.11.48.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Jul 2026 11:48:25 -0700 (PDT)
-Message-ID: <0bb77749-4aef-47dc-9107-a93b961a0187@baylibre.com>
-Date: Wed, 1 Jul 2026 13:48:24 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P6cpzUM4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47F061F000E9;
+	Wed,  1 Jul 2026 18:53:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782931983;
+	bh=TNz7DIIDlkzXwzuwPEkNP0afeY/1aW0PYOsxFj/Jr6c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=P6cpzUM4FLbh2hMauoymkBbq26tRWfe6OhHarMMy5mVfPLJUzeHNRBKFKX1jfrWu1
+	 aFgzL0YfCF+JrSOjuRbwxx3OY/0g6xQce7WUhQbI4OulM73Nn/dyudyil7H9hIlXpB
+	 xuma73m7yo3FiFhQfBbiAgbdPvDlBPZl+vw8uTUZ7wffYSkrsLAfQS96x8FrlM1mI7
+	 PUM9vpv24jgMXghqLmBC5zJQg1+GbJcMI9KXQQgNE9W7WNDg8fAX+Z+L2Ofa05B/BV
+	 89tKMRnsv69cSruy2SEJ/X60YNS1kGjlk/RqxjdnSvek/Methvdj0s4Jp+BdwVfaSk
+	 7JyPGYdU5sxdg==
+Date: Wed, 1 Jul 2026 11:53:02 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>, Christian Brauner <brauner@kernel.org>
+Cc: Linus Torvalds  <torvalds@linux-foundation.org>, Jonathan Corbet
+ <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, David Hildenbrand
+ <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Message-ID: <20260701115302.29c66401@kernel.org>
+In-Reply-To: <bffcce9436c47e8762e6f4fa4cae9f7ddd183b8f.camel@kernel.org>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+	<bffcce9436c47e8762e6f4fa4cae9f7ddd183b8f.camel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/3] dt-bindings: spi: Add spi,device-addr peripheral
- property
-To: Jonathan Cameron <jic23@kernel.org>, Conor Dooley <conor@kernel.org>
-Cc: Janani Sunil <janani.sunil@analog.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Mark Brown <broonie@kernel.org>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>,
- linux-spi@vger.kernel.org
-References: <20260701-ad5529r-driver-v5-0-ed087900e642@analog.com>
- <20260701-ad5529r-driver-v5-1-ed087900e642@analog.com>
- <20260701-immodest-carrot-611d255656b5@spud>
- <20260701192915.2fca6b06@jic23-huawei>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20260701192915.2fca6b06@jic23-huawei>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-Note that a few subsystems, including spi want the subject
-to be `spi: dt-bindings:` rather than the other way around.
+On Wed, 01 Jul 2026 14:35:08 -0400 Jeff Layton wrote:
+> On Wed, 2026-07-01 at 17:54 +0200, Christian Brauner wrote:
+> > I remain very confused by our coding assistant contribution guidelines.
+> > I'm going to be a bit polemic now but this seriously in good faith.
+> >=20
+> > Why precisely do we require all this detailed information about what
+> > specific coding assistant was used?
+> >=20
+> > I find it very irritating that our git history has effectively started
+> > to function a bit like a free advertising platform for a bunch of AI
+> > companies and their proprietary agents and models.
 
-See https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html
+FWIW, this is exactly how I feel. I added a regex to strip these in
+my git hooks. So at least the net/ history should be ads-free =F0=9F=A4=B7=
+=EF=B8=8F
 
+Inexperienced developers who just trust the LLM output, and therefore
+are the group where the tags would be most useful, tend not to add
+them. Either because they are ashamed or because they want full credit.
+This correlation kills the utility of the tag.
 
-On 7/1/26 1:29 PM, Jonathan Cameron wrote:
-> On Wed, 1 Jul 2026 12:04:37 +0100
-> Conor Dooley <conor@kernel.org> wrote:
-> 
->> On Wed, Jul 01, 2026 at 08:40:39AM +0200, Janani Sunil wrote:
->>> Some SPI devices support sharing a single chip select across multiple
->>> physical chips by encoding a device address in the SPI frame itself.
->>> Add a generic spi,device-addr property to document this per-peripheral
->>> address. This property belongs in channel or sub-device nodes of
->>> peripherals that use this addressing scheme.
->>>
->>> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
->>> ---
->>>  Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml | 5 +++++
->>>  1 file changed, 5 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
->>> index 880a9f624566..3774e8018355 100644
->>> --- a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
->>> +++ b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
->>> @@ -142,6 +142,11 @@ properties:
->>>      minItems: 2
->>>      maxItems: 4
->>>  
->>> +  spi,device-addr:  
->>
->> To match other generic spi properties, s/,/-/.
->>
->> However, you don't actually use this as a spi peripheral's property in
->> your device binding, so you've got your wires crossed here somewhere.
-> 
-> If we are going to make this generic (which I'm not against) I think
-> it should also work for the case of multiple independent devices.
-> So it can also be a top level device node spi property.
-> 
-> That kind of makes me wonder if we are better off having it always
-> in the top level node, but allowing multiple values to represent
-> sub devices under this.  That would leave figuring out mappings of which
-> channels are on which device to the driver. The driver must know the
-> mapping afterall.  For the example something like
-> 
-> 
-> #include <dt-bindings/gpio/gpio.h>
-> spi {
->     #address-cells = <1>;
->     #size-cells = <0>;
->     dac@0 {
->         compatible = "adi,ad5529r-16";
->         reg = <0>;
->         spi-max-frequency = <25000000>;
-> 
->         spi-device-addreses = <0 3>
-> ...
-> 
->         #address-cells = <1>;
->         #size-cells = <0>;
-> 
->         channel@0 {
->             reg = <0>;
->             adi,output-range-microvolt = <0 5000000>;
->         };
-> 
->         channel@16 { #on second device using dev addr 3
->             reg = <16>;
->             adi,output-range-microvolt = <(-10000000) 10000000>;
->         };
->         channel@18 { #3rd channel on device using dev addr 3
->             reg = <18>;
->             adi,output-range-microvolt = <0 40000000>;
->         };
->     };
-> };
-> 
-> Where devices are truely independent then you would have separate device
-> nodes each with one entry in spi-device-addresses
-> 
-> I'm a bit dubious about putting this in the spi namespace though given
-> it is not part of any standard specification.  Do we have any precedence
-> for that sort of thing?
+> > And it reamins unclear to me what exactly we do get out of this detailed
+> > information: Do we want to run statistical analysis on what agent and
+> > model is used the most and publish that on LWN at some point?
+> >=20
+> > I acknowledge that my stance is even more radical: imho we would just
+> > stop it with any disclosure requirements completely. It's useless imho.
+> > We already see that other than core contributors most people don't care
+> > and will just not disclose their usage of AI. I think this is entirely
+> > pointless and worse it brings in undefined legal status as well. It's
+> > not like recent events of pulling certain models from the face of the
+> > earth have made this any less concerning.
+> >=20
+> > But fine, if we want to do this can we please just dumb it down to
+> >=20
+> > Assisted-by: LLM
+> >=20
+> > or
+> >=20
+> > Assisted-by: Coding Assistant
+> >=20
+> > or something else. That still gives the "careful review" signal to
+> > reviewers that want to pay special attention to LLM generated work while
+> > avoiding this slew of metadata.
+> >=20
+> > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> > ---
+> >  Documentation/process/coding-assistants.rst | 8 ++------
+> >  1 file changed, 2 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/Documentation/process/coding-assistants.rst b/Documentatio=
+n/process/coding-assistants.rst
+> > index 899f4459c52d..fe34f3e7e828 100644
+> > --- a/Documentation/process/coding-assistants.rst
+> > +++ b/Documentation/process/coding-assistants.rst
+> > @@ -43,12 +43,8 @@ When AI tools contribute to kernel development, prop=
+er attribution
+> >  helps track the evolving role of AI in the development process.
+> >  Contributions should include an Assisted-by tag in the following forma=
+t::
+> > =20
+> > -  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
+> > +  Assisted-by: LLM [TOOL1] [TOOL2]
+> > =20
+> > -Where:
+> > -
+> > -* ``AGENT_NAME`` is the name of the AI tool or framework
+> > -* ``MODEL_VERSION`` is the specific model version used
+> >  * ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
+> >    (e.g., coccinelle, sparse, smatch, clang-tidy)
+> > =20
+> > @@ -56,4 +52,4 @@ Basic development tools (git, gcc, make, editors) sho=
+uld not be listed.
+> > =20
+> >  Example::
+> > =20
+> > -  Assisted-by: Claude:claude-3-opus coccinelle sparse
+> > +  Assisted-by: LLM coccinelle sparse
+> >=20
+> > ---
+> > base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+> > change-id: 20260701-work-coding-assistants-650ae1202ee0 =20
+>=20
+>=20
+> In general, collecting data for nebulous purposes usually turns out to
+> be a bad idea. If we're not 100% clear on why we want this data, then
+> we're probably better off not collecting it at all.
+>=20
+> With that in mind: if we're going to water down the tag, then I say
+> just remove the requirement altogether. If we later decide that we want
+> to start collecting more detailed info for some (clear) purpose then we
+> can revisit the idea.
 
-It seems like most SPI controllers/devices don't really follow any
-standards, so I think there is plenty of precedence for a property
-like this. It would be nice to see one or two more examples of SPI
-peripherals with this feature though other than the one chip in
-this series. Otherwise, I wouldn't try to make it a standard property.
++1
 
-I'm also in favor of making it an array and letting the device-specific
-bindings decide what multiple devices with different addresses on the
-same CS line means.
+Honestly even tool attribution feels increasingly moot.
+People vibe code tools and AI-in-the-loop pipelines which they never
+publish. Open source tools are (hopefully?) used in pre-commit
+pipelines, so they have the "kbuild bot problem" of problems getting
+fixed before the code is merged. And we have the same free advertising
+problem for the rest.
 
-But... if we are leaving it up to devices to deal with the property rather
-than the core SPI code, maybe it shouldn't be a standard SPI property.
-Although, I suppose the core SPI code could parse the property and just
-pass that information in the struct spi_device to let the device driver
-do what it wants with it.
-
-> 
-> Jonathan
-> 
->>
->> If it's a generic dac channel property (as you use it) it should be in
->> dac.yaml (or adc.yaml for the other device that I asked you to add it
->> for as proof of being generic), or it is a spi peripheral property and
->> needs to go into the dac node itself.
->>
->> pw-bot: changes-requested
->>
->>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>> +    description:
->>> +      Device address used when multiple peripherals share a single chip select.
->>> +
->>>    st,spi-midi-ns:
->>>      deprecated: true
->>>      description: |
->>>
->>> -- 
->>> 2.43.0
->>>   
-> 
-
+It's 100 times more important to drill into people to provide sufficient
+information in plain English. How was the bug discovered, has it been
+triggered / proven and how, what is the user impact. I wonder if
+inventing tags distracts contributors from what really matters.
