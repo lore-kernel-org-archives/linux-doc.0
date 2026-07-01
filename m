@@ -1,133 +1,183 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA48048A2DA
-	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 15:07:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABCA048BD26;
+	Wed,  1 Jul 2026 15:27:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782918440; cv=none; b=ZEvcJ5R/lpbW/tahSrZMRS+4YMzgWO7hi3Hv7aHL0tn124QE3Er/flMHn8WsG9tV4S/+bNWEQQ6XQK9gQ4eyyiHDzLD/f+54848YIAn1YpwHvRDupB2OeNhdUmrgKM0Cu0v7grSaE13SWaetuhNOMwBv9SSoV9sOINSKB0PjjXA=
+	t=1782919644; cv=none; b=cFJm90duOg1emOkvVthePh+zTELPn24ED9meoUianQxaXfNaLFSnf9prHp5MPvKdnecVTY2FgCzYj2IIHESSRwz3deInPlocmSLJB30CX74IM9qy9ClHcvngKRBGGtNf2bu7q4xkXs0VlnPyFlHOgwcw7Rpo7qLMoTyk9LKg4Cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782918440; c=relaxed/simple;
-	bh=mtle515uIyp+O7vElJnFWYGr1uuE1TQcAdjdXN5Vo4c=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Ckj8v1HwJm3ePFeaUlDeY6jkEC+PaxSpKnmxNW9GTdBqpddw9GYXXiyV2QsAUBaHBv+9Ayii5w4mSueVpU/wU2MorLxFRNCjAWl7N834DvGyUuQNGlMglnOrVsHXCgazD/rKeg7m/rIJdMfEOeIOvfD++9KV4ScA93c+ckuprS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=du7ybx56; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1782919644; c=relaxed/simple;
+	bh=jhRISx6CQ3m4A0rbT41a5R76Aw7/Rf2ILwww2aaXjr8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=axnK0yw4zpOm2/h7JgY4U24PvqPU586oYWi3c+zX2lrcO/jf/y2guU54RNIUyGIz/IRwWq8kC/n3tqNwX859oiXret4R5L4TmvWIODnT2lQMjcbEJE4Bl3vn/ICqfZA3g+M6qE1/AF9uvUAP5zJYp3XAdKckaoNjAvVRPMzQWlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YKKi0Pjh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="du7ybx56"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-37fc0aaa94cso638769a91.1
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 08:07:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782918434; x=1783523234; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=35ip1FXhxTsr49Tf+Elt4WaaVNO58PfZuNT2YrZrg5w=;
-        b=du7ybx56GtUFlXWVU3O9LfpHYDV7/+pOAfpsOn3bikOwU9q6VYbpvER6Ii5TEfbid4
-         cVGaR09SdjsrGJzsKmN/yk+v0FhRORty75rVyokNjzxK8TyhzUilW2xLkb2MgKmKPMCc
-         AXL6zeLlvcL/k3UL1pnt14R02XyU25z7yY2LH3R0yT8o4mSPH07QIRNQ63+5HlF+6eNe
-         Mee8dMbugJRGxgfV3FBChkSW8XFiQktTpoNkk2YpP4HWAnrfvv0FNB5p9iNhvlXcNi0s
-         p2XwqZKe8gw2bF282V7CByNKa9hR9GbqUKZyqCWl8VM5fLHE9dY4omhI4shhIuROgFUV
-         uEsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782918434; x=1783523234;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=35ip1FXhxTsr49Tf+Elt4WaaVNO58PfZuNT2YrZrg5w=;
-        b=TrXeuSRPh4+NlbBTKPN7sMxUz970GN56agGqIJyJw3WNygUKwLE9aIBla2NiGZYkQT
-         ILt009xX1Z0Bq/H2kYkBeyqRcnM2A25/M/aifWp6nshBkezepghO0j6A0WbQGsi48SO7
-         wcNbCwibgpiCbcREXjUprRFu2UPp5MDTBIWi5JyZ7BajOOjLEYMRHU9OzNWy/4w5/rGQ
-         Vl/Emy0PChrhYNb1DVG4tRrJ5TzG9CunAzxB3LlS3vkrdo+02kmJvI+TJX/UJIGkUutS
-         PWTWEKSJxR1DDDQJ08UBXgeZn6ZCCfrHeSJ4z3Yx/E/xGWIxDlfm4upBKt20yPfaod+A
-         r7Yw==
-X-Forwarded-Encrypted: i=1; AHgh+Rp3poDEeLlf9j64kKl9uZOMd3EmATYMIooWXieJJ+oEFzwNX4CAt+ti3RDuuOJ7a4nkWIJVhjOaDUc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwQ+8vCFqtOVlsSvGg29SRQ8fal6CImpaGhfhSeHkQKF+YfrSf
-	U2WKVat8jjRlnvKVuTBZBXEk5wwKwPm9ClSkDGlPl/ItAbJ3qnM4QbheRRFwmH41U9zEo9wkIi9
-	qSSta6Q==
-X-Received: from plbl14.prod.google.com ([2002:a17:902:eb0e:b0:2b0:aef9:a5a2])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:3c50:b0:2ca:e5c:7fcf
- with SMTP id d9443c01a7336-2ca7e654686mr23268045ad.3.1782918433131; Wed, 01
- Jul 2026 08:07:13 -0700 (PDT)
-Date: Wed, 1 Jul 2026 08:07:12 -0700
-In-Reply-To: <e5876e41-a11a-4d5e-958f-9e247c19d387@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YKKi0Pjh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C1041F00A3E;
+	Wed,  1 Jul 2026 15:27:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782919643;
+	bh=wDPki3aSQKwtM32F6/ODm6VehYF+zL7sFr5GC+qEOok=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=YKKi0PjhG524FOlcnZSSXXmkfcT7tcUu2/JsSJbF8zV6fzvVZP/eFT7Ogyjgx8oUp
+	 GEAfscTvc63KGQOWjB1Hr+2y/ZsNVxYcH8UC753C91wjjnm/x2FrLcWLeQGpM/5r17
+	 Zi0mP/7BQi0EXk+b7WxWlKV4L2W+EkDT8IZj3+lBAFuJg0Qb+ndFndZsKd8em+9RmA
+	 MORHEnL/ptOeYSnUKu6dBO730fTDEzk5NUHoKfOyfOxzGeUiTHWh28aDxxAAqh43EN
+	 aAAtDzrCFG/o9qsUqHkWlWDWBvBqotNVXEtxbLfVUoaYTLm9IGyCFgDU6EOeApKLEy
+	 2lI3focxEhLGg==
+Message-ID: <f7fc1fda-ad40-4a2a-bf93-28d3eaa9ba7f@kernel.org>
+Date: Wed, 1 Jul 2026 17:27:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
- <20260618-gmem-inplace-conversion-v8-7-9d2959357853@google.com>
- <a1b06afb-af6e-4666-8c7d-990e7fa150fa@intel.com> <akP9Qv_IPVEh7GAB@google.com>
- <e5876e41-a11a-4d5e-958f-9e247c19d387@intel.com>
-Message-ID: <akUtIDdRiU9YOr8-@google.com>
-Subject: Re: [PATCH v8 07/46] KVM: Rename memory attribute APIs to prepare for
- in-place gmem conversion
-From: Sean Christopherson <seanjc@google.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm/ksm: document side-channel security considerations
+To: Lukas Gerlach <lukas.gerlach@cispa.de>, akpm@linux-foundation.org,
+ corbet@lwn.net, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: xu.xin16@zte.com.cn, chengming.zhou@linux.dev, skhan@linuxfoundation.org,
+ Jo Van Bulck <jo.vanbulck@cs.kuleuven.be>,
+ Tristan Hornetz <tristan.hornetz@cispa.de>,
+ Michael Schwarz <michael.schwarz@cispa.de>, Shukai Ni <shukai.ni@kuleuven.be>
+References: <f75d286c-4d9e-4b64-8a9e-03e1afcb509f@kernel.org>
+ <20260701123430.20699-1-lukas.gerlach@cispa.de>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
+ ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
+ AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
+ 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
+ g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
+ ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
+ 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
+ /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
+ jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
+ DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
+ HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
+ 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
+ LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <20260701123430.20699-1-lukas.gerlach@cispa.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 01, 2026, Xiaoyao Li wrote:
-> On 7/1/2026 1:30 AM, Sean Christopherson wrote:
-> > On Tue, Jun 30, 2026, Xiaoyao Li wrote:
-> > > On 6/19/2026 8:31 AM, Ackerley Tng via B4 Relay wrote:
-> > > > -bool kvm_range_has_memory_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
-> > > > -				     unsigned long mask, unsigned long attrs);
-> > > > +bool kvm_range_has_vm_memory_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
-> > > > +					unsigned long mask, unsigned long attrs);
-> > > >    bool kvm_arch_pre_set_memory_attributes(struct kvm *kvm,
-> > > >    					struct kvm_gfn_range *range);
-> > > >    bool kvm_arch_post_set_memory_attributes(struct kvm *kvm,
-> > > 
-> > > We have
-> > > 
-> > >   - kvm_pre_set_memory_attributes()
-> > >   - kvm_arch_pre_set_memory_attributes()
-> > >   - kvm_arch_post_set_memory_attributes()
-> > 
-> > Yeah, that's probably for the best.
-> > 
-> > > left, do they need to be renamed as well?
-> > > 
-> > > then the interesting one is kvm_vm_set_mem_attributes(), which contains "vm"
-> > > already while it means "vm ioctl". Do we need to rename it to
-> > > kvm_vm_set_vm_mem_attributes()?
-> > 
-> > I say "no" on this last one, the fact that the function is scoped to a VM ioctl
-> > is enough to communicate that it applies to per-VM attributes.
-> > 
-> > Actually, since it's a local helper, we could go with kvm_set_vm_mem_attributes()
-> > to be consistent with the other functions.  That just leaves
-> > kvm_vm_ioctl_set_mem_attributes(), which I think it appropriately scoped.
+On 7/1/26 14:34, Lukas Gerlach wrote:
+> KSM is known to enable side channels, but the admin guide does not
+> currently spell out the security implications of enabling page merging.
+> Because KSM merges pages by content across all processes with mergeable
+> memory, it forms a side channel that can be used to infer the contents
+> of that memory across security domains, regardless of the user,
+> container, or virtual machine the pages belong to.
 > 
-> If we finally choose to rename kvm_vm_set_mem_attributes() to
-> kvm_set_vm_mem_attributes(), I think the trace
-> trace_kvm_vm_set_mem_attributes() needs to be renamed to keep it consistent?
+> Add a "Security considerations" section making this explicit, so that
+> operators can make an informed decision: KSM should only be enabled for
+> mutually trusting workloads, and any memory marked mergeable should be
+> assumed readable by every other process using KSM.
+> 
+> Co-developed-by: Jo Van Bulck <jo.vanbulck@cs.kuleuven.be>
+> Signed-off-by: Jo Van Bulck <jo.vanbulck@cs.kuleuven.be>
+> Signed-off-by: Lukas Gerlach <lukas.gerlach@cispa.de>
+> Cc: Tristan Hornetz <tristan.hornetz@cispa.de>
+> Cc: Michael Schwarz <michael.schwarz@cispa.de>
+> Cc: Shukai Ni <shukai.ni@kuleuven.be>
+> ---
+> Hi David,
+> 
+> Thanks for the quick response.
+> 
+> I generally agree. The issue I see is that the current documentation
+> understates the risk. The RHEL documentation ("could be potentially
+> used to leak information across guests") does not read like enabling
+> KSM is an arbitrary read across VMs, which the side channel we
+> disclosed (in contrast to previous works) is. So the documentation
+> should really state that KSM is only an option for mutually trusted
+> workloads. A clean model for this would be to assume that memory
+> marked as mergeable is readable by everyone else using KSM.
 
-Ya, good catch!
+Right.
+
+> 
+> Patch below to clarify this in the admin guide. We would, in the
+> future, publish a paper on this to further raise awareness of the
+> risks involved with KSM.
+> 
+> Greetings,
+> Lukas
+> 
+>  Documentation/admin-guide/mm/ksm.rst | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
+> index ad8e7a41f3b5..cbd5f2fdcfcb 100644
+> --- a/Documentation/admin-guide/mm/ksm.rst
+> +++ b/Documentation/admin-guide/mm/ksm.rst
+> @@ -27,6 +27,23 @@ KSM's merged pages were originally locked into kernel memory, but can now
+>  be swapped out just like other user pages (but sharing is broken when they
+>  are swapped back in: ksmd must rediscover their identity and merge again).
+> 
+> +Security considerations
+> +=======================
+> +
+> +Because KSM merges pages based on their content, across all processes
+> +with mergeable memory regardless of which user, container, or virtual
+> +machine they belong to, it exposes a side channel that can be used to
+> +infer the contents of mergeable memory across security domains.  Users
+> +should assume that any memory marked mergeable is readable by every
+> +other process using KSM.
+
+Should we say here "... is effectively readable through side channels by every
+... " ?
+
+> +
+> +KSM should therefore only be enabled for mutually trusted workloads, or
+> +where the merged data is not sensitive; in particular, merging pages
+> +across mutually untrusted virtual machines or tenants is not secure.
+> +KSM is disabled by default (``run`` is 0).  Applications and VMMs that
+> +use ``MADV_MERGEABLE`` should limit it to regions that do not hold
+
+Also good to mention here besides MADV_MERGABLE also "PR_SET_MEMORY_MERGE=1"
+
+I remember that KSM can also be used by user space to break the Linux kernel
+layout randomization. IIRC, the attack vector was Linux running inside a KSM VM,
+and user space inside the VM wanting to break Linux' layout randomization.
+
+Is that sufficiently covered by your text?
+
+-- 
+Cheers,
+
+David
