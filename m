@@ -1,163 +1,133 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2614A344023;
-	Wed,  1 Jul 2026 14:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA48048A2DA
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 15:07:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782915805; cv=none; b=CWCssIGp/1/sArrMMFrycjNUKfSlpFDKsQAR/5Sye3MlZxraH4K8lT2zF1J7aUBdzB9/tBN17PHIvnSkHC49+XaKY+gpM/dtzsqEikUfJQu7cC8dXXzHK0osjl6fCM8R1wsGT/jb3rpKUaLvh1GYZwA5gSebzJ9Y8dCFLG/7PXg=
+	t=1782918440; cv=none; b=ZEvcJ5R/lpbW/tahSrZMRS+4YMzgWO7hi3Hv7aHL0tn124QE3Er/flMHn8WsG9tV4S/+bNWEQQ6XQK9gQ4eyyiHDzLD/f+54848YIAn1YpwHvRDupB2OeNhdUmrgKM0Cu0v7grSaE13SWaetuhNOMwBv9SSoV9sOINSKB0PjjXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782915805; c=relaxed/simple;
-	bh=Nf2wf3qMn6tzQprqjU6H7ip5gfOvrqTHOJ8LaxQbIdE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rVEvPay3UaBFNUJf7QMRtnJR8joDcfMEmvpJjt1BDFO4r7Kt4afOopFtIvnRys88LhtVt1mZtRVCUwlLHZr9ZIOzxpByd2k4pu/fDhDEzu/YOzrZbfC91aQW702QYcSeg+b/JexlJMpRZOZJAI9akJaEJV4pPe3YBp5/PPOB0ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=acEXFbfR; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1782918440; c=relaxed/simple;
+	bh=mtle515uIyp+O7vElJnFWYGr1uuE1TQcAdjdXN5Vo4c=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Ckj8v1HwJm3ePFeaUlDeY6jkEC+PaxSpKnmxNW9GTdBqpddw9GYXXiyV2QsAUBaHBv+9Ayii5w4mSueVpU/wU2MorLxFRNCjAWl7N834DvGyUuQNGlMglnOrVsHXCgazD/rKeg7m/rIJdMfEOeIOvfD++9KV4ScA93c+ckuprS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=du7ybx56; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="acEXFbfR"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 661AIK0c494365;
-	Wed, 1 Jul 2026 14:22:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=6RNfaMMJUOhEx4GxW
-	k3j8Zh6MUmBqR6JKsTEp1dTd58=; b=acEXFbfR7QMHEQkgD2fNEJD9+YLUDXxyG
-	aCwAGZwMC4SljNIalIgtKQzpvaq0KngGljQLKaix9IW5r95jK00t7DPFBD8LmnpT
-	puvQebdatDa5z+XiRuvGqC25bBJtZeBtn0BOCJLvjuRTT5HfVncPOgbvYAU8G4zF
-	FzbgiAR+jhQah3UAoSa7mObO0wN/ZWo7FkMduaQVfydM9HAmfelg79aR2qr0dA2Z
-	TmPLdzEmdR+bYArpsxwWzxT9l7WyJJ29ZsVQLluKhU0RsDpFtlH3irnsPlzP/POu
-	x4CgQmXUkqZRw8ip/Vh19tgbqGW9TUrVy3CBntYXSzZzN64nMJHvg==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f26rf4hh6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 Jul 2026 14:22:14 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 661EJb9t010057;
-	Wed, 1 Jul 2026 14:22:13 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4f2uhyfdh5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 Jul 2026 14:22:13 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 661EMABI46924182
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 1 Jul 2026 14:22:10 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 099FE20049;
-	Wed,  1 Jul 2026 14:22:10 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E472220040;
-	Wed,  1 Jul 2026 14:21:56 +0000 (GMT)
-Received: from li-7bb28a4c-2dab-11b2-a85c-887b5c60d769.ibm.com.com (unknown [9.67.14.28])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  1 Jul 2026 14:21:56 +0000 (GMT)
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-To: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-        corbet@lwn.net
-Cc: sshegde@linux.ibm.com, tglx@kernel.org, gregkh@linuxfoundation.org,
-        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
-        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
-        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
-        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
-        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
-        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v6 21/23] virt/steal_monitor: Add direction control
-Date: Wed,  1 Jul 2026 19:46:52 +0530
-Message-ID: <20260701141654.500125-22-sshegde@linux.ibm.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260701141654.500125-1-sshegde@linux.ibm.com>
-References: <20260701141654.500125-1-sshegde@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="du7ybx56"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-37fc0aaa94cso638769a91.1
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 08:07:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782918434; x=1783523234; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=35ip1FXhxTsr49Tf+Elt4WaaVNO58PfZuNT2YrZrg5w=;
+        b=du7ybx56GtUFlXWVU3O9LfpHYDV7/+pOAfpsOn3bikOwU9q6VYbpvER6Ii5TEfbid4
+         cVGaR09SdjsrGJzsKmN/yk+v0FhRORty75rVyokNjzxK8TyhzUilW2xLkb2MgKmKPMCc
+         AXL6zeLlvcL/k3UL1pnt14R02XyU25z7yY2LH3R0yT8o4mSPH07QIRNQ63+5HlF+6eNe
+         Mee8dMbugJRGxgfV3FBChkSW8XFiQktTpoNkk2YpP4HWAnrfvv0FNB5p9iNhvlXcNi0s
+         p2XwqZKe8gw2bF282V7CByNKa9hR9GbqUKZyqCWl8VM5fLHE9dY4omhI4shhIuROgFUV
+         uEsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782918434; x=1783523234;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=35ip1FXhxTsr49Tf+Elt4WaaVNO58PfZuNT2YrZrg5w=;
+        b=TrXeuSRPh4+NlbBTKPN7sMxUz970GN56agGqIJyJw3WNygUKwLE9aIBla2NiGZYkQT
+         ILt009xX1Z0Bq/H2kYkBeyqRcnM2A25/M/aifWp6nshBkezepghO0j6A0WbQGsi48SO7
+         wcNbCwibgpiCbcREXjUprRFu2UPp5MDTBIWi5JyZ7BajOOjLEYMRHU9OzNWy/4w5/rGQ
+         Vl/Emy0PChrhYNb1DVG4tRrJ5TzG9CunAzxB3LlS3vkrdo+02kmJvI+TJX/UJIGkUutS
+         PWTWEKSJxR1DDDQJ08UBXgeZn6ZCCfrHeSJ4z3Yx/E/xGWIxDlfm4upBKt20yPfaod+A
+         r7Yw==
+X-Forwarded-Encrypted: i=1; AHgh+Rp3poDEeLlf9j64kKl9uZOMd3EmATYMIooWXieJJ+oEFzwNX4CAt+ti3RDuuOJ7a4nkWIJVhjOaDUc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwQ+8vCFqtOVlsSvGg29SRQ8fal6CImpaGhfhSeHkQKF+YfrSf
+	U2WKVat8jjRlnvKVuTBZBXEk5wwKwPm9ClSkDGlPl/ItAbJ3qnM4QbheRRFwmH41U9zEo9wkIi9
+	qSSta6Q==
+X-Received: from plbl14.prod.google.com ([2002:a17:902:eb0e:b0:2b0:aef9:a5a2])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:3c50:b0:2ca:e5c:7fcf
+ with SMTP id d9443c01a7336-2ca7e654686mr23268045ad.3.1782918433131; Wed, 01
+ Jul 2026 08:07:13 -0700 (PDT)
+Date: Wed, 1 Jul 2026 08:07:12 -0700
+In-Reply-To: <e5876e41-a11a-4d5e-958f-9e247c19d387@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=a4kAM0SF c=1 sm=1 tr=0 ts=6a452297 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8 a=_v5trmpiMvKuf-VRmTkA:9
-X-Proofpoint-ORIG-GUID: v023rTD_snh8wzQFuuprIZgRx5V0sDuX
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDE1MCBTYWx0ZWRfX25Osvz64kISd
- isK8aKtX/7lhNX1u/jBVAEOGPeXFF6f8OklmoE76XzI7QJBxt4gIMsghI2AeVCWE8umGehWB+KO
- wrZUdLVIQPGFBdnJ7ZGFoXUJ+WIkhD1AuwSaprqM/YQRnhoBbevpKbcRsaxZCOiHHRNXCc9CaqW
- hKlGgBuLRp1IPTm3jlxjdLGS++XjjzCyGEKw7OoGXaV7p1DPR9o5eSSdiun/kljobRzON95XR9O
- 5/yJVmA5LS51dCPMBhzFMOHpisq5v/zN+8+GDWAOeTi/FUI2q/AbWmCEtgfB/O6/3IdfbpQ4B+1
- SHtpyjbJoA1ied6l2eifVNUSmHJNxh4lk296HfpivY3RVnsfsAcUl8maeEfNBdI3F2/n/SvYmFL
- A57rxzq2A6lmP7OJ+vrc32VvannLM7RWJg/bfp+xMD8JfD0HkqQDEJYVRSTRPDAuBUjDrkFtTYR
- NUnj2OSR3u49QNLugcQ==
-X-Proofpoint-GUID: 1NO0sV_M21SWjFDo9JgXd-JxcfrK_-R8
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDE1MCBTYWx0ZWRfXzGxs+6DTEpRx
- 2pIYeUDdGWSFrqFMInyN6Pk0JbMw/o+CoTc15+MQOWXcw3CiYFGxIQoOsBzkmj5d+mIZX3Dn9nz
- DXxLzw/mguQcoXgyxT1vNr6PmdxdsfA=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-01_03,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0
- spamscore=0 priorityscore=1501 adultscore=0 malwarescore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607010150
+Mime-Version: 1.0
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
+ <20260618-gmem-inplace-conversion-v8-7-9d2959357853@google.com>
+ <a1b06afb-af6e-4666-8c7d-990e7fa150fa@intel.com> <akP9Qv_IPVEh7GAB@google.com>
+ <e5876e41-a11a-4d5e-958f-9e247c19d387@intel.com>
+Message-ID: <akUtIDdRiU9YOr8-@google.com>
+Subject: Re: [PATCH v8 07/46] KVM: Rename memory attribute APIs to prepare for
+ in-place gmem conversion
+From: Sean Christopherson <seanjc@google.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-Cache the previous direction on steal time. So two consecutive values of
-high values or low values are taken for decrease/increase of preferred
-CPUs. This helps to avoid oscillations.
+On Wed, Jul 01, 2026, Xiaoyao Li wrote:
+> On 7/1/2026 1:30 AM, Sean Christopherson wrote:
+> > On Tue, Jun 30, 2026, Xiaoyao Li wrote:
+> > > On 6/19/2026 8:31 AM, Ackerley Tng via B4 Relay wrote:
+> > > > -bool kvm_range_has_memory_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
+> > > > -				     unsigned long mask, unsigned long attrs);
+> > > > +bool kvm_range_has_vm_memory_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
+> > > > +					unsigned long mask, unsigned long attrs);
+> > > >    bool kvm_arch_pre_set_memory_attributes(struct kvm *kvm,
+> > > >    					struct kvm_gfn_range *range);
+> > > >    bool kvm_arch_post_set_memory_attributes(struct kvm *kvm,
+> > > 
+> > > We have
+> > > 
+> > >   - kvm_pre_set_memory_attributes()
+> > >   - kvm_arch_pre_set_memory_attributes()
+> > >   - kvm_arch_post_set_memory_attributes()
+> > 
+> > Yeah, that's probably for the best.
+> > 
+> > > left, do they need to be renamed as well?
+> > > 
+> > > then the interesting one is kvm_vm_set_mem_attributes(), which contains "vm"
+> > > already while it means "vm ioctl". Do we need to rename it to
+> > > kvm_vm_set_vm_mem_attributes()?
+> > 
+> > I say "no" on this last one, the fact that the function is scoped to a VM ioctl
+> > is enough to communicate that it applies to per-VM attributes.
+> > 
+> > Actually, since it's a local helper, we could go with kvm_set_vm_mem_attributes()
+> > to be consistent with the other functions.  That just leaves
+> > kvm_vm_ioctl_set_mem_attributes(), which I think it appropriately scoped.
+> 
+> If we finally choose to rename kvm_vm_set_mem_attributes() to
+> kvm_set_vm_mem_attributes(), I think the trace
+> trace_kvm_vm_set_mem_attributes() needs to be renamed to keep it consistent?
 
-Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
----
- drivers/virt/steal_monitor/sm_core.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/virt/steal_monitor/sm_core.c b/drivers/virt/steal_monitor/sm_core.c
-index 7b7435f79b85..4810bad96818 100644
---- a/drivers/virt/steal_monitor/sm_core.c
-+++ b/drivers/virt/steal_monitor/sm_core.c
-@@ -20,6 +20,12 @@ struct steal_monitor sm_core_ctx = {
- 	.low_threshold = 200,	/* 2% */
- };
- 
-+enum sm_direction {
-+	SM_DIR_INCREASE = -1,
-+	SM_DIR_NONE	=  0,
-+	SM_DIR_DECREASE	=  1,
-+};
-+
- module_param_named(interval_ms, sm_core_ctx.interval_ms, uint, 0644);
- MODULE_PARM_DESC(interval_ms,
- 		 "Sampling frequency for steal values in milliseconds (default: 1000)");
-@@ -59,12 +65,22 @@ static void compute_preferred_cpus_work(struct work_struct *work)
- 
- 	steal_ratio = div64_u64(delta_steal, delta_ns);
- 	/* If the steal time values are high, reduce preferred CPUs */
--	if (steal_ratio > sm_core_ctx.high_threshold)
-+	if (sm_core_ctx.prev_direction == SM_DIR_DECREASE &&
-+	    steal_ratio > sm_core_ctx.high_threshold)
- 		decrease_preferred_cpus(&sm_core_ctx);
- 	/* If the steal time values are low, increase preferred CPUs */
--	if (steal_ratio <= sm_core_ctx.low_threshold)
-+	if (sm_core_ctx.prev_direction == SM_DIR_INCREASE &&
-+	    steal_ratio <= sm_core_ctx.low_threshold)
- 		increase_preferred_cpus(&sm_core_ctx);
- 
-+	/* mark the direction. This helps to avoid ping-pongs */
-+	if (steal_ratio > sm_core_ctx.high_threshold)
-+		sm_core_ctx.prev_direction = SM_DIR_DECREASE;
-+	else if (steal_ratio <= sm_core_ctx.low_threshold)
-+		sm_core_ctx.prev_direction = SM_DIR_INCREASE;
-+	else
-+		sm_core_ctx.prev_direction = SM_DIR_NONE;
-+
- 	/* At least one core is kept as preferred */
- 	WARN_ON(cpumask_empty(cpu_preferred_mask));
- 
--- 
-2.47.3
-
+Ya, good catch!
