@@ -1,605 +1,594 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011064.outbound.protection.outlook.com [40.93.194.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC8C48AE34
-	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 13:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782911515; cv=none; b=IWZY6hwuOU71vMLrcLtLm7XlGtGLNOwESYXqJAcZuwbqSa5HblbYEsYHkC0bYfGBFRZjhO+Dvk4BjT+T5LAtIuMtJ3novk5qIdrrznsKLYkI4ISEcGtRgISDEVUkJOSfetz5WBcu5zdMzYUrdPykU69kp6RZZKYPnvX+jlDh7t0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782911515; c=relaxed/simple;
-	bh=SaVIdm5ltW/d1p4HAoF10IoSMzzzMzCzlQiv0hpoL+M=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EA8038TbAVBxFfyCz/0xw1hM60BK1swvCeir738L3Je6d2h/FosXNtBTZKW2NLCvzCaADfNzlNUcj9nnxovNe6g21LosVt0wDOJs3PSl5UZ52e4fVW/GtYJACiLPQ6Jn3LaSB1xi0Ee42Mymk2i6H0+rSKyQHTNiJFfB+x6XXYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Fjtec6vH; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Xdhce9CR; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4707B3C553A;
+	Wed,  1 Jul 2026 13:14:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782911697; cv=fail; b=chkrEl3D3oa0cWr33xUkGf4D2eSRsn0x+jnw/kqoyI9Cdv1jfE+KEw+aWwwyLI1bXK2yetcWex6waJkMtbeTCkPHRpv+XBl+nr2aXLbaxXc48h9b7z7SekIEDavf4YQjylqWd29r0YaVv3g/aLfaCdbDSF80q/BRcmo4tWuzQfs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782911697; c=relaxed/simple;
+	bh=E8ROv0SwZ/SauPEh9ziChlsHOUZOJpsOCoixjrU92lg=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=XI4bKEljHMlGuoledQ4Xt3vboLodHuQPk3SWYtBxz/EiTE7iqhpehdW3obVFu7nd8rDbZZrtWH7B3WtzF9rncUKDr4gVfB/JXmGKSx5vwpIbjYKPwzrwDmflCoijZoxgNLIioSEk2tq/jRVkC0bosIwQBz57Ktx0pJh8UaF1LN0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=dd6JwEce; arc=fail smtp.client-ip=40.93.194.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Fjtec6vH";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Xdhce9CR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782911512;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Yt0xBCqeWoRJYvuEg2PYnPwtGvcwgU1CZOMs8phmh8g=;
-	b=Fjtec6vHioucRbNHPJGFx1SIN+y/swJSIFCJuwte2ivFRVWEAMHk+fQ1rYZTqoWotxoEOj
-	Edmurwxl5X27jp6athr+q9RC/xSv8w6h83LJIaDiyJv8x/Z/ENdbw+IAWNB+dBW3INVCld
-	4TaThOhBiikadsh0++8Il0zbHdaLCWo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-55-NEwhhDExOomC8gtKj3y42Q-1; Wed, 01 Jul 2026 09:11:51 -0400
-X-MC-Unique: NEwhhDExOomC8gtKj3y42Q-1
-X-Mimecast-MFC-AGG-ID: NEwhhDExOomC8gtKj3y42Q_1782911510
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-493b54823bdso12598055e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 06:11:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1782911510; x=1783516310; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Yt0xBCqeWoRJYvuEg2PYnPwtGvcwgU1CZOMs8phmh8g=;
-        b=Xdhce9CRuopMurgJxA1WXgycfZSa4vuRq0tiIGd4utisl+MvgrdFKHfGizXzU8a4hv
-         s10+kAYq3lrZhCZrJ6uE5NAlqHXatNLMmZZmSDF4yWhjoV2XYGcLbQJlbdd+jMcsTzts
-         jveHwq+gEo1T9wbe8wBHKZaAv44kefJBlcjm+YglmNTLQdMN3dhZTr6jaTeQhCN2ULzL
-         P5nPb3U+IpNmOkLBUSirY1NmBQx+FaYK++aNwRSUg8mDnW3dfGCh5Dd3+bri356eZagu
-         m37fgyJ9lKrC989KEbhVrccVN9kvL7iZqb8ETNLduNTHSNlHrk1HmCqQIl8kDFz1QgkN
-         oJ9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782911510; x=1783516310;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yt0xBCqeWoRJYvuEg2PYnPwtGvcwgU1CZOMs8phmh8g=;
-        b=G4XrckcXwI+8VSFjNQFfGf8cEyeTzlBQX1zhHd3TBzmdyetK6AX0a3gvOVMRDP1Jy+
-         p284Hy/oY6/5eJtcl53/XZbJRo2gi+KedBzklBclzn9xq/mbT1j0aiGAx4rMDXwIA8T5
-         181yNfk3iIzL1u862/L3AltOycWUYGSUpymy0Ow3CReqmm441nvN8kER/aqP4AGtkEAk
-         5KQrp1MK5zyeJjw5vUXp+Cvgq7SyXmUSKUP5Oize+eReZwK6X4pQMFDDRSaROLvSxtZL
-         RaKBqIfm/qFSEg/vsumW3Uw/LoiWatMsGhYGhsV9pg5egUGupopaSvxnx9VzuanTNQMJ
-         yqig==
-X-Forwarded-Encrypted: i=1; AFNElJ/Z7RZvUIfAIg6kZXQi0cOl7KTON9ZDo7EAHf5K9Iup1TnE4dEnA+vh24vuPkOuJmyxogG995Z5+wM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YysHdgJukxqAF1OwCrFvM2KW7UAKryK97MfFYK8W7sMwDUINZ5l
-	FObuStOtRJkaPwLEJALZknyCi0b4OtBVnbLtWPqYEwjFDU96W/kyDZs7pS/aXRWEQ1MlTLC2p3a
-	0GyXpkQAn6o1bSBrWntSAJhwhT7XGSRTUp18bd9uftfZ8DpAs1LTmyEgpqFejtg==
-X-Gm-Gg: AfdE7cl4Q21KAIrhUcf+1RvxN7W8J+GrKbyGOZYKO1UkQtPZzugSOXivo0ri6HnZCTx
-	o2FF4VKlPOuXDJNqLPvK48vrFFwRQZzkEjoIxTdK1k0P3PZCW9ss4s+cVtwYFgmXHNM980Skx7T
-	gx7yyHX7zuUoIc50EuwruI2McHWUj8wzwGux88uX/sSwdFmO44zbGxbm070kkfBUDp0VS2ovvgl
-	Vsg4kb+EFu5ZgWQxRULuvy0t2vOfLcIGV/wgVo1EaMFXK4uT5iL0hTTRZQclgllUF960EI0k4fh
-	PLEkVJJdkosGXQTO5smzfwc3mcwyCsmDpyaM+ca2bxRPftEuvzc4Eqn5X3ryO+KSFVat/r+sG+0
-	D2I8DwWUtSR4Cgp15/Y3vdIM2QHUsE/dwolexBUCu1NFHrtEBj4f0yd1W7u3WIzGTYZg7ru06ba
-	8Fzzkq
-X-Received: by 2002:a05:600c:6986:b0:493:bc4a:a14d with SMTP id 5b1f17b1804b1-493c2485321mr23964785e9.19.1782911509850;
-        Wed, 01 Jul 2026 06:11:49 -0700 (PDT)
-X-Received: by 2002:a05:600c:6986:b0:493:bc4a:a14d with SMTP id 5b1f17b1804b1-493c2485321mr23964325e9.19.1782911509310;
-        Wed, 01 Jul 2026 06:11:49 -0700 (PDT)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb (212-8-243-115.hosted-by-worldstream.net. [212.8.243.115])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493bef11338sm58189635e9.1.2026.07.01.06.11.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 06:11:48 -0700 (PDT)
-Message-ID: <b33e175467a8cb8011ded2195353bc6743b4cd46.camel@redhat.com>
-Subject: Re: [PATCH v2 4/4] rv/rtapp: Add wakeup monitor
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Nam Cao <namcao@linutronix.de>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
- linux-trace-kernel@vger.kernel.org, 	linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Wed, 01 Jul 2026 15:11:46 +0200
-In-Reply-To: <ba5658fa13e49ada466b84a2c211f233037180b5.1781852967.git.namcao@linutronix.de>
-References: <cover.1781852967.git.namcao@linutronix.de>
-	 <ba5658fa13e49ada466b84a2c211f233037180b5.1781852967.git.namcao@linutronix.de>
-Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
- keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
- 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
- Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
- Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
- cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
- T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
- eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
- 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="dd6JwEce"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vU4LBw14o89OVe956biWf4i0oNvCno2PGBOxtigkOQTGtlV6yTgHHotffOQIApUUHGj5EDiBRhc+HxvPEU03DD/+B8wv+BGzORE6EN8mGDFaG6qttM6Zhq42tLdgY4xADkXURftHZwvwSxAybgmFxnzgnVf+ZmkMVNxdPrMHwsBUlAXf+4yIxafS/6nQs38aUBryamppwJ6iv5lvyHYS+jeNQ9LIzIBMopxL6+BIKLTu86zykArS9xQk9LiMC7GcCHCBoDRaTVSxlg1JpCYQEWjbuRkjDv/evWMB/flTZFgCuNILhvtn4tV4zxKC5EUoWAnq/XTXhyTibjwirMWuLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=14FO0Bknk1VRFLR9Kwerhg6asx7NbK4J027Fp2RlTC8=;
+ b=Y41B3lnZXlKBD88lWLpufHNH6ipLwewpGgrJOiRNMmOtOm2DpK2AefzrO0afdvM7vzGGoiW3p9RKolKdc250yRjsIHWZBwyDt7qbfChiqx7BXDRTwpvuG04542H5PYSXSv9twXN4+OS344dBGnKgvCWxU9uBsbcCNWsId3z+h9ipcS0Q6/VhtOc49LPwE5zRGgtyJ6PsYy5RuB2S/llwFDx+ck0dhteC9ERQoYbjwZS0PFt11QPicYvDZeDI0VUN1qLUOfsCSHtgNgVtr9TQhVKdGSg5r/SbNAEa58ydhrgMDqaugnns8tU9BpdlQpk1q6pxXzzyW9WoQn+9khd/Ew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=14FO0Bknk1VRFLR9Kwerhg6asx7NbK4J027Fp2RlTC8=;
+ b=dd6JwEce6u+SX47jB+jfM+9Dvo4OOdolRKHIW4OQFf2L10kNVcDSsuasw/3DxMWg8co3NKNUjtO8QxsYmar0+ksnzXe7NQQcDiBl44Xp2x0d8R0+gOBTnlUPpEphA+8Sn38XB2JyRn6fAsrKRCSO8GBC33uUHHtpazJXXlNBXDFHqBeJxy6Uc00HiNhoVAUGao4dNNWzjA4Zs7qNw4jRsgYt5QUBUKR6sPjEqNENlX/OUlcHADM8VCWZYu/BPt1ZTu2XSN0Kbc39VRAIPs1DCUdDoVGVvEH23DCJCtxFqomAa2OORvwHI5815TD6cObscoOGZIlcK0kQhcxISveVsw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB7548.namprd12.prod.outlook.com (2603:10b6:610:144::12)
+ by SJ2PR12MB7799.namprd12.prod.outlook.com (2603:10b6:a03:4d3::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 1 Jul 2026
+ 13:14:44 +0000
+Received: from CH3PR12MB7548.namprd12.prod.outlook.com
+ ([fe80::b710:d6a1:ab16:76de]) by CH3PR12MB7548.namprd12.prod.outlook.com
+ ([fe80::b710:d6a1:ab16:76de%6]) with mapi id 15.21.0181.008; Wed, 1 Jul 2026
+ 13:14:42 +0000
+Message-ID: <861b3140-4174-46d4-9fdc-d3b90104410f@nvidia.com>
+Date: Wed, 1 Jul 2026 16:14:39 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next V4 3/6] devlink: Parse eswitch mode boot defaults
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260629182102.245150-1-mbloch@nvidia.com>
+ <20260629182102.245150-4-mbloch@nvidia.com> <akTencQhKSanuFeW@FV6GYCPJ69>
+Content-Language: en-US
+From: Mark Bloch <mbloch@nvidia.com>
+In-Reply-To: <akTencQhKSanuFeW@FV6GYCPJ69>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0130.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:94::11) To CH3PR12MB7548.namprd12.prod.outlook.com
+ (2603:10b6:610:144::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB7548:EE_|SJ2PR12MB7799:EE_
+X-MS-Office365-Filtering-Correlation-Id: de675724-91b8-4aa1-4d5e-08ded772b6c6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|7416014|3023799007|6133799003|22082099003|4143699003|18002099003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	12EDdz6bO6JNG/5Wv3YfLgftLehJBJDP/Rc5YxmjZXaXO9no+erFkOttAr3RuMUGXT17hdlA/st5J1+IoNvsJ3K100pudDnZ7hqHyzp15RTEOktkcFvjvAsFoKFdkpOiEzdV98usuJB1T1y4ApfE6zaIGO4TF88hqsV8aBHiEsRYOgOEVf8R6UTfI1DvXzPNkjlXksJCmWcJyGIsi0Rc5ibOpzrfUP5bXNjUeGwExiNzLHnviaskUk/h9cQhBKZizX+EaE960vliIzbpr4mlNV/lZd1l0hUVsHwRr/Bp4Z+h5TXTB8M3ru7u0OnxSw03oF1Pjy7ArbBUnegUr3OPrY8vK0t+POb5xP7e0gwQF/i5IXR+f7w9eBgH/8JXXTo0mBSnFk8yhnHLR1mqQyNIVVkAgga7tMUr5FwGkJV1eQdv/qvH+W35n5UeRS0zWJyO/67S7n/rTHYFnpp09g6DaX5LJeok0ONKX3sYMgfFp7/fd68kzzD6qIFrNaknlfE0eK7TfBugJyTEvASGabZjaPv397zYi4HcftZ46ceEC9c6t4Dp4bJLsM/AV0Srop2+42IBKMNNSj9BgRL1JglnCQisoFu3Pl+65yDGtKj9fYR/mGPS4G+IFMrrg8lh74D7Irf8LZ6N6Fa3kGM2AptSnAv4JvT9lmXgIrgg6rMUYBU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7548.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(7416014)(3023799007)(6133799003)(22082099003)(4143699003)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TEYwUUYxbFJJSi9pQlR2ZHVlV2R5Z2VOOW9DeC9WNm1zc1k1UitvQjNSWGxS?=
+ =?utf-8?B?S0E4QzkvWFBUeitFZGRGelVhZG1uM3Bvd2FYZXpZTHh0aWxPb0owNW92OUZz?=
+ =?utf-8?B?bkJwQXFkOExBbndSbkVZaFFOdjJJaDlWeGFFMjNmcE5GNld1enpmNFdWT3VF?=
+ =?utf-8?B?cmVOcUhLL1dwVGVMUGl1YmpNTUVQWkRhRWw0bXlxaU1NTnBiSHJmWE9NQnli?=
+ =?utf-8?B?WWg0SGVZYzVJRjg5WUd5S0ZObklFSFRCOHVPaE9FQkM5aTYrNDdwYVg0bjdo?=
+ =?utf-8?B?dCtXZ0Rxbmt5c2dBc2dDY2RQLytWTGZ6R1F2R0dSb3JsZWNpNjdYUXBlRmpo?=
+ =?utf-8?B?YjBZRnBzVk9hWE9JNzRSclRFYmx3c1hoTUpDNjRFZlJwaU12UWphcGh6UGFP?=
+ =?utf-8?B?b0prcHpEOGswbnBhVGhsSnFwVTNOSGZCeG5TcjNQMURnTnR1SVMzakx6M2lp?=
+ =?utf-8?B?TWlTckJScG8weXNGY29iMzVyMzV4SVZzZG5LOXJXalMrSWRwNWoyOGJSSFQy?=
+ =?utf-8?B?bWJPU1Zha3pPc0owOCtkeWRSdHBhSmNWYXVXNDgyUVBCRS9sdGxsWUJJYnNL?=
+ =?utf-8?B?NWFseVErMGNGeXFWOXNWNlRBZjR2OCtVK0VISTJQdXBkWHBjMW03MDNaSDRt?=
+ =?utf-8?B?dkxpQ2s4N3NSM1JVc1FmVWx2SkFnZUlyN0t5R3NqeEEyTjZqdm5rcUtFMUxh?=
+ =?utf-8?B?WmZ3V3doMFpSTTZHeDN0MXJoQTJVbFlwdTlIZC9jOHJGZDBPQUZRMzdJdkp5?=
+ =?utf-8?B?NTlZalUvVFR3dFh3Mm1jYXovWm9BWEZpQVpzQ2RZblJsLzBjbENVd3NxY1hH?=
+ =?utf-8?B?c042K0JVeEN0WThKOGtxb2MwdEdMaXZDbUdGcEtUbFlVOTY1NmV2NHlnY0U0?=
+ =?utf-8?B?UUxhZU1zMGdreW9KLzgrL2g0MEZYekg4Y3dneGdLS2hkVFQwM2xlQUVwM01w?=
+ =?utf-8?B?cnNnY3VKYkI2enJYakY4d1ZmQlpFeWRXS2RyRnEzTmVsd0FxR1JONTBXdENI?=
+ =?utf-8?B?QkY2bS9iUUQzY1N0dGxHMGZuaDlGT0VPQUlzR1duTnZIT1A5a1Ixc1h4YTlS?=
+ =?utf-8?B?T0x5OWIwdkpmS1VaR3FxQms3VGpBQmxnMHlIekd3ZDRMNVVwOTdYWVVEaFZn?=
+ =?utf-8?B?eGVRQzFkM2lNcjBwNTdWMHBEejR1NVJhSExBMmt2NlI3U0VFYURreW9pa2RW?=
+ =?utf-8?B?a2EyMk9TWUZqeUFITjMzQk5oa0VTTlhMcEpUeEhYQ0gvWDRZdmFoeTFYOTRQ?=
+ =?utf-8?B?OFBOdFo1R0JKRzFqRFMyUzJaQ1lrelo3TmpSR3JBMTlBU01XYmZqa3hWSmVX?=
+ =?utf-8?B?RzZ2a1NKeFZITURsZTBwb1VpV21aQkJ5M3RVNW9oL2x6eFhPUk5iUEcvY0pu?=
+ =?utf-8?B?clFEcFM2SjhneUVkVVY5YTFnUERoWWNWek44bzFoamY2Z2pSNXhvcndtT1po?=
+ =?utf-8?B?WmVCeWlvaWNERW9ObUZuakErQlMxVlFjdmV0UTdpcWdiQTFlZERKR3c4ZlQy?=
+ =?utf-8?B?MXppeFhQSUY1TE5lNzUrUTh5Z1FoQkFZRWJXTzVQa05oWFFWY1F3SFdWMDg5?=
+ =?utf-8?B?cmlVdHhVSlpGTkZOZFBPMjNvcFhna3JESXFxSi9sdjY2Y1pYdGMrSU1XRmpV?=
+ =?utf-8?B?OTJoZDdWKzRNUTNYNlljTEUvRkxCWU5LcWRGQi82aGZLTlBGbWlQN0llUEla?=
+ =?utf-8?B?QmlmNFdvdm9OaXI0dmJnNEw3TSsvc05rTDFsREZSRFlncDhwVGxYZDU0bzRN?=
+ =?utf-8?B?MFhGdFI0bXJ2dURaTzZGWTdIWXZjY2dLUXlEeU43S2ZvdC9ZNjdqR1AvbjdT?=
+ =?utf-8?B?RElndTFGeGVFaXJXRHRMdmN1R1lyckJYTGNaSDROZEVEVTFjQjNqK04zMWVY?=
+ =?utf-8?B?THFOWU43OWZmbzZoUkJBQk1aTEJxNWxNMDVacGtGTEVoaERpRnk1U2hkaGlz?=
+ =?utf-8?B?YnFkZTRaT0lrWUxIQUlKNHozUHZ5VkkxQnN6UGlCQldLZW45ZGpHaXpkcldr?=
+ =?utf-8?B?TlljT1NxV0JUZEJoSEFUcTVHNWFzbkNiOTNiYmt4eTBDSEJrTHRmUEp6Zm1y?=
+ =?utf-8?B?RGgrS3g5bTUxZmVJRStweHdHbjA5ZVJVUU51QWJXanVySEVDb3YwWTdDTXlM?=
+ =?utf-8?B?NTF2RmNLSDNEZ1JhaUhaOGc0RVFzanhqV0RLS1ArdGhXcks5TlVsbkgzd2Vm?=
+ =?utf-8?B?dW9TcTQ1Qkk2OG1ud1JNK1pleUM3Q1FFaFd2Yklrc2E1QXIyWGVHRDUxVUFh?=
+ =?utf-8?B?T3h5am5wU1hwRlB2V29SMmVzemVnUStzbG01ZXcyd1dCZVdEMnh6TXRFR2xm?=
+ =?utf-8?Q?XlCZs6EXhX8dpBOjyv?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: de675724-91b8-4aa1-4d5e-08ded772b6c6
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7548.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 13:14:42.8101
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0cZ3JdPY8IuSgEaZYYTCuRkJ6AtWpQ6fSWzKBEV9xEc3KduHCaf9shfk6qesno2ixTGtlzeP0tWtiWSC0pdneQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7799
 
-On Fri, 2026-06-19 at 09:21 +0200, Nam Cao wrote:
-> Add a wakeup monitor to detect a lower-priority task waking up a
-> higher-priority task.
->=20
-> The rtapp/sleep monitor already detects this. However, that monitor
-> triggers an error in the context of the wakee task and user only gets
-> the stacktrace of that task. It is also extremely useful to get the
-> stacktrace of the waker task, which this monitor offers. In other
-> words, this monitor complements the rtapp/sleep monitor.
->=20
-> Signed-off-by: Nam Cao <namcao@linutronix.de>
 
-This looks good, but if I understand it correctly, the same violation shoul=
-d be
-spotted by both monitors from two different perspectives, but sleep catches=
- more
-things (e.g. tasks using wrong sleeping ways despite their wakeup):
 
-  # perf stat -a -e rv:error_sleep -e rv:error_wakeup -- stress-ng --cpu 5 =
---cpu-load 90 --sched rr -t 5
+On 01/07/2026 12:38, Jiri Pirko wrote:
+> Mon, Jun 29, 2026 at 08:20:58PM +0200, mbloch@nvidia.com wrote:
+>> Add devlink_eswitch_mode= kernel command line parsing for a default
+>> eswitch mode.
+>>
+>> The supported syntax selects either all devlink handles or one explicit
+>> comma-separated handle list:
+>>
+>>  devlink_eswitch_mode=*=<mode>
+>>
+>>  devlink_eswitch_mode=<handle>[,<handle>...]=<mode>
+>>
+>> where <mode> is one of legacy, switchdev or switchdev_inactive. All
+>> selected handles receive the same mode. Assigning different modes to
+>> different handle lists in the same parameter value is not supported.
+>>
+>> Store the parsed selector and mode in devlink core so the default can be
+>> applied by a downstream patch.
+>>
+>> Document the devlink_eswitch_mode= syntax and duplicate handle handling.
+>>
+>> Signed-off-by: Mark Bloch <mbloch@nvidia.com>
+>> ---
+>> .../admin-guide/kernel-parameters.txt         |  25 ++
+>> .../networking/devlink/devlink-defaults.rst   |  78 ++++++
+>> Documentation/networking/devlink/index.rst    |   1 +
+>> net/devlink/core.c                            | 227 ++++++++++++++++++
+>> 4 files changed, 331 insertions(+)
+>> create mode 100644 Documentation/networking/devlink/devlink-defaults.rst
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index b5493a7f8f22..117300dd589c 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -1249,6 +1249,31 @@ Kernel parameters
+>> 	dell_smm_hwmon.fan_max=
+>> 			[HW] Maximum configurable fan speed.
+>>
+>> +	devlink_eswitch_mode=
+>> +			[NET]
+>> +			Format:
+>> +			<selector>=<mode>
+>> +
+>> +			<selector>:
+>> +			* | <handle>[,<handle>...]
+>> +
+>> +			<handle>:
+>> +			<bus-name>/<dev-name>
+>> +
+>> +			Configure default devlink eswitch mode for matching
+>> +			devlink instances during device initialization.
+>> +
+>> +			<mode>:
+>> +			legacy | switchdev | switchdev_inactive
+>> +
+>> +			Examples:
+>> +			devlink_eswitch_mode=*=switchdev
+>> +			devlink_eswitch_mode=pci/0000:08:00.0=switchdev
+>> +			devlink_eswitch_mode=pci/0000:08:00.0,pci/0000:09:00.1=switchdev_inactive
+>> +
+>> +			See Documentation/networking/devlink/devlink-defaults.rst
+>> +			for the full syntax.
+>> +
+>> 	dfltcc=		[HW,S390]
+>> 			Format: { on | off | def_only | inf_only | always }
+>> 			on:       s390 zlib hardware support for compression on
+>> diff --git a/Documentation/networking/devlink/devlink-defaults.rst b/Documentation/networking/devlink/devlink-defaults.rst
+>> new file mode 100644
+>> index 000000000000..380c9e99210e
+>> --- /dev/null
+>> +++ b/Documentation/networking/devlink/devlink-defaults.rst
+>> @@ -0,0 +1,78 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +==============================
+>> +Devlink Eswitch Mode Defaults
+>> +==============================
+>> +
+>> +Devlink eswitch mode defaults allow the eswitch mode to be provided on the
+>> +kernel command line and applied to matching devlink instances during device
+>> +initialization.
+>> +
+>> +The devlink device is selected by its devlink handle. For PCI devices this is
+>> +the same handle shown by ``devlink dev show``, for example
+>> +``pci/0000:08:00.0``.
+>> +
+>> +Kernel command line syntax
+>> +==========================
+>> +
+>> +Defaults are specified with the ``devlink_eswitch_mode=`` kernel command line
+>> +parameter.
+>> +
+>> +The general syntax is::
+>> +
+>> +  devlink_eswitch_mode=<selector>=<mode>
+>> +
+>> +``<selector>`` is either ``*`` or one or more devlink handles::
+>> +
+>> +  * | <bus-name>/<dev-name>[,<bus-name>/<dev-name>...]
+>> +
+>> +``*`` applies the mode to every devlink instance. All handles in the same
+>> +selector receive the same eswitch mode.
+>> +
+>> +``<mode>`` is one of ``legacy``, ``switchdev`` or ``switchdev_inactive``.
+>> +
+>> +Syntax rules
+>> +------------
+>> +
+>> +The following syntax rules apply:
+>> +
+>> +* Specify the default in one ``devlink_eswitch_mode=`` parameter. Repeated
+>> +  ``devlink_eswitch_mode=`` parameters are not accumulated.
+>> +* The ``devlink_eswitch_mode=`` value is limited by the kernel command line
+>> +  size.
+>> +* Whitespace is not allowed within the parameter value.
+>> +* ``<selector>`` must be either ``*`` or a handle list. ``*`` cannot be
+>> +  combined with explicit handles.
+>> +* ``<bus-name>`` and ``<dev-name>`` must not be empty.
+>> +* ``<dev-name>`` may contain ``:``. This allows PCI names such as
+>> +  ``0000:08:00.0``.
+>> +* Handles must not contain whitespace, ``*``, ``=`` or more than one ``/``.
+>> +* A comma separates handles.
+>> +* Comma-separated default assignments are not supported.
+>> +* Duplicate handles are rejected and the devlink eswitch mode default is
+>> +  ignored.
+>> +
+>> +The eswitch mode default corresponds to the userspace command::
+>> +
+>> +  devlink dev eswitch set <handle> mode <value>
+>> +
+>> +
+>> +Examples
+>> +========
+>> +
+>> +Set all devlink instances to switchdev mode::
+>> +
+>> +  devlink_eswitch_mode=*=switchdev
+>> +
+>> +Set one PCI devlink instance to switchdev mode::
+>> +
+>> +  devlink_eswitch_mode=pci/0000:08:00.0=switchdev
+>> +
+>> +Set two PCI devlink instances to switchdev inactive mode::
+>> +
+>> +  devlink_eswitch_mode=pci/0000:08:00.0,pci/0000:09:00.1=switchdev_inactive
+>> +
+>> +The following is invalid because comma-separated default assignments are not
+>> +supported::
+>> +
+>> +  devlink_eswitch_mode=pci/0000:08:00.0=switchdev,pci/0000:09:00.0=switchdev_inactive
+> 
+> Interesting. I would think that this is something user may want to set
+> for some usecases, no?
 
-   Performance counter stats for 'system wide':
+sorry, totally missed some comments.
 
-               285      rv:error_sleep                                     =
-   =20
-                20      rv:error_wakeup                                    =
-   =20
+Wanted to keep this as simple as possible right now (the inital version was
+too complex), we can always add it in the future.
 
-Provided I don't really know what's happening down there (I just let the
-stressor run free), this discrepancy is expected, right?
+> 
+> 
+>> diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
+>> index 32f70879ddd0..93f09cb18c44 100644
+>> --- a/Documentation/networking/devlink/index.rst
+>> +++ b/Documentation/networking/devlink/index.rst
+>> @@ -56,6 +56,7 @@ general.
+>>    :maxdepth: 1
+>>
+>>    devlink-dpipe
+>> +   devlink-defaults
+>>    devlink-eswitch-attr
+>>    devlink-flash
+>>    devlink-health
+>> diff --git a/net/devlink/core.c b/net/devlink/core.c
+> 
+> Wanna have this in a separate file perhaps? "default.c"?
 
-Thanks,
-Gabriele
+Okay.
 
-> ---
-> =C2=A0Documentation/trace/rv/monitor_rtapp.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 20 +++
-> =C2=A0kernel/trace/rv/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> =C2=A0kernel/trace/rv/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> =C2=A0kernel/trace/rv/monitors/rtapp/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> =C2=A0kernel/trace/rv/monitors/wakeup/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 16 ++
-> =C2=A0kernel/trace/rv/monitors/wakeup/wakeup.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 153 ++++++++++++++++++
-> =C2=A0kernel/trace/rv/monitors/wakeup/wakeup.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 92 +++++++++++
-> =C2=A0.../trace/rv/monitors/wakeup/wakeup_trace.h=C2=A0=C2=A0 |=C2=A0 14 =
-++
-> =C2=A0kernel/trace/rv/rv_trace.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0=C2=A0 1 +
-> =C2=A0tools/verification/models/rtapp/wakeup.ltl=C2=A0=C2=A0=C2=A0 |=C2=
-=A0=C2=A0 5 +
-> =C2=A010 files changed, 304 insertions(+), 1 deletion(-)
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/wakeup/Kconfig
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/wakeup/wakeup.c
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/wakeup/wakeup.h
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/wakeup/wakeup_trace.h
-> =C2=A0create mode 100644 tools/verification/models/rtapp/wakeup.ltl
->=20
-> diff --git a/Documentation/trace/rv/monitor_rtapp.rst
-> b/Documentation/trace/rv/monitor_rtapp.rst
-> index 502d3ea412eb..238b59395ff5 100644
-> --- a/Documentation/trace/rv/monitor_rtapp.rst
-> +++ b/Documentation/trace/rv/monitor_rtapp.rst
-> @@ -124,3 +124,23 @@ to handle some special cases:
-> =C2=A0=C2=A0=C2=A0=C2=A0 real-time-safe because preemption is disabled fo=
-r the duration.
-> =C2=A0=C2=A0 - `FUTEX_LOCK_PI` is included in the allowlist for the same =
-reason as
-> =C2=A0=C2=A0=C2=A0=C2=A0 `BLOCK_ON_RT_MUTEX`.
-> +
-> +Monitor wakeup
-> +++++++++++++++
-> +
-> +The `wakeup` monitor reports real-time threads being woken by lower-prio=
-rity
-> threads,
-> +which is a hint of priority inversion. Its specification is::
-> +
-> +=C2=A0 RULE =3D always (((RT and USER_THREAD) imply
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 (not (WOKEN_BY_LOWER_PRIO or WOKEN_BY_SOFTIRQ)) or
-> ALLOWLIST))
-> +
-> +=C2=A0 ALLOWLIST =3D BLOCK_ON_RT_MUTEX
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 or FUTEX_LO=
-CK_PI
-> +
-> +The `sleep` monitor already reports this type of problem. The difference=
- is
-> the
-> +context in which the problem is reported. While the `sleep` monitor repo=
-rts
-> the problem
-> +in the context of the wakee, this `wakeup` monitor reports the problem i=
-n the
-> context of
-> +the waker. This monitor complement the `sleep` monitor, giving user bett=
-er
-> +understanding of the issue. For instance, to debug a lower-priority task
-> waking a
-> +higher-priority task scenario, user can enable both `wakeup` monitor and
-> `sleep`
-> +monitor to get the stack traces of both tasks.
-> diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
-> index 3884b14df375..4d3a14a0bac2 100644
-> --- a/kernel/trace/rv/Kconfig
-> +++ b/kernel/trace/rv/Kconfig
-> @@ -76,6 +76,7 @@ source "kernel/trace/rv/monitors/opid/Kconfig"
-> =C2=A0source "kernel/trace/rv/monitors/rtapp/Kconfig"
-> =C2=A0source "kernel/trace/rv/monitors/pagefault/Kconfig"
-> =C2=A0source "kernel/trace/rv/monitors/sleep/Kconfig"
-> +source "kernel/trace/rv/monitors/wakeup/Kconfig"
-> =C2=A0# Add new rtapp monitors here
-> =C2=A0
-> =C2=A0source "kernel/trace/rv/monitors/stall/Kconfig"
-> diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
-> index 94498da35b37..c2c0e4142eb4 100644
-> --- a/kernel/trace/rv/Makefile
-> +++ b/kernel/trace/rv/Makefile
-> @@ -20,6 +20,7 @@ obj-$(CONFIG_RV_MON_OPID) +=3D monitors/opid/opid.o
-> =C2=A0obj-$(CONFIG_RV_MON_STALL) +=3D monitors/stall/stall.o
-> =C2=A0obj-$(CONFIG_RV_MON_DEADLINE) +=3D monitors/deadline/deadline.o
-> =C2=A0obj-$(CONFIG_RV_MON_NOMISS) +=3D monitors/nomiss/nomiss.o
-> +obj-$(CONFIG_RV_MON_WAKEUP) +=3D monitors/wakeup/wakeup.o
-> =C2=A0# Add new monitors here
-> =C2=A0obj-$(CONFIG_RV_REACTORS) +=3D rv_reactors.o
-> =C2=A0obj-$(CONFIG_RV_REACT_PRINTK) +=3D reactor_printk.o
-> diff --git a/kernel/trace/rv/monitors/rtapp/Kconfig
-> b/kernel/trace/rv/monitors/rtapp/Kconfig
-> index 1ce9370a9ba8..1fcd7a400ded 100644
-> --- a/kernel/trace/rv/monitors/rtapp/Kconfig
-> +++ b/kernel/trace/rv/monitors/rtapp/Kconfig
-> @@ -1,6 +1,6 @@
-> =C2=A0config RV_MON_RTAPP
-> =C2=A0	depends on RV
-> -	depends on RV_PER_TASK_MONITORS >=3D 2
-> +	depends on RV_PER_TASK_MONITORS >=3D 3
-> =C2=A0	bool "rtapp monitor"
-> =C2=A0	help
-> =C2=A0	=C2=A0 Collection of monitors to check for common problems with re=
-al-time
-> diff --git a/kernel/trace/rv/monitors/wakeup/Kconfig
-> b/kernel/trace/rv/monitors/wakeup/Kconfig
-> new file mode 100644
-> index 000000000000..ec3a5c06a8c4
-> --- /dev/null
-> +++ b/kernel/trace/rv/monitors/wakeup/Kconfig
-> @@ -0,0 +1,16 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +config RV_MON_WAKEUP
-> +	depends on RV
-> +	depends on RV_MON_RTAPP
-> +	depends on HAVE_SYSCALL_TRACEPOINTS
-> +	default y
-> +	select LTL_MON_EVENTS_ID
-> +	bool "wakeup monitor"
-> +	help
-> +	=C2=A0 This monitor detects a lower-priority task waking up a
-> +	=C2=A0 higher-priority task. The RV_MON_SLEEP monitor already
-> +	=C2=A0 detects this case, but this monitor detects in the context
-> +	=C2=A0 of the waker task instead. This and RV_MON_SLEEP can be
-> +	=C2=A0 enabled together to get the stacktrace of both the waker
-> +	=C2=A0 task and the wakee task.
-> diff --git a/kernel/trace/rv/monitors/wakeup/wakeup.c
-> b/kernel/trace/rv/monitors/wakeup/wakeup.c
-> new file mode 100644
-> index 000000000000..01b47416f24e
-> --- /dev/null
-> +++ b/kernel/trace/rv/monitors/wakeup/wakeup.c
-> @@ -0,0 +1,153 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +#include <linux/ftrace.h>
-> +#include <linux/tracepoint.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/init.h>
-> +#include <linux/rv.h>
-> +#include <rv/instrumentation.h>
-> +
-> +#define MODULE_NAME "wakeup"
-> +
-> +#include <trace/events/syscalls.h>
-> +#include <trace/events/sched.h>
-> +#include <trace/events/lock.h>
-> +#include <uapi/linux/futex.h>
-> +
-> +#include <rv_trace.h>
-> +#include <monitors/rtapp/rtapp.h>
-> +
-> +
-> +#ifndef __NR_futex
-> +#define __NR_futex (-__COUNTER__)
-> +#endif
-> +#ifndef __NR_futex_time64
-> +#define __NR_futex_time64 (-__COUNTER__)
-> +#endif
-> +
-> +#include "wakeup.h"
-> +#include <rv/ltl_monitor.h>
-> +
-> +static void ltl_atoms_fetch(struct task_struct *task, struct ltl_monitor
-> *mon)
-> +{
-> +	/*
-> +	 * This includes "actual" real-time tasks and also PI-boosted
-> +	 * tasks. A task being PI-boosted means it is blocking an "actual"
-> +	 * real-task, therefore it should also obey the monitor's rule,
-> +	 * otherwise the "actual" real-task may be delayed.
-> +	 */
-> +	ltl_atom_set(mon, LTL_RT, rt_or_dl_task(task));
-> +}
-> +
-> +static void ltl_atoms_init(struct task_struct *task, struct ltl_monitor =
-*mon,
-> bool task_creation)
-> +{
-> +	ltl_atom_set(mon, LTL_WOKEN_BY_LOWER_PRIO, false);
-> +	ltl_atom_set(mon, LTL_WOKEN_BY_SOFTIRQ, false);
-> +
-> +	if (task_creation) {
-> +		ltl_atom_set(mon, LTL_BLOCK_ON_RT_MUTEX, false);
-> +		ltl_atom_set(mon, LTL_FUTEX_LOCK_PI, false);
-> +	}
-> +
-> +	ltl_atom_set(mon, LTL_USER_THREAD, !(task->flags & PF_KTHREAD));
-> +}
-> +
-> +static void handle_sched_waking(void *data, struct task_struct *task)
-> +{
-> +	if (in_task()) {
-> +		if (current->prio > task->prio)
-> +			ltl_atom_pulse(task, LTL_WOKEN_BY_LOWER_PRIO, true);
-> +	} else if (in_serving_softirq()) {
-> +		ltl_atom_pulse(task, LTL_WOKEN_BY_SOFTIRQ, true);
-> +	}
-> +}
-> +
-> +static void handle_contention_begin(void *data, void *lock, unsigned int
-> flags)
-> +{
-> +	if (flags & LCB_F_RT)
-> +		ltl_atom_update(current, LTL_BLOCK_ON_RT_MUTEX, true);
-> +}
-> +
-> +static void handle_contention_end(void *data, void *lock, int ret)
-> +{
-> +	ltl_atom_update(current, LTL_BLOCK_ON_RT_MUTEX, false);
-> +}
-> +
-> +static void handle_sys_enter(void *data, struct pt_regs *regs, long id)
-> +{
-> +	unsigned long args[6];
-> +	int op, cmd;
-> +
-> +	switch (id) {
-> +	case __NR_futex:
-> +	case __NR_futex_time64:
-> +		syscall_get_arguments(current, regs, args);
-> +		op =3D args[1];
-> +		cmd =3D op & FUTEX_CMD_MASK;
-> +
-> +		switch (cmd) {
-> +		case FUTEX_LOCK_PI:
-> +		case FUTEX_LOCK_PI2:
-> +			ltl_atom_update(current, LTL_FUTEX_LOCK_PI, true);
-> +			break;
-> +		}
-> +		break;
-> +	}
-> +}
-> +
-> +static void handle_sys_exit(void *data, struct pt_regs *regs, long ret)
-> +{
-> +	ltl_atom_update(current, LTL_FUTEX_LOCK_PI, false);
-> +}
-> +
-> +static int enable_wakeup(void)
-> +{
-> +	int retval;
-> +
-> +	retval =3D ltl_monitor_init();
-> +	if (retval)
-> +		return retval;
-> +
-> +	rv_attach_trace_probe("rtapp_wakeup", sched_waking,
-> handle_sched_waking);
-> +	rv_attach_trace_probe("rtapp_wakeup", contention_begin,
-> handle_contention_begin);
-> +	rv_attach_trace_probe("rtapp_wakeup", contention_end,
-> handle_contention_end);
-> +	rv_attach_trace_probe("rtapp_wakeup", sys_enter, handle_sys_enter);
-> +	rv_attach_trace_probe("rtapp_wakeup", sys_exit, handle_sys_exit);
-> +
-> +	return 0;
-> +}
-> +
-> +static void disable_wakeup(void)
-> +{
-> +	rv_detach_trace_probe("rtapp_wakeup", sched_waking,
-> handle_sched_waking);
-> +	rv_detach_trace_probe("rtapp_wakeup", contention_begin,
-> handle_contention_begin);
-> +	rv_detach_trace_probe("rtapp_wakeup", contention_end,
-> handle_contention_end);
-> +	rv_detach_trace_probe("rtapp_wakeup", sys_enter, handle_sys_enter);
-> +	rv_detach_trace_probe("rtapp_wakeup", sys_exit, handle_sys_exit);
-> +
-> +	ltl_monitor_destroy();
-> +}
-> +
-> +static struct rv_monitor rv_wakeup =3D {
-> +	.name =3D "wakeup",
-> +	.description =3D "Monitor that real-time tasks are not woken by lower-
-> priority tasks",
-> +	.enable =3D enable_wakeup,
-> +	.disable =3D disable_wakeup,
-> +};
-> +
-> +static int __init register_wakeup(void)
-> +{
-> +	return rv_register_monitor(&rv_wakeup, &rv_rtapp);
-> +}
-> +
-> +static void __exit unregister_wakeup(void)
-> +{
-> +	rv_unregister_monitor(&rv_wakeup);
-> +}
-> +
-> +module_init(register_wakeup);
-> +module_exit(unregister_wakeup);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_AUTHOR("Nam Cao <namcao@linutronix.de>");
-> +MODULE_DESCRIPTION("Monitor that real-time tasks are not woken by lower-
-> priority tasks");
-> diff --git a/kernel/trace/rv/monitors/wakeup/wakeup.h
-> b/kernel/trace/rv/monitors/wakeup/wakeup.h
-> new file mode 100644
-> index 000000000000..6f80da64e0e1
-> --- /dev/null
-> +++ b/kernel/trace/rv/monitors/wakeup/wakeup.h
-> @@ -0,0 +1,92 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +/*
-> + * C implementation of Buchi automaton, automatically generated by
-> + * tools/verification/rvgen from the linear temporal logic specification=
-.
-> + * For further information, see kernel documentation:
-> + *=C2=A0=C2=A0 Documentation/trace/rv/linear_temporal_logic.rst
-> + */
-> +
-> +#include <linux/rv.h>
-> +
-> +#define MONITOR_NAME wakeup
-> +
-> +enum ltl_atom {
-> +	LTL_BLOCK_ON_RT_MUTEX,
-> +	LTL_FUTEX_LOCK_PI,
-> +	LTL_RT,
-> +	LTL_USER_THREAD,
-> +	LTL_WOKEN_BY_LOWER_PRIO,
-> +	LTL_WOKEN_BY_SOFTIRQ,
-> +	LTL_NUM_ATOM
-> +};
-> +static_assert(LTL_NUM_ATOM <=3D RV_MAX_LTL_ATOM);
-> +
-> +static const char *ltl_atom_str(enum ltl_atom atom)
-> +{
-> +	static const char *const names[] =3D {
-> +		"bl_on_rt_mu",
-> +		"fu_lo_pi",
-> +		"rt",
-> +		"us_th",
-> +		"wo_lo_pr",
-> +		"wo_so",
-> +	};
-> +
-> +	return names[atom];
-> +}
-> +
-> +enum ltl_buchi_state {
-> +	S0,
-> +	RV_NUM_BA_STATES
-> +};
-> +static_assert(RV_NUM_BA_STATES <=3D RV_MAX_BA_STATES);
-> +
-> +static void ltl_start(struct task_struct *task, struct ltl_monitor *mon)
-> +{
-> +	bool woken_by_softirq =3D test_bit(LTL_WOKEN_BY_SOFTIRQ, mon->atoms);
-> +	bool woken_by_lower_prio =3D test_bit(LTL_WOKEN_BY_LOWER_PRIO, mon-
-> >atoms);
-> +	bool user_thread =3D test_bit(LTL_USER_THREAD, mon->atoms);
-> +	bool rt =3D test_bit(LTL_RT, mon->atoms);
-> +	bool futex_lock_pi =3D test_bit(LTL_FUTEX_LOCK_PI, mon->atoms);
-> +	bool block_on_rt_mutex =3D test_bit(LTL_BLOCK_ON_RT_MUTEX, mon->atoms);
-> +	bool val9 =3D block_on_rt_mutex || futex_lock_pi;
-> +	bool val6 =3D !woken_by_softirq;
-> +	bool val5 =3D !woken_by_lower_prio;
-> +	bool val8 =3D val5 && val6;
-> +	bool val10 =3D val8 || val9;
-> +	bool val3 =3D !user_thread;
-> +	bool val2 =3D !rt;
-> +	bool val4 =3D val2 || val3;
-> +	bool val11 =3D val4 || val10;
-> +
-> +	if (val11)
-> +		__set_bit(S0, mon->states);
-> +}
-> +
-> +static void
-> +ltl_possible_next_states(struct ltl_monitor *mon, unsigned int state,
-> unsigned long *next)
-> +{
-> +	bool woken_by_softirq =3D test_bit(LTL_WOKEN_BY_SOFTIRQ, mon->atoms);
-> +	bool woken_by_lower_prio =3D test_bit(LTL_WOKEN_BY_LOWER_PRIO, mon-
-> >atoms);
-> +	bool user_thread =3D test_bit(LTL_USER_THREAD, mon->atoms);
-> +	bool rt =3D test_bit(LTL_RT, mon->atoms);
-> +	bool futex_lock_pi =3D test_bit(LTL_FUTEX_LOCK_PI, mon->atoms);
-> +	bool block_on_rt_mutex =3D test_bit(LTL_BLOCK_ON_RT_MUTEX, mon->atoms);
-> +	bool val9 =3D block_on_rt_mutex || futex_lock_pi;
-> +	bool val6 =3D !woken_by_softirq;
-> +	bool val5 =3D !woken_by_lower_prio;
-> +	bool val8 =3D val5 && val6;
-> +	bool val10 =3D val8 || val9;
-> +	bool val3 =3D !user_thread;
-> +	bool val2 =3D !rt;
-> +	bool val4 =3D val2 || val3;
-> +	bool val11 =3D val4 || val10;
-> +
-> +	switch (state) {
-> +	case S0:
-> +		if (val11)
-> +			__set_bit(S0, next);
-> +		break;
-> +	}
-> +}
-> diff --git a/kernel/trace/rv/monitors/wakeup/wakeup_trace.h
-> b/kernel/trace/rv/monitors/wakeup/wakeup_trace.h
-> new file mode 100644
-> index 000000000000..7e056183f920
-> --- /dev/null
-> +++ b/kernel/trace/rv/monitors/wakeup/wakeup_trace.h
-> @@ -0,0 +1,14 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +/*
-> + * Snippet to be included in rv_trace.h
-> + */
-> +
-> +#ifdef CONFIG_RV_MON_WAKEUP
-> +DEFINE_EVENT(event_ltl_monitor_id, event_wakeup,
-> +	=C2=A0=C2=A0=C2=A0=C2=A0 TP_PROTO(struct task_struct *task, char *state=
-s, char *atoms,
-> char *next),
-> +	=C2=A0=C2=A0=C2=A0=C2=A0 TP_ARGS(task, states, atoms, next));
-> +DEFINE_EVENT(error_ltl_monitor_id, error_wakeup,
-> +	=C2=A0=C2=A0=C2=A0=C2=A0 TP_PROTO(struct task_struct *task),
-> +	=C2=A0=C2=A0=C2=A0=C2=A0 TP_ARGS(task));
-> +#endif /* CONFIG_RV_MON_WAKEUP */
-> diff --git a/kernel/trace/rv/rv_trace.h b/kernel/trace/rv/rv_trace.h
-> index 9622c269789c..2f8a932432c9 100644
-> --- a/kernel/trace/rv/rv_trace.h
-> +++ b/kernel/trace/rv/rv_trace.h
-> @@ -241,6 +241,7 @@ DECLARE_EVENT_CLASS(error_ltl_monitor_id,
-> =C2=A0);
-> =C2=A0#include <monitors/pagefault/pagefault_trace.h>
-> =C2=A0#include <monitors/sleep/sleep_trace.h>
-> +#include <monitors/wakeup/wakeup_trace.h>
-> =C2=A0// Add new monitors based on CONFIG_LTL_MON_EVENTS_ID here
-> =C2=A0#endif /* CONFIG_LTL_MON_EVENTS_ID */
-> =C2=A0
-> diff --git a/tools/verification/models/rtapp/wakeup.ltl
-> b/tools/verification/models/rtapp/wakeup.ltl
-> new file mode 100644
-> index 000000000000..a5d63ca0811a
-> --- /dev/null
-> +++ b/tools/verification/models/rtapp/wakeup.ltl
-> @@ -0,0 +1,5 @@
-> +RULE =3D always (((RT and USER_THREAD) imply
-> +		(not (WOKEN_BY_LOWER_PRIO or WOKEN_BY_SOFTIRQ)) or
-> ALLOWLIST))
-> +
-> +ALLOWLIST =3D BLOCK_ON_RT_MUTEX
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 or FUTEX_LOCK_PI
+Mark
+
+> 
+> 
+>> index fe9f6a0a67d5..5126509a9c4e 100644
+>> --- a/net/devlink/core.c
+>> +++ b/net/devlink/core.c
+>> @@ -4,6 +4,10 @@
+>>  * Copyright (c) 2016 Jiri Pirko <jiri@mellanox.com>
+>>  */
+>>
+>> +#include <linux/init.h>
+>> +#include <linux/list.h>
+>> +#include <linux/slab.h>
+>> +#include <linux/string.h>
+>> #include <net/genetlink.h>
+>> #define CREATE_TRACE_POINTS
+>> #include <trace/events/devlink.h>
+>> @@ -16,6 +20,193 @@ EXPORT_TRACEPOINT_SYMBOL_GPL(devlink_trap_report);
+>>
+>> DEFINE_XARRAY_FLAGS(devlinks, XA_FLAGS_ALLOC);
+>>
+>> +static char *devlink_default_esw_mode_param;
+>> +static bool devlink_default_esw_mode_match_all;
+>> +static enum devlink_eswitch_mode devlink_default_esw_mode;
+>> +static LIST_HEAD(devlink_default_esw_mode_nodes);
+>> +
+>> +struct devlink_default_esw_mode_node {
+>> +	struct list_head list;
+>> +	char *bus_name;
+>> +	char *dev_name;
+>> +};
+>> +
+>> +static int __init
+>> +devlink_default_esw_mode_to_value(const char *str,
+>> +				  enum devlink_eswitch_mode *mode)
+>> +{
+>> +	if (!strcmp(str, "legacy")) {
+>> +		*mode = DEVLINK_ESWITCH_MODE_LEGACY;
+>> +		return 0;
+>> +	}
+>> +	if (!strcmp(str, "switchdev")) {
+>> +		*mode = DEVLINK_ESWITCH_MODE_SWITCHDEV;
+>> +		return 0;
+>> +	}
+>> +	if (!strcmp(str, "switchdev_inactive")) {
+>> +		*mode = DEVLINK_ESWITCH_MODE_SWITCHDEV_INACTIVE;
+>> +		return 0;
+>> +	}
+>> +
+>> +	return -EINVAL;
+>> +}
+>> +
+>> +static int __init
+>> +devlink_default_esw_mode_handle_parse(char *handle, char **bus_name,
+>> +				      char **dev_name)
+>> +{
+>> +	char *slash;
+>> +	char *p;
+>> +
+>> +	if (!*handle)
+>> +		return -EINVAL;
+>> +
+>> +	for (p = handle; *p; p++) {
+>> +		if (*p == '*' || *p == '=')
+>> +			return -EINVAL;
+>> +	}
+>> +
+>> +	slash = strchr(handle, '/');
+>> +	if (!slash || slash == handle || !slash[1])
+>> +		return -EINVAL;
+>> +	if (strchr(slash + 1, '/'))
+>> +		return -EINVAL;
+>> +
+>> +	*slash = '\0';
+>> +
+>> +	*bus_name = handle;
+>> +	*dev_name = slash + 1;
+>> +	return 0;
+>> +}
+>> +
+>> +static struct devlink_default_esw_mode_node *
+>> +devlink_default_esw_mode_node_find(const char *bus_name, const char *dev_name)
+>> +{
+>> +	struct devlink_default_esw_mode_node *node;
+>> +
+>> +	list_for_each_entry(node, &devlink_default_esw_mode_nodes, list) {
+>> +		if (!strcmp(node->bus_name, bus_name) &&
+>> +		    !strcmp(node->dev_name, dev_name))
+>> +			return node;
+>> +	}
+>> +
+>> +	return NULL;
+>> +}
+>> +
+>> +static int __init
+>> +devlink_default_esw_mode_node_add(const char *bus_name, const char *dev_name)
+>> +{
+>> +	struct devlink_default_esw_mode_node *node;
+>> +
+>> +	if (devlink_default_esw_mode_node_find(bus_name, dev_name))
+>> +		return -EEXIST;
+>> +
+>> +	node = kzalloc_obj(*node);
+>> +	if (!node)
+>> +		return -ENOMEM;
+>> +
+>> +	INIT_LIST_HEAD(&node->list);
+>> +	node->bus_name = kstrdup(bus_name, GFP_KERNEL);
+>> +	node->dev_name = kstrdup(dev_name, GFP_KERNEL);
+>> +	if (!node->bus_name || !node->dev_name) {
+>> +		kfree(node->bus_name);
+>> +		kfree(node->dev_name);
+>> +		kfree(node);
+>> +		return -ENOMEM;
+>> +	}
+>> +
+>> +	list_add_tail(&node->list, &devlink_default_esw_mode_nodes);
+>> +	return 0;
+>> +}
+>> +
+>> +static int __init devlink_default_esw_mode_handles_parse(char *handles)
+>> +{
+>> +	char *handle;
+>> +	int err;
+>> +
+>> +	if (!strcmp(handles, "*")) {
+>> +		devlink_default_esw_mode_match_all = true;
+>> +		return 0;
+>> +	}
+>> +
+>> +	while ((handle = strsep(&handles, ",")) != NULL) {
+>> +		char *bus_name;
+>> +		char *dev_name;
+>> +
+>> +		err = devlink_default_esw_mode_handle_parse(handle, &bus_name,
+>> +							    &dev_name);
+>> +		if (err)
+>> +			return err;
+>> +
+>> +		err = devlink_default_esw_mode_node_add(bus_name, dev_name);
+>> +		if (err)
+>> +			return err;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static void __init
+>> +devlink_default_esw_mode_node_free(struct devlink_default_esw_mode_node *node)
+>> +{
+>> +	kfree(node->bus_name);
+>> +	kfree(node->dev_name);
+>> +	kfree(node);
+>> +}
+>> +
+>> +static void __init devlink_default_esw_mode_nodes_clear(void)
+>> +{
+>> +	struct devlink_default_esw_mode_node *node;
+>> +	struct devlink_default_esw_mode_node *node_tmp;
+>> +
+>> +	list_for_each_entry_safe(node, node_tmp,
+>> +				 &devlink_default_esw_mode_nodes, list) {
+>> +		list_del(&node->list);
+>> +		devlink_default_esw_mode_node_free(node);
+>> +	}
+>> +
+>> +	devlink_default_esw_mode_match_all = false;
+>> +}
+>> +
+>> +static int __init devlink_default_esw_mode_parse(char *str)
+>> +{
+>> +	char *handles;
+>> +	char *separator;
+>> +	char *mode;
+>> +	enum devlink_eswitch_mode esw_mode;
+>> +	int err;
+>> +
+>> +	if (!*str)
+>> +		return -EINVAL;
+>> +
+>> +	separator = strrchr(str, '=');
+>> +	if (!separator || separator == str || !separator[1])
+>> +		return -EINVAL;
+>> +
+>> +	*separator = '\0';
+>> +	handles = str;
+>> +	mode = separator + 1;
+>> +
+>> +	err = devlink_default_esw_mode_to_value(mode, &esw_mode);
+>> +	if (err)
+>> +		return err;
+>> +
+>> +	err = devlink_default_esw_mode_handles_parse(handles);
+>> +	if (err)
+>> +		devlink_default_esw_mode_nodes_clear();
+>> +	else
+>> +		devlink_default_esw_mode = esw_mode;
+>> +
+>> +	return err;
+>> +}
+>> +
+>> +static int __init devlink_default_esw_mode_setup(char *str)
+>> +{
+>> +	devlink_default_esw_mode_param = str;
+>> +	return 1;
+>> +}
+>> +__setup("devlink_eswitch_mode=", devlink_default_esw_mode_setup);
+>> +
+>> static struct devlink *devlinks_xa_get(unsigned long index)
+>> {
+>> 	struct devlink *devlink;
+>> @@ -382,6 +573,14 @@ struct devlink *devlinks_xa_lookup_get(struct net *net, unsigned long index)
+>> /**
+>>  * devl_register - Register devlink instance
+>>  * @devlink: devlink
+>> + *
+>> + * Make @devlink visible to userspace. Drivers must call this only after the
+>> + * instance is fully initialized and its devlink operations can be called.
+>> + *
+>> + * Context: Caller must hold the devlink instance lock. Use devlink_register()
+>> + * when the lock is not already held.
+>> + *
+>> + * Return: 0 on success.
+>>  */
+>> int devl_register(struct devlink *devlink)
+>> {
+>> @@ -580,6 +779,31 @@ static int __init devlink_init(void)
+>> {
+>> 	int err;
+>>
+>> +	if (devlink_default_esw_mode_param) {
+>> +		char *def;
+>> +
+>> +		def = kstrdup(devlink_default_esw_mode_param, GFP_KERNEL);
+>> +		if (!def) {
+>> +			devlink_default_esw_mode_param = NULL;
+>> +			pr_warn("devlink: devlink_eswitch_mode parameter ignored, failed to allocate memory\n");
+>> +		} else {
+>> +			err = devlink_default_esw_mode_parse(def);
+>> +			kfree(def);
+>> +			if (err == -EEXIST) {
+>> +				devlink_default_esw_mode_param = NULL;
+>> +				pr_warn("devlink: duplicate eswitch mode handles ignored\n");
+>> +			} else if (err == -EINVAL) {
+>> +				devlink_default_esw_mode_param = NULL;
+>> +				pr_warn("devlink: invalid devlink_eswitch_mode parameter ignored\n");
+>> +			} else if (err == -ENOMEM) {
+>> +				devlink_default_esw_mode_param = NULL;
+>> +				pr_warn("devlink: devlink_eswitch_mode parameter ignored, failed to allocate memory\n");
+>> +			} else if (err) {
+>> +				goto out;
+>> +			}
+> 
+> Move this to a separate helper alongside the other "default" functions?
+> 
+> 
+>> +		}
+>> +	}
+>> +
+>> 	err = register_pernet_subsys(&devlink_pernet_ops);
+>> 	if (err)
+>> 		goto out;
+>> @@ -595,7 +819,10 @@ static int __init devlink_init(void)
+>> out_unreg_pernet_subsys:
+>> 	unregister_pernet_subsys(&devlink_pernet_ops);
+>> out:
+>> +	if (err)
+>> +		devlink_default_esw_mode_nodes_clear();
+>> 	WARN_ON(err);
+>> +
+>> 	return err;
+>> }
+>>
+>> -- 
+>> 2.43.0
+>>
 
