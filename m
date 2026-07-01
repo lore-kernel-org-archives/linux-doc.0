@@ -1,203 +1,232 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7309E48B36C
-	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 12:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3289A48B38D
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 12:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782910409; cv=none; b=LRIvxvOyzSHu0VA65tIxPtF/hnRR1/LNbQ7L0K4hDw2vL/sUtNmXnUkF4UoNZcqgAaiDdJT2rseUhAGC+V07sCRfiGoi38Z/5a3eUfc4liJ+jEjqwGCCLh7KGSDqhQWSDXIBjJakk6vfzvrFcYOS1HWyCGDs99Ax6rp2UIK+74Q=
+	t=1782910414; cv=none; b=AKCu1zS2tmgB8c1nDY+1rsbQk2BMZrOItfI9yWlq7slVxJ0S5bgnmtf+s7iGVzYzy5lZ0sQ5b+5AcY0pFfBYHw3iIBIb1QW/jTGBTxZc33Rr4j679IWHwp1acjOU350BOIqUVHIh0IAgAcp1JLlHV6j6ugtqK0jJEECmDkQU8pA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782910409; c=relaxed/simple;
-	bh=McMalR0lms43BUWnBj5MfAGmD1DgwyyMe6CGS4oVWyw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AVQ1r2o6M1faTfyL6HiiyGsYeSxEjw0FwSpWwoULcgbLqEj6PhAy9n7iiW0+TnLlsP3F7cdlVUdd8AvhPh5u2r3/6KWKWwJYp2NYXPtMraWRW7Qm1leRogimV82v8yQPgI2CqZII8fJSqc0Z39U28zYgpRnD/oyR7JFufMTa864=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EfPuKRn4; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782910414; c=relaxed/simple;
+	bh=s4t3G5F4qqktsL4DaLIjyp87DSQDbY/2WsaSTuGkOyI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kjb/L+xFB22Tfkst8geD3h6rkQm+Ymno4hsds/r6h+eo5wEys79P7qCcn5XN/EUqN/Gy4XUPbdtV88h50iq7Rrwdrm18edqUcpC+L5C9bAEGThXMHkidCetDFP57pftv40sIJHyjGvocskf8uW4XjctC2fSripDC+IvF4Ck7RpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MufYbjHG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EfPuKRn4"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8454160043aso418260b3a.3
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 05:53:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782910407; x=1783515207; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=72IaI52f8cz7AfdFatnymKM5hMQ+G/AeXiG0yhG7q8g=;
-        b=EfPuKRn4T41bEazWN0jLV1Ki/iBTClHVNWK4n/8EdY4lEFdrE5fdlcIi16l5WLQVnf
-         bnAP+Ea0NsdZTyQp92YnbwwrXtICtur2pTOG+ev9B5f9LxiP2FF9E18YyJCuOkPuGkLk
-         p4EjSENRl/7aa4EeZRVXoAVGjCUzfGkHVYgor48UuPFBGAK+3co0SJBG3r8qEFRj3Rdu
-         qBOGIz2x9esZUll5cJ0QsUNMGijqYeRDGmr1eObKnneIfnsALa1+5p7TUgBDuJfQlKLJ
-         9qgVKcifSWxr7nR+VSdfGcAXFXAV2mrVk/LuKExGgnZzYjdogdXOqbg1BeQwHVuv5njJ
-         c8iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782910407; x=1783515207;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=72IaI52f8cz7AfdFatnymKM5hMQ+G/AeXiG0yhG7q8g=;
-        b=TJnGBLHtfiNfT/qPnkSxD5IXepB/RycTpTpYb9CZjLasDpCIbhnkdp9RVVjxGzBAVR
-         nyXaDdTEx70TqJy6dbkZj4alevwhB6nutzcIVJs8bOstKZnJqSX66eyQ+KjTY7RWTkfm
-         NgCINe8FKsC3X2icrRSXMXlY5EXA5c4D9dsla/iTdej650KsBLF2ZJuM3LLIHtTrM/e7
-         rc7WfN1rq1/2Flf8SzFBFd+NOEOXxSkBxAqjHUn9E/vvnIFSlbR8aytqTQdbmkZKDSOo
-         MHgSOxdmWvilGaR8thFYPuETRsomzDEXZQcuBV0falsO+KRd+KK1iS/Yi4oPSyVPyAu1
-         YSLQ==
-X-Gm-Message-State: AOJu0Yw34qeAkm0jyhZwxdqMH2MdeSCiaLLqCVXgLKuLuesNfl2a+nyB
-	0wnzZrVWkwTt3LGe0HTylkp4jMn/JQDdMOMqSNMSTabp6/GvdMOpulnP
-X-Gm-Gg: AfdE7ckovX1nB+kcoklW3gkQ/+RQNzSnrZOvR3cMwN+pVD1136pJlGGCggh4Nzt4o/6
-	00Q1Bm4y1znaGRIXOvAv8pHVlHGtSAwe1OjA+cVd3rB2v8u46h69cmcjG67/Bk5eypAS5fniRPB
-	jWUGmpvsjBqB+b/BDDIaDF+TaJU0GjFLkiC6TU/IJcxLWskJXV1E2Zp4CMa2NF66YXQtcQbB9dp
-	OocIa3MJmjTcY2GKbQgg0wCykwSqM4mkSZxkzRKq9QIBjIw2EamYImGsygGxe+5n4Qm8bZXSO9L
-	oTkEIlYclQr91FUkA/4W5LtWuoZTjPFS2tAigwqr3rSv/EC6nMoAC7/kR9RSYgQIIto2sKdVxbk
-	nKmcnJonPnNL7KJXf2Y57zgvVaqyrs/L/+qNYtb3179YBl5/U9BoxfY+TxjWnTMUEFAK6w5lgTE
-	9oh3DPi8tFy/gGCZ3JA1X2m3MJOdAdGNo=
-X-Received: by 2002:a05:6a00:bd0b:b0:846:c7f4:74d with SMTP id d2e1a72fcca58-847c0a005a1mr1296978b3a.41.1782910406514;
-        Wed, 01 Jul 2026 05:53:26 -0700 (PDT)
-Received: from [127.0.1.1] ([120.244.9.45])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847a03778basm3999403b3a.49.2026.07.01.05.53.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 05:53:26 -0700 (PDT)
-From: Guodong Xu <docular.xu@gmail.com>
-Date: Wed, 01 Jul 2026 08:52:18 -0400
-Subject: [PATCH v5 05/17] riscv: Add Zicclsm to cpufeature and hwprobe
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MufYbjHG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB1531F00ACA
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 12:53:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782910413;
+	bh=Uyf3m31VmHN9oNn8pJPThrwZz9OConCR56J0nW8Z1B8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=MufYbjHGJ+AqBMTAq1MSueyWk8NL3FkKrsAoLPKzxFdDo+TS9gw6l/rX12RPLcC7E
+	 E/FbdCorOr4Ya9P1ikn4FegBLG5YGr6vE0mMY6Sgza3FaPLOZQSMV317K/0RpAVy6g
+	 KdyJVlQtjMgisOJNyISGFM42sUGekcIiHPN09HkBF8YJiiy7+7bHgcBggQJBjKyzHa
+	 u+43yGTMBxaqb/IU74okrGaOzI364i0EqU0QEoNxSOiR6sUPQwwtJ366ADRmHFw7+G
+	 MtjKQ7/d8kGrob1kKGJUy8MK/0qN5sZZ7iV1wWRO4FF2f61YtfHTlY/R+z99I0h3l7
+	 hZu1hOzBiNQvA==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-39b27812c96so5605641fa.0
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 05:53:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrXbUbNK2oU5vSOAxAP9tKN2A+j+u8MyK//UG6hmIyQK94g+uhasTKW7boyHQdrNHZcnjYOEJPP87M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8fOivxOZzs5i39u6Dz0gdDElKsPX/Tt1UMjf4iHc84Du8QCtK
+	jmut+wFaP12SNAeZQCELcJaQur3HOOKzsRvioiLocX8RwOXwPqvHxFMVDxLPGkwREY9QaphgLJX
+	MIKxskBV/Ae9xlbkp0GdcbOIXHWtQ/3g=
+X-Received: by 2002:a05:6512:6382:b0:5ae:b97b:5855 with SMTP id
+ 2adb3069b0e04-5aec68b4320mr358186e87.40.1782910411374; Wed, 01 Jul 2026
+ 05:53:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260701-rva23u64-hwprobe-v2-v5-5-2c61f94a695a@gmail.com>
-References: <20260701-rva23u64-hwprobe-v2-v5-0-2c61f94a695a@gmail.com>
-In-Reply-To: <20260701-rva23u64-hwprobe-v2-v5-0-2c61f94a695a@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Paul Walmsley <pjw@kernel.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Alexandre Ghiti <alex@ghiti.fr>, Zong Li <zong.li@sifive.com>, 
- Deepak Gupta <debug@rivosinc.com>, Anup Patel <anup@brainfault.org>, 
- Atish Patra <atish.patra@linux.dev>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>, 
- Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
- Chen Wang <chen.wang@linux.dev>
-Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
- linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
- kvm-riscv@lists.infradead.org, Paul Walmsley <paul.walmsley@sifive.com>, 
- Conor Dooley <conor@kernel.org>, Jesse Taube <jtaubepe@redhat.com>, 
- Charlie Jenkins <thecharlesjenkins@gmail.com>, 
- Andrew Jones <andrew.jones@oss.qualcomm.com>, devicetree@vger.kernel.org, 
- spacemit@lists.linux.dev, sophgo@lists.linux.dev, 
- linux-kselftest@vger.kernel.org, Guodong Xu <docular.xu@gmail.com>, 
- Jesse Taube <jesse@rivosinc.com>, Conor Dooley <conor.dooley@microchip.com>, 
- Charlie Jenkins <charlie@rivosinc.com>, Andy Chiu <andybnac@gmail.com>
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4429; i=docular.xu@gmail.com;
- h=from:subject:message-id; bh=T8J6F8JD2GSkUodQpbB8hIJ5DiwO5Q99BYhbCDqSwXw=;
- b=owGbwMvMwCXWtEl1Z3CGpCDjabUkhixX3pbPWgunsBici1WrecHyvMUv6sfKc1lTesrTuvt3O
- hlaWDF3lLIwiHExyIopshw+2pK99ZVPtO9zzh8wc1iZQIYwcHEKwEQs+RkZXmptcWKPj/oQnjfH
- 8oWqw1+x8j9Td95eEL5Afv4n9cdynYwMj1csjFiw8ZrTkbg7rBfuvVjwJ56V75aQ6HFe7WkrRMs
- ecQIA
-X-Developer-Key: i=docular.xu@gmail.com; a=openpgp;
- fpr=90B1DC3DF0BD10FD1227BD6344F254AF42F143EE
+References: <20260701045640.3130090-1-tzungbi@kernel.org> <20260701045640.3130090-3-tzungbi@kernel.org>
+ <2026070140-rally-prowling-4d66@gregkh>
+In-Reply-To: <2026070140-rally-prowling-4d66@gregkh>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Wed, 1 Jul 2026 14:53:18 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0goFxWOjjm1_JyaORKViEEc99-Tj-Yq4K0guYqZEvU9gg@mail.gmail.com>
+X-Gm-Features: AVVi8Cf86nuhzIOE2p8v6g-b6ssqyCv2EsWN9SuC4GrAViSt0kYqBNdtyScE0U4
+Message-ID: <CAJZ5v0goFxWOjjm1_JyaORKViEEc99-Tj-Yq4K0guYqZEvU9gg@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] PM: dpm_watchdog: Allow disabling DPM watchdog by default
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	driver-core@lists.linux.dev, tfiga@chromium.org, senozhatsky@chromium.org, 
+	Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Jesse Taube <jesse@rivosinc.com>
+On Wed, Jul 1, 2026 at 9:22=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Jul 01, 2026 at 04:56:40AM +0000, Tzung-Bi Shih wrote:
+> > Introduce the "dpm_watchdog_enabled" module parameter to allow the DPM
+> > watchdog to be enabled or disabled at boot time and runtime.
+>
+> As I say all the time, this isn't the 1990's, please don't add new
+> module parameters as they are a pain to manage and maintain over time
+> (as you found out with my rejection of patch 1/2 here...)
 
-Zicclsm requires misaligned support for all regular load and store
-instructions, both scalar and vector, but not AMOs or other
-specialized forms of memory access, to main memory regions with both
-the cacheability and coherence PMAs, as defined in the profiles spec.
-Even though mandated, misaligned loads and stores might execute
-extremely slowly. Standard software distributions should assume their
-existence only for correctness, not for performance.
+Let me challenge this though because there are use cases for something
+like module parameters AFAICS.
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-Reviewed-by: Andy Chiu <andy.chiu@sifive.com>
-Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
-Tested-by: Charlie Jenkins <charlie@rivosinc.com>
-Signed-off-by: Jesse Taube <jesse@rivosinc.com>
-[Rebased, rewrote doc text, minor commit message revisions]
-Signed-off-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
-Signed-off-by: Guodong Xu <docular.xu@gmail.com>
----
-v5: No change.
-v4: No change.
-v3:
-- Move the hwprobe.rst entry to the IMA_EXT_1 section so its
-  documentation matches the IMA_EXT_1 bit it was allocated in v2
-  (Sashiko, agreed by Andrew).
-v2:
-- Rebased onto v7.1-rc2; moved ZICCLSM to IMA_EXT_1 and
-  allocated a new bit for it
----
- Documentation/arch/riscv/hwprobe.rst  | 4 ++++
- arch/riscv/include/asm/hwcap.h        | 1 +
- arch/riscv/include/uapi/asm/hwprobe.h | 1 +
- arch/riscv/kernel/cpufeature.c        | 1 +
- arch/riscv/kernel/sys_hwprobe.c       | 1 +
- 5 files changed, 8 insertions(+)
+There are things that are "on" by default that people want to turn
+"off" and ideally at init time.  If that happens in a loadable module,
+the only way to do so I'm aware of is using a module parameter.
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index d9928641deb99..49d9fb68632d0 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -401,3 +401,7 @@ The following keys are defined:
-     as defined in version 1.0 of the RISC-V Control-flow Integrity (CFI)
-     extensions specification, ratified in commit 302a2d45c243
-     ("Update build-pdf.yml") of riscv-cfi.
-+
-+  * :c:macro:`RISCV_HWPROBE_EXT_ZICCLSM`: The Zicclsm extension is supported,
-+    as defined in the RISC-V Profiles specification starting from commit
-+    b1d80660 ("Updated to ratified state.")
-diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-index 44bf8c7d8acc5..e8f4a7dd96a93 100644
---- a/arch/riscv/include/asm/hwcap.h
-+++ b/arch/riscv/include/asm/hwcap.h
-@@ -112,6 +112,7 @@
- #define RISCV_ISA_EXT_ZCLSD		103
- #define RISCV_ISA_EXT_ZICFILP		104
- #define RISCV_ISA_EXT_ZICFISS		105
-+#define RISCV_ISA_EXT_ZICCLSM		106
- 
- #define RISCV_ISA_EXT_XLINUXENVCFG	127
- 
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index 9139edba0aecb..6819df159c51e 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -116,6 +116,7 @@ struct riscv_hwprobe {
- #define RISCV_HWPROBE_KEY_ZICBOP_BLOCK_SIZE	15
- #define RISCV_HWPROBE_KEY_IMA_EXT_1		16
- #define		RISCV_HWPROBE_EXT_ZICFISS	(1ULL << 0)
-+#define		RISCV_HWPROBE_EXT_ZICCLSM	(1ULL << 1)
- 
- /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
- 
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index 686dde3ce3b98..1fb595581adcf 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -502,6 +502,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
- 	__RISCV_ISA_EXT_SUPERSET_VALIDATE(zicbom, RISCV_ISA_EXT_ZICBOM, riscv_xlinuxenvcfg_exts, riscv_ext_zicbom_validate),
- 	__RISCV_ISA_EXT_DATA_VALIDATE(zicbop, RISCV_ISA_EXT_ZICBOP, riscv_ext_zicbop_validate),
- 	__RISCV_ISA_EXT_SUPERSET_VALIDATE(zicboz, RISCV_ISA_EXT_ZICBOZ, riscv_xlinuxenvcfg_exts, riscv_ext_zicboz_validate),
-+	__RISCV_ISA_EXT_DATA(zicclsm, RISCV_ISA_EXT_ZICCLSM),
- 	__RISCV_ISA_EXT_DATA(ziccrse, RISCV_ISA_EXT_ZICCRSE),
- 	__RISCV_ISA_EXT_SUPERSET_VALIDATE(zicfilp, RISCV_ISA_EXT_ZICFILP, riscv_xlinuxenvcfg_exts,
- 					  riscv_cfilp_validate),
-diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-index f8f68ba781b45..9cf62266f1890 100644
---- a/arch/riscv/kernel/sys_hwprobe.c
-+++ b/arch/riscv/kernel/sys_hwprobe.c
-@@ -205,6 +205,7 @@ static void hwprobe_isa_ext1(struct riscv_hwprobe *pair,
- 		 * in the hart_isa bitmap, are made.
- 		 */
- 		EXT_KEY(isainfo->isa, ZICFISS, pair->value, missing);
-+		EXT_KEY(isainfo->isa, ZICCLSM, pair->value, missing);
- 	}
- 
- 	/* Now turn off reporting features if any CPU is missing it. */
+There are also diagnostic features that are generally "off", but it is
+useful to turn them "on" occasionally, both at run time and at init
+time.  Adding a special kernel command line option and a separate
+special sysfs switch (for example) for that is kind of a pain and
+using a module parameter in such cases appears to be more
+straightforward to me, so what really is the problem with that?
 
--- 
-2.43.0
+Moreover, there are those cases in which updating the kernel command
+line is more straightforward than updating user space to write into a
+specific file in sysfs after boot, so using a module parameter helps.
 
+So in general, assuming that the underlying use case is good enough,
+is a module parameter really worse than a combination of a special
+sysfs file and a special kernel command line argument and if so, then
+why?
+
+Of course, whether or not the underlying use case is good enough is a
+different matter.
+
+> > Additionally, introduce the CONFIG_DPM_WATCHDOG_ENABLED Kconfig option
+> > to set default value of the module parameter at compile time.
+> >
+> > This provides flexibility for systems that want the watchdog code
+> > compiled in but inactive by default, allowing it to be enabled only whe=
+n
+> > needed.
+> >
+> > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> > ---
+> > v5: No changes.
+> >
+> > v4: https://lore.kernel.org/all/20260611021219.2093476-2-tzungbi@kernel=
+.org
+> > - Rewrite the commit message to indicate the module parameter is the
+> >   main change in the patch.
+> > - DPM_WATCHDOG_DEFAULT_ENABLED -> DPM_WATCHDOG_ENABLED.
+> >
+> > v3: https://lore.kernel.org/all/20260608021526.1023248-3-tzungbi@kernel=
+.org
+> > - Add "PM" tag (was missing).
+> > - Update the format and specify dependencies in kernel-parameters.txt.
+> > - Update the help message in Kconfig to reflect that dpm_watchdog_enabl=
+ed
+> >   can be set at runtime as well.
+> >
+> > v2: https://lore.kernel.org/all/20260604090756.2884671-3-tzungbi@kernel=
+.org
+> > - Use module parameter and bool for dpm_watchdog_enabled.
+> > - Use IS_ENABLED().
+> >
+> > v1: https://lore.kernel.org/all/20260528103215.505795-1-tzungbi@kernel.=
+org
+> > ---
+> >  Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
+> >  drivers/base/power/main.c                       | 11 +++++++++++
+> >  kernel/power/Kconfig                            | 10 ++++++++++
+> >  3 files changed, 28 insertions(+)
+> >
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Document=
+ation/admin-guide/kernel-parameters.txt
+> > index b5493a7f8f22..46c20e1b5f05 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -47,6 +47,7 @@
+> >       PCI     PCI bus support is enabled.
+> >       PCIE    PCI Express support is enabled.
+> >       PCMCIA  The PCMCIA subsystem is enabled.
+> > +     PM      Power Management support is enabled.
+> >       PNP     Plug & Play support is enabled.
+> >       PPC     PowerPC architecture is enabled.
+> >       PPT     Parallel port support is enabled.
+> > @@ -5354,6 +5355,12 @@ Kernel parameters
+> >       pm_debug_messages       [SUSPEND,KNL]
+> >                       Enable suspend/resume debug messages during boot =
+up.
+> >
+> > +     pm_sleep.dpm_watchdog_enabled=3D
+> > +                     [PM] Enable or disable the DPM watchdog.  Require=
+s
+> > +                     CONFIG_PM_SLEEP and CONFIG_DPM_WATCHDOG enabled.
+> > +                     Format: <bool>
+> > +                     Default value is set by CONFIG_DPM_WATCHDOG_ENABL=
+ED.
+> > +
+> >       pnp.debug=3D1     [PNP]
+> >                       Enable PNP debug messages (depends on the
+> >                       CONFIG_PNP_DEBUG_MESSAGES option).  Change at run=
+-time
+> > diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> > index c6a3300cfb7a..f58945758868 100644
+> > --- a/drivers/base/power/main.c
+> > +++ b/drivers/base/power/main.c
+> > @@ -535,6 +535,11 @@ module_param(dpm_watchdog_all_cpu_backtrace, bool,=
+ 0644);
+> >  MODULE_PARM_DESC(dpm_watchdog_all_cpu_backtrace,
+> >                "Backtrace all CPUs on DPM watchdog timeout");
+> >
+> > +static bool __read_mostly dpm_watchdog_enabled =3D
+> > +                             IS_ENABLED(CONFIG_DPM_WATCHDOG_ENABLED);
+> > +module_param(dpm_watchdog_enabled, bool, 0644);
+> > +MODULE_PARM_DESC(dpm_watchdog_enabled, "Enable DPM watchdog");
+> > +
+> >  static unsigned int __read_mostly dpm_watchdog_timeout =3D CONFIG_DPM_=
+WATCHDOG_TIMEOUT;
+> >  static unsigned int __read_mostly dpm_watchdog_warning_timeout =3D
+> >                                               CONFIG_DPM_WATCHDOG_WARNI=
+NG_TIMEOUT;
+> > @@ -630,6 +635,9 @@ static void dpm_watchdog_set(struct dpm_watchdog *w=
+d, struct device *dev)
+> >  {
+> >       struct timer_list *timer =3D &wd->timer;
+> >
+> > +     if (!dpm_watchdog_enabled)
+> > +             return;
+> > +
+> >       wd->dev =3D dev;
+> >       wd->tsk =3D current;
+> >       wd->fatal =3D dpm_watchdog_timeout =3D=3D dpm_watchdog_warning_ti=
+meout;
+> > @@ -648,6 +656,9 @@ static void dpm_watchdog_clear(struct dpm_watchdog =
+*wd)
+> >  {
+> >       struct timer_list *timer =3D &wd->timer;
+> >
+> > +     if (!dpm_watchdog_enabled)
+> > +             return;
+> > +
+> >       timer_delete_sync(timer);
+> >       timer_destroy_on_stack(timer);
+> >  }
+> > diff --git a/kernel/power/Kconfig b/kernel/power/Kconfig
+> > index 530c897311d4..508ceabc4d2e 100644
+> > --- a/kernel/power/Kconfig
+> > +++ b/kernel/power/Kconfig
+> > @@ -268,6 +268,16 @@ config DPM_WATCHDOG
+> >         captured in pstore device for inspection in subsequent
+> >         boot session.
+> >
+> > +config DPM_WATCHDOG_ENABLED
+> > +     bool "Enable DPM watchdog by default"
+> > +     depends on DPM_WATCHDOG
+> > +     default y
+>
+> Only do this if you can not boot without the option enabled, which I do
+> not think is the case here.
+
+So in this particular case, there is a way to adjust the watchdog
+timeout and if it is set to a very large value, the watchdog gets
+effectively disabled for all purposes.
+
+I'm not entirely sure if another switch to disable/enable it is needed
+in addition to that TBH.
