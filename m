@@ -1,119 +1,195 @@
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D09224B04
-	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 13:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0B6265623
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 14:07:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782914002; cv=none; b=RVx5YVyBbTh8aXj8dGeAj2lEPmuxPke3PlXfjlq9z+YVP9Z068ME0zl4WLhdjb+84Cr7oxBOmoXDhc3IvK/Qv24lCSP3sOeJq550ulIbyhDyc9+NQDYge0Z6k04//fuCpJNT/ndcw4KIimKHGNjAVg+b8xHk23gYuahRQDqer5c=
+	t=1782914864; cv=none; b=FY0h7gHXs30c119NEiwFmA+t0opJ/fiBCWvAoYPlcwnIknae4y/v/Lf9CxOKTwLjL/9wxSJ+uDwJXbnMj1XpPEdmqDmhtfNdWTeH+/BFIie0PjxRRpaPTwYlo4tHRdY/RaMg4h4MIWILPwahgEplyiPxgzAq/38qY/22NRE8L68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782914002; c=relaxed/simple;
-	bh=k6UrRFYCyc5Lzmrh2nnW7+82Ut94TI2p/klH6GO/JIw=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=jvWfz/sZYX929B70Uw9o3Ff+TVQ//5Zs6i/dtqDFcsTnPO8dYz51Yd+/JzioKIx6kTlpIqwzjYTrt2xEWH7CGGhQ7FO8Ang61ErQsSXWxl83XwmgCtzhFxLCtiA+HDnAIA7AMzGfL9IsfmR/kR+97XEs4siOHlrJCvrWnHfCSYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hGcnKqXu; arc=none smtp.client-ip=209.85.215.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1782914864; c=relaxed/simple;
+	bh=SkYBEpbjqOZxUGc7QG4RqBkayD5PvlrnO1BY/nGQSu4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=RamumJX2bFnyMvOvfPX6dLvz4X3Lay+GrQOSCh29zR5ipe/zKsjt9nrlRSCcCxkBPcS19p/OQO4Jah9iEN/YvSp92gaV5rWJ63jGs3756kXSnCG+aLKxRICbraX0Gukmm90CPodNAyJLx3lf+t0oXgKWLsUOximFWYdhbpegTkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jb8Munhw; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hGcnKqXu"
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-c860544c077so909412a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 06:53:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jb8Munhw"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-842338c18e0so412353b3a.1
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 07:07:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782914001; x=1783518801; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2dlvRC/ivhzraYV58bWG4aEWroXr163d0LU1VPS4Meg=;
-        b=hGcnKqXuDyYBtXoz9E2s3EvKuJde3fA/I5zDuDTQCmF6lWrrXkDMU0cj8a8RKAbP2J
-         /vFmnMvZyvCBxsw0bVZY0nlu3fLi+eNFRQFTgMYadZw4hFSdmS/v4cq+UYOB10mH2fKc
-         Szj8jhMEgAmjeeJjbDE5B7hVFPJH5CyBa1CXPLHY7v2XvnL4ofCnHuVvdiQe+zsrf+0E
-         zwBQmocxPDeUJnF8rRf28lut7Wfx6N04gQwxVdiGJfSMIt7wlS62ph7/xmfuprtT4hG1
-         T3TGu0K0scVdN/7hVThvmPEt3PaNQmGmRP3JQIV1R8F6k88Im7Vfc3/qVuo7HGoLufi+
-         67Cw==
+        d=gmail.com; s=20251104; t=1782914862; x=1783519662; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=4t5eL4t0fhdWKpboOV6idGNh3csreO6heKw2RXkWK9c=;
+        b=jb8MunhwXFx20pU3bULB0Hzj3jyhYMN1TboJBwor98t+3Zjqsm+ILxweZorNy8KQ9s
+         LFkqX+8r2YYc5Bis3caMxcYMN3E2EfKqy2060Lm50OupPoMKfj/g+t49UsAuDZuJLvoA
+         rzA2IysFgEnlR8soFppoMGbj5HdLfSnh/Ohj2mbAtWP82/vE8F2LphpNOtOkImvy1S5Y
+         qkuqFm7gbccnEvo/zgtXxAp2QG6SxzvuddupUK1b1TJ+R+z2oTJYe35wdNrtP+HX4Oyx
+         o7lfFpFHGd9jXcQk6ymalvjXvbg+E7b9y6I1FL4BQE5/xFkSSSGd4eyQtJ9X64YpzYL5
+         dqUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782914001; x=1783518801;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2dlvRC/ivhzraYV58bWG4aEWroXr163d0LU1VPS4Meg=;
-        b=ELZreOraYzuZAjRUsEqVIG0/ddoi31I7V6MWBoHe+0lCNYcnlwj5kj9ozweDOY+VaB
-         cApoqT2ntK12vKBT/+rzeU0vOXo1/u7U6Nu38XA1dhJIaagzjiXS3e3jVMNhcCPW0Gb3
-         m0za3ZRnQw/8IYt0+GYL9ZhOGuuUrfi+Zspa98ofbw2+CFTIZEsb9+ZZoUM5NLH6yrD6
-         s7p27/eaVdNdA/GmVMeHQUlA0nxaDDuMgTIKWdj+tdMBUFKhf8c9KWRVoLsR/sN1wdLZ
-         51w1FVVis0rY0f+VKjexfpgwrMkgewsHFYdVT/u8diuqp0f40X1Rn9x7lim1hfThZg1b
-         ++Hg==
-X-Forwarded-Encrypted: i=1; AFNElJ8yHNiBPVc8D8nluEBbDi0sd03w+lKt5ttuPkSV/HWZYUYOoYoH4/bv7G9vjOYUd6W/Nr1GbvUZ7O0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyb0gAvbJ99gGqgzgGcv6dQ/Wuu7to1r3Yp87r3ZyWfEv/3DYH5
-	ZrYuORhgmaCH1mDCWeyrlLb9UdzOQdIF7bwGThNBKh6OZLdle+aRU73pyeAOt/Q1GKqHLODUg9W
-	HhcIMsw==
-X-Received: from pgam26.prod.google.com ([2002:a05:6a02:2b5a:b0:c99:aff5:707d])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:6a11:b0:3bf:acb2:5d48
- with SMTP id adf61e73a8af0-3bff4227b8fmr926021637.38.1782914000204; Wed, 01
- Jul 2026 06:53:20 -0700 (PDT)
-Date: Wed, 1 Jul 2026 06:53:19 -0700
-In-Reply-To: <25fdb77d-20f6-4b3a-8b3a-dbba0dc47046@intel.com>
+        d=1e100.net; s=20251104; t=1782914862; x=1783519662;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=4t5eL4t0fhdWKpboOV6idGNh3csreO6heKw2RXkWK9c=;
+        b=Jvtiv8U1LVmtOYpJQQyb8rppuZeONuDnijcMO+q0UkG/nxLI8e8w3QdvcYf4Sa9VnK
+         xPhxM2WlEq5+/6Xn9O6Da2kWXG0D4cOql6W7iz4IlQmAkKPrVIAyEos/yvqcC8Qcsbax
+         e8liuTxNq76fOiC/S7PsjtNd67LT2Yai5dQKvDZA/10x30Ved/REfPEeBrBKvUsXw8+W
+         e9buQFe25rrIhxTyefGqI/r/nN0Tq6lfXlTpZvXFsbS4zG8/AEfPcN5VM4l7E4xdQXhZ
+         ijrRHQ9CmjkxYNgsTMDuGGtYiQAFF479I/uVrdH8depPmf7upHMHVqrZmgPDBXIAMD0Y
+         Gumw==
+X-Forwarded-Encrypted: i=1; AFNElJ/PAd3BjOydct1X4eUSkAQa+bIyqtIbz9zOSZ1MKxmdloMYfMTYNnBbzQguEUkCj3aZV/1MHrB86cI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywt0RExh6BODMKUZf44CAYCvYse/+TDu2FePV0eVIApeRMtqfO/
+	w9qfnEOSaTtlILTPoH+CfJQrps7SpFWcBiQgb4uE7Hk4cDXPRtC45n9l
+X-Gm-Gg: AfdE7ckaQl7viJ0oCYODmZySdxYOXlQCqcn5KD7xbLNPUk8ltQwT7rlDGqPoDZeFp2f
+	3OPblhKum5VpR/aEJQqTCR+GFf0QyWQujPRExSjU6OP01tzKtn0iDhFavOEqYbz41he8PCYWICQ
+	txJ5Gsxv5TZXcKdslgRwytKiAkSTcdqDmwoto1chIRnZMP26rvHntyGAUwND+LcgjfCKlvlCzP1
+	qJ9S1GdZ8B4E48ZJoozn7pRXYFwIWkyFYIbI7g8Qb5+2xxafAv77TR/0qpEqQqGOCeFotPsBoy6
+	s6Lkd64SMcd8zr6nyG5caFR6DiO8FnG8L9hjiPnf8H9V8d5fRQt4q9iQ2jBnMozQ01ryq6eukz0
+	2poOUOr1fBn9SPQ/FX8KO5r4VHSWV6OOZ1ipIRh89LHwE6h2MhirEH01NaF6gmB0RqDWlBzQAeY
+	3gEh71M0PACjF40PQ9SwoPDNBAGVH/YMwkIkT93iKjg45o33WLX4vntFHBA1JtBA==
+X-Received: by 2002:a05:6a00:94e3:b0:847:9aa8:d3bb with SMTP id d2e1a72fcca58-847c074eef8mr1721257b3a.12.1782914861788;
+        Wed, 01 Jul 2026 07:07:41 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8479fff4c7csm4145210b3a.16.2026.07.01.07.07.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Jul 2026 07:07:41 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <6370a4b3-9fa5-47b4-b53d-7b8fb6d69de4@roeck-us.net>
+Date: Wed, 1 Jul 2026 07:07:40 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260618-gmem-inplace-conversion-v8-24-9d2959357853@google.com>
- <aji/2svhcc84rn5w@yzhao56-desk.sh.intel.com> <CAEvNRgHYTFnHbsLLgMTCSitmnp1_j9Pomikm9qmpGTh1w8YE5Q@mail.gmail.com>
- <ajx5Vrz9ma--hrGH@google.com> <ajyJhZcgfYFtGfS2@yzhao56-desk.sh.intel.com>
- <aj0Jf30PS2f7x1nt@yzhao56-desk.sh.intel.com> <aj087H1UWSFxbShR@google.com>
- <aj3H2sxymOYTWTnE@yzhao56-desk.sh.intel.com> <aj7NwCRwWEfLK-gQ@google.com> <25fdb77d-20f6-4b3a-8b3a-dbba0dc47046@intel.com>
-Message-ID: <akUbz_kJvYulaboo@google.com>
-Subject: Re: [PATCH v8 24/46] KVM: guest_memfd: Make in-place conversion the default\
-From: Sean Christopherson <seanjc@google.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Yan Zhao <yan.y.zhao@intel.com>, Ackerley Tng <ackerleytng@google.com>, aik@amd.com, 
-	andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org, 
-	chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com, 
-	jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org, 
-	pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com, 
-	rientjes@google.com, shivankg@amd.com, steven.price@arm.com, tabba@google.com, 
-	willy@infradead.org, wyihan@google.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] hwmon: add Altera SoC FPGA hardware monitoring
+ support
+To: tze.yee.ng@altera.com, Dinh Nguyen <dinguyen@kernel.org>,
+ linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <cover.1782715159.git.tze.yee.ng@altera.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <cover.1782715159.git.tze.yee.ng@altera.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 01, 2026, Xiaoyao Li wrote:
-> On 6/27/2026 3:06 AM, Sean Christopherson wrote:
-> > On Fri, Jun 26, 2026, Yan Zhao wrote:
-> > > My first impression of gmem_in_place_conversion=true was that it enforces gmem
-> > > in-place conversion. However, it actually only enforces per-gmem private/shared
-> > > attribute.
-> > > My worry was that people might think it's a kernel bug if userspace can still
-> > > have shared memory from other sources after they configured
-> > > gmem_in_place_conversion=true.
-> > Ah, I see where you're coming from.  FWIW, truly enforcing in-place conversion
-> > is flat out impossible.  E.g. userspace can simply replace the memslot, at which
-> > point the memory effectively reverts to shared.
+Hi,
+
+On 6/29/26 00:24, tze.yee.ng@altera.com wrote:
+> From: Tze Yee Ng <tze.yee.ng@altera.com>
 > 
-> would something like below enforce the in-place conversion?
+> This series adds hardware monitor support for Altera SoC FPGA devices.
+> Temperature and voltage sensors are accessed through the Stratix 10
+> service layer and Secure Device Manager (SDM).
+> 
+> In v1, sensor channels were described in device tree under an
+> altr,stratix10-hwmon child node of the service layer. Review feedback
+> noted that this is not a discrete hardware block with its own resources,
+> and that a dedicated hwmon DT binding was not appropriate.
+> 
+> v2 removes all hwmon-related device tree bindings and DTS changes.
+> Instead, stratix10-svc registers a socfpga-hwmon platform device when
+> CONFIG_SENSORS_ALTERA_SOCFPGA_HWMON is enabled, similar to stratix10-rsu.
+> The hwmon driver binds by platform device name only and selects sensor
+> channels from hardcoded tables based on the parent service layer
+> compatible string (intel,stratix10-svc or intel,agilex-svc).
+> 
+> Patch 1 adds async HWMON SMC support to stratix10-svc and registers the
+> socfpga-hwmon platform device.
+> 
+> Patch 2 adds the socfpga-hwmon driver, documentation, Kconfig, and
+> MAINTAINERS entry.
+> 
 
-No.
+Sashiko reports a number of issues with both patches. Please address or
+respond explaining why the reported issues are false positives.
 
-> Userspace can create a memslot without gmem fd, but that memslot can only
-> serve as shared memory and cannot be converted. So it doesn't violate the
-> in-place conversion.
+Thanks,
+Guenter
 
-But userspace can delete said memslot and replace it with a memslot pointing at
-a guest_memfd instance that was created without INIT_SHARED, at which point
-userspace has effected a shared=>private conversion.
+> Changes in v2:
+> - Drop altr,stratix10-hwmon DT binding and intel,stratix10-svc hwmon
+>    child property
+> - Drop Stratix 10 SoCDK DTS hwmon node
+> - Register socfpga-hwmon from stratix10-svc (RSU-style)
+> - Replace DT channel parsing with hardcoded Stratix 10 and Agilex tables
+> - Rename driver/module to socfpga-hwmon
+>    (CONFIG_SENSORS_ALTERA_SOCFPGA_HWMON)
+> - Add Agilex channel support
+> - Fix SDM value conversion (Q8.8 degrees Celsius and Q16 volts to hwmon
+>    millidegrees/millivolts)
+> - Improve sync-mode error handling via last_err
+> 
+> Previous version:
+>    https://lore.kernel.org/all/cover.1781861409.git.tze.yee.ng@altera.com/
+> 
+> Tze Yee Ng (2):
+>    firmware: stratix10-svc: add async HWMON read commands and register
+>      socfpga-hwmon device
+>    hwmon: add Altera SoC FPGA hardware monitoring driver
+> 
+>   Documentation/hwmon/index.rst                |   1 +
+>   Documentation/hwmon/socfpga-hwmon.rst        |  34 ++
+>   MAINTAINERS                                  |   8 +
+>   drivers/firmware/stratix10-svc.c             |  46 +-
+>   drivers/hwmon/Kconfig                        |  10 +
+>   drivers/hwmon/Makefile                       |   1 +
+>   drivers/hwmon/socfpga-hwmon.c                | 596 +++++++++++++++++++
+>   include/linux/firmware/intel/stratix10-smc.h |  38 ++
+>   8 files changed, 731 insertions(+), 3 deletions(-)
+>   create mode 100644 Documentation/hwmon/socfpga-hwmon.rst
+>   create mode 100644 drivers/hwmon/socfpga-hwmon.c
+> 
+
