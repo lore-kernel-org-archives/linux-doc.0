@@ -1,101 +1,144 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E94948BD3F;
-	Wed,  1 Jul 2026 16:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5260C362153
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 16:09:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782922094; cv=none; b=M8f6gR8IAwgDBcTkDiDFJwXuKhlsWwl1DQ3NEbOFPD4iPh2eXfVJiNRo0VS+n69Cq8uKcHaSecC+EQ/wZavo+O6wqntrZAnn7g7WHEgkHgLbaKtIkv4UvUdYtMjfeZxQdQDvG4M0RLTwfO/Z+UQD4c6Ihv2Jez+6h78qk9ZDRIs=
+	t=1782922171; cv=none; b=NchV94skPU4RNufHq+fSNqhM5A1XeC9vqK9QapLPPykF0iTGhMhAaJzEm80Mcd9fG61z4WSkp6o3kYLz6zXlYRiDAh5jk6NmSozQ/gUg5p3wqVRB6lh8uqOh461WCvQoOuwtnbEJyIep10z7shsO4qrKfwEL6mtntHNY+OYP7Ok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782922094; c=relaxed/simple;
-	bh=xat0S/7hhqd/pGIHTCtDuUUbp6Tj4fuNwpwliP/9u8o=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=qyWf7hs707p4oj03iUV3x/GTeUytOpN1kj7UOm3CswY8lvN6SovlQa058wzdF2COLM7DJhtsJ0eF0q/LIYPg83oo4ceOjAcm1aKdR383dYP3UT/z2WvUNnwbPzr9UxY4hwvqMzbpRZfM5qoRTcSXJLMJpvdvu6HhVPpohaXlnqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=R3unUPoW; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1782922171; c=relaxed/simple;
+	bh=PZdjWM7sO+nieQyt0RiywxeCxZBtDRu0HUNeH72ZpVs=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=oPXTbYr0knxOkmnubmQ5IpUXOTaAbYJgia/eiLRxyUqv0u6wq9wJLHJXiSn5VI8EV8nH3vVoOoS/uvUTeCFAqSJEUjcubYO0PtMWIWw/d8CNOw5N5HogO+wpe2JYuqCzyuabwfT4ekUbbMgA6p67EbsQeUsShPXm/8jORMit5e8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FRheYWg2; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="R3unUPoW"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 695B841599
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1782922092; bh=32P2g6yBGgImUvn7wpL6P00mVW8ED72vfqoB2ujBsag=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=R3unUPoWerSGDmsBFQ8SLsl1L+fZ1NdJXYUbgzj+VM9Jnr/U/13Da3ySRDlf2JFhJ
-	 l69LtblfKO8TKZ57Vz2al1CEwJ4vZhkztl4jFHAh+GjVsTqMjoIYYRNpJM8cVl6ava
-	 Mos3h11NXCVF6tYscP/3HhApL8gjwu7q1ARlzYFNKqa4IFsE4URL22cdD/q1pzJlC7
-	 V1SbNLwZl/EE6TJIKzlHN9I+iL5BwYF4dXKudFMLhMw1Dlk3D1PX0Wq0I2a9F95djM
-	 BFoce6HldvfHIcuUvGm7349GzFimtsyR5ulTFkze988P+mt01ZxF99qkpsAV7sQkJ1
-	 phoafNFU39WyQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 695B841599;
-	Wed,  1 Jul 2026 16:08:12 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Christian Brauner <brauner@kernel.org>, Linus Torvalds
- <torvalds@linux-foundation.org>
-Cc: Jens Axboe <axboe@kernel.dk>, David Hildenbrand <david@kernel.org>, Jeff
- Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, "Christian
- Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-In-Reply-To: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
-Date: Wed, 01 Jul 2026 10:08:11 -0600
-Message-ID: <87jyreofpw.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FRheYWg2"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-38096457d3aso983740a91.2
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 09:09:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782922170; x=1783526970; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fb46jkRTl6zwGFz7DUfAUgbXgotI+sXKJjyrZvcz3JQ=;
+        b=FRheYWg2+u/d6OdGw/gZUSY4H+/LH75+ctJGPzMkU/tbBN4cCcXKUE1OcjKZtsfb1M
+         iVfLOhqxBH5zcx5m5J0LTdF9aVN4C1Gyn0LqUUKGoF9vc/Mi1t1kjQYispMayc2KY7Gf
+         0ulidEQv0PQAAQv6BXZ1wM53CtD+DeamxWtom/lwTspHqvO1CgqJjzbH4NT9DTMkSKzM
+         5s9VQXqtK4IPMhFNVtep3D0WK/+0S3DhNJnWXnZe9XsH2ogomSSf7/0KgNk3lO+RDih9
+         5zH2AzlbWhClTZPEOZ3yZ+JlOJeYo4a2veXdHLgrELGHHEHFRO8PYqY6f9MHFvylj7wo
+         FM8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782922170; x=1783526970;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fb46jkRTl6zwGFz7DUfAUgbXgotI+sXKJjyrZvcz3JQ=;
+        b=SKUbvhMpfK06ClBg5Z3wMyIEhrGWtBshnh0m34Bc8Jm9QJBgObsXiyRdOZeHZ76Jul
+         3eVws2aiD7DD3LZIz+4rR0CXCOtWT0odCpKvPx1QgnyVhijJSpfJv0pRbw2wzCOVIKCY
+         dSB+JYEjHOlLxASu1oRoXTe2IyLeHVR8cRVqj/ra5IKuthp3fJzeIrUHtqslj+LlOT9q
+         MBXxaqbOw3C1S025DuYuaceENdEwUOwFqcVBdYHAHyYSAqY78RpxivOGWfzJ3Zb6MKd5
+         /WCmqVOPliqseiUGZBQS4VlTfldySKcbwMpVE/en4X0v2YAmEWDn7P2s+RlxDdHKSPnp
+         WXMQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoWq7LaH6tPuYyUcyJFZCoiHCZEhQiONO5vTjMZESZgk7T92GW5TPgY+dan/mbwnpM+olihmoyR2mE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxu4mMIIkciK7rUOUrJ+rO8sa/TPrbnrgX8Gql21/iVuBR+ztPZ
+	ZeGQTZUvMSSpnW6M/jwgr/Hu1jTpyP95r/tlJGIG3cTHhIc/mWa2RrBbWqMXFnDEvd/abxbt4bc
+	4DE6s6g==
+X-Received: from pjbnl12.prod.google.com ([2002:a17:90b:384c:b0:380:8669:e33b])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:3c03:b0:37f:9ce3:ca96
+ with SMTP id 98e67ed59e1d1-380aa20dab8mr1881109a91.31.1782922169200; Wed, 01
+ Jul 2026 09:09:29 -0700 (PDT)
+Date: Wed, 1 Jul 2026 09:09:28 -0700
+In-Reply-To: <584a8f9a-1538-4f8b-b576-75ef0fa961c7@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+Mime-Version: 1.0
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
+ <20260618-gmem-inplace-conversion-v8-17-9d2959357853@google.com> <584a8f9a-1538-4f8b-b576-75ef0fa961c7@intel.com>
+Message-ID: <akU7uAKb5E_Tklx-@google.com>
+Subject: Re: [PATCH v8 17/46] KVM: guest_memfd: Advertise KVM_SET_MEMORY_ATTRIBUTES2
+ ioctl
+From: Sean Christopherson <seanjc@google.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-Christian Brauner <brauner@kernel.org> writes:
+On Wed, Jul 01, 2026, Xiaoyao Li wrote:
+> On 6/19/2026 8:31 AM, Ackerley Tng via B4 Relay wrote:
+> > @@ -4969,6 +4973,11 @@ static int kvm_vm_ioctl_check_extension_generic(struct kvm *kvm, long arg)
+> >   		return 1;
+> >   	case KVM_CAP_GUEST_MEMFD_FLAGS:
+> >   		return kvm_gmem_get_supported_flags(kvm);
+> > +	case KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES:
+> > +		if (!gmem_in_place_conversion || !kvm_supports_private_mem(kvm))
+> > +			return 0;
+> > +
+> > +		return KVM_MEMORY_ATTRIBUTE_PRIVATE;
+> >   #endif
+> >   	default:
+> >   		break;
+> 
+> this looks inconsistent with the
+> 
+> 	case KVM_SET_MEMORY_ATTRIBUTES2:
+> 		if (!gmem_in_place_conversion)
+> 			return -ENOTTY;
+> 
+> Well, the check of
+> 
+> 	if (!kvm_arch_has_private_mem(f->kvm))
+> 		return -EINVAL;
+> 
+> is buried in the following kvm_gmem_set_attributes(). How about moving of
+> kvm_arch_has_private_mem() check to put it along with
+> gmem_in_place_conversion check in kvm_gmem_ioctl() in Patch 13?
 
-> I remain very confused by our coding assistant contribution guidelines.
-> I'm going to be a bit polemic now but this seriously in good faith.
->
-> Why precisely do we require all this detailed information about what
-> specific coding assistant was used?
+Me confused, patch 13 already adds the kvm_arch_has_private_mem() in
+kvm_gmem_set_attributes().
 
-From my memory of the discussions:
+That said, the ordering here is wonky and misleading.  A cursory read of the series
+would make one think that waiting to advertise KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES
+makes it safe/ok for KVM to plumb in support for KVM_SET_MEMORY_ATTRIBUTES2 over
+multiple patches.  But that's not actually true, because the ioctl becomes live
+the instant the code exists, userspace doesn't need to wait for KVM to formally
+advertise support.
 
-- If a specific LLM turns out to be in a bad position with regard to
-  some copyright ruling, we can identify the commits that might have
-  been tainted by it.
+To further confuse matters, it is actually safe/ok to iteratively add support,
+because it's all effectively dead code until "Let userspace disable per-VM mem
+attributes, enable per-gmem attributes".
 
-- Similarly should an LLM prove to have an inclination toward specific
-  types of security issues.
+So, I think we should go a step further than what I think Xiaoyao is suggesting,
+and fully squash patch 17 into patch 13.  That way the reader doesn't have to jump
+through as many mental hoops to piece together what is happening.  It'll obviously
+be a bigger patch, but should be easier to review/understand overall.
 
-Whether either of these would ever actually prove useful is not
-something I can hazard a guess for.
-
-> I find it very irritating that our git history has effectively started
-> to function a bit like a free advertising platform for a bunch of AI
-> companies and their proprietary agents and models.
->
-> And it reamins unclear to me what exactly we do get out of this detailed
-> information: Do we want to run statistical analysis on what agent and
-> model is used the most and publish that on LWN at some point?
-
-...wasn't in my plans ...
-
-> I acknowledge that my stance is even more radical: imho we would just
-> stop it with any disclosure requirements completely. It's useless imho.
-> We already see that other than core contributors most people don't care
-> and will just not disclose their usage of AI.
-
-The widespread ignoring of the disclosure rule is, IMO, something we
-need to address somehow; were I still on the TAB, I'd be raising the
-issue there.  Either we find a way to be serious about enforcing the
-disclosure rule, or we should just drop it.  A rule that everybody
-ignores is less than useful.
-
-(That said, 706 commits in 7.2-rc1 include Assisted-by tags, so *some*
-people are complying.  That's about 5% of the total.  What do we think
-is the actual use of LLMs for the creation of kernel patches?)
-
-jon
+Oh, and that combined patch should carve out error_offset straightaway, so that
+the full uAPI can be reviewed in a single patch.
