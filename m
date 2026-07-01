@@ -1,81 +1,160 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6ED3B3894;
-	Wed,  1 Jul 2026 17:44:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C1C4C900F;
+	Wed,  1 Jul 2026 18:29:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782927866; cv=none; b=qP9jdg8IodBvc6H5FjfAzbzkmAv4C53djd7AuiXLhc2BeO8fvtGELB6IFXUI5nq8XQhvSdKJXdV2bxxEoI6y+l24xp1hTuLfL6kvkpqVJCXfuU4K2S+c9hnRUICppKby2oiG9mwmERG61Q6pLzsLpTWQ3omdN84shQk33ou8GN4=
+	t=1782930563; cv=none; b=SMOBtf8CVu49D53G7RT4aSbLWNbkWQTDiQCc8bq4Shntzu6N9r3E0bdaeUmikAmHfJe3E3hevVmhmdaBHvLzLR5s3P3q5fmqWU+SDnJpp0KpKCYFZCv/9Za2DXSHd2sKOmXiK/NTrs2VA1Hzq3MgcHVtLhjrjX/I4ctPUzzavuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782927866; c=relaxed/simple;
-	bh=y9izET4NOx8LcJvUhAZwHHb0PC2pE68DEeGvgFjPY1o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=utJlfi3vdTuoaszCs5DyN/nBdRDWUkW/+gmlXEEKNpdOQTUk8A/sm1ZL8QotCpMWBg5ljWHRxi2XAouz3KmMWkVkOBNyLFhapyWBT+rXPSF5V2kGKFZRq/dSi0uIst4WwuwbYwXEgCXT+JDSKHsG38Vp+D8KCH6t9jZzxvnV77s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mCbtCvze; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782930563; c=relaxed/simple;
+	bh=10AcviweQW51IPRh1jm20Ahl6j/+XlEi4WIy7pQmk7I=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AKhGzHhlezWs0k3Cag2NJtQ4p/kr5mKwSNCdHPCQtBtcQfufmOGvn7HBSDQMBsNqHsiFDE4EsGR32mMrEfi5g4o7uvZD43gNKauivHbOXYRBvXDC5rfQtKVqHz9t42VgrENA4qstA64k8iAFRmIELpLJbUn15Ro71Aau6UdyFQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JlKE8zZZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mCbtCvze"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB7091F000E9;
-	Wed,  1 Jul 2026 17:44:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JlKE8zZZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEFE11F000E9;
+	Wed,  1 Jul 2026 18:29:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782927865;
-	bh=AZUtVGDi2E1uDHHozjSVNvV+vNTQLZohC8EXeeFcY9g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mCbtCvzedxySlWRFDyqnWlbxwuEQgDPW/qZSCpQjl9D2UmFZV8L4YDIfm4RSS9vod
-	 I7GYVulM7S8po8qeeOqLoavXuSJVdOqckDiKY0ejfbrvcLzdYsgXuKu+kG5ATFtEay
-	 4BqhcGHZVM2rO/M2b+zldnjMviI076o2E/1q0h8YLge52bwWr6MsYCPLIkElbJKGjw
-	 BvESDCIUL2e7w3Z0IEMvYKqNZssJLmN48bAEZXhShjCXHywWfFK49ju2V2cbH9PmPc
-	 aVcoWJ9mfWbCdMsERUV9iorNGnf5dC5tJvh0QzeAfIPipBSf3TfVTZWA5YWht22anG
-	 gLoqFOGCu9l+g==
-Date: Wed, 1 Jul 2026 10:44:22 -0700
-From: Namhyung Kim <namhyung@kernel.org>
-To: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v13 04/11] perf/probe: Ignore comment lines in
- dynamic_events/kprobe_events file
-Message-ID: <akVR9oUGIjmheePT@google.com>
-References: <178271357142.1176915.7193483024740701480.stgit@devnote2>
- <178271361825.1176915.16095297120719039761.stgit@devnote2>
- <20260630073211.2a505d1f31e5fae1bf03b81a@kernel.org>
- <akMO53eG_4YKJH0j@google.com>
- <20260701073939.81842d6f6bd139a329c45c7f@kernel.org>
+	s=k20260515; t=1782930562;
+	bh=ZWXuftUjtKRYXAZZSyNmzTbqBic41KIMqHiPTJZUbvg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=JlKE8zZZUDpylInkTkrkthFs8CCs/JwaHzG1A5scAI8qJFy2jz1UBw/xhULgb5th/
+	 LSMF5FHAqI2hT4gt73wLpUSr5BK2s1v7+5mpqV1opKypgC44byz9f5ZCzTRjCsbGVG
+	 Hgjz86uPsWpzsnGOwoqLgomjRzuCzkse4acRI6zRcfV/OyfFw4FViTSajxRq2F0B+V
+	 SmL6IzvSDMNu5DDEUm/T3kD74XiTZbvsOT2so9MERgR6Q7/swEc9OM3SYx2UTaOwaR
+	 l4zAapFjzIwxBQjiuPulSyz/3f14aCBt1bq060rLFENaefEb/TWUvycskEZ0uYyUKe
+	 CTp23c7guiL/w==
+Date: Wed, 1 Jul 2026 19:29:15 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Conor Dooley <conor@kernel.org>
+Cc: Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, David
+ Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Mark Brown
+ <broonie@kernel.org>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>,
+ linux-spi@vger.kernel.org
+Subject: Re: [PATCH v5 1/3] dt-bindings: spi: Add spi,device-addr peripheral
+ property
+Message-ID: <20260701192915.2fca6b06@jic23-huawei>
+In-Reply-To: <20260701-immodest-carrot-611d255656b5@spud>
+References: <20260701-ad5529r-driver-v5-0-ed087900e642@analog.com>
+	<20260701-ad5529r-driver-v5-1-ed087900e642@analog.com>
+	<20260701-immodest-carrot-611d255656b5@spud>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260701073939.81842d6f6bd139a329c45c7f@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 01, 2026 at 07:39:39AM +0900, Masami Hiramatsu wrote:
-> On Mon, 29 Jun 2026 17:33:43 -0700
-> Namhyung Kim <namhyung@kernel.org> wrote:
+On Wed, 1 Jul 2026 12:04:37 +0100
+Conor Dooley <conor@kernel.org> wrote:
+
+> On Wed, Jul 01, 2026 at 08:40:39AM +0200, Janani Sunil wrote:
+> > Some SPI devices support sharing a single chip select across multiple
+> > physical chips by encoding a device address in the SPI frame itself.
+> > Add a generic spi,device-addr property to document this per-peripheral
+> > address. This property belongs in channel or sub-device nodes of
+> > peripherals that use this addressing scheme.
+> > 
+> > Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+> > ---
+> >  Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
+> > index 880a9f624566..3774e8018355 100644
+> > --- a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
+> > +++ b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
+> > @@ -142,6 +142,11 @@ properties:
+> >      minItems: 2
+> >      maxItems: 4
+> >  
+> > +  spi,device-addr:  
 > 
-> > Hi Masami,
-> > 
-> > On Tue, Jun 30, 2026 at 07:32:11AM +0900, Masami Hiramatsu wrote:
-> > > Hi Arnaldo, Namhyung,
-> > > 
-> > > I forgot to CC this. Can I pick this patch via linux-trace tree,
-> > > or would you pick this?
-> > > This is a part of typecast series [1] only for debugging.
-> > 
-> > Thanks for letting me know.
-> > 
-> > I think it's better to route this through the perf tree as we're seeing
-> > a lot of cleanups all around the code base.  Having this together would
-> > reduce chances of future conflicts.  Does that sound ok to you?
+> To match other generic spi properties, s/,/-/.
 > 
-> OK, thanks for confirmation. Then I'll drop it from probes/for-next (and probes/core).
+> However, you don't actually use this as a spi peripheral's property in
+> your device binding, so you've got your wires crossed here somewhere.
 
-Thanks, I've applied it to perf-tools-next.
+If we are going to make this generic (which I'm not against) I think
+it should also work for the case of multiple independent devices.
+So it can also be a top level device node spi property.
 
-Best regards,
-Namhyung
+That kind of makes me wonder if we are better off having it always
+in the top level node, but allowing multiple values to represent
+sub devices under this.  That would leave figuring out mappings of which
+channels are on which device to the driver. The driver must know the
+mapping afterall.  For the example something like
+
+
+#include <dt-bindings/gpio/gpio.h>
+spi {
+    #address-cells = <1>;
+    #size-cells = <0>;
+    dac@0 {
+        compatible = "adi,ad5529r-16";
+        reg = <0>;
+        spi-max-frequency = <25000000>;
+
+        spi-device-addreses = <0 3>
+...
+
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        channel@0 {
+            reg = <0>;
+            adi,output-range-microvolt = <0 5000000>;
+        };
+
+        channel@16 { #on second device using dev addr 3
+            reg = <16>;
+            adi,output-range-microvolt = <(-10000000) 10000000>;
+        };
+        channel@18 { #3rd channel on device using dev addr 3
+            reg = <18>;
+            adi,output-range-microvolt = <0 40000000>;
+        };
+    };
+};
+
+Where devices are truely independent then you would have separate device
+nodes each with one entry in spi-device-addresses
+
+I'm a bit dubious about putting this in the spi namespace though given
+it is not part of any standard specification.  Do we have any precedence
+for that sort of thing?
+
+Jonathan
+
+> 
+> If it's a generic dac channel property (as you use it) it should be in
+> dac.yaml (or adc.yaml for the other device that I asked you to add it
+> for as proof of being generic), or it is a spi peripheral property and
+> needs to go into the dac node itself.
+> 
+> pw-bot: changes-requested
+> 
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description:
+> > +      Device address used when multiple peripherals share a single chip select.
+> > +
+> >    st,spi-midi-ns:
+> >      deprecated: true
+> >      description: |
+> > 
+> > -- 
+> > 2.43.0
+> >   
+
