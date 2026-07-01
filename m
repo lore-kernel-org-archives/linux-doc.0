@@ -1,85 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060EA477E2A
-	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 11:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5430A478E3D
+	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 11:45:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782905241; cv=none; b=mAp/X82+ir8DBPmAAFXMZzfQqOsGnBL6BJJOpRsQvA7/vSnTpyShdJcARFnqRHXIsGM+joHy5eL96jEq9htjoJw9qS4XwHFStB2Xd+DdrY7H3f0nnOEaVBRmvnLh/fMzxRW3P8zqdXsnEsa6R7Z90PshikrVKoNJOSivh/5WTeE=
+	t=1782906317; cv=none; b=YlEMbu4/0L28kjzUHL/12VJQ8qcetM+SWq7CMbUvatqZm2gDvC4Q8dKqVZxr45J3jLgkxkW7RZiN3RtlBadRQZDFi//XyXrF+W9YH8w8XFlCCNWPKRcpCReCgansB4dh2S0PyT1UhO3zZB7rJNR6rRm5NTV0bcHCtUABofNxf8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782905241; c=relaxed/simple;
-	bh=CCOzFLkfJgt+CMumxNevtMRsu20SLhTsRhYEhL2ZFrw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=einidtKuIvK6lXdM++0ZV632Qrh0uCWUQ7y/CXecaoBQ+pdHiBT8b/Tk5+jgCPqsWw0D331S+oOasfW/Xm/rxRF5Q8ulN34dsnL40MZr5XNl+2UrF2CQmnhG3gT/eAz518cpzWr4S9+kaDhpZIguHFaHpSiFKYKvI5EHvs8YwXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CRrwGtXk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782906317; c=relaxed/simple;
+	bh=8bDt6WmHd38RjI3I07PX4H7z+6SwekPIKJxwxBqTYLA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QKZiDzQSSWpEPhKKEAv/7fA8Ktuvs3+7X7aT7FKRO+AFk8wVClEm/zZGBz6g6E+UhExzc+YXaQaZ8eWI2VYSmwoDJ+wCbMMGmnauOxnPRNC32tsCTIRNZuiVVdx05wzqDd33WtXMmuHN4aMcqD9S/vtHMj4uVzCdvu0yWE/9c0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hFmz9lZP; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CRrwGtXk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0BC51F00A3E
-	for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2026 11:27:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782905238;
-	bh=6Z4qh1P94ZbI1sFyg6TBGTHtGazITFuVN1NDcYfzFck=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=CRrwGtXk5CpcQ4AnjsykpbmP3ScPNzaF5Vj6YCK1/v7TjVJCKU4vkfMGpgK7Uy5Lt
-	 HFt7Fp1OEc0LFiM6qsTOR8ZSZImEz4Gpxhwx3Ktxc+fOcwEUCjlGVssQZzOTe83SoW
-	 JaNdHE5AVwc87VEB40KH9MOHU7bVpmelxV9GW5Pc6tMzr/IEmhjdg064z5fLBkQL4U
-	 ICA2RR4BKnos5QyFENCkrDKXx/bC+7yrMBQTvH8grHQqK+k70uXDNW7zNf1yUyG0K4
-	 H7xT0sQmXtf2mBHiv5iZWnXEqTUZyYzCDPMfwamtW4KJ4Phwuh9IBawmkKVCp8rmxK
-	 TskJWw0BHcQ7A==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aeb77b3afbso535573e87.1
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 04:27:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Ro1mRtXz+f9UaM14JzTdtiwKBz4RODTkISp8l4dfVb2tuoymDDpBhW8Ufl1L86dellUQtUGI2M0678=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdftEIceVw/V4ara8TG3C5SCJ6BdBqy1eqWjGpqZ4eFAIEUhSr
-	4sjLxw/IoJMFu0dGE/pYwL4Z6BNIsCf9+GorXXTk2yvw/eRpkQNbCdHvF09GejvSUmgubfecoVq
-	IyJ/RyQ4aVQRu+kXzO7D0NWrBjpPiFFU=
-X-Received: by 2002:a05:6512:2c0f:b0:5ae:be88:6db3 with SMTP id
- 2adb3069b0e04-5aec67b2b36mr324767e87.29.1782905237123; Wed, 01 Jul 2026
- 04:27:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hFmz9lZP"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-37de961d1bfso358402a91.0
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 04:45:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782906315; x=1783511115; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/ee7YMVRzqI+ZD40aoZQ9RtQKlP28mAE9ycV55I3/ig=;
+        b=hFmz9lZPofobwn/4XRZP9xPGmW8OajGNHW1Qluj0fBDepLqvCsfV9ap6u3UxDZZr1z
+         ZqewUoqGpRLJI/R5YSUElyMDqlDoQXSU1hd32pwFP4X/ah5lv5AODrRugGLoaA+yV8a0
+         UfMtTl0e9ZsGJruwgtl9TH5OsdQ+yHXh80jKycQTFF4LK0bvxYbxxkkFkRcaBhegJ436
+         HGfekBdG7MpndTUiAGj3uh1KgCGWm8xoPmAU/mVApupvZtYwt8YYtbIaIkvA8CNIdxc6
+         MnYYiRGJr8C0bZMtZEgHeyXeLJFCBEVNHrjpiB8ItCf8s7xMH9b1Z04F9Wk80keWrCMV
+         A5Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782906315; x=1783511115;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/ee7YMVRzqI+ZD40aoZQ9RtQKlP28mAE9ycV55I3/ig=;
+        b=eh+pB5tKDgE9RiTS/SEZ/YfinmEZlDarMIRYqNb/BgWbb1nZK25SlF/jQn4lest2+p
+         A/I61cXQzlcMs+dAJdthniGGpBDVA+oYmJYSbImr5IEenjyZ+wEZ0zG2ldaBKapTjfu2
+         zXm6cQtDlldKRGC1XjEsewIvwxt3IuGd2oCjGPxgEeETGWH16cQ/K3korN5lzs+ooSA5
+         vOQnpeGMX1f0icbx3asY7VNX2mFZoieBCAH0u3kvOFlowy+Xqmxq/sgs0LEKQVjZGpKj
+         +Od49G8zAEkSePMQOvFbvMsgzatFAA2bEALylDUA/dPMFpQZnG6r8klmx/iPw0N2Y/ni
+         QEsQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro2NQ3dHyblXoF0oUNjz1Kt2QZrOf2vXFJCdV5BvhZzYAhf/dufj8NLRZK85bzkIZVyb6TxkEyCq2g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6wvbOhmVEAh+B0Od+xwSDbPeQcxaoeijDxt9uXCpqUvhZbAon
+	3fFmgBH4j75biF7iKh2kVPEbzeD1RZ/XvIyLMkzwGjVyKuKXhIbS8pAT
+X-Gm-Gg: AfdE7cm5KuZ+/x8USMD7M6rKgV9XHHT+zOZwefecrshZr6+Wu86MYB85UKhihoY96N5
+	SNQ4L3mER50SyWhY3eqddA6eGmTH7Sm0OyRlNKT4xga3ftZTaWfGkgCTgnWNqtQw3CAWF3wBKrC
+	yQVJrVAsQR/dnAnpLMQ6l0G4OkQYXX1cPbE0X88PbyCuuDgXQLgOpN3ZDFd6v9g715pdilulTO0
+	ciS0FNDgNw8p7XCSqjO2Y58cGwAXrSLoEVptjSpgDu7E+ECNeXw8Sw+3UNNoWc8srbWDXVbxrKK
+	U7ypm6DpKMw1mL34MC8psy0ZUYcaVNSUAOkHamEfTS4oK2g078P8qt02KDhmHgEcMXBrqg+6Ap1
+	TuEIbVG/kHpTAh4S7IVuN4dHOn5PSffpM2Jd6jwspiNrF7SRYS2Z/emx4EOXQquBBjJapw93DRO
+	J3CHfzdbrKDbu2Z8mbuVP7g3OetnWkYLgJukZ21YfWo4I=
+X-Received: by 2002:a17:90b:548b:b0:37f:9ce1:cdab with SMTP id 98e67ed59e1d1-380baa971aemr453297a91.33.1782906315613;
+        Wed, 01 Jul 2026 04:45:15 -0700 (PDT)
+Received: from [10.125.192.77] ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38095d4c263sm1750153a91.3.2026.07.01.04.45.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Jul 2026 04:45:14 -0700 (PDT)
+Message-ID: <4ec2bd64-af40-8ebf-b8a8-2dd7421a1100@gmail.com>
+Date: Wed, 1 Jul 2026 19:45:06 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260701045640.3130090-1-tzungbi@kernel.org> <20260701045640.3130090-2-tzungbi@kernel.org>
- <2026070110-unrented-crummiest-d6af@gregkh>
-In-Reply-To: <2026070110-unrented-crummiest-d6af@gregkh>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Wed, 1 Jul 2026 13:27:04 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jNq5SMtAxLb6UqUO6OrZSYKK1+AfY6CQAcym7q0GntKA@mail.gmail.com>
-X-Gm-Features: AVVi8CfypQtJjqXcSgyTkGn6D_6xva6NAxRxk7oopv5I9Wg-xygkFTB1rarCSVg
-Message-ID: <CAJZ5v0jNq5SMtAxLb6UqUO6OrZSYKK1+AfY6CQAcym7q0GntKA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] PM: sleep: Rename module parameters prefix to "pm_sleep"
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Danilo Krummrich <dakr@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Pavel Machek <pavel@kernel.org>, 
-	Len Brown <lenb@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, driver-core@lists.linux.dev, tfiga@chromium.org, 
-	senozhatsky@chromium.org, Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.0
+Subject: Re: [PATCH v5 4/6] mm/zswap: Implement proactive writeback
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org,
+ shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com,
+ nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev,
+ roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
+References: <20260629112032.20423-1-jiahao.kernel@gmail.com>
+ <20260629112032.20423-5-jiahao.kernel@gmail.com>
+ <akMJ8UfeZXrVe5LN@google.com>
+ <cbbdf506-b67d-193c-2c94-bacf828d559f@gmail.com>
+ <CAO9r8zNCEis2QHROEsM5QZsb_H4ofNjA_sE-pM7SVxtgHg_rqg@mail.gmail.com>
+From: Hao Jia <jiahao.kernel@gmail.com>
+In-Reply-To: <CAO9r8zNCEis2QHROEsM5QZsb_H4ofNjA_sE-pM7SVxtgHg_rqg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 1, 2026 at 9:20=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Wed, Jul 01, 2026 at 04:56:39AM +0000, Tzung-Bi Shih wrote:
-> > Currently, the module parameters defined in drivers/base/power/main.c
-> > use the default prefix "main" (derived from the filename).  The prefix
-> > is too generic and non-descriptive.
-> >
-> > Redefine MODULE_PARAM_PREFIX to "pm_sleep." to group the module
-> > parameters under the namespace instead.  This makes the parameters more
-> > descriptive.
->
-> You just changed the user/kernel api, right?  That will break things...
 
-Or not, if that part of the ABI is not really used or the users of it
-can live with the change.
 
-This actually is an attempt to correct a mistake in the ABI and only
-one module parameter is affected by this change
-(dpm_watchdog_all_cpu_backtrace).  I'm not expecting the people using
-it to get a particular heartburn about the change.   Or if they do,
-we'll back off.
+On 2026/7/1 00:10, Yosry Ahmed wrote:
+>>> Before going through more versions we need to figure out if this will
+>>> pivot to be a proactive demotion interfcae for swap tiering.
+>>>
+>>
+>> Yes. Should I drop patches 4-6 in the next version and wait for swap
+>> tiering to be finalized?
+>> We can try to get the non-memcg parts (patches 1-3) merged upstream
+>> first. This would also give them plenty of time to bake and catch any
+>> potential regressions. Thoughts?
+> 
+> Patches 1-2 can be sent and merged separately, yes. For patch 2,
+> please include some numbers for the writeback performance before and
+> after batching.
 
-I'm now thinking though that using "pm" as the new prefix might be better.
+I'd love to collect some performance data. Do you have any recommended 
+benchmarks for this?
+
+Thanks,
+Hao
+> 
+> Patch 3 does refactoring in preparation for patch 4, so I don't think
+> it makes sense on its own.
+> 
+
