@@ -1,129 +1,101 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CD5288AD;
-	Wed,  1 Jul 2026 03:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70274284690;
+	Wed,  1 Jul 2026 04:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782877676; cv=none; b=N2nYN2SkmgYQtjPX6XR2w1PGyCc0yUAtFIc1VZ80Cl8OwMqihfDBZXn5njgacx+Qfn8vEg0q9W0sgLMchqvDCWn1oOdKQ80XKe6npEqVbYGzc/uMLy+imTTptCmQCvVd0I0K4PXArEszAG/Mzb3AkxT48Bn/SChzOOxozpu+2rY=
+	t=1782881828; cv=none; b=oxLBI2rYe6iiU3gXyXAErUYAmGG4bSW9GJyPE18X1ZpphpXkP6c6tqYsvgF6flviTVjyxq6b3nK7/X0DY56UWyTOgRVBlE7WZISVCFQlgRe6KaCMWFQY4GrUTe5nPzJNM5zvASaQPO02Qc7jaAsSA3BVBhL9IWQfeUPBMql4DL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782877676; c=relaxed/simple;
-	bh=FUb0krVk+zdt6AgQLMqFZql8fNqlZBxjvdFQZAhptdo=;
-	h=Date:From:To:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=qzR/A1xXuiPghughs7LdiiK3/QpCTmoRslXD+2tVuC5aTYA6GqBVhlTDJm1EmgF1BUEVKg6mSV8z8Vd9gq+Nkg4fQVedAK8EupIB3Wd4xIxRM9x0uaLJEK7/4rnC2Y+mN1IFmoUz23KnNnr38mOu39Gb7qB+i2ItQl1aYifcgGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pn7KZioB; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1782881828; c=relaxed/simple;
+	bh=Rtk9Tnj/g3wAI3I78XKWY+cPNKDlT7OxHadE2D4/g+s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X4O1PSEbM5/DC0/smKOm21KFrXIJMXVmupoTStzDbI5QCeURgYRNXB6aMDXVykRN3MpcOz/rUfQ+T8EviY0WipMlAitWcZroO3RKSKgAt/XGuY1CEZvGTqShaSxVi4gbe3L5G+WabGbo3nW8UxmUHv5i+iH/eSPemeysereJnvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h8jjgptM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pn7KZioB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Message-ID:References:In-Reply-To:Subject:To:From:Date:Sender:
-	Reply-To:Cc:Content-ID:Content-Description;
-	bh=nApW0TbiTJY7J1m6P34EZWWiq5RdRdYwQqXDhkOn3wI=; b=pn7KZioBdcGJCWEiOF2drr9WrU
-	Rsyjet+cONr5A88PON0hzE0H7TwZSG+Y88HyF05ArHZOE7RuERs2NzCxWfvSYVfX6i9e14cnIRAgc
-	VDRXVtX10rKfVZesUl00lO3v6VdXQ+gKeCQwuy2nl3ChRZIePUU3hRNsKAXc+h89HQw4WqUlQtwZI
-	b6RbHhw/IJ0+z/LAE+ApSYqKZJB6De/xeEH/8lfut0o10m2rBBJAkpGDtBbvHA7Ij2WAOsd0jxsiT
-	H2gxcNKTA7dG1JYevQGS7xHyaZWih3Z+kfQlVLra6J46tpAFirLY7nCuM1SYkSsv8R70RD+nWKJ+G
-	9FD+Lj2w==;
-Received: from [129.95.232.135] (helo=ehlo.thunderbird.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1welvN-00000005x0N-1gwI;
-	Wed, 01 Jul 2026 03:47:45 +0000
-Date: Tue, 30 Jun 2026 20:47:41 -0700
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Baran Tuna <barant@fastmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: Fix typos under GPU TODO
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20260701025233.594162-1-barant@fastmail.com>
-References: <20260701025233.594162-1-barant@fastmail.com>
-Message-ID: <01433E06-1132-4580-93FD-D6E82341A041@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h8jjgptM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B83271F000E9;
+	Wed,  1 Jul 2026 04:57:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782881827;
+	bh=ImGApKJTmjARaCfqcHR9yRZArsELHyHzbxeM32ff4AU=;
+	h=From:To:Cc:Subject:Date;
+	b=h8jjgptMqSMTDsj00UU86fkOGabHDlHTgqRV6NkV3dy0tNBJ79S1JgO1jhtRI1VB3
+	 W6dq1N0hj2DSxo0fUuWIMYSVr46cRXUlm31iNppff3L/c+klJXobGWSwvF496ErQdc
+	 5PFMJnSxs5badD/8m2p1d8maV42etxBaAX3sIqjY4r8KpWnAFZdtknl6xnbnaW+/29
+	 5LZW+dBLniqq+3V2H2ey6iM9X18UhDUiuIm6/woOX3Wf/GQjDcudPZjiuIzc3yyH3+
+	 A4n9FKbuNtxL93iNwome1Ai+ywpi9O9jtxFmADZeT7Ouz+blIEAWlpRO16108ac6h2
+	 s5XccVTjfr2Dg==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	tzungbi@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	tfiga@chromium.org,
+	senozhatsky@chromium.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v5 0/2] PM: dpm_watchdog: Improve DPM watchdog configurability
+Date: Wed,  1 Jul 2026 04:56:38 +0000
+Message-ID: <20260701045640.3130090-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On June 30, 2026 7:52:33 PM PDT, Baran Tuna <barant@fastmail=2Ecom> wrote:
->Fix minor spelling mistakes in GPU TODO section of documentation=2E
->No functional changes=2E
->
->Signed-off-by: Baran Tuna <barant@fastmail=2Ecom>
->---
-> Documentation/gpu/todo=2Erst | 8 ++++----
-> 1 file changed, 4 insertions(+), 4 deletions(-)
->
->diff --git a/Documentation/gpu/todo=2Erst b/Documentation/gpu/todo=2Erst
->index cdddf8db35f5=2E=2E3b9999319829 100644
->--- a/Documentation/gpu/todo=2Erst
->+++ b/Documentation/gpu/todo=2Erst
->@@ -55,7 +55,7 @@ There are still drivers that use drm_simple_display_pip=
-e=2E The task here is to
-> convert them to use regular atomic helpers=2E Search for a driver that c=
-alls
-> drm_simple_display_pipe_init() and inline all helpers from drm_simple_km=
-s_helper=2Ec
-> into the driver, such that no simple-KMS interfaces are required=2E Plea=
-se also
->-rename all inlined fucntions according to driver conventions=2E
->+rename all inlined functions according to driver conventions=2E
->=20
-> Contact: Thomas Zimmermann, respective driver maintainer
->=20
->@@ -278,7 +278,7 @@ Various hold-ups:
->   valid formats for atomic drivers=2E
->=20
-> - Many drivers subclass drm_framebuffer, we'd need a embedding compatibl=
-e
+This series improves the configurability of the DPM watchdog.
 
-   an embedding
+Currently, the DPM watchdog timeouts are fixed at compile time, and the
+watchdog is always enabled if compiled in.  Also, the module parameters
+defined in drivers/base/power/main.c use the generic and non-descriptive
+"main" prefix.
 
-Otherwise LGTM=2E
+This series addresses these limitations.
 
-Acked-by: Randy Dunlap <rdunlap@infradead=2Eorg>
-Thanks=2E
+Patch 1 renames the module parameter prefix for drivers/base/power/main.c
+from "main" to "pm_sleep".
 
->-  version of the varios drm_gem_fb_create functions=2E Maybe called
->+  version of the various drm_gem_fb_create functions=2E Maybe called
->   drm_gem_fb_create/_with_dirty/_with_funcs as needed=2E
->=20
-> Contact: Simona Vetter
->@@ -303,7 +303,7 @@ everything after it has done the write-protect/mkwrit=
-e trickery:
->=20
->       vma->vm_page_prot =3D pgprot_wrprotect(vma->vm_page_prot);
->=20
->-- Set the mkwrite and fsync callbacks with similar implementions to the =
-core
->+- Set the mkwrite and fsync callbacks with similar implementations to th=
-e core
->   fbdev defio stuff=2E These should all work on plain ptes, they don't a=
-ctually
->   require a struct page=2E  uff=2E These should all work on plain ptes, =
-they don't
->   actually require a struct page=2E
->@@ -891,7 +891,7 @@ Querying errors from drm_syncobj
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> The drm_syncobj container can be used by driver independent code to sign=
-al
->-complection of submission=2E
->+completion of submission=2E
->=20
-> One minor feature still missing is a generic DRM IOCTL to query the erro=
-r
-> status of binary and timeline drm_syncobj=2E
+Patch 2 introduces the "dpm_watchdog_enabled" module parameter to allow
+enabling/disabling the watchdog at boot time and runtime.  It also adds
+CONFIG_DPM_WATCHDOG_ENABLED to set default value of the module parameter
+at compile time.
 
+---
+v5:
+- Rebase to v7.2-rc1.
+- Fix Signed-off-by lines.
 
-~Randy
+v4: https://lore.kernel.org/all/20260611021219.2093476-1-tzungbi@kernel.org
+- Address review comments.
+- Patch 3 in v3 has applied separately.
+
+v3: https://lore.kernel.org/all/20260608021526.1023248-1-tzungbi@kernel.org
+- Address review comments on patch 2.
+
+v2: https://lore.kernel.org/all/20260604090756.2884671-1-tzungbi@kernel.org
+- Form a new series.
+
+v1: Doesn't exist.
+
+Tzung-Bi Shih (2):
+  PM: sleep: Rename module parameters prefix to "pm_sleep"
+  PM: dpm_watchdog: Allow disabling DPM watchdog by default
+
+ Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
+ drivers/base/power/main.c                       | 14 ++++++++++++++
+ kernel/power/Kconfig                            | 10 ++++++++++
+ 3 files changed, 31 insertions(+)
+
+-- 
+2.55.0.rc0.799.gd6f94ed593-goog
+
