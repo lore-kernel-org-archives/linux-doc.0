@@ -1,222 +1,346 @@
-Received: from mx0b-00128a01.pphosted.com (mx0b-00128a01.pphosted.com [148.163.139.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E902C187;
-	Thu,  2 Jul 2026 02:50:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.139.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782960650; cv=fail; b=qLDZt7ZYYcj5wwvJarVxmWirBY+W5dzrQe2dNNTWSIhR9pGtDHg5m370s0FTlBr2knEof79FseS6pyShBzaWNj+Qhv5QupxYYlYkbZRFhiA2boIpturXYI7sMYcSODAUSJD7ilkzGPnT3n5vHQ7W2eYtg/rfEx2ADJvvIqSf6EI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782960650; c=relaxed/simple;
-	bh=tYmugNZALu04rKNZgUOGi8of3NKbGG8mXTx1Lhh7XPc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=twpV5U87VxlFChNMmdXSYJzmDo83wsVvUoyvmJPGwPYAGoI0TY9y8fQ3KEU8MCEPs36aspEPRGy6dv6Kppdz5Thdr6CUu3yQyGFMkRf9qnE4zSUDVqx6Sf1IKBtRpfAid/IgMEuCKqEfv/0s9+/8cM24mEkoAeXXp61LdhN70dQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=kyaFnYJQ; arc=fail smtp.client-ip=148.163.139.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7BB2243964;
+	Thu,  2 Jul 2026 04:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782966599; cv=none; b=URFDo8rBFG+Y7qIyZI2PhnyM48cmsBqzBYik5ljScbW8u8Fs7lLvxmcc1jsivBaCVabrVq0Enop/KnrEc7njVrVKy19S/qzrlo64rGloNIELkNPTlQ5SBGdbQIcwIF7hYUG592wkEuzTMHzkdopW3NfuWRujIblEnfIFURgFWgM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782966599; c=relaxed/simple;
+	bh=Y9h0JPhXA+HyjARHUiHBjNIEFlUqZBKIAi+lwAhYOLs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fvDqgm3HD5KOIdXCdrvrvmnwKgGg6CvJWP9fPbkDJgCmyBhO8ffTFKix8zBNDLCW38pYxuBqKDZzqPJllGMdSp8tC5AmUXYRzphq8T0P6pmCy2BKmpuN19zGbBIfY6Vr6wTTWx1+myU+4S+KQhPDoutaEnWpEJqeVHlGMUp3vgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=GZE661U/; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="kyaFnYJQ"
-Received: from pps.filterd (m0516786.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6621Mcsq804212;
-	Wed, 1 Jul 2026 22:50:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=Xs/oH
-	2349xGhuKe/F+RR+o4i2ciFgjr4sUtNUciHS7w=; b=kyaFnYJQov6FDGdGbaX01
-	ya+G3+r+EpI78J3a3gXnXx6PTQVcHwObJST4fa6rg8xZb+9M/rAm1hI4fmpHsu2y
-	cD5v8+tdIeWp35ribWTUUHCPvDKasfZqIgC3C6FqKPslP7AiC+8H5roZAh/tqoZX
-	Unx5cHXvDkJNFup+d5JLEompa+ShoV/bLs1W23p3wtthdFElWnYbIpEg5CGWf/44
-	si863SCIR2wicbLR/Q4L+ipldVgQtMxz397FvkAN9Gj6cXpuAYM2x7W7PrfxSgnr
-	SSfCSZQb2YQzzzrUqcY9lhGGmCr2DEz5kjI0p4sRGA2QCZIVCZNGcVUwsSifqVk/
-	g==
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012020.outbound.protection.outlook.com [52.101.53.20])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4f5e9307rv-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 01 Jul 2026 22:50:15 -0400 (EDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SNcK6pIxdz/26k+bR/DoyZeeaiN4N3yMp2Y6Ood/bZuYVFvzAce9f39eMiEbzH+HU/+UdCqYn+QTMWYy9VxeXSDlvj4LEWC+JqcHBSUYQiD194+mhW8lX33TRxipqvHBhGfCvuPVVFOrni6u5s6NZmOY7sSfXGHYvLvlbf9bCkSepc35owT4ipW6vS12pYs8PnSW7E0fMuWh84ijLBTlKZvqOEzLp6O8e9bIDEd6sC9UKj8y+3ehWRNB5vOAmkIRqiMK1jTgYpBrevpcRrUhE+iW/6XC/d8GVcp64tpqJF8oDFqQVA4iB69xc/gHJy/oAXnotW8jY8VjuA/b2Jc7Tg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Xs/oH2349xGhuKe/F+RR+o4i2ciFgjr4sUtNUciHS7w=;
- b=GXbiiUkyNU5W51+p4MycUk7obWSNnTeQxK0FPJ5de7mX5RjIWX+5Z9/u5hUUYZBYINLig28FqriAYzAkx3diJtY7EDtV++rwNrUE8c1BtjVTv4JoOXqJE+3dlGuSggY2zhe/KeiA5/3KaZjolGSggfRI0BBTTleCyTivve93w9yQNfmYrsTy11OL1QCDKhw8h+VN9LVdtOG2dl+2LbV5r+aTUgBTACshKoUaxpah2fUzZVcKb4Ei7nOTjsOTt2MlDckmLu8SjgBd/Dnds2ULK30QlxTyNZgC6HjdL922w/10AridqxuqhZwbSU7WreXeQCsYIILIjx3mxE/PwVMQ+Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
- dkim=pass header.d=analog.com; arc=none
-Received: from PH0PR03MB6351.namprd03.prod.outlook.com (2603:10b6:510:ab::18)
- by DSVPR03MB989637.namprd03.prod.outlook.com (2603:10b6:8:41f::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Thu, 2 Jul
- 2026 02:50:13 +0000
-Received: from PH0PR03MB6351.namprd03.prod.outlook.com
- ([fe80::1578:4572:29b5:2442]) by PH0PR03MB6351.namprd03.prod.outlook.com
- ([fe80::1578:4572:29b5:2442%4]) with mapi id 15.21.0181.008; Thu, 2 Jul 2026
- 02:50:13 +0000
-From: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>
-To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>
-CC: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH 6/6] hwmon: (pmbus/max20830): add support for max20830c
- and max20840c
-Thread-Topic: [PATCH 6/6] hwmon: (pmbus/max20830): add support for max20830c
- and max20840c
-Thread-Index: AQHdCDrPjQujEK8MeUujhrP1WqLJTLZWdMEAgABEj/CAAHm5gIACUkyA
-Date: Thu, 2 Jul 2026 02:50:13 +0000
-Message-ID:
- <PH0PR03MB63510E27A6F22742D526C244F1F52@PH0PR03MB6351.namprd03.prod.outlook.com>
-References: <20260630-dev-max20830c-v1-0-a02786bde470@analog.com>
- <20260630-dev-max20830c-v1-6-a02786bde470@analog.com>
- <e5c7fcae-57aa-4461-987d-7f004d066873@roeck-us.net>
- <PH0PR03MB63514C57CA17984F0B6FEEC8F1F72@PH0PR03MB6351.namprd03.prod.outlook.com>
- <adfd2c4d-6d42-4aeb-9eff-6a059550ec80@roeck-us.net>
-In-Reply-To: <adfd2c4d-6d42-4aeb-9eff-6a059550ec80@roeck-us.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR03MB6351:EE_|DSVPR03MB989637:EE_
-x-ms-office365-filtering-correlation-id: 779d48fb-b665-4d74-2d48-08ded7e4a3ca
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|366016|1800799024|7416014|376014|38070700021|11063799006|4143699003|56012099006|18002099003|22082099003;
-x-microsoft-antispam-message-info:
- KesUkSXJ3rzKynMkAEizJQpDvWeahdcVy539f7sxUiTp30jLVrZ4TPAVS/TZCZO9hyI9B6gbef923UvZ81pXA8N0ZXGIujo+kIHlwBlXUIr1lsPvfLBrOjDlROPeWpAlPP2StdaVVpN73FLYeVAmbDAOOuAxT8HRi1CGI7qoyzhjalukgGiflebd+lPeMImWfCzgCcSd2lo253AYH38l0tcfKu1CV8neYZV6mwbvZ5LPwpTkuTrpr8KSrqJN5bglX/83Jx4hoXtOx8ig1UVrDGqhP4F49WCBSIfZMEWO3dmpQLFREc/D3kWhVCvhLYiE9gWvmMCAKnmG9GXecv91fhEH192A21wq0roN5jEBmHhN5UqzO0JrcQgimGY94GdY3AB58cRAAvSmd56tBaQ8di3lXYKSwwtWxAkv2pQbsvwJXj8jrLnZndNHRyw+TT8xO1GxOOdVEJHluIvZWsEjMLTLtt8K/Nt7jwhHC665m9/NEHE6QlQ+xg1jakKrotVWJLsQdeQ3OIafL41AHeENSDZy3Z+pNnVrKXF073N7fXZ114Lndf6224gMHTeeR2HrltUlM7qRczRxiqtbT3+AvWyfMqimsK0a9/hFznLHh6j2fpmHV9AgSP1lfVqyT/SYEBWFn3iGLMpq4Ae2Py48rMPC7zjq4/EXca8r1VArxHIuarwBMaG4xyqu4lqHCdc0BxiDR65dNy8Hfx9ASDvm/IfAtLPk/5icJIKz7YKBLks=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR03MB6351.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(7416014)(376014)(38070700021)(11063799006)(4143699003)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?FL0TQwe6c8vZnjhItzz0UU0ORhAd9GlEI6UN2j4vXYRDeTqxjzvkpvPlG/rW?=
- =?us-ascii?Q?3hdXRMwwl7erLY+dWGFBF5QGZdqPWRsQ/KDgQ4zB2HJpI3LSxMQRZKRsKRZB?=
- =?us-ascii?Q?Lp5/vJlpH8ZSkMpL5z4q21gPIsFD0lEXKGnUuvC70plVlKpOj8P8bkoMz416?=
- =?us-ascii?Q?FpmCecVgsVhv3SX1UnOM1AhLpgShJh0GS6qduVj3j6/k8fim0fItPNUYrz2Z?=
- =?us-ascii?Q?ucA3JNod62wSGsz8TBSw58vz3a9AZvYqmox+yUPJ3UmxkIhR9pZ4nj7Sr7kK?=
- =?us-ascii?Q?YuI41BzAhkvIEjGKIKOnAVBB5ZZtiPpo/qVkCB+btr8tXBTHY4458/uI9Npi?=
- =?us-ascii?Q?Nr5lhd3bkteMcrjSffVQgfCjzKtLWchA0E4i7xaOEbt2aZzBVvspHGs76NBG?=
- =?us-ascii?Q?5XDvvr+El/eMLfvM2Ct1ozXMdynPXNJpVX+jfWBzQSWEFhQN8FHqpLB2cpcL?=
- =?us-ascii?Q?r0fJRusxNZZn4WekhzGarSuV9jfQiN2GXb+BdxI3YtT05LFri/OPeM/jyp4n?=
- =?us-ascii?Q?LmP0qsgfiry9sg1cyX3tnC0FN1zJlsU+K7Yde0mPF2o/3bdtU3WR/s3cx8Lt?=
- =?us-ascii?Q?jnu0/yDmxifUEbddY/w+Y1j9kqk8TA2oBtGV6xFh/7i79c2Z3+RQtqlFco5L?=
- =?us-ascii?Q?Len5kgo1eVsjBnucILtgHSgKFbzfWoxVXXeuRFR0A3Wh4TBnvj+RVif2//CF?=
- =?us-ascii?Q?Ro2DHd/GEv0SgO3TEurX5HnrWG0re83wLrX/iv4ZVlJxHny1851odszFFlw8?=
- =?us-ascii?Q?dPGlFgYQq/Gs02X9PiBEPbKU9jDFcX13MGtegz/vHlpvT9VhwK1z3MQoqsn9?=
- =?us-ascii?Q?YOuJ4bzH1a+yNWz28fzLeyzH+QFc4CZ0tAvLtfvy7kyYuLGr2hvEx5e/1QFF?=
- =?us-ascii?Q?+850AEo7B4ljAe7H5yVw4nxXFJNbYV1m/uj+n+cpI/YXdxUdAKb4HkP8Iluw?=
- =?us-ascii?Q?HXIhu5yXCYmPGZ+mT/VAut/w+wIjgeVJh4HDZk+hOV18sSSl/UIMvXi3oZPA?=
- =?us-ascii?Q?suMUQC2v015MWdhirXcFWCeZlWprF8CmCHGZzSK7CGb7ln3/7N9zufVHcSyb?=
- =?us-ascii?Q?ZLDA8Vm/2MIywocgbW7B39745134GQJzc/21auouS+GCPWBsuYV0K3mxOH1I?=
- =?us-ascii?Q?6OCAOxewF9JnZ35ykVDhtMUYKSlSYnjSN08f7QrimPJfKa+sV2TJN+zC2b8O?=
- =?us-ascii?Q?PpU2Rz9HMaw3BEUL6klIsEBSKMhMe5A67+Bg9iKMoZAYQciH0LYF5KX3UIvn?=
- =?us-ascii?Q?1tSs2X12FHg6HNSmwsq/UqV80MvJdyBBz4/AkzMRHGZcetwmbtvUESeuJ5/1?=
- =?us-ascii?Q?d3znGJwnS/VYP89nWcwinTtuefFOgqVmAfohKz4Eloel8GELjQJv8j0IYyB8?=
- =?us-ascii?Q?u3mTyOpTEF3NjhNV83rt2jNUr0WTubZ7B4TfTucvpFalxVqIIDLPCSCzEH6t?=
- =?us-ascii?Q?m29sgNzCLSK1vgouu/PWd03tw+GiuKncMIAEBOBkgAbh7h2iYKc3NRKzG0zS?=
- =?us-ascii?Q?D5g4YeS55c9qltCtZ1ckyMOnSppDD2le51ZNQ4VS1oyWbT7aeaAaHRYzg3Y4?=
- =?us-ascii?Q?Scyhc1CW38w7ug6SOKP4XtwouKRD/HIOlaAThHVkNtc4eErUcXX4hTEdteZz?=
- =?us-ascii?Q?o60BgreArbQTJZcdZAV1dyw5LVL5vTkxL3qusiHUNvJCT12O/FuR+6ltP0J8?=
- =?us-ascii?Q?CGtW8PqxhWLkBdRnF8eMR5DXThOi+XSPitBX9Cb5aU/tg32lQJdL9cp2ToW/?=
- =?us-ascii?Q?b4mD2HWwrwP0gH2JKsylAhB/TPCB/xo=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="GZE661U/"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AF0041FCD;
+	Wed,  1 Jul 2026 21:29:51 -0700 (PDT)
+Received: from [10.163.170.96] (unknown [10.163.170.96])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9331A3F905;
+	Wed,  1 Jul 2026 21:29:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1782966596; bh=Y9h0JPhXA+HyjARHUiHBjNIEFlUqZBKIAi+lwAhYOLs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GZE661U/MX7b2kovC45juhjEWE++jycRdLwA71aNsQ9E99DLZOohzsFOIZAly30rt
+	 JZvK52KC/yD7wj2/GbNUZBE/Q6V6rjEIyfre3FBh1FXLkKWTYstRxgIp9qmiKEx/48
+	 goF5T2oKG69m/i3jdkYVSD5HTFdSYwAm7GOZVOXQ=
+Message-ID: <5a8e82f3-ed21-48a8-af3c-36a08fd2b0ec@arm.com>
+Date: Thu, 2 Jul 2026 09:59:49 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	SpGsDwCFlRTOgxoaHaY9JhrSefsoB8YAPLxw0Kby01jXKlbz8CtQN4ty4PveaPDoEw9NLh8LZovIe43T3pjL5vMDXDCj/RAPUuwCpej2Knef9FQRpw7tFfYJoczGY+QJ9/g4QV6k3liLUnMJ6kb7/a78+PCYw23iZxAW94rXe8TvbIbZBMwqpleV8Io4VJGYk1XmMzUh9gGex8z7T/PufxJYH/+Wy4LThn8sFWHf+OpuYmrhm8XOwnJy3NvKrt0g70Wg2aSOys+VYOfoRwYotcCu1WNdn+zxmSr3kGB0eJTlS3teAO2FqXH+Daer2UR18NO0ob64XEpphFANiJMxPQ==
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR03MB6351.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 779d48fb-b665-4d74-2d48-08ded7e4a3ca
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2026 02:50:13.3086
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hiRoAJstVe8FfuX4npnQV2yfoeTcNgO+wFr7PVDBEp7CL7gTIoq0S6efCD05JJZOmdP97T7oCGhJ6h70GP59r+1VsoQH2YMxqPrnH54WNWY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSVPR03MB989637
-X-Proofpoint-GUID: I7tpu8zx-WtnAUFx9JPa4Z2VhxvH2GgF
-X-Authority-Analysis: v=2.4 cv=W4MIkxWk c=1 sm=1 tr=0 ts=6a45d1e7 cx=c_pps
- a=3tfckwpITFtzIurveUQz+Q==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22
- a=ZQxX5BWu6Z8IJBb2zLX7:22 a=QbS9kZC1mrf120kMGuMA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: I7tpu8zx-WtnAUFx9JPa4Z2VhxvH2GgF
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAyMDAyNiBTYWx0ZWRfX0A8gjMaI2YOG
- 1oU+Vtd8xU6vVS5qsU8onbmN5QhKy4tKs1L1vMlfnuSJCGSqRju3LOZJu7e7J07+a4CKgPDMOBt
- Jqg1MtdAJKVoyoMm7DeAC+2PUw+Gk2fEKdx20GtfEmkpXRL1NKh6i8SLBnrirdb8hyqFJjCA7kW
- 2AbouyDDkXBoadKdOdqlLJywAe26mIMyGrWM+BXYZcNqrdDfPGIK0Jv8STtYFPGn1aaNQ8xxJ5O
- KJa6QxBtU4aSrvf5BPk+x4mDyC2PUSZAH+13GcbQO0/x1dJ50tG834EUMUygs0HQh/kUMzrXOoA
- /9dvH1FGYXsNJlvoRVOJuxOxC9+qxEJRWD0wdlXzBlB88IF227/Ky7oF9tY0Sx4c+qGKL+UUQ+m
- 517z2++OMiytc1xzcgs9CY3fuyq8p1S1weouLF1+f7OIpUQUfVLHQ9Eec1/jjDCysKg1BlewJMs
- y6fWQri4x5PVtf41Hsg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAyMDAyNiBTYWx0ZWRfXyleaytUmQ8zw
- cwg0K+N4R+G/9capN6HPdGJB3C7gY5cAS28KCsBqvbTejpKmaSsa3XraomAFBYs4nYdycuxmyza
- ilkKRgNCckNhfnXY1hN23TR8pHtEXmFagi89bRpAxzsQzmrz9iob
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-02_01,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 clxscore=1015 adultscore=0 priorityscore=1501
- spamscore=0 phishscore=0 malwarescore=0 bulkscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607020026
-
-
-> >>>
-> >>>    static const struct of_device_id max20830_of_match[] =3D {
-> >>> -	{ .compatible =3D "adi,max20830" },
-> >>> +	{ .compatible =3D "adi,max20830", .data =3D &max20830_chip },
-> >>> +	{ .compatible =3D "adi,max20830c", .data =3D &max20830c_chip },
-> >>> +	{ .compatible =3D "adi,max20840c", .data =3D &max20840c_chip },
-> >>
-> >> "adi,max20830" is a fallback for the other two chips, but that is not
-> >> how the code is implemented.
-> >>
-> >
-> > I may be inclined to just not use fallback as it seems to be more
-> > complicated and a bit unnecessary. There's also other devices that may
-> > be added on top of this so it lessens the complexity. Will edit the bin=
-dings
-> regarding this.
-> >
->=20
-> You are missing the point. The fallback is perfectly valid. Technically t=
-he driver
-> does not even need to support adi,max20830c and adi,max20840c.
-> That is only used to validate that the chip is supported. That does not n=
-eed a
-> separate devicetree entry.
->=20
-
-Checking if I understand this. I need to add a check that if DT chip->id =
-=3D max20830,
-and if the HW returns string of either nmax20830c or max20840c, device stil=
-l probes
-
-if ((buf =3D=3D "max20830c" || buf  =3D=3D "max20840c) && chip->id !=3D "ma=
-x20830""
-        // then it's an error...
-}
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC V2 3/3] mm: Replace pgtable entry prints with new format
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+ Hugh Dickins <hughd@google.com>
+Cc: linux-mm@kvack.org, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, Petr Mladek
+ <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Lorenzo Stoakes <ljs@kernel.org>
+References: <20260610043545.3725735-1-anshuman.khandual@arm.com>
+ <20260610043545.3725735-4-anshuman.khandual@arm.com>
+ <fc57bb9a-4564-489e-8da4-65068b5283ae@kernel.org>
+ <4a416383-62f5-1716-8e04-a2ee1f89a864@google.com>
+ <dabfd73b-d872-4267-9a40-45463fe146ac@kernel.org>
+ <3afa822d-3cc9-1068-9a10-94a5f2e4d29a@google.com>
+ <90b5cd31-87ed-4ef7-86cc-458b9e06b02d@kernel.org>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <90b5cd31-87ed-4ef7-86cc-458b9e06b02d@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
 
-and
+On 30/06/26 7:06 PM, David Hildenbrand (Arm) wrote:
+> On 6/16/26 08:19, Hugh Dickins wrote:
+>> On Mon, 15 Jun 2026, David Hildenbrand (Arm) wrote:
+>>> On 6/12/26 23:26, Hugh Dickins wrote:
+>>>> ...
+>>>>
+>>>> The page table entry is BUGgily Bad: we want to see what it looks like
+>>>> (sometimes, a sequence of bad page map entries may even show up as ASCII).
+>>>
+>>> But is printing raw page table entries really what we want? I guess to detect
+>>> "random corruption" it might help sometimes.
+>>
+>> Yes, that's what it's for. What we really want is to understand what went
+>> wrong: that's too much to ask of a printk, but it can give us a good clue.
+>>
+>>>
+>>> And do we really need information about the full page table walk, or is the last
+>>> level good enough?
+>>
+>> Page table entry and pmd entry are good enough: higher levels got
+>> added at some stage, but they are unlikely to be useful here.
+> 
+> Yes, I added them when we're processing PUD entries we'd also want
+> P4D entry + PUD entry.
+> 
+> This is one approach of having the printing be done mostly
+> manually, supporting 32, 64 and 128bit pte_val(). As raised by Ryan,
+> using local bufs to store the data to not involve printk.
+> 
+> 
+> I played with printing the byte stream manually, but didn't really like it.
+> 
+> Gave it a quick test and it seems to do its trick. I have the feeling that
+> this can be beautified a bit more.
+> 
+> 
+> From 05af7317b126991a61b0a3d01c2863ce5a578d1b Mon Sep 17 00:00:00 2001
+> From: "David Hildenbrand (Arm)" <david@kernel.org>
+> Date: Tue, 30 Jun 2026 15:23:02 +0200
+> Subject: [PATCH] tmp
+> 
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> ---
+>  mm/memory.c | 110 +++++++++++++++++++++++++++++++++++++++++-----------
+>  1 file changed, 87 insertions(+), 23 deletions(-)
+> 
+> diff --git a/mm/memory.c b/mm/memory.c
+> index ff338c2abe923..ad39cafe110f9 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -519,9 +519,57 @@ static bool is_bad_page_map_ratelimited(void)
+>  	return false;
+>  }
+>  
+> +#define PTVAL_STR_MAX	(sizeof(u64) * 4 + 1)
+> +
+> +static void ptval_bytes_to_str(char *buf, size_t buf_size,
+> +		const void *entry, size_t entry_size)
+> +{
+> +	if (WARN_ON_ONCE(buf_size < entry_size * 2 + 1)) {
+> +		snprintf(buf, buf_size, "overflow");
+> +		return;
+> +	}
+> +
+> +	switch (entry_size) {
+> +	case sizeof(u32):
+> +		snprintf(buf, buf_size, "%08x", *(const u32 *)entry);
+> +		break;
+> +	case sizeof(u64):
+> +		snprintf(buf, buf_size, "%016llx",
+> +			 (unsigned long long)*(const u64 *)entry);
+> +		break;
+> +	case sizeof(u64) * 2: {
 
-"That does not need a separate devicetree entry."
-
-does this mean I shouldn't add to the bindings and max20830_id[]/max20830_o=
-f_match[]
-entries, and keep it as is that it only takes max20830?=20
-
-To add support for the 830c and 840c variants, the code discussed above is =
-enough?
+Could this be made sizeof(u128) instead ? But overall this
+approach looks good.
+> +		const u64 *val = entry;
+> +
+> +		if (IS_ENABLED(CONFIG_CPU_BIG_ENDIAN))
+> +			snprintf(buf, buf_size, "%016llx%016llx",
+> +				 (unsigned long long)val[0],
+> +				 (unsigned long long)val[1]);
+> +		else
+> +			snprintf(buf, buf_size, "%016llx%016llx",
+> +				 (unsigned long long)val[1],
+> +				 (unsigned long long)val[0]);
+> +		break;
+> +	}
+> +	default:
+> +		snprintf(buf, buf_size, "unsupported");
+> +		break;
+> +	}
+> +}
+> +
+> +#define ptval_to_str(buf, val)						\
+> +	do {								\
+> +		typeof(val) __val = (val);				\
+> +									\
+> +		ptval_bytes_to_str((buf), sizeof(buf), &__val,		\
+> +				   sizeof(__val));			\
+> +	} while (0)
+> +
+>  static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long addr)
+>  {
+> -	unsigned long long pgdv, p4dv, pudv, pmdv;
+> +	char pgd_str[PTVAL_STR_MAX];
+> +	char p4d_str[PTVAL_STR_MAX];
+> +	char pud_str[PTVAL_STR_MAX];
+> +	char pmd_str[PTVAL_STR_MAX];
+>  	p4d_t p4d, *p4dp;
+>  	pud_t pud, *pudp;
+>  	pmd_t pmd, *pmdp;
+> @@ -532,34 +580,34 @@ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long add
+>  	 * see locking requirements for print_bad_page_map().
+>  	 */
+>  	pgdp = pgd_offset(mm, addr);
+> -	pgdv = pgd_val(*pgdp);
+> +	ptval_to_str(pgd_str, pgd_val(*pgdp));
+>  
+>  	if (!pgd_present(*pgdp) || pgd_leaf(*pgdp)) {
+> -		pr_alert("pgd:%08llx\n", pgdv);
+> +		pr_alert("pgd: %s\n", pgd_str);
+>  		return;
+>  	}
+>  
+>  	p4dp = p4d_offset(pgdp, addr);
+>  	p4d = p4dp_get(p4dp);
+> -	p4dv = p4d_val(p4d);
+> +	ptval_to_str(p4d_str, p4d_val(p4d));
+>  
+>  	if (!p4d_present(p4d) || p4d_leaf(p4d)) {
+> -		pr_alert("pgd:%08llx p4d:%08llx\n", pgdv, p4dv);
+> +		pr_alert("pgd: %s p4d: %s\n", pgd_str, p4d_str);
+>  		return;
+>  	}
+>  
+>  	pudp = pud_offset(p4dp, addr);
+>  	pud = pudp_get(pudp);
+> -	pudv = pud_val(pud);
+> +	ptval_to_str(pud_str, pud_val(pud));
+>  
+>  	if (!pud_present(pud) || pud_leaf(pud)) {
+> -		pr_alert("pgd:%08llx p4d:%08llx pud:%08llx\n", pgdv, p4dv, pudv);
+> +		pr_alert("pgd: %s p4d: %s pud: %s\n", pgd_str, p4d_str, pud_str);
+>  		return;
+>  	}
+>  
+>  	pmdp = pmd_offset(pudp, addr);
+>  	pmd = pmdp_get(pmdp);
+> -	pmdv = pmd_val(pmd);
+> +	ptval_to_str(pmd_str, pmd_val(pmd));
+>  
+>  	/*
+>  	 * Dumping the PTE would be nice, but it's tricky with CONFIG_HIGHPTE,
+> @@ -567,8 +615,8 @@ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long add
+>  	 * doing another map would be bad. print_bad_page_map() should
+>  	 * already take care of printing the PTE.
+>  	 */
+> -	pr_alert("pgd:%08llx p4d:%08llx pud:%08llx pmd:%08llx\n", pgdv,
+> -		 p4dv, pudv, pmdv);
+> +	pr_alert("pgd: %s p4d: %s pud: %s pmd: %s\n", pgd_str, p4d_str, pud_str,
+> +		 pmd_str);
+>  }
+>  
+>  /*
+> @@ -584,10 +632,11 @@ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long add
+>   * page table lock.
+>   */
+>  static void print_bad_page_map(struct vm_area_struct *vma,
+> -		unsigned long addr, unsigned long long entry, struct page *page,
+> -		enum pgtable_level level)
+> +		unsigned long addr, const void *entry, size_t entry_size,
+> +		struct page *page, enum pgtable_level level)
+>  {
+>  	struct address_space *mapping;
+> +	char entry_str[PTVAL_STR_MAX];
+>  	pgoff_t index;
+>  
+>  	if (is_bad_page_map_ratelimited())
+> @@ -596,8 +645,9 @@ static void print_bad_page_map(struct vm_area_struct *vma,
+>  	mapping = vma->vm_file ? vma->vm_file->f_mapping : NULL;
+>  	index = linear_page_index(vma, addr);
+>  
+> -	pr_alert("BUG: Bad page map in process %s  %s:%08llx", current->comm,
+> -		 pgtable_level_to_str(level), entry);
+> +	ptval_bytes_to_str(entry_str, sizeof(entry_str), entry, entry_size);
+> +	pr_alert("BUG: Bad page map in process %s  %s: %s", current->comm,
+> +		 pgtable_level_to_str(level), entry_str);
+>  	__print_bad_page_map_pgtable(vma->vm_mm, addr);
+>  	if (page)
+>  		dump_page(page, "bad page map");
+> @@ -627,8 +677,14 @@ static inline bool pgtable_level_has_pxx_special(enum pgtable_level level)
+>  	}
+>  }
+>  
+> -#define print_bad_pte(vma, addr, pte, page) \
+> -	print_bad_page_map(vma, addr, pte_val(pte), page, PGTABLE_LEVEL_PTE)
+> +static void print_bad_pte(struct vm_area_struct *vma, unsigned long addr,
+> +			  pte_t pte, struct page *page)
+> +{
+> +	typeof(pte_val(pte)) entry = pte_val(pte);
+> +
+> +	print_bad_page_map(vma, addr, &entry, sizeof(entry), page,
+> +			   PGTABLE_LEVEL_PTE);
+> +}
+>  
+>  /**
+>   * __vm_normal_page() - Get the "struct page" associated with a page table entry.
+> @@ -636,8 +692,9 @@ static inline bool pgtable_level_has_pxx_special(enum pgtable_level level)
+>   * @addr: The address where the page table entry is mapped.
+>   * @pfn: The PFN stored in the page table entry.
+>   * @special: Whether the page table entry is marked "special".
+> - * @level: The page table level for error reporting purposes only.
+>   * @entry: The page table entry value for error reporting purposes only.
+> + * @entry_size: The size of @entry.
+> + * @level: The page table level for error reporting purposes only.
+>   *
+>   * "Special" mappings do not wish to be associated with a "struct page" (either
+>   * it doesn't exist, or it exists but they don't want to touch it). In this
+> @@ -697,7 +754,7 @@ static inline bool pgtable_level_has_pxx_special(enum pgtable_level level)
+>   */
+>  static inline struct page *__vm_normal_page(struct vm_area_struct *vma,
+>  		unsigned long addr, unsigned long pfn, bool special,
+> -		unsigned long long entry, enum pgtable_level level)
+> +		const void *entry, size_t entry_size, enum pgtable_level level)
+>  {
+>  	if (pgtable_level_has_pxx_special(level)) {
+>  		if (unlikely(special)) {
+> @@ -710,7 +767,8 @@ static inline struct page *__vm_normal_page(struct vm_area_struct *vma,
+>  			if (is_zero_pfn(pfn) || is_huge_zero_pfn(pfn))
+>  				return NULL;
+>  
+> -			print_bad_page_map(vma, addr, entry, NULL, level);
+> +			print_bad_page_map(vma, addr, entry, entry_size, NULL,
+> +					   level);
+>  			return NULL;
+>  		}
+>  		/*
+> @@ -741,7 +799,7 @@ static inline struct page *__vm_normal_page(struct vm_area_struct *vma,
+>  
+>  	if (unlikely(pfn > highest_memmap_pfn)) {
+>  		/* Corrupted page table entry. */
+> -		print_bad_page_map(vma, addr, entry, NULL, level);
+> +		print_bad_page_map(vma, addr, entry, entry_size, NULL, level);
+>  		return NULL;
+>  	}
+>  	/*
+> @@ -767,8 +825,10 @@ static inline struct page *__vm_normal_page(struct vm_area_struct *vma,
+>  struct page *vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+>  			    pte_t pte)
+>  {
+> +	typeof(pte_val(pte)) entry = pte_val(pte);
+> +
+>  	return __vm_normal_page(vma, addr, pte_pfn(pte), pte_special(pte),
+> -				pte_val(pte), PGTABLE_LEVEL_PTE);
+> +				&entry, sizeof(entry), PGTABLE_LEVEL_PTE);
+>  }
+>  
+>  /**
+> @@ -809,8 +869,10 @@ struct folio *vm_normal_folio(struct vm_area_struct *vma, unsigned long addr,
+>  struct page *vm_normal_page_pmd(struct vm_area_struct *vma, unsigned long addr,
+>  				pmd_t pmd)
+>  {
+> +	typeof(pmd_val(pmd)) entry = pmd_val(pmd);
+> +
+>  	return __vm_normal_page(vma, addr, pmd_pfn(pmd), pmd_special(pmd),
+> -				pmd_val(pmd), PGTABLE_LEVEL_PMD);
+> +				&entry, sizeof(entry), PGTABLE_LEVEL_PMD);
+>  }
+>  
+>  /**
+> @@ -850,8 +912,10 @@ struct folio *vm_normal_folio_pmd(struct vm_area_struct *vma,
+>  struct page *vm_normal_page_pud(struct vm_area_struct *vma,
+>  		unsigned long addr, pud_t pud)
+>  {
+> +	typeof(pud_val(pud)) entry = pud_val(pud);
+> +
+>  	return __vm_normal_page(vma, addr, pud_pfn(pud), pud_special(pud),
+> -				pud_val(pud), PGTABLE_LEVEL_PUD);
+> +				&entry, sizeof(entry), PGTABLE_LEVEL_PUD);
+>  }
+>  #endif
+>  
 
