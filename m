@@ -1,52 +1,79 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 651CB312834;
-	Thu,  2 Jul 2026 07:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57423CFF7F
+	for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2026 07:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782978595; cv=none; b=jdC1y8vxso1Z1sel7ETdOvWOh98L07q04kTRN6W7EE7zcTMMJa4R5Z+csiZTu0pSUD2yi3cvU1LPLWRQotiuAcTSqEtlQcnrMQsTXeo6s0LGITRHTdAs1wkIqZmI3BF95DiSHrritazA8/76U8xnQMjywgx9H1I8/Y5VrWowLzw=
+	t=1782978760; cv=none; b=DMFPYDps2WJWy+LsQqwCgAFMUD+QMWMMPiqevE6Q1PZ9KkZFU7+sp6iRVjblIKYXcamnEoGIBAe2GDmhh+1KVPQTNnWyZeDZK72LrCfAJAh4uXYisBj6axCsyQw/9mXX4MtbxonFiWfg6JNqBRwA8FOKInknKzUqecUD8zNZ6JI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782978595; c=relaxed/simple;
-	bh=NT7LLn41tlTGVdPwc42ds4tnjl9072JYd8fzOZ90sig=;
+	s=arc-20240116; t=1782978760; c=relaxed/simple;
+	bh=tkTbs5WEomVgmghemsBWZ8vvMtlIsS90pwefFFYS67o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jX1O9XovItpkTTq4ykKaBevnkJDJkK1XIVmvyCQVrM5BZM/xaKt1LcXigyA0nZp91buo35x5UaU+S6VUQunbiNWe9LvGke6ZBhMDFjJCYXhzjNFGlnyKHq4ypqjhXOMuqinhr1szTONylNoRUa59STF1bSVOU2/jQyWns9qJu4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=mo/RAUP1; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=DHRvzdw6eIbSzsdnMWdX6X3Q9Um27EXlpE5AJK4O0EojSn4rSf+13rfESOZLh/1wU+rBzKTXJpkNU86CBbwbJjCYFKyDPpoyxx0XsMQN+m3+C7NfjdDMKz8i+YlQpXJsuHTkyRESso7LUQM/1F3P5hzRGTcFfbj00jaV4h0RIfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=LGzO9brO; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="mo/RAUP1"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 07E1F288E;
-	Thu,  2 Jul 2026 00:49:47 -0700 (PDT)
-Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B10DD3F85F;
-	Thu,  2 Jul 2026 00:49:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1782978591; bh=NT7LLn41tlTGVdPwc42ds4tnjl9072JYd8fzOZ90sig=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mo/RAUP1imRpB/y/Ovzr9l/nTCOQW5L5/CkzlGDdoFZ0CNWhqpC7v8CYQYGV4YXvK
-	 Vas1zuL920uFiohZTCXoRHVW7NXb67ElPZpnU7YDO6Q87yC91yiOZu0y+gZDomnTmY
-	 c6aSpUE9GmUxu7Ldm1gtuZWC6D3B4NzXiFF8bMV8=
-Date: Thu, 2 Jul 2026 08:49:42 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 1/2] mm/kmemleak: report leaks only after N consecutive
- unreferenced scans
-Message-ID: <akYYFpyU5Fc-ubUw@arm.com>
-References: <20260626-kmemleak_twice-v1-0-ab28f7cc0971@debian.org>
- <20260626-kmemleak_twice-v1-1-ab28f7cc0971@debian.org>
+	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="LGzO9brO"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47122683cf3so1101064f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 02 Jul 2026 00:52:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1782978748; x=1783583548; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kESoQxWQJP4S+fDdlEQZkP18r4Y5za67xWurR8NPaGI=;
+        b=LGzO9brOLsAmggJcjv2mpsSISA3wkiKChF1hBC3mjlzBxpToiPRqxUzAJg3u9PxWn+
+         MjJufWTFv3xlPnBH6C9Wf5RtZEeovjxJLea8QpAILr/Y9JZq+9/VzEsYUa3JWf6eY/qT
+         eS6IU2T/yluuO1KvWcDr+N5zNvXe3cO4C8XuS/DKDtbI9a3lUoEx3gFjjAYR5rNJIRGj
+         LEqpaaMf9EV/eCU4pP94N2bc3oPHvkFuv/hsw5tyGqI5Vs//XxC+xHfePBZ3oxyn06T+
+         e1aQhaKzoF7MlUjDEvskQG+XS5e7Kduz4VbzEEVUh7ou3sUSNSNclz4WZNw4OWBLTngP
+         SSnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782978748; x=1783583548;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kESoQxWQJP4S+fDdlEQZkP18r4Y5za67xWurR8NPaGI=;
+        b=hfdD8N0ic9WrlHMWvLI1Ew0BAqj3OqyXx5loQHDcuvqJ/sq8QR9bIfYEQE8DdbBUMn
+         VtJL1Z9yH1N0vSvFN5TATIvi1kpoZFAxwcS9baAr2k7C8YYYcUqVUzg0TSOe2JzpZown
+         uuQG3y2fvrrAK+k/dAOwrbUByKsCcllLfRevAeWxieJDvJVxlPSUIISE1K06V64H6+l8
+         Pad2BJKsqTi682owLpj+6KavqaJUlFYNgr2T5+lhhBNG+Kk03KNbNfrWeOlAIYuTh+f2
+         IBIaODSJnq3Uy8FY1XZAWSJMRBZJp5UbEhuyJwjfyryWJoqY46lxTXRBjhvXyyvg3Vy2
+         ieaA==
+X-Forwarded-Encrypted: i=1; AHgh+RpthD67MOM+fbvXc9J+416HZRZBtPx+s7xbRnrYPJzQ8B82SygaYy2juu3SgQgoeHHLtn8f/hkDuiA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzSDaccWaJbbDa/FDaKR7UaPeSw0oxeGMQaMteBsPUDTskOk08
+	ef9+RTtOEpuzgfqjoChbp9FMqga5A4HuwTVo9GH2eWEXbCdgvnBM7HAPalzWeJZhMz0=
+X-Gm-Gg: AfdE7cmnO+kjLDAF/HlJUOksxtmnxZEafpoYln3z+o/UkWjmSNuhMsRftliZeUpq0/5
+	ierhgv8w595oLa5FTGzT1pX5Kmb+D9+1ssmZVv2IaSdwBYpDeP5yrfL5XGE6ZdOUV58f0v+iISY
+	1oaRB4SPD2Yhmrw0dtEKUWhKdMNYa933VwTF56Nmzs89x6OBPYxT8U5tkLwvnQ71FX2G16X52Pz
+	oKZgErylsfvYeY1q1teD425l41TgtfqlYpyr6GV32bv3tfBZbC8e7Fo9AwctGmAt7PBfmp0VDbN
+	bUrZjUieCkb5kfqMGXAZdV2otrfZec8vHVGU+n8CQnWpaI/uX0StoscP8hshSGXugqdYSt0h6Ao
+	olMTIzpjD0+fXSh50t1t9bk36HnUMGtt0GIM1wzvIRHyS5Dd9iPKQeMoo0t+M9n/fUnofQ1DOe9
+	YWl/rSEqz7Y5On0TmeYLKLnwloTimj6U69
+X-Received: by 2002:a05:6000:4687:b0:475:e015:c2a with SMTP id ffacd0b85a97d-47757e57e6cmr5234114f8f.8.1782978747939;
+        Thu, 02 Jul 2026 00:52:27 -0700 (PDT)
+Received: from localhost ([140.209.217.212])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477dd94cb64sm6592524f8f.23.2026.07.02.00.52.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2026 00:52:27 -0700 (PDT)
+Date: Thu, 2 Jul 2026 09:52:25 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Mark Bloch <mbloch@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
+	Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next V4 4/6] devlink: Apply eswitch mode boot defaults
+Message-ID: <akYX4pMrDTnxa6yK@FV6GYCPJ69>
+References: <20260629182102.245150-1-mbloch@nvidia.com>
+ <20260629182102.245150-5-mbloch@nvidia.com>
+ <akThPmvUHvCMT2cp@FV6GYCPJ69>
+ <1d4ca929-82b8-4891-9058-1451bf71a660@nvidia.com>
+ <akUfXyKioGNAO_iB@FV6GYCPJ69>
+ <ecaeeef0-c463-4f10-885a-02ad2d648be0@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,58 +82,102 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260626-kmemleak_twice-v1-1-ab28f7cc0971@debian.org>
+In-Reply-To: <ecaeeef0-c463-4f10-885a-02ad2d648be0@nvidia.com>
 
-On Fri, Jun 26, 2026 at 08:52:02AM -0700, Breno Leitao wrote:
-> kmemleak reports an object the first scan it is found unreferenced. Its
-> mark phase runs without stopping the rest of the kernel and without a
-> write barrier, so a live object whose only reference is briefly invisible
-> during a concurrent RCU update -- e.g. a VMA moved between maple tree
-> nodes, or a page-cache xa_node -- can be seen as unreferenced for that one
-> scan. Because an object is flagged as reported only once, such a transient
-> race turns into a permanent false positive.
-> 
-> Track how many consecutive scans each object has been seen unreferenced
-> and only report it once that reaches min_unref_scans, a new module
-> parameter. It defaults to 1, leaving the behaviour unchanged; setting it
-> higher (e.g. 2) still reports a genuine leak, one scan later, while an
-> object referenced again before the threshold restarts its run and is never
-> reported.
-> 
-> min_unref_scans can be set at boot with kmemleak.min_unref_scans=<n> or at
-> run-time via /sys/module/kmemleak/parameters/min_unref_scans.
-> 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
+Wed, Jul 01, 2026 at 07:42:57PM +0200, mbloch@nvidia.com wrote:
+>
+>
+>On 01/07/2026 17:09, Jiri Pirko wrote:
+>> Wed, Jul 01, 2026 at 02:57:21PM +0200, mbloch@nvidia.com wrote:
+>>>
+>>>
+>>> On 01/07/2026 12:48, Jiri Pirko wrote:
+>>>> Mon, Jun 29, 2026 at 08:20:59PM +0200, mbloch@nvidia.com wrote:
+>>>>> Apply parsed devlink_eswitch_mode= defaults after devlink registration
+>>>>> and after successful reload.
+>>>>>
+>>>>> devl_register() may still be called before the device is ready for an
+>>>>
+>>>> How so? I would assume that driver calls devl_register only after
+>>>> everything is up and running and ready. If not, isn't it a bug?
+>>>>
+>>>
+>>> You would think so :)
+>>>
+>>> Some drivers, mlx5 included, call devl_register() while holding the
+>>> devlink instance lock and then finish setting up state before releasing
+>>> the lock.
+>>>
+>>> In v3 I tried to enforce exactly that model, move devl_register() to
+>>> be the last thing the driver does. Jakub pushed back on making that a
+>>> general rule. So in v4 I changed the approach. devl_register() only
+>>> schedules the work, and the actual eswitch mode change can run only
+>>> after the driver releases the devlink lock.
+>> 
+>> Wouldn't it make sense to use a completion instead of loop-reschedule of
+>> delayed work?
+>
+>Just to make sure I understand the suggestion, this would mean that the
+>work waits until the devlink lock holder drops the lock, and devl_unlock()
+>would signal it, something like:
+>
+>void devl_unlock(struct devlink *devlink)
+>{
+>	ool complete_apply = devlink->default_esw_mode_apply_pending;
+>
+>	mutex_unlock(&devlink->lock);
+>
+>	if (complete_apply)
+>		complete(&devlink->default_esw_mode_apply_ready);
+>}
+>
+>That would avoid the retry loop, but it also means the queued work 
+>sleeps until the driver drops devl_lock. It does keep one worker
+>blocked per pending instance and adds this default-esw-mode signalling to
+>the generic devl_unlock() path.
+>
+>The delayed retry was meant to avoid a sleeping worker and keep the
+>instances independent. If one devlink instance is still locked, we just
+>try it again later while other instances can progress.
+>
+>If you prefer the completion approach I can switch to it, but I don't see
+>it as simpler overall.
 
-It looks like a good addition to me. All objects require a second pass
-initially to get their checksum updated but that's not sufficient when
-they are moved between nodes without having their content changed (list
-in a linked list).
+Yeah, I don't have preference. I was just wondering. Feel free to leave
+it as is.
 
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+Maybe, instead of "complete", you can schedule with "0" delay in
+devl_unlock? Well, it does not really need to be delayed work, right?
+The only single schedule may be done from devl_unlock. That would help
+to eliminate the rescheduling. Am I missing something?
 
-> diff --git a/mm/kmemleak.c b/mm/kmemleak.c
-> index 7c7ba17ce7af0..5b14ccb36f95b 100644
-> --- a/mm/kmemleak.c
-> +++ b/mm/kmemleak.c
-> @@ -151,6 +151,8 @@ struct kmemleak_object {
->  	int min_count;
->  	/* the total number of pointers found pointing to this object */
->  	int count;
-> +	/* consecutive scans the object has been seen unreferenced */
-> +	unsigned int unref_scans;
->  	/* checksum for detecting modified objects */
->  	u32 checksum;
->  	depot_stack_handle_t trace_handle;
-> @@ -232,6 +234,9 @@ static unsigned long max_percpu_addr;
->  static struct task_struct *scan_thread;
->  /* used to avoid reporting of recently allocated objects */
->  static unsigned long jiffies_min_age;
-> +/* consecutive scans an object must stay unreferenced before reporting */
-> +static unsigned int min_unref_scans = 1;
-> +module_param(min_unref_scans, uint, 0644);
 
-0644 is fine. Not sure why kmemleak_verbose was 0600.
-
--- 
-Catalin
+>
+>Mark
+>
+>> 
+>>>
+>>> Mark
+>>>
+>>>>
+>>>>> eswitch mode change, so keep a per-devlink delayed work item and pending
+>>>>> flag for the registration path. Registration queues the work, and the
+>>>>> worker tries to take the devlink instance lock.
+>>>>>
+>>>>> If the lock is busy, the worker requeues itself with a delay.
+>>>>>
+>>>>> For successful reloads that performed DRIVER_REINIT, devlink_reload()
+>>>>> already holds the devlink instance lock and the driver has completed
+>>>>> reload_up(). Clear pending work and apply the default directly from the
+>>>>> reload path instead of queueing work.
+>>>>>
+>>>>> If a user sets eswitch mode through netlink before the pending
+>>>>> registration work runs, clear the pending flag so the queued default does
+>>>>> not override that user request. Cancel pending default apply work when
+>>>>> freeing the devlink instance.
+>>>>
+>>>> These AI generated code descriptive messages are generally not very
+>>>> useful :(
+>>>>
+>>>
+>
