@@ -1,197 +1,95 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D833546F4
-	for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2026 09:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5854C3A6B7F;
+	Thu,  2 Jul 2026 09:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782983551; cv=none; b=PdbfflP1DZDOUc+v6P1yd3mRl06r4I/kma9quZAnmT77SLefPtFt59Dn87okZVNKYxQzkA7SB867z+OBmjD7BPyD75SwMf4lGfK3lNbyubQL9zZrIlFhE0uYOxIcWQmWzx4zxqOaGOUzys3aW5oLUktnAZi9lA7QiS/m+fkq2DQ=
+	t=1782983757; cv=none; b=a5fwPDu+S7FbgwbT9G8H8UHE68IFJVU3Q/ZYI9+gYBwFdbQXFICwgB64PXO7BYG+s9RJznwG3mIbhl5FMP9KlrVaHN2Ev40Y1HPlRGjXEI16YR+mH1eawrTzM7fPJGHTAPIaKICEP9N+YdmFGcvNn3f2CpNdakQgsxsqTRraDYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782983551; c=relaxed/simple;
-	bh=F66FVDICJACD/8WF2MIWmai+aPat3u0t1FsfmGgIBmc=;
+	s=arc-20240116; t=1782983757; c=relaxed/simple;
+	bh=MnM5Is1Jb3E8Tt3TumhPu3e7wva41E/sp/tlrTvBIUs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AMAj6xKF79q+6MLgqIKG9udbhuSf06DJm8W0JyosoQn8Fx1+BOFgSLValg0GRUt79psXDZ0j9GYqxCd/U+jmVK6Dlse0+vZTtygLrvqcGKIEVe8r/jB9XUCEb8RXxS+RPYBGYncVjAHucKxYeqGqupD48iMW/uMIg+nF3ZX5DS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qTiFPQh+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aP6p0YP/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xiNrM9PH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Gd5jd37P; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=CdECRRmqn0Rrg6WCcvYT00jo0xW0ffNziGjTwevJu3IvHI+gmWlPAeAVNAB5ceIfBezMpkfwQUCfFGelkyUAkzHZkLgCIkLXYiK47zXSSE8jN75QFLhM0Zvoy6wN6yUSTnNLMVKo2vnPso58/ZXjlc06U53VxzB5Jco7Q3hZ/5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eT0p3qPv; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qTiFPQh+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aP6p0YP/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xiNrM9PH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Gd5jd37P"
-Received: from kunlun.suse.cz (unknown [IPv6:2a07:de40:b306:2000::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CC71C740D7;
-	Thu,  2 Jul 2026 09:12:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782983547; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uRjlOG5TiXfZ2nHN8jbS31TsEigRmVqtiMO2xZmgwtE=;
-	b=qTiFPQh+EAtnfZMspyIp88DVum08lq2h4M2oG+17REMmQZO/x99GyEPSyZcrk+53/j4pE7
-	ayUyxs1+H15MCkTXYR6IAyOF8/FJedHYq6bIOW4Tu55Xzy1cDgxE3TtnSGRxrEKYkr9qCx
-	MPDOGMtMfY/q90k/HdbzQB0MG6RtC98=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782983547;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uRjlOG5TiXfZ2nHN8jbS31TsEigRmVqtiMO2xZmgwtE=;
-	b=aP6p0YP/H9yklntcuxcs7O0hloiylzECiJuUePIZbwx7+JaYmW/QkkjkEZbLRVL/Qrxsum
-	V6sX1ipWkXeTo6AA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xiNrM9PH;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Gd5jd37P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782983546; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uRjlOG5TiXfZ2nHN8jbS31TsEigRmVqtiMO2xZmgwtE=;
-	b=xiNrM9PHv8T5r22Baf5wzuy/XEFUTC4h/U218uOWQiGo4hRQJKmIZSs8S+OlGNXeruiGUh
-	uEK3DCLCp2w+dcRHtrJu/oX0nohIw+HkUyfnSS2l1y6lkIHXdw2JY7qfkq/ytqyU4xB6Zp
-	TSkWj8Mxuv4w/GQNzlcb1o/p9eJieDE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782983546;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uRjlOG5TiXfZ2nHN8jbS31TsEigRmVqtiMO2xZmgwtE=;
-	b=Gd5jd37PMMWNL15+a5FHWW6qPpNO2PnTB1RPKgya/PwYhq70rKS0IfGDTjRQHsyTLs59rb
-	EnhfcqK6Ag9I1tBQ==
-Date: Thu, 2 Jul 2026 11:12:25 +0200
-From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To: Sven Schnelle <svens@linux.ibm.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Donnellan <andrew+kernel@donnellan.id.au>,
-	Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eT0p3qPv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782983755; x=1814519755;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MnM5Is1Jb3E8Tt3TumhPu3e7wva41E/sp/tlrTvBIUs=;
+  b=eT0p3qPv4n4/hLZCYGARurq/mPHZWFSWt9xA73dUHRe+EbGXFMI5Jj3m
+   QklwK1A5MA23H8TwowZ3GZNsafJpWNqVZ6ulbxfS3LLKZP4/p7Bp4VDw6
+   djWAvXriU94aFGTpjKHsJ/m6NwUqmQF4VmsoFBS33TOOuQ84LDHY+QCyq
+   bR632mkDln3N4/vEXPliBxRttd3FwlWh1aKoJd6wbskDRlgZ2v5/Q48OA
+   NpHQdz//jIQX210IwIDuM0703IDmNXn0WdYa5oMxBX5aaOA43zgdYezR+
+   DTGrXy2I4D6AyZm+Q2klLpaKXtsu2iy6gw1w/frlfi4NvqjYVszeSJFSc
+   A==;
+X-CSE-ConnectionGUID: dIDzq1BGQDiZKOcYxnsN4A==
+X-CSE-MsgGUID: v1lC76I6Q2OR8Ic+OuRP8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="83863157"
+X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
+   d="scan'208";a="83863157"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 02:15:54 -0700
+X-CSE-ConnectionGUID: qsRMGnTPTImeK28S5z2IdA==
+X-CSE-MsgGUID: RGgk0Xd2SMeV8wOFW+2zjA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
+   d="scan'208";a="257149632"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.213])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 02:15:52 -0700
+Date: Thu, 2 Jul 2026 12:15:50 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Cc: Linux ACPI <linux-acpi@vger.kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Zong Li <zong.li@sifive.com>, Nam Cao <namcao@linutronix.de>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Lukas Gerlach <lukas.gerlach@cispa.de>,
-	Rui Qi <qirui.001@bytedance.com>, Kees Cook <kees@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
-Subject: Re: [RFC] entry: Untangle the return value of
- syscall_enter_from_user_mode from syscall NR
-Message-ID: <akYreY_BHuRbxSsO@kunlun.suse.cz>
-References: <akVRcPsD_R_CE1qW@kunlun.suse.cz>
- <yt9dechlbyj0.fsf@linux.ibm.com>
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH v1 0/2] ACPI: bus: Remove struct acpi_driver from the
+ kernel
+Message-ID: <akYsRl024Ll80oye@ashevche-desk.local>
+References: <6027395.DvuYhMxLoT@rafael.j.wysocki>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <yt9dechlbyj0.fsf@linux.ibm.com>
-X-Spamd-Bar: +++++++++++++++
-X-Rspamd-Queue-Id: CC71C740D7
-X-Spam-Flag: YES
-X-Spam-Score: 15.65
-X-Spam-Level: ***************
-X-Rspamd-Action: add header
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [15.65 / 50.00];
-	SPAM_FLAG(5.00)[];
-	NEURAL_SPAM_LONG(3.50)[1.000];
-	BAYES_HAM(-3.00)[100.00%];
-	HFILTER_HOSTNAME_UNKNOWN(2.50)[];
-	RDNS_NONE(2.00)[];
-	NEURAL_SPAM_SHORT(1.96)[0.653];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ONCE_RECEIVED(1.20)[];
-	HFILTER_HELO_IP_A(1.00)[kunlun.suse.cz];
-	HFILTER_HELO_NORES_A_OR_MX(0.30)[kunlun.suse.cz];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[45];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[infradead.org,lwn.net,linuxfoundation.org,kernel.org,xen0n.name,linux.ibm.com,ellerman.id.au,gmail.com,dabbelt.com,eecs.berkeley.edu,ghiti.fr,redhat.com,alien8.de,linux.intel.com,zytor.com,donnellan.id.au,arm.com,arndb.de,flygoat.com,sifive.com,linutronix.de,rivosinc.com,cispa.de,bytedance.com,vger.kernel.org,lists.linux.dev,lists.ozlabs.org,lists.infradead.org];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b306:2000::2:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_ZERO(0.00)[0];
-	MISSING_XM_UA(0.00)[];
-	TAGGED_RCPT(0.00)[kernel];
-	DKIM_TRACE(0.00)[suse.de:+];
-	R_RATELIMIT(0.00)[to_ip_from(RL5ct4uf71gj8hk4gmisc87btw)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim]
-X-Spam: Yes
+In-Reply-To: <6027395.DvuYhMxLoT@rafael.j.wysocki>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Jul 02, 2026 at 10:12:35AM +0200, Sven Schnelle wrote:
-> Michal Suchánek <msuchanek@suse.de> writes:
+On Wed, Jul 01, 2026 at 09:15:27PM +0200, Rafael J. Wysocki (Intel) wrote:
+> Hi All,
 > 
-> > The return value of syscall_enter_from_user_mode is used both for the
-> > adjusted syscall number and the indicator that a syscall should be
-> > skipped.
-> >
-> > As seccomp can be invoked on any syscall, including invalid ones this
-> > somewhat undermines seccomp.
-> >
-> > While the seccomp variants that terminate the process do not need to
-> > care about this for the filter that sets the syscall return value this
-> > disctinction is required.
-> >
-> > Pass the syscall number as a pointer to the inline entry functions, and
-> > use the return value exclusively for the indication that the syscall is
-> > already handled.
-> >
-> > This should avoid the need for the s390 PIF_SYSCALL_RET_SET which is the
-> > workaround for exactly this deficiency.
-> 
-> I'm not sure whether PIF_SYSCALL_RET_SET can be removed - the syscall
-> return might still get set by PTRACE_SET_SYSCALL_INFO when the tracee is
-> stopped. This might be a positive number which can't be distinguished
-> from a syscall number. But maybe i'm missing something? It's been quite
-> a while since I touched all that ptrace stuff.
+> After converting all of the drivers using the struct acpi_driver interface to
+> proper platform drivers, that interface can be dropped now, which is done in
+> this series (patch [1/2]).
 
-When the syscall return value is set (in the registers) the return value
-which is also the modified syscall number is set to -1 indicating the
-syscall was handled. At least that's how the API is described.
+What a nice result!
 
-So yes, if the syscall number range is restricted or the syscall number
-is returned through a path different from the function return value the
-flag should not be needed in the entry path because the case can be
-detected through the return value alone.
+> Additionally, the no_pm flag is set for all struct acpi_device object since
+> they are not going to be directly involved in any kind of power management
+> now (that is, they will not have PM-aware drivers and they will not be
+> included in PM domains).
 
-Thanks
+I am in favour of this cleanup!
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Michal
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
