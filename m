@@ -1,133 +1,163 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013005.outbound.protection.outlook.com [40.93.201.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1411B349AF5;
-	Thu,  2 Jul 2026 17:23:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783013037; cv=fail; b=oI0IF3YQYleWJIut47iYfVrWtOcQshn7CuOdtHmTpYGZBJhNOfncORGkIyLAMGImZaimCPyg/LD/vy0ZzmCKIWxhPkc0JGYirEtrdscSQUA8wr/sUPrxVYKqF0AhL1GY243uGOvI+VH1g5AJqpW72l3Rb5XvSSWFNbcG+o8lskw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783013037; c=relaxed/simple;
-	bh=l5J4JFIBgcYji+MWAbXNLPF3FeSyf3yclEWoZh9EZbQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=YEenYh5dGkEpDjnI1Sp04CW6aB98avIM0KPd9nHcBy+Vdd3zBJCRZH5Hg+67N5v8PgzzF5e4PH5j7Y/3Bm36TvCwWJPh0yxe8rfTKTd2gmz1x44smr0gVd1h2GTtu34j0rJx5aMa13DZpLiZu3EIb20hphJitLzca2pCz9UbTu8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=E00oS6Gy; arc=fail smtp.client-ip=40.93.201.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B25C33AD9C
+	for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2026 17:32:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783013559; cv=none; b=tWI1n4dZ+KJL8SOMt8/8Q1Iudja0U5TIT5FPzRF9XWOk3cgQptzuOe96qhOVU8QxXpOc4g3Y/My8P4WrpsYcsdJZ+XLiPThQnrR1tL1IkzXUc8f9I5sOFenaj9tPfcFW6kpeutminiwOy4T+MM3gnX7BjQ4aTgJXS3nRgaCkRG8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783013559; c=relaxed/simple;
+	bh=voO/cxY9W/13P7yzUb4tfvEmHKZq7t3Nk22Ue6QqcK8=;
+	h=Subject:From:To:Cc:Date:Message-ID:MIME-Version:Content-Type; b=TX1rsI2tTn7yJ7+mQOcUpyJYlEq6c+v2WthOZ4jEDc4Z8Loh3IGA7/HenuDyMZbq5hXjJba5/+4d+4er4/Ar21SPmhadLGkVMsDl1EaXT+gkNHcx79l77H2V7NfbAdeHkMzQS5teRWUBeMnVj5AcQghBsi+Apui3ebH57dfs+U4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kGyF0Q8r; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="E00oS6Gy"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mPLgXByvS07D5BcVamANkLKDhKBAoZdEzzxEzGbpCOPbnl6wYGmNzDeNJ/cWsxL26qJJEDH4W5c/3YJLxtrvn6rmNUPeSw5GdguwCWqOH02yEJsCi1Q0qO4F0B/qRfPyxvWcNBVgNQb8ZGtsOK+qPiPleVNSzx8Sc2f//4FZkmL1k6MTUvAKULSoBC9FeBsmFjoe++92eRQPtAQPyW6hhJwhOZMvK5fqDs7xjyCbio+Euid0S7tIbEA0nkO1lUXh70ykujqi68xoSCut9VhE+w4r3xuBjKvBhh6tnUP708pjYSYJjR76GukykjroF6Aq/8of9Lji9Yx7U/Q2AbEcJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0zEyqLs+HGL3fC4dYJZtSfcKC8HQ04duGs8vcF9Tx50=;
- b=vD+sbk8Xfj5NnRDx/UqHkQltVwS1OYV32SR6XZW7LCby6O8hTZIAE2Ms0aWWgUxB/nRQYSYcd4wh12fil5b5/CDTllaM1JN4gnHOG5nWQ/MFeNILZXP41g8tvf4X1RcIuhezCKs23SSKhgYae9RvdnKH0EOG+3Q9PnrSeRBYia5DUFydShfPwVj0Mh80db7DfWDvAdUTdveVMfr48aS/L3afx9e76XT20ewhznWgHDUIE9KnL/ni7LtELRbD1L9BTEI8/6OYwW6sPBzpkW5tRS30Q1QeGjLvxhVvrVvkcohOfujDugWh0zbIGqU/lV0f1SSLF6W6FHUstSjDp6gcrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0zEyqLs+HGL3fC4dYJZtSfcKC8HQ04duGs8vcF9Tx50=;
- b=E00oS6GyCDR8yVLmwhrLHjaHREK3A9+2EmpCqSAQfBIxkPj4Fu86J0xoD5RgbPvhr0dpikRK7IHOmgt+WQMWwR4MC76vdpxW3uRo9+re3yyCfSF2oR/pMOxWpU5EsS2GRj6iI/EdZXYLhuheefm9eFKgOzjCKph5SrAAW1bAvcA50DZddlbdwj7RFFrQwjd88NtNNsKh0UM3wXLQz8VFOhx/KvG29GKegO8RvktSgc5z3WUwvERWpD/bIALl5U82/kHlhZmDXuaCyNJfewBxzpitnt1pk0g97GFpn/glgfisZ8hMia4aJiag3Zo8TCUvekdhT0nbGdzC+anfi2elyA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by IA1PR12MB8311.namprd12.prod.outlook.com (2603:10b6:208:3fa::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Thu, 2 Jul
- 2026 17:23:52 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0181.008; Thu, 2 Jul 2026
- 17:23:52 +0000
-Date: Thu, 2 Jul 2026 14:23:50 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Manuel Ebner <manuelebner@mailbox.org>
-Cc: Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"open list:INFINIBAND SUBSYSTEM" <linux-rdma@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] docs: infiniband: fix bracket
-Message-ID: <20260702172350.GA1508313@nvidia.com>
-References: <20260627093107.31068-2-manuelebner@mailbox.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260627093107.31068-2-manuelebner@mailbox.org>
-X-ClientProxiedBy: YT4PR01CA0306.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:10e::9) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kGyF0Q8r"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-84780c95e2eso1455484b3a.3
+        for <linux-doc@vger.kernel.org>; Thu, 02 Jul 2026 10:32:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783013558; x=1783618358; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:user-agent:message-id:date
+         :cc:to:from:subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=26WDDaYqRuzzMsOBQUpbaxL8aqOoRshWZ4hxrJuUv/M=;
+        b=kGyF0Q8r25j1OyoTurw+h16I7vRVTEfyJmJVB2a+IdN/Jlp9Z7nuTtgEnfpHSDajAR
+         NreB2OpTEK5VbTKkUH01V2yJ9sDvRGqDWwI2sGV9x2wa1L5yfypy3F7/W5Acho/ZHGfq
+         uXQpTqkrXtGZJt0muQKGvazEp1BNGXgITyoO0FWYZT8o03PGwFKTTref3h8UHtjDYFlN
+         8hChpg3l1KrXISyoPLxBSYCzS1u7cIt19ppkmastvSze5KPtN7wz1At2kH9Q/het2ym+
+         ilDDvYdTaf7TDq0d2iwpG+fpfulD93EazFRYejNyRWs8Z2YvINFRmv5TMEpuZJpnsp9l
+         CJSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783013558; x=1783618358;
+        h=content-transfer-encoding:mime-version:user-agent:message-id:date
+         :cc:to:from:subject:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=26WDDaYqRuzzMsOBQUpbaxL8aqOoRshWZ4hxrJuUv/M=;
+        b=nFQwMQmz09yxPnSEyMqAeDCGA9X1IEKoOfZj8/zmTyg7cBa4nk0AXJkQ6CGUuYYBbr
+         KQZjVkRcq1kZjaM3Lw+t3YRykIIv5Mn7a1PEP33RNApIm6sHztSj9rsKV9twQ33h3q7j
+         MhKMRAvEsYKrQu6Ja9TYW4mR7LQiQ9nQjNhFn3dpasw7DS8Ou47FB4U2qLRcg22+52m6
+         1KrSJhXJzvK+m8oomi/gVwM61kSiLA9Hl2ntVJbZNBjytqU97SwHKFvHdq97ZX9ap9AQ
+         yj0zqNK+reKwOXPzLKyG/OrpzNpwmLtdF2rqNKaW0xqVbR5vvP7nTq7aDBtVmLWS8X9l
+         w8XQ==
+X-Gm-Message-State: AOJu0Yw+TzxvIS8M8kPpMpNywbq+Hk4l0lC2ubMmQCSMDRcA2/1/aR7u
+	XixSH/o54hVU08p9mjiqdIfI6VcTA+IHpKR9RYU6PuEEWvQ3Bb/4u4bM
+X-Gm-Gg: AfdE7ckURH0C2IkfXGO/jx2puNxMRq7IYc+uC0L1OBX+0UvSKrtkZ62T9sYi/13V1A6
+	Rrn87EgU+CCnv43Td9+P+TTa8QXFNCg6uwIQ1glKbWqb9t6a6Wo6cxqN2LeVveeFGJu4b0X9Eli
+	Xq0grQblfm4vdO6lcSS3AoICHlYTW55y1D1Y1CFsa4ZKPS7MCqO1L6mLeuAyD0d33oWh4ERYzbI
+	VzBkyIL+cSIjGVysiOxgQHnZqssETEU18cPjxsyhz6aMVcACyj8fy8zumxdSWhEEkSvcdvpHu1t
+	2LTDu9mWDP2dqClntu72ohtEg2pQLMd1zPfF7Lw18c+heXIl5W8UTy2E19qJYkCY/pJbWCHefoI
+	laQEZ3jRQ/qI5qattl9TbS8EdWkEz7uboqqyDygvW5FkkbdfjQR/IxZBR8l9rhdbirKsGraRkM0
+	4OZDUKv4BojVUfGJxyRrJpK2ioKLePOGj09jWDtlH4xWa1zn/QBJ0RfBOSaXI=
+X-Received: by 2002:a05:6a00:2d0e:b0:847:968d:b108 with SMTP id d2e1a72fcca58-847c5202bc1mr5573787b3a.57.1783013557733;
+        Thu, 02 Jul 2026 10:32:37 -0700 (PDT)
+Received: from [192.168.0.160] (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847cb73936dsm1809806b3a.14.2026.07.02.10.32.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2026 10:32:37 -0700 (PDT)
+Subject: [PATCH v5 0/3] mm/hmm: Add mmap lock-drop support for
+ userfaultfd-backed mappings
+From: Stanislav Kinsburskii <skinsburskii@gmail.com>
+To: Liam.Howlett@oracle.com, akpm@linux-foundation.org,
+ akpm@linux-foundation.org, david@kernel.org, jgg@ziepe.ca, corbet@lwn.net,
+ leon@kernel.org, ljs@kernel.org, mhocko@suse.com, rppt@kernel.org,
+ shuah@kernel.org, skhan@linuxfoundation.org, surenb@google.com,
+ vbabka@kernel.org, skinsburskii@gmail.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mm@kvack.org
+Date: Thu, 02 Jul 2026 10:32:36 -0700
+Message-ID: <178301344866.373695.16044452017467686329.stgit@skinsburskii>
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|IA1PR12MB8311:EE_
-X-MS-Office365-Filtering-Correlation-Id: 41603e73-cc87-45d3-0edb-08ded85eaf7b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|22082099003|11063799006|18002099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	KIC0xFqCDWyOx0D/qfgZJwdkyxlcIigCV2tiWhbvqWZ0Q1laxgtwd9uux0HhELYbmAhe3q3bG8KqHt1DzTlC7DeBY23BrH3f7cRjUlU4pB8utkkMEeRV0y7dx/HK+asMFZOoWwu0x8pHY0cLA+76mO9pURCHCm8UdehRny6LEkobRJLSsjT2qdzFkBdP58yb3xJr2KnQeksTEfnSj6+rzOTU6ywKRxvkUxGZZvYDS2HsRhC1aMzhL+ItKH9kzOwRnInthIHFIXdVudocsjbx6zmQvTUkROwP7ep0K2fnMG3fil+jzzhW2UXsUElFIMOVRXr8EGdgIzRDKtZYM46bmONgKrASC3gPfkw9jhUEvDB1p9Yuw2/bwGw59z3gAIz66Jn40TjLUIinJ7Fq/bFRzYJivUkq08uTOgJW9g3Fk7cM3F/Dq+2AHjTZ+f4tC1QV7ZKTzdCoTiPqOdJ320RjqjX4ZSydAdsRsW1TORWBRi1N9E7DWKba8UvoEqUTypPqYJ8MlPYKoXXOZkgS3boBievu9HUi4jCy1qRAGiebLvxBcZOkFCNZccO6cKb4Xz1PR01yv2KxOmsd28HkRdmdbDR2TJP5QFvbdmAt/srEP0+6PC6EulSd48O1WApFWO+VQF8M8aYQz7xKBCs4cQdcRgS+M/VlSpIpKrS0XyoEVlQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(22082099003)(11063799006)(18002099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?rwGvEwAA5OQsamQw3gJwIfnMNRJmDOeinHJSVggRHHqWNKP34dKYeAcSSdNh?=
- =?us-ascii?Q?uDfHBFbDvCEZOrjyyTXJVFDBatTcFVCcWyfs7/zxIw6RYneXR62H2mgsfzrG?=
- =?us-ascii?Q?GYN0lz/vJgIXWJ75gk2jURJOuVBf9nyCTTSrd/Tw9eO4K2j3BT83igubl6cq?=
- =?us-ascii?Q?cpJfAy7vct/qyYXlisx51gUM3veN/J2d+aLU1SyFuT70fIHQnChF5mYMMV0u?=
- =?us-ascii?Q?rwDP8nHgbd36ledRlSxBou0+1YxbBG4NWkJ9GHYEEu8Rf4PdGgcTZWaHwyMr?=
- =?us-ascii?Q?D/cQNCh5lB9uiCDzY/LmYpOrsO9d0fxK1GSPUW7Pw5t5MbKIZjsQ3S7O10w9?=
- =?us-ascii?Q?V0wcLrXB/te0gi/rDIWmRXrIu+gTSWohf/dgxb6oSbUdATLstNRtWJug/OCP?=
- =?us-ascii?Q?iyQ3mwcjqjwAKXU7jMo2WF3ethVolPjKpQM3Gpvb4+dusljI9R1ltlg94qnX?=
- =?us-ascii?Q?u4I2oLZt3JXHHVsmCMYy752Xnd9gsS3WKPU5iJi1wR/sD4H5ESOgVxODv4yp?=
- =?us-ascii?Q?D/X2WMHhz5/OwP5uKEaVBFa5/2J28ZxkADfDLSHYam2u4e9JabX5QhorNyH3?=
- =?us-ascii?Q?NysxCMUJpmdCmcO3Z4GzbJKX0hkb/a5eAZw8hloNCAKKfJGta2ODmZ01n4zJ?=
- =?us-ascii?Q?VhD3Twx43brxUdrdV2SUTXSxOuzoUAx9Z3LsZNgOj0BE3rguHCx11awXihiD?=
- =?us-ascii?Q?s26T+WcI8mD8O8oZ7KP8kOIr/ED47bvAWHFtX9f9ALTNuKJ5WuLX0XTbrgHm?=
- =?us-ascii?Q?A3wz6IXRj8Xq9F4/S/jVQm6FGyOn3NR2VlViGYhmd7+9t4q0lC0pXa7s05Cn?=
- =?us-ascii?Q?VIwGWqR/9O8H4iDCzDf+7GWQ/aRT4R08jrgA3TT+bWMgX1SzQMD6ZP4SJfX2?=
- =?us-ascii?Q?4qM/uRPAP40ErdCpWOB2/L/S8z4FxlI9U3AyjRwGYvH0I6c4p2fOcosCWSs5?=
- =?us-ascii?Q?jK9IdG26d6aqGFSYioF2YzMs6dRoYrvGdhgbw165TZZp7SRX30PsD2YRz021?=
- =?us-ascii?Q?zJjocGp1n5KOgs7HrMPPKrfn2HgEjIsd7W89i8O93+PeIhad4DxHpozE3yUM?=
- =?us-ascii?Q?Cvz9gWZ8UA1+xsCpGB+BP/WQTpiXYITeeMOdSUzDXzD1jUsq6T77UX5fyZSO?=
- =?us-ascii?Q?UbA1EBhYhmP5cwpIu6WFyhON0rlADm7ycui+c7JUFSTeop3QqwDzloyWOBW0?=
- =?us-ascii?Q?uDy1ur1zEWdEuIbwiGPbEQAsPMIZWuoIcQBY3wyK/m/mlwtsTd+NLBXgayZP?=
- =?us-ascii?Q?k04my+mnaQLPocgqzSc/lrySsau/2Av0BEeh79KZTDg4I0Yo6ytwa6PWRIJG?=
- =?us-ascii?Q?gzqis0Y+Xm1yCPrec7Yv8Zlo5c2i/9W6goUobxOq6d4Xe5y+o0KA41QYfcMY?=
- =?us-ascii?Q?IXyop6EDMApLMyDit5WtZ3+Z0Q/YmZmpDywlwkZL4iqDVBS4yHJoNFipVySI?=
- =?us-ascii?Q?1eYwKO5y2+lcCizoKlzC3hSkbl3C7tvxvenHVlmrqcad2BoxT2ey5FlLIUM2?=
- =?us-ascii?Q?9Wb6NLAOtJ0Z/3knkTwHAVez/VW0RYoxdXIthHfjkMo8yZWrNTkFr6AnsJFG?=
- =?us-ascii?Q?5qW8XZSXUvFoCIjmvIZzRbX+aLXAGhpQhl5wmEasvsahLGc0FYdR0rPrNbtg?=
- =?us-ascii?Q?ldciyMPC0H5+Iq3C3f/uA/o2qWJjE6c6n2bp7kO+Go7m2B0vjnCeBOpPpKJS?=
- =?us-ascii?Q?QHXkye8musfKSMUfgy9+d6Be+VjeOAlOHGLOpssE32oGx6re?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41603e73-cc87-45d3-0edb-08ded85eaf7b
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2026 17:23:51.9232
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PUNLEcg7LGMlNAwANDyj8ZvYFUCs6ylLQPGLzA9g/fa247ynVcdQpVJiMTrfayQh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8311
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jun 27, 2026 at 11:31:08AM +0200, Manuel Ebner wrote:
-> Remove needless ')'.
-> 
-> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
->  Documentation/infiniband/user_mad.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+This series extends the HMM framework to support userfaultfd-backed memory
+by allowing the mmap read lock to be dropped during hmm_range_fault().
 
-Applied to for-next thanks
+Some page fault handlers — most notably userfaultfd — require the mmap lock
+to be released so that userspace can resolve the fault. The current HMM
+interface never sets FAULT_FLAG_ALLOW_RETRY, making it impossible to fault
+in pages from userfaultfd-registered regions.
 
-Jason
+This series follows the established int *locked pattern from
+get_user_pages_remote() in mm/gup.c. A new entry point,
+hmm_range_fault_unlockable(), accepts an int *locked parameter. When the
+mmap lock is dropped during fault resolution (VM_FAULT_RETRY or
+VM_FAULT_COMPLETED), the function returns 0 with *locked = 0, signalling
+the caller to restart its walk. The existing hmm_range_fault() is
+refactored into a thin wrapper that passes NULL, preserving current
+behavior for all existing callers.
+
+Faulting hugetlb pages on the unlockable path is not supported because
+walk_hugetlb_range() unconditionally holds and releases
+hugetlb_vma_lock_read across the callback; if the mmap lock is dropped
+inside the callback, the VMA may be freed before the walk framework's
+unlock. Hugetlb pages already present in page tables are handled normally.
+Possible approaches to lift this limitation are documented in
+Documentation/mm/hmm.rst.
+
+Changes in v5:
+ - Rework hmm_range_fault_unlockable() retry handling to retry
+   VM_FAULT_RETRY internally with FAULT_FLAG_TRIED set, matching the
+   fixup_user_fault() pattern and avoiding repeated first-retry lock drops.
+ - Distinguish VM_FAULT_RETRY from VM_FAULT_COMPLETED: retry faults now
+   reacquire the mmap lock internally, while completed faults return to the
+   caller with *locked = 0 so the caller can restart with a fresh notifier
+   sequence.
+ - Document the two *locked return states, including the -EINTR case when a
+   fatal signal is pending after the mmap lock has already been dropped.
+ - Update comments around HMM_FAULT_UNLOCKED and the HMM fault loop to match
+   the current hmm_range_fault_unlockable() implementation.
+
+Changes in v4:
+ - Rebased on 7.2-rc1
+
+Changes in v3:
+ - Return -EFAULT from dmirror_fault_unlockable() when the mirrored mm can
+   no longer be pinned.
+ - Add an eventfd stop signal for the userfaultfd handler thread to avoid
+   waiting for the poll timeout on successful test completion.
+
+
+Changes in v2:
+
+ - Split into a preparatory refactor (new patch 1) that moves
+   handle_mm_fault() out of the walk callbacks, plus a smaller feature
+   patch on top.  Suggested by David Hildenbrand.
+ - Hugetlb regions are now supported on the unlockable path; the v1
+   -EFAULT short-circuit and the hugetlb_vma_lock_read drop/retake
+   dance are gone.
+ - Distinct internal sentinels for "needs fault" (HMM_FAULT_PENDING)
+   and "lock dropped" (HMM_FAULT_UNLOCKED).
+ - Outer loop now re-walks after a successful internal fault so the
+   faulted pfns end up in range->hmm_pfns.
+ - Kernel-doc on hmm_range_fault_unlockable() and the
+   Documentation/mm/hmm.rst example match the implementation.
+ - Dropped the mshv driver conversion (v1 patch 2); will post
+   separately.
+ - Selftest converted to drive the path through test_hmm with a
+   userfaultfd handler (new HMM_DMIRROR_READ_UNLOCKABLE ioctl).
+
+---
+
+Stanislav Kinsburskii (3):
+      mm/hmm: move page fault handling out of walk callbacks
+      mm/hmm: add hmm_range_fault_unlockable() for mmap lock-drop support
+      selftests/mm: add userfaultfd test for HMM unlockable path
+
+
+ Documentation/mm/hmm.rst               |   66 ++++++++++
+ include/linux/hmm.h                    |    1 
+ lib/test_hmm.c                         |  122 +++++++++++++++++++
+ lib/test_hmm_uapi.h                    |    1 
+ mm/hmm.c                               |  209 +++++++++++++++++++++++++-------
+ tools/testing/selftests/mm/hmm-tests.c |  149 +++++++++++++++++++++++
+ 6 files changed, 504 insertions(+), 44 deletions(-)
+
