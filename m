@@ -1,120 +1,161 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70BF4C9018
-	for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2026 14:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19FB4949FF;
+	Thu,  2 Jul 2026 14:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783001604; cv=none; b=Cvt7D3BDuP2GcpLtrh6mS9+lD0xIf+3Y2c8kiaurVKGPZ8SS7BCOoris7kucKETxtDRR3HhhUzO9MUNMg0sTy9yHWrM/akOPa+sWfJ8WeNCcMCPDDWp7JJoBl7ubAdhHhvNFRaxhzF6gyNuzGM6TzeTEcn72158bsWN23K6ul5I=
+	t=1783002798; cv=none; b=Me3/X7KKqNWKAsrp96N23iIdzMx4wW72GR7QeE9qLGlrfBhl4A0XDrPuibJe66iALamywBx02v3PhrH3b533YjeR+U0YbhsO0VIIw9SKaYVzfxUPE66OteLUwJCg9y6cHVyEbZoF2DWQLsPDM9eBUoH4I/nL0DXGs9YYg4g5UWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783001604; c=relaxed/simple;
-	bh=Pg2lqWXp76Badtsi2DF7GRbFExK4NjUhM71ibyIo/70=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HFzM+6n1NmQUB8NgnxsaVAmBBwf3oGZgTc/lKbzuYkEVgEQAe2eUWCV0XBIU/WfosDCvhxN+0yxbiJfLpuY1ep7yqlFN1tHz8E9RY2cw7jRal1m4UDrLf9lNg9FCH/havGG5gYGCuSW+pPCjVmLBQV4BuSD7JRhUfpwsRL2780o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ee+PH7u/; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783002798; c=relaxed/simple;
+	bh=VwALL1CLa3MHOZPyhYCPHFevCXfXeLWPcPMyfYsJl/8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ifnQwCeBBc5SzKKwVo+3bSfKsv9sgPRAtt5sCmonhM+wFndc9iCVJZVkvJ2DuS26Zm5SNAwY+jG0KUaaN9x2ud55GoyFvQzPV3IKT1TpX3zjJ1nJRkxyDz2X9dzeiI0JDj7mt+LtZ2o5haE1XLQM8HVOnzPJfzXR/b3cyGvjLYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EsgETONb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ee+PH7u/"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cac59f8b64so1837205ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 02 Jul 2026 07:13:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783001597; x=1783606397; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wz4agU0yn9wkoZiN7DYnByNy4LBmnpfOWuBui52/YVg=;
-        b=ee+PH7u/RbYlwtKfM7WOe/SEq7tQKbgqxqPpWgTIeXnAIBaP5zY46EPrSmHJASgX38
-         uv5Bk7RsZ3EjTrb63Chj0rrKgKQQIi8YRgbSE7flI3Ydl/gA1oXykpmJ52tnj22JYzKU
-         XRSic0QVVZBTlXUoHhPReV1tYPzh9BzDgmjA7pKoCssyCoBnzyl1qOxy5Zma0XwNRL+a
-         CKeYutDjAuZAP0fYUUda8CEgy1nBim00n9Dg8xx59HJ9phGWO20A348/9aDFTc1JGRwK
-         +KmJOzvjGTg/oz2QEjxaw0lG4N4iYHwJ1iNi7/Fdyer8tptKB3vSWyBVzOGNftiJm1ay
-         iA3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783001597; x=1783606397;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=wz4agU0yn9wkoZiN7DYnByNy4LBmnpfOWuBui52/YVg=;
-        b=EIz1Y/NBJQmepphG46CrSK8FhiXPjpse9td+jaIck1G6TvsZyWa4ASTJBj/v1/b3vL
-         mu987s9IRh2QqOR9k5R/cysVJ4ti3/K8o+mWAW0stp8fYIwNgyxOK1Ygdvs2hC19pc4p
-         L0mx/LQ8PXyY2+g2LxbOijMlP7C9oSEJoOeSzcBYQaMjO9kCJ/xuHH+B+6OE09ucsHKm
-         TMVi83bjmd697jnqry4AROZzj30FowZeIn+bLFQQL5XamOGdn9U8fu5TlW8W2L5oJPpY
-         1WtzDktiJuF5B2HdGCmBTaBsY/wslGtCnCnORRE4EkSV5CtXasFJnZfTIsIzvIwdzhaO
-         KjMg==
-X-Forwarded-Encrypted: i=1; AHgh+RoMTzgcT9X1/0J5a3pIoRTRVbloDGyTuvNqHxahnaIMI6YIE5JZbNX322vbkEsI7AtrhB2dC2Lqu20=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2DY/t256vRsyDcDOM5xqopmiAmZucjAYrUlgBnIsolnQivJC3
-	Wb19kU2rRSpkYfzdMSGb+7PvNtG9/6I3plO3O3m3x1FMMnUArpKOPOjY
-X-Gm-Gg: AfdE7clvpfCQ95B0/iRdklFA5Ne6oghc1YCTahHxoZZWE7DapMM292umFsNKiSNsZrF
-	ZBt3vod7y3wYyOjzU3Q6w6+QC2tmwgr3SPDHpnKmYai5wNR4ChsNhnz2aKizY8LIa1YrY2pc0fU
-	I5tBtrP9ba1CsDfOVRbd+DhhWupRTHLcAkpFD//cawbyg0Sn/dQAEa6sGrur3EMSU2aBihWtdBO
-	m2xthqLxayJraDZQ+MD7d9LtRfbjUjst/uaPUJzYAi2FEqNKKcETLXBbwmFxvbmYByHUlmJKlaU
-	aMe1jMlmjEwAnJsCWHEnMqoDJILU+QlfYJE8rYoAYzhv5USmYyaSz/gNiMUJqLzVf+9byX8OBD1
-	5iwztiIwDyhl4tua9JUyJGMe4lzxXDdznanP0M3W2v7gYu1JH83lL5aYeYE40dIjxWMu/ycEaga
-	TyKJEIXC2fCZ2Ur8pElOzZ0v3dAg==
-X-Received: by 2002:a17:902:fc44:b0:2c9:dbb5:c1ec with SMTP id d9443c01a7336-2ca7e8b5334mr69557085ad.47.1783001597445;
-        Thu, 02 Jul 2026 07:13:17 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca9a90ca0esm14205725ad.27.2026.07.02.07.13.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 07:13:16 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 2 Jul 2026 07:13:15 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Manuel Ebner <manuelebner@mailbox.org>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"open list:WATCHDOG DEVICE DRIVERS" <linux-watchdog@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] docs: watchdog: Fix brackets
-Message-ID: <645105c6-0302-4ab9-a249-09a4036d6409@roeck-us.net>
-References: <20260627091707.29688-2-manuelebner@mailbox.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EsgETONb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9BAF1F000E9;
+	Thu,  2 Jul 2026 14:33:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783002793;
+	bh=WrG0OcwOEgURZ4WYdMBRYNJ5EzkU3zUGs20P0YcxiIM=;
+	h=From:Date:Subject:To:Cc;
+	b=EsgETONbu4Lf13kgKceGuPUwlW5Jop5gl7AkievMhu/qFGpHR3L9zpPvqzaWHJrPl
+	 WCWqXv0HEDxDIpSfhVE0e/6XiC/24YH7fBA2TnrArkajO5v+pEqNkESWw0vqqz0BZv
+	 E40rRn/ID4qgmmt3rrAoyuIDip2vNgYxEAGbquhWMbLk1J5IE9EBL4Il8ZN0aUKFYu
+	 J7i3S1Vx5Ie5Yb5ljauF4C1UR9cs0LS9wCMMWSv/c7CNnx/wsHMPYV3UxMZuaVXbOc
+	 PZK6V2Qa4UMHp52H7RuyJLkkWvGMJx65XkWPZ6RsDU14TDplp6r+JQlNkzJEb6EfRh
+	 7TuNzx4jmfn7w==
+From: Jeff Layton <jlayton@kernel.org>
+Date: Thu, 02 Jul 2026 10:32:48 -0400
+Subject: [PATCH] Documentation: remove the requirement for LLM attribution
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260627091707.29688-2-manuelebner@mailbox.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDcwMj3cTMlPxkXfNUQ4s0IyPDFDPjRCWg2oKi1LTMCrA50bG1tQA60Uk
+ AVwAAAA==
+X-Change-ID: 20260702-aidoc-7e18f221d63a
+To: Linus Torvalds <torvalds@linux-foundation.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+ Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
+ David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
+ Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
+ David Hildenbrand <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3314; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=VwALL1CLa3MHOZPyhYCPHFevCXfXeLWPcPMyfYsJl/8=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBqRnai/gKXOrwEHaJip75IM/d38JKS5kmCb/eoy
+ NT66RC0KhKJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCakZ2ogAKCRAADmhBGVaC
+ FXJDEACeLv7UX7B+3MkvQeF7XtMmdwNJANt7yElsGT0Hq2pQLLrHjN6IiUg4aphBS2wSbKp3Evv
+ FQyzZqj/OJBE1ZzoLhqNyCWqqWu7yFZ2n2eLwJO6Y4jgOL0sBZDL9BBvhkFlOeLjE0GPopFgP5z
+ VrG41+oHi51Gn/8GdoypLNKoBzBSm0IIs0+uz/dXJpxT270KnpK6mwXGtKyt7no1N0lcyOPIPJm
+ KXqZ2qnViDQPxqNx00sT9m45qVjsh+UludTVuHqvcBFNLYSMg9AhakAc3gTxpWsXCBhT1uEp683
+ lLG0AE/xNOGUa7QF6BYYtWuRtJsvzj/tj8s+9i4pMqhyACNJoDStE6OfgoeivTgiVGs/JfcXtvi
+ XruNCq9whl9ziCYa1nnnSCFJShLzxYEezF97z9cCb3zK7dOCt6LPl6c0vU665i1WLisOwuxKYr2
+ 56mH2oPSwI1tXbdbwM8pQNRQVb9LdoArZL7/AYjsVL1uzCMwtulHC+Xgs7iXK6fVQg9BPwfTzFv
+ HiRyq+f5nX+fTGg48T6SElmcTRzcKfkxq6dy+NZhQl3mBJhxPLJwHOx1pShgvrIZNF1sK4u1yZm
+ z01e5JBCmxCRBE/dq2vbfMngJReVnTBIe9BN3bunKeFXy4WUSgpGgw0bccG+bkvhmreDDmmRGFc
+ ZVXBV3x5Pu5xcnA==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-On Sat, Jun 27, 2026 at 11:17:08AM +0200, Manuel Ebner wrote:
-> Add missing brackets ')'.
-> 
-> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+We've had this requirement in place in the Documentation for several
+months, but it's becoming clear that the signal to noise ratio from this
+is quite low.
 
-Applied.
+1/ It's not universally followed. While many people do try to attribute
+the LLMs in good faith, not everyone does for various reasons.
 
-Guenter
+2/ It basically serves as free advertising for proprietary LLM companies.
 
-> ---
->  Documentation/watchdog/watchdog-parameters.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/watchdog/watchdog-parameters.rst b/Documentation/watchdog/watchdog-parameters.rst
-> index 2359aa32e25d..8e2df5b7d241 100644
-> --- a/Documentation/watchdog/watchdog-parameters.rst
-> +++ b/Documentation/watchdog/watchdog-parameters.rst
-> @@ -59,7 +59,7 @@ advantechwdt:
->  
->  alim1535_wdt:
->      timeout:
-> -	Watchdog timeout in seconds. (0 < timeout < 18000, default=60
-> +	Watchdog timeout in seconds. (0 < timeout < 18000, default=60)
->      nowayout:
->  	Watchdog cannot be stopped once started
->  	(default=kernel config parameter)
-> @@ -68,7 +68,7 @@ alim1535_wdt:
->  
->  alim7101_wdt:
->      timeout:
-> -	Watchdog timeout in seconds. (1<=timeout<=3600, default=30
-> +	Watchdog timeout in seconds. (1<=timeout<=3600, default=30)
->      use_gpio:
->  	Use the gpio watchdog (required by old cobalt boards).
->  	default=0/off/no
+3/ It's not clear why we want to collect this info in the first place.
+
+Given that the data this provides is flawed at best and is being
+collected for a purpose that isn't clear, let's just kill the
+requirement for these tags from the kernel at large.
+
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Christian had proposed watering down the LLM attribution, but I think
+it's not productive to try and track this until we have a clearer sense
+of what we want to do with this information and how to make it more
+reliable.
+---
+ Documentation/process/coding-assistants.rst  | 22 ----------------------
+ Documentation/process/submitting-patches.rst | 10 ----------
+ 2 files changed, 32 deletions(-)
+
+diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+index 899f4459c52d..c4cc0917fc92 100644
+--- a/Documentation/process/coding-assistants.rst
++++ b/Documentation/process/coding-assistants.rst
+@@ -35,25 +35,3 @@ is responsible for:
+ * Ensuring compliance with licensing requirements
+ * Adding their own Signed-off-by tag to certify the DCO
+ * Taking full responsibility for the contribution
+-
+-Attribution
+-===========
+-
+-When AI tools contribute to kernel development, proper attribution
+-helps track the evolving role of AI in the development process.
+-Contributions should include an Assisted-by tag in the following format::
+-
+-  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
+-
+-Where:
+-
+-* ``AGENT_NAME`` is the name of the AI tool or framework
+-* ``MODEL_VERSION`` is the specific model version used
+-* ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
+-  (e.g., coccinelle, sparse, smatch, clang-tidy)
+-
+-Basic development tools (git, gcc, make, editors) should not be listed.
+-
+-Example::
+-
+-  Assisted-by: Claude:claude-3-opus coccinelle sparse
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index cc6a1f73d7f2..b74c38aa9770 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -634,16 +634,6 @@ bugzilla.kernel.org is a public place in this sense, but email addresses
+ used there are private; so do not expose them in tags, unless the person
+ used them in earlier contributions.
+ 
+-Using Assisted-by:
+-------------------
+-
+-If you used any sort of advanced coding tool in the creation of your patch,
+-you need to acknowledge that use by adding an Assisted-by tag.  Failure to
+-do so may impede the acceptance of your work.  Please see
+-Documentation/process/coding-assistants.rst for details regarding the
+-acknowledgment of coding assistants.
+-
+-
+ .. _the_canonical_patch_format:
+ 
+ The canonical patch format
+
+---
+base-commit: 665159e246749578d4e4bfe106ee3b74edcdab18
+change-id: 20260702-aidoc-7e18f221d63a
+
+Best regards,
+-- 
+Jeff Layton <jlayton@kernel.org>
+
