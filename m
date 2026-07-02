@@ -1,68 +1,63 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101C2492187
-	for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2026 13:09:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3925F39E9B0;
+	Thu,  2 Jul 2026 13:17:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782997762; cv=none; b=oxxFSM7gtiLZhHl7oFZVPNxVnVObf5JckkVzPOeKqUByEccd8lh+hPtGSqvh2KbCsAnxt0PXAVaC40yyQxJf+WmAGaGRTPS5Rq7EexatBB1mE0mbMdA+LgLrR/uoe2VEm3B8wSLLW0uNpIUTZSnTD8TJiRXAdV3uA6qnwrUpTGE=
+	t=1782998272; cv=none; b=Q07ZJejuhM6WJvXF7klZrzHGe6gDF/JX/DKkHr9x93/UrySN32H9Ui5pfsnsJijYobPjeseE2HYZ82AiLbYBOMLp/XHkjjjwhdllKugr+rRv9qOC9fFXGIdQX15M0M1Wuk/RbpHCddPabCrDB71hcIjcJl7Q/MeVYEnmXj+zzNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782997762; c=relaxed/simple;
-	bh=fiJrezrPzd/66Esvi9NNyo7ek1v+7YfLuLcqu8NbMQ4=;
+	s=arc-20240116; t=1782998272; c=relaxed/simple;
+	bh=//D3uZfTEdwmfAVlWaaXFjUGMJyonaRFXbBx+eXZKZY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=saDQ68dBjpmztsekv03nze3w7SaGaf+miLQlqWhgxt8XPH/TWd8T2uXdn3QIWad28F7jwEFoyeVnNka++17nT2q+o1dmXZnH314HW0JXiTNtiU+1M63OKz8kSm40+BPnliAsgB2yjHkkLm7aY5n/9XHExy+WJzvfFufp1m6BVYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=e5xSdVp9; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=RUdlFyDRdH8GAPtgXYP5Ww2RJQmuoJTUFjj2ys5j9GUQcZgXbv2vU4xD5/xLleQlLCPuiL/nHLJhxS5t+4jUwYXqlfg4ETCN0jDUcQrWODMM7JWbEnD7WjnYtDOHOD8PjPn/bFunBAO3+lvu5qH+Cpg5gfzlvZbxJeEbhM5rxwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=hz0z6wqw; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e5xSdVp9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782997759;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pk2pYhN52w0a/kFsyxeCmsifCUQ0v8hhl1JGZ0yb2rk=;
-	b=e5xSdVp9T9b8A8dVDrIaiGy+Lvt04MOedLt0Rs8EvCdQxxee7hADQUMr+zvRRP66ko7Uqg
-	B6TBIo6TDUy7d3y/jlEPxlLiLLlQdcwFQubYMpBdCXsep6syOqEhwomBPCF68o5WzBYr7n
-	fiLXkKPJJQ70xUSloCclbRWV2vq1Fuo=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-642-9HHLOQTTMlCktmfHsFKvaQ-1; Thu,
- 02 Jul 2026 09:09:13 -0400
-X-MC-Unique: 9HHLOQTTMlCktmfHsFKvaQ-1
-X-Mimecast-MFC-AGG-ID: 9HHLOQTTMlCktmfHsFKvaQ_1782997751
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C51CB1944EB6;
-	Thu,  2 Jul 2026 13:09:10 +0000 (UTC)
-Received: from bfoster (unknown [10.22.80.59])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 29A923001D87;
-	Thu,  2 Jul 2026 13:09:08 +0000 (UTC)
-Date: Thu, 2 Jul 2026 09:09:05 -0400
-From: Brian Foster <bfoster@redhat.com>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Christian Brauner <brauner@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	David Hildenbrand <david@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <akZi8XmYA0XUCx2-@bfoster>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <akYasD1ckWcH1C0g@lt-jori.localdomain>
- <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
- <20260702093844.GA3491311@killaraus.ideasonboard.com>
- <akYx9blvVhIXB5A-@lucifer>
- <akZSOa4awK5l9x_w@bfoster>
- <akZW1RPqTc-4_7jW@lucifer>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="hz0z6wqw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=SMqwiBjsY811wsdhvrMKy4I/6nVJL+QwyBvMLtPCIa0=; b=hz0z6wqwjfes3BE50Xqto7zsNL
+	9eVqpXP/xwtLZ115zutnnXHtn1IIhPGlpCdXwVzOuERWVewx3WLOOLC3DtMaFCaHUGSrgwqHIL6wS
+	1Ub2iKLLM8VjFXFfAhXU7ogEuMLDtk0Q9ziEQjwCJEKijQYMU9FOJl3ABt7/jIsyvdog=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wfHHv-00ANFi-8x; Thu, 02 Jul 2026 15:17:07 +0200
+Date: Thu, 2 Jul 2026 15:17:07 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
+Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Wen-Zhi Huang <wen-zhi.huang@mediatek.com>,
+	Shi-Wei Yeh <shi-wei.yeh@mediatek.com>,
+	Minano Tseng <Minano.tseng@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [External Mail] Re: [PATCH v3 2/7] net: wwan: t9xx: Add control
+ plane transaction layer
+Message-ID: <1e75c090-f4aa-4a02-82f5-fd4f3854acbe@lunn.ch>
+References: <20260624-t9xx_driver_v1-v3-0-73ff03f60c48@compal.com>
+ <20260624-t9xx_driver_v1-v3-2-73ff03f60c48@compal.com>
+ <2a90ae6b-2b6d-4340-b557-915252cc3488@lunn.ch>
+ <49939d4d682f4c1fb359973ea2cdbd00@compal.com>
+ <92b1e341-31a1-4f60-80d5-ccf8f742a38a@lunn.ch>
+ <4ec081f8df234cc584702abc67213965@compal.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,114 +66,15 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <akZW1RPqTc-4_7jW@lucifer>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+In-Reply-To: <4ec081f8df234cc584702abc67213965@compal.com>
 
-On Thu, Jul 02, 2026 at 01:18:06PM +0100, Lorenzo Stoakes wrote:
-> On Thu, Jul 02, 2026 at 07:57:45AM -0400, Brian Foster wrote:
-> > On Thu, Jul 02, 2026 at 10:44:09AM +0100, Lorenzo Stoakes wrote:
-> > > On Thu, Jul 02, 2026 at 12:38:44PM +0300, Laurent Pinchart wrote:
-> > > > On Thu, Jul 02, 2026 at 10:44:34AM +0200, Vlastimil Babka (SUSE) wrote:
-> > > > > On 7/2/26 10:12, Jori Koolstra wrote:
-> > > > > > Ah, I still reigniting this discussion again :)
-> > > > > >
-> > > > > > What about a combination of what David and Jeff say? The whole point
-> > > > > > seems to me that the salient information is not that an LLM was used (or
-> > > > > > are we going to tag Sashiko as well or any other LLM-based code review
-> > > > > > tool?), but what is was used to do. This information may be relevant for
-> > > > > > how the review is approached. The latter should perhaps only be in the
-> > > > > > cover letter and then we can drop the assisted-by tags altogether.
-> > > > > >
-> > > > > > The question about enforcement remains.
-> > > > >
-> > > > > It's not possible to enforce it. People can deny it if the tag is missing
-> > > > > and you confront them and even though the submission has many signs of being
-> > > > > obviously LLM, there is no definite proof. We've seen (likely, as there's no
-> > > > > proof!) that happen in mm.
-> > > > >
-> > > > > Such situation then penalizes those who disclose so obviously they won't.
-> > > >
-> > > > I think there's also a penality for those who don't disclose when
-> > > > they're told they should: it will lower trust. Kernel development is
-> > > > largely based on a trust model. If a contributor decides to adopt a
-> > > > deceiptful behaviour, they can expect maintainers to raise the bar for
-> > > > accepting patches, when not rejecting them outright.
-> > >
-> > > Yes, I explicitly said this in response to somebody for whom there was
-> > > overwhelming evidence they were submitting AI slop, and that they'd need to
-> > > build it back up again.
-> > >
-> > > It's precisely the issue as I see it.
-> > >
-> > > But others within the community disagreed with me, so it turned into a very
-> > > long and draining discussion that I don't particularly wish to repeat.
-> > >
-> > > So we really need clarity on it being OK to do this (I remember saying this
-> > > last year when I made an ultimately unsuccessful submission to the
-> > > maintainer's summit about all this :)
-> > >
-> > > What matters overall is being able to _quickly_ dismiss AI slop so that
-> > > asymmetry between LLM generation + maintainer time isn't exploited.
-> > >
-> > > And ultimately I think the trust model will end up being 'newcomes have 0,
-> > > now build it up'.
-> > >
-> > > Which sucks but this issue is simply existential for open source.
-> > >
-> >
-> > Has anybody tried throwing any of the obvious LLM slop submissions we
-> > have seen into one of these LLM detector things? To be clear, I've never
-> > tried those so I'm certainly no authority on if they even work reliably,
-> > but if so I wonder if something like that is a potential solution for
-> > elminating the worst cases..
-> >
-> > I.e., suppose we had some Sashiko type LLM/bot whose job was mainly to
-> > detect purely LLM generated content based on some minimum level of
-> > confidence and reply with a loud and clear message to the thread. Maybe
-> > that would be a clear enough signal to maintainers and reviewers that
-> > something is not worth prioritizing for review.. Maybe also some "slop
-> > detected" feedback would help disincentivize flinging slop onto the
-> > lists. At the very least that could be something that is more easily
-> > configured/enabled per-subsystem without having to use per-subsystem
-> > commit tags.
-> 
-> Yup I thought of this, have done this on series and they do detect it
-> reliably.
-> 
+> We will also remove all unnecessary devm_kfree() calls from probe
+> error paths and remove paths, keeping them only where resources
+> are freed and re-allocated at runtime (e.g., CLDMA queue lifecycle
+> during modem reset cycles).
 
-Interesting.
+There is no point using devm_ if you are going to manually manage
+their release. Anything which has a shorter lifetime than the device
+should use kzalloc()/kfree().
 
-> But then it becomes an arms race. People will get AI to try to defeat AI
-> detection. So I'm not sure it's a safe road to go down.
-> 
-
-Yeah that's fair, but my thinking is the goal would be more to detect
-slop content as opposed to just LLM usage. The trend of these
-discussions has been that we generally don't care too much about LLM use
-in general when it's used properly as a tool, but rather as you stated
-earlier we want to be able to quickly dismiss slop to avoid wasting
-maintainer and reviewer time.
-
-It seems like we're generally able to sniff out pure LLM generated
-content in most cases. That suggests we should be able document some
-common patterns that tend to describe slop such that an LLM bot could
-detect and flag it. For example, "Slop bot has detected comments have
-LLM prose and just repeat what the code does," "Slop bot has detected
-unnecessary code volume and duplication," etc. etc.
-
-So the idea with that would be that defeating the slop bot is the point.
-Consider it a sort of informal/minimal goal before a submitter is
-entitled to human review. But yeah, I guess it's still just a handwavy
-theory that you'd be able to reliably disentagle detection of general
-LLM code generation from something that more qualifies as LLM slop. Just
-thinking out loud.
-
-Brian
-
-> >
-> > Brian
-> >
-> 
-> Thanks, Lorenzo
-> 
-
+       Andrew
