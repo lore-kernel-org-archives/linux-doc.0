@@ -1,73 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAFBF357CFA;
-	Thu,  2 Jul 2026 09:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD064412271;
+	Thu,  2 Jul 2026 09:24:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782984053; cv=none; b=HGYFvGypouAbv1aO2Bm5DPZIIhJ+bMESh3BM8tvYRThNdM7bfWTZCnEWVL/ODG/O/ljy3A8pHcSaGjfpsnREx0zucE0/xGG6e5OBmbNHEqUGT3PGRCI03uBPH6wREFZw2KwzeT8B06hy4mm4RqqR46vW1I0HZTBSxLSgFtkYMBM=
+	t=1782984300; cv=none; b=DOTLiUSgl6EIMYCkXzDRrRVFdAF5Z4LYe7rPJRjFeU8YrYKA1VBeA6oLAxF6VJllt1FsXSbaYNLfyJi1M5q6ZacLMH7hSkGTE2KAdpMvCRFZfMjVvtWBB8OBN802ceJfht26edTVN/oDIUg/g86uuT0PhNlYYW83GHR2plh1iHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782984053; c=relaxed/simple;
-	bh=gjNPHhngjbQG/fwTaT1PmZuXub3d1bbMsOCUElo4gG0=;
+	s=arc-20240116; t=1782984300; c=relaxed/simple;
+	bh=ZS7u7hz1Qbli0QqnmbwELxK1FEHM1yiG9rosI7WRkco=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fc/bT+UDQQhNa37NcfmWpw2A6P+vDWdj+8lkcWWX5G1WqkoQp5PWT6Bn/y6h/2f1DEtCk0SmA2gw/B6tJTBXwvwZDBAhQhqFsHTcbYgJ1zPtu6vbwbFiA+HjxPU/2Ah6yDMxlVW9PFXszkG7L+XLl1x9ddwWSL0mTPGnvdAhZGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lKXO0I5P; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=um48A4v/2pQ2rBCr1xxSbclxo2QYJgSPsS0cZOZyk+1aDeDS6T/5WXuv0ODCj1ZiODfjRFOKCCG03Haubyv16C04+X17vyiLOG611VfBZ4hLEMLhqNTbXpMvVIg1zaVYxU1FTC7+9SbfEbjUvAGaYTr4ZlFxuX24hPRztcf9qm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PpPbJ4g3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lKXO0I5P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782984053; x=1814520053;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gjNPHhngjbQG/fwTaT1PmZuXub3d1bbMsOCUElo4gG0=;
-  b=lKXO0I5P/Zb0z77t+lbEBNCXDVSYNz0WBwMW8m0xdf/GEQdafheFNB+M
-   3O2yI9OKJ9QRy0N8chPSW8X9HfFMpGvA0+qr0ezohoFhAhKD+R6D689UO
-   Hl29/whOtrGqheQH/upf2H2sq9Kf5BxTHOfhxUtxvuDENXjknu4mFjGUj
-   OcC1wpep13o+kHWbJHbyQEcEsF5YasGV2hM+D+MAJ1QGEBVsUKIFQNJwt
-   RaOynRWKJyJMgpMxpuPYi1ffhGvGYXH0MwkGTGoRcZzPw2BOqmHiqNRvn
-   nEF9YFMxBKFuqXojG2RKTH6bUuO5j2FXnubI98JQ1c2u7kmIQvtwXnTf/
-   g==;
-X-CSE-ConnectionGUID: 5uOPKmGwQ9avpHvmMYWWlw==
-X-CSE-MsgGUID: tjeH6ebGQduTsR68BtbkMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="87563994"
-X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="87563994"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 02:20:52 -0700
-X-CSE-ConnectionGUID: BM7/czkqS7WHsjh8y6n9pg==
-X-CSE-MsgGUID: 0DBzkv31TQird/u5tzewow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="290935070"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.213])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 02:20:49 -0700
-Date: Thu, 2 Jul 2026 12:20:46 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Hugh Dickins <hughd@google.com>, linux-mm@kvack.org,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Lorenzo Stoakes <ljs@kernel.org>
-Subject: Re: [RFC V2 3/3] mm: Replace pgtable entry prints with new format
-Message-ID: <akYtbi0Is2JL2t9a@ashevche-desk.local>
-References: <20260610043545.3725735-1-anshuman.khandual@arm.com>
- <20260610043545.3725735-4-anshuman.khandual@arm.com>
- <fc57bb9a-4564-489e-8da4-65068b5283ae@kernel.org>
- <4a416383-62f5-1716-8e04-a2ee1f89a864@google.com>
- <dabfd73b-d872-4267-9a40-45463fe146ac@kernel.org>
- <3afa822d-3cc9-1068-9a10-94a5f2e4d29a@google.com>
- <90b5cd31-87ed-4ef7-86cc-458b9e06b02d@kernel.org>
- <5a8e82f3-ed21-48a8-af3c-36a08fd2b0ec@arm.com>
- <82902a84-7e62-496b-b1c0-62bad1be4525@kernel.org>
- <e4ec99fc-dfb1-4205-a193-f694e9f6a13b@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PpPbJ4g3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F6B31F00A3A;
+	Thu,  2 Jul 2026 09:24:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782984298;
+	bh=fWN2PUZqz314MN6aw/zLCpIVBp40dgc/RS82IgvPVMA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PpPbJ4g310gK8zS/jgvsvWNGJUjuzCQkeJltv5RR3fm3WEyQnzATo6Tu7ZlqpjlaY
+	 KvH/MGkLBv3LPh8q20cdGdZjWjaFoNNmbjqrnFAHQXclwoCvFlhG0WV7M552ZXNSrL
+	 0OWfiAhjYpjzACxY6BsCt55l4MrQcvj9xgDOhCWSkL8RDm3sgp0PJmoVmFw9vd9nlL
+	 tdcZciGoy6Qn6BRP7sD7snET3sdFlOtJrYxzvEs9ARi+ITy1i0wx6UBmYlOVjr2sEh
+	 nOvr++WrQzSv17CMWZWNlq5bxBnXyAUqJsaGrEptPfJ03G4ZJA4oLPAv5+Lb97e+hJ
+	 72gKjkjWYOjjA==
+Date: Thu, 2 Jul 2026 10:24:51 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+	Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Message-ID: <akYjFXFaVDCx6WH0@lucifer>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -76,32 +45,146 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e4ec99fc-dfb1-4205-a193-f694e9f6a13b@arm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
 
-On Thu, Jul 02, 2026 at 02:34:22PM +0530, Anshuman Khandual wrote:
-> On 02/07/26 1:02 PM, David Hildenbrand (Arm) wrote:
-> > On 7/2/26 06:29, Anshuman Khandual wrote:
+On Wed, Jul 01, 2026 at 06:10:48PM +0200, David Hildenbrand (Arm) wrote:
+> On 7/1/26 17:54, Christian Brauner wrote:
+> > I remain very confused by our coding assistant contribution guidelines.
+> > I'm going to be a bit polemic now but this seriously in good faith.
+> >
+> > Why precisely do we require all this detailed information about what
+> > specific coding assistant was used?
+> >
+> > I find it very irritating that our git history has effectively started
+> > to function a bit like a free advertising platform for a bunch of AI
+> > companies and their proprietary agents and models.
+> >
+> > And it reamins unclear to me what exactly we do get out of this detailed
+> > information: Do we want to run statistical analysis on what agent and
+> > model is used the most and publish that on LWN at some point?
+> >
+> > I acknowledge that my stance is even more radical: imho we would just
+> > stop it with any disclosure requirements completely. It's useless imho.
+> > We already see that other than core contributors most people don't care
+> > and will just not disclose their usage of AI. I think this is entirely
+> > pointless and worse it brings in undefined legal status as well. It's
+> > not like recent events of pulling certain models from the face of the
+> > earth have made this any less concerning.
+> >
+> > But fine, if we want to do this can we please just dumb it down to
+> >
+> > Assisted-by: LLM
+> >
+> > or
+> >
+> > Assisted-by: Coding Assistant
+>
+> I'd prefer this.
 
-...
+Yeah I don't see any reason why we need to know precisely which model or version
+of said model we need.
 
-> > Can you take over this approach and refine it (and address Andy's comments)?
-> 
-> Sure will do that.
-> > 
-> > I'm not quite happy about the
-> > 
-> > 	typeof(pud_val(pud)) entry = pud_val(pud);
-> > 
-> > stuff, but I didn't see an easy (less ugly) way to avoid it. Maybe there is one :)
-> 
-> Could __auto_type be an alternative ?
+>
+> The doc states "proper attribution helps track the evolving role of AI in the
+> development process". If there is another reason why we need the free
+> advertisement, we should document it.
 
-Just 'auto'? We should have a macro for the older/newer compiler versions.
+Yup.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Honestly I find the phrasing here quite vague.
+
+While it is interesting to track the degree of AI involvement (where that's
+disclosed) a really important part of this is how maintainers deal with AI
+submissions.
+
+Also we have a schism in the documentation anyway, there's [0] which is
+literally indexed as 'AI Coding Assistants', which says NOTHING about how
+people are supposed to use them etc. and there's [1] Which DOES say
+something about that, but which isn't linked to by [0], nor links to it.
+
+Before I happened across this thread, I was thinking of sending a patch to
+at least link one to the other. Now I think I definitely will.
+
+>
+> Side note: if someone instructs an LLM exactly what to do, and would have
+> achieved the same thing just typing it in, the use of the tag is not any helpful
+> to me. (similar to "Assisted-by: vim" would not be helpful).
+>
+> What would be much more relevant to know is to which degree LLMs were used.
+
+As I mentioned off-list I do agree that this is key.
+
+Having this information helps with the most important issue we face when it
+comes to AI - an EXISTENTIAL issue actually IMO - the asymmetry between how
+much code can be generated, and available maintainer/reviewer resource.
+
+Being able to, at a glance, see that a series was both wholly generated
+seems substandard means we can quickly ask for more human attention.
+
+And I know what the argument's going to be - 'bad faith people will lie
+about it' - and sure, yes they will.
+
+But now that there's been a huge surge of AI generated code in mm I can
+speak from experience - many DO attribute, and for those that don't it's
+very useful to have guidelines to point to.
+
+Both aid in dealing with this asymmetry.
+
+(as an example, I've had to push back quite strongly on an _attributed_
+series ([2] and [3]) that appeared to be wholly generated. Having this
+information would have helped there).
+
+>
+> Assisted-by: LLM # translate commit message
+> Assisted-by: LLM # generate some test cases
+> Assisted-by: LLM # cleanup logic
+> Assisted-by: LLM # everything and I have no clue what any in here does
+
+Yeah this format works I think!
+
+>
+> I thought we ask for that in some document, but couldn't immediately find it
+> (and nobody does that).
+
+Well you're probably thinking of [1], e.g.:
+
+	Second, when making a contribution, be transparent about the origin
+	of content in cover letters and changelogs. You can be more
+	transparent by adding information like this:
+
+	...
+
+	- Which portions of the content were affected by that tool?
+
+	...
 
 
+And also from the same document:
+
+	If tools permit you to generate a contribution automatically,
+	expect additional scrutiny in proportion to how much of it was
+	generated.
+
+	As with the output of any tooling, the result may be incorrect or
+	inappropriate. You are expected to understand and to be able to
+	defend everything you submit. If you are unable to do so, then do
+	not submit the resulting changes.
+
+	If you do so anyway, maintainers are entitled to reject your series
+	without detailed review.
+
+This only speaks more to the need to link the two documents together. I'll
+send a patch.
+
+>
+> --
+> Cheers,
+>
+> David
+
+Thanks, Lorenzo
+
+[0]:https://docs.kernel.org/process/coding-assistants.html
+[1]:https://docs.kernel.org/process/generated-content.html
+[2]:https://lore.kernel.org/linux-mm/aj9yrlB0TrlYCLlf@lucifer/
+[3]:https://lore.kernel.org/linux-mm/akIjA_dqh4OHAYo4@lucifer/
