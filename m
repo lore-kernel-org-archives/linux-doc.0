@@ -1,105 +1,164 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02B2420E60
-	for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2026 11:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C5B47A0C4
+	for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2026 11:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782993322; cv=none; b=ERLme5J8la2W24UKV4gtUwTOnphKI8PHJajXPPQFzy1R2O3XvpN+ViczzzR/KFmRWD+jT8P8mmpe9axikzyvj5oFJVMZDvoyTlniD2WT2FBrprgvwqp64VzGv3a4/UB0cWTq9B58T/XNkBqEY0y7R4osjFSe6Zc5jmUt94p5Yh4=
+	t=1782993485; cv=none; b=peQsjuZdnK18qYpEH4nRh4vXVsh1s/U7ZZeHc0U6QoWcrND/trI6bCD13Qu5hkPM3ve+bG8R84q6kvEHHLRdBx4qJSUo5rR2eXl/lJDtoTMOlVbpwIz2FYI+8kWN/8B3U0BKhAAti9yEUNZQqDGJCa5WLZG54B14Z7P3jX/0P/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782993322; c=relaxed/simple;
-	bh=3UWePbw4rKjLE9jN9ka4BAbk+tU9/kzm9ZJJmB6lbeo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ghj9wnPenm1mLrZrsUWpWTYbfb30QBrKzAsNgMyVEfxf7vznEmKBAbisN/YT6+tNH30GGIKktcTsyYmbU8GD6Az4i5A7F0NyT7XmC1VOPcDtxcLSY7qCOeJtl9vDSkO6cmoDTWLimQjkcsvrzeOOuwBBi66Ww/LB75L31YUetTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ULcROm7p; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782993485; c=relaxed/simple;
+	bh=ol1u6qHXQ2AZmxoHjQqoDN+JlTGFk0++bJU8o4AE304=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ILOOIYWlcRtGXWoRkYnJTdHXQc2sZo2yfr8QoLVSVd1ArKUJUpbTlKWk2JEqPqQutnUVnzQwdNP7+gN5xZlJHkQH6d9n5e2/CzAa7EgGQvCnLLxU1FXmHrYcWN8dqK5ekXKGrsUZ7+LK5vtwqa0GHL9SoBLxP2BAkIGJCIBw7+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LTyo/Z6H; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ULcROm7p"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-493b779003fso8569565e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 02 Jul 2026 04:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782993319; x=1783598119; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=t0V/WwhcWDu6tebPbs0Nt6qIlHb80wmhn3NHdOSdGwU=;
-        b=ULcROm7p/zMsmFIiUn/Pecf7zLZxyBITk7I+ISXvuVhweGckmqfLSwBDebkpaGzPxS
-         0c0XplhV+AR8lZpor6X2P31uZ0JbVmmJ/JiaWgDdFGoCrzsFAhyDqt9h4h+2KIjvbASB
-         P49j3CqRUMEtbiK59z5/tjRAh/6iVtC3qhBgcSoNT0Sf6ETxY6gVQzO3CmhtkXUelYac
-         gsP4sAcYW1b545RGKtIumLrfu5N2NY7FwW3ZN4K/nGmkKwaPemUgAmcskgohfDaux3u/
-         gIovU653/YxGcAiAdme1vtc0ZYMDJUNur0lJasy1IjucECtlcnAExDly9KzRB9Fa4pUx
-         Go2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782993319; x=1783598119;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t0V/WwhcWDu6tebPbs0Nt6qIlHb80wmhn3NHdOSdGwU=;
-        b=TWgB8hC0YUWrytNu/DVvU+LSoZ7vnxt8B0fKrRyC68rFkQ9kt+EK5ZNFs1gXbRFhyh
-         WripXTagzgFxbWP+0uJbDrpWmHWbBiJsyga0dgCR+31nZnjyv6XiXKCBs8o6ser9AE7a
-         W9RuxMn7oZx2uRrsVuDa+Axck5SgP42VngLz8d/kNfw75RhG2CrSTuP/OQCojUChdC6C
-         4rMa/r6m1ZGkI246497ujxnRZsDiOsnaDiNl5W9hVPeEm4ShnJWsZSNSctttvh8gc+rn
-         GXXV58GGnE8pPTs6cJTXuXggl/yGq18bwbfcYnk4eOc7hjvOs6yCUCwmlDxwI/mO7qVz
-         xDMA==
-X-Forwarded-Encrypted: i=1; AFNElJ9ZTyZCJwU93+Ot8NonwZpuqfMM50lWlszXSXGBXGjmlB/Ho/cNypXG6lJZTlTxcXC2sMvZZP39IU4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz078kBSiIH4j1ysLLqkcP9efBCdR7NTLd9AIThXZU4uF1p+aQO
-	SQXNifPOyWPjvHRk/bXIZGlyA5KhvX7Ikd4egNXNd8VJxSvB4bCpCM9W
-X-Gm-Gg: AfdE7cknYivmpfyNQ6joNKF0oKF5fqDRPa9KI0zH8h4BU2y7ikKA+t7ycTJWA0shtS8
-	kokdhwDs9zdiFnyI1d4h4Xj91odqnweizGErBT7sbiuaYZOWwcLsTv6xSDt5z6WBU9ZCd+APEkT
-	pY4nS+Qx4j/jWs8XsJ/Y/bYgeG2/n+vC4u1UwoVGEPc/F0Ceq9VICG+k5LsVgAz9w79pSafFySa
-	HqUwWM71oio189kEbFKOrGWbAcxBe2/Ju+qWeiwjGGBddLny/vRsKC4Lwqct4IVa/MDRHQ8fA4G
-	ctIQZSN/lXkQi5VhEdsyLh4aCys/mVxlMZomZL7yzRV1+Ct7JOzR20Kv0TsjqxqUOj2err10xds
-	2xpMcvjwlUK7Fuv7MkWVnjIS/PqXnZ+erDEFamQJoHmjSXfMBabyomXK0pKE7uD4nyIG9CDTWFt
-	1lnKrLln/B3RKJ58OVDa3Tui1qgaKkej0sjvuk4+Kq/DW8wEAgcmFnizD3N+ic8iFWOvOq6oTgg
-	zipwbEu
-X-Received: by 2002:a05:600d:6452:20b0:493:bd53:ed00 with SMTP id 5b1f17b1804b1-493c2b38bebmr65763435e9.1.1782993318900;
-        Thu, 02 Jul 2026 04:55:18 -0700 (PDT)
-Received: from [10.128.11.240] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c636c8b9sm45179945e9.10.2026.07.02.04.55.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jul 2026 04:55:18 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <575b53a9-dc42-4510-9466-7a55f6eed22f@gmail.com>
-Date: Thu, 2 Jul 2026 12:55:17 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LTyo/Z6H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782993483;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8xm+vDnzT7DuBwAtfuNAFkFCTgwEZyXMnG++VqJgtfM=;
+	b=LTyo/Z6H4sKuhER6CDU5bXQMnpA4cyotDVeiiLybIKkftkDhilIN0voEF36t31SLQXu6JF
+	5IPFVmXUAUPZ81cgR1n9NhetVC9+llEMR5vKSNVyz3z7ZnpaDgE9aMqKfo/d9R9nN9V136
+	a7qU9CT1K49IwwKG2CM0/93/O5L6GxE=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-130-4Ze0ABGpN0qJj3vSxX-E3g-1; Thu,
+ 02 Jul 2026 07:57:52 -0400
+X-MC-Unique: 4Ze0ABGpN0qJj3vSxX-E3g-1
+X-Mimecast-MFC-AGG-ID: 4Ze0ABGpN0qJj3vSxX-E3g_1782993470
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 23BD81944B00;
+	Thu,  2 Jul 2026 11:57:50 +0000 (UTC)
+Received: from bfoster (unknown [10.22.80.59])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 403991966663;
+	Thu,  2 Jul 2026 11:57:47 +0000 (UTC)
+Date: Thu, 2 Jul 2026 07:57:45 -0400
+From: Brian Foster <bfoster@redhat.com>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Christian Brauner <brauner@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+	David Hildenbrand <david@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Message-ID: <akZSOa4awK5l9x_w@bfoster>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <akYasD1ckWcH1C0g@lt-jori.localdomain>
+ <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
+ <20260702093844.GA3491311@killaraus.ideasonboard.com>
+ <akYx9blvVhIXB5A-@lucifer>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v6 5/5] iio: osf: add UART IIO driver
-To: Jinseob Kim <kimjinseob88@gmail.com>, Jonathan Cameron
- <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260628191337.937-1-kimjinseob88@gmail.com>
- <20260628191337.937-6-kimjinseob88@gmail.com>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <20260628191337.937-6-kimjinseob88@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <akYx9blvVhIXB5A-@lucifer>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Hi Jinseob,
+On Thu, Jul 02, 2026 at 10:44:09AM +0100, Lorenzo Stoakes wrote:
+> On Thu, Jul 02, 2026 at 12:38:44PM +0300, Laurent Pinchart wrote:
+> > On Thu, Jul 02, 2026 at 10:44:34AM +0200, Vlastimil Babka (SUSE) wrote:
+> > > On 7/2/26 10:12, Jori Koolstra wrote:
+> > > > Ah, I still reigniting this discussion again :)
+> > > >
+> > > > What about a combination of what David and Jeff say? The whole point
+> > > > seems to me that the salient information is not that an LLM was used (or
+> > > > are we going to tag Sashiko as well or any other LLM-based code review
+> > > > tool?), but what is was used to do. This information may be relevant for
+> > > > how the review is approached. The latter should perhaps only be in the
+> > > > cover letter and then we can drop the assisted-by tags altogether.
+> > > >
+> > > > The question about enforcement remains.
+> > >
+> > > It's not possible to enforce it. People can deny it if the tag is missing
+> > > and you confront them and even though the submission has many signs of being
+> > > obviously LLM, there is no definite proof. We've seen (likely, as there's no
+> > > proof!) that happen in mm.
+> > >
+> > > Such situation then penalizes those who disclose so obviously they won't.
+> >
+> > I think there's also a penality for those who don't disclose when
+> > they're told they should: it will lower trust. Kernel development is
+> > largely based on a trust model. If a contributor decides to adopt a
+> > deceiptful behaviour, they can expect maintainers to raise the bar for
+> > accepting patches, when not rejecting them outright.
+> 
+> Yes, I explicitly said this in response to somebody for whom there was
+> overwhelming evidence they were submitting AI slop, and that they'd need to
+> build it back up again.
+> 
+> It's precisely the issue as I see it.
+> 
+> But others within the community disagreed with me, so it turned into a very
+> long and draining discussion that I don't particularly wish to repeat.
+> 
+> So we really need clarity on it being OK to do this (I remember saying this
+> last year when I made an ultimately unsuccessful submission to the
+> maintainer's summit about all this :)
+> 
+> What matters overall is being able to _quickly_ dismiss AI slop so that
+> asymmetry between LLM generation + maintainer time isn't exploited.
+> 
+> And ultimately I think the trust model will end up being 'newcomes have 0,
+> now build it up'.
+> 
+> Which sucks but this issue is simply existential for open source.
+> 
 
-On 6/28/26 20:13, Jinseob Kim wrote:
-> +++ b/drivers/iio/opensensorfusion/Kconfig
-> @@ -0,0 +1,16 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +config OPEN_SENSOR_FUSION
-> +	tristate "Open Sensor Fusion UART IIO driver"
-> +	depends on IIO
+Has anybody tried throwing any of the obvious LLM slop submissions we
+have seen into one of these LLM detector things? To be clear, I've never
+tried those so I'm certainly no authority on if they even work reliably,
+but if so I wonder if something like that is a potential solution for
+elminating the worst cases..
 
-The 'depends on IIO' here creates a duplicate dependency, since you
-already placed the import for drivers/iio/opensensorfusion/Kconfig
-within the 'if IIO..endif block' in 'drivers/iio/Kconfig'.
+I.e., suppose we had some Sashiko type LLM/bot whose job was mainly to
+detect purely LLM generated content based on some minimum level of
+confidence and reply with a loud and clear message to the thread. Maybe
+that would be a clear enough signal to maintainers and reviewers that
+something is not worth prioritizing for review.. Maybe also some "slop
+detected" feedback would help disincentivize flinging slop onto the
+lists. At the very least that could be something that is more easily
+configured/enabled per-subsystem without having to use per-subsystem
+commit tags.
 
-- Julian Braha
+Brian
+
+> >
+> > I can't quantifying which of the penalities will be higher, but I hope
+> > (call me naive if you wish) that the vast majority of contributurs who
+> > *know* we require disclosure to abide by that rule, even if it incurs a
+> > penalty. After all, proponents for LLM usage claim such performance
+> > improvements that a small penalty during review can't be that bad, right
+> > ? :-)
+> >
+> > > We
+> > > should drop the tag and instead think how we can empower maintainers to be
+> > > able to use their own judgment and deprioritize dealing with what they
+> > > perceive as LLM slop, without fearing consequences of not being properly
+> > > responsible etc, and not rely on any non-enforceable tags for that.
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
+> 
+> Thanks, Lorenzo
+> 
+
