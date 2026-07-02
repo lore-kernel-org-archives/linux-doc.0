@@ -1,60 +1,50 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00B138E5E9;
-	Thu,  2 Jul 2026 07:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1A33770B;
+	Thu,  2 Jul 2026 07:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782976732; cv=none; b=PslihNuoQsCh+2/Qh/dF9DnigbKa3DNA1nCBtFvsedZCuhpCtNYDM4QzxLi081JIQZAWnLP+UddJ0oOyURur4BaxPaBDOPauAzJxKB/80DvWOoiFTXMli5RW/9Qxmc1YJlXq+iASYtEM/2VcrYX1w1/etJ7buAna8teRhrS2MZE=
+	t=1782976847; cv=none; b=NqpKj7f4U0yIpLBbAknEkeLGx4C+kFbVhLGDCgQX5tcDdtkZ8peWKGxQhl5yIIxTFaAHpz/MBWKIXX2+yHw7mHqn5EvBPcczzSHJ7b27LRwfbP88Cd02dHE7ZnLC163RqBWfONrXJqD0LVzwqYTgwmjiPYRYVxKOFPmzxfMWL9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782976732; c=relaxed/simple;
-	bh=PFTx8LyaxkX7fXYog6cubDGasgmofzlc3E/8maQkuc4=;
+	s=arc-20240116; t=1782976847; c=relaxed/simple;
+	bh=Rik/cteAmaVB5MZ1qJF+opeiZVcZYXeAGO8XUC+b5DI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D9ys+w2dxURfawBcsgkQFX/XCsc00ceamJfySQ5Uuv5TkBRbiTwt4GvhyVa07v79+Ky3xdr+f+j+Xfmp16I+D26nWwwwGNP1D3y71D6bpOR8fSlCKnQ1H/xVvivAU2cNail8+MQH5J5hHmJxsBVebIfGvDJyiPXYXADqRq+zYJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=SfIKXyD2; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	 In-Reply-To:Content-Type; b=QeUSlyleGtP0XiUdvQVC0pPRK6vZNaR76JLKJsIHEo4mI5HmCC20wwvtuuL4uuqrr1J7bnmWbEJvSFhPGdiPbWgQF676PnwYK8lVTy3XowEKQc0HQCdvlz04Z4a9cJmwv6Nibe4EXN/id5SrKTD35Eo4ay2MkChijTm/M2Gsihw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lOzoS2Vn; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="SfIKXyD2"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6621Ki3l2390580;
-	Thu, 2 Jul 2026 07:18:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=hjWUO4
-	UiuJF31otVfTgeDSVKBeqhovYiu1tP2q8OgdQ=; b=SfIKXyD2uGm/F2jPbIzHPX
-	om4Xm8rZwVlgBqL5TPB+ll4K/Jrj397wRbt3+t6p1T/t/oSaPBNAZqrlY+q3LwXF
-	5ILTvHfpfunYk6Sz/EvuoNTZbsCoptqH3VLf3i0qOp4WqFsU7WgN4WwcIQt89UY5
-	rUkZffxQ9eefXJKTmbC+XC0NVLAJvuJLS0s0JBT+8tMdGTOjcKccy0UYH0QECKNU
-	LNfBvQhjssjb370Z+NFf5Fvwo06DIhgZq97hN1IOGbfcgGZCAy6jl8CopaqJQ+2c
-	X7ooQAYfR7XdQiDIdK7LnUnxhpdKyPI6JLFTCCUnHIEBzpWPHNdwOzeteaMSt5sQ
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f26qa89hg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 02 Jul 2026 07:18:30 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66274f6F012140;
-	Thu, 2 Jul 2026 07:18:29 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f2s7wb0ww-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 02 Jul 2026 07:18:29 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6627IPBa49807708
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 2 Jul 2026 07:18:25 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B4CBE20043;
-	Thu,  2 Jul 2026 07:18:25 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F058D20040;
-	Thu,  2 Jul 2026 07:18:18 +0000 (GMT)
-Received: from [9.123.5.233] (unknown [9.123.5.233])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  2 Jul 2026 07:18:18 +0000 (GMT)
-Message-ID: <6941a96a-dcdd-4c22-aca0-b28fb2a5566b@linux.ibm.com>
-Date: Thu, 2 Jul 2026 12:48:17 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lOzoS2Vn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782976846; x=1814512846;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Rik/cteAmaVB5MZ1qJF+opeiZVcZYXeAGO8XUC+b5DI=;
+  b=lOzoS2Vng44II5wGz432YlBGHMcIOFuDNK8WYAIYZzOihvenE0KLUKtB
+   QoQWNbBxut5vojy5f123lXpuffRJyI4wWgO90z/lCuMTyjWkO6DflBbI2
+   AabkDzERttggC4CeQtlVQgCppGxpbPYNmmlqzrFdiPbmsyYWpHrh0CrgY
+   ntm94f5oCT4AXPABWDBNGMMtlHR5j0pl0hk8lzyZxgBQ/gU4fD/11ip7S
+   nk3E5G6wYwvpXQI9UUTnFRSj8CTt4DhmRNANe2efYDOVY4OfKUJHAg0UC
+   QcUIVNtnjCB3Ge3Odt1mK3ESCByXA7U6OAyu2dEEl5l6kGSzymwWne6v1
+   g==;
+X-CSE-ConnectionGUID: GS/JVXD9SLSCV7xGBBQVAg==
+X-CSE-MsgGUID: 91lpwrGHR36L6tYeaLiDrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="83498367"
+X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
+   d="scan'208";a="83498367"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 00:20:45 -0700
+X-CSE-ConnectionGUID: l5lPfuMoRBCG2CIhXD+8dA==
+X-CSE-MsgGUID: Q6Jb8h7mTsmU8u4vRhb9tw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
+   d="scan'208";a="257674244"
+Received: from unknown (HELO [10.238.2.244]) ([10.238.2.244])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 00:20:39 -0700
+Message-ID: <ca22e5c5-9742-44fa-9c47-e4134e832d49@linux.intel.com>
+Date: Thu, 2 Jul 2026 15:20:36 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,134 +52,61 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 20/23] virt/steal_monitor: Act on steal values at
- regular intervals
-To: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-        corbet@lwn.net
-Cc: tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
-        seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
-        rostedt@goodmis.org, dietmar.eggemann@arm.com, maddy@linux.ibm.com,
-        srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org,
-        vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com,
-        pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org,
-        tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-        rdunlap@infradead.org, kernellwp@gmail.com, linux-doc@vger.kernel.org
-References: <20260701141654.500125-1-sshegde@linux.ibm.com>
- <20260701141654.500125-21-sshegde@linux.ibm.com>
+Subject: Re: [PATCH v6 04/11] x86/virt/tdx: Allocate ref counts for Dynamic
+ PAMT memory
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, kas@kernel.org,
+ kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, mingo@redhat.com, nik.borisov@suse.com,
+ pbonzini@redhat.com, seanjc@google.com, tglx@kernel.org,
+ vannapurve@google.com, x86@kernel.org, chao.gao@intel.com,
+ yan.y.zhao@intel.com, kai.huang@intel.com,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
+ <20260526023515.288829-5-rick.p.edgecombe@intel.com>
 Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <20260701141654.500125-21-sshegde@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Binbin Wu <binbin.wu@linux.intel.com>
+In-Reply-To: <20260526023515.288829-5-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAyMDA3MyBTYWx0ZWRfXxFRzhvSBNz2q
- IzRx76gHGjfYn3DnJsiNdIgk/eSIBAB0jrcOxTvAqfjPs+0MWdfmiWzK3Xz7C/AkIEd1oIe5bAL
- g4XWnTTU/3zLqi7frFCGHCX0T0mx5am9ardrC32mvQ1iWnaTCPxfYW2Ri9c7GJw+y1FsPntAKp2
- GHxCbSsK3rrQXQhccnrBuT7kKjz733OkPstMzjomN3m0b38t1aKW31WIdjIEvn2UEZQ6d8maYFs
- 0DJbmRhOhvi1u7V0DlTN/IPWSvVxE62BO4N4bGORTOYGfBaOMyJuQU5oUwdajyA17i21tmwAmsU
- pUxEBr5WK7RpZxKhebPORu+qN+C7Yw3BOr7tpl7fTwGHtPQIQLmrxJqWbTWcwpE5R0UxWJiZXbd
- 4XHI698OWWt3CthgPFJojhyWOPxoowVVyXq8wN8Xs6rCgDiw7Uh6G2f+rneu9Nv+Vlk0NxaOOst
- 5+gerNqe9Vn1jxYAHBw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAyMDA3MyBTYWx0ZWRfX80rRRvnBFUxe
- VRbqKMSj4F27kLYX9DMDPxv5+HzjPBaWC57XlQmWiAFWFl4QypSLYrYGQKD0v2MDjln7pBB2cgO
- +jndXK+a2qgzlpchnzq6KvdKXrPexUU=
-X-Proofpoint-GUID: 8Q0_7dI0mfRubtDJsCOSaDr78ltKGykc
-X-Proofpoint-ORIG-GUID: HbHm5Jhz3aTiQGpnOfXNi-reRESDuRfp
-X-Authority-Analysis: v=2.4 cv=WZ88rUhX c=1 sm=1 tr=0 ts=6a4610c7 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8
- a=VLaiDeBkvOoqmT7bmHAA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-02_01,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 phishscore=0 clxscore=1015 bulkscore=0
- impostorscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607020073
 
-
-
-On 7/1/26 7:46 PM, Shrikanth Hegde wrote:
-> This is the steal_monitor core functionality done in periodic work
+On 5/26/2026 10:35 AM, Rick Edgecombe wrote:
+> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 > 
-> - Calculate the steal_ratio. It is multiplied by 100 to consider the
->    fractional values of steal time. I.e 10 means 0.1% steal time.
-> - If steal value is higher than high threshold, call the method to reduce
->    the preferred CPUs.
-> - If steal value is lower or equal to low threshold, call the method to
->    increase the preferred CPUs.
-> - If the steal value is in between, no action is taken.
-> - Save the values for next delta calculations.
+> The PAMT memory holds metadata for all possible TDX protected memory. Each
+> physical address range is covered by PAMT entries at three levels (1GB,
+> 2MB, 4KB). With Dynamic PAMT, the 4KB range of PAMT is allocated on
+> demand. The kernel supplies the TDX module with page pairs to store the
+> 4KB entries, which cover 2MB of host physical memory. The kernel must
+> provide this page pair before using pages from the range for TDX. If this
+> is not done, SEAMCALLs that give the pages to be protected by the TDX module
+> will fail.
 > 
-> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-> ---
-> v5->v6:
-> - Address u64 overflow concerns.
+> Allocate reference counters for every 2MB range to track TDX memory usage.
+> This can be used to handle concurrent get/put callers, in order to
+> accurately determine when the dynamic 4KB level of Dynamic PAMT needs to
+> be allocated and when it can be freed.
 > 
->   drivers/virt/steal_monitor/sm_core.c | 33 ++++++++++++++++++++++++++++
->   1 file changed, 33 insertions(+)
+> This allocation will currently consume 2 MB for every 1 TB of address
+> space from 0 to max_pfn. The allocation size will depend on how the RAM is
+> physically laid out. In a worst case scenario where the entire 52-bit
+> address space is covered this would be 8GB. Then the DPAMT refcount
+> allocations could hypothetically cause the savings from Dynamic PAMT to go
+> negative on exotic platforms with sparse, small amounts of memory.
+
+Nit:
+Do you think it make sense to print the memory size allocated for
+DPAMT refcounts in the kernel log?
+
 > 
-> diff --git a/drivers/virt/steal_monitor/sm_core.c b/drivers/virt/steal_monitor/sm_core.c
-> index b499faa61010..7b7435f79b85 100644
-> --- a/drivers/virt/steal_monitor/sm_core.c
-> +++ b/drivers/virt/steal_monitor/sm_core.c
-> @@ -34,6 +34,37 @@ MODULE_PARM_DESC(low_threshold,
->   
->   static void compute_preferred_cpus_work(struct work_struct *work)
->   {
-> +	u64 curr_steal, delta_steal, delta_ns, steal_ratio;
-> +	ktime_t now;
-> +
-> +	curr_steal = get_system_steal_time();
-> +	now = ktime_get();
-> +
-> +	/* get the deltas */
-> +	delta_steal = curr_steal > sm_core_ctx.prev_steal ?
-> +		      curr_steal - sm_core_ctx.prev_steal : 0;
-> +	delta_ns = max_t(u64, ktime_to_ns(ktime_sub(now, sm_core_ctx.prev_time)), 1);
-> +
-> +	/* Update for next calculation */
-> +	sm_core_ctx.prev_steal = curr_steal;
-> +	sm_core_ctx.prev_time = now;
-> +
-> +	/*
-> +	 * Multiply by 100 to consider the fractional values of steal time.
-> +	 * steal_ratio = (delta_steal * 100 * 100)/(delta_ns * num_cpus())
-> +	 */
-> +	delta_ns = div_u64(delta_ns * get_num_cpus_steal_ratio(), 100 * 100);
-> +	if (unlikely(!delta_ns))
-> +		return;
+> Future changes could reduce this refcount overhead to be only allocating
+> refcounts for physical ranges that contain memory that TDX can use.
+> However, this is left for future work.
+> 
+> Assisted-by: Sashiko:claude-opus-4-6 GitHub Copilot:claude-opus-4-6 Sashiko:claude-opus-4-6
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 
-There is an issue here. It needs to requeue the work.
-
-> +
-> +	steal_ratio = div64_u64(delta_steal, delta_ns);
-> +	/* If the steal time values are high, reduce preferred CPUs */
-> +	if (steal_ratio > sm_core_ctx.high_threshold)
-> +		decrease_preferred_cpus(&sm_core_ctx);
-> +	/* If the steal time values are low, increase preferred CPUs */
-> +	if (steal_ratio <= sm_core_ctx.low_threshold)
-> +		increase_preferred_cpus(&sm_core_ctx);
-> +
->   	/* At least one core is kept as preferred */
->   	WARN_ON(cpumask_empty(cpu_preferred_mask));
-
-Also, will move these to WARN_ON_ONCE to avoid console dump at regular intervals.
-
->   
-> @@ -54,6 +85,8 @@ static int __init steal_monitor_init(void)
->   		sm_core_ctx.interval_ms, sm_core_ctx.high_threshold, sm_core_ctx.low_threshold);
->   
->   	INIT_DELAYED_WORK(&sm_core_ctx.work, compute_preferred_cpus_work);
-> +	sm_core_ctx.prev_steal = get_system_steal_time();
-> +	sm_core_ctx.prev_time = ktime_get();
->   
->   	schedule_delayed_work(&sm_core_ctx.work,
->   			      msecs_to_jiffies(sm_core_ctx.interval_ms));
+Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
 
