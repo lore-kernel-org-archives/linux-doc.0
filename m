@@ -1,109 +1,201 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26CF48124A;
-	Thu,  2 Jul 2026 09:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D4F47CC91
+	for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2026 09:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782985187; cv=none; b=qte26H5/tJlUdjWW/KCgDibi+MVXIosJNMmGBz6FVSywaiI3dMAb9bd2F6cLTrVmHzoQ+0i1FegarKflHD9SQGwKikNPmUpRvy9r21AkwuPZFp1MmIX6jbvOdaZy5Ozm3N7S377YQL9ex0dI7izWHjIWrwXUv3KZZtkLyKxdis4=
+	t=1782985373; cv=none; b=EM0sLAiKln6+HiEAVOTzp7pD87PkmhfssZAZ2LoEAmWeg3l+CLon2QIfF83fE/8Z0eRKp+HA8Tz5DOca6B1ZMW6dld2wPxoombZO8cbLyZOSuGPrE8hzJRctf1PfBEg0hLpl7EHVnjAmCgOW2Kh3UYdtoNK8Gat1QxJj87yBCJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782985187; c=relaxed/simple;
-	bh=Qo30EqWrxVCrRg0xcaCObbpmEEqIF+sHKR0pH6GBq6k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X/kplg6ERFbErwBKiOkrJyZlVHGGVJezgzrgveCuWPN7kdmtF86Av8a9JDdWXlXlH6hIQ6SyZ0B0yZNBeV6AhIFl7G6fQFImrd2/rT90nby34z8ifRN6HAKVluUI+DQNTniYpX0CwPmIJrjyPXWfmT2HkEto7fwUqZVOUCGskb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MZRJuKCS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782985373; c=relaxed/simple;
+	bh=zO7+2jYNP0p0Ryi/7/jQcKH3cF/htF5PPMcdV3l9NDU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BuNBY8SRRMZu74yjFlWI5S9exWTzPYU/WMEJD903ASd6RCMIKDQ2F3ZceF7nWS4mipBsl1cCXARRdZiPFDaRL0BQSHFDSeJm2n8w2eTOG8aFGTlM11lOWR9tu7g23Cr84aejQ0LdPAr1In/ZYUt+3g/P8GGFkuoh6oElRi/Wkhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UhNLStGW; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MZRJuKCS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 324681F000E9;
-	Thu,  2 Jul 2026 09:39:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782985186;
-	bh=Qo30EqWrxVCrRg0xcaCObbpmEEqIF+sHKR0pH6GBq6k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MZRJuKCSmZkcnyGB+1Sg/LTcY100vTyBFQgFrO3zLuwj1f73EiOd8xc9vTh0lgoet
-	 u3mTY8TVyYOuNiGnK1QnknUXNW9sjIygqrEkwxAn9xMb90IsfSAyTco7vgr6fL0FFH
-	 duAKW9EPxy+sKlvW7q+wSZwylY8X6L9pmt5DYym3PW1NWVZ+CDRNdC94Mt+C+FfcMR
-	 U4ONb9+lRVDx4a+EDOovjqJPv7ddvv7Esez2gs/EhcH4FYrrV2c0h66HuVVCdSTg8F
-	 HQDB6lPFrU/PU5/0Ve7vB0CvURBR/KQPsOYx5Sqs513l4xCkQoWOrBN+Eq22nGLiZ2
-	 1V6k/7xCPGtUQ==
-Date: Thu, 2 Jul 2026 10:39:36 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
-	David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <akYxcpIbVA2w4gzl@lucifer>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <akYasD1ckWcH1C0g@lt-jori.localdomain>
- <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
- <1468431527.3731104.1782983377190@kpc.webmail.kpnmail.nl>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UhNLStGW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782985370;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KwUN777qpsCSreohLVGTHDmdYcLkE9HL+kZ2EdbU/QI=;
+	b=UhNLStGWR7xs/8n5YeX78VGAewgXkILSXCrmT+2uOGpITD00cye2dDim+VJP+kv7SlFOzA
+	YfmPowWpyWdHe/BkphirV/jBKisccgS55uHCncP5Zf9MMhvdw1lFikQL288RXpm0+jF18O
+	xl8Ssk6plkE2WhohpAGI1qthu/0Y9oU=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-5-Tz5_TpCON5mKDlVKqCXEeg-1; Thu,
+ 02 Jul 2026 05:42:47 -0400
+X-MC-Unique: Tz5_TpCON5mKDlVKqCXEeg-1
+X-Mimecast-MFC-AGG-ID: Tz5_TpCON5mKDlVKqCXEeg_1782985365
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 972F11944D3A;
+	Thu,  2 Jul 2026 09:42:43 +0000 (UTC)
+Received: from gerbillo.redhat.com (unknown [10.44.48.252])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 65AC4196B0A3;
+	Thu,  2 Jul 2026 09:42:36 +0000 (UTC)
+From: Paolo Abeni <pabeni@redhat.com>
+To: illusion.wang@nebula-matrix.com
+Cc: dimon.zhao@nebula-matrix.com,
+	alvin.wang@nebula-matrix.com,
+	sam.chen@nebula-matrix.com,
+	netdev@vger.kernel.org,
+	andrew+netdev@lunn.ch,
+	corbet@lwn.net,
+	kuba@kernel.org,
+	horms@kernel.org,
+	linux-doc@vger.kernel.org,
+	pabeni@redhat.com,
+	vadim.fedorenko@linux.dev,
+	lukas.bulwahn@redhat.com,
+	edumazet@google.com,
+	enelsonmoore@gmail.com,
+	skhan@linuxfoundation.org,
+	hkallweit1@gmail.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v20 net-next 04/10] net/nebula-matrix: add channel layer
+Date: Thu,  2 Jul 2026 11:42:29 +0200
+Message-ID: <20260702094229.111353-1-pabeni@redhat.com>
+In-Reply-To: <20260630010718.4346-5-illusion.wang@nebula-matrix.com>
+References: <20260630010718.4346-5-illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1468431527.3731104.1782983377190@kpc.webmail.kpnmail.nl>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Thu, Jul 02, 2026 at 11:09:37AM +0200, Jori Koolstra wrote:
->
-> > Op 02-07-2026 10:44 CEST schreef Vlastimil Babka (SUSE) <vbabka@kernel.org>:
-> >
-> >
-> > On 7/2/26 10:12, Jori Koolstra wrote:
-> > > Ah, I still reigniting this discussion again :)
-> > >
-> > > What about a combination of what David and Jeff say? The whole point
-> > > seems to me that the salient information is not that an LLM was used (or
-> > > are we going to tag Sashiko as well or any other LLM-based code review
-> > > tool?), but what is was used to do. This information may be relevant for
-> > > how the review is approached. The latter should perhaps only be in the
-> > > cover letter and then we can drop the assisted-by tags altogether.
-> > >
-> > > The question about enforcement remains.
-> >
-> > It's not possible to enforce it. People can deny it if the tag is missing
-> > and you confront them and even though the submission has many signs of being
-> > obviously LLM, there is no definite proof. We've seen (likely, as there's no
-> > proof!) that happen in mm.
-> >
->
-> Maintainers should be free to ignore what they perceive as slop without needing
-> to defend that call. Reputation can be gained by submitting useful work or
-> being present in the community, attending conferences, giving talks, etc.
-> I am not saying that we should be harsh on beginning contributors (or I would
-> have to count myself out as well), but they should be as free as possible to
-> only invest their time in the project and people that may become involved in the
-> community. And that call is up to them.
+From: AI Reviewer <ai@example.com>
 
-Yup agreed, however I have had the experience of doing exactly this and then
-being second-guessed enormously, which was exhausting honestly.
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+Full review at: https://sashiko.dev/
+---
+Subject: net/nebula-matrix: add channel layer
 
-So we need total clarity that it's OK to do this.
+This patch introduces a channel management layer for structured communication
+between components and drivers. It implements message registration, sending,
+and acknowledgment via hardware mailbox queues.
 
-I guess this is partly a subsystem-by-subsystem thing though.
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
+> index c7689f0e40293..eca9495449938 100644
+> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
+[ ... ]
+> @@ -2,12 +2,997 @@
+[ ... ]
+> +static int nbl_chan_teardown_queue(struct nbl_channel_mgt *chan_mgt,
+> +				   u8 chan_type)
+> +{
+[ ... ]
+> +	/*
+> +	 * Lock and unlock to ensure all in-flight callers have released the
+> +	 * lock. After unlock returns, we're guaranteed no other thread is
+> +	 * using the lock, so it's safe to destroy it.
+> +	 */
+> +	mutex_lock(&chan_info->txq_lock);
+> +	mutex_unlock(&chan_info->txq_lock);
+> +	wait_for_completion(&chan_info->teardown_done);
+> +	mutex_destroy(&chan_info->txq_lock);
+> +
+> +	return 0;
+> +}
 
->
-> I try to review fix-up patches of first-time contributors, but if it reeks of
-> AI I don't bother. We have the same policy in the kernel mentorship program,
-> we invest time to help people get involved with the community and kernel, not
-> to let someone strike "kernel contributor" of their list. The whole point is
-> not that most of this clean-up work is super useful (and indeed an LLM can do it),
-> but to let someone feel excited about contributing and maybe getting them to
-> to stick around.
+[Severity: High]
+Does this code deadlock or fail to synchronize?
 
-Yup agreed :)
+Because nbl_chan_send_msg() calls complete(&chan_info->teardown_done) on
+every exit path, it increments the completion counter for every message sent.
+If no messages were ever sent, the counter is 0 and this wait_for_completion()
+will block forever.
 
->
-> > Such situation then penalizes those who disclose so obviously they won't. We
-> > should drop the tag and instead think how we can empower maintainers to be
-> > able to use their own judgment and deprioritize dealing with what they
-> > perceive as LLM slop, without fearing consequences of not being properly
-> > responsible etc, and not rely on any non-enforceable tags for that.
+If messages were sent, the counter is greater than 0, so this returns
+immediately without waiting for active senders. It then destroys txq_lock
+while other threads might still be using it, which can cause a use-after-free
+or lock corruption.
 
-Thanks, Lorenzo
+[ ... ]
+> +static int nbl_chan_update_txqueue(struct nbl_channel_mgt *chan_mgt,
+> +				   struct nbl_chan_info *chan_info,
+> +				   struct nbl_chan_tx_param *param)
+> +{
+[ ... ]
+> +	if (param->arg_len > NBL_CHAN_TX_DESC_EMBEDDED_DATA_LEN) {
+> +		memcpy(tx_buf->va, param->arg, param->arg_len);
+> +		tx_desc->buf_addr = cpu_to_le64(tx_buf->pa);
+> +		tx_desc->buf_len = cpu_to_le16(param->arg_len);
+> +		tx_desc->data_len = 0;
+> +		memset(tx_desc->data, 0, sizeof(tx_desc->data));
+> +	} else {
+> +		memset(tx_desc->data, 0, sizeof(tx_desc->data));
+> +		memcpy(tx_desc->data, param->arg, param->arg_len);
+> +		tx_desc->buf_len = 0;
+> +		tx_desc->data_len = cpu_to_le16(param->arg_len);
+> +	}
+
+[Severity: High]
+Does this code leak host physical memory addresses to the receiving endpoint?
+
+In the else branch (when embedding data), tx_desc->buf_addr is not cleared.
+Since the TX descriptor ring is reused circularly, if this slot previously held
+a large message, buf_addr still contains the physical DMA address of the host's
+buffer.
+
+This leaked physical address is written to memory shared with the receiving
+endpoint, potentially crossing a security boundary.
+
+[ ... ]
+> +static void nbl_chan_clean_queue(struct nbl_channel_mgt *chan_mgt,
+> +				 struct nbl_chan_info *chan_info)
+> +{
+[ ... ]
+> +	while (le16_to_cpu(rx_desc->flags) & BIT(NBL_CHAN_RX_DESC_USED)) {
+[ ... ]
+> +		if (--budget == 0)
+> +			break;
+> +	}
+> +	rxq->next_to_clean = next_to_clean;
+> +}
+
+[Severity: High]
+Can this permanently stall the RX queue?
+
+The loop exits when the budget is exhausted, but nbl_chan_clean_queue()
+returns void and doesn't indicate that more packets remain.
+
+The workqueue handler does not check if the RX queue was completely drained
+and won't reschedule the work item. If the ring wasn't completely drained,
+edge-triggered MSI-X interrupts won't fire again until a new packet arrives,
+leading to a stalled queue and missed messages.
+
+[ ... ]
+> +static int nbl_chan_send_msg(struct nbl_channel_mgt *chan_mgt,
+> +			     struct nbl_chan_send_info *chan_send)
+> +{
+[ ... ]
+> +	if (!chan_send->ack) {
+> +		complete(&chan_info->teardown_done);
+> +		return 0;
+> +	}
+
+[Severity: High]
+Is it intentional to call complete(&chan_info->teardown_done) here and on
+all other exit paths of nbl_chan_send_msg()?
+
+This increments the completion counter on every message sent, which breaks the
+synchronization in nbl_chan_teardown_queue() (as mentioned above).
+
+[ ... ]
+-- 
+This is an AI-generated review.
+
