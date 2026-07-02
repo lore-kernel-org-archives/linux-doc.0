@@ -1,74 +1,157 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80C428DB54;
-	Thu,  2 Jul 2026 23:01:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0F27081A;
+	Thu,  2 Jul 2026 23:05:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783033314; cv=none; b=n/KjppHAScU9oA4264DySYnXA1ddTALGySmJSoleJtYKkgLaBHdE+L6qeohcD88aUvgzFbzA+ghmaukrJYIMaSPfl+NpXbDwPpBa0Jng8RSW9zT+XD71oKtwMFXJfmnQglKVtkW2NBM0WKOd9Rzz1jr9jOJPEtRSVmlt4rDcDfY=
+	t=1783033552; cv=none; b=qnEW+SgiXev40v349ndfjWFDkZDr+E1nh7bmGxUXzlUT+uCa+kUauWIw/ZsABK6kITnCD9RHbVvy1YZkP8JzlZidoycv3YcsZHe85bfEBwZIyVrt6JO+fClqUFH5sC3xsMcSmzCTLWo3N2HAaXBfFCifr3V4Y2iYwhYt5wWK+Pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783033314; c=relaxed/simple;
-	bh=vc7zLtHorRduHvMkQ0qDlCGVRUzu5bUilomtxkkGgf0=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=N6X9sKWXpULn1wc2lkYAfaCSmFRWZyAwbgJcu2VyuG1XZIaqmsjBUlq+uZCCK9AzDxheDCSDDXW7/TW/a6cHFw7gO4LPkQhIrWXGvywz1yCb/A5vHhv2bRhsP6wGO53RY03zGZG8qyYtZcgocN01VYeogWLPnydA/RzLgSeT/Y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=URVLJy2Z; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783033552; c=relaxed/simple;
+	bh=z/PL7fFq4kLVO+b7hoZGEv+ChBPGUpOeKsZUiEv2w5I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=myvig1BV6PV9IGxMfKv2D151KMgIH0G9wHYt/ux09+ffSf8HLfcspjZKBzJhMLBIy3Ss+ybcp9ff7JSsyIxksnTRlBBGwauqHfmFFtkDftSiGDq8d+CxV5/kfxC8tokft9Hj5K6hTXFbSTRU4sHvTctx2EUjFd8BEDUEVX4DTKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y+ROQ5ff; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="URVLJy2Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CAA91F000E9;
-	Thu,  2 Jul 2026 23:01:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1783033313;
-	bh=ArRdQ3PAA6YKNFCjpWwE8Lbmu/1rYpWbZ9KDsz4OLK8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=URVLJy2ZI76hZRymwYnjed5vgOTYdtDdw4bVtHf3SVHJwsBApgw5BV85Q7vgWQoa5
-	 X0WuUdXAPUOej3NLdRZS/E1VcSkJyltxgUZfQppgusd9FOL+Ckyip0fzdTt+jQ2upc
-	 z37VCbjg8zICp22+xi0Uk2/kSfPsqJJdnIoVhFoQ=
-Date: Thu, 2 Jul 2026 16:01:52 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: <wang.yaxin@zte.com.cn>
-Cc: <fan.yu9@zte.com.cn>, <yang.yang29@zte.com.cn>, <corbet@lwn.net>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <xu.xin16@zte.com.cn>
-Subject: Re: [PATCH 0/3 v3] delaytop: add delay max, timestamp and sorting
- for top latency analysis
-Message-Id: <20260702160152.ab0a3dea97e06652cf4874ac@linux-foundation.org>
-In-Reply-To: <20260702205704180NZ3cu_QF04KfBIL6vjTHL@zte.com.cn>
-References: <20260702205704180NZ3cu_QF04KfBIL6vjTHL@zte.com.cn>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y+ROQ5ff"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C6A91F000E9;
+	Thu,  2 Jul 2026 23:05:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783033550;
+	bh=ZBRHqb1NDOH8oHItOd3hyQ5MfmYi1tcrPJ9XDGwB6DA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Y+ROQ5ff0I1CMQF7LqfbXbxZbxZo7E3AaR26HxXLZxvJwnTQUS4mcYloqdo9gf3sC
+	 FzBL8mumI4haKcU7WfATnu/h17N8Xcn9XWtDAz0H9wJ6b34MTuwzqBljPVC1HcPoJC
+	 EHWydJmluYpOk/atLpq6k8BaG1Vwujf3WfwFsEAKmxa1W0mqbbAI2P8cojJOQy1H0Z
+	 Vs1O0SSgO4Nuf2eCzQ3FanFuq8wEaZd4nNsFnuSlwJiyyfRHVNfTh+mCmAhpr5yJG1
+	 QpxoanZjLuyGPrQYM8f2j7pcnNlLXeaOO3rY40QoGBhUAESLyIi/P3IdVWlW7EuOQP
+	 thIAHCykiQEnQ==
+From: SJ Park <sj@kernel.org>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: SJ Park <sj@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Justin Stitt <justinstitt@google.com>,
+	Carlos Maiolino <cem@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Brian Foster <bfoster@redhat.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Disseldorp <ddiss@suse.de>,
+	Mark Brown <broonie@kernel.org>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	David Hildenbrand <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+Date: Thu,  2 Jul 2026 16:05:40 -0700
+Message-ID: <20260702230540.98160-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <akaWnQ5Pkg_676B-@lucifer>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2 Jul 2026 20:57:04 +0800 (CST) <wang.yaxin@zte.com.cn> wrote:
+On Thu, 2 Jul 2026 17:50:15 +0100 Lorenzo Stoakes <ljs@kernel.org> wrote:
 
-> Previously delaytop only showed average delays. This patch adds:
+> On Thu, Jul 02, 2026 at 12:48:22PM -0400, Jeff Layton wrote:
+> > On Thu, 2026-07-02 at 18:19 +0200, Greg KH wrote:
+> > > On Thu, Jul 02, 2026 at 07:13:30PM +0300, Laurent Pinchart wrote:
+> > > > On Thu, Jul 02, 2026 at 11:57:46AM -0400, Jeff Layton wrote:
+> > > > > On Thu, 2026-07-02 at 17:07 +0200, Greg KH wrote:
+> > > > > > On Thu, Jul 02, 2026 at 10:32:48AM -0400, Jeff Layton wrote:
+> > > > > > > We've had this requirement in place in the Documentation for several
+> > > > > > > months, but it's becoming clear that the signal to noise ratio from this
+> > > > > > > is quite low.
+> > > > > > >
+> > > > > > > 1/ It's not universally followed. While many people do try to attribute
+> > > > > > > the LLMs in good faith, not everyone does for various reasons.
+> > > > > >
+> > > > > > Then let's move to get people to follow it.
+> > > > > >
+> > > > > > > 2/ It basically serves as free advertising for proprietary LLM companies.
+> > > > > >
+> > > > > > Who cares, make up a name, all I want is the "signal" that someone is
+> > > > > > using a LLM so that I can review it as-such.  And if I think someone is
+> > > > > > not reporting that, I can ask for them to properly attribute it and if
+> > > > > > they lie, well, that's on them.
+> > > > > >
+> > > > > > > 3/ It's not clear why we want to collect this info in the first place.
+> > > > > >
+> > > > > > We want to know if a LLM is being used.
+> > > > >
+> > > > > But why? What do you intend to do with this information?
+> > > > >
+> > > > > Do you mean to use it as an indicator that the patch should receive
+> > > > > "extra" review (or maybe that it should be ignored)? Do you mean to use
+> > > > > it to generate some sort of statistics at a later time?
+> > > >
+> > > > I use the information to decide how to review the patch, and what level
+> > > > of priority to give it. For that usage I don't need a tag, but I need
+> > > > the information in some human-readable form at patch submission time.
+> > >
+> > > Same here.  I don't care about stats, I care about "how do I review this
+> > > patch" and this gives me that signal that I need if faced with a
+> > > llm-helped patch.
+> > >
+> > >
+> >
+> > Do we need a tag for this though?
+> >
+> > This seems like the kind of information that we would always require in
+> > the cover letter of a series (or the little place in an individual
+> > patch for comments that don't get merged). That would also allow you to
+> > convey a lot more nuance about how it was used.
+> >
+> > ISTM asking people to disclose LLM usage in a cover letter would give
+> > everyone what they want: Information about whether and possibly how an
+> > LLM was used, and it also wouldn't clutter up the changelogs with these
+> > tags.
+
+I understand the concern is having the information in the git log.  I agree in
+a level.  I wish cloning linux takes not too long time and huge traffic.  I
+wish each commit message be lengthy only as much as needed.
+
 > 
-> 1. delay_max fields to track the maximum delay value for each delay type
->    (cpu, blkio, irq, swapin, freepages, thrashing, compact, wpcopy)
->    per task.
+> It's much much clearer and easier to just have a standardised tag for that.
 > 
-> 2. The -t/--type option displays only the specified delay type with avg/max
->    values side by side, allowing focused analysis:
->      delaytop -t cpu    # Show only CPU delay with avg/max
->      delaytop -t wpcopy # Show Copy-on-Write delay with avg/max
-> 
-> 3. Wall-clock timestamp when each maximum delay occurred, displayed in the
->    MAX_TIMESTAMP column when using -t/--type option. This enables:
->    - Identifying the time when a process experienced an abnormal delay max
->    - Correlating delay max across multiple processes at the same timestamp
->    - Cross-referencing with logs, traces, or other metrics at that time
-> 
-> 4. When using -t/--type option, tasks are sorted by maximum delay value in
->    descending order (largest delay first), enabling quick identification of
->    top N processes with highest delay spikes.
+> You can see that (and grep for that) immediately, vague paragraphs not so much.
 
-Seems useful, thanks - I'll queue this for testing.
+I also agree having a formal tag can be convenient.  LWN's Assisted-by: tag
+statistic was interesting enough to make me supporting this idea.
 
-AI review might have found a couple of things:
+What about keep requesting this formal signature to the submitters, but also
+formally allow (or, encourage) subsystem maintainers to remove the tags when
+pull-request?  That's already allowed, to my understanding and some maintainers
+are doing [1] today.   That can help preventing the git history of a subsystem
+bloating or advertising priorietary companies, as much as the maintainer care.
+Meanwhile, we can still get the information at review time, and also after
+review from the mail archives.  It will still be handy as long as we use tools
+like 'lei'.  As some maintainers are already removing the tags from the git
+log, this may be anyway a better way.  Someone may interested in only their
+subsystem history, but I find LLM users tend to contribute to multiple
+subsystems, so this might actually matters.
 
-	https://sashiko.dev/#/patchset/20260702205704180NZ3cu_QF04KfBIL6vjTHL@zte.com.cn
+It might be too clear to formally document this, though.
+
+[1] https://lore.kernel.org/20260701115302.29c66401@kernel.org
+
+
+Thanks,
+SJ
+
+[...]
