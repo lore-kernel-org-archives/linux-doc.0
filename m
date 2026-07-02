@@ -1,166 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4F53988EB;
-	Thu,  2 Jul 2026 12:53:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5048548B372;
+	Thu,  2 Jul 2026 12:57:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782996808; cv=none; b=D2zoL3chb97DrDHUdDVcfeCWCCCWGUH/NMi0ssj1RNEhTsFu4iLc5MbO7/rCv02dpU1ynt/IrDX5huT6/6hCiWpsgFSlohneIAUFP5qRaO2xUb630Q50/24vPxhNCmzW/pg5dkNu8WuqrJUL+CR8mp9GAw0Z70qgnohOEGKWpmI=
+	t=1782997043; cv=none; b=ZVW+QEZ5u7m2tDXXDSn9GE74CQZPpZ5xF3QRS506gUvsXUFDKW9n8J02ahc7w+HezrDqdCW7QjnMoQAeg6vEzbQksbNofWW9nEpBGGO7wd+tWUvY6wnlL8PiHvemEOgxYWiOw7Meb2/1UlnaWY23WoSo81tmX5nFuL1Csc0dGZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782996808; c=relaxed/simple;
-	bh=KnYaGPytNowltYvOHn+39oUPEQvt8u9kntm9HjtpUXU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eQEva189rFr+HSIqABx+sLpvqEmQvTvxaQP1Wd2VY1yfIzc4MmHTNjGOm2d31rroJ/seZ+Rv+cJX0umo+g1xpZOljyene3bu9pI3P8CB4omr2VekmLu8opJWB3SehKAef8G/bz3nv1Vxbzx7W8nKr8u5sDM01VqNVycGy5/hp+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f6R53IfS; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f6R53IfS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED72F1F000E9;
-	Thu,  2 Jul 2026 12:53:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782996806;
-	bh=KnYaGPytNowltYvOHn+39oUPEQvt8u9kntm9HjtpUXU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=f6R53IfS5kX5G2QfT1OGVtE7NxG8Zqca80nOcgAwlnIYUxMIWpa/5AAa3ZLWKcQ1b
-	 4hCvUATj5mIUfCYLTm1AQgs4EvX0A1YvHSqk6bflrACha4Gq50dYnqgJJdMwftgLiE
-	 GI5XH3YoZm5FZ9jY6GNzOHFk4Kp+yt4ZJJc2wncFnnc2soKuJA7gTmhjmhj+NkKHp5
-	 P8q+ZFpa2APMrRGqoseKkXh0igOGBJy/eZQiphAlW5s581mIwe6OEFzMYThd3zdgv6
-	 PGodZD1Um779Yx6tRvHUvX0OFUGuuiPKxlKeJ6AfXTQ708Mfngrb3XFVh+qksbKl5J
-	 MpMLhy6wnkUgA==
-Date: Thu, 2 Jul 2026 13:53:17 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
-	Jori Koolstra <jkoolstra@xs4all.nl>, Christian Brauner <brauner@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
-	David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <akZeZ9GTjSp1L58S@lucifer>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <akYasD1ckWcH1C0g@lt-jori.localdomain>
- <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
- <afd0635c-1903-4c7b-8023-cbcd1823e081@kernel.org>
- <akZXGJSy0FA3kQ3-@lucifer>
- <a4406124-2d0c-4703-9ee6-174af94d6fd9@kernel.org>
+	s=arc-20240116; t=1782997043; c=relaxed/simple;
+	bh=e2CUiPwsFQzhse/XjSkwHAeMSJTGjBYL7oeWQicAi1M=;
+	h=Message-ID:Date:Mime-Version:From:To:Cc:Subject:Content-Type; b=G4F6+HSHVNUUiXvrDD0DRC5jUCfJml8tIufOqZh2ICrneTwxEDkKiDszPjxWi2e6Q0b4nvglOkwOQ78mGnrh+4c1Pr4NMH+Pp3/iQKDgFo7HLd73XVNenQIjWdU0KBplE5Qf3aSN1QHstjAp9ams4Q+/Z7VlOKt/coJqrqvcGyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4grcNP2P9Lz57KTp;
+	Thu, 02 Jul 2026 20:57:09 +0800 (CST)
+Received: from xaxapp02.zte.com.cn ([10.88.97.241])
+	by mse-fl2.zte.com.cn with SMTP id 662Cv1ds001426;
+	Thu, 2 Jul 2026 20:57:01 +0800 (+08)
+	(envelope-from wang.yaxin@zte.com.cn)
+Received: from mapi (xaxapp01[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Thu, 2 Jul 2026 20:57:04 +0800 (CST)
+X-Zmail-TransId: 2af96a466020718-537e2
+X-Mailer: Zmail v1.0
+Message-ID: <20260702205704180NZ3cu_QF04KfBIL6vjTHL@zte.com.cn>
+Date: Thu, 2 Jul 2026 20:57:04 +0800 (CST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a4406124-2d0c-4703-9ee6-174af94d6fd9@kernel.org>
+Mime-Version: 1.0
+From: <wang.yaxin@zte.com.cn>
+To: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>,
+        <yang.yang29@zte.com.cn>
+Cc: <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <xu.xin16@zte.com.cn>,
+        <wang.yaxin@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIDAvMyB2M10gZGVsYXl0b3A6IGFkZCBkZWxheSBtYXgsIHRpbWVzdGFtcCBhbmQgc29ydGluZyBmb3IgdG9wIGxhdGVuY3kgYW5hbHlzaXM=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 662Cv1ds001426
+X-TLS: YES
+X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
+X-SOURCE-IP: 10.5.228.133 unknown Thu, 02 Jul 2026 20:57:09 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6A466025.000/4grcNP2P9Lz57KTp
 
-On Thu, Jul 02, 2026 at 02:39:53PM +0200, Krzysztof Kozlowski wrote:
-> On 02/07/2026 14:23, Lorenzo Stoakes wrote:
-> > On Thu, Jul 02, 2026 at 12:34:34PM +0200, Krzysztof Kozlowski wrote:
-> >> On 02/07/2026 10:44, Vlastimil Babka (SUSE) wrote:
-> >>> On 7/2/26 10:12, Jori Koolstra wrote:
-> >>>> Ah, I still reigniting this discussion again :)
-> >>>>
-> >>>> What about a combination of what David and Jeff say? The whole point
-> >>>> seems to me that the salient information is not that an LLM was used (or
-> >>>> are we going to tag Sashiko as well or any other LLM-based code review
-> >>>> tool?), but what is was used to do. This information may be relevant for
-> >>>> how the review is approached. The latter should perhaps only be in the
-> >>>> cover letter and then we can drop the assisted-by tags altogether.
-> >>>>
-> >>>> The question about enforcement remains.
-> >>>
-> >>> It's not possible to enforce it. People can deny it if the tag is missing
-> >>> and you confront them and even though the submission has many signs of being
-> >>> obviously LLM, there is no definite proof. We've seen (likely, as there's no
-> >>> proof!) that happen in mm.
-> >>>
-> >>> Such situation then penalizes those who disclose so obviously they won't. We
-> >>> should drop the tag and instead think how we can empower maintainers to be
-> >>> able to use their own judgment and deprioritize dealing with what they
-> >>> perceive as LLM slop, without fearing consequences of not being properly
-> >>> responsible etc, and not rely on any non-enforceable tags for that.
-> >>
-> >> +1
-> >>
-> >> I see no benefits of enforcing the tag for these exact reasons. Every
-> >> LLM slop will miss the tag. OTOH, seeing reasonable contribution with
-> >> the tag makes my spider-senses tingling and causing unnecessary
-> >> prejudice. If the contribution is reasonable, how does the tag
-> >> information helps me? I trust (or not) the person, regardless what tool
-> >> they use.
-> >>
-> >> And if we think about any future possible copyright issues with LLM
-> >> contributions (like if there is ever a ruling that model trained on BSD
-> >> data creates BSD-derivative work etc), does that tag anyhow solve it?
-> >> Like if that ruling appear we will go through the history and revert the
-> >> commits?
-> >
-> > Why would you take information _away_ from maintainers?
-> >
-> > You're making every LLM 'accusation' a risk for a maintainer because you might
-> > get the 'how dare you accuse me of using an LLM rah rah rah' response.
-> >
-> > Why not eliminate that in at least some cases?
->
-> Because I don't think we will be able to enforce that information,
-> therefore it is close to pointless.
+From: Wang Yaxin <wang.yaxin@zte.com.cn>
 
-'We can't have complete data so let's have no data'
+Previously delaytop only showed average delays. This patch adds:
 
-Not sure that's convincing, sorry.
+1. delay_max fields to track the maximum delay value for each delay type
+   (cpu, blkio, irq, swapin, freepages, thrashing, compact, wpcopy)
+   per task.
 
->
-> And if you ask about future copyright issues, I simply do not believe
-> the tags will matter based on argument (repeating): what are you going
-> to do with that information that commit was involving LLM tool which now
-> received some copyright-related verdict?
+2. The -t/--type option displays only the specified delay type with avg/max
+   values side by side, allowing focused analysis:
+     delaytop -t cpu    # Show only CPU delay with avg/max
+     delaytop -t wpcopy # Show Copy-on-Write delay with avg/max
 
-And if undisclosed, but detectable by LLM checks or otherwise evidenced...? Not
-sure you can argue 'no point in tags because people don't use them' but also
-'copyright issues only with tags'.
+3. Wall-clock timestamp when each maximum delay occurred, displayed in the
+   MAX_TIMESTAMP column when using -t/--type option. This enables:
+   - Identifying the time when a process experienced an abnormal delay max
+   - Correlating delay max across multiple processes at the same timestamp
+   - Cross-referencing with logs, traces, or other metrics at that time
 
-Anyway I think this is likely to be a non-issue given global regulatory trends
-on this stuff.
+4. When using -t/--type option, tasks are sorted by maximum delay value in
+   descending order (largest delay first), enabling quick identification of
+   top N processes with highest delay spikes.
 
->
-> >
-> > I continue to be baffled at people's opposition adding a single line to emails,
-> > or a single little comment on the end of it.
-> >
-> > I do agree with Vlasta that we need to have a clearer way to just say no (TM) if
-> > we strongly suspect an LLM.
->
-> This part is not being discussed by me and I think the thread itself is
-> not about it.
+Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
 
-Well ok on your part, but I think it's clearly part of it, quoting Vlasta:
+v2->v3:
+[patch 1/3]
+1. fix get_field_by_name() MODE_TYPE filter breaking --sort for non-type fields
+2. zero-init stats struct and cap memcpy size in netlink response parsing
+3. fix compare_tasks() count field read as unsigned long long for 32-bit safety
+4. strcmp → offset-based access via field_desc.max_offset
 
-"instead think how we can empower maintainers to be able to use their own
-judgment and deprioritize dealing with what they perceive as LLM slop, without
-fearing consequences of not being properly responsible etc, and not rely on any
-non-enforceable tags for that."
+[patch 2/3]
+1. fix 32-bit time_t overflow check to use max representable value instead of (time_t)-1
+2. fix gmtime() pointer aliasing by assigning timespec64 tv_sec to local time_t
+3. dropped pre-2000 check; gmtime → localtime_r + stack struct tm
 
->
-> >
-> > I had a very unpleasant experience dealing with blowback for doing that in a
-> > _very_ blatant case and I'd rather not repeat it if it's at all possible.
->
-> Well, I made here the point already - that blatant blowback and any
-> future similar slop will not use any tags, thus the tags do not solve
-> that problem.
->
-> Basically having the tag solves no problems we experience. The tags are
-> worthless in problem solving...
+[patch 3/3]
+1. fixed Y2038 overflow false negative in format_kernel_timespec()
+2. switched to localtime_r() with stack `struct tm` for thread safety.
+3. `field_delay_max_and_ts()` `max_ts` nullable; removed unused ts_scratch
+4. `-t/--type` mode: hide `[o]sort` and `[M]memverbose`, show only `[q]quit`
 
-Well in my actual experience of doing review I am finding them useful as a
-low-cost way of being able to bring up LLMs.
+Wang Yaxin (3):
+  delaytop: add delay max for delaytop
+  delaytop: add timestamp of delay max
+  delaytop: sort by max delay to highlight top latency processes
 
-Some information > no information.
+ Documentation/accounting/delay-accounting.rst |  43 +++
+ tools/accounting/delaytop.c                   | 286 +++++++++++++++---
+ tools/accounting/getdelays.c                  |   5 +
+ 3 files changed, 296 insertions(+), 38 deletions(-)
 
-And requiring disclosure makes not disclosing an easier sell. If we drop it then
-people will take that as carte blanche to do whatever.
-
->
-> Best regards,
-> Krzysztof
-
-Thanks, Lorenzo
+-- 
+2.25.1
