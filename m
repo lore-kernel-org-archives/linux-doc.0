@@ -1,147 +1,191 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010014.outbound.protection.outlook.com [52.101.85.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0675338595;
-	Thu,  2 Jul 2026 20:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783024599; cv=fail; b=KN2Om0cCZ2jeJV4jmzjTufUgCiwEIUiBzc0BNcrdXVL0cpVEiSQBrc9ERPdcd7O7EdPXyGxFkx5c7soT/FVEL+UreYanhBMc1FKcznhJe2R3br7FdAQCu4GaT/NMdNahyzv0lAY6QsyEt3aFRf5IpflbFdiQtpF5FbbEPcAXpI0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783024599; c=relaxed/simple;
-	bh=SEKdYGQ9EO8OOvXPx1vKk2m3/B3W/4e+JKh7+5I++AM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=WjOMPTOTw15/qYBW/IwKYKhYx0nUC3iuTtou1YgT2/78TxpZ1U6G67JKVESnqnZGtXicRVFcwf3XUcL6UoZteyXFjr5LXk1NKBbtTXAS9+/feImG1ZUXs89t/e85NBuMjLxe96dxsxBHpM9L4fMVPmN2ASH+Fep+wqnfhuYMybY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=uBvfsT3e; arc=fail smtp.client-ip=52.101.85.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6423D1D7E41;
+	Thu,  2 Jul 2026 20:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783025158; cv=none; b=o60W65vH/p17Ezs8NXxGjKMr+SVCH/gGKbVhMvIo/iQZYEGMgUFh/M7eLyWo48YNkGfrdqFeKYaiEfl0RPpMTV1pZTiV2fFxHlQBGjyAkNq5s6PYNZf30fwff0/AhsaCFMYJxxp2zL6JMmr0fYW0efTJVATb5bXU4N003c5HOPI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783025158; c=relaxed/simple;
+	bh=ba3X3ZETjVs6YknWjbiZ8awUBHTLyUR0p9siPtBSq5s=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=hsKcTKE3HwfGpvr18Mfgh0HAz5o4M3HlQvzq9/gFmYNiLlnVZckuXzHCJRtC/QrjYL5+2F3N0jlMlDvwNgjyfWUBFg4UR3YpxzkcO6rnvBg+6qO1rXtbFQJlbURfSzOjhFADjXXvoXtEJ+YdIN+kaKd0DGzOZVPBfYFnIAhJTyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UaD5CREX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="uBvfsT3e"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=W/EeeRvpYFmVipiWJyET3mgKDV2JjqIHNB4cqYBCUmte/T34rn+WN0UuP4RS7ZlR+XIjt5lbUqQefmj/xZcvgOosf5ODA3xrln4IK/SYdgxaPChBELIUn2wrLzaB7tcBaqSwE8R3lQPNnunsEtYiesVsocp3JmR2NN2A3ZIXEk3IUNagoaWm89/0ONZ0t92DV+va4ABJv5PLXAmT2lQ9+Ik6ZhuVBSikhl3I1w39Pvs5rNUvsr6zifsx1K5+Tx1FVFpbknW7b7rFNrLX8bo7WftEWhTiN+4RxPuYn+8BIhvs0Jzqqd8ZkFcuLArR62PurWRStajqeVrZew9kbwKaRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ISfpaqQpHEAfnWySxi6iDWNeUfmE1dOEiv1CH6e1Gyw=;
- b=NWon6R6S4xnZ9zpaUMc+q5AFxFJkLCdpA4M7i9YawFIsDI0FAGUzch5/N4coUwh+Ma9XvrLDiYPuyWl8z5f2UoZllaJh/QsOAvzQM7VkpX8++xPOUiBli3x4bMv98B0SulLHlu1SbSakMeLuF8d1HKhNDiAgWnR2tE97bdVtL5F+nxO00KojU3QDX/uUY24RYXUh72PyPk9RYKCDSNvpDwlzzf0vv0lSAaiaey/aA5J5NyHUnYgP9TQwj4hShCVuQZrtvX7NpMXjllhQhzZOI4FKWFKH24qqwfxhv+HbUTrRSKkO9c6fG2BP9jw0PZvqVqNsTi3tSRk/cCoXC4tPzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ISfpaqQpHEAfnWySxi6iDWNeUfmE1dOEiv1CH6e1Gyw=;
- b=uBvfsT3ee1cMbc9Gxw3yLIhvlKIZ1ZA14bbJ9dwPHFdWWxrftySMlJA8shmr8UjzREG9o3Ob9d40D8un1G0HDr9rqnLas0RvA5LC8tvM/NomOMOMX5olh3fUSCJ6/hjkLx+thQePpgIElLpXWs+a4kM1SpAKJ6fNHVNppHMG4eM=
-Received: from CH0P221CA0016.NAMP221.PROD.OUTLOOK.COM (2603:10b6:610:11c::18)
- by CH3PR12MB8306.namprd12.prod.outlook.com (2603:10b6:610:12c::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Thu, 2 Jul
- 2026 20:36:35 +0000
-Received: from CH1PEPF0000A347.namprd04.prod.outlook.com
- (2603:10b6:610:11c:cafe::47) by CH0P221CA0016.outlook.office365.com
- (2603:10b6:610:11c::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.10 via Frontend Transport; Thu, 2
- Jul 2026 20:36:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CH1PEPF0000A347.mail.protection.outlook.com (10.167.244.7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Thu, 2 Jul 2026 20:36:35 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Thu, 2 Jul
- 2026 15:36:34 -0500
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb10.amd.com
- (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Thu, 2 Jul
- 2026 15:36:33 -0500
-Received: from [172.31.184.125] (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
- Transport; Thu, 2 Jul 2026 15:36:31 -0500
-Message-ID: <5f271215-6e83-4d75-a562-16d8e70ce672@amd.com>
-Date: Fri, 3 Jul 2026 02:06:30 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UaD5CREX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E22A1F000E9;
+	Thu,  2 Jul 2026 20:45:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783025157;
+	bh=RgKO/UZyvy5Z38gyC0IxY1FJQhRYi6rg13CXydLdQY0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=UaD5CREX6zIC4y3TKyphGTRRC28mz0dermBnriIDo4VJeBY/fdSm+bo4SMeeqxcg4
+	 2nZAzjliM6+hr13yB3w26OsBLeq2/LrH4mPoYTvdvIoIgX7/pLVzQh7YACklPUTPLp
+	 FLllWVPCLOhkab1Df0IWNyhs3Ywb2DxH7ixWEd8w6zgUPmPOydjr19iHGh9HjLcZ4F
+	 9UCuRvgiy4zhYBZoDyEW5Z9msFbTaIp5y2F8IW6O+Mb0197Xa/ngseuyyyv0Wudwne
+	 iFoJGUnjorvAS2hYs4zLCLoOB5VYqaG8YVDJzvMwOcYqcJ7sZ/KrRKbchO6zN9ftrj
+	 z/YENEra/5DFg==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Michal =?utf-8?Q?Such=C3=A1nek?= <msuchanek@suse.de>
+Cc: Peter Zijlstra <peterz@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Huacai Chen
+ <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, Madhavan
+ Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)"
+ <chleroy@kernel.org>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti
+ <alex@ghiti.fr>, Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik
+ <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle
+ <svens@linux.ibm.com>, Andy Lutomirski <luto@kernel.org>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, Andrew Donnellan <andrew+kernel@donnellan.id.au>, Mark
+ Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>, Jiaxun Yang
+ <jiaxun.yang@flygoat.com>, Ryan Roberts <ryan.roberts@arm.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Mukesh Kumar Chaurasiya
+ <mkchauras@linux.ibm.com>, Shrikanth Hegde <sshegde@linux.ibm.com>, Zong
+ Li <zong.li@sifive.com>, Nam Cao <namcao@linutronix.de>, Deepak Gupta
+ <debug@rivosinc.com>, Lukas Gerlach <lukas.gerlach@cispa.de>, Rui Qi
+ <qirui.001@bytedance.com>, Kees Cook <kees@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
+Subject: Re: [RFC] entry: Untangle the return value of
+ syscall_enter_from_user_mode from syscall NR
+In-Reply-To: <akZPakNl6JT_jgGd@kunlun.suse.cz>
+References: <akVRcPsD_R_CE1qW@kunlun.suse.cz> <878q7tprau.ffs@fw13>
+ <akZPakNl6JT_jgGd@kunlun.suse.cz>
+Date: Thu, 02 Jul 2026 22:45:54 +0200
+Message-ID: <87jyrdnmrh.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 3/6] cpufreq/amd-pstate: Repurpose "amd_dynamic_epp"
- cmdline and corresponding sysfs
-To: Mario Limonciello <superm1@kernel.org>, "Rafael J. Wysocki"
-	<rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, Huang Rui
-	<ray.huang@amd.com>
-CC: Perry Yuan <perry.yuan@amd.com>, <linux-pm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20260630185904.5602-1-kprateek.nayak@amd.com>
- <20260630185904.5602-4-kprateek.nayak@amd.com>
- <8155d7c7-2a10-4fec-bfde-0aeb017724ac@kernel.org>
-Content-Language: en-US
-From: K Prateek Nayak <kprateek.nayak@amd.com>
-In-Reply-To: <8155d7c7-2a10-4fec-bfde-0aeb017724ac@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000A347:EE_|CH3PR12MB8306:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1f94388c-4f75-4e8e-f2cb-08ded8799bdb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|1800799024|82310400026|376014|23010399003|18002099003|22082099003|11063799006|56012099006|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	rUNusGWWY1czX/rstLehHwYJKlfldoG32TraUIpXN+V7MoR1QVpf3Ihil/Dop+UiHLHIIHMI90Y4oxYr6+hR8S+Mzqw6A2ncfuNhc+nRPOQX1ShIUykiGf3hCFrGjFraG/7JMQeaEIqe9S1ktjcaa4T1ZmIu1zKCF9HrLQREEfO0wR0IcamY8Ucb/Dk7U0nsrlfXfoO5Qt7fbjtvPmkWmuN61z8pPWlelzC/f1QrP6ime+oM9a3Ww7jBPn4fWcZ5/Y4qj/6EkEM2GiSbz/mBJ2p3CEFxjNw07JFXEwhsfT8K/b2xtiFFZ9OCUNNCp1OakH91sX4iCHafajdMWfKLkA4I6TFFr9jLpqUzoWQ8+UT2O7gga2MRqZZ9LQnkuV1mCRv0znWIoREYCrgI6rut9eu7y8H/vTBmXPtiI10mzOTdksBIrcWW6k1rXLbU+JWb5/w2Pux2VU47JOxZ6PxqutYc+Jof/F/uy0arwotZHJRkj1jGw9OA8ruAvdYt+hoNHjyGzevkMhmQbCuYWvdF3UTvP/s1wEnfbBSM2OrmS0dGe37nzOofCtRSJ2sS6wri3R5C4Loox2gkSitwfzRTtXrss1k4TkFmubmtfaMhuF5+XrB3QotgJqCxYmvR2ZvsbbvffJSN8wQ6kRr7PBajg6USIK6B0/grW3b1kyVwfseOzyqOyYpEpuFXoZNYxj1juj+Ua2QN+J6PZcq0xA9xpQ==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(82310400026)(376014)(23010399003)(18002099003)(22082099003)(11063799006)(56012099006)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	VaTtEmE7oxllX+RDa8j2V5+HiBvrD0hPN3bEOOoPWuD/TCsgErbNGoX9DnraSnOwmqQj6BL2zxhFGuPKKNz+JpeVJaBOIMgNfNfgEuoMD/5SukfkYI26FVRHuigiCKH1KLBngd5VR7RcEJYS2eqN3XsW6OXam/OUmthKK+APQriB5Sw5RJkAqaf2EW0KIbvYa/YpIof2afAy4i09HVYp6fjpm4OgidaLAqI+paF1z55NGAVepsxhkDTyOt5SPxbW2YvdX1q3Awj+9DJY9rWGfExNQSYRknLTXe+oGIHJ/yL4hy8DQuEfgAYIJbf8eqlLVLIPY2cun7RtMYzI5K5xPuFGQ5XAdvfXmVyOt+NPW14dN2mGgNSLO+btjC4Ng1i/Y+4MHJG4DBlafwc9EDYmX247Qp8+qFCPn3Wc0FKbj6AWWwCqcdR3ss3/VfqvFwfe
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2026 20:36:35.0171
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f94388c-4f75-4e8e-f2cb-08ded8799bdb
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH1PEPF0000A347.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8306
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello Mario,
+On Thu, Jul 02 2026 at 13:45, Michal Such=C3=A1nek wrote:
+> On Thu, Jul 02, 2026 at 01:24:57PM +0200, Thomas Gleixner wrote:
+>> On Wed, Jul 01 2026 at 19:42, Michal Such=C3=A1nek wrote:
+>> > The return value of syscall_enter_from_user_mode is used both for the
+>> > adjusted syscall number and the indicator that a syscall should be
+>> > skipped.
+>> >
+>> > As seccomp can be invoked on any syscall, including invalid ones this
+>> > somewhat undermines seccomp.
+>> >
+>> > While the seccomp variants that terminate the process do not need to
+>> > care about this for the filter that sets the syscall return value this
+>> > disctinction is required.
+>>=20
+>> You completely fail to explain why and what actual problem you are
+>> trying to solve. At least I can't figure it out from the above word
+>> salad.
+>
+> syscall_enter_from_user_mode returns the new syscall number after doing
+> something arbitrarry with it, including running seccomp.
+>
+> Wehn the syscall is already handled, eg. by seccomp filtering it returns
+> -1 as the new syscall number. -1 is an invalid syscall number but it can
+> still be filtered by seccomp.
 
-On 7/2/2026 3:10 AM, Mario Limonciello wrote:
-> On 6/30/26 13:59, K Prateek Nayak wrote:
->> Since dynamic_epp has been converted to an
->> "energy_performance_preference", toggling the feature via the sysfs file
->> is now redundant.
->>
->> Repurpose "amd_dynamic_epp=enable" command line to opt into dynamic EPP
->> by default when the active driver is loaded, or switched into. The
->> "disable" counterpart will "dynamic" option out of
->> "energyy_performance_preference" to ensure dynamic EPP feature can never
->> be toggled.
->>
->> Use a tri-state enum to differentiate if the user has supplied a command
->> line parameter or not to enable the feature by default vs keeping the
->> current defaults as is and allowing users to toggle it later via the
->> "dynamic" option in "energy_performance_preference" selection.
->>
->> Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
-> 
-> Honestly - I have to question if we even want to have the kernel command line option anymore.  If userspace can easily opt in and out as in this series, do we still need a kernel command line for default policy?
-> 
-> I'm of the opinion rip it out, less to maintain.
+Once syscall_enter_from_user_mode() returns -1 nothing can filter it
+anymore.
 
-Ack! I'll rip out the cmdline and the "dynamic_epp" sysfs file then in
-the next version?
+> When the syscall number was -1 to start with it's not possible to
+> determine if the syscall was fileterd from the return value. s390
+> returns the filtered state in a flag it sets on the regs structure,
+> avoiding this problem.
 
--- 
-Thanks and Regards,
-Prateek
+What needs to determine whether the syscall was filtered or not?
 
+> However, the API should be specified in a way that does not require
+> everyone implementing such flag.
+
+Which exact problem does the flag solve?
+
+>> > -	instrumentation_begin();
+>> > -	if (!invoke_syscall(regs, nr) && nr !=3D -1)
+>> > -	 	result_reg(regs) =3D __sys_ni_syscall(regs);
+>> > -	instrumentation_end();
+>> > +	/* Skip syscall when -1 is returned */
+>> > +	if (!syscall_enter_from_user_mode(regs, &nr)) {
+>>=20
+>> Seriously?
+>>=20
+>> If we go and separate the syscall number from the return value, then the
+>> return value 0 means success and anything else fail. Which in other
+>> words is a boolean. So instead of tastelessly adding a completely
+>> nonsensical comment about -1 here, syscall_enter_from_user_mode() wants
+>> to have the return value type bool with a proper boolean logic: true =3D
+>> success, false =3D abort.
+>
+> We have that very same API down to __secure_computing() which returns
+> boolean represented as -1 and 0 values. That does not mean it's not
+> tasteless.
+
+Hahahahaha.
+
+We have a lot of functions which have a boolean return value but a
+int/long return type for historical reasons.
+
+We've added bool because it's not ambiguous and allows the compiler to
+optimize better. It also makes the code more clear. Modern code uses a
+non-boolean return type only when there is an actual reason for it,
+e.g. propagating an error code all the way back through the call chain.
+The historical 0=3Dsuccess <0 =3D errorcode model really want's to be
+restricted to such cases.
+
+Just for the record:
+
+  https://lore.kernel.org/all/67c3ae5c-d88b-4172-9996-4e2046b7e0dc@huawei.c=
+om/
+  https://lore.kernel.org/all/20260629130616.642022-2-ruanjinjie@huawei.com/
+
+So I stand with my comment that it is sloppy and tasteless to slap an
+argument into a pile of functions, claim separation of return value and
+syscall number and leave the return value in an ill-defined state.
+
+>> > @@ -168,8 +168,7 @@ __visible noinstr void do_int80_emulation(struct p=
+t_regs *regs)
+>> >  	nr =3D syscall_32_enter(regs);
+>> >=20=20
+>> >  	local_irq_enable();
+>> > -	nr =3D syscall_enter_from_user_mode_work(regs, nr);
+>> > -	do_syscall_32_irqs_on(regs, nr);
+>> > +	syscall_enter_from_user_mode_work(regs, &nr);
+>>=20
+>> How exactly is this ever going to invoke a valid syscall?
+>
+> That's one of the problems with giant all-in-one patch, things like this
+> easily slip in. However, it is in cluded mostly for illustration, I
+> don't expect anyone to merge this as-is.
+
+It's a problem with hastily cobbled together slop. Even RFC patches
+should at least be functional.
+=20
+>> > +	if (!syscall_enter_from_user_mode_work(regs, &nr)) {
+>> > +		nr &=3D GENMASK(31, 0);
+>> > +		do_syscall_32_irqs_on(regs, nr);
+>>=20
+>>   do_syscall_32_irqs_on(regs, (int)nr);
+>>=20
+>> would be too simple, right?
+>
+> Also way less explicit.
+
+Now you care about explicit, but the return value mess can be left
+ambiguous, right?
+
+Aside of that, the cast is very much explicit for people who can read C.
+
+It would be great if you could sit back and come up with a very explicit
+and comprehensible explanation for the problem you are trying to solve.
+
+Thanks,
+
+        tglx
