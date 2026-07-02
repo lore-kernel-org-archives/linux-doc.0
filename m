@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E664358369;
-	Thu,  2 Jul 2026 19:11:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74E93859DC;
+	Thu,  2 Jul 2026 19:11:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783019509; cv=none; b=T6EjDTtgsD5rL2XPby6J5LBkRKHzhybPFUjBImKpOteo+BeF+6Hclpdr+7eLCA5J+fFP8cHEbNPaJvqetb0bz96rEoPlAwReIjN5HzYU97IBQlKV09y+1mgRansQgzoz6Z66/L1aNY+wPtxUXU7XjE95AQtA4DkOfw11lMfQf3g=
+	t=1783019511; cv=none; b=u75iDJPZEfhqxc+VszIEB7GHatDLvZR07JTvZ2yL+rbkELRlQ/SBFDgYDgIgSvFkLgq/cDYSyp2jteOFfzgf863zMZufKQJBYOwWH4v+dMDxYLFpnoodF3/SpwS4wrJw4FuPuspRaqSBvhyv/SVUwKCUaJhSSjUfsGmDeAN5ZKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783019509; c=relaxed/simple;
-	bh=lF6hsHsdZLJFUh4gzWm0UDUwtgEvWvTUL8mdZqxtKqs=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=H9NDOlcYpytkwJgqkC4K8741sAwU43vQFMEaU9BnFPCyvkHC1Z7dkK15wVQSVLLz9PQHW/77rhhxf+PIbddrYV+sFm/CCxJPEug8QsWOEQVdkStdYtfuv6ulxDUMemUo6g4c7Av3cswOkKn3VWLjlWoM5tOZAagykOzWVSzCDxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jmaMtqSf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783019511; c=relaxed/simple;
+	bh=9GYV0ftpEJl4lFndesuOAU5IJOWKdhaJW8q3YmPKl70=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=lASb/Nhwmihzv7n/MTEazAG+n088N0GnjmQkg/MoR0PJCKsqjFubWLX2LA21y1fyUignCw934/lzhtCL5lTKwMB3p9AGh9ZIRa2bJSKu1ieP1rkA0vcYUZ1pEEGcwk1mVZHejSUOnVBcPQ7NpP3PUygao4hUIbCgjT3zhCwlUWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eVoh7OUP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jmaMtqSf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A5071F000E9;
-	Thu,  2 Jul 2026 19:11:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eVoh7OUP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66E9B1F00A3A;
+	Thu,  2 Jul 2026 19:11:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783019508;
-	bh=SsY32QyOGbTjFQiZF5JH17S7U0TTGSYArv0aeQ4n90M=;
-	h=From:Subject:Date:To:Cc;
-	b=jmaMtqSfcdAzXZrAq5JOAVkhfRSDbQfdLC9EhS8LUHTO3TQt348e/VPcDCoBGoHdF
-	 4OVWYf2XOO2MdjQ04qtkCOIMHZMvR9jzRybZYoAJLnOP5bq1WwB/pI3Z7icfV1YGK4
-	 DzpiFPBX60tW6AfcbePrhuu5G/AVPDUYrOgCieIgAAFon3YS5IGEzCy+1fEM8NfSF+
-	 31v+5KdGO4CdJorJZoSsW7G8ESBEQh1SIT0lIld+6sIhNxEXP2jd/5b5Pv0miB3veX
-	 vo1xD+JNZ1z7qz4MQ34ZPOL7huwohlW4rLjraP79e6yp1/6cQ0mus73IZpch6AR6YD
-	 eHgOg8zeBxhfA==
+	s=k20260515; t=1783019510;
+	bh=QMgm0LxQlLuFc2zsZd1wTo2E41aWk+l7bTvyq+/nFPA=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=eVoh7OUPK8ZMEFqgQF/ko96u/Ax2M+Cn6NJ7ycsu7yoe9/EJ9vwZPbRvEuEi22uaz
+	 4z1QxYkja5e8xmXqPf/XFn36+DDaaxQBtER8gRtlvb2PyOJuUT+VaTntrmbu6jGrYr
+	 +1IEqw42i13YzdIz5kcB4j7p2agtW9qS9a+G6jRcULqTqRvyd9K85KI/2YejHrpZo2
+	 qrdwXAk74DgIu3HuFfNOn5Jg7ouslyfG7p+nOoU6rrlyGNbOJbK4cV7pPZunt//e3C
+	 Y2UkNI9h0HNvTqFecFa6ePy+3PNDi1LVEd/G4jknKnq2Om6stzZYbdywx9g9RMsO1d
+	 kbWA+JcnjXd9w==
 From: Mark Brown <broonie@kernel.org>
-Subject: [PATCH v2 0/4] arm64: Fixes and cleanups for
+Date: Thu, 02 Jul 2026 20:11:16 +0100
+Subject: [PATCH v2 1/4] arm64: Don't number registers in
  cpu-feature-registers.rst
-Date: Thu, 02 Jul 2026 20:11:15 +0100
-Message-Id: <20260702-arm64-cpu-ftr-regs-v2-0-fe0b78f1bd93@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -38,11 +38,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANO3RmoC/22Nyw6CMBBFf4XM2jFtKRBd+R+GBS1TqA8gU2g0h
- H8XMO5cnuTec2YIxJ4CnJMZmKIPvu9WUIcEbFt1DaGvVwYlVC4yJbHiZ67RDhO6kZGpCWgsGVW
- nOi1yB+txYHL+tUuv5ZfDZG5kx820LVofxp7fezXKbfcLqH+BKFGgPBVFZrRwlROXO3FHj2PPD
- ZTLsnwAddhhhccAAAA=
-X-Change-ID: 20260521-arm64-cpu-ftr-regs-bceb2d34376f
+Message-Id: <20260702-arm64-cpu-ftr-regs-v2-1-fe0b78f1bd93@kernel.org>
+References: <20260702-arm64-cpu-ftr-regs-v2-0-fe0b78f1bd93@kernel.org>
+In-Reply-To: <20260702-arm64-cpu-ftr-regs-v2-0-fe0b78f1bd93@kernel.org>
 To: Catalin Marinas <catalin.marinas@arm.com>, 
  Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
  Shuah Khan <skhan@linuxfoundation.org>
@@ -51,59 +49,151 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Mark Brown <broonie@kernel.org>
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1977; i=broonie@kernel.org;
- h=from:subject:message-id; bh=lF6hsHsdZLJFUh4gzWm0UDUwtgEvWvTUL8mdZqxtKqs=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqRrftUY3Hzfq43AU3DHhX+bnsN1Dw8Xi96Cxa8
- 7CNJ6bIDY2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaka37QAKCRAk1otyXVSH
- 0D9AB/424BJSo6GXj6RfyUt2owJmusYLvYu7S7tjMHtzR5/cwVYQEJcBSyHBAVNDzyPec1wZaZ5
- BKoFavROtFoQc8JQzf0SSPdQDE+sL+iH5UlW5OtJc28dMgu9hKE+MpnskQ+CcY6hONxSSandrCl
- qqZGvHniGelt3+e0/JWjOrMDt58flB7oQYtTNngntSCP3R0PMpoUnfmXFtnxG08u2DyC3MJdh2D
- XahdUCSdiOqwl0m17bHXX3wBeWLrbF2m7W0z/WpGadVto4jJW5Xz0avY1sgACkBBjkz9FnOkeKM
- z+wuUM5Pr9/yCTz0Jmsld/qk+mScNZ/0mE350B/fw9Rzf8Lq
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5720; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=9GYV0ftpEJl4lFndesuOAU5IJOWKdhaJW8q3YmPKl70=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqRrfuHul71HVxmwJstl9ddKAWAYAK5deT1o0p6
+ 1R8pu6EQCCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaka37gAKCRAk1otyXVSH
+ 0HmIB/oDkZ0S/AP/P76cyV3MDCw492TBYOZ7Qii1AWy2TXPAXwvLz3lIFK4fwfgvdZCr4QOUfWt
+ 6IbxBjFCo5tnKNqSq3Y86EJXGI229LRhc2yP96gKaLG9MtUEF2xX81RlIh38rnZVvDJcdY7GhQC
+ mfy+TBH+0p/YUua4qObrg3kbYPbe3/zYhV+3VoYuAbMvZ2iJTAYkroRIf/Gdkcn8DJKm8/zc22s
+ mLm5vSgBjfkBEnZYytym9rqObiwaTzYJEu1h6pJwUH8Osn/Fo3OkYTjuwkO2grhc0aa6f9ni1l0
+ 6UwAbLdtGvqAFsB8Nu+zzz/KWpLZ1JIzKJVGTtzRR491Q4UG
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Peter Maydell noticed some missing updates to cpu-feature-registers.rst,
-while looking at these a number of other other omissions and some
-maintainability problems were observed.  Several registers and many
-bitfields have not been added.  
-
-Following discussion with Catalin we remove the numbering of the
-registers in the first patch so that when we add the registers we can
-add them in a roughly sorted order, then fix up the missing
-documentation before sorting the existing entries in the file.
-
-This whole area should have much better tooling, rather than having to
-update multiple places and manually cross check several different places
-including rarely used documentation we should be marking up the sysreg
-descriptions and then either generating the data or validating against
-manually updated copies.  Manually updated copies seem like a good idea
-for the ABI documentation since while it's more work that would force
-review.  I did start on some sketches, it seemed like it might make
-sense to tackle along with using the MRS but the libraries for that
-seem not to be progressing at any great rate, I'll dig the sketches out.
+cpu-feature-regsters.rst documents the set of userspace visible ID
+registers. At present the section for each register is numbered, this has
+lead to the registers being documented in a haphazard order as new ones
+have been added to the end of the list to avoid renumbering. Remove the
+numbers so we can avoid this problem in future.
 
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
-Changes in v2:
-- Remove documentation for hidden registers.
-- Fix typos.
-- Link to v1: https://patch.msgid.link/20260522-arm64-cpu-ftr-regs-v1-0-19775b40faf0@kernel.org
+ Documentation/arch/arm64/cpu-feature-registers.rst | 26 +++++++++++-----------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
----
-Mark Brown (4):
-      arm64: Don't number registers in cpu-feature-registers.rst
-      arm64: Document missing bitfields in cpu-feature-registers.rst
-      arm64: Sort registers in cpu-feature-registers.rst
-      arm64: Remove hidden bitfields from cpu-feature-registers.rst
+diff --git a/Documentation/arch/arm64/cpu-feature-registers.rst b/Documentation/arch/arm64/cpu-feature-registers.rst
+index add66afc7b03..c6e5bc053c09 100644
+--- a/Documentation/arch/arm64/cpu-feature-registers.rst
++++ b/Documentation/arch/arm64/cpu-feature-registers.rst
+@@ -113,7 +113,7 @@ infrastructure:
+ 4. List of registers with visible features
+ -------------------------------------------
+ 
+-  1) ID_AA64ISAR0_EL1 - Instruction Set Attribute Register 0
++  ID_AA64ISAR0_EL1 - Instruction Set Attribute Register 0
+ 
+      +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+@@ -146,7 +146,7 @@ infrastructure:
+      +------------------------------+---------+---------+
+ 
+ 
+-  2) ID_AA64PFR0_EL1 - Processor Feature Register 0
++  ID_AA64PFR0_EL1 - Processor Feature Register 0
+ 
+      +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+@@ -173,7 +173,7 @@ infrastructure:
+      +------------------------------+---------+---------+
+ 
+ 
+-  3) ID_AA64PFR1_EL1 - Processor Feature Register 1
++  ID_AA64PFR1_EL1 - Processor Feature Register 1
+ 
+      +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+@@ -188,7 +188,7 @@ infrastructure:
+      +------------------------------+---------+---------+
+ 
+ 
+-  4) MIDR_EL1 - Main ID Register
++  MIDR_EL1 - Main ID Register
+ 
+      +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+@@ -208,7 +208,7 @@ infrastructure:
+    as available on the CPU where it is fetched and is not a system
+    wide safe value.
+ 
+-  5) ID_AA64ISAR1_EL1 - Instruction set attribute register 1
++  ID_AA64ISAR1_EL1 - Instruction set attribute register 1
+ 
+      +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+@@ -240,7 +240,7 @@ infrastructure:
+      | DPB                          | [3-0]   |    y    |
+      +------------------------------+---------+---------+
+ 
+-  6) ID_AA64MMFR0_EL1 - Memory model feature register 0
++  ID_AA64MMFR0_EL1 - Memory model feature register 0
+ 
+      +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+@@ -248,7 +248,7 @@ infrastructure:
+      | ECV                          | [63-60] |    y    |
+      +------------------------------+---------+---------+
+ 
+-  7) ID_AA64MMFR2_EL1 - Memory model feature register 2
++  ID_AA64MMFR2_EL1 - Memory model feature register 2
+ 
+      +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+@@ -256,7 +256,7 @@ infrastructure:
+      | AT                           | [35-32] |    y    |
+      +------------------------------+---------+---------+
+ 
+-  8) ID_AA64ZFR0_EL1 - SVE feature ID register 0
++  ID_AA64ZFR0_EL1 - SVE feature ID register 0
+ 
+      +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+@@ -282,7 +282,7 @@ infrastructure:
+      | SVEVer                       | [3-0]   |    y    |
+      +------------------------------+---------+---------+
+ 
+-  8) ID_AA64MMFR1_EL1 - Memory model feature register 1
++  ID_AA64MMFR1_EL1 - Memory model feature register 1
+ 
+      +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+@@ -290,7 +290,7 @@ infrastructure:
+      | AFP                          | [47-44] |    y    |
+      +------------------------------+---------+---------+
+ 
+-  9) ID_AA64ISAR2_EL1 - Instruction set attribute register 2
++  ID_AA64ISAR2_EL1 - Instruction set attribute register 2
+ 
+      +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+@@ -312,7 +312,7 @@ infrastructure:
+      | WFXT                         | [3-0]   |    y    |
+      +------------------------------+---------+---------+
+ 
+-  10) MVFR0_EL1 - AArch32 Media and VFP Feature Register 0
++  MVFR0_EL1 - AArch32 Media and VFP Feature Register 0
+ 
+      +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+@@ -320,7 +320,7 @@ infrastructure:
+      | FPDP                         | [11-8]  |    y    |
+      +------------------------------+---------+---------+
+ 
+-  11) MVFR1_EL1 - AArch32 Media and VFP Feature Register 1
++  MVFR1_EL1 - AArch32 Media and VFP Feature Register 1
+ 
+      +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+@@ -334,7 +334,7 @@ infrastructure:
+      | SIMDLS                       | [11-8]  |    y    |
+      +------------------------------+---------+---------+
+ 
+-  12) ID_ISAR5_EL1 - AArch32 Instruction Set Attribute Register 5
++  ID_ISAR5_EL1 - AArch32 Instruction Set Attribute Register 5
+ 
+      +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
 
- Documentation/arch/arm64/cpu-feature-registers.rst | 593 +++++++++++++--------
- 1 file changed, 364 insertions(+), 229 deletions(-)
----
-base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-change-id: 20260521-arm64-cpu-ftr-regs-bceb2d34376f
-
-Best regards,
---  
-Mark Brown <broonie@kernel.org>
+-- 
+2.47.3
 
