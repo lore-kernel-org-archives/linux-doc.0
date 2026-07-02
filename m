@@ -1,33 +1,50 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA69E3C343B;
-	Thu,  2 Jul 2026 08:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181D63D8132;
+	Thu,  2 Jul 2026 08:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782981881; cv=none; b=oe35wZrOpxg8EOoiQwDYT3dn23uM5Z+AgtcD+/UNR1V7UavnPLRPdLGcPO9kvX82WSCLsRjk6UNzRMCQQnrhsnDXDG6V3WncaFIP6F5GxiTEtDjvcs7uhV0ULijptLxCJupBylgmFM1XWxkRhx1wONbObOIe3RZ5sIEX7EoCR/8=
+	t=1782982564; cv=none; b=M7P1FhQxU5oIvXljMWQeSHHXvNxoR0B7ojzTiNIyT0le3IN9o+Gj4JShlgb+g6WUsI91+9adR83GbMKNseB9/65ZzgeL5XBGUdzV2Ch8Owg7wxewBNeUfW3cME0mpXIknr9pRlR0lkCEHmlV9Wgrze6hnz/EJ+130WGx7F0SY6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782981881; c=relaxed/simple;
-	bh=wqVkVEQbZx/Lr8vf1DeVCYTt/gRn9RvBYZXSwMbcIK0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=HZZPEtvSA1HB7uRj+v9jvMxnOKsAwAjeUq1sYB7LIQLimBjfP6Nq4S6+AZS4bKOGetZZLpN2KOmcjh6y+jOvXEzvrGCo3xduLGPxuAazrHpgZr+xdJq381fM6uptsvNr2oXRqffRP9CIZR20pGCP8NFgDmhHJ/4U6Iua7L2JeYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f9ncpSCS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782982564; c=relaxed/simple;
+	bh=9Ma5KFtkMeDbcnixBHck1T0uu5/NZ47Dlk4RsPkos1Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Durx+QvZvd+kNT5rUUekGKxRWZP7WtG04siBNvFfiYgOul54/gMkA6XYnk7VFC0yC/uJ5P6mF7wc4Wg7ojX31/mLiafAovwSguq0d0LV1yyfmeiShdinun9dY576n57uiCAtJWsQ8a3giVODaNoLThm/zcuOIRMEUO8vMXZSQ1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bxl1Vgya; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f9ncpSCS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 404921F000E9;
-	Thu,  2 Jul 2026 08:44:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782981880;
-	bh=E4Nesj045JaK7TwaEOfUk2rjKqB1fcfilatvsOM6jto=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=f9ncpSCSDrkEcpXgRcllIwdvX/xXcC5b2LvSiHJYItS4g/8IjCTlxxsN41biZILA/
-	 IKs8UOBavgui2m+TLoD/zj++wjBYGyRFlml+3KXu3pB05XagZYNeYIWmTb4dDwfNBX
-	 O19WLtHWiRjJnS36zKpqzMx50vk4YpiNwKE+WKILl2OQX0p9bCxfLvlb5Rob2fixYD
-	 zAmUcExPRS+wK1ZV7iwG6SGFuYZy1bvunIqt6ewiRN7qCmD2GbJMIb3WIsl3JTpoOA
-	 ENimZPExtLO81/CNhSu0U8kiAlxpBhWUpOt1xybJgMWlIGoi6MwVriN+dfWVYDCXdW
-	 EayzkuIncQBIg==
-Message-ID: <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
-Date: Thu, 2 Jul 2026 10:44:34 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bxl1Vgya"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782982564; x=1814518564;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=9Ma5KFtkMeDbcnixBHck1T0uu5/NZ47Dlk4RsPkos1Y=;
+  b=Bxl1Vgyad2NHsB74tiZyrNKxyTJHfv15RS9FMWOCrsHus7VDpjO2ljdY
+   yJaZ364/VbOVetSvMNMZzHXf29LXQfJH1gnYyUYqRKNsRRj6du0zzr08Q
+   XwfSQY6FbObsTWBUykAkapu+e4uWxJm1KOgmUnhTvJOiSLfvWoR5FJjCa
+   s3D6BYWCW4na7bhI3H1Fh+wYyUk1A0etxmZBf73D3Oz9QWbhghqA2djL8
+   9EA5+HQoPBz9f6h7FV5yyO1yuvaM9wT93Vezz12E8LALRKQPT2HeZxTuH
+   fZ/7mIu/CMKvY+1LmcYcAkK/jd7iw3g90scLzvbsDzq3D2G0C9WJGl2aA
+   g==;
+X-CSE-ConnectionGUID: eqD1sYGgTGedQrE+2WQTZA==
+X-CSE-MsgGUID: 1cdXLP5wQjGV6trTafzHvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="83509416"
+X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
+   d="scan'208";a="83509416"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 01:56:03 -0700
+X-CSE-ConnectionGUID: yBaMW+b0RhKWOyLQ+0D8tQ==
+X-CSE-MsgGUID: tcei5PLLQ8SlEsiPcuCO/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
+   d="scan'208";a="277130102"
+Received: from unknown (HELO [10.238.2.244]) ([10.238.2.244])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 01:55:58 -0700
+Message-ID: <a6844562-e973-436f-970b-fa0b68ced1a0@linux.intel.com>
+Date: Thu, 2 Jul 2026 16:55:56 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,81 +52,62 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Subject: Re: [PATCH v6 07/11] KVM: TDX: Allocate PAMT memory for TD and vCPU
+ control structures
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, kas@kernel.org,
+ kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, mingo@redhat.com, nik.borisov@suse.com,
+ pbonzini@redhat.com, seanjc@google.com, tglx@kernel.org,
+ vannapurve@google.com, x86@kernel.org, chao.gao@intel.com,
+ yan.y.zhao@intel.com, kai.huang@intel.com,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
+ <20260526023515.288829-8-rick.p.edgecombe@intel.com>
 Content-Language: en-US
-To: Jori Koolstra <jkoolstra@xs4all.nl>,
- Christian Brauner <brauner@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
- David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Lorenzo Stoakes <ljs@kernel.org>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <akYasD1ckWcH1C0g@lt-jori.localdomain>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <akYasD1ckWcH1C0g@lt-jori.localdomain>
+From: Binbin Wu <binbin.wu@linux.intel.com>
+In-Reply-To: <20260526023515.288829-8-rick.p.edgecombe@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/2/26 10:12, Jori Koolstra wrote:
-> Ah, I still reigniting this discussion again :)
+On 5/26/2026 10:35 AM, Rick Edgecombe wrote:
+> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 > 
-> What about a combination of what David and Jeff say? The whole point
-> seems to me that the salient information is not that an LLM was used (or
-> are we going to tag Sashiko as well or any other LLM-based code review
-> tool?), but what is was used to do. This information may be relevant for
-> how the review is approached. The latter should perhaps only be in the
-> cover letter and then we can drop the assisted-by tags altogether.
+> Use control page helpers for allocating and freeing TD control structures,
+> such these operations can work for Dynamic PAMT.
+      ^
+Nit:
+It appears to be missing the word "that". 
+
+
 > 
-> The question about enforcement remains.
+> The TDX module tracks some state for each page of physical memory that it
+> might use. It calls this state the PAMT. It includes separate state for
+> each page size a physical page could be utilized at within the TDX module
+> (1GB, 2MB, 4KB). In Dynamic PAMT, only the 4KB page size state is
+> allocated dynamically. So the kernel must install PAMT backing for each 4KB
+> page before gifting it to the TDX module, and tear it down after the page
+> is reclaimed.
+> 
+> TD-scoped control pages (TDR, TDCS) and vCPU-scoped control pages (TDVPR,
+> TDCX) are all handed to the TDX module at 4KB page size and are therefore
+> subject to this requirement. Replace the raw alloc_page()/__free_page()
+> calls for these pages with tdx_alloc/free_control_page().
+> 
+> Switching between special Dynamic PAMT operations or normal page
+> alloc/free operations is handled internally in
+> tdx_alloc/free_control_page(). So don't check for Dynamic PAMT around these
+> calls. Just call them unconditionally. Similarly, drop the NULL checks
+> before freeing, as tdx_free_control_page() handles NULL internally.
+> 
+> No functional change intended when Dynamic PAMT is not in use.
+> 
+> Assisted-by: GitHub Copilot:claude-opus-4-6 Claude:claude-opus-4-7
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> [sean: handle alloc+free+reclaim in one patch]
+> Co-developed-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> [Rick: enhance log]
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
 
-It's not possible to enforce it. People can deny it if the tag is missing
-and you confront them and even though the submission has many signs of being
-obviously LLM, there is no definite proof. We've seen (likely, as there's no
-proof!) that happen in mm.
-
-Such situation then penalizes those who disclose so obviously they won't. We
-should drop the tag and instead think how we can empower maintainers to be
-able to use their own judgment and deprioritize dealing with what they
-perceive as LLM slop, without fearing consequences of not being properly
-responsible etc, and not rely on any non-enforceable tags for that.
