@@ -1,33 +1,68 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7BB2243964;
-	Thu,  2 Jul 2026 04:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B038B313E34
+	for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2026 04:43:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782966599; cv=none; b=URFDo8rBFG+Y7qIyZI2PhnyM48cmsBqzBYik5ljScbW8u8Fs7lLvxmcc1jsivBaCVabrVq0Enop/KnrEc7njVrVKy19S/qzrlo64rGloNIELkNPTlQ5SBGdbQIcwIF7hYUG592wkEuzTMHzkdopW3NfuWRujIblEnfIFURgFWgM=
+	t=1782967401; cv=none; b=dxs+K0h0HndD4fEhd19OOaWVgweHGhkHn5R6RDWbk6dlaey0gpCAIkyGDllqP40z3vQZSivXFmEgDHeNs778FoDIK+0qonLWzufBnzmzmlZXmegdVx15HrAOTVQO+9iB1fPgI0ZyY2JhsLPyZy9EepImmLL89o6/EGjq5pWQOkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782966599; c=relaxed/simple;
-	bh=Y9h0JPhXA+HyjARHUiHBjNIEFlUqZBKIAi+lwAhYOLs=;
+	s=arc-20240116; t=1782967401; c=relaxed/simple;
+	bh=nuU7t0L2HznSrHjK2ALfSgiuuimRQFaOHhMQCUrMSZQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fvDqgm3HD5KOIdXCdrvrvmnwKgGg6CvJWP9fPbkDJgCmyBhO8ffTFKix8zBNDLCW38pYxuBqKDZzqPJllGMdSp8tC5AmUXYRzphq8T0P6pmCy2BKmpuN19zGbBIfY6Vr6wTTWx1+myU+4S+KQhPDoutaEnWpEJqeVHlGMUp3vgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=GZE661U/; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 In-Reply-To:Content-Type; b=Ss4x47BreEbnvxc8j5uInwg5QF6rg8xBpBlEn17qcl9+gEKLOokNtVSWdvorjH3DSQjSD88o+JHtgBU1wEmJrUHvW3AL7I3yoOT1vCeHM5nw0+80NBlwzw50H85gN9WJ2yCVpKLH7cmyTCDlrPU3NZTDOq6Rpr5T3jRXGoCywuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qvDwqEwT; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="GZE661U/"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AF0041FCD;
-	Wed,  1 Jul 2026 21:29:51 -0700 (PDT)
-Received: from [10.163.170.96] (unknown [10.163.170.96])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9331A3F905;
-	Wed,  1 Jul 2026 21:29:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1782966596; bh=Y9h0JPhXA+HyjARHUiHBjNIEFlUqZBKIAi+lwAhYOLs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GZE661U/MX7b2kovC45juhjEWE++jycRdLwA71aNsQ9E99DLZOohzsFOIZAly30rt
-	 JZvK52KC/yD7wj2/GbNUZBE/Q6V6rjEIyfre3FBh1FXLkKWTYstRxgIp9qmiKEx/48
-	 goF5T2oKG69m/i3jdkYVSD5HTFdSYwAm7GOZVOXQ=
-Message-ID: <5a8e82f3-ed21-48a8-af3c-36a08fd2b0ec@arm.com>
-Date: Thu, 2 Jul 2026 09:59:49 +0530
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qvDwqEwT"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c96c92c0980so653143a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 21:43:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782967399; x=1783572199; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ON9QUT0SWKiLVqBMoH9mO2rPj7igk0r77PEm2hgCxG0=;
+        b=qvDwqEwTD0sbedQCgh1FT4InaNpiR1OY2kTXj6/ZvtXRV2ZBGlf5CyXwD5TMAJzuyt
+         xVU57IEWETX9YCmo3yerF67RVVGoeZoTBDnK/RXS/RNxt28cTctM0jcrJ2dJn8ISTjfn
+         jgy9+jTEqmgy4FMtYJWPzb5E7ipZe8lGEXRcx4TRBAJA1hcjxwhC0p1Sl/jAvouiSOKu
+         9bAIAoGqaVcrcB3Uy2ezaUUxTcqlA3W/S5IxeMqnHAvQzA+ZsUV0owEIuG6GiDcj4Y0H
+         jAJdSQvtVwu0/2bxeJ06tNlIIx6TUYFX2EWr/Rsg6b9SuejV1MTiwqWCigW6jZaOCQye
+         YE3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782967399; x=1783572199;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ON9QUT0SWKiLVqBMoH9mO2rPj7igk0r77PEm2hgCxG0=;
+        b=R5rv01NrKCPXF5TLslXpyzbAfQgXMMSvJCE7V0daQekXv+l+Ne19tXCewNwQYZ2xRm
+         VgFI4HVstjrwri4MsHv0Yv7m+HTwMSHH3A3Wuvmsepn7j9LsEb3Fn0CVgXS4f9GRb3qR
+         eesCUo6N8CC4jAOgLbAOov5HpJr9XdAHXLtfe2nPXC64BpatFTJwJoaV3kUjmitBwBTi
+         +CfjoudvkddXGeWWB3O37YYlBw9zFcWCxxJdPbuNY/JaRP9uTvggXFiPQYocHXEd9laV
+         HxEyYr6DzWtCPKIbCviIMGwetgjXrTmZ4qoaVYMnFim0R4nJhqAOg95f3EJv8kw2TySX
+         2GPw==
+X-Forwarded-Encrypted: i=1; AFNElJ9a4+iXrXwCxfCzFTaFeuLO/cFmPgh4Wrmb01wg6JCps1O2wvp14eH2rFOPUmsuTFtRGdJemuuc8DI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyN7d+d1u1F4ED8YQlJ+eRm5VWu1HM/jGY9TI6mpbRWN3mHznv4
+	lf8uN3ZwJ8nDcC3DBGYLsXsdScAcgy+r/FZuvr2ZGngUXHBo9rbORVER
+X-Gm-Gg: AfdE7cl+NizXU7DJOKdsCYVM6bamNOgkXXtrqbRXV6EaONNhO3B71tA2UTEXr8CDs4p
+	imx9/IyqRwMl9OD67peU9PC8u58JNVvH5KQXXEbNoHtJittaZxdJeJzGul4PCj+BwR5Kgucqk+E
+	N2cwKsTNTdZYcA0FQvpNkFvV/5D/6J8pmaXbT3mC86BAoQZrYMJhqTHbUd9zr7If5jebXolCdLH
+	DurEc3A/putH35OuqH6UvKVXU+PKGAExKolRBpXT5Jb4kkK3EzxD1xJRL/TsJeU7jB+8pqDt9ha
+	PJogx/WE/zBusK5xRWS5bJMuyjOeWPBvdc0L9NRzwk2gSfUTmTf3rHwhBavGCAVoP6aB/5cwB/w
+	euv7EckYDjwOFX0x220NldzxNlBI0c7V604zDjilwPueBVKrDcu+S4911kaZDQZyavMI0Wc6PVh
+	5TUVM3j0MoQxEvLCnKWz8OxrqHr7SynAQhUaJ4s3Tpr43XClLdb6fJfVyN3i2fbg==
+X-Received: by 2002:a05:6a21:38c:b0:3bf:735d:7fb7 with SMTP id adf61e73a8af0-3bff40a5200mr4087286637.13.1782967398808;
+        Wed, 01 Jul 2026 21:43:18 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b3ececfe4sm1852677c88.8.2026.07.01.21.43.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Jul 2026 21:43:17 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <d3053a4a-98a0-4dfe-8999-11fc64fad584@roeck-us.net>
+Date: Wed, 1 Jul 2026 21:43:16 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,312 +70,125 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC V2 3/3] mm: Replace pgtable entry prints with new format
-To: "David Hildenbrand (Arm)" <david@kernel.org>,
- Hugh Dickins <hughd@google.com>
-Cc: linux-mm@kvack.org, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>, Petr Mladek
- <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Lorenzo Stoakes <ljs@kernel.org>
-References: <20260610043545.3725735-1-anshuman.khandual@arm.com>
- <20260610043545.3725735-4-anshuman.khandual@arm.com>
- <fc57bb9a-4564-489e-8da4-65068b5283ae@kernel.org>
- <4a416383-62f5-1716-8e04-a2ee1f89a864@google.com>
- <dabfd73b-d872-4267-9a40-45463fe146ac@kernel.org>
- <3afa822d-3cc9-1068-9a10-94a5f2e4d29a@google.com>
- <90b5cd31-87ed-4ef7-86cc-458b9e06b02d@kernel.org>
+Subject: Re: [PATCH 6/6] hwmon: (pmbus/max20830): add support for max20830c
+ and max20840c
+To: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20260630-dev-max20830c-v1-0-a02786bde470@analog.com>
+ <20260630-dev-max20830c-v1-6-a02786bde470@analog.com>
+ <e5c7fcae-57aa-4461-987d-7f004d066873@roeck-us.net>
+ <PH0PR03MB63514C57CA17984F0B6FEEC8F1F72@PH0PR03MB6351.namprd03.prod.outlook.com>
+ <adfd2c4d-6d42-4aeb-9eff-6a059550ec80@roeck-us.net>
+ <PH0PR03MB63510E27A6F22742D526C244F1F52@PH0PR03MB6351.namprd03.prod.outlook.com>
 Content-Language: en-US
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <90b5cd31-87ed-4ef7-86cc-458b9e06b02d@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <PH0PR03MB63510E27A6F22742D526C244F1F52@PH0PR03MB6351.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 30/06/26 7:06 PM, David Hildenbrand (Arm) wrote:
-> On 6/16/26 08:19, Hugh Dickins wrote:
->> On Mon, 15 Jun 2026, David Hildenbrand (Arm) wrote:
->>> On 6/12/26 23:26, Hugh Dickins wrote:
->>>> ...
+On 7/1/26 19:50, Torreno, Alexis Czezar wrote:
+> 
+>>>>>
+>>>>>     static const struct of_device_id max20830_of_match[] = {
+>>>>> -	{ .compatible = "adi,max20830" },
+>>>>> +	{ .compatible = "adi,max20830", .data = &max20830_chip },
+>>>>> +	{ .compatible = "adi,max20830c", .data = &max20830c_chip },
+>>>>> +	{ .compatible = "adi,max20840c", .data = &max20840c_chip },
 >>>>
->>>> The page table entry is BUGgily Bad: we want to see what it looks like
->>>> (sometimes, a sequence of bad page map entries may even show up as ASCII).
+>>>> "adi,max20830" is a fallback for the other two chips, but that is not
+>>>> how the code is implemented.
+>>>>
 >>>
->>> But is printing raw page table entries really what we want? I guess to detect
->>> "random corruption" it might help sometimes.
->>
->> Yes, that's what it's for. What we really want is to understand what went
->> wrong: that's too much to ask of a printk, but it can give us a good clue.
->>
+>>> I may be inclined to just not use fallback as it seems to be more
+>>> complicated and a bit unnecessary. There's also other devices that may
+>>> be added on top of this so it lessens the complexity. Will edit the bindings
+>> regarding this.
 >>>
->>> And do we really need information about the full page table walk, or is the last
->>> level good enough?
 >>
->> Page table entry and pmd entry are good enough: higher levels got
->> added at some stage, but they are unlikely to be useful here.
+>> You are missing the point. The fallback is perfectly valid. Technically the driver
+>> does not even need to support adi,max20830c and adi,max20840c.
+>> That is only used to validate that the chip is supported. That does not need a
+>> separate devicetree entry.
+>>
 > 
-> Yes, I added them when we're processing PUD entries we'd also want
-> P4D entry + PUD entry.
+> Checking if I understand this. I need to add a check that if DT chip->id = max20830,
+> and if the HW returns string of either nmax20830c or max20840c, device still probes
 > 
-> This is one approach of having the printing be done mostly
-> manually, supporting 32, 64 and 128bit pte_val(). As raised by Ryan,
-> using local bufs to store the data to not involve printk.
+> if ((buf == "max20830c" || buf  == "max20840c) && chip->id != "max20830""
+>          // then it's an error...
+> }
 > 
-> 
-> I played with printing the byte stream manually, but didn't really like it.
-> 
-> Gave it a quick test and it seems to do its trick. I have the feeling that
-> this can be beautified a bit more.
-> 
-> 
-> From 05af7317b126991a61b0a3d01c2863ce5a578d1b Mon Sep 17 00:00:00 2001
-> From: "David Hildenbrand (Arm)" <david@kernel.org>
-> Date: Tue, 30 Jun 2026 15:23:02 +0200
-> Subject: [PATCH] tmp
-> 
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
->  mm/memory.c | 110 +++++++++++++++++++++++++++++++++++++++++-----------
->  1 file changed, 87 insertions(+), 23 deletions(-)
-> 
-> diff --git a/mm/memory.c b/mm/memory.c
-> index ff338c2abe923..ad39cafe110f9 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -519,9 +519,57 @@ static bool is_bad_page_map_ratelimited(void)
->  	return false;
->  }
->  
-> +#define PTVAL_STR_MAX	(sizeof(u64) * 4 + 1)
-> +
-> +static void ptval_bytes_to_str(char *buf, size_t buf_size,
-> +		const void *entry, size_t entry_size)
-> +{
-> +	if (WARN_ON_ONCE(buf_size < entry_size * 2 + 1)) {
-> +		snprintf(buf, buf_size, "overflow");
-> +		return;
-> +	}
-> +
-> +	switch (entry_size) {
-> +	case sizeof(u32):
-> +		snprintf(buf, buf_size, "%08x", *(const u32 *)entry);
-> +		break;
-> +	case sizeof(u64):
-> +		snprintf(buf, buf_size, "%016llx",
-> +			 (unsigned long long)*(const u64 *)entry);
-> +		break;
-> +	case sizeof(u64) * 2: {
 
-Could this be made sizeof(u128) instead ? But overall this
-approach looks good.
-> +		const u64 *val = entry;
-> +
-> +		if (IS_ENABLED(CONFIG_CPU_BIG_ENDIAN))
-> +			snprintf(buf, buf_size, "%016llx%016llx",
-> +				 (unsigned long long)val[0],
-> +				 (unsigned long long)val[1]);
-> +		else
-> +			snprintf(buf, buf_size, "%016llx%016llx",
-> +				 (unsigned long long)val[1],
-> +				 (unsigned long long)val[0]);
-> +		break;
-> +	}
-> +	default:
-> +		snprintf(buf, buf_size, "unsupported");
-> +		break;
-> +	}
-> +}
-> +
-> +#define ptval_to_str(buf, val)						\
-> +	do {								\
-> +		typeof(val) __val = (val);				\
-> +									\
-> +		ptval_bytes_to_str((buf), sizeof(buf), &__val,		\
-> +				   sizeof(__val));			\
-> +	} while (0)
-> +
->  static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long addr)
->  {
-> -	unsigned long long pgdv, p4dv, pudv, pmdv;
-> +	char pgd_str[PTVAL_STR_MAX];
-> +	char p4d_str[PTVAL_STR_MAX];
-> +	char pud_str[PTVAL_STR_MAX];
-> +	char pmd_str[PTVAL_STR_MAX];
->  	p4d_t p4d, *p4dp;
->  	pud_t pud, *pudp;
->  	pmd_t pmd, *pmdp;
-> @@ -532,34 +580,34 @@ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long add
->  	 * see locking requirements for print_bad_page_map().
->  	 */
->  	pgdp = pgd_offset(mm, addr);
-> -	pgdv = pgd_val(*pgdp);
-> +	ptval_to_str(pgd_str, pgd_val(*pgdp));
->  
->  	if (!pgd_present(*pgdp) || pgd_leaf(*pgdp)) {
-> -		pr_alert("pgd:%08llx\n", pgdv);
-> +		pr_alert("pgd: %s\n", pgd_str);
->  		return;
->  	}
->  
->  	p4dp = p4d_offset(pgdp, addr);
->  	p4d = p4dp_get(p4dp);
-> -	p4dv = p4d_val(p4d);
-> +	ptval_to_str(p4d_str, p4d_val(p4d));
->  
->  	if (!p4d_present(p4d) || p4d_leaf(p4d)) {
-> -		pr_alert("pgd:%08llx p4d:%08llx\n", pgdv, p4dv);
-> +		pr_alert("pgd: %s p4d: %s\n", pgd_str, p4d_str);
->  		return;
->  	}
->  
->  	pudp = pud_offset(p4dp, addr);
->  	pud = pudp_get(pudp);
-> -	pudv = pud_val(pud);
-> +	ptval_to_str(pud_str, pud_val(pud));
->  
->  	if (!pud_present(pud) || pud_leaf(pud)) {
-> -		pr_alert("pgd:%08llx p4d:%08llx pud:%08llx\n", pgdv, p4dv, pudv);
-> +		pr_alert("pgd: %s p4d: %s pud: %s\n", pgd_str, p4d_str, pud_str);
->  		return;
->  	}
->  
->  	pmdp = pmd_offset(pudp, addr);
->  	pmd = pmdp_get(pmdp);
-> -	pmdv = pmd_val(pmd);
-> +	ptval_to_str(pmd_str, pmd_val(pmd));
->  
->  	/*
->  	 * Dumping the PTE would be nice, but it's tricky with CONFIG_HIGHPTE,
-> @@ -567,8 +615,8 @@ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long add
->  	 * doing another map would be bad. print_bad_page_map() should
->  	 * already take care of printing the PTE.
->  	 */
-> -	pr_alert("pgd:%08llx p4d:%08llx pud:%08llx pmd:%08llx\n", pgdv,
-> -		 p4dv, pudv, pmdv);
-> +	pr_alert("pgd: %s p4d: %s pud: %s pmd: %s\n", pgd_str, p4d_str, pud_str,
-> +		 pmd_str);
->  }
->  
->  /*
-> @@ -584,10 +632,11 @@ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long add
->   * page table lock.
->   */
->  static void print_bad_page_map(struct vm_area_struct *vma,
-> -		unsigned long addr, unsigned long long entry, struct page *page,
-> -		enum pgtable_level level)
-> +		unsigned long addr, const void *entry, size_t entry_size,
-> +		struct page *page, enum pgtable_level level)
->  {
->  	struct address_space *mapping;
-> +	char entry_str[PTVAL_STR_MAX];
->  	pgoff_t index;
->  
->  	if (is_bad_page_map_ratelimited())
-> @@ -596,8 +645,9 @@ static void print_bad_page_map(struct vm_area_struct *vma,
->  	mapping = vma->vm_file ? vma->vm_file->f_mapping : NULL;
->  	index = linear_page_index(vma, addr);
->  
-> -	pr_alert("BUG: Bad page map in process %s  %s:%08llx", current->comm,
-> -		 pgtable_level_to_str(level), entry);
-> +	ptval_bytes_to_str(entry_str, sizeof(entry_str), entry, entry_size);
-> +	pr_alert("BUG: Bad page map in process %s  %s: %s", current->comm,
-> +		 pgtable_level_to_str(level), entry_str);
->  	__print_bad_page_map_pgtable(vma->vm_mm, addr);
->  	if (page)
->  		dump_page(page, "bad page map");
-> @@ -627,8 +677,14 @@ static inline bool pgtable_level_has_pxx_special(enum pgtable_level level)
->  	}
->  }
->  
-> -#define print_bad_pte(vma, addr, pte, page) \
-> -	print_bad_page_map(vma, addr, pte_val(pte), page, PGTABLE_LEVEL_PTE)
-> +static void print_bad_pte(struct vm_area_struct *vma, unsigned long addr,
-> +			  pte_t pte, struct page *page)
-> +{
-> +	typeof(pte_val(pte)) entry = pte_val(pte);
-> +
-> +	print_bad_page_map(vma, addr, &entry, sizeof(entry), page,
-> +			   PGTABLE_LEVEL_PTE);
-> +}
->  
->  /**
->   * __vm_normal_page() - Get the "struct page" associated with a page table entry.
-> @@ -636,8 +692,9 @@ static inline bool pgtable_level_has_pxx_special(enum pgtable_level level)
->   * @addr: The address where the page table entry is mapped.
->   * @pfn: The PFN stored in the page table entry.
->   * @special: Whether the page table entry is marked "special".
-> - * @level: The page table level for error reporting purposes only.
->   * @entry: The page table entry value for error reporting purposes only.
-> + * @entry_size: The size of @entry.
-> + * @level: The page table level for error reporting purposes only.
->   *
->   * "Special" mappings do not wish to be associated with a "struct page" (either
->   * it doesn't exist, or it exists but they don't want to touch it). In this
-> @@ -697,7 +754,7 @@ static inline bool pgtable_level_has_pxx_special(enum pgtable_level level)
->   */
->  static inline struct page *__vm_normal_page(struct vm_area_struct *vma,
->  		unsigned long addr, unsigned long pfn, bool special,
-> -		unsigned long long entry, enum pgtable_level level)
-> +		const void *entry, size_t entry_size, enum pgtable_level level)
->  {
->  	if (pgtable_level_has_pxx_special(level)) {
->  		if (unlikely(special)) {
-> @@ -710,7 +767,8 @@ static inline struct page *__vm_normal_page(struct vm_area_struct *vma,
->  			if (is_zero_pfn(pfn) || is_huge_zero_pfn(pfn))
->  				return NULL;
->  
-> -			print_bad_page_map(vma, addr, entry, NULL, level);
-> +			print_bad_page_map(vma, addr, entry, entry_size, NULL,
-> +					   level);
->  			return NULL;
->  		}
->  		/*
-> @@ -741,7 +799,7 @@ static inline struct page *__vm_normal_page(struct vm_area_struct *vma,
->  
->  	if (unlikely(pfn > highest_memmap_pfn)) {
->  		/* Corrupted page table entry. */
-> -		print_bad_page_map(vma, addr, entry, NULL, level);
-> +		print_bad_page_map(vma, addr, entry, entry_size, NULL, level);
->  		return NULL;
->  	}
->  	/*
-> @@ -767,8 +825,10 @@ static inline struct page *__vm_normal_page(struct vm_area_struct *vma,
->  struct page *vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
->  			    pte_t pte)
->  {
-> +	typeof(pte_val(pte)) entry = pte_val(pte);
-> +
->  	return __vm_normal_page(vma, addr, pte_pfn(pte), pte_special(pte),
-> -				pte_val(pte), PGTABLE_LEVEL_PTE);
-> +				&entry, sizeof(entry), PGTABLE_LEVEL_PTE);
->  }
->  
->  /**
-> @@ -809,8 +869,10 @@ struct folio *vm_normal_folio(struct vm_area_struct *vma, unsigned long addr,
->  struct page *vm_normal_page_pmd(struct vm_area_struct *vma, unsigned long addr,
->  				pmd_t pmd)
->  {
-> +	typeof(pmd_val(pmd)) entry = pmd_val(pmd);
-> +
->  	return __vm_normal_page(vma, addr, pmd_pfn(pmd), pmd_special(pmd),
-> -				pmd_val(pmd), PGTABLE_LEVEL_PMD);
-> +				&entry, sizeof(entry), PGTABLE_LEVEL_PMD);
->  }
->  
->  /**
-> @@ -850,8 +912,10 @@ struct folio *vm_normal_folio_pmd(struct vm_area_struct *vma,
->  struct page *vm_normal_page_pud(struct vm_area_struct *vma,
->  		unsigned long addr, pud_t pud)
->  {
-> +	typeof(pud_val(pud)) entry = pud_val(pud);
-> +
->  	return __vm_normal_page(vma, addr, pud_pfn(pud), pud_special(pud),
-> -				pud_val(pud), PGTABLE_LEVEL_PUD);
-> +				&entry, sizeof(entry), PGTABLE_LEVEL_PUD);
->  }
->  #endif
->  
+Technically, you don't even have to check the device ID in the first place.
+You could drop all the device ID checking code.
+
+Checking the device ID is just a safety feature that ensure that the
+physical chip is supported by the driver. You could do something similar
+to the max31785 driver, i.e., read the device ID and do a length check and
+hard-coded string comparison. Separate compatible entries are not needed
+at all.
+
+Something like
+
+	buf[ret] = '\0';
+	if (ret != MAX20830_IC_DEVICE_ID_LENGTH ||
+	    (strcmp(buf, "MAX20830") &&
+	     strcmp(buf, "MAX20830C") &&
+	     strcmp(buf, "MAX20840C"))
+		return dev_err_probe(&client->dev, -ENODEV,
+                                      "Unsupported device: '%*pE'\n", buf);
+
+should do (using %*pE because the unknown device might not necessarily
+have printable characters).
+
+Guenter
 
