@@ -1,132 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA62CA45;
-	Thu,  2 Jul 2026 05:18:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A72E364EB7;
+	Thu,  2 Jul 2026 06:12:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782969538; cv=none; b=UcwaPmQOK3wG+M4GvnjTMcj/63ExLmal3Lq7dlMVjpXv6AQLl48jrHQPWzKteSBCgXtyBg19EQF1uZomscC9JAHi4ipwMQfYjK5K2AuPCetCbHwA5mkgef7hF38mhCCoMnqX5C83zDv9qtt+/FU49/VXMgxCf+fLQEjVbBucSBM=
+	t=1782972722; cv=none; b=dJnMmj0GFkbJwSgesIbWUo6/cNRxrwQeu5sfFQb4NxCEhkFDmrEzHPjd1hNjlb/ZjIOefMyEdb6Ve2bMhv80Fb35hMeTDCZlq0kzYpV0v3RQi2xEE3wLSdMKRP39B0O1eGRabpWbaYWlQA6EDzDOpCKkhTbj12iUP2VpuDT2LeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782969538; c=relaxed/simple;
-	bh=LCHTDayaQctKQwTOSOo5JZcJHZlsDTMGv5r7C5TpZfA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oQmdTSBPPhazufTzGC6fvi1k1KBIHIvHICbb2Ju40jFdVsAzxtUWdUAPwn221JCIopbdlZgjjsSmrwkYrrYWzfCRPX3fEPucd/+J1krNu2LuAGXJLz2DuPYIt3Hwp3D78gpr3QdNJjImo4VWEl9YxW/F7JNpzWln00vNqfhqbJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kfbBAfT4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782972722; c=relaxed/simple;
+	bh=t827TVYMXTQd8S+gp0UwPJs7oNK07I25GzDE4oq9SEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ENEAe1zuLhdvz2VI0iCW7qJYBcuf6L3ZAvJyvYcns/FsdxujAtqwRRNutA0rmc4o5Qw2wK7y5vToXVvryfkjChfSx0fPfaTexXP3uv1SNJXH50UPUxShXoS/4yhdi/aSHVEMtzCR86soU1vqj9FkINX2/ZhrYyShlH9jNmN7VOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VpztKQ6r; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kfbBAfT4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89FA11F000E9;
-	Thu,  2 Jul 2026 05:18:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VpztKQ6r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2DCA1F000E9;
+	Thu,  2 Jul 2026 06:11:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782969536;
-	bh=LCHTDayaQctKQwTOSOo5JZcJHZlsDTMGv5r7C5TpZfA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=kfbBAfT4LLf0vvbkJ1cyslvqGFRWwWR6CF/TkGJKFEkhfl/6q3Yq38owC7DMpKXYe
-	 p6thjWJDSxGGaOXpUXM5ZO/0Gk42v7ZzEB/bdy7gFYwP3EaPA8VoXYVqNxxvp/sk5h
-	 DjCEL4dx0p8SZbY/mvhZ2olcgqwwuRgx6JXJv09yKkrXTos8c4CNjOkGlxll1JuRsT
-	 qXL7yTUfhlidQMmSbNG/vLIwgEOocgXrl7gwQyYFENquEh5OvO9GuR/yMSq1YQBaw3
-	 MO8cQwCBLK5GZxFughII57OZK3VKLKbXJOzMBUOcQI32BHFfySbgJP2W6FJfg7qfzq
-	 rlkDr2v95wfJg==
-Message-ID: <54e75619-3dbc-448c-81fa-122edcdad1f0@kernel.org>
-Date: Thu, 2 Jul 2026 14:18:49 +0900
+	s=k20260515; t=1782972721;
+	bh=SDkqyV677VxlMxCqb4aZiQTtd1HYljxePBmarX14wwI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VpztKQ6rEBJScZ2L41WwKNsUvbreHujp2agzLDGxegTjDwBS7lNyqG5YFrLP7KPeL
+	 w5G3T8lYEVMIdwsKQeul2f/PDSeR5jHEc4s5zP/kqqH+OhNb/llb4nTEKhl9CXKxQq
+	 QwBjbrkuaToFjMVqaWr1GNtH+9mKnlt0/f/SCYnrv6geEfcSpk+3Aw5ykWJVFPHgyP
+	 HngJYMK5we0FlrTqut31vZrGzmGXl599DBBYy00hbQuw+GcRbV/SIrg3Kblh+HUOe9
+	 SPjZKa8uWfH+BQW0Fcjsp8H3pNIkVXOsGCOq+dW3Oxb4fMKj8YYLyZchSiUthDFTmN
+	 SDu5+0wNArwrQ==
+Date: Thu, 2 Jul 2026 06:11:56 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
+	tfiga@chromium.org, senozhatsky@chromium.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v5 1/2] PM: sleep: Rename module parameters prefix to
+ "pm_sleep"
+Message-ID: <akYBLFzOR_6kFISP@google.com>
+References: <20260701045640.3130090-1-tzungbi@kernel.org>
+ <20260701045640.3130090-2-tzungbi@kernel.org>
+ <2026070110-unrented-crummiest-d6af@gregkh>
+ <CAJZ5v0jNq5SMtAxLb6UqUO6OrZSYKK1+AfY6CQAcym7q0GntKA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: ABI: sysfs-kernel-slab: mark cpu_partial attributes
- deprecated
-To: Seongjun Hong <hsj0512@snu.ac.kr>, Vlastimil Babka <vbabka@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260701141755.85119-1-hsj0512@snu.ac.kr>
-Content-Language: en-US
-From: Harry Yoo <harry@kernel.org>
-In-Reply-To: <20260701141755.85119-1-hsj0512@snu.ac.kr>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------O80EsP6ScXCYvlwhmQW6hWQX"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0jNq5SMtAxLb6UqUO6OrZSYKK1+AfY6CQAcym7q0GntKA@mail.gmail.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------O80EsP6ScXCYvlwhmQW6hWQX
-Content-Type: multipart/mixed; boundary="------------Fbv8pm31SwkONlud2RpeVStF";
- protected-headers="v1"
-From: Harry Yoo <harry@kernel.org>
-To: Seongjun Hong <hsj0512@snu.ac.kr>, Vlastimil Babka <vbabka@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-ID: <54e75619-3dbc-448c-81fa-122edcdad1f0@kernel.org>
-Subject: Re: [PATCH] docs: ABI: sysfs-kernel-slab: mark cpu_partial attributes
- deprecated
-References: <20260701141755.85119-1-hsj0512@snu.ac.kr>
-In-Reply-To: <20260701141755.85119-1-hsj0512@snu.ac.kr>
+On Wed, Jul 01, 2026 at 01:27:04PM +0200, Rafael J. Wysocki (Intel) wrote:
+> On Wed, Jul 1, 2026 at 9:20 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Wed, Jul 01, 2026 at 04:56:39AM +0000, Tzung-Bi Shih wrote:
+> > > Currently, the module parameters defined in drivers/base/power/main.c
+> > > use the default prefix "main" (derived from the filename).  The prefix
+> > > is too generic and non-descriptive.
+> > >
+> > > Redefine MODULE_PARAM_PREFIX to "pm_sleep." to group the module
+> > > parameters under the namespace instead.  This makes the parameters more
+> > > descriptive.
+> >
+> > You just changed the user/kernel api, right?  That will break things...
+> 
+> Or not, if that part of the ABI is not really used or the users of it
+> can live with the change.
+> 
+> This actually is an attempt to correct a mistake in the ABI and only
+> one module parameter is affected by this change
+> (dpm_watchdog_all_cpu_backtrace).  I'm not expecting the people using
+> it to get a particular heartburn about the change.   Or if they do,
+> we'll back off.
 
---------------Fbv8pm31SwkONlud2RpeVStF
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+To provide a bit more context (also discussed previously in v3 [1][2]):
+The `dpm_watchdog_all_cpu_backtrace` parameter is relatively new.  It was
+introduced in v6.19 (Oct 2025) via commit a67818f74512 ("PM: dpm_watchdog:
+add module param to backtrace all CPUs").  Because of its recent
+introduction, it shouldn't have many users in the wild yet.  The flag was
+originally introduced for ChromeOS [3], which doesn't actually rely on this
+module parameter in its production configuration yet [4].
 
+Given the limited known usage, this is likely the best window to correct
+the prefix before it gains wider adoption.
 
+[1] https://lore.kernel.org/all/aigPNvkxRIz36dWm@google.com
+[2] https://lore.kernel.org/all/CAJZ5v0gQTx_k9j2pGha7NKxAjdPS1J_ySZNYiL1=_+_M9znQ_g@mail.gmail.com
+[3] https://crrev.com/c/7414781
+[4] https://crrev.com/c/7414721
 
-On 7/1/26 11:17 PM, Seongjun Hong wrote:
-> The per-cpu slab and per-cpu partial slab mechanisms were removed when
-> SLUB was converted to per-cpu sheaves in Linux 7.0. The cpu_slabs,
+> 
+> I'm now thinking though that using "pm" as the new prefix might be better.
 
-small nit: sheaves were introduced in v6.18,
-but the cpu (partial) slabs layer were removed later in v7.0.
-
-> slabs_cpu_partial and cpu_partial sysfs attributes were kept as stubs
-> that always return 0 for backwards compatibility, but their
-> documentation still described them as if they were functional.
-
-Right, for backward compatibility, because, unlike files that
-might not exist w/o SLUB_STATS, userspace tools might assume that
-they always exist.
-
-> Update the three descriptions to state that the attributes are
-> deprecated and always read 0, and note that they are retained only for
-> compatibility. While here, fix a "partialli" typo in the
-> slabs_cpu_partial description.
->=20
-> Signed-off-by: Seongjun Hong <hsj0512@snu.ac.kr>
-> ---
-
-Overall looks good to me, so:
-Acked-by: Harry Yoo (Oracle) <harry@kernel.org>
-
-By the way.
-
-There's still some gap between the documentation
-and the implementation :)
-
-We've dropped a bunch of files that exist only on
-SLUB_STATS and new files introduced with by
-sheaves were not documented.
-
-Also, tools/mm/slabinfo.c needs some attention as
-it hasn't been updated for a while.
-
-Thanks.
-
---=20
-Cheers,
-Harry / Hyeonggon
-
---------------Fbv8pm31SwkONlud2RpeVStF--
-
---------------O80EsP6ScXCYvlwhmQW6hWQX
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQQQ1ub6gR5ogjaKRmOGXBN6rc5S1gUCakX0uwAKCRCGXBN6rc5S
-1gbkAP9QAKNNWBCEWbfsjY3L/SMOIedhdGbXoUMbLTAYMD5oRwEAqzX5qtFNmUlH
-RxsRIORKmGzfNGZSE2K5ljitJ9mX3wo=
-=ehts
------END PGP SIGNATURE-----
-
---------------O80EsP6ScXCYvlwhmQW6hWQX--
+Ack, we can change it back to "pm." in the next version.
