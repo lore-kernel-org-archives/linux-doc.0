@@ -1,231 +1,138 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012020.outbound.protection.outlook.com [52.101.48.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3C84189A2;
-	Thu,  2 Jul 2026 11:19:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782991158; cv=fail; b=E0AGOKGgD8XkAYwgHLnWMohlLFX5dc6tcXMpFIufE/+vg7UuKLpdYgTU8ZT/vNHjsh59KOtqimhZSXIzziu9iC6lHBnsh0eRbX7IGzXJH8h/OD9YyNEUP8sNRAJ34X7PO+nXlIjPf07ftjmQIy76rhDqK1AKWot3+4sJofMgHOc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782991158; c=relaxed/simple;
-	bh=cq1mzWCUR+LNr0PhjE4WVg//32tSzb4dEj1F7GFkals=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GXq5WexRyNSjyGOk8w0rifd/51g5/JzjklF92lwdGLQ+XocLlDEotCKY7PBFVfhVnUo0FAMf49A0tFO8uaykkntSXa2qs6aevRCqCahJaN2+SZrgoDg2yklMvWRL6+6VhRcXu1v2wnVprm2tS3P/vjxeQN2F7Xb/H4CLzDzsA70=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=AAR/+Y/R; arc=fail smtp.client-ip=52.101.48.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431C33EEAE9;
+	Thu,  2 Jul 2026 11:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782991502; cv=none; b=L6D98juZNezTcPDIyuBIabax1e2jjWnONeZ9oQ4KWvAuIcNbJA5SeQplfXUonSPzvZUNxYH9sLv/AzMKXIW3fXSmf4bpalJ2HSOhOAS2EX9zRd3cC+EnGo/OzPU8+WIYIUknHQiY872jQ9HWp/08NUXJPYDDuz+wZFL9W3Dfu5I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782991502; c=relaxed/simple;
+	bh=2Gv5HFzlkMbFzaDx1llG37d5UEFM/5AOSXNnQSuRzf8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=G3+dzUtAIBxbY8STk49rsIcldA44II2/VYUoQGJtEfdNnQ9YY9ymfdE1BqVcQBDdIgwSqKJWPS67g5MSLzF4DT8iP13xJbZ5dhVSnZC3SmRDH5PSif/qFu5xOxakzIGy2rDHRgzOJ9rZ7yfTOw+dd6QxBteQKc6sw/yyk4ke6sQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kLTmUhIz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="AAR/+Y/R"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C7oCoUbWEuCg2IlMzBKlS7NS5zHq2Rt+YWCt50AeLMguxFWzivjaR6JoUGs5U9d+py6WjiykJbOWlW3k8b3t+5SEBbhicfBYDwUKcHjVloEcYlXnsDWVBiqgkBdqKUW3efAy8ufCjGyG9xwR4LE+gi94+RyccagsoW2xd3/upquBdgXYmytUSxSFxCBvFSRg+ppiux+wWkaSHXclKLp7nFwnQRAXhqKvHb+mUqcdKdR4FTwyjx0jaXQBNqeme/27qLwtzgktig9/Q+51E9nwc5ZF55SKtcJiM/1Ubu3/AisJfHZ7iQf1tp9mJtFYq6u7sYdcEpm1B7TBMg6SZlMC9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JQNqTgDinXUTk4yyH2luKGTuA50HU7vexB7Qe6aV7LA=;
- b=JKBLAzWhUYx+NAspB/hs969RQVp0HQZvAl9kn0poRZmTWesxyxZm8S+q1J7udoZ9BkmSsLgZLFCOGmyxIxdAqJqsWnZC9zBAAlGID0LfSOFBBBvNlHlBmGeYoaJ5NI2FMHu6cR7vVEJeqOzf0NLjrGRWn1O3H6tYkxBDovFovuYS5WU8sRoJXBCG+eKGOlZ7wm0cmtKnvrffS6k2LQtm6rXNKWUzmTTPPYCWfbCdQNiZWQh6UCry+acdLhX9Ix00GEDSl5f+88bsWrCff9OyUj34MfP2Ch0PhvA61f0Oy6Wv0FHbro7phEJC1N81/2E/RIckQw+GIcIr0vhLLaYVMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=lunn.ch smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JQNqTgDinXUTk4yyH2luKGTuA50HU7vexB7Qe6aV7LA=;
- b=AAR/+Y/R3YZuerLk1soahfs58NF8UVcILbzyr3gPH4hmMNO+RMU+FaZ1w/y8RktbT6Tg+zEoyeUYB8qcfx/8v9tBM5edpQXf+ePC6wrs9OaR64zoT84sgzDkaJngkmbAlXhprmAvhpCvBqyCva4+UMdi8Ulk1aUOjEniQfWPK1xx7ZsC0rhqIzxhRq9v1iaohy1ypSJEViWOdgbvSyvSHRlPVmR03YNh95ZX+aI3IMLYxG+V0vE098MmlzLjYngzBDaQY6aaA8za+l2uIltPJ6ngwlunASjEXHOeY3g0bWQP2wJ6SM/YwOnP/xCjrxda97n73YsMnNVfpV6ajsxecw==
-Received: from SA0PR11CA0046.namprd11.prod.outlook.com (2603:10b6:806:d0::21)
- by CY5PR12MB6599.namprd12.prod.outlook.com (2603:10b6:930:41::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Thu, 2 Jul
- 2026 11:19:05 +0000
-Received: from SA2PEPF000015CA.namprd03.prod.outlook.com
- (2603:10b6:806:d0:cafe::28) by SA0PR11CA0046.outlook.office365.com
- (2603:10b6:806:d0::21) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.9 via Frontend Transport; Thu, 2
- Jul 2026 11:19:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- SA2PEPF000015CA.mail.protection.outlook.com (10.167.241.200) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Thu, 2 Jul 2026 11:19:04 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 2 Jul
- 2026 04:18:42 -0700
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 2 Jul
- 2026 04:18:41 -0700
-Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.9)
- with Microsoft SMTP Server id 15.2.2562.20 via Frontend Transport; Thu, 2 Jul
- 2026 04:18:35 -0700
-From: Tariq Toukan <tariqt@nvidia.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, <netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>
-CC: Adithya Jayachandran <ajayachandra@nvidia.com>, Chris Mi <cmi@nvidia.com>,
-	Daniel Jurgens <danielj@nvidia.com>, Jiri Pirko <jiri@resnulli.us>, "Jonathan
- Corbet" <corbet@lwn.net>, Kees Cook <kees@kernel.org>, Leon Romanovsky
-	<leon@kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>, Mark Bloch
-	<mbloch@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, Or Har-Toov
-	<ohartoov@nvidia.com>, Parav Pandit <parav@nvidia.com>, Saeed Mahameed
-	<saeedm@nvidia.com>, Shay Drori <shayd@nvidia.com>, Shuah Khan
-	<skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, Tariq Toukan
-	<tariqt@nvidia.com>
-Subject: [PATCH net-next 1/2] devlink: print controller prefix for non-zero controller
-Date: Thu, 2 Jul 2026 14:17:25 +0300
-Message-ID: <20260702111726.816985-2-tariqt@nvidia.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20260702111726.816985-1-tariqt@nvidia.com>
-References: <20260702111726.816985-1-tariqt@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kLTmUhIz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2817C1F00A3F;
+	Thu,  2 Jul 2026 11:25:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782991501;
+	bh=mOM3rzsLQ5zcU0KB7ppqvlisg4HQiYPTf14y3PbqPhs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=kLTmUhIzP0y8iCpVDm6+5t9nX8pnl/FL2IHkdX+LfPQlaEB6wVtL1kzoiWM3qgtdM
+	 9lTWMsYU7FF6L2fLFenc6N5j8Ef5Fsck26DORNh2e1uC+hhJjt3XhPbzYodE5No+/4
+	 tWeWtodTFyens21QxAEsxxmbVM/H/aptMqXN2OB3YO2ifHuNtRpMc59RFcP/OFJdrl
+	 p/pPBwhqDVsZFrWWR0Y/4+EfsV6EJ/+t4oycLzrV5+G6c5l4TaSPPG0X2wti9LPib7
+	 U22B6IjMFDRlMrSIOQnTd3sE3VScotvakJyHz80nD/AmM45TrVc/NRY1ZD3+rFexs+
+	 OeLrJpr3ynMYA==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Michal =?utf-8?Q?Such=C3=A1nek?= <msuchanek@suse.de>, Peter Zijlstra
+ <peterz@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Huacai Chen <chenhuacai@kernel.org>, WANG
+ Xuerui <kernel@xen0n.name>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin
+ <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Heiko
+ Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander
+ Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
+ <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, Andy
+ Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav
+ Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Andrew Donnellan
+ <andrew+kernel@donnellan.id.au>, Mark Rutland <mark.rutland@arm.com>,
+ Michal =?utf-8?Q?Such=C3=A1nek?= <msuchanek@suse.de>, Arnd Bergmann
+ <arnd@arndb.de>, Jiaxun
+ Yang <jiaxun.yang@flygoat.com>, Ryan Roberts <ryan.roberts@arm.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Mukesh Kumar Chaurasiya
+ <mkchauras@linux.ibm.com>, Shrikanth Hegde <sshegde@linux.ibm.com>, Zong
+ Li <zong.li@sifive.com>, Nam Cao <namcao@linutronix.de>, Deepak Gupta
+ <debug@rivosinc.com>, Lukas Gerlach <lukas.gerlach@cispa.de>, Rui Qi
+ <qirui.001@bytedance.com>, Kees Cook <kees@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
+Subject: Re: [RFC] entry: Untangle the return value of
+ syscall_enter_from_user_mode from syscall NR
+In-Reply-To: <akVRcPsD_R_CE1qW@kunlun.suse.cz>
+References: <akVRcPsD_R_CE1qW@kunlun.suse.cz>
+Date: Thu, 02 Jul 2026 13:24:57 +0200
+Message-ID: <878q7tprau.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF000015CA:EE_|CY5PR12MB6599:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2b38b78c-c748-4769-9e1f-08ded82bba0b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|23010399003|82310400026|36860700016|1800799024|18002099003|56012099006|11063799006|6133799003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	N0Wc2Wk+FZLtuUtdLyT1lQmxFkiByA+AfF2uA4iBKwEJlZ9o77T5jViiz+TRdP/b4aIhliCpz1JGw+dAy5S+ZLHf8aKDDImNKIhFUwpC/FTTTR3i7+YahMsaGF9I3EOFzcdWCy8I+WYaou3XbKz+juXlefY8onXDi9S0L3mCQ8BUoYhm1A8LyV6eqtII6tEQbD1VjkypBQ7kbbkTPySm0/f7Ul4ms8ikCZ4BrTG3/LX5eS10yKzqPuJcqXYx3WX+erSMR43Prwp+iKpgzAcFwUtJe8VkCiPHjID1tV9RRSRsyCLLO6Nncbn6/Jr0qB/4GdmSy/ZoXhwbK0GwUsNB8LWmoYri4MfdR8mOuUSjvVqx1JiOvxv9tzoD6Xoc2fY1q3Vx8DNeV77Mzp6GYmnbjv2c7Mezinu+iJNO2DbxLNfBnD4/uPqXD1RWQBjiKymDQEwE3knOjlGiFJZCb8G8LO837B1o3dAwS8REdlEPnTuaByWMYh0lO9esDGbR3El1NKr5OPvN3avNuhzw3GLKCJ4AmkqRwtavtvCUt69+LJaTUQyN2jtR0WKSAIEyATCtWRuoZxUzP1/9zd/ETaLTW9VpEQ5agaYybKV9MSOoKMmhoZdWB/vYhjDiiNqnoC8pV278HBXl1KBby/5q9IQ9h73t19Z1yN/o59hnDKHIbCxdeGvJMaIKlps4fxXEmEJHpsNMo58qfIz3RY8FU+QWAA==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(82310400026)(36860700016)(1800799024)(18002099003)(56012099006)(11063799006)(6133799003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	fc6frH4Xs1UJCTYh7xh3bYJYz+HVcXWuwL0vE3gGZ8wD06gqf8auWmP34Np3p3NRTAS+NQ3elxGk5V25u0ehxwpVCXm9GulTd7ub4GnSYh+c/UcHNnQMlPnoUDDKxg2tLOhnT1GhgRu7l8eQOqLu9DDNMKWvBu1UKVIIwSQC9Cc2Xxiyn3tUbF46PIB+At3WtJcL322oqptfXCuwKQR2dIRkmTFtr45EAKUOgahMqoJeH5NB73rwHR+bChVJ7y8uLViHJ5JNTn6eGHrM54QvZUQ0/NWk8ufy83yzb6h/J/2UbI9TvK6Uh9KjjxkCpYt9HqCq8m14Xc7ct+CSPGwSjv4H73oc4WMW9qKvhjCF7NeHjgsGjO4G2sfVgX8jO3XSycDl92IM0rFrGVyVtnL7XBl0xxZbhu/bpODXlFaRGeu6DdGA6X7QNopM1fBqt5CQ
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2026 11:19:04.8156
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b38b78c-c748-4769-9e1f-08ded82bba0b
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF000015CA.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6599
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Moshe Shemesh <moshe@nvidia.com>
+On Wed, Jul 01 2026 at 19:42, Michal Such=C3=A1nek wrote:
+> The return value of syscall_enter_from_user_mode is used both for the
+> adjusted syscall number and the indicator that a syscall should be
+> skipped.
+>
+> As seccomp can be invoked on any syscall, including invalid ones this
+> somewhat undermines seccomp.
+>
+> While the seccomp variants that terminate the process do not need to
+> care about this for the filter that sets the syscall return value this
+> disctinction is required.
 
-The controller prefix (c<N>) in phys_port_name is currently restricted
-to external host controllers. This layout sufficed when DPUs only had a
-single local controller and one or more external host controllers.
+You completely fail to explain why and what actual problem you are
+trying to solve. At least I can't figure it out from the above word
+salad.
 
-However, newer devices can have multiple controllers within the DPU
-itself, even within a single host environment. To support these
-topologies, allow drivers to report the controller number regardless of
-the "external" flag status. Any non-zero controller number will now be
-explicitly reported, even for single-host or local DPU controllers.
-Existing ports with controller=0 are unaffected.
+> Pass the syscall number as a pointer to the inline entry functions, and
+> use the return value exclusively for the indication that the syscall is
+> already handled.
+>
+> This should avoid the need for the s390 PIF_SYSCALL_RET_SET which is the
+> workaround for exactly this deficiency.
+>
+> If this is desirable the patch could be split into some series that
+> adjusts the code flow where needed so that the final change is mostly
+> mechanical.
 
-Update documentation and kdoc to clarify that a non-zero controller
-number does not require the external flag to be set.
+That's not a matter of desire. That's mandatory.
 
-Signed-off-by: Moshe Shemesh <moshe@nvidia.com>
-Reviewed-by: Parav Pandit <parav@nvidia.com>
-Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
----
- Documentation/networking/devlink/devlink-port.rst | 9 +++++++++
- include/net/devlink.h                             | 6 +++---
- net/devlink/port.c                                | 6 +++---
- 3 files changed, 15 insertions(+), 6 deletions(-)
+> -	instrumentation_begin();
+> -	if (!invoke_syscall(regs, nr) && nr !=3D -1)
+> -	 	result_reg(regs) =3D __sys_ni_syscall(regs);
+> -	instrumentation_end();
+> +	/* Skip syscall when -1 is returned */
+> +	if (!syscall_enter_from_user_mode(regs, &nr)) {
 
-diff --git a/Documentation/networking/devlink/devlink-port.rst b/Documentation/networking/devlink/devlink-port.rst
-index 9374ebe70f48..4211322d488b 100644
---- a/Documentation/networking/devlink/devlink-port.rst
-+++ b/Documentation/networking/devlink/devlink-port.rst
-@@ -107,6 +107,15 @@ doesn't have the eswitch. Local controller (identified by controller number = 0)
- has the eswitch. The Devlink instance on the local controller has eswitch
- devlink ports for both the controllers.
- 
-+A non-zero controller number may also be used for ports that are not external.
-+For example, a SmartNIC may have additional local PCI physical functions
-+that are managed by the eswitch but are not on an external host. These
-+ports use a non-zero controller number to distinguish them from the eswitch
-+manager's own functions, while the external flag remains unset.
-+
-+The ``phys_port_name`` includes the controller prefix (``c<controller_num>``)
-+whenever the controller number is non-zero, regardless of the external flag.
-+
- Function configuration
- ======================
- 
-diff --git a/include/net/devlink.h b/include/net/devlink.h
-index dd546dbd57cf..35bfdceeab9f 100644
---- a/include/net/devlink.h
-+++ b/include/net/devlink.h
-@@ -36,7 +36,7 @@ struct devlink_port_phys_attrs {
-  * struct devlink_port_pci_pf_attrs - devlink port's PCI PF attributes
-  * @controller: Associated controller number
-  * @pf: associated PCI function number for the devlink port instance
-- * @external: when set, indicates if a port is for an external controller
-+ * @external: when set, indicates if a port is for an external host controller.
-  */
- struct devlink_port_pci_pf_attrs {
- 	u32 controller;
-@@ -50,7 +50,7 @@ struct devlink_port_pci_pf_attrs {
-  * @pf: associated PCI function number for the devlink port instance
-  * @vf: associated PCI VF number of a PF for the devlink port instance;
-  *	VF number starts from 0 for the first PCI virtual function
-- * @external: when set, indicates if a port is for an external controller
-+ * @external: when set, indicates if a port is for an external host controller.
-  */
- struct devlink_port_pci_vf_attrs {
- 	u32 controller;
-@@ -64,7 +64,7 @@ struct devlink_port_pci_vf_attrs {
-  * @controller: Associated controller number
-  * @sf: associated SF number of a PF for the devlink port instance
-  * @pf: associated PCI function number for the devlink port instance
-- * @external: when set, indicates if a port is for an external controller
-+ * @external: when set, indicates if a port is for an external host controller.
-  */
- struct devlink_port_pci_sf_attrs {
- 	u32 controller;
-diff --git a/net/devlink/port.c b/net/devlink/port.c
-index 485029d43428..bde6d4125725 100644
---- a/net/devlink/port.c
-+++ b/net/devlink/port.c
-@@ -1529,7 +1529,7 @@ static int __devlink_port_phys_port_name_get(struct devlink_port *devlink_port,
- 		WARN_ON(1);
- 		return -EINVAL;
- 	case DEVLINK_PORT_FLAVOUR_PCI_PF:
--		if (attrs->pci_pf.external) {
-+		if (attrs->pci_pf.external || attrs->pci_pf.controller) {
- 			n = snprintf(name, len, "c%u", attrs->pci_pf.controller);
- 			if (n >= len)
- 				return -EINVAL;
-@@ -1539,7 +1539,7 @@ static int __devlink_port_phys_port_name_get(struct devlink_port *devlink_port,
- 		n = snprintf(name, len, "pf%u", attrs->pci_pf.pf);
- 		break;
- 	case DEVLINK_PORT_FLAVOUR_PCI_VF:
--		if (attrs->pci_vf.external) {
-+		if (attrs->pci_vf.external || attrs->pci_vf.controller) {
- 			n = snprintf(name, len, "c%u", attrs->pci_vf.controller);
- 			if (n >= len)
- 				return -EINVAL;
-@@ -1550,7 +1550,7 @@ static int __devlink_port_phys_port_name_get(struct devlink_port *devlink_port,
- 			     attrs->pci_vf.pf, attrs->pci_vf.vf);
- 		break;
- 	case DEVLINK_PORT_FLAVOUR_PCI_SF:
--		if (attrs->pci_sf.external) {
-+		if (attrs->pci_sf.external || attrs->pci_sf.controller) {
- 			n = snprintf(name, len, "c%u", attrs->pci_sf.controller);
- 			if (n >= len)
- 				return -EINVAL;
--- 
-2.44.0
+Seriously?
 
+If we go and separate the syscall number from the return value, then the
+return value 0 means success and anything else fail. Which in other
+words is a boolean. So instead of tastelessly adding a completely
+nonsensical comment about -1 here, syscall_enter_from_user_mode() wants
+to have the return value type bool with a proper boolean logic: true =3D
+success, false =3D abort.
+
+> @@ -168,8 +168,7 @@ __visible noinstr void do_int80_emulation(struct pt_r=
+egs *regs)
+>  	nr =3D syscall_32_enter(regs);
+>=20=20
+>  	local_irq_enable();
+> -	nr =3D syscall_enter_from_user_mode_work(regs, nr);
+> -	do_syscall_32_irqs_on(regs, nr);
+> +	syscall_enter_from_user_mode_work(regs, &nr);
+
+How exactly is this ever going to invoke a valid syscall?
+
+> +	if (!syscall_enter_from_user_mode_work(regs, &nr)) {
+> +		nr &=3D GENMASK(31, 0);
+> +		do_syscall_32_irqs_on(regs, nr);
+
+  do_syscall_32_irqs_on(regs, (int)nr);
+
+would be too simple, right?
+
+Thanks,
+
+        tglx
