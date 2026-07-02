@@ -1,68 +1,33 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B038B313E34
-	for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2026 04:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA62CA45;
+	Thu,  2 Jul 2026 05:18:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782967401; cv=none; b=dxs+K0h0HndD4fEhd19OOaWVgweHGhkHn5R6RDWbk6dlaey0gpCAIkyGDllqP40z3vQZSivXFmEgDHeNs778FoDIK+0qonLWzufBnzmzmlZXmegdVx15HrAOTVQO+9iB1fPgI0ZyY2JhsLPyZy9EepImmLL89o6/EGjq5pWQOkk=
+	t=1782969538; cv=none; b=UcwaPmQOK3wG+M4GvnjTMcj/63ExLmal3Lq7dlMVjpXv6AQLl48jrHQPWzKteSBCgXtyBg19EQF1uZomscC9JAHi4ipwMQfYjK5K2AuPCetCbHwA5mkgef7hF38mhCCoMnqX5C83zDv9qtt+/FU49/VXMgxCf+fLQEjVbBucSBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782967401; c=relaxed/simple;
-	bh=nuU7t0L2HznSrHjK2ALfSgiuuimRQFaOHhMQCUrMSZQ=;
+	s=arc-20240116; t=1782969538; c=relaxed/simple;
+	bh=LCHTDayaQctKQwTOSOo5JZcJHZlsDTMGv5r7C5TpZfA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ss4x47BreEbnvxc8j5uInwg5QF6rg8xBpBlEn17qcl9+gEKLOokNtVSWdvorjH3DSQjSD88o+JHtgBU1wEmJrUHvW3AL7I3yoOT1vCeHM5nw0+80NBlwzw50H85gN9WJ2yCVpKLH7cmyTCDlrPU3NZTDOq6Rpr5T3jRXGoCywuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qvDwqEwT; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=oQmdTSBPPhazufTzGC6fvi1k1KBIHIvHICbb2Ju40jFdVsAzxtUWdUAPwn221JCIopbdlZgjjsSmrwkYrrYWzfCRPX3fEPucd/+J1krNu2LuAGXJLz2DuPYIt3Hwp3D78gpr3QdNJjImo4VWEl9YxW/F7JNpzWln00vNqfhqbJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kfbBAfT4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qvDwqEwT"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c96c92c0980so653143a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2026 21:43:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782967399; x=1783572199; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ON9QUT0SWKiLVqBMoH9mO2rPj7igk0r77PEm2hgCxG0=;
-        b=qvDwqEwTD0sbedQCgh1FT4InaNpiR1OY2kTXj6/ZvtXRV2ZBGlf5CyXwD5TMAJzuyt
-         xVU57IEWETX9YCmo3yerF67RVVGoeZoTBDnK/RXS/RNxt28cTctM0jcrJ2dJn8ISTjfn
-         jgy9+jTEqmgy4FMtYJWPzb5E7ipZe8lGEXRcx4TRBAJA1hcjxwhC0p1Sl/jAvouiSOKu
-         9bAIAoGqaVcrcB3Uy2ezaUUxTcqlA3W/S5IxeMqnHAvQzA+ZsUV0owEIuG6GiDcj4Y0H
-         jAJdSQvtVwu0/2bxeJ06tNlIIx6TUYFX2EWr/Rsg6b9SuejV1MTiwqWCigW6jZaOCQye
-         YE3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782967399; x=1783572199;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ON9QUT0SWKiLVqBMoH9mO2rPj7igk0r77PEm2hgCxG0=;
-        b=R5rv01NrKCPXF5TLslXpyzbAfQgXMMSvJCE7V0daQekXv+l+Ne19tXCewNwQYZ2xRm
-         VgFI4HVstjrwri4MsHv0Yv7m+HTwMSHH3A3Wuvmsepn7j9LsEb3Fn0CVgXS4f9GRb3qR
-         eesCUo6N8CC4jAOgLbAOov5HpJr9XdAHXLtfe2nPXC64BpatFTJwJoaV3kUjmitBwBTi
-         +CfjoudvkddXGeWWB3O37YYlBw9zFcWCxxJdPbuNY/JaRP9uTvggXFiPQYocHXEd9laV
-         HxEyYr6DzWtCPKIbCviIMGwetgjXrTmZ4qoaVYMnFim0R4nJhqAOg95f3EJv8kw2TySX
-         2GPw==
-X-Forwarded-Encrypted: i=1; AFNElJ9a4+iXrXwCxfCzFTaFeuLO/cFmPgh4Wrmb01wg6JCps1O2wvp14eH2rFOPUmsuTFtRGdJemuuc8DI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyN7d+d1u1F4ED8YQlJ+eRm5VWu1HM/jGY9TI6mpbRWN3mHznv4
-	lf8uN3ZwJ8nDcC3DBGYLsXsdScAcgy+r/FZuvr2ZGngUXHBo9rbORVER
-X-Gm-Gg: AfdE7cl+NizXU7DJOKdsCYVM6bamNOgkXXtrqbRXV6EaONNhO3B71tA2UTEXr8CDs4p
-	imx9/IyqRwMl9OD67peU9PC8u58JNVvH5KQXXEbNoHtJittaZxdJeJzGul4PCj+BwR5Kgucqk+E
-	N2cwKsTNTdZYcA0FQvpNkFvV/5D/6J8pmaXbT3mC86BAoQZrYMJhqTHbUd9zr7If5jebXolCdLH
-	DurEc3A/putH35OuqH6UvKVXU+PKGAExKolRBpXT5Jb4kkK3EzxD1xJRL/TsJeU7jB+8pqDt9ha
-	PJogx/WE/zBusK5xRWS5bJMuyjOeWPBvdc0L9NRzwk2gSfUTmTf3rHwhBavGCAVoP6aB/5cwB/w
-	euv7EckYDjwOFX0x220NldzxNlBI0c7V604zDjilwPueBVKrDcu+S4911kaZDQZyavMI0Wc6PVh
-	5TUVM3j0MoQxEvLCnKWz8OxrqHr7SynAQhUaJ4s3Tpr43XClLdb6fJfVyN3i2fbg==
-X-Received: by 2002:a05:6a21:38c:b0:3bf:735d:7fb7 with SMTP id adf61e73a8af0-3bff40a5200mr4087286637.13.1782967398808;
-        Wed, 01 Jul 2026 21:43:18 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b3ececfe4sm1852677c88.8.2026.07.01.21.43.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Jul 2026 21:43:17 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <d3053a4a-98a0-4dfe-8999-11fc64fad584@roeck-us.net>
-Date: Wed, 1 Jul 2026 21:43:16 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kfbBAfT4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89FA11F000E9;
+	Thu,  2 Jul 2026 05:18:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782969536;
+	bh=LCHTDayaQctKQwTOSOo5JZcJHZlsDTMGv5r7C5TpZfA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=kfbBAfT4LLf0vvbkJ1cyslvqGFRWwWR6CF/TkGJKFEkhfl/6q3Yq38owC7DMpKXYe
+	 p6thjWJDSxGGaOXpUXM5ZO/0Gk42v7ZzEB/bdy7gFYwP3EaPA8VoXYVqNxxvp/sk5h
+	 DjCEL4dx0p8SZbY/mvhZ2olcgqwwuRgx6JXJv09yKkrXTos8c4CNjOkGlxll1JuRsT
+	 qXL7yTUfhlidQMmSbNG/vLIwgEOocgXrl7gwQyYFENquEh5OvO9GuR/yMSq1YQBaw3
+	 MO8cQwCBLK5GZxFughII57OZK3VKLKbXJOzMBUOcQI32BHFfySbgJP2W6FJfg7qfzq
+	 rlkDr2v95wfJg==
+Message-ID: <54e75619-3dbc-448c-81fa-122edcdad1f0@kernel.org>
+Date: Thu, 2 Jul 2026 14:18:49 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,125 +35,98 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] hwmon: (pmbus/max20830): add support for max20830c
- and max20840c
-To: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20260630-dev-max20830c-v1-0-a02786bde470@analog.com>
- <20260630-dev-max20830c-v1-6-a02786bde470@analog.com>
- <e5c7fcae-57aa-4461-987d-7f004d066873@roeck-us.net>
- <PH0PR03MB63514C57CA17984F0B6FEEC8F1F72@PH0PR03MB6351.namprd03.prod.outlook.com>
- <adfd2c4d-6d42-4aeb-9eff-6a059550ec80@roeck-us.net>
- <PH0PR03MB63510E27A6F22742D526C244F1F52@PH0PR03MB6351.namprd03.prod.outlook.com>
+Subject: Re: [PATCH] docs: ABI: sysfs-kernel-slab: mark cpu_partial attributes
+ deprecated
+To: Seongjun Hong <hsj0512@snu.ac.kr>, Vlastimil Babka <vbabka@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260701141755.85119-1-hsj0512@snu.ac.kr>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <PH0PR03MB63510E27A6F22742D526C244F1F52@PH0PR03MB6351.namprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Harry Yoo <harry@kernel.org>
+In-Reply-To: <20260701141755.85119-1-hsj0512@snu.ac.kr>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------O80EsP6ScXCYvlwhmQW6hWQX"
 
-On 7/1/26 19:50, Torreno, Alexis Czezar wrote:
-> 
->>>>>
->>>>>     static const struct of_device_id max20830_of_match[] = {
->>>>> -	{ .compatible = "adi,max20830" },
->>>>> +	{ .compatible = "adi,max20830", .data = &max20830_chip },
->>>>> +	{ .compatible = "adi,max20830c", .data = &max20830c_chip },
->>>>> +	{ .compatible = "adi,max20840c", .data = &max20840c_chip },
->>>>
->>>> "adi,max20830" is a fallback for the other two chips, but that is not
->>>> how the code is implemented.
->>>>
->>>
->>> I may be inclined to just not use fallback as it seems to be more
->>> complicated and a bit unnecessary. There's also other devices that may
->>> be added on top of this so it lessens the complexity. Will edit the bindings
->> regarding this.
->>>
->>
->> You are missing the point. The fallback is perfectly valid. Technically the driver
->> does not even need to support adi,max20830c and adi,max20840c.
->> That is only used to validate that the chip is supported. That does not need a
->> separate devicetree entry.
->>
-> 
-> Checking if I understand this. I need to add a check that if DT chip->id = max20830,
-> and if the HW returns string of either nmax20830c or max20840c, device still probes
-> 
-> if ((buf == "max20830c" || buf  == "max20840c) && chip->id != "max20830""
->          // then it's an error...
-> }
-> 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------O80EsP6ScXCYvlwhmQW6hWQX
+Content-Type: multipart/mixed; boundary="------------Fbv8pm31SwkONlud2RpeVStF";
+ protected-headers="v1"
+From: Harry Yoo <harry@kernel.org>
+To: Seongjun Hong <hsj0512@snu.ac.kr>, Vlastimil Babka <vbabka@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <54e75619-3dbc-448c-81fa-122edcdad1f0@kernel.org>
+Subject: Re: [PATCH] docs: ABI: sysfs-kernel-slab: mark cpu_partial attributes
+ deprecated
+References: <20260701141755.85119-1-hsj0512@snu.ac.kr>
+In-Reply-To: <20260701141755.85119-1-hsj0512@snu.ac.kr>
 
-Technically, you don't even have to check the device ID in the first place.
-You could drop all the device ID checking code.
+--------------Fbv8pm31SwkONlud2RpeVStF
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Checking the device ID is just a safety feature that ensure that the
-physical chip is supported by the driver. You could do something similar
-to the max31785 driver, i.e., read the device ID and do a length check and
-hard-coded string comparison. Separate compatible entries are not needed
-at all.
 
-Something like
 
-	buf[ret] = '\0';
-	if (ret != MAX20830_IC_DEVICE_ID_LENGTH ||
-	    (strcmp(buf, "MAX20830") &&
-	     strcmp(buf, "MAX20830C") &&
-	     strcmp(buf, "MAX20840C"))
-		return dev_err_probe(&client->dev, -ENODEV,
-                                      "Unsupported device: '%*pE'\n", buf);
+On 7/1/26 11:17 PM, Seongjun Hong wrote:
+> The per-cpu slab and per-cpu partial slab mechanisms were removed when
+> SLUB was converted to per-cpu sheaves in Linux 7.0. The cpu_slabs,
 
-should do (using %*pE because the unknown device might not necessarily
-have printable characters).
+small nit: sheaves were introduced in v6.18,
+but the cpu (partial) slabs layer were removed later in v7.0.
 
-Guenter
+> slabs_cpu_partial and cpu_partial sysfs attributes were kept as stubs
+> that always return 0 for backwards compatibility, but their
+> documentation still described them as if they were functional.
 
+Right, for backward compatibility, because, unlike files that
+might not exist w/o SLUB_STATS, userspace tools might assume that
+they always exist.
+
+> Update the three descriptions to state that the attributes are
+> deprecated and always read 0, and note that they are retained only for
+> compatibility. While here, fix a "partialli" typo in the
+> slabs_cpu_partial description.
+>=20
+> Signed-off-by: Seongjun Hong <hsj0512@snu.ac.kr>
+> ---
+
+Overall looks good to me, so:
+Acked-by: Harry Yoo (Oracle) <harry@kernel.org>
+
+By the way.
+
+There's still some gap between the documentation
+and the implementation :)
+
+We've dropped a bunch of files that exist only on
+SLUB_STATS and new files introduced with by
+sheaves were not documented.
+
+Also, tools/mm/slabinfo.c needs some attention as
+it hasn't been updated for a while.
+
+Thanks.
+
+--=20
+Cheers,
+Harry / Hyeonggon
+
+--------------Fbv8pm31SwkONlud2RpeVStF--
+
+--------------O80EsP6ScXCYvlwhmQW6hWQX
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQQQ1ub6gR5ogjaKRmOGXBN6rc5S1gUCakX0uwAKCRCGXBN6rc5S
+1gbkAP9QAKNNWBCEWbfsjY3L/SMOIedhdGbXoUMbLTAYMD5oRwEAqzX5qtFNmUlH
+RxsRIORKmGzfNGZSE2K5ljitJ9mX3wo=
+=ehts
+-----END PGP SIGNATURE-----
+
+--------------O80EsP6ScXCYvlwhmQW6hWQX--
