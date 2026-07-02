@@ -1,33 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C963164BA;
-	Thu,  2 Jul 2026 10:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA85346AFD
+	for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2026 10:44:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782988483; cv=none; b=aqWsduOi2VJ2rucRD9Ye7uJgbQin34NS0pElNSgm1Z4cVgavnmI5vElboge+8L8jqi6ZFUf13i37xJ+yhCcix1jJ/a5DKMqfsvGgSmA4WVH2XAjDr9TFwSYeJaDhVfTcjYLuxlnDfxIYHqIPJZEaQtLrSX/5eO4HZcszHTQh0II=
+	t=1782989061; cv=none; b=IEnNJ3KcNsjyONBQqWS3OKzcMjcTo+/teWUK5bx0GrQeORN0Q1R2oNIcMUkCQXjlKq5OZGNoyQOEUhR2W5hDWBUsiWqcuU1fRsUEaL83YTOuQPXAZTKbWnxoSNPKIMhQQowFbR/v3l5rI0oPZ/qlZOJw1sV6yy4iZGTOatvdx48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782988483; c=relaxed/simple;
-	bh=XWYzdk9hiyQlBB2g50taHCbyjP4wQob4Z2CB9KXp01k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=JYaXfSRiFUAgKH2Pf1TX1+nZz0weMEkbNbGTOIwobLeoT2oxG8dJWDzK+uUAfPOAQypak7XmafuGGD9ebsMRGLMhkhIyD5uKxRtvFxIggLx8hDbdvyXj51HtB8lXzBZew5are6UwZpvI/BV+/7HcmtIzPLLOBDQpwQJ36Gwtp1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VGzSpga1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782989061; c=relaxed/simple;
+	bh=46tX/zdAb/ntc2LYLqL5SqouHOwjB4EOQVS+/ELIcx4=;
+	h=Message-ID:Date:MIME-Version:To:From:Cc:Subject:Content-Type; b=T/A5SexQ8pDt+u6+oXE3oXLHfdVLyhwn+H8I8f90nfLlube7vlMCt1hrnQs93Aj729rE+Gu9Cb85NvrGikNdqmyFN1XVsCllZI9xT8oa6mpJsdmjpibsbOKbQn2B31ek+yFwZhI4u4v8a3R5orbRkeRn4Tq84kaT0Lvt1VF8Xhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ssIpdJ+K; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VGzSpga1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8CAA1F000E9;
-	Thu,  2 Jul 2026 10:34:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782988482;
-	bh=QO/ShcRFiuZ7uRN9u76tK9gF4d4SRTQ+F58FBJM4TNs=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=VGzSpga1jmhunbTZXCNrsQsG24+CnjSp5Ioaqke/+bycq9/6gXec+yNI5t/JPZrAm
-	 PsxlBsCaugoOmq+VzfEsf2GhbLUZoBiNaYxdmrhMeGMVz9d9uf/YQDidUosAhy90Hh
-	 0YiYPcSgqMW7dHzrkw0UGeBbmhjWJ8E82cWJ3ifZmVZokrnFiuRr806L26vVLCMnGk
-	 l+/UkCtjbOGuBp+BL1elT5q62LwFgvqY2FvTqhDTBU7SmPM/Mgph2x6QhwYi8pn8lI
-	 pm2JPItKg+vrfQfPFOgoMIHs63A2e5UPzyeUb0vhxzPz87Hh/ccklQ7fuNuE7adAfi
-	 JpklE87OMJ+7w==
-Message-ID: <afd0635c-1903-4c7b-8023-cbcd1823e081@kernel.org>
-Date: Thu, 2 Jul 2026 12:34:34 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ssIpdJ+K"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2c9c9916f75so9596655ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 02 Jul 2026 03:44:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782989059; x=1783593859; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:cc:from:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EgGc8VtAqz3RMTpunweTaO9VhNBFOfPJAV5zmJ8+9hU=;
+        b=ssIpdJ+KwMMm3BvZN+rpnkb7oo1TCnS0dHY+S5Mo277E9t1Co9lTU4Ruy2PpSu11MV
+         eMJP1c9fz0KW19orR4Dg63U8QkNNkHHUsAG2WAjKhK424tGYFtt/0+QdxUKDYVrjmvgz
+         40BY5HNYm9lFJnX8pzO8bRE9Smh1eTk3AU56ul75BJ0JZPsST/2il8h2qsPuYdE/WADf
+         4OMuXf2WKOcy8YY8hJnmXAA+5klrMb6K2Yj/cXcM9mlsfJo6rHFjs4l3DyUGuXoEhRNs
+         +KobV4gyQ+/Fw6g/INacRUj275qktPs9pVbv+WelbEJoTlub06gWHW7QynquXSrkNVbW
+         eYCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782989059; x=1783593859;
+        h=content-transfer-encoding:subject:cc:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EgGc8VtAqz3RMTpunweTaO9VhNBFOfPJAV5zmJ8+9hU=;
+        b=cMcm2WGmqgptI6C/V/VF/xBovO4sb/GpwPR/gaZA9wdrwSyij4weWIu3I3542ocCLc
+         Z7zxGED95HtmWXCXmAK3KioVST2zfWx+fCSqIvpE5SNcKrmqCEYcx09V59muyi3rYtB8
+         GCAqDAwf+w+BCYHgTOJaV9uqyOCm8AyhpuUCllP72cqFIM9tvop9TUSgKOi1I6MiwMoy
+         J/etk6wdQ69mKh6BvQO+CBkEnQbEWGMwBFBhGpUbyFhMUCkdsf3tM1mV6Dr9wg8c07g6
+         0tafmDomVXpP+PB3Cw7vsYA9rNU9avl6x2yZY1NmKX/ODxiAuJKo/I+zpp6BzMu86929
+         LDxg==
+X-Gm-Message-State: AOJu0YyQxOaRJ7AkQrkpBbzK8ova3MAaIVTaSKtONVcDfE2nhq8CQM0R
+	bWnyqwgH9Hd2ww6Wot+xEONXUwiMvu3RgoBiW56x5TNOAPjmV5zd7ctM
+X-Gm-Gg: AfdE7ckYVjOu/l7urRYFKSmSvkRNvFiOz5w/1/4n9QUhP3Vp+0c/BKROkkLSs0N/b1o
+	/AHywKyet90E1oL7UXmwNyYgL9d7bU9LP0ldQUR060qvspWlCqvbFzDKr7RzsPolbUdMJExO0xs
+	piV/G2SqCTNSAFTiERDgpDXPgGplUBI4GXxyeM12V1bCVU5UIZYim1stJYcnaU8GsputPaVc1Ie
+	dEuawR9Ih8pTYIgegBq70ZtMzW4HH3sV8dq5Rk1wKWwzfgXzDadNEbWtFYEp+rduvdv9Gk9SBUP
+	4IJQWBVuOsaA5gpEQX53SF7UfGAazmdzJSUCS2ZbxLAd7RQasErB2cSfLcuJv0s6Kdd7IXv0sPK
+	0bkXkNdNloPjuZVQnuHSXRsgOcW6JOrutyaJ5b/Ox8PaEKQZ+SCyQ9Ys+1oUlhjwS9LW9wU10we
+	E2+VyYrZWbTdM6N0btiqNQAlQ8mvtCMDroLdvxlj8oFmO3kI/ecDpWh5AcSg==
+X-Received: by 2002:a17:902:f688:b0:2c9:cf5d:d9bc with SMTP id d9443c01a7336-2ca7e877452mr66826725ad.35.1782989059351;
+        Thu, 02 Jul 2026 03:44:19 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2caa9a52a55sm5485545ad.29.2026.07.02.03.44.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Jul 2026 03:44:18 -0700 (PDT)
+Message-ID: <5f320260-5cb0-42cc-949a-c92404124618@gmail.com>
+Date: Thu, 2 Jul 2026 19:44:15 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,105 +65,86 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
- Jori Koolstra <jkoolstra@xs4all.nl>, Christian Brauner <brauner@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
- David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Lorenzo Stoakes <ljs@kernel.org>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <akYasD1ckWcH1C0g@lt-jori.localdomain>
- <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+From: Akira Yokosawa <akiyks@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Akiyoshi Kurita <weibu@redadmin.org>, Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -next] docs: submitting-patches: Fix section structure around
+ DCO
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 02/07/2026 10:44, Vlastimil Babka (SUSE) wrote:
-> On 7/2/26 10:12, Jori Koolstra wrote:
->> Ah, I still reigniting this discussion again :)
->>
->> What about a combination of what David and Jeff say? The whole point
->> seems to me that the salient information is not that an LLM was used (or
->> are we going to tag Sashiko as well or any other LLM-based code review
->> tool?), but what is was used to do. This information may be relevant for
->> how the review is approached. The latter should perhaps only be in the
->> cover letter and then we can drop the assisted-by tags altogether.
->>
->> The question about enforcement remains.
-> 
-> It's not possible to enforce it. People can deny it if the tag is missing
-> and you confront them and even though the submission has many signs of being
-> obviously LLM, there is no definite proof. We've seen (likely, as there's no
-> proof!) that happen in mm.
-> 
-> Such situation then penalizes those who disclose so obviously they won't. We
-> should drop the tag and instead think how we can empower maintainers to be
-> able to use their own judgment and deprioritize dealing with what they
-> perceive as LLM slop, without fearing consequences of not being properly
-> responsible etc, and not rely on any non-enforceable tags for that.
+Commit 5903019b2a5e ("Documentation/SubmittingPatches: convert it to
+ReST markup") made "DCO 1.1" a subsection under the section "Sign your
+work - ...".  However, the DCO text is meant to be referenced in the
+section.
 
-+1
+Furthermore, in HTML and PDF docs, paragraphs following the DCO:
 
-I see no benefits of enforcing the tag for these exact reasons. Every
-LLM slop will miss the tag. OTOH, seeing reasonable contribution with
-the tag makes my spider-senses tingling and causing unnecessary
-prejudice. If the contribution is reasonable, how does the tag
-information helps me? I trust (or not) the person, regardless what tool
-they use.
+    then you just add a line saying:
 
-And if we think about any future possible copyright issues with LLM
-contributions (like if there is ever a ruling that model trained on BSD
-data creates BSD-derivative work etc), does that tag anyhow solve it?
-Like if that ruling appear we will go through the history and revert the
-commits?
+        Signed-off-by: [...]
 
-Best regards,
-Krzysztof
+    [...]
+    as it was propagated to the maintainers and ultimately to Linus, with
+    the first SoB entry signalling primary authorship of a single author.
+
+appear to belong to the DCO, rather than to "Sign your work - ..."
+where it should.
+
+In reST (and other documentation tools), once you start a subsection
+under a section, there is no way to go back to the section.
+
+Fix the section structure by making the DCO a literal block, with
+indent changes made in commit 5903019b2a5e reverted.
+
+While at it, fix the same issue at "Reviewer's statement of
+oversight".
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ Documentation/process/submitting-patches.rst | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index cc6a1f73d7f2..7ae79452e1b4 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -404,12 +404,11 @@ patches that are being emailed around.
+ The sign-off is a simple line at the end of the explanation for the
+ patch, which certifies that you wrote it or otherwise have the right to
+ pass it on as an open-source patch.  The rules are pretty simple: if you
+-can certify the below:
++can certify the below::
+ 
+-Developer's Certificate of Origin 1.1
+-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++        Developer's Certificate of Origin 1.1
+ 
+-By making a contribution to this project, I certify that:
++        By making a contribution to this project, I certify that:
+ 
+         (a) The contribution was created in whole or in part by me and I
+             have the right to submit it under the open source license
+@@ -554,12 +553,11 @@ some testing has been performed, provides a means to locate testers for
+ future patches, and ensures credit for the testers.
+ 
+ Reviewed-by:, instead, indicates that the patch has been reviewed and found
+-acceptable according to the Reviewer's Statement:
++acceptable according to the Reviewer's Statement::
+ 
+-Reviewer's statement of oversight
+-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++	Reviewer's statement of oversight
+ 
+-By offering my Reviewed-by: tag, I state that:
++	By offering my Reviewed-by: tag, I state that:
+ 
+ 	 (a) I have carried out a technical review of this patch to
+ 	     evaluate its appropriateness and readiness for inclusion into
+
+base-commit: 2933b82083e758fe6cfff570143541d4dba672c3
+-- 
+2.43.0
+
