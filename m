@@ -1,292 +1,146 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C81747CC70;
-	Thu,  2 Jul 2026 13:00:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339B948C8A1;
+	Thu,  2 Jul 2026 13:07:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782997209; cv=none; b=jzPmtNT+t39DCVlMjyL+oDB9EcWiE0Szlyfg/5y19dunzVyhxcKq4mZsfRD5Mh3RTSNMyJh9pOSNmuML48KP+VjVRDqSDpqaBu4xgVO3TcVCEG6BD5xKGCBins7M2MbRqFFvJmQ3WaVZOES0LVWVzzn4zINMVPD7zMa1C8WBHeA=
+	t=1782997673; cv=none; b=UO9QrICou+24Di3QWxxclhSVW9nsYL+/26vO3dXP5D3v4s0gBi/0I/S9+pf1OBkzhKVlDkN/qzK1Qwai6KWndrGhZKZQJnsGC8VIP1UEdPv8dhU4QrRaEHddTvxOfFfA+Mi6NqLspAp3RVGXb42lTrWVmbsXopuaXrqLPfos2mQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782997209; c=relaxed/simple;
-	bh=YBdBmN3pJ0ZvQmK4ts6YnRmFm8k/Rc27rLQIvZzObT4=;
-	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=uhAPQB8CLXqtUg84D9Gd22bvoZR5kdeeh1l1pGhv6xYMY9Z+3CrSbaTDekgOLKVpxxHgEubgU+JHpy4Lag+SeF2chXnKvZZ52JMtFqUHzPUIlpgLiDYHPbvQP82ieZmdSgXTxrY4awA4kMFF55umM7aJkxcGpRw7MpjXK4Vb/Zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4grcRp16b2z5BNS0;
-	Thu, 02 Jul 2026 21:00:06 +0800 (CST)
-Received: from xaxapp02.zte.com.cn ([10.88.97.241])
-	by mse-fl2.zte.com.cn with SMTP id 662CxvM0003597;
-	Thu, 2 Jul 2026 20:59:57 +0800 (+08)
-	(envelope-from wang.yaxin@zte.com.cn)
-Received: from mapi (xaxapp04[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Thu, 2 Jul 2026 21:00:00 +0800 (CST)
-X-Zmail-TransId: 2afb6a4660d0f92-4c064
-X-Mailer: Zmail v1.0
-Message-ID: <20260702210000676TkC9mShguDS_34k8M6AtP@zte.com.cn>
-In-Reply-To: <20260702205704180NZ3cu_QF04KfBIL6vjTHL@zte.com.cn>
-References: 20260702205704180NZ3cu_QF04KfBIL6vjTHL@zte.com.cn
-Date: Thu, 2 Jul 2026 21:00:00 +0800 (CST)
+	s=arc-20240116; t=1782997673; c=relaxed/simple;
+	bh=5dr//tfMOhqPbri/FQ9+o/A+RTH+vCjcdGSY4+mZ/MM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JUG6zPtuZ9u0B452B0Cp7RZg1ot5aL2CSGJominW/M36fwixWjOCRhmQzjwGcHdNJfHrSGkYde0px0XDsvHCYCgXejnr/DkBDgL9122jhq7o1Yazc5lnXuaXXgOciLl0tM5aXsI+XyZFFaYMCiMZD363UXq0UbxSzYYwmkO3Ft4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BT/gjmaH; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BT/gjmaH"
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C7423A2;
+	Thu,  2 Jul 2026 15:06:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1782997617;
+	bh=5dr//tfMOhqPbri/FQ9+o/A+RTH+vCjcdGSY4+mZ/MM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BT/gjmaHIxgKrSuuqeYr7xoSarPN2c/U2bL2Yka6+jzeWLInWwmx4b4TYMbGy7mFV
+	 RdnY4dqK26RSVLzCNV5TcdsI4FDXGM6Apvw/x11LMM7bQJIThpoZO+9aQ8adhcJj2s
+	 5xdHwDyAblqt6adcasCPd2YeBMXDq32QeitSIuV4=
+Date: Thu, 2 Jul 2026 16:07:40 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Brian Foster <bfoster@redhat.com>,
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Christian Brauner <brauner@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+	David Hildenbrand <david@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Message-ID: <20260702130740.GB3534761@killaraus.ideasonboard.com>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <akYasD1ckWcH1C0g@lt-jori.localdomain>
+ <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
+ <20260702093844.GA3491311@killaraus.ideasonboard.com>
+ <akYx9blvVhIXB5A-@lucifer>
+ <akZSOa4awK5l9x_w@bfoster>
+ <akZW1RPqTc-4_7jW@lucifer>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <wang.yaxin@zte.com.cn>
-To: <wang.yaxin@zte.com.cn>
-Cc: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>,
-        <yang.yang29@zte.com.cn>, <corbet@lwn.net>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <xu.xin16@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIDMvM10gZGVsYXl0b3A6IHNvcnQgYnkgbWF4IGRlbGF5IHRvIGhpZ2hsaWdodCB0b3AgbGF0ZW5jeSBwcm9jZXNzZXM=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 662CxvM0003597
-X-TLS: YES
-X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
-X-SOURCE-IP: 10.5.228.133 unknown Thu, 02 Jul 2026 21:00:06 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6A4660D6.000/4grcRp16b2z5BNS0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <akZW1RPqTc-4_7jW@lucifer>
 
-From: Wang Yaxin <wang.yaxin@zte.com.cn>
+On Thu, Jul 02, 2026 at 01:18:06PM +0100, Lorenzo Stoakes wrote:
+> On Thu, Jul 02, 2026 at 07:57:45AM -0400, Brian Foster wrote:
+> > On Thu, Jul 02, 2026 at 10:44:09AM +0100, Lorenzo Stoakes wrote:
+> > > On Thu, Jul 02, 2026 at 12:38:44PM +0300, Laurent Pinchart wrote:
+> > > > On Thu, Jul 02, 2026 at 10:44:34AM +0200, Vlastimil Babka (SUSE) wrote:
+> > > > > On 7/2/26 10:12, Jori Koolstra wrote:
+> > > > > > Ah, I still reigniting this discussion again :)
+> > > > > >
+> > > > > > What about a combination of what David and Jeff say? The whole point
+> > > > > > seems to me that the salient information is not that an LLM was used (or
+> > > > > > are we going to tag Sashiko as well or any other LLM-based code review
+> > > > > > tool?), but what is was used to do. This information may be relevant for
+> > > > > > how the review is approached. The latter should perhaps only be in the
+> > > > > > cover letter and then we can drop the assisted-by tags altogether.
+> > > > > >
+> > > > > > The question about enforcement remains.
+> > > > >
+> > > > > It's not possible to enforce it. People can deny it if the tag is missing
+> > > > > and you confront them and even though the submission has many signs of being
+> > > > > obviously LLM, there is no definite proof. We've seen (likely, as there's no
+> > > > > proof!) that happen in mm.
+> > > > >
+> > > > > Such situation then penalizes those who disclose so obviously they won't.
+> > > >
+> > > > I think there's also a penality for those who don't disclose when
+> > > > they're told they should: it will lower trust. Kernel development is
+> > > > largely based on a trust model. If a contributor decides to adopt a
+> > > > deceiptful behaviour, they can expect maintainers to raise the bar for
+> > > > accepting patches, when not rejecting them outright.
+> > >
+> > > Yes, I explicitly said this in response to somebody for whom there was
+> > > overwhelming evidence they were submitting AI slop, and that they'd need to
+> > > build it back up again.
+> > >
+> > > It's precisely the issue as I see it.
+> > >
+> > > But others within the community disagreed with me, so it turned into a very
+> > > long and draining discussion that I don't particularly wish to repeat.
+> > >
+> > > So we really need clarity on it being OK to do this (I remember saying this
+> > > last year when I made an ultimately unsuccessful submission to the
+> > > maintainer's summit about all this :)
+> > >
+> > > What matters overall is being able to _quickly_ dismiss AI slop so that
+> > > asymmetry between LLM generation + maintainer time isn't exploited.
+> > >
+> > > And ultimately I think the trust model will end up being 'newcomes have 0,
+> > > now build it up'.
+> > >
+> > > Which sucks but this issue is simply existential for open source.
+> > >
+> >
+> > Has anybody tried throwing any of the obvious LLM slop submissions we
+> > have seen into one of these LLM detector things? To be clear, I've never
+> > tried those so I'm certainly no authority on if they even work reliably,
+> > but if so I wonder if something like that is a potential solution for
+> > elminating the worst cases..
+> >
+> > I.e., suppose we had some Sashiko type LLM/bot whose job was mainly to
+> > detect purely LLM generated content based on some minimum level of
+> > confidence and reply with a loud and clear message to the thread. Maybe
+> > that would be a clear enough signal to maintainers and reviewers that
+> > something is not worth prioritizing for review.. Maybe also some "slop
+> > detected" feedback would help disincentivize flinging slop onto the
+> > lists. At the very least that could be something that is more easily
+> > configured/enabled per-subsystem without having to use per-subsystem
+> > commit tags.
+> 
+> Yup I thought of this, have done this on series and they do detect it
+> reliably.
+> 
+> But then it becomes an arms race. People will get AI to try to defeat AI
+> detection. So I'm not sure it's a safe road to go down.
 
-When using -t/--type option, sort tasks by the maximum delay value of
-the selected type in descending order (largest delay first).
+That would be my concern too.
 
-This enables quickly identifying the top N processes with the highest
-delay spikes, which is essential for diagnosing latency problems by
-pinpointing which processes contributed most to system delays.
+At this stage, I think it's better to make sure people know our
+expectations, and expect that the vast majority will understand it's a
+trust-based system where being caught willingly breaching trust will
+have a very high cost. Or have we reached a point where that doesn't
+work any more ?
 
-Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
----
- Documentation/accounting/delay-accounting.rst | 43 +++++++++++
- tools/accounting/delaytop.c                   | 71 ++++++++++++++++---
- tools/accounting/getdelays.c                  |  5 ++
- 3 files changed, 108 insertions(+), 11 deletions(-)
-
-diff --git a/Documentation/accounting/delay-accounting.rst b/Documentation/accounting/delay-accounting.rst
-index e209c46241b0..4bb2e72a6043 100644
---- a/Documentation/accounting/delay-accounting.rst
-+++ b/Documentation/accounting/delay-accounting.rst
-@@ -212,3 +212,46 @@ Advanced usage examples::
-
- 	# ./delaytop -d secs
- 	Specify refresh interval as secs
-+
-+	# ./delaytop -t type
-+	Display only specified delay type with avg/max/timestamp
-+    (rows sorted by MAX for that type, largest first)
-+
-+
-+
-+delaytop add delay_max fields to track the maximum delay value for each delay type
-+(cpu, blkio, irq, swapin, freepages, thrashing, compact, wpcopy) per task.
-+
-+	bash# ./delaytop -t cpu
-+	System Pressure Information: (avg10/avg60/avg300/total)
-+	CPU some:       0.4%/   0.2%/   0.1%/     220(ms)
-+	CPU full:       0.0%/   0.0%/   0.0%/       0(ms)
-+	Memory full:    0.0%/   0.0%/   0.0%/       0(ms)
-+	Memory some:    0.0%/   0.0%/   0.0%/       0(ms)
-+	IO full:        0.0%/   0.0%/   0.0%/      12(ms)
-+	IO some:        0.0%/   0.0%/   0.0%/      13(ms)
-+	IRQ full:       0.0%/   0.0%/   0.0%/       0(ms)
-+	[q]quit
-+	Top 20 processes (sorted by cpu MAX delay, largest first):
-+	     PID      TGID  COMMAND          AVG(ms)  MAX(ms)   MAX_TIMESTAMP
-+	------------------------------------------------------------------------
-+	       9         9  kworker/0:0-eve   0.59   16.87  2026-05-27T13:32:39
-+	      30        30  kworker/2:0H-kb   2.87   11.36  2026-05-27T13:32:36
-+	      27        27  migration/2       1.05    9.51  2026-05-27T13:32:37
-+	      50        50  kworker/2:1-eve   0.50    9.13  2026-05-27T13:32:37
-+	      15        15  rcu_preempt       0.11    8.98  2026-05-27T13:32:37
-+	       1         1  init              0.17    7.12  2026-05-27T13:32:38
-+	      67        67  scsi_eh_0         1.20    4.23  2026-05-27T13:32:37
-+	      23        23  ksoftirqd/1       1.12    3.77  2026-05-27T13:32:36
-+	       3         3  pool_workqueue_   0.72    3.55  2026-05-27T13:32:38
-+	      62        62  kworker/u20:2-a   0.49    3.03  2026-05-27T13:32:37
-+	       2         2  kthreadd          0.18    2.82  2026-05-27T13:32:37
-+	      11        11  kworker/0:1       1.42    2.76  2026-05-27T13:32:36
-+	      39        39  kworker/u20:0-a   0.10    2.71  2026-05-27T13:32:38
-+	      17        17  rcu_exp_gp_kthr   0.25    2.65  2026-05-27T13:32:37
-+	      66        66  kworker/u20:3-e   0.38    2.55  2026-05-27T13:32:37
-+	      20        20  cpuhp/0           0.53    2.51  2026-05-27T13:32:37
-+	      28        28  ksoftirqd/2       0.59    2.48  2026-05-27T13:32:37
-+	      55        55  kworker/u19:1     0.88    2.42  2026-05-27T13:32:37
-+	      13        13  kworker/R-mm_pe   1.18    2.35  2026-05-27T13:32:36
-+	      54        54  kworker/3:1-eve   0.14    2.20  2026-05-27T13:32:38
-diff --git a/tools/accounting/delaytop.c b/tools/accounting/delaytop.c
-index be28a4b70f70..1c40bb477320 100644
---- a/tools/accounting/delaytop.c
-+++ b/tools/accounting/delaytop.c
-@@ -295,6 +295,7 @@ static void usage(void)
- 	"  -C, --container=PATH     Monitor the container at specified cgroup path\n"
- 	"  -s, --sort=FIELD         Sort by delay field (default: cpu)\n"
- 	"  -t, --type=FIELD         Display only specified delay type with avg/max/timestamp\n"
-+	"                           (rows sorted by MAX for that type, largest first)\n"
- 	"  -M, --memverbose         Display memory detailed information\n");
- 	exit(0);
- }
-@@ -838,6 +839,15 @@ static void get_task_delays(void)
- 	closedir(dir);
- }
-
-+static void field_delay_max_and_ts(const struct task_info *task,
-+				     const struct field_desc *field,
-+				     unsigned long long *max_ns,
-+				     struct __kernel_timespec *max_ts);
-+static void get_field_delay_values(const struct task_info *task,
-+				   const struct field_desc *field,
-+				   double *avg_ms, double *max_ms,
-+				   struct __kernel_timespec *max_ts);
-+
- /* Calculate average delay in milliseconds */
- static double average_ms(unsigned long long total, unsigned long long count)
- {
-@@ -850,7 +860,7 @@ static double average_ms(unsigned long long total, unsigned long long count)
-  * Format __kernel_timespec to human readable string (YYYY-MM-DDTHH:MM:SS)
-  * Returns formatted string or "N/A" if timestamp is zero
-  */
--static const char *format_timespec64(struct __kernel_timespec *ts)
-+static const char *format_kernel_timespec(struct __kernel_timespec *ts)
- {
- 	static char buffer[32];
- 	time_t time_sec;
-@@ -891,6 +901,16 @@ static int compare_tasks(const void *a, const void *b)
- 	unsigned long long count1;
- 	unsigned long long count2;
- 	double avg1, avg2;
-+	unsigned long long max1, max2;
-+
-+	/* -t/--type: default sort by MAX column for the selected type (descending) */
-+	if (cfg.display_mode == MODE_TYPE && cfg.type_field) {
-+		field_delay_max_and_ts(t1, cfg.type_field, &max1, NULL);
-+		field_delay_max_and_ts(t2, cfg.type_field, &max2, NULL);
-+		if (max1 != max2)
-+			return max2 > max1 ? 1 : -1;
-+		return 0;
-+	}
-
- 	total1 = *(unsigned long long *)((char *)t1 + cfg.sort_field->total_offset);
- 	total2 = *(unsigned long long *)((char *)t2 + cfg.sort_field->total_offset);
-@@ -905,6 +925,28 @@ static int compare_tasks(const void *a, const void *b)
- 	return 0;
- }
-
-+/* Max delay (ns) and timestamp for field (shared by display and sort) */
-+static void field_delay_max_and_ts(const struct task_info *task, const struct field_desc *field,
-+				     unsigned long long *max_ns, struct __kernel_timespec *max_ts)
-+{
-+	if (!field || !field->max_offset) {
-+		*max_ns = 0;
-+		if (max_ts)
-+			memset(max_ts, 0, sizeof(*max_ts));
-+		return;
-+	}
-+
-+	*max_ns = *(unsigned long long *)((char *)task + field->max_offset);
-+
-+	if (max_ts) {
-+		if (field->max_ts_offset)
-+			*max_ts = *(struct __kernel_timespec *)((char *)task +
-+							       field->max_ts_offset);
-+		else
-+			memset(max_ts, 0, sizeof(*max_ts));
-+	}
-+}
-+
- /* Get delay values for a specific field */
- static void get_field_delay_values(const struct task_info *task, const struct field_desc *field,
- 				   double *avg_ms, double *max_ms,
-@@ -923,13 +965,8 @@ static void get_field_delay_values(const struct task_info *task, const struct fi
- 	count = *(unsigned long long *)((char *)task + field->count_offset);
- 	*avg_ms = average_ms(total, count);
-
--	max = *(unsigned long long *)((char *)task + field->max_offset);
-+	field_delay_max_and_ts(task, field, &max, max_ts);
- 	*max_ms = (double)max / 1000000.0;  /* Convert nanoseconds to milliseconds */
--
--	if (field->max_ts_offset)
--		*max_ts = *(struct __kernel_timespec *)((char *)task + field->max_ts_offset);
--	else
--		memset(max_ts, 0, sizeof(*max_ts));
- }
-
- /* Sort tasks by selected field */
-@@ -1079,7 +1116,10 @@ static void display_results(int psi_ret)
- 	}
-
- 	/* Interacive command */
--	suc &= BOOL_FPRINT(out, "[o]sort [M]memverbose [q]quit\n");
-+	if (cfg.display_mode == MODE_TYPE && cfg.type_field)
-+		suc &= BOOL_FPRINT(out, "[q]quit\n");
-+	else
-+		suc &= BOOL_FPRINT(out, "[o]sort [M]memverbose [q]quit\n");
- 	if (sort_selected) {
- 		if (cfg.display_mode == MODE_MEMVERBOSE)
- 			suc &= BOOL_FPRINT(out,
-@@ -1090,8 +1130,13 @@ static void display_results(int psi_ret)
- 	}
-
- 	/* Task delay output */
--	suc &= BOOL_FPRINT(out, "Top %d processes (sorted by %s delay):\n",
--			cfg.max_processes, get_name_by_field(cfg.sort_field));
-+	if (cfg.display_mode == MODE_TYPE && cfg.type_field)
-+		suc &= BOOL_FPRINT(out,
-+			"Top %d processes (sorted by %s MAX delay, largest first):\n",
-+			cfg.max_processes, get_name_by_field(cfg.type_field));
-+	else
-+		suc &= BOOL_FPRINT(out, "Top %d processes (sorted by %s delay):\n",
-+				cfg.max_processes, get_name_by_field(cfg.sort_field));
-
- 	if (cfg.display_mode == MODE_TYPE && cfg.type_field) {
- 		/* Display mode for -t option: show only specified type with avg/max/timestamp */
-@@ -1132,7 +1177,7 @@ static void display_results(int psi_ret)
- 					&max_ms, &max_ts);
-
- 			suc &= BOOL_FPRINT(out, "%12.2f %12.2f %20s\n",
--				avg_ms, max_ms, format_timespec64(&max_ts));
-+				avg_ms, max_ms, format_kernel_timespec(&max_ts));
- 		} else if (cfg.display_mode == MODE_MEMVERBOSE) {
- 			suc &= BOOL_FPRINT(out, DELAY_FMT_MEMVERBOSE,
- 				TASK_AVG(tasks[i], mem),
-@@ -1201,9 +1246,13 @@ static void handle_keypress(char ch, int *running)
- 	} else {
- 		switch (ch) {
- 		case 'o':
-+			if (cfg.display_mode == MODE_TYPE)
-+				break;
- 			sort_selected = 1;
- 			break;
- 		case 'M':
-+			if (cfg.display_mode == MODE_TYPE)
-+				break;
- 			toggle_display_mode();
- 			for (field = sort_fields; field->name != NULL; field++) {
- 				if (field->supported_modes & cfg.display_mode) {
-diff --git a/tools/accounting/getdelays.c b/tools/accounting/getdelays.c
-index caa5fe9dd573..6ac30d4f96f7 100644
---- a/tools/accounting/getdelays.c
-+++ b/tools/accounting/getdelays.c
-@@ -235,6 +235,11 @@ static const char *format_timespec(struct __kernel_timespec *ts)
- 	if (ts->tv_sec == 0 && ts->tv_nsec == 0)
- 		return "N/A";
-
-+	/* Avoid Y2038 truncation on 32-bit platforms */
-+	if (sizeof(time_sec) < sizeof(ts->tv_sec) &&
-+	    ts->tv_sec > (__u64)((1ULL << (sizeof(time_sec) * 8 - 1)) - 1))
-+		return "N/A";
-+
- 	time_sec = ts->tv_sec;
-
- 	/* Use thread-safe localtime_r */
 -- 
-2.25.1
+Regards,
+
+Laurent Pinchart
