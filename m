@@ -1,220 +1,133 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED6B7262E
-	for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2026 12:13:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E482E8DEA;
+	Thu,  2 Jul 2026 12:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782994419; cv=none; b=U4op3xma/ky9Ec3WUVcrUQVyTOzrn2J9k2GWWB/taKPHXjOUuKV7RhthgJ+W/UEOEoDrXfN7fgM+YrpO1ofV/jr22vERMRcA+mMozV0jREPTuyD3DjY3wcxIGWNJWTi3Nubv3FuPh0xa5E1Dmkiw+0R6bgSs/iKSaJK7q7eujwk=
+	t=1782994698; cv=none; b=osBwU+EAXheVfpC9aC142Wi/DofjKdgmrkba8i27O58r3sILwREuOoGGUBbn75NLLcCznh1Z7HYPAXQ0Hxb9Crz26zNKeuJYLAeXSbdsaDZz8QwcnQ+O5kykOiO0Dg44hTcd+hthsfgLKAUlz6Iezt6FEQi9jEDNeZP3YBljtTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782994419; c=relaxed/simple;
-	bh=/fGg/zbDCYjldDdholXovvIhwt1j0HCiZaqUgsZ72EM=;
+	s=arc-20240116; t=1782994698; c=relaxed/simple;
+	bh=srX5VlSeRKseI3gF1QCQsGPTMGH2T7YpwxUkbIXvjFM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IkaylT2HtV3+/keYmKZbglpel3QZ/qH+puoMO5cmg5riiKtdlt4fwovtpDBHdeFFrszT3VruHMi7z/mgBmIiQluN7Y5uZ/VvGlUwThqMkxuzIsE7kiOE9hlOeXyNLABu9OxDye5YuPdvkxT/GsloypOzns6bdiUKP667+fiQpiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jr565Sgc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/WOwDBpZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jr565Sgc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/WOwDBpZ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=M1M/GrdAlWBOSoVPD240RIFQYCiTu+bdoH42dyvwYaJnN41gFZl5mgtEnaun/IOf5/BazjGb3+5I4Lmz0OhRUHeDNEqwuMlP1scRPnP2qFh6ej7IBW89JP6OI4jv7IojOi8XAViYIQuMTJX3k47m+wkBgMKl+bi/9vzrddOjLNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P4q9b30B; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jr565Sgc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/WOwDBpZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jr565Sgc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/WOwDBpZ"
-Received: from kunlun.suse.cz (unknown [IPv6:2a07:de40:b306:2000::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id F0D9E760CD;
-	Thu,  2 Jul 2026 12:13:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782994416; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pG91nP4Qi8D32QeUd4BsitFSNWDgLGqTgIw8xUNh8+A=;
-	b=jr565SgcttfGFJ57yj5mW/Caf6TLN9+Lx6mq64PxA+O9ATWQUkPkG0RxXNcrg1a93uYcSk
-	5zgmkUirTTGYfY4obUtbHl6tDLZUi/BiqNPNDbagEgDg/HZEIrATKmtx601l1BjmgZhO3w
-	bVm0WF4IJ/zBK2LKchVEPi87ayF4k5c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782994416;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pG91nP4Qi8D32QeUd4BsitFSNWDgLGqTgIw8xUNh8+A=;
-	b=/WOwDBpZkW/kZJAISaF6tFoIBWgRZQ8bt0TWva7XM2NIT68dvWn8p8bB5zOLrjpDr24bSX
-	dzqh10mmIkHj/TDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jr565Sgc;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/WOwDBpZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782994416; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pG91nP4Qi8D32QeUd4BsitFSNWDgLGqTgIw8xUNh8+A=;
-	b=jr565SgcttfGFJ57yj5mW/Caf6TLN9+Lx6mq64PxA+O9ATWQUkPkG0RxXNcrg1a93uYcSk
-	5zgmkUirTTGYfY4obUtbHl6tDLZUi/BiqNPNDbagEgDg/HZEIrATKmtx601l1BjmgZhO3w
-	bVm0WF4IJ/zBK2LKchVEPi87ayF4k5c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782994416;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pG91nP4Qi8D32QeUd4BsitFSNWDgLGqTgIw8xUNh8+A=;
-	b=/WOwDBpZkW/kZJAISaF6tFoIBWgRZQ8bt0TWva7XM2NIT68dvWn8p8bB5zOLrjpDr24bSX
-	dzqh10mmIkHj/TDA==
-Date: Thu, 2 Jul 2026 14:13:34 +0200
-From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To: Sven Schnelle <svens@linux.ibm.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Donnellan <andrew+kernel@donnellan.id.au>,
-	Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Zong Li <zong.li@sifive.com>, Nam Cao <namcao@linutronix.de>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Lukas Gerlach <lukas.gerlach@cispa.de>,
-	Rui Qi <qirui.001@bytedance.com>, Kees Cook <kees@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
-Subject: Re: [RFC] entry: Untangle the return value of
- syscall_enter_from_user_mode from syscall NR
-Message-ID: <akZV7kjVh37z63Nz@kunlun.suse.cz>
-References: <akVRcPsD_R_CE1qW@kunlun.suse.cz>
- <yt9dechlbyj0.fsf@linux.ibm.com>
- <akYreY_BHuRbxSsO@kunlun.suse.cz>
- <yt9d5x2xbny9.fsf@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P4q9b30B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE7DF1F000E9;
+	Thu,  2 Jul 2026 12:18:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782994696;
+	bh=srX5VlSeRKseI3gF1QCQsGPTMGH2T7YpwxUkbIXvjFM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=P4q9b30BnbSPh3XR1Fz5zxwlgsdOdLIPkmuPMaYbR6jiziriNWGOhqZ0Rtz5zVGJQ
+	 5RWt77ZSj1BXYY1F+JSjt+rFDi75oTN4doGjseidzVfSs43Oik98K7uzxvD0qt7B7i
+	 dRYwxT6K9EtfQY1q3T0gLTQe6qHn2p2DbEUyEkCq6U+VFFnidb119jCRNgAJ2IWkTj
+	 zivhnV/bOySiWub2nJtlGpEMVPoKjWFlzY84StyjMT6iuZBTJl4GP3tjDcrlbTMFjC
+	 +dHM5Us0qbZcufxr8pLWvm7BJ8Ooe9HG335VDww0hYcypGJ7k3PLyRrkFA5L08kACc
+	 Kf6r8M+PW8ZnA==
+Date: Thu, 2 Jul 2026 13:18:06 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Brian Foster <bfoster@redhat.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Christian Brauner <brauner@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+	David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Message-ID: <akZW1RPqTc-4_7jW@lucifer>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <akYasD1ckWcH1C0g@lt-jori.localdomain>
+ <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
+ <20260702093844.GA3491311@killaraus.ideasonboard.com>
+ <akYx9blvVhIXB5A-@lucifer>
+ <akZSOa4awK5l9x_w@bfoster>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <yt9d5x2xbny9.fsf@linux.ibm.com>
-X-Spam-Flag: YES
-X-Rspamd-Action: add header
-X-Spam-Level: ****************
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [16.56 / 50.00];
-	SPAM_FLAG(5.00)[];
-	NEURAL_SPAM_LONG(3.50)[1.000];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_SPAM_SHORT(2.87)[0.958];
-	HFILTER_HOSTNAME_UNKNOWN(2.50)[];
-	RDNS_NONE(2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ONCE_RECEIVED(1.20)[];
-	HFILTER_HELO_IP_A(1.00)[kunlun.suse.cz];
-	HFILTER_HELO_NORES_A_OR_MX(0.30)[kunlun.suse.cz];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[45];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b306:2000::2:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b306:2000::2:from];
-	RCVD_COUNT_ZERO(0.00)[0];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[kernel];
-	R_RATELIMIT(0.00)[to_ip_from(RL5ct4uf71gj8hk4gmisc87btw)];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,lwn.net,linuxfoundation.org,kernel.org,xen0n.name,linux.ibm.com,ellerman.id.au,gmail.com,dabbelt.com,eecs.berkeley.edu,ghiti.fr,redhat.com,alien8.de,linux.intel.com,zytor.com,donnellan.id.au,arm.com,arndb.de,flygoat.com,sifive.com,linutronix.de,rivosinc.com,cispa.de,bytedance.com,vger.kernel.org,lists.linux.dev,lists.ozlabs.org,lists.infradead.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b306:2000::2:from]
-X-Spamd-Bar: ++++++++++++++++
-X-Rspamd-Queue-Id: F0D9E760CD
-X-Spam-Score: 16.56
-X-Spam: Yes
+In-Reply-To: <akZSOa4awK5l9x_w@bfoster>
 
-On Thu, Jul 02, 2026 at 02:01:02PM +0200, Sven Schnelle wrote:
-> Michal Suchánek <msuchanek@suse.de> writes:
-> 
-> > On Thu, Jul 02, 2026 at 10:12:35AM +0200, Sven Schnelle wrote:
-> >> Michal Suchánek <msuchanek@suse.de> writes:
-> >> 
-> >> > The return value of syscall_enter_from_user_mode is used both for the
-> >> > adjusted syscall number and the indicator that a syscall should be
-> >> > skipped.
-> >> >
-> >> > As seccomp can be invoked on any syscall, including invalid ones this
-> >> > somewhat undermines seccomp.
-> >> >
-> >> > While the seccomp variants that terminate the process do not need to
-> >> > care about this for the filter that sets the syscall return value this
-> >> > disctinction is required.
-> >> >
-> >> > Pass the syscall number as a pointer to the inline entry functions, and
-> >> > use the return value exclusively for the indication that the syscall is
-> >> > already handled.
-> >> >
-> >> > This should avoid the need for the s390 PIF_SYSCALL_RET_SET which is the
-> >> > workaround for exactly this deficiency.
-> >> 
-> >> I'm not sure whether PIF_SYSCALL_RET_SET can be removed - the syscall
-> >> return might still get set by PTRACE_SET_SYSCALL_INFO when the tracee is
-> >> stopped. This might be a positive number which can't be distinguished
-> >> from a syscall number. But maybe i'm missing something? It's been quite
-> >> a while since I touched all that ptrace stuff.
+On Thu, Jul 02, 2026 at 07:57:45AM -0400, Brian Foster wrote:
+> On Thu, Jul 02, 2026 at 10:44:09AM +0100, Lorenzo Stoakes wrote:
+> > On Thu, Jul 02, 2026 at 12:38:44PM +0300, Laurent Pinchart wrote:
+> > > On Thu, Jul 02, 2026 at 10:44:34AM +0200, Vlastimil Babka (SUSE) wrote:
+> > > > On 7/2/26 10:12, Jori Koolstra wrote:
+> > > > > Ah, I still reigniting this discussion again :)
+> > > > >
+> > > > > What about a combination of what David and Jeff say? The whole point
+> > > > > seems to me that the salient information is not that an LLM was used (or
+> > > > > are we going to tag Sashiko as well or any other LLM-based code review
+> > > > > tool?), but what is was used to do. This information may be relevant for
+> > > > > how the review is approached. The latter should perhaps only be in the
+> > > > > cover letter and then we can drop the assisted-by tags altogether.
+> > > > >
+> > > > > The question about enforcement remains.
+> > > >
+> > > > It's not possible to enforce it. People can deny it if the tag is missing
+> > > > and you confront them and even though the submission has many signs of being
+> > > > obviously LLM, there is no definite proof. We've seen (likely, as there's no
+> > > > proof!) that happen in mm.
+> > > >
+> > > > Such situation then penalizes those who disclose so obviously they won't.
+> > >
+> > > I think there's also a penality for those who don't disclose when
+> > > they're told they should: it will lower trust. Kernel development is
+> > > largely based on a trust model. If a contributor decides to adopt a
+> > > deceiptful behaviour, they can expect maintainers to raise the bar for
+> > > accepting patches, when not rejecting them outright.
 > >
-> > When the syscall return value is set (in the registers) the return value
-> > which is also the modified syscall number is set to -1 indicating the
-> > syscall was handled. At least that's how the API is described.
+> > Yes, I explicitly said this in response to somebody for whom there was
+> > overwhelming evidence they were submitting AI slop, and that they'd need to
+> > build it back up again.
 > >
-> > So yes, if the syscall number range is restricted or the syscall number
-> > is returned through a path different from the function return value the
-> > flag should not be needed in the entry path because the case can be
-> > detected through the return value alone.
-> 
-> I'm still failing to see how this would work without an additional
-> flag. Assume a program (the tracee) is stopped because of a syscall
-> entry. The tracer then decides to skip the syscall and changes
-> regs->gpr2 (which contains either the syscall number or return value)
-> to contain 42. When the tracer than restarts the syscall, how does
-> do_syscall() know that gpr2 is now a return value and not a syscall number?
+> > It's precisely the issue as I see it.
+> >
+> > But others within the community disagreed with me, so it turned into a very
+> > long and draining discussion that I don't particularly wish to repeat.
+> >
+> > So we really need clarity on it being OK to do this (I remember saying this
+> > last year when I made an ultimately unsuccessful submission to the
+> > maintainer's summit about all this :)
+> >
+> > What matters overall is being able to _quickly_ dismiss AI slop so that
+> > asymmetry between LLM generation + maintainer time isn't exploited.
+> >
+> > And ultimately I think the trust model will end up being 'newcomes have 0,
+> > now build it up'.
+> >
+> > Which sucks but this issue is simply existential for open source.
+> >
+>
+> Has anybody tried throwing any of the obvious LLM slop submissions we
+> have seen into one of these LLM detector things? To be clear, I've never
+> tried those so I'm certainly no authority on if they even work reliably,
+> but if so I wonder if something like that is a potential solution for
+> elminating the worst cases..
+>
+> I.e., suppose we had some Sashiko type LLM/bot whose job was mainly to
+> detect purely LLM generated content based on some minimum level of
+> confidence and reply with a loud and clear message to the thread. Maybe
+> that would be a clear enough signal to maintainers and reviewers that
+> something is not worth prioritizing for review.. Maybe also some "slop
+> detected" feedback would help disincentivize flinging slop onto the
+> lists. At the very least that could be something that is more easily
+> configured/enabled per-subsystem without having to use per-subsystem
+> commit tags.
 
-Because then the return value from the syscall_enter_from_user_mode
-machinery would be -1 indicating the syscall should be skipped. That is
-how the return value of syscall_enter_from_user_mode is documented, I
-did not verify that it actually works that way for the tracing case on
-s390.
+Yup I thought of this, have done this on series and they do detect it
+reliably.
 
-So long as it is clarified that -1 is not a syscall number or the
-syscall number is retuned elsewhere there is no doubt, the -1 indicates
-already handled syscall without the need for an additional flag.
+But then it becomes an arms race. People will get AI to try to defeat AI
+detection. So I'm not sure it's a safe road to go down.
 
-Thanks
+>
+> Brian
+>
 
-Michal
+Thanks, Lorenzo
