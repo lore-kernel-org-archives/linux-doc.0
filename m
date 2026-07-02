@@ -1,71 +1,86 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248783CB2EF;
-	Thu,  2 Jul 2026 11:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349693D813A
+	for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2026 11:32:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782991678; cv=none; b=k1nTH8IJeRLr6ReYn+MBQs6Ru366FN+6B6qcLC+MboQ7TSZiuOL3Yrc74S6HNCr8/lU8fw1mH1fsOa+QtMberYZ2gUdpKha/e5zHYWbslb8Lj9f+jxawMmVGo5CV7KKvcG65xVqbU8Wh0Gv1xUn+OLNVmhsMh10FuHLwrCnJqe0=
+	t=1782991927; cv=none; b=Js+Ij+8A+zNpgJJa/bmuz+pGsahIfWekV/ehypRqogCOKKePbltR1aifQ+/V/TcJVzq1ik8mMhxlh0ho2h1+aFVQ+5k8SP6YdJ9pBtK+24ng6KrM+/pHtGbmfpTlmClEpvzKQyG0FEspBBQWFzSBgloHAk+8Ae7DzJzOQBlxyoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782991678; c=relaxed/simple;
-	bh=fM1g4x2BNT0I+p2uEA6GyQp5uAqaZy5LUt3RSXD/WvA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uNpEyx/GDJt+gF0D8JzDwfiIl4jtJm9aT2Uk9Cf9QY6HGmIfh6CCRLjLgkCf1NlKcIwyjl6SiBpelALK7TE4URWeCsbnwrCyA7ziouf2i9kGiWzvOt8Gd1L3fel8rrT/i5MKX88SgPwPbGrdbxUX1HpHV0uIa91g/tqc9V93tIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MrufhUSr; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1782991927; c=relaxed/simple;
+	bh=TxQCtqjtAk2iQqQD7O6uKHlwflcfM75/SGEiXcjbbI0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bVPcwBt/r7gK0cEPJnUhInzcX31y4FZsLqHaV0v7d83J9Fegi0q9WHOjiwt1tKc+jmdL2l8WwC6tlzyAm2XNLDBhD2LOkm4RNqPyiV4RL8xFmCD7i2ztxiCsvSsshI2PGGKP5ug4MtKMVgXiwTmfSFtIV+5cm5glD1dazXgWyjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XUbn8wYj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MrufhUSr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=xZVlJRZf0uavPI96jC0PFQV0YrUSBkAByWeLeb7ZK8I=; b=MrufhUSrMzj4v8PiyeZwfWD2hs
-	JWNM0PN+UZIKM+as+lGeV5dSDXsxWXYqnDug0ttQVDLtWFB1Vwa8GQ4NEx8VUvnJZ6VVrd7AkwKTF
-	7j32uGIz6jQSJcsXGH6Jli4wCre2P29E2IHDCLFxd0Qi/XBXmyaKBGDVo8y4ZvwF5LC30TIzrizfD
-	A4IA4P+qZ0wVutOHjiBQp5hp7ZLfWBAFLMrIDzVRCyPPrzuqLlQPHa+TpFepXrGQSjbTgBXcJAv30
-	orQPb6u6rVidkRBtfS7WddlYmUQGijhEHc7YWvTv6hiz781DBpmDFQjVeUUOxqTGxg2mbf+FLY8ms
-	AwRGYfkg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wfFaF-00000004Jhy-3Bjo;
-	Thu, 02 Jul 2026 11:27:55 +0000
-Date: Thu, 2 Jul 2026 04:27:55 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	David Hildenbrand <david@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <akZLO6KcGRW4BCW_@infradead.org>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XUbn8wYj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBEF51F00A3E
+	for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2026 11:32:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782991925;
+	bh=TxQCtqjtAk2iQqQD7O6uKHlwflcfM75/SGEiXcjbbI0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=XUbn8wYjcbFq3YuGEIAkjj+cxW3RoKyHvCBLm7FrowkVoQWmsezKMFntmVRriW0Dv
+	 Bmn3JOAf0ClmyXsdxe3ZYXNQfFGE9gVQx8N38QQzEvmwOSUoMrR1hVtw+4lgyLMjv9
+	 7LAWIaWtgGDMZnnMlJZJJ0tVAR6wh2fmQelm7x/QFwtBuxUHoxnq9Zvn0ROTNLV02z
+	 3yvqDPAN/YLi4tHC8aZ6+DN/RSpyl/0eLXv7DjJa7lAvMU3FaUXJkJWxF2pf6GaUIX
+	 6w/+t1kyHfcJ0hHuRCaNOvk6Frr1GRRiKzIIAC8up5IXaAYlRGr6Xv9nnj7E8MOIVb
+	 FPyjOZFGbgpgA==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5aeb98460c6so1552243e87.2
+        for <linux-doc@vger.kernel.org>; Thu, 02 Jul 2026 04:32:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqD6etuC0nTaCXO3e89SBKXuSwZCgjsRrrXGuf4Zk/qjFfOx1CjVyEyqpw5HRyVVSIVHCooxQegSs4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywbw6EpHg+tb3NWStREe7BeG9DFFpKKvizKONfY6LcJ6T5V5o7P
+	HBX4JwK5AecxeN79n9F/0qC+u3TTGU1aIGkq2w0R6QcHTAcwF67fmKtZpWBe+peZF0EKc5nJdjw
+	SYRr7Zgmm+9DTbmcbFOqvT0bSkmwPut8=
+X-Received: by 2002:a05:6512:2511:b0:5ae:ba92:f43b with SMTP id
+ 2adb3069b0e04-5aec80689d2mr1445491e87.52.1782991924360; Thu, 02 Jul 2026
+ 04:32:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+References: <6027395.DvuYhMxLoT@rafael.j.wysocki> <akYsRl024Ll80oye@ashevche-desk.local>
+In-Reply-To: <akYsRl024Ll80oye@ashevche-desk.local>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Thu, 2 Jul 2026 13:31:50 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0hszyrY+GLz0Q1HcNgMua056xuw8Uxf_O63OmyObPtkXw@mail.gmail.com>
+X-Gm-Features: AVVi8CcB1CehQxSaZBKpjLXdEZ66xS6KSnQB6qAqVEVmAqLCZyXITmn8Rg4ltiQ
+Message-ID: <CAJZ5v0hszyrY+GLz0Q1HcNgMua056xuw8Uxf_O63OmyObPtkXw@mail.gmail.com>
+Subject: Re: [PATCH v1 0/2] ACPI: bus: Remove struct acpi_driver from the kernel
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	LKML <linux-kernel@vger.kernel.org>, 
+	Linux Documentation <linux-doc@vger.kernel.org>, driver-core@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 01, 2026 at 05:54:48PM +0200, Christian Brauner wrote:
-> Assisted-by: LLM
-> 
-> or
-> 
-> Assisted-by: Coding Assistant
+On Thu, Jul 2, 2026 at 11:15=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Wed, Jul 01, 2026 at 09:15:27PM +0200, Rafael J. Wysocki (Intel) wrote=
+:
+> > Hi All,
+> >
+> > After converting all of the drivers using the struct acpi_driver interf=
+ace to
+> > proper platform drivers, that interface can be dropped now, which is do=
+ne in
+> > this series (patch [1/2]).
+>
+> What a nice result!
+>
+> > Additionally, the no_pm flag is set for all struct acpi_device object s=
+ince
+> > they are not going to be directly involved in any kind of power managem=
+ent
+> > now (that is, they will not have PM-aware drivers and they will not be
+> > included in PM domains).
+>
+> I am in favour of this cleanup!
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-I think what is more relevant is what assistance there was.  If the
-code was generated by an LLM we should plain out reject it out of
-copyright grounds.  If it was used for validation or ideas: who
-care?
-
-I.e. do we need this at all except as a guard against vibe code junk
-that pull in other copyrighted material?  And do we really rely on
-a tag instead of detecting it by the usual signs?
-
+Thank you!
