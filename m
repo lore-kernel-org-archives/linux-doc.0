@@ -1,138 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431C33EEAE9;
-	Thu,  2 Jul 2026 11:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248783CB2EF;
+	Thu,  2 Jul 2026 11:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782991502; cv=none; b=L6D98juZNezTcPDIyuBIabax1e2jjWnONeZ9oQ4KWvAuIcNbJA5SeQplfXUonSPzvZUNxYH9sLv/AzMKXIW3fXSmf4bpalJ2HSOhOAS2EX9zRd3cC+EnGo/OzPU8+WIYIUknHQiY872jQ9HWp/08NUXJPYDDuz+wZFL9W3Dfu5I=
+	t=1782991678; cv=none; b=k1nTH8IJeRLr6ReYn+MBQs6Ru366FN+6B6qcLC+MboQ7TSZiuOL3Yrc74S6HNCr8/lU8fw1mH1fsOa+QtMberYZ2gUdpKha/e5zHYWbslb8Lj9f+jxawMmVGo5CV7KKvcG65xVqbU8Wh0Gv1xUn+OLNVmhsMh10FuHLwrCnJqe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782991502; c=relaxed/simple;
-	bh=2Gv5HFzlkMbFzaDx1llG37d5UEFM/5AOSXNnQSuRzf8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=G3+dzUtAIBxbY8STk49rsIcldA44II2/VYUoQGJtEfdNnQ9YY9ymfdE1BqVcQBDdIgwSqKJWPS67g5MSLzF4DT8iP13xJbZ5dhVSnZC3SmRDH5PSif/qFu5xOxakzIGy2rDHRgzOJ9rZ7yfTOw+dd6QxBteQKc6sw/yyk4ke6sQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kLTmUhIz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782991678; c=relaxed/simple;
+	bh=fM1g4x2BNT0I+p2uEA6GyQp5uAqaZy5LUt3RSXD/WvA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uNpEyx/GDJt+gF0D8JzDwfiIl4jtJm9aT2Uk9Cf9QY6HGmIfh6CCRLjLgkCf1NlKcIwyjl6SiBpelALK7TE4URWeCsbnwrCyA7ziouf2i9kGiWzvOt8Gd1L3fel8rrT/i5MKX88SgPwPbGrdbxUX1HpHV0uIa91g/tqc9V93tIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MrufhUSr; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kLTmUhIz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2817C1F00A3F;
-	Thu,  2 Jul 2026 11:25:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782991501;
-	bh=mOM3rzsLQ5zcU0KB7ppqvlisg4HQiYPTf14y3PbqPhs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=kLTmUhIzP0y8iCpVDm6+5t9nX8pnl/FL2IHkdX+LfPQlaEB6wVtL1kzoiWM3qgtdM
-	 9lTWMsYU7FF6L2fLFenc6N5j8Ef5Fsck26DORNh2e1uC+hhJjt3XhPbzYodE5No+/4
-	 tWeWtodTFyens21QxAEsxxmbVM/H/aptMqXN2OB3YO2ifHuNtRpMc59RFcP/OFJdrl
-	 p/pPBwhqDVsZFrWWR0Y/4+EfsV6EJ/+t4oycLzrV5+G6c5l4TaSPPG0X2wti9LPib7
-	 U22B6IjMFDRlMrSIOQnTd3sE3VScotvakJyHz80nD/AmM45TrVc/NRY1ZD3+rFexs+
-	 OeLrJpr3ynMYA==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Michal =?utf-8?Q?Such=C3=A1nek?= <msuchanek@suse.de>, Peter Zijlstra
- <peterz@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Huacai Chen <chenhuacai@kernel.org>, WANG
- Xuerui <kernel@xen0n.name>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin
- <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Heiko
- Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander
- Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
- <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, Andy
- Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav
- Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Andrew Donnellan
- <andrew+kernel@donnellan.id.au>, Mark Rutland <mark.rutland@arm.com>,
- Michal =?utf-8?Q?Such=C3=A1nek?= <msuchanek@suse.de>, Arnd Bergmann
- <arnd@arndb.de>, Jiaxun
- Yang <jiaxun.yang@flygoat.com>, Ryan Roberts <ryan.roberts@arm.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Mukesh Kumar Chaurasiya
- <mkchauras@linux.ibm.com>, Shrikanth Hegde <sshegde@linux.ibm.com>, Zong
- Li <zong.li@sifive.com>, Nam Cao <namcao@linutronix.de>, Deepak Gupta
- <debug@rivosinc.com>, Lukas Gerlach <lukas.gerlach@cispa.de>, Rui Qi
- <qirui.001@bytedance.com>, Kees Cook <kees@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
-Subject: Re: [RFC] entry: Untangle the return value of
- syscall_enter_from_user_mode from syscall NR
-In-Reply-To: <akVRcPsD_R_CE1qW@kunlun.suse.cz>
-References: <akVRcPsD_R_CE1qW@kunlun.suse.cz>
-Date: Thu, 02 Jul 2026 13:24:57 +0200
-Message-ID: <878q7tprau.ffs@fw13>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MrufhUSr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=xZVlJRZf0uavPI96jC0PFQV0YrUSBkAByWeLeb7ZK8I=; b=MrufhUSrMzj4v8PiyeZwfWD2hs
+	JWNM0PN+UZIKM+as+lGeV5dSDXsxWXYqnDug0ttQVDLtWFB1Vwa8GQ4NEx8VUvnJZ6VVrd7AkwKTF
+	7j32uGIz6jQSJcsXGH6Jli4wCre2P29E2IHDCLFxd0Qi/XBXmyaKBGDVo8y4ZvwF5LC30TIzrizfD
+	A4IA4P+qZ0wVutOHjiBQp5hp7ZLfWBAFLMrIDzVRCyPPrzuqLlQPHa+TpFepXrGQSjbTgBXcJAv30
+	orQPb6u6rVidkRBtfS7WddlYmUQGijhEHc7YWvTv6hiz781DBpmDFQjVeUUOxqTGxg2mbf+FLY8ms
+	AwRGYfkg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wfFaF-00000004Jhy-3Bjo;
+	Thu, 02 Jul 2026 11:27:55 +0000
+Date: Thu, 2 Jul 2026 04:27:55 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+	David Hildenbrand <david@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Message-ID: <akZLO6KcGRW4BCW_@infradead.org>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Wed, Jul 01 2026 at 19:42, Michal Such=C3=A1nek wrote:
-> The return value of syscall_enter_from_user_mode is used both for the
-> adjusted syscall number and the indicator that a syscall should be
-> skipped.
->
-> As seccomp can be invoked on any syscall, including invalid ones this
-> somewhat undermines seccomp.
->
-> While the seccomp variants that terminate the process do not need to
-> care about this for the filter that sets the syscall return value this
-> disctinction is required.
+On Wed, Jul 01, 2026 at 05:54:48PM +0200, Christian Brauner wrote:
+> Assisted-by: LLM
+> 
+> or
+> 
+> Assisted-by: Coding Assistant
 
-You completely fail to explain why and what actual problem you are
-trying to solve. At least I can't figure it out from the above word
-salad.
+I think what is more relevant is what assistance there was.  If the
+code was generated by an LLM we should plain out reject it out of
+copyright grounds.  If it was used for validation or ideas: who
+care?
 
-> Pass the syscall number as a pointer to the inline entry functions, and
-> use the return value exclusively for the indication that the syscall is
-> already handled.
->
-> This should avoid the need for the s390 PIF_SYSCALL_RET_SET which is the
-> workaround for exactly this deficiency.
->
-> If this is desirable the patch could be split into some series that
-> adjusts the code flow where needed so that the final change is mostly
-> mechanical.
+I.e. do we need this at all except as a guard against vibe code junk
+that pull in other copyrighted material?  And do we really rely on
+a tag instead of detecting it by the usual signs?
 
-That's not a matter of desire. That's mandatory.
-
-> -	instrumentation_begin();
-> -	if (!invoke_syscall(regs, nr) && nr !=3D -1)
-> -	 	result_reg(regs) =3D __sys_ni_syscall(regs);
-> -	instrumentation_end();
-> +	/* Skip syscall when -1 is returned */
-> +	if (!syscall_enter_from_user_mode(regs, &nr)) {
-
-Seriously?
-
-If we go and separate the syscall number from the return value, then the
-return value 0 means success and anything else fail. Which in other
-words is a boolean. So instead of tastelessly adding a completely
-nonsensical comment about -1 here, syscall_enter_from_user_mode() wants
-to have the return value type bool with a proper boolean logic: true =3D
-success, false =3D abort.
-
-> @@ -168,8 +168,7 @@ __visible noinstr void do_int80_emulation(struct pt_r=
-egs *regs)
->  	nr =3D syscall_32_enter(regs);
->=20=20
->  	local_irq_enable();
-> -	nr =3D syscall_enter_from_user_mode_work(regs, nr);
-> -	do_syscall_32_irqs_on(regs, nr);
-> +	syscall_enter_from_user_mode_work(regs, &nr);
-
-How exactly is this ever going to invoke a valid syscall?
-
-> +	if (!syscall_enter_from_user_mode_work(regs, &nr)) {
-> +		nr &=3D GENMASK(31, 0);
-> +		do_syscall_32_irqs_on(regs, nr);
-
-  do_syscall_32_irqs_on(regs, (int)nr);
-
-would be too simple, right?
-
-Thanks,
-
-        tglx
