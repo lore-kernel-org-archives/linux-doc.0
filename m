@@ -1,164 +1,193 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C5B47A0C4
-	for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2026 11:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3B747ECC6;
+	Thu,  2 Jul 2026 12:02:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782993485; cv=none; b=peQsjuZdnK18qYpEH4nRh4vXVsh1s/U7ZZeHc0U6QoWcrND/trI6bCD13Qu5hkPM3ve+bG8R84q6kvEHHLRdBx4qJSUo5rR2eXl/lJDtoTMOlVbpwIz2FYI+8kWN/8B3U0BKhAAti9yEUNZQqDGJCa5WLZG54B14Z7P3jX/0P/w=
+	t=1782993766; cv=none; b=YimzP2Z0j/WeOipLH+Lm3GmX/8UqMMfS0OLlH1eN86r8vu92s8pBhS3Gvh3vrCDCi8KcxSG498HOE5rvFZWrOLwpPXdmMwJCGJ1SlP5luZvMv4aunPFvnR50K6zmHsPWuJKTDTykXyCSDE/QRc5NwnFegU1LSQdxqFCtGcWMRQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782993485; c=relaxed/simple;
-	bh=ol1u6qHXQ2AZmxoHjQqoDN+JlTGFk0++bJU8o4AE304=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ILOOIYWlcRtGXWoRkYnJTdHXQc2sZo2yfr8QoLVSVd1ArKUJUpbTlKWk2JEqPqQutnUVnzQwdNP7+gN5xZlJHkQH6d9n5e2/CzAa7EgGQvCnLLxU1FXmHrYcWN8dqK5ekXKGrsUZ7+LK5vtwqa0GHL9SoBLxP2BAkIGJCIBw7+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LTyo/Z6H; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1782993766; c=relaxed/simple;
+	bh=QXmH97+rWFoE2LAC88xt78ijllYCri9Xy6EsF1mVG6c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=WZa9/y2alHrmBQV+86eN+efOsfSL1A0ygj6yxs+7v9ClHeo4W+T6dcy+qHRyhsodtqLYxMAiDCkYEqTs1WYR7rTMdYLZ8b1onz5pc1wuN7oSLAH0EkR+42sSV/Z9lSuJoj2okftEbsMfbAllFUNP/kFYWIGa495hY3zEcbMP9t0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=ml+WJYct; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LTyo/Z6H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782993483;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8xm+vDnzT7DuBwAtfuNAFkFCTgwEZyXMnG++VqJgtfM=;
-	b=LTyo/Z6H4sKuhER6CDU5bXQMnpA4cyotDVeiiLybIKkftkDhilIN0voEF36t31SLQXu6JF
-	5IPFVmXUAUPZ81cgR1n9NhetVC9+llEMR5vKSNVyz3z7ZnpaDgE9aMqKfo/d9R9nN9V136
-	a7qU9CT1K49IwwKG2CM0/93/O5L6GxE=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-130-4Ze0ABGpN0qJj3vSxX-E3g-1; Thu,
- 02 Jul 2026 07:57:52 -0400
-X-MC-Unique: 4Ze0ABGpN0qJj3vSxX-E3g-1
-X-Mimecast-MFC-AGG-ID: 4Ze0ABGpN0qJj3vSxX-E3g_1782993470
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 23BD81944B00;
-	Thu,  2 Jul 2026 11:57:50 +0000 (UTC)
-Received: from bfoster (unknown [10.22.80.59])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 403991966663;
-	Thu,  2 Jul 2026 11:57:47 +0000 (UTC)
-Date: Thu, 2 Jul 2026 07:57:45 -0400
-From: Brian Foster <bfoster@redhat.com>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Christian Brauner <brauner@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	David Hildenbrand <david@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <akZSOa4awK5l9x_w@bfoster>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <akYasD1ckWcH1C0g@lt-jori.localdomain>
- <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
- <20260702093844.GA3491311@killaraus.ideasonboard.com>
- <akYx9blvVhIXB5A-@lucifer>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="ml+WJYct"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6621L37U2348150;
+	Thu, 2 Jul 2026 12:01:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=QXmH97
+	+rWFoE2LAC88xt78ijllYCri9Xy6EsF1mVG6c=; b=ml+WJYctAzI5wdjjSDMgvP
+	yYV2w0V14fb3FrleDRxXeZt2X9/C22lawvIy7y0+0JO66Vi6gKw1lfHi9eAyE3iB
+	yoS3fYqtxvDpQ43tfL4lGRPA5bWXjXIUzVbxyYQxDdyfE1K1xqrHplG4o7Hdt20S
+	AAsRGGTujytG5lXsdMbtKS8RLTE8pa6avsUyvnDduHvV2z5CY707mxKR2JNyI+r7
+	IyOEJGe3WbV44naL8/o58lDH/tLH40lAil+soXDKPbWG+Z9RTVSTWMSdqkH2nDOb
+	QLgPM5fv80o4n+0Z6dHnxoe02Eo3+yY6DnjNa6v6ZGL9BhLroq2Z252BbEu2DIUQ
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f26mk1c1b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 02 Jul 2026 12:01:08 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 662BnaEX019880;
+	Thu, 2 Jul 2026 12:01:07 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f2tbhkrrx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 02 Jul 2026 12:01:07 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 662C13ZQ50987300
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 2 Jul 2026 12:01:03 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4769020049;
+	Thu,  2 Jul 2026 12:01:03 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CF39620040;
+	Thu,  2 Jul 2026 12:01:02 +0000 (GMT)
+Received: from tuxmaker.linux.ibm.com (unknown [9.87.85.9])
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Thu,  2 Jul 2026 12:01:02 +0000 (GMT)
+From: Sven Schnelle <svens@linux.ibm.com>
+To: Michal =?utf-8?Q?Such=C3=A1nek?= <msuchanek@suse.de>
+Cc: Peter Zijlstra <peterz@infradead.org>, Jonathan Corbet
+ <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Huacai Chen
+ <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+        Madhavan
+ Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Christophe Leroy (CS GROUP)"
+ <chleroy@kernel.org>,
+        Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt
+ <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti
+ <alex@ghiti.fr>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik
+ <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Andy Lutomirski
+ <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+        Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin"
+ <hpa@zytor.com>,
+        Andrew Donnellan <andrew+kernel@donnellan.id.au>,
+        Mark
+ Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
+        Jiaxun
+ Yang <jiaxun.yang@flygoat.com>,
+        Ryan Roberts <ryan.roberts@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mukesh Kumar Chaurasiya
+ <mkchauras@linux.ibm.com>,
+        Shrikanth Hegde <sshegde@linux.ibm.com>, Zong
+ Li <zong.li@sifive.com>,
+        Nam Cao <namcao@linutronix.de>, Deepak Gupta
+ <debug@rivosinc.com>,
+        Lukas Gerlach <lukas.gerlach@cispa.de>,
+        Rui Qi
+ <qirui.001@bytedance.com>, Kees Cook <kees@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
+Subject: Re: [RFC] entry: Untangle the return value of
+ syscall_enter_from_user_mode from syscall NR
+In-Reply-To: <akYreY_BHuRbxSsO@kunlun.suse.cz>
+References: <akVRcPsD_R_CE1qW@kunlun.suse.cz> <yt9dechlbyj0.fsf@linux.ibm.com>
+	<akYreY_BHuRbxSsO@kunlun.suse.cz>
+Date: Thu, 02 Jul 2026 14:01:02 +0200
+Message-ID: <yt9d5x2xbny9.fsf@linux.ibm.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <akYx9blvVhIXB5A-@lucifer>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAyMDEyMyBTYWx0ZWRfX/Q+2VIkEZeXm
+ zSpy3sSNQGU/T2UgslNS6VsPuREql8uSSdJVoQTob97qLRSMv8GJjVr6kKiJKJCJeXAZoKLkJvq
+ 5f+8ytV2grsx0grvISHbwQ84vmEGrrdzVPGn9ShEzfJJHyfO1sPZ67aE51b4LMU/UA4XKMH4nm3
+ i3aZUnP9MOw4vJ1Gv1srPH7aTjCuWOOkR4qKRHoTc08VZ+RLjIvr8Wq1ycDRZScggqf8vwMr62U
+ JjJTrtJxIQEPkt6pbRVU3+sX0S+j9wkj8f1eX7QLV6sX7z6Zs+pNzCEJDl3mKhspgytP+uB/ism
+ Cbiu9d27//atMwvdZ67Jmyysa6pe9elrVf0h5Ag/2OdiGgMqcKBh7JR9tfXjSJ286bhQpmHm/WG
+ VZ+c5pOODZgvCHxA60BGuyRiMofbgW+8J+7uiJsQ4y6cR6g7q0HtmmyhZwGSkt8korNuifin5NM
+ AFNwBLKljHK92fKlxUQ==
+X-Proofpoint-GUID: 4HRNE-F5FeM-i_rZBbEwAtB_lah-fAD7
+X-Authority-Analysis: v=2.4 cv=Z8bc2nRA c=1 sm=1 tr=0 ts=6a465304 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=96I0iGyHsLkaCD_aHbUA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAyMDEyMyBTYWx0ZWRfX3fqq5rJK1Pw6
+ XAlVAtz6S5ae1lDAR5UGIg8LAyH/oHFacO80fJr93TGA5Wz3SkDELaofBJAuvm8s6hTRnqUcZGM
+ jGAhDbq6yYnrtndAHrmEOWgPfMLlxrw=
+X-Proofpoint-ORIG-GUID: COL-UTUh6U9SgZkk02MSCnjQmBsVFo93
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-07-02_01,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0 spamscore=0 priorityscore=1501 impostorscore=0
+ malwarescore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607020123
 
-On Thu, Jul 02, 2026 at 10:44:09AM +0100, Lorenzo Stoakes wrote:
-> On Thu, Jul 02, 2026 at 12:38:44PM +0300, Laurent Pinchart wrote:
-> > On Thu, Jul 02, 2026 at 10:44:34AM +0200, Vlastimil Babka (SUSE) wrote:
-> > > On 7/2/26 10:12, Jori Koolstra wrote:
-> > > > Ah, I still reigniting this discussion again :)
-> > > >
-> > > > What about a combination of what David and Jeff say? The whole point
-> > > > seems to me that the salient information is not that an LLM was used (or
-> > > > are we going to tag Sashiko as well or any other LLM-based code review
-> > > > tool?), but what is was used to do. This information may be relevant for
-> > > > how the review is approached. The latter should perhaps only be in the
-> > > > cover letter and then we can drop the assisted-by tags altogether.
-> > > >
-> > > > The question about enforcement remains.
-> > >
-> > > It's not possible to enforce it. People can deny it if the tag is missing
-> > > and you confront them and even though the submission has many signs of being
-> > > obviously LLM, there is no definite proof. We've seen (likely, as there's no
-> > > proof!) that happen in mm.
-> > >
-> > > Such situation then penalizes those who disclose so obviously they won't.
-> >
-> > I think there's also a penality for those who don't disclose when
-> > they're told they should: it will lower trust. Kernel development is
-> > largely based on a trust model. If a contributor decides to adopt a
-> > deceiptful behaviour, they can expect maintainers to raise the bar for
-> > accepting patches, when not rejecting them outright.
-> 
-> Yes, I explicitly said this in response to somebody for whom there was
-> overwhelming evidence they were submitting AI slop, and that they'd need to
-> build it back up again.
-> 
-> It's precisely the issue as I see it.
-> 
-> But others within the community disagreed with me, so it turned into a very
-> long and draining discussion that I don't particularly wish to repeat.
-> 
-> So we really need clarity on it being OK to do this (I remember saying this
-> last year when I made an ultimately unsuccessful submission to the
-> maintainer's summit about all this :)
-> 
-> What matters overall is being able to _quickly_ dismiss AI slop so that
-> asymmetry between LLM generation + maintainer time isn't exploited.
-> 
-> And ultimately I think the trust model will end up being 'newcomes have 0,
-> now build it up'.
-> 
-> Which sucks but this issue is simply existential for open source.
-> 
+Michal Such=C3=A1nek <msuchanek@suse.de> writes:
 
-Has anybody tried throwing any of the obvious LLM slop submissions we
-have seen into one of these LLM detector things? To be clear, I've never
-tried those so I'm certainly no authority on if they even work reliably,
-but if so I wonder if something like that is a potential solution for
-elminating the worst cases..
+> On Thu, Jul 02, 2026 at 10:12:35AM +0200, Sven Schnelle wrote:
+>> Michal Such=C3=A1nek <msuchanek@suse.de> writes:
+>>=20
+>> > The return value of syscall_enter_from_user_mode is used both for the
+>> > adjusted syscall number and the indicator that a syscall should be
+>> > skipped.
+>> >
+>> > As seccomp can be invoked on any syscall, including invalid ones this
+>> > somewhat undermines seccomp.
+>> >
+>> > While the seccomp variants that terminate the process do not need to
+>> > care about this for the filter that sets the syscall return value this
+>> > disctinction is required.
+>> >
+>> > Pass the syscall number as a pointer to the inline entry functions, and
+>> > use the return value exclusively for the indication that the syscall is
+>> > already handled.
+>> >
+>> > This should avoid the need for the s390 PIF_SYSCALL_RET_SET which is t=
+he
+>> > workaround for exactly this deficiency.
+>>=20
+>> I'm not sure whether PIF_SYSCALL_RET_SET can be removed - the syscall
+>> return might still get set by PTRACE_SET_SYSCALL_INFO when the tracee is
+>> stopped. This might be a positive number which can't be distinguished
+>> from a syscall number. But maybe i'm missing something? It's been quite
+>> a while since I touched all that ptrace stuff.
+>
+> When the syscall return value is set (in the registers) the return value
+> which is also the modified syscall number is set to -1 indicating the
+> syscall was handled. At least that's how the API is described.
+>
+> So yes, if the syscall number range is restricted or the syscall number
+> is returned through a path different from the function return value the
+> flag should not be needed in the entry path because the case can be
+> detected through the return value alone.
 
-I.e., suppose we had some Sashiko type LLM/bot whose job was mainly to
-detect purely LLM generated content based on some minimum level of
-confidence and reply with a loud and clear message to the thread. Maybe
-that would be a clear enough signal to maintainers and reviewers that
-something is not worth prioritizing for review.. Maybe also some "slop
-detected" feedback would help disincentivize flinging slop onto the
-lists. At the very least that could be something that is more easily
-configured/enabled per-subsystem without having to use per-subsystem
-commit tags.
-
-Brian
-
-> >
-> > I can't quantifying which of the penalities will be higher, but I hope
-> > (call me naive if you wish) that the vast majority of contributurs who
-> > *know* we require disclosure to abide by that rule, even if it incurs a
-> > penalty. After all, proponents for LLM usage claim such performance
-> > improvements that a small penalty during review can't be that bad, right
-> > ? :-)
-> >
-> > > We
-> > > should drop the tag and instead think how we can empower maintainers to be
-> > > able to use their own judgment and deprioritize dealing with what they
-> > > perceive as LLM slop, without fearing consequences of not being properly
-> > > responsible etc, and not rely on any non-enforceable tags for that.
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
-> 
-> Thanks, Lorenzo
-> 
-
+I'm still failing to see how this would work without an additional
+flag. Assume a program (the tracee) is stopped because of a syscall
+entry. The tracer then decides to skip the syscall and changes
+regs->gpr2 (which contains either the syscall number or return value)
+to contain 42. When the tracer than restarts the syscall, how does
+do_syscall() know that gpr2 is now a return value and not a syscall number?
