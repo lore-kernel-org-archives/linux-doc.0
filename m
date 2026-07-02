@@ -1,207 +1,160 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3032DC79F;
-	Thu,  2 Jul 2026 08:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6BE835202C;
+	Thu,  2 Jul 2026 09:04:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782982740; cv=none; b=pJTxkufDgXr2NB57VkL0653XHfPPpfij2G1TOliYGrHztF9i6HEeZqlxCpgPO/KjQ5b5j2vQxtbVSABbCr7uu8LOeHHcvv0jFv305WDg/AjWW6JeCx8hEsEhJNYpj1hVeppCNFchYpZ0saAqK0mTuHVTvihynW9EesveflvvCYM=
+	t=1782983075; cv=none; b=s4+0Lis965PnFMeSoM8jZ+RyPOSLXSK9tmZU/CjfvbLxsrUCwujuupwSMpg4QpPm8u9gzl9eiz546xQGApUUCvD7qafuPy5J/N8IIclpUH3PY7Dy1pinzA1W1TNe34NxME9GyyaOVPOLnlGjlbaom2Fele51ThtJmO3VsB6NjyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782982740; c=relaxed/simple;
-	bh=YC6EOUBMCyBG0dvyUe7WFw2IfIjcpDUADWXJwrgjOnM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bhCPmkvjh2HRaws1EcAUc3qXWLIFFGku/PzFIlN7iXG8K6KNhDf9kNGy+0dnJFABkhBIYPQ0PdU87GnoeSVYQ8YIVgpIADmj8ccOAXd4B2efAqgSI7hP6hDnfJKjD/q0ZsoMNDEBvFTEMC9iFp6psfYMnEmmtNzzU3zDEXqmaFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kfpP2bbd; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	s=arc-20240116; t=1782983075; c=relaxed/simple;
+	bh=skZBuRwgJNMMqdH9+tXWMrShb4xpbFgofyo5yVQjkog=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H9wqZ6rnQfRXH+eB0FZZq1AUciVpfSF7uaMLKJ6DY7Au1b8CEmatLPh1k/AmDWaquneLLmiqW2CghkOxqpHCvdhusEenIU5DqToWFQ2nE9nKk5AhszyYpnf8QvJ56dVJg/G+nj/yUDibvBnCnqEKHcgCQGWOi/zxhHrnNpUmXEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ZFIZ7JLA; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kfpP2bbd"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=XpVLbiwv7CDhPaB21Fa7g5kQELhviQ2VmLDVN0CcLRU=; b=kfpP2bbdJhTWOL+Az4MMKsfd1l
-	5EZ8i35tCGoVK2w67azj9VHb7EleLcCrZphW5BoSq5nOZ5GwjFBH7VH+VC86om9UCJlhmLT8qn/4U
-	Vljt0coUjjo+rcNWLBEEifJk8LBtxKhKOVUQObUUZVFr+5X+wsz9b1I1rmJgs9k+ahgUp+muT3mIS
-	ucAvDsw2EvAUGshY/7ij85GEvL+V12lOenqe04ZZoJPLRZj9v9zrl4hyrONjES3tPOCnbR/AThg5Q
-	+R4X5j1OgAw3+OIg+qb79/R1sfOhtLstMKQqUuAP1bstNoIs4/EohMbnBNr8kcl+B/P2GcAVmndEF
-	1r74xXmw==;
-Received: from [2001:8b0:10b:5:5473:9ff4:cd52:8d75] (helo=u09cd745991455d.ant.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wfDFl-00000008EEz-0wPh;
-	Thu, 02 Jul 2026 08:58:37 +0000
-Message-ID: <ef7f65814b001912321912ae669b1f14762000c6.camel@infradead.org>
-Subject: Re: [PATCH v5 06/34] KVM: x86: Explicitly disable TSC scaling
- without CONSTANT_TSC
-From: David Woodhouse <dwmw2@infradead.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>,  Borislav Petkov	 <bp@alien8.de>, Dave
- Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"	
- <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross	
- <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul
- Durrant	 <paul@xen.org>, Jonathan Cameron <jic23@kernel.org>, Sascha
- Bischoff	 <Sascha.Bischoff@arm.com>, Marc Zyngier <maz@kernel.org>, Joey
- Gouly	 <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, Dongli
- Zhang	 <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
-Date: Thu, 02 Jul 2026 09:58:36 +0100
-In-Reply-To: <akWI72WrPKy-PBqo@google.com>
-References: <20260608145455.89187-1-dwmw2@infradead.org>
-	 <20260608145455.89187-7-dwmw2@infradead.org> <akWI72WrPKy-PBqo@google.com>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-9bZhCjMS+rLrf3GCWE0W"
-User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ZFIZ7JLA"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF7A5288E;
+	Thu,  2 Jul 2026 02:04:28 -0700 (PDT)
+Received: from [10.163.170.96] (unknown [10.163.170.96])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B584F3F85F;
+	Thu,  2 Jul 2026 02:04:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1782983073; bh=skZBuRwgJNMMqdH9+tXWMrShb4xpbFgofyo5yVQjkog=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZFIZ7JLA725PMonMebzR9pkpHavkPQi9FODAisJ1dYA8dr9CD19PiaisyGbmljAI0
+	 K+vHcZmzR0ANbP7QhSPzdF8X3Vy6qt2Ih1iWsoTBpDLyO22rnSQ0jw1QgvqPXaMwnF
+	 lz25PKyKNBozoNyB560EHDLYHK9IUFxolBQ2avVg=
+Message-ID: <e4ec99fc-dfb1-4205-a193-f694e9f6a13b@arm.com>
+Date: Thu, 2 Jul 2026 14:34:22 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC V2 3/3] mm: Replace pgtable entry prints with new format
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+ Hugh Dickins <hughd@google.com>
+Cc: linux-mm@kvack.org, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, Petr Mladek
+ <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Lorenzo Stoakes <ljs@kernel.org>
+References: <20260610043545.3725735-1-anshuman.khandual@arm.com>
+ <20260610043545.3725735-4-anshuman.khandual@arm.com>
+ <fc57bb9a-4564-489e-8da4-65068b5283ae@kernel.org>
+ <4a416383-62f5-1716-8e04-a2ee1f89a864@google.com>
+ <dabfd73b-d872-4267-9a40-45463fe146ac@kernel.org>
+ <3afa822d-3cc9-1068-9a10-94a5f2e4d29a@google.com>
+ <90b5cd31-87ed-4ef7-86cc-458b9e06b02d@kernel.org>
+ <5a8e82f3-ed21-48a8-af3c-36a08fd2b0ec@arm.com>
+ <82902a84-7e62-496b-b1c0-62bad1be4525@kernel.org>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <82902a84-7e62-496b-b1c0-62bad1be4525@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---=-9bZhCjMS+rLrf3GCWE0W
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 02/07/26 1:02 PM, David Hildenbrand (Arm) wrote:
+> On 7/2/26 06:29, Anshuman Khandual wrote:
+>>
+>>
+>> On 30/06/26 7:06 PM, David Hildenbrand (Arm) wrote:
+>>> On 6/16/26 08:19, Hugh Dickins wrote:
+>>>>
+>>>> Yes, that's what it's for. What we really want is to understand what went
+>>>> wrong: that's too much to ask of a printk, but it can give us a good clue.
+>>>>
+>>>>
+>>>> Page table entry and pmd entry are good enough: higher levels got
+>>>> added at some stage, but they are unlikely to be useful here.
+>>>
+>>> Yes, I added them when we're processing PUD entries we'd also want
+>>> P4D entry + PUD entry.
+>>>
+>>> This is one approach of having the printing be done mostly
+>>> manually, supporting 32, 64 and 128bit pte_val(). As raised by Ryan,
+>>> using local bufs to store the data to not involve printk.
+>>>
+>>>
+>>> I played with printing the byte stream manually, but didn't really like it.
+>>>
+>>> Gave it a quick test and it seems to do its trick. I have the feeling that
+>>> this can be beautified a bit more.
+>>>
+>>>
+>>> From 05af7317b126991a61b0a3d01c2863ce5a578d1b Mon Sep 17 00:00:00 2001
+>>> From: "David Hildenbrand (Arm)" <david@kernel.org>
+>>> Date: Tue, 30 Jun 2026 15:23:02 +0200
+>>> Subject: [PATCH] tmp
+>>>
+>>> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+>>> ---
+>>>  mm/memory.c | 110 +++++++++++++++++++++++++++++++++++++++++-----------
+>>>  1 file changed, 87 insertions(+), 23 deletions(-)
+>>>
+>>> diff --git a/mm/memory.c b/mm/memory.c
+>>> index ff338c2abe923..ad39cafe110f9 100644
+>>> --- a/mm/memory.c
+>>> +++ b/mm/memory.c
+>>> @@ -519,9 +519,57 @@ static bool is_bad_page_map_ratelimited(void)
+>>>  	return false;
+>>>  }
+>>>  
+>>> +#define PTVAL_STR_MAX	(sizeof(u64) * 4 + 1)
+>>> +
+>>> +static void ptval_bytes_to_str(char *buf, size_t buf_size,
+>>> +		const void *entry, size_t entry_size)
+>>> +{
+>>> +	if (WARN_ON_ONCE(buf_size < entry_size * 2 + 1)) {
+>>> +		snprintf(buf, buf_size, "overflow");
+>>> +		return;
+>>> +	}
+>>> +
+>>> +	switch (entry_size) {
+>>> +	case sizeof(u32):
+>>> +		snprintf(buf, buf_size, "%08x", *(const u32 *)entry);
+>>> +		break;
+>>> +	case sizeof(u64):
+>>> +		snprintf(buf, buf_size, "%016llx",
+>>> +			 (unsigned long long)*(const u64 *)entry);
+>>> +		break;
+>>> +	case sizeof(u64) * 2: {
+>>
+>> Could this be made sizeof(u128) instead ? But overall this
+>> approach looks good.
+> 
+> The would be cleaner. We might have to protect this case by something like
+> 
+> #defined(__SIZEOF_INT128__)
+> 	case sizeof(u128):
+> 		...
+> 		break;
+> #endif
+> 	default:
 
-On Wed, 2026-07-01 at 14:38 -0700, Sean Christopherson wrote:
->=20
-> > =C2=A0=C2=A0			pr_info("TSC scaling supported\n");
-> > diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-> > index a29896a9ef14..ed207cc7692d 100644
-> > --- a/arch/x86/kvm/vmx/vmx.c
-> > +++ b/arch/x86/kvm/vmx/vmx.c
-> > @@ -8672,7 +8672,7 @@ __init int vmx_hardware_setup(void)
-> > =C2=A0=C2=A0	if (!enable_apicv || !cpu_has_vmx_ipiv())
-> > =C2=A0=C2=A0		enable_ipiv =3D false;
-> > =C2=A0=20
-> > -	if (cpu_has_vmx_tsc_scaling())
-> > +	if (cpu_has_vmx_tsc_scaling() && boot_cpu_has(X86_FEATURE_CONSTANT_TS=
-C))
->=20
-> We should clear SECONDARY_EXEC_TSC_SCALING in setup_vmcs_config().=C2=A0 =
-Failure to
-> clear the vmcs_config bit will advertise the feature to L2 and allow it t=
-o be
-> enabled in vmcs12, but KVM will ultimately not honor the scaling in vmcs0=
-2:
->=20
-> 	if (kvm_caps.has_tsc_control)
-> 		vmcs_write64(TSC_MULTIPLIER, vcpu->arch.tsc_scaling_ratio);
->=20
-> This series kinda sorta gets there with "KVM: x86: Remove pvclock_gtod_da=
-ta and
-> private timekeeping code", but that change looks misplaced?=C2=A0 And I t=
-hink clearing
-> the bit this late will lead to false failures in vmx_check_processor_comp=
-at() due
-> to the golden config clearing the bit, but the local config having it set=
-.
+Right - realized that just a bit later :) Not all
+platforms and corresponding tool chains might not
+support u128.
 
-Ack. Folded into v6:
+> 
+> 	...
+> 
+> Can you take over this approach and refine it (and address Andy's comments)?
 
-https://git.infradead.org/?p=3Dusers/dwmw2/linux.git;a=3Dshortlog;h=3Drefs/=
-heads/kvmclock6
-https://git.infradead.org/?p=3Dusers/dwmw2/linux.git;a=3Dcommitdiff;h=3D144=
-587d50edf
+Sure will do that.
+> 
+> I'm not quite happy about the
+> 
+> 	typeof(pud_val(pud)) entry = pud_val(pud);
+> 
+> stuff, but I didn't see an easy (less ugly) way to avoid it. Maybe there is one :)
+>
 
---=-9bZhCjMS+rLrf3GCWE0W
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCD9Aw
-ggSOMIIDdqADAgECAhAOmiw0ECVD4cWj5DqVrT9PMA0GCSqGSIb3DQEBCwUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBDQTAeFw0yNDAxMzAwMDAwMDBaFw0zMTEx
-MDkyMzU5NTlaMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYDVQQDExdWZXJv
-a2V5IFNlY3VyZSBFbWFpbCBHMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMjvgLKj
-jfhCFqxYyRiW8g3cNFAvltDbK5AzcOaR7yVzVGadr4YcCVxjKrEJOgi7WEOH8rUgCNB5cTD8N/Et
-GfZI+LGqSv0YtNa54T9D1AWJy08ZKkWvfGGIXN9UFAPMJ6OLLH/UUEgFa+7KlrEvMUupDFGnnR06
-aDJAwtycb8yXtILj+TvfhLFhafxroXrflspavejQkEiHjNjtHnwbZ+o43g0/yxjwnarGI3kgcak7
-nnI9/8Lqpq79tLHYwLajotwLiGTB71AGN5xK+tzB+D4eN9lXayrjcszgbOv2ZCgzExQUAIt98mre
-8EggKs9mwtEuKAhYBIP/0K6WsoMnQCcCAwEAAaOCAVwwggFYMBIGA1UdEwEB/wQIMAYBAf8CAQAw
-HQYDVR0OBBYEFIlICOogTndrhuWByNfhjWSEf/xwMB8GA1UdIwQYMBaAFEXroq/0ksuCMS1Ri6en
-IZ3zbcgPMA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIweQYI
-KwYBBQUHAQEEbTBrMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wQwYIKwYB
-BQUHMAKGN2h0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRJRFJvb3RD
-QS5jcnQwRQYDVR0fBD4wPDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0
-QXNzdXJlZElEUm9vdENBLmNybDARBgNVHSAECjAIMAYGBFUdIAAwDQYJKoZIhvcNAQELBQADggEB
-ACiagCqvNVxOfSd0uYfJMiZsOEBXAKIR/kpqRp2YCfrP4Tz7fJogYN4fxNAw7iy/bPZcvpVCfe/H
-/CCcp3alXL0I8M/rnEnRlv8ItY4MEF+2T/MkdXI3u1vHy3ua8SxBM8eT9LBQokHZxGUX51cE0kwa
-uEOZ+PonVIOnMjuLp29kcNOVnzf8DGKiek+cT51FvGRjV6LbaxXOm2P47/aiaXrDD5O0RF5SiPo6
-xD1/ClkCETyyEAE5LRJlXtx288R598koyFcwCSXijeVcRvBB1cNOLEbg7RMSw1AGq14fNe2cH1HG
-W7xyduY/ydQt6gv5r21mDOQ5SaZSWC/ZRfLDuEYwggWbMIIEg6ADAgECAhAH5JEPagNRXYDiRPdl
-c1vgMA0GCSqGSIb3DQEBCwUAMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYD
-VQQDExdWZXJva2V5IFNlY3VyZSBFbWFpbCBHMjAeFw0yNDEyMzAwMDAwMDBaFw0yODAxMDQyMzU5
-NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqGSIb3DQEBAQUAA4IC
-DwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZeYAS/SRV6zmfXlXaZ
-sNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2zkC9S7/yHDYnqegqt
-w4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qGpgFdZEk2/c//ZvUN
-i12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41vav1RhZJzYan4a1gU0
-kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0cvnO8FM6PTqsnSbcc
-0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PWPU6zfQTOMZ9uLQRR
-ci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXtREF5lLXxp+CJ6KKS
-blPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQrlR0gO3lBzuyPPArV
-hvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7IqaAovAX0d+f1YjbmC
-VsAwjhLmveFjNwIDAQABo4IBsDCCAawwHwYDVR0jBBgwFoAUiUgI6iBOd2uG5YHI1+GNZIR//HAw
-HQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3bXcyQGluZnJhZGVh
-ZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEBMA4GA1UdDwEB/wQE
-AwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwewYDVR0fBHQwcjA3oDWgM4YxaHR0
-cDovL2NybDMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDA3oDWgM4YxaHR0
-cDovL2NybDQuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDB2BggrBgEFBQcB
-AQRqMGgwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBABggrBgEFBQcwAoY0
-aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNydDANBgkq
-hkiG9w0BAQsFAAOCAQEAQXc4FPiPLRnTDvmOABEzkIumojfZAe5SlnuQoeFUfi+LsWCKiB8Uextv
-iBAvboKhLuN6eG/NC6WOzOCppn4mkQxRkOdLNThwMHW0d19jrZFEKtEG/epZ/hw/DdScTuZ2m7im
-8ppItAT6GXD3aPhXkXnJpC/zTs85uNSQR64cEcBFjjoQDuSsTeJ5DAWf8EMyhMuD8pcbqx5kRvyt
-JPsWBQzv1Dsdv2LDPLNd/JUKhHSgr7nbUr4+aAP2PHTXGcEBh8lTeYea9p4d5k969pe0OHYMV5aL
-xERqTagmSetuIwolkAuBCzA9vulg8Y49Nz2zrpUGfKGOD0FMqenYxdJHgDCCBZswggSDoAMCAQIC
-EAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQELBQAwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoT
-B1Zlcm9rZXkxIDAeBgNVBAMTF1Zlcm9rZXkgU2VjdXJlIEVtYWlsIEcyMB4XDTI0MTIzMDAwMDAw
-MFoXDTI4MDEwNDIzNTk1OVowHjEcMBoGA1UEAwwTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJ
-KoZIhvcNAQEBBQADggIPADCCAgoCggIBANqWLse95HW2F7FhfH9bugyT/danKmmXrbMnz5GZNAfj
-Jl5gBL9JFXrOZ9eVdpmw04Tp6aDxZctFLoEDvSWKi367Q7Sg+ci+fH4KwwfQ8Pi0IpIKx2n5emEg
-nbOQL1Lv/IcNiep6Cq3DiyaSpSp/RZf+CAfUNySHS8eWmhLU6jGpSD6hxTpYKye7PmrmvMWwfGEP
-WoamAV1kSTb9z/9m9Q2LXa89aKmTxNwnAfD3Ohn9mtU3JukwILRMewn9QRXK7KzM+01h5hkCE4nj
-W9q/VGFknNhqfhrWBTSQoE9CSVylASGrjzCgS7XmKy/BaH3/7mOOHQv5g1o3Qj/+cdKnpT0I5Qb1
-nRy+c7wUzo9OqydJtxzSP4ZyHA4dELto/a3m/ay1XHcpum1pgTOLgxAfGb/T4dCkwRUstSKLMmpL
-g9Y9TrN9BM4xn24tBFFyL5znGG0wQGzOVAM68RBzIQb6Fz758fjsr4yZnPbVsU1+gHEs/puNHrG0
-9e1EQXmUtfGn4InoopJuU8p5VGD9S3Ikd4UoBlc7xl5yjtNlQxUeYrRlnUSmdlucCEoTX1n4UmtA
-9CuVHSA7eUHO7I88CtWG9bGOU7tLgOZoSEvNqtaL/N7sQbBZK4jZ4Rr/zNTQg1SwYjjLB7u96lDP
-sipoCi8BfR35/ViNuYJWwDCOEua94WM3AgMBAAGjggGwMIIBrDAfBgNVHSMEGDAWgBSJSAjqIE53
-a4blgcjX4Y1khH/8cDAdBgNVHQ4EFgQUXGIam3Bs59Y60yTmWgfDu6pZQ6cwMAYDVR0RBCkwJ4ET
-ZHdtdzJAaW5mcmFkZWFkLm9yZ4EQZGF2aWRAd29vZGhvdS5zZTAUBgNVHSAEDTALMAkGB2eBDAEF
-AQEwDgYDVR0PAQH/BAQDAgXgMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDBDB7BgNVHR8E
-dDByMDegNaAzhjFodHRwOi8vY3JsMy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
-Y3JsMDegNaAzhjFodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
-Y3JsMHYGCCsGAQUFBwEBBGowaDAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29t
-MEAGCCsGAQUFBzAChjRodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVt
-YWlsRzIuY3J0MA0GCSqGSIb3DQEBCwUAA4IBAQBBdzgU+I8tGdMO+Y4AETOQi6aiN9kB7lKWe5Ch
-4VR+L4uxYIqIHxR7G2+IEC9ugqEu43p4b80LpY7M4KmmfiaRDFGQ50s1OHAwdbR3X2OtkUQq0Qb9
-6ln+HD8N1JxO5nabuKbymki0BPoZcPdo+FeRecmkL/NOzzm41JBHrhwRwEWOOhAO5KxN4nkMBZ/w
-QzKEy4PylxurHmRG/K0k+xYFDO/UOx2/YsM8s138lQqEdKCvudtSvj5oA/Y8dNcZwQGHyVN5h5r2
-nh3mT3r2l7Q4dgxXlovERGpNqCZJ624jCiWQC4ELMD2+6WDxjj03PbOulQZ8oY4PQUyp6djF0keA
-MYIDuzCCA7cCAQEwVTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMX
-VmVyb2tleSBTZWN1cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJYIZIAWUDBAIBBQCg
-ggE3MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI2MDcwMjA4NTgz
-NlowLwYJKoZIhvcNAQkEMSIEIDksKJ3Ty3+zHNZT2D0jeM4TnA7nWmY35paDXpfxVFYyMGQGCSsG
-AQQBgjcQBDFXMFUwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoTB1Zlcm9rZXkxIDAeBgNVBAMTF1Zl
-cm9rZXkgU2VjdXJlIEVtYWlsIEcyAhAH5JEPagNRXYDiRPdlc1vgMGYGCyqGSIb3DQEJEAILMVeg
-VTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMXVmVyb2tleSBTZWN1
-cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQEBBQAEggIAI4R/W4erdYAu
-8Z1G+6P7ejl1YmFVIMtfhjKXjUEm11rpy8bQBq6TlpSDYB8cGB1wgJC/oE4rUYC5YquCWvP9kCGG
-4iSYWAwO5fJjB70ZVnc44vy75/5uOQ6vlrsPw3igyeYCvxJtEios0yJ/hJq8RvJnf8/u1vw042Rg
-tF+/Hgf8c10li3e96Svnqg+G3TJ0FUOIfcmtYb3nHCdh3J0qop2RY33t0Fzq6eiErjcndFQ3k8Cs
-lFV5lLlJ62NDooVFdRp32iACesTzHMFmQNo+mS/dxg+QunWhir8P95KZm9N3eGjO3iNNQW/WRH2W
-v9bYfFncoQtLB8GmyLyi1D1L7WR0gXVzKYR8dAiPNSWfOV9xfYrHMDO+wnpLp6Xf+NEsh/kwJfx9
-bxUKCWMaKE9HlwN8liINOu3Vwnfbr4e7QzwZnVpEqPGqdLuKLPm94siRefRo9WP9Ct6+dwMGEmcA
-4av1qcHv3Dk8Z69dcxtIW2+kCP5hIKBY3c7DKJJwRFAPq8brexPggv6a+zeD3Gtj2INaWPgf3PJo
-7LaGF0bbc473/IqA6W7HIoF4/yrjYIX6GPXTv4GZjeOMXuxJiGgrGHIhDgi9WSfo7Vg6jvuxLy4Y
-eVMZll4vLUxJMmij0k0umLmoIQeHGsfU59WippejbdtkTIBfEToYRBuSFccA7AIAAAAAAAA=
-
-
---=-9bZhCjMS+rLrf3GCWE0W--
+Could __auto_type be an alternative ?
