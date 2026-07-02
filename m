@@ -1,134 +1,142 @@
-Received: from tpecef21.compal.com (exmail3.compal.com [59.120.207.196])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C4434DCD6;
-	Thu,  2 Jul 2026 08:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=59.120.207.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BE12C0268;
+	Thu,  2 Jul 2026 08:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782980870; cv=none; b=oh3SgDWD56Udi6XFPKnTcxeMzMMQC5uSCs1B52Da3hWv1XzQgB0EUuiRWONi/nUyoeT4tjr7J0zWLBN4wc7PDSj98aoSbxt6lR8ZEwuT6mFfz0FjwALisdZ6lXUi9xh12NALm0H1rZ/qxKHrDlcuNAU5akXDjUsqyjm10opPY50=
+	t=1782980899; cv=none; b=NN9iFe9mrNmY4UpfOOaMfKDX9xc19T3VzfsMqGyD/cZ5vFxeaoURAEIhDUPGm5dt4noA5Hun9nrrpq625DVNs6XiWZFopScPfQQdr+5vWnuLRapbQYwgLG5ZymF6gkFV10qrrL41+oCzduPS8i8qYmG4QBx9zaicATsD1ClkHYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782980870; c=relaxed/simple;
-	bh=+VWsVZmbh6VuQAbEeJ8YTelqhXj03on95jXTEwbtnYA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=myvmJxv586zk4IG1Vr1RB19YuCOs6x/oyiV5ihIroPC0JdnueBDJBX1Tsma1da1agO/vkxP0IqAm2jGQqaZHwV1IwEu/wg/wvguqna5ZIsBWh3pnqHud2ui5XRV6JXot79TO15zz7UZXG2UQIGSrVlzBYYroPvOE4gfyivq313k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com; spf=pass smtp.mailfrom=compal.com; arc=none smtp.client-ip=59.120.207.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.com
-X-UUID: e11a089475ef11f1b2470fb4f881575f-20260702
-X-CID-CACHE: Type:Local,Time:202607021627+08,HitQuantity:2
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.15,REQID:2df641c6-292d-45cf-9644-de51683a4a20,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e276073,CLOUDID:1d90e5ee-6085-4bd7-b32c-8f3a894d1f02,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|865|888|
-	898,TC:-5,Content:-10|0|15|50|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:ni
-	l,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE
-	:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: e11a089475ef11f1b2470fb4f881575f-20260702
-Received: from sdmg11.sdbg.compal.com [(10.113.168.9)] by tpecef21.compal.com
-	(envelope-from <jackbb_wu@compal.com>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1220226109; Thu, 02 Jul 2026 16:27:35 +0800
-X-UUID: ddd763a275ef11f1b328fd8a884f4420-20260702
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.15,REQID:b2a0e46e-e1e5-4259-8371-f8e83357b9e0,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e276073,CLOUDID:031aa614-ea64-44d4-98db-4e1fb89955a3,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|865|888|
-	898,TC:-5,Content:-10|0|15|50|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:ni
-	l,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE
-	:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: ddd763a275ef11f1b328fd8a884f4420-20260702
-Received: from sdbmbx11.tpe.compalcomm.com [(10.113.2.135)] by sdmg11.sdbg.compal.com
-	(envelope-from <jackbb_wu@compal.com>)
-	(Compal Mail Service with TLSv1.2 ECDHE-RSA-AES128-SHA 128/128)
-	with ESMTP id 117347440; Thu, 02 Jul 2026 16:27:30 +0800
-Received: from SDBMBX13.tpe.compalcomm.com (10.113.2.137) by
- SDBMBX11.tpe.compalcomm.com (10.113.2.135) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29;
- Thu, 2 Jul 2026 16:27:26 +0800
-Received: from SDBMBX13.tpe.compalcomm.com ([fe80::7d1b:448d:4d95:51b0]) by
- SDBMBX13.tpe.compalcomm.com ([fe80::7d1b:448d:4d95:51b0%11]) with mapi id
- 15.02.2562.029; Thu, 2 Jul 2026 16:27:26 +0800
-From: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
-To: Andrew Lunn <andrew@lunn.ch>
-CC: Loic Poulain <loic.poulain@oss.qualcomm.com>, Sergey Ryazanov
-	<ryazanov.s.a@gmail.com>, Johannes Berg <johannes@sipsolutions.net>, "Andrew
- Lunn" <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Wen-Zhi Huang <wen-zhi.huang@mediatek.com>, Shi-Wei Yeh
-	<shi-wei.yeh@mediatek.com>, Minano Tseng <Minano.tseng@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-mediatek@lists.infradead.org"
-	<linux-mediatek@lists.infradead.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>
-Subject: RE: [External Mail] Re: [PATCH v3 2/7] net: wwan: t9xx: Add control
- plane transaction layer
-Thread-Topic: [External Mail] Re: [PATCH v3 2/7] net: wwan: t9xx: Add control
- plane transaction layer
-Thread-Index: AQHdA/KoG0AzoVDQmky5mWyAxH40ubZVI4cU///wpwCABNxa7A==
-Date: Thu, 2 Jul 2026 08:27:26 +0000
-Message-ID: <4ec081f8df234cc584702abc67213965@compal.com>
-References: <20260624-t9xx_driver_v1-v3-0-73ff03f60c48@compal.com>
- <20260624-t9xx_driver_v1-v3-2-73ff03f60c48@compal.com>
- <2a90ae6b-2b6d-4340-b557-915252cc3488@lunn.ch>
- <49939d4d682f4c1fb359973ea2cdbd00@compal.com>,<92b1e341-31a1-4f60-80d5-ccf8f742a38a@lunn.ch>
-In-Reply-To: <92b1e341-31a1-4f60-80d5-ccf8f742a38a@lunn.ch>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-30042.005
-x-tm-as-result: No-10--5.111600-8.000000
-x-tmase-matchedrid: gIzQ6PxOy4Muv++HU7VXryRFbfQbCufdN0X64jGy2db7+pncqRJfy2XQ
-	7TcqkNINvK3gdx4WruG6C02CoqNlCtDVjrCAjJafEUw76ALZYKnyQ6dAmPdzEpASM5lkTKECkJf
-	KQELyHYjhPhXQAUtd7cnIJXNwrshOgwp9EiT9SDbPEeDcxvUDjCh3g1nRJyiyojKyNVmXOrudJP
-	a/3VyousENhGSOVOW5y5giTPlFHEONYN8w7dbL+QJmkj1SAkweoli4ZoiOHT8g4pZYxslhbbNke
-	EYGbJYuHRsWxVXWBJXNhPz9cgqi3YYt/R+Zd8q9feQQQBikYjzCCiz194l71g==
-x-tm-as-user-approved-sender: No
-x-tm-as-user-blocked-sender: No
-x-tmase-result: 10--5.111600-8.000000
-x-tmase-version: SMEX-14.0.0.3239-9.1.2019-30042.005
-x-tm-snts-smtp: 35A964323CE21EEFA67078F12AC4479D3B511B04E44653D239E22F5B0E2FD6072000:8
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1782980899; c=relaxed/simple;
+	bh=8Jjaypqu8RekBvlZLg0vu2Up4Spfh5YTOzvefkq9TLU=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=KA1YOmCm4qrmJCDJcH4MMPXYwx2qCDvmn8gVTg9HxiXxr8H40w1KMwMNUsPU943qlO3ESl23O8i4Fx8eQMeNATmW2aNvl1muWLmnZLa4fRiVdM/iAonW4zqcAohttEqjAI7NDnKJwiuh17mTJ6TTnDoEAQjLZwPxmJRux8v6TSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MeSiIH2V; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MeSiIH2V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCF1F1F000E9;
+	Thu,  2 Jul 2026 08:28:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782980898;
+	bh=pu9emM89wjPdv27sahxV6Zf17AZnAmlt4GJ1gMEvS/s=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=MeSiIH2VVjHvwBCqMnsrf3K2MXDbgVlRe089tkfJTHTJ2z8Sih0NTNMTkkekmp2W+
+	 zdR1ykJPi5UaWChsGWci2iyp6RWZE7Xy8O5ylpUqxod4eo4Z0DjGJGM33aFQ9ZrSqI
+	 GFGWcPEHEN/guhU/wVbeUWfDe75PmrCaLpALVpZuHQrqug3Rba3+m/YUD1r7/FUVik
+	 r0oR0V1cbKm4qGCVjGIBqmGchVwWBJNjYg5+4Ikb2/D8NLeIa8UbyNTcBJmXJJcstn
+	 Z54qmXZFQ/1y0+3x5ktg6ZBx2tRBwygwCLx3e3YbDeC+ydgY/0vAZyeQ+eZLlc5oj5
+	 FLdEcDbINSopg==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+From: Christian Brauner <brauner@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ "David Hildenbrand (Arm)" <david@kernel.org>, 
+ Linus Torvalds <torvalds@linux-foundation.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+ Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+In-Reply-To: <20260702080840.GG3433808@killaraus.ideasonboard.com>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
+ <20260702-seekrank-stilrichtung-mitentscheiden-69a64ee097ec@brauner>
+ <20260702080840.GG3433808@killaraus.ideasonboard.com>
+Date: Thu, 02 Jul 2026 10:28:13 +0200
+Message-Id: <20260702-bahnen-ertappen-verspannungen-0eaaf1e3f5af@brauner>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3844; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=8Jjaypqu8RekBvlZLg0vu2Up4Spfh5YTOzvefkq9TLU=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS5KcpH3/rPE/Ha7OLCVAW/q5sWy5gvUGf48Kv23yKFb
+ Nu7Dy996ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhI+21Ghj3W6ZPUz/96lPvy
+ 58yzqto61qtu1Kc/dP+6Kd/1m96VlkKGfzqrnmy5V6SjIiQbH7JePjByaWt5KvMjiQoOl+2THpc
+ bcQAA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-SGkgQW5kcmV3LA0KDQo+ID4gbXRrX2Rldl9hbGxvYy9tdGtfZGV2X2ZyZWUgYXJlIHBhaXJlZCB3
-cmFwcGVycyBzbyB0aGUgY2FsbGVyDQo+ID4gZG9lc24ndCBuZWVkIHRvIGtub3cgdGhlIHVuZGVy
-bHlpbmcgYWxsb2NhdGlvbiBtZWNoYW5pc20uDQo+ID4gVGhlIGRldm1fa2ZyZWUgaXMgc3RpbGwg
-Y2FsbGVkIGluc2lkZSBtdGtfZGV2X2ZyZWUuDQo+DQo+IFR3byBkaWZmZXJlbnQgaXNzdWVzIGhl
-cmU6DQo+DQo+IDEpIElmIHlvdSBkb24ndCB3YW50IHRvIHVzZSBkZXZtXywgZG9uJ3QgdXNlIGRl
-dm1fIGZyb20gdGhlDQo+IGJlZ2lubmluZy4gQSBwYXRjaCBzaG91bGQgbm90IGNoYW5nZSBob3cg
-YSBwcmV2aW91cyBwYXRjaCB3b3Jrcywgc2luY2UNCj4geW91IGFyZSB3YXN0aW5nIHJldmlld2Vy
-IHRpbWUgcmV2aWV3aW5nIGNvZGUgd2hpY2ggeW91IGxhdGVyIGNoYW5nZS4NCj4NCj4gMikgRG8g
-eW91IHVuZGVyc3RhbmQgd2hhdCBkZXZtXyBhY3R1YWxseSBkb2VzPyBTaW5jZSB5b3UgdXNlDQo+
-IGRldm1fZnJlZSgpIGkgZG9uJ3QgdGhpbmsgeW91IGFjdHVhbGx5IHVuZGVyc3RhbmQgd2hhdCBk
-ZXZtXyBpcyBhbGwNCj4gYWJvdXQuDQoNClRoYW5rIHlvdSBmb3IgdGhlIGV4cGxhbmF0aW9uLiBZ
-b3UgYXJlIHJpZ2h0Lg0KDQp3ZSB3aWxsIHJlbW92ZSB0aGUgbXRrX2Rldl9hbGxvYy9tdGtfZGV2
-X2ZyZWUgd3JhcHBlcnMgYW5kIHVzZQ0KZGV2bV9remFsbG9jIGRpcmVjdGx5IGZyb20gdGhlIGJl
-Z2lubmluZy4NCg0KV2Ugd2lsbCBhbHNvIHJlbW92ZSBhbGwgdW5uZWNlc3NhcnkgZGV2bV9rZnJl
-ZSgpIGNhbGxzIGZyb20gcHJvYmUNCmVycm9yIHBhdGhzIGFuZCByZW1vdmUgcGF0aHMsIGtlZXBp
-bmcgdGhlbSBvbmx5IHdoZXJlIHJlc291cmNlcw0KYXJlIGZyZWVkIGFuZCByZS1hbGxvY2F0ZWQg
-YXQgcnVudGltZSAoZS5nLiwgQ0xETUEgcXVldWUgbGlmZWN5Y2xlDQpkdXJpbmcgbW9kZW0gcmVz
-ZXQgY3ljbGVzKS4NCg0KVGhhbmtzLg0KDQpKYWNrIFd1
+On 2026-07-02 11:08 +0300, Laurent Pinchart wrote:
+> On Thu, Jul 02, 2026 at 09:27:37AM +0200, Christian Brauner wrote:
+> > > What would be much more relevant to know is to which degree LLMs were used.
+> > > 
+> > > Assisted-by: LLM # translate commit message
+> > > Assisted-by: LLM # generate some test cases
+> > > Assisted-by: LLM # cleanup logic
+> > > Assisted-by: LLM # everything and I have no clue what any in here does
+> > 
+> > I think we should just drop any attribution as a general kernel-wide
+> > rule and let subsystems require them as needed. Then you can have all
+> > the complexity in mm for this that you think is needed for your
+> > workflow to function. This is precisely what the subsystem profiles are
+> > for. So maybe just add:
+> > 
+> > Documentation/process/maintainer-mm.rst
+> > 
+> > alongside
+> > 
+> > Documentation/process/maintainer-{tip,netdev,x86}.rst
+> > 
+> > and lay down the rules that you require for LLM based submissions in
+> > whatever detail you need.
+> > 
+> > I don't see how this additional commentary you want would ever be
+> > enforced consistently across the kernel or who would even enforce it. I
+> > don't need more beaurocracy to chase after people in my subsystems tbh.
+> > 
+> > The other thing is that I think this Assisted-by annotation is just
+> > noise in the changelog. If you want to know in detail what an LLM was
+> > used for when generating the patch it's mostly a signal for how
+> > "intense" of a review this will get afaict (already questionable imho
+> > but sure that's just something to disagree on).
+> > 
+> > If the information is mostly useful during review then I still would
+> > question why it has to end up in our git logs. It's completely
+> > irrelevant information imho.
+> 
+> Food for thought, the Kubernetes project has published a disclosure
+> policy ([1], reported by LWN.net at [2], with a blog post explaininig it
+> at [3]). Quoting LWN.net,
+> 
+> "Of note, the project requires disclosure when AI tools have been used
+> to assist in the creation of a contribution but forbids the use of
+> listing AI as a co-author or including "assisted-by" or "co-developed"
+> trailers to attribute work to an LLM tool."
+> 
+> I personally don't see a lot of value in the Assisted-by trailer, but I
+> would like the submitter to include the information in a place that
+> doesn't end up in the git commit history (cover letter or below the ---
+> line).
+
+Fwiw, way before k8s I had systemd adopt the following policy:
+
+https://github.com/systemd/systemd/blob/main/docs/CONTRIBUTING.md#policy-on-the-use-of-large-language-models-llms-and-ai-tooling
+
+    We expect everyone contributing to systemd to fully own their
+    contribution, be able to reason about it, be able to explain why things
+    were done a particular way and act as the full owner of that code. AI
+    tools are treated the same as traditional tooling like sed, awk or
+    coccinelle.
+
+    For the purpose of this project, AI tools CANNOT be treated as author,
+    co-author or be credited in any way that would suggest any ownership
+    over the contribution.
+
+    The contributor should have done all the thinking, planning and
+    understanding of the changes needed to resolve an issue or implement a
+    new feature prior to using automated tooling to perform the grunt work.
+
+    Unguided use of those tools or the inability to prove understanding of
+    the code contributed will result in a loss of trust in that contributor
+    by project maintainers which can then lead to exclusion from any further
+    contribution to the project.
+
+    As with any other submissions, authors are responsible for doing due
+    diligence and ensuring their submissions are compatible with the
+    project's license as documented in LICENSES/README.md.
+
