@@ -1,241 +1,141 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A75A13D9DBF;
-	Fri,  3 Jul 2026 14:15:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988FC3E0C51
+	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 14:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783088154; cv=none; b=i+GHYWKU5rlK0ZpqY91OGlXULE0SrbfrI+yihULFe09NUE1myI7a6f6tnfG02eCVX2os5qCYVLjVLhCzKbR+Zjub7xJ6SlwNJHyUkdz8LF3pOIGVJoxQSGLjI3XHKQqZfnn7Z2GUT5uViqATQ8JIVfWvHAMYydMh5N2mDw5sSas=
+	t=1783088729; cv=none; b=RNQf+2bXCby/sCOpoD+75kxbtLwTRARySZ0samPJKMPxM0z4p4yczgyh9tE3MAfVh/sSjrkRTghwnkvGt9PGXA/AqrlnBjMItX8c3to2KSiecRPb/mDgrhZ8P60uCWgxA7Qz1q7eug2GUp0E55E+Oe4EGMF/EDdDV7Eq7vns7Yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783088154; c=relaxed/simple;
-	bh=c2iKZ8/uXxQA0af8ZFoWEp9/z/46QEA6ldJuCnB0+QI=;
+	s=arc-20240116; t=1783088729; c=relaxed/simple;
+	bh=zZxZbH6595Xq322X5wWbuLYwtAjMqlVtcthEp/oj7us=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hrVlQAXaasymdXNRdGkJpVpUo/XEpmCARDCceDxEd2LHMogLyYtvThT4C97VFFe50qZcAQOndw7cVxujVPmez9ppF6fOZoA1lDwmm6X71CeumIZFbWPsuco+AeBuBHQjC2EDbrkc0qqWpkcKnNy2U1QSJdZP+Y3yAqwardYp8do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=MPlzZXmg; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=WvqChU+5EHxEXLNn6fT/LSOj9hfzohNtje25u0L72lDrN8M3jIjuRkGRLfQqUUQAPJwu1j7kIwgo+rrIBl5U0AoiMC1YXtkgnfAGKJoSJtGG5QWhJSd/3+CIHlVFhQsflzUeBH6932cy1mubWIwkUG9c/AZZkYDuqUqnFBr2SGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nxlshdFc; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="MPlzZXmg"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 422B9463D;
-	Fri,  3 Jul 2026 07:15:46 -0700 (PDT)
-Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ED47B3F905;
-	Fri,  3 Jul 2026 07:15:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1783088150; bh=c2iKZ8/uXxQA0af8ZFoWEp9/z/46QEA6ldJuCnB0+QI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MPlzZXmgBYb1/l5ZuUhWGKlKqLha+H/RXkeXpAOWYtqRqXl0ki7o+BmPjVcdPdzRw
-	 zqM6p736TPv5gw047WchhCTlqDAYpIRtjPsfugKYKVKb2C+vZMN3BzyDH0RjHPTcod
-	 2Eq2BC/LspCF67SfpIAniYyHlhVFw3G3dVT+HNrI=
-Date: Fri, 3 Jul 2026 15:15:36 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
-	skhan@linuxfoundation.org, maz@kernel.org, ardb@kernel.org,
-	ilias.apalodimas@linaro.org, oupton@kernel.org, joey.gouly@arm.com,
-	seiden@linux.ibm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com,
-	oleg@redhat.com, lpieralisi@kernel.org, tglx@kernel.org,
-	ada.coupriediaz@arm.com, anshuman.khandual@arm.com,
-	ebiggers@kernel.org, broonie@kernel.org,
-	mrigendra.chaubey@gmail.com, baohua@kernel.org, lucaswei@google.com,
-	james.morse@arm.com, zengheng4@huawei.com, thuth@redhat.com,
-	yang@os.amperecomputing.com, leo.bras@arm.com,
-	Sascha.Bischoff@arm.com, james.clark@linaro.org,
-	peterz@infradead.org, leitao@debian.org, ben.horgan@arm.com,
-	punit.agrawal@oss.qualcomm.com, gshan@redhat.com,
-	osama.abdelkader@gmail.com, fengchengwen@huawei.com,
-	ryan.roberts@arm.com, yangyicong@hisilicon.com,
-	kevin.brodsky@arm.com, kees@kernel.org, jeson.gao@unisoc.com,
-	zhaoyang.huang@unisoc.com, ryotkkr98@gmail.com, wsw9603@163.com,
-	pasha.tatashin@soleen.com, jeremy.linton@arm.com,
-	schuster.simon@siemens-energy.com, osandov@fb.com, arnd@arndb.de,
-	zhangpengjie2@huawei.com, smostafa@google.com,
-	vladimir.murzin@arm.com, tabba@google.com, vdonnefort@google.com,
-	kaleshsingh@google.com, jic23@kernel.org, timothy.hayes@arm.com,
-	alexandru.elisei@arm.com, zenghui.yu@linux.dev, david@kernel.org,
-	akpm@linux-foundation.org, ljs@kernel.org, memxor@gmail.com,
-	qperret@google.com, chaitanyas.prakash@arm.com,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH 00/17] arm64: Support FEAT_NMI and Rework Exception
- Masking
-Message-ID: <akfECMwlZL1aoXHl@J2N7QTR9R3>
-References: <20260703100135.2512312-1-ruanjinjie@huawei.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nxlshdFc"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-493be1b9682so5288145e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2026 07:25:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1783088725; x=1783693525; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=JUk3WyCzjRTJDLUduYl8EcNRLI38i6zEbMJ49FtDSSw=;
+        b=nxlshdFcqsWDXhGlicbEVQY0100PbOBUyOAnyX4Jc7UFgjTIr1BBhkI3YXGgX3XoaM
+         OhkgkEZZuMJrrGcPqXF7VtbClvrJP1hqKNvErCAdDepJ0AHufk/lTIuYZ3yEmL2tgKMV
+         bcfqym3DBPC3NXwNsTVF6Sg7WcLFIXzpV5ODkb5Cyp0yB2nSVEbRhWG/oqOWP2S8kOjQ
+         1Y4bYCaoSSAT1v/fc5dGJpn8BSHQe36+B0vnyqP4nGvfGZb1xHotZSbwkoTXlWSbNmJR
+         QCYwJ80vkGL9UZo9NIY5zT4VHb9XYzGOBvepQ/M5yDNs19e7tHR13uZ5JkdlCt67kzZ3
+         zVeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783088725; x=1783693525;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JUk3WyCzjRTJDLUduYl8EcNRLI38i6zEbMJ49FtDSSw=;
+        b=guKK1TiWXtX50EYQgyAe3jV3TOPJVhcQzTDvJmE27lSNLf/FGL6cx/jo3Tw34GnG/G
+         Md8jrOPLHrdbBJrhQixuot+ftDHu/SdF2OPVwcxbF5f8DtrPCAFPjgoB/d6YPciVmg69
+         p/kjzC/WpqazoWLtNLjUunrpBFnelrLLDbrX4mt/Ee/+UNMUaSr10z/b3KqllKH1q7qC
+         i+eT7QUEMhuKUZvmgpSeeq4tpCZ9vZLK7BLV+VeQOUKPNLoSQNijMrtb3vA7ZBLDiu0Z
+         PKRt9ZIbko4IXuBB/six1QYpbLOe7+iv5zt/NrJESJ+U7OmVNrkUej0XOPC6MG2T+a0y
+         z6uw==
+X-Forwarded-Encrypted: i=1; AFNElJ9eqas3jibMe/bsLQW90dxg8uVMVjbADMNPZLH/EbMRaKhzyHUQwaZayp0Qmj42IePAdqqzJWc5tYM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznyShYjLmFMYYNTbLZStbFN2p01xdWnaJq2Pl0MongeDChsGFd
+	EtY/V3qKmf+2RYBSBlrCyzPB1u1gFgGLsIuULEzQ4eOg2T2MIlKO9lTAzKN9L80Ldw==
+X-Gm-Gg: AfdE7cnG9XIuNQgkcNb/rP8bziGF7tP54+PfT5FPdNSdcnIgEAF52m6Mo6DC2oo+vpY
+	0WfaE6ua3njVTIfnoGADla6hY7hRxH9Aco3c6eWTYSZajXGCR1hRPSVfz1hcOebWMZo1ShlM43R
+	Mejh3HYQBu4iCFBDaNHtGYGe9OHbXIU9/79ggrA81SSiREubCemZ3CbYovGzsCIgc++I4YJs9k0
+	9CKAzT0+vdlEDiOs88SsxBqxbpOphJc3PBdZmd6HbysNvMsEnOIIDbFpHuR26nTV9r7jgDKwoiE
+	TcKkSbakJRi/mHumR4YrMwZVZmfZEZGGMbfgrbDfULwtLrXtwAOx2twihR+P8/p8xWhXOr1Q1e3
+	09PpHdCfl2sFAn4C4hoP/Xd5aPuYg9zcP91BCs7TlUhj1IsO5NogWid6A98sZrPYh+I/20gG6DP
+	xE5K+CV1LK9SGNVgccQFU989kdZ2VQDo1VSagGV8/Kofk8bqApkKDQAw==
+X-Received: by 2002:a05:600c:154f:b0:493:c453:600f with SMTP id 5b1f17b1804b1-493d0f096a3mr1332665e9.6.1783088724566;
+        Fri, 03 Jul 2026 07:25:24 -0700 (PDT)
+Received: from google.com ([2a00:79e0:288a:8:26a3:e133:527c:310f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493ccd9d607sm72829725e9.2.2026.07.03.07.25.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2026 07:25:23 -0700 (PDT)
+Date: Fri, 3 Jul 2026 16:25:18 +0200
+From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+	Lee Jones <joneslee@google.com>,
+	Lambert Fan <fanzhaoming@anopc.com>,
+	Zhouwang Huang <honjow311@gmail.com>, linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/5] Add OneXPlayer Configuration HID Driver
+Message-ID: <akfGTjId84EjV141@google.com>
+References: <20260419042624.625746-1-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260703100135.2512312-1-ruanjinjie@huawei.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260419042624.625746-1-derekjohn.clark@gmail.com>
 
-Hi Jinjie
-On Fri, Jul 03, 2026 at 06:01:18PM +0800, Jinjie Ruan wrote:
-> Hi all,
+Hello Derek!
 
-Vladimir (cc'd) has also been working on NMI support, but hadn't posted
-to the list yet (due to some delays with testing).
+On Sat, Apr 18, 2026 at 09:26:19PM -0700, Derek J. Clark wrote:
+> Adds an HID driver for OneXPlayer HID configuration devices. There are
+> currently 2 generations of OneXPlayer HID protocol. The first (OneXPlayer
+> F1 series) only provides an RGB control interface over HID. The Second
+> (X1 mini series, G1 series, AOKZOE A1X) also includes a hardware level
+> button mapping interface, vibration intensity settings, and the ability
+> to switch output between xinput and a debug mode that can be used to debug
+> the button mapping. Some devices (G1 Series, APEX) use a hybrid of Gen1
+> RGB control and Gen 2 controller settings. To ensure there is no conflicts
+> when the driver is loaded, we skip creating the RGB interface for Gen 2
+> devices if there is a DMI match.
+> 
+> I'll also add a note that Gen 1 devices also have an interface for
+> setting the key map and debug mode, but that is done entirely over a
+> serial TTY device so it is not able to be added to this driver. There
+> are also some "Gen 0" devices (OneXPlayer 2 Series) also use it, but
+> the TTY interface also handles the RGB control so no support is
+> provided by this driver for those interfaces.
+> 
+> Signed-off-by: Derel J. Clark <derekjohn.clark@gmail.com>
 
-I haven't had the chance to look at this yet, but at a high-level we'll
-need to figure out what to do going forwards.
+Sorry I am late to this review, but here are two issues I discovered
+when looking at the code:
 
-Mark.
+(1) The functions oxp_hid_raw_event_gen_1() and
+    oxp_hid_raw_event_gen_2() are both forgetting to do bounds checks
+    against the "size" argument.
 
-> This patch series implements support for the ARMv8.8-A/v9.3-A
-> hardware NMI extension (FEAT_NMI), introducing the use of PSTATE.ALLINT
-> to manage superpriority interrupts on arm64.
-> 
-> Background and Current Status
-> -----------------------------
-> 
-> The hardware ecosystem is already mature and fully ready for FEAT_NMI:
-> 
-> - Production Hardware: Huawei's Kunpeng servers (such as the HIP12 based
->   platforms) already feature native hardware support for FEAT_NMI.
-> 
-> - Emulation: QEMU has integrated robust FEAT_NMI emulation[1] support
->   since 2024.
-> 
-> Despite the hardware readiness, upstream support for FEAT_NMI has been
-> delayed. Previous patch[2] attempts tried to bundle ALLINT management
-> directly into the existing DAIF abstraction layers. As Mark Rutland
-> pointed out[3], pretending ALLINT or pseudo-NMI (GIC PMR) is part of
-> DAIF creates convoluted, unmaintainable hacks that frequently fail to
-> handle complex edge cases correctly (such as state escape during
-> context switching).
-> 
-> Reworking Exception Masking (Mark's Feedback)
-> ---------------------------------------------
-> 
-> Following Mark Rutland's strong recommendation ("We must clean up
-> the existing approach before we add the real NMI support"), this series
-> does not simply stack FEAT_NMI on top of the old framework. Instead, it
-> completely reworks how the arm64 kernel manages abstract and logical
-> exception masks.
-> 
-> Per Mark's guidelines, this series achieves the following architectural
-> improvements:
-> 
-> 1. Entry/Exit Specific Helpers (a):
-> 
->    Introduces abstract exception mask helpers specifically for exception
->    boundaries. They handle unified unmask-at-entry and mask-at-exit
->    behaviors. This decouples the entry/exit paths from raw DAIF
->    manipulation. In this series, these helpers are first refactored to
->    manage DAIF + PMR cleanly, preparing the ground before any FEAT_NMI
->    code is introduced.
-> 
-> 2. Logical Exception Mask Separation (b):
-> 
->    Introduces a decoupled logical mask tracking mechanism that treats DAIF,
->    PMR, and ALLINT as separate, distinct elements. This enables accurate
->    irqflag tracking and debug assertions to save, restore, and validate all
->    elements without forcing them to fake or pollute a traditional DAIF
->    layout.
-> 
-> Production Bug Fixes & Integration
-> -----------------------------------
-> 
-> On top of this solid architectural foundation, this series adds the actual
-> support for FEAT_NMI (ALLINT management). Crucially, during baisc testing
-> and validation on production Kunpeng (HIP12) servers, we identified and
-> resolved several critical bugs.
-> 
-> The series is structured as follows:
-> 
-> - Patches 1-5: Clean up and rework the existing DAIF/PMR masking into
->   separate logical exception helpers (Pre-requisite refactoring).
-> 
-> - Patches 6-17: Add FEAT_NMI support for ARM64, including specific
->   stability fixes found on Kunpeng hardware and QEmu.
-> 
-> Any feedback, testing, or review, especially regarding the exception
-> masking refactoring, is highly appreciated.
-> 
-> [1]: https://lore.kernel.org/all/20240407081733.3231820-1-ruanjinjie@huawei.com/
-> [2]: https://lore.kernel.org/linux-arm-kernel/20221112151708.175147-1-broonie@kernel.org/
-> [3]: https://lore.kernel.org/linux-arm-kernel/Y5c9SLeJacLYHmP7@FVFF77S0Q05N/
-> 
-> Jinjie Ruan (5):
->   arm64: Move DAIF macros to ptrace.h and use them centrally
->   arm64: Rework exception masking into abstract logical mask
->   arm64: entry: arm64: entry: Move DAIF masking for EL1 exit to C code
->   arm64: entry: Add entry-specific helpers
->   arm64: Introduce helpers for restoring standard exception masks
-> 
-> Lorenzo Pieralisi (1):
->   irqchip/gic-v3: Implement FEAT_GICv3_NMI support
-> 
-> Mark Brown (11):
->   arm64/booting: Document boot requirements for FEAT_NMI
->   arm64/sysreg: Add definitions for immediate versions of MSR ALLINT
->   arm64/hyp-stub: Enable access to ALLINT
->   arm64/idreg: Add an override for FEAT_NMI
->   arm64/cpufeature: Detect PE support for FEAT_NMI
->   KVM: arm64: Hide FEAT_NMI from guests
->   arm64/nmi: Manage masking for superpriority interrupts along with DAIF
->   arm64/entry: Don't call preempt_schedule_irq() with NMIs masked
->   arm64/irq: Document handling of FEAT_NMI in irqflags.h
->   arm64/nmi: Add handling of superpriority interrupts as NMIs
->   arm64/nmi: Add Kconfig for NMI
-> 
->  Documentation/arch/arm64/booting.rst     |   6 +
->  arch/arm64/Kconfig                       |  17 ++
->  arch/arm64/include/asm/arch_gicv3.h      |   7 +-
->  arch/arm64/include/asm/assembler.h       |  17 +-
->  arch/arm64/include/asm/cpufeature.h      |   5 +
->  arch/arm64/include/asm/cpuidle.h         |  30 ++-
->  arch/arm64/include/asm/daifflags.h       | 144 --------------
->  arch/arm64/include/asm/efi.h             |  22 ++-
->  arch/arm64/include/asm/el2_setup.h       |  13 ++
->  arch/arm64/include/asm/entry-common.h    |  11 +-
->  arch/arm64/include/asm/exception_masks.h | 232 +++++++++++++++++++++++
->  arch/arm64/include/asm/irq.h             |   2 +
->  arch/arm64/include/asm/irqflags.h        |  10 +
->  arch/arm64/include/asm/kvm_host.h        |   2 +-
->  arch/arm64/include/asm/mmu_context.h     |   2 +-
->  arch/arm64/include/asm/nmi.h             |  23 +++
->  arch/arm64/include/asm/ptrace.h          |  11 +-
->  arch/arm64/include/asm/sysreg.h          |   2 +
->  arch/arm64/include/uapi/asm/ptrace.h     |   1 +
->  arch/arm64/kernel/acpi.c                 |  14 +-
->  arch/arm64/kernel/cpufeature.c           |  58 +++++-
->  arch/arm64/kernel/debug-monitors.c       |   9 +-
->  arch/arm64/kernel/entry-common.c         | 167 +++++++++++-----
->  arch/arm64/kernel/entry.S                |   4 -
->  arch/arm64/kernel/hibernate.c            |  10 +-
->  arch/arm64/kernel/idle.c                 |   7 +-
->  arch/arm64/kernel/irq.c                  |  36 +++-
->  arch/arm64/kernel/machine_kexec.c        |   4 +-
->  arch/arm64/kernel/pi/idreg-override.c    |   1 +
->  arch/arm64/kernel/probes/kprobes.c       |   9 +-
->  arch/arm64/kernel/process.c              |   7 +-
->  arch/arm64/kernel/setup.c                |   4 +-
->  arch/arm64/kernel/signal.c               |   2 +-
->  arch/arm64/kernel/smp.c                  |  22 +--
->  arch/arm64/kernel/suspend.c              |  15 +-
->  arch/arm64/kernel/traps.c                |   2 +-
->  arch/arm64/kvm/emulate-nested.c          |   6 +-
->  arch/arm64/kvm/hyp/include/hyp/switch.h  |   6 +
->  arch/arm64/kvm/hyp/nvhe/host.S           |   4 +-
->  arch/arm64/kvm/hyp/nvhe/hyp-init.S       |   3 +-
->  arch/arm64/kvm/hyp/nvhe/hyp-main.c       |   4 +-
->  arch/arm64/kvm/hyp/vgic-v3-sr.c          |   6 +-
->  arch/arm64/kvm/hyp/vhe/switch.c          |   6 +-
->  arch/arm64/kvm/reset.c                   |   6 +-
->  arch/arm64/mm/fault.c                    |   2 +-
->  arch/arm64/mm/mmu.c                      |   6 +-
->  arch/arm64/tools/cpucaps                 |   2 +
->  drivers/firmware/psci/psci.c             |   7 +-
->  drivers/irqchip/irq-gic-v3.c             | 152 +++++++++++++--
->  include/linux/irqchip/arm-gic-v3.h       |   4 +
->  50 files changed, 822 insertions(+), 320 deletions(-)
->  delete mode 100644 arch/arm64/include/asm/daifflags.h
->  create mode 100644 arch/arm64/include/asm/exception_masks.h
->  create mode 100644 arch/arm64/include/asm/nmi.h
-> 
-> -- 
-> 2.34.1
-> 
+    For real devices, which send a real report descriptor, these buffers
+    will be large enough, but a device that sends a faked report
+    descriptor can provoke an out-of-bounds-read here by underspecifying
+    the size for these reports.
+
+(2) oxp_hid_probe() and other functions are populating drvdata, and
+    drvdata is a static variable.  If you plug in two of these devices
+    at the same time, they will step on each other's toes, and this
+    leads to all kinds of memory corruption problems when they do.
+
+    I believe the right way to go about this is to allocate a separate
+    piece of memory for each device that you are plugging in.  Other
+    device drivers do this uing devm_kzalloc().
+
+Disclaimer:
+
+I found these through code inspection and curiosity but have not tried
+to reproduce the crashes.
+
+Per Linux's official threat model[1], these are not considered security
+vulnerabilities.  An attacker who impersonates a USB device and gains
+illegitimate access to the USB port might be able to provoke these bugs
+though, and I wouldn't be surprised if (2) also just leads to system
+crashes when using two of these devices at the same time.
+
+—Günther
+
+[1] https://docs.kernel.org/process/threat-model.html
