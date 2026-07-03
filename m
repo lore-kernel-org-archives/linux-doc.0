@@ -1,134 +1,66 @@
-Received: from mx1.secunet.com (mx1.secunet.com [62.96.220.36])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8263016F7;
-	Fri,  3 Jul 2026 18:53:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C45C221DAE;
+	Fri,  3 Jul 2026 19:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783104842; cv=none; b=d3+wFDxSoAdjlO7f8lPxLljkkHdjT+d8X+pM/UUPB6qsxqlXSd4tt/Oy8OX1rfdNjQpDZ9dzJtgphEcQyG/BLM+4g7JwV/zxmJIEPO58Xv2G7klABc7Fdal/G3YQVKVdU6OTmYE0el4HFjW671DPXWxtvZsoSXD2Awgavdf7wtw=
+	t=1783105525; cv=none; b=pXKxzgKxqF6nBn2E6uArhclHRpTf2CMOPM+PI/rwKrRixgFksDnDNclWSqYG/fUsZTvdYEVhex4FEmNB55SO9TsGH5XFiBF6VJ0sZPxx6d5R1ht16Xh2CLJQOx156jobTabNJRv+mOcei/mZTcJNGKABogQduNP7TatmiXT7rJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783104842; c=relaxed/simple;
-	bh=k8eAyWfiavhZPQUIRN7Hwwm6tZEyjbfZBMp188AI/nE=;
-	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=skZokr193PEt8hvJ5Jfh3qkLoMOR8VUDSot1MB6ohRcvMGUCa7vv2FBW2VCLvS78qN19MAMStr990UOkqCaBdAjK5XhKNzbsTBmJZKd50mDEnr03Ln4gj6Ou/G/DDpJNdRNZ7QziKs2JDZ6qHlvZ4za9iKPa2nNSnQlHXM8xTQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=CaWD5eZs; arc=none smtp.client-ip=62.96.220.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
+	s=arc-20240116; t=1783105525; c=relaxed/simple;
+	bh=hBb6hq4isCfiV8s+nzMNOuu/UNXr2UNwuxWVfeZLujg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=AfFIy0FCYbI4YWunSidNzUunG2OH5x1ZrCMkaOn/BDSA5CJ3dY9GuDsyF5yUaD2F74YS1zKVjAiB9HoF863HK3ipzYg4teUbGSX/SaCelhv5o8m5WRPbOGOkmHk2SZnuxzrvPq3PzrAJ6a++HcsRPVYvOc7Em3Iq9qnRbYTLSXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m1zyTKW0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="CaWD5eZs"
-Received: from localhost (localhost [127.0.0.1])
-	by mx1.secunet.com (Postfix) with ESMTP id 4571920758;
-	Fri,  3 Jul 2026 20:53:57 +0200 (CEST)
-X-Virus-Scanned: by secunet
-Received: from mx1.secunet.com ([127.0.0.1])
- by localhost (mx1.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UZZKk4vse5xv; Fri,  3 Jul 2026 20:53:56 +0200 (CEST)
-Received: from EXCH-02.secunet.de (rl2.secunet.de [10.32.0.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.secunet.com (Postfix) with ESMTPS id 8DCC520561;
-	Fri,  3 Jul 2026 20:53:56 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.secunet.com 8DCC520561
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
-	s=202301; t=1783104836;
-	bh=9o8/bqXzxkD5g4mMHZoquLRFczrFTBCt291qnAraS3A=;
-	h=Date:From:To:CC:Subject:Reply-To:From;
-	b=CaWD5eZshNXSwsWef7R8VQh4ipyB7CW8qDJZxIE/dHHpbho/Z6TnMjCJvo5V1nS0p
-	 9VPJLUhQYrP+eoRJqB26/trRnwl+FhZVWayvOoO1y9Vv2odwgQGihjZFZzc6jDbZfW
-	 XbVAbZatiKwqgtn+uzEHANhyxeO4TWsaxDw4p5KijcSGdBPfs5drwEzvQgorGuaGaN
-	 ZIYvVpYlpU5MbyTP3jb2ipZPCUtaRbojeuRVjT4293S8Qz/cf1W1a0FHGf3bVAvoYu
-	 HHtPIkBic1tbqs4an85lmcNjl2q8E/Lbs/e6k63OrNPrZlqloUDTWv/GpluYjO8TyF
-	 TABNK/rn5UxcA==
-Received: from moon.secunet.de (172.18.149.1) by EXCH-02.secunet.de
- (10.32.0.172) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Fri, 3 Jul
- 2026 20:53:54 +0200
-Date: Fri, 3 Jul 2026 20:53:44 +0200
-From: Antony Antony <antony.antony@secunet.com>
-To: Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu
-	<herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, David Ahern
-	<dsahern@kernel.org>, Antony Antony <antony.antony@secunet.com>, Jamal Hadi
- Salim <hadi@cyberus.ca>, Shuah Khan <shuah@kernel.org>
-CC: Sabrina Dubroca <sd@queasysnail.net>, <netdev@vger.kernel.org>, Yan Yan
-	<evitayan@google.com>, Tobias Brunner <tobias@strongswan.org>, Florian
- Westphal <fw@strlen.de>, <linux-kselftest@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, Sashiko <sashiko-bot@kernel.org>, Antony Antony
-	<antony@phenome.org>
-Subject: [PATCH ipsec 0/8] xfrm: state: exact mark/mask match for
- control-plane SA lookups
-Message-ID: <migrate-state-fixes-v0-0-a69e8637ba3b@secunet.com>
-Reply-To: <antony.antony@secunet.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m1zyTKW0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 415E41F000E9;
+	Fri,  3 Jul 2026 19:05:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783105523;
+	bh=bbmfpKuaXnCxb2nR08iPDH1KoBeMW8P78cZz/yvJGm0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=m1zyTKW0qm7fBkbyTAj00Q09+0QWQ24rD620E7z5vDB5fh9BcOcu2kHmAAXQWi9aa
+	 jovqqKWVrXz2T3yA+dDQ5zKLP5EJ+0psSHy3ybbsBgeU60QEHm5pZErF48sjtZH8PP
+	 hlatZTm/mJPtRJTWBabeJ3IIxKmOAt/yWGe6Bvo3c0b5rZo+LmxJ0yERl6GlqXFxC9
+	 OcRMXkff8JEdS5b95XW/5IW/fxDpisss7qzaKf+qUq/qZ7X/dkRVp9I+TUvHui1N3G
+	 ZjOwCrZG8eM1lK4eF+cuAqeLYXz0Ui/2B/oRZLanhq7Mtad1Cf6be8OSY2abnA9PEi
+	 HWRAHGy0WPlDg==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Gregory Price <gourry@gourry.net>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kernel-team@meta.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ peterz@infradead.org, luto@kernel.org, akpm@linux-foundation.org,
+ feng.tang@linux.alibaba.com, pmladek@suse.com, mhiramat@kernel.org,
+ marc.herbert@linux.intel.com, joel.granados@kernel.org,
+ lirongqing@baidu.com, kees@kernel.org, nathan@kernel.org,
+ linusw@kernel.org, arnd@arndb.de, deller@gmx.de, jpoimboe@kernel.org,
+ ruanjinjie@huawei.com, lukas.bulwahn@redhat.com, ryan.roberts@arm.com,
+ ojeda@kernel.org
+Subject: Re: [PATCH 1/2] kernel/entry: add CONFIG_SYSCALL_USER_DISPATCH to
+ compile SUD out
+In-Reply-To: <akfv4ecFcHMqx5Xp@fedora>
+References: <20260627205551.769684-1-gourry@gourry.net>
+ <87a4s8m69c.ffs@fw13> <akfv4ecFcHMqx5Xp@fedora>
+Date: Fri, 03 Jul 2026 21:05:20 +0200
+Message-ID: <87y0frlwr3.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-B4-Tracking: v=1; b=H4sIAH7pR2oC/z2OwQrDIBBEf6V4rmCiWNNfKT2YdU32EBNcKSkh/
- 15toZeF2eHNzCEYMyGL++UQGV/EtKYq1PUiYPZpQkmharHQlH1ByaXdSDuyVFYjKm1623WiAqN
- nlGP2CeaG0MYIMuFe/iasy0KlmX1vo/FmUKHzg3YRnHbBRQfGeoPgnTWgws01dMv4Lazc45cqn
- vU9E5c1v9v08zw/L1A8zMoAAAA=
-X-Change-ID: migrate-state-fixes-063ee0342611
-X-Mailer: b4 0.16-dev
-Precedence: first-class
-Priority: normal
-Organization: secunet
-X-ClientProxiedBy: EXCH-03.secunet.de (10.32.0.183) To EXCH-02.secunet.de
- (10.32.0.172)
+Content-Type: text/plain
 
-While looking into a XFRM_MSG_MIGRATE_STATE issue reported by Sashiko,
-we found the underlying problem generalizes: xfrm allows multiple SAs
-to coexist for the same (SPI, daddr, proto) differing only in mark,
-and every control-plane operation that resolves "which SA" - get,
-delete, update, get_ae, new_ae, expire, migrate - uses the same
-wildcard mark match the data path needs. A broader-mask SA can
-silently shadow a more specific one:
+On Fri, Jul 03 2026 at 13:22, Gregory Price wrote:
+> On Fri, Jul 03, 2026 at 05:39:59PM +0200, Thomas Gleixner wrote:
+>> > #include <linux/thread_info.h>
+>> > #include <linux/syscall_user_dispatch_types.h>
+>> > +#include <linux/sched.h>
+>> 
+>> Why does this require to pull in the heaviest header?
+>> 
+> we dereference current (struct task_struct)
 
-  # ip xfrm state add ... spi 0x1000 mark 1 mask 1 (SA_target)
-  # ip xfrm state add ... spi 0x1000 mark 0 mask 0
-    (SA_decoy, catch-all, added after -> bucket head)
-  # ip xfrm state delete dst ... proto esp spi 0x1000 mark 1 mask 1
-    -> deletes SA_decoy; SA_target survives, untouched
-
-xfrm policy had the same bug, fixed in commit 4f47e8ab6ab7
-("xfrm: policy: match with both mark and mask on user interfaces").
-
-Control-plane lookups need an exact mark/mask match; the wildcard
-match stays for the data path and state_add only.
-This series applies that fix across every affected method,
-not just XFRM_MSG_MIGRATE_STATE.
-
-More examples in the attached self tests.
-This series not fixing likely isusses PF_KEY. As it
-is no more receiving non critical fixes.
-
----
-Antony Antony (8):
-      xfrm: state: exact mark/mask match for SPI-keyed control-plane SA lookups
-      xfrm: state: exact mark/mask match for by-address control-plane SA lookups
-      selftests: net: xfrm_state: add mark shadowing tests for state lookups
-      xfrm: fix use-after-free of migrated state in xfrm_do_migrate_state()
-      xfrm: fix hw offload state leak on xfrm_do_migrate_state() error path
-      xfrm: include mark in MIGRATE_STATE SA collision check
-      xfrm: pass extack through to xfrm_init_replay() from xfrm_init_state()
-      docs: xfrm: include mark in XFRM_MSG_MIGRATE_STATE EEXIST tuple
-
- .../networking/xfrm/xfrm_migrate_state.rst         |  20 ++--
- include/net/xfrm.h                                 |   5 +-
- net/ipv6/xfrm6_input.c                             |   2 +-
- net/xfrm/xfrm_state.c                              | 109 +++++++++++++----
- net/xfrm/xfrm_user.c                               |  49 +++++---
- tools/testing/selftests/net/xfrm_state.sh          | 130 ++++++++++++++++++++-
- 6 files changed, 262 insertions(+), 53 deletions(-)
----
-base-commit: 226f4a490d1a938fc838d8f8c46a4eca864c0d78
-change-id: migrate-state-fixes-063ee0342611
-
-Best regards,
---  
-Antony Antony <antony.antony@secunet.com>
+Who is we? :)
 
