@@ -1,94 +1,102 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D8D43C3458;
-	Fri,  3 Jul 2026 11:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F303CC7EB;
+	Fri,  3 Jul 2026 11:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783079937; cv=none; b=HernH699KkAnP4gMxTZWulclY2RLjJ6p+aOmlvO7JdEZMgkcmjL31f7c1337neNQ+dpabVgnAHHt81urwb74Gtzau6qxFPT8lq0ZsWYTE/cTnREvEOB2HmwjBsF8a0kGGLF74V0ehyRaiHhQEBs0054xcjdikGz9YiaZGap5HSQ=
+	t=1783079945; cv=none; b=GitjhbKotAstn7q2+4GF0Xe3sNO4eYj+bKex+memq90dVpYX3vuk+g+CodwGtMNwNCrWvjJicaCu18eUEcVAAkyWga1YZHC1pMtE++HEcaNimA+OZdoZ84q9VL7S0LkQuZmFd2N1UqvHDziqFRbsNIJQ89siXLEX12rzj22VN/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783079937; c=relaxed/simple;
-	bh=9RkqNxccYBDEv45d8DCin2QlOks8W9i+BqfQdAypggA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iHPklHYW5kJU9XnRYEYlKxPED+bMotD+8SRi/o5Jn/LPkMjC0IwDcQn7SBqcXgVr6uWdzDGlKYg69l/xlVD/YxxuzHS7Rs3NRyr0i17nqhemqkRto63mF/5mwH0qYTjY6SScOcXBJ0qcm7CmBQCB8OIcOe83U4cAdtY4v7MjvWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jMbIFB5e; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1783079945; c=relaxed/simple;
+	bh=L7J0ROE6wLSCQByXzCGOE+AxJp0npA3yn8AEZRw0WAs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AIlV2MxXiyw08KmjjA+Cf8zZ+QrKD0mwHpfW6lnVmOQzJMoe9CZPIcyYapRnGD/B1CWqdQlhdy9lrfhGBlpXVX9i4mFQ9cWxJITQZ1QjVWqLzI1sKQpsfriMOLPLsw+p6yvlV9gJNz9zJ4uewa4/1AwoyZfYhUx4JsVGbe/t9gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=niVDhjzK; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=KyF7lq68; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jMbIFB5e"
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72007DF3;
-	Fri,  3 Jul 2026 13:58:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1783079888;
-	bh=9RkqNxccYBDEv45d8DCin2QlOks8W9i+BqfQdAypggA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jMbIFB5ey+7gjZZYQ/z8CrT7gJhPjlRtqGNABHNB2rlXYjJ5jt7tnY/SmfHA5A0pV
-	 8WHJHXoPULdNEeqwQ8GY54A6R6amUWuvdjynVgYeLUvOE/7Aqbo4OzLGw0FgaCDFzN
-	 qPp/rlyuwWVCp7fmgjR0wZvLzJjOF38Y9wIkEfGs=
-Date: Fri, 3 Jul 2026 14:58:52 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ellie <el@horse64.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	David Hildenbrand <david@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <20260703115852.GC3659451@killaraus.ideasonboard.com>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <53942438-a44d-4578-b1c6-d45c2af1767d@horse64.org>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="niVDhjzK";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="KyF7lq68"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gsC2r4ZqNz8v17;
+	Fri, 03 Jul 2026 13:59:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783079940;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ZXICK1mdeCK7VdDznnyllzaidC+uzcAfl8/1FTyycxo=;
+	b=niVDhjzK1BBSGFVoC21+SDLXB18XSDDyMx/P6m+5skAjvMqS8eY5S8CBF8d0B87TNGnI+m
+	NJd26ESWxGesHuFTLDSS3Ugj42UDsLLsq+aWvM7Lbrz82Zcw9f0hWCp3pOKfsnZwSma2nb
+	LmVFJYQcTJsoILclVZIsAPCZiAYZ8cml+Ba0u5esJrQ/wobkSj8CryP1X3XYFQohOQJ4lf
+	ywt2ICX7zqDYISDPPg1+LF1s1rmwR6Eo2rbP/wySELxwdkecJLAwqfmunuBgP2711+V0Nf
+	2oJnrxOYh7vIqd6YEgPGMqHdC20ZCNdAJZXjDoTCj90cPPk6GV0TtQ1Tdqv41A==
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783079939;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ZXICK1mdeCK7VdDznnyllzaidC+uzcAfl8/1FTyycxo=;
+	b=KyF7lq68w4pta5cCxL/F3cop+7Md73QrXe0mfxZZYF04xZ7NEU6ls9drlHT8/2w5KXn5oD
+	9zQAz6N53sQhOd0N3+4tRGJY3604DV2OfgDi4YGsY3RBU2Ms9lyN9EJD2JJFr/FMWoMPPz
+	+X/gsRMuqPQmjho9gR0mmDwTMIHsr/f68SHZZ2jWP3Wi7yTEEZCm03rp+fS+lZWAqJv3PA
+	O6KnqJiUvIloX5wBiGBbZ+2my48XDxZ43b7jS9vi6k+2cahy2tRDwDMWyWeki23YSTfHgl
+	kxEyJfrtyKFSFd/v+W6odLYYH0564ESJs8rloLFW/93VPzRY5myrgGbBl1QU+Q==
+To: Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Manuel Ebner <manuelebner@mailbox.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] sched/Documentation: fix code
+Date: Fri,  3 Jul 2026 13:51:15 +0200
+Message-ID: <20260703115114.229848-3-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <53942438-a44d-4578-b1c6-d45c2af1767d@horse64.org>
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: jbqwno9gex6ps6tfmbz4pdte8zncy8hp
+X-MBO-RS-ID: 291543d9e9cc0f66ac7
 
-On Fri, Jul 03, 2026 at 11:21:28AM +0200, Ellie wrote:
-> On 7/1/26 5:54 PM, Christian Brauner wrote:
-> > I remain very confused by our coding assistant contribution guidelines.
-> > I'm going to be a bit polemic now but this seriously in good faith.
-> > 
-> > Why precisely do we require all this detailed information about what
-> > specific coding assistant was used?
-> > 
-> > I find it very irritating that our git history has effectively started
-> > to function a bit like a free advertising platform for a bunch of AI
-> > companies and their proprietary agents and models.
-> > 
-> > And it reamins unclear to me what exactly we do get out of this detailed
-> > information: Do we want to run statistical analysis on what agent and
-> > model is used the most and publish that on LWN at some point?
-> > 
-> > I acknowledge that my stance is even more radical: imho we would just
-> > stop it with any disclosure requirements completely.
-> 
-> Sorry to drop in as a relatively uninformed person, but it seems like 
-> the following mails would be relevant for that discussion:
-> 
-> https://lore.kernel.org/lkml/e12330b9-c29e-45ca-9375-9e3d13426d85@horse64.org/T/
+checkpatch.pl returns 'trailing statements should be on next line'
+for this file. Do as told.
 
-Your messages got completely ignored for a month and a half. Most
-developers (including myself) don't read LKML due to the high traffic,
-but I'm still surprised by the complete lack of reply. Maybe CC'ing the
-workflows@vger.kernel.org mailing list would have helped ?
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+---
+This is the only checkpatch-error in all of Documentation/*/*.c
+---
+ Documentation/scheduler/sched-pelt.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> If LLM code were no longer committed to the kernel, which wouldn't 
-> exclude using an LLM to pinpoint problem spots and security bugs as long 
-> as it's not used to produce the fix itself, then the commits also would 
-> no longer need an attribution.
-
-That's absolutely right, and I would welcome that outcome. At this point
-I don't think I'm talking for the majority though :-)
-
+diff --git a/Documentation/scheduler/sched-pelt.c b/Documentation/scheduler/sched-pelt.c
+index 7238b355919c..38ff53dcf352 100644
+--- a/Documentation/scheduler/sched-pelt.c
++++ b/Documentation/scheduler/sched-pelt.c
+@@ -25,7 +25,8 @@ void calc_runnable_avg_yN_inv(void)
+ 	for (i = 0; i < HALFLIFE; i++) {
+ 		x = ((1UL<<32)-1)*pow(y, i);
+ 
+-		if (i % 6 == 0) printf("\n\t");
++		if (i % 6 == 0)
++			printf("\n\t");
+ 		printf("0x%8x, ", x);
+ 	}
+ 	printf("\n};\n\n");
 -- 
-Regards,
+2.54.0
 
-Laurent Pinchart
