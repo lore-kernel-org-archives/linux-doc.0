@@ -1,261 +1,174 @@
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012067.outbound.protection.outlook.com [40.107.200.67])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39222306B3D;
-	Fri,  3 Jul 2026 18:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.67
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783102850; cv=fail; b=L6Hvr+tqADvVU1wXoiDWN5L1ihn8URfXdYIeirgJ1jNHkkCURS7b7cIim+iLQLSB66KJH7udFF2cDWz9E22Fhz1EH6TU11jimTQudg0tRIT11OY/64S9dPZI0CgF22Qb0xI+GIUuaZ9mfFffxYGRHR+oLhe7idD4qmUBPMTLGuQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783102850; c=relaxed/simple;
-	bh=zEthxRk63QzVDiKKC94eeNMLcO33OCRjKSRPLAeml2c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Trs/pQiutpHhldszkWYp2PiKJ/jW4GyRiJkADR67QV+oPHM0wzqJp7fqrWggazyKOs0yVonJ9W2iQ7xl+6ZwdXTY9OBvGLgrQlnjkOkxbLD7WYmZnwcpr9dA/UQhP2hATOUHoUiBz5GoVnoatPT7W6M8OPArosO7HuDxH8W5+Fg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=EVOhpxfR; arc=fail smtp.client-ip=40.107.200.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0CE31618C;
+	Fri,  3 Jul 2026 18:22:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783102949; cv=none; b=AOzBPPf9OJqQcVXrOm+UC48fB/dRFLQlr9ttFdGiUGRiHpUC9ws835UFN9CGNIj2Voipx4XoqY+sOz2K4r67wc7pVFkOFRUfbQ49XJnVtBpTuOy9MpnbgoeJgR/j+mu6Bq+pLzMp24bzx6mum/Kj/idCcUpuXNbQL7oFJvD2onA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783102949; c=relaxed/simple;
+	bh=FGGmIX/mKtWxhwvXCj6PR1fkJ44syenNK+NDoOTo7c0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pmOowNNJ0Ji8Ge/HKk+0dyKC3lF6+JVrWjzPy8pPghhS/GgQU5GXTDUawtspqNS51gzXp61otPOTz9SmyzhRoOovH7t5RVA7BKJWpkCwByJZ21wXSb3bDjQxCVNIm85AsKLIQipvNC6qis2VOWQtVpcW8RA6OE5Ckqet/vGV9SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ciZxoSwb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="EVOhpxfR"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VanHh2mIOv9ePyGOL/1TFsOtJ9KQqGN63gn0Dz6J+2eCvVr7cPnON83ayJWdofKLNYsNFmQPNl35KmL4UvqQ5kdhmWff8rePH8Q3nUQFpXsdxOC/bMYNFZ8/CDNa7jr/NcxgLcfjG14MQc8hSngyZ2qRseJShWTiezWF6MGU1g2+pyl91gdTgXfMT0iUlcnl+xS9hS9cqtR7Y3iNLkuZmfVIb3E/Qh4+5ZsBYJ+qMlcxKf3NLITuy/9vXdLGf/3GJm85CnbVfooK0Ht7KpElXThA6aXImwYgiqZw06j7gFFpM3CKDdYJrQZr8AYeJgkybOd4AImGOlrg6ExtwsReBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LUljg6f3BD8iAjDs15x8O/Vr2BTQ1Pd32HH13TKKb8A=;
- b=ltqg5MmIRL4LvM4MBw3e6um6mLT6rhxX3R04oQvRnRvyGSmGu6ip8bJqopxmmwLp55yBIel5Sa6HwnOdCkYV1Vz7uK0lIkVshkT4AFtDfVoqBTW6xxIG/ki6HEICRFG/k//YXtkKRaljtOLsPPEyg93JWvp8Mj2gXwhxkpe8ZqCOu8ZNa+f2VfrOpygWZ1lFh63TzMjO6l0oKT7pLamFuxZsvlRm7Pbyaq2V3N/rnezfOUKnDmKxjrTxIAZkOlyF0WCS3sE51CLIM7Tgpm9PZlvQH5LPHb1ZH9nyxqV8ozlCAOjzBNPqwNIVyuRfezhmHDvW6UVPor3DicOuvEj4MA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LUljg6f3BD8iAjDs15x8O/Vr2BTQ1Pd32HH13TKKb8A=;
- b=EVOhpxfRpyAmEN4naSbEpFMyes40JJ2M47tVgHvmqoyhd+gGVVYTnRznMLF0StfvYHxhoGz3u6A3lS9S6+7rG30wfH8cAqa4UrRuFqvrdnuWz+Piy8XOeuQKzh+/YFqR2o2YY3ZjalpIzRBwE4EmLZfD+3pRPp8RVo+eOpIPA2wHPDGwG5QlOcW8wmJF/iEaxaXaRVy0xTqUFxPzcu1WRlYlkhJQ6iXgdyrA1PpQirva69egn6t3FD3okXVM+tT8FKGljsRYEFvdvWExZhENeuAA7GQEloPA0Iu2oYHPV1kEevXr30T5b5REJzhY59OQIvnRlhXVDeFRczy58I5dqg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by LV8PR12MB9642.namprd12.prod.outlook.com (2603:10b6:408:295::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Fri, 3 Jul 2026
- 18:20:37 +0000
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0181.009; Fri, 3 Jul 2026
- 18:20:36 +0000
-Date: Fri, 3 Jul 2026 14:20:32 -0400
-From: Yury Norov <ynorov@nvidia.com>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-	corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
-	pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-	huschle@linux.ibm.com, rostedt@goodmis.org,
-	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
-	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
-	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
-	christian.loehle@arm.com, tj@kernel.org,
-	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-	rdunlap@infradead.org, kernellwp@gmail.com,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 12/23] virt: Introduce steal monitor driver
-Message-ID: <akf9cE22wvPeYNiM@yury>
-References: <20260701141654.500125-1-sshegde@linux.ibm.com>
- <20260701141654.500125-13-sshegde@linux.ibm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260701141654.500125-13-sshegde@linux.ibm.com>
-X-ClientProxiedBy: DS2PEPF00004560.namprd21.prod.outlook.com
- (2603:10b6:f:fc00::50e) To LV3PR12MB9356.namprd12.prod.outlook.com
- (2603:10b6:408:20c::21)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ciZxoSwb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB8A01F000E9;
+	Fri,  3 Jul 2026 18:22:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783102948;
+	bh=WmMmpkORNs97pYFUZCo2EC47DaLH9PCLV52WM66pSIg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ciZxoSwbYsNA/Z6KD7nJ/utifoY/pT0yYRUW6+2H7B9Y2fOtUJA3HYH6E4XhESeXp
+	 otH4QDVvMYaH0ww5rvcPoekmzyuRC/Vt1oIIif3BwQwo9MQ5ROzX7zoQTD1g3LZ1/y
+	 4NcogTpeyRAoSI/FoPBmP0NZQ6e9NLjrapOn4zdSkPMm/RWJ/ECvjK/CznQ183wefV
+	 SuY+PrshOGdkOl65st2KNkxD4rE6DXv0JUGrTwDQaG1PWJyNrHLb6lhyuHyY6Zxh5w
+	 gBHeNemNyCnyd6i1ufTEduUwfbqCm75jQ7RgelFr1wJQJZ/dtywtxK2q2PD1LRQqbV
+	 fXu3vs2frtmQg==
+Message-ID: <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
+Date: Fri, 3 Jul 2026 20:22:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|LV8PR12MB9642:EE_
-X-MS-Office365-Filtering-Correlation-Id: e8b84ef7-1734-4733-d403-08ded92fc74d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|10070799003|1800799024|23010399003|366016|376014|22082099003|18002099003|11063799006|3023799007|4143699003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	a1WFQ/tfem12PzKJoeOVNhQOseBzqMkRpnzBgnxl24dYs4bTl+jlz8foBlpqDT4bh8Kps4dLfzRNQ3qHTKgip3aPQF8ITFFkzuS8f02p1Aggmf2qQkFWqhHeXEqZzStTeZ85WqsZNbiKnA0pvkQ/PuPUj1tEGs2diI85WikYRMrTTx8QRMk/Wd/HXhTMLlB1wnhonE766n6jNJtZOzaOJf7KTXVrb7iTmRg7Y6azCe1V4qeFrOzmsvKqnr66fD/f5m8A3teS6orw0UrPNwfHA2N6aSdzctWDiebQm3R4cNcInHvehq9P9w1J1kuuk3sN5Yq3DtIPBuf2EIJ5MlNww9FkPd4aVUwjYmJxLpjr112SUACqP3imJ0DX/gX2qTyRZjgxye6+UiKlsym2eYVoCIYRFoXqLTThfb+pFi5Lxe+e+j0zMCmtncsNrFa1T8ahXPRVZGHymQzw4NazUI913LqjaVb/e/5jyUsHbzAw5/jpbfPSULWbx6kUbhAKlGYRFYf8tlw3l4vCBPgiuoM2uXVLHKEszGOfiJLXBvLY6KtZW1P6XwBdIHcb8Yo/NbAhbuFBWnDMxSLwDVWkieTsU+JaVOgEmnAgCyXhTeEiwwK7RTrxkKwR8Dp/j9LIxwylhhN8ohRGm2a2w179L1keRGtak7taSjtjQYR05RrSVyY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(10070799003)(1800799024)(23010399003)(366016)(376014)(22082099003)(18002099003)(11063799006)(3023799007)(4143699003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?3UVh8kGpzxjrMhVpOLaEyc2/UOhmJpkzDv7Jx7fFBYAdULMGc1Az2ixL2+lt?=
- =?us-ascii?Q?jx2/MtxwTcRL/Z4Kq0LN8ZwyJ/YS7mykoXb4aZcFlTmfgZfeCw5PS0pTm7uJ?=
- =?us-ascii?Q?uWNVKKYYURtfLoCmkuCDCmNpAs0x7FX6H+h53Wfj7Zu6EmbBYbB5QHMC+2lw?=
- =?us-ascii?Q?5GfrMzg8RvAQKAHRdpAZIrtM7+oyVuVTBBdZonNNYjWpyUrD7Th4gMbzkkAc?=
- =?us-ascii?Q?dP/XSNkcrMgoZqzcMne1/EmEjgUp7n24/bbICGc6ZaUpQcsFjclIc42opPIS?=
- =?us-ascii?Q?pbEc6z7J8ER1KPLKgQQCcukzmrQOZRqJCniaLXDTGE4iL7BoVvVOTul8TcZo?=
- =?us-ascii?Q?kjjatggEi4Xayknvog7L/lp2DzV/LrDa4YBjpr2uFX4uucxw1MOg7ufe74p9?=
- =?us-ascii?Q?iCEHEsyIbenoVXszjeAtR8dVsPF1k96qaJ2Wd5a3ExQrEdKdTAwRqjbL4atd?=
- =?us-ascii?Q?Ymb4nw5VzcS8YiengXjbcA47Pxyboe0wiIR5RITOuPhg1SGUQjZcSq/5tI2B?=
- =?us-ascii?Q?phXm9dWHahw6jtmPCJm0ZQMgCz0O2s1M8FPGSOfJt+F+2ZCauUdEVJJ3hELJ?=
- =?us-ascii?Q?U1coQgSnAWcEIy+IbQjb02r+G5M9V8b7x+rSknXNYBxBeuVO+JSQdFVSyE0A?=
- =?us-ascii?Q?fMYE5Ixetv7VZaOuFBeC+T5d2T4Yh/wmhQkFnlOoLTga3axYaFGx/5enmKoV?=
- =?us-ascii?Q?1/r7pnTbwKWiJda+RNROPhDJ44lqXuzBcm8SuDnkN1sEQZxqO5da5akukIDk?=
- =?us-ascii?Q?V9jsxQtHqJZMvjxrrT1ex5Z1fZzYAy/F0SCicm/GgZ28fJWZZL7E6Y9m0D4f?=
- =?us-ascii?Q?c9EzUKzC+A3arUmfaed7FfpnGiBb1yRAYUNAXywDW5UISRz0t+kGQ7MEXQCX?=
- =?us-ascii?Q?nTYV6ElH0VJycr//1t7Y7FbS81Se6hvje7Pb0vC7sqbIjhOoaEA4Njryw2fk?=
- =?us-ascii?Q?x+xlG3w/b+yqmM8jWVCprIw30DhyjJWsazMiyQzTZPYcNr8i22JHwsErfbWL?=
- =?us-ascii?Q?Kqs/iIZ/KMs5Xzyn6CEaoqdFMDraYvKbV20VYidpS885ktVhFaaR3tVqKnlU?=
- =?us-ascii?Q?K0S1rAHvFQbgj/G2U0g5TZxYycWaya2AtY0kVqqzB5WrcHd5PGIJFaggjenJ?=
- =?us-ascii?Q?+N/KVmWF9i1+323npxIU3mz6QoBkyZq5cB8T9IRAMcQq/2gT33OVXPAX0fxS?=
- =?us-ascii?Q?XN7JzA+xyOcNHc+xkLk7jXlBPeUUAV8pTFIb8cqL4Q2iBQD+hXy5jxsa3q7f?=
- =?us-ascii?Q?SkQHCECS8coRk69vDcwGf4KANc77mbpiXrhGN4QzL8+lACr6yutgKlJsmnEx?=
- =?us-ascii?Q?922rGlMF3Ymy9oJ3oe41E9ebE6iNn7hjTCkHHNAVjsG7z0G3AQQ62joKqlAy?=
- =?us-ascii?Q?oGDGUDzQHbB0FJLjyKWV+v+7m7cFbSPzeAvwOIuams8zPMbyD6D/XSEtubI1?=
- =?us-ascii?Q?/SuZQTZEBTCdiOWfnyAKaxdOnfeoFrglc/vPoqw1RoKRdkxsephWtXtOxGdG?=
- =?us-ascii?Q?o7Vs6pbGVNE95CXFR0PKMPE46Nw1sw/jIUzTs6OfvPRDy6yk2ovcAOx9VQy0?=
- =?us-ascii?Q?l0dJEg2bXLo3i3xotEyVwuyjmvxxqKB7bVXH0oMFJ8p0vflJsDrWCkWsYS+I?=
- =?us-ascii?Q?Rzi0NdQOZk+aVipQMuQVLr+U3tiA+bOvIApQFCxEL8y5GkCyCvOieUQHaXaX?=
- =?us-ascii?Q?zoKsZRdu0mvPnx+PLKNO0iwWppCp0eKUoAtarVYUFFcZk6sOE+40H2GAx2Rf?=
- =?us-ascii?Q?cJlSpntHYN7q590XLQ+JbF315qDYcHD8ltt7Ca+jBF/fVls+/ZoIYPq+97OQ?=
-X-MS-Exchange-AntiSpam-MessageData-1: +Wd+j/l+CyL1BA==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8b84ef7-1734-4733-d403-08ded92fc74d
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 18:20:36.8693
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dlYcBUZPNmAWRZbhtDeowQw3nblubw9UNJjwXDeILHfHyLl1hugWxCOEG/UvMlhtzMhaQWxOqFn6Ndh7J09BXw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9642
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Lorenzo Stoakes <ljs@kernel.org>
+Cc: Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>,
+ Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>,
+ David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+ Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ "Christian Brauner (Amutable)" <brauner@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+ <2026070224-unholy-commode-cf45@gregkh>
+ <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
+ <20260702161330.GH3534761@killaraus.ideasonboard.com>
+ <2026070227-payroll-eradicate-8f66@gregkh>
+ <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
+ <akaWnQ5Pkg_676B-@lucifer> <20260702211740.GA639365@zen.localdomain>
+ <3f447113-4407-471f-878f-e6d6edafee71@kernel.org> <akez23ZhLRSGMFQ1@lucifer>
+ <20260703163251.GB3734786@killaraus.ideasonboard.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
+ ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
+ AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
+ 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
+ g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
+ ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
+ 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
+ /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
+ jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
+ DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
+ HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
+ 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
+ LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <20260703163251.GB3734786@killaraus.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 01, 2026 at 07:46:43PM +0530, Shrikanth Hegde wrote:
-> Introduce a new driver in virt named steal_monitor. This driver
-> will compute the steal time and drive the policy decisions of preferred
-> CPU state.
+On 7/3/26 18:32, Laurent Pinchart wrote:
+> On Fri, Jul 03, 2026 at 02:12:40PM +0100, Lorenzo Stoakes wrote:
+>> On Fri, Jul 03, 2026 at 09:05:58AM +0200, David Hildenbrand (Arm) wrote:
+>>
+>> I personally think 1-2 are the only relevant cases.
+>>
+>>>
+>>> Yes, I raised something similar as reply to Christian's RFC [1], where I said
+>>> that for me the information *how* it was used is much more important:
+>>>
+>>> "
+>>> Assisted-by: LLM # translate commit message
+>>> Assisted-by: LLM # generate some test cases
+>>> Assisted-by: LLM # cleanup logic
+>>> Assisted-by: LLM # everything and I have no clue what any in here does
+>>> "
+>>
+>> Yup, and we don't need complicated rules for that just 'document what you used
+>> it for and give a sense of how much'.
+>>
+>> It's fuzzy but useful.
+>>
+>>>
+>>> That tag is it stands is pretty useless, really.
+>>
+>> Not to go over it all again but I disagree, even as it stands, it allows us to
+>> engage in conversation about the LLM usage if admitted, and to point those who
+>> are misbehaving at the rules if not.
+>>
+>> And it is a clear way to get the boolean 'is this person saying they used an
+>> LLM'.
+>>
+>> But I agree with you it'd be MUCH more useful if we did the above.
+>>
+>> I wonder if we could get consensus on adding a section to the doc saying that
+>> it'd be _useful_ to add a comment explaining _what_ you did, and explaining the
+>> concept with some examples?
 > 
-> More on it can be found in the Documentation/driver-api/steal-monitor.rst
-> Introduce the skeleton code first.
+> I'd support a patch that replaces
 > 
-> There is no new kconfig. It depends on CONFIG_PREFERRED_CPU.
-> - If CONFIG_PREFERRED_CPU=y, it gets compiled as a module. It is not
->   loaded by default.
-> - If CONFIG_PREFERRED_CPU=n, module isn't compiled.
+> Assisted-by: Claude:claude-3-opus coccinelle sparse
 > 
-> File layout of the driver is designed with having arch specific
-> files in the future.
+> with
 > 
-> - sm_core.c - contains main driver code. This includes the periodic
->   work function and take action on steal time.
-> - defaults.c - contains the default implementation defined with __weak
->   symbols.
-> - sm_core.h - header file which includes data structure.
+> Assisted-by: LLM # generate some test cases
 > 
-> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+> and rewrites the Attribution section of
+> Documentation/process/coding-assistants.rst accordingly.
+> 
+> I think most people in this mail thread have expressed that how
+> generative AI was used is the most important information, and several
+> people (including myself) have expressed a desire to stop the free
+> advertising. Unless I missed something, I don't think anyone has
+> expressed an interest in keeping the agent name and model.
 
-You've split the driver code into 12 patches. It makes it impossible
-to review the driver as a whole. Please make it less granular. 2 or 3
-patches for the new driver is more than enough, I think.
+Yes, that's something I would enjoy seeing. Who reading along has a problem with
+that? (assuming that the tag must stay)
 
-> ---
->  drivers/virt/Makefile                |  1 +
->  drivers/virt/steal_monitor/Makefile  | 14 ++++++++++++
->  drivers/virt/steal_monitor/sm_core.c | 33 ++++++++++++++++++++++++++++
->  drivers/virt/steal_monitor/sm_core.h | 11 ++++++++++
->  4 files changed, 59 insertions(+)
->  create mode 100644 drivers/virt/steal_monitor/Makefile
->  create mode 100644 drivers/virt/steal_monitor/sm_core.c
->  create mode 100644 drivers/virt/steal_monitor/sm_core.h
-> 
-> diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
-> index f29901bd7820..aff715cea42d 100644
-> --- a/drivers/virt/Makefile
-> +++ b/drivers/virt/Makefile
-> @@ -9,4 +9,5 @@ obj-y				+= vboxguest/
->  
->  obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
->  obj-$(CONFIG_ACRN_HSM)		+= acrn/
-> +obj-$(CONFIG_PREFERRED_CPU)	+= steal_monitor/
->  obj-y				+= coco/
-> diff --git a/drivers/virt/steal_monitor/Makefile b/drivers/virt/steal_monitor/Makefile
-> new file mode 100644
-> index 000000000000..24cee55342ce
-> --- /dev/null
-> +++ b/drivers/virt/steal_monitor/Makefile
-> @@ -0,0 +1,14 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# Steal time monitor to alter preferred CPU state.
-> +#
-> +# Arch can implement strong function definitions and override the
-> +# default by adding them in arch specific file. It must ensure
-> +# that preferred is always subset of active.
-> +#
-> +# It is always compiled as module if CONFIG_PREFERRED_CPU=y
-> +# One has to enable the module.
+-- 
+Cheers,
 
-Why?
-
-> +#
-> +obj-$(subst y,m,$(CONFIG_PREFERRED_CPU)) += steal_monitor.o
-> +
-> +steal_monitor-y := sm_core.o
-> diff --git a/drivers/virt/steal_monitor/sm_core.c b/drivers/virt/steal_monitor/sm_core.c
-> new file mode 100644
-> index 000000000000..e320559c6576
-> --- /dev/null
-> +++ b/drivers/virt/steal_monitor/sm_core.c
-> @@ -0,0 +1,33 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Steal time Monitor.
-> + *
-> + * Periodically compute steal time. Based on the thresholds either
-> + * reduce/increase the preferred CPUs which can be made use
-> + * by the workload to avoid vCPU preemption to an extent possible.
-> + *
-> + * Available as module with CONFIG_PREFERRED_CPU=y
-> + *
-> + * Copyright (C) 2026 IBM
-> + * Author: Shrikanth Hegde <sshegde@linux.ibm.com>
-> + */
-> +
-> +#include "sm_core.h"
-> +
-> +static int __init steal_monitor_init(void)
-> +{
-> +	pr_info("steal_monitor is enabled\n");
-> +	return 0;
-> +}
-> +
-> +static void __exit steal_monitor_exit(void)
-> +{
-> +	pr_info("steal_monitor is disabled\n");
-> +}
-> +
-> +module_init(steal_monitor_init);
-> +module_exit(steal_monitor_exit);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_AUTHOR("IBM Corporation");
-> +MODULE_DESCRIPTION("Virtualization Steal Time Monitor");
-> diff --git a/drivers/virt/steal_monitor/sm_core.h b/drivers/virt/steal_monitor/sm_core.h
-> new file mode 100644
-> index 000000000000..684a258526e1
-> --- /dev/null
-> +++ b/drivers/virt/steal_monitor/sm_core.h
-> @@ -0,0 +1,11 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +#ifndef __VIRT_STEAL_CORE_H
-> +#define __VIRT_STEAL_CORE_H
-> +
-> +#include <linux/types.h>
-> +
-> +#include <linux/module.h>
-> +#include <linux/kernel.h>
-> +#include <linux/init.h>
-> +
-> +#endif /* __VIRT_STEAL_CORE_H */
-> -- 
-> 2.47.3
+David
