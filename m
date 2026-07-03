@@ -1,64 +1,63 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5471029D267
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 17:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63CF2BDC2F
+	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 17:26:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783099367; cv=none; b=Gwp52vjmaJawBQOZqmROxO/iBbjk1uAteA1xEf7MT7zo2qnrGTmFnVFvoPfavg2iZnbqXb+rZsKEe6c0R5LW/xeFhmsQC00cFYPnhPAc3A78yslvBceXHIKL18SAEYhII8eUmN6rXTZOpW2KqNa2WR1HvA3fr3IEUs1ObtlNvQA=
+	t=1783099582; cv=none; b=l6eMJySTJKV6YK8WqZWdXIeiLrHDXrsSfJZUX/gcSXOPpaLP0ve5D/c/RHDV3lQsBb93ju64zefKQ++b9tZf05huCC+oT/Wamq1zzaZcPpiUGe2xFPAVAChF+z0C345Utwryoo4m6BtnU5FE4O4FTYE9Txp1mM2IKi5k5eUQBtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783099367; c=relaxed/simple;
-	bh=8Q6S8eSRiXqqbVyN+JydEj02y/pvsZwRU7MyCqulak0=;
+	s=arc-20240116; t=1783099582; c=relaxed/simple;
+	bh=kmlEfEMENf5B5OQEKeJVfJ9bqjpmPI836N1QuotGv50=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uABdXLcszmqyLke4II8713HiSwKMxYRvOZLVRYVwnCVr4u/DVwyrr3W29ElUeNfBYGDkfGhuSK7OdjhDiJeBpGdGkhfoziR36i4Byzbn+Wzf9lxDhLcGWrC/MesMlIzu3d/qj/Q+v5/O0UAROm8G0DxlgOqJCcWBFBS8N0Hb8MM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=nXqp1SsZ; arc=none smtp.client-ip=209.85.222.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=KxpYBc3uA31AM2pK/QjCgidn3seKetGSxmRLdRq9XSza9HNJ1N1oGfBAZ5RD9LBo/gCba7D8ZGgQnIwYrn85bGXxabm2frDnjhv3mWpvtSj7hQ/09F6jMzh+cd38HPPg6pE5HoQP/FRqNInjvORfrDMYf4ws3NtSAPn9bC+58ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=dqm9N3E4; arc=none smtp.client-ip=209.85.160.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="nXqp1SsZ"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-92e7632b193so51868585a.2
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2026 10:22:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="dqm9N3E4"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-51bfad59921so5380981cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2026 10:26:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1783099365; x=1783704165; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1783099581; x=1783704381; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wNR9K06lLbEYvnJ4+KHd4VFdF558bi2QMUxDhjH/sTw=;
-        b=nXqp1SsZy+If0hVpw9SrUK9ykGlgrBTwX5oroIWhjM+mherTMdUO4tIrVS4Fnl1lbE
-         0VRXmb9Ktn6tcPi/6wmVnMWpOkWkyi4ZEe7P4YbIQK1hpbbCzTFoHGxElDy0LtGCIRFN
-         9y89GpHqmg0bBY5hCvdNJmKeZR4yo9yVdkXvZkDyu34r/g3anUfKE7Ahm7kv2iFK7eyZ
-         1p5e6RMQoVhzYNSgw5CQMeCi80LGUf8hoEs2Hhm850Q7PF4Owe9Gns+9eoYpIA7bBEWE
-         Ct/NkuQUMSjhc0fiBGL188Y5zyJW6Wf1T2avqONYDHud9M58PRs5TOWq+qR6zCA7qRTf
-         bjZA==
+        bh=zrRsjM5o4NMj7VanY+1CWD4IDpNUJIwLPKO0n4Piuc0=;
+        b=dqm9N3E4DlwHUPJIvQZa6PcCZqi/kq0K+SjZLm1Bs7LU4fJLaNMIj4f6CMvIoJ3NK3
+         JleBZMwifBL2UvwTrgAmKxYiV2nR2Ii07Fsuut/Way8fCAu4+QUsJH5I1vONBoqehMuo
+         S7LoL8mjYEbvqtz/IrquqcPPYFdCkopHI/e5DTxQkUO6GwHcH7jBh2jQ095FfaDQQspA
+         xpiWMwKJRgAHjxoxbPWCdR9WhdzNakiADBUDEE5qaUjII6lZcCKcVwhCrPNaezIy+3S5
+         Mqq55qQ33GpzrvPRy5VCPTRZcLnJ6vzyj3E2QNnga8mxFajXSM2JwxBttQVyBY630JLF
+         TZUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783099365; x=1783704165;
+        d=1e100.net; s=20251104; t=1783099581; x=1783704381;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wNR9K06lLbEYvnJ4+KHd4VFdF558bi2QMUxDhjH/sTw=;
-        b=iWwZJ0BLIcMn90NRbl5CCfHpp0fvZsbkO1FRXlNs7D7SjosLDcqsxmRM4b3Bka9PYN
-         fboiTbNZveEGat6SLb/iIMUzEWs7+w1SqwYRMKpMbC5ILytVCf5AhR0LZHYa4qsNfQ9S
-         dN/wrpL0JKa/ZqM/UrLsdETn7WkBBiGktdIHB5pQ0IjW3NNEYzdzGV3sItYKWK7LkQ55
-         H61OK6CZ1lfljkYSsPq2DUJnEyRsjWPN7KIK+PXHemGLelN6Y4l0f1eymQgFpDCx2NtG
-         dFe9GK8fiOTzrtKDqVWYOjodtYAhokdxorW4Cgi/cM/YAQ+HSDX1cHwGZ0t02hIlNLft
-         7h7Q==
-X-Forwarded-Encrypted: i=1; AFNElJ9Vb9IK/7CaOQRKTEeEBJPI89z8Rc3Nz6zJ0ertK9CklMUkwtmhmmRHy2/BAtnAASCYn3WC83YnMII=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzTYKIOlhU6Gf1yxxz3vKpUtcfwU9nGzFBqwoTE5IsIjBnC9yI
-	Y8MjMuvCY6IMo/20mGQgZImR5sdG/E2uzfJeG6EZDfXXCq6h2Sw8RWmlDSZUevuDOmsK8wwtQOu
-	eZm7c2H8=
-X-Gm-Gg: AfdE7cnptfXncdfcRuBGgSRGgTmFuUwNw6CSKYgz3JV0ZHtUikRTwzKPLhuxUfqRm5T
-	pRpNXSbsVAaMFmJ9ng8VcVlrVVAWDl0chrchl4vfcl8fKFEYVZIhUNWcnaSTi8uYfcoqdSRmDEi
-	PcBED8wwkA28ag0Rd3npPtMKfrEdl1xQXUmYJCFY0aFo2eQdJDOsYbixod6ZveM8IXzKh4Im1vk
-	q5ytiaKhiD8D+Ah/FbfJu3RoOseId20ReMb54QyyMP/a1vgN6FeOtySDeuTAq64Pq07HlQIv+nG
-	SPhdRZ/A5C6+gmucYOuibNF5TJvpX0e7G+vkyjJsqyQ+ivYJXH4oG7IpOQcWeiw3ls1AH5uRazL
-	Bbr6+AeA64WzloL5pBgUjvh678deaX1VCesJMF+E/hZr2L4upYRq8D9887FkQhZF40c+UfiDgdd
-	X15sh50w==
-X-Received: by 2002:a05:620a:19a1:b0:92e:8fa2:be6c with SMTP id af79cd13be357-92e9a49f558mr44070485a.39.1783099365081;
-        Fri, 03 Jul 2026 10:22:45 -0700 (PDT)
+        bh=zrRsjM5o4NMj7VanY+1CWD4IDpNUJIwLPKO0n4Piuc0=;
+        b=e4ipbBNl/xcTj5Pc4arhscEBdhhsdEwglTR5yZ7h47cOnUOKKnqzZ/C1RSoblkFZyh
+         rwf7JmTUTJMaR695XIbJNihWaazE4bRTI+4Ugoz8nvm3eqMYU8rs3o9IVQQ45rtdM6qn
+         utzsVVHEFT1oM+Lcz1fBqvbPjF4zkU3j579JEtPKUoLaD5CEBG+G8Q/QSIajOMraibCr
+         RfEOVs3X82pyyD+Ci8rKBtutLro2ecSpSsEM3A1D5iO5HsJ0lEGC1fOSX+vzpaWk1R+r
+         KclVsWO4KQeJRKPjFZVTqGLT6eUGIJvhfLAKBTSdYDRzoQYeBWfsiw0eo94eaxSg19AW
+         dXmw==
+X-Forwarded-Encrypted: i=1; AFNElJ/BLK3/AFLcJN6Wcm2b+GaX61jM9ovbVxE0+MSdtnS+C0auRX90RNHqK83oqFErfdNkSWTW48Pz55E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDdGqJOOA7m+y1XfEuMy9M/Sdxw/SCj16QLNPm7zRyunYeSxTd
+	WRtIVU1p+ojbpM4d3IFgL+pAotoJb5FpzRi3y0bE5rIOg1UniTQTFyH8A/CgSWV4DZY=
+X-Gm-Gg: AfdE7ckK6zDhwDqh2iX2JpM7l0/tWg1/xa18jZUXEiGB++Ts4bmwIMmdTdsBTpP/EcP
+	c56t8+m8kDNsmPXX116bvGIIwzILNmN7RvvCGB7dZwnwdsoPP99ZkfjIHS0fOOMgyQM1RhC/qN6
+	nhZyU4Iu+a3/8WqE7ftOCGVVxPvTUkyg/DxK/cqMBcnIz0tKHJBuyjz3z+mHfo+PXWQYXlMvWWd
+	oYKTC7xMcAjGDWbugua2s5wuoYb30nLy+v3ZHWGgvpBSy0rKNBS+EjWPEQhqwMiGj/0Mq/Cn0b8
+	fDpUkkCjbn6BeJU256Ihf2unIqod9bPoOyEJ5VeaVUbKRnkaWb3Q65GaWTNvAJIbTq8RGnRxwFB
+	ysuKohWGhDlVKZ2aMz6hueihes1milNvLu2aZmaBdwrK3Mq08sOb06DXtCBh2gJpsaA8kbEqw2e
+	rOLfcEvw==
+X-Received: by 2002:a05:622a:408d:b0:51a:8c9c:7f3b with SMTP id d75a77b69052e-51c4c32b7cdmr6511121cf.62.1783099580664;
+        Fri, 03 Jul 2026 10:26:20 -0700 (PDT)
 Received: from fedora ([2607:fb91:1408:4b9b:69b2:bc92:5299:1677])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e90b800efsm198609785a.4.2026.07.03.10.22.42
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51c41d2d688sm21828511cf.17.2026.07.03.10.26.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 10:22:44 -0700 (PDT)
-Date: Fri, 3 Jul 2026 13:22:41 -0400
+        Fri, 03 Jul 2026 10:26:20 -0700 (PDT)
+Date: Fri, 3 Jul 2026 13:26:17 -0400
 From: Gregory Price <gourry@gourry.net>
 To: Thomas Gleixner <tglx@kernel.org>
 Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -70,11 +69,11 @@ Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
 	linusw@kernel.org, arnd@arndb.de, deller@gmx.de,
 	jpoimboe@kernel.org, ruanjinjie@huawei.com,
 	lukas.bulwahn@redhat.com, ryan.roberts@arm.com, ojeda@kernel.org
-Subject: Re: [PATCH 1/2] kernel/entry: add CONFIG_SYSCALL_USER_DISPATCH to
- compile SUD out
-Message-ID: <akfv4ecFcHMqx5Xp@fedora>
+Subject: Re: [PATCH 2/2] kernel/entry: add kernel.syscall_user_dispatch sysctl
+Message-ID: <akfwuanT7Ot3KD6R@fedora>
 References: <20260627205551.769684-1-gourry@gourry.net>
- <87a4s8m69c.ffs@fw13>
+ <20260627205551.769684-2-gourry@gourry.net>
+ <877bncm5y7.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,82 +82,22 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87a4s8m69c.ffs@fw13>
+In-Reply-To: <877bncm5y7.ffs@fw13>
 
-On Fri, Jul 03, 2026 at 05:39:59PM +0200, Thomas Gleixner wrote:
+> > +	/* Arming can be denied at runtime via sysctl, disarming is allowed */
+> > +	if (mode != PR_SYS_DISPATCH_OFF && !syscall_user_dispatch_allowed)
+> > +		return -EPERM;
 > 
-> I buy the miminal system aspect, but high security is just a voodoo
-> argument. Why?
-> 
->   1) The functionality needs to be enabled with a PRCTL, which can be
->      filtered.
-> 
->   2) It requires LD_PRELOAD to be effective
-> 
-> If your high security system allows #2 then it's not a high security
-> system to begin with. If you fail to add the proper filters then it does
-> not pass the test either.
-> 
-
-sure, it can be filtered, but not all software runs in a sandbox and not
-all attack vectors need end in priv-esc or launching new tasks.  It
-does not require LD_PRELOAD to be useful to an attacker.
-
-just as an example, if i land remote execution in a task, i can enable
-syscall user dispatch and just steal cpu time from that task whenever it
-makes a syscall without having to do any of the traditional tricks of
-overwriting GDT entries to get hooks.  No need for ld preloading or even
-leaving the active task's context.
-
-syscall user dispatch is just a really clean, powerful tool for writing
-implants.  I've been playing with it for the better part of 2 years and
-just realized I don't want it enabled (or even present at all) on some
-of my machines / machines I manage and there's no way to do that.
-
-> I agree that disabling it alltogether reduces the effort, but it's not a
-> prerequisite.
-> 
-> > +config SYSCALL_USER_DISPATCH
-> > +	bool "Syscall User Dispatch (SUD)"
-> > +	depends on GENERIC_ENTRY
-> > +	default y
-> > +	help
-> > +	  Syscall User Dispatch (SUD) lets a thread have its own system calls
-> > +	  redirected to a userspace handler.  It is used by emulators that run
-> > +	  foreign binaries which issue system calls directly.
-> 
-> Huch?
-> 
-> What is foreign? Different country, different universe or different
-> mindset?
-> 
-> It's also not restricted to emulators. It allows to intercept and abort
-> system calls which are issued within a certain IP address range and
-> redirect them to a emulator or debugger. 
-> 
-
-foreign meaning non-linux, but sure i'll change it to be more general.
-
-> 
-> >--- a/include/linux/syscall_user_dispatch.h
-> >+++ b/include/linux/syscall_user_dispatch.h
-> >@@ -7,8 +7,22 @@
-> >
-> > #include <linux/thread_info.h>
-> > #include <linux/syscall_user_dispatch_types.h>
-> > +#include <linux/sched.h>
-> 
-> Why does this require to pull in the heaviest header?
-> 
-
-we dereference current (struct task_struct)
-
-> > +bool syscall_user_dispatch(struct pt_regs *regs);
-> > +
-> > +static inline bool syscall_user_dispatch_clear_on_dispatch(void)
-> 
-> Wants to be __always_inline as otherwise agressive compilers like CLANG
-> happily put it out of line.
+> That might be similar to other sysctls, but if an application had it
+> enabled prior to the sysctl=off toggle, then that application will
+> suddenly fail in operation if it requires to move the dispatch window.
 >
 
-ack.
+If the admin is turning it off globally, is that not exactly what the
+admin wants?  The alternative is a hard disable that will simply result
+in undefined behavior (windows syscall ABI being interpreted at a linux
+syscall) instead of failing gracefully on the re-arm.
+
+This seemed like the better option.
+
+~Gregory
