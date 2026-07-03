@@ -1,133 +1,327 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621FD2BEFEE
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 17:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17007433E92
+	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 17:07:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783098431; cv=none; b=V10dMJtvpxcTcVbLAZVOkFzdMZdRoFyZ7d5y46ccoV5fuN53jEJ2PnI8CbvIC42erHtHrJSxnjrkEJGHiUeQoSpEKF6yYcN5TIJDD+/1MkrYmpE8h/bkfPmTrEP/FygZhmFJv3hCxaAdpKukREddvW44RZsmoca/sHni//fbpJM=
+	t=1783098434; cv=none; b=p5Ru9LJSldFv4vtUBFl5mDMrj+mg8IQqYwbuwaaQTF9X6cssoKhXG59QE+yZY3PgL7Eyid2khd+ziGO5S1k6XvtC+GYlziifkrhFfkeg8OR0QFnnjXaVJ5Wy3C7kzEXP1Lh3bMgdUFrgIt55ftnHSoYaImCCi5BoRWOxcJjxYNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783098431; c=relaxed/simple;
-	bh=TScPT134W+E4UN6BNVVPGG0o0CJvwBXxJ31qbIrrzGA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b4VdxZ8lcLRnHfitejWZvy1fIOHmQIcnRUa7PTXs1/9rP15mTXgD50qrLQhIGxwjRMN7oPf95Zc2FfiYbAnK3rq7/92WcAq77AVhc58Tc+xY6PqUruKqVuKbgC3qcFWAMkwHbVCq09L9yMNNtGS7Y6OKzJTl8kamxSsKXxNIolE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NWXDJPm9; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1783098434; c=relaxed/simple;
+	bh=FqVOdpuzAHBsw8nEO1VV4p4wxR5IFGtD9tOsudK8acE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZUihl8GCkkP2Oy71hU2mfPF+0U3fWmVYnGhbgTvVOVPSqFcTVbAVIujG2kdtutMEEIVoWlKh4b9hecxGjPCuPWocMmuhOwOtETU0WGJv1rbwLl17pBcJ2D6oxDFtLRVEIj5TWezaCbOQETbAgQpPxTFaZ64aq41GFjR+j69wQlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nz4aLOXO; arc=none smtp.client-ip=209.85.215.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NWXDJPm9"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cacf197759so10499935ad.2
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2026 10:07:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nz4aLOXO"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c9d1fff21edso567570a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2026 10:07:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783098429; x=1783703229; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RmNuqUOtCZwKWpFv/G4WFvqRYroonXT9uxOxUH2oEGM=;
-        b=NWXDJPm9RNEI81t1buiFuKTHDTyzjyptp6nzJPHRQA2tQHhtCxEF3sDaf/bE8533fj
-         HAxQc8Etk8ZAUDpxg0MVP059RdOpAOGjHLG6FTR7ALR9H8yxiM0Y/hohYywd38T/rMOg
-         vhpXiWUEtct03KptAKzWTQxq4c8GvFtx75XShZc8t4A/MENxfxtK5RMRVELVFYVr5Kgy
-         EyR4z3hn0oMclacmXiAWYk/KU6iL8ygml103g6rzUExAlcF351Mm4bzV84ppO38ZpNz7
-         SxOkLk1XUDyJMa3YRZxAQ1W64pZpRlmTfPnQ0DIQbaVBC7Ra874oDwJKxjzeatR5RExc
-         tcLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783098429; x=1783703229;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1783098432; x=1783703232; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RmNuqUOtCZwKWpFv/G4WFvqRYroonXT9uxOxUH2oEGM=;
-        b=j2onUC536cG8oy7hj98TFyFzy+seJsC00lgM/MEr0cPZLV6c0jKrrTXkbAaorowtHm
-         YPlo4ClO772uDRxj8dxZcOiZrPWtW2YzzKdKQpYW4dU5hkOf/3srMYwHA0WYVmXIzfdR
-         pgS5RvrvWOUkBGQblQ3V6pAPBn8IOruEPK284P+dIijQlrl8Li3iO8V/JanCy1C3qz4+
-         PeWoJl96wTenK3x0HUu4+anhv2okG6nbnFM4LdWY4rTsXqx9SxM8DWr60wSdm1Oigskr
-         D1bXLvSQl97YzEtT8sy4CVpMOcLOOSsjfAVFTty+Ppcchn4PRYITnIeM0A1rN3r30xjG
-         vUOA==
-X-Gm-Message-State: AOJu0YwvPFYDMFKvkWc1EdrEyQSkX19lYLblsRcXj0ziP4lOqu5/s3ok
-	wfMdu4fA4Cb9tctfNzTjSOJ3PjT1t7kkfO4vOfSR+GLvoh617480AmbANQWbnJDO
-X-Gm-Gg: AfdE7cmrcgVw7ZqXyTJ0WgSO+SigeJmCgxM44E5Flu9iJuhAOEG1yT7I5aL5Hr7ZndZ
-	FP2XLRAxpJ5TAWgQt7B5PQhJjr612mbv2hVtilAS3VMugfCIn9lRGSu0MmVla81b0Ca6GjjENtj
-	kCHemb7/N8tI8Q6GR99W7Q1hzEbPSABeFYiFcsj5t93yAznneel0d2rwlV6ZoCCuKK61D72ChuL
-	/yS4dDppXM1IncmM4Tq0R/l41crGwIGpKW3t1GO3meTVqr7JecqB5VDkex73VmeJat8bKOmTWFx
-	R0Vo94UvUwNAxWjTljfi1JKQ+/eM1+micphLyPNKUDwO3QMdGQEJDdGwQ+qvIo/sakxDxdKlhss
-	ruUqNvzSYTpeN/y1OqKe7WVuYXbpCC51Pv0pp4hX1A2gfvXa4ktxfL82hTAuS1Lh5vzwNiM5XDX
-	WMX0xd16nZCc3NLaDG82vrKH+hBAQ0tTLGJ+JRJSgZTyT1MdQKIBtx4qd3yFt1Zc/utc02DXUEI
-	L1sYu+EA4ESv5tOBN4NV8FE3P8ifABgEf0Aq0niCDF2+Y6a+Jk=
-X-Received: by 2002:a17:902:ffd0:b0:2c8:1c05:16bb with SMTP id d9443c01a7336-2cbb9e9f3f3mr1021855ad.24.1783098429420;
-        Fri, 03 Jul 2026 10:07:09 -0700 (PDT)
+        bh=m27rrbJvFuMrjDXhhCoAIIB5VxVsXeOv9/xgOpgywZc=;
+        b=nz4aLOXO+0a10PtJdASJyMu9eTMKX0wIPH5+zbBrb4uaTw32WRlADtvAffhyXnp0g7
+         fPr7G1aJNhCzidIuHI0JaSlc1mWytxoJGluaD7TlNmsYvt+73ZIlUPyKuKyTChn6+Tho
+         SnrbQtNVUAbGhJk3WbBKFlnCFQsSeopzev8d0S7cuHkHxJYxzdBrfXhCjfC9NRkdqV0u
+         cqNGgp55r1odEDAt5iVBQ4V5tuXNuPwO27yIkAeRg7sM1A+HjM/iDkr/KTZkXVC3hA8g
+         PdtS3hhzplwnc47Qt7VZLhxs4yU9at8HfQJkry87bP6/Uw9pMEpmQqQ5FMI8++3rnHeF
+         3QdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783098432; x=1783703232;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=m27rrbJvFuMrjDXhhCoAIIB5VxVsXeOv9/xgOpgywZc=;
+        b=kX/UGOAHD4fpR5Bi9hAxq9cT5qMwvc3ZwWY68Z2mn4ZNvFEwYVky5Mbm3zQaB+rMMg
+         xEfSlSAF3YIygbWHWJ/c+bQDMtYnruWu9G6ASfIbxt1gClgtRcveqTrBmrmBvraHEMpF
+         rakd1QRMCyLvKkzVBplhkhUmH5lu2bZgT+VmZQ4uxeTKpoNYIX7pS8HQNE3wo63FLcKo
+         f8gTx/gQuaLtUjF0RYo+EsQhvXvJ12EFkTtnIqO2q4Q6SNbNgMwrPiaWFCx4BlwRuZ3w
+         0u3ShmDSv3pyEhf9krzmywcwlrzBTWuF43qZiwTRFxFUIHBgPFSSiy5wCXvMrammLVTd
+         xe4g==
+X-Gm-Message-State: AOJu0YwXYKPneQfdT/7pGDIcy616kpoZr5/nBYOY75hjGvImVwONTTCf
+	ZUTtIjQ6Qv19pURJBhNtDoDIEqE2PZya3t7Sg8a70tWWPMpzq/q6XhCLcQvEyB1m
+X-Gm-Gg: AfdE7ck1+CCneL7fQqMRdWiWihtB1tFMMIX2KnjzcOzwqD4BmedQdN7N8GL+poMgsXT
+	kwGLg89Rp0ZpyVjOQTUPJt9q6ZpDLZkYb2TSE6wkQF6ZGVLG4LNl1bscJJeVPtjWCqVO7a1X3dm
+	BFuTbVRmbxSrD08ONj6JMR5qT35mIhk37GsuegClj0kDTA+rlWkPL4hlDwpMPrRzUDY0a6PY3Du
+	jAlGSag/5hLH27Bk5jtDWgnuwetoE4dQiw6RdDtMZFp1cD5+OspGDdud9mVdpl7Tvwtp072gLKU
+	eKMupsOg+6XmoyuQYsauCkKtpMrWERFIhVINwHlHJybupggsfmKE+n9b6S8FQdE6vmwk7PApnYt
+	3muM/TqFK+aUan2e8Zsbw15BGpsBTWgil7kZAJZuHuTDLVBKIrnPejU8jp1n2IYBIPY8OH5olyB
+	VaMOOZrM0qiZFkYzodddheXcoUw7GE0QfZtWFSEOo+Rc9xPC8QqhWvjMZ9+JarYe3FmuGGlxteG
+	N4qHBW6Y+bmg2lz/jZN2oMRKkbjSStY+zoCpQ5D///R8Chruv4=
+X-Received: by 2002:a05:6a21:1186:b0:3b3:1951:489b with SMTP id adf61e73a8af0-3c03e51e377mr232393637.45.1783098431834;
+        Fri, 03 Jul 2026 10:07:11 -0700 (PDT)
 Received: from parrot.meuintelbras.local ([45.179.5.227])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b3c876ea9sm19643688c88.13.2026.07.03.10.07.07
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b3c876ea9sm19643688c88.13.2026.07.03.10.07.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 10:07:09 -0700 (PDT)
+        Fri, 03 Jul 2026 10:07:11 -0700 (PDT)
 From: Daniel Pereira <danielmaraboo@gmail.com>
 To: corbet@lwn.net
 Cc: linux-doc@vger.kernel.org,
 	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: [PATCH v2 0/7] docs: pt_BR: process: translation updates and additions
-Date: Fri,  3 Jul 2026 14:05:40 -0300
-Message-ID: <20260703170552.174764-1-danielmaraboo@gmail.com>
+Subject: [PATCH v2 1/7] docs: pt_BR: process: Translate the patch followthrough guide
+Date: Fri,  3 Jul 2026 14:05:41 -0300
+Message-ID: <20260703170552.174764-2-danielmaraboo@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260703170552.174764-1-danielmaraboo@gmail.com>
+References: <20260703170552.174764-1-danielmaraboo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 
-This patch series updates the Brazilian Portuguese (pt_BR) translation
-for the core Linux kernel development process documentation.
-
-The goal is to expand accessibility for Portuguese-speaking developers,
-bringing over crucial guides ranging from subsystem-specific rules to
-organizational maturity frameworks.
-
-All documents have been strictly formatted to adhere to the 80-column
-line length limit to ensure proper Sphinx HTML rendering and consistency
-with the existing pt_BR infrastructure.
-
-Changes in v2:
-- Patch 7: Added adding-syscalls.rst to the index.rst toctree to resolve a Sphinx 
-  build warning.
-
-Summary of translations included in this series:
-- process/adding-syscalls.rst (Adding System Calls guide)
-- process/contribution-maturity-model.rst (TAB Upstream Maturity framework)
-- process/botching-up-ioctls.rst (Driver-private API and ioctl design)
-- process/backporting.rst (Stable tree backporting and conflict resolution)
-- process/applying-patches.rst (Patch application workflows)
-- process/development-process.rst (Advanced Topics and Conclusion sections)
-- process/6.Followthrough.rst (Patch life-cycle followthrough guide)
-
-Thanks!
+Translates the section 6.followthrough.rst to Brazilian Portuguese
+for the process directory.
 
 Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
+---
+ .../pt_BR/process/6.Followthrough.rst         | 220 ++++++++++++++++++
+ .../pt_BR/process/development-process.rst     |   1 +
+ 2 files changed, 221 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/6.Followthrough.rst
 
-Daniel Pereira (7):
-docs: pt_BR: process: Translate the patch followthrough guide
-docs: pt_BR: process: translate 7.AdvancedTopics and 8.Conclusion
-docs: pt_BR: Add translation for applying-patches and update index
-docs: pt_BR:  translate backporting.rst documentation
-docs: pt_BR: process: translate botching-up-ioctls guide
-docs: pt_BR: process: translate contribution maturity model
-docs: pt_BR: translate process/adding-syscalls.rst
-
-Documentation/translations/pt_BR/index.rst   |   5 +
-.../pt_BR/process/6.Followthrough.rst        | 220 ++++++
-.../pt_BR/process/7.AdvancedTopics.rst       | 201 +++++
-.../pt_BR/process/8.Conclusion.rst           |  73 ++
-.../pt_BR/process/adding-syscalls.rst        | 700 ++++++++++++++++++
-.../pt_BR/process/applying-patches.rst       | 447 +++++++++++
-.../pt_BR/process/backporting.rst            | 598 +++++++++++++++
-.../pt_BR/process/botching-up-ioctls.rst     | 256 +++++++
-.../process/contribution-maturity-model.rst  | 111 +++
-.../pt_BR/process/development-process.rst    |   3 +
-10 files changed, 2614 insertions(+)
-create mode 100644 Documentation/translations/pt_BR/process/6.Followthrough.rst
-create mode 100644 Documentation/translations/pt_BR/process/7.AdvancedTopics.rst
-create mode 100644 Documentation/translations/pt_BR/process/8.Conclusion.rst
-create mode 100644 Documentation/translations/pt_BR/process/adding-syscalls.rst
-create mode 100644 Documentation/translations/pt_BR/process/applying-patches.rst
-create mode 100644 Documentation/translations/pt_BR/process/backporting.rst
-create mode 100644 Documentation/translations/pt_BR/process/botching-up-ioctls.rst
-create mode 100644 Documentation/translations/pt_BR/process/contribution-maturity-model.rst
-
---
+diff --git a/Documentation/translations/pt_BR/process/6.Followthrough.rst b/Documentation/translations/pt_BR/process/6.Followthrough.rst
+new file mode 100644
+index 000000000..d6bdaa2cb
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/6.Followthrough.rst
+@@ -0,0 +1,220 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Acompanhamento
++==============
++
++Neste ponto, você seguiu as diretrizes apresentadas até aqui e, com a
++adição de suas próprias habilidades de engenharia, enviou uma série perfeita
++de patches. Um dos maiores erros que até mesmo desenvolvedores experientes
++do kernel podem cometer é concluir que o seu trabalho agora está concluído.
++Na verdade, o envio de patches indica uma transição para a próxima etapa
++do processo, possivelmente com uma quantidade considerável de trabalho
++ainda por fazer.
++
++É raro um patch ser tão bom em seu primeiro envio que não haja margem para
++melhorias. O processo de desenvolvimento do kernel reconhece esse fato e,
++como resultado, é fortemente orientado para o aprimoramento do código
++enviado. Espera-se que você, como autor desse código, trabalhe junto à
++comunidade do kernel para garantir que seu código esteja de acordo com os
++padrões de qualidade do kernel. A falha em participar desse processo muito
++provavelmente impedirá a inclusão de seus patches na árvore principal
++(*mainline*).
++
++
++Trabalhando com revisores
++-------------------------
++
++Um patch de qualquer relevância resultará em uma série de comentários de outros
++desenvolvedores à medida que eles revisam o código. Trabalhar com revisores
++pode ser, para muitos desenvolvedores, a parte mais intimidadora do processo
++de desenvolvimento do kernel. No entanto, a vida pode se tornar muito mais
++fácil se você mantiver algumas coisas em mente:
++
++* Se você explicou bem o seu patch, os revisores entenderão o seu valor
++  e o porquê de você ter tido o trabalho de escrevê-lo. Contudo, esse valor
++  não os impedirá de fazer uma pergunta fundamental: como será manter um
++  kernel com este código inserido nele daqui a cinco ou dez anos? Muitas das
++  mudanças que podem lhe pedir para fazer — desde ajustes de estilo de código
++  até reescritas substanciais — vêm do entendimento de que o Linux ainda estará
++  por aqui e sob desenvolvimento daqui a uma década.
++
++* A revisão de código é um trabalho árduo e uma ocupação relativamente
++  ingrata; as pessoas lembram quem escreveu o código do kernel, mas há pouca
++  fama duradoura para aqueles que o revisaram. Portanto, os revisores podem
++  ficar ranzinzas, especialmente quando veem os mesmos erros sendo cometidos
++  repetidamente. Se você receber uma revisão que pareça irritada, insultuosa
++  ou abertamente ofensiva, resista ao impulso de responder à altura. A revisão
++  de código diz respeito ao código, não às pessoas, e os revisores de código
++  não estão atacando você pessoalmente.
++
++* Da mesma forma, os revisores de código não estão tentando promover os
++  interesses de seus empregadores em detrimento dos seus. Os desenvolvedores
++  do kernel geralmente esperam continuar trabalhando no kernel daqui a muitos
++  anos, mas entendem que seu empregador pode mudar. Quase sem exceção, eles
++  estão verdadeiramente trabalhando em prol da criação do melhor kernel possível;
++  eles não estão tentando causar desconforto aos concorrentes de seus empregadores.
++
++* Esteja preparado para solicitações aparentemente tolas de mudanças no estilo
++  de codificação e pedidos para refatorar parte do seu código em seções
++  compartilhadas do kernel. Uma das funções dos mantenedores é manter as coisas
++  com a mesma aparência. Às vezes, isso significa que aquele truque inteligente
++  (*clever hack*) em seu driver para contornar um problema
++
++Note que você não precisa concordar com todas as mudanças sugeridas pelos
++revisores. Se você acredita que o revisor entendeu mal o seu código, explique
++o que realmente está acontecendo. Se tiver uma objeção técnica a uma mudança
++sugerida, descreva-a e justifique a sua solução para o problema. Se as suas
++explicações fizerem sentido, o revisor as aceitará. Contudo, caso a sua
++explicação não seja persuasiva — especialmente se outros começarem a concordar
++com o revisor —, reserve um tempo para repensar as coisas. Pode ser fácil ficar
++ceguificado por sua própria solução para um problema, a ponto de não perceber
++que algo está fundamentalmente errado ou que, talvez, você não esteja sequer
++resolvendo o problema certo.
++
++Andrew Morton sugeriu que todo comentário de revisão que não resulte em uma
++alteração de código deveria, em vez disso, resultar em um comentário adicional
++no próprio código; isso pode ajudar os futuros revisores a evitar as dúvidas
++que surgiram da primeira vez.
++
++Um erro fatal é ignorar os comentários de revisão na esperança de que eles
++desapareçam. Eles não vão desaparecer. Se você reenviar o código sem ter
++respondido aos comentários que recebeu da vez anterior, é provável que descubra
++que os seus patches não vão a lugar nenhum.
++
++Por falar em reenviar código: tenha em mente que os revisores não vão se
++lembrar de todos os detalhes do código que você enviou da última vez. Portanto,
++é sempre uma boa ideia lembrar os revisores dos problemas levantados
++anteriormente e de como você lidou com eles; o registro de alterações
++(*changelog*) do patch é um bom lugar para esse tipo de informação. Os revisores
++não deveriam ter que vasculhar os arquivos das listas de discussão para se
++familiarizarem com o que foi dito na última vez; se você ajudá-los a começar
++com o pé direito, eles estarão de melhor humor quando revisitarem o seu código.
++
++E se você tentou fazer tudo certo e as coisas ainda não estão avançando? A
++maioria das divergências técnicas pode ser resolvida por meio de discussão,
++mas há momentos em que alguém simplesmente precisa tomar uma decisão. Se você
++acredita genuinamente que essa decisão está indo contra você de forma errada,
++você sempre pode tentar recorrer a uma instância superior. Até o momento em
++que este texto foi escrito, essa instância superior costuma ser Andrew Morton.
++Andrew goza de um enorme respeito na comunidade de desenvolvimento do kernel;
++ele frequentemente consegue destravar uma situação que parece desesperadoramente
++bloqueada. Recorrer a Andrew, no entanto, não deve ser feito de ânimo leve e nem
++antes que todas as outras alternativas tenham sido esgotadas. E tenha em mente,
++é claro, que ele também pode não concordar com você.
++
++O que acontece a seguir
++-----------------------
++
++Se um patch for considerado algo bom para ser adicionado ao kernel, e assim
++que a maioria dos problemas de revisão tiver sido resolvida, o próximo passo
++geralmente é a entrada na árvore de um mantenedor de subsistema. Como isso
++funciona varia de um subsistema para o outro; cada mantenedor tem sua própria
++maneira de fazer as coisas. Em particular, pode haver mais de uma árvore — uma,
++talvez, dedicada a patches planejados para a próxima janela de mesclagem
++(*merge window*), e outra para trabalhos de longo prazo.
++
++Para patches que se aplicam a áreas para quais não há uma árvore de subsistema
++óbvia (patches de gerenciamento de memória, por exemplo), a árvore padrão
++geralmente acaba sendo a *-mm*. Patches que afetam múltiplos subsistemas
++também podem acabar passando pela árvore *-mm*.
++
++A inclusão em uma árvore de subsistema pode trazer um nível mais alto de
++visibilidade para um patch. Agora, outros desenvolvedores que trabalham com
++aquela árvore receberão o patch por padrão. As árvores de subsistemas tipicamente
++alimentam a *linux-next* também, tornando seus conteúdos visíveis para a
++comunidade de desenvolvimento como um todo. Neste ponto, há uma boa chance de
++você receber mais comentários de um novo conjunto de revisores; esses
++comentários precisam ser respondidos da mesma forma que na rodada anterior.
++
++O que também pode acontecer neste ponto, dependendo da natureza do seu patch,
++é surgirem conflitos com o trabalho que está sendo feito por outros. No pior
++dos casos, conflitos pesados de patches podem fazer com que alguns trabalhos
++sejam deixados em segundo plano, para que os patches restantes possam ser
++ajustados e mesclados. Outras vezes, a resolução de conflitos envolverá trabalhar
++junto a outros desenvolvedores e, possivelmente, mover alguns patches entre
++árvores para garantir que tudo se aplique de forma limpa. Este trabalho pode ser
++árduo, mas console-se com uma vantagem: antes do surgimento da árvore *linux-next*,
++esses conflitos frequentemente só apareciam durante a janela de mesclagem e
++tinham que ser resolvidos às pressas. Agora eles podem ser resolvidos com calma,
++antes que a janela de mesclagem se abra.
++
++Um belo dia, se tudo correr bem, você fará login e verá que o seu patch foi
++mesclado ao kernel principal (*mainline*). Parabéns! No entanto, assim que a
++comemoração terminar (e você tiver se adicionado ao arquivo MAINTAINERS), vale
++a pena lembrar de um pequeno fato importante: o trabalho ainda não acabou. A
++mesclagem na árvore principal traz os seus próprios desafios.
++
++Para começar, a visibilidade do seu patch aumentou ainda mais. Pode haver
++uma nova rodada de comentários de desenvolvedores que não estavam cientes do
++patch antes. Pode ser tentador ignorá-los, já que não há mais nenhuma dúvida
++sobre a mesclagem do seu código. No entanto, resista a essa tentação; você
++ainda precisa ser receptivo aos desenvolvedores que tiverem dúvidas ou
++sugestões.
++
++Mais importante ainda: a inclusão na árvore principal coloca o seu código
++nas mãos de um grupo muito maior de testadores. Mesmo que você tenha contribuído
++com um driver para um hardware que ainda não está disponível, você se
++surpreenderá com a quantidade de pessoas que compilarão seu código em seus
++próprios kernels. E, logicamente, onde há testadores, haverá relatórios de
++erros (*bug reports*).
++
++O pior tipo de relatório de erro são as regressões (*regressions*). Se o seu
++patch causar uma regressão, você descobrirá uma quantidade desconfortável de
++olhos voltados para você; as regressões precisam ser corrigidas o mais rápido
++possível. Se você não estiver disposto ou for incapaz de corrigir a regressão
++(e ninguém mais fizer isso por você), seu patch quase certamente será removido
++durante o período de estabilização. Além de anular todo o trabalho que você teve
++para colocar seu patch na árvore principal, ter um patch removido como resultado
++da falha em corrigir uma regressão pode muito bem tornar mais difícil para você
++mesclar trabalhos no futuro.
++
++Depois que todas as regressões tiverem sido tratadas, pode haver outros erros
++comuns com os quais lidar. O período de estabilização é a sua melhor oportunidade
++para corrigir esses problemas e garantir que a estreia do seu código em um
++lançamento do kernel principal seja o mais sólida possível. Portanto, por favor,
++responda aos relatórios de erros e corrija os problemas, se for viável. É para
++isso que serve o período de estabilização; você pode começar a criar novos
++patches fantásticos assim que quaisquer problemas com os antigos tiverem sido
++resolvidos.
++
++E não se esqueça de que existem outros marcos que também podem gerar relatórios
++de erros: o próximo lançamento estável da árvore principal, o momento em que
++distribuidores proeminentes adotarem uma versão do kernel que contenha o seu
++patch, etc. Continuar respondendo a esses relatórios é uma questão de orgulho
++básico pelo seu trabalho. Se isso não for motivação suficiente, contudo, também
++vale a pena considerar que a comunidade de desenvolvimento se lembra dos
++desenvolvedores que perdem o interesse em seu próprio código após a mesclagem.
++A próxima vez que você enviar um patch, eles o avaliarão sob a suposição de
++que você não estará por perto para mantê-lo depois.
++
++
++Outras coisas que podem acontecer
++---------------------------------
++
++Um dia, você poderá abrir o seu cliente de e-mail e ver que alguém lhe enviou
++um patch para o seu código. Afinal, essa é uma das vantagens de ter o seu
++código disponível publicamente. Se você concordar com o patch, poderá encaminhá-lo
++para o mantenedor do subsistema (certifique-se de incluir uma linha ``From:``
++adequada para que a atribuição de autoria esteja correta e adicione a sua
++própria assinatura — *signoff*) ou enviar uma resposta com um ``Acked-by:``
++e deixar que o remetente original o envie para cima.
++
++Se você não concordar com o patch, envie uma resposta educada explicando o
++motivo. Se possível, diga ao autor quais alterações precisam ser feitas para
++que o patch seja aceitável para você. Existe uma certa resistência em mesclar
++patches que sofrem oposição do autor e mantenedor do código, mas isso tem limite.
++Se você for visto como alguém que está bloqueando um bom trabalho sem necessidade,
++esses patches eventualmente seguirão outro fluxo ao seu redor e entrarão na
++árvore principal de qualquer maneira. No kernel do Linux, ninguém tem poder de
++veto absoluto sobre nenhum código. Exceto, talvez, o Linus.
++
++Em ocasiões muito raras, você poderá ver algo completamente diferente: outro
++desenvolvedor envia uma solução diferente para o seu problema. Nesse ponto,
++as chances são de que um dos dois patches não seja mesclado, e o argumento
++"o meu chegou primeiro" não é considerado um argumento técnico convincente.
++Se o patch de outra pessoa deslocar o seu e entrar na árvore principal, existe
++realmente apenas uma maneira de responder: fique satisfeito pelo fato de o seu
++problema ter sido resolvido e siga adiante com o seu trabalho. Ter o próprio
++trabalho deixado de lado dessa maneira pode ser doloroso e desanimador, mas a
++comunidade se lembrará da sua reação muito depois de terem esquecido de quem
++foi o patch que realmente foi mesclado.
+diff --git a/Documentation/translations/pt_BR/process/development-process.rst b/Documentation/translations/pt_BR/process/development-process.rst
+index e9f04df62..ca86b481a 100644
+--- a/Documentation/translations/pt_BR/process/development-process.rst
++++ b/Documentation/translations/pt_BR/process/development-process.rst
+@@ -22,3 +22,4 @@ conhecimento profundo de programação de kernel para ser compreendida.
+    3.Early-stage
+    4.Coding
+    5.Posting
++   6.Followthrough
+-- 
 2.47.3
+
