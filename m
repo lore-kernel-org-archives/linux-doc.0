@@ -1,55 +1,72 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097743C4B9A;
-	Fri,  3 Jul 2026 11:24:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4FE23C5DDB
+	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 11:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783077881; cv=none; b=rnOLDNMA5zlDb9kynR+Y6WuEfaOhpvk8kfpRZPZB/uK1Y4usmz63djW/e0FFJzWzbAa8DoKnuUgov9Twdq04bota9ODkZWr15vPJWYtK0ylmMLkFqb3pizNqOAtt/0vmIM1SyyFGFTeJngUlGB79LZ5iEMXgKSGUOIDiQ9KDEdE=
+	t=1783077932; cv=none; b=SstbKAG2MPqfOmDsmzeYDZVqACo23JEKHmICaSLjb3SdTCruikQm+YC52LFxhwMpSpYa6/xEQqJ0W7EqKbkoWKaE5zwg0kGdh8GcoQDROyw3M+qBr+dAHpYHV9DiqtCwFMrsFnXU/cQebj/jzFtOGzvRc1QamgJsD5UNvBbX6dE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783077881; c=relaxed/simple;
-	bh=4oxmWufTRFAQuiOe0V0OOrsBSYMDsdXdFlzpM5/7AQo=;
+	s=arc-20240116; t=1783077932; c=relaxed/simple;
+	bh=z3pGW6hOv1fA8gmDBkYs8QU1BjeVuZL/SAlikVDpokQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qs8vzI9h9jUF2JdX7pz/o7w0DlaXvyYRUgZJRoWZjHnu21dowZWbaVf+Qx3e9Brhtf5hSzgLMsQ0Y2TR9Sk74sf/UsEzqnNDXQxtm0wlDxNumwtgF5ndUoRAwzpD/w0rZKBOHISitgSZ16BTJ0lPeWh8GjL5+HzZthqQkGxkEBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=btkxHrkz; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="btkxHrkz"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=n17w8bkbdYcKF+4kwASzBBp0Rz/4YcqSgLJnMesWzKg=; b=btkxHrkzCM4wV6isED0eBgRsyL
-	wwGgzJ6GKqoqppe6E8Q4D9rTHXf2Hph6UVag5NZvod4BsLIxt3cg3PcoclVxTWVafHPVaQahr89Np
-	4lMCW/r/KGYOGO+vU8LA2jtXK9HkXrztzoQv9OquY52DCx98NFS43gnp0W1hO7tNzJyJnP3lf/LE7
-	baPDHMoSz46F6TsffR+YQt4pcHYPhQbIE/xcM682GDzhTomftlk8Y/eN8LGeRxI8RX3MN303TPN/Y
-	SFcPFDDAoGL0OPlmfg+Bk9jYQ3qg1MfzozX157BNyy/8pe9f0ab7AvXojHCXCDbBe/y7w70KGCn2j
-	DWQoluyA==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wfc0F-009Miy-36;
-	Fri, 03 Jul 2026 11:24:16 +0000
-Date: Fri, 3 Jul 2026 04:24:09 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 2/2] selftests/mm: test kmemleak's N-consecutive-scan
- leak confirmation
-Message-ID: <akeX8mFiizd65pDw@gmail.com>
-References: <20260626-kmemleak_twice-v1-0-ab28f7cc0971@debian.org>
- <20260626-kmemleak_twice-v1-2-ab28f7cc0971@debian.org>
- <akYkKgWOsYnw6ETE@arm.com>
- <akZ4tzQw70x3RR2D@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=irOlChjZS5KsdJ8BT1bh2WT70xCRusQYgDASbggfHNtcYdbQChJ++2Jz1ZbSEpM3gpRKVQJcmDBXc1eOB8ea80jlhzU8xBAyIEa6tUyjiQ/LiUiGVDeFI+qz0/nbAqFoI9hAUIJmkDqN08xY7bDzHWpi4rtU08V0ebwALj/7cUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from kunlun.suse.cz (unknown [IPv6:2a07:de40:b306:2000::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AEE26758B0;
+	Fri,  3 Jul 2026 11:25:26 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
+	none
+Date: Fri, 3 Jul 2026 13:25:25 +0200
+From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Andy Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Andrew Donnellan <andrew+kernel@donnellan.id.au>,
+	Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Zong Li <zong.li@sifive.com>, Nam Cao <namcao@linutronix.de>,
+	Deepak Gupta <debug@rivosinc.com>,
+	Lukas Gerlach <lukas.gerlach@cispa.de>,
+	Rui Qi <qirui.001@bytedance.com>, Kees Cook <kees@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
+Subject: Re: [RFC] entry: Untangle the return value of
+ syscall_enter_from_user_mode from syscall NR
+Message-ID: <akecJWAJP-e5CYP_@kunlun.suse.cz>
+References: <akVRcPsD_R_CE1qW@kunlun.suse.cz>
+ <BA7CD91D-C0E5-47A1-B49C-BC6AF6604182@zytor.com>
+ <87h5mhnjsr.ffs@fw13>
+ <yt9dwlvca8rn.fsf@linux.ibm.com>
+ <87ldbsmnie.ffs@fw13>
+ <yt9d5x2w5r84.fsf@linux.ibm.com>
+ <20260703105718.GO751831@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,76 +75,88 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <akZ4tzQw70x3RR2D@gmail.com>
-X-Debian-User: leitao
+In-Reply-To: <20260703105718.GO751831@noisy.programming.kicks-ass.net>
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spam-Flag: NO
+X-Spam-Score: -2.00
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.00 / 50.00];
+	REPLY(-4.00)[];
+	RDNS_NONE(2.00)[];
+	TAGGED_RCPT(0.00)[kernel]
+X-Rspamd-Queue-Id: AEE26758B0
+X-Rspamd-Action: no action
 
-On Thu, Jul 02, 2026 at 07:55:42AM -0700, Breno Leitao wrote:
-> On Thu, Jul 02, 2026 at 09:41:14AM +0100, Catalin Marinas wrote:
-> > On Fri, Jun 26, 2026 at 08:52:03AM -0700, Breno Leitao wrote:
-> > > +pass "min_unref_scans=1 immediate; =2 gated to 2nd scan (counts $first/$s1/$s2); param read-back ok"
+On Fri, Jul 03, 2026 at 12:57:18PM +0200, Peter Zijlstra wrote:
+> On Fri, Jul 03, 2026 at 11:59:07AM +0200, Sven Schnelle wrote:
+> > Thomas Gleixner <tglx@kernel.org> writes:
 > > 
-> > Are these off by one?
+> > > On Fri, Jul 03 2026 at 08:26, Sven Schnelle wrote:
+> > >> Thomas Gleixner <tglx@kernel.org> writes:
+> > >>> It's less than obvious and I have no objections to clean that up and
+> > >>> make it more intuitive, but I still fail to see what Michal is actually
+> > >>> trying to solve and what the magic flag is for. If s390 requires it,
+> > >>> then that's an s390 problem, but definitely x86 does not.
+> > >>
+> > >> The difference between x86 and s390 is that on s390, regs->gprs[2] is
+> > >> used for both the syscall number and the syscall return value.
+> > >> That was a design mistake early in the begin about 25 years ago, but
+> > >> it's ABI now, so it cannot be changed.
+> > >
+> > > Cute.
+> > >
+> > >> When seccomp decides to skip a syscall, it write a return value into
+> > >> regs->gprs[2]. When syscall_enter_from_user_mode_work() returns, it
+> > >> returns this number. If it's negative all is good - the 'if (likely(nr <
+> > >> NR_syscalls))' conditiion would just catch it and skip the syscall.
+> > >>
+> > >> But if it's a positive number, the code cannot distinguish whether
+> > >> that's a return value or a syscall number.
+> > >>
+> > >> So I introduced PIF_SYSCALL_RET_SET when converting s390 to generic
+> > >> entry. This flag tells the syscall code that a return value was set in
+> > >> ptregs and the syscall should be skipped.
+> > >
+> > > You also could have added a 'syscall_ret' member to pt_regs, operate
+> > > on that for the return values (seccomp, syscall...) and swap it into
+> > > gprs[2] right before returning to user space.
+> > 
+> > That would likely also work, but I found it easier to read and
+> > understand to have an additional flag with a descriptive name than having
+> > yet another 'somehow-related-to-gpr2' member in ptregs.
 > 
-> They seem to be OK, and I've tested it multiple times.
+> I find this very odd; I would think that having both syscall-nr and
+> syscall-ret in separate (virtual) registers for most of the normal cycle
+> would be most obvious and less surprising -- given that this is what all
+> other architectures do.
 > 
-> > Kmemleak has a mechanism to detect live objects
-> > via the checksum. A side effect is that on allocation, the checksum is 0
-> > and only after the first scan the checksum is changed.
+> Entry either grabs a copy of gpr2 and preserves it in orig_gpr2 as the
+> syscall nr, or as Thomas suggests, you keep syscall_ret and copy that
+> into gpr2 on return to userspace (and ptrace and signal and whatever
+> other surface bits are affected).
 > 
-> I got the impression that checksum continues to be zero for these
-> objects during the whole life time? (weird). 
+> Either way around you then have separate values for the entire range of
+> at least the C part of the kernel syscall handling -- just like every
+> other arch. How is munging things in a single value and a flag easier?
 
-I've investigated this a bit more and I found something interesting, in
-our per_pcu checksum. The code in update_checksum() is:
+The same could be asked of syscall_enter_from_user_mode. I find it very
+odd. Why does it conflate the syscall number with its return value?
 
-	for_each_possible_cpu(cpu) {
-		void *ptr = per_cpu_ptr((void __percpu *)object->pointer, cpu);
+It never uses the syscall number passed in except when returning it
+unchanged. When it pokes the registers it reads the syscall number from
+them.
 
-		object->checksum ^= crc32(0, kasan_reset_tag((void *)ptr), object->size);
-	}
+If the caller of syscall_enter_from_user_mode only read the syscall
+number from the registers when syscall_enter_from_user_mode returns and
+indicates the syscall should be still executed this whole shenigan would
+be avoided.
 
-From my naive view, this has two concerns:
+Thanks
 
-1) In the kernel, crc32(0, <64 zero bytes>, 64) is zero, and the samples' test
-I am using (kmemleak-test.c) has:
-
-	pr_info("__alloc_percpu(64, 4) = 0x%px\n", __alloc_percpu(64, 4)); 
-
-alloc_percpu returns ZEROed memory, so, we are checkingsuming zero content.
-Because we are using 0 as seed, that is returning zero.
-
-object->checksum is a bunch of 0 XOR 0 XOR 0 and so forth.
-
-2) that XOR above seems very weird. Basically we want to detect if some of
-those per-cpu areas changed, here, but, if checksum goes to zero if two object content is similar.
-
-Let me give you a simple example. We have SMP=2, and both objects have crc32 =
-0x42. At the end of that function, object->checksum will be zero, given 0x42
-XOR 0x42 is zero.
-
-If both object changes their content at the same time, object->checksum will
-continue to be zero (although the content (and checksum) HAS changed).
-
-I understand we want to detect any change in any of these per cpu field and
-catch it independent of the CPU. I am inclined toward that.
-
-	--- a/mm/kmemleak.c
-	+++ b/mm/kmemleak.c
-	@@ -1409,8 +1409,9 @@ static bool update_checksum(struct kmemleak_object *object)
-			object->checksum = 0;
-			for_each_possible_cpu(cpu) {
-				void *ptr = per_cpu_ptr((void __percpu *)object->pointer, cpu);
-	+                       u32 seed = object->checksum + cpu;
-
-	-                       object->checksum ^= crc32(0, kasan_reset_tag((void *)ptr), object->size);
-	+                       object->checksum ^= crc32(seed, kasan_reset_tag((void *)ptr), object->size);
-			}
-		} else {
-			object->checksum = crc32(0, kasan_reset_tag((void *)object->pointer), object->size);
-
-
-
-Once this is fixed, then I priming would make sense.
-
-Please let me know if my flaky logic is worse than usual this Friday.
- --breno
+Michal
