@@ -1,133 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5161D9A5F;
-	Fri,  3 Jul 2026 15:40:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877BA1A6834;
+	Fri,  3 Jul 2026 15:43:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783093203; cv=none; b=dBA7Oe0QumRi+98TPA6qucybU0gHNlz9OUvWYsyKjqpGu4MrSSbOI66mWp5YhO1+3LSyFS/A4LYpNHbMe8wuonsncRrxGxnAv4TO1KggPAci0WdO9yqlprbam9q1NhRMicCj5iwHM/4tQYrtuMcHOnwD1yxKau1yDPBVBLcOcYk=
+	t=1783093425; cv=none; b=G4+e6tRn5wTcgEt7yHL7TSN0TLdrHrjhjzsBj9a0Cvwe/gufnFIHKq/GEQttogv3rLMWNCZ/egWWb7s5TLgVcWPajMD1QsqJcwAHUxfNL5oKM7GS7P84V8/fqSUFWz4jO7i2yf11UenZZSM6u0R2kMLn5nUfKAWaN3wc0VQGJxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783093203; c=relaxed/simple;
-	bh=0jkdT9QD8oaV+xvNpcFFoheEl+J6LiXgKlRXZ08jTWU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=O8ikd0ZASeAgvRpqdZfL9ofFbeXSFc+Hsn1OFlcVh4eolKNSgBpu2wkzoSuw5DVykQylHvkDMVkTOxCHr3qAYQG4xqa/FOuYbf9K72s1jcmtE7rFOeZTaes+nkX5v6TKTp1jMTuOo9q870iFFWOelCbxCuyQfh2BnY8jIYkL8aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KkzC/u0k; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783093425; c=relaxed/simple;
+	bh=o6CUkChr105p1EtkJhmeQnN44oM2JayfRcY5WxDmCe4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fPelWal8zqfklcaIWJTi6fyE8WxXTCgcJk778zxVwSnb3gvJ5IZ6X5WUaKbJsEIc2OOh4MLOcgEoTFt+DqyKhRoKrnH6fVAwuBu93FAIHHrvA4uXhuJi1dfDhz0GD1bb6z2G0uqGV4Ia6jA/AZpCKxl3+YXmFQG5Uo4q09o/Mxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=uX3WhUE3; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KkzC/u0k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0D7B1F000E9;
-	Fri,  3 Jul 2026 15:40:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783093202;
-	bh=y2NL+dknYLH6y2zoSaP+qVBqL0DlM0+ewISJwJqvqIw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=KkzC/u0kw4EYtmlvW9Q4djBW2uN7f8kaCOPeC9Eb79FtAOn09KmkgViPwAs0KhOgY
-	 Vz2+OquYHTkMPP9MzJwk5vicZpMKoizBLJnHGR3jgeaKirQlnLFxfamzUdroHOFeA5
-	 U6YJWpdy5Y721B7XyS/rguWZPgCa3Fo3AbwtyzJMVgodQoccVAjFjNvs0CoBCd64nH
-	 KSrDDOjS3T8Y4aGjTCznk3D6K47oGYfKvCCRiAUhLVFeOKdjF1pO3r6u8ZzvEaVHRf
-	 sRYLANiPvU7SyuRCtLXtKEuVu0RWhA/WwDOu+19EtS0jewnrUCowLsgVhtz1RtFg/L
-	 faseWNGZMLYdA==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Gregory Price <gourry@gourry.net>, linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, kernel-team@meta.com, corbet@lwn.net,
- skhan@linuxfoundation.org, peterz@infradead.org, luto@kernel.org,
- akpm@linux-foundation.org, feng.tang@linux.alibaba.com, pmladek@suse.com,
- mhiramat@kernel.org, marc.herbert@linux.intel.com,
- joel.granados@kernel.org, gourry@gourry.net, lirongqing@baidu.com,
- kees@kernel.org, nathan@kernel.org, linusw@kernel.org, arnd@arndb.de,
- deller@gmx.de, jpoimboe@kernel.org, ruanjinjie@huawei.com,
- lukas.bulwahn@redhat.com, ryan.roberts@arm.com, ojeda@kernel.org
-Subject: Re: [PATCH 1/2] kernel/entry: add CONFIG_SYSCALL_USER_DISPATCH to
- compile SUD out
-In-Reply-To: <20260627205551.769684-1-gourry@gourry.net>
-References: <20260627205551.769684-1-gourry@gourry.net>
-Date: Fri, 03 Jul 2026 17:39:59 +0200
-Message-ID: <87a4s8m69c.ffs@fw13>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="uX3WhUE3"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=HFC1s3Y4qDS3AnYkAd3JDVm/WCjlowQM1/RdwiUDxyc=; b=uX3WhUE3Ow3FP9kFIOR87QiQff
+	NgSGTJGyKb6WcuGZdLvTztT1+H1PsH/lJPYlBJ5yslnw55mk7gxdszLOJzj/oSEUssjrDDnl0TMYF
+	l0QQqLbH+dNq2ZDZ1UElkTx1NHEOwUY7uH8Olx5fi7li90Ai2dtJnHllS/Kq9G+rbyeblQMnYTygu
+	hj9a2JzEGWRlbV5cqv5XrLTrmKaL1AzSxyA3n5lOO4Dw1LSGUaqzksXc+X15d8I5KofsYj9NBqpyC
+	6I/X8yhw50sIyX+zshY5mtluaaEytht6GhdkueAJk6sqFRc7C16rpEaMZENnEJvd1ILMIfokt3v2d
+	dsVNAv6w==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wfg3A-009VB6-1X;
+	Fri, 03 Jul 2026 15:43:32 +0000
+Date: Fri, 3 Jul 2026 08:43:27 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 2/2] selftests/mm: test kmemleak's N-consecutive-scan
+ leak confirmation
+Message-ID: <akfYImSNDh3OjIfR@gmail.com>
+References: <20260626-kmemleak_twice-v1-0-ab28f7cc0971@debian.org>
+ <20260626-kmemleak_twice-v1-2-ab28f7cc0971@debian.org>
+ <akYkKgWOsYnw6ETE@arm.com>
+ <akZ4tzQw70x3RR2D@gmail.com>
+ <akeX8mFiizd65pDw@gmail.com>
+ <akfNeK7OOpvoZE9z@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <akfNeK7OOpvoZE9z@arm.com>
+X-Debian-User: leitao
 
-Gregory!
+On Fri, Jul 03, 2026 at 03:55:52PM +0100, Catalin Marinas wrote:
+> > I understand we want to detect any change in any of these per cpu field and
+> > catch it independent of the CPU. I am inclined toward that.
+> > 
+> > 	--- a/mm/kmemleak.c
+> > 	+++ b/mm/kmemleak.c
+> > 	@@ -1409,8 +1409,9 @@ static bool update_checksum(struct kmemleak_object *object)
+> > 			object->checksum = 0;
+> > 			for_each_possible_cpu(cpu) {
+> > 				void *ptr = per_cpu_ptr((void __percpu *)object->pointer, cpu);
+> > 	+                       u32 seed = object->checksum + cpu;
+> > 
+> > 	-                       object->checksum ^= crc32(0, kasan_reset_tag((void *)ptr), object->size);
+> > 	+                       object->checksum ^= crc32(seed, kasan_reset_tag((void *)ptr), object->size);
+> 
+> Yeah, the xor wasn't a great idea. What about initialising the checksum
+> value on object allocation to ~0 (for the two-scans idea) and for
+> per-cpu, just build the crc on top of the previous crc, something like:
+> 
+> diff --git a/mm/kmemleak.c b/mm/kmemleak.c
+> index 7c7ba17ce7af..e196f53f9b46 100644
+> --- a/mm/kmemleak.c
+> +++ b/mm/kmemleak.c
+> @@ -687,7 +687,7 @@ static struct kmemleak_object *__alloc_object(gfp_t gfp)
+>  	atomic_set(&object->use_count, 1);
+>  	object->excess_ref = 0;
+>  	object->count = 0;			/* white color initially */
+> -	object->checksum = 0;
+> +	object->checksum = ~0;
+>  	object->del_state = 0;
+>  
+>  	/* task information */
+> @@ -981,7 +981,7 @@ static void reset_checksum(unsigned long ptr)
+>  	}
+>  
+>  	raw_spin_lock_irqsave(&object->lock, flags);
+> -	object->checksum = 0;
+> +	object->checksum = ~0;
+>  	raw_spin_unlock_irqrestore(&object->lock, flags);
+>  	put_object(object);
+>  }
+> @@ -1410,7 +1410,8 @@ static bool update_checksum(struct kmemleak_object *object)
+>  		for_each_possible_cpu(cpu) {
+>  			void *ptr = per_cpu_ptr((void __percpu *)object->pointer, cpu);
+>  
+> -			object->checksum ^= crc32(0, kasan_reset_tag((void *)ptr), object->size);
+> +			object->checksum = crc32(object->checksum,
+> +						 kasan_reset_tag((void *)ptr), object->size);
+>  		}
+>  	} else {
+>  		object->checksum = crc32(0, kasan_reset_tag((void *)object->pointer), object->size);
 
-On Sat, Jun 27 2026 at 16:55, Gregory Price wrote:
+Ack, this seems more robust and easier to follow than my approach,
+thanks for your insight here.
 
-First a few formal notes.
+I will spin this "fix" separated (CCing stable), and send a v2 for this
+selftest with priming enabled.
 
-    - Multi patch series require a cover letter
-
-    - The subject prefix is not a matter of personal preference
-
-See https://docs.kernel.org/process/maintainer-tip.html and the related
-generic process documentation.
-
-Please also refrain from made up acronyms in the subject line. What the
-heck is SUD and why needs this to spell out the CONFIG option name
-prominently.
-
-    syscall_user_dispatch: Make it configurable in Kconfig
-
-or something like that is concise and clear, no?
-
-> Syscall User Dispatch is built under CONFIG_GENERIC_SYSCALL and cannot
-> be disabled independent of the core syscall-entry machinery.
->
-> Native foreign-binary emulators (Wine/Proton) need it, but it should
-> be an optional for minimal/high security systems.
-
-I buy the miminal system aspect, but high security is just a voodoo
-argument. Why?
-
-  1) The functionality needs to be enabled with a PRCTL, which can be
-     filtered.
-
-  2) It requires LD_PRELOAD to be effective
-
-If your high security system allows #2 then it's not a high security
-system to begin with. If you fail to add the proper filters then it does
-not pass the test either.
-
-I agree that disabling it alltogether reduces the effort, but it's not a
-prerequisite.
-
-> +config SYSCALL_USER_DISPATCH
-> +	bool "Syscall User Dispatch (SUD)"
-> +	depends on GENERIC_ENTRY
-> +	default y
-> +	help
-> +	  Syscall User Dispatch (SUD) lets a thread have its own system calls
-> +	  redirected to a userspace handler.  It is used by emulators that run
-> +	  foreign binaries which issue system calls directly.
-
-Huch?
-
-What is foreign? Different country, different universe or different
-mindset?
-
-It's also not restricted to emulators. It allows to intercept and abort
-system calls which are issued within a certain IP address range and
-redirect them to a emulator or debugger. 
-
-
->--- a/include/linux/syscall_user_dispatch.h
->+++ b/include/linux/syscall_user_dispatch.h
->@@ -7,8 +7,22 @@
->
-> #include <linux/thread_info.h>
-> #include <linux/syscall_user_dispatch_types.h>
-> +#include <linux/sched.h>
-
-Why does this require to pull in the heaviest header?
-
-> +bool syscall_user_dispatch(struct pt_regs *regs);
-> +
-> +static inline bool syscall_user_dispatch_clear_on_dispatch(void)
-
-Wants to be __always_inline as otherwise agressive compilers like CLANG
-happily put it out of line.
-
-Thanks,
-
-        tglx
+Thanks for your suggestion,
+--breno
