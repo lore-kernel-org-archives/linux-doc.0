@@ -1,371 +1,226 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012008.outbound.protection.outlook.com [40.107.200.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752A72EEE83
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 18:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783102413; cv=none; b=QpdnD47hevkTsj2S2n+G99+qhYZJERuuMSmbm7LQN/0FvaX05xuoSOT2GDgGRPOLw+A3Y5F6kpPj6WcgNvAemlTzreJa7HAK5bk6l+U0ifyJKjFPabNXnmK4M7G3qpGpe1aMgBMDMceu7VC/anBaGKDELbqkW3c2bj1OjL812MA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783102413; c=relaxed/simple;
-	bh=DRCgWN5CAczjMbYKrVGRo0mOcU6tuGh5Mcx0jYAnqm0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VzF9Q2QUEETkvjRVx/xLnu+fslpYKR0lUExKlGszfeYAJ+NUMuM1wCN2wcn+wIKo8+TKzbvau/ehVbJgtvhOroZhC34E4lbkZunC8RoigMwX4MnwQQsBjHIo8ApteYeb+bqmXaaURJPKOVcNnQ6osJra5EtIsUs8n2lZWtkh9fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dO9AD7Pu; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E811A311C3E;
+	Fri,  3 Jul 2026 18:14:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783102456; cv=fail; b=CJJ4+A1Uf/9OyMFsJkVhP3SkcuuqkqIhlh7kPL54lcaJYsynrJo+Ho2KwcHTAyT7YqHroIZfYytU/GM1724aiyDTEXnDcQeH4NVp21Xclm+yt67181BHwvgoTNCRg12y4URplX5CKngnkyy8r1zng4Wo4lI7A8CNe0LZQamobkw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783102456; c=relaxed/simple;
+	bh=4RmLGosaQxWzFQHidhyzQeb1fuoGDSTrv4umuJ0cAi8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=K4TmHJL3cwrk7DwigfrBgqxDPQ09PlWppDKHh42V3CBhKtncHxHSGCcgKGjkYp07sqLbwKdrHQZmS9dmYEG2US0hYHfCyRPeiyNe77SxhUeyXVm0kyLisx6DA9gBkMVQlBOHtPhkeu3U0a6xQ2ez1tVgKDunqyO8sifreR7RwNg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=heGICJdN; arc=fail smtp.client-ip=40.107.200.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dO9AD7Pu"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c9e2489e117so493600a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2026 11:13:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783102411; x=1783707211; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=et1svp74kMfYIqdkyhXdjYNGM3qhEKBtyCajk9g6PTE=;
-        b=dO9AD7PuwVvKZT1kv4Mr6fCNzLM3OKAZuwwdHMAM9bs0BMsx6JD1rRwy/jBDrBFtXn
-         fkO+WQ7K3DoPNiH5uC2Q3psqIO1cDk6NWxqBrn3BUrL0WHzw3ZYrrGlIUKHu+XN4zdcb
-         seEg9Obru0lC8H09scbprcZDSeVwAcv0UEAOtWRnNybB9JgVnjZMkNt8KN4lXeqls5Vj
-         mE5xXezG6hrgGA7Aiima16Xd4X6iaY9/VGCqIoVFNC2q0GQFH5AM6cVc5AtxzPUlvTHc
-         aCG8o42wx4VH7vTCRGpowA82bb93D1EwuYPOO4k5uXjitY6tClMqL1PZp1Waqi7wiM2o
-         QiPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783102411; x=1783707211;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=et1svp74kMfYIqdkyhXdjYNGM3qhEKBtyCajk9g6PTE=;
-        b=lRNwOS4Bck57dA9/JqIeZpQjcIS17vMyCJbAW3+hrKcvBDQ5jEY3Sej5yZ2PeAVeFl
-         9DfWpe285ObVZZuvw3tL81ggVhU4mhCFHhdIbAbwOR6HVbi+QpILM8kE2aSoBMXCdPH1
-         0KcUrIg2sT1/iVr18LORQBEHagxtLrZ+m7SvkL7wLp1VgUV55SzUcW5OzHm7Ll5jLw7X
-         XtWd/1/6Cjx5dZC8c/gBemVNJo4tAHRLbg5c1fp7Szq1fUSPtDpJsxR7pbiGcyzBHazv
-         aBIsjsGJQYI9Y5ego3MdF3JdQSbTH4SH0zsuIm6YmmsRzHs+2M9sir2ZQvRNTLE60LMb
-         VFMQ==
-X-Gm-Message-State: AOJu0YyiaatC0tsFGkYYqh4MRukFuUtjCpnzi3FA4uCfFTF5jdTzyurQ
-	3iTDB4iEtexn3BBdVOBXWZP5LVG82Zp/mTqwaVFG/T6maP2uHVsiDYg0
-X-Gm-Gg: AfdE7cmbhx158KW1xY87MiGBW/KlojMJM9f1Nwpn9peJL6SH2nsf/lF8vqn1mvrBXGk
-	WuKz6mzZW8uLdagilqeDk0hFPI2o69GklQixwt82ss761eyqkrvi4irt1Yj6Ww/x2yToh43ZoiM
-	GntnvQaNE3cuQdCvq+Atc0zErAxRJdnxgmM4kIOibW+xfFoID+/oLVKuL1VwD42ARTh+tX6ER/c
-	bKbXrT1OJTdTWJyEVphoxo9tlF46H59qzAKsSj66XuKfjg5ZWF1MeAxXsztCv0zpCQ48k/LJYMY
-	HPWY/U87L86/MBmZtbFl2tVLgbbltMsoOcv/3X2A3r4eS712nPQLQUToYmjHUIDV4VcGbw/38eF
-	wdW2sUlGDBX15dO9KRw8nU0cZdh0hdSs1sXQynTxpdThxgWu+Y5boWqaKo4wjIzNZ8kzHkGans9
-	385O+qRHWpNNY0LUnHfiWnSA==
-X-Received: by 2002:a17:90b:5790:b0:381:26f:8f05 with SMTP id 98e67ed59e1d1-382802bbed2mr520331a91.3.1783102410308;
-        Fri, 03 Jul 2026 11:13:30 -0700 (PDT)
-Received: from localhost ([2804:7f0:3d7:1ef2:9a22:90ef:2ded:a7d3])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f3b252222sm3489692eec.23.2026.07.03.11.13.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 11:13:29 -0700 (PDT)
-From: =?UTF-8?q?Amanda=20Corr=C3=AAa?= <amandacorreasilvax@gmail.com>
-To: Daniel Pereira <danielmaraboo@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	=?UTF-8?q?Amanda=20Corr=C3=AAa?= <amandacorreasilvax@gmail.com>
-Subject: [PATCH] docs: pt_BR: translate the management-style.rst to Brazilian Portuguese
-Date: Fri,  3 Jul 2026 15:13:26 -0300
-Message-ID: <20260703181326.47524-1-amandacorreasilvax@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="heGICJdN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RezDczYzPgxCRIzR36CbzxajRrIsZLucdHbLYyVhGVInaGE5e1IzeJsXSeJF9weYFl+ALU8/99UWBmSrmbs8s2zt1VbCuen0Qbc3e4gkmLst1r92LwjHZMOTCSxFkE0sGC9PF818wEnHFRABtvzDeFV8MLyt4enNWNovzXume8Uiuh3PM793gjDRqpC+zCiOif9J8hAZ4uZ7KmdS7g/XiPaGZeEUwd3NjrAuWNVUApX/UrUahNQgbb/wrp06tRVbLMqWL2IT25btleiyu6G/WUJL/AAMxbrY4hN0X3L9F+eDQAzE8IlHplEJSS0H2ZAteHBH1LMJTvkXfbadVr1vnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ltzmXBpNL1OacVP2/KRxTz/MbIFa3ZvwsSqbZNR4ZUs=;
+ b=i3j4avWZFO4w0G1QyoILU1GA1QXqSKEJ7a0ntW6fC53nbqBNVBmNY5RQRzk4I4Xp2npavqZWONF5i6LIA7d2kTYCL0nUJDa3NvV7e5D3sj5OJRgb+nmGXJa+sAiJYrU30+QwDHRlYlevrQ1bVIrd+HkXmFY/25OULwWLeFksH4he5FPrOppW8QK+4EkA0kj4pfXc1njOisB7IgJhiiAeIyeQDEsV/3m+62Lmg7iyI8qmsZ4OWqH8Xu3X+MT4raGtTVq44zIYiLh0combNiroFFYZnAqKWs0L/ccCMfuO3UDgGdBb80PZ5no+Uci1v3cb5LG1GGNdlGfWe91nkL8ufg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ltzmXBpNL1OacVP2/KRxTz/MbIFa3ZvwsSqbZNR4ZUs=;
+ b=heGICJdNBlyqs5UoQpm20Ml+Ooj49wQifvhAsnLMamVvyljSGoO4gZ9fe4gvzBW7LdrX0j4VFAq6Xsi1Y5qxAJWoalerF9ODiAOl3hf060x73ECRfhs87gp7qG568tle4YW5w4J1D2CR9ICk05HqfLFc3G5XMyH0efLfkk0tjPYH6HbDS0Z8N8MYUg/yA5vEVssW2Z0C25WycAVsjBtzpvE2revQK+l4R0qq99td/fctfD84uy0y9V6d7qU1K1G+t0Z7P8JqYPmPKk4Aa0l02PrRBdddqW5UCQw7lgFqPrOL8igq9Q30Ft7PXlnEtJY6kt8Y4wj37nEh7IvcsxO7bQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by MN2PR12MB4456.namprd12.prod.outlook.com (2603:10b6:208:266::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Fri, 3 Jul
+ 2026 18:14:03 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0181.009; Fri, 3 Jul 2026
+ 18:14:03 +0000
+Date: Fri, 3 Jul 2026 14:14:00 -0400
+From: Yury Norov <ynorov@nvidia.com>
+To: Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
+	corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
+	pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
+	huschle@linux.ibm.com, rostedt@goodmis.org,
+	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
+	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
+	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
+	christian.loehle@arm.com, tj@kernel.org,
+	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
+	rdunlap@infradead.org, kernellwp@gmail.com,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 16/23] virt/steal_monitor: Compute work at regular
+ intervals
+Message-ID: <akf76J6S5etNOICE@yury>
+References: <20260701141654.500125-1-sshegde@linux.ibm.com>
+ <20260701141654.500125-17-sshegde@linux.ibm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260701141654.500125-17-sshegde@linux.ibm.com>
+X-ClientProxiedBy: BN9PR03CA0450.namprd03.prod.outlook.com
+ (2603:10b6:408:113::35) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|MN2PR12MB4456:EE_
+X-MS-Office365-Filtering-Correlation-Id: e7db4042-b0d6-447f-4be7-08ded92edcda
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|23010399003|10070799003|7416014|376014|4143699003|11063799006|56012099006|18002099003|22082099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	gW91F0a6/uCWJSO42f2HI9+cH+XJuGQv88cguF81zE+7f7nH4k+U4WBg2s5GM+HYq3N3d+z6/rR+LnmEhlKz8VMEqYecpCxFRjZS2zEfIHKMn4nECvuRAYOthph2HWBFqGyfy8TKpVUKBHKQAtEOZ0+l5Eh/uP1wHwcIwz5wqnglc0vCAKkjut1YJo+JUbsZmYZKrCZeAidnZgYw3LJ5CeMR6IN3hQ5s6q0ZZ9uKUHStxALbgNbRxdfiLMwR4uE/qlnxzfTLGid1BXmdBV5eBjsM8QY0T81FmG4qfMQVI9KmrKhr29jPdK4QAofTK4gTWJuR1ValpGXnRiUZfZv6BwRa8WRwVB3scId+ugSVV3gf/yA7jAsN3i84GufzDoTOUyLwcshUxIGGAiGlYOdzK/PISuo5rQ1EkJKBW8l90+2bUzqtHh83dqJlC/nOd+dNkyLBNDOVTx442TMcwQHS7GiOP4YkbvhN0v2eUP50lcCxKWpO4D6h80IcrWibaiiC4LYjD2AUJGGL7S3Adguj2ogrWMF4bI5XOZRnoDx9r7kzQTbTptAsOidhqeJNZpeZ48L6gQwbkjQELUCauIApNqa+xwjP3Jvpt5arVMaCCwgWAHB7mVl8M7cuBFKvW9M04dHZOE7dY/1U3xdT/bzUy6d23CSXYx+IiwdcA7rpNTI=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(10070799003)(7416014)(376014)(4143699003)(11063799006)(56012099006)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?ZgK3YswNo0yHHAwnGOy+lfq+aFqFnxtJLwSCdxhWxiDzZJWTxZjLw0zURymM?=
+ =?us-ascii?Q?Ms6CjEEFYRnVhzVm0RuiEERztpZhcKXs5kDroChqPrdmAJzp5TI6T7gBA9X8?=
+ =?us-ascii?Q?j75gId2ZmT5ffOV4qxpkPNg8HjOAjLlJqLupDxKOpVm0KIOcOC8yfejTjbEp?=
+ =?us-ascii?Q?0ILB06sbdqWnYdcxwZ/OqOKKlxFF0H2coToNYfHcvddwigjNQ9g/2pDeXiTz?=
+ =?us-ascii?Q?k+r6sN0j4kg4tYB5gD1tXWtmpprVALIWROnep5pbHxi8rGPZ4kB+v7xEGlo7?=
+ =?us-ascii?Q?v6jkZSErch8v/wf5MFuq65M0JLpq3TiiyfQnpiRIAko6PMD0sNp+Tpj8Dnkf?=
+ =?us-ascii?Q?JOW0sg3WXUgCPrj0zw97itTuqhKxjkiEldwaO5nt0DvciW/PzWy3ztYzrOnD?=
+ =?us-ascii?Q?wBfhXP6HUfo/E6BWUo7x7luix9iJnBrMppQR3WKjWEqL0CIxcmJnOz9BZkEn?=
+ =?us-ascii?Q?dP6ztq/JYh++46GTta23kHsbe7giysq2sIIx6/kXGIMgJd78kPazVWw8MDHL?=
+ =?us-ascii?Q?cBHHhfyvYhMsGEWbImK4JdoHhgGfatxUE1fVUs2lKO2nfeA2DwYG16IWMlo+?=
+ =?us-ascii?Q?vFfJcMx792eN/AicHqiKNAiwrioEh7KCyBR/bsOSp8vtudfvSG+Fp6xOewfx?=
+ =?us-ascii?Q?ejmXO7DSf1z9ohyYPOQG2U51qepn1FMxggofjhoRU2LcJM512a+saAY9cWwg?=
+ =?us-ascii?Q?vHtzLeBOuLCfG1ZuoepATgMEKT8CIALnXDxJRBbEvpBwiU7nyQQCWCp1rTv1?=
+ =?us-ascii?Q?i3fSthkUQiicv97WoMtMP4fWmifE72qGeL27IiGczCzg9PZQe+vUvsJ3tV/w?=
+ =?us-ascii?Q?vQXz80Em4uUhTaKrmoYWRwmXxMEkZa6S1GbkPQX+Mb3HTDu3RGeTzJL86UkD?=
+ =?us-ascii?Q?FEvDFoJVC8xN84nodteiCpK7/ppRb7OPwmqniEmckMEpHE5TjsTmXEZYaMSM?=
+ =?us-ascii?Q?vwi9/Zuyjjxd8exzxp3voyvRzxBVD5zbFk68Y3sb11dsaxGDIzuDcLb/6HLb?=
+ =?us-ascii?Q?2NrnDDi2Dmg9FF/nH8SyU2gCSbqnZnFbZh3DNFPLGJW02quyjWXMMh4auc7o?=
+ =?us-ascii?Q?/lkoxhyVZWAwz//AfTobykImURjvwTsJcKGHVU1ADB4prUj6KNMoMkG6iSkG?=
+ =?us-ascii?Q?vnY1TH/AHaKLqLGT+CP/1mXTYTDhD6QogpfrWDs78y01jozYOPPyQf3RdVUn?=
+ =?us-ascii?Q?hoZ3Zz8LRc89+H9P9wasE2yoK3ajwE6Im6ZWMS2/A0ewElWhDDK+q4Qx3gym?=
+ =?us-ascii?Q?1WHWJh6KYssldrg8YPD06fFQehpCSSwpTdA6hii6OsAdNjjLuPDWmvxBDQab?=
+ =?us-ascii?Q?VTZxjY/Guv/PhYq10I4hn9WGU4m6eZnP0ZFmHsaKWQjo8qxX13zBIU8VTY1D?=
+ =?us-ascii?Q?9kA9l48V3HXCbLk4ZL2E2Nqo8RPIoFJkGbMaeiOGTgubRgTUcA2vk6KthZQT?=
+ =?us-ascii?Q?XNGznjx7sdd+OEeq+zwlfZbpVPUMGpnsUNdBa1pGfOwV6iop6vL/w2q0/vm7?=
+ =?us-ascii?Q?9oSLPxJcWt4PImVCMGO9X+xqd76O5Z27abckEaCEnA3HBe7gVVlyLs577aQG?=
+ =?us-ascii?Q?7CjnkKAHbJBuZo94agHqcu5rNP0cSK1UzNZcJJ61+SNuISgnKNhLVfzLsWgS?=
+ =?us-ascii?Q?yuAvbtIOTmQp6Nbntv2fV79/0N8qawnn3elozWwTR2iH90lfQ5utoCKWEmrO?=
+ =?us-ascii?Q?344oe+ecSh/8Uk6+aZoc8xtywngwUlFuX4y28dYX0R8kTgwcMDL2de7qP/lN?=
+ =?us-ascii?Q?oxyfxwRqBqJ92eiQT+dCwzCw0mfdFJkGAtmutFW2Aug/1ff8yzwTKxZnpfqa?=
+X-MS-Exchange-AntiSpam-MessageData-1: K1jRe/OJJOwExg==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7db4042-b0d6-447f-4be7-08ded92edcda
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 18:14:03.2198
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +QwRoUIEfw91GwX/UvToDccE05zjEKowOLg6d0h1FSUWQKzy4r3/ePLKvCfwcCy/WugdAxYT4RohNPm6hlAeZA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4456
 
-Key changes include:
-- Translated management-style.rst into and adapted idiomatic expressions
-  and humor to sound natural in Brazilian Portuguese while maintaining
-  the original tone.
+On Wed, Jul 01, 2026 at 07:46:47PM +0530, Shrikanth Hegde wrote:
+> This is the steal_monitor core functionality done in periodic work
+> 
+> - Calculate the steal_ratio. It is multiplied by 100 to consider the
+>   fractional values of steal time. I.e 10 means 0.1% steal time.
+> - If steal value is higher than high threshold, call the method to reduce
+>   the preferred CPUs.
+> - If steal value is lower or equal to low threshold, call the method to
+>   increase the preferred CPUs.
+> - If the steal value is in between, no action is taken.
+> - Save the values for next delta calculations.
+> 
+> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+> ---
+>  drivers/virt/steal_monitor/sm_core.c | 26 +++++++++++++++++++++++++-
+>  drivers/virt/steal_monitor/sm_core.h |  3 +++
+>  2 files changed, 28 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/virt/steal_monitor/sm_core.c b/drivers/virt/steal_monitor/sm_core.c
+> index 1ba638224abb..b499faa61010 100644
+> --- a/drivers/virt/steal_monitor/sm_core.c
+> +++ b/drivers/virt/steal_monitor/sm_core.c
+> @@ -32,9 +32,32 @@ module_param_named(low_threshold, sm_core_ctx.low_threshold, uint, 0644);
+>  MODULE_PARM_DESC(low_threshold,
+>  		 "Low steal threshold (default: 200 i.e 2%)");
+>  
+> +static void compute_preferred_cpus_work(struct work_struct *work)
+> +{
+> +	/* At least one core is kept as preferred */
+> +	WARN_ON(cpumask_empty(cpu_preferred_mask));
 
-Signed-off-by: Amanda Corrêa <amandacorreasilvax@gmail.com>
----
- Documentation/translations/pt_BR/index.rst    |   1 +
- .../pt_BR/process/management-style.rst        | 265 ++++++++++++++++++
- 2 files changed, 266 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/management-style.rst
+This is very true, at least one CPU must be preferred. But throwing
+warnings is useless. What do you want me to do if I see this warning?
+The only possible solution I see is unloading the driver and not using
+this balancer at all. Don't think it's what you want me to do.
 
-diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index 7a488f662..e17a62758 100644
---- a/Documentation/translations/pt_BR/index.rst
-+++ b/Documentation/translations/pt_BR/index.rst
-@@ -77,4 +77,5 @@ kernel e sobre como ver seu trabalho integrado.
-    Processo do subsistema de rede (netdev) <process/maintainer-netdev>
-    Processo do subsistema SoC <process/maintainer-soc>
-    Conformidade de DTS para SoC <process/maintainer-soc-clean-dts>
-+   Estilo de gerenciamento do kernel Linux <process/management-style>
-    Processo do subsistema KVM x86 <process/maintainer-kvm-x86>
-diff --git a/Documentation/translations/pt_BR/process/management-style.rst b/Documentation/translations/pt_BR/process/management-style.rst
-new file mode 100644
-index 000000000..b92f8705c
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/management-style.rst
-@@ -0,0 +1,265 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Estilo de gerenciamento do kernel Linux
-+=======================================
-+
-+Este é um documento curto descrevendo o estilo de gerenciamento preferido (ou
-+inventado, dependendo de quem você perguntar) para o kernel do Linux. Ele se
-+destina a espelhar o documento :ref:`process/coding-style.rst <codingstyle>` em
-+algum grau, e foi escrito principalmente para evitar responder [#f1]_ as mesmas
-+(ou semelhantes) perguntas repetidamente.
-+
-+Estilo de gerenciamento é muito pessoal e muito mais difícil de quantificar do
-+que simples regras de estilo de codificação, então este documento pode ou não ter
-+qualquer coisa a ver com a realidade. Começou como uma brincadeira, mas isso não
-+significa que não possa ser verdade. Você terá que decidir por si mesmo.
-+
-+A propósito, quando falamos sobre "gerente do kernel", trata-se de pessoas líderes
-+técnicas, e não das pessoas que fazem gerenciamento tradicional dentro das empresas.
-+Se você assina pedidos de compra ou tem alguma ideia sobre o orçamento do seu grupo,
-+você quase certamente não é um gerente do kernel. Essas sugestões podem ou não se
-+aplicar a você.
-+
-+Primeiro, eu sugeriria comprar "Os Sete Hábitos das Pessoas Altamente Eficazes"
-+e NÃO lê-lo. Queime-o, é um ótimo gesto simbólico.
-+
-+.. [#f1] Este documento faz isso não respondendo tanto à pergunta, mas torna
-+  dolorosamente óbvio para o questionador que não temos ideia de qual é a resposta.
-+
-+De qualquer maneira, aqui vai:
-+
-+.. _decisoes:
-+
-+1) Decisões
-+-----------
-+
-+Todo mundo pensa que os gerentes tomam decisões, e que a tomada de decisões é
-+importante. Quanto maior e mais dolorosa a decisão, maior deve ser o gerente para
-+tomá-la. Isso é muito profundo e óbvio, mas na verdade não é verdade.
-+
-+O nome do jogo é **evitar** ter que tomar uma decisão. Em particular, se alguém
-+lhe disser "escolha (a) ou (b), realmente precisamos que você decida sobre isso",
-+você está em apuros como gerente. As pessoas que você gerencia devem conhecer os
-+detalhes melhor do que você, então se elas vierem até você para uma decisão técnica,
-+você está ferrado. Você claramente não é competente para tomar essa decisão por elas.
-+
-+(Consequência: Se as pessoas que você gerencia não conhecem os detalhes melhor
-+do que você, você também está ferrado, embora por um motivo totalmente diferente.
-+Isso significa que você está no trabalho errado, e que **elas** deveriam estar
-+gerenciando sua genialidade em vez disso).
-+
-+Então o nome do jogo é **evitar** decisões, pelo menos as grandes e dolorosas.
-+Tomar decisões pequenas e sem consequências é bom, e faz você parecer que sabe
-+o que está fazendo, então o que um gerente do kernel precisa fazer é transformar
-+as grandes e dolorosas em pequenas coisas com as quais ninguém realmente se importa.
-+
-+Ajuda a perceber que a diferença fundamental entre uma grande decisão e uma pequena
-+é se você pode consertar sua decisão depois. Qualquer decisão pode ser pequena
-+garantindo sempre que, se você estiver errado (e você **vai** estar errado), você
-+sempre pode desfazer o dano mais tarde voltando atrás. De repente, você demonstra
-+o dobro de capacidade como gerente por tomar **duas** decisões inconsequentes
-+- a errada **e** a certa.
-+
-+E as pessoas verão isso como verdadeira liderança (*cof cof* besteira *cof cof*).
-+
-+Portanto a chave para evitar grandes decisões torna-se apenas evitar fazer coisas
-+que não podem ser desfeitas. Não se deixe encurralar em um canto do qual você não
-+possa escapar. Um rato encurralado pode ser perigoso - um gerente encurralado é
-+apenas lamentável.
-+
-+Como ninguém seria estúpido o suficiente para realmente deixar um gerente do kernel
-+ter uma enorme responsabilidade fiscal **de qualquer maneira**, é geralmente
-+bastante fácil voltar atrás. Como você não vai ser capaz de desperdiçar enormes
-+quantidades de dinheiro que você pode não ser capaz de reembolsar, a única coisa que
-+você pode voltar atrás é uma decisão técnica, e lá o retrocesso é muito fácil:
-+apenas diga a todos que você era um imbecil incompetente, peça desculpas e desfaça
-+todo o trabalho inútil em que você fez as pessoas trabalharem no último ano.
-+De repente, a decisão que você tomou há um ano não era uma grande decisão afinal,
-+já que poderia ser facilmente desfeita.
-+
-+Acontece que algumas pessoas têm problemas com essa abordagem, por dois motivos:
-+
-+ - admitir que você foi um idiota é mais difícil do que parece. Todos nós gostamos
-+   de manter as aparências, e sair em público para dizer que você estava errado
-+   às vezes é muito difícil mesmo.
-+ - ter alguém falando que o que você trabalhou no último ano não valeu a pena
-+   depois de tudo pode ser difícil para os pobres engenheiros humildes também,
-+   e enquanto o **trabalho** real foi fácil de desfazer apenas excluindo-o, você
-+   pode ter perdido irrevogavelmente a confiança desse engenheiro. E lembre-se:
-+   "irrevogável" era o que tentamos evitar em primeiro lugar, e sua decisão acabou
-+   sendo uma grande decisão afinal.
-+
-+Felizmente, ambas essas razões podem ser mitigadas efetivamente apenas admitindo
-+de antemão que você não tem a menor ideia, e dizendo às pessoas antes do fato
-+que sua decisão é puramente preliminar, e pode ser a coisa errada. Você deve
-+sempre reservar o direito de mudar de ideia, e fazer com que as pessoas estejam
-+muito **cientes** disso. E é muito mais fácil admitir que você é estúpido quando
-+você ainda não fez a coisa realmente estúpida.
-+
-+Então, quando realmente se revela estúpido, as pessoas apenas reviram os olhos
-+e dizem "Ops, não de novo".
-+
-+Essa admissão preventiva de incompetência também pode fazer com que as pessoas
-+que realmente fazem o trabalho também pensem duas vezes sobre se vale a pena ou
-+não. Afinal, se **elas** não têm certeza se é uma boa ideia, você com certeza não
-+deve encorajá-las prometendo que o que elas trabalham será incluído. Faça com que
-+elas pelo menos pensem duas vezes antes de embarcar em um grande empreendimento.
-+
-+Lembre-se: eles devem saber mais sobre os detalhes do que você, e geralmente já
-+pensam que têm a resposta para tudo. A melhor coisa que você pode fazer como
-+gerente é não incutir confiança, mas sim uma dose saudável de pensamento crítico
-+sobre o que eles fazem.
-+
-+A propósito, um outro jeito de evitar uma decisão é simplesmente choramingar "não
-+podemos fazer os dois?" e parecer patético. Confie em mim, funciona. Se não estiver
-+claro qual abordagem é melhor, eles eventualmente descobrirão. A resposta pode
-+acabar sendo que ambas as equipes ficam tão frustradas com a situação que apenas
-+desistem.
-+
-+Isso pode soar como uma falha, mas geralmente é um sinal de que havia algo errado
-+com ambos os projetos, e a razão pela qual as pessoas envolvidas não conseguiram
-+decidir foi que ambas estavam erradas. Você acaba saindo por cima, e evitou mais
-+uma decisão que poderia ter estragado.
-+
-+2) Pessoas
-+----------
-+
-+A maioria das pessoas é idiota, e ser um gerente significa que você terá que lidar
-+com isso, e talvez mais importante, que **elas** terão que lidar com **você**.
-+
-+Aconteceu que enquanto é fácil desfazer erros técnicos, não é tão fácil desfazer
-+distúrbios de personalidade. Você só tem que conviver com os deles - e com os seus.
-+
-+Entretanto, para se preparar como gerente do kernel, é melhor lembrar de não queimar
-+nenhuma ponte, bombardear nenhum vilarejo inocente ou alienar muitos desenvolvedores
-+do kernel. Acontece que alienar pessoas é bastante fácil, e reverter esse afastamento
-+é difícil. Assim, "alienar" cai imediatamente sob o título de "não reversível",
-+e se torna um não-não de acordo com :ref:`decisoes`.
-+
-+Existem apenas algumas regras simples aqui:
-+
-+ (1) não chame as pessoas de imbecis (pelo menos não em público)
-+ (2) aprenda a pedir desculpas quando você esquecer a regra (1)
-+
-+O problema com #1 é que é muito fácil de fazer, já que você pode dizer "você é
-+um imbecil" de milhões de maneiras diferentes [#f2]_, às vezes sem nem perceber,
-+e quase sempre com uma convicção ardente de que você está certo.
-+
-+E quanto mais convencido você estiver de que está certo (e vamos encarar, você
-+pode chamar praticamente qualquer pessoa de imbecil, e muitas vezes você **vai**
-+estar certo), mais difícil acaba sendo se desculpar depois.
-+
-+Para resolver esse problema, você realmente só tem duas opções:
-+
-+ - fique muito bom em pedir desculpas
-+ - espalhe o "amor" de forma tão uniforme que ninguém realmente acabe se sentindo
-+   injustamente alvo. Torne-o inventivo o suficiente, e eles podem até se divertir.
-+
-+A opção de ser infalivelmente educado realmente não existe. Ninguém confiará em
-+alguém que está claramente escondendo seu verdadeiro caráter.
-+
-+.. [#f2] Paul Simon cantou "Fifty Ways to Leave Your Lover", porque francamente,
-+  "A Million Ways to Tell a Developer They're a D*ckhead" não soa tão bem. Mas
-+  tenho certeza de que ele pensou sobre isso.
-+
-+
-+3) Pessoas II - o tipo bom
-+--------------------------
-+
-+Embora no final das contas a maioria das pessoas seja idiota, a consequência disso
-+é tristemente que você também é, e que enquanto todos nós podemos nos deleitar na
-+segura convicção de que somos melhores do que a pessoa média (vamos encarar, ninguém
-+nunca acredita que é mediano ou abaixo da média), também devemos admitir que não
-+somos a faca mais afiada por aí, e haverá outras pessoas que são menos idiotas
-+do que você.
-+
-+Algumas pessoas reagem mal a pessoas inteligentes. Outras se aproveitam delas.
-+
-+Tenha certeza de que você, como mantenedor do kernel, está no segundo grupo.
-+Puxe o saco delas, porque são as pessoas que tornarão seu trabalho mais fácil.
-+Em particular, elas serão capazes de tomar suas decisões por você, que é tudo
-+sobre o jogo.
-+
-+Então quando você encontrar alguém mais inteligente do que você, apenas siga o
-+fluxo. Suas responsabilidades de gerenciamento tornam-se em grande parte dizer
-+"Parece uma boa ideia - pode ir fundo", ou "Isso parece bom, mas e quanto a xxx?".
-+A segunda versão, em particular, é uma ótima maneira de aprender algo novo sobre
-+"xxx" ou parecer **extra** gerencial ao apontar algo que a pessoa mais inteligente
-+não havia pensado. Em qualquer caso, você vence.
-+
-+Uma coisa a se observar é perceber que a grandeza em uma área não se traduz
-+necessariamente em outras áreas. Então você pode instigar as pessoas em direções
-+específicas, mas vamos encarar, elas podem ser boas no que fazem e péssimas em
-+tudo o mais. A boa notícia é que as pessoas tendem a naturalmente voltar para o
-+que são boas, então não é como se você estivesse fazendo algo irreversível quando
-+você **as** instiga em alguma direção, apenas não pressione demais.
-+
-+4) Colocando a culpa
-+--------------------
-+
-+As coisas vão dar errado, e as pessoas querem alguém para culpar. Pronto, a culpa
-+é sua.
-+
-+Não é realmente tão difícil aceitar a culpa, especialmente se as pessoas perceberem
-+que não foi **toda** a sua culpa. O que nos leva à melhor maneira de assumir a
-+culpa: faça isso por outra pessoa. Você se sentirá bem por assumir a culpa, eles
-+se sentirão bem por não serem culpados, e a pessoa que perdeu toda a coleção de
-+pornografia de 36 GB por causa da sua incompetência vai admitir relutantemente que
-+pelo menos você não tentou se esquivar disso.
-+
-+Então faça o desenvolvedor que realmente estragou (se você conseguir encontrá-lo)
-+saber **em particular** que ele estragou. Não apenas para que ele possa evitar isso
-+no futuro, mas para que ele saiba que lhe deve uma. E, talvez ainda mais importante,
-+ele provavelmente é a pessoa que pode consertar. Porque, vamos encarar, com certeza
-+não é você.
-+
-+Levar a culpa também é o motivo pelo qual você se torna gerente em primeiro lugar.
-+É parte do que faz as pessoas confiarem em você, e permite a você a glória potencial,
-+porque você é quem pode dizer "Eu estraguei". E se você seguiu as regras anteriores,
-+você será muito bom em dizer isso agora.
-+
-+5) Coisas para evitar
-+---------------------
-+
-+Tem uma coisa que as pessoas odeiam ainda mais do que ser chamado de "idiota", e
-+isso é ser chamado de "idiota" com uma voz moralista. O primeiro você pode se
-+desculpar, o segundo você realmente não terá a chance. Eles provavelmente não
-+estarão mais ouvindo, mesmo que você faça um bom trabalho de outra forma.
-+
-+Todos nós pensamos que somos melhores do que qualquer outra pessoa, o que significa
-+que quando alguém posa de superior, isso realmente nos irrita. Você pode ser moral
-+e intelectualmente superior a todos ao seu redor, mas não tente tornar isso muito
-+óbvio, a menos que você realmente **pretenda** irritar alguém [#f3]_.
-+
-+Semelhantemente, não seja muito educado ou sutil sobre as coisas. A educação
-+facilmente acaba indo longe demais e escondendo o problema, e como dizem, "Na
-+internet, ninguém pode ouvir você sendo sutil". Use um grande objeto contundente
-+para martelar o ponto, porque você realmente não pode depender das pessoas
-+entenderem o seu ponto de outra forma.
-+
-+Um pouco de humor pode ajudar a amortecer tanto a franqueza quanto a moralização.
-+Ir além do limite a ponto de ser ridículo pode transmitir um ponto sem tornar
-+doloroso para o destinatário, que apenas pensa que você está sendo bobo. Isso pode
-+ajudar a superar o bloqueio mental pessoal que todos nós temos sobre críticas.
-+
-+.. [#f3] Dica: grupos de discussão na internet que não estão diretamente relacionados
-+  ao seu trabalho são ótimas maneiras de descarregar suas frustrações nos outros.
-+  Escreva posts insultuosos com sarcasmo apenas para entrar em uma boa discussão
-+  de vez em quando, e você se sentirá aliviado. Só não faça sujeira muito perto
-+  de casa (ou seja, não crie problemas onde isso possa afetar sua vida pessoal).
-+
-+6) Por que eu?
-+--------------
-+
-+Já que a sua maior responsabilidade parece ser assumir a culpa pelos erros de outras
-+pessoas, e tornar dolorosamente óbvio para todos os outros que você é incompetente,
-+a pergunta óbvia se torna: por que fazer isso em primeiro lugar?
-+
-+Primeiramente, embora você possa ou não receber adolescentes gritando (meninas ou
-+meninos, não vamos ser preconceituosos ou sexistas aqui) batendo na porta do seu
-+camarim, você **vai** receber uma imensa sensação de realização pessoal por estar
-+"no comando". Não importa o fato de que você realmente está liderando tentando
-+acompanhar todos os outros e correndo atrás deles o mais rápido que puder. Todos
-+ainda vão pensar que você é a pessoa no comando.
-+
-+É um ótimo trabalho se você conseguir aguentar.
--- 
-2.43.0
+Your logic should make it impossible to have the preferred cpumask
+empty.
 
+> +
+> +	/* Warn if interval_ms is set to 0, that might cause lockup. */
+> +	if (unlikely(sm_core_ctx.interval_ms == 0)) {
+> +		WARN_ON(1);
+> +		sm_core_ctx.interval_ms = 1000; /* Fallback to default */
+> +	}
+
+WARN_ON() means panic under some configurations. You shouldn't do
+that. The proper way of handling it is failing in steal_monitor_init().
+This function is int, not a void, for a reason.
+
+> +	/* Trigger for next sampling */
+> +	schedule_delayed_work(&sm_core_ctx.work,
+> +			      msecs_to_jiffies(sm_core_ctx.interval_ms));
+> +}
+> +
+>  static int __init steal_monitor_init(void)
+>  {
+> -	pr_info("steal_monitor is enabled\n");
+> +	pr_info("steal_monitor is enabled. interval: %ums, high_threshold: %u, low_threshold: %u\n",
+> +		sm_core_ctx.interval_ms, sm_core_ctx.high_threshold, sm_core_ctx.low_threshold);
+> +
+> +	INIT_DELAYED_WORK(&sm_core_ctx.work, compute_preferred_cpus_work);
+> +
+> +	schedule_delayed_work(&sm_core_ctx.work,
+> +			      msecs_to_jiffies(sm_core_ctx.interval_ms));
+> +
+>  	return 0;
+>  }
+>  
+> @@ -42,6 +65,7 @@ static void __exit steal_monitor_exit(void)
+>  {
+>  	pr_info("steal_monitor is disabled\n");
+>  
+> +	cancel_delayed_work_sync(&sm_core_ctx.work);
+>  	guard(cpus_read_lock)();
+>  	cpumask_copy(&__cpu_preferred_mask, cpu_active_mask);
+>  }
+> diff --git a/drivers/virt/steal_monitor/sm_core.h b/drivers/virt/steal_monitor/sm_core.h
+> index e5c3ea0a63c9..ea06e83c228c 100644
+> --- a/drivers/virt/steal_monitor/sm_core.h
+> +++ b/drivers/virt/steal_monitor/sm_core.h
+> @@ -8,6 +8,9 @@
+>  #include <linux/kernel.h>
+>  #include <linux/init.h>
+>  #include <linux/cpuhplock.h>
+> +#include <linux/cpumask.h>
+> +#include <linux/workqueue.h>
+> +#include <linux/sched/isolation.h>
+>  
+>  struct steal_monitor {
+>  	struct delayed_work	work;
+> -- 
+> 2.47.3
