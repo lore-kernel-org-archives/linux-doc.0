@@ -1,72 +1,74 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011066.outbound.protection.outlook.com [52.101.62.66])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011002.outbound.protection.outlook.com [52.101.52.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891331D5160;
-	Fri,  3 Jul 2026 18:27:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C251A9F8C;
+	Fri,  3 Jul 2026 18:28:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.2
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783103256; cv=fail; b=IrcNhk9HJl7tue5XuRBW6t7fRco0/KeQUrWpf+TINwDNVRy4HKd1aakLiGFsvYN4NgmBioLGLkULU9IzVb4s2N+f4eax+0FfLCvYWic/jLqbdRmDWM6Oh4yTjIWeCtbMERBXwTHxdoYt4hvFshcR1G1s5j+tNKDXUJbacbXfT4A=
+	t=1783103285; cv=fail; b=fbGeoAKvLsP1oHq21z1JGeN3L7SC8Zu+tnUqrqlqKPTD4kq1Erb3fXDpXtObzJd+y5+/6YSvpgONYI8jtCZa4/Hd4dkEkdzos0sTk4ZodM8cLfvHmqS34SYSHule5D4aA2hWmrM3LsYVIjS3O9k6hoSAcin6atdCFrlj05rBb8M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783103256; c=relaxed/simple;
-	bh=verobwPmUKSK6+Ss1t58v8Vh/jFdQOWlIp3U8bc+7Vg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=bs/KQvk9dTD21q4nBJ2sY0oPQq0c0pOFR/KKnY75z7YtheKIDhOM2e8uJWkIKcgK+O8OvTFr49og1dEZKqNNul0ASSzfLCEpcaW/aJ2Zv0mbmSVtpKq8pvSonvNGRitth5joTH+OAgp1M/1LiYsBEWnXxKmfCjCQX0WM7iZJMHM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=YBDuVQGp; arc=fail smtp.client-ip=52.101.62.66
+	s=arc-20240116; t=1783103285; c=relaxed/simple;
+	bh=gaCZ1fQKHq7fdFsJ4TI7g+HGgIExkASvrcZSta7BOtg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=vGDNNMsudueKXKT6IVaoHgAv3LPcwQh4Q3eGsZCgs+NowHUSNezuWZg+W1HmlISlnrqfcA18JiMGlyP6wEXG/+mSGdxOHU5eXDwbNKUnUp+ofNjEqCKboOp1r1zBd/xIHb+wVr8ieOXyYSV/g9vdSA/o+OlpTTuDxc+sJT3PGh8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=pehGRkwy; arc=fail smtp.client-ip=52.101.52.2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YBDuVQGp"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="pehGRkwy"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JED6OIAgRPfN+bWZx1xhhDet9JPgbGAyXeghXqmayimlK1lpNGP2nZnpa1ajQBF/djP3eZFnG7ZrtpyJWkYH8mCyVasROS1mIV+ErLRnAqEryfO41ZjuRgCZEBA3pdDOerhlvFwxMXGjl9IC6juY+y2U958J9D8DZEiwFu2d3Jxe1hEJWlUdvcjT1cCH8BegxZvrAgZa0Pb2df7YcnA5c0UCV6iGgsjivvGgxbXKxxVaNImdM3IPO7RzV3MFQ4TPbtrSwKLXZ4hn46NVvlKaEqRztHr9L/xejdPWLUHw86k7P8Db2+kNvN5DiJVF+hVfnhljxfyD646UpZl8KgYgXA==
+ b=yNNJOP+yuCh8Lsc1etDZR/5uwUiRDIHX3pqmceAeKoOVGE9w+VNMM2B0R8Q35tvbmd+0/CaC2HV9Vj6Xm2/2Sxdr67nUVMwnUKjnkjebNdYgmuVueLYv9D4Pf355iEG6QMJvaJCUnxrmsd1k3J/CoNGZeg42jqTDbkWOw1Kio45s/ZORovnvuCxJy8fOWqjUovAYx67nmknaJGMta2zEeXKpqFX42vcGYSCzBgQLGglOlgmJ3f0pJdrjcRbXgcagKw1b2/ehuEW9uXpeBmZ+c0TBuisDarZaff+40PVJWKmyQfkvFQXur9CYDCNR2JW57Hr5TMUIakcwMy30nuoQ2g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N96Ja06MtHj3V5C9F/Ltwi8ulyCyEQt17RKtFBBFW80=;
- b=RRjNy0hVpiUhAW3xtt9BSPNzlkmcuQpi6hxgUoEXBEzWyu7Y1hg2ttMdQ/ESQbn8vRWQFuapCunnNR+5Pv38vx6HVN3wsL5imHOsZcX53muzAatZlsm3pOqtzWns01FViJpjCo4bt3bjGwFXNwTSz3QPOCCkQ9XwijuL2pAiuctV2xWOLKQexbqT5gDLlA5UDs2qPU+Eqifv/jada6Vp+uIRlEiOJT8nNHFDpzMkN0HyBfzPSt2Uz9unXwbDByOEhHicIJV1XKzsK8bt+soH97SNaPP0KRflhpgdfnVAmFpXkVK4PZMbNBL0mVrqsNhr4kOzvr/fL7yKjQ1NvjOktw==
+ bh=jRE63VhSY5+AMkoNbWBJsuQ8X1IgMGJGa7nVr/kLweI=;
+ b=QHLypWYldm6rDsON8O2/nzHa2P75fNpoYqhUMvwyaMZsT/ZjMQdIOSQYUfP/fOZ/tq/yA4P5tTGdjlcaTsnfKj0j/z5AvB8Y5Ty93qmVJf1n7THrChH+l1UV2IB9sBSo9SZRP4ohZhM2iJP6rkx/Wd38VyTNN/pZh9EQLGZCwiXvalO/L8kutV8RZgHcFp0klKPYz78T4eKOr1B//GBpfe/oIh1Iu5MMsgYNBImVc/agrMOailgH47JuRczRtwdBlAyI4qWnaHVW4k3fUbO+LkBO2OsQqWFLYhqP7cD4M/+JXXdj/3Uyo9ZjrY4P4MecQDyFPnrQOWuT6gRXEpz3TA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N96Ja06MtHj3V5C9F/Ltwi8ulyCyEQt17RKtFBBFW80=;
- b=YBDuVQGppNOLMOrtqOA5/Kmb7FoUwcKbMDnCwAmuoOZZOsPByYsR7QrlC6nJ3hVUSjA1572SstQxdlEfKgv8jY2XpQhS530UbFEaadKodO8EKmRR5joSfguB08jQMpjcEp//E//iYqRatNffhaf/nHF3TcVSJnNIfuL1qwhGZQ9ImsaBh3ORI6BLVuKgtnnb4yup0iJujwsTO8YXCeBz8EMleruZuJcaAF9emBiJ4YnL3Qxes5h6ihcejY0qzPDd/ebYlZtgyGYojC1atOjk53Qvvwxx3z9fRjFZZJt8EYg1qXd3W7pjOg6i+HDUXlhBYUyeS5xANDcHPp2fzpB9Tw==
+ bh=jRE63VhSY5+AMkoNbWBJsuQ8X1IgMGJGa7nVr/kLweI=;
+ b=pehGRkwyt7amneGIPdNbvn6YD60Fa2VTx8IlkT4Ga1JfirXpbXZTx12rVlIqEk/rIN2uhXxRPypMRjPYeuBQeUwMiobNJuYM6mBbtSbWXB3zAL5wKJWHVyuM5omG6vVyPawadHsG9fHjqgzj917I0cTb+fAFKJhlix9jGAJAR8mPaE1hC9BdSclutnusUZWVuD5FQx8ovRozWkPC5+MpvG/7retpCq1PiaraGi/BewrBgdodwdyUZ0z3Ld+D4U5D031TCq8eD80X2/68CYpwIDbfzOUEB1IdPFr0BIv2FQjrJiEVazylwUkaXm7k3iOOWnSISVg39ctRTdFq36Fraw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB7548.namprd12.prod.outlook.com (2603:10b6:610:144::12)
- by IA1PR12MB8287.namprd12.prod.outlook.com (2603:10b6:208:3f5::14) with
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by LV2PR12MB6016.namprd12.prod.outlook.com (2603:10b6:408:14e::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Fri, 3 Jul
- 2026 18:27:31 +0000
-Received: from CH3PR12MB7548.namprd12.prod.outlook.com
- ([fe80::b710:d6a1:ab16:76de]) by CH3PR12MB7548.namprd12.prod.outlook.com
- ([fe80::b710:d6a1:ab16:76de%6]) with mapi id 15.21.0181.009; Fri, 3 Jul 2026
- 18:27:31 +0000
-Message-ID: <4fa57470-0d4f-43dc-af4d-e66ddb450923@nvidia.com>
-Date: Fri, 3 Jul 2026 21:27:28 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next V4 4/6] devlink: Apply eswitch mode boot defaults
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
- Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260629182102.245150-1-mbloch@nvidia.com>
- <20260629182102.245150-5-mbloch@nvidia.com> <akThPmvUHvCMT2cp@FV6GYCPJ69>
- <1d4ca929-82b8-4891-9058-1451bf71a660@nvidia.com>
- <akUfXyKioGNAO_iB@FV6GYCPJ69>
- <ecaeeef0-c463-4f10-885a-02ad2d648be0@nvidia.com>
- <akYX4pMrDTnxa6yK@FV6GYCPJ69>
-Content-Language: en-US
-From: Mark Bloch <mbloch@nvidia.com>
-In-Reply-To: <akYX4pMrDTnxa6yK@FV6GYCPJ69>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0272.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e6::13) To CH3PR12MB7548.namprd12.prod.outlook.com
- (2603:10b6:610:144::12)
+ 2026 18:27:58 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0181.009; Fri, 3 Jul 2026
+ 18:27:58 +0000
+Date: Fri, 3 Jul 2026 14:27:54 -0400
+From: Yury Norov <ynorov@nvidia.com>
+To: Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
+	corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
+	pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
+	huschle@linux.ibm.com, rostedt@goodmis.org,
+	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
+	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
+	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
+	christian.loehle@arm.com, tj@kernel.org,
+	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
+	rdunlap@infradead.org, kernellwp@gmail.com,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 12/23] virt: Introduce steal monitor driver
+Message-ID: <akf_Kg3jaenNbb-g@yury>
+References: <20260701141654.500125-1-sshegde@linux.ibm.com>
+ <20260701141654.500125-13-sshegde@linux.ibm.com>
+ <akf9cE22wvPeYNiM@yury>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <akf9cE22wvPeYNiM@yury>
+X-ClientProxiedBy: CY5PR22CA0051.namprd22.prod.outlook.com
+ (2603:10b6:930:1d::27) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,181 +76,192 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB7548:EE_|IA1PR12MB8287:EE_
-X-MS-Office365-Filtering-Correlation-Id: efd6f0f6-d73a-4779-cafa-08ded930be65
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|LV2PR12MB6016:EE_
+X-MS-Office365-Filtering-Correlation-Id: f3b65c07-1109-4b05-baa9-08ded930ce7d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|7416014|3023799007|56012099006|4143699003|18002099003|11063799006|22082099003;
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|23010399003|10070799003|3023799007|22082099003|18002099003|4143699003|56012099006|11063799006;
 X-Microsoft-Antispam-Message-Info:
-	VXIc1Sykzg50xqN403jezvP3+e4Z/W/XkQRys3wWdCZX5QsjC35E/SDh1FfcEzG0c5+0cVVnyAl8cNeaaQ7uyLO0j2FyGzHMI4i5iyhj2aKaHEaQroIgkU+NxH076K/OkFvkHPXuQsxTfwtTKHaoQfMuhGTtPbO4xDEHwlZfvJEpHezrJo6C1mcqjATFBbqIfLyiAHKRFYunr0bIwspYddu9k2zyZKfYFnJWEnFP3YVSk+l7UEzM97wMUSAmFP5D90KS6oTjS3c/XvTFdJww4ib4pf+WG9DKCSA9eDABkacpc0aX908QnXtYTr5+xnH0s/146fLu6V5/Oytp/7TgeNXi+4f1T379hLRBnVJtucevR9P2aVT6UD60yq5mqXmHK4rM9KdGHp3PoFrhg+C00uaE3nvlJvJKOgozQIy19NVv9JIImd37icOO8b4SVHcTR3mtMBA3pFstnodfd2Ei4Yxpg2cLb0bqDyfblFA8asjCps6v4tzvZONw8o0R1L4nc6c1B7VW5Pb+aSVE1BGUa1Qdr9HGqJtbIzM9E5/vHH8vY+Ijh7+UGAzYICt+KslACh4hbOZS8rzQWZBRcfXhL2aAetcfT0yB+OV33lJqH3dHPRctntMiEoRAEyd52qBIViJwvqtDtHIeDkagi3qleemBQZxrfLJAMnw6sE29wvU=
+	yxz5s/6pSUW/7wC4l638uVxbl7qejpXTpAF4Dy52KaMVt0dWgywFtYfsXyrXFf570r9xXYTxBbYdJtEmtHAAKUqqODHHUvt+MzT9XcqikcgQLVnfXIkqG4R0qxs6vJ54m7bqR+0+g1bNrVnG3GWyPPbX2rMUIKzvPeXBtW4DjTwFrLfErtLLC0YtuvnRP/P8bpwHflMNmSfLziFqGkJKNQ/BhxAbfAODj+P9dddGawAvLzwYHaAgAoG4dNQdLVqznQpPrTemcXPSdqWO4HJu8wqSk3CEZvj03FvIlaaQ+mGxP/878FS877ZCIZN3Ltbll5F/BqlifJUP3x/q7uT6SQcQX7Yd4MPJ3QQKajkmTgNoun/QWBKSx8+CtXu2k/CYFXBFkfJBkrJ+ZZJu4HeH9usHNWMEv1wF8HC5MZOeqJAEJTiAQId/S47jji+nHoa9XvTJe3SJMat/v8qMWm+r/qy21wb1+SthIQq6FDewxLqV+q5dJ20FGU74fkX+JHULOe2ACUhbKCZhe17m3iZrIlJB7cabWiZpGR4XxrtZD+nX89hnoG78XcVPDXNSAfWXevmpUAhZiGCOaWCxh9WuXXQlTDiF9M3PaabxKXph0YwSOkDbh5kbPxlLy79uqSPoTKU/88wcSwFtMlfmf6SzWSOvsUO1Py1+MDlI4kRSp/0=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7548.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(7416014)(3023799007)(56012099006)(4143699003)(18002099003)(11063799006)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(23010399003)(10070799003)(3023799007)(22082099003)(18002099003)(4143699003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Z3VxK3JCbDMzUnZLbll1WUIxODFqODJJY0hvQ0NIb3dHZHZIYnc4UExJcGt6?=
- =?utf-8?B?d3o0MTFjMnJCWHQ4V2pSK1RBTUt2Uzd3SlB3YVQvQmJoM0ZIYXhJbWZMZjAy?=
- =?utf-8?B?Q2VlMm0rd0F6aUEzVE83RjdxdXRITEFnQTB6YUlMS3lMckYvL2lBZk9talBK?=
- =?utf-8?B?L1IxSUIzR1VMZExxNmRnNkZ4VUw5Nisrd3NZQk5YalUybTJQek5YK21HL1kx?=
- =?utf-8?B?VHFFUUtWRkw5YlNqK2RVVC9GQ1h1b1ZnQ0t1MEp2WkxYM2U5NDJIWmo1M2gr?=
- =?utf-8?B?bGdkUWFmRkI5TnZkVUtBT25ObzRzd3Z2bkg2UkdPN3Nkajc3RjVqVTdnMmxw?=
- =?utf-8?B?NjBObWhONWw1YWg2Zk5vQm5wNlBjdDBPV2dhdlBvN25qeHQwaTFKZFdmSnQz?=
- =?utf-8?B?WnM2b1RhdjJDdFI1dUhKKzcvMVpINHdGNWRYTFl5c1ZiYm9QT2h5Tm5HQ2J3?=
- =?utf-8?B?M2EyeDlWMTlYem16cXZHWUZ2d1ZvWTIzNkNZa3BHNWlGQkJjdHhFd3cyc3dO?=
- =?utf-8?B?STVFSVltQy9YYmR0bGlnSXozc3R5ME84aHRaRHF6ZC9UL3VZVXFncDBJZ1ZF?=
- =?utf-8?B?eXdncXZvTFRSUm1SRnBjVmtvejA1djZQM2dMbTZqeEZUT1NUb2ZCZDVMdkZK?=
- =?utf-8?B?STZRVzlaeDZDRDh6SUxzMC9zY3E0NFgwbndQUmdrbmR2R3pPa0hObWtBREd0?=
- =?utf-8?B?dDZUL0wwdWEwbFZUYWFBUXRGU3JRMlAvQUVIMzlMay9JeUowSXQyeTJmc2dN?=
- =?utf-8?B?NjNuc0daa2xXZk9wd3J4cEw0NVA0Qm9BdXdPclc5OC9QYmtkMk5iTktyVWlj?=
- =?utf-8?B?dnVOcC9nTkloVkhxMi8zTHJxUmw3SHFITmZWMTVwcDJLbXFydlpOdUJOSmd5?=
- =?utf-8?B?KytQdmkxNmlLVzdpNmZ0b3lkY1drT1BiYXU3cDM3UzFITmlxaE1DUFpld0Nv?=
- =?utf-8?B?SWFnWjUzRnVucU5ZdEh4YlgxS2FYYm1lempTYkxiR2cranJoNGVHczNJTWpU?=
- =?utf-8?B?dENseDB4RXN5dGp0ZTNiOGpBSlhIZUZjNHZxZGZkaC9WQUQwS0xXTGhtMWI2?=
- =?utf-8?B?ZzlFRFd0K2cxUFd5UWNPVVh4RmUrQ0hLOGgwYndTTVo2NitkYkEzTXFZUFdk?=
- =?utf-8?B?M1BJbngwZW5SU28vTWwyNVNFMHZhNlJzdGxXckswYnczVWUvRTFibHBIUVhi?=
- =?utf-8?B?TW5nNXBWU0JTMDRPZVFvWldUdFZQczRUbVVnd0tYWDFpUCtMcFZJbDZ1M2gr?=
- =?utf-8?B?dDA4TE1yQjhPMWRDYzVqbWRsY05xd1ZXQkNCSE4yT0gwaDROQUJSSklhWWNo?=
- =?utf-8?B?NTVIbjdkbjZFZGFWYUk0Z2VPdzgySjVxWC8ySis0R1dtZld2UnNPSnBHa0Jp?=
- =?utf-8?B?NGlSL2NFSDlSS1B3MUZaV2lnME4wdzNVMWxGYUtZNWtIeXk1eHJDdFF5dEw3?=
- =?utf-8?B?SVFmWXVhdG16K2dYSmRvK1g4aHh6V0tYYWVmb2R2UDNjRG5nQzlZMklQYTJu?=
- =?utf-8?B?WU1MaGwxSnljbVNDNjQxNk5hcDRyRnQwdzRkNDVjNGNEMStSK1AwZUIwQ3Zl?=
- =?utf-8?B?MzFpZExsQnhrbkkyODJ5V2hlWHIrejV3VHZZaWtHMjNYUERJTEpJVzNPS1JO?=
- =?utf-8?B?WEU2cU14a05kTnlCMXFkV2xubkZqL25iM2MxNS94V3dsaEVGNDV3TGMrMVdU?=
- =?utf-8?B?Z1ZPWXJIYmxHNW5KeVlBQWJjbWVDTEJZMUFkdHkvMndXM3p2SDhDVFZlN0FG?=
- =?utf-8?B?N0FKNDlIRDd1eWFiaUZMUmlZTVJHSTh4cjdUMm1nRTdqWlRlOVNXMU1sa0Fz?=
- =?utf-8?B?MHZwcUlUTE1wY29IZ1E1cDMwRmI0QnJlYUVzQmdnRzdhWExBVG9KOFJpMkZ6?=
- =?utf-8?B?Tms2KzEwVGdOSlc1RjlLRnkxQWdRcEpjalgxM3BicTdQYmdrR29vNEhkcUNw?=
- =?utf-8?B?elZiSUduWmpVaDVSaE9pSUxzSWcxL2dhYTRGNDJHakR6aldoTnJveGhlM0th?=
- =?utf-8?B?eEFMNG10dUZLZVB4a2hiUkx3K1BDOVZCMmoyY1RiZ1V2dHNDdUQwTWp4QkhD?=
- =?utf-8?B?TENHbDNoSnN3Ym1mbmZINzRTdlI1YkZGRXhHbTZIbFRCaHBqSDJUdUlzbis0?=
- =?utf-8?B?TXVJSHdVeDFtVEJzYjZHbWZVWWpiM1cvWDlCWlZuVWozZEFJbHZteHI0QUpH?=
- =?utf-8?B?SWwyU0NGZ3BSVGxjOVNJb0VwRlBYMnF5VkRhdXY4aUJQV1NPK3VCRlZJenhL?=
- =?utf-8?B?dExJQ0tFMmE3bEZNdTdtSGp0SFNBaCtkcmFYYlREamgrQlFZY0I3QnFyT25O?=
- =?utf-8?B?MVpsS0xiZVptb1cwNGh2NTVsUVFJRDViUmhaR2RIbjBLdjRnNnFKUT09?=
+	=?us-ascii?Q?HWD+85SrjJ83ZQigFVFfSs0/sSPME7wt3jx7CL9W0AuAiehOJoJHdnSlR2pA?=
+ =?us-ascii?Q?8bXfbqfnQtVXsCZFf7QV0w7ClsrOCj/5TMM0w4jK4GacdffYnWElAY7Guq0e?=
+ =?us-ascii?Q?o2deDsjCyTlDGwKkFpU/yUQNDjD4gNSnbVMrMb1s/wl1BTuwQRZU9RNZnixZ?=
+ =?us-ascii?Q?T3d5sNHif+IWMPMG1UKCziHUSpwh76PKResm1giD83yng/3Zv7WDslQdDisX?=
+ =?us-ascii?Q?Xy5o/t/wgKElpEJjbttYNw5hoc1gepXDKB6lEWnK7gbEoH7XteNtCmKCF2pG?=
+ =?us-ascii?Q?yJjIqkd16Ml9Yv1bJzxexCZZY0gqPPAeDLHiwVcfFR+sujI4KsYG8FLnjvO3?=
+ =?us-ascii?Q?1+YxANkyASWBkFdr8U9zrNHFBXbzGfjWCzgm9pv8BnZlOAt4i0L5Y2EMkpdg?=
+ =?us-ascii?Q?iyaCS8BkUo4B6NyyNmcq8ISsQP2WHvy/0wmsh7P1etmre7HrCJTRSnGt6zmG?=
+ =?us-ascii?Q?3wJCLJi+VCxID/Yu3yVJ4VhsyBCJ423nxBWqUulzLVW00LfgIFV+oTq/v0+s?=
+ =?us-ascii?Q?IFTswQPS6GsQGBf2/HStRCyG08wWjhiS35is7W85a2kDpnjNgrmwfThZzk6X?=
+ =?us-ascii?Q?fk2QOLIOcTv3q4v99KUfVL8O3GpWuZd20qTsGweZQI2Nc09gegc5TAVdaIyo?=
+ =?us-ascii?Q?6N6qC276eIv3PZxC3xE5irK/jsHxzXi1sgK91FETgvwzzt61Ek4h88lUf1W7?=
+ =?us-ascii?Q?Eq5iWx8oqbY4QGLRyJT0rqoOk1MDLRfub5EwGmlhnjymO7/Ykw+PLI3kLS4Z?=
+ =?us-ascii?Q?ZRV8T+N1lpzvtKu8Ms+/BTzBVK2K+sigHAw5tgaFQgykewhncW4jLnIvfQHU?=
+ =?us-ascii?Q?XebcRylg8Gv77DUdID4n5vgir4mR6et1VwhW85608Uhn/X9SA4ObJM3qnIWq?=
+ =?us-ascii?Q?oL1HSzyLjN4XHpxFYqiujOKBGC2q5u/gvXOX6x9BV8xS6Cu0ceetzKJe0S5l?=
+ =?us-ascii?Q?dRJMqoCBf8qT4QK1QoZQ4rLWoDSp+M/F3cfbb0VhBMTf85IfYxdGrlhr29vk?=
+ =?us-ascii?Q?LWsW1Io7NjnKf4/vaO/rUAZvYbfJskOUO4wH0VVdeJINzdtSVbjVHDnV6G2L?=
+ =?us-ascii?Q?4e0OQ4q0CtC+dPeRbL3A26l4ePKpWceGuGtzS5PwSkw88dfRpgVRsC4II+zt?=
+ =?us-ascii?Q?PY+Pgnzo5Ae03GhoWop7IMFonpChz3i8nEBaFNiDg3/W3WyuAIXotujlRpvG?=
+ =?us-ascii?Q?ORQ0xaMIzcqvI6zpBURnjjSaN5/4ek9iKAF4VRyqcjdx3f52jpWR2KN6qi71?=
+ =?us-ascii?Q?GK7TJA6l6KraGaibIdQ/xI16FkwAhHkec4iOuzD/+ma5g4gLRShPC5V8Fuib?=
+ =?us-ascii?Q?baKNSA7Ufmpx2zQzqGZouVyndrjZyH5E02avRrxg0GdERaMUBwRP0dIrR+jY?=
+ =?us-ascii?Q?MDYhnTDUkFMkFdy+VneMYywnoKyrU+bgy32I4ZdUxJTc4fYaaqWkzRGJSEtO?=
+ =?us-ascii?Q?5xXMDfI+9gh837wbFhzILleNX4OKsq/e5hNCIZ9m5rum7GMvTUuZnUxfK2+n?=
+ =?us-ascii?Q?lLQPhFU/KORvSjsXw0nd4mNw+oDljrYOl5d+71AmJRXZ8Z4J0gdtuv9NsRFY?=
+ =?us-ascii?Q?ojQ7nm8u+tetDjn0olBZFgTJDzHEv/AVYBvjKsz223KVLZ5pC1KKfArSX56z?=
+ =?us-ascii?Q?xRlbxeZ/sJWjV01TPUtEWtHi9xV617HbJiujOeB+7gFE3MgHwPZff/Z0egNV?=
+ =?us-ascii?Q?LAqDyQyF4mBfzoovA4KF27X3mey8KyvMBHg1qTEC0ScEf8YM5i5Q58j0f7JX?=
+ =?us-ascii?Q?xPFVCjDkgeVrheqbh7NOe+0z7+eGG9xgmZtCdvd2K6SNsDUBa1WI+17rVVpE?=
+X-MS-Exchange-AntiSpam-MessageData-1: sCTeDdVgp5IhvA==
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: efd6f0f6-d73a-4779-cafa-08ded930be65
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7548.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3b65c07-1109-4b05-baa9-08ded930ce7d
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 18:27:31.1982
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 18:27:58.0844
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ej2StVvPytg/gzUTLtfwaCiH+N+azvDy/4aGS5nTgssBUWaHk/QRXFNK199nB/xoDydTddHxVQ3UoIeXptvxdQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8287
+X-MS-Exchange-CrossTenant-UserPrincipalName: +OLOWXIs/3BVtJaER+d+kUmiExOTiXRh1FpWjusbMX62ZgYKOCeUxLYGMhR3vcgz88J9QDgPEXByzxFj7jS0ug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB6016
 
+On Fri, Jul 03, 2026 at 02:20:32PM -0400, Yury Norov wrote:
+> On Wed, Jul 01, 2026 at 07:46:43PM +0530, Shrikanth Hegde wrote:
+> > Introduce a new driver in virt named steal_monitor. This driver
+> > will compute the steal time and drive the policy decisions of preferred
+> > CPU state.
+> > 
+> > More on it can be found in the Documentation/driver-api/steal-monitor.rst
+> > Introduce the skeleton code first.
+> > 
+> > There is no new kconfig. It depends on CONFIG_PREFERRED_CPU.
+> > - If CONFIG_PREFERRED_CPU=y, it gets compiled as a module. It is not
+> >   loaded by default.
 
+What if I've got my own monitor, and don't need this one? Please add a
+way to not compile it, even if CONFIG_PREFERRED_CPU is enabled.
 
-On 02/07/2026 10:52, Jiri Pirko wrote:
-> Wed, Jul 01, 2026 at 07:42:57PM +0200, mbloch@nvidia.com wrote:
->>
->>
->> On 01/07/2026 17:09, Jiri Pirko wrote:
->>> Wed, Jul 01, 2026 at 02:57:21PM +0200, mbloch@nvidia.com wrote:
->>>>
->>>>
->>>> On 01/07/2026 12:48, Jiri Pirko wrote:
->>>>> Mon, Jun 29, 2026 at 08:20:59PM +0200, mbloch@nvidia.com wrote:
->>>>>> Apply parsed devlink_eswitch_mode= defaults after devlink registration
->>>>>> and after successful reload.
->>>>>>
->>>>>> devl_register() may still be called before the device is ready for an
->>>>>
->>>>> How so? I would assume that driver calls devl_register only after
->>>>> everything is up and running and ready. If not, isn't it a bug?
->>>>>
->>>>
->>>> You would think so :)
->>>>
->>>> Some drivers, mlx5 included, call devl_register() while holding the
->>>> devlink instance lock and then finish setting up state before releasing
->>>> the lock.
->>>>
->>>> In v3 I tried to enforce exactly that model, move devl_register() to
->>>> be the last thing the driver does. Jakub pushed back on making that a
->>>> general rule. So in v4 I changed the approach. devl_register() only
->>>> schedules the work, and the actual eswitch mode change can run only
->>>> after the driver releases the devlink lock.
->>>
->>> Wouldn't it make sense to use a completion instead of loop-reschedule of
->>> delayed work?
->>
->> Just to make sure I understand the suggestion, this would mean that the
->> work waits until the devlink lock holder drops the lock, and devl_unlock()
->> would signal it, something like:
->>
->> void devl_unlock(struct devlink *devlink)
->> {
->> 	ool complete_apply = devlink->default_esw_mode_apply_pending;
->>
->> 	mutex_unlock(&devlink->lock);
->>
->> 	if (complete_apply)
->> 		complete(&devlink->default_esw_mode_apply_ready);
->> }
->>
->> That would avoid the retry loop, but it also means the queued work 
->> sleeps until the driver drops devl_lock. It does keep one worker
->> blocked per pending instance and adds this default-esw-mode signalling to
->> the generic devl_unlock() path.
->>
->> The delayed retry was meant to avoid a sleeping worker and keep the
->> instances independent. If one devlink instance is still locked, we just
->> try it again later while other instances can progress.
->>
->> If you prefer the completion approach I can switch to it, but I don't see
->> it as simpler overall.
+> > - If CONFIG_PREFERRED_CPU=n, module isn't compiled.
+> > 
+> > File layout of the driver is designed with having arch specific
+> > files in the future.
+> > 
+> > - sm_core.c - contains main driver code. This includes the periodic
+> >   work function and take action on steal time.
+> > - defaults.c - contains the default implementation defined with __weak
+> >   symbols.
+> > - sm_core.h - header file which includes data structure.
+> > 
+> > Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
 > 
-> Yeah, I don't have preference. I was just wondering. Feel free to leave
-> it as is.
+> You've split the driver code into 12 patches. It makes it impossible
+> to review the driver as a whole. Please make it less granular. 2 or 3
+> patches for the new driver is more than enough, I think.
 > 
-> Maybe, instead of "complete", you can schedule with "0" delay in
-> devl_unlock? Well, it does not really need to be delayed work, right?
-> The only single schedule may be done from devl_unlock. That would help
-> to eliminate the rescheduling. Am I missing something?
-
-Yeah, that can work.
-
-The only part I don't really like is adding default-esw-mode specific
-logic to devl_unlock(). But if you are fine with that, I can switch to
-this approach.
-
-There is still a small race between mutex_unlock() and queue_work(), where
-someone else can take devl_lock() first. So the worker may still wait on
-the lock, but the window should be small and we get rid of the delayed
-retry loop.
-
-Mark
-
+> > ---
+> >  drivers/virt/Makefile                |  1 +
+> >  drivers/virt/steal_monitor/Makefile  | 14 ++++++++++++
+> >  drivers/virt/steal_monitor/sm_core.c | 33 ++++++++++++++++++++++++++++
+> >  drivers/virt/steal_monitor/sm_core.h | 11 ++++++++++
+> >  4 files changed, 59 insertions(+)
+> >  create mode 100644 drivers/virt/steal_monitor/Makefile
+> >  create mode 100644 drivers/virt/steal_monitor/sm_core.c
+> >  create mode 100644 drivers/virt/steal_monitor/sm_core.h
+> > 
+> > diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
+> > index f29901bd7820..aff715cea42d 100644
+> > --- a/drivers/virt/Makefile
+> > +++ b/drivers/virt/Makefile
+> > @@ -9,4 +9,5 @@ obj-y				+= vboxguest/
+> >  
+> >  obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
+> >  obj-$(CONFIG_ACRN_HSM)		+= acrn/
+> > +obj-$(CONFIG_PREFERRED_CPU)	+= steal_monitor/
+> >  obj-y				+= coco/
+> > diff --git a/drivers/virt/steal_monitor/Makefile b/drivers/virt/steal_monitor/Makefile
+> > new file mode 100644
+> > index 000000000000..24cee55342ce
+> > --- /dev/null
+> > +++ b/drivers/virt/steal_monitor/Makefile
+> > @@ -0,0 +1,14 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +#
+> > +# Steal time monitor to alter preferred CPU state.
+> > +#
+> > +# Arch can implement strong function definitions and override the
+> > +# default by adding them in arch specific file. It must ensure
+> > +# that preferred is always subset of active.
+> > +#
+> > +# It is always compiled as module if CONFIG_PREFERRED_CPU=y
+> > +# One has to enable the module.
 > 
+> Why?
 > 
->>
->> Mark
->>
->>>
->>>>
->>>> Mark
->>>>
->>>>>
->>>>>> eswitch mode change, so keep a per-devlink delayed work item and pending
->>>>>> flag for the registration path. Registration queues the work, and the
->>>>>> worker tries to take the devlink instance lock.
->>>>>>
->>>>>> If the lock is busy, the worker requeues itself with a delay.
->>>>>>
->>>>>> For successful reloads that performed DRIVER_REINIT, devlink_reload()
->>>>>> already holds the devlink instance lock and the driver has completed
->>>>>> reload_up(). Clear pending work and apply the default directly from the
->>>>>> reload path instead of queueing work.
->>>>>>
->>>>>> If a user sets eswitch mode through netlink before the pending
->>>>>> registration work runs, clear the pending flag so the queued default does
->>>>>> not override that user request. Cancel pending default apply work when
->>>>>> freeing the devlink instance.
->>>>>
->>>>> These AI generated code descriptive messages are generally not very
->>>>> useful :(
->>>>>
->>>>
->>
-
+> > +#
+> > +obj-$(subst y,m,$(CONFIG_PREFERRED_CPU)) += steal_monitor.o
+> > +
+> > +steal_monitor-y := sm_core.o
+> > diff --git a/drivers/virt/steal_monitor/sm_core.c b/drivers/virt/steal_monitor/sm_core.c
+> > new file mode 100644
+> > index 000000000000..e320559c6576
+> > --- /dev/null
+> > +++ b/drivers/virt/steal_monitor/sm_core.c
+> > @@ -0,0 +1,33 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * Steal time Monitor.
+> > + *
+> > + * Periodically compute steal time. Based on the thresholds either
+> > + * reduce/increase the preferred CPUs which can be made use
+> > + * by the workload to avoid vCPU preemption to an extent possible.
+> > + *
+> > + * Available as module with CONFIG_PREFERRED_CPU=y
+> > + *
+> > + * Copyright (C) 2026 IBM
+> > + * Author: Shrikanth Hegde <sshegde@linux.ibm.com>
+> > + */
+> > +
+> > +#include "sm_core.h"
+> > +
+> > +static int __init steal_monitor_init(void)
+> > +{
+> > +	pr_info("steal_monitor is enabled\n");
+> > +	return 0;
+> > +}
+> > +
+> > +static void __exit steal_monitor_exit(void)
+> > +{
+> > +	pr_info("steal_monitor is disabled\n");
+> > +}
+> > +
+> > +module_init(steal_monitor_init);
+> > +module_exit(steal_monitor_exit);
+> > +
+> > +MODULE_LICENSE("GPL");
+> > +MODULE_AUTHOR("IBM Corporation");
+> > +MODULE_DESCRIPTION("Virtualization Steal Time Monitor");
+> > diff --git a/drivers/virt/steal_monitor/sm_core.h b/drivers/virt/steal_monitor/sm_core.h
+> > new file mode 100644
+> > index 000000000000..684a258526e1
+> > --- /dev/null
+> > +++ b/drivers/virt/steal_monitor/sm_core.h
+> > @@ -0,0 +1,11 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > +#ifndef __VIRT_STEAL_CORE_H
+> > +#define __VIRT_STEAL_CORE_H
+> > +
+> > +#include <linux/types.h>
+> > +
+> > +#include <linux/module.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/init.h>
+> > +
+> > +#endif /* __VIRT_STEAL_CORE_H */
+> > -- 
+> > 2.47.3
