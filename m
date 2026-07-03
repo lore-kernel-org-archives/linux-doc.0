@@ -1,58 +1,80 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC65E26CE39;
-	Fri,  3 Jul 2026 17:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5471029D267
+	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 17:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783098719; cv=none; b=L/XZmugMwKpeMCfuAt0qsedroFOBlZPVszPiVntjeAJBX8xcujuq/YKOcZvVhxLcRTtqi5v0HZrs2zR/0QrFB9QzFQ6LHwFgDZ+2CpUWXK/XlzCgL6Md3HT+GQBKJ7V0IGwcyHJ03SzavtIp1sA++EQ9CcgG9rfZfAw5d0YR0AE=
+	t=1783099367; cv=none; b=Gwp52vjmaJawBQOZqmROxO/iBbjk1uAteA1xEf7MT7zo2qnrGTmFnVFvoPfavg2iZnbqXb+rZsKEe6c0R5LW/xeFhmsQC00cFYPnhPAc3A78yslvBceXHIKL18SAEYhII8eUmN6rXTZOpW2KqNa2WR1HvA3fr3IEUs1ObtlNvQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783098719; c=relaxed/simple;
-	bh=PVGhc102ynLSuCQ40lxSCLYB5ht1swFOMOHchkaTU48=;
+	s=arc-20240116; t=1783099367; c=relaxed/simple;
+	bh=8Q6S8eSRiXqqbVyN+JydEj02y/pvsZwRU7MyCqulak0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eMvAtGfmTS0UDL9MmGKMbe4aykjXBZNrMfwMci+7oHU3dIozqx23G/ka+/3y0cgfBCboN7x8VlL181xwW0BX0YY1XKjhaV7z6jL1A2b20ptfF0c17d7+xjjEYWJtXurTbWFKYhvWY7aXLjIl8cOB906Det65RXh9S1F7zxm6Gkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=KYlDRCMj; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=uABdXLcszmqyLke4II8713HiSwKMxYRvOZLVRYVwnCVr4u/DVwyrr3W29ElUeNfBYGDkfGhuSK7OdjhDiJeBpGdGkhfoziR36i4Byzbn+Wzf9lxDhLcGWrC/MesMlIzu3d/qj/Q+v5/O0UAROm8G0DxlgOqJCcWBFBS8N0Hb8MM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=nXqp1SsZ; arc=none smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="KYlDRCMj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=pb7TrLeGqe0b/bNAlrMgjLIiLoh7aG16nEZVkpvvbWA=; b=KYlDRCMj9Z9aprfDoC0OuuVSUt
-	aAt90CVAPXFkHFoG5hzBMuAaOMFhnK4O6WYD4bQ5KjvqtsctuFQren0WOJHa8Z3MKEOwD8xSNWxbD
-	l+Zy2RkUqkCwYo9oltROgpA4pkfi0CkGZ5KT513lP/g2lv+35+LQGW3hNsANPA0ToQeNN0sEgZpGN
-	xZpH2+pbgnWw473psp1hwBauahFCEmIYkhPDLNZdOHAM/sXqFheIjqSNkEtLrGEiM0QvX2sFxdPqy
-	aqL2jhscx5y4MjD7KZd2TFmkTyPqZdp2oMrHXb2ZPjnSKYUzBirMeSDCid2bzcKtpaRyd4nnkqFiW
-	/F4hDR/w==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wfhQZ-009YIE-2C;
-	Fri, 03 Jul 2026 17:11:48 +0000
-Date: Fri, 3 Jul 2026 10:11:42 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 2/2] selftests/mm: test kmemleak's N-consecutive-scan
- leak confirmation
-Message-ID: <akfsldIW1US1d69C@gmail.com>
-References: <20260626-kmemleak_twice-v1-0-ab28f7cc0971@debian.org>
- <20260626-kmemleak_twice-v1-2-ab28f7cc0971@debian.org>
- <akYkKgWOsYnw6ETE@arm.com>
- <akZ4tzQw70x3RR2D@gmail.com>
- <akeX8mFiizd65pDw@gmail.com>
- <akfNeK7OOpvoZE9z@arm.com>
- <akfYImSNDh3OjIfR@gmail.com>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="nXqp1SsZ"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-92e7632b193so51868585a.2
+        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2026 10:22:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1783099365; x=1783704165; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wNR9K06lLbEYvnJ4+KHd4VFdF558bi2QMUxDhjH/sTw=;
+        b=nXqp1SsZy+If0hVpw9SrUK9ykGlgrBTwX5oroIWhjM+mherTMdUO4tIrVS4Fnl1lbE
+         0VRXmb9Ktn6tcPi/6wmVnMWpOkWkyi4ZEe7P4YbIQK1hpbbCzTFoHGxElDy0LtGCIRFN
+         9y89GpHqmg0bBY5hCvdNJmKeZR4yo9yVdkXvZkDyu34r/g3anUfKE7Ahm7kv2iFK7eyZ
+         1p5e6RMQoVhzYNSgw5CQMeCi80LGUf8hoEs2Hhm850Q7PF4Owe9Gns+9eoYpIA7bBEWE
+         Ct/NkuQUMSjhc0fiBGL188Y5zyJW6Wf1T2avqONYDHud9M58PRs5TOWq+qR6zCA7qRTf
+         bjZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783099365; x=1783704165;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wNR9K06lLbEYvnJ4+KHd4VFdF558bi2QMUxDhjH/sTw=;
+        b=iWwZJ0BLIcMn90NRbl5CCfHpp0fvZsbkO1FRXlNs7D7SjosLDcqsxmRM4b3Bka9PYN
+         fboiTbNZveEGat6SLb/iIMUzEWs7+w1SqwYRMKpMbC5ILytVCf5AhR0LZHYa4qsNfQ9S
+         dN/wrpL0JKa/ZqM/UrLsdETn7WkBBiGktdIHB5pQ0IjW3NNEYzdzGV3sItYKWK7LkQ55
+         H61OK6CZ1lfljkYSsPq2DUJnEyRsjWPN7KIK+PXHemGLelN6Y4l0f1eymQgFpDCx2NtG
+         dFe9GK8fiOTzrtKDqVWYOjodtYAhokdxorW4Cgi/cM/YAQ+HSDX1cHwGZ0t02hIlNLft
+         7h7Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9Vb9IK/7CaOQRKTEeEBJPI89z8Rc3Nz6zJ0ertK9CklMUkwtmhmmRHy2/BAtnAASCYn3WC83YnMII=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzTYKIOlhU6Gf1yxxz3vKpUtcfwU9nGzFBqwoTE5IsIjBnC9yI
+	Y8MjMuvCY6IMo/20mGQgZImR5sdG/E2uzfJeG6EZDfXXCq6h2Sw8RWmlDSZUevuDOmsK8wwtQOu
+	eZm7c2H8=
+X-Gm-Gg: AfdE7cnptfXncdfcRuBGgSRGgTmFuUwNw6CSKYgz3JV0ZHtUikRTwzKPLhuxUfqRm5T
+	pRpNXSbsVAaMFmJ9ng8VcVlrVVAWDl0chrchl4vfcl8fKFEYVZIhUNWcnaSTi8uYfcoqdSRmDEi
+	PcBED8wwkA28ag0Rd3npPtMKfrEdl1xQXUmYJCFY0aFo2eQdJDOsYbixod6ZveM8IXzKh4Im1vk
+	q5ytiaKhiD8D+Ah/FbfJu3RoOseId20ReMb54QyyMP/a1vgN6FeOtySDeuTAq64Pq07HlQIv+nG
+	SPhdRZ/A5C6+gmucYOuibNF5TJvpX0e7G+vkyjJsqyQ+ivYJXH4oG7IpOQcWeiw3ls1AH5uRazL
+	Bbr6+AeA64WzloL5pBgUjvh678deaX1VCesJMF+E/hZr2L4upYRq8D9887FkQhZF40c+UfiDgdd
+	X15sh50w==
+X-Received: by 2002:a05:620a:19a1:b0:92e:8fa2:be6c with SMTP id af79cd13be357-92e9a49f558mr44070485a.39.1783099365081;
+        Fri, 03 Jul 2026 10:22:45 -0700 (PDT)
+Received: from fedora ([2607:fb91:1408:4b9b:69b2:bc92:5299:1677])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e90b800efsm198609785a.4.2026.07.03.10.22.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2026 10:22:44 -0700 (PDT)
+Date: Fri, 3 Jul 2026 13:22:41 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kernel-team@meta.com, corbet@lwn.net, skhan@linuxfoundation.org,
+	peterz@infradead.org, luto@kernel.org, akpm@linux-foundation.org,
+	feng.tang@linux.alibaba.com, pmladek@suse.com, mhiramat@kernel.org,
+	marc.herbert@linux.intel.com, joel.granados@kernel.org,
+	lirongqing@baidu.com, kees@kernel.org, nathan@kernel.org,
+	linusw@kernel.org, arnd@arndb.de, deller@gmx.de,
+	jpoimboe@kernel.org, ruanjinjie@huawei.com,
+	lukas.bulwahn@redhat.com, ryan.roberts@arm.com, ojeda@kernel.org
+Subject: Re: [PATCH 1/2] kernel/entry: add CONFIG_SYSCALL_USER_DISPATCH to
+ compile SUD out
+Message-ID: <akfv4ecFcHMqx5Xp@fedora>
+References: <20260627205551.769684-1-gourry@gourry.net>
+ <87a4s8m69c.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,27 +83,82 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <akfYImSNDh3OjIfR@gmail.com>
-X-Debian-User: leitao
+In-Reply-To: <87a4s8m69c.ffs@fw13>
 
-On Fri, Jul 03, 2026 at 08:43:27AM -0700, Breno Leitao wrote:
-> On Fri, Jul 03, 2026 at 03:55:52PM +0100, Catalin Marinas wrote:
+On Fri, Jul 03, 2026 at 05:39:59PM +0200, Thomas Gleixner wrote:
+> 
+> I buy the miminal system aspect, but high security is just a voodoo
+> argument. Why?
+> 
+>   1) The functionality needs to be enabled with a PRCTL, which can be
+>      filtered.
+> 
+>   2) It requires LD_PRELOAD to be effective
+> 
+> If your high security system allows #2 then it's not a high security
+> system to begin with. If you fail to add the proper filters then it does
+> not pass the test either.
+> 
+
+sure, it can be filtered, but not all software runs in a sandbox and not
+all attack vectors need end in priv-esc or launching new tasks.  It
+does not require LD_PRELOAD to be useful to an attacker.
+
+just as an example, if i land remote execution in a task, i can enable
+syscall user dispatch and just steal cpu time from that task whenever it
+makes a syscall without having to do any of the traditional tricks of
+overwriting GDT entries to get hooks.  No need for ld preloading or even
+leaving the active task's context.
+
+syscall user dispatch is just a really clean, powerful tool for writing
+implants.  I've been playing with it for the better part of 2 years and
+just realized I don't want it enabled (or even present at all) on some
+of my machines / machines I manage and there's no way to do that.
+
+> I agree that disabling it alltogether reduces the effort, but it's not a
+> prerequisite.
+> 
+> > +config SYSCALL_USER_DISPATCH
+> > +	bool "Syscall User Dispatch (SUD)"
+> > +	depends on GENERIC_ENTRY
+> > +	default y
+> > +	help
+> > +	  Syscall User Dispatch (SUD) lets a thread have its own system calls
+> > +	  redirected to a userspace handler.  It is used by emulators that run
+> > +	  foreign binaries which issue system calls directly.
+> 
+> Huch?
+> 
+> What is foreign? Different country, different universe or different
+> mindset?
+> 
+> It's also not restricted to emulators. It allows to intercept and abort
+> system calls which are issued within a certain IP address range and
+> redirect them to a emulator or debugger. 
+> 
+
+foreign meaning non-linux, but sure i'll change it to be more general.
+
+> 
+> >--- a/include/linux/syscall_user_dispatch.h
+> >+++ b/include/linux/syscall_user_dispatch.h
+> >@@ -7,8 +7,22 @@
+> >
+> > #include <linux/thread_info.h>
+> > #include <linux/syscall_user_dispatch_types.h>
+> > +#include <linux/sched.h>
+> 
+> Why does this require to pull in the heaviest header?
+> 
+
+we dereference current (struct task_struct)
+
+> > +bool syscall_user_dispatch(struct pt_regs *regs);
+> > +
+> > +static inline bool syscall_user_dispatch_clear_on_dispatch(void)
+> 
+> Wants to be __always_inline as otherwise agressive compilers like CLANG
+> happily put it out of line.
 >
-> I will spin this "fix" separated (CCing stable), and send a v2 for this
-> selftest with priming enabled.
 
-Quick update on this plan. The v2 for this patch depends on checksum fix[0],
-given it touches a similar code:
-
-	@@ -687,6 +692,7 @@ static struct kmemleak_object *__alloc_object(gfp_t gfp)
-		atomic_set(&object->use_count, 1);
-		object->excess_ref = 0;
-		object->count = 0; 
-	+       object->unref_scans = 0;
-		object->checksum = ~0;   <-- Adde by the fix [0]
-
-I will wait the "Fix" to land first, before sending v2, avoiding merge
-conflicts and being able to rely on sashiko to review it (instead of having merging
-issues)
-
-Link: https://lore.kernel.org/all/20260703-kmemleak_checksum-v1-1-5e0ab7d6966f@debian.org/ [0]
+ack.
