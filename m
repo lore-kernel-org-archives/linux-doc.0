@@ -1,111 +1,135 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DBE433E7C;
-	Fri,  3 Jul 2026 08:11:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8512DFA4A;
+	Fri,  3 Jul 2026 08:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783066288; cv=none; b=pqhSe6s3QbC9+BE/Vf3EGK0mSPKHGHAiqKSvLLlRFrVbAa872RKFMJmvViWWfce+/fSaA8GVcmSUuadHkAVuziDzZsTMaJUiE6/c2P8UZzJILRcgH3m5zdOwoV6FapptxlxzaxdXV/aKYHz/kxZgdo3bHk5vfH3syXd2UBr2I+U=
+	t=1783066739; cv=none; b=gFI1t/X7frXUqTpB5BC8jBGY0ZH53mu4CCtxSrVYT1UHykf3pzn8FJFjJcIhM/C5fB+6gaX3OHwMe3kIf9kBSnJjf2mL8kgrYrHUr08C943MVFD8GqrDy47ycclgnBMe3LnBIXyY9sLRw08yy0Ksi6mmrZdRU9Fz1yakJR++hK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783066288; c=relaxed/simple;
-	bh=zLx7l5kx04C6KeXdlbIoe+uCZNDrRGzA+phbSWIPNQ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gSQLxvBB+lTTrludEz2fdZHiTAQE5wFgF25pJqCoqt0kFtmPJaSy+V8aIA/j1IuAilgnlZmqPZoSR8QKe5fxrqv1fx4v2GLhL3Vps8yeADT3va2TjyWzShADPSK1oHPgdyggY2sbJrQRn18mGA6+RBlFpVujId7RYaSqbGQujb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=utwQtHIg; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=NhmnZYGG; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1783066739; c=relaxed/simple;
+	bh=7xiCS+LW/hpUxAtoORyHdSsXhPaej2VMVnF4af3E7zw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fHCRrusME3EWCAl+P5EclqaHeMXLMz37BqOZgRwOfcmbtqWzbnkDPZOJC4SAjJbfcUY24iXhXrFScMg7eObUoeW5y5+SqerkQ+CwHH2eTq/yfAYaqnvVAr2inEQC2E61RDO3blgyNJqg+pZc+OY4cHp7WLNuTOLA4bJqD8+v7bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fxrGGfNm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="utwQtHIg";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="NhmnZYGG"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gs60D0SGfz9tZF;
-	Fri,  3 Jul 2026 10:11:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783066284;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=q6tfuCZZi4Yr0K9wDrm5AhdIyW9zDxXqPlusCRAtMWY=;
-	b=utwQtHIgiyNgTyulXeCuSBy27Sjir1YOaEKwvGR52iwV5ndLaznZxE7yzZs+lESUldeq1y
-	xRLX+SmodYsRfdtOwGgsRehy6l1uiQXZmRKYZWAtAP6qcVk9xp60cH0xlxk1gcx3rXRFqW
-	hEI7h4tjQnq3DbSB9hELkxkjAdwWg6k5e+3nIxeVslJaCV2AWPdDU+U5Mg9wE4WqFtiy+Y
-	USrfml0baAQwzRUE+6TxefSq1Fbzp7SQl827OC5VCzYe1y8sTeW4zx0MNndi4GL6KhcChH
-	NEIUvQ6fMa3em+2+I0RCK1I7EaGhpRlYQSc0U5Q4aby4iz+bCs31Qp6U9d4+FQ==
-From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783066282;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=q6tfuCZZi4Yr0K9wDrm5AhdIyW9zDxXqPlusCRAtMWY=;
-	b=NhmnZYGGpRw/uhE2ToT6OITW7/68XEKGtgoLn6+nrWwM7DeDdzQ/ThyR60bTnG2cnietTh
-	96yxCsUSCanVbam/6S9mZMi4mZV0BaHNeJcYN5hJfzJebVZR+XDj+o3T79huCz2YquZgHP
-	WPDksE3Y1H5bpncf7NNsQB2bqxhUiHuFE/vtoYYWhhpdl3U0K40Aid2hKvdzLKPC5pQv2M
-	lqkXk/TJ5v/ReQx3hs/SoFiZNYhV51NuvYEN6hZ4Fnb0dmfCo3Z00at2Wwh5ztP7FEUR6x
-	K1KXHAjYWO9zZVh4ZwnW975KGVMYC8tKwSW4JgILNXXEkPRtAxRP6KbE5j4qVQ==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Kernel Janitors <kernel-janitors@vger.kernel.org>,
-	Manuel Ebner <manuelebner@mailbox.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation/kernel-parameters: fix brackets
-Date: Fri,  3 Jul 2026 10:08:06 +0200
-Message-ID: <20260703080806.223782-2-manuelebner@mailbox.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fxrGGfNm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE4881F000E9;
+	Fri,  3 Jul 2026 08:18:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783066738;
+	bh=mxu4stcCENodA3+tKKQflfouRvjUw7ufWxrAbD2T02M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fxrGGfNme8F5iyNhEvWIFJ3Iv1sPdlQzCHHKSTMyxLE1V3yCs/6uP+ZdLnycl50Oe
+	 NMsmKsTmR8zwEdZCT15UF3wJmwVuKKYj8kLmBNvQ3DQaNI4XU2n8ITHLemoprY77AO
+	 PWqENCPgcPsZcx/CBr5fF59WFdOzvU5WAM40YxBlyZZh5l2aVXcAUrBmiiHTHDbuFK
+	 ArFL5ZT4AWQDzCQGpK+egl9AJ0aaO6SI7QhGKTfvrE2R4Dj4Zf4hjNV0qJzOirePbb
+	 W3L80ediaU0K1AVRpep5gnCXig4Kop5QRdXgG01V4ZWT9eDQCsS3Ydlpr9Gds/l87y
+	 KI3uen+03j+Tg==
+Date: Fri, 3 Jul 2026 09:18:46 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Justin Stitt <justinstitt@google.com>, 
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
+	David Hildenbrand <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] docs: link AI coding assistants and tool-generated
+ content pages
+Message-ID: <akdv9GCjOrs_6DM6@lucifer>
+References: <20260702164901.121128-1-ljs@kernel.org>
+ <20260702182632.GK3534761@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: rbidibxtzmfnrut3p8essby8txxkahzz
-X-MBO-RS-ID: 3dcec43993f7fb0df76
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260702182632.GK3534761@killaraus.ideasonboard.com>
 
-Add a few missing ']'s and a ')'.
+On Thu, Jul 02, 2026 at 09:26:32PM +0300, Laurent Pinchart wrote:
+> On Thu, Jul 02, 2026 at 05:49:01PM +0100, Lorenzo Stoakes wrote:
+> > Both of these guidelines are complimentary to one another - one specifying
+> > guidelines on AI coding assistants, and the other specifying those for
+> > tool-generated content.
+> >
+> > Since they are complimentary to one another, provide a link to each in the
+> > other.
+> >
+> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+> > ---
+> >  Documentation/process/coding-assistants.rst | 4 ++++
+> >  Documentation/process/generated-content.rst | 7 +++++++
+> >  2 files changed, 11 insertions(+)
+> >
+> > diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+> > index 899f4459c52d..6125ee4914c5 100644
+> > --- a/Documentation/process/coding-assistants.rst
+> > +++ b/Documentation/process/coding-assistants.rst
+> > @@ -15,6 +15,10 @@ kernel development process:
+> >  * Documentation/process/coding-style.rst
+> >  * Documentation/process/submitting-patches.rst
+> >
+> > +For guidelines on content generated by AI coding assistants see:
+> > +
+> > +* Documentation/process/generated-content.rst
+> > +
+>
+> It could be worth it checking if this increases the likelyhood that an
+> agent would include a disclosure statement in patches. I would have
+> assumed that the "Attribution" section in this file to be enough. Has
+> anyone ever tried to understand why it doesn't work and if it can be
+> improved ?
 
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
----
- Documentation/admin-guide/kernel-parameters.txt | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+I don't think so AFAIK.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index b5493a7f8f22..60777968a063 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6413,9 +6413,9 @@ Kernel parameters
- 	reboot=		[KNL]
- 			Format (x86 or x86_64):
- 				[w[arm] | c[old] | h[ard] | s[oft] | g[pio]] | d[efault] \
--				[[,]s[mp]#### \
-+				[[,]s[mp]]#### \
- 				[[,]b[ios] | a[cpi] | k[bd] | t[riple] | e[fi] | p[ci]] \
--				[[,]f[orce]
-+				[[,]f[orce]]
- 			Where reboot_mode is one of warm (soft) or cold (hard) or gpio
- 					(prefix with 'panic_' to set mode for panic
- 					reboot only),
-@@ -6875,7 +6875,7 @@ Kernel parameters
- 			xtime_lock contention on larger systems, and/or RCU lock
- 			contention on all systems with CONFIG_MAXSMP set.
- 			Format: { "0" | "1" }
--			0 -- disable. (may be 1 via CONFIG_CMDLINE="skew_tick=1"
-+			0 -- disable. (may be 1 via CONFIG_CMDLINE="skew_tick=1")
- 			1 -- enable.
- 			Note: increases power consumption, thus should only be
- 			enabled if running jitter sensitive (HPC/RT) workloads.
-@@ -6916,7 +6916,7 @@ Kernel parameters
- 			apic=verbose is specified.
- 			Example: apic=debug show_lapic=all
- 
--	slab_debug[=options[,slabs][;[options[,slabs]]...]	[MM]
-+	slab_debug[=options[,slabs][;[options[,slabs]]...]]	[MM]
- 			Enabling slab_debug allows one to determine the
- 			culprit if slab objects become corrupted. Enabling
- 			slab_debug can create guard zones around objects and
--- 
-2.54.0
+I think people generally are aware of the Assisted-by as a thing, but perhaps
+less so of the generated content guidelines, so hopefully this helps that a
+little!
 
+>
+> Maybe a stronger statement would help here:
+>
+> "Furthermore, AI tools must follow the guidelines for generated content
+> documented in Documentation/process/generated-content.rst."
+
+I mean I would like that actually, _but_, I wanted to keep this as neutral as
+possible for the time being so we can first establish the links without
+controversy ;)
+
+Then we can perhaps separately think about making the language a little more
+insistent :)
+
+>
+> >  Licensing and Legal Requirements
+> >  ================================
+> >
+> > diff --git a/Documentation/process/generated-content.rst b/Documentation/process/generated-content.rst
+> > index 08621e50a462..aad2caad9f8b 100644
+> > --- a/Documentation/process/generated-content.rst
+> > +++ b/Documentation/process/generated-content.rst
+> > @@ -107,3 +107,10 @@ the resulting changes.
+> >
+> >  If you do so anyway, maintainers are entitled to reject your series
+> >  without detailed review.
+> > +
+> > +References
+> > +==========
+> > +
+> > +For specific guidelines on AI coding assistants, see:
+> > +
+> > +* Documentation/process/coding-assistants.rst
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+Cheers, Lorenzo
