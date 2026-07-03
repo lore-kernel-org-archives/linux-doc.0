@@ -1,72 +1,43 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4FE23C5DDB
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 11:25:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E2E33CB2D9;
+	Fri,  3 Jul 2026 11:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783077932; cv=none; b=SstbKAG2MPqfOmDsmzeYDZVqACo23JEKHmICaSLjb3SdTCruikQm+YC52LFxhwMpSpYa6/xEQqJ0W7EqKbkoWKaE5zwg0kGdh8GcoQDROyw3M+qBr+dAHpYHV9DiqtCwFMrsFnXU/cQebj/jzFtOGzvRc1QamgJsD5UNvBbX6dE=
+	t=1783078751; cv=none; b=O1jmJ15lWg5nayNTzFvJesIxdyjoWvvCNH17Wg+fMdyw6/lGtwDdlRJlAgML/YOFW+UuIjl95US1p+7oE/ZyXw5dpPusveFo+jX3EA/QBft0gQpetJcgKyrCBPTwhHUrGmjj5QnKzgI08HaIZMhU8cLZx/d73931vgdB2cMQ5aM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783077932; c=relaxed/simple;
-	bh=z3pGW6hOv1fA8gmDBkYs8QU1BjeVuZL/SAlikVDpokQ=;
+	s=arc-20240116; t=1783078751; c=relaxed/simple;
+	bh=z3Dcn4Y+gh7aauR9UG/kjI8tsi2P6DhFCJ2KNlAEi10=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=irOlChjZS5KsdJ8BT1bh2WT70xCRusQYgDASbggfHNtcYdbQChJ++2Jz1ZbSEpM3gpRKVQJcmDBXc1eOB8ea80jlhzU8xBAyIEa6tUyjiQ/LiUiGVDeFI+qz0/nbAqFoI9hAUIJmkDqN08xY7bDzHWpi4rtU08V0ebwALj/7cUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from kunlun.suse.cz (unknown [IPv6:2a07:de40:b306:2000::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AEE26758B0;
-	Fri,  3 Jul 2026 11:25:26 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
-	none
-Date: Fri, 3 Jul 2026 13:25:25 +0200
-From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>,
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Andy Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Andrew Donnellan <andrew+kernel@donnellan.id.au>,
-	Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Zong Li <zong.li@sifive.com>, Nam Cao <namcao@linutronix.de>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Lukas Gerlach <lukas.gerlach@cispa.de>,
-	Rui Qi <qirui.001@bytedance.com>, Kees Cook <kees@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
-Subject: Re: [RFC] entry: Untangle the return value of
- syscall_enter_from_user_mode from syscall NR
-Message-ID: <akecJWAJP-e5CYP_@kunlun.suse.cz>
-References: <akVRcPsD_R_CE1qW@kunlun.suse.cz>
- <BA7CD91D-C0E5-47A1-B49C-BC6AF6604182@zytor.com>
- <87h5mhnjsr.ffs@fw13>
- <yt9dwlvca8rn.fsf@linux.ibm.com>
- <87ldbsmnie.ffs@fw13>
- <yt9d5x2w5r84.fsf@linux.ibm.com>
- <20260703105718.GO751831@noisy.programming.kicks-ass.net>
+	 Content-Type:Content-Disposition:In-Reply-To; b=FAVXj6HlEwru7AnMz5Yd5Cuj4w+SAbxz8wvVZW4gbNj71zwCzs3F5A706tfNvO2whpSZW8DJ5F95Vq9qvcNi1SRwxGaJKHLZpfvHwzOc1GgHlOpqwZwjOF9EGe2HLchHTrS4YtigoRCEIsoezh/CWouU1a9hgXbut7guuKYAjd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=I/NZ4zB3; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="I/NZ4zB3"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D5F51F91;
+	Fri,  3 Jul 2026 04:39:04 -0700 (PDT)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 800673F673;
+	Fri,  3 Jul 2026 04:39:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1783078748; bh=z3Dcn4Y+gh7aauR9UG/kjI8tsi2P6DhFCJ2KNlAEi10=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=I/NZ4zB3KGO1A3CA8wk2BQBUeSD4ExqXYaUHMMxGNLUzs/+OSwYJtNEXLndNuPlJ2
+	 BhY0E94DJlFLHGEC1Fi0CWIMT8q2Fmu+lOHwgt6quRvF1g4ivIcFV+DAqu4D6gGkBY
+	 +ycMh/1Mu4tDuHikoShBJkEbl74VV9sl2URanl/Q=
+Date: Fri, 3 Jul 2026 12:39:00 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: linux-arm-kernel@lists.infradead.org, Ard Biesheuvel <ardb@kernel.org>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: arm64: Document that text_offset is always 0
+Message-ID: <akefVP09OXYWYuup@J2N7QTR9R3>
+References: <20260604140839.1930847-1-linux@rasmusvillemoes.dk>
+ <FJaxt3BQA_NDzW32PANPtSgJ_BxYjJ7azs-k2dgboQtWdDfsdpM7j_VNuB7Vym1cYLDXKM1Tsm1YnqsSB7boQA==@protonmail.internalid>
+ <ajVekauNroapwbtm@J2N7QTR9R3.cambridge.arm.com>
+ <87y0g1mms8.fsf@rasmusvillemoes.dk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,88 +46,118 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260703105718.GO751831@noisy.programming.kicks-ass.net>
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spam-Flag: NO
-X-Spam-Score: -2.00
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.00 / 50.00];
-	REPLY(-4.00)[];
-	RDNS_NONE(2.00)[];
-	TAGGED_RCPT(0.00)[kernel]
-X-Rspamd-Queue-Id: AEE26758B0
-X-Rspamd-Action: no action
+In-Reply-To: <87y0g1mms8.fsf@rasmusvillemoes.dk>
 
-On Fri, Jul 03, 2026 at 12:57:18PM +0200, Peter Zijlstra wrote:
-> On Fri, Jul 03, 2026 at 11:59:07AM +0200, Sven Schnelle wrote:
-> > Thomas Gleixner <tglx@kernel.org> writes:
-> > 
-> > > On Fri, Jul 03 2026 at 08:26, Sven Schnelle wrote:
-> > >> Thomas Gleixner <tglx@kernel.org> writes:
-> > >>> It's less than obvious and I have no objections to clean that up and
-> > >>> make it more intuitive, but I still fail to see what Michal is actually
-> > >>> trying to solve and what the magic flag is for. If s390 requires it,
-> > >>> then that's an s390 problem, but definitely x86 does not.
-> > >>
-> > >> The difference between x86 and s390 is that on s390, regs->gprs[2] is
-> > >> used for both the syscall number and the syscall return value.
-> > >> That was a design mistake early in the begin about 25 years ago, but
-> > >> it's ABI now, so it cannot be changed.
-> > >
-> > > Cute.
-> > >
-> > >> When seccomp decides to skip a syscall, it write a return value into
-> > >> regs->gprs[2]. When syscall_enter_from_user_mode_work() returns, it
-> > >> returns this number. If it's negative all is good - the 'if (likely(nr <
-> > >> NR_syscalls))' conditiion would just catch it and skip the syscall.
-> > >>
-> > >> But if it's a positive number, the code cannot distinguish whether
-> > >> that's a return value or a syscall number.
-> > >>
-> > >> So I introduced PIF_SYSCALL_RET_SET when converting s390 to generic
-> > >> entry. This flag tells the syscall code that a return value was set in
-> > >> ptregs and the syscall should be skipped.
-> > >
-> > > You also could have added a 'syscall_ret' member to pt_regs, operate
-> > > on that for the return values (seccomp, syscall...) and swap it into
-> > > gprs[2] right before returning to user space.
-> > 
-> > That would likely also work, but I found it easier to read and
-> > understand to have an additional flag with a descriptive name than having
-> > yet another 'somehow-related-to-gpr2' member in ptregs.
+On Fri, Jun 26, 2026 at 03:52:39PM +0200, Rasmus Villemoes wrote:
+> On Fri, Jun 19 2026, "Mark Rutland" <mark.rutland@arm.com> wrote:
 > 
-> I find this very odd; I would think that having both syscall-nr and
-> syscall-ret in separate (virtual) registers for most of the normal cycle
-> would be most obvious and less surprising -- given that this is what all
-> other architectures do.
+> > On Thu, Jun 04, 2026 at 04:08:39PM +0200, Rasmus Villemoes wrote:
+> >> When trying to figure out where to place and call an arm64 Image in
+> >> memory, reading booting.rst should provide the answer. However, it
+> >> requires quite some digging to figure out that text_offset is set via
+> >> ".quad 0" in head.S and is thus actually always 0 since v5.10.
+> >
+> > What is the actual problem?
+> >
+> > The documentation in booting.rst is accurate; I don't see why it's
+> > necessary to read the source code to look at text_offset. Immediately
+> > above the text in your diff, the documentation has:
+> >
+> > | 4. Call the kernel image
+> > | ------------------------
+> > |
+> > | Requirement: MANDATORY
+> > |
+> > | The decompressed kernel image contains a 64-byte header as follows::
+> > |
+> > |   u32 code0;                    /* Executable code */
+> > |   u32 code1;                    /* Executable code */
+> > |   u64 text_offset;              /* Image load offset, little endian */
+> > |   u64 image_size;               /* Effective Image size, little endian */
+> > |   u64 flags;                    /* kernel flags, little endian */
+> > |   u64 res2      = 0;            /* reserved */
+> > |   u64 res3      = 0;            /* reserved */
+> > |   u64 res4      = 0;            /* reserved */
+> > |   u32 magic     = 0x644d5241;   /* Magic number, little endian, "ARM\x64" */
+> > |   u32 res5;                     /* reserved (used for PE COFF offset) */
+> >
+> > Can you explain the problem you're facing? e.g.
+> >
+> > * Is the documentation unclear, in a way that could be better?
+> >
+> > * Is there some aspect of the boot protocol that is hard for a
+> >   bootloader to follow?
+> >
+> > * Is there some problem with *testing* that bootloaders respect the
+> >   text_offset requirements?
+> >
+> > * Something else?
 > 
-> Entry either grabs a copy of gpr2 and preserves it in orig_gpr2 as the
-> syscall nr, or as Thomas suggests, you keep syscall_ret and copy that
-> into gpr2 on return to userspace (and ptrace and signal and whatever
-> other surface bits are affected).
+> Yes, the structure of the header is documented. But nowhere is it
+> explained how the text_offset field gets its value.
 > 
-> Either way around you then have separate values for the entire range of
-> at least the C part of the kernel syscall handling -- just like every
-> other arch. How is munging things in a single value and a flag easier?
+> So imagine I've just built an arm64 kernel. Now I want to put that into
+> a FIT image, where I tell the bootloader where to place it and what
+> address to jump to, via the load= and entry= properties. Now, the
+> documentation
+> 
+>   The Image must be placed text_offset bytes from a 2MB aligned base
+>   address anywhere in usable system RAM and called there.
+> 
+> is clear enough that those two have to be the same value. What is not at
+> all clear is how I'm suppose to determine what that text_offset value is
+> that I'm suppose to add to some 2MB aligned address I choose.
 
-The same could be asked of syscall_enter_from_user_mode. I find it very
-odd. Why does it conflate the syscall number with its return value?
+To determine that you should read the text_offset field from the header
+in the Image binary.
 
-It never uses the syscall number passed in except when returning it
-unchanged. When it pokes the registers it reads the syscall number from
-them.
+That's the *entire* point of having the header -- bootloaders and
+scripts should read that, and don't need to know anything about the
+kernel source code or build process.
 
-If the caller of syscall_enter_from_user_mode only read the syscall
-number from the registers when syscall_enter_from_user_mode returns and
-indicates the syscall should be still executed this whole shenigan would
-be avoided.
+For example, see the aarch64 boot-wrapper:
 
-Thanks
+  https://git.kernel.org/pub/scm/linux/kernel/git/mark/boot-wrapper-aarch64.git/commit/?id=4a50f69c550473b989f0d38f096d4d9a3a6804c7
 
-Michal
+> Prior to 120dc60d0, one could at least 'git grep TEXT_OFFSET --
+> arch/arm64/' and see 'TEXT_OFFSET := 0x0'.
+
+That was never necessary, and never a good idea, because the internals
+of the kernel source code can change (as they have now). Bootloaders
+and/or scripting should consume the Image header.
+
+> >> I've included a Fixes tag since I spent way too much time tracking
+> >> down where that text_offset might be defined. The mentioned commit did
+> >> get rid of all references to TEXT_OFFSET-the-macro, but not
+> >> text_offset-the-concept.
+> >
+> > Keeping text_offset as a concept was deliberate. That allows us to keep
+> > the documentation accruate for older kernel versions, and allows for the
+> > possiblity that a non-zero offset is introduced in future (though I
+> > admit that might be a tough sell).
+> 
+> Fair enough. But would you at least consider adding just this part:
+> 
+> >> +- As of v5.10, text_offset is always 0.
+> >> +
+
+If we add that, then we're tacitly saying that people don't need to read
+the text_offset field from the header, and we're removing our ability to
+ever change that.
+
+I don't think we should add such a statement unless we're certain we'll
+never want a non-zero text_offset in future.
+
+> One can, using the documented header, read it post-factum from the
+> kernel binary itself, and perhaps that's what's intended. But to answer
+> your first question, yes, I did find the documenation unclear and
+> expected to find some explicit mention of how one is supposed to know
+> the value of text_offset.
+
+As above, reading the header from the Image binary is *exactly* what is
+intended.
+
+If that's not clear from the documentation, what do you think would
+clarify that?
+
+Mark.
