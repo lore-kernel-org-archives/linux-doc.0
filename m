@@ -1,98 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C854388885
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 07:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC7633F5A2;
+	Fri,  3 Jul 2026 07:23:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783062646; cv=none; b=nPvS8XWVb+6vLtC16Efyxyf2VQ5hIaOiIfc3FIAhyDCgRwn+uxgFV3NKxzFiGk5X9qEfUms10G7qMP64mPmzfhOSPdmfUYsBIZum5ymABHHahEYFT7vlT6pBC8rNlg7T1B8oTRxBbZtnze2Y3iDQYuY5GWQIWLE3RFef1zph8PY=
+	t=1783063400; cv=none; b=qudOeNjGnKkipzIojeFtpnO4USbYcJB7gu0I+o6YwBtFD6mgbqSztJNQ4pop0G33wvN+QPf2k5FezjU8bLZbSPoHq9Z6Vftr2J+igKnsszX2NNWCWVL697FXlwWRO9O4O5AeSB3TJCrCefYvItGo5reDH8UGIPtG90xWvFF2vhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783062646; c=relaxed/simple;
-	bh=8M7DUN2ktn6a5nj9IxKRy0Q44WVnBZ/IMSFwuTbfcN8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mcjXKqOlSYvYlMfnSTDD9xpa3mvg67cQjbmivpKfFYgd3qIR7r4SkjwUn/g+gPxOXOy1xE1NoDi9PDdjU20MKfHd3MgmQcaQb0hAfjwHt8HFGlKI09jc57vNV1OVelyttZxHeB6BjCxfvKHXMs8C9yLP7KTnRZBvZ0CZWy3R9nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c4gOW/m2; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783063400; c=relaxed/simple;
+	bh=2K9qBFTZyRYnE+aedHgS3FDq6AsQ0tloL8EyCWk3mIo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DeUDVm39/CO93kMgLTIJkRfoq/a3vZHwVPpx1QXLzsCfmezvZLo8M5xqW6qNUdffZvLrpHO6FGREtnqeJFAzWCHN0d44Ksd8QXJpicZs+cLtxBBVWMfRe7RKVswB5e3Gb8NNxYCV0DI5TRh3/D+YrpMH10mL7eM/YXYGLJk92mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gebn+LLn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c4gOW/m2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783062644; x=1814598644;
-  h=date:from:to:cc:subject:message-id;
-  bh=8M7DUN2ktn6a5nj9IxKRy0Q44WVnBZ/IMSFwuTbfcN8=;
-  b=c4gOW/m2uqmAODBCyaYEvD+rlUWcuc+GoDoX00tbII854dV0Tdqhl+XI
-   XuwN9JBTdgGKyy6hyQD7gZ1LDxkYmee2v7HGbj2V0vbwXjD0WRUcOZRWz
-   dM94f9MVcbpdeD3Cp8UA4mijuDW26/OeKeampx6+qKPL4jRnILD1VFAUx
-   8IIzE/BUmfjMT3r0d+B2r4e9JfyKXXXp4Wc9tAYMCHtXdjuuXXaK61MqL
-   IPMEijQrW1jMr8UwYdklh6eoU9HU9M10vAsEZ8IMqldmCIh5bqjEZ6HhZ
-   KMGkfmEABnM0Qtu/TmaTGcvPpVqmJHDYxaiJ80mCd5H8VpIpFBHIBD+wi
-   g==;
-X-CSE-ConnectionGUID: g6vs2dJ+T22zfvAG+fHXiA==
-X-CSE-MsgGUID: jnxQWaOUQYmZzkJ94gQOVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="82920734"
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="82920734"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 00:10:43 -0700
-X-CSE-ConnectionGUID: 3dbzONjCQEy1GWDvft8Ygg==
-X-CSE-MsgGUID: JIoJFEksRMugoHcgn0+Elw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="283139757"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 03 Jul 2026 00:10:41 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wfY2o-000000001RV-154H;
-	Fri, 03 Jul 2026 07:10:38 +0000
-Date: Fri, 03 Jul 2026 09:09:43 +0200
-From: kernel test robot <lkp@intel.com>
-To: Marco Felsch <m.felsch@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- Mamta Shukla <mamta.shukla@leica-geosystems.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs:
- Documentation/ABI/testing/sysfs-driver-input-touchnetix-axiom:63: WARNING:
- Block quote ends without a blank line; unexpected unindent. [docutils]
-Message-ID: <202607030916.GmKrmmLs-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gebn+LLn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF3261F000E9;
+	Fri,  3 Jul 2026 07:23:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783063399;
+	bh=DHkwkSKfLpeJIx/I7a3vF9DlmThbpWK6ZTafT0FCfCE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=gebn+LLncyXYcCM6n68WSt0zzA44YzokaWuVPbJH0vshEfRzszHpP0IOGrHVNxX7i
+	 3ytFJFIDf8CepLA6DJZcWwEIcXX3IaF+Cho7SeL97NvI1dToNqKqXxlBf6irauVs5V
+	 5sk+uFam4Bd8F/Ci2ALfYUVd1glHhxD3PE2HlFafKfHCz/eMIxSoyYpaQnn4PhD74b
+	 LspR47YASFaUjgYlOCDFhVo2RVjFmohc/5eWMcjxtPJj19ie0LDVgWPgvVT33fV+DT
+	 jarRNjyY53x7Vtsm9sEtklNvU+7jwvdu3+ucZzMdhGVTKNyPXRvnWkP2HTgsebCVXE
+	 PMFrR2YfYa/aQ==
+Message-ID: <a095d9b4-f774-47d9-affd-d519d8acfb34@kernel.org>
+Date: Fri, 3 Jul 2026 09:23:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+To: Greg KH <gregkh@linuxfoundation.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Justin Stitt <justinstitt@google.com>, Lorenzo Stoakes <ljs@kernel.org>,
+ Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>,
+ David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+ Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ "Christian Brauner (Amutable)" <brauner@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+ <2026070224-unholy-commode-cf45@gregkh>
+ <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
+ <20260702161330.GH3534761@killaraus.ideasonboard.com>
+ <2026070227-payroll-eradicate-8f66@gregkh>
+ <20260702163215.GC3559965@killaraus.ideasonboard.com>
+ <2026070350-drown-untreated-5835@gregkh>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <2026070350-drown-untreated-5835@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Marco-Felsch/firmware_loader-expand-firmware-error-codes-with-up-to-date-error/20260703-063422
-head:   0b2980db22d2384c1783f5302b968c8aea3abf3b
-commit: 0b2980db22d2384c1783f5302b968c8aea3abf3b Input: Add TouchNetix aXiom I2C Touchscreen support
-date:   8 hours ago
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260703/202607030916.GmKrmmLs-lkp@intel.com/reproduce)
+On 7/3/26 08:37, Greg KH wrote:
+> On Thu, Jul 02, 2026 at 07:32:15PM +0300, Laurent Pinchart wrote:
+>> On Thu, Jul 02, 2026 at 06:19:15PM +0200, Greg KH wrote:
+>>>
+>>> Same here.  I don't care about stats, I care about "how do I review this
+>>> patch" and this gives me that signal that I need if faced with a
+>>> llm-helped patch.
+>>>
+>>> So it needs to stay please.
+>>
+>> There's the free advertising issue we still need to address. Would the
+>> proposed "Assisted-by: LLM" tag to replace product names be an
+>> acceptable option for you ?
+> 
+> I really don't care what the tag says,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607030916.GmKrmmLs-lkp@intel.com/
+Well, while you don't care, the current policy implies that:
 
-All warnings (new ones prefixed by >>):
+"
+Assisted-by: AGENT_NAME:MODEL_VERSION
+...
+``MODEL_VERSION`` is the specific model version used
+"
 
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
-   Documentation/ABI/testing/sysfs-driver-input-touchnetix-axiom:63: ERROR: Unexpected indentation. [docutils]
->> Documentation/ABI/testing/sysfs-driver-input-touchnetix-axiom:63: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/ABI/testing/sysfs-driver-input-touchnetix-axiom:63: ERROR: Unexpected indentation. [docutils]
->> Documentation/ABI/testing/sysfs-driver-input-touchnetix-axiom:63: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/ABI/testing/sysfs-class-power-bd71828:1: ERROR: Malformed table.
-   No bottom table border found.
+So clarifying there that a "Assisted-by: LLM" is also good enough would make
+sense if we agree on that.
 
 
-vim +63 Documentation/ABI/testing/sysfs-driver-input-touchnetix-axiom
+I'll also note, that the "*should* include an Assisted-by tag" is pretty weak,
+as someone who worked on specs before.
 
-  > 63	What:		/sys/bus/i2c/devices/xxx/device_state
+My kids should clean up their room; doesn't work.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+Really, if we want this to be useful in practice I only see the following way:
+
+1) Document that it's a *must*, an document which scenarios we care about.
+
+2) Encourage people to specify *how* AI was used.
+
+Assisted-by: LLM # improve the patch description
+
+
+Now, it will be hard for all susbsytems to agree on that, so I would hope that
+Linus would just tell us what we should do :)
+
+-- 
+Cheers,
+
+David
