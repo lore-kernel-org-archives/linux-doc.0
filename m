@@ -1,811 +1,348 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.secunet.com (mx1.secunet.com [62.96.220.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AF0433E92
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 17:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4F4433E92;
+	Fri,  3 Jul 2026 17:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783098451; cv=none; b=ZleS/oFQcgXoFyg/fkE95RhII9wg6fq2uK7Wxb7IBBYP5WwkgEtcfsNiV7NovxzVV57l0LjO5fvQPnGKP8W3xxSZTdh2mWj2avLvwiDfzkH7rjFU3l7sYy5F26CJ2IWIqwxIk7OXsbzRy9MuNaNGZDu55TUK5aeY1N8aUnfxeCw=
+	t=1783098482; cv=none; b=qRD7SE+ZVOb4jQtQtF4+VJuYiR4YNM+OkN2XwEO6Zr4GuZDuuuSlN5OEokWXUCz1ew2Js78hk8KgEy0sMFVVdy7siXbYXAHRsaiOvNz6/srcAGH/njQhDvVq6JekPjJAbcph1ZEJ9Vx3mkj/uYZ8DfYUDkHcdSl267QdByOr584=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783098451; c=relaxed/simple;
-	bh=4NjntT0KcwQNjwjydbGSWJHpqLu5I30N7w09n0GDo4g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LoxoOnSy/jkePUPCfa/mAQpLmFXyLpaE5TSQiPH/fJU2znG8h4GwaOmQtX78qdF++5IEWRXD7CPQF9PMxeb2Xj2sdQKTGQCbPOtlQqsCZN2f9a667zu8LGs4gAVkXdEfRLWaViwICch0oiNRyRCmRFAbUSjEEK2K4eKKNCOBiYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mH/mKb6J; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783098482; c=relaxed/simple;
+	bh=PMiOeVqxr5FlSVi/VMmRMEA6bAxsr47i0e2W+DkOtHQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MZ6FxkAzx6Plea1M1jCa4bl+sQN5408UKQ5zGoTA2kwjaFMnE0FVysfrDdhhQGGc4crltdNPV7u6WCbf66OSfUILZ5IMtx6N2HLAZU7ecGq2nP3pJTZIEd5wUutMQtLeoWquqWItlD8Bae3Qzxq3LuQq/PPS1r4BgNP6vRym9/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=LMuPNf6P; arc=none smtp.client-ip=62.96.220.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mH/mKb6J"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c9d1fff21edso567716a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2026 10:07:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783098448; x=1783703248; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6b2V+iZ/uGCufV6PCTe1FRd+FCnB5GAL3B7W8/89T10=;
-        b=mH/mKb6Jr09wwUh2KDZgJbzJaJhtw7Ps9stWvbcVN/wlsp1Lh1NDtZvyXqgs3dowDD
-         oGki+n9v0NlXVIWZPaxAlC69PCBZxIAU1bG3q1BpaOaUklxe5KAGLyvEwtOZigeGPk47
-         vjjkma3Wj0zWKsblriggrB3PJeqcJEaOwEflikUJqwfDr1Mu/yqVL7oOXJ0kFKdWKPvX
-         ZUklbvdgkFcPmoS4IcZXtvUcwng0RVBahoSwN8VwZrhQGP1dc052sqq/KMkQFCTJXMZo
-         mZtat574EMKLIn11H0HISSs/X4KPG3XoSGjnf3HOnNYDUHTvrh+mmTTXWKYNsLNMa+cM
-         nvpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783098448; x=1783703248;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6b2V+iZ/uGCufV6PCTe1FRd+FCnB5GAL3B7W8/89T10=;
-        b=dGR0rQfVDtbcLQMWoTY0Axs2htGaWFY0PhR6CSp5p6zOPzo+ojsjNsrMVi4Ar63/JV
-         D0maQNrti2Bw4QosHlU5DTn9HF54gWCl386CVj5aPyPdcRNUE9P7vf+pnu4edSDA3aRh
-         dHa6axuFuAhGYG5SJE6otwTyEAPcyd1/KZh+mN6WEcIih+QsZCG1bUxb3IE3eVNONYUk
-         OAVGCmSkF5/VtB0eKO8BETbAhgtzhNxzvDc0cXvj80636s+wqKliJ6iBrZSeLy+61eh8
-         QHh2az84o7InTs0kbCqgtk7yWmY3RXZciHCoK6/m2bPyGH7k7Q6jTV1/Ckumaomx4xZ+
-         wggg==
-X-Gm-Message-State: AOJu0YygkQMXqc+eTx5FvYCdAaZHwQpdpD2yiBZt/oI/PbbINnj64tTo
-	mTmKki0fjMFxXq2lZH/RYp4X/YNLvo5LVRItwaDygGPJgm3BPkjT/WFFHy6ZicvZ
-X-Gm-Gg: AfdE7ckRyJ7QaJhJNjNC4rAI1v67nW+Uq2sBep/lY7n/MQqGYZriFmhQZkkxF5K+t8l
-	FqARP6M/MFx2Zjug5HK0SPa3qvwzOMfXlIh1llQGS+OLEbw+XS6/VC7WTjboi+0GLHCjLDZb6yI
-	0DOGLpoJWSRIBjZex0wBCsCX0np8MgEsQUw1i1MkBu/PjN/B4EKPQpPb48j0guXkngNSJ67FdDP
-	hlKqnIsHSEkuTrEILf0tauSxQecN8n5VsFN3xzb1CzFO1bqxIzTRSRda98O2kmBkcyOaLLRxN53
-	IBIi+opvlqMduW/YLnE5axrDgNMYN9bweeCWskLOR7CY5yt2r2gQS1f7quuM9ewVreAx0/f+kEe
-	bHE4UgUZNtEKal2MxjkUFmDW/zuE15F8IZWQnd5oWErD0VZlSuM64TMBle4Je2g8ZMW9qGh9ceJ
-	pZvniMS2Y95CXVTaToPVsjd+LSRPtFq4X7KUqoZ4zx5lcJxA3ewjiUJNuV0G+L7X2WCLJWzbOaq
-	Sh+xgy7l8BeDqzbRPNgMsRVuPsBoriPE1k0K23BhMQM5nzEZH8=
-X-Received: by 2002:a05:6a21:1518:b0:3bf:e449:3316 with SMTP id adf61e73a8af0-3c03e25cd32mr265784637.14.1783098447032;
-        Fri, 03 Jul 2026 10:07:27 -0700 (PDT)
-Received: from parrot.meuintelbras.local ([45.179.5.227])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b3c876ea9sm19643688c88.13.2026.07.03.10.07.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 10:07:26 -0700 (PDT)
-From: Daniel Pereira <danielmaraboo@gmail.com>
-To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: [PATCH v2 7/7] docs: pt_BR: translate process/adding-syscalls.rst
-Date: Fri,  3 Jul 2026 14:05:47 -0300
-Message-ID: <20260703170552.174764-8-danielmaraboo@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260703170552.174764-1-danielmaraboo@gmail.com>
-References: <20260703170552.174764-1-danielmaraboo@gmail.com>
+	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="LMuPNf6P"
+Received: from localhost (localhost [127.0.0.1])
+	by mx1.secunet.com (Postfix) with ESMTP id C65C1206D2;
+	Fri,  3 Jul 2026 19:07:50 +0200 (CEST)
+X-Virus-Scanned: by secunet
+Received: from mx1.secunet.com ([127.0.0.1])
+ by localhost (mx1.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id yEFN8pRTWpjr; Fri,  3 Jul 2026 19:07:49 +0200 (CEST)
+Received: from EXCH-02.secunet.de (rl2.secunet.de [10.32.0.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.secunet.com (Postfix) with ESMTPS id D009920612;
+	Fri,  3 Jul 2026 19:07:49 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.secunet.com D009920612
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
+	s=202301; t=1783098469;
+	bh=XK6tcWJtHkBmnDkcInoIAHg4SGs9356CMyKVHhkn7GY=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+	b=LMuPNf6PKknxhZSsKRkzxhb+lzrxTOxFAguCwXjfGzmfZIXsDZdbRngfVG68/nbJa
+	 sXxOnyF/l9t2EApIBPesl/9sJ7BKT4ptFo+UrSKqkCRA7Ik39B4kc0Xgi7Hel+8if1
+	 ThdrOivxcG0EbHrAT0wrRamqnCs8WQolH7FjcPZ0WVC6o7aS09nqmevfru3WJQWH6x
+	 3cF8CIECq72TuTl/h4+uq1LlPYxc2F0A8Cdw1pYwGZ1C7BAcmckh6pg4NkQaNBgvbW
+	 ARHtgFSEMBu/eyWQQ1iOVZklYqiODxA56efPBFlXPUQXU+teGgEiTDW1YMxM6oIQF4
+	 BgHtIwW1CBNSQ==
+Received: from moon.secunet.de (172.18.149.1) by EXCH-02.secunet.de
+ (10.32.0.172) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Fri, 3 Jul
+ 2026 19:07:49 +0200
+From: Antony Antony <antony.antony@secunet.com>
+To: Antony Antony <antony.antony@secunet.com>, Steffen Klassert
+	<steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, David Ahern <dsahern@kernel.org>, Jamal Hadi Salim
+	<hadi@cyberus.ca>, Shuah Khan <shuah@kernel.org>
+CC: Sabrina Dubroca <sd@queasysnail.net>, <netdev@vger.kernel.org>, Yan Yan
+	<evitayan@google.com>, Tobias Brunner <tobias@strongswan.org>, Florian
+ Westphal <fw@strlen.de>, <linux-kselftest@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>
+Subject: [PATCH ipsec 1/8] xfrm: state: exact mark/mask match for SPI-keyed control-plane SA lookups
+Date: Fri, 3 Jul 2026 19:07:34 +0200
+Message-ID: <migrate-state-fixes-v0-1-a69e8637ba3b@secunet.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <migrate-state-fixes-v0-0-a69e8637ba3b@secunet.com>
+References: <migrate-state-fixes-v0-0-a69e8637ba3b@secunet.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.16-dev
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: EXCH-01.secunet.de (10.32.0.171) To EXCH-02.secunet.de
+ (10.32.0.172)
 
-Translate the adding-syscalls.rst document into Brazilian Portuguese
-(pt_BR) to improve accessibility for native Portuguese-speaking
-developers contributing to the Linux kernel ecosystem.
+Add __xfrm_state_lookup_exact(), an identity-match like
+__xfrm_state_lookup().
 
-Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
+Wire it into every SPI-keyed control-plane path: DELSA/GETSA, UPDSA,
+GETAE/NEWAE, EXPIRE, MIGRATE_STATE.
+
+xfrm_state_add()'s duplicate-detect keeps the wildcard
+__xfrm_state_locate() - unrelated, unchanged.
+
+Fixes: 3d6acfa7641f ("xfrm: SA lookups with mark")
+Signed-off-by: Antony Antony <antony.antony@secunet.com>
 ---
- Changes in v2:
-- Added adding-syscalls.rst to the index.rst toctree to resolve a Sphinx build warning.
+ include/net/xfrm.h    |  3 ++
+ net/xfrm/xfrm_state.c | 80 ++++++++++++++++++++++++++++++++++++++++++++-------
+ net/xfrm/xfrm_user.c  | 29 ++++++++++---------
+ 3 files changed, 88 insertions(+), 24 deletions(-)
 
- Documentation/translations/pt_BR/index.rst    |   1 +
- .../pt_BR/process/adding-syscalls.rst         | 700 ++++++++++++++++++
- 2 files changed, 701 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/adding-syscalls.rst
+diff --git a/include/net/xfrm.h b/include/net/xfrm.h
+index 519a0156a05c..f6ed590cb2ff 100644
+--- a/include/net/xfrm.h
++++ b/include/net/xfrm.h
+@@ -1746,6 +1746,9 @@ struct xfrm_state *xfrm_state_lookup_byaddr(struct net *net, u32 mark,
+ 					    const xfrm_address_t *saddr,
+ 					    u8 proto,
+ 					    unsigned short family);
++struct xfrm_state *xfrm_state_lookup_exact(struct net *net, const struct xfrm_mark *mark,
++					   const xfrm_address_t *daddr, __be32 spi,
++					   u8 proto, unsigned short family);
+ #ifdef CONFIG_XFRM_SUB_POLICY
+ void xfrm_tmpl_sort(struct xfrm_tmpl **dst, struct xfrm_tmpl **src, int n,
+ 		    unsigned short family);
+diff --git a/net/xfrm/xfrm_state.c b/net/xfrm/xfrm_state.c
+index c58cd024e3c6..df761ce1c290 100644
+--- a/net/xfrm/xfrm_state.c
++++ b/net/xfrm/xfrm_state.c
+@@ -1172,11 +1172,22 @@ static struct xfrm_state *__xfrm_state_lookup_all(const struct xfrm_hash_state_p
+ 	return NULL;
+ }
+ 
+-static struct xfrm_state *__xfrm_state_lookup(const struct xfrm_hash_state_ptrs *state_ptrs,
+-					      u32 mark,
+-					      const xfrm_address_t *daddr,
+-					      __be32 spi, u8 proto,
+-					      unsigned short family)
++/* exact=false: data-plane wildcard match against x's mask. exact=true:
++ * control-plane identity match, mark and mask must both match exactly.
++ */
++static bool xfrm_state_mark_matches(const struct xfrm_state *x, u32 mark, u32 mask, bool exact)
++{
++	if (exact)
++		return x->mark.v == mark && x->mark.m == mask;
++	return (mark & x->mark.m) == x->mark.v;
++}
++
++static struct xfrm_state *
++__xfrm_state_lookup(const struct xfrm_hash_state_ptrs *state_ptrs,
++		    u32 mark, u32 mask, bool exact,
++		    const xfrm_address_t *daddr,
++		    __be32 spi, u8 proto,
++		    unsigned short family)
+ {
+ 	unsigned int h = __xfrm_spi_hash(daddr, spi, proto, family, state_ptrs->hmask);
+ 	struct xfrm_state *x;
+@@ -1188,7 +1199,7 @@ static struct xfrm_state *__xfrm_state_lookup(const struct xfrm_hash_state_ptrs
+ 		    !xfrm_addr_equal(&x->id.daddr, daddr, family))
+ 			continue;
+ 
+-		if ((mark & x->mark.m) != x->mark.v)
++		if (!xfrm_state_mark_matches(x, mark, mask, exact))
+ 			continue;
+ 		if (!xfrm_state_hold_rcu(x))
+ 			continue;
+@@ -1198,6 +1209,17 @@ static struct xfrm_state *__xfrm_state_lookup(const struct xfrm_hash_state_ptrs
+ 	return NULL;
+ }
+ 
++static struct xfrm_state *
++__xfrm_state_lookup_exact(const struct xfrm_hash_state_ptrs *state_ptrs,
++			  const struct xfrm_mark *mark,
++			  const xfrm_address_t *daddr,
++			  __be32 spi, u8 proto,
++			  unsigned short family)
++{
++	return __xfrm_state_lookup(state_ptrs, mark->v, mark->m, true,
++				   daddr, spi, proto, family);
++}
++
+ struct xfrm_state *xfrm_input_state_lookup(struct net *net, u32 mark,
+ 					   const xfrm_address_t *daddr,
+ 					   __be32 spi, u8 proto,
+@@ -1228,7 +1250,7 @@ struct xfrm_state *xfrm_input_state_lookup(struct net *net, u32 mark,
+ 
+ 	xfrm_hash_ptrs_get(net, &state_ptrs);
+ 
+-	x = __xfrm_state_lookup(&state_ptrs, mark, daddr, spi, proto, family);
++	x = __xfrm_state_lookup(&state_ptrs, mark, 0, false, daddr, spi, proto, family);
+ 	if (x) {
+ 		spin_lock(&net->xfrm.xfrm_state_lock);
+ 		if (x->km.state != XFRM_STATE_VALID) {
+@@ -1288,7 +1310,7 @@ __xfrm_state_locate(struct xfrm_state *x, int use_spi, int family)
+ 	xfrm_hash_ptrs_get(net, &state_ptrs);
+ 
+ 	if (use_spi)
+-		return __xfrm_state_lookup(&state_ptrs, mark, &x->id.daddr,
++		return __xfrm_state_lookup(&state_ptrs, mark, 0, false, &x->id.daddr,
+ 					   x->id.spi, x->id.proto, family);
+ 	else
+ 		return __xfrm_state_lookup_byaddr(&state_ptrs, mark,
+@@ -1297,6 +1319,27 @@ __xfrm_state_locate(struct xfrm_state *x, int use_spi, int family)
+ 						  x->id.proto, family);
+ }
+ 
++/* Used by xfrm_state_update() only; xfrm_state_add()'s dup check keeps
++ * using the wildcard __xfrm_state_locate() above.
++ */
++static inline struct xfrm_state *
++__xfrm_state_locate_exact(struct xfrm_state *x, int use_spi, int family)
++{
++	struct xfrm_hash_state_ptrs state_ptrs;
++	struct net *net = xs_net(x);
++
++	xfrm_hash_ptrs_get(net, &state_ptrs);
++
++	if (use_spi)
++		return __xfrm_state_lookup_exact(&state_ptrs, &x->mark, &x->id.daddr,
++						 x->id.spi, x->id.proto, family);
++	else
++		return __xfrm_state_lookup_byaddr(&state_ptrs, x->mark.v & x->mark.m,
++						  &x->id.daddr,
++						  &x->props.saddr,
++						  x->id.proto, family);
++}
++
+ static void xfrm_hash_grow_check(struct net *net, int have_hash_collision)
+ {
+ 	if (have_hash_collision &&
+@@ -2229,7 +2272,7 @@ int xfrm_state_update(struct xfrm_state *x)
+ 	to_put = NULL;
+ 
+ 	spin_lock_bh(&net->xfrm.xfrm_state_lock);
+-	x1 = __xfrm_state_locate(x, use_spi, x->props.family);
++	x1 = __xfrm_state_locate_exact(x, use_spi, x->props.family);
+ 
+ 	err = -ESRCH;
+ 	if (!x1)
+@@ -2374,7 +2417,7 @@ xfrm_state_lookup(struct net *net, u32 mark, const xfrm_address_t *daddr, __be32
+ 	rcu_read_lock();
+ 	xfrm_hash_ptrs_get(net, &state_ptrs);
+ 
+-	x = __xfrm_state_lookup(&state_ptrs, mark, daddr, spi, proto, family);
++	x = __xfrm_state_lookup(&state_ptrs, mark, 0, false, daddr, spi, proto, family);
+ 	rcu_read_unlock();
+ 	return x;
+ }
+@@ -2398,6 +2441,23 @@ xfrm_state_lookup_byaddr(struct net *net, u32 mark,
+ }
+ EXPORT_SYMBOL(xfrm_state_lookup_byaddr);
+ 
++struct xfrm_state *
++xfrm_state_lookup_exact(struct net *net, const struct xfrm_mark *mark,
++			const xfrm_address_t *daddr, __be32 spi,
++			u8 proto, unsigned short family)
++{
++	struct xfrm_hash_state_ptrs state_ptrs;
++	struct xfrm_state *x;
++
++	rcu_read_lock();
++	xfrm_hash_ptrs_get(net, &state_ptrs);
++
++	x = __xfrm_state_lookup_exact(&state_ptrs, mark, daddr, spi, proto, family);
++	rcu_read_unlock();
++	return x;
++}
++EXPORT_SYMBOL(xfrm_state_lookup_exact);
++
+ struct xfrm_state *
+ xfrm_find_acq(struct net *net, const struct xfrm_mark *mark, u8 mode, u32 reqid,
+ 	      u32 if_id, u32 pcpu_num, u8 proto, const xfrm_address_t *daddr,
+diff --git a/net/xfrm/xfrm_user.c b/net/xfrm/xfrm_user.c
+index 6384795ee6b2..b56fca666b89 100644
+--- a/net/xfrm/xfrm_user.c
++++ b/net/xfrm/xfrm_user.c
+@@ -1089,11 +1089,12 @@ static struct xfrm_state *xfrm_user_state_lookup(struct net *net,
+ 	struct xfrm_state *x = NULL;
+ 	struct xfrm_mark m;
+ 	int err;
+-	u32 mark = xfrm_mark_get(attrs, &m);
++
++	xfrm_mark_get(attrs, &m);
+ 
+ 	if (xfrm_id_proto_match(p->proto, IPSEC_PROTO_ANY)) {
+ 		err = -ESRCH;
+-		x = xfrm_state_lookup(net, mark, &p->daddr, p->spi, p->proto, p->family);
++		x = xfrm_state_lookup_exact(net, &m, &p->daddr, p->spi, p->proto, p->family);
+ 	} else {
+ 		xfrm_address_t *saddr = NULL;
+ 
+@@ -1104,7 +1105,7 @@ static struct xfrm_state *xfrm_user_state_lookup(struct net *net,
+ 		}
+ 
+ 		err = -ESRCH;
+-		x = xfrm_state_lookup_byaddr(net, mark,
++		x = xfrm_state_lookup_byaddr(net, m.v & m.m,
+ 					     &p->daddr, saddr,
+ 					     p->proto, p->family);
+ 	}
+@@ -2788,14 +2789,13 @@ static int xfrm_get_ae(struct sk_buff *skb, struct nlmsghdr *nlh,
+ 	struct sk_buff *r_skb;
+ 	int err;
+ 	struct km_event c;
+-	u32 mark;
+ 	struct xfrm_mark m;
+ 	struct xfrm_aevent_id *p = nlmsg_data(nlh);
+ 	struct xfrm_usersa_id *id = &p->sa_id;
+ 
+-	mark = xfrm_mark_get(attrs, &m);
++	xfrm_mark_get(attrs, &m);
+ 
+-	x = xfrm_state_lookup(net, mark, &id->daddr, id->spi, id->proto, id->family);
++	x = xfrm_state_lookup_exact(net, &m, &id->daddr, id->spi, id->proto, id->family);
+ 	if (x == NULL)
+ 		return -ESRCH;
+ 
+@@ -2836,7 +2836,6 @@ static int xfrm_new_ae(struct sk_buff *skb, struct nlmsghdr *nlh,
+ 	struct xfrm_state *x;
+ 	struct km_event c;
+ 	int err = -EINVAL;
+-	u32 mark = 0;
+ 	struct xfrm_mark m;
+ 	struct xfrm_aevent_id *p = nlmsg_data(nlh);
+ 	struct nlattr *rp = attrs[XFRMA_REPLAY_VAL];
+@@ -2856,9 +2855,10 @@ static int xfrm_new_ae(struct sk_buff *skb, struct nlmsghdr *nlh,
+ 		return err;
+ 	}
+ 
+-	mark = xfrm_mark_get(attrs, &m);
++	xfrm_mark_get(attrs, &m);
+ 
+-	x = xfrm_state_lookup(net, mark, &p->sa_id.daddr, p->sa_id.spi, p->sa_id.proto, p->sa_id.family);
++	x = xfrm_state_lookup_exact(net, &m, &p->sa_id.daddr, p->sa_id.spi,
++				    p->sa_id.proto, p->sa_id.family);
+ 	if (x == NULL)
+ 		return -ESRCH;
+ 
+@@ -2992,9 +2992,10 @@ static int xfrm_add_sa_expire(struct sk_buff *skb, struct nlmsghdr *nlh,
+ 	struct xfrm_user_expire *ue = nlmsg_data(nlh);
+ 	struct xfrm_usersa_info *p = &ue->state;
+ 	struct xfrm_mark m;
+-	u32 mark = xfrm_mark_get(attrs, &m);
+ 
+-	x = xfrm_state_lookup(net, mark, &p->id.daddr, p->id.spi, p->id.proto, p->family);
++	xfrm_mark_get(attrs, &m);
++
++	x = xfrm_state_lookup_exact(net, &m, &p->id.daddr, p->id.spi, p->id.proto, p->family);
+ 
+ 	err = -ENOENT;
+ 	if (x == NULL)
+@@ -3361,9 +3362,9 @@ static int xfrm_do_migrate_state(struct sk_buff *skb, struct nlmsghdr *nlh,
+ 
+ 	copy_from_user_migrate_state(&m, um);
+ 
+-	x = xfrm_state_lookup(net, m.old_mark.v & m.old_mark.m,
+-			      &um->id.daddr, um->id.spi,
+-			      um->id.proto, um->id.family);
++	x = xfrm_state_lookup_exact(net, &m.old_mark,
++				    &um->id.daddr, um->id.spi,
++				    um->id.proto, um->id.family);
+ 	if (!x) {
+ 		NL_SET_ERR_MSG(extack, "Can not find state");
+ 		return -ESRCH;
 
-diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index 749c5fc3f..2ab14c5d6 100644
---- a/Documentation/translations/pt_BR/index.rst
-+++ b/Documentation/translations/pt_BR/index.rst
-@@ -82,3 +82,4 @@ kernel e sobre como ver seu trabalho integrado.
-    Processo do subsistema SoC <process/maintainer-soc>
-    Conformidade de DTS para SoC <process/maintainer-soc-clean-dts>
-    Processo do subsistema KVM x86 <process/maintainer-kvm-x86>
-+   Adicionando uma nova chamada de Sistema <process/adding-syscalls>
-diff --git a/Documentation/translations/pt_BR/process/adding-syscalls.rst b/Documentation/translations/pt_BR/process/adding-syscalls.rst
-new file mode 100644
-index 000000000..cdf8b5033
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/adding-syscalls.rst
-@@ -0,0 +1,700 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=======================================
-+Adicionando uma Nova Chamada de Sistema
-+=======================================
-+
-+Este documento descreve o que está envolvido na adição de uma nova chamada de
-+sistema (system call) ao kernel Linux, indo além dos conselhos normais de
-+submissão em
-+:ref:`Documentation/process/submitting-patches.rst <submittingpatches>`.
-+
-+
-+Alternativas às Chamadas de Sistema
-+-----------------------------------
-+
-+A primeira coisa a se considerar ao adicionar uma nova chamada de sistema é se
-+uma das alternativas poderia ser mais adequada. Embora as chamadas de sistema
-+sejam os pontos de interação mais tradicionais e óbvios entre o espaço do
-+usuário (userspace) e o kernel, existem outras possibilidades -- escolha o que
-+melhor se adapta à sua interface.
-+
-+ - Se as operações envolvidas puderem ser moldadas para se parecerem com um
-+   objeto do tipo arquivo, pode fazer mais sentido criar um novo sistema de
-+   arquivos ou dispositivo. Isso também torna mais fácil encapsular a nova
-+   funcionalidade em um módulo de kernel, em vez de exigir que ela seja
-+   incorporada ao kernel principal.
-+
-+     - Se a nova funcionalidade envolver operações em que o kernel notifica o
-+       espaço do usuário de que algo aconteceu, retornar um novo descritor de
-+       arquivo (file descriptor) para o objeto relevante permite que o espaço
-+       do usuário use ``poll``/``select``/``epoll`` para receber essa
-+       notificação.
-+     - No entanto, as operações que não se mapeiam para operações do tipo
-+       :manpage:`read(2)`/:manpage:`write(2)` precisam ser implementadas como
-+       requisições :manpage:`ioctl(2)`, o que pode levar a uma API um tanto
-+       quanto opaca.
-+
-+ - Se você estiver apenas expondo informações do sistema em tempo de execução,
-+   um novo nó no sysfs (veja ``Documentation/filesystems/sysfs.rst``) ou no
-+   sistema de arquivos ``/proc`` pode ser mais apropriado. No entanto, o acesso
-+   a esses mecanismos exige que o sistema de arquivos relevante esteja montado,
-+   o que pode não ser sempre o caso (por exemplo, em um ambiente com namespaces,
-+   sandboxed ou chrooted). Evite adicionar qualquer API ao debugfs, pois este
-+   não é considerado uma interface de "produção" para o espaço do usuário.
-+ - Se a operação for específica para um arquivo ou descritor de arquivo de um
-+   determinado objeto, então uma opção de comando adicional para :manpage:`fcntl(2)`
-+   pode ser mais adequada. Contudo, o :manpage:`fcntl(2)` é uma chamada de sistema
-+   de multiplexação que oculta muita complexidade, portanto, esta opção é melhor
-+   para quando a nova função for intimamente análoga à funcionalidade existente
-+   do :manpage:`fcntl(2)`, ou se a nova funcionalidade for muito simples (por
-+   exemplo, obter/definir uma flag simples relacionada a um descritor de arquivo).
-+ - Se a operação for específica para uma tarefa (task) ou processo específico,
-+   então uma opção de comando adicional para :manpage:`prctl(2)` pode ser mais
-+   apropriada. Assim como no caso do :manpage:`fcntl(2)`, esta chamada de sistema
-+   é um multiplexador complicado, sendo melhor reservá-la para análogos próximos
-+   de comandos ``prctl()`` existentes ou para obter/definir uma flag simples
-+   relacionada a um processo.
-+
-+
-+Projetando a API: Planejando a Extensibilidade
-+----------------------------------------------
-+
-+Uma nova chamada de sistema faz parte da API do kernel e deve ser suportada
-+indefinidamente. Sendo assim, é uma excelente ideia discutir explicitamente a
-+interface na lista de discussão do kernel (LKML), e é crucial planejar extensões
-+futuras para essa interface.
-+
-+(A tabela de chamadas de sistema está repleta de exemplos históricos onde isso
-+não foi feito, juntamente com as respectivas chamadas de sistema de acompanhamento
-+-- ``eventfd``/``eventfd2``, ``dup2``/``dup3``, ``inotify_init``/``inotify_init1``,
-+``pipe``/``pipe2``, ``renameat``/``renameat2`` -- portanto, aprenda com a história
-+do kernel e planeje as extensões desde o início.)
-+
-+Para chamadas de sistema mais simples que recebem apenas alguns argumentos, a
-+maneira preferencial de permitir extensibilidade futura é incluir um argumento de
-+flags na chamada de sistema. Para garantir que os programas do espaço do usuário
-+possam usar flags de forma segura entre diferentes versões do kernel, verifique
-+se o valor de flags contém qualquer flag desconhecida e rejeite a chamada de
-+sistema (com ``EINVAL``) se contiver::
-+
-+    if (flags & ~(THING_FLAG1 | THING_FLAG2 | THING_FLAG3))
-+        return -EINVAL;
-+
-+(Se nenhum valor de flag for utilizado ainda, verifique se o argumento de flags
-+é zero.)
-+
-+Para chamadas de sistema mais sofisticadas que envolvem um número maior de
-+argumentos, prefere-se encapsular a maioria dos argumentos em uma estrutura
-+(struct) que é passada por meio de um ponteiro. Esse tipo de estrutura pode
-+lidar com extensões futuras incluindo um argumento de tamanho (size) na própria
-+estrutura::
-+
-+    struct xyzzy_params {
-+        u32 size; /* o espaço do usuário define p->size = sizeof(struct xyzzy_params) */
-+        u32 param_1;
-+        u64 param_2;
-+        u64 param_3;
-+    };
-+
-+Desde que qualquer campo adicionado subsequentemente, digamos ``param_4``, seja
-+projetado de forma que um valor zero mantenha o comportamento anterior, isso
-+permitirá lidar com a divergência de versões em ambas as direções:
-+
-+ - Para lidar com um programa de espaço do usuário mais novo chamando um kernel
-+   mais antigo, o código do kernel deve verificar se qualquer memória além do
-+   tamanho da estrutura que ele espera está zerada (efetivamente verificando
-+   se ``param_4 == 0``).
-+ - Para lidar com um programa de espaço do usuário mais antigo chamando um kernel
-+   mais novo, o código do kernel pode preencher com zero (zero-extend) a
-+   instância menor da estrutura (efetivamente definindo ``param_4 = 0``).
-+
-+Veja :manpage:`perf_event_open(2)` e a função ``perf_copy_attr()`` (em
-+``kernel/events/core.c``) para um exemplo desta abordagem.
-+
-+
-+Projetando a API: Outras Considerações
-+--------------------------------------
-+
-+Se a sua nova chamada de sistema permitir que o espaço do usuário se refira a
-+um objeto do kernel, ela deve usar um descritor de arquivo (file descriptor)
-+como o handle (identificador) para esse objeto -- não invente um novo tipo de
-+handle de objeto para o espaço do usuário quando o kernel já possui mecanismos
-+e semânticas bem definidas para o uso de descritores de arquivo.
-+
-+Se a sua nova chamada de sistema (2) de fato retornar un novo descritor de
-+arquivo, então o argumento de flags deve incluir um valor que seja equivalente
-+a definir ``O_CLOEXEC`` no novo FD. Isso torna possível para o espaço do usuário
-+fechar a janela de tempo entre a chamada ``()`` e a execução de
-+``fcntl(fd, F_SETFD, FD_CLOEXEC)``, onde um ``fork()`` e ``execve()`` inesperados
-+em outra thread poderiam vazar um descritor para o programa executado. (Contudo,
-+resista à tentação de reutilizar o valor real da constante ``O_CLOEXEC``, pois
-+ela é específica de cada arquitetura e faz parte de um espaço de numeração de
-+flags ``O_*`` que está bastante cheio.)
-+
-+Se a sua chamada de sistema retornar um novo descritor de arquivo, você também
-+deve considerar o que significa usar a família de chamadas de sistema
-+:manpage:`poll(2)` nesse descritor de arquivo. Tornar um descritor de arquivo
-+pronto para leitura ou escrita é a maneira normal de o kernel indicar ao espaço
-+do usuário que um evento ocorreu no objeto correspondente do kernel.
-+
-+Se a sua nova chamada de sistema (2) envolver um argumento de nome de arquivo
-+(filename)::
-+
-+    int sys_xyzzy(const char __user *path, ..., unsigned int flags);
-+
-+você também deve considerar se uma versão xyzzyat(2) seria mais apropriada::
-+
-+    int sys_xyzzyat(int dfd, const char __user *path, ..., unsigned int flags);
-+
-+Isso permite maior flexibilidade para a forma como o espaço do usuário especifica
-+o arquivo em questão; em particular, permite que o espaço do usuário solicite a
-+funcionalidade para um descritor de arquivo já aberto usando a flag
-+``AT_EMPTY_PATH``, fornecendo efetivamente uma operação fxyzzy(3) de graça::
-+
-+ - xyzzyat(AT_FDCWD, path, ..., 0) é equivalente a (path,...)
-+ - xyzzyat(fd, "", ..., AT_EMPTY_PATH) é equivalente a fxyzzy(fd, ...)
-+
-+(Para mais detalhes sobre a justificativa das chamadas \*at(), veja a página de
-+manual :manpage:`openat(2)`; para um exemplo de AT_EMPTY_PATH, veja a página de
-+manual :manpage:`fstatat(2)`.)
-+
-+Se a sua nova chamada de sistema (2) envolver um parâmetro que descreve um
-+deslocamento (offset) dentro de um arquivo, mude o seu tipo para ``loff_t`` para
-+que offsets de 64 bits possam ser suportados mesmo em arquiteturas de 32 bits.
-+
-+Se a sua nova chamada de sistema (2) envolver funcionalidades privilegiadas,
-+ela precisa ser governada pelo bit de capacidade (capability) do Linux apropriado
-+(verificado com uma chamada a ``capable()``), conforme descrito na página de
-+manual :manpage:`capabilities(7)`. Escolha um bit de capacidade existente que governe
-+funcionalidades relacionadas, mas tente evitar combinar muitas funções que tenham
-+apenas uma vaga relação sob o mesmo bit, pois isso vai contra o propósito das
-+capabilities de dividir o poder do root. Em particular, evite adicionar novos
-+usos para a capacidade ``CAP_SYS_ADMIN``, que já é excessivamente generalista.
-+
-+Se a sua nova chamada de sistema (2) manipular um processo diferente do
-+processo que a chamou, ela deve ser restrita (usando uma chamada a
-+``ptrace_may_access()``) para que apenas um processo chamador com as mesmas
-+permissões do processo alvo, ou com as capacidades necessárias, possa manipular
-+o processo alvo.
-+
-+Finalmente, esteja ciente de que algumas arquiteturas não-x86 lidam melhor se os
-+parâmetros da chamada de sistema que são explicitamente de 64 bits caírem em
-+argumentos de numeração ímpar (ou seja, parâmetro 1, 3, 5), para permitir o uso
-+de pares contíguos de registradores de 32 bits. (Esta preocupação não se aplica
-+se os argumentos fizerem parte de uma estrutura que é passada por meio de um
-+ponteiro.)
-+
-+
-+Propondo a API
-+--------------
-+
-+Para tornar as novas chamadas de sistema fáceis de revisar, é melhor dividir o
-+conjunto de patches (patchset) em blocos separados. Estes devem incluir, pelo
-+menos, os seguintes itens como commits distintos (cada um dos quais é descrito
-+mais adiante):
-+
-+ - A implementação central da chamada de sistema, juntamente com protótipos,
-+   numeração genérica, alterações no Kconfig e a implementação de stub de realinhamento (fallback stub).
-+ - A fiação (wiring up) da nova chamada de sistema para uma arquitetura em
-+   particular, geralmente x86 (incluindo todas as variantes x86_64, x86_32 e x32).
-+ - Uma demonstração do uso da nova chamada de sistema no espaço do usuário por
-+   meio de um selftest em ``tools/testing/selftests/``.
-+ - Um rascunho da página de manual (man-page) para a nova chamada de sistema,
-+   seja como texto simples na carta de apresentação (cover letter) ou como um
-+   patch para o repositório (separado) de man-pages.
-+
-+Novas propostas de chamadas de sistema, como qualquer alteração na API do
-+kernel, devem sempre ser enviadas com cópia (cc'ed) para linux-api@vger.kernel.org.
-+
-+
-+Implementação Genérica de Chamadas de Sistema
-+---------------------------------------------
-+
-+O ponto de entrada principal para a sua nova chamada de sistema (2) será chamado
-+de ``sys_xyzzy()``, mas você deve adicionar esse ponto de entrada com a macro
-+``SYSCALL_DEFINEn()`` apropriada, em vez de fazer isso explicitamente. O 'n'
-+indica o número de argumentos da chamada de sistema, e a macro recebe o nome da
-+chamada de sistema seguido pelos pares (tipo, nome) para os parâmetros como
-+argumentos. O uso dessa macro permite que os metadados sobre a nova chamada de
-+sistema fiquem disponíveis para outras ferramentas.
-+
-+O novo ponto de entrada também precisa de um protótipo de função correspondente
-+em ``include/linux/syscalls.h``, marcado como asmlinkage para corresponder à
-+maneira como as chamadas de sistema são invocadas::
-+
-+    asmlinkage long sys_xyzzy(...);
-+
-+Algumas arquiteturas (por exemplo, x86) possuem suas próprias tabelas de syscall
-+específicas da arquitetura, mas várias outras arquiteturas compartilham uma tabela
-+de syscall genérica. Adicione a sua nova chamada de sistema à lista genérica
-+adicionando uma entrada na lista em ``include/uapi/asm-generic/unistd.h``::
-+
-+    #define __NR_xyzzy 292
-+    __SYSCALL(__NR_xyzzy, sys_xyzzy)
-+
-+Atualize também a contagem de __NR_syscalls para refletir a chamada de sistema
-+adicional, e observe que se múltiplas novas chamadas de sistema forem adicionadas
-+na mesma janela de mesclagem (merge window), o número da sua nova syscall poderá
-+ser ajustado para resolver conflitos.
-+
-+O arquivo ``kernel/sys_ni.c`` fornece uma implementação de stub de fallback para
-+cada chamada de sistema, retornando ``-ENOSYS``. Adicione a sua nova chamada de
-+sistema aqui também::
-+
-+    COND_SYSCALL(sys_xyzzy);
-+
-+A sua nova funcionalidade de kernel, e a chamada de sistema que a controla, deve
-+normalmente ser opcional, portanto adicione uma opção ``CONFIG`` (tipicamente em
-+``init/Kconfig``) para ela. Como de costume para novas opções ``CONFIG``:
-+
-+ - Inclua uma descrição da nova funcionalidade e da chamada de sistema controlada
-+   pela opção.
-+ - Faça a opção depender de EXPERT se ela deve ser ocultada dos usuários normais.
-+ - Faça com que quaisquer novos arquivos de código-fonte que implementem a função
-+   sejam dependentes da opção CONFIG no Makefile (por exemplo,
-+   ``obj-$(CONFIG_XYZZY_SYSCALL) += xyzzy.o``).
-+ - Verifique duas vezes se o kernel ainda compila com a nova opção CONFIG desativada.
-+
-+Para resumir, você precisa de um commit que inclua:
-+
-+ - Opção ``CONFIG`` para a nova função, normalmente em ``init/Kconfig``
-+ - ``SYSCALL_DEFINEn(, ...)`` para o ponto de entrada
-+ - Protótipo correspondente em ``include/linux/syscalls.h``
-+ - Entrada na tabela genérica em ``include/uapi/asm-generic/unistd.h``
-+ - Stub de fallback em ``kernel/sys_ni.c``
-+
-+
-+.. _pt_BR_syscall_generic_6_11:
-+
-+Desde a versão 6.11
-+~~~~~~~~~~~~~~~~~~~
-+
-+A partir da versão 6.11 do kernel, a implementação de chamadas de sistema
-+genéricas para as seguintes arquiteturas não requer mais modificações em
-+``include/uapi/asm-generic/unistd.h``:
-+
-+ - arc
-+ - arm64
-+ - csky
-+ - hexagon
-+ - loongarch
-+ - nios2
-+ - openrisc
-+ - riscv
-+
-+Em vez disso, você precisa atualizar ``scripts/syscall.tbl`` e, se aplicável,
-+ajustar ``arch/*/kernel/Makefile.syscalls``.
-+
-+Como o ``scripts/syscall.tbl`` serve como uma tabela de syscall comum para
-+múltiplas arquiteturas, uma nova entrada é necessária nesta tabela::
-+
-+    468   common        sys_xyzzy
-+
-+Note que adicionar uma entrada ao ``scripts/syscall.tbl`` com a ABI "common"
-+também afeta todas as arquiteturas que compartilham essa tabela. Para alterações
-+mais limitadas ou específicas de uma arquitetura, considere usar uma ABI
-+específica da arquitetura ou definir uma nova.
-+
-+Se uma nova ABI, digamos ``xyz``, for introduzida, as atualizações
-+correspondentes também devem ser feitas em ``arch/*/kernel/Makefile.syscalls``::
-+
-+    syscall_abis_{32,64} += xyz (...)
-+
-+Para resumir, você precisa de um commit que inclua:
-+
-+ - Opção ``CONFIG`` para a nova função, normalmente em ``init/Kconfig``
-+ - ``SYSCALL_DEFINEn(, ...)`` para o ponto de entrada
-+ - Protótipo correspondente em ``include/linux/syscalls.h``
-+ - Nova entrada em ``scripts/syscall.tbl``
-+ - (Se necessário) Atualizações de Makefile em ``arch/*/kernel/Makefile.syscalls``
-+ - Stub de fallback em ``kernel/sys_ni.c``
-+
-+
-+Implementação de Chamadas de Sistema em x86
-+-------------------------------------------
-+
-+Para interligar (wire up) a sua nova chamada de sistema nas plataformas x86, você
-+precisa atualizar as tabelas mestras de syscall. Assumindo que a sua nova chamada
-+de sistema não seja especial de alguma forma (veja abaixo), isso envolve uma
-+entrada "common" (para x86_64 e x32) em
-+``arch/x86/entry/syscalls/syscall_64.tbl``::
-+
-+    333   common        sys_xyzzy
-+
-+e uma entrada "i386" em ``arch/x86/entry/syscalls/syscall_32.tbl``::
-+
-+    380   i386          sys_xyzzy
-+
-+Novamente, esses números estão sujeitos a alterações caso ocorram conflitos na
-+janela de mesclagem (merge window) relevante.
-+
-+Chamadas de Sistema de Compatibilidade (Genéricas)
-+--------------------------------------------------
-+
-+Para a maioria das chamadas de sistema, a mesma implementação de 64 bits pode
-+ser invocada mesmo quando o programa do espaço do usuário é, ele próprio, de 32
-+bits; mesmo se os parâmetros da chamada de sistema incluírem um ponteiro
-+explícito, isso é tratado de forma transparente.
-+
-+No entanto, existem algumas situações em que uma camada de compatibilidade
-+(compatibility layer) é necessária para lidar com as diferenças de tamanho entre
-+32 bits e 64 bits.
-+
-+A primeira é se o kernel de 64 bits também suportar programas de espaço do
-+usuário de 32 bits e, portanto, precisar analisar áreas de memória
-+(``__user``) que poderiam conter valores de 32 bits ou 64 bits. Em particular,
-+isso é necessário sempre que um argumento de chamada de sistema for:
-+
-+ - um ponteiro para um ponteiro
-+ - um ponteiro para uma struct que contém um ponteiro (por exemplo,
-+   ``struct iovec __user *``)
-+ - um ponteiro para um tipo integral de tamanho variável (``time_t``,
-+   ``off_t``, ``long``, ...)
-+ - um ponteiro para uma struct que contém um tipo integral de tamanho variável.
-+
-+A segunda situação que requer uma camada de compatibilidade é se um dos
-+argumentos da chamada de sistema tiver um tipo que é explicitamente de 64 bits,
-+mesmo em uma arquitetura de 32 bits, por exemplo, ``loff_t`` ou ``__u64``. Neste
-+caso, um valor que chega ao kernel de 64 bits vindo de uma aplicação de 32 bits
-+será dividido em dois valores de 32 bits, que precisarão ser remontados na
-+camada de compatibilidade.
-+
-+(Note que um argumento de chamada de sistema que seja um ponteiro para um tipo
-+explícito de 64 bits **não** precisa de uma camada de compatibilidade; por
-+exemplo, os argumentos do :manpage:`splice(2)` do tipo ``loff_t __user *`` não
-+disparam a necessidade de uma chamada de sistema ``compat_``.)
-+
-+A versão de compatibilidade da chamada de sistema é chamada de
-+``compat_sys_xyzzy()`` e é adicionada com a macro ``COMPAT_SYSCALL_DEFINEn()``,
-+de forma análoga à macro SYSCALL_DEFINEn. Esta versão da implementação roda como
-+parte de um kernel de 64 bits, mas espera receber valores de parâmetros de 32
-+bits e faz o que for necessário para lidar com eles. (Tipicamente, a versão
-+``compat_sys_`` converte os valores para versões de 64 bits e chama a versão
-+``sys_``, ou ambas chamam uma função interna comum de implementação).
-+
-+O ponto de entrada compat também precisa de um protótipo de função
-+correspondente em ``include/linux/compat.h``, marcado como asmlinkage para
-+corresponder à maneira como as chamadas de sistema são invocadas::
-+
-+    asmlinkage long compat_sys_xyzzy(...);
-+
-+Se a chamada de sistema envolver uma estrutura cujo layout seja diferente em
-+sistemas de 32 bits e 64 bits, digamos ``struct xyzzy_args``, então o arquivo de
-+cabeçalho ``include/linux/compat.h`` também deve incluir uma versão compat da
-+estrutura (``struct compat_xyzzy_args``), onde cada campo de tamanho variável
-+tenha o tipo ``compat_`` correspondente ao tipo na ``struct xyzzy_args``. A
-+rotina ``compat_sys_xyzzy()`` pode então usar essa estrutura ``compat_`` para
-+analisar os argumentos vindos de uma invocação de 32 bits.
-+
-+Por exemplo, se existirem os campos::
-+
-+    struct xyzzy_args {
-+        const char __user *ptr;
-+        __kernel_long_t varying_val;
-+        u64 fixed_val;
-+        /* ... */
-+    };
-+
-+na struct xyzzy_args, então a struct compat_xyzzy_args teria::
-+
-+    struct compat_xyzzy_args {
-+        compat_uptr_t ptr;
-+        compat_long_t varying_val;
-+        u64 fixed_val;
-+        /* ... */
-+    };
-+
-+A lista genérica de chamadas de sistema também precisa de ajustes para permitir
-+a versão compat; a entrada em ``include/uapi/asm-generic/unistd.h`` deve usar
-+``__SC_COMP`` em vez de ``__SYSCALL``::
-+
-+    #define __NR_xyzzy 292
-+    __SC_COMP(__NR_xyzzy, sys_xyzzy, compat_sys_xyzzy)
-+
-+Para resumir, você precisa de:
-+
-+ - uma macro ``COMPAT_SYSCALL_DEFINEn(, ...)`` para o ponto de entrada compat
-+ - protótipo correspondente em ``include/linux/compat.h``
-+ - (se necessário) struct de mapeamento de 32 bits em ``include/linux/compat.h``
-+ - instância de ``__SC_COMP``, e não de ``__SYSCALL``, em
-+   ``include/uapi/asm-generic/unistd.h``
-+
-+Desde a versão 6.11
-+~~~~~~~~~~~~~~~~~~~
-+
-+Isso se aplica a todas as arquiteturas listadas em
-+:ref:`Desde a versão 6.11<pt_BR_syscall_generic_6_11>` sob "Implementação Genérica de
-+Chamadas de Sistema", exceto arm64. Veja
-+:ref:`Chamadas de Sistema de Compatibilidade (arm64)<pt_BR_compat_arm64>` para mais
-+informações.
-+
-+Você precisa estender a entrada em ``scripts/syscall.tbl`` com uma coluna extra
-+para indicar que um programa de espaço do usuário de 32 bits rodando em um
-+kernel de 64 bits deve atingir o ponto de entrada compat::
-+
-+    468   common          sys_xyzzy    compat_sys_xyzzy
-+
-+Para resumir, você precisa de:
-+
-+ - ``COMPAT_SYSCALL_DEFINEn(, ...)`` para o ponto de entrada compat
-+ - Protótipo correspondente em ``include/linux/compat.h``
-+ - Modificação da entrada em ``scripts/syscall.tbl`` para incluir uma coluna
-+   "compat" extra
-+ - (Se necessário) Struct de mapeamento de 32 bits em ``include/linux/compat.h``
-+
-+
-+.. _pt_BR_compat_arm64:
-+
-+Chamadas de Sistema de Compatibilidade (arm64)
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+No arm64, existe uma tabela de syscall dedicada para chamadas de sistema de
-+compatibilidade voltadas para o espaço do usuário de 32 bits (AArch32):
-+``arch/arm64/tools/syscall_32.tbl``. Você precisa adicionar uma linha adicional
-+a esta tabela especificando o ponto de entrada compat::
-+
-+    468   common          sys_xyzzy    compat_sys_xyzzy
-+
-+
-+Chamadas de Sistema de Compatibilidade (x86)
-+--------------------------------------------
-+
-+Para interligar a arquitetura x86 de uma chamada de sistema com uma versão de
-+compatibilidade, as entradas nas tabelas de syscall precisam ser ajustadas.
-+
-+Primeiro, a entrada em ``arch/x86/entry/syscalls/syscall_32.tbl`` ganha uma
-+coluna extra para indicar que um programa de espaço do usuário de 32 bits rodando
-+em um kernel de 64 bits deve atingir o ponto de entrada compat::
-+
-+    380   i386          sys_xyzzy    __ia32_compat_sys_xyzzy
-+
-+Segundo, você precisa definir o que deve acontecer para a versão da ABI x32 da
-+nova chamada de sistema. Há uma escolha aqui: o layout dos argumentos deve
-+corresponder à versão de 64 bits ou à versão de 32 bits.
-+
-+Se houver um ponteiro para um ponteiro envolvido, a decisão é fácil: x32 é
-+ILP32 (inteiro, long e ponteiro possuem 32 bits), portanto o layout deve
-+corresponder à versão de 32 bits, e a entrada em
-+``arch/x86/entry/syscalls/syscall_64.tbl`` é dividida para que os programas x32
-+atinjam o wrapper de compatibilidade::
-+
-+    333   64            sys_xyzzy
-+    ...
-+    555   x32           __x32_compat_sys_xyzzy
-+
-+Se não houver ponteiros envolvidos, então é preferível reutilizar a chamada de
-+sistema de 64 bits para a ABI x32 (e, consequentemente, a entrada em
-+``arch/x86/entry/syscalls/syscall_64.tbl`` permanece inalterada).
-+
-+Em qualquer um dos casos, você deve verificar se os tipos envolvidos no layout
-+dos seus argumentos de fato se mapeiam exatamente do x32 (-mx32) para os seus
-+equivalentes de 32 bits (-m32) ou 64 bits (-m64).
-+
-+
-+Chamadas de Sistema com Retorno para Outro Local
-+------------------------------------------------
-+
-+Para a maioria das chamadas de sistema (syscalls), assim que a execução é
-+concluída, o programa do usuário continua exatamente de onde parou -- na
-+próxima instrução, com a pilha idêntica e a maior parte dos registradores no
-+mesmo estado de antes da chamada, além do mesmo espaço de memória virtual.
-+
-+No entanto, algumas poucas chamadas de sistema agem de forma diferente. Elas
-+podem retornar para um local distinto (``rt_sigreturn``), alterar o espaço de
-+memória (``fork``/``vfork``/``clone``) ou até mesmo modificar a arquitetura
-+(``execve``/``execveat``) do programa.
-+
-+Para permitir isso, a implementação da chamada de sistema no kernel pode
-+precisar salvar e restaurar registradores adicionais na pilha do kernel,
-+garantindo controle total de onde e como a execução continuará após a syscall.
-+
-+Isso é específico de cada arquitetura (arch-specific), mas tipicamente envolve
-+a definição de pontos de entrada em assembly que salvam/restauram esses
-+registradores adicionais e invocam o ponto de entrada real da chamada de
-+sistema.
-+
-+Para x86_64, isso é implementado como um ponto de entrada ``stub_xyzzy`` em
-+``arch/x86/entry/entry_64.S``, e a entrada correspondente na tabela de syscalls
-+(``arch/x86/entry/syscalls/syscall_64.tbl``) é ajustada para refletir::
-+
-+    333   common        stub_xyzzy
-+
-+O equivalente para programas de 32 bits executados em um kernel de 64 bits é
-+normalmente chamado de ``stub32_xyzzy`` e implementado em
-+``arch/x86/entry/entry_64_compat.S``, com o respectivo ajuste na tabela de
-+syscalls em ``arch/x86/entry/syscalls/syscall_32.tbl``::
-+
-+    380   i386          sys_xyzzy    stub32_xyzzy
-+
-+Se a chamada de sistema precisar de uma camada de compatibilidade (como na
-+seção anterior), a versão ``stub32_`` precisará chamar a versão
-+``compat_sys_`` da chamada de sistema em vez da versão nativa de 64 bits. Além
-+disso, se a implementação da ABI x32 não for compartilhada com a versão
-+x86_64, sua tabela de syscalls também precisará invocar um stub que direcione
-+para a versão ``compat_sys_``.
-+
-+Por questões de integridade, também é recomendado configurar um mapeamento para
-+que o User-Mode Linux (UML) continue funcionando -- sua tabela de syscalls fará
-+referência a ``stub_xyzzy``, mas o build do UML não inclui a implementação de
-+``arch/x86/entry/entry_64.S`` (já que o UML simula registradores, etc.). Corrigir
-+isso é tão simples quanto adicionar um #define em
-+``arch/x86/um/sys_call_table_64.c``::
-+
-+    #define stub_xyzzy sys_xyzzy
-+
-+
-+Outros Detalhes
-+---------------
-+
-+A maior parte do kernel trata as chamadas de sistema de maneira genérica, mas
-+há exceções ocasionais que podem precisar de atualização para a sua chamada
-+de sistema específica.
-+
-+O subsistema de auditoria (audit) é um desses casos especiais; ele inclui
-+funções (específicas de cada arquitetura) que classificam alguns tipos
-+especiais de chamada de sistema -- especificamente operações de abertura de
-+arquivo (``open``/``openat``), execução de programa (``execve``/``exeveat``) ou
-+multiplexador de socket (``socketcall``). Se a sua nova chamada de sistema for
-+análoga a uma dessas, o sistema de auditoria deverá ser atualizado.
-+
-+De forma mais geral, se existir uma chamada de sistema atual que seja análoga
-+à sua nova chamada de sistema, vale a pena fazer um grep em todo o kernel pela
-+chamada existente para verificar se não há outros casos especiais.
-+
-+
-+Testes
-+------
-+
-+Uma nova chamada de sistema deve, obviamente, ser testada; também é útil
-+fornecer aos revisores uma demonstração de como os programas do espaço do
-+usuário (user space) usarão a chamada de sistema. Uma boa maneira de combinar
-+esses objetivos é incluir um programa simples de autoteste em um novo diretório
-+sob ``tools/testing/selftests/``.
-+
-+Para uma nova chamada de sistema, obviamente não haverá uma função de wrapper
-+na libc e, portanto, o teste precisará invocá-la usando ``syscall()``; além
-+disso, se a chamada de sistema envolver uma nova estrutura visível para o
-+espaço do usuário, o cabeçalho correspondente precisará ser instalado para
-+compilar o teste.
-+
-+Certifique-se de que o autoteste seja executado com sucesso em todas as
-+arquiteturas suportadas. Por exemplo, verifique se ele funciona quando compitado
-+como um programa ABI x86_64 (-m64), x86_32 (-m32) e x32 (-mx32).
-+
-+Para testes mais extensos e minuciosos de novas funcionalidades, você também
-+deve considerar a adição de testes ao Linux Test Project ou ao projeto
-+xfstests para alterações relacionadas
-+
-+Página de Manual (Man Page)
-+---------------------------
-+
-+Todas as novas chamadas de sistema devem vir acompanhadas de uma página de
-+manual completa, idealmente usando a marcação groff, mas texto simples também
-+é aceitável. Se o groff for utilizado, é útil incluir uma versão ASCII pré-
-+renderizada da página de manual no e-mail de apresentação (cover letter) do
-+conjunto de patches (patchset), para a conveniência dos revisores.
-+
-+A página de manual deve ser enviada com cópia (cc) para
-+linux-man@vger.kernel.org. Para mais detalhes, consulte
-+https://www.kernel.org/doc/man-pages/patches.html
-+
-+
-+Não invoque Chamadas de Sistema dentro do Kernel
-+------------------------------------------------
-+
-+As chamadas de sistema são, como mencionado acima, pontos de interação entre o
-+espaço do usuário (userspace) e o kernel. Portanto, funções de chamada de
-+sistema como ``sys_xyzzy()`` ou ``compat_sys_xyzzy()`` só devem ser chamadas a
-+partir do espaço do usuário por meio da tabela de syscalls, e não de outros
-+lugares do kernel. Se a funcionalidade da syscall for útil para ser utilizada
-+dentro do kernel, precisar ser compartilhada entre uma syscall antiga e uma
-+nova, ou precisar ser compartilhada entre uma syscall e sua variante de
-+compatibilidade, ela deve ser implementada por meio de uma função auxiliadora
-+("helper", como ``ksys_xyzzy()``). Essa função do kernel poderá então ser
-+chamada dentro do stub da syscall (``sys_xyzzy()``), do stub da syscall de
-+compatibilidade (``compat_sys_xyzzy()``) e/ou de outro código do kernel.
-+
-+Pelo menos em x86 de 64 bits, será um requisito rígido a partir da versão v4.17
-+em diante não chamar funções de chamadas de sistema no kernel. Essa arquitetura
-+utiliza uma convenção de chamada diferente para chamadas de sistema na qual a
-+``struct pt_regs`` é decodificada dinamicamente em um wrapper de syscall, que
-+então repassa o processamento para a função real da syscall. Isso significa que
-+apenas os parâmetros realmente necessários para uma syscall específica são
-+passados durante a entrada da syscall, em vez de preencher seis registradores da
-+CPU com conteúdos aleatórios do espaço do usuário o tempo todo (o que poderia
-+causar problemas sérios no decorrer da cadeia de chamadas).
-+
-+Além disso, as regras sobre como os dados podem ser acessados diferem entre os
-+dados do kernel e os dados do usuário. Essa é outra razão pela qual chamar
-+``sys_xyzzy()`` geralmente é uma má ideia.
-+
-+Exceções a essa regra são permitidas apenas em substituições (overrides)
-+específicas de cada arquitetura, wrappers de compatibilidade específicos de cada
-+arquitetura ou outros códigos dentro do diretório arch/.
-+
-+Referências e Fontes
-+--------------------
-+
-+ - Artigo da LWN por Michael Kerrisk sobre o uso do argumento flags em chamadas
-+   de sistema:
-+   https://lwn.net/Articles/585415/
-+ - Artigo da LWN por Michael Kerrisk sobre como lidar com flags desconhecidas
-+   em uma chamada de sistema: https://lwn.net/Articles/588444/
-+ - Artigo da LWN por Jake Edge descrevendo restrições em argumentos de chamadas
-+   de sistema de 64 bits: https://lwn.net/Articles/311630/
-+ - Par de artigos da LWN por David Drysdale que descrevem detalhadamente os
-+   caminhos de implementação de chamadas de sistema para a v3.14:
-+
-+    - https://lwn.net/Articles/604287/
-+    - https://lwn.net/Articles/604515/
-+
-+ - Os requisitos específicos de arquitetura para chamadas de sistema são
-+   discutidos na página de manual :manpage:`syscall(2)`:
-+   http://man7.org/linux/man-pages/man2/syscall.2.html#NOTES
-+ - E-mails compilados de Linus Torvalds discutindo os problemas com ``ioctl()``:
-+   https://yarchive.net/comp/linux/ioctl.html
-+ - "How to not invent kernel interfaces", Arnd Bergmann,
-+   https://www.ukuug.org/events/linux2007/2007/papers/Bergmann.pdf
-+ - Artigo da LWN por Michael Kerrisk sobre evitar novos usos de CAP_SYS_ADMIN:
-+   https://lwn.net/Articles/486306/
-+ - Recomendação de Andrew Morton para que todas as informações relacionadas a
-+   uma nova chamada de sistema venham na mesma thread de e-mail:
-+   https://lore.kernel.org/r/20140724144747.3041b208832bbdf9fbce5d96@linux-foundation.org
-+ - Recomendação de Michael Kerrisk para que uma nova chamada de sistema venha
-+   acompanhada de uma página de manual:
-+   https://lore.kernel.org/r/CAKgNAkgMA39AfoSoA5Pe1r9N+ZzfYQNvNPvcRN7tOvRb8+v06Q@mail.gmail.com
-+ - Sugestão de Thomas Gleixner para que a vinculação (wire-up) do x86 esteja em
-+   um commit separado:
-+   https://lore.kernel.org/r/alpine.DEB.2.11.1411191249560.3909@nanos
-+ - Sugestão de Greg Kroah-Hartman de que é bom que novas chamadas de sistema
-+   venham acompanhadas de uma página de manual e um autoteste:
-+   https://lore.kernel.org/r/20140320025530.GA25469@kroah.com
-+ - Discussão de Michael Kerrisk sobre uma nova chamada de sistema versus a
-+   extensão de :manpage:`prctl(2)`:
-+   https://lore.kernel.org/r/CAHO5Pa3F2MjfTtfNxa8LbnkeeU8=YJ+9tDqxZpw7Gz59E-4AUg@mail.gmail.com
-+ - Sugestão de Ingo Molnar de que as chamadas de sistema que envolvem múltiplos
-+   argumentos devem encapsular esses argumentos em uma struct, a qual inclua um
-+   campo de tamanho (size) para fins de extensibilidade futura:
-+   https://lore.kernel.org/r/20150730083831.GA22182@gmail.com
-+ - Excentricidades de numeração decorrentes do uso (e reuso) de flags do espaço
-+   de numeração O_*:
-+
-+    - commit 75069f2b5bfb ("vfs: renumber FMODE_NONOTIFY and add to uniqueness
-+      check")
-+    - commit 12ed2e36c98a ("fanotify: FMODE_NONOTIFY and __O_SYNC in sparc
-+      conflict")
-+    - commit bb458c644a59 ("Safer ABI for O_TMPFILE")
-+
-+ - Discussão de Matthew Wilcox sobre restrições em argumentos de 64 bits:
-+   https://lore.kernel.org/r/20081212152929.GM26095@parisc-linux.org
-+ - Recomendação de Greg Kroah-Hartman de que flags desconhecidas devem ser
-+   fiscalizadas/policiadas:
-+   https://lore.kernel.org/r/20140717193330.GB4703@kroah.com
-+ - Recomendação de Linus Torvalds de que as chamadas de sistema x32 devem
-+   preferir a compatibilidade com as versões de 64 bits em vez das versões de
-+   32 bits:
-+   https://lore.kernel.org/r/CA+55aFxfmwfB7jbbrXxa=K7VBYPfAvmu3XOkGrLbB1UFjX1+Ew@mail.gmail.com
-+ - Série de patches revisando a infraestrutura da tabela de chamadas de sistema
-+   para utilizar scripts/syscall.tbl em múltiplas arquiteturas:
-+   https://lore.kernel.org/lkml/20240704143611.2979589-1-arnd@kernel.org
 -- 
 2.47.3
 
