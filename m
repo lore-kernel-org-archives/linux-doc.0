@@ -1,165 +1,189 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F162F3C3D
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 16:12:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E70E305E10;
+	Fri,  3 Jul 2026 16:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783095169; cv=none; b=dvtj2pk11q5CNcyCYfldQm5DD+z9QmUpHqL2n94D+b5i7To7J+KI1+SVGxYZJ5Uv4OE+qmIQgX9uSz7HruqGWBFlfSkVq2alJmRfAmSgV6kB4/Fb1Q0OezdHFUT+qzVSXBYawcco/fPZZW+EUNxVa1KS39Cj7eGpBuzijjJTnYU=
+	t=1783096378; cv=none; b=uERaFn4Ofd7g56j9AsLrHjm4Bmod227PZeFrAAHegPD3fvdmi22NRLbZHkphPwxWE2M2Ee1g9nels5BoW3FcIW3vAs+mdcdbPirOTv2baax0IyxgBelXPFVOp90QLOxAz75RuHWJVKM0AMky8Eh9JrxiFOEACVJnFJDOK+bZvaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783095169; c=relaxed/simple;
-	bh=DDlppR72ZofS0gwf7T++swSGldaFduoIiD3WPtJRbEY=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=n134BcoHj4TmAcWAvT3+QyJur8B5ikkHxyhqGF8lDbjyVrRXfYfnIelkD/SGJ3bh1l0g41mjBOlN6Lzfn8Ug0VhgSApVM2meZog4QHU5s/Zi+WeoHkYbLbM3Pirnf3o8YKxD8kkh/wmqPQEO4rpPl3zuwpH6ri0bXs6+X7TwDV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca; spf=pass smtp.mailfrom=dilger.ca; dkim=pass (2048-bit key) header.d=dilger-ca.20251104.gappssmtp.com header.i=@dilger-ca.20251104.gappssmtp.com header.b=S+Oes1Aj; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dilger.ca
+	s=arc-20240116; t=1783096378; c=relaxed/simple;
+	bh=i6TVWHWqQQudxIMe0+xzj3AFPAlFnTOKf5VgUwJrtu8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KR19RlHmyjnLD5pBLHOuYRfrghQTAE+IMqqMsyaUy/qWfToBiSwjqt1jO4gvGBSHJmu02tEd5TbYPRIy1fkMRvwVYAMNe0b/eseaiHkS9yrEgbo2wErL1inIsCahkBzV0tICn/8ss2q1Jc0u1ZU/pniM7XxoxFLhw7+CgPtSlpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cog6V7xo; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dilger-ca.20251104.gappssmtp.com header.i=@dilger-ca.20251104.gappssmtp.com header.b="S+Oes1Aj"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-37ff8e0ad0fso695363a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2026 09:12:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dilger-ca.20251104.gappssmtp.com; s=20251104; t=1783095167; x=1783699967; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LuYdqZO6P8sYYUQnX9Vmulsb3aoIphpVLP6QakGqXqA=;
-        b=S+Oes1Ajap0efry0Bu0qQXu9w1jj2g7qfPWJBpzSsuKaT/q/2ke5vxfs9dt9wfLFS8
-         CPt/5W4b4k7wU8qqpDRwQkTZH1EAS1ZROM1f69lKWKazWdOwajOixfQq+lWL4Cmf53Ko
-         qZ9fRuG2tsDXbKtDXyRvjZK6mx7fyc/xLVfexT9c+TS1Cn+Pqc6fenniyzFiHzHz7rTK
-         TaRvgEGKOhVDEVDD+Rl9In7gVcfFYRaFeeyUydLXmmxLnWR+/eFPyOVqtlFx6um/mpaE
-         c7zbDfepqqOXVijMJBXhsBVKaoYJaa5uCXi7yBNNFwMWw/Z1JUgez52KxtkZ6LYzWE6C
-         moLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783095167; x=1783699967;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LuYdqZO6P8sYYUQnX9Vmulsb3aoIphpVLP6QakGqXqA=;
-        b=IxjO4RoAUfAZJwfns58R2Z8Z0mZ+9PSsTqLX+086OfTa0+u8Wx3kfxYDbc89rCrNj/
-         7Z2yo1UwTg1Sod8vIk7DOf3o88RwBUJoZgD8JvDybOZ/c1eT7KRTNQQss1ji1P0CzDs2
-         6+DQQrqDaxcx8AQoYxOqoVDDG3m5lF4r6mO3fW8GBqoN91uMhF1ptcqWgv7I8h4UuQLw
-         ywGzAr/+bAOeLxaNAfKrQ/Ln9dma/Q0hd+s6slJnmquR+MeTOCe9i/WrC/mWDCPd5meO
-         A1caPi29j7DpJ2K5F9JCMeGry3nP/6y6AOI9igGgAurVK2SFSBNzwHhrCOiGVO0PL2zU
-         FZ0A==
-X-Forwarded-Encrypted: i=1; AHgh+Rr7n8yLL5Slui4+d9/MJFRozRACE5QePgNOlBcQPkcEv3xi2hb2bHTty1P4ng84Ud3X7rmoTuXc7SU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnEUKLhgZpDYaMzXJJucE8d9ELvE56g63AW149R1D1ALuHIIBn
-	c/E6/VFpEsWoa/29pGpqaLo+tDloHEw9bn5gkMrgNevu7z9JRfPStp/IQV/r+1fdvZVMo7uRAAF
-	3CnD1GssFEw==
-X-Gm-Gg: AfdE7cnbsUuj57bFz4zSc7zti3XTJ7X0i2dyeI0MsYhZ5eMOYkMfDwoA1GZ+6s0a9ZF
-	vMbfBBLl5WXo83G51VaesP9F2/JwrHlM09TXqM0MM048QtyRgiiWNZd/ZO/MkKm4tAUsbLAgrgv
-	RabAgLJWqNhYxTMYLGdE3RjWML6Fkr5t+SaR1p82HJ6TWzuKfUId4RuhDqs0QXdcmB52FYs9++P
-	yOH9yaBLVtThtgnvp7n8HNvqsxWkAiCyXMfhuGZ9oc6vtEAPQpyC4/DE78Sh9jAkcvktWcU/dI0
-	IxgLb4zBp3NT3ZGZIBjWTthZkCl9A+OyG50cB6pUxY5buCpTAYD37KANrPMpf2ir/P/LUBgM/dM
-	arlKfArTFvpbi+A0YRWDgFz7UXoI2m45Gu3FHwXqWo/feQqtPOWh/rFJ8awBaQ3CwvahpeBN1bR
-	PDh9tk44MrayJBPMaZ1oSqcPvtwBNQdieLbZfr8v7qjkRXLLSE5v69dy9r8419G0i8rw==
-X-Received: by 2002:a17:90b:50:b0:37f:9ce2:348d with SMTP id 98e67ed59e1d1-3829fddab93mr148112a91.30.1783095166730;
-        Fri, 03 Jul 2026 09:12:46 -0700 (PDT)
-Received: from smtpclient.apple (S0106a0ff70715ac6.ek.shawcable.net. [174.0.84.146])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38097d81bd9sm3194250a91.1.2026.07.03.09.12.44
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 03 Jul 2026 09:12:46 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cog6V7xo"
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DF3FA11DD;
+	Fri,  3 Jul 2026 18:32:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1783096327;
+	bh=i6TVWHWqQQudxIMe0+xzj3AFPAlFnTOKf5VgUwJrtu8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cog6V7xozYBDGu5dRA4fDh2oxyhep48ghjhVee8mCVA3DzavrXI16kNBD2bt2nnyp
+	 obDQJb7dZtUpmR5RDV1jE69ggoiA9FgVvHentCXJaq6cBfLcCSN2TuyT98JzPp+z/5
+	 HADOtt1f6FNs1N+SAaH7JskENQrGq697BYYmO2mE=
+Date: Fri, 3 Jul 2026 19:32:51 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
+	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Justin Stitt <justinstitt@google.com>,
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Brian Foster <bfoster@redhat.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+Message-ID: <20260703163251.GB3734786@killaraus.ideasonboard.com>
+References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+ <2026070224-unholy-commode-cf45@gregkh>
+ <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
+ <20260702161330.GH3534761@killaraus.ideasonboard.com>
+ <2026070227-payroll-eradicate-8f66@gregkh>
+ <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
+ <akaWnQ5Pkg_676B-@lucifer>
+ <20260702211740.GA639365@zen.localdomain>
+ <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
+ <akez23ZhLRSGMFQ1@lucifer>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.100.1.1.5\))
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-From: Andreas Dilger <adilger@dilger.ca>
-In-Reply-To: <akcji3OuxXz3FqSD@mit.edu>
-Date: Fri, 3 Jul 2026 10:12:34 -0600
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Greg KH <gregkh@linuxfoundation.org>,
- Jeff Layton <jlayton@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Justin Stitt <justinstitt@google.com>,
- Lorenzo Stoakes <ljs@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Carlos Maiolino <cem@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>,
- Jori Koolstra <jkoolstra@xs4all.nl>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Brian Foster <bfoster@redhat.com>,
- Christoph Hellwig <hch@infradead.org>,
- David Disseldorp <ddiss@suse.de>,
- Mark Brown <broonie@kernel.org>,
- Jani Nikula <jani.nikula@intel.com>,
- Jens Axboe <axboe@kernel.dk>,
- David Hildenbrand <david@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>,
- "Christian Brauner (Amutable)" <brauner@kernel.org>,
- workflows@vger.kernel.org,
- linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <19942440-EB87-4D3E-B37F-3146500BED8C@dilger.ca>
-References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
- <2026070224-unholy-commode-cf45@gregkh> <87cxx5l900.fsf@trenco.lwn.net>
- <7C39A5C8-EA03-4C8D-9BE5-5097101B71D6@dilger.ca> <akcji3OuxXz3FqSD@mit.edu>
-To: Theodore Tso <tytso@mit.edu>
-X-Mailer: Apple Mail (2.3864.100.1.1.5)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <akez23ZhLRSGMFQ1@lucifer>
 
-On Jul 2, 2026, at 20:57, Theodore Tso <tytso@mit.edu> wrote:
->=20
-> On Thu, Jul 02, 2026 at 12:46:19PM -0500, Andreas Dilger wrote:
->> It would make sense IMHO to address the ignorance in the most =
-expedient manner,
->> namely by telling the *LLM itself* to add this tag when it generates =
-the commit
->> message and/or reviews the code.
->>=20
->> This could be achieved by adding a statement in "AGENTS.md" in the =
-root of the
->> source tree to this effect, or telling the agent to reference and =
-follow rules
->> in Documentation/process/coding-assistants.rst regarding the =
-Assisted-by: tag.
->=20
-> This presupposes a particular workflow where the developer allows the
-> LLM to generate git commits.  I don't do that.  I'll ask the LLM to
-> modify the code, but then I'll generally fix it up --- very often by
-> hand because I can edit the sources than entering a prompt and waiting
-> for the LLM to figure out how to make the change.  I'll often run the
-> test cases myself, since if it takes 24 hours of VM time, and 2 hours
-> of wall clock time, I'm going to kick off the regression tests myself,
-> and verify the test results.
+On Fri, Jul 03, 2026 at 02:12:40PM +0100, Lorenzo Stoakes wrote:
+> On Fri, Jul 03, 2026 at 09:05:58AM +0200, David Hildenbrand (Arm) wrote:
+> > On 7/2/26 23:17, Boris Burkov wrote:
+> > > On Thu, Jul 02, 2026 at 05:50:15PM +0100, Lorenzo Stoakes wrote:
+> > >> On Thu, Jul 02, 2026 at 12:48:22PM -0400, Jeff Layton wrote:
+> > >>>
+> > >>> Do we need a tag for this though?
+> > >>>
+> > >>> This seems like the kind of information that we would always require in
+> > >>> the cover letter of a series (or the little place in an individual
+> > >>> patch for comments that don't get merged). That would also allow you to
+> > >>> convey a lot more nuance about how it was used.
+> > >>>
+> > >>> ISTM asking people to disclose LLM usage in a cover letter would give
+> > >>> everyone what they want: Information about whether and possibly how an
+> > >>> LLM was used, and it also wouldn't clutter up the changelogs with these
+> > >>> tags.
+> > >>
+> > >> It's much much clearer and easier to just have a standardised tag for that.
+> > >>
+> > >> You can see that (and grep for that) immediately, vague paragraphs not so much.
+> > >>
+> > >
+> > > At the risk of being pedantic on a point where I think the document is
+> > > kind of lacking:
+> > >
+> > > What level of assistance crosses the bar for an "Assisted-by: LLM" tag?
+> > >
+> > > Some sample levels of assistance to illustrate the point:
+> > >
+> > > 1. I used an llm to one-shot vibe-code a patch
+> > > 2. I used an llm to write a patch but carefully reviewed every line
+> > > 3. I used an llm to explore the design space for a patch but wrote it
+> > > manually
+> > > 4. I used an llm to debug or reproduce a kernel issue but then wrote the
+> > > fix manually after fully understanding the defect
+> > > 5. I used an llm to review a patch I wrote
+> > > 6. I used an llm to research some chunk of code while writing a patch
+> > > 7. I used Google while writing a patch and learned something valuable
+> > > from the AI overview at the top
+> > >
+> > > I personally would 100% use the tag for 1 or 2, and have already done
+> > > so. I have not been doing it for 3-5, as I think that will basically
+> > > make every patch llm-assisted to the point of the distinction being
+> > > meaningless. If we should be doing it for 3-5 (or some subset thereof)
+> > > then my mistake and I will certainly start doing so. I would hope most
+> > > people agree 6-7 and similar need no tag.
+> 
+> I personally think 1-2 are the only relevant cases.
+> 
+> > >
+> > > Similar questions abound if you use an llm to help with writing the
+> > > English text in the patch or emails.
+> > >
+> > > I have a feeling that this ambiguity is part of the reason we aren't all
+> > > agreeing on the value of the tag?
+> >
+> > Yes, I raised something similar as reply to Christian's RFC [1], where I said
+> > that for me the information *how* it was used is much more important:
+> >
+> > "
+> > Assisted-by: LLM # translate commit message
+> > Assisted-by: LLM # generate some test cases
+> > Assisted-by: LLM # cleanup logic
+> > Assisted-by: LLM # everything and I have no clue what any in here does
+> > "
+> 
+> Yup, and we don't need complicated rules for that just 'document what you used
+> it for and give a sense of how much'.
+> 
+> It's fuzzy but useful.
+> 
+> >
+> > That tag is it stands is pretty useless, really.
+> 
+> Not to go over it all again but I disagree, even as it stands, it allows us to
+> engage in conversation about the LLM usage if admitted, and to point those who
+> are misbehaving at the rules if not.
+> 
+> And it is a clear way to get the boolean 'is this person saying they used an
+> LLM'.
+> 
+> But I agree with you it'd be MUCH more useful if we did the above.
+> 
+> I wonder if we could get consensus on adding a section to the doc saying that
+> it'd be _useful_ to add a comment explaining _what_ you did, and explaining the
+> concept with some examples?
 
-Sure, and that holds true for many kernel developers, myself included.
-I don't think you or any of the senior maintainers are the audience.
+I'd support a patch that replaces
 
-The point of my comment is that this is more likely to help contributors
-who do *not* know/follow standard development practices and are more
-likely to contribute AI-coded patches, which is AFAICS the main issue
-in this discussion.
+Assisted-by: Claude:claude-3-opus coccinelle sparse
 
-Also, the effort of doing so is very minimal and has no real downside.
-Having the AI contribution policy clearly spelled out where an AI agent
-can find it can only have a positive effect, even if not always =
-followed.
+with
 
-Cheers, Andreas
+Assisted-by: LLM # generate some test cases
 
-> And I almost always write the commit description myself.  So when I
-> say, "Assisted-by" it literally is "Assisted by".  It is not "vibe
-> coded where the LLM generates thousands of lines of code that the
-> human being doesn't understand before sending ta pull request."  And
-> that's probably why you'll see people asserting that LLM generated
-> code can't possibly be accepted due to copyright reasons.  There's a
-> big difference between asking an LLM to modify already existing code
-> to add a feature, or to fix a bug, and to vibe code a new OS from
-> scratch.  One is far less likely to be a copyright violation than the
-> other.
->=20
-> - Ted
+and rewrites the Attribution section of
+Documentation/process/coding-assistants.rst accordingly.
 
+I think most people in this mail thread have expressed that how
+generative AI was used is the most important information, and several
+people (including myself) have expressed a desire to stop the free
+advertising. Unless I missed something, I don't think anyone has
+expressed an interest in keeping the agent name and model.
 
-Cheers, Andreas
+> I can't imagine anybody would disagree with that, and that would get us positive
+> forward progress.
+> 
+> Then later we could debate the details further?
+> 
+> > I assume most people only really use it for something in-between 1 and 2, but
+> > *who knows*.
+> >
+> > [1] https://lore.kernel.org/r/5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org
 
+-- 
+Regards,
 
-
-
-
+Laurent Pinchart
