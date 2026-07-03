@@ -1,187 +1,217 @@
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022084.outbound.protection.outlook.com [40.107.75.84])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC39113C918
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 01:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.84
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783043433; cv=fail; b=E2AQ5R/TRrbQwjiSPEgB3Y3fpMPEPfRJZ2YbhF0ppQc7k+cTZpXuHslOkt20MGR6a39ns62TH8yngigU0BC6nqfv2mbD9NYMs/UWNZUhm09hqsDdz4CD6fXjbsN9idEehnAG4fwuWZR2ADeAlEH05TAoUITGWEVBOrUae5/d6+8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783043433; c=relaxed/simple;
-	bh=EwJAwpccl7zBjlCheYMcrbSZzXbaAymuyv0J3nN/qdY=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=rIcSkQISv2CaFA3avfAi2fufNc5/N8nsYQjQVCNmj2gveei+ZRNggTJ6Eke+QA3WLbafVU2bZ7Rw7yqs9DBrwpjSN+kbOzw5NRCLrcyfkRZZwrOIz6shQdtvfzoH6u9ynv6Jwi5T+RopBqkTmYtDxrayZuIU/LYiT3OwgTt9uXA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=transsion.com; spf=pass smtp.mailfrom=transsion.com; dkim=pass (1024-bit key) header.d=transsion.com header.i=@transsion.com header.b=FWkMXWWv; arc=fail smtp.client-ip=40.107.75.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=transsion.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=transsion.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45FAD23BD02;
+	Fri,  3 Jul 2026 02:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783044022; cv=none; b=mSEoiXxV2WtNRNoV6WyPYQX7tHMBFmq+T1mIgdIhNzIgIJ0GcXh31n5RD8k6WOwMxSYMQDBiDvVpqc0tn7lofdRFoJQAlGN9rwmWe3233m4RSPt16yH+wC/tkR6AeNvZcLVvZWzC3zP+1NSddBoDPgXXEaJtYtAq6ftv29NwGX4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783044022; c=relaxed/simple;
+	bh=rVUsf9s27g0oL4qyTJOW6ytXgxFzqPeYvnBAqT0qu8c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MKvfZO5V2AyMcr2uoOM5d4/SGeGzCZTkoJni+JmWyfoYRsdHGyxVC7+4UqjHwssRaDXJpvr2j+bU4sFZ/BKFsuKfipCV52LyRn1426QTtUolo4iSFdehz9VzPkEzT1C4nhoCfPutQzkeo46pL8w0aj21cHdAyb3Ajh9EFTNJuCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZZwM2VLC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=transsion.com header.i=@transsion.com header.b="FWkMXWWv"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=m5grVh03k7XzJHuNjhfUlHhOpVf37EtZgjBMkP2H9kmMbAgbcF81J/I6JrygbzdadbzwJuwfcBFlpxQlP7gQYciTAzSWMBb2ch0Za2YmEhqMNdYSeZ5pWe6Gh5MVIfC0QQefbpcj3+80Zm3aPqgCYhinrvgUAfyeEUwi2BJT4ERNjngnxgfXiMV5Gz8/vZmWx7Id80BoROnXfw2spErds/BedyRkES0EoOnv/AqijLS/w91hTy3ogYWrIYPJA93OtWsPujL5DJePi2IclQapo2MZ/XI/vKOuvIJguBJ7IYxWZyI7LyXto5309WQRYDabWhLTcB5DDFo3dKXhHADWnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w2KTI1OQmbiYJRw+cPcxWr8CxP6apA9ZiTU/V3+B4XI=;
- b=mZFubZ+CLiZI5QexU+3eSSZoludTRSC+rkQ4wv4XRUszSRuzDiARvWZVz+hDk+QpWLRosxreq00UtqtGtMKhJOCVvtnGmlfMCbJ/FTHLiL41+Sxd+fLYzqgeZJterle3fnfXAlj3hC5jlAF3tTC8gg7OyAEjWfm5QmvVUTJ+SusVl8KuANO5fQdqcqDrbVruCajsmwVHeM6MhqhOgun+oGbXSEarr8EEEo307xGXtNG8gJscjtm0oCpsdizzCvzMXdy4xa1MJmn7Jqc8MEr7rtzVjHnMv0zIV2Hcqm59ihTMfOPDXIfKhAYjdpgtqIuQraSP1ecZNHlg1nBoJCafIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=transsion.com; dmarc=pass action=none
- header.from=transsion.com; dkim=pass header.d=transsion.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=transsion.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w2KTI1OQmbiYJRw+cPcxWr8CxP6apA9ZiTU/V3+B4XI=;
- b=FWkMXWWvRASro2kHQVslrAynmXowSnWPoFvzBRckJBZI/3C7VvbERp2mg1Zd4RvzNMjKl/5vK3h1OwvF51a7zX/a8GZMAW6Gs9DD8iFsDEabq/Lka8d2UoL80XOUIoH6jZkUBA4dcMrjsf8fFgauXvcggJUTpGfPnusu/5gcw/A=
-Received: from KUZPR04MB8965.apcprd04.prod.outlook.com (2603:1096:d10:4a::6)
- by SEYPR04MB5857.apcprd04.prod.outlook.com (2603:1096:101:80::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Fri, 3 Jul
- 2026 01:50:26 +0000
-Received: from KUZPR04MB8965.apcprd04.prod.outlook.com
- ([fe80::f38d:58bf:40b6:9438]) by KUZPR04MB8965.apcprd04.prod.outlook.com
- ([fe80::f38d:58bf:40b6:9438%6]) with mapi id 15.21.0181.009; Fri, 3 Jul 2026
- 01:50:26 +0000
-From: Mingzhu Wang <mingzhu.wang@transsion.com>
-To: "corbet@lwn.net" <corbet@lwn.net>
-CC: "chris@chrisdown.name" <chris@chrisdown.name>, "skhan@linuxfoundation.org"
-	<skhan@linuxfoundation.org>, Jiazi Li <jiazi.li@transsion.com>, Hongyan Xia
-	<hongyan.xia@transsion.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, Mingzhu Wang <mingzhu.wang@transsion.com>
-Subject: [PATCH] docs: printk-index: refresh sample index entries
-Thread-Topic: [PATCH] docs: printk-index: refresh sample index entries
-Thread-Index: AQHdCo5RLO98yu3pekW8SyJJHHsI1A==
-Date: Fri, 3 Jul 2026 01:50:26 +0000
-Message-ID: <20260703014954.780-1-mingzhu.wang@transsion.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=transsion.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: KUZPR04MB8965:EE_|SEYPR04MB5857:EE_
-x-ms-office365-filtering-correlation-id: 378ed433-c934-452c-553f-08ded8a57452
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|11063799006|56012099006|18002099003|38070700021;
-x-microsoft-antispam-message-info:
- smT+kiuSFwHYx8mnNnM9OAqK5CRVbL6oBPkW0s7phCUfc+kNzRuvEiPsEv7p5eO+UfBdT+++i437gtDZuvlCKyJqnDHkokfzk4/h3fW8PRiS3KcjYVJqCuDxF6KIEc8y1MRvuw54lr3uAbAmIXI1fFiV9wf05BJNE2mQWricPnVq49rvOyw5Xuoli0I38/ToNsmiIcQjccb5xkCMB+HL1VLlsfnBVqUrREyMThRMpePVG9tOQLuQT/OJnx+0ump/QWjPIKqfJvuH+m1vZ5hZPma/Cy+znUM63Ukwkm/fxG4Zs2hKcS/cni/mfwYX3aqjfJ5uVW7O2yPJYFz6sYDHpoGa9R9ZZkr8QSA8iAaTEU+8WutO7iuEifYHSyxijni39Y9OjMho0tGGC4dQIARaN3ut3+BUGtg2zxMGsSS+3rIdVfPrs3PTUkFBckq1Y8Mr/QY3KCVorjwpwOVUK2beaaZ4MOu36ZkR54sc4fHBoc2kAK+V5opN8h77gucn2MorwiwXiu1qVY7jM2NBTw6e5K4Lv/JbeWnRxvwsFQ3D7gwQlrPG+tGIS6qZKQCzssJk5TCQ0n7ZkkqDDU+GQzLOJ8+RsS1afgyJxU9uE5sxxTUIl5OW1zr1p3MJnQvqgVeVrXYy3cXP1jXreUVIksQyh+50C0N5tQVj5CfFBFjOYI0lDsRi1MbAMZFYnU3fSMt53HebFrEZtw2uJQERMFw4DN+zjMQVBD2wdpLYX6/0HkY=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KUZPR04MB8965.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(11063799006)(56012099006)(18002099003)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?2cL8IIkeJkzisrAy6zfEq2v8M/2jtxfXVtDb3hC+PXQYk566TTS6il1skI?=
- =?iso-8859-1?Q?mqMqtTp5Aupc7+kl1LVINA6mBX9Ow2j6yjxrvPJ6j6whQhuoWAeGD+vluW?=
- =?iso-8859-1?Q?DxmOA/QIlourvSoAMcJ007aAEpVqOTw7TB8PeGsMv2HoZnl+zF9NSYIA+4?=
- =?iso-8859-1?Q?GpP9a8/QU88N3fhkcydkU4wFL0YwvlINGFiz3Z/Wg1yHfiQMS54pTwjb+m?=
- =?iso-8859-1?Q?Fq0wFifoj81fGJuF+gFufhqQvfQVKsvfmyC5Brd/SFtB+452il4ReepQYe?=
- =?iso-8859-1?Q?JxAndMHNKFbb/CM1BTPnaQCYVwz2IzODwfEHz+sXyTyNc5xyr5Y7ky1/h+?=
- =?iso-8859-1?Q?s/vNZsAGrpk6ny6hz1ErpzrDJBm/oDEZInv1OgQ5Yv10W1ouz4AhM/WALZ?=
- =?iso-8859-1?Q?pnW2F1kZpv9oDUAJgOFwsJfyTzKax4NbcUQjcQ6QGccb2wiEPry78lqVpw?=
- =?iso-8859-1?Q?0Sncf58ushg7OwrVs5l4LRdrOjYzJwT0o7P1D2N8Eq+pnqaDZjwZ8/sfoL?=
- =?iso-8859-1?Q?aeT21tnCjIvPyTrYs3KJXY57JVQXE+j6f0UyYz+6jJIR9ohgAua0Ulf6Hf?=
- =?iso-8859-1?Q?dS4nXitONmQ/rvMfpEAEO/1Z2/ttOU3h1RGfUaIduyQ/9/TAwq7b0xqaT1?=
- =?iso-8859-1?Q?3AX33Ug9L9h28lnVMgLyUMtuUfjICuXYdb5aIuN1i5lKVrCPKyu+k0P1os?=
- =?iso-8859-1?Q?V259iyYsXZ+c2Uw3K3kAO4XbGfnqj06XeOCHlPiFL5g2waJeWtEHZwgtei?=
- =?iso-8859-1?Q?Bhk0h3iWTryxFLuRsqg5G8lmHZPHrwzu8ecR+zIwjEx0nT82HZOrYD7AHO?=
- =?iso-8859-1?Q?EqiJmCCkTcqTJp3ZzqKig7DWc6HdLB+FJZ+ImpkvJKOrID2VrmPFR/ol8U?=
- =?iso-8859-1?Q?MMPmRm1fysVd4GnOs1PM2NrQUjUqocy1PgDpwyJMuLrHr7XZbcR/kJYPMs?=
- =?iso-8859-1?Q?i9ItjWNjM1IAN1X+fY4QmNwrIjbiK9euYXaSZ1MNtTzAawu+cT7lTbdTkO?=
- =?iso-8859-1?Q?8Jqz/cdUOb74nqYQNjK1pgO4mPc7DgcPFLey9WDaeOoFEF2dawCQmO6OP2?=
- =?iso-8859-1?Q?yQPS9rkX4eCRmPhjeYCxftDDBzlsMsJ/wTRVfDSkxhsmD6EFSCxfXwBH9r?=
- =?iso-8859-1?Q?r97L+iU03s4ajDrf6oux6XKMORVZIPlrnSn773/9yVFPGu2VcW8z2Yn0jK?=
- =?iso-8859-1?Q?SguF80S4r1CIXW6qd7nV9D5j1I/qt+uuYOyH8bNRIMmZLY+haGtrxgi4KO?=
- =?iso-8859-1?Q?pko7F12SrTbCn4gLINIl1bHScxgLOG7nHqXrGSgSl1NYNcpm5GDavZ5dgY?=
- =?iso-8859-1?Q?Qtp2OZCC3Tfyk3WYAoYh7vFFom5Veplkr5SBpdw0/jNCmL64kQ4S+S/ez+?=
- =?iso-8859-1?Q?yLAaE1eHu7wwq6Djmq6HTnfFJMx/XZdzgxFe4fPATi5Fw6I6tSz7P6EJRY?=
- =?iso-8859-1?Q?geMbJGBHYvVkW80CXr+MySc3ImG7weo0Us6RtL1rvi9xqS4juR4Vc8DqVT?=
- =?iso-8859-1?Q?cL/A/nIUnLfL46vQV00rJsyZGpY0X3zRpFc18SXuh88hVZ3lG9zirc9bNy?=
- =?iso-8859-1?Q?gLU3pj3k2hJoK7Ddf7i59x+tZgFRw+1eBzq4q3iFJtLanXlBFLBQktBpmH?=
- =?iso-8859-1?Q?3y4Snw58Z+5A0xBxjoRcpFNjewfK8nBD0xYXJqMi5lWsdps1TmeiC3gOUW?=
- =?iso-8859-1?Q?Og/8Eol5bimkcbct5bEEleW8NE0bnRkKLpSRo6EmFBFxM1mCQnj4Eqa9bA?=
- =?iso-8859-1?Q?jDzWZjAS91RM6f9fKLRiwGNxciFRaPsgUAL3C9lj7oE2Yirtci4FXlzj9v?=
- =?iso-8859-1?Q?25uiXgzYTg=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZZwM2VLC"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id C76591F000E9;
+	Fri,  3 Jul 2026 02:00:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783044020;
+	bh=7KDM/4aP5qHk37jWKwwNbvJ+YWJqTEZ+9ZiwKcHjN+s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZZwM2VLC9/Jodn6mInMpHPh8TGbxKk2cFf/75CAtFRq0KVkKGnQgwgNPLel1WcXbG
+	 ip73MshfUWjbgZsYNfH2PCMESxQnsKAqOlbrNGS+e2I/Qogbzx0Uf/oxCduYNOdSGq
+	 3GfDws/dtt/17w7BngGUFoKY5WtN60h34fYoLmTWomyHWUYbhkhT4LumyP2pTxkWez
+	 vI1BitpfhVZwfwPyDYBqOKaZKO09Y9ImG9gbZiGuSWEZuptVr8LHg3QCJH0Vi5tj2i
+	 Bhsang1BKidNlIsykVNi/GZalR65+4Os10VFvkk+Om8xLgyOTAj3CcZpZIInvu8KhM
+	 ht9ePnC0aBvfg==
+Date: Thu, 2 Jul 2026 19:00:20 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: brauner@kernel.org, hch@lst.de, willy@infradead.org,
+	hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 18/18] Documentation: iomap: update docs to reflect
+ iomap_next model
+Message-ID: <20260703020020.GS9392@frogsfrogsfrogs>
+References: <20260701000949.1666714-1-joannelkoong@gmail.com>
+ <20260701000949.1666714-19-joannelkoong@gmail.com>
+ <20260702192658.GN9392@frogsfrogsfrogs>
+ <CAJnrk1YZQOQ0D6p6qYx1BPvKQaDgZsrKzLbGZzaH8tUkj_OoOQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: transsion.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: KUZPR04MB8965.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 378ed433-c934-452c-553f-08ded8a57452
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2026 01:50:26.5322
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 2e8503a6-2d01-4333-8e36-6ab7c8cd7ae2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uGfPcmDKKATn1BTHBt4VM+cwnQQa2xcWlJdOKCIoXvoncE1F7g9PAzkA2gUKf7G05k0WiiJQ8E1e7mif+VT4Pq10I304GruwYYKCp3Pcvbs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR04MB5857
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1YZQOQ0D6p6qYx1BPvKQaDgZsrKzLbGZzaH8tUkj_OoOQ@mail.gmail.com>
 
-From: Mingzhu Wang <mingzhu.wang@transsion.com>=0A=
-=0A=
-Update the example printk index lines in the User Interface section to=0A=
-match the current source code. The previous examples contained stale=0A=
-line numbers, an obsolete function name, and incorrect format strings.=0A=
-=0A=
-- block/blk-settings.c: disk_stack_limits -> queue_limits_stack_bdev,=0A=
-  and use %pg instead of %s for the device pointer=0A=
-- kernel/trace/trace.c: update line number for trace_create_file()=0A=
-- arch/x86/kernel/hpet.c: update line number for _hpet_print_config()=0A=
-- init/do_mounts.c: prepare_namespace -> wait_for_root, with updated=0A=
-  line number=0A=
-- drivers/acpi/osl.c: update line number, include the "OSL:" prefix=0A=
-  from pr_fmt(), and fix capitalization of "Auto-serialization"=0A=
-=0A=
-Signed-off-by: Mingzhu Wang <mingzhu.wang@transsion.com>=0A=
----=0A=
- Documentation/core-api/printk-index.rst | 12 ++++++------=0A=
- 1 file changed, 6 insertions(+), 6 deletions(-)=0A=
-=0A=
-diff --git a/Documentation/core-api/printk-index.rst b/Documentation/core-a=
-pi/printk-index.rst=0A=
-index 1979c5dd32fe..40023f7dfe98 100644=0A=
---- a/Documentation/core-api/printk-index.rst=0A=
-+++ b/Documentation/core-api/printk-index.rst=0A=
-@@ -47,11 +47,11 @@ The content is inspired by the dynamic debug interface =
-and looks like::=0A=
- =0A=
-    $> head -1 /sys/kernel/debug/printk/index/vmlinux; shuf -n 5 vmlinux=0A=
-    # <level[,flags]> filename:line function "format"=0A=
--   <5> block/blk-settings.c:661 disk_stack_limits "%s: Warning: Device %s =
-is misaligned\n"=0A=
--   <4> kernel/trace/trace.c:8296 trace_create_file "Could not create trace=
-fs '%s' entry\n"=0A=
--   <6> arch/x86/kernel/hpet.c:144 _hpet_print_config "hpet: %s(%d):\n"=0A=
--   <6> init/do_mounts.c:605 prepare_namespace "Waiting for root device %s.=
-..\n"=0A=
--   <6> drivers/acpi/osl.c:1410 acpi_no_auto_serialize_setup "ACPI: auto-se=
-rialization disabled\n"=0A=
-+   <5> block/blk-settings.c:955 queue_limits_stack_bdev "%s: Warning: Devi=
-ce %pg is misaligned\n"=0A=
-+   <4> kernel/trace/trace.c:7861 trace_create_file "Could not create trace=
-fs '%s' entry\n"=0A=
-+   <6> arch/x86/kernel/hpet.c:147 _hpet_print_config "hpet: %s(%d):\n"=0A=
-+   <6> init/do_mounts.c:413 wait_for_root "Waiting for root device %s...\n=
-"=0A=
-+   <6> drivers/acpi/osl.c:1455 acpi_no_auto_serialize_setup "ACPI: OSL: Au=
-to-serialization disabled\n"=0A=
- =0A=
- , where the meaning is:=0A=
- =0A=
-@@ -130,7 +130,7 @@ For example, drivers/acpi/osl.c contains::=0A=
- =0A=
- This results in the following printk index entry::=0A=
- =0A=
--  <6> drivers/acpi/osl.c:1410 acpi_no_auto_serialize_setup "ACPI: auto-ser=
-ialization disabled\n"=0A=
-+  <6> drivers/acpi/osl.c:1455 acpi_no_auto_serialize_setup "ACPI: OSL: Aut=
-o-serialization disabled\n"=0A=
- =0A=
- It helps matching messages from the real log with printk index.=0A=
- Then the source file name, line number, and function name can=0A=
--- =0A=
-2.53.0=0A=
-=0A=
+On Thu, Jul 02, 2026 at 06:36:55PM -0700, Joanne Koong wrote:
+> On Thu, Jul 2, 2026 at 12:27 PM Darrick J. Wong <djwong@kernel.org> wrote:
+> >
+> > On Tue, Jun 30, 2026 at 05:09:33PM -0700, Joanne Koong wrote:
+> > > Filesystems no longer pass a struct iomap_ops with separate
+> > > ->iomap_begin() and ->iomap_end() callbacks.  Instead, every iomap
+> > > operation takes a single iomap_next() callback directly. iomap_next()
+> > > finishes the previous mapping (if any) and produces the next one. Most
+> > > filesystems build it from begin and end helpers via the iomap_process()
+> > > helper.
+> > >
+> > > Update the iomap documentation to match this change.
+> > >
+> > > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> > > ---
+> > >  Documentation/filesystems/iomap/design.rst    | 115 +++++++++++++-----
+> > >  .../filesystems/iomap/operations.rst          |  60 +++++----
+> > >  Documentation/filesystems/iomap/porting.rst   |  22 +++-
+> > >  3 files changed, 132 insertions(+), 65 deletions(-)
+> > >
+> > > diff --git a/Documentation/filesystems/iomap/design.rst b/Documentation/filesystems/iomap/design.rst
+> > > index 0f7672676c0b..7a37e303eea8 100644
+> > > --- a/Documentation/filesystems/iomap/design.rst
+> > > +++ b/Documentation/filesystems/iomap/design.rst
+> > > @@ -75,7 +75,10 @@ At a high level, an iomap operation `looks like this
+> > >
+> > >  1. For each byte in the operation range...
+> > >
+> > > -   1. Obtain a space mapping via ``->iomap_begin``
+> > > +   1. Obtain the next space mapping via the ``iomap_next`` callback.
+> > > +      From the second iteration onwards this same callback first finishes
+> > > +      the previous mapping (committing or unreserving space as needed)
+> > > +      and then produces the next one.
+> > >
+> > >     2. For each sub-unit of work...
+> > >
+> > > @@ -86,7 +89,13 @@ At a high level, an iomap operation `looks like this
+> > >
+> > >     3. Increment operation cursor
+> > >
+> > > -   4. Release the mapping via ``->iomap_end``, if necessary
+> > > +iomap repeats this until the range is fully consumed.  The ``iomap_next``
+> > > +callback returns ``1`` while there is more of the range left to process,
+> > > +``0`` once it is fully consumed, and a negative errno on error.
+> >
+> > s/and/or/
+> >
+> > > +Filesystems rarely implement ``->iomap_next`` by hand. The ``iomap_process``
+> > > +helper implements the finish-then-produce sequence in +terms of two smaller
+> > > +callbacks, ``begin`` and ``end``. See `The Mapping Callback`_ below for more
+> > > +info.
+> >
+> > I wonder, under what circumstances would a filesystem /not/ use
+> > iomap_process()?
+> 
+> Hmm, maybe a situation where they need to share or carry some
+> filesystem-specific state / info between finishing the mapping and
+> producing the next one?
+
+The ->begin method can still set iomap::private and the ->end method can
+dispose of it, right?  Oh, wait, no, that doesn't work because you're
+talking about ->begin/->end passing something to the next ->begin.
+
+I suppose you could make iomap_iter_continue preserve the iomap/srcmap
+private pointer across the memset(0) calls.  But all current users
+either rely on private being zeroed by iomap_iter after ->iomap_end
+returns, so that would be quite the change.
+
+Hm.  I was thinking that the signature for iomap_process could be
+cleaner if you didn't have to pass iomap/srcmap explicitly.
+iomap_process could do the (dangerous) casting from the (const struct
+iomap_iter *) to the (struct iomap *) pointers before calling ->begin
+and ->end.
+
+But if you do have an ->iomap_next function that doesn't use
+iomap_process, then it has to do the pointer extraction itself.  We
+already expose the innards of struct iomap_iter to callers, so maybe
+it's ok to have some gross helpers like:
+
+static inline struct iomap *iomap_iter_iomap(const struct iomap_iter *i)
+{
+	return (struct iomap *)&i->iomap;
+}
+
+static inline struct iomap *iomap_iter_srcmap(const struct iomap_iter *i)
+{
+	return (struct iomap *)&i->srcmap;
+}
+
+I'm not sure *that*'s any cleaner.  And I think it gets confusing with
+the other srcmap extraction function.
+
+Eh never mind, I've talked myself out of this. ;)
+
+> > >  Each iomap operation will be covered in more detail below.
+> > >  This library was covered previously by an `LWN article
+> > > @@ -189,7 +198,7 @@ The fields are as follows:
+> > >     * **IOMAP_DELALLOC**: A promise to allocate space at a later time
+> > >       ("delayed allocation").
+> > >       If the filesystem returns IOMAP_F_NEW here and the write fails, the
+> > > -     ``->iomap_end`` function must delete the reservation.
+> > > +     ``end`` function must delete the reservation.
+> > >       The ``addr`` field must be set to ``IOMAP_NULL_ADDR``.
+> > >
+> > >     * **IOMAP_MAPPED**: The file range maps to specific space on the
+> > > @@ -208,12 +217,12 @@ The fields are as follows:
+> > >
+> > >     * **IOMAP_INLINE**: The file range maps to the memory buffer
+> > >       specified by ``inline_data``.
+> > > -     For write operation, the ``->iomap_end`` function presumably
+> > > -     handles persisting the data.
+> > > +     For write operation, the ``end`` function presumably handles
+> > > +     persisting the data.
+> >
+> > Unrelated to this patch, but this should say "For write operations, the
+> > end function must persist the data" because iomap_writepages doesn't
+> > handle inline data.
+> >
+> > >       The ``addr`` field must be set to ``IOMAP_NULL_ADDR``.
+> > >
+> > >   * ``flags`` describe the status of the space mapping.
+> > > -   These flags should be set by the filesystem in ``->iomap_begin``:
+> > > +   These flags should be set by the filesystem in ``begin``:
+> >>
+> > > +``->iomap_next``
+> > > +~~~~~~~~~~~~~~~~
+> > > +
+> > > +Each call must finish the previous mapping, if any, and then produce the
+> >
+> > Each call?  Oh, each implementation of ->iomap_next must finish the
+> > previous mapping.
+> >
+> > > +next mapping for the current iteration position described by ``iter``.
+> > > +The mapping is returned through ``iomap`` (and through ``srcmap`` for
+> > > +operations that read from one mapping while writing to another; see
+> > > +``begin`` below).
+> > >
+> > > -``->iomap_begin``
+> > > +The callback returns ``1`` to continue iterating, ``0`` once the file
+> > > +range has been fully consumed, and a negative errno on error.
+> >
+> > s/and/or/
+> >
+> > I think there should be a transition sentence here along the lines of
+> >
+> > "Most filesystems are not expected to implement all of these behaviors
+> > in ->iomap_next themselves.  They should instead call iomap_process as
+> > described below."
+> >
+> > Or demote the next section so it's more obvious that the "iomap_process"
+> > and "->iomap_next" sections aren't independent?
+> >
+> 
+> Sounds good, I'll incorporate all the suggestions you recommended.
+
+<nod>
+
+--D
+
+> Thanks,
+> Joanne
+> 
