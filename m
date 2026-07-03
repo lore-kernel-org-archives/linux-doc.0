@@ -1,262 +1,112 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011033.outbound.protection.outlook.com [52.101.62.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807221DDC35;
-	Fri,  3 Jul 2026 18:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4791FECBA
+	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 18:39:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783103541; cv=fail; b=tHTY5far1vtOS3Kf6QVi2jtoZaTXI96Snv2SNPA5TPlFL6Y4kiVMAiYn8xVggQjyd90r2HiNzk8ivPPMGJbN/OzL88FQYIib+ZS2KlMbWMBFf8GcxCHnSDIwZRnhWZvf3LQFs0NCieUhBmqwuK8E1L0IP55Sl1zsbBAsFrqj6Ho=
+	t=1783103980; cv=pass; b=bc4rInhOHcmjH2sMpGyy9xphKMHRZXao5Z1TedT/cmu6fsKXACz68HhrYOjLZL8tR0mC7VED3l6vuxLPl9HK2C0AqB3jBn53QnNdc+PftpmWYkh+tcTP6KAazte5d7Vo4KsXjU5R1qK8FLmEmzKCnO+odAIdtUdVJd7GRDVEjUE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783103541; c=relaxed/simple;
-	bh=UZRv//56MJmqaUpR+jhih1Bs7HrvkUMmoFsiqNQAwAg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Ym8WNyz2znyFEZvV98w/9qQ/DIFU4m/rxmVZr0VTifBFOwgan7xX2vbNqbrgcLYew4/4VjFi9V06V9Fs7lqNSu+mApqfsQOV7LUofjHonSN3hEOZJY2achBBNgKe2WxjHS8pCZtj8NDq6j4ROwzR+EYwEGng8VQ12ApxPEXKmuE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=j7LOSUA2; arc=fail smtp.client-ip=52.101.62.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1783103980; c=relaxed/simple;
+	bh=jT/PaOgNeVjtBIhaByFafGKi1OMVQh9vh/VxwLsX+DI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=r72A4+Z0r4XRmPzncp0tUMllWnG9RtKad+iRzCWxUIG89HQOT2XvK1A9ZvkViZwl14zzrgkoYcqh5GwnBmQ8S1H5giXG/lAwxPaJGK7Z7Qq5h9a4Cmm7ep3SJOwqHytf2LdSGlCHgsTVN4OWh2K3WVuS+gare+hH70msR8cdYRE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dt1/fg/3; arc=pass smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="j7LOSUA2"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mHE2IuUhwprNYVDns2N/w8qoKFcyCde5sF6I6pDmjCf0qEp78KBZDvTbq19xOJPeO1hOD4yChHgDtpubEdr71mzrxgZs7xyU1MlsyCK2h8TnHEfOrEJboiYdvv9gc54oGI/JDxq6Cd9ZS1TEZnUZA2T0HBdpdebltOniFH44W1JlUQB+hRzPfOZdNkC7mVx41MAVV7ZbmLJlRjWn6osj6YXmrfGADZU4t++X4GEDevcGPX9PYYVmMbYj7ELiQWFhaUEF4BbUEBNzpuld4R8eVTrSYgoEyJFLxC8H1BNMTAneItD5fU64A0i046WKHlTvAjT/4Av1JzS54KxGfQFOuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZmIyN+CZ6DtyT4FcRNI4vco9tv5tcMQQZzmsDFRueIE=;
- b=OgP1ASnjZK5OjFsCoJYlFnHAhFMJvP1cpWeCjHF8YIbNC/l/3A6hh4DLDFFyzWrgaNZh9GbiDDv6g+/WaYsyHNKChitMGRINbWp0ICUKaNB2lipayE1W95bgM13Yuqr9yb3ebQW8x85gIaI7KUbW8JCSnSLQpCi/48imavoAQSlw3Uvghei63Yv167ERo0GHpWVPHBkvM4Zl52R2do+WS5LmVGCMckQu9i0ubW5YHIvAQq9I44j5C+CSjyAC9ITVqA3a39Zu/gd1k/766o/Dro4cpQL0X+ES8/djHlsPvOPz3o3iYWnDzLIzjNmEhOLXxnaYzJUy6h6DfXvwc9+VOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZmIyN+CZ6DtyT4FcRNI4vco9tv5tcMQQZzmsDFRueIE=;
- b=j7LOSUA2PnfnKMd7o70vNGjx/F65gIdk8ROWs2VIfiz7vu969rvWUuG6ZHu1EjdkyIbvOPLtNtccTeUfdsQPVvqMrDeQRWyRBJppn05lLBDi0eTaY9KJ1KNX0otysIVx89MdnSoDp51A3SEi5fhhhpQtaSl+DNpXidqegj2I/BHcQHQboagPM20qy48YmP5FWyCpNl4UyUHEVk6QH6DkMtFJZogBQHN3twJVafL3Nb6OKh/ItcfhGfv2X5l3qWra7yMhgao0HriaAaYooiW5zEAhKHlA7ySDlVhiurB7rU3tqibz905Xy1RqUKrPBdTJgPw42sOOulaqd7kzzWSDBw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB7548.namprd12.prod.outlook.com (2603:10b6:610:144::12)
- by SA1PR12MB9247.namprd12.prod.outlook.com (2603:10b6:806:3af::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Fri, 3 Jul
- 2026 18:32:16 +0000
-Received: from CH3PR12MB7548.namprd12.prod.outlook.com
- ([fe80::b710:d6a1:ab16:76de]) by CH3PR12MB7548.namprd12.prod.outlook.com
- ([fe80::b710:d6a1:ab16:76de%6]) with mapi id 15.21.0181.009; Fri, 3 Jul 2026
- 18:32:16 +0000
-Message-ID: <9bd07013-0d59-43a9-a5c2-0bbb8fa6a47b@nvidia.com>
-Date: Fri, 3 Jul 2026 21:32:14 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next V4 4/6] devlink: Apply eswitch mode boot defaults
-To: Paolo Abeni <pabeni@redhat.com>, Jiri Pirko <jiri@resnulli.us>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Simon Horman <horms@kernel.org>
-Cc: Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
- Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260629182102.245150-1-mbloch@nvidia.com>
- <20260629182102.245150-5-mbloch@nvidia.com>
- <b8ff6104-790e-441f-a095-d50843d241c4@redhat.com>
-Content-Language: en-US
-From: Mark Bloch <mbloch@nvidia.com>
-In-Reply-To: <b8ff6104-790e-441f-a095-d50843d241c4@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0213.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e4::13) To CH3PR12MB7548.namprd12.prod.outlook.com
- (2603:10b6:610:144::12)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dt1/fg/3"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-51bfe810293so4341111cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2026 11:39:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783103977; cv=none;
+        d=google.com; s=arc-20260327;
+        b=mC1L7cmvk/xoFjsvQ7Aky7+3fFXTxTSJ4VzxzpnolgFWC/Xd2bPCzqGO/EoHPKsHs8
+         PL5e0oi6Krw4dJXqDqPOXqh9xJfU8hcSm/YEkdvdXFWnoNN8jwr+2huZ94vPpjbt/ieq
+         2TILMiTBxbhGRDazuodKJ9o3ek8NiZP7d7TaqDV1vNISasgqSqvj5N9WTzeO+xqvKLVs
+         aJBLGsbpx73EeAPibeHxPPP3qyB/H2328WPhUXkokZJlnttA+eWqfMi9VVh81EP9xm/6
+         IMqH2SjM9hkSIXezf4WCqCp4fkPfreW3MWnb/QLiEvvs7TORvu3hv1xngsPoOTkkGZZ9
+         +uDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ewxW5C8+gRFd8KCsz6DJwR7vPRLIxue/jsW9bBzaGBM=;
+        fh=wpRJ/C86+Xhzo9Jb9izaCU8gGEqarYKlyrZkP6Cgwzg=;
+        b=kApnSS53X4BsTCW2NfizKYU/2tPjF8hcviZQSOzzWc7AHVBfIPgPBHJlMEmXHQNbPB
+         RU6u6sal84oZrb+hY3IFvcP3EAwqs2H8xWqqCw1JFVeJPdGgDDmwMw7SrTq3NyOZXoIX
+         ZCH9Tgx8vaIVsxGIZuPp45ov4gdmZWf5Rcf7VdF8pJxl61l2LMPlr1iXp+Cv85VoFplu
+         T8TzDBV9UIXOyZNEIiejiY6fU8G9GQ7w636EZ2W83qN0lvgAgJF2Z9C3jpe/DqIWbedq
+         eu33iULCJ5RCM0+4C8shxx1dV2R5wdGDnbH+/c8rONCxiuk/efVKNLwqFT8drkgIhCjS
+         eo7A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783103977; x=1783708777; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ewxW5C8+gRFd8KCsz6DJwR7vPRLIxue/jsW9bBzaGBM=;
+        b=dt1/fg/3mQeN+cKtq2yaRjRLaH0p4g3S4zx7mcEkuNOa1FH+1gqcYbluYVUOW3CF3x
+         vJ2EJs+ov5CwFi1o0OfUg+9u7N9lOpaS5l139oMYUBpKVIALhn7w9bC986qC0TGra4kj
+         Idog3rbKG8sNgtPDznSp4A76a8DfcwoSVQHHwLdsv5SWfqneJbfzf6xKUtMZshxaa0aM
+         K8E6b7P4o5eFPlR64gb1cnDv7CQNukFBrCX7hPBWklMh8TTs4Tu4U4OnWAFBUgzgZwNP
+         je16zg8MCM59812hBdaorCvpzQax+UQC1DKzIRWDJaObsbB6rtYkb3nJ/v+3DST8vR1C
+         oHSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783103977; x=1783708777;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ewxW5C8+gRFd8KCsz6DJwR7vPRLIxue/jsW9bBzaGBM=;
+        b=GCYPha55JO+Kt2ciIwI0ed+8AmcfFXd3sJupP3rbN0crhmhqyNtylCwtiUEU+o6x0w
+         Kr3ghVP9syYzcw83rGhdhI2S8CUJ2+5OjtIpTFLnzzScDLamfq6qSsIMu8h1FCJJi5FC
+         DLgpgHfgZj6iG7f3eeJPWESAH224a1DiPF0E6uM35UCxbmWOSwJ+cg2MbE+3+bOa2OKq
+         Ww2UvFtWWTM+ePc1zlJm8fXstgkQnqhkVlkWEzpRJO8+9IZTkIIku8zBKELvMN1o1FgJ
+         GsYvVhb9dsaLwEWd5rcYvMO2jRI+MZBn+jKbPLVP8zEbsEodP+3+95h91HYJ4womwkbX
+         2rtQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+MtxCqAey77RDoQQ0dOpu46EzsEFh/6U9UMtOr9itZ/Nvy2SfEauQJPr/C9T6mD2kjPzh6b4UwNVg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnaEmHcDAtDc/XuOcyTQZfYax8Au9LvTrmR/zNqGdoR06/FX9S
+	UoO0bJILqC23R6182+CCeiUmR15c47CsNZNCrfZGaPxHvoxAmDcFxdHGS0TpO/AdE/Bwn+9uSbh
+	klXNmctwx4mM+zL/Nfx4QqtdUyN+kuns=
+X-Gm-Gg: AfdE7cnSuJGSBesbgs34cRCflO4aq8RE2NeFm9I0sJ1NVcY07v5inv6QvTVvZehuxOF
+	R4X01P6Fd5YeXWI2MT87yIxjErFSCyqabb7ZAhOxo8oqbpkZ0oPykxfHGp+iesod9RZb3k5OMSW
+	+IZMbhTbiCr561hrKvmdqPpAtUJyNmZRC/ANBL1HQ7JXjzsuQMb7ln4/MtqgIhmbhmbarvdplG+
+	mJOFIcj3kWwJKX17IXq0EH07/2YRpwdvlwx1zVrQwjkZND/1fq8qQMq2lrwnhi238goQATg/T2Q
+	PixvHHBnrSpqQNZxauJYTh3EgC6+2ccBvgiKM3cWu77TSjffUNyMFTqUvepRyUNuDORiTVvzevT
+	jfW+ffQGe
+X-Received: by 2002:ac8:7f56:0:b0:51b:ff78:f221 with SMTP id
+ d75a77b69052e-51c4c27c342mr10485801cf.29.1783103977483; Fri, 03 Jul 2026
+ 11:39:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB7548:EE_|SA1PR12MB9247:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0998f519-bedd-4366-2ac7-08ded931683e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|7416014|366016|1800799024|6133799003|56012099006|11063799006|4143699003|18002099003|22082099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	06KA1MM6oV0OnVRzrbErpuYzujHhAv9iOsx6cQVJseCBGQSKdTAFlC10uBHakW1zL3a5LsE1UpO7U2akqjQWNooeH5fV4ChkQ2ZTcMUB7RJuVVA5BOYAuOAHBiq/4sKuNDrNY3rvGTC4yvTYspx3iGUZE4UgSKoeevwDkJPM8vL+xJAS33yaO+WrEHBBgT86U4iQxSHbfWdC/jUaUpvYneQuD4VDTpns4Ap1/NJz7sFsRDiMLhse8PFEbYQVX7rWhXXzmhfZ4IP+hTxv5cXT5jYrAGbGd6RlutxTYFwAeAYyolB86iY4/XND6W/FfSW9auUdVRI2aqrU0lkTo0jGVaYZJ2rlDEv7Lp6J69+fkViytR0FPGl+7UeiEWEOYgj68Mf7mESrXBzIKqwzMmmdk5fk2beQH/9Sai0xgrZ4TPFr7iMN7rXBOepwNpu0ekyHOxvPMf6HknoFSMkjmI15lxoD9CaBdKHdnxQabqtZCJeMWu0u3IHNI/aDsgoucNhEuLXrgujJJBeBkNtS4KnO/Z4Knqz96NxNMi6fqRRBgqp6igapYdrBssiUXr0I70uv2FNX788XETB3wZaTiKuO3re4D5OoJeKW90el5h/D5u/DugOVG9vhZaRgPr07aOG4cdjtrUDrVMTjB3ELg9H8kxFxcHgmVUCq8ZSBJ12ss6A=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7548.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(366016)(1800799024)(6133799003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OUp5cmJweGx0WFVKUmp4R2UvY1ZNQ0FPN01aZm5MbDlMM0plNWhkMC9zLzcw?=
- =?utf-8?B?c2UyNnozK2lPV0xKSUlGbStmaS80Wm1uYjZCQ2dBNWhLaFBKMDhQd25ta1FN?=
- =?utf-8?B?Rk1zdnBNd2k0ajNhOEFzVG5ia1BDWGVPakpOUEJCWTZDL1hkQjE0b0IrbkJB?=
- =?utf-8?B?eG9LUXdqRGVGSkZ0Y0ZYVzl0Y0JPVUhJWXVueE5WWFJGK0JpS3FhQWY0SUsz?=
- =?utf-8?B?U3dISVdoVEhRZXpUMnoyK3NVUWxlNGVzQUVqWGtNdGovSmFvbzdUWERNdWlN?=
- =?utf-8?B?Tzl1MFJrMCtqNW92ZDZaWjluZVMzaDlDZ3JrWmw5dnUwMjlJQmQxeTFhcHVn?=
- =?utf-8?B?MHpRc0x5UVBtR1JhaFdYMUVDeThpcTVUTll6YWpaUS9YTURndVZiUGErd29k?=
- =?utf-8?B?WFdMb2hvaTNvMUx5QmlTWEdUd0J6WnlsUDlkV3BoUXFuRThWWXdyMHFBWkRv?=
- =?utf-8?B?QWtKWmliY2wxZmJTbmIraDROb3RuMWlpeUFpTjJ2cTFkczZJa3lGdUJhMzlT?=
- =?utf-8?B?dkhUdzN6VG1tSTNHRTd3TDFhWGl2cXRPbkpXZWJuWWFNZTBVUDlYRkZrVkFQ?=
- =?utf-8?B?dDFTL3VYOXFVZm9Wa3pGbExPb21RQ1JDNVEyTHlSNUVWUEZNMUxYN2NZalli?=
- =?utf-8?B?YlB5ZGNZOWhVZUZRTmluOU1sRXdDKzhiYkQ2MUhNbUZRNTVGWWNHOWNqb1Bo?=
- =?utf-8?B?clJNMTFMZkFlU3I5S3Y4Y0piajVlTzFsMndWdElXbmtOODN0Qk5mR2tPY1dC?=
- =?utf-8?B?bU1tTHg3TnJKb0VsWXpRbWVEVkQ5aXRSWnIraVVuemxpL3htTm5HZnh5eDZE?=
- =?utf-8?B?c3JiK2lONFMrM2ttVWdQZTNSWlVKdG15YlBJenJiZjRyNTNJYzY0K250a21z?=
- =?utf-8?B?NXBzU2Zqa3g0a3U3R0RXdW1pUzFsSHBQaGhhdkh3Nzl3NnZyUFhSdjIzL2ZC?=
- =?utf-8?B?c0EzN3FpQi9rTkNxZmtSOTJXSUFLTWVKZ2ZqYnpxZnBoVXEwRzdzQXc4QzJW?=
- =?utf-8?B?aDVROWpuTmFVSG5TT05VdHQ4ZTYxc3o4cldETm5HQzZ2eUJNczZwUm4rNk5T?=
- =?utf-8?B?V1lmcFAvSms1Wnl4L1hCb1c0NlYvMm9YaDBpWlVjRzlheHlvYTFGeDlDMjNL?=
- =?utf-8?B?Y1lQVmN0YkVZbXhyMmt4RnM0OUxSSmE3bVgvVWlua25XdGNMZjcya3VDVzJx?=
- =?utf-8?B?VFVhQ1hxOVhsRU5oc00wMUF6MzdWNDFNNlJUVkNLY2hZRU1DNXI4S0tXeXF2?=
- =?utf-8?B?dVQyZ0hEc3dXYVE2WmdvdnVuU3JGKzhzYTVzNHkrS3JHTXpQMzdyakZQL25a?=
- =?utf-8?B?Sk4xVVRVdUZlUUEwUUI3UzdKcklMT0d2Vyt3YVU1VEJvWWRQZ2ZaRW9ibjBP?=
- =?utf-8?B?SFBMOUswZGU1VHZ4ZmRuV0p4S0E4eHlSTlVOd3hCK3RXOFRQNnhvQjhQaU1t?=
- =?utf-8?B?cGZzd1BBSVo0L2RWWk9kTlVVcjZqQ2Y2bllkajJZWnd6ODJWd1FuRzFUS3ds?=
- =?utf-8?B?eUZpbVVyTmhhelVON1pJbGJXZ2VVcTQyUHB4YVJDK0JxOERJUnZUYnNVcHRp?=
- =?utf-8?B?dEJQdTFJL2FsbXdUYUZKaFE1Ync3ejZOcmYvek40WUZSNThoZGF0d2s4LzNL?=
- =?utf-8?B?eU5KcStOV3k1WXowd25IYVNhRjJxYUtScFpWUVVCczQxMEl0ODdHdUthUUw1?=
- =?utf-8?B?bjlySG9IeFk2TUVqNDRFTHJMTS9LQWF3UFdRTC9mK0QyTUo2U2wxZmZKK0My?=
- =?utf-8?B?dzE3Uyt5ajRKWDRaa2orbE0yYWZzSy9tTmVLck5xOHlDeHl0UFNNWG1zZzhH?=
- =?utf-8?B?cXFwK01DL2VjazdSS2RCZ0s3N1g1VUhXclJQNlpMRi9OTjY5Y2FRVFVrNDdL?=
- =?utf-8?B?MUVjcWlrU3E1L1pZWkd2c0tOcWtFVm80c3BTWWN4ZUR6L2g1eXpwTzZoQWkw?=
- =?utf-8?B?QWFZMmY5ZnBwc00vUDEyZzBVM21HMjg1WkZUcXNod2FOVzVxK3JKMEdSOUhX?=
- =?utf-8?B?a2xMWFdCdTZtcko3SzdNZWR4dllscTFKSTBJd3FDb0tnQUVQTTdGN1R5ZFdI?=
- =?utf-8?B?NFQ2UG5lbkV0Mkt0TlpVa0gvTUZFVnlxMWlJbGUvYkxLTjV5RERFbEp3REhn?=
- =?utf-8?B?YTlBeTJWWnhlaDZaYjlHVVh4SmJzdUZkdWtLVWVRY0x5VE9hQ2g0OTY2cXpB?=
- =?utf-8?B?UjhpM3JISzVuZGg1K3hZeXEzdzB3ZE1VeWFxLzArYXYzajJUQlgyOGVOemRX?=
- =?utf-8?B?eWlyQmNGcW9RamZPVUh5NE5Jc0grK3FaUnVmMXg5RnR1bHBsQmJ1Sm1HM2NI?=
- =?utf-8?Q?hoxaP01Aauy0oqjO36?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0998f519-bedd-4366-2ac7-08ded931683e
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7548.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 18:32:16.0263
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8NZJLGt6Om/jALDhS2RjUoS6nQIkSb0i+00kywHAqbNzKJM0K7uy7ArljFz3YDGRjw3NI+HJRUi85HRET6q9WQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9247
+References: <20260703181326.47524-1-amandacorreasilvax@gmail.com>
+In-Reply-To: <20260703181326.47524-1-amandacorreasilvax@gmail.com>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Fri, 3 Jul 2026 15:39:25 -0300
+X-Gm-Features: AVVi8CdSjKTywk4tLVt94UiSN7s8VkGbV-w9OcwIZoFKoim32lwNSbTOeqxzi1c
+Message-ID: <CAMAsx6ewmXd205h37LDTzj9FgFasgodNzS51KzSEH8M_guNJGQ@mail.gmail.com>
+Subject: Re: [PATCH] docs: pt_BR: translate the management-style.rst to
+ Brazilian Portuguese
+To: =?UTF-8?Q?Amanda_Corr=C3=AAa?= <amandacorreasilvax@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Em sex., 3 de jul. de 2026 =C3=A0s 15:13, Amanda Corr=C3=AAa
+<amandacorreasilvax@gmail.com> escreveu:
+>
+> Key changes include:
+> - Translated management-style.rst into and adapted idiomatic expressions
+>   and humor to sound natural in Brazilian Portuguese while maintaining
+>   the original tone.
+>
+> Signed-off-by: Amanda Corr=C3=AAa <amandacorreasilvax@gmail.com>
 
+Amanda, for organization purposes, please resubmit the patch using the
+email address that will be used.
 
-On 02/07/2026 10:41, Paolo Abeni wrote:
-> On 6/29/26 8:20 PM, Mark Bloch wrote:
->> Apply parsed devlink_eswitch_mode= defaults after devlink registration
->> and after successful reload.
->>
->> devl_register() may still be called before the device is ready for an
->> eswitch mode change, so keep a per-devlink delayed work item and pending
->> flag for the registration path. Registration queues the work, and the
->> worker tries to take the devlink instance lock.
->>
->> If the lock is busy, the worker requeues itself with a delay.
->>
->> For successful reloads that performed DRIVER_REINIT, devlink_reload()
->> already holds the devlink instance lock and the driver has completed
->> reload_up(). Clear pending work and apply the default directly from the
->> reload path instead of queueing work.
->>
->> If a user sets eswitch mode through netlink before the pending
->> registration work runs, clear the pending flag so the queued default does
->> not override that user request. Cancel pending default apply work when
->> freeing the devlink instance.
->>
->> Signed-off-by: Mark Bloch <mbloch@nvidia.com>
->> ---
->>  net/devlink/core.c          | 198 +++++++++++++++++++++++++++++++-----
->>  net/devlink/dev.c           |   6 ++
->>  net/devlink/devl_internal.h |   5 +
->>  3 files changed, 182 insertions(+), 27 deletions(-)
->>
->> diff --git a/net/devlink/core.c b/net/devlink/core.c
->> index 5126509a9c4e..998e4ffd5dce 100644
->> --- a/net/devlink/core.c
->> +++ b/net/devlink/core.c
->> @@ -5,6 +5,7 @@
->>   */
->>  
->>  #include <linux/init.h>
->> +#include <linux/jiffies.h>
->>  #include <linux/list.h>
->>  #include <linux/slab.h>
->>  #include <linux/string.h>
->> @@ -22,8 +23,12 @@ DEFINE_XARRAY_FLAGS(devlinks, XA_FLAGS_ALLOC);
->>  
->>  static char *devlink_default_esw_mode_param;
->>  static bool devlink_default_esw_mode_match_all;
->> +static bool devlink_default_esw_mode_enabled;
->>  static enum devlink_eswitch_mode devlink_default_esw_mode;
->>  static LIST_HEAD(devlink_default_esw_mode_nodes);
->> +static struct workqueue_struct *devlink_default_esw_mode_wq;
->> +
->> +#define DEVLINK_DEFAULT_ESW_MODE_APPLY_DELAY msecs_to_jiffies(100)
->>  
->>  struct devlink_default_esw_mode_node {
->>  	struct list_head list;
->> @@ -166,6 +171,7 @@ static void __init devlink_default_esw_mode_nodes_clear(void)
->>  	}
->>  
->>  	devlink_default_esw_mode_match_all = false;
->> +	devlink_default_esw_mode_enabled = false;
->>  }
->>  
->>  static int __init devlink_default_esw_mode_parse(char *str)
->> @@ -192,14 +198,113 @@ static int __init devlink_default_esw_mode_parse(char *str)
->>  		return err;
->>  
->>  	err = devlink_default_esw_mode_handles_parse(handles);
->> -	if (err)
->> +	if (err) {
->>  		devlink_default_esw_mode_nodes_clear();
->> -	else
->> +	} else {
->>  		devlink_default_esw_mode = esw_mode;
->> +		devlink_default_esw_mode_enabled = true;
->> +	}
->>  
->>  	return err;
->>  }
->>  
->> +static bool devlink_default_esw_mode_match(struct devlink *devlink)
->> +{
->> +	const char *bus_name = devlink_bus_name(devlink);
->> +	const char *dev_name = devlink_dev_name(devlink);
->> +	struct devlink_default_esw_mode_node *node;
->> +
->> +	if (devlink_default_esw_mode_match_all)
->> +		return true;
->> +
->> +	node = devlink_default_esw_mode_node_find(bus_name, dev_name);
->> +	return !!node;
->> +}
->> +
->> +void devlink_default_esw_mode_apply(struct devlink *devlink)
->> +{
->> +	const struct devlink_ops *ops = devlink->ops;
->> +	int err;
->> +
->> +	devl_assert_locked(devlink);
->> +
->> +	if (!devlink_default_esw_mode_match(devlink))
->> +		return;
->> +
->> +	if (!ops->eswitch_mode_set) {
->> +		if (!devlink_default_esw_mode_match_all)
->> +			devl_warn(devlink,
->> +				  "devlink_eswitch_mode= selected this device but eswitch mode setting is not supported\n");
-> 
-> Not a very strong opinion on my side, but I *think* it would be more
-> consistent to emit this warning even for devlink_default_esw_mode_match_all
-> 
-
-I kept it only for the explicit handle case intentionally.
-
-With "*" most devlink instances are not expected
-to support eswitch mode. In the current tree I see 9 drivers 
-that do, and many more devlink users without it.
-
-So warning for every unsupported instance in the "*" case would be noisy
-and would look like errors for devices this knob was never meant for.
-
-Mark
-
-> /P
-> 
-
+thanks.
