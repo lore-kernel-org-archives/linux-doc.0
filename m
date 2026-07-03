@@ -1,188 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08985233937;
-	Fri,  3 Jul 2026 03:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9858829ACCD;
+	Fri,  3 Jul 2026 03:15:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783047953; cv=none; b=FqTGvFfgpuuD5tGoLu1k7zzcCIKMRaFwgkphFe1LcvPszwgvP38xJXk6TfORZ0wy5JHtawlco2KDFKnT3nbYiSxkIYh5Ixt86EzX0LStIXusQSDI92bzRMaNzLaW7YbPdBXI/D/8UjQj0I5WNWyVqgleyNqmTX3Eb0yu/N5nhUQ=
+	t=1783048529; cv=none; b=rf67uhLHsgbKFDT6MnV4bcBfh/jmhOuvNG5Lq+QEeLDGRgbLsrH4IAhdzajEp8ROhIqw8UtjW6Lzo+rqFYr6m7rqTdZUdkS2R0BWqQmd7Dj5fKUTQm+GPzRhu/b9ostblRjHau9Sq/7rx/+zt6q574Rfbcb3zFhOMXcudBQRGnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783047953; c=relaxed/simple;
-	bh=wrwyfSkstvRpjeapMRua3jAzdkzZSmAwOsWVrU/3oSE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DgcuSuXQHN5q8fi3h8bl3V7b3TcXZBVa6rTHgDqD3qmdKkyoyeLDDsA57MpjcL0SSmj7sNOHeKUZdt4cgJuRBhUeX6V6qx+bfWALL+1kAFXT4tUzvtUN9Q5VC6wprH94fbmKcnOWECx9ybQ4tFta5XoajyM3lzUvQ7FL6Tkg+qM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N/SfhvY3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783048529; c=relaxed/simple;
+	bh=DPdyY/KryuIpPeuNVxGFguCV74/1D7Y9l2tLvmguTak=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NZwHhtSBb8GVfDSrm3uSAfPUGKi9JWYWJlAyeI4ePukLr9MfRXY2qIR2aiLZ0hW9UCZI48ppqC5IuzQe5PxAz1uI+nuTbnGGDfjbAV8GW1HbBUH+8eqJrvcpXypyvXq5xd8+BMq+PRrWbpBGTJ+aQjNFgMSlTOwOcRXlLh99QpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WTiLGBXy; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N/SfhvY3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B34061F000E9;
-	Fri,  3 Jul 2026 03:05:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783047951;
-	bh=KT3RWN0m765R/uG56b0LfonMWfYG3QMmuHXhV5vNFpA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=N/SfhvY3xc4O29uYnEFYi/jTvseic3pyMZRRhlsJIiOQfI3ZZw8Pdb6kbwwmMiQmK
-	 ylO1xmxtmDCfioTLFKtz5aVlQM7/8ibKxpqm5pxGlqFnfmSQ8GX56xbXV7Jtmb7jLw
-	 1Nkx7kbsw9n9qAQo2Ih5fBWkiIQwVvFoCIEMZnHZMlA+Pd7q3KvAfZw2BmpJ8OhaT2
-	 DmqaNMTpMXOQyNdE1dsJihqwO6IfCWQQ5dI8btX9MfjqUXsDX4MieXusJpy2w0leyy
-	 RIys2ktIBCk9ZG9tEaVIG7bTocIbL8WUyUExyxipzV/R4lKTuDBtWotjRo8fBX3coM
-	 itM26HoC26WfQ==
-Date: Fri, 3 Jul 2026 04:05:44 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
- R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH v6 12/16] iio: frequency: ad9910: add RAM mode support
-Message-ID: <20260703040544.08a8ea5e@jic23-huawei>
-In-Reply-To: <20260618-ad9910-iio-driver-v6-12-79125ffbe430@analog.com>
-References: <20260618-ad9910-iio-driver-v6-0-79125ffbe430@analog.com>
-	<20260618-ad9910-iio-driver-v6-12-79125ffbe430@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WTiLGBXy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783048527; x=1814584527;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=DPdyY/KryuIpPeuNVxGFguCV74/1D7Y9l2tLvmguTak=;
+  b=WTiLGBXyJeBO8n/vMg4hDT1vnv4flxJDQjMKGkQaghDPXxlbjPjhhu8C
+   HDGnCChzXasIh9VJ3t1jOq1k5b+AAHSed8UQZMgFQ5IhxMJ3qYhLx0plv
+   03hzBUDXuSleL1yyINAw9N33rNq2A2qaePggllLAvLIovgIPWPMo0w2D0
+   eNTaVy/ObrzIOaeToELn2mi8+Gi5/ljWBeUtOyDG8Tq+2AnnZ3rg7Ff6E
+   yj0I4h17Q48yGXcu4kF1gQrxC73m8FInYyP+ILE2M5aqLOU8ReTL6bSeY
+   eIaZ+waILSqmqu3e5BUu7ORB8ZIws028fjlYtYTQwmu1ide7jEhKRmOlS
+   w==;
+X-CSE-ConnectionGUID: yWwqsSy1SI+4Fe9wZE94CA==
+X-CSE-MsgGUID: LIUXqcMpSpymRPbcpv+SPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="95305539"
+X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
+   d="scan'208";a="95305539"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 20:15:26 -0700
+X-CSE-ConnectionGUID: /rT9kzZTT3Gx0X0l2GtdaA==
+X-CSE-MsgGUID: f9fXgfZhQN2X2obLEbYXQA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
+   d="scan'208";a="246629285"
+Received: from unknown (HELO [10.238.2.244]) ([10.238.2.244])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 20:15:22 -0700
+Message-ID: <0c31fcdc-048c-4ff2-9e89-1ba112815c84@linux.intel.com>
+Date: Fri, 3 Jul 2026 11:15:20 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 09/11] KVM: TDX: Get/put PAMT pages when (un)mapping
+ private memory
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, kas@kernel.org,
+ kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, mingo@redhat.com, nik.borisov@suse.com,
+ pbonzini@redhat.com, seanjc@google.com, tglx@kernel.org,
+ vannapurve@google.com, x86@kernel.org, chao.gao@intel.com,
+ yan.y.zhao@intel.com, kai.huang@intel.com,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
+ <20260526023515.288829-10-rick.p.edgecombe@intel.com>
+Content-Language: en-US
+From: Binbin Wu <binbin.wu@linux.intel.com>
+In-Reply-To: <20260526023515.288829-10-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Thu, 18 Jun 2026 14:27:28 +0100
-Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+On 5/26/2026 10:35 AM, Rick Edgecombe wrote:
+> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 > 
-> Add RAM control channel, which includes:
-> - RAM data loading via firmware upload interface;
-> - Per-profile configuration and DDS core parameter destination as firmware
->   metadata;
-> - Profile switching relying on profile channels;
-> - Sampling frequency control of the active profile;
-> - ram-enable-aware read/write paths that redirect single tone
->   frequency/phase/amplitude access through reg_profile cache when RAM is
->   active;
+> Add Dynamic PAMT support to KVM's S-EPT MMU by "getting" a PAMT page when
+> adding guest memory (PAGE.ADD or PAGE.AUG), and "putting" the page when
+> removing guest memory (PAGE.REMOVE).
 > 
-> When RAM is enabled, the DDS profile parameters (frequency, phase,
-> amplitude) for the single tone mode are sourced from a shadow register
-> cache (reg_profile[]) since the profile registers are repurposed for RAM
-> control.
+> To access the per-vCPU PAMT caches without plumbing @vcpu throughout the
+> TDP MMU, begrudgingly use kvm_get_running_vcpu() to get the vCPU, and bug
+> the VM if KVM attempts to set an S-EPT leaf without an active vCPU.  KVM
+> only supports creating _new_ mappings in page (pre)fault paths, all of
+> which require an active vCPU.
 > 
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> The PAMT memory holds metadata for TDX-protected memory. With Dynamic
+> PAMT, PAMT_4K is allocated on demand. The kernel supplies the TDX module
+> with a few pages that cover 2M of host physical memory.
+> 
+> Releases are balanced via tdx_pamt_put(): every control-page free goes
+> through tdx_free_control_page(), and guest data pages are put directly on
+> the successful tdh_mem_page_remove() path and in the
+> tdx_mem_page_add/aug() error path.
+> 
+> Assisted-by: Sashiko:claude-opus-4-6 GitHub Copilot:claude-opus-4-6 Claude:claude-opus-4-7
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Co-developed-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 
-> diff --git a/drivers/iio/frequency/ad9910.c b/drivers/iio/frequency/ad9910.c
-> index 3fe97aa887c3..c4e179dda715 100644
-> --- a/drivers/iio/frequency/ad9910.c
-> +++ b/drivers/iio/frequency/ad9910.c
+Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
 
-> +static enum fw_upload_err ad9910_ram_fwu_write(struct fw_upload *fw_upload,
-> +					       const u8 *data, u32 offset,
-> +					       u32 size, u32 *written)
-> +{
-> +	const struct ad9910_ram_fw *fw_data = (const struct ad9910_ram_fw *)data;
-> +	struct ad9910_state *st = fw_upload->dd_handle;
-> +	int ret, ret2, idx, wcount;
-> +	u64 tmp64, backup;
-> +
-> +	if (offset != 0)
-> +		return FW_UPLOAD_ERR_INVALID_SIZE;
-> +
-> +	guard(mutex)(&st->lock);
-> +
-> +	if (st->ram_fwu_cancel)
-> +		return FW_UPLOAD_ERR_CANCELED;
-> +
-> +	if (AD9910_RAM_ENABLED(st))
-> +		return FW_UPLOAD_ERR_HW_ERROR;
-> +
-> +	for (idx = 0; idx < AD9910_NUM_PROFILES; idx++)
-> +		st->reg_profile[idx] = get_unaligned_be64(&fw_data->profiles[idx]) |
-> +				       AD9910_PROFILE_RAM_OPEN_MSK;
-> +
-> +	ret = ad9910_reg32_update(st, AD9910_REG_CFR1,
-> +				  AD9910_CFR1_RAM_PLAYBACK_DEST_MSK |
-> +				  AD9910_CFR1_INT_PROFILE_CTL_MSK,
-> +				  get_unaligned_be32(&fw_data->cfr1), true);
-> +	if (ret)
-> +		return FW_UPLOAD_ERR_RW_ERROR;
-> +
-> +	wcount = get_unaligned_be16(&fw_data->wcount);
-> +	if (!wcount) {
-> +		*written = size;
-> +		return FW_UPLOAD_ERR_NONE; /* nothing else to write */
-> +	}
-> +
-> +	ret = ad9910_profile_set(st, st->profile);
-> +	if (ret)
-> +		return FW_UPLOAD_ERR_HW_ERROR;
-> +
-> +	/* backup profile register and update it with required address range */
-> +	backup = st->reg[AD9910_REG_PROFILE(st->profile)].val64;
-> +	tmp64 = AD9910_PROFILE_RAM_STEP_RATE_MSK |
-> +		FIELD_PREP(AD9910_PROFILE_RAM_START_ADDR_MSK, 0) |
-> +		FIELD_PREP(AD9910_PROFILE_RAM_END_ADDR_MSK, wcount - 1);
-> +	ret = ad9910_reg64_write(st, AD9910_REG_PROFILE(st->profile), tmp64, true);
-> +	if (ret)
-> +		return FW_UPLOAD_ERR_RW_ERROR;
-> +
-> +	memcpy(&st->tx_buf[1], fw_data->words, wcount * AD9910_RAM_WORD_SIZE);
-> +
-> +	/* write ram data and restore profile register */
-> +	ret = ad9910_spi_write(st, AD9910_REG_RAM,
-> +			       wcount * AD9910_RAM_WORD_SIZE, false);
-> +	ret2 = ad9910_reg64_write(st, AD9910_REG_PROFILE(st->profile), backup, true);
-> +	if (ret || ret2)
-> +		return FW_UPLOAD_ERR_RW_ERROR;
-> +
-> +	*written = size;
+One nit below.
 
-I'd like a blank line here. Mostly to make that 'good' return more obvious.
+[...]
 
-> +	return FW_UPLOAD_ERR_NONE;
-> +}
-
->  
-> +static inline void ad9910_debugfs_init(struct ad9910_state *st,
-> +				       struct iio_dev *indio_dev)
-> +{
-> +	struct dentry *d = iio_get_debugfs_dentry(indio_dev);
-> +	char buf[64];
-> +
-> +	/*
-> +	 * symlinks are created here so iio userspace tools can refer to them
-> +	 * as debug attributes.
-
-Maybe worth a reference to appropriate ABI doc here (even if it is introduced
-in a later patch)
-
-> +	 */
-> +	snprintf(buf, sizeof(buf), "/sys/class/firmware/%s/loading", st->ram_fwu_name);
-> +	debugfs_create_symlink("ram_loading", d, buf);
-> +
-> +	snprintf(buf, sizeof(buf), "/sys/class/firmware/%s/data", st->ram_fwu_name);
-> +	debugfs_create_symlink("ram_data", d, buf);
-> +}
-> +
->  static int ad9910_probe(struct spi_device *spi)
+> @@ -1669,16 +1683,29 @@ static struct page *tdx_spte_to_sept_pt(struct kvm *kvm, gfn_t gfn,
+>  static int tdx_sept_map_nonleaf_spte(struct kvm *kvm, gfn_t gfn,
+>  				     enum pg_level level, u64 new_spte)
 >  {
->  	static const char * const supplies[] = {
-> @@ -1561,7 +1876,25 @@ static int ad9910_probe(struct spi_device *spi)
-...
+> +	struct kvm_vcpu *vcpu = kvm_get_running_vcpu();
+> +	struct vcpu_tdx *tdx = to_tdx(vcpu);
 
-> +	ad9910_debugfs_init(st, indio_dev);
+Nit:
+Is it better to move this after checking vcpu is not NULL?
+Although tdx is not dereferenced in between, if vcpu is NULL,
+it means container_of() does arithmetic to a NULL pointer.
 
-Blank line preferred before a simple return like this one.
 
-> +	return 0;
->  }
+>  	gpa_t gpa = gfn_to_gpa(gfn);
+>  	u64 err, entry, level_state;
+>  	struct page *sept_pt;
+> +	int ret;
+> +
+> +	if (KVM_BUG_ON(!vcpu, kvm))
+> +		return -EIO;
 >  
->  static const struct spi_device_id ad9910_id[] = {
-> 
+>  	sept_pt = tdx_spte_to_sept_pt(kvm, gfn, new_spte, level);
+>  	if (!sept_pt)
+>  		return -EIO;
+>  
+> +	ret = tdx_pamt_get(page_to_pfn(sept_pt), &tdx->pamt_cache);
+> +	if (ret)
+> +		return ret;
+> +
+>  	err = tdh_mem_sept_add(&to_kvm_tdx(kvm)->td, gpa, level, sept_pt,
+>  			       &entry, &level_state);
+> +	if (err)
+> +		tdx_pamt_put(page_to_pfn(sept_pt));
+> +
+>  	if (unlikely(tdx_operand_busy(err)))
+>  		return -EBUSY;
+>  
+> @@ -1691,8 +1718,14 @@ static int tdx_sept_map_nonleaf_spte(struct kvm *kvm, gfn_t gfn,
+>  static int tdx_sept_map_leaf_spte(struct kvm *kvm, gfn_t gfn, enum pg_level level,
+>  				  u64 new_spte)
+>  {
+> +	struct kvm_vcpu *vcpu = kvm_get_running_vcpu();
+>  	struct kvm_tdx *kvm_tdx = to_kvm_tdx(kvm);
 
+Ditto 
+
+>  	kvm_pfn_t pfn = spte_to_pfn(new_spte);
+> +	struct vcpu_tdx *tdx = to_tdx(vcpu);
+> +	int ret;
+> +
+> +	if (KVM_BUG_ON(!vcpu, kvm))
+> +		return -EIO;
+>  
+[...]
