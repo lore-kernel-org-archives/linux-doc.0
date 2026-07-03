@@ -1,159 +1,182 @@
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E658385D63
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 06:57:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7236635E948;
+	Fri,  3 Jul 2026 07:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783061858; cv=none; b=dIjPRc5l84/raCpekKquad5E9jU+F4KzEFSKMGqLCb/iwtoGLUx6a8mq1vDHsm1CP2n6qnJVbQFigEGFFvnLkHGYxFIsQC9hn0uL/pZXQ7afr6p8JPUT7WEW2Xc7NHQS61mFOkErhPbJ+SSRYIzt3BnZMrim1r+WMY6Jk0NekVw=
+	t=1783062368; cv=none; b=VcwZFIMZKX+/jMzXnrINtACb4ABpn4Q2hP2WCQeWKgtV67HbMvv2tp1VVVonDoV6NlFoFT9cUBTNRGbnSs0rJ3qPm5SSTH99GL0GQYvOyWyJHTt3A8f6oQ1fca4K1sShF7pjDEfjOjRZ9AR9x2ZQPjSE9cTD/Rxp4t9bH4dMStQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783061858; c=relaxed/simple;
-	bh=/K8f1udQw9YJBO1Ie1ZbJE3mShr1BbOgfVubnfUn+a0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Uj1x3hBAoTQCMT9a12rcWwhYok2bu1Q8QvxAnVMVy3Yc70HSHeatl/8eVFLXOT/pAlQFbSXDPYDGgZde/lzQufo+fE+TpARkz4Y/aj23SGZO3FxhCuWYVhLkoZQBGw6j2E7vxASS1Lo4Q4Nzrlvdf4KcDF2NM5lknWihgg/mYUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fQ5ENlte; arc=none smtp.client-ip=209.85.218.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1783062368; c=relaxed/simple;
+	bh=bh4y9lDGi6TgXFrenpnlfKtxsha9HOYb8KvB+l6k08Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k7W85pJDzCE/zQ3UnL6ntdU1HT6GoQIUqQri/u/UTxuFeGkq1nJW6dQCnOx7AbtJRd1oSDCccl0mAChGVwF4CEkblydgURz2YWUC4jrUcADDMr9MvfRgv3L5zBZGDAzKRSgGYRn7XgPW0e6h1vOq1cCXDJp/cZZt31suisz2HGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y9ef+DLv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fQ5ENlte"
-Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-c08306ae1c3so20324966b.1
-        for <linux-doc@vger.kernel.org>; Thu, 02 Jul 2026 23:57:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783061856; x=1783666656; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iGF8vWJ8SJ2AhYQyBR0BCmWZSL8eN4zr4YEd9ugRFUM=;
-        b=fQ5ENlteeHRojCcl7rna3uyXJOUJ+VhtayTgyJQGMkUIRgJ5DJYR4Qn/zrSobfHVWa
-         hNFSBIXt+EVeOzgjilyAUixC0M1e0rT5GyW4Vb0UEGO9F7ONOHKoKRRbte7k67nZ/WPe
-         +6N7uxW3J4K2rSeHu6wjOSP3qcm4ERAe7wBkuFIvIcx1i+5rGO2V5FP8/fedUu8JWYR1
-         9oDya3UVpGf7zS/AQAl9fAGjUgF27rAyodAcmy8U9I4PFZxvGEAGIbCgZ6zoGOfC07tq
-         VF2kA5SpssNHaM++BY1U+HH8GyQXGOnidjgktZuYWjozyRgTsa3B/rx/OL+7KhB47J/V
-         LJeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783061856; x=1783666656;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=iGF8vWJ8SJ2AhYQyBR0BCmWZSL8eN4zr4YEd9ugRFUM=;
-        b=dLUpuhTKWP60I+WYcmkc/rjnPqUAo06gTexUpN9ro4O/Pie6u9wTi40G2L9BSV7Tsb
-         gE7Gv0GFYm0kRl8Nkiu+eiYu1n/zO3LUVyqXwd4uCFQNai1UT8A6ZK0RNAffBC82bwjN
-         hdswn4w/J94Z6cgFvTct+xDe8NaVPcH8dxw+sobQY4DNT63vbuQlesom2hwHaHKJtGLv
-         KD4T65g9WW6r5opvk8ww09fW2B5kSt106Q2EkjAYPdE4pHJ08RwFxyi0NPFNMvpO0gp2
-         O5qnGF6DEGMI4gM2bgM1qSqx1CrgeO6jC4TXkVpuL2f2yvo1o3u80Lay8ci53wHkTUJX
-         bWWQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro7Zb7+PoGF90vHb3Za7y1hcTvc98ZuCOAUYqmPZGBPKlHnuvYHAlFhTXkT3NI60R31OvxnOapka0Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbwLLIOT8T2a7xiP0pEH7FA3btuVuB1t2C0Qvm00t15v+KLkE1
-	ZkiCAcVpzB78WbMFAUj0SHAHmcvIF2iWgbzKLQ+hsKEHZ0ZlpCovWSU86jFK3/yyR517O2FmLsG
-	DBQQUjIApDGmxRHZp4A==
-X-Received: from ejbjz10.prod.google.com ([2002:a17:906:bb0a:b0:c12:69ca:d115])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:e143:b0:c12:3590:2bcd with SMTP id a640c23a62f3a-c12a9db678cmr282670666b.29.1783061855361;
- Thu, 02 Jul 2026 23:57:35 -0700 (PDT)
-Date: Fri, 3 Jul 2026 06:57:34 +0000
-In-Reply-To: <CAHC9VhTfOnOgOzGk9==wJYKx5gAi3Zf3oTwbj183o0_xxrfKag@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y9ef+DLv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74D3B1F000E9;
+	Fri,  3 Jul 2026 07:06:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783062367;
+	bh=Hg7IJj4ATWwgnTdZiQm5Sopne/isxX9eomdh02JspH4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Y9ef+DLvPAWqsV+B66oZ0j6jG9zDQBFRzsqyOY/G0D521ktuR6rR7iExHQSfgoWDu
+	 0pTvXQCXs8QvLZnWN9Mm9zt7bMtSrsWSKzXnd4WGO2uEa/V8T30cwoBrSKhaYduY5k
+	 btZM8x1dJY8s3Svzp2NMlPpjubqTtdnIHMDv02aP2BMQciKM0KhwT/jfNRXWyXIHvk
+	 ibRyap318N8fVQGfUhoBDepV7U50+7sYllNvfqhZm/RSMu2tJXlPWrjA/tn9liqPjK
+	 NiYJW48KU4FOjVvQDoYfWU8AtLNQYC+YSStQqa2YBgD4gcSVPxQy5di3DArWVuGMi4
+	 WoN11RWjbXt6A==
+Message-ID: <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
+Date: Fri, 3 Jul 2026 09:05:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260529-remove-task-euid-v4-0-07cbdf3af980@google.com>
- <CAHC9VhR5Ca+WyP2OiNGtL1SqHn0SwLe=M9SB8D2bxtdS52quhg@mail.gmail.com>
- <ah51DY5yfaNZejBd@google.com> <CAHC9VhQyNzxJgdMkmEsOeAQ7Wt2L+eW6aNLjeoYmnCQLmcYRnw@mail.gmail.com>
- <CAH5fLghJaFXheAZqKyM9Cdo6iqTw1W=haA79POhmZWEfuKujRA@mail.gmail.com> <CAHC9VhTfOnOgOzGk9==wJYKx5gAi3Zf3oTwbj183o0_xxrfKag@mail.gmail.com>
-Message-ID: <akddXpXia0GI2Xvy@google.com>
-Subject: Re: [PATCH v4 0/2] Delete task_euid()
-From: Alice Ryhl <aliceryhl@google.com>
-To: Paul Moore <paul@paul-moore.com>
-Cc: Serge Hallyn <sergeh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Dongliang Mu <dzm91@hust.edu.cn>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Jann Horn <jannh@google.com>, 
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+To: Boris Burkov <boris@bur.io>, Lorenzo Stoakes <ljs@kernel.org>
+Cc: Jeff Layton <jlayton@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>,
+ Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>,
+ David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+ Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ "Christian Brauner (Amutable)" <brauner@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+ <2026070224-unholy-commode-cf45@gregkh>
+ <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
+ <20260702161330.GH3534761@killaraus.ideasonboard.com>
+ <2026070227-payroll-eradicate-8f66@gregkh>
+ <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
+ <akaWnQ5Pkg_676B-@lucifer> <20260702211740.GA639365@zen.localdomain>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260702211740.GA639365@zen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 02, 2026 at 05:12:52PM -0400, Paul Moore wrote:
-> On Wed, Jun 3, 2026 at 1:05=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> =
-wrote:
-> > On Wed, Jun 3, 2026 at 6:05=E2=80=AFPM Paul Moore <paul@paul-moore.com>=
- wrote:
-> > >
-> > > On Tue, Jun 2, 2026 at 2:15=E2=80=AFAM Alice Ryhl <aliceryhl@google.c=
-om> wrote:
-> > > > On Mon, Jun 01, 2026 at 07:13:37PM -0400, Paul Moore wrote:
-> > > > > On Fri, May 29, 2026 at 5:33=E2=80=AFAM Alice Ryhl <aliceryhl@goo=
-gle.com> wrote:
-> > > > > >
-> > > > > > The task_euid() method is a very weird method, and Binder was t=
-he only
-> > > > > > user. As of commit 65b672152289 ("binder: use current_euid() fo=
-r
-> > > > > > transaction sender identity") Binder doesn't use task_euid() an=
-ymore,
-> > > > > > so we can delete this method.
-> > > > >
-> > > > > Given the problems from last time, it seems like it might be prud=
-ent
-> > > > > to let the commit have some time to "breathe" in a proper release=
-, I'd
-> > > > > suggest merging this not for the upcoming v7.2 merge window but
-> > > > > instead waiting for v7.3.
-> > > >
-> > > > Sure, that makes sense. I'll resend after the merge window.
-> > >
-> > > No need to resend if there are no changes (see below), it's in
-> > > patchwork and I'm tracking it so you're all set.  I'll send another
-> > > notice when I merge it.
-> > >
-> > > > > > My suggestion would be to merge this through the LSM tree.
-> > > > >
-> > > > > That's fine with me.  I'd also suggest updating the commit descri=
-ption
-> > > > > in patch 1/2 to indicate that binder is no longer using task_euid=
-();
-> > > > > it currently reads like it is still being used.
-> > > >
-> > > > I guess this occurred because when patch 1 was written, it really *=
-was*
-> > > > still being used.
-> > >
-> > > Yeah, I understand the world has changed since patch 1/2 was written,
-> > > which is okay, we just need to update the commit description ... whic=
-h
-> > > should be a trivial task.
-> > >
-> > > > Perhaps we could pick up only patch 1 now since even
-> > > > if we run into problems and Binder has to go back to using task_eui=
-d(),
-> > > > clarifying the docs is still useful.
-> > >
-> > > I assumed that was one of the reasons for splitting the changes acros=
-s
-> > > two patches (reverting patch 2/2 leaves patch 1/2 intact).
-> > > Regardless, we're at -rc6 and with patch 1/2 being purely a comment
-> > > update I don't see an urgent rush on this, especially considering tha=
-t
-> > > if I did pick it up now, it would be for the v7.2 merge window and th=
-e
-> > > binder/current_euid() change will ship in v7.1.
-> > >
-> > > Let's update the commit description - you've got a couple of weeks to
-> > > do that - and then we'll merge everything once the v7.2 merge window
-> > > closes.
-> >
-> > Sounds good, thanks!
->=20
-> Just wanted to check in and see if this is still on your todo list?
-> No rush, we are only at -rc1, but I was reminded of this while merging
-> other patches and just wanted to check ;)
+On 7/2/26 23:17, Boris Burkov wrote:
+> On Thu, Jul 02, 2026 at 05:50:15PM +0100, Lorenzo Stoakes wrote:
+>> On Thu, Jul 02, 2026 at 12:48:22PM -0400, Jeff Layton wrote:
+>>>
+>>> Do we need a tag for this though?
+>>>
+>>> This seems like the kind of information that we would always require in
+>>> the cover letter of a series (or the little place in an individual
+>>> patch for comments that don't get merged). That would also allow you to
+>>> convey a lot more nuance about how it was used.
+>>>
+>>> ISTM asking people to disclose LLM usage in a cover letter would give
+>>> everyone what they want: Information about whether and possibly how an
+>>> LLM was used, and it also wouldn't clutter up the changelogs with these
+>>> tags.
+>>
+>> It's much much clearer and easier to just have a standardised tag for that.
+>>
+>> You can see that (and grep for that) immediately, vague paragraphs not so much.
+>>
+> 
+> At the risk of being pedantic on a point where I think the document is
+> kind of lacking:
+> 
+> What level of assistance crosses the bar for an "Assisted-by: LLM" tag?
+> 
+> Some sample levels of assistance to illustrate the point:
+> 
+> 1. I used an llm to one-shot vibe-code a patch
+> 2. I used an llm to write a patch but carefully reviewed every line
+> 3. I used an llm to explore the design space for a patch but wrote it
+> manually
+> 4. I used an llm to debug or reproduce a kernel issue but then wrote the
+> fix manually after fully understanding the defect
+> 5. I used an llm to review a patch I wrote
+> 6. I used an llm to research some chunk of code while writing a patch
+> 7. I used Google while writing a patch and learned something valuable
+> from the AI overview at the top
+> 
+> I personally would 100% use the tag for 1 or 2, and have already done
+> so. I have not been doing it for 3-5, as I think that will basically
+> make every patch llm-assisted to the point of the distinction being
+> meaningless. If we should be doing it for 3-5 (or some subset thereof)
+> then my mistake and I will certainly start doing so. I would hope most
+> people agree 6-7 and similar need no tag.
+> 
+> Similar questions abound if you use an llm to help with writing the
+> English text in the patch or emails.
+> 
+> I have a feeling that this ambiguity is part of the reason we aren't all
+> agreeing on the value of the tag?
 
-Resent!
+Yes, I raised something similar as reply to Christian's RFC [1], where I said
+that for me the information *how* it was used is much more important:
 
-Alice
+"
+Assisted-by: LLM # translate commit message
+Assisted-by: LLM # generate some test cases
+Assisted-by: LLM # cleanup logic
+Assisted-by: LLM # everything and I have no clue what any in here does
+"
+
+That tag is it stands is pretty useless, really.
+
+I assume most people only really use it for something in-between 1 and 2, but
+*who knows*.
+
+[1] https://lore.kernel.org/r/5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org
+
+-- 
+Cheers,
+
+David
