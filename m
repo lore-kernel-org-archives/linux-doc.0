@@ -1,92 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BAF241735A
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 15:26:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5161D9A5F;
+	Fri,  3 Jul 2026 15:40:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783092377; cv=none; b=rZDlM/SFf3Lyoy/QwN1pHIj3k3q97Wo5d8EcwKWbcAXZyZDbPAogtB1ik6dnIhRNOC7Bk5zpbj/+5iBb/QqDWL0b9Pw7G7A57hoyQVfJxhW3lNOwAo3fXm/lEiv/A1koNOryeCjeDamVcLU9Zw5kL59LIrKMbfnl0XR7FNEyI+k=
+	t=1783093203; cv=none; b=dBA7Oe0QumRi+98TPA6qucybU0gHNlz9OUvWYsyKjqpGu4MrSSbOI66mWp5YhO1+3LSyFS/A4LYpNHbMe8wuonsncRrxGxnAv4TO1KggPAci0WdO9yqlprbam9q1NhRMicCj5iwHM/4tQYrtuMcHOnwD1yxKau1yDPBVBLcOcYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783092377; c=relaxed/simple;
-	bh=q72dfMto2H9k5CgU07ACQMAWpo99WoFvfPSY3fgiiYw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=V+GAgGtDZLyboan7wLBnJuBPL5knWwdYpcG4k8XtLOsQtDe88n4zLk/vjHCdJFY3iLiA4X/gDTJAX8Rj7em0cKEFXBMoKYlMFPDfoJJGs5chgDcqQG661S4pefBDVh3M93H8FDnluIx8jf+Cw4UjzmMmyjJaBttqwzY6HtkocMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m8a3lNum; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783093203; c=relaxed/simple;
+	bh=0jkdT9QD8oaV+xvNpcFFoheEl+J6LiXgKlRXZ08jTWU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=O8ikd0ZASeAgvRpqdZfL9ofFbeXSFc+Hsn1OFlcVh4eolKNSgBpu2wkzoSuw5DVykQylHvkDMVkTOxCHr3qAYQG4xqa/FOuYbf9K72s1jcmtE7rFOeZTaes+nkX5v6TKTp1jMTuOo9q870iFFWOelCbxCuyQfh2BnY8jIYkL8aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KkzC/u0k; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m8a3lNum"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783092376; x=1814628376;
-  h=date:from:to:cc:subject:message-id;
-  bh=q72dfMto2H9k5CgU07ACQMAWpo99WoFvfPSY3fgiiYw=;
-  b=m8a3lNumUcXgkPxCeznRxuQ3Aedqh/mcpOONpJfDy6+fAN2kAI3QHmiM
-   VyuXfZrOo2vQjkrr0YrMFph2fTnlmtpSuomBlxPidyuNheJLGX9lj7WaG
-   8Aye3BgnTIYXOhzBri+AdZaSKcUlNmAfZOO/U88kgQTl9n4/PqJGt3f8P
-   uWfSS97njenRKB/U0w1GjtCuV+hK2lhp+Gy+R3aQa/eJqdi4/W+wWTkb0
-   ip40ekOlLS1/4uO3/+T27RUUYDZdS+98Gz88fkCwi6AH2qfGNHBpWduc7
-   lnn6MvLjqcrEFEUfyGF7sh7FuN3mEuP5WuMcsCaR9Wm1fABvj/++GCCO4
-   w==;
-X-CSE-ConnectionGUID: UkxMSjksRtWCYsZKcrjWEQ==
-X-CSE-MsgGUID: DY6vE6WyRj2Ceb059kEk6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="95352296"
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="95352296"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 08:26:16 -0700
-X-CSE-ConnectionGUID: V9Tk0trdT+SPpPHcIYznIw==
-X-CSE-MsgGUID: T7yzDAksR/eNvMNAaGr/+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="257466981"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 03 Jul 2026 08:26:14 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wffmN-000000001XV-3qJZ;
-	Fri, 03 Jul 2026 15:26:11 +0000
-Date: Fri, 03 Jul 2026 17:26:08 +0200
-From: kernel test robot <lkp@intel.com>
-To: Eduard Bostina <egbostina@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
- linux-doc@vger.kernel.org
-Subject: [krzk-w1:w1-next 2/3] htmldocs: Warning:
- Documentation/w1/masters/omap-hdq.rst references a file that doesn't exist:
- Documentation/devicetree/bindings/w1/omap-hdq.txt
-Message-ID: <202607031709.owfUeGBJ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KkzC/u0k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0D7B1F000E9;
+	Fri,  3 Jul 2026 15:40:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783093202;
+	bh=y2NL+dknYLH6y2zoSaP+qVBqL0DlM0+ewISJwJqvqIw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=KkzC/u0kw4EYtmlvW9Q4djBW2uN7f8kaCOPeC9Eb79FtAOn09KmkgViPwAs0KhOgY
+	 Vz2+OquYHTkMPP9MzJwk5vicZpMKoizBLJnHGR3jgeaKirQlnLFxfamzUdroHOFeA5
+	 U6YJWpdy5Y721B7XyS/rguWZPgCa3Fo3AbwtyzJMVgodQoccVAjFjNvs0CoBCd64nH
+	 KSrDDOjS3T8Y4aGjTCznk3D6K47oGYfKvCCRiAUhLVFeOKdjF1pO3r6u8ZzvEaVHRf
+	 sRYLANiPvU7SyuRCtLXtKEuVu0RWhA/WwDOu+19EtS0jewnrUCowLsgVhtz1RtFg/L
+	 faseWNGZMLYdA==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Gregory Price <gourry@gourry.net>, linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, kernel-team@meta.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, peterz@infradead.org, luto@kernel.org,
+ akpm@linux-foundation.org, feng.tang@linux.alibaba.com, pmladek@suse.com,
+ mhiramat@kernel.org, marc.herbert@linux.intel.com,
+ joel.granados@kernel.org, gourry@gourry.net, lirongqing@baidu.com,
+ kees@kernel.org, nathan@kernel.org, linusw@kernel.org, arnd@arndb.de,
+ deller@gmx.de, jpoimboe@kernel.org, ruanjinjie@huawei.com,
+ lukas.bulwahn@redhat.com, ryan.roberts@arm.com, ojeda@kernel.org
+Subject: Re: [PATCH 1/2] kernel/entry: add CONFIG_SYSCALL_USER_DISPATCH to
+ compile SUD out
+In-Reply-To: <20260627205551.769684-1-gourry@gourry.net>
+References: <20260627205551.769684-1-gourry@gourry.net>
+Date: Fri, 03 Jul 2026 17:39:59 +0200
+Message-ID: <87a4s8m69c.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-w1.git w1-next
-head:   487eca6535cab91944ade06a155e9d789591a1e5
-commit: e89bccb295a8880493693e69e091a3668dc0c279 [2/3] dt-bindings: w1: Convert HDQ One Wire to DT schema
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260703/202607031709.owfUeGBJ-lkp@intel.com/reproduce)
+Gregory!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607031709.owfUeGBJ-lkp@intel.com/
+On Sat, Jun 27 2026 at 16:55, Gregory Price wrote:
 
-All warnings (new ones prefixed by >>):
+First a few formal notes.
 
-   Warning: Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst references a file that doesn't exist: Documentation/filesystems/gfs2-uevents.rst
-   Warning: Documentation/translations/zh_CN/filesystems/gfs2.rst references a file that doesn't exist: Documentation/filesystems/gfs2.rst
-   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
-   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
->> Warning: Documentation/w1/masters/omap-hdq.rst references a file that doesn't exist: Documentation/devicetree/bindings/w1/omap-hdq.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
+    - Multi patch series require a cover letter
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+    - The subject prefix is not a matter of personal preference
+
+See https://docs.kernel.org/process/maintainer-tip.html and the related
+generic process documentation.
+
+Please also refrain from made up acronyms in the subject line. What the
+heck is SUD and why needs this to spell out the CONFIG option name
+prominently.
+
+    syscall_user_dispatch: Make it configurable in Kconfig
+
+or something like that is concise and clear, no?
+
+> Syscall User Dispatch is built under CONFIG_GENERIC_SYSCALL and cannot
+> be disabled independent of the core syscall-entry machinery.
+>
+> Native foreign-binary emulators (Wine/Proton) need it, but it should
+> be an optional for minimal/high security systems.
+
+I buy the miminal system aspect, but high security is just a voodoo
+argument. Why?
+
+  1) The functionality needs to be enabled with a PRCTL, which can be
+     filtered.
+
+  2) It requires LD_PRELOAD to be effective
+
+If your high security system allows #2 then it's not a high security
+system to begin with. If you fail to add the proper filters then it does
+not pass the test either.
+
+I agree that disabling it alltogether reduces the effort, but it's not a
+prerequisite.
+
+> +config SYSCALL_USER_DISPATCH
+> +	bool "Syscall User Dispatch (SUD)"
+> +	depends on GENERIC_ENTRY
+> +	default y
+> +	help
+> +	  Syscall User Dispatch (SUD) lets a thread have its own system calls
+> +	  redirected to a userspace handler.  It is used by emulators that run
+> +	  foreign binaries which issue system calls directly.
+
+Huch?
+
+What is foreign? Different country, different universe or different
+mindset?
+
+It's also not restricted to emulators. It allows to intercept and abort
+system calls which are issued within a certain IP address range and
+redirect them to a emulator or debugger. 
+
+
+>--- a/include/linux/syscall_user_dispatch.h
+>+++ b/include/linux/syscall_user_dispatch.h
+>@@ -7,8 +7,22 @@
+>
+> #include <linux/thread_info.h>
+> #include <linux/syscall_user_dispatch_types.h>
+> +#include <linux/sched.h>
+
+Why does this require to pull in the heaviest header?
+
+> +bool syscall_user_dispatch(struct pt_regs *regs);
+> +
+> +static inline bool syscall_user_dispatch_clear_on_dispatch(void)
+
+Wants to be __always_inline as otherwise agressive compilers like CLANG
+happily put it out of line.
+
+Thanks,
+
+        tglx
