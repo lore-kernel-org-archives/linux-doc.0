@@ -1,253 +1,181 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65073B442F
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 09:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6023B14AD;
+	Fri,  3 Jul 2026 10:00:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783071866; cv=none; b=aacHWHhnlvmtm9Gmu0z/66EvcrFSGxXSKeSHeV4q5DJYsEXEx5txbQZPQryaQCxqHV/SbBAwYPjDdzL2fH9+5HwflGMIRSLgi299dJSNe1Kmq+HlCcfWKwETp1vYszkwCBsaRtUW1tbRJJW5MPlkSEFmWlNBDGzTDl1MRbr8qtc=
+	t=1783072843; cv=none; b=FAQ/PmSlTecCMYeuN9aNgYZjU+nElnYYpKkuCwKNiLdro/KAcpwujxuCB4Hkf+GZGOSwvoO3q+AjUWMZcsX0WB1E4MvDxLAR3h5JQs55az2xcpDnw6XBoMlOLRvN+lzAtwYiai1lz9CGG4PC5Mwd9CnP43cuSLIZff3hDZdqKc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783071866; c=relaxed/simple;
-	bh=MAYE/1WRjhVk7VqxvooSHsgNwU5eEKOr+EZPK/E28iI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ub75LCuxHRy0OrmP8YoWu22BC2kgvcFb7YF1SNiySfQsO0BOEu9v7XUQPwqRSpmS5Gq7G8K7ENCmVw9Zx5i4STMusoxTMU1HtuU2N6Uzy6+DRdOQ1JTf0ypTWDOxWO8jwm8dvTJwSxAnlthot9iaBMMnwGbIgaBnOv+fnkHMi9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DPLiZHb9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RFHq4t2n; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DPLiZHb9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RFHq4t2n; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1783072843; c=relaxed/simple;
+	bh=XkZRwCRa2XhLgna4NJMGvoHXqep1IUGIjBvB5bpJuls=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HHrNUGF7EMkSPia7vZ1b1TWrBcumfIHM2BAU9lvgggZCToxgl/ES6pd1qZLVdpf8g233oEM9zq2/tcOvkiZ8Lyd2ianCiBZ4jfBBo06d/FWhv9G+5L1yxbSO2OrPhu+3znsTVB5aTH6vnQG2rnqm6vyRdnNc7RWhjCKe4t/blAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=sNzsJBSJ; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DPLiZHb9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RFHq4t2n";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DPLiZHb9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RFHq4t2n"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 217FA747FE;
-	Fri,  3 Jul 2026 09:44:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783071863; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZvVdFC/w93Kd0pOreOXa++4p9nmwSNNQYlxhQaYUCks=;
-	b=DPLiZHb9AFizwgdPdY9ZWzKFAG1DhD3/oTe4wGbn51M13DPaair6AlbEX3LaV9XuUdBz81
-	+giYBjxqeGo7J+lkc6Zx6O4HJE20nW4si+aVXHAEQ8WA+GGwEiJ96rkhulSg7xMgYxd5pN
-	IRMjRKWfHWOwKHx6xE3I/LqStYDci2Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783071863;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZvVdFC/w93Kd0pOreOXa++4p9nmwSNNQYlxhQaYUCks=;
-	b=RFHq4t2n78OVH5E64KJJlOEOwn4PMj+Vd75rr7m6vznsLIX71F+uh+aM1TQTPREfoDwij2
-	U8TSotwPfJf9l0AA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DPLiZHb9;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=RFHq4t2n
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783071863; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZvVdFC/w93Kd0pOreOXa++4p9nmwSNNQYlxhQaYUCks=;
-	b=DPLiZHb9AFizwgdPdY9ZWzKFAG1DhD3/oTe4wGbn51M13DPaair6AlbEX3LaV9XuUdBz81
-	+giYBjxqeGo7J+lkc6Zx6O4HJE20nW4si+aVXHAEQ8WA+GGwEiJ96rkhulSg7xMgYxd5pN
-	IRMjRKWfHWOwKHx6xE3I/LqStYDci2Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783071863;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZvVdFC/w93Kd0pOreOXa++4p9nmwSNNQYlxhQaYUCks=;
-	b=RFHq4t2n78OVH5E64KJJlOEOwn4PMj+Vd75rr7m6vznsLIX71F+uh+aM1TQTPREfoDwij2
-	U8TSotwPfJf9l0AA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6DD99779AA;
-	Fri,  3 Jul 2026 09:44:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vJYxF3WER2oBAgAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Fri, 03 Jul 2026 09:44:21 +0000
-Date: Fri, 3 Jul 2026 10:44:19 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Leon Hwang <leon.hwang@linux.dev>
-Cc: linux-mm@kvack.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R . Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Nathan Chancellor <nathan@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Alice Ryhl <aliceryhl@google.com>, 
-	Douglas Anderson <dianders@chromium.org>, Gary Guo <gary@garyguo.net>, Anand Moon <linux.amoon@gmail.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH] mm/mseal: fix mseal documentation for 32-bit kernels
-Message-ID: <akeDk49-pPgUDek1@pedro-suse>
-References: <20260703022507.187457-1-leon.hwang@linux.dev>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="sNzsJBSJ"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6636JW2R1762888;
+	Fri, 3 Jul 2026 09:59:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=XkZRwCRa2XhLgna4NJMGvoHXqep1IU
+	GIjBvB5bpJuls=; b=sNzsJBSJE0At5moOOpohmVjQzetUDhecbWJtU/m6Bze7zq
+	z+RrCESoaCZmvBe++NZ1sOGEfWnxfJFd31TdIHLW/TxZO1nxuCSC7zqBofLiGUt7
+	eY9t51b8vVsYwVu5zi2pHQUeRg0uooWAhwfH64a1V1CSxYVhEITXRkMoPZEwgKSI
+	3LVExr7ylz5KDKZQJyFauWLV26RwjqkUwgElPJxZqNL7sPGCYZ/QkjXnAHGLxz2o
+	AadgZh2Nx47mH+l9cfY2Puqix6XBXJPgRDm4gypdKviCzsIDlio9B6EBH2jOZ53r
+	LP9GtE8SPV4qoBaQhkyE3iSOH/EoHLMhgyTUpSpQ==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f26mk63uk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 03 Jul 2026 09:59:13 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6639na9h008970;
+	Fri, 3 Jul 2026 09:59:12 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f2s7wgamb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 03 Jul 2026 09:59:12 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6639x8AG50135304
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 3 Jul 2026 09:59:08 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AB02320043;
+	Fri,  3 Jul 2026 09:59:08 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 419EF20040;
+	Fri,  3 Jul 2026 09:59:08 +0000 (GMT)
+Received: from tuxmaker.linux.ibm.com (unknown [9.87.85.9])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Fri,  3 Jul 2026 09:59:08 +0000 (GMT)
+From: Sven Schnelle <svens@linux.ibm.com>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: "H. Peter Anvin" <hpa@zytor.com>,
+        Michal =?utf-8?Q?Such=C3=A1nek?=
+ <msuchanek@suse.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Huacai Chen
+ <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+        Madhavan
+ Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Christophe Leroy (CS GROUP)"
+ <chleroy@kernel.org>,
+        Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt
+ <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti
+ <alex@ghiti.fr>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik
+ <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Andy Lutomirski
+ <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov
+ <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Andrew Donnellan <andrew+kernel@donnellan.id.au>,
+        Mark
+ Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
+        Jiaxun
+ Yang <jiaxun.yang@flygoat.com>,
+        Ryan Roberts <ryan.roberts@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mukesh Kumar Chaurasiya
+ <mkchauras@linux.ibm.com>,
+        Shrikanth Hegde <sshegde@linux.ibm.com>, Zong
+ Li <zong.li@sifive.com>,
+        Nam Cao <namcao@linutronix.de>, Deepak Gupta
+ <debug@rivosinc.com>,
+        Lukas Gerlach <lukas.gerlach@cispa.de>,
+        Rui Qi
+ <qirui.001@bytedance.com>, Kees Cook <kees@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
+Subject: Re: [RFC] entry: Untangle the return value of
+ syscall_enter_from_user_mode from syscall NR
+In-Reply-To: <87ldbsmnie.ffs@fw13>
+References: <akVRcPsD_R_CE1qW@kunlun.suse.cz>
+	<BA7CD91D-C0E5-47A1-B49C-BC6AF6604182@zytor.com> <87h5mhnjsr.ffs@fw13>
+	<yt9dwlvca8rn.fsf@linux.ibm.com> <87ldbsmnie.ffs@fw13>
+Date: Fri, 03 Jul 2026 11:59:07 +0200
+Message-ID: <yt9d5x2w5r84.fsf@linux.ibm.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260703022507.187457-1-leon.hwang@linux.dev>
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 217FA747FE
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kvack.org,lwn.net,linuxfoundation.org,linux-foundation.org,infradead.org,kernel.org,google.com,dabbelt.com,eecs.berkeley.edu,ghiti.fr,linutronix.de,chromium.org,garyguo.net,gmail.com,vger.kernel.org,lists.infradead.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLaou5zaf46joj1hsq6ffhoiia)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,linux.dev:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAzMDA5NCBTYWx0ZWRfX9FMLwetAf5KQ
+ ndfxMBLSR49ue71Xv2NR40Icekc2MOvRbwixUqeEGtjdNkCalSSoGb966whocZ1gXXqpEriij7i
+ lynNNC3vb2CQvMQydbLaS3VAu0jrXMOm+jrv0ORIZSdXnj7Vi1yorOQLGdSZSAOdWCDMFX3r3pN
+ OuxRPVsNiZ9CQ3hGPyW9d4jjGhtQEH4JbcTwHIUqcZ7kznMyp1iLXVpiAu42PsAq9HSVzRZ1xeF
+ OvamAeXQ82LGybWvpxvCiyLv5wDWgXgkKO8Hf7eaiVVVSAu3moZrspj1/CUqHGOp0ZISuFiCOfm
+ 6AWwmNs4Kr04L5enCaF4YgWYGrYLmt6j4D8H0M1WcGM1ayQeiM6Yok1G5GskscCRoSEIeV8DpbU
+ tkC4ar4pU/D2r9uqicbUF56hge/NSmTFC3OSbbHRYF3sz6B3Za9sH3Juh93DjTwWc9D28Pc5hiX
+ 1sXDVTwSc86kcB2B9Rg==
+X-Proofpoint-GUID: fyPeOXFOcSecTLM12SqKB2NhFn9No9dY
+X-Authority-Analysis: v=2.4 cv=Z8bc2nRA c=1 sm=1 tr=0 ts=6a4787f2 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=RzCfie-kr_QcCd8fBx8p:22 a=VwQbUJbxAAAA:8 a=QZGpZFnrDBDqr2p2_-4A:9
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAzMDA5NCBTYWx0ZWRfXw6X4LK9BAJr/
+ jeW91FBp5LTSjcZFRxjPIFSbzH40kzNpBhFPHP3F9N4dLBEIibxelkNLlh5TXnBBP24GksYOxGs
+ cdYngkRwuJr0O4yJ1YvQBiRfSdFRCMk=
+X-Proofpoint-ORIG-GUID: Zheb6wdsp5g_GwqVLO_LBTgHraVWDNxT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-07-03_02,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0 spamscore=0 priorityscore=1501 impostorscore=0
+ malwarescore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607030094
 
-On Fri, Jul 03, 2026 at 10:25:07AM +0800, Leon Hwang wrote:
-> mseal.o is built only for 64-bit kernels, so 32-bit kernels fall back
-> to sys_ni_syscall() and return -ENOSYS rather than -EPERM.
-> 
-> Document the -EINTR return from mmap_write_lock_killable(), fix the
-> CONFIG_MSEAL_SYSTEM_MAPPINGS typo, and describe system mappings in
-> terms of VM_SEALED_SYSMAP.
-> 
-> Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
-> ---
->  Documentation/userspace-api/mseal.rst | 18 ++++++++++--------
->  init/Kconfig                          |  2 +-
->  mm/mseal.c                            |  4 ++--
->  3 files changed, 13 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/mseal.rst b/Documentation/userspace-api/mseal.rst
-> index ea9b11a0bd89..1f1cf206670c 100644
-> --- a/Documentation/userspace-api/mseal.rst
-> +++ b/Documentation/userspace-api/mseal.rst
-> @@ -50,8 +50,10 @@ mseal syscall signature
->           * The start address (``addr``) is not allocated.
->           * The end address (``addr`` + ``len``) is not allocated.
->           * A gap (unallocated memory) between start and end address.
-> -      - **-EPERM**:
-> -         * sealing is supported only on 64-bit CPUs, 32-bit is not supported.
-> +      - **-EINTR**:
-> +         * Interrupted while waiting for the mmap write lock.
-> +      - **-ENOSYS**:
-> +         * The kernel does not implement ``mseal()``.
->  
->     **Note about error return**:
->        - For above error cases, users can expect the given memory range is
+Thomas Gleixner <tglx@kernel.org> writes:
 
-Honestly, this whole thing needs to be deleted. We need a proper manpage.
+> On Fri, Jul 03 2026 at 08:26, Sven Schnelle wrote:
+>> Thomas Gleixner <tglx@kernel.org> writes:
+>>> It's less than obvious and I have no objections to clean that up and
+>>> make it more intuitive, but I still fail to see what Michal is actually
+>>> trying to solve and what the magic flag is for. If s390 requires it,
+>>> then that's an s390 problem, but definitely x86 does not.
+>>
+>> The difference between x86 and s390 is that on s390, regs->gprs[2] is
+>> used for both the syscall number and the syscall return value.
+>> That was a design mistake early in the begin about 25 years ago, but
+>> it's ABI now, so it cannot be changed.
+>
+> Cute.
+>
+>> When seccomp decides to skip a syscall, it write a return value into
+>> regs->gprs[2]. When syscall_enter_from_user_mode_work() returns, it
+>> returns this number. If it's negative all is good - the 'if (likely(nr <
+>> NR_syscalls))' conditiion would just catch it and skip the syscall.
+>>
+>> But if it's a positive number, the code cannot distinguish whether
+>> that's a return value or a syscall number.
+>>
+>> So I introduced PIF_SYSCALL_RET_SET when converting s390 to generic
+>> entry. This flag tells the syscall code that a return value was set in
+>> ptregs and the syscall should be skipped.
+>
+> You also could have added a 'syscall_ret' member to pt_regs, operate
+> on that for the return values (seccomp, syscall...) and swap it into
+> gprs[2] right before returning to user space.
 
-> @@ -62,7 +64,8 @@ mseal syscall signature
->          memory range could happen. However, those cases should be rare.
->  
->     **Architecture support**:
-> -      mseal only works on 64-bit CPUs, not 32-bit CPUs.
-> +      mseal is built only for 64-bit kernels. 32-bit kernels return
-> +      ``-ENOSYS``.
-
-This LGTM.
-
->  
->     **Idempotent**:
->        users can call mseal multiple times. mseal on an already sealed memory
-> @@ -131,20 +134,19 @@ Use cases
->  - Chrome browser: protect some security sensitive data structures.
->  
->  - System mappings:
-> -  The system mappings are created by the kernel and includes vdso, vvar,
-> +  The system mappings are created by the kernel and include vdso, vvar,
->    vvar_vclock, vectors (arm compat-mode), sigpage (arm compat-mode), uprobes.
->  
->    Those system mappings are readonly only or execute only, memory sealing can
-> -  protect them from ever changing to writable or unmmap/remapped as different
-> +  protect them from ever changing to writable or unmapped/remapped as different
->    attributes. This is useful to mitigate memory corruption issues where a
->    corrupted pointer is passed to a memory management system.
-
-Also LGTM.
-
->  
->    If supported by an architecture (CONFIG_ARCH_SUPPORTS_MSEAL_SYSTEM_MAPPINGS),
-> -  the CONFIG_MSEAL_SYSTEM_MAPPINGS seals all system mappings of this
-> -  architecture.
-> +  CONFIG_MSEAL_SYSTEM_MAPPINGS seals mappings marked with VM_SEALED_SYSMAP.
-
-VM_SEALED_SYSMAP isn't meaningful to userspace.
-
->  
->    The following architectures currently support this feature: x86-64, arm64,
-> -  loongarch and s390.
-> +  loongarch, riscv, and s390.
-
-This is also useless, every 64-bit architecture will support this.
-
->  
->    WARNING: This feature breaks programs which rely on relocating
->    or unmapping system mappings. Known broken software at the time
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 5230d4879b1c..12bb39f637b1 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -2112,7 +2112,7 @@ config ARCH_SUPPORTS_MSEAL_SYSTEM_MAPPINGS
->  	  from a kernel perspective.
->  
->  	  After the architecture enables this, a distribution can set
-> -	  CONFIG_MSEAL_SYSTEM_MAPPING to manage access to the feature.
-> +	  CONFIG_MSEAL_SYSTEM_MAPPINGS to manage access to the feature.
->  
->  	  For complete descriptions of memory sealing, please see
->  	  Documentation/userspace-api/mseal.rst
-> diff --git a/mm/mseal.c b/mm/mseal.c
-> index 9781647483d1..0464c7b94ab9 100644
-> --- a/mm/mseal.c
-> +++ b/mm/mseal.c
-> @@ -132,8 +132,8 @@ static int mseal_apply(struct mm_struct *mm,
->   *   addr is not a valid address (not allocated).
->   *   end (start + len) is not a valid address.
->   *   a gap (unallocated memory) between start and end.
-> - *  -EPERM:
-> - *  - In 32 bit architecture, sealing is not supported.
-> + *  -EINTR:
-> + *   interrupted while waiting for the mmap write lock.
->   * Note:
->   *  user can call mseal(2) multiple times, adding a seal on an
->   *  already sealed memory is a no-action (no error).
-
-And this whole header needs to be deleted as well. No one's looking at
-kernel code for documentation (and if they are, we did a horrendous job
-at actually documenting the thing).
-
--- 
-Pedro
+That would likely also work, but I found it easier to read and
+understand to have an additional flag with a descriptive name than having
+yet another 'somehow-related-to-gpr2' member in ptregs.
