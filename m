@@ -1,141 +1,204 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988FC3E0C51
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 14:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4759D375F69
+	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 14:51:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783088729; cv=none; b=RNQf+2bXCby/sCOpoD+75kxbtLwTRARySZ0samPJKMPxM0z4p4yczgyh9tE3MAfVh/sSjrkRTghwnkvGt9PGXA/AqrlnBjMItX8c3to2KSiecRPb/mDgrhZ8P60uCWgxA7Qz1q7eug2GUp0E55E+Oe4EGMF/EDdDV7Eq7vns7Yo=
+	t=1783090261; cv=none; b=ETfVT4wgAyfbFUqLNrNXPnLaMPigHUzRas+ZgoF+ZJT0as4gTXXlNANt/IpJN7xqFVkJJg+I7v7nE5erEbpqnhP5D5rRjnQj40LSvB7+Z5CVzNfCheg+QYWOsaqlKrrHGvn8/PNChwROffXv7OcHyBJ2y3bSYjpFN2rpJ7blPco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783088729; c=relaxed/simple;
-	bh=zZxZbH6595Xq322X5wWbuLYwtAjMqlVtcthEp/oj7us=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WvqChU+5EHxEXLNn6fT/LSOj9hfzohNtje25u0L72lDrN8M3jIjuRkGRLfQqUUQAPJwu1j7kIwgo+rrIBl5U0AoiMC1YXtkgnfAGKJoSJtGG5QWhJSd/3+CIHlVFhQsflzUeBH6932cy1mubWIwkUG9c/AZZkYDuqUqnFBr2SGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nxlshdFc; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1783090261; c=relaxed/simple;
+	bh=D5ud8qWqRJ9MykIWJlRVr4bTYlYROne+B+OgA5icF38=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C6GfpQ3TjKZoa6BjiPRBgTc9r0wK5IEi0cp8WCOZ00S47W4MN0S9WtbzfxM4NF1eriwvbkJfeo0FEaw76qfiigCdcswttp9F2hkTlg/UlRMF1IR2CmMRSWlC2JWGJp/BR9tAm16uP4AbyKXgBtATiK1Zusyx77lVvHVilX8kPlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UDBNB8/0; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nxlshdFc"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-493be1b9682so5288145e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2026 07:25:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783088725; x=1783693525; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=JUk3WyCzjRTJDLUduYl8EcNRLI38i6zEbMJ49FtDSSw=;
-        b=nxlshdFcqsWDXhGlicbEVQY0100PbOBUyOAnyX4Jc7UFgjTIr1BBhkI3YXGgX3XoaM
-         OhkgkEZZuMJrrGcPqXF7VtbClvrJP1hqKNvErCAdDepJ0AHufk/lTIuYZ3yEmL2tgKMV
-         bcfqym3DBPC3NXwNsTVF6Sg7WcLFIXzpV5ODkb5Cyp0yB2nSVEbRhWG/oqOWP2S8kOjQ
-         1Y4bYCaoSSAT1v/fc5dGJpn8BSHQe36+B0vnyqP4nGvfGZb1xHotZSbwkoTXlWSbNmJR
-         QCYwJ80vkGL9UZo9NIY5zT4VHb9XYzGOBvepQ/M5yDNs19e7tHR13uZ5JkdlCt67kzZ3
-         zVeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783088725; x=1783693525;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JUk3WyCzjRTJDLUduYl8EcNRLI38i6zEbMJ49FtDSSw=;
-        b=guKK1TiWXtX50EYQgyAe3jV3TOPJVhcQzTDvJmE27lSNLf/FGL6cx/jo3Tw34GnG/G
-         Md8jrOPLHrdbBJrhQixuot+ftDHu/SdF2OPVwcxbF5f8DtrPCAFPjgoB/d6YPciVmg69
-         p/kjzC/WpqazoWLtNLjUunrpBFnelrLLDbrX4mt/Ee/+UNMUaSr10z/b3KqllKH1q7qC
-         i+eT7QUEMhuKUZvmgpSeeq4tpCZ9vZLK7BLV+VeQOUKPNLoSQNijMrtb3vA7ZBLDiu0Z
-         PKRt9ZIbko4IXuBB/six1QYpbLOe7+iv5zt/NrJESJ+U7OmVNrkUej0XOPC6MG2T+a0y
-         z6uw==
-X-Forwarded-Encrypted: i=1; AFNElJ9eqas3jibMe/bsLQW90dxg8uVMVjbADMNPZLH/EbMRaKhzyHUQwaZayp0Qmj42IePAdqqzJWc5tYM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YznyShYjLmFMYYNTbLZStbFN2p01xdWnaJq2Pl0MongeDChsGFd
-	EtY/V3qKmf+2RYBSBlrCyzPB1u1gFgGLsIuULEzQ4eOg2T2MIlKO9lTAzKN9L80Ldw==
-X-Gm-Gg: AfdE7cnG9XIuNQgkcNb/rP8bziGF7tP54+PfT5FPdNSdcnIgEAF52m6Mo6DC2oo+vpY
-	0WfaE6ua3njVTIfnoGADla6hY7hRxH9Aco3c6eWTYSZajXGCR1hRPSVfz1hcOebWMZo1ShlM43R
-	Mejh3HYQBu4iCFBDaNHtGYGe9OHbXIU9/79ggrA81SSiREubCemZ3CbYovGzsCIgc++I4YJs9k0
-	9CKAzT0+vdlEDiOs88SsxBqxbpOphJc3PBdZmd6HbysNvMsEnOIIDbFpHuR26nTV9r7jgDKwoiE
-	TcKkSbakJRi/mHumR4YrMwZVZmfZEZGGMbfgrbDfULwtLrXtwAOx2twihR+P8/p8xWhXOr1Q1e3
-	09PpHdCfl2sFAn4C4hoP/Xd5aPuYg9zcP91BCs7TlUhj1IsO5NogWid6A98sZrPYh+I/20gG6DP
-	xE5K+CV1LK9SGNVgccQFU989kdZ2VQDo1VSagGV8/Kofk8bqApkKDQAw==
-X-Received: by 2002:a05:600c:154f:b0:493:c453:600f with SMTP id 5b1f17b1804b1-493d0f096a3mr1332665e9.6.1783088724566;
-        Fri, 03 Jul 2026 07:25:24 -0700 (PDT)
-Received: from google.com ([2a00:79e0:288a:8:26a3:e133:527c:310f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493ccd9d607sm72829725e9.2.2026.07.03.07.25.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 07:25:23 -0700 (PDT)
-Date: Fri, 3 Jul 2026 16:25:18 +0200
-From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
-	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
-	Lee Jones <joneslee@google.com>,
-	Lambert Fan <fanzhaoming@anopc.com>,
-	Zhouwang Huang <honjow311@gmail.com>, linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/5] Add OneXPlayer Configuration HID Driver
-Message-ID: <akfGTjId84EjV141@google.com>
-References: <20260419042624.625746-1-derekjohn.clark@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UDBNB8/0"
+Message-ID: <8f75dc18-dd4c-4989-a76c-eec6cc513ccf@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783090246;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CXlZY4gPG+zU33k3H0xm4g/0VaNA0tr7HNt5303WUBg=;
+	b=UDBNB8/0B1x3/BrOa/t8tH6XYsteLhqIKb6sFPxo+8voiJoXwSGbGVTm7m2V2fKjxbZfG5
+	wYXqGIpNv/UsD7//6L9xKs/IvOligQC3lhghGNicG75MZUNKdc91kSBysgQAuIKoLqiQ3k
+	zeQenTliY3QJ+tbtFUjK7MHFfZ7WXFo=
+Date: Fri, 3 Jul 2026 22:50:29 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260419042624.625746-1-derekjohn.clark@gmail.com>
+Subject: Re: [PATCH] mm/mseal: fix mseal documentation for 32-bit kernels
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: linux-mm@kvack.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R . Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ Alice Ryhl <aliceryhl@google.com>, Douglas Anderson <dianders@chromium.org>,
+ Gary Guo <gary@garyguo.net>, Anand Moon <linux.amoon@gmail.com>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+References: <20260703022507.187457-1-leon.hwang@linux.dev>
+ <akeDk49-pPgUDek1@pedro-suse>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Leon Hwang <leon.hwang@linux.dev>
+In-Reply-To: <akeDk49-pPgUDek1@pedro-suse>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hello Derek!
-
-On Sat, Apr 18, 2026 at 09:26:19PM -0700, Derek J. Clark wrote:
-> Adds an HID driver for OneXPlayer HID configuration devices. There are
-> currently 2 generations of OneXPlayer HID protocol. The first (OneXPlayer
-> F1 series) only provides an RGB control interface over HID. The Second
-> (X1 mini series, G1 series, AOKZOE A1X) also includes a hardware level
-> button mapping interface, vibration intensity settings, and the ability
-> to switch output between xinput and a debug mode that can be used to debug
-> the button mapping. Some devices (G1 Series, APEX) use a hybrid of Gen1
-> RGB control and Gen 2 controller settings. To ensure there is no conflicts
-> when the driver is loaded, we skip creating the RGB interface for Gen 2
-> devices if there is a DMI match.
+On 2026/7/3 17:44, Pedro Falcato wrote:
+> On Fri, Jul 03, 2026 at 10:25:07AM +0800, Leon Hwang wrote:
+>> mseal.o is built only for 64-bit kernels, so 32-bit kernels fall back
+>> to sys_ni_syscall() and return -ENOSYS rather than -EPERM.
+>>
+>> Document the -EINTR return from mmap_write_lock_killable(), fix the
+>> CONFIG_MSEAL_SYSTEM_MAPPINGS typo, and describe system mappings in
+>> terms of VM_SEALED_SYSMAP.
+>>
+>> Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
+>> ---
+>>  Documentation/userspace-api/mseal.rst | 18 ++++++++++--------
+>>  init/Kconfig                          |  2 +-
+>>  mm/mseal.c                            |  4 ++--
+>>  3 files changed, 13 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/Documentation/userspace-api/mseal.rst b/Documentation/userspace-api/mseal.rst
+>> index ea9b11a0bd89..1f1cf206670c 100644
+>> --- a/Documentation/userspace-api/mseal.rst
+>> +++ b/Documentation/userspace-api/mseal.rst
+>> @@ -50,8 +50,10 @@ mseal syscall signature
+>>           * The start address (``addr``) is not allocated.
+>>           * The end address (``addr`` + ``len``) is not allocated.
+>>           * A gap (unallocated memory) between start and end address.
+>> -      - **-EPERM**:
+>> -         * sealing is supported only on 64-bit CPUs, 32-bit is not supported.
+>> +      - **-EINTR**:
+>> +         * Interrupted while waiting for the mmap write lock.
+>> +      - **-ENOSYS**:
+>> +         * The kernel does not implement ``mseal()``.
+>>  
+>>     **Note about error return**:
+>>        - For above error cases, users can expect the given memory range is
 > 
-> I'll also add a note that Gen 1 devices also have an interface for
-> setting the key map and debug mode, but that is done entirely over a
-> serial TTY device so it is not able to be added to this driver. There
-> are also some "Gen 0" devices (OneXPlayer 2 Series) also use it, but
-> the TTY interface also handles the RGB control so no support is
-> provided by this driver for those interfaces.
+> Honestly, this whole thing needs to be deleted. We need a proper manpage.
+
+$ man mseal
+No manual entry for mseal
+
+When searching "mseal manual" using Google, this doc is the first entry.
+
+So, this change is worthy.
+
 > 
-> Signed-off-by: Derel J. Clark <derekjohn.clark@gmail.com>
+>> @@ -62,7 +64,8 @@ mseal syscall signature
+>>          memory range could happen. However, those cases should be rare.
+>>  
+>>     **Architecture support**:
+>> -      mseal only works on 64-bit CPUs, not 32-bit CPUs.
+>> +      mseal is built only for 64-bit kernels. 32-bit kernels return
+>> +      ``-ENOSYS``.
+> 
+> This LGTM.
+> 
+>>  
+>>     **Idempotent**:
+>>        users can call mseal multiple times. mseal on an already sealed memory
+>> @@ -131,20 +134,19 @@ Use cases
+>>  - Chrome browser: protect some security sensitive data structures.
+>>  
+>>  - System mappings:
+>> -  The system mappings are created by the kernel and includes vdso, vvar,
+>> +  The system mappings are created by the kernel and include vdso, vvar,
+>>    vvar_vclock, vectors (arm compat-mode), sigpage (arm compat-mode), uprobes.
+>>  
+>>    Those system mappings are readonly only or execute only, memory sealing can
+>> -  protect them from ever changing to writable or unmmap/remapped as different
+>> +  protect them from ever changing to writable or unmapped/remapped as different
+>>    attributes. This is useful to mitigate memory corruption issues where a
+>>    corrupted pointer is passed to a memory management system.
+> 
+> Also LGTM.
+> 
+>>  
+>>    If supported by an architecture (CONFIG_ARCH_SUPPORTS_MSEAL_SYSTEM_MAPPINGS),
+>> -  the CONFIG_MSEAL_SYSTEM_MAPPINGS seals all system mappings of this
+>> -  architecture.
+>> +  CONFIG_MSEAL_SYSTEM_MAPPINGS seals mappings marked with VM_SEALED_SYSMAP.
+> 
+> VM_SEALED_SYSMAP isn't meaningful to userspace.
 
-Sorry I am late to this review, but here are two issues I discovered
-when looking at the code:
 
-(1) The functions oxp_hid_raw_event_gen_1() and
-    oxp_hid_raw_event_gen_2() are both forgetting to do bounds checks
-    against the "size" argument.
+Got it. Will drop this change.
 
-    For real devices, which send a real report descriptor, these buffers
-    will be large enough, but a device that sends a faked report
-    descriptor can provoke an out-of-bounds-read here by underspecifying
-    the size for these reports.
+> 
+>>  
+>>    The following architectures currently support this feature: x86-64, arm64,
+>> -  loongarch and s390.
+>> +  loongarch, riscv, and s390.
+> 
+> This is also useless, every 64-bit architecture will support this.
 
-(2) oxp_hid_probe() and other functions are populating drvdata, and
-    drvdata is a static variable.  If you plug in two of these devices
-    at the same time, they will step on each other's toes, and this
-    leads to all kinds of memory corruption problems when they do.
 
-    I believe the right way to go about this is to allocate a separate
-    piece of memory for each device that you are plugging in.  Other
-    device drivers do this uing devm_kzalloc().
+Do you mean dropping this sentence, or this change?
 
-Disclaimer:
+> 
+>>  
+>>    WARNING: This feature breaks programs which rely on relocating
+>>    or unmapping system mappings. Known broken software at the time
+>> diff --git a/init/Kconfig b/init/Kconfig
+>> index 5230d4879b1c..12bb39f637b1 100644
+>> --- a/init/Kconfig
+>> +++ b/init/Kconfig
+>> @@ -2112,7 +2112,7 @@ config ARCH_SUPPORTS_MSEAL_SYSTEM_MAPPINGS
+>>  	  from a kernel perspective.
+>>  
+>>  	  After the architecture enables this, a distribution can set
+>> -	  CONFIG_MSEAL_SYSTEM_MAPPING to manage access to the feature.
+>> +	  CONFIG_MSEAL_SYSTEM_MAPPINGS to manage access to the feature.
+>>  
+>>  	  For complete descriptions of memory sealing, please see
+>>  	  Documentation/userspace-api/mseal.rst
+>> diff --git a/mm/mseal.c b/mm/mseal.c
+>> index 9781647483d1..0464c7b94ab9 100644
+>> --- a/mm/mseal.c
+>> +++ b/mm/mseal.c
+>> @@ -132,8 +132,8 @@ static int mseal_apply(struct mm_struct *mm,
+>>   *   addr is not a valid address (not allocated).
+>>   *   end (start + len) is not a valid address.
+>>   *   a gap (unallocated memory) between start and end.
+>> - *  -EPERM:
+>> - *  - In 32 bit architecture, sealing is not supported.
+>> + *  -EINTR:
+>> + *   interrupted while waiting for the mmap write lock.
+>>   * Note:
+>>   *  user can call mseal(2) multiple times, adding a seal on an
+>>   *  already sealed memory is a no-action (no error).
+> 
+> And this whole header needs to be deleted as well. No one's looking at
+> kernel code for documentation (and if they are, we did a horrendous job
+> at actually documenting the thing).
+> 
 
-I found these through code inspection and curiosity but have not tried
-to reproduce the crashes.
 
-Per Linux's official threat model[1], these are not considered security
-vulnerabilities.  An attacker who impersonates a USB device and gains
-illegitimate access to the USB port might be able to provoke these bugs
-though, and I wouldn't be surprised if (2) also just leads to system
-crashes when using two of these devices at the same time.
+Just to confirm, do you mean removing the entire function comment above
+do_mseal()?
 
-—Günther
+Thanks,
+Leon
 
-[1] https://docs.kernel.org/process/threat-model.html
+
