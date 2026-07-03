@@ -1,225 +1,230 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC87D36EAA8
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 07:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB94A371D15;
+	Fri,  3 Jul 2026 08:00:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783065241; cv=none; b=YShBSYM0O35kpY1M089H4LcsPk7SV4isRLuYXH2UjPPp72XAUzNfKn/AN3Wg/plgBsav0C36mqse1twZ+/CrrCT2W9CIx7fY69dYSYvKIKlbvnRRubmjIlS8salOTK+uRPZ03g0OpJNgI9NpcsJaoVH/CXixEanoVD12uoGBV9I=
+	t=1783065629; cv=none; b=nbPoIdxYkObCroxtqAePWbTCjILhIxRUmjQFqlvpOR07ct+CX24MnLlafpPtZP75aYC7F08fflt5yoAth8jJ/BPmXCP8PaoWUDlPayQ/XfYNw12x4bw0J1vKiE9eDq7BgXWAjo/3p/VkjOPxDf0HC2SyF8ZLBdZW045/96FNqNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783065241; c=relaxed/simple;
-	bh=Jo1HaNhObHl7wG20yGqS3718LydcoLNWIaNtvzbyLyQ=;
+	s=arc-20240116; t=1783065629; c=relaxed/simple;
+	bh=g4JQuhHD/RK6GHrhnwml/L/+nYMSlIjvihkKG4F2kk4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nVGufO56u6+tSKSTd3KPRF9z1McvPiF2iRtZngw3Yo2koLrzyX/Q2tzmsqXvvQxyIlNCs+t/VrOQsm9rdOfVRSkoPwxZQYTjMXnrWTrflcoMB/+z9m74o2JPLfmmq1APkPq9Uet6vSLoxB4/WEFxmXrWY5+bsoKtSXRmLK6Jmr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CbRmmERq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IocVvEyL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Xmvd85vR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hGkTJQ74; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZcyYWGtHvE4k5YB59HcW//bqvdnESLX9egooHOqIdLzSiKhMpKYqB39ujyn1x9x3+nGRGWzgvChroV8WZralYiue9Wvn3ZLj6ch7KgjPrVmbLc3QW7hw8mtX2ryhgfdvAQGQh3Nw8fexNB9B6Kk1bVL653F2LG5DPH/NZPL7op0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gF2rbx1p; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CbRmmERq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IocVvEyL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Xmvd85vR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hGkTJQ74"
-Received: from kunlun.suse.cz (unknown [IPv6:2a07:de40:b306:2000::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CBA9F7618A;
-	Fri,  3 Jul 2026 07:53:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783065238; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=86AOamRcFcJIzmtTIHlbMlj4CRLkggYnO20t0jZshpc=;
-	b=CbRmmERqfWieu4ysWTh10omj+YQCxVfB6dtLRO5KwpMHTtbWI+HMjDSfkdmWL6Z5tBwSs0
-	64dI9grAIJDKA53bwvMISb6ax0xKvJuXpWIS4xJvcO2WNzHkbVy0dGLLrFfoOL/of8MbJZ
-	G8zUR0YbYZJ05OGL/vLxC4OMac4mNf0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783065238;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=86AOamRcFcJIzmtTIHlbMlj4CRLkggYnO20t0jZshpc=;
-	b=IocVvEyLW43oonFkQ+U2aar5zYKMFxmM4+MchCTOViE1CdZikSQHLgiS6R7lAvS5xh7nj2
-	a6Dtpaov7ehMQpDg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Xmvd85vR;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hGkTJQ74
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783065237; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=86AOamRcFcJIzmtTIHlbMlj4CRLkggYnO20t0jZshpc=;
-	b=Xmvd85vRfIousfUHpOVFKa/+9oD4iF1jN72BWQqdOKQeyot1g8dqDeb96zST6xXQUnrWZd
-	B/kWaO83Faf+lmPKFWp4CBuZksHwyAp3cMta7AX/exjpEQS9rlrW5BHFIn5WBCg9O1H8iE
-	iaNxS6PbUufL/OKXF41SzStOrutbeHM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783065237;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=86AOamRcFcJIzmtTIHlbMlj4CRLkggYnO20t0jZshpc=;
-	b=hGkTJQ74isW/5ugiXaiIuvBc0DJmprtXDaMZ10c37l+VbtperReN+4kbg0PGnbQNDEOVJn
-	gCgyD/JHPKJMedDA==
-Date: Fri, 3 Jul 2026 09:53:56 +0200
-From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Andy Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Donnellan <andrew+kernel@donnellan.id.au>,
-	Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Zong Li <zong.li@sifive.com>, Nam Cao <namcao@linutronix.de>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Lukas Gerlach <lukas.gerlach@cispa.de>,
-	Rui Qi <qirui.001@bytedance.com>, Kees Cook <kees@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
-Subject: Re: [RFC] entry: Untangle the return value of
- syscall_enter_from_user_mode from syscall NR
-Message-ID: <akdqlO0eJ6jKH-wU@kunlun.suse.cz>
-References: <akVRcPsD_R_CE1qW@kunlun.suse.cz>
- <878q7tprau.ffs@fw13>
- <akZPakNl6JT_jgGd@kunlun.suse.cz>
- <87jyrdnmrh.ffs@fw13>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gF2rbx1p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D01171F000E9;
+	Fri,  3 Jul 2026 08:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783065627;
+	bh=N6cvB6ilYfXF9Z+EldI441PSyI9lUhF0hrtl69qJt7g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=gF2rbx1ppjqa9+2qsNeLPi+Dr2B6uYU5jU8z5gb2wDPgIeKuRlItYFkeO0++ERkLy
+	 WPvyzPIjbipYpLrP67Ua4EXeUGGJAARcis1cpcHOZ7OgxypilI6yvDTW/4Os0pCDTR
+	 Z7GmHDUQMB7BLPxVBNMicUYmFuqzJF9mbFZU+6XCsunk4+/GlRX7snOL6wXVMWrnE5
+	 YWq6SdeWTqgCc8LOAZ9uRPf43Ho1otnVSXVTUDl4WKTMh60V2Wrn2HJ60Jy3GJ+43u
+	 Wi1jX8hHDHYsBtIgrVL7mAbyxfChNsCoFG0jZBO4T3eCLC05Ig28n1JXtNZtyECWN7
+	 aKPO4wDGwEZ+A==
+Date: Fri, 3 Jul 2026 01:00:25 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: Fenghua Yu <fenghuay@nvidia.com>
+Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Atish Kumar Patra <atishp@rivosinc.com>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
+	yunhui cui <cuiyunhui@bytedance.com>, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, x86@kernel.org,
+	devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 5/8] riscv_cbqri: resctrl: Add cache allocation via
+ capacity block mask
+Message-ID: <akdsGZm8e9w5idhn@x1>
+References: <20260628-dfustini-atl-sc-cbqri-dt-v3-0-c9c1342fe3cf@kernel.org>
+ <20260628-dfustini-atl-sc-cbqri-dt-v3-5-c9c1342fe3cf@kernel.org>
+ <473da771-b711-457b-b9ad-491fee111b16@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87jyrdnmrh.ffs@fw13>
-X-Spamd-Bar: ++++++++++++++++
-X-Rspamd-Queue-Id: CBA9F7618A
-X-Spam-Flag: YES
-X-Spam-Score: 16.54
-X-Spam-Level: ****************
-X-Rspamd-Action: add header
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [16.54 / 50.00];
-	SPAM_FLAG(5.00)[];
-	NEURAL_SPAM_LONG(3.50)[1.000];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_SPAM_SHORT(2.85)[0.949];
-	HFILTER_HOSTNAME_UNKNOWN(2.50)[];
-	RDNS_NONE(2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ONCE_RECEIVED(1.20)[];
-	HFILTER_HELO_IP_A(1.00)[kunlun.suse.cz];
-	HFILTER_HELO_NORES_A_OR_MX(0.30)[kunlun.suse.cz];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[45];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[infradead.org,lwn.net,linuxfoundation.org,kernel.org,xen0n.name,linux.ibm.com,ellerman.id.au,gmail.com,dabbelt.com,eecs.berkeley.edu,ghiti.fr,redhat.com,alien8.de,linux.intel.com,zytor.com,donnellan.id.au,arm.com,arndb.de,flygoat.com,sifive.com,linutronix.de,rivosinc.com,cispa.de,bytedance.com,vger.kernel.org,lists.linux.dev,lists.ozlabs.org,lists.infradead.org];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b306:2000::2:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_ZERO(0.00)[0];
-	MISSING_XM_UA(0.00)[];
-	TAGGED_RCPT(0.00)[kernel];
-	DKIM_TRACE(0.00)[suse.de:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLs1yuyu6ywojxyk8y3ncu5g39)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,kunlun.suse.cz:mid,kunlun.suse.cz:helo]
-X-Spam: Yes
+In-Reply-To: <473da771-b711-457b-b9ad-491fee111b16@nvidia.com>
 
-On Thu, Jul 02, 2026 at 10:45:54PM +0200, Thomas Gleixner wrote:
-> On Thu, Jul 02 2026 at 13:45, Michal Suchánek wrote:
-> > On Thu, Jul 02, 2026 at 01:24:57PM +0200, Thomas Gleixner wrote:
-> >> On Wed, Jul 01 2026 at 19:42, Michal Suchánek wrote:
-> >> > The return value of syscall_enter_from_user_mode is used both for the
-> >> > adjusted syscall number and the indicator that a syscall should be
-> >> > skipped.
-> >> >
-> >> > As seccomp can be invoked on any syscall, including invalid ones this
-> >> > somewhat undermines seccomp.
-> >> >
-> >> > While the seccomp variants that terminate the process do not need to
-> >> > care about this for the filter that sets the syscall return value this
-> >> > disctinction is required.
-> >> 
-> >> You completely fail to explain why and what actual problem you are
-> >> trying to solve. At least I can't figure it out from the above word
-> >> salad.
-> >
-> > syscall_enter_from_user_mode returns the new syscall number after doing
-> > something arbitrarry with it, including running seccomp.
-> >
-> > Wehn the syscall is already handled, eg. by seccomp filtering it returns
-> > -1 as the new syscall number. -1 is an invalid syscall number but it can
-> > still be filtered by seccomp.
+On Wed, Jul 01, 2026 at 01:18:41PM -0700, Fenghua Yu wrote:
+> Hi, Drew,
+
+Hi, thanks for reviewing.
+
+> Could you please change my email address to my NVIDIA email
+> fenghuay@nvidia.com?
+
+No problem.
+
+> On 6/28/26 14:18, Drew Fustini wrote:
+> > Wire CBQRI capacity controllers into resctrl as RDT_RESOURCE_L2 and
+> > RDT_RESOURCE_L3 schemata.
+> > 
+> > Mismatched CC caps at the same cache level are treated as a fatal
+> > configuration error since fs/resctrl exposes a single per-rid cap
+> > set. Domains are created lazily in the cpuhp online callback so
+> > cpu_mask reflects only currently online CPUs.
+> > 
+> > Assisted-by: Claude:claude-opus-4-7
+> > Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> > Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> > Signed-off-by: Drew Fustini <fustini@kernel.org>
+> > ---
+> >   MAINTAINERS                      |   2 +
+> >   arch/riscv/include/asm/resctrl.h | 147 ++++++++
+> >   drivers/resctrl/Kconfig          |   4 +
+> >   drivers/resctrl/Makefile         |   1 +
+> >   drivers/resctrl/cbqri_resctrl.c  | 787 +++++++++++++++++++++++++++++++++++++++
+> >   5 files changed, 941 insertions(+)
+> [SNIP]
 > 
-> Once syscall_enter_from_user_mode() returns -1 nothing can filter it
-> anymore.
+> > +/*
+> > + * Walk cbqri_controllers and pick one capacity controller (CC) per cache
+> > + * level (L2/L3) to back the corresponding RDT_RESOURCE_L*. When more than
+> > + * one CC sits at the same level (e.g. one per socket), they must agree on
+> > + * rcid_count / ncblks / alloc_capable. A mismatch is fatal because resctrl
+> > + * exposes a single set of caps per rid. The first matching controller wins.
+> > + */
+> > +static int cbqri_resctrl_pick_caches(void)
+> > +{
+> > +	struct cbqri_controller *ctrl;
+> > +	int ret = 0;
+> > +
+> > +	mutex_lock(&cbqri_controllers_lock);
 > 
-> > When the syscall number was -1 to start with it's not possible to
-> > determine if the syscall was fileterd from the return value. s390
-> > returns the filtered state in a flag it sets on the regs structure,
-> > avoiding this problem.
+> Is it better to change mutex_lock()/mutex_unlock() to
+>  guard(mutex)(&cbqri_controllers_lock)?
 > 
-> What needs to determine whether the syscall was filtered or not?
+> 1. This code is simpler and can avoid potential missing unlock issue.
+> 2. This matches mpam code.
 
-The code that executes syscall_enter_from_user_mode() needs to determine
-that.
-
-After syscall_enter_from_user_mode() returns the syscall needs to be
-executed or skipped.
-
-'Executing' an invalid syscall boils down to setting the return value to
--ENOSYS.
-
-But if the syscall number returned is -1 was the syscall filtered and
-the return value set by syscall_enter_from_user_mode() or should it be
-set by the caller to -ENOSYS?
+Good point, I will switch cbqri_controllers_lock lock/unlock to
+guard(mutex).
 
 > 
-> > However, the API should be specified in a way that does not require
-> > everyone implementing such flag.
+> > +
+> > +	list_for_each_entry(ctrl, &cbqri_controllers, list) {
+> > +		struct cbqri_resctrl_res *cbqri_res;
+> > +		int rid;
+> > +
+> > +		if (ctrl->type != CBQRI_CONTROLLER_TYPE_CAPACITY)
+> > +			continue;
+> > +		if (!ctrl->alloc_capable)
+> > +			continue;
+> > +
+> > +		rid = cbqri_cache_level_to_rid(ctrl->cache.cache_level);
+> > +		if (rid < 0) {
+> > +			pr_info("skipping controller at unsupported cache level %u\n",
+> > +				ctrl->cache.cache_level);
+> > +			continue;
+> > +		}
+> > +
+> > +		cbqri_res = &cbqri_resctrl_resources[rid];
+> > +		if (cbqri_res->ctrl) {
+> > +			/*
+> > +			 * CCs at the same cache level must agree on every cap
+> > +			 * resctrl exposes globally. Reject mismatches at pick
+> > +			 * time so the inconsistency is visible at boot.
+> > +			 */
+> > +			if (cbqri_res->ctrl->rcid_count != ctrl->rcid_count ||
+> > +			    cbqri_res->ctrl->cc.ncblks != ctrl->cc.ncblks ||
+> > +			    cbqri_res->ctrl->cc.supports_alloc_at_code !=
+> > +				    ctrl->cc.supports_alloc_at_code ||
+> > +			    cbqri_res->ctrl->alloc_capable != ctrl->alloc_capable) {
+> > +				pr_err("L%d controllers have mismatched capabilities\n",
+> > +				       ctrl->cache.cache_level);
+> > +				ret = -EINVAL;
+> > +				break;
 > 
-> Which exact problem does the flag solve?
+> Is it possible to support cbqri on both L2 and L3 on the same machine?
+> Failure on one controller will stop picking another other controller here.
+> 
+> If both L2 and L3 can be supported on the same machine, does it make sense
+> to pr_err() (fatal for this controller) and continue to go to the next
+> controller? So failure on L2 won't impact L3?
+> 
+> If that's the case, does it make sense not to return error for
+> pick_caches()? So pick_caches() failure is not fatal?
 
-To be able to tell if the syscall was handled or no, the return value
-from syscall_enter_from_user_mode() is inconclusive.
+Yes, both L2 and L3 can be present at once, and you're right that this
+approach was too strict. I will change it so that it drops only the
+offending cache level. I will make pick_caches() clear that rid so it is
+not exposed and continue to the next controller. It no longer returns an
+error, so an L2 mismatch leaves L3, and any future QoS feature untouched.
 
-That's what the flag is for. To be able to tell if the syscall was
-handled without relying on the ambiguous return value of
-syscall_enter_from_user_mode().
+[..]
+> > +static int cbqri_attach_cpu_to_all_ctrls(unsigned int cpu)
+> > +{
+> > +	struct cbqri_controller *ctrl;
+> > +	int err = 0;
+> > +
+> > +	lockdep_assert_held(&cbqri_domain_list_lock);
+> > +
+> > +	/*
+> > +	 * Hold cbqri_controllers_lock across the walk so a controller
+> > +	 * registered after boot cannot corrupt it. The register path takes
+> > +	 * it as a leaf and never cbqri_domain_list_lock, so this nesting
+> > +	 * cannot invert.
+> > +	 */
+> > +	mutex_lock(&cbqri_controllers_lock);
+> 
+> guard(mutex)(&cbqri_controllers_lock)?
 
-Thanks
+Ack.
 
-Michal
+> > +static int cbqri_resctrl_setup(void)
+> > +{
+> > +	int rid;
+> > +	int err;
+> > +
+> > +	for (rid = 0; rid < RDT_NUM_RESOURCES; rid++)
+> > +		cbqri_resctrl_resources[rid].resctrl_res.rid = rid;
+> > +
+> > +	err = cbqri_resctrl_pick_caches();
+> > +	if (err)
+> > +		return err;
+> 
+> Failure in pick_caches() will abort any future cbqri features e.g. memory bw
+> allocation/monitoring. Is it possible to ignore the pick_caches() failure
+> and continue to setup other cbqri features? Failed caches won't impact other
+> QoS features, right?
+
+You're right, and this is the same change as the L2/L3 mismatch above. I
+will drop the error return from pick_caches() so that a cache problem can
+no longer abort setup or block other QoS features. Cache capacity and
+memory bandwidth are separate controller types that will be picked
+independently, so a failed cache will not gate bandwidth alloc/mon when
+those land. The only early return I will keep is the -ENODEV for when
+nothing at all is exposable.
+
+Thanks,
+Drew
