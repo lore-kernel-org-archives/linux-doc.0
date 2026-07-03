@@ -1,118 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9F2359A70;
-	Fri,  3 Jul 2026 06:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F0D3806C4;
+	Fri,  3 Jul 2026 06:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783060655; cv=none; b=USuI6YOMopPanWjNe/yO/dWF39jLDEUncgoo66c/gS9hMeonvrOi+xsLfzTFFFXDRWIwLSCnB1kYFC2W8mnkDMFe1X41tpaaduAe/tB6seLFJt7q1zcXhUhBL8ATaexhBqM1sTBHGN8FcsdmcKbKrpbsfve5XcI7Ww8Erbupzqc=
+	t=1783060732; cv=none; b=iVpcU8sFjyjKDFeQs8oHxsRVw4FOlAN5naFDpXjhfkBSzsclTraYWIavULIYr4i7LrMEnGdwLkP5hQOOHpPvsa2GQW0qSwrWYBO2uQzCuJzGJ5c858/E5PzxSYN+ZlfsqAwqga3dre+eilEH6kVHFrp/pSLDjESno5aXiH3u9wA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783060655; c=relaxed/simple;
-	bh=iA6L52VbbjBG33f9eKOlSm6Ww8Rc80ymjU+xI4qtosg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VxuM5dLmPf3ARh20zIK5/x2+42xwXxFZTUbOvyge6YSMyNop0y8vvXX7e+/j/9JmkTMAI+3bZs3+FYp6DworUEEsS9hyXNvH5Ek8urZtBtJPuH8ghENr+Lke62ApFdzqwFfefSnHrAyRQ7KGvbiSuJPwRPV09mzWxKdyXRUhXzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oz8aasAS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783060732; c=relaxed/simple;
+	bh=MCFRL8G3IiFC1y+iJSbAx/VqT1lrgXRbyOmslUOD4QI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lrMBPezqFOwUYMmQTYBPgcl2ajYtzkbWTGaUNUKa4exOI4zZNn2M9HMzaCQF48dLwVSCIbUsL7mZrtZGrWReUczArrKHZhWVlLd65mVhMGTS/MwpkncaB/gzQ8wL749NnR3mSgJG0E6YCyQfytqcvMg0u4fTcOA9qP9QfW4HtUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=BIkuZWYJ; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=oh0MX1Fb; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oz8aasAS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B53A61F000E9;
-	Fri,  3 Jul 2026 06:37:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783060653;
-	bh=fdvRp4OPiKBvW6+WQNY+4BA/EGWBgSJfC3lb1v8xwDk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oz8aasASXZglwpAFn2Zkd3t6Uje5bQogtua7K3bjZ7OSTmFGiGhgfMsFZyVqEQJ0X
-	 bptb/4CgXdHGaeFT+yzxQ1LvYDvBOBZszCAQW5802EjQUD8nAHO0XvyHklvObH+yIy
-	 et1Vpp2Qsrv/FhWKg+MUFMlpFPfA4NJobdqU1fMc=
-Date: Fri, 3 Jul 2026 08:37:43 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jeff Layton <jlayton@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="BIkuZWYJ";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="oh0MX1Fb"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gs3xG633kz9tvC;
+	Fri,  3 Jul 2026 08:38:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783060722;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=fOrgozTJMjn4rnfORWTzUhBrhJUbQ04jzVOms79twA8=;
+	b=BIkuZWYJYWBx7iUYhfpzSFXjQD+U/od29GDxLdr7oky2VZSDQ/ZMuLEEsgAzj7SbK11MH/
+	EXGZ3PE7Woh4EXlHOz6UoitcLunH81JmsZPUJAyDNyWbzpc00LGs1JRfGRNdzwyOPvJYCG
+	WFq4Tfn2tzMRFVHYKG84n0zktwaKb247rOFZXqtJIiXQJjvZ+UgS2Lk9bHlCF6rR+grJ+x
+	6C9F6zwZ/tmuqe2LyFAUbiJIS1D2TPRDsvOBk2NMMW1xSpaV8oqplAIneyc8dgrQCe71D9
+	MdPzxTSovkLArAlFLN3wMvtJXJ69aZukLletVVNuzLvAlNXyJvtXttDMnC1SAA==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=oh0MX1Fb;
+	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783060721;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=fOrgozTJMjn4rnfORWTzUhBrhJUbQ04jzVOms79twA8=;
+	b=oh0MX1Fbpd6Ik9QucBv8+3vbQyn15Ib1nryU5b1BJpofP58HQ63X5Qp/JX1DSuyFEJKQKo
+	pVyGO1Uj9Xh1g8s8uTHZYN0DjkLbjiREKsIfxrp8MpLBnQXWbCgGGJCKn83AJYk7S4cBHo
+	CQct+o/wk1etoS4S8X51rG6B9jWt2f+wyVYj7tBgjTvOejIc+huCX95l26GNardMjpkmJY
+	fJgFMKg3JIqJOal7m/DOEYir7UEd1JfkG2Ab7FK5uSiADweiMb12Bzi0SJhQshnxdlPk/W
+	IetlBapndJoyTme+aZTtwfk969NPASZKGDhOlj7e+txGmuQgV09wz6Aa4r26pQ==
+To: Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Koutny <mkoutny@suse.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Justin Stitt <justinstitt@google.com>,
-	Lorenzo Stoakes <ljs@kernel.org>, Carlos Maiolino <cem@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-	David Hildenbrand <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-Message-ID: <2026070350-drown-untreated-5835@gregkh>
-References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
- <2026070224-unholy-commode-cf45@gregkh>
- <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
- <20260702161330.GH3534761@killaraus.ideasonboard.com>
- <2026070227-payroll-eradicate-8f66@gregkh>
- <20260702163215.GC3559965@killaraus.ideasonboard.com>
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: cgroups@vger.kernel.org (open list:CONTROL GROUP (CGROUP)),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list),
+	Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH] docs: cgroup: Fix bracket
+Date: Fri,  3 Jul 2026 08:38:05 +0200
+Message-ID: <20260703063805.219517-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260702163215.GC3559965@killaraus.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: z3jpxezsq364x6an79ecobauiz7dpphq
+X-MBO-RS-ID: 52e40322ae47065f32b
+X-Rspamd-Queue-Id: 4gs3xG633kz9tvC
 
-On Thu, Jul 02, 2026 at 07:32:15PM +0300, Laurent Pinchart wrote:
-> On Thu, Jul 02, 2026 at 06:19:15PM +0200, Greg KH wrote:
-> > On Thu, Jul 02, 2026 at 07:13:30PM +0300, Laurent Pinchart wrote:
-> > > On Thu, Jul 02, 2026 at 11:57:46AM -0400, Jeff Layton wrote:
-> > > > On Thu, 2026-07-02 at 17:07 +0200, Greg KH wrote:
-> > > > > On Thu, Jul 02, 2026 at 10:32:48AM -0400, Jeff Layton wrote:
-> > > > > > We've had this requirement in place in the Documentation for several
-> > > > > > months, but it's becoming clear that the signal to noise ratio from this
-> > > > > > is quite low.
-> > > > > > 
-> > > > > > 1/ It's not universally followed. While many people do try to attribute
-> > > > > > the LLMs in good faith, not everyone does for various reasons.
-> > > > > 
-> > > > > Then let's move to get people to follow it.
-> > > > > 
-> > > > > > 2/ It basically serves as free advertising for proprietary LLM companies.
-> > > > > 
-> > > > > Who cares, make up a name, all I want is the "signal" that someone is
-> > > > > using a LLM so that I can review it as-such.  And if I think someone is
-> > > > > not reporting that, I can ask for them to properly attribute it and if
-> > > > > they lie, well, that's on them.
-> > > > > 
-> > > > > > 3/ It's not clear why we want to collect this info in the first place.
-> > > > > 
-> > > > > We want to know if a LLM is being used.
-> > > > 
-> > > > But why? What do you intend to do with this information?
-> > > > 
-> > > > Do you mean to use it as an indicator that the patch should receive
-> > > > "extra" review (or maybe that it should be ignored)? Do you mean to use
-> > > > it to generate some sort of statistics at a later time? 
-> > > 
-> > > I use the information to decide how to review the patch, and what level
-> > > of priority to give it. For that usage I don't need a tag, but I need
-> > > the information in some human-readable form at patch submission time.
-> > 
-> > Same here.  I don't care about stats, I care about "how do I review this
-> > patch" and this gives me that signal that I need if faced with a
-> > llm-helped patch.
-> > 
-> > So it needs to stay please.
-> 
-> There's the free advertising issue we still need to address. Would the
-> proposed "Assisted-by: LLM" tag to replace product names be an
-> acceptable option for you ?
+Remove single ')'.
 
-I really don't care what the tag says, I just want to see the tag stay
-to show that this needs to be evaluated differently than if it was made
-only by a person.  Some people might want to "show off" their model
-names, while other companies I know refuse to allow the name to be
-shown, so it really doesn't hurt anyone to keep it as-is.
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+---
+ Documentation/admin-guide/cgroup-v1/memcg_test.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thanks,
+diff --git a/Documentation/admin-guide/cgroup-v1/memcg_test.rst b/Documentation/admin-guide/cgroup-v1/memcg_test.rst
+index ebedbc3c3f9c..d9951c319ef5 100644
+--- a/Documentation/admin-guide/cgroup-v1/memcg_test.rst
++++ b/Documentation/admin-guide/cgroup-v1/memcg_test.rst
+@@ -10,7 +10,7 @@ Because VM is getting complex (one of reasons is memcg...), memcg's behavior
+ is complex. This is a document for memcg's internal behavior.
+ Please note that implementation details can be changed.
+ 
+-(*) Topics on API should be in Documentation/admin-guide/cgroup-v1/memory.rst)
++(*) Topics on API should be in Documentation/admin-guide/cgroup-v1/memory.rst
+ 
+ 0. How to record usage ?
+ ========================
+-- 
+2.54.0
 
-greg k-h
