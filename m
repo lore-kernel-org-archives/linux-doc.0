@@ -1,214 +1,319 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAF4722068D;
-	Fri,  3 Jul 2026 13:19:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859633D647C;
+	Fri,  3 Jul 2026 13:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783084749; cv=none; b=l8VoM3EizNRUKL35fCnE7iy3soV/XqhHXU60ZGvMEdvj7fuU2JDc3k/4Kp0HlgixpJ6B2n3upC/KlNzEiFwmPKLH7BCEq+XNeAUPxZXuzmaCQ16G1LAd6ocTUvZdr8rZLDSeUR5nZklTvcolaAexWt6q65TPO/Rtw73QJoYyJYc=
+	t=1783085780; cv=none; b=YjkvQmuwTvyWl2n0Odic5yW8If0wu6xXFgRY1PLIxfrjZsa9SY0VLvPxJESJbgUs0+3dHiksSFrvlMfLMPPJJyhPgB+KaWS84K70ER8TNBuP3saYZJeUuUZf+izajEV1DfU0CxWig9RnPpQiJjpYup/g4pg3R3F0UpsJw37irQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783084749; c=relaxed/simple;
-	bh=4xaNfFJ1zK6y0+CI9eOfDRmk44YI3NT0haxRqu9/c20=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VPaa6beBtaGJX0rxlgwibus/jD5Nn3saqiABgrR3fCVigX4lNii2d9veeBLb5suHOwwTQt9VdOVjwfb/XVAXcfFH5p1OgUksgcmMQQqCXi+PIjVWTE1Tf/GAyeNtqs8og/86mnzgS8SiZJa9k68jUrxojQ704qVwiuRmO4GKKFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Y7eJzjqW; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1783085780; c=relaxed/simple;
+	bh=0+9fshs6NCczeoITUTnb15+JjZCaC9zFWT9hkiwfjzE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=THTHEKjHfSWA3BLlf3gHGmVjHQL0HD1R0FdpSvzShoMVaDWRAylevaCFW4gerZ38QbVLFYlyRcpaM560KWAfpVpKcRlSWiDmK9nCbl37a/Dgmn6AQEaZXM+G6B+ZOyy8Cy7U+SKarsJqtVUblFwymIZa2QHAA+CWid1Y7GQif1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=YTZ0xwLs; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DDG2xlVW; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Y7eJzjqW"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B91C34637;
-	Fri,  3 Jul 2026 06:19:02 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6C30E3F85F;
-	Fri,  3 Jul 2026 06:19:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1783084747; bh=4xaNfFJ1zK6y0+CI9eOfDRmk44YI3NT0haxRqu9/c20=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y7eJzjqWFx1rsXxl6dzZC0aLr3CyxaiBao13LHNAdZkOf8hNRH6saaZRCg1ldRlfi
-	 VvldnmTgvtAxrRthwtdjn7UlMpztDiyN9sL5KmZmBmiD+5Gmcc18zR9bRpf9t07Imp
-	 l/xNDCsi/+55AvTR6Iq/emEikn6aNOSZGgXmS2EU=
-Date: Fri, 3 Jul 2026 14:18:56 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, sudeep.holla@kernel.org,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, etienne.carriere@st.com,
-	peng.fan@oss.nxp.com, michal.simek@amd.com, d-gole@ti.com,
-	jic23@kernel.org, elif.topuz@arm.com, lukasz.luba@arm.com,
-	philip.radford@arm.com, souvik.chakravarty@arm.com,
-	leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
-	usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v4 00/31] Introduce SCMI Telemetry FS support
-Message-ID: <ake2wFSSxD2Dnvyr@pluto>
-References: <20260612223802.1337232-1-cristian.marussi@arm.com>
- <20260617-waten-allabendlich-zueinander-93d4b1367b8c@brauner>
- <ajLVW1eHzbGDm4yn@pluto>
- <29a304f0-1e62-418a-b84f-aabdc4c0de8d@kernel.org>
- <ajR_FBWOoXJKSeoH@pluto>
- <0025b907-27b9-4a51-b78f-f8ad413644d0@kernel.org>
- <ajU7UqwPZBlwRGkf@pluto>
- <eba18827-5ef5-464c-90f0-2444a996acac@kernel.org>
- <20260629-rangfolge-intellektuell-flagrant-2814268b9d66@brauner>
+	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="YTZ0xwLs";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DDG2xlVW"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 3FE707A00B9;
+	Fri,  3 Jul 2026 09:36:17 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Fri, 03 Jul 2026 09:36:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:message-id:mime-version
+	:reply-to:subject:subject:to:to; s=fm3; t=1783085777; x=
+	1783172177; bh=Rd9LP8Ld4C/dBeTQf9MvU/nTiMOcgtd2UZVoy1RgmdI=; b=Y
+	TZ0xwLsBuk3B7RQ9e2hd9rWRihBIGZnr3kZPvs8v6vObJtCBSaQHvKAbRGUEWo1w
+	Vp38l4BjlK8HnyObjkbnxOFaX+dlTnQ2L/zudTGWvXCSeWZtV7Py9uJPA7zid5ZJ
+	yzNr9odJ8Vpq47Fvo0hiDtkJX882pukQrN8HfYYIH4Op0DJVKASEL2q6HzaO0lGh
+	QhbgB0V+0FjIEajwLxZQLDUofL3GF20j5J588G1jS1xzYGyweWFQEeIlGyqc9rSa
+	sF2nnoQRyT9+d/4+cOmTFgxS7p3wcJiZTn2GmrLwpENgiWep/J3BBIyBFxT4maXq
+	2eJPMa+xfSUsViuTLyqqw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1783085777; x=1783172177; bh=Rd9LP8Ld4C/dBeTQf9MvU/nTiMOc
+	gtd2UZVoy1RgmdI=; b=DDG2xlVW8RFVNdsNR0yMbL9SxPBZXqkME5BUaxo1xEsC
+	E5M+D798bqpcuLgqo+w2C6p9j4U2eUWWzZIZnfTsAhCO8vIzNkZvu9T2Bw+XjQ/F
+	8lcGEOckl9VTLvwDah+HOetpVtcCwAcFdEpXW43wZ56MXkVwO/Ms33h6T1LF8sua
+	wjJ/tEvstzRO2HoWZhXcqy6hZV6D1Rm+ByJAZcwn07T6Mhn4cnacsyxHtYVqUUKT
+	ANQSNcn20oHigyyy3TaUMzJS5INalLU+X795o2VE1lzvODyHd3wLyZfP2A5p0ew+
+	9mcseON6UiFnTzlcLh9tLlmf8qZR51k3jSCnNlSSLw==
+X-ME-Sender: <xms:0LpHangW7VMsrTECJaPEawQKYoLwYM29gKaPGNscP1B6k1wOX5IKhQ>
+    <xme:0LpHav6gf80sgR6BECNvQx3_hDhJw6dSt1A-rgmRmnmqTfrdtVjGAqibvDV-fjZEf
+    OwrMnPbsMB8Ipf_KufC2X43tLTvLgIEi8yoOmcCmIEoh4Bs12o4mQ>
+X-ME-Received: <xmr:0LpHav7Q_0nIQ6Q3TSdJwS1rS0zMRNVqYB_rpoLfFNC_mjsCLujowm2QxUVzrA>
+X-ME-Proxy-Cause: dmFkZTEQvC9TwQhmGP/fzqhqMrw0ck25D6Pb3tqvYmVT0nhfW33U1g1unjLyu+XNhrW44a
+    3Tro+9KrdDGesL2pvZesRCpWG9QAYcnKeEUbUCrn0h4gEXNkmsHzvCzAvwebsFadbHasb8
+    hP792AYrHeL5Uk20MC3H2aZ/F90vNEYUA62OP+/KMcB8n8oAtFR4kuyKFbiCyAucWTru+I
+    j20y0+3T3mN4WE16fkRO6W+AmuXsQ12N0WtuTeHPT0Puo+1hEdIIC37rOLafOoTSmz3TfL
+    /gmmrImq8XTPlGq87+RGdh7d+SCmi+XUM62fA3id7txDLkT2jDYJGn3A0K2iYV1bosbsMK
+    pYQbS/Ldiwpe6zte+ZnnUXpYb6gNKPVob6mw/pL68iq5j7fgOCdes4fXdjK9DzDgjerRGz
+    78BO1d9Wvq1V0/EkcX9+8ssKgySAk9AdEIIyJSxc0rMEmA4j0wDbI9uB01HV6j6T9NKDYr
+    hi5+o2Ph7rvehElYFJTw2K2mRqPuCr9qrUuk0e554H30egDoTx41OaUmo+dbkVZQIwH7ht
+    WW9v3AEB0lRFPmsaeUYpsAarrHjYA7GRzeidB5HR+e6wJZveOCtoPDNx4QMmBE/W9fF72+
+    E4BdQk750/GXwqNtOnPb14vHpEIFQqKotjWGna+gPJObnwgKBCVkgKplpl1g
+X-ME-Proxy: <xmx:0LpHatGCoBTe0Oh6FpsAyX2Exl_SI56GZKzIfa00-o7mUR0_RtEHMg>
+    <xmx:0LpHatyK1NOFGuRr4aqRmIDFbzpVnh50Uqo-ztCJbBsVioB4Oq_0Xw>
+    <xmx:0LpHat3tAUHt6W5dj5OOBRDqNDTGhiDIDo4OQEKxHYK6IVxgPAlV_g>
+    <xmx:0LpHagME5a-AnBLrhv249KcFPU0JXjKWtIRon7pbVZ-aeD5s53cqAQ>
+    <xmx:0bpHahwdCiYcbmqoC2V2B03pxd06LtdpH-aedRX_0r1llMQl7zPMg_1r>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 3 Jul 2026 09:36:16 -0400 (EDT)
+From: Kiryl Shutsemau <kirill@shutemov.name>
+To: akpm@linux-foundation.org,
+	rppt@kernel.org,
+	peterx@redhat.com,
+	david@kernel.org
+Cc: ljs@kernel.org,
+	surenb@google.com,
+	vbabka@kernel.org,
+	Liam.Howlett@oracle.com,
+	ziy@nvidia.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	seanjc@google.com,
+	pbonzini@redhat.com,
+	jthoughton@google.com,
+	aarcange@redhat.com,
+	sj@kernel.org,
+	usama.arif@linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kernel-team@meta.com,
+	kas@kernel.org
+Subject: [PATCH v8 00/15] userfaultfd: working set tracking for VM guest memory
+Date: Fri,  3 Jul 2026 14:35:59 +0100
+Message-ID: <20260703133615.1039465-1-kirill@shutemov.name>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260629-rangfolge-intellektuell-flagrant-2814268b9d66@brauner>
 
-On Mon, Jun 29, 2026 at 10:22:46AM +0200, Christian Brauner wrote:
-> > > Thanks a lot, David !
-> > 
-> > Let's hope for some guidance regarding the FS side soon.
-> > 
-> > But yeah, avoiding the in-kernel FS sounds completely reasonable at this point.
-> 
-> Afaiu, David wanted me to add a few comments on the viability of a
-> character device for this.
+From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 
-Hi Christian,
+This series adds userfaultfd support for tracking the working set of
+VM guest memory, so a VMM can identify hot pages and reclaim cold ones
+to tiered or remote storage.
 
-thanks for Your feedback on this.
+v1: https://lore.kernel.org/all/20260427114607.4068647-1-kas@kernel.org/
+v2: https://lore.kernel.org/all/cover.1778254670.git.kas@kernel.org/
+v3: https://lore.kernel.org/all/20260522133857.552279-1-kirill@shutemov.name/
+v4: https://lore.kernel.org/all/20260525113737.1942478-1-kas@kernel.org/
+v5: https://lore.kernel.org/all/20260526130509.2748441-1-kirill@shutemov.name/
+v6: https://lore.kernel.org/all/20260529172716.357179-1-kas@kernel.org/
+v7: https://lore.kernel.org/all/20260629120749.566063-1-kirill@shutemov.name/
 
-> 
-> I think you usually have at least the following options:
-> 
-> (1) character device
-> (2) notification pipe
-> (3) netlink
-> (4) well-known AF_UNIX socket
-> 
-> You then need to consider your constraints. David added a few:
-> 
-> (i) root can set properties (enable/disable events)
-> (ii) non-root can only retrieve properties/events
-> 
-> I assume you mean real root, i.e., root on the host system or more
-> specifically anyone with CAP_SYS_ADMIN or some other relevant
-> capability.
+== Changes since v7 ==
 
-Yes.
+Addresses the Sashiko AI review of v7.
 
-> 
-> This is a rather simple model and gets a lot of head-scratching out of
-> the way.
-> 
-> But root could also mean "root in a users namespace" which makes this
-> more complicated as it effectively means that an unprivileged container
-> would be enable/disable events. This makes sense if there's a subset of
-> events that naturally lends itself to be charged to a container and that
-> the container might have a genuine use for.
+  - do_swap_page(): a non-exclusive (e.g. forked, COW-shared) page that
+    was RWP-protected and then swapped out kept the uffd bit on its swap
+    entry, but the write that swapped it back in fell through to
+    do_wp_page() and COWed to a fresh accessible page, silently dropping
+    RWP tracking. Restore PAGE_NONE and leave the pte read-only so the
+    access retries through the RWP fault path instead of COWing here.
+  - mremap: move_huge_pmd() and move_huge_pte() normalised every present
+    huge entry in an RWP VMA, not just the marker (protnone + uffd),
+    clobbering the protection bits of unrelated accessible huge pages.
+    Gate the normalisation on pmd_uffd()/huge_pte_uffd(), matching the
+    fork/copy path.
+  - selftests: add rwp-swap-cow, which reproduces the do_swap_page() case
+    above -- RWP-protect, swap out while exclusive, fork to make the swap
+    entry non-exclusive, then write -- and checks that an RWP fault is
+    delivered rather than a silent COW.
 
-I had already ruled out any container support with the defunct FS
-interface idea, since it does NOT really make any sense with SCMI
-telemetry.
+114/114 of tools/testing/selftests/mm/uffd-unit-tests pass on v7.2-rc1
+(47 RWP cases plus the existing UFFD groups, no regressions).
 
-> 
-> This touches on another design question which decides how complicated
-> the whole implementation is going to be: What consumer-producer
-> relationship does this need?
-> 
-> The process subscribing to the telemetry stream might have exclusive
-> access. IOW, once you have subscribed to the telemetry stream the
-> connect is busy and no new subscribers are allowed. This is a very
-> simple model ofc which has advantages.
-> 
-> On the other end you have the uevent model. Uevents are broadcast to all
-> subscribers who have a uevent netlink socket open (glossing over some
-> namespacing details that are irrelevant here).
+== Problem ==
 
-Stream mode is only one of the possible collection mode in SCMI, and
-I am not implementing that immediately out of the box, since by the spec
-the asynchronous SCMI notification support needed by a reasonably
-performant streaming mode implementation is...optional.
+A VMM managing guest memory needs to:
 
-At first I will only implement 'polled' mechanims, i.e. in which the
-platform updates the Telemetry data as required by the configuration
-chosen and the users go and read the data at the known locations when
-they see fit.
+  1. detect which pages are still being touched (working-set
+     tracking);
+  2. safely reclaim cold pages to slower tiered or remote storage;
+  3. fetch them back on demand when accessed again.
 
-> 
-> You need to figure out what you really need here. The choice of
-> transport also has quality of life implications. 
-> 
->   (1):
->   A character device is somewhat simple but it means it's all inherently
->   tied to devtmpfs and namespacing it retroactively is not possible. If
->   you ever want to namespace it, i.e., delegate it to unprivileged
->   sandboxes, userspace needs to bind-mount the character device into the
->   container at container startup or have a mechanism to inject said
->   character devices later via the new mount api. It's all possible I'm
->   just pointing out that you're tied to a rather rigid kernel object. But
->   I think in general it is ok.
+== Approach ==
 
-No containerization support. I am going for a chardev+IOCTLs approach with
-the possibility of an alternative RAW direct mmap access to the Telemetry
-shared areas from userspace.
+UFFDIO_REGISTER_MODE_RWP is a new userfaultfd registration mode, in
+parallel with the existing MODE_MISSING / MODE_WP / MODE_MINOR. It
+uses the same mechanism on every backing -- anon, shmem, hugetlbfs:
 
-> 
->   (2):
->   A while ago David Howells extended pipes with the concept of a
->   watchqueue. A watchqueue is just a pipe with some special properties. It
->   can be created by passing O_NOTIFICATION to pipe(2) "meticulously
->   undocumented" as Jon would say...) into which the kernel splices small,
->   fixed-format notification records:
-> 
->   int fds[2];
->   pipe2(fds, O_NOTIFICATION_PIPE);
->   ioctl(fds[0], IOC_WATCH_QUEUE_SET_SIZE, nr_notes);   /* preallocate, 1..512 */
->   ioctl(fds[0], IOC_WATCH_QUEUE_SET_FILTER, &filter);  /* optional */
->   keyctl(KEYCTL_WATCH_KEY, KEY_SPEC_SESSION_KEYRING, fds[0], 0x01); /* subscribe a source */
-> 
->   If the ring is full or no free note exists, the record is dropped and
->   PIPE_BUF_FLAG_LOSS is set on the last buffer. So consumers always learn
->   that they missed something — but not what.
-> 
->   IOC_WATCH_QUEUE_SET_FILTER takes struct watch_notification_filter with
->   up to 16 watch_notification_type_filter entries. With a filter installed
->   the default is reject and only the type bit + subtype bit + info match
->   let a record through. Passing NULL removes all filters (everything
->   passes).
-> 
+  - PAGE_NONE on the PTE (the same primitive NUMA balancing uses)
+    makes the page inaccessible while keeping it resident;
+  - the uffd PTE bit (the one MODE_WP already owns) marks the entry
+    as "userfaultfd-tracked" so the protnone fault path can tell an
+    RWP fault apart from an mprotect(PROT_NONE) or NUMA hinting
+    fault.
 
-These are good to know possibilities that I will explore better..thanks !
+VM_UFFD_WP and VM_UFFD_RWP are mutually exclusive per VMA, so the
+same PTE bit safely carries both meanings depending on the
+registered VMA flag.
 
->   Kinda like a ringbuffer might be something to consider.
->   O_NOTIFICATION_PIPE works from all contexts (hence the preallocation).
-> 
->   (3):
->   No.
-> 
->   (4):
->   A while ago I added the "coredump socket" to the kernel. Basically,
->   userspace listens on a well-known AF_UNIX socket address (in this case
->   configured via /proc/sys/kernel/core_pattern). The kernel connects to it
->   and sends the coredump data via this socket (with some protocol
->   negotiation at the beginning).
-> 
-> If you really want to transform the data stream you're receiving into a
-> FUSE filesystem I think any of the referenced methods is compatible with
-> that. You just refresh the various files when new events come in and
-> otherwise show the data that you already have.
-> 
-> In other words, if you allow multiple consumers the following scenario
-> may happen: Consumer A consumes event E_1 and consumer B consumes E_2,
-> consumer A now gets E_3. If consumer A is what funnels the data into a
-> filesystem then consumer A misses data. That might be fine or might not
-> be.
-> 
+In sync mode, the kernel delivers a UFFD_PAGEFAULT_FLAG_RWP message
+to the registered handler, and the handler resolves the fault with
+UFFDIO_RWPROTECT clearing MODE_RWP. In async mode
+(UFFD_FEATURE_RWP_ASYNC), the fault is auto-resolved in-place: the
+kernel restores the original PTE permissions and the faulting thread
+continues without a userfaultfd message ever being delivered.
+Userspace then learns which pages were touched during the cycle by
+reading PAGE_IS_ACCESSED out of PAGEMAP_SCAN -- that set is the
+working set; everything else is a reclaim candidate.
 
-No we already dropped the FUSE extensions idea...the performance hit would
-be too much and it just make more sense for the existing libs to
-interface with the new IOCTLs interface.
+UFFDIO_RWPROTECT is the protect/unprotect ioctl, mirroring
+UFFDIO_WRITEPROTECT.
 
-Thanks again !
-Cristian
+UFFDIO_SET_MODE flips RWP_ASYNC <-> sync at runtime under
+mmap_write_lock() + vma_start_write(), so a VMM can run in async
+mode for detection and switch to sync for race-free reclaim without
+re-registering the userfaultfd.
 
+== Typical VMM workflow ==
+
+  /* arm */
+  UFFDIO_API(features = RWP | RWP_ASYNC)
+  UFFDIO_REGISTER(MODE_RWP)
+
+  /* detection cycle (async) */
+  UFFDIO_RWPROTECT(range, RWP)
+  sleep(interval)
+
+  /* freeze the snapshot before scanning */
+  UFFDIO_SET_MODE(disable = RWP_ASYNC)                  /* sync */
+  PAGEMAP_SCAN(PAGE_IS_ACCESSED) -> hot pages (working set)
+
+  /* reclaim everything not in the hot set from the backing file */
+  fallocate(FALLOC_FL_PUNCH_HOLE, non-hot) /* or pwrite to remote */
+  UFFDIO_SET_MODE(enable  = RWP_ASYNC)                  /* resume */
+
+== Series layout ==
+
+Patches 1 to 3 are preparatory:
+
+  1: decouple protnone helpers from CONFIG_NUMA_BALANCING.
+  2-3: rename _PAGE_BIT_UFFD_WP, pte_uffd_wp() and friends to drop
+       the _WP suffix, since the bit now carries WP and RWP meaning
+       depending on the VMA flag. The SCAN_PTE_UFFD enum's ftrace
+       output string is intentionally kept as "pte_uffd_wp" so
+       trace-based tooling does not silently break.
+
+Patch 4 switches the uffd VMA-flag helpers to the vma_flags_t
+accessors (vma_test_*_mask), so the VMA_UFFD_* masks are the single
+place that knows which modes the build offers.
+
+Patches 5 to 8 add the in-kernel mechanism:
+
+  5: VM_UFFD_RWP VMA flag (aliased to VM_NONE until patch 9
+     introduces CONFIG_USERFAULTFD_RWP together with the UAPI).
+  6: MM_CP_UFFD_RWP change_protection() primitive (PAGE_NONE +
+     uffd bit, plus a RESOLVE counterpart).
+  7: marker preservation across swap, device-exclusive, migration,
+     fork, mremap, UFFDIO_MOVE, hugetlb copy, and mprotect().
+  8: handle VM_UFFD_RWP in khugepaged, rmap, and GUP.
+
+Patches 9 to 13 wire the userspace surface:
+
+  9:  UFFDIO_REGISTER_MODE_RWP and UFFDIO_RWPROTECT plumbing
+      (introduces CONFIG_USERFAULTFD_RWP).
+  10: RWP fault delivery and exposure of UFFDIO_REGISTER_MODE_RWP.
+  11: PAGE_IS_ACCESSED in PAGEMAP_SCAN.
+  12: UFFD_FEATURE_RWP_ASYNC for async fault resolution.
+  13: UFFDIO_SET_MODE for runtime sync/async toggle.
+
+Patches 14 and 15 are kernel tests and Documentation/. The matching
+man-pages series is already upstream.
+
+Kiryl Shutsemau (Meta) (15):
+  mm: decouple protnone helpers from CONFIG_NUMA_BALANCING
+  mm: rename uffd-wp PTE bit macros to uffd
+  mm: rename uffd-wp PTE accessors to uffd
+  userfaultfd: test uffd VMA flags through the vma_flags_t API
+  mm: add VM_UFFD_RWP VMA flag
+  mm: add MM_CP_UFFD_RWP change_protection() flag
+  mm: preserve RWP marker across PTE rewrites
+  mm: handle VM_UFFD_RWP in khugepaged, rmap, and GUP
+  userfaultfd: add UFFDIO_REGISTER_MODE_RWP and UFFDIO_RWPROTECT
+    plumbing
+  mm/userfaultfd: add RWP fault delivery and expose
+    UFFDIO_REGISTER_MODE_RWP
+  mm/pagemap: add PAGE_IS_ACCESSED for RWP tracking
+  userfaultfd: add UFFD_FEATURE_RWP_ASYNC for async fault resolution
+  userfaultfd: add UFFDIO_SET_MODE for runtime sync/async toggle
+  selftests/mm: add userfaultfd RWP tests
+  Documentation/userfaultfd: document RWP working set tracking
+
+ Documentation/admin-guide/mm/pagemap.rst     |  13 +-
+ Documentation/admin-guide/mm/userfaultfd.rst | 269 +++++-
+ Documentation/filesystems/proc.rst           |   1 +
+ arch/arm64/Kconfig                           |   1 +
+ arch/arm64/include/asm/pgtable-prot.h        |   8 +-
+ arch/arm64/include/asm/pgtable.h             |  47 +-
+ arch/loongarch/Kconfig                       |   1 +
+ arch/loongarch/include/asm/pgtable.h         |   4 +-
+ arch/powerpc/include/asm/book3s/64/pgtable.h |   8 +-
+ arch/powerpc/platforms/Kconfig.cputype       |   1 +
+ arch/riscv/Kconfig                           |   1 +
+ arch/riscv/include/asm/pgtable-bits.h        |  12 +-
+ arch/riscv/include/asm/pgtable.h             |  59 +-
+ arch/s390/Kconfig                            |   1 +
+ arch/s390/include/asm/hugetlb.h              |  12 +-
+ arch/s390/include/asm/pgtable.h              |   4 +-
+ arch/x86/Kconfig                             |   1 +
+ arch/x86/include/asm/pgtable.h               |  56 +-
+ arch/x86/include/asm/pgtable_types.h         |  16 +-
+ fs/proc/task_mmu.c                           |  98 +-
+ include/asm-generic/hugetlb.h                |  18 +-
+ include/asm-generic/pgtable_uffd.h           |  32 +-
+ include/linux/huge_mm.h                      |   7 +
+ include/linux/leafops.h                      |   4 +-
+ include/linux/mm.h                           |  65 +-
+ include/linux/mm_inline.h                    |   4 +-
+ include/linux/pgtable.h                      |  32 +-
+ include/linux/swapops.h                      |   4 +-
+ include/linux/userfaultfd_k.h                |  89 +-
+ include/trace/events/huge_memory.h           |   2 +-
+ include/trace/events/mmflags.h               |   7 +
+ include/uapi/linux/fs.h                      |   1 +
+ include/uapi/linux/userfaultfd.h             |  54 +-
+ init/Kconfig                                 |   8 +
+ mm/Kconfig                                   |   9 +
+ mm/debug_vm_pgtable.c                        |   4 +-
+ mm/huge_memory.c                             | 164 +++-
+ mm/hugetlb.c                                 | 159 +++-
+ mm/internal.h                                |   4 +-
+ mm/khugepaged.c                              |  40 +-
+ mm/memory.c                                  | 152 +++-
+ mm/migrate.c                                 |  20 +-
+ mm/migrate_device.c                          |   8 +-
+ mm/mprotect.c                                |  70 +-
+ mm/mremap.c                                  |  17 +-
+ mm/page_table_check.c                        |   8 +-
+ mm/rmap.c                                    |  18 +-
+ mm/swapfile.c                                |   9 +-
+ mm/userfaultfd.c                             | 387 +++++++-
+ tools/include/uapi/linux/fs.h                |   1 +
+ tools/testing/selftests/mm/uffd-unit-tests.c | 884 +++++++++++++++++++
+ 51 files changed, 2455 insertions(+), 439 deletions(-)
+
+
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+-- 
+2.54.0
 
