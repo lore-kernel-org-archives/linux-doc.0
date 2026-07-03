@@ -1,92 +1,103 @@
-Received: from mail.ekdawn.com (mail.ekdawn.com [46.225.164.110])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AF03B27CC;
-	Fri,  3 Jul 2026 09:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.225.164.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E0F3B14C3;
+	Fri,  3 Jul 2026 09:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783071068; cv=none; b=hoXuFp6/kNmFe3IQuK4VHZ9dZ++AKM8T3i4AAd8iJxmYl1a6kQg38nCHAOTq8v38gBmWSva9tvvFfRYtt+/epptalvUQUjmT6F2odOnFXI67ZYoe0OjSTkvJAWtYLVg9UWUC6R4qQDIdQ1TQQpi71M/RTvbkEDdnxPETzm/ptvY=
+	t=1783071283; cv=none; b=AkFu9O9PfX/kmNJW3xHmg4XRPrWtDU4qYK9CmKi8j7wp7biXlKDpP3jAylJsacX3RxyzXAzS2KEUr9MwOug0T4DYV9cYK4/TzOJdb+bkE/yMKA4/+RupRZeVrDFLoM3JOz+2ebWlks6SdtC10XnF3VchEJDfy0oLyNU7wavdr9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783071068; c=relaxed/simple;
-	bh=D3imulWv9RUeQTwUgvoIo8iOKWXUvpeew+2rPBCYZus=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QmwXopbvEo6zMPAYbAzeIDRoUveFGoiE11PSJCZzmG+9imGRCSgFFKQy4rpzMiD/n8LXMQzTo7fAplUsiyKLiZsvBzVbKU5YjRQf6U5hL6C8gw09vNX354Jn3aje/2FwrgfVoq3if4BDTxkKcA3OGtJQxVv3ECU4hevUZxHTP00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=horse64.org; spf=pass smtp.mailfrom=horse64.org; dkim=pass (4096-bit key) header.d=horse64.org header.i=@horse64.org header.b=nIAl3Jpr; arc=none smtp.client-ip=46.225.164.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=horse64.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=horse64.org
+	s=arc-20240116; t=1783071283; c=relaxed/simple;
+	bh=4zwQCRVYGR5FArRVyRpUCs5bDBdQqJdKupIYXwMv/aU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=BD333vYTeYI2+x/m8D9oZt+3M2PGX82Osp4g2NZGjWZM+ZiCMODiSwXxw4GbI46dyVOdwIOe1SLv+uwXDrQDH0XEq+X5hF031UqlZsxcquZ4SwqAiU8Q1dsNzKnJM9mX6KWIP5aTLipSLk0rygDhlLsxZRZoEX7dlUcI4zdnAtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K4JQ6Zc8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=horse64.org header.i=@horse64.org header.b="nIAl3Jpr"
-Received: by mail.ekdawn.com (Postfix) id 74F671E0048;
-	Fri, 03 Jul 2026 09:21:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=horse64.org; s=dkim1;
-	t=1783070490; bh=D3imulWv9RUeQTwUgvoIo8iOKWXUvpeew+2rPBCYZus=;
-	h=Message-ID:Date:Subject:To:Cc:From:From:Sender:To:CC:Subject:
-	 Message-Id:Date;
-	b=nIAl3JprrsOPTRzd84n/HsB0UDubDEg/syplYSv0tyqvosddGMAOJ+skzPu9ccAmF
-	 R5koCsJAKV60FwrdBYoz8DpC/heL9pPs9sieclHl161fGmzRKl2FRrqpod3JsktVVm
-	 ZjfljiaUoRzyKzTwLS+ASQOQVqZl2KWVm+nAm/j00OThGKe61eVDSjkxdqrBivCgYl
-	 BuSg0+X+l6JGWL6u3Pn0dNCMCIMbYicXt0XzI65kvW3e7E5fHXzl4PZgzoqH4AzJr7
-	 +XMq+bBxdEQDe2nS8kdG2kMU/yEexIinG0B2VboTdEBLueTkLZ+aZp/2z0xj1F8KDH
-	 Cu/vCLxcDeXKuhUwFErk/vKlDdeH+42RXPN8rnMbTEihs0hcWdr3beB50ia/RlSvAD
-	 Ngpcl5NBzu0RnTsBiEQPOaC44O1h8ENDFv1PCQ14jufsnEYVjFaFFn6OiH5b3dSKIQ
-	 fpCrdOYl3aMmhpIBFjuDpAJ0TWU0ixo7LbboBza9y/PDVU13Pir/buaScHLbJfXbVy
-	 k4MU/OXc6ej8Oyu/2J6o0hyqHD9dZ8wiexGy1ca+h80TSLZwMQ3gNdTumKf11e87UO
-	 XSoiDx1RRZmHv4GxJ/QndtuRq1RdbuXa3zzBepoGgzyL+r8nJtmLec3EimUlD44twV
-	 6cpZyxiSSR4vBgTXDD/qhz/0=
-Message-ID: <53942438-a44d-4578-b1c6-d45c2af1767d@horse64.org>
-Date: Fri, 3 Jul 2026 11:21:28 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K4JQ6Zc8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6B011F000E9;
+	Fri,  3 Jul 2026 09:34:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783071282;
+	bh=nMY8UZyvI/HF5Rdv1bSkWyNbGRbx1G27seV2ZaZUbN4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=K4JQ6Zc8TPguGmkEN1toHL2v5PXz61h6EWt7zZ8rNB04Nv/OFyWtRbIK7/fVYv1YG
+	 B2iavueYbkcwMfN5GGnSDuP3/Y2ypQOlduP9C9EH0oHedTCI4eVb8GN99XZ7K3gk2U
+	 mKiWTX7nFzp9NihhXbgvqGtv6EZe36azyYLF8fKo4DpnPtV9M5EwlFIg4kabWNJ5dR
+	 ivYvj8LWnh2+s/7LGPHBUsOszJO62d4z94v7KFjNFI2CueHXILKryvycsxAeIyGtSG
+	 s98h3rggiuosCqsSmQ0MRnvTtW2Y2rrZ6VdGUVtB9Peojv9MYzNR0W2Zxz87hN6G4/
+	 UM7w31V/ebUew==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Michal =?utf-8?Q?Such=C3=A1nek?= <msuchanek@suse.de>
+Cc: Peter Zijlstra <peterz@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Huacai Chen
+ <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, Madhavan
+ Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)"
+ <chleroy@kernel.org>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti
+ <alex@ghiti.fr>, Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik
+ <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle
+ <svens@linux.ibm.com>, Andy Lutomirski <luto@kernel.org>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, Andrew Donnellan <andrew+kernel@donnellan.id.au>, Mark
+ Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>, Jiaxun Yang
+ <jiaxun.yang@flygoat.com>, Ryan Roberts <ryan.roberts@arm.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Mukesh Kumar Chaurasiya
+ <mkchauras@linux.ibm.com>, Shrikanth Hegde <sshegde@linux.ibm.com>, Zong
+ Li <zong.li@sifive.com>, Nam Cao <namcao@linutronix.de>, Deepak Gupta
+ <debug@rivosinc.com>, Lukas Gerlach <lukas.gerlach@cispa.de>, Rui Qi
+ <qirui.001@bytedance.com>, Kees Cook <kees@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
+Subject: Re: [RFC] entry: Untangle the return value of
+ syscall_enter_from_user_mode from syscall NR
+In-Reply-To: <akdqlO0eJ6jKH-wU@kunlun.suse.cz>
+References: <akVRcPsD_R_CE1qW@kunlun.suse.cz> <878q7tprau.ffs@fw13>
+ <akZPakNl6JT_jgGd@kunlun.suse.cz> <87jyrdnmrh.ffs@fw13>
+ <akdqlO0eJ6jKH-wU@kunlun.suse.cz>
+Date: Fri, 03 Jul 2026 11:34:39 +0200
+Message-ID: <87ik6wmn68.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-To: Christian Brauner <brauner@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Jens Axboe <axboe@kernel.dk>, David Hildenbrand <david@kernel.org>,
- Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
-Content-Language: en-US
-From: Ellie <el@horse64.org>
-In-Reply-To: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Jul 03 2026 at 09:53, Michal Such=C3=A1nek wrote:
+> On Thu, Jul 02, 2026 at 10:45:54PM +0200, Thomas Gleixner wrote:
+>> > When the syscall number was -1 to start with it's not possible to
+>> > determine if the syscall was fileterd from the return value. s390
+>> > returns the filtered state in a flag it sets on the regs structure,
+>> > avoiding this problem.
+>>=20
+>> What needs to determine whether the syscall was filtered or not?
+>
+> The code that executes syscall_enter_from_user_mode() needs to determine
+> that.
+>
+> After syscall_enter_from_user_mode() returns the syscall needs to be
+> executed or skipped.
+>
+> 'Executing' an invalid syscall boils down to setting the return value to
+> -ENOSYS.
+>
+> But if the syscall number returned is -1 was the syscall filtered and
+> the return value set by syscall_enter_from_user_mode() or should it be
+> set by the caller to -ENOSYS?
 
+See the explanation I gave to Peter. It's conclusive, but admittedly not
+intuitive.
 
-On 7/1/26 5:54 PM, Christian Brauner wrote:
-> I remain very confused by our coding assistant contribution guidelines.
-> I'm going to be a bit polemic now but this seriously in good faith.
-> 
-> Why precisely do we require all this detailed information about what
-> specific coding assistant was used?
-> 
-> I find it very irritating that our git history has effectively started
-> to function a bit like a free advertising platform for a bunch of AI
-> companies and their proprietary agents and models.
-> 
-> And it reamins unclear to me what exactly we do get out of this detailed
-> information: Do we want to run statistical analysis on what agent and
-> model is used the most and publish that on LWN at some point?
-> 
-> I acknowledge that my stance is even more radical: imho we would just
-> stop it with any disclosure requirements completely.
-Sorry to drop in as a relatively uninformed person, but it seems like 
-the following mails would be relevant for that discussion:
+The fact, that s390 decided to have the syscall number and the return
+value in the same register is a different problem, but as I pointed out
+to Sven it could have been solved completely without that flag.
 
-https://lore.kernel.org/lkml/e12330b9-c29e-45ca-9375-9e3d13426d85@horse64.org/T/
+Thanks,
 
-If LLM code were no longer committed to the kernel, which wouldn't 
-exclude using an LLM to pinpoint problem spots and security bugs as long 
-as it's not used to produce the fix itself, then the commits also would 
-no longer need an attribution.
-
-Regards,
-
-Ellie
-
+        tglx
