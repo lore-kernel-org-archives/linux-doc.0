@@ -1,139 +1,88 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B56837883D;
-	Fri,  3 Jul 2026 10:57:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21613B8D76
+	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 11:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783076282; cv=none; b=obJth3D/gKJo6EBAoe29uNyALew/AHi5RNVJF98xV+j1g+91smvcMeW1bZY5Wv3BLsfqXrc8mYKMYsgi1NHXhkvEQMCEsH8ZLcxrj5r0M3nqOOVaZf/Ro/d5CderF6pXDxQsvajzbo1/8Y0OXvNZb4QikRCU0+I57GGrR7XPIyg=
+	t=1783077245; cv=none; b=dMK4eAO91SRk1k8uRWIWoj2u7/Yb4M2/jTVe3WPd5dooJZX7ttKK7XgWtyodPkyS4D6xcmbNOt89KUlynuQ19PI2c9GGkRwDGfLGXTpG5YYYH5MPxeoQRXcuwuYMSLKEFUf4LHSsj1mdytbjxHQ1Z79TF/xRcOLXmCGl7MWpZjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783076282; c=relaxed/simple;
-	bh=nRHNYLc6Nfg7xB81wwkKAxbrOF3ZO6qacFFscCrn6Xk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bORCw2cvcylJLn5U15eigolmv1awkLEnBoh1n1ijMVZ4+8WmiU9h7DfL9rO0/NALtW8MBcAb/WtfdIlz09G9pjJmE+fxo5IghlamAARR8eokRDkYZVPn6CawZD7032xg+fy5dWDCZbp6lUB38XqZB1a+F1Uwi7l/iEtc9sH0vXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=m8iiOBj9; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1783077245; c=relaxed/simple;
+	bh=g8NU1zEbzzOkSCXF2RNXWg0TBtRPLPN6c+2SealPD5w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lExSUfQYRaOhvkN1jGwv3DZXQi5TwWhwhMYfbznQzqIXOE5s2g4ZyLEZTNOQ98ZXG/w8CRvhmesfvpnPU94a2PCnJSAeV+wU3zaU1Kq2AGnLkvSx2AIt8gMg6KTPvwR8Kl44aWXB9/xjuc8hVHwGea0cIqJa6+8JGu+P1t0CibE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=isST4IEE; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="m8iiOBj9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=z9mfhe8NL5p/8FnxdJEUK4N0owxOfETS9bDtYqAhEkY=; b=m8iiOBj9h+vogWkfy1Cne5Qkvv
-	rZ158rJbURZ9yw3QpqOT4NqpPFzMnxZg+4eUX3xqtzNTT7MXwtCo7fTZvtLEzyvgbM3WQzmM6uTmA
-	fyH+gCWqn0r5WOQUm2gUCOWz3zmvr2fGMZVU5VQqlUQMKmX2dldYOi9SaBfvk1ZMqRvDE2vQjoEV5
-	aQK5s98fiZZh79Dzjqt+p8BEwfsnr4UgGmDUrd30tzwpr0WaU759DWCAcBzBuay9OD3rDaY58EYaj
-	6QIZcBfJjwyEjtSpP75/J7O3osN1paoow9q7momriwcMe+vS0b83x4BnSwtjZaRQUaA0GvgJQBDW+
-	00qcBIcA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wfbaC-00000004jKJ-3HEk;
-	Fri, 03 Jul 2026 10:57:21 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 95062300220; Fri, 03 Jul 2026 12:57:18 +0200 (CEST)
-Date: Fri, 3 Jul 2026 12:57:18 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Sven Schnelle <svens@linux.ibm.com>
-Cc: Thomas Gleixner <tglx@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-	Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Andy Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Andrew Donnellan <andrew+kernel@donnellan.id.au>,
-	Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Zong Li <zong.li@sifive.com>, Nam Cao <namcao@linutronix.de>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Lukas Gerlach <lukas.gerlach@cispa.de>,
-	Rui Qi <qirui.001@bytedance.com>, Kees Cook <kees@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
-Subject: Re: [RFC] entry: Untangle the return value of
- syscall_enter_from_user_mode from syscall NR
-Message-ID: <20260703105718.GO751831@noisy.programming.kicks-ass.net>
-References: <akVRcPsD_R_CE1qW@kunlun.suse.cz>
- <BA7CD91D-C0E5-47A1-B49C-BC6AF6604182@zytor.com>
- <87h5mhnjsr.ffs@fw13>
- <yt9dwlvca8rn.fsf@linux.ibm.com>
- <87ldbsmnie.ffs@fw13>
- <yt9d5x2w5r84.fsf@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="isST4IEE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783077243; x=1814613243;
+  h=date:from:to:cc:subject:message-id;
+  bh=g8NU1zEbzzOkSCXF2RNXWg0TBtRPLPN6c+2SealPD5w=;
+  b=isST4IEEmfWOZdADRSxYmiyI7D9cOAckjmWeMvW4jgcD6omKLgSgAssK
+   xYphCossuX7Ugi3JkyFIDnUZuIyS+DXDDIhlZBBrD1yFezAvylZIyvz8J
+   ePVmNa/RIbxRhGv28skeJ8qK5tmJ5I+9HDi1HtsfT/YuU9dbRHc9h6V5P
+   YzyKURal7yr+P1s2ekWuqoWL3fV++cSswhVB8CRx2WfLjuGQIdgYIabID
+   DnIjDm70rztVgY7MYWJNGf/MRBbCFLdB6MognLRLNJqlVHQN3BlMcPyQ8
+   YL2dzLAPpIzKqANp9EoNe3rMrjx6gQoppR/mbkpdDXfER0r8VEWyezXM6
+   A==;
+X-CSE-ConnectionGUID: ZebZpMRISe+nfR9r6TOh9g==
+X-CSE-MsgGUID: 2CKyGs1LQJSk/ArND/d9hw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="87510713"
+X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
+   d="scan'208";a="87510713"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 04:14:03 -0700
+X-CSE-ConnectionGUID: wW0GwMhESPiMRbMPfMEU6Q==
+X-CSE-MsgGUID: AxSkOpGaQpakooncdBPm7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
+   d="scan'208";a="246716764"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 03 Jul 2026 04:14:01 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wfbqI-000000001V3-2zPX;
+	Fri, 03 Jul 2026 11:13:58 +0000
+Date: Fri, 03 Jul 2026 13:12:59 +0200
+From: kernel test robot <lkp@intel.com>
+To: Timur Tabi <ttabi@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/gpu/nova/core/tlv.rst: WARNING:
+ document isn't included in any toctree [toc.not_included]
+Message-ID: <202607031322.BZaSlip5-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yt9d5x2w5r84.fsf@linux.ibm.com>
 
-On Fri, Jul 03, 2026 at 11:59:07AM +0200, Sven Schnelle wrote:
-> Thomas Gleixner <tglx@kernel.org> writes:
-> 
-> > On Fri, Jul 03 2026 at 08:26, Sven Schnelle wrote:
-> >> Thomas Gleixner <tglx@kernel.org> writes:
-> >>> It's less than obvious and I have no objections to clean that up and
-> >>> make it more intuitive, but I still fail to see what Michal is actually
-> >>> trying to solve and what the magic flag is for. If s390 requires it,
-> >>> then that's an s390 problem, but definitely x86 does not.
-> >>
-> >> The difference between x86 and s390 is that on s390, regs->gprs[2] is
-> >> used for both the syscall number and the syscall return value.
-> >> That was a design mistake early in the begin about 25 years ago, but
-> >> it's ABI now, so it cannot be changed.
-> >
-> > Cute.
-> >
-> >> When seccomp decides to skip a syscall, it write a return value into
-> >> regs->gprs[2]. When syscall_enter_from_user_mode_work() returns, it
-> >> returns this number. If it's negative all is good - the 'if (likely(nr <
-> >> NR_syscalls))' conditiion would just catch it and skip the syscall.
-> >>
-> >> But if it's a positive number, the code cannot distinguish whether
-> >> that's a return value or a syscall number.
-> >>
-> >> So I introduced PIF_SYSCALL_RET_SET when converting s390 to generic
-> >> entry. This flag tells the syscall code that a return value was set in
-> >> ptregs and the syscall should be skipped.
-> >
-> > You also could have added a 'syscall_ret' member to pt_regs, operate
-> > on that for the return values (seccomp, syscall...) and swap it into
-> > gprs[2] right before returning to user space.
-> 
-> That would likely also work, but I found it easier to read and
-> understand to have an additional flag with a descriptive name than having
-> yet another 'somehow-related-to-gpr2' member in ptregs.
+tree:   https://github.com/intel-lab-lkp/linux/commits/Timur-Tabi/rust-firmware-add-request_into_buf/20260703-033738
+head:   7fe1e13ce246645500b8ee008a265a8e1712ab16
+commit: 8fbab058c7d971fd4850555b76f58bc002988f96 gpu: nova-core: add TLV parser for firmware files
+date:   15 hours ago
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260703/202607031322.BZaSlip5-lkp@intel.com/reproduce)
 
-I find this very odd; I would think that having both syscall-nr and
-syscall-ret in separate (virtual) registers for most of the normal cycle
-would be most obvious and less surprising -- given that this is what all
-other architectures do.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607031322.BZaSlip5-lkp@intel.com/
 
-Entry either grabs a copy of gpr2 and preserves it in orig_gpr2 as the
-syscall nr, or as Thomas suggests, you keep syscall_ret and copy that
-into gpr2 on return to userspace (and ptrace and signal and whatever
-other surface bits are affected).
+All warnings (new ones prefixed by >>):
 
-Either way around you then have separate values for the entire range of
-at least the C part of the kernel syscall handling -- just like every
-other arch. How is munging things in a single value and a flag easier?
+   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:58: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:63: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:228: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:251: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/gpu/nova/core/tlv.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/networking/checksum-offloads:157: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
