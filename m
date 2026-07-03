@@ -1,70 +1,70 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DBBF433E92
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 17:07:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC96C433E92
+	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 17:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783098437; cv=none; b=B+HeLubxPVPobQXTmCu0NdZPgkfRN8/NLdJ5BIfY4s9nSAy71FOoSvmHbmPXMh5Dvm1IHG2HBbhZGSkPWPo9xKYtwC/fgLsfGTrIl5cv57rlr9YxlCsQYA8zgNaZRqShnrZFr2AFu7tlJC4Zr4GkN4KO8R6rc6PVA4bNQ5ud46Y=
+	t=1783098439; cv=none; b=AecN/g2+pGfiUSEAaHzb5sUlElxNMcflAkTUG+33xeBdLkbVQ40lC7tMLPowpsiajl+gs0sNWorK3zANV9McnCfS+nQqhMKWp0EvKOELeGxf+r8TBKCMctvMo0CLHFe/3qyx5Idrc3U5bfAAXgC1yckqJyUUmlk7+eenBcZnDV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783098437; c=relaxed/simple;
-	bh=Mz9/oAG57I4a5BJtj/VsHHAgtvRlhmL4N68haQmHu6g=;
+	s=arc-20240116; t=1783098439; c=relaxed/simple;
+	bh=OzLE0gez8qaH4E+YjKFLltIk1GEL1cwboolr3Pok0W4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=afeGjy/Hlg40b3hU8xHovJInazFH/F9y9ITbvPCiXX9XJe2niqp0jjdzghEOTzsrHIsOgRRZ43L5Egn+h9ChbNTX1BRN561y+9/d2v2HKDfNy8wjq9OpjsUSONRH6YFSrTPRsjtDlQqSJ9wN8B0sr+feG5g2/W6a5GYpewmPKEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BQj15dsQ; arc=none smtp.client-ip=209.85.214.176
+	 MIME-Version:Content-Type; b=Q7wmmjy5FZbCypMiUgwjYCWhbIlQFMhTHOET/33QAGkp+Q3MMl1LgZEgA/Y/vx/nIsTmdCGfymkPXr/CXRa0p7pHjh+V3UIbExKlsfssYDgyYsOzhZpijK9093JlhtDLW/SjtXYye2v7+2u8htbyLyxh7N1a+/RbAFHevKX7VKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gb0phry/; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BQj15dsQ"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2c821a50615so6016835ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2026 10:07:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gb0phry/"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-382a3fe0d28so80257a91.0
+        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2026 10:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783098434; x=1783703234; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783098437; x=1783703237; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Emf8MUOawezzOgbDhWHGFkRKpN0IPTZNDFI4oJL9RPQ=;
-        b=BQj15dsQ6NH8KbB5Rk2AeRrRrQYnAUOj37qZU7MeUhdRo9xgH1CjzNV5u+MOEHIbcj
-         AXznDEwHgR4c08eJeoNlt2W9D0ICooAruEHV6yg+N+gmPLDUYcfKjM+jGqVCbqWyhXc2
-         NSHqM3TNKLPPISzojpx+dppyEdoXxN71vmN+1NOspOJ4ELJh9jeQNTGBvEsYCrV14Pc7
-         5InU4RMHoMPXVchtKF43kL4pfJYSU8rcHtILSydS71rdipBAavylapS3UCX+r++jCo3U
-         77zUgvQb9T1CAY5sfS2ALgv4nnnhorAKNHlR3aAKgHtHq8yqGFoJmKWUKs3B9FPnKfjV
-         ST8A==
+        bh=BQ90GiMOeUT/ZYRB4/rCxS2hvlXtzagegwet9vO1cPE=;
+        b=gb0phry/ztJ+kuK8kowRvkKDj9nNhOCFEMHXL7Td7LT5X8sXaeh+1wzBpmUtHNhLrn
+         3Sy/LgyA/Nzx8QjGEN+9AyMGEb8rOK4NrFe72Nc/8IBK8pIddY0y8G1EfkeHRyWViWLo
+         mg7sMN4U9u1L+JcXWYLKgoq8sU1Yay7ct799pco7A9YM1DeKZ1IkJjoYovBioqWE+x5A
+         PcrYddDY8MSDFeHo1sd/BmXqKg7eI1hjBATpNSsT1zXEK1edtYBc/1U9OIOU+ouVZCyY
+         tAlBxFEetgUdWQR8S4MF+yk4/CD+9B8TCeDcvxi17uC0NrJc1O2gg96unbrzEHNO6g/4
+         O0sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783098434; x=1783703234;
+        d=1e100.net; s=20251104; t=1783098437; x=1783703237;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Emf8MUOawezzOgbDhWHGFkRKpN0IPTZNDFI4oJL9RPQ=;
-        b=DeSmJkXarY8Br9vAhP/6PrH4MWxOfgSMEunEAPHmxXWnCy6UAofEqqG1D6CmNY+Zse
-         USmgIwCr6ELWSyaGNopS7jkB1pPrfodl239hevrxJkQj8TZEjM08dDM+c9HNOI5fwZwF
-         LcMT5Diq83uoa2JCI78R9fwHLTAdelE6WBBWnfaKYg3sItPCrBob+R6W3b3Vdiw3e8Cc
-         OIk16+AVJa0VC1yePu/o1vULSVax0zj24+oZMZ5Ol++4BKc3vtJQLmnHmGletmAkhSfk
-         +R0rtO6ky9iU/M1foMXLP2hHuIsgldro0gTggh3FH4zUeNmdk97eN50VNXFolbaagVK8
-         cY8w==
-X-Gm-Message-State: AOJu0YyGz4erHJU1W81ZbS/8csiiPFUNqRcMxAxH087DmmKXCL9goxtc
-	ZyqkXdI4KHrBSvxESlKNcFcj7sMQxjOCE1H/y94oV50sua/873S7rR4/
-X-Gm-Gg: AfdE7ckD/8D0sfrSZtaSGW4BRQvu9GGRNaByhcvbnD/IfS/r0CJ7SxAptMoypLChBY4
-	0JmTma5gO6q2Qkn0SqY7mk8vXRVNEC8OH2Qs1W9M/4fpO5sG779jGf+xDxgcUqF1NJYXyGnHCQy
-	Nt4z1NZxC96Sn8tRrxT25AXCxU1Mw5pAu4WybExP06PYx1q4r8Fue2jQBsLCQlSFq5uHH5jVsXo
-	Q6W0b+R5q/atVWA7tk8OYEEg+TBu6U4d9j5WkTAoNVpkxSf51pai1BUb4ig0KBDUIdAO8pSMSxH
-	pJ6BXP06pCOUSAL1tsV9r30sQcGEXSFUCA4hHzO6Z8W/cvaMwr6dPoB7M/1ycmkcKf/5yKTHQzc
-	KYjyyMQf/bVvmyw8d6lQ0wBxnpf6nL12c8wLuy+5tObFJwra/DFEQmcG2p0bb1/CD81s/esGP0V
-	xVfFncxRacR6IuW7hm6VGH67zfAJ38yH94VCkeb9Sebx6YIFWPfihU+NsJlnQaHeV68p/FY4DX/
-	Yq9A9kzbnXsaYSsT2YTnlq0qjwuk8b7lJ/NQmLqrxFsCeTJhcU=
-X-Received: by 2002:a17:902:f60a:b0:2c7:f12d:5d37 with SMTP id d9443c01a7336-2cbb9e264d9mr1324405ad.17.1783098434110;
-        Fri, 03 Jul 2026 10:07:14 -0700 (PDT)
+        bh=BQ90GiMOeUT/ZYRB4/rCxS2hvlXtzagegwet9vO1cPE=;
+        b=BRCFus+YRVLE2lAPjHeoCwFxvI3ufGTGzqE5T7TgDblZNtl5M3njNLKJNOCwAYLtDX
+         s5IrrKBQ0rtT6mpo2HD8tbSyv0Z5JBgmJJejtJpNQpUkQmmedcxsXpKHk35HiAKRhaKN
+         9txCIxf1IddAu8FECn1HjB5NOLi/ksp+JNR/XAQdWvKCORCdldWcUr31e+KSKR/TKpD4
+         g7a/KI26G34/K1206TpIEFputozaTZukUdf19PmmuSOeE+h7Cf0RyiOlGYfNc/C1Ds2t
+         lALzwFo6QuOYume4Mbkdhkb2axjykHVdo+pkd89yBcDNId7bNNk3ynaQEoRNzzGTPBio
+         PGwg==
+X-Gm-Message-State: AOJu0YzdiSmvZPzbuwivMnIBXG2A8HewlDyJ49cK3AynnMe4BbjPOMjW
+	+fY28Q8kLMBdlTOdP/EjL9kw+oYBsb68zVdP55AhRqMH2lx4nYACmVnl1d7O7aLQ
+X-Gm-Gg: AfdE7cnRags4gCnIhIDQgpd5dyZKoq151HhNQzgEeMTm0pjBWadR/avQqdue5nyahTS
+	IT8w+2anxyBLJjcd1SI6Lk3v0QzLn3bHkTbNZfk8wvI1Sur5M4s4tvI2fTGhlOuaXHxIwjJuw2A
+	zehKfBVb3SkDXaFXU7xI+ZCHRhABXQwCD7twWQ11l1Z8NNVtGjo4T/GMBdEvSOqBGC1nHnJZMTZ
+	xxBYUJKVRMRRd+vrNZBi3cq6p0wBcTYN1kyn42xtwqYqgHq/gQzK55m0Svncnv3CP6I7RZoeSP9
+	xn3RDbyR2iae9szxpDYazyGNUPMyRU9H+kIdIwkSSWORGq92id3r8qbGnj1OlET5jK9QP1kBCT3
+	rlrfKDxS/ywb6Fm2EPiMoRQ/h1FuNp3aM/U4ssAmGIo737PLS1z73JHM3mr9/8Bh3Qb39V5wigE
+	/o7PElScEywGQJ1rLAcrmulVT3mhpLZBiBzEmtJR15doqAVT9LmH00eJdpadULL+vCHCu+7L47H
+	xw0Gm92wcBqmeiJ7QoGMhjq+gVda/LYGsezX+5Rl1pfR5oMNGM=
+X-Received: by 2002:a17:90b:4a09:b0:381:20da:824c with SMTP id 98e67ed59e1d1-3829e74abd9mr324549a91.17.1783098436331;
+        Fri, 03 Jul 2026 10:07:16 -0700 (PDT)
 Received: from parrot.meuintelbras.local ([45.179.5.227])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b3c876ea9sm19643688c88.13.2026.07.03.10.07.12
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b3c876ea9sm19643688c88.13.2026.07.03.10.07.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 10:07:13 -0700 (PDT)
+        Fri, 03 Jul 2026 10:07:15 -0700 (PDT)
 From: Daniel Pereira <danielmaraboo@gmail.com>
 To: corbet@lwn.net
 Cc: linux-doc@vger.kernel.org,
 	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: [PATCH v2 2/7] docs: pt_BR: process: translate 7.AdvancedTopics and 8.Conclusion
-Date: Fri,  3 Jul 2026 14:05:42 -0300
-Message-ID: <20260703170552.174764-3-danielmaraboo@gmail.com>
+Subject: [PATCH v2 3/7] docs: pt_BR: Add translation for applying-patches and update index
+Date: Fri,  3 Jul 2026 14:05:43 -0300
+Message-ID: <20260703170552.174764-4-danielmaraboo@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260703170552.174764-1-danielmaraboo@gmail.com>
 References: <20260703170552.174764-1-danielmaraboo@gmail.com>
@@ -77,322 +77,485 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 
-Translate the "Advanced topics" and "Conclusion" sections into Brazilian
-Portuguese, creating the 7.AdvancedTopics.rst and 8.Conclusion.rst
-documents, and updating development-process.rst to include them.
+Translate the 'applying-patches' documentation into Brazilian Portuguese,
+ensuring alignment with the upstream structural guidelines.
 
-This translation covers patch management practices with Git, community
-guidelines for patch review, and the closing overview of the kernel
-development cycle.
-
-Ensure all text conforms to the strict 80-column line length limit
-to maintain Sphinx rendering alignment.
+Additionally, add the translated document to the main process index
+toctree to integrate it into the documentation build tree.
 
 Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
 ---
- .../pt_BR/process/7.AdvancedTopics.rst        | 201 ++++++++++++++++++
- .../pt_BR/process/8.Conclusion.rst            |  73 +++++++
- .../pt_BR/process/development-process.rst     |   2 +
- 3 files changed, 276 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/7.AdvancedTopics.rst
- create mode 100644 Documentation/translations/pt_BR/process/8.Conclusion.rst
+ Documentation/translations/pt_BR/index.rst    |   1 +
+ .../pt_BR/process/applying-patches.rst        | 447 ++++++++++++++++++
+ 2 files changed, 448 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/applying-patches.rst
 
-diff --git a/Documentation/translations/pt_BR/process/7.AdvancedTopics.rst b/Documentation/translations/pt_BR/process/7.AdvancedTopics.rst
+diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
+index 7a488f662..555bf1d3a 100644
+--- a/Documentation/translations/pt_BR/index.rst
++++ b/Documentation/translations/pt_BR/index.rst
+@@ -68,6 +68,7 @@ kernel e sobre como ver seu trabalho integrado.
+ 
+    Introdução <process/1.Intro>
+    Guia do Processo de Desenvolvimento <process/development-process>
++   Como aplicar patches <process/applying-patches>
+    Index de documentos do Kernel <process/kernel-docs>
+    Regras de licenciamento <process/license-rules>
+    Como começar <process/howto>
+diff --git a/Documentation/translations/pt_BR/process/applying-patches.rst b/Documentation/translations/pt_BR/process/applying-patches.rst
 new file mode 100644
-index 000000000..97466fad1
+index 000000000..313401bc2
 --- /dev/null
-+++ b/Documentation/translations/pt_BR/process/7.AdvancedTopics.rst
-@@ -0,0 +1,201 @@
++++ b/Documentation/translations/pt_BR/process/applying-patches.rst
+@@ -0,0 +1,447 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+Tópicos avançados
++Aplicando Patches ao Kernel Linux
+++++++++++++++++++++++++++++++++++
++
++Autor Original:
++    Jesper Juhl, Agosto de 2005
++
++.. note::
++
++   Este documento está obsoleto. Na maioria dos casos, em vez de usar ``patch``
++   manualmente, você quase certamente desejará considerar o uso do Git.
++
++Uma pergunta feita com frequência na Linux Kernel Mailing List é como aplicar
++an patch ao kernel ou, mais especificamente, a qual kernel base um patch para
++uma das muitas árvores/branches deve ser aplicado. Esperamos que este documento
++explique isso a você.
++
++Além de explicar como aplicar e reverter patches, uma breve descrição das
++diferentes árvores do kernel (e exemplos de como aplicar seus patches
++específicos) também é fornecida.
++
++
++O que é um Patch?
 +=================
 +
-+Neste ponto, esperamos que você já tenha uma boa noção de como funciona o
-+processo de desenvolvimento. No entanto, ainda há mais a aprender! Esta seção
-+cobrirá uma série de tópicos que podem ser úteis para desenvolvedores que
-+desejam se tornar parte regular do processo de desenvolvimento do kernel Linux.
++Um patch é um pequeno documento de texto que contém uma diferença (delta) de
++alterações entre duas versões diferentes de uma árvore de código-fonte. Os
++patches são criados com o programa ``diff``.
 +
-+Gerenciamento de patches com o git
-+----------------------------------
-+
-+O uso de controle de versão distribuído para o kernel começou no início de
-+2002, quando Linus começou a testar o aplicativo proprietário BitKeeper.
-+Embora o BitKeeper fosse controverso, a abordagem de gerenciamento de versão
-+de software que ele incorporava certamente não era. O controle de versão
-+distribuído permitiu uma aceleração imediata do projeto de desenvolvimento do
-+kernel. Atualmente, existem várias alternativas gratuitas ao BitKeeper. Para o
-+bem ou para o mal, o projeto do kernel adotou o git como sua ferramenta de
-+escolha.
-+
-+Gerenciar patches com o git pode facilitar muito a vida do desenvolvedor,
-+especialmente à medida que o volume desses patches cresce. O git também tem suas
-+pontas soltas e apresenta certos riscos; é uma ferramenta jovem e poderosa que
-+ainda está sendo refinada por seus desenvolvedores. Este documento não tentará
-+ensinar o leitor a usar o git; isso seria material suficiente para um documento
-+longo por si só. Em vez disso, o foco aqui será em como o git se encaixa
-+especificamente no processo de desenvolvimento do kernel. Os desenvolvedores
-+que desejam se atualizar com o git encontrarão mais informações em:
-+
-+	https://git-scm.com/
-+
-+	https://www.kernel.org/pub/software/scm/git/docs/user-manual.html
-+
-+e em vários tutoriais encontrados na web.
-+
-+A primeira ordem do dia é ler os sites acima e obter uma compreensão sólida de
-+como o git funciona antes de tentar usá-lo para disponibilizar patches para
-+outros. Um desenvolvedor que utiliza o git deve ser capaz de obter uma cópia do
-+repositório principal, explorar o histórico de revisões, comitar alterações na
-+árvore, usar branches, etc. A compreensão das ferramentas do git para a
-+reescrita de histórico (como o rebase) também é útil. O git vem com sua própria
-+terminologia e conceitos; um novo usuário do git deve saber sobre refs, remote
-+branches, o index, fast-forward merges, pushes e pulls, detached HEADs, etc.
-+Tudo isso pode ser um pouco intimidante no início, mas os conceitos não são tão
-+difíceis de entender com um pouco de estudo.
-+
-+Usar o git para gerar patches para submissão por e-mail pode ser um bom exercício
-+enquanto você se atualiza.
-+
-+Quando estiver pronto para começar a disponibilizar árvores git para que outros
-+possam examinar, você, logicamente, precisará de um servidor a partir do qual um
-+pull possa ser feito. Configurar um servidor desse tipo com o git-daemon é
-+relativamente simples se você tiver um sistema acessível à internet. Caso
-+contrário, sites de hospedagem públicos e gratuitos (o GitHub, por exemplo)
-+estão começando a surgir na rede. Desenvolvedores estabelecidos podem obter uma
-+conta no kernel.org, mas estas não são fáceis de conseguir; consulte
-+https://kernel.org/faq/ para mais informações.
-+
-+O fluxo de trabalho normal do git envolve o uso de muitas branches. Cada linha
-+de desenvolvimento pode ser separada em uma "topic branch" distinta e mantida de
-+forma independente. Branches no git são baratas, não há razão para não fazer um
-+uso livre delas. E, em qualquer caso, você não deve fazer o seu desenvolvimento
-+em nenhuma branch a partir da qual pretenda pedir para que outros deem pull.
-+Branches disponíveis publicamente devem ser criadas com cuidado; mescle patches
-+de branches de desenvolvimento quando eles estiverem em sua forma final e prontos
-+para seguir em frente — não antes.
-+
-+O git fornece algumas ferramentas poderosas que podem permitir que você
-+reescreva o seu histórico de desenvolvimento. Um patch inconveniente (um que
-+quebre o bisection, por exemplo, ou que tenha algum outro tipo de bug óbvio)
-+pode ser corrigido localmente ou feito desaparecer completamente do histórico.
-+Uma série de patches pode ser reescrita como se tivesse sido escrita no topo da
-+linha principal de hoje, mesmo que você esteja trabalhando nela há meses. As
-+alterações podem ser movidas de forma transparente de uma branch para outra. E
-+assim por diante. O uso criterioso da capacidade do git de revisar o histórico
-+pode ajudar na criação de conjuntos de patches limpos e com menos problemas.
-+
-+O uso excessivo dessa capacidade pode levar a outros problemas, no entanto, além
-+de uma simples obsessão pela criação do histórico de projeto perfeito. Reescrever
-+o histórico reescreverá as alterações contidas nele, transformando uma árvore do
-+kernel testada (assim se espera) em uma não testada. Mas, além disso, os
-+desenvolvedores não podem colaborar facilmente se não tiverem uma visão
-+compartilhada do histórico do projeto; se você reescrever o histórico que outros
-+desenvolvedores já deram pull em seus repositórios, tornará a vida deles muito
-+mais difícil. Portanto, uma regra prática simples se aplica aqui: o histórico
-+que foi exportado para terceiros deve ser visto geralmente como imutável dali em
-+diante.
-+
-+Sendo assim, uma vez que você faz o push de um conjunto de alterações para o seu
-+servidor disponível publicamente, essas alterações não devem ser reescritas. O
-+git tentará aplicar essa regra se você tentar dar push em alterações que não
-+resultem em um fast-forward merge (ou seja, alterações que não compartilham o
-+mesmo histórico). É possível anular essa verificação, e pode haver momentos em
-+que seja necessário reescrever uma árvore exportada. Mover changesets entre
-+árvores para evitar conflitos na linux-next é um exemplo. No entanto, tais ações
-+devem ser raras. Esta é uma das razões pelas quais o desenvolvimento deve ser
-+feito em branches privadas (que podem ser reescritas, se necessário) e apenas
-+movido para branches públicas quando estiver em um estado razoavelmente avançado.
-+
-+À medida que a linha principal (ou outra árvore na qual um conjunto de
-+alterações se baseia) avança, é tentador fazer o merge com essa árvore para
-+permanecer na vanguarda. Para uma branch privada, o rebasing pode ser uma maneira
-+fácil de acompanhar outra árvore, mas o rebasing não é uma opção uma vez que uma
-+árvore é exportada para o mundo. Quando isso acontece, um merge completo deve
-+ser feito. Fazer merges ocasionalmente faz todo o sentido, mas merges excessivamente
-+frequentes podem poluir o histórico desnecessariamente. A técnica sugerida neste
-+caso é fazer merges raramente, e geralmente apenas em release points específicos
-+(como um lançamento -rc da linha principal). Se você estiver inseguro sobre
-+mudanças específicas, sempre poderá realizar merges de teste em uma branch
-+privada. A ferramenta "rerere" do git pode ser útil nessas situações; ela se
-+lembra de como os conflitos de merge foram resolvidos para que você não precise
-+fazer o mesmo trabalho duas vezes.
-+
-+Uma das maiores reclamações recorrentes sobre ferramentas como o git é esta: o
-+movimento em massa de patches de um repositório para outro torna fácil a
-+inclusão de mudanças desaconselháveis que entram na linha principal abaixo do
-+radar de revisão. Os desenvolvedores do kernel costumam ficar descontentes quando
-+veem esse tipo de coisa acontecer; disponibilizar uma árvore git com patches não
-+revisados ou fora do tópico pode afetar a sua capacidade de ter suas árvores
-+puxadas no futuro. Citando Linus:
-+
-+::
-+
-+    Você pode me enviar patches, mas para eu puxar um patch git de você, eu
-+    preciso saber que você sabe o que está fazendo, e preciso ser capaz de
-+    confiar nas coisas *sem* ter que ir lá e verificar cada mudança
-+    individualmente à mão.
-+
-+(https://lwn.net/Articles/224135/).
-+
-+Para evitar esse tipo de situação, certifique-se de que todos os patches
-+dentro de uma determinada branch permaneçam estritamente alinhados ao tópico
-+associado; uma branch de "correções de drivers" não deveria fazer alterações no
-+código central de gerenciamento de memória. E, acima de tudo, não use uma árvore
-+git para burlar o processo de revisão. Publique ocasionalmente um resumo da
-+árvore na lista de discussão relevante e, quando for o momento certo, solicite
-+que a árvore seja incluída na linux-next.
-+
-+Se e quando outros começarem a enviar patches para inclusão em sua árvore, não
-+se esqueça de revisá-los. Certifique-se também de manter as informações corretas
-+de autoria; a ferramenta "am" do git faz o melhor que pode a esse respeito, mas
-+você pode ter que adicionar uma linha "From:" ao patch se ele tiver sido
-+retransmitido a você por terceiros.
-+
-+Ao solicitar um pull, certifique-se de fornecer todas as informações
-+relevantes: onde está a sua árvore, qual branch deve ser puxada e quais
-+alterações resultarão do pull. O comando git request-pull pode ser útil a esse
-+respeito; ele formatará a solicitação da maneira que outros desenvolvedores
-+esperam e também verificará se você se lembrou de dar push nessas alterações
-+para o servidor público.
++Para aplicar um patch corretamente, você precisa saber de qual base ele foi
++gerado e em qual nova versão o patch transformará a árvore de código-fonte.
++Ambas as informações devem estar presentes nos metadados do arquivo de patch
++ou ser possíveis de deduzir a partir do nome do arquivo.
 +
 +
-+Revisão de patches
-+------------------
++Como eu aplico ou reverto um patch?
++===================================
 +
-+Alguns leitores certamente objetarão a inclusão desta seção em "tópicos
-+avançados" sob o argumento de que mesmo desenvolvedores iniciantes do kernel
-+deveriam estar revisando patches. É certamente verdade que não há melhor maneira
-+de aprender a programar no ambiente do kernel do que examinando o código
-+postado por outros. Além disso, revisores estão sempre em falta; ao examinar o
-+código, você pode fazer uma contribuição significativa para o processo como um
-+todo.
++Você aplica um patch com o programa ``patch``. O programa patch lê um arquivo
++de diff (ou patch) e faz as alterações descritas nele na árvore de
++código-fonte.
 +
-+Revisar código pode ser uma perspectiva intimidadora, especialmente para um novo
-+desenvolvedor do kernel que pode se sentir nervoso em questionar — em público —
-+um código que foi postado por aqueles com mais experiência. No entanto, mesmo o
-+código escrito pelos desenvolvedores mais experientes pode ser aprimorado. Talvez
-+o melhor conselho para revisores (todos os revisores) seja este: formule os
-+comentários de revisão como perguntas em vez de críticas. Perguntar "como o lock
-+é liberado neste caminho?" sempre funcionará melhor do que afirmar "o bloqueio
-+aqui está errado."
++Os patches para o kernel Linux são gerados relativamente ao diretório pai que
++contém o diretório do código-fonte do kernel.
 +
-+Outra técnica útil em caso de desacordo é pedir que outros se manifestem. Se uma
-+discussão chegar a um impasse após algumas trocas de mensagens, peça a opinião
-+de outros revisores ou mantenedores. Frequentemente, aqueles que concordam com
-+um revisor permanecem em silêncio, a menos que sejam solicitados. A opinião de
-+múltiplas pessoas carrega exponencialmente mais peso.
++Isso significa que os caminhos para os arquivos dentro do arquivo de patch
++contêm o nome dos diretórios do código-fonte do kernel contra os quais ele foi
++gerado (ou alguns outros nomes de diretório como "a/" e "b/").
 +
-+Diferentes desenvolvedores revisarão o código sob diferentes pontos de vista.
-+Alguns estão preocupados principalmente com o estilo de codificação e se as
-+linhas de código possuem espaços em branco no final (trailing white space).
-+Outros se concentrarão principalmente em saber se a alteração implementada pelo
-+patch como um todo é algo bom para o kernel ou não. Ainda assim, outros buscarão
-+por bloqueios problemáticos, uso excessivo de pilha (stack usage), possíveis
-+problemas de segurança, duplicação de código encontrado em outros lugares,
-+documentação adequada, efeitos adversos no desempenho, alterações na ABI do
-+espaço do usuário (user-space ABI), etc. Todos os tipos de revisão, se levarem a
-+um código melhor entrando no kernel, são bem-vindos e valem a pena.
++Como é improvável que isso corresponda ao nome do diretório do código-fonte do
++kernel na sua máquina local (mas frequentemente é uma informação útil para ver
++contra qual versão um patch sem identificação foi gerado), você deve entrar no
++seu diretório de código-fonte do kernel e, em seguida, remover o primeiro
++elemento do caminho dos nomes de arquivos no arquivo de patch ao aplicá-lo (o
++argumento ``-p1`` para o ``patch`` faz isso).
 +
-+Não há exigência estrita para o uso de tags específicas como ``Reviewed-by``. Na
-+verdade, revisões em texto simples são mais informativas e incentivadas mesmo
-+quando uma tag é fornecida, por exemplo: "Analisei os aspectos A, B e C deste
-+envio e tudo me parece correto." Alguma forma de mensagem de revisão ou resposta
-+é obviamente necessária, caso contrário, os mantenedores não saberão que o
-+revisor sequer examinou o patch!
++Para reverter um patch aplicado anteriormente, use o argumento -R para o patch.
++Portanto, se você aplicou um patch desta forma::
 +
-+Por último, mas não menos importante, a revisão de patches pode se tornar um
-+processo negativo, focado em apontar problemas. Por favor, reserve um elogio de
-+vez em quando, particularmente para os novatos!
-diff --git a/Documentation/translations/pt_BR/process/8.Conclusion.rst b/Documentation/translations/pt_BR/process/8.Conclusion.rst
-new file mode 100644
-index 000000000..d5af31e7c
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/8.Conclusion.rst
-@@ -0,0 +1,73 @@
-+.. SPDX-License-Identifier: GPL-2.0
++    patch -p1 < ../patch-x.y.z
 +
-+Para mais informações
-+=====================
++Você pode revertê-lo (desfazê-lo) assim::
 +
-+Há inúmeras fontes de informação sobre o desenvolvimento do kernel Linux e
-+tópicos relacionados. A primeira delas sempre será o diretório Documentation
-+encontrado na distribuição do código-fonte do kernel. Comece com o arquivo de
-+nível superior :ref:`process/howto.rst <process_howto>`; leia também
-+:ref:`process/submitting-patches.rst <submittingpatches>`. Muitas APIs internas
-+do kernel são documentadas usando o mecanismo kerneldoc; "make htmldocs" ou
-+"make pdfdocs" podem ser usados para gerar esses documentos em formato HTML ou
-+PDF (embora a versão do TeX fornecida por algumas distribuições esbarre em
-+limites internos e falhe em processar os documentos corretamente).
-+
-+Vários sites discutem o desenvolvimento do kernel em todos os níveis de
-+detalhes. O autor gostaria de sugerir humildemente o https://lwn.net/ como uma
-+fonte; informações sobre muitos tópicos específicos do kernel podem ser
-+encontradas através do índice do kernel do LWN em:
-+
-+	https://lwn.net/Kernel/Index/
-+
-+Além disso, um recurso valioso para os desenvolvedores do kernel é:
-+	https://kernelnewbies.org/
-+
-+E, claro, não se deve esquecer o https://kernel.org/, o local definitivo
-+para informações sobre os lançamentos do kernel.
-+
-+Há uma série de livros sobre o desenvolvimento do kernel:
-+
-+	Linux Device Drivers, 3rd Edition (Jonathan Corbet, Alessandro
-+	Rubini, and Greg Kroah-Hartman).  Online at
-+	https://lwn.net/Kernel/LDD3/.
-+
-+	Linux Kernel Development (Robert Love).
-+
-+    Understanding the Linux Kernel (Daniel Bovet and Marco Cesati).
-+
-+Todos esses livros, no entanto, sofrem de um defeito comum: eles tendem a estar
-+um pouco obsoletos quando chegam às prateleiras, e já estão nelas há algum
-+tempo. Ainda assim, há uma boa quantidade de informações úteis a serem
-+encontradas ali.
-+
-+A documentação para o git pode ser encontrada em:
-+
-+	https://www.kernel.org/pub/software/scm/git/docs/
-+
-+	https://www.kernel.org/pub/software/scm/git/docs/user-manual.html
++    patch -R -p1 < ../patch-x.y.z
 +
 +
-+Conclusão
-+=========
++Como eu passo um arquivo de patch/diff para o ``patch``?
++========================================================
 +
-+Parabéns a qualquer pessoa que tenha chegado ao fim deste documento longo e
-+detalhado. Esperamos que ele tenha fornecido uma compreensão útil de como o
-+kernel Linux é desenvolvido e de como você pode participar desse processo.
++Isso (como de costume no Linux e em outros sistemas operacionais do tipo UNIX)
++pode ser feito de várias maneiras diferentes.
 +
-+No fim das contas, é a participação que importa. Qualquer projeto de software
-+de código aberto não é nada mais do que a soma do que seus colaboradores
-+dedicam a ele. O kernel Linux progrediu tão rápido e tão bem porque foi ajudado
-+por um grupo impressionantemente grande de desenvolvedores, todos trabalhando
-+para torná-lo melhor. O kernel é um exemplo primordial do que pode ser feito
-+quando milhares de pessoas trabalham juntas em direção a um objetivo comum.
++Em todos os exemplos abaixo, eu passo o arquivo (em formato não compactado) para
++o patch via stdin usando a seguinte sintaxe::
 +
-+O kernel, no entanto, sempre pode se beneficiar de uma base maior de
-+desenvolvedores. Há sempre mais trabalho a fazer. Mas, de forma igualmente
-+importante, a maioria dos outros participantes do ecossistema Linux pode se
-+beneficiar ao contribuir para o kernel. Colocar o código na linha principal
-+(mainline) é a chave para uma maior qualidade de código, menores custos de
-+manutenção e distribuição, um nível mais alto de influência sobre a direção do
-+desenvolvimento do kernel e muito mais. É uma situação em que todos os
-+envolvidos ganham. Abra o seu editor e venha se juntar a nós; você será mais do
-+que bem-vindo.
-diff --git a/Documentation/translations/pt_BR/process/development-process.rst b/Documentation/translations/pt_BR/process/development-process.rst
-index ca86b481a..d303ab92b 100644
---- a/Documentation/translations/pt_BR/process/development-process.rst
-+++ b/Documentation/translations/pt_BR/process/development-process.rst
-@@ -23,3 +23,5 @@ conhecimento profundo de programação de kernel para ser compreendida.
-    4.Coding
-    5.Posting
-    6.Followthrough
-+   7.AdvancedTopics
-+   8.Conclusion
++    patch -p1 < path/to/patch-x.y.z
++
++Se você quer apenas ser capaz de seguir os exemplos abaixo e não deseja
++conhecer mais do que uma maneira de usar o patch, então você pode parar a
++leitura desta seção aqui.
++
++O patch também pode receber o nome do arquivo a ser usado através do argumento
++-i, desta forma::
++
++    patch -p1 -i path/to/patch-x.y.z
++
++Se o seu arquivo de patch estiver compactado com gzip ou xz e você não quiser
++descompactá-lo antes de aplicá-lo, você pode passá-lo para o patch desta outra
++forma::
++
++    xzcat path/to/patch-x.y.z.xz | patch -p1
++    bzcat path/to/patch-x.y.z.gz | patch -p1
++
++Se você deseja descompactar o arquivo de patch manualmente primeiro antes de
++aplicá-lo (o que presumo que você tenha feito nos exemplos abaixo), basta
++executar gunzip ou xz no arquivo -- desta forma::
++
++    gunzip patch-x.y.z.gz
++    xz -d patch-x.y.z.xz
++
++O que deixará você com um arquivo patch-x.y.z em texto puro que você pode
++passar para o patch via stdin ou pelo argumento ``-i``, conforme sua preferência.
++
++Alguns outros argumentos úteis para o patch são ``-s``, que faz com que o patch
++seja silencioso (exceto por erros), o que é bom para evitar que erros sumam da
++tela rolando rápido demais; e ``--dry-run``, que faz com que o patch apenas
++imprima uma lista do que aconteceria, mas sem realizar nenhuma alteração de
++fato. Por fim, ``--verbose`` diz ao patch para imprimir mais informações sobre o
++trabalho que está sendo realizado.
++
++
++Erros comuns ao aplicar patches
++===============================
++
++Quando o patch aplica um arquivo de patch, ele tenta verificar a integridade do
++arquivo de diferentes maneiras.
++
++Verificar se o arquivo parece um arquivo de patch válido e checar se o código ao
++redor dos trechos sendo modificados corresponde ao contexto fornecido no patch
++são apenas duas das verificações básicas de integridade que o patch faz.
++
++Se o patch encontrar algo que não pareça totalmente correto, ele tem duas
++opções. Ele pode se recusar a aplicar as alterações e abortar, ou pode tentar
++encontrar uma maneira de fazer o patch ser aplicado com algumas pequenas
++alterações.
++
++Um exemplo de algo que não está "totalmente correto" e que o patch tentará
++corrigir é se todo o contexto coincidir, as linhas sendo alteradas coincidirem,
++mas os números das linhas forem diferentes. Isso pode acontecer, por exemplo, se
++o patch fizer uma alteração no meio do arquivo, mas, por algum motivo, algumas
++linhas tiverem sido adicionadas ou removidas perto do início do arquivo. Nesse
++caso, tudo parece correto, apenas mudou um pouco para cima ou para baixo, e o
++patch geralmente ajustará os números das linhas e aplicará o patch.
++
++Sempre que o patch aplicar um patch que ele teve de modificar um pouco para
++fazer caber, ele avisará você dizendo que o patch foi aplicado com **fuzz**.
++Você deve ser cauteloso com tais alterações porque, embora o patch
++provavelmente tenha acertado, ele nem /sempre/ acerta, e o resultado às vezes
++será incorreto.
++
++Quando o patch encontra uma alteração que não consegue corrigir com fuzz, ele a
++rejeita imediatamente e deixa um arquivo com a extensão ``.rej`` (um arquivo de
++rejeição). Você pode ler esse arquivo para ver exatamente qual alteração não
++pôde ser aplicada, para que possa corrigi-la manualmente, se desejar.
++
++Se você não tem nenhum patch de terceiros aplicado ao seu código-fonte do
++kernel, mas apenas patches do kernel.org, e você aplica os patches na ordem
++correta, e não fez nenhuma modificação por conta própria nos arquivos de
++origem, então você nunca deveria ver uma mensagem de fuzz ou de rejeição (reject)
++do patch. Se você ainda assim vir tais mensagens, então há um alto risco de que
++sua árvore de código-fonte local ou o arquivo de patch estejam corrompidos de
++alguma forma. Nesse caso, você provavelmente deveria tentar baixar o patch
++novamente e, se as coisas ainda não estiverem certas, aconselha-se começar com
++uma árvore limpa baixada na íntegra do kernel.org.
++
++Vamos examinar um pouco mais algumas das mensagens que o patch pode produzir.
++
++Se o patch parar e apresentar um prompt ``File to patch:``, então o patch não
++conseguiu encontrar um arquivo para ser modificado. O mais provável é que você
++tenha esquecido de especificar -p1 ou esteja no diretório errado. Com menos
++frequência, você encontrará patches que precisam ser aplicados com ``-p0`` em
++vez de ``-p1`` (a leitura do arquivo de patch deve revelar se este é o caso -- se
++for, isso é um erro da pessoa que criou o patch, mas não é fatal).
++
++Se você receber ``Hunk #2 succeeded at 1887 with fuzz 2 (offset 7 lines).`` ou
++uma mensagem semelhante a essa, significa que o patch teve que ajustar o local
++da alteração (neste exemplo, ele precisou se mover 7 linhas de onde esperava
++fazer a alteração para fazê-la caber).
++
++O arquivo resultante pode ou não estar correto, dependendo do motivo pelo qual o
++arquivo estava diferente do esperado.
++
++Isso geralmente acontece se você tentar aplicar un patch que foi gerado contra uma
++versão de kernel diferente daquela que você está tentando modificar.
++
++Se você receber uma mensagem como ``Hunk #3 FAILED at 2387.``, significa que o
++patch não pôde ser aplicado corretamente e o programa patch não foi capaz de
++encontrar um caminho usando o fuzz. Isso gerará um arquivo ``.rej`` com a
++alteração que fez o patch falhar e também um arquivo ``.orig`` mostrando o
++conteúdo original que não pôde ser alterado.
++
++Se você receber ``Reversed (or previously applied) patch detected!  Assume -R? [n]``
++então o patch detectou que a alteração contida no patch parece já ter sido feita.
++
++Se você realmente aplicou este patch anteriormente e apenas o reaplicou por erro,
++basta dizer [n]ão (n) e abortar este patch. Se você aplicou este patch
++anteriormente e realmente pretendia revertê-lo, mas esqueceu de especificar -R,
++você pode dizer [**y**]es (sim) aqui para fazer o patch revertê-lo para você.
++
++Isso também pode acontecer se o criador do patch inverteu os diretórios de
++origem e destino ao criar o patch e, nesse caso, reverter o patch irá, na
++verdade, aplicá-lo.
++
++Uma mensagem semelhante a ``patch: **** unexpected end of file in patch`` ou
++``patch unexpectedly ends in middle of line`` significa que o patch não conseguiu
++fazer sentido do arquivo que você passou para ele. Ou o seu download está
++quebrado, ou você tentou passar para o patch um arquivo de patch compactado sem
++descompactá-lo primeiro, ou o arquivo de patch que você está usando foi alterado
++por um cliente de e-mail ou agente de transferência de e-mail em algum lugar pelo
++caminho, por exemplo, dividindo uma linha longa em duas linhas. Frequentemente,
++esses avisos podem ser corrigidos facilmente juntando (concatenando) as duas
++linhas que foram divididas.
++
++Como já mencionei acima, esses erros nunca deveriam acontecer se você aplicar um
++patch do kernel.org na versão correta de uma árvore de código-fonte não
++modificada. Portanto, se você obtiver esses erros com patches do kernel.org,
++você provavelmente deve assumir que o seu arquivo de patch ou a sua árvore está
++quebrada, e eu o aconselharia a recomeçar com um download limpo de uma árvore
++completa do kernel e do patch que deseja aplicar.
++
++Existem alternativas ao ``patch``?
++==================================
++
++Sim, existem alternativas.
++
++Você pode usar o programa ``interdiff`` (http://cyberelk.net/tim/patchutils/) para
++gerar um patch que represente as diferenças entre dois patches e, em seguida,
++aplicar o resultado.
++
++Isso permitirá que você passe de algo como 5.7.2 para 5.7.3 em um único
++passo. A flag -z do interdiff permite até mesmo passar patches em formato
++compactado com gzip ou bzip2 diretamente, sem o uso de zcat, bzcat ou
++descompactação manual.
++
++Aqui está como você passaria de 5.7.2 para 5.7.3 em um único passo::
++
++    interdiff -z ../patch-5.7.2.gz ../patch-5.7.3.gz | patch -p1
++
++Embora o interdiff possa economizar um ou dois passos, geralmente recomenda-se
++realizar os passos adicionais, já que o interdiff pode errar em alguns casos.
++
++Outra alternativa é o ``ketchup``, que é um script em python para download e
++aplicação automática de patches (https://www.selenic.com/ketchup/).
++
++Outras ferramentas úteis são o diffstat, que mostra um resumo das alterações
++feitas por um patch; o lsdiff, que exibe uma lista curta dos arquivos afetados
++em um arquivo de patch, junto com (opcionalmente) os números das linhas de
++início de cada patch; e o grepdiff, que exibe uma lista dos arquivos modificados
++por um patch onde o patch contém uma determinada expressão regular.
++
++
++Onde posso baixar os patches?
++=============================
++
++Os patches estão disponíveis em https://kernel.org/
++Os patches mais recentes estão vinculados na página principal, mas eles também
++possuem locais específicos.
++
++Os patches 5.x.y (-stable) e 5.x residem em
++
++    https://www.kernel.org/pub/linux/kernel/v5.x/
++
++Os patches incrementais 5.x.y residem em
++
++    https://www.kernel.org/pub/linux/kernel/v5.x/incr/
++
++Os patches -rc não são armazenados no servidor web, mas são gerados sob
++demanda a partir de tags do git, tais como
++
++    https://git.kernel.org/torvalds/p/v5.1-rc1/v5.0
++
++Os patches estáveis -rc residem em
++
++    https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/
++
++
++Os kernels 5.x
++==============
++
++Estes são os lançamentos estáveis base publicados por Linus. O lançamento com o
++número mais alto é o mais recente.
++
++Se regressões ou outras falhas graves forem encontradas, um patch de correção
++-stable será lançado (veja abaixo) sobre esta base. Assim que um novo kernel
++base 5.x é lançado, um patch é disponibilizado contendo o delta entre o kernel
++5.x anterior e o novo.
++
++Para aplicar um patch mudando da versão 5.6 para a 5.7, você faria o seguinte
++(note que tais patches **NÃO** se aplicam sobre kernels 5.x.y, mas sim sobre o
++kernel base 5.x -- se você precisar mudar de 5.x.y para 5.x+1, você deve
++primeiro reverter o patch do 5.x.y).
++
++Aqui estão alguns exemplos::
++
++    # mudando de 5.6 para 5.7
++
++    $ cd ~/linux-5.6            # muda para o dir do fonte do kernel
++    $ patch -p1 < ../patch-5.7      # aplica o patch do 5.7
++    $ cd ..
++    $ mv linux-5.6 linux-5.7        # renomeia o dir do fonte
++
++    # mudando de 5.6.1 para 5.7
++
++    $ cd ~/linux-5.6.1          # muda para o dir do fonte do kernel
++    $ patch -p1 -R < ../patch-5.6.1     # reverte o patch do 5.6.1
++                        # o dir do fonte agora é o 5.6
++    $ patch -p1 < ../patch-5.7      # aplica o novo patch do 5.7
++    $ cd ..
++    $ mv linux-5.6.1 linux-5.7      # renomeia o dir do fonte
++
++Os kernels 5.x.y
++================
++
++Kernels com versões de 3 dígitos são kernels -stable (estáveis). Eles contêm
++correções críticas relativamente pequenas para problemas de segurança ou
++regressões significativas descobertas em um determinado kernel 5.x.
++
++Esta é a ramificação recomendada para usuários que desejam o kernel estável mais
++recente e não estão interessados em ajudar a testar versões de desenvolvimento
++ou experimentais.
++
++Se nenhum kernel 5.x.y estiver disponível, então o kernel 5.x com o número mais
++alto será o atual kernel estável.
++
++A equipe -stable fornece patches normais, bem como incrementais. Abaixo está
++como aplicar esses patches.
++
++Patches normais
++~~~~~~~~~~~~~~~
++
++Estes patches não são incrementais, o que significa que, por exemplo, o patch
++5.7.3 não se aplica sobre o código-fonte do kernel 5.7.2, mas sim sobre o
++código-fonte do kernel base 5.7.
++
++Portanto, para aplicar o patch 5.7.3 ao seu código-fonte existente do kernel
++5.7.2, você deve primeiro remover o patch 5.7.2 (de modo que reste apenas o
++código-fonte do kernel base 5.7) e então aplicar o novo patch 5.7.3.
++
++Aqui está um pequeno exemplo::
++
++    $ cd ~/linux-5.7.2          # muda para o dir do fonte do kernel
++    $ patch -p1 -R < ../patch-5.7.2     # reverte o patch do 5.7.2
++    $ patch -p1 < ../patch-5.7.3        # aplica o novo patch do 5.7.3
++    $ cd ..
++    $ mv linux-5.7.2 linux-5.7.3        # renomeia o dir do fonte do kernel
++
++Patches incrementais
++~~~~~~~~~~~~~~~~~~~~
++
++Os patches incrementais são diferentes: em vez de serem aplicados sobre o kernel
++base 5.x, eles são aplicados sobre o kernel estável anterior (5.x.y-1).
++
++Aqui está o exemplo para aplicar estes::
++
++    $ cd ~/linux-5.7.2          # muda para o dir do fonte do kernel
++    $ patch -p1 < ../patch-5.7.2-3      # aplica o novo patch do 5.7.3
++    $ cd ..
++    $ mv linux-5.7.2 linux-5.7.3        # renomeia o dir do fonte do kernel
++
++
++Os kernels -rc
++==============
++
++Estes são os kernels candidatos a lançamento (release-candidate). São kernels
++de desenvolvimento publicados por Linus sempre que ele considera que a árvore
++atual do git (a ferramenta de gerenciamento de código-fonte do kernel) está em
++um estado razoavelmente íntegro e adequado para testes.
++
++Estes kernels não são estáveis e você deve esperar quebras ocasionais se pretender
++executá-los. Esta é, no entanto, a mais estável das principais ramificações de
++desenvolvimento e é também o que eventualmente se tornará o próximo kernel
++estável, por isso é importante que seja testado pelo maior número possível de
++pessoas.
++
++Esta é uma boa ramificação para pessoas que querem ajudar a testar kernels de
++desenvolvimento, mas não querem executar algumas das coisas realmente
++experimentais (essas pessoas devem ver as seções sobre os kernels -next e -mm
++abaixo).
++
++Os patches -rc não são incrementais; eles se aplicam a um kernel base 5.x, assim
++como os patches 5.x.y descritos acima. A versão do kernel antes do sufixo -rcN
++indica a versão do kernel na qual este kernel -rc eventualmente se tornará.
++
++Portanto, 5.8-rc5 significa que este é o quinto candidato a lançamento para o
++kernel 5.8 e o patch deve ser aplicado sobre o código-fonte do kernel 5.7.
++
++Aqui estão 3 exemplos de como aplicar esses patches::
++
++    # primeiro, um exemplo de mudança do 5.7 para o 5.8-rc3
++
++    $ cd ~/linux-5.7            # muda para o dir do fonte do 5.7
++    $ patch -p1 < ../patch-5.8-rc3      # aplica o patch do 5.8-rc3
++    $ cd ..
++    $ mv linux-5.7 linux-5.8-rc3        # renomeia o dir do fonte
++
++    # agora vamos mudar do 5.8-rc3 para o 5.8-rc5
++
++    $ cd ~/linux-5.8-rc3            # muda para o dir do 5.8-rc3
++    $ patch -p1 -R < ../patch-5.8-rc3   # reverte o patch do 5.8-rc3
++    $ patch -p1 < ../patch-5.8-rc5      # aplica o novo patch do 5.8-rc5
++    $ cd ..
++    $ mv linux-5.8-rc3 linux-5.8-rc5    # renomeia o dir do fonte
++
++    # por fim, vamos tentar mudar do 5.7.3 para o 5.8-rc5
++
++    $ cd ~/linux-5.7.3          # muda para o dir do fonte do kernel
++    $ patch -p1 -R < ../patch-5.7.3     # reverte o patch do 5.7.3
++    $ patch -p1 < ../patch-5.8-rc5      # aplica o novo patch do 5.8-rc5
++    $ cd ..
++    $ mv linux-5.7.3 linux-5.8-rc5      # renomeia o dir do fonte do kernel
++
++
++Os patches -mm e a árvore linux-next
++====================================
++
++Os patches -mm são patches experimentais publicados por Andrew Morton.
++
++No passado, a árvore -mm também era usada para testar patches de subsistemas,
++mas essa função agora é realizada por meio da árvore
++`linux-next` (https://www.kernel.org/doc/man-pages/linux-next.html).
++Os mantenedores de subsistemas enviam seus patches primeiro para a linux-next e,
++durante a janela de mesclagem (merge window), enviam-nos diretamente para Linus.
++
++Os patches -mm servem como uma espécie de campo de testes para novos recursos e
++outros patches experimentais que não são mesclados por meio de uma árvore de
++subsistema. Assim que tais patches provam seu valor na -mm por um tempo, Andrew
++os envia para Linus para inclusão na linha principal (mainline).
++
++A árvore linux-next é atualizada diariamente e inclui os patches -mm. Ambas
++estão em constante fluxo e contêm muitos recursos experimentais, uma grande
++quantidade de patches de depuração (debugging) não apropriados para a linha
++principal etc., sendo as mais experimentais das ramificações descritas neste
++documento.
++
++Estes patches não são apropriados para uso em sistemas que devem ser estáveis e
++são mais arriscados de executar do que qualquer uma das outras ramificações
++(certifique-se de ter backups atualizados -- isso vale para qualquer kernel
++experimental, mas ainda mais para patches -mm ou ao usar um kernel da árvore
++linux-next).
++
++O teste dos patches -mm e da linux-next é imensamente apreciado, pois todo o
++objetivo deles é eliminar regressões, travamentos (crashes), bugs de corrupção
++de dados, quebras de compilação (e qualquer outro bug em geral) antes que as
++alterações sejam mescladas na árvore principal do Linus, que é mais estável.
++
++Mas os testadores da -mm e da linux-next devem estar cientes de que quebras são
++mais comuns do que em qualquer outra árvore.
++
++
++Isso conclui esta lista de explicações sobre as várias árvores do kernel.
++Espero que agora você tenha clareza sobre como aplicar os vários patches e
++ajudar a testar o kernel.
++
++Agradecimentos a Randy Dunlap, Rolf Eike Beer, Linus Torvalds, Bodo Eggert,
++Johannes Stezenbach, Grant Coady, Pavel Machek e outros que posso ter esquecido
++por suas revisões e contribuições para este documento.
+\ No newline at end of file
 -- 
 2.47.3
 
