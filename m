@@ -1,50 +1,33 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5CE1FC101;
-	Fri,  3 Jul 2026 04:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6899F345749;
+	Fri,  3 Jul 2026 05:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783054513; cv=none; b=uEabDsIMBpVoXlaP6pT0N47rHU5kcCq7AfLY9kNiBBpDq1OlnQbb4xj9usgU2zYD1iDfdo48I9T1cHMqyLkH+kEugoBNRCAN3QxIHHgQpzu91eGZTHC6BNn15NR4gr73Xq1GYva+LxnTC7FyL4NwfOrMKyH/b7VwI3xqF2gH/Jw=
+	t=1783055596; cv=none; b=laeEPXYlUUEQfi97n5yZR709g1a6f5gXOC0FG4slzVxELFNgF9S8Bjn0Y6Cfk1KL0RVFlgMySMYg2QdLefINDx4dlkC12HtwePEJUXoX2kzBl9rCYPgZ2rQW5s0VeLDZ/7jY0KbJaklYqVV/pAi7y9p3/kxe1THUaLa34H/Jqn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783054513; c=relaxed/simple;
-	bh=iuOzoj8VYCv9ymqTjCLjQ2N5iWOPzNnBAFButwsM1Sk=;
+	s=arc-20240116; t=1783055596; c=relaxed/simple;
+	bh=jHgPcmQ7YH2y5pNkG74OQy39/eXmCooS5V/ZIXaFSaE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tcFlbh0e26mAHfrgHQRLqzfWCwnmvUzzhaaSU5BuROxV4F/KPn1KiC3TCM77xBX98j93oQj8DB+UTlIo84syetFc0mtLGkKprDlM8/0zwJgw0SVSID8FX4i/Ffe+XMNBuM+lHxI8H9t/FCn2zFfFFW8LrakUhDF1jSv7QKtiSgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m8Rgjjv4; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=BDuSx8tJTsD4nbsyzF0AvUaJRU0dnV3s0lU44sTfu/sYr7Vcz4S35PvOmJv1zFHhVNvDKRa6SbZNckZMs6mxh3eXZS5YpFfe2EHb21Rz2hcbTf5TUNMIm49ap6AQJqvg2ZhGgzBsPWieKjeAjn7g9X+ly3pxVGnmlaMd5UMfTcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HqCnGi2z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m8Rgjjv4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783054503; x=1814590503;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=iuOzoj8VYCv9ymqTjCLjQ2N5iWOPzNnBAFButwsM1Sk=;
-  b=m8Rgjjv4z8GJGXWKcmlch3cMZsnBVG++vNR0rXnjffxBgPVoXoC8Mx8o
-   HWlcS/4ux4HBpsNaalub7zxEO/ssPjdvAarvZuWvPQfw2IPx3SOJ59uTe
-   gvoRbCsHElRu8JonD3Lzgk/Kf0i/anzwZoM1mdiVhzMOXhOsz18yUddKt
-   4BaUx3PFEV/ALe/N1+6/H6c61NBimY/T31OFpD+TwTg9wLYO0Pc5wc88s
-   d7PCyuIEixRu6XExEoaLz1SZ2BDnfMyw03msyqk8XXNoOYa29bMTlf3w5
-   8EklaAM1w/PA3vzrlExaY9/LV3eszt06qzNawSxsZ45MvRQ6J8xj538iq
-   Q==;
-X-CSE-ConnectionGUID: ivDdfc6ISeGnxrtZImK/gw==
-X-CSE-MsgGUID: U0JzGEWwR4GuvGQbeXd7HQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="94958086"
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="94958086"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 21:55:02 -0700
-X-CSE-ConnectionGUID: g2dfjOB9T8GyTR6dIAnYcw==
-X-CSE-MsgGUID: znwn3ZDcRAmHHiXj+CQS6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="277345905"
-Received: from unknown (HELO [10.238.2.244]) ([10.238.2.244])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 21:54:57 -0700
-Message-ID: <83a7fda7-e9ad-4420-be93-13937d41dc4b@linux.intel.com>
-Date: Fri, 3 Jul 2026 12:54:55 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HqCnGi2z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F30D91F000E9;
+	Fri,  3 Jul 2026 05:13:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783055585;
+	bh=d2jmDN8EDDEi8qou1T3zevjnsQGMZ5IhSTwrPgKzFh4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=HqCnGi2zDjWTXnC3MspWlCf9hO0/ZN6ukeuSVhsLMfxoXT1NAObsxCFxHqAbwxAhq
+	 GkXe2fpz7+2ch+jjP9jzz/+n1jNKaYIpPTm6uMzqZjLl4XTTcLbA88btfrcAGC64Xk
+	 dgjq4bw8U/PPZV/f4PobkEObr81d8waV6vVQOo+o1Odp1XPKZWyM8XDEjD3TN5B5w0
+	 hdEFS2+ICzF2WtkZHqm0ISVHal0f+AJpG/kf8goAtMPdHBmG03KOsdT5bzD1s/nd8u
+	 MD6x+Z5V57PalXJOwjjAoXjdscFDQ625LKHgM2NrKMYqQDzdZ0pYKtHjY6nJ1g8fzz
+	 4/VMxpFvVFrdw==
+Message-ID: <77a03a9a-8461-40c3-a383-d9dc62efb801@kernel.org>
+Date: Fri, 3 Jul 2026 14:12:59 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,94 +35,136 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 11/11] Documentation/x86: Add documentation for TDX's
- Dynamic PAMT
-To: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, kas@kernel.org,
- kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, mingo@redhat.com, nik.borisov@suse.com,
- pbonzini@redhat.com, seanjc@google.com, tglx@kernel.org,
- vannapurve@google.com, x86@kernel.org, chao.gao@intel.com,
- yan.y.zhao@intel.com, kai.huang@intel.com,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
- <20260526023515.288829-12-rick.p.edgecombe@intel.com>
+Subject: Re: [PATCH] docs: ABI: sysfs-kernel-slab: mark cpu_partial attributes
+ deprecated
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+ Seongjun Hong <hsj0512@snu.ac.kr>, Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christoph Lameter <cl@gentwo.org>
+References: <20260701141755.85119-1-hsj0512@snu.ac.kr>
+ <54e75619-3dbc-448c-81fa-122edcdad1f0@kernel.org>
+ <f047ceae-4836-40c9-bb7c-a6074bbf1a1f@kernel.org>
 Content-Language: en-US
-From: Binbin Wu <binbin.wu@linux.intel.com>
-In-Reply-To: <20260526023515.288829-12-rick.p.edgecombe@intel.com>
+From: Harry Yoo <harry@kernel.org>
+In-Reply-To: <f047ceae-4836-40c9-bb7c-a6074bbf1a1f@kernel.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------NOh23wvTE30Hws23l0EoVgJZ"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------NOh23wvTE30Hws23l0EoVgJZ
+Content-Type: multipart/mixed; boundary="------------YgT6oA9Qcxr9YGnpqYJ0rzq5";
+ protected-headers="v1"
+From: Harry Yoo <harry@kernel.org>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+ Seongjun Hong <hsj0512@snu.ac.kr>, Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christoph Lameter <cl@gentwo.org>
+Message-ID: <77a03a9a-8461-40c3-a383-d9dc62efb801@kernel.org>
+Subject: Re: [PATCH] docs: ABI: sysfs-kernel-slab: mark cpu_partial attributes
+ deprecated
+References: <20260701141755.85119-1-hsj0512@snu.ac.kr>
+ <54e75619-3dbc-448c-81fa-122edcdad1f0@kernel.org>
+ <f047ceae-4836-40c9-bb7c-a6074bbf1a1f@kernel.org>
+In-Reply-To: <f047ceae-4836-40c9-bb7c-a6074bbf1a1f@kernel.org>
+
+--------------YgT6oA9Qcxr9YGnpqYJ0rzq5
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 5/26/2026 10:35 AM, Rick Edgecombe wrote:
-> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> 
-> Expand TDX documentation to include information on the Dynamic PAMT
-> feature.
-> 
-> The new section explains PAMT support in the TDX module and how Dynamic
-> PAMT affects the kernel memory use.
-> 
-> Assisted-by: Sashiko:claude-opus-4-6 GitHub Copilot:claude-opus-4-6 Claude:claude-opus-4-7
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 
-Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
 
-One nit below.
+On 7/2/26 5:28 PM, Vlastimil Babka (SUSE) wrote:
+> On 7/2/26 07:18, Harry Yoo wrote:
+>>
+>>
+>> On 7/1/26 11:17 PM, Seongjun Hong wrote:
+>>> The per-cpu slab and per-cpu partial slab mechanisms were removed whe=
+n
+>>> SLUB was converted to per-cpu sheaves in Linux 7.0. The cpu_slabs,
+>>
+>> small nit: sheaves were introduced in v6.18,
+>> but the cpu (partial) slabs layer were removed later in v7.0.
+>=20
+> Fixed up when applying by saying "fully converted" :)
 
-> ---
-> v6:
->  - Add missing word (Binbin)
->  - Use "::" instead of ":"
->  - Make format of dmesg example accurate
-> 
-> v3:
->  - Trim down docs to be about things that user cares about, instead
->    of development history and other details like this.
-> ---
->  Documentation/arch/x86/tdx.rst | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/Documentation/arch/x86/tdx.rst b/Documentation/arch/x86/tdx.rst
-> index ff6b110291bc6..ce026a88b6f78 100644
-> --- a/Documentation/arch/x86/tdx.rst
-> +++ b/Documentation/arch/x86/tdx.rst
-> @@ -73,6 +73,28 @@ initialize::
->  
->    [..] virt/tdx: TDX-Module initialization failed ...
->  
-> +Dynamic PAMT
-> +------------
-> +
-> +PAMT
+Looks good, thanks!
 
-Nit:
-It seems that there is no spelling out of the acronym in the source code or the documentation.
-Maybe it's a good place to give the full version. E.g.
+>>> slabs_cpu_partial and cpu_partial sysfs attributes were kept as stubs=
 
-Physical Address Metadata Table (PAMT) is ...
+>>> that always return 0 for backwards compatibility, but their
+>>> documentation still described them as if they were functional.
+>>
+>> Right, for backward compatibility, because, unlike files that
+>> might not exist w/o SLUB_STATS, userspace tools might assume that
+>> they always exist.
+>>
+>>> Update the three descriptions to state that the attributes are
+>>> deprecated and always read 0, and note that they are retained only fo=
+r
+>>> compatibility. While here, fix a "partialli" typo in the
+>>> slabs_cpu_partial description.
+>>>
+>>> Signed-off-by: Seongjun Hong <hsj0512@snu.ac.kr>
+>>> ---
+>>
+>> Overall looks good to me, so:
+>> Acked-by: Harry Yoo (Oracle) <harry@kernel.org>
+>=20
+> Added to slab/for-next, thanks!
 
-> is memory that the TDX module needs to keep data about each page
-> +(think like struct page). It needs to be handed to the TDX module for its
-> +exclusive use. For normal PAMT, this is installed when the TDX module
-> +is first loaded and comes to about 0.4% of system memory.
-> +
-> +Dynamic PAMT is a TDX feature that allows VMM to allocate part of the
-> +PAMT as needed (the parts for tracking 4KB size pages). The other page
-> +sizes (1GB and 2MB) are still allocated statically at the time of
-> +TDX module initialization. This reduces the amount of memory that TDX
-> +uses while TDs are not in use.
-> +
-> +When Dynamic PAMT is in use, dmesg shows it like::
-> +
-> +  [..] virt/tdx: Enable Dynamic PAMT
-> +  [..] virt/tdx: 10092 KB allocated for PAMT
-> +  [..] virt/tdx: TDX-Module initialized
-> +
-> +Dynamic PAMT is enabled automatically if supported.
-> +
->  TDX Interaction to Other Kernel Components
->  ------------------------------------------
->  
+Thanks!
 
+>> By the way.
+>>
+>> There's still some gap between the documentation
+>> and the implementation :)
+>>
+>> We've dropped a bunch of files that exist only on
+>> SLUB_STATS and new files introduced with by
+>> sheaves were not documented.
+>=20
+> While we are touching these files, the question is what contact to use
+> there. Some have Christoph, some Pekka, some both.
+> Seems inflexible to me and should ideally point to the slab MAINTAINERS=
+
+> entry.
+
+Agreed.
+
+> But not sure if it's possible. Documentation/ABI/README says:
+>=20
+> Contact:        Primary contact for this interface (may be a mailing li=
+st)
+
+Looking at other mm-related sysfs files:
+
+Contact:	Linux memory management mailing list <linux-mm@kvack.org>
+
+> Maybe we can propose that it can also say
+>=20
+> See the SLAB ALLOCATOR subsystem in MAINTAINERS.
+
+Replacing the contact with linux-mm mailing list and mentioning
+SLAB ALLOCATOR subsystem in MAINTAINERS sounds good to me.
+
+--=20
+Cheers,
+Harry / Hyeonggon
+
+--------------YgT6oA9Qcxr9YGnpqYJ0rzq5--
+
+--------------NOh23wvTE30Hws23l0EoVgJZ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQQQ1ub6gR5ogjaKRmOGXBN6rc5S1gUCakdE2wAKCRCGXBN6rc5S
+1vfxAP9SCpQIkFDU/oly+VDOPNVw6h+A8ebDHoXAfgGj8xhZlAD/Y8bvDkASXQW4
+1jTb04fo5dlGTxe9a/HeHtm79YGbKgU=
+=pxDA
+-----END PGP SIGNATURE-----
+
+--------------NOh23wvTE30Hws23l0EoVgJZ--
