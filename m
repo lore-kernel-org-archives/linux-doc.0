@@ -1,267 +1,278 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011002.outbound.protection.outlook.com [52.101.52.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C251A9F8C;
-	Fri,  3 Jul 2026 18:28:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.2
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783103285; cv=fail; b=fbGeoAKvLsP1oHq21z1JGeN3L7SC8Zu+tnUqrqlqKPTD4kq1Erb3fXDpXtObzJd+y5+/6YSvpgONYI8jtCZa4/Hd4dkEkdzos0sTk4ZodM8cLfvHmqS34SYSHule5D4aA2hWmrM3LsYVIjS3O9k6hoSAcin6atdCFrlj05rBb8M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783103285; c=relaxed/simple;
-	bh=gaCZ1fQKHq7fdFsJ4TI7g+HGgIExkASvrcZSta7BOtg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=vGDNNMsudueKXKT6IVaoHgAv3LPcwQh4Q3eGsZCgs+NowHUSNezuWZg+W1HmlISlnrqfcA18JiMGlyP6wEXG/+mSGdxOHU5eXDwbNKUnUp+ofNjEqCKboOp1r1zBd/xIHb+wVr8ieOXyYSV/g9vdSA/o+OlpTTuDxc+sJT3PGh8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=pehGRkwy; arc=fail smtp.client-ip=52.101.52.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E28211A09;
+	Fri,  3 Jul 2026 18:31:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783103465; cv=none; b=ke0lzUYj3q+V4a8rpcXiDguVgbcvBAL5IZZck6qs4YLaOpBarPqvq+uSiGlka1677Po2ZJtSUwmUYXus44SIhLgTVBeQnjtw4ty+qFBxG8AIHRLhdhVquaICA2Pdyx/L4BuAoG3ZNIwXvlAsMMkynyGKLn0U0gggBxfnaKvbcYs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783103465; c=relaxed/simple;
+	bh=yhdnVhATfUwD1M3Ikk0EG9oJWo47ExKIa5EBNyHKoiA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mNJMdQv1m3COBTFkQpGfyyRm4g9C26TlJMtps8oTv1xApHoVHM0dO3byXLQXnvenrm82sTFWYV9jeuWpdDEZoj0U6FBJDH9JQ9jNFNEXTv9GRdo8XnkNLZf3mNpvi/g7RL0aj008zfWce2cu+zkLrQDrUwVR7ErlgbZ4xVgv5cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hh7LE2Bx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="pehGRkwy"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yNNJOP+yuCh8Lsc1etDZR/5uwUiRDIHX3pqmceAeKoOVGE9w+VNMM2B0R8Q35tvbmd+0/CaC2HV9Vj6Xm2/2Sxdr67nUVMwnUKjnkjebNdYgmuVueLYv9D4Pf355iEG6QMJvaJCUnxrmsd1k3J/CoNGZeg42jqTDbkWOw1Kio45s/ZORovnvuCxJy8fOWqjUovAYx67nmknaJGMta2zEeXKpqFX42vcGYSCzBgQLGglOlgmJ3f0pJdrjcRbXgcagKw1b2/ehuEW9uXpeBmZ+c0TBuisDarZaff+40PVJWKmyQfkvFQXur9CYDCNR2JW57Hr5TMUIakcwMy30nuoQ2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jRE63VhSY5+AMkoNbWBJsuQ8X1IgMGJGa7nVr/kLweI=;
- b=QHLypWYldm6rDsON8O2/nzHa2P75fNpoYqhUMvwyaMZsT/ZjMQdIOSQYUfP/fOZ/tq/yA4P5tTGdjlcaTsnfKj0j/z5AvB8Y5Ty93qmVJf1n7THrChH+l1UV2IB9sBSo9SZRP4ohZhM2iJP6rkx/Wd38VyTNN/pZh9EQLGZCwiXvalO/L8kutV8RZgHcFp0klKPYz78T4eKOr1B//GBpfe/oIh1Iu5MMsgYNBImVc/agrMOailgH47JuRczRtwdBlAyI4qWnaHVW4k3fUbO+LkBO2OsQqWFLYhqP7cD4M/+JXXdj/3Uyo9ZjrY4P4MecQDyFPnrQOWuT6gRXEpz3TA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jRE63VhSY5+AMkoNbWBJsuQ8X1IgMGJGa7nVr/kLweI=;
- b=pehGRkwyt7amneGIPdNbvn6YD60Fa2VTx8IlkT4Ga1JfirXpbXZTx12rVlIqEk/rIN2uhXxRPypMRjPYeuBQeUwMiobNJuYM6mBbtSbWXB3zAL5wKJWHVyuM5omG6vVyPawadHsG9fHjqgzj917I0cTb+fAFKJhlix9jGAJAR8mPaE1hC9BdSclutnusUZWVuD5FQx8ovRozWkPC5+MpvG/7retpCq1PiaraGi/BewrBgdodwdyUZ0z3Ld+D4U5D031TCq8eD80X2/68CYpwIDbfzOUEB1IdPFr0BIv2FQjrJiEVazylwUkaXm7k3iOOWnSISVg39ctRTdFq36Fraw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by LV2PR12MB6016.namprd12.prod.outlook.com (2603:10b6:408:14e::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Fri, 3 Jul
- 2026 18:27:58 +0000
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0181.009; Fri, 3 Jul 2026
- 18:27:58 +0000
-Date: Fri, 3 Jul 2026 14:27:54 -0400
-From: Yury Norov <ynorov@nvidia.com>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-	corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
-	pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-	huschle@linux.ibm.com, rostedt@goodmis.org,
-	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
-	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
-	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
-	christian.loehle@arm.com, tj@kernel.org,
-	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-	rdunlap@infradead.org, kernellwp@gmail.com,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 12/23] virt: Introduce steal monitor driver
-Message-ID: <akf_Kg3jaenNbb-g@yury>
-References: <20260701141654.500125-1-sshegde@linux.ibm.com>
- <20260701141654.500125-13-sshegde@linux.ibm.com>
- <akf9cE22wvPeYNiM@yury>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <akf9cE22wvPeYNiM@yury>
-X-ClientProxiedBy: CY5PR22CA0051.namprd22.prod.outlook.com
- (2603:10b6:930:1d::27) To LV3PR12MB9356.namprd12.prod.outlook.com
- (2603:10b6:408:20c::21)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hh7LE2Bx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E874B1F000E9;
+	Fri,  3 Jul 2026 18:31:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783103463;
+	bh=KN5gnCrTvXlQKADtvfFNfjZWzryi8/4lXgAOtCX+ku8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Hh7LE2BxsISAzUMxnMRULUY6kWlb20xxmjlyKM50W1ZgFaRK1dDZ5/Z1Zi1M4mnWJ
+	 SZFMTPwH8by+yiGQQb98T/Te5OMVPHKS9932Tn2aZuQZp1py9dcSVPXOZ5dUsAlRNq
+	 u2ANd4HGKHel/vm4hqFSoK4fnZuQ5k6s1b+IVEQfmq3TL/lXmDsAhPWCH5jDYhiE1f
+	 S+y1i6J2i/5pkiGQLJey7u1sxahFR+TdWwF45UXxSnJ/4iJ8VyH8rVhHw766gerB4+
+	 BCXe1ogJFIFhssFCnLJQzP6N3rdfJBLbC/b8sySgiMo/JK60EtYJh2zI84ghLlzVe/
+	 yaAkoCs8n1a3Q==
+Date: Fri, 3 Jul 2026 19:30:59 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Rodrigo Alencar via B4 Relay
+ <devnull+rodrigo.alencar.analog.com@kernel.org>
+Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
+ Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
+ R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH v6 16/16] docs: iio: add documentation for ad9910 driver
+Message-ID: <20260703193059.4deda617@jic23-huawei>
+In-Reply-To: <20260618-ad9910-iio-driver-v6-16-79125ffbe430@analog.com>
+References: <20260618-ad9910-iio-driver-v6-0-79125ffbe430@analog.com>
+	<20260618-ad9910-iio-driver-v6-16-79125ffbe430@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|LV2PR12MB6016:EE_
-X-MS-Office365-Filtering-Correlation-Id: f3b65c07-1109-4b05-baa9-08ded930ce7d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|23010399003|10070799003|3023799007|22082099003|18002099003|4143699003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	yxz5s/6pSUW/7wC4l638uVxbl7qejpXTpAF4Dy52KaMVt0dWgywFtYfsXyrXFf570r9xXYTxBbYdJtEmtHAAKUqqODHHUvt+MzT9XcqikcgQLVnfXIkqG4R0qxs6vJ54m7bqR+0+g1bNrVnG3GWyPPbX2rMUIKzvPeXBtW4DjTwFrLfErtLLC0YtuvnRP/P8bpwHflMNmSfLziFqGkJKNQ/BhxAbfAODj+P9dddGawAvLzwYHaAgAoG4dNQdLVqznQpPrTemcXPSdqWO4HJu8wqSk3CEZvj03FvIlaaQ+mGxP/878FS877ZCIZN3Ltbll5F/BqlifJUP3x/q7uT6SQcQX7Yd4MPJ3QQKajkmTgNoun/QWBKSx8+CtXu2k/CYFXBFkfJBkrJ+ZZJu4HeH9usHNWMEv1wF8HC5MZOeqJAEJTiAQId/S47jji+nHoa9XvTJe3SJMat/v8qMWm+r/qy21wb1+SthIQq6FDewxLqV+q5dJ20FGU74fkX+JHULOe2ACUhbKCZhe17m3iZrIlJB7cabWiZpGR4XxrtZD+nX89hnoG78XcVPDXNSAfWXevmpUAhZiGCOaWCxh9WuXXQlTDiF9M3PaabxKXph0YwSOkDbh5kbPxlLy79uqSPoTKU/88wcSwFtMlfmf6SzWSOvsUO1Py1+MDlI4kRSp/0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(23010399003)(10070799003)(3023799007)(22082099003)(18002099003)(4143699003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?HWD+85SrjJ83ZQigFVFfSs0/sSPME7wt3jx7CL9W0AuAiehOJoJHdnSlR2pA?=
- =?us-ascii?Q?8bXfbqfnQtVXsCZFf7QV0w7ClsrOCj/5TMM0w4jK4GacdffYnWElAY7Guq0e?=
- =?us-ascii?Q?o2deDsjCyTlDGwKkFpU/yUQNDjD4gNSnbVMrMb1s/wl1BTuwQRZU9RNZnixZ?=
- =?us-ascii?Q?T3d5sNHif+IWMPMG1UKCziHUSpwh76PKResm1giD83yng/3Zv7WDslQdDisX?=
- =?us-ascii?Q?Xy5o/t/wgKElpEJjbttYNw5hoc1gepXDKB6lEWnK7gbEoH7XteNtCmKCF2pG?=
- =?us-ascii?Q?yJjIqkd16Ml9Yv1bJzxexCZZY0gqPPAeDLHiwVcfFR+sujI4KsYG8FLnjvO3?=
- =?us-ascii?Q?1+YxANkyASWBkFdr8U9zrNHFBXbzGfjWCzgm9pv8BnZlOAt4i0L5Y2EMkpdg?=
- =?us-ascii?Q?iyaCS8BkUo4B6NyyNmcq8ISsQP2WHvy/0wmsh7P1etmre7HrCJTRSnGt6zmG?=
- =?us-ascii?Q?3wJCLJi+VCxID/Yu3yVJ4VhsyBCJ423nxBWqUulzLVW00LfgIFV+oTq/v0+s?=
- =?us-ascii?Q?IFTswQPS6GsQGBf2/HStRCyG08wWjhiS35is7W85a2kDpnjNgrmwfThZzk6X?=
- =?us-ascii?Q?fk2QOLIOcTv3q4v99KUfVL8O3GpWuZd20qTsGweZQI2Nc09gegc5TAVdaIyo?=
- =?us-ascii?Q?6N6qC276eIv3PZxC3xE5irK/jsHxzXi1sgK91FETgvwzzt61Ek4h88lUf1W7?=
- =?us-ascii?Q?Eq5iWx8oqbY4QGLRyJT0rqoOk1MDLRfub5EwGmlhnjymO7/Ykw+PLI3kLS4Z?=
- =?us-ascii?Q?ZRV8T+N1lpzvtKu8Ms+/BTzBVK2K+sigHAw5tgaFQgykewhncW4jLnIvfQHU?=
- =?us-ascii?Q?XebcRylg8Gv77DUdID4n5vgir4mR6et1VwhW85608Uhn/X9SA4ObJM3qnIWq?=
- =?us-ascii?Q?oL1HSzyLjN4XHpxFYqiujOKBGC2q5u/gvXOX6x9BV8xS6Cu0ceetzKJe0S5l?=
- =?us-ascii?Q?dRJMqoCBf8qT4QK1QoZQ4rLWoDSp+M/F3cfbb0VhBMTf85IfYxdGrlhr29vk?=
- =?us-ascii?Q?LWsW1Io7NjnKf4/vaO/rUAZvYbfJskOUO4wH0VVdeJINzdtSVbjVHDnV6G2L?=
- =?us-ascii?Q?4e0OQ4q0CtC+dPeRbL3A26l4ePKpWceGuGtzS5PwSkw88dfRpgVRsC4II+zt?=
- =?us-ascii?Q?PY+Pgnzo5Ae03GhoWop7IMFonpChz3i8nEBaFNiDg3/W3WyuAIXotujlRpvG?=
- =?us-ascii?Q?ORQ0xaMIzcqvI6zpBURnjjSaN5/4ek9iKAF4VRyqcjdx3f52jpWR2KN6qi71?=
- =?us-ascii?Q?GK7TJA6l6KraGaibIdQ/xI16FkwAhHkec4iOuzD/+ma5g4gLRShPC5V8Fuib?=
- =?us-ascii?Q?baKNSA7Ufmpx2zQzqGZouVyndrjZyH5E02avRrxg0GdERaMUBwRP0dIrR+jY?=
- =?us-ascii?Q?MDYhnTDUkFMkFdy+VneMYywnoKyrU+bgy32I4ZdUxJTc4fYaaqWkzRGJSEtO?=
- =?us-ascii?Q?5xXMDfI+9gh837wbFhzILleNX4OKsq/e5hNCIZ9m5rum7GMvTUuZnUxfK2+n?=
- =?us-ascii?Q?lLQPhFU/KORvSjsXw0nd4mNw+oDljrYOl5d+71AmJRXZ8Z4J0gdtuv9NsRFY?=
- =?us-ascii?Q?ojQ7nm8u+tetDjn0olBZFgTJDzHEv/AVYBvjKsz223KVLZ5pC1KKfArSX56z?=
- =?us-ascii?Q?xRlbxeZ/sJWjV01TPUtEWtHi9xV617HbJiujOeB+7gFE3MgHwPZff/Z0egNV?=
- =?us-ascii?Q?LAqDyQyF4mBfzoovA4KF27X3mey8KyvMBHg1qTEC0ScEf8YM5i5Q58j0f7JX?=
- =?us-ascii?Q?xPFVCjDkgeVrheqbh7NOe+0z7+eGG9xgmZtCdvd2K6SNsDUBa1WI+17rVVpE?=
-X-MS-Exchange-AntiSpam-MessageData-1: sCTeDdVgp5IhvA==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3b65c07-1109-4b05-baa9-08ded930ce7d
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 18:27:58.0844
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +OLOWXIs/3BVtJaER+d+kUmiExOTiXRh1FpWjusbMX62ZgYKOCeUxLYGMhR3vcgz88J9QDgPEXByzxFj7jS0ug==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB6016
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 03, 2026 at 02:20:32PM -0400, Yury Norov wrote:
-> On Wed, Jul 01, 2026 at 07:46:43PM +0530, Shrikanth Hegde wrote:
-> > Introduce a new driver in virt named steal_monitor. This driver
-> > will compute the steal time and drive the policy decisions of preferred
-> > CPU state.
-> > 
-> > More on it can be found in the Documentation/driver-api/steal-monitor.rst
-> > Introduce the skeleton code first.
-> > 
-> > There is no new kconfig. It depends on CONFIG_PREFERRED_CPU.
-> > - If CONFIG_PREFERRED_CPU=y, it gets compiled as a module. It is not
-> >   loaded by default.
+On Thu, 18 Jun 2026 14:27:32 +0100
+Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org=
+> wrote:
 
-What if I've got my own monitor, and don't need this one? Please add a
-way to not compile it, even if CONFIG_PREFERRED_CPU is enabled.
+> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+>=20
+> Add documentation for the AD9910 DDS IIO driver, which describes channels,
+> DDS modes, attributes and ABI usage examples.
+>=20
+> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> ---
+>  Documentation/iio/ad9910.rst | 759 +++++++++++++++++++++++++++++++++++++=
+++++++
+>  Documentation/iio/index.rst  |   1 +
+>  MAINTAINERS                  |   1 +
+>  3 files changed, 761 insertions(+)
+>=20
+> diff --git a/Documentation/iio/ad9910.rst b/Documentation/iio/ad9910.rst
+> new file mode 100644
+> index 000000000000..113521fead3e
+> --- /dev/null
+> +Single Tone mode
+> +----------------
+> +
+> +Single tone is the baseline operating mode. The ``profileY`` channels
+> +provide enable, frequency, phase and amplitude control:
+> +
+> +.. flat-table::
+> +   :header-rows: 1
+> +
+> +   * - Attribute
+> +     - Unit
+> +     - Description
+> +
+> +   * - ``en``
+> +     - boolean (0 or 1)
+> +     - Enable/disable profile Y. Only one profile can be active at a
+> +       time. When enabling a profile it disables the current active prof=
+ile.
+> +       Disabling an active profile brings the device to a powered down s=
+tate.
+> +
+> +   * - ``frequency``
+> +     - Hz
+> +     - Output frequency. Range :math:`[0, f_{SYSCLK}/2)`. Stored in the
 
-> > - If CONFIG_PREFERRED_CPU=n, module isn't compiled.
-> > 
-> > File layout of the driver is designed with having arch specific
-> > files in the future.
-> > 
-> > - sm_core.c - contains main driver code. This includes the periodic
-> >   work function and take action on steal time.
-> > - defaults.c - contains the default implementation defined with __weak
-> >   symbols.
-> > - sm_core.h - header file which includes data structure.
-> > 
-> > Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-> 
-> You've split the driver code into 12 patches. It makes it impossible
-> to review the driver as a whole. Please make it less granular. 2 or 3
-> patches for the new driver is more than enough, I think.
-> 
-> > ---
-> >  drivers/virt/Makefile                |  1 +
-> >  drivers/virt/steal_monitor/Makefile  | 14 ++++++++++++
-> >  drivers/virt/steal_monitor/sm_core.c | 33 ++++++++++++++++++++++++++++
-> >  drivers/virt/steal_monitor/sm_core.h | 11 ++++++++++
-> >  4 files changed, 59 insertions(+)
-> >  create mode 100644 drivers/virt/steal_monitor/Makefile
-> >  create mode 100644 drivers/virt/steal_monitor/sm_core.c
-> >  create mode 100644 drivers/virt/steal_monitor/sm_core.h
-> > 
-> > diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
-> > index f29901bd7820..aff715cea42d 100644
-> > --- a/drivers/virt/Makefile
-> > +++ b/drivers/virt/Makefile
-> > @@ -9,4 +9,5 @@ obj-y				+= vboxguest/
-> >  
-> >  obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
-> >  obj-$(CONFIG_ACRN_HSM)		+= acrn/
-> > +obj-$(CONFIG_PREFERRED_CPU)	+= steal_monitor/
-> >  obj-y				+= coco/
-> > diff --git a/drivers/virt/steal_monitor/Makefile b/drivers/virt/steal_monitor/Makefile
-> > new file mode 100644
-> > index 000000000000..24cee55342ce
-> > --- /dev/null
-> > +++ b/drivers/virt/steal_monitor/Makefile
-> > @@ -0,0 +1,14 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +#
-> > +# Steal time monitor to alter preferred CPU state.
-> > +#
-> > +# Arch can implement strong function definitions and override the
-> > +# default by adding them in arch specific file. It must ensure
-> > +# that preferred is always subset of active.
-> > +#
-> > +# It is always compiled as module if CONFIG_PREFERRED_CPU=y
-> > +# One has to enable the module.
-> 
-> Why?
-> 
-> > +#
-> > +obj-$(subst y,m,$(CONFIG_PREFERRED_CPU)) += steal_monitor.o
-> > +
-> > +steal_monitor-y := sm_core.o
-> > diff --git a/drivers/virt/steal_monitor/sm_core.c b/drivers/virt/steal_monitor/sm_core.c
-> > new file mode 100644
-> > index 000000000000..e320559c6576
-> > --- /dev/null
-> > +++ b/drivers/virt/steal_monitor/sm_core.c
-> > @@ -0,0 +1,33 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Steal time Monitor.
-> > + *
-> > + * Periodically compute steal time. Based on the thresholds either
-> > + * reduce/increase the preferred CPUs which can be made use
-> > + * by the workload to avoid vCPU preemption to an extent possible.
-> > + *
-> > + * Available as module with CONFIG_PREFERRED_CPU=y
-> > + *
-> > + * Copyright (C) 2026 IBM
-> > + * Author: Shrikanth Hegde <sshegde@linux.ibm.com>
-> > + */
-> > +
-> > +#include "sm_core.h"
-> > +
-> > +static int __init steal_monitor_init(void)
-> > +{
-> > +	pr_info("steal_monitor is enabled\n");
-> > +	return 0;
-> > +}
-> > +
-> > +static void __exit steal_monitor_exit(void)
-> > +{
-> > +	pr_info("steal_monitor is disabled\n");
-> > +}
-> > +
-> > +module_init(steal_monitor_init);
-> > +module_exit(steal_monitor_exit);
-> > +
-> > +MODULE_LICENSE("GPL");
-> > +MODULE_AUTHOR("IBM Corporation");
-> > +MODULE_DESCRIPTION("Virtualization Steal Time Monitor");
-> > diff --git a/drivers/virt/steal_monitor/sm_core.h b/drivers/virt/steal_monitor/sm_core.h
-> > new file mode 100644
-> > index 000000000000..684a258526e1
-> > --- /dev/null
-> > +++ b/drivers/virt/steal_monitor/sm_core.h
-> > @@ -0,0 +1,11 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > +#ifndef __VIRT_STEAL_CORE_H
-> > +#define __VIRT_STEAL_CORE_H
-> > +
-> > +#include <linux/types.h>
-> > +
-> > +#include <linux/module.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/init.h>
-> > +
-> > +#endif /* __VIRT_STEAL_CORE_H */
-> > -- 
-> > 2.47.3
+Probably spaces around the / for consistency.
+
+> +       profile's frequency tuning word (FTW).
+> +
+> +   * - ``phase``
+> +     - rad
+> +     - Phase offset. Range :math:`[0, 2\pi)`. Stored in the profile's ph=
+ase
+> +       offset word (POW).
+> +
+> +   * - ``raw``
+> +     - integer
+> +     - Amplitude scale factor code. Range :math:`[0, 16383]`. Stored in =
+the
+> +       profile's amplitude scale factor (ASF) register. The physical out=
+put
+> +       amplitude is ``raw * scale`` where ``scale`` is read from the ``p=
+hy``
+> +       channel.
+
+...
+
+> +Digital ramp generator (DRG)
+> +----------------------------
+> +
+> +The DRG produces linear frequency, phase or amplitude sweeps using dedic=
+ated
+> +hardware. The active ramp target (destination) is selected by enabling t=
+he
+> +corresponding typed channel at channel number 130:
+> +
+> +- ``out_frequency130`` (label ``drg_frequency``) =E2=80=94 ramp targets =
+frequency
+> +- ``out_phase130`` (label ``drg_phase``) =E2=80=94 ramp targets phase
+> +- ``out_altcurrent130`` (label ``drg_amplitude``) =E2=80=94 ramp targets=
+ amplitude
+> +
+> +Writing ``en=3D1`` to one of these channels enables the DRG and switches=
+ its
+> +destination. Writing ``en=3D0`` disables the DRG if the channel is the c=
+urrent
+> +active destination; writing to an already-inactive destination is a no-o=
+p.
+> +
+> +Each destination channel also exposes a read-only ``scale`` attribute
+> +reporting the physical quantity per ramp register LSB, which allows conv=
+erting
+> +raw limit codes to physical values.
+> +
+> +The two ramp channels ``out_altcurrent131`` (``drg_rising``) and
+> +``out_altcurrent132`` (``drg_falling``) configure ascending and descendi=
+ng
+> +ramp parameters independently.
+> +
+> +Destination channel attributes
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +.. flat-table::
+> +   :header-rows: 1
+> +
+> +   * - Attribute
+> +     - Unit
+> +     - Description
+> +
+> +   * - ``en``
+> +     - boolean
+> +     - Enable the DRG with this channel as the active destination. Only =
+one
+> +       destination can be active at a time.
+> +
+> +   * - ``scale``
+> +     - Hz/LSB, rad/LSB or mA/LSB
+> +     - Read-only. Physical quantity per raw units. Multiply a ramp
+> +       rising/falling channel ``raw`` value by this scale to get the phy=
+sical
+> +       ramp target.
+> +
+> +Ramp channel attributes
+> +^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +.. flat-table::
+> +   :header-rows: 1
+> +
+> +   * - Attribute
+> +     - Unit
+> +     - Description
+> +
+> +   * - ``dwell_en``
+> +     - boolean
+> +     - Enable dwell at the ramp limit. When disabled, the ramp
+> +       auto-transitions at this limit without waiting for the DRCTL pin.
+> +       Disabling both creates a bidirectional continuous ramp (triangular
+> +       pattern). Other combinations create single-shot ramps at the DRCTL
+> +       pin transition.
+> +
+> +   * - ``raw``
+> +     - integer (64-bit)
+> +     - Ramp limit expressed as a raw DRG register code in
+> +       :math:`[0, 2^{32}-1]`. The physical value is ``raw * scale`` where
+> +       ``scale`` is read from the active destination channel.
+> +
+> +   * - ``sampling_frequency``
+> +     - Hz
+> +     - Ramp clock rate. Controlled by an integer divider; the written va=
+lue
+> +       is adjusted to the nearest supported rate.
+> +
+> +   * - ``raw_roc``
+> +     - /s
+> +     - Rate of change. Number of register codes advanced per second, com=
+puted
+> +       from the hardware step size and the current ramp clock. Writing
+> +       requires ``sampling_frequency`` to be configured first.
+> +
+> +Usage examples
+> +^^^^^^^^^^^^^^
+> +
+> +Configure a frequency sweep from 40 MHz to 60 MHz with a rate of change =
+of
+> +25 GHz/s:
+> +
+> +.. code-block:: bash
+> +
+> +  # Disable dwell on both limits for a bidirectional continuous ramp
+> +  echo 0 > /sys/bus/iio/devices/iio\:device0/out_altcurrent131_dwell_en
+> +  echo 0 > /sys/bus/iio/devices/iio\:device0/out_altcurrent132_dwell_en
+> +
+> +  # Set ramp rate at 250 MHz
+> +  echo 250000000 > /sys/bus/iio/devices/iio\:device0/out_altcurrent131_s=
+ampling_frequency
+> +  echo 250000000 > /sys/bus/iio/devices/iio\:device0/out_altcurrent132_s=
+ampling_frequency
+> +
+> +  # read the frequency scale to convert physical values to raw units
+> +  cat /sys/bus/iio/devices/iio\:device0/out_frequency130_scale
+> +  0.232830643650
+> +
+> +  # 40 MHz / 0.232830643650 =3D 171798692
+> +  echo 171798692 > /sys/bus/iio/devices/iio\:device0/out_altcurrent131_r=
+aw
+> +  # 60 MHz / 0.232830643650 =3D 257698038
+> +  echo 257698038 > /sys/bus/iio/devices/iio\:device0/out_altcurrent132_r=
+aw
+
+Why is this writing frequencies to altcurrent channels? Shouldn't this be t=
+he
+frequency ones?
+
+> +
+> +  # 25 GHz/s / 0.232830643650 =3D 107374182402
+> +  echo 107374182402 > /sys/bus/iio/devices/iio\:device0/out_altcurrent13=
+1_raw_roc
+> +  echo 107374182402 > /sys/bus/iio/devices/iio\:device0/out_altcurrent13=
+2_raw_roc
+> +
+> +  # Enable the DRG with frequency as the destination
+> +  echo 1 > /sys/bus/iio/devices/iio\:device0/out_frequency130_en
+> +
+> +RAM mode
+> +--------
+
+...
+
+
+
+> +
+> +.. code-block:: bash
+> +
+> +  echo 1 > /sys/bus/iio/devices/iio\:device0/out_altcurrent100_powerdown
+> \ No newline at end of file
+Tidy that up.
+
+Thanks,
+
+Jonathan
