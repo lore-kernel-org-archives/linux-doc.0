@@ -1,132 +1,241 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6233DB65A;
-	Fri,  3 Jul 2026 14:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A75A13D9DBF;
+	Fri,  3 Jul 2026 14:15:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783088123; cv=none; b=MobcpCjmPCAKcnXuLjG9dpzaMNZ9oip5qAnZ/yOFAWlPLmISngA/lYu+tXl1HM3+wLisqXpPWKwduduanEtPB03CA/q/91gmpnsbol1CZPHxfAqsHhI12489WjpPHJrYjBsw5wa+K2dXPURmH/EvhRJZiQBpLIuMoJQYGIBW+O4=
+	t=1783088154; cv=none; b=i+GHYWKU5rlK0ZpqY91OGlXULE0SrbfrI+yihULFe09NUE1myI7a6f6tnfG02eCVX2os5qCYVLjVLhCzKbR+Zjub7xJ6SlwNJHyUkdz8LF3pOIGVJoxQSGLjI3XHKQqZfnn7Z2GUT5uViqATQ8JIVfWvHAMYydMh5N2mDw5sSas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783088123; c=relaxed/simple;
-	bh=mssUN9MRux+VdHWpXmTi+DJe1noOKFImv4q9eLM5sbQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=p58tersVeoMZ3TqO56dhLuw8yBd8YR76C8dVouhvLj2yEbD3Gdl47qcIKePYXQi7gvU5dOt+Xi4oj6810rk8JC+Qs44cnQQGxUALojii/JR2YAYwocXJJVBidlWCNzSHumYlmJYzS3qBPh5RQxWT1kbbiiVPPnn28cvHfVLUNTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C+JDrISk; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783088154; c=relaxed/simple;
+	bh=c2iKZ8/uXxQA0af8ZFoWEp9/z/46QEA6ldJuCnB0+QI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hrVlQAXaasymdXNRdGkJpVpUo/XEpmCARDCceDxEd2LHMogLyYtvThT4C97VFFe50qZcAQOndw7cVxujVPmez9ppF6fOZoA1lDwmm6X71CeumIZFbWPsuco+AeBuBHQjC2EDbrkc0qqWpkcKnNy2U1QSJdZP+Y3yAqwardYp8do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=MPlzZXmg; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C+JDrISk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783088117; x=1814624117;
-  h=date:from:to:cc:subject:message-id;
-  bh=mssUN9MRux+VdHWpXmTi+DJe1noOKFImv4q9eLM5sbQ=;
-  b=C+JDrISkD5FMGw7QsyEI71SkMZnhRTscesW5XubKD2HvpeK8dcYZe7qG
-   TlGDHq8OYRtHYLrAw/u/plSABiK8W6TZrGKDy2dlnz/zsI9db2pP6PYif
-   mFxgP+q/Gm4V2p6e2RSNJf3dKmdyqVZgeAt0OiF9Up64y5EoxyHoR6dXT
-   owUs+F0tgkt3GE6N83X7NZlj6SUk2XOClk06Uv4YwWb0gcdwkwLi7BdYE
-   d1NlJbn+29u5BbxlHxMKPLfq5YeCNvIk30KqI9HrNb06EBbM2x0y3ZmgU
-   8Y+T0Tv7iybHMU23GDsPWBxGUHU//bLvNCOvfrNjnAmDFeSEmLW6d6L/2
-   w==;
-X-CSE-ConnectionGUID: o2xWGcbXRWiU5ynxsQIt7w==
-X-CSE-MsgGUID: yw/mdN9vSBa1upNa80mVWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="101263255"
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="101263255"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 07:15:15 -0700
-X-CSE-ConnectionGUID: NvVg7GuqQrquyAbvLICZGw==
-X-CSE-MsgGUID: H10oQFSMQL2oRE56n2HspA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="248675895"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 03 Jul 2026 07:15:12 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wfefe-000000001Wz-3EcE;
-	Fri, 03 Jul 2026 14:15:10 +0000
-Date: Fri, 03 Jul 2026 16:14:58 +0200
-From: kernel test robot <lkp@intel.com>
-To: Wang Yaxin <wang.yaxin@zte.com.cn>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- mm-commits@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [akpm-mm:mm-nonmm-unstable 43/44] htmldocs:
- Documentation/accounting/delay-accounting.rst:237: WARNING: Block quote ends
- without a blank line; unexpected unindent. [docutils]
-Message-ID: <202607031654.P4fsMqo4-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="MPlzZXmg"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 422B9463D;
+	Fri,  3 Jul 2026 07:15:46 -0700 (PDT)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ED47B3F905;
+	Fri,  3 Jul 2026 07:15:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1783088150; bh=c2iKZ8/uXxQA0af8ZFoWEp9/z/46QEA6ldJuCnB0+QI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MPlzZXmgBYb1/l5ZuUhWGKlKqLha+H/RXkeXpAOWYtqRqXl0ki7o+BmPjVcdPdzRw
+	 zqM6p736TPv5gw047WchhCTlqDAYpIRtjPsfugKYKVKb2C+vZMN3BzyDH0RjHPTcod
+	 2Eq2BC/LspCF67SfpIAniYyHlhVFw3G3dVT+HNrI=
+Date: Fri, 3 Jul 2026 15:15:36 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
+	skhan@linuxfoundation.org, maz@kernel.org, ardb@kernel.org,
+	ilias.apalodimas@linaro.org, oupton@kernel.org, joey.gouly@arm.com,
+	seiden@linux.ibm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com,
+	oleg@redhat.com, lpieralisi@kernel.org, tglx@kernel.org,
+	ada.coupriediaz@arm.com, anshuman.khandual@arm.com,
+	ebiggers@kernel.org, broonie@kernel.org,
+	mrigendra.chaubey@gmail.com, baohua@kernel.org, lucaswei@google.com,
+	james.morse@arm.com, zengheng4@huawei.com, thuth@redhat.com,
+	yang@os.amperecomputing.com, leo.bras@arm.com,
+	Sascha.Bischoff@arm.com, james.clark@linaro.org,
+	peterz@infradead.org, leitao@debian.org, ben.horgan@arm.com,
+	punit.agrawal@oss.qualcomm.com, gshan@redhat.com,
+	osama.abdelkader@gmail.com, fengchengwen@huawei.com,
+	ryan.roberts@arm.com, yangyicong@hisilicon.com,
+	kevin.brodsky@arm.com, kees@kernel.org, jeson.gao@unisoc.com,
+	zhaoyang.huang@unisoc.com, ryotkkr98@gmail.com, wsw9603@163.com,
+	pasha.tatashin@soleen.com, jeremy.linton@arm.com,
+	schuster.simon@siemens-energy.com, osandov@fb.com, arnd@arndb.de,
+	zhangpengjie2@huawei.com, smostafa@google.com,
+	vladimir.murzin@arm.com, tabba@google.com, vdonnefort@google.com,
+	kaleshsingh@google.com, jic23@kernel.org, timothy.hayes@arm.com,
+	alexandru.elisei@arm.com, zenghui.yu@linux.dev, david@kernel.org,
+	akpm@linux-foundation.org, ljs@kernel.org, memxor@gmail.com,
+	qperret@google.com, chaitanyas.prakash@arm.com,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+	kvmarm@lists.linux.dev
+Subject: Re: [PATCH 00/17] arm64: Support FEAT_NMI and Rework Exception
+ Masking
+Message-ID: <akfECMwlZL1aoXHl@J2N7QTR9R3>
+References: <20260703100135.2512312-1-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260703100135.2512312-1-ruanjinjie@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   604ad02caddab12905643d5191b4a301d87033ef
-commit: 7f18b4ec38272a00b16cb2995ebb06281e0f26d0 [43/44] delaytop: sort by max delay to highlight top latency processes
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260703/202607031654.P4fsMqo4-lkp@intel.com/reproduce)
+Hi Jinjie
+On Fri, Jul 03, 2026 at 06:01:18PM +0800, Jinjie Ruan wrote:
+> Hi all,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607031654.P4fsMqo4-lkp@intel.com/
+Vladimir (cc'd) has also been working on NMI support, but hadn't posted
+to the list yet (due to some delays with testing).
 
-All warnings (new ones prefixed by >>):
+I haven't had the chance to look at this yet, but at a high-level we'll
+need to figure out what to do going forwards.
 
-   [WARNING] /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-   [WARNING] /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-   [WARNING] /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
-   Using alabaster theme
-   Documentation/accounting/delay-accounting.rst:236: ERROR: Unexpected indentation. [docutils]
->> Documentation/accounting/delay-accounting.rst:237: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/accounting/delay-accounting.rst:237: ERROR: Unexpected section title or transition.
---
-   Documentation/accounting/delay-accounting.rst:239: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/accounting/delay-accounting.rst:243: ERROR: Unexpected indentation. [docutils]
-   Documentation/accounting/delay-accounting.rst:244: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/accounting/delay-accounting.rst:246: ERROR: Unexpected indentation. [docutils]
-   Documentation/accounting/delay-accounting.rst:247: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
->> Documentation/accounting/delay-accounting.rst:249: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/accounting/delay-accounting.rst:246: ERROR: Unknown target name: "pool_workqueue". [docutils]
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
+Mark.
 
-
-vim +237 Documentation/accounting/delay-accounting.rst
-
-   224	
-   225		bash# ./delaytop -t cpu
-   226		System Pressure Information: (avg10/avg60/avg300/total)
-   227		CPU some:       0.4%/   0.2%/   0.1%/     220(ms)
-   228		CPU full:       0.0%/   0.0%/   0.0%/       0(ms)
-   229		Memory full:    0.0%/   0.0%/   0.0%/       0(ms)
-   230		Memory some:    0.0%/   0.0%/   0.0%/       0(ms)
-   231		IO full:        0.0%/   0.0%/   0.0%/      12(ms)
-   232		IO some:        0.0%/   0.0%/   0.0%/      13(ms)
-   233		IRQ full:       0.0%/   0.0%/   0.0%/       0(ms)
-   234		[q]quit
-   235		Top 20 processes (sorted by cpu MAX delay, largest first):
-   236		     PID      TGID  COMMAND          AVG(ms)  MAX(ms)   MAX_TIMESTAMP
- > 237		------------------------------------------------------------------------
-   238		       9         9  kworker/0:0-eve   0.59   16.87  2026-05-27T13:32:39
- > 239		      30        30  kworker/2:0H-kb   2.87   11.36  2026-05-27T13:32:36
-   240		      27        27  migration/2       1.05    9.51  2026-05-27T13:32:37
-   241		      50        50  kworker/2:1-eve   0.50    9.13  2026-05-27T13:32:37
-   242		      15        15  rcu_preempt       0.11    8.98  2026-05-27T13:32:37
-   243		       1         1  init              0.17    7.12  2026-05-27T13:32:38
-   244		      67        67  scsi_eh_0         1.20    4.23  2026-05-27T13:32:37
-   245		      23        23  ksoftirqd/1       1.12    3.77  2026-05-27T13:32:36
-   246		       3         3  pool_workqueue_   0.72    3.55  2026-05-27T13:32:38
-   247		      62        62  kworker/u20:2-a   0.49    3.03  2026-05-27T13:32:37
-   248		       2         2  kthreadd          0.18    2.82  2026-05-27T13:32:37
- > 249		      11        11  kworker/0:1       1.42    2.76  2026-05-27T13:32:36
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> This patch series implements support for the ARMv8.8-A/v9.3-A
+> hardware NMI extension (FEAT_NMI), introducing the use of PSTATE.ALLINT
+> to manage superpriority interrupts on arm64.
+> 
+> Background and Current Status
+> -----------------------------
+> 
+> The hardware ecosystem is already mature and fully ready for FEAT_NMI:
+> 
+> - Production Hardware: Huawei's Kunpeng servers (such as the HIP12 based
+>   platforms) already feature native hardware support for FEAT_NMI.
+> 
+> - Emulation: QEMU has integrated robust FEAT_NMI emulation[1] support
+>   since 2024.
+> 
+> Despite the hardware readiness, upstream support for FEAT_NMI has been
+> delayed. Previous patch[2] attempts tried to bundle ALLINT management
+> directly into the existing DAIF abstraction layers. As Mark Rutland
+> pointed out[3], pretending ALLINT or pseudo-NMI (GIC PMR) is part of
+> DAIF creates convoluted, unmaintainable hacks that frequently fail to
+> handle complex edge cases correctly (such as state escape during
+> context switching).
+> 
+> Reworking Exception Masking (Mark's Feedback)
+> ---------------------------------------------
+> 
+> Following Mark Rutland's strong recommendation ("We must clean up
+> the existing approach before we add the real NMI support"), this series
+> does not simply stack FEAT_NMI on top of the old framework. Instead, it
+> completely reworks how the arm64 kernel manages abstract and logical
+> exception masks.
+> 
+> Per Mark's guidelines, this series achieves the following architectural
+> improvements:
+> 
+> 1. Entry/Exit Specific Helpers (a):
+> 
+>    Introduces abstract exception mask helpers specifically for exception
+>    boundaries. They handle unified unmask-at-entry and mask-at-exit
+>    behaviors. This decouples the entry/exit paths from raw DAIF
+>    manipulation. In this series, these helpers are first refactored to
+>    manage DAIF + PMR cleanly, preparing the ground before any FEAT_NMI
+>    code is introduced.
+> 
+> 2. Logical Exception Mask Separation (b):
+> 
+>    Introduces a decoupled logical mask tracking mechanism that treats DAIF,
+>    PMR, and ALLINT as separate, distinct elements. This enables accurate
+>    irqflag tracking and debug assertions to save, restore, and validate all
+>    elements without forcing them to fake or pollute a traditional DAIF
+>    layout.
+> 
+> Production Bug Fixes & Integration
+> -----------------------------------
+> 
+> On top of this solid architectural foundation, this series adds the actual
+> support for FEAT_NMI (ALLINT management). Crucially, during baisc testing
+> and validation on production Kunpeng (HIP12) servers, we identified and
+> resolved several critical bugs.
+> 
+> The series is structured as follows:
+> 
+> - Patches 1-5: Clean up and rework the existing DAIF/PMR masking into
+>   separate logical exception helpers (Pre-requisite refactoring).
+> 
+> - Patches 6-17: Add FEAT_NMI support for ARM64, including specific
+>   stability fixes found on Kunpeng hardware and QEmu.
+> 
+> Any feedback, testing, or review, especially regarding the exception
+> masking refactoring, is highly appreciated.
+> 
+> [1]: https://lore.kernel.org/all/20240407081733.3231820-1-ruanjinjie@huawei.com/
+> [2]: https://lore.kernel.org/linux-arm-kernel/20221112151708.175147-1-broonie@kernel.org/
+> [3]: https://lore.kernel.org/linux-arm-kernel/Y5c9SLeJacLYHmP7@FVFF77S0Q05N/
+> 
+> Jinjie Ruan (5):
+>   arm64: Move DAIF macros to ptrace.h and use them centrally
+>   arm64: Rework exception masking into abstract logical mask
+>   arm64: entry: arm64: entry: Move DAIF masking for EL1 exit to C code
+>   arm64: entry: Add entry-specific helpers
+>   arm64: Introduce helpers for restoring standard exception masks
+> 
+> Lorenzo Pieralisi (1):
+>   irqchip/gic-v3: Implement FEAT_GICv3_NMI support
+> 
+> Mark Brown (11):
+>   arm64/booting: Document boot requirements for FEAT_NMI
+>   arm64/sysreg: Add definitions for immediate versions of MSR ALLINT
+>   arm64/hyp-stub: Enable access to ALLINT
+>   arm64/idreg: Add an override for FEAT_NMI
+>   arm64/cpufeature: Detect PE support for FEAT_NMI
+>   KVM: arm64: Hide FEAT_NMI from guests
+>   arm64/nmi: Manage masking for superpriority interrupts along with DAIF
+>   arm64/entry: Don't call preempt_schedule_irq() with NMIs masked
+>   arm64/irq: Document handling of FEAT_NMI in irqflags.h
+>   arm64/nmi: Add handling of superpriority interrupts as NMIs
+>   arm64/nmi: Add Kconfig for NMI
+> 
+>  Documentation/arch/arm64/booting.rst     |   6 +
+>  arch/arm64/Kconfig                       |  17 ++
+>  arch/arm64/include/asm/arch_gicv3.h      |   7 +-
+>  arch/arm64/include/asm/assembler.h       |  17 +-
+>  arch/arm64/include/asm/cpufeature.h      |   5 +
+>  arch/arm64/include/asm/cpuidle.h         |  30 ++-
+>  arch/arm64/include/asm/daifflags.h       | 144 --------------
+>  arch/arm64/include/asm/efi.h             |  22 ++-
+>  arch/arm64/include/asm/el2_setup.h       |  13 ++
+>  arch/arm64/include/asm/entry-common.h    |  11 +-
+>  arch/arm64/include/asm/exception_masks.h | 232 +++++++++++++++++++++++
+>  arch/arm64/include/asm/irq.h             |   2 +
+>  arch/arm64/include/asm/irqflags.h        |  10 +
+>  arch/arm64/include/asm/kvm_host.h        |   2 +-
+>  arch/arm64/include/asm/mmu_context.h     |   2 +-
+>  arch/arm64/include/asm/nmi.h             |  23 +++
+>  arch/arm64/include/asm/ptrace.h          |  11 +-
+>  arch/arm64/include/asm/sysreg.h          |   2 +
+>  arch/arm64/include/uapi/asm/ptrace.h     |   1 +
+>  arch/arm64/kernel/acpi.c                 |  14 +-
+>  arch/arm64/kernel/cpufeature.c           |  58 +++++-
+>  arch/arm64/kernel/debug-monitors.c       |   9 +-
+>  arch/arm64/kernel/entry-common.c         | 167 +++++++++++-----
+>  arch/arm64/kernel/entry.S                |   4 -
+>  arch/arm64/kernel/hibernate.c            |  10 +-
+>  arch/arm64/kernel/idle.c                 |   7 +-
+>  arch/arm64/kernel/irq.c                  |  36 +++-
+>  arch/arm64/kernel/machine_kexec.c        |   4 +-
+>  arch/arm64/kernel/pi/idreg-override.c    |   1 +
+>  arch/arm64/kernel/probes/kprobes.c       |   9 +-
+>  arch/arm64/kernel/process.c              |   7 +-
+>  arch/arm64/kernel/setup.c                |   4 +-
+>  arch/arm64/kernel/signal.c               |   2 +-
+>  arch/arm64/kernel/smp.c                  |  22 +--
+>  arch/arm64/kernel/suspend.c              |  15 +-
+>  arch/arm64/kernel/traps.c                |   2 +-
+>  arch/arm64/kvm/emulate-nested.c          |   6 +-
+>  arch/arm64/kvm/hyp/include/hyp/switch.h  |   6 +
+>  arch/arm64/kvm/hyp/nvhe/host.S           |   4 +-
+>  arch/arm64/kvm/hyp/nvhe/hyp-init.S       |   3 +-
+>  arch/arm64/kvm/hyp/nvhe/hyp-main.c       |   4 +-
+>  arch/arm64/kvm/hyp/vgic-v3-sr.c          |   6 +-
+>  arch/arm64/kvm/hyp/vhe/switch.c          |   6 +-
+>  arch/arm64/kvm/reset.c                   |   6 +-
+>  arch/arm64/mm/fault.c                    |   2 +-
+>  arch/arm64/mm/mmu.c                      |   6 +-
+>  arch/arm64/tools/cpucaps                 |   2 +
+>  drivers/firmware/psci/psci.c             |   7 +-
+>  drivers/irqchip/irq-gic-v3.c             | 152 +++++++++++++--
+>  include/linux/irqchip/arm-gic-v3.h       |   4 +
+>  50 files changed, 822 insertions(+), 320 deletions(-)
+>  delete mode 100644 arch/arm64/include/asm/daifflags.h
+>  create mode 100644 arch/arm64/include/asm/exception_masks.h
+>  create mode 100644 arch/arm64/include/asm/nmi.h
+> 
+> -- 
+> 2.34.1
+> 
