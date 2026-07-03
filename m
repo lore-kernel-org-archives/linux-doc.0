@@ -1,234 +1,187 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022084.outbound.protection.outlook.com [40.107.75.84])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA6E23393B
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 01:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC39113C918
+	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 01:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.84
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783042632; cv=pass; b=RIuxdTUlhcQSQwoluIwrM1KM6WO/mVEAMkJtSYMgcoNfS5c6ytij6ovE+RmNypk0LySi5OxodMKZTYN6I2mrO3lJeienUh/qQEbKNLTKzDVdLrVmK3eAXM28FXcHWShxfAKByqW36JlJRgXSh/ihUp7sUyfTXpbumPLCLNgvOSc=
+	t=1783043433; cv=fail; b=E2AQ5R/TRrbQwjiSPEgB3Y3fpMPEPfRJZ2YbhF0ppQc7k+cTZpXuHslOkt20MGR6a39ns62TH8yngigU0BC6nqfv2mbD9NYMs/UWNZUhm09hqsDdz4CD6fXjbsN9idEehnAG4fwuWZR2ADeAlEH05TAoUITGWEVBOrUae5/d6+8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783042632; c=relaxed/simple;
-	bh=YMafmxr+u+dHYErOVxj/FNmniwqg1vVnRq/lLcyl4cI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KerGiUGMa6Aqm4OjpLyTolKGcrncpG8P6n8zR8ukDcGQfeu2Jc0X1Ba4tbFCT1WOGuDnffLIdTZJ5eW1crtL1UXLdvQeN8+ewSKG50eVAMPKXbSYStbHTIZwqHysnVrS6CSfwjL6mEeYGBcg/zKABTcCsc1yZm+tgJa1GRzEClY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OSLPPSxW; arc=pass smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783043433; c=relaxed/simple;
+	bh=EwJAwpccl7zBjlCheYMcrbSZzXbaAymuyv0J3nN/qdY=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=rIcSkQISv2CaFA3avfAi2fufNc5/N8nsYQjQVCNmj2gveei+ZRNggTJ6Eke+QA3WLbafVU2bZ7Rw7yqs9DBrwpjSN+kbOzw5NRCLrcyfkRZZwrOIz6shQdtvfzoH6u9ynv6Jwi5T+RopBqkTmYtDxrayZuIU/LYiT3OwgTt9uXA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=transsion.com; spf=pass smtp.mailfrom=transsion.com; dkim=pass (1024-bit key) header.d=transsion.com header.i=@transsion.com header.b=FWkMXWWv; arc=fail smtp.client-ip=40.107.75.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=transsion.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=transsion.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OSLPPSxW"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4745492ed3aso31089f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 02 Jul 2026 18:37:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783042629; cv=none;
-        d=google.com; s=arc-20260327;
-        b=o79aw2ysRktQH/jILEhHorqNFbjXSbK8BNAYrn5F/CLH6Mdq21RcjJ+fJeJPxq6uiz
-         g1aNooviudbMz2TShaMP9UTYI3ph2Q8EVQNs0HJwuyVc0j8jGiOgAYqrwDS/woGTeHvx
-         F2/c5OXoFD2drkDXXXsdtEXMnt6sXSPaEJP10wlkRAhrp9W7/sit7gjsliSwEn+3bK0y
-         OrP8j+iGUI+j0WkwG1OpoguT7LTApAOGJvkAt2F/o1sQtohr5l1XKuGZ420/S4+cozHh
-         dIHOEsDjdwz5Ik4mM+vi1q/61+FZj1bAasUIi99jk6CZ0o4W2IKdv39CuV8plrXXiQAg
-         Zjjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tNl1bH7dvjSHeVWsTMaZDTnFNN2LUwwSM0ajOC2Eq64=;
-        fh=dSpHnpeLpE1pbCo7+1wpJ0RmJvXQMGC9jN8xXHR3KzE=;
-        b=NQoDtLcyDjhHxbYYtHvTLLsUcOIIHnMR+NInjLJvW8luSI8iBpzjq1F/UqZh++72WO
-         k9lrcVKyJs83BYVgq/OE+LHp0l+oe8/q7gIJ9jQD6t87OaNKmOsN3HLp8x4PPrHPTFQq
-         S9uEPKF4NK3XY6Y0c36qQiV1jb5wYL8dWiSNDDdZfnWHu6+NHUXXR/xsVi0cp4XNVZIP
-         ANWGQViVV0BKUDDYlltVITx6QSHw7e/6op8a6cIEGSpXKzzG3EICbEE37Uq/1SjmIWpn
-         uXFr8dhnEDtYXAyZdY4N9mpq6U6ne4Emv5sOxpEUGEfbsHwtu68SBIHTo91jeCukUg4D
-         orGg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783042629; x=1783647429; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=tNl1bH7dvjSHeVWsTMaZDTnFNN2LUwwSM0ajOC2Eq64=;
-        b=OSLPPSxWqn16s4eGDyLbORnovIBg0BtZJEBnyWUTexpYXt8jm4lfKodTxqjuVIL9a8
-         UIeaVlXFh12HjENRQT9FcNB7LBWNIifhYipV59o0X5yZl7VOhkxmJupuBO46kwiyiOkE
-         93wutWBGfTbZYmDxWO1GLUv0N6WC/TtJFAsoLtujAJoUcXmoXaWQEB7x197T0hulyg/M
-         ZC+NA03JauS5I1oypD3UhDj7Vp3kPaZmDldemIe0joGocE0Tba+pGkNt66yclJ/Y+5kl
-         Y41OTrS7TTQoZX1XtA6f/MQITHdAjywPhIYWJv8Azlp0edlR7Cag82xBZZDniRrqnpbf
-         T9rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783042629; x=1783647429;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tNl1bH7dvjSHeVWsTMaZDTnFNN2LUwwSM0ajOC2Eq64=;
-        b=gWuAKHCDGXMaUu25jotjq3GMxH9oL7RwYzlSPI+9v1AROiDL1i4B2nEBflQdvorbk0
-         OyoAQVMFVviLPP7nfGZvPuE0O6qmmv8t7q07KwK2l/2pkMfau7uTKxiykYZ99/vKn5Hf
-         wKt6wgpZa/N+0aH0idhEs5OBsNb7hwUuIuc9J5a0bb0hGeb1dnra3D3UrDCh1zk8W4iQ
-         KnhP++QpFHtD0QegtEZc9VOzohpHTShR8et63F73fcKz9YyY+rUMnnYxs4NMSPdcJlSG
-         sOuEDpHtyqMM3msE1ccxlyRgLdl0Vcr4H+XTAjjsNGRPInx3ubrMnH3uR96wyX5ry+p4
-         kJUA==
-X-Forwarded-Encrypted: i=1; AHgh+RqotHmGxkblRXr+HAgiNiQv5KwjSX55T3GuUz+edD1gF/d/wBVg/uNdsPKt/elUF1b7oswJwN1Ooyk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCej4FyRmR9WKm1YL5r0aY9coONO31P6lmFCd/dBINNbF0Ny8Q
-	2l5a9cn8vNmJjwfxukao6+sw6AE9aPn9XNbxd8JX925isHTBEt5v7859DF03GDAAn8wr9W2O5L5
-	hRucq95i3kfJDz7oN7YSCM/0qq2a60n4=
-X-Gm-Gg: AfdE7cnxi2/gxANmX+TM88reYWQBP8EwQ6vl6MOpaWTLskRVyDb8MUUumnvPnyh2wU5
-	p4Q/oin0Llf5F2hx8O8jmBBL/Cjb+SQSI55MTCt4MTyiBoOkg8WxuFYTQS4f+PQjHTb9v8JOqox
-	A1gyZvpMWNkDDl1uMOa2AvufmqPlIPM36sFmG4tLk8wt4+PUOCoOKX/Hk7AliryKSGDOZkhuSk8
-	roygbXZqyKgPW/gFcdrEyeR0QQt28O/Ojx3uoFlq7jSBYHMj+TE2/+mkYfg37yRiX8jsoZuLvvD
-	MH7CR1EMcm+lREOoPaLGyVqccuH001EG1C5iM3xoxN1P3ugRoUgZ
-X-Received: by 2002:a05:6000:310a:b0:474:b860:b7b1 with SMTP id
- ffacd0b85a97d-477573bbc08mr11953399f8f.9.1783042628647; Thu, 02 Jul 2026
- 18:37:08 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=transsion.com header.i=@transsion.com header.b="FWkMXWWv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=m5grVh03k7XzJHuNjhfUlHhOpVf37EtZgjBMkP2H9kmMbAgbcF81J/I6JrygbzdadbzwJuwfcBFlpxQlP7gQYciTAzSWMBb2ch0Za2YmEhqMNdYSeZ5pWe6Gh5MVIfC0QQefbpcj3+80Zm3aPqgCYhinrvgUAfyeEUwi2BJT4ERNjngnxgfXiMV5Gz8/vZmWx7Id80BoROnXfw2spErds/BedyRkES0EoOnv/AqijLS/w91hTy3ogYWrIYPJA93OtWsPujL5DJePi2IclQapo2MZ/XI/vKOuvIJguBJ7IYxWZyI7LyXto5309WQRYDabWhLTcB5DDFo3dKXhHADWnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w2KTI1OQmbiYJRw+cPcxWr8CxP6apA9ZiTU/V3+B4XI=;
+ b=mZFubZ+CLiZI5QexU+3eSSZoludTRSC+rkQ4wv4XRUszSRuzDiARvWZVz+hDk+QpWLRosxreq00UtqtGtMKhJOCVvtnGmlfMCbJ/FTHLiL41+Sxd+fLYzqgeZJterle3fnfXAlj3hC5jlAF3tTC8gg7OyAEjWfm5QmvVUTJ+SusVl8KuANO5fQdqcqDrbVruCajsmwVHeM6MhqhOgun+oGbXSEarr8EEEo307xGXtNG8gJscjtm0oCpsdizzCvzMXdy4xa1MJmn7Jqc8MEr7rtzVjHnMv0zIV2Hcqm59ihTMfOPDXIfKhAYjdpgtqIuQraSP1ecZNHlg1nBoJCafIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=transsion.com; dmarc=pass action=none
+ header.from=transsion.com; dkim=pass header.d=transsion.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=transsion.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w2KTI1OQmbiYJRw+cPcxWr8CxP6apA9ZiTU/V3+B4XI=;
+ b=FWkMXWWvRASro2kHQVslrAynmXowSnWPoFvzBRckJBZI/3C7VvbERp2mg1Zd4RvzNMjKl/5vK3h1OwvF51a7zX/a8GZMAW6Gs9DD8iFsDEabq/Lka8d2UoL80XOUIoH6jZkUBA4dcMrjsf8fFgauXvcggJUTpGfPnusu/5gcw/A=
+Received: from KUZPR04MB8965.apcprd04.prod.outlook.com (2603:1096:d10:4a::6)
+ by SEYPR04MB5857.apcprd04.prod.outlook.com (2603:1096:101:80::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Fri, 3 Jul
+ 2026 01:50:26 +0000
+Received: from KUZPR04MB8965.apcprd04.prod.outlook.com
+ ([fe80::f38d:58bf:40b6:9438]) by KUZPR04MB8965.apcprd04.prod.outlook.com
+ ([fe80::f38d:58bf:40b6:9438%6]) with mapi id 15.21.0181.009; Fri, 3 Jul 2026
+ 01:50:26 +0000
+From: Mingzhu Wang <mingzhu.wang@transsion.com>
+To: "corbet@lwn.net" <corbet@lwn.net>
+CC: "chris@chrisdown.name" <chris@chrisdown.name>, "skhan@linuxfoundation.org"
+	<skhan@linuxfoundation.org>, Jiazi Li <jiazi.li@transsion.com>, Hongyan Xia
+	<hongyan.xia@transsion.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, Mingzhu Wang <mingzhu.wang@transsion.com>
+Subject: [PATCH] docs: printk-index: refresh sample index entries
+Thread-Topic: [PATCH] docs: printk-index: refresh sample index entries
+Thread-Index: AQHdCo5RLO98yu3pekW8SyJJHHsI1A==
+Date: Fri, 3 Jul 2026 01:50:26 +0000
+Message-ID: <20260703014954.780-1-mingzhu.wang@transsion.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=transsion.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: KUZPR04MB8965:EE_|SEYPR04MB5857:EE_
+x-ms-office365-filtering-correlation-id: 378ed433-c934-452c-553f-08ded8a57452
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|11063799006|56012099006|18002099003|38070700021;
+x-microsoft-antispam-message-info:
+ smT+kiuSFwHYx8mnNnM9OAqK5CRVbL6oBPkW0s7phCUfc+kNzRuvEiPsEv7p5eO+UfBdT+++i437gtDZuvlCKyJqnDHkokfzk4/h3fW8PRiS3KcjYVJqCuDxF6KIEc8y1MRvuw54lr3uAbAmIXI1fFiV9wf05BJNE2mQWricPnVq49rvOyw5Xuoli0I38/ToNsmiIcQjccb5xkCMB+HL1VLlsfnBVqUrREyMThRMpePVG9tOQLuQT/OJnx+0ump/QWjPIKqfJvuH+m1vZ5hZPma/Cy+znUM63Ukwkm/fxG4Zs2hKcS/cni/mfwYX3aqjfJ5uVW7O2yPJYFz6sYDHpoGa9R9ZZkr8QSA8iAaTEU+8WutO7iuEifYHSyxijni39Y9OjMho0tGGC4dQIARaN3ut3+BUGtg2zxMGsSS+3rIdVfPrs3PTUkFBckq1Y8Mr/QY3KCVorjwpwOVUK2beaaZ4MOu36ZkR54sc4fHBoc2kAK+V5opN8h77gucn2MorwiwXiu1qVY7jM2NBTw6e5K4Lv/JbeWnRxvwsFQ3D7gwQlrPG+tGIS6qZKQCzssJk5TCQ0n7ZkkqDDU+GQzLOJ8+RsS1afgyJxU9uE5sxxTUIl5OW1zr1p3MJnQvqgVeVrXYy3cXP1jXreUVIksQyh+50C0N5tQVj5CfFBFjOYI0lDsRi1MbAMZFYnU3fSMt53HebFrEZtw2uJQERMFw4DN+zjMQVBD2wdpLYX6/0HkY=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KUZPR04MB8965.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(11063799006)(56012099006)(18002099003)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?2cL8IIkeJkzisrAy6zfEq2v8M/2jtxfXVtDb3hC+PXQYk566TTS6il1skI?=
+ =?iso-8859-1?Q?mqMqtTp5Aupc7+kl1LVINA6mBX9Ow2j6yjxrvPJ6j6whQhuoWAeGD+vluW?=
+ =?iso-8859-1?Q?DxmOA/QIlourvSoAMcJ007aAEpVqOTw7TB8PeGsMv2HoZnl+zF9NSYIA+4?=
+ =?iso-8859-1?Q?GpP9a8/QU88N3fhkcydkU4wFL0YwvlINGFiz3Z/Wg1yHfiQMS54pTwjb+m?=
+ =?iso-8859-1?Q?Fq0wFifoj81fGJuF+gFufhqQvfQVKsvfmyC5Brd/SFtB+452il4ReepQYe?=
+ =?iso-8859-1?Q?JxAndMHNKFbb/CM1BTPnaQCYVwz2IzODwfEHz+sXyTyNc5xyr5Y7ky1/h+?=
+ =?iso-8859-1?Q?s/vNZsAGrpk6ny6hz1ErpzrDJBm/oDEZInv1OgQ5Yv10W1ouz4AhM/WALZ?=
+ =?iso-8859-1?Q?pnW2F1kZpv9oDUAJgOFwsJfyTzKax4NbcUQjcQ6QGccb2wiEPry78lqVpw?=
+ =?iso-8859-1?Q?0Sncf58ushg7OwrVs5l4LRdrOjYzJwT0o7P1D2N8Eq+pnqaDZjwZ8/sfoL?=
+ =?iso-8859-1?Q?aeT21tnCjIvPyTrYs3KJXY57JVQXE+j6f0UyYz+6jJIR9ohgAua0Ulf6Hf?=
+ =?iso-8859-1?Q?dS4nXitONmQ/rvMfpEAEO/1Z2/ttOU3h1RGfUaIduyQ/9/TAwq7b0xqaT1?=
+ =?iso-8859-1?Q?3AX33Ug9L9h28lnVMgLyUMtuUfjICuXYdb5aIuN1i5lKVrCPKyu+k0P1os?=
+ =?iso-8859-1?Q?V259iyYsXZ+c2Uw3K3kAO4XbGfnqj06XeOCHlPiFL5g2waJeWtEHZwgtei?=
+ =?iso-8859-1?Q?Bhk0h3iWTryxFLuRsqg5G8lmHZPHrwzu8ecR+zIwjEx0nT82HZOrYD7AHO?=
+ =?iso-8859-1?Q?EqiJmCCkTcqTJp3ZzqKig7DWc6HdLB+FJZ+ImpkvJKOrID2VrmPFR/ol8U?=
+ =?iso-8859-1?Q?MMPmRm1fysVd4GnOs1PM2NrQUjUqocy1PgDpwyJMuLrHr7XZbcR/kJYPMs?=
+ =?iso-8859-1?Q?i9ItjWNjM1IAN1X+fY4QmNwrIjbiK9euYXaSZ1MNtTzAawu+cT7lTbdTkO?=
+ =?iso-8859-1?Q?8Jqz/cdUOb74nqYQNjK1pgO4mPc7DgcPFLey9WDaeOoFEF2dawCQmO6OP2?=
+ =?iso-8859-1?Q?yQPS9rkX4eCRmPhjeYCxftDDBzlsMsJ/wTRVfDSkxhsmD6EFSCxfXwBH9r?=
+ =?iso-8859-1?Q?r97L+iU03s4ajDrf6oux6XKMORVZIPlrnSn773/9yVFPGu2VcW8z2Yn0jK?=
+ =?iso-8859-1?Q?SguF80S4r1CIXW6qd7nV9D5j1I/qt+uuYOyH8bNRIMmZLY+haGtrxgi4KO?=
+ =?iso-8859-1?Q?pko7F12SrTbCn4gLINIl1bHScxgLOG7nHqXrGSgSl1NYNcpm5GDavZ5dgY?=
+ =?iso-8859-1?Q?Qtp2OZCC3Tfyk3WYAoYh7vFFom5Veplkr5SBpdw0/jNCmL64kQ4S+S/ez+?=
+ =?iso-8859-1?Q?yLAaE1eHu7wwq6Djmq6HTnfFJMx/XZdzgxFe4fPATi5Fw6I6tSz7P6EJRY?=
+ =?iso-8859-1?Q?geMbJGBHYvVkW80CXr+MySc3ImG7weo0Us6RtL1rvi9xqS4juR4Vc8DqVT?=
+ =?iso-8859-1?Q?cL/A/nIUnLfL46vQV00rJsyZGpY0X3zRpFc18SXuh88hVZ3lG9zirc9bNy?=
+ =?iso-8859-1?Q?gLU3pj3k2hJoK7Ddf7i59x+tZgFRw+1eBzq4q3iFJtLanXlBFLBQktBpmH?=
+ =?iso-8859-1?Q?3y4Snw58Z+5A0xBxjoRcpFNjewfK8nBD0xYXJqMi5lWsdps1TmeiC3gOUW?=
+ =?iso-8859-1?Q?Og/8Eol5bimkcbct5bEEleW8NE0bnRkKLpSRo6EmFBFxM1mCQnj4Eqa9bA?=
+ =?iso-8859-1?Q?jDzWZjAS91RM6f9fKLRiwGNxciFRaPsgUAL3C9lj7oE2Yirtci4FXlzj9v?=
+ =?iso-8859-1?Q?25uiXgzYTg=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260701000949.1666714-1-joannelkoong@gmail.com>
- <20260701000949.1666714-19-joannelkoong@gmail.com> <20260702192658.GN9392@frogsfrogsfrogs>
-In-Reply-To: <20260702192658.GN9392@frogsfrogsfrogs>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 2 Jul 2026 18:36:55 -0700
-X-Gm-Features: AVVi8CcC6fzVqkOo0UfHNUMqKEbgK9tYEuLIjcETtAi_mnO3ekDmRCY21CtHqN0
-Message-ID: <CAJnrk1YZQOQ0D6p6qYx1BPvKQaDgZsrKzLbGZzaH8tUkj_OoOQ@mail.gmail.com>
-Subject: Re: [PATCH v2 18/18] Documentation: iomap: update docs to reflect
- iomap_next model
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: brauner@kernel.org, hch@lst.de, willy@infradead.org, 
-	hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: transsion.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: KUZPR04MB8965.apcprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 378ed433-c934-452c-553f-08ded8a57452
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2026 01:50:26.5322
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 2e8503a6-2d01-4333-8e36-6ab7c8cd7ae2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: uGfPcmDKKATn1BTHBt4VM+cwnQQa2xcWlJdOKCIoXvoncE1F7g9PAzkA2gUKf7G05k0WiiJQ8E1e7mif+VT4Pq10I304GruwYYKCp3Pcvbs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR04MB5857
 
-On Thu, Jul 2, 2026 at 12:27=E2=80=AFPM Darrick J. Wong <djwong@kernel.org>=
- wrote:
->
-> On Tue, Jun 30, 2026 at 05:09:33PM -0700, Joanne Koong wrote:
-> > Filesystems no longer pass a struct iomap_ops with separate
-> > ->iomap_begin() and ->iomap_end() callbacks.  Instead, every iomap
-> > operation takes a single iomap_next() callback directly. iomap_next()
-> > finishes the previous mapping (if any) and produces the next one. Most
-> > filesystems build it from begin and end helpers via the iomap_process()
-> > helper.
-> >
-> > Update the iomap documentation to match this change.
-> >
-> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> > ---
-> >  Documentation/filesystems/iomap/design.rst    | 115 +++++++++++++-----
-> >  .../filesystems/iomap/operations.rst          |  60 +++++----
-> >  Documentation/filesystems/iomap/porting.rst   |  22 +++-
-> >  3 files changed, 132 insertions(+), 65 deletions(-)
-> >
-> > diff --git a/Documentation/filesystems/iomap/design.rst b/Documentation=
-/filesystems/iomap/design.rst
-> > index 0f7672676c0b..7a37e303eea8 100644
-> > --- a/Documentation/filesystems/iomap/design.rst
-> > +++ b/Documentation/filesystems/iomap/design.rst
-> > @@ -75,7 +75,10 @@ At a high level, an iomap operation `looks like this
-> >
-> >  1. For each byte in the operation range...
-> >
-> > -   1. Obtain a space mapping via ``->iomap_begin``
-> > +   1. Obtain the next space mapping via the ``iomap_next`` callback.
-> > +      From the second iteration onwards this same callback first finis=
-hes
-> > +      the previous mapping (committing or unreserving space as needed)
-> > +      and then produces the next one.
-> >
-> >     2. For each sub-unit of work...
-> >
-> > @@ -86,7 +89,13 @@ At a high level, an iomap operation `looks like this
-> >
-> >     3. Increment operation cursor
-> >
-> > -   4. Release the mapping via ``->iomap_end``, if necessary
-> > +iomap repeats this until the range is fully consumed.  The ``iomap_nex=
-t``
-> > +callback returns ``1`` while there is more of the range left to proces=
-s,
-> > +``0`` once it is fully consumed, and a negative errno on error.
->
-> s/and/or/
->
-> > +Filesystems rarely implement ``->iomap_next`` by hand. The ``iomap_pro=
-cess``
-> > +helper implements the finish-then-produce sequence in +terms of two sm=
-aller
-> > +callbacks, ``begin`` and ``end``. See `The Mapping Callback`_ below fo=
-r more
-> > +info.
->
-> I wonder, under what circumstances would a filesystem /not/ use
-> iomap_process()?
-
-Hmm, maybe a situation where they need to share or carry some
-filesystem-specific state / info between finishing the mapping and
-producing the next one?
-
->
-> >  Each iomap operation will be covered in more detail below.
-> >  This library was covered previously by an `LWN article
-> > @@ -189,7 +198,7 @@ The fields are as follows:
-> >     * **IOMAP_DELALLOC**: A promise to allocate space at a later time
-> >       ("delayed allocation").
-> >       If the filesystem returns IOMAP_F_NEW here and the write fails, t=
-he
-> > -     ``->iomap_end`` function must delete the reservation.
-> > +     ``end`` function must delete the reservation.
-> >       The ``addr`` field must be set to ``IOMAP_NULL_ADDR``.
-> >
-> >     * **IOMAP_MAPPED**: The file range maps to specific space on the
-> > @@ -208,12 +217,12 @@ The fields are as follows:
-> >
-> >     * **IOMAP_INLINE**: The file range maps to the memory buffer
-> >       specified by ``inline_data``.
-> > -     For write operation, the ``->iomap_end`` function presumably
-> > -     handles persisting the data.
-> > +     For write operation, the ``end`` function presumably handles
-> > +     persisting the data.
->
-> Unrelated to this patch, but this should say "For write operations, the
-> end function must persist the data" because iomap_writepages doesn't
-> handle inline data.
->
-> >       The ``addr`` field must be set to ``IOMAP_NULL_ADDR``.
-> >
-> >   * ``flags`` describe the status of the space mapping.
-> > -   These flags should be set by the filesystem in ``->iomap_begin``:
-> > +   These flags should be set by the filesystem in ``begin``:
->>
-> > +``->iomap_next``
-> > +~~~~~~~~~~~~~~~~
-> > +
-> > +Each call must finish the previous mapping, if any, and then produce t=
-he
->
-> Each call?  Oh, each implementation of ->iomap_next must finish the
-> previous mapping.
->
-> > +next mapping for the current iteration position described by ``iter``.
-> > +The mapping is returned through ``iomap`` (and through ``srcmap`` for
-> > +operations that read from one mapping while writing to another; see
-> > +``begin`` below).
-> >
-> > -``->iomap_begin``
-> > +The callback returns ``1`` to continue iterating, ``0`` once the file
-> > +range has been fully consumed, and a negative errno on error.
->
-> s/and/or/
->
-> I think there should be a transition sentence here along the lines of
->
-> "Most filesystems are not expected to implement all of these behaviors
-> in ->iomap_next themselves.  They should instead call iomap_process as
-> described below."
->
-> Or demote the next section so it's more obvious that the "iomap_process"
-> and "->iomap_next" sections aren't independent?
->
-
-Sounds good, I'll incorporate all the suggestions you recommended.
-
-Thanks,
-Joanne
+From: Mingzhu Wang <mingzhu.wang@transsion.com>=0A=
+=0A=
+Update the example printk index lines in the User Interface section to=0A=
+match the current source code. The previous examples contained stale=0A=
+line numbers, an obsolete function name, and incorrect format strings.=0A=
+=0A=
+- block/blk-settings.c: disk_stack_limits -> queue_limits_stack_bdev,=0A=
+  and use %pg instead of %s for the device pointer=0A=
+- kernel/trace/trace.c: update line number for trace_create_file()=0A=
+- arch/x86/kernel/hpet.c: update line number for _hpet_print_config()=0A=
+- init/do_mounts.c: prepare_namespace -> wait_for_root, with updated=0A=
+  line number=0A=
+- drivers/acpi/osl.c: update line number, include the "OSL:" prefix=0A=
+  from pr_fmt(), and fix capitalization of "Auto-serialization"=0A=
+=0A=
+Signed-off-by: Mingzhu Wang <mingzhu.wang@transsion.com>=0A=
+---=0A=
+ Documentation/core-api/printk-index.rst | 12 ++++++------=0A=
+ 1 file changed, 6 insertions(+), 6 deletions(-)=0A=
+=0A=
+diff --git a/Documentation/core-api/printk-index.rst b/Documentation/core-a=
+pi/printk-index.rst=0A=
+index 1979c5dd32fe..40023f7dfe98 100644=0A=
+--- a/Documentation/core-api/printk-index.rst=0A=
++++ b/Documentation/core-api/printk-index.rst=0A=
+@@ -47,11 +47,11 @@ The content is inspired by the dynamic debug interface =
+and looks like::=0A=
+ =0A=
+    $> head -1 /sys/kernel/debug/printk/index/vmlinux; shuf -n 5 vmlinux=0A=
+    # <level[,flags]> filename:line function "format"=0A=
+-   <5> block/blk-settings.c:661 disk_stack_limits "%s: Warning: Device %s =
+is misaligned\n"=0A=
+-   <4> kernel/trace/trace.c:8296 trace_create_file "Could not create trace=
+fs '%s' entry\n"=0A=
+-   <6> arch/x86/kernel/hpet.c:144 _hpet_print_config "hpet: %s(%d):\n"=0A=
+-   <6> init/do_mounts.c:605 prepare_namespace "Waiting for root device %s.=
+..\n"=0A=
+-   <6> drivers/acpi/osl.c:1410 acpi_no_auto_serialize_setup "ACPI: auto-se=
+rialization disabled\n"=0A=
++   <5> block/blk-settings.c:955 queue_limits_stack_bdev "%s: Warning: Devi=
+ce %pg is misaligned\n"=0A=
++   <4> kernel/trace/trace.c:7861 trace_create_file "Could not create trace=
+fs '%s' entry\n"=0A=
++   <6> arch/x86/kernel/hpet.c:147 _hpet_print_config "hpet: %s(%d):\n"=0A=
++   <6> init/do_mounts.c:413 wait_for_root "Waiting for root device %s...\n=
+"=0A=
++   <6> drivers/acpi/osl.c:1455 acpi_no_auto_serialize_setup "ACPI: OSL: Au=
+to-serialization disabled\n"=0A=
+ =0A=
+ , where the meaning is:=0A=
+ =0A=
+@@ -130,7 +130,7 @@ For example, drivers/acpi/osl.c contains::=0A=
+ =0A=
+ This results in the following printk index entry::=0A=
+ =0A=
+-  <6> drivers/acpi/osl.c:1410 acpi_no_auto_serialize_setup "ACPI: auto-ser=
+ialization disabled\n"=0A=
++  <6> drivers/acpi/osl.c:1455 acpi_no_auto_serialize_setup "ACPI: OSL: Aut=
+o-serialization disabled\n"=0A=
+ =0A=
+ It helps matching messages from the real log with printk index.=0A=
+ Then the source file name, line number, and function name can=0A=
+-- =0A=
+2.53.0=0A=
+=0A=
