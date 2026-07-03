@@ -1,70 +1,70 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08718433E92
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 17:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC2C2DA756
+	for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2026 17:07:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783098444; cv=none; b=Gcfs1Jctqmopgtn+qgSFHs9xAz1xnAnDByDwHCSRx41tkGdt3uuqzQen010JzgVGeVErAbZMPMmpAvB4dL9T9x+PvU8A0uVBlJX3qa+zW7aBkWobSqvyGYU5AEIyt6PNY368fbDR6V80Ksgs1+vBbMHzOdfFpNDoWqov6yuSNmA=
+	t=1783098446; cv=none; b=KiQqplusJuDYvKuWhJ6/qD0tb0e4bSnzRc9UcuAXVdqPuiNFhktoMwyGihfmkvWKoaN+b+5Nc2bHiENtm+WAPnAvXlbiuGsVhzZrq0NB20wxo8eKzYG2Z0C8hQ+f/LwjCsq/DchS+WMjPjLMC80lnDIBTXLwV917mxHQuTifKXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783098444; c=relaxed/simple;
-	bh=7XUX7LZ+xor7WaAFF45MKdufrkMXYUmlmuOLIRD+wek=;
+	s=arc-20240116; t=1783098446; c=relaxed/simple;
+	bh=bpN/MDIIPVlq0ec3N+M+qJEuhunTMf4ri+T/r8MobEE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JYa/FdPuvz2Ck4SBZ3d7SXpzu4ogZt0xZ6Xxje+almtVYRIjZ6m9AfwEqRrgPwR4z88zEIjOqqddNCAv+aY+UR5jxZv059CpIfvEXsnr5/yMmo1wqPiVCoJ2JaPlsFwHb/TiN+qa+uwElLHD8bZ3uWduMMuhDvCBzD/OTJSoH0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S7K6cOVD; arc=none smtp.client-ip=209.85.210.171
+	 MIME-Version:Content-Type; b=tVQ0eJ8AVTBJdqyLI6J1hgT90z7tCR68dH7ONEMI4X58n47VSGQyM8rS/70kqz7mLJ1DYQ/UyskiR7DH8poZv8Ng1y9hMtMeX12UXAmyz4vjB4EqXS1yBVGYa/r8VR1FgFm20OYfiu5zK3zYR+sucI+k68t1Ke2Rk0emDxFqqVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A955OR3S; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S7K6cOVD"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-845ea8924fdso784450b3a.0
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2026 10:07:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A955OR3S"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2c825c88744so6497715ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2026 10:07:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783098441; x=1783703241; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783098444; x=1783703244; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MQ6UvGQN54wIzUbxDDN4YDBfYvxneLftQqVfG1VkrnU=;
-        b=S7K6cOVDV/lt7y2gYjqjajtYGq6ANK+yPv1ODlC/lgXOCZ36CAGuP6/1y+h9DfmnPQ
-         UO4wM+EkZEtaleoxt74LB/WT08ZGZ4DUxKjsd1M67R5RuKmd5X+YZynMhi5rcqC+KBcM
-         7tWZuNwUHW5YMRRVtWVaZgg278y+q51KSS7753s+Cub0onNSWK/yDPaBLM2yY3wqmfMF
-         mhBbiBE+2+jovM0cGHGEdIHRO7V9QYyx4yWoYjxl8wrD8/m+MB1HmtttrcXRIavL5Yl0
-         IyhM381jemaEhvDfmVTe52qaN9e2K5+gLyhmJkuiayd51sZR4vkkj1x6W+LR3qYHrFI5
-         Ii0Q==
+        bh=AIurjtpSRTbX1yfKFmCbh0TjGqX3s3Oq1dSt/WdoJrw=;
+        b=A955OR3SPWgO+WVYqlZGOQ59k7Xudzjr0ViISDL9Ur+P4hgG+TxrD3ytuIhCUwtfnb
+         mSeOyWZ+5h+E+TEabCDaYnrzUJEAvf5m3OpoB2Jxq9OxJWHNa6JsHdq7cB8zzLjX9aWn
+         QzGRT6VT7Jt+ueOZqKuWAXwC72WlL25oW85FEt2qCY1DQlEku5Eevy0LjkC7l98ERqNH
+         lJPGPvHeQu7/vvrqnOBNm8GXQgRkRR5fUmUSO5o35jN5ydeSFeY39n9Q/KSxo8sx+ZtX
+         BFgV8gylOOi3LWzBwz9hyMku5nTsmYJyLpB/6N5AGjAN5ueRDJV3pyVqPhlY4Gc/jui/
+         IFYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783098441; x=1783703241;
+        d=1e100.net; s=20251104; t=1783098444; x=1783703244;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=MQ6UvGQN54wIzUbxDDN4YDBfYvxneLftQqVfG1VkrnU=;
-        b=nYdyBvXLtNiYa25Fe4cfSsDdoK+AW4hmNxCt+dfcwqnKOdOOMzt05cJ7TeZTx394b9
-         tQO2DkmqZ6i4QBBRcDl1fOOwytUM68efmWStMbVxTTgv7Mo3KJwA+f0wj+674WUt0IMo
-         i2bXMY7tQitO83gqBF8gTn7JfZtqH5aKWUgVBp2LTgT3B5v68IQvyG4h/QRR6weYGl1n
-         4t0z5x6iYC7lAmjv1hCTYCyAEURpmh5poUEMOksAQDRy2SX6IYLpOFtQkJ+wu+UtyjW+
-         F47wGwkO8F5gBLq2UnrEZaeCiV8sq3w4hbucVnJowwQazxjPgn5zGSIs9ctFVFfaO/on
-         vMNQ==
-X-Gm-Message-State: AOJu0YzSDA0sfNEqhwpBx2L0r7dPEWy1kOpTeakhuC02WtJtnC+77dz1
-	KOzycQq5ZojINrsUdBKHko5h3FMegwkWB9HufWoljptMdhdx6fjwzoWo
-X-Gm-Gg: AfdE7cnD9h49a3kPAeNlbvU5oCg8zJ7lhmEkN9hI/ec/oG3Scv70qZYgk1qYcdkuQaR
-	+UkIhNQH+rGy1SBHYWftxZ5nf00Og5CcKeCDDz7lIbhvKUAN3VgTnWtgxmG5Ga5/FfgaztEuIoK
-	7cXRvb9YldYJh4RmIW1J8J5d6B4cXHtxDDnq8NWMdLX8N+09GHhXIlJWEug6mOtqsn9OaRukGFI
-	cyq3lzHh9WIdxHi7yblUL08f8xzTYLlBSfX2/nIkVTE5CMMTLwmnqZjkptRWR3td0JxQ88IQgKr
-	Qhb/9YO+edoN/bxENAOZRzrEFVZ8uHlgNNw8vRD2RaIXHo1+Ietk3tcF4ultZR0yypAIHziR4tr
-	6/hgbs19xjky2tdfmefPZSxuCiDB+ai4Nh+mJjnPzg8uPnnAfQ7riKFoS2bH635LwFV4Gk/pQBL
-	66bPdpYgKsPHvgrMNeZci5ls/lYLkn0usWR4GZZZQgyyX8Rum8REbT45LotSLUpcntPoVG1sPl3
-	w7JxvqmdxN2jTeyWh+O0JMJCzNxGNvT/vvcDyW85ijVdqC/k2I=
-X-Received: by 2002:a05:6a20:7486:b0:3b5:4fff:fa0f with SMTP id adf61e73a8af0-3c03e20879cmr262327637.14.1783098440837;
-        Fri, 03 Jul 2026 10:07:20 -0700 (PDT)
+        bh=AIurjtpSRTbX1yfKFmCbh0TjGqX3s3Oq1dSt/WdoJrw=;
+        b=ac6PZBvhMypSTN+DqBwCn19DEgcJ6SbRqStX9EEuEKaqhNpfnxseSxXxueWdOCRkds
+         c6tKQD1E85l14DubOW4rULL9el0S2XE+x0mUE+XtXd8pjXekXEa6THiifUvbWUyNH9JS
+         5/c1Fh9gs+8kamDR4tjwmFm/+9/8PEst3hMaYVqKW362tTDJeXg9M+UEpt5ca+jRb+/L
+         Z9WQAUPSr4cbFET3aT8daLWarqnCtUDVtOAIFKAab46LJKxj8k0pqPnmYBBS/I8TgPEj
+         uUWq+C6SrU2EVj/rfJYOcUmpOSPUoOHs0PF2Nh07TxdqQS/6XcaTKAbWtar3JWii+Yzu
+         o1Eg==
+X-Gm-Message-State: AOJu0Yy5fSTFBwPFTC+mNX0C4pGY07Fok70DZX5OQL58OCaFt/6wezxV
+	cVP1V5WgnWwI1jUfNGRcsQnJxTuWyEH/9kX3Yi6gBjBTblF/pIissa093E+AUoe1
+X-Gm-Gg: AfdE7cnD1VYZAAC5kROteqUSMACxij+R5YGaMIjsbRTOfs3lyhputXZBwmTdF1QQnBt
+	YUVlJfv8eOVgxBY8UCtCC1c+TiLyUvGjuL2DRpCPO4hTJB8hA5Xfs2VnjJuhgupi9mtaGeWb50F
+	IhO7F18GyW1XERN3/tk2XjoqW2THZ/qMEUB64C9+kWJnatsRioccvZwakY2T+yPfUapW3IRqJQs
+	kPPQu2uT4sWMG2Mw3rP53B0MMIxByAU7O97ViW0cvO5uXSErd3iohFwigB4kg+lbWUOpZMRb0qc
+	csEOc6KUMBbQqOGHArUMjSdGmo2itThVWgQR2BncsKDEgxZd4fYUZLkqZ5v1AQ6TahIlQlS+0DZ
+	PupcPCS8lAbNbUHynhjc+ksnOVAkfD7WHUqX4mWkd9SkM7ODfabZUd2k+GeUOPEPl4u3S6bxl1n
+	lm0k06Lg+TOGPlrOKCSfaxUQDgtC7Gow5XlcOQwUz8QRxWSssZLg5IbQVeW7CRDgXEUD0OhkVzA
+	WZ6mSM7Y6+Vbfcp4IkcOQjjaoDTbYV4JnoWhHoJih6xH19JaJqHUbXOztNj1w==
+X-Received: by 2002:a17:902:f745:b0:2ca:d874:c6cf with SMTP id d9443c01a7336-2cb97e47abbmr1611025ad.4.1783098443853;
+        Fri, 03 Jul 2026 10:07:23 -0700 (PDT)
 Received: from parrot.meuintelbras.local ([45.179.5.227])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b3c876ea9sm19643688c88.13.2026.07.03.10.07.19
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b3c876ea9sm19643688c88.13.2026.07.03.10.07.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 10:07:20 -0700 (PDT)
+        Fri, 03 Jul 2026 10:07:23 -0700 (PDT)
 From: Daniel Pereira <danielmaraboo@gmail.com>
 To: corbet@lwn.net
 Cc: linux-doc@vger.kernel.org,
 	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: [PATCH v2 5/7] docs: pt_BR: process: translate botching-up-ioctls guide
-Date: Fri,  3 Jul 2026 14:05:45 -0300
-Message-ID: <20260703170552.174764-6-danielmaraboo@gmail.com>
+Subject: [PATCH v2 6/7] docs: pt_BR: process: translate contribution maturity model
+Date: Fri,  3 Jul 2026 14:05:46 -0300
+Message-ID: <20260703170552.174764-7-danielmaraboo@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260703170552.174764-1-danielmaraboo@gmail.com>
 References: <20260703170552.174764-1-danielmaraboo@gmail.com>
@@ -77,295 +77,154 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 
-Translate the 'botching-up-ioctls' documentation into Brazilian
-Portuguese, ensuring precise technical alignment with the upstream
-source guidelines.
+Translate the 'contribution-maturity-model' documentation into
+Brazilian Portuguese, ensuring strict alignment with the upstream
+source structure and language.
 
-The translation covers critical driver-private API design concepts,
-including fixed-sized integers, structure padding, error path
-validation rules, and handling asynchronous hardware timeouts.
+The translation covers the Open Source engagement framework proposed
+by the Technical Advisory Board (TAB), detailing Levels 0 through 5
+of organizational upstream maturity, community metrics, and engineer
+career alignment.
+
+Additionally, maintain strict 80-column line length restrictions
+across the entire file to ensure proper Sphinx HTML rendering.
 
 Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
 ---
  Documentation/translations/pt_BR/index.rst    |   1 +
- .../pt_BR/process/botching-up-ioctls.rst      | 256 ++++++++++++++++++
- 2 files changed, 257 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/botching-up-ioctls.rst
+ .../process/contribution-maturity-model.rst   | 111 ++++++++++++++++++
+ 2 files changed, 112 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/contribution-maturity-model.rst
 
 diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index 08faaacf3..4a13b3d14 100644
+index 4a13b3d14..749c5fc3f 100644
 --- a/Documentation/translations/pt_BR/index.rst
 +++ b/Documentation/translations/pt_BR/index.rst
-@@ -70,6 +70,7 @@ kernel e sobre como ver seu trabalho integrado.
-    Guia do Processo de Desenvolvimento <process/development-process>
-    Como aplicar patches <process/applying-patches>
-    Backporting e resolução de conflitos <process/backporting>
-+   Como não Deixar as ioctls malfeitas <process/botching-up-ioctls>
-    Index de documentos do Kernel <process/kernel-docs>
-    Regras de licenciamento <process/license-rules>
+@@ -76,6 +76,7 @@ kernel e sobre como ver seu trabalho integrado.
     Como começar <process/howto>
-diff --git a/Documentation/translations/pt_BR/process/botching-up-ioctls.rst b/Documentation/translations/pt_BR/process/botching-up-ioctls.rst
+    Requisitos mínimos <process/changes>
+    Conclave (Continuidade do projeto) <process/conclave>
++   Modelos de Maturidade para Contribuição no Kernel Linux <process/contribution-maturity-model.rst>
+    Manuais dos mantenedores <process/maintainer-handbooks>
+    Processo do subsistema de rede (netdev) <process/maintainer-netdev>
+    Processo do subsistema SoC <process/maintainer-soc>
+diff --git a/Documentation/translations/pt_BR/process/contribution-maturity-model.rst b/Documentation/translations/pt_BR/process/contribution-maturity-model.rst
 new file mode 100644
-index 000000000..193297619
+index 000000000..bb003c4cd
 --- /dev/null
-+++ b/Documentation/translations/pt_BR/process/botching-up-ioctls.rst
-@@ -0,0 +1,256 @@
++++ b/Documentation/translations/pt_BR/process/contribution-maturity-model.rst
+@@ -0,0 +1,111 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+============================================
-+(Como evitar) Deixar as ioctls malfeitas
-+============================================
-+
-+De: https://blog.ffwll.ch/2013/11/botching-up-ioctls.html
-+
-+Por: Daniel Vetter, Copyright © 2013 Intel Corporation
-+
-+Uma percepção clara que os hackers de gráficos do kernel tiveram nos últimos
-+anos é que tentar criar uma interface unificada para gerenciar as unidades de
-+execução e a memória em GPUs completamente diferentes é um esforço inútil.
-+Portanto, hoje em dia, cada driver tem seu próprio conjunto de ioctls para
-+alocar memória e enviar trabalho para a GPU. O que é bom, já que não há mais a
-+insanidade na forma de interfaces falsamente genéricas, mas que na verdade só
-+são usadas uma vez. No entanto, a desvantagem clara é que há muito mais
-+potencial para estragar as coisas.
-+
-+Para evitar repetir todos os mesmos erros novamente, escrevi algumas das lições
-+aprendidas enquanto fazia um trabalho malfeito para o driver drm/i915. A maioria
-+delas aborda apenas tecnicalidades e não os problemas macro (big-picture), como
-+deveria ser exatamente a aparência da ioctl de envio de comando. Aprender essas
-+lições é provavelmente algo que cada driver de GPU tem que fazer por conta
-+própria.
++=======================================================
++Modelos de Maturidade para Contribuição no Kernel Linux
++=======================================================
 +
 +
-+Pré-requisitos
-+--------------
++Contexto
++========
 +
-+Primeiro, os pré-requisitos. Sem estes você já falhou, porque precisará
-+adicionar uma camada de compatibilidade de 32 bits (compat layer):
++Como parte do Linux Kernel Maintainers’ Summit de 2021, houve uma
++`discussão <https://lwn.net/Articles/870581/>`_ sobre os desafios na
++contratação de mantenedores do kernel, bem como a sucessão de mantenedores.
++Algumas das conclusões daquela discussão incluíram que as empresas que fazem
++parte da comunidade do Kernel Linux precisam permitir que os engenheiros atuem
++como mantenedores como parte de seu trabalho, para que possam crescer e se
++tornar líderes respeitados e, eventualmente, mantenedores do kernel. Para
++apoiar um fluxo forte de talentos, os desenvolvedores devem ser autorizados e
++incentivados a assumir contribuições no upstream, como revisar os patches de
++outras pessoas, refatorar a infraestrutura do kernel e escrever documentação.
 +
-+ * Use apenas inteiros de tamanho fixo. Para evitar conflitos com typedefs no
-+   espaço de usuário (userspace), o kernel possui tipos especiais como __u32 e
-+   __s64. Use-os.
++Para tanto, o Conselho Técnico Consultivo (Technical Advisory Board - TAB) da
++Linux Foundation propõe este Modelo de Maturidade para Contribuição no Kernel
++Linux. Essas expectativas comuns para o engajamento da comunidade upstream visam
++aumentar a influência de desenvolvedores individuais, aumentar a colaboração
++de organizações e melhorar a saúde geral do ecossistema do Kernel Linux.
 +
-+ * Alinhe tudo ao tamanho natural e use preenchimento (padding) explícito.
-+   Plataformas de 32 bits não alinham necessariamente valores de 64 bits a
-+   limites (boundaries) de 64 bits, mas plataformas de 64 bits o fazem. Portanto,
-+   sempre precisamos de padding para o tamanho natural para acertar isso.
++O TAB insta as organizações a avaliarem continuamente seu modelo de maturidade
++em Open Source e a se comprometerem com melhorias para se alinharem a este
++modelo. Para ser eficaz, essa avaliação deve incorporar o feedback de toda a
++organização, incluindo a gerência e os desenvolvedores de todos os níveis de
++senioridade. No espírito do Open Source, incentivamos as organizações a
++publicarem suas avaliações e planos para melhorar seu engajamento com a
++comunidade upstream.
 +
-+ * Preencha a struct inteira para um múltiplo de 64 bits se a estrutura contiver
-+   tipos de 64 bits -- caso contrário, o tamanho da estrutura diferirá entre
-+   32 bits e 64 bits. Ter um tamanho de estrutura diferente prejudica ao passar
-+   matrizes (arrays) de estruturas para o kernel, ou se o kernel verificar o
-+   tamanho da estrutura, o que o core do drm, por exemplo, faz.
++Nível 0
++=======
 +
-+ * Ponteiros são __u64, convertidos de/para um uintptr_t no lado do espaço de
-+   usuário e de/para um void __user * no kernel. Tente de verdade não atrasar
-+   essa conversão ou, pior ainda, manipular o __u64 bruto pelo seu código, pois
-+   isso diminui a verificação que ferramentas como o sparse podem fornecer. A
-+   macro u64_to_user_ptr pode ser usada no kernel para evitar avisos sobre
-+   inteiros e ponteiros de tamanhos diferentes.
-+
-+
-+Conceitos básicos
-+-----------------
-+
-+Evitadas as alegrias de escrever uma camada de compatibilidade (compat layer),
-+podemos dar uma olhada nos deslizes básicos. Negligenciar estes pontos tornará a
-+compatibilidade retroativa e futura uma verdadeira dor de cabeça. E, como errar
-+na primeira tentativa é garantido, você certamente terá uma segunda iteração ou,
-+pelo menos, uma extensão para qualquer interface fornecida.
-+
-+ * Tenha uma maneira clara para o espaço de usuário descobrir se a sua nova
-+   ioctl ou extensão de ioctl é suportada em um determinado kernel. Se você não
-+   puder confiar que os kernels antigos rejeitarão as novas flags/modos ou
-+   ioctls (já que fazer isso foi deixado de lado no passado), então você
-+   precisará de uma flag de recurso (feature flag) do driver ou de um número de
-+   revisão em algum lugar.
-+
-+ * Tenha um plano para estender as ioctls com novas flags ou novos campos no
-+   final da estrutura. O core do drm verifica o tamanho passado para cada
-+   chamada de ioctl e preenche com zero (zero-extends) quaisquer divergências
-+   entre o kernel e o espaço de usuário. Isso ajuda, mas não é uma solução
-+   completa, já que um espaço de usuário mais novo em um kernel mais antigo não
-+   notará que os campos recém-adicionados no final estão sendo ignorados.
-+   Portanto, isso ainda exige novas flags de recurso do driver.
-+
-+ * Verifique todos os campos e flags não utilizados, além de todo o preenchimento
-+   (padding), para garantir que estejam em 0, e rejeite a ioctl se esse não for
-+   o caso. Caso contrário, seu excelente plano para extensões futuras irá por
-+   água abaixo, pois alguém enviará uma struct de ioctl com lixo de pilha
-+   (stack garbage) aleatório nas partes ainda não utilizadas. O que, então,
-+   consolida na ABI que esses campos nunca poderão ser usados para nada além de
-+   lixo. Esta também é a razão pela qual você deve preencher explicitamente todas
-+   as estruturas, mesmo que nunca as use em uma matriz (array) -- o padding que
-+   o compilador possa inserir poderia conter lixo.
-+
-+ * Tenha casos de teste simples para tudo o que foi mencionado acima.
++* Engenheiros de Software não têm permissão para contribuir com patches para o
++  kernel Linux.
 +
 +
-+Diversão com caminhos de erro (Error Paths)
-+-------------------------------------------
++Nível 1
++=======
 +
-+Hoje em dia, não temos mais nenhuma desculpa para que os drivers drm sejam pequenos
-+exploits de root disfarçados. Isso significa que precisamos tanto de uma
-+validação completa de entrada quanto de caminhos sólidos de tratamento de erros
-+-- as GPUs eventualmente vão parar de funcionar (die) nos casos mais bizarros
-+de qualquer maneira:
++* Engenheiros de Software têm permissão para contribuir com patches para o
++  kernel Linux, seja como parte de suas responsabilidades de trabalho ou em seu
++  próprio tempo.
 +
-+ * A ioctl deve verificar se há estouros de matriz (array overflows). Ela também
-+   precisa verificar estouros superiores/inferiores (over/underflows) e problemas
-+   de limitação (clamping) de valores inteiros em geral. O exemplo usual são os
-+   valores de posicionamento de sprite alimentados diretamente no hardware, onde
-+   o hardware possui apenas 12 bits ou algo assim. Funciona perfeitamente até que
-+   algum servidor de exibição bizarro não se preocupe em fazer o clamping por si
-+   mesmo e o cursor dê a volta (wrap around) na tela.
++Nível 2
++=======
 +
-+ * Tenha casos de teste simples para cada caso de falha de validação de entrada
-+   na sua ioctl. Verifique se o código de erro corresponde às suas expectativas.
-+   E, finalmente, certifique-se de testar apenas um único caminho de erro em
-+   cada subteste, enviando dados que, de outra forma, seriam perfeitamente
-+   válidos. Sem isso, uma verificação anterior já poderia rejeitar a ioctl e
-+   ofuscar (shadow) o caminho de código que você realmente deseja testar,
-+   ocultando bugs e regressões.
++* Espera-se que os Engenheiros de Software contribuam para o Kernel Linux como
++  parte de suas responsabilidades de trabalho.
++* Os Engenheiros de Software receberão apoio para participar de conferências
++  relacionadas ao Linux como parte de seu trabalho.
++* As contribuições de código no upstream de um Engenheiro de Software serão
++  consideradas em promoções e avaliações de desempenho.
 +
-+ * Torne todas as suas ioctls reiniciáveis (restartable). Primeiro, o X (X11)
-+   realmente ama sinais (signals) e, segundo, isso permitirá que você teste 90%
-+   de todos os caminhos de tratamento de erro apenas interrompendo sua suíte de
-+   testes principal constantemente com sinais. Graças ao amor do X por sinais,
-+   você obterá uma excelente cobertura de base de todos os seus caminhos de erro
-+   praticamente de graça para drivers de gráficos. Além disso, seja consistente
-+   na forma como você lida com a reinicialização de ioctls -- por exemplo, o drm
-+   possui um pequeno helper drmIoctl em sua biblioteca de espaço de usuário. O
-+   driver i915 estragou isso com a ioctl set_tiling; agora estamos presos para
-+   sempre com algumas semânticas arcanas tanto no kernel quanto no espaço de
-+   usuário.
++Nível 3
++=======
 +
-+ * Se você não puder tornar um determinado caminho de código reiniciável, torne
-+   uma tarefa travada pelo menos finalizável (killable). As GPUs simplesmente
-+   morrem, e seus usuários não vão gostar mais de você se você travar a máquina
-+   inteira deles (por meio de um processo do X impossível de matar). Se a
-+   recuperação de estado ainda for muito complicada, tenha um timeout ou uma
-+   rede de segurança de verificação de travamento (hangcheck) como um esforço de
-+   última hora (last-ditch) caso o hardware enlouqueça (gone bananas).
++* Espera-se que os Engenheiros de Software revisem patches (incluindo patches
++  escritos por engenheiros de outras empresas) como parte de suas
++  responsabilidades de trabalho.
++* A contribuição com apresentações ou artigos para conferências acadêmicas ou
++  relacionadas ao Linux (como as organizadas pela Linux Foundation, Usenix,
++  ACM, etc.) é considerada parte do trabalho do engenheiro.
++* As contribuições comunitárias de um Engenheiro de Software serão consideradas
++  em promoções e avaliações de desempenho.
++* As organizações relatarão regularmente as métricas de suas contribuições em
++  open source e acompanharão essas métricas ao longo do tempo. Essas métricas
++  podem ser publicadas apenas internamente na organização ou, a critério da
++  organização, algumas ou todas podem ser publicadas externamente. As métricas
++  fortemente sugeridas incluem:
 +
-+ * Tenha casos de teste para os cenários mais complexos (corner cases) no seu
-+   código de recuperação de erros -- é fácil demais criar um deadlock entre seu
-+   código de hangcheck e os processos que estão aguardando (waiters).
++  * O número de contribuições ao kernel no upstream por equipe ou organização
++    (por exemplo, todas as pessoas que se reportam a um gerente, diretor ou
++    vice-presidente).
++  * A porcentagem de desenvolvedores de kernel que fizeram contribuições no
++    upstream em relação ao total de desenvolvedores de kernel na organização.
++  * O intervalo de tempo entre os kernels usados nos servidores e/ou produtos
++    da organização e a data de publicação do kernel upstream no qual o kernel
++    interno se baseia.
++  * O número de commits fora da árvore (out-of-tree) presentes nos kernels
++    internos.
 +
++Nível 4
++=======
 +
-+Tempo, Espera e a Perda de Prazos
-+---------------------------------
++* Os Engenheiros de Software são incentivados a dedicar uma parte do seu tempo
++  de trabalho focados no Trabalho no Upstream, o qual é definido como a revisão
++  de patches, atuação em comitês de programa, melhoria da infraestrutura central
++  do projeto -- como escrita ou manutenção de testes, redução de dívida técnica
++  no upstream, escrita de documentação, etc.
++* Os Engenheiros de Software recebem apoio para ajudar a organizar conferências
++  relacionadas ao Linux.
++* As organizações considerarão o feedback dos membros da comunidade em
++  avaliações de desempenho oficiais.
 +
-+As GPUs fazem quase tudo de forma assíncrona, portanto, temos a necessidade de
-+cronometrar operações e aguardar pelas que estão pendentes. Esse é um negócio
-+realmente complicado; no momento, nenhuma das ioctls suportadas pelo drm/i915
-+acerta isso completamente, o que significa que ainda há toneladas de lições para
-+aprender aqui.
++Nível 5
++=======
 +
-+ * Use CLOCK_MONOTONIC como seu tempo de referência, sempre. É o que o alsa, o
-+   drm e o v4l usam por padrão hoje em dia. Mas informe ao espaço de usuário
-+   quais carimbos de data/hora (timestamps) são derivados de domínios de relógio
-+   diferentes, como o relógio principal do seu sistema (fornecido pelo kernel)
-+   ou algum contador de hardware independente em outro lugar. Os relógios vão
-+   divergir se você olhar de perto o suficiente, mas se as ferramentas de
-+   medição de desempenho tiverem essa informação, elas poderão ao menos compensar.
-+   Se o seu espaço de usuário puder obter os valores brutos de alguns relógios
-+   (por exemplo, por meio de instruções de amostragem de contador de desempenho
-+   no fluxo de comandos), considere expor esses também.
-+
-+ * Use __s64 para segundos mais __u64 para nanossegundos para especificar o
-+   tempo. Não é a especificação de tempo mais conveniente, mas é praticamente o
-+   padrão.
-+
-+ * Verifique se os valores de tempo de entrada estão normalizados e rejeite-os
-+   caso contrário. Note que a struct nativa do kernel, ktime, possui um inteiro
-+   sinalizado tanto para segundos quanto para nanossegundos, portanto, cuidado
-+   aqui.
-+
-+ * Para timeouts, use tempos absolutos. Se você for um bom sujeito e tiver
-+   tornado a sua ioctl reiniciável, os timeouts relativos tendem a ser muito
-+   imprecisos (coarse) e podem estender indefinidamente o seu tempo de espera
-+   devido ao arredondamento a cada reinicialização. Especialmente se o seu relógio
-+   de referência for algo realmente lento, como o contador de quadros da tela
-+   (display frame counter). Vestindo o chapéu de advogado de especificações, isso
-+   não é um bug, já que os timeouts sempre podem ser estendidos -- mas os usuários
-+   com certeza vão odiar você se as belas animações deles começarem a gaguejar
-+   (stutter) devido a isso.
-+
-+ * Considere descartar quaisquer ioctls de espera síncrona com timeouts e apenas
-+   entregue um evento assíncrono em um descritor de arquivo passível de poll
-+   (pollable file descriptor). Isso se encaixa muito melhor no loop principal de
-+   aplicações orientadas a eventos.
-+
-+ * Tenha casos de teste para cenários complexos (corner-cases), especialmente se
-+   os valores de retorno para eventos já concluídos, esperas bem-sucedidas e
-+   esperas que estouraram o tempo (timed-out) são todos sãos e adequados às suas
-+   necessidades.
-+
-+
-+Evitando o vazamento de recursos (Leaking Resources, Not)
-+---------------------------------------------------------
-+
-+Um driver drm completo essencialmente implementa um pequeno SO, mas especializado
-+para as plataformas de GPU fornecidas. Isso significa que um driver precisa
-+expor toneladas de handles (identificadores) para diferentes objetos e outros
-+recursos para o espaço de usuário. Fazer isso corretamente traz seu próprio
-+pequeno conjunto de armadilhas:
-+
-+ * Sempre vincule o tempo de vida (lifetime) de seus recursos criados
-+   dinamicamente ao tempo de vida de um descritor de arquivo (file descriptor -
-+   fd). Considere usar um mapeamento 1:1 se o seu recurso precisar ser
-+   compartilhado entre processos -- a passagem de fds sobre unix domain sockets
-+   também simplifica o gerenciamento do tempo de vida para o espaço de usuário.
-+
-+ * Sempre tenha suporte a O_CLOEXEC.
-+
-+ * Certifique-se de que você tem isolamento suficiente entre os diferentes
-+   clientes. Por padrão, escolha um namespace privado por fd, o que força
-+   qualquer compartilhamento a ser feito de forma explícita. Só adote um
-+   namespace mais global por dispositivo se os objetos forem verdadeiramente
-+   únicos do dispositivo. Um contraexemplo nas interfaces de modeset do drm é
-+   que os objetos de modeset por dispositivo, como conectores, compartilham um
-+   namespace com objetos de framebuffer, que na maioria das vezes não são
-+   compartilhados de forma alguma. Um namespace separado, privado por padrão,
-+   para os framebuffers teria sido mais adequado.
-+
-+ * Pense sobre os requisitos de unicidade para os handles do espaço de usuário.
-+   Por exemplo, para a maioria dos drivers drm, é um bug do espaço de usuário
-+   enviar o mesmo objeto duas vezes na mesma ioctl de envio de comando. Mas,
-+   se os objetos forem compartilháveis, o espaço de usuário precisa saber se
-+   já viu um objeto importado de outro processo ou não. Eu ainda não tentei isso
-+   sozinho devido à falta de uma nova classe de objetos, mas considere usar
-+   números de inode em seus descritores de arquivo compartilhados como
-+   identificadores únicos -- é assim que arquivos reais também são diferenciados.
-+   Infelizmente, isso requer um sistema de arquivos virtual completo no kernel.
-+
-+
-+Por último, mas não menos importante
-+------------------------------------
-+
-+Nem todo problema precisa de uma nova ioctl:
-+
-+ * Pense bem se você realmente quer uma interface privada do driver. Claro que
-+   é muito mais rápido aprovar uma interface privada do driver do que se envolver
-+   em discussões longas por uma solução mais genérica. E, ocasionalmente, criar
-+   uma interface privada para liderar um novo conceito é o que se exige. Mas,
-+   no final, assim que a interface genérica surgir, você acabará mantendo duas
-+   interfaces. Indefinidamente.
-+
-+ * Considere outras interfaces além de ioctls. Um atributo sysfs é muito melhor
-+   para configurações por dispositivo ou para objetos filhos com tempos de vida
-+   razoavelmente estáticos (como conectores de saída no drm com todos os seus
-+   atributos de sobreposição de detecção). Ou talvez apenas a sua suíte de
-+   testes precise dessa interface e, nesse caso, o debugfs, com seu aviso de
-+   isenção de responsabilidade por não ter uma ABI estável, seria melhor.
-+
-+Finalmente, o objetivo principal é acertar na primeira tentativa, pois se o seu
-+driver se provar popular e suas plataformas de hardware forem duradouras, você
-+ficará preso a uma determinada ioctl essencialmente para sempre. Você pode
-+tentar depreciar ioctls horríveis em iterações mais novas do seu hardware, mas
-+geralmente leva anos para conseguir isso. E depois mais anos até que o último
-+usuário capaz de reclamar sobre regressões desapareça também.
++* O desenvolvimento de kernel no upstream é considerado um cargo formal, com
++  pelo menos um terço do tempo do engenheiro dedicado à realização de Trabalho
++  no Upstream.
++* As organizações buscarão ativamente o feedback dos membros da comunidade como
++  um fator nas avaliações de desempenho oficiais.
++* As organizações relatarão internamente e de forma regular a proporção entre o
++  Trabalho no Upstream e o trabalho focado em atingir diretamente os objetivos
++  de negócios.
 \ No newline at end of file
 -- 
 2.47.3
