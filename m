@@ -1,104 +1,141 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A962F349CD1
-	for <linux-doc@vger.kernel.org>; Sat,  4 Jul 2026 15:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37C6125AA;
+	Sat,  4 Jul 2026 15:33:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783178950; cv=none; b=EPoyR224Dk0RgFLS4eWeKGhDCEVKU4aCsXtAo3P8W+8azc27yVbzrfclpniPXaXjSo4VezlFaRUNSjzGBvbwGdBFXv685q0JJdlNSBOt3eEGJUy7k0p9rcrQr2mecje+gW4pCLBT7cWM9nYpFgJ6Tldlsh1DgkVLiWeuScUek/s=
+	t=1783179219; cv=none; b=Ii/E17T9cCZ83tRGbhe4nZvykVguO9jk2wM1Xti5lPuYRGeoclZg93wKjNSB1xcy3evlOKlFja2PhhHTAeG0eXTrcliRcY1swV9vGm+cEaY3IDDnfDDHguHNA7k7BYJzlINuLwUGo5edx0cBRXeha6tR9hZELeez01bMZK46csU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783178950; c=relaxed/simple;
-	bh=JJpNBZwIaZWRBORwSQX2UvfRtD0C/0R0+WBroR+DQ6U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kr9VIs/otCcS/QCqFH19bILj8v2C2MBgxcSE0B+3tSEF+YYzBGFPOlyjtR/Liq1rBHpdPDEUErlPj0rOaaNOx2ZlHNNyx6TA0yfFRH1Xe3kQyL7V5FS7zdisFceaYDPFHAgOReZIvGUn4k6cnuQUObRuCpnneemb50uSXPunjvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=XRRvqBLN; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1783179219; c=relaxed/simple;
+	bh=lI1QUf5G9gQ5g4fDbzEfRZNx6dOW7LvG0o+2OHs0fi8=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=VkuDnY7NxdpK8Zyd2+EJpPZ3p4JmT1xZnwfeIhO5ufsL1z1dEVlyVsTwfTTf6aZ9MT8p3sjouYcWfF9PN84tCrb5i9gu314uRHoVF6mbhRYLmAJe8zfAPPwbKPuhA3EiypsIdyzHBlY6+imtJqTp4ikYLnwQ8Kjz5sbWjmCN/f0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=K9MoXXuF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OylzCyJO; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="XRRvqBLN"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-51c1d487f2cso20999671cf.1
-        for <linux-doc@vger.kernel.org>; Sat, 04 Jul 2026 08:29:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1783178947; x=1783783747; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=pWvMpJ6vVFy/STzfc3oW5UmrUK1xBjIYyy4n15fLuTk=;
-        b=XRRvqBLN4ncVyhvjVzHqyM7ec4Imcl2vryRUQJBEb4RlGN0V5qAmXRbs+6kKxf9qeZ
-         MM7yzern3FjE1ed/SCStlmLmmOwmWrLMz7pjcXcIS2zvw1xdpGPwxJVzZ6QxRXpkuZGW
-         ZliarqOR/TtSnTAeIo23QJODGAetzRs3ZMS7EAMuMmHGpINOlziEZ9UQO/5iBzRog+Ud
-         mv6Q8C5uPZ9o+mmhVHOttS9dyo5NzQ18AVe1jI2vUDJSzvrWkdlJvry6c3MV6Us/E4OH
-         ZWBP23RY/TUQ6r/a7CLAVftoYat820LbLzh/3q2TZ/96u+pXAcHKGhzAyW9DCxaVyNBs
-         kNvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783178947; x=1783783747;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pWvMpJ6vVFy/STzfc3oW5UmrUK1xBjIYyy4n15fLuTk=;
-        b=RDDsTdkQbMHLSFSE3CnbM+QhHaYYoolNWqSNJVOnF/y95oVuR9+jd82IhHnqpxlsnD
-         DBiwGH64MQ2oApRyJunvksre2OunCebqoOyu9u+DNCQBxIWK1847VMv7SfJwcKFcsHdj
-         Wd/iRwFiIUegJt/i4MUc4ZwCTCOl5B0aPMMbC47YiqU3o6mLtKvsM9CJ05LcI1kbSDTl
-         Kvzu3NPglI51P6SIKKWvS3Lb1G1GXDV3Bl+vkyM5XBPr7z8ZFkTzBMQ9uh7gdvFK3sx1
-         R3smFrhms6R7QeQXnN8CvBQfzMekZtJ58yUoRS/wqMVIiRwQPMxknK6juGchtFK8bjDz
-         R91Q==
-X-Forwarded-Encrypted: i=1; AFNElJ96kEjWUbevdnTmJ4QGEi7P1M14TpjB0hlyQYHYhDdijj8cnrNxRfjlsg1IW73BtDYIakwIgvpEpRk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTXivStOo5ELy6ugjzvFuWSeHyW7qr6Kd9m1ydvMkq7rkgcJKl
-	Um4pMfnhhvU9jbkgXyZxDN5vPvlxxuen53rfqgS1Oi2xjaPjZuPa7jjRvqyp89s6gsU=
-X-Gm-Gg: AfdE7cmVhwFNRnlhsvyIApVKcNbi3N1Hx357zRPR6z3AwTic+j4dgqG5bATs6DLzvsR
-	iE56qNZwqaMPo1jcoK5+th6l1F3/o9RAk47J+DIvZCCiIyJvqGgIosui7jL90Yj3huCD7zg0nJJ
-	D5mUZLq5EGk2gSr6VArJTQc+9yE1nBXL3EeJfNRANkMjJQW5i1FjGPRKcXxR+qJtnN3ucTWEeRa
-	VsMjfLFN4Jr3tK+DSgNQ/o9cv563WLVirmP7m3C+X2oQ5gX9IiKhMRwkB7qQ50l9s1Bp8X5cPdi
-	uM4J1uH2dDNUhj6dvTOOF1nSbCJI822WwFhOt+yYkcICLdBg0mr1Ej47ZnjXVnoKWsAmHE4q3Q3
-	dDqgAJGZYi2fVtocXDTdV8OaIaTrYQuTltGOPwJlrCEoATOo6RCgkwJZhqJbjn1UDHzBinCTaRV
-	d9QXPfR2xGAiFsH02sWXZvIDrM3I1uzazkRk8ThvJRNss=
-X-Received: by 2002:a05:622a:408f:b0:51b:feee:b08b with SMTP id d75a77b69052e-51c4c2ad144mr54928601cf.45.1783178947583;
-        Sat, 04 Jul 2026 08:29:07 -0700 (PDT)
-Received: from fedora (50-32-2-77.vng01.dlls.pa.frontiernet.net. [50.32.2.77])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51c41ab77dcsm42756101cf.2.2026.07.04.08.29.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jul 2026 08:29:06 -0700 (PDT)
-Date: Sat, 4 Jul 2026 11:29:03 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
-	skhan@linuxfoundation.org, tglx@kernel.org, peterz@infradead.org,
-	luto@kernel.org, akpm@linux-foundation.org,
-	feng.tang@linux.alibaba.com, pmladek@suse.com, lance.yang@linux.dev,
-	marc.herbert@linux.intel.com, kees@kernel.org, leitao@debian.org,
-	joel.granados@kernel.org, lirongqing@baidu.com, nathan@kernel.org,
-	xur@google.com, lukas.bulwahn@redhat.com, ryan.roberts@arm.com
-Subject: Re: [PATCH v2 1/2] syscall_user_dispatch: Make it configurable in
- Kconfig
-Message-ID: <akkmv2fRxJIsbxq9@fedora>
-References: <20260704015859.536580-1-gourry@gourry.net>
- <20260704015859.536580-2-gourry@gourry.net>
- <akklLLPZ1fbcZRML@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="K9MoXXuF";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OylzCyJO"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id 1BA1AEC00C3;
+	Sat,  4 Jul 2026 11:33:37 -0400 (EDT)
+Received: from phl-imap-05 ([10.202.2.95])
+  by phl-compute-04.internal (MEProxy); Sat, 04 Jul 2026 11:33:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1783179217;
+	 x=1783265617; bh=uPBcmQ7I7zLfv95W/1qWAhEVcr4g0zsJVDHUIOLjI7U=; b=
+	K9MoXXuFtrRE7D6e5fnq28wvQOX2RBx3PbtHMA36S9dZscAQETQumqyWQZ4A5ubu
+	vyjPIkJLiNBWHCHzqJMwI/vf3TzlwiG8399wt2aJz4kL5DFl3pzzrZsQEpqvlB6H
+	2BuK54ypHee7XPjoh9uO8qKeiEl6VRufIt5vRAMjPHVk9vv24JTdVrTnp9IjSVFn
+	J0QrzDkS8+TFjRZI9k/ZgruUB+J2exxdF/B1CSeMQYs9DPbFYHgOctsw7yFaNCCC
+	wPK1hquIlJMyilIOhkub5l/4A+Q2beymwxtcKk8gQ5b5gzKMdDsWSEbh7F8bG52f
+	Gx4t81N/nu1s+QmKboL83w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783179217; x=
+	1783265617; bh=uPBcmQ7I7zLfv95W/1qWAhEVcr4g0zsJVDHUIOLjI7U=; b=O
+	ylzCyJO2f7VbOqh5w1cdSELOe48KUKoioJTHOjJMVnqs/eCtOFItkACvf7nFHqUI
+	TS5ACHc7f6HNHkkyV/KogNQtSU3dL7q95h/esZVuNNzqFEhgQHPPTMKW+fixb0nx
+	WOyfVlLLyk14pK9umsOyLYdLQjKCLnGDU+LqdnMQZ36UEL+h87+nhkpv6eEquH+c
+	7sLDsjg8YCBiGXCFN5d1eHfg1Lroa2LeyVzWyi+35xjcGbpo1pBJW66O1ehswL7K
+	kJxWmSt024QbkuFo0sLbR2Xv49NrKVkyD1X6xvVJuIxEs6kVoH7xswjDx71T4b22
+	h1QRYdV4wFQ3tYuhqDCVQ==
+X-ME-Sender: <xms:0CdJairJWbqw9nI6Qr8HRQOb8PB7g2-I96vTUf5q_9PJip1Xzw8cdw>
+    <xme:0CdJarc2Pb2LF2MiPMbsUtCQctq1OwZpC1gSFFzmCSHGNE-2j8bURBDazkWENdlf_
+    prmMZrYi9h4UaZ466UzxoDlszK9dUb5JmHV5IdfVPbCNYXxfYblva-P>
+X-ME-Proxy-Cause: dmFkZTGaElNDQi6X7nPC4W9lwkhgMlLiCavmJuYqptH4fqjvalU6Rpzhr5vVBIQwUEGy30
+    aeTYF9SMa7EOH328ATjT3shQ+T5C6SLoT1nGpbwmYmuiEvsmi3h6bsC7bEgsQY4QADWNJs
+    gcvil/lc1HAb8MgS51o13roIoG0AvXOCEY3srui8Yz4m8oXvEMIqO404chhYgvE3/PUcLO
+    q9Qk/GXpIRnAYU22dodAOCrrlDn2Ao1FHotcGfbER1rqfknRh0D/TvTcY5wsMUElTw3xwg
+    VMKSnKowufzS0B1+ql06OXSz5DovpReTfZODQLR8uwEB+8njLYO0LXdT/L7AH8FGd8YoJf
+    B197ps46F6ERWz2bwQ4hRDV6sPabhuZ9xrEeRJ/4OQJL8DOZK5GTLO1/TOA1EXZpyf1DYR
+    QNFObfav2XN17M0s9F7VdBw4PE3m27rd8WHCXA1hY+vTXZ1FmgJgYDfSLTyN+9Inqp68au
+    l4K+mUE6htC/Nmrfc1VCjaIGVsWtK+SmuliOAT4ZZBy3B7c3c8EsV8Gx6IC7L1BDwg/6Si
+    +IkHkS6ymc/Bh65xT1eLdyTNz/D0XipwJM7SGOJbtSKBH92ywc9ATW6W8mEV+UxKPUO3Jz
+    MDuuBzhXLKiya2smopTU3mCpZl+web6S9WKUfWa1uo+eZ9d0d4szqPkwSQXw
+X-ME-Proxy: <xmx:0CdJavi-PLDwWK_a_DfuwN1I3wTFkX8viqYcg7FKkcIzYuxFGj2U0g>
+    <xmx:0CdJakLxDuUqWIIY1SQ-I6cDHJzBDnME26l3mWBHgRT4fkLSUavr5w>
+    <xmx:0CdJaukSj2Ls8ZVopo9Ws3jnMkkPNjR9vJXRhGNkTqtZKtmU1uKJAw>
+    <xmx:0CdJasPhHlEozv-ONi3sC7jzXAtLocj_VXDhr7wiqmObajCNxVB6XA>
+    <xmx:0SdJan_82gwoay7vQu3w63XrJSgEflGlv4eVTfqXA6s6F7-wtyyXwzqe>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 7E4ED182007E; Sat,  4 Jul 2026 11:33:36 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <akklLLPZ1fbcZRML@casper.infradead.org>
+X-ThreadId: A3VKvziydYFc
+Date: Sat, 04 Jul 2026 17:33:16 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Julian Braha" <julianbraha@gmail.com>,
+ "Graham Roff" <grahamr@qti.qualcomm.com>,
+ "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>
+Cc: linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Nicolas Pitre" <nico@fluxnic.net>,
+ "Jani Nikula" <jani.nikula@linux.intel.com>,
+ "Masahiro Yamada" <masahiroy@kernel.org>
+Message-Id: <7e20408b-3a0d-46ff-ab6c-2b0d86f74adc@app.fastmail.com>
+In-Reply-To: <955bf67f-309d-45d4-ac0d-2f53577aa18e@gmail.com>
+References: 
+ <20251215-kconfig_conditional_deps-v3-1-59519af0a5df@qti.qualcomm.com>
+ <955bf67f-309d-45d4-ac0d-2f53577aa18e@gmail.com>
+Subject: Re: [PATCH v3] kconfig: Support conditional deps using "depends on X if Y"
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jul 04, 2026 at 04:22:20PM +0100, Matthew Wilcox wrote:
-> On Fri, Jul 03, 2026 at 09:58:58PM -0400, Gregory Price wrote:
-> > +config SYSCALL_USER_DISPATCH
-> > +	bool "Syscall User Dispatch"
-> > +	depends on GENERIC_ENTRY
-> > +	default y
-> > +	help
-> > +	  Syscall User Dispatch lets a thread have its own system calls outside
-> > +          an allowed IP address range to be intercepted and redirected to a
-> > +          userspace signal handler.
-> 
-> I was very confused when I read this.  IP expands to Internet Protocol
-> long before it gets to Instruction Pointer in my brain.
+On Sat, Jul 4, 2026, at 15:23, Julian Braha wrote:
+> On 12/15/25 23:06, Graham Roff wrote:
+>> Previously such optional dependencies had to be expressed as
+>> the counterintuitive "depends on X || !X", now this can be
+>> represented as "depends on X if X".
+>
+> I have always found both of these:
+> 'depends on X || !X'
+> and:
+> 'depends on X if X'
+>
+> to be unintuitive and confusing to read.
+>
+> Yes, I understand from the docs that the purpose is to disallow
+> FOO=Y with BAR=M, like in this example from the official kconfig docs:
+> ```
+> config FOO
+>       tristate "Support for foo hardware"
+>       depends on BAR if BAR
+> ```
+>
+> However, in my testing, neither of these constructs are necessary to
+> achieve that.
+>
+> A very standard 'depends on BAR' also disallows FOO=Y with BAR=M.
 
-Hah, fair, i was just going with tglx's [1] explanation.
+The difference is that a plain 'depends on BAR' does not
+allow FOO=m with BAR=n. The idea of the construct is that
+BAR is optional, but whenever BAR is enabled (m or y) it is
+a dependency.
 
-https://lore.kernel.org/all/87a4s8m69c.ffs@fw13/
+Specifically we need to allow all of
+
+  BAR=n FOO=n
+  BAR=n FOO=m
+  BAR=n FOO=y
+  BAR=m FOO=n
+  BAR=m FOO=m
+  BAR=y FOO=n
+  BAR=y FOO=m
+  BAR=y FOO=y
+
+just not BAR=m FOO=y.
+
+     Arnd
