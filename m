@@ -1,107 +1,121 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F9FA3B7B96
-	for <linux-doc@vger.kernel.org>; Sat,  4 Jul 2026 12:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F9F390C85
+	for <linux-doc@vger.kernel.org>; Sat,  4 Jul 2026 13:23:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783169730; cv=none; b=kweShzkRaNOnluVp/yADGJEXHTVDjub3NR9gjjoNzGfssncK1Gd/XukGQo74DJEp1hNJEIPeeYGLHHOdLEbbwg7N5WotkM/qNtinTAZTXOMUriP7VC2ecLCnbCpjY70Esiv2oRbQS/gU1N8gpFBDfHPOne8ABvL8Th6YLFKdoFA=
+	t=1783171433; cv=none; b=aQGIGfXSRZ32qHI2ZLXQr+0ydbalHRio10rtlcsPsa6w6tCO0t79XsxFpuuHBOvA4JdG0vbdJwaoU1f17r18F0AfMcCEfdhVFu/6BuSjOwtpavcu/lzfKfkb1efXBobp9k7pyjNAvwE/y0sD2RbhvogUfJLud1rON96K4PJ/ewA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783169730; c=relaxed/simple;
-	bh=TfSvNkj88SMASukNDGfI1axuHBi0mfALdOBWxxiy204=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=g50EVaicRDmxzysFEWnXj2G8v6TaVHjCGKNcEsYzW4H+yZa8FCyElx4yDsHjriEazvXHYg9hSnDDavlLMZBUW/W4JdhhmZUrMqE4yHSUPF0p83GM8JnBcJPqirvieiIFuGQNFNA+WLFfOEIgrNax3K1gzy0ZHV73uMNJKp2GHE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qU/JApL8; arc=none smtp.client-ip=209.85.128.53
+	s=arc-20240116; t=1783171433; c=relaxed/simple;
+	bh=N1CcU0AWdwex01N/1zK6qktwhq0E3Pj15yq8zzSGzzI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UzA+5zm1KqLHAyk36gBQDFbNAxgS6EoSZ/tXmeQtYBjd1jON1/Fs+vOOUziISa1UpKIahMOVhMhAiTTzpax5PRuovLPM0MkmvL3bTmCkJHYQOE+XJnA0WWsCAYDZxI60zAuaAkh9WMw4XVRUa8ZY+4F55U0/g7e/CuLc0hbywYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dY4mC5da; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qU/JApL8"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493b1710405so8213945e9.2
-        for <linux-doc@vger.kernel.org>; Sat, 04 Jul 2026 05:55:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dY4mC5da"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-474303f3c72so842337f8f.0
+        for <linux-doc@vger.kernel.org>; Sat, 04 Jul 2026 06:23:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783169721; x=1783774521; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eblQv5ca6SGoXkljG9ZnkDdABmDkB1WE2yXMG8f0RgA=;
-        b=qU/JApL8ZgZeyMrEo2bhFTEMei8JUKNJF+YETGzXYi0lD3fmFHK8z+8XleToGSU8tY
-         cpzqS4cT8NG/tMCZzUtDbYwr5Pr9k4zsOCf+lFK3+Sz2rHq/DiomhhGCsc3EbMSPCaqO
-         oOVDWq/MNG9bFVzjCpPJ9D1CPZE97X7IFVmrGcOtNGbj/SxTy/TRtbRRmrInzpAnvnZR
-         QxkJNLZmrI/Dqnd0VWixBJhvs1S7TRpNogtU+uGVxfTMcYBAW9JpAiEMDw5zBkKiNdp8
-         6fDX7kW0ZnM2Sjmj5IYTQ6uQpXTtzE/yG+Ys8Bgq4y3Un/1Z6ywCRvwPihQi+yDr/JIX
-         YjgQ==
+        d=gmail.com; s=20251104; t=1783171431; x=1783776231; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xy8JgD1t44BZahTr2SwVw+yYZzU4iR+NXyCIO+T8rP8=;
+        b=dY4mC5dalNOz9wy9CVeqd/V9yy/dTfQxpzyaMW6jvgu30UtIKpRPzmJlcwaksP1e+r
+         SEvXYrfwpcJh5nWXTUQlVWvEpeAJSg5Y1yPRCG2PWmnFqnMzQAHa7IHF01iu034aYU8y
+         mr7FnujQrWaD3SQfJBVqPxjSKaf7xya2OFFkldf06znBRj95P+0q6djqU02lR2RbOx1Y
+         ShRFVMXSOaoEPst6yC/boafytxWaUWNpRQDdabzmoTER7WClJrbWejyj0RZlmeIKeQaD
+         107QJLoqQQDZYBOxaEyGg70Q+pxBu5LWUDQNlBM19P864sQsI8QfujpsF+NitpYH2t9X
+         mVBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783169721; x=1783774521;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1783171431; x=1783776231;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eblQv5ca6SGoXkljG9ZnkDdABmDkB1WE2yXMG8f0RgA=;
-        b=MgpqH3Mfebhp1nVy3TUOJOWwJ7zrOAbRZ9v8+b2w3Zw8HojnsveswISzUoX6UZjYSu
-         WyMiKUf2SD2HdEeIoiIuMk3adJxzgvzLP4S6m/fShazWpI3Ynq7LQRUm7QV3cXzf0gwo
-         0olUBWizFSvpTIulqpegtY+TAiWoyVCvvjmIX7zT5ktSGiOx9tFfDyulOb/ied+If5w1
-         34QYh8dcPJxaIz0CTYLfigdyJDL6NocLygi3MGkmnwuBB7npiKvPfkK+3YV3wYPj06Mi
-         EPok6Y/CPqiBSeDcwgnTUZp1riKikUq2nRwTzRNEte+8LfIF1VTFkOyoNWE0jrzGpBqN
-         g6Ew==
-X-Forwarded-Encrypted: i=1; AFNElJ+UXwWGBj3qdCQbRqH0LaSm0VvBP5YbxYVUOz97OL70cQ65WbESoc1lhMEyw8yQdYIgBcBrjI7rEIw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9A79KNh+FS0YUfuaEfHwj7raZS4+tMqmYxVxzuFNpJldhQpYe
-	c+lc1nhDsSDiofr6lcsZrXhRREabf/NkYkOtQP/StFORVrynl4/cTnw=
-X-Gm-Gg: AfdE7cknXnCnfKc0sPkeY8WeWVgttOu2EgIK3bwTWzmXsGnfKP4LfhoxBiHrHXFWIqv
-	Y8lvOom2fwXOYl8GIYL0sTPsofklt/l3jk7SQNP8CJ00tM9AMRbgPdH6zw8b3hkKxtjML8AACgf
-	ZTGo++A16DBeCNp0Mz3VExwFdgUR4MRys4WqZRp1D2IgoPIJQOoMOV3HX4maZ/b0BNkTV6kMk6K
-	D1Djnsc0x/cqFzvDlej783D0ygZ6+4q5OaYvUm+QOfqZ0DQ0QfoUqrYUTxlXhqjUCYm1IUQ2Gk6
-	pGmf9S3VietXi4t6crVgy/B3sx6Ll1YM6WOoKQgOxwWhnHEu/Vzxpk9QFH8IRYA6jNN/O6vnPEw
-	FeqG0/z9Jn3wFTxnJtBFLGB2ERxxU1+FGeZDhZ9XLvOdylyIadT8VGQBZ3K/knYeD+3PcjbXwSs
-	1YZHP5/tcunRCVCY3SMNehagCP16WRfYOO1DgBY3mNHJ6KATX31dLosadeq6ngHV0Z+Kq4maQ4+
-	iyRfgn4WAvPQROeOsOyLA==
-X-Received: by 2002:a05:600c:a00d:b0:493:b764:ff98 with SMTP id 5b1f17b1804b1-493d11d66c5mr37354465e9.11.1783169720765;
-        Sat, 04 Jul 2026 05:55:20 -0700 (PDT)
-Received: from localhost (2a02-1811-371f-3300-5ff3-e509-432b-2e8d.ip6.access.telenet.be. [2a02:1811:371f:3300:5ff3:e509:432b:2e8d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c637bc21sm361195465e9.7.2026.07.04.05.55.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jul 2026 05:55:20 -0700 (PDT)
-From: =?UTF-8?q?C=C3=A9dric=20Hannotier?= <hannotiercedric@gmail.com>
-To: Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: =?UTF-8?q?C=C3=A9dric=20Hannotier?= <hannotiercedric@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation/arch/x86/amd-memory-encryption.rst: Fix typo
-Date: Sat,  4 Jul 2026 14:55:15 +0200
-Message-ID: <20260704125516.49944-1-hannotiercedric@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        bh=Xy8JgD1t44BZahTr2SwVw+yYZzU4iR+NXyCIO+T8rP8=;
+        b=YW8qLe5XSVYDFnsvoqeNY+jWDUgVYJNau+SguMzJ23nYfKELiBSdzIzhCxlcWBe/Vl
+         0jPHrRU8IZ2CqvbtIuIrCKxntpMfNiEs2F/4NUFWOK2vSi4kFV/Uj/P8KbDe5q1GAczu
+         gPNqpqc0fNA0Z91h7fYR1Ayo1XtEB0lICOGsaSF3zRhFCRtuawTCb8me3Okhd86uQTls
+         D3WZgCOSxQJkECqdfQCC0VJu8VeV2vun7i5uIicLxD2c60gT1coXR+IGuqZJQVzxwfmS
+         vP+ROM3VymNtYSSOy1ZJG+bdmEyB8GYJTpm84UkRv7VqxGHk6K31jIbQdd7qWfNRaZrf
+         SErQ==
+X-Forwarded-Encrypted: i=1; AHgh+RryZ+m54jUFlM60GCXe3fJ9Jc76TVGkvHWGNscWJL1BTc8JWLPZeJLRhW4VIpcsI73tEoRkR0cLVcE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzm5v52WNo+lY0GZXxaETIUMDtFoOqiQrATfS/1v0dEz3JhZbIi
+	NrXd/P8hzN/QTGm9BYPovSNCtnKr3FQM0klzwyTVyoTYR26KKau94gX1
+X-Gm-Gg: AfdE7cl84nWvBYX5sLfM437qFdVpeqfL4CtE9DIHn/xaDFZ8aAQ9XWWxbxZ9A0WsD5C
+	EqQydxIKbhpXSpmmUsDOSaOov/Kh9TKEJhxvN3OG0gxrVUW9uG6k3TnqH8s+/vOluoGhzRBsft9
+	UByL1YFUg3vrLrPot8Vj73wNA8eD2yjMIix6iEOlBMuAcf7SzbZbt5AzMIB5GzNY1I1bjNYA3Jb
+	AW2fBzJDDSFEYQQ9iRDD9BjE+yySq9h9nU23amjxm7162E+f+Z66S499cbRsZDGcEjbRwzMQGDz
+	CFkuubOilCRdZ/8K1Af6GNgjG2ztfl54fAFOvHhd3qAGtaP0We8w2XRsLiwaSQhupVb5DabUTUy
+	PawN8TNJbYAwehllJ8KkXLBF1JRYMQXCBrGOafqRdpWeZWQXOVUOrI1L0u6haKBJldwMeJ688hW
+	Rmqbxq9wNVrMptU6bj3hWCYdYiJS204nfNznnpGUepH0pAbniC857XL+mbhjSNZAbO8TRwVrxFw
+	1V1GS56
+X-Received: by 2002:adf:f288:0:b0:475:f100:360d with SMTP id ffacd0b85a97d-47aac5e3774mr2995573f8f.60.1783171430438;
+        Sat, 04 Jul 2026 06:23:50 -0700 (PDT)
+Received: from [10.128.11.240] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0a558easm8234031f8f.27.2026.07.04.06.23.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 Jul 2026 06:23:49 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <955bf67f-309d-45d4-ac0d-2f53577aa18e@gmail.com>
+Date: Sat, 4 Jul 2026 14:23:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] kconfig: Support conditional deps using "depends on X
+ if Y"
+To: Graham Roff <grahamr@qti.qualcomm.com>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>,
+ Arnd Bergmann <arnd@arndb.de>, jani.nikula@linux.intel.com,
+ Masahiro Yamada <masahiroy@kernel.org>
+References: <20251215-kconfig_conditional_deps-v3-1-59519af0a5df@qti.qualcomm.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <20251215-kconfig_conditional_deps-v3-1-59519af0a5df@qti.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-The MSR address has one 0 too many: 0xc00100010 → 0xc0010010.
+Hi all,
 
-Signed-off-by: Cédric Hannotier <hannotiercedric@gmail.com>
----
- Documentation/arch/x86/amd-memory-encryption.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 12/15/25 23:06, Graham Roff wrote:
+> Previously such optional dependencies had to be expressed as
+> the counterintuitive "depends on X || !X", now this can be
+> represented as "depends on X if X".
 
-diff --git a/Documentation/arch/x86/amd-memory-encryption.rst b/Documentation/arch/x86/amd-memory-encryption.rst
-index bd840df70..92edb26a5 100644
---- a/Documentation/arch/x86/amd-memory-encryption.rst
-+++ b/Documentation/arch/x86/amd-memory-encryption.rst
-@@ -53,7 +53,7 @@ CPUID function 0x8000001f reports information related to SME::
- 			   system physical addresses, not guest physical
- 			   addresses)
- 
--If support for SME is present, MSR 0xc00100010 (MSR_AMD64_SYSCFG) can be used to
-+If support for SME is present, MSR 0xc0010010 (MSR_AMD64_SYSCFG) can be used to
- determine if SME is enabled and/or to enable memory encryption::
- 
- 	0xc0010010:
--- 
-2.54.0
+I have always found both of these:
+'depends on X || !X'
+and:
+'depends on X if X'
 
+to be unintuitive and confusing to read.
+
+Yes, I understand from the docs that the purpose is to disallow
+FOO=Y with BAR=M, like in this example from the official kconfig docs:
+```
+config FOO
+      tristate "Support for foo hardware"
+      depends on BAR if BAR
+```
+
+However, in my testing, neither of these constructs are necessary to
+achieve that.
+
+A very standard 'depends on BAR' also disallows FOO=Y with BAR=M.
+
+As I'm working on my SMT solver for Kconfig, I need help understanding
+what else I'm missing about these two constructs.
+
+Unless it's just more readable to you all than 'depends on X'?
+
+- Julian Braha
