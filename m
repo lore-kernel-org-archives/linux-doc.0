@@ -1,264 +1,196 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D1F23815B
-	for <linux-doc@vger.kernel.org>; Sat,  4 Jul 2026 16:50:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C388C37475E;
+	Sat,  4 Jul 2026 17:25:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783183841; cv=none; b=FZxszP/6W49x/PIkD2CZYrKcEGSuIpWsYpqvEQizqeLPlkfzANVnxmtrySqjZDFV89OCso3lJ1XyyW3G7ycMz1fw8EHkha4X/+UUBd2zs4HJWv8N494qox6EXT+xpQyj5iFKDzJ58CFivVBSUZYoAGBcwPiZeiRaUtRmPnFJRxg=
+	t=1783185902; cv=none; b=Pk+GvMg32ER9HAOfKLrhK5LjnDxS4c1667r6SXd/G8J3a/iqeHEZp0pVqASftdf6aQ2b3X3hPNV1cQuVqEmwmyMbwObfqcWJHcBdVVCscrwAkj5I/CRPvEljD2iY8QbVKip8jhTySi9BCCm9BUNJ/AQnf8R/wsdMVvexu5lpCGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783183841; c=relaxed/simple;
-	bh=I4w7J78soOjJ0QUV6I0ifDS+Q+5IOOM3fxCKJ+hVduw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cOvxekFoFQ3wWgb+yjPEYWlKRO0tsyQ/l59MlfPRpmlUYB8qkVsXUaUg2/x9sm7bUFxu6oJY+XpT/RkEMWYsTT6mJbW4TAcAOxGyXLPu0D7/ZPDi99VYIoejF9HYIjz3uqrlljjPEHuOItKfTu8eEsNlaWLHVwDWGbjLQvbSLu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=KGIVjtDh; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1783185902; c=relaxed/simple;
+	bh=GlbrVZfffgmCmrnHeZOxQiX+KuR8ARx7J8bnFp/Vd90=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=aSDT9kJGEk4lc/V8kDo6fZDRfxdbolJJP8JjkBgdI/3O74moYr4dAz+rcNgx62jiO8DoO0pNO7QT5OFh3ZQVPYSSMPKeZAcC64OQbB/ct5RrHjYbz8QuwMGmuUzfJcdkB5sY4q8D4OmT2i01e+c+BV0xmNqPfo0U01JoRF3aqkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=ddFVpaRA; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="KGIVjtDh"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7eb64371a2aso1065559a34.0
-        for <linux-doc@vger.kernel.org>; Sat, 04 Jul 2026 09:50:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783183837; x=1783788637; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=r/gEBWdH2YbusOaxF2AVLiisIf8zHaMmjVT4xSj8PXs=;
-        b=KGIVjtDhSG+kReS0uIixBDUPdCC0wM05UXt5tWRk0oHxz1iqW7xAnZDjkVlLpzaQy6
-         rTurFDpmEfqO8QfjPIWOJgRRqzLm8D4JlPvSBYhw+vhCwKP83RrBphshgMv9C7mEPCvh
-         48qUsxEbi63Nr6sBUPx6rHf5nQjf4MtLmWjDZ9kpUqc456fsiom4RbjTRyyH1P70NsYP
-         grsOPaqf54MsYZZ8MN/PBKFl8E43QEdy8hNH/QV+SFPkM64i0h636DYr2hfd+i7KtwTj
-         bVvpqqdONNZkOK1wqYNi4s4JUY/55RNmFcWG8sFT0Tv9ktTjO4FuG5mXdZOLNvXb2YL5
-         ceNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783183837; x=1783788637;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=r/gEBWdH2YbusOaxF2AVLiisIf8zHaMmjVT4xSj8PXs=;
-        b=GWMMN41meZ1OUM0RE+ODrdHsFBLj/TVwPpiqzsy02TDoUgkCf0E3/O+USJWJ4ni8d0
-         J6bNkssWbh+7KiBSxptaiiPhyEKF01cu7y2MCRthx/KoDU8SbbgWY06WwY3Qk04KefgX
-         K/vbwxfaKpw4PN8AYgxwpooY4SBk/qd8ITT7xTdp+bOixp68FfLdz3odUn2l3hlswqbe
-         qN02/W4RtpVdtIaj+zX2rW3BEGwr3m8Jq6lW7r6IyoIHaNjjtOXVVLfbN3m8u3vmNwS5
-         5WH+8fqz+JQzOZC5NIo6jKvFzyMSjOyRcS1/umoTnSc/i6qF1g8wA5srUENao68Md402
-         +ZLA==
-X-Forwarded-Encrypted: i=1; AFNElJ959viRsm447BpIC/K9lGYqHF2dzuQ+0mbGGbK3FmyfDtaZfl7Cl6ARi9Qjk7VNxSdp8M7WNRunMuM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyqhKFeE70SkC9plr9oT4Z378V0dIocjhYVuyd50lMptMoNQogL
-	I/m8iLJk2DzF5uoNalOgW34FzNSBf0qOuxVpfBCEfVc9GprS1mpNe+iLKyso/H8f1yc=
-X-Gm-Gg: AfdE7cnhRd28wjWpsUXNRhgQonmYCq6ggW3rT6NvDrM1n5lJU0flRheVk1jmrSXm9+k
-	qNWaFOpQb9e69qLQtJG1hHjykAqleDKfnHIrJ8Fa5NbOqaks50jPozJZwWHttG6xaqcQRZn/O98
-	wyS+qg1AUN2UQlsmwUHdoRp4CpQfdld/QZ/KIG8Buvj21evKAgLeNycfe+QGr7w8gva3Po9Pp7t
-	o+A5is1ew9uVfMcOrcVwjH2jgsD+63F65UbxzXcBpawxY/FQHDyiN7BhYDj+v3i9+mZeDOgPXOr
-	SXOaowe6ReNnvkdM6tNV2dOdAYbUujyAuhmb7niCSjqW4ufp5Jjr6zDXctpufMMeZow3AZ/iAr5
-	RWWURDbAcnEN6dyWIBNd8aAG38UfJajXmQNvqnvrQmcuwqQ1hcuLmAIHg6FuhCjC572n5kQKCLK
-	fwhbqf5tWOloP3+tXMM5uF+aXM3Gf2B2KFi1IpOY4KjfWDEFzjnNRyXMNb5i2wAkM=
-X-Received: by 2002:a05:6830:381a:b0:7df:5fc:3fd8 with SMTP id 46e09a7af769-7eb7fd2c5d2mr2822485a34.1.1783183836823;
-        Sat, 04 Jul 2026 09:50:36 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:4944:e714:93fc:9815? ([2600:8803:e7e4:500:4944:e714:93fc:9815])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7eb542936e6sm7552846a34.5.2026.07.04.09.50.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 04 Jul 2026 09:50:36 -0700 (PDT)
-Message-ID: <1493eed5-5bb8-4a2c-8f2d-8b4bc5dde157@baylibre.com>
-Date: Sat, 4 Jul 2026 11:50:35 -0500
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="ddFVpaRA"
+Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 664HNJRr1739853
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Sat, 4 Jul 2026 10:23:20 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 664HNJRr1739853
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2026062701; t=1783185802;
+	bh=laVgWzETVzPyfy8TL8hiLjbkrz+X11MaGvxM78c56UQ=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=ddFVpaRAV0DC0OsSpEM1RIGHdBDJycmv5PNIh79X6gjmuMgZhFXuXaEyZMuGKQziN
+	 OXk7biHUDHT0id4zqijW2S9+E1K2MG3eQgRHESaRXSn6bOYCiocdts3lN+RepzSoZw
+	 TOOQ7IFrPKYiQXilVte+NFU7pH4AfLGwtMm+BT8IuAwsfOXlg8V88nAoWj3ssgp7L8
+	 ugiLZlzclplOyDd/yAEDi+QXxhgXjjoy3ynstiJ/KRiwHjrTYdeKJ88yjtqBF39aRs
+	 qeK/eeXW2dOUDGPSJXmYE43L0c6Vl+pbFzkWgHwreiQ+kRpM4ZyEWkWN2b5QpPTl1+
+	 hYinKg61do8cg==
+Date: Sat, 04 Jul 2026 10:23:14 -0700
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Thomas Gleixner <tglx@kernel.org>,
+        =?ISO-8859-1?Q?Michal_Such=E1nek?= <msuchanek@suse.de>,
+        Peter Zijlstra <peterz@infradead.org>
+CC: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+        Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>, Andy Lutomirski <luto@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Andrew Donnellan <andrew+kernel@donnellan.id.au>,
+        Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Ryan Roberts <ryan.roberts@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>,
+        Shrikanth Hegde <sshegde@linux.ibm.com>, Zong Li <zong.li@sifive.com>,
+        Nam Cao <namcao@linutronix.de>, Deepak Gupta <debug@rivosinc.com>,
+        Lukas Gerlach <lukas.gerlach@cispa.de>,
+        Rui Qi <qirui.001@bytedance.com>, Kees Cook <kees@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BRFC=5D_entry=3A_Untangle_the_return_value_of?=
+ =?US-ASCII?Q?_syscall=5Fenter=5Ffrom=5Fuser=5Fmode_from_syscall_NR?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <87h5mhnjsr.ffs@fw13>
+References: <akVRcPsD_R_CE1qW@kunlun.suse.cz> <BA7CD91D-C0E5-47A1-B49C-BC6AF6604182@zytor.com> <87h5mhnjsr.ffs@fw13>
+Message-ID: <3DD62076-5420-4D2B-8E7E-9FE0446BD8A0@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 12/16] iio: frequency: ad9910: add RAM mode support
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- Jonathan Cameron <jic23@kernel.org>
-Cc: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-hardening@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-References: <20260618-ad9910-iio-driver-v6-0-79125ffbe430@analog.com>
- <20260618-ad9910-iio-driver-v6-12-79125ffbe430@analog.com>
- <20260703040544.08a8ea5e@jic23-huawei> <ake_YWfvVC9RQ3wu@nsa>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <ake_YWfvVC9RQ3wu@nsa>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 7/3/26 9:09 AM, Nuno Sá wrote:
-> On Fri, Jul 03, 2026 at 04:05:44AM +0100, Jonathan Cameron wrote:
->> On Thu, 18 Jun 2026 14:27:28 +0100
->> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
->>
->>> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+On July 2, 2026 2:49:56 PM PDT, Thomas Gleixner <tglx@kernel=2Eorg> wrote:
+>On Wed, Jul 01 2026 at 11:29, H=2E Peter Anvin wrote:
+>
+>Can you please trim your replies? Scrolling through hundred lines of
+>useless quoted text is just annoying=2E
+>
+>> On July 1, 2026 10:42:08 AM PDT, "Michal Such=C3=A1nek" <msuchanek@suse=
+=2Ede> wrote:
+>>>-static __always_inline long syscall_enter_from_user_mode(struct pt_reg=
+s *regs, long syscall)
+>>>+static __always_inline long syscall_enter_from_user_mode(struct pt_reg=
+s *regs, long *syscall)
+>>> {
+>>> 	long ret;
 >>>
->>> Add RAM control channel, which includes:
->>> - RAM data loading via firmware upload interface;
->>> - Per-profile configuration and DDS core parameter destination as firmware
->>>   metadata;
->>> - Profile switching relying on profile channels;
->>> - Sampling frequency control of the active profile;
->>> - ram-enable-aware read/write paths that redirect single tone
->>>   frequency/phase/amplitude access through reg_profile cache when RAM is
->>>   active;
->>>
->>> When RAM is enabled, the DDS profile parameters (frequency, phase,
->>> amplitude) for the single tone mode are sourced from a shadow register
->>> cache (reg_profile[]) since the profile registers are repurposed for RAM
->>> control.
->>>
->>> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+>
+>> 1=2E The type for a system call is int=2E
+>
+>That ship has sailed long ago=2E man syscall =2E=2E=2E
+>
+>> 2=2E A valid system call number is always going to be positive=2E
+>
+>That's true today=2E
+>
+>> 3=2E Bits [30:24] are available for architecture ABI use=2E The
+>>    "architecture independent" part of the system call number is therefo=
+re
+>>    24 bits wide=2E
 >>
->>> diff --git a/drivers/iio/frequency/ad9910.c b/drivers/iio/frequency/ad9910.c
->>> index 3fe97aa887c3..c4e179dda715 100644
->>> --- a/drivers/iio/frequency/ad9910.c
->>> +++ b/drivers/iio/frequency/ad9910.c
+>> 4=2E The exact ABI is platform-specific, obviously, but as a general
+>>    guideline (especially for new platforms/ABIs) should follow the rule=
+s
+>>    for a platform "int" if practical=2E Notably, when passing a value i=
+n a
+>>    register larger than 32 bits, which side of the calling interface is
+>>    responsible for sign-extending a value passed in a register=2E If ca=
+ller
+>>    side, the kernel should validate, if callee side the kernel should
+>>    ignore the additional bits and do the extension=2E
+>
+>The kernel sign expands today already, i=2Ee=2E for compat syscalls=2E
+>
+>> 5=2E A negative system call number is guaranteed to return -ENOSYS
+>>    (unless intercepted by seccomp, ptrace, or another mechanism under
+>>    user space control=2E)
+>
+>That's true today=2E
+>
+>ASM entry:
+>       regs->eax =3D -ENOSYS;
+>
+>C entry:
+>       nr =3D syscall_enter_from_user_mode(regs, nr);
+>
+>       if ((unsigned)nr < SYSCALL_MAX)
+>       	    regs->eax =3D handle_syscall();
+>       else if (nr !=3D -1)
+>       	    regs->eax =3D -ENOSYS;
+>
+>       =2E=2E=2E=2E
+>
+>If seccomp overwrites regs->eax and aborts any syscall (including -1) by
+>returning -1, then the value seccomp wrote into regs->eax is preserved
+>and returned to user space=2E
+>
+>The same applies for syscall_user_dispatch() and ptrace=2E=2E=2E() if the=
+y
+>decide to overwrite regs->eax _and_ abort the syscall by letting
+>syscall_enter_from_user_mode() return -1=2E
+>
+>trace_syscall_enter() is not any different=2E If the magic BPF in there
+>rewrites the syscall number to -1 then either the original -ENOSYS or
+>the BPF induced overwrite is returned to user space=2E
+>
+>It's less than obvious and I have no objections to clean that up and
+>make it more intuitive, but I still fail to see what Michal is actually
+>trying to solve and what the magic flag is for=2E If s390 requires it,
+>then that's an s390 problem, but definitely x86 does not=2E
+>
+>> 6=2E If the platform needs to algorithmically modify the system call
+>>    number due to platform-specific concerns (say, the platform uses a
+>>    16-bit special purpose register for the syscall number, or it has
+>>    multiple kernel entry points with different behavior), it should if =
+at
+>>    all possible transcode the system call number as necessary to match
+>>    this convention in APIs that are exposed to general kernel code=2E
 >>
->>> +static enum fw_upload_err ad9910_ram_fwu_write(struct fw_upload *fw_upload,
->>> +					       const u8 *data, u32 offset,
->>> +					       u32 size, u32 *written)
->>> +{
->>> +	const struct ad9910_ram_fw *fw_data = (const struct ad9910_ram_fw *)data;
->>> +	struct ad9910_state *st = fw_upload->dd_handle;
->>> +	int ret, ret2, idx, wcount;
->>> +	u64 tmp64, backup;
->>> +
->>> +	if (offset != 0)
->>> +		return FW_UPLOAD_ERR_INVALID_SIZE;
->>> +
->>> +	guard(mutex)(&st->lock);
->>> +
->>> +	if (st->ram_fwu_cancel)
->>> +		return FW_UPLOAD_ERR_CANCELED;
->>> +
->>> +	if (AD9910_RAM_ENABLED(st))
->>> +		return FW_UPLOAD_ERR_HW_ERROR;
->>> +
->>> +	for (idx = 0; idx < AD9910_NUM_PROFILES; idx++)
->>> +		st->reg_profile[idx] = get_unaligned_be64(&fw_data->profiles[idx]) |
->>> +				       AD9910_PROFILE_RAM_OPEN_MSK;
->>> +
->>> +	ret = ad9910_reg32_update(st, AD9910_REG_CFR1,
->>> +				  AD9910_CFR1_RAM_PLAYBACK_DEST_MSK |
->>> +				  AD9910_CFR1_INT_PROFILE_CTL_MSK,
->>> +				  get_unaligned_be32(&fw_data->cfr1), true);
->>> +	if (ret)
->>> +		return FW_UPLOAD_ERR_RW_ERROR;
->>> +
->>> +	wcount = get_unaligned_be16(&fw_data->wcount);
->>> +	if (!wcount) {
->>> +		*written = size;
->>> +		return FW_UPLOAD_ERR_NONE; /* nothing else to write */
->>> +	}
->>> +
->>> +	ret = ad9910_profile_set(st, st->profile);
->>> +	if (ret)
->>> +		return FW_UPLOAD_ERR_HW_ERROR;
->>> +
->>> +	/* backup profile register and update it with required address range */
->>> +	backup = st->reg[AD9910_REG_PROFILE(st->profile)].val64;
->>> +	tmp64 = AD9910_PROFILE_RAM_STEP_RATE_MSK |
->>> +		FIELD_PREP(AD9910_PROFILE_RAM_START_ADDR_MSK, 0) |
->>> +		FIELD_PREP(AD9910_PROFILE_RAM_END_ADDR_MSK, wcount - 1);
->>> +	ret = ad9910_reg64_write(st, AD9910_REG_PROFILE(st->profile), tmp64, true);
->>> +	if (ret)
->>> +		return FW_UPLOAD_ERR_RW_ERROR;
->>> +
->>> +	memcpy(&st->tx_buf[1], fw_data->words, wcount * AD9910_RAM_WORD_SIZE);
->>> +
->>> +	/* write ram data and restore profile register */
->>> +	ret = ad9910_spi_write(st, AD9910_REG_RAM,
->>> +			       wcount * AD9910_RAM_WORD_SIZE, false);
->>> +	ret2 = ad9910_reg64_write(st, AD9910_REG_PROFILE(st->profile), backup, true);
->>> +	if (ret || ret2)
->>> +		return FW_UPLOAD_ERR_RW_ERROR;
->>> +
->>> +	*written = size;
->>
->> I'd like a blank line here. Mostly to make that 'good' return more obvious.
->>
->>> +	return FW_UPLOAD_ERR_NONE;
->>> +}
->>
->>>  
->>> +static inline void ad9910_debugfs_init(struct ad9910_state *st,
->>> +				       struct iio_dev *indio_dev)
->>> +{
->>> +	struct dentry *d = iio_get_debugfs_dentry(indio_dev);
->>> +	char buf[64];
->>> +
->>> +	/*
->>> +	 * symlinks are created here so iio userspace tools can refer to them
->>> +	 * as debug attributes.
->>
->> Maybe worth a reference to appropriate ABI doc here (even if it is introduced
->> in a later patch)
-> 
-> I'm not so sure about these links. I mean, I definitely agree we should
-> make it easy for userspace tools like libiio to be able to handle
-> these kind of attributes but using debugfs is questionable to me. Pretty
-> much because this is not a debug thing. It is a real setting for the
-> driver so ideally we would be able to control it (using the existent
-> tools) without enforcing one to mount debugfs (I know that most of the
-> times it's always mounted but still feels wrong to tie "real
-> functionality" to debugfs). 
-> 
-> Having said the above, some suggestions:
-> 
-> 1. Make the iio_dev the parent so that the attr name is just "ram" and
-> it will be a subdir /sys/bus/iio/iio:deviceN/ram/.
-> 2. Propose a new helper for the firmware_loader code so we can get
-> struct device from struct fw_upload then we can easily create a sysfs
-> symlink.
-> 3. Name the attr as dev_name(iio_dev):attr so that it becomes
-> iio:deviceN:attr_name.
-> 
-> Now that I think about it, 2. does not make much sense when compared to
-> 1. And If I'm not missing anything both 1. and 3. can be sanely parsable
-> from userspace (being 3. maybe a bit more reliable). And yes, both require
-> user space tools (in this case libiio) to support a new type of
-> attribute (firmware) but that is another problem.
+>> For example, in the future I could very much see the IA32 code in the
+>> x86 kernel using bit 29 internally to indicate an ia32 system call,
+>> simplifying the is_compat implementation on x86=2E
+>
+>I don't see how that makes it simpler=2E Those are two different entry
+>code paths and magic bits wont make that go away=2E
+>
+>> It should not mean that passing bit 29 to either the syscall
+>> instruction or int $0x80 will be accepted=2E
+>
+>Your proposal looks even more like a solution in search of a problem
+>than the original one=2E
+>
+>Thanks,
+>
+>        tglx
+>
+>
 
-I would say that udev should be used to find the firmware device from
-userspace rather than creating symlinks. And you probably don't even
-need udev if you already have the `iio-device:<ID>` value. The path
-is always going to be `/sys/class/firmware/iio-device:<ID>:ram/`. It
-seems like the same amount of work for usespace to computer the path
-either way, so might as well keep it simple and leave out the symlink
-stuff.
+The type in syscall(3) is irrelevant=2E The argument passed to the kernel =
+is treated as an int and sign-extended from 32 bits=2E=20
 
-> 
-> - Nuno Sá
->>
->>> +	 */
->>> +	snprintf(buf, sizeof(buf), "/sys/class/firmware/%s/loading", st->ram_fwu_name);
->>> +	debugfs_create_symlink("ram_loading", d, buf);
->>> +
->>> +	snprintf(buf, sizeof(buf), "/sys/class/firmware/%s/data", st->ram_fwu_name);
->>> +	debugfs_create_symlink("ram_data", d, buf);
->>> +}
->>> +
->>>  static int ad9910_probe(struct spi_device *spi)
->>>  {
->>>  	static const char * const supplies[] = {
->>> @@ -1561,7 +1876,25 @@ static int ad9910_probe(struct spi_device *spi)
->> ...
->>
->>> +	ad9910_debugfs_init(st, indio_dev);
->>
->> Blank line preferred before a simple return like this one.
->>
->>> +	return 0;
->>>  }
->>>  
->>>  static const struct spi_device_id ad9910_id[] = {
->>>
->>
+I'm explicitly not trying to invent things; I'm trying to document the sta=
+tus quo to avoid further confusion and to create mistakes=2E=20
 
+I'm sorry I muddled the waters with what was intended to be a hypothetical=
+ example=2E
