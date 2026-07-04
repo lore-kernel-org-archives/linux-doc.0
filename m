@@ -1,203 +1,115 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F463749E2
-	for <linux-doc@vger.kernel.org>; Sat,  4 Jul 2026 01:59:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0623E28CF77;
+	Sat,  4 Jul 2026 04:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783130360; cv=none; b=YkT3P8du65FFEqjTzGGeSGOZ5c84LRRp9I2KgWEgDLOYHyU2Y+ZF3KLy3jU8SLIh2uXFv81zgK0AoOO6o1OpHVXKjovv2lGulUYpBN5R0BRpoBU1dZ/4v8UZTeuQIC6NMFCyOu9Zrz3vrpurF5DrdJYs8IkcQasDA4hMrZURAog=
+	t=1783139896; cv=none; b=m+yxxha2ZjlCaLS3/JPwJQ4cs8n+2ufD7vI3THEmshcQjP4EQTzLyy32pWvHkkzM1YTd+RXT0Mab2D6LRGzrBS0IsiKDXkcMEvTNHEJSP6DnGzIwco72kB0b5ULO854SH5u3Fw8GASSfeF9KtT50b2hGlQlILAz88xuXbkC4BdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783130360; c=relaxed/simple;
-	bh=BwQmx6CoiHuwnmZ+mhMBtmicX8Fogd6hre8OiRCSIcw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DcnnD85eEFg3Xh83C0lglp1KsiexVGg5LXPTQ2GFv9mIwqwFSVfRFsO+f1sIuf86Zoej5V8hRKNFDbPM8CqcbxRb3D7oCKS88VdTVnBcLeBlzK7tI7LaqKu2WAsIcorWZKZXzm19CHdJHbceLruMDkxdPWPSb/21cViyTp3R2RE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=uiK0WMgm; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1783139896; c=relaxed/simple;
+	bh=yRJWIPYU7x9O4o82CkNjHV3Q+ojcQHdhKbof/8IUxkI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AyhRY0e0tksHKei9UsszKPgE0ycNqZcf5OgxyZ19KwbpUqRaUE3/xZh4qWzKsUGJMcDAs8b8XiJyko9Z74noHoOTCNCkLTBj6LR3idUljpMRDjzA3FPLNdSN1CExdF1pPiyNs/IUNgW4qAFNcG6/LPNW6a5QeXfIh7r7lBfT9nI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DXfbiV6g; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="uiK0WMgm"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-51bfb91795eso6283071cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2026 18:59:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1783130357; x=1783735157; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F7z8ZPd7LjzSSsP2/vMsYWIUJXhBId8FemA5cFDWEsQ=;
-        b=uiK0WMgmlyN9pOeIaAUQbBEpHRxiLGLqL7JOOofRDGs8EL/EwGQcJ5774YmqWmwBTO
-         GdzFvIveE1ucDwTfTFkThD6tXkEmXHkI+XeS5OKzjfLpzMiyklVhCwPC+BnV8H5LO2dG
-         GygrYKs51mecniP4AE78TZ6ne7j3W0XfBDDqrJaWqCI2fvLX6sCu3hTJ7frBVW2pAkLr
-         y2fQmYLBh32rJzEymhn7UQfshz6BnsbXP44P1aP/cBtt6+EG0z52YBASKplmOqHFIMAD
-         KXajiHZA/HQ+kNkIMY3FxgvXf7oGAuhvyLLylkWAUP0BjFdditD0shq8rOBssbFNFWbx
-         h5rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783130357; x=1783735157;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=F7z8ZPd7LjzSSsP2/vMsYWIUJXhBId8FemA5cFDWEsQ=;
-        b=EE8YdUAsnHIi/uJWelAiCk/PG4IfTKraEs+SseV9dS0p19y73Zcuu60e2mjzpuRCMC
-         AdWcMiir8gWtIHmPj8yXzp9xv9gjnqbwm1d5EIM938fYJMyHFQvThIC+N8cozBDxmaoS
-         3EVFbwfnahqyZbfntKTVTl7Hh2rBIzKV0F8DAyP6EILF6tjsIf3lrCqBR9B6MJ9cxOEh
-         BYX09QEtasG0lOkeiRjgrJPkY7S1fUkl8wr/hErgWY2rl+TxsX/NlNFnuCcElhholBGg
-         +HBrGdUb+W3KPtb07TUWz4E3i2DmyoGSHmqr7VoWUVzs04687BBT9np/NkrFlF0D2ZVL
-         dnKA==
-X-Gm-Message-State: AOJu0YwzGWbJbMPXjOOqmAl3OD0tALxfbtrfvX2HokkTIlj4h7S6C4+b
-	oRSSNCaejMnYwx1iTc91CCvSEl/+FTeANTfnRCtKmUEeaiOBbZEnt1wZANWEROajILw=
-X-Gm-Gg: AfdE7clhyzIGg/rk6wHOugy+am+7ZZVjlS80vTGSpgRFYVCK5gdaC9uVDJS/2ES8hfY
-	cO+rPXOHoKCkfb4eXsRamRWyXa9vnHmWcO4HWQapPQac1S81+b03Cnf51XmAh1eF/TAmjHXjL68
-	IM88FmPpWK8PPVEDLcSRR3YmrGj77uBd4YpnC+qNO/kHYot2zzIALE2P00uwjitO3VE3ya5jwMy
-	ijPS1uGhZiq2k/EqVi69Iz9JfPfgZXOb01mxbHTKhOX26hT5Ow6O+ioGxJTuVTkb+A4Fdpff3od
-	O8RdNqYiHKnw/Nldqn/+0DzfeRpmfJsRkSaTPqRBsntrIUqJe3LIWDsjZXjwniYdQT4pnL2U8pC
-	ALTyLRVa0PejueD11ACj77WHv/llTQW60PrDrYHNzvv355rpIzyaWBDrgvSQ4/saUtck8OMd/xA
-	pK3fp0NoqRoVBdSkhDFnHvBtEN9ms8uIABlImgD4Tt1lM=
-X-Received: by 2002:ac8:5f89:0:b0:51c:25da:903e with SMTP id d75a77b69052e-51c4c2f6132mr25525331cf.58.1783130357348;
-        Fri, 03 Jul 2026 18:59:17 -0700 (PDT)
-Received: from fedora (50-32-2-77.vng01.dlls.pa.frontiernet.net. [50.32.2.77])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51c41e084e8sm28109311cf.28.2026.07.03.18.59.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 18:59:17 -0700 (PDT)
-From: Gregory Price <gourry@gourry.net>
-To: linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	tglx@kernel.org,
-	peterz@infradead.org,
-	luto@kernel.org,
-	akpm@linux-foundation.org,
-	feng.tang@linux.alibaba.com,
-	pmladek@suse.com,
-	lance.yang@linux.dev,
-	marc.herbert@linux.intel.com,
-	kees@kernel.org,
-	leitao@debian.org,
-	gourry@gourry.net,
-	joel.granados@kernel.org,
-	lirongqing@baidu.com,
-	nathan@kernel.org,
-	xur@google.com,
-	lukas.bulwahn@redhat.com,
-	ryan.roberts@arm.com
-Subject: [PATCH v2 2/2] syscall_user_dispatch: add kernel.syscall_user_dispatch sysctl
-Date: Fri,  3 Jul 2026 21:58:59 -0400
-Message-ID: <20260704015859.536580-3-gourry@gourry.net>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260704015859.536580-1-gourry@gourry.net>
-References: <20260704015859.536580-1-gourry@gourry.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DXfbiV6g"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id F35141F000E9;
+	Sat,  4 Jul 2026 04:38:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783139889;
+	bh=qRAmcRU3owZQdAAKakvkU8W3SwpcXOWxnb6DylVdk9c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=DXfbiV6gKXNj8Wvs9hw5qkDLynuSYspyuLQhy00fnh1MqDD/O1hx1PQASm1qyaIDy
+	 diUZyrCsQRk1bp93hnlAfbd1FTZT6khHhBvtenlfMxl0CuH6U/Na71wHsu9K0f4fZn
+	 UXwB4GH0XiZ3KdAAqrbQHIvWhTmfpjGsW7mj/f31qSQnQ9LH6XUGPKYrHNf5/AZVVw
+	 D2atEWFNjynMkgF0r00OkSjCntE8Wccsc9OXtF0Pb5Yo56hhKTK71daRZSpVB0zg4H
+	 BsP41jGwa8i/K0kfC9JXAKJ8h2da/qjBaWTXWEk9ZtRliYRbHiTK0ZNK85I5pw1YZv
+	 MkS/8BYN0ApjQ==
+Date: Fri, 3 Jul 2026 21:38:08 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, brauner@kernel.org, willy@infradead.org,
+	hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 18/18] Documentation: iomap: update docs to reflect
+ iomap_next model
+Message-ID: <20260704043808.GC9407@frogsfrogsfrogs>
+References: <20260701000949.1666714-1-joannelkoong@gmail.com>
+ <20260701000949.1666714-19-joannelkoong@gmail.com>
+ <20260702192658.GN9392@frogsfrogsfrogs>
+ <CAJnrk1YZQOQ0D6p6qYx1BPvKQaDgZsrKzLbGZzaH8tUkj_OoOQ@mail.gmail.com>
+ <20260703020020.GS9392@frogsfrogsfrogs>
+ <20260703124331.GA26440@lst.de>
+ <20260703161147.GB9407@frogsfrogsfrogs>
+ <CAJnrk1Zv8FEAD+T=1+ZLi6q8ztHVY1zray019QNdeLpYjTNQAQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1Zv8FEAD+T=1+ZLi6q8ztHVY1zray019QNdeLpYjTNQAQ@mail.gmail.com>
 
-Add a matching sysctl to go with CONFIG_SYSCALL_USER_DISPATCH.
+On Fri, Jul 03, 2026 at 05:34:59PM -0700, Joanne Koong wrote:
+> On Fri, Jul 3, 2026 at 9:11 AM Darrick J. Wong <djwong@kernel.org> wrote:
+> >
+> > On Fri, Jul 03, 2026 at 02:43:31PM +0200, Christoph Hellwig wrote:
+> > > On Thu, Jul 02, 2026 at 07:00:20PM -0700, Darrick J. Wong wrote:
+> > > > The ->begin method can still set iomap::private and the ->end method can
+> > > > dispose of it, right?  Oh, wait, no, that doesn't work because you're
+> > > > talking about ->begin/->end passing something to the next ->begin.
+> > >
+> > > Should we move ->private from struct iomap to struct iomap_iter?
+> > > That'll deal with the constness and the fact that private data
+> > > really is a per-operation thing.
+> 
+> I'm not sure I understand. Doesn't struct iomap_iter already have a
+> private field that holds caller-supplied per-operation context?
+> afaics, the users of iomap->private (gfs2, ntfs3, fuse-dax) do use it
+> for per-mapping data and release it in the same iteration.
 
-kernel.syscall_user_dispatch (default 1 - allow) controls whether
-userspace may arm syscall user dispatch (both via prctl and ptrace).
+Oh right, iomap_iter::private is a private pointer that the filesystem
+can sometimes set to pass per-file-operation data to ->iomap_{begin,end}
+... that is tortuously extracted from the iomap_iter via the iomap
+pointer.
 
-Disarming is always permitted - same semantics as comparable knobs.
+iomap::private is a private pointer that the filesystem can set to pass
+per-mapping data from ->iomap_begin to ->iomap_end.
 
-Disabling while a task has armed syscall user dispatch does not
-cause it to become inactive - instead it remains active until the
-user attempts to disable/re-enable via prctl or ptrace.  On the
-next attempt to re-enable, the prctl/ptrace call fails gracefully.
+IOWS, never mind, I'm babbling nonsense.
 
-The alternative would cause programs translating non-linux syscalls
-to interpret those syscalls as linux syscalls, resulting in undefined
-userland behavior.
+--D
 
-Signed-off-by: Gregory Price <gourry@gourry.net>
----
- Documentation/admin-guide/sysctl/kernel.rst | 16 ++++++++++++
- kernel/entry/syscall_user_dispatch.c        | 28 +++++++++++++++++++++
- 2 files changed, 44 insertions(+)
-
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index c6994e55d141..46e418e686c2 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -1402,6 +1402,22 @@ Note that if you change this from 0 to 1, already created segments
- without users and with a dead originative process will be destroyed.
- 
- 
-+syscall_user_dispatch
-+=====================
-+
-+Controls whether userspace may arm Syscall User Dispatch via
-+``prctl(PR_SET_SYSCALL_USER_DISPATCH, ...)`` or the
-+``PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG`` ptrace request:
-+
-+  ==  ===================================================================
-+  0   Arming syscall user dispatch is denied with ``-EPERM``.  Tasks that
-+      already armed it keep it, and disabling it is always permitted.
-+  1   (default) Arming syscall user dispatch is permitted.
-+  ==  ===================================================================
-+
-+Only present when the kernel is built with ``CONFIG_SYSCALL_USER_DISPATCH``.
-+
-+
- sysctl_writes_strict
- ====================
- 
-diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
-index d89dffcc2d64..1c39ccd733f5 100644
---- a/kernel/entry/syscall_user_dispatch.c
-+++ b/kernel/entry/syscall_user_dispatch.c
-@@ -11,12 +11,15 @@
- #include <linux/uaccess.h>
- #include <linux/signal.h>
- #include <linux/elf.h>
-+#include <linux/sysctl.h>
- 
- #include <linux/sched/signal.h>
- #include <linux/sched/task_stack.h>
- 
- #include <asm/syscall.h>
- 
-+static int syscall_user_dispatch_allowed __read_mostly = 1;
-+
- static void trigger_sigsys(struct pt_regs *regs)
- {
- 	struct kernel_siginfo info;
-@@ -102,6 +105,10 @@ static int task_set_syscall_user_dispatch(struct task_struct *task, unsigned lon
- 		return -EINVAL;
- 	}
- 
-+	/* Arming can be denied at runtime via sysctl, disarming is allowed */
-+	if (mode != PR_SYS_DISPATCH_OFF && !syscall_user_dispatch_allowed)
-+		return -EPERM;
-+
- 	/*
- 	 * access_ok() will clear memory tags for tagged addresses
- 	 * if current has memory tagging enabled.
-@@ -172,3 +179,24 @@ int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long siz
- 	return task_set_syscall_user_dispatch(task, cfg.mode, cfg.offset, cfg.len,
- 					      (char __user *)(uintptr_t)cfg.selector);
- }
-+
-+#ifdef CONFIG_SYSCTL
-+static const struct ctl_table syscall_user_dispatch_sysctls[] = {
-+	{
-+		.procname	= "syscall_user_dispatch",
-+		.data		= &syscall_user_dispatch_allowed,
-+		.maxlen		= sizeof(syscall_user_dispatch_allowed),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_ONE,
-+	},
-+};
-+
-+static int __init syscall_user_dispatch_sysctl_init(void)
-+{
-+	register_sysctl_init("kernel", syscall_user_dispatch_sysctls);
-+	return 0;
-+}
-+late_initcall(syscall_user_dispatch_sysctl_init);
-+#endif /* CONFIG_SYSCTL */
--- 
-2.54.0
-
+> > I dunno -- towards the end of the fuse-iomap development work I actually
+> > had started using iomap.private to store per-mapping private data.  But
+> > that work is dead now, so that's not a strong argument.
+> >
+> > > That also reminds me that now that we actually still keep the low-level
+> > > begin/end ops we need to switch them to a calling convention that
+> > > passes the iter instead of the ugly container_of.  This is something
+> > > I wanted deferred until we get the iter conversion, but it turns out
+> > > that now leaves them untouched..
+> 
+> That's a good point. Do you think it'd be better to include those
+> changes as part of this series or do that as a separate follow-up
+> series that targets the same merge window timeline as this one?
+> 
+> >
+> > Oh, you mean changing the signature to:
+> >
+> > typedef int (iomap_begin_fn)(struct iomap_iter *iter...);
+> >
+> > instead of passing parts of the iter as separate arguments?
+> > Yeah, that would be nice.
+> 
+> Agreed.
+> 
+> Thanks,
+> Joanne
