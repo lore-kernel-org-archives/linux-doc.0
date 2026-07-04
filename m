@@ -1,336 +1,208 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from unimail.uni-dortmund.de (mx1.hrz.uni-dortmund.de [129.217.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D5539D3DA;
-	Sat,  4 Jul 2026 09:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC47A433E8C;
+	Sat,  4 Jul 2026 11:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.217.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783157498; cv=none; b=UVl2tTz+plRXKu4TbcwZTkyqvB3Tt+f3DCU+LNSjplbBZo/mERHWWT7MurvTa6Bd3Ckc8LHF7dY7TMUM8UBGxyPM0ffTK83eFb4em/RCCv541eUEtLMlaO2/NesdSO11kKzglJEFiUgO+2il7O2O3RpNdAs7maKl8yAfqPeX+Pc=
+	t=1783164287; cv=none; b=XM00643lZJlM1TO4blFMvMR5LaOx4FoPLkJzUggHPWYtVfAe4ZjRfp8WmGnrjRQ2XSGHjjkRco35RVAZkB2YVLwVmGtfB9eNzBh7w8vUb9GJiK8bYYo5EDoFWA/zKW/puyTmzs9KFJ8AKxlSNu730Rikfdca0X7pfxI23XjQkTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783157498; c=relaxed/simple;
-	bh=VbX6NacYvLE2FJCi58V0medyBvA0ZGJMYN4yv7QEMHg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A1+P2xoi+QhczhTcqvqISYjNKlLrVFnQQ2VIX6+IMpd7zT6A4A8234F2YxXyPFKt/ra2+6eHULyrVRE1rRoaqGJ6y4GeRRxY35U2h6Y3mp6SSYOmaN69is1eCtrh6sYAquTmk4Um5eE0/z3Au/Zso6dRfkPkPd8O611bAYUuHr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QsoaTYMI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783164287; c=relaxed/simple;
+	bh=4fOf6IXbEH66LQECeBuF/0Rt8XaxrckHsD+LOO8Ay/c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PSk5Mh23Rjnz+G3Sw6X+Zhfg7ebraVOlaEUjgQ8MqgPuYDTsd86hodwa/QkN78ya/wK1I0QX+DRfYwRZmdKDB6ACLmMe2BCPydfz91bkShQAA6BtEgdlH4Wjgk6Zhky9CFRdEpWM1YdfGLpvSYBtzgGngzFKsHZ/3hyy9Dkg1r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de; spf=pass smtp.mailfrom=tu-dortmund.de; dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b=OgP90bpl; arc=none smtp.client-ip=129.217.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tu-dortmund.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QsoaTYMI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D423E1F000E9;
-	Sat,  4 Jul 2026 09:31:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783157496;
-	bh=p1NRWPeXH4Cx6+cby7q1IV9WGoYMUGRxotRm9lK8E8M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QsoaTYMI8AZ1KC7mXmN8STYCDOr7HqJLnj+iE5TUu8webmH8x7cy2/kCISGvaXK2U
-	 3HyagT7YzPamqCEVFNflmhXIh1lNh9NognRS8tUPfRVIf6pqeucxu47zEJnaGgoKuE
-	 cjySlsga79nNUVGvxyL5k4YvCTm9VK37KRPOEuDbsf2Y4Q85TlNrH6s1l34WDDqhNW
-	 j+87m5nrHbt3FLm1m9AbfhNky17N1jvno7Cbp0JvZzn8MYEs+qQVi7z9NX2tlqaW3q
-	 0JPzWcWB98LclBK5Uz7mUgLsVQd2/RenbKnTxOjQpKkng5tRTzij55mKWppOCYuxEk
-	 FCKzcu182tT0A==
-Date: Sat, 4 Jul 2026 12:31:26 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Miaohe Lin <linmiaohe@huawei.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"Liam R. Howlett" <liam@infradead.org>, lance.yang@linux.dev,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v10 6/6] selftests/mm: add hwpoison-panic destructive test
-Message-ID: <akjS7kiGjVwWaWEz@kernel.org>
-References: <20260630-ecc_panic-v10-0-c6ed5b62eea2@debian.org>
- <20260630-ecc_panic-v10-6-c6ed5b62eea2@debian.org>
+	dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b="OgP90bpl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tu-dortmund.de;
+	s=unimail; t=1783164080;
+	bh=F7CEOlgk7OIq+TsTOEFv9JiycRsTfQEkLuR7K4P5tLs=;
+	h=From:To:Cc:Subject:Date;
+	b=OgP90bpligmzDSTAL/u6vw8YMlcQ8RkvmWWds+keFR4m2r0JBlEm3VxgNy+u+/iR5
+	 PSnLhUAUs64yxuEMz+JoEV7TW/bU9jzEVbwFYrKW0TKi5dyAspVdiXrKAX8Ro3K2cC
+	 rpcU80AekuQ+1Nd+rqQzLoxd1bXSpCSzUOYvwn0w=
+Received: from simon-Latitude-5450.fritz.box (p5dc887d7.dip0.t-ipconnect.de [93.200.135.215])
+	(authenticated bits=0)
+	by unimail.uni-dortmund.de (8.19.0.2/8.19.0.2) with ESMTPSA id 664BLIUF019003
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Sat, 4 Jul 2026 13:21:18 +0200 (CEST)
+From: Simon Schippers <simon.schippers@tu-dortmund.de>
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Jason Wang <jasowangio@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        "Michael S . Tsirkin" <mst@redhat.com>, netdev@vger.kernel.org
+Cc: Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        Tim Gebauer <tim.gebauer@tu-dortmund.de>,
+        Brett Sheffield <brett@librecast.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Simon Schippers <simon.schippers@tu-dortmund.de>
+Subject: [PATCH net] tun/tap & vhost-net: make qdisc backpressure opt-in via IFF_BACKPRESSURE
+Date: Sat,  4 Jul 2026 13:20:58 +0200
+Message-ID: <20260704112058.95421-1-simon.schippers@tu-dortmund.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260630-ecc_panic-v10-6-c6ed5b62eea2@debian.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Breno,
+Commit 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop
+when a qdisc is present") did not show a relevant performance regression
+in my testing but on Brett Sheffield's librecast testbed it shows a
+significant performance drop. The regression can be pinpointed when
+multiple iperf3 TCP threads are sending. For 8 threads the performance
+dropped from 13.5 Gbit/s to 9.13 Gbit/s. This is the reason why this
+patch makes the qdisc backpressure behavior opt-in.
 
-On Tue, Jun 30, 2026 at 05:46:09AM -0700, Breno Leitao wrote:
-> Add a destructive selftest that verifies
-> vm.panic_on_unrecoverable_memory_failure actually panics when a
-> hwpoison error hits a kernel-owned page.
-> 
-> Three "kinds" of kernel-owned page can be targeted, selectable via
-> the script's first positional argument (default: rodata):
-> 
->   rodata  - a PG_reserved page in the kernel rodata range, sourced
->             from the "Kernel rodata" sub-resource of "System RAM" in
->             /proc/iomem.  That entry is reported on every major
->             architecture and guarantees the chosen PFN is backed by
->             struct page (an online System RAM range, not a firmware
->             hole), is PG_reserved, and is read-only -- so even if
->             the panic fails to fire for some reason, the resulting
->             PG_hwpoison marker on rodata does not corrupt writable
->             kernel state.
-> 
->   slab    - a slab page found by walking /proc/kpageflags for the
->             first PFN with KPF_SLAB set (and KPF_HWPOISON / KPF_NOPAGE
->             / KPF_COMPOUND_TAIL clear).  Exercises the get_any_page()
->             path on a non PG_reserved kernel-owned page and so
->             catches regressions where get_any_page() collapses
->             kernel-owned pages into a transient -EIO instead of
->             -ENOTRECOVERABLE.
-> 
->   pgtable - same as slab, but the PFN is selected via KPF_PGTABLE.
-> 
-> PageLargeKmalloc, the fourth page type matched by
-> is_kernel_owned_page(), is intentionally not covered: it is a
-> PAGE_TYPE_OPS flag with no /proc/kpageflags bit, so selecting such
-> a PFN from userspace is not feasible.  The slab and pgtable
-> variants already exercise the same get_any_page() positive-check
-> branch.
-> 
-> The script enables the sysctl and writes the selected physical
-> address to /sys/devices/system/memory/hard_offline_page.  A
-> successful run crashes the kernel with
-> 
->   Memory failure: <pfn>: unrecoverable page
-> 
-> A return from the inject means no panic fired.  Before reporting, the
-> script restores the sysctl and best-effort unpoisons the target PFN
-> through the hwpoison debugfs interface (hard_offline_page() injects
-> with MF_SW_SIMULATED, so the page stays unpoisonable), then re-reads
-> /proc/kpageflags: a PFN that is still the kernel-owned type it selected
-> is a genuine failure, while one that raced to a different type before
-> the inject is skipped as inconclusive.  Test outcome is therefore
-> observed externally (serial console, kdump) rather than from the
-> script's own exit code.
-> 
-> The script is intentionally NOT wired into run_vmtests.sh: every
-> successful run panics the kernel, which is incompatible with the
-> sequential "run each category in the same VM" model that
-> run_vmtests.sh assumes.  It is also not registered as a TEST_PROGS /
-> ksft_* wrapper so a default kselftest run does not opt itself into
-> a panic.  The script is meant to be executed manually inside a
-> disposable VM (e.g. virtme-ng), one variant per VM boot, and
-> requires RUN_DESTRUCTIVE=1 in the environment as a safety net.
-> 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
-> ---
->  tools/testing/selftests/mm/Makefile          |   4 +
->  tools/testing/selftests/mm/hwpoison-panic.sh | 255 +++++++++++++++++++++++++++
->  2 files changed, 259 insertions(+)
-> 
-> diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
-> index e6df968f0971c..ed321ae709dac 100644
-> --- a/tools/testing/selftests/mm/Makefile
-> +++ b/tools/testing/selftests/mm/Makefile
-> @@ -174,6 +174,10 @@ TEST_PROGS += ksft_userfaultfd.sh
->  TEST_PROGS += ksft_vma_merge.sh
->  TEST_PROGS += ksft_vmalloc.sh
->  
-> +# Destructive: every successful run panics the kernel.  Installed and
-> +# kept executable, but not run from a default kselftest invocation.
-> +TEST_PROGS_EXTENDED += hwpoison-panic.sh
-> +
->  TEST_FILES := test_vmalloc.sh
->  TEST_FILES += test_hmm.sh
->  TEST_FILES += va_high_addr_switch.sh
-> diff --git a/tools/testing/selftests/mm/hwpoison-panic.sh b/tools/testing/selftests/mm/hwpoison-panic.sh
-> new file mode 100755
-> index 0000000000000..d953d13673324
-> --- /dev/null
-> +++ b/tools/testing/selftests/mm/hwpoison-panic.sh
-> @@ -0,0 +1,255 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Verify vm.panic_on_unrecoverable_memory_failure by injecting a hwpoison
-> +# error on a kernel-owned page and confirming the kernel panics.
-> +#
-> +# Three "kinds" of kernel-owned page can be targeted, selectable via the
-> +# first positional argument (default: rodata):
-> +#
-> +#   rodata  - a PG_reserved page in the kernel rodata range
-> +#             (sourced from /proc/iomem "Kernel rodata").  Exercises
-> +#             memory_failure() -> get_any_page() on a PageReserved page.
-> +#
-> +#   slab    - a slab page found via /proc/kpageflags (KPF_SLAB).
-> +#             Exercises memory_failure() -> get_any_page() on a non
-> +#             PG_reserved kernel-owned page.  This path is what catches
-> +#             regressions where get_any_page() collapses kernel-owned
-> +#             pages into a transient -EIO instead of -ENOTRECOVERABLE.
-> +#
-> +#   pgtable - a page-table page found via /proc/kpageflags (KPF_PGTABLE).
-> +#             Same path as slab, different page type.
-> +#
-> +# This test is DESTRUCTIVE: a successful run crashes the kernel.  It is
-> +# meant to be executed inside a disposable VM (e.g. virtme-ng) with a
-> +# serial console captured by the harness.  It is skipped unless the
-> +# caller opts in via RUN_DESTRUCTIVE=1.
-> +#
-> +# Test passes externally: the kernel must panic with
-> +#   "Memory failure: <pfn>: unrecoverable page"
-> +# A return from the inject means no panic fired: that is a failure,
-> +# unless the target PFN raced to a different page type before injection,
-> +# in which case the run is inconclusive and is skipped.
-> +#
-> +# Author: Breno Leitao <leitao@debian.org>
-> +
-> +set -u
-> +
-> +# KTAP output helpers (ktap_print_msg, ktap_skip_all, ktap_exit_fail_msg, ...).
-> +DIR="$(dirname "$(readlink -f "$0")")"
-> +# shellcheck source=../kselftest/ktap_helpers.sh
-> +source "${DIR}"/../kselftest/ktap_helpers.sh
-> +
-> +sysctl_path=/proc/sys/vm/panic_on_unrecoverable_memory_failure
-> +inject_path=/sys/devices/system/memory/hard_offline_page
-> +kpageflags_path=/proc/kpageflags
-> +unpoison_path=/sys/kernel/debug/hwpoison/unpoison-pfn
-> +
-> +# /proc/kpageflags bit positions (see include/uapi/linux/kernel-page-flags.h)
-> +KPF_SLAB=7
-> +KPF_COMPOUND_TAIL=16
-> +KPF_HWPOISON=19
-> +KPF_NOPAGE=20
-> +KPF_PGTABLE=26
-> +KPF_RESERVED=32
-> +
-> +pagesize=$(getconf PAGE_SIZE)
-> +
-> +kind=${1:-rodata}
-> +
-> +if [ "$(id -u)" -ne 0 ]; then
-> +	ktap_skip_all "must run as root"
-> +	exit "$KSFT_SKIP"
-> +fi
-> +
-> +if [ ! -w "$sysctl_path" ]; then
-> +	ktap_skip_all "$sysctl_path not present (kernel without the sysctl?)"
-> +	exit "$KSFT_SKIP"
-> +fi
-> +
-> +if [ ! -w "$inject_path" ]; then
-> +	ktap_skip_all "$inject_path not present (no MEMORY_HOTPLUG?)"
-> +	exit "$KSFT_SKIP"
-> +fi
-> +
-> +if [ "${RUN_DESTRUCTIVE:-0}" != "1" ]; then
-> +	ktap_skip_all "destructive test; re-run with RUN_DESTRUCTIVE=1 inside a disposable VM"
-> +	exit "$KSFT_SKIP"
-> +fi
-> +
-> +# Pick a PFN inside the kernel image rodata region of /proc/iomem.
-> +# This is preferred over a top-level "Reserved" entry because top-level
-> +# Reserved ranges are often firmware holes that have no backing struct
-> +# page; pfn_to_online_page() returns NULL on those and memory_failure()
-> +# bails out with -ENXIO before reaching the panic path.
-> +#
-> +# "Kernel rodata" is reported as a sub-resource of "System RAM" on every
-> +# major architecture, which guarantees:
-> +#   - the PFN is backed by struct page (within an online memory range);
-> +#   - PG_reserved is set on the page (kernel image area);
-> +#   - the memory is read-only, so setting PG_hwpoison on it does not
-> +#     corrupt writable kernel state if the panic somehow does not fire.
-> +#
-> +# /proc/iomem entries look like (indented for sub-resources):
-> +#     "  02500000-02ffffff : Kernel rodata"
-> +pick_rodata_phys_addr() {
-> +	awk -v pagesize="$(getconf PAGE_SIZE)" '
-> +	# Convert a hex string to a number without relying on the gawk-only
-> +	# strtonum().  mawk lacks it and would otherwise spuriously skip
-> +	# this test on distros that ship mawk as /usr/bin/awk.
-> +	function hex2num(s,   n, i, c, v) {
-> +		n = 0
-> +		for (i = 1; i <= length(s); i++) {
-> +			c = tolower(substr(s, i, 1))
-> +			v = index("0123456789abcdef", c) - 1
-> +			if (v < 0)
-> +				return -1
-> +			n = n * 16 + v
-> +		}
-> +		return n
-> +	}
-> +	/: Kernel rodata[[:space:]]*$/ {
-> +		sub(/^[[:space:]]+/, "")
-> +		n = split($0, a, /[- ]/)
-> +		start = hex2num(a[1])
-> +		end   = hex2num(a[2])
-> +		if (end <= start)
-> +			next
-> +		# Page-align upward and emit the first byte of that page.
-> +		pfn = int((start + pagesize - 1) / pagesize)
-> +		printf "0x%x\n", pfn * pagesize
-> +		exit 0
-> +	}
-> +	' /proc/iomem
-> +}
-> +
-> +# Walk /proc/kpageflags and return the phys addr of the first PFN that
-> +# has bit $1 set, with KPF_HWPOISON, KPF_NOPAGE and KPF_COMPOUND_TAIL
-> +# all clear (so we attack a real, non-tail, not-already-poisoned page).
-> +#
-> +# We skip the first 16 MiB of PFNs to step past low-memory special
-> +# ranges (BIOS/EFI/ACPI/etc.) that often are PG_reserved and would not
-> +# exhibit the slab/pgtable type we are looking for.
-> +pick_kpageflags_phys_addr() {
-> +	local want_bit=$1
-> +	local pagesize skip_pfn
-> +
-> +	[ -r "$kpageflags_path" ] || return
-> +
-> +	pagesize=$(getconf PAGE_SIZE)
-> +	skip_pfn=$(((16 * 1024 * 1024) / pagesize))
-> +
-> +	od -An -tx8 -v -w8 -j "$((skip_pfn * 8))" "$kpageflags_path" 2>/dev/null | \
-> +	awk -v want_bit="$want_bit" \
-> +	    -v hwp_bit="$KPF_HWPOISON" \
-> +	    -v nopage_bit="$KPF_NOPAGE" \
-> +	    -v tail_bit="$KPF_COMPOUND_TAIL" \
-> +	    -v base_pfn="$skip_pfn" \
-> +	    -v pagesize="$pagesize" '
-> +	# Test whether bit "b" is set in the 16-hex-digit value "hex".
-> +	# Done with substring + per-digit lookup so we never rely on awk
-> +	# bitwise operators (mawk lacks them), 64-bit FP precision or the
-> +	# gawk-only strtonum().
-> +	function bit_set(hex, b,    di, bi, c, v) {
-> +		di = int(b / 4)
-> +		bi = b - di * 4
-> +		c = substr(hex, length(hex) - di, 1)
-> +		v = index("0123456789abcdef", tolower(c)) - 1
-> +		if (bi == 0) return (v % 2) == 1
-> +		if (bi == 1) return int(v / 2) % 2 == 1
-> +		if (bi == 2) return int(v / 4) % 2 == 1
-> +		return int(v / 8) % 2 == 1
-> +	}
-> +	{
-> +		gsub(/^[[:space:]]+/, "")
-> +		h = $1
-> +		if (bit_set(h, want_bit) &&
-> +		    !bit_set(h, hwp_bit) &&
-> +		    !bit_set(h, nopage_bit) &&
-> +		    !bit_set(h, tail_bit)) {
-> +			pfn = base_pfn + NR - 1
-> +			printf "0x%x\n", pfn * pagesize
-> +			exit 0
-> +		}
-> +	}
+One option to accomplish the opt-in would be to set the default qdisc to
+noqueue at init. However this may also break userspace as users might
+have chosen a custom qdisc even though most of the qdiscs did nothing
+for tun/tap in the past due to missing backpressure...
 
-I'm looking at these awk scripts and od encodings and I wonder if wasn't it
-simpler to write the test in C.
+This is the reason why in this patch, the flag IFF_BACKPRESSURE is
+introduced instead which is required to enable the backpressure logic.
+This means the stopping logic in tun_net_xmit() and the waking logic in
+__tun_wake_queue() are skipped if the flag is disabled.
 
-We have a bunch of helpers in tools/testing/selftests/mm/vm_utils.h for
-accessing /proc files and there is already /proc/iomem parser in
-tools/testing/selftests/mm/pfnmap.c that also could be lifter to vm_util
+In tun_set_iff(), netif_tx_wake_all_queues() is replaced with looping
+over all tfiles in which the netdev queues are woken and cons_cnt is
+reset while the consumer_lock and producer_lock are held. This is to
+ensure that tun_net_xmit() can not stop the queue concurrently, avoiding
+a possible stall.
 
+The documentation in tuntap.rst is updated accordingly.
+
+Fixes: 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop when a qdisc is present")
+Reported-by: Brett Sheffield <brett@librecast.net>
+Closes: https://lore.kernel.org/netdev/akVnoOYQOrt8k-Gu@karahi.librecast.net/T/#u
+Signed-off-by: Simon Schippers <simon.schippers@tu-dortmund.de>
+---
+ Documentation/networking/tuntap.rst | 17 +++++++++++++++++
+ drivers/net/tun.c                   | 29 +++++++++++++++++++++++------
+ include/uapi/linux/if_tun.h         |  1 +
+ tools/include/uapi/linux/if_tun.h   |  1 +
+ 4 files changed, 42 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/networking/tuntap.rst b/Documentation/networking/tuntap.rst
+index 4d7087f727be..599264825dd2 100644
+--- a/Documentation/networking/tuntap.rst
++++ b/Documentation/networking/tuntap.rst
+@@ -206,6 +206,23 @@ enable is true we enable it, otherwise we disable it::
+       return ioctl(fd, TUNSETQUEUE, (void *)&ifr);
+   }
+ 
++3.4 qdisc backpressure
++----------------------
++
++Starting with Linux 7.2, IFF_BACKPRESSURE can be set to enable qdisc
++backpressure. Without it, TX drops occur when the internal ring buffer is
++full. With it, the kernel stops the TX queue instead, letting the qdisc
++hold packets. Drops only occur as a rare race. This can benefit protocols
++like TCP that react to drops. Backpressure requires a qdisc to be
++attached and has no effect with noqueue.
++
++The TUN/TAP ring buffer size can be reduced alongside this flag to
++further shift buffering into the qdisc and reduce bufferbloat, but comes
++at possible performance cost.
++
++When running multiple network streams in parallel, the flag may reduce
++performance due to the extra overhead of the backpressure mechanism.
++
+ Universal TUN/TAP device driver Frequently Asked Question
+ =========================================================
+ 
+diff --git a/drivers/net/tun.c b/drivers/net/tun.c
+index ffbe6f13fb1f..3bf8a73a0816 100644
+--- a/drivers/net/tun.c
++++ b/drivers/net/tun.c
+@@ -98,7 +98,8 @@ static void tun_default_link_ksettings(struct net_device *dev,
+ #define TUN_FASYNC	IFF_ATTACH_QUEUE
+ 
+ #define TUN_FEATURES (IFF_NO_PI | IFF_ONE_QUEUE | IFF_VNET_HDR | \
+-		      IFF_MULTI_QUEUE | IFF_NAPI | IFF_NAPI_FRAGS)
++		      IFF_MULTI_QUEUE | IFF_NAPI | IFF_NAPI_FRAGS | \
++		      IFF_BACKPRESSURE)
+ 
+ #define GOODCOPY_LEN 128
+ 
+@@ -1077,7 +1078,8 @@ static netdev_tx_t tun_net_xmit(struct sk_buff *skb, struct net_device *dev)
+ 
+ 	spin_lock(&tfile->tx_ring.producer_lock);
+ 	ret = __ptr_ring_produce(&tfile->tx_ring, skb);
+-	if (!qdisc_txq_has_no_queue(queue) &&
++	if ((tun->flags & IFF_BACKPRESSURE) &&
++	    !qdisc_txq_has_no_queue(queue) &&
+ 	    __ptr_ring_check_produce(&tfile->tx_ring) == -ENOSPC) {
+ 		netif_tx_stop_queue(queue);
+ 		/* Paired with smp_mb() in __tun_wake_queue() */
+@@ -2151,8 +2153,12 @@ static ssize_t tun_put_user(struct tun_struct *tun,
+ static void __tun_wake_queue(struct tun_struct *tun,
+ 			     struct tun_file *tfile, int consumed)
+ {
+-	struct netdev_queue *txq = netdev_get_tx_queue(tun->dev,
+-						tfile->queue_index);
++	struct netdev_queue *txq;
++
++	if (!(tun->flags & IFF_BACKPRESSURE))
++		return;
++
++	txq = netdev_get_tx_queue(tun->dev, tfile->queue_index);
+ 
+ 	/* Paired with smp_mb__after_atomic() in tun_net_xmit() */
+ 	smp_mb();
+@@ -2893,8 +2899,19 @@ static int tun_set_iff(struct net *net, struct file *file, struct ifreq *ifr)
+ 	/* Make sure persistent devices do not get stuck in
+ 	 * xoff state.
+ 	 */
+-	if (netif_running(tun->dev))
+-		netif_tx_wake_all_queues(tun->dev);
++	if (netif_running(tun->dev)) {
++		for (int i = 0; i < tun->numqueues; i++) {
++			struct tun_file *i_tfile;
++
++			i_tfile = rtnl_dereference(tun->tfiles[i]);
++			spin_lock_bh(&i_tfile->tx_ring.consumer_lock);
++			spin_lock(&i_tfile->tx_ring.producer_lock);
++			netif_wake_subqueue(tun->dev, i_tfile->queue_index);
++			i_tfile->cons_cnt = 0;
++			spin_unlock(&i_tfile->tx_ring.producer_lock);
++			spin_unlock_bh(&i_tfile->tx_ring.consumer_lock);
++		}
++	}
+ 
+ 	strscpy(ifr->ifr_name, tun->dev->name);
+ 	return 0;
+diff --git a/include/uapi/linux/if_tun.h b/include/uapi/linux/if_tun.h
+index 79d53c7a1ebd..73a77141315c 100644
+--- a/include/uapi/linux/if_tun.h
++++ b/include/uapi/linux/if_tun.h
+@@ -69,6 +69,7 @@
+ #define IFF_NAPI_FRAGS	0x0020
+ /* Used in TUNSETIFF to bring up tun/tap without carrier */
+ #define IFF_NO_CARRIER	0x0040
++#define IFF_BACKPRESSURE	0x0080
+ #define IFF_NO_PI	0x1000
+ /* This flag has no real effect */
+ #define IFF_ONE_QUEUE	0x2000
+diff --git a/tools/include/uapi/linux/if_tun.h b/tools/include/uapi/linux/if_tun.h
+index 2ec07de1d73b..97b670f5bc0a 100644
+--- a/tools/include/uapi/linux/if_tun.h
++++ b/tools/include/uapi/linux/if_tun.h
+@@ -67,6 +67,7 @@
+ #define IFF_TAP		0x0002
+ #define IFF_NAPI	0x0010
+ #define IFF_NAPI_FRAGS	0x0020
++#define IFF_BACKPRESSURE	0x0080
+ #define IFF_NO_PI	0x1000
+ /* This flag has no real effect */
+ #define IFF_ONE_QUEUE	0x2000
 -- 
-Sincerely yours,
-Mike.
+2.43.0
+
