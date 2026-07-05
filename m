@@ -1,122 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C173ACA7A;
-	Sun,  5 Jul 2026 20:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707E62FE56E;
+	Sun,  5 Jul 2026 22:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783285082; cv=none; b=BkZUiBapiG5Tjgyu2dDFZLiOLFVv3Ded0DaBkZ6/puWJbmn85nuJiKEp42JW7IIQDmWLTI29ugMsjY2M8o8EZsqHNlM8AuCDfkEAauwgLDbIcBBs6+Jzh14Xfr6lbbhDIkdTBkL1th07yxqrB4DcYHzaBWyYrRIHnJMgOEVaxlY=
+	t=1783289047; cv=none; b=lziW6UnqzDcDr4IvzUfuDbpW9M0DRwFAe7S9AESMVMUJjkiSK5o7INi8ajW7VQo9HLKMEsGB9tE3ujkSswQcSoV8Owsfo5+wFo3am0JCoa6GgAiWvIwzDPPKspWGvgu4NVaIARcR0DPcu1dkkkhviIq9uvEyjxuzrYulCTybokg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783285082; c=relaxed/simple;
-	bh=0ubiYGPNCk+K9B7P6+XvXPSgOOBy4HT+FRHs6I3zxF0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AmyWDdZ41exbtWC14IL9rtN8u6uzPRJ2W75j+dJDH0Av8YoznlKirqbXHsLk+w8uVzC2WrPmajE2Nx+q/d36fi/PRsaqsPEVMm3YgG0I51ZPRiyUA1/VtjS2/tgcKNoHTwoB0EiKXyFU5eDwHAS2qEnxDb2OukgfMWga9Xxmghk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E6FGoKgk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783289047; c=relaxed/simple;
+	bh=u4k0JC79kPq1Usqzfa4J16+JyPyiU5/UIsZhwkienl8=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=J1ahYrvbyfDE3zffDOnB4hJyvP7wGx7i10yoJ8ri7wejovtAboOtuPNgT7Em8TGKt7oJ+lAmpYwFFItJt5mRQcaWrITFyTAiHo6pe9EOmEx4ChG2AySYi13FDCURG2663hNagmqu+YArnHiADAeKPys7NlEzKyd93IviTQQb6a0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VQijEMIZ; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E6FGoKgk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39DCF1F00A3A;
-	Sun,  5 Jul 2026 20:58:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783285080;
-	bh=0NoyLCIR3yIVxPsNQ0U34NNtrpBp7vJ0B/hA1hhw6GI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=E6FGoKgkUqB+o08nv3OiX3Uuy6tIQJ9shevx1C9BcgbsxI4VR4DXnzt1JnS2w1vuA
-	 SDVAH8yAJCu53sJ+tCaU0/caWs1ijvDoUsN2swy+3/c24qMYSo1Ren7XzksWZ+F0tS
-	 5jkIOGwuXBEkyRg5mRcqd88LwAinyxjRxJGpClPxWDT1dcJ3XgIxS09eMm5nYU5T5r
-	 pVwaRrUfa9RLj4vdyGSwW8O01dYUPqeS0SiHh4Jume5ufGQ2z9xVO3+87WRiAJfwiV
-	 Stod8uM6Yk5HzqTJOklUn/WJ7L3Lbvbp3bxsWcW5tIF+RQMYQF++o9CFfDSDccReZ5
-	 9hJe+E6T1Ypuw==
-From: SJ Park <sj@kernel.org>
-To: 
-Cc: SJ Park <sj@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [RFC PATCH 15/16] Docs/admin-guide/mm/damon/usage: document weight sysfs file
-Date: Sun,  5 Jul 2026 13:57:37 -0700
-Message-ID: <20260705205743.98656-16-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260705205743.98656-1-sj@kernel.org>
-References: <20260705205743.98656-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VQijEMIZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=ZuqbzA7lYFGaHTnxsLh/YzAq2Vmzjm6qxnsQ+inYRkQ=; b=VQijEMIZSEDWd1z3K0fEPXE9AH
+	7Ba3C9SliyFKqNBJm62TbJt5g8z+hYUOveVu/jGJPbbEZdfplxpDNSM+et/5kORKbLYnkWj/Aud4a
+	ngiXMkjG4J6YNzSHVcjcet2Dl/98C9louARtyr22bGxwNCvNoQs+8Jvv+JKxOahPkZQBrItjQxOKV
+	EdblR+iMobZTahPRHirDAgjvuTUdoBsXbFPyK5ZMGgH+C+v/K+yxlDgyNKgvSPahaiKuv+om1hlPg
+	EUgELXBAKBymbnUgh/OaYYMSV4FFhRSbVQiyC/kgEJ9gTUgp0WfH3/RR9toLVUIm1kNHqAJ8pfZfi
+	l2eBlcFQ==;
+Received: from [129.95.232.135] (helo=ehlo.thunderbird.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wgUvu-000000062XC-3FS9;
+	Sun, 05 Jul 2026 22:03:43 +0000
+Date: Sun, 05 Jul 2026 14:49:56 -0700
+From: Randy Dunlap <rdunlap@infradead.org>
+To: Matthew Wilcox <willy@infradead.org>, Gregory Price <gourry@gourry.net>
+CC: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, tglx@kernel.org, peterz@infradead.org,
+ luto@kernel.org, akpm@linux-foundation.org, feng.tang@linux.alibaba.com,
+ pmladek@suse.com, lance.yang@linux.dev, marc.herbert@linux.intel.com,
+ kees@kernel.org, leitao@debian.org, joel.granados@kernel.org,
+ lirongqing@baidu.com, nathan@kernel.org, xur@google.com,
+ lukas.bulwahn@redhat.com, ryan.roberts@arm.com
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_1/2=5D_syscall=5Fuser=5Fdisp?=
+ =?US-ASCII?Q?atch=3A_Make_it_configurable_in_Kconfig?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <akklLLPZ1fbcZRML@casper.infradead.org>
+References: <20260704015859.536580-1-gourry@gourry.net> <20260704015859.536580-2-gourry@gourry.net> <akklLLPZ1fbcZRML@casper.infradead.org>
+Message-ID: <50697183-B97D-48A9-B0C4-A288B88324DC@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Update DAMON usage document for newly added probe weight file.
+On July 4, 2026 8:22:20 AM PDT, Matthew Wilcox <willy@infradead=2Eorg> wrot=
+e:
+>On Fri, Jul 03, 2026 at 09:58:58PM -0400, Gregory Price wrote:
+>> +config SYSCALL_USER_DISPATCH
+>> +	bool "Syscall User Dispatch"
+>> +	depends on GENERIC_ENTRY
+>> +	default y
+>> +	help
+>> +	  Syscall User Dispatch lets a thread have its own system calls outsi=
+de
+>> +          an allowed IP address range to be intercepted and redirected=
+ to a
+>> +          userspace signal handler=2E
+>
+>I was very confused when I read this=2E  IP expands to Internet Protocol
+>long before it gets to Instruction Pointer in my brain=2E
+>
 
-Signed-off-by: SJ Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 11 ++++++++---
- Documentation/mm/damon/design.rst            |  5 +++++
- 2 files changed, 13 insertions(+), 3 deletions(-)
+Ditto
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index b2649ea011f93..4515088eba968 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -73,9 +73,10 @@ comma (",").
-     │ │ │ │ │ │ │ intervals_goal/access_bp,aggrs,min_sample_us,max_sample_us
-     │ │ │ │ │ │ nr_regions/min,max
-     │ │ │ │ │ │ :ref:`probes <damon_usage_sysfs_probes>`/nr_probes
--    │ │ │ │ │ │ │ 0/filters/nr_filters
--    │ │ │ │ │ │ │ │ 0/type,matching,allow,path
--    │ │ │ │ │ │ │ │ ...
-+    │ │ │ │ │ │ │ 0/weight
-+    │ │ │ │ │ │ │ │ filters/nr_filters
-+    │ │ │ │ │ │ │ │ │ 0/type,matching,allow,path
-+    │ │ │ │ │ │ │ │ │ ...
-     │ │ │ │ │ │ │ ...
-     │ │ │ │ │ :ref:`targets <sysfs_targets>`/nr_targets
-     │ │ │ │ │ │ :ref:`0 <sysfs_target>`/pid_target,obsolete_target
-@@ -286,6 +287,10 @@ In each probe directory, one directory, ``filters`` exists.  The directory
- contains files for installing filters for the probe, that is used to determine
- the data attribute for the probe.
- 
-+Each probe directory also contains ``weight`` file.  Reading from and writing
-+to the file gets and sets the :ref:`atttributes-only monitoring
-+<damon_design_attrs_only_monitoring>` weight for the attribute of the probe.
-+
- In the beginning, ``filters`` directory has only one file, ``nr_filters``.
- Writing a number (``N``) to the file creates the number of child directories
- named ``0`` to ``N-1``.  Each directory represents each filter and works in a
-diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-index 67398e2133036..129acb1da4e19 100644
---- a/Documentation/mm/damon/design.rst
-+++ b/Documentation/mm/damon/design.rst
-@@ -316,6 +316,8 @@ Another way to do this for higher accuracy is using :ref:`DAMOS filter
- information in page level.  But, because it is operated in page level, the
- overhead is proportional to the size of the memory.
- 
-+.. _damon_design_attrs_only_monitoring:
-+
- Data Attributes-only Monitoring
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
-@@ -336,6 +338,9 @@ automatically turned off.  The access counter (``nr_accesses``) will always be
- zero and not updated.  Hence the mode is called Data Attributes "only"
- monitoring.
- 
-+Refer to the :ref:`admin guide <damon_usage_sysfs_probes>` to know how users
-+can use the mode.
-+
- Dynamic Target Space Updates Handling
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--- 
-2.47.3
+
+
+~Randy
