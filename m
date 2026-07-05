@@ -1,144 +1,82 @@
-Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F493570AD
-	for <linux-doc@vger.kernel.org>; Sun,  5 Jul 2026 15:52:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF179286891;
+	Sun,  5 Jul 2026 18:19:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783266735; cv=none; b=O8UBnGKnZGkAS4G9EpqaBP6B2Z+yVSGABvpCnq6Y3JgW6Pv/Zm+LuSKeotTHIdtsPtZJ1W93UKfZ/9sQiOAqdJnf8lvTZrYOPio/uKPXLC2bJl+BJpMfmXUZ9j6bjJgRYslGPDhMjYSP7+1RJh34OfeygQwcVFGTAaZs4kQAZsA=
+	t=1783275588; cv=none; b=nYd8HUTSfvT38ZAJJEp+YZV2TZh8r+d1QJqnS3tM0uMw0FSAj+irVC/kXw1kbmj5RBl67SgTTUbj8lia+hK2cd6ugD6JVq+8j4hOx2aAZfheEDokgAGE7eDcsHrHHKYZQJiGemB7ZnlBSaRY0ZCFkq/w0lxLcDu53ZkgZkeo6DA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783266735; c=relaxed/simple;
-	bh=KbbfmQRILq1lPvg8E7yNAZ2q6fUnWWh4wnDYC8ou+i8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IkD7ZrGXMRacnMjyj4nLvVjwBZFGMke/SGO63pmM4oou8aeZ5RAAn6BLBEVE8z7FHuy3x601i2kmN/e6u9ArfG1eBjnCs+BQv9W3hDS6aTI8wRg0x3fy31HELIebWA+JTG7BXudvHwpS2DqlJVsUOkA79Ljl3pvyXi1Ee89QqSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=v1m5V3LA; arc=none smtp.client-ip=95.215.58.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1783275588; c=relaxed/simple;
+	bh=fskadU09R3rO4mYXohrgHTCPoVbaHxLlcULLLJq9bms=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=oDSft4xMNDxoOQp7TbL+Z6gYqxbhODmcjHQ+bOWucwZmMW8YvBlH8ayUO2dJv6FbLKNtbzIAdho479eLF/bPGTc9ZSrTa9hXIrXEx2m1ne37pS0FRGPtUXAzAPh6QNH4BRmHQtLGNLZ+AC5YFNzHzbztjqmO/tuegwhn4jvuuk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SVNsJqd5; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="v1m5V3LA"
-Date: Sun, 5 Jul 2026 23:51:47 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1783266722;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sDcY8BGMypTsYu/RjWOAVYiHFaKeE6Fmh8vwI7pgUt4=;
-	b=v1m5V3LAWxjuYLip2YWHf2gArotiulFMgBBWSUG1SPl2Ej5YJw7GghA/QWsgmLax1m3A1l
-	BIfKz8nGhlhq1UEP/rEtMWbpjw48JVi74qWM6ayP7PC572U/pU7sHNdZxwQZRJCgzEHzQK
-	Ar652Pvy1YsG7oE/gWo5SZ64UHn5jpQov0+gBaJIJ2QVr81gd6KuPj8iYq0SO+N5hfRybw
-	w7lsiIB6MzgaJAt3R10MCMkV6fN3JjoNyFsBGPUoYJlVOamgqoa+uTEOBiUT0uVR/nZDGV
-	eSTqpn/dDgwBNL5K1SeqUv+vU9sPC6VoECPuPQRKMRuf2SynRh+iM+gzCFL9xg==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: Jiandong Qiu <qiujiandong1998@gmail.com>
-Cc: Alexs Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] docs/zh_CN: update translations for
- process/changes.rst and sphinx.rst
-Message-ID: <akp9kzW3bG_pYLW8@wyuan.org>
-References: <20260621131215.1303439-1-qiujiandong1998@gmail.com>
- <akn4oYmihmNHFOY7@wyuan.org>
- <akpxuLXKrbN7qB9o@archlinux>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SVNsJqd5"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=Kul4N4nXXzqbUZuLjtPlpkKmoHD+8H8dGczk9kaE3pI=; b=SVNsJqd5q/tEIgqPTKzqLa0qt3
+	j414PcZWx/TF4euzQ94kB5KnVwcyYA/4zUA6wyhQIOHz85pYQhQJuYM34dA6AvSNBfYgOvZ5ohWwj
+	NFxsVtHXiuc3wpNQd1tSCEjv+MPKuXpKyXQ8mmZ6HhOQ+wdwK6yd7FP4NnOPyw6kuCCaVWqFUvonX
+	fRYPb+RKmEgADGtaFZwglG8GcYOCy9VopzrSNTRoWO7NuJt4d1YTG1hD5Nris5MQjdFF5k2j+dNKl
+	V3jZKCFV9dq60po1CR98hfO0GY41USzo0xFgOF5jhxGeFqsJVb2RWt7RJQV/5ChykaENUBDoG/yiZ
+	tfFURMWw==;
+Received: from [129.95.232.135] (helo=ehlo.thunderbird.net)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wgRRN-0000000EU9w-0xcl;
+	Sun, 05 Jul 2026 18:19:41 +0000
+Date: Sun, 05 Jul 2026 11:19:38 -0700
+From: Randy Dunlap <rdunlap@infradead.org>
+To: Yuhong Cheng <ceohunk@gmail.com>, linusw@kernel.org, corbet@lwn.net
+CC: linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: driver-api: pin-control: fix spelling of below
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20260705070422.764-1-ceohunk@gmail.com>
+References: <20260705070422.764-1-ceohunk@gmail.com>
+Message-ID: <6F8B0A43-EB7F-4442-B9AA-126F4D8D21AB@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <akpxuLXKrbN7qB9o@archlinux>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 05, 2026 at 11:20:30PM +0800, Jiandong Qiu wrote:
-> Thanks for the Weijie's careful review and the readability suggestion.
-> 
-> ```rst
-> ====================== ===============  ====================
->         程序               最低版本         版本检查命令
-> ====================== ===============  ====================
-> bc                     1.06.95          bc --version
-> bindgen（可选）        0.65.1           bindgen --version
-> binutils               2.30             ld -v
-> ```
-> 
-> Like the code above, the line with "可选" is misaligned in lore archive.
-> I agree that in plain .rst source, mixing CJK text with ASCII table markup
-> can look misaligned without a proper 2:1 width monospace font. However,
-> a few clarifications:
-> 
-> 1. The rendered HTML documentation displays these as standard bordered
-> tables, so there's no issue there.
-> 
-> 2. The real problem is the lore archive's rendering, which apparently
-> doesn't use a CJK-aware monospace font for source display.
-> 
-> 3. In my local environment, I use Maple Mono NF CN (a font with perfect
-> 2:1 CJK/ASCII width ratio), so everything aligns correctly.
+On July 5, 2026 12:04:22 AM PDT, Yuhong Cheng <ceohunk@gmail=2Ecom> wrote:
+>Fix the spelling of 'bellow' to 'below' in the PM API section=2E
+>
+>Signed-off-by: Yuhong Cheng <ceohunk@gmail=2Ecom>
 
-Definitely. I was surfing on lore, and found it's misaligned. But after
-pulling them down with b4, I found it's aligned correctly.
+Acked-by: Randy Dunlap <rdunlap@infradead=2Eorg>
+Thanks=2E
 
-> IMO, this is a minor issue that doesn't affect actual patch review,
+>---
+> Documentation/driver-api/pin-control=2Erst | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/Documentation/driver-api/pin-control=2Erst b/Documentation/d=
+river-api/pin-control=2Erst
+>index 1f585ecca=2E=2E80106e44a 100644
+>--- a/Documentation/driver-api/pin-control=2Erst
+>+++ b/Documentation/driver-api/pin-control=2Erst
+>@@ -1175,7 +1175,7 @@ Possible standard state names are: "default", "init=
+", "sleep" and "idle"=2E
+>   selected after the driver probe=2E
+>=20
+> - the ``sleep`` and ``idle`` states are for power management and can onl=
+y
+>-  be selected with the PM API bellow=2E
+>+  be selected with the PM API below=2E
+>=20
+> PM interfaces
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-For sure ;-)
 
-> as reviewers can pull the patch locally and view it with a proper font.
-> A fundamental fix, if needed, would be improving lore archive's rendering
-> rather than adjusting individual tables.
-
-I guess the devs of public-inbox didn't consider supporting languages
-other than English at the very beginning :-)
-
-So my first impreesion was to keep "optional" as is, instead of
-translating it. But that's a nitpick, though.
-
-```rst
-====================== ===============  ====================
-        程序               最低版本         版本检查命令
-====================== ===============  ====================
-bc                     1.06.95          bc --version
-bindgen (optional)     0.65.1           bindgen --version
-binutils               2.30             ld -v
-```
-
-So, avoiding the appearance of both Chinese and English in the same row
-like above can solve this problem, but again, it's not a big issue.
-
-Perhaps keep "optional" as is would be a simpler solution, because
-apparently it is the only Chinese in the table, and the word "optional"
-itself is not a difficult word for kernel developers ;-) By the way,
-isn't it better to make this table display perfectly in all cases?
-
-But for this two:
-
-+.. table:: HTML 中数学渲染器的选择
-+
-+    ============ ================= ============
-+    数学渲染器   所需命令          图像格式
-+    ============ ================= ============
-+    imgmath      latex, dvipng     PNG（栅格）
-+    mathjax
-+    ============ ================= ============
-+
-+也可以通过设置环境变量 ``SPHINX_IMGMATH`` 来覆盖该选择，如下所示：
-+
-+.. table:: 设置 ``SPHINX_IMGMATH`` 的效果
-+
-+    ====================== ==========
-+    设置                   渲染器
-+    ====================== ==========
-+    ``SPHINX_IMGMATH=yes`` imgmath
-+    ``SPHINX_IMGMATH=no``  mathjax
-+    ====================== ==========
-
-It seems that there is no way that can satisfy everyone.
-
-Anyway, I agree to any of the solutions.
-
-Thanks,
-Weijie Yuan
+~Randy
