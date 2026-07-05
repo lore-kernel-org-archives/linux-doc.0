@@ -1,102 +1,203 @@
-Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4DB2D59E8;
-	Sun,  5 Jul 2026 08:39:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993AC1BC08F;
+	Sun,  5 Jul 2026 10:03:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783240793; cv=none; b=QvLadbf/DX4clMDS+NiZSRU8e4xhwp13yQhADtRqZDsGk4FpRPIVooOVcIItVyeES5aiWjMO/wpgzQmNZSW+Mv7jLhNLlZ3/vM4ZpC1DY75SRB75pAjOXpYxUBU5YkXHNAbAVQe2Se5XGYh5FINPOs3jdFayHbBWJEjZQ+41nuc=
+	t=1783245783; cv=none; b=B/o+4kFahCd0nqeYIbC0+AyJtfzkIkJWN5HVydxfs7t81ZeFTNn7cyN8t1G/l14CDkU6JkTdGZQ+MQMJUwcgbEqF6wWB6qQbbyQMTzvDIbtS5jjMIHbdjry3K/09YyQ9DaCoAuj2zsR5rBVgZm2MbsI3txoPFCOsagdU5HcKzTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783240793; c=relaxed/simple;
-	bh=C3BukSu5erxGjRk+9Bm8skI9hlhX/D75doPj3ONoYBA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kYJeoKFs32s4QfmBAv8oJM0P4YyKYGLMN+jXOaoOaFHcwvhWCAtRaCHhA2FbB3XGvNs/YmCCmgttaJik4UfIHxfhsKCCxTnAFug8SUWISBBJ1134owEQCQsqlPAJNopNaQpKmwX+3560MHq4mjSgz8fO3Yiv6IxJg7AeOQDmB6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b=Y5aao2DG; arc=none smtp.client-ip=180.181.231.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+	s=arc-20240116; t=1783245783; c=relaxed/simple;
+	bh=K02Th6inCKSEP4u4m+H4dEgdQ0X2Fzyjpr0Ue9hnCMY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TBSHvbJfK1vsDTYmgaPIPWR4SHREyY6nV4lHvfVk4kyn2PeHQr0Yn5hVE+545ET1irISXm3wthlnTFfIzLRg24kuUhDyoRFeKYvi0kb2xMYzgUil3YzU7nUJA5u5s9aAzen5N76m0maj6BzNzrAVX58QIOalKUwRzccwfMg1rN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=LousD6wR; arc=none smtp.client-ip=195.39.247.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b="Y5aao2DG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:
-	from:content-type:reply-to; bh=FgBp6RJENiz+FGkO6ZKFYN3cdqkjSajz9Mpd8cA5PN0=; 
-	b=Y5aao2DGMkbJP2NZ2mZmTaaHd6gu8e4V8fCA9NylYM0lvHZSVWF+yFDc1uL/pFZfUxzRnu27qog
-	uko1cCWuaNRtm3xLDEhpeN1ahkUvScHG/iNMvNaYA6aTwWahQofm5DSsmh5+8MAlL0ZV5wF88elIt
-	pWzNKxkv7YTJYmNTPFHjaa/BMuVg5deOiIBSE9AixgspoHNPqCYSD2q8yjryA2+9V/xC/wMsqTKG+
-	gP4j9jsjWn1AGcEZmvK8L/+O5ELAn1cCC7jSzPV+GUUetB5ADogPmQT60I32FNcSC8UkfV0cQtZMh
-	Bt8F+uFIFx2mAZey7MbjPiKBSA2L5t31VuQA==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.98.2 #2 (Debian))
-	id 1wgIOB-0000000Al6v-3LGM;
-	Sun, 05 Jul 2026 16:39:48 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Sun, 05 Jul 2026 16:39:47 +0800
-Date: Sun, 5 Jul 2026 16:39:47 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	iwd@lists.linux.dev, linux-hardening@vger.kernel.org,
-	Milan Broz <gmazyland@gmail.com>,
-	Demi Marie Obenour <demiobenour@gmail.com>,
-	Andy Lutomirski <luto@amacapital.net>
-Subject: Re: [PATCH] crypto: af_alg - Add af_alg_restrict sysctl, defaulting
- to 1
-Message-ID: <akoYUzceY0bC1jP1@gondor.apana.org.au>
-References: <20260622234803.6982-1-ebiggers@kernel.org>
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="LousD6wR"
+From: Yureka Lilian <yureka@cyberchaos.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
+	s=mail; t=1783245778;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=pDEKBMzxtfd1t81QTTS0mKCc2r/kk0TOgUYvyF3Wozc=;
+	b=LousD6wRMzVFqXUzpSNpjGwmxGow/0r4SwEOGd89WzTH7MEVTiqY6CctryUwoTb1n10xdB
+	PcZC4s9mXiw0eLEAZ/JTzl6u34OWqrqgF542TaB8yx3M0kfCJTtdTdD/eTfllx4kq4HkvS
+	z0UzMgrnqkRbIcshgWq6rmrzpWzCkd0=
+Date: Sun, 05 Jul 2026 12:02:36 +0200
+Subject: [PATCH] arch: arm64: add early_param idle=<wfi|yield|nop>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260622234803.6982-1-ebiggers@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260705-arm64-idle-param-v1-1-7454249f473f@cyberchaos.dev>
+X-B4-Tracking: v=1; b=H4sIALsrSmoC/yXMUQqDMBCE4avIPjewDdVAr1L6sE1HXalWNlYE8
+ e6m+vgNzL9SgikS3YuVDLMm/Q4Z10tBsZWhgdN3Nnn2FQcunVhf3fL4gRvFpHfRhzoyAoRLyrf
+ RUOtyJB/P0+n36hCnf4e2bQe9JnZCdAAAAA==
+X-Change-ID: 20260705-arm64-idle-param-c27fc0e7ea05
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev, 
+ Yureka Lilian <yureka@cyberchaos.dev>
 
-On Mon, Jun 22, 2026 at 04:48:03PM -0700, Eric Biggers wrote:
-> AF_ALG is a frequent source of vulnerabilities and a maintenance
-> nightmare.  It exposes far more functionality to userspace than ever
-> should have been exposed, especially to unprivileged processes.  Recent
-> exploits have targeted kernel internal implementation details like
-> "authencesn" that have zero use case for userspace access.
-> 
-> Fortunately, AF_ALG is rarely used in practice, as userspace crypto
-> libraries exist.  And when it is used, only some functionality is known
-> to be used, and many users are known to hold capabilities already.
-> iwd for example requires CAP_NET_ADMIN and has a known algorithm list
-> (https://lore.kernel.org/linux-crypto/bcbbef00-5881-421b-8892-7be6c04b832d@gmail.com/).
-> 
-> Thus, let's restrict the set of allowed algorithms by default, depending
-> on the capabilities held.
-> 
-> Add a sysctl /proc/sys/crypto/af_alg_restrict with meaning:
-> 
->     0: unrestricted
->     1: limited functionality
->     2: completely disabled
-> 
-> Set the default value to 1, which enables an algorithm allowlist for
-> unprivileged processes and a slightly longer allowlist for privileged
-> processes.
-> 
-> Note that the list may be tweaked in the future.  However, the common
-> use cases such as iwd and bluez are taken into account already.  I've
-> tested that iwd still works with the default value of 1.
-> 
-> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
-> ---
->  Documentation/admin-guide/sysctl/crypto.rst | 36 +++++++++++
->  Documentation/crypto/userspace-if.rst       | 13 +++-
->  crypto/af_alg.c                             | 72 +++++++++++++++++++--
->  crypto/algif_aead.c                         | 11 ++++
->  crypto/algif_hash.c                         | 24 +++++++
->  crypto/algif_rng.c                          |  9 +++
->  crypto/algif_skcipher.c                     | 20 ++++++
->  include/crypto/if_alg.h                     |  8 +++
->  8 files changed, 184 insertions(+), 9 deletions(-)
+Overriding the idle mechanism might be useful for debugging, performance
+testing and on platforms where the WFI instruction misbehaves, such as
+Apple Silicon SoCs.
 
-Patch applied.  Thanks.
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+---
+Thanks to Will Daecon for suggesting this path, since, when treating the WFI
+misbehavior as an erratum, we had difficulties telling when the alternatives
+should be applied. This solution is more flexible and leaves it up to
+bootloader to add the appropriate idle= parameter as a workaround.
+---
+ Documentation/admin-guide/kernel-parameters.txt | 23 ++++++++++++++++++
+ arch/arm64/kernel/idle.c                        | 31 +++++++++++++++++++++++--
+ arch/arm64/kernel/idle.h                        | 11 +++++++++
+ arch/arm64/lib/delay.c                          |  7 +++++-
+ 4 files changed, 69 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index b2d7d3540ded..d7f5471edf8f 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2239,6 +2239,29 @@ Kernel parameters
+ 
+ 			idle=nomwait: Disable mwait for CPU C-states
+ 
++			[ARM64,EARLY]
++			Format: idle=wfi, idle=yield, idle=nop
++
++			idle=wfi: Use the WFI (Wait For Interrupt) hint
++			instruction in the idle loop. This is the default and
++			allows the CPU to enter a low-power state until an
++			interrupt arrives.
++
++			idle=yield: Use the YIELD hint instruction instead of
++			WFI. CPUs supporting simultaneous multi-threading (SMT),
++			can continue executing another thread when the current
++			thread reaches the idle loop. This will make the CPUs
++			eat more power, but may be useful to get slightly better
++			performance in some applications, since the CPUs will
++			not enter a low-power state.
++
++			idle=nop: Do not execute any idle instruction in the
++			idle loop. This is useful on platforms where WFI
++			misbehaves, leading to system instability or loss of CPU
++			state. This will make the CPUs eat more power, but may
++			give slightly better performance in some applications,
++			since the CPUs will not enter a low-power state.
++
+ 	idxd.sva=	[HW]
+ 			Format: <bool>
+ 			Allow force disabling of Shared Virtual Memory (SVA)
+diff --git a/arch/arm64/kernel/idle.c b/arch/arm64/kernel/idle.c
+index 05cfb347ec26..018bcc812d45 100644
+--- a/arch/arm64/kernel/idle.c
++++ b/arch/arm64/kernel/idle.c
+@@ -11,6 +11,28 @@
+ #include <asm/cpufeature.h>
+ #include <asm/sysreg.h>
+ 
++#include "idle.h"
++
++enum idle_mode idle = WFI;
++
++/* User can over-ride above with "idle=<wfi|yield|nop>" in cmdline */
++static int __init setup_idle(char *s)
++{
++	if (!s)
++		return -1;
++	else if (!strcmp(s, "wfi"))
++		idle = WFI;
++	else if (!strcmp(s, "yield"))
++		idle = YIELD;
++	else if (!strcmp(s, "nop"))
++		idle = NOP;
++	else
++		return -1;
++
++	return 0;
++}
++early_param("idle", setup_idle);
++
+ /*
+  *	cpu_do_idle()
+  *
+@@ -26,8 +48,13 @@ void __cpuidle cpu_do_idle(void)
+ 
+ 	arm_cpuidle_save_irq_context(&context);
+ 
+-	dsb(sy);
+-	wfi();
++	if (likely(idle == WFI)) {
++		dsb(sy);
++		wfi();
++	} else if (idle == YIELD) {
++		dsb(sy);
++		asm volatile("yield" ::: "memory");
++	}
+ 
+ 	arm_cpuidle_restore_irq_context(&context);
+ }
+diff --git a/arch/arm64/kernel/idle.h b/arch/arm64/kernel/idle.h
+new file mode 100644
+index 000000000000..350b758ea215
+--- /dev/null
++++ b/arch/arm64/kernel/idle.h
+@@ -0,0 +1,11 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++#ifndef __ARM64_KERNEL_IDLE_H
++#define __ARM64_KERNEL_IDLE_H
++
++enum idle_mode {
++	WFI,
++	YIELD,
++	NOP,
++};
++
++#endif
+diff --git a/arch/arm64/lib/delay.c b/arch/arm64/lib/delay.c
+index e278e060e78a..d6fd09466abc 100644
+--- a/arch/arm64/lib/delay.c
++++ b/arch/arm64/lib/delay.c
+@@ -15,9 +15,13 @@
+ 
+ #include <clocksource/arm_arch_timer.h>
+ 
++#include "../kernel/idle.h"
++
+ #define USECS_TO_CYCLES(time_usecs)			\
+ 	xloops_to_cycles((time_usecs) * 0x10C7UL)
+ 
++extern enum idle_mode idle;
++
+ static inline unsigned long xloops_to_cycles(unsigned long xloops)
+ {
+ 	return (xloops * loops_per_jiffy * HZ) >> 32;
+@@ -49,7 +53,8 @@ void __delay(unsigned long cycles)
+ 		 * Start with WFIT. If an interrupt makes us resume
+ 		 * early, use a WFET loop to complete the delay.
+ 		 */
+-		wfit(end);
++		if (likely(idle == WFI))
++			wfit(end);
+ 		while ((__delay_cycles() - start) < cycles)
+ 			wfet(end);
+ 	} else 	if (arch_timer_evtstrm_available()) {
+
+---
+base-commit: 96cb07bd64bf4d3c8c9159636314c6fbdd9b9881
+change-id: 20260705-arm64-idle-param-c27fc0e7ea05
+
+Best regards,
+--  
+Yureka Lilian <yureka@cyberchaos.dev>
+
