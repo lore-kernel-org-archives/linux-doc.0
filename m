@@ -1,409 +1,176 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533BF380FEB
-	for <linux-doc@vger.kernel.org>; Sun,  5 Jul 2026 14:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775D62C15A5
+	for <linux-doc@vger.kernel.org>; Sun,  5 Jul 2026 14:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783260078; cv=none; b=ck7SQtKYb23lCr7PblkT63x7K1WDxDhDi46Hp/Yr7vxx0xVJv2p0FJ3ONKcWo+8wqDGi13s4XuzjVz1553w8GaHCUfX86oX15a8UYso89WMtyc3kezr0fwgFdzjTmLRmlVH8h5v22psouHIwpL5HplBPI9jewwnOTkJeM86qrE0=
+	t=1783260787; cv=none; b=NwrPLL0WpbgL92kSybqDmKRmC5zKYVXEtQ0/dRShzBrtu2o73F+3IlcKtrEHzHWEKnGIREsFNnXFPbMdtLi6GToayfVreR5Fw7F+d7kp3jVSeh1spHSsOUY5vol5SMJBRZfzFJ10aVzhBQxnJXyeIiR+Od8h073dTNrGQ/1YO+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783260078; c=relaxed/simple;
-	bh=2WMszP5nuAxuBz6AC35nwiSxvTcU8PZvDDhr8iiukR0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=iH1Ow83H8/bqY7Z4wXO+wP+0YOrXv/tcawLAqN878iENkE312iuXYpw/CGprbB0s6f2Uq+0rSIkLjUbnmmmoHGF9XbUOzELqBWo9jB9QdchENVaUULrFvCIR3chKI+mMxv6BmqL62wuEc6VlhC9ZCZ/Y/ambCepjwLYQoROdQqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mKcyZsD0; arc=none smtp.client-ip=209.85.128.49
+	s=arc-20240116; t=1783260787; c=relaxed/simple;
+	bh=ZQ9daNpdfqJ2noIQ4x2iiNBox8Y+VpB+RIrWCS/MaZE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HLC/kIKuvKGoYGOwaJGIV4AL0Krb/qERGLTHufy/M19gb8K+18VNtfoz1RZq9tCmCSUVey9kBBqjMr9DWZnSr3JcmWrFL8vVzHY+Y5czK6fCgiepa5W7ZcvAiVPzjh7pzri7cE9q3UVZoksbBEHw/DQUhu+VZcOCIWPvr+AdXrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OpnhjYsc; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mKcyZsD0"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-493d92b7db3so2375065e9.2
-        for <linux-doc@vger.kernel.org>; Sun, 05 Jul 2026 07:01:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OpnhjYsc"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2caf4496889so9022785ad.1
+        for <linux-doc@vger.kernel.org>; Sun, 05 Jul 2026 07:13:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783260075; x=1783864875; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nuDU45OA6ggrf4VYV6YQ5pMRzsYDccU2hT9CMU+OAX0=;
-        b=mKcyZsD0yzHa5gXFmYrw9n+APUR0npFKMan2459yqUbL+WhL/4taK5dWJ3KqIgAW5C
-         bm0PbQXr2KS3oRUKBigHyo4Ss2jzCfd+ZV5DiKAZsWQxqavSdkQjWqvz0/I1tUj+B+3M
-         6g7VPPS4iZDKNNg6WubAqXwCW+w0fSfqYI1pk+AEvN9HZlFox7a1QJ9JEk33d54Xm3lz
-         97Fu9ut5JacsJG/OzOulJ3rOjVvfdRDZjbDoxE7nfOqbqz3A79wUpmg0q+nOn++AVUgq
-         RZJC+G6rOwxDYB5IxZWaxmKJvQD/T3f/ANv++Pwc7imNhTKWeP0YRfskZKfn4eZ3NX7c
-         w1HA==
+        d=gmail.com; s=20251104; t=1783260786; x=1783865586; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9Lak4tBsVkZ5HxGSDt8B/CEhdebz90m/2sUmJ2zk2LQ=;
+        b=OpnhjYsc1NIGlSsws2dXC6A93TgTKU1TOPj+K/JxLXzMg2gxsefD/0VtPq+MpLMopU
+         4rHqGtXpZZ+BQNcyLgqPOL7c29+FgS+rxJB3tOtH6Sgy09qsqwvO8raimHs0sd2tR6od
+         jLTEb7j1ivCsPYH0CakvqwmsrQLOrqA50V6Cg9v7mzl41A+s9GDaJSqyJL1MS9P9K4/K
+         Xp9fg5du7z9Ae0xxbsmP1thzZENUiQs6LBeI7sX2kTKR7/Vfs9qBw1LD8z0dZAvhkOmt
+         YBw+3AVCwE8ySaa32hgkipi023AC5HzTmbnPatCgyb8LG+g9qVTrN0g5GIQkR4Ec0sOZ
+         v+BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783260075; x=1783864875;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nuDU45OA6ggrf4VYV6YQ5pMRzsYDccU2hT9CMU+OAX0=;
-        b=Cz40IWPC2zxsEzL0ovnT9NCrMX1zMcY45VwGHaecsbFZQ4a6djTEtgqFEpxilqtLTh
-         o8qDpCDtCm/9h5e63CJAXQc22+JKu813PYl2j6PuLukHnVk6DAShA06U+ghoKdOwqoDF
-         Vwe4PohYOXTFG6SITQjaSV6Cb8J/t0HphaY0DlwzwAxPq4vz9qvqHRJSTC7Ya71zPP/3
-         NfqldPAGvkZHN5vEfjPaET1HfVZNTLhL1PBgglMcXGPh+egkdxpOrYwMSAhz6fZjXqtO
-         uOtcY1KKMTAkofUWAeFrc7uzi99ftYVJaISH0s8iKGfnM6I51TyoXp/YNUuaSmsLNfFM
-         HARg==
-X-Forwarded-Encrypted: i=1; AFNElJ+iv/L+EhbhMQJ8/1CFVE+Em2J+WCfR6kABB5X0PU0J2+WjErDHI4b0a7vjNS4aiWwqfNOjknuHkrs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbLYnWphDwmWFfjRI58tOfOYxnlynX6FraMwTgjtbVSG1+ZK5+
-	mvv+nTkoRhpTglsdzu5IMmbOiIYfAys/53mlbCG3Tv4QY6Ktt3t6oC+e
-X-Gm-Gg: AfdE7clbf1EyRkM+hRe8Ee3hSlHfi+aiRSHpqStmzuMZAiYK60m86ZtVsREkDMYvAkt
-	LdTlkFuFvG78Xv4OO+iRMCVqZmo+G68m7SUdePNGZJylJRXjh9jT6NXOUMfcgWMrDeznA16yO+q
-	Q7wArxtD9t01/aELNS+vVbfUapiCWJk/4mvJIIPPTvxFWDoAns7N0zPbgKZ/LEDOB5KqlusxWLS
-	ujDh/5KGzDn+7vjVPTtn3p1KrhCd5EQqgZOBSbIiphYnyGLsK4FcjYFZgpo89vAHXF+6TZFrCgf
-	ehVQK3xmLgV3fNLUdj11jObqbzq6foZaH5jomsHbY8CDGsnT/8/l8GvZA0IpuOnqvaMt6Fx8cw6
-	5NK2pFBHxzggKmwOYL6gw4U6tkbLu9/NQuJoLgxuVNw86ZDelT1hWEJ6GKvhCiAuR1ccZgCFspj
-	zb8nYko4Ne8A0C9hN6ynVhvW+TDdXJtS6J8w==
-X-Received: by 2002:a05:600c:3515:b0:493:c42e:5be0 with SMTP id 5b1f17b1804b1-493d11894f7mr81253085e9.0.1783260074531;
-        Sun, 05 Jul 2026 07:01:14 -0700 (PDT)
-Received: from taln60.nuvoton.co.il ([212.199.177.18])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493cce040b4sm275911115e9.10.2026.07.05.07.01.12
+        d=1e100.net; s=20251104; t=1783260786; x=1783865586;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9Lak4tBsVkZ5HxGSDt8B/CEhdebz90m/2sUmJ2zk2LQ=;
+        b=Ek997l3ozNzPQ+YT+JyJPmPa4kcepAVah6woF0wE9taprXbP1jXI6E21qWalkryOMq
+         W8tDa1Kd5R+jI4UO2CF7e7oBREQfxU29YkimhCQvOZyHd72O36HdQ6fj/SFA+0qE0B4c
+         JmfdIu08/ehfziBzg7v9LXHsS+/pKsqS4PnllrGDjLsI5rKdpCT39/hvAQkTIdc4Kno2
+         bLH5I9fRCYpieZv94dqztrQtIp50ZdwP8Zit/M8JIhnZOyfIKLEtcEDK/qUm7KUh7jBS
+         tMhOIAtAJj+ibwK4vzAFgk42PPZa2DrzYqyqThbQube1GE2EpVhLWTJVxpAxIo6jeS8a
+         SZtw==
+X-Forwarded-Encrypted: i=1; AHgh+RqP/HMvANpSHHS2TZ9DgjWJIaT/cRbXl3jwIYfaWYgskcGTPJTiJ1qr/5UP1zwOS9Fsnu8hTDxc6kg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9XNYjJ8REjMyNudxcKDKUdc15GhOeIEnWdbv7V3E3Zjuz0VTi
+	ZiXuvcq7D+hfPO+IIzg0Tbvi11Dthp9JgeNYS4NDhN7GnJvkAA2elrcn
+X-Gm-Gg: AfdE7cnSwTvRtYPXv86xobNUT5LWhj2ReB+P1fQxOWO1g6kzC1AIydAEn4ylDZv1+eN
+	bQg6uYm6lCm0tFl1mZw7jNoaQU+9Tsswrz2qDlukp2aqcxKGPXlZ6w6fZxN95DO54Nhs4rwLucW
+	OhpaMFpYm++c252HISvkVd7FY9o8XqJNYizt+s3SkgJmtArUDqFFE/4JpPCl85HtliWIFwOaLxd
+	v1IBeKomaHpK/+aKllgWlshK1aI9VU7CCNHUFi4gSVz9mQn+uu9DF5KwRhbiFPgFFSkFb/5fjSf
+	+pxyUBSstMMH+KAjDmSIGl6kXPe1jnbnacXJJUdLwIP2BD+pq1COe9Zt7b4eYICEMQ/+ovVk/ed
+	0s+BqquqR1BOQO20tkkQ79VinMuvOX0jZbu9zil1i/tIcywa/Qt38f1K3ZfqTENvXaAWFxkB8d5
+	6zS0rGfDmixRURTnfsOutjk99tusn6zg2QL6FzF4vO3fFV6iGcjvcv6eq52fGh3co=
+X-Received: by 2002:a17:902:ef4d:b0:2cc:6410:91b0 with SMTP id d9443c01a7336-2cc641096eamr42244575ad.8.1783260785665;
+        Sun, 05 Jul 2026 07:13:05 -0700 (PDT)
+Received: from NV-J4GCB44.localdomain ([103.74.125.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad6f260basm34169155ad.16.2026.07.05.07.12.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 07:01:14 -0700 (PDT)
-From: Tomer Maimon <tmaimon77@gmail.com>
-To: andrew@codeconstruct.com.au,
-	wim@linux-watchdog.org,
-	linux@roeck-us.net,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org
-Cc: openbmc@lists.ozlabs.org,
-	linux-watchdog@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	avifishman70@gmail.com,
-	tmaimon77@gmail.com,
-	tali.perry1@gmail.com,
-	venture@google.com,
-	yuenn@google.com,
-	benjaminfair@google.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	joel@jms.id.au
-Subject: [PATCH v3 3/3] watchdog: npcm: add bootstatus support
-Date: Sun,  5 Jul 2026 17:01:00 +0300
-Message-Id: <20260705140100.1543486-4-tmaimon77@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260705140100.1543486-1-tmaimon77@gmail.com>
-References: <20260705140100.1543486-1-tmaimon77@gmail.com>
+        Sun, 05 Jul 2026 07:13:03 -0700 (PDT)
+From: Jianyue Wu <wujianyue000@gmail.com>
+Subject: [PATCH v7 0/3] mm: clean up folio LRU and swap declarations
+Date: Sun, 05 Jul 2026 22:12:30 +0800
+Message-Id: <20260705-ch-swap-series-plus-folio-lru-cleanup-v7-0-a028e8b5fc3d@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAE5mSmoC/5XQyWrDMBSF4VcJWvcWzUNXfY+ShSbHAscyUu20B
+ L97lXQRk27c5bmg7wddUY0lxYreDldU4pJqymMb6uWAfG/HU4QU2kYUU4kFI+B7qBc7we87mIa
+ 5QpeHlGEoM/gh2nGeIBilideM0eBRs6YSu/R173wc2+5T/czl+55d6O3638JCAQNxxnLrqRCOv
+ 5/ONg2vPp/RrbCwhyox3auypgrnnJCq096YZ5VvVbZX5U31EVNiIsE4/FHFRmV4ryqayiVV1lk
+ dA4nPqnyoCu/+V9nUwDvJtZGMabpV13X9ASDF2nwyAgAA
+To: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+ Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+ Youngjun Park <youngjun.park@lge.com>, Qi Zheng <qi.zheng@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+ David Hildenbrand <david@kernel.org>, Michal Hocko <mhocko@kernel.org>, 
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+ Hugh Dickins <hughd@google.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Baoquan He <baoquan.he@linux.dev>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Jianyue Wu <wujianyue000@gmail.com>, 
+ Matthew Wilcox <willy@infradead.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openssh-sha256; t=1783260776; l=3515;
+ i=wujianyue000@gmail.com; s=id_ed25519; h=from:subject:message-id;
+ bh=ZQ9daNpdfqJ2noIQ4x2iiNBox8Y+VpB+RIrWCS/MaZE=;
+ b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgW51Zh3v9nG0Wlld2Ti8ylp1TnO7yB
+ H+z9CbXty/WEAQAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
+ QLysbk4r6/RIlvhNCwMAcUn2JQ0j8sOaPx2KjFB8QaRM/SBLEL6DeUEMIfj5LnK69iJpcxaCiE8
+ JpmERuFYSlgI=
+X-Developer-Key: i=wujianyue000@gmail.com; a=openssh;
+ fpr=SHA256:gVWBPJbHGWlCIw+V8F63Ff0k21S7AB5+rZt8+huemvg
 
-The NPCM750 uses RESSR and the NPCM845 uses INTCR2 to latch reset
-indications. Read those bits during probe and map them into watchdog
-bootstatus flags.
+This series splits folio LRU and swap cleanup into three steps:
 
-For NPCM845, cache the sampled INTCR2 state in SCRPAD10 after the reset
-status bits are cleared so later probes can report the same boot-time
-state. Also report WDIOF_CARDRESET for the watchdog instance whose reset
-bit is latched, while leaving WPCM450 behavior unchanged.
+  - move the page-cluster sysctl next to swap readahead in mm/swap_state.c
+  - rename mm/swap.c to mm/folio.c after the swap-specific bits move out
+  - move MM-internal reclaim declarations out of include/linux/swap.h
 
-Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
+After this series, swap cache and swap-in readahead stay in mm/swap_state.c,
+folio LRU helpers live in mm/folio.c, and MM-internal reclaim/workingset
+declarations move from include/linux/swap.h to mm/internal.h (public LRU
+helpers used outside mm/ remain in swap.h).
+
+The first patch handles the swap-specific page-cluster state before the
+file rename, so the rename commit only carries folio LRU code. The last
+patch keeps the LRU helpers used outside mm/ in include/linux/swap.h and
+moves the internal reclaim/workingset declarations to mm/internal.h.
+
+Signed-off-by: Jianyue Wu <wujianyue000@gmail.com>
 ---
- drivers/watchdog/npcm_wdt.c | 217 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 215 insertions(+), 2 deletions(-)
+Changes in v7:
+- Rebased onto akpm/mm-unstable (cfb8731f5396).
+- Re-tested full build, swap-in readahead smoke test, and run_vmtests.sh on x86.
+- Move version-history text below the "---" separator in the cover letter.
+- Add Suggested-by and Acked-by Johannes Weiner on patch 1/3.
+- Add Suggested-by Matthew Wilcox on patch 2/3.
+- Link to v6: https://lore.kernel.org/r/20260701-ch-swap-series-plus-folio-lru-cleanup-v6-0-d4f648963382@gmail.com
 
-diff --git a/drivers/watchdog/npcm_wdt.c b/drivers/watchdog/npcm_wdt.c
-index e62ea054bc61..cecfd6e574d8 100644
---- a/drivers/watchdog/npcm_wdt.c
-+++ b/drivers/watchdog/npcm_wdt.c
-@@ -7,14 +7,52 @@
- #include <linux/delay.h>
- #include <linux/interrupt.h>
- #include <linux/kernel.h>
-+#include <linux/mfd/syscon.h>
- #include <linux/module.h>
- #include <linux/of_irq.h>
- #include <linux/platform_device.h>
-+#include <linux/regmap.h>
- #include <linux/slab.h>
- #include <linux/watchdog.h>
- 
- #define NPCM_WTCR	0x1C
- 
-+/* NPCM GCR module */
-+#define NPCM_RESSR_OFFSET		0x6C
-+#define NPCM_INTCR2_OFFSET		0x60
-+#define NPCM7XX_SCRPAD2_OFFSET		0x84
-+#define NPCM8XX_SCRPAD10_OFFSET		0xE28
-+
-+#define NPCM_PORST			BIT(31)
-+#define NPCM_CORST			BIT(30)
-+#define NPCM_WD0RST			BIT(29)
-+#define NPCM_SWR1RST			BIT(28)
-+#define NPCM_SWR2RST			BIT(27)
-+#define NPCM_SWR3RST			BIT(26)
-+#define NPCM_SWR4RST			BIT(25)
-+#define NPCM_WD1RST			BIT(24)
-+#define NPCM_WD2RST			BIT(23)
-+#define NPCM_RST			GENMASK(31, 23)
-+#define NPCM8XX_TIP_RESET		BIT(25) /* Replaces SWRST4 on NPCM8xx */
-+
-+/* Per-instance mapping of MMIO base address to its RESSR/INTCR2 reset bit. */
-+struct npcm_wdt_rst_map {
-+	phys_addr_t	base;
-+	u32		rst_bit;
-+};
-+
-+struct npcm_wdt_status_map {
-+	u32	rst_bit;
-+	u32	wdiof_flag;
-+};
-+
-+struct npcm_wdt_data {
-+	const struct npcm_wdt_rst_map		*rst_map;
-+	unsigned int				rst_map_size;
-+	const struct npcm_wdt_status_map	*status_map;
-+	unsigned int				status_map_size;
-+};
-+
- #define NPCM_WTCLK	(BIT(10) | BIT(11))	/* Clock divider */
- #define NPCM_WTE	BIT(7)			/* Enable */
- #define NPCM_WTIE	BIT(6)			/* Enable irq */
-@@ -47,6 +85,50 @@ struct npcm_wdt {
- 	struct clk		*clk;
- };
- 
-+static const struct npcm_wdt_rst_map npcm750_rst_map[] = {
-+	{ 0xf000801c, NPCM_WD0RST },
-+	{ 0xf000901c, NPCM_WD1RST },
-+	{ 0xf000a01c, NPCM_WD2RST },
-+};
-+
-+static const struct npcm_wdt_status_map npcm750_status_map[] = {
-+	{ NPCM_PORST, WDIOF_OVERHEAT },
-+	{ NPCM_CORST, WDIOF_FANFAULT },
-+	{ NPCM_SWR1RST, WDIOF_EXTERN1 },
-+	{ NPCM_SWR2RST, WDIOF_EXTERN2 },
-+	{ NPCM_SWR3RST, WDIOF_POWERUNDER },
-+	{ NPCM_SWR4RST, WDIOF_POWEROVER },
-+};
-+
-+static const struct npcm_wdt_data npcm750_data = {
-+	.rst_map = npcm750_rst_map,
-+	.rst_map_size = ARRAY_SIZE(npcm750_rst_map),
-+	.status_map = npcm750_status_map,
-+	.status_map_size = ARRAY_SIZE(npcm750_status_map),
-+};
-+
-+static const struct npcm_wdt_rst_map npcm845_rst_map[] = {
-+	{ 0xf000801c, NPCM_WD0RST },
-+	{ 0xf000901c, NPCM_WD1RST },
-+	{ 0xf000a01c, NPCM_WD2RST },
-+};
-+
-+static const struct npcm_wdt_status_map npcm845_status_map[] = {
-+	{ NPCM_PORST, WDIOF_OVERHEAT },
-+	{ NPCM_CORST, WDIOF_FANFAULT },
-+	{ NPCM_SWR1RST, WDIOF_EXTERN1 },
-+	{ NPCM_SWR2RST, WDIOF_EXTERN2 },
-+	{ NPCM_SWR3RST, WDIOF_POWERUNDER },
-+	{ NPCM8XX_TIP_RESET, WDIOF_POWEROVER },
-+};
-+
-+static const struct npcm_wdt_data npcm845_data = {
-+	.rst_map = npcm845_rst_map,
-+	.rst_map_size = ARRAY_SIZE(npcm845_rst_map),
-+	.status_map = npcm845_status_map,
-+	.status_map_size = ARRAY_SIZE(npcm845_status_map),
-+};
-+
- static inline struct npcm_wdt *to_npcm_wdt(struct watchdog_device *wdd)
- {
- 	return container_of(wdd, struct npcm_wdt, wdd);
-@@ -169,6 +251,111 @@ static bool npcm_is_running(struct watchdog_device *wdd)
- 	return readl(wdt->reg) & NPCM_WTE;
- }
- 
-+static void npcm_get_reset_status(struct npcm_wdt *wdt, struct device *dev,
-+				  const struct npcm_wdt_data *data,
-+				  resource_size_t start)
-+{
-+	struct regmap *gcr_regmap;
-+	u32 rstval = 0;
-+	unsigned int i;
-+	int ret;
-+
-+	if (!data)
-+		return;
-+
-+	gcr_regmap = syscon_regmap_lookup_by_phandle(dev->of_node,
-+						     "nuvoton,sysgcr");
-+	if (IS_ERR(gcr_regmap)) {
-+		dev_warn(dev,
-+			 "Failed to find nuvoton,sysgcr, WD reset status not supported\n");
-+		return;
-+	}
-+
-+	if (of_device_is_compatible(dev->of_node, "nuvoton,npcm845-wdt")) {
-+		ret = regmap_read(gcr_regmap, NPCM_INTCR2_OFFSET, &rstval);
-+		if (ret) {
-+			dev_warn(dev, "Failed to read INTCR2 reset status: %d\n",
-+				 ret);
-+			return;
-+		}
-+
-+		if (rstval & NPCM_RST) {
-+			ret = regmap_write(gcr_regmap, NPCM_INTCR2_OFFSET,
-+					   rstval & ~NPCM_RST);
-+			if (ret) {
-+				dev_warn(dev,
-+					 "Failed to clear INTCR2 reset status: %d\n",
-+					 ret);
-+				return;
-+			}
-+
-+			ret = regmap_write(gcr_regmap, NPCM8XX_SCRPAD10_OFFSET,
-+					   rstval);
-+			if (ret) {
-+				dev_warn(dev,
-+					 "Failed to cache reset status in SCRPAD10: %d\n",
-+					 ret);
-+				return;
-+			}
-+		} else {
-+			ret = regmap_read(gcr_regmap, NPCM8XX_SCRPAD10_OFFSET,
-+					  &rstval);
-+			if (ret) {
-+				dev_warn(dev,
-+					 "Failed to read cached reset status from SCRPAD10: %d\n",
-+					 ret);
-+				return;
-+			}
-+		}
-+	} else if (of_device_is_compatible(dev->of_node, "nuvoton,npcm750-wdt")) {
-+		ret = regmap_read(gcr_regmap, NPCM_RESSR_OFFSET, &rstval);
-+		if (ret) {
-+			dev_warn(dev, "Failed to read RESSR reset status: %d\n",
-+				 ret);
-+			return;
-+		}
-+
-+		if (rstval & NPCM_RST) {
-+			ret = regmap_write(gcr_regmap, NPCM_RESSR_OFFSET, 
-+					   rstval & ~NPCM_RST);
-+			if (ret) {
-+				dev_warn(dev, "Failed to clear RESSR reset status: %d\n", ret);
-+				return;
-+			}
-+
-+			ret = regmap_write(gcr_regmap, NPCM7XX_SCRPAD2_OFFSET,
-+					   rstval);
-+			if (ret) {
-+				dev_warn(dev,
-+					 "Failed to cache reset status in SCRPAD2: %d\n", ret);
-+				return;
-+			}
-+		} else {
-+			ret = regmap_read(gcr_regmap, NPCM7XX_SCRPAD2_OFFSET,
-+					  &rstval);
-+			if (ret) {
-+				dev_warn(dev,
-+					 "Failed to read cached reset status from SCRPAD2: %d\n",
-+					 ret);
-+				return;
-+			}
-+		}
-+	}
-+
-+	for (i = 0; i < data->status_map_size; i++) {
-+		if (rstval & data->status_map[i].rst_bit)
-+			wdt->wdd.bootstatus |= data->status_map[i].wdiof_flag;
-+	}
-+
-+	for (i = 0; i < data->rst_map_size; i++) {
-+		if (data->rst_map[i].base == start &&
-+		    rstval & data->rst_map[i].rst_bit) {
-+			wdt->wdd.bootstatus |= WDIOF_CARDRESET;
-+			break;
-+		}
-+	}
-+}
-+
- static const struct watchdog_info npcm_wdt_info = {
- 	.identity	= KBUILD_MODNAME,
- 	.options	= WDIOF_SETTIMEOUT
-@@ -176,6 +363,20 @@ static const struct watchdog_info npcm_wdt_info = {
- 			| WDIOF_MAGICCLOSE,
- };
- 
-+static const struct watchdog_info npcm_wdt_rst_info = {
-+	.identity	= KBUILD_MODNAME,
-+	.options	= WDIOF_SETTIMEOUT
-+			| WDIOF_KEEPALIVEPING
-+			| WDIOF_MAGICCLOSE
-+			| WDIOF_CARDRESET
-+			| WDIOF_OVERHEAT
-+			| WDIOF_FANFAULT
-+			| WDIOF_EXTERN1
-+			| WDIOF_EXTERN2
-+			| WDIOF_POWERUNDER
-+			| WDIOF_POWEROVER,
-+};
-+
- static const struct watchdog_ops npcm_wdt_ops = {
- 	.owner = THIS_MODULE,
- 	.start = npcm_wdt_start,
-@@ -188,7 +389,10 @@ static const struct watchdog_ops npcm_wdt_ops = {
- static int npcm_wdt_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-+	const struct npcm_wdt_data *data = device_get_match_data(dev);
-+	struct resource *res;
- 	struct npcm_wdt *wdt;
-+	resource_size_t start;
- 	int irq;
- 	int ret;
- 
-@@ -196,10 +400,16 @@ static int npcm_wdt_probe(struct platform_device *pdev)
- 	if (!wdt)
- 		return -ENOMEM;
- 
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res)
-+		return -EINVAL;
-+
- 	wdt->reg = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(wdt->reg))
- 		return PTR_ERR(wdt->reg);
- 
-+	start = res->start;
-+
- 	wdt->clk = devm_clk_get_optional(&pdev->dev, NULL);
- 	if (IS_ERR(wdt->clk))
- 		return PTR_ERR(wdt->clk);
-@@ -208,7 +418,7 @@ static int npcm_wdt_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return irq;
- 
--	wdt->wdd.info = &npcm_wdt_info;
-+	wdt->wdd.info = data ? &npcm_wdt_rst_info : &npcm_wdt_info;
- 	wdt->wdd.ops = &npcm_wdt_ops;
- 	wdt->wdd.min_timeout = 1;
- 	wdt->wdd.max_timeout = 2750;
-@@ -220,6 +430,8 @@ static int npcm_wdt_probe(struct platform_device *pdev)
- 	/* Ensure timeout is able to be represented by the hardware */
- 	npcm_wdt_set_timeout(&wdt->wdd, wdt->wdd.timeout);
- 
-+	npcm_get_reset_status(wdt, dev, data, start);
-+
- 	if (npcm_is_running(&wdt->wdd)) {
- 		/* Restart with the default or device-tree specified timeout */
- 		npcm_wdt_start(&wdt->wdd);
-@@ -243,7 +455,8 @@ static int npcm_wdt_probe(struct platform_device *pdev)
- #ifdef CONFIG_OF
- static const struct of_device_id npcm_wdt_match[] = {
- 	{.compatible = "nuvoton,wpcm450-wdt"},
--	{.compatible = "nuvoton,npcm750-wdt"},
-+	{.compatible = "nuvoton,npcm750-wdt", .data = &npcm750_data},
-+	{.compatible = "nuvoton,npcm845-wdt", .data = &npcm845_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, npcm_wdt_match);
+Changes in v6:
+- Rename mm/swap.c to mm/folio.c instead of folio_lru.c.
+- Link to v5: https://lore.kernel.org/r/20260630-ch-swap-series-plus-folio-lru-cleanup-v5-0-4627aba8ed1e@gmail.com
+
+Changes in v5:
+- Rebased onto akpm/mm-unstable (81652c5a65d4).
+- Fix mm/swap.h for CONFIG_SWAP=n after rebase.
+- Tested swap-in readahead on x86 with swap: vm.page-cluster present
+  and writable, swap in/out under anon memory pressure, page-cluster 0
+  and 3 paths, no oops in dmesg; run_vmtests.sh passed.
+- Link to v4: https://lore.kernel.org/r/20260603-ch-swap-series-plus-folio-lru-cleanup-v4-0-ce0219e100d9@gmail.com
+
+Changes in v4:
+- Address Baoquan He's review on v3: align patch 2 subject with
+  rename-only scope; fix vm.rst sysctl documentation; refresh file
+  header comments in mm/folio_lru.c and swap.h declaration comments.
+- Expand patch 1 commit message on CONFIG_SWAP=n vm.page-cluster
+  registration (also on CONFIG_SWAP=n kernels).
+- Link to v3: https://lore.kernel.org/all/20260602-ch-swap-series-plus-folio-lru-cleanup-v3-0-5bbb567f8c99@gmail.com
+
+---
+Jianyue Wu (3):
+      mm/swap: colocate page-cluster sysctl with swap readahead
+      mm: rename swap.c to folio.c
+      mm: move reclaim-internal declarations out of swap.h
+
+ Documentation/admin-guide/sysctl/vm.rst |  3 --
+ Documentation/core-api/mm-api.rst       |  2 +-
+ MAINTAINERS                             |  3 +-
+ include/linux/swap.h                    | 76 +++------------------------------
+ mm/Makefile                             |  2 +-
+ mm/{swap.c => folio.c}                  | 46 ++------------------
+ mm/internal.h                           | 67 +++++++++++++++++++++++++++++
+ mm/memfd.c                              |  1 +
+ mm/swap.h                               |  9 +++-
+ mm/swap_state.c                         | 37 ++++++++++++++++
+ mm/vmscan.c                             |  2 +-
+ 11 files changed, 126 insertions(+), 122 deletions(-)
+---
+base-commit: cfb8731f5396cafde2d60a2e7d9d27cdb4505f45
+change-id: 20260531-ch-swap-series-plus-folio-lru-cleanup-d9781c8332dc
+
+Best regards,
 -- 
-2.34.1
+Jianyue Wu <wujianyue000@gmail.com>
 
