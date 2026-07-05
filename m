@@ -1,203 +1,133 @@
-Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993AC1BC08F;
-	Sun,  5 Jul 2026 10:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783DB283C82
+	for <linux-doc@vger.kernel.org>; Sun,  5 Jul 2026 11:31:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783245783; cv=none; b=B/o+4kFahCd0nqeYIbC0+AyJtfzkIkJWN5HVydxfs7t81ZeFTNn7cyN8t1G/l14CDkU6JkTdGZQ+MQMJUwcgbEqF6wWB6qQbbyQMTzvDIbtS5jjMIHbdjry3K/09YyQ9DaCoAuj2zsR5rBVgZm2MbsI3txoPFCOsagdU5HcKzTo=
+	t=1783251114; cv=none; b=YiJKuOth6dKe/WXy+2Naykfaymqa37jsRy7v/fYMm0H/+zYqYiUviIDdMwhePzw4N13cb97MORXY8KvIuJfHf1+HICRuChE2fNNWPr5p54ZBrY8jouvHMi4tw9BFezk40QAyINdpKqczF8CRHf+4V35pWScPT9SOgkvDoZiIEP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783245783; c=relaxed/simple;
-	bh=K02Th6inCKSEP4u4m+H4dEgdQ0X2Fzyjpr0Ue9hnCMY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TBSHvbJfK1vsDTYmgaPIPWR4SHREyY6nV4lHvfVk4kyn2PeHQr0Yn5hVE+545ET1irISXm3wthlnTFfIzLRg24kuUhDyoRFeKYvi0kb2xMYzgUil3YzU7nUJA5u5s9aAzen5N76m0maj6BzNzrAVX58QIOalKUwRzccwfMg1rN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=LousD6wR; arc=none smtp.client-ip=195.39.247.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
+	s=arc-20240116; t=1783251114; c=relaxed/simple;
+	bh=ysh6ReeHvJe9TwyiaXD20oAVatLGkl/mCNQ5S1j0pt4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XEYwaCuQUvpaPMh7HM4PTsmo1poFMUPkpi+KHLC/vqUjBNCabdzNNxNBKBU5Hz5FKg6I6D4E7zJqhShePqVgQwLpkx68nWB/4zRkf2NR4IS3MEXXcSiZ4tTCII5jauULsCQJ5p9rjZ4FsEB6pjanEzNyXsVhhv8MzIAFsmQhC9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=drySj0NI; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="LousD6wR"
-From: Yureka Lilian <yureka@cyberchaos.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1783245778;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=pDEKBMzxtfd1t81QTTS0mKCc2r/kk0TOgUYvyF3Wozc=;
-	b=LousD6wRMzVFqXUzpSNpjGwmxGow/0r4SwEOGd89WzTH7MEVTiqY6CctryUwoTb1n10xdB
-	PcZC4s9mXiw0eLEAZ/JTzl6u34OWqrqgF542TaB8yx3M0kfCJTtdTdD/eTfllx4kq4HkvS
-	z0UzMgrnqkRbIcshgWq6rmrzpWzCkd0=
-Date: Sun, 05 Jul 2026 12:02:36 +0200
-Subject: [PATCH] arch: arm64: add early_param idle=<wfi|yield|nop>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="drySj0NI"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-493c2c0b9a8so18323235e9.1
+        for <linux-doc@vger.kernel.org>; Sun, 05 Jul 2026 04:31:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783251112; x=1783855912; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=v5BS4AAszkEfCLhT3vHbqa6KSd2l7Qvz7/ajSmqfW3c=;
+        b=drySj0NIUigj8gy9zfWJrmLr0ZqWPwv3DcsfDZRXbRXYDmbzo1LhY5NweGWiMQQqzG
+         +IDBd5L9cVgD94N1nWtrtKl2qMuhQHJrSls188t3tXmSUxf5RDhOYgUwkmi995Sh9cPF
+         s4SDXq7Z0CQMdLiL1WxIeFu51vNW2vuSwFIyFygT+XjUgpfCbkxEHB/TONamwphvCs9h
+         cKL1S8OAuc6qzUYrDnW2ihf2tJFghhtduYWUeUxggDhymIJC0OLIsk1z8H2n7NzioDXC
+         O0ed6Is9nZvq9FgQZiP5NhxdTqhII/fN1sxEcDbCIWWyEM5Q1QEvibIyZrFgfp4Q3A/r
+         aeOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783251112; x=1783855912;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=v5BS4AAszkEfCLhT3vHbqa6KSd2l7Qvz7/ajSmqfW3c=;
+        b=ObNwhw93Lp1H53haF5+aFUI7X6ONYShheIWQVsgVft8la1dfSF6PzmvlM4gMoE73Ql
+         6qJ2RsPPi8AghhQ9FJwaZEfQB8hSOvbj6tLGRd3ZuO3j8IPrueIJ3ehCmfOjogqGM38w
+         2X3mdkILFg8CW31M0eB/ts4LRlKyI4k3ZGLkJwMhmf9DFH6iJGv9aZ8Bj8Xiyt5X5VwR
+         uSkxnPB4+C92IPAGYtCI3QKDX93tw8kDNF416t8XAS4LwxuiOc6IenNxQtUO329F8ade
+         8gh6sSVS9l9xFzuJYDzJYnA7lJzfrKk8cHUizNPcgUvWlN9Ial6xdo1MZrZdnedUxBQV
+         0NtA==
+X-Forwarded-Encrypted: i=1; AFNElJ9sfu0xH+FDDpiIdke/F6loOwInjyRr+pyx9NQ96IVnSRzX/pR6aOCURLcpEQYbqnZaW8chjdTG5W8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLUlinnPl/SbqVkms8SADhvkb2fIZKuW4GvgOnw6vjlptRwjkA
+	ErSHENDApFxFQ8et7T7rMYedP9aCNcB2sG7QxGdtKVkIaTv6ztyV5wL7
+X-Gm-Gg: AfdE7clOuM7NebWCoiiFMh/6laRySGjLb4nVt+JP+rXpqKSJ+xofO7HWnCP6i3QzbTT
+	5tweAFpPNXC9v2aNPgWI+ws1E4nzOqJap+6dd7Gzeq8rg9nCQicKUUiIacUf4vxCebj8jjSFwrk
+	w6ZczG3jX1LWkbVO8dJH5TiFfUlvQAk79LoeMaayB2myDy3WoFaqCwVZXfCm3sU/lyIWwzi6C6i
+	FZWxq1qdPnDAtuwblid5+vp/P0yVTPm1APn12f0MwPF2iUpNNLdo9XHSI6jR+1SCP54JtyziMSz
+	2tfshWUdCO+tdKU+mbsat63R9jjL8BPkiohBALLPtuHXhZTueQ98ikj199cY1+0DnkY7FjOP6Cy
+	ycCQfyXRMTK4sdj+k/URx4L/8xFDu3wReUhqtrgcXohAUSO/7b0Lto5+OebHjb59SWHnnp2S6v9
+	KXhz+vsAVcD19ifYkRcsMWGnzshtO4+6g=
+X-Received: by 2002:a05:600c:6288:b0:493:bef8:ba8 with SMTP id 5b1f17b1804b1-493d1201f26mr69773425e9.39.1783251111668;
+        Sun, 05 Jul 2026 04:31:51 -0700 (PDT)
+Received: from puma.museclub.art ([2a00:6020:b326:d300:d19:a765:d8d7:bedc])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c636ec8asm237235895e9.1.2026.07.05.04.31.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Jul 2026 04:31:50 -0700 (PDT)
+From: Eugene Shalygin <eugene.shalygin@gmail.com>
+To: eugene.shalygin@gmail.com
+Cc: Florian Schut <mail@florianschut.nl>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-hwmon@vger.kernel.org (open list:HARDWARE MONITORING),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] hwmon: (asus-ec-sensors) add ROG Maximus Z790 Hero
+Date: Sun,  5 Jul 2026 13:31:15 +0200
+Message-ID: <20260705113125.812045-1-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260705-arm64-idle-param-v1-1-7454249f473f@cyberchaos.dev>
-X-B4-Tracking: v=1; b=H4sIALsrSmoC/yXMUQqDMBCE4avIPjewDdVAr1L6sE1HXalWNlYE8
- e6m+vgNzL9SgikS3YuVDLMm/Q4Z10tBsZWhgdN3Nnn2FQcunVhf3fL4gRvFpHfRhzoyAoRLyrf
- RUOtyJB/P0+n36hCnf4e2bQe9JnZCdAAAAA==
-X-Change-ID: 20260705-arm64-idle-param-c27fc0e7ea05
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev, 
- Yureka Lilian <yureka@cyberchaos.dev>
+Content-Transfer-Encoding: 8bit
 
-Overriding the idle mechanism might be useful for debugging, performance
-testing and on platforms where the WFI instruction misbehaves, such as
-Apple Silicon SoCs.
+From: Florian Schut <mail@florianschut.nl>
 
-Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+Add support for ROG Maximus Z790 Hero.
+
+Signed-off-by: Florian Schut <mail@florianschut.nl>
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
 ---
-Thanks to Will Daecon for suggesting this path, since, when treating the WFI
-misbehavior as an erratum, we had difficulties telling when the alternatives
-should be applied. This solution is more flexible and leaves it up to
-bootloader to add the appropriate idle= parameter as a workaround.
----
- Documentation/admin-guide/kernel-parameters.txt | 23 ++++++++++++++++++
- arch/arm64/kernel/idle.c                        | 31 +++++++++++++++++++++++--
- arch/arm64/kernel/idle.h                        | 11 +++++++++
- arch/arm64/lib/delay.c                          |  7 +++++-
- 4 files changed, 69 insertions(+), 3 deletions(-)
+ Documentation/hwmon/asus_ec_sensors.rst |  1 +
+ drivers/hwmon/asus-ec-sensors.c         | 10 ++++++++++
+ 2 files changed, 11 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index b2d7d3540ded..d7f5471edf8f 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2239,6 +2239,29 @@ Kernel parameters
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+index 77a709517437..ccf43fd1fa9f 100644
+--- a/Documentation/hwmon/asus_ec_sensors.rst
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -30,6 +30,7 @@ Supported boards:
+  * ROG MAXIMUS XI HERO (WI-FI)
+  * ROG MAXIMUS Z690 FORMULA
+  * ROG MAXIMUS Z790 EXTREME
++ * ROG MAXIMUS Z790 HERO
+  * ROG STRIX B550-E GAMING
+  * ROG STRIX B550-I GAMING
+  * ROG STRIX B650E-E GAMING WIFI
+diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+index 29a23484cbe7..4ec2028f7dfe 100644
+--- a/drivers/hwmon/asus-ec-sensors.c
++++ b/drivers/hwmon/asus-ec-sensors.c
+@@ -527,6 +527,14 @@ static const struct ec_board_info board_info_maximus_z790_extreme = {
+ 	.family = family_intel_700_series,
+ };
  
- 			idle=nomwait: Disable mwait for CPU C-states
- 
-+			[ARM64,EARLY]
-+			Format: idle=wfi, idle=yield, idle=nop
-+
-+			idle=wfi: Use the WFI (Wait For Interrupt) hint
-+			instruction in the idle loop. This is the default and
-+			allows the CPU to enter a low-power state until an
-+			interrupt arrives.
-+
-+			idle=yield: Use the YIELD hint instruction instead of
-+			WFI. CPUs supporting simultaneous multi-threading (SMT),
-+			can continue executing another thread when the current
-+			thread reaches the idle loop. This will make the CPUs
-+			eat more power, but may be useful to get slightly better
-+			performance in some applications, since the CPUs will
-+			not enter a low-power state.
-+
-+			idle=nop: Do not execute any idle instruction in the
-+			idle loop. This is useful on platforms where WFI
-+			misbehaves, leading to system instability or loss of CPU
-+			state. This will make the CPUs eat more power, but may
-+			give slightly better performance in some applications,
-+			since the CPUs will not enter a low-power state.
-+
- 	idxd.sva=	[HW]
- 			Format: <bool>
- 			Allow force disabling of Shared Virtual Memory (SVA)
-diff --git a/arch/arm64/kernel/idle.c b/arch/arm64/kernel/idle.c
-index 05cfb347ec26..018bcc812d45 100644
---- a/arch/arm64/kernel/idle.c
-+++ b/arch/arm64/kernel/idle.c
-@@ -11,6 +11,28 @@
- #include <asm/cpufeature.h>
- #include <asm/sysreg.h>
- 
-+#include "idle.h"
-+
-+enum idle_mode idle = WFI;
-+
-+/* User can over-ride above with "idle=<wfi|yield|nop>" in cmdline */
-+static int __init setup_idle(char *s)
-+{
-+	if (!s)
-+		return -1;
-+	else if (!strcmp(s, "wfi"))
-+		idle = WFI;
-+	else if (!strcmp(s, "yield"))
-+		idle = YIELD;
-+	else if (!strcmp(s, "nop"))
-+		idle = NOP;
-+	else
-+		return -1;
-+
-+	return 0;
-+}
-+early_param("idle", setup_idle);
-+
- /*
-  *	cpu_do_idle()
-  *
-@@ -26,8 +48,13 @@ void __cpuidle cpu_do_idle(void)
- 
- 	arm_cpuidle_save_irq_context(&context);
- 
--	dsb(sy);
--	wfi();
-+	if (likely(idle == WFI)) {
-+		dsb(sy);
-+		wfi();
-+	} else if (idle == YIELD) {
-+		dsb(sy);
-+		asm volatile("yield" ::: "memory");
-+	}
- 
- 	arm_cpuidle_restore_irq_context(&context);
- }
-diff --git a/arch/arm64/kernel/idle.h b/arch/arm64/kernel/idle.h
-new file mode 100644
-index 000000000000..350b758ea215
---- /dev/null
-+++ b/arch/arm64/kernel/idle.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef __ARM64_KERNEL_IDLE_H
-+#define __ARM64_KERNEL_IDLE_H
-+
-+enum idle_mode {
-+	WFI,
-+	YIELD,
-+	NOP,
++static const struct ec_board_info board_info_maximus_z790_hero = {
++	.sensors = SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_VRM |
++		SENSOR_SET_TEMP_WATER | SENSOR_FAN_WATER_FLOW |
++		SENSOR_FAN_CPU_OPT,
++	.mutex_path = ASUS_HW_ACCESS_MUTEX_RMTW_ASMX,
++	.family = family_intel_700_series,
 +};
 +
-+#endif
-diff --git a/arch/arm64/lib/delay.c b/arch/arm64/lib/delay.c
-index e278e060e78a..d6fd09466abc 100644
---- a/arch/arm64/lib/delay.c
-+++ b/arch/arm64/lib/delay.c
-@@ -15,9 +15,13 @@
- 
- #include <clocksource/arm_arch_timer.h>
- 
-+#include "../kernel/idle.h"
-+
- #define USECS_TO_CYCLES(time_usecs)			\
- 	xloops_to_cycles((time_usecs) * 0x10C7UL)
- 
-+extern enum idle_mode idle;
-+
- static inline unsigned long xloops_to_cycles(unsigned long xloops)
- {
- 	return (xloops * loops_per_jiffy * HZ) >> 32;
-@@ -49,7 +53,8 @@ void __delay(unsigned long cycles)
- 		 * Start with WFIT. If an interrupt makes us resume
- 		 * early, use a WFET loop to complete the delay.
- 		 */
--		wfit(end);
-+		if (likely(idle == WFI))
-+			wfit(end);
- 		while ((__delay_cycles() - start) < cycles)
- 			wfet(end);
- 	} else 	if (arch_timer_evtstrm_available()) {
-
----
-base-commit: 96cb07bd64bf4d3c8c9159636314c6fbdd9b9881
-change-id: 20260705-arm64-idle-param-c27fc0e7ea05
-
-Best regards,
---  
-Yureka Lilian <yureka@cyberchaos.dev>
+ static const struct ec_board_info board_info_prime_x470_pro = {
+ 	.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+ 		SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_VRM |
+@@ -893,6 +901,8 @@ static const struct dmi_system_id dmi_table[] = {
+ 					&board_info_maximus_z690_formula),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG MAXIMUS Z790 EXTREME",
+ 					&board_info_maximus_z790_extreme),
++	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG MAXIMUS Z790 HERO",
++					&board_info_maximus_z790_hero),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX B550-E GAMING",
+ 					&board_info_strix_b550_e_gaming),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX B550-I GAMING",
+-- 
+2.55.0
 
