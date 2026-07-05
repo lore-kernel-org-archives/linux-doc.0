@@ -1,70 +1,74 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6873389E05;
-	Sun,  5 Jul 2026 15:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A11D3806C1
+	for <linux-doc@vger.kernel.org>; Sun,  5 Jul 2026 15:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783264491; cv=none; b=nfarOrEvfgu52/5l8iOJyB/Ep5znzmvakEhC3usHv7iiobR6wuthggRQ3ef7a79815yg1U9pzGxey0q6rqsoyfLMQgFIevtB/oPfEIzNW6GeJ9cSnSPcXXutLyj6sODEKQrVxaKABIkgUDuEBnapllbNxmQFMtxoyTh2ifncwxQ=
+	t=1783264837; cv=none; b=TGEPmyOZgoxXdnIgyQ7X2L6D5psvdGEAtg5IT0IM7fuWjd/A8UcaxPQV0VR/2gk8FACPAIoKvpNH0M1wjCd14sciwMT4E14ISo0GPbXFyjTFI+tIzZY2rkJdqxZ/9T5WvbUYsAaaFNgkblOfzwOtGO/HpZona9z6EFpkQVXiT7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783264491; c=relaxed/simple;
-	bh=s7FkI8LtHp0KwrigyUGJBUd79XwwhFlyQLWDASJ85Z0=;
+	s=arc-20240116; t=1783264837; c=relaxed/simple;
+	bh=oymWQKimephLAZpLw5SG/jhsPwFz5w2t9N0FgL6L4sg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ODQyB4XKLkBjkA1/Fcyq0a8kRTB5UQqMeFUMbHBaaTEtKSFhPTuXdut4GYE6Eur37Lvbn4vKwdWpCzRVVc5Gdl2VSad02s7LwBAXi65nQ+tFM1BOA+dnJ1hKQWuN3PJmSNUcgxtv8hLzoKaCKxCaEr0D22HekOS0kZmO6Fw9dPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=aELJ83Jd; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yu1WTkGzJ4DHmEMsX1YIvk90KhEQWlVgB+uxM2JMYUPjQzzM1kIJGsVrJNuleM2cbqy9aMimHGwesc5LCLBiLfyyJRHhpTsZG+ki40A3rqjYiyRukaSE3SvSP8M7MYbUEVSYUit/4rkNyfJDft3l1jyo/yuBqo8mCgb+W+zKBU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BVRzYpc7; arc=none smtp.client-ip=209.85.215.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="aELJ83Jd"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 787C540E0163;
-	Sun,  5 Jul 2026 15:14:46 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id GHw9jlYOBmpj; Sun,  5 Jul 2026 15:14:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1783264474; bh=xVGyenC0SFTxaahRR3YV9EMNLnHoYhbouZ6rWoZdi/o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aELJ83Jd115SE497B2UiygLqfAClT8mpMnMFlXSttmta3//gs95Un85B/NXASrDIP
-	 1NycsdFSD8Bg8OBK+vwykWBIHSrYXEqhvAr4hdfURYPjz4+r+agfJ6i8f4PmylnCUA
-	 leCpEVGpt5iIBOzJK/+EgmboDVAWFbqewwRnCnnpIAhNekKUxcw6k6OUa5HHKHRN/M
-	 79m0LJERxxC8kgIpMLvBnFhoWKZ/JUPDkefJonwAbSFL2j9qU9Nrb2M2mDmnLPED18
-	 QQYNE9MO5GWWo11WjEyPKqLi7yisWKc0F9CAw5dATLv7CjGRy/JrSGmXk3TYwZaUms
-	 geB1dZpKhBTV8n9bXktERsXdjcORAWtb6GtRSrlEAplfL5tnTe91dfe5Plpnjt4eHZ
-	 s/2RCoS89ztFRULElvHotLsEp+61PwxdPEWg4MOGm4MiFEG6bu6KlFgjxCwaNcgeLl
-	 PieynOZqAki8db3hMnGeJzWM94Ec4r7QIlK8r5bvoNBjKG0/O79NYisy5Y+Z+Yhual
-	 iElPuVi5v9oJb/EsryKZkNisIYZw6Zl4OqdpeUpqoZNblwgHdd8HnD99kFZM8YWB4v
-	 JPZKv5nbOn4PNewgAGhuv1PI5ukG+RFDuXQ5TChtPdNtPx0j7GLTrkKWQZRX6hWAEg
-	 KPVD0NQmI3fZAur7nKfmpqy4=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8382540E014C;
-	Sun,  5 Jul 2026 15:13:57 +0000 (UTC)
-Date: Sun, 5 Jul 2026 08:13:54 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: shijujose2008@gmail.com
-Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
-	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
-	leo.duran@amd.com, Yazen.Ghannam@amd.com, mchehab@kernel.org,
-	jic23@kernel.org, linuxarm@huawei.com, rientjes@google.com,
-	jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
-	naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
-	somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
-	duenwen@google.com, gthelen@google.com,
-	wschwartz@amperecomputing.com, wbs@os.amperecomputing.com,
-	nifan.cxl@gmail.com, tanxiaofei@huawei.com,
-	prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
-	kangkang.shen@futurewei.com, wanghuiqiang@huawei.com
-Subject: Re: [PATCH v20 0/2] ACPI: Add support for ACPI RAS2 feature table
-Message-ID: <20260705151354.GBakp0snJ4OKmlUFiI@fat_crate.local>
-References: <20260704220745.110773-1-shijujose2008@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BVRzYpc7"
+Received: by mail-pg1-f195.google.com with SMTP id 41be03b00d2f7-ca1328b8584so1396030a12.1
+        for <linux-doc@vger.kernel.org>; Sun, 05 Jul 2026 08:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783264835; x=1783869635; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LyRHUEdDzHEn5VoIw+uE0PQuPndQy8QL1VRSCVaZgpI=;
+        b=BVRzYpc7B/6qm8jcew45TuctjyZiZY7yY8+7S6LcVAKk9z7Q1tP2lQ5rEwrisuON5P
+         GYycdLIOfTRboJXCez8CgYBWGEeJqFaCXLXKK14TrMiAGSWbBqooHVJ0ZXpW+77WVm5q
+         TDFofyWuocRaoZMWjogisaqCKejT4KF6J3CdNeZ1SR8vtbU9aYjm8x3hKhc9etxe07Cu
+         E+vncFuwMQZrxZwrlagtjlI3FTYt6uy+XE34yyh3Tk5DHdGPLpG0sJ/h4YSH8ouN9epO
+         KgCEVNB+Ih9/LLAiTR0ShNjq90ahmpSyjc9sGQKmrFzMyfcGSz5ofVfaPD5b7o6ugjEb
+         6GPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783264835; x=1783869635;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=LyRHUEdDzHEn5VoIw+uE0PQuPndQy8QL1VRSCVaZgpI=;
+        b=Qb+MCf7J94W8X9zJn270DW1AVjdpux35qKo8lCo/CqrWT1GGoM6BZaEyZbmxdEizGV
+         XzxO3VcMETEJzg1FYzvnOHg1OzfN94f1/ZNxzclhXfluE+LCKisLyMIqUu4CBAJcgKJD
+         ZBpz3y1SBlg0hrIbgipiQKlyr9bUAjOY6x0PHyffnOGbT2c6CA961XS0GJvVVRAOfWqq
+         x3sU2NurNbprem/0eIiWWYrHjDFsTTUcEFWb8IP7A8thXVz1iHA2Y/TZ0p4weOjOlb0z
+         YD1qZavF4VzVFApC2QMcoJyOLq0DqV99AG9od8AwyEx070LmDe0TBd69mPWZJEO/cmMX
+         5uaQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr0WyvuA5xVs06M2l+jqJjdZCXNzy/jDsmLqPMP8Gc3aywPvizEBCGmEoPIZJ9SIZzpcUFX3znuoCI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXjl4dXare9upjvC3rgMvWoJg94b1ce37u5m53Ogwpj2qTrZHP
+	88NjQcm2ZFPBeINuH2vIqfhLKHjvqux17Ls1FuW8IdztnSJm/pCViEd5
+X-Gm-Gg: AfdE7cnN/tG2XueGqaUpVAeV+gQSMOmrLzzAfKsEAoUHxeL7GUGuhop6ymrSGocx6mP
+	102JK/N5oDUXzMwVZs6F3MVqfJxiqutDcchoUF+nmgMwkvfAxry48/5vzna6ILfJdzfpxKfaGXy
+	ocU1SEsqQbkM6+Dj02lgkcDKdcfyZpO6iwbnOWx7DygDLZpZD445ckXSVmJDg1XFluN4KId8RgD
+	jtDc/lcVNigA3W1roYshzwTBh+V5YrTP3AZXDYoLSHwYHfRU4Z4UHCyvZZRhVuwkY8YhG0AUtxl
+	bg+GjdQn/wwTtFksdIVh0/ldiFOdkywY0ES8qyetA/gHTjIs+FIEl+smsliXYddTqcULf4rzNp9
+	GX/uJMb3Zy43mEyqviDI6AC+H94bXEDNcALs/IRwmewYIV5oVD+cmP81mNKC8dg0ASQf7pmtl7x
+	Mf1gJ7IOPX25glNjkPZX6Bb/9yfWPaphk=
+X-Received: by 2002:a17:903:2b0d:b0:2c9:e6d7:fbb4 with SMTP id d9443c01a7336-2cbb9ebb87bmr67973575ad.31.1783264834986;
+        Sun, 05 Jul 2026 08:20:34 -0700 (PDT)
+Received: from localhost ([2409:8a4c:cc0:9ab1:cd4b:250d:9228:2c4d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad7144e1asm35542645ad.31.2026.07.05.08.20.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Jul 2026 08:20:34 -0700 (PDT)
+Date: Sun, 5 Jul 2026 23:20:30 +0800
+From: Jiandong Qiu <qiujiandong1998@gmail.com>
+To: Weijie Yuan <wy@wyuan.org>, alexs@kernel.org, si.yanteng@linux.dev
+Cc: dzm91@hust.edu.cn, corbet@lwn.net, skhan@linuxfoundation.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] docs/zh_CN: update translations for
+ process/changes.rst and sphinx.rst
+Message-ID: <akpxuLXKrbN7qB9o@archlinux>
+References: <20260621131215.1303439-1-qiujiandong1998@gmail.com>
+ <akn4oYmihmNHFOY7@wyuan.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,25 +77,56 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260704220745.110773-1-shijujose2008@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <akn4oYmihmNHFOY7@wyuan.org>
 
-On Sat, Jul 04, 2026 at 11:07:43PM +0100, shijujose2008@gmail.com wrote:
-> Changes
-> =======
-> v19 -> v20:
-> 1. Added possible fixes for gemini AI reported issues shared by Borislav. Thanks.
->    https://sashiko.dev/#/patchset/20260408172850.183-1-shiju.jose%40huawei.com
->    Unfortunately could not get a local sashiko review setup to verify the fixes
->    before posting patches.
+On Sun, Jul 05, 2026 at 02:24:33PM +0800, Weijie Yuan wrote:
+> One minor readability concern I noticed in both patches is that some
+> simple tables mix CJK text with ASCII table markup. (correct me if I'm
+> wrong) Which are, patch 1/2 adds the "当前最低需求" table in
+> process/changes.rst, and patch 2/2 adds the tables under
+> "数学渲染器的选择" and "设置 SPHINX_IMGMATH 的效果" in
+> doc-guide/sphinx.rst.
+> 
+> These tables may look aligned with an East-Asian-width-aware
+> font/editor, but the column boundaries can look misaligned in some other
+> fonts, mail readers, or editors when reading the plain .rst source. For
+> example, the lore archive itself.
+> ...
+> But I'm not familiar with rst and have never delved into fonts, it may
+> be better to ask maintainers to reach an agreement.
 
-Yeah, there are new issues now against this set:
+Thanks for the Weijie's careful review and the readability suggestion.
 
-https://sashiko.dev/#/patchset/20260704220745.110773-1-shijujose2008%40gmail.com
+```rst
+====================== ===============  ====================
+        程序               最低版本         版本检查命令
+====================== ===============  ====================
+bc                     1.06.95          bc --version
+bindgen（可选）        0.65.1           bindgen --version
+binutils               2.30             ld -v
+```
 
-Thx.
+Like the code above, the line with "可选" is misaligned in lore archive.
+I agree that in plain .rst source, mixing CJK text with ASCII table markup
+can look misaligned without a proper 2:1 width monospace font. However,
+a few clarifications:
 
--- 
-Regards/Gruss,
-    Boris.
+1. The rendered HTML documentation displays these as standard bordered
+tables, so there's no issue there.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+2. The real problem is the lore archive's rendering, which apparently
+doesn't use a CJK-aware monospace font for source display.
+
+3. In my local environment, I use Maple Mono NF CN (a font with perfect
+2:1 CJK/ASCII width ratio), so everything aligns correctly.
+
+IMO, this is a minor issue that doesn't affect actual patch review,
+as reviewers can pull the patch locally and view it with a proper font.
+A fundamental fix, if needed, would be improving lore archive's rendering
+rather than adjusting individual tables.
+
+I'd like to hear the maintainers' opinion on this.
+
+Thanks,
+Jiandong
