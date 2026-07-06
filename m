@@ -1,184 +1,235 @@
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A866929AB05;
-	Mon,  6 Jul 2026 12:22:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783340542; cv=none; b=tmoYMW9+C4GWzRhwBGsP2cazGYYLQNJK5NHaS+LPv94+qnW03iyVpdqZQnln9j3E2LKvi/9C9QT+MQ7iVPGnzR/lkA82+JOtpH/s118/GbkNwaM3qEFooaHS09m3MECOMW6J1rkKogtsoFejDcfcYLnSdcCupr0QzTxtnfYqQHI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783340542; c=relaxed/simple;
-	bh=LCvKrUyihnFS4hob/L7N3B0mtCrPOVsnb9cK/e8JCi8=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=l4HSjnaXU2lR4ReZNMEQtgvdbo9e8+TwgPMKcy+kaRZpSkKnG2UZZm9aXa5JeezIvdaXJL22ypMt9cC2S9scMOgghJm50APTEgLdRU3RbiPLy09nqW/oaOlgOOcW3olS07tIubpX+wtQgGHPRvGvtquPplgh+3v53iGMfzUNu40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ao6wcOs8; arc=none smtp.client-ip=113.46.200.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8098842CAFB;
+	Mon,  6 Jul 2026 12:31:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783341098; cv=fail; b=KOl4tmQ3SyxL2vcLOF1Rlv+rxf2U34mB4We8GHmvMhtq8ifYVqh1Cj5+oSpkPA/XuiNGTCsiEpDlndj36TaVZif3jJYUkrvW8DGMdf+lfDs7cik55ZI0ucP9uqamq6vL9UM7Apllqfvsa6DLJWJkEyiJ44OctmxmHHiAb0dO0To=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783341098; c=relaxed/simple;
+	bh=EaxA4Klq1yBmCWQWs0xH+gx8ERx5ZNwSgNxyag0VT04=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=hA+R3Zt9nZyV0IM2UJ2JrF17yN0b7Dc+R5h8CWhxvurVo9QRa4U3wfcpyTaUbXMIhFro2/R89PrgHJA2nJtcVhYsToGT2fTUYzk7UlzXKxKpCnoMM/t6PMKXLcMlEUBh51apXH9rrLqewjLsULEzZuRZtNczIEz1xQfK8bnXqSI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hpYg4Ohc; arc=fail smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ao6wcOs8"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=FqwiknrRupuJ+YbQZhTDPFtrox28ElGL/EoIq2WfmbY=;
-	b=ao6wcOs8Q5O0NVhjycbAW1PzuYgJP4S9ueRwTqolkKu7NjzVYtgU476ZL2YoTz0GZ5CYUG9hW
-	q3AhbPYdUrsp0tNVvxM+DIUtCw7piYh62hyoJk4gJwHwEkAjpB4nlSbIveM55jgeWUnNVqe9Xdg
-	1IY7cu9UXDg/xwQ3nqpH2MA=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4gv3Cw5ZCKz1T4Fk;
-	Mon,  6 Jul 2026 20:13:16 +0800 (CST)
-Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id C382A40561;
-	Mon,  6 Jul 2026 20:22:14 +0800 (CST)
-Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
- dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hpYg4Ohc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783341095; x=1814877095;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=EaxA4Klq1yBmCWQWs0xH+gx8ERx5ZNwSgNxyag0VT04=;
+  b=hpYg4Ohc5WYqnhCWMr5FxMD4MtaShOopY2FVuLqtGEmNc2Te+rP/jTTi
+   I44r4EEnWxqjo2s804N+uzlicdJ0sSAuhFR9W9cneE13Dcbm8QBQEkQy6
+   GFm2ZB5DaNkzVRVui5VPXv84/PwFhVTd1ZURHjNB5YU1IS0Rkf7g6k0OU
+   gV+ir2g393VFWu2N4kRPAB15YAcbGlL5oUIgtYVjX5oxDV4X26Hw/Ee6l
+   f/5uUXnvB+LmNuDsYwA/rQ2g79FkdHYg1OoiDLOtCpBlH+sB3dfRV7K0W
+   bGCoRo0f6qtREDmts2gK5zMhHSDnvfwBuM56FkCNRK6C+2JAvZ1CfbW2l
+   g==;
+X-CSE-ConnectionGUID: p1SvipluTMK3g0v9863JCg==
+X-CSE-MsgGUID: ctLM5sEeRF+59t/P/dHW/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="83842479"
+X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
+   d="scan'208";a="83842479"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 05:31:34 -0700
+X-CSE-ConnectionGUID: ewt8BZI5QwWQ3OpT6p2gXQ==
+X-CSE-MsgGUID: u9h8BQCmSgipEp7d8WDC2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
+   d="scan'208";a="258605050"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 05:31:35 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 6 Jul 2026 20:22:14 +0800
-Received: from [10.173.124.160] (10.173.124.160) by
- kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ 15.2.2562.43; Mon, 6 Jul 2026 05:31:34 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 6 Jul 2026 20:22:13 +0800
-Subject: Re: [PATCH v10 2/6] mm/memory-failure: surface unhandlable kernel
- pages as -ENOTRECOVERABLE
-To: Breno Leitao <leitao@debian.org>
-CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <kernel-team@meta.com>, Andrew Morton
-	<akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, "Lorenzo
- Stoakes" <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
-	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
-	<mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, Naoya Horiguchi
-	<nao.horiguchi@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>,
-	<lance.yang@linux.dev>, Steven Rostedt <rostedt@goodmis.org>, "Masami
- Hiramatsu" <mhiramat@kernel.org>, Mathieu Desnoyers
-	<mathieu.desnoyers@efficios.com>
-References: <20260630-ecc_panic-v10-0-c6ed5b62eea2@debian.org>
- <20260630-ecc_panic-v10-2-c6ed5b62eea2@debian.org>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <157b0e23-9f1e-1af2-bb44-44f1f2cab8a5@huawei.com>
-Date: Mon, 6 Jul 2026 20:22:12 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ 15.2.2562.43 via Frontend Transport; Mon, 6 Jul 2026 05:31:34 -0700
+Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.0) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Mon, 6 Jul 2026 05:31:34 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BntBuSBPU/9FC9acCGtKy/95h8TLatq3reZj6VJ81A+n4FAv5+3GQty+iDUuHPk9YbcZvrTH2xlVEOYqIZMICQ0mxOpWOUtT6nOeY0giZKfIt+Q2008Hj5vjxqvWvBF3FgRq2DM9/MgpY9QthrUuLOp6LJAKCxKXlLEh+LnIcfTgHFD8HPt7retVB3Nd682P8UchXQ/wyKeLl4CoD/esRFTqrOrzJS35xA3sddUloayoe00twoipuhJUFeZUDXoCzFHCdfF2WARlgnCDhWCuzfwqz/FZ8jxmz2o7iA3T4Ny0Rcl2ewIbJHF2KS4DPe4a4sp+pmmwS13GPVnOyAk30g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pulOmPF7K57/tpvfqz3fRgUJe8C3SPYHht74pz1U+v4=;
+ b=KsuXFaW8qUHvKrnF/hvcwjB3kij2wv58npo3O/jmVIyVtdxgiu/AVTvDtKxuiwV2KK/VYA6vJMLtny6ULI0YNI9NeM9whtkhhvww7YiFsQPr+sDzzd15DpENniPODWMLhBRwhqmeumEBFwlEhTriR1ocIL4Qh2sMFpbPYrs6T5TrxI+EE5tkHpktXBJMZptPR9YufZJbxdltFpdUOZZfgMudxqbEnO+6prrVlUoFV5ROky9mxJZBXVsDwIgNlCLfXSqKm724KlRy5b+mObPvgPnmj7y8Ajey+fXVpnneMGDUig/vwrTKGApHeDllU6+PpFOrvA7LqOarmT8OLVwoDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BN7PR11MB2836.namprd11.prod.outlook.com (2603:10b6:406:ad::26)
+ by PH0PR11MB9773.namprd11.prod.outlook.com (2603:10b6:510:398::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Mon, 6 Jul 2026
+ 12:31:32 +0000
+Received: from BN7PR11MB2836.namprd11.prod.outlook.com
+ ([fe80::ac36:7540:4e6f:8d3b]) by BN7PR11MB2836.namprd11.prod.outlook.com
+ ([fe80::ac36:7540:4e6f:8d3b%6]) with mapi id 15.21.0181.012; Mon, 6 Jul 2026
+ 12:31:31 +0000
+Date: Mon, 6 Jul 2026 20:31:14 +0800
+From: Chao Gao <chao.gao@intel.com>
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+CC: <bp@alien8.de>, <dave.hansen@intel.com>, <hpa@zytor.com>,
+	<kas@kernel.org>, <kvm@vger.kernel.org>, <linux-coco@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<mingo@redhat.com>, <nik.borisov@suse.com>, <pbonzini@redhat.com>,
+	<seanjc@google.com>, <tglx@kernel.org>, <vannapurve@google.com>,
+	<x86@kernel.org>, <yan.y.zhao@intel.com>, <kai.huang@intel.com>, "Kirill A.
+ Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v6 03/11] x86/virt/tdx: Add tdx_alloc/free_control_page()
+ helpers
+Message-ID: <akugEqMk29Q9DJUY@intel.com>
+References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
+ <20260526023515.288829-4-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260526023515.288829-4-rick.p.edgecombe@intel.com>
+X-ClientProxiedBy: KU0P306CA0017.MYSP306.PROD.OUTLOOK.COM
+ (2603:1096:d10:16::11) To BN7PR11MB2836.namprd11.prod.outlook.com
+ (2603:10b6:406:ad::26)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260630-ecc_panic-v10-2-c6ed5b62eea2@debian.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemq500010.china.huawei.com (7.202.194.235)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN7PR11MB2836:EE_|PH0PR11MB9773:EE_
+X-MS-Office365-Filtering-Correlation-Id: 42d70645-0390-406a-0cd8-08dedb5a81f7
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|7416014|376014|366016|1800799024|22082099003|18002099003|56012099006|11063799006|4143699003|6133799003;
+X-Microsoft-Antispam-Message-Info: 4/GfDWUNwhcFrZXDhzjPFR+8PR1M9srGxz1oV2Et/HPb4GHAUhoIXSuz34VWEYxHeifBT8/HRlFdotRusRqz1vwYrJyDcdAujCbKY0tJLCXx5MpIA9Hj4AIThfpAslWLgQUYrVb2MnOdUSWe/DaQmdL6Dg5prTaFHEWhax9xNkzy+9EkQ9uMvsAHBNw2uhbPmJmR4GZkytnleyRnu+vwxxMJDcdx8XnPGU6TOViC/UNgMQ5vYIvrk2vmn61cYq9R5jX97si7jeSdxN1J5k8yNcOGEXq/3AAsmmR+D3Ta/aIrwnv9u9e5Iqy3HAAzFES4d9oIEKDZ0Euw2zJ3G1IR3MZumc2/XpfF+pEqY2wTjILugDGuhZZ/vlWGyKBqbT2XQnDnRkECEtGxL4Gw1JtQKFGhvu93tSgDRamMYVw/9yAX133hPa7Eub/zVJzn7WZmtdjx1Ro+5Jne5DeTqaNVGMYmlqtX82TW6Rfc2PAlPOcI2bjG4eaUwpj03mcJkXMDeOAS+RhXgTCAbl5EGaUTncuBM1kJyqnbWXQATIf2aTcIxnsPRpveWDYYNDpSFI3lFUuVBodyHDNzhV4KxHZxsPrC39f5CUIPWK7bldXTktt/uLqv6ajxO0Pv548uPg6Wzh8X6tffHbnalb0UVusEfXQuzDYu+l8jhRyTc1DTilA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR11MB2836.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(366016)(1800799024)(22082099003)(18002099003)(56012099006)(11063799006)(4143699003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XGPKlcDEvFRCroxNk6tImD2OgdFc2hU84RAiEAsDx64sy3+a3A21CCR/sBZ5?=
+ =?us-ascii?Q?qAhLQm9alcPooF0mLk4+/vcHMRC35+rYoKb+zh5u2C2iKJZK2Y+eprc1yRfe?=
+ =?us-ascii?Q?lo6P3tAY8giur82s5ZB+C7u1PoG6jazm/fxPdCFOwNsKtN/lOpZiQaQ4LQip?=
+ =?us-ascii?Q?es5Gsw8JrssrQsHkhHMWi+//mQ1ujhU2+KT11uE76yU9UzfwqziIzgy0p44D?=
+ =?us-ascii?Q?X9/nMr0+cwkPUN62NDlaeGMzWX0jCrlyhcI8ZuB2wYoyFF1yTLlO7/HcVwBm?=
+ =?us-ascii?Q?DSmqygkrE17rc8Yp8At8ObwbM8eoDn0tVh70bD+JrFSizISGjcYeM/P7RnmX?=
+ =?us-ascii?Q?DV16YRzh4hDa/qeMvXZU/F4mTs6woTrhhxUirck8RMl95kJzgnclgKUrvksc?=
+ =?us-ascii?Q?U+DZ4p/odWjV/ZE65FIL/8q49/JlBlsn4IcpWGtYrm1xXLynsU+crZ7YjYqS?=
+ =?us-ascii?Q?9tpC0yEUJ8wPxYweY1knpUVj7tn4Xz4YHex/Pc+s7wvaD2B2CbEtKKxJ42Lg?=
+ =?us-ascii?Q?1b2mcFnvDyA5R3Wax1pnn0kHJQjXidIbdGpLkcLl4Owzk4LHzVLA2xuXj8mE?=
+ =?us-ascii?Q?GkbeKhxO8bXGbZSlrYFu84e/oeoda82IcDvoH21MT5fA6k6xx96lRaOheQTx?=
+ =?us-ascii?Q?EBe/B9Z2otRZeWdyhIwcvDad78eNnj73HiXumPD40WjPmRA3huP9Din86guK?=
+ =?us-ascii?Q?c60fJpt2XmM47KWwByKiN/n0+V8stcOiql/uRU2D8jgTx//tMaf7yYPHKvzJ?=
+ =?us-ascii?Q?FBvBlBgVAx0fFwaCyiNjlQrYkn1QZDDh9zMQ0H9BVL2dnyUMKsT+yVta4ulm?=
+ =?us-ascii?Q?R+2QmHELfF9nbVwVzdFmeLfaaFqYh/Us6lx3QpenpZTlJJ1wHlaVvf/HiFmL?=
+ =?us-ascii?Q?y5FgSsjQIOxGqSWG5IbLPctVTnvqFYJ5ev8PitOHnxvGztVrKkIpPB7bL28A?=
+ =?us-ascii?Q?0LRvBSwS0UcasFpjG1BnG2eduBgnM6GLpJY80mHx2FUNpitTohZo4vPwmoTi?=
+ =?us-ascii?Q?c5u6dXAIEmrlfzb4e1Tr+k/IccY+k7ZqXl6k+gvzgiSB74afKoSlo1856pGw?=
+ =?us-ascii?Q?3MR77hs5iIC75jKblFyMMGDlic7yRzWcRD5rrLUKfEm3q9TzV0C0f96u8cgk?=
+ =?us-ascii?Q?CPBDvyVYA2LHKcgr98meQbMu1BZEvrhoRI8uOS3WkXf3bRFku2O1RETLhHTQ?=
+ =?us-ascii?Q?zs25XL3Bz5hjNJq1gKaY4bJqTtn+trzfYHUrppLFuOdjAKJhDHwbOp5Ztoam?=
+ =?us-ascii?Q?v1ylr8vsVJOyCDYvDTSJC2BQrxYNl7DCxqkuNkPNhq6XTIZols1ln2C5xFc3?=
+ =?us-ascii?Q?JCdltyd+UvpiQ45Ian0PAsjmfyD/LFybB3ylT36J//pcISWn2HyJhw0QDglB?=
+ =?us-ascii?Q?aESsM6IIGqHqTHB9HakWp7449CixFgUoljzeKAjrTnXPYMOhIsZ5GYO1NUg5?=
+ =?us-ascii?Q?bmiVr75LuOXJtvYerhia3n7bev5tWfHgdJNWQ3JKl7zCPby96ClQn/hT7Ldb?=
+ =?us-ascii?Q?RdC+JV92D2RwWLVrn8tElPBOXpks20u4DvKf2W9ccYKzgs4UgjPaFdU4yLp3?=
+ =?us-ascii?Q?0aQHGDynUNaPhH/oQiRlo+MOQUgICBYg9HaTpsr+N2PUkbilo9pumbgwvNmx?=
+ =?us-ascii?Q?jiGuUOL8tX5VZK51lp0esnqB7xXrvZ6DrAsGNlfg23XHhCmqQLlUMBa6ztat?=
+ =?us-ascii?Q?2hl7iPhsE5LmsJacUK5TCr0JrASmk5G6f0pLO62txDl9Fsq1ev/5G3rSW6q2?=
+ =?us-ascii?Q?WZBsCSh+Xg=3D=3D?=
+X-Exchange-RoutingPolicyChecked: og5912EJBTRwnIFCcjQgh1l8N4tiSjeWeLeBuvhq3oxCnWDGy15q7hfO1F0dF5RQS9LUtleLdgdvZ6CiM1/2Uig7vVbiBuHkyxeo5s2q8asQwIwd4TuLwOyMTi6pAdNPAZ8HQmMWxdTsiGtfWdu2AgYtIHE55ACZBVaO43wCzkAa8NmkM5Y8iLpsZ097EZhvRwcr7f22ixg76BiRQt8kJB1wEj5pUXxZ2e7TcerGlrcs/BK1cxbogO7RC/f3scdghsurz8OgqWUrQ7gTcZoNLaJV1Qu9KKxaB0xr0b1t/NFjNlESN7sj7K1ZMH/Q2qhr/Ob5z1/PJr6VjLTW2M4+5A==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42d70645-0390-406a-0cd8-08dedb5a81f7
+X-MS-Exchange-CrossTenant-AuthSource: BN7PR11MB2836.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 12:31:31.9186
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MmbJA/596M6+MQNtMP1EkCpdLL03mCb3Afv+lTCgoe/WLLfbWC6B5PLqOEEIOpYMdqWgX1gj542Uz7bX+NyRNQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB9773
+X-OriginatorOrg: intel.com
 
-On 2026/6/30 20:46, Breno Leitao wrote:
-> get_any_page() collapses every HWPoisonHandlable() rejection into a
-> single -EIO via the __get_hwpoison_page() -> -EBUSY -> shake_page()
-> -> retry path.  That is correct for the transient case (a userspace
-> folio briefly off LRU during migration or compaction, which a later
-> shake can drag back), but wrong for stable kernel-owned pages: slab,
-> page-table, large-kmalloc and PG_reserved pages will never become
-> HWPoisonHandlable(), so the retry loop is wasted work and the final
-> -EIO loses the "this is structurally unrecoverable" information.
-> memory_failure() then maps -EIO into MF_MSG_GET_HWPOISON, which the
-> panic-on-unrecoverable sysctl deliberately does not act on.
-> 
-> Introduce is_kernel_owned_page(), a small predicate that positively
-> identifies pages the hwpoison handler cannot recover from:
-> 
->   is_kernel_owned_page(p) :=
->       PageReserved(p) ||
->       PageSlab(head) || PageTable(head) || PageLargeKmalloc(head)
-> 
->   where head = compound_head(p).
-> 
-> PG_reserved is a per-page flag (PF_NO_COMPOUND) and is tested on the
-> page directly.  The slab, page-table and large-kmalloc page-type bits
-> are only stored on the head page, so those tests resolve the compound
-> head first, then re-read compound_head(page) afterwards: a concurrent
-> split or compound free that moves head invalidates the just-read flags
-> and the loop retries.  The lookup still takes no refcount, mirroring
-> the rest of get_any_page(); the recheck closes the common split race,
-> and a residual free->alloc->free in the same window can only mis-tag
-> a genuinely poisoned page, never reclassify a handlable one.
-> 
-> No MF_SOFT_OFFLINE / page_has_movable_ops() opt-out is needed: a
-> movable_ops page is always PageOffline or PageZsmalloc, whose
-> page_type is mutually exclusive with slab, page-table and
-> large-kmalloc, and it never carries PG_reserved, so it can never
-> match any of the checks above.
-> 
-> The list is intentionally not exhaustive.  vmalloc and kernel-stack
-> pages, for example, do not carry a page_type bit and would need a
-> different oracle; they keep going through the existing retry path
-> unchanged.  This is the smallest set we can identify with certainty
-> by page type.
-> 
-> Wire the helper into the top of get_any_page() to short-circuit
-> those pages before the retry loop runs.  On a hit, drop the caller's
-> MF_COUNT_INCREASED reference (if any) and return -ENOTRECOVERABLE
-> straight away.  Pages outside the helper's positive list still take
-> the existing retry path and return -EIO, leaving operator-visible
-> behaviour for those cases unchanged.
-> 
-> Extend the unhandlable-page pr_err() to fire for either errno and
-> update the get_hwpoison_page() kerneldoc to document the new return.
-> 
-> memory_failure() still folds every negative return into
-> MF_MSG_GET_HWPOISON via its existing "else if (res < 0)" branch, so
-> this patch on its own only changes the errno that soft_offline_page()
-> can propagate to its callers.  A follow-up wires -ENOTRECOVERABLE
-> through memory_failure() and reports MF_MSG_KERNEL for the
-> unrecoverable cases, which is what the
-> panic_on_unrecoverable_memory_failure sysctl observes.
-> 
-> Suggested-by: David Hildenbrand <david@kernel.org>
-> Suggested-by: Lance Yang <lance.yang@linux.dev>
-> Signed-off-by: Breno Leitao <leitao@debian.org>
-> ---
->  mm/memory-failure.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 50 insertions(+), 2 deletions(-)
-> 
-> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-> index f4d3e6e20e13f..087658484e242 100644
-> --- a/mm/memory-failure.c
-> +++ b/mm/memory-failure.c
-> @@ -1325,6 +1325,38 @@ static inline bool HWPoisonHandlable(struct page *page, unsigned long flags)
->  	return PageLRU(page) || is_free_buddy_page(page);
->  }
->  
-> +/*
-> + * Positive identification of pages the hwpoison handler cannot recover:
-> + * pages owned by kernel internals with no userspace mapping to unmap, no
-> + * file mapping to invalidate, and no migration target.
-> + */
-> +static inline bool is_kernel_owned_page(struct page *page)
-> +{
-> +	struct page *head;
-> +	bool kernel_owned;
-> +
-> +	/* PG_reserved is a per-page flag, never set on a compound page. */
-> +	if (PageReserved(page))
-> +		return true;
-> +
-> +	/*
-> +	 * Page-type bits live only on the head page, so resolve any tail
-> +	 * first.  The check takes no refcount; recheck the head afterwards
-> +	 * so a concurrent split or compound free cannot leave us trusting
-> +	 * a stale view.  A residual free->alloc->free cannot be closed here
-> +	 * (frozen slab and large-kmalloc pages cannot be pinned), but is
-> +	 * harmless: where a wrong verdict could panic, memory_failure() has
-> +	 * already set PageHWPoison, which bars the page from the allocator.
-> +	 */
-> +retry:
-> +	head = compound_head(page);
+On Mon, May 25, 2026 at 07:35:07PM -0700, Rick Edgecombe wrote:
+>From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+>
+>Add helpers to use when allocating or preparing pages that are handed to
+>the TDX-Module for use as control/S-EPT pages, and thus need Dynamic PAMT
 
-It's irrelevant to this issue but should we use folio?
-Anyway, this patch looks good to me.
+For the whole series: s/TDX-Module/TDX module, to match the existing
+convention.
 
-Acked-by: Miaohe Lin <linmiaohe@huawei.com>
+>+/*
+>+ * Calculate the arg needed for operating on the DPAMT backing for
+>+ * a given 4KB page.
+>+ */
+>+static u64 pamt_2mb_arg(kvm_pfn_t pfn)
+>+{
+>+	unsigned long hpa_2mb = ALIGN_DOWN(pfn << PAGE_SHIFT, PMD_SIZE);
 
-Thanks.
-.
+The changelog and the comment don't explain why the pfn is aligned down to a
+2MB boundary. And ...
 
+>+
+>+	return hpa_2mb | TDX_PS_2M;
+>+}
+>+
+>+/* Add PAMT backing for the given page. */
+
+... this adds PAMT backing for the whole 2MB region containing the given page,
+not just the given page itself. Is it worth clarifying in the comment?
+
+<snip>
+
+>+/*
+>+ * Return a page that can be gifted to the TDX-Module for use as a "control"
+>+ * page, i.e. pages that are used for control and S-EPT structures for a given
+>+ * TDX guest, and bound to said guest's HKID and thus obtain TDX protections,
+>+ * including PAMT tracking.
+>+ */
+
+IIUC, S-EPT structures are not allocated through this helper. Why mention it?
+
+>+struct page *tdx_alloc_control_page(void)
+>+{
+>+	struct page *page;
+>+
+>+	page = alloc_page(GFP_KERNEL_ACCOUNT);
+>+	if (!page)
+>+		return NULL;
+>+
+>+	if (tdx_pamt_get(page_to_pfn(page))) {
+>+		__free_page(page);
+>+		return NULL;
+>+	}
+>+
+>+	return page;
+>+}
+>+EXPORT_SYMBOL_FOR_KVM(tdx_alloc_control_page);
+>+
+>+/*
+>+ * Free a page that was gifted to the TDX-Module for use as a control/S-EPT
+>+ * page. After this, the page is no longer protected by TDX.
+>+ */
+
+Ditto.
+
+>+void tdx_free_control_page(struct page *page)
+>+{
+>+	if (!page)
+>+		return;
+>+
+>+	tdx_pamt_put(page_to_pfn(page));
+>+	__free_page(page);
+>+}
+>+EXPORT_SYMBOL_FOR_KVM(tdx_free_control_page);
+
+With above nits fixed,
+
+Reviewed-by: Chao Gao <chao.gao@intel.com>
