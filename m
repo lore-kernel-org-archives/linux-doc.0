@@ -1,48 +1,48 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012031.outbound.protection.outlook.com [40.107.209.31])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011027.outbound.protection.outlook.com [40.93.194.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6FDB3B19C1;
-	Mon,  6 Jul 2026 20:33:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964823E63A1;
+	Mon,  6 Jul 2026 20:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.27
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783370035; cv=fail; b=tgym06dTHnL16LQr1hnHrfuRAEbMDKe3aZ6fUc/O9Qumz03SP4mIgze/Ee3BsjSvvMTuPTQijx6I0Bs/IxYEYDG+mxayM7X2hosWIkqUasYLJLGng/hFVbdOXzF7btkgUtYi6v7g9bR6kPs9XMlW53t+2hqnKbivKD/FDud0sjk=
+	t=1783370219; cv=fail; b=dpDU2hRALdU1u/wYWPT75wNT21qVb+OMljg3hsUhN2nDk1pXW4PKak3x9CIzUYI/9nWUcgtRbgbDukbFm/RO+obMxbkNnkClRsoxO7WR6Bn6/3Iyd8QEvhICNBXAWPJanoiBe4wxZvLsuxqBkB6r0ZWcTljJlQEUrhDLKOSX4uQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783370035; c=relaxed/simple;
-	bh=HBRd6OXUvo6zEOPl/J2KPsW812cGZaRQAnx1gZxKp2I=;
+	s=arc-20240116; t=1783370219; c=relaxed/simple;
+	bh=zP1sXclMLhyxNgHd3BkjGRioZheSEhLvJmEcmoJQ+3g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=OW8SWQDUpeOtm0h3xfdbVbh7TLonmbWMJQTDNaQzzUKi9OzW+QUMrkYOkBxRsgBhBLxwhzvoLckP8FMcq5jcO0Llc2Q8hAIsYPoEpd5BnmUIMrJg/9n7qv6szcqwBIi96qIZwZskID3FIjbRzE83JDvR4RKIIUYwWKRx0rRMurE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=BVG3yaJL; arc=fail smtp.client-ip=40.107.209.31
+	 Content-Disposition:In-Reply-To:MIME-Version; b=GHb45HWgwWBensVSTrWzI+F7BoIKaUVrA4jrlEyZO3aSJEtPG/cz/4C7NWv4GgCNoKw1u3Tm8qoug59wvuZQ/1umMlgIjzwFQsPT2H9RIzTdnzluj/PiymBSotTlaEKfmHMKeXwTHlzfTvRrlEXABQWaKLyEeGwRkVuaTQHAZYU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=aUTEjlqW; arc=fail smtp.client-ip=40.93.194.27
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="BVG3yaJL"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="aUTEjlqW"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RYJat2Go+a2q6HecbScWGaG1GXv0TR4SDf4ecowzsT7GrjNORzjTegNc8MaM69i85vki2wUvfu4JLihWSeEzQGyhREbFImLLblcd3e2kDC11cnA41VL2oxcLjAcLK+X9CMq4RQAP+kPj/sdqKEXj97rT5xuL24Zx+uWSiS6pa81DcAIulE1qOEDvID57f4Mw2e2gWm3A0alwEH7dRLa8KPKjo4OibUsfuXyXMIEvXUkGjDbTdSeueXMzNE6661v+skkru1dGJ82nxrW4xu506VNNF8qXFqFQvK1fGWc3+2qic6uYjqJzCEkik4jwWdP+2BHj3KWyxN4yY8TF2UV/Yg==
+ b=WLbe7GFpU6a2ht23ZlPys6VXzlCwgPCgq0e+9XgP5YVAN8RyrBccbYLGe2aMK3qvAqoqGYH0DqGJyH+n+1QD0hmS8clR6s9VGI+ZJg5kBEuaxm6iCxr+SP1jkC8saWpGDMyvJZC5Mi6A+qa2GjpfqVJuYa1XnUPaAuWzWqnmWqM06UsF6Amfwuvx1AoBNcFHR9koj02nApl8b+In1q75Kt/rof9WSCOt7X3W52TiVLekHez7U1VkyRcm47o3gKTho4AJxzKKMRAdzZDRttNWUzb+wKkTYsEGTROPELRQ5nwyXXb+qhg/FcDEWY3tx+v8Y+MSb64mJyaoCOaap11xwg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bLwcIblU2p518hEFIIt07DKWwvIpDG2i8E5mDSfJQw8=;
- b=SCS2J9M9NioYaMhTTZpguPfzktM+l2uirxWULRNU8E4x8/9OhNy22Z/JQ1xOdLdMFnUM9lpYRBtZFT2JSlSZtJVaiuYMmgu5px+1V+mXzhMFFwVPqfnkgq7TmNP2B0Yl8AfpbjIgRjLEcnvtks+oMIysaexAxV+pYsOa3Pn0539N6ylBbVBFXj5mriWkXuI5WLWPC35hcp0b+3s15Xw8HZCTU5mkriVDhxBaCFhyEGHDZcM39a1UcKnQscR33ATGZLed0ZvOsrqpFN+64N1Jno0YOR82OR1qlK0fLhK6k+B9cCmC+qqXpHh5n9u106kKyx5ortsvuXiHGcVCyjZa9A==
+ bh=hqsJi57wKoaJl+qx9HTCG/Nze4XDjUHZLzwdIrr1o7A=;
+ b=HkMBVAtfpSkRbrDxgqG64lAB3Tf5cz9TuQpnbMP3xV0sjUk4iHoHgZOWNutfQBEMgLLYBAw2sOjkeqRsr4wsV5JwsWEo+tPdyEZ3laZmUrHgXSbBv4IobLfPsIrnZGNUEvO2ePnE2R7FY1qHKJXp1RgjohcrCIiN65gQPSuWCZxeJ6I406n1u37q7wwN1hpy4K76Jp9GD/BnuErhF8QZQSfq4M5c7PE3SH7exV1KETCghtwCmLYFjJvUZjmUDiBxtkZdhFKYJMQrX9iw54iH2RTI1uuZxXE2KiSqk+1NwTL9rxP5tlbDOxWOG1jayXJUsXSwe+zLRUeeLoEr/Pye3w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bLwcIblU2p518hEFIIt07DKWwvIpDG2i8E5mDSfJQw8=;
- b=BVG3yaJL5zsaBgX3SaMfT6k8SoZlClJ3WxQrbRT8ryLqCD8Cbt9ybzeBiqQ2+DPznwpqjcHeEI3ejpc0Hygx0ff8jEKsUPy6n1aXF5/50SjEqJqs/ZzRrCuAKev6PPpFHXMvfD0hm0LVtdKVhMgOO+l1QngXgh7y6zmTScXr/sPfPlrneQP7ENmQcYS4j51NVvS9HxiYyG12lQYZZ+tJCFqtvrSt0PHBFE46Ggj+EFEuAYkt61XmxwIpP86UimuXWTh/xRgTUI9ICY1AmE/+2Z/+sJzDriNV/CXAXlJVC8ftLKxIpz6utXnEtXavWceEZEzeh/1ZSZ6rdbD1+DzajA==
+ bh=hqsJi57wKoaJl+qx9HTCG/Nze4XDjUHZLzwdIrr1o7A=;
+ b=aUTEjlqW4PmHpJhoPUNKMHyfe4NI4yJhO0UXXZF1P1TnOc38qhvDjte6fNyIwAWAFPYp1Qo/AGrFosA6pUlE0hPPk+3RWTDyQclgteVRwtdsym1pzKh3WK3e13weYUx0y8vr+Kk7A3VwsqfObArE+KQFtWBsRdAHbhjVQgwoJLtmfOb3uWaW+wfBlYflRhGeWZ73594g8EPnWnOyxNYFfgEkoyof99KYzMWPLtC7Lj88leOGWdOphFOPDJEpz1k6yFB9xQ4fQf3ovgERc9miTHmVZksvy7nONAV64oOxB8aZApXyuNnkGSlaM9CitI+HcBMRm2zSZ62FBcOYYClzqg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by DS4PR12MB9588.namprd12.prod.outlook.com (2603:10b6:8:282::17) with
+ by MN2PR12MB4333.namprd12.prod.outlook.com (2603:10b6:208:1d3::23) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 6 Jul
- 2026 20:33:46 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13; Mon, 6 Jul
+ 2026 20:36:50 +0000
 Received: from LV3PR12MB9356.namprd12.prod.outlook.com
  ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
  ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0181.009; Mon, 6 Jul 2026
- 20:33:45 +0000
-Date: Mon, 6 Jul 2026 16:33:42 -0400
+ 20:36:50 +0000
+Date: Mon, 6 Jul 2026 16:36:47 -0400
 From: Yury Norov <ynorov@nvidia.com>
 To: Shrikanth Hegde <sshegde@linux.ibm.com>
 Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
@@ -58,16 +58,15 @@ Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
 	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
 	rdunlap@infradead.org, kernellwp@gmail.com,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 20/23] virt/steal_monitor: Act on steal values at
- regular intervals
-Message-ID: <akwRJnQklymOjNTv@yury>
+Subject: Re: [PATCH v6 21/23] virt/steal_monitor: Add direction control
+Message-ID: <akwR38ZsyB7tfNDl@yury>
 References: <20260701141654.500125-1-sshegde@linux.ibm.com>
- <20260701141654.500125-21-sshegde@linux.ibm.com>
+ <20260701141654.500125-22-sshegde@linux.ibm.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260701141654.500125-21-sshegde@linux.ibm.com>
-X-ClientProxiedBy: SJ0PR03CA0044.namprd03.prod.outlook.com
- (2603:10b6:a03:33e::19) To LV3PR12MB9356.namprd12.prod.outlook.com
+In-Reply-To: <20260701141654.500125-22-sshegde@linux.ibm.com>
+X-ClientProxiedBy: SJ2P220CA0007.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:a03:5da::13) To LV3PR12MB9356.namprd12.prod.outlook.com
  (2603:10b6:408:20c::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -76,160 +75,115 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|DS4PR12MB9588:EE_
-X-MS-Office365-Filtering-Correlation-Id: b0195b29-802b-4791-c2e8-08dedb9de06a
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|MN2PR12MB4333:EE_
+X-MS-Office365-Filtering-Correlation-Id: 83f78efd-b0c0-44d0-7f26-08dedb9e4e9a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|376014|1800799024|366016|22082099003|18002099003|4143699003|5023799004|56012099006|11063799006;
+	BCL:0;ARA:13230040|7416014|376014|1800799024|23010399003|366016|22082099003|56012099006|18002099003|11063799006|4143699003;
 X-Microsoft-Antispam-Message-Info:
-	Vuq7sKwlpgmpEC9vgK5DueKVs4rjgJ6DTkJa+Q/mHKnZM5Z3gWeSDIPcKNW1HBGm8guknVBx4XVdKO+9ZavxVvGsHFiBB76D6OeL5LCfB+daWzVplgHwRN4vHsZAPHK1NRZRpmAt+/uS6fkis6WL2MydX/TfmxZWE9YDtPauWXL1/mN9Wgfld09pcP1hsCBpi6GD0p6lTh03IYcsXPGaFOB9XGln/ySQ0G/Zdf7Ax7UIIBkC7m3ayzWjokDMKZt6PG+E3o4emelcW0EHGjFp9amE/wzf00kgaTdVuIUnXWWT+w7yhKcswvjoo/5YqH96D8X2Ir+ZHquwB++2zx3AgPGSpibTGrhjVNnIFhPqgrSTdu043F3frMljw0NbnuzHuVgThANz4ho4smsBykfrRSOBaZSNyoz8QdlxUiXk92znR5t7lkL63+N0kXnAgZt4opE9hkJfAzciBktYvadFXig+KYnR4sdGQCYQgPkZ3zUjL2FC90XaqQBFJxSTFJGgOKDf55cBeNR7CvGpTGoX7NY/50z83k/hPgg+AJiuaTNeBdDYQp6Xe/XvOu/RhGglWnBa1gBW8lt4eMOa95zL0haubvpLhlXJ96ftMVD3fYrqWb5B7vEn5q5ZMIcVFdJwYqCZtxsp61FSUKklKt/KuV1pjFeGuQY9gkjFh6//ZaI=
+	8bsEIC6AMXMdTe0Y4dGXiCnCoA5lIRMs1mi6oszNE6X4QQdOQhw/w7tgjRnKdd9CycIPOeBwNdAkKdtopIS6PV/GqfS4Wgr5AZtAzaPVGmYJMtRfeS0QvwMDCNPzL/ty42/AbB9TGhyP9EQhL5L1cptiUY3QK4UehLYvxoQuDbWGbmpxRAJ+z0ODeIJo3LdZdX/6Cm9bAVQfnGO2ye6YWhi1prsQ0teHQOig3ewCQ5M1RYAw/y1e6LIsRsLHqTnIWF6Umd6AnjAKauZBOZjpi5isBKAcS5LCnynvWtkP/LAirEwH3W/v5G3s0/bmTcaFlSIX4Jzt07+jyzFjLLYmL2ZKgD0qAZmkOMJLUF5YDSFxoPUpDPRk2YX0M1T7dcJa7dutlSfl8lb+CPvT3g6HU/xfMdIrR0ftnv9IgS7f3uaHVuhdpwi+9Q5Hq2Zu/xcdtAYStxF6KCTMtZYOr4jJRi2D0p99NG+l/Ah3qZ0fzKXXCLDxn0Ctpjdf/XiwWOFN30tnRonCWhc+A24cVbDhLv/dURt3SR4vX0rt+/3zZRig1tIdnKjaZF9eYBdZj0t78AkJV+2jiqkhoY2iKr9y288MBm2Go0Ix/qz9sO6oGb3iuN9Wjtrjb5tzIuEP3tzdhKgSsYQvccfY687SQWNp5nqiPGCsDlFujNTtxq5DNMA=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(1800799024)(366016)(22082099003)(18002099003)(4143699003)(5023799004)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(23010399003)(366016)(22082099003)(56012099006)(18002099003)(11063799006)(4143699003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?lXK4Q0SXuUsE1YGPc/NsG3eAsJD7UK4Y0lfxmUCyIH6Y0/Visk8FvEuHz8TQ?=
- =?us-ascii?Q?sppkshn2HQ8sjmPITSZneOuOuTlx3KU8eYN+PeEtIOsh1PENp6ZiR0mHwwNE?=
- =?us-ascii?Q?dnwqp+fVpqH8tMyEou7pvdCdUb5vD6fFtfG67V9bSfofXutQYVXxKBtbdp7f?=
- =?us-ascii?Q?tr3ACTfZjeF4xCJ+kBKlNC71R7KwtZTyRbfm0ir6mHY0yJM0Ja51PIgJrf0+?=
- =?us-ascii?Q?1cAe5mP3dV4nwzulvPfY69ODELIf4XFtkIRUFEyues0YhwerDz7DmPwGm8TA?=
- =?us-ascii?Q?PjleF6DMubhntUnlsZgC+ROacr6ko3EnD/R1EnF6j7hrQpNBPg/+5TzqQEXP?=
- =?us-ascii?Q?ZqxMbwh1VpRSqNozj5tuFLFQUpCozxfeqwqqJQtNYLzOnr5Zo0QdAu1cu1hx?=
- =?us-ascii?Q?aViobEsbk9QlJ4zT+It8RhoD2X2T7tCg+iTj+zbMcUNX2CKsDqs5KVbd2LHq?=
- =?us-ascii?Q?9pBmlcBKY9WY7dWKzPPvC0dDPSrKoL1opvaLNFJ3WfFXLgW0u83Yj+usUWQD?=
- =?us-ascii?Q?6+T6dNZRI/0dfSPV+UjxcNSrg2Ct8+iJfe+0x86EPHzT35I3EGDhhV6JMgBi?=
- =?us-ascii?Q?1ILSOCc9hwSLHNgGTtrYAwOzFnv6XGxI38zLSiAT86O3kr6rg2uSoeesnbKX?=
- =?us-ascii?Q?k59p8kCa8rtpZ5yL6F91yluZvsjCmS/KlTU8/FcfTQfyN9/h9LBT1D6cR4LY?=
- =?us-ascii?Q?T41U4uiPtOrfzynWOGPtz9QXCUxV3wC3R8ynhOLbbM2NjY2gbIN+kfXbhRtH?=
- =?us-ascii?Q?5qVFlbIYA6q/RgXJ/Q6k/fekG/UGUN75atQ/omBTpDtvdmzF478TJHMF/k1E?=
- =?us-ascii?Q?zM1x17VCkFuHw+g03YTpci3sPi2vZwsupQIrAYNj9sPEFxVYa5CSfoJAWVNj?=
- =?us-ascii?Q?exrgfgDRynX+Afs9I+Yfe0iU7ModBSoeWLJRYQvICFMT5fvqYx/k8ZLaOMqz?=
- =?us-ascii?Q?Lu0bknfrtCvEwHWWL+KoSQmiaFmE2X8nZYDSU4HQbB9bkbjdOs6yzJok52wX?=
- =?us-ascii?Q?n4V7z7AxPB/5b6p3e7e/+y1+C1OpUKYDUw9xX/YCuoKE5gXWDmcQjaMX/hXO?=
- =?us-ascii?Q?XoL/PRPDrBLNeRrSiiVgqOyLKlDKE+iKchNDiA8519LTolrp5zRsmIMZMbvZ?=
- =?us-ascii?Q?5vwQXHhZnA2lsLulc7dBmJBc+ehgIprXMAKDUxBrBk6xjvnWJ3Ptxu3eGVcg?=
- =?us-ascii?Q?L5frcs4GG+VmLDV29ftUwn+TG7S/6wNj1JNVNww3M/JEXlLadkj5YwC2H5zs?=
- =?us-ascii?Q?aQQJHXrRuQSWWi0RkhX5SiMybzuL1Gn/xdejoHi7THZzymX5g9CVoWSDrvea?=
- =?us-ascii?Q?zQbj+rrNNJanY+HVWopXvKRv3WIasOhbkFuPOAMWfSIFbaHKC1dLJD7XMlzI?=
- =?us-ascii?Q?Ad2O6WerGqoXWg23IBtiIeiePjYIoWqxrp8o9PK0JZQVWVlO06Kkzjq1o9ym?=
- =?us-ascii?Q?eonluxaVRMQDe9W2/qR7hBORkgv/8KYSAbQNz19anb4TTX2Dt5o0J33AW440?=
- =?us-ascii?Q?49sfAKWLLbj+Z9F3RBmhhiRO9H4gJGsN1YVkccmjEgOWzMFB4xh/FR9mJKQt?=
- =?us-ascii?Q?qHF/jGjuDO+X2wlohW411d9zHcviA2DXkw5OZxt4sTlv8NwWidsYO8K5r6lT?=
- =?us-ascii?Q?5D33tqqq5TIQFwJyG+XcviWZmNBciQ/k9czJ+8ywSvqXZyKZISWfAyXqAPWH?=
- =?us-ascii?Q?IxlEJ2gFlH5WvbvWldT07TFcOyXWzx6KqzYKnkQVQQ097KG0brzyIPr3vqfc?=
- =?us-ascii?Q?aQLGZIO7Og=3D=3D?=
+	=?us-ascii?Q?7RvguJR/JLy0z2h7Mwh3qyZfxMLEKT/EHnIMAfX/ud0YYOkpDr8wlWAF3CQZ?=
+ =?us-ascii?Q?0IBx9aHrCY4/RfrTcjO1ilRYQgmeQvPhCHAnXOxNiPZLJmESOb4+L7t40ZDA?=
+ =?us-ascii?Q?blFcbpn7HjWVgvgXW4wJf2WL8to+8a+o5Tq6FmT1f4maUeATzoyulJX+3nux?=
+ =?us-ascii?Q?R1DoKASPOFzzpmq8J+aU9RSZhlJBp/kDzX0JQXgjFNAqYunzcAYhJQNJSeQD?=
+ =?us-ascii?Q?bCcyb8YnyptB4mJLdOOQBawnsfde3ayuMqtIuGWmXAeVTusFirmCgkDAm8PW?=
+ =?us-ascii?Q?9KpFZcFeiJiGaCKAqnoVX+ppv+eZZnZeU6uYozXloSgARQg3v5AR2qPEJCpu?=
+ =?us-ascii?Q?nk91NnPqGC/UNhGagV0RahMHvZS7HiStQsg6uubQRVSc9QghYKMjE1bwL6VS?=
+ =?us-ascii?Q?yghgjFGOOy5slgbyoFnnK8txhlGjZnAGNwdGHLuQ7FWM/GGIYwolEFO3lHD/?=
+ =?us-ascii?Q?UUZhAOA68y0N8FrHmdFr9Z25O215IaCdJzjB1uR9KceKGKX/6F6ZTHkGTS/y?=
+ =?us-ascii?Q?kbjxZ0iX7of+F25WPgEEOnHsD4z5lkhMgrAcVWPZGW2Gst1pDHKSsenAAI9+?=
+ =?us-ascii?Q?+Qt8Vy7JZFES8mF8C784K1bFuJxMwKNBuLTia4A8aaJDpmNSS0NAeEuwlUc+?=
+ =?us-ascii?Q?HH4+NqNhYaUdBBYexNTJvlwS/iLSknIt0J6y1Xxv42M8VTUOPA0bvzn0gxjb?=
+ =?us-ascii?Q?ZUOKz8tT7xVm0r4sL2RtqxGZgKfIZDplDi+G0oZyW+/wu010i5oThtf7g0jW?=
+ =?us-ascii?Q?XkL/zviisxzV0clKo34VrY2XMQmUBPDEp1iucy2lWOXw8oXSfwB5oQwb3CE1?=
+ =?us-ascii?Q?badfxEL7m1iH/99rLdLHfljVqn0CCaZTzfxgkB1SCp/FPx2hOgWkDhpI0dp8?=
+ =?us-ascii?Q?V1ypFJLLoT+QhtVa1MN5FUYGt0xv/+vxFcKU7sFd9k3HIOZgguSflrDXhQwq?=
+ =?us-ascii?Q?2C3TuJMNFMEld237TR6lkVWEgy8Rc6BIWp2I24tcMVkVzlvfoK97Z0K48chp?=
+ =?us-ascii?Q?jrWTMsSk/nfrExESNa5clQOyvb+VkLGew7X3POD7il+2psSZJJy5zSoafsMB?=
+ =?us-ascii?Q?nHKQVznbAp7+jtL5sEp4isr+DWhZMe6kmBqCRpiwAkyULDpd1nJ8Xe2J505p?=
+ =?us-ascii?Q?pa1zBEtfFk5N+k46i9ugUM3JwGjFe1rduWDbiKvEWtyMnmqX8C6WCwzeR6w+?=
+ =?us-ascii?Q?uFpWPJA7CkXqS8MRLW96o8aOaVTJ8FoDo+DXcioYHgUOMH3YTDfSUyByHF7J?=
+ =?us-ascii?Q?c/Uouh6RiV7FNOUM1Vfo9FF5UrA9vQIEsjS27ACdnC7fVRW3qvAjG3xP5E10?=
+ =?us-ascii?Q?Gfd6C3wWFn6z5yMv3nqvRy2i7mEbg84L6Dq3RUXWl6z+JAjedTKHx0W9Etfd?=
+ =?us-ascii?Q?sYCy2lGVxBSC3UQCcnrxoS1xDGbAzPpF1NNzC4QDoq93sbIYB1figv4ENoAm?=
+ =?us-ascii?Q?AYNDTc25CK/pNBNGt7V9/rbNDVIb8wSlm8GtjHtdQ0aaBcrPuD8ZsIIGES+c?=
+ =?us-ascii?Q?uQWcvrMfNnCzUFJELitDelOuS4meCy5VL3PMi/LdzsUBhOVabUmr3EiO3ZNn?=
+ =?us-ascii?Q?YwiK6qfEWLLH7FRb73nT+HqDSiQrRb5T8A1qsfk4oGwaJyentm5yg7uPU2k0?=
+ =?us-ascii?Q?0UGJoUur2xclAuwBtqUy4RSnIo6nnPrFUkoLsWE09R9TGGIy4WFPXeR0G1JA?=
+ =?us-ascii?Q?8PxW/fjWM+o2U6dRud67tcnBKl8f027+tBtBKpcNAMzKAYkWWH6vg7y1RcH3?=
+ =?us-ascii?Q?u6o9YOPB7g=3D=3D?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0195b29-802b-4791-c2e8-08dedb9de06a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83f78efd-b0c0-44d0-7f26-08dedb9e4e9a
 X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 20:33:45.6550
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 20:36:50.4803
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mUwqk7kaZcbvNGBSWBK5vF9oeSFzXllBEoh0AngnNi7I69MqEm0wYd4p4yGmQLTwi9IvKcCa3ymj76g5+cq3Sg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9588
+X-MS-Exchange-CrossTenant-UserPrincipalName: Zkmd4XaPd9F4/G9YH2r1mx9RGuyIzyiRDMbLFVkuXT8rA4zS043BLtjhyZSEGgWDmQMc6+p0cBwOr0s/AJFMTQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4333
 
-On Wed, Jul 01, 2026 at 07:46:51PM +0530, Shrikanth Hegde wrote:
-> This is the steal_monitor core functionality done in periodic work
-> 
-> - Calculate the steal_ratio. It is multiplied by 100 to consider the
->   fractional values of steal time. I.e 10 means 0.1% steal time.
-> - If steal value is higher than high threshold, call the method to reduce
->   the preferred CPUs.
-> - If steal value is lower or equal to low threshold, call the method to
->   increase the preferred CPUs.
-> - If the steal value is in between, no action is taken.
-> - Save the values for next delta calculations.
+On Wed, Jul 01, 2026 at 07:46:52PM +0530, Shrikanth Hegde wrote:
+> Cache the previous direction on steal time. So two consecutive values of
+> high values or low values are taken for decrease/increase of preferred
+> CPUs. This helps to avoid oscillations.
 > 
 > Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
 > ---
-> v5->v6:
-> - Address u64 overflow concerns.
-> 
->  drivers/virt/steal_monitor/sm_core.c | 33 ++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
+>  drivers/virt/steal_monitor/sm_core.c | 20 ++++++++++++++++++--
+>  1 file changed, 18 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/virt/steal_monitor/sm_core.c b/drivers/virt/steal_monitor/sm_core.c
-> index b499faa61010..7b7435f79b85 100644
+> index 7b7435f79b85..4810bad96818 100644
 > --- a/drivers/virt/steal_monitor/sm_core.c
 > +++ b/drivers/virt/steal_monitor/sm_core.c
-> @@ -34,6 +34,37 @@ MODULE_PARM_DESC(low_threshold,
+> @@ -20,6 +20,12 @@ struct steal_monitor sm_core_ctx = {
+>  	.low_threshold = 200,	/* 2% */
+>  };
 >  
->  static void compute_preferred_cpus_work(struct work_struct *work)
->  {
-> +	u64 curr_steal, delta_steal, delta_ns, steal_ratio;
-> +	ktime_t now;
+> +enum sm_direction {
+> +	SM_DIR_INCREASE = -1,
+> +	SM_DIR_NONE	=  0,
+> +	SM_DIR_DECREASE	=  1,
+> +};
 > +
-> +	curr_steal = get_system_steal_time();
-> +	now = ktime_get();
-> +
-> +	/* get the deltas */
-> +	delta_steal = curr_steal > sm_core_ctx.prev_steal ?
-> +		      curr_steal - sm_core_ctx.prev_steal : 0;
-> +	delta_ns = max_t(u64, ktime_to_ns(ktime_sub(now, sm_core_ctx.prev_time)), 1);
+>  module_param_named(interval_ms, sm_core_ctx.interval_ms, uint, 0644);
+>  MODULE_PARM_DESC(interval_ms,
+>  		 "Sampling frequency for steal values in milliseconds (default: 1000)");
+> @@ -59,12 +65,22 @@ static void compute_preferred_cpus_work(struct work_struct *work)
+>  
+>  	steal_ratio = div64_u64(delta_steal, delta_ns);
+>  	/* If the steal time values are high, reduce preferred CPUs */
+> -	if (steal_ratio > sm_core_ctx.high_threshold)
+> +	if (sm_core_ctx.prev_direction == SM_DIR_DECREASE &&
+> +	    steal_ratio > sm_core_ctx.high_threshold)
+>  		decrease_preferred_cpus(&sm_core_ctx);
+>  	/* If the steal time values are low, increase preferred CPUs */
+> -	if (steal_ratio <= sm_core_ctx.low_threshold)
+> +	if (sm_core_ctx.prev_direction == SM_DIR_INCREASE &&
+> +	    steal_ratio <= sm_core_ctx.low_threshold)
+>  		increase_preferred_cpus(&sm_core_ctx);
+>  
+> +	/* mark the direction. This helps to avoid ping-pongs */
 
-The below return on '!delta_ns' makes this max(...) useless, right?
-Regardless, if the time between 2 measures is less then 1ns, I
-believe, the whole measure is not trustworthy
-
-> +
-> +	/* Update for next calculation */
-> +	sm_core_ctx.prev_steal = curr_steal;
-> +	sm_core_ctx.prev_time = now;
-
-So below return should go prior to this update, because 'now' is actually
-the same as 'prev_time', right?
-
-I don't understand why 'now' can be so close to prev_time, because
-you've scheduled this callback on the regular interval. But if that's
-possible, can you explain that and do like this at the very beginning
-of the function:
-
-        now = ktime_get();
-        if (unlikely(now < sm_core_ctx.prev_time + sm_core_ctx.interval / 2)) {
-                pr_warn(...);
-                return;
-        }
-
-And if it's a never-happen condition, just use WARN_ON().
-
-> +
-> +	/*
-> +	 * Multiply by 100 to consider the fractional values of steal time.
-> +	 * steal_ratio = (delta_steal * 100 * 100)/(delta_ns * num_cpus())
-> +	 */
-> +	delta_ns = div_u64(delta_ns * get_num_cpus_steal_ratio(), 100 * 100);
-
-You're not multiplying by 100, you're dividing by 10k. Can you reword the
-comment?
-
-> +	if (unlikely(!delta_ns))
-> +		return;
-> +
-> +	steal_ratio = div64_u64(delta_steal, delta_ns);
-> +	/* If the steal time values are high, reduce preferred CPUs */
-
-I really believe that the below code is clear enough, worth nothing
-explaining it.
+Increasing the gap between hi and lo_threshold helps to avoid
+ping-pongs.
 
 > +	if (steal_ratio > sm_core_ctx.high_threshold)
-> +		decrease_preferred_cpus(&sm_core_ctx);
-> +	/* If the steal time values are low, increase preferred CPUs */
-> +	if (steal_ratio <= sm_core_ctx.low_threshold)
-> +		increase_preferred_cpus(&sm_core_ctx);
+> +		sm_core_ctx.prev_direction = SM_DIR_DECREASE;
+> +	else if (steal_ratio <= sm_core_ctx.low_threshold)
+> +		sm_core_ctx.prev_direction = SM_DIR_INCREASE;
+> +	else
+> +		sm_core_ctx.prev_direction = SM_DIR_NONE;
 > +
 >  	/* At least one core is kept as preferred */
 >  	WARN_ON(cpumask_empty(cpu_preferred_mask));
 >  
-> @@ -54,6 +85,8 @@ static int __init steal_monitor_init(void)
->  		sm_core_ctx.interval_ms, sm_core_ctx.high_threshold, sm_core_ctx.low_threshold);
->  
->  	INIT_DELAYED_WORK(&sm_core_ctx.work, compute_preferred_cpus_work);
-> +	sm_core_ctx.prev_steal = get_system_steal_time();
-> +	sm_core_ctx.prev_time = ktime_get();
->  
->  	schedule_delayed_work(&sm_core_ctx.work,
->  			      msecs_to_jiffies(sm_core_ctx.interval_ms));
 > -- 
 > 2.47.3
