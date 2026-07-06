@@ -1,134 +1,170 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011028.outbound.protection.outlook.com [52.101.62.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019FA3BED78
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 18:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783363086; cv=none; b=N6q1U9DZbd9Ft9Si2+vnbVwqcXXhCD5roUjE//MFCegW2XUTr7Srx1dVff7evALWotxPYf7IrtfUxdOeg5IvdJjoZeocGq4lITr1YX4QIUYz3Scqcj5gSOiX85g5FtEjpGKoB2kejlXXDEWMGsxLPP2oA5kdMTWQ1fv0CiM1e1w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783363086; c=relaxed/simple;
-	bh=u8PRGmk7C1Y0lBU8LeNSCd3v4PpWWZ9O2x3ySxWHhs4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=dSgN+ObHgUMCab8Fvinq7H1EqmIuD+W3i6I7COu2MmCZrMeMdyXh2mv+52cODvvtXJ972nsKI9Rc1KTo99azI5Dr06mVr4p5lmX5dY6cmN2Opa67i/PPs0O149EDh+j6ZDavgJ6y0pN70LlXbPDhpvNud+sV2GUvNdOdcBRDs4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com; spf=pass smtp.mailfrom=etsalapatis.com; dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b=O5gUBi/c; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etsalapatis.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF8D7345CAA;
+	Mon,  6 Jul 2026 18:49:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.28
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783363786; cv=fail; b=Fs0gwd1ssvSloG+YpACnmpCwRbYlz3R/xdTpSCPdfIyxtBYQHK0kp+YtA++Q3vFAD+0BKyP6QIZrs6E1W0VgkoCt1hL2LhzwUm+all/23USwlfuCV63eCWXDcUaVcs8hT5XbunK2MyYTEZnfjk0ODo5QuB10OEeV6QeSpY6vecU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783363786; c=relaxed/simple;
+	bh=QIkVJ2BmwFVN0PMsYJahbBe15v6xrVky3J0+bJ/BqFw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=S7CYPLsDtDnvddh6609LSQCx7oKl4Bk7xJXtC8q4edfVAw9D+XsFF3b2kAahHSw8H0sWlcE1FqpEFvBp1a/VQtW/KUgwdf+hlFvSKTZQhCAuNxSN53zXsyZ+DLnMAcACInG1+ZmUCEWyKFMjxWb/LSdrFGjyn8E63NBpDfYPpZ4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=FnE28nkX; arc=fail smtp.client-ip=52.101.62.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b="O5gUBi/c"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3817f800c8bso2435569a91.1
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 11:38:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=etsalapatis-com.20251104.gappssmtp.com; s=20251104; t=1783363084; x=1783967884; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+OTCMH70SrIoIhqzz9upACUv1AFoVn7zmxyX3TyiftM=;
-        b=O5gUBi/cwxNhF8APnqt3iDRYfy0fFjHLlluKTq20MXhbT0FrEUKO2qdiswwgCS7BXb
-         AFHPxp5/Xv9Ft8sHDNyudPYWDkiyfCMCtlIRSTe88Pmeqd1+BT9zTBdBuTpQgUaaemHh
-         GZlaLRq4fhYz4zgD2R5B+rwB+ffymjSZpIM9ev7Kf4ORksh28Flruu2u92+/w22gh5sH
-         QhLTEDXEdsgQhYxLU+xPLpnBchSnN5lYmQUhhMIdYRA9BCxq1wIGLswL4ZCbBnx5byHo
-         Lb1wu5uEeVQcEMUf39dzTb05/iCpKhuIXqtvDDZWYwmuKY8uHvZbsXw4X01UEr8CPm4T
-         FdFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783363084; x=1783967884;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+OTCMH70SrIoIhqzz9upACUv1AFoVn7zmxyX3TyiftM=;
-        b=VTyz9jft3VmofLOspVT4eq/8KNUKRazxelEEz1LGj5E+rZqut2mq6LOoau4y5FlWrm
-         konUUwKzh0GnP9eCChfww49nSHc9mFNs+ExL0jM5J307ydQ4Ew4WGESywY+TQKkz4KSI
-         sJ0sd5hRRq6J/9PveYdXTQShx8WR/WYTTbbeK39PefOD6XBW6Vh/5gXm75IKl0CrB1iI
-         xSOv04LtdNWNXKxwfWxRqo2vBYZl/+Qe4vkEQ1DFkwClIdKrra1uWIomWtHs5pn4+kcc
-         G9E1CzNmyrQogI5eJ6ayV79MC9q1IlmkXBoL3L2cgb1hbpCuVT3FuhRfWUJ0F6nviupR
-         A66g==
-X-Forwarded-Encrypted: i=1; AHgh+Rq5vJ/wHWX5B0K9zTMr7uWoxrIZl9++nSS3fN0HlSt4MaPvrIO/HdgAU7hsSmDTEN5LoRgf41f2fVE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMEzAzVJTtIZvxPgnLBi2GPZ+Bx2GKKU0nLwboXFTQbqtavMV5
-	CjIzaV7WknB76XqhLxNC7l2q3KCNRbeOcej7dpa6cJ8uT70KXmYO3xtVjXnYMS01Kqs=
-X-Gm-Gg: AfdE7cnOvyfVQ/9u1SItkpSCG/Ay27MDXql2xYVl9FjVNaRWtxD0kV4YucG8ZXffkTu
-	ioCzsfxGjjQG41pII93FkAdj4xLL76F5Z8dRHygFzigEZo+mvBZS/m1ZR3nYNRxqiXEDvwMAHkO
-	6TBipVsQMjPz3pv19jRXKmr1fpBeAD1vPheUt8b9igS4iQ610urGu3CbqFob9Zqc5g/bRglsDDU
-	SOFPngj7vviB+1X1jWYkWtrhbJVJIFmfqPJB/gRxSHRN232pxF8AAcP5SSgUUYMPBq2xJQQdo2u
-	WCZtNANLm/s1YKUd8ausd+nFa/HwZhMnJPzhvVSPJrh8WCTWhdTJR5/r6fObzqInhtXqTwxcvX/
-	3+ZFoFyp2XykuiCuNEI/dBUoBXvokpF/WUw8Bek6kBD/HNcOfc1QdCXtr6diVrXW65oAC+rTZqc
-	M+IWlQmCHzjC2VzwW3zd1tkLBZdfafmFkIdSMDvDTXqA==
-X-Received: by 2002:a17:90b:4d81:b0:37c:6130:7a5b with SMTP id 98e67ed59e1d1-38755c4aae4mr1900076a91.8.1783363084174;
-        Mon, 06 Jul 2026 11:38:04 -0700 (PDT)
-Received: from localhost (107-190-31-17.cpe.teksavvy.com. [107.190.31.17])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-387888a0675sm113422a91.0.2026.07.06.11.38.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 11:38:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="FnE28nkX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OQLFQyrYtKKKvNlGPqmzK3APQvFXVZxSBqgjhdjXGd2ZcWJV60ARphr8vHdABbwJ3Fxp8tgS85xFBN4B/saxW8hiDU0azmG4n4LXkIpAmkG7ahdv03/mlBuB4KGmzaWB+yHw01lY8Y/PYt43fR+P7Q8/nSTlIjkvSerlqng32c5XkWO+7iXZO4XfZ7REtXKiJ290WeMxWJHeCAaYOjwJ4Lr4GExZmwVtNy1MG6UB5VgOZJEhM3Bi/CgMPB4D0xD/CW7pY/1eLo/+bkAUrtuLjpz2Wvpr7fQfVVcWKn8jRoQo4m1BOPmfPkQjcHV8HpL1TIDY83JhCR7OdcwZ4EZSuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=94xO0ksVafZtb0ExBIkporCQ2rBaOQRwqddtDhXx51w=;
+ b=vRUeRU1W/T59xtVe0DrJX9nUfOR4vlnyma4wLO9eLhswJ6VXyYORbNDNO5qYNYVUsQBQI8OMXlWvPhhcNsbG09RkTLuFEThFBzomP/c+2NMlJBty2AhMb5yvih1wGU+v2wW6obfaJIwb6UDCTxyf5sEU343R7jHTsXXYqPrwnrlaTXv1KKEnFgZvVENe+PzYROFOY3XZMu6CCjXCSfjpUAyUTQn0pdzDn+n3fTx97ZsV9ZRtrWn4y8afl4Tm9A4U0w2I9ST6CmoU7k2d++3BmT+XfD0T4hJnM59dCTv8TJEyrJOpWp7GLMVykZwENwLLO88i1LrkXg7akf2GSD5BAg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=94xO0ksVafZtb0ExBIkporCQ2rBaOQRwqddtDhXx51w=;
+ b=FnE28nkXcLfkuWbJqxU8rpVtjKb1JBvdcTvM679Li69yv8tQYH662xJPXLgyC3bcCtBxBQ+FneHNW0JxqGBFDPtUI7ohw4l05+zm23Mw5E5dzl6XoS22XdEap1UzN6L8BkCjsiH/7OvsNa9VLC8yvxrs7ItnUK10XA70YGSAEmDgiZapYjeC4pNO6KfXfXxWOkNgKD9KuuvtVbXhxmAN0VBMcYPjel+S9T7RU8Y5EKsuOQ/HYjLxDrhojXMN5y4fbT/5qPRTFChh60DV9aMekPDHlFBgT7UL1s+NJS+R3l6pT/R1C8aOOe3mZaxe7rjndAQjubQcVIjnSOPyYXdEEw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by PH8PR12MB7302.namprd12.prod.outlook.com (2603:10b6:510:221::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Mon, 6 Jul
+ 2026 18:49:38 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0181.009; Mon, 6 Jul 2026
+ 18:49:34 +0000
+Date: Mon, 6 Jul 2026 14:49:32 -0400
+From: Yury Norov <ynorov@nvidia.com>
+To: Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
+	corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
+	pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
+	huschle@linux.ibm.com, rostedt@goodmis.org,
+	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
+	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
+	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
+	christian.loehle@arm.com, tj@kernel.org,
+	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
+	rdunlap@infradead.org, kernellwp@gmail.com,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 12/23] virt: Introduce steal monitor driver
+Message-ID: <akv4vGpII2tx4gSZ@yury>
+References: <20260701141654.500125-1-sshegde@linux.ibm.com>
+ <20260701141654.500125-13-sshegde@linux.ibm.com>
+ <akf9cE22wvPeYNiM@yury>
+ <akf_Kg3jaenNbb-g@yury>
+ <ce2b5699-8e22-4eb4-bd55-c3df5ff30f74@linux.ibm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ce2b5699-8e22-4eb4-bd55-c3df5ff30f74@linux.ibm.com>
+X-ClientProxiedBy: CH0PR03CA0062.namprd03.prod.outlook.com
+ (2603:10b6:610:cc::7) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 06 Jul 2026 14:38:02 -0400
-Message-Id: <DJRPGA0KTH7U.WBW2Y6CVNBQR@etsalapatis.com>
-Cc: <bpf@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] docs/bpf: Document BPF_STRICT_BUILD=0 to tolerate test
- build failures
-From: "Emil Tsalapatis" <emil@etsalapatis.com>
-To: =?utf-8?b?UmljYXJkbyBCLiBNYXJsacOocmU=?= <rbm@suse.com>, "Alexei
- Starovoitov" <ast@kernel.org>, "Daniel Borkmann" <daniel@iogearbox.net>,
- "Andrii Nakryiko" <andrii@kernel.org>, "Eduard Zingerman"
- <eddyz87@gmail.com>, "Kumar Kartikeya Dwivedi" <memxor@gmail.com>, "Martin
- KaFai Lau" <martin.lau@linux.dev>, "Song Liu" <song@kernel.org>, "Yonghong
- Song" <yonghong.song@linux.dev>, "Jiri Olsa" <jolsa@kernel.org>, "Emil
- Tsalapatis" <emil@etsalapatis.com>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260706-b4-bpf_strict_build_docs-v1-1-5324d605c7b0@suse.com>
-In-Reply-To: <20260706-b4-bpf_strict_build_docs-v1-1-5324d605c7b0@suse.com>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|PH8PR12MB7302:EE_
+X-MS-Office365-Filtering-Correlation-Id: 234aedd2-c4e5-4bf1-b487-08dedb8f521d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|23010399003|7416014|1800799024|366016|4143699003|56012099006|11063799006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	NYgQPSHR4+hgYotoFDi0SYnrZFi45akLeORkt0bdfmL9SEEAFA+GvEDNIU8xXtZ0FtN5gZbvYZKGzmaND/nUx3LZfDRP9X+QusZOvLpqa3zPZyYeZts9DY1yOUQJZjC7sjKhCsBxwkXSRVKpc5CJOG1380SudeZhioP0NkJi3/RWsasuGOqNgrkRtmQwXsXrsUiSUhfltr8WQF4tvyx5AhT6gwndz6O8sBupajklfzPsIvsof1ddBjouXhM8Hnmur77KVVWec/WuDG6OJgj7K0SlAOPbs9p5mzLdfGw0nZ2vKvSyZZlrymbHUtjcWWckPCOrJd96rlwY+HliqTcgFqGKUOffaq6F974gOAD88Ul7x1rf+JrjS3onlryvoSMY9KK0zyFhkTXyXThXsmDICjOZXQIbn4CbBXCyjKSoyN4TmX41EoOJcbha0e8jgBKybnjo/7xicxwEnHZLauWS74dZ2J5XyNiyKdDwDO5NtZFntE/PFe3sPj96WzukEeZ725UZmSQzyQdvy5NxwjEjAWZFyarzARbbYkJPmGJytK+vuFzHmdyuKPx5yMwzAcwps6+6NDZdX4hcZSiuXM4hNKDgaps3yLQj7CzgsKVFMKgXlN67vOB5fBns+RA4i/IAHfIz2RZVBuuzbn8qYGE45QwKd60QVWELEY46JQ9zhMU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(1800799024)(366016)(4143699003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?VbYWUXfDummvLIlirUWrJaJIpDbFBIsExZnVGt91OjcxL7eYxNu9OTEruJ62?=
+ =?us-ascii?Q?nXcXb+V5vqZkBxAu/YQ86gQyqDcToANHCHSr2izr8X8xaI72JS1P6OxdU2zt?=
+ =?us-ascii?Q?QEiny3TieuD9g8lTx9KFEES7qzzZmXqnHkpiP1y58S8CGticcumvws5vDGbI?=
+ =?us-ascii?Q?lrRMeFGjN9Oy6u5pDLyIa9WGzm08f2c+67H6RNynsCwzA71YkR5l55oe+z6+?=
+ =?us-ascii?Q?nxatxdYMwVTIJyrZJdy2qNiPe5fQ/1XXUjTjqVatMDUeqrqEau205nN+70PX?=
+ =?us-ascii?Q?PIB8osOt8b3+pD4y0JY+w3rc+B3+s1OYDGt2HAtmKV5s1ZCCoDXaceqInNGJ?=
+ =?us-ascii?Q?12iE0uob2AZpQUauHF6PVKPcqf+xP1hioeAU+30nw+d27WzcHKg+KFhZZG98?=
+ =?us-ascii?Q?9G9LWHKUAG9MzUFpaUCqAl3FHje1azzxiWqCpr5fmmYab7xEcuzBvzNOaHe5?=
+ =?us-ascii?Q?4QaL5SGT0QgI5j9kByUp83+2Dfs6dKO8/ZqFvG1VMgLLDBkGMtXLwrFkSXJ1?=
+ =?us-ascii?Q?EmpRuH74GUvjCkDQCA4hnTe/w5+4SphcIQaR7Mf8ECMBMN1D79/+XnWha7G3?=
+ =?us-ascii?Q?2oEwcmrwbEaSiZdfN1c9LrLHwo7bmU/q2VWt1/5luaLfA6yGMOz3zfRWtXwi?=
+ =?us-ascii?Q?u9jDQfPS9GQX9AmSNU6cOtAsEOnzGFM0kcB4IIvqomYlNmaa1u1utgZZ/PWC?=
+ =?us-ascii?Q?CqopdMg4Axgize4VXi/soDT0ACXCYmsOg7j9G/omSlSC2l6qf8qBvhsAsdTA?=
+ =?us-ascii?Q?djxZ+4sOkjFOrBqEPlzpxzAP6P1EjKcrUEawQHbRyVFAf6cwE9zk+qi6FIqj?=
+ =?us-ascii?Q?R8JxiuGpByXeNMTzqFyGRH78uC/BXzKKVWXKq4eI8r+5Qf6FUv9sGbbvlcJ8?=
+ =?us-ascii?Q?vmLmQgNxCEqoEweuqrLRtyi9rd44cc4LlLkDpeATQEt2cwhebFmRfopL78bG?=
+ =?us-ascii?Q?VpwGK7NpWjTYrFPPTwHn48vFWUW6jcvqIYBhXnU7ovJVPUtFZUAQ3urA04jy?=
+ =?us-ascii?Q?3kvg03DqCmJYdSZJgtRiy44fA/XDiEtvlPek7S+DaQ8yFd7wrOTPBxXOBT9z?=
+ =?us-ascii?Q?gappV+r/4zXu3fAwx29o22oNVtL85gTWvZCm+KGQx7STOuSC8GA51L7RNDUc?=
+ =?us-ascii?Q?t+bck3IwCbEAcLCroKjvwjTMErM5CfWSnxmuJiwe2+yicqXIWI1c1iH3F8yt?=
+ =?us-ascii?Q?gcNZJaSQpjxIdVMk24EkAJ/Zj/I2uxRagRhdbe8RNXjd33kVWPm/vGUaM9VS?=
+ =?us-ascii?Q?0VsPKKjoHK1jcKxYZoRYRe2zEVOTzvS1RbnXCrBZRgt0VfSGJfmjfnAKSPL7?=
+ =?us-ascii?Q?UahmcQ0Fv6ctAJHxm3qnUfXxnhpXG6NkvwkcjOi8phorZ1Ab8gr7lLVAHAL+?=
+ =?us-ascii?Q?V4PxaloxXkcVtwHEiT4inBrVcz1cZ6o16qlk5Hn0Z+oGwDt1rfnv+odvR6sj?=
+ =?us-ascii?Q?BnSdV8fwSiJy9bmzsF1Ujr1LDBwiN83SLcAu8SM5ScheJaA4npQ3x+Sjz+BH?=
+ =?us-ascii?Q?KW68q1Ov54PNW1zgeDFBJU97+K3ASzt+Me4KZCKgl/J6xWXhLnR31ngXnqhR?=
+ =?us-ascii?Q?xYcB6pl6YgRRDmTZP/bi2ljKXDTmwd71bjUjewIN9mTDMP/Ms9YYWXK1RUaM?=
+ =?us-ascii?Q?bK+FJyhmYGR7SYBr4acO0kek2ZdBaoF1OFPgKJtZqGZD2neFkQwtYIGE1/Bj?=
+ =?us-ascii?Q?caZMthRT3MuMasgLWYEikGu8FuVoftWdwR6KdvdpJYQg/eg7?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 234aedd2-c4e5-4bf1-b487-08dedb8f521d
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 18:49:33.9815
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ul2DeQPSElhITGJhYyjl2JN4wcF0xx2apSW3Aq4TTXe0HxruuO+wnpWwG4F00UddE5rFzoOI4m9/6+ZjdDbBDA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7302
 
-On Mon Jul 6, 2026 at 11:28 AM EDT, Ricardo B. Marli=C3=A8re wrote:
-> When the kernel config does not fully match the BPF selftest config
-> fragment, some tests may fail to compile. BPF_STRICT_BUILD (defaulting to
-> 1) makes any such failure fatal. Mention the option so that developers ar=
-e
-> aware they can set it to 0 to skip broken tests and keep the build going,
-> which is particularly useful during bringup or when testing on constraine=
-d
-> (e.g. distribution) configurations.
->
-> Signed-off-by: Ricardo B. Marli=C3=A8re <rbm@suse.com>
-> ---
->  Documentation/bpf/bpf_devel_QA.rst | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_d=
-evel_QA.rst
-> index 45bc5c5cd793..edf8107a7beb 100644
-> --- a/Documentation/bpf/bpf_devel_QA.rst
-> +++ b/Documentation/bpf/bpf_devel_QA.rst
-> @@ -479,7 +479,10 @@ for details.
-> =20
->  To maximize the number of tests passing, the .config of the kernel
->  under test should match the config file fragment in
-> -tools/testing/selftests/bpf as closely as possible.
-> +tools/testing/selftests/bpf as closely as possible. If not possible,
-> +however, you can set ``BPF_STRICT_BUILD=3D0`` when invoking ``make``
-> +to tolerate individual compilation failures and continue building
-> +the remaining tests rather than treating each failure as fatal.
-> =20
+On Mon, Jul 06, 2026 at 01:54:05PM +0530, Shrikanth Hegde wrote:
+> 
+> 
+> On 7/3/26 11:57 PM, Yury Norov wrote:
+> > On Fri, Jul 03, 2026 at 02:20:32PM -0400, Yury Norov wrote:
+> > > On Wed, Jul 01, 2026 at 07:46:43PM +0530, Shrikanth Hegde wrote:
+> > > > Introduce a new driver in virt named steal_monitor. This driver
+> > > > will compute the steal time and drive the policy decisions of preferred
+> > > > CPU state.
+> > > > 
+> > > > More on it can be found in the Documentation/driver-api/steal-monitor.rst
+> > > > Introduce the skeleton code first.
+> > > > 
+> > > > There is no new kconfig. It depends on CONFIG_PREFERRED_CPU.
+> > > > - If CONFIG_PREFERRED_CPU=y, it gets compiled as a module. It is not
+> > > >    loaded by default.
+> > 
+> > What if I've got my own monitor, and don't need this one? Please add a
+> > way to not compile it, even if CONFIG_PREFERRED_CPU is enabled.
+> > 
+> 
+> You mean make a new config like VIRT_MONITOR depend on CONFIG_PREFERRED_CPU and
+> make it as default n?
+> 
+> Can we defer this until such a new monitor is needed?
+> We will in state where CONFIG_PREFERRED_CPU=y & VIRT_MONITOR=n.
 
-Reviewed-by: Emil Tsalapatis <emil@etsalapatis.com>
+I think the VIRT_MONITOR should select PREFERRED_CPU. Whether
+PREFERRED_CPU should be enabled without an in-tree driver using it -
+IDK. Probably yes.
 
-Nit: You could add the caveat that anything in TRUNNER_EXTRA_SOURCES is
-not covered, but it's pretty minor.
+Enabling some random driver, and even worse overriding user
+preferences looks questionable, at least.
 
->  Finally to ensure support for latest BPF Type Format features -
->  discussed in Documentation/bpf/btf.rst - pahole version 1.16
->
-> ---
-> base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
-> change-id: 20260706-b4-bpf_strict_build_docs-a8aa7fa46e2f
->
-> Best regards,
-> -- =20
-> Ricardo B. Marli=C3=A8re <rbm@suse.com>
-
+I'm one of those who build VMs with the localyes config, particularly
+because it decouples me from rootfs headache. So please let me just
+compile-in your monitor, if I want.
