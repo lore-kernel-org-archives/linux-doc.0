@@ -1,73 +1,73 @@
 Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486CC402432;
-	Mon,  6 Jul 2026 08:48:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B51A42642D;
+	Mon,  6 Jul 2026 08:48:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783327715; cv=none; b=tOU06hhdqRCDEvARmco/XP+MzIQ6OcJ1S1ntCK6yj81/NS6SGBC+TV3jQ7cwMtYMdExthySm2cOIkRlfhUEfuY+TWzr4M3OUpVkTauDcyHTp1OlMlAmvL4VPRuP4W8BAamxiFtYxQx5VIAr4qt35oMetFot8PIfMpRcvcwuwvU0=
+	t=1783327717; cv=none; b=e46YUwNPmLjw5d1itgHd6nr8YM5+5REETWzIMGpOnh92JYq7Oe4SZTRnXRunpK82pNM13ddP5lGyBzgcUvUOd46L1v+h8CJAGdWkzczZCroUwll9aNserQJmDZUP2TWUDGU/+3MtosUvHPzQp6D1jpS3OO47vDzxcnbh5xyWTic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783327715; c=relaxed/simple;
-	bh=0v0hhH1io8dJBG30q0fY02Bha2nu8gWi1R+gTS/hUKs=;
+	s=arc-20240116; t=1783327717; c=relaxed/simple;
+	bh=KFFpEjN/ywV5dMnHVG+4DsmF8cpDvplAJnlVzGgQ1f0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KAeLCqRevRwqKFmvxIJTQZLOKfaAGRUyzaI9oaW7+HjD63/9OKe/L0m7LFO6osqhFcKllHilRLrEEzTiyv1XfjcNrkDoDCiBPJEUMxObjB7aZi43NXm3uk1s51iP4U/FdDVZ68PplX3ye5FMtChEXk2sNHW6UFiKyilAUju5iRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=gMDVFP4a; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dsEDKwOt; arc=none smtp.client-ip=202.12.124.159
+	 MIME-Version:Content-Type; b=KabhDvx+z+icOcaXGYnwyRfJ7NlTjE/g6ekeVp/MmB5qEkeoJnqkFaUwKWXOcZ8RB8eiufHnnpccw8pJregM0oV68yMnSSRiiryuJMV6JvRUhgBOfKyv9Y/fyTfnVsL4/LRqJjX44FgBk2y8dEA2U1Tmp/bD7S6J1CIuefUge0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=EAxH9UAh; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QjPN+cIK; arc=none smtp.client-ip=202.12.124.159
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="gMDVFP4a";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dsEDKwOt"
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 4ABCB7A00BA;
-	Mon,  6 Jul 2026 04:48:22 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Mon, 06 Jul 2026 04:48:22 -0400
+	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="EAxH9UAh";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QjPN+cIK"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 943687A00F8;
+	Mon,  6 Jul 2026 04:48:27 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Mon, 06 Jul 2026 04:48:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1783327702; x=
-	1783414102; bh=pIGGseHJhXFtBRSP7SmdRAt9uVdtYiu5/BEQ1j7OuI4=; b=g
-	MDVFP4ahXttEHNWfRtSlYH+A5aVUn9C8AYg7aXVrdbBqWPoLwIiah9YvTswZoqj3
-	i/PRfHPrYE0NOkgorJwFhIhpaSi3BGDfG5MvIf7TjwEIQglu4wP5fjjxXWV0fl7L
-	92BwgDdgmIeKNPoNzJleBvOp8HUhmdrl9TMMbIgrggEInpiTRzkCsNp/nAF5DecS
-	mPJXrvgPXr16kVZY9wcUbVeOHLY0fOHnhxO1xm8jLNy7V/1tqlAUu7VltQVn2bPG
-	58ih1LBzqPJbC/b3pA+yofM66ZZc89cHJkSC2OKGb86vYpR4HBPByhNE46HtV6vY
-	k4In1G6+yXG0kC7v2rF8g==
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1783327707; x=1783414107; bh=85dlYldMrNgF2zIT9pjGLNO/irueGh3B
+	4Qs719th2NU=; b=EAxH9UAhWvZq8KUi4Yf0+Yoczs39dHDOXTPfGTjT8eftHFAa
+	0QA5+O+DH5AojbtJSsUFAor0FSGfVkrMFTQaH6M/JE0dAjWwGQEqR91LGWv6SEkN
+	tDdcLj1OrsKz53gk3s0RpheMZdy77wQWL5mmInyIz+ol+jnQkSmVHSfEacHQ1Mp0
+	+J+R3zvSLk1sTc9CWt2L1JdC9MIvdEtGX5K6YjivGlq+QAUr1ieVVPXu/8ImYsmq
+	X3ECJHHZ3b8iYckvaxMQa0wt3AN9TOPcm5xzLR6Z58WkJddnlzo+Rcu0E1G1F8n1
+	F9e9HMoTiux1MCg1oNp/DjOJU4WGEA1GkUNliQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1783327702; x=1783414102; bh=p
-	IGGseHJhXFtBRSP7SmdRAt9uVdtYiu5/BEQ1j7OuI4=; b=dsEDKwOt8vBeOlz18
-	Rbyx04dcBuH0ThvUGX9Sal135KPWd0R9HPzzncgTKetpNvjh/2i3fwRKrYsRDPdN
-	KiUBM427gzUcNmM9CR9nIbQ9DgTvfW2RrMjNg16aUhU1Gv+NqxFBUFyXtHIe28fr
-	CyCQO5MASWYgB9Bq/Mn44IXLP3Jo+NCZQzqkQT7XJ/oBO7oTtXvsoiL10X7h8Csg
-	Nq/Mn2oomXwg1wXTaB4BVjWdse0NC4n22JaelIgkYqbXAVq6AK22tvvi5zi6l10u
-	bgFtQ/gCypYiq5D5bN/6H6P00yVs3SJ+i6L137AET2vePbd+98jxCSmz/Ruq/He0
-	VQwPg==
-X-ME-Sender: <xms:1mtLao8nI5NDz0YpVZw_EudMMkqWKKtfQdC1DEAuBvh23LvDq0JMCg>
-    <xme:1mtLakqZgINCXNr65BbhhZrTggoEu6lafloMKqR8qCjDa2y-u0eBux5X284GPnCy0
-    8Om3FBt-B6tqQMb0z7V4Pjw6IvlIGfIPAN3_FANuYTtakQKmmf6oU8>
-X-ME-Received: <xmr:1mtLamgAb0ws00OdwyQ-0z5kttYBI6e79WM3cwAmQW8mwn27aVWgma0SGkpT0A>
-X-ME-Proxy-Cause: dmFkZTEaPZdviD2XbalDAKS8tszO4Hte+xIg0jgPrUan8C55y4EV/KJ/Eom7XifH61NPsj
-    FpHJNCv922yiJ1/uYMxxnyO7ohj4FdG9jlt3xAQ9ulNn8sNn16Di9FfOZz57KTymaDzX0X
-    Oa0xwtmkNizaUUH2ahz49zlPrt4p4TivjhaMFb9MByS5fcrdsopAtNxM42z/KLfZEzontY
-    dL7oYKud5vnDF47FBpMkQLkbBVAcKZwKKE3gao9aGmCcABxV7K5XPoDt0NUeM7mdB6UBaE
-    xlUOaRlAzH3c/cAXi9JZvKpCWHAqobGBBf/9tSV3q5HJYXgQVn2KMNtd8oDpj8yLDeA9cw
-    EiP+W3gbDTMAji58CDcSjQj8hrGHjvPfFDIfswkW2Zd0nzLMIqPoHSdnS526nq+y6Fdzwx
-    iCAAplLEFCa7gx4a6zlhXAKI7Tnk5a4fGRqD/Db8iP163X0RV+bShQ0dei0xhIiHurzjZi
-    TuMozwsGY/uD7wvjbKxD2bcab/pMq3T8lg8tHrIToYnDDtsKbiiUDQQTh2GRO7W91bfeu5
-    0pB/icLMJP5V/BCL6aBfgO63muhrIEG5ilkKqzDFASz/MpUGJTv+W4iKlYtEhxEDKbnbVh
-    4/yJkbZBm/NklkmCpFITr5xYPpoxi/9yi0zlKg/LJvDdLnxadQtwcjVkUyaw
-X-ME-Proxy: <xmx:1mtLaiCtXEfx_DjTgPY_ph6Yfq0opb0iQS6Hn-zEyJVGIE9aITrm6Q>
-    <xmx:1mtLakvJSM5WjPGUkxcgzhnP6Alf_-G1Yo-why6gyaE7Y0SDvteVHA>
-    <xmx:1mtLas4oRNRK95AJ5CVSS7GR8f1JKFhZ6fV9C1e7dkxeWnWd1_9OFg>
-    <xmx:1mtLaueZhy-wzL-PU1KKqpM_rbnbHVoYARnmESGV68mkIHzIFTgKvQ>
-    <xmx:1mtLajfaL3XtANBm49J29XLq-n6i8gtMAfIPY-L9PAgO8WVBFkMPdcOQ>
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783327707; x=
+	1783414107; bh=85dlYldMrNgF2zIT9pjGLNO/irueGh3B4Qs719th2NU=; b=Q
+	jPN+cIKx5PiypT2ARRNRT572tOK3HxHoH3V8Aa/oI8rGu2d4c8xKEdAP/Li32uoj
+	SqL19CC/+IlhX9sQ8bWsftd03XYyktcHIj0bLc68HYaINWUOUnTlElbeC+6oQjhS
+	c3LPNp3y2pAEva3e4y8MPgQzy4+EYEZzLh6Ma7vKB2r6eErCJXKl/8Ef1BsoO1E1
+	/3iyeOeFlOxdpMND66BkZ7IFl8KNbOL1eH4VY8yJ+DAGE00m7W6VSM6nDjyZT1tS
+	lkIEt2t+VgtMxhPACEAHpr2OMCRQMoPfMQUJWM8Y+E/ynbqFXKnJocoAXFB7zDEy
+	JfXZq0/eTqWuIJxcb833A==
+X-ME-Sender: <xms:22tLarXMt9oYOESL3PNAEhjI27GcUN4cGpW5-pvBNLbE05DsQGsZwA>
+    <xme:22tLangOM72Pi4-_hA1kPT5MfBT6Gh2M9qgA4lk_0TF-nVTDgF02-P4FQ-GolaD_R
+    7qCRlEx8J6tjqD5RF1THAPyToVVRgBQAOEwwmxzOP_Jgee8W-4zMCE>
+X-ME-Received: <xmr:22tLav44Gh0vUjO34Svy5DzAATeg4hTrSp0ImF_aTyGvwf1-vzQ-5lPdzw5Bgg>
+X-ME-Proxy-Cause: dmFkZTE1HAxrDWJcKyWNBJ73THul+Pni1RTBd9xrf0khQ62auo02SuQ5gbJLxkQ3Qk71Rt
+    f+PGPpiBaizNM2SZ8IrfQsHK3gYtMHoaCLmDTUWsgKKZPvRJtANNe6dp0pRFbSzpZ7Ir68
+    3/In0zA3QiBz7VSIJWGJB30Gj5LF7PccEnLnCBfRMAcd0Ruq/WMP2imG8KXscpScOVRs3e
+    Q/wFiWTRlZPXmNZzwwnPakhtvrKLPp/eIv/XhxcMzd3pTWLxn9+uixyv/f65anc6A7PACd
+    VPXopYse7MIZNJLH0eIKl8RFUktrN1v664xHjciMcFFYVrJqWrPU6fblfiG0/eGu1JYQGe
+    +M8lQEJeeJ8BJ3AExmyP5xXBwUmaZmEf1QCUaqg+BaDDLl80kw85fqxz6/DSb2Kr4crD21
+    c/s6VUMPwHlxxi6RmfxSpKDUA2ZktaWBzZ9iwh6vPoGVCaDbFwH0vzlYaXwJEp2zelyR9y
+    AH56uliHL46u6RsfJ8pkY8NHrOXmftqQ4ha20Z+bQK18Gvsftrf1KgSYyHRabXAhJUYiLs
+    OEPqQcwGCxq5vFO9fhjJHFg0CP/cHT0ENivoxsepozBOTPrQfbbGUPIFwiiUT3vsZp8eDV
+    Q5klYrgBgDMF9w+pnkkmavOidghARGVqQQnQvm9H9xm+Sa0oldv5n3WgirMA
+X-ME-Proxy: <xmx:22tLav6IYjNa83ayTsrwAUwzMd_psGoRALYNRc_MDJ-XVcT8YU-BAw>
+    <xmx:22tLatHa-MQnqWfmpCtQZQDtpIEFdcjvRSMAl86WjRloLfS5yQPxQg>
+    <xmx:22tLatwCgmi5NiMTIb-i9p37IgNoBGtrY31nECD7PV-YdPzzHXxqpA>
+    <xmx:22tLat0Frghtj5KVdnfUgsryMYbQVdcHKqf0IekCvbetQQzxlxtjWg>
+    <xmx:22tLai34a4weoVbdtfkHz1Y0zPvvPig0QlTCap_TkblsyYiGpQU_tYyG>
 Feedback-ID: ie3994620:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 Jul 2026 04:48:21 -0400 (EDT)
+ 6 Jul 2026 04:48:26 -0400 (EDT)
 From: Kiryl Shutsemau <kirill@shutemov.name>
 To: akpm@linux-foundation.org,
 	rppt@kernel.org,
@@ -93,9 +93,9 @@ Cc: ljs@kernel.org,
 	kvm@vger.kernel.org,
 	kernel-team@meta.com,
 	kas@kernel.org
-Subject: [PATCH v9 06/15] mm: add MM_CP_UFFD_RWP change_protection() flag
-Date: Mon,  6 Jul 2026 09:47:55 +0100
-Message-ID: <20260706084805.8400-7-kirill@shutemov.name>
+Subject: [PATCH v9 08/15] mm: handle VM_UFFD_RWP in khugepaged, rmap, and GUP
+Date: Mon,  6 Jul 2026 09:47:57 +0100
+Message-ID: <20260706084805.8400-9-kirill@shutemov.name>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260706084805.8400-1-kirill@shutemov.name>
 References: <20260706084805.8400-1-kirill@shutemov.name>
@@ -105,368 +105,126 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 
-Preparatory patch. Add the change_protection() primitive that
-userfaultfd RWP will use.
+Three mm paths outside the fault handler gate on the uffd PTE bit
+today: khugepaged (skip collapse on ranges carrying markers), rmap
+(cap unmap batching), and GUP (force a fault through
+gup_can_follow_protnone). Extend each to treat VM_UFFD_RWP the same
+as VM_UFFD_WP; otherwise per-PTE RWP state is silently destroyed or
+bypassed.
 
-An RWP-protected PTE is PAGE_NONE with the uffd PTE bit set. The
-PROT_NONE half makes the CPU fault on any access; the uffd bit
-distinguishes an RWP fault from a plain mprotect(PROT_NONE) or NUMA
-hinting fault. MM_CP_UFFD_WP and MM_CP_UFFD_RWP share the same PTE
-bit, so the two cannot be used together on the same range.
+khugepaged: try_collapse_pte_mapped_thp() and
+file_backed_vma_is_retractable() already refuse to collapse or
+retract page tables on ranges carrying the uffd PTE bit. Broaden the
+VMA predicate from userfaultfd_wp() to userfaultfd_protected() so
+VM_UFFD_RWP ranges get the same protection. hpage_collapse_scan_pmd()
+needs no change — its existing pte_uffd() check already catches an
+RWP PTE because it carries the uffd bit.
 
-Two new change_protection() flags:
+rmap: folio_unmap_pte_batch() caps batching at 1 for VM_UFFD_RWP so
+the restore path handles each PTE with its own marker.
 
-  MM_CP_UFFD_RWP            install PAGE_NONE and set the uffd bit
-  MM_CP_UFFD_RWP_RESOLVE    restore vma->vm_page_prot, clear the uffd bit
-
-Both are wired through change_pte_range(), change_huge_pmd(), and
-hugetlb_change_protection() so anon, shmem, THP, and hugetlb all
-share the same semantics.
+GUP: gup_can_follow_protnone() forces a fault on VM_UFFD_RWP VMAs
+regardless of FOLL_HONOR_NUMA_FAULT. RWP uses protnone as an
+access-tracking marker, not for NUMA hinting, so any GUP — read or
+write — must go through the userfaultfd fault path.
 
 Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
 Assisted-by: Claude:claude-opus-4-6
-Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-
-Reviewed-by: SeongJae Park <sj@kernel.org>
+Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
 ---
- include/linux/mm.h            |  5 ++++
- include/linux/userfaultfd_k.h |  1 -
- mm/huge_memory.c              | 36 ++++++++++++++------------
- mm/hugetlb.c                  | 25 +++++++++++++-----
- mm/mprotect.c                 | 48 +++++++++++++++++++++++++++--------
- 5 files changed, 81 insertions(+), 34 deletions(-)
+ include/linux/mm.h | 16 +++++++++++++++-
+ mm/khugepaged.c    | 18 +++++++++++-------
+ mm/rmap.c          |  2 +-
+ 3 files changed, 27 insertions(+), 9 deletions(-)
 
 diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 5ac31fbadeef..87b2fb1e3f23 100644
+index 3d4d5f9a6f1b..da8a07cd49a1 100644
 --- a/include/linux/mm.h
 +++ b/include/linux/mm.h
-@@ -3330,6 +3330,11 @@ int get_cmdline(struct task_struct *task, char *buffer, int buflen);
- #define  MM_CP_UFFD_WP_RESOLVE             (1UL << 3) /* Resolve wp */
- #define  MM_CP_UFFD_WP_ALL                 (MM_CP_UFFD_WP | \
- 					    MM_CP_UFFD_WP_RESOLVE)
-+/* Whether this change is for uffd RWP */
-+#define  MM_CP_UFFD_RWP                    (1UL << 4) /* do rwp */
-+#define  MM_CP_UFFD_RWP_RESOLVE            (1UL << 5) /* resolve rwp */
-+#define  MM_CP_UFFD_RWP_ALL                (MM_CP_UFFD_RWP | \
-+					    MM_CP_UFFD_RWP_RESOLVE)
- 
- bool can_change_pte_writable(struct vm_area_struct *vma, unsigned long addr,
- 			     pte_t pte);
-diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-index 6dad14b9abb9..0a0763c6e9f4 100644
---- a/include/linux/userfaultfd_k.h
-+++ b/include/linux/userfaultfd_k.h
-@@ -369,7 +369,6 @@ static inline bool userfaultfd_huge_pmd_wp(struct vm_area_struct *vma,
- 	return false;
- }
- 
--
- static inline bool userfaultfd_armed(struct vm_area_struct *vma)
- {
- 	return false;
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 5b60862684aa..aca2f10fc1f1 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -2553,8 +2553,8 @@ bool move_huge_pmd(struct vm_area_struct *vma, unsigned long old_addr,
- }
- 
- static void change_non_present_huge_pmd(struct mm_struct *mm,
--		unsigned long addr, pmd_t *pmd, bool uffd_wp,
--		bool uffd_wp_resolve)
-+		unsigned long addr, pmd_t *pmd, bool uffd_prot,
-+		bool uffd_prot_resolve)
- {
- 	softleaf_t entry = softleaf_from_pmd(*pmd);
- 	const struct folio *folio = softleaf_to_folio(entry);
-@@ -2582,9 +2582,9 @@ static void change_non_present_huge_pmd(struct mm_struct *mm,
- 		newpmd = *pmd;
- 	}
- 
--	if (uffd_wp)
-+	if (uffd_prot)
- 		newpmd = pmd_swp_mkuffd(newpmd);
--	else if (uffd_wp_resolve)
-+	else if (uffd_prot_resolve)
- 		newpmd = pmd_swp_clear_uffd(newpmd);
- 	if (!pmd_same(*pmd, newpmd))
- 		set_pmd_at(mm, addr, pmd, newpmd);
-@@ -2605,8 +2605,9 @@ int change_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
- 	spinlock_t *ptl;
- 	pmd_t oldpmd, entry;
- 	bool prot_numa = cp_flags & MM_CP_PROT_NUMA;
--	bool uffd_wp = cp_flags & MM_CP_UFFD_WP;
--	bool uffd_wp_resolve = cp_flags & MM_CP_UFFD_WP_RESOLVE;
-+	bool uffd_prot = cp_flags & (MM_CP_UFFD_WP | MM_CP_UFFD_RWP);
-+	bool uffd_prot_resolve = cp_flags &
-+		(MM_CP_UFFD_WP_RESOLVE | MM_CP_UFFD_RWP_RESOLVE);
- 	int ret = 1;
- 
- 	tlb_change_page_size(tlb, HPAGE_PMD_SIZE);
-@@ -2619,11 +2620,17 @@ int change_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
- 		return 0;
- 
- 	if (thp_migration_supported() && pmd_is_valid_softleaf(*pmd)) {
--		change_non_present_huge_pmd(mm, addr, pmd, uffd_wp,
--					    uffd_wp_resolve);
-+		change_non_present_huge_pmd(mm, addr, pmd, uffd_prot,
-+					    uffd_prot_resolve);
- 		goto unlock;
- 	}
- 
-+	/* Already in the desired state */
-+	if (prot_numa && pmd_protnone(*pmd))
-+		goto unlock;
-+	if ((cp_flags & MM_CP_UFFD_RWP) && pmd_protnone(*pmd) && pmd_uffd(*pmd))
-+		goto unlock;
-+
- 	if (prot_numa) {
- 
- 		/*
-@@ -2634,9 +2641,6 @@ int change_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
- 		if (is_huge_zero_pmd(*pmd))
- 			goto unlock;
- 
--		if (pmd_protnone(*pmd))
--			goto unlock;
--
- 		if (!folio_can_map_prot_numa(pmd_folio(*pmd), vma,
- 					     vma_is_single_threaded_private(vma)))
- 			goto unlock;
-@@ -2665,9 +2669,9 @@ int change_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
- 	oldpmd = pmdp_invalidate_ad(vma, addr, pmd);
- 
- 	entry = pmd_modify(oldpmd, newprot);
--	if (uffd_wp)
-+	if (uffd_prot)
- 		entry = pmd_mkuffd(entry);
--	else if (uffd_wp_resolve)
-+	else if (uffd_prot_resolve)
- 		/*
- 		 * Leave the write bit to be handled by PF interrupt
- 		 * handler, then things like COW could be properly
-@@ -2713,10 +2717,10 @@ int change_huge_pud(struct mmu_gather *tlb, struct vm_area_struct *vma,
- 		return 1;
- 
- 	/*
--	 * Huge entries on userfault-wp only works with anonymous, while we
--	 * don't have anonymous PUDs yet.
-+	 * Huge entries on userfault-wp or userfault-rwp only work with
-+	 * anonymous, while we don't have anonymous PUDs yet.
- 	 */
--	if (WARN_ON_ONCE(cp_flags & MM_CP_UFFD_WP_ALL))
-+	if (WARN_ON_ONCE(cp_flags & (MM_CP_UFFD_WP_ALL | MM_CP_UFFD_RWP_ALL)))
- 		return 1;
- 
- 	ptl = __pud_trans_huge_lock(pudp, vma);
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index d0c81a056ae2..4d75b69d4272 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -6395,6 +6395,8 @@ long hugetlb_change_protection(struct vm_area_struct *vma,
- 	unsigned long last_addr_mask;
- 	bool uffd_wp = cp_flags & MM_CP_UFFD_WP;
- 	bool uffd_wp_resolve = cp_flags & MM_CP_UFFD_WP_RESOLVE;
-+	bool uffd_rwp = cp_flags & MM_CP_UFFD_RWP;
-+	bool uffd_rwp_resolve = cp_flags & MM_CP_UFFD_RWP_RESOLVE;
- 	struct mmu_gather tlb;
- 
- 	/*
-@@ -6420,6 +6422,11 @@ long hugetlb_change_protection(struct vm_area_struct *vma,
- 
- 		ptep = hugetlb_walk(vma, address, psize);
- 		if (!ptep) {
-+			/*
-+			 * uffd_wp installs a pte marker on the unpopulated
-+			 * entry; uffd_rwp does not install markers so the
-+			 * allocation is unnecessary for it.
-+			 */
- 			if (!uffd_wp) {
- 				address |= last_addr_mask;
- 				continue;
-@@ -6441,7 +6448,8 @@ long hugetlb_change_protection(struct vm_area_struct *vma,
- 			 * shouldn't happen at all.  Warn about it if it
- 			 * happened due to some reason.
- 			 */
--			WARN_ON_ONCE(uffd_wp || uffd_wp_resolve);
-+			WARN_ON_ONCE(uffd_wp || uffd_wp_resolve ||
-+				     uffd_rwp || uffd_rwp_resolve);
- 			pages++;
- 			spin_unlock(ptl);
- 			address |= last_addr_mask;
-@@ -6475,9 +6483,9 @@ long hugetlb_change_protection(struct vm_area_struct *vma,
- 				pages++;
- 			}
- 
--			if (uffd_wp)
-+			if (uffd_wp || uffd_rwp)
- 				newpte = pte_swp_mkuffd(newpte);
--			else if (uffd_wp_resolve)
-+			else if (uffd_wp_resolve || uffd_rwp_resolve)
- 				newpte = pte_swp_clear_uffd(newpte);
- 			if (!pte_same(pte, newpte))
- 				set_huge_pte_at(mm, address, ptep, newpte, psize);
-@@ -6488,19 +6496,24 @@ long hugetlb_change_protection(struct vm_area_struct *vma,
- 			 * pte_marker_uffd_wp()==true implies !poison
- 			 * because they're mutual exclusive.
- 			 */
--			if (pte_is_uffd_wp_marker(pte) && uffd_wp_resolve)
-+			if (pte_is_uffd_wp_marker(pte) &&
-+			    (uffd_wp_resolve || uffd_rwp_resolve))
- 				/* Safe to modify directly (non-present->none). */
- 				huge_pte_clear(mm, address, ptep, psize);
- 		} else {
- 			pte_t old_pte;
- 			unsigned int shift = huge_page_shift(hstate_vma(vma));
- 
-+			/* Already protnone with uffd bit set? Nothing to do. */
-+			if (uffd_rwp && pte_protnone(pte) && huge_pte_uffd(pte))
-+				goto next;
-+
- 			old_pte = huge_ptep_modify_prot_start(vma, address, ptep);
- 			pte = huge_pte_modify(old_pte, newprot);
- 			pte = arch_make_huge_pte(pte, shift, vma->vm_flags);
--			if (uffd_wp)
-+			if (uffd_wp || uffd_rwp)
- 				pte = huge_pte_mkuffd(pte);
--			else if (uffd_wp_resolve)
-+			else if (uffd_wp_resolve || uffd_rwp_resolve)
- 				pte = huge_pte_clear_uffd(pte);
- 			huge_ptep_modify_prot_commit(vma, address, ptep, old_pte, pte);
- 			pages++;
-diff --git a/mm/mprotect.c b/mm/mprotect.c
-index 8340c8b228c6..7dcc94e7bfd6 100644
---- a/mm/mprotect.c
-+++ b/mm/mprotect.c
-@@ -214,8 +214,9 @@ static __always_inline void set_write_prot_commit_flush_ptes(struct vm_area_stru
- static long change_softleaf_pte(struct vm_area_struct *vma,
- 	unsigned long addr, pte_t *pte, pte_t oldpte, unsigned long cp_flags)
- {
--	const bool uffd_wp = cp_flags & MM_CP_UFFD_WP;
--	const bool uffd_wp_resolve = cp_flags & MM_CP_UFFD_WP_RESOLVE;
-+	const bool uffd_prot = cp_flags & (MM_CP_UFFD_WP | MM_CP_UFFD_RWP);
-+	const bool uffd_prot_resolve = cp_flags &
-+		(MM_CP_UFFD_WP_RESOLVE | MM_CP_UFFD_RWP_RESOLVE);
- 	softleaf_t entry = softleaf_from_pte(oldpte);
- 	pte_t newpte;
- 
-@@ -256,7 +257,7 @@ static long change_softleaf_pte(struct vm_area_struct *vma,
- 		 * to unprotect it, drop it; the next page
- 		 * fault will trigger without uffd trapping.
- 		 */
--		if (uffd_wp_resolve) {
-+		if (uffd_prot_resolve) {
- 			pte_clear(vma->vm_mm, addr, pte);
- 			return 1;
- 		}
-@@ -265,9 +266,9 @@ static long change_softleaf_pte(struct vm_area_struct *vma,
- 		newpte = oldpte;
- 	}
- 
--	if (uffd_wp)
-+	if (uffd_prot)
- 		newpte = pte_swp_mkuffd(newpte);
--	else if (uffd_wp_resolve)
-+	else if (uffd_prot_resolve)
- 		newpte = pte_swp_clear_uffd(newpte);
- 
- 	if (!pte_same(oldpte, newpte)) {
-@@ -282,16 +283,17 @@ static __always_inline void change_present_ptes(struct mmu_gather *tlb,
- 		int nr_ptes, unsigned long end, pgprot_t newprot,
- 		struct folio *folio, struct page *page, unsigned long cp_flags)
- {
--	const bool uffd_wp_resolve = cp_flags & MM_CP_UFFD_WP_RESOLVE;
--	const bool uffd_wp = cp_flags & MM_CP_UFFD_WP;
-+	const bool uffd_prot = cp_flags & (MM_CP_UFFD_WP | MM_CP_UFFD_RWP);
-+	const bool uffd_prot_resolve = cp_flags &
-+		(MM_CP_UFFD_WP_RESOLVE | MM_CP_UFFD_RWP_RESOLVE);
- 	pte_t ptent, oldpte;
- 
- 	oldpte = modify_prot_start_ptes(vma, addr, ptep, nr_ptes);
- 	ptent = pte_modify(oldpte, newprot);
- 
--	if (uffd_wp)
-+	if (uffd_prot)
- 		ptent = pte_mkuffd(ptent);
--	else if (uffd_wp_resolve)
-+	else if (uffd_prot_resolve)
- 		ptent = pte_clear_uffd(ptent);
- 
- 	/*
-@@ -325,6 +327,7 @@ static long change_pte_range(struct mmu_gather *tlb,
- 	long pages = 0;
- 	bool is_private_single_threaded;
- 	bool prot_numa = cp_flags & MM_CP_PROT_NUMA;
-+	bool uffd_rwp = cp_flags & MM_CP_UFFD_RWP;
- 	bool uffd_wp = cp_flags & MM_CP_UFFD_WP;
- 	int nr_ptes;
- 
-@@ -350,6 +353,14 @@ static long change_pte_range(struct mmu_gather *tlb,
- 			/* Already in the desired state. */
- 			if (prot_numa && pte_protnone(oldpte))
- 				continue;
-+			/*
-+			 * RWP-protected PTEs carry _PAGE_UFFD as a marker on
-+			 * top of PROT_NONE. Skip only entries already in that
-+			 * exact state; plain PROT_NONE from mprotect() still needs
-+			 * to be promoted so future faults can be distinguished.
-+			 */
-+			if (uffd_rwp && pte_protnone(oldpte) && pte_uffd(oldpte))
-+				continue;
- 
- 			page = vm_normal_page(vma, addr, oldpte);
- 			if (page)
-@@ -358,6 +369,8 @@ static long change_pte_range(struct mmu_gather *tlb,
- 			/*
- 			 * Avoid trapping faults against the zero or KSM
- 			 * pages. See similar comment in change_huge_pmd.
-+			 * Skip this filter for uffd RWP which
-+			 * must set protnone regardless of NUMA placement.
- 			 */
- 			if (prot_numa &&
- 			    !folio_can_map_prot_numa(folio, vma,
-@@ -428,7 +441,7 @@ pgtable_split_needed(struct vm_area_struct *vma, unsigned long cp_flags)
- 	 * (e.g. 2M shmem) because file thp is handled differently when
- 	 * split by erasing the pmd so far.
- 	 */
--	return (cp_flags & MM_CP_UFFD_WP) && !vma_is_anonymous(vma);
-+	return (cp_flags & (MM_CP_UFFD_WP | MM_CP_UFFD_RWP)) && !vma_is_anonymous(vma);
- }
+@@ -4644,11 +4644,25 @@ static inline int vm_fault_to_errno(vm_fault_t vm_fault, int foll_flags)
  
  /*
-@@ -667,7 +680,16 @@ long change_protection(struct mmu_gather *tlb,
- 	pgprot_t newprot = vma->vm_page_prot;
- 	long pages;
- 
--	BUG_ON((cp_flags & MM_CP_UFFD_WP_ALL) == MM_CP_UFFD_WP_ALL);
+  * Indicates whether GUP can follow a PROT_NONE mapped page, or whether
+- * a (NUMA hinting) fault is required.
++ * a (NUMA hinting or userfaultfd RWP) fault is required.
+  */
+ static inline bool gup_can_follow_protnone(const struct vm_area_struct *vma,
+ 					   unsigned int flags)
+ {
 +	/*
-+	 * MM_CP_UFFD_{WP,RWP} and _RESOLVE are mutually exclusive within one
-+	 * change, and WP and RWP cannot mix. Miswired callers get a warn and
-+	 * a no-op; userspace cannot reach this state.
++	 * VM_UFFD_RWP uses protnone as an access-tracking marker, not for
++	 * NUMA hinting. GUP must always take a fault so the access is
++	 * delivered to userfaultfd, regardless of FOLL_HONOR_NUMA_FAULT.
++	 *
++	 * Only do so while the VMA is accessible. If it has been made
++	 * inaccessible (e.g. mprotect(PROT_NONE)), fall through to the guard
++	 * below: forcing a fault there would loop, as handle_mm_fault() makes
++	 * no progress on protnone in an inaccessible VMA, and the access is
++	 * denied regardless of RWP anyway.
 +	 */
-+	if (WARN_ON_ONCE((cp_flags & MM_CP_UFFD_WP_ALL) == MM_CP_UFFD_WP_ALL ||
-+			 (cp_flags & MM_CP_UFFD_RWP_ALL) == MM_CP_UFFD_RWP_ALL ||
-+			 ((cp_flags & MM_CP_UFFD_WP_ALL) &&
-+			  (cp_flags & MM_CP_UFFD_RWP_ALL))))
-+		return 0;
- 
- #ifdef CONFIG_NUMA_BALANCING
- 	/*
-@@ -681,6 +703,10 @@ long change_protection(struct mmu_gather *tlb,
- 	WARN_ON_ONCE(cp_flags & MM_CP_PROT_NUMA);
- #endif
- 
-+	if (IS_ENABLED(CONFIG_ARCH_HAS_PTE_PROTNONE) &&
-+	    (cp_flags & MM_CP_UFFD_RWP))
-+		newprot = PAGE_NONE;
++	if (vma_test_single_mask(vma, VMA_UFFD_RWP) && vma_is_accessible(vma))
++		return false;
 +
- 	if (is_vm_hugetlb_page(vma))
- 		pages = hugetlb_change_protection(vma, start, end, newprot,
- 						  cp_flags);
+ 	/*
+ 	 * If callers don't want to honor NUMA hinting faults, no need to
+ 	 * determine if we would actually have to trigger a NUMA hinting fault.
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index 9eb03f1d1f1d..483bcebd6977 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -1892,8 +1892,11 @@ static enum scan_result try_collapse_pte_mapped_thp(struct mm_struct *mm, unsign
+ 	if (!thp_vma_allowable_order(vma, vma->vm_flags, TVA_FORCED_COLLAPSE, PMD_ORDER))
+ 		return SCAN_VMA_CHECK;
+ 
+-	/* Keep pmd pgtable for uffd-wp; see comment in retract_page_tables() */
+-	if (userfaultfd_wp(vma))
++	/*
++	 * Keep pmd pgtable while the uffd bit is in use; see comment in
++	 * retract_page_tables().
++	 */
++	if (userfaultfd_protected(vma))
+ 		return SCAN_PTE_UFFD;
+ 
+ 	folio = filemap_lock_folio(vma->vm_file->f_mapping,
+@@ -2106,13 +2109,14 @@ static bool file_backed_vma_is_retractable(struct vm_area_struct *vma)
+ 		return false;
+ 
+ 	/*
+-	 * When a vma is registered with uffd-wp, we cannot recycle
++	 * When a vma is registered with uffd-wp or RWP, we cannot recycle
+ 	 * the page table because there may be pte markers installed.
+-	 * Other vmas can still have the same file mapped hugely, but
+-	 * skip this one: it will always be mapped in small page size
+-	 * for uffd-wp registered ranges.
++	 * VM_UFFD_RWP ranges similarly rely on per-PTE uffd state
++	 * and cannot be recycled to a shared PMD. Other vmas can still
++	 * have the same file mapped hugely, but skip this one: it will
++	 * always be mapped in small page size for these registrations.
+ 	 */
+-	if (userfaultfd_wp(vma))
++	if (userfaultfd_protected(vma))
+ 		return false;
+ 
+ 	/*
+diff --git a/mm/rmap.c b/mm/rmap.c
+index 546bc1cf9391..9fb733489898 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -1965,7 +1965,7 @@ static inline unsigned int folio_unmap_pte_batch(struct folio *folio,
+ 	if (pte_unused(pte))
+ 		return 1;
+ 
+-	if (userfaultfd_wp(vma))
++	if (userfaultfd_protected(vma))
+ 		return 1;
+ 
+ 	/*
 -- 
 2.54.0
 
