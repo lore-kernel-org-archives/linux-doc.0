@@ -1,145 +1,188 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2375034887E
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 14:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C9FA318EFF
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 14:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783346523; cv=none; b=KtHTzToZrin6CZqRZk6CjWA/+s3Teg6Fkhx06ah+PrLIcnxkxoPPrcng8/qUShtTPP687jzE259bEMAKytDm7Vay5kMvcltzQTPbheU06CyaPYBox3Al7wtJJvnFSKuzcJnGauiUmX1JeX8JtUL1YfJ0uVKBSEA0p3uyo1KKYIA=
+	t=1783347027; cv=none; b=bmwogcudnPa+g1SLWTtDSsON51d+m77W5hd/AX5pwmT7yvjH3kBS2bk0Xp/GUnJTD/QaYSpirfMljL0ToQnfOnstdMdvKVuGZwZFgSGUJGkyJm2UJwvlzAZfBr7aT32dAYGMl+lJCA51uTw9PQ1HkNshBZWYr4vVOAyVq0i72mE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783346523; c=relaxed/simple;
-	bh=Oe/MLWXP8dChzX5k64XMZnBbFfYNd+emFyTl3KNJkIU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DNFAFs0a8pPVwhu1uTH19gBh4iJA8OQKZxsxgzGD6v3zRxOCDYMLQYXVHAVXEY94A4Xrgy8KRDHhBkORmq1jSGqOSus+oPBUAX2OvZcrh8ayZGN2I5PRWt39wbTExu1dI2iuMN6v6/ZtkvVmBokFlhcR5PkfiKG1KP5k5I29mbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RwCJ7qny; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783347027; c=relaxed/simple;
+	bh=YOsYyrc/bitTU9Vwq6vnx2DmxDDwMmLL4M4U3a7xGto=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QEDWpm/nP8zsbtW4ec2q4nofSEaZc+pcDlgXSa3qZDqhKTvPg5fE+bJJ56MutZSfim9Yc790abN5ctSaWiS4sxIO3VEMOYidAnzkMxzGenYvngEmgKj5lvb/VRdiPT1f8y3ENfharGRCmdueoBGxNNbfKdxQLh+o8K2XgTLFrgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=BemTA9d+; arc=none smtp.client-ip=209.85.160.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RwCJ7qny"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2c7cfa17fedso33556825ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 07:02:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="BemTA9d+"
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-44ae14b4fd6so1215828fac.2
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 07:10:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783346521; x=1783951321; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8W5+jx7bPjLG+4tJL2jHIRG3oW7oM+42HpDCfJqGjPw=;
-        b=RwCJ7qnyMny8Vxzcwf+qYHt8vY8Pq8QK+74PZZ8HVBNr181u+ID0pb5BzUkoIZ9TRh
-         XUII5n2CbmE/2wSkC42EYhHdAziVCN49WoZX0qLqFDhzkVuUOJfF2+Gtlhjo+arygzkM
-         IlZ1OnXHG9YdVJRsiHyQKOYJlkFADszaouYjhorbeUbQ3xHHuG5XISDgDCPDUKx6jQWc
-         Ncytk8Vj7VkQSEm0J3cSUxK3c8a288swVcDs7bTTMdmrUySm4NlbenA4RMmoalovC/92
-         bHixk0Ga15FiYPZa50PZ7g5NrPZTNCMUZeDhwHrGL6250nbxwIwdUVb3bh5dmHuQ3IPF
-         H6Dg==
+        d=baylibre.com; s=google; t=1783347024; x=1783951824; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8Q13oMYkW312woQm68JTsMT/EHUSwSrALmbtYHd4pkc=;
+        b=BemTA9d+p0hVaw+VZWUV9RDD8Tmrcy8wb0aKRfBZYWTL+6d+v9nTaMMF/+R1Iorf61
+         vS1c9imyQ34K6uPtXHR9XTuVOSuWwzWd1BxzqQR65Nmn5Z14MWn8d9RMn2iStcZ4WoKO
+         pK0i8QoEQrZGkrdeZ9nLReGOzL52FS3Q8pqAdZiAlASXXy8v/cMApyNrDzW6RC+Tm4KC
+         4JWGl0Ln/0QHxLwfEABPd7e3KtkvviPRTd1pcnPEyT50oGLHoUNr1CBr4wWUFolqQUoq
+         XDoSq8LnY7Kt8sSATQgPi8lcNBFjQhsTlDmLTnMMA1yx3wSX/PTIXgHPZCYOLEwmwPKm
+         XQRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783346521; x=1783951321;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=8W5+jx7bPjLG+4tJL2jHIRG3oW7oM+42HpDCfJqGjPw=;
-        b=gOK1wBJz9tXNnehGJBD6h4h83mW4/3Hbsi/VT5gTGxMTeFcRtj7NKsD50DruA/3NLK
-         L9oWkVgoa8oScGm6dqQDIRlxnyd1HTq9SGo32W4FXP2MNHBHccK/MSBALjGEOiWFJlmq
-         okymIEGRV0c+QP9c52sbVGlZwn4NeSBI9NjiC43pwoZyv2564tfO12JAU/BaES9s5hwu
-         69+vlFzqpTe1wxz1Pg1UlokXInJah1OejELRfKsm7HCg2k4tNWRiKY+3vv4QymYrfxkd
-         +kQ+AKCLNu/QWrrudWifaFILiQxsqtuY6DeT1e+459KQhKGtRYKg1fepZjBsOtTlVzaz
-         e7fg==
-X-Forwarded-Encrypted: i=1; AHgh+RpzKGPtRNPTNbUxKSmnDIMX1YsCO9c1xBfWwlSubkbCSTIHeYzY2eHByASUarKFA9RwGpf/SF9+Jak=@vger.kernel.org
-X-Gm-Message-State: AOJu0YylnZpRB7BOE4jHQw9snVSOl2ZazKNy4uLx7BGncUCafLDRKY1N
-	eD2FSrp+FhsSmOijAgQLQ0f2erAydHGjOCMl8oXn00N7SQTNTRN4OgNc
-X-Gm-Gg: AfdE7cnLJlv/CN79/LCQXQjdOxCwZa2tF01HI7ELOyioYdLwmzipN6hwtrvS4G0FaLA
-	rsV5PZFvQGDffL66iETFuJKZvgOXZuYBWIRkq/Fkvwy//THj2VCLuw3RDaO4HTQ8FQT05ex/72e
-	mmWvaEevOpkp/sIKxdrfZ1DUbaDhYUf8xsPPfpR4S4xvGzMUGiXQgxJSgCuvcyPPREMSp1BbPDu
-	BWKV4t0qTeeFY/qNkGDNAxoMpMwkbkBfBt/PNaz5XRdt9yp7fu8pGBDotuaOqtbJSKwrGWqLNHP
-	EL3P1LXfqjScfbnX6KELk1uk4DrN2z5xQvahlJ90laOrecLn9lWNI+ceSA60UN2sFlvDg2NiAA0
-	d1jNksaUJxIEDWEFu2KlZc7mV1qO1Ol8vkozlVamTD2Rfw0+S4DuPrmvmHOd63i0WFRt53nr3Q5
-	HAdyIQPT6JDrckwrus6bZMioVpLw==
-X-Received: by 2002:a17:902:e5c8:b0:2c9:cf5d:d9bc with SMTP id d9443c01a7336-2ccbf043d9cmr5925765ad.35.1783346520520;
-        Mon, 06 Jul 2026 07:02:00 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad7894b20sm51246705ad.78.2026.07.06.07.01.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 07:01:58 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 6 Jul 2026 07:01:57 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] dt-bindings: hwmon: (pmbus/max20830): add
- enable-gpios property and complete examples
-Message-ID: <a502e1e2-f2c3-4851-b0d5-934b18e92f84@roeck-us.net>
-References: <20260706-dev-max20830c-v2-0-37761e89bb5f@analog.com>
- <20260706-dev-max20830c-v2-1-37761e89bb5f@analog.com>
+        d=1e100.net; s=20251104; t=1783347024; x=1783951824;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8Q13oMYkW312woQm68JTsMT/EHUSwSrALmbtYHd4pkc=;
+        b=Hmt9DXhPHyjW7M0onzHodDsDo5EGMv6rUXDuV1JBbQn49f5MUIwMx7nhPCtiziFjuh
+         Z+ZeknClpFW4dJxJtRgLYKynEzHr8j4fp9KlKjKJKcrWIHAiLe9S27kK8wQaFf3VgZKo
+         P1pSF7m1BtInyVEyExK62juNvMUI/aBOSDCrYyF4l2hnR/eHo4072eTJ+Yif8dPGge3p
+         7V8PJwhoEeSjRLO/TZS1rPjgrGRIc0fN+8qJtnF2bpuigp2r5lcZKSinKi46jiCWexLW
+         DahYTShdOmOkKiVw+0KPKQxBGZxqE9hGk3IUgy/gEWRUKkmYDwbjiM9rN06wwq5BB3p/
+         A8AA==
+X-Forwarded-Encrypted: i=1; AFNElJ/Jj0//KAUCRUJeLogzDA6cAPmblmiQwP63fwvkO6ARjgGTuZMxjy6V+AMSGdIXxaPHDmoiLbo6hFM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwNaLIHIlLbj9ApUPmDmrveGzTgpt222OWun+bWsKL0DcrIQ0d
+	h5L9655OIqxi0sLQOo97nxI7fu1bI+mKxDT39wA34MO45tz4mgzP+WCbunuNR3zzz14=
+X-Gm-Gg: AfdE7ck7k57dlj6lgeo3cf1TV/H3RqlB3BNXLlfVjJ4qbv8X+V1Tvc+B6nQcWMo7WW5
+	NoJRWNCa1c6VbpXQf3bZ5XW8+aKTYsYUvWrmbBFWV9odGwUmk+RFF5iAbPfS8UmnpcHI78bu0ng
+	08PsJs4hMXgWdXqL9OJ0zd6L5kz3bXYU7zyh6oGPycmFAEaq5WG7Wcoz44jkkV3yD+at6OUD2Bx
+	L3khWCQHQV1B9XW7morQIWI6Ao/1pkVPcHlnT3MazZfkVjEotcP7CvAfvBTYd/V0tLEmK6vXt/d
+	7d8oM5sxjV/ajgRPcKDPxMriRfb4xaa5xD/yBSNJcAqYNegSJBTAzQpfJYNMbbzrWak1LEEYJz3
+	rnuOhxSrZ9qhBPGr6bPbALXd/0pMo2chssUV4IeJ8m+IyU61fmkf2iYkKdtlgxiR+7ue8mZOzc8
+	bz997ygFO+/zQ+m8Lctp38rl+DUmaK1TzWVEXFsRAShUZxMHHI164p2DKkxkqa+fE=
+X-Received: by 2002:a05:6871:820a:b0:43b:58a4:cc33 with SMTP id 586e51a60fabf-451065bccf8mr348850fac.22.1783347024487;
+        Mon, 06 Jul 2026 07:10:24 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:a38a:a0af:ed1d:5c77? ([2600:8803:e7e4:500:a38a:a0af:ed1d:5c77])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-44cfb6691d1sm10542741fac.17.2026.07.06.07.10.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jul 2026 07:10:22 -0700 (PDT)
+Message-ID: <2d84950f-c56a-48f5-ab7c-c7b7ccb3b28d@baylibre.com>
+Date: Mon, 6 Jul 2026 09:10:21 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260706-dev-max20830c-v2-1-37761e89bb5f@analog.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 12/16] iio: frequency: ad9910: add RAM mode support
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+ Rodrigo Alencar via B4 Relay
+ <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-hardening@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
+References: <20260618-ad9910-iio-driver-v6-0-79125ffbe430@analog.com>
+ <20260618-ad9910-iio-driver-v6-12-79125ffbe430@analog.com>
+ <20260703040544.08a8ea5e@jic23-huawei> <ake_YWfvVC9RQ3wu@nsa>
+ <1493eed5-5bb8-4a2c-8f2d-8b4bc5dde157@baylibre.com> <akt3i_YxG-jF3IdJ@nsa>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <akt3i_YxG-jF3IdJ@nsa>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 06, 2026 at 10:08:41AM +0800, Alexis Czezar Torreno wrote:
-> Adding an entry for the MAX20830 EN (enable) pin. This pin exist but
-> was not included before. Also edited examples entry to be more complete.
+On 7/6/26 4:47 AM, Nuno Sá wrote:
+> On Sat, Jul 04, 2026 at 11:50:35AM -0500, David Lechner wrote:
+>> On 7/3/26 9:09 AM, Nuno Sá wrote:
+>>> On Fri, Jul 03, 2026 at 04:05:44AM +0100, Jonathan Cameron wrote:
+>>>> On Thu, 18 Jun 2026 14:27:28 +0100
+>>>> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+>>>>
+>>>>> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+>>>>>
+
+..
+
+>>>>> +static inline void ad9910_debugfs_init(struct ad9910_state *st,
+>>>>> +				       struct iio_dev *indio_dev)
+>>>>> +{
+>>>>> +	struct dentry *d = iio_get_debugfs_dentry(indio_dev);
+>>>>> +	char buf[64];
+>>>>> +
+>>>>> +	/*
+>>>>> +	 * symlinks are created here so iio userspace tools can refer to them
+>>>>> +	 * as debug attributes.
+>>>>
+>>>> Maybe worth a reference to appropriate ABI doc here (even if it is introduced
+>>>> in a later patch)
+>>>
+>>> I'm not so sure about these links. I mean, I definitely agree we should
+>>> make it easy for userspace tools like libiio to be able to handle
+>>> these kind of attributes but using debugfs is questionable to me. Pretty
+>>> much because this is not a debug thing. It is a real setting for the
+>>> driver so ideally we would be able to control it (using the existent
+>>> tools) without enforcing one to mount debugfs (I know that most of the
+>>> times it's always mounted but still feels wrong to tie "real
+>>> functionality" to debugfs). 
+>>>
+>>> Having said the above, some suggestions:
+>>>
+>>> 1. Make the iio_dev the parent so that the attr name is just "ram" and
+>>> it will be a subdir /sys/bus/iio/iio:deviceN/ram/.
+>>> 2. Propose a new helper for the firmware_loader code so we can get
+>>> struct device from struct fw_upload then we can easily create a sysfs
+>>> symlink.
+>>> 3. Name the attr as dev_name(iio_dev):attr so that it becomes
+>>> iio:deviceN:attr_name.
+>>>
+>>> Now that I think about it, 2. does not make much sense when compared to
+>>> 1. And If I'm not missing anything both 1. and 3. can be sanely parsable
+>>> from userspace (being 3. maybe a bit more reliable). And yes, both require
+>>> user space tools (in this case libiio) to support a new type of
+>>> attribute (firmware) but that is another problem.
+>>
+>> I would say that udev should be used to find the firmware device from
+>> userspace rather than creating symlinks. And you probably don't even
+>> need udev if you already have the `iio-device:<ID>` value. The path
 > 
-> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> Just one note. If you mean <ID> as the attr name the above will fail for
+> multiple instances of the same device. That's is why a proposed
+> dev_name(iio_dev) which I think it should reliable be iio:deviceN. 
 
-I still do not see the point of these properties. The driver can extract
-the power good information from its registers, and it can set the enable
-value from there as well. It does not need either.
-In practice the power good output is likely to be connected to an LED or
-to the enable pin of another power controller. Neither would need
-devicetree properties.
+My <ID> is the same as your N. It looks like I just had a typo of
+an extra : in there.
 
-Again, please provide a use case. The mere presence of these pins (which
-exist on pretty much all PMBus chips) does not warrant devicetree
-properties for them.
-
-Thanks,
-Guenter
-
-> ---
->  .../devicetree/bindings/hwmon/pmbus/adi,max20830.yaml         | 11 +++++++++++
->  1 file changed, 11 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
-> index 1625dd59417f1b3ca689a9c86ca266da913d1217..f3ba6351aa5d657590d92a538910fd6b787e7a3a 100644
-> --- a/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
-> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
-> @@ -39,6 +39,11 @@ properties:
->      description:
->        Optional 2.5V to 5.5V LDO input supply.
->  
-> +  enable-gpios:
-> +    description:
-> +      GPIO connected to the EN (enable) pin.
-> +    maxItems: 1
-> +
->    pwr-good-gpios:
->      description:
->        GPIO connected to the power-good status output pin.
-> @@ -53,6 +58,8 @@ unevaluatedProperties: false
->  
->  examples:
->    - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
->      i2c {
->          #address-cells = <1>;
->          #size-cells = <0>;
-> @@ -61,6 +68,10 @@ examples:
->              compatible = "adi,max20830";
->              reg = <0x30>;
->              vddh-supply = <&vddh>;
-> +            avdd-supply = <&avdd>;
-> +            ldoin-supply = <&ldoin>;
-> +            enable-gpios = <&gpio 1 GPIO_ACTIVE_HIGH>;
-> +            pwr-good-gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
->          };
->      };
->  ...
+> I guess N might change so anyone hardcoding it might have surprises. But
+
+That is why I mentioned udev.
+
+> properly done and we have a sane way to match the above with anything on
+> /sys/class/firmware/iio:deviceN:<attr>/
+> 
+>> is always going to be `/sys/class/firmware/iio-device:<ID>:ram/`. It
+>> seems like the same amount of work for usespace to computer the path
+>> either way, so might as well keep it simple and leave out the symlink
+>> stuff.
+> 
+> Yes, at least for libiio, `iio:deviceN` is already what we call the
+> device ID so we can match fw attrs against it and everything after the
+> last ':' is treated as the attr_name. 
+> 
+> We just need to keep in mind that if a second user of this stuff pops
+> up, we should add a new helper to enforce the ABI.
+> 
+> - Nuno Sá
+>>
+>>>
+>>> - Nuno Sá
+>>>>
+>>>>> +	 */
+>>>>> +	snprintf(buf, sizeof(buf), "/sys/class/firmware/%s/loading", st->ram_fwu_name);
+>>>>> +	debugfs_create_symlink("ram_loading", d, buf);
+>>>>> +
+>>>>> +	snprintf(buf, sizeof(buf), "/sys/class/firmware/%s/data", st->ram_fwu_name);
+>>>>> +	debugfs_create_symlink("ram_data", d, buf);
+>>>>> +}
+>>>>> +
