@@ -1,513 +1,336 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BCD3BADAA
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 17:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA2A3BA25E
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 17:49:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783360150; cv=none; b=nPLjIo9BDtoUpa2fnkWFHB6kYBgRqZ+NNH+JswRO734Q8OkSQFFB5jct2qy4lmD8T4v/7bchiyjlSSn8RIS6wQaJoDKY+GM8Rs8bZfqXDtOa42eDtNS7goPfAQh42s9ACjaBcJouGPn+a9m/1BiXIMs7/eIivxQuGNG8Owqs0kk=
+	t=1783360154; cv=none; b=GoO6vQggzupeWNQapqIyzVfLO0kOVVcvyDsm5tIR23BaJSCDnvvLyiLObnCBmJ1FFr+4D+bkJRYdUn+FfuX5aeQu4S0d9IC05tqAtJ7J4d0hC3gfy3wwcREztO9hBTuwr3egVceLRvwfdTd9W7oLHrqdPPtiLFKe2jZrRsaEO+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783360150; c=relaxed/simple;
-	bh=az4RDipR9JVWX+3yoAmlM3bBEJitasmTHiScNk6yPO0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QzdmKC9kEjMW7CnUEZHgKvsPyoA5Of/WnrPXLB1b6anenZSnTHNqkUUV19VKioDOqr61TMmcfvUWFJhPk+pOiRTkpmFWLpcrP0gHJ/5UdY96LR6v71nnoQsbA0S4ZkVy1IPO1Vxhb+ij54iP6RcIus5ZSJKxrA/F0RKw8Jlf8EE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wc6bZgW5; arc=none smtp.client-ip=95.215.58.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1783360154; c=relaxed/simple;
+	bh=iiZZ8mRFeXAir31J2Bi/lvQjDxgocC94iXKq+ZXG5oY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OlkDWkbGVQcok+17trr8V7tCe1qubVB4c7+aofvSFhsRjeL2Z4HynBA7wxMLZtJj0HDRagdQxFtqV/sYXxZaNTXClAbSDrOyztEnBwwdQkor8WmvFQNrjK2RmqwiVrKCx+3JwYjc0gWTnP4C7hCRHbeh6lJjmnAMEIjtjBR5Zhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FgRQ2UH9; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wc6bZgW5"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1783360135;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hCCRHCmLvdbcAURw7jcKOt3kGEc4cp06cbgZ4xf9Nyw=;
-	b=wc6bZgW5190SvA4eFAwPWabmThpexuvv39bdAlL5nF1Ju843slF8E/SMDGWWCxOIY0htfk
-	UxH0dr3zqoSgtJwPVv40Vh0ZgeaNMb0IP9+2bSSMEMcB4aUTSUUYMIh/1Y7OjevhQm0ldq
-	ZJtRmgQ4l7PN9wQF/tmwAJiQ6Q+sdDg=
-From: Usama Arif <usama.arif@linux.dev>
-To: Nico Pache <npache@redhat.com>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	David Hildenbrand <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 5/8] mm/khugepaged: Refactor the PTE state checks into a helper
-Date: Mon,  6 Jul 2026 10:48:48 -0700
-Message-ID: <20260706174849.939490-1-usama.arif@linux.dev>
-In-Reply-To: <20260706154500.39178-6-npache@redhat.com>
-References: 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FgRQ2UH9"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-ca1328b8584so2542398a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 10:49:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783360152; x=1783964952; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/DnE+s+KM/QIDlRx5SdkGDaDsg5XZEm/ClbQtZvwEgQ=;
+        b=FgRQ2UH9EhKEBAsNG/7fwV2UjRlJ5z1TGJAeHtukb4y8Nvs2cwXacAhrTsxb3Wh2C5
+         xwyD4GIhzhYmB9l2R2C10pvoV0vL+2DZBfypffGIvtJPiNbww/mZVL4en+vCxdKnJ9RA
+         GkXqzX9feK+9GT7vQJO1yYo9dQmIv09e02rXKoNZoNKDjn+deBIM26pDUqRUXvTvZfPL
+         Yq+gFK/TB09OzaUONpfipfdAtU3yHlwyiMegbBV7CtAgngkQ7U3uBCiu6pIfy5G5v+te
+         K9GJVK478cNVXIi/X61JKuIY1dOTThh/buXrMEF81c8q0IQvu3SgfUrpPix60e1GvPBw
+         NXCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783360152; x=1783964952;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/DnE+s+KM/QIDlRx5SdkGDaDsg5XZEm/ClbQtZvwEgQ=;
+        b=Zg70rl06K4e/yMaAA42o45PEaUt7z3NsrFUMpbZ27B69/u0AAbqJkBy8qeRNBJkhQW
+         5cmsyp2naxjWaF92UX0KtdBhgD2ivH3BlhDjQisRMHYjlii/UwPFFw4x+qGV/2eXk31f
+         9OBuGjpEBytqXkSJgJHTc1WwdTcBuEd/BPbgYcND6l4UoUAmvg8dHOermi+HMVKsQ/rj
+         3y1LTwT+Y1limVx7miLGc6dNQGiuKzJpBxiK0xbyZnMdlQdO+o0W5dy0a5XrQw3umbTl
+         f4Scf4tYinbVMaBkfL/OXMePonDTsZ9vHwdeuQlOZSu10KwPdXNfyD4eere2apUWaFcc
+         Bfpg==
+X-Gm-Message-State: AOJu0YzzVCQXIEZNXzsXQ5gnY0CpyRHuqbZDAL7aU1fAeO/8BEF/1wi4
+	MjtjqKfweqTqmj73DUb1rl97y3MpFTg6QEr9cycLiS6Inw6FN7cKcbFJxSyrhQwY
+X-Gm-Gg: AfdE7cks27ii5jp5repFZzCKEfxsQC5yySmdEhC+ksrAbbfSA37EqBUEh+x2Qrs5fwz
+	RmImLa9CFLg5dzMTN7i4G+XZoJMkiBsqNfnT+2lZHu5+z16r1gh0o10e6JGuJhUhs65BXI2pWQy
+	ZzNQbIImtfIoqnUyC76s8bEdIKLRPtFte8aDgzrMl7wsf/O6CTbP5T2FN/Y/5J7woPUjAtxerhg
+	GVZpDaaji1ZGnkAISUEithZNPbtivHR2yq5j0sL0k8EBorIGu/Gr65XXl1GEXCRgcsdLO+9CRX+
+	aS5ui75uO26MWQ5LaKrnEafPtLNtZpvfo2afXL8tciBMDy0OcHXIteacFDYkl83ILma9aA5rH8j
+	2MXcHTPOOQeOxT/oe+3I3zqRql0X5WGG29jT2jmVLS+q3NsDXKelteEixsoJDp+CXI1qEj/XKSy
+	3IYNOHoy1Cw8lzzlf+TRIxf7lXpw+BVFWa4wHMlQ==
+X-Received: by 2002:a05:6a20:c996:b0:3aa:f9ff:656b with SMTP id adf61e73a8af0-3c08ec5fbfamr2225389637.7.1783360151834;
+        Mon, 06 Jul 2026 10:49:11 -0700 (PDT)
+Received: from HDBR-NT-105 (smtp.hostdime.com.br. [187.45.177.18])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f0bb843fasm54776742eec.18.2026.07.06.10.49.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 10:49:11 -0700 (PDT)
+From: Matheus Patriota <matheuslinuxdeb@gmail.com>
+To: danielmaraboo@gmail.com
+Cc: linux-doc@vger.kernel.org,
+	Matheus Patriota <matheuslinuxdeb@gmail.com>
+Subject: [PATCH] docs: pt_BR: process: Translate stable kernel rules guide
+Date: Mon,  6 Jul 2026 14:49:04 -0300
+Message-ID: <20260706174905.34552-1-matheuslinuxdeb@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-On Mon,  6 Jul 2026 09:44:52 -0600 Nico Pache <npache@redhat.com> wrote:
+Translates the documentation regarding stable kernel rules into
+Brazilian Portuguese, maintaining consistency with original
+formatting rules.
 
-> For anonymous collapse, the collapse_scan_pmd() and
-> __collapse_huge_page_isolate() functions share a large portion of their
-> logic. These functions both check the state of the PTEs and verify the
-> following:
-> 	- max_pte_* values are not exceeded
-> 	- uffd is not active
-> 	- lazyfree properties
-> 	- non-anonymous
-> 
-> Merge these checks into a helper collapse_check_pte() to reduce code
-> duplication. We also add a helper struct for this function called
-> pte_check_context which allows us to pass the required parameters in a
-> clean and elegant manner.
-> 
-> A helper function is also introduced pte_check_fail() to provide a clean
-> interface to set the pte_check_context failure results and return
-> PTE_CHECK_FAIL state. This helps reduce code duplications across the new
-> collapse_check_pte function.
-> 
-> Two slight modifications are done to the original functionality. We now
-> warn (instead of crash) if the anon test fails, and we leverage the
-> vm_normal_folio function instead of page->folio, this should be
-> functionally equivalent.
-> 
-> No other functional changes intended.
-> 
-> This patch is heavily based off work done by Lance Yang, but modified to
-> deal with conflicts and feedback received during the review cycle [1].
-> 
-> [1] https://lore.kernel.org/all/20251008043748.45554-1-lance.yang@linux.dev/
-> Suggested-by: David Hildenbrand <david@kernel.org>
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->  mm/khugepaged.c | 295 +++++++++++++++++++++++++-----------------------
->  1 file changed, 155 insertions(+), 140 deletions(-)
-> 
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 676f75773a6c..c4ea2dc1591b 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -63,6 +63,12 @@ enum scan_result {
->  	SCAN_PAGE_DIRTY_OR_WRITEBACK,
->  };
->  
-> +enum pte_check_result {
-> +	PTE_CHECK_SUCCEED,
-> +	PTE_CHECK_FAIL,
-> +	PTE_CHECK_CONTINUE,
-> +};
-> +
->  #define CREATE_TRACE_POINTS
->  #include <trace/events/huge_memory.h>
->  
-> @@ -117,6 +123,20 @@ struct collapse_control {
->  	DECLARE_BITMAP(mthp_present_ptes, MAX_PTRS_PER_PTE);
->  };
->  
-> +struct pte_check_context {
-> +	struct collapse_control *cc;
-> +	struct vm_area_struct *vma;
-> +	unsigned int order;
-> +	struct folio *folio;
-> +	int none_or_zero;
-> +	int shared;
-> +	int unmapped;
-> +	enum scan_result result;
-> +	unsigned int max_ptes_none;
-> +	unsigned int max_ptes_swap;
-> +	unsigned int max_ptes_shared;
-> +};
-> +
->  /**
->   * struct khugepaged_scan - cursor for scanning
->   * @mm_head: the head of the mm list to scan
-> @@ -700,74 +720,130 @@ static void count_collapse_event(unsigned int order, enum vm_event_item vm_event
->  	count_mthp_stat(order, mthp_event);
->  }
->  
-> +/*
-> + * pte_check_fail() - A simple helper to set the pte_check_context result and
-> + * return PTE_CHECK_FAIL.
-> + */
-> +static enum pte_check_result pte_check_fail(struct pte_check_context *ctx,
-> +		enum scan_result result)
-> +{
-> +	ctx->result = result;
-> +	return PTE_CHECK_FAIL;
-> +}
-> +
-> +/*
-> + * collapse_check_pte() - Check if a PTE is suitable for collapse
-> + *
-> + * Check if a PTE is suitable for collapse based on the following criteria:
-> + * - max_pte_* values are not exceeded
-> + * - uffd is not active
-> + * - lazyfree properties are not present
-> + * - only anonymous pages are present
-> + *
-> + * a helper struct pte_check_context is used to pass and store relevant
-> + * information between the collapse_check_pte() function and the caller.
-> + *
-> + * Return: PTE_CHECK_SUCCEED if the PTE is suitable for collapse,
-> + *         PTE_CHECK_FAIL if the PTE is not suitable for collapse,
-> + *         PTE_CHECK_CONTINUE if the scan should continue to check the next PTE.
-> + */
-> +static enum pte_check_result collapse_check_pte(pte_t pteval,
-> +		unsigned long addr, struct pte_check_context *ctx)
-> +{
-> +	if (pte_none_or_zero(pteval)) {
-> +		if (++ctx->none_or_zero > ctx->max_ptes_none) {
-> +			count_collapse_event(ctx->order, THP_SCAN_EXCEED_NONE_PTE,
-> +					MTHP_STAT_COLLAPSE_EXCEED_NONE);
-> +			return pte_check_fail(ctx, SCAN_EXCEED_NONE_PTE);
-> +		}
-> +		return PTE_CHECK_CONTINUE;
-> +	}
-> +	if (!pte_present(pteval)) {
-> +		if (ctx->unmapped == -1)
-> +			return pte_check_fail(ctx, SCAN_PTE_NON_PRESENT);
-> +		if (++ctx->unmapped > ctx->max_ptes_swap) {
-> +			count_collapse_event(ctx->order, THP_SCAN_EXCEED_SWAP_PTE,
-> +					MTHP_STAT_COLLAPSE_EXCEED_SWAP);
-> +			return pte_check_fail(ctx, SCAN_EXCEED_SWAP_PTE);
-> +		}
-> +		if (pte_swp_uffd_wp_any(pteval))
-> +			return pte_check_fail(ctx, SCAN_PTE_UFFD_WP);
-> +		return PTE_CHECK_CONTINUE;
-> +	}
-> +	/*
-> +	 * Don't collapse if any of the small PTEs are armed with uffd
-> +	 * write protection. Marking the new huge pmd as write protected
-> +	 * could bring userfault messages that fall outside of the
-> +	 * registered range.
-> +	 */
-> +	if (pte_uffd_wp(pteval))
-> +		return pte_check_fail(ctx, SCAN_PTE_UFFD_WP);
-> +
-> +	ctx->folio = vm_normal_folio(ctx->vma, addr, pteval);
-> +	if (unlikely(!ctx->folio) || unlikely(folio_is_zone_device(ctx->folio)))
-> +		return pte_check_fail(ctx, SCAN_PAGE_NULL);
-> +
-> +	/*
-> +	 * If the vma has the VM_DROPPABLE flag, the collapse will
-> +	 * preserve the lazyfree property without needing to skip.
-> +	 */
-> +	if (ctx->cc->is_khugepaged && !(ctx->vma->vm_flags & VM_DROPPABLE) &&
-> +	    folio_test_lazyfree(ctx->folio) && !pte_dirty(pteval))
-> +		return pte_check_fail(ctx, SCAN_PAGE_LAZYFREE);
-> +
-> +	if (folio_maybe_mapped_shared(ctx->folio)) {
-> +		/*
-> +		 * TODO: Support shared pages without leading to further
-> +		 * mTHP collapses. Currently bringing in new pages via
-> +		 * shared may cause a future higher order collapse on a
-> +		 * rescan of the same range.
-> +		 */
-> +		if (++ctx->shared > ctx->max_ptes_shared) {
-> +			count_collapse_event(ctx->order, THP_SCAN_EXCEED_SHARED_PTE,
-> +					MTHP_STAT_COLLAPSE_EXCEED_SHARED);
-> +			return pte_check_fail(ctx, SCAN_EXCEED_SHARED_PTE);
-> +		}
-> +	}
-> +
-> +	if (!folio_test_anon(ctx->folio)) {
-> +		VM_WARN_ON_FOLIO(!folio_test_anon(ctx->folio), ctx->folio);
-> +		return pte_check_fail(ctx, SCAN_PAGE_ANON);
-> +	}
+Signed-off-by: Matheus Patriota <matheuslinuxdeb@gmail.com>
+---
+ Documentation/translations/pt_BR/index.rst    |   1 +
+ .../pt_BR/process/stable-kernel-rules.rst     | 232 ++++++++++++++++++
+ 2 files changed, 233 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/stable-kernel-rules.rst
 
-The order folio_maybe_mapped_shared() and !folio_test_anon() check is flipped
-from what it was. Can we keep original ordering? The commit message says
-no other functional change inteded, but this could result in different collapse
-even counters getting incremented.
+diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
+index 7a488f662..e761ee0eb 100644
+--- a/Documentation/translations/pt_BR/index.rst
++++ b/Documentation/translations/pt_BR/index.rst
+@@ -78,3 +78,4 @@ kernel e sobre como ver seu trabalho integrado.
+    Processo do subsistema SoC <process/maintainer-soc>
+    Conformidade de DTS para SoC <process/maintainer-soc-clean-dts>
+    Processo do subsistema KVM x86 <process/maintainer-kvm-x86>
++   Regras para kernels estáveis <process/stable-kernel-rules>
+diff --git a/Documentation/translations/pt_BR/process/stable-kernel-rules.rst b/Documentation/translations/pt_BR/process/stable-kernel-rules.rst
+new file mode 100644
+index 000000000..e0b0ff3ed
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/stable-kernel-rules.rst
+@@ -0,0 +1,232 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. _stable_kernel_rules:
++
++Tudo o que você sempre quis saber sobre as versões -stable do Linux
++===================================================================
++
++Regras sobre que tipos de patches são aceitos — e quais não são — na árvore
++"-stable":
++
++- Ele, ou uma correção equivalente, já deve existir na linha principal (upstream) do Linux.
++- Deve ser obviamente correto e testado.
++- Não deve conter mais de 100 linhas, incluindo o contexto.
++- Deve seguir as
++  :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
++  regras.
++- Deve corrigir um bug real que incomoda as pessoas ou simplesmente adicionar um ID de dispositivo.
++
++Para detalhar o primeiro ponto:
++
++  - Ele corrige um problema como um "oops", um travamento, corrupção de dados, uma falha de segurança
++    real, uma peculiaridade de hardware, um erro de compilação (mas não para itens marcados
++    como CONFIG_BROKEN) ou algum problema do tipo "oh, isso não é bom".
++  - Problemas graves relatados por um usuário de um kernel de distribuição também
++    podem ser considerados se corrigirem um problema notável de desempenho ou interatividade.
++    Como essas correções não são tão óbvias e apresentam um risco maior de uma sutil
++    regressão, elas só devem ser enviadas por um mantenedor de kernel de distribuição
++    e incluir um adendo com link para um registro no Bugzilla (caso exista) e
++    informações adicionais sobre o impacto visível para o usuário.
++  - Nada do tipo "isso poderia ser um problema...", como uma "condição de corrida
++    teórica", a menos que também seja fornecida uma explicação de como o bug pode ser explorado.
++  - Nada de correções "triviais" que não tragam benefícios aos usuários (alterações de ortografia, limpeza
++    de espaços em branco, etc.).
++
++Procedimento para enviar patches para a árvore -stable
++------------------------------------------------------
++
++.. note::
++
++   Correções de segurança não devem ser tratadas (exclusivamente) pelo processo de revisão da
++   série estável, mas devem seguir os procedimentos descritos em
++   :ref:`Documentation/process/security-bugs.rst <securitybugs>`.
++
++Existem três opções para enviar mudanças para as árvores -stable:
++
++1. Adicionar uma 'tag stable' na descrição de um patch que você envia para
++   inclusão na linha principal.
++2. Pedir à equipe do stable para incluir um patch que já tenha sido integrado à linha principal.
++3. Enviar um patch para a equipe do stable que seja equivalente a uma alteração já
++   integrada à linha principal.
++
++As seções abaixo descrevem cada uma das opções com mais detalhes.
++
++A :ref:`option_1` é **fortemente** preferida, sendo a mais fácil e comum.
++A :ref:`option_2` destina-se principalmente a alterações para as quais o backporting não foi considerado
++no momento da submissão. A :ref:`option_3` é uma alternativa às duas opções anteriores
++para casos em que um patch integrado à linha principal precisa de ajustes para ser aplicado em séries
++mais antigas (por exemplo, devido a alterações na API).
++
++Ao utilizar as opções 2 ou 3, você pode solicitar que sua alteração seja incluída em séries
++estáveis específicas. Ao fazer isso, certifique-se de que a correção ou uma equivalente seja aplicável,
++submetida ou já esteja presente em todas as árvores estáveis mais recentes que ainda recebem suporte. Isso é
++feito para evitar regressões que os usuários poderiam encontrar posteriormente ao atualizar se,
++e.g. uma correção integrada ao 5.19-rc1 fosse retroportada para o 5.10.y, mas não para o 5.15.y.
++
++.. _option_1:
++
++Opção 1
++*******
++
++Para que um patch que você envia para inclusão na linha principal seja automaticamente coletado mais tarde
++para as árvores estáveis, adicione esta tag na área de sign-off::
++
++  Cc: stable@vger.kernel.org
++
++Use ``Cc: stable@kernel.org`` em vez disso ao corrigir vulnerabilidades não divulgadas:
++reduz a chance de expor acidentalmente a correção ao público por meio do
++'git send-email', já que e-mails enviados para esse endereço não são entregues em lugar nenhum.
++
++Assim que o patch estiver na linha principal, ele será aplicado à árvore estável sem
++que nada mais precise ser feito pelo autor ou mantenedor do subsistema.
++
++Para enviar instruções adicionais à equipe do stable, use um comentário inline no estilo shell
++para passar notas arbitrárias ou predefinidas:
++
++* Especifique quaisquer pré-requisitos adicionais de patch para o cherry picking::
++
++    Cc: <stable@vger.kernel.org> # 3.3.x: a1f84a3: sched: Check for idle
++    Cc: <stable@vger.kernel.org> # 3.3.x: 1b9508f: sched: Rate-limit newidle
++    Cc: <stable@vger.kernel.org> # 3.3.x: fd21073: sched: Fix affinity logic
++    Cc: <stable@vger.kernel.org> # 3.3.x
++    Signed-off-by: Ingo Molnar <mingo@elte.hu>
++
++A sequência de tags tem o significado de::
++
++    git cherry-pick a1f84a3
++    git cherry-pick 1b9508f
++    git cherry-pick fd21073
++    git cherry-pick <este commit>
++
++Observe que, para uma série de patches, você não precisa listar como pré-requisitos os
++patches presentes na própria série. Por exemplo, se você tiver a seguinte
++série de patches::
++
++    patch1
++    patch2
++
++onde o patch2 depende do patch1, você não precisa listar o patch1 como
++pré-requisito do patch2 se você já tiver marcado o patch1 para inclusão no
++stable.
++
++* Indique os pré-requisitos de versão do kernel::
++
++    Cc: <stable@vger.kernel.org> # 3.3.x
++
++A tag tem o significado de::
++
++    git cherry-pick <este commit>
++
++Para cada árvore "-stable" começando com a versão especificada.
++
++  Nota, essa marcação é desnecessária se a equipe do stable puder derivar as
++  versões apropriadas a partir das tags Fixes:.
++
++* Adiar a coleta de patches::
++
++    Cc: <stable@vger.kernel.org> # after -rc3
++
++* Apontar problemas conhecidos::
++
++    Cc: <stable@vger.kernel.org> # see patch description, needs adjustments for <= 6.3
++
++Além disso, existe uma variante da tag stable que você pode usar para fazer com que as ferramentas de
++backporting da equipe do stable (por exemplo, AUTOSEL ou scripts que buscam commits
++contendo uma tag 'Fixes:') ignorem uma alteração::
++
++    Cc: <stable+noautosel@kernel.org> # o motivo vai aqui, e deve estar presente
++
++.. _option_2:
++
++Opção 2
++*******
++
++Se o patch já tiver sido mesclado à linha principal, envie um e-mail para
++stable@vger.kernel.org contendo o assunto do patch, o ID do commit,
++por que
++você acha que ele deve ser aplicado e para quais versões do kernel você deseja que ele
++seja aplicado.
++
++.. _option_3:
++
++Opção 3
++*******
++
++Envie o patch, após verificar se ele segue as regras acima, para
++stable@vger.kernel.org e mencione as versões do kernel às quais você deseja que ele seja aplicado.
++Ao fazer isso, você deve anotar o ID do commit upstream no changelog da sua
++submissão com uma linha separada acima do texto do commit, desta forma::
++
++    commit <sha1> upstream.
++
++Ou, alternativamente::
++
++   [ Upstream commit <sha1> ]
++
++Se o patch enviado divergir do patch upstream original (por exemplo
++porque teve que ser ajustado para a API mais antiga), isso deve ser muito claramente
++documentado e justificado na descrição do patch.
++
++Após a submissão
++----------------
++
++O remetente receberá um ACK quando o patch tiver sido aceito na
++fila, ou um NAK se o patch for rejeitado. Esta resposta pode levar alguns
++dias, de acordo com as agendas dos membros da equipe do stable.
++
++Se aceito, o patch será adicionado à fila -stable, para revisão por outros
++desenvolvedores e pelo mantenedor do subsistema relevante.
++
++Ciclo de revisão
++----------------
++
++- Quando os mantenedores do -stable decidirem por um ciclo de revisão, os patches serão
++  enviados para o comitê de revisão, e para o mantenedor da área afetada do
++  patch (a menos que o remetente seja o mantenedor da área) e CC: para
++  a lista de discussão linux-kernel.
++- O comitê de revisão tem 48 horas para dar ACK ou NAK no patch.
++- Se o patch for rejeitado por um membro do comitê, ou membros da lista linux-kernel
++  reclamarem do patch, trazendo problemas que os mantenedores e
++  membros não perceberam, o patch será descartado da fila.
++- Os patches que receberam ACK serão postados novamente como parte de uma versão candidata (-rc)
++  para serem testados por desenvolvedores e testadores.
++- Normalmente apenas um lançamento -rc é feito, no entanto, se houver quaisquer problemas
++  pendentes, alguns patches podem ser modificados ou descartados ou patches adicionais podem
++  ser enfileirados. Lançamentos -rc adicionais são então lançados e testados até que nenhum
++  problema seja encontrado.
++- Responder aos lançamentos -rc pode ser feito na lista de discussão enviando
++  um e-mail "Tested-by:" com qualquer informação de teste desejada. As tags "Tested-by:"
++  serão coletadas e adicionadas ao commit de lançamento.
++- Ao final do ciclo de revisão, o novo lançamento -stable será lançado
++  contendo todos os patches enfileirados e testados.
++- Patches de segurança serão aceitos na árvore -stable diretamente da
++  equipe de segurança do kernel, e não passarão pelo ciclo normal de revisão.
++  Entre em contato com a equipe de segurança do kernel para mais detalhes sobre este procedimento.
++
++Árvores
++-------
++
++- As filas de patches, tanto para versões concluídasamp; quanto para versões em
++  andamento podem ser encontradas em:
++
++    https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git
++
++- Os lançamentos finalizados e marcados (tagged) de todos os kernels estáveis podem ser encontrados
++  em branches separados por versão em:
++
++    https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
++
++- A versão candidata de todas as versões estáveis do kernel pode ser encontrada em:
++
++    https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/
++
++  .. warning::
++     A árvore -stable-rc é um instantâneo no tempo da árvore stable-queue e
++     mudará frequentemente, portanto, passará por rebase com frequência.
++     Ela deve ser utilizada apenas para
++     fins de teste (por exemplo, para ser consumida por sistemas de CI).
++
++Comitê de revisão
++-----------------
++
++- Este é composto por um número de desenvolvedores de kernel que se voluntariaram para
++  esta tarefa, e alguns que não o fizeram.
+-- 
+2.53.0
 
-
-> +	return PTE_CHECK_SUCCEED;
-> +}
-> +
->  static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->  		unsigned long start_addr, pte_t *pte, struct collapse_control *cc,
->  		unsigned int order, struct list_head *compound_pagelist)
->  {
-> -	const unsigned int max_ptes_none = collapse_max_ptes_none(cc, vma, order);
-> -	const unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, order);
->  	const unsigned long nr_pages = 1UL << order;
-> -	struct page *page = NULL;
->  	struct folio *folio = NULL;
->  	unsigned long addr = start_addr;
-> -	pte_t *_pte;
-> -	int none_or_zero = 0, shared = 0, referenced = 0;
-> +	pte_t *_pte, pteval;
-> +	int referenced = 0;
->  	enum scan_result result = SCAN_FAIL;
-> +	enum pte_check_result pte_check;
-> +	struct pte_check_context ctx = {
-> +		.cc = cc,
-> +		.vma = vma,
-> +		.order = order,
-> +		.unmapped = -1, /* don't check swap PTEs */
-> +		.max_ptes_none = collapse_max_ptes_none(cc, vma, order),
-> +		.max_ptes_shared = collapse_max_ptes_shared(cc, order),
-> +	};
->  
->  	for (_pte = pte; _pte < pte + nr_pages;
->  	     _pte++, addr += PAGE_SIZE) {
-> -		pte_t pteval = ptep_get(_pte);
-> -		if (pte_none_or_zero(pteval)) {
-> -			if (++none_or_zero > max_ptes_none) {
-> -				result = SCAN_EXCEED_NONE_PTE;
-> -				count_collapse_event(order, THP_SCAN_EXCEED_NONE_PTE,
-> -						MTHP_STAT_COLLAPSE_EXCEED_NONE);
-> -				goto out;
-> -			}
-> -			continue;
-> -		}
-> -		if (!pte_present(pteval)) {
-> -			result = SCAN_PTE_NON_PRESENT;
-> -			goto out;
-> -		}
-> -		if (pte_uffd_wp(pteval)) {
-> -			result = SCAN_PTE_UFFD_WP;
-> -			goto out;
-> -		}
-> -		page = vm_normal_page(vma, addr, pteval);
-> -		if (unlikely(!page) || unlikely(is_zone_device_page(page))) {
-> -			result = SCAN_PAGE_NULL;
-> -			goto out;
-> -		}
-> -
-> -		folio = page_folio(page);
-> -		VM_BUG_ON_FOLIO(!folio_test_anon(folio), folio);
-> -
-> -		/*
-> -		 * If the vma has the VM_DROPPABLE flag, the collapse will
-> -		 * preserve the lazyfree property without needing to skip.
-> -		 */
-> -		if (cc->is_khugepaged && !(vma->vm_flags & VM_DROPPABLE) &&
-> -		    folio_test_lazyfree(folio) && !pte_dirty(pteval)) {
-> -			result = SCAN_PAGE_LAZYFREE;
-> +		pteval = ptep_get(_pte);
-> +		pte_check = collapse_check_pte(pteval, addr, &ctx);
-> +		if (pte_check == PTE_CHECK_FAIL) {
-> +			result = ctx.result;
->  			goto out;
->  		}
-> +		if (pte_check == PTE_CHECK_CONTINUE)
-> +			continue;
-> +		folio = ctx.folio;
->  
-> -		/* See collapse_scan_pmd(). */
-> -		if (folio_maybe_mapped_shared(folio)) {
-> -			/*
-> -			 * TODO: Support shared pages without leading to further
-> -			 * mTHP collapses. Currently bringing in new pages via
-> -			 * shared may cause a future higher order collapse on a
-> -			 * rescan of the same range.
-> -			 */
-> -			if (++shared > max_ptes_shared) {
-> -				result = SCAN_EXCEED_SHARED_PTE;
-> -				count_collapse_event(order, THP_SCAN_EXCEED_SHARED_PTE,
-> -						MTHP_STAT_COLLAPSE_EXCEED_SHARED);
-> -				goto out;
-> -			}
-> -		}
->  		/*
->  		 * TODO: In some cases of partially-mapped folios, we'd actually
->  		 * want to collapse.
-> @@ -844,13 +920,13 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->  		result = SCAN_LACK_REFERENCED_PAGE;
->  	} else {
->  		result = SCAN_SUCCEED;
-> -		trace_mm_collapse_huge_page_isolate(folio, none_or_zero,
-> +		trace_mm_collapse_huge_page_isolate(folio, ctx.none_or_zero,
->  						    referenced, result, order);
->  		return result;
->  	}
->  out:
->  	release_pte_pages(pte, _pte, compound_pagelist);
-> -	trace_mm_collapse_huge_page_isolate(folio, none_or_zero,
-> +	trace_mm_collapse_huge_page_isolate(folio, ctx.none_or_zero,
->  					    referenced, result, order);
->  	return result;
->  }
-> @@ -1616,24 +1692,30 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  		struct vm_area_struct *vma, unsigned long start_addr,
->  		bool *lock_dropped, struct collapse_control *cc)
->  {
-> -	const unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, HPAGE_PMD_ORDER);
-> -	const unsigned int max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER);
-> -	unsigned int max_ptes_none = collapse_max_ptes_none(cc, vma, HPAGE_PMD_ORDER);
->  	enum tva_type tva_flags = cc->is_khugepaged ? TVA_KHUGEPAGED : TVA_FORCED_COLLAPSE;
->  	pmd_t *pmd;
->  	pte_t *pte, *_pte, pteval;
->  	int i;
-> -	int none_or_zero = 0, shared = 0, referenced = 0;
-> -	enum scan_result result = SCAN_FAIL;
-> -	struct page *page = NULL;
->  	struct folio *folio = NULL;
-> +	int referenced = 0;
-> +	enum scan_result result = SCAN_FAIL;
->  	unsigned long addr;
->  	unsigned long enabled_orders;
->  	spinlock_t *ptl;
-> -	int node = NUMA_NO_NODE, unmapped = 0;
-> +	int node = NUMA_NO_NODE;
-> +	enum pte_check_result pte_check;
->  
->  	VM_BUG_ON(start_addr & ~HPAGE_PMD_MASK);
->  
-> +	struct pte_check_context ctx = {
-> +		.cc = cc,
-> +		.vma = vma,
-> +		.order = HPAGE_PMD_ORDER,
-> +		.max_ptes_none = collapse_max_ptes_none(cc, vma, HPAGE_PMD_ORDER),
-> +		.max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER),
-> +		.max_ptes_shared = collapse_max_ptes_shared(cc, HPAGE_PMD_ORDER),
-> +	};
-> +
->  	result = find_pmd_or_thp_or_none(mm, start_addr, &pmd);
->  	if (result != SCAN_SUCCEED) {
->  		cc->progress++;
-> @@ -1649,7 +1731,7 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  	 * scan all pages to populate the bitmap for mTHP collapse.
->  	 */
->  	if (enabled_orders != BIT(HPAGE_PMD_ORDER))
-> -		max_ptes_none = KHUGEPAGED_MAX_PTES_LIMIT;
-> +		ctx.max_ptes_none = KHUGEPAGED_MAX_PTES_LIMIT;
->  
->  	pte = pte_offset_map_lock(mm, pmd, start_addr, &ptl);
->  	if (!pte) {
-> @@ -1665,81 +1747,14 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  
->  		cc->progress++;
->  
-> -		if (pte_none_or_zero(pteval)) {
-> -			if (++none_or_zero > max_ptes_none) {
-> -				result = SCAN_EXCEED_NONE_PTE;
-> -				count_collapse_event(HPAGE_PMD_ORDER, THP_SCAN_EXCEED_NONE_PTE,
-> -						MTHP_STAT_COLLAPSE_EXCEED_NONE);
-> -				goto out_unmap;
-> -			}
-> -			continue;
-> -		}
-> -		if (!pte_present(pteval)) {
-> -			if (++unmapped > max_ptes_swap) {
-> -				result = SCAN_EXCEED_SWAP_PTE;
-> -				count_collapse_event(HPAGE_PMD_ORDER, THP_SCAN_EXCEED_SWAP_PTE,
-> -						MTHP_STAT_COLLAPSE_EXCEED_SWAP);
-> -				goto out_unmap;
-> -			}
-> -			/*
-> -			 * Always be strict with uffd-wp
-> -			 * enabled swap entries.  Please see
-> -			 * comment below for pte_uffd_wp().
-> -			 */
-> -			if (pte_swp_uffd_wp_any(pteval)) {
-> -				result = SCAN_PTE_UFFD_WP;
-> -				goto out_unmap;
-> -			}
-> -			continue;
-> -		}
-> -		if (pte_uffd_wp(pteval)) {
-> -			/*
-> -			 * Don't collapse the page if any of the small
-> -			 * PTEs are armed with uffd write protection.
-> -			 * Here we can also mark the new huge pmd as
-> -			 * write protected if any of the small ones is
-> -			 * marked but that could bring unknown
-> -			 * userfault messages that falls outside of
-> -			 * the registered range.  So, just be simple.
-> -			 */
-> -			result = SCAN_PTE_UFFD_WP;
-> -			goto out_unmap;
-> -		}
-> -
-> -		page = vm_normal_page(vma, addr, pteval);
-> -		if (unlikely(!page) || unlikely(is_zone_device_page(page))) {
-> -			result = SCAN_PAGE_NULL;
-> -			goto out_unmap;
-> -		}
-> -		folio = page_folio(page);
-> -
-> -		/*
-> -		 * If the vma has the VM_DROPPABLE flag, the collapse will
-> -		 * preserve the lazyfree property without needing to skip.
-> -		 */
-> -		if (cc->is_khugepaged && !(vma->vm_flags & VM_DROPPABLE) &&
-> -		    folio_test_lazyfree(folio) && !pte_dirty(pteval)) {
-> -			result = SCAN_PAGE_LAZYFREE;
-> -			goto out_unmap;
-> -		}
-> -
-> -		if (!folio_test_anon(folio)) {
-> -			result = SCAN_PAGE_ANON;
-> +		pte_check = collapse_check_pte(pteval, addr, &ctx);
-> +		if (pte_check == PTE_CHECK_FAIL) {
-> +			result = ctx.result;
->  			goto out_unmap;
->  		}
-> -
-> -		/*
-> -		 * We treat a single page as shared if any part of the THP
-> -		 * is shared.
-> -		 */
-> -		if (folio_maybe_mapped_shared(folio)) {
-> -			if (++shared > max_ptes_shared) {
-> -				result = SCAN_EXCEED_SHARED_PTE;
-> -				count_collapse_event(HPAGE_PMD_ORDER, THP_SCAN_EXCEED_SHARED_PTE,
-> -						MTHP_STAT_COLLAPSE_EXCEED_SHARED);
-> -				goto out_unmap;
-> -			}
-> -		}
-> +		if (pte_check == PTE_CHECK_CONTINUE)
-> +			continue;
-> +		folio = ctx.folio;
->  
->  		/* Set bit for occupied pages */
->  		__set_bit(i, cc->mthp_present_ptes);
-> @@ -1781,7 +1796,7 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  	}
->  	if (cc->is_khugepaged &&
->  		   (!referenced ||
-> -		    (unmapped && referenced < HPAGE_PMD_NR / 2))) {
-> +		    (ctx.unmapped && referenced < HPAGE_PMD_NR / 2))) {
->  		result = SCAN_LACK_REFERENCED_PAGE;
->  	} else {
->  		result = SCAN_SUCCEED;
-> @@ -1792,13 +1807,13 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  		/* collapse_huge_page expects the lock to be dropped before calling */
->  		mmap_read_unlock(mm);
->  		result = mthp_collapse(mm, start_addr, referenced,
-> -				       unmapped, cc, enabled_orders);
-> +				       ctx.unmapped, cc, enabled_orders);
->  		/* mmap_lock was released above, set lock_dropped */
->  		*lock_dropped = true;
->  	}
->  out:
->  	trace_mm_khugepaged_scan_pmd(mm, folio, referenced,
-> -				     none_or_zero, result, unmapped);
-> +				     ctx.none_or_zero, result, ctx.unmapped);
->  	return result;
->  }
->  
-> -- 
-> 2.54.0
-> 
-> 
