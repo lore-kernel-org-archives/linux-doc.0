@@ -1,198 +1,223 @@
-Received: from mx0b-00128a01.pphosted.com (mx0b-00128a01.pphosted.com [148.163.139.77])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF20334D911;
-	Mon,  6 Jul 2026 08:04:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.139.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783325093; cv=fail; b=PhjGx1sCtumR5Eg961fnU5eBxJG/HjUL8qEUuotscvY7rxvfugeGgFshEfWliiF0tzuCbKBH4kLbRoZ8cDyp7GlGvyGTKP+1ABvLjxEycNMoyZPsciM+m0V46Kl3UaDGfvf2okDW+cBSq6i9QIUwL/5iEyHobGWIFJw0ksD9CDY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783325093; c=relaxed/simple;
-	bh=DeVhNNLQncgWuE0YrqPJChsx7qh3pAzqgsuwDTFIYl4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZnGXatZ8+w4gQ7S5hu1+ztbzd1vCBU4zXD+G0a1MqlkVN/hvM/01d2rjmiY13p2fJN/clfneazxoJABcsEgVnkIyCrN8sNJkOiJVibgApdJaVJV88kQsBU0SpJ11o0rnjI1IAyqrL84SZpyHEUTs2ZsrR4z+j7ZWlSpJAoDHjDY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=cHgNAr3j; arc=fail smtp.client-ip=148.163.139.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF09302140;
+	Mon,  6 Jul 2026 08:10:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783325439; cv=none; b=fLqsxXKFPViSGA+tT23YZpJmH3auGSLAiBiGDb3oidussrZ7qOwiy4L583+9CxZsdWxR/ZI3bUd/Vz9sAkBYZXAtasM7/lS62A1SC+xl0dzlft0JNRiMyvMP0uAHO83gGGAODtfzmVjjwXgI1aiDta7EaMB5lrGYDsQCuUlm/XM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783325439; c=relaxed/simple;
+	bh=TT3fncQbUQptCxF/Z0hHX0Zfr+WnRqh4fEu5SfiSaqg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lM7R+lDCarFdEkfBxlK+dwyhLfVkEVRMifSMCuZpyNiqgw/bO8pP5avRJyMvizXlDm5tBEC/6qKG9GjhUppPvhxV+to/M1B3O34FO9GkkscfCijUsqS2ZkK1RFZdACCmok+vQAYTd3WkU4fSOgPFwfe+emU7l0/+4JuqZ3bwIIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=hVrCTmyT; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="cHgNAr3j"
-Received: from pps.filterd (m0167091.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6664r4xP3541002;
-	Mon, 6 Jul 2026 03:13:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="hVrCTmyT"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 665MIIWY2250511;
+	Mon, 6 Jul 2026 08:10:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=DeVhN
-	NLQncgWuE0YrqPJChsx7qh3pAzqgsuwDTFIYl4=; b=cHgNAr3jIyYuEmrd6U71m
-	8hB2vwWorLeo9yV1DKfETuJFo4d07nJ6PLYkrm2yRNby9SlJ2ahHjntlO+DCghNU
-	rTRnbjMSjbzGrSRHyC6plZBJdzW8qX6cZr7AWzA5ELB41abRuWwltT7mJqxbfQqI
-	v4nVUnoeZACIgG2ZEdCM4+o0EqmO2rvEkXrwkhQfAOPebIYgCy5SIgd5suV++2lN
-	sKjb1w5KfS5KnwluvB6ytv9y8DLmbFAH3Pz86NovEB7eQkR40dxgwJAYybBvdQsA
-	xzRmAEruSXAzxDQ28+ofpFPDF86R4tdkpWREws2hva5MNeX8+p9+ZG/fR2YdupAU
-	w==
-Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010068.outbound.protection.outlook.com [52.101.46.68])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4f85qq0bgp-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 06 Jul 2026 03:13:08 -0400 (EDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=adf26XanBNJ2FwweF6YRLIPgeRVDQnE+hlUN4Ytkl8+yz9Q75YS6XeX9GpAnCrIvzmY8ZEMYCz75w5Ssl7F8MMU4z6FbBC58ez0qo2qRV1xHeIzGm+fgTOGUiA+5ZMtAChLTUeasdHxcOSi+YxL8waJJzRzBzEvqfSG5SMX/SwXUwWX3XL/PUNzWXK1AyYETRAAqpo9p/6b/EwVBv2N569kta310LWOJjW3X5hbIGuzr3eOsyVv3xtqriUiuGYcE45B2kQQYV4ZzYSelwgWgZxyTbwrwexsWOIu+XBZ6/QFctefR7PECpryW59+w+RpcySvjJh+GjwliepxNKi3V0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DeVhNNLQncgWuE0YrqPJChsx7qh3pAzqgsuwDTFIYl4=;
- b=PamWMt+obrT+SPMLVWjWuq3jBrOTnxQb+k6Ib/9kVdbVWV64Oux5t2sydB+ajLHPpckpkMeYKfmKNeg69FGJzXLlzeDqc/hQxBuvlQhJk5xsR04TUnLIGfi3oH4UM0ka3gde5DDe3tnqBWTt8heGNHv8QlUyJZ/xCoibX8ZVAGO0thqstzudBS9yuYWhkXC2MV5nKNXbJCzRXTr4U2y/C714S4Ux4qwK6PO7lYTf99RRcbCCjpDtQxeVqIV2QMylnbSKJtDH2QYXhbybsdbsb2Lfuf1pPFueaUFtII32G2aUzBL0Z+AGEUUa9rk9VOjBrC2+JuEz6NgRVlBJclUWQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
- dkim=pass header.d=analog.com; arc=none
-Received: from PH0PR03MB6351.namprd03.prod.outlook.com (2603:10b6:510:ab::18)
- by SA1PR03MB989319.namprd03.prod.outlook.com (2603:10b6:806:4f4::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Mon, 6 Jul 2026
- 07:13:06 +0000
-Received: from PH0PR03MB6351.namprd03.prod.outlook.com
- ([fe80::1578:4572:29b5:2442]) by PH0PR03MB6351.namprd03.prod.outlook.com
- ([fe80::1578:4572:29b5:2442%4]) with mapi id 15.21.0181.009; Mon, 6 Jul 2026
- 07:13:06 +0000
-From: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH v2 1/5] dt-bindings: hwmon: (pmbus/max20830): add
- enable-gpios property and complete examples
-Thread-Topic: [PATCH v2 1/5] dt-bindings: hwmon: (pmbus/max20830): add
- enable-gpios property and complete examples
-Thread-Index: AQHdDOxxzu1e3Sp4mEyeW6BY1zw6brZgCpgAgAAEpoA=
-Date: Mon, 6 Jul 2026 07:13:06 +0000
-Message-ID:
- <PH0PR03MB6351C4B212D2CCBA3F1BF113F1F12@PH0PR03MB6351.namprd03.prod.outlook.com>
-References: <20260706-dev-max20830c-v2-0-37761e89bb5f@analog.com>
- <20260706-dev-max20830c-v2-1-37761e89bb5f@analog.com>
- <20260706-neat-perky-malamute-7518b7@quoll>
-In-Reply-To: <20260706-neat-perky-malamute-7518b7@quoll>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR03MB6351:EE_|SA1PR03MB989319:EE_
-x-ms-office365-filtering-correlation-id: 90d5cf35-623f-45b6-5998-08dedb2e06e5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|23010399003|7416014|1800799024|366016|38070700021|56012099006|11063799006|18002099003|22082099003|4143699003;
-x-microsoft-antispam-message-info:
- krowHQCOxTO3KFBB2m/Dcu48otLwuMqybWRbWov42q0pHyCaBVfmrJZ6TQwlBqWr3gRGGXNoa3e7aw6zBcMm/kT6ZXUHlaLjLZoQiGVjzAR6C4R4CzvQ7NdOz4gTFuR78K53TabqEnmH0xU/6ToJKLqaNPp5d9q6Isfui0E2vjeJXbGe2gm742KLMD4XjERVkLG+oFHvwU/HfX9YUl7kfoaIxd+vYgA+xAfmFvS67KWweF9UEQsAtJ4lJcvuA5C+1cndAxHHn7QZ3tZAJJKU8XaSmK66IAQzx60pOd9kf0FHgIPNqLT5P3X27HDAfDY4OefYhst33nGk5lab0WD/YxTicqR3XIclzVgI3U7Qa3YVF+bTto/fPcajrkbyGzlI4MIbRQ467gejqL3u/rT18CcS+nAvZD0YgYikPEgr0c2+3yyU1SUTZXZhz7FNaSZ8zip4EhvGRQK+3XbTKl/IkWYBtDxyhh2dJX7wZ5mNFQpcMm86wIWFi/QYLlwSm1oixn5PolO4vPIRUECbRKOZ40rvepHk2NjmX6pEymVM6gP1gDt1lzTy7XSIZUduxWNKyA80O4ecMs4mZEDeSc0jIkk18s0/l5U2e3Ci81CTlbCf9NQqdKa/IjjNu9JYKOc7vHN0XPbGKbT6oq3xX+MiBdyZbFCxZbyEbuxP7GxVNT9dcGMJmX8vKu2fTyzxrAXUtqjNonDYwhe5Ygj2mt5CaHzuugrk3TNlQCqLH5YLiG8=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR03MB6351.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(1800799024)(366016)(38070700021)(56012099006)(11063799006)(18002099003)(22082099003)(4143699003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?RkJsYm02Yjl3NTAyQTVRRjBIcURqMWw3Rmh4RldmbGFzRG5hTHIvVjlEdTFL?=
- =?utf-8?B?TXdpUnBsUHRwTlRkWXY3NlZQa2E2RzZIVjNyMXR6b0dwTWRVZGZNUFZSZHpy?=
- =?utf-8?B?dnNJYXFGOG9jd0U4WmxzRnpla09ONnBML0ZWRnBoVks4eEJJMmFiZU5NM1d4?=
- =?utf-8?B?enp3RmxjMlVueFc4NTdMTFBha1RGeEhCNE03dytkdW1od1hxcDM4QmNZUUlh?=
- =?utf-8?B?T0Q0VTNlQ3BhTDJJdmQwMnVqUnZmZnRtTWNVd3h3ajdqY2ZpVDc1OEw0disx?=
- =?utf-8?B?ckhPa09EWlFmRDF1YWR4N2lHcThmeXhVdlVRb0xwdGdWOWhKRlkycWlMSnJS?=
- =?utf-8?B?aEdwcFduZkl0V3hHTkttNnlPMFZ1ejVVSmljd2RSemVGVE9HdlViYkxCN0dE?=
- =?utf-8?B?RjBPcmRTYS91QktBZXBBSFhuUFpNdWJTWFlleGJNT095OHkxaTNXVzNVdHB6?=
- =?utf-8?B?OVVkQllGdEEzTEdzaW9YZHlxM3JQZlZYNFpPSmpmbU93dHhTUnY2ZU9KYldJ?=
- =?utf-8?B?Um4yeU1acWZEN1hIdStRM1hxWXdrWDIxM0dkZFg5NjRoUkowMXB2dTdpdTdy?=
- =?utf-8?B?QUE1NVNBRkhkMzcyOENSYmF3eTRYc2MweFhDbWhQdDlncnEvR3NmL2xJQy9t?=
- =?utf-8?B?QWFEaC9NdlpVenl0UVdMb0FOTzlhKzFHajlmRzU4VS9HNmNxKzB1RHVoYklH?=
- =?utf-8?B?MklIT3MzWHJDUUwxa1IybHBaTXVaN2hJeTAxZGpkay9TbFhNdzJHa0NLQ2hl?=
- =?utf-8?B?RTdaVHIyUlFDRnVFUi9jVXpEdE1xdWZ1c1hjdTk1L0pCbnNsM1NiaDkxa1Z0?=
- =?utf-8?B?cjVwd3NIaEMvREtldU9jSDRNUmN6U1FwMndFZCtnaWhmMGwzTzZzOTFFN1J5?=
- =?utf-8?B?aXcxOXVEQ254Z2N3V0g5WHdOWDNwVE9KN0E0QjQ2dWNySkRGcUVzZTNtY1J4?=
- =?utf-8?B?MVJXMk0vQjNKYVlSOXA0T2d5SzFpYzZLTnBBT1ZZdERXR0tvOVVRQVBCRnBG?=
- =?utf-8?B?Z2lpN0RVK0g2SUJpNlJ2ZWJZK3FPcEo4M0U4Qy84anVlZUpIcjhEMGUzSmcx?=
- =?utf-8?B?S25YbGU5RDhZVWFFRUxYTXF0SmcxOUNzS3k4b3E1a2ZNNThrZUw5ZFAyWVF1?=
- =?utf-8?B?ZngzVlhpRW1Vc0M3RndKMi9MWXNQSU1kZnVrZ01WWm8zemgxcURraWxmZm1D?=
- =?utf-8?B?d1hwdE9ZZkM2K2RjNUtJaHJKLy95NFVQNXhDRmJkeVRzczhsTHAvT05UeEQ4?=
- =?utf-8?B?aXJGQlIxbWdielFuMXZoL2FacXh3UytGWGlUZG05VTVPbjJSeVNsejJ6NXc3?=
- =?utf-8?B?czZoUEl1YUYyYk5jTTM5Q3EyL05ZVklsQ2luaVEwSk5iL2ZjcUZESFNyN3g1?=
- =?utf-8?B?bWZkYk82c3J1TDJwcW82bGdTWUlyZ3p0UCtzamlRNWI4ZnNqeXRhenhFY3JE?=
- =?utf-8?B?dmpHYUNLWE1sWUZtZnA2NWYvdXpybVpYN0k0UnBGcGw1ckk4blNKU3JBTENF?=
- =?utf-8?B?SXFRby9tL1k4YkFpNU1TUTZ6L2ErbHZIQVFIYVZhYldiVkcwbG5PdUVCVWF5?=
- =?utf-8?B?bVU0dlZidldHOXNJdnh5YklRR0h5bjlrUlZweEU0QUxFTXk3UG9HNG1BSFVl?=
- =?utf-8?B?Z2t5Rms5N0NxbktGWVB5M0kyNm42OW1oWE9HWmVPcDcyYXgzQTVUVlFsZS9m?=
- =?utf-8?B?VXdjV1NEcmlLaFBKVnRueGxGczVVeHVUN3U1Uk8rUFhGSTVrUGxvcDlURmxQ?=
- =?utf-8?B?UnlDSVdtREgzMjArV0hnSS90R3loZU95T25saDBnWXdHVVlTT2lqQlZ6RFlJ?=
- =?utf-8?B?ZUs5Y0tuei9HazZaWitKcUJmS0lHM2Y1Q2lqaGtwUGNES1ViKythQ2dVd3R3?=
- =?utf-8?B?b1VJMDRNVjFuMzhIN2svTGM2c2ZJR2JXbnBZMitSVTVEN2ZiYmhzR29ZYWpB?=
- =?utf-8?B?aHN3S3ZqMkdYdEMyVmR0NHVwY2U4NzFTY2VzMWpqRkRBakR3Nld2ZTUvYmpn?=
- =?utf-8?B?a2xsNGNmUGUwWTNrdG9xQ2RUcm9GOFJPZ3dqbXlhTmJzeDNPSGVoNm5hZ1E4?=
- =?utf-8?B?ZE9wbkFtRi95ZlErY0hTd01WaWNpbmtsTEU2TWtZcW5hWC8yUzVwZmpVeklt?=
- =?utf-8?B?RjdzSElKVlFJTTdmTkNVZkp2SFNkOFBXSHFYdzJaeEtscTV1Zld5VXRhWnp5?=
- =?utf-8?B?QlZDckVzMGROeU1lc05QRXRjOE4rSXNmVFlJSnNHTHliTFB3WnZXQWIzcnpl?=
- =?utf-8?B?dm53OHo1K0xLWmVTTmRoL0lpSmJsNHN5TFY0MktvN0ZGMzU3YUJLempnU3Np?=
- =?utf-8?B?VlUveHZNM3pzRXNEaWlNV1V1RGF2NkhlNkMyWWlJQUF2OGw4dHVsK1kvcWFn?=
- =?utf-8?Q?ZZwJ2HKbcERlMl0E=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	:message-id:mime-version:references:subject:to; s=pp1; bh=bj87bp
+	x3hQdTC8O57OrlDQrhSmQUaLC1hI7RZn0K71U=; b=hVrCTmyTu140IahXM6QYKy
+	RkVCxcMQLfIpWTwpzJUsbDk/Bsej0O/SP31hFz+IHKsRCbLh6EVh6x1p0ANjXT/D
+	esdOomUVtl+4ntlR5r37fVib3NemE/XwsY/Y+VbffQ0xu2h2tsouEmvP/Jl+65GZ
+	O+jzsWi1GWb/yULVYxPhFiPR3G6nqAWgjhouioDEVXIvpiEAyFuybw97CRxfIGHz
+	n1tr3EyMoUZ2SXgGNShMAXb3BeYQRwTesgO/bWXuxeZq0gW6J9edncXwPyR0O3Y7
+	CrHrLT70Iq0iI/LTlt/j0SgCONgnJYdzZLn5We6Jxoz0a5KtuBDoM/3rTNisaL3w
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6qkn8gvj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 Jul 2026 08:10:11 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66684oTK028387;
+	Mon, 6 Jul 2026 08:10:10 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4f7cgpvw5q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 Jul 2026 08:10:10 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6668A6t648562618
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 6 Jul 2026 08:10:06 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B36BB20040;
+	Mon,  6 Jul 2026 08:10:06 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5CE1420043;
+	Mon,  6 Jul 2026 08:10:00 +0000 (GMT)
+Received: from [9.123.5.233] (unknown [9.123.5.233])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  6 Jul 2026 08:10:00 +0000 (GMT)
+Message-ID: <b1f03a02-b573-4779-95e4-c65e6b50c03e@linux.ibm.com>
+Date: Mon, 6 Jul 2026 13:39:59 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	sR06jQVX5tKSqs3TB0dJK8A61z44VkQlfekzUfXgY+LDH3LXNCBcU+dE4wqHzY1eyr60YtrzeP3sy3wHYkeuLHF1d+1WXaakMJg/QAVqXr8gn7404rGvkJfltu26AS9tLyIa6gqXU/cRtrcPajL8o6xC9u7uDutfrE732cTLubIYlyMXNE63wn4NwJWs9uKSAfqAxxZb07PoXOg6GzMM3YFz6DqugHHocxd6nQiJaBSAA9Tt9wpDAfecUevfUpGEKlh0RTbkq4WM4r6S5SD/SFBmIG2ycJFfW2BB7tAB2NPG8oUJg5otxBnU1uhJ5sWyF0uunWNN/7aCdm95vzMlOA==
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR03MB6351.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90d5cf35-623f-45b6-5998-08dedb2e06e5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jul 2026 07:13:06.3072
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7cWDwHe6hNTWJr2Nfb/EZ8oCtZ4L8mvLCqmDIfohbBqcJw2xmNa2jvYpyKaR2u44wHfJtBiHWUnZTGVyqw0hNAE45r79dahEov5GyXp96Hw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR03MB989319
-X-Proofpoint-GUID: 9YN68pW6-IgAeeid930bK0sbqRCTBFbk
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDA3MCBTYWx0ZWRfX3RTuX07XIRIu
- BI0T1jLy8a30yGi/XgatL/SVKIr5W+9A0FDygt2WrBS9qCZfnGFQVr29ygCe0UmVa+i/HgZscBI
- 4rFJjb2vc+OLD2fEEWaH6b9IMnsPPOSOxVD4KAy2Xz5GkTv0z4jd
-X-Proofpoint-ORIG-GUID: 9YN68pW6-IgAeeid930bK0sbqRCTBFbk
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDA3MCBTYWx0ZWRfX1xbTXmIpGqsF
- BoeJaZaqE8Bok8vGM+Mzs766qGPI7mOF2qtWrgGnTE4aLUAAr1z/dpNZ36Wp7zMk8icvSpUMj85
- sDA3u/flS7fllKLTKF6BzYalVEprMSvW2LKkuxIhwNCFshaEXEPqR2+V4R8qwOs8pNomx0thLUM
- 5lmHSx/Wh51Yo4c7KPhh5WVBXtK3yTnodUugpBxfC17nk0tyvxt9rerGQvClJ5TH+JinUSslylK
- V2U7L++aicoHTYAU/hm7LhNHh4kRKqW3JPZou3JHnje5fsXsOyYl10zDHGRX8bDqrXAOaU6Gv5v
- WZuS0x3gFJT2KZCxDhHGlYOdwcjppv1J9kr0mEu7WvNnakSFS6YzRQT1/TK/JPn3NGdvBBM/4fu
- ks//YLo8fFIqbita6xnP5uj14cVgJZ8R1cDZDNlhbX8AZ2ho82y7z/zeUDLreDrrWDQvl1js5B5
- OFwPKLr/xWt0EBBJ9CA==
-X-Authority-Analysis: v=2.4 cv=O5oJeh9W c=1 sm=1 tr=0 ts=6a4b5584 cx=c_pps
- a=bquUzJqYOqw1EpBvECFzMQ==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22
- a=ugNRTJOwpmtT476g4l8T:22 a=gAnH3GRIAAAA:8 a=JCnp24ZLSXO5qFVWFJIA:9
- a=QEXdDO2ut3YA:10
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 12/23] virt: Introduce steal monitor driver
+To: Yury Norov <ynorov@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
+        corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
+        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
+        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
+        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
+        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
+        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
+        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
+        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
+        linux-doc@vger.kernel.org
+References: <20260701141654.500125-1-sshegde@linux.ibm.com>
+ <20260701141654.500125-13-sshegde@linux.ibm.com> <akf9cE22wvPeYNiM@yury>
+Content-Language: en-US
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+In-Reply-To: <akf9cE22wvPeYNiM@yury>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=Q/XiJY2a c=1 sm=1 tr=0 ts=6a4b62e4 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8
+ a=YAZr8UVag6cMWNXRMNQA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: nhUtGo7YDboIzobjwgAyXsbjCMBchH4G
+X-Proofpoint-ORIG-GUID: 8efDjAWiaW1cO_ghQRn05SIrYAUb21Cr
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDA3NyBTYWx0ZWRfXzyvGvSOscRvT
+ hl8N/HkaQ5z0SxAIoGOWrTbdHlEkoZyrmI/H0e4y9cKdSJEXDLcDBPjBojIaOKfwXyETK55SVot
+ 3ag73LSc2q4e6KdQiaUqvofHGwtWf94=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDA3NyBTYWx0ZWRfX6+BjiduiASla
+ aRRCnqwPOGArX/zvtjcfwSWWVfWKinVvst1+ASV1GnCMFk/akxx0tJyGmfcubz/iq8IHYntdPR+
+ f3bjfTuxVTSnO35cnMRUXMpgD++n8vPbuFA8tPJuCnJW241stSqzSiymO7Pu0r5gmKCWCUKivjP
+ 3cuxwGi4VVPe7/wxL7d35jlJPRAXIXBF0ZuT1t/RGpZUyWAmZCCbL5Rx+2zaJ/iPrwnwjXIPHXd
+ VInbC8Ep9zVuvYoDGMgkpFEVz95VuExOI2/JfRPexQboNws72ZI4TFBG6/JuZ7aMOJHsjdQRZZ6
+ SIWKIJ0JxtxF6A0f+AzLysMnXnwu+gyXTxtKkZtrrFxXJpTE1JJBHKxIcXhrcWWrIRtbYzNMANo
+ Y6TXQOleVPEHBFjFyY2jXmJMMIi27bAg5pzVZsH8v5ay+RT/ba4jrG/gU5e5zglRmzV9n+ctVvM
+ 11SMKzlHCRDVlvNF9kA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-07-05_02,2026-07-03_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 priorityscore=1501 phishscore=0 suspectscore=0
- impostorscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015
+ adultscore=0 impostorscore=0 spamscore=0 phishscore=0 priorityscore=1501
+ bulkscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0 malwarescore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607060070
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607060077
 
-DQo+IE9uIE1vbiwgSnVsIDA2LCAyMDI2IGF0IDEwOjA4OjQxQU0gKzA4MDAsIEFsZXhpcyBDemV6
-YXIgVG9ycmVubyB3cm90ZToNCj4gPiBBZGRpbmcgYW4gZW50cnkgZm9yIHRoZSBNQVgyMDgzMCBF
-TiAoZW5hYmxlKSBwaW4uIFRoaXMgcGluIGV4aXN0IGJ1dA0KPiA+IHdhcyBub3QgaW5jbHVkZWQg
-YmVmb3JlLiBBbHNvIGVkaXRlZCBleGFtcGxlcyBlbnRyeSB0byBiZSBtb3JlIGNvbXBsZXRlLg0K
-PiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogQWxleGlzIEN6ZXphciBUb3JyZW5vIDxhbGV4aXNjemV6
-YXIudG9ycmVub0BhbmFsb2cuY29tPg0KPiA+IC0tLQ0KPiA+ICAuLi4vZGV2aWNldHJlZS9iaW5k
-aW5ncy9od21vbi9wbWJ1cy9hZGksbWF4MjA4MzAueWFtbCAgICAgICAgIHwgMTENCj4gKysrKysr
-KysrKysNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKykNCj4gPg0KPiANCj4g
-SG93IGRpZCB5b3UgYWRkcmVzcyBwcmV2aW91cyBmZWVkYmFjaz8NCj4gDQoNClJlZ2FyZGluZyB0
-aGUgZW5hYmxlIHBpbiwgSSBhZGRlZCB0aGlzIHNpbmNlIEkga25vdyBiaW5kaW5ncyBsaWtlIGJl
-aW5nIGNvbXBsZXRlDQphbmQgc2F3IHRoYXQgSSBkaWRuJ3QgYWRkIGl0IHRoZSBmaXJzdCB0aW1l
-IEkgc3VibWl0dGVkIG1heDIwODMwLg0KSSBhZGRlZCBkcml2ZXIgY29kZSBmb3IgdGhlIGdwaW8g
-YnV0IGxlYXJuZWQgdGhhdCBpdCB3YXNuJ3QgcmVhbGx5IGEgdXNlIGNhc2Ugc28NCkkgc2ltcGx5
-IGRyb3BwZWQgdGhlIHBhdGNoIGZvciBpdC4gDQoNCkkgb25seSBhZGRlZCBhIGZldyB3b3JkcyBp
-biB0aGUgY29tbWl0IGRlc2NyaXB0aW9uIGFuZCBhZGRlZCBtb3JlIGVudHJpZXMNCmluIHRoZSBl
-eGFtcGxlIGZvciB2MiB0aGlzIHBhdGNoLiANCg0KUmVnYXJkcywNCkFsZXhpcw0K
+Hi Yury.
+
+On 7/3/26 11:50 PM, Yury Norov wrote:
+> On Wed, Jul 01, 2026 at 07:46:43PM +0530, Shrikanth Hegde wrote:
+>> Introduce a new driver in virt named steal_monitor. This driver
+>> will compute the steal time and drive the policy decisions of preferred
+>> CPU state.
+>>
+>> More on it can be found in the Documentation/driver-api/steal-monitor.rst
+>> Introduce the skeleton code first.
+>>
+>> There is no new kconfig. It depends on CONFIG_PREFERRED_CPU.
+>> - If CONFIG_PREFERRED_CPU=y, it gets compiled as a module. It is not
+>>    loaded by default.
+>> - If CONFIG_PREFERRED_CPU=n, module isn't compiled.
+>>
+>> File layout of the driver is designed with having arch specific
+>> files in the future.
+>>
+>> - sm_core.c - contains main driver code. This includes the periodic
+>>    work function and take action on steal time.
+>> - defaults.c - contains the default implementation defined with __weak
+>>    symbols.
+>> - sm_core.h - header file which includes data structure.
+>>
+>> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+> 
+> You've split the driver code into 12 patches. It makes it impossible
+> to review the driver as a whole. Please make it less granular. 2 or 3
+> patches for the new driver is more than enough, I think.
+> 
+
+Ok. I assumed splitting into more makes it easy to review.
+
+I will plan to make it 4-5 patches.
+
+1. Introduce the driver (include doc, skeleton code, datastructure)
+    0011-virt-steal_monitor-Add-documentation.patch
+    0012-virt-Introduce-steal-monitor-driver.patch
+    0013-virt-steal_monitor-Restore-to-active-on-module-di.patch
+    0014-virt-steal_monitor-Define-steal_monitor-structure.patch
+
+2. Add debug knobs as module parameters. (as it is slightly longer patch with module_named_cb methods)
+    0015-virt-steal_monitor-Add-control-knobs-for-handling.patch
+
+3. Add default callback functions (i.e implemented as __weak)
+    0017-virt-steal_monitor-Provide-default-method-to-get-.patch
+    0018-virt-steal_monitor-Provide-default-method-to-inc-.patch
+    0019-virt-steal_monitor-Provide-default-method-to-get-.patch
+
+4. Handle periodic work and act on steal time.
+    0016-virt-steal_monitor-Compute-work-at-regular-interv.patch
+    0020-virt-steal_monitor-Act-on-steal-values-at-regular.patch
+    0021-virt-steal_monitor-Add-direction-control.patch
+    0022-virt-steal_monitor-Add-design-checks.patch
+
+Does that look better?
+
+>> ---
+>>   drivers/virt/Makefile                |  1 +
+>>   drivers/virt/steal_monitor/Makefile  | 14 ++++++++++++
+>>   drivers/virt/steal_monitor/sm_core.c | 33 ++++++++++++++++++++++++++++
+>>   drivers/virt/steal_monitor/sm_core.h | 11 ++++++++++
+>>   4 files changed, 59 insertions(+)
+>>   create mode 100644 drivers/virt/steal_monitor/Makefile
+>>   create mode 100644 drivers/virt/steal_monitor/sm_core.c
+>>   create mode 100644 drivers/virt/steal_monitor/sm_core.h
+>>
+>> diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
+>> index f29901bd7820..aff715cea42d 100644
+>> --- a/drivers/virt/Makefile
+>> +++ b/drivers/virt/Makefile
+>> @@ -9,4 +9,5 @@ obj-y				+= vboxguest/
+>>   
+>>   obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
+>>   obj-$(CONFIG_ACRN_HSM)		+= acrn/
+>> +obj-$(CONFIG_PREFERRED_CPU)	+= steal_monitor/
+>>   obj-y				+= coco/
+>> diff --git a/drivers/virt/steal_monitor/Makefile b/drivers/virt/steal_monitor/Makefile
+>> new file mode 100644
+>> index 000000000000..24cee55342ce
+>> --- /dev/null
+>> +++ b/drivers/virt/steal_monitor/Makefile
+>> @@ -0,0 +1,14 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only
+>> +#
+>> +# Steal time monitor to alter preferred CPU state.
+>> +#
+>> +# Arch can implement strong function definitions and override the
+>> +# default by adding them in arch specific file. It must ensure
+>> +# that preferred is always subset of active.
+>> +#
+>> +# It is always compiled as module if CONFIG_PREFERRED_CPU=y
+>> +# One has to enable the module.
+> 
+> Why?
+> 
+
+Few Reasons on Why i made it as default no:
+
+- Since it is co-operative scheme, admin user/root user will enable it.
+   When he does that, we have asked him/her to ensure it is enabled on all
+   VM's. At-least he/she will check other VM's kernel versions when enabling it.
+
+- This periodic work has a bit of overhead. So enabling it by default, one may question
+   why add it when user's don't need it. For example, in powerpc a VM can be brought up
+   a dedicated. In that it is not expected to see any steal time. By same logic, having this
+   module enabled in Host kernel doesn't make any sense since it will never see steal time.
+   (If one compiles the same kernel for both guest and host)
