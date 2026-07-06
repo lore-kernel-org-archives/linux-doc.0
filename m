@@ -1,246 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467543AC0F8;
-	Mon,  6 Jul 2026 15:51:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783353093; cv=none; b=htCQeFNRmIvMlwmV4QITKQxqvsMr52mUIma2bzxWmnjiHbQLX9lsS3FWpI7bfBwNBFNjgagC80BEhyvMYiBEGfOXbcZdMPPTHTnQNFEL7HDBV12XOxUOHqu+rWOCyeeaKTBWZNqN+1xqvy0O0FbjYjPialX5aIj0tMW8BajLAW0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783353093; c=relaxed/simple;
-	bh=z/1mjf2GZF+ks4yAWLay5+aaQRTfRriTPAgvrElKVSw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=omr4AHinHzf19e4phVFhdtCx/3nHsH8LVSnVpkZKWoXBgpQxr9qvP6sIUCE79M+LHFlJaxlMp6FChj3ErHB3uA0jlrh41EmJ3e6cuGk6afa5IUxTVB3OB/ecilSfHK9xvQH08ZDmHafOj5/6ZG5Y53f7je0GKGGVn0Awi7NkRhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iBOfRpsp; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0A6430CD6
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 15:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783353481; cv=pass; b=Y9r5sWkmm7CI/xmrUuf8Zc4YlGuFcETI0Fk0aWClKJfXSrYjooCS0vKCzbrg5AbBorvmvi6qHyorJWv+8jyWOIgVRSH4y2zmc+BwlhP8d8G80TmOarwm6954jXyR4WoZ7VeejdX+iOsJf1jIsnKhMuCA8I+waTNMt7WEg/QEjvU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783353481; c=relaxed/simple;
+	bh=gCs9HokUb+6ZMGzRlYcfJL9jBr5oqoU0ENUXdBhbWys=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UoxfwRCADJwTwsSx9D8VPEir9A3ZzjUjQozN9JHZdEMyYVXM4W+9deCEoXXOSnMjg+RlSFpLtmQs2Iq/H0pPJFcluGNM4idDMe19VNqKems4o3FqzvteHfU+dctXz5X8+xZWtXij2LDsjTqtvjEtSpM8uUt5IqUnVAEay9Ol1u4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z+/eLfFN; arc=pass smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iBOfRpsp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C8591F000E9;
-	Mon,  6 Jul 2026 15:51:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783353089;
-	bh=+HWVQnxXSx5p/uTVQFQ2iVAaXJNAP8m0nBfBPJamNWo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=iBOfRpspryqFDPXxkhE8wZ5zf/UztNoxBeZcVSD+Ixoep4xIENKMJ+utSeWtnSIVe
-	 BHNK4FPj4WOY/ZIRfmggr+dNVUJTJxUYY4JHjAQfU211w8tXBr1pXmibY2slnfi7Ub
-	 Zb7TShRHpr0Fs9u03VuMjLabCc2ozTPX/WXR11L83oGb42ei6GjprVrVuwxIKt/OwC
-	 e4a6ZgAADckfCeeFcw3ClGBidp/IoZO/vD1jldUpDFp+PzEpqgMkNdUdyeoUgyt5MM
-	 eGOt+5/oq6Vdo4QxYbtxkgmeIxUJPJxjtk6hsxzhLpGjDRDoFi4GHbyOrSUxwK9bHm
-	 M0EJwaMpvjTJw==
-Date: Mon, 6 Jul 2026 16:51:20 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
- R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH v6 16/16] docs: iio: add documentation for ad9910 driver
-Message-ID: <20260706165120.156f67a2@jic23-huawei>
-In-Reply-To: <p77cvtvjmo7hr6i6jxhfxps3if6fyy5kdwxrwlcnsziixycyen@rf5zfchlxgt6>
-References: <20260618-ad9910-iio-driver-v6-0-79125ffbe430@analog.com>
-	<20260618-ad9910-iio-driver-v6-16-79125ffbe430@analog.com>
-	<20260703193059.4deda617@jic23-huawei>
-	<p77cvtvjmo7hr6i6jxhfxps3if6fyy5kdwxrwlcnsziixycyen@rf5zfchlxgt6>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z+/eLfFN"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-691c5776f95so5975877a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 08:57:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783353478; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sS1/BHxE08+EAJ5WTWNDXYu1OP9EdI+xlx8gMM7547YJiww1V13a6YEeZinj4vDPc1
+         QTXsp0jjv3hi6e0osronhOf+Jo5TGgL0Dhi9VcoMODDk2aL8k5ahg6nr2YQQ9ID2NxCX
+         m0FrQHAXCDMMDEI6xM+48W7khs0HRbmk2l0Tc1CYclXUUqMLDxpN/CaIHu6HLglvPBJc
+         tshZuTJ4d3riAb0AE7fs1IL8LCuhFFBsP+n3ukh/cV275LCI0UhPEDrNSJfXEN8aHot6
+         6N4D2BoUvge+eC3WfydA+T8NqLOJc+CrrIM3yZ0u6D/ylkzm409UiDhMcXYy5apFjvYP
+         ae2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=lGxnHQcUvM+Wk9iuDAhV9iKJOnzCJXCRMoquKntthQc=;
+        fh=c4zUaHifJ2Mj256K4Mn0iqi+vFU9tOMAY7xd7NFRSIM=;
+        b=Eko/z6H9sfx03CqaVNHbFR2VeCov+G568WwlNiZZZecOho7GOWCQfTK+4hwv1ybtA4
+         RYC/KaVi/3hG2ryhTaEnNYPpR8FRD2rFRBD5qZ5HqM8a+jArWQLYOa1nyQ1Yz1QGFVpd
+         rgmWy2y5hVCHH1Hriu2ZbqeAGhSEwb7nW9JU6hSALtagAYcdsCGwzLX3zksNQCZO8KtZ
+         ubNIX4vvb1xt+7Lkr3H9toqAe/U1KMqiGEoRM4jVVuG3hjWcCwzoDS2XV27ZC/QIyB/O
+         OMD0PcJ9UgR3vKmP0jZOGjVpEsLRGR4+kxL+3canVX7s/YKb0IjjxqFMhJ2t3AxwdCvf
+         /4/Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1783353478; x=1783958278; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lGxnHQcUvM+Wk9iuDAhV9iKJOnzCJXCRMoquKntthQc=;
+        b=Z+/eLfFN6xCQ/JXzVDa72FWOBSmvZ2SHuV4SdsDbvXjEyKc7QtkRbACuGnlZmMG1kS
+         21xIPFkDIo19WZWh4MCGa4sk2CXpayXD+H7uysfPymrkR11lVhaYQsy9vLo9bLKb8A6Y
+         J7RgKGvrNJf78fC8qhM7hy4ya+8hxs5TsxX7lhtYNglg6SzH2zpVinycyfn84YPIu6H5
+         s0TrKrmW0KzxtTjJuha8xi0nxCtR5aqldd/QyCQfIfdFotfXtR3TKSAdS6pRs9vAXOZm
+         d8f1EjuuZdwgNaLvS6tH4uHhS9ttCCosKo2FD8YrHuH4jO28GtDw3mVpSPdp8lR97Dso
+         z2ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783353478; x=1783958278;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lGxnHQcUvM+Wk9iuDAhV9iKJOnzCJXCRMoquKntthQc=;
+        b=SIDFGCb50piB5vir+fOw1R+gckobCRSoK+IQv9kBZadJuFx6CJk4tdhr5tb9emvLii
+         ivUTR7v0cIoKDsn18T8biCEfi9xiwjYmhSUiTssFlcmvHqULNhrZ8nt35Lmo0c4uLQVj
+         VIgCN2d4m3ZFO6+trUQ86dvcUcRFw/Eh66rp6yxYkmZASegGSLNQKr2KChrEVHovur74
+         /W0H5SJs2wkjgUbXWmYN0HBwvjJU0ShyGR3f4Zp2bD1eZChY5faKGfGMjPRNWsWH5+6G
+         ISvM1Mwg8LxVftmTsSexXTiokpnKTwtd/qTt+Z92zC2BFLxMHV1YC9EG1lT6nSXN7iDP
+         WMUQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrLWCPL00oV3yxYV+W+LJHG02dELmYSI62WunPUribd3CvcHuuu0HinQJDwVPiq3jYXafwAfd8ExTw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxmvf1lStF6aJMo8+eHESkATgjT5WVVNT08QJJnv26QX8DKtkv1
+	YuBw4v3rt3aGR2h4w1O0Cz7B0GPRT/H2c2GFer7msZ4wnxtx+HWIg3CXw1YmB9s9I0yrHX36GFG
+	aV1s5gWpmo7bITNFewlPqXk4fTqayYZpyLGwUjqq3fQ==
+X-Gm-Gg: AfdE7ckwTL0tN6fUL3rizBZAFvyrDvWHiaYrhozQHBO0EkBzqIYkMpIzvWxWfQBZQMX
+	5sICKt6It5KBVVv5FOovjHV+bqTkNgFrb/spCwxvvXBMU89kBTSWFia+awYIKNkhDkSG5W5sh00
+	cALw4+HasLn9H6lfpNcpj8OnLzHVJT14e60C3NVOR1qFnVjeIGndjTnjzteyBJi+D39VQrkg5hr
+	69Vj11+5EVGhKnJwPxAmYb06zvpF6GTg/tY7DFE3AmFCXrrpBdtZnBhLKGSfIBOK5GlzkVTb1uX
+	yIpEZzhplOGxoWohgZCnJtlwAKR5
+X-Received: by 2002:a17:906:3ce:b0:c12:992b:16d4 with SMTP id
+ a640c23a62f3a-c15a68cf56fmr47982566b.41.1783353478105; Mon, 06 Jul 2026
+ 08:57:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20260625155432.815185-1-shenwei.wang@oss.nxp.com> <PAXPR04MB91855056638F0028BCC5F9EF89F12@PAXPR04MB9185.eurprd04.prod.outlook.com>
+In-Reply-To: <PAXPR04MB91855056638F0028BCC5F9EF89F12@PAXPR04MB9185.eurprd04.prod.outlook.com>
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+Date: Mon, 6 Jul 2026 09:57:47 -0600
+X-Gm-Features: AVVi8CfCK8RZVsOnom89zz62dC_eh8WB0dnPwnnTYPsAfwJakdAft3ffWaiSkNg
+Message-ID: <CANLsYkxmf=QfNUe=BLrrP7kBtZKq2Z1BkQDLnzmcQsW-kYzTPQ@mail.gmail.com>
+Subject: Re: [PATCH v14 0/5] Enable Remote GPIO over RPMSG on i.MX Platform
+To: "Shenwei Wang (OSS)" <shenwei.wang@oss.nxp.com>
+Cc: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Frank Li <frank.li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>, 
+	"imx@lists.linux.dev" <imx@lists.linux.dev>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>, 
+	Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, "b-padhi@ti.com" <b-padhi@ti.com>, 
+	Andrew Lunn <andrew@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 6 Jul 2026 15:23:28 +0100
-Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
+On Mon, 6 Jul 2026 at 09:40, Shenwei Wang (OSS)
+<shenwei.wang@oss.nxp.com> wrote:
+>
+>
+>
+> > -----Original Message-----
+> > From: Shenwei Wang (OSS)
+> > Sent: Thursday, June 25, 2026 10:55 AM
+> > To: Linus Walleij <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel=
+.org>;
+> > Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysz=
+tof
+> > Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjo=
+rn
+> > Andersson <andersson@kernel.org>; Mathieu Poirier
+> > <mathieu.poirier@linaro.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
+> > <s.hauer@pengutronix.de>
+> > Cc: Shuah Khan <skhan@linuxfoundation.org>; linux-gpio@vger.kernel.org;=
+ linux-
+> > doc@vger.kernel.org; linux-kernel@vger.kernel.org; Pengutronix Kernel T=
+eam
+> > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Shenwei
+> > Wang <shenwei.wang@nxp.com>; Peng Fan <peng.fan@nxp.com>;
+> > devicetree@vger.kernel.org; linux-remoteproc@vger.kernel.org;
+> > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org; dl-linux-imx=
+ <linux-
+> > imx@nxp.com>; Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>; b-
+> > padhi@ti.com; Andrew Lunn <andrew@lunn.ch>
+> > Subject: [PATCH v14 0/5] Enable Remote GPIO over RPMSG on i.MX Platform
+> >
+> > From: Shenwei Wang <shenwei.wang@nxp.com>
+> >
+> > Support the remote devices on the remote processor via the RPMSG bus on=
+ i.MX
+> > platform.
+> >
+> > Changes in v14:
+> >  - Update gpio-rpmsg.rst per Mathieu=E2=80=99s feedback.
+>
+> Hi Mathieu,
+>
+> Could you please let me know if you have any further comments on this ver=
+sion?
 
-> On 03/07/26 19:30, Jonathan Cameron wrote:
-> > On Thu, 18 Jun 2026 14:27:32 +0100
-> > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel=
-.org> wrote:
-> >  =20
-> > > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > >=20
-> > > Add documentation for the AD9910 DDS IIO driver, which describes chan=
-nels,
-> > > DDS modes, attributes and ABI usage examples. =20
->=20
-> ...
->=20
-> > > +Digital ramp generator (DRG)
-> > > +----------------------------
-> > > +
-> > > +The DRG produces linear frequency, phase or amplitude sweeps using d=
-edicated
-> > > +hardware. The active ramp target (destination) is selected by enabli=
-ng the
-> > > +corresponding typed channel at channel number 130:
-> > > +
-> > > +- ``out_frequency130`` (label ``drg_frequency``) =E2=80=94 ramp targ=
-ets frequency
-> > > +- ``out_phase130`` (label ``drg_phase``) =E2=80=94 ramp targets phase
-> > > +- ``out_altcurrent130`` (label ``drg_amplitude``) =E2=80=94 ramp tar=
-gets amplitude
-> > > +
-> > > +Writing ``en=3D1`` to one of these channels enables the DRG and swit=
-ches its
-> > > +destination. Writing ``en=3D0`` disables the DRG if the channel is t=
-he current
-> > > +active destination; writing to an already-inactive destination is a =
-no-op.
-> > > +
-> > > +Each destination channel also exposes a read-only ``scale`` attribute
-> > > +reporting the physical quantity per ramp register LSB, which allows =
-converting
-> > > +raw limit codes to physical values.
-> > > +
-> > > +The two ramp channels ``out_altcurrent131`` (``drg_rising``) and
-> > > +``out_altcurrent132`` (``drg_falling``) configure ascending and desc=
-ending
-> > > +ramp parameters independently.
-> > > +
-> > > +Destination channel attributes
-> > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > +
-> > > +.. flat-table::
-> > > +   :header-rows: 1
-> > > +
-> > > +   * - Attribute
-> > > +     - Unit
-> > > +     - Description
-> > > +
-> > > +   * - ``en``
-> > > +     - boolean
-> > > +     - Enable the DRG with this channel as the active destination. O=
-nly one
-> > > +       destination can be active at a time.
-> > > +
-> > > +   * - ``scale``
-> > > +     - Hz/LSB, rad/LSB or mA/LSB
-> > > +     - Read-only. Physical quantity per raw units. Multiply a ramp
-> > > +       rising/falling channel ``raw`` value by this scale to get the=
- physical
-> > > +       ramp target.
-> > > +
-> > > +Ramp channel attributes
-> > > +^^^^^^^^^^^^^^^^^^^^^^^
-> > > +
-> > > +.. flat-table::
-> > > +   :header-rows: 1
-> > > +
-> > > +   * - Attribute
-> > > +     - Unit
-> > > +     - Description
-> > > +
-> > > +   * - ``dwell_en``
-> > > +     - boolean
-> > > +     - Enable dwell at the ramp limit. When disabled, the ramp
-> > > +       auto-transitions at this limit without waiting for the DRCTL =
-pin.
-> > > +       Disabling both creates a bidirectional continuous ramp (trian=
-gular
-> > > +       pattern). Other combinations create single-shot ramps at the =
-DRCTL
-> > > +       pin transition.
-> > > +
-> > > +   * - ``raw``
-> > > +     - integer (64-bit)
-> > > +     - Ramp limit expressed as a raw DRG register code in
-> > > +       :math:`[0, 2^{32}-1]`. The physical value is ``raw * scale`` =
-where
-> > > +       ``scale`` is read from the active destination channel.
-> > > +
-> > > +   * - ``sampling_frequency``
-> > > +     - Hz
-> > > +     - Ramp clock rate. Controlled by an integer divider; the writte=
-n value
-> > > +       is adjusted to the nearest supported rate.
-> > > +
-> > > +   * - ``raw_roc``
-> > > +     - /s
-> > > +     - Rate of change. Number of register codes advanced per second,=
- computed
-> > > +       from the hardware step size and the current ramp clock. Writi=
-ng
-> > > +       requires ``sampling_frequency`` to be configured first.
-> > > +
-> > > +Usage examples
-> > > +^^^^^^^^^^^^^^
-> > > +
-> > > +Configure a frequency sweep from 40 MHz to 60 MHz with a rate of cha=
-nge of
-> > > +25 GHz/s:
-> > > +
-> > > +.. code-block:: bash
-> > > +
-> > > +  # Disable dwell on both limits for a bidirectional continuous ramp
-> > > +  echo 0 > /sys/bus/iio/devices/iio\:device0/out_altcurrent131_dwell=
-_en
-> > > +  echo 0 > /sys/bus/iio/devices/iio\:device0/out_altcurrent132_dwell=
-_en
-> > > +
-> > > +  # Set ramp rate at 250 MHz
-> > > +  echo 250000000 > /sys/bus/iio/devices/iio\:device0/out_altcurrent1=
-31_sampling_frequency
-> > > +  echo 250000000 > /sys/bus/iio/devices/iio\:device0/out_altcurrent1=
-32_sampling_frequency
-> > > +
-> > > +  # read the frequency scale to convert physical values to raw units
-> > > +  cat /sys/bus/iio/devices/iio\:device0/out_frequency130_scale
-> > > +  0.232830643650
-> > > +
-> > > +  # 40 MHz / 0.232830643650 =3D 171798692
-> > > +  echo 171798692 > /sys/bus/iio/devices/iio\:device0/out_altcurrent1=
-31_raw
-> > > +  # 60 MHz / 0.232830643650 =3D 257698038
-> > > +  echo 257698038 > /sys/bus/iio/devices/iio\:device0/out_altcurrent1=
-32_raw =20
-> >=20
-> > Why is this writing frequencies to altcurrent channels? Shouldn't this =
-be the
-> > frequency ones? =20
->=20
-> All the attributes for ramp up/down channels would do the same thing in s=
-eparate
-> channel types: sampling_frequency, raw, raw_roc and dwell_en... do we nee=
-d frequency
-> and phase ones? For the DRG, right now I have:
->=20
-> * out_frequency130: en, scale
-> * out_phase130: en, scale
-> * out_altcurrent130: en: scale
-> 	* out_altcurrent131: raw, raw_roc, dwell_en, sampling_frequency
-> 	* out_altcurrent132: raw, raw_roc, dwell_en, sampling_frequency
+I intend to review your patches but other people's work is ahead of yours.
 
-Yes. I think we should have separate ones.  If later we did have a device
-that was otherwise similar but had separate registers, maybe for some weird
-sync sweep of frequency and magnitude then the naming would match the thing
-being enabled.   I'm not that bothered if they 'overwrite' each other, as in
-there is only one backend store of the value.  Also fine if you think some
-caching layer would be more user friendly.
-
-Thanks,
-
-Jonathan
-
-> =20
-> > > +
-> > > +  # 25 GHz/s / 0.232830643650 =3D 107374182402
-> > > +  echo 107374182402 > /sys/bus/iio/devices/iio\:device0/out_altcurre=
-nt131_raw_roc
-> > > +  echo 107374182402 > /sys/bus/iio/devices/iio\:device0/out_altcurre=
-nt132_raw_roc
-> > > +
-> > > +  # Enable the DRG with frequency as the destination
-> > > +  echo 1 > /sys/bus/iio/devices/iio\:device0/out_frequency130_en
-> > > + =20
->=20
-> ...
->=20
-
+>
+> Thanks,
+> Shenwei
+>
+> >  - Align the rpmsg-gpio driver with the revised gpio-rpmsg.rst.
+> >  - Modify rpmsg-core to enable prefix-based matching of RPMSG device ID=
+s.
+> >
+> > Changes in v13:
+> >  - drop the support for legacy NXP firmware.
+> >  - remove the fixed_up hooks from the rpmsg gpio driver.
+> >  - code cleanup.
+> >
+>
