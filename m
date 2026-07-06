@@ -1,280 +1,265 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from unimail.uni-dortmund.de (mx1.hrz.uni-dortmund.de [129.217.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972DA46AECC
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 09:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B15AD3A1686;
+	Mon,  6 Jul 2026 09:46:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.217.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783331165; cv=none; b=hBo0IVtnExIXSUhmLc4nZVJT+rsHR7kP4hQzIZ4YE4Q/FP3YmZ3qZUG9gnIgqs2h+oP1QWU2EKIEsv83gjQNzxoQABd72YGm/M0kNbOjJFpkUVpTfX3wybWfF4TJQAmxsAUO8qsaqqv2WuXiZJevJtTyL7Cr7EeTFhA/WQ0QuHw=
+	t=1783331203; cv=none; b=fHU59H3KRH0LUpBP2MeBJmI5CXNeB6tkqkXWXi5VDkSVx3ElSig1uLmgc7taIT+tftWQCHLA1271Xqlcdc/xkuOVGJ3LiQoq2aOxz/ORml+YcBwVHmTkOb/DreSmh8k6KJoM3mCcoztwHnBBVfC4gE6Wro3pFOBiI1XDretGDFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783331165; c=relaxed/simple;
-	bh=zDw0ABLub0kgFm+IA9IE6NYszy3Pq95vEScWSA+dnhs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ajaCq6FjKOPn3pS5O2umcZ8t2IxNRGSWxvy20Mk77LfR8QJCXx67T6hFjMtjvm29E4D3JuFFKgCsqHVNai9QQUyxKZ78QlSVSQMvin8Qd8f5xQdSOqL/pz1RZstODpOGlUwC+M4ZvwVrEunQ4PFT71NL/dtdwTL5xtBNQeteuXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m7HKNewx; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783331203; c=relaxed/simple;
+	bh=qBGu4Eg6aXtmJf84ub/wFLby4RjgGYZfQwlHcJU1pHU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rNjhvnf5yc26lidWvkkpZ8gUhasfm71yBJLivd7yWLNaland6Wr+vhThmLY1EjbDYFNknh7LFCynGWLw/e+EyUIHMDVFX+yhiQbXPyjs2HLmu8eys3o5Hf0q4t4E1nHNDUMoaN7jIAlYnkItgUcIYYyxkillrihuipOEVxybFx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de; spf=pass smtp.mailfrom=tu-dortmund.de; dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b=GPVlpaGD; arc=none smtp.client-ip=129.217.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tu-dortmund.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m7HKNewx"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so17526415e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 02:46:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783331158; x=1783935958; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/ujYMuu1OWSnbiAmz8ZNXJGcWE93aVNWAdKELmlJkJw=;
-        b=m7HKNewxSSGBmTzR2gmUA2UURsCEGjhjxl1YFk1AshqSNelnllxGkY9DWE9k73czMD
-         XfdGaggCpBHapMRsd5bsQVOcypEYJE5tmIqjfTIJdZK/d4rs89r8JnmFoKCFYC3osd1c
-         K0zPADhcB6719Lnm1TKCturvMyH+4pQsm706814f8lj5Tt7fhyOzcYcAueVPGNvFJDjx
-         wPlNlDpkKwoNJ6lgj3huhQmXXSaYtG/MkvcXP4zEt/KmXiIk0VJf3HtrV+OEswkN2Y+V
-         cf/Jm5wOQ1P7aR9H84U45ytMcquN66X2OtAfjIh5qS2Rm+sj/apFuRa5gHoCQhI/TC7Q
-         JyJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783331158; x=1783935958;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=/ujYMuu1OWSnbiAmz8ZNXJGcWE93aVNWAdKELmlJkJw=;
-        b=ZYhsdT6I0p+UmK5ONNrUIRnXN0CtcsMmZi3nE/WLnVJj8G1COpnBpPMrp6/pj63iD+
-         bX57A5Lvw6J4pTRnmTf5cuVdg3QQotJ8vXBjSkHk9zy32RSB0Jd28RLAVND7MJjpdeb4
-         52XMDLuxR/eJ4Hhjp8c0KTj6srRY4eWreTlIk+76bW4CHdwkwolpZhhDCnpy6k9txTkC
-         1QqOsQkq9bL23/A2fnoUc0xedjfvePpqkO1GCyD8o0dvcpnWeekh6Q5naqgSCpGTzBnI
-         2PIPf21L/7ygML/i+LzcPuz9mnJfxmeZhyCAifO5vx57CbLTkfKEKRzN+XUsN/OIYpYL
-         16pQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpJRY0KitXkp9bI3ueyMhKY6TFm8slNoXfu3rzYXUyW69L7asbjXSh4iGP2UEiyMptumutStxbpwvE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YypoSVwXpPx9oHwwRKI2gvks8HbCE68IhZwW0czzfJ0HfClcPL0
-	pDn6AqOH2D7NE8kOAGlEdtoX3ylYtFwSBhbkVqyt0HTBBxlXgLvcEtO1
-X-Gm-Gg: AfdE7cl19Ev/gnzGBYeTzN/U06wMzVXsPF8FV/x+NYr0sNQ1vnzbritr8oYT9lpNh5g
-	ukmR898VneTet85/6Rp+1Vbeuci9rWmhFt+cx7NybtoCo8qb489xJrYpHabH7qvVnLET1kbFNjU
-	TNAjKR2zlBeK/iwCrGZ7Z93CK9Cy6bbURBrkTChuAlcREDP50M5gY/cAkS2s4eFKQMzk9eeL4nR
-	X8M13kjFgUUWkzG4Cd65CF7ctBKWVIuHNckqSHUJnCSzh3gF6fFccGLtIlQPrAOaF0pSjSR+73N
-	HHNQPOaZHBJYUFbo62eg+u8sWt22K1AqtDJSgfNPy9D8Sv+nZNcDExylOdnrFqV94lcK2CQqFmw
-	7broDK/Dnq9vlPHhQ+RFmqKNKguKPTho2U/7B2m/QROTdytHQXK5I3gIklU96xaoGndqLFxb2wW
-	5N6Rbq
-X-Received: by 2002:a05:600c:848c:b0:493:c862:3f2d with SMTP id 5b1f17b1804b1-493d11d3bf6mr110310105e9.5.1783331158069;
-        Mon, 06 Jul 2026 02:45:58 -0700 (PDT)
-Received: from nsa ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c637bc21sm645014455e9.7.2026.07.06.02.45.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 02:45:57 -0700 (PDT)
-Date: Mon, 6 Jul 2026 10:47:02 +0100
-From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, 
-	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH v6 12/16] iio: frequency: ad9910: add RAM mode support
-Message-ID: <akt3i_YxG-jF3IdJ@nsa>
-References: <20260618-ad9910-iio-driver-v6-0-79125ffbe430@analog.com>
- <20260618-ad9910-iio-driver-v6-12-79125ffbe430@analog.com>
- <20260703040544.08a8ea5e@jic23-huawei>
- <ake_YWfvVC9RQ3wu@nsa>
- <1493eed5-5bb8-4a2c-8f2d-8b4bc5dde157@baylibre.com>
+	dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b="GPVlpaGD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tu-dortmund.de;
+	s=unimail; t=1783330992;
+	bh=4aUq9hNomM3wVZ+MmRk9U8Emi4jxb74PHusgdr1u9DE=;
+	h=From:To:Cc:Subject:Date;
+	b=GPVlpaGD0FyiOz1hb8O69MIemTbYKSCZlr8FJMxlal8SOVcnSciMb3Zx8M+Bgx7GY
+	 JQzGEBNlvVA/222VPFJv3Vk+BSj7uEe77Jp8aQsvrzSSbeMPAaWLbL/eZEs4tZbw5y
+	 jLIh58UM3FbTW9nbBq+cVjcoHV248jG4yeC1uo1g=
+Received: from simon-Latitude-5450.cni.e-technik.tu-dortmund.de ([129.217.186.105])
+	(authenticated bits=0)
+	by unimail.uni-dortmund.de (8.19.0.2/8.19.0.2) with ESMTPSA id 6669hBLT020592
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 6 Jul 2026 11:43:11 +0200 (CEST)
+From: Simon Schippers <simon.schippers@tu-dortmund.de>
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Jason Wang <jasowangio@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        "Michael S . Tsirkin" <mst@redhat.com>, netdev@vger.kernel.org
+Cc: Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        Tim Gebauer <tim.gebauer@tu-dortmund.de>,
+        Brett Sheffield <brett@librecast.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Simon Schippers <simon.schippers@tu-dortmund.de>
+Subject: [PATCH net v2] tun/tap & vhost-net: make qdisc backpressure opt-in via IFF_BACKPRESSURE
+Date: Mon,  6 Jul 2026 11:42:42 +0200
+Message-ID: <20260706094242.115992-1-simon.schippers@tu-dortmund.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1493eed5-5bb8-4a2c-8f2d-8b4bc5dde157@baylibre.com>
 
-On Sat, Jul 04, 2026 at 11:50:35AM -0500, David Lechner wrote:
-> On 7/3/26 9:09 AM, Nuno Sá wrote:
-> > On Fri, Jul 03, 2026 at 04:05:44AM +0100, Jonathan Cameron wrote:
-> >> On Thu, 18 Jun 2026 14:27:28 +0100
-> >> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-> >>
-> >>> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> >>>
-> >>> Add RAM control channel, which includes:
-> >>> - RAM data loading via firmware upload interface;
-> >>> - Per-profile configuration and DDS core parameter destination as firmware
-> >>>   metadata;
-> >>> - Profile switching relying on profile channels;
-> >>> - Sampling frequency control of the active profile;
-> >>> - ram-enable-aware read/write paths that redirect single tone
-> >>>   frequency/phase/amplitude access through reg_profile cache when RAM is
-> >>>   active;
-> >>>
-> >>> When RAM is enabled, the DDS profile parameters (frequency, phase,
-> >>> amplitude) for the single tone mode are sourced from a shadow register
-> >>> cache (reg_profile[]) since the profile registers are repurposed for RAM
-> >>> control.
-> >>>
-> >>> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> >>
-> >>> diff --git a/drivers/iio/frequency/ad9910.c b/drivers/iio/frequency/ad9910.c
-> >>> index 3fe97aa887c3..c4e179dda715 100644
-> >>> --- a/drivers/iio/frequency/ad9910.c
-> >>> +++ b/drivers/iio/frequency/ad9910.c
-> >>
-> >>> +static enum fw_upload_err ad9910_ram_fwu_write(struct fw_upload *fw_upload,
-> >>> +					       const u8 *data, u32 offset,
-> >>> +					       u32 size, u32 *written)
-> >>> +{
-> >>> +	const struct ad9910_ram_fw *fw_data = (const struct ad9910_ram_fw *)data;
-> >>> +	struct ad9910_state *st = fw_upload->dd_handle;
-> >>> +	int ret, ret2, idx, wcount;
-> >>> +	u64 tmp64, backup;
-> >>> +
-> >>> +	if (offset != 0)
-> >>> +		return FW_UPLOAD_ERR_INVALID_SIZE;
-> >>> +
-> >>> +	guard(mutex)(&st->lock);
-> >>> +
-> >>> +	if (st->ram_fwu_cancel)
-> >>> +		return FW_UPLOAD_ERR_CANCELED;
-> >>> +
-> >>> +	if (AD9910_RAM_ENABLED(st))
-> >>> +		return FW_UPLOAD_ERR_HW_ERROR;
-> >>> +
-> >>> +	for (idx = 0; idx < AD9910_NUM_PROFILES; idx++)
-> >>> +		st->reg_profile[idx] = get_unaligned_be64(&fw_data->profiles[idx]) |
-> >>> +				       AD9910_PROFILE_RAM_OPEN_MSK;
-> >>> +
-> >>> +	ret = ad9910_reg32_update(st, AD9910_REG_CFR1,
-> >>> +				  AD9910_CFR1_RAM_PLAYBACK_DEST_MSK |
-> >>> +				  AD9910_CFR1_INT_PROFILE_CTL_MSK,
-> >>> +				  get_unaligned_be32(&fw_data->cfr1), true);
-> >>> +	if (ret)
-> >>> +		return FW_UPLOAD_ERR_RW_ERROR;
-> >>> +
-> >>> +	wcount = get_unaligned_be16(&fw_data->wcount);
-> >>> +	if (!wcount) {
-> >>> +		*written = size;
-> >>> +		return FW_UPLOAD_ERR_NONE; /* nothing else to write */
-> >>> +	}
-> >>> +
-> >>> +	ret = ad9910_profile_set(st, st->profile);
-> >>> +	if (ret)
-> >>> +		return FW_UPLOAD_ERR_HW_ERROR;
-> >>> +
-> >>> +	/* backup profile register and update it with required address range */
-> >>> +	backup = st->reg[AD9910_REG_PROFILE(st->profile)].val64;
-> >>> +	tmp64 = AD9910_PROFILE_RAM_STEP_RATE_MSK |
-> >>> +		FIELD_PREP(AD9910_PROFILE_RAM_START_ADDR_MSK, 0) |
-> >>> +		FIELD_PREP(AD9910_PROFILE_RAM_END_ADDR_MSK, wcount - 1);
-> >>> +	ret = ad9910_reg64_write(st, AD9910_REG_PROFILE(st->profile), tmp64, true);
-> >>> +	if (ret)
-> >>> +		return FW_UPLOAD_ERR_RW_ERROR;
-> >>> +
-> >>> +	memcpy(&st->tx_buf[1], fw_data->words, wcount * AD9910_RAM_WORD_SIZE);
-> >>> +
-> >>> +	/* write ram data and restore profile register */
-> >>> +	ret = ad9910_spi_write(st, AD9910_REG_RAM,
-> >>> +			       wcount * AD9910_RAM_WORD_SIZE, false);
-> >>> +	ret2 = ad9910_reg64_write(st, AD9910_REG_PROFILE(st->profile), backup, true);
-> >>> +	if (ret || ret2)
-> >>> +		return FW_UPLOAD_ERR_RW_ERROR;
-> >>> +
-> >>> +	*written = size;
-> >>
-> >> I'd like a blank line here. Mostly to make that 'good' return more obvious.
-> >>
-> >>> +	return FW_UPLOAD_ERR_NONE;
-> >>> +}
-> >>
-> >>>  
-> >>> +static inline void ad9910_debugfs_init(struct ad9910_state *st,
-> >>> +				       struct iio_dev *indio_dev)
-> >>> +{
-> >>> +	struct dentry *d = iio_get_debugfs_dentry(indio_dev);
-> >>> +	char buf[64];
-> >>> +
-> >>> +	/*
-> >>> +	 * symlinks are created here so iio userspace tools can refer to them
-> >>> +	 * as debug attributes.
-> >>
-> >> Maybe worth a reference to appropriate ABI doc here (even if it is introduced
-> >> in a later patch)
-> > 
-> > I'm not so sure about these links. I mean, I definitely agree we should
-> > make it easy for userspace tools like libiio to be able to handle
-> > these kind of attributes but using debugfs is questionable to me. Pretty
-> > much because this is not a debug thing. It is a real setting for the
-> > driver so ideally we would be able to control it (using the existent
-> > tools) without enforcing one to mount debugfs (I know that most of the
-> > times it's always mounted but still feels wrong to tie "real
-> > functionality" to debugfs). 
-> > 
-> > Having said the above, some suggestions:
-> > 
-> > 1. Make the iio_dev the parent so that the attr name is just "ram" and
-> > it will be a subdir /sys/bus/iio/iio:deviceN/ram/.
-> > 2. Propose a new helper for the firmware_loader code so we can get
-> > struct device from struct fw_upload then we can easily create a sysfs
-> > symlink.
-> > 3. Name the attr as dev_name(iio_dev):attr so that it becomes
-> > iio:deviceN:attr_name.
-> > 
-> > Now that I think about it, 2. does not make much sense when compared to
-> > 1. And If I'm not missing anything both 1. and 3. can be sanely parsable
-> > from userspace (being 3. maybe a bit more reliable). And yes, both require
-> > user space tools (in this case libiio) to support a new type of
-> > attribute (firmware) but that is another problem.
-> 
-> I would say that udev should be used to find the firmware device from
-> userspace rather than creating symlinks. And you probably don't even
-> need udev if you already have the `iio-device:<ID>` value. The path
+Commit 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop
+when a qdisc is present") did not show a relevant performance regression
+in my testing but on Brett Sheffield's librecast testbed it shows a
+significant performance drop in a IPv6 multicast testcase. The regression
+can be pinpointed when multiple iperf3 UDP threads are sending. For 8
+threads the performance dropped from 13.5 Gbit/s to 9.13 Gbit/s. This is
+the reason why this patch makes the qdisc backpressure behavior opt-in.
 
-Just one note. If you mean <ID> as the attr name the above will fail for
-multiple instances of the same device. That's is why a proposed
-dev_name(iio_dev) which I think it should reliable be iio:deviceN. 
+One option to accomplish the opt-in would be to set the default qdisc to
+noqueue at init. However this may also break userspace as users might
+have chosen a custom qdisc even though most of the qdiscs did nothing
+for tun/tap in the past due to missing backpressure...
 
-I guess N might change so anyone hardcoding it might have surprises. But
-properly done and we have a sane way to match the above with anything on
-/sys/class/firmware/iio:deviceN:<attr>/
+This is the reason why in this patch, the flag IFF_BACKPRESSURE is
+introduced instead which is required to enable the backpressure logic.
+This means the stopping logic in tun_net_xmit() and the waking logic in
+__tun_wake_queue() are skipped if the flag is disabled.
 
-> is always going to be `/sys/class/firmware/iio-device:<ID>:ram/`. It
-> seems like the same amount of work for usespace to computer the path
-> either way, so might as well keep it simple and leave out the symlink
-> stuff.
+To avoid a possible stall due to disabling IFF_BACKPRESSURE, the new
+helper tun_force_wake_queue() is implemented. The helper safely wakes the
+respective netdev queue and resets cons_cnt while the consumer_lock and
+the producer_lock of the ring are held. The helper is run in tun_attach()
+when a queue (re)attaches, in tun_set_iff() for attached tfiles, and
+in tun_queue_resize().
 
-Yes, at least for libiio, `iio:deviceN` is already what we call the
-device ID so we can match fw attrs against it and everything after the
-last ':' is treated as the attr_name. 
+The documentation in tuntap.rst is updated accordingly.
 
-We just need to keep in mind that if a second user of this stuff pops
-up, we should add a new helper to enforce the ABI.
+Fixes: 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop when a qdisc is present")
+Reported-by: Brett Sheffield <brett@librecast.net>
+Closes: https://lore.kernel.org/netdev/akVnoOYQOrt8k-Gu@karahi.librecast.net/T/#u
+Signed-off-by: Simon Schippers <simon.schippers@tu-dortmund.de>
+---
+V1 -> V2:
+- Sashiko: Ensure detached queues are woken on re-attach by calling the
+  new tun_force_wake_queue() helper from tun_attach(), and reuse it
+  across the existing wake paths.
+- Specify the failing test case in the commit message.
+---
+ Documentation/networking/tuntap.rst | 17 ++++++++++
+ drivers/net/tun.c                   | 49 ++++++++++++++++++-----------
+ include/uapi/linux/if_tun.h         |  1 +
+ tools/include/uapi/linux/if_tun.h   |  1 +
+ 4 files changed, 50 insertions(+), 18 deletions(-)
 
-- Nuno Sá
-> 
-> > 
-> > - Nuno Sá
-> >>
-> >>> +	 */
-> >>> +	snprintf(buf, sizeof(buf), "/sys/class/firmware/%s/loading", st->ram_fwu_name);
-> >>> +	debugfs_create_symlink("ram_loading", d, buf);
-> >>> +
-> >>> +	snprintf(buf, sizeof(buf), "/sys/class/firmware/%s/data", st->ram_fwu_name);
-> >>> +	debugfs_create_symlink("ram_data", d, buf);
-> >>> +}
-> >>> +
-> >>>  static int ad9910_probe(struct spi_device *spi)
-> >>>  {
-> >>>  	static const char * const supplies[] = {
-> >>> @@ -1561,7 +1876,25 @@ static int ad9910_probe(struct spi_device *spi)
-> >> ...
-> >>
-> >>> +	ad9910_debugfs_init(st, indio_dev);
-> >>
-> >> Blank line preferred before a simple return like this one.
-> >>
-> >>> +	return 0;
-> >>>  }
-> >>>  
-> >>>  static const struct spi_device_id ad9910_id[] = {
-> >>>
-> >>
-> 
+diff --git a/Documentation/networking/tuntap.rst b/Documentation/networking/tuntap.rst
+index 4d7087f727be..599264825dd2 100644
+--- a/Documentation/networking/tuntap.rst
++++ b/Documentation/networking/tuntap.rst
+@@ -206,6 +206,23 @@ enable is true we enable it, otherwise we disable it::
+       return ioctl(fd, TUNSETQUEUE, (void *)&ifr);
+   }
+ 
++3.4 qdisc backpressure
++----------------------
++
++Starting with Linux 7.2, IFF_BACKPRESSURE can be set to enable qdisc
++backpressure. Without it, TX drops occur when the internal ring buffer is
++full. With it, the kernel stops the TX queue instead, letting the qdisc
++hold packets. Drops only occur as a rare race. This can benefit protocols
++like TCP that react to drops. Backpressure requires a qdisc to be
++attached and has no effect with noqueue.
++
++The TUN/TAP ring buffer size can be reduced alongside this flag to
++further shift buffering into the qdisc and reduce bufferbloat, but comes
++at possible performance cost.
++
++When running multiple network streams in parallel, the flag may reduce
++performance due to the extra overhead of the backpressure mechanism.
++
+ Universal TUN/TAP device driver Frequently Asked Question
+ =========================================================
+ 
+diff --git a/drivers/net/tun.c b/drivers/net/tun.c
+index ffbe6f13fb1f..62e5eab4e345 100644
+--- a/drivers/net/tun.c
++++ b/drivers/net/tun.c
+@@ -98,7 +98,8 @@ static void tun_default_link_ksettings(struct net_device *dev,
+ #define TUN_FASYNC	IFF_ATTACH_QUEUE
+ 
+ #define TUN_FEATURES (IFF_NO_PI | IFF_ONE_QUEUE | IFF_VNET_HDR | \
+-		      IFF_MULTI_QUEUE | IFF_NAPI | IFF_NAPI_FRAGS)
++		      IFF_MULTI_QUEUE | IFF_NAPI | IFF_NAPI_FRAGS | \
++		      IFF_BACKPRESSURE)
+ 
+ #define GOODCOPY_LEN 128
+ 
+@@ -694,6 +695,20 @@ static void tun_detach_all(struct net_device *dev)
+ 		module_put(THIS_MODULE);
+ }
+ 
++static void tun_force_wake_queue(struct tun_struct *tun,
++				 struct tun_file *tfile)
++{
++	/* Ensure that the producer can not stop the
++	 * queue concurrently by taking locks.
++	 */
++	spin_lock_bh(&tfile->tx_ring.consumer_lock);
++	spin_lock(&tfile->tx_ring.producer_lock);
++	netif_wake_subqueue(tun->dev, tfile->queue_index);
++	tfile->cons_cnt = 0;
++	spin_unlock(&tfile->tx_ring.producer_lock);
++	spin_unlock_bh(&tfile->tx_ring.consumer_lock);
++}
++
+ static int tun_attach(struct tun_struct *tun, struct file *file,
+ 		      bool skip_filter, bool napi, bool napi_frags,
+ 		      bool publish_tun)
+@@ -737,11 +752,9 @@ static int tun_attach(struct tun_struct *tun, struct file *file,
+ 		goto out;
+ 	}
+ 
+-	spin_lock(&tfile->tx_ring.consumer_lock);
+-	tfile->cons_cnt = 0;
+-	spin_unlock(&tfile->tx_ring.consumer_lock);
+ 	tfile->queue_index = tun->numqueues;
+ 	tfile->socket.sk->sk_shutdown &= ~RCV_SHUTDOWN;
++	tun_force_wake_queue(tun, tfile);
+ 
+ 	if (tfile->detached) {
+ 		/* Re-attach detached tfile, updating XDP queue_index */
+@@ -1077,7 +1090,8 @@ static netdev_tx_t tun_net_xmit(struct sk_buff *skb, struct net_device *dev)
+ 
+ 	spin_lock(&tfile->tx_ring.producer_lock);
+ 	ret = __ptr_ring_produce(&tfile->tx_ring, skb);
+-	if (!qdisc_txq_has_no_queue(queue) &&
++	if ((tun->flags & IFF_BACKPRESSURE) &&
++	    !qdisc_txq_has_no_queue(queue) &&
+ 	    __ptr_ring_check_produce(&tfile->tx_ring) == -ENOSPC) {
+ 		netif_tx_stop_queue(queue);
+ 		/* Paired with smp_mb() in __tun_wake_queue() */
+@@ -2151,8 +2165,12 @@ static ssize_t tun_put_user(struct tun_struct *tun,
+ static void __tun_wake_queue(struct tun_struct *tun,
+ 			     struct tun_file *tfile, int consumed)
+ {
+-	struct netdev_queue *txq = netdev_get_tx_queue(tun->dev,
+-						tfile->queue_index);
++	struct netdev_queue *txq;
++
++	if (!(tun->flags & IFF_BACKPRESSURE))
++		return;
++
++	txq = netdev_get_tx_queue(tun->dev, tfile->queue_index);
+ 
+ 	/* Paired with smp_mb__after_atomic() in tun_net_xmit() */
+ 	smp_mb();
+@@ -2764,7 +2782,7 @@ static int tun_set_iff(struct net *net, struct file *file, struct ifreq *ifr)
+ 	struct tun_struct *tun;
+ 	struct tun_file *tfile = file->private_data;
+ 	struct net_device *dev;
+-	int err;
++	int err, i;
+ 
+ 	if (tfile->detached)
+ 		return -EINVAL;
+@@ -2894,7 +2912,8 @@ static int tun_set_iff(struct net *net, struct file *file, struct ifreq *ifr)
+ 	 * xoff state.
+ 	 */
+ 	if (netif_running(tun->dev))
+-		netif_tx_wake_all_queues(tun->dev);
++		for (i = 0; i < tun->numqueues; i++)
++			tun_force_wake_queue(tun, rtnl_dereference(tun->tfiles[i]));
+ 
+ 	strscpy(ifr->ifr_name, tun->dev->name);
+ 	return 0;
+@@ -3690,15 +3709,9 @@ static int tun_queue_resize(struct tun_struct *tun)
+ 					  dev->tx_queue_len, GFP_KERNEL,
+ 					  tun_ptr_free);
+ 
+-	if (!ret) {
+-		for (i = 0; i < tun->numqueues; i++) {
+-			tfile = rtnl_dereference(tun->tfiles[i]);
+-			spin_lock(&tfile->tx_ring.consumer_lock);
+-			netif_wake_subqueue(tun->dev, tfile->queue_index);
+-			tfile->cons_cnt = 0;
+-			spin_unlock(&tfile->tx_ring.consumer_lock);
+-		}
+-	}
++	if (!ret)
++		for (i = 0; i < tun->numqueues; i++)
++			tun_force_wake_queue(tun, rtnl_dereference(tun->tfiles[i]));
+ 
+ 	kfree(rings);
+ 	return ret;
+diff --git a/include/uapi/linux/if_tun.h b/include/uapi/linux/if_tun.h
+index 79d53c7a1ebd..73a77141315c 100644
+--- a/include/uapi/linux/if_tun.h
++++ b/include/uapi/linux/if_tun.h
+@@ -69,6 +69,7 @@
+ #define IFF_NAPI_FRAGS	0x0020
+ /* Used in TUNSETIFF to bring up tun/tap without carrier */
+ #define IFF_NO_CARRIER	0x0040
++#define IFF_BACKPRESSURE	0x0080
+ #define IFF_NO_PI	0x1000
+ /* This flag has no real effect */
+ #define IFF_ONE_QUEUE	0x2000
+diff --git a/tools/include/uapi/linux/if_tun.h b/tools/include/uapi/linux/if_tun.h
+index 2ec07de1d73b..97b670f5bc0a 100644
+--- a/tools/include/uapi/linux/if_tun.h
++++ b/tools/include/uapi/linux/if_tun.h
+@@ -67,6 +67,7 @@
+ #define IFF_TAP		0x0002
+ #define IFF_NAPI	0x0010
+ #define IFF_NAPI_FRAGS	0x0020
++#define IFF_BACKPRESSURE	0x0080
+ #define IFF_NO_PI	0x1000
+ /* This flag has no real effect */
+ #define IFF_ONE_QUEUE	0x2000
+-- 
+2.43.0
+
