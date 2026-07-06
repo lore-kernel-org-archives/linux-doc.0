@@ -1,122 +1,234 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF570433BA6;
-	Mon,  6 Jul 2026 14:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16AA041A77C
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 14:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783347568; cv=none; b=cjIoDSXCGT+545YydN1ubd8lJBBkZvvbPziK7BPyPTsE45HC8B6scOpBn9kTgZ4Iz+yWy1ShaDM1eW6foFCP+KqusgOBJ+JTaAkFh4REF4gIawMcxJNxfLPAgUOzyLGW63Faxle8LwOwWN0som/2SepDIe7ZQCE7xZ5Em1jiLnk=
+	t=1783347818; cv=none; b=b4EtBduGS3Gan3YnHXSntfQu6feunL4ZDslul64QMujICi1kZzhlR9EulEqiax/lCkkiXTScUsH4fZyJ3MrcwD3xzhuvOFq4UzVnIFAUvMpCUDjojccKUPj+Y7oIDMVZvETR1pdt2+a2NYz45u0jojJcvx295q1iF5KKHzkIl1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783347568; c=relaxed/simple;
-	bh=TLs1sYIl6XDuSQdKZPBscGAxeps+1GHv3mJ2ZEZb9QU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Dk2MBbbqx82wjV0JrLOks7fvwLCaK4XH6QI5MYtApi2uN1mKjRunhOQvzDGb5yHEHReXaQmfsoZptTrsQ+KKeB1NHAK6ebNSYYVA2bbMbi/X/Lm2i/lLwCDA/Rk3aEVs+CczXul7hZMbpacU51fQ0TdLzIztfp799ohrIokjx/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lm4hX+hF; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783347818; c=relaxed/simple;
+	bh=8CbFWVtRpoJ/dg+s1T9+12n3yadu8+YmzUT3cFMlc3Q=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fIkGuq5HeW9sY+bj3OpQ6Isb27Cd6ZIVjFmqDX9Ay/4yulk46nRNPTf9pu/BdHA2xPGEnY4gl4wUxDVig6u28GmeTof78Hq30VjXLeRu1IFzPkiEmw4hYCAuwKy0dFI327BrRM5NT67WVnxSKP+P2h7E8Em4ob6JdecQmGubS04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k/UmHCRC; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lm4hX+hF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E84BD1F00A3A;
-	Mon,  6 Jul 2026 14:19:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783347566;
-	bh=CCjb58wtAAk5F9PdDMQvKlFN0DE7q9fXquVywqvC5OU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Lm4hX+hFLr38lYbg6+XhcImzMV1O0hlt1CbIUpGHgH8VwWJTsR2gnKJJ3H3SuPCNZ
-	 7sWSKbFX4eOcqr7MXaCaPs+8x9WU/MSFbqSwQNO0GIF5bb7Hkr5/gJsqMgbPsu2rDJ
-	 zale2tZLkRpca6Qcz8sDSvW6WhnqNMMAlmNPaTLOcMiLvFVbPpKnMMitiRifFmBN9v
-	 A4SSdyGWUKiCIkjXn9/TmxCwrsJt2dRLrY5CZl47wnhCTHhgPjXA98owH71SAcvkI0
-	 xarSFfJR18Gdh4/LNWWR7AebI4p4QRK7BdUTMiKOB7b0EeEM8al+VcYM6dldy8ZlRw
-	 UWf2irVGsbFWA==
-From: SJ Park <sj@kernel.org>
-To: 
-Cc: SJ Park <sj@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [RFC PATCH v1.1 15/16] Docs/admin-guide/mm/damon/usage: document weight sysfs file
-Date: Mon,  6 Jul 2026 07:19:09 -0700
-Message-ID: <20260706141912.88445-16-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260706141912.88445-1-sj@kernel.org>
-References: <20260706141912.88445-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k/UmHCRC"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c127a694ccbso402947266b.3
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 07:23:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783347815; x=1783952615; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:date
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rb4WFEujjXzehfKuMBJOFD79jYlgZCDeugvdupzI6Yk=;
+        b=k/UmHCRClEBU8ZbQdfNAFR6+tcoJ+NIWLTd5WMlxdR6llbUVdpM75S27bNtkDIVxso
+         qg2EQEt0Y3Ugs3THhOuNG7aHVFpjeTIiWXeiODkbwnax9THfl2feFi4Q+OyTAmJC0FcT
+         CPxVkDiL34P2aes/GnlYFaIsS6ZTL39mFs7576cN8YtBpYQCpRKQSFP1OyRP6zqE0utr
+         fdYEi0r3I3jCQrd0WRY6KDuNfNBTU6H70rqt3F1I2IBM7xcq7pC5rFfEbgm8vykC04Ce
+         SzgjVPcf18nmrEQFxjnjiMByaekqN3IOgNUlRRz4ZGG1bRttp/WVeVcC3wMA2q9hx7QI
+         DL2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783347815; x=1783952615;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:date
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=rb4WFEujjXzehfKuMBJOFD79jYlgZCDeugvdupzI6Yk=;
+        b=MNqZ0JKZsOvbOV+FOwNmisjfnhPKSfivOEu3ZhZHxtWbZMEEpg8xht1Omx3S1DIVOX
+         nyph809+2+Ej3xFRgurr6OiPXDLT/Fbr5IY5F97XDc+siHlIB8qzq+Z9uDNiATuSDj6c
+         JvfMCn6iulfUQ+YGtAgQi2ByCa3j1D2vT5WPCD5XSw/YAp38Ytmje785XLRtzsxKGg5T
+         9TBSCWSkziiwjRPbyMepaADCEKIZX+c3vSpCL1fGfyBuyFaHJQ5IDLaVdp+xklx4ec9C
+         lqYRuuhW1T0PHnCW8e+tA6CXGHToRA/2F9twuXQTkey+70CjMbugauvqZmsM5TZgAhnj
+         ebIg==
+X-Forwarded-Encrypted: i=1; AHgh+RrH06szcCsqh8eY370yyQyIWs6FNHL/Zd5KaDUrE2nc50N3hPIAv14cFHQNJH6KerbEhAg9oxbpjUg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyel2nJCnwFvkf1KJ5cCgkB84slHMXX4OtApYdNRMmpHdFWQGUV
+	CXZplairYK2D+cJVoC6hAlhqnpFNxO393WBV9C2o207WMdPyjTx0ZfLY
+X-Gm-Gg: AfdE7cnDER+TnqLFMP1iyp1vazsAtnGqaAz1yT3zBFbgez6AGAFnjnxRyqgPbV3xE49
+	+spXJhaBeOuYeYT3jy0iUcjIRZ9dGLnjSJNpbqphKUOwB9HJi/SHyalhHhTwI7+T4fSoa07hxqt
+	qZeVVUP+tpeQNeshsVvi26Rt+26E5HNwbZzenSdCz8jeUW3nrn682llZHzfUV5WVxPysnRrNpPc
+	/bbw5t+4KV6JSktYv4Q4Gis+/OjLiTdE+nQVRiz4ZBED3SnwE5Q2HpOJgHRFPusjZTP70HBdpns
+	zO+XTYhtME7id3B+lcjXj8dbw8uiurNWzv33Oru7aP00ZCNw9D6SMyZDp2lpqJ9oqrsnLbpsCc2
+	Y7L9QAibCleZjTF4TdDt9+PjHexxbn3Yq8F79/7ZHit4UtKT/2qmr9wY7Ur1CzFR7FpAojYP1aN
+	tBomvVI65O4lR6O9LXAVq6TQDdZSbXXCrWyAhVC6zeatQAvGpBarn9l6SgjgsW9yk9e9GyZHY3U
+	tj17cxP8wjC4Rje
+X-Received: by 2002:a17:906:846b:b0:c12:45fc:c57 with SMTP id a640c23a62f3a-c15a67d8d09mr36734966b.11.1783347815101;
+        Mon, 06 Jul 2026 07:23:35 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69a19dbedf4sm4229761a12.29.2026.07.06.07.23.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 07:23:34 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Date: Mon, 6 Jul 2026 15:23:28 +0100
+To: Jonathan Cameron <jic23@kernel.org>, 
+	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH v6 16/16] docs: iio: add documentation for ad9910 driver
+Message-ID: <p77cvtvjmo7hr6i6jxhfxps3if6fyy5kdwxrwlcnsziixycyen@rf5zfchlxgt6>
+References: <20260618-ad9910-iio-driver-v6-0-79125ffbe430@analog.com>
+ <20260618-ad9910-iio-driver-v6-16-79125ffbe430@analog.com>
+ <20260703193059.4deda617@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260703193059.4deda617@jic23-huawei>
 
-Update DAMON usage document for newly added probe weight file.
+On 03/07/26 19:30, Jonathan Cameron wrote:
+> On Thu, 18 Jun 2026 14:27:32 +0100
+> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+> 
+> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > 
+> > Add documentation for the AD9910 DDS IIO driver, which describes channels,
+> > DDS modes, attributes and ABI usage examples.
 
-Signed-off-by: SJ Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 11 ++++++++---
- Documentation/mm/damon/design.rst            |  5 +++++
- 2 files changed, 13 insertions(+), 3 deletions(-)
+...
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index b2649ea011f93..da5f9afd08aef 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -73,9 +73,10 @@ comma (",").
-     │ │ │ │ │ │ │ intervals_goal/access_bp,aggrs,min_sample_us,max_sample_us
-     │ │ │ │ │ │ nr_regions/min,max
-     │ │ │ │ │ │ :ref:`probes <damon_usage_sysfs_probes>`/nr_probes
--    │ │ │ │ │ │ │ 0/filters/nr_filters
--    │ │ │ │ │ │ │ │ 0/type,matching,allow,path
--    │ │ │ │ │ │ │ │ ...
-+    │ │ │ │ │ │ │ 0/weight
-+    │ │ │ │ │ │ │ │ filters/nr_filters
-+    │ │ │ │ │ │ │ │ │ 0/type,matching,allow,path
-+    │ │ │ │ │ │ │ │ │ ...
-     │ │ │ │ │ │ │ ...
-     │ │ │ │ │ :ref:`targets <sysfs_targets>`/nr_targets
-     │ │ │ │ │ │ :ref:`0 <sysfs_target>`/pid_target,obsolete_target
-@@ -286,6 +287,10 @@ In each probe directory, one directory, ``filters`` exists.  The directory
- contains files for installing filters for the probe, that is used to determine
- the data attribute for the probe.
+> > +Digital ramp generator (DRG)
+> > +----------------------------
+> > +
+> > +The DRG produces linear frequency, phase or amplitude sweeps using dedicated
+> > +hardware. The active ramp target (destination) is selected by enabling the
+> > +corresponding typed channel at channel number 130:
+> > +
+> > +- ``out_frequency130`` (label ``drg_frequency``) — ramp targets frequency
+> > +- ``out_phase130`` (label ``drg_phase``) — ramp targets phase
+> > +- ``out_altcurrent130`` (label ``drg_amplitude``) — ramp targets amplitude
+> > +
+> > +Writing ``en=1`` to one of these channels enables the DRG and switches its
+> > +destination. Writing ``en=0`` disables the DRG if the channel is the current
+> > +active destination; writing to an already-inactive destination is a no-op.
+> > +
+> > +Each destination channel also exposes a read-only ``scale`` attribute
+> > +reporting the physical quantity per ramp register LSB, which allows converting
+> > +raw limit codes to physical values.
+> > +
+> > +The two ramp channels ``out_altcurrent131`` (``drg_rising``) and
+> > +``out_altcurrent132`` (``drg_falling``) configure ascending and descending
+> > +ramp parameters independently.
+> > +
+> > +Destination channel attributes
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +.. flat-table::
+> > +   :header-rows: 1
+> > +
+> > +   * - Attribute
+> > +     - Unit
+> > +     - Description
+> > +
+> > +   * - ``en``
+> > +     - boolean
+> > +     - Enable the DRG with this channel as the active destination. Only one
+> > +       destination can be active at a time.
+> > +
+> > +   * - ``scale``
+> > +     - Hz/LSB, rad/LSB or mA/LSB
+> > +     - Read-only. Physical quantity per raw units. Multiply a ramp
+> > +       rising/falling channel ``raw`` value by this scale to get the physical
+> > +       ramp target.
+> > +
+> > +Ramp channel attributes
+> > +^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +.. flat-table::
+> > +   :header-rows: 1
+> > +
+> > +   * - Attribute
+> > +     - Unit
+> > +     - Description
+> > +
+> > +   * - ``dwell_en``
+> > +     - boolean
+> > +     - Enable dwell at the ramp limit. When disabled, the ramp
+> > +       auto-transitions at this limit without waiting for the DRCTL pin.
+> > +       Disabling both creates a bidirectional continuous ramp (triangular
+> > +       pattern). Other combinations create single-shot ramps at the DRCTL
+> > +       pin transition.
+> > +
+> > +   * - ``raw``
+> > +     - integer (64-bit)
+> > +     - Ramp limit expressed as a raw DRG register code in
+> > +       :math:`[0, 2^{32}-1]`. The physical value is ``raw * scale`` where
+> > +       ``scale`` is read from the active destination channel.
+> > +
+> > +   * - ``sampling_frequency``
+> > +     - Hz
+> > +     - Ramp clock rate. Controlled by an integer divider; the written value
+> > +       is adjusted to the nearest supported rate.
+> > +
+> > +   * - ``raw_roc``
+> > +     - /s
+> > +     - Rate of change. Number of register codes advanced per second, computed
+> > +       from the hardware step size and the current ramp clock. Writing
+> > +       requires ``sampling_frequency`` to be configured first.
+> > +
+> > +Usage examples
+> > +^^^^^^^^^^^^^^
+> > +
+> > +Configure a frequency sweep from 40 MHz to 60 MHz with a rate of change of
+> > +25 GHz/s:
+> > +
+> > +.. code-block:: bash
+> > +
+> > +  # Disable dwell on both limits for a bidirectional continuous ramp
+> > +  echo 0 > /sys/bus/iio/devices/iio\:device0/out_altcurrent131_dwell_en
+> > +  echo 0 > /sys/bus/iio/devices/iio\:device0/out_altcurrent132_dwell_en
+> > +
+> > +  # Set ramp rate at 250 MHz
+> > +  echo 250000000 > /sys/bus/iio/devices/iio\:device0/out_altcurrent131_sampling_frequency
+> > +  echo 250000000 > /sys/bus/iio/devices/iio\:device0/out_altcurrent132_sampling_frequency
+> > +
+> > +  # read the frequency scale to convert physical values to raw units
+> > +  cat /sys/bus/iio/devices/iio\:device0/out_frequency130_scale
+> > +  0.232830643650
+> > +
+> > +  # 40 MHz / 0.232830643650 = 171798692
+> > +  echo 171798692 > /sys/bus/iio/devices/iio\:device0/out_altcurrent131_raw
+> > +  # 60 MHz / 0.232830643650 = 257698038
+> > +  echo 257698038 > /sys/bus/iio/devices/iio\:device0/out_altcurrent132_raw
+> 
+> Why is this writing frequencies to altcurrent channels? Shouldn't this be the
+> frequency ones?
+
+All the attributes for ramp up/down channels would do the same thing in separate
+channel types: sampling_frequency, raw, raw_roc and dwell_en... do we need frequency
+and phase ones? For the DRG, right now I have:
+
+* out_frequency130: en, scale
+* out_phase130: en, scale
+* out_altcurrent130: en: scale
+	* out_altcurrent131: raw, raw_roc, dwell_en, sampling_frequency
+	* out_altcurrent132: raw, raw_roc, dwell_en, sampling_frequency
  
-+Each probe directory also contains ``weight`` file.  Reading from and writing
-+to the file gets and sets the :ref:`attributes-only monitoring
-+<damon_design_attrs_only_monitoring>` weight for the attribute of the probe.
-+
- In the beginning, ``filters`` directory has only one file, ``nr_filters``.
- Writing a number (``N``) to the file creates the number of child directories
- named ``0`` to ``N-1``.  Each directory represents each filter and works in a
-diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-index 6d79e7d69be84..aed6cb1cf4831 100644
---- a/Documentation/mm/damon/design.rst
-+++ b/Documentation/mm/damon/design.rst
-@@ -316,6 +316,8 @@ Another way to do this for higher accuracy is using :ref:`DAMOS filter
- information in page level.  But, because it is operated in page level, the
- overhead is proportional to the size of the memory.
- 
-+.. _damon_design_attrs_only_monitoring:
-+
- Data Attributes-only Monitoring
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
-@@ -336,6 +338,9 @@ automatically turned off.  The access counter (``nr_accesses``) will always be
- zero and not updated.  Hence the mode is called Data Attributes "only"
- monitoring.
- 
-+Refer to the :ref:`admin guide <damon_usage_sysfs_probes>` to know how users
-+can use the mode.
-+
- Dynamic Target Space Updates Handling
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
+> > +
+> > +  # 25 GHz/s / 0.232830643650 = 107374182402
+> > +  echo 107374182402 > /sys/bus/iio/devices/iio\:device0/out_altcurrent131_raw_roc
+> > +  echo 107374182402 > /sys/bus/iio/devices/iio\:device0/out_altcurrent132_raw_roc
+> > +
+> > +  # Enable the DRG with frequency as the destination
+> > +  echo 1 > /sys/bus/iio/devices/iio\:device0/out_frequency130_en
+> > +
+
+...
+
 -- 
-2.47.3
+Kind regards,
+
+Rodrigo Alencar
