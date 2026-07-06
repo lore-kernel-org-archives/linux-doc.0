@@ -1,18 +1,17 @@
 Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C3003E5A32;
-	Mon,  6 Jul 2026 06:22:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A737D3CE48F;
+	Mon,  6 Jul 2026 06:22:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783318941; cv=none; b=Z9FxOz8QFlVy5LIitkbAZJDaT8BQHHtuXXPAXlH+QvpGLd4dTg4dGon7uz3U5azN7V8FICQtc2h6YTXPitR/d3evNWEl0WvLcVeFGYAa27zuXHorHJd6tCC4e+XdVRkqo3gViqEbLoKGvdnO9nz6hwJEmHIj9X9IOQJ6/MBDVK8=
+	t=1783318954; cv=none; b=qhWJgLtYqe7xglIpEt65VPg/HFnp5rrGunszJ9rbHmkaDXsZb8iNyyCXfmB+psrVf68mbj5CDris37CvyCeO7ral+17ed7NVdlseNQxkN6gz9y8aIu6BkWu5zRq7EUsP79aCk6LPkgG+O18rSiE3uFQKRREKbGQiTADZprqaPOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783318941; c=relaxed/simple;
-	bh=yYQ/ICrr4Ybg4wzxLt2HdYTviFZ3VJcNVrq9rKQPtWM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=l6pkNDhQSBxb/7NDkEfoqvXfZefrXMctwmpOloYxiriD65lR+aqLVZpj/Peej+fJpTETL/bsHxVj/IQtLm1hpIrPY1qFU2hF0/qnLa1c0zDRBg5lKt+cv1u62U13mRxM8Y33xdSZcq5TaAnObEVPS30piuQwMMlSaLu2mOsOEGw=
+	s=arc-20240116; t=1783318954; c=relaxed/simple;
+	bh=4COXvF59c/1DTqwH8B+Ve+9eXwb29DTJEmWnDMVF5Ls=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=lFTWbPpL3Gtexk5cMkrHk10RRcwh/+qtm78pBlNmFAaBx81SN8Y/XrYjAhQ7BNsa4uXzqvmKIxdXMghfCOxj8tHxhx1K62b+pMOcIi2zBhC2/+/Ef6OFUT+F0SmU/2/OC02yDYv51YGfgcwNxT2qRruYUIpP1JpoqccUEam/dNI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c45ff70000001609-21-6a4b4983f504
+X-AuditID: a67dfc5b-c2dff70000001609-5d-6a4b4984e6c5
 From: Byungchul Park <byungchul@sk.com>
 To: linux-kernel@vger.kernel.org
 Cc: max.byungchul.park@gmail.com,
@@ -179,114 +178,72 @@ Cc: max.byungchul.park@gmail.com,
 	aliceryhl@google.com,
 	tmgross@umich.edu,
 	rust-for-linux@vger.kernel.org
-Subject: [PATCH v19 37/40] SUNRPC: relocate struct rcu_head to the first field of struct rpc_xprt
-Date: Mon,  6 Jul 2026 15:19:25 +0900
-Message-Id: <20260706061928.66713-38-byungchul@sk.com>
+Subject: [PATCH v19 39/40] rust: completion: Add __rust_helper to rust_helper_wait_for_completion()
+Date: Mon,  6 Jul 2026 15:19:27 +0900
+Message-Id: <20260706061928.66713-40-byungchul@sk.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20260706061928.66713-1-byungchul@sk.com>
 References: <20260706061928.66713-1-byungchul@sk.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSWUwTURSGvTP3ToeG6qRqHJFEU3cjbgFzHozhzXGN0TfBYGNHKUIhRTYT
+	FUG0EERELdHKYtWGpSJ2wA1xwYALIKCoFQoFRAxBLAKVyCJSjG9f/pP/O+fhsLTSTnxYre6o
+	qNepw1WMHMv7vc1+p7duD1tXnuMHhpST4HB2E3APGzBcu2NlYMJ0XwavPiVhcLoNCEbGTDSk
+	PJzEMJFVI4Ph360ymKysQWBvfEqDtewUBUOlfxjI7j2FwWVJR9BbvQX6nRUEJtu+UZBnlhjo
+	Mw4wMFbfQEP25UYE1zvbaBjs7UBQVtOO4H33TGh2uxjob7pGwY9SBprq+hD0tFRSYMyxYWjq
+	G6fAYcyioNi2E5yWHgy1mWZqaicDxrvzwJSdTIElcSl0FVydui4/EtrOX8bwuv0jAefLMwSG
+	mzspMDxyY7h+5iaGK7kOBh5XvsaQXlpOoN06SSDRNEKg8Vktgdb68zJoeHSbQGeHnYBUX0eD
+	PfMrgts/zAxY3C5ZoEYYScnAQpF0jxJS3k0wgjXXioSx0SwkDN9KpoUX3120cFqKE27VfmeE
+	yl/5WHhj5oWbqaOU8PBqm0zIt8UIUsEq4cbjXmr36n3yTRoxXBsr6tduPiAPLSsqRFFfSHzL
+	hbMoEblxGvJiec6fH0h202mIneYkR4wnZrjlvN3+m/bwHG4RL53rIWlIztLc+4V8uuXcdHc2
+	d5DP/dCAPIy5pXxe2U/iYQW3kX9ruk/++RfyxaXPpkVeU3nJeA7lYSUXwLe6XmKPlOfuePEm
+	WxfzrzCff15gx5lIkY9mFCGlVhcbodaG+68JTdBp49ccjIywoal/sxwfD3qABhv3ViGORSpv
+	BQRuC1MSdWx0QkQV4llaNUexbMX2MKVCo044JuojQ/Qx4WJ0FVrAYtU8xYZfcRold1h9VDwi
+	ilGi/v+UYr18EpGhOCj+SXDxgOPrWMgS59Auokrd71dhja2TF0U9r195tzD7p28LkTahb3G8
+	yihVt1zqqJq7Ni81xDG6Izhy8a7CzyMrQ7qqM76c4MKSDmkKBjJKDpT8CYjQS3tqP+uY4NGm
+	5u4FK0rKNb6D/q0BPnaiC/T2pWdVXEzTDl3pciaocHSoev0qWh+t/gvXZoFpawMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSe0xTdxTHd3730UtjzbWSeONMMDXoYoLTKOM4NwT8gzuNZv8Qk02ijd5A
+	eVTTKsqI0VKqFdBAl7bRykOURoEptp2IpJFAxAc+6OqDKIhoxRFQFKnIo2JL4j8nn3O+3/PN
+	+eNwlLKJWchptHslnVado2LltHzLOmNc0W+bslbePcKj2XQIe/oCDD42tNIYHDPTePpSA4sh
+	R5MMza6TDN56Ukhj18V6wL6gGXB8ykGhqXmGxpClQ4ZjE89kaDUAzng7AG0+C4XdXdcpbPAY
+	CH5s/MLiUPsooLU/wKJ90EDjiLMU8NSAQ4aDN1LxbV8LgzO9bwg++TQM6Ax8IRhoPQoYsmVj
+	VY07vG57z+LUvQcU2q1dgGf6eykcHXwB6Ol4Dug9X8ji67J/KfQH5uLD4AiLt60lLL71nSb4
+	rpHF6kIvg767Q4AVDgvgwFMvQePZSyzaKlw0Nr+4JkPf0DTBHpuFYL1rM/Y5B2jsLKsh4XPD
+	rssL0GE3knD5n6D1nxaCE846WVItiOOmE7RY575CRNN/IVZsqGwAcWrSAuJYrZESTWXhtn14
+	hBKL3PvF2s5hVpwMPmJF76dqWrxTI4jnjk0SsfxenNh8qlf2e/If8l92STmaPEn3Y+IOeaan
+	7gLsecUceFp+FA5DkC4GjhP4NUJhz75iiOJYfpnQ3T1BRTiaXyy4jw8wxSDnKN4fI5Q6j9MR
+	YT6/U6h89AAiTPOxQpXnAxNhBf+TcN/RNMsCHyPUN7bOBkWF5xenK0iElXy88GzkJl0G8mr4
+	rg6iNdq8XLUmJ36FPjszX6s5sGLn7lwXhN/JeXC6/CqM+VPbgOdANUeBSRuzlIw6T5+f2wYC
+	R6miFUt/2JSlVOxS5/8l6XZv1+3LkfRt8D1HqxYoNm6Vdij5DPVeKVuS9ki6byrhohYehvqC
+	DKLasP/XReN/Dh46WzRn9Lb6zSuDv+qdN5ZUzqR0HCxWOSfiStakGVlH8/qUgrypto/zRy9P
+	O6t+Ftv7l23zJLjnhtITEpNal7xcLs9f70uJeZjcuTW+Pe36Z+32tavdab3xiRb/vG0JUbX9
+	LvffZ+al39QXbEi3HzN32hWTBSpan6letZzS6dVfAdgyZ0pKAwAA
+X-CFilter-Loop: Reflected
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxbdRTG87//+0azbneVZddNs63JNoMO0eA8M4YQY8x1+2LiWzY12shV
-	WnlpWmCDzA0cVMZga6qw0IaujJeRtgi01IFQ0mEoIpAhaGmhCNXKZpxbtnUgA5y3kMV9+53n
-	PM9zvhwWKxrobaw6J0/U5aiylLSMlP29oX5f6euHNCkOxyYoLzsJ4dkoBYESHwmrlssMLC5b
-	MJR1P5BGk5+B2NI0A9UlCB54/QicnSUEVEeiNJjnLQxEfV8iWB69iqE+MoPhD6MHw0R0IwxV
-	n6FhfspLQE2di4Rh40WJOraC5fx1Kd7aQ8BIQ5iEmXPVJMwOGii4XDzHgOv3AAXeqaeh3tBI
-	Qq01TEOvd4gEf9dvBFS2eygY8w1TMO4YI6HtWpCAYf8PJEyPnmPg6netFDRN/kRAZC5IgXt0
-	BMPC2e3w10IzhnGfjQDD3X8pGKzyEdAUu4nh51APgr7yOQJ+nLnLwFfjNhoCpgs03KmTfJaS
-	swjOlNWQ4BlYZKD99iUaYg47Da2rAQQ3jTEqPV1wWp1IWL5vQkKs6RQWmoZv0ML9e7/QgnfB
-	Rgrd5hlGKO2bYgSbK19wtyQJDb1/EoLLfpoW6pevYyEc6KWF/u/LkdAdOfDGk0dkL2eIWeoC
-	Ufds2keyzJaWAaS9sflYj8FKF6PajRUogeW5VH7i9kX8kMdNXUycaW4vHwwuremJ3E7eXTVP
-	VSAZi7mJHXxlcxUZXzzGqfj5yGkiziS3m7dO3qPiLOf28yMdRrReuoN3tPvWihIk/ZuVujW/
-	gnuBn741SK77N/NDtVGJWenAXr7NqojLWIqe8lhw/C7P/ZrAhwYqifXOx/krLUHSiDjzI3Hz
-	/3HzI3EbwnakUOcUZKvUWanJmYU56mPJH+dmu5D0us2fr7zXhe6MvdmPOBYpN8gh/aBGQakK
-	9IXZ/YhnsTJRvuepQxqFPENVWCTqcj/U5WeJ+n60nSWVW+XPLxzNUHCfqvLEz0RRK+oebgk2
-	YVsx0h79wJq/+62KE/SKJtiqDJ5I9WWGXju++Iya8nzSGDSoNbmrLx6OFRzZUsnk2buLa5JT
-	XklzExMd/i1J+51X3i994rC26EDkgkGr63zn2753XzU11x4kuK+dUKhL99tL3UQoxem4lPb2
-	dFtbOPTSF7uKlmYn6/boMxr/SXJ37ktUkvpM1XNJWKdX/Qc09s50tgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0wTWRSA986dTofGkrGQOEFd3GZ9xKi7m4g5icZHjHFWsmY3/jDxj050
-	lPKStIBgVgVqsSBuSpOW0EpFlIpQBYuoiF0JBlypRBBZiIKIW4uEIkZbTUsLTjUb/XPz3XO+
-	8/hxaKyYlSTQqsxsQZ3JpyspGSnbuV67WvtrcurPd6ZWgV53AoZHPRL4t7CdhIBfT8LZRgcF
-	EetNKeidlRL4Z7CIhN6rDQhGA3oEH2esGHStcyREjF1S8AefScFUiGDO1YXA3GfEMNR7F4Pj
-	eiEB75tmKZi89w6BacxDQcVEIQnT9jIEFq9VChOd22FqtE0CcyPjBAx+8CGwe2YJ8LSfQhAx
-	p8G5mmax3PyWgpmeRxgqTL0Izo+NYHg38QLB9a7nCFx1RRS8MrRg6PfEwpPANAUPTKcpmOo7
-	S8CbJgqqi1wS6Hs4iaDKakTgfeoiQHuhkQJzlZOE1he3pdA3GSZg2GwkoMH5G4zavSS4DTWE
-	uK5oXVsA1gotIT6vCTBdaSMgaK+Xbq5F3EfdXyRX33yD4HSPIxTnsDkQNxMyIs5fq8WcziB+
-	7/mmMXey+QhX6/ZRXCgwQHGuD9Uk113DchdLQgRX3rOaa7WMSH/fske24YCQrsoV1D9t3CdL
-	qavrRFm++XltxTaqAFXGlqIYmmXWso+Nt6RRppjl7NBQEEc5nlnCNp/xSkqRjMZMfyJbZj9D
-	RhNxDM96x0qIKJPMUtY2GJBEWc6sYx9eM6AvTRPZhqb2z41ixPjVcNVnX8Eksc+m75Nf/Pns
-	g0qPyLQ4YDnbaFNEw1gs1bZYsQHJLd9Ylq+W5RurGuF6FK/KzM3gVelJazRpKfmZqrw1+w9n
-	OJF4lfZj4fJbyN+/vQMxNFLOk8PmHakKCZ+ryc/oQCyNlfHyZSuSUxXyA3z+UUF9eK86J13Q
-	dKCFNKlcIN+xW9inYA7x2UKaIGQJ6v+zBB2TUIDc/SH3wN/2FcGw+whOlI//t3/D4q0q/6ns
-	E/rZsLaok36y9sdd53aef2+L7eiu7fTLy5OX3L/rjJMlWkqK12/JebrIl1vwZ0vCywGjMdU/
-	Hjn0aLCUPh7nefvHd3k/bJu7nJT1KlS2tFu1yTFsv33cqjp9MFzM56yq6Io/+X2wZ/ElJalJ
-	4X9ZidUa/hOqfMNukQMAAA==
-X-CFilter-Loop: Reflected
 
-While compiling Linux kernel with DEPT on, the following error was
-observed:
+This is needed to inline these helpers into Rust code, which is required
+for DEPT to play with wait_for_completion().
 
-   ./include/linux/rcupdate.h:1084:17: note: in expansion of macro
-   ‘BUILD_BUG_ON’
-   1084 | BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);	\
-        | ^~~~~~~~~~~~
-   ./include/linux/rcupdate.h:1047:29: note: in expansion of macro
-   'kvfree_rcu_arg_2'
-   1047 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
-        |                             ^~~~~~~~~~~~~~~~
-   net/sunrpc/xprt.c:1856:9: note: in expansion of macro 'kfree_rcu'
-   1856 | kfree_rcu(xprt, rcu);
-        | ^~~~~~~~~
-    CC net/kcm/kcmproc.o
-   make[4]: *** [scripts/Makefile.build:203: net/sunrpc/xprt.o] Error 1
-
-Since kfree_rcu() assumes 'offset of struct rcu_head in a rcu-managed
-struct < 4096', the offest of struct rcu_head in struct rpc_xprt should
-not exceed 4096 but does, due to the debug information added by DEPT.
-
-Relocate struct rcu_head to the first field of struct rpc_xprt from an
-arbitrary location to avoid the issue and meet the assumption.
-
-Reported-by: Yunseong Kim <ysk@kzalloc.com>
 Signed-off-by: Byungchul Park <byungchul@sk.com>
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
 ---
- include/linux/sunrpc/xprt.h | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ rust/helpers/completion.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/sunrpc/xprt.h b/include/linux/sunrpc/xprt.h
-index f46d1fb8f71a..666e42a17a31 100644
---- a/include/linux/sunrpc/xprt.h
-+++ b/include/linux/sunrpc/xprt.h
-@@ -211,6 +211,14 @@ enum xprt_transports {
+diff --git a/rust/helpers/completion.c b/rust/helpers/completion.c
+index 5ea2eef74abc..7b55c960fe22 100644
+--- a/rust/helpers/completion.c
++++ b/rust/helpers/completion.c
+@@ -7,7 +7,7 @@ __rust_helper void rust_helper_init_completion(struct completion *x)
+ 	init_completion(x);
+ }
  
- struct rpc_sysfs_xprt;
- struct rpc_xprt {
-+	/*
-+	 * Place struct rcu_head within the first 4096 bytes of struct
-+	 * rpc_xprt if sizeof(struct rpc_xprt) > 4096, so that
-+	 * kfree_rcu() can simply work assuming that.  See the comment
-+	 * in kfree_rcu().
-+	 */
-+	struct rcu_head		rcu;
-+
- 	struct kref		kref;		/* Reference count */
- 	const struct rpc_xprt_ops *ops;		/* transport methods */
- 	unsigned int		id;		/* transport id */
-@@ -317,7 +325,6 @@ struct rpc_xprt {
- #if IS_ENABLED(CONFIG_SUNRPC_DEBUG)
- 	struct dentry		*debugfs;		/* debugfs directory */
- #endif
--	struct rcu_head		rcu;
- 	const struct xprt_class	*xprt_class;
- 	struct rpc_sysfs_xprt	*xprt_sysfs;
- 	bool			main; /*mark if this is the 1st transport */
+-void rust_helper_wait_for_completion(struct completion *x)
++__rust_helper void rust_helper_wait_for_completion(struct completion *x)
+ {
+ 	wait_for_completion(x);
+ }
 -- 
 2.17.1
 
