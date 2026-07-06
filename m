@@ -1,92 +1,280 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF9447ECF3
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 09:45:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972DA46AECC
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 09:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783331150; cv=none; b=EWU2sVFcUTPGoG201GUzDPJ92ABS1npHE4csEOd1yEYfRZVFIOFm/xdx2oW5RQYI2Obe9z1RzoNQoPoasBy4EhrzdiKfDwnbzs878f3XTGdAyaq9/h8Z2x/KZpJ2nzgBDb9fhIJGaWGGSqYVRdPF9knmAAnZEFG3IludUHO+sX4=
+	t=1783331165; cv=none; b=hBo0IVtnExIXSUhmLc4nZVJT+rsHR7kP4hQzIZ4YE4Q/FP3YmZ3qZUG9gnIgqs2h+oP1QWU2EKIEsv83gjQNzxoQABd72YGm/M0kNbOjJFpkUVpTfX3wybWfF4TJQAmxsAUO8qsaqqv2WuXiZJevJtTyL7Cr7EeTFhA/WQ0QuHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783331150; c=relaxed/simple;
-	bh=q189WGn34qM2moSB3qZyY2303QsSTnuM/pRUOyObkRU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bUtdfBmUURypttheHyZT/gO/5HujOTLSHVLKfngJPXkepD/2g/Os4/zz7tdzTD/bTokPVVrCR43KQ5sg7HKXfFKS/plgL4OMWXcGACCaa0qtsF48wiETTw79SaWuG07dcoPSDVmb4nQbfkdZeHPaMcUpB/BNMYF7MFeD0O0JS6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tsv6yQNI; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783331165; c=relaxed/simple;
+	bh=zDw0ABLub0kgFm+IA9IE6NYszy3Pq95vEScWSA+dnhs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ajaCq6FjKOPn3pS5O2umcZ8t2IxNRGSWxvy20Mk77LfR8QJCXx67T6hFjMtjvm29E4D3JuFFKgCsqHVNai9QQUyxKZ78QlSVSQMvin8Qd8f5xQdSOqL/pz1RZstODpOGlUwC+M4ZvwVrEunQ4PFT71NL/dtdwTL5xtBNQeteuXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m7HKNewx; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tsv6yQNI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783331147; x=1814867147;
-  h=date:from:to:cc:subject:message-id;
-  bh=q189WGn34qM2moSB3qZyY2303QsSTnuM/pRUOyObkRU=;
-  b=Tsv6yQNImGIscPKoGWGCeR5FsEfhgFrI7eZLlZhwmxvT3JKkqP5rcq3k
-   KcJP09iHjARZHQNz7z9804ICTv+5obcuAMbwWxgjcjSCmx28kl51uxx4a
-   1K030Ko2y30hdO7tQU5geK30bekuDwo77L2j0/PoOyDpRPzATNxUvDkQ8
-   AArlZ0VZE5n481fUdFqvt/qiXIbuolTt1HLBWzmYLKWr2TxpXsFiUu4hm
-   cSi4P0RbAlU8H/1X79vMBdzNn/WT8di6S8ijROvwvR/wwF0IdSI7LXC6P
-   UyjQ/ephx3BN06tbiT0RBJoigpqJWdWLHtWJsSR8PoKXvFFyd869+UmNv
-   g==;
-X-CSE-ConnectionGUID: 6vLmx3iES/uWXFYx4xgUgA==
-X-CSE-MsgGUID: qSVlJNexTMywECXdr9oKlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="83824008"
-X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="83824008"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 02:45:41 -0700
-X-CSE-ConnectionGUID: fWIsxca7SlqG0q+YMUITKA==
-X-CSE-MsgGUID: up3BtbU2SRKszq4Na6yE0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="276881893"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Jul 2026 02:45:38 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wgftQ-000000002A9-21Aa;
-	Mon, 06 Jul 2026 09:45:36 +0000
-Date: Mon, 06 Jul 2026 11:45:25 +0200
-From: kernel test robot <lkp@intel.com>
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, linux-doc@vger.kernel.org
-Subject: [alexs:docs-next 3/7] htmldocs: Warning:
- Documentation/translations/zh_CN/how-to.rst references a file that doesn't
- exist: Documentation/translations/zh_CN/xxx.rst
-Message-ID: <202607061141.fmjoYjew-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m7HKNewx"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so17526415e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 02:46:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783331158; x=1783935958; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/ujYMuu1OWSnbiAmz8ZNXJGcWE93aVNWAdKELmlJkJw=;
+        b=m7HKNewxSSGBmTzR2gmUA2UURsCEGjhjxl1YFk1AshqSNelnllxGkY9DWE9k73czMD
+         XfdGaggCpBHapMRsd5bsQVOcypEYJE5tmIqjfTIJdZK/d4rs89r8JnmFoKCFYC3osd1c
+         K0zPADhcB6719Lnm1TKCturvMyH+4pQsm706814f8lj5Tt7fhyOzcYcAueVPGNvFJDjx
+         wPlNlDpkKwoNJ6lgj3huhQmXXSaYtG/MkvcXP4zEt/KmXiIk0VJf3HtrV+OEswkN2Y+V
+         cf/Jm5wOQ1P7aR9H84U45ytMcquN66X2OtAfjIh5qS2Rm+sj/apFuRa5gHoCQhI/TC7Q
+         JyJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783331158; x=1783935958;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=/ujYMuu1OWSnbiAmz8ZNXJGcWE93aVNWAdKELmlJkJw=;
+        b=ZYhsdT6I0p+UmK5ONNrUIRnXN0CtcsMmZi3nE/WLnVJj8G1COpnBpPMrp6/pj63iD+
+         bX57A5Lvw6J4pTRnmTf5cuVdg3QQotJ8vXBjSkHk9zy32RSB0Jd28RLAVND7MJjpdeb4
+         52XMDLuxR/eJ4Hhjp8c0KTj6srRY4eWreTlIk+76bW4CHdwkwolpZhhDCnpy6k9txTkC
+         1QqOsQkq9bL23/A2fnoUc0xedjfvePpqkO1GCyD8o0dvcpnWeekh6Q5naqgSCpGTzBnI
+         2PIPf21L/7ygML/i+LzcPuz9mnJfxmeZhyCAifO5vx57CbLTkfKEKRzN+XUsN/OIYpYL
+         16pQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpJRY0KitXkp9bI3ueyMhKY6TFm8slNoXfu3rzYXUyW69L7asbjXSh4iGP2UEiyMptumutStxbpwvE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YypoSVwXpPx9oHwwRKI2gvks8HbCE68IhZwW0czzfJ0HfClcPL0
+	pDn6AqOH2D7NE8kOAGlEdtoX3ylYtFwSBhbkVqyt0HTBBxlXgLvcEtO1
+X-Gm-Gg: AfdE7cl19Ev/gnzGBYeTzN/U06wMzVXsPF8FV/x+NYr0sNQ1vnzbritr8oYT9lpNh5g
+	ukmR898VneTet85/6Rp+1Vbeuci9rWmhFt+cx7NybtoCo8qb489xJrYpHabH7qvVnLET1kbFNjU
+	TNAjKR2zlBeK/iwCrGZ7Z93CK9Cy6bbURBrkTChuAlcREDP50M5gY/cAkS2s4eFKQMzk9eeL4nR
+	X8M13kjFgUUWkzG4Cd65CF7ctBKWVIuHNckqSHUJnCSzh3gF6fFccGLtIlQPrAOaF0pSjSR+73N
+	HHNQPOaZHBJYUFbo62eg+u8sWt22K1AqtDJSgfNPy9D8Sv+nZNcDExylOdnrFqV94lcK2CQqFmw
+	7broDK/Dnq9vlPHhQ+RFmqKNKguKPTho2U/7B2m/QROTdytHQXK5I3gIklU96xaoGndqLFxb2wW
+	5N6Rbq
+X-Received: by 2002:a05:600c:848c:b0:493:c862:3f2d with SMTP id 5b1f17b1804b1-493d11d3bf6mr110310105e9.5.1783331158069;
+        Mon, 06 Jul 2026 02:45:58 -0700 (PDT)
+Received: from nsa ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c637bc21sm645014455e9.7.2026.07.06.02.45.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 02:45:57 -0700 (PDT)
+Date: Mon, 6 Jul 2026 10:47:02 +0100
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH v6 12/16] iio: frequency: ad9910: add RAM mode support
+Message-ID: <akt3i_YxG-jF3IdJ@nsa>
+References: <20260618-ad9910-iio-driver-v6-0-79125ffbe430@analog.com>
+ <20260618-ad9910-iio-driver-v6-12-79125ffbe430@analog.com>
+ <20260703040544.08a8ea5e@jic23-huawei>
+ <ake_YWfvVC9RQ3wu@nsa>
+ <1493eed5-5bb8-4a2c-8f2d-8b4bc5dde157@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1493eed5-5bb8-4a2c-8f2d-8b4bc5dde157@baylibre.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git docs-next
-head:   bc2e3e1124b7362f83c5fb8557274bbca3da1a74
-commit: 359c3caf50481aa08b0ab761436e4b70ad027f73 [3/7] docs/zh_CN: restructure how-to.rst patch submission workflow
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260706/202607061141.fmjoYjew-lkp@intel.com/reproduce)
+On Sat, Jul 04, 2026 at 11:50:35AM -0500, David Lechner wrote:
+> On 7/3/26 9:09 AM, Nuno Sá wrote:
+> > On Fri, Jul 03, 2026 at 04:05:44AM +0100, Jonathan Cameron wrote:
+> >> On Thu, 18 Jun 2026 14:27:28 +0100
+> >> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+> >>
+> >>> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> >>>
+> >>> Add RAM control channel, which includes:
+> >>> - RAM data loading via firmware upload interface;
+> >>> - Per-profile configuration and DDS core parameter destination as firmware
+> >>>   metadata;
+> >>> - Profile switching relying on profile channels;
+> >>> - Sampling frequency control of the active profile;
+> >>> - ram-enable-aware read/write paths that redirect single tone
+> >>>   frequency/phase/amplitude access through reg_profile cache when RAM is
+> >>>   active;
+> >>>
+> >>> When RAM is enabled, the DDS profile parameters (frequency, phase,
+> >>> amplitude) for the single tone mode are sourced from a shadow register
+> >>> cache (reg_profile[]) since the profile registers are repurposed for RAM
+> >>> control.
+> >>>
+> >>> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> >>
+> >>> diff --git a/drivers/iio/frequency/ad9910.c b/drivers/iio/frequency/ad9910.c
+> >>> index 3fe97aa887c3..c4e179dda715 100644
+> >>> --- a/drivers/iio/frequency/ad9910.c
+> >>> +++ b/drivers/iio/frequency/ad9910.c
+> >>
+> >>> +static enum fw_upload_err ad9910_ram_fwu_write(struct fw_upload *fw_upload,
+> >>> +					       const u8 *data, u32 offset,
+> >>> +					       u32 size, u32 *written)
+> >>> +{
+> >>> +	const struct ad9910_ram_fw *fw_data = (const struct ad9910_ram_fw *)data;
+> >>> +	struct ad9910_state *st = fw_upload->dd_handle;
+> >>> +	int ret, ret2, idx, wcount;
+> >>> +	u64 tmp64, backup;
+> >>> +
+> >>> +	if (offset != 0)
+> >>> +		return FW_UPLOAD_ERR_INVALID_SIZE;
+> >>> +
+> >>> +	guard(mutex)(&st->lock);
+> >>> +
+> >>> +	if (st->ram_fwu_cancel)
+> >>> +		return FW_UPLOAD_ERR_CANCELED;
+> >>> +
+> >>> +	if (AD9910_RAM_ENABLED(st))
+> >>> +		return FW_UPLOAD_ERR_HW_ERROR;
+> >>> +
+> >>> +	for (idx = 0; idx < AD9910_NUM_PROFILES; idx++)
+> >>> +		st->reg_profile[idx] = get_unaligned_be64(&fw_data->profiles[idx]) |
+> >>> +				       AD9910_PROFILE_RAM_OPEN_MSK;
+> >>> +
+> >>> +	ret = ad9910_reg32_update(st, AD9910_REG_CFR1,
+> >>> +				  AD9910_CFR1_RAM_PLAYBACK_DEST_MSK |
+> >>> +				  AD9910_CFR1_INT_PROFILE_CTL_MSK,
+> >>> +				  get_unaligned_be32(&fw_data->cfr1), true);
+> >>> +	if (ret)
+> >>> +		return FW_UPLOAD_ERR_RW_ERROR;
+> >>> +
+> >>> +	wcount = get_unaligned_be16(&fw_data->wcount);
+> >>> +	if (!wcount) {
+> >>> +		*written = size;
+> >>> +		return FW_UPLOAD_ERR_NONE; /* nothing else to write */
+> >>> +	}
+> >>> +
+> >>> +	ret = ad9910_profile_set(st, st->profile);
+> >>> +	if (ret)
+> >>> +		return FW_UPLOAD_ERR_HW_ERROR;
+> >>> +
+> >>> +	/* backup profile register and update it with required address range */
+> >>> +	backup = st->reg[AD9910_REG_PROFILE(st->profile)].val64;
+> >>> +	tmp64 = AD9910_PROFILE_RAM_STEP_RATE_MSK |
+> >>> +		FIELD_PREP(AD9910_PROFILE_RAM_START_ADDR_MSK, 0) |
+> >>> +		FIELD_PREP(AD9910_PROFILE_RAM_END_ADDR_MSK, wcount - 1);
+> >>> +	ret = ad9910_reg64_write(st, AD9910_REG_PROFILE(st->profile), tmp64, true);
+> >>> +	if (ret)
+> >>> +		return FW_UPLOAD_ERR_RW_ERROR;
+> >>> +
+> >>> +	memcpy(&st->tx_buf[1], fw_data->words, wcount * AD9910_RAM_WORD_SIZE);
+> >>> +
+> >>> +	/* write ram data and restore profile register */
+> >>> +	ret = ad9910_spi_write(st, AD9910_REG_RAM,
+> >>> +			       wcount * AD9910_RAM_WORD_SIZE, false);
+> >>> +	ret2 = ad9910_reg64_write(st, AD9910_REG_PROFILE(st->profile), backup, true);
+> >>> +	if (ret || ret2)
+> >>> +		return FW_UPLOAD_ERR_RW_ERROR;
+> >>> +
+> >>> +	*written = size;
+> >>
+> >> I'd like a blank line here. Mostly to make that 'good' return more obvious.
+> >>
+> >>> +	return FW_UPLOAD_ERR_NONE;
+> >>> +}
+> >>
+> >>>  
+> >>> +static inline void ad9910_debugfs_init(struct ad9910_state *st,
+> >>> +				       struct iio_dev *indio_dev)
+> >>> +{
+> >>> +	struct dentry *d = iio_get_debugfs_dentry(indio_dev);
+> >>> +	char buf[64];
+> >>> +
+> >>> +	/*
+> >>> +	 * symlinks are created here so iio userspace tools can refer to them
+> >>> +	 * as debug attributes.
+> >>
+> >> Maybe worth a reference to appropriate ABI doc here (even if it is introduced
+> >> in a later patch)
+> > 
+> > I'm not so sure about these links. I mean, I definitely agree we should
+> > make it easy for userspace tools like libiio to be able to handle
+> > these kind of attributes but using debugfs is questionable to me. Pretty
+> > much because this is not a debug thing. It is a real setting for the
+> > driver so ideally we would be able to control it (using the existent
+> > tools) without enforcing one to mount debugfs (I know that most of the
+> > times it's always mounted but still feels wrong to tie "real
+> > functionality" to debugfs). 
+> > 
+> > Having said the above, some suggestions:
+> > 
+> > 1. Make the iio_dev the parent so that the attr name is just "ram" and
+> > it will be a subdir /sys/bus/iio/iio:deviceN/ram/.
+> > 2. Propose a new helper for the firmware_loader code so we can get
+> > struct device from struct fw_upload then we can easily create a sysfs
+> > symlink.
+> > 3. Name the attr as dev_name(iio_dev):attr so that it becomes
+> > iio:deviceN:attr_name.
+> > 
+> > Now that I think about it, 2. does not make much sense when compared to
+> > 1. And If I'm not missing anything both 1. and 3. can be sanely parsable
+> > from userspace (being 3. maybe a bit more reliable). And yes, both require
+> > user space tools (in this case libiio) to support a new type of
+> > attribute (firmware) but that is another problem.
+> 
+> I would say that udev should be used to find the firmware device from
+> userspace rather than creating symlinks. And you probably don't even
+> need udev if you already have the `iio-device:<ID>` value. The path
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607061141.fmjoYjew-lkp@intel.com/
+Just one note. If you mean <ID> as the attr name the above will fail for
+multiple instances of the same device. That's is why a proposed
+dev_name(iio_dev) which I think it should reliable be iio:deviceN. 
 
-All warnings (new ones prefixed by >>):
+I guess N might change so anyone hardcoding it might have surprises. But
+properly done and we have a sane way to match the above with anything on
+/sys/class/firmware/iio:deviceN:<attr>/
 
-   Warning: Documentation/translations/zh_CN/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
-   Warning: Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst references a file that doesn't exist: Documentation/filesystems/gfs2-glocks.rst
-   Warning: Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst references a file that doesn't exist: Documentation/filesystems/gfs2-uevents.rst
-   Warning: Documentation/translations/zh_CN/filesystems/gfs2.rst references a file that doesn't exist: Documentation/filesystems/gfs2.rst
-   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
->> Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/translations/zh_CN/xxx.rst
-   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+> is always going to be `/sys/class/firmware/iio-device:<ID>:ram/`. It
+> seems like the same amount of work for usespace to computer the path
+> either way, so might as well keep it simple and leave out the symlink
+> stuff.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yes, at least for libiio, `iio:deviceN` is already what we call the
+device ID so we can match fw attrs against it and everything after the
+last ':' is treated as the attr_name. 
+
+We just need to keep in mind that if a second user of this stuff pops
+up, we should add a new helper to enforce the ABI.
+
+- Nuno Sá
+> 
+> > 
+> > - Nuno Sá
+> >>
+> >>> +	 */
+> >>> +	snprintf(buf, sizeof(buf), "/sys/class/firmware/%s/loading", st->ram_fwu_name);
+> >>> +	debugfs_create_symlink("ram_loading", d, buf);
+> >>> +
+> >>> +	snprintf(buf, sizeof(buf), "/sys/class/firmware/%s/data", st->ram_fwu_name);
+> >>> +	debugfs_create_symlink("ram_data", d, buf);
+> >>> +}
+> >>> +
+> >>>  static int ad9910_probe(struct spi_device *spi)
+> >>>  {
+> >>>  	static const char * const supplies[] = {
+> >>> @@ -1561,7 +1876,25 @@ static int ad9910_probe(struct spi_device *spi)
+> >> ...
+> >>
+> >>> +	ad9910_debugfs_init(st, indio_dev);
+> >>
+> >> Blank line preferred before a simple return like this one.
+> >>
+> >>> +	return 0;
+> >>>  }
+> >>>  
+> >>>  static const struct spi_device_id ad9910_id[] = {
+> >>>
+> >>
+> 
