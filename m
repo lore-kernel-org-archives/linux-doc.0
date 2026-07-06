@@ -1,135 +1,170 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7E442CB0F
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 17:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1989727A107;
+	Mon,  6 Jul 2026 17:58:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783360526; cv=none; b=IrAWYtEifBfN8o81gmWM0wdiNCu9Wej3jsSMGhICVpg0GHbFQ+dh27nnwelXDW8bquMXJ8Lz/MkMh6I7+KY6ZRLgsdtM6CxB2rZC1ZfvowIQkVNsDoxiKlLCupFwSmzWc9aaatXrSqm4tJ/F2WqGm7+Bf53y/Q433twdVcBTkcc=
+	t=1783360699; cv=none; b=krS2M0SGlNUmhImO+LLd2BnA2VmgxRLV+a2vPf7jTkk7pCCyXoChh+62t5j4HbV7HHKfAnbmoRLGPlLJJvqtWNggzdZHTHnNJk5j4JFgBSdTEUSA59Z9CBeEsXbAS5aqQ4c08oK8k9wu8KS2GoAlIbfAk3JnIkVGFssBNABfLKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783360526; c=relaxed/simple;
-	bh=Qwjjdhxc1DcpvjFxKNOKhBVoMAZizvPc+3Ojfi5wZJw=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sTvSacK+CDIKCTrI/YVjN2+Oi0Q3Kv8Ca48lHpL1BPW9akWc7lTdrvftWVJjv0sxSH7/SppDDF5JOvZDhKlb3xI+H5hZ8umkg6UWw48c6vu8vwDNYVwVkmrspy5CrRXUgmz/DRfgurmH5l3S/2i6St67DBGpbjhuA3OUSzUXJxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fP5YRTWc; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783360699; c=relaxed/simple;
+	bh=h980sEF6MU4UaII9Q4INlvAIxaxOl7RRKHFGjT/8d/w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W22BNX206mRsgB0w0rJOVe8211Z2Ta8KRtUCoIK2iZMlTXZD0MYu49HykUQqBVkikS7aHZv+QZ1Q/sVxK+KI+2bXf7ow6JKYiulgvqCJwfPoGFbZTdlu4SM/9UWglQvLcsCOb2yLT0VDUkVBx40lpLE4utKd+yH7X2/XwS9Oqt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l/EoXkqE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fP5YRTWc"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-845ea8924fdso3685710b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 10:55:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783360524; x=1783965324; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:message-id:date:cc:to:from:subject:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=gda9EnNaq+fnHp+pBJqOcXDPF8q5yM+z5/crGMT/FCk=;
-        b=fP5YRTWcInXEJpUGE6ALaVUQKlMIDWpYrtQ8iVOdjSaKcOg4OecNE8nUEKCN9NzM47
-         FRytmT3f5odfFRHq/wWOBqFc/lKgBmBZsb37MnzgH+JE3GutvoFHgHMQau7zIsZqnIXd
-         6FlEJpcFGZI7VcfKlBUabrHpfDOc7obMSUgcDdJUca3g3+NSbXm2TvWVyFV5bp+LorKw
-         4nYP9ibGcA1Nxd5R4/aa00yVS3vSVlbDe4eq9ambDLfEC3VTqUs3YJIa7OEyM8UQ3oPk
-         W8AWUiOTSS5HiPr+ADlbOkk24oqMueiyIRY/qJae3GQsk6IhwHZBI201AnCKx8184jbb
-         aKow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783360524; x=1783965324;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:message-id:date:cc:to:from:subject:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gda9EnNaq+fnHp+pBJqOcXDPF8q5yM+z5/crGMT/FCk=;
-        b=DyfraWFZTt2+keC/9hem3E5r3dbQ/fkrDrg++AYgrm2r6hmLahafmrVwhMbJg5PXgu
-         vMKuvaqwuZ55+Q2xXUT2y/Q1qTj/v6rZCzZC8RiM9w5mOMhzg77T8brvrD2UPMDqCKfx
-         Vr5Qm+dANtAGqcCJ4gHU5dQZ0c0MCsbFZ7Y7RK6H6K8y3rrlHMJlNCm0xKkcgIaJUM96
-         Z9yseLxuz7kPnHR0o3tuFPEut45UW0M75F6v2JBI6XSdDm6UFsU+uBmMsFOYJyWwQBW0
-         p8Kmb486v0E4V/7Z00X2LGNimgyACIJjS+iZU/dAbSKMGXome9tXElDJzMszSE4OcH7T
-         vHtA==
-X-Gm-Message-State: AOJu0YxS13nP5A7n75j8y6H5pVxdE7zLj9kXQtk8I64lD3wtQ62oJe5w
-	wbQqBcyOd0p8jVOGkwEzZPO0cTtQUtlVIY/pzc35EtOyAupOvtnfksrp
-X-Gm-Gg: AfdE7cl4ahlcMuMmV7o/Vm3OEzyuYvqWV1KBhE0bWtkh8BQ/HlNoB2gZwpzXYUmAOvv
-	o6QfswrGo3SO3UCbCGNIEDyuGin3gvv7UOhkSWNib6i7MSGMVTzlva7JOyBWiUaEogO6KdhEPkF
-	aN+NZgWMGndXMfXQNQrs2JbyL8xuINNQyq8bx3ZNonHBmxcFTqUpLbHi/DjiFRJbwaWqzdeMZHz
-	k+dkaKTQwY4gvlWBYMZuIemxoFyyQDFWMRM5s/e1ra8bKNyeB5OSIg/cICMmNip53Tn7uqGUEs2
-	j2FpD4N3PPsWK+d2lPrzIE44IkutEdHoeZUqzXL8L2bPxWvcfJTaUmvfA9zoal75P0+bS1pzslh
-	xC0t5/14LXi+mk3dQf4guVaAssC5anQaU76B6blgsSAjMN5t7QN2MNLJfGlrVbnd3lm4cnYarDO
-	ZzD3iSchJHhQZdc0HcgsLR468bLiZV2yA84AINwVfeYcx0npvyK49zsMvfB98=
-X-Received: by 2002:a05:6a00:2a08:b0:847:7ece:3426 with SMTP id d2e1a72fcca58-84826da830amr1487737b3a.58.1783360524459;
-        Mon, 06 Jul 2026 10:55:24 -0700 (PDT)
-Received: from [192.168.0.160] (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6b95c89sm4375268b3a.15.2026.07.06.10.55.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 10:55:23 -0700 (PDT)
-Subject: [PATCH v6 4/4] mshv: Use hmm_range_fault_unlocked() for region faults
-From: Stanislav Kinsburskii <skinsburskii@gmail.com>
-To: Liam.Howlett@oracle.com, akpm@linux-foundation.org,
- akpm@linux-foundation.org, david@kernel.org, jgg@ziepe.ca, corbet@lwn.net,
- leon@kernel.org, ljs@kernel.org, mhocko@suse.com, rppt@kernel.org,
- shuah@kernel.org, skhan@linuxfoundation.org, surenb@google.com,
- vbabka@kernel.org, skinsburskii@gmail.com, kys@microsoft.com,
- haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- longli@microsoft.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mm@kvack.org, linux-hyperv@vger.kernel.org
-Date: Mon, 06 Jul 2026 10:55:21 -0700
-Message-ID: <178336052192.504354.1841795575701703197.stgit@skinsburskii>
-In-Reply-To: <178336023903.504354.7500950448226027718.stgit@skinsburskii>
-References: <178336023903.504354.7500950448226027718.stgit@skinsburskii>
-User-Agent: StGit/0.19
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l/EoXkqE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A83771F000E9;
+	Mon,  6 Jul 2026 17:58:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783360697;
+	bh=Xfa02w+2R7v85UsHbfc8c8fBDDDTcGtnNT9og3+/x+Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=l/EoXkqEqLzf/RmDFKoleUlyWGN8jKQKxq88TU+k7AINCMlouqbeFvDNtMG1ujBD0
+	 daO+DPr9pYbKdvKxoQu38X0ZYp1smDFej9Nm24s6FwslOX+7mIbZnPFTFajOX3N+Lx
+	 uHvR+9g0G8rKkVBPNnzYKihpTCv8aP4sg0oR4ct0Xw7Oy7bpgmGTdHo24nyLjp+uTQ
+	 SxzKfmEUvtM8MGXPQbAL4s27RmkpJ9I3v9p3/nrB1Ubo+h+TUiFVG27qZJcqGAvCI1
+	 aKXOvLUS0HrAjs7XNVArgFq+aXnLaJEkr0mQZzY11Yfvlti/0vf1GKWx7Rh2OgdSmU
+	 ui4UATs+PWTKA==
+Date: Mon, 6 Jul 2026 10:58:16 -0700
+From: Oliver Upton <oupton@kernel.org>
+To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v8 6/7] KVM: arm64: PMU: Introduce FIXED_COUNTERS_ONLY
+Message-ID: <akvsuBcqCCzlrBLk@kernel.org>
+References: <20260706-hybrid-v8-0-de459617b59d@rsg.ci.i.u-tokyo.ac.jp>
+ <20260706-hybrid-v8-6-de459617b59d@rsg.ci.i.u-tokyo.ac.jp>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260706-hybrid-v8-6-de459617b59d@rsg.ci.i.u-tokyo.ac.jp>
 
-Convert mshv_region_hmm_fault_and_lock() to use
-hmm_range_fault_unlocked() instead of taking mmap_read_lock() around
-hmm_range_fault() directly.
+On Mon, Jul 06, 2026 at 07:03:29PM +0900, Akihiko Odaki wrote:
+> +1.6 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY
+> +------------------------------------------------------
+> +
+> +:Parameters: no additional parameter in kvm_device_attr.addr
+> +
+> +:Returns:
+> +
+> +	 =======  ==================================================
+> +	 -EBUSY   PMUv3 already initialized, a VCPU has already run,
+> +		  an event filter has already been set or
+> +		  a hardware PMU has already been specified
+> +	 -ENXIO   Attempted to get before setting
+> +	 -ENODEV  Attempted to set while PMUv3 not supported
+> +	 =======  ==================================================
+> +
+> +If set, KVM emulates PMUv3 without programmable event counters. Only fixed
+> +counters are exposed to the guest: the cycle counter today, and the instruction
+> +counter if support for FEAT_PMUv3_ICNTR is added.
 
-This lets the HMM helper own the mmap read lock and allows the MSHV fault
-path to handle mappings whose fault handlers may drop mmap_lock, including
-userfaultfd-backed VMAs. The existing caller already retries on -EBUSY
-after refreshing the mmu_interval_notifier sequence, so no control flow
-change is needed beyond using the unlocked helper.
+Drop the mention of cycle counter and FEAT_PMUv3_ICNTR, I want to avoid
+the argument later down the line when ICNTR support is added to this
+mode.
 
-Signed-off-by: Stanislav Kinsburskii <skinsburskii@gmail.com>
----
- drivers/hv/mshv_regions.c |   14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+The expectation is that the VMM discovers the feature set using the ID
+registers just like every other CPU feature. KVM documentation doesn't
+need to describe the architecture.
 
-diff --git a/drivers/hv/mshv_regions.c b/drivers/hv/mshv_regions.c
-index 6d65e5b42152..04676f06c5c7 100644
---- a/drivers/hv/mshv_regions.c
-+++ b/drivers/hv/mshv_regions.c
-@@ -388,13 +388,11 @@ int mshv_region_get(struct mshv_mem_region *region)
-  *
-  * This function performs the following steps:
-  * 1. Reads the notifier sequence for the HMM range.
-- * 2. Acquires a read lock on the memory map.
-- * 3. Handles HMM faults for the specified range.
-- * 4. Releases the read lock on the memory map.
-- * 5. If successful, locks the memory region mutex.
-- * 6. Verifies if the notifier sequence has changed during the operation.
-+ * 2. Handles HMM faults for the specified range.
-+ * 3. If successful, locks the memory region mutex.
-+ * 4. Verifies if the notifier sequence has changed during the operation.
-  *    If it has, releases the mutex and returns -EBUSY to match with
-- *    hmm_range_fault() return code for repeating.
-+ *    hmm_range_fault_unlocked() so the caller retries the range fault.
-  *
-  * Return: 0 on success, a negative error code otherwise.
-  */
-@@ -404,9 +402,7 @@ static int mshv_region_hmm_fault_and_lock(struct mshv_mem_region *region,
- 	int ret;
- 
- 	range->notifier_seq = mmu_interval_read_begin(range->notifier);
--	mmap_read_lock(region->mreg_mni.mm);
--	ret = hmm_range_fault(range);
--	mmap_read_unlock(region->mreg_mni.mm);
-+	ret = hmm_range_fault_unlocked(range);
- 	if (ret)
- 		return ret;
- 
+> +With programmable counters disabled, the VCPU can run on any physical CPU.
+> +This is particularly useful on heterogeneous systems where different hardware
+> +PMUs cover different physical CPUs. All VCPUs in a VM share this attribute.
 
+  When this attribute is enabled, the vCPU can run on any physical CPU
+  that has a PMU, regardless of the underlying implementation. This
+  attribute is VM-scoped.
 
+The documentation is focused on unambiguously representing the UAPI, not
+providing application recommendations.
+
+>  2. GROUP: KVM_ARM_VCPU_TIMER_CTRL
+>  =================================
+>  
+> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+> index 1c13bfa2d38a..39a1a1e412e6 100644
+> --- a/arch/arm64/include/uapi/asm/kvm.h
+> +++ b/arch/arm64/include/uapi/asm/kvm.h
+> @@ -437,6 +437,7 @@ enum {
+>  #define   KVM_ARM_VCPU_PMU_V3_FILTER		2
+>  #define   KVM_ARM_VCPU_PMU_V3_SET_PMU		3
+>  #define   KVM_ARM_VCPU_PMU_V3_SET_NR_COUNTERS	4
+> +#define   KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY	5
+>  #define KVM_ARM_VCPU_TIMER_CTRL		1
+>  #define   KVM_ARM_VCPU_TIMER_IRQ_VTIMER		0
+>  #define   KVM_ARM_VCPU_TIMER_IRQ_PTIMER		1
+> diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
+> index 40cad183376c..ad9ff4d0d89c 100644
+> --- a/arch/arm64/kvm/pmu-emul.c
+> +++ b/arch/arm64/kvm/pmu-emul.c
+> @@ -1149,11 +1149,13 @@ static int kvm_arm_pmu_v3_set_pmu(struct kvm_vcpu *vcpu, int pmu_id)
+>  		arm_pmu = entry->arm_pmu;
+>  		if (arm_pmu->pmu.type == pmu_id) {
+>  			if (kvm_vm_has_ran_once(kvm) ||
+> +			    kvm_pmu_fixed_counters_only(kvm) ||
+>  			    (kvm->arch.pmu_filter && kvm->arch.arm_pmu != arm_pmu)) {
+>  				ret = -EBUSY;
+>  				break;
+>  			}
+>  
+> +			set_bit(KVM_ARCH_FLAG_PMU_V3_EXPLICIT, &kvm->arch.flags);
+
+Why is this flag necessary? kvm->arch.arm_pmu is NULL if no PMU
+implementation was selected by userspace.
+
+>  			kvm_arm_set_pmu(kvm, arm_pmu);
+>  			cpumask_copy(kvm->arch.supported_cpus, &arm_pmu->supported_cpus);
+>  			ret = 0;
+> @@ -1164,6 +1166,22 @@ static int kvm_arm_pmu_v3_set_pmu(struct kvm_vcpu *vcpu, int pmu_id)
+>  	return ret;
+>  }
+>  
+> +static int kvm_arm_pmu_v3_set_pmu_fixed_counters_only(struct kvm_vcpu *vcpu)
+> +{
+> +	struct kvm *kvm = vcpu->kvm;
+> +
+> +	lockdep_assert_held(&kvm->arch.config_lock);
+> +
+> +	if (kvm_vm_has_ran_once(kvm) || kvm->arch.pmu_filter ||
+> +	    test_bit(KVM_ARCH_FLAG_PMU_V3_EXPLICIT, &kvm->arch.flags))
+> +		return -EBUSY;
+> +
+> +	set_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY, &kvm->arch.flags);
+> +	kvm_arm_set_nr_counters(kvm, 0);
+> +
+> +	return 0;
+> +}
+> +
+>  static int kvm_arm_pmu_v3_set_nr_counters(struct kvm_vcpu *vcpu, unsigned int n)
+>  {
+>  	struct kvm *kvm = vcpu->kvm;
+> @@ -1238,7 +1256,7 @@ int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
+>  		     filter.action != KVM_PMU_EVENT_DENY))
+>  			return -EINVAL;
+>  
+> -		if (kvm_vm_has_ran_once(kvm))
+> +		if (kvm_vm_has_ran_once(kvm) || kvm_pmu_fixed_counters_only(kvm))
+
+There's no reason for doing this, just let userspace create an event
+filter. Even with the current PMU implementation it's possible that the
+fixed cycle counter gets filtered.
+
+Thanks,
+Oliver
