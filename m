@@ -1,99 +1,92 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F37424668
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 09:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF9447ECF3
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 09:45:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783329667; cv=none; b=MemLy1otioyu9AWuTtf2MIa3mtAZ/E+Lt+kM46RaQg3KNZ4Vy0axaSxc4yS34SrO3a2wUPS3w45KOZtsdjqs/QCYA0rxo9R8MroVFPS2gNiLrzpNE+qSJFfNS0oF+hqu59U7yMqSSS/17jjBLgnb/OefXfXR5cA15gwkuhB5KR0=
+	t=1783331150; cv=none; b=EWU2sVFcUTPGoG201GUzDPJ92ABS1npHE4csEOd1yEYfRZVFIOFm/xdx2oW5RQYI2Obe9z1RzoNQoPoasBy4EhrzdiKfDwnbzs878f3XTGdAyaq9/h8Z2x/KZpJ2nzgBDb9fhIJGaWGGSqYVRdPF9knmAAnZEFG3IludUHO+sX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783329667; c=relaxed/simple;
-	bh=Yrz1Fq6b88EE+W89sFB/veSJ+k7HVMWjSjStIWtyYHs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Hom5HPzNXfloQC/WwT3UtRmIG/mtCf+e74A69NMn8aHnJOUiBHUGmIkIy5NTHe2sSljoFqeNpNCUNTkWNJaoBRRoBOnppt+dqB+YReurm8p4PuURrnPvTySBkbNeHHoVy4hEDt6anykjPq+Drku8KJxGfp5Ia/d+ycRHSXCyZrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iDgwZYb3; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1783331150; c=relaxed/simple;
+	bh=q189WGn34qM2moSB3qZyY2303QsSTnuM/pRUOyObkRU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bUtdfBmUURypttheHyZT/gO/5HujOTLSHVLKfngJPXkepD/2g/Os4/zz7tdzTD/bTokPVVrCR43KQ5sg7HKXfFKS/plgL4OMWXcGACCaa0qtsF48wiETTw79SaWuG07dcoPSDVmb4nQbfkdZeHPaMcUpB/BNMYF7MFeD0O0JS6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tsv6yQNI; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iDgwZYb3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783329661;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C/UZc0NPyToGXboMyOX1I0EMuMdZ493ROXRw7IM/VtY=;
-	b=iDgwZYb3zfRRCxYHZhVnUhdVYsStwT6YbL+787W1E+5Ff1IxzMvgoSz0vq+/vljhORHR7R
-	FF4TjYNc2aeqEQGshxGRVcwUyouraZrUqk6GgfvWhgQtr5cgXLM0eCk81tu9x2cv9cU2Zt
-	Jrhzw1KBnY7DpYliiSKZP7ctrelQq54=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-447-GpKailxSPvmYMt6V6S5bew-1; Mon,
- 06 Jul 2026 05:20:57 -0400
-X-MC-Unique: GpKailxSPvmYMt6V6S5bew-1
-X-Mimecast-MFC-AGG-ID: GpKailxSPvmYMt6V6S5bew_1783329655
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8FECE1802678;
-	Mon,  6 Jul 2026 09:20:55 +0000 (UTC)
-Received: from work.fritz.box (unknown [10.44.49.159])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 74E14300070A;
-	Mon,  6 Jul 2026 09:20:53 +0000 (UTC)
-From: Tim Wiederhake <twiederh@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Tim Wiederhake <twiederh@redhat.com>
-Subject: [PATCH 2/4] KVM: x86: Document APIC base address constraint for in-kernel irqchip
-Date: Mon,  6 Jul 2026 11:20:17 +0200
-Message-ID: <20260706092021.3625908-4-twiederh@redhat.com>
-In-Reply-To: <20260706092021.3625908-2-twiederh@redhat.com>
-References: <20260706092021.3625908-2-twiederh@redhat.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tsv6yQNI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783331147; x=1814867147;
+  h=date:from:to:cc:subject:message-id;
+  bh=q189WGn34qM2moSB3qZyY2303QsSTnuM/pRUOyObkRU=;
+  b=Tsv6yQNImGIscPKoGWGCeR5FsEfhgFrI7eZLlZhwmxvT3JKkqP5rcq3k
+   KcJP09iHjARZHQNz7z9804ICTv+5obcuAMbwWxgjcjSCmx28kl51uxx4a
+   1K030Ko2y30hdO7tQU5geK30bekuDwo77L2j0/PoOyDpRPzATNxUvDkQ8
+   AArlZ0VZE5n481fUdFqvt/qiXIbuolTt1HLBWzmYLKWr2TxpXsFiUu4hm
+   cSi4P0RbAlU8H/1X79vMBdzNn/WT8di6S8ijROvwvR/wwF0IdSI7LXC6P
+   UyjQ/ephx3BN06tbiT0RBJoigpqJWdWLHtWJsSR8PoKXvFFyd869+UmNv
+   g==;
+X-CSE-ConnectionGUID: 6vLmx3iES/uWXFYx4xgUgA==
+X-CSE-MsgGUID: qSVlJNexTMywECXdr9oKlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="83824008"
+X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
+   d="scan'208";a="83824008"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 02:45:41 -0700
+X-CSE-ConnectionGUID: fWIsxca7SlqG0q+YMUITKA==
+X-CSE-MsgGUID: up3BtbU2SRKszq4Na6yE0Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
+   d="scan'208";a="276881893"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 06 Jul 2026 02:45:38 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wgftQ-000000002A9-21Aa;
+	Mon, 06 Jul 2026 09:45:36 +0000
+Date: Mon, 06 Jul 2026 11:45:25 +0200
+From: kernel test robot <lkp@intel.com>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, linux-doc@vger.kernel.org
+Subject: [alexs:docs-next 3/7] htmldocs: Warning:
+ Documentation/translations/zh_CN/how-to.rst references a file that doesn't
+ exist: Documentation/translations/zh_CN/xxx.rst
+Message-ID: <202607061141.fmjoYjew-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-When an in-kernel irqchip is enabled, vcpu creation installs a private
-4 KiB memory slot at the default APIC base address (0xfee00000).  If a
-user memory region overlaps this slot, vcpu creation fails with EEXIST.
-The same error occurs when installing an overlapping user memory region
-after vcpu creation.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git docs-next
+head:   bc2e3e1124b7362f83c5fb8557274bbca3da1a74
+commit: 359c3caf50481aa08b0ab761436e4b70ad027f73 [3/7] docs/zh_CN: restructure how-to.rst patch submission workflow
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260706/202607061141.fmjoYjew-lkp@intel.com/reproduce)
 
-This constraint is not documented anywhere.  Add a note to the
-KVM_CREATE_IRQCHIP documentation.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607061141.fmjoYjew-lkp@intel.com/
 
-Signed-off-by: Tim Wiederhake <twiederh@redhat.com>
----
- Documentation/virt/kvm/api.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+All warnings (new ones prefixed by >>):
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index ec5bf99ff8b8..da8beb80699a 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -863,6 +863,11 @@ KVM_CREATE_DEVICE, which also supports creating a GICv2.  Using
- KVM_CREATE_DEVICE is preferred over KVM_CREATE_IRQCHIP for GICv2.
- On s390, a dummy irq routing table is created.
- 
-+On x86, when an in-kernel irqchip is enabled, KVM reserves a private memory
-+slot for the local APIC at the default APIC base address (0xfee00000).  User
-+space must not map guest memory that covers this address and must leave a 4 KiB
-+hole in the guest physical memory map at this address.
-+
- Note that on s390 the KVM_CAP_S390_IRQCHIP vm capability needs to be enabled
- before KVM_CREATE_IRQCHIP can be used.
- 
--- 
-2.52.0
+   Warning: Documentation/translations/zh_CN/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst references a file that doesn't exist: Documentation/filesystems/gfs2-glocks.rst
+   Warning: Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst references a file that doesn't exist: Documentation/filesystems/gfs2-uevents.rst
+   Warning: Documentation/translations/zh_CN/filesystems/gfs2.rst references a file that doesn't exist: Documentation/filesystems/gfs2.rst
+   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+>> Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/translations/zh_CN/xxx.rst
+   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
+   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
