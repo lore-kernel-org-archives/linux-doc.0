@@ -1,264 +1,108 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-pz2-f1.google.com (mail-pz2-f1.google.com [74.125.228.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D4535E940
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 15:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A95381B0D
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 15:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783350130; cv=none; b=Mtoscl5ibEoedXutMTsQc/yNWZ56P95Iq2csBeYHNWvLsY9Sr1tXX13Jo0mDiXM9Xu973uIIKpfz1rjJM3QvPka/7NVRXlVXUh1ocPQA3+6H7df4D8H3Sb12gM9DlgLi+anPqiTPeSGsFFBYlG2v8kLUToD4y63jNUa7t8EpNpo=
+	t=1783350854; cv=none; b=agnZvQLY60a5YmSUwpWM95Hf+W2rZo5AetKTcpINkLBsNZCjuWDYKuK0MQpTjXfrftsDgLgQH+RaAgc79BufUFbaUzY5NiHx9I/zwXlT7jKbCRSIXIlqT4UcOl4We+Q3mpv1XXhnvR+xK5p1Tzz+66j5OuOwx5CCFKkop0eRfhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783350130; c=relaxed/simple;
-	bh=tNhM83MW869UyZbFMwt9N+SGNcCPL2XMXZ9CYCfgABo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OYzoz7or1oZ7JrPa/89TIEcV53sRZu5gm6y1gA+xMXK63xoYeWQTIbwaHC7ypzpLwOHjr7GNIit9ZxVfq46zK1wdOI2g8atLKs0tolTGqvgPAb7/nrpGXLAqKkxnW2b9iKBxcGMTXDd2F1kb/xKBhrbHaithNy7s3I0vMMIsxYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=OP3iD7dw; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1783350854; c=relaxed/simple;
+	bh=GzRlC8RUZDDXV0uMxI+zkFGe/N/LUOCv4WqEJ2e+kEA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lcH62qCWMXDQ66or5prBvjLB5btEWGdP18+MlXr1c5HxU0YjI8CcCSlS/Q3W+fUL93KrwHVB/nu2zylbDC75FYS7ej98lJHmuFrw7qI+RIT9NXSzm/l6Bqt74Q7rNmr5xFON05xcWg7fFPuhCQEhJ8Sh96m3YMPnN1yYrFKpqdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j90S+7Ef; arc=none smtp.client-ip=74.125.228.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="OP3iD7dw"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4758b2a9e2aso1942723f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 08:02:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j90S+7Ef"
+Received: by mail-pz2-f1.google.com with SMTP id 41be03b00d2f7-c8c1ebd68a1so464988a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 08:14:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783350126; x=1783954926; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783350853; x=1783955653; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xs8j4brUXr0ypdcLDB2fLZRqZ8cV0a8ndTlFArGMXY0=;
-        b=OP3iD7dws8FvY7Ub0dqEacNeDiIa1RCpnOu6lHLNKP0BO3j3nxDZfaDYqD0JW00S9E
-         N1/D7ankZwIRfHPeltsgHQ2NsorV91hb4AHyJB/E6EgmNA4vArV59d4toA7LnBqKQrz8
-         dCS9VbjChFMPLyiwhHPBAE6UxsBsuNQDYJ7WzzqQr3xZcXsqpT+gQOyBXdk2YtVLmL9H
-         I/ZxWgejNhlodw5CncopJO+U05hIohcf8CMIeGpWnLgfCEigA/ginJtIRkxEO7WFu4Ej
-         1lXdwvna4fbN0CWB2EUwZP960RBeB6w0QAwil7QJ0FnhVzqux0REj/E8JI56Vfuu0SI8
-         lDGg==
+        bh=wtuBqAT0bambetP4U9wPZ1GCkR4NVGjErdKPI57fLGI=;
+        b=j90S+7EfpgXjovI5eQy/80xYS1vvTA/Lu0DBMe5m7rcuKprNRB4s98lrWzjGVU22YB
+         AAMCCRhtGVdbl5wwJxzLHL/Vr42GF0PlqitoeX/3b3ShjxRCqG4VYGqYH0THzS6+pjJK
+         kC1CAXPN4+7DITJb+wWXhGdaRKS5/VQVLN/3ybx++mXM/DTeroMGchrOwqHS0LDrURl6
+         ao0IUqC39G0AoXqUdFQftFFfevSnz67t0T1d+pmdcaCPPJclD/p22g0JziKPwEIVly3j
+         wpKmZRITKnsAGzB7JVLHWN8hi8jPidSnKsyltRgzJxgqWb1vDCfxX13Ku2CYwwUmcp8g
+         V0UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783350126; x=1783954926;
+        d=1e100.net; s=20251104; t=1783350853; x=1783955653;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xs8j4brUXr0ypdcLDB2fLZRqZ8cV0a8ndTlFArGMXY0=;
-        b=PZ3C1XzmcGM3HOGGddMLwhaXY4zCGzsN2e6h+jf1v9Gn3Cm6FBfTNtk0+DFD0nqDwp
-         AneYxrxYawsod9tj8voIhzKlJYizzeiNSnVTX/fGobQkbga3xkwWQbZh+X2SAGw+ZsHJ
-         GMC6MVmlYPwmauqzzefeP5AIvs2Pvj7LYW/j/qRVFUtyA42m2UVsljv8WL0OEcbKMzG5
-         JMSzBxm987f+j7McuOYUHMnh+DkGhmTDKlH0IGA6T3mf2cnPEmDJ0vcbnwzBWSXnWLKd
-         No6L8E1hycZJCqDTRJFeHN8NsIztAltc4xOOnoKQiPDnlOMUBHzsf0oZpmCVq3sZxMNI
-         jMDw==
-X-Forwarded-Encrypted: i=1; AHgh+Rrdqsm5aLRZJjffgcB3N7zwlf1ZSxIyFMgwMpuT3gEMRlgtpjmF3U9nx1CLX8VTZFUdfFH9nxY54hI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKzRCzUwWddFTIqz6oLIHETa6eE8oYcEDQjmWd2ZR7PRQ9X/K3
-	r2bVJ1Vl7aCOtSK3MUPRljBccA2UO0h+cJ5kbLlEcsz4VMsd0c88uDKnmflSfFEaZzM=
-X-Gm-Gg: AfdE7cnKu5Aqo9lPbOLSlp6gyeqsfSsS44k6KKYg0+BwkooZSzTFV/EQlus78/AWVVF
-	8kSJau6uNStBUgwSpcQOxz5nmh4SYUJ0fjD3ur6lkwqDwcUduIafNcMghGmvnJVWH1MgeAT3WQw
-	cflGnJiO9dRSpzbCt67Z8AdM5IQIegI5niY99j0YPXTO7snk4psb26FNGyV+0KHqZe8+L7eIftA
-	NnHDIL3Sy3Jujzs6MaiP8v43oVce+BJ6NHuLiGhK3/tWGsvplYpXy0iXCq+B9EtthUHKqI76MFL
-	Y2i+A4Np1scnXjVZzqHbQpHVkoIK2TOih05ol/Yn8IqwhcHlg/36NqxHKILaXO9oq9TSGAYqV8S
-	cpVdxVStOffrczn3t5dxMJLRWYxVMKghbxVGYWPqNla2nD5ps91B8EMq9p/iceg4o4JhWAW0tKD
-	KgPYDftJAR5DBjVITl5FkdHGicY5MR+/VbSltJaWzI0F+4Di5KEmSRwBi1quyxk0i9+wfaaqLtb
-	Fs=
-X-Received: by 2002:a05:6000:11cd:b0:470:13e1:9904 with SMTP id ffacd0b85a97d-47de6697a34mr610940f8f.14.1783350125283;
-        Mon, 06 Jul 2026 08:02:05 -0700 (PDT)
-Received: from localhost (p200300f65f47db0404eb41111570ffdc.dip0.t-ipconnect.de. [2003:f6:5f47:db04:4eb:4111:1570:ffdc])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47a9e3e2702sm25607522f8f.9.2026.07.06.08.02.02
+        bh=wtuBqAT0bambetP4U9wPZ1GCkR4NVGjErdKPI57fLGI=;
+        b=a/9ydbgNHBWKFsZBpG/JXDyWZTwvUlNvks1RkNCdOIenKNSbYb8KnA9RaosjKh4AfT
+         iPw2FIQ+TQuMEacnDBeG58T+6/bD9voI45yhLOmKtJiR+jif2nK1kOguovpvbaLTcdhg
+         qASnudiXElvTGCNWwB6kAu3FLGuw4+RIGkgCtzxHU+W5tEB7j8Q+a79QhcqsOc0W018b
+         jhUPmX+LlQtv03GcNXOm0JWLIEHgQN4Uw5mAi8vOF3WsnRdfJtLVjp8MFIsUfrZbWMO0
+         QsSntM0qIPr1P7m9azo77H+FkeVxmW/jjSMfy4Ll1FeUOX9g+leIMGjgr4T1e0h8OGZW
+         dSXA==
+X-Forwarded-Encrypted: i=1; AHgh+RpRcZF/hyrIJuy97So3/vbZ6zaAK1R2jlw2TvqDSck/pcsBOvN1gkLRbWcLa2dFZJzfv6Kl4g54kj0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsBfcwEu+AXNEmOg+LoczM9NIRR+fAzVQ+jst55+Rh10UNGcz1
+	aTHtrZaOzy1USmaYsK565BI2DLqZ/iz37rxsC//BQQQ0Fs6ndLyPX2oU
+X-Gm-Gg: AfdE7clzw7Ot9l4Iliw0uQInMN3WKGl3ReuFIXckAWPim0tycQX8xJMIwAAuhI6LBtF
+	TU52I8HeFLQ078FPG8IT9x8dO/zj9l7cNMNXE1bAc1sSqdJnad62YjTIkt1lbRsyU675fIOaWEN
+	XDZ5lLnxQcfM5QiRvyqjoGIX4iUMPnRUugnJ/sTtuoDp3OoYpIrxZs5Xa6An0j3EqC6bhc2Q6zT
+	CkekggFPIXnW17axi5XlcDVCyc7Nqy6kM2IJuXeV1pJ7B8i25sbERZk6L8I5rEKqBL6uSmdmNVH
+	alxw9qUcdj7EuLCuq4bHnryJ29pAOiVDZ22TBmDQrqdYRvKPlAYnPBp088nq+goyDezvQjbgzw9
+	eRpdndf7EonvkDKARFbarvZzJ84frxt4pW3wOsNQ1VCEnjbn4+5O/tHzAEAdInvILesoENPyMFY
+	y5EI5XaGyVKEIxPcG+KdmL
+X-Received: by 2002:a05:6a00:2916:b0:847:8ccc:d7cd with SMTP id d2e1a72fcca58-84826d1cbddmr967094b3a.37.1783350852113;
+        Mon, 06 Jul 2026 08:14:12 -0700 (PDT)
+Received: from archlinux ([2409:8a4c:cc0:9ab1:cd4b:250d:9228:2c4d])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d44d53sm3994083b3a.38.2026.07.06.08.14.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 08:02:03 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Alexander Usyskin <alexander.usyskin@intel.com>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	linux-pci@vger.kernel.org,
+        Mon, 06 Jul 2026 08:14:11 -0700 (PDT)
+From: Jiandong Qiu <qiujiandong1998@gmail.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev
+Cc: dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org
-Subject: [PATCH v2] Documentation: Update after split of <linux/mod_devicetable.h>
-Date: Mon,  6 Jul 2026 17:01:56 +0200
-Message-ID:  <ede7ce64f20e10660ebf6bc1b41836dad750ae3b.1783349758.git.ukleinek@kernel.org>
-X-Mailer: git-send-email 2.55.0.11.g153666a7d9bb
+	Jiandong Qiu <qiujiandong1998@gmail.com>
+Subject: [PATCH v3 0/2] docs/zh_CN: update translation of doc-guide/sphinx.rst
+Date: Mon,  6 Jul 2026 23:13:51 +0800
+Message-ID: <20260706151358.2103703-1-qiujiandong1998@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6559; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=tNhM83MW869UyZbFMwt9N+SGNcCPL2XMXZ9CYCfgABo=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqS8NkLKZTxTI5VhFzt6/qVn08gWVdil3p7byv+ PWxasXkmlyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCakvDZAAKCRCPgPtYfRL+ TqUyCACo1has6TDU4nAmEcSDQyOyqK0+sz60rnW3hDs1qiHcCdHarKhBkh1TBpVtMsjKiwqyMq1 0OcEB31QIlYlzkbrGio0BrsqjXOfltCB9bVCUyGmzE/UIRR05+20uFQ3qiAPade+uAKdl5UxNFN hEfZcrhlvjxbn829wM1SIjUtgFI5iCG2az5fWGXMhWPnEGlj7k0qon//qGgAjVSGnVq07x5zXEX rTNVMsYL9fCxrxhtv/tnOVHDTNKYriCQ25yH7e7vBmCAZ2KDeAKH1pbtIjDtgg0wCg1QpfcmgTs NaCUymdX5tMpf5S2q2K4jpzGFT/76+n4xBdzeL6JVU0Zf6jH
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-Most structs that were defined in <linux/mod_devicetable.h> before were
-moved to a bus specific header. Follow the movement to get the struct's
-documenation back.
+Hi all,
 
-For the list of device ids in basic.rst use an explict list of all the
-headers that have kernel-doc annotations and that are not described
-elsewhere (i.e. pci and mei_cl).
+This series refreshes the translation of doc-guide/sphinx.rst. 
+Since the updated version refers to process/changes.rst, I also add 
+the missing zh_CN translation for that file to ensure a consistent 
+reading experience.
 
-Also repair the referencing in the zh_CN translation of pci.rst and
-don't duplicate `struct mei_cl_device_id`.
+Changes in v2 -> v3:
+- sync changes.rst with the latest commit.
+Changes in v1 -> v2:
+- drop the separate llvm.rst anchor patch
+- remove the `_sphinxdoc_zh` anchor from .../zh_CN/doc-guide/sphinx.rst
+- add Assisted-by tags
 
-Fixes: ad428f5811bd ("mod_devicetable.h: Split into per subsystem headers")
-Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
----
-Hello,
+Link: https://lore.kernel.org/linux-doc/20260619140245.1982921-1-qiujiandong1998@gmail.com/ # v1
+Link: https://lore.kernel.org/linux-doc/20260621131215.1303439-1-qiujiandong1998@gmail.com/ # v2
 
-the explicit list is a bit ugly, but I don't have a better idea.
+Jiandong Qiu (2):
+  docs/zh_CN: add process/changes.rst translation
+  docs/zh_CN: update sphinx.rst translation
 
-If you're happy with the patch, can Linus and Jonathan please agree on how this
-is applied?
+ .../translations/zh_CN/doc-guide/sphinx.rst   | 167 ++++--
+ .../translations/zh_CN/process/changes.rst    | 533 ++++++++++++++++++
+ 2 files changed, 666 insertions(+), 34 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/process/changes.rst
 
-Best regards
-Uwe
-
- Documentation/PCI/pci.rst                     |  2 +-
- Documentation/driver-api/basics.rst           | 31 +++++++++++++++++--
- .../driver-api/mei/mei-client-bus.rst         | 12 ++-----
- Documentation/pcmcia/driver.rst               |  2 +-
- Documentation/staging/rpmsg.rst               |  2 +-
- Documentation/translations/zh_CN/PCI/pci.rst  |  8 ++---
- 6 files changed, 39 insertions(+), 18 deletions(-)
-
-diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
-index be35e9a1ee75..71c42b0bfa8b 100644
---- a/Documentation/PCI/pci.rst
-+++ b/Documentation/PCI/pci.rst
-@@ -84,7 +84,7 @@ initialization with a pointer to a structure describing the driver
- The ID table is an array of ``struct pci_device_id`` entries ending with an
- all-zero entry.  Definitions with static const are generally preferred.
- 
--.. kernel-doc:: include/linux/mod_devicetable.h
-+.. kernel-doc:: include/linux/device-id/pci.h
-    :functions: pci_device_id
- 
- Most drivers only need ``PCI_DEVICE()`` or ``PCI_DEVICE_CLASS()`` to set up
-diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
-index 8b6a5888cb11..647e14254cfb 100644
---- a/Documentation/driver-api/basics.rst
-+++ b/Documentation/driver-api/basics.rst
-@@ -10,9 +10,36 @@ Driver Entry and Exit points
- Driver device table
- -------------------
- 
--.. kernel-doc:: include/linux/mod_devicetable.h
-+.. kernel-doc:: include/linux/device-id/amba.h
-+   :internal:
-+.. kernel-doc:: include/linux/device-id/cdx.h
-+   :internal:
-+.. kernel-doc:: include/linux/device-id/coreboot.h
-+   :internal:
-+.. kernel-doc:: include/linux/device-id/dfl.h
-+   :internal:
-+.. kernel-doc:: include/linux/device-id/fsl_mc.h
-+   :internal:
-+.. kernel-doc:: include/linux/device-id/ishtp.h
-+   :internal:
-+.. kernel-doc:: include/linux/device-id/mdio.h
-+   :internal:
-+.. kernel-doc:: include/linux/device-id/mhi.h
-+   :internal:
-+.. kernel-doc:: include/linux/device-id/mips_cdmm.h
-+   :internal:
-+.. kernel-doc:: include/linux/device-id/rio.h
-+   :internal:
-+.. kernel-doc:: include/linux/device-id/tb.h
-+   :internal:
-+.. kernel-doc:: include/linux/device-id/tee_client.h
-+   :internal:
-+.. kernel-doc:: include/linux/device-id/typec.h
-+   :internal:
-+.. kernel-doc:: include/linux/device-id/usb.h
-+   :internal:
-+.. kernel-doc:: include/linux/device-id/wmi.h
-    :internal:
--   :no-identifiers: pci_device_id
- 
- 
- Delaying and scheduling routines
-diff --git a/Documentation/driver-api/mei/mei-client-bus.rst b/Documentation/driver-api/mei/mei-client-bus.rst
-index f242b3f8d6aa..d46c0d0b3540 100644
---- a/Documentation/driver-api/mei/mei-client-bus.rst
-+++ b/Documentation/driver-api/mei/mei-client-bus.rst
-@@ -41,17 +41,11 @@ the ``struct mei_cl_driver`` structure defined in :file:`include/linux/mei_cl_bu
- 
- 
- 
--The mei_cl_device_id structure defined in :file:`include/linux/mod_devicetable.h` allows a
-+The mei_cl_device_id structure defined in :file:`include/linux/device-id/mei_cl.h` allows a
- driver to bind itself against a device name.
- 
--.. code-block:: C
--
--        struct mei_cl_device_id {
--                char name[MEI_CL_NAME_SIZE];
--                uuid_le uuid;
--                __u8    version;
--                kernel_ulong_t driver_info;
--        };
-+.. kernel-doc:: include/linux/device-id/mei_cl.h
-+   :functions: mei_cl_device_id
- 
- To actually register a driver on the ME Client bus one must call the :c:func:`mei_cl_add_driver`
- API. This is typically called at module initialization time.
-diff --git a/Documentation/pcmcia/driver.rst b/Documentation/pcmcia/driver.rst
-index 5c4fe84d51c1..b91e5c14cb87 100644
---- a/Documentation/pcmcia/driver.rst
-+++ b/Documentation/pcmcia/driver.rst
-@@ -15,7 +15,7 @@ runtime as shown below::
- All fields are passed in as hexadecimal values (no leading 0x).
- The meaning is described in the PCMCIA specification, the match_flags is
- a bitwise or-ed combination from PCMCIA_DEV_ID_MATCH_* constants
--defined in include/linux/mod_devicetable.h.
-+defined in include/linux/device-id/pcmcia.h.
- 
- Once added, the driver probe routine will be invoked for any unclaimed
- PCMCIA device listed in its (newly updated) pcmcia_device_id list.
-diff --git a/Documentation/staging/rpmsg.rst b/Documentation/staging/rpmsg.rst
-index 42bac1149d9d..c3a8042e8343 100644
---- a/Documentation/staging/rpmsg.rst
-+++ b/Documentation/staging/rpmsg.rst
-@@ -225,7 +225,7 @@ content to the console.
- ::
- 
-   #include <linux/dev_printk.h>
--  #include <linux/mod_devicetable.h>
-+  #include <linux/device-id/rpmsg.h>
-   #include <linux/module.h>
-   #include <linux/printk.h>
-   #include <linux/rpmsg.h>
-diff --git a/Documentation/translations/zh_CN/PCI/pci.rst b/Documentation/translations/zh_CN/PCI/pci.rst
-index 347f5c3f5ce9..64372a16caf6 100644
---- a/Documentation/translations/zh_CN/PCI/pci.rst
-+++ b/Documentation/translations/zh_CN/PCI/pci.rst
-@@ -84,16 +84,16 @@ PCI设备驱动程序在初始化过程中调用 ``pci_register_driver()`` ，
- 
- 该API在以下内核代码中:
- 
--include/linux/pci.h
--pci_driver
-+.. kernel-doc:: include/linux/pci.h
-+   :functions: pci_driver
- 
- ID表是一个由 ``struct pci_device_id`` 结构体成员组成的数组，以一个全零的成员
- 结束。一般来说，带有静态常数的定义是首选。
- 
- 该API在以下内核代码中:
- 
--include/linux/mod_devicetable.h
--pci_device_id
-+.. kernel-doc:: include/linux/device-id/pci.h
-+   :functions: pci_device_id
- 
- 大多数驱动程序只需要 ``PCI_DEVICE()`` 或 ``PCI_DEVICE_CLASS()`` 来设置一个
- pci_device_id表。
-
-base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
 -- 
-2.55.0.11.g153666a7d9bb
+Jiandong Qiu <qiujiandong1998@gmail.com>
 
