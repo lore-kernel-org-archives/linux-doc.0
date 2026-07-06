@@ -1,188 +1,251 @@
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C9FA318EFF
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 14:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA582379EF0;
+	Mon,  6 Jul 2026 14:19:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783347027; cv=none; b=bmwogcudnPa+g1SLWTtDSsON51d+m77W5hd/AX5pwmT7yvjH3kBS2bk0Xp/GUnJTD/QaYSpirfMljL0ToQnfOnstdMdvKVuGZwZFgSGUJGkyJm2UJwvlzAZfBr7aT32dAYGMl+lJCA51uTw9PQ1HkNshBZWYr4vVOAyVq0i72mE=
+	t=1783347562; cv=none; b=m1pui9Gm3hRi4WyzwwMehjSaVBIlFPcQPBBECXq9sV260Juee6RMJ400HjvlQd+qOPoVZrdv6cvVtQhiVVFG5tv2wQfFM2nxqsbI0Tm9pL68c5XhJHlf1iMpNnBsnhXedXucgt5uVp+ZhVTvbwulgiMVloxfB+qFkA6X6Yu9HWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783347027; c=relaxed/simple;
-	bh=YOsYyrc/bitTU9Vwq6vnx2DmxDDwMmLL4M4U3a7xGto=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QEDWpm/nP8zsbtW4ec2q4nofSEaZc+pcDlgXSa3qZDqhKTvPg5fE+bJJ56MutZSfim9Yc790abN5ctSaWiS4sxIO3VEMOYidAnzkMxzGenYvngEmgKj5lvb/VRdiPT1f8y3ENfharGRCmdueoBGxNNbfKdxQLh+o8K2XgTLFrgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=BemTA9d+; arc=none smtp.client-ip=209.85.160.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1783347562; c=relaxed/simple;
+	bh=xSgG2/pm4OLbG2ZbJ1H4Q/8WryCZZ6yrZOzzGMcbVNY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d8gKQrTk6bfXEbyZKk95cZ4bR+scFltf0B6NuANYYHQLHBf2hgUJWKLxFfphQ4KNKZsD2GcPP9+psPjFcjqvFHjydi1XIuWHcQOkHEgeHCP0yRNW21bpc/nHYYy9DzCncBZc+zorNiwYMxYXA0CKP1EoIn6cUF0wBxD4ukHH+ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JeYADbsi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="BemTA9d+"
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-44ae14b4fd6so1215828fac.2
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 07:10:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783347024; x=1783951824; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8Q13oMYkW312woQm68JTsMT/EHUSwSrALmbtYHd4pkc=;
-        b=BemTA9d+p0hVaw+VZWUV9RDD8Tmrcy8wb0aKRfBZYWTL+6d+v9nTaMMF/+R1Iorf61
-         vS1c9imyQ34K6uPtXHR9XTuVOSuWwzWd1BxzqQR65Nmn5Z14MWn8d9RMn2iStcZ4WoKO
-         pK0i8QoEQrZGkrdeZ9nLReGOzL52FS3Q8pqAdZiAlASXXy8v/cMApyNrDzW6RC+Tm4KC
-         4JWGl0Ln/0QHxLwfEABPd7e3KtkvviPRTd1pcnPEyT50oGLHoUNr1CBr4wWUFolqQUoq
-         XDoSq8LnY7Kt8sSATQgPi8lcNBFjQhsTlDmLTnMMA1yx3wSX/PTIXgHPZCYOLEwmwPKm
-         XQRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783347024; x=1783951824;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8Q13oMYkW312woQm68JTsMT/EHUSwSrALmbtYHd4pkc=;
-        b=Hmt9DXhPHyjW7M0onzHodDsDo5EGMv6rUXDuV1JBbQn49f5MUIwMx7nhPCtiziFjuh
-         Z+ZeknClpFW4dJxJtRgLYKynEzHr8j4fp9KlKjKJKcrWIHAiLe9S27kK8wQaFf3VgZKo
-         P1pSF7m1BtInyVEyExK62juNvMUI/aBOSDCrYyF4l2hnR/eHo4072eTJ+Yif8dPGge3p
-         7V8PJwhoEeSjRLO/TZS1rPjgrGRIc0fN+8qJtnF2bpuigp2r5lcZKSinKi46jiCWexLW
-         DahYTShdOmOkKiVw+0KPKQxBGZxqE9hGk3IUgy/gEWRUKkmYDwbjiM9rN06wwq5BB3p/
-         A8AA==
-X-Forwarded-Encrypted: i=1; AFNElJ/Jj0//KAUCRUJeLogzDA6cAPmblmiQwP63fwvkO6ARjgGTuZMxjy6V+AMSGdIXxaPHDmoiLbo6hFM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwNaLIHIlLbj9ApUPmDmrveGzTgpt222OWun+bWsKL0DcrIQ0d
-	h5L9655OIqxi0sLQOo97nxI7fu1bI+mKxDT39wA34MO45tz4mgzP+WCbunuNR3zzz14=
-X-Gm-Gg: AfdE7ck7k57dlj6lgeo3cf1TV/H3RqlB3BNXLlfVjJ4qbv8X+V1Tvc+B6nQcWMo7WW5
-	NoJRWNCa1c6VbpXQf3bZ5XW8+aKTYsYUvWrmbBFWV9odGwUmk+RFF5iAbPfS8UmnpcHI78bu0ng
-	08PsJs4hMXgWdXqL9OJ0zd6L5kz3bXYU7zyh6oGPycmFAEaq5WG7Wcoz44jkkV3yD+at6OUD2Bx
-	L3khWCQHQV1B9XW7morQIWI6Ao/1pkVPcHlnT3MazZfkVjEotcP7CvAfvBTYd/V0tLEmK6vXt/d
-	7d8oM5sxjV/ajgRPcKDPxMriRfb4xaa5xD/yBSNJcAqYNegSJBTAzQpfJYNMbbzrWak1LEEYJz3
-	rnuOhxSrZ9qhBPGr6bPbALXd/0pMo2chssUV4IeJ8m+IyU61fmkf2iYkKdtlgxiR+7ue8mZOzc8
-	bz997ygFO+/zQ+m8Lctp38rl+DUmaK1TzWVEXFsRAShUZxMHHI164p2DKkxkqa+fE=
-X-Received: by 2002:a05:6871:820a:b0:43b:58a4:cc33 with SMTP id 586e51a60fabf-451065bccf8mr348850fac.22.1783347024487;
-        Mon, 06 Jul 2026 07:10:24 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:a38a:a0af:ed1d:5c77? ([2600:8803:e7e4:500:a38a:a0af:ed1d:5c77])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-44cfb6691d1sm10542741fac.17.2026.07.06.07.10.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 07:10:22 -0700 (PDT)
-Message-ID: <2d84950f-c56a-48f5-ab7c-c7b7ccb3b28d@baylibre.com>
-Date: Mon, 6 Jul 2026 09:10:21 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JeYADbsi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 055221F000E9;
+	Mon,  6 Jul 2026 14:19:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783347560;
+	bh=i87JO+gJj72UbHQzbOb/N8EEBzlxHqvP8i5Djmq/yJo=;
+	h=From:To:Cc:Subject:Date;
+	b=JeYADbsi5s9q6/eNMTz/nBCYO/5f7S7GHQL3B0f1WDRWTeg9PC4TGarR3F+ov7Bja
+	 JREqATY+9eanFWJQeqjVmyzmyzdKIh7RFwSN8hJTE30cNWb1ubn3AnVTan5E3iosu0
+	 A0Y63i/708h4tQcPN6wYEZLFxVj8YLnwpBkrZo6CmgXmNiLfpkTbMp5VbzQNccPBMl
+	 pEP8BxF0XIlGQG7LgyzhFcBKkWoTbl/6LQ5Bs1qCv7QCTAx38XZhwFOiobClP9eg0d
+	 pE5TOxBQVLM7v8InqRCUXXafNES/UXvX6dnhXCbbcFRpSZ8NIHUaSURXuuvnx/hBdk
+	 HFuwcl1abDS6Q==
+From: SJ Park <sj@kernel.org>
+To: 
+Cc: SJ Park <sj@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH v1.1 00/16] mm/damon: introduce data attributes only monitoring
+Date: Mon,  6 Jul 2026 07:18:54 -0700
+Message-ID: <20260706141912.88445-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 12/16] iio: frequency: ad9910: add RAM mode support
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
- Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-hardening@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-References: <20260618-ad9910-iio-driver-v6-0-79125ffbe430@analog.com>
- <20260618-ad9910-iio-driver-v6-12-79125ffbe430@analog.com>
- <20260703040544.08a8ea5e@jic23-huawei> <ake_YWfvVC9RQ3wu@nsa>
- <1493eed5-5bb8-4a2c-8f2d-8b4bc5dde157@baylibre.com> <akt3i_YxG-jF3IdJ@nsa>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <akt3i_YxG-jF3IdJ@nsa>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 7/6/26 4:47 AM, Nuno Sá wrote:
-> On Sat, Jul 04, 2026 at 11:50:35AM -0500, David Lechner wrote:
->> On 7/3/26 9:09 AM, Nuno Sá wrote:
->>> On Fri, Jul 03, 2026 at 04:05:44AM +0100, Jonathan Cameron wrote:
->>>> On Thu, 18 Jun 2026 14:27:28 +0100
->>>> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
->>>>
->>>>> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
->>>>>
+TL;DR: Introduce a way to get DAMON's best effort accuracy monitoring of
+user-demanding non-access data attributes.
 
-..
+Background
+==========
 
->>>>> +static inline void ad9910_debugfs_init(struct ad9910_state *st,
->>>>> +				       struct iio_dev *indio_dev)
->>>>> +{
->>>>> +	struct dentry *d = iio_get_debugfs_dentry(indio_dev);
->>>>> +	char buf[64];
->>>>> +
->>>>> +	/*
->>>>> +	 * symlinks are created here so iio userspace tools can refer to them
->>>>> +	 * as debug attributes.
->>>>
->>>> Maybe worth a reference to appropriate ABI doc here (even if it is introduced
->>>> in a later patch)
->>>
->>> I'm not so sure about these links. I mean, I definitely agree we should
->>> make it easy for userspace tools like libiio to be able to handle
->>> these kind of attributes but using debugfs is questionable to me. Pretty
->>> much because this is not a debug thing. It is a real setting for the
->>> driver so ideally we would be able to control it (using the existent
->>> tools) without enforcing one to mount debugfs (I know that most of the
->>> times it's always mounted but still feels wrong to tie "real
->>> functionality" to debugfs). 
->>>
->>> Having said the above, some suggestions:
->>>
->>> 1. Make the iio_dev the parent so that the attr name is just "ram" and
->>> it will be a subdir /sys/bus/iio/iio:deviceN/ram/.
->>> 2. Propose a new helper for the firmware_loader code so we can get
->>> struct device from struct fw_upload then we can easily create a sysfs
->>> symlink.
->>> 3. Name the attr as dev_name(iio_dev):attr so that it becomes
->>> iio:deviceN:attr_name.
->>>
->>> Now that I think about it, 2. does not make much sense when compared to
->>> 1. And If I'm not missing anything both 1. and 3. can be sanely parsable
->>> from userspace (being 3. maybe a bit more reliable). And yes, both require
->>> user space tools (in this case libiio) to support a new type of
->>> attribute (firmware) but that is another problem.
->>
->> I would say that udev should be used to find the firmware device from
->> userspace rather than creating symlinks. And you probably don't even
->> need udev if you already have the `iio-device:<ID>` value. The path
-> 
-> Just one note. If you mean <ID> as the attr name the above will fail for
-> multiple instances of the same device. That's is why a proposed
-> dev_name(iio_dev) which I think it should reliable be iio:deviceN. 
+DAMON was initially designed for only access monitoring.  It turned out
+users want to get the information together with more data attributes.
+For example, some users want to know how much of a hot memory region
+belongs to huge pages or specific cgroups.  Page level properties based
+monitoring was introduced with commit 626ffabe67c2 ("mm/damon: clarify
+trying vs applying on damos_stat kernel-doc comment") to fill the gap.
+Because it works only at snapshot level and snapshot capturing in the
+mode can induce high overhead, commit 45c49d9fd608 ("mm/damon/core:
+introduce struct damon_probe") introduced data attributes monitoring.
 
-My <ID> is the same as your N. It looks like I just had a typo of
-an extra : in there.
+Data attributes monitoring treats the attributes as only additional and
+subordinate information.  Data access monitoring is always turned on,
+and regions are adjusted for best accuracy of the access information. In
+some cases, users may be primarily interested in the attributes more
+than the access.  They might even not care about the access information
+at all.  Because DAMON treats data accesses as the only primary
+information, such users cannot get high quality attributes information.
 
-> 
-> I guess N might change so anyone hardcoding it might have surprises. But
+Design and Implementation
+=========================
 
-That is why I mentioned udev.
+Introduce another way for treating data attributes as the primary
+information.  Add 'weight' property to each data attribute probe.  When
+any of the weights are set, the mode is enabled.  Data access monitoring
+is completely turned off in the mode.  For region  adjustment, the
+weighted sum of probe hit counters is used instead of the nr_accesses.
 
-> properly done and we have a sane way to match the above with anything on
-> /sys/class/firmware/iio:deviceN:<attr>/
-> 
->> is always going to be `/sys/class/firmware/iio-device:<ID>:ram/`. It
->> seems like the same amount of work for usespace to computer the path
->> either way, so might as well keep it simple and leave out the symlink
->> stuff.
-> 
-> Yes, at least for libiio, `iio:deviceN` is already what we call the
-> device ID so we can match fw attrs against it and everything after the
-> last ':' is treated as the attr_name. 
-> 
-> We just need to keep in mind that if a second user of this stuff pops
-> up, we should add a new helper to enforce the ABI.
-> 
-> - Nuno Sá
->>
->>>
->>> - Nuno Sá
->>>>
->>>>> +	 */
->>>>> +	snprintf(buf, sizeof(buf), "/sys/class/firmware/%s/loading", st->ram_fwu_name);
->>>>> +	debugfs_create_symlink("ram_loading", d, buf);
->>>>> +
->>>>> +	snprintf(buf, sizeof(buf), "/sys/class/firmware/%s/data", st->ram_fwu_name);
->>>>> +	debugfs_create_symlink("ram_data", d, buf);
->>>>> +}
->>>>> +
+Using the weights, users can specify to what attributes they are
+interested in to what degree.  DAMON will adjust the regions and provide
+the best-effort quality monitoring that is optimized for the user
+demands.
+
+Extend damon_operations for efficient use of probe hits.  Update regions
+merge and kdamond main logic to support the new mode.  Add a new struct
+field and a sysfs file for API callers and ABI users, respectively.
+
+Test
+====
+
+On ~7 GiB memory idle system, run a simple AI-assisted program.  The
+program allocates and faults 2 GiB anonymous pages.  Then, it does
+nothing but wait until the user terminates it.  Hence, the system ~2 GiB
+of anonymous pages with no active accesses.
+
+Monitor the distribution of the anonymous pages using DAMON attributes
+monitoring mode, using DAMON user-space tool, damo [1].
+
+    $ sudo ./damo start --probe_filter allow anon
+    $ sudo ./damo report access --dont_merge_regions
+    heatmap: 00000000000000000000000000000000000000000000000399999995111111146666666666666666
+    # min/max temperatures: -2,470,000,000, -1,620,000,000, column size: 99.800 MiB
+    intervals: sample 5 ms aggr 100 ms (max access hz 200)
+    #   <start>      <size>       <freq> <age>         <probe hits>
+    0   4.000 KiB    79.840 MiB   0 hz   24.700 s      2
+    1   79.844 MiB   718.562 MiB  0 hz   24.700 s      8
+    2   798.406 MiB  793.148 MiB  0 hz   24.700 s      7
+    3   1.554 GiB    797.828 MiB  0 hz   24.700 s      7
+    4   2.333 GiB    794.668 MiB  0 hz   24.600 s      8
+    5   3.109 GiB    791.117 MiB  0 hz   24.500 s      0
+    6   3.882 GiB    785.312 MiB  0 hz   24 s          2
+    7   4.649 GiB    787.867 MiB  0 hz   16.200 s      6
+    8   5.418 GiB    784.477 MiB  0 hz   23.300 s      6
+    9   6.184 GiB    783.820 MiB  0 hz   18.200 s      9
+    10  6.950 GiB    797.730 MiB  0 hz   18.900 s      7
+    11  7.729 GiB    69.625 MiB   0 hz   18.900 s      0
+    memory bw estimate: 0 B per second
+    total size: 7.797 GiB
+    record DAMON intervals: sample 5 ms, aggr 100 ms
+
+Note that the line after the line starting with "intervals:" is not
+provided by the current version of 'damo'.  I manually added the legends
+line for easier understanding of these results.
+
+Each of the 12 lines after the legend line shows the DAMON-found
+regions.  Each line shows 1) index of the region, 2) start address of
+the region, 3) size of the region, 4) access frequency of the region, 5)
+age (how long the access frequency on the region was kept) of the
+region, and finally 6) the probe hit count.
+
+Because data access is the primary information that adjusts region for,
+and there is only nearly zero access on the system, regions are naively
+adjusted with the same size.  Still <probe hits> show different
+distribution of the anonymous pages, but it is obviously very rough
+information.
+
+Switch to the attributes only mode and show how it changes the picture:
+
+    $ sudo ./damo tune --probe_filter allow anon --probe_weight 100
+    $ sudo ./damo report access --dont_merge_regions
+    heatmap: 88888888888888888889888999999889999999000004888888888888889999988888898888888888
+    # min/max temperatures: -4,430,000,000, 0, column size: 99.800 MiB
+    intervals: sample 5 ms aggr 100 ms (max access hz 200)
+    #   <start>      <size>       <freq> <age>         <probe hits>
+    0   4.000 KiB    60.445 MiB   0 hz   700 ms        0
+    1   60.449 MiB   1.363 MiB    0 hz   600 ms        18
+    2   61.812 MiB   144.000 KiB  0 hz   0 ns          1
+    3   61.953 MiB   1.922 MiB    0 hz   2.400 s       19
+    4   63.875 MiB   12.133 MiB   0 hz   200 ms        0
+    [...]
+    500 5.132 GiB    8.000 KiB    0 hz   2 m 15.800 s  20
+    501 5.132 GiB    8.000 KiB    0 hz   2 m 16.200 s  0
+    502 5.132 GiB    16.000 KiB   0 hz   2 m 16.900 s  20
+    503 5.132 GiB    24.000 KiB   0 hz   2 m 14.200 s  0
+    504 5.132 GiB    8.000 KiB    0 hz   2 m 14.900 s  20
+    [...]
+    923 7.534 GiB    126.637 MiB  0 hz   0 ns          6
+    924 7.658 GiB    252.000 KiB  0 hz   54.800 s      20
+    925 7.658 GiB    142.242 MiB  0 hz   300 ms        0
+    memory bw estimate: 0 B per second
+    total size: 7.797 GiB
+    record DAMON intervals: sample 5 ms, aggr 100 ms
+
+As expected, regions are adjusted to provide the best accurate picture
+for the anonymous pages distribution (<probe hits>).  The region 0
+(60.445 MiB memory from the address 4.000 KiB) has nearly zero anonymous
+pages.  The region 1 (1.363 MiB memory from the address 60.449 MiB) is
+nearly full with anonymous pages.  Region 500 (8 KiB memory from the
+address 5.132 GiB) is certainly two anonymous pages.
+
+Future Work
+===========
+
+Attributes only monitoring disables access monitoring.  We will enable
+that in future, by extending the supported attributes to include data
+accesses.  This patch series, and the future work are parts of the
+ongoing project [2] for extending DAMON.  The project aims to extend
+DAMON with primitives other than page table accessed bits such as AMD
+IBS, Intel PEBS, and Arm SPE, to provide more powerful and detailed
+information like per-CPUs/threads/reads/writes monitoring.
+
+Patches Sequence
+================
+
+Patch 1 introduces damon_probe->weight for specifying the weights of
+each attribute.  Patches 2-6 extends apply_probe() damon_ops callback to
+efficiently support the new mode.  Patch 7 extends regions merge
+function to work with probe hits in the mode.  Patch 7 also introduces
+the function for detecting the mode enablement but always returns false,
+for safe and incremental changes.  Patches 8-11 incrementally update
+kdamond_fn() to support the mode.  Patch 12 completes the mode detection
+function implementation, so that the new mode really works.  Patch 13
+introduces a new sysfs file for ABI users.  Finally, patches 14-16
+respectively updates design, usage and ABI documents for the new feature
+and interfaces.
+
+[1] https://github.com/damonitor/damo
+[2] https://lore.kernel.org/20260525225208.1179-1-sj@kernel.org/
+
+Changelog
+=========
+
+Changes from RFC
+- RFC: https://lore.kernel.org/20260705205743.98656-1-sj@kernel.org
+- Add kernel-doc comment for damon_probe->weight.
+- Fix typos in kernel-doc, design and usage documents.
+
+SJ Park (16):
+  mm/damon/core: introduce damon_probe->weight
+  mm/damon/core: ask apply_probes() ops callback to set sampling address
+  mm/damon/paddr: set samples in apply_probes() if requested
+  mm/damon/core: ask apply_probe() to return max probe hits weighted sum
+  mm/damon/core: implement damon_probe_hits_wsum()
+  mm/damon/paddr: respect return_max_wsum
+  mm/damon/core: extend merge function to work with probe hits
+  mm/damon/core: disable access monitoring when probe weights are set
+  mm/damon/core: set samples in apply_probes() if probe weights are set
+  mm/damon/core: s/max_nr_accesses/max_merge_score/ in kdamond_fn()
+  mm/damon/core: get merge threshold from probe hits when weights are
+    set
+  mm/damon/core: implement damon_has_probe_weight()
+  mm/damon/sysfs: implement probe/weight file
+  Docs/mm/damon/design: document attrs-only monitoring
+  Docs/admin-guide/mm/damon/usage: document weight sysfs file
+  Docs/ABI/damon: document probe weight file
+
+ .../ABI/testing/sysfs-kernel-mm-damon         |   6 +
+ Documentation/admin-guide/mm/damon/usage.rst  |  11 +-
+ Documentation/mm/damon/design.rst             |  25 ++++
+ include/linux/damon.h                         |  12 +-
+ mm/damon/core.c                               | 107 +++++++++++++++---
+ mm/damon/paddr.c                              |  11 +-
+ mm/damon/sysfs.c                              |  25 ++++
+ mm/damon/tests/core-kunit.h                   |  13 ++-
+ 8 files changed, 185 insertions(+), 25 deletions(-)
+
+
+base-commit: 6a2e3b53ae2be579022206bf5d43b87dff04fe12
+-- 
+2.47.3
