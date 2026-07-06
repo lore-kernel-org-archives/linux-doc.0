@@ -1,84 +1,67 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D273E51E7
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 16:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200633E121D
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 16:33:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783355614; cv=none; b=qmKFshcSGYxhbfvLVLLYo3DwhyoOQOC/4DxfT9nG4O4zsU9SeNJHHxa7TEiH5kkAw0wOrXFa5sZ6xFe/ZQmIukqZgz8FpRO6lhsR9tqieM0j2RvIX09OHGcvC/hjtST9QDWzs1y8jVaOY/0fxuERYiodaj9UYeW3oZFrWz4/1RY=
+	t=1783355616; cv=none; b=hPoowK2uXUuf1GIfgCSvGp8f7hNoPBhIJmal7bJWNeC7MuM8V35jHN93Zdv6yETbHCye//O5goXr/nOeu8lkQK4re+WEmGMGXO+8wPnWnIDB5GqFHZoCauIp+R46N86vsLJVQfPwAHoWn/jpOembgtqGdPdSDvuJWvte+epS3S4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783355614; c=relaxed/simple;
-	bh=BhU2Vcc4cy3o+ASEB6fgnd/MQCY2zefy9ZBBAkuRcQQ=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=FYQImi/KfuupXYxJJQWTA8eNefwK3+WrRXvabQ2i5QpOK4X74noEUH6W6956h98z+txOOL+jvSGP5yr9oazS7/xAXwwkbq87BiHKDeq+w07T/e2GaI3SVbZmE6grN30J6s1ZdyNCFMC4kPF3lCT1xROp00SgffDpP6xOgt+h+FQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XBCk7P5n; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=F/J61y4r; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1783355616; c=relaxed/simple;
+	bh=6NMmYy62ZFXZlbxjQZjcsrKWVKzo16auoFFByfnuD1g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JxSG1fgHSee2BPr7af8Uo8LqYC8rUyVr7UlEE8UTYjGGfWVB+XCI67fTKH0gUifNI3pFtcamE5gWx2DqB2+quYCM9TOok9GBj3OnXPEcGzSpXdRLCVNWKVUDNh7R7QdXQnoS/YtVS5xlVqteYYQAFGV2wm5366OjAL2xXJFxpr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X/nx5YcL; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XBCk7P5n";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="F/J61y4r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783355610;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l27bgQBYkZ9ic8JTY8Nu2Fp9usWIwYdRIdGCbIzonFA=;
-	b=XBCk7P5nbGXksmKRd9GSnLynVOwAm/ZsAzZwyMYIp+joXjN7pRcbwOPDss7pPZmtk0kJMn
-	KOMlUXdNivxl8eqxCqzW0fWAaUv0keN5xOPldAvPHk/vrdN2IoghK2nKxIOAHnsGT5HvpQ
-	3m1+mXhAiABBagd52ynL6IPMnH22s9k=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-621-OJVnWovrMm-qzcK_FtNBjQ-1; Mon, 06 Jul 2026 12:33:29 -0400
-X-MC-Unique: OJVnWovrMm-qzcK_FtNBjQ-1
-X-Mimecast-MFC-AGG-ID: OJVnWovrMm-qzcK_FtNBjQ_1783355609
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-92e6a2f5995so535530385a.3
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 09:33:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X/nx5YcL"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cca24023edso16254575ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 09:33:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1783355609; x=1783960409; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=l27bgQBYkZ9ic8JTY8Nu2Fp9usWIwYdRIdGCbIzonFA=;
-        b=F/J61y4rNeeVTNnGYaqklqkZB3vKQOv7RC66T7+5vJ/Q0ctpeUpTzjm+R4Ivbr2ruc
-         roJxG9mWDHz/cNuTczHcZS91RP3TbBci4T3aeG4H4UsCCE+y+1it1c3EGwIxQxkdiXuC
-         SJgqxyOO4yd37F/uW5MUha5tYdaXNkvVyYpCNzCXgcKnaVOS2Cz66qELbnLlj6lhfBfd
-         GZ21yPmPUAPVUf3bisFvQ2KCAh0tU7Fjyab0mgD6GZCkrqfRiYRm+lgsgxEP9kAiM4kp
-         NNSFxrHkoPh6DVcro3Tqi73Qlz91CnFHznRDHq+fSy9f4agHiqqns5sAHh1t10WyMGHP
-         XuEg==
+        d=gmail.com; s=20251104; t=1783355614; x=1783960414; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=rxxY2BfHIcCLRUYump74eH/fMlKZQi/IR8VG2OQVFJ4=;
+        b=X/nx5YcL4mtmhlQ/O2jbueNc0xl8UGKK6rlU7Z+w+MJtGVz/q/WVtFUW8qkV00LdVw
+         mVNfImcOHK65jIqUp+kxUuX5lrP+S56fPA0nmnfM3iqcSYFQLJXuv3qY61aoqVgk1i5I
+         nu1EMq5W5xXCIS6k/Dl+BNAwQU2GxI3+7pagGt8W3Mhs+5CNTQ/34Pf/VKIJLSKTWfqP
+         z0zJXj4n3WwxzxQzjm7AdEsrMr+Fis/EYLgvHu1UVRSGhvubIBilQXBx13NPAdfaVAxI
+         uida0+Ehu6w8WNSb0+P7BbX9ijWWpN+Ype/8Sqz1FLlmrJP8L6aaPE/EMkqUDieRL87A
+         4/MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783355609; x=1783960409;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=l27bgQBYkZ9ic8JTY8Nu2Fp9usWIwYdRIdGCbIzonFA=;
-        b=VGDDPKVi1ZagdybavqKsfL9uPLvPOAwknrImrreBdLjeMQWZs8011vVQ0OfWc13LMr
-         VDRn9buED72MPeR+4Y43dSttohSTa9oFdPI7K6XocimIUg3/Yz/Q6LK3Ssz63xU3Z2ol
-         8e/f8mXXRQ6qtZLlZy7DjqRjASj8H7YA2+dxDXhhz6kXfB1a1gqNHkVF4Ci81sjjt+pf
-         AkIwaEQmcbD+fQnmcXdfgQcFENXVhFD5Eul0SXzJb+mkor0RlDpGu2MKZMIbDfc7O3Xk
-         IHbAZuXKY/HyAiclNO931AEfTtK8VKCnIFXB+fqu+rOhpjpNnUCACqmEf+yD76GY85qS
-         Pcpw==
-X-Gm-Message-State: AOJu0Yy01WdqPdATSuJCEM5dm+wTEHDSK4G/hb6zlUELgYxag5rvcsKU
-	BvY+CsKAMIJheiUoxpLbB6XFRPpR268ZJkmXfK34D5yom0X++IBQVsldfmJEE0UfBLlYZLPoG6w
-	CA+wxodd4DDCqZB0cgPseXoispuLuuo2SzXSHfeMYz11Pepjspz0TVRvcfBnixdwsm7K55zkjSu
-	v2b3FFPbwUAWiqK+1Yj/nurFQGGuCt/a02HP0JwoHqbTw=
-X-Gm-Gg: AfdE7cnD7nD0TVdLsNmpW63Y9Oat07jurbGrSdPdiaNQm+d4C+StCch/Q7BbM2CN5aM
-	+zHp0NYc4uen3LjyWEA9L7/mU8u3flAtItCqgEycOhH8jmyqDDneexjDHVqPseu7sXSVxF9VRAZ
-	zrQGOcLAtrNE0zcOqgrZeOXFZGXWXKgO+EZ2PjpUSNZaH0IzCfR6u813BZpfP1+k3MJBMhkMkuC
-	tRU6AvD2qAq6v6134yY3v/GpXb4+bYY4IE2O6niv8aFsnDqhr1Bdw1Qk5OjEb4ozv5vzpq4ODYK
-	DO7rBGMqvN1WpeHBMwRLwtKWf/bAlE3XtBNZF8YH1DEDQ8NW6Ovw1zEoLyFwzxtLsBqlUfFXj1s
-	0fULOFms31Q==
-X-Received: by 2002:a05:620a:454a:b0:92b:6805:9192 with SMTP id af79cd13be357-92ebb5dd3c2mr173034185a.74.1783355608316;
-        Mon, 06 Jul 2026 09:33:28 -0700 (PDT)
-X-Received: by 2002:a05:620a:454a:b0:92b:6805:9192 with SMTP id af79cd13be357-92ebb5dd3c2mr173022985a.74.1783355607394;
-        Mon, 06 Jul 2026 09:33:27 -0700 (PDT)
-Received: from [192.168.8.207] ([45.81.3.233])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e90ba4209sm1031297785a.12.2026.07.06.09.33.22
+        d=1e100.net; s=20251104; t=1783355614; x=1783960414;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rxxY2BfHIcCLRUYump74eH/fMlKZQi/IR8VG2OQVFJ4=;
+        b=XdxQkZCqDNy9B0vbQuFuWqE+oPkS7BpOtuRzQWMumvSO5Y68P8aTF8RUheQdqFyTLb
+         kcbfN3R7bL9lpOEdrQf6yaUQKy2Jyzsx/ao8recZ4e7pIR5TchZH9yyGOiNo3+nUdugv
+         Lh2p4d7vhev7gAthrjgle+Q+6Um5drqKpL0tWUw5PlcjZOGwKwRUZvLGj9w3jz+EGBQY
+         KnvC5FJmmeIz9WkAqSa685u5j+s3p834jlMXOKlSMYfYcJH9rKY0YmjoL5KGnoyTYeok
+         igPMeg6NlWcf1ZyKkFRDkXJyELyqtvXgoX/wiywFaOZTswHabP5CyvLg+vAE14u/BQ7L
+         gAXg==
+X-Forwarded-Encrypted: i=1; AHgh+Rr0xknUL1QytNjlJ3DETplzIymBte+b8HqlkMDJ435vqOdkFcOGoqNmZUu3eA/HfYJZdZtaKco/NM8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKDg7CxcqlnR4CSlMtEy08Ru/qsEPs+MGZRyKb3TBLOu7q5nR4
+	lFxlwY7iE8LUieH9KWGY1Aa2uQsclmu/4tcA81Qo00/rY/e2tPIe/P00
+X-Gm-Gg: AfdE7cmAPnWw7YVmXONRxrPSG0u3XwhTbljA7AI8SH/dKN0RbCXxb04+Me1CmY8x9JF
+	r5w3WO/K1tI8vpTxE2cPh1gM3QMuIuGIUqLfwUw9I7+4sDYSpYxLzHNb1Zkwm1g9bUA74+4fEXO
+	9onXo2wO8wCjIElPbPh3hoEj0rl0Ocv8mxMeA4+V0m2HfhTLsAie1hiaHIWibw1KwsJhiOI/Taj
+	Cd/cVvBdaGdHOrUuMHBezkrJE7Uam/7DkfR1ycnSBr6wjLFcx8wRELbpfO8O4TLqKEzBMLwi9dJ
+	1b35UTRSvtPu5CFKi7scEC3i/Q2i6i3TazKGQBNi0NyUGM3hOsPa3H46MryPXAXEZs+KjdCryPa
+	lY9vVulMYqunpocmEeKmgi1wOb18Kl4lYhy43a/psmbTbmtFgZQ2++lW7LBQp8lYZLERvfqsWCN
+	ahqn8s1+GJC8YmrsSOUktkna5PBDJnWG7IaX7KrA/HKFjjFxGdM4l6/biUicg5KMsUN6Fc9dPG
+X-Received: by 2002:a17:902:d2cf:b0:2cc:6329:b7ba with SMTP id d9443c01a7336-2ccbe615a2emr14691785ad.16.1783355614326;
+        Mon, 06 Jul 2026 09:33:34 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad6f25f87sm54027575ad.3.2026.07.06.09.33.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 09:33:26 -0700 (PDT)
-Message-ID: <cef34271-9dcf-4dab-afc9-d463c21a8503@redhat.com>
-Date: Mon, 6 Jul 2026 10:35:00 -0600
+        Mon, 06 Jul 2026 09:33:33 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <65ebf21f-5a23-43b5-b10c-684fe421b0dc@roeck-us.net>
+Date: Mon, 6 Jul 2026 09:33:32 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,518 +69,101 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Nico Pache <npache@redhat.com>
-Subject: Re: [PATCH 5/8] mm/khugepaged: Refactor the PTE state checks into a
- helper
-To: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org
-Cc: David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <liam@infradead.org>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260706154500.39178-1-npache@redhat.com>
- <20260706154500.39178-6-npache@redhat.com>
+Subject: Re: [PATCH v2 1/5] dt-bindings: hwmon: (pmbus/max20830): add
+ enable-gpios property and complete examples
+To: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20260706-dev-max20830c-v2-0-37761e89bb5f@analog.com>
+ <20260706-dev-max20830c-v2-1-37761e89bb5f@analog.com>
+ <20260706-neat-perky-malamute-7518b7@quoll>
+ <PH0PR03MB6351C4B212D2CCBA3F1BF113F1F12@PH0PR03MB6351.namprd03.prod.outlook.com>
 Content-Language: en-US
-In-Reply-To: <20260706154500.39178-6-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <PH0PR03MB6351C4B212D2CCBA3F1BF113F1F12@PH0PR03MB6351.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 7/6/26 00:13, Torreno, Alexis Czezar wrote:
+> 
+>> On Mon, Jul 06, 2026 at 10:08:41AM +0800, Alexis Czezar Torreno wrote:
+>>> Adding an entry for the MAX20830 EN (enable) pin. This pin exist but
+>>> was not included before. Also edited examples entry to be more complete.
+>>>
+>>> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+>>> ---
+>>>   .../devicetree/bindings/hwmon/pmbus/adi,max20830.yaml         | 11
+>> +++++++++++
+>>>   1 file changed, 11 insertions(+)
+>>>
+>>
+>> How did you address previous feedback?
+>>
+> 
+> Regarding the enable pin, I added this since I know bindings like being complete
+> and saw that I didn't add it the first time I submitted max20830.
+> I added driver code for the gpio but learned that it wasn't really a use case so
+> I simply dropped the patch for it.
+> 
 
+I guess I am completely missing the point here. I can not imagine a situation
+where one would want to connect the enable pin to a driver-controlled GPIO pin,
+or why would one connect the chip's PGOOD output pin to a GPIO input pin
+and connect that back to the driver.
 
-On Mon, Jul 6, 2026 at 9:45 AM Nico Pache <npache@redhat.com> wrote:
->
-> For anonymous collapse, the collapse_scan_pmd() and
-> __collapse_huge_page_isolate() functions share a large portion of their
-> logic. These functions both check the state of the PTEs and verify the
-> following:
->         - max_pte_* values are not exceeded
->         - uffd is not active
->         - lazyfree properties
->         - non-anonymous
->
-> Merge these checks into a helper collapse_check_pte() to reduce code
-> duplication. We also add a helper struct for this function called
-> pte_check_context which allows us to pass the required parameters in a
-> clean and elegant manner.
->
-> A helper function is also introduced pte_check_fail() to provide a clean
-> interface to set the pte_check_context failure results and return
-> PTE_CHECK_FAIL state. This helps reduce code duplications across the new
-> collapse_check_pte function.
->
-> Two slight modifications are done to the original functionality. We now
-> warn (instead of crash) if the anon test fails, and we leverage the
-> vm_normal_folio function instead of page->folio, this should be
-> functionally equivalent.
->
-> No other functional changes intended.
->
-> This patch is heavily based off work done by Lance Yang, but modified to
-> deal with conflicts and feedback received during the review cycle [1].
->
-> [1] https://lore.kernel.org/all/20251008043748.45554-1-lance.yang@linux.dev/
-> Suggested-by: David Hildenbrand <david@kernel.org>
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->  mm/khugepaged.c | 295 +++++++++++++++++++++++++-----------------------
->  1 file changed, 155 insertions(+), 140 deletions(-)
->
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 676f75773a6c..c4ea2dc1591b 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -63,6 +63,12 @@ enum scan_result {
->         SCAN_PAGE_DIRTY_OR_WRITEBACK,
->  };
->
-> +enum pte_check_result {
-> +       PTE_CHECK_SUCCEED,
-> +       PTE_CHECK_FAIL,
-> +       PTE_CHECK_CONTINUE,
-> +};
-> +
->  #define CREATE_TRACE_POINTS
->  #include <trace/events/huge_memory.h>
->
-> @@ -117,6 +123,20 @@ struct collapse_control {
->         DECLARE_BITMAP(mthp_present_ptes, MAX_PTRS_PER_PTE);
->  };
->
-> +struct pte_check_context {
-> +       struct collapse_control *cc;
-> +       struct vm_area_struct *vma;
-> +       unsigned int order;
-> +       struct folio *folio;
-> +       int none_or_zero;
-> +       int shared;
-> +       int unmapped;
-> +       enum scan_result result;
-> +       unsigned int max_ptes_none;
-> +       unsigned int max_ptes_swap;
-> +       unsigned int max_ptes_shared;
-> +};
-> +
->  /**
->   * struct khugepaged_scan - cursor for scanning
->   * @mm_head: the head of the mm list to scan
-> @@ -700,74 +720,130 @@ static void count_collapse_event(unsigned int order, enum vm_event_item vm_event
->         count_mthp_stat(order, mthp_event);
->  }
->
-> +/*
-> + * pte_check_fail() - A simple helper to set the pte_check_context result and
-> + * return PTE_CHECK_FAIL.
-> + */
-> +static enum pte_check_result pte_check_fail(struct pte_check_context *ctx,
-> +               enum scan_result result)
-> +{
-> +       ctx->result = result;
-> +       return PTE_CHECK_FAIL;
-> +}
-> +
-> +/*
-> + * collapse_check_pte() - Check if a PTE is suitable for collapse
-> + *
-> + * Check if a PTE is suitable for collapse based on the following criteria:
-> + * - max_pte_* values are not exceeded
-> + * - uffd is not active
-> + * - lazyfree properties are not present
-> + * - only anonymous pages are present
-> + *
-> + * a helper struct pte_check_context is used to pass and store relevant
-> + * information between the collapse_check_pte() function and the caller.
-> + *
-> + * Return: PTE_CHECK_SUCCEED if the PTE is suitable for collapse,
-> + *         PTE_CHECK_FAIL if the PTE is not suitable for collapse,
-> + *         PTE_CHECK_CONTINUE if the scan should continue to check the next PTE.
-> + */
-> +static enum pte_check_result collapse_check_pte(pte_t pteval,
-> +               unsigned long addr, struct pte_check_context *ctx)
-> +{
-> +       if (pte_none_or_zero(pteval)) {
-> +               if (++ctx->none_or_zero > ctx->max_ptes_none) {
-> +                       count_collapse_event(ctx->order, THP_SCAN_EXCEED_NONE_PTE,
-> +                                       MTHP_STAT_COLLAPSE_EXCEED_NONE);
-> +                       return pte_check_fail(ctx, SCAN_EXCEED_NONE_PTE);
-> +               }
-> +               return PTE_CHECK_CONTINUE;
-> +       }
-> +       if (!pte_present(pteval)) {
-> +               if (ctx->unmapped == -1)
-> +                       return pte_check_fail(ctx, SCAN_PTE_NON_PRESENT);
-> +               if (++ctx->unmapped > ctx->max_ptes_swap) {
-> +                       count_collapse_event(ctx->order, THP_SCAN_EXCEED_SWAP_PTE,
-> +                                       MTHP_STAT_COLLAPSE_EXCEED_SWAP);
-> +                       return pte_check_fail(ctx, SCAN_EXCEED_SWAP_PTE);
-> +               }
-> +               if (pte_swp_uffd_wp_any(pteval))
-> +                       return pte_check_fail(ctx, SCAN_PTE_UFFD_WP);
-> +               return PTE_CHECK_CONTINUE;
-> +       }
-> +       /*
-> +        * Don't collapse if any of the small PTEs are armed with uffd
-> +        * write protection. Marking the new huge pmd as write protected
-> +        * could bring userfault messages that fall outside of the
-> +        * registered range.
-> +        */
-> +       if (pte_uffd_wp(pteval))
-> +               return pte_check_fail(ctx, SCAN_PTE_UFFD_WP);
-> +
-> +       ctx->folio = vm_normal_folio(ctx->vma, addr, pteval);
-> +       if (unlikely(!ctx->folio) || unlikely(folio_is_zone_device(ctx->folio)))
-> +               return pte_check_fail(ctx, SCAN_PAGE_NULL);
+I think we will need guidance from devicetree maintainers explaining what
+"complete" means in such a context to avoid having to repeat this discussion
+for every driver going forward.
 
-Sashiko brought up that by converting this to vm_normal_folio we are potentially
-causing checks on incorrect metadata.
-
-This claim is invalid due to ZONE_DEVICE pages being properly initialized.
-
-> +
-> +       /*
-> +        * If the vma has the VM_DROPPABLE flag, the collapse will
-> +        * preserve the lazyfree property without needing to skip.
-> +        */
-> +       if (ctx->cc->is_khugepaged && !(ctx->vma->vm_flags & VM_DROPPABLE) &&
-> +           folio_test_lazyfree(ctx->folio) && !pte_dirty(pteval))
-> +               return pte_check_fail(ctx, SCAN_PAGE_LAZYFREE);
-> +
-> +       if (folio_maybe_mapped_shared(ctx->folio)) {
-> +               /*
-> +                * TODO: Support shared pages without leading to further
-> +                * mTHP collapses. Currently bringing in new pages via
-> +                * shared may cause a future higher order collapse on a
-> +                * rescan of the same range.
-> +                */
-> +               if (++ctx->shared > ctx->max_ptes_shared) {
-> +                       count_collapse_event(ctx->order, THP_SCAN_EXCEED_SHARED_PTE,
-> +                                       MTHP_STAT_COLLAPSE_EXCEED_SHARED);
-> +                       return pte_check_fail(ctx, SCAN_EXCEED_SHARED_PTE);
-> +               }
-> +       }
-> +
-> +       if (!folio_test_anon(ctx->folio)) {
-> +               VM_WARN_ON_FOLIO(!folio_test_anon(ctx->folio), ctx->folio);
-> +               return pte_check_fail(ctx, SCAN_PAGE_ANON);
-> +       }
-> +       return PTE_CHECK_SUCCEED;
-> +}
-> +
->  static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->                 unsigned long start_addr, pte_t *pte, struct collapse_control *cc,
->                 unsigned int order, struct list_head *compound_pagelist)
->  {
-> -       const unsigned int max_ptes_none = collapse_max_ptes_none(cc, vma, order);
-> -       const unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, order);
->         const unsigned long nr_pages = 1UL << order;
-> -       struct page *page = NULL;
->         struct folio *folio = NULL;
->         unsigned long addr = start_addr;
-> -       pte_t *_pte;
-> -       int none_or_zero = 0, shared = 0, referenced = 0;
-> +       pte_t *_pte, pteval;
-> +       int referenced = 0;
->         enum scan_result result = SCAN_FAIL;
-> +       enum pte_check_result pte_check;
-> +       struct pte_check_context ctx = {
-> +               .cc = cc,
-> +               .vma = vma,
-> +               .order = order,
-> +               .unmapped = -1, /* don't check swap PTEs */
-> +               .max_ptes_none = collapse_max_ptes_none(cc, vma, order),
-> +               .max_ptes_shared = collapse_max_ptes_shared(cc, order),
-> +       };
->
->         for (_pte = pte; _pte < pte + nr_pages;
->              _pte++, addr += PAGE_SIZE) {
-> -               pte_t pteval = ptep_get(_pte);
-> -               if (pte_none_or_zero(pteval)) {
-> -                       if (++none_or_zero > max_ptes_none) {
-> -                               result = SCAN_EXCEED_NONE_PTE;
-> -                               count_collapse_event(order, THP_SCAN_EXCEED_NONE_PTE,
-> -                                               MTHP_STAT_COLLAPSE_EXCEED_NONE);
-> -                               goto out;
-> -                       }
-> -                       continue;
-> -               }
-> -               if (!pte_present(pteval)) {
-> -                       result = SCAN_PTE_NON_PRESENT;
-> -                       goto out;
-> -               }
-> -               if (pte_uffd_wp(pteval)) {
-> -                       result = SCAN_PTE_UFFD_WP;
-> -                       goto out;
-> -               }
-> -               page = vm_normal_page(vma, addr, pteval);
-> -               if (unlikely(!page) || unlikely(is_zone_device_page(page))) {
-> -                       result = SCAN_PAGE_NULL;
-> -                       goto out;
-> -               }
-> -
-> -               folio = page_folio(page);
-> -               VM_BUG_ON_FOLIO(!folio_test_anon(folio), folio);
-> -
-> -               /*
-> -                * If the vma has the VM_DROPPABLE flag, the collapse will
-> -                * preserve the lazyfree property without needing to skip.
-> -                */
-> -               if (cc->is_khugepaged && !(vma->vm_flags & VM_DROPPABLE) &&
-> -                   folio_test_lazyfree(folio) && !pte_dirty(pteval)) {
-> -                       result = SCAN_PAGE_LAZYFREE;
-> +               pteval = ptep_get(_pte);
-> +               pte_check = collapse_check_pte(pteval, addr, &ctx);
-> +               if (pte_check == PTE_CHECK_FAIL) {
-> +                       result = ctx.result;
->                         goto out;
-
-Sashiko also brought up that we only set the local folio variable in the case of
-a successful check, which can lead to tracepoints using the incorrect folio.
-
->                 }
-> +               if (pte_check == PTE_CHECK_CONTINUE)
-> +                       continue;
-> +               folio = ctx.folio;
->
-> -               /* See collapse_scan_pmd(). */
-> -               if (folio_maybe_mapped_shared(folio)) {
-> -                       /*
-> -                        * TODO: Support shared pages without leading to further
-> -                        * mTHP collapses. Currently bringing in new pages via
-> -                        * shared may cause a future higher order collapse on a
-> -                        * rescan of the same range.
-> -                        */
-> -                       if (++shared > max_ptes_shared) {
-> -                               result = SCAN_EXCEED_SHARED_PTE;
-> -                               count_collapse_event(order, THP_SCAN_EXCEED_SHARED_PTE,
-> -                                               MTHP_STAT_COLLAPSE_EXCEED_SHARED);
-> -                               goto out;
-> -                       }
-> -               }
->                 /*
->                  * TODO: In some cases of partially-mapped folios, we'd actually
->                  * want to collapse.
-> @@ -844,13 +920,13 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->                 result = SCAN_LACK_REFERENCED_PAGE;
->         } else {
->                 result = SCAN_SUCCEED;
-> -               trace_mm_collapse_huge_page_isolate(folio, none_or_zero,
-> +               trace_mm_collapse_huge_page_isolate(folio, ctx.none_or_zero,
->                                                     referenced, result, order);
->                 return result;
->         }
->  out:
->         release_pte_pages(pte, _pte, compound_pagelist);
-> -       trace_mm_collapse_huge_page_isolate(folio, none_or_zero,
-> +       trace_mm_collapse_huge_page_isolate(folio, ctx.none_or_zero,
->                                             referenced, result, order);
->         return result;
->  }
-> @@ -1616,24 +1692,30 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->                 struct vm_area_struct *vma, unsigned long start_addr,
->                 bool *lock_dropped, struct collapse_control *cc)
->  {
-> -       const unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, HPAGE_PMD_ORDER);
-> -       const unsigned int max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER);
-> -       unsigned int max_ptes_none = collapse_max_ptes_none(cc, vma, HPAGE_PMD_ORDER);
->         enum tva_type tva_flags = cc->is_khugepaged ? TVA_KHUGEPAGED : TVA_FORCED_COLLAPSE;
->         pmd_t *pmd;
->         pte_t *pte, *_pte, pteval;
->         int i;
-> -       int none_or_zero = 0, shared = 0, referenced = 0;
-> -       enum scan_result result = SCAN_FAIL;
-> -       struct page *page = NULL;
->         struct folio *folio = NULL;
-> +       int referenced = 0;
-> +       enum scan_result result = SCAN_FAIL;
->         unsigned long addr;
->         unsigned long enabled_orders;
->         spinlock_t *ptl;
-> -       int node = NUMA_NO_NODE, unmapped = 0;
-> +       int node = NUMA_NO_NODE;
-> +       enum pte_check_result pte_check;
->
->         VM_BUG_ON(start_addr & ~HPAGE_PMD_MASK);
->
-> +       struct pte_check_context ctx = {
-> +               .cc = cc,
-> +               .vma = vma,
-> +               .order = HPAGE_PMD_ORDER,
-> +               .max_ptes_none = collapse_max_ptes_none(cc, vma, HPAGE_PMD_ORDER),
-> +               .max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER),
-> +               .max_ptes_shared = collapse_max_ptes_shared(cc, HPAGE_PMD_ORDER),
-> +       };
-> +
->         result = find_pmd_or_thp_or_none(mm, start_addr, &pmd);
->         if (result != SCAN_SUCCEED) {
->                 cc->progress++;
-> @@ -1649,7 +1731,7 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->          * scan all pages to populate the bitmap for mTHP collapse.
->          */
->         if (enabled_orders != BIT(HPAGE_PMD_ORDER))
-> -               max_ptes_none = KHUGEPAGED_MAX_PTES_LIMIT;
-> +               ctx.max_ptes_none = KHUGEPAGED_MAX_PTES_LIMIT;
->
->         pte = pte_offset_map_lock(mm, pmd, start_addr, &ptl);
->         if (!pte) {
-> @@ -1665,81 +1747,14 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->
->                 cc->progress++;
->
-> -               if (pte_none_or_zero(pteval)) {
-> -                       if (++none_or_zero > max_ptes_none) {
-> -                               result = SCAN_EXCEED_NONE_PTE;
-> -                               count_collapse_event(HPAGE_PMD_ORDER, THP_SCAN_EXCEED_NONE_PTE,
-> -                                               MTHP_STAT_COLLAPSE_EXCEED_NONE);
-> -                               goto out_unmap;
-> -                       }
-> -                       continue;
-> -               }
-> -               if (!pte_present(pteval)) {
-> -                       if (++unmapped > max_ptes_swap) {
-> -                               result = SCAN_EXCEED_SWAP_PTE;
-> -                               count_collapse_event(HPAGE_PMD_ORDER, THP_SCAN_EXCEED_SWAP_PTE,
-> -                                               MTHP_STAT_COLLAPSE_EXCEED_SWAP);
-> -                               goto out_unmap;
-> -                       }
-> -                       /*
-> -                        * Always be strict with uffd-wp
-> -                        * enabled swap entries.  Please see
-> -                        * comment below for pte_uffd_wp().
-> -                        */
-> -                       if (pte_swp_uffd_wp_any(pteval)) {
-> -                               result = SCAN_PTE_UFFD_WP;
-> -                               goto out_unmap;
-> -                       }
-> -                       continue;
-> -               }
-> -               if (pte_uffd_wp(pteval)) {
-> -                       /*
-> -                        * Don't collapse the page if any of the small
-> -                        * PTEs are armed with uffd write protection.
-> -                        * Here we can also mark the new huge pmd as
-> -                        * write protected if any of the small ones is
-> -                        * marked but that could bring unknown
-> -                        * userfault messages that falls outside of
-> -                        * the registered range.  So, just be simple.
-> -                        */
-> -                       result = SCAN_PTE_UFFD_WP;
-> -                       goto out_unmap;
-> -               }
-> -
-> -               page = vm_normal_page(vma, addr, pteval);
-> -               if (unlikely(!page) || unlikely(is_zone_device_page(page))) {
-> -                       result = SCAN_PAGE_NULL;
-> -                       goto out_unmap;
-> -               }
-> -               folio = page_folio(page);
-> -
-> -               /*
-> -                * If the vma has the VM_DROPPABLE flag, the collapse will
-> -                * preserve the lazyfree property without needing to skip.
-> -                */
-> -               if (cc->is_khugepaged && !(vma->vm_flags & VM_DROPPABLE) &&
-> -                   folio_test_lazyfree(folio) && !pte_dirty(pteval)) {
-> -                       result = SCAN_PAGE_LAZYFREE;
-> -                       goto out_unmap;
-> -               }
-> -
-> -               if (!folio_test_anon(folio)) {
-> -                       result = SCAN_PAGE_ANON;
-> +               pte_check = collapse_check_pte(pteval, addr, &ctx);
-> +               if (pte_check == PTE_CHECK_FAIL) {
-> +                       result = ctx.result;
->                         goto out_unmap;
-
-Same here.
-
-The right approach is to always set the local folio variable after
-collapse_check_pte.
-Here is the fixup
-
-commit 96f7896c359973a759578d2bf300138c31b494a4
-Author: Nico Pache <npache@redhat.com>
-Date:   Mon Jul 6 10:32:24 2026 -0600
-
-    fixup: always set the local folio after collapse_check_pte()
-
-    If we dont set the local folio to the result from collapse_check_pte()
-    we can end up with cases that the goto out will result in pointing to a
-    stale folio from the last successful PTE check.
-
-    Signed-off-by: Nico Pache <npache@redhat.com>
-
-diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index 8dd902e546b5..1cc4d864f0e3 100644
---- a/mm/khugepaged.c
-+++ b/mm/khugepaged.c
-@@ -836,13 +836,13 @@ static enum scan_result
-__collapse_huge_page_isolate(struct vm_area_struct *vma,
- 	     _pte++, addr += PAGE_SIZE) {
- 		pteval = ptep_get(_pte);
- 		pte_check = collapse_check_pte(pteval, addr, &ctx);
-+		folio = ctx.folio;
- 		if (pte_check == PTE_CHECK_FAIL) {
- 			result = ctx.result;
- 			goto out;
- 		}
- 		if (pte_check == PTE_CHECK_CONTINUE)
- 			continue;
--		folio = ctx.folio;
-
- 		/*
- 		 * TODO: In some cases of partially-mapped folios, we'd actually
-
-
->                 }
-> -
-> -               /*
-> -                * We treat a single page as shared if any part of the THP
-> -                * is shared.
-> -                */
-> -               if (folio_maybe_mapped_shared(folio)) {
-> -                       if (++shared > max_ptes_shared) {
-> -                               result = SCAN_EXCEED_SHARED_PTE;
-> -                               count_collapse_event(HPAGE_PMD_ORDER, THP_SCAN_EXCEED_SHARED_PTE,
-> -                                               MTHP_STAT_COLLAPSE_EXCEED_SHARED);
-> -                               goto out_unmap;
-> -                       }
-> -               }
-> +               if (pte_check == PTE_CHECK_CONTINUE)
-> +                       continue;
-> +               folio = ctx.folio;
->
->                 /* Set bit for occupied pages */
->                 __set_bit(i, cc->mthp_present_ptes);
-> @@ -1781,7 +1796,7 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->         }
->         if (cc->is_khugepaged &&
->                    (!referenced ||
-> -                   (unmapped && referenced < HPAGE_PMD_NR / 2))) {
-> +                   (ctx.unmapped && referenced < HPAGE_PMD_NR / 2))) {
->                 result = SCAN_LACK_REFERENCED_PAGE;
->         } else {
->                 result = SCAN_SUCCEED;
-> @@ -1792,13 +1807,13 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->                 /* collapse_huge_page expects the lock to be dropped before calling */
->                 mmap_read_unlock(mm);
->                 result = mthp_collapse(mm, start_addr, referenced,
-> -                                      unmapped, cc, enabled_orders);
-> +                                      ctx.unmapped, cc, enabled_orders);
->                 /* mmap_lock was released above, set lock_dropped */
->                 *lock_dropped = true;
->         }
->  out:
->         trace_mm_khugepaged_scan_pmd(mm, folio, referenced,
-> -                                    none_or_zero, result, unmapped);
-> +                                    ctx.none_or_zero, result, ctx.unmapped);
->         return result;
->  }
->
-> --
-> 2.54.0
->
+Thanks,
+Guenter
 
