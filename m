@@ -1,125 +1,184 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B3F3033D8;
-	Mon,  6 Jul 2026 10:57:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A866929AB05;
+	Mon,  6 Jul 2026 12:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783335424; cv=none; b=u/Gm5nNZj0ocWWy70iehJFbo54I7baH/01Z76wgi+2gn7GMl4aJdeSPv7PPssWWdoVrDqPFJ/xs1mxubAsEogvDZTynQdwoAD+iv8pt8PJUIaHqD+sMKW5ZvhYJ8/N8nQ84v6TIsOuvJH38+CoAKVqrQVg6X5VbbgZ7MsEnYoIE=
+	t=1783340542; cv=none; b=tmoYMW9+C4GWzRhwBGsP2cazGYYLQNJK5NHaS+LPv94+qnW03iyVpdqZQnln9j3E2LKvi/9C9QT+MQ7iVPGnzR/lkA82+JOtpH/s118/GbkNwaM3qEFooaHS09m3MECOMW6J1rkKogtsoFejDcfcYLnSdcCupr0QzTxtnfYqQHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783335424; c=relaxed/simple;
-	bh=6tBHEmJXAzoJA1Iz9f5VO5wwZ++xTCYJmA5d/rIlLqI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W6ZZgcS0ISz+H55bbjkhX8JNIbED6GXam7cpcgSGfRpPLseCd1109jnarwsBq49tBRc+kvxLU6xBOxeu93qtBuuxJAfi0Jn1CmDvp1GldhZt1Nazih6ptJj0nJnwurd5/m/Sf9UG6oxPeQoyX+W7DbTeZ1vWuZQ0xTy1UXSppjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V8agmxFZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783340542; c=relaxed/simple;
+	bh=LCvKrUyihnFS4hob/L7N3B0mtCrPOVsnb9cK/e8JCi8=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=l4HSjnaXU2lR4ReZNMEQtgvdbo9e8+TwgPMKcy+kaRZpSkKnG2UZZm9aXa5JeezIvdaXJL22ypMt9cC2S9scMOgghJm50APTEgLdRU3RbiPLy09nqW/oaOlgOOcW3olS07tIubpX+wtQgGHPRvGvtquPplgh+3v53iGMfzUNu40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ao6wcOs8; arc=none smtp.client-ip=113.46.200.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V8agmxFZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9A411F00A3A;
-	Mon,  6 Jul 2026 10:56:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783335420;
-	bh=9TtrHnv/qi4lGfcA8XXpkBAbAwnFcDJBMSEy+F8GNE4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=V8agmxFZj4+EhkprkJmhAyZXVvYWq4x2s9TtPvI+aPJ8hGRyPxKHBvIoSKehw29Da
-	 1ANy+GCrq2yTMvNHJ0c4MOFTIAChl8fN7PvEpo9iUlCNqtmwUvdSFRSwMB1ubc/nQj
-	 7Kl5KyOlqrk9FTmRVfFFJN1F29moAA+DqFyI0hUZHBtIE1Sqm7pIXa3aju8hzvzEzN
-	 yz3HU/aqF5kI22n3IWq4tF5c80AmHLNdEy4keV+b962CnuvzXWIYldJkYxyFdhkEZI
-	 SPNGHbDXhKh0KHIRsX8Q90irOU45Ew10VuKnzCwgDhU1gvkCqY79zdIrqvMz9lqWfG
-	 nl7hGW6N+VV5A==
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfauth.phl.internal (Postfix) with ESMTP id B08FEF40068;
-	Mon,  6 Jul 2026 06:56:58 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Mon, 06 Jul 2026 06:56:58 -0400
-X-ME-Sender: <xms:-olLat-EzM_LJwbXNIQ8m56H0bVx9T6l27AEua0Yr2b4oHBccVmH5g>
-    <xme:-olLavV3vjXB-MrU1kPh94pWGUZC8oDxWnWecG0IDU6ewpN5OCz3lisE7yWX6X69I
-    B8gNQwswO-9iSguLvYfUnSD4wMqTuQ3gjH6G7-pzTVOj996tqTjpGQ0>
-X-ME-Received: <xmr:-olLagn3MWU5IvT919tfLF_S7hWKq6sYItMIdnVuDOnEgecUgbBYerrQTpAMLA>
-X-ME-Proxy-Cause: dmFkZTG3EYxLj0L6vaHvG/JQokkQgmlapkgHi3g9IW9kfpTZuouF9wXLqvehvlO32VWfHa
-    duqkk97Xe0HKhXsKxrdHqqNxki8kTptiLONgzXROpKLThcjWTWcvktV3WT6NtElSrQ5L7P
-    JC+8p1nEl3HCpzViXlrhmV7vSWrcMtCeweeEKVIc0uVTWaL3+3LvWgTvlFqEkSG644EqaC
-    oqD3l16HhA91FHOyL7u55F+RtRGyI/+KZDctCzRTvb3v0JOvk8HJd7JFhUMAqaGDdiiTjG
-    VJjpfx1J1Owby6wkIkTfqdvO8SvfXk1POhBv4co9Qvufd9gwLSR2FgcbkoO8MgsA+1wnBo
-    tz1w0KLGYpnTvNPu2XdlVEYx5zQx2A5k+0L9Vu5OB7grOD46Efooqb9DRDr5hGTPgX7rqR
-    9a/DHNcPYA9z16Dok0ztAUvgOMFTW1aqy4hiJ440P6na09coYDUsMlVHK58n8lwLiIrFms
-    03p/Vv56bjGS9mOT9oO5JqsJBQ1HDQqo7av2kSyyD+W52JyHMwVlTNRuzzaPHBRR4Izdfb
-    C1bOzI0y5MFPEfrRJO0l/gMpuuAAjgxbxNJcFyv/wUIaY/JXRGzw91DPBuh2Q+GlDKB45h
-    hznAG9RxPe5JbMCwi9l3NRVHBeAdUiLbY8Hxn33k9Z4QOJeGslOFTfzTA5wg
-X-ME-Proxy: <xmx:-olLalFYYTvofYxEUV4s9LShIBvRseh4RZY3l3XwbNim4X8QP7C_-g>
-    <xmx:-olLahSww4oFsZkGr0J7Efk-r06k42NJ3jQWsjf9L9DHyvqQtMfM2Q>
-    <xmx:-olLasQMu1HWGipJb8c6Gu-6oG-UxEDrU3Z9jjsolCTTatjkCCsuJA>
-    <xmx:-olLavcV5UuOm9YI0rEV1Yr6GswCbsa_IihLc5PiVHsX102z7qRLDA>
-    <xmx:-olLarBWU9ljjQU2yd1LTse5SOgGNCYTBY51sYKZ4RD3uRE-duKlpfv_>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 Jul 2026 06:56:58 -0400 (EDT)
-Date: Mon, 6 Jul 2026 11:56:57 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: akpm@linux-foundation.org, rppt@kernel.org, peterx@redhat.com, 
-	david@kernel.org
-Cc: ljs@kernel.org, surenb@google.com, vbabka@kernel.org, 
-	Liam.Howlett@oracle.com, ziy@nvidia.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	seanjc@google.com, pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com, 
-	sj@kernel.org, usama.arif@linux.dev, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kvm@vger.kernel.org, kernel-team@meta.com
-Subject: Addressing Sashiko AI review
-Message-ID: <akuJmbUgGRtjksPr@thinkstation>
-References: <20260706084805.8400-1-kirill@shutemov.name>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ao6wcOs8"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=FqwiknrRupuJ+YbQZhTDPFtrox28ElGL/EoIq2WfmbY=;
+	b=ao6wcOs8Q5O0NVhjycbAW1PzuYgJP4S9ueRwTqolkKu7NjzVYtgU476ZL2YoTz0GZ5CYUG9hW
+	q3AhbPYdUrsp0tNVvxM+DIUtCw7piYh62hyoJk4gJwHwEkAjpB4nlSbIveM55jgeWUnNVqe9Xdg
+	1IY7cu9UXDg/xwQ3nqpH2MA=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4gv3Cw5ZCKz1T4Fk;
+	Mon,  6 Jul 2026 20:13:16 +0800 (CST)
+Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
+	by mail.maildlp.com (Postfix) with ESMTPS id C382A40561;
+	Mon,  6 Jul 2026 20:22:14 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 6 Jul 2026 20:22:14 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 6 Jul 2026 20:22:13 +0800
+Subject: Re: [PATCH v10 2/6] mm/memory-failure: surface unhandlable kernel
+ pages as -ENOTRECOVERABLE
+To: Breno Leitao <leitao@debian.org>
+CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <kernel-team@meta.com>, Andrew Morton
+	<akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, "Lorenzo
+ Stoakes" <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
+	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+	<mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, Naoya Horiguchi
+	<nao.horiguchi@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>,
+	<lance.yang@linux.dev>, Steven Rostedt <rostedt@goodmis.org>, "Masami
+ Hiramatsu" <mhiramat@kernel.org>, Mathieu Desnoyers
+	<mathieu.desnoyers@efficios.com>
+References: <20260630-ecc_panic-v10-0-c6ed5b62eea2@debian.org>
+ <20260630-ecc_panic-v10-2-c6ed5b62eea2@debian.org>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <157b0e23-9f1e-1af2-bb44-44f1f2cab8a5@huawei.com>
+Date: Mon, 6 Jul 2026 20:22:12 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260706084805.8400-1-kirill@shutemov.name>
+In-Reply-To: <20260630-ecc_panic-v10-2-c6ed5b62eea2@debian.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-Hi,
+On 2026/6/30 20:46, Breno Leitao wrote:
+> get_any_page() collapses every HWPoisonHandlable() rejection into a
+> single -EIO via the __get_hwpoison_page() -> -EBUSY -> shake_page()
+> -> retry path.  That is correct for the transient case (a userspace
+> folio briefly off LRU during migration or compaction, which a later
+> shake can drag back), but wrong for stable kernel-owned pages: slab,
+> page-table, large-kmalloc and PG_reserved pages will never become
+> HWPoisonHandlable(), so the retry loop is wasted work and the final
+> -EIO loses the "this is structurally unrecoverable" information.
+> memory_failure() then maps -EIO into MF_MSG_GET_HWPOISON, which the
+> panic-on-unrecoverable sysctl deliberately does not act on.
+> 
+> Introduce is_kernel_owned_page(), a small predicate that positively
+> identifies pages the hwpoison handler cannot recover from:
+> 
+>   is_kernel_owned_page(p) :=
+>       PageReserved(p) ||
+>       PageSlab(head) || PageTable(head) || PageLargeKmalloc(head)
+> 
+>   where head = compound_head(p).
+> 
+> PG_reserved is a per-page flag (PF_NO_COMPOUND) and is tested on the
+> page directly.  The slab, page-table and large-kmalloc page-type bits
+> are only stored on the head page, so those tests resolve the compound
+> head first, then re-read compound_head(page) afterwards: a concurrent
+> split or compound free that moves head invalidates the just-read flags
+> and the loop retries.  The lookup still takes no refcount, mirroring
+> the rest of get_any_page(); the recheck closes the common split race,
+> and a residual free->alloc->free in the same window can only mis-tag
+> a genuinely poisoned page, never reclassify a handlable one.
+> 
+> No MF_SOFT_OFFLINE / page_has_movable_ops() opt-out is needed: a
+> movable_ops page is always PageOffline or PageZsmalloc, whose
+> page_type is mutually exclusive with slab, page-table and
+> large-kmalloc, and it never carries PG_reserved, so it can never
+> match any of the checks above.
+> 
+> The list is intentionally not exhaustive.  vmalloc and kernel-stack
+> pages, for example, do not carry a page_type bit and would need a
+> different oracle; they keep going through the existing retry path
+> unchanged.  This is the smallest set we can identify with certainty
+> by page type.
+> 
+> Wire the helper into the top of get_any_page() to short-circuit
+> those pages before the retry loop runs.  On a hit, drop the caller's
+> MF_COUNT_INCREASED reference (if any) and return -ENOTRECOVERABLE
+> straight away.  Pages outside the helper's positive list still take
+> the existing retry path and return -EIO, leaving operator-visible
+> behaviour for those cases unchanged.
+> 
+> Extend the unhandlable-page pr_err() to fire for either errno and
+> update the get_hwpoison_page() kerneldoc to document the new return.
+> 
+> memory_failure() still folds every negative return into
+> MF_MSG_GET_HWPOISON via its existing "else if (res < 0)" branch, so
+> this patch on its own only changes the errno that soft_offline_page()
+> can propagate to its callers.  A follow-up wires -ENOTRECOVERABLE
+> through memory_failure() and reports MF_MSG_KERNEL for the
+> unrecoverable cases, which is what the
+> panic_on_unrecoverable_memory_failure sysctl observes.
+> 
+> Suggested-by: David Hildenbrand <david@kernel.org>
+> Suggested-by: Lance Yang <lance.yang@linux.dev>
+> Signed-off-by: Breno Leitao <leitao@debian.org>
+> ---
+>  mm/memory-failure.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 50 insertions(+), 2 deletions(-)
+> 
+> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> index f4d3e6e20e13f..087658484e242 100644
+> --- a/mm/memory-failure.c
+> +++ b/mm/memory-failure.c
+> @@ -1325,6 +1325,38 @@ static inline bool HWPoisonHandlable(struct page *page, unsigned long flags)
+>  	return PageLRU(page) || is_free_buddy_page(page);
+>  }
+>  
+> +/*
+> + * Positive identification of pages the hwpoison handler cannot recover:
+> + * pages owned by kernel internals with no userspace mapping to unmap, no
+> + * file mapping to invalidate, and no migration target.
+> + */
+> +static inline bool is_kernel_owned_page(struct page *page)
+> +{
+> +	struct page *head;
+> +	bool kernel_owned;
+> +
+> +	/* PG_reserved is a per-page flag, never set on a compound page. */
+> +	if (PageReserved(page))
+> +		return true;
+> +
+> +	/*
+> +	 * Page-type bits live only on the head page, so resolve any tail
+> +	 * first.  The check takes no refcount; recheck the head afterwards
+> +	 * so a concurrent split or compound free cannot leave us trusting
+> +	 * a stale view.  A residual free->alloc->free cannot be closed here
+> +	 * (frozen slab and large-kmalloc pages cannot be pinned), but is
+> +	 * harmless: where a wrong verdict could panic, memory_failure() has
+> +	 * already set PageHWPoison, which bars the page from the allocator.
+> +	 */
+> +retry:
+> +	head = compound_head(page);
 
-I went through the Sashiko review of v9. Only one (test-only) patch
-needed changes; sent as v9.1 of 14/15 in this thread:
+It's irrelevant to this issue but should we use folio?
+Anyway, this patch looks good to me.
 
-  https://lore.kernel.org/all/20260706104906.36084-1-kirill@shutemov.name/
+Acked-by: Miaohe Lin <linmiaohe@huawei.com>
 
-  - Tolerate EINVAL from madvise(MADV_NOHUGEPAGE) so the suite does not
-    abort on CONFIG_TRANSPARENT_HUGEPAGE=n.
-  - rwp-mprotect and rwp-fork-pin now assert the marker survived
-    (PM_UFFD_WP) before the access that auto-resolves it, so a kernel
-    that dropped the marker fails instead of passing vacuously.
+Thanks.
+.
 
-The finding against 11/15 is a pre-existing PAGEMAP_SCAN inconsistency,
-unrelated to RWP: an unpopulated pte is reported written by the
-PAGE_IS_WRITTEN fast path but not by the generic path. Confirmed
-reproducible; fixed separately with Fixes:/stable:
-
-  https://lore.kernel.org/all/20260706104308.34741-1-kirill@shutemov.name/
-
-The rest I assessed as false positives:
-
-  - 07/15, move_pages_huge_pmd() corrupting a non-present PMD: a
-    non-present source bails (-EAGAIN/-ENOENT) before the RWP re-arm,
-    and the post-lock pmd_same() recheck rejects races -- the re-arm
-    only runs on a present PMD.
-  - 07/15, UFFDIO_MOVE re-arming RWP "destroys resolved state": this is
-    intended. A MOVE-installed page starts tracked; the next guest
-    access is the working-set event we want (async auto-resolves it).
-  - 10/15, hugetlb stale-marker livelock after UFFDIO_UNREGISTER:
-    markers are cleared on unregister and on release via
-    change_protection(MM_CP_UFFD_RWP_RESOLVE); the rwp-close tests
-    exercise this on hugetlb.
-  - 13/15, check_stable_address_space() before the VMA walk in
-    UFFDIO_SET_MODE: the ioctl holds mmget_not_zero() + mmap_write_lock
-    and only takes per-VMA locks, and a ctx on a failed-fork mm is
-    never published to userspace.
-
-The 09/15 findings (userfaultfd_clear_vma() touching ptes before
-vma_start_write(), the partial-unregister OOM rollback, and UFFDIO_MOVE
-dropping uffd-wp markers) are pre-existing and left as-is; pte-level
-access there is serialised by the pte lock.
-
-Ping me if any of these assessments seems off.
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
