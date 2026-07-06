@@ -1,264 +1,234 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C1D27F728
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 14:01:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE12B34751F;
+	Mon,  6 Jul 2026 14:01:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783346463; cv=none; b=SePcm0c6JHOIFry7cDcgImw6DUWJWPHTsoZ/LEzaJYPVNrEyMnq/8S/cKxXJ6lOhf+zZyWW4DkNJNMSprE3H8qgzVTWtucVIZ0XpupfgXqYs/rHVYfH86I7nd5cg13Go7Mw2A5HwxjmXp02DFgRvBByiS3+JA88xJNqleGqQP7E=
+	t=1783346496; cv=none; b=Tg1MWtnbIzVvf70Nnjnl4XF9SFsaYmQWI78LKw+NZhMjMHeG+nAVemyq9aSWuBdME0+C7507QEK/ZVJdpoq5hABp3LYPJPiLNFj5JhPjGhSgjIaiJa3jP9DajzNxmO8DpiHj/PNmOnkbYTVQggFj3XnojxsGB5e+rLgYkkAaHeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783346463; c=relaxed/simple;
-	bh=EB9bl3+08DCr5hMRFP2x18GYsUrC/G2BROQXGL5I3fs=;
+	s=arc-20240116; t=1783346496; c=relaxed/simple;
+	bh=+oN658RgH9K/lAIMCdUeIY2Kt33aA1hzIvXPSf3IE5g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qT3OX3iNw+1HGRlOuneIcuHeH7aWEScpgSUGZBg/ylBLscEgNjhjNksyrV8LHQ48gdM7o56Ujn1/AuDyjyeNOcnMkQ7FcEyjZQArHYe+6jU79UlbHmsvm2LZBitm+yZp1xmlz9jYN9FnR2+ml6CABV8GYyc5hW9+DKQH8Uj9wlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Hj9BFTIG; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 MIME-Version:Content-Type:Content-Disposition; b=AIUF1x39D1UCjpKcpsXezweRmacnzVhKXuNjDQ/OUsdKUk6XtQXULm8koIas2c2+Jt44srNKZM7ww34Ecc3VaATpReIHYn+r6QdvVzX7QDiRUpELFAwypEtHHFR/uKEiSyn3cchIHH8L1zu51fNrSN0mYXFbgGvAbHNhSXNfI8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=lEFY1Rdi; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Hj9BFTIG"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-92e57a753f9so224407585a.2
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 07:01:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1783346461; x=1783951261; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EaKA4XfYRMSPlyfQmcR3Q5U3XM9OAtXE2SUzPnGXtCQ=;
-        b=Hj9BFTIG+FcpOHC2MaDl6b9RzkHsb16JtMnXoOX2q+po2P+J9xBlYXQS87fnXfYYgj
-         ZytbFWF+6XrNHTPxfN7JxwU4J43BFPQdeiVXtp+RMyS1Y0m7ivua53X+AHJFss4IsEKV
-         l04YIbvWSSHtz6a2puRfIgxihIUSSRQ0vDQXqGzwGssp+SlRSbFPlGh6mcY/m12/PIk0
-         OnS/TeeV9SCc2ibMU7PBq3uLEl6V9XVVXWD9yyQexGtFUpZP4SjbeTzngXjz6Rcm4TGu
-         3QcOmsFkj+fburvkUQdM0bGM1AygRLZGSGJ93pqBHWVDYdgYvj6iIwPZJW7Xw44b0oT1
-         LUJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783346461; x=1783951261;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EaKA4XfYRMSPlyfQmcR3Q5U3XM9OAtXE2SUzPnGXtCQ=;
-        b=tWCrM5yhzl9kFrKbatpux2w+L33e+zi8sFqIuMVeX/0qRMuQBuK0ujSCgFs/xIcRhg
-         h/i1oXMcSG0prDBVjKHy4BSlp/nYc/+0CmeYosON2t5YI7nqlIYv6OPVXRC+gqDK1Oeh
-         79rXPHjbLxNp/8OIjzG24fc/BFA8HwsY+o3v5tbY3WSuLJzhk7sdI9stFuqY5OIKS/xh
-         M3qUcFtJCMK9rPDaExLs7oyXMDm1r3BO0Jg+YDa0lDv5QfhrFa8CFC7ZYsMQhQuv0hng
-         Mzje3bhovd2JeyaGJFuTkiIoviSKGAQlIz9TOws1hYz8GKhd33oyyMo7qQtC1kPexE8X
-         ebrw==
-X-Gm-Message-State: AOJu0YxnY7bQSWnR5bj3pcNQVTN4C1W6d7JlF0JUZ4eUaQXlTNvnC+fB
-	vj5kEt0lkmuZMbfQoGStNz9pLB6l54kOSptSpmZxsW3pv8/whMNiPZiP6pLFH6uivKw=
-X-Gm-Gg: AfdE7cmBA+bl0WvWDgWn7S6EMLHv5zGvKOI7k9reGV7RCBgGodwb+vhKAdYyu6tRKTU
-	BIcCmV9UrbP2DnSt3P+U8uhMI9m9r2jrrOw9OLFJcJYTjvL2g8OmjQWDiMQdEuoeOtQMY7aGhzV
-	IwoJyanY6u9i+34NnfxaKXJn7JcbG8YJwebSMXjQ/fI85Jzt8tcV7ed8DU4c1GVmMDXHH4HTmOX
-	/WYj/NHhLDZs8fzbwIGbN17JDjLPpV1VlKGbeuOSw3lM2c2py9Ion+TPxXfclA0fyw3jb3aKmX+
-	VrsYQGh2agT6xtKQEsoaEaqgoMiItTPxvSpHAB/EROEjdrAliIUy3k7651wqqyw7dXJk77SBj16
-	WHDXnQK2ZFhY/WzJJAQ7Dlj88QIEi3p5lc5TegMSYMYqz8MYA5zb1qh8baGb99DdqF3m9PZiD98
-	65XBX9Rzs=
-X-Received: by 2002:a05:620a:4014:b0:92e:5ef2:2c0d with SMTP id af79cd13be357-92ebb5af416mr91321085a.63.1783346436180;
-        Mon, 06 Jul 2026 07:00:36 -0700 (PDT)
-Received: from fedora ([172.56.218.236])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e90cce037sm918577385a.38.2026.07.06.07.00.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 07:00:35 -0700 (PDT)
-From: Gregory Price <gourry@gourry.net>
-To: linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="lEFY1Rdi"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EA6892BCB;
+	Mon,  6 Jul 2026 07:01:28 -0700 (PDT)
+Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1F79E3F7B4;
+	Mon,  6 Jul 2026 07:01:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1783346493; bh=+oN658RgH9K/lAIMCdUeIY2Kt33aA1hzIvXPSf3IE5g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=lEFY1Rdig2oEpz4BrvC0JKnSfTlRJptRPbVsfRu2RwWrm1wSluz9NtO4DHEzW5khu
+	 AtYbRZv5jnqRrGXEWAFWUDxH6i1d0KYXPavUNPM9vsnePRaj+osYyterI5ho0/r5IJ
+	 nWgHLLRf+GGC3pRJDorVzlXs2O2xEvuLeG00NEDQ=
+From: Leonardo Bras <leo.bras@arm.com>
+To: Tian Zheng <zhengtian10@huawei.com>
+Cc: Leonardo Bras <leo.bras@arm.com>,
+	Inochi Amaoto <inochiama@gmail.com>,
+	Marc Zyngier <maz@kernel.org>,
+	oupton@kernel.org,
+	catalin.marinas@arm.com,
 	corbet@lwn.net,
+	pbonzini@redhat.com,
+	will@kernel.org,
+	yuzenghui@huawei.com,
+	wangzhou1@hisilicon.com,
+	liuyonglong@huawei.com,
+	Jonathan.Cameron@huawei.com,
+	yezhenyu2@huawei.com,
+	linuxarm@huawei.com,
+	joey.gouly@arm.com,
+	kvmarm@lists.linux.dev,
+	kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	skhan@linuxfoundation.org,
-	tglx@kernel.org,
-	peterz@infradead.org,
-	luto@kernel.org,
-	akpm@linux-foundation.org,
-	feng.tang@linux.alibaba.com,
-	pmladek@suse.com,
-	lance.yang@linux.dev,
-	marc.herbert@linux.intel.com,
-	kees@kernel.org,
-	leitao@debian.org,
-	gourry@gourry.net,
-	joel.granados@kernel.org,
-	lirongqing@baidu.com,
-	nathan@kernel.org,
-	xur@google.com,
-	lukas.bulwahn@redhat.com,
-	ryan.roberts@arm.com
-Subject: [PATCH v3 1/2] syscall_user_dispatch: Make it configurable in Kconfig
-Date: Mon,  6 Jul 2026 10:00:18 -0400
-Message-ID: <20260706140020.873735-2-gourry@gourry.net>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260706140020.873735-1-gourry@gourry.net>
-References: <20260706140020.873735-1-gourry@gourry.net>
+	suzuki.poulose@arm.com
+Subject: Re: [PATCH v3 3/5] KVM: arm64: Add support for FEAT_HDBSS
+Date: Mon,  6 Jul 2026 15:01:28 +0100
+Message-ID: <aku1N23Szkta9uA6@LeoBrasDK>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <22abfaf8-8636-4ed3-9a5c-fb4fdef1bc19@huawei.com>
+References: <20260225040421.2683931-1-zhengtian10@huawei.com> <20260225040421.2683931-4-zhengtian10@huawei.com> <ahzUUDAMoHtDFJD3@inochi.infowork> <864ijmvdpy.wl-maz@kernel.org> <ah1KLrpYBXSMM91H@inochi.infowork> <22abfaf8-8636-4ed3-9a5c-fb4fdef1bc19@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-Syscall User Dispatch is presently built under CONFIG_GENERIC_SYSCALL
-and cannot be disabled independently.
+On Fri, Jun 05, 2026 at 04:29:49PM +0800, Tian Zheng wrote:
+> 
+> On 6/1/2026 5:05 PM, Inochi Amaoto wrote:
+> > On Mon, Jun 01, 2026 at 09:58:49AM +0100, Marc Zyngier wrote:
+> > > On Mon, 01 Jun 2026 01:50:22 +0100,
+> > > Inochi Amaoto <inochiama@gmail.com> wrote:
+> > > > On Wed, Feb 25, 2026 at 12:04:19PM +0800, Tian Zheng wrote:
+> > > > > From: eillon <yezhenyu2@huawei.com>
+> > > > > 
+> > > > > Armv9.5 introduces the Hardware Dirty Bit State Structure (HDBSS) feature,
+> > > > > indicated by ID_AA64MMFR1_EL1.HAFDBS == 0b0100. A CPU capability is added
+> > > > > to notify the user of the feature.
+> > > > > 
+> > > > > Add KVM_CAP_ARM_HW_DIRTY_STATE_TRACK ioctl and basic framework for
+> > > > > ARM64 HDBSS support. Since the HDBSS buffer size is configurable and
+> > > > > cannot be determined at KVM initialization, an IOCTL interface is
+> > > > > required.
+> > > > > 
+> > > > > Actually exposing the new capability to user space happens in a later
+> > > > > patch.
+> > > > > 
+> > > > > Signed-off-by: eillon <yezhenyu2@huawei.com>
+> > > > > Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
+> > > > > ---
+> > > > >   arch/arm64/include/asm/cpufeature.h |  5 +++++
+> > > > >   arch/arm64/kernel/cpufeature.c      | 12 ++++++++++++
+> > > > >   arch/arm64/tools/cpucaps            |  1 +
+> > > > >   include/uapi/linux/kvm.h            |  1 +
+> > > > >   tools/include/uapi/linux/kvm.h      |  1 +
+> > > > >   5 files changed, 20 insertions(+)
+> > > > > 
+> > > > > diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
+> > > > > index 4de51f8d92cb..dcc2e2cad5ad 100644
+> > > > > --- a/arch/arm64/include/asm/cpufeature.h
+> > > > > +++ b/arch/arm64/include/asm/cpufeature.h
+> > > > > @@ -856,6 +856,11 @@ static inline bool system_supports_haft(void)
+> > > > >   	return cpus_have_final_cap(ARM64_HAFT);
+> > > > >   }
+> > > > > 
+> > > > > +static inline bool system_supports_hdbss(void)
+> > > > > +{
+> > > > > +	return cpus_have_final_cap(ARM64_HAS_HDBSS);
+> > > > > +}
+> > > > > +
+> > > > >   static __always_inline bool system_supports_mpam(void)
+> > > > >   {
+> > > > >   	return alternative_has_cap_unlikely(ARM64_MPAM);
+> > > > > diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+> > > > > index c31f8e17732a..348b0afffc3e 100644
+> > > > > --- a/arch/arm64/kernel/cpufeature.c
+> > > > > +++ b/arch/arm64/kernel/cpufeature.c
+> > > > > @@ -2124,6 +2124,11 @@ static bool hvhe_possible(const struct arm64_cpu_capabilities *entry,
+> > > > >   	return arm64_test_sw_feature_override(ARM64_SW_FEATURE_OVERRIDE_HVHE);
+> > > > >   }
+> > > > > 
+> > > > > +static bool has_vhe_hdbss(const struct arm64_cpu_capabilities *entry, int cope)
+> > > > > +{
+> > > > > +	return is_kernel_in_hyp_mode() && has_cpuid_feature(entry, cope);
+> > > > > +}
+> > > > > +
+> > > > >   bool cpu_supports_bbml2_noabort(void)
+> > > > >   {
+> > > > >   	/*
+> > > > > @@ -2759,6 +2764,13 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
+> > > > >   		ARM64_CPUID_FIELDS(ID_AA64MMFR1_EL1, HAFDBS, HAFT)
+> > > > >   	},
+> > > > >   #endif
+> > > > > +	{
+> > > > > +		.desc = "Hardware Dirty state tracking structure (HDBSS)",
+> > > > > +		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
+> > > > > +		.capability = ARM64_HAS_HDBSS,
+> > > > > +		.matches = has_vhe_hdbss,
+> > > > > +		ARM64_CPUID_FIELDS(ID_AA64MMFR1_EL1, HAFDBS, HDBSS)
+> > > > > +	},
+> > > > >   	{
+> > > > >   		.desc = "CRC32 instructions",
+> > > > >   		.capability = ARM64_HAS_CRC32,
+> > > > > diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+> > > > > index 7261553b644b..f6ece5b85532 100644
+> > > > > --- a/arch/arm64/tools/cpucaps
+> > > > > +++ b/arch/arm64/tools/cpucaps
+> > > > > @@ -68,6 +68,7 @@ HAS_VA52
+> > > > >   HAS_VIRT_HOST_EXTN
+> > > > >   HAS_WFXT
+> > > > >   HAS_XNX
+> > > > > +HAS_HDBSS
+> > > > >   HAFT
+> > > > >   HW_DBM
+> > > > >   KVM_HVHE
+> > > > 
+> > > > > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> > > > > index 65500f5db379..15ee42cdbd51 100644
+> > > > > --- a/include/uapi/linux/kvm.h
+> > > > > +++ b/include/uapi/linux/kvm.h
+> > > > > @@ -985,6 +985,7 @@ struct kvm_enable_cap {
+> > > > >   #define KVM_CAP_ARM_SEA_TO_USER 245
+> > > > >   #define KVM_CAP_S390_USER_OPEREXEC 246
+> > > > >   #define KVM_CAP_S390_KEYOP 247
+> > > > > +#define KVM_CAP_ARM_HW_DIRTY_STATE_TRACK 248
+> > > > > 
+> > > > >   struct kvm_irq_routing_irqchip {
+> > > > >   	__u32 irqchip;
+> > > > > diff --git a/tools/include/uapi/linux/kvm.h b/tools/include/uapi/linux/kvm.h
+> > > > > index dddb781b0507..93e0a1e14dc7 100644
+> > > > > --- a/tools/include/uapi/linux/kvm.h
+> > > > > +++ b/tools/include/uapi/linux/kvm.h
+> > > > > @@ -974,6 +974,7 @@ struct kvm_enable_cap {
+> > > > >   #define KVM_CAP_GUEST_MEMFD_FLAGS 244
+> > > > >   #define KVM_CAP_ARM_SEA_TO_USER 245
+> > > > >   #define KVM_CAP_S390_USER_OPEREXEC 246
+> > > > > +#define KVM_CAP_ARM_HW_DIRTY_STATE_TRACK 248
+> > > > > 
+> > > > >   struct kvm_irq_routing_irqchip {
+> > > > >   	__u32 irqchip;
+> > > > > --
+> > > > > 2.33.0
+> > > > > 
+> > > > Instead of having these architecture specific capability, I wonder if
+> > > > we can add a generic capability like "KVM_CAP_HW_DIRTY_STATE", so
+> > > > other architecture supports similar things can reuse this capability,
+> > > What of the existing stuff doing the same thing? x86's PML, to start
+> > > with?
+> > > 
+> > In fact I think the HDBSS is the first one with non-fixed size.
+> > Although there is a in process RISC-V extension for it, there will
+> > be a long story to make it ratified.
+> > 
+> > > > For this generic thing I suggest, the getter returns the max support
+> > > > entry count (or the buffer size) it supports like the dirty ring
+> > > > capability. And the setter just let the architecture set the parameters
+> > > > based on the user request.
+> > > This looks wrong on a number of levels.
+> > > 
+> > > - If you want something generic, there is the existing dirty
+> > >    log/bitmap. How this stuff is populated is none of the user's
+> > >    business (trapping write accesses, dirty bit collection from the
+> > >    PTs, or HW-generated log), and we don't need an extra feature for
+> > >    it. Performance will obviously suck, but that's what you pay for
+> > >    something abstracted and cross-architecture.
+> > > 
+> > > - If you want something architecture specific, then it can't be
+> > >    generic, by definition. You get the raw speed and compatibility with
+> > >    other arch-specific extensions.
+> > > 
+> > OK, I agree, it is better to keep this thing arch-specific. Doing a
+> > generic thing does not benefit too much, I have made a mistake on
+> > it. Thanks for your kindly explanation.
+> 
+> 
+> Awesome. Thanks for the review.
+> 
+> I agree with Marc—keeping this ARM-specific is the right approach.
+> Also, in v4 we're removing the ioctl interface entirely. HDBSS will be
+> auto-enabled during migration setup and auto-disabled when migration
+> completes, so the capability naming issue becomes moot.
+> 
+> I plan to post v4 with the updated approach soon.
 
-Add CONFIG_SYSCALL_USER_DISPATCH to make it an optional feature.
+Hi Tian,
 
-Signed-off-by: Gregory Price <gourry@gourry.net>
----
- arch/Kconfig                                  | 10 +++++++
- include/linux/entry-common.h                  | 11 +++-----
- include/linux/syscall_user_dispatch.h         | 28 +++++++++++++++++--
- include/linux/syscall_user_dispatch_types.h   |  2 +-
- kernel/entry/Makefile                         |  3 +-
- .../selftests/syscall_user_dispatch/config    |  2 +-
- 6 files changed, 44 insertions(+), 12 deletions(-)
+Any updates in the v4?
+Please let me know if you want help in any kind, in regards to this 
+patchset. 
 
-diff --git a/arch/Kconfig b/arch/Kconfig
-index fa7507ac8e13..0c01521c2f3f 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -114,6 +114,16 @@ config GENERIC_ENTRY
- 	select GENERIC_IRQ_ENTRY
- 	select GENERIC_SYSCALL
- 
-+config SYSCALL_USER_DISPATCH
-+	bool "Syscall User Dispatch"
-+	depends on GENERIC_ENTRY
-+	default y
-+	help
-+	  Syscall User Dispatch lets a thread have its own system calls
-+	  intercepted and redirected to a userspace signal handler based
-+	  on a prctl() configured instruction pointer range.
-+	  If unsure, say Y.
-+
- config KPROBES
- 	bool "Kprobes"
- 	depends on HAVE_KPROBES
-diff --git a/include/linux/entry-common.h b/include/linux/entry-common.h
-index 416a3352261f..43afee3e1b29 100644
---- a/include/linux/entry-common.h
-+++ b/include/linux/entry-common.h
-@@ -2,6 +2,8 @@
- #ifndef __LINUX_ENTRYCOMMON_H
- #define __LINUX_ENTRYCOMMON_H
- 
-+#include <asm/entry-common.h>
-+#include <asm/syscall.h>
- #include <linux/audit.h>
- #include <linux/irq-entry-common.h>
- #include <linux/livepatch.h>
-@@ -9,9 +11,7 @@
- #include <linux/resume_user_mode.h>
- #include <linux/seccomp.h>
- #include <linux/sched.h>
--
--#include <asm/entry-common.h>
--#include <asm/syscall.h>
-+#include <linux/syscall_user_dispatch.h>
- 
- #ifndef _TIF_UPROBE
- # define _TIF_UPROBE			(0)
-@@ -55,7 +55,6 @@ static __always_inline int arch_ptrace_report_syscall_entry(struct pt_regs *regs
- }
- #endif
- 
--bool syscall_user_dispatch(struct pt_regs *regs);
- long trace_syscall_enter(struct pt_regs *regs, long syscall);
- void trace_syscall_exit(struct pt_regs *regs, long ret);
- 
-@@ -232,10 +231,8 @@ static __always_inline void syscall_exit_work(struct pt_regs *regs, unsigned lon
- 	 * of these syscalls is unknown.
- 	 */
- 	if (work & SYSCALL_WORK_SYSCALL_USER_DISPATCH) {
--		if (unlikely(current->syscall_dispatch.on_dispatch)) {
--			current->syscall_dispatch.on_dispatch = false;
-+		if (syscall_user_dispatch_clear_on_dispatch())
- 			return;
--		}
- 	}
- 
- 	audit_syscall_exit(regs);
-diff --git a/include/linux/syscall_user_dispatch.h b/include/linux/syscall_user_dispatch.h
-index 3858a6ffdd5c..3dd30f4b2799 100644
---- a/include/linux/syscall_user_dispatch.h
-+++ b/include/linux/syscall_user_dispatch.h
-@@ -6,9 +6,23 @@
- #define _SYSCALL_USER_DISPATCH_H
- 
- #include <linux/thread_info.h>
-+#include <linux/sched.h>
- #include <linux/syscall_user_dispatch_types.h>
- 
--#ifdef CONFIG_GENERIC_ENTRY
-+struct pt_regs;
-+
-+#ifdef CONFIG_SYSCALL_USER_DISPATCH
-+
-+bool syscall_user_dispatch(struct pt_regs *regs);
-+
-+static __always_inline bool syscall_user_dispatch_clear_on_dispatch(void)
-+{
-+	if (likely(!current->syscall_dispatch.on_dispatch))
-+		return false;
-+
-+	current->syscall_dispatch.on_dispatch = false;
-+	return true;
-+}
- 
- int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
- 			      unsigned long len, char __user *selector);
-@@ -24,6 +38,16 @@ int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long siz
- 
- #else
- 
-+static __always_inline bool syscall_user_dispatch(struct pt_regs *regs)
-+{
-+	return false;
-+}
-+
-+static __always_inline bool syscall_user_dispatch_clear_on_dispatch(void)
-+{
-+	return false;
-+}
-+
- static inline int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
- 					    unsigned long len, char __user *selector)
- {
-@@ -46,6 +70,6 @@ static inline int syscall_user_dispatch_set_config(struct task_struct *task,
- 	return -EINVAL;
- }
- 
--#endif /* CONFIG_GENERIC_ENTRY */
-+#endif /* CONFIG_SYSCALL_USER_DISPATCH */
- 
- #endif /* _SYSCALL_USER_DISPATCH_H */
-diff --git a/include/linux/syscall_user_dispatch_types.h b/include/linux/syscall_user_dispatch_types.h
-index 3be36b06c7d7..c0bdd4f760d3 100644
---- a/include/linux/syscall_user_dispatch_types.h
-+++ b/include/linux/syscall_user_dispatch_types.h
-@@ -4,7 +4,7 @@
- 
- #include <linux/types.h>
- 
--#ifdef CONFIG_GENERIC_ENTRY
-+#ifdef CONFIG_SYSCALL_USER_DISPATCH
- 
- struct syscall_user_dispatch {
- 	char __user	*selector;
-diff --git a/kernel/entry/Makefile b/kernel/entry/Makefile
-index 2333d70802e4..f220bae86b12 100644
---- a/kernel/entry/Makefile
-+++ b/kernel/entry/Makefile
-@@ -13,5 +13,6 @@ CFLAGS_REMOVE_common.o	 = -fstack-protector -fstack-protector-strong
- CFLAGS_common.o		+= -fno-stack-protector
- 
- obj-$(CONFIG_GENERIC_IRQ_ENTRY) 	+= common.o
--obj-$(CONFIG_GENERIC_SYSCALL) 		+= syscall-common.o syscall_user_dispatch.o
-+obj-$(CONFIG_GENERIC_SYSCALL) 		+= syscall-common.o
-+obj-$(CONFIG_SYSCALL_USER_DISPATCH)	+= syscall_user_dispatch.o
- obj-$(CONFIG_VIRT_XFER_TO_GUEST_WORK)	+= virt.o
-diff --git a/tools/testing/selftests/syscall_user_dispatch/config b/tools/testing/selftests/syscall_user_dispatch/config
-index 039e303e59d7..22c4dfe167ca 100644
---- a/tools/testing/selftests/syscall_user_dispatch/config
-+++ b/tools/testing/selftests/syscall_user_dispatch/config
-@@ -1 +1 @@
--CONFIG_GENERIC_ENTRY=y
-+CONFIG_SYSCALL_USER_DISPATCH=y
--- 
-2.54.0
-
+Thanks!
+Leo
