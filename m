@@ -1,140 +1,139 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6BA3A168B
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 14:46:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783349215; cv=pass; b=duBcFJkZm0rEmqh17ePIRKh5JPOEb+OHP+ZQPohgDo/Vht9LCl8CtrFKwLuRM0xOLBIJqipuI0BeMaHSUCq0qyajekXpGoNhZ7YcqNuastOuHGzRRd8ie6OIqRPgDzy1gHTxouvPhH3DHFiXE0OBjJLKcBQOcqZiwRPfndFGLsI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783349215; c=relaxed/simple;
-	bh=XIt9g8EG67F9cgRee/glyq8tUMfvAYEbWJBaUWy6Nb8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QZ9fQji6hQb+LwVnvWTrzX9kUUZVxMKyf0s26R62TP8dlLO0kLNrf7yIHxF8DXIu5803AoSp8IlgSfJlUZonEmazcgHLivbr+huny/d/WC+DZYwzewvAtGczw7d2E/HHP6FrY6MQv8onqbjUzCFe22e2Btc1ry6iKBQeBRyJOak=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OCQVfpHt; arc=pass smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174E43A544C
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 14:48:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783349317; cv=none; b=Q0Rw20bjTXxo4lfxP0Maw86C9ziiaqS+btMH3dHjtIaOximfZuFFmE8v2OmVe6hte2trIy5h+IbclmEpnsOGqun2+l0dnrXuMUHY43gwZr58v0vt1/HQR+wuKr11nA6UahSeY2dC3GIQKzfYdJJeTFuNRw7wGwWIhLdgAMDWdDI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783349317; c=relaxed/simple;
+	bh=GWx5FgcRD+mDpPY24qaILY9TnVMQBFze1SRetKPUeC8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CcXdOHEYai1kX92qFKDJwjQT3Rzvw+QW5V3LXl21p7HNPCSAq+0Ua9PuWpyRLPPoqWKZKtCXT7s/4hZ8cj4m/il+M2l3jhoaK3KAkYtaG9Q95+gEFd7yiCsTDUfE18NLboWlmhfup+fxTQ4pd5Y0IO/2YngKZyOrbaVVq63/RQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d1RqDXgx; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OCQVfpHt"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-698beff7178so6011418a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 07:46:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783349212; cv=none;
-        d=google.com; s=arc-20260327;
-        b=lUDCid/ifJjyq9gaA0+BtdqtK4bTG5Pz0LSrI/wISGjF7AP0a7TucZ38h0WPFf3IHy
-         4DozSjPkK0JNDv+Ag7nBVZqCxlzdEBHUNz9lIUkTSADGeOC1vLpM9q3USNQrCYfl19mg
-         2KCV/4QcJNud++E+/b7oSeXdsE7MqODJvsVzShQYj3kTu55MaICfH1ZrM5eV3C/WwuQ+
-         1yTOVl2x2VR+kl1Ipra7k3grs40Jcxu0We0YkdecQujmQFjXtXCV+S2EyK+XE+hm307G
-         dFdDyBmsgeFbUpNyZuKhdeH20Y9te0LbvGtqLBU+pJk5H4RqtO7mOpLCIflgcdJUPQWA
-         y8bg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=FORy38h/raNHh5CiZOJtyCT7bYZdVLlFNLJYBpR1kIQ=;
-        fh=Y14WfU9uclw15SXZkMu6HM3NzA9njtvy41VvjVcMCc0=;
-        b=CBkquBrhyfdTEbq4eQfh0AU2pxg8UWPuYbBlQEj5rremeXZIAzAJcteunFRxKDFd1z
-         cyx9ajLCgpy5EgComla8AsbOwbVSOd3SKcCDo8nlvWd+eiXZxb/4oepv6Vw7mzEuRSIQ
-         sGfLAIPaY/uZzQ/0759Hj2rmoMpQOIOIssaygqgxLZZGOyAMu/pnPtaH+Z04zcTARTwT
-         k4T9mJOyetDhNLrrOuwJs+xjAZml2DN0UIzwAtD75xriupBn4upj9E6hqDrDtk91QxEI
-         Jdo8LRcmH0xSJoN//AKRMTv1tDgcA+2I/tJIwTtGDRtR0Px5wUFXjPnXizmtpHf41lZl
-         ul0Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d1RqDXgx"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493b7612475so29265115e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 07:48:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783349212; x=1783954012; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FORy38h/raNHh5CiZOJtyCT7bYZdVLlFNLJYBpR1kIQ=;
-        b=OCQVfpHtTZgsrQ/QlAMqINsuwa1Bo48ySGgc77RDPte0azTcSNSaOIs51lfFkHt9f2
-         UYIBgHzvoJILe6a695tJl11bk0T83K+QHp/fUuKqWoWVY5cCBXVbxbH/PGymR3qHYzx8
-         ufFNtfPmojWakMg06hSWxrqFl/aP3sqGpDLdDrgQ+VNF2W0zc39VoCuHbbnXFslAqBC6
-         O4juZEXvHMf/AlgZ+hR0s5OjNG0vNORg7e3u5nIrzTWlLLJnDj6Kz9fXiPlXc9OTY7MT
-         Dc/kzbOiHFeA78tKa+aBWtkeY6Aa+wVFbH7T47JQ4jser80PvG7LCEzhtp1Jy2QjXG3Y
-         hrYQ==
+        d=gmail.com; s=20251104; t=1783349314; x=1783954114; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tHFkYHWOg5pdLelSKYNCUHTqMpEtEJf+wOe1cZ/5trI=;
+        b=d1RqDXgxNaLMXNaaq+KXe+Ofnj7OQCaapnaUV66M2hByZv6jtuUJ4zQ5BwKJUROfVh
+         J1rCSaZJYEyGv8tR22y6JYIRD4YdyqQ/oe9Rsf3lxd/qeXudqMufPaYcmjVv76JXIK/f
+         +4SwPtg4dEaLcXjNFEcKYUbIAkLEmeFJNRZELQpgQm77uY4YS2tqh4qDhm8GoWzAT5f2
+         12+JhzrGwVoZJdpzPvIxThLAS721yfgy7kNRx6FNrS1rnP/1F0lXK62SaKa88bN4ygFe
+         SIMuI8rrLNwfL/T2dOzCv2XIqh5Fnwi/tPgvCE3vHMRErNmoEJ3SO1A5ZD/+C70iWiK0
+         QFaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783349212; x=1783954012;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1783349314; x=1783954114;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FORy38h/raNHh5CiZOJtyCT7bYZdVLlFNLJYBpR1kIQ=;
-        b=erly6MGKfV0/v5Y9dwYXA3mDtCpLXu4LVuIw4fnLOC3/q8LjB1KEmyhyuKdYqMbIur
-         ts/rvco0bPIdE02UI4BPhhIFnNKbWVxzwptXrdUbs2+LD9+n+DdHtCpYXFvxsj9U0FhY
-         MLRPTRPOiXzIfG6UYXF0FR+Oiwhcn00V4uo5AtyAW6r58ljU6YhFl5ZbUQNFFJsVXuKC
-         xiQkX6XtDxr8EHFmOeqWPfBzW/uah1teQPcz5lVOYmGUUfXS+ud46CHpx0KJA00dQlFP
-         RTr5ahZYeNDJDwrbjM1br1kVF0NAqY2wimEeUGe++wKvzK9GbAMrsEI48kh489iODcKu
-         j/pg==
-X-Forwarded-Encrypted: i=1; AFNElJ8EvYi4TDUuU/XtST51WRHEBMnfLJUIt0e/lA6mxIOHDqrL3ReYLNzgP+Q9Zcmg+kSOEoMebqCUzHk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywgztiy5v1QR3aDZcM482yHqWynp6FDqUZzT4Jez3y1OSNFQGBW
-	lfIhQwlZcbsRHa/mFyQAYc0bamvX79jsC+1gWLgsWz/FRTgzKwDX918wDWcw9vQqY1sL8NvNSt6
-	GPe8+BFuJh6BcqQd344b0e1ZmRh+03Qo=
-X-Gm-Gg: AfdE7cmW4BgxEtJzWGq1wHw0cyu673tsYp6cKvBuXtDl+Lbd4MFSDLp4YWjAX98DUId
-	wt0p7BIufA42pzFVY7FMgMOF7An3EmB1LBGvH5DYNohhFFhF6tiaVO4tVw+htngWtqUEIhTiul5
-	iBILTPVmlVBGI3ZU95Y2mpKrLTG11rIkn1T3GM4ejXkIp8OHDAu1yyLV0h+u64hUKxuipkcZzJy
-	8mbe41n2SjOz6+OU4AsJQsi2M8ZjIl/xi+anOhPkiVq7PK/cJSi2h1qWP8ZrSUiLX8ON9H/0kOt
-	TKMN24YWOOfXFSowHoLZ0QHvnHD3j4jVYJsgnXxctb4bvhaJW6rAhQcRFrc=
-X-Received: by 2002:a17:907:c785:b0:c12:2acc:c9d7 with SMTP id
- a640c23a62f3a-c15a67f7e94mr49868766b.15.1783349211791; Mon, 06 Jul 2026
- 07:46:51 -0700 (PDT)
+        bh=tHFkYHWOg5pdLelSKYNCUHTqMpEtEJf+wOe1cZ/5trI=;
+        b=TLcPHtddiJIMQunHuWZHlZN5CPC/yhsHstkzvjhLVsOWetQW90nMFoaKdwddj+gT/O
+         +YNirizI0OJcMY2yKQ15WZGWWKtxP9ZTfrYanwOuHyUsdb9XOCIm6BLulsuRyM/w49Yw
+         4NxuvQvKmQ/dBS5LNPoGvxR+jrkJfYfMj9FgwqL2jWsGVtGOwARTjdhQNcn1/WBemIY/
+         oYdyh4/5YWEC4xSSwYpiY9J5smNCJJadQmJEU+IjMpdxpg07ihmDYZvcn6z3DrWry6o+
+         pDC9BD3q5KQII5EV9M8UHm7Z1vlye8cf1rZYRjQxjSB5wQCQlUwudYL8eggeiDX91kWq
+         dMSw==
+X-Forwarded-Encrypted: i=1; AHgh+RrtDpqQVXpEOElTKKjTMA/GW0FRLcIW/1XoqkP3+H1t9yzcYFsIrVZ9Cj6tctqH3HtvOnDCQDJWhYg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPmfEBV4tf6OikQe908neprUH8b3qZuolW2jCRDhcdpBSCxlEZ
+	RrY6eeSISj9H6fpGxCEIfrCBAsIC2ve+5fdjg7c0HCKZXTSc7HMinPax
+X-Gm-Gg: AfdE7ckQfletI63QJy75Q+xx+zfFLb8+RRVn17NM2W/nTP+g7J5o2sf0kc8WW2FJkEb
+	Le3PhxnnIBztAaAxCq9WwxrK9bRjUOiQQgkg+52Frn9Xxd7LIaHkLSaVuEmZqB7n5DLE+G0YKMu
+	srdwXpn09Zn5R7mUM9IGUUK5jHyS4rEtUDRU8k+4z5c7r7DvbwQqCNn1UDeY3tVdWgkcb502HWA
+	PydUap6W3FyEAT7GtjkJgbFnVMaj3LEjJDe9+CA+OC0p9gPLK4je9bB3ja3i1TtlG8a3acEf10t
+	JnFxABjaF3trrIQfloswKmZA9mHflHwmfwArGbi3ATLYjnk6dQJbRgw2KSrY7RTfdJ5dkdDijW5
+	FU+mThT3KQ1u13/5KaKxMH+6H5Fc+B7Kj57alAffnEglKmBA+AGZ7i6DduxHH3XZyXLVyAgztv9
+	HFeA8CZinI4Ab1U4qtLkjnB/k=
+X-Received: by 2002:a05:600c:c16d:b0:493:bd67:316 with SMTP id 5b1f17b1804b1-493df074319mr9805435e9.16.1783349314326;
+        Mon, 06 Jul 2026 07:48:34 -0700 (PDT)
+Received: from taln60.nuvoton.co.il ([212.199.177.18])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960634sm26798473f8f.26.2026.07.06.07.48.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 07:48:33 -0700 (PDT)
+From: Tomer Maimon <tmaimon77@gmail.com>
+To: andrew@codeconstruct.com.au,
+	wim@linux-watchdog.org,
+	linux@roeck-us.net,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: openbmc@lists.ozlabs.org,
+	linux-watchdog@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	avifishman70@gmail.com,
+	tmaimon77@gmail.com,
+	tali.perry1@gmail.com,
+	venture@google.com,
+	yuenn@google.com,
+	benjaminfair@google.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	joel@jms.id.au
+Subject: [PATCH v4 0/3] watchdog: npcm: Add reset status detection support
+Date: Mon,  6 Jul 2026 17:48:25 +0300
+Message-Id: <20260706144828.3517631-1-tmaimon77@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
- <20260628231634.6752f74d.michal.pecio@gmail.com> <CAFgddh+AUNH9Ji-Qd=BKEDZWJrzPMWN20-g-htQDPSdSehZStQ@mail.gmail.com>
- <e7d49127-0215-4b29-9a2a-e1dc0d889b70@rowland.harvard.edu> <CAFgddhLeQ1cJv-E4mYWR8cs7T2USkrEd5i=uxqkNCH2UWaQ5=g@mail.gmail.com>
-In-Reply-To: <CAFgddhLeQ1cJv-E4mYWR8cs7T2USkrEd5i=uxqkNCH2UWaQ5=g@mail.gmail.com>
-From: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Date: Mon, 6 Jul 2026 20:16:37 +0530
-X-Gm-Features: AVVi8Cc6S4gmNZiqXPN-q3CLCjzsrywYMCqte4aKKTPMu6Gbk__YM43TBXfYweM
-Message-ID: <CAFgddhL__55iy5FyekW+-dWD6j913DuEV-_505gKRTT4pe6YPQ@mail.gmail.com>
-Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Michal Pecio <michal.pecio@gmail.com>, linux-usb@vger.kernel.org, 
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 30 Jun 2026 at 22:40, Nikhil Solanke <nikhilsolanke5@gmail.com> wrote:
->
-> > There's nothing wrong with trusting the caller to do the right thing.
-> > Besides, if a segfault does occur then it will be pretty obvious that
-> > the caller needs to be fixed.
-> >
-> > What would you do if buf is NULL?  Return an error code?  That won't
-> > help anyone locate the bug.  Put an error message in the log?  Segfaults
-> > are much more visible.
->
-> Understood. I guess my coding style is a little "too paranoid" and
-> "check everything and report errors". I understood now why this may
-> not always be the best approach in low level programming like kernel
-> development.
->
-> Anyways, I have done all the requested changes. Here's a short summary:
-> - put strings in a single line
-> - copy bytes from desc to bigbuffer instead of pointer aliasing. (so
-> no krealloc too)
-> - change tabs to spaces in documentation
-> - reworded some comments
-> - drop USB_CONFIG_WINDOWS_REQ_SIZE macro
-> - revert USB_DELAY_INIT to original behavior. no delay before 1st request.
->
-> Let me know if I missed any changes mentioned in previous discussions
-> (or misunderstood and made unnecessary changes :') ).
->
-> > I wonder if it wouldn't make sense to split announce_device() so that
-> > the first line is printed as soon as usb_new_device() starts, before
-> > enumeration is attempted and possibly fails.
->
-> The current patch still logs device ids upon failure in
-> usb_enumerate_device(). Do you want me to implement that suggestion?
->
-> Thanks,
-> Nikhil Solanke
+This series documents and implements reset indication reporting for the=0D
+NPCM watchdog driver on NPCM7xx and NPCM8xx systems, and documents the=0D
+optional GCR syscon property used by that support.=0D
+=0D
+Patch 1 updates the watchdog binding to allow the optional=0D
+``nuvoton,sysgcr`` property used for reset-cause reporting.=0D
+Patch 2 adds watchdog documentation that describes the bootstatus=0D
+mapping.=0D
+Patch 3 reads the SoC reset indication bits and maps them into the=0D
+existing watchdog bootstatus flags for NPCM750 and NPCM845, while=0D
+leaving WPCM450 unchanged.=0D
+=0D
+Addressed comments from:=0D
+- Conor Dooley: https://patchwork.ozlabs.org/project/openbmc/patch/20260705=
+140100.1543486-2-tmaimon77@gmail.com/=0D
+=0D
+Changes since version 3:=0D
+- make GCR syscon-property conditional.=0D
+=0D
+Changes since version 2:=0D
+- reword patch 1 to explain the hardware reason for the GCR phandle and=0D
+  why it is needed for the reset-status support, per Krzysztof's review=0D
+- cache NPCM750 reset status in SCRPAD2 so later watchdog probes can=0D
+  report the same boot-time state=0D
+=0D
+Changes since version 1:=0D
+- Modify reset detection handle in the watchodg.=0D
+- reword patch 1 to use the GCR syscon-property wording from the=0D
+  applied NPCM reset binding update and drop the optional property from=0D
+  the binding example.=0D
+- reword the patch subjects and commit message bodies to match current=0D
+  kernel dt-bindings, docs, and watchdog style.
 
-Just following up on my previous email regarding the requested changes
-to the patch. Any comments on this?
+Tomer Maimon (3):
+  dt-bindings: watchdog: npcm: add GCR syscon property
+  docs: watchdog: npcm: Add reset status description
+  watchdog: npcm: add bootstatus support
 
-Thanks,
-Nikhil Solanke
+ .../watchdog/nuvoton,npcm750-wdt.yaml         |  14 ++
+ Documentation/watchdog/index.rst              |   1 +
+ Documentation/watchdog/npcm_wdt.rst           |  71 ++++++
+ drivers/watchdog/npcm_wdt.c                   | 217 +++++++++++++++++-
+ 4 files changed, 301 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/watchdog/npcm_wdt.rst
+
+--=20
+2.34.1
+
