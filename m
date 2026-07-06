@@ -1,234 +1,353 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16AA041A77C
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 14:23:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4AB37A843;
+	Mon,  6 Jul 2026 14:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783347818; cv=none; b=b4EtBduGS3Gan3YnHXSntfQu6feunL4ZDslul64QMujICi1kZzhlR9EulEqiax/lCkkiXTScUsH4fZyJ3MrcwD3xzhuvOFq4UzVnIFAUvMpCUDjojccKUPj+Y7oIDMVZvETR1pdt2+a2NYz45u0jojJcvx295q1iF5KKHzkIl1g=
+	t=1783348171; cv=none; b=jjvDKMnKtPW+47eUmkUrlunBCeL67Kh+K5r+WP7cE7o5D1of3I0BW2zzGRkwdWVeddgJ6v1sfCgRwUti7WhcrAdHDaJeSC0Wk7NOCDRc8DYSMx9bt8+b1LnHdNgQw26EQ8uUfOWZSxkFlnaARh3UB7Fhyk8dibsPDU4V1qL27z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783347818; c=relaxed/simple;
-	bh=8CbFWVtRpoJ/dg+s1T9+12n3yadu8+YmzUT3cFMlc3Q=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fIkGuq5HeW9sY+bj3OpQ6Isb27Cd6ZIVjFmqDX9Ay/4yulk46nRNPTf9pu/BdHA2xPGEnY4gl4wUxDVig6u28GmeTof78Hq30VjXLeRu1IFzPkiEmw4hYCAuwKy0dFI327BrRM5NT67WVnxSKP+P2h7E8Em4ob6JdecQmGubS04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k/UmHCRC; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783348171; c=relaxed/simple;
+	bh=C2JsXtMk3NGbWSIT3N56346rbVtc4LVaotNE/BLHufs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NjZPP5i6Wnpxwi3loTwJWxcDKR29tBKkuXtP+NeY6F8GgDexarAp7EuWqgKZtXEVTUFB9luGE9aF31F4bzh2DDCR6rPcL9urtYPmrphwv86ZYoXF35/pZl66/JTpLj0SwyzP4eXf037BFqQ8pYi308HyebJTAJ45txV7vNMfEqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EitXNQHs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k/UmHCRC"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c127a694ccbso402947266b.3
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 07:23:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783347815; x=1783952615; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:date
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rb4WFEujjXzehfKuMBJOFD79jYlgZCDeugvdupzI6Yk=;
-        b=k/UmHCRClEBU8ZbQdfNAFR6+tcoJ+NIWLTd5WMlxdR6llbUVdpM75S27bNtkDIVxso
-         qg2EQEt0Y3Ugs3THhOuNG7aHVFpjeTIiWXeiODkbwnax9THfl2feFi4Q+OyTAmJC0FcT
-         CPxVkDiL34P2aes/GnlYFaIsS6ZTL39mFs7576cN8YtBpYQCpRKQSFP1OyRP6zqE0utr
-         fdYEi0r3I3jCQrd0WRY6KDuNfNBTU6H70rqt3F1I2IBM7xcq7pC5rFfEbgm8vykC04Ce
-         SzgjVPcf18nmrEQFxjnjiMByaekqN3IOgNUlRRz4ZGG1bRttp/WVeVcC3wMA2q9hx7QI
-         DL2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783347815; x=1783952615;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:date
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=rb4WFEujjXzehfKuMBJOFD79jYlgZCDeugvdupzI6Yk=;
-        b=MNqZ0JKZsOvbOV+FOwNmisjfnhPKSfivOEu3ZhZHxtWbZMEEpg8xht1Omx3S1DIVOX
-         nyph809+2+Ej3xFRgurr6OiPXDLT/Fbr5IY5F97XDc+siHlIB8qzq+Z9uDNiATuSDj6c
-         JvfMCn6iulfUQ+YGtAgQi2ByCa3j1D2vT5WPCD5XSw/YAp38Ytmje785XLRtzsxKGg5T
-         9TBSCWSkziiwjRPbyMepaADCEKIZX+c3vSpCL1fGfyBuyFaHJQ5IDLaVdp+xklx4ec9C
-         lqYRuuhW1T0PHnCW8e+tA6CXGHToRA/2F9twuXQTkey+70CjMbugauvqZmsM5TZgAhnj
-         ebIg==
-X-Forwarded-Encrypted: i=1; AHgh+RrH06szcCsqh8eY370yyQyIWs6FNHL/Zd5KaDUrE2nc50N3hPIAv14cFHQNJH6KerbEhAg9oxbpjUg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyel2nJCnwFvkf1KJ5cCgkB84slHMXX4OtApYdNRMmpHdFWQGUV
-	CXZplairYK2D+cJVoC6hAlhqnpFNxO393WBV9C2o207WMdPyjTx0ZfLY
-X-Gm-Gg: AfdE7cnDER+TnqLFMP1iyp1vazsAtnGqaAz1yT3zBFbgez6AGAFnjnxRyqgPbV3xE49
-	+spXJhaBeOuYeYT3jy0iUcjIRZ9dGLnjSJNpbqphKUOwB9HJi/SHyalhHhTwI7+T4fSoa07hxqt
-	qZeVVUP+tpeQNeshsVvi26Rt+26E5HNwbZzenSdCz8jeUW3nrn682llZHzfUV5WVxPysnRrNpPc
-	/bbw5t+4KV6JSktYv4Q4Gis+/OjLiTdE+nQVRiz4ZBED3SnwE5Q2HpOJgHRFPusjZTP70HBdpns
-	zO+XTYhtME7id3B+lcjXj8dbw8uiurNWzv33Oru7aP00ZCNw9D6SMyZDp2lpqJ9oqrsnLbpsCc2
-	Y7L9QAibCleZjTF4TdDt9+PjHexxbn3Yq8F79/7ZHit4UtKT/2qmr9wY7Ur1CzFR7FpAojYP1aN
-	tBomvVI65O4lR6O9LXAVq6TQDdZSbXXCrWyAhVC6zeatQAvGpBarn9l6SgjgsW9yk9e9GyZHY3U
-	tj17cxP8wjC4Rje
-X-Received: by 2002:a17:906:846b:b0:c12:45fc:c57 with SMTP id a640c23a62f3a-c15a67d8d09mr36734966b.11.1783347815101;
-        Mon, 06 Jul 2026 07:23:35 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69a19dbedf4sm4229761a12.29.2026.07.06.07.23.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 07:23:34 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-Date: Mon, 6 Jul 2026 15:23:28 +0100
-To: Jonathan Cameron <jic23@kernel.org>, 
-	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH v6 16/16] docs: iio: add documentation for ad9910 driver
-Message-ID: <p77cvtvjmo7hr6i6jxhfxps3if6fyy5kdwxrwlcnsziixycyen@rf5zfchlxgt6>
-References: <20260618-ad9910-iio-driver-v6-0-79125ffbe430@analog.com>
- <20260618-ad9910-iio-driver-v6-16-79125ffbe430@analog.com>
- <20260703193059.4deda617@jic23-huawei>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EitXNQHs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2709C1F000E9;
+	Mon,  6 Jul 2026 14:29:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783348169;
+	bh=1CIbrDwK/p1pwC0ztUAPRSXHpGelBcL5PU3zeZXxEqI=;
+	h=From:To:Cc:Subject:Date;
+	b=EitXNQHsWFyQOh+mYg+oILVCyfm9AoWj34v4d+68rnRiThdjdqhy4QkKkLe9KfT6L
+	 DAiouVB79KNWJXx3c6pLSGmMeEPqjN03G0Uau6djffisOgLqnaJubN4rTLFtnPS4W4
+	 zZssW1S6+thOI0zrLJtsAjBZmRxXSxquZaMpk8BDWTelkatXivu6KS0fG9R06d3X4T
+	 eu2fG7+nrJ1K8KNT1Y0qDZa5VUdcAO4SaSZ/f/VnywD6k0p2INYg+2nP3n7FQi7KnF
+	 edEofUt1zbwYB0qW+jfLxS/uXllttzbl2qlaahvP3mY6IQbuhp+81i5y1V7KtpmZ4T
+	 VlcrmL6Ijb2RQ==
+From: Sasha Levin <sashal@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Richard Weinberger <richard@nod.at>,
+	Juergen Gross <jgross@suse.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Kees Cook <kees@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Helge Deller <deller@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Vivian Wang <wangruikang@iscas.ac.cn>,
+	Zhen Lei <thunder.leizhen@huawei.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v6 0/4] kallsyms: embed source file:line info in kernel stack traces
+Date: Mon,  6 Jul 2026 10:29:05 -0400
+Message-ID: <20260706142914.2398993-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260703193059.4deda617@jic23-huawei>
 
-On 03/07/26 19:30, Jonathan Cameron wrote:
-> On Thu, 18 Jun 2026 14:27:32 +0100
-> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-> 
-> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > 
-> > Add documentation for the AD9910 DDS IIO driver, which describes channels,
-> > DDS modes, attributes and ABI usage examples.
+This series adds CONFIG_KALLSYMS_LINEINFO, which embeds source file:line
+information directly in the kernel image so that stack traces annotate
+every frame with the originating source location - no external tools, no
+debug symbols at runtime, and safe to use in NMI/panic context.
 
-...
+Motivation
+==========
 
-> > +Digital ramp generator (DRG)
-> > +----------------------------
-> > +
-> > +The DRG produces linear frequency, phase or amplitude sweeps using dedicated
-> > +hardware. The active ramp target (destination) is selected by enabling the
-> > +corresponding typed channel at channel number 130:
-> > +
-> > +- ``out_frequency130`` (label ``drg_frequency``) — ramp targets frequency
-> > +- ``out_phase130`` (label ``drg_phase``) — ramp targets phase
-> > +- ``out_altcurrent130`` (label ``drg_amplitude``) — ramp targets amplitude
-> > +
-> > +Writing ``en=1`` to one of these channels enables the DRG and switches its
-> > +destination. Writing ``en=0`` disables the DRG if the channel is the current
-> > +active destination; writing to an already-inactive destination is a no-op.
-> > +
-> > +Each destination channel also exposes a read-only ``scale`` attribute
-> > +reporting the physical quantity per ramp register LSB, which allows converting
-> > +raw limit codes to physical values.
-> > +
-> > +The two ramp channels ``out_altcurrent131`` (``drg_rising``) and
-> > +``out_altcurrent132`` (``drg_falling``) configure ascending and descending
-> > +ramp parameters independently.
-> > +
-> > +Destination channel attributes
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +.. flat-table::
-> > +   :header-rows: 1
-> > +
-> > +   * - Attribute
-> > +     - Unit
-> > +     - Description
-> > +
-> > +   * - ``en``
-> > +     - boolean
-> > +     - Enable the DRG with this channel as the active destination. Only one
-> > +       destination can be active at a time.
-> > +
-> > +   * - ``scale``
-> > +     - Hz/LSB, rad/LSB or mA/LSB
-> > +     - Read-only. Physical quantity per raw units. Multiply a ramp
-> > +       rising/falling channel ``raw`` value by this scale to get the physical
-> > +       ramp target.
-> > +
-> > +Ramp channel attributes
-> > +^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +.. flat-table::
-> > +   :header-rows: 1
-> > +
-> > +   * - Attribute
-> > +     - Unit
-> > +     - Description
-> > +
-> > +   * - ``dwell_en``
-> > +     - boolean
-> > +     - Enable dwell at the ramp limit. When disabled, the ramp
-> > +       auto-transitions at this limit without waiting for the DRCTL pin.
-> > +       Disabling both creates a bidirectional continuous ramp (triangular
-> > +       pattern). Other combinations create single-shot ramps at the DRCTL
-> > +       pin transition.
-> > +
-> > +   * - ``raw``
-> > +     - integer (64-bit)
-> > +     - Ramp limit expressed as a raw DRG register code in
-> > +       :math:`[0, 2^{32}-1]`. The physical value is ``raw * scale`` where
-> > +       ``scale`` is read from the active destination channel.
-> > +
-> > +   * - ``sampling_frequency``
-> > +     - Hz
-> > +     - Ramp clock rate. Controlled by an integer divider; the written value
-> > +       is adjusted to the nearest supported rate.
-> > +
-> > +   * - ``raw_roc``
-> > +     - /s
-> > +     - Rate of change. Number of register codes advanced per second, computed
-> > +       from the hardware step size and the current ramp clock. Writing
-> > +       requires ``sampling_frequency`` to be configured first.
-> > +
-> > +Usage examples
-> > +^^^^^^^^^^^^^^
-> > +
-> > +Configure a frequency sweep from 40 MHz to 60 MHz with a rate of change of
-> > +25 GHz/s:
-> > +
-> > +.. code-block:: bash
-> > +
-> > +  # Disable dwell on both limits for a bidirectional continuous ramp
-> > +  echo 0 > /sys/bus/iio/devices/iio\:device0/out_altcurrent131_dwell_en
-> > +  echo 0 > /sys/bus/iio/devices/iio\:device0/out_altcurrent132_dwell_en
-> > +
-> > +  # Set ramp rate at 250 MHz
-> > +  echo 250000000 > /sys/bus/iio/devices/iio\:device0/out_altcurrent131_sampling_frequency
-> > +  echo 250000000 > /sys/bus/iio/devices/iio\:device0/out_altcurrent132_sampling_frequency
-> > +
-> > +  # read the frequency scale to convert physical values to raw units
-> > +  cat /sys/bus/iio/devices/iio\:device0/out_frequency130_scale
-> > +  0.232830643650
-> > +
-> > +  # 40 MHz / 0.232830643650 = 171798692
-> > +  echo 171798692 > /sys/bus/iio/devices/iio\:device0/out_altcurrent131_raw
-> > +  # 60 MHz / 0.232830643650 = 257698038
-> > +  echo 257698038 > /sys/bus/iio/devices/iio\:device0/out_altcurrent132_raw
-> 
-> Why is this writing frequencies to altcurrent channels? Shouldn't this be the
-> frequency ones?
+The recent "slowly decommission bugzilla?" thread surfaced a recurring
+problem: when users encounter kernel crashes they see stack traces like
+`func+0x1ec/0x240` but have no way to identify which subsystem or
+maintainer to contact. Richard Weinberger proposed building a database
+mapping symbols to source files using nm/DWARF. Linus pointed to
+scripts/decode_stacktrace.sh as the existing solution. But as the
+discussion progressed, it became clear that decode_stacktrace.sh has
+significant practical barriers that prevent it from being useful in the
+common case.
 
-All the attributes for ramp up/down channels would do the same thing in separate
-channel types: sampling_frequency, raw, raw_roc and dwell_en... do we need frequency
-and phase ones? For the DRG, right now I have:
+Problems with scripts/decode_stacktrace.sh
+==========================================
 
-* out_frequency130: en, scale
-* out_phase130: en, scale
-* out_altcurrent130: en: scale
-	* out_altcurrent131: raw, raw_roc, dwell_en, sampling_frequency
-	* out_altcurrent132: raw, raw_roc, dwell_en, sampling_frequency
- 
-> > +
-> > +  # 25 GHz/s / 0.232830643650 = 107374182402
-> > +  echo 107374182402 > /sys/bus/iio/devices/iio\:device0/out_altcurrent131_raw_roc
-> > +  echo 107374182402 > /sys/bus/iio/devices/iio\:device0/out_altcurrent132_raw_roc
-> > +
-> > +  # Enable the DRG with frequency as the destination
-> > +  echo 1 > /sys/bus/iio/devices/iio\:device0/out_frequency130_en
-> > +
+- Requires debug symbols: the script needs vmlinux with DWARF debug
+  info. Many distros don't retain debug symbols for older or security
+  kernels, and even when available, asking users to obtain matching
+  debuginfo packages is a significant hurdle.
 
-...
+- Requires toolchain: users need addr2line and nm installed.
 
+- Version-matching requirement: debug symbols must exactly match the
+  running kernel binary.
+
+What this series does
+=====================
+
+Patch 1: CONFIG_KALLSYMS_LINEINFO
+
+At build time, a host tool (scripts/gen_lineinfo) reads DWARF
+.debug_line from vmlinux, extracts address-to-file:line mappings, and
+embeds them as sorted lookup tables in .rodata.  At runtime,
+kallsyms_lookup_lineinfo() binary-searches the table and
+sprint_backtrace() appends "(file:line)" to each stack frame.
+NMI/panic-safe (no locks, no allocations), KASLR-compatible.
+
+Patch 2: CONFIG_KALLSYMS_LINEINFO_MODULES
+
+Extends lineinfo to loadable modules.  Each .ko gets .mod_lineinfo and
+.init.mod_lineinfo sections embedded at build time, each carrying one
+or more per-section sub-tables identified by an ELF relocation against
+the covered text section's symbol.  The module loader's existing
+apply_relocations() pass resolves the anchor on load - no special-cased
+loader logic, no implicit MOD_TEXT-base assumption.  Coverage extends
+to .text, .exit.text, and .init.text; the init blob is freed alongside
+init memory.
+
+Patch 3: delta compression
+
+Block-indexed delta-encoding with LEB128 varints, implementing the
+approach suggested by Juergen Gross in the RFC review.  Reduces
+overhead from ~44 MiB to ~11 MiB (~3.7 bytes/entry), addressing the
+primary size concern from the RFC.  Compression applies independently
+to each per-section table inside the module blobs.
+
+Patch 4: KUnit tests
+
+30 KUnit tests covering the lineinfo lookup paths, delta-decode logic,
+boundary conditions, the module-side multi-section format, and
+integration with the backtrace formatting APIs.
+
+Example output
+==============
+
+  [   11.206749]  dump_stack_lvl+0x5d/0x80 (lib/dump_stack.c:94)
+  [   11.207403]  vpanic+0x36e/0x620 (kernel/panic.c:650)
+  [   11.209324]  panic+0xc9/0xd0 (kernel/panic.c:787)
+  [   11.213312]  sysrq_handle_crash+0x1a/0x20 (drivers/tty/sysrq.c:154)
+  [   11.214005]  __handle_sysrq.cold+0x66/0x256 (drivers/tty/sysrq.c:611)
+  [   11.214712]  write_sysrq_trigger+0x65/0x80 (drivers/tty/sysrq.c:1221)
+  [   11.215424]  proc_reg_write+0x1bd/0x3c0 (fs/proc/inode.c:330)
+  [   11.216061]  vfs_write+0x1c6/0xff0 (fs/read_write.c:686)
+  [   11.218848]  ksys_write+0xfa/0x200 (fs/read_write.c:740)
+  [   11.222394]  do_syscall_64+0xf3/0x690 (arch/x86/entry/syscall_64.c:63)
+
+Size impact
+===========
+
+Measured with a Debian kernel config:
+
+- bzImage: +3.6 MiB (14 MiB -> 18 MiB, +26%)
+- Runtime memory: +5.9 MiB (text+data+bss)
+- Code overhead: +5.0 KiB (.text, lookup functions only)
+- Data overhead: +5.9 MiB (.data, lineinfo tables)
+
+The ~5.9 MiB is after 2.7x delta compression; uncompressed would be
+~16 MiB.  This is a fraction of the cost of shipping full DWARF debug
+info (hundreds of MiB), which distros must store and serve for every
+kernel version.
+
+For distros, maintaining debug symbol repositories is expensive:
+storage, mirrors, and CDN bandwidth for hundreds of MiB per kernel
+build add up quickly.  A ~5.9 MiB increase in the kernel image itself
+is a modest cost that eliminates the need for users to find, download,
+and version-match debuginfo packages just to make a crash report
+useful.
+
+For developers, the file:line annotations appear immediately in crash
+traces - no post-processing with decode_stacktrace.sh needed.
+
+Changes since v5
+================
+
+- Rebased onto v7.2-rc2:
+
+  - scripts/Makefile.modfinal: adapt to the removal of
+    if_changed_except in commit 7abef41afad05b ("kbuild/btf: Remove
+    broken module relinking exclusion").
+
+  - Drop unrelated MAINTAINERS hunks that had leaked into patch 2
+    during v5 preparation; those updates are already upstream.
+
+Changes since v4
+================
+
+- Replace mod->mem[MOD_TEXT].base derivation with an ELF relocation
+  against the covered section's symbol; resolved by the module loader
+  on load.  (Suggested by Petr Pavlu)
+
+- Cover .exit.text and .init.text in addition to .text.  Init code
+  lives in a parallel .init.mod_lineinfo blob (MOD_INIT_RODATA) that
+  is revoked and freed alongside init memory.
+
+- Switch the build step from objcopy --add-section to ld -r, so
+  .rela.mod_lineinfo / .rela.init.mod_lineinfo ride along into the .ko.
+
+- Pick up lineinfo sections via section_objs() (not any_section_objs)
+  to validate SHF_ALLOC and avoid dangling pointers into the temporary
+  load image.
+
+- Drop the unused "reserved" placeholder field from mod_lineinfo_root
+  and mod_lineinfo_header.  (Suggested by Petr Pavlu)
+
+- Guard the per-module fields with #ifdef CONFIG_KALLSYMS_LINEINFO_MODULES
+  and expose them via inline reader accessors.  (Suggested by Petr Pavlu)
+
+- Update the per-section header layout comment to name struct fields.
+  (Suggested by Petr Pavlu)
+
+- Cap vmlinux-side captured DWARF addresses at _etext: sections placed
+  after .rodata shift as the real lineinfo replaces the empty stub
+  during the multi-pass link, so addresses outside the invariant .text
+  window become stale in the final image.
+
+- Append "(file:line)" only via sprint_backtrace*(), not plain
+  sprint_symbol*() (which backs %ps); many format strings already
+  follow %ps with literal "()" and would otherwise render as
+  "foo (file:line)()".  KUnit gains a sprint_with_lineinfo() helper.
+
+- Build-side fixes in scripts/gen_lineinfo: apply 64-bit absolute
+  relocations to .debug_line (libdw doesn't relocate ET_REL inputs);
+  endian-safe writes for cross-builds; declare empty
+  .text/.exit.text/.init.text stanzas so ld -r binds anchors to LOCAL
+  rather than GLOBAL UND symbols.
+
+Changes since v3
+=================
+
+- Remove redundant gen_lineinfo entry in scripts/Makefile for
+  CONFIG_KALLSYMS_LINEINFO_MODULES (depends on CONFIG_KALLSYMS_LINEINFO
+  which already builds it). (Reported by Petr Pavlu)
+
+- Use R_* constants from <elf.h> instead of hardcoded relocation type
+  values in r_type_abs32(). (Reported by Petr Pavlu)
+
+- Simplify duplicated-path detection in make_relative(): replace loop
+  over every '/' with a direct midpoint check, since true path
+  duplication always splits at len/2. (Suggested by Petr Pavlu)
+
+- Fix comment in process_dwarf(): sections in ET_REL objects have
+  sh_addr == 0 and therefore overlapping address ranges; this is
+  expected behavior, not a "may" situation. (Reported by Petr Pavlu)
+
+- Use U32_MAX instead of UINT_MAX for the module raw_offset bounds
+  check, matching the u32 type of the addrs array.
+  (Reported by Petr Pavlu)
+
+- Document the assumption that .text is at the start of the MOD_TEXT
+  segment in module_lookup_lineinfo(). A proper fix using ELF
+  relocations is planned for a future series.
+  (Reported by Petr Pavlu)
+
+- Wrap -fno-inline-functions-called-once in $(call cc-option,...) for
+  clang compatibility. Clang does not support this GCC-specific flag;
+  the noinline attribute is sufficient.
+
+Changes since v2
+=================
+
+- Replace #ifdef CONFIG_KALLSYMS_LINEINFO with IS_ENABLED() throughout,
+  so the compiler checks the code for syntax errors regardless of
+  configuration. (Suggested by Helge Deller)
+
+- Replace zigzag + ULEB128 encoding of signed deltas with native SLEB128,
+  removing the unnecessary zigzag transform layer.
+  (Suggested by Vivian Wang)
+
+- Deduplicate the binary search and delta-decode logic: extract shared
+  struct lineinfo_table and lineinfo_search() into mod_lineinfo.h
+  instead of maintaining near-identical copies in kernel/kallsyms.c and
+  kernel/module/kallsyms.c. (Suggested by Vivian Wang)
+
+- Use .uleb128 / .sleb128 assembler directives in gen_lineinfo output
+  instead of encoding varints in C and emitting .byte hex literals.
+  (Suggested by Vivian Wang)
+
+- Redesign module mod_lineinfo_header to use explicit (offset, size)
+  pairs for each sub-array, similar to flattened devicetree layout.
+  This makes bounds validation straightforward: offset + size <=
+  section_size. (Suggested by Vivian Wang)
+
+- Remove dead sym_start parameter from kallsyms_lookup_lineinfo() and
+  module_lookup_lineinfo().
+
+Changes since v1
+=================
+
+- Fix path stripping regression on architectures where DWARF comp_dir is
+  a subdirectory (e.g. arch/parisc/kernel) rather than the source tree
+  root: paths now correctly show "kernel/traps.c:212" instead of bare
+  "traps.c:212". Added kernel_dirs[] fallback scan and bare-filename
+  recovery via comp_dir. (Reported by Helge Deller)
+
+- Fix RST heading: overline/underline must be at least as long as the
+  heading text in kallsyms-lineinfo.rst. (Reported by Randy Dunlap)
+
+- Fix MAINTAINERS alphabetical ordering: move KALLSYMS LINEINFO entry
+  before KASAN. (Reported by Randy Dunlap)
+
+- Fix arch-portability of .debug_line relocation handling: replace
+  hardcoded R_X86_64_32 with r_type_abs32() supporting x86, arm, arm64,
+  riscv, s390, mips, ppc, loongarch, and parisc.
+
+Sasha Levin (4):
+  kallsyms: embed source file:line info in kernel stack traces
+  kallsyms: extend lineinfo to loadable modules
+  kallsyms: delta-compress lineinfo tables for ~2.7x size reduction
+  kallsyms: add KUnit tests for lineinfo feature
+
+ Documentation/admin-guide/index.rst           |    1 +
+ .../admin-guide/kallsyms-lineinfo.rst         |   97 ++
+ MAINTAINERS                                   |    9 +
+ include/linux/kallsyms.h                      |   17 +-
+ include/linux/mod_lineinfo.h                  |  280 ++++
+ include/linux/module.h                        |   39 +
+ init/Kconfig                                  |   35 +
+ kernel/kallsyms.c                             |   78 +-
+ kernel/kallsyms_internal.h                    |   11 +
+ kernel/module/kallsyms.c                      |  171 +++
+ kernel/module/main.c                          |   26 +
+ lib/Kconfig.debug                             |   10 +
+ lib/tests/Makefile                            |    3 +
+ lib/tests/lineinfo_kunit.c                    |  855 +++++++++++
+ scripts/.gitignore                            |    1 +
+ scripts/Makefile                              |    3 +
+ scripts/Makefile.modfinal                     |    6 +
+ scripts/empty_lineinfo.S                      |   38 +
+ scripts/gen-mod-lineinfo.sh                   |   50 +
+ scripts/gen_lineinfo.c                        | 1322 +++++++++++++++++
+ scripts/kallsyms.c                            |   17 +
+ scripts/link-vmlinux.sh                       |   43 +-
+ 22 files changed, 3102 insertions(+), 10 deletions(-)
+ create mode 100644 Documentation/admin-guide/kallsyms-lineinfo.rst
+ create mode 100644 include/linux/mod_lineinfo.h
+ create mode 100644 lib/tests/lineinfo_kunit.c
+ create mode 100644 scripts/empty_lineinfo.S
+ create mode 100644 scripts/gen-mod-lineinfo.sh
+ create mode 100644 scripts/gen_lineinfo.c
+
+
+base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
 -- 
-Kind regards,
+2.53.0
 
-Rodrigo Alencar
