@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7049D3976AE
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 15:44:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DC43264EF
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 15:44:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783352667; cv=none; b=hcOnPEOiWv3wVWLQDIEkrxqlAKXSgDUsUmoUxOl1grtvDv41JQcv+mmMSj/aheUIAeRXcPVeZ/NM6bE5UUsavMjlerTCUGbZoRB+0gX7rrAXXSvw3mYbptPTg0GZWMEliXvun/wL0VAjkH/tkOBU/mxH33LhODWlxMAreVitYJ4=
+	t=1783352675; cv=none; b=CuKq7vpjHXOz+mxS5HKEU3B0F9nxftWBabvkutKuNTOfouzHOLCMZojOvKFT80/eNTlVpRgoN8PSSNHw77ywQL1dUnotNi9yHBvaCLrz+ANomJRKsEIXcYZ0MFh04EyHD2cH0AhHwM2hcqg8hNcOFUEF6YVtHjlPknsb+WYP4xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783352667; c=relaxed/simple;
-	bh=7/kw+AzJQKuBUjqhS2bAXm4UrK/nLXxNNckGtYgO8Kw=;
+	s=arc-20240116; t=1783352675; c=relaxed/simple;
+	bh=eTYZmf1KGBxj2ykPRYyTXCH9SQapkqsgBOohsxn84/I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Hz6TkXL7sMzt6nES0NLneCdx53oC0xvyu6vGoEHDSGmqvP5xj0fBSzdzpdFqDxm0FTPeu43NRajFFe3ujqCr1CSua0OT85Qy+WlanIpT6lSLYkSbNy/Mvy26n9MbNIDgFqs9v1gFcE5HBAyeR/vni2Z3Y9a/3TlVh/GOxFHO9tM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PxFV4+/D; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=BmWRSnC/I3QYbGjJR2rYznhkg87Nbo6uqPX/AYiW6F/z7VEeifmliE3Z6zHj5QXlPENNbEQwzc+eE7KOg9hkwObBhOR5OlgE7rieOGUBjL7e5b5O8cURGJ4QMYsCkkKpYyLwspyBrcGwEax676siSB1HrZVy+3tg9iJQ9soSmiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PnF+4oRK; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PxFV4+/D"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PnF+4oRK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783352665;
+	s=mimecast20190719; t=1783352673;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QtCuXPTs/0xQBoZ84al1coYi4yVh7/txmWENN/pYDxo=;
-	b=PxFV4+/D/5eiW8o2c73vTn9tIJ/iBgRSUBnoCXtOOBxNCrLF7eJQB8lwiQBvIobRcccY3A
-	L2YfAPcxTPRT6DxPsGahnBn4RMlHpr0DIAneSzH6OLCygz/mSFjMIRq8J89UYrh6s7NxxM
-	AMNwSBaIcLFxzrAkCounbTI81GE34J8=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=Ri1h3tN8eEN6boK6iP4+hRTCKqh6Pl+RZ36BeSYkv6o=;
+	b=PnF+4oRKmdmF3/SBSBOeJnPWO97RfC67fvukR3QVVM3DcIEz7aSH7EJAHj7/Bv1jp4oFO/
+	Tg42d9w2uNQl4mUlFK5a4nC4Wu5VfGP5QSky8Bo4vmmyI+xtJsXWp04xF25rd03zpStRfN
+	VP/GeXhfjNVW7DgupUyg1Vt9zlrB9HU=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-594-C_KETv4KPaWgJSJjxJTPfw-1; Mon,
- 06 Jul 2026 11:44:22 -0400
-X-MC-Unique: C_KETv4KPaWgJSJjxJTPfw-1
-X-Mimecast-MFC-AGG-ID: C_KETv4KPaWgJSJjxJTPfw_1783352659
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-22-wUX65L7YMZyFrm8Ipz-Xig-1; Mon,
+ 06 Jul 2026 11:44:31 -0400
+X-MC-Unique: wUX65L7YMZyFrm8Ipz-Xig-1
+X-Mimecast-MFC-AGG-ID: wUX65L7YMZyFrm8Ipz-Xig_1783352668
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D5DAE1955E7E;
-	Mon,  6 Jul 2026 15:44:18 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A13C91802669;
+	Mon,  6 Jul 2026 15:44:28 +0000 (UTC)
 Received: from p1.redhat.com (unknown [10.22.58.4])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1A314195604E;
-	Mon,  6 Jul 2026 15:44:08 +0000 (UTC)
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4EC1E195604B;
+	Mon,  6 Jul 2026 15:44:19 +0000 (UTC)
 From: Nico Pache <npache@redhat.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -64,9 +64,9 @@ Cc: Nico Pache <npache@redhat.com>,
 	Michal Hocko <mhocko@suse.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH 1/8] mm/khugepaged: refactor per-scan state clearing into collapse_control_init_scan()
-Date: Mon,  6 Jul 2026 09:44:48 -0600
-Message-ID: <20260706154500.39178-2-npache@redhat.com>
+Subject: [PATCH 2/8] mm/khugepaged: extract young page check into collapse_is_young() helper
+Date: Mon,  6 Jul 2026 09:44:49 -0600
+Message-ID: <20260706154500.39178-3-npache@redhat.com>
 In-Reply-To: <20260706154500.39178-1-npache@redhat.com>
 References: <20260706154500.39178-1-npache@redhat.com>
 Precedence: bulk
@@ -78,60 +78,80 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Extract the repeated clearing of node_load, alloc_nmask, and
-mthp_present_ptes into a helper to reduce duplication in
-collapse_scan_pmd() and collapse_scan_file(). Althought file scans do not
-current use the bitmap, they will in the future, and clearing it now is
-harmless.
+The change deduplicates the "is this PTE young enough to count as
+referenced" condition that was repeated in both
+__collapse_huge_page_isolate() and collapse_scan_pmd(), extracting it into
+a single inline helper function.
+
+Also move the comment and use it as the function header. While we are at
+it, updated the comment to clarify that a young pte is a recently accessed
+one.
 
 Signed-off-by: Nico Pache <npache@redhat.com>
 ---
- mm/khugepaged.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ mm/khugepaged.c | 35 +++++++++++++++++++----------------
+ 1 file changed, 19 insertions(+), 16 deletions(-)
 
 diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index 617bca76db49..b3985b854e77 100644
+index b3985b854e77..48b008a3c891 100644
 --- a/mm/khugepaged.c
 +++ b/mm/khugepaged.c
-@@ -628,6 +628,17 @@ void __khugepaged_exit(struct mm_struct *mm)
+@@ -675,6 +675,23 @@ static void release_pte_pages(pte_t *pte, pte_t *_pte,
  	}
  }
  
 +/*
-+ * collapse_control_init_scan() - initialize/reset collapse_control variables
-+ * that require being cleared once per-scan.
++ * collapse_is_young() - Check for enough young pte to justify collapsing
++ *
++ * If collapse was initiated by khugepaged, check that the page has been
++ * recently accessed (young pte) to justify collapsing the page.
++ *
++ * Return: true if the page has been recently accessed (young pte).
 + */
-+static void collapse_control_init_scan(struct collapse_control *cc)
++static inline bool collapse_is_young(struct collapse_control *cc, pte_t pteval,
++	struct folio *folio, struct vm_area_struct *vma, unsigned long addr)
 +{
-+	memset(cc->node_load, 0, sizeof(cc->node_load));
-+	nodes_clear(cc->alloc_nmask);
-+	bitmap_zero(cc->mthp_present_ptes, MAX_PTRS_PER_PTE);
++	return cc->is_khugepaged &&
++	       (pte_young(pteval) || folio_test_young(folio) ||
++		folio_test_referenced(folio) ||
++		mmu_notifier_test_young(vma->vm_mm, addr));
 +}
 +
- static void release_pte_folio(struct folio *folio)
- {
- 	node_stat_mod_folio(folio,
-@@ -1616,9 +1627,7 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
- 		goto out;
+ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+ 		unsigned long start_addr, pte_t *pte, struct collapse_control *cc,
+ 		unsigned int order, struct list_head *compound_pagelist)
+@@ -813,14 +830,7 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+ 		if (folio_test_large(folio))
+ 			list_add_tail(&folio->lru, compound_pagelist);
+ next:
+-		/*
+-		 * If collapse was initiated by khugepaged, check that there is
+-		 * enough young pte to justify collapsing the page
+-		 */
+-		if (cc->is_khugepaged &&
+-		    (pte_young(pteval) || folio_test_young(folio) ||
+-		     folio_test_referenced(folio) ||
+-		     mmu_notifier_test_young(vma->vm_mm, addr)))
++		if (collapse_is_young(cc, pteval, folio, vma, addr))
+ 			referenced++;
  	}
  
--	bitmap_zero(cc->mthp_present_ptes, MAX_PTRS_PER_PTE);
--	memset(cc->node_load, 0, sizeof(cc->node_load));
--	nodes_clear(cc->alloc_nmask);
-+	collapse_control_init_scan(cc);
+@@ -1769,14 +1779,7 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
+ 			goto out_unmap;
+ 		}
  
- 	enabled_orders = collapse_possible_orders(vma, vma->vm_flags, tva_flags);
- 
-@@ -2686,8 +2695,7 @@ static enum scan_result collapse_scan_file(struct mm_struct *mm,
- 
- 	present = 0;
- 	swap = 0;
--	memset(cc->node_load, 0, sizeof(cc->node_load));
--	nodes_clear(cc->alloc_nmask);
-+	collapse_control_init_scan(cc);
- 	rcu_read_lock();
- 	xas_for_each(&xas, folio, start + HPAGE_PMD_NR - 1) {
- 		if (xas_retry(&xas, folio))
+-		/*
+-		 * If collapse was initiated by khugepaged, check that there is
+-		 * enough young pte to justify collapsing the page
+-		 */
+-		if (cc->is_khugepaged &&
+-		    (pte_young(pteval) || folio_test_young(folio) ||
+-		     folio_test_referenced(folio) ||
+-		     mmu_notifier_test_young(vma->vm_mm, addr)))
++		if (collapse_is_young(cc, pteval, folio, vma, addr))
+ 			referenced++;
+ 	}
+ 	if (cc->is_khugepaged &&
 -- 
 2.54.0
 
