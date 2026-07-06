@@ -1,601 +1,371 @@
-Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA0833E0754;
-	Mon,  6 Jul 2026 06:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8F83C277E
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 06:20:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783318856; cv=none; b=utrvi2ej75Vv/90pccroSyzhRsRiLqcH/64zo+6tbsFtdqPJQx2rFStAwzqJeHseybD1Hr3y0vIe8ygqdDBLU643qB1nVRjkmbcNv+dYuo/7lMoWcyRiFvKMDLxmr8AsYOZ9T1lFuPcuG6gUo1S25y4kqJsaz7Tlmn5nLhIjEtU=
+	t=1783318861; cv=none; b=RI9SFQ4znWYvewrEFPDFDVUPLqAUmczSBF0kwoul7qcuKMthiAh2BB6E7wZdjgSafHxbfDUFcHhI+C/HSzIek/VD51mz2x200zn1Eh+j4y2cLT9Z/eh/JpNbVg+gNtC3tA3z/kjuZGeRfLMjox/cq8C69rgIlh8UXv6xBR66++k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783318856; c=relaxed/simple;
-	bh=mk4UuZXZcmahGal+VFkHAHdZ6ZY/W0/akU9unH6OeZY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=mDG9yb8RIeJgWd+h8mxqRndMuRfYoYPP9Ayddngm974Eeyygn6UjjEMDW16cYiSMrrwHbmqvXLYWE93R787rGw/cVYrknPPmw0XXeqZFbORZ3C8kC0a7iKNXFZta0eZIonU+o6fXXPp196ur+iQaHoFIf4GlR9dOYGRoN/WRK88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c45ff70000001609-07-6a4b48ffb81c
-From: Byungchul Park <byungchul@sk.com>
-To: linux-kernel@vger.kernel.org
-Cc: max.byungchul.park@gmail.com,
-	kernel_team@skhynix.com,
-	torvalds@linux-foundation.org,
-	damien.lemoal@opensource.wdc.com,
-	linux-ide@vger.kernel.org,
-	adilger.kernel@dilger.ca,
-	linux-ext4@vger.kernel.org,
-	mingo@redhat.com,
-	peterz@infradead.org,
-	will@kernel.org,
-	tglx@linutronix.de,
-	rostedt@goodmis.org,
-	joel@joelfernandes.org,
-	sashal@kernel.org,
-	daniel.vetter@ffwll.ch,
-	duyuyang@gmail.com,
-	johannes.berg@intel.com,
-	tj@kernel.org,
-	tytso@mit.edu,
-	willy@infradead.org,
-	david@fromorbit.com,
-	amir73il@gmail.com,
-	gregkh@linuxfoundation.org,
-	kernel-team@lge.com,
-	linux-mm@kvack.org,
-	akpm@linux-foundation.org,
-	mhocko@kernel.org,
-	minchan@kernel.org,
-	hannes@cmpxchg.org,
-	vdavydov.dev@gmail.com,
-	sj@kernel.org,
-	jglisse@redhat.com,
-	dennis@kernel.org,
-	cl@linux.com,
-	penberg@kernel.org,
-	rientjes@google.com,
-	vbabka@suse.cz,
-	ngupta@vflare.org,
-	linux-block@vger.kernel.org,
-	josef@toxicpanda.com,
-	linux-fsdevel@vger.kernel.org,
-	jack@suse.cz,
-	jlayton@kernel.org,
-	dan.j.williams@intel.com,
-	hch@infradead.org,
-	djwong@kernel.org,
-	dri-devel@lists.freedesktop.org,
-	rodrigosiqueiramelo@gmail.com,
-	melissa.srw@gmail.com,
-	hamohammed.sa@gmail.com,
-	harry.yoo@oracle.com,
-	chris.p.wilson@intel.com,
-	gwan-gyeong.mun@intel.com,
-	boqun.feng@gmail.com,
-	longman@redhat.com,
-	yunseong.kim@ericsson.com,
-	ysk@kzalloc.com,
-	yeoreum.yun@arm.com,
-	netdev@vger.kernel.org,
-	matthew.brost@intel.com,
-	her0gyugyu@gmail.com,
-	corbet@lwn.net,
-	catalin.marinas@arm.com,
-	bp@alien8.de,
-	x86@kernel.org,
-	hpa@zytor.com,
-	luto@kernel.org,
-	sumit.semwal@linaro.org,
-	gustavo@padovan.org,
-	christian.koenig@amd.com,
-	andi.shyti@kernel.org,
-	arnd@arndb.de,
-	lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com,
-	rppt@kernel.org,
-	surenb@google.com,
-	mcgrof@kernel.org,
-	petr.pavlu@suse.com,
-	da.gomez@kernel.org,
-	samitolvanen@google.com,
-	paulmck@kernel.org,
-	frederic@kernel.org,
-	neeraj.upadhyay@kernel.org,
-	joelagnelf@nvidia.com,
-	josh@joshtriplett.org,
-	urezki@gmail.com,
-	mathieu.desnoyers@efficios.com,
-	jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev,
-	juri.lelli@redhat.com,
-	vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com,
-	bsegall@google.com,
-	mgorman@suse.de,
-	vschneid@redhat.com,
-	chuck.lever@oracle.com,
-	neil@brown.name,
-	okorniev@redhat.com,
-	Dai.Ngo@oracle.com,
-	tom@talpey.com,
-	trondmy@kernel.org,
-	anna@kernel.org,
-	kees@kernel.org,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	mark.rutland@arm.com,
-	ada.coupriediaz@arm.com,
-	kristina.martsenko@arm.com,
-	wangkefeng.wang@huawei.com,
-	broonie@kernel.org,
-	kevin.brodsky@arm.com,
-	dwmw@amazon.co.uk,
-	shakeel.butt@linux.dev,
-	ast@kernel.org,
-	ziy@nvidia.com,
-	yuzhao@google.com,
-	baolin.wang@linux.alibaba.com,
-	usamaarif642@gmail.com,
-	joel.granados@kernel.org,
-	richard.weiyang@gmail.com,
-	geert+renesas@glider.be,
-	tim.c.chen@linux.intel.com,
-	linux@treblig.org,
-	alexander.shishkin@linux.intel.com,
-	lillian@star-ark.net,
-	chenhuacai@kernel.org,
-	francesco@valla.it,
-	guoweikang.kernel@gmail.com,
-	link@vivo.com,
-	jpoimboe@kernel.org,
-	masahiroy@kernel.org,
-	brauner@kernel.org,
-	thomas.weissschuh@linutronix.de,
-	oleg@redhat.com,
-	mjguzik@gmail.com,
-	andrii@kernel.org,
-	wangfushuai@baidu.com,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-i2c@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	rcu@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	2407018371@qq.com,
-	dakr@kernel.org,
-	miguel.ojeda.sandonis@gmail.com,
-	neilb@ownmail.net,
-	bagasdotme@gmail.com,
-	wsa+renesas@sang-engineering.com,
-	dave.hansen@intel.com,
-	geert@linux-m68k.org,
-	ojeda@kernel.org,
-	alex.gaynor@gmail.com,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	rust-for-linux@vger.kernel.org
-Subject: [PATCH v19 15/40] dept: track timeout waits separately with a new Kconfig
-Date: Mon,  6 Jul 2026 15:19:03 +0900
-Message-Id: <20260706061928.66713-16-byungchul@sk.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20260706061928.66713-1-byungchul@sk.com>
-References: <20260706061928.66713-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSfUxTZxTGfd/73ntLY5ebSsJVF12aOD8SnS7MnBg1xJjsDhNlLjF+JGhH
-	b6RYihaoYjShCFgFtwaDRoq1UKwVqlSqc0VAwK0qxQhisEMqDLFIKi7pmE35GBaM/5z88jzn
-	ec4/R0LJ/6IXSdTaHFGnVWoUjJRIx+ZXr0Y/bMtY+35mHfQPDNPQa2gl8N+4kUBlvZOBafNd
-	Fh69KCDQdbMOQWTSTEGRZ4bAdJmXhXIDAudtA4Z/Xf8zEHoQRnBx1ECgImhmYfTP72EmMIJh
-	uPU0givVbgYmnzylIDw6iOC29xWCZkcBA29MdyjoGf4CHpeXMDDWXYnhvYsBa0EzDd2dIQSn
-	bPUMXLjcQMAz2MhCd2gKw4A9SMBnqsaxezHzVgKYL57CsfEWQ/mNexii9loWOm39BMxPemgY
-	clSwMGPNAm/dCAuBX8sJhIJlDAw8LKZh/PnfGJylQQoaXvfSUFVcQ+CSpZ+BpubHBIzT4wh6
-	GisZKHXdoSHfHKGhq9VHQ/2IH4PP+4gkqYRI0S9EqHX/hgWnxYmEyYkyJBSZYlToPipc9b1j
-	hI5qXqg5M4EFT0WAFQpb+ljB2pArFP4xRgtuxyrB1jSKhb7QppSVe6UbVaJGrRd132w+IE13
-	WD7Qh/tVxzxt+nzk33EWxUl4LpFvizaRz2wLtdCzzHDLeb8/Ss1yPPcV7z4XjOlSCcX1LOVL
-	7efmAgu4nXybzYpnmXDL+DMl0bmwjFvPt3RcQp9Kl/J1rta5oriYfnPq8ty+nPuOf/nPQzJb
-	ynNX4nh7ZwH+FFjItzn8xIRkVjSvFsnVWn2mUq1JXJOep1UfW5OWldmAYg9nPzm173cU7vqp
-	HXESpJgvg6TkDDmt1GfnZbYjXkIp4mVfr9iWIZeplHnHRV3Wfl2uRsxuR4slRJEg+/bDUZWc
-	O6jMEQ+J4mFR99nFkrhF+ch4bQv3LP91anqOLW2Pu+N+wh4Xn/TzyJIlKZGp8DNtnzexZHNN
-	SurQ6eTgCWPoXUmKKZkZ37qlqj1Pttuz4+71teGIWQykxV9YuenW4oghdfvbDRP+H3eVqaKD
-	vsZXeuPz+8ukWqwRLVuPFO+cNxSo+9JyPjo4ub5UuzEh6eWGBQqSna5ct4rSZSs/AiSIJNxs
-	AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAAzVSa0hTcRTvf+/d3RwtbnPgpaBsPQnUoswTRQ+C+tPDoiChD+XKW5vzUVst
-	NaI2G1lW6GCzmq9cDlGztfVaMvNR9rDQaaWVtgVrJVr28IGPadPoy+F3fi/OhyMgxQ94swSK
-	lOOcKkWWJKWFlDB2TWbEON6WuOxhbwxk6c9Ap8fHg3faWgoG+rMoyL9dSUPA/IAPWfZrPHje
-	rqOgpaoCgWcgC8HQqJkEvXOCgoChkQ/9wx/5YNQimHA1IjC5DSR0tDwmofKuloA/tnEaehp+
-	IzB+9tGQ162loM96CcF1v5kP3U+3wHdPNQ8mur4S0D7Yi8DqGyfAV3seQcCkhKISRzBu+knD
-	6OtmEvKMLQhufO4i4Xe3F8Hdxk8IXGU6Gr7k3COhzTcD3gz00fDCmE3Dd3c+AT9sNBTrXDxw
-	v+pBUGA2IPB/cBGQablNg6nAToHT+4gP7p4xAjpNBgIq7DvAY/VT0JRTQgTPDbruhIE5L5MI
-	jm8EGG9VEzBsLedvKEV4SH+FwuWO+wTWtwZoXFlYifDoiAHh/tJMEutzgmtDbx+JzzlO4tKm
-	XhqPDLylsWuwmMIvS1h888IIgXNfR2Dn9S7+ro37hGsTuCSFhlNFrYsXyssKB3lHOxPSnHWa
-	s6hj50UUImCZlaylp4Y3iWlmMdvRMUxOYgkTzjou+4O8UEAybXPZS9bL1KQQyuxm6yzFxCSm
-	mIXshezhqbCIWcXWvLyG/pXOZStstVNFIUG+aqxgyi9motmPfc+oHCQsRtPKkUSRokmWKZKi
-	I9VKeXqKIi3yUGqyHQXfyXp6LPch6m/bUo8YAZJOF8GGrYlinkyjTk+uR6yAlEpEi5ZsSxSL
-	EmTpGZwq9YDqRBKnrkezBZQ0TLQ1josXM0dkxzklxx3lVP9VQhAy6yyK3vst9uo0m90yGjiH
-	zlv2DDWvuF+U4QYJGbqpybm+67Aydn63cobnYHY9YfkavrmqKWa+afspr9UR3q6ZHf80Inoe
-	zn3TkH/jiYSW5+Ko/X7t6gJPWlSztdQWSs7U5bemetmMCO/6U82FH2KkYZvi9u2ec6x6gVEX
-	E/m+9ZdcSqnlsuVLSZVa9hce/37WSgMAAA==
-X-CFilter-Loop: Reflected
+	s=arc-20240116; t=1783318861; c=relaxed/simple;
+	bh=pR618ztvTzUuiWNktevlQpbgRTLtdl8bAlVCkG2JGXs=;
+	h=Mime-Version:Subject:From:To:CC:Message-ID:Date:Content-Type:
+	 References; b=dVFNwIqYzibswWvbN8QXxBMqetFi8JURMUa6WvaKvOwgt9uIiyV44YKXmALbUv1En31fa2VIErxaOB+Xggx9KFYdpl1lQgPefViNZinNDDGvhBAgzSQXF5wHrOckRgq7AEfS72Bhv8Ge0DMD0fW7mnsYSZP8UQrdFft88H1iJrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=g5yvQQcx; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="g5yvQQcx"
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260706062044epoutp01a9c0eec36cab8f04d140941e7e30d204~-nwpxU8Cj2054020540epoutp01S
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 06:20:44 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260706062044epoutp01a9c0eec36cab8f04d140941e7e30d204~-nwpxU8Cj2054020540epoutp01S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1783318844;
+	bh=cVLVCnrPBN8gwd7UF03YbdGliMI2z6LiM3CW6zFI3rI=;
+	h=Subject:Reply-To:From:To:CC:Date:References:From;
+	b=g5yvQQcxCLJingVzRnNeHfUPYqbPArp+2Iybt3O6uSy4VeT8KUro76cqMr5SdF/XA
+	 hGclvskMig+7tsMAGe15Z4j/tL4w6jw6xu00QuYaNxWhlmAFnmo1teXGWksgesy/2P
+	 5t8Le9Nyy1zX1sL+H1OBwHAuFxq5RG8P0QxQDCqs=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	epcas2p3.samsung.com (KnoxPortal) with ESMTPS id
+	20260706062044epcas2p3e09a282cb2a524bc1cf7fd3aed36d042~-nwpZQfy32270322703epcas2p3I;
+	Mon,  6 Jul 2026 06:20:44 +0000 (GMT)
+Received: from epcas2p3.samsung.com (unknown [182.195.38.210]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4gtvP76ftKz3hhTF; Mon,  6 Jul
+	2026 06:20:43 +0000 (GMT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+Subject: [PATCH] f2fs: introduce gcless mount option to avoid foreground GC
+Reply-To: yonggil.song@samsung.com
+Sender: Yonggil Song <yonggil.song@samsung.com>
+From: Yonggil Song <yonggil.song@samsung.com>
+To: "jaegeuk@kernel.org" <jaegeuk@kernel.org>, "chao@kernel.org"
+	<chao@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>
+CC: Yonggil Song <yonggil.song@samsung.com>,
+	"linux-f2fs-devel@lists.sourceforge.net"
+	<linux-f2fs-devel@lists.sourceforge.net>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Dongjin Kim <dongjin_.kim@samsung.com>,
+	Seokhwan Kim <sukka.kim@samsung.com>, Daejun Park <daejun7.park@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20260706062043epcms2p16928216befdca1242bc2d3cd7cb34afe@epcms2p1>
+Date: Mon, 06 Jul 2026 15:20:43 +0900
+X-CMS-MailID: 20260706062043epcms2p16928216befdca1242bc2d3cd7cb34afe
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+cpgsPolicy: CPGSC10-223,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260706062043epcms2p16928216befdca1242bc2d3cd7cb34afe
+References: <CGME20260706062043epcms2p16928216befdca1242bc2d3cd7cb34afe@epcms2p1>
 
-Waits with valid timeouts don't actually cause deadlocks.  However, dept
-has been reporting the cases as well because it's worth informing the
-circular dependency for some cases where, for example, timeout is used
-to avoid a deadlock.
+Under heavy out-of-place overwrite at near-full utilization, foreground
+GC picks nearly-fully-valid victims and relocates almost every block,
+while the scattered invalid space is not SSR-reusable until a checkpoint
+stabilizes it.  WAF explodes even though reclaimable space exists.
 
-However, yes, there are also a lot of, even more, cases where timeout
-is used for its clear purpose and meant to be expired.
+Add a "gcless" mount option that counts checkpoint-stable invalid blocks
+(invalid as of the last checkpoint, hence SSR-reusable) and credits them
+as free sections in has_not_enough_free_secs().  The watermark then sees
+the slack as free, so f2fs_balance_fs() skips foreground GC and
+allocation reclaims the space through SSR instead.  The count is
+recomputed at mount and after each successful checkpoint under
+block_operations(), where it is exact and needs no locking.
 
-Report these as an information rather than warning DEADLOCK.  Plus,
-introduce CONFIG_DEPT_AGGRESSIVE_TIMEOUT_WAIT Kconfig to make it
-optional so that any reports involving waits with timeouts can be turned
-on/off depending on the purpose.
+The option is limited to adaptive (non-LFS) mode.
 
-Signed-off-by: Byungchul Park <byungchul@sk.com>
+8 GiB UFS, 2 GiB random overwrite at 99% utilization:
+  baseline: WAF 76.7, foreground GC calls 578k
+  gcless:   WAF  1.2, foreground GC calls 504
+
+Signed-off-by: Yonggil Song <yonggil.song@samsung.com>
 ---
- include/linux/dept.h              |  8 ++--
- include/linux/dept_ldt.h          |  6 +--
- include/linux/dept_sdt.h          | 13 +++---
- include/linux/sched.h             |  2 +
- kernel/dependency/dept.c          | 66 ++++++++++++++++++++++++++-----
- kernel/dependency/dept_internal.h |  5 +++
- lib/Kconfig.debug                 | 10 +++++
- 7 files changed, 89 insertions(+), 21 deletions(-)
+ Documentation/filesystems/f2fs.rst |  8 +++++
+ fs/f2fs/checkpoint.c               |  1 +
+ fs/f2fs/debug.c                    |  4 +++
+ fs/f2fs/f2fs.h                     | 12 ++++++++
+ fs/f2fs/gc.c                       |  5 ++--
+ fs/f2fs/segment.c                  | 47 ++++++++++++++++++++++++++++++
+ fs/f2fs/segment.h                  | 15 ++++++++++
+ fs/f2fs/super.c                    | 17 +++++++++++
+ 8 files changed, 107 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/dept.h b/include/linux/dept.h
-index 0b012d3799f2..e3e68ef47b9e 100644
---- a/include/linux/dept.h
-+++ b/include/linux/dept.h
-@@ -139,8 +139,8 @@ void dept_free_range(void *start, unsigned int sz);
- void dept_map_init(struct dept_map *m, struct dept_key *k, int sub_u, const char *n);
- void dept_map_reinit(struct dept_map *m, struct dept_key *k, int sub_u, const char *n);
- void dept_map_copy(struct dept_map *to, struct dept_map *from);
--void dept_wait(struct dept_map *m, unsigned long w_f, unsigned long ip, const char *w_fn, int sub_l);
--void dept_stage_wait(struct dept_map *m, struct dept_key *k, unsigned long ip, const char *w_fn);
-+void dept_wait(struct dept_map *m, unsigned long w_f, unsigned long ip, const char *w_fn, int sub_l, long timeout);
-+void dept_stage_wait(struct dept_map *m, struct dept_key *k, unsigned long ip, const char *w_fn, long timeout);
- void dept_request_event_wait_commit(void);
- void dept_clean_stage(void);
- void dept_ttwu_stage_wait(struct task_struct *t, unsigned long ip);
-@@ -187,8 +187,8 @@ struct dept_map { };
- #define dept_map_init(m, k, su, n)			do { (void)(n); (void)(k); } while (0)
- #define dept_map_reinit(m, k, su, n)			do { (void)(n); (void)(k); } while (0)
- #define dept_map_copy(t, f)				do { } while (0)
--#define dept_wait(m, w_f, ip, w_fn, sl)			do { (void)(w_fn); } while (0)
--#define dept_stage_wait(m, k, ip, w_fn)			do { (void)(k); (void)(w_fn); } while (0)
-+#define dept_wait(m, w_f, ip, w_fn, sl, t)		do { (void)(w_fn); } while (0)
-+#define dept_stage_wait(m, k, ip, w_fn, t)		do { (void)(k); (void)(w_fn); } while (0)
- #define dept_request_event_wait_commit()		do { } while (0)
- #define dept_clean_stage()				do { } while (0)
- #define dept_ttwu_stage_wait(t, ip)			do { } while (0)
-diff --git a/include/linux/dept_ldt.h b/include/linux/dept_ldt.h
-index 8047d0a531f1..730af2517ecd 100644
---- a/include/linux/dept_ldt.h
-+++ b/include/linux/dept_ldt.h
-@@ -28,7 +28,7 @@
- 		else if (t)						\
- 			dept_ecxt_enter(m, LDT_EVT_L, i, "trylock", "unlock", sl);\
- 		else {							\
--			dept_wait(m, LDT_EVT_L, i, "lock", sl);		\
-+			dept_wait(m, LDT_EVT_L, i, "lock", sl, false);	\
- 			dept_ecxt_enter(m, LDT_EVT_L, i, "lock", "unlock", sl);\
- 		}							\
- 	} while (0)
-@@ -40,7 +40,7 @@
- 		else if (t)						\
- 			dept_ecxt_enter(m, LDT_EVT_R, i, "read_trylock", "read_unlock", sl);\
- 		else {							\
--			dept_wait(m, q ? LDT_EVT_RW : LDT_EVT_W, i, "read_lock", sl);\
-+			dept_wait(m, q ? LDT_EVT_RW : LDT_EVT_W, i, "read_lock", sl, false);\
- 			dept_ecxt_enter(m, LDT_EVT_R, i, "read_lock", "read_unlock", sl);\
- 		}							\
- 	} while (0)
-@@ -52,7 +52,7 @@
- 		else if (t)						\
- 			dept_ecxt_enter(m, LDT_EVT_W, i, "write_trylock", "write_unlock", sl);\
- 		else {							\
--			dept_wait(m, LDT_EVT_RW, i, "write_lock", sl);	\
-+			dept_wait(m, LDT_EVT_RW, i, "write_lock", sl, false);\
- 			dept_ecxt_enter(m, LDT_EVT_W, i, "write_lock", "write_unlock", sl);\
- 		}							\
- 	} while (0)
-diff --git a/include/linux/dept_sdt.h b/include/linux/dept_sdt.h
-index 0535f763b21b..14917df0cc30 100644
---- a/include/linux/dept_sdt.h
-+++ b/include/linux/dept_sdt.h
-@@ -23,11 +23,12 @@
+diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
+index 7e4031631286..05ac3f76bfba 100644
+--- a/Documentation/filesystems/f2fs.rst
++++ b/Documentation/filesystems/f2fs.rst
+@@ -409,6 +409,14 @@ lookup_mode=%s		 Control the directory lookup behavior for casefolded
+ 					        on-disk `SB_ENC_NO_COMPAT_FALLBACK_FL`
+ 					        flag.
+ 			     ================== ========================================
++gcless			 Avoid foreground GC by crediting checkpoint-stable invalid
++			 blocks (invalid at the last checkpoint and thus SSR-reusable)
++			 as free space in the free section watermark, so allocation
++			 recycles that slack via SSR instead of relocating valid
++			 blocks. Intended for heavy out-of-place overwrite at
++			 near-full utilization, where it reduces write amplification.
++			 Not allowed in LFS mode (including zoned block devices),
++			 by default it's disabled.
+ ======================== ============================================================
  
- #define sdt_map_init_key(m, k)		dept_map_init(m, k, 0, #m)
- 
--#define sdt_wait(m)							\
-+#define sdt_wait_timeout(m, t)						\
- 	do {								\
- 		dept_request_event(m);					\
--		dept_wait(m, 1UL, _THIS_IP_, __func__, 0);		\
-+		dept_wait(m, 1UL, _THIS_IP_, __func__, 0, t);		\
- 	} while (0)
-+#define sdt_wait(m) sdt_wait_timeout(m, -1L)
- 
- /*
-  * sdt_might_sleep() and its family will be committed in __schedule()
-@@ -38,13 +39,13 @@
- /*
-  * Use the code location as the class key if an explicit map is not used.
-  */
--#define sdt_might_sleep_start(m)					\
-+#define sdt_might_sleep_start_timeout(m, t)				\
- 	do {								\
- 		struct dept_map *__m = m;				\
- 		static struct dept_key __key;				\
--		dept_stage_wait(__m, __m ? NULL : &__key, _THIS_IP_, __func__);\
-+		dept_stage_wait(__m, __m ? NULL : &__key, _THIS_IP_, __func__, t);\
- 	} while (0)
--
-+#define sdt_might_sleep_start(m)	sdt_might_sleep_start_timeout(m, -1L)
- #define sdt_might_sleep_end()		dept_clean_stage()
- 
- #define sdt_ecxt_enter(m)		dept_ecxt_enter(m, 1UL, _THIS_IP_, "start", "event", 0)
-@@ -54,7 +55,9 @@
- #else /* !CONFIG_DEPT */
- #define sdt_map_init(m)			do { } while (0)
- #define sdt_map_init_key(m, k)		do { (void)(k); } while (0)
-+#define sdt_wait_timeout(m, t)		do { } while (0)
- #define sdt_wait(m)			do { } while (0)
-+#define sdt_might_sleep_start_timeout(m, t) do { } while (0)
- #define sdt_might_sleep_start(m)	do { } while (0)
- #define sdt_might_sleep_end()		do { } while (0)
- #define sdt_ecxt_enter(m)		do { } while (0)
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 63360eb2301a..a4e6dce98f36 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -870,6 +870,7 @@ struct dept_task {
- 	bool				stage_sched_map;
- 	const char			*stage_w_fn;
- 	unsigned long			stage_ip;
-+	bool				stage_timeout;
- 	arch_spinlock_t			stage_lock;
- 
- 	/*
-@@ -910,6 +911,7 @@ struct dept_task {
- 	.stage_sched_map = false,				\
- 	.stage_w_fn = NULL,					\
- 	.stage_ip = 0UL,					\
-+	.stage_timeout = false,					\
- 	.stage_lock = (arch_spinlock_t)__ARCH_SPIN_LOCK_UNLOCKED,\
- 	.missing_ecxt = 0,					\
- 	.hardirqs_enabled = false,				\
-diff --git a/kernel/dependency/dept.c b/kernel/dependency/dept.c
-index 3af360ba17d8..5ef85977e631 100644
---- a/kernel/dependency/dept.c
-+++ b/kernel/dependency/dept.c
-@@ -757,6 +757,8 @@ static void print_diagram(struct dept_dep *d)
- 	if (!irqf) {
- 		print_spc(spc, "[S] %s(%s:%d)\n", c_fn, fc_n, fc->sub_id);
- 		print_spc(spc, "[W] %s(%s:%d)\n", w_fn, tc_n, tc->sub_id);
-+		if (w->timeout)
-+			print_spc(spc, "--------------- >8 timeout ---------------\n");
- 		print_spc(spc, "[E] %s(%s:%d)\n", e_fn, fc_n, fc->sub_id);
+ Debugfs Entries
+diff --git a/fs/f2fs/checkpoint.c b/fs/f2fs/checkpoint.c
+index 01e1ba77263e..0d83e90b583c 100644
+--- a/fs/f2fs/checkpoint.c
++++ b/fs/f2fs/checkpoint.c
+@@ -1932,6 +1932,7 @@ int f2fs_write_checkpoint(struct f2fs_sb_info *sbi, struct cp_control *cpc)
+ 		f2fs_release_discard_addrs(sbi);
+ 	} else {
+ 		f2fs_clear_prefree_segments(sbi, cpc);
++		f2fs_update_cib(sbi);
  	}
+ 
+ 	f2fs_restore_inmem_curseg(sbi);
+diff --git a/fs/f2fs/debug.c b/fs/f2fs/debug.c
+index af88db8fdb71..b1435e01447d 100644
+--- a/fs/f2fs/debug.c
++++ b/fs/f2fs/debug.c
+@@ -285,6 +285,8 @@ static void update_general_status(struct f2fs_sb_info *sbi)
+ 	for (i = 0; i < MAX_CALL_TYPE; i++)
+ 		si->cp_call_count[i] = atomic_read(&sbi->cp_call_count[i]);
+ 
++	si->cib_total_blocks = READ_ONCE(sbi->cib_total_blocks);
++
+ 	for (i = 0; i < 2; i++) {
+ 		si->segment_count[i] = sbi->segment_count[i];
+ 		si->block_count[i] = sbi->block_count[i];
+@@ -623,6 +625,8 @@ static int stat_show(struct seq_file *s, void *v)
+ 		seq_printf(s, "  - Total : %4d\n", si->nr_total_ckpt);
+ 		seq_printf(s, "  - Cur time : %4d(ms)\n", si->cur_ckpt_time);
+ 		seq_printf(s, "  - Peak time : %4d(ms)\n", si->peak_ckpt_time);
++		seq_printf(s, "GCless CIB budget : %u blocks\n",
++			   si->cib_total_blocks);
+ 		seq_printf(s, "GC calls: %d (gc_thread: %d)\n",
+ 			   si->gc_call_count[BACKGROUND] +
+ 			   si->gc_call_count[FOREGROUND],
+diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
+index e40b6b2784ee..51c615724cf5 100644
+--- a/fs/f2fs/f2fs.h
++++ b/fs/f2fs/f2fs.h
+@@ -137,6 +137,7 @@ enum f2fs_mount_opt {
+ 	 * string rather than using the MS_LAZYTIME flag, so this must remain.
+ 	 */
+ 	F2FS_MOUNT_LAZYTIME,
++	F2FS_MOUNT_GCLESS,
+ 	F2FS_MOUNT_RESERVE_NODE,
+ };
+ 
+@@ -1870,6 +1871,15 @@ struct f2fs_sb_info {
+ 
+ 	struct f2fs_mount_info mount_opt;	/* mount options */
+ 
++	/*
++	 * Checkpoint-stable invalid blocks: sum of blocks that were invalid at
++	 * the last checkpoint and are thus SSR-eligible while their section stays
++	 * dirty.  Written only by f2fs_update_cib() (mount and after each
++	 * successful checkpoint, under block_operations()), read locklessly, so a
++	 * plain block_t with READ_ONCE()/WRITE_ONCE() suffices -- no atomic.
++	 */
++	block_t cib_total_blocks;
++
+ 	/* for cleaning operations */
+ 	struct f2fs_rwsem gc_lock;		/*
+ 						 * semaphore for GC, avoid
+@@ -4000,6 +4010,7 @@ bool f2fs_issue_discard_timeout(struct f2fs_sb_info *sbi, bool need_check);
+ void f2fs_clear_prefree_segments(struct f2fs_sb_info *sbi,
+ 					struct cp_control *cpc);
+ void f2fs_dirty_to_prefree(struct f2fs_sb_info *sbi);
++void f2fs_update_cib(struct f2fs_sb_info *sbi);
+ block_t f2fs_get_unusable_blocks(struct f2fs_sb_info *sbi);
+ int f2fs_disable_cp_again(struct f2fs_sb_info *sbi, block_t unusable);
+ void f2fs_release_discard_addrs(struct f2fs_sb_info *sbi);
+@@ -4289,6 +4300,7 @@ struct f2fs_stat_info {
+ 	int dirty_count, node_pages, meta_pages, compress_pages;
+ 	int compress_page_hit;
+ 	int prefree_count, free_segs, free_secs;
++	block_t cib_total_blocks;
+ 	int cp_call_count[MAX_CALL_TYPE], cp_count;
+ 	int gc_call_count[MAX_CALL_TYPE];
+ 	int gc_segs[2][2];
+diff --git a/fs/f2fs/gc.c b/fs/f2fs/gc.c
+index e60c1106f70b..ebf47ef5fff0 100644
+--- a/fs/f2fs/gc.c
++++ b/fs/f2fs/gc.c
+@@ -1964,10 +1964,11 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+ 		 * threshold, we can make them free by checkpoint. Then, we
+ 		 * secure free segments which doesn't need fggc any more.
+ 		 */
+-		if (prefree_segments(sbi)) {
++		if (prefree_segments(sbi) || test_opt(sbi, GCLESS)) {
+ 			stat_inc_cp_call_count(sbi, TOTAL_CALL);
+ 			ret = f2fs_write_checkpoint(sbi, &cpc);
+-			if (ret)
++			if (ret ||
++			    (test_opt(sbi, GCLESS) && has_enough_free_secs(sbi, 0, 0)))
+ 				goto stop;
+ 			/* Reset due to checkpoint */
+ 			sec_freed = 0;
+diff --git a/fs/f2fs/segment.c b/fs/f2fs/segment.c
+index 788f8b050249..e020714261ff 100644
+--- a/fs/f2fs/segment.c
++++ b/fs/f2fs/segment.c
+@@ -305,6 +305,53 @@ static void __complete_revoke_list(struct inode *inode, struct list_head *head,
+ 		f2fs_do_truncate_blocks(inode, start_index * PAGE_SIZE, false);
  }
-@@ -810,6 +812,24 @@ static void print_dep(struct dept_dep *d)
  
- static void save_current_stack(int skip);
- 
-+static bool is_timeout_wait_circle(struct dept_class *c)
++static inline u32 cib_contrib_of_se(struct f2fs_sb_info *sbi, unsigned long seg)
 +{
-+	struct dept_class *fc = c->bfs_parent;
-+	struct dept_class *tc = c;
++	struct dirty_seglist_info *dirty_i = DIRTY_I(sbi);
++	struct free_segmap_info *free_i = SM_I(sbi)->free_info;
++	struct seg_entry *se = get_seg_entry(sbi, seg);
++	u32 usable = f2fs_usable_blks_in_seg(sbi, seg);
++	u32 ckpt_v = se->ckpt_valid_blocks;
 +
-+	do {
-+		struct dept_dep *d = lookup_dep(fc, tc);
++	/* free, prefree and current segments hold no reusable SSR slack */
++	if (test_bit(seg, free_i->free_segmap))
++		return 0;
++	if (test_bit(seg, dirty_i->dirty_segmap[PRE]))
++		return 0;
++	if (is_curseg(sbi, seg))
++		return 0;
++	if (ckpt_v >= usable)
++		return 0;
 +
-+		if (d->wait->timeout)
-+			return true;
-+
-+		tc = fc;
-+		fc = fc->bfs_parent;
-+	} while (tc != c);
-+
-+	return false;
++	return usable - ckpt_v;
 +}
 +
- /*
-  * Print all classes in a circle.
-  */
-@@ -832,10 +852,14 @@ static void print_circle(struct dept_class *c)
- 	pr_warn("summary\n");
- 	pr_warn("---------------------------------------------------\n");
- 
--	if (fc == tc)
-+	if (is_timeout_wait_circle(c)) {
-+		pr_warn("NOT A DEADLOCK BUT A CIRCULAR DEPENDENCY\n");
-+		pr_warn("CHECK IF THE TIMEOUT IS INTENDED\n\n");
-+	} else if (fc == tc) {
- 		pr_warn("*** AA DEADLOCK ***\n\n");
--	else
-+	} else {
- 		pr_warn("*** DEADLOCK ***\n\n");
++/*
++ * Recompute the checkpoint-stable invalid-block budget by scanning all main
++ * segments via ckpt_valid_blocks (free/prefree/current segments contribute
++ * nothing).  Called at mount and after every successful checkpoint, both under
++ * block_operations(), so it is the only writer and needs no atomic; readers use
++ * READ_ONCE().  ckpt_valid_blocks is fixed between checkpoints, so the value is
++ * exact at each checkpoint -- gcless checkpoints often enough to keep it fresh,
++ * which is why no per-allocation delta hooks are needed.
++ */
++void f2fs_update_cib(struct f2fs_sb_info *sbi)
++{
++	unsigned long nsegs = MAIN_SEGS(sbi);
++	unsigned long seg;
++	block_t total = 0;
++
++	if (!test_opt(sbi, GCLESS)) {
++		WRITE_ONCE(sbi->cib_total_blocks, 0);
++		return;
++	}
++
++	for (seg = 0; seg < nsegs; seg++)
++		total += cib_contrib_of_se(sbi, seg);
++
++	WRITE_ONCE(sbi->cib_total_blocks, total);
++}
++
+ static int __f2fs_commit_atomic_write(struct inode *inode)
+ {
+ 	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
+diff --git a/fs/f2fs/segment.h b/fs/f2fs/segment.h
+index 068845660b0f..3226930d759a 100644
+--- a/fs/f2fs/segment.h
++++ b/fs/f2fs/segment.h
+@@ -702,6 +702,21 @@ static inline bool has_not_enough_free_secs(struct f2fs_sb_info *sbi,
+ 	free_secs = free_sections(sbi) + freed;
+ 	required_secs = needed + reserved_sections(sbi) +
+ 			__get_secs_required(sbi);
++	/*
++	 * Credit the checkpoint-stable invalid-block budget (SSR-reusable slack)
++	 * to free_secs, so the watermark lets allocation recycle that slack via
++	 * SSR instead of running foreground GC.  cib_total_blocks is a section/
++	 * block count (always non-negative), so the math stays in unsigned int and
++	 * is capped at the sections still unaccounted for.
++	 */
++	if (test_opt(sbi, GCLESS)) {
++		unsigned int sec_blks = CAP_BLKS_PER_SEC(sbi);
++		unsigned int add_secs = READ_ONCE(sbi->cib_total_blocks) / sec_blks;
++		unsigned int room = free_secs < MAIN_SECS(sbi) ?
++					MAIN_SECS(sbi) - free_secs : 0;
++
++		free_secs += min(add_secs, room);
 +	}
  
- 	i = 0;
- 	do {
-@@ -1579,7 +1603,8 @@ static int next_wgen(void)
+ 	return free_secs < required_secs;
  }
- 
- static void add_wait(struct dept_class *c, unsigned long ip,
--		     const char *w_fn, int sub_l, bool sched_sleep)
-+		     const char *w_fn, int sub_l, bool sched_sleep,
-+		     bool timeout)
- {
- 	struct dept_task *dt = dept_task();
- 	struct dept_wait *w;
-@@ -1599,6 +1624,7 @@ static void add_wait(struct dept_class *c, unsigned long ip,
- 	w->wait_fn = w_fn;
- 	w->wait_stack = get_current_stack();
- 	w->sched_sleep = sched_sleep;
-+	w->timeout = timeout;
- 
- 	cxt = cur_cxt();
- 	if (cxt == DEPT_CXT_HIRQ || cxt == DEPT_CXT_SIRQ)
-@@ -2297,7 +2323,7 @@ static struct dept_class *check_new_class(struct dept_key *local,
-  */
- static void __dept_wait(struct dept_map *m, unsigned long w_f,
- 			unsigned long ip, const char *w_fn, int sub_l,
--			bool sched_sleep, bool sched_map)
-+			bool sched_sleep, bool sched_map, bool timeout)
- {
- 	int e;
- 
-@@ -2320,7 +2346,7 @@ static void __dept_wait(struct dept_map *m, unsigned long w_f,
- 		if (!c)
- 			continue;
- 
--		add_wait(c, ip, w_fn, sub_l, sched_sleep);
-+		add_wait(c, ip, w_fn, sub_l, sched_sleep, timeout);
- 	}
- }
- 
-@@ -2355,14 +2381,23 @@ static void __dept_event(struct dept_map *m, struct dept_map *real_m,
- }
- 
- void dept_wait(struct dept_map *m, unsigned long w_f,
--	       unsigned long ip, const char *w_fn, int sub_l)
-+	       unsigned long ip, const char *w_fn, int sub_l,
-+	       long timeoutval)
- {
- 	struct dept_task *dt = dept_task();
- 	unsigned long flags;
-+	bool timeout;
- 
- 	if (unlikely(!dept_working()))
- 		return;
- 
-+	timeout = timeoutval > 0 && timeoutval < MAX_SCHEDULE_TIMEOUT;
-+
-+#if !defined(CONFIG_DEPT_AGGRESSIVE_TIMEOUT_WAIT)
-+	if (timeout)
-+		return;
-+#endif
-+
- 	if (dt->recursive)
- 		return;
- 
-@@ -2371,21 +2406,30 @@ void dept_wait(struct dept_map *m, unsigned long w_f,
- 
- 	flags = dept_enter();
- 
--	__dept_wait(m, w_f, ip, w_fn, sub_l, false, false);
-+	__dept_wait(m, w_f, ip, w_fn, sub_l, false, false, timeout);
- 
- 	dept_exit(flags);
- }
- EXPORT_SYMBOL_GPL(dept_wait);
- 
- void dept_stage_wait(struct dept_map *m, struct dept_key *k,
--		     unsigned long ip, const char *w_fn)
-+		     unsigned long ip, const char *w_fn,
-+		     long timeoutval)
- {
- 	struct dept_task *dt = dept_task();
- 	unsigned long flags;
-+	bool timeout;
- 
- 	if (unlikely(!dept_working()))
- 		return;
- 
-+	timeout = timeoutval > 0 && timeoutval < MAX_SCHEDULE_TIMEOUT;
-+
-+#if !defined(CONFIG_DEPT_AGGRESSIVE_TIMEOUT_WAIT)
-+	if (timeout)
-+		return;
-+#endif
-+
- 	if (m && m->nocheck)
- 		return;
- 
-@@ -2434,6 +2478,7 @@ void dept_stage_wait(struct dept_map *m, struct dept_key *k,
- 
- 	dt->stage_w_fn = w_fn;
- 	dt->stage_ip = ip;
-+	dt->stage_timeout = timeout;
- 	arch_spin_unlock(&dt->stage_lock);
- exit:
- 	dept_exit_recursive(flags);
-@@ -2447,6 +2492,7 @@ static void __dept_clean_stage(struct dept_task *dt)
- 	dt->stage_sched_map = false;
- 	dt->stage_w_fn = NULL;
- 	dt->stage_ip = 0UL;
-+	dt->stage_timeout = false;
- }
- 
- void dept_clean_stage(void)
-@@ -2479,6 +2525,7 @@ void dept_request_event_wait_commit(void)
- 	unsigned long ip;
- 	const char *w_fn;
- 	bool sched_map;
-+	bool timeout;
- 
- 	if (unlikely(!dept_working()))
- 		return;
-@@ -2505,12 +2552,13 @@ void dept_request_event_wait_commit(void)
- 	w_fn = dt->stage_w_fn;
- 	ip = dt->stage_ip;
- 	sched_map = dt->stage_sched_map;
-+	timeout = dt->stage_timeout;
- 
- 	wg = next_wgen();
- 	WRITE_ONCE(dt->stage_m.wgen, wg);
- 	arch_spin_unlock(&dt->stage_lock);
- 
--	__dept_wait(&dt->stage_m, 1UL, ip, w_fn, 0, true, sched_map);
-+	__dept_wait(&dt->stage_m, 1UL, ip, w_fn, 0, true, sched_map, timeout);
- exit:
- 	dept_exit(flags);
- }
-diff --git a/kernel/dependency/dept_internal.h b/kernel/dependency/dept_internal.h
-index 051d4ee4e6e1..3d1cd1a9b6d4 100644
---- a/kernel/dependency/dept_internal.h
-+++ b/kernel/dependency/dept_internal.h
-@@ -238,6 +238,11 @@ struct dept_wait {
- 			 * whether this wait is for commit in scheduler
- 			 */
- 			bool		sched_sleep;
-+
-+			/*
-+			 * whether a timeout is set
-+			 */
-+			bool		timeout;
- 		};
- 	};
+diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
+index ccf806b676f5..8cb2eb2ce836 100644
+--- a/fs/f2fs/super.c
++++ b/fs/f2fs/super.c
+@@ -234,6 +234,7 @@ enum {
+ 	Opt_jqfmt,
+ 	Opt_checkpoint,
+ 	Opt_lookup_mode,
++	Opt_gcless,
+ 	Opt_err,
  };
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 8eefca5cbb6f..5c7f22ba253e 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1467,6 +1467,16 @@ config DEPT
- 	  noting, to mitigate the impact by the false positives, multi
- 	  reporting has been supported.
  
-+config DEPT_AGGRESSIVE_TIMEOUT_WAIT
-+	bool "Aggressively track even timeout waits"
-+	depends on DEPT
-+	default n
-+	help
-+	  Timeout wait doesn't contribute to a deadlock. However,
-+	  informing a circular dependency might be helpful for cases
-+	  that timeout is used to avoid a deadlock. Say N if you'd like
-+	  to avoid verbose reports.
+@@ -336,6 +337,7 @@ static const struct fs_parameter_spec f2fs_param_specs[] = {
+ 	fsparam_flag("usrquota", Opt_usrquota),
+ 	fsparam_flag("grpquota", Opt_grpquota),
+ 	fsparam_flag("prjquota", Opt_prjquota),
++	fsparam_flag("gcless", Opt_gcless),
+ 	fsparam_string("usrjquota", Opt_usrjquota),
+ 	fsparam_flag("usrjquota", Opt_usrjquota),
+ 	fsparam_string("grpjquota", Opt_grpjquota),
+@@ -1230,6 +1232,9 @@ static int f2fs_parse_param(struct fs_context *fc, struct fs_parameter *param)
+ 	case Opt_nat_bits:
+ 		ctx_set_opt(ctx, F2FS_MOUNT_NAT_BITS);
+ 		break;
++	case Opt_gcless:
++		ctx_set_opt(ctx, F2FS_MOUNT_GCLESS);
++		break;
+ 	case Opt_lookup_mode:
+ 		F2FS_CTX_INFO(ctx).lookup_mode = result.uint_32;
+ 		ctx->spec_mask |= F2FS_SPEC_lookup_mode;
+@@ -1603,6 +1608,13 @@ static int f2fs_check_opt_consistency(struct fs_context *fc,
+ 		f2fs_err(sbi, "Allow to mount readonly mode only");
+ 		return -EROFS;
+ 	}
 +
- config LOCK_DEBUGGING_SUPPORT
- 	bool
- 	depends on TRACE_IRQFLAGS_SUPPORT && STACKTRACE_SUPPORT && LOCKDEP_SUPPORT
++	/* Only for adaptive mode */
++	if (test_opt(sbi, GCLESS) && f2fs_lfs_mode(sbi)) {
++		f2fs_err(sbi, "gcless is not allowed in LFS mode");
++		return -EINVAL;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -2542,6 +2554,9 @@ static int f2fs_show_options(struct seq_file *seq, struct dentry *root)
+ 	else if (F2FS_OPTION(sbi).lookup_mode == LOOKUP_AUTO)
+ 		seq_show_option(seq, "lookup_mode", "auto");
+ 
++	if (test_opt(sbi, GCLESS))
++		seq_puts(seq, ",gcless");
++
+ 	return 0;
+ }
+ 
+@@ -5344,6 +5359,8 @@ static int f2fs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	if (err)
+ 		goto sync_free_meta;
+ 
++	f2fs_update_cib(sbi);
++
+ 	/*
+ 	 * If filesystem is not mounted as read-only then
+ 	 * do start the gc_thread.
+
+base-commit: cb8ff3ead9a3fc43727980be58c7099506f65261
 -- 
-2.17.1
+2.43.0
 
