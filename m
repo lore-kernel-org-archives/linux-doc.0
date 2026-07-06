@@ -1,63 +1,62 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221E627F728
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 14:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C1D27F728
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 14:01:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783346447; cv=none; b=KFzMMPz0KoruHJmudgn+8IsYnM3pIzLRIXWfKcAzuwg69IkZIKPNRx26ifOyL8D45XiIRDhblX1dm5fgynVaq5XsUgzVFGwt9rYz2snslZVyMYPtvapeO/GsdKM+r2UX+ceA+IdYagnBr9KWZvn/OO7TCB1MiWLIjtoeKjBB8vI=
+	t=1783346463; cv=none; b=SePcm0c6JHOIFry7cDcgImw6DUWJWPHTsoZ/LEzaJYPVNrEyMnq/8S/cKxXJ6lOhf+zZyWW4DkNJNMSprE3H8qgzVTWtucVIZ0XpupfgXqYs/rHVYfH86I7nd5cg13Go7Mw2A5HwxjmXp02DFgRvBByiS3+JA88xJNqleGqQP7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783346447; c=relaxed/simple;
-	bh=4IRDgwg2iBiG6MDag061l/nMr9fqUoFWDNfCXhd2m6Y=;
+	s=arc-20240116; t=1783346463; c=relaxed/simple;
+	bh=EB9bl3+08DCr5hMRFP2x18GYsUrC/G2BROQXGL5I3fs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MMOXTj2B/yL2/WTyoeKkjU3aPR0lKPK2wNx05OM5u1SeK3+4vBmfoQsc+pOv0UAWCpVl+YtrAOnc2eYjh/foRqr2HbhegNEHvb7cwDWWySFR8Mpu3rV6i5s64qbZ/H6J3ID2unxkc9pUjyW6vNkSYBvgRjjvPNHDujiNhFNwhuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=br0OcACH; arc=none smtp.client-ip=209.85.219.48
+	 MIME-Version; b=qT3OX3iNw+1HGRlOuneIcuHeH7aWEScpgSUGZBg/ylBLscEgNjhjNksyrV8LHQ48gdM7o56Ujn1/AuDyjyeNOcnMkQ7FcEyjZQArHYe+6jU79UlbHmsvm2LZBitm+yZp1xmlz9jYN9FnR2+ml6CABV8GYyc5hW9+DKQH8Uj9wlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Hj9BFTIG; arc=none smtp.client-ip=209.85.222.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="br0OcACH"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8eeadbc5e21so21327076d6.3
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 07:00:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Hj9BFTIG"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-92e57a753f9so224407585a.2
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 07:01:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1783346445; x=1783951245; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1783346461; x=1783951261; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AYoUTJE6BZs101tPJMFqBcaouNziXouVXgG/iQU0gts=;
-        b=br0OcACHBjgLi8xR+Ko10YEALQ+v66oyy7pi5w6TgrQqcgIDuyGsqZqkHDEqZh5owj
-         j3DJwasFU3M6OIkD5uIffDrMvrCRqiwz5IE86L6FTi9lKLVaO7NvUlSO8h/OIw7PUuHJ
-         r7DojADf2iDzAbDFMPvmAkt1rNQd+nLG+raVjb3cUwWiQtnsK5rQunI2qOWwZPyohJOr
-         8sxYC7ssS+vUPFQneSwaMkkR6GN2SFjjMKX43cyQl2RP3ZlnPe2Uo9hVXB1PhA1tBhmp
-         MHzBYU/kR1UIj3fUMTaRnXs16OCXsXkFGagYF3F4N8Ac/Wm/u9j2SXQSj0onANiE6ev8
-         Q4QA==
+        bh=EaKA4XfYRMSPlyfQmcR3Q5U3XM9OAtXE2SUzPnGXtCQ=;
+        b=Hj9BFTIG+FcpOHC2MaDl6b9RzkHsb16JtMnXoOX2q+po2P+J9xBlYXQS87fnXfYYgj
+         ZytbFWF+6XrNHTPxfN7JxwU4J43BFPQdeiVXtp+RMyS1Y0m7ivua53X+AHJFss4IsEKV
+         l04YIbvWSSHtz6a2puRfIgxihIUSSRQ0vDQXqGzwGssp+SlRSbFPlGh6mcY/m12/PIk0
+         OnS/TeeV9SCc2ibMU7PBq3uLEl6V9XVVXWD9yyQexGtFUpZP4SjbeTzngXjz6Rcm4TGu
+         3QcOmsFkj+fburvkUQdM0bGM1AygRLZGSGJ93pqBHWVDYdgYvj6iIwPZJW7Xw44b0oT1
+         LUJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783346445; x=1783951245;
+        d=1e100.net; s=20251104; t=1783346461; x=1783951261;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=AYoUTJE6BZs101tPJMFqBcaouNziXouVXgG/iQU0gts=;
-        b=TWE0idOGiRwu//qWAZTw1l7AyHbZDNYm3aOBk0Zyu8J3PW0+C1icLdhb/qp9yvpJ3m
-         SCwP5YJS7lIbw7jflv4aF6GIRgZRJUc7E/7kBfgWDMCjj4/bJDmYO3iRf4tBWyRU9VQy
-         zDurenELFyRlneGLwoRJA+1Jq3G32BhCgfS7kI7h7/vjJNQAI4RVERFOVwIEPabjCXXm
-         9HXZsGDJjPMzLrZt6jhQVZ+bPWtwtpWPNpeGy+E2hT7iqDY1Ih7PdwhHqoRnUv4wSxRz
-         cFaXTiDxkNRo+EGtPraVWb8uNAlKjfbqfphthMU76X3IjOps+MBw3zBJuxUJhkfQkizP
-         zm0Q==
-X-Gm-Message-State: AOJu0YzyQy8kfXNfJNiCDy+937my6gkXIGS74H3jThliayp7h82Q3HiU
-	/H82F0/POO1M9fdSVcRQNafOxk9usj9vw9bh5bHmL9fVzLt5GVhvcyCzK09cbhMw2FtAn7F/FKO
-	YMqlb
-X-Gm-Gg: AfdE7ck+pSgyQLia8/MHzQx1KTnOnu2aZy8UH9esX8pW0FXrq8hidIHXnSdpVWezJFn
-	Z1tquR+BZ0Vl0b0yTWdcBrirezRH2/skTbWp2URBokjLGLAskrnZ3aKhYL+dmFtvC9Cb43yYOfF
-	DCWdHivhV1EZoWQnpObIjUHRHv4Tg8cgnKio/hi7aC8ZSXdd+wY98a1+GjIXlVpzS8+435MPFuY
-	R0Pdy+kHKVgf0zG9I9T8mk5o/gCvtYSq0KOEBl2G6XZxtu9iT7hItqp9xgwqSOx4A9/PvJ1o5dM
-	u/hroaTmUqgCpCZjdd5ZdUbv1zKOUwth2tVrsE+MDLlt8qKDmXRKes/jUP2suvmBVetA6WqNgH4
-	rnzvxiRIq7YlotTbt+06INutujgEylHD2MaOVwXVvqViO0X1+ea0/CL0+Dy4/ZxpRY6D2AxxJU8
-	1IAGg2Bd4=
-X-Received: by 2002:a05:620a:4588:b0:915:fad5:90a5 with SMTP id af79cd13be357-92ebb60ca7dmr93463485a.54.1783346440130;
-        Mon, 06 Jul 2026 07:00:40 -0700 (PDT)
+        bh=EaKA4XfYRMSPlyfQmcR3Q5U3XM9OAtXE2SUzPnGXtCQ=;
+        b=tWCrM5yhzl9kFrKbatpux2w+L33e+zi8sFqIuMVeX/0qRMuQBuK0ujSCgFs/xIcRhg
+         h/i1oXMcSG0prDBVjKHy4BSlp/nYc/+0CmeYosON2t5YI7nqlIYv6OPVXRC+gqDK1Oeh
+         79rXPHjbLxNp/8OIjzG24fc/BFA8HwsY+o3v5tbY3WSuLJzhk7sdI9stFuqY5OIKS/xh
+         M3qUcFtJCMK9rPDaExLs7oyXMDm1r3BO0Jg+YDa0lDv5QfhrFa8CFC7ZYsMQhQuv0hng
+         Mzje3bhovd2JeyaGJFuTkiIoviSKGAQlIz9TOws1hYz8GKhd33oyyMo7qQtC1kPexE8X
+         ebrw==
+X-Gm-Message-State: AOJu0YxnY7bQSWnR5bj3pcNQVTN4C1W6d7JlF0JUZ4eUaQXlTNvnC+fB
+	vj5kEt0lkmuZMbfQoGStNz9pLB6l54kOSptSpmZxsW3pv8/whMNiPZiP6pLFH6uivKw=
+X-Gm-Gg: AfdE7cmBA+bl0WvWDgWn7S6EMLHv5zGvKOI7k9reGV7RCBgGodwb+vhKAdYyu6tRKTU
+	BIcCmV9UrbP2DnSt3P+U8uhMI9m9r2jrrOw9OLFJcJYTjvL2g8OmjQWDiMQdEuoeOtQMY7aGhzV
+	IwoJyanY6u9i+34NnfxaKXJn7JcbG8YJwebSMXjQ/fI85Jzt8tcV7ed8DU4c1GVmMDXHH4HTmOX
+	/WYj/NHhLDZs8fzbwIGbN17JDjLPpV1VlKGbeuOSw3lM2c2py9Ion+TPxXfclA0fyw3jb3aKmX+
+	VrsYQGh2agT6xtKQEsoaEaqgoMiItTPxvSpHAB/EROEjdrAliIUy3k7651wqqyw7dXJk77SBj16
+	WHDXnQK2ZFhY/WzJJAQ7Dlj88QIEi3p5lc5TegMSYMYqz8MYA5zb1qh8baGb99DdqF3m9PZiD98
+	65XBX9Rzs=
+X-Received: by 2002:a05:620a:4014:b0:92e:5ef2:2c0d with SMTP id af79cd13be357-92ebb5af416mr91321085a.63.1783346436180;
+        Mon, 06 Jul 2026 07:00:36 -0700 (PDT)
 Received: from fedora ([172.56.218.236])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e90cce037sm918577385a.38.2026.07.06.07.00.37
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e90cce037sm918577385a.38.2026.07.06.07.00.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 07:00:39 -0700 (PDT)
+        Mon, 06 Jul 2026 07:00:35 -0700 (PDT)
 From: Gregory Price <gourry@gourry.net>
 To: linux-kernel@vger.kernel.org
 Cc: linux-doc@vger.kernel.org,
@@ -80,9 +79,9 @@ Cc: linux-doc@vger.kernel.org,
 	xur@google.com,
 	lukas.bulwahn@redhat.com,
 	ryan.roberts@arm.com
-Subject: [PATCH v3 2/2] syscall_user_dispatch: add kernel.syscall_user_dispatch sysctl
-Date: Mon,  6 Jul 2026 10:00:19 -0400
-Message-ID: <20260706140020.873735-3-gourry@gourry.net>
+Subject: [PATCH v3 1/2] syscall_user_dispatch: Make it configurable in Kconfig
+Date: Mon,  6 Jul 2026 10:00:18 -0400
+Message-ID: <20260706140020.873735-2-gourry@gourry.net>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260706140020.873735-1-gourry@gourry.net>
 References: <20260706140020.873735-1-gourry@gourry.net>
@@ -94,122 +93,172 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a matching sysctl to go with CONFIG_SYSCALL_USER_DISPATCH.
+Syscall User Dispatch is presently built under CONFIG_GENERIC_SYSCALL
+and cannot be disabled independently.
 
-kernel.syscall_user_dispatch (default 1 - allow) controls whether
-userspace may arm syscall user dispatch (both via prctl and ptrace).
-
-Disarming is always permitted - same semantics as comparable knobs.
-
-Disabling while a task has armed syscall user dispatch does not
-cause it to become inactive - instead it remains active until the
-user attempts to disable/re-enable via prctl or ptrace.  On the
-next attempt to re-enable, the prctl/ptrace call fails gracefully.
-
-The alternative would cause programs translating non-linux syscalls
-to interpret those syscalls as linux syscalls, resulting in undefined
-userland behavior.
+Add CONFIG_SYSCALL_USER_DISPATCH to make it an optional feature.
 
 Signed-off-by: Gregory Price <gourry@gourry.net>
 ---
- Documentation/admin-guide/sysctl/kernel.rst | 17 +++++++++
- kernel/entry/syscall_user_dispatch.c        | 38 +++++++++++++++++----
- 2 files changed, 48 insertions(+), 7 deletions(-)
+ arch/Kconfig                                  | 10 +++++++
+ include/linux/entry-common.h                  | 11 +++-----
+ include/linux/syscall_user_dispatch.h         | 28 +++++++++++++++++--
+ include/linux/syscall_user_dispatch_types.h   |  2 +-
+ kernel/entry/Makefile                         |  3 +-
+ .../selftests/syscall_user_dispatch/config    |  2 +-
+ 6 files changed, 44 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index c6994e55d141..b6328cd0f43e 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -1402,6 +1402,23 @@ Note that if you change this from 0 to 1, already created segments
- without users and with a dead originative process will be destroyed.
+diff --git a/arch/Kconfig b/arch/Kconfig
+index fa7507ac8e13..0c01521c2f3f 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -114,6 +114,16 @@ config GENERIC_ENTRY
+ 	select GENERIC_IRQ_ENTRY
+ 	select GENERIC_SYSCALL
  
++config SYSCALL_USER_DISPATCH
++	bool "Syscall User Dispatch"
++	depends on GENERIC_ENTRY
++	default y
++	help
++	  Syscall User Dispatch lets a thread have its own system calls
++	  intercepted and redirected to a userspace signal handler based
++	  on a prctl() configured instruction pointer range.
++	  If unsure, say Y.
++
+ config KPROBES
+ 	bool "Kprobes"
+ 	depends on HAVE_KPROBES
+diff --git a/include/linux/entry-common.h b/include/linux/entry-common.h
+index 416a3352261f..43afee3e1b29 100644
+--- a/include/linux/entry-common.h
++++ b/include/linux/entry-common.h
+@@ -2,6 +2,8 @@
+ #ifndef __LINUX_ENTRYCOMMON_H
+ #define __LINUX_ENTRYCOMMON_H
  
-+syscall_user_dispatch
-+=====================
-+
-+Controls whether userspace may arm Syscall User Dispatch via
-+``prctl(PR_SET_SYSCALL_USER_DISPATCH, ...)`` or the
-+``PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG`` ptrace request:
-+
-+  ==  ===================================================================
-+  0   Arming syscall user dispatch is denied with ``-EPERM``.  Tasks that
-+      already armed it keep it, and disabling it is always permitted.
-+  1   (default) Arming syscall user dispatch is permitted.
-+  ==  ===================================================================
-+
-+Only present when the kernel is built with ``CONFIG_SYSCALL_USER_DISPATCH``
-+and ``CONFIG_PROC_SYSCTL``.
-+
-+
- sysctl_writes_strict
- ====================
- 
-diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
-index d89dffcc2d64..310c72e6988d 100644
---- a/kernel/entry/syscall_user_dispatch.c
-+++ b/kernel/entry/syscall_user_dispatch.c
-@@ -3,19 +3,20 @@
-  * Copyright (C) 2020 Collabora Ltd.
-  */
- 
++#include <asm/entry-common.h>
 +#include <asm/syscall.h>
-+#include <linux/elf.h>
- #include <linux/entry-common.h>
--#include <linux/sched.h>
- #include <linux/prctl.h>
- #include <linux/ptrace.h>
--#include <linux/syscall_user_dispatch.h>
--#include <linux/uaccess.h>
--#include <linux/signal.h>
--#include <linux/elf.h>
+ #include <linux/audit.h>
+ #include <linux/irq-entry-common.h>
+ #include <linux/livepatch.h>
+@@ -9,9 +11,7 @@
+ #include <linux/resume_user_mode.h>
+ #include <linux/seccomp.h>
+ #include <linux/sched.h>
 -
-+#include <linux/sched.h>
- #include <linux/sched/signal.h>
- #include <linux/sched/task_stack.h>
-+#include <linux/signal.h>
-+#include <linux/syscall_user_dispatch.h>
-+#include <linux/sysctl.h>
-+#include <linux/uaccess.h>
- 
+-#include <asm/entry-common.h>
 -#include <asm/syscall.h>
-+static bool syscall_user_dispatch_allowed __read_mostly = true;
++#include <linux/syscall_user_dispatch.h>
  
- static void trigger_sigsys(struct pt_regs *regs)
- {
-@@ -102,6 +103,10 @@ static int task_set_syscall_user_dispatch(struct task_struct *task, unsigned lon
- 		return -EINVAL;
+ #ifndef _TIF_UPROBE
+ # define _TIF_UPROBE			(0)
+@@ -55,7 +55,6 @@ static __always_inline int arch_ptrace_report_syscall_entry(struct pt_regs *regs
+ }
+ #endif
+ 
+-bool syscall_user_dispatch(struct pt_regs *regs);
+ long trace_syscall_enter(struct pt_regs *regs, long syscall);
+ void trace_syscall_exit(struct pt_regs *regs, long ret);
+ 
+@@ -232,10 +231,8 @@ static __always_inline void syscall_exit_work(struct pt_regs *regs, unsigned lon
+ 	 * of these syscalls is unknown.
+ 	 */
+ 	if (work & SYSCALL_WORK_SYSCALL_USER_DISPATCH) {
+-		if (unlikely(current->syscall_dispatch.on_dispatch)) {
+-			current->syscall_dispatch.on_dispatch = false;
++		if (syscall_user_dispatch_clear_on_dispatch())
+ 			return;
+-		}
  	}
  
-+	/* Arming can be denied at runtime via sysctl, disarming is allowed */
-+	if (mode != PR_SYS_DISPATCH_OFF && !syscall_user_dispatch_allowed)
-+		return -EPERM;
+ 	audit_syscall_exit(regs);
+diff --git a/include/linux/syscall_user_dispatch.h b/include/linux/syscall_user_dispatch.h
+index 3858a6ffdd5c..3dd30f4b2799 100644
+--- a/include/linux/syscall_user_dispatch.h
++++ b/include/linux/syscall_user_dispatch.h
+@@ -6,9 +6,23 @@
+ #define _SYSCALL_USER_DISPATCH_H
+ 
+ #include <linux/thread_info.h>
++#include <linux/sched.h>
+ #include <linux/syscall_user_dispatch_types.h>
+ 
+-#ifdef CONFIG_GENERIC_ENTRY
++struct pt_regs;
 +
- 	/*
- 	 * access_ok() will clear memory tags for tagged addresses
- 	 * if current has memory tagging enabled.
-@@ -172,3 +177,22 @@ int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long siz
- 	return task_set_syscall_user_dispatch(task, cfg.mode, cfg.offset, cfg.len,
- 					      (char __user *)(uintptr_t)cfg.selector);
- }
++#ifdef CONFIG_SYSCALL_USER_DISPATCH
 +
-+#ifdef CONFIG_PROC_SYSCTL
-+static const struct ctl_table syscall_user_dispatch_sysctls[] = {
-+	{
-+		.procname	= "syscall_user_dispatch",
-+		.data		= &syscall_user_dispatch_allowed,
-+		.maxlen		= sizeof(syscall_user_dispatch_allowed),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dobool,
-+	},
-+};
++bool syscall_user_dispatch(struct pt_regs *regs);
 +
-+static int __init syscall_user_dispatch_sysctl_init(void)
++static __always_inline bool syscall_user_dispatch_clear_on_dispatch(void)
 +{
-+	register_sysctl_init("kernel", syscall_user_dispatch_sysctls);
-+	return 0;
++	if (likely(!current->syscall_dispatch.on_dispatch))
++		return false;
++
++	current->syscall_dispatch.on_dispatch = false;
++	return true;
 +}
-+late_initcall(syscall_user_dispatch_sysctl_init);
-+#endif /* CONFIG_PROC_SYSCTL */
+ 
+ int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
+ 			      unsigned long len, char __user *selector);
+@@ -24,6 +38,16 @@ int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long siz
+ 
+ #else
+ 
++static __always_inline bool syscall_user_dispatch(struct pt_regs *regs)
++{
++	return false;
++}
++
++static __always_inline bool syscall_user_dispatch_clear_on_dispatch(void)
++{
++	return false;
++}
++
+ static inline int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
+ 					    unsigned long len, char __user *selector)
+ {
+@@ -46,6 +70,6 @@ static inline int syscall_user_dispatch_set_config(struct task_struct *task,
+ 	return -EINVAL;
+ }
+ 
+-#endif /* CONFIG_GENERIC_ENTRY */
++#endif /* CONFIG_SYSCALL_USER_DISPATCH */
+ 
+ #endif /* _SYSCALL_USER_DISPATCH_H */
+diff --git a/include/linux/syscall_user_dispatch_types.h b/include/linux/syscall_user_dispatch_types.h
+index 3be36b06c7d7..c0bdd4f760d3 100644
+--- a/include/linux/syscall_user_dispatch_types.h
++++ b/include/linux/syscall_user_dispatch_types.h
+@@ -4,7 +4,7 @@
+ 
+ #include <linux/types.h>
+ 
+-#ifdef CONFIG_GENERIC_ENTRY
++#ifdef CONFIG_SYSCALL_USER_DISPATCH
+ 
+ struct syscall_user_dispatch {
+ 	char __user	*selector;
+diff --git a/kernel/entry/Makefile b/kernel/entry/Makefile
+index 2333d70802e4..f220bae86b12 100644
+--- a/kernel/entry/Makefile
++++ b/kernel/entry/Makefile
+@@ -13,5 +13,6 @@ CFLAGS_REMOVE_common.o	 = -fstack-protector -fstack-protector-strong
+ CFLAGS_common.o		+= -fno-stack-protector
+ 
+ obj-$(CONFIG_GENERIC_IRQ_ENTRY) 	+= common.o
+-obj-$(CONFIG_GENERIC_SYSCALL) 		+= syscall-common.o syscall_user_dispatch.o
++obj-$(CONFIG_GENERIC_SYSCALL) 		+= syscall-common.o
++obj-$(CONFIG_SYSCALL_USER_DISPATCH)	+= syscall_user_dispatch.o
+ obj-$(CONFIG_VIRT_XFER_TO_GUEST_WORK)	+= virt.o
+diff --git a/tools/testing/selftests/syscall_user_dispatch/config b/tools/testing/selftests/syscall_user_dispatch/config
+index 039e303e59d7..22c4dfe167ca 100644
+--- a/tools/testing/selftests/syscall_user_dispatch/config
++++ b/tools/testing/selftests/syscall_user_dispatch/config
+@@ -1 +1 @@
+-CONFIG_GENERIC_ENTRY=y
++CONFIG_SYSCALL_USER_DISPATCH=y
 -- 
 2.54.0
 
