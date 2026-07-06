@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E803F929A
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 09:20:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F37424668
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 09:21:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783329662; cv=none; b=oVPYb2ifsl/MJXlJcn7nc/MvjeYp/GTpiVWc15jDo1xh1Zb8dbKiUG+z8gvXlk0vNHEdhWiF5OqN0ZDY3Wd2o5LnZt9uNReNuj4DhbU+tBwyPsIlhY4b5+ZEp65M7SpWW9Uetyb60gc6Z2nC6B8/mwcvDWX4YcD+MVFXEBPRDBE=
+	t=1783329667; cv=none; b=MemLy1otioyu9AWuTtf2MIa3mtAZ/E+Lt+kM46RaQg3KNZ4Vy0axaSxc4yS34SrO3a2wUPS3w45KOZtsdjqs/QCYA0rxo9R8MroVFPS2gNiLrzpNE+qSJFfNS0oF+hqu59U7yMqSSS/17jjBLgnb/OefXfXR5cA15gwkuhB5KR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783329662; c=relaxed/simple;
-	bh=SQH7RsdEnyNfeS7eCNOEXp6G0v6D4JYiJ63zj8DGjCI=;
+	s=arc-20240116; t=1783329667; c=relaxed/simple;
+	bh=Yrz1Fq6b88EE+W89sFB/veSJ+k7HVMWjSjStIWtyYHs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gedklcZUsYO/Of5mHeMKqJH0v0fUCr2Iw8V9e4vHqlNguLhDbTmq0hjkKIzIS7NvBjiwFSvdvtv4Yuffjke90KQ9ZTxv7b0uH0coKh/f85PVurBy46RbpX8fnmUGBiJ8xsCQBw8LsqFgMVHufu82mil0AvbdBVWPYcKhhUg4GSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TGb7We/B; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=Hom5HPzNXfloQC/WwT3UtRmIG/mtCf+e74A69NMn8aHnJOUiBHUGmIkIy5NTHe2sSljoFqeNpNCUNTkWNJaoBRRoBOnppt+dqB+YReurm8p4PuURrnPvTySBkbNeHHoVy4hEDt6anykjPq+Drku8KJxGfp5Ia/d+ycRHSXCyZrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iDgwZYb3; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TGb7We/B"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iDgwZYb3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783329657;
+	s=mimecast20190719; t=1783329661;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uQxyf8gFubuHQRk62vioXACqbVSli2rzreFz2EP145g=;
-	b=TGb7We/Blz/KKx+w21uuI66IVR0rRQcJhE2SwDn1UrzyYq9zY2rBlQYhMMzIhZ1StM8H2H
-	3qCtJzt1gWSYvYp7xjDvVJcd8h6yhn75FECtdJcQXMXmRdWl084gykIPsJR4paMKMjAl3C
-	0aYkOzgVm0AEHYILW7zbLED2pzsCsg4=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=C/UZc0NPyToGXboMyOX1I0EMuMdZ493ROXRw7IM/VtY=;
+	b=iDgwZYb3zfRRCxYHZhVnUhdVYsStwT6YbL+787W1E+5Ff1IxzMvgoSz0vq+/vljhORHR7R
+	FF4TjYNc2aeqEQGshxGRVcwUyouraZrUqk6GgfvWhgQtr5cgXLM0eCk81tu9x2cv9cU2Zt
+	Jrhzw1KBnY7DpYliiSKZP7ctrelQq54=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-1-UeKAIWzAN0y0LEMF522luw-1; Mon,
- 06 Jul 2026 05:20:54 -0400
-X-MC-Unique: UeKAIWzAN0y0LEMF522luw-1
-X-Mimecast-MFC-AGG-ID: UeKAIWzAN0y0LEMF522luw_1783329652
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-447-GpKailxSPvmYMt6V6S5bew-1; Mon,
+ 06 Jul 2026 05:20:57 -0400
+X-MC-Unique: GpKailxSPvmYMt6V6S5bew-1
+X-Mimecast-MFC-AGG-ID: GpKailxSPvmYMt6V6S5bew_1783329655
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A37841955F11;
-	Mon,  6 Jul 2026 09:20:52 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8FECE1802678;
+	Mon,  6 Jul 2026 09:20:55 +0000 (UTC)
 Received: from work.fritz.box (unknown [10.44.49.159])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 79E91300070A;
-	Mon,  6 Jul 2026 09:20:50 +0000 (UTC)
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 74E14300070A;
+	Mon,  6 Jul 2026 09:20:53 +0000 (UTC)
 From: Tim Wiederhake <twiederh@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
@@ -50,9 +50,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Tim Wiederhake <twiederh@redhat.com>
-Subject: [PATCH 1/4] KVM: x86: Document that KVM_CREATE_IRQCHIP must precede vcpu creation
-Date: Mon,  6 Jul 2026 11:20:16 +0200
-Message-ID: <20260706092021.3625908-3-twiederh@redhat.com>
+Subject: [PATCH 2/4] KVM: x86: Document APIC base address constraint for in-kernel irqchip
+Date: Mon,  6 Jul 2026 11:20:17 +0200
+Message-ID: <20260706092021.3625908-4-twiederh@redhat.com>
 In-Reply-To: <20260706092021.3625908-2-twiederh@redhat.com>
 References: <20260706092021.3625908-2-twiederh@redhat.com>
 Precedence: bulk
@@ -64,29 +64,36 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-The kernel rejects KVM_CREATE_IRQCHIP with -EINVAL if any vcpus have
-already been created, but the API documentation does not mention this
-requirement.  Add a note.
+When an in-kernel irqchip is enabled, vcpu creation installs a private
+4 KiB memory slot at the default APIC base address (0xfee00000).  If a
+user memory region overlaps this slot, vcpu creation fails with EEXIST.
+The same error occurs when installing an overlapping user memory region
+after vcpu creation.
+
+This constraint is not documented anywhere.  Add a note to the
+KVM_CREATE_IRQCHIP documentation.
 
 Signed-off-by: Tim Wiederhake <twiederh@redhat.com>
 ---
- Documentation/virt/kvm/api.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/virt/kvm/api.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 52bbbb553ce1..ec5bf99ff8b8 100644
+index ec5bf99ff8b8..da8beb80699a 100644
 --- a/Documentation/virt/kvm/api.rst
 +++ b/Documentation/virt/kvm/api.rst
-@@ -856,7 +856,8 @@ Writes the floating point state to the vcpu.
- Creates an interrupt controller model in the kernel.
- On x86, creates a virtual ioapic, a virtual PIC (two PICs, nested), and sets up
- future vcpus to have a local APIC.  IRQ routing for GSIs 0-15 is set to both
--PIC and IOAPIC; GSI 16-23 only go to the IOAPIC.
-+PIC and IOAPIC; GSI 16-23 only go to the IOAPIC.  This ioctl must be called
-+before creating any vcpus.
- On arm64, a GICv2 is created. Any other GIC versions require the usage of
- KVM_CREATE_DEVICE, which also supports creating a GICv2.  Using
+@@ -863,6 +863,11 @@ KVM_CREATE_DEVICE, which also supports creating a GICv2.  Using
  KVM_CREATE_DEVICE is preferred over KVM_CREATE_IRQCHIP for GICv2.
+ On s390, a dummy irq routing table is created.
+ 
++On x86, when an in-kernel irqchip is enabled, KVM reserves a private memory
++slot for the local APIC at the default APIC base address (0xfee00000).  User
++space must not map guest memory that covers this address and must leave a 4 KiB
++hole in the guest physical memory map at this address.
++
+ Note that on s390 the KVM_CAP_S390_IRQCHIP vm capability needs to be enabled
+ before KVM_CREATE_IRQCHIP can be used.
+ 
 -- 
 2.52.0
 
