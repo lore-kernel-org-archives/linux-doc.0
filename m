@@ -1,215 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7AE47ECE8;
-	Mon,  6 Jul 2026 23:06:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8BB3E51E8
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 23:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783379191; cv=none; b=iEk/nio7j/8u9rzquI1n5Mcm4VQfuYjfNcD8rTDIKrZkDst2VdwGhmRlL61+WE4ROlXwh6KlcOPUibCT+Yoc+DICVvUdf0+iTcApsqJC2IDb9PrPCgRpvLtZ1GdP8329rPZTwyjAtOQcZ9VxwqO8X33AunujWm+hadi+NHvswD4=
+	t=1783380122; cv=none; b=Dd+mZ9jIT20HpKII/31+BWexrbH0WFIMdiQbr+wegIKo9igdKLVRIrfeWTth1dAtPXAaDqUNEw6/vMqNLMcoL9cl+PYp2UDmSCD+KaL4H9533J/RndhXlENVVSlXL4hIed+shC9/5eJh1BO1be8JlvEJ4bjf2238KpvOSTHMf/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783379191; c=relaxed/simple;
-	bh=/lHu3eVAuHsLEigeHCp+bZ6GY4SmlXtvbvnXYPzk0WA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fLrBuGnZtoYLF+ezkDYQZZP/D8S2JB+FT2ZE4QZ7hWr77QCyhhMHlTsMOWdIDFYaShfUEXDUB+y7DUe4iIkx5ivS4PsjyG6eNyXMzUnXv2I0fqub5tqU6MnY8rUHh1/9u/Wlxx7PNCMlVDUO/565gLlMvNVqqsnE0Z9cDo2DFU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WgGJHgDO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783380122; c=relaxed/simple;
+	bh=5tTJzFCz090WEshickhyWZBU+H17ZnKRtGBALiNloLs=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=UxNHOtGc1gvk08IQ38UekD0ur7PJioIj2pVnWn0G/OLvwPW4CcxKxy7lIdDSeLZA5cGaBb5XCpraj7cSkEgiTbKf2mUocwWDSmrwj0DSV3VtNwbnH4hUN4ou7eYn0SeffOvFpfVzgjzjDCTbtu8GHzam7sXnoSIlB7/H9s1T9YQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Q3ji1pM3; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WgGJHgDO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95A191F00ADB;
-	Mon,  6 Jul 2026 23:06:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783379189;
-	bh=lHAGvQs3Wz49nHzEJXNVSBn/1UzBTGfY8mMrzsLceis=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=WgGJHgDOBsODtDixM5GLJe8Pz2R2rwGSr73n6lkAGGhCg0hOmDHGFupVj2Ei+DxLI
-	 j3kd56fxIQsQOI46Ys+U2UjrFbPnViBLIP9XYtuQ7KPkvJ/yt4ehYwLQCAnTLvUaxP
-	 LowaPvHrl1jeL81WMCox712hkiTRh9+pi+tuOH9Nq6Qu9FQvr6Ki/NkIkbUg5uOUsj
-	 hYIUdWVhuREgacJgPOH+666IdQoO10dfsaJu69yTID4OkQ5bIDI2odxqDFuCA15wN8
-	 Q+NvoRXDtdeO1jbzVdG0XJbyIOk9e9Ym6QXiyrOIe8HGZwQeiQqn8SA1hnnaA/hf68
-	 MlC+SuIO+RBbQ==
-From: Drew Fustini <fustini@kernel.org>
-Date: Mon, 06 Jul 2026 16:06:17 -0700
-Subject: [PATCH v4 7/8] dt-bindings: riscv: Add binding for CBQRI
- controllers
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Q3ji1pM3"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-8423f1fe39eso7205092b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 16:22:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1783380121; x=1783984921; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MkGzf5Ltjdp17l7lz9dFJNCiKSFQqbXrN82DhhAxuS4=;
+        b=Q3ji1pM3TEx9qTs8lyrmnbPXJ5AuzBP1mkFHj1juU45RaVB6um1ykpX5nJ5DpI5bjf
+         7wA83gh1nHeEme4R27MlyAmAfV2M+rhJhgKZVQvqGuOeXaxjOKsNkM8vULO0LClZ8lTE
+         jw+EIY1VlIRca4U89BC9R6Nem7nvEwJ161GD69bwGebls3csshtJXaCl9nSwCum8jlIn
+         nbOtVfqk1en9AbcZAxuSzJZS7Dsef/m5WPvrryhHYS/0wmiegjF2Y4gn+XCzDwX3mYAV
+         Xor8fh2vakqcLoR4l4yrhan/3Fet165oK4WOuu4Ip5aWWPxmSWlvzCBjsxHXhp9Ibv/M
+         qRow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783380121; x=1783984921;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MkGzf5Ltjdp17l7lz9dFJNCiKSFQqbXrN82DhhAxuS4=;
+        b=nDehDXbVnEfB6woF6j1Y9X56Tr6ZIiPmudpeBn3ayXW1jE9wSgHY7rkAWbGWO1kG0V
+         3t9Q2/wqfGfRznRDqrBwcWmHM8OPbrFH9bhrR0nVi+XtoZWhuTigzFk3uoWoqVxFIO2B
+         tBCFlPKeHjjOr7cgH9Nm79Asy7jxt01yrwiUtp26RxW/guNKYCmriLfkTW6QzhgkXKt3
+         U8gcNw9kK78SJ8An+uQh41vCOxFpeYQTvHL+OKB+Ffab7zE/pHfV95u5wCGYl9aogiWG
+         UrXsfnh77SGS/DJExNHpaXcYfoyXDiU1I9IDDraE6egTY63yIMkTZKCsLJQ5XNeQk3rC
+         s99Q==
+X-Forwarded-Encrypted: i=1; AHgh+Ro/+Fh1LqsM3wolJ8yHC8kV0gQdsoAzdeVHsbdCJnEaDwKfOE0afB62k1hSn5nkVOB+C5Uw+Iylydw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLkIjGFN+yCfercwEnvAxSKnFejGZsxWegQUWdvxoBiSwBDzmY
+	nO+jFkRRJFccrQccEvq2MNQrezAc2N6xxZvMcPNGTadFHLfe5/4yTHC1HMddsjbylFnHqFX1cXy
+	i+tmCiQ==
+X-Received: from pfx50.prod.google.com ([2002:a05:6a00:a472:b0:846:f544:63be])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:94f3:b0:845:d284:9e11
+ with SMTP id d2e1a72fcca58-84826e38a3bmr2549381b3a.56.1783380120822; Mon, 06
+ Jul 2026 16:22:00 -0700 (PDT)
+Date: Mon, 6 Jul 2026 16:22:00 -0700
+In-Reply-To: <20260706092021.3625908-3-twiederh@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260706-dfustini-atl-sc-cbqri-dt-v4-7-e75c20201d64@kernel.org>
-References: <20260706-dfustini-atl-sc-cbqri-dt-v4-0-e75c20201d64@kernel.org>
-In-Reply-To: <20260706-dfustini-atl-sc-cbqri-dt-v4-0-e75c20201d64@kernel.org>
-To: Adrien Ricciardi <aricciardi@baylibre.com>, 
- Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra <atishp@rivosinc.com>, 
- Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, 
- Ben Horgan <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>, 
- Chen Pei <cp0613@linux.alibaba.com>, 
- Conor Dooley <conor.dooley@microchip.com>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Dave Hansen <dave.hansen@linux.intel.com>, 
- Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>, 
- Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai <gsh517@gmail.com>, 
- guo.wenjia23@zte.com.cn, James Morse <james.morse@arm.com>, 
- =?utf-8?q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn, 
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
- Peter Newman <peternewman@google.com>, 
- =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>, 
- Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, 
- Samuel Holland <samuel.holland@sifive.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Tony Luck <tony.luck@intel.com>, Vasudevan Srinivasan <vasu@rivosinc.com>, 
- Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>, 
- yunhui cui <cuiyunhui@bytedance.com>, Drew Fustini <fustini@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
- linux-doc@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4724; i=fustini@kernel.org;
- h=from:subject:message-id; bh=/lHu3eVAuHsLEigeHCp+bZ6GY4SmlXtvbvnXYPzk0WA=;
- b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWT5mHx4s+uizN45z16zHUzwCd+k8j72e+C7754i0+2fu
- R/XX5jyq6OUhUGMi0FWTJFl04e8C0u8Qr8umP9iG8wcViaQIQxcnAIwkXO6DP+DP+94IBJ19MD2
- QyHupz/nr6jkaJQKyxNY2ffvRIryqq9eDP/U57zcyJ43/bvgeW7frJrSp7dmevw6tI7DZnWPsho
- fzyUmAA==
-X-Developer-Key: i=fustini@kernel.org; a=openpgp;
- fpr=1B6F948213EA489734F3997035D5CD577C1E6010
+Mime-Version: 1.0
+References: <20260706092021.3625908-2-twiederh@redhat.com> <20260706092021.3625908-3-twiederh@redhat.com>
+Message-ID: <akw4mH99FGquorxC@google.com>
+Subject: Re: [PATCH 1/4] KVM: x86: Document that KVM_CREATE_IRQCHIP must
+ precede vcpu creation
+From: Sean Christopherson <seanjc@google.com>
+To: Tim Wiederhake <twiederh@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-Document the device tree binding for RISC-V CBQRI capacity and bandwidth
-controllers. Each controller is named by a device-specific compatible
-followed by the generic compatible. The binding also describes the
-common riscv,cbqri-rcid and riscv,cbqri-mcid properties, and the
-optional riscv,cbqri-cache phandle that links a capacity controller to
-the cache whose capacity it allocates.
+On Mon, Jul 06, 2026, Tim Wiederhake wrote:
+> The kernel rejects KVM_CREATE_IRQCHIP with -EINVAL if any vcpus have
+> already been created, but the API documentation does not mention this
+> requirement.  Add a note.
+> 
+> Signed-off-by: Tim Wiederhake <twiederh@redhat.com>
+> ---
+>  Documentation/virt/kvm/api.rst | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 52bbbb553ce1..ec5bf99ff8b8 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -856,7 +856,8 @@ Writes the floating point state to the vcpu.
+>  Creates an interrupt controller model in the kernel.
+>  On x86, creates a virtual ioapic, a virtual PIC (two PICs, nested), and sets up
+>  future vcpus to have a local APIC.  IRQ routing for GSIs 0-15 is set to both
+> -PIC and IOAPIC; GSI 16-23 only go to the IOAPIC.
+> +PIC and IOAPIC; GSI 16-23 only go to the IOAPIC.  This ioctl must be called
+> +before creating any vcpus.
 
-Assisted-by: Claude:claude-opus-4-8
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
-Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
-Signed-off-by: Drew Fustini <fustini@kernel.org>
----
- .../devicetree/bindings/riscv/riscv,cbqri.yaml     | 97 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 2 files changed, 98 insertions(+)
+I would say instead "This ioctl can only be called before creating any vCPUs",
+because a reasonable reading of "must be called before" is that userpace must
+*always* call KVM_CREATE_IRQCHIP before creating vCPUs.
 
-diff --git a/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml b/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
-new file mode 100644
-index 000000000000..62d547a0cb96
---- /dev/null
-+++ b/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
-@@ -0,0 +1,97 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/riscv/riscv,cbqri.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: RISC-V Capacity and Bandwidth QoS Register Interface (CBQRI) controller
-+
-+description: |
-+  The RISC-V CBQRI specification defines capacity-controller and
-+  bandwidth-controller register blocks that allocate cache capacity and memory
-+  bandwidth to resource-control IDs (RCIDs) and monitor usage per
-+  monitoring-counter ID (MCID):
-+  https://github.com/riscv-non-isa/riscv-cbqri/blob/main/riscv-cbqri.pdf
-+
-+  Allocation and monitoring share one register block, and a controller may
-+  implement either or both. A driver discovers which at runtime from the
-+  capabilities register, so the compatible names only the controller type. It
-+  does not distinguish allocation-only, monitoring-only or combined
-+  controllers, and no property declares monitoring support.
-+
-+maintainers:
-+  - Drew Fustini <fustini@kernel.org>
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - tenstorrent,ascalon-shared-cache-controller
-+          - const: riscv,cbqri-capacity-controller
-+      - items:
-+          - {}
-+          - const: riscv,cbqri-bandwidth-controller
-+
-+  reg:
-+    maxItems: 1
-+    description:
-+      The CBQRI controller register block.
-+
-+  riscv,cbqri-rcid:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      The maximum number of RCIDs the controller supports. RCIDs are the
-+      resource-control IDs that allocation operations target.
-+
-+  riscv,cbqri-mcid:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      The maximum number of MCIDs the controller supports. MCIDs are the
-+      monitoring-counter IDs that usage-monitoring operations target. Present
-+      on controllers that implement monitoring.
-+
-+  riscv,cbqri-cache:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      Phandle to the cache node whose capacity this controller allocates.
-+      Applies to capacity controllers that back a CPU cache. The cache level
-+      and the harts sharing it are taken from that node's cache topology.
-+
-+required:
-+  - compatible
-+  - reg
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: tenstorrent,ascalon-shared-cache-controller
-+    then:
-+      required:
-+        - riscv,cbqri-rcid
-+        - riscv,cbqri-cache
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    l2_cache: l2-cache {
-+        compatible = "cache";
-+        cache-level = <2>;
-+        cache-unified;
-+        cache-size = <0xc00000>;
-+        cache-sets = <512>;
-+        cache-block-size = <64>;
-+    };
-+
-+    qos-controller@a21a00c0 {
-+        compatible = "tenstorrent,ascalon-shared-cache-controller",
-+                     "riscv,cbqri-capacity-controller";
-+        reg = <0xa21a00c0 0xf40>;
-+        riscv,cbqri-rcid = <16>;
-+        riscv,cbqri-cache = <&l2_cache>;
-+    };
-+
-+...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c11696c4be66..5898fbcf4e2f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -23343,6 +23343,7 @@ M:	Drew Fustini <fustini@kernel.org>
- R:	yunhui cui <cuiyunhui@bytedance.com>
- L:	linux-riscv@lists.infradead.org
- S:	Supported
-+F:	Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
- F:	arch/riscv/include/asm/qos.h
- F:	arch/riscv/include/asm/resctrl.h
- F:	arch/riscv/kernel/qos.c
-
--- 
-2.43.0
-
+>  On arm64, a GICv2 is created. Any other GIC versions require the usage of
+>  KVM_CREATE_DEVICE, which also supports creating a GICv2.  Using
+>  KVM_CREATE_DEVICE is preferred over KVM_CREATE_IRQCHIP for GICv2.
+> -- 
+> 2.52.0
+> 
