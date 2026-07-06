@@ -1,409 +1,264 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 078BB40A940
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 14:48:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D4535E940
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 15:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783349326; cv=none; b=SnRQ4kzQInvib7x+Dc3dmiOdnAYGCB8ILBTXMqUAPPaBE27KCwtshI+Akbnr4twJpem4pDO711r+O3MVpvHmqYgoVllTwzJFkFnxqL1sh/yx1Ulduo/Pjy+tvCeby7zQK4SL9bsZDfVZnVQ6f1FUcBtlq6i3sBzaQ7l+Ze5Crv8=
+	t=1783350130; cv=none; b=Mtoscl5ibEoedXutMTsQc/yNWZ56P95Iq2csBeYHNWvLsY9Sr1tXX13Jo0mDiXM9Xu973uIIKpfz1rjJM3QvPka/7NVRXlVXUh1ocPQA3+6H7df4D8H3Sb12gM9DlgLi+anPqiTPeSGsFFBYlG2v8kLUToD4y63jNUa7t8EpNpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783349326; c=relaxed/simple;
-	bh=2WMszP5nuAxuBz6AC35nwiSxvTcU8PZvDDhr8iiukR0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=eAgju2uLNsSU3v+U+RgpnUgjWSyXhVYaHaTfZC8Ddm1FRyiyU55fL0y+m351gdd35EIA/dHNQbpZ2IKEq+/FA+zrmJNnUCqhCD5ClM5TpxgIwMMkwxHlNhzjgChDOzvppcZLuUp6wHFbHzZqeMBSAMUe9s36KbqfB/GQP+MuJ88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dfEAFAgz; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783350130; c=relaxed/simple;
+	bh=tNhM83MW869UyZbFMwt9N+SGNcCPL2XMXZ9CYCfgABo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OYzoz7or1oZ7JrPa/89TIEcV53sRZu5gm6y1gA+xMXK63xoYeWQTIbwaHC7ypzpLwOHjr7GNIit9ZxVfq46zK1wdOI2g8atLKs0tolTGqvgPAb7/nrpGXLAqKkxnW2b9iKBxcGMTXDd2F1kb/xKBhrbHaithNy7s3I0vMMIsxYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=OP3iD7dw; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dfEAFAgz"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-47362928f65so3066651f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 07:48:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="OP3iD7dw"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4758b2a9e2aso1942723f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 08:02:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783349323; x=1783954123; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nuDU45OA6ggrf4VYV6YQ5pMRzsYDccU2hT9CMU+OAX0=;
-        b=dfEAFAgztKXRI0IK8s+Xlcbww5Bi2NgHAWzZwdcs4e1TMeg/lbl2R/v4gg/KIY4ngO
-         oEuPCHXIHEKh+915rch6OekicTwCzuz3YB+oMZ2jEhusmeGOX5pL9diFv6YtuK5GYZFi
-         s4/NeOzgGmHxBbCTpxIKSqFAs1TMevurjzAJxOO9T9tWmsS82Di7de4FfyOn2qsJJdTa
-         nr1SiOvBeEJ1SCmbLdjoR4KEZfIdOEmWbQM4LZha3NYQyi4XfcwupGWydacSBxjkshxT
-         SAexS1WAyg8pJVh5kzyBVymaSoeIsjg0MElWoNpIvup5Joh0d9mikn17PRKk7ZuEzxYz
-         KiPQ==
+        d=baylibre.com; s=google; t=1783350126; x=1783954926; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xs8j4brUXr0ypdcLDB2fLZRqZ8cV0a8ndTlFArGMXY0=;
+        b=OP3iD7dws8FvY7Ub0dqEacNeDiIa1RCpnOu6lHLNKP0BO3j3nxDZfaDYqD0JW00S9E
+         N1/D7ankZwIRfHPeltsgHQ2NsorV91hb4AHyJB/E6EgmNA4vArV59d4toA7LnBqKQrz8
+         dCS9VbjChFMPLyiwhHPBAE6UxsBsuNQDYJ7WzzqQr3xZcXsqpT+gQOyBXdk2YtVLmL9H
+         I/ZxWgejNhlodw5CncopJO+U05hIohcf8CMIeGpWnLgfCEigA/ginJtIRkxEO7WFu4Ej
+         1lXdwvna4fbN0CWB2EUwZP960RBeB6w0QAwil7QJ0FnhVzqux0REj/E8JI56Vfuu0SI8
+         lDGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783349323; x=1783954123;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nuDU45OA6ggrf4VYV6YQ5pMRzsYDccU2hT9CMU+OAX0=;
-        b=XMlqdD0roe0vIvYw2f2o7Lh3qpoVLgLRFUliREl80LgkRCtuDbfGQGVaeMmL6BQsjB
-         Jwjqfyh2ko/E4088n0Sl91rUTCbVVgfs99+v9T5S/DG5IPdcRB+zx4lsV9jn0v8alt/V
-         pLTmsZVLqyUUh4UKfvBJm9e1FwQ0xL0hcpW3WRctCSylSViapMH+WVoF29BVLXZLC9Ga
-         i8D4nO7Raz8gfziCXl/WQUYcrO9SZd0vVD5FskHpQKSB++cmC9OQ5MkAwryGOvzrwAeC
-         e5HApeMSh1z4Kf1iUWbLPtE5u+W+HyEQb3qUxbDfEZdQ7edR5tg1Tr4gLfEaREGhWqKf
-         MHbw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr1dPghXvE0gczWP+Qk5ReJhu7J3LzDN0WqUIIvOI0pfLimIBFqTAHHfTFzjkOES0IGx8IroUb4TC8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxeBuRbtIIJXDJ9eeFVV7lydnf3OzRecW3CH4/o3xHmuYP3Dbt3
-	I+t0wGLYzDdLyFi3RiucNY6gMnbVAjHgwR6kBUv7mlJhSIQ1QmFKxMy/
-X-Gm-Gg: AfdE7cncD5puO0AesyLt67CEkhYCUCAN48ntHSXLkUipNJNwXwUk7dNYpj8s2LrLbC4
-	o2HAd1D5UefXjWjtkIA3irgA0AkfoVlp7ZTfRZzeYWawzX7FvIDOso6V/G+Vbfbw8Uu8QGNYWRo
-	F8qxso0rPjr14Z5iDghKAXpdQo7ID/OcHuyWdpgmwfBEFlIQA0gxm8HTDds3wYMZ94AdH867HtO
-	Qv0ZJJQ+JX5efm9ipv6UTwNz9cGE0AjauSkA97gyNtmlKEX+61BKC/S4zoFtlsYxLGL5G3xyqBB
-	RaYJrphPBftenGBepDd58wj8RBK0z7YnL/YkYCi10Aa8l8o+E6hvAZT4V+Qpalv2odP4atbtVJr
-	AswmKSUnrIN29bK9bzbYs9m6a+3Ppu39jsSgrSFcJrqHlRkxefEwzLpfjO6NvmgaAan5FxbhmzY
-	n4yNrBukjoM8xE1fPE6ldsPrUSRmWc+PfyKQ==
-X-Received: by 2002:a5d:5304:0:b0:475:f0d1:eb63 with SMTP id ffacd0b85a97d-47de6656ca9mr608554f8f.48.1783349323396;
-        Mon, 06 Jul 2026 07:48:43 -0700 (PDT)
-Received: from taln60.nuvoton.co.il ([212.199.177.18])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960634sm26798473f8f.26.2026.07.06.07.48.41
+        d=1e100.net; s=20251104; t=1783350126; x=1783954926;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xs8j4brUXr0ypdcLDB2fLZRqZ8cV0a8ndTlFArGMXY0=;
+        b=PZ3C1XzmcGM3HOGGddMLwhaXY4zCGzsN2e6h+jf1v9Gn3Cm6FBfTNtk0+DFD0nqDwp
+         AneYxrxYawsod9tj8voIhzKlJYizzeiNSnVTX/fGobQkbga3xkwWQbZh+X2SAGw+ZsHJ
+         GMC6MVmlYPwmauqzzefeP5AIvs2Pvj7LYW/j/qRVFUtyA42m2UVsljv8WL0OEcbKMzG5
+         JMSzBxm987f+j7McuOYUHMnh+DkGhmTDKlH0IGA6T3mf2cnPEmDJ0vcbnwzBWSXnWLKd
+         No6L8E1hycZJCqDTRJFeHN8NsIztAltc4xOOnoKQiPDnlOMUBHzsf0oZpmCVq3sZxMNI
+         jMDw==
+X-Forwarded-Encrypted: i=1; AHgh+Rrdqsm5aLRZJjffgcB3N7zwlf1ZSxIyFMgwMpuT3gEMRlgtpjmF3U9nx1CLX8VTZFUdfFH9nxY54hI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKzRCzUwWddFTIqz6oLIHETa6eE8oYcEDQjmWd2ZR7PRQ9X/K3
+	r2bVJ1Vl7aCOtSK3MUPRljBccA2UO0h+cJ5kbLlEcsz4VMsd0c88uDKnmflSfFEaZzM=
+X-Gm-Gg: AfdE7cnKu5Aqo9lPbOLSlp6gyeqsfSsS44k6KKYg0+BwkooZSzTFV/EQlus78/AWVVF
+	8kSJau6uNStBUgwSpcQOxz5nmh4SYUJ0fjD3ur6lkwqDwcUduIafNcMghGmvnJVWH1MgeAT3WQw
+	cflGnJiO9dRSpzbCt67Z8AdM5IQIegI5niY99j0YPXTO7snk4psb26FNGyV+0KHqZe8+L7eIftA
+	NnHDIL3Sy3Jujzs6MaiP8v43oVce+BJ6NHuLiGhK3/tWGsvplYpXy0iXCq+B9EtthUHKqI76MFL
+	Y2i+A4Np1scnXjVZzqHbQpHVkoIK2TOih05ol/Yn8IqwhcHlg/36NqxHKILaXO9oq9TSGAYqV8S
+	cpVdxVStOffrczn3t5dxMJLRWYxVMKghbxVGYWPqNla2nD5ps91B8EMq9p/iceg4o4JhWAW0tKD
+	KgPYDftJAR5DBjVITl5FkdHGicY5MR+/VbSltJaWzI0F+4Di5KEmSRwBi1quyxk0i9+wfaaqLtb
+	Fs=
+X-Received: by 2002:a05:6000:11cd:b0:470:13e1:9904 with SMTP id ffacd0b85a97d-47de6697a34mr610940f8f.14.1783350125283;
+        Mon, 06 Jul 2026 08:02:05 -0700 (PDT)
+Received: from localhost (p200300f65f47db0404eb41111570ffdc.dip0.t-ipconnect.de. [2003:f6:5f47:db04:4eb:4111:1570:ffdc])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47a9e3e2702sm25607522f8f.9.2026.07.06.08.02.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 07:48:42 -0700 (PDT)
-From: Tomer Maimon <tmaimon77@gmail.com>
-To: andrew@codeconstruct.com.au,
-	wim@linux-watchdog.org,
-	linux@roeck-us.net,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org
-Cc: openbmc@lists.ozlabs.org,
-	linux-watchdog@vger.kernel.org,
+        Mon, 06 Jul 2026 08:02:03 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Alexander Usyskin <alexander.usyskin@intel.com>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	linux-pci@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	avifishman70@gmail.com,
-	tmaimon77@gmail.com,
-	tali.perry1@gmail.com,
-	venture@google.com,
-	yuenn@google.com,
-	benjaminfair@google.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	joel@jms.id.au
-Subject: [PATCH v4 3/3] watchdog: npcm: add bootstatus support
-Date: Mon,  6 Jul 2026 17:48:28 +0300
-Message-Id: <20260706144828.3517631-4-tmaimon77@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260706144828.3517631-1-tmaimon77@gmail.com>
-References: <20260706144828.3517631-1-tmaimon77@gmail.com>
+	linux-remoteproc@vger.kernel.org
+Subject: [PATCH v2] Documentation: Update after split of <linux/mod_devicetable.h>
+Date: Mon,  6 Jul 2026 17:01:56 +0200
+Message-ID:  <ede7ce64f20e10660ebf6bc1b41836dad750ae3b.1783349758.git.ukleinek@kernel.org>
+X-Mailer: git-send-email 2.55.0.11.g153666a7d9bb
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6559; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=tNhM83MW869UyZbFMwt9N+SGNcCPL2XMXZ9CYCfgABo=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqS8NkLKZTxTI5VhFzt6/qVn08gWVdil3p7byv+ PWxasXkmlyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCakvDZAAKCRCPgPtYfRL+ TqUyCACo1has6TDU4nAmEcSDQyOyqK0+sz60rnW3hDs1qiHcCdHarKhBkh1TBpVtMsjKiwqyMq1 0OcEB31QIlYlzkbrGio0BrsqjXOfltCB9bVCUyGmzE/UIRR05+20uFQ3qiAPade+uAKdl5UxNFN hEfZcrhlvjxbn829wM1SIjUtgFI5iCG2az5fWGXMhWPnEGlj7k0qon//qGgAjVSGnVq07x5zXEX rTNVMsYL9fCxrxhtv/tnOVHDTNKYriCQ25yH7e7vBmCAZ2KDeAKH1pbtIjDtgg0wCg1QpfcmgTs NaCUymdX5tMpf5S2q2K4jpzGFT/76+n4xBdzeL6JVU0Zf6jH
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-The NPCM750 uses RESSR and the NPCM845 uses INTCR2 to latch reset
-indications. Read those bits during probe and map them into watchdog
-bootstatus flags.
+Most structs that were defined in <linux/mod_devicetable.h> before were
+moved to a bus specific header. Follow the movement to get the struct's
+documenation back.
 
-For NPCM845, cache the sampled INTCR2 state in SCRPAD10 after the reset
-status bits are cleared so later probes can report the same boot-time
-state. Also report WDIOF_CARDRESET for the watchdog instance whose reset
-bit is latched, while leaving WPCM450 behavior unchanged.
+For the list of device ids in basic.rst use an explict list of all the
+headers that have kernel-doc annotations and that are not described
+elsewhere (i.e. pci and mei_cl).
 
-Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
+Also repair the referencing in the zh_CN translation of pci.rst and
+don't duplicate `struct mei_cl_device_id`.
+
+Fixes: ad428f5811bd ("mod_devicetable.h: Split into per subsystem headers")
+Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
 ---
- drivers/watchdog/npcm_wdt.c | 217 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 215 insertions(+), 2 deletions(-)
+Hello,
 
-diff --git a/drivers/watchdog/npcm_wdt.c b/drivers/watchdog/npcm_wdt.c
-index e62ea054bc61..cecfd6e574d8 100644
---- a/drivers/watchdog/npcm_wdt.c
-+++ b/drivers/watchdog/npcm_wdt.c
-@@ -7,14 +7,52 @@
- #include <linux/delay.h>
- #include <linux/interrupt.h>
- #include <linux/kernel.h>
-+#include <linux/mfd/syscon.h>
- #include <linux/module.h>
- #include <linux/of_irq.h>
- #include <linux/platform_device.h>
-+#include <linux/regmap.h>
- #include <linux/slab.h>
- #include <linux/watchdog.h>
+the explicit list is a bit ugly, but I don't have a better idea.
+
+If you're happy with the patch, can Linus and Jonathan please agree on how this
+is applied?
+
+Best regards
+Uwe
+
+ Documentation/PCI/pci.rst                     |  2 +-
+ Documentation/driver-api/basics.rst           | 31 +++++++++++++++++--
+ .../driver-api/mei/mei-client-bus.rst         | 12 ++-----
+ Documentation/pcmcia/driver.rst               |  2 +-
+ Documentation/staging/rpmsg.rst               |  2 +-
+ Documentation/translations/zh_CN/PCI/pci.rst  |  8 ++---
+ 6 files changed, 39 insertions(+), 18 deletions(-)
+
+diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
+index be35e9a1ee75..71c42b0bfa8b 100644
+--- a/Documentation/PCI/pci.rst
++++ b/Documentation/PCI/pci.rst
+@@ -84,7 +84,7 @@ initialization with a pointer to a structure describing the driver
+ The ID table is an array of ``struct pci_device_id`` entries ending with an
+ all-zero entry.  Definitions with static const are generally preferred.
  
- #define NPCM_WTCR	0x1C
+-.. kernel-doc:: include/linux/mod_devicetable.h
++.. kernel-doc:: include/linux/device-id/pci.h
+    :functions: pci_device_id
  
-+/* NPCM GCR module */
-+#define NPCM_RESSR_OFFSET		0x6C
-+#define NPCM_INTCR2_OFFSET		0x60
-+#define NPCM7XX_SCRPAD2_OFFSET		0x84
-+#define NPCM8XX_SCRPAD10_OFFSET		0xE28
-+
-+#define NPCM_PORST			BIT(31)
-+#define NPCM_CORST			BIT(30)
-+#define NPCM_WD0RST			BIT(29)
-+#define NPCM_SWR1RST			BIT(28)
-+#define NPCM_SWR2RST			BIT(27)
-+#define NPCM_SWR3RST			BIT(26)
-+#define NPCM_SWR4RST			BIT(25)
-+#define NPCM_WD1RST			BIT(24)
-+#define NPCM_WD2RST			BIT(23)
-+#define NPCM_RST			GENMASK(31, 23)
-+#define NPCM8XX_TIP_RESET		BIT(25) /* Replaces SWRST4 on NPCM8xx */
-+
-+/* Per-instance mapping of MMIO base address to its RESSR/INTCR2 reset bit. */
-+struct npcm_wdt_rst_map {
-+	phys_addr_t	base;
-+	u32		rst_bit;
-+};
-+
-+struct npcm_wdt_status_map {
-+	u32	rst_bit;
-+	u32	wdiof_flag;
-+};
-+
-+struct npcm_wdt_data {
-+	const struct npcm_wdt_rst_map		*rst_map;
-+	unsigned int				rst_map_size;
-+	const struct npcm_wdt_status_map	*status_map;
-+	unsigned int				status_map_size;
-+};
-+
- #define NPCM_WTCLK	(BIT(10) | BIT(11))	/* Clock divider */
- #define NPCM_WTE	BIT(7)			/* Enable */
- #define NPCM_WTIE	BIT(6)			/* Enable irq */
-@@ -47,6 +85,50 @@ struct npcm_wdt {
- 	struct clk		*clk;
- };
+ Most drivers only need ``PCI_DEVICE()`` or ``PCI_DEVICE_CLASS()`` to set up
+diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
+index 8b6a5888cb11..647e14254cfb 100644
+--- a/Documentation/driver-api/basics.rst
++++ b/Documentation/driver-api/basics.rst
+@@ -10,9 +10,36 @@ Driver Entry and Exit points
+ Driver device table
+ -------------------
  
-+static const struct npcm_wdt_rst_map npcm750_rst_map[] = {
-+	{ 0xf000801c, NPCM_WD0RST },
-+	{ 0xf000901c, NPCM_WD1RST },
-+	{ 0xf000a01c, NPCM_WD2RST },
-+};
-+
-+static const struct npcm_wdt_status_map npcm750_status_map[] = {
-+	{ NPCM_PORST, WDIOF_OVERHEAT },
-+	{ NPCM_CORST, WDIOF_FANFAULT },
-+	{ NPCM_SWR1RST, WDIOF_EXTERN1 },
-+	{ NPCM_SWR2RST, WDIOF_EXTERN2 },
-+	{ NPCM_SWR3RST, WDIOF_POWERUNDER },
-+	{ NPCM_SWR4RST, WDIOF_POWEROVER },
-+};
-+
-+static const struct npcm_wdt_data npcm750_data = {
-+	.rst_map = npcm750_rst_map,
-+	.rst_map_size = ARRAY_SIZE(npcm750_rst_map),
-+	.status_map = npcm750_status_map,
-+	.status_map_size = ARRAY_SIZE(npcm750_status_map),
-+};
-+
-+static const struct npcm_wdt_rst_map npcm845_rst_map[] = {
-+	{ 0xf000801c, NPCM_WD0RST },
-+	{ 0xf000901c, NPCM_WD1RST },
-+	{ 0xf000a01c, NPCM_WD2RST },
-+};
-+
-+static const struct npcm_wdt_status_map npcm845_status_map[] = {
-+	{ NPCM_PORST, WDIOF_OVERHEAT },
-+	{ NPCM_CORST, WDIOF_FANFAULT },
-+	{ NPCM_SWR1RST, WDIOF_EXTERN1 },
-+	{ NPCM_SWR2RST, WDIOF_EXTERN2 },
-+	{ NPCM_SWR3RST, WDIOF_POWERUNDER },
-+	{ NPCM8XX_TIP_RESET, WDIOF_POWEROVER },
-+};
-+
-+static const struct npcm_wdt_data npcm845_data = {
-+	.rst_map = npcm845_rst_map,
-+	.rst_map_size = ARRAY_SIZE(npcm845_rst_map),
-+	.status_map = npcm845_status_map,
-+	.status_map_size = ARRAY_SIZE(npcm845_status_map),
-+};
-+
- static inline struct npcm_wdt *to_npcm_wdt(struct watchdog_device *wdd)
- {
- 	return container_of(wdd, struct npcm_wdt, wdd);
-@@ -169,6 +251,111 @@ static bool npcm_is_running(struct watchdog_device *wdd)
- 	return readl(wdt->reg) & NPCM_WTE;
- }
+-.. kernel-doc:: include/linux/mod_devicetable.h
++.. kernel-doc:: include/linux/device-id/amba.h
++   :internal:
++.. kernel-doc:: include/linux/device-id/cdx.h
++   :internal:
++.. kernel-doc:: include/linux/device-id/coreboot.h
++   :internal:
++.. kernel-doc:: include/linux/device-id/dfl.h
++   :internal:
++.. kernel-doc:: include/linux/device-id/fsl_mc.h
++   :internal:
++.. kernel-doc:: include/linux/device-id/ishtp.h
++   :internal:
++.. kernel-doc:: include/linux/device-id/mdio.h
++   :internal:
++.. kernel-doc:: include/linux/device-id/mhi.h
++   :internal:
++.. kernel-doc:: include/linux/device-id/mips_cdmm.h
++   :internal:
++.. kernel-doc:: include/linux/device-id/rio.h
++   :internal:
++.. kernel-doc:: include/linux/device-id/tb.h
++   :internal:
++.. kernel-doc:: include/linux/device-id/tee_client.h
++   :internal:
++.. kernel-doc:: include/linux/device-id/typec.h
++   :internal:
++.. kernel-doc:: include/linux/device-id/usb.h
++   :internal:
++.. kernel-doc:: include/linux/device-id/wmi.h
+    :internal:
+-   :no-identifiers: pci_device_id
  
-+static void npcm_get_reset_status(struct npcm_wdt *wdt, struct device *dev,
-+				  const struct npcm_wdt_data *data,
-+				  resource_size_t start)
-+{
-+	struct regmap *gcr_regmap;
-+	u32 rstval = 0;
-+	unsigned int i;
-+	int ret;
-+
-+	if (!data)
-+		return;
-+
-+	gcr_regmap = syscon_regmap_lookup_by_phandle(dev->of_node,
-+						     "nuvoton,sysgcr");
-+	if (IS_ERR(gcr_regmap)) {
-+		dev_warn(dev,
-+			 "Failed to find nuvoton,sysgcr, WD reset status not supported\n");
-+		return;
-+	}
-+
-+	if (of_device_is_compatible(dev->of_node, "nuvoton,npcm845-wdt")) {
-+		ret = regmap_read(gcr_regmap, NPCM_INTCR2_OFFSET, &rstval);
-+		if (ret) {
-+			dev_warn(dev, "Failed to read INTCR2 reset status: %d\n",
-+				 ret);
-+			return;
-+		}
-+
-+		if (rstval & NPCM_RST) {
-+			ret = regmap_write(gcr_regmap, NPCM_INTCR2_OFFSET,
-+					   rstval & ~NPCM_RST);
-+			if (ret) {
-+				dev_warn(dev,
-+					 "Failed to clear INTCR2 reset status: %d\n",
-+					 ret);
-+				return;
-+			}
-+
-+			ret = regmap_write(gcr_regmap, NPCM8XX_SCRPAD10_OFFSET,
-+					   rstval);
-+			if (ret) {
-+				dev_warn(dev,
-+					 "Failed to cache reset status in SCRPAD10: %d\n",
-+					 ret);
-+				return;
-+			}
-+		} else {
-+			ret = regmap_read(gcr_regmap, NPCM8XX_SCRPAD10_OFFSET,
-+					  &rstval);
-+			if (ret) {
-+				dev_warn(dev,
-+					 "Failed to read cached reset status from SCRPAD10: %d\n",
-+					 ret);
-+				return;
-+			}
-+		}
-+	} else if (of_device_is_compatible(dev->of_node, "nuvoton,npcm750-wdt")) {
-+		ret = regmap_read(gcr_regmap, NPCM_RESSR_OFFSET, &rstval);
-+		if (ret) {
-+			dev_warn(dev, "Failed to read RESSR reset status: %d\n",
-+				 ret);
-+			return;
-+		}
-+
-+		if (rstval & NPCM_RST) {
-+			ret = regmap_write(gcr_regmap, NPCM_RESSR_OFFSET, 
-+					   rstval & ~NPCM_RST);
-+			if (ret) {
-+				dev_warn(dev, "Failed to clear RESSR reset status: %d\n", ret);
-+				return;
-+			}
-+
-+			ret = regmap_write(gcr_regmap, NPCM7XX_SCRPAD2_OFFSET,
-+					   rstval);
-+			if (ret) {
-+				dev_warn(dev,
-+					 "Failed to cache reset status in SCRPAD2: %d\n", ret);
-+				return;
-+			}
-+		} else {
-+			ret = regmap_read(gcr_regmap, NPCM7XX_SCRPAD2_OFFSET,
-+					  &rstval);
-+			if (ret) {
-+				dev_warn(dev,
-+					 "Failed to read cached reset status from SCRPAD2: %d\n",
-+					 ret);
-+				return;
-+			}
-+		}
-+	}
-+
-+	for (i = 0; i < data->status_map_size; i++) {
-+		if (rstval & data->status_map[i].rst_bit)
-+			wdt->wdd.bootstatus |= data->status_map[i].wdiof_flag;
-+	}
-+
-+	for (i = 0; i < data->rst_map_size; i++) {
-+		if (data->rst_map[i].base == start &&
-+		    rstval & data->rst_map[i].rst_bit) {
-+			wdt->wdd.bootstatus |= WDIOF_CARDRESET;
-+			break;
-+		}
-+	}
-+}
-+
- static const struct watchdog_info npcm_wdt_info = {
- 	.identity	= KBUILD_MODNAME,
- 	.options	= WDIOF_SETTIMEOUT
-@@ -176,6 +363,20 @@ static const struct watchdog_info npcm_wdt_info = {
- 			| WDIOF_MAGICCLOSE,
- };
  
-+static const struct watchdog_info npcm_wdt_rst_info = {
-+	.identity	= KBUILD_MODNAME,
-+	.options	= WDIOF_SETTIMEOUT
-+			| WDIOF_KEEPALIVEPING
-+			| WDIOF_MAGICCLOSE
-+			| WDIOF_CARDRESET
-+			| WDIOF_OVERHEAT
-+			| WDIOF_FANFAULT
-+			| WDIOF_EXTERN1
-+			| WDIOF_EXTERN2
-+			| WDIOF_POWERUNDER
-+			| WDIOF_POWEROVER,
-+};
-+
- static const struct watchdog_ops npcm_wdt_ops = {
- 	.owner = THIS_MODULE,
- 	.start = npcm_wdt_start,
-@@ -188,7 +389,10 @@ static const struct watchdog_ops npcm_wdt_ops = {
- static int npcm_wdt_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-+	const struct npcm_wdt_data *data = device_get_match_data(dev);
-+	struct resource *res;
- 	struct npcm_wdt *wdt;
-+	resource_size_t start;
- 	int irq;
- 	int ret;
+ Delaying and scheduling routines
+diff --git a/Documentation/driver-api/mei/mei-client-bus.rst b/Documentation/driver-api/mei/mei-client-bus.rst
+index f242b3f8d6aa..d46c0d0b3540 100644
+--- a/Documentation/driver-api/mei/mei-client-bus.rst
++++ b/Documentation/driver-api/mei/mei-client-bus.rst
+@@ -41,17 +41,11 @@ the ``struct mei_cl_driver`` structure defined in :file:`include/linux/mei_cl_bu
  
-@@ -196,10 +400,16 @@ static int npcm_wdt_probe(struct platform_device *pdev)
- 	if (!wdt)
- 		return -ENOMEM;
  
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res)
-+		return -EINVAL;
-+
- 	wdt->reg = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(wdt->reg))
- 		return PTR_ERR(wdt->reg);
  
-+	start = res->start;
-+
- 	wdt->clk = devm_clk_get_optional(&pdev->dev, NULL);
- 	if (IS_ERR(wdt->clk))
- 		return PTR_ERR(wdt->clk);
-@@ -208,7 +418,7 @@ static int npcm_wdt_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return irq;
+-The mei_cl_device_id structure defined in :file:`include/linux/mod_devicetable.h` allows a
++The mei_cl_device_id structure defined in :file:`include/linux/device-id/mei_cl.h` allows a
+ driver to bind itself against a device name.
  
--	wdt->wdd.info = &npcm_wdt_info;
-+	wdt->wdd.info = data ? &npcm_wdt_rst_info : &npcm_wdt_info;
- 	wdt->wdd.ops = &npcm_wdt_ops;
- 	wdt->wdd.min_timeout = 1;
- 	wdt->wdd.max_timeout = 2750;
-@@ -220,6 +430,8 @@ static int npcm_wdt_probe(struct platform_device *pdev)
- 	/* Ensure timeout is able to be represented by the hardware */
- 	npcm_wdt_set_timeout(&wdt->wdd, wdt->wdd.timeout);
+-.. code-block:: C
+-
+-        struct mei_cl_device_id {
+-                char name[MEI_CL_NAME_SIZE];
+-                uuid_le uuid;
+-                __u8    version;
+-                kernel_ulong_t driver_info;
+-        };
++.. kernel-doc:: include/linux/device-id/mei_cl.h
++   :functions: mei_cl_device_id
  
-+	npcm_get_reset_status(wdt, dev, data, start);
-+
- 	if (npcm_is_running(&wdt->wdd)) {
- 		/* Restart with the default or device-tree specified timeout */
- 		npcm_wdt_start(&wdt->wdd);
-@@ -243,7 +455,8 @@ static int npcm_wdt_probe(struct platform_device *pdev)
- #ifdef CONFIG_OF
- static const struct of_device_id npcm_wdt_match[] = {
- 	{.compatible = "nuvoton,wpcm450-wdt"},
--	{.compatible = "nuvoton,npcm750-wdt"},
-+	{.compatible = "nuvoton,npcm750-wdt", .data = &npcm750_data},
-+	{.compatible = "nuvoton,npcm845-wdt", .data = &npcm845_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, npcm_wdt_match);
+ To actually register a driver on the ME Client bus one must call the :c:func:`mei_cl_add_driver`
+ API. This is typically called at module initialization time.
+diff --git a/Documentation/pcmcia/driver.rst b/Documentation/pcmcia/driver.rst
+index 5c4fe84d51c1..b91e5c14cb87 100644
+--- a/Documentation/pcmcia/driver.rst
++++ b/Documentation/pcmcia/driver.rst
+@@ -15,7 +15,7 @@ runtime as shown below::
+ All fields are passed in as hexadecimal values (no leading 0x).
+ The meaning is described in the PCMCIA specification, the match_flags is
+ a bitwise or-ed combination from PCMCIA_DEV_ID_MATCH_* constants
+-defined in include/linux/mod_devicetable.h.
++defined in include/linux/device-id/pcmcia.h.
+ 
+ Once added, the driver probe routine will be invoked for any unclaimed
+ PCMCIA device listed in its (newly updated) pcmcia_device_id list.
+diff --git a/Documentation/staging/rpmsg.rst b/Documentation/staging/rpmsg.rst
+index 42bac1149d9d..c3a8042e8343 100644
+--- a/Documentation/staging/rpmsg.rst
++++ b/Documentation/staging/rpmsg.rst
+@@ -225,7 +225,7 @@ content to the console.
+ ::
+ 
+   #include <linux/dev_printk.h>
+-  #include <linux/mod_devicetable.h>
++  #include <linux/device-id/rpmsg.h>
+   #include <linux/module.h>
+   #include <linux/printk.h>
+   #include <linux/rpmsg.h>
+diff --git a/Documentation/translations/zh_CN/PCI/pci.rst b/Documentation/translations/zh_CN/PCI/pci.rst
+index 347f5c3f5ce9..64372a16caf6 100644
+--- a/Documentation/translations/zh_CN/PCI/pci.rst
++++ b/Documentation/translations/zh_CN/PCI/pci.rst
+@@ -84,16 +84,16 @@ PCI设备驱动程序在初始化过程中调用 ``pci_register_driver()`` ，
+ 
+ 该API在以下内核代码中:
+ 
+-include/linux/pci.h
+-pci_driver
++.. kernel-doc:: include/linux/pci.h
++   :functions: pci_driver
+ 
+ ID表是一个由 ``struct pci_device_id`` 结构体成员组成的数组，以一个全零的成员
+ 结束。一般来说，带有静态常数的定义是首选。
+ 
+ 该API在以下内核代码中:
+ 
+-include/linux/mod_devicetable.h
+-pci_device_id
++.. kernel-doc:: include/linux/device-id/pci.h
++   :functions: pci_device_id
+ 
+ 大多数驱动程序只需要 ``PCI_DEVICE()`` 或 ``PCI_DEVICE_CLASS()`` 来设置一个
+ pci_device_id表。
+
+base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
 -- 
-2.34.1
+2.55.0.11.g153666a7d9bb
 
