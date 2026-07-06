@@ -1,134 +1,132 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from unimail.uni-dortmund.de (mx1.hrz.uni-dortmund.de [129.217.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2327D3A8723
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 15:29:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AAAD3976B2;
+	Mon,  6 Jul 2026 15:37:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.217.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783351758; cv=none; b=DGfAeYnsAgg4l4SogTiu00W312T0o0kH9bob7QcVXsL0fSC0uO262Zy5qu/kVNyWkHJiIFmoY2BepWpz1nKv4/5QhgJjvjQSYvYF3lr5d1Vu8BnKycyjxEx6GA6Iy2irfvbeXfqrnU7/DSLam+cmAmN/IYPqhN7vsN9cDTfO71Q=
+	t=1783352224; cv=none; b=TeuJLvuiNvoW2/urdnrHHjGEhPx5BScWtfMx96UlHgCYIGRZ9vh7FgKD/cmAYbg7dY4WzJJxqnsgFJzis00il3BdiqhMqew2e9rlJa5wfMYeOBk9QP7EZ1yktCskA/pZnANuqpv5YBhB9jsmA/BHc9NBfk1VZilJxy3w6Sg032o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783351758; c=relaxed/simple;
-	bh=x5HuJc8ryRcujdAvfssRfuCUtU/zCfH7JZqYpQDH/Ak=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=OBPDer0GrdpQCVimTZsBrk0Z+1z51jiIxO8qNAJt7f+ld1FQn/PAQl3fGO6UI2oL64zqTfoFfMxTl2sK7ICn4cC48s+vGTKWL5lanXCWF2NYureOZ8FoMLfHXc6BoVZ0TpZrUEtXfaEmpRb8OLiCScXO9HZjMtVyYrg9RLTDBFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=AfHkA/fv; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1783352224; c=relaxed/simple;
+	bh=/gLU1ZYIoBZNDWpqrT3SqMshBw/xL7i3z8xLVloSYAU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VdpAMASFDMkQiNCBDsCKKw2yWAvpJNMAFnVQ2v9aUl0WKoW8G789uuNDvvEsAJQ36iJ0WKYTVF84/tJlVFpFGD3t9L3cEH6w1p5XuNE3DatlnrLYR7KvCxlFnnXFc4MVjPOcPjSGD3hreYKEKHqaGS1cWWQyUUF9i2CbjSgkKfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de; spf=pass smtp.mailfrom=tu-dortmund.de; dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b=m1i2jSKS; arc=none smtp.client-ip=129.217.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tu-dortmund.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="AfHkA/fv"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4799b3f7c83so2069954f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 08:29:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1783351755; x=1783956555; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qh+EaBgmuYdNNpZcqgX7l88URVM0gQj+bKH7LdozPRw=;
-        b=AfHkA/fvL3A/rk7KwsBj1Hx/r9dskaifpZxY+7jjR4KV0wrOlC6zKT8JW8wLXoK+i9
-         eEpd3YSPrI/K1ZoyaIc8cISOUl94+fIoo2yNvxoWCyrjkO+ywnHXRsEOzS8MH3LrJ+VW
-         fYglRgDKJfQZy3zyuy74RthRouhVRfGgxSqjw1E//FpBH+hcRnxUd2gxb8WxOIxAsgD4
-         s3fwmmXNKXeWRbLh8c0d4KO7RDfaxnx9XXea3qoBslnLZHDOZkDhOTIJNCUj+F2Hxieb
-         ksGrUHJceoUzLe7OPBG3VUPdDJ1LhFTF7R1U6T4KOCQqGeplvG/4CUasBxCA8JagJqHO
-         snPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783351755; x=1783956555;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qh+EaBgmuYdNNpZcqgX7l88URVM0gQj+bKH7LdozPRw=;
-        b=O+w5WbuiolkMyZBgWWdRUfhUuf8wTZ+zGzw66Q+NAoPoWChnGxE++xVowRXUeiTIlk
-         AHmym6X6+8am42E8226zm9MWhiBGgyK8e20QoiwngNR6NKsjzQjhAltgWRfpdH2svSSa
-         m/u+oFSkB0O4n0tKL22yG8QvR5NZoN4cS5CC8Cf0ejN01tcxDfGwhawp0FHf8bhzjZ6c
-         nmycwmxOv1pzLVLi5M7tXxHS0cfFCIfd49T1p3uStvL/xRAmusTyHxbUGuVHvCb8iWJ2
-         UJ94CKSQRwk91G9pGmQdDCboXUoNy/5cGkA2Fw05+9gaLEEYkZlTvNXXf1ui6bVjFrdv
-         rmrg==
-X-Forwarded-Encrypted: i=1; AHgh+RoN7oNMBbJaJc1ut7ALhSF48csFAaXaHojGnyvXHyZLXfn8qB2jE0cd8lk3TF9DK83TzLaGK2vkWZE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxhr/5dc3Mta7k8dNRNGYv2+scRIouYRPdnneSbRwrSuHp+nz1p
-	SQLPCNK0pIkogWJ0qcJyR0E5mTx1mVppFHV6ovCB7hUiCi7oNwX4jN2cMoYECSTQINY=
-X-Gm-Gg: AfdE7cmNMfifNTl6Z4hDMS9GjnJWEj2Xu9W9o2WJfj5KphnMMW9rBn/pW10IdMXnQ1x
-	OeLVGkTmuCpVh9+uNa7nAk3IN1phTaa9wfn35y0FCDlrkMLY/2dbtPmvEUmYgeH538Uriw1nAmO
-	eo9xnLdCRA9zAfoWzRE/hfsCLdNhAA6WczLQ1yaJnGl/2v2lu0wTL+YbooSmKOsDDwJwFMBA6CR
-	wqnUpH1ywSR9XePGi77py3tWUP4VdBnu857jeJXv0NNhdxOGWSSgel5C7lK/f4fPNWK32ayucDI
-	5lCk2i2aAZt0m1b6Jx1UWo3Of8kMKRPRZimYzrAr9hQEsD5E5Oc1Ip4+jo02pyypBhQWr8cXsEI
-	iX9xtHiOWXMeOORhA+1If1IvPeS9gjNKGDL6zh5htuCx0TUBSnKyqk7od5b7pCOUNc2ZEnY5Nhe
-	i8iA==
-X-Received: by 2002:a05:600c:3b2a:b0:493:df47:8d9f with SMTP id 5b1f17b1804b1-493df478db8mr3788435e9.10.1783351755505;
-        Mon, 06 Jul 2026 08:29:15 -0700 (PDT)
-Received: from localhost ([2804:7f0:b765:157e:cc5f:6c4b:db0a:5d2a])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-73e19f3af52sm5839852137.3.2026.07.06.08.29.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 08:29:14 -0700 (PDT)
-From: =?utf-8?q?Ricardo_B=2E_Marli=C3=A8re?= <rbm@suse.com>
-Date: Mon, 06 Jul 2026 12:28:43 -0300
-Subject: [PATCH] docs/bpf: Document BPF_STRICT_BUILD=0 to tolerate test
- build failures
+	dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b="m1i2jSKS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tu-dortmund.de;
+	s=unimail; t=1783352020;
+	bh=LcT8nSRPPRwrKXE781yHHNVxYxj3ib/wKkBEPXxseS8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=m1i2jSKS9nvyY5iUatK2T5uv4V0M85q0KcXiSWCes3Y7qiOJod8A7BVHwUm++zcO9
+	 CRaeZtbEd8uTeRI1rju6xjUS0AEMRyS+Mgm9ZR+zEetvEtuiJzA6bGGM7zMbRAKC1d
+	 7koO4jd+j+IMPRAkpazTV3VedhGWX6y24MtzuLeM=
+Received: from [129.217.186.105] ([129.217.186.105])
+	(authenticated bits=0)
+	by unimail.uni-dortmund.de (8.19.0.2/8.19.0.2) with ESMTPSA id 666FXc6A027333
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 6 Jul 2026 17:33:38 +0200 (CEST)
+Message-ID: <2728c540-2e76-4e06-9064-ed1dff071cbe@tu-dortmund.de>
+Date: Mon, 6 Jul 2026 17:33:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260706-b4-bpf_strict_build_docs-v1-1-5324d605c7b0@suse.com>
-X-B4-Tracking: v=1; b=H4sIAKrJS2oC/yWMUQqDMBAFryL73VArEkuvUkrYxI1uaaPsRimId
- 29sP+fxZjZQEiaFW7WB0MrKUypwOVUQRkwDGe4LQ1M3tu5qa3xr/BydZuGQnV/41bt+Cmrwith
- FbC01EYo+C0X+/NL3x5918U8K+egdD49KxgumMB7TJDxwOr9RMwns+xfDqGyonAAAAA==
-X-Change-ID: 20260706-b4-bpf_strict_build_docs-a8aa7fa46e2f
-To: Alexei Starovoitov <ast@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
- Eduard Zingerman <eddyz87@gmail.com>, 
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
- Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
- Emil Tsalapatis <emil@etsalapatis.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: bpf@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?Ricardo_B=2E_Marli=C3=A8re?= <rbm@suse.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1783351752; l=1578;
- i=rbm@suse.com; h=from:subject:message-id;
- bh=x5HuJc8ryRcujdAvfssRfuCUtU/zCfH7JZqYpQDH/Ak=;
- b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgguRCc5X8/UX9M40lkMnr//aFGOhce
- x5ezt8MFNUFlqYAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QHr+osZxhUqq7pE2zp7ADICTSyXNXxqw773pIlwgLCWR9KitoP8KxoHnsuxC5prSUiXwEd4ESYq
- f3uzdQk9NIQU=
-X-Developer-Key: i=rbm@suse.com; a=openssh;
- fpr=SHA256:pzhe0fJpYLz+3cZ33FFPhIfaUElk9CXPFFXmalIH+1g
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v2] tun/tap & vhost-net: make qdisc backpressure
+ opt-in via IFF_BACKPRESSURE
+To: "Michael S. Tsirkin" <mst@redhat.com>,
+        Brett A C Sheffield <bacs@librecast.net>
+Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Jason Wang <jasowangio@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+        Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        Tim Gebauer <tim.gebauer@tu-dortmund.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260706094242.115992-1-simon.schippers@tu-dortmund.de>
+ <akt_Q7kdR3Zb8_GZ@karahi.librecast.net>
+ <20260706091706-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+From: Simon Schippers <simon.schippers@tu-dortmund.de>
+In-Reply-To: <20260706091706-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-When the kernel config does not fully match the BPF selftest config
-fragment, some tests may fail to compile. BPF_STRICT_BUILD (defaulting to
-1) makes any such failure fatal. Mention the option so that developers are
-aware they can set it to 0 to skip broken tests and keep the build going,
-which is particularly useful during bringup or when testing on constrained
-(e.g. distribution) configurations.
+On 7/6/26 15:23, Michael S. Tsirkin wrote:
+> On Mon, Jul 06, 2026 at 12:11:15PM +0200, Brett A C Sheffield wrote:
+>> On 2026-07-06 11:42, Simon Schippers wrote:
+>>> Commit 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop
+>>> when a qdisc is present") did not show a relevant performance regression
+>>> in my testing but on Brett Sheffield's librecast testbed it shows a
+>>> significant performance drop in a IPv6 multicast testcase. The regression
+>>> can be pinpointed when multiple iperf3 UDP threads are sending. For 8
+>>> threads the performance dropped from 13.5 Gbit/s to 9.13 Gbit/s. This is
+>>> the reason why this patch makes the qdisc backpressure behavior opt-in.
+>>
+>> Your v1 commit message was correct.  The iperf3 tests were TCP, not UDP.
+>>
+>> The original failing test that alerted me to the problem was IPv6 multicast
+>> (UDP), but the reproducer tests I provided stats for in the regression report
+>> were TCP "To eliminate my code and any multicast weirdness" and also to verify
+>> that this also affected TCP.
+>>
+>> Sorry for the confusion. The command lines used are in the regression report.
+>>
+>> I've tested the v2 patch (with IPv6 multicast), and verified the
+>> previously failing test passes.
+>>
+>> Tested-by: Brett A C Sheffield <bacs@librecast.net>
+>>
+>> Cheers,
+> 
+> 
+> Just to clarify, it's more of a work-around, not a fix.
+> 
+> It's not really great to have a flag that says "change something
+> opaque in the internals of the device, it affects performance
+> in some way, we can't predict how".
 
-Signed-off-by: Ricardo B. Marlière <rbm@suse.com>
----
- Documentation/bpf/bpf_devel_QA.rst | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Yes, I agree, but in the end I am just using netif_tx_stop_queue() and
+netif_tx_wake_queue()...
 
-diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
-index 45bc5c5cd793..edf8107a7beb 100644
---- a/Documentation/bpf/bpf_devel_QA.rst
-+++ b/Documentation/bpf/bpf_devel_QA.rst
-@@ -479,7 +479,10 @@ for details.
- 
- To maximize the number of tests passing, the .config of the kernel
- under test should match the config file fragment in
--tools/testing/selftests/bpf as closely as possible.
-+tools/testing/selftests/bpf as closely as possible. If not possible,
-+however, you can set ``BPF_STRICT_BUILD=0`` when invoking ``make``
-+to tolerate individual compilation failures and continue building
-+the remaining tests rather than treating each failure as fatal.
- 
- Finally to ensure support for latest BPF Type Format features -
- discussed in Documentation/bpf/btf.rst - pahole version 1.16
+> 
+> So maybe we really should revert for now, and work on something
+> more coherent for the next linux.
 
----
-base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
-change-id: 20260706-b4-bpf_strict_build_docs-a8aa7fa46e2f
+But even if we could perfectly fix the performance issues, maybe users
+even users rely on the dropping behavior. From Brett [1]:
 
-Best regards,
---  
-Ricardo B. Marlière <rbm@suse.com>
+"In our multicast use case data is sent by multiple threads to multiple
+groups simultaneously, this just breaks things to the extent that a 
+<2 second test times out after 5 minutes."
 
+We are *not* factor 5min * 60sec/min / 2s = 150 times slower than without
+the patchset. My theory is that the sender sends a fixed amount of data
+of which most is dropped without backpressure, which is much faster then
+the real processing, and so the test *relies* on the tail-dropping to
+work.
+
+@Brett can you maybe support this theory?
+
+Thank you both very much! :)
+
+[1] Link: https://lore.kernel.org/netdev/akVnoOYQOrt8k-Gu@karahi.librecast.net/
+
+> 
+> 
+>>
+>> Brett
+>> -- 
+>> Brett Sheffield (he/him)
+>> Librecast - Decentralising the Internet with Multicast
+>> https://librecast.net/
+>> https://blog.brettsheffield.com/
+> 
