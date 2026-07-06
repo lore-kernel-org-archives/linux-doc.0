@@ -1,265 +1,100 @@
-Received: from unimail.uni-dortmund.de (mx1.hrz.uni-dortmund.de [129.217.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B15AD3A1686;
-	Mon,  6 Jul 2026 09:46:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.217.128.51
+Received: from zg8tmja5ljk3lje4mi4ymjia.icoremail.net (zg8tmja5ljk3lje4mi4ymjia.icoremail.net [209.97.182.222])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B7B03F5BD6
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 09:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.182.222
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783331203; cv=none; b=fHU59H3KRH0LUpBP2MeBJmI5CXNeB6tkqkXWXi5VDkSVx3ElSig1uLmgc7taIT+tftWQCHLA1271Xqlcdc/xkuOVGJ3LiQoq2aOxz/ORml+YcBwVHmTkOb/DreSmh8k6KJoM3mCcoztwHnBBVfC4gE6Wro3pFOBiI1XDretGDFQ=
+	t=1783331800; cv=none; b=c/s+pBrYF7//nTP0biD38WBLTTLS5hptC2/Ii1jyo8CgCQ3RZu0KJgpbA6Oz4g7kVTQfz6Tpg4TOQPNsVIztvcQ1DL8xVcsVPscV3n9sebgDjqE2fGNmaEMrdWem+q+c7fL5UhIk5lzLc7pBT5FsP+tDNQEdAyIMs7uSe1JKsg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783331203; c=relaxed/simple;
-	bh=qBGu4Eg6aXtmJf84ub/wFLby4RjgGYZfQwlHcJU1pHU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rNjhvnf5yc26lidWvkkpZ8gUhasfm71yBJLivd7yWLNaland6Wr+vhThmLY1EjbDYFNknh7LFCynGWLw/e+EyUIHMDVFX+yhiQbXPyjs2HLmu8eys3o5Hf0q4t4E1nHNDUMoaN7jIAlYnkItgUcIYYyxkillrihuipOEVxybFx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de; spf=pass smtp.mailfrom=tu-dortmund.de; dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b=GPVlpaGD; arc=none smtp.client-ip=129.217.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tu-dortmund.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b="GPVlpaGD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tu-dortmund.de;
-	s=unimail; t=1783330992;
-	bh=4aUq9hNomM3wVZ+MmRk9U8Emi4jxb74PHusgdr1u9DE=;
-	h=From:To:Cc:Subject:Date;
-	b=GPVlpaGD0FyiOz1hb8O69MIemTbYKSCZlr8FJMxlal8SOVcnSciMb3Zx8M+Bgx7GY
-	 JQzGEBNlvVA/222VPFJv3Vk+BSj7uEe77Jp8aQsvrzSSbeMPAaWLbL/eZEs4tZbw5y
-	 jLIh58UM3FbTW9nbBq+cVjcoHV248jG4yeC1uo1g=
-Received: from simon-Latitude-5450.cni.e-technik.tu-dortmund.de ([129.217.186.105])
-	(authenticated bits=0)
-	by unimail.uni-dortmund.de (8.19.0.2/8.19.0.2) with ESMTPSA id 6669hBLT020592
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 6 Jul 2026 11:43:11 +0200 (CEST)
-From: Simon Schippers <simon.schippers@tu-dortmund.de>
-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Jason Wang <jasowangio@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>, netdev@vger.kernel.org
-Cc: Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Andrew Lunn <andrew+netdev@lunn.ch>,
-        Tim Gebauer <tim.gebauer@tu-dortmund.de>,
-        Brett Sheffield <brett@librecast.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Simon Schippers <simon.schippers@tu-dortmund.de>
-Subject: [PATCH net v2] tun/tap & vhost-net: make qdisc backpressure opt-in via IFF_BACKPRESSURE
-Date: Mon,  6 Jul 2026 11:42:42 +0200
-Message-ID: <20260706094242.115992-1-simon.schippers@tu-dortmund.de>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1783331800; c=relaxed/simple;
+	bh=7d2sBhZFr4GG0CEGXF6QEtzWN0nIY3LgOoQnzBz7UQ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rn8pN617xMz3Of4hJRNN5OjVbuC+UZudFgdYXTPauCTP6UzzTfgQPQADIVK9jv44YZfssli1lwKrpvVIrkL6u1WTbe6Du45rzt0m0vOomGmaLAljfAbyfyncoy6i0k7eBzzx2Fd8lotf+7xuY7soKZofRY+c/OmU3gN82cU0lmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=209.97.182.222
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app2 (Coremail) with SMTP id HwEQrAAn_jSre0tqtw9XAA--.35221S2;
+	Mon, 06 Jul 2026 17:55:55 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wD30BGge0tqqL2aAA--.44846S2;
+	Mon, 06 Jul 2026 17:55:45 +0800 (CST)
+Message-ID: <7f339754-ca9a-4b90-80cb-d225b402daf6@hust.edu.cn>
+Date: Mon, 6 Jul 2026 17:55:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [alexs:docs-next 3/7] htmldocs: Warning:
+ Documentation/translations/zh_CN/how-to.rst references a file that doesn't
+ exist: Documentation/translations/zh_CN/xxx.rst
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, linux-doc@vger.kernel.org
+References: <202607061141.fmjoYjew-lkp@intel.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <202607061141.fmjoYjew-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:HwEQrAAn_jSre0tqtw9XAA--.35221S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxCw13Zw13Aw1kJryDXw1xAFb_yoW5WF4xpa
+	yjkF1xKF1rAr18K3y0gr12gr1xua4Iqay3GFyqqwnYqFs0vwnayr1akryqqa9xtrZ2qFWY
+	qFWIgrW0qryDu37anT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmYb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCF04k20x
+	vE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_
+	Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
+	AY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAI
+	cVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
+	IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIev
+	Ja73UjIFyTuYvjxUV9N3UUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Commit 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop
-when a qdisc is present") did not show a relevant performance regression
-in my testing but on Brett Sheffield's librecast testbed it shows a
-significant performance drop in a IPv6 multicast testcase. The regression
-can be pinpointed when multiple iperf3 UDP threads are sending. For 8
-threads the performance dropped from 13.5 Gbit/s to 9.13 Gbit/s. This is
-the reason why this patch makes the qdisc backpressure behavior opt-in.
 
-One option to accomplish the opt-in would be to set the default qdisc to
-noqueue at init. However this may also break userspace as users might
-have chosen a custom qdisc even though most of the qdiscs did nothing
-for tun/tap in the past due to missing backpressure...
+On 7/6/26 5:45 PM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git docs-next
+> head:   bc2e3e1124b7362f83c5fb8557274bbca3da1a74
+> commit: 359c3caf50481aa08b0ab761436e4b70ad027f73 [3/7] docs/zh_CN: restructure how-to.rst patch submission workflow
+> compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+> docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+> reproduce: (https://download.01.org/0day-ci/archive/20260706/202607061141.fmjoYjew-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202607061141.fmjoYjew-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>     Warning: Documentation/translations/zh_CN/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+>     Warning: Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst references a file that doesn't exist: Documentation/filesystems/gfs2-glocks.rst
+>     Warning: Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst references a file that doesn't exist: Documentation/filesystems/gfs2-uevents.rst
+>     Warning: Documentation/translations/zh_CN/filesystems/gfs2.rst references a file that doesn't exist: Documentation/filesystems/gfs2.rst
+>     Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+>>> Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/translations/zh_CN/xxx.rst
 
-This is the reason why in this patch, the flag IFF_BACKPRESSURE is
-introduced instead which is required to enable the backpressure logic.
-This means the stopping logic in tun_net_xmit() and the waking logic in
-__tun_wake_queue() are skipped if the flag is disabled.
 
-To avoid a possible stall due to disabling IFF_BACKPRESSURE, the new
-helper tun_force_wake_queue() is implemented. The helper safely wakes the
-respective netdev queue and resets cons_cnt while the consumer_lock and
-the producer_lock of the ring are held. The helper is run in tun_attach()
-when a queue (re)attaches, in tun_set_iff() for attached tfiles, and
-in tun_queue_resize().
+The above two references are intended as demos, other than typos.
 
-The documentation in tuntap.rst is updated accordingly.
+Dongliang Mu
 
-Fixes: 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop when a qdisc is present")
-Reported-by: Brett Sheffield <brett@librecast.net>
-Closes: https://lore.kernel.org/netdev/akVnoOYQOrt8k-Gu@karahi.librecast.net/T/#u
-Signed-off-by: Simon Schippers <simon.schippers@tu-dortmund.de>
----
-V1 -> V2:
-- Sashiko: Ensure detached queues are woken on re-attach by calling the
-  new tun_force_wake_queue() helper from tun_attach(), and reuse it
-  across the existing wake paths.
-- Specify the failing test case in the commit message.
----
- Documentation/networking/tuntap.rst | 17 ++++++++++
- drivers/net/tun.c                   | 49 ++++++++++++++++++-----------
- include/uapi/linux/if_tun.h         |  1 +
- tools/include/uapi/linux/if_tun.h   |  1 +
- 4 files changed, 50 insertions(+), 18 deletions(-)
 
-diff --git a/Documentation/networking/tuntap.rst b/Documentation/networking/tuntap.rst
-index 4d7087f727be..599264825dd2 100644
---- a/Documentation/networking/tuntap.rst
-+++ b/Documentation/networking/tuntap.rst
-@@ -206,6 +206,23 @@ enable is true we enable it, otherwise we disable it::
-       return ioctl(fd, TUNSETQUEUE, (void *)&ifr);
-   }
- 
-+3.4 qdisc backpressure
-+----------------------
-+
-+Starting with Linux 7.2, IFF_BACKPRESSURE can be set to enable qdisc
-+backpressure. Without it, TX drops occur when the internal ring buffer is
-+full. With it, the kernel stops the TX queue instead, letting the qdisc
-+hold packets. Drops only occur as a rare race. This can benefit protocols
-+like TCP that react to drops. Backpressure requires a qdisc to be
-+attached and has no effect with noqueue.
-+
-+The TUN/TAP ring buffer size can be reduced alongside this flag to
-+further shift buffering into the qdisc and reduce bufferbloat, but comes
-+at possible performance cost.
-+
-+When running multiple network streams in parallel, the flag may reduce
-+performance due to the extra overhead of the backpressure mechanism.
-+
- Universal TUN/TAP device driver Frequently Asked Question
- =========================================================
- 
-diff --git a/drivers/net/tun.c b/drivers/net/tun.c
-index ffbe6f13fb1f..62e5eab4e345 100644
---- a/drivers/net/tun.c
-+++ b/drivers/net/tun.c
-@@ -98,7 +98,8 @@ static void tun_default_link_ksettings(struct net_device *dev,
- #define TUN_FASYNC	IFF_ATTACH_QUEUE
- 
- #define TUN_FEATURES (IFF_NO_PI | IFF_ONE_QUEUE | IFF_VNET_HDR | \
--		      IFF_MULTI_QUEUE | IFF_NAPI | IFF_NAPI_FRAGS)
-+		      IFF_MULTI_QUEUE | IFF_NAPI | IFF_NAPI_FRAGS | \
-+		      IFF_BACKPRESSURE)
- 
- #define GOODCOPY_LEN 128
- 
-@@ -694,6 +695,20 @@ static void tun_detach_all(struct net_device *dev)
- 		module_put(THIS_MODULE);
- }
- 
-+static void tun_force_wake_queue(struct tun_struct *tun,
-+				 struct tun_file *tfile)
-+{
-+	/* Ensure that the producer can not stop the
-+	 * queue concurrently by taking locks.
-+	 */
-+	spin_lock_bh(&tfile->tx_ring.consumer_lock);
-+	spin_lock(&tfile->tx_ring.producer_lock);
-+	netif_wake_subqueue(tun->dev, tfile->queue_index);
-+	tfile->cons_cnt = 0;
-+	spin_unlock(&tfile->tx_ring.producer_lock);
-+	spin_unlock_bh(&tfile->tx_ring.consumer_lock);
-+}
-+
- static int tun_attach(struct tun_struct *tun, struct file *file,
- 		      bool skip_filter, bool napi, bool napi_frags,
- 		      bool publish_tun)
-@@ -737,11 +752,9 @@ static int tun_attach(struct tun_struct *tun, struct file *file,
- 		goto out;
- 	}
- 
--	spin_lock(&tfile->tx_ring.consumer_lock);
--	tfile->cons_cnt = 0;
--	spin_unlock(&tfile->tx_ring.consumer_lock);
- 	tfile->queue_index = tun->numqueues;
- 	tfile->socket.sk->sk_shutdown &= ~RCV_SHUTDOWN;
-+	tun_force_wake_queue(tun, tfile);
- 
- 	if (tfile->detached) {
- 		/* Re-attach detached tfile, updating XDP queue_index */
-@@ -1077,7 +1090,8 @@ static netdev_tx_t tun_net_xmit(struct sk_buff *skb, struct net_device *dev)
- 
- 	spin_lock(&tfile->tx_ring.producer_lock);
- 	ret = __ptr_ring_produce(&tfile->tx_ring, skb);
--	if (!qdisc_txq_has_no_queue(queue) &&
-+	if ((tun->flags & IFF_BACKPRESSURE) &&
-+	    !qdisc_txq_has_no_queue(queue) &&
- 	    __ptr_ring_check_produce(&tfile->tx_ring) == -ENOSPC) {
- 		netif_tx_stop_queue(queue);
- 		/* Paired with smp_mb() in __tun_wake_queue() */
-@@ -2151,8 +2165,12 @@ static ssize_t tun_put_user(struct tun_struct *tun,
- static void __tun_wake_queue(struct tun_struct *tun,
- 			     struct tun_file *tfile, int consumed)
- {
--	struct netdev_queue *txq = netdev_get_tx_queue(tun->dev,
--						tfile->queue_index);
-+	struct netdev_queue *txq;
-+
-+	if (!(tun->flags & IFF_BACKPRESSURE))
-+		return;
-+
-+	txq = netdev_get_tx_queue(tun->dev, tfile->queue_index);
- 
- 	/* Paired with smp_mb__after_atomic() in tun_net_xmit() */
- 	smp_mb();
-@@ -2764,7 +2782,7 @@ static int tun_set_iff(struct net *net, struct file *file, struct ifreq *ifr)
- 	struct tun_struct *tun;
- 	struct tun_file *tfile = file->private_data;
- 	struct net_device *dev;
--	int err;
-+	int err, i;
- 
- 	if (tfile->detached)
- 		return -EINVAL;
-@@ -2894,7 +2912,8 @@ static int tun_set_iff(struct net *net, struct file *file, struct ifreq *ifr)
- 	 * xoff state.
- 	 */
- 	if (netif_running(tun->dev))
--		netif_tx_wake_all_queues(tun->dev);
-+		for (i = 0; i < tun->numqueues; i++)
-+			tun_force_wake_queue(tun, rtnl_dereference(tun->tfiles[i]));
- 
- 	strscpy(ifr->ifr_name, tun->dev->name);
- 	return 0;
-@@ -3690,15 +3709,9 @@ static int tun_queue_resize(struct tun_struct *tun)
- 					  dev->tx_queue_len, GFP_KERNEL,
- 					  tun_ptr_free);
- 
--	if (!ret) {
--		for (i = 0; i < tun->numqueues; i++) {
--			tfile = rtnl_dereference(tun->tfiles[i]);
--			spin_lock(&tfile->tx_ring.consumer_lock);
--			netif_wake_subqueue(tun->dev, tfile->queue_index);
--			tfile->cons_cnt = 0;
--			spin_unlock(&tfile->tx_ring.consumer_lock);
--		}
--	}
-+	if (!ret)
-+		for (i = 0; i < tun->numqueues; i++)
-+			tun_force_wake_queue(tun, rtnl_dereference(tun->tfiles[i]));
- 
- 	kfree(rings);
- 	return ret;
-diff --git a/include/uapi/linux/if_tun.h b/include/uapi/linux/if_tun.h
-index 79d53c7a1ebd..73a77141315c 100644
---- a/include/uapi/linux/if_tun.h
-+++ b/include/uapi/linux/if_tun.h
-@@ -69,6 +69,7 @@
- #define IFF_NAPI_FRAGS	0x0020
- /* Used in TUNSETIFF to bring up tun/tap without carrier */
- #define IFF_NO_CARRIER	0x0040
-+#define IFF_BACKPRESSURE	0x0080
- #define IFF_NO_PI	0x1000
- /* This flag has no real effect */
- #define IFF_ONE_QUEUE	0x2000
-diff --git a/tools/include/uapi/linux/if_tun.h b/tools/include/uapi/linux/if_tun.h
-index 2ec07de1d73b..97b670f5bc0a 100644
---- a/tools/include/uapi/linux/if_tun.h
-+++ b/tools/include/uapi/linux/if_tun.h
-@@ -67,6 +67,7 @@
- #define IFF_TAP		0x0002
- #define IFF_NAPI	0x0010
- #define IFF_NAPI_FRAGS	0x0020
-+#define IFF_BACKPRESSURE	0x0080
- #define IFF_NO_PI	0x1000
- /* This flag has no real effect */
- #define IFF_ONE_QUEUE	0x2000
--- 
-2.43.0
+>     Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
+>     Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+>     Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+>     Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+>     Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
