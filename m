@@ -1,234 +1,145 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE12B34751F;
-	Mon,  6 Jul 2026 14:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2375034887E
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2026 14:02:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783346496; cv=none; b=Tg1MWtnbIzVvf70Nnjnl4XF9SFsaYmQWI78LKw+NZhMjMHeG+nAVemyq9aSWuBdME0+C7507QEK/ZVJdpoq5hABp3LYPJPiLNFj5JhPjGhSgjIaiJa3jP9DajzNxmO8DpiHj/PNmOnkbYTVQggFj3XnojxsGB5e+rLgYkkAaHeg=
+	t=1783346523; cv=none; b=KtHTzToZrin6CZqRZk6CjWA/+s3Teg6Fkhx06ah+PrLIcnxkxoPPrcng8/qUShtTPP687jzE259bEMAKytDm7Vay5kMvcltzQTPbheU06CyaPYBox3Al7wtJJvnFSKuzcJnGauiUmX1JeX8JtUL1YfJ0uVKBSEA0p3uyo1KKYIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783346496; c=relaxed/simple;
-	bh=+oN658RgH9K/lAIMCdUeIY2Kt33aA1hzIvXPSf3IE5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=AIUF1x39D1UCjpKcpsXezweRmacnzVhKXuNjDQ/OUsdKUk6XtQXULm8koIas2c2+Jt44srNKZM7ww34Ecc3VaATpReIHYn+r6QdvVzX7QDiRUpELFAwypEtHHFR/uKEiSyn3cchIHH8L1zu51fNrSN0mYXFbgGvAbHNhSXNfI8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=lEFY1Rdi; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1783346523; c=relaxed/simple;
+	bh=Oe/MLWXP8dChzX5k64XMZnBbFfYNd+emFyTl3KNJkIU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DNFAFs0a8pPVwhu1uTH19gBh4iJA8OQKZxsxgzGD6v3zRxOCDYMLQYXVHAVXEY94A4Xrgy8KRDHhBkORmq1jSGqOSus+oPBUAX2OvZcrh8ayZGN2I5PRWt39wbTExu1dI2iuMN6v6/ZtkvVmBokFlhcR5PkfiKG1KP5k5I29mbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RwCJ7qny; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="lEFY1Rdi"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EA6892BCB;
-	Mon,  6 Jul 2026 07:01:28 -0700 (PDT)
-Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1F79E3F7B4;
-	Mon,  6 Jul 2026 07:01:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1783346493; bh=+oN658RgH9K/lAIMCdUeIY2Kt33aA1hzIvXPSf3IE5g=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lEFY1Rdig2oEpz4BrvC0JKnSfTlRJptRPbVsfRu2RwWrm1wSluz9NtO4DHEzW5khu
-	 AtYbRZv5jnqRrGXEWAFWUDxH6i1d0KYXPavUNPM9vsnePRaj+osYyterI5ho0/r5IJ
-	 nWgHLLRf+GGC3pRJDorVzlXs2O2xEvuLeG00NEDQ=
-From: Leonardo Bras <leo.bras@arm.com>
-To: Tian Zheng <zhengtian10@huawei.com>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Marc Zyngier <maz@kernel.org>,
-	oupton@kernel.org,
-	catalin.marinas@arm.com,
-	corbet@lwn.net,
-	pbonzini@redhat.com,
-	will@kernel.org,
-	yuzenghui@huawei.com,
-	wangzhou1@hisilicon.com,
-	liuyonglong@huawei.com,
-	Jonathan.Cameron@huawei.com,
-	yezhenyu2@huawei.com,
-	linuxarm@huawei.com,
-	joey.gouly@arm.com,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	suzuki.poulose@arm.com
-Subject: Re: [PATCH v3 3/5] KVM: arm64: Add support for FEAT_HDBSS
-Date: Mon,  6 Jul 2026 15:01:28 +0100
-Message-ID: <aku1N23Szkta9uA6@LeoBrasDK>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <22abfaf8-8636-4ed3-9a5c-fb4fdef1bc19@huawei.com>
-References: <20260225040421.2683931-1-zhengtian10@huawei.com> <20260225040421.2683931-4-zhengtian10@huawei.com> <ahzUUDAMoHtDFJD3@inochi.infowork> <864ijmvdpy.wl-maz@kernel.org> <ah1KLrpYBXSMM91H@inochi.infowork> <22abfaf8-8636-4ed3-9a5c-fb4fdef1bc19@huawei.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RwCJ7qny"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2c7cfa17fedso33556825ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 07:02:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783346521; x=1783951321; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8W5+jx7bPjLG+4tJL2jHIRG3oW7oM+42HpDCfJqGjPw=;
+        b=RwCJ7qnyMny8Vxzcwf+qYHt8vY8Pq8QK+74PZZ8HVBNr181u+ID0pb5BzUkoIZ9TRh
+         XUII5n2CbmE/2wSkC42EYhHdAziVCN49WoZX0qLqFDhzkVuUOJfF2+Gtlhjo+arygzkM
+         IlZ1OnXHG9YdVJRsiHyQKOYJlkFADszaouYjhorbeUbQ3xHHuG5XISDgDCPDUKx6jQWc
+         Ncytk8Vj7VkQSEm0J3cSUxK3c8a288swVcDs7bTTMdmrUySm4NlbenA4RMmoalovC/92
+         bHixk0Ga15FiYPZa50PZ7g5NrPZTNCMUZeDhwHrGL6250nbxwIwdUVb3bh5dmHuQ3IPF
+         H6Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783346521; x=1783951321;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8W5+jx7bPjLG+4tJL2jHIRG3oW7oM+42HpDCfJqGjPw=;
+        b=gOK1wBJz9tXNnehGJBD6h4h83mW4/3Hbsi/VT5gTGxMTeFcRtj7NKsD50DruA/3NLK
+         L9oWkVgoa8oScGm6dqQDIRlxnyd1HTq9SGo32W4FXP2MNHBHccK/MSBALjGEOiWFJlmq
+         okymIEGRV0c+QP9c52sbVGlZwn4NeSBI9NjiC43pwoZyv2564tfO12JAU/BaES9s5hwu
+         69+vlFzqpTe1wxz1Pg1UlokXInJah1OejELRfKsm7HCg2k4tNWRiKY+3vv4QymYrfxkd
+         +kQ+AKCLNu/QWrrudWifaFILiQxsqtuY6DeT1e+459KQhKGtRYKg1fepZjBsOtTlVzaz
+         e7fg==
+X-Forwarded-Encrypted: i=1; AHgh+RpzKGPtRNPTNbUxKSmnDIMX1YsCO9c1xBfWwlSubkbCSTIHeYzY2eHByASUarKFA9RwGpf/SF9+Jak=@vger.kernel.org
+X-Gm-Message-State: AOJu0YylnZpRB7BOE4jHQw9snVSOl2ZazKNy4uLx7BGncUCafLDRKY1N
+	eD2FSrp+FhsSmOijAgQLQ0f2erAydHGjOCMl8oXn00N7SQTNTRN4OgNc
+X-Gm-Gg: AfdE7cnLJlv/CN79/LCQXQjdOxCwZa2tF01HI7ELOyioYdLwmzipN6hwtrvS4G0FaLA
+	rsV5PZFvQGDffL66iETFuJKZvgOXZuYBWIRkq/Fkvwy//THj2VCLuw3RDaO4HTQ8FQT05ex/72e
+	mmWvaEevOpkp/sIKxdrfZ1DUbaDhYUf8xsPPfpR4S4xvGzMUGiXQgxJSgCuvcyPPREMSp1BbPDu
+	BWKV4t0qTeeFY/qNkGDNAxoMpMwkbkBfBt/PNaz5XRdt9yp7fu8pGBDotuaOqtbJSKwrGWqLNHP
+	EL3P1LXfqjScfbnX6KELk1uk4DrN2z5xQvahlJ90laOrecLn9lWNI+ceSA60UN2sFlvDg2NiAA0
+	d1jNksaUJxIEDWEFu2KlZc7mV1qO1Ol8vkozlVamTD2Rfw0+S4DuPrmvmHOd63i0WFRt53nr3Q5
+	HAdyIQPT6JDrckwrus6bZMioVpLw==
+X-Received: by 2002:a17:902:e5c8:b0:2c9:cf5d:d9bc with SMTP id d9443c01a7336-2ccbf043d9cmr5925765ad.35.1783346520520;
+        Mon, 06 Jul 2026 07:02:00 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad7894b20sm51246705ad.78.2026.07.06.07.01.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 07:01:58 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 6 Jul 2026 07:01:57 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] dt-bindings: hwmon: (pmbus/max20830): add
+ enable-gpios property and complete examples
+Message-ID: <a502e1e2-f2c3-4851-b0d5-934b18e92f84@roeck-us.net>
+References: <20260706-dev-max20830c-v2-0-37761e89bb5f@analog.com>
+ <20260706-dev-max20830c-v2-1-37761e89bb5f@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260706-dev-max20830c-v2-1-37761e89bb5f@analog.com>
 
-On Fri, Jun 05, 2026 at 04:29:49PM +0800, Tian Zheng wrote:
+On Mon, Jul 06, 2026 at 10:08:41AM +0800, Alexis Czezar Torreno wrote:
+> Adding an entry for the MAX20830 EN (enable) pin. This pin exist but
+> was not included before. Also edited examples entry to be more complete.
 > 
-> On 6/1/2026 5:05 PM, Inochi Amaoto wrote:
-> > On Mon, Jun 01, 2026 at 09:58:49AM +0100, Marc Zyngier wrote:
-> > > On Mon, 01 Jun 2026 01:50:22 +0100,
-> > > Inochi Amaoto <inochiama@gmail.com> wrote:
-> > > > On Wed, Feb 25, 2026 at 12:04:19PM +0800, Tian Zheng wrote:
-> > > > > From: eillon <yezhenyu2@huawei.com>
-> > > > > 
-> > > > > Armv9.5 introduces the Hardware Dirty Bit State Structure (HDBSS) feature,
-> > > > > indicated by ID_AA64MMFR1_EL1.HAFDBS == 0b0100. A CPU capability is added
-> > > > > to notify the user of the feature.
-> > > > > 
-> > > > > Add KVM_CAP_ARM_HW_DIRTY_STATE_TRACK ioctl and basic framework for
-> > > > > ARM64 HDBSS support. Since the HDBSS buffer size is configurable and
-> > > > > cannot be determined at KVM initialization, an IOCTL interface is
-> > > > > required.
-> > > > > 
-> > > > > Actually exposing the new capability to user space happens in a later
-> > > > > patch.
-> > > > > 
-> > > > > Signed-off-by: eillon <yezhenyu2@huawei.com>
-> > > > > Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
-> > > > > ---
-> > > > >   arch/arm64/include/asm/cpufeature.h |  5 +++++
-> > > > >   arch/arm64/kernel/cpufeature.c      | 12 ++++++++++++
-> > > > >   arch/arm64/tools/cpucaps            |  1 +
-> > > > >   include/uapi/linux/kvm.h            |  1 +
-> > > > >   tools/include/uapi/linux/kvm.h      |  1 +
-> > > > >   5 files changed, 20 insertions(+)
-> > > > > 
-> > > > > diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
-> > > > > index 4de51f8d92cb..dcc2e2cad5ad 100644
-> > > > > --- a/arch/arm64/include/asm/cpufeature.h
-> > > > > +++ b/arch/arm64/include/asm/cpufeature.h
-> > > > > @@ -856,6 +856,11 @@ static inline bool system_supports_haft(void)
-> > > > >   	return cpus_have_final_cap(ARM64_HAFT);
-> > > > >   }
-> > > > > 
-> > > > > +static inline bool system_supports_hdbss(void)
-> > > > > +{
-> > > > > +	return cpus_have_final_cap(ARM64_HAS_HDBSS);
-> > > > > +}
-> > > > > +
-> > > > >   static __always_inline bool system_supports_mpam(void)
-> > > > >   {
-> > > > >   	return alternative_has_cap_unlikely(ARM64_MPAM);
-> > > > > diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-> > > > > index c31f8e17732a..348b0afffc3e 100644
-> > > > > --- a/arch/arm64/kernel/cpufeature.c
-> > > > > +++ b/arch/arm64/kernel/cpufeature.c
-> > > > > @@ -2124,6 +2124,11 @@ static bool hvhe_possible(const struct arm64_cpu_capabilities *entry,
-> > > > >   	return arm64_test_sw_feature_override(ARM64_SW_FEATURE_OVERRIDE_HVHE);
-> > > > >   }
-> > > > > 
-> > > > > +static bool has_vhe_hdbss(const struct arm64_cpu_capabilities *entry, int cope)
-> > > > > +{
-> > > > > +	return is_kernel_in_hyp_mode() && has_cpuid_feature(entry, cope);
-> > > > > +}
-> > > > > +
-> > > > >   bool cpu_supports_bbml2_noabort(void)
-> > > > >   {
-> > > > >   	/*
-> > > > > @@ -2759,6 +2764,13 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
-> > > > >   		ARM64_CPUID_FIELDS(ID_AA64MMFR1_EL1, HAFDBS, HAFT)
-> > > > >   	},
-> > > > >   #endif
-> > > > > +	{
-> > > > > +		.desc = "Hardware Dirty state tracking structure (HDBSS)",
-> > > > > +		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
-> > > > > +		.capability = ARM64_HAS_HDBSS,
-> > > > > +		.matches = has_vhe_hdbss,
-> > > > > +		ARM64_CPUID_FIELDS(ID_AA64MMFR1_EL1, HAFDBS, HDBSS)
-> > > > > +	},
-> > > > >   	{
-> > > > >   		.desc = "CRC32 instructions",
-> > > > >   		.capability = ARM64_HAS_CRC32,
-> > > > > diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
-> > > > > index 7261553b644b..f6ece5b85532 100644
-> > > > > --- a/arch/arm64/tools/cpucaps
-> > > > > +++ b/arch/arm64/tools/cpucaps
-> > > > > @@ -68,6 +68,7 @@ HAS_VA52
-> > > > >   HAS_VIRT_HOST_EXTN
-> > > > >   HAS_WFXT
-> > > > >   HAS_XNX
-> > > > > +HAS_HDBSS
-> > > > >   HAFT
-> > > > >   HW_DBM
-> > > > >   KVM_HVHE
-> > > > 
-> > > > > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> > > > > index 65500f5db379..15ee42cdbd51 100644
-> > > > > --- a/include/uapi/linux/kvm.h
-> > > > > +++ b/include/uapi/linux/kvm.h
-> > > > > @@ -985,6 +985,7 @@ struct kvm_enable_cap {
-> > > > >   #define KVM_CAP_ARM_SEA_TO_USER 245
-> > > > >   #define KVM_CAP_S390_USER_OPEREXEC 246
-> > > > >   #define KVM_CAP_S390_KEYOP 247
-> > > > > +#define KVM_CAP_ARM_HW_DIRTY_STATE_TRACK 248
-> > > > > 
-> > > > >   struct kvm_irq_routing_irqchip {
-> > > > >   	__u32 irqchip;
-> > > > > diff --git a/tools/include/uapi/linux/kvm.h b/tools/include/uapi/linux/kvm.h
-> > > > > index dddb781b0507..93e0a1e14dc7 100644
-> > > > > --- a/tools/include/uapi/linux/kvm.h
-> > > > > +++ b/tools/include/uapi/linux/kvm.h
-> > > > > @@ -974,6 +974,7 @@ struct kvm_enable_cap {
-> > > > >   #define KVM_CAP_GUEST_MEMFD_FLAGS 244
-> > > > >   #define KVM_CAP_ARM_SEA_TO_USER 245
-> > > > >   #define KVM_CAP_S390_USER_OPEREXEC 246
-> > > > > +#define KVM_CAP_ARM_HW_DIRTY_STATE_TRACK 248
-> > > > > 
-> > > > >   struct kvm_irq_routing_irqchip {
-> > > > >   	__u32 irqchip;
-> > > > > --
-> > > > > 2.33.0
-> > > > > 
-> > > > Instead of having these architecture specific capability, I wonder if
-> > > > we can add a generic capability like "KVM_CAP_HW_DIRTY_STATE", so
-> > > > other architecture supports similar things can reuse this capability,
-> > > What of the existing stuff doing the same thing? x86's PML, to start
-> > > with?
-> > > 
-> > In fact I think the HDBSS is the first one with non-fixed size.
-> > Although there is a in process RISC-V extension for it, there will
-> > be a long story to make it ratified.
-> > 
-> > > > For this generic thing I suggest, the getter returns the max support
-> > > > entry count (or the buffer size) it supports like the dirty ring
-> > > > capability. And the setter just let the architecture set the parameters
-> > > > based on the user request.
-> > > This looks wrong on a number of levels.
-> > > 
-> > > - If you want something generic, there is the existing dirty
-> > >    log/bitmap. How this stuff is populated is none of the user's
-> > >    business (trapping write accesses, dirty bit collection from the
-> > >    PTs, or HW-generated log), and we don't need an extra feature for
-> > >    it. Performance will obviously suck, but that's what you pay for
-> > >    something abstracted and cross-architecture.
-> > > 
-> > > - If you want something architecture specific, then it can't be
-> > >    generic, by definition. You get the raw speed and compatibility with
-> > >    other arch-specific extensions.
-> > > 
-> > OK, I agree, it is better to keep this thing arch-specific. Doing a
-> > generic thing does not benefit too much, I have made a mistake on
-> > it. Thanks for your kindly explanation.
-> 
-> 
-> Awesome. Thanks for the review.
-> 
-> I agree with Marc—keeping this ARM-specific is the right approach.
-> Also, in v4 we're removing the ioctl interface entirely. HDBSS will be
-> auto-enabled during migration setup and auto-disabled when migration
-> completes, so the capability naming issue becomes moot.
-> 
-> I plan to post v4 with the updated approach soon.
+> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
 
-Hi Tian,
+I still do not see the point of these properties. The driver can extract
+the power good information from its registers, and it can set the enable
+value from there as well. It does not need either.
+In practice the power good output is likely to be connected to an LED or
+to the enable pin of another power controller. Neither would need
+devicetree properties.
 
-Any updates in the v4?
-Please let me know if you want help in any kind, in regards to this 
-patchset. 
+Again, please provide a use case. The mere presence of these pins (which
+exist on pretty much all PMBus chips) does not warrant devicetree
+properties for them.
 
-Thanks!
-Leo
+Thanks,
+Guenter
+
+> ---
+>  .../devicetree/bindings/hwmon/pmbus/adi,max20830.yaml         | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
+> index 1625dd59417f1b3ca689a9c86ca266da913d1217..f3ba6351aa5d657590d92a538910fd6b787e7a3a 100644
+> --- a/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
+> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
+> @@ -39,6 +39,11 @@ properties:
+>      description:
+>        Optional 2.5V to 5.5V LDO input supply.
+>  
+> +  enable-gpios:
+> +    description:
+> +      GPIO connected to the EN (enable) pin.
+> +    maxItems: 1
+> +
+>    pwr-good-gpios:
+>      description:
+>        GPIO connected to the power-good status output pin.
+> @@ -53,6 +58,8 @@ unevaluatedProperties: false
+>  
+>  examples:
+>    - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+>      i2c {
+>          #address-cells = <1>;
+>          #size-cells = <0>;
+> @@ -61,6 +68,10 @@ examples:
+>              compatible = "adi,max20830";
+>              reg = <0x30>;
+>              vddh-supply = <&vddh>;
+> +            avdd-supply = <&avdd>;
+> +            ldoin-supply = <&ldoin>;
+> +            enable-gpios = <&gpio 1 GPIO_ACTIVE_HIGH>;
+> +            pwr-good-gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
+>          };
+>      };
+>  ...
