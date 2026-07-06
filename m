@@ -1,117 +1,231 @@
-Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21792459C5;
-	Mon,  6 Jul 2026 05:06:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.54.90.47
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9A14358372;
+	Mon,  6 Jul 2026 05:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783314410; cv=none; b=ILzq3BOCgPz0WS2E0Iphisqo0Ff6hVyYBl7usA1a2jMQowHkJTMtoRKkOPnH/6HRHccnHLjzetOJRxyw5E3gGsrTIFxOb6NOVDE0/Q5ZRktK3iBRaNT4NjWttZle/f09D4DZExQ90kh8M2+hGdN7a+GD1EllKc2Bu4DzBoKC0js=
+	t=1783315449; cv=none; b=gGhJ/ACRVSvlJmIOf5L10N9yJqCScXw96RGQAsk/+QNZSbAPIL8v33Rkt6oAT9gKvtA47fUQPlozI759pO1jJ4/XF5BQ0TH45YYB1LSwHs0120KPzZs0dbzPgze0YIHxj1fuvuaEgyB9Lr3WsUBx4XDAJj9DzOiY2Huee+PXu1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783314410; c=relaxed/simple;
-	bh=5lEG25gpWK2qINDdzcO8/gLY1vOhbdurY6B83rUorpQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IJ/MmwpjTNton+jbOasX1l7B8f30YCpYL2lrA9LOmOpj3Z9oNA+Hz+WPr7pOqxESBYIKx7u0F5xajsOfxYhLijvFWTe5LuYaelBIkMmPDtXirXb7gbTWdQskTvgou+2bnAE7E52QmN/3ShwsG/9tt0sfWsQON5sTDZ/OSXcUffk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=XKYVdE/S; arc=none smtp.client-ip=207.54.90.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
+	s=arc-20240116; t=1783315449; c=relaxed/simple;
+	bh=sTvxdnugF8/4fcHOaPl72YY8sFAFqQue4yk5uMeetnU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pGFC5G3oVEwBIG8yDdADgl9mu4yC2SKtdS3NYhG1VUiaRlax986BYwcOIlfNRF3N38btQDfAWg/jCkTmgqUV2IAUgTnHZHGvBs7vcnKDv5fyrQzQjtcegzlb7qrY9zg8Of20+A+8xftEiwEBjg6/GFlkNe5uOgip0kB09EGFSZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=R6y6UZhE; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="XKYVdE/S"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1783314409; x=1814850409;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=5lEG25gpWK2qINDdzcO8/gLY1vOhbdurY6B83rUorpQ=;
-  b=XKYVdE/SDvM4VFsT2iN3XgZS80Aafc7XbQ4KHaJFFghJ9o4upK70X0Ie
-   7zg9rQuUu3UxslCwRuQ92qSiYZb69BkQZs8WAShHRI3JSC/fumm5xpdku
-   7kAjnvOI4LFLpYMlXCVGhKmnq4vNBKpC9a/7TuOOeopRtb05wm7WQ8q6O
-   OCxz2b4gSLJRdXhJ0pjm8NG8TbzRA6CE/OBLJ0lDpY5gUgYdzDp0B2opi
-   NMChYbrPNZi5S2sTRUvN8c85ZpgeJq7eTzslRW7BbAHU1R9J2uXwbdXLo
-   yIxNBzHhD0gzxS6c6DpPkFDIYEQGqYrwQ9gwVuD6UUJuN3U5JUJKkRMv5
-   w==;
-X-CSE-ConnectionGUID: l3Q8DcAdQY2/2EmwSyEtzg==
-X-CSE-MsgGUID: 50cDZf4HRl+LB7bpoNNC0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="246402189"
-X-IronPort-AV: E=Sophos;i="6.25,149,1779116400"; 
-   d="scan'208";a="246402189"
-Received: from gmgwnl01.global.fujitsu.com ([52.143.17.124])
-  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 14:05:39 +0900
-Received: from az2nlsmgm4.fujitsu.com (unknown [10.150.26.204])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by gmgwnl01.global.fujitsu.com (Postfix) with ESMTPS id 4E6781C000A9;
-	Mon,  6 Jul 2026 05:05:39 +0000 (UTC)
-Received: from az2nlsmom1.o.css.fujitsu.com (unknown [10.150.26.198])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2nlsmgm4.fujitsu.com (Postfix) with ESMTPS id 076CB101D698;
-	Mon,  6 Jul 2026 05:05:39 +0000 (UTC)
-Received: from whale.soft.fujitsu.com (unknown [10.125.16.33])
-	by az2nlsmom1.o.css.fujitsu.com (Postfix) with ESMTP id 2CEC7826FDE;
-	Mon,  6 Jul 2026 05:05:35 +0000 (UTC)
-From: Iwata Koki <iwata.koki@fujitsu.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Matthew Garrett <matthew.garrett@nebula.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	iwata.koki@fujitsu.com
-Subject: [PATCH] Documentation: admin-guide: fix a doc for efi_no_storage_paranoia the "5KB" instead of the "50%"
-Date: Mon,  6 Jul 2026 14:05:34 +0900
-Message-ID: <20260706050534.1653916-1-iwata.koki@fujitsu.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="R6y6UZhE"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D6EC176A;
+	Sun,  5 Jul 2026 22:23:55 -0700 (PDT)
+Received: from [10.164.18.31] (unknown [10.164.18.31])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3482B3F7B4;
+	Sun,  5 Jul 2026 22:23:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1783315439; bh=sTvxdnugF8/4fcHOaPl72YY8sFAFqQue4yk5uMeetnU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=R6y6UZhEqJwc4uxNp8lZpIHR3saqCLog03rj13EybQfyBDF+jOzt6oOyzCoE0IIR5
+	 ypNCuy6ljN+xir+nqd3sGmz1+H7YSavBWGHatgXQIfTytXbCiOionMJS15ZH57ncRH
+	 5Wdjgy3IDuMXO+NShSX2ohKuRnZSHdNWrGPkDDsw=
+Message-ID: <b0170580-eab9-44ae-a87b-d8e42d28ab1b@arm.com>
+Date: Mon, 6 Jul 2026 10:53:54 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] arch: arm64: add early_param idle=<wfi|yield|nop>
+To: Yureka Lilian <yureka@cyberchaos.dev>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev
+References: <20260705-arm64-idle-param-v1-1-7454249f473f@cyberchaos.dev>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <20260705-arm64-idle-param-v1-1-7454249f473f@cyberchaos.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The documentation for 'efi_no_storage_paranoia' incorrectly states
-the kernel cannot use "more than 50%" of the EFI variable storage.
 
-This percentage-based explanation has been outdated since commit
-f8b8404337de ("Modify UEFI anti-bricking code") introduced a fixed 5KB
-minimum reserve threshold (EFI_MIN_RESERVE) in
-arch/x86/platform/efi/quirks.c. At that time, the documentation was not
-updated to reflect this change.
 
-Update the documentation to reflect the "5KB" instead of the "50%".
+On 05/07/26 3:32 PM, Yureka Lilian wrote:
+> Overriding the idle mechanism might be useful for debugging, performance
+> testing and on platforms where the WFI instruction misbehaves, such as
+> Apple Silicon SoCs.
 
-Fixes: f8b8404337de ("Modify UEFI anti-bricking code")
-Signed-off-by: Koki Iwata <iwata.koki@fujitsu.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+The commit message should have little more description given the proposed
+code churn here e.g 'idle=' is not new but an existing kernel command line
+parameter already being used on x86 platform and describe different values
+it takes on arm64 platform.
+> 
+> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+> ---
+> Thanks to Will Daecon for suggesting this path, since, when treating the WFI
+> misbehavior as an erratum, we had difficulties telling when the alternatives
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index b5493a7f8f22..3f75969a679b 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1614,10 +1614,17 @@ Kernel parameters
- 			on all PCI bridges while in the EFI boot stub
- 
- 	efi_no_storage_paranoia [EFI,X86,EARLY]
--			Using this parameter you can use more than 50% of
--			your efi variable storage. Use this parameter only if
--			you are really sure that your UEFI does sane gc and
--			fulfills the spec otherwise your board may brick.
-+			The kernel reserves 5KB of EFI variable storage for
-+			safety, because some UEFI implementation may fail to
-+			boot if there's insufficient space in the EFI variable
-+			storage.
-+
-+			Using this parameter, you can use the 5KB reservation
-+			in the EFI variable storage.
-+
-+			However, Use this parameter only if you are really
-+			sure that your UEFI does sane gc and fulfills the spec
-+			otherwise your board may brick.
- 
- 	efivar_ssdt=	[EFI; X86] Name of an EFI variable that contains an SSDT
- 			that is to be dynamically loaded by Linux. If there are
--- 
-2.52.0
+This "why standard erratum method could not be used" should be mentioned along
+with earlier discussion link in the commit message. Please add 'Suggested-by'.
+> should be applied. This solution is more flexible and leaves it up to
+> bootloader to add the appropriate idle= parameter as a workaround.
+
+Please do mention this in commit message as well.
+
+> --->  Documentation/admin-guide/kernel-parameters.txt | 23 ++++++++++++++++++
+>  arch/arm64/kernel/idle.c                        | 31 +++++++++++++++++++++++--
+>  arch/arm64/kernel/idle.h                        | 11 +++++++++
+>  arch/arm64/lib/delay.c                          |  7 +++++-
+>  4 files changed, 69 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index b2d7d3540ded..d7f5471edf8f 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2239,6 +2239,29 @@ Kernel parameters
+>  
+>  			idle=nomwait: Disable mwait for CPU C-states
+>  
+> +			[ARM64,EARLY]
+> +			Format: idle=wfi, idle=yield, idle=nop
+> +
+> +			idle=wfi: Use the WFI (Wait For Interrupt) hint
+> +			instruction in the idle loop. This is the default and
+> +			allows the CPU to enter a low-power state until an
+> +			interrupt arrives.
+> +
+> +			idle=yield: Use the YIELD hint instruction instead of
+> +			WFI. CPUs supporting simultaneous multi-threading (SMT),
+> +			can continue executing another thread when the current
+> +			thread reaches the idle loop. This will make the CPUs
+> +			eat more power, but may be useful to get slightly better
+> +			performance in some applications, since the CPUs will
+> +			not enter a low-power state.
+> +
+> +			idle=nop: Do not execute any idle instruction in the
+> +			idle loop. This is useful on platforms where WFI
+> +			misbehaves, leading to system instability or loss of CPU
+> +			state. This will make the CPUs eat more power, but may
+> +			give slightly better performance in some applications,
+> +			since the CPUs will not enter a low-power state.
+> +
+>  	idxd.sva=	[HW]
+>  			Format: <bool>
+>  			Allow force disabling of Shared Virtual Memory (SVA)
+> diff --git a/arch/arm64/kernel/idle.c b/arch/arm64/kernel/idle.c
+> index 05cfb347ec26..018bcc812d45 100644
+> --- a/arch/arm64/kernel/idle.c
+> +++ b/arch/arm64/kernel/idle.c
+> @@ -11,6 +11,28 @@
+>  #include <asm/cpufeature.h>
+>  #include <asm/sysreg.h>
+>  
+> +#include "idle.h"
+> +
+> +enum idle_mode idle = WFI;
+> +> +/* User can over-ride above with "idle=<wfi|yield|nop>" in cmdline */
+
+This comment is redundant as the usage in mentioned in Documentation.
+> +static int __init setup_idle(char *s)
+> +{
+> +	if (!s)
+
+Small nit - renaming 's' as 'arg' or 'str' might be better I guess.
+> +		return -1;
+> +	else if (!strcmp(s, "wfi"))
+> +		idle = WFI;
+> +	else if (!strcmp(s, "yield"))
+> +		idle = YIELD;
+> +	else if (!strcmp(s, "nop"))
+> +		idle = NOP;
+> +	else
+> +		return -1;
+> +
+> +	return 0;
+> +}
+> +early_param("idle", setup_idle);
+
+Small nit - s/setup_idle/setup_arm64_idle/
+
+> +
+>  /*
+>   *	cpu_do_idle()
+>   *
+> @@ -26,8 +48,13 @@ void __cpuidle cpu_do_idle(void)
+>  
+>  	arm_cpuidle_save_irq_context(&context);
+>  
+> -	dsb(sy);
+> -	wfi();
+> +	if (likely(idle == WFI)) {
+> +		dsb(sy);
+> +		wfi();
+> +	} else if (idle == YIELD) {
+> +		dsb(sy);
+> +		asm volatile("yield" ::: "memory");
+> +	}
+>  
+>  	arm_cpuidle_restore_irq_context(&context);
+>  }
+> diff --git a/arch/arm64/kernel/idle.h b/arch/arm64/kernel/idle.h
+> new file mode 100644
+> index 000000000000..350b758ea215
+> --- /dev/null
+> +++ b/arch/arm64/kernel/idle.h
+> @@ -0,0 +1,11 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +#ifndef __ARM64_KERNEL_IDLE_H
+> +#define __ARM64_KERNEL_IDLE_H
+> +
+> +enum idle_mode {
+
+Small nit - s/idle_mode/arm64_idle_mode
+> +	WFI,
+> +	YIELD,
+> +	NOP,
+
+Small nit - ARM64_IDLE_[WFI|YIELD|NOP] to be more descriptive
+> +};
+> +
+> +#endif
+> diff --git a/arch/arm64/lib/delay.c b/arch/arm64/lib/delay.c
+> index e278e060e78a..d6fd09466abc 100644
+> --- a/arch/arm64/lib/delay.c
+> +++ b/arch/arm64/lib/delay.c
+> @@ -15,9 +15,13 @@
+>  
+>  #include <clocksource/arm_arch_timer.h>
+>  
+> +#include "../kernel/idle.h"
+> +
+>  #define USECS_TO_CYCLES(time_usecs)			\
+>  	xloops_to_cycles((time_usecs) * 0x10C7UL)
+>  
+> +extern enum idle_mode idle;
+
+Could the extern be moved inside arch/arm64/kernel/idle.h instead
+> +
+>  static inline unsigned long xloops_to_cycles(unsigned long xloops)
+>  {
+>  	return (xloops * loops_per_jiffy * HZ) >> 32;
+> @@ -49,7 +53,8 @@ void __delay(unsigned long cycles)
+>  		 * Start with WFIT. If an interrupt makes us resume
+>  		 * early, use a WFET loop to complete the delay.
+>  		 */
+> -		wfit(end);
+> +		if (likely(idle == WFI))
+> +			wfit(end);
+>  		while ((__delay_cycles() - start) < cycles)
+>  			wfet(end);
+>  	} else 	if (arch_timer_evtstrm_available()) {
+> 
+> ---
+> base-commit: 96cb07bd64bf4d3c8c9159636314c6fbdd9b9881
+> change-id: 20260705-arm64-idle-param-c27fc0e7ea05
+> 
+> Best regards,
+> --  
+> Yureka Lilian <yureka@cyberchaos.dev>
+> 
+> 
 
