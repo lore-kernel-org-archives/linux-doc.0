@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16814D8D93;
-	Mon,  6 Jul 2026 08:50:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEDC23890F1;
+	Mon,  6 Jul 2026 08:51:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783327849; cv=none; b=cQe6o2hVNaXSuLmq0yuFjTmCXTDbt9Z2ZXC/58OIc6REFWB43VKwHWgPAcmQTTpm1jDfQbqtldZimUzTQ9ArLfOdAixqGo3FQjOFaE5hEsaWO0Jh40JgNsmUzTfVtA5m0kpx+GHENiWOPXvzVvPkH4OxnGg16ySVBYlQ+YYf/Vs=
+	t=1783327882; cv=none; b=lq8qd+GuHUfH6A+SGtlh+yHLzOvKpH2rmwsjliNCgMM+edk+AiJd86ycqKzJUhzquV86ioXO78bzptZOPkfg/w+SUvZjOP17DHF357APoIrLaXvCesn0y9fEr0HcVbdlpKgH2Sh6O51zgj2FIkgxNTVDdKPVaar4VkAHQ8FE9Es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783327849; c=relaxed/simple;
-	bh=H3R55HuygTxCPIU8vdqStb3w/WmVYqJlsQERoMXP2iM=;
+	s=arc-20240116; t=1783327882; c=relaxed/simple;
+	bh=syY7sAmSlg+O76Krteu3SOK7sgsgqcxHbwhWRYYI1/8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SQnfHEdtp4EqLQBvFxQ5jIgES730XtBpME1+HN0srA84HOmN9vqkgov7VWNtaO3KFTb3InuxhCf82c3rnfGd1k8o6X4gqaEAYy01sfsttd7fihh+zsG5GZlgqDNDPPesMZLC74HeIsRjUOQ1xILqP2VH5aEzh9YN40Zemqfswck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ANrs69qg; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=ehtVX8Pjh9dsaWOCHeKy6r/QhVGbT+XjuaON65xxFmh719rsg9muET2zQFrZ53iliTiKsUQQg0oqrxg95CuNc+vTnS2rNKmLsAe1sBZFlBtPQ3V2U36TbGKv2sgKm5tsjmKxwcsd5eR1zB1o056wTldTKEfqZ50z+nXs9OOcXGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CMmpIc8B; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ANrs69qg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 249C11F000E9;
-	Mon,  6 Jul 2026 08:50:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CMmpIc8B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3632F1F000E9;
+	Mon,  6 Jul 2026 08:51:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783327838;
-	bh=8H3wDGn6Io2auw5Dq74h7CwVRzPBSpUoio1EButPo5M=;
+	s=k20260515; t=1783327875;
+	bh=XzLv+da1VK2uoG9pUr+oPk8RYYDxZ2UhQ4fGhBT+UfI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ANrs69qg8B3upFzmzz1q7UCws+ttEpVdzpUaimTCvD+uOwRkVwPhWXcUho7F/IFpN
-	 4/3l6+TGqMN52tbb57MIGpQrKX+d+7eT7XIjWnp06L7ElnOXaFdHJrztZchHeiwsBA
-	 ZrVqHR0tM0wRs2N487lJriz3Or9FEzWLT3uM2LvA/o93I3Di5DLHOlV6ohvF/Z++c6
-	 51PaDGH0EWETai89/+uekM80tJN5ttLsg3Lss2ODsuwWqsQtTqbmIL6giAN+VByDkT
-	 oshZumLA9dxRPcpU2kbrWB+QtgnBmbMFJe9l/ZB2TSu/9Zs90Z0cusfmVjzt7LM4Al
-	 lveYFOyQ64FXQ==
-Message-ID: <67c96fa1-9e9d-45fc-94fe-1e67253f5270@kernel.org>
-Date: Mon, 6 Jul 2026 10:50:29 +0200
+	b=CMmpIc8BJghNiDy/pCe9GTyMUvlDSFT5HUMJXFRfF++L/1UvvKWrD9rnn4yjenoVD
+	 5dHcgnp0FYUtLagXsim9k2A86Uv16/jzW84Wq2myLedNIHiqEWp0liHjjizBorDkaG
+	 0Sg0fukbNdlhhOQjZ5ZL8LLx79gVWn4CtiXUSLxvekkwV6HZX9IEWSiaVYFWEEhNiq
+	 k+MQ14GVNEQsBg+eDXeAMmoeow423kX3Ibdm1BdXtIrdTS5CxziVrG7yMm72YIWB2b
+	 9NDhD0ZpAMGdJNBMOxUgV8k9avzG0Dx7N5Xrr1JcH8vQZii9SH6/66is7xCTON+Sdl
+	 XDgtaStJD8VCg==
+Message-ID: <69f71507-0a42-4fdf-af33-2c596657aca1@kernel.org>
+Date: Mon, 6 Jul 2026 10:51:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,7 +35,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/3] mm: rename swap.c to folio.c
+Subject: Re: [PATCH v7 3/3] mm: move reclaim-internal declarations out of
+ swap.h
 To: Jianyue Wu <wujianyue000@gmail.com>,
  Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
  Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
@@ -52,9 +53,9 @@ To: Jianyue Wu <wujianyue000@gmail.com>,
  <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
  Baoquan He <baoquan.he@linux.dev>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+ linux-doc@vger.kernel.org
 References: <20260705-ch-swap-series-plus-folio-lru-cleanup-v7-0-a028e8b5fc3d@gmail.com>
- <20260705-ch-swap-series-plus-folio-lru-cleanup-v7-2-a028e8b5fc3d@gmail.com>
+ <20260705-ch-swap-series-plus-folio-lru-cleanup-v7-3-a028e8b5fc3d@gmail.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -101,28 +102,27 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260705-ch-swap-series-plus-folio-lru-cleanup-v7-2-a028e8b5fc3d@gmail.com>
+In-Reply-To: <20260705-ch-swap-series-plus-folio-lru-cleanup-v7-3-a028e8b5fc3d@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 7/5/26 16:12, Jianyue Wu wrote:
-> Rename mm/swap.c to mm/folio.c so the filename better matches
-> the code's main responsibility.
+> Keep include/linux/swap.h focused on swap-facing interfaces by moving
+> MM-internal reclaim and workingset declarations into mm/internal.h.
 > 
-> This keeps the implementation split from swap-specific code without
-> changing the published LRU helper interfaces.
+> Leave the small set of LRU helper declarations that are used outside mm/
+> in swap.h so this cleanup does not need a new public header under
+> include/linux/.
 > 
-> Update MAINTAINERS and the remaining mm/swap.c documentation references
-> after the rename.
-> 
+> Suggested-by: Barry Song <baohua@kernel.org>
 > Suggested-by: Baoquan He <bhe@redhat.com>
-> Suggested-by: David Hildenbrand <david@kernel.org>
-> Suggested-by: Matthew Wilcox <willy@infradead.org>
-> Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
 > Acked-by: Johannes Weiner <hannes@cmpxchg.org>
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 > Signed-off-by: Jianyue Wu <wujianyue000@gmail.com>
 > ---
+>  include/linux/swap.h | 75 +++++-----------------------------------------------
+>  mm/internal.h        | 67 ++++++++++++++++++++++++++++++++++++++++++++++
+
+We likely want to split that up soon, but let's do that separately.
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
