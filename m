@@ -1,76 +1,92 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE513491E1
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 08:47:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F8933291F
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 08:48:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783414030; cv=none; b=rdprBvDV1vHglme3/WL6ZBYjxOSTgXFM7pCN3PXr9VfZPJ5LJCz+ZGPKR/nZLHGgo0RQC6jOiDZFOM6cuDT2QenG5g0oU8lhdeg374tLlp/YDtsPatNEYPHK+h5JnrFqrIZL8ZSuhlem/2EgCAE0gL9j3iNfYPaQdtRoUo11fVA=
+	t=1783414117; cv=none; b=TjSDaNiAyUZ6G/uJR2bkzC2zRUFZ2MQV4u+S3Ymkpa+6xq03g1gp/jp7jtnkWQHz71ybllgxZ5lhDMGfMtHfGpUC6LQ08pSIVFWaldJrsUmlY4TmSpbvT1fPy4y7KU34zRLX8wGLPscOkFf6vkjqJLmfWaTFot+hDkB/JBh2hJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783414030; c=relaxed/simple;
-	bh=fKKXULirbAGvNP45qqj38/NkZKNHfc9wpoo35PVZMRg=;
+	s=arc-20240116; t=1783414117; c=relaxed/simple;
+	bh=B7IpEGimiq97mBhe4ez+EoRJVMiEWH0AXP6PlEke+J8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QxVhbBgs88Iq0FkicOP1rt54dSJaQ6MzEO854gTgsfxTX6WSmXmdq+Da4LQtNumZF737+8SAa4sDT1F5zuzRDpN0E8+czOX/BBAfwBaiAInwig/af/BXDebdrzZE0lpx1T09IjgROOOJ8IpA77k87b6jKUAvDEzqMkoU3Pf6MgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=KOlAa2jy; arc=none smtp.client-ip=209.85.221.43
+	 Content-Type:Content-Disposition:In-Reply-To; b=BpMDFtxiwOA44awSbeo/4Ff7tb4J8MvecSmymYD0vH8qo/fEcPkoGOqCnLHBZq5ieZO+5tGELxx2VLDygpfHjJwGZXXXTQQKW2MybwLLnK+VkTMPSDHaOU0MNWYwvARhpPPlWMdRi7ZHR0xzjoBQ3yB8NfUpjjNlFfzB8bjlsao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=GtK7Z5VM; arc=none smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="KOlAa2jy"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4799b3f7c83so2440260f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 01:47:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="GtK7Z5VM"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-470174001a0so2078124f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 01:48:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783414027; x=1784018827; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fKKXULirbAGvNP45qqj38/NkZKNHfc9wpoo35PVZMRg=;
-        b=KOlAa2jyR3iYayMm1cYiX0sprV2rCThZeiWJ5XD9kAe+NX4BlMBY3B47y4YGTslDxK
-         elb3BBfWYzZf75FeNvqrYqoDhkPNNXxPV0nYzYEEKVkc3AWDeVVX/KJg1QsUqA66WMtm
-         4VQtVb9QsKbwzG371CyfZRVQAVdcTQiOjE0ESZIFyjBTxt4gwahnS6WT3lw1xOUcUyuG
-         STQJ/W8pNb+svTZHAfoqin2ENfWoeI19FsXe4Ds2BuL4thaUet5NBBA/h4VQP4Tp+kPm
-         +Sq1WbY+I00fYYHD3R+27taHn4xwWzM2BsOe7KMK8ysVJ4TUVPkpjxlxzyd9vnUkdkT+
-         LMaQ==
+        d=baylibre.com; s=google; t=1783414114; x=1784018914; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=B7IpEGimiq97mBhe4ez+EoRJVMiEWH0AXP6PlEke+J8=;
+        b=GtK7Z5VMSubNMycNF1j3kex0rt2Frz/ofKdE6tAAxDmUgdHzTZYnQ64mKdvcW589qA
+         8U7w5VEkgTK+rrvPPyEr5LG1ofotAGze/29hnYGcqPXXQp+LplDs/jQzL7fg/tDfWDBQ
+         TVp25zS+9bVDBfJqT+2/TaCUpySPYSZpRq/GRoQaJLt3QhleB3qXtttq1KWHZXx7wF3G
+         xe1wAlJX5yD/cA5Q6gfJrh1zZcRhVFnQv8mjuYgxPV5ZnRllSCRU6Zee2/ZkGjg0cAHH
+         WvW7RKodXJcwHmXM5OxggVMIyDbGoCXr/e2OONuutKxXS+gYJWOB6GMpSFjxp9yU7GBb
+         w79g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783414027; x=1784018827;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fKKXULirbAGvNP45qqj38/NkZKNHfc9wpoo35PVZMRg=;
-        b=c3PPhOai06DKksroXNJc2MNCByPXLD2LDDbd1DhkqsmcL3gc+VkytUaFHT1J6GtcfE
-         p6L9BOOOLuD0s5IHXefU9XsEHRFEr/DCzMxE090mliyhheFd4yTWyLAApCCXjgoTCyD1
-         cmi2miWSSQUVlnt9ab9gwv62Epsz9DlLaqUCm689rhQo+JmN9p5dmbUNsN6gZkdgMtcE
-         41OmP+HvXWMCMRwEk+4TvqbH99iMQK6ENl/2lTRjS88gXM3Vgh5kqEyL19Kx+nZ4reJ+
-         +cEIVT2MpqLV1kR0ltJIkU3j+IaiMap82POv2hdEdgFBn4uJUj5oAWZr3w6qxrO35s06
-         RGJA==
-X-Forwarded-Encrypted: i=1; AHgh+RrRSRGkosYqiIpFJjkNv+AnET2N9eIPCM1iwwReGDy5AX5iVB8z4bcoin9bZn1UsvI0v1Zwxkr/Xp4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtxpSph6O0ViQyqiZlWkNJyBRt3CojlMpTHc6vels9wo5CxUTB
-	TDgHEbEAFchTzhngctMeUegjuuL/Pkhe9iNJeXFgFcMOdRGQZEURh/kJ0wLhpWOET7E=
-X-Gm-Gg: AfdE7ckrgJBQKx9LozMbnbGHHUbbv5a40VEn/S7fnN8BKGcQDiVtcfTRKxtjhDBO0cJ
-	bmbKoMt9g0bdfoXP6J9INIzat8u8CSZOQsaPIJ7scyHe9UPZDzdoPrNAP5op1G0VJrmV3Jdnmal
-	KuZbNk2OU98eHcJ0KXCWhS8a27UYMqg9eI22liZg/9Le/k9UxRzYdklc2OGQgvKv+08utCI5H2B
-	gvePiEXYTX7e0m4DFVSVi6AuDpYYt1f3f+YHhpbRWErM6dnWfCYXeBU5KIT7EQGTCCjU0IAX51V
-	ijE7fB3yBZlw+7/CVFvH9neUC1w6Ik+HWMKhn9x6VxJBpZUi3in3hqlr7QXwsuU+kfCwuY+oxJq
-	FdhlgkyRv/q82dgpCqleFRbjgMUcPTVghcE3T2gU3y2YjdZJ4DVlKnmb6Nm4Uly3QFIoycJshf8
-	08yPFFIJBMiTrkuU0nAUzWo7pDTdKbyM7Jp1vxZGPD6nZWcMXSJUb4qOh76S9/bsVzKLUW+AkEB
-	pgo
-X-Received: by 2002:a05:6000:c4a:b0:47d:e549:38d3 with SMTP id ffacd0b85a97d-47de669bb8amr3387505f8f.8.1783414027417;
-        Tue, 07 Jul 2026 01:47:07 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783414114; x=1784018914;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=B7IpEGimiq97mBhe4ez+EoRJVMiEWH0AXP6PlEke+J8=;
+        b=r7FTK/c3xpy94t6395Gqym4F/5g/UxdBUuhYQ+tTE+B5YrvJ9wSUUxZvgS83v4ZrwW
+         36MQ16f0/zc64wC7eqPfs4PkxwItb+EdwzeG2gSiP70bSyboECFvik5siPht56ctuwdC
+         i1JMhniiSuFVsZZXjpsulcltYH1ezu57C3qBwbPU0TG8ixUqdnzg8vNv4ygGqXFimfZT
+         VuHPf62fJYSC6QdiD7xHK6US5IhpUDRHCvARTKpzKYs/LPVPI+IkKEHcSQok/wYbaQsz
+         qD0mHnTonzG+1s+PQVRbJ1Wc5yBfn1paI01egS9vwKye7oTJjHDq2aGUey2+VQRNiPkq
+         Bqag==
+X-Forwarded-Encrypted: i=1; AHgh+RrMpr6J4Uj8LYzwf6AMarWqLdj9yXTxkMtZ0IknnEnLgNHCMEcS8ODhOfz6LCMty0skigGj87uKUb4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxcl0yZV4/QuihctOfxpNDVrfjtVbtlvG3IJR0C48o1bMPdnf4x
+	R9gwiRMNTZbCSFe+82X5vNDH4aHlIWO0GK2T4uL3/0PH3ayjpZZTGcoV9T6HOArHUMY=
+X-Gm-Gg: AfdE7cmbRpoorpuIqWySfW9XpjF40ddCpQcMSkY41xDlBX2uR8p/8nw1pfBVOPpuG0J
+	6h4Z2eTBaBuKm/CrSKWwHtf8AKCL77iLJg1hbzwKoAGshQzfqsImu3IJ6AqCYB6LXRym/T8+CjE
+	j0L15I4AJGYSwL3hesjKAHLNrX3a4R6BH7UslCRL1MKRSh9cVEPLsl2uh2/13MhvkltXdS4s1Q+
+	QQEDhoQvkB38aZg/3S14yYFQ5m17taA1zNQVMFtF4hVlHBKffSA/lJDRx7Q2UaEIzZV+t6fnmDy
+	1HjVrz1ukP+p1w6zy4nD8GYumZo/ENm1F4UGnpprMauMGC4vnpoZXGkcq17OsfgBYkH86wgfmpF
+	4Gj8vvsQ+ure0y9wFf7LCifoc4mIN1G4fVQrCpIMd4plJqPCjritW7ylG5ag8d25N/OmzEjbA3B
+	X4pGYJPIa7TwFrxzlZJPmg4UCa2Ng5ko86OFYqrZe2E2E8ILWT3WSwHMChsuANyfy1StbLFiTqJ
+	2eR
+X-Received: by 2002:a05:6000:25c2:b0:46a:234:d2e with SMTP id ffacd0b85a97d-47de670a006mr4350047f8f.38.1783414114474;
+        Tue, 07 Jul 2026 01:48:34 -0700 (PDT)
 Received: from localhost (p200300f65f47db0437b4d928ee3eb6f8.dip0.t-ipconnect.de. [2003:f6:5f47:db04:37b4:d928:ee3e:b6f8])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47a9de1d91bsm36478392f8f.4.2026.07.07.01.47.06
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47aa039ad21sm31630429f8f.20.2026.07.07.01.48.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 01:47:06 -0700 (PDT)
-Date: Tue, 7 Jul 2026 10:47:05 +0200
+        Tue, 07 Jul 2026 01:48:33 -0700 (PDT)
+Date: Tue, 7 Jul 2026 10:48:32 +0200
 From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Jinseob Kim <kimjinseob88@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Nuno Sa <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 5/5] iio: osf: add UART IIO driver
-Message-ID: <aky8sauMNjNI6XQH@monoceros>
-References: <20260707014525.1015-1-kimjinseob88@gmail.com>
- <20260707014525.1015-6-kimjinseob88@gmail.com>
+To: Drew Fustini <fustini@kernel.org>
+Cc: Adrien Ricciardi <aricciardi@baylibre.com>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra <atishp@rivosinc.com>, 
+	Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>, 
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>, 
+	Conor Dooley <conor.dooley@microchip.com>, Conor Dooley <conor+dt@kernel.org>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Dave Martin <Dave.Martin@arm.com>, 
+	Fenghua Yu <fenghuay@nvidia.com>, Gong Shuai <gong.shuai@sanechips.com.cn>, 
+	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn, James Morse <james.morse@arm.com>, 
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	liu.qingtao2@zte.com.cn, Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
+	Peter Newman <peternewman@google.com>, Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>, 
+	Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, 
+	Samuel Holland <samuel.holland@sifive.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Tony Luck <tony.luck@intel.com>, Vasudevan Srinivasan <vasu@rivosinc.com>, 
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>, 
+	yunhui cui <cuiyunhui@bytedance.com>, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 8/8] riscv_cbqri: Add CBQRI capacity allocation
+ platform driver
+Message-ID: <aky9S8A5dgIJjd7b@monoceros>
+References: <20260706-dfustini-atl-sc-cbqri-dt-v4-0-e75c20201d64@kernel.org>
+ <20260706-dfustini-atl-sc-cbqri-dt-v4-8-e75c20201d64@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -78,20 +94,21 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vz7siebehkiwd6xd"
+	protocol="application/pgp-signature"; boundary="qztydshr4q4j5sd4"
 Content-Disposition: inline
-In-Reply-To: <20260707014525.1015-6-kimjinseob88@gmail.com>
+In-Reply-To: <20260706-dfustini-atl-sc-cbqri-dt-v4-8-e75c20201d64@kernel.org>
 
 
---vz7siebehkiwd6xd
+--qztydshr4q4j5sd4
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
-Subject: Re: [PATCH v7 5/5] iio: osf: add UART IIO driver
+Subject: Re: [PATCH v4 8/8] riscv_cbqri: Add CBQRI capacity allocation
+ platform driver
 MIME-Version: 1.0
 
 Hello,
 
-On Tue, Jul 07, 2026 at 10:45:25AM +0900, Jinseob Kim wrote:
+On Mon, Jul 06, 2026 at 04:06:18PM -0700, Drew Fustini wrote:
 > +#include <linux/mod_devicetable.h>
 
 Please don't add new users for this header file. Only use those
@@ -100,19 +117,19 @@ Please don't add new users for this header file. Only use those
 Thanks
 Uwe
 
---vz7siebehkiwd6xd
+--qztydshr4q4j5sd4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpMvQUACgkQj4D7WH0S
-/k7rqAf+LbPo8+ykNY9xw0Yo7uX5zvw8zIpQRAOsaVut0iF6O3dTqNr8kHXqRPwD
-fIuXr4ITi19Y815vB5p8z+VBIu3NCRfYdka1CZfe5SQvYX6P8pPcC+11zzFbjQCm
-7DagYx73yH1ipHcH8J+sltqsIndT49ZTfr69BLh7XAEVgyWuMWP5hh3sthtDAeLh
-9NQ2wAYVLOwTQ5rkC4mLjXkvhsOQ0C9ajZbmlN/541D4atNkkCY3pWnrRE6+Mwg2
-YhK/i3ECVtC5qGJ1ABcznW3g8zGBtRbZDVJxOrc5W6Xcig35ffBPz2Ljdo2gyE6K
-hTIO+Cq4Hrbsi/zMMKf3NwxHCnuK2w==
-=V1H8
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpMvV4ACgkQj4D7WH0S
+/k6v2AgAl2287/4HQdpHnTug1nV07MMobHFzJ3S4RVStcbqDYYzz13jQz2rZa6De
+h3bwnHtKRaWt0KGFus+38vYwJklCFYLbhQN03osh+8lbz0SZFCR2LhqYZ4NqRYpL
+7YE7uJZZ0+PC0e8/9zRxAzCm3uUzdWf40hTy2rY73zLaieF5wf3ouGQ9zNNfNT/4
+DQhLEXEErGBrZ+bCPvOmHXL8AOtqXFSDLgdQKssqT/pBoQMkcf9ng4DtpeDDwHzc
+a6UBUrgNPUSGvwxHGh7hOFxnOUwrrFaQiks6LKJ3T4MLICtMMHBwBulmJXRQKkzz
+JEHzbEDCw5lqHMYE4K+SFmz38WjUUA==
+=eLlr
 -----END PGP SIGNATURE-----
 
---vz7siebehkiwd6xd--
+--qztydshr4q4j5sd4--
