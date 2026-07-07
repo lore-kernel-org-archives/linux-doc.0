@@ -1,161 +1,93 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D0340D560;
-	Tue,  7 Jul 2026 12:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE68A2FFDE1
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 13:23:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783428856; cv=none; b=XwfILrU5KeoYXJsIrw5/KMFcABPuFmFqm5gZwRa1Kh6k+nAefgvjB+lB4lhdUM38KyP3x2oEdiTV/HNdHivvq4PJeJ4k72fVhJyEnWoz/RBzxeX/5M1te8FgcN4YIBRVaiNwBTRTaPuaABXAoIN+BhThY4PpDpHgnYOfumMv6Nc=
+	t=1783430619; cv=none; b=lCVkQxLfCa2vN9vvzLfnIkqIkzbTmiUycCFGgJFExXHkhwugNTd064P0zmDOlI3IMvlYWlikJh0WePAoW1l0ACPcJFboeEZIyu9L3aKYhCuCWYGt4n8p5IexIsA/vl6To4W3YvY0dbdHk9xJSmdTwWJkA9tzL/d9u1IHqyHe7dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783428856; c=relaxed/simple;
-	bh=coCOB5qqJ+X+DFURbG7Ogj2VXwfQ4/UW9Uydsi8FxI8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=I+Iv85R1LUMtN+41YUqQFrwfxRNByMZo/XvzfkqstCqWLhCW/hahmTUSmmCx6EoNU9/xqT4NPI4Rg7QtrHJOpa+EACmn758cvLZ7RwzzYXp3mGiVDqWwpotbKdwnrC9LPpCTN0WKRFoIxHXZDEHjLm/crZ2+zH3lfhc14YBeAi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2Eu4Dk0v; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=WJ1gCCbN; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1783430619; c=relaxed/simple;
+	bh=A7wtOtvaY9HeozoFHBzDhct5R9t8t6hlM7khqAp+eUk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=o/+Gpld4H4HSBLlhU/M7DIWF0G/P5sJWp4JVSszSajDDOo14s9OK74paesdlSGg0oGAHvtF3aBEqAuL4g83WDYcFofO8tvbnhBXwL9aqnJJbSu/k3fkU85Q0YuZQKErnnTzzKpTqPhpc9bjj3cojIF4Yl09f7j5Ybl7Qm1fLsm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=llXCzkhx; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2Eu4Dk0v";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WJ1gCCbN"
-Date: Tue, 7 Jul 2026 14:54:11 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783428852;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y/hv61aOydzHugwomfJNYebuZeFTkwhx/1G/+dLQAjA=;
-	b=2Eu4Dk0v06ysm21QQr1mFBLNtn+bSKuW3OhImOytu9etUEFCC+cCkkaYxOXV39YPcf3o1t
-	Gx83fOV9JLHklzA3T3vX5Tzgqv6wI/f7kjK+NgPh2lzm2Xcv29gzFnB3OlfBmdIJGtB8od
-	DWxsVRx8gZbt5WCgqEfXzavgjgK+uqLLQ47Vhx63LmpTo5Zi6LxbJwtc1mh85+jo9yM3Zv
-	DjKWNn9OJf1y63RBb72Weuq2QGPIlTnQX9iiq6/NeTixmwvilbd1XrmcrQ2TYq2wLzX38J
-	LFJjbdtK0/h7qYyjmCbdlRdAI5ooVRt8bBs7XpzczHhrArizbVa5RG0cXrI1Sw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783428852;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y/hv61aOydzHugwomfJNYebuZeFTkwhx/1G/+dLQAjA=;
-	b=WJ1gCCbNJ5O2SpMhyTBakk9vxkDQ3zD9r/Y9ROb779GAJXOW3JWWh29CrUsxt35SkmFFzU
-	AsI6rUH/kDVI7kAw==
-From: Benedikt Spranger <b.spranger@linutronix.de>
-To: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Russell King <linux@armlinux.org.uk>, Florian
- Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
- list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>, Petr Mladek <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>, John Ogness
- <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- Andrew Morton <akpm@linux-foundation.org>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Randy
- Dunlap <rdunlap@infradead.org>, Linus Torvalds
- <torvalds@linux-foundation.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2 3/4] printk: nbcon: move printk_delay to console
- emiting code
-Message-ID: <20260707145411.53a10893@mitra>
-In-Reply-To: <CALqELGz-KSrGq5JYvLedZiO-p21pjpRKbceO+jiSfwZGyx+91Q@mail.gmail.com>
-References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
-	<20260630-deprecate_boot_delay-v2-3-f9883d36aa4b@thegoodpenguin.co.uk>
-	<20260703165654.71be8707@mitra>
-	<CALqELGz-KSrGq5JYvLedZiO-p21pjpRKbceO+jiSfwZGyx+91Q@mail.gmail.com>
-Organization: Linutronix GmbH
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="llXCzkhx"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0E8DE40E27
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1783430611; bh=rc1X2XGlvyR1p/dFa8cjaLKPjG7UoROg87uM26KtvoQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=llXCzkhxz33/WEYm9rlqlinoy7tlT9hortJZAYdtk36SBVm0dRnQ/dHPmv4FZlErW
+	 EmjCvwX+MREXxWVW65RP5AYYREopfCwzQihX7B+hA1CwDcq8VwCNojfXe7rk/4EBFs
+	 9rzh7OoQIHlmligSKU7xoiXY+1SvrrV5jrUcN1waYWOvb3P7YlsWp3T4zYhagJA8Zx
+	 5Vk8C7Jq0O8TnB+mMX2DeR4sZ9y0UuC/ixR7rTzLjsTTAD5wGCJmbrDdH8Wwx32UXs
+	 PAgNt79qcgneTXhhd7sfyYB7O6rNgxB3CbwMVi9msBBh2Pv1kRGzpqZhQA91Ar/Qcz
+	 V1yeT+UsUeDDQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0E8DE40E27;
+	Tue,  7 Jul 2026 13:23:31 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Doehyun Baek <doehyunbaek@gmail.com>, linux-doc@vger.kernel.org
+Cc: federico.vaga@vaga.pv.it, skhan@linuxfoundation.org, Doehyun Baek
+ <doehyunbaek@gmail.com>
+Subject: Re: [PATCH v2] Docs/translations/it_IT: update current minimal
+ requirements
+In-Reply-To: <20260707092613.1373425-1-doehyunbaek@gmail.com>
+References: <20260707092613.1373425-1-doehyunbaek@gmail.com>
+Date: Tue, 07 Jul 2026 07:23:30 -0600
+Message-ID: <87zf03q6gd.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Mon, 6 Jul 2026 18:05:06 +0100
-Andrew Murray <amurray@thegoodpenguin.co.uk> wrote:
+Doehyun Baek <doehyunbaek@gmail.com> writes:
 
-Hi Andrew,
+> Update the Italian minimum requirements table to match
+> Documentation/process/changes.rst for Rust, bindgen, pahole, Sphinx and
+> Python.
+>
+> Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
+> Cc: Federico Vaga <federico.vaga@vaga.pv.it>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> ---
+> Changes in v2:
+> - Rebase on current docs-next.
+>
+>  Documentation/translations/it_IT/process/changes.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/translations/it_IT/process/changes.rst b/Documentation/translations/it_IT/process/changes.rst
+> index 7ee54c972418..1f89bae7b6c2 100644
+> --- a/Documentation/translations/it_IT/process/changes.rst
+> +++ b/Documentation/translations/it_IT/process/changes.rst
+> @@ -34,14 +34,14 @@ PC Card, per esempio, probabilmente non dovreste preoccuparvi di pcmciautils.
+>  ====================== =================  ========================================
+>  GNU C                  8.1                gcc --version
+>  Clang/LLVM (optional)  17.0.1             clang --version
+> -Rust (opzionale)       1.78.0             rustc --version
+> -bindgen (opzionale)    0.65.1             bindgen --version
+> +Rust (opzionale)       1.85.0             rustc --version
+> +bindgen (opzionale)    0.71.1             bindgen --version
 
-> On Fri, 3 Jul 2026 at 15:56, Benedikt Spranger
-> <b.spranger@linutronix.de> wrote:
-> > On Tue, 30 Jun 2026 17:35:59 +0100
-> > Andrew Murray <amurray@thegoodpenguin.co.uk> wrote:
-> > > The printk_delay and boot_delay features are helpful for debugging
-> > > as kernel output can be slowed down during boot allowing messages
-> > > to be seen before scrolling off the screen, or to correlate timing
-> > > between some physical event and console output.
-> > By now, it slows down the boot process, which is the handy part of
-> > that feature.
-> >
-> > > However, since the introduction of nbcon and the legacy printer
-> > > thread for PREEMPT_RT kernels, printk records are now emited to
-> > > the console asynchronously to the caller of printk. Thus, any
-> > > printk delay added by boot_delay/printk_delay continues to slow
-> > > down the calling process but may not have any impact to the rate
-> > > in which records are emited to the console.
-> > Using this feature to slow down the boot/suspend/resume process and
-> > implicit make printk() happen, is the usefull part of that feature.
-> > Imagine this sequence (which hit me on suspend/resume on i.MX after
-> > shutting down all secondary CPUs)
-> >
-> >   printk("A");
-> >   (do some stuff)
-> >   printk("B");
-> >   read from peripheral --> system got stuck here since peripheral
-> > was not clocked or powered or both any more.
-> >
-> > The delay (and later on a ugly patch to make printk() synchrounous)
-> > helped to locate where the failed access happend. JTAG did not help,
-> > since the CPU got stuck --> no JTAG communication to that CPU.
-> 
-> I understand the use-case, you sprinkle printk's so you can find the
-> point where a read to a register causes the CPU to stop. This requires
-> that the printk happens before the read, and the output from the
-> printk is printed before the read.
-Enabling existing debug features in the kernel was a good start.
+I don't quite understand...this text is still far removed from the
+English version.  If you are going to update the file, why not make it
+current?  Especially since you should be able to just cut and paste the
+appropriate section directly from the English version?
 
-> > With your purposed change you *may* see "A", but never "B".
-> > Quite challenging... 
-> At present you may see 'A' and you may see 'B'.
-That's correct. 
+Perhaps even better would be to find a way to include that text directly
+so that we only have to maintain one version, but that can come later...
 
-> Prior to the changes in this patchset, and assuming an nbcon console
-iMX swtched over to nbcon, so your assumption is correct.
+Thanks,
 
-> (which may not be your usecase, but is perhaps representative of
-> future use-cases), then the printk delay will always happen within the
-> call to printk (and always before emitting).
-Which is quite good, but can be better. (See the missing sync feature
-mentioned in Johns reply)
-
-> However, depending on the context, that printk call may return (and
-> proceed to your CPU halting register read), before the message is
-> actually emitted to the console. I.e. it's a race.
-I am aware of that.
-
-> This series moves the delay to the emit side, as well as moving the
-> delay after the emit. Thus the calling code may make progress more
-> quickly, but depending on the context, it may also flush/emit before
-> returning from printk.
-Unfortunately it makes things worse.
-
-> In my view, with or without this series, there are no guarantees that
-> you will see 'A' and 'B'. And in any case, achieving the functionality
-> for debugging required you to modify the printk anyway.
-The "sync" feature is on the TODO list as John mentioned. 
-
-> > So please leave the delay on the calling side - it is helpfull
-> > there.
-> 
-> If you want to ensure printk is synchronous, perhaps you could call
-> nbcon_cpu_emergency_enter() prior to your printk, or perhaps there are
-> already printk wrappers that do somthing similar whilst debugging?
-As said I did an ugly hack and forced printk() to be synchronous.
-
-> Would that provide a more reliable way to guarantee output?
-It does.
-
-Regards
-    Benedikt Spranger
+jon
