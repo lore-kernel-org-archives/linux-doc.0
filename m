@@ -1,99 +1,195 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED5B13ECBEB;
-	Tue,  7 Jul 2026 10:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD82C3F20ED
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 10:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783420496; cv=none; b=SLKUjIsI7Bcgt299vf3EfzWuDQBOfLRvcoZomorWJF1eTn0XPD3dbsi3kDjfFfuf5+fi3CbIstphrgzytrYUNKMghoEuA6xoTJA1omFrxjkqi75vjcazZNgzAxyK3ZgkKtCrXZqEJjhgJeXM/5frWOVU9FICBkCPScdZ1lh9IDk=
+	t=1783421543; cv=none; b=Mp8f/Mp4qiTcvs/vnYZ5OH+3g7YtQY/ZlOotpmWWp24g9EqQeER6sbiBGUu9Xh4JwaiM1/B6cFuHAUAbMrtAkaqEx4S0WBGwMSkNVWNfefEVlUoreiuEZTuAvOpTZgWWOfu/b4xmZ/TbDU0O+ZXdkmtwHMzImGcixrVdPUKDV68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783420496; c=relaxed/simple;
-	bh=r9jfDIF3Bnh4rzkGkAQSY6dOGr2QTgKJ9iYzA2jv1+I=;
+	s=arc-20240116; t=1783421543; c=relaxed/simple;
+	bh=U1qvcFxLKrwEquFjkv7uGnL3tOB3rFVzjZa3qamyz38=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RPqnz4oNgaYn/22SlnL1KM/21hc9b7D90pGtfP+8HMTJzWDy8pnWk0nPdY8SIyBHPT+jP3z6Y04EVQjCTXQej3DOrKGYAY4OIm++vb0qZjYDiqsgzRgVpr8DYV8A2lYGVhpPqCmYZMR5PMW5MkftKrMSoXBlQr4PKjCUWJXhdfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=u0QPMqTI; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=wf+DLOqv; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=K0+vThhlJDfwcpfjgYWBpq/MHkuMb4ZRVr9ofLI5lzHO6wo772KXgiq+qnpTBSr8yEm2OkIG88BxO+3rYzjmmXyvE/AAHrO+dCns1Hb82rbOjuBOPcFHYPvaWfL1wfKueSO1B0xN9anAC3nKW5T8HFe8cETongc/7k6NWQuuYGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D2S6VbhY; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="u0QPMqTI";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wf+DLOqv"
-Date: Tue, 7 Jul 2026 12:34:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783420492;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KUepwqSpsd3X623j785SSmasvMme6Isgo0g/WBHQGdk=;
-	b=u0QPMqTIoolQHK+MWeg6Hrk1qDbvuyTiSAJV5QqXb9fIFpAwLV+/A6i3RY7y2Q5NOrNHPg
-	WMCb4I48soFQQDP1uC+yYLwIE+q6bfqzEyUxvroJmO5zf5EQeuqY44UmPCqz0ktwJ5x8zb
-	K/jR54x6T1+TkAKDPcpynJf63/x56iUcMSPQlxX+uoylxzMakYIx18Tel0PWacmjiFszd3
-	bhaBj9f8SzF+PJycqTSCOsBYjfMxnJyZNkFusGcF5w9YjUvYsdt4XhmcejQFSoeHf6r9nC
-	7kPpVdM9Rd1PD0EhWzc32TK/9x8m2VkZ1NTD+A6BTAL2llxbwwOtoTJ0lCv50w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783420492;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KUepwqSpsd3X623j785SSmasvMme6Isgo0g/WBHQGdk=;
-	b=wf+DLOqvEShc+UIpmPOFJHVZ1Hw8VyjhbipbDf8rX2KOzDJyaUndpQx2IJ8vRgUgaF+UCS
-	kWzffhYNe0UiW6Aw==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Leon Hwang <leon.hwang@linux.dev>
-Cc: linux-mm@kvack.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R . Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Douglas Anderson <dianders@chromium.org>, Gary Guo <gary@garyguo.net>, Anand Moon <linux.amoon@gmail.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH] mm/mseal: fix mseal documentation for 32-bit kernels
-Message-ID: <20260707122827-2d6c18d3-8e02-4d9a-bb29-2ec46e759645@linutronix.de>
-References: <20260703022507.187457-1-leon.hwang@linux.dev>
- <20260703114128-2a7a4723-0060-436b-99d9-7499bd90fa82@linutronix.de>
- <b6f5f3b2-bf62-4b77-9c74-debbed9a4738@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D2S6VbhY"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-493c19bad03so37682535e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 03:52:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783421540; x=1784026340; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=xD/I4R2QXs7s+95dAxGC6Ggop7ankDcEDMFD0oYB+2Q=;
+        b=D2S6VbhYrlD2hqzn8sgapX710ygbTyX9A2BBWrt76Tx7hhh5DriMr8+490ICdkiCFw
+         kH1zKsmQIKmcCUXiNLk12MG1iOpm14y2fU2IweNe8VJx1t46MIXKdYVC/7gcvGVnWcrW
+         swl5DlcYq5R7HYmzehkMvTwdJ9PKINaP8mK8zVIPJkPZIhZrWop5QdklUSAxH1Sij+Su
+         w+f3muko16oxQMzZ9spFWxlN2kg7mcBLb8tXSfauqoGE0s/5rE5iGNdWedxlUvR7GfAa
+         0BoFpEaTePSRwCvz/IaIg3kiDRaxeFmiwVGv3FP3LnucQs/v3YcwGXDNIhO6N38NkEWh
+         bRWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783421540; x=1784026340;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xD/I4R2QXs7s+95dAxGC6Ggop7ankDcEDMFD0oYB+2Q=;
+        b=hwuVXHvpfm8BtZSEhXcReiyQsdo8D1XPHMUmUoNoPGi+cKdbWtuikgse2+qvOdtToa
+         CBkbPXGM9QtBk5CKnImIn9WDvhl3CCY+21cgpxxDAnOORGb36O0yK4SH/b0uHwJ2bIfa
+         ce4x1ngnaMynen9DWJIfkFh3HASzgTRo2ORFtzSZcs+h1hPJf+z8+/hSSZJEgfSFlweu
+         FySgL4BVt/zn4YgXsMzhpvURlyMTjJklW7CBelSV5G9BRxzjJEydk1vwVoiQZfU1geiB
+         omGqe3lJDwf9lo3YaMBSH7X3tF6UUQnhK+8Qq/OJAoEgwIEQV0C73d5SghVzK+zsF3+W
+         z+Ig==
+X-Forwarded-Encrypted: i=1; AHgh+RqlpGMX1bNoOl5qFecs1rX+r6F7qcvR283gXmWsXgbF+Edxz0hO8nuAyaFHnYbmugWEXw62jngZgaw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwgOidimZd3lxfLj6duBVckGgoljNXdKW1ZEUU2yVgPdnKruElO
+	Xi1H6qudh5PTo5AcSbFIfcaObsVPhpdKJM87YLnyew9e8QAjNfRhGbty
+X-Gm-Gg: AfdE7clrGsE2PRTeBG976Eiuk8e4K1T/04lJzBZ6A//rSUUDoI00OOFhNmaqXJHu5GD
+	eGVAwGpZJprXrVESecmrpgJnechW+/lJnXii5fSpNm2/tmLna+QbMO5yVqpbKo4853dA3GU/spk
+	swawX0Sb6wS/hbM+UOYIIz94iUF8FHOUNUMwPCQQve5ugmkuTpEj56juOL+ikfPL22LZsY73QVb
+	Y825jGo2/5Dg6Hcr2lReUpqZhaTmIh7v+eR2EkYs6SWpxVobUhvqjMxn+ky1v4BPWxhYPRNpi0w
+	L+FVQZ3liqfKOzt+Sbi0JbM4TlUdmr+xMSa7xC72ddhGWJieYgoRFhJHwMmNv1F85PcFiV4ZZ34
+	HESOYQKLxLhasvzF5kyg+1pP5A6oknHCXFUFwS7I/sMhaEraZHRruTvEl7OO2S8lNtJK1yuiQOk
+	9ZFjKwtXcp+DjSBiM=
+X-Received: by 2002:a05:600c:c168:b0:493:d282:8298 with SMTP id 5b1f17b1804b1-493df052084mr54038025e9.16.1783421539970;
+        Tue, 07 Jul 2026 03:52:19 -0700 (PDT)
+Received: from nsa ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493df7010aasm40499085e9.0.2026.07.07.03.52.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 03:52:19 -0700 (PDT)
+Date: Tue, 7 Jul 2026 11:53:24 +0100
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH v6 12/16] iio: frequency: ad9910: add RAM mode support
+Message-ID: <akzaWsIIA-uF_Crs@nsa>
+References: <20260618-ad9910-iio-driver-v6-0-79125ffbe430@analog.com>
+ <20260618-ad9910-iio-driver-v6-12-79125ffbe430@analog.com>
+ <20260703040544.08a8ea5e@jic23-huawei>
+ <ake_YWfvVC9RQ3wu@nsa>
+ <1493eed5-5bb8-4a2c-8f2d-8b4bc5dde157@baylibre.com>
+ <akt3i_YxG-jF3IdJ@nsa>
+ <2d84950f-c56a-48f5-ab7c-c7b7ccb3b28d@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b6f5f3b2-bf62-4b77-9c74-debbed9a4738@linux.dev>
+In-Reply-To: <2d84950f-c56a-48f5-ab7c-c7b7ccb3b28d@baylibre.com>
 
-On Fri, Jul 03, 2026 at 11:09:55PM +0800, Leon Hwang wrote:
-> On 2026/7/3 17:44, Thomas Wei�schuh wrote:
-> > On Fri, Jul 03, 2026 at 10:25:07AM +0800, Leon Hwang wrote:
-> > (...)
-> > 
-> >>    The following architectures currently support this feature: x86-64, arm64,
-> >> -  loongarch and s390.
-> >> +  loongarch, riscv, and s390.
-> > 
-> > For per-architecture feature documentation we also have
-> > Documentation/features/. Maybe move it there.
+On Mon, Jul 06, 2026 at 09:10:21AM -0500, David Lechner wrote:
+> On 7/6/26 4:47 AM, Nuno Sá wrote:
+> > On Sat, Jul 04, 2026 at 11:50:35AM -0500, David Lechner wrote:
+> >> On 7/3/26 9:09 AM, Nuno Sá wrote:
+> >>> On Fri, Jul 03, 2026 at 04:05:44AM +0100, Jonathan Cameron wrote:
+> >>>> On Thu, 18 Jun 2026 14:27:28 +0100
+> >>>> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+> >>>>
+> >>>>> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> >>>>>
 > 
-> Better to replace with a reference to the feature doc?
+> ..
 > 
-> +  Refer to :doc:`features/core/mseal_sys_mappings/arch-support` for the
-> +  support status of each architecture.
+> >>>>> +static inline void ad9910_debugfs_init(struct ad9910_state *st,
+> >>>>> +				       struct iio_dev *indio_dev)
+> >>>>> +{
+> >>>>> +	struct dentry *d = iio_get_debugfs_dentry(indio_dev);
+> >>>>> +	char buf[64];
+> >>>>> +
+> >>>>> +	/*
+> >>>>> +	 * symlinks are created here so iio userspace tools can refer to them
+> >>>>> +	 * as debug attributes.
+> >>>>
+> >>>> Maybe worth a reference to appropriate ABI doc here (even if it is introduced
+> >>>> in a later patch)
+> >>>
+> >>> I'm not so sure about these links. I mean, I definitely agree we should
+> >>> make it easy for userspace tools like libiio to be able to handle
+> >>> these kind of attributes but using debugfs is questionable to me. Pretty
+> >>> much because this is not a debug thing. It is a real setting for the
+> >>> driver so ideally we would be able to control it (using the existent
+> >>> tools) without enforcing one to mount debugfs (I know that most of the
+> >>> times it's always mounted but still feels wrong to tie "real
+> >>> functionality" to debugfs). 
+> >>>
+> >>> Having said the above, some suggestions:
+> >>>
+> >>> 1. Make the iio_dev the parent so that the attr name is just "ram" and
+> >>> it will be a subdir /sys/bus/iio/iio:deviceN/ram/.
+> >>> 2. Propose a new helper for the firmware_loader code so we can get
+> >>> struct device from struct fw_upload then we can easily create a sysfs
+> >>> symlink.
+> >>> 3. Name the attr as dev_name(iio_dev):attr so that it becomes
+> >>> iio:deviceN:attr_name.
+> >>>
+> >>> Now that I think about it, 2. does not make much sense when compared to
+> >>> 1. And If I'm not missing anything both 1. and 3. can be sanely parsable
+> >>> from userspace (being 3. maybe a bit more reliable). And yes, both require
+> >>> user space tools (in this case libiio) to support a new type of
+> >>> attribute (firmware) but that is another problem.
+> >>
+> >> I would say that udev should be used to find the firmware device from
+> >> userspace rather than creating symlinks. And you probably don't even
+> >> need udev if you already have the `iio-device:<ID>` value. The path
+> > 
+> > Just one note. If you mean <ID> as the attr name the above will fail for
+> > multiple instances of the same device. That's is why a proposed
+> > dev_name(iio_dev) which I think it should reliable be iio:deviceN. 
+> 
+> My <ID> is the same as your N. It looks like I just had a typo of
+> an extra : in there.
+> 
+> > 
+> > I guess N might change so anyone hardcoding it might have surprises. But
+> 
+> That is why I mentioned udev.
 
-It should automatically show up here:
-https://www.kernel.org/doc/html/latest/admin-guide/features.html
+I see! I would still advocate for apps to properly do the matching
+between the current device id and the firmware path :)
 
-See also Documentation/sphinx/kernel_feat.py
+But the above is obvious something we can't control.
 
-So I don't think an explicit link is necessary.
-But the maintainers might disagree.
-In my opinion the link should then go to the rendered table entry.
+- Nuno Sá
 
-
-Thomas
+> 
+> > properly done and we have a sane way to match the above with anything on
+> > /sys/class/firmware/iio:deviceN:<attr>/
+> > 
+> >> is always going to be `/sys/class/firmware/iio-device:<ID>:ram/`. It
+> >> seems like the same amount of work for usespace to computer the path
+> >> either way, so might as well keep it simple and leave out the symlink
+> >> stuff.
+> > 
+> > Yes, at least for libiio, `iio:deviceN` is already what we call the
+> > device ID so we can match fw attrs against it and everything after the
+> > last ':' is treated as the attr_name. 
+> > 
+> > We just need to keep in mind that if a second user of this stuff pops
+> > up, we should add a new helper to enforce the ABI.
+> > 
+> > - Nuno Sá
+> >>
+> >>>
+> >>> - Nuno Sá
+> >>>>
+> >>>>> +	 */
+> >>>>> +	snprintf(buf, sizeof(buf), "/sys/class/firmware/%s/loading", st->ram_fwu_name);
+> >>>>> +	debugfs_create_symlink("ram_loading", d, buf);
+> >>>>> +
+> >>>>> +	snprintf(buf, sizeof(buf), "/sys/class/firmware/%s/data", st->ram_fwu_name);
+> >>>>> +	debugfs_create_symlink("ram_data", d, buf);
+> >>>>> +}
+> >>>>> +
