@@ -1,46 +1,46 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011029.outbound.protection.outlook.com [52.101.57.29])
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010049.outbound.protection.outlook.com [52.101.46.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E5C48094D;
-	Tue,  7 Jul 2026 21:52:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9FF480350;
+	Tue,  7 Jul 2026 21:52:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783461140; cv=fail; b=nhidx/RSwLfAepTJleQ8I1SLL9kl3MaLHSVsm/pw48qitty/i/wyegiMZOPLeV38XO+YwNr20UUwJ6rVlT2abhe01J9sea7MpYozzmDy+XuJ+N8N6a+QCQxUHrhnorjfuNEjSZK/IxXQFPsSNXBBr7qazyCqw1Pt0Xe/mbEJp8o=
+	t=1783461147; cv=fail; b=CCAT9khBNIAq/fdKMSbYLKe57u/qAW3dSuDkxnTX4zAGXzYuVKJOGrbIRExe9Mll7Y1pXJrGdA+c8PqGGeFfHqGsNTDvVFmMsalUCs6xo4nxWlJqme+j50FyPyh9eezGDgcQLpNRhm+okoHp5m7c1Utb2Ip8VuffT8+Z3qfHqps=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783461140; c=relaxed/simple;
-	bh=BuBi02eVR34Eq0IlyhwRTaZZpu/XOcxZCXG0xS0C5u4=;
+	s=arc-20240116; t=1783461147; c=relaxed/simple;
+	bh=debDmZb0s9HJM34kZNanIXGZDmdHI2vQRGB05uDCu7g=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RHAalmqdn3dY5ZqjpPAo78ZJoaxUaOw1LNhoZ0+IaGx1kuNMieKz/b/LH1AXl00yE5XxfqBZSUnSPJj+/Ztfco/E6pFUb5nda1+1l7+83rmsxb9+liQ9l6QnVGz7Y6ghApkG6qpXTH2n1TkRaBcReX+ALWkc3BJ+YLEHR9/31xM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=x5g3Vff7; arc=fail smtp.client-ip=52.101.57.29
+	 MIME-Version:Content-Type; b=UTU333yG551h08sNbXyvrYXhbE9P9IfJWdtpDm2sVUIcltskt4VvCev93ImIVoEHkOuwOG5iBxyUVbCdKCFPRFByDpBy4uivQW7C8J7X5T278M069UCi3xK+v/rDO3hIY2kQyR3ag5whF7HCwT6660iGWcU/OSo3w1dK8y3Nmu4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=rZVjyEod; arc=fail smtp.client-ip=52.101.46.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="x5g3Vff7"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="rZVjyEod"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pUMIv+zrOVqKFIh6lkj3cAPETaaTaCfikEWRhAuuFTOtaPkaHCFfrYuK7L958Mvzj4eAAZuslkea2M6G6pIyzX5Q2NcIBcHLMnfSmErYRBR6IXLHwIu2P7GnKRjPr+/+tGsiNQypuJiTL3kG8HOkGg+IhQHbaQ1946WyIkBAiPzmBXVxlADgY5DPfMyqhdJh8mYRUExgWHntBPk5L7LWagyO4sdYm47xAU/Q6IV6GIkk/VwikDGsHf4ZQuJJSVTncf1vNdRMvGcDgNk4oyb2gDlZeCUVjLffKQj4AFNFBzpnJ/M2kzrxbk2Xhfx4eIN2KH2sZ9c4Ja4g76Hlk3WpRw==
+ b=UUp2Ro4wAT1sTHorQME5RpBjFyC8T3sBu4P3Z9mg8QpoaZwBQbSDZJN/Pn7hLA3IQgTFQiPJQy4HKUyhU5Q0rpPpGWycLndnaEmr92sFEwdxri9MV5KGVBNiboxpE4FVPwcf1+hMckUbaLfSs3MfwQv9R3ktdemKxxSbInmqi2Eu77X7Gn0Qc2buGhA/d3yvUacxDasl5wZOkA90kvDmc6qf2MsUGKP7iXs3CKPQlaA2Mp9kUhGT6TOT25JzWVSezJxijamZzBpjQFinZM3GM8i2xE5aTU1d8GrJQgI9bYQdKCP/5MVxNH0G1lZR2TDFUxaQfE2XpKgnltk2VvKRvg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ux7NyeIk/rIxbyGGbnoDE9/kbfCTeg7pjJRZXLGssrM=;
- b=l0AACLwwaZ5eurmXwSBcdCUPOzrcyUChMBahlI5LK39YhDEmctjBPa9/fOgAP9wyxoo5SANWMnh8Lj3w/AwSsHoVviiBsI/LQ8MUzeBDn7Orq1QrCUXuSInf3b57ElsCY0Pg4WTTI3+uMW/8h96++E1kwavmS8vgfcEaV3PURdgzrTOoqfnaDaQOIKGU5ygcGAubD97wmNkaW/ejGu3gzXBg+Q2/eX72evNf9gP52vPkhWmwgsZjOpnbbNHP6IiBOv4Tf/EMrpDIOZ4kUv8fhf4AV2/YyOiF8XpaEvCSTp297NNoaF4aVhacmVaRcy+Zxp1puYC+JPNOvAAd3JpIfA==
+ bh=Rv5jDChLnhhHvyR3T2D9l2QG5/yg2Sa8MOV6xoE5xSI=;
+ b=SdS/tH4edOfYXAMxyjAzw9HqBCcwRXXGv4bcDJDuNiMjxRGtD08jIa2B1MjxTkRceXeys/PQ1cfEgnSvJtUh+E4fOae9/pXZyV3acUYOO9FwoEHFjUUh0beLoZhvyHyyMHdny2zpEy5XbGJlkIsoWqz58+8383fHOMFHnJw5NakKp7VrDvSiW6oFDySoB9ikTEjY0ebPan0MmvOqXapovHpk71DpQ7L8n2Btq3yNhssrEKWAA5IjLu+H2GuXzYh6Bk7e7QIkc3odWAuhlO9hBvGISjRdpLDeMXcuAz8TLCoykuTtpo6+2Gk81BWF3UHVTDqWvt5RVmnLOFsSD/XaGQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ux7NyeIk/rIxbyGGbnoDE9/kbfCTeg7pjJRZXLGssrM=;
- b=x5g3Vff7nC8K0vSW3O4IVLoGDyqHMXEWDQQtJdZc6mQtq/bqt2dCTvxtW4pwRGLRg9B0h0tNVyycilTmHdeeI6gWdsSa7x0xmfSzd+4YgHjN36JzypWicVmjaacQryaLWl/IEhopTNhg1b4fDsIbdZlK8ToXM1zNvB/4MbrVtQs=
-Received: from MN2PR08CA0022.namprd08.prod.outlook.com (2603:10b6:208:239::27)
- by BY5PR12MB4291.namprd12.prod.outlook.com (2603:10b6:a03:20c::22) with
+ bh=Rv5jDChLnhhHvyR3T2D9l2QG5/yg2Sa8MOV6xoE5xSI=;
+ b=rZVjyEodPg5IQrZD91/n1aZ3SaiiqCko0mgxfsFrhIzOxxy40rml23n0v11xNiOy/Pz83KPijbpncsfcqlXfGifbF3vaGdUTfQAGZ5SiVAa+d5g6L4G971r3Vcjx6UUffT3iBdgb5UQP54qY+x+t6TuTVvptrHTJbRXyDJpnkcw=
+Received: from MN2PR08CA0014.namprd08.prod.outlook.com (2603:10b6:208:239::19)
+ by IA1PR12MB9497.namprd12.prod.outlook.com (2603:10b6:208:593::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.14; Tue, 7 Jul
- 2026 21:52:13 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Tue, 7 Jul
+ 2026 21:52:21 +0000
 Received: from MN1PEPF0000F0E5.namprd04.prod.outlook.com
- (2603:10b6:208:239:cafe::26) by MN2PR08CA0022.outlook.office365.com
- (2603:10b6:208:239::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.202.9 via Frontend Transport; Tue, 7
- Jul 2026 21:52:13 +0000
+ (2603:10b6:208:239:cafe::47) by MN2PR08CA0014.outlook.office365.com
+ (2603:10b6:208:239::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.13 via Frontend Transport; Tue, 7
+ Jul 2026 21:52:21 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,11 +50,11 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from satlexmb07.amd.com (165.204.84.17) by
  MN1PEPF0000F0E5.mail.protection.outlook.com (10.167.242.43) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Tue, 7 Jul 2026 21:52:12 +0000
+ 15.21.181.6 via Frontend Transport; Tue, 7 Jul 2026 21:52:20 +0000
 Received: from bmoger-ubuntu.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 7 Jul
- 2026 16:52:11 -0500
+ 2026 16:52:19 -0500
 From: Babu Moger <babu.moger@amd.com>
 To: <corbet@lwn.net>, <tony.luck@intel.com>, <reinette.chatre@intel.com>,
 	<Dave.Martin@arm.com>, <james.morse@arm.com>, <tglx@kernel.org>,
@@ -72,9 +72,9 @@ CC: <skhan@linuxfoundation.org>, <x86@kernel.org>, <babu.moger@amd.com>,
 	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<thomas.lendacky@amd.com>, <eranian@google.com>, <peternewman@google.com>,
 	<qinyuntan@linux.alibaba.com>
-Subject: [RESEND PATCH v4 10/15] fs/resctrl: Reset the kernel-mode binding when an rdtgroup is removed
-Date: Tue, 7 Jul 2026 16:50:11 -0500
-Message-ID: <89a5b2cf3b727d04591d49775a88ba38be57a5f9.1783461016.git.babu.moger@amd.com>
+Subject: [RESEND PATCH v4 11/15] fs/resctrl: Program kernel-mode binding when CPU comes online
+Date: Tue, 7 Jul 2026 16:50:12 -0500
+Message-ID: <a8255414ef95dcb83b6eabbb210f45a17fec5c38.1783461016.git.babu.moger@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1783461016.git.babu.moger@amd.com>
 References: <cover.1783461016.git.babu.moger@amd.com>
@@ -90,163 +90,98 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E5:EE_|BY5PR12MB4291:EE_
-X-MS-Office365-Filtering-Correlation-Id: 93d5e043-97aa-4170-1220-08dedc7200c0
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E5:EE_|IA1PR12MB9497:EE_
+X-MS-Office365-Filtering-Correlation-Id: cf494f75-7203-4dff-257a-08dedc720586
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|23010399003|376014|7416014|36860700016|5023799004|11063799006|56012099006|6133799003|22082099003|18002099003;
+	BCL:0;ARA:13230040|23010399003|36860700016|7416014|376014|82310400026|1800799024|22082099003|11063799006|18002099003|6133799003|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	ziiuw8OgfXhKMG2Xbcboe6w6gaWyJ8ZExMo5koO43d3PsbKLriLpWNFpB5ZOEeziPJSuzT7exwtVuyDe5pifb2E7t0K3jnGtvucLscYrnWMfl+KpEem0K5Ku7ntz/UAJzHJVm6bEBaoSQKywnwL2xlXNkLRJl1XFVolrN1h255oWgQwQ0Bp+dJx5WU+0pWCLOz+0r2cuC76RIRXgE2sF6jg8bKoBRJh+FOcjOwQw+xgwzhcR80b17Kzz3yZh0E7Q4AKD3pYm7U0Ikgz7qC4Ksr/TCNwSU/moqW4/vfRgha/YCY794RgXSvZH8s3+c3UOmuSkCGFIfvjAJpKeLMhg0xKNWHYBAY9qAvCSn8bVi/mczU3Ik6JsXvLq/QzaPYL60r1qyZMjxYgutHn8VA1Si7apMOK9nrunWf287ZqvZVkBkr0l5vEVJ029P4KicjBZptVA+FITeiYIsHRhBrq5G6Z25WKChTgGBQa7RMrkb244in9OA63mDAjTKnH9r2iwvUjCXEFmVVKU8h9EXCaKqZOUuJmNONIiMiaci4GVHqgxxmHJGPejfuayg5HTiyNOK8dK8HRw6tmWOtbZSEZWSxFyi11mBbb1CmYIiNlvp214Eq5wg+6/HqPAz8N6D/laBxIzdCZXpss5FOuiEHYduaEybT/xtf+YJ/zVrHtcCDw9fRhQaQJ/sHx3uUET4e2BYU0tFzBbj789Tk1joCHMuw==
+	+Q4i/yn6gPjHrdI89Y2ztZkLBEXa1g/T6d2b+wwaT044m9V+Yx+wAyU3xiMJTS+bMY+Q9uwxhnXOwDG3POxUm3fG5Z3Ido0C0JZNLNmvqDSqpiHb7otJajEsEObpBdJRiT2Pb3At5OP4lKLQBV/UKUSvXPnlNjPW+ZDs0UYKyp2cWeiqommNxKQ8+gkZc3St5llQ1vuFukn/uhGbRyOiMgAhKwRdWp6s2JBVlMUJ+zBfpeu5aPvk6w1UYBrbeQcSJauDykxNrZPM/L/HMOPBge22Yb8OEREi1KcYuo9WvgdZekoDbfYf6T9jKdequnkbO6yeAL/Gd2UDft1QFcnBGyZE4+6IvQLeVLF/WjV07P/Hrk948gsqOmmk5KHUEk0Y30e1aRBx0Cgas2q3t/J3BA2hWSQJmvgdCxluCaU2q6uJLazLQkV6eSRUbHoXbBkz5t7pYIyelrgr8ypGvWZaFFPpD3t4z7/Nqco96S4d81AfEbjzTP6GYXqYZG8fAxo8xOkD8CgolWXRzCnl/H3co+CizPQB7VeS6HRGtxDCrWExX5MXx5ypmNFAqaX4W90qcXJ07+oAEibQFIe/UBKZbEwLUcYZlOhJnP0gtaXNEkWbhAvum3egXi8eY8EsW49AoZhmMekLFguoA9jCkHyPeSexwGt7jqxorzmPd0zU6JRFBTUr86TSzKwB5SrjkytwDbbA5SUX0iZ9LWRZmlWvXg==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(23010399003)(376014)(7416014)(36860700016)(5023799004)(11063799006)(56012099006)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(7416014)(376014)(82310400026)(1800799024)(22082099003)(11063799006)(18002099003)(6133799003)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	vpbUt6z6lKELAVxFR70mmC2SBwgTDse0DDlAa19i9GT/EzSh66yZu5G9K1C89Vh231ad3X0rixSQQ0TRFaJNf+tzx7213dCk/yPeqMcloDaX2SSnQMWzEjjRuDql7wnXLK7/XQCsmwoMp3IeXL1bY5DniHyMi5qYtnT0SqxgzoaB0UfSWnPTAm34mea9hDKxThWYkdQ91291VX/N9MbUkSoXVJkFiqR/75u6s0z6Y/yihIJ/osf4inQvutokjZqj+xSiF1pvbAsWPTOcP7uAFxXx21HX6/F1yf0BLI/+JjtmNre147SNBBFwSSuaMvHacET9TOG1CVGG/1dQvvv1bvrtnBeAaqocl8LSC0fnPJfEDsfSyGtrT0HLh+t5xfqJpR2qmezPuxnKCdV+151Hry9my4t49froZm8mUan5lM65MTCMQwm0UMpXTUnLXDfz
+	VoNCDsqmGnRIYiHWoDc7SFZw870w8QKrHvpKOifII3k9ahnPnmR/JUsI6QPKqwuEyioBTlfyksqGKJHyWGxauePbDDvV7vUVY58w3oBjR6ykfjGyxheWpFKsq8+EuXqJRiIkfWTJOm8gYdd+cDvmlrdugXM9qgOxYOrY+jtREW2w0Gx24bV54mYel3k9Kv9dGIn/2sE4+eVD5jwVuIizINecg9BexVjzOxC0JB0cduFvD/22XYtBWAgDpxzNjDG39AJWPdSXGwq8F/z6fAPi6UzUta9g6YsY8JAnKmWK1g0Gv59EmC/09C76ec0vvZVlCMMrM3TGUhGSLl2JJG8drNk00UZDwEYkhGY/4PC2KwCYeJWO2ADUkb7crEbu8AMR5xdPnPR0O84Es4+N4+CLtl0jXE9xo2HKyYw9jqw5t72/EeqMPZU3ud8veNDN9r2o
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 21:52:12.9621
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 21:52:20.9522
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 93d5e043-97aa-4170-1220-08dedc7200c0
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf494f75-7203-4dff-257a-08dedc720586
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	MN1PEPF0000F0E5.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4291
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9497
 
-Resctrl keeps track of the rdtgroup backing the active global kernel-mode
-policy, including the group's CPU mask used to program kernel-mode
-associations.
+Kernel-mode resctrl associations are programmed per CPU. When a
+global-assign kernel-mode policy is selected, all CPUs that are online at
+that time are configured; however, CPUs that come online later are not
+automatically updated.
 
-When that rdtgroup is deleted, resctrl must update both its internal state
-and the hardware configuration associated with the group's kmode_cpu_mask.
+As a result, hot-added CPUs, or CPUs that were offline when the policy was
+selected, can run without the active kernel-mode association even though
+the resctrl policy is still in effect.
 
-Introduce rdtgroup_config_kmode_reset() to disable the active kernel-mode
-association for the bound group's CPU mask and to clear its kernel-mode
-state. Invoke this helper from rdtgroup_kmode_detach(), and reset
-resctrl_kcfg to INHERIT_CTRL_AND_MON. Ensure rdtgroup_kmode_detach() is
-called during group removal and filesystem teardown, before the bound
-rdtgroup is freed.
+Add resctrl_kmode_online_cpu() and call it from resctrl_online_cpu(). When
+a global-assign policy is active, add the newly online CPU to the bound
+group's kmode_cpu_mask and program the kernel-mode association on that CPU.
 
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 ---
-v4: Re-wrote the changelog.
-    Added the call free_all_child_rdtgrp() and rmdir_all_sub()
-    Simplified the code comments.
-
-v3: New patch to handle the kernel_mode clean up.
+v4: New patch in the series. Patch taken from:
+    https://lore.kernel.org/lkml/20260611111706.1981788-5-qinyuntan@linux.alibaba.com/
+    Updated the code to enable kernel-mode by default whenever a CPU comes online when
+    one of global-assign mode is enabled.
 ---
- fs/resctrl/rdtgroup.c | 62 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+ fs/resctrl/rdtgroup.c | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
 diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index 0d5c94169d03..21659fd75850 100644
+index 21659fd75850..413d3ff14546 100644
 --- a/fs/resctrl/rdtgroup.c
 +++ b/fs/resctrl/rdtgroup.c
-@@ -1127,6 +1127,61 @@ static int resctrl_kernel_mode_show(struct kernfs_open_file *of,
- 	return ret;
+@@ -4722,11 +4722,40 @@ int resctrl_online_mon_domain(struct rdt_resource *r, struct rdt_domain_hdr *hdr
+ 	return err;
  }
  
-+/**
-+ * rdtgroup_config_kmode_reset() - Tear down the kernel-mode binding on @rdtgrp
-+ * @rdtgrp:	Resctrl group whose kernel-mode binding is being released.
-+ *		May be %NULL when no group is currently bound, in which case
-+ *		this is a no-op.
-+ * @kmode:	Kernel-mode policy currently active on @rdtgrp.
++/*
++ * resctrl_kmode_online_cpu() - Configure kernel-mode binding for a CPU that
++ *				comes online
++ * @cpu: CPU that has just been brought online.
 + *
-+ * Reset the kernel-mode binding on the CPUs in @rdtgrp's @kmode_cpu_mask.
++ * Kernel-mode associations are maintained per CPU. When a CPU becomes
++ * online after a global-assign policy has been applied, it is updated
++ * with the current kernel-mode configuration. The CPU is then added to
++ * the bound group's kmode_cpu_mask, and the appropriate association is
++ * programmed for it.
 + */
-+static void rdtgroup_config_kmode_reset(struct rdtgroup *rdtgrp,
-+					enum resctrl_kernel_mode kmode)
++static void resctrl_kmode_online_cpu(unsigned int cpu)
 +{
++	struct rdtgroup *rdtgrp = resctrl_kcfg.k_rdtgrp;
 +	bool assign_mon = false;
 +
-+	if (!rdtgrp)
++	if (resctrl_kcfg.kmode_cur == INHERIT_CTRL_AND_MON || !rdtgrp)
 +		return;
 +
-+	if (kmode == INHERIT_CTRL_AND_MON)
-+		goto out_clear;
++	assign_mon = (resctrl_kcfg.kmode_cur == GLOBAL_ASSIGN_CTRL_ASSIGN_MON_PER_CPU);
 +
-+	if (kmode == GLOBAL_ASSIGN_CTRL_ASSIGN_MON_PER_CPU)
-+		assign_mon = true;
++	cpumask_set_cpu(cpu, &rdtgrp->kmode_cpu_mask);
 +
-+	resctrl_arch_configure_kmode(&rdtgrp->kmode_cpu_mask, rdtgrp->closid,
-+				     rdtgrp->mon.rmid, assign_mon, false);
-+
-+out_clear:
-+	cpumask_clear(&rdtgrp->kmode_cpu_mask);
-+	rdtgrp->kmode = false;
++	resctrl_arch_configure_kmode(cpumask_of(cpu), rdtgrp->closid, rdtgrp->mon.rmid,
++				     assign_mon, true);
 +}
 +
-+/**
-+ * rdtgroup_kmode_detach() - Detach @rdtgrp from kernel-mode assignment
-+ * @rdtgrp: Resctrl group being removed or torn down
-+ *
-+ * If @rdtgrp is bound to the active kernel-mode assignment, disable the
-+ * hardware association programmed for that group and reset the kernel-mode
-+ * to INHERIT_CTRL_AND_MON.
-+ */
-+static void rdtgroup_kmode_detach(struct rdtgroup *rdtgrp)
-+{
-+	if (!rdtgrp || !rdtgrp->kmode)
-+		return;
-+
-+	if (resctrl_kcfg.k_rdtgrp != rdtgrp) {
-+		pr_warn("resctrl: kernel-mode group not valid\n");
-+		return;
-+	}
-+
-+	rdtgroup_config_kmode_reset(rdtgrp, resctrl_kcfg.kmode_cur);
-+
-+	resctrl_kcfg.k_rdtgrp = NULL;
-+	resctrl_kcfg.kmode_cur = INHERIT_CTRL_AND_MON;
-+}
-+
- void *rdt_kn_parent_priv(struct kernfs_node *kn)
+ void resctrl_online_cpu(unsigned int cpu)
  {
- 	/*
-@@ -3215,6 +3270,7 @@ static void free_all_child_rdtgrp(struct rdtgroup *rdtgrp)
- 
- 	head = &rdtgrp->mon.crdtgrp_list;
- 	list_for_each_entry_safe(sentry, stmp, head, mon.crdtgrp_list) {
-+		rdtgroup_kmode_detach(sentry);
- 		rdtgroup_unassign_cntrs(sentry);
- 		free_rmid(sentry->closid, sentry->mon.rmid);
- 		list_del(&sentry->mon.crdtgrp_list);
-@@ -3252,6 +3308,7 @@ static void rmdir_all_sub(void)
- 		cpumask_or(&rdtgroup_default.cpu_mask,
- 			   &rdtgroup_default.cpu_mask, &rdtgrp->cpu_mask);
- 
-+		rdtgroup_kmode_detach(rdtgrp);
- 		rdtgroup_unassign_cntrs(rdtgrp);
- 
- 		if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP ||
-@@ -3347,6 +3404,7 @@ static void resctrl_fs_teardown(void)
- 		return;
- 
- 	rmdir_all_sub();
-+	rdtgroup_kmode_detach(&rdtgroup_default);
- 	rdtgroup_unassign_cntrs(&rdtgroup_default);
- 	mon_put_kn_priv();
- 	rdt_pseudo_lock_release();
-@@ -4149,6 +4207,8 @@ static int rdtgroup_rmdir_mon(struct rdtgroup *rdtgrp, cpumask_var_t tmpmask)
- 	u32 closid, rmid;
- 	int cpu;
- 
-+	rdtgroup_kmode_detach(rdtgrp);
-+
- 	/* Give any tasks back to the parent group */
- 	rdt_move_group_tasks(rdtgrp, prdtgrp, tmpmask);
- 
-@@ -4199,6 +4259,8 @@ static int rdtgroup_rmdir_ctrl(struct rdtgroup *rdtgrp, cpumask_var_t tmpmask)
- 	u32 closid, rmid;
- 	int cpu;
- 
-+	rdtgroup_kmode_detach(rdtgrp);
-+
- 	/* Give any tasks back to the default group */
- 	rdt_move_group_tasks(rdtgrp, &rdtgroup_default, tmpmask);
+ 	mutex_lock(&rdtgroup_mutex);
+ 	/* The CPU is set in default rdtgroup after online. */
+ 	cpumask_set_cpu(cpu, &rdtgroup_default.cpu_mask);
++	/* Program any active kernel-mode binding on this CPU. */
++	resctrl_kmode_online_cpu(cpu);
+ 	mutex_unlock(&rdtgroup_mutex);
+ }
  
 -- 
 2.43.0
