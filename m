@@ -1,98 +1,265 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB70C48124C;
-	Tue,  7 Jul 2026 19:07:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A801481AA2;
+	Tue,  7 Jul 2026 19:07:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783451237; cv=none; b=VDs5E0sLTjY3tw3nb9VthsvQgGKoxQ4OERXSUx5r78Tyog9FEnXBePCbR0IlKvdEBAKi9Y2l1L50R6JmsGPM3uucbEsUoQySGqtaGPeabNHAGLwDFgoambW8csZ0hC4hcoST5SMIfCrUD6Wv2IB1NTkx2LdqDw0nFfvKtqzjWR0=
+	t=1783451237; cv=none; b=DfzD6HE0w+An/DRz0ozV2++Uv8sYmyPxfRVmmjipCobtNwI9VnSHPKuZ1R8hCoY2MfvA+u7b8i6kCERwdVYP6Z6am+jaX8gMPZuQ+F6H1AHOE07xS2l5aQlyErDLo5yV4wJcy/s8ytGWRc8P+RCX/ly/mitYoKTYKYJk61IgatE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1783451237; c=relaxed/simple;
-	bh=yoI/lWG3IaiJYnLbL4tKGnfBEvvYFR60uqX9ZISZsiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YmrQvq29AEdP/2KF2Owuyvm8as85SD59LSWKZq8QS13Wr3L6TPlhqAWlHbp2rDovVcNmKovXIWyVtNao8CthX4vKZl6KKIgRQOFuk+dSk7Rpz8J7sGxeuGxtQciej3Ea0EnkJW5RNpaQ0zcwuV7cbZPPYNRmOfVAmCWDxPOrNWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z7M7coxi; arc=none smtp.client-ip=100.103.45.18
+	bh=p+jiq7Y7/tj9eebBLtaaLd9bUsbt9d4qggac1bs0J40=;
+	h=Date:Message-ID:From:To:Cc:Subject:References:MIME-Version:
+	 Content-Type; b=lEb+04KUGm/m4wxoWrxxsza3lFhenq0G9bR4slxwHbILZpr0dN6THCqwwv8qwPUff6BDODHfXC7u/KW4ox5BeeR9+p52Wov+/PSoLofDk6qWGplKZqUQ6GApR6JJNgpx/MEtGLa1VJyax/Bs4kR1zNQvlUrD9g3MD0QlmoGbi6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jm9Q3Laf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z7M7coxi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 089A31F00A3A;
-	Tue,  7 Jul 2026 19:07:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jm9Q3Laf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 691E61F000E9;
+	Tue,  7 Jul 2026 19:07:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783451229;
-	bh=2uavOVc6+8bx0x/e4wZ300EwXCUUBjrmxoMJ45v7fLk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Z7M7coxi3PyFG5acZwSagsmFgv+MMGomOIBe9pN+8QhVg5zqd1iQIS2mdZ3V7XrwR
-	 RSsC1kRLEXRcvgpMPVSTFC4zny8Xu6kvSxdMjKHgfN4+jHvtAcxXIhly9pDvLVbm0D
-	 BXLvCX0OW9kBl0Qz4ik+pst/1ngHq8vh+ivXHP7GMeKEAt2fxaiOYW981y2WSXE6gY
-	 lgs0Ey9IW1iAIVZao0c4WawG8PzjgDrQBEoZyxYfBRb7tD0WNROAhZMr7fTqFU9mO+
-	 kXGf/xfymyBCuNvIunxYukngVX3A1wUibO52GyMqRj6EL+ZmJkjkwQipmCqlHN9mjf
-	 i4X1j6GKcZs2w==
-Date: Tue, 7 Jul 2026 20:06:56 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>, 
-	Greg KH <gregkh@linuxfoundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Justin Stitt <justinstitt@google.com>, Carlos Maiolino <cem@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Brian Foster <bfoster@redhat.com>, 
-	Christoph Hellwig <hch@infradead.org>, David Disseldorp <ddiss@suse.de>, 
-	Mark Brown <broonie@kernel.org>, Jani Nikula <jani.nikula@intel.com>, 
-	Jens Axboe <axboe@kernel.dk>, Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-Message-ID: <ak1NzGiFMwAEFNp0@lucifer>
-References: <20260703163251.GB3734786@killaraus.ideasonboard.com>
- <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
- <akzETpsps4TMfqpC@lucifer>
- <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
- <20260707124031.GC211515@killaraus.ideasonboard.com>
- <ebc1f034-7297-459e-975d-5c143567392f@kernel.org>
- <20260707141803.GA254690@killaraus.ideasonboard.com>
- <20260707-siebzehn-geleast-gastmahl-4889a8f6b474@brauner>
- <20260707-impfschutz-lerngruppen-klubhaus-7aabcc82f3b4@brauner>
- <878q7mr59k.fsf@trenco.lwn.net>
+	s=k20260515; t=1783451228;
+	bh=k5p+gDeGow5od0W2jgXaapJrAZfwc3i2DfCDO4w4k2U=;
+	h=Date:From:To:Cc:Subject:References;
+	b=jm9Q3Laf3FKmdLmABRbJipEgYAm2Nvq7OuMFuhObrcMDIik3KnCXo3gPTumzB8Ks6
+	 R2Gh5AXPLtOPkX4xGcvEbi6QTXdXx5/QVPzzzZ8xwFmaGErRXW49XMgkYcMa3mHP16
+	 NZyJRjBGh1rQKkdpKB/7+FFOPY0JXZbeyKYhfMwGWmdrM9iFLD57NkK4L8nzez26ia
+	 lSGhDZsXLIy33FDWV2JaQZRiT6U6B6OVrJAobxJY0jyGqtEYE+4QXvbpOMvRDycErW
+	 1QLeEAPw7GwrC8w/3TQxgag4cP6oLp2eSVsbIbk2440lpovAypZ3nvHiufLponi5S1
+	 lFKuBs3QiJDKw==
+Date: Tue, 07 Jul 2026 21:07:05 +0200
+Message-ID: <20260707190254.545214398@kernel.org>
+User-Agent: quilt/0.69
+From: Thomas Gleixner <tglx@kernel.org>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Shrikanth Hegde <sshegde@linux.ibm.com>,
+ linuxppc-dev@lists.ozlabs.org,
+ Kees Cook <kees@kernel.org>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ loongarch@lists.linux.dev,
+ Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ linux-riscv@lists.infradead.org,
+ Sven Schnelle <svens@linux.ibm.com>,
+ linux-s390@vger.kernel.org,
+ x86@kernel.org,
+ Mark Rutland <mark.rutland@arm.com>,
+ Jinjie Ruan <ruanjinjie@huawei.com>,
+ Andy Lutomirski <luto@kernel.org>,
+ Oleg Nesterov <oleg@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Russell King <linux@armlinux.org.uk>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Guo Ren <guoren@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Helge Deller <deller@gmx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Richard Weinberger <richard@nod.at>,
+ Chris Zankel <chris@zankel.net>,
+ linux-arm-kernel@lists.infradead.org,
+ linux-alpha@vger.kernel.org,
+ linux-csky@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org,
+ linux-sh@vger.kernel.org,
+ linux-um@lists.infradead.org,
+ Arnd Bergmann <arnd@arndb.de>,
+ Vineet Gupta <vgupta@kernel.org>,
+ Will Deacon <will@kernel.org>,
+ Brian Cain <bcain@kernel.org>,
+ Michal Simek <monstr@monstr.eu>,
+ Dinh Nguyen <dinguyen@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Andreas Larsson <andreas@gaisler.com>,
+ linux-snps-arc@lists.infradead.org,
+ linux-hexagon@vger.kernel.org,
+ linux-openrisc@vger.kernel.org,
+ sparclinux@vger.kernel.org,
+ linux-arch@vger.kernel.org,
+ =?UTF-8?q?Michal=20Such=C3=A1nek?= <msuchanek@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+Subject: [patch 17/18] x86/entry: Simplify the syscall number logic
+References: <20260707181957.433213175@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <878q7mr59k.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, Jul 07, 2026 at 01:03:51PM -0600, Jonathan Corbet wrote:
-> Christian Brauner <brauner@kernel.org> writes:
->
-> >> Then someone can basically just merge the original patch I sent since
-> >> everyone seems to agree on that front. And then the extension to include
-> >> how the LLM was used can be discussed in a separate patch.
-> >
-> > https://patch.msgid.link/20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org
->
-> I still have it around :)  I can apply it if that's truly the
-> consensus... I'll confess to having not entirely kept up with the
-> conversation over the holiday weekend, though, and needing to review
-> things.
->
-> If you object, do let me know.
+Converting from int to long, back to int and then to unsigned int is
+confusing at best.
 
-I think we need the commit message to be a cleaned up a little :)
+None of this voodoo is required. Negative syscall numbers including -1
+don't need any of this treatment and the low level ASM code already does
+the sign extension to 64-bit on a 64-bit kernel.
 
-Also good to have it out there non-RFC so people know it's actually a contender
-for merge.
+The only point where signedness matters is the comparison against the
+maximum syscall number, but that can be simplified by just using a unsigned
+argument for the various syscall invocation functions.
 
-So I think Christian should send a fresh non-RFC version of that with an updated
-commit msg + with the people here cc'd, and I'm fine with that patch going in as
-it is (I already gave a tag).
+Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+---
+ arch/x86/entry/syscall_32.c    |   26 +++++++++++---------------
+ arch/x86/entry/syscall_64.c    |   36 ++++++++++++++----------------------
+ arch/x86/include/asm/syscall.h |    2 +-
+ 3 files changed, 26 insertions(+), 38 deletions(-)
 
-We can always follw up with the comment stuff later (which I consider _really_
-important but one thing at a time).
+--- a/arch/x86/entry/syscall_32.c
++++ b/arch/x86/entry/syscall_32.c
+@@ -41,6 +41,8 @@ const sys_call_ptr_t sys_call_table[] =
+ #endif
+ 
+ #define __SYSCALL(nr, sym) case nr: return __ia32_##sym(regs);
++
++/* The unsigned int @nr argument is intentional as it creates denser code in a 64-bit build */
+ static noinline long ia32_sys_call(const struct pt_regs *regs, unsigned int nr)
+ {
+ 	switch (nr) {
+@@ -49,7 +51,7 @@ static noinline long ia32_sys_call(const
+ 	}
+ }
+ 
+-static __always_inline int syscall_32_enter(struct pt_regs *regs)
++static __always_inline long syscall_32_enter(struct pt_regs *regs)
+ {
+ 	if (IS_ENABLED(CONFIG_IA32_EMULATION))
+ 		current_thread_info()->status |= TS_COMPAT;
+@@ -70,17 +72,11 @@ early_param("ia32_emulation", ia32_emula
+ /*
+  * Invoke a 32-bit syscall.  Called with IRQs on in CT_STATE_KERNEL.
+  */
+-static __always_inline void do_syscall_32_irqs_on(struct pt_regs *regs, int nr)
++static __always_inline void do_syscall_32_irqs_on(struct pt_regs *regs, unsigned long nr)
+ {
+-	/*
+-	 * Convert negative numbers to very high and thus out of range
+-	 * numbers for comparisons.
+-	 */
+-	unsigned int unr = nr;
+-
+-	if (likely(unr < IA32_NR_syscalls)) {
+-		unr = array_index_nospec(unr, IA32_NR_syscalls);
+-		regs->ax = ia32_sys_call(regs, unr);
++	if (likely(nr < IA32_NR_syscalls)) {
++		nr = array_index_nospec(nr, IA32_NR_syscalls);
++		regs->ax = ia32_sys_call(regs, (unsigned int)nr);
+ 	}
+ }
+ 
+@@ -126,7 +122,7 @@ static __always_inline bool int80_is_ext
+  */
+ __visible noinstr void do_int80_emulation(struct pt_regs *regs)
+ {
+-	int nr;
++	long nr;
+ 
+ 	/* Kernel does not use INT $0x80! */
+ 	if (unlikely(!user_mode(regs))) {
+@@ -205,7 +201,7 @@ static __always_inline bool int80_is_ext
+  */
+ DEFINE_FREDENTRY_RAW(int80_emulation)
+ {
+-	int nr;
++	long nr;
+ 
+ 	enter_from_user_mode_randomize_stack(regs);
+ 
+@@ -240,7 +236,7 @@ DEFINE_FREDENTRY_RAW(int80_emulation)
+ /* Handles int $0x80 on a 32bit kernel */
+ __visible noinstr void do_int80_syscall_32(struct pt_regs *regs)
+ {
+-	int nr = syscall_32_enter(regs);
++	long nr = syscall_32_enter(regs);
+ 
+ 	/*
+ 	 * Subtlety here: if ptrace pokes something larger than 2^31-1 into
+@@ -260,7 +256,7 @@ DEFINE_FREDENTRY_RAW(int80_emulation)
+ 
+ static noinstr bool __do_fast_syscall_32(struct pt_regs *regs)
+ {
+-	int nr = syscall_32_enter(regs);
++	long nr = syscall_32_enter(regs);
+ 	int res;
+ 
+ 	enter_from_user_mode_randomize_stack(regs);
+--- a/arch/x86/entry/syscall_64.c
++++ b/arch/x86/entry/syscall_64.c
+@@ -32,6 +32,8 @@ const sys_call_ptr_t sys_call_table[] =
+ #undef  __SYSCALL
+ 
+ #define __SYSCALL(nr, sym) case nr: return __x64_##sym(regs);
++
++/* The unsigned int @nr argument is intentional as it creates denser code */
+ static noinline long x64_sys_call(const struct pt_regs *regs, unsigned int nr)
+ {
+ 	switch (nr) {
+@@ -52,39 +54,29 @@ static noinline long x32_sys_call(const
+ #endif
+ }
+ 
+-static __always_inline bool do_syscall_x64(struct pt_regs *regs, int nr)
++static __always_inline bool do_syscall_x64(struct pt_regs *regs, unsigned long nr)
+ {
+-	/*
+-	 * Convert negative numbers to very high and thus out of range
+-	 * numbers for comparisons.
+-	 */
+-	unsigned int unr = nr;
+-
+-	if (likely(unr < NR_syscalls)) {
+-		unr = array_index_nospec(unr, NR_syscalls);
+-		regs->ax = x64_sys_call(regs, unr);
++	if (likely(nr < NR_syscalls)) {
++		nr = array_index_nospec(nr, NR_syscalls);
++		regs->ax = x64_sys_call(regs, (unsigned int)nr);
+ 		return true;
+ 	}
+ 	return false;
+ }
+ 
+-static __always_inline void do_syscall_x32(struct pt_regs *regs, int nr)
++static __always_inline void do_syscall_x32(struct pt_regs *regs, unsigned long nr)
+ {
+-	/*
+-	 * Adjust the starting offset of the table, and convert numbers
+-	 * < __X32_SYSCALL_BIT to very high and thus out of range
+-	 * numbers for comparisons.
+-	 */
+-	unsigned int xnr = nr - __X32_SYSCALL_BIT;
+-
+-	if (IS_ENABLED(CONFIG_X86_X32_ABI) && likely(xnr < X32_NR_syscalls)) {
+-		xnr = array_index_nospec(xnr, X32_NR_syscalls);
+-		regs->ax = x32_sys_call(regs, xnr);
++	/* Adjust the starting offset of the table */
++	nr -= __X32_SYSCALL_BIT;
++
++	if (IS_ENABLED(CONFIG_X86_X32_ABI) && likely(nr < X32_NR_syscalls)) {
++		nr = array_index_nospec(nr, X32_NR_syscalls);
++		regs->ax = x32_sys_call(regs, (unsigned int)nr);
+ 	}
+ }
+ 
+ /* Returns true to return using SYSRET, or false to use IRET */
+-__visible noinstr bool do_syscall_64(struct pt_regs *regs, int nr)
++__visible noinstr bool do_syscall_64(struct pt_regs *regs, long nr)
+ {
+ 	nr = syscall_enter_from_user_mode_randomize_stack(regs, nr);
+ 
+--- a/arch/x86/include/asm/syscall.h
++++ b/arch/x86/include/asm/syscall.h
+@@ -164,7 +164,7 @@ static inline int syscall_get_arch(struc
+ 		? AUDIT_ARCH_I386 : AUDIT_ARCH_X86_64;
+ }
+ 
+-bool do_syscall_64(struct pt_regs *regs, int nr);
++bool do_syscall_64(struct pt_regs *regs, long nr);
+ void do_int80_emulation(struct pt_regs *regs);
+ 
+ #endif	/* CONFIG_X86_32 */
 
->
-> Thanks,
->
-> jon
-
-Cheers, Lorenzo
