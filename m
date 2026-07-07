@@ -1,133 +1,92 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5847A1A6813
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 00:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E1819E992;
+	Tue,  7 Jul 2026 00:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783383919; cv=none; b=SG4O9smPgqEG211bBTPMp73iREdxv8Mw3yYNTGvunaxJ0BBzmjf5psDw1vR+3o944flcdGT56cB+MHydFBwWqVmE//eL2lmlYGxn3egxftUxZkLydPsrZxrwgcqr6m88JMs/ddWvFukVvjue3CBR7pXUNUyqcrOm8VUb9bzFtys=
+	t=1783384003; cv=none; b=UVvLimi9EVxy64BaIoZBi6rA5hJGcCc+pRUHzKWYhG7FcoPRf9IfUAnWeUmmhTP1EEszyqOqrTgx4HjwPpJ+knnBevyQg5mPj/HEWdxpHTFn+F3/jWVfTW6oksIGWPNnRwoA95I2pTDlLjfMQ7JfXVYUwNwpEy7vQpqz7FAwyD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783383919; c=relaxed/simple;
-	bh=7x/R57qudJvKK/D5Vz7Hi1BoiQPVT6Eb3LFhPmwn7/k=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=BIPt4Zu7/87xI7jNdMgYZ4gd7IvTkALYMrWtZE9MQ2hTYHoAQyIRFtXvnhuoplkS0GbWSQAm0T5K5EnbZJ49NPdCfeH+1gX5fcpknKMbd1N2Dtia4Mu6yPzu7n9zLaBScEktLpGU3qWxSxY7Y1LOh5X4me0/GMppUn0oXnSqSIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UevzTKaL; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1783384003; c=relaxed/simple;
+	bh=ftEq1IkswfgRVoPgwjn8y6Tvd4IIbCvcPHvSBMadJi8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R4iq4OffZGM4rEDVUTLvJFW5diQX3MTify4VcMIxcWFloJtiPGRZj+yE1Jr/0PVbZ6YQaShMQwBiucVYPpKE2FcN6AkDO8snzNLBFIjh3yj0EWdL6aSwZ9eEpSvMDBajJak/hvSGaVWiu6S2ww+dpJSr98f373F1KdU6d7B3t0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OD4SmDd0; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UevzTKaL"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2cc640dfde3so32587365ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 17:25:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783383918; x=1783988718; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Y2tUu5e71+Sget3gJMSknqgMwie3pm4NkHG0E3M9coA=;
-        b=UevzTKaLqFeXEg8KXz9f4gfJ2fi/x6L1C5AIWHVRJy7xeYePfp95tchpb1Z5LnmWP9
-         ptfVoKSviSRTRq0bSktMaertVyi/rergZQR1vW0M6NfF0iLdPn7x4VzxutD6DBdNMQno
-         wL8bBkxDA4Hf4i8YlN+5FmvGf7dsysHKhXglM/JiXcpLPgKrqQ+dr2AGGQfon6cKoj1t
-         i7wRYBWxFqumr2gPvtvMlBflMWLCJDVAqbypHr2LfLJdN09oLwYVDHQUhpWmBotR+knh
-         jpIerBf+sQoaggQAvdGCNbZ57LT5HJE3GjG0czflvwUujWfxNIpVXBPinj0xLtAwG59R
-         aqtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783383918; x=1783988718;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Y2tUu5e71+Sget3gJMSknqgMwie3pm4NkHG0E3M9coA=;
-        b=MIVKFpfG3DjOPCx/y3steNiNWg9tRjlNfONxTsvpjsFxmPj98+Pg0w4HVxBmt0M954
-         1dkti/5wkEPSED9sdlkK/1bKgU6nlnCa9fqy+CpMctGyRvOBNgXu+8CM0D1pA1Rr6OoW
-         07681zr4BrDJ1UVTC42AOlJr5bM5X1vKdc5g394qsXu4+seq49zM8o3Ar7Vt4KkG6O+g
-         sOwuBhazVfX05qgKeIIgLu+tfn/pnD66rkTfRj8XhJPXXcF0gmq/KG/c/Z6DIXTurOIo
-         Zx2sDt6KlhpR2Ofr68VCBzeOLekEDSlikpohfi2Mi3w6hQzAXwPb+P5m54jmklneD2Jo
-         d0Yg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro2KLxpvGBjcqyGb7t3eMfw57VZZOfKfwoBCw5sxz4bnr/pbesuyxYCHcC4/rlV8eyWCVzNUVYqSAE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9mwumHxTSe0i/Zn9yeRkdkAyzx6ufUAmJb/PAtyTOFQ/1t/ez
-	KXI6O+COY7C6Aqxf6iABpnmXOxZsLq1VTh/Ow/BF61b2ZgFaJyV59SLdmpo4CbP3Q788bbhLtlV
-	8tTt4KQ==
-X-Received: from plq4.prod.google.com ([2002:a17:903:2f84:b0:2cc:73ae:7d4c])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:ce01:b0:2ca:52ce:6f91
- with SMTP id d9443c01a7336-2ccbf056a99mr33058945ad.27.1783383917478; Mon, 06
- Jul 2026 17:25:17 -0700 (PDT)
-Date: Mon, 6 Jul 2026 17:25:16 -0700
-In-Reply-To: <b9e2c377a21a53329cd70ac48309981957814686.camel@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OD4SmDd0"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=vXYO2KC5/ZFSl5HJ8XTj82g+7gASN0b9omoW/J5XJS8=; b=OD4SmDd0cyjJCssJabjwuE+TKg
+	Pn6AkghpkQm9HzaGwx7EtqyR6JqAuZNIRzInkzbGuEPjc/5PpR3e9uLT/pZv55g04k6KaOW4x7zwJ
+	KM96ixZ/s1GOhiKEEYDneQWy40vwm6KM3fNUi2pnmHdBMVnUqZYJP11kzpTeWXQrtitC1h7Qgkso7
+	W8yuG/uCEwUi5t4EO+5+vmiBy+XcalUqT6jXYsBSDOT5nhIWatMEzwn/PVrBB8cKv7m3k4fiIrkNS
+	WwWwLxbfeBgDZPVWUTw7HDMC+4uRusV3WdUgKijZ13G6VMICDLlGj5oSESeXLaOi67iRXriJI+rsN
+	oTvqv5Cw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wgte2-0000000Dpmh-11fd;
+	Tue, 07 Jul 2026 00:26:38 +0000
+Message-ID: <049d2ca9-c1ca-4834-955f-5c2f014eca82@infradead.org>
+Date: Mon, 6 Jul 2026 17:26:36 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
- <20260526023515.288829-8-rick.p.edgecombe@intel.com> <akw-dgBE_dycts0o@google.com>
- <b9e2c377a21a53329cd70ac48309981957814686.camel@intel.com>
-Message-ID: <akxHbKbMyF7PZ0Av@google.com>
-Subject: Re: [PATCH v6 07/11] KVM: TDX: Allocate PAMT memory for TD and vCPU
- control structures
-From: Sean Christopherson <seanjc@google.com>
-To: Rick P Edgecombe <rick.p.edgecombe@intel.com>
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
-	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>, Kai Huang <kai.huang@intel.com>, 
-	Dave Hansen <dave.hansen@intel.com>, Yan Y Zhao <yan.y.zhao@intel.com>, 
-	"kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>, "kas@kernel.org" <kas@kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, 
-	"pbonzini@redhat.com" <pbonzini@redhat.com>, "nik.borisov@suse.com" <nik.borisov@suse.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, 
-	"tglx@kernel.org" <tglx@kernel.org>, Vishal Annapurve <vannapurve@google.com>, "bp@alien8.de" <bp@alien8.de>, 
-	Chao Gao <chao.gao@intel.com>, "x86@kernel.org" <x86@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: admin-guide: thunderbolt: fix sentence structure
+To: Manuel Ebner <manuelebner@mailbox.org>,
+ Andreas Noever <andreas.noever@gmail.com>,
+ Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
+ <YehezkelShB@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rajmohan Mani <rajmohan.mani@intel.com>
+Cc: Mika Westerberg <mika.westerberg@linux.intel.com>,
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260706181429.264791-3-manuelebner@mailbox.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260706181429.264791-3-manuelebner@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 06, 2026, Rick P Edgecombe wrote:
-> On Mon, 2026-07-06 at 16:47 -0700, Sean Christopherson wrote:
-> > On Mon, May 25, 2026, Rick Edgecombe wrote:
-> > > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> > > 
-> > > Use control page helpers for allocating and freeing TD control structures,
-> > > such these operations can work for Dynamic PAMT.
-> > > 
-> > > The TDX module tracks some state for each page of physical memory that it
-> > > might use. It calls this state the PAMT. It includes separate state for
-> > > each page size a physical page could be utilized at within the TDX module
-> > > (1GB, 2MB, 4KB). In Dynamic PAMT, only the 4KB page size state is
-> > > allocated dynamically. So the kernel must install PAMT backing for each 4KB
-> > > page before gifting it to the TDX module, and tear it down after the page
-> > > is reclaimed.
-> > > 
-> > > TD-scoped control pages (TDR, TDCS) and vCPU-scoped control pages (TDVPR,
-> > > TDCX) are all handed to the TDX module at 4KB page size and are therefore
-> > > subject to this requirement. Replace the raw alloc_page()/__free_page()
-> > > calls for these pages with tdx_alloc/free_control_page().
-> > > 
-> > > Switching between special Dynamic PAMT operations or normal page
-> > > alloc/free operations is handled internally in
-> > > tdx_alloc/free_control_page(). So don't check for Dynamic PAMT around these
-> > > calls. Just call them unconditionally. Similarly, drop the NULL checks
-> > > before freeing, as tdx_free_control_page() handles NULL internally.
-> > > 
-> > > No functional change intended when Dynamic PAMT is not in use.
-> > > 
-> > > Assisted-by: GitHub Copilot:claude-opus-4-6 Claude:claude-opus-4-7
-> > 
-> > Exactly what assistance was given, and when?  I certainly didn't use any of these
-> > tools, and given that Claude Opus 4.6 was released after I posted the v5 RFC, I
-> > doubt Kirill did either.
-> 
-> On this patch specifically, lots of "review this patch" type experiments IIRC.
-> Probably mostly around the log.
-> 
-> > 
-> > And in my strong opinion, even if AI tooling was used to rebase the patches, I
-> > don't think that level of "assistance" should be presented this way.  E.g. I would
-> > rather a more informal:
-> > 
-> >   [ Rick: enhance log, rebase with help from AI tooling]
-> > 
-> > Because unless I'm missing something, claiming that AI was used to write the patch
-> > is misleading and disingenuous.
-> 
-> Yea, I was just trying to follow the policy. It seems things are swinging the
-> other way now. This works.
 
-FWIW, my read of the official policy, even before any change in direction, is that
-it only applies to using AI to write code.  It's not like we given any credit in
-the patch itself when changes are made in response to code review from human.
+
+On 7/6/26 11:14 AM, Manuel Ebner wrote:
+> Replace ')' with ',' and add 'is' to sentence.
+> 
+> Fixes: 3fb10ea4ce86 ("thunderbolt: Add support for retimer NVM upgrade when there is no link")
+> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
+
+> ---
+>  Documentation/admin-guide/thunderbolt.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/thunderbolt.rst b/Documentation/admin-guide/thunderbolt.rst
+> index 91a6cb109988..ff25fe853706 100644
+> --- a/Documentation/admin-guide/thunderbolt.rst
+> +++ b/Documentation/admin-guide/thunderbolt.rst
+> @@ -294,8 +294,8 @@ for the retimers::
+>  
+>  This enumerates and adds the on-board retimers. Now retimer NVM can be
+>  upgraded in the same way than with cable connected (see previous
+> -section). However, the retimer is not disconnected as we are offline
+> -mode) so after writing ``1`` to ``nvm_authenticate`` one should wait for
+> +section). However, the retimer is not disconnected as we are in offline
+> +mode, so after writing ``1`` to ``nvm_authenticate`` one should wait for
+>  5 or more seconds before running rescan again::
+>  
+>    # echo 1 > /sys/bus/thunderbolt/devices/0-0/usb4_port1/rescan
+
+-- 
+~Randy
