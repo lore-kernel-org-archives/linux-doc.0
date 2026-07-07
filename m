@@ -1,380 +1,238 @@
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93F7367B76
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 03:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0258942088B
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 03:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783394899; cv=none; b=h7zUnO8VqCkXK0Edp/K6P/oxGFAULOnr2QEP+ML2kDH+lby7TzgqHnTVpLk+rx5dyiOanCFZP2w4qTuNLqX20s+oHyfNb54Z8ERbbIdLt9rEDDS9JPvFgRNvOGtgparu08qWT3Ww+FIhFGKFbDmmU7OBa03s9YmwXUsKSTD77YE=
+	t=1783396041; cv=none; b=g9cfXVY0lEW/Pptpy5zesv2t0imSby2VgARewWeAHQhigTstlPU+UcmTzvSEc2eqL9C8UfyYeyehPdo9cMCigIyl76tqnKOb8ttj5M4kttPutD2B6BGzZEgwlWY4DKP3ixTUAt8CEgUpIy+UOKWhyjvWMoALN2JOcFkIEG7Yf2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783394899; c=relaxed/simple;
-	bh=4HJ5uUknpsltXYlF0NVsOd30nw6eP0oL38LMjmyZVAI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QEU7Yxt731BkU7kwe1pyyYwQAq2qilDA8W9n7HzMxB9ySlp5tE351dYel6nnHKJNp1LbAfW9OUkQQb+/vMFLj2CMRr0VSTNm0tNq5yUedkOPfOwlATPAXCmGMzKVDd1mGtOGyqy8aIKC/I+wuo+XEW5rl5OLBzLtTjsF9f7i/0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DIjvS958; arc=none smtp.client-ip=95.215.58.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1783396041; c=relaxed/simple;
+	bh=8FuvXj43qEW9pkubgws9NtoRYm37MvdVD99ryLk9c34=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wm2VUmkmQkajz3MU5jBzyWN8fRbuZQt1H+ZImcgS68eGsZQof1XXn6CoXATBhAvZ+B/zz1L5NWlb2+uquacJDx6+roK1dI7gbmtsKCCjDZgFFcTj7AS6GxXaTyRJ0rkYDnVkUFTZg9x6zJUlh/nWqjK8ajq/IpfZoMKEXhx97Tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=PCsuMmqq; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=eFk6N1c9; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DIjvS958"
-Message-ID: <4cc47988-49b3-4b73-90ed-a0a16a56a8dc@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1783394892;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JEiA+pwtCXC1ZAr5AF0iwJd+evuAzVicLVb++73QmaU=;
-	b=DIjvS958UCpmND1SKSWGn1h43DDuuBX48YGsON2jaSu/xihXISVbmmUZExTKUFXMVaHGIf
-	CKSWLDC2J/coQlARTg6IV8eU96X6u6mWb3trdHEg5gVj3hf9QzqMNCFUrVdS/RcO/MTe78
-	csk7cnTtb+mNxTbCgLtAL9tbBkOh0ls=
-Date: Tue, 7 Jul 2026 11:27:40 +0800
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="PCsuMmqq";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eFk6N1c9"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 666KEJ2k1639917
+	for <linux-doc@vger.kernel.org>; Tue, 7 Jul 2026 03:47:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=10l19KTCxqSqYBdgxJawtbug
+	fIDCCKBH6sLy1qfvrv8=; b=PCsuMmqq4w6H8IKL4WBNW/wOKcccb1RfrTXGgngs
+	i5Y4KjftEt1aheYFGe6WM5ujcx2y7DfRXzChlPcTs/rMe+X41JrJJDSGaXnaGNax
+	3u3W9HUrrCcLI7mAwkfsMu+clPpxiVxzWQA1VcpAvxuqOCFl00nz4qRvqHu9Klf2
+	9genqowRTUZGoDrS3anzJJT0dxsryrsR9gjmaxjJkxWxTuwPFTj7N3WBBePYelWL
+	94Fhk1NOQlkLLalHLZXlmeNpurVQ9oW8dv/ZIAXDTb4ckf0hysc8GuX47/qJvt+E
+	eq6aWDlZRXzSaVyEyuR5hId7u36XyYQUZALUUckKBtNjtw==
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f8a3r3x2w-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 03:47:18 +0000 (GMT)
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-c89704da8c7so6251817a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 20:47:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1783396038; x=1784000838; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=10l19KTCxqSqYBdgxJawtbugfIDCCKBH6sLy1qfvrv8=;
+        b=eFk6N1c9mnpEYKAkCZNDJL86dhhYaai/4z8DzqcluC3FYyfnRkSuHruXo3ypaSDGDL
+         Y/FTPyYY4mKrzR5MAIvdwl5yPuzkO22ATTAuFyy1++/pncvCt0B1s7EO6q+t3Q8q7Yli
+         xnvYv8MnNegnqFELRR3FUWG5eOKQ273Db2dj8ecirFGTxaA+dNuzKHRSweTD8jXdGjqN
+         O3y6RP7MQJ5hBYdMbLoUoi8vgXkbHoGrdallxL5iL/iq0NCLbWPHm+ZfB4a3OpYnDigR
+         V0IKbE40sRQesixOdusMwIXz7fYD8Dv0Bx17YsIaXd73Lm6onRA2ZU5dX761SALPwX/W
+         Kb3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783396038; x=1784000838;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=10l19KTCxqSqYBdgxJawtbugfIDCCKBH6sLy1qfvrv8=;
+        b=OomOufQO9C2PriD1TYwsWB5JV5REXrA4ZYUI/eOKbQTxaDbp+wsTHAr58S2bqNtaan
+         NM9MKSUaHWduv3npWePyfwOGqs6maGj0K5OaSJrsr11CxNkTPeWOxlUD5xW3G4+EgsB5
+         9Fm1DpmCKGSN9f9UUutrphoTGQlVnNn9uMKaGCqEaBJgSxZK9h+piZ1i4coWMzmiE8gl
+         aGcmWw1iUc14rXS2COxUKAG0TVYvx0dyTTXwsFFNmOSSPBHr4cGnOaTsMSCe3c/kUIkm
+         ddgd7ixYTcsFMR5x9q//gBHTEjdOpTtnIT3IS3BBXePgrWWR576aZpP388RHfEeqj0Re
+         Ejig==
+X-Forwarded-Encrypted: i=1; AHgh+RrTxqPDMMzEp6IHLj5PxGnA/w1Yk7ecb+E3ygDRuGtts55PFmYRDpFpnefBYLhGmpgatYi8ZpjlOlQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzKVHKszoYFc64WWlRO8wA3EaYjhW83EdEMi+QM9/CvtU6eyuu
+	/3XC3+oD0gH6NmeUezR9k52/1pXcvrjmg/YHG68GlcswITDTulBlj3aTyPzHgXB9Bslf8t7905R
+	2ht+oL9TVxfeMixQoXqlCzm+Lh2p18GZihezjyRbX9sSqa2EZzpvGrpf3USl4OOA=
+X-Gm-Gg: AfdE7cmsqbUus5evnPAO9eEZK541Z5EdF5xdwhKymPM4C3KoBvuhx3al/oH8/Cx6gze
+	clr/z2BCIjwvfQrQ0QqSQxl6tHkI1Rlheq9fgYK8qNKz3aNspt174geuwQtNxzQoj8NzqdkWSHh
+	ZvWZgEAS4GVd7RXlaZ9qL9cTM0be33Y6uWiIV2By5JfJpDrAJNR2jqUJZ6xZ26lAndIQCjA45Bf
+	3fAdG6I6eLkvmOp+pxiLUFTvsFs4iz8rx1hCFQkRq1OFqiP1ZUXTlLxIC4Qfv6mggyDIoLRp+F1
+	z00e9ZKEn9VNttrFSV9BNGOmn9QACjPdMImddBfk5seGKS0Y1UZ0DOX1Z12QbIUz37sP0IWzrrE
+	W/PTvBM75vIB9+HRIye3eaw4ozN0blCZcJlzu95n1XuOsK0f8D4TzKvgMSRJR
+X-Received: by 2002:a05:6a21:6497:b0:3bf:b9de:854d with SMTP id adf61e73a8af0-3c08edf0234mr4305555637.23.1783396037830;
+        Mon, 06 Jul 2026 20:47:17 -0700 (PDT)
+X-Received: by 2002:a05:6a21:6497:b0:3bf:b9de:854d with SMTP id adf61e73a8af0-3c08edf0234mr4305480637.23.1783396037283;
+        Mon, 06 Jul 2026 20:47:17 -0700 (PDT)
+Received: from hu-ashoraj-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b6593c76dsm2875802c88.3.2026.07.06.20.47.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 20:47:16 -0700 (PDT)
+Date: Mon, 6 Jul 2026 20:47:14 -0700
+From: Ashok Raj <ashok.raj@oss.qualcomm.com>
+To: shijujose2008@gmail.com
+Cc: rafael@kernel.org, bp@alien8.de, akpm@linux-foundation.org,
+        rppt@kernel.org, dferguson@amperecomputing.com,
+        linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org, tony.luck@intel.com,
+        lenb@kernel.org, leo.duran@amd.com, Yazen.Ghannam@amd.com,
+        mchehab@kernel.org, jic23@kernel.org, linuxarm@huawei.com,
+        rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com,
+        dave.hansen@linux.intel.com, naoya.horiguchi@nec.com,
+        james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com,
+        erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
+        gthelen@google.com, wschwartz@amperecomputing.com,
+        wbs@os.amperecomputing.com, nifan.cxl@gmail.com, tanxiaofei@huawei.com,
+        prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
+        kangkang.shen@futurewei.com, wanghuiqiang@huawei.com,
+        Ashok Raj <ashok.raj@oss.qualcomm.com>
+Subject: Re: [PATCH v21 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
+ table
+Message-ID: <akx2wqr3ULcmpCmc@hu-ashoraj-lv.qualcomm.com>
+References: <20260706000338.362421-1-shijujose2008@gmail.com>
+ <20260706000338.362421-2-shijujose2008@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v7 6/6] kselftest: alloc_tag: extend the allocinfo ioctl
- kselftest
-To: Abhishek Bapat <abhishekbapat@google.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Sourav Panda <souravpanda@google.com>, Suren Baghdasaryan
- <surenb@google.com>, Andrew Morton <akpm@linux-foundation.org>,
- Kent Overstreet <kent.overstreet@linux.dev>
-References: <cover.1783361692.git.abhishekbapat@google.com>
- <f6bd1ff0257987dbb7512f93595eaa6962c6153b.1783361692.git.abhishekbapat@google.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Ge <hao.ge@linux.dev>
-In-Reply-To: <f6bd1ff0257987dbb7512f93595eaa6962c6153b.1783361692.git.abhishekbapat@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260706000338.362421-2-shijujose2008@gmail.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA3MDAzMSBTYWx0ZWRfX8thM9ses5IpA
+ FLjF6Mn1yJtLwuafgseDfOVx+BTw8jth6zh96wWXt6zyw3cJVwS2dNr7O9Ska/hdm8wLyxH8Xkq
+ eOz7bCxiTtDxVPAq4kr8wKpJlQN8joUfGJuO20u4o/OCOjTAxEdvy+1sN0OeQTToMeeX4SyyhqJ
+ KuYaLwVESKuZ4wvJm+ewWAR3E3e9alviekfPNpqyqF/aqL1Ldf16c8JohucxYbOkFH+5nccY8bT
+ SLaxnOnUMquQ7mfk9GQzPGOVhjLrA1sWEnEmMQubFdS4ekm2n6ZEmejlSBg4BToSrQXB5XMQ3Ht
+ TTlOZQUhoNH0/2tSK3lROOaePgYJrS0KXINv7hwp12OBLN8+W5W4nbDSlLRqA8I3Y9FLz7r/lFa
+ tmzgRvywxVqn9kf23doAYUUCFTFP5BADR8tfWJhG2nWZtKhWuzFdUlfiX1gmNFdVHcfsMvxIcPC
+ rPc7zxQ3zWnLzI6I7Hg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA3MDAzMSBTYWx0ZWRfX3X3GxqjGZVUZ
+ 90ukKu3pgIZdjiEnhccN6BdghuZUcLditedrBhWi1OZwc5IXSBFUYuNvnnmCDUCEXFtZ+n+wNi3
+ xAwHdh2xiJTVw/nKZIH7ERguFQE4MCk=
+X-Proofpoint-GUID: 4Mp8BQ4sj5tydQC70d6L0-h54GyeAoZz
+X-Proofpoint-ORIG-GUID: 4Mp8BQ4sj5tydQC70d6L0-h54GyeAoZz
+X-Authority-Analysis: v=2.4 cv=OKcXGyaB c=1 sm=1 tr=0 ts=6a4c76c6 cx=c_pps
+ a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=Go8T6LQju8gDQlRwKi4A:9 a=QEXdDO2ut3YA:10
+ a=3WC7DwWrALyhR5TkjVHa:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-06_03,2026-07-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 malwarescore=0 clxscore=1011 suspectscore=0
+ spamscore=0 phishscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607070031
 
-Hi Abhishek
+Hi Shiju
 
+Thanks!
 
-On 2026/7/7 02:25, Abhishek Bapat wrote:
-> Add the following 2 scenarios to the allocinfo ioctl kselftest:
-> 1. Validate size based filtering
-> 2. Validate lineno based filtering
->
-> The first test uses "do_init_module" as the candidate function for the
-> test. This is because the associated site will only allocate memory when
-> a kernel module is loaded. The return value of get_content_id() changes
-> every time modules are loaded or unloaded. Hence, as long as
-> get_content_id() values at the start and the end of the test are the
-> same, the memory allocated by the do_init_module call site should also
-> remain the same. Consequently, the test can assume consistency between
-> the value returned by the ioctl and the procfs resulting in less
-> flakiness.
->
-> Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
-> ---
->   .../alloc_tag/allocinfo_ioctl_test.c          | 216 +++++++++++++++++-
->   1 file changed, 215 insertions(+), 1 deletion(-)
->
-> diff --git a/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c b/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
-> index 9ce7b53078b1..092348097204 100644
-> --- a/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
-> +++ b/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
-> @@ -5,6 +5,7 @@
->    * Copyright (C) 2026 Google, Inc.
->    */
->   
-> +#include <errno.h>
->   #include <fcntl.h>
->   #include <stdio.h>
->   #include <stdlib.h>
-> @@ -312,11 +313,212 @@ static int test_function_filter(void)
->   	return run_filter_test(&filter);
->   }
->   
-> +static int test_size_filter(void)
+On Mon, Jul 06, 2026 at 01:03:37AM +0100, shijujose2008@gmail.com wrote:
+> From: Shiju Jose <shijujose2008@gmail.com>
+> 
+
+[snip]
+
+> +static int register_pcc_channel(struct ras2_mem_ctx *ras2_ctx, int pcc_id)
 > +{
-> +	int fd;
-> +	struct allocinfo_tag_data_vec *tags = malloc(sizeof(*tags));
-> +	struct allocinfo_tag_data_vec *procfs_entries = malloc(sizeof(*procfs_entries));
-> +	struct allocinfo_filter filter;
-> +	int ret = KSFT_PASS;
-> +	__u64 target_size, i, pos;
-> +	struct allocinfo_tag_data *found_tag = NULL;
-> +	const char *target_function = "do_init_module";
-> +	struct allocinfo_content_id start_cont_id, end_cont_id;
-> +	int retry = 0;
-> +	const int max_retries = 10;
+> +	struct pcc_mbox_chan *pcc_chan;
+> +	struct ras2_sspcc *sspcc;
 > +
-> +	if (!tags || !procfs_entries) {
-> +		ksft_print_msg("Memory allocation failed.\n");
-> +		ret = KSFT_FAIL;
-> +		goto freemem;
+> +	if (pcc_id < 0)
+> +		return -EINVAL;
+> +
+> +	sspcc = ras2_sspcc_get(pcc_id);
+> +	if (sspcc) {
+> +		ras2_ctx->sspcc		= sspcc;
+> +		ras2_ctx->comm_addr	= sspcc->comm_addr;
+> +		ras2_ctx->dev		=
+> +			sspcc->pcc_chan->mchan->mbox->dev;
+> +		ras2_ctx->pcc_lock	= &sspcc->pcc_lock;
+> +		return 0;
 > +	}
 > +
-> +	fd = open(ALLOCINFO_PROC, O_RDONLY);
-> +	if (fd < 0) {
-> +		ksft_print_msg("Failed to open " ALLOCINFO_PROC ": %s\n", strerror(errno));
-> +		ret = KSFT_FAIL;
-> +		goto freemem;
+> +	sspcc = kzalloc(sizeof(*sspcc), GFP_KERNEL);
+> +	if (!sspcc)
+> +		return -ENOMEM;
+> +
+> +	pcc_chan = pcc_mbox_request_channel(&sspcc->mbox_client, pcc_id);
+> +	if (IS_ERR(pcc_chan)) {
+> +		kfree(sspcc);
+> +		return PTR_ERR(pcc_chan);
 > +	}
 > +
-> +	do {
-> +		found_tag = NULL;
-> +		pos = 0;
-> +
-> +		if (__allocinfo_get_content_id(fd, &start_cont_id)) {
-> +			ksft_print_msg("allocinfo_get_content_id failed\n");
-> +			ret = KSFT_FAIL;
-> +			goto exit;
-> +		}
-> +
-> +		memset(&filter, 0, sizeof(filter));
-> +		filter.mask |= ALLOCINFO_FILTER_MASK_FUNCTION;
-> +		strncpy(filter.fields.function, target_function, ALLOCINFO_STR_SIZE);
-> +
-> +		if (get_filtered_procfs_entries(procfs_entries, &filter)) {
-> +			ksft_print_msg("Error retrieving entries from " ALLOCINFO_PROC "\n");
-> +			ret = KSFT_FAIL;
-> +			goto exit;
-> +		}
-> +
-> +		if (procfs_entries->count == 0) {
-> +			ksft_print_msg("Function %s not found in procfs\n", target_function);
-> +			ret = KSFT_SKIP;
-> +			goto exit;
-> +		}
-> +
-> +		target_size = procfs_entries->tag[0].counter.bytes;
-> +
-> +		memset(&filter, 0, sizeof(filter));
-> +		filter.mask |= ALLOCINFO_FILTER_MASK_MIN_SIZE | ALLOCINFO_FILTER_MASK_MAX_SIZE;
-> +		filter.min_size = target_size;
-> +		filter.max_size = target_size;
-> +
-> +		while (1) {
-> +			struct allocinfo_get_at get_at_params;
-> +
-> +			memset(&get_at_params, 0, sizeof(get_at_params));
-> +			memcpy(&get_at_params.filter, &filter, sizeof(filter));
-> +			get_at_params.pos = pos;
-> +
-> +			if (__allocinfo_get_at(fd, &get_at_params))
-> +				break;
-> +
-> +			tags->count = 0;
-> +			memcpy(&tags->tag[tags->count++], &get_at_params.data,
-> +			       sizeof(get_at_params.data));
-> +
-> +			while (tags->count < VEC_MAX_ENTRIES &&
-> +			       __allocinfo_get_next(fd, &tags->tag[tags->count]) == 0)
-> +				tags->count++;
-> +
-> +			for (i = 0; i < tags->count; i++) {
-> +				if (strcmp(tags->tag[i].tag.function, target_function) == 0) {
-> +					found_tag = &tags->tag[i];
-> +					break;
-> +				}
-> +			}
-> +
-> +			if (found_tag || tags->count < VEC_MAX_ENTRIES)
-> +				break;
-> +
-> +			pos += tags->count;
-> +		}
-> +
-> +		if (__allocinfo_get_content_id(fd, &end_cont_id)) {
-> +			ksft_print_msg("allocinfo_get_content_id failed\n");
-> +			ret = KSFT_FAIL;
-> +			goto exit;
-> +		}
-> +
-> +		if (start_cont_id.id == end_cont_id.id)
-> +			break;
-> +
-> +		ksft_print_msg("Module load detected during size verification, retrying...\n");
-> +	} while (retry++ < max_retries);
-> +
-> +	if (start_cont_id.id == end_cont_id.id && !found_tag) {
-> +		ksft_print_msg("Entry with function %s not found in IOCTL results\n",
-> +			       target_function);
-> +		ret = KSFT_FAIL;
-> +	} else if (start_cont_id.id != end_cont_id.id) {
-> +		ksft_print_msg("Failed to match content_ids for procfs and IOCTL, skipping...\n");
-> +		ret = KSFT_SKIP;
-> +	} else if (found_tag && found_tag->counter.bytes != target_size) {
-> +		ksft_print_msg("IOCTL entry size %llu does not match target size %llu\n",
-> +			       found_tag->counter.bytes, target_size);
-> +		ret = KSFT_FAIL;
+> +	if (!pcc_chan->shmem) {
+> +		pcc_mbox_free_channel(pcc_chan);
+> +		kfree(sspcc);
+> +		return -EINVAL;
 > +	}
 > +
-> +exit:
-> +	close(fd);
-> +freemem:
-> +	free(tags);
-> +	free(procfs_entries);
-> +	return ret;
-> +}
-> +
-> +static int test_lineno_filter(void)
-> +{
-> +	struct allocinfo_tag_data_vec *tags = malloc(sizeof(*tags));
-> +	struct allocinfo_tag_data_vec *procfs_entries = malloc(sizeof(*procfs_entries));
-> +	struct allocinfo_filter filter;
-> +	enum ioctl_ret ioctl_status;
-> +	int ret = KSFT_PASS;
-> +	__u64 target_lineno, i;
-> +	struct allocinfo_tag_data *target_tag;
-> +	bool found = false;
-> +
-> +	if (!tags || !procfs_entries) {
-> +		ksft_print_msg("Memory allocation failed.\n");
-> +		ret = KSFT_FAIL;
-> +		goto exit;
-> +	}
-> +
-> +	memset(&filter, 0, sizeof(filter));
-> +
-> +	if (get_filtered_procfs_entries(procfs_entries, &filter)) {
-> +		ksft_print_msg("Error retrieving entries from " ALLOCINFO_PROC "\n");
-> +		ret = KSFT_FAIL;
-> +		goto exit;
-> +	}
-> +	if (procfs_entries->count == 0) {
-> +		ksft_print_msg("Could not retrieve procfs entries\n");
-> +		ret = KSFT_SKIP;
-> +		goto exit;
-> +	}
-> +	/*
-> +	 * We depend on the procfs results to determine the line number for the filter before
-> +	 * making the ioctl query. Hence, we cannot reuse run_filter_test here.
-> +	 */
-> +	target_tag = &procfs_entries->tag[0];
-> +	target_lineno = target_tag->tag.lineno;
-> +
-> +	filter.mask |= ALLOCINFO_FILTER_MASK_LINENO;
-> +	filter.fields.lineno = target_lineno;
-> +
-> +	ioctl_status = get_filtered_ioctl_entries(tags, &filter, 0);
-> +	if (ioctl_status == IOCTL_INVALID_DATA) {
-> +		ksft_print_msg("Trouble retrieving valid IOCTL entries, skipping.\n");
-> +		ret = KSFT_SKIP;
-> +		goto exit;
-> +	}
-> +	if (ioctl_status == IOCTL_FAILURE) {
-> +		ksft_print_msg("Error retrieving IOCTL entries.\n");
-> +		ret = KSFT_FAIL;
-> +		goto exit;
-> +	}
-> +
-> +	for (i = 0; i < tags->count; i++) {
-> +		if (tags->tag[i].tag.lineno != target_lineno) {
-> +			ksft_print_msg("IOCTL entry %llu has incorrect lineno %llu.\n",
-> +				       i, tags->tag[i].tag.lineno);
-> +			ret = KSFT_FAIL;
-> +			goto exit;
-> +		}
-> +
-> +		if (strncmp(tags->tag[i].tag.function, target_tag->tag.function,
-> +			    ALLOCINFO_STR_SIZE) == 0 &&
-> +		    strncmp(tags->tag[i].tag.filename, target_tag->tag.filename,
-> +			    ALLOCINFO_STR_SIZE) == 0)
-> +			found = true;
-> +	}
-> +
-> +	if (!found) {
-> +		ksft_print_msg("Original procfs entry not found in IOCTL lineno filter results.\n");
-> +		ret = KSFT_FAIL;
-> +	}
-> +
-> +exit:
-> +	free(tags);
-> +	free(procfs_entries);
-> +	return ret;
-> +}
-> +
->   int main(int argc, char *argv[])
->   {
->   	int ret;
->   
-> -	ksft_set_plan(2);
-> +	ksft_set_plan(4);
->   
->   	ret = test_filename_filter();
->   	if (ret == KSFT_SKIP)
-> @@ -330,5 +532,17 @@ int main(int argc, char *argv[])
->   	else
->   		ksft_test_result(ret == KSFT_PASS, "test_function_filter\n");
->   
-> +	ret = test_size_filter();
-> +	if (ret == KSFT_SKIP)
-> +		ksft_test_result_skip("Skipping test_size_filter\n");
+> +	sspcc->pcc_id		= pcc_id;
+> +	sspcc->pcc_chan		= pcc_chan;
+> +	sspcc->comm_addr	= pcc_chan->shmem;
+> +	if (pcc_chan->latency)
+> +		sspcc->deadline_us = PCC_NUM_RETRIES * pcc_chan->latency;
 > +	else
-> +		ksft_test_result(ret == KSFT_PASS, "test_size_filter\n");
+> +		sspcc->deadline_us = PCC_NUM_RETRIES * PCC_CHNL_DEFAULT_LATENCY;
+> +	sspcc->pcc_mrtt		= pcc_chan->min_turnaround_time;
+> +	sspcc->pcc_mpar		= pcc_chan->max_access_rate;
+> +	sspcc->mbox_client.knows_txdone	= true;
 > +
-> +	ret = test_lineno_filter();
-> +	if (ret == KSFT_SKIP)
-> +		ksft_test_result_skip("Skipping test_lineno_filter\n");
-> +	else
-> +		ksft_test_result(ret == KSFT_PASS, "test_lineno_filter\n");
+
+  Probably a minor nit .. 
+
+  sspcc is published on the global ras2_sspcc list (with a live kref)
+  via list_add() before sspcc->pcc_lock is initialized a few lines
+  later via mutex_init().
+
+  Once list_add() runs, ras2_sspcc_get() can find this sspcc and hand
+  out a pointer to it (kref_get_unless_zero() succeeds since kref_init()
+  already ran). A caller doing so before mutex_init() executes would
+  end up with ras2_ctx->pcc_lock pointing at an uninitialized mutex.
+
+  Currently harmless because the only caller, parse_ras2_table(), walks
+  PCC descriptors strictly sequentially, so no second register_pcc_channel()
+  call for the same pcc_id can land inside the window. But it's relying on
+  that being true rather than the code enforcing it.
+
+  Should we initialize the mutex before publishing the object, e.g.:
+
+        mutex_init(&sspcc->pcc_lock);
+
+> +	kref_init(&sspcc->kref);
 > +
->   	ksft_finished();
->   }
+> +	mutex_lock(&ras2_pcc_list_lock);
+> +	list_add(&sspcc->elem, &ras2_sspcc);
+> +	mutex_unlock(&ras2_pcc_list_lock);
+> +
+> +	ras2_ctx->sspcc		= sspcc;
+> +	ras2_ctx->comm_addr	= sspcc->comm_addr;
+> +	ras2_ctx->dev		= pcc_chan->mchan->mbox->dev;
+> +
 
+> +	mutex_init(&sspcc->pcc_lock); <---------------------
 
-https://sashiko.dev/#/patchset/cover.1783361692.git.abhishekbapat%40google.com
+> +	ras2_ctx->pcc_lock	= &sspcc->pcc_lock;
+> +
+> +	return 0;
+> +}
 
-Sashiko is really strict, but its warnings are legitimate. I ran the 
-test program on a kernel built without
+Otherwise 
 
-CONFIG_MEM_ALLOC_PROFILING, and here are the results:
+Reviewed-by: Ashok Raj <ashok.raj@oss.qualcomm.com>
 
-
-[root@localhost alloc_tag]# ./allocinfo_ioctl_test
-1..4
-# Failed to open /proc/allocinfo for reading
-# Error retrieving entries from /proc/allocinfo
-ok 1 # SKIP Skipping test_filename_filter
-# Failed to open /proc/allocinfo for reading
-# Error retrieving entries from /proc/allocinfo
-ok 2 # SKIP Skipping test_function_filter
-# Failed to open /proc/allocinfo: No such file or directory
-not ok 3 test_size_filter
-# Failed to open /proc/allocinfo for reading
-# Error retrieving entries from /proc/allocinfo
-not ok 4 test_lineno_filter
-# 2 skipped test(s) detected. Consider enabling relevant config options 
-to improve coverage.
-# Totals: pass:0 fail:2 xfail:0 xpass:0 skip:2 error:0
-[root@localhost alloc_tag]#
-
-
-Looking at the test log above, some tests that ought to be skipped are 
-flagged as failures.
-
-Would it make sense for us to go through all relevant test cases in the 
-codebase,
-
-and check if we've missed any logic to skip tests when /proc/allocinfo 
-is missing
-
-due to CONFIG_MEM_ALLOC_PROFILING being disabled?
-
-
-BTW,  when merging this series into the latest mm-new branch, there will 
-be a minor header file conflict.
-
-This is because the series at 
-https://lore.kernel.org/all/20260703-alloc-trylock-v5-15-c87b714e19d3@google.com 
-was merged ahead of this change.
-
-We might want to consider rebasing this series to resolve the header 
-conflict.
-
-
-Thanks
-
-Best Regards
-
-Hao
-
-
+Cheers,
+Ashok
