@@ -1,105 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486E23D648A;
-	Tue,  7 Jul 2026 22:28:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7676C480DC3;
+	Tue,  7 Jul 2026 22:30:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783463323; cv=none; b=XHFMsXASaPVrw8lCE5kiGohMm0xEh76q774uHXTs+eldKkL5ToQgJT0k0AwZUJgBetM9RAmiUtElKfnk+FdZf8V6mQVeHzaJSChgTdwqkjvx/Mb6iEEtilTjdvn8N0THQIF9NsnPLq5NKXKxgVRXU3+5/RqFHiq0x5SNMXiGrDQ=
+	t=1783463432; cv=none; b=aJSnVZk9C8uMn2yiQ7q3nVHDPz81KbW/YMqfeQjXsRKsfq6kogNtubMrki0uG0afuHJ0knVIhuxHAUBaiF4tfY2zZzxej1vJv18imaU/AxwqQ6ADxGWHlicQX5LPdaChMYpyEHSJnqJNwV+xNzBK/frHOIC6hwIKEGpfJJmKaK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783463323; c=relaxed/simple;
-	bh=xGDYk6xDOKByKK05UQxie3eir73pAUq12CctMIuRkOM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ffmOt6T9n58e7g+l84wMMzzhUZZfIYcNfQEA1xjxWSvy9haT2H9jw1FDpEDZS4EQJdrpEfZvdvH5EZta5zG/MdYiLVNYAiV8DqZP9Gm3ELKkR18NkNtIeb0VIsA/utzUjpuPvQFileCS6zi8L4TCE1Xrk2Fj6gonoNrfdxBoQ5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FOBVJ4rD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783463432; c=relaxed/simple;
+	bh=IGeK+fyE4j0wCGDvO6onUm1VTlMWGJhVl84IsAA4kuo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References; b=AjQ8f7LxEDkGrygs3Hkwy3ZIctJH/hY0OxeBWnGVxZJL1SqsvFDUcPQqmwhaFUWVqKtAnI9sscFC7sjW8xcOqMBbkz5XRE+ByLtj3v+B4h+dGoPmRxsyo/r+d5o/cvxszklri93hZoxnffjFoEpS4pNdbAHqy98Nag49GhTTils=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WPqQ7t4E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FOBVJ4rD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFC171F000E9;
-	Tue,  7 Jul 2026 22:28:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WPqQ7t4E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 091981F000E9;
+	Tue,  7 Jul 2026 22:30:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783463321;
-	bh=gRwsNtR9CmtI1lg+FRZhNFP3aUE1T9mC+krBoHEi9x4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FOBVJ4rD5rTTQo3ydEtA3gAO9+lIGI/CrNJ8ssAZ4DAYgwFZpMeoTFKCV+sJUEuae
-	 7VC5wJWuZ8EgPLQfZzDm3hsFwOzJ8GaZw2t+XEGov7LfPlSe+HL+8/iYeQtjJ3G5UF
-	 WDdG6dFwpxpBhr0i+IhPPtJRFSDOmz6C/LG+zOeA4im1A8BgNLOjeiYsK64Dv0QnHd
-	 cdeaWbicwd1r9Ua/g/c4bLWDvHNgWjKX2VB7e9xd4sM1fZBlXqUTlxLs67iJImtLZu
-	 zC/fXH/oT8idmoroS8l7xYg8cfuP+AtXx4KDFhWDOdm81Sg0CKjHW++PKrsa7xZhTp
-	 pjx7Fw2TwUmyQ==
-Date: Tue, 7 Jul 2026 15:28:40 -0700
-From: Oliver Upton <oupton@kernel.org>
-To: Congkai Tan <congkai@amazon.com>
-Cc: kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Haris Okanovic <harisokn@amazon.com>,
-	Geoff Blake <blakgeof@amazon.com>,
-	Stanislav Spassov <stanspas@amazon.de>, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] KVM: arm64: Expose PMMIR_EL1.SLOTS to guests
-Message-ID: <ak19mPPWcupFwfuE@kernel.org>
-References: <20260702190421.420992-1-congkai@amazon.com>
+	s=k20260515; t=1783463431;
+	bh=IGeK+fyE4j0wCGDvO6onUm1VTlMWGJhVl84IsAA4kuo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=WPqQ7t4ESnJ0OWSou9XVyo6TRQgNqvOpj6EwZenNAkFmZXHGURYNHoPnwy1YZxKLN
+	 pazKE1g4swX0Qo1QLFgKTwtobpEA++4+5nmIuWw6547viDqCcWlacRpg/w9HLvmjA9
+	 g72svX0577bOj9auWbUOitkXNQpo1i8TRxU/0pZDgYoWfKtvJRIrzuXZIFStV8JeEK
+	 ZoT1BYLyAwLZgyRtNe4D97rLk2jCdlu/aY1vG0QNJYSCX8dFF/ZB/WJKy7DgdDblXu
+	 WNmrzbnyenh+8Y8GW1oyLVnLxeMr39RbeiMDRpGe05KT8SAiVnc7PViQeiIxEhQpm8
+	 7iRrijEsHfNSg==
+Date: Tue, 07 Jul 2026 12:30:30 -1000
+Message-ID: <f68eae4eb38e965331a0aa9306cce034@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Guopeng Zhang <guopeng.zhang@linux.dev>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Koutný <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Guopeng Zhang <zhangguopeng@kylinos.cn>, Tao Cui <cuitao@kylinos.cn>
+Subject: Re: [PATCH 0/3] Docs/admin-guide/cgroup: update controller interface docs
+In-Reply-To: <20260707102148.692250-1-guopeng.zhang@linux.dev>
+References: <20260707102148.692250-1-guopeng.zhang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260702190421.420992-1-congkai@amazon.com>
 
-Hi Congkai,
+On Tue, Jul 07, 2026 at 06:21:45PM +0800, Guopeng Zhang wrote:
+> This small series updates cgroup controller documentation to match the
+> interfaces exposed by the current code.
 
-Thanks for respinning.
+Applied 1-3 to cgroup/for-7.2-fixes.
 
-On Thu, Jul 02, 2026 at 07:04:18PM +0000, Congkai Tan wrote:
-> Today when the perf tool runs in a guest on cores with PMUv3p4, it fails
-> to parse the default metrics with "Failure to read '#slots'", since perf
-> can only read 0 from sysfs caps/slots, which is backed by PMMIR_EL1.SLOTS
-> that KVM traps as RAZ/WI.
-> 
-> Taking into account backward compatibility and heterogeneous systems, the
-> exposure of PMMIR_EL1.SLOTS is gated behind a new vCPU feature flag:
-> 
-> - Patch 1 adds the new flag KVM_ARM_VCPU_PMU_V3_STRICT. When set, KVM does
->   not create a default PMU during vCPU init, and the VMM must select one
->   explicitly via KVM_ARM_VCPU_PMU_V3_SET_PMU before the first KVM_RUN.
-> - Patch 2 exposes PMMIR_EL1.SLOTS of the selected PMU under the flag, and
->   adds userspace get/set for PMMIR_EL1 so that SLOTS can be reset to 0
->   for backward compatibility.
-> - Patch 3 stops masking STALL_SLOT* in PMCEID1 under the flag.
+Thanks.
 
-I think the series is starting to shape up. Few more things to address:
-
- - Didn't mention it in v1, but writes to PMCR_EL0.N should be ignored
-   when V3_STRICT is set. We now have a vCPU attribute for configuring
-   event counters and the register-based thing is just broken :)
-
- - The vCPU feature flag needs a corresponding KVM_CAP so userspace can
-   detect it
-
- - In terms of patch ordering, the vCPU flag / KVM_CAP exposure should
-   come last after all the behavior changes are implemented (and
-   flag-guarded)
-
- - Move enforcement of a non-NULL arm_pmu to kvm_arm_pmu_v3_init() since
-   userspace must call KVM_ARM_VCPU_PMU_V3_INIT before KVM_RUN
-
- - Prevent the PMU event filter from being configured until a hardware
-   PMU has been selected
-
-I've addressed all of this locally and pushed to my tree [*]. Untested,
-as always :) Would you be able to give it a spin?
-
-Also, do you have VMM patches for using the new feature flag?
-
-[*]: https://git.kernel.org/pub/scm/linux/kernel/git/oupton/linux.git/log/?h=kvm-arm64/pmu-7.3
-
-Thanks,
-Oliver
+--
+tejun
