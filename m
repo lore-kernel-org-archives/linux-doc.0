@@ -1,126 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BFB3B95EC;
-	Tue,  7 Jul 2026 07:29:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783409356; cv=none; b=uerO8Jx2dPwkyPqQxfmcXUACuAv1l9CYx6QGkUGnEVbKwIcHS9uRV9rAgTgIPZ0eIEYLyw8NhKtrDRGB80B6ck1vNrzjKvxQH44qT6roUXDHucLhAHtyBuWIJQ3SrLL4GgPMWfzgYmhWtPWV5akyr02Mj727pxHuLtqqfJt1wBw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783409356; c=relaxed/simple;
-	bh=OwnkEzV4xCSE7QMHzGXAOZb6zYuK429uP0AU2wJjcvQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dJP+CzXZGV8pN3GFlC96opN3YLu+2EKmFd9h630ZD6fp2JJKY8HphKgKDsfMzmBpHf0nU56wzwJPKO8X7NyiaO4jkzb2a1W8VWtQ/gVDjFKLMA815JiEq5863AW9T2XJqSc8Wa6DN7O2uUUH5WoCSbG6j9yCPPHWaB3xxBOB0WE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WuKDqQaG; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D055939A80E
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 07:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783409684; cv=pass; b=JkDoFGtKVfP5ivCyy08oyR7FDvS34tvU++P8UxzTvya99LCsRRKRO0XPz8t9bgnMZ2z2E5QmeJFDqFy7S7SIhqLGghVpdwtKIWfaSNAoPDqWncnRa2Jn+BFE51RpbrTKhiwPP0JR/niDRF9xLWSYPxZxrceJE4Y7CVbqRHkvD1w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783409684; c=relaxed/simple;
+	bh=ixAFDcH0BX+esbvriT+kYU+Cp+IIBLvEO9GvXSASNoU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TWmYaZO23LcCsAmFeoehsFAVqu/b5vPxX1HeHtDgpz9YtZhZMkUwnt8wOifNbZwNDcwUruRwUPP51s6aqOOMh6H/pNmgegftxuTo5NVDZ9Hu76CQvkRjZDSAXXjtXc1f9cfXQpXPFntMzdiWA/3nhhv2W0iYac8yPeg/5Siw1Hk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WXEATy8n; arc=pass smtp.client-ip=209.85.222.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WuKDqQaG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5458D1F000E9;
-	Tue,  7 Jul 2026 07:29:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783409354;
-	bh=hJDNsjgFUpkRMskGPiCnPSMfapFTgDn+0BKOC6J68lo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=WuKDqQaGsh3exMZdBNebudRylTlw0zWYmjonKHJt4f73TjWF0Gt5pCe1etLqyE2/M
-	 rz/EoU64diSdXVCoKQYJxyhJdUA4wHslBpuzvRux4FZf3nAQrmvNd/x2Vooxtx494W
-	 VwAVxTrOC8XguIMqZ6H3H9RRobbvmFWwcmHpZyCU2in3sTSHU5zs6Ik2VoZtY9a4qR
-	 Zs2i6VKu5IlUeTpZoSabjz4z7AYwj6kY58PkH0qk4eaa9hUevjbR4Jm7HO3ew9CRgk
-	 UnSX5qFYIxoOJsTnDDmELNhLn9CV1sYUle4MFGZUVaN+L3X/EwBxxXGVOpUTHu1mBA
-	 xgW9UIq3SU4EQ==
-Message-ID: <9624988a-366e-4884-9408-3f3b88c27290@kernel.org>
-Date: Tue, 7 Jul 2026 09:29:07 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WXEATy8n"
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-9697a691b5fso1113120241.3
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 00:34:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783409682; cv=none;
+        d=google.com; s=arc-20260327;
+        b=NnGlz9yamxdbKqZ3eL4Il+whVmOFWppCSlP4JShxjBzI62hMvUYr+wBkU90xvhktrq
+         I+1OCjgHkoshqBW5qgM6DeQmAkv3J1TQmleMmmtxUW+0SBkciH44NzYQ40ORlPQHd+13
+         jZ32isst//BNWXE76P266BYhmXUVQTVE3SkUZFoYlaSRMJmRLWl4BnrgDaMAQKmLyGCY
+         AF3hxEl1SbYafaA+XeNOI5qa89OaL/ycHucaI9pOAHYxCMs3f6ML6R2vy7+kysbvzgr/
+         B2oLfHMLupXHp5CKySllh3wE7nbIC2Zn9Ww/1imIvJai2y7qfjoLx5cbIucjpVms5nkj
+         Y2iA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ixAFDcH0BX+esbvriT+kYU+Cp+IIBLvEO9GvXSASNoU=;
+        fh=kWv/fvXDWjav9B6z0MKi8mSFr9FSGy//k9sCwOhz0eQ=;
+        b=PGfw/V+l1EX2p4KTFOFN+RH5yYcACx28WHNWlkVWBXO739SSrx7sTZksXYrxyfOomJ
+         BQMuU2gZSV6Ej+4Gh7JFETEtYNxA26rlI+Y8+NNm+RitFE0rbsXBM+NFX4JErPNYjHIi
+         8kjk53gVkcXb1/l5xpRb5YeWMJQw9MiGmvki6+3uxWltO7fHpMtQMLe3wB5Om0R/uvVO
+         QzZ4CPAdq3q40oMJWcazgVgbnE8nDZC3Bmy2ztu8TTSxu/aZ6+qGRkT6Uio61G2OdWbX
+         N1E/7HCWwxC73OCjIerbHjKb8nJKr5pzjHt8YEqLJ345kcOIePUfPpHPXDfewb/GSJPC
+         xuUA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783409682; x=1784014482; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ixAFDcH0BX+esbvriT+kYU+Cp+IIBLvEO9GvXSASNoU=;
+        b=WXEATy8n5nmiIkjbUALQJu8NTgAUfw9rkLHmCJ+sqwbx8v43mUf41mGwNqI3ww1eIv
+         f+rURbCv130QBmHDJg6KtHqvtxpiRWmAECNO0qYpNmQnrmq38ILD5YBNSz+vdN5+ttP1
+         9PkVDAyrgnz0MWaA7+gpjWYPlMjnnGK1IoCEg2a6HCXch+b06GCrh9uQbldo5StNKYnJ
+         b4ccr+TNLDhQLkOUCEb7M0RomImvbt3IqFOAuOWVJR0nlUw4diPYgeeQrBWBEdaf+wtb
+         BgxK1Sati1M3SOj+cks0BpoJwQEXoK516ESHN7WMana9mTTxjl4qp77/zXMNc5/uglob
+         dRxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783409682; x=1784014482;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ixAFDcH0BX+esbvriT+kYU+Cp+IIBLvEO9GvXSASNoU=;
+        b=R1E+vW7t4nviZ1EUTzx8PEioU9nPkVDB7klwGJjpnW+n9i5LOTB3CfBVcmWKkcCjzZ
+         cfa3zDAPBrAJWSItXiWbKoGFa14O14sTwBr1BS29YvDv2DlZrm/XQx4psf2954T3IRYK
+         GLzmSNo1DXsgP/ph3qF+Q7aqpbKIkPK+6LVFFbM+9DPcB68NDVoQgrErVKuMRA4P0YnF
+         ns9uGv2kHWQ2owO+putoeQ8O2TGSO2FxsYSxy0FU0R2KVY0lZ1kbE8vGMNQ4rUpVuXmN
+         Eu4ZyJai+LjaSPtIdkA/iNzCWWtNR9F0ZhA+VallJdvYOGLDmQ9GLU+O8rc4gfCIQf3K
+         6PLw==
+X-Forwarded-Encrypted: i=1; AHgh+RouSDiexWpDB2WNUmkg8kvU2XJElUIl7Z5NYC75vSYHpRRsCQEyWwqq4CXBSMIEAqLMmA1cpUeKwRY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1WFeYD3X8d5UL0Qk1F26KcxmxrBNpMp+CzBdVkET7UFW51+Y2
+	624pzoosKhZxzyIA9P13vSiqinKbeRWWK9O2YHhYQ6ofiwKjtosSEfp39iJU5OU2mSn5yLe0uER
+	8MXjY+NCeJ928GL0yHFMiJHjfAARzDZM=
+X-Gm-Gg: AfdE7cmViG2GQ+76fHbBpBLThiKiFPvMTVe90Cn4Fp9kLlvhBd070C3JL4IM3U1V72B
+	S4+zEDoKsWhkM23zP8qqxbA6AHrlR/IPdo87wTSadE9TEwhn6MSYU9VLRHfPzyGwrZKg9IHxFmO
+	T76SXz7rW/21GnX6FFXp1m3VAr+jneaYp13uPz27sxj/l6KW+Q/dsynnMOJ/zTpisMZN2BaB5Dt
+	9x368i1HXU0lh9e3FnaS2J4zMt2vCoo/CMl4gnaAMD5AFYLsVjlpVzAcNp80n5cm4hXwu8ID7Wz
+	mzcR0TjRCYMa+TJRXxUxuUDu9D8Ig1gYRzWOBz97wOsKLgxry1wELw==
+X-Received: by 2002:a05:6102:3e2a:b0:738:bd0b:7560 with SMTP id
+ ada2fe7eead31-744b7deb7cemr2332001137.23.1783409681711; Tue, 07 Jul 2026
+ 00:34:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/6] mm/hugetlb: Dynamic, NUMA-aware HugePage Cache &
- Free Page Reporting
-To: Sourav Panda <souravpanda@google.com>, muchun.song@linux.dev,
- osalvador@suse.de, akpm@linux-foundation.org
-Cc: ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, mst@redhat.com, mhklinux@outlook.com,
- fvdl@google.com, gthelen@google.com, mike.kravetz@oracle.com,
- pasha.tatashin@soleen.com, rientjes@google.com, riel@surriel.com,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260707064235.1386552-1-souravpanda@google.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260707064235.1386552-1-souravpanda@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260706181429.264791-3-manuelebner@mailbox.org>
+In-Reply-To: <20260706181429.264791-3-manuelebner@mailbox.org>
+From: Yehezkel Bernat <yehezkelshb@gmail.com>
+Date: Tue, 7 Jul 2026 10:34:23 +0300
+X-Gm-Features: AVVi8Ce3oNTa_0Utv4RmJYoO1RWlSx8qCKfj9t6STEcdzl3r6UbwMGHukNJ09HE
+Message-ID: <CA+CmpXtP1QuiQ7ZJXW=ceC0+Qidmc6kYwTfRmc6L4nDma_zn1A@mail.gmail.com>
+Subject: Re: [PATCH] docs: admin-guide: thunderbolt: fix sentence structure
+To: Manuel Ebner <manuelebner@mailbox.org>
+Cc: Andreas Noever <andreas.noever@gmail.com>, Mika Westerberg <westeri@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rajmohan Mani <rajmohan.mani@intel.com>, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, linux-usb@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/7/26 08:42, Sourav Panda wrote:
-> Overview
-> This patch series introduces a dynamic, NUMA-aware HugePage Cache,
-> backed by a kernel shrinker to safely return memory under pressure, and
-> integrates it with Free Page Reporting (virtio-balloon) for HugeTLB,
-> specifically targeting gigantic (1GB) hugepages. The goal is to solve
-> the tradeoff between allocation latency and memory
-> fungibility in virtualized and heterogeneous cloud environments.
+On Mon, Jul 6, 2026 at 9:25=E2=80=AFPM Manuel Ebner <manuelebner@mailbox.or=
+g> wrote:
+>
+> Replace ')' with ',' and add 'is' to sentence.
 
-Hi,
-
-in general, we consider hugetlb nowadays to be mostly in feature freeze, as we
-realized a while ago that adding more special casing on top of something too
-special for all of MM is only going to hurt us more in the long run.
-
-We want to have less special casing and less special sauce, not more.
-
-Now, there is nothing wrong in making hugetlb be less special, by making it use
-more of core infrastructure etc.
-
-But optimizing for surplus hugetlb pages by teaching hugetlb about new caches
-and its custom free-page-reporting support rather looks like the wrong direction
-for me?
-
--- 
-Cheers,
-
-David
+s/is/in/
