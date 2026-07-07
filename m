@@ -1,69 +1,68 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3966F432BDB
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 16:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC65432BD2
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 16:12:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783440714; cv=none; b=DgrQ92Rsv1/PhvRbLc5OF9GMUnLRTXvuRQQR5RAlA6Sauhi+6TwUt/2eqt5evzJD/RQ1zdQn6mevnVuzp7fs5i16MUBy1Lzm7ooDM2YoQzp1L/aqdJTA3G2CRjF8Zs8QMZtkDGH0JjRlafFzP7ThCdTI64/rbYoHmK00cuQX5eA=
+	t=1783440725; cv=none; b=WtQQowtMpi63NgIoaBbQNeex1iPBLY8Ti7NhBOBk9A6cmIsCmd7VWEEdrBKklIter20cDXWRSir0yO3bzlW55HV6R1PhS7/Ei3NfJVFs0zaDzvTxsUIAz7qcDsLLQP5BTzpEaqOWgS4AZ2X0+Qpu21x4w7aWn3YfA+3nWpfQh2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783440714; c=relaxed/simple;
-	bh=Bfxm9viN41z6KBcPZ+DAXQmBddfe6h9567L6LJ8GoD4=;
+	s=arc-20240116; t=1783440725; c=relaxed/simple;
+	bh=yq5j8WJXfLbQ2tXMHiZDbuoRUdTLBMAg9V0gGqHlseI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DTkN0r+GnDS2pT2kRO2qHrF7/H6ClSjak6gIxklcaqcn9W7B8mve0vOFCnq318KOVffFutU60lYk6I5UhpuHsWQ4zdRJNM2Vruy2jn0ZW6VwOEqlVC6YuuTxNJEiPVR/viTxJhtuhep+OAMyV4Am8OCf2/GWqMTWamTroyPHhWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RVE4u85w; arc=none smtp.client-ip=209.85.214.176
+	 In-Reply-To:To:Cc; b=Y9uPRQJmsG5prQX5DxE0D7ic/p4hPpCamb8sffPP3am4OehbdzBBS4f7c/GjN3h8ocK29j5QknahLbUXnyKHKl9FuqPocd8zrrlIt7H0t6JVn5AP3OqbNo6HQnFH9Cp9+g49jKoM8uOQ0HmTLHmgztuzvmZM4kJuRbe79bEzp+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mggMll5S; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RVE4u85w"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cacb8416a1so37077255ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 09:11:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mggMll5S"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-381891a9525so4158249a91.3
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 09:12:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783440712; x=1784045512; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783440724; x=1784045524; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Q08e42D6zw562DgOrRUU1GdgKThXKtrHfZYWO7DdVjw=;
-        b=RVE4u85wM3z2T8E5ie+ITn+nkHg2YI2fbEjtUJT9gJqTmS+jvPWI7WYqyGIT6GxKdE
-         wwIAYG6lmuVlbZf0TjoVXMSWch22v8u/zLjH1IIvV6H5h8HCbE9QCxnM1x0dparI1NhL
-         K0i+HY4GQ4GSdbRGCAwRE73BS/4fLdeySJb8g7oXlLnb/82XXlqOoMjrOIfkVhEqkLiY
-         RGsVKHL3HuRfuL30OgoUuj5dn+yI6rhWxDJzswjsKpCq+lZ6CseMGcjpoqk10YLgYK0C
-         e8rPRLgDy4+HzsocyreTJmQpRwPAdn5NlMH4DO9xiivwGF1Ra9kghNlmJdEU9asIzbh5
-         m9Iw==
+        bh=NdtacZ9QZNs8NBfbxYniGWvkfMZyXJuYZ+uj6tlE4eE=;
+        b=mggMll5SVcC2nHjtFbKS/JA9OXN6wBYMrB950r37gR7MIJbX58Y3vSXnldDffPCbV9
+         94Q014U3Wjrdxgi8Tp64qkvAqIu9uhESHPUDZ8NGVAA/q9kY8prfKhL9eP8aBo3vwQzC
+         h/b7AOWoovwaAbkn7xCEvUtg8H4EuWbYtjTfRb9r/EzrD32YJuV3DMi4Y2moPAvUDJ9R
+         X1XmjOHeAd8YxZPIPlm6NPavtpfY6IfWrF8NE+cxX9VOmmmBCvhjliZU30zuS3rJnBQR
+         D4HOtsi2rG+nQ3zuVwYADJTxNVZcloKGJoBf0XNsDzfbhHSfXvCqh2CsyfO/cNUAgkQv
+         sExw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783440712; x=1784045512;
+        d=1e100.net; s=20251104; t=1783440724; x=1784045524;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Q08e42D6zw562DgOrRUU1GdgKThXKtrHfZYWO7DdVjw=;
-        b=ZiKf60RqqcncIcHgr54KKYfuKnyR4hUZ7oU1HBK3D99qfkS8VPkgztGtXHmsNYrrZy
-         EVgPiRRZanyOfYx01QD63zrdbsZ+3wa7Zy2uGPcG5nss7oOMK7QeAYrMXv1olWvMHZ+0
-         JxhsebV61O3zfMNIYpC/dhP/FrRotpavgenjClaj4TRjlrWANTPHx91xiYy2Nq4yKv+F
-         NoPnJkbQKghQY+T0L7sNqKUcuVnIPgvR0KZZI12OBe0qovVxHacntDwlzR62J67zVSrW
-         1K39q4PYOGiCB1KdUIbqQcVQ1OfhqO9hCgVShuNAuo+uWqMMpMf7V2G3f5Vw00iGZh0M
-         pywQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqwOGhgmiQpoNz1PGzpUMXDJVbwK7QjNDx+cnCLrVusTinb9dq2g8J3Jy80TTVXQhCoHeCl2BewYwY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/10JUZv21gqVFI1zVcwqgGLlVBWzzlGSwddyzonNF0zDCStPK
-	2VVaqwuIPDWmgIX3aCpbQreJzqNpzZ8yW2lruTYH1J6NulDE22DHstvy
-X-Gm-Gg: AfdE7ckVn04KwvlZYZQwFZxd7gyvZe3eK3KpehDMJjFMuEJHEwlFmPuMBGAjJP8stoX
-	gvseeODrzZGRtuj8c+1PjlGfHrhV1UxSJqFuEKgGUiy2wcyJbWP1TsLsAQowYITAGaXVgmIT1/A
-	IAMKDEYU030IedysoSfMInNAlD7yGvtVfU3pljDp7YMbl2btLtxexuDHlS12gtN54cad6AJx+3j
-	6jaC4YkH4D1uo1lZFlJgNfk6eqg1+k8n2cseLKTKb6mP61o6Ml1SylqAsxPZudZ8S9ejklmUU4B
-	FdSthSb0bwjXJM+1n7iaA9SrQ3Z3GRAAbX5H/BUzp6T3QWtrdTJHTPHbzehP0HNZMBIuTwC39NN
-	+iglOhej34doPdLN05oR1mRV/jqh/Yw5KttV6uuCNZML9sw6CokQMbk28szDlUEYw+U/ao2i5Mp
-	rdtqyyNIpUkdfGdfNIf6sX2Q4cRCgDuzCSFhKT+gaPrgHFbHa9O8MLKaCh74ealp+0YAO6EPQBm
-	InzDIcQ/etgwMlztYeLl93775x8Fg==
-X-Received: by 2002:a17:902:e950:b0:2ca:e106:8e69 with SMTP id d9443c01a7336-2ccbe615e87mr60008085ad.10.1783440711151;
-        Tue, 07 Jul 2026 09:11:51 -0700 (PDT)
+        bh=NdtacZ9QZNs8NBfbxYniGWvkfMZyXJuYZ+uj6tlE4eE=;
+        b=GTN1QF73qcq5VQaFw4iJZsEsbEhZ6cxqtM8Qr838D0O33RVG9bNq0ozYbXNTW+uaOv
+         Lr4ArwgQq39g/9VgCGlkYWqD7Xhn8V1RdXxRzTezNZ4ITpbA0UDAyY6c6v9DgM4KwTIW
+         gZATJ3qjCmuRwW6gW5mmpM1qkPFnkiJKNM/7qdkXZuf52gdadvP47GPpyLiJEJIrKZEm
+         DX0E0dCbYSVXDTEC7J3+cXYHhAPDLtkxcWsO9Rvq1UHITVacd8bLJ7dYpso60n9uUgQD
+         TQ+58VSFfLVrUG/jKKjD+9ll6GV7qqBrPXRdCz7wAWrJCznvSUkgxgvlnBr9C8SKhaMP
+         AzzA==
+X-Forwarded-Encrypted: i=1; AHgh+RoUmi4KTU1Jitu4aUn6wcQfAQF3aVFbEuLH+hQm+/kfmvpd3lwi5CgLp/U2c7cr9lCtAmg/NEWh8rw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTL7pZUJbihReP2sEkcMdbiOQSfhW6gPiJ1lZ82XqYdr7fgheX
+	qcaQhOIhHD1vJET/BC4dW+u1s6awg/GGLsWOt2Yw7+6UNSCvWCLsUK9N
+X-Gm-Gg: AfdE7ckEG3apJmQ/+1MnYR0KtHu/GbU9SoMj61qduoxkt/cYlKVaIs1c//VHPUfFir9
+	gsTUAh3mtJzZVBlBTwY9BgqF8JP6sQDFySuadRibfKPeX+68Gi9xv0YEERWbB2yLqiubBwVwm5T
+	h90pCySR34v8xV9j/jfWjt+0X3xahEK8K8rOzwbiqBKZ6TZ4Z97fhq+oSlbdRWD21qLZpFiMAsq
+	3caH910YWkMl8fLM8oRXaCH5dlKMmmZferGDRkkf9QxLomsqv5KZtbM5kcgR/VLDIaTWBn21tnA
+	WZmb8oa7MB5nVf2v31UGrxAQR4D0Si2umXabQbCAckaMwBcCtV1r04VyD86ZsKOuA4nuGJ0Dfy1
+	9CCcs4XnGqKsR3nnzvEQKaBH+DWK9x57R8OupmM00k0lHQzLMby4vT0G0nyc6LQ6MWk/v0OS8Rc
+	nQK6IV/uSzbYqDP6wMtgUVx0fxRxW3QOhVf1XTiwkOPVlFOMU0I0yhO/2DadWaeplt1Fhe3Bk5r
+	kVUUrhXiHNy1Gh3C4/eTdiAdB6lMg==
+X-Received: by 2002:a17:90b:390e:b0:381:270c:4dd1 with SMTP id 98e67ed59e1d1-387572b2e6amr5654864a91.20.1783440720732;
+        Tue, 07 Jul 2026 09:12:00 -0700 (PDT)
 Received: from [127.0.1.1] (ec2-18-162-112-89.ap-east-1.compute.amazonaws.com. [18.162.112.89])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bfd443sm14712115ad.30.2026.07.07.09.11.41
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bfd443sm14712115ad.30.2026.07.07.09.11.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 09:11:50 -0700 (PDT)
+        Tue, 07 Jul 2026 09:11:59 -0700 (PDT)
 From: Jianyue Wu <wujianyue000@gmail.com>
-Date: Wed, 08 Jul 2026 00:11:27 +0800
-Subject: [PATCH v8 1/3] mm/swap: colocate page-cluster sysctl with swap
- readahead
+Date: Wed, 08 Jul 2026 00:11:28 +0800
+Subject: [PATCH v8 2/3] mm: rename swap.c to folio.c
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,7 +71,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260708-ch-swap-series-plus-folio-lru-cleanup-v8-1-e816812698a8@gmail.com>
+Message-Id: <20260708-ch-swap-series-plus-folio-lru-cleanup-v8-2-e816812698a8@gmail.com>
 References: <20260708-ch-swap-series-plus-folio-lru-cleanup-v8-0-e816812698a8@gmail.com>
 In-Reply-To: <20260708-ch-swap-series-plus-folio-lru-cleanup-v8-0-e816812698a8@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
@@ -91,233 +90,130 @@ To: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
  Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
  Baoquan He <baoquan.he@linux.dev>, Baoquan He <baoquan.he@linux.dev>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Jianyue Wu <wujianyue000@gmail.com>
+ linux-doc@vger.kernel.org, Jianyue Wu <wujianyue000@gmail.com>, 
+ Matthew Wilcox <willy@infradead.org>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783440691; l=6654;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783440691; l=4030;
  i=wujianyue000@gmail.com; s=linux; h=from:subject:message-id;
- bh=Bfxm9viN41z6KBcPZ+DAXQmBddfe6h9567L6LJ8GoD4=;
- b=ky/dSOHS1ubZOUvyoU+rjll/uXGIHnie3NlfCBeYsPlGWWDCoYTjQkSKFR/3D2CtOZKdmu3zZ
- l1Lmf6mlXuSCI88/U6HVQ+U+gBW7DP7OttWmQWYNG9bH0X4YJ0KX8G9
+ bh=yq5j8WJXfLbQ2tXMHiZDbuoRUdTLBMAg9V0gGqHlseI=;
+ b=NJEaBL4+AOhOrHGWbF/kPX3jLuw2n2Y4XYsEhov8CvK30sYd6ByGXTw9d7ln8OZGjjU6uHBw0
+ tDSqDrQhw+RD9vu5kF0vIsfiHrJg6eaNGmrQIwTn4WQrc3nsiNflpkB
 X-Developer-Key: i=wujianyue000@gmail.com; a=ed25519;
  pk=49tqjvkqDVX1TtHEyTCiJGlKLg6SQ4BmgzG+HoHQW6E=
 
-page_cluster and the vm.page-cluster sysctl are only used by swap-in
-readahead in swap_state.c. Move them out of swap.c together with
-swap_readahead_setup(), and make page_cluster static to that file.
+Rename mm/swap.c to mm/folio.c so the filename better matches
+the code's main responsibility.
 
-Rename swap_setup() while moving it as well. The helper is internal to
-MM and now only sets up swap readahead defaults and its sysctl hook, so
-the more specific name matches its reduced scope.
+This keeps the implementation split from swap-specific code without
+changing the published LRU helper interfaces.
 
-Call swap_readahead_setup() from swap_init() after moving it, keeping the
-readahead defaults and sysctl registration with swap_state.c
-initialization.
-
-swap_setup() previously lived in mm/swap.c, which is built
-unconditionally, so the vm.page-cluster sysctl was registered also on
-CONFIG_SWAP=n kernels. After moving the setup into swap_state.c, which
-is built only when CONFIG_SWAP is enabled, vm.page-cluster is no
-longer registered there. The knob only tunes swap-in readahead and
-had no effect without swap.
+Update MAINTAINERS and the remaining mm/swap.c documentation references
+after the rename.
 
 Suggested-by: Baoquan He <bhe@redhat.com>
-Suggested-by: Barry Song <baohua@kernel.org>
-Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-Reviewed-by: Kairui Song <kasong@tencent.com>
+Suggested-by: David Hildenbrand <david@kernel.org>
+Suggested-by: Matthew Wilcox <willy@infradead.org>
+Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
 Acked-by: Johannes Weiner <hannes@cmpxchg.org>
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 Signed-off-by: Jianyue Wu <wujianyue000@gmail.com>
 ---
- include/linux/swap.h |  1 -
- mm/swap.c            | 36 -----------------------------------
- mm/swap.h            |  3 +--
- mm/swap_state.c      | 53 ++++++++++++++++++++++++++++++++++++++++++++++++++--
- mm/vmscan.c          |  1 -
- 5 files changed, 52 insertions(+), 42 deletions(-)
+ Documentation/admin-guide/sysctl/vm.rst |  3 ---
+ Documentation/core-api/mm-api.rst       |  2 +-
+ MAINTAINERS                             |  3 +--
+ mm/Makefile                             |  2 +-
+ mm/{swap.c => folio.c}                  | 10 +++-------
+ 5 files changed, 6 insertions(+), 14 deletions(-)
 
-diff --git a/include/linux/swap.h b/include/linux/swap.h
-index 3f31b6a56788..45656ca9792d 100644
---- a/include/linux/swap.h
-+++ b/include/linux/swap.h
-@@ -340,7 +340,6 @@ extern void lru_add_drain_cpu_zone(struct zone *zone);
- extern void lru_add_drain_all(void);
- void folio_deactivate(struct folio *folio);
- void folio_mark_lazyfree(struct folio *folio);
--extern void swap_setup(void);
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index 22cc54cac3b2..5b318d17aa4b 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -19,9 +19,6 @@ The files in this directory can be used to tune the operation
+ of the virtual memory (VM) subsystem of the Linux kernel and
+ the writeout of dirty data to disk.
  
- /* linux/mm/vmscan.c */
- extern unsigned long zone_reclaimable_pages(struct zone *zone);
-diff --git a/mm/swap.c b/mm/swap.c
-index d25131305c94..c88643e56af7 100644
+-Default values and initialization routines for most of these
+-files can be found in mm/swap.c.
+-
+ Currently, these files are in /proc/sys/vm:
+ 
+ - admin_reserve_kbytes
+diff --git a/Documentation/core-api/mm-api.rst b/Documentation/core-api/mm-api.rst
+index 4df7d5edbee5..c1d03a5a2a19 100644
+--- a/Documentation/core-api/mm-api.rst
++++ b/Documentation/core-api/mm-api.rst
+@@ -118,7 +118,7 @@ More Memory Management Functions
+ .. #kernel-doc:: mm/hmm.c (build warnings)
+ .. kernel-doc:: mm/memremap.c
+ .. kernel-doc:: mm/hugetlb.c
+-.. kernel-doc:: mm/swap.c
++.. kernel-doc:: mm/folio.c
+ .. kernel-doc:: mm/memcontrol.c
+ .. #kernel-doc:: mm/memory-tiers.c (build warnings)
+ .. kernel-doc:: mm/shmem.c
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b359ff4e0a1a..c39707e9ce9c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -17086,7 +17086,7 @@ F:	Documentation/admin-guide/mm/multigen_lru.rst
+ F:	Documentation/mm/multigen_lru.rst
+ F:	include/linux/mm_inline.h
+ F:	include/linux/mmzone.h
+-F:	mm/swap.c
++F:	mm/folio.c
+ F:	mm/vmscan.c
+ F:	mm/workingset.c
+ 
+@@ -17238,7 +17238,6 @@ F:	include/linux/swap.h
+ F:	include/linux/swapfile.h
+ F:	include/linux/swapops.h
+ F:	mm/page_io.c
+-F:	mm/swap.c
+ F:	mm/swap.h
+ F:	mm/swap_table.h
+ F:	mm/swap_state.c
+diff --git a/mm/Makefile b/mm/Makefile
+index 4fc713867b9b..8e7e964b99a4 100644
+--- a/mm/Makefile
++++ b/mm/Makefile
+@@ -50,7 +50,7 @@ endif
+ 
+ obj-y			:= filemap.o mempool.o oom_kill.o fadvise.o \
+ 			   maccess.o page-writeback.o folio-compat.o \
+-			   readahead.o swap.o truncate.o vmscan.o shrinker.o \
++			   readahead.o folio.o truncate.o vmscan.o shrinker.o \
+ 			   shmem.o util.o mmzone.o vmstat.o backing-dev.o \
+ 			   mm_init.o percpu.o slab_common.o \
+ 			   compaction.o show_mem.o \
+diff --git a/mm/swap.c b/mm/folio.c
+similarity index 99%
+rename from mm/swap.c
+rename to mm/folio.c
+index c88643e56af7..d2937600cf72 100644
 --- a/mm/swap.c
-+++ b/mm/swap.c
-@@ -44,10 +44,6 @@
- #define CREATE_TRACE_POINTS
- #include <trace/events/pagemap.h>
- 
--/* How many pages do we try to swap or page in/out together? As a power of 2 */
--int page_cluster;
--static const int page_cluster_max = 31;
--
- struct cpu_fbatches {
- 	/*
- 	 * The following folio batches are grouped together because they are protected
-@@ -1177,35 +1173,3 @@ void lru_reparent_memcg(struct mem_cgroup *memcg, struct mem_cgroup *parent, int
- 		lruvec_reparent_lru(child_lruvec, parent_lruvec, lru, nid);
- }
- #endif
--
--static const struct ctl_table swap_sysctl_table[] = {
--	{
--		.procname	= "page-cluster",
--		.data		= &page_cluster,
--		.maxlen		= sizeof(int),
--		.mode		= 0644,
--		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= (void *)&page_cluster_max,
--	}
--};
--
--/*
-- * Perform any setup for the swap system
-- */
--void __init swap_setup(void)
--{
--	unsigned long megs = PAGES_TO_MB(totalram_pages());
--
--	/* Use a smaller cluster for small-memory machines */
--	if (megs < 16)
--		page_cluster = 2;
--	else
--		page_cluster = 3;
--	/*
--	 * Right now other parts of the system means that we
--	 * _really_ don't want to cluster much more
--	 */
--
--	register_sysctl_init("vm", swap_sysctl_table);
--}
-diff --git a/mm/swap.h b/mm/swap.h
-index 44ab8e1e595b..ae81c1fa388d 100644
---- a/mm/swap.h
-+++ b/mm/swap.h
-@@ -8,8 +8,6 @@ struct mempolicy;
- struct swap_iocb;
- struct swap_memcg_table;
- 
--extern int page_cluster;
--
- #if defined(MAX_POSSIBLE_PHYSMEM_BITS)
- #define SWAP_CACHE_PFN_BITS (MAX_POSSIBLE_PHYSMEM_BITS - PAGE_SHIFT)
- #elif defined(MAX_PHYSMEM_BITS)
-@@ -336,6 +334,7 @@ static inline unsigned int folio_swap_flags(struct folio *folio)
- 
- #else /* CONFIG_SWAP */
- struct swap_iocb;
-+
- static inline struct swap_cluster_info *swap_cluster_lock(
- 	struct swap_info_struct *si, pgoff_t offset, bool irq)
- {
-diff --git a/mm/swap_state.c b/mm/swap_state.c
-index 6fd6e3415b71..df6fda588938 100644
---- a/mm/swap_state.c
-+++ b/mm/swap_state.c
-@@ -22,10 +22,15 @@
- #include <linux/vmalloc.h>
- #include <linux/huge_mm.h>
- #include <linux/shmem_fs.h>
-+#include <linux/sysctl.h>
- #include "internal.h"
- #include "swap_table.h"
- #include "swap.h"
- 
-+/* Swap readahead cluster size, as a power of 2 pages. */
-+static int page_cluster;
-+static const int page_cluster_max = 31;
-+
++++ b/mm/folio.c
+@@ -1,17 +1,13 @@
+ // SPDX-License-Identifier: GPL-2.0-only
  /*
-  * swapper_space is a fiction, retained to simplify the path through
-  * vmscan's shrink_folio_list.
-@@ -985,6 +990,38 @@ struct folio *swapin_readahead(swp_entry_t entry, gfp_t gfp_mask,
- 	return folio;
- }
+- *  linux/mm/swap.c
++ *  linux/mm/folio.c
+  *
+  *  Copyright (C) 1991, 1992, 1993, 1994  Linus Torvalds
+  */
  
-+static const struct ctl_table swap_readahead_sysctl_table[] = {
-+	{
-+		.procname	= "page-cluster",
-+		.data		= &page_cluster,
-+		.maxlen		= sizeof(int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= (void *)&page_cluster_max,
-+	}
-+};
-+
-+/**
-+ * swap_readahead_setup - defaults and sysctl for swap cache readahead clustering
-+ */
-+static void __init swap_readahead_setup(void)
-+{
-+	unsigned long megs = PAGES_TO_MB(totalram_pages());
-+
-+	/* Use a smaller cluster for small-memory machines */
-+	if (megs < 16)
-+		page_cluster = 2;
-+	else
-+		page_cluster = 3;
-+	/*
-+	 * Right now other parts of the system means that we
-+	 * _really_ don't want to cluster much more
-+	 */
-+
-+	register_sysctl_init("vm", swap_readahead_sysctl_table);
-+}
-+
- #ifdef CONFIG_SYSFS
- static ssize_t vma_ra_enabled_show(struct kobject *kobj,
- 				     struct kobj_attribute *attr, char *buf)
-@@ -1014,7 +1051,7 @@ static const struct attribute_group swap_attr_group = {
- 	.attrs = swap_attrs,
- };
+ /*
+- * This file contains the default values for the operation of the
+- * Linux VM subsystem. Fine-tuning documentation can be found in
+- * Documentation/admin-guide/sysctl/vm.rst.
+- * Started 18.12.91
+- * Swap aging added 23.2.95, Stephen Tweedie.
+- * Buffermem limits added 12.3.98, Rik van Riel.
++ * Folio LRU helpers: add/remove folios from LRU lists, batching,
++ * activation/deactivation, and page cache release paths.
+  */
  
--static int __init swap_init(void)
-+static int __init swap_sysfs_init(void)
- {
- 	int err;
- 	struct kobject *swap_kobj;
-@@ -1037,5 +1074,17 @@ static int __init swap_init(void)
- 	kobject_put(swap_kobj);
- 	return err;
- }
--subsys_initcall(swap_init);
-+#else
-+static int __init swap_sysfs_init(void)
-+{
-+	return 0;
-+}
- #endif
-+
-+static int __init swap_init(void)
-+{
-+	swap_readahead_setup();
-+
-+	return swap_sysfs_init();
-+}
-+subsys_initcall(swap_init);
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 1474a7234ea1..74b43c12fbc0 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -7647,7 +7647,6 @@ static int __init kswapd_init(void)
- {
- 	int nid;
- 
--	swap_setup();
- 	for_each_node_state(nid, N_MEMORY)
-  		kswapd_run(nid);
- 	register_sysctl_init("vm", vmscan_sysctl_table);
+ #include <linux/mm.h>
 
 -- 
 2.43.0
