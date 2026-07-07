@@ -1,134 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1834941D4E7;
-	Tue,  7 Jul 2026 17:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B69420876;
+	Tue,  7 Jul 2026 17:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783444241; cv=none; b=Ewi/Z/T6JwJZWkMgnFVslfOejq+UYCb8rS6c/5TwyWb4NlAwv/2zVEQY4I3WyweU2QxP7NHmgxKrONzknF4D0wgwAdPmwJhr9rJViL3j3EbOcRmbqQVgx9FDcKbrX2Jmef/e5gj16EkWvqgybIlYPHB2iS04+KUEEES3WghmDFo=
+	t=1783444502; cv=none; b=d+We3viVLSBh8nDpBdgH6CFpSZGtrDQGD2NcfTLAhg+FaMN3V4KvTznBb7aW2SMIZl0JI58tXj8SoXc9ZssEfEiQgDLYXd45HbPIr6FmvPsOgKUNyHzQuK3Zp7DRKE8IAny2sgyJglYJV5+n9psa93TNjIwQ18KBvICKMGtl8r4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783444241; c=relaxed/simple;
-	bh=MsZPCRJyB0JsnW/BuVNvePyfU/ylFqdqIDzIYQfd0UY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TrqQI7Je9qD8EvVSCZwiCjh4IVD38+PJEYGzb1E+vMTutIcFsR/Y3l+y/x3AMSqND/C3DZiRNiijcwKp5qyp5CBn4n6gsSA4AuJtuNztmzh4RfxOTYzonj/2pC0dJbvxKyqVfln+fElphZYWV+MSC2NItY+fnb3G7fAGSBbKsF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HaMkQw2D; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783444502; c=relaxed/simple;
+	bh=JlPJkuFfNKkizmR2aoKw95+HeXemBamvQBSGiH2SaZM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HWM1ozHRv5WNLD77t5aqwm5x4Co+AjW6J0hEIVOxq8a5NUw9aAu6p5NLwYVGdxQGFrGgv+FcaqniB6czH7fX6xiktzsZtp+pCL/evOZ52TL2B0n7GSLkY7oacm69vmlg9y6c3P2iXT6Fhp4VbVYwMyCTPjuTAi+0+qCAcGanwkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=eVUupWY/; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HaMkQw2D"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 9A9341F000E9;
-	Tue,  7 Jul 2026 17:10:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783444239;
-	bh=HK8uVml06w+bKqyoUyeZfRVnCoDLnntwZGc5/bUtpWI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HaMkQw2DkD0kV1mnERz9lq7oIX+of4QlpbKaKeDh+ZUxNHob2OnzUxEgoTW6bc1NW
-	 Q+uCTzbBnPZmpEfUAPAUVCHQtY0G184u5NLDns2PczjTA3C4WIMU7ETPcQOlxzgyfQ
-	 BJhD/hIqOHIBJCkKXGD8UfBoUNo1SQRu8U8lwLHt5CHIqBjT5VHiJVM7Cy6n/aDNKu
-	 R1ofaFmEfBp6ZO10ZZiLidelsEWU22CRsTgsCpzqL7Z6Fivjtq44UpQ5AJj5h75CZS
-	 DukMGZDgsK19lFVuQbKzBVOIAfNuA3PiXKyLjVK7XxlkW7lBWPAYuspZ6nS7XuM8AM
-	 3PXPInXLkj0Uw==
-Date: Tue, 7 Jul 2026 10:10:39 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Justin Stitt <justinstitt@google.com>,
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-Message-ID: <20260707171039.GD9368@frogsfrogsfrogs>
-References: <20260702211740.GA639365@zen.localdomain>
- <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
- <akez23ZhLRSGMFQ1@lucifer>
- <20260703163251.GB3734786@killaraus.ideasonboard.com>
- <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
- <akzETpsps4TMfqpC@lucifer>
- <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
- <akzMh-ySQ2fN0d8R@lucifer>
- <5ccbb28a-171e-40c1-9a6b-9ac7b6b7777d@kernel.org>
- <ak0UjMSqm_6vCDIu@lucifer>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="eVUupWY/"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gvnsQ3NFVzKnb0;
+	Tue, 07 Jul 2026 19:14:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783444490;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sF1hONLMmDY9OkQWKEXIAboJjfp0ICifchOnedZQ5MY=;
+	b=eVUupWY/ashB5sSisczxjLK/++KwWf16ZQK406T5bFsR67KnmOvlk0lPUKHsG/gbKzx5SA
+	So1/0nLC+tab9eVngzcld1/HVD76IeN53TNmiEIoJ8QIUhUp6VYR6EhzRZ2tT7As+WqnJc
+	+JSFaa7c2y9mJLqK/kUZ49efcGMmZ68nlCeIlHTpRjfKYPwFkShjkKWSlLoiOu38xeft8/
+	4ahqvqNPYzgX3WO500nFJ24RFDyvgAJAmepicbvaQ73wCykxqlGdCZC1c8BJq1GaQj0As3
+	huNalk3oI14VD5l5Y+xBKrD4A8o2VVJZIjX1p3sK28CRM0kInsl63/fJIzgNuQ==
+Message-ID: <e90c54d7870c557a207904bb05108e9009eecb1d.camel@mailbox.org>
+Subject: Re: Bad wrapping in some tables
+From: Manuel Ebner <manuelebner@mailbox.org>
+To: Daniel Lundberg Pedersen <dlp@qtec.com>, linux-doc@vger.kernel.org, 
+	linux-media@vger.kernel.org
+Cc: Rito Rhymes <rito@ritovision.com>, Randy Dunlap <rdunlap@infradead.org>,
+  Jonathan Corbet	 <corbet@lwn.net>
+Date: Tue, 07 Jul 2026 19:14:46 +0200
+In-Reply-To: <c542aaf7-6a40-4730-8bd6-208c9fe932d5@qtec.com>
+References: <c542aaf7-6a40-4730-8bd6-208c9fe932d5@qtec.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ak0UjMSqm_6vCDIu@lucifer>
+X-MBO-RS-META: xyqkrwgw6mu5pp85uci7d8u61ir1yg11
+X-MBO-RS-ID: 0dc427f97734bacbd2f
 
-On Tue, Jul 07, 2026 at 04:10:07PM +0100, Lorenzo Stoakes wrote:
-> On Tue, Jul 07, 2026 at 03:29:44PM +0200, David Hildenbrand (Arm) wrote:
-> > On 7/7/26 11:55, Lorenzo Stoakes wrote:
-> > > LGTM! Do you want to send that then? People can comment on the actual path then
-> > > (probably worth cc'ing everybody here on that also).
-> >
-> > Let's first gather some more thoughts on the rough direction before spinning of
-> > yet another discussion. :)
-> 
-> I'm suggesting sending a simple, uncontroversial, change to get movement rather
-> than continue this never-ending talking shop :)
+On Tue, 2026-07-07 at 18:39 +0200, Daniel Lundberg Pedersen wrote:
+> I've noticed some bad wrapping happening in tables, seemingly only in the=
+ Media
+> docs, but that's also where I look the most, after v7.1.
+>=20
+> See:
+>=20
+> https://www.kernel.org/doc/html/v7.1/userspace-api/media/v4l/vidioc-creat=
+e-bufs.html#c.V4L.v4l2_create_buffers
+>=20
+> Compared to:
+>=20
+> https://www.kernel.org/doc/html/v7.0/userspace-api/media/v4l/vidioc-creat=
+e-bufs.html#c.V4L.v4l2_create_buffers
+>=20
+> Other tables have also changed, but they don't end up this bad, e.g:
+>=20
+> https://www.kernel.org/doc/html/v7.1/process/debugging/kgdb.html#run-time=
+-parameter-kgdbreboot
+>=20
+> I've bisected it to be f2679ac773899f5fdea0b68d5077eef5f88dfd42 that has =
+caused the
+> change
 
-Oh but I love shop talk! :P
+Well done.
 
-My opinions (having been on vacation for most of this thread) are
-roughly:
+Please use git commit description style:  commit f2679ac77389 ("docs: allow=
+ inline
+literals in paragraphs to wrap to prevent overflow")
 
-1. For patches generated by deterministic tools (e.g. sed/cocinelle),
-please include the source code so that anyone reading the patch can
-check the reproducibility of that patch.  But that can be free-form
-in the commit message:
+I added the people involved in this patch to cc.
 
-https://lore.kernel.org/linux-xfs/157343508488.1945685.9867882880040545380.stgit@magnolia/
+Thanks
+ Manuel
 
-2. For nondeterministic machine assistance, I like the idea of asking
-patch submitters to note which part(s) of the patch had machine
-assistance applied.  I don't care all that much about the technology
-used (e.g. LLM, or Eliza, or whatever).  Something like:
-
-Assisted-by: LLM # commit message
-Assisted-by: LLM # finding bugs in the original commit
-
-I don't care to give free advertising to any specific LLM-pusher, nor
-do I care to give the whole *industry* any free publicity.  They can
-spend their own leveraged money on advertising.
-
-Mecha-assistance-done-by: finding bugs in the original commit
-
-or maybe just
-
-MAD: finding bugs in the original commit
-
-:P
-
-3. I grade *all* the trailers that submitters attach to patches!  And
-how well they engage me on my weird followup questions!  Both help me to
-construct a conscientiousness vibe, which is how I decide how much
-effort to put into making a response.  Do you allege that your patch
-fixes a bug but fail to cc stable?  Do you post obviously LLM generated
-content but leave out an Assisted-by tag?  Do you habitually drop off
-the list for long periods of time?  Decline to run /any/ QA on your
-patches at all?  Not gonna waste my time.
-
-OTOH, I also look for *good* behavior: cc'ing stable, responding to
-questions with a day or two, kvetching on fstests@ about the horridness
-of bash scripts?  I find that endearing. ;)
-
---D
-
-> Anyway I'll leave it up to you!
-> 
-> Thanks, Lorenzo
-> 
+> and I did try some quick changes to see if I could fix it for the
+> tables, but I didn't get any positive results.
+>=20
+>=20
+> Regards Daniel
