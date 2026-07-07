@@ -1,1066 +1,298 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8551923BD06
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 01:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABBA02D7BF;
+	Tue,  7 Jul 2026 02:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783388784; cv=none; b=qj676e80cYaT6SkJypxUl4Co8XeCkZ6SZOF4Sx+ayIMgTIYAnm6+hCnJnvQ/Q+6hRHe5ln+D9wzS1v3YDg9l8Tzc/RTzHnn/TERyIrKOkLqVuJEOIe8SZrEgIw9Xn8IrzAraimdiNCJgIog/NrRv4dPFsSddAX7/TogwmSuzfyM=
+	t=1783391756; cv=none; b=avezIVHor5HBINqgHTabGyzkFeCNg794O0UTbP0YuELdXWqwPMgtJW5CC9z9lU+vkbs0LB04oMH5FDkOmcTdy6OSm1I76xvNG9kX9Sikx9O2rJ/Dr3E01HzP5zu7sUanoFnbCntE6P9hpGO8LNiocbRwCuZIXVA5BjCHsRKK8zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783388784; c=relaxed/simple;
-	bh=NkzUbROdH39g7YmlNugmZ/DcbpvljrpMHlgYfVajkSQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JJ+pc7ghn8fj03RDibYs6afDU7LH562x9g/HbN0bq444E4wHz4AZmRefU6uAxXsRpCPqdCuQUWwSdW067vEJu7HHfkEiiqnh9v9f5f2VKMR/OR44g+ypC53ZuVpkakDz0AaANZ0d6FdZ+bMpUmMDEcpD1qA+u4WJgcvf/2K44VU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hMVzrW2v; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hMVzrW2v"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8475eca3a66so5306365b3a.2
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 18:46:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783388781; x=1783993581; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rLhVS9GXVVyG/oV1wvVbeNnD5iOUOVp92GXMi4WjNSI=;
-        b=hMVzrW2vTIZCwBT2J9u34QqtGv2MwfNHxepg3bfTDKYGHkQqQSZrDTFeB+yFlDJDdF
-         IkytP+T3alE+4UlE9r6Z2li1RhWwRYV/aBKzppQ6LH2+IALEn0E/Uywi2LdGH4NAo3mX
-         M8rxMX4H05Zexe+GyONRTpcXXXXTzzEOPxcTIB6L5sp6ZGQ7r9aJUeu0KKZUz2IAxJMM
-         /7FQo4vd38Nrjf+rDklyEwEuhz+gvfXYlk9eGHd/YmexRcn5awMEYNdLTBk5jYm0mWL2
-         7eeML+hrcUcPLnyDTKOtekElHQiTycVsKsIwyrV1F4uWCiDgvg7M7cZVdwa4FRPYxs2s
-         1atQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783388781; x=1783993581;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rLhVS9GXVVyG/oV1wvVbeNnD5iOUOVp92GXMi4WjNSI=;
-        b=PiAuk371mLcv7uksWd7mNAQxiTO8TqmZjXiyuCfY6J3ERJINCex1/TdCScbFEaE/5j
-         ltIeS1XeJ7IsDfxB6vs0k/rFiQwOgKE3f/gzCn74NGLOUTtiGjdPxev9yUaKuPA2XJ3N
-         up7tJ9L2Kxu53ZGYxLzBjtbomcTa9GKyQ2ybUgIo4I3Qf+E2DqMYwI6H4bEq6sN753tY
-         hpV4SZVUDIyJjsj5CDiT2MF6BIjRYgI8Y2eU6imodN3+YBjFQM6pctAm6klv/Pwn6U3U
-         SEeQyaTroRGmedXkbLHLAkTK2Et1/jDb0oJIb9a0lt5CAmcVPgnUQeZ+e0qLO00vNR8P
-         sIUw==
-X-Forwarded-Encrypted: i=1; AHgh+RqqbF0kfMF43oRM/PoGjvkdqPvu2OtMYBeuTMON7cKe490Q2s5jAzB/mUqNO3LROjUJP7v1uS9AlPM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YziS9fcZt18hpEr52Fi8izwS/uItVkNgCxhA8qxDzRnMuKsvBF9
-	pIHrMPGZ67O1PAr7xjA7kHcgwRiJ6EVJ47GpetACJy+ClUlb8Vmy5CJ8
-X-Gm-Gg: AfdE7cnP33YrfcI3XgG7mRSthL7Okto5z8FsFMcJR3zPjvFhfSfNjNB7go+DHfP8+nA
-	OJC/sGB+o2rzpcvHGxIgxnew86EzAU65ld9MT0m6rN0IdNwDhjpZnUDCoSdDkCpzIHYpRR4gyIU
-	XX5oO1udjq8xTH2WKNSK6rkpv+qUevNnhcqVZu5n1tX/zTDwD6ik39KXHbgSycm+dY9JW+vu4lM
-	aP3vwx2RmiwlKmH9JHtLOcw8xBHUVZl3ocvWI4qDCwKeg1jv7VKeJrPtQtTYSR4wYOGa5nIRrIj
-	vyLX+bPtaOE+KRcWL1Aha5eaw74JjyaBNYKOziR3LbO271M1ii0nfAOZpuK6DYKXYQHrKIYPFoa
-	ncFGtgG929rvGJQtGBhEWFv30iV6VEwcgGNu4fj7JXL9MONw7BfIZJ+BF50sdF2HhT14nh/9yny
-	eJRfpH/ObzST+NpwDXsUOvT//Su1Av79X87L83H4WU34k4+4qeK0qp4i0SUYqk9EZaJeHk9vlOd
-	dSGEFEoEvJ1qN/4uKlKD4PiTpKH
-X-Received: by 2002:a05:6a00:4b14:b0:847:4b4d:61c0 with SMTP id d2e1a72fcca58-84826c1d783mr2835156b3a.11.1783388780886;
-        Mon, 06 Jul 2026 18:46:20 -0700 (PDT)
-Received: from DESKTOP-G3E0OSP.localdomain ([112.172.255.242])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d4e741sm4645653b3a.28.2026.07.06.18.46.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 18:46:20 -0700 (PDT)
-From: Jinseob Kim <kimjinseob88@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>,
-	Nuno Sa <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jinseob Kim <kimjinseob88@gmail.com>,
-	linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 5/5] iio: osf: add UART IIO driver
-Date: Tue,  7 Jul 2026 10:45:25 +0900
-Message-ID: <20260707014525.1015-6-kimjinseob88@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260707014525.1015-1-kimjinseob88@gmail.com>
-References: <20260707014525.1015-1-kimjinseob88@gmail.com>
+	s=arc-20240116; t=1783391756; c=relaxed/simple;
+	bh=4aXH2f9ytQjDBaSOD98MPjwilmVXY5Gbzhe6oue0oYM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CrknILNZmzbBrxGUn5HMTs3x9e9J87LTdTXOBHJRMXSSyWYy2WRJ3g2VKdTcT/io+4KWKAPM4ymWr5jdhlu1DXlgfmo2H6K42xrRaAfADWYcIysL52js83cVjJDtYDBccIgf0ZAZ1jHUf5FIK1FL9vN/GG6Bz3FOv1O0NprSxtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-c2dff70000001609-b0-6a4c66049ff9
+Date: Tue, 7 Jul 2026 11:35:42 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: linux-kernel@vger.kernel.org, max.byungchul.park@gmail.com,
+	kernel_team@skhynix.com, torvalds@linux-foundation.org,
+	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
+	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
+	mingo@redhat.com, peterz@infradead.org, will@kernel.org,
+	tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
+	sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
+	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
+	david@fromorbit.com, amir73il@gmail.com, gregkh@linuxfoundation.org,
+	kernel-team@lge.com, linux-mm@kvack.org, akpm@linux-foundation.org,
+	mhocko@kernel.org, minchan@kernel.org, hannes@cmpxchg.org,
+	vdavydov.dev@gmail.com, sj@kernel.org, jglisse@redhat.com,
+	dennis@kernel.org, cl@linux.com, penberg@kernel.org,
+	rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org,
+	linux-block@vger.kernel.org, josef@toxicpanda.com,
+	linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
+	dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
+	dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
+	melissa.srw@gmail.com, hamohammed.sa@gmail.com,
+	harry.yoo@oracle.com, chris.p.wilson@intel.com,
+	gwan-gyeong.mun@intel.com, boqun.feng@gmail.com, longman@redhat.com,
+	yunseong.kim@ericsson.com, ysk@kzalloc.com, yeoreum.yun@arm.com,
+	netdev@vger.kernel.org, matthew.brost@intel.com,
+	her0gyugyu@gmail.com, corbet@lwn.net, catalin.marinas@arm.com,
+	bp@alien8.de, x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+	sumit.semwal@linaro.org, gustavo@padovan.org,
+	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
+	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
+	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
+	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+	yuzhao@google.com, baolin.wang@linux.alibaba.com,
+	usamaarif642@gmail.com, joel.granados@kernel.org,
+	richard.weiyang@gmail.com, geert+renesas@glider.be,
+	tim.c.chen@linux.intel.com, linux@treblig.org,
+	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+	chenhuacai@kernel.org, francesco@valla.it,
+	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+	masahiroy@kernel.org, brauner@kernel.org,
+	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, 2407018371@qq.com, dakr@kernel.org,
+	miguel.ojeda.sandonis@gmail.com, neilb@ownmail.net,
+	bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
+	dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
+	alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+	lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
+	tmgross@umich.edu, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v19 22/40] dept: track PG_locked with dept
+Message-ID: <20260707023542.GA33746@system.software.com>
+References: <20260706061928.66713-1-byungchul@sk.com>
+ <20260706061928.66713-23-byungchul@sk.com>
+ <akvueAxPl8aoLvMR@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <akvueAxPl8aoLvMR@casper.infradead.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0yTZxTH87zv815o2u218/IMNp0dY4ZsbCgfjstG/LDIu8wtGvdpJtMK
+	VYoFTSsoy4ySbV3XsI6hE2mJtl4AS0VpRRkDBwhIxzWTdEW5yEWxWaGx0g7l4lqNmd9++Z9/
+	fud8ODwtt7GxvDpnv0qbo9QoWAmWTElPv4t3bcp63/hoHRi+PwyhGQOGsosOFhYsVznoq65C
+	MBIyIHjS2I7AcbmAghJfAYZAeSECX1sa/B32I5ho+gHBwvE9MNfdS4NtdIiGoO8Ogv5QgIXO
+	otMUHK9ZAZaSbynoOjOIYazSzEF71SQH1VO9DIzc0DNgqA9hcI57GLDpz2IoPTnIQkOjG0N7
+	3RgFw44nDPxV1Yfh4qSXgs72Dgxu83kMt7t/5qC3/gIDo3e8DLi6u2gIm+Lg6PQ9BAMlfg7K
+	Q4HIMutyOH+qAkHxvSAH/QO/IzhXOcXA9ZCfgj+HHnLweKiOAU/xKRYeV7Qh+HXewIKlwITA
+	0BqmYW62jAVTTxrMXhpnYKbKzsJ00QwDlrZhbsMG0XHSgcTvXAfEc51+VmwMW7H4m3mIE63O
+	XNFVmSieafBRotP+Iys6g8WcaJu7T4uDngZWnO7p4cSOE3OR/uh6caK/hNr8xpeSDzNUGnWe
+	Svte6g5J5oMLd+l9luSDLnsjdwQ9TDCiGJ4IKaSjuZZ5zqWuGhxlLMSTnlYrFWVWeJt4vY9o
+	I+L5pcIa4r+81ogkPC0cW0lspitctPOKkEqu3Q4/ZZkApMh6jIuW5EIhIv7CRfxssIS4Syee
+	Mi0kEu+ij4pKaSGOVCzy0TgmcsPIv//QUV4mvEmartygoh4ijMWQ+rvPPER4lTRXenEREswv
+	aM0vaM3/a62ItiO5OicvW6nWpCRl5ueoDyal7812osjjlh+a31aHgn1bW5DAI4VUdsn4aZac
+	Uebp8rNbEOFpxVJZwppIJMtQ5n+t0u7drs3VqHQtKI7HihWyteEDGXJht3K/ao9KtU+lfT6l
+	+JjYI0iv0f2BN730Sdnm1o03d0gHFpgvmlanjZq8y+UJjt71k6HZQ6s/Tq0tjX19/OzOha9k
+	Gxfjr62UBoY/G9Z3Je/6/NaWZSn8qqb7r21/OSu9tuaXj46eSAp4ch+8lS5skcLhhKvTA27N
+	rXfWpZbd3BY/m6ef+Sbo+WnnB5rmPt49X51tX6XAukxlciKt1Sn/A9zEkT+0AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTH8zzP7b2XZtVrZfMGEhLry0wzcTI0J3PzJVnCzXyJcR+2+EWb
+	cZXypmkdA5NFKDRWJKY0toRWtKLUBXkrrUxwZVi2MmUOKttgA1ZZKti0jg15CSDF1mXRLye/
+	8z///8n5cFgij0qSWHX+KVGTr8pV0FJKemBH6Wbq2L7sdwMTUjDoz8BIICiB30q6KJiZNlBw
+	qbmBhiXbNwwYWqsl8OOgjoL+ppsIAjMGBHOLNgL69mUKlkw+BqbnhxkwlyBY9vgQWPwmAkP9
+	3xFocJdgeNYSpSHcPYXAPBakoSpUQsGkowKBddzGQOiHDHgauCOB5dEJDIOzEQSOYBRDsOss
+	giVLDlypdcXiln9oWHzQR6DK3I/g6tgoganQIwRu358IPF/raHhsvEVgILgCfpmZpOGe+TwN
+	T/2XMPzdQoNd55GA/6cwghqbCcH4Hx4MpdeaabDUtFLQ/qiDAX/4OYYRiwnDzdb9EHCMU9Br
+	rMWxc2Mu5xqwVZXiWHmCwdx4B8O8o57ZXYeEOf0FSqh3tWFB/3CJFhouNyBhccGEhOm6UiLo
+	jbG2OzJJhDLXl0Jdb4QWFmZ+pQXPrJ0S7tfywvVzC1iofLBZaLeOMgf3HJZ+kCnmqgtEzZad
+	R6VZ/zY+JidtWwtd9R6mGD3bWI4SWJ5L56tdTirOFLee//l7O44zzb3NDw3Nk3LEsoncJj7i
+	TitHUpZwF1P4qxfamLhnNbeT7xyefckyDnij/SITN8m5CsRHKqLUf4NV/L3q4EsmnJIfioZw
+	fCnhkvkbUTYuJ8RuCMyFSZzf5NbxXW092Ihk1tfS1tfS1ldpOyL1KFGdX5CnUuduS9XmZBXl
+	qwtTPz+R14piX+n46nnlbTQ9kOFFHIsUb8hayvdmyyWqAm1RnhfxLFEkyjZuikmyTFXRaVFz
+	4ojmi1xR60XJLKVYI/v4U/GonDuuOiXmiOJJUfP/FLMJScVox8rOTzqN207vYrZ3HAzNjvUd
+	ej/tQ+9b78gHC4uFhYq6bP9HqUfW9w4cakJlzhTnsfdu/I5GjG7Pck96dI//4Srf9hppzxZb
+	d8YtX3Ll3W/DE86IUuFOYJo6XOfGy9YOW9OaJRuUuhFvn1Lc9VfSZ/evJDam56lG16YYdIev
+	TWUqKG2WaquSaLSqF3VSn4uRAwAA
+X-CFilter-Loop: Reflected
 
-Add the Open Sensor Fusion serdev transport, driver core, and IIO
-registration path as one complete driver patch.
+On Mon, Jul 06, 2026 at 07:05:44PM +0100, Matthew Wilcox wrote:
+> On Mon, Jul 06, 2026 at 03:19:10PM +0900, Byungchul Park wrote:
+> > Makes dept able to track PG_locked waits and events, which will be
+> > useful in practice.  See the following link that shows dept worked with
+> > PG_locked and detected real issues in practice:
+> >
+> >    https://lore.kernel.org/lkml/1674268856-31807-1-git-send-email-byungchul.park@lge.com/
+> 
+> > @@ -219,6 +220,7 @@ struct page {
+> >       struct page *kmsan_shadow;
+> >       struct page *kmsan_origin;
+> >  #endif
+> > +     struct dept_ext_wgen pg_locked_wgen;
+> >  } _struct_page_alignment;
+> 
+> I may not understand this quite correctly, but I think that tracking
+> PG_locked dependencies in the struct page has both false positive and
+> false negative problems.
+> 
+> Imagine we have a file mapping M1 containing folio F1 at index 0 and F2
+> at index 1.  It is correct locking order to lock F1 before locking F2
+> (for example when doing writeback).  Later, M1 has its folios reclaimed
+> and returned to the free pool.  Then each is added to mapping M2, this
+> time with folio F2 at index 8 and F1 at index 9.  Now the correct order
+> to lock these folios in the order F2 followed by F1.
 
-The driver enables the required vcc regulator, receives OSF frames over
-UART, registers IIO devices from capability reports, supports direct raw
-reads from the latest sample cache, and pushes buffered samples into
-software kfifo buffers.
+First of all, I appreciate your feedback.  Thanks!
 
-Use final Kconfig and Makefile contents from the start, claim IIO buffer
-mode while pushing samples, and use zeroed scan storage with explicit
-timestamp alignment so the driver does not depend on IIO core
-bounce-buffer padding behavior.
+That case doesn't generate any dependency unless any other waits are
+involved in.  That should be handled in xxx_nested manner e.g.
+folio_lock_nested() that I need to introduce.  The work is in progress.
 
-Signed-off-by: Jinseob Kim <kimjinseob88@gmail.com>
----
- MAINTAINERS                               |   5 +
- drivers/iio/Kconfig                       |   1 +
- drivers/iio/Makefile                      |   1 +
- drivers/iio/opensensorfusion/Kconfig      |  15 +
- drivers/iio/opensensorfusion/Makefile     |   6 +
- drivers/iio/opensensorfusion/osf_core.c   | 320 ++++++++++++++++++++++
- drivers/iio/opensensorfusion/osf_core.h   |  70 +++++
- drivers/iio/opensensorfusion/osf_iio.c    | 308 +++++++++++++++++++++
- drivers/iio/opensensorfusion/osf_iio.h    |  22 ++
- drivers/iio/opensensorfusion/osf_serdev.c | 114 ++++++++
- 10 files changed, 862 insertions(+)
- create mode 100644 drivers/iio/opensensorfusion/Kconfig
- create mode 100644 drivers/iio/opensensorfusion/Makefile
- create mode 100644 drivers/iio/opensensorfusion/osf_core.c
- create mode 100644 drivers/iio/opensensorfusion/osf_core.h
- create mode 100644 drivers/iio/opensensorfusion/osf_iio.c
- create mode 100644 drivers/iio/opensensorfusion/osf_iio.h
- create mode 100644 drivers/iio/opensensorfusion/osf_serdev.c
+> I don't see a part of this patch where we clear pg_locked_wgen when the
+> page is returned to the page allocator.  Maybe I missed that.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3d4199d9e..6ce18ad92 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20016,7 +20016,12 @@ M:	Jinseob Kim <kimjinseob88@gmail.com>
- S:	Maintained
- F:	Documentation/devicetree/bindings/iio/opensensorfusion,osf.yaml
- F:	Documentation/iio/open-sensor-fusion.rst
-+F:	drivers/iio/opensensorfusion/Kconfig
-+F:	drivers/iio/opensensorfusion/Makefile
-+F:	drivers/iio/opensensorfusion/osf_core.*
-+F:	drivers/iio/opensensorfusion/osf_iio.*
- F:	drivers/iio/opensensorfusion/osf_protocol.*
-+F:	drivers/iio/opensensorfusion/osf_serdev.c
- F:	drivers/iio/opensensorfusion/osf_stream.*
- K:	opensensorfusion
- 
-diff --git a/drivers/iio/Kconfig b/drivers/iio/Kconfig
-index 661127aed..939f6c546 100644
---- a/drivers/iio/Kconfig
-+++ b/drivers/iio/Kconfig
-@@ -101,6 +101,7 @@ source "drivers/iio/light/Kconfig"
- source "drivers/iio/magnetometer/Kconfig"
- source "drivers/iio/multiplexer/Kconfig"
- source "drivers/iio/orientation/Kconfig"
-+source "drivers/iio/opensensorfusion/Kconfig"
- source "drivers/iio/test/Kconfig"
- if IIO_TRIGGER
-    source "drivers/iio/trigger/Kconfig"
-diff --git a/drivers/iio/Makefile b/drivers/iio/Makefile
-index cb80ef837..d864fe17b 100644
---- a/drivers/iio/Makefile
-+++ b/drivers/iio/Makefile
-@@ -37,6 +37,7 @@ obj-y += light/
- obj-y += magnetometer/
- obj-y += multiplexer/
- obj-y += orientation/
-+obj-y += opensensorfusion/
- obj-y += position/
- obj-y += potentiometer/
- obj-y += potentiostat/
-diff --git a/drivers/iio/opensensorfusion/Kconfig b/drivers/iio/opensensorfusion/Kconfig
-new file mode 100644
-index 000000000..f955a1f29
---- /dev/null
-+++ b/drivers/iio/opensensorfusion/Kconfig
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+config OPEN_SENSOR_FUSION
-+	tristate "Open Sensor Fusion UART IIO driver"
-+	depends on SERIAL_DEV_BUS
-+	select CRC32
-+	select IIO_BUFFER
-+	select IIO_KFIFO_BUF
-+	help
-+	  Build the Open Sensor Fusion UART IIO driver.
-+
-+	  The driver receives OSF protocol frames over a serdev UART and
-+	  registers IIO devices for supported capability entries. It exposes
-+	  accelerometer, gyroscope, magnetometer, and temperature samples
-+	  through IIO direct reads and software buffers.
-diff --git a/drivers/iio/opensensorfusion/Makefile b/drivers/iio/opensensorfusion/Makefile
-new file mode 100644
-index 000000000..b4e03b80c
---- /dev/null
-+++ b/drivers/iio/opensensorfusion/Makefile
-@@ -0,0 +1,6 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+obj-$(CONFIG_OPEN_SENSOR_FUSION) += open-sensor-fusion.o
-+
-+open-sensor-fusion-y := osf_core.o osf_iio.o osf_protocol.o osf_serdev.o \
-+			 osf_stream.o
-diff --git a/drivers/iio/opensensorfusion/osf_core.c b/drivers/iio/opensensorfusion/osf_core.c
-new file mode 100644
-index 000000000..02d55a201
---- /dev/null
-+++ b/drivers/iio/opensensorfusion/osf_core.c
-@@ -0,0 +1,320 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/cleanup.h>
-+#include <linux/device.h>
-+#include <linux/errno.h>
-+#include <linux/string.h>
-+#include <linux/types.h>
-+
-+#include "osf_core.h"
-+#include "osf_iio.h"
-+
-+#define OSF_RESERVED_MSG_FIRST		0x7f00
-+#define OSF_RESERVED_MSG_LAST		0x7fff
-+#define OSF_VENDOR_PRIVATE_FIRST	0x8000
-+
-+void osf_core_init(struct osf_device *osf, struct device *dev)
-+{
-+	*osf = (struct osf_device) {
-+		.dev = dev,
-+	};
-+	mutex_init(&osf->latest_lock);
-+}
-+
-+void osf_core_unregister_iio(struct osf_device *osf)
-+{
-+	for (unsigned int i = 0; i < osf->iio_dev_count; i++)
-+		osf_iio_unregister_sensor(osf->iio_devs[i].indio_dev);
-+
-+	osf->iio_dev_count = 0;
-+}
-+
-+static struct iio_dev *osf_core_find_iio_dev(struct osf_device *osf,
-+					     u16 sensor_type, u16 sensor_index)
-+{
-+	const struct osf_iio_binding *binding;
-+
-+	for (unsigned int i = 0; i < osf->iio_dev_count; i++) {
-+		binding = &osf->iio_devs[i];
-+		if (binding->sensor_type == sensor_type &&
-+		    binding->sensor_index == sensor_index)
-+			return binding->indio_dev;
-+	}
-+
-+	return NULL;
-+}
-+
-+static struct osf_latest_sample *
-+osf_core_find_latest_sample(struct osf_device *osf, u16 sensor_type,
-+			    u16 sensor_index)
-+{
-+	struct osf_latest_sample *latest;
-+
-+	for (unsigned int i = 0; i < osf->latest_sample_count; i++) {
-+		latest = &osf->latest_samples[i];
-+		if (latest->sensor_type == sensor_type &&
-+		    latest->sensor_index == sensor_index)
-+			return latest;
-+	}
-+
-+	if (osf->latest_sample_count >= OSF_MAX_CAPABILITIES)
-+		return NULL;
-+
-+	return &osf->latest_samples[osf->latest_sample_count++];
-+}
-+
-+static bool osf_core_capability_is_duplicate(const struct osf_capability_cache *cache,
-+					     u16 index)
-+{
-+	const struct osf_capability_entry *entry = &cache->entries[index];
-+
-+	for (u16 i = 0; i < index; i++) {
-+		if (!osf_iio_sensor_supported(cache->entries[i].sensor_type,
-+					      cache->entries[i].channel_count))
-+			continue;
-+
-+		if (cache->entries[i].sensor_type == entry->sensor_type &&
-+		    cache->entries[i].sensor_index == entry->sensor_index)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+static int osf_core_register_capabilities(struct osf_device *osf,
-+					  const struct osf_capability_cache *cache)
-+{
-+	struct iio_dev *indio_dev;
-+	int ret;
-+
-+	if (osf->capability_cache.valid)
-+		return 0;
-+
-+	for (u16 i = 0; i < cache->capability_count; i++) {
-+		if (!osf_iio_sensor_supported(cache->entries[i].sensor_type,
-+					      cache->entries[i].channel_count))
-+			continue;
-+
-+		if (osf_core_capability_is_duplicate(cache, i))
-+			return -EEXIST;
-+	}
-+
-+	for (u16 i = 0; i < cache->capability_count; i++) {
-+		if (!osf_iio_sensor_supported(cache->entries[i].sensor_type,
-+					      cache->entries[i].channel_count))
-+			continue;
-+
-+		ret = osf_iio_register_sensor(osf->dev, &cache->entries[i],
-+					      osf, &indio_dev);
-+		if (ret)
-+			goto err_unregister;
-+
-+		osf->iio_devs[osf->iio_dev_count++] = (struct osf_iio_binding) {
-+			.sensor_type = cache->entries[i].sensor_type,
-+			.sensor_index = cache->entries[i].sensor_index,
-+			.indio_dev = indio_dev,
-+		};
-+	}
-+
-+	return 0;
-+
-+err_unregister:
-+	osf_core_unregister_iio(osf);
-+
-+	return ret;
-+}
-+
-+static int osf_core_handle_sensor_sample(struct osf_device *osf,
-+					 const struct osf_frame *frame)
-+{
-+	struct osf_latest_sample *latest;
-+	struct osf_sensor_sample sample;
-+	struct iio_dev *indio_dev;
-+	s32 values[OSF_MAX_SAMPLE_CHANNELS] = { };
-+	int ret;
-+
-+	ret = osf_protocol_decode_sensor_sample(frame, &sample);
-+	if (ret)
-+		return ret;
-+
-+	if (sample.channel_count > OSF_MAX_SAMPLE_CHANNELS)
-+		return -E2BIG;
-+
-+	for (u16 i = 0; i < sample.channel_count; i++) {
-+		ret = osf_protocol_sensor_sample_value(&sample, i, &values[i]);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	scoped_guard(mutex, &osf->latest_lock) {
-+		latest = osf_core_find_latest_sample(osf, sample.sensor_type,
-+						     sample.sensor_index);
-+		if (!latest)
-+			return -E2BIG;
-+
-+		memcpy(latest->values, values, sizeof(values));
-+		latest->sensor_type = sample.sensor_type;
-+		latest->sensor_index = sample.sensor_index;
-+		latest->channel_count = sample.channel_count;
-+		latest->sample_format = sample.sample_format;
-+		latest->scale_nano = sample.scale_nano;
-+		latest->sequence = frame->sequence;
-+		latest->timestamp_us = frame->timestamp_us;
-+		latest->valid = true;
-+		osf->last_sequence = frame->sequence;
-+	}
-+
-+	indio_dev = osf_core_find_iio_dev(osf, sample.sensor_type,
-+					  sample.sensor_index);
-+	if (!indio_dev)
-+		return 0;
-+
-+	return osf_iio_push_sample(indio_dev, values, sample.channel_count);
-+}
-+
-+static int osf_core_handle_device_status(struct osf_device *osf,
-+					 const struct osf_frame *frame)
-+{
-+	struct osf_device_status status;
-+	int ret;
-+
-+	ret = osf_protocol_decode_device_status(frame, &status);
-+	if (ret)
-+		return ret;
-+
-+	osf->status_cache = (struct osf_status_cache) {
-+		.uptime_s = status.uptime_s,
-+		.status_flags = status.status_flags,
-+		.error_flags = status.error_flags,
-+		.dropped_frames = status.dropped_frames,
-+		.sequence = frame->sequence,
-+		.valid = true,
-+	};
-+	osf->last_sequence = frame->sequence;
-+
-+	return 0;
-+}
-+
-+static int osf_core_handle_capability_report(struct osf_device *osf,
-+					     const struct osf_frame *frame)
-+{
-+	struct osf_capability_cache cache = { };
-+	struct osf_capability_report report;
-+	int ret;
-+
-+	ret = osf_protocol_decode_capability_report(frame, &report);
-+	if (ret)
-+		return ret;
-+
-+	if (report.capability_count > OSF_MAX_CAPABILITIES)
-+		return -E2BIG;
-+
-+	if (osf->capability_cache.valid) {
-+		osf->last_sequence = frame->sequence;
-+		return 0;
-+	}
-+
-+	for (u16 i = 0; i < report.capability_count; i++) {
-+		ret = osf_protocol_decode_capability_entry(&report, i,
-+							   &cache.entries[i]);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	cache.capability_count = report.capability_count;
-+	cache.sequence = frame->sequence;
-+	cache.valid = true;
-+
-+	ret = osf_core_register_capabilities(osf, &cache);
-+	if (ret)
-+		return ret;
-+
-+	osf->capability_cache = cache;
-+	osf->last_sequence = frame->sequence;
-+
-+	return 0;
-+}
-+
-+int osf_core_receive_frame(struct osf_device *osf, const u8 *buf, size_t len)
-+{
-+	struct osf_frame frame;
-+	size_t frame_len;
-+	int ret;
-+
-+	ret = osf_protocol_decode_frame(buf, len, &frame, &frame_len);
-+	if (ret)
-+		return ret;
-+
-+	if (frame_len != len)
-+		return -EMSGSIZE;
-+
-+	if (frame.protocol_major != OSF_PROTOCOL_MAJOR) {
-+		dev_dbg_ratelimited(osf->dev,
-+				    "ignoring unsupported protocol major %u\n",
-+				    frame.protocol_major);
-+		return 0;
-+	}
-+
-+	if (frame.reserved) {
-+		dev_dbg_ratelimited(osf->dev,
-+				    "ignoring frame with reserved field %#x\n",
-+				    frame.reserved);
-+		return 0;
-+	}
-+
-+	switch (frame.message_type) {
-+	case OSF_MSG_SENSOR_SAMPLE:
-+		ret = osf_core_handle_sensor_sample(osf, &frame);
-+		break;
-+	case OSF_MSG_DEVICE_STATUS:
-+		ret = osf_core_handle_device_status(osf, &frame);
-+		break;
-+	case OSF_MSG_CAPABILITY_REPORT:
-+		ret = osf_core_handle_capability_report(osf, &frame);
-+		break;
-+	default:
-+		if (frame.message_type >= OSF_RESERVED_MSG_FIRST &&
-+		    frame.message_type <= OSF_RESERVED_MSG_LAST)
-+			return 0;
-+		if (frame.message_type >= OSF_VENDOR_PRIVATE_FIRST)
-+			return 0;
-+
-+		dev_dbg_ratelimited(osf->dev,
-+				    "ignoring unsupported message type %#x\n",
-+				    frame.message_type);
-+		return 0;
-+	}
-+
-+	if (ret)
-+		dev_dbg_ratelimited(osf->dev,
-+				    "ignoring message type %#x after decode: %d\n",
-+				    frame.message_type, ret);
-+
-+	return 0;
-+}
-+
-+int osf_core_read_latest_sample(struct osf_device *osf, u16 sensor_type,
-+				u16 sensor_index, u16 channel,
-+				s32 *value)
-+{
-+	const struct osf_latest_sample *latest;
-+
-+	if (!osf || !value)
-+		return -EINVAL;
-+
-+	guard(mutex)(&osf->latest_lock);
-+	for (unsigned int i = 0; i < osf->latest_sample_count; i++) {
-+		latest = &osf->latest_samples[i];
-+		if (latest->sensor_type != sensor_type ||
-+		    latest->sensor_index != sensor_index)
-+			continue;
-+
-+		if (!latest->valid || channel >= latest->channel_count)
-+			break;
-+
-+		*value = latest->values[channel];
-+		return 0;
-+	}
-+
-+	return -ENODATA;
-+}
-diff --git a/drivers/iio/opensensorfusion/osf_core.h b/drivers/iio/opensensorfusion/osf_core.h
-new file mode 100644
-index 000000000..5744a39cf
---- /dev/null
-+++ b/drivers/iio/opensensorfusion/osf_core.h
-@@ -0,0 +1,70 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef _OSF_CORE_H
-+#define _OSF_CORE_H
-+
-+#include <linux/mutex.h>
-+#include <linux/types.h>
-+
-+#include "osf_protocol.h"
-+
-+#define OSF_MAX_SAMPLE_CHANNELS	3
-+#define OSF_MAX_CAPABILITIES	16
-+
-+struct device;
-+struct iio_dev;
-+
-+struct osf_latest_sample {
-+	u16 sensor_type;
-+	u16 sensor_index;
-+	u16 channel_count;
-+	u16 sample_format;
-+	u32 scale_nano;
-+	s32 values[OSF_MAX_SAMPLE_CHANNELS];
-+	u64 sequence;
-+	u64 timestamp_us;
-+	bool valid;
-+};
-+
-+struct osf_capability_cache {
-+	u16 capability_count;
-+	struct osf_capability_entry entries[OSF_MAX_CAPABILITIES];
-+	u64 sequence;
-+	bool valid;
-+};
-+
-+struct osf_status_cache {
-+	u32 uptime_s;
-+	u32 status_flags;
-+	u32 error_flags;
-+	u32 dropped_frames;
-+	u64 sequence;
-+	bool valid;
-+};
-+
-+struct osf_iio_binding {
-+	u16 sensor_type;
-+	u16 sensor_index;
-+	struct iio_dev *indio_dev;
-+};
-+
-+struct osf_device {
-+	struct device *dev;
-+	/* Protects latest_samples and latest_sample_count. */
-+	struct mutex latest_lock;
-+	struct osf_latest_sample latest_samples[OSF_MAX_CAPABILITIES];
-+	unsigned int latest_sample_count;
-+	struct osf_capability_cache capability_cache;
-+	struct osf_status_cache status_cache;
-+	struct osf_iio_binding iio_devs[OSF_MAX_CAPABILITIES];
-+	unsigned int iio_dev_count;
-+	u64 last_sequence;
-+};
-+
-+void osf_core_init(struct osf_device *osf, struct device *dev);
-+void osf_core_unregister_iio(struct osf_device *osf);
-+int osf_core_receive_frame(struct osf_device *osf, const u8 *buf, size_t len);
-+int osf_core_read_latest_sample(struct osf_device *osf, u16 sensor_type,
-+				u16 sensor_index, u16 channel,
-+				s32 *value);
-+
-+#endif
-diff --git a/drivers/iio/opensensorfusion/osf_iio.c b/drivers/iio/opensensorfusion/osf_iio.c
-new file mode 100644
-index 000000000..91afcf3b8
---- /dev/null
-+++ b/drivers/iio/opensensorfusion/osf_iio.c
-@@ -0,0 +1,308 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/array_size.h>
-+#include <linux/bitops.h>
-+#include <linux/errno.h>
-+#include <linux/iio/buffer.h>
-+#include <linux/iio/iio.h>
-+#include <linux/iio/kfifo_buf.h>
-+#include <linux/types.h>
-+#include <linux/units.h>
-+
-+#include "osf_core.h"
-+#include "osf_iio.h"
-+
-+struct osf_iio_sensor_spec {
-+	u16 sensor_type;
-+	u16 channel_count;
-+	const char *name;
-+	const struct iio_chan_spec *channels;
-+	unsigned int num_channels;
-+	const unsigned long *available_scan_masks;
-+};
-+
-+struct osf_iio_state {
-+	const struct osf_iio_sensor_spec *spec;
-+	struct iio_buffer *buffer;
-+	u32 scale_nano;
-+	u16 sensor_index;
-+	struct osf_device *osf;
-+};
-+
-+struct osf_iio_scan_3axis {
-+	s32 values[3];
-+	aligned_s64 timestamp;
-+};
-+
-+struct osf_iio_scan_1axis {
-+	s32 value;
-+	aligned_s64 timestamp;
-+};
-+
-+#define OSF_SCAN_TYPE_S32						\
-+	{								\
-+		.sign = 's',						\
-+		.realbits = 32,					\
-+		.storagebits = 32,					\
-+		.endianness = IIO_CPU,					\
-+	}
-+
-+#define OSF_MOD_CHAN(_type, _mod, _idx)				\
-+	{								\
-+		.type = (_type),					\
-+		.modified = 1,					\
-+		.channel2 = (_mod),					\
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),		\
-+		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE),	\
-+		.scan_index = (_idx),					\
-+		.scan_type = OSF_SCAN_TYPE_S32,			\
-+	}
-+
-+#define OSF_CHAN(_type, _idx)					\
-+	{								\
-+		.type = (_type),					\
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),		\
-+		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE),	\
-+		.scan_index = (_idx),					\
-+		.scan_type = OSF_SCAN_TYPE_S32,			\
-+	}
-+
-+static const struct iio_chan_spec osf_accel_channels[] = {
-+	OSF_MOD_CHAN(IIO_ACCEL, IIO_MOD_X, 0),
-+	OSF_MOD_CHAN(IIO_ACCEL, IIO_MOD_Y, 1),
-+	OSF_MOD_CHAN(IIO_ACCEL, IIO_MOD_Z, 2),
-+	IIO_CHAN_SOFT_TIMESTAMP(3),
-+};
-+
-+static const struct iio_chan_spec osf_gyro_channels[] = {
-+	OSF_MOD_CHAN(IIO_ANGL_VEL, IIO_MOD_X, 0),
-+	OSF_MOD_CHAN(IIO_ANGL_VEL, IIO_MOD_Y, 1),
-+	OSF_MOD_CHAN(IIO_ANGL_VEL, IIO_MOD_Z, 2),
-+	IIO_CHAN_SOFT_TIMESTAMP(3),
-+};
-+
-+static const struct iio_chan_spec osf_mag_channels[] = {
-+	OSF_MOD_CHAN(IIO_MAGN, IIO_MOD_X, 0),
-+	OSF_MOD_CHAN(IIO_MAGN, IIO_MOD_Y, 1),
-+	OSF_MOD_CHAN(IIO_MAGN, IIO_MOD_Z, 2),
-+	IIO_CHAN_SOFT_TIMESTAMP(3),
-+};
-+
-+static const struct iio_chan_spec osf_temp_channels[] = {
-+	OSF_CHAN(IIO_TEMP, 0),
-+	IIO_CHAN_SOFT_TIMESTAMP(1),
-+};
-+
-+static const unsigned long osf_3axis_available_scan_masks[] = {
-+	GENMASK(2, 0),
-+	0
-+};
-+
-+static const struct osf_iio_sensor_spec osf_iio_sensor_specs[] = {
-+	{
-+		.sensor_type = OSF_SENSOR_ACCELEROMETER,
-+		.channel_count = 3,
-+		.name = "osf-accel",
-+		.channels = osf_accel_channels,
-+		.num_channels = ARRAY_SIZE(osf_accel_channels),
-+		.available_scan_masks = osf_3axis_available_scan_masks,
-+	},
-+	{
-+		.sensor_type = OSF_SENSOR_GYROSCOPE,
-+		.channel_count = 3,
-+		.name = "osf-gyro",
-+		.channels = osf_gyro_channels,
-+		.num_channels = ARRAY_SIZE(osf_gyro_channels),
-+		.available_scan_masks = osf_3axis_available_scan_masks,
-+	},
-+	{
-+		.sensor_type = OSF_SENSOR_MAGNETOMETER,
-+		.channel_count = 3,
-+		.name = "osf-magn",
-+		.channels = osf_mag_channels,
-+		.num_channels = ARRAY_SIZE(osf_mag_channels),
-+		.available_scan_masks = osf_3axis_available_scan_masks,
-+	},
-+	{
-+		.sensor_type = OSF_SENSOR_TEMPERATURE,
-+		.channel_count = 1,
-+		.name = "osf-temp",
-+		.channels = osf_temp_channels,
-+		.num_channels = ARRAY_SIZE(osf_temp_channels),
-+	},
-+};
-+
-+static const struct osf_iio_sensor_spec *
-+osf_iio_find_sensor_spec(u16 sensor_type, u16 channel_count)
-+{
-+	for (unsigned int i = 0; i < ARRAY_SIZE(osf_iio_sensor_specs); i++) {
-+		if (osf_iio_sensor_specs[i].sensor_type == sensor_type &&
-+		    osf_iio_sensor_specs[i].channel_count == channel_count)
-+			return &osf_iio_sensor_specs[i];
-+	}
-+
-+	return NULL;
-+}
-+
-+bool osf_iio_sensor_supported(u16 sensor_type, u16 channel_count)
-+{
-+	if (osf_iio_find_sensor_spec(sensor_type, channel_count))
-+		return true;
-+
-+	return false;
-+}
-+
-+const char *osf_iio_sensor_name(u16 sensor_type)
-+{
-+	for (unsigned int i = 0; i < ARRAY_SIZE(osf_iio_sensor_specs); i++) {
-+		if (osf_iio_sensor_specs[i].sensor_type == sensor_type)
-+			return osf_iio_sensor_specs[i].name;
-+	}
-+
-+	return NULL;
-+}
-+
-+static int osf_iio_read_raw(struct iio_dev *indio_dev,
-+			    const struct iio_chan_spec *chan, int *val,
-+			    int *val2, long mask)
-+{
-+	struct osf_iio_state *state = iio_priv(indio_dev);
-+	s32 raw;
-+	int ret;
-+
-+	switch (mask) {
-+	case IIO_CHAN_INFO_RAW:
-+		ret = osf_core_read_latest_sample(state->osf,
-+						  state->spec->sensor_type,
-+						  state->sensor_index,
-+						  chan->scan_index, &raw);
-+		if (ret)
-+			return ret;
-+
-+		*val = raw;
-+		return IIO_VAL_INT;
-+	case IIO_CHAN_INFO_SCALE:
-+		*val = state->scale_nano / NANO;
-+		*val2 = state->scale_nano % NANO;
-+		return IIO_VAL_INT_PLUS_NANO;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static const struct iio_info osf_iio_info = {
-+	.read_raw = osf_iio_read_raw,
-+};
-+
-+int osf_iio_register_sensor(struct device *dev,
-+			    const struct osf_capability_entry *entry,
-+			    struct osf_device *osf, struct iio_dev **indio_dev)
-+{
-+	const struct osf_iio_sensor_spec *spec;
-+	struct osf_iio_state *state;
-+	struct iio_dev *iio_dev;
-+	int ret;
-+
-+	spec = osf_iio_find_sensor_spec(entry->sensor_type,
-+					entry->channel_count);
-+	if (!spec)
-+		return -EOPNOTSUPP;
-+
-+	if (entry->sample_format != OSF_SAMPLE_FORMAT_S32)
-+		return -EOPNOTSUPP;
-+
-+	iio_dev = iio_device_alloc(dev, sizeof(*state));
-+	if (!iio_dev)
-+		return -ENOMEM;
-+
-+	state = iio_priv(iio_dev);
-+	state->spec = spec;
-+	state->scale_nano = entry->scale_nano;
-+	state->sensor_index = entry->sensor_index;
-+	state->osf = osf;
-+
-+	iio_dev->name = spec->name;
-+	iio_dev->info = &osf_iio_info;
-+	iio_dev->modes = INDIO_DIRECT_MODE | INDIO_BUFFER_SOFTWARE;
-+	iio_dev->channels = spec->channels;
-+	iio_dev->num_channels = spec->num_channels;
-+	iio_dev->available_scan_masks = spec->available_scan_masks;
-+
-+	state->buffer = iio_kfifo_allocate();
-+	if (!state->buffer) {
-+		ret = -ENOMEM;
-+		goto err_free_iio;
-+	}
-+
-+	ret = iio_device_attach_buffer(iio_dev, state->buffer);
-+	if (ret)
-+		goto err_free_buffer;
-+
-+	ret = iio_device_register(iio_dev);
-+	if (ret)
-+		goto err_free_buffer;
-+
-+	*indio_dev = iio_dev;
-+
-+	return 0;
-+
-+err_free_buffer:
-+	iio_kfifo_free(state->buffer);
-+err_free_iio:
-+	iio_device_free(iio_dev);
-+
-+	return ret;
-+}
-+
-+void osf_iio_unregister_sensor(struct iio_dev *indio_dev)
-+{
-+	struct osf_iio_state *state = iio_priv(indio_dev);
-+
-+	iio_device_unregister(indio_dev);
-+	iio_kfifo_free(state->buffer);
-+	iio_device_free(indio_dev);
-+}
-+
-+int osf_iio_push_sample(struct iio_dev *indio_dev, const s32 *values,
-+			u16 channel_count)
-+{
-+	struct osf_iio_state *state = iio_priv(indio_dev);
-+	s64 timestamp;
-+	int ret;
-+
-+	if (channel_count != state->spec->channel_count)
-+		return -EPROTO;
-+
-+	if (!iio_device_try_claim_buffer_mode(indio_dev))
-+		return 0;
-+
-+	timestamp = iio_get_time_ns(indio_dev);
-+
-+	switch (channel_count) {
-+	case 1: {
-+		struct osf_iio_scan_1axis scan = { };
-+
-+		scan.value = values[0];
-+		ret = iio_push_to_buffers_with_ts(indio_dev, &scan,
-+						  sizeof(scan), timestamp);
-+		break;
-+	}
-+	case 3: {
-+		struct osf_iio_scan_3axis scan = { };
-+
-+		scan.values[0] = values[0];
-+		scan.values[1] = values[1];
-+		scan.values[2] = values[2];
-+		ret = iio_push_to_buffers_with_ts(indio_dev, &scan,
-+						  sizeof(scan), timestamp);
-+		break;
-+	}
-+	default:
-+		ret = -EPROTO;
-+		break;
-+	}
-+
-+	iio_device_release_buffer_mode(indio_dev);
-+
-+	return ret;
-+}
-diff --git a/drivers/iio/opensensorfusion/osf_iio.h b/drivers/iio/opensensorfusion/osf_iio.h
-new file mode 100644
-index 000000000..d0745167f
---- /dev/null
-+++ b/drivers/iio/opensensorfusion/osf_iio.h
-@@ -0,0 +1,22 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef _OSF_IIO_H
-+#define _OSF_IIO_H
-+
-+#include <linux/types.h>
-+
-+#include "osf_protocol.h"
-+
-+struct device;
-+struct iio_dev;
-+struct osf_device;
-+
-+int osf_iio_register_sensor(struct device *dev,
-+			    const struct osf_capability_entry *entry,
-+			    struct osf_device *osf, struct iio_dev **indio_dev);
-+void osf_iio_unregister_sensor(struct iio_dev *indio_dev);
-+int osf_iio_push_sample(struct iio_dev *indio_dev, const s32 *values,
-+			u16 channel_count);
-+bool osf_iio_sensor_supported(u16 sensor_type, u16 channel_count);
-+const char *osf_iio_sensor_name(u16 sensor_type);
-+
-+#endif
-diff --git a/drivers/iio/opensensorfusion/osf_serdev.c b/drivers/iio/opensensorfusion/osf_serdev.c
-new file mode 100644
-index 000000000..6a0ebe5ab
---- /dev/null
-+++ b/drivers/iio/opensensorfusion/osf_serdev.c
-@@ -0,0 +1,114 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/device.h>
-+#include <linux/errno.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/serdev.h>
-+#include <linux/slab.h>
-+#include <linux/types.h>
-+
-+#include "osf_core.h"
-+#include "osf_stream.h"
-+
-+#define OSF_SERDEV_BAUD		115200
-+
-+struct osf_serdev {
-+	struct serdev_device *serdev;
-+	struct osf_device osf;
-+	struct osf_stream stream;
-+};
-+
-+static size_t osf_serdev_receive_buf(struct serdev_device *serdev,
-+				     const u8 *buf, size_t count)
-+{
-+	struct osf_serdev *osf_uart = serdev_device_get_drvdata(serdev);
-+	const struct osf_stream_stats *stats;
-+	u64 valid_before;
-+	int ret;
-+
-+	valid_before = osf_uart->stream.stats.valid_frames;
-+	ret = osf_stream_receive_bytes(&osf_uart->stream, buf, count);
-+	stats = &osf_uart->stream.stats;
-+
-+	if (ret || stats->valid_frames != valid_before)
-+		dev_dbg_ratelimited(&serdev->dev,
-+				    "rx count=%zu valid=%llu bad_magic=%llu bad_crc=%llu dropped=%llu ret=%d\n",
-+				    count, stats->valid_frames,
-+				    stats->bad_magic_resyncs,
-+				    stats->bad_crc_frames,
-+				    stats->dropped_bytes, ret);
-+
-+	return count;
-+}
-+
-+static const struct serdev_device_ops osf_serdev_ops = {
-+	.receive_buf = osf_serdev_receive_buf,
-+};
-+
-+static int osf_serdev_probe(struct serdev_device *serdev)
-+{
-+	struct device *dev = &serdev->dev;
-+	struct osf_serdev *osf_uart;
-+	unsigned int baudrate;
-+	int ret;
-+
-+	osf_uart = devm_kzalloc(dev, sizeof(*osf_uart), GFP_KERNEL);
-+	if (!osf_uart)
-+		return -ENOMEM;
-+
-+	osf_uart->serdev = serdev;
-+	osf_core_init(&osf_uart->osf, dev);
-+	osf_stream_init(&osf_uart->stream, &osf_uart->osf);
-+
-+	serdev_device_set_drvdata(serdev, osf_uart);
-+	serdev_device_set_client_ops(serdev, &osf_serdev_ops);
-+
-+	ret = devm_regulator_get_enable(dev, "vcc");
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "failed to enable vcc regulator\n");
-+
-+	ret = serdev_device_open(serdev);
-+	if (ret)
-+		return ret;
-+
-+	baudrate = serdev_device_set_baudrate(serdev, OSF_SERDEV_BAUD);
-+	if (baudrate != OSF_SERDEV_BAUD)
-+		dev_warn(dev, "requested %u baud, controller set %u\n",
-+			 OSF_SERDEV_BAUD, baudrate);
-+
-+	serdev_device_set_flow_control(serdev, false);
-+
-+	return 0;
-+}
-+
-+static void osf_serdev_remove(struct serdev_device *serdev)
-+{
-+	struct osf_serdev *osf_uart = serdev_device_get_drvdata(serdev);
-+
-+	/* Stop the RX producer before unregistering IIO consumers. */
-+	serdev_device_close(serdev);
-+	osf_stream_reset(&osf_uart->stream);
-+	osf_core_unregister_iio(&osf_uart->osf);
-+}
-+
-+static const struct of_device_id osf_serdev_of_match[] = {
-+	{ .compatible = "opensensorfusion,osf" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, osf_serdev_of_match);
-+
-+static struct serdev_device_driver osf_serdev_driver = {
-+	.probe = osf_serdev_probe,
-+	.remove = osf_serdev_remove,
-+	.driver = {
-+		.name = "open-sensor-fusion-uart",
-+		.of_match_table = osf_serdev_of_match,
-+	},
-+};
-+module_serdev_device_driver(osf_serdev_driver);
-+
-+MODULE_DESCRIPTION("Open Sensor Fusion IIO driver");
-+MODULE_LICENSE("GPL");
--- 
-2.43.0
+You are right.  pg_locked_wgen doesn't get cleared.  However, DEPT works
+this way:
 
+   folio_lock()
+      wait_for_pg_locked_cleared()
+      set_pg_locked() // (1) update pg_locked_wgen to the current wgen
+
+   ... // there might be other waits
+
+   folio_unlock()
+      clear_pg_locked() // (2) check if there have been any waits since (1)
+
+In other words, it's guranteed that pg_locked_wgen has been updated e.i.
+(1) when DEPT refers to pg_locked_wgen e.i. (2).  So I don't think it's
+a problem.
+
+> I think we should be tracking PG_locked dependencies in the owner
+> of the folio.  For files, that would be in the struct address_space.
+> For anon memory, I think that's in the anon_vma, but if somebody told
+> me it was in some other structure, I wouldn't argue with them.
+
+I think it's a good point but it's a classification issue.  folios owned
+by struct address_space should be classified to e.g. address_space_class
+and ones owned by struct anon_vma should be classified to e.g.
+anon_vma_class.  I will work on it to apply the insight you just gave
+but better do it as follow-up patches since the initial patchset is
+already too big to get reviewed.
+
+> This requires slightly more complexity than lockdep currently has.
+> We don't want to use a lockdep class for each folio, obviously.  So we
+> need something to say "I already have folio F1 locked, is it OK to lock
+
+From DEPT's perspective, folio_lock(F1) and folio_lock(F2) are waits and
+folio_unlock(F1) and folio_unlock(F2) are events.  Since DEPT tracks
+dependencies with specified classes between waits and events, DEPT's
+interest in the following example is to detect a situation like:
+
+   < context X >
+
+   folio_lock(address_space_class'ed F1)
+   ...
+   folio_lock(anon_vma_class'ed F2)
+   ...
+   folio_unlock(anon_vma_class'ed F2)
+   ...
+   folio_unlock(address_space_class'ed F1)
+
+   < context Y >
+
+   folio_lock(anon_vma_class'ed any folio)
+   ...
+   folio_lock(address_space_class'ed any folio)
+   ...
+   folio_unlock(address_space_class'ed any folio)
+   ...
+   folio_unlock(anon_vma_class'ed any folio)
+
+However, the following pattern should be manually annotated by
+developers like using folio_lock_nested() or something.  DEPT cannot
+work with it automatically:
+
+   folio_lock(address_space_class'ed F1)
+   ...
+   folio_lock(address_space_class'ed F2)
+   ...
+   folio_unlock(address_space_class'ed F2)
+   ...
+   folio_unlock(address_space_class'ed F1)
+
+or
+
+   folio_lock(anon_vma_class'ed F1)
+   ...
+   folio_lock(anon_vma_class'ed F2)
+   ...
+   folio_unlock(anon_vma_class'ed F2)
+   ...
+   folio_unlock(anon_vma_class'ed F1)
+
+These should be explicitly annotated by developers if it's intended:
+
+   folio_lock(address_space_class'ed F1)
+   ...
+   folio_lock_nested(address_space_class'ed F2)
+   ...
+   folio_unlock(address_space_class'ed F2)
+   ...
+   folio_unlock(address_space_class'ed F1)
+
+or
+
+   folio_lock(anon_vma_class'ed F1)
+   ...
+   folio_lock_nested(anon_vma_class'ed F2)
+   ...
+   folio_unlock(anon_vma_class'ed F2)
+   ...
+   folio_unlock(anon_vma_class'ed F1)
+
+> folio F2?".  Essentially figuring out how we can track all folios in a
+> given mapping the same way, and making sure that we don't deadlock on
+> folios in the same mapping.
+
+At the moment, as I told you, DEPT cannot work with dependencies between
+the same class'ed folios.  However, it'd be much better if DEPT can work
+with even those cases.  Could you provide a scenario where a deadlock
+happens between the same class'ed ones?  Any idea how to detect for the
+cases?
+
+> If F1 and F2 are in different mappings, it's not a deadlock if F1 is in a
+> filesystem mapping and F2 is in its backing dev.  It's also not a deadlock
+> if F1 and F2 are both filesystem folios and the inodes are both locked.
+> See vfs_lock_two_folios() in fs/remap_range.c.
+
+Yeah.. DEPT is a tracker to track dependencies between waits and events
+even across different contexts, but not a magic unfortunately.  That
+lock ordering issue - with the same class'ed ones - should be resolved
+in the manual manner as vfs_lock_two_folios() does.
+
+> I have much less knowledge about anonymous memory locking order.
+> Maybe it doesn't happen.  Or about locking one anon and one file folio.
+> For slab memory, we don't sleep on PG_locked (it's used as a spinlock bit).
+> For other kinds of memory ... I don't know.  Page migration is fun.
+
+Anyway, the sophisticated classification you mentioned is necessary for
+DEPT to be better especially for folio locking mechanism.
+
+Thanks again!
+
+	Byungchul
