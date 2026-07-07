@@ -1,121 +1,104 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4B13403EB
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 08:48:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5785023ED6F;
+	Tue,  7 Jul 2026 08:53:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783414136; cv=none; b=HkA0Y6AYiDbP5dwCEYqZ+KEFcceP7v2TmZsqchjc1M/rU2bkWPb9FAGNa6xwM+ZffiBqqeBSHOc5fiSD7HDTxvHvOfOOxTa84bncSY6/vfSJVmYs80pp8FiTLlPkaHQIaz+2HD2Hg/p3uce1rBY2O3fpN/jvcAj127/GmAxQpX4=
+	t=1783414437; cv=none; b=pZ7+njBGvsS+ezLqKQT9le/bnQcQEf1RJGUgJrkMAlpP5MXLVrLfjLNKyWt0q+HiClTuQ9USfYGa7+35L8r8jF9a4mSgkU4yd6wZ3WBr8tDywBGzukBFP4U+r7H9DMMa5vFUdCfNaxy7QRIyUOZmGMFFxWBd9zCy9hD9nLV9vy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783414136; c=relaxed/simple;
-	bh=ZnQilIaD79Onwbpdt4qaqS+3l12GDRzxu1mzuEFLoBk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MJKsVZSTtvXVTE1exdgkWiVcvicAB/XQUHOQVNurXSAp+btkv+dcuB0EKJpL/V0SoofEzm0k9msyhA0rdslAeJzd4gXBt2gkwd154IpVbXrz85a6ZfKZqqXZfCz4WsYK2T1bk8tYf14kW4a1HVmhmB/I5o1oXQDRvRyL6AGSrPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=Yjzr90Gb; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="Yjzr90Gb"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47ddf7b09e5so1897374f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 01:48:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783414133; x=1784018933; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZnQilIaD79Onwbpdt4qaqS+3l12GDRzxu1mzuEFLoBk=;
-        b=Yjzr90GbzxrPyuNaXh+j2YwI5Un0YT9v2orcwGo4aDLAniuQBzp0zETKg05ygk2CHk
-         xA2rdDiG8+mMZfQeSTpG4wU/3/GvMJdppb4p6teJY5XUfPAu0H8HFPSVx8rai4/6f6yn
-         yDtMvlYL9v7Ko71mL8eHdDeMKLuWBmE0OkRbsXidVfc4PZ8KH9PCXytMS6v/HR5I+xfX
-         BiJMEbuVDlHNhEVH2uUn9BgOj0uoH8tT0740AziAmXcENu1TmLmygXS5bSWNX7e3IBiO
-         NB8GLjBDSpP+fluwnovV99HexIKCqyqNvPCDJvXO6MvxltscJU4IZl6SytYKD5sgPFFg
-         nbZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783414133; x=1784018933;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZnQilIaD79Onwbpdt4qaqS+3l12GDRzxu1mzuEFLoBk=;
-        b=oexAHN3tEAOovA1BDY8grUWIbyrEf2BUSmKeZVV1ER/JsIpMG315H6iLpBPdCY2at+
-         sYQgweVlnYvJSs1fJpParmyRDXPl8WJwziecuyjuB4vniUJQf9qgOKG2rW8FFdmzCk1M
-         bydx2nsuxx1I08rrfXXG+ioKvroGOOQiUaOG413rSV+gq49cqs4ijOnh2qsPhER8vO7u
-         L8SCS3mHg/8u8ojc1ZlYmevpFInp83yMp/Gl557ciBllu8dbLVBsDpwmu5cCwMCw4oE5
-         HQweuW84zxYc5jSNnajRiYTUzcJoWZxt8DHPtfj4swVUEthYxyeJxN3Pid2xlDeZ5J8d
-         5inQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqzPPTAvSBvwPN0p9S69/s+q7uG6Y2wcL3eugFmu2eE9RGL2WknyR6WpUgwpwNuH5nNl3lsLUe7R4Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxfsi82fQ3icrCfVtl+r06HmCmqGwgzR+/8/dnaoOHfCkj4/WC9
-	tqGzPHrMuubB0fdvTOM3CWrzSqIm9heP168YfDI8WHbbXctEOXvcOS+o4xOO8uAZjYQ=
-X-Gm-Gg: AfdE7cl20ylgAP9gpVlSQ5ZPm1DcMjotharav6Mi1OxhLnoK5D8yW+z5wK7I1eCTzYD
-	aHNkdtfeqPMh6QZkbdY9ke9l6hqMvwvo1uc8k3pt+UvFoZTOJdf/h6SWJFO7nHjmnkUdLt0zeu3
-	I/PHuUcEZhlq7zHWz2+mMrQwHt3fz7EP5JybqFy41EamJn/1V46UmboxGQhTa/vAn1pTAbq5/pR
-	rZPo7Co3PQpChc1WnqZ1TdOaw2nL2oiIangVMKSUZbY+bHsLtepOVDjfEamX2YSGswhQzAVHpoE
-	DdMe3hXhJEFquDDD+PMVDgTqW3Mui9vl5hp1BIs3OrTIKOxxgQc48cnR0T/bZse3frS2bBMpR9v
-	Bbigc3ZLS947lGqjGt/dfRLgF8fBzb+sVFqMGEsACiiX6AqrXRMUwhYIa3Ne1aT54ZL1c/BzSO5
-	5JforHTcSfqIvl04f0xxHWu3nfILL2RJmBr6XegAbp54WUu6rFBRea5rDa6WprneeZ3tvmNDabL
-	9XX
-X-Received: by 2002:a05:6000:2407:b0:473:1ccc:15cc with SMTP id ffacd0b85a97d-47de664a423mr4602888f8f.0.1783414132916;
-        Tue, 07 Jul 2026 01:48:52 -0700 (PDT)
-Received: from localhost (p200300f65f47db0437b4d928ee3eb6f8.dip0.t-ipconnect.de. [2003:f6:5f47:db04:37b4:d928:ee3e:b6f8])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47a9de1d910sm31134462f8f.6.2026.07.07.01.48.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 01:48:52 -0700 (PDT)
-Date: Tue, 7 Jul 2026 10:48:51 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Jinseob Kim <kimjinseob88@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Nuno Sa <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 5/5] iio: osf: add UART IIO driver
-Message-ID: <aky9ZMNbsvMOzRBb@monoceros>
-References: <20260707014525.1015-1-kimjinseob88@gmail.com>
- <20260707014525.1015-6-kimjinseob88@gmail.com>
+	s=arc-20240116; t=1783414437; c=relaxed/simple;
+	bh=S/pb/9Fi8S+ITROp7jSyIZoncrv3aksYhm9/wmYDMMY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Bgc4CcFrSKVpMI3NjAbzYoUAJgThxXiQ+ddHJwKVvFyzBFENvPEqAB7nJjlZxheDE+QHqI7RcqVUF8ZOcRR+cBJ5vt28dgEYap6NauW3CWlskhpNSxEu+v39jjZVm5/Si/yDcAUxLc7lpptdvN1QsYqq7H7Acb8QNK6kzJpWYBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 59b43ff079e111f1aa26b74ffac11d73-20260707
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:d048ae7f-8699-4612-b324-1c21b693610b,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:4bb2c6fcafb04efa138be27e6f3aaf8f,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|123|850|865|898,TC:nil,Content:0|15|
+	52,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
+	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 59b43ff079e111f1aa26b74ffac11d73-20260707
+X-User: luoliang@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <luoliang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 683246431; Tue, 07 Jul 2026 16:53:40 +0800
+From: luoliang@kylinos.cn
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Liang Luo <luoliang@kylinos.cn>
+Subject: [PATCH] sched/doc: Fix stale em_pd_energy() reference in sched-energy
+Date: Tue,  7 Jul 2026 16:53:35 +0800
+Message-Id: <20260707085335.2942128-1-luoliang@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cc6pi6fldaghp7ck"
-Content-Disposition: inline
-In-Reply-To: <20260707014525.1015-6-kimjinseob88@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+From: Liang Luo <luoliang@kylinos.cn>
 
---cc6pi6fldaghp7ck
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH v7 5/5] iio: osf: add UART IIO driver
-MIME-Version: 1.0
+The scheduler energy-aware placement documentation refers to the
+em_pd_energy() API, which was renamed to em_cpu_energy() in commit
+f0b5694791ce ("PM / EM: change name of em_pd_energy to em_cpu_energy").
+Update the reference to the current name.
 
-Hello,
+em_cpu_energy() is the EM helper that compute_energy() in
+kernel/sched/fair.c calls to estimate a performance domain's energy
+consumption (defined in include/linux/energy_model.h).
 
-On Tue, Jul 07, 2026 at 10:45:25AM +0900, Jinseob Kim wrote:
-> +#include <linux/mod_devicetable.h>
+Sync the zh_CN translation, which carries the same stale name.
 
-Please don't add new users for this header file. Only use those
-<linux/device-id/*.h> that you actually need (if any).
+Signed-off-by: Liang Luo <luoliang@kylinos.cn>
+---
+ Documentation/scheduler/sched-energy.rst                    | 2 +-
+ Documentation/translations/zh_CN/scheduler/sched-energy.rst | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Thanks
-Uwe
+diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
+index 4e47aaf103eb..83bac0da4869 100644
+--- a/Documentation/scheduler/sched-energy.rst
++++ b/Documentation/scheduler/sched-energy.rst
+@@ -141,7 +141,7 @@ in its previous activation.
+ find_energy_efficient_cpu() uses compute_energy() to estimate what will be the
+ energy consumed by the system if the waking task was migrated. compute_energy()
+ looks at the current utilization landscape of the CPUs and adjusts it to
+-'simulate' the task migration. The EM framework provides the em_pd_energy() API
++'simulate' the task migration. The EM framework provides the em_cpu_energy() API
+ which computes the expected energy consumption of each performance domain for
+ the given utilization landscape.
+ 
+diff --git a/Documentation/translations/zh_CN/scheduler/sched-energy.rst b/Documentation/translations/zh_CN/scheduler/sched-energy.rst
+index fdbf6cfeea93..03dedc69839a 100644
+--- a/Documentation/translations/zh_CN/scheduler/sched-energy.rst
++++ b/Documentation/translations/zh_CN/scheduler/sched-energy.rst
+@@ -119,7 +119,7 @@ EAS覆盖了CFS的任务唤醒平衡代码。在唤醒平衡时，它使用平
+ 
+ 如果唤醒的任务被迁移，find_energy_efficient_cpu()使用compute_energy()来估算
+ 系统将消耗多少能量。compute_energy()检查各CPU当前的利用率情况，并尝试调整来
+-“模拟”任务迁移。EM框架提供了API em_pd_energy()计算每个性能域在给定的利用率条件
++“模拟”任务迁移。EM框架提供了API em_cpu_energy()计算每个性能域在给定的利用率条件
+ 下的预期能量消耗。
+ 
+ 下面详细介绍一个优化能量消耗的任务放置决策的例子。
+-- 
+2.43.0
 
-
---cc6pi6fldaghp7ck
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpMvXAACgkQj4D7WH0S
-/k6kYwf/QrsvVB+FpqOTdJQKQDyBUgE8X47AQ2lzuY6x2BS7Ix+fTBZoIZP2vHOw
-VQsrn6N7UpvUQPxL+wvolGEcWyw4N6ADBNzMfMohNfJEiHRbLUC2O2GpHzQ3mQuK
-YbplvW7QAx3edKqE8sTV3GzCxmlLyXoxyXyIBoWvxpQsKg/hqy8Vy98P9Zl61ZKR
-bnRIi1XyBNsIn0f/ZVYDB/nntHLtinS4OhNe0PMiK4vRY7OGyJE/REkLHRITQUml
-/rCrt2WKiocboCDZq2Ca0fZtMlQwJWAhNwtElfaFRW0tyTfOSswQ6Xu6VPq7faXo
-k0WNen8fn54frelJ7YLGLK+JRBKecw==
-=viEt
------END PGP SIGNATURE-----
-
---cc6pi6fldaghp7ck--
