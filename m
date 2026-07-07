@@ -1,202 +1,226 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 833BB30E829
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 14:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F24313E29;
+	Tue,  7 Jul 2026 14:04:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783432926; cv=none; b=Q9bTdvBIcJoVBt2Hh4hVT1aZBlvRpqrCVCpYwXfESm5t/lQyEIdrCxjDWkyl/KB0V6YcZcCQQSDE12ze/XF4OnfYRMrBKqCus/x+FCxWFObyJCU2zaAAls1411URrQvFcye0UxnnsApSJRwjI8zCeOedXzsCPQ6Et/7Znf3SBBI=
+	t=1783433067; cv=none; b=hJbhNJ4oK48qSNQLEYznvebtVKd+ILBhDLojCt3LELS8iQLgoRSLJPC6MrgdW+zjqwmJ4Ca/0lReWYNCjmib6dUj0SNAyQApKZjadpPY88Xeo/++NaLK8hPpjK3NBtrSDoYQVWxJD+Ac11OSslb1YfbVlju+CTk653Ez+rEQ6fY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783432926; c=relaxed/simple;
-	bh=MJKZMdNzs5NYzNY696wPqhLLq50VnJ6AsyX8VhbYT/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZPrMcfyvwzVY5MogksAzeBQNjUAMRErwN4MRUtavHRYEO7dGPSUkJsPDW2QBceyVMW2awxAzwPiIzLHC81zCLS46kfosBJ0uRjp8qg+rEwwyiC43+96imJHwdg0bD3DXQZCbqMnsklShScdmSSbeXVBGeFRq5UVl6m0Mb3nA53U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DKsaaHL8; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=WU1FYTFU; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1783433067; c=relaxed/simple;
+	bh=VVduthgyM0ls5bM2bLDjpqwtpzsb3QYUHtpF9OYaiZs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NVCf4ro+K43zJYltnE4ziPnGPIs1Nf6yDjjrnpZUkw47o113uXgmAdOQkNwrgHp/pILBvAHjweFNr5dUdjan3lSYLeSVsmmGZPysgjYI1r/sWQskrFmOH2OUQ9V4S7OTZLeVwZ3ACbrc7NU0KzZO7xoU0PW76cf1yWGU9XJPRGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A7bzhUah; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DKsaaHL8";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="WU1FYTFU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783432924;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WDvld2BXpFSwdt9ItbR9zFXv+7W3dhSsVabE1vNaiZo=;
-	b=DKsaaHL8LGM5eiKdvpgnMuoGDXMynbCMdSb7zbxjpdNv/faiNCTjidqP0elMe26gB9JTF1
-	KMmAYMroqPAxkyGLL8DA8YNHnpXPsLG7/ME0Z30oyFEMU9w2MiZpfwGHCSVKZYsj5mrEqk
-	SGeHbDR3ISdR9ZdKumTu38W+p2Gyi2M=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-304--jUgK9MjPaKeEn6-roaWzg-1; Tue, 07 Jul 2026 10:02:03 -0400
-X-MC-Unique: -jUgK9MjPaKeEn6-roaWzg-1
-X-Mimecast-MFC-AGG-ID: -jUgK9MjPaKeEn6-roaWzg_1783432922
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-490a767c7dcso34283035e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 07:02:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1783432922; x=1784037722; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=WDvld2BXpFSwdt9ItbR9zFXv+7W3dhSsVabE1vNaiZo=;
-        b=WU1FYTFUnKeOHYEZHyYPKI+612Kw2sx607ktOC8fwiJ2nqvsSYrfCOviiZTD9KDEsL
-         l1Qrso3a1++30OpRLY27dJpI5hSmXPlSfpVzGLR52xF7SfplYCR+X/EclVctnpkW97Zf
-         wuo0nqanNNfHCQfz43XKwO0B5BLkHkUjT1xzgGgdC/kmFG40fQDwMKHmutWexyPQTS1O
-         A1TEACsj97XFIes3uf57AnADiRsLevcYACIIH6cUIJnTymT99Z06dvl4rR8bRBlIHtmc
-         vODIWUdfn0RdKzqOr2ZaOn+9OOfSh+CKfmJr/UvL8/jpjjeda2+PypoKmMxYdkvzz3VL
-         KNJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783432922; x=1784037722;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WDvld2BXpFSwdt9ItbR9zFXv+7W3dhSsVabE1vNaiZo=;
-        b=Hq59mkmQQbZ42pVOMMosFsAjJhqyZMRoXAc/RKh7VBHy/LrLe/bLkBWUIwewrREqpU
-         1fzVqrETlES6wcNY+JJ2HxRb3Retaq32J3MC5Dr9TyEKVg5+yfRR8ix5NCZscV44P+V8
-         wKQrLaSzlN7Ec+VivGp30Q1EWr/u1PyDWWF8Jbt6PqsTlQBEDE2EZfcdPTHiukQASzju
-         txhewLYyxbP7aKh1PY8fhqqYrXzmvAg/NolkV6e2NbLDvKwzunoQUo+D5npvxYFDVGaO
-         T7UC/+xfigq5B2f735XPSqOz5HzFNCD9MLn7jQ3IKxQxtZBEF5CmVsJvUeA4c96PjAFp
-         DU9Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rr1fjkes42xkpR9fD2j8XxLiwXx9DyVk99czJ5VPuItknyIfnlZb38WFaGL2a9shFOZNDu6NEA50tI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0LQ8WKRtmuFFl5jpWmHIrCYmgfg1u8Jf3p/CQSrdZM2aTqH5w
-	T96Ehr69ioNW7oL3+dOEQ8ih4S6BV70scVN0mwopZDww1FQ7udRu9p6QqWCIGK8jAwZnfqqnGFV
-	bBGs9YS0/ZmWAeNWO3dNty6MbPCHyne19gih7U42oFx2ODzlzF5LrC4Q4lLPF3g==
-X-Gm-Gg: AfdE7clS0nK2FvF0/b6Pwiq7vkgSrk3aLcIIra7mTtHOY6hbjjGgAIoH1MECnz8waAE
-	CYZbz+oE761C9ii1sPoAzEDaj3ql9JERl4lQwflCOU3vAnr8A9+TJys2K9fg87ezel2D+ZXEW92
-	y/O8RLwSAhEZOJ34OTFkrHvVhjMuExV6BzySvlcaSpvcsMqjk3o/Oi4DXvDFhWv8+WVMXNIRHlp
-	vfCmG27MIlYh+45bTGvd9qOpbsJwjzAJ7e3CJxYH+CGAhEE6RG+D89on2NPCLzhzZHurFm5zGv2
-	QYd5Mgi04yrXkHULddOl+4RFLY5QnRavhQ7Kf6Cze0zGmLPkqikvkFcISXS8g17050Yz4gQ2KYg
-	J7nb4xcsOZv5AMVwdhgKmLjmMtUNNvrGY
-X-Received: by 2002:a05:600c:198e:b0:493:bed6:85e6 with SMTP id 5b1f17b1804b1-493df0711f9mr63762585e9.15.1783432920444;
-        Tue, 07 Jul 2026 07:02:00 -0700 (PDT)
-X-Received: by 2002:a05:600c:198e:b0:493:bed6:85e6 with SMTP id 5b1f17b1804b1-493df0711f9mr63761815e9.15.1783432919826;
-        Tue, 07 Jul 2026 07:01:59 -0700 (PDT)
-Received: from redhat.com (IGLD-80-230-68-31.inter.net.il. [80.230.68.31])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0f214d2sm33176455f8f.33.2026.07.07.07.01.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 07:01:59 -0700 (PDT)
-Date: Tue, 7 Jul 2026 10:01:55 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Sourav Panda <souravpanda@google.com>, muchun.song@linux.dev,
-	osalvador@suse.de, akpm@linux-foundation.org, liam@infradead.org,
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
-	mhocko@suse.com, mhklinux@outlook.com, fvdl@google.com,
-	gthelen@google.com, mike.kravetz@oracle.com,
-	pasha.tatashin@soleen.com, rientjes@google.com, riel@surriel.com,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH 0/6] mm/hugetlb: Dynamic, NUMA-aware HugePage Cache &
- Free Page Reporting
-Message-ID: <20260707095843-mutt-send-email-mst@kernel.org>
-References: <20260707064235.1386552-1-souravpanda@google.com>
- <9624988a-366e-4884-9408-3f3b88c27290@kernel.org>
- <20260707062428-mutt-send-email-mst@kernel.org>
- <b9a48d89-74f1-43d4-b7bb-be988b6855c9@kernel.org>
- <akzZr2jfJ0J8zox4@lucifer>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A7bzhUah"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7892EC2BCB8;
+	Tue,  7 Jul 2026 14:04:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1783433067;
+	bh=VVduthgyM0ls5bM2bLDjpqwtpzsb3QYUHtpF9OYaiZs=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=A7bzhUahOPz0laqExxJJloa/dCKpVhwOlo4UqpanIQ8nOw/7uS+dppxMSrvmbAc1x
+	 Y86dfg27VUuFJExZmRlIv5Yoj5H+14x4KyGN1noAr+GExXMwzQlo7wYCiNgXrKmnhI
+	 7S+k6MD/sHVypGN4VBnQ05McKUl2MwP7Ij6sHJChHbV6r2nMaZA78V3q/5LhGji3vF
+	 jG8jql23V7GWpdQdr41fri+no2PBBSi9Q328JdCQrr9esfV6gqLWK9UR3cXc/ZWTLh
+	 79F/Lxn/Obd7tb73GKum8CEpzRXO6WCKJcAMSoNohhJZnScZiNzrhCvqBQHaCRlmPh
+	 Ij54c4oOInw8g==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53226C43458;
+	Tue,  7 Jul 2026 14:04:27 +0000 (UTC)
+From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+Subject: [PATCH v7 00/17] AD9910 Direct Digital Synthesizer
+Date: Tue, 07 Jul 2026 15:04:21 +0100
+Message-Id: <20260707-ad9910-iio-driver-v7-0-a4ec30f63700@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <akzZr2jfJ0J8zox4@lucifer>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGYHTWoC/23Q3WrEIBAF4FdZvK7FGX8Se9X3WHqhcdwV2lhMk
+ S1L3r1mKaQlXh7Bbw7nzhYqiRb2crqzQjUtKc8tDE8nNl3dfCGeQssMBRqBMHIXrAXBU8o8lFS
+ pcOtlQFATaois/fssFNPtYZ7fWr6m5SuX78eJCtvrr4aio1XggkuPRjmnRgfi1c3uPV+ep/zBN
+ q7iTshuoYqNoMFGKz1NEeBAyJ1QMPQI2Qi03soB0CGOB0LthBbdFqoRAY2PAQWRDAdC/yH6LfS
+ 2BWhrp3GUoNyBMDth+luYRgwWUMfoScn/c67r+gNv4RiRAgIAAA==
+X-Change-ID: 20260218-ad9910-iio-driver-9b3d214c251f
+To: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-hardening@vger.kernel.org
+Cc: Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Rodrigo Alencar <rodrigo.alencar@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783433065; l=7884;
+ i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
+ bh=VVduthgyM0ls5bM2bLDjpqwtpzsb3QYUHtpF9OYaiZs=;
+ b=8EistSINOpKLMgs2rNuyOXAOeECwKPLhFJOvW3sHtajgED8gDlIvXCRvIt3m3uuXouDGC62Rg
+ xZ/iaM8nFnkCoUqeAEquRqyh6UHE+ysKqZFsL/XLkVd+EKEF/uAfveW
+X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
+ pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
+X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
+ with auth_id=561
+X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Reply-To: rodrigo.alencar@analog.com
 
-On Tue, Jul 07, 2026 at 12:06:34PM +0100, Lorenzo Stoakes wrote:
-> On Tue, Jul 07, 2026 at 12:28:44PM +0200, David Hildenbrand (Arm) wrote:
-> > On 7/7/26 12:25, Michael S. Tsirkin wrote:
-> > > On Tue, Jul 07, 2026 at 09:29:07AM +0200, David Hildenbrand (Arm) wrote:
-> > >> On 7/7/26 08:42, Sourav Panda wrote:
-> > >>> Overview
-> > >>> This patch series introduces a dynamic, NUMA-aware HugePage Cache,
-> > >>> backed by a kernel shrinker to safely return memory under pressure, and
-> > >>> integrates it with Free Page Reporting (virtio-balloon) for HugeTLB,
-> > >>> specifically targeting gigantic (1GB) hugepages. The goal is to solve
-> > >>> the tradeoff between allocation latency and memory
-> > >>> fungibility in virtualized and heterogeneous cloud environments.
-> > >>
-> > >> Hi,
-> > >>
-> > >> in general, we consider hugetlb nowadays to be mostly in feature freeze, as we
-> > >> realized a while ago that adding more special casing on top of something too
-> > >> special for all of MM is only going to hurt us more in the long run.
-> > >>
-> > >> We want to have less special casing and less special sauce, not more.
-> > >>
-> > >> Now, there is nothing wrong in making hugetlb be less special, by making it use
-> > >> more of core infrastructure etc.
-> > >>
-> > >> But optimizing for surplus hugetlb pages by teaching hugetlb about new caches
-> > >> and its custom free-page-reporting support rather looks like the wrong direction
-> > >> for me?
-> > >>
-> > >> --
-> > >> Cheers,
-> > >>
-> > >> David
-> > >
-> > >
-> > > It is currently bypassing free-page-reporting completely.
-> > > Making existing free lists not ignore free-page-reporting would
-> > > maybe considered "making it be less special"?
-> > >
-> 
-> You have this completely backwards.
-> 
-> You're advocating making hugetlb _more special_ by duplicating functionality that
-> core mm already supports.
-> 
-> I mean:
-> 
-> mm/hugetlb.c                                 | 590 ++++++++++++++++++-
-> 
-> Tells the whole story right?
-> 
-> The whole issue with hugetlb is the very fact that it's a parallel
-> implementation of a bunch of mm stuff in its own little world.
-> 
-> We make it less special by mm/hugetlb.c smaller and smaller and implementing
-> what it does sanely elsewhere in _core mm_.
-> 
-> >
-> > Depends. We don't really want an orthogonal implementation of something we have
-> > in core-mm.
-> 
-> Yes, exactly.
-> 
-> Feature freeze means feature freeze, not 'feature that core mm doesn't support
-> feature freeze'.
-> 
-> Hugetlb is a poster child for poor decision making in mm that has left us
-> saddled with maintenance nightmares because we allowed 'just one more feature
-> in' (TM) with little to no thought to the future.
-> 
-> And we've all learned from that and don't want to repeat these kinds of
-> mistakes, nor make existing mistakes worse.
-> 
-> And work to improve hugetlbfs and make changes like the above are VERY welcome
-> :)
+This patch series adds support for the Analog Devices AD9910 DDS.
 
-Fair enough.
+This is a follow-up of the V3/V4/V5 discussion. For V1, we reached into
+this channel composition agreement where physical channels may have
+sub-channels. That adds the flexibility necessary for this design.
+During V2, some feedback indicated that the ABI is too device-specific,
+so DRG/RAM destination and operating modes are configured through
+alternate paths and profile channels are created. In V3/V4/V5, there was
+further discussion on the ABI and on mode priority debug.
 
-> Laying a foundation for hugetlbfs to be more of a sane mm citizen through rework
-> series is really the asking price for stuff like this in my opinion.
+The AD9910 DDS core can be driven through several independent mechanisms:
+single tone profiles, a digital ramp generator, an internal RAM playback
+engine, a parallel data port, and output shift keying. Each of these
+represents a distinct signal path into the DDS accumulator, so the driver
+models them as separate IIO output channels (IIO_ALTCURRENT, IIO_PHASE
+and IIO_FREQUENCY). This per-channel separation allows userspace to
+configure each mode independently through its own set of sysfs attributes,
+and to enable/disable modes individually via IIO_CHAN_INFO_ENABLE, relying
+on the hardware's own mode selection architecture.
 
-Lorenzo, do you know *how* you want it reworked? Could you write it up
-at a high level?
-Because if not, it's not really practical to make it the asking price.
+The AD9910 register map is not suited for the regmap framework: register
+widths vary across the map (16, 32, and 64 bits). The driver instead
+implements direct SPI access helpers with a software register cache, using
+type-specific read/write/update functions (ad9910_reg{16,32,64}_{read,
+write,update}) that handle endianness conversion and cache coherency.
 
+Registers are cached for several reasons. The control/function registers
+(CFR1, CFR2) are frequently queried to determine the current operating
+mode (e.g., checking RAM_ENABLE before every profile register access),
+and caching avoids repeated SPI read transactions for what are
+essentially state checks. The cache also enables efficient
+read-modify-write updates on multi-byte registers: the update functions
+merge new field values with the cached register content without issuing
+a SPI read, and skip the write entirely when the value is unchanged.
+Finally, the profile registers serve dual purposes depending on whether
+RAM mode is active -- they hold single tone parameters (FTW, POW, ASF)
+in normal operation but are repurposed for RAM playback configuration
+(start/end address, step rate, operating mode) when RAM is enabled. A
+shadow register array (reg_profile[]) preserves the inactive mode's
+settings across transitions, so no state is lost when switching between
+single tone and RAM operation.
 
-> >
-> > --
-> > Cheers,
-> >
-> > David
-> 
-> Thanks, Lorenzo
+RAM data is loaded through firmware upload infrastructure. Userspace
+writes the waveform data as a raw binary buffer (up to 4096 bytes for
+the full 1024x32-bit RAM), and the driver reverses the byte array and
+transfers it to the device in a single SPI transaction. Per-profile
+start/end addresses and playback parameters (operating mode, step rate,
+no-dwell control) are also configured through firmware update, using
+metadata in the header.
+
+Streaming data to the DDS core through the parallel data port at the
+PD_CLK rate is not covered by this series. That functionality would
+be added in a separate patch series, building on top of the IIO backend
+infrastructure to provide a proper buffered data path.
+
+Kind regards,
+
+Rodrigo Alencar
+
+Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+---
+Changes in v7:
+- Use seq_buf instead of scnprintf() in __iio_chan_prefix_emit().
+- Add tests for __iio_chan_prefix_emit().
+- #clock-cells as required in the dt-binding.
+- Add drctl as pwm in the dt-binding.
+- Check refclk freq range when pll is disabled.
+- Address other minor feedback (e.g. sashiko's ones) 
+- Link to v6: https://lore.kernel.org/r/20260618-ad9910-iio-driver-v6-0-79125ffbe430@analog.com
+
+Changes in v6:
+- Introduce IIO_FREQUENCY channel type.
+- Replace altvoltage channels for altcurrent.
+- DRG and Parallel Port destination handled with different channel types.
+- Parent attribute shows channel prefix rather than label.
+- Link to v5: https://lore.kernel.org/r/20260517-ad9910-iio-driver-v5-0-31599c88314a@analog.com
+
+Changes in v5:
+- Drop RFC tag to the patch series.
+- Address sashiko's comments.
+- Add parent-child relationship between iio channels.
+- List vs Table changes in documentation.
+- Add crc and version check to RAM mode firmware update.
+- Link to v4: https://lore.kernel.org/r/20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com
+
+Changes in v4:
+- Digital Ramp step exposed as a rate of change.
+- Dwell modes of Digital Ramp are controlled with dwell_en attribute. 
+- Disable of active profile behaves as a software powerdown.
+- Expose debugfs attributes to show mode priority.
+- Add 64-bit debugfs reg access support into iio core.
+- Link to v3: https://lore.kernel.org/r/20260417-ad9910-iio-driver-v3-0-29b93712a228@analog.com
+
+Changes in v3:
+- RAM custom configs (address range, destination, modes) loaded during firmware write.
+- DRG destination defined when attrs are written.
+- DRG modes broken down into enable attrs for ramp up/down channels.
+- Add separate profile channels, switching done through enable attr
+- Link to v2: https://lore.kernel.org/r/20260318-ad9910-iio-driver-v2-0-e79f93becf11@analog.com
+
+Changes in v2:
+- Device-tree bindings changes.
+- RAM loading to use firmware update interface.
+- Rearrange of channels into a hierarchy.
+- Link to v1: https://lore.kernel.org/r/20260220-ad9910-iio-driver-v1-0-3b264aa48a10@analog.com
+
+---
+Rodrigo Alencar (17):
+      iio: ABI: add attributes for altcurrent channels
+      iio: ABI: scale and offset for frequency/phase channels
+      iio: ABI: add parent entry for iio channels
+      iio: add IIO_FREQUENCY channel type
+      iio: core: support 64-bit register through debugfs
+      iio: core: create local __iio_chan_prefix_emit() for reuse
+      iio: test: add kunit tests for channel prefix naming generation
+      iio: core: add hierarchical channel relationships
+      dt-bindings: iio: frequency: add ad9910
+      iio: frequency: ad9910: initial driver implementation
+      iio: frequency: ad9910: add basic parallel port support
+      iio: frequency: ad9910: add digital ramp generator support
+      iio: frequency: ad9910: add RAM mode support
+      iio: frequency: ad9910: add output shift keying support
+      iio: frequency: ad9910: show channel priority in debugfs
+      iio: ABI: add docs for ad9910 sysfs and debugfs entries
+      docs: iio: add documentation for ad9910 driver
+
+ Documentation/ABI/testing/debugfs-iio-ad9910       |   60 +
+ Documentation/ABI/testing/sysfs-bus-iio            |   46 +
+ .../ABI/testing/sysfs-bus-iio-frequency-ad9910     |   31 +
+ .../bindings/iio/frequency/adi,ad9910.yaml         |  209 ++
+ Documentation/iio/ad9910.rst                       |  792 +++++++
+ Documentation/iio/index.rst                        |    1 +
+ MAINTAINERS                                        |   19 +
+ drivers/iio/frequency/Kconfig                      |   21 +
+ drivers/iio/frequency/Makefile                     |    1 +
+ drivers/iio/frequency/ad9910.c                     | 2356 ++++++++++++++++++++
+ drivers/iio/industrialio-core.c                    |  247 +-
+ drivers/iio/test/Kconfig                           |   14 +
+ drivers/iio/test/iio-test-channel-prefix.c         |  246 ++
+ include/linux/iio/iio-opaque.h                     |    2 +-
+ include/linux/iio/iio.h                            |   12 +
+ include/uapi/linux/iio/types.h                     |    1 +
+ tools/iio/iio_event_monitor.c                      |    2 +
+ 17 files changed, 3949 insertions(+), 111 deletions(-)
+---
+base-commit: 093239070573637ad2b4cb56abc9c4c7ee109294
+change-id: 20260218-ad9910-iio-driver-9b3d214c251f
+
+Best regards,
+-- 
+Rodrigo Alencar <rodrigo.alencar@analog.com>
+
 
