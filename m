@@ -1,134 +1,267 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5F92F8EB4
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 08:21:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC3F31A057;
+	Tue,  7 Jul 2026 08:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783412476; cv=none; b=i5xJ0tzMUXKjAGncDM3kqZJRviZb2sATNxvZ3UVthUcKUbKDhaEdQ/CaiugqvHAgsuMVuaUmY1MYxtGMIKqbVX7rFYdsRsX03g5POuYkrDtP1ovOTPfhrWwzN+Mx+15lXSwXCf67Egyk3n/+c34jY5dG9FWdY1tv3dgsaEvVD1o=
+	t=1783413036; cv=none; b=pXzT3QteH1NIEEPbs8Xl4dRVk5IMJBgDfvA71TAsenqiz3BRuBepaTihG8B/1PsMYJNbdZLtrhY7UBmta83RNTjKmDDftYzjM4m19LKwh4DqW4C9regWvVhZBK3e/Q/1ittJJmyVjhvIwgJA1BpOLz4aU/NY/3IsUsGgDmXlRdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783412476; c=relaxed/simple;
-	bh=yxyDXZcLno5sE381KVa7TTA1EbuqjfV/GZXgaDAdujk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jTdoLKd7UkbnMlkUUTpCA80zNOK/8a/YngkWK8eJn8moVtilEI/ehPg6G3AJ8EcBjy9j9i9fB+TlrBwVU0nJtjkG1QBg+M2iu0VSvrldGY9TwTxxS7T1gqcof44Ri+4a06vmtGFDFwdPuPyF5Nu45vlCn7YPk7z/dswgFDVbyLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cADJuVPj; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783413036; c=relaxed/simple;
+	bh=nP5SS8TSn5a1GQ/GBM9vcN4zxKMjiK9AstDAgspH3Ms=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gM7S4y2poXbJDAb0cLSllqEY0XouC7cldRd9KZntwS0F4gvpzCoTC+3o5wiJ8pk/AwoSAs/sX2Sd0TLNpJDDDg1pHcF+9o1+84ykE7vvo3Xu9JeIwNvsJaYMPKeO2hlH+F4WKlpEhzvhqGWBVTWHBCCCbXSXBtGfr/f2hoJX4YQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PFqQX4wp; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cADJuVPj"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3825c406ffeso3089662a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 01:21:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783412473; x=1784017273; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6Fb4S8tu1I2dFGb/une/tIzUUASJq3fORw7QtUUZ71s=;
-        b=cADJuVPjO2oPWReRAY2Gsh0Mq4ZbUtkLlmIryMFCbIP/ZUk0BWbjpSBMidaqKFFc/2
-         SmqxiBiYYeGmZX9TAQG1VoRpHzE/u+xwxwtg9W76PxYyVIC8DTP2JNNlc5hRj1p3AtGa
-         UU63AJr9PR9o/WhjeFh6IMNUdvoAomVYjtSggstBvU0hAOmkdY+0jC9ej1OGl1tSASDo
-         4xv4SLV9PYXyQtkEfuiJPIEZ+ReaZPcwmkMSGI3edIqsL8PHt8sKrFGiZmrL4ZpOntAh
-         oI+Yyc0fNkd/KFHMwlDpMbMdt6QZrgOzL8ZcpnKjTSW5kwj6DScU1MtPa3xsZkJ+a9dF
-         atjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783412473; x=1784017273;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6Fb4S8tu1I2dFGb/une/tIzUUASJq3fORw7QtUUZ71s=;
-        b=gPMuPFFCQ6kz2gOb4KCgBwUIqWztrOvVOSg6OJ/+e09ncpdbLIDI1WMu7fzEIDQWnY
-         kY8KcZMQGSR8/Lr9ONOsTUPV3yWbiq4bGM8CofB/JzLXDoJZw30InSOAD14rENobCai+
-         v160XaS+5HFYxjsxk0TCpUW1An+n217PN6dD2yW8jmyk9bvV4uBOn6Q61VvVaJzN+/b9
-         gDK/dlE7dnkc0YyxpWd+SXaDam+FLb+Fxkr2tpHBlvfKLUwIGM14V3fqnRtk5qK2wFei
-         knTY726Bz+nP+MCyknGhDM/ZnT6Sdzh5lUI8crhRUU7AQtuMjzGzhlPnn1Nu/LztgEtR
-         KQ8A==
-X-Forwarded-Encrypted: i=1; AHgh+RpsQsRd0EcncnN3AdSR1RIbQD/1cB6r0A9qBMoWjrPkajG15vsrU8sA8oKh9hoKY+sff1PsxmiT9+M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/xeizIk7eR36xPjZocUCNrJsY95ip3d2rLX5elgSqqJY81geh
-	0tanb14nr3G9LAjWyUx4tDTonZgDdAxTCVuxqh78g5mr31qUfVLNlW4=
-X-Gm-Gg: AfdE7ck8fl7Q5CfXPtMSl0dUoybfMVj4S24ljkvH2eNZgy1zzF89A+Oiz8n3JNPfZZE
-	SpOUB/9EbaYOdei4TRaLaEYtjA17eHWH0uSarHkcz4w6ZvcakQex1v6v+JYn6Yb5pmmKpovEhxO
-	paMIJGKPm4hppIHbgzrBIUznkU6iCHAthOaX40YievviuRQ6IIU5BzzDg+93HErDEqP6yUc3Gyz
-	mqBF9JbPt/TiRpa75JYALbZoeNFwMr2DBSOCd35tXx6V/LMd8xQTEIE5p5ih1UnqIp3HHXnWpsR
-	u8FU2+fpw/jhaua65CoBkkK5yOk9Y+z8OLv9WplxU5cEqcAH+unRFhSMnc6qsB3wd6QFw147Pwn
-	XDSRkGGfaX9ARzkantusI3xqTroO4jj6uAwSK6NwWLYT9CEl1hNtCu24hHWhbulWwRJgnVwt2Hg
-	G3GgPFso8Ht95n6134BSIX9htA7lj4S+3wGFTaoEXnrJqTQ+VIgnq/wb0oig==
-X-Received: by 2002:a17:90b:53c3:b0:387:e0db:3d87 with SMTP id 98e67ed59e1d1-387e0db4364mr1903194a91.34.1783412472075;
-        Tue, 07 Jul 2026 01:21:12 -0700 (PDT)
-Received: from HARICS-M-4G70.cisco.com ([2001:420:5448:1302:7815:d910:e12a:f166])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174a8f521sm5696125eec.22.2026.07.07.01.21.07
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 07 Jul 2026 01:21:11 -0700 (PDT)
-From: Harish-CS <harish.cs.ss24@gmail.com>
-To: Andy Whitcroft <apw@canonical.com>,
-	Joe Perches <joe@perches.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	Harish-CS <harish.cs.ss24@gmail.com>
-Subject: [PATCH] checkpatch: warn on Rust unwrap and expect calls
-Date: Tue,  7 Jul 2026 13:51:04 +0530
-Message-ID: <20260707082104.90951-1-harish.cs.ss24@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PFqQX4wp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783413033; x=1814949033;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nP5SS8TSn5a1GQ/GBM9vcN4zxKMjiK9AstDAgspH3Ms=;
+  b=PFqQX4wpE+PXrCQX1LLSmj6KzwHFzatmVMstRHzOspn2ClBRtZsY/OZ1
+   UZ1KT8Cm5I4w2KVR7VJwurD9ukW7I3I1bFGq/vVfzp+uv31Lz705SwNDS
+   PkdKELNVuhXgSfZbhb65KDis2qEj/FTOao9ya4KT03thKmMn7zyEAVEME
+   xoucUkffeWJOXuonBBK+Ga6Q9U7KIpW+sNK8gTH7rM9LAdV8wjDDu+Jmz
+   abxJKuD3FA/uBx0KlnvqcDt06ZpuoyZbX+cMAVC1szmTX3oJ8ft4y1HKx
+   3/QP8fpIxkF965Di1lO2vSfnOqZyCkN5yrFpg1yAbQPO9oQoaAQhaUnbL
+   w==;
+X-CSE-ConnectionGUID: vmajBQ7PTLuqjCET7QnJ+A==
+X-CSE-MsgGUID: Z9Lb6BcJSyapfJTqSL9FIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11839"; a="83031794"
+X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
+   d="scan'208";a="83031794"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 01:30:33 -0700
+X-CSE-ConnectionGUID: LZSYVUCuQJyacjLdi8uxMg==
+X-CSE-MsgGUID: dM7jaC+ZThG2ZHIge1VmMg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
+   d="scan'208";a="254588886"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 07 Jul 2026 01:30:30 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wh1Bt-00000000F9t-3HG1;
+	Tue, 07 Jul 2026 08:30:06 +0000
+Date: Tue, 7 Jul 2026 16:29:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yonggil Song <yonggil.song@samsung.com>,
+	"jaegeuk@kernel.org" <jaegeuk@kernel.org>,
+	"chao@kernel.org" <chao@kernel.org>,
+	"corbet@lwn.net" <corbet@lwn.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Yonggil Song <yonggil.song@samsung.com>,
+	"linux-f2fs-devel@lists.sourceforge.net" <linux-f2fs-devel@lists.sourceforge.net>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Dongjin Kim <dongjin_.kim@samsung.com>,
+	Seokhwan Kim <sukka.kim@samsung.com>,
+	Daejun Park <daejun7.park@samsung.com>
+Subject: Re: [PATCH] f2fs: introduce gcless mount option to avoid foreground
+ GC
+Message-ID: <202607071623.ZxOpKv3S-lkp@intel.com>
+References: <20260706062043epcms2p16928216befdca1242bc2d3cd7cb34afe@epcms2p1>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260706062043epcms2p16928216befdca1242bc2d3cd7cb34afe@epcms2p1>
 
-Rust panic paths are discouraged in kernel code because panics currently
-lead to BUG-like behavior. Add a checkpatch warning for newly added Rust
-uses of unwrap(), unwrap_err(), expect() and expect_err() so contributors
-notice them during patch review.
+Hi Yonggil,
 
-Suggested-by: Miguel Ojeda <ojeda@kernel.org>
-Link: https://github.com/Rust-for-Linux/linux/issues/1191
-Signed-off-by: Harish-CS <harish.cs.ss24@gmail.com>
----
- Documentation/dev-tools/checkpatch.rst | 4 ++++
- scripts/checkpatch.pl                  | 9 +++++++++
- 2 files changed, 13 insertions(+)
+kernel test robot noticed the following build warnings:
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index 6139a08c34cd..afa9787c1b9f 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -303,6 +303,10 @@ API usage
- 
-     See: https://www.kernel.org/doc/html/latest/process/deprecated.html#bug-and-bug-on
- 
-+  **RUST_PANIC_METHODS**
-+    Rust methods that panic, such as unwrap() and expect(), should be
-+    avoided.  Handle the error explicitly instead.
-+
-   **CONSIDER_KSTRTO**
-     The simple_strtol(), simple_strtoll(), simple_strtoul(), and
-     simple_strtoull() functions explicitly ignore overflows, which
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 2b7a42bbdd94..5bdb065370ea 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3972,6 +3972,15 @@ sub process {
- 			}
- 		}
- 
-+# avoid Rust panicking methods
-+		if ($realfile =~ /\.rs$/ &&
-+		    $line =~ /^\+.*\.(?:unwrap(?:_err)?|expect(?:_err)?)\s*\(/) {
-+			my $msg_level = \&WARN;
-+			$msg_level = \&CHK if ($file);
-+			&{$msg_level}("RUST_PANIC_METHODS",
-+				      "Avoid Rust panicking methods such as unwrap() and expect(); handle the error instead\n" . $herecurr);
-+		}
-+
- # check for .L prefix local symbols in .S files
- 		if ($realfile =~ /\.S$/ &&
- 		    $line =~ /^\+\s*(?:[A-Z]+_)?SYM_[A-Z]+_(?:START|END)(?:_[A-Z_]+)?\s*\(\s*\.L/) {
--- 
-2.50.1 (Apple Git-155)
+[auto build test WARNING on cb8ff3ead9a3fc43727980be58c7099506f65261]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Yonggil-Song/f2fs-introduce-gcless-mount-option-to-avoid-foreground-GC/20260706-154229
+base:   cb8ff3ead9a3fc43727980be58c7099506f65261
+patch link:    https://lore.kernel.org/r/20260706062043epcms2p16928216befdca1242bc2d3cd7cb34afe%40epcms2p1
+patch subject: [PATCH] f2fs: introduce gcless mount option to avoid foreground GC
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260707/202607071623.ZxOpKv3S-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 0a2fb2a2269da0e2a3e230beb6cad39ca314db33)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260707/202607071623.ZxOpKv3S-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607071623.ZxOpKv3S-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from fs/f2fs/dir.c:14:
+>> fs/f2fs/f2fs.h:2945:4: warning: shift count >= width of type [-Wshift-count-overflow]
+    2945 |                         test_opt(sbi, RESERVE_NODE));
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:150:26: note: expanded from macro 'test_opt'
+     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+   In file included from fs/f2fs/dir.c:14:
+   fs/f2fs/f2fs.h:2953:6: warning: shift count >= width of type [-Wshift-count-overflow]
+    2953 |         if (test_opt(sbi, RESERVE_NODE) &&
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:150:26: note: expanded from macro 'test_opt'
+     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+   2 warnings generated.
+--
+   In file included from fs/f2fs/super.c:33:
+>> fs/f2fs/f2fs.h:2945:4: warning: shift count >= width of type [-Wshift-count-overflow]
+    2945 |                         test_opt(sbi, RESERVE_NODE));
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:150:26: note: expanded from macro 'test_opt'
+     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+   In file included from fs/f2fs/super.c:33:
+   fs/f2fs/f2fs.h:2953:6: warning: shift count >= width of type [-Wshift-count-overflow]
+    2953 |         if (test_opt(sbi, RESERVE_NODE) &&
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:150:26: note: expanded from macro 'test_opt'
+     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+>> fs/f2fs/super.c:520:6: warning: shift count >= width of type [-Wshift-count-overflow]
+     520 |         if (test_opt(sbi, RESERVE_NODE) &&
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:150:26: note: expanded from macro 'test_opt'
+     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+   fs/f2fs/super.c:526:39: warning: shift count >= width of type [-Wshift-count-overflow]
+     526 |         if (!test_opt(sbi, RESERVE_ROOT) && !test_opt(sbi, RESERVE_NODE) &&
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:150:26: note: expanded from macro 'test_opt'
+     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+   fs/f2fs/super.c:1528:6: warning: shift count >= width of type [-Wshift-count-overflow]
+    1528 |         if (test_opt(sbi, RESERVE_NODE) &&
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:150:26: note: expanded from macro 'test_opt'
+     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+   fs/f2fs/super.c:1529:21: warning: shift count >= width of type [-Wshift-count-overflow]
+    1529 |                         (ctx->opt_mask & BIT(F2FS_MOUNT_RESERVE_NODE)) &&
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+   fs/f2fs/super.c:1534:21: warning: shift count >= width of type [-Wshift-count-overflow]
+    1534 |                 ctx->opt_mask &= ~BIT(F2FS_MOUNT_RESERVE_NODE);
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+   fs/f2fs/super.c:2475:37: warning: shift count >= width of type [-Wshift-count-overflow]
+    2475 |         if (test_opt(sbi, RESERVE_ROOT) || test_opt(sbi, RESERVE_NODE))
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:150:26: note: expanded from macro 'test_opt'
+     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+   8 warnings generated.
+
+
+vim +2945 fs/f2fs/f2fs.h
+
+e48e16f3e37fac Daeho Jeong 2026-01-10  2916  
+3bac20a8f011b8 Jaegeuk Kim 2022-11-30  2917  extern void f2fs_mark_inode_dirty_sync(struct inode *inode, bool sync);
+0abd675e97e60d Chao Yu     2017-07-09  2918  static inline int inc_valid_node_count(struct f2fs_sb_info *sbi,
+000519f27866af Chao Yu     2017-07-06  2919  					struct inode *inode, bool is_inode)
+39a53e0ce0df01 Jaegeuk Kim 2012-11-28  2920  {
+39a53e0ce0df01 Jaegeuk Kim 2012-11-28  2921  	block_t	valid_block_count;
+2141879369681f Chunhai Guo 2025-08-07  2922  	unsigned int valid_node_count, avail_user_node_count;
+0f1c6ede6da9f7 Chao Yu     2024-02-20  2923  	unsigned int avail_user_block_count;
+af033b2aa8a874 Chao Yu     2018-09-20  2924  	int err;
+0abd675e97e60d Chao Yu     2017-07-09  2925  
+af033b2aa8a874 Chao Yu     2018-09-20  2926  	if (is_inode) {
+af033b2aa8a874 Chao Yu     2018-09-20  2927  		if (inode) {
+af033b2aa8a874 Chao Yu     2018-09-20  2928  			err = dquot_alloc_inode(inode);
+af033b2aa8a874 Chao Yu     2018-09-20  2929  			if (err)
+af033b2aa8a874 Chao Yu     2018-09-20  2930  				return err;
+af033b2aa8a874 Chao Yu     2018-09-20  2931  		}
+af033b2aa8a874 Chao Yu     2018-09-20  2932  	} else {
+af033b2aa8a874 Chao Yu     2018-09-20  2933  		err = dquot_reserve_block(inode, 1);
+af033b2aa8a874 Chao Yu     2018-09-20  2934  		if (err)
+af033b2aa8a874 Chao Yu     2018-09-20  2935  			return err;
+0abd675e97e60d Chao Yu     2017-07-09  2936  	}
+39a53e0ce0df01 Jaegeuk Kim 2012-11-28  2937  
+c40e15a9a59f79 Yangtao Li  2022-12-21  2938  	if (time_to_inject(sbi, FAULT_BLOCK))
+812c60564ca721 Chao Yu     2017-11-13  2939  		goto enospc;
+812c60564ca721 Chao Yu     2017-11-13  2940  
+39a53e0ce0df01 Jaegeuk Kim 2012-11-28  2941  	spin_lock(&sbi->stat_lock);
+39a53e0ce0df01 Jaegeuk Kim 2012-11-28  2942  
+0f1c6ede6da9f7 Chao Yu     2024-02-20  2943  	valid_block_count = sbi->total_valid_block_count + 1;
+2141879369681f Chunhai Guo 2025-08-07  2944  	avail_user_block_count = get_available_block_count(sbi, inode,
+2141879369681f Chunhai Guo 2025-08-07 @2945  			test_opt(sbi, RESERVE_NODE));
+300a842937fbcf Chao Yu     2021-12-11  2946  
+0f1c6ede6da9f7 Chao Yu     2024-02-20  2947  	if (unlikely(valid_block_count > avail_user_block_count)) {
+39a53e0ce0df01 Jaegeuk Kim 2012-11-28  2948  		spin_unlock(&sbi->stat_lock);
+0abd675e97e60d Chao Yu     2017-07-09  2949  		goto enospc;
+39a53e0ce0df01 Jaegeuk Kim 2012-11-28  2950  	}
+39a53e0ce0df01 Jaegeuk Kim 2012-11-28  2951  
+2141879369681f Chunhai Guo 2025-08-07  2952  	avail_user_node_count = sbi->total_node_count - F2FS_RESERVED_NODE_NUM;
+2141879369681f Chunhai Guo 2025-08-07  2953  	if (test_opt(sbi, RESERVE_NODE) &&
+2141879369681f Chunhai Guo 2025-08-07  2954  			!__allow_reserved_root(sbi, inode, true))
+2141879369681f Chunhai Guo 2025-08-07  2955  		avail_user_node_count -= F2FS_OPTION(sbi).root_reserved_nodes;
+ef86d70994b57c Gu Zheng    2013-11-19  2956  	valid_node_count = sbi->total_valid_node_count + 1;
+2141879369681f Chunhai Guo 2025-08-07  2957  	if (unlikely(valid_node_count > avail_user_node_count)) {
+39a53e0ce0df01 Jaegeuk Kim 2012-11-28  2958  		spin_unlock(&sbi->stat_lock);
+0abd675e97e60d Chao Yu     2017-07-09  2959  		goto enospc;
+39a53e0ce0df01 Jaegeuk Kim 2012-11-28  2960  	}
+39a53e0ce0df01 Jaegeuk Kim 2012-11-28  2961  
+ef86d70994b57c Gu Zheng    2013-11-19  2962  	sbi->total_valid_node_count++;
+ef86d70994b57c Gu Zheng    2013-11-19  2963  	sbi->total_valid_block_count++;
+39a53e0ce0df01 Jaegeuk Kim 2012-11-28  2964  	spin_unlock(&sbi->stat_lock);
+39a53e0ce0df01 Jaegeuk Kim 2012-11-28  2965  
+000519f27866af Chao Yu     2017-07-06  2966  	if (inode) {
+000519f27866af Chao Yu     2017-07-06  2967  		if (is_inode)
+000519f27866af Chao Yu     2017-07-06  2968  			f2fs_mark_inode_dirty_sync(inode, true);
+000519f27866af Chao Yu     2017-07-06  2969  		else
+0abd675e97e60d Chao Yu     2017-07-09  2970  			f2fs_i_blocks_write(inode, 1, true, true);
+000519f27866af Chao Yu     2017-07-06  2971  	}
+ef86d70994b57c Gu Zheng    2013-11-19  2972  
+41382ec43255b5 Jaegeuk Kim 2016-05-16  2973  	percpu_counter_inc(&sbi->alloc_valid_block_count);
+0abd675e97e60d Chao Yu     2017-07-09  2974  	return 0;
+0abd675e97e60d Chao Yu     2017-07-09  2975  
+0abd675e97e60d Chao Yu     2017-07-09  2976  enospc:
+af033b2aa8a874 Chao Yu     2018-09-20  2977  	if (is_inode) {
+af033b2aa8a874 Chao Yu     2018-09-20  2978  		if (inode)
+af033b2aa8a874 Chao Yu     2018-09-20  2979  			dquot_free_inode(inode);
+af033b2aa8a874 Chao Yu     2018-09-20  2980  	} else {
+0abd675e97e60d Chao Yu     2017-07-09  2981  		dquot_release_reservation_block(inode, 1);
+af033b2aa8a874 Chao Yu     2018-09-20  2982  	}
+0abd675e97e60d Chao Yu     2017-07-09  2983  	return -ENOSPC;
+39a53e0ce0df01 Jaegeuk Kim 2012-11-28  2984  }
+39a53e0ce0df01 Jaegeuk Kim 2012-11-28  2985  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
