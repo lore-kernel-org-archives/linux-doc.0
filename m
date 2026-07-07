@@ -1,196 +1,124 @@
-Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1E72FF641;
-	Tue,  7 Jul 2026 11:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3273FC5AA
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 12:25:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783424236; cv=none; b=AKEsNLRoqiB2JhV9JeNRQFptiF2uHmmdnIhqSAmKQaaDjXe0ni0miS/3jM1fxweIza5eTg9wojoUXLfMokPPQlTL7grGAyxE46ibnxbUjjwhuf3K7HpV8ImW9sW9k0GHkJ7Xwy70cjQFt6XBgdqcAuMIQ9RhT07inIGvrzFmXnk=
+	t=1783427156; cv=none; b=R+SW8Vs+OozrN3z3ivSv5mq4bgQ85UrYqxgoEX6u5jCE3aIedZPprgi04NpCICPbsH8QMvnDiZq9rWivxlZFWDAzD2mzf0UGzNQ+EAemR9+Z20EjMK+X5OhFkfV/prWzzazCiBph8Dp0OtqHNS0H/aKIUnFd1e0gIjkS0qRGOF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783424236; c=relaxed/simple;
-	bh=zisHKAD74OWux5/tK8lytmVqjM6h3AIY4NHgLxcwVtg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EVu8bXBdkrgIZUBO8UJa6UXz1SPwrT+5yDbwVDCmy1JRYScOG1SUdwTaHXHdYz/BfXMLzfenibtr+m7o9cT5maCreW2TMiJ427AqiTLM5twhonLgAeKTACkVvBObQCcG913Xa5oed6NfHnCBt4Mx4y34L/FYix97WLTYPIaX9wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=TJ9+WCJu reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
+	s=arc-20240116; t=1783427156; c=relaxed/simple;
+	bh=G8k2dlXjt0dLe90/5TVs36FBriLIb1uJtIxBcEBwrSE=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=m7ad6T2EWAH4PPrvikajVxRfEATQf0+s+X1kzSM9dvf1BRxXHrXWyirCrWz7J/kJtbHqZuDOAjxypg94dREVM8fdztyvuEvE4ww7LoivIxJD29KOSMXhgRPZ9HsenoR5dtWoe2O/gMgZcNG6/Jf+kzCZyw6Nh3TDa3XDCi3zaTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dDoQnHds; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="TJ9+WCJu"
-Received: from [133.11.54.183] (h183.csg.ci.i.u-tokyo.ac.jp [133.11.54.183])
-	(authenticated bits=0)
-	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 667BaXR6009375
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 7 Jul 2026 20:36:33 +0900 (JST)
-	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
-DKIM-Signature: a=rsa-sha256; bh=PC9H9+hfBUgJc1h9fKgLECYX3wbgWyiwPKt7KOMjAiE=;
-        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
-        h=From:Message-ID:To:Subject:Date;
-        s=rs20250326; t=1783424194; v=1;
-        b=TJ9+WCJuvN2HY9GfRKpGwzZshGSjYSg+ZCQPyx+qgt+W3BRyH5dvAMZNxppn7WPz
-         KWg4fLBC8zWUuwbNrQrvtEciEtr3hzWw2BgyPziP7Tz9IAtBBJ96qe1kaSSZyN1a
-         CtNdBeuNKcYX6EG9UT8iaiSkatol3VYDd+FkjSQqNMVCD0ajPTR8LH/cQd2teirB
-         WhZc42jMhxC7y3nYH4eeUVst6bLixn5KanS+l+9ciFjtWUfnH5ZfdaGif2Sg3Z0o
-         iUTu6Pc2W3lxcodV0dFvbkAQDmL18va8K84f1tATGhEOsG/TV0InJ0JkrkuR1WFR
-         driv6wIpea3cPdDdCv26EA==
-Message-ID: <db672f83-a6c4-4d94-a959-930a624a7915@rsg.ci.i.u-tokyo.ac.jp>
-Date: Tue, 7 Jul 2026 20:36:32 +0900
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dDoQnHds"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2cc97653887so24733205ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 05:25:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783427154; x=1784031954; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=26bYGBBUuDRN4zMcNcg/2GhRbjV+wNXZETCzG6QZQtA=;
+        b=dDoQnHds6W63tH1uxUN3gRkykNDvHn3wLy7Ft+Q4GoN7pfYJk/yH0cK3BxAiW6xOEJ
+         emZZlXc+vWjISq3XUCg1Ulbc0FM3b/K/n72Nf5xRfHYqFRzHq+P8FF9j99rhvT2KPCyi
+         qZ9rlYL3MMPt46eCEVRbZHckxS6RIzqc3Omll+MYJ0f7ds//eO/ma+7LtRXcj6bSqBVJ
+         k1Fwu1PS0A31msdz61Q/HEBlErZ+Qin4sXciGmg9U8aDQoR3JdQT6f3GWSzahLbXZfJ2
+         kESHH/YU60dq3XzX530MXeimvQ+fd09uohkhZn6bwgAm8M3/+wOsRsWwYiiwhzOjfIUO
+         68Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783427154; x=1784031954;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=26bYGBBUuDRN4zMcNcg/2GhRbjV+wNXZETCzG6QZQtA=;
+        b=RLjGSyrIgOi1AMWlaMhF+Cz/4/TJtYgjtANNTLU0QkLIIZR1Q3B3aEKzkdse/HV9V7
+         qxUPm63EQsDGnAi4jsUwhcNDurYcuGKsGNmeTRfI+usj8Pbo6+1Nyakr6Kjvkf8g612L
+         tT+R7EuyFaYT0yh2HPwGH/o3aFIcdh+b+809ae4wgxeS/KAIeu4bgrtgipPzWvBjDiXr
+         Sa0Lcm9pzLzwj2cTe5h9HtfN9e/IN71ykVqJb6aVsMYw3DeVoX4xzbotRW8X4HgMAbh7
+         /yZ6vkBR/arrCdOzWwqW/DxHJipfIBUMj2SLiQBQ0r1FmEUhPG3nNQD6s0zVmjRFqGqR
+         LfbQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqS7VGrzijjKsvZM5nN3UGPR89wwKGhv9K7OYuPFsnwd2DVzEX6W/sIlKGyVb+hehQtuuwBQOqhHts=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8PjVM7+POC5si9vD8sgoQsq2RPZrqb9HeqaaYPM8naBlfEz3V
+	nHpGJqJgaEt0JZAQyBi1zlihj1eEFlPwp3WSS4wPUUNPkYcSCSVLhnTb
+X-Gm-Gg: AfdE7ckxVabNcn3oIKBB8ENrutoiEgow0VSbUxy5VAJZfUtmiPqlb5YwYWmTGN3RwpK
+	GZp5opdzeyFgkK0jzdlK4cgQl2GYZvyyUXnphVwH4mqEZO4DJ7pEV0fk0u95Go73TXuUAOIphT8
+	Z8W9fX4iSXfw6P1ww1NhC6Uumg+OSe9QqFHPPf/vMg6MGnPDfY/4j2cDxBSKFHUwi3j3pA8tSn0
+	6Jtg+n514/MooA9ejS8HsLVlBEygxug6A3U7eRRSIJKSxuuHWjIErz+d08ZjBjFW8JK/+oz5c02
+	sh9tjxUthH1qQ/2mInSFyeAQL1FfdF8cnkbQQC93NbrQ75WO3+PvD3r77FPJq5ub8It5S4uaxNQ
+	pEp0mPhNRCSw9w1K4BVn7oc73GD6fKGTQtQAjUn2kJ75IBsNBTMVnP8UYQ3D7WHt8fhLX8VBGTZ
+	T/utL5yRLZb6vwlOQbGVQN2+8q2OS3YE1v/q+SGnntP3XgWiFwZ4rBoyugN9z+Ez5wmunEEiRDg
+	A==
+X-Received: by 2002:a17:902:e74c:b0:2ca:6c8:abd8 with SMTP id d9443c01a7336-2ccbe625b96mr46458745ad.12.1783427154327;
+        Tue, 07 Jul 2026 05:25:54 -0700 (PDT)
+Received: from fred-System-Product-Name (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9c21429sm11078765ad.37.2026.07.07.05.25.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 05:25:53 -0700 (PDT)
+From: Fred Chen <fredchen.openbmc@gmail.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Wensheng Wang <wenswang@yeah.net>,
+	Colin Huang <u8813345@gmail.com>,
+	Brian Chiang <chiang.brian@inventec.com>,
+	Eddie James <eajames@linux.ibm.com>,
+	Antoni Pokusinski <apokusinski01@gmail.com>,
+	Dixit Parmar <dixitparmar19@gmail.com>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Ashish Yadav <ashish.yadav@infineon.com>,
+	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
+	Syed Arif <arif.syed@hpe.com>,
+	ChiShih Tsai <tomtsai764@gmail.com>,
+	Cosmo Chou <chou.cosmo@gmail.com>,
+	Vasileios Amoiridis <vasileios.amoiridis@cern.ch>,
+	Yuxi Wang <Yuxi.Wang@monolithicpower.com>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 0/2] hwmon: Add support for Analog Devices MAX20912 and MAX20916
+Date: Tue,  7 Jul 2026 20:26:36 +0800
+Message-ID: <20260707122701.751878-1-fredchen.openbmc@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 6/7] KVM: arm64: PMU: Introduce FIXED_COUNTERS_ONLY
-To: Oliver Upton <oupton@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu
- <yuzenghui@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-References: <20260706-hybrid-v8-0-de459617b59d@rsg.ci.i.u-tokyo.ac.jp>
- <20260706-hybrid-v8-6-de459617b59d@rsg.ci.i.u-tokyo.ac.jp>
- <akvsuBcqCCzlrBLk@kernel.org>
-Content-Language: en-US
-From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-In-Reply-To: <akvsuBcqCCzlrBLk@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2026/07/07 2:58, Oliver Upton wrote:
-> On Mon, Jul 06, 2026 at 07:03:29PM +0900, Akihiko Odaki wrote:
->> +1.6 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY
->> +------------------------------------------------------
->> +
->> +:Parameters: no additional parameter in kvm_device_attr.addr
->> +
->> +:Returns:
->> +
->> +	 =======  ==================================================
->> +	 -EBUSY   PMUv3 already initialized, a VCPU has already run,
->> +		  an event filter has already been set or
->> +		  a hardware PMU has already been specified
->> +	 -ENXIO   Attempted to get before setting
->> +	 -ENODEV  Attempted to set while PMUv3 not supported
->> +	 =======  ==================================================
->> +
->> +If set, KVM emulates PMUv3 without programmable event counters. Only fixed
->> +counters are exposed to the guest: the cycle counter today, and the instruction
->> +counter if support for FEAT_PMUv3_ICNTR is added.
-> 
-> Drop the mention of cycle counter and FEAT_PMUv3_ICNTR, I want to avoid
-> the argument later down the line when ICNTR support is added to this
-> mode.
-> 
-> The expectation is that the VMM discovers the feature set using the ID
-> registers just like every other CPU feature. KVM documentation doesn't
-> need to describe the architecture.
-I'll drop it with the next version.
+Add PMBus hardware monitoring support for the Analog Devices MAX20912
+and MAX20916 dual-output multiphase voltage regulators.
 
-> 
->> +With programmable counters disabled, the VCPU can run on any physical CPU.
->> +This is particularly useful on heterogeneous systems where different hardware
->> +PMUs cover different physical CPUs. All VCPUs in a VM share this attribute.
-> 
->    When this attribute is enabled, the vCPU can run on any physical CPU
->    that has a PMU, regardless of the underlying implementation. This
->    attribute is VM-scoped.
-> 
-> The documentation is focused on unambiguously representing the UAPI, not
-> providing application recommendations.
+Both devices expose two independently regulated output voltage rails,
+Rail A and Rail B, using the VR12 VID interface. Each rail reports input
+current, output current, temperature, input power, and output power.
+Input voltage is reported on Rail A only.
 
-I agree. I'll use your wording for the next version.
+Fred Chen (2):
+  dt-bindings: trivial-devices: Add adi max20912 and max20916
+  hwmon: (pmbus) Add driver for Analog Devices MAX20912 and MAX20916
 
-> 
->>   2. GROUP: KVM_ARM_VCPU_TIMER_CTRL
->>   =================================
->>   
->> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
->> index 1c13bfa2d38a..39a1a1e412e6 100644
->> --- a/arch/arm64/include/uapi/asm/kvm.h
->> +++ b/arch/arm64/include/uapi/asm/kvm.h
->> @@ -437,6 +437,7 @@ enum {
->>   #define   KVM_ARM_VCPU_PMU_V3_FILTER		2
->>   #define   KVM_ARM_VCPU_PMU_V3_SET_PMU		3
->>   #define   KVM_ARM_VCPU_PMU_V3_SET_NR_COUNTERS	4
->> +#define   KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY	5
->>   #define KVM_ARM_VCPU_TIMER_CTRL		1
->>   #define   KVM_ARM_VCPU_TIMER_IRQ_VTIMER		0
->>   #define   KVM_ARM_VCPU_TIMER_IRQ_PTIMER		1
->> diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
->> index 40cad183376c..ad9ff4d0d89c 100644
->> --- a/arch/arm64/kvm/pmu-emul.c
->> +++ b/arch/arm64/kvm/pmu-emul.c
->> @@ -1149,11 +1149,13 @@ static int kvm_arm_pmu_v3_set_pmu(struct kvm_vcpu *vcpu, int pmu_id)
->>   		arm_pmu = entry->arm_pmu;
->>   		if (arm_pmu->pmu.type == pmu_id) {
->>   			if (kvm_vm_has_ran_once(kvm) ||
->> +			    kvm_pmu_fixed_counters_only(kvm) ||
->>   			    (kvm->arch.pmu_filter && kvm->arch.arm_pmu != arm_pmu)) {
->>   				ret = -EBUSY;
->>   				break;
->>   			}
->>   
->> +			set_bit(KVM_ARCH_FLAG_PMU_V3_EXPLICIT, &kvm->arch.flags);
-> 
-> Why is this flag necessary? kvm->arch.arm_pmu is NULL if no PMU
-> implementation was selected by userspace.
+ .../devicetree/bindings/trivial-devices.yaml  |   4 +
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/max20912.rst              | 156 ++++++++++++++++++
+ MAINTAINERS                                   |   7 +
+ drivers/hwmon/pmbus/Kconfig                   |   9 +
+ drivers/hwmon/pmbus/Makefile                  |   1 +
+ drivers/hwmon/pmbus/max20912.c                |  70 ++++++++
+ 7 files changed, 248 insertions(+)
+ create mode 100644 Documentation/hwmon/max20912.rst
+ create mode 100644 drivers/hwmon/pmbus/max20912.c
 
-The explicit flag is there because kvm->arch.arm_pmu is also populated
-by KVM_ARM_VCPU_INIT through kvm_arm_set_default_pmu(). I wanted to keep
-allowing userspace to enable FIXED_COUNTERS_ONLY after that default PMU
-selection, as long as PMUv3 has not been initialized and the VM has not
-run, while still rejecting it after an explicit SET_PMU.
+-- 
+2.52.0
 
-> 
->>   			kvm_arm_set_pmu(kvm, arm_pmu);
->>   			cpumask_copy(kvm->arch.supported_cpus, &arm_pmu->supported_cpus);
->>   			ret = 0;
->> @@ -1164,6 +1166,22 @@ static int kvm_arm_pmu_v3_set_pmu(struct kvm_vcpu *vcpu, int pmu_id)
->>   	return ret;
->>   }
->>   
->> +static int kvm_arm_pmu_v3_set_pmu_fixed_counters_only(struct kvm_vcpu *vcpu)
->> +{
->> +	struct kvm *kvm = vcpu->kvm;
->> +
->> +	lockdep_assert_held(&kvm->arch.config_lock);
->> +
->> +	if (kvm_vm_has_ran_once(kvm) || kvm->arch.pmu_filter ||
->> +	    test_bit(KVM_ARCH_FLAG_PMU_V3_EXPLICIT, &kvm->arch.flags))
->> +		return -EBUSY;
->> +
->> +	set_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY, &kvm->arch.flags);
->> +	kvm_arm_set_nr_counters(kvm, 0);
->> +
->> +	return 0;
->> +}
->> +
->>   static int kvm_arm_pmu_v3_set_nr_counters(struct kvm_vcpu *vcpu, unsigned int n)
->>   {
->>   	struct kvm *kvm = vcpu->kvm;
->> @@ -1238,7 +1256,7 @@ int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
->>   		     filter.action != KVM_PMU_EVENT_DENY))
->>   			return -EINVAL;
->>   
->> -		if (kvm_vm_has_ran_once(kvm))
->> +		if (kvm_vm_has_ran_once(kvm) || kvm_pmu_fixed_counters_only(kvm))
-> 
-> There's no reason for doing this, just let userspace create an event
-> filter. Even with the current PMU implementation it's possible that the
-> fixed cycle counter gets filtered.
-
-This check was added as the consequence of the discussion in the 
-following thread:
-https://lore.kernel.org/all/327f74e4-78b8-4629-a418-d1d3ba78859f@rsg.ci.i.u-tokyo.ac.jp/
-
-Regards,
-Akihiko Odaki
