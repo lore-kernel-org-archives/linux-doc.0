@@ -1,58 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3173C39A801;
-	Tue,  7 Jul 2026 09:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5F03DA7CE
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 10:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783418151; cv=none; b=oKlpnrfa2vFNZlCe14CAFCjWEdoqNpZoAA1qlIe5Zal7a01u45dpxqtanC32hGlgP0fLNfKv03x8nae2P19hmn8FeeEonYrmjIObMysFLuDA4fDdwTRgxl+tT1nItHQi6R3y4extTzUZIRhScAuwTaraJsi47fswYMNjp+6BQKQ=
+	t=1783418500; cv=none; b=neRAVpvgFiAEZ9GI/g62g9nVRkwkrpBu6Cf0vg6aFrcxmEIycY10hXneNlL94eIYUSJHXY0zfH6sotAmT7Z1CfEJfliQqGmyZpipO1ZCdxEoTBefWZYLbC/TXCeCqTTt0BfHz7hibUvYBqBYuJvm9aO6npGWS0bLQL7QkSzqqEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783418151; c=relaxed/simple;
-	bh=bRXijf6pN8R3U02xRaYPPiarq8OJih9lODmiR0gQ0zA=;
+	s=arc-20240116; t=1783418500; c=relaxed/simple;
+	bh=HL7S0p8r5JLvSQQrSjfipEJHFciFRjGOpWMGRY6b8Z0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MLS7SDBgPcd/SVnrxgxMrD/5qrzSYTD5uJ2rshWZaaHpi5koRk72eBMSdVnsp4+R6iYnuw69m6SABXuw1nMqIEzfupnZfLQFR6KkFTRVQS9pMhReu5BlylbsF+v8ZSoK0SnBk6Lp9pc3/LD3pFgFen9WC2ckkcUigBLgJdh9iZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UtT/TmHl; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=BPWXXTMErHDZQfCjvt6zUSaHeO3vzG6DPkEbfuBy1PVWGfH4prIp1gYtdUp6dVI1AHAv0mtxDa7nV06SXesGMdQ+zeXXMtQcuWFIwFrAZ8SGvlmXstt3Alv8iQXDIngsHlSTCZl4epQp7UXuMwJh4QqTtgM+GTT7jgXxcLB9R0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gOIc2B+e; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VCy3qV65; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YfKB6ADp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=irpFKmdD; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UtT/TmHl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02F0A1F000E9;
-	Tue,  7 Jul 2026 09:55:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783418149;
-	bh=4eShXnZjQrBZzD7tSod9FxJY+zcWPKsuMcAi+5dgtOo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UtT/TmHlfkXLJe1+62NT4v9iduzzRGtwma0XqhhBGhnDvlO3aJcxbtTDD4PCsqBQ9
-	 ETU+7p2tLcI766xFLMiIbBhqPXoTvlXRvCDIo/cfk5nVTBubHJRFUNxLGGrh0vfepn
-	 1UMn5R/vbQK1qk1ctZkiZoqJgdR/7LOJ5Z43QvGt1QRsvohYgwqngKP3pEt//sSSsR
-	 7SbT+toOSlDvbPhyPOeYGCs7s9TOE278MxMOnbLvktUxDbd2gP1qENRHs6kFg4LOJK
-	 yYDFGB0hUGZKTQh9skRJ3l+2B/1gqP97UFK6axfdiKjb5IMiYodF2QAvVecw0r1P6o
-	 79hsf72IJFrkw==
-Date: Tue, 7 Jul 2026 10:55:35 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>, 
-	Greg KH <gregkh@linuxfoundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>, 
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Christian Brauner (Amutable)" <brauner@kernel.org>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-Message-ID: <akzMh-ySQ2fN0d8R@lucifer>
-References: <2026070227-payroll-eradicate-8f66@gregkh>
- <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
- <akaWnQ5Pkg_676B-@lucifer>
- <20260702211740.GA639365@zen.localdomain>
- <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
- <akez23ZhLRSGMFQ1@lucifer>
- <20260703163251.GB3734786@killaraus.ideasonboard.com>
- <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
- <akzETpsps4TMfqpC@lucifer>
- <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gOIc2B+e";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VCy3qV65";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YfKB6ADp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="irpFKmdD"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3E79175A9B;
+	Tue,  7 Jul 2026 10:01:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783418497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TEAbL1M0/ghnef9LV/36CqxYqXKnSdaC1uxYTQoK448=;
+	b=gOIc2B+eLvoLABzAqdkUuYfpzzSVVKJelO0iKAFgU1sKPX7ZaXgZQxrssdoXDTLqn8DLu/
+	womM9c2JkmXvQYcNDiOH1WNxY0coxixigXjtC7411D8C8d0f4xinxV+yVV/NOf91jOHwcM
+	ptyA7aKnybM9Hh6pIAeoc2hVsjgomlU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783418497;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TEAbL1M0/ghnef9LV/36CqxYqXKnSdaC1uxYTQoK448=;
+	b=VCy3qV65NFPjGEJjqyiO22JkaGuFrbKz3NUhdco96BNrfu88ivbQbBamXrHPTqWb2P22G6
+	EA7yLoyowm4nZJDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783418496; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TEAbL1M0/ghnef9LV/36CqxYqXKnSdaC1uxYTQoK448=;
+	b=YfKB6ADpL21itX1hNy1ZEguUiw+qaVf8Ucix/wdPn+RTYlfsOUjDnfzGs7MydHP+ckmi9o
+	xM5FfJwxBxKKTbyCziVI2ZM7no989EeiRYaVxU7euR+suBitdPL2ZCVV96WXslVTSy0nSs
+	cgCyOxSY4FTBeoqsnUGerIrJoh924nk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783418496;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TEAbL1M0/ghnef9LV/36CqxYqXKnSdaC1uxYTQoK448=;
+	b=irpFKmdDKMASxbs8FyKLRk7YXm2AoMY4WTUB3qXCxlErfpe//rLmxM/U290kRJF37ZwAz9
+	dZJrpKCm31NXa+Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 82CAC779AE;
+	Tue,  7 Jul 2026 10:01:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id IowEHH7OTGqNYAAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Tue, 07 Jul 2026 10:01:34 +0000
+Date: Tue, 7 Jul 2026 11:01:32 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Leon Hwang <leon.hwang@linux.dev>
+Cc: linux-mm@kvack.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R . Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Nathan Chancellor <nathan@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, 
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Alice Ryhl <aliceryhl@google.com>, 
+	Douglas Anderson <dianders@chromium.org>, Gary Guo <gary@garyguo.net>, Anand Moon <linux.amoon@gmail.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH] mm/mseal: fix mseal documentation for 32-bit kernels
+Message-ID: <akzN_HNJJWBW7htL@pedro-suse.lan>
+References: <20260703022507.187457-1-leon.hwang@linux.dev>
+ <akeDk49-pPgUDek1@pedro-suse>
+ <8f75dc18-dd4c-4989-a76c-eec6cc513ccf@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,124 +97,179 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
+In-Reply-To: <8f75dc18-dd4c-4989-a76c-eec6cc513ccf@linux.dev>
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLtb8czmhwiphoi1fghn1johzr)];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kvack.org,lwn.net,linuxfoundation.org,linux-foundation.org,infradead.org,kernel.org,google.com,dabbelt.com,eecs.berkeley.edu,ghiti.fr,linutronix.de,chromium.org,garyguo.net,gmail.com,vger.kernel.org,lists.infradead.org];
+	TAGGED_RCPT(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,imap1.dmz-prg2.suse.org:helo,pedro-suse.lan:mid]
+X-Spam-Level: 
+X-Spam-Score: -2.80
 
-On Tue, Jul 07, 2026 at 11:49:31AM +0200, David Hildenbrand (Arm) wrote:
-> On 7/7/26 11:20, Lorenzo Stoakes wrote:
-> > On Fri, Jul 03, 2026 at 08:22:20PM +0200, David Hildenbrand (Arm) wrote:
-> >> On 7/3/26 18:32, Laurent Pinchart wrote:
-> >>>
-> >>> I'd support a patch that replaces
-> >>>
-> >>> Assisted-by: Claude:claude-3-opus coccinelle sparse
-> >>>
-> >>> with
-> >>>
-> >>> Assisted-by: LLM # generate some test cases
-> >>>
-> >>> and rewrites the Attribution section of
-> >>> Documentation/process/coding-assistants.rst accordingly.
-> >>>
-> >>> I think most people in this mail thread have expressed that how
-> >>> generative AI was used is the most important information, and several
-> >>> people (including myself) have expressed a desire to stop the free
-> >>> advertising. Unless I missed something, I don't think anyone has
-> >>> expressed an interest in keeping the agent name and model.
+On Fri, Jul 03, 2026 at 10:50:29PM +0800, Leon Hwang wrote:
+> On 2026/7/3 17:44, Pedro Falcato wrote:
+> > On Fri, Jul 03, 2026 at 10:25:07AM +0800, Leon Hwang wrote:
+> >> mseal.o is built only for 64-bit kernels, so 32-bit kernels fall back
+> >> to sys_ni_syscall() and return -ENOSYS rather than -EPERM.
 > >>
-> >> Yes, that's something I would enjoy seeing. Who reading along has a problem with
-> >> that? (assuming that the tag must stay)
-> >
-> > I think the silence suggests nobody :)
-> >
-> > What we could do is send a patch to simply add a section on adding a comment
-> > explaining _what_ used an LLM and strongly suggesting it would be helpful to do
-> > so.
-> >
-> > That should hopefully be uncontroversial, then later (or alongside that?) we
-> > could submit an RFC for making the language move to 'you MUST do this', as that
-> > will probably be the more controversial bit.
->
-> Maybe we should just spell out about which scenario we care about where we really
-> expect the disclosure.
->
-> Sure, it might be more controversial and we could have that in a separate patch.
->
-> I was thinking of the following end result:
->
-> diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
-> index 899f4459c52d2..4c2ab4dfc6da7 100644
-> --- a/Documentation/process/coding-assistants.rst
-> +++ b/Documentation/process/coding-assistants.rst
-> @@ -40,20 +40,37 @@ Attribution
->  ===========
->
->  When AI tools contribute to kernel development, proper attribution
-> -helps track the evolving role of AI in the development process.
-> -Contributions should include an Assisted-by tag in the following format::
-> +helps track the evolving role of AI in the development process. Further,
-> +for reviewers and maintainers it is also crucially important to know how
-> +AI tools were used.
->
-> -  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
-> +Contributions that used AI to generate significant portions of code,
-> +comments, or patch descriptions must include an Assisted-by tag in the
-> +following format::
->
-> -Where (preferred):
-> +  Assisted-by: LLM # brief description of usage
-> +
-> +Or alternatively::
-> +
-> +  Assisted-by: AGENT_NAME:MODEL_VERSION # brief description of usage
-> +
-> +Where::
->
->  * ``AGENT_NAME`` is the name of the AI tool or framework
->  * ``MODEL_VERSION`` is the specific model version used
-> -* ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
-> -  (e.g., coccinelle, sparse, smatch, clang-tidy)
-> +
-> +If other tools were used, they should be specified through a dedicated
-> +Assisted-by tag in the following format::
-> +
-> +  Assisted-by: [TOOL1] [TOOL2]
-> +
-> +Where ``[TOOL1] [TOOL2]`` are specialized analysis tools used
-> +(e.g., coccinelle, sparse, smatch, clang-tidy)
->
->  Basic development tools (git, gcc, make, editors) should not be listed.
->
-> -Example::
-> +Examples::
->
-> -  Assisted-by: Claude:claude-3-opus coccinelle sparse
-> +  Assisted-by: LLM # translate patch description
-> +  Assisted-by: Claude:claude-3-opus # generate most of the code
-> +  Assisted-by: coccinelle sparse
+> >> Document the -EINTR return from mmap_write_lock_killable(), fix the
+> >> CONFIG_MSEAL_SYSTEM_MAPPINGS typo, and describe system mappings in
+> >> terms of VM_SEALED_SYSMAP.
+> >>
+> >> Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
+> >> ---
+> >>  Documentation/userspace-api/mseal.rst | 18 ++++++++++--------
+> >>  init/Kconfig                          |  2 +-
+> >>  mm/mseal.c                            |  4 ++--
+> >>  3 files changed, 13 insertions(+), 11 deletions(-)
+> >>
+> >> diff --git a/Documentation/userspace-api/mseal.rst b/Documentation/userspace-api/mseal.rst
+> >> index ea9b11a0bd89..1f1cf206670c 100644
+> >> --- a/Documentation/userspace-api/mseal.rst
+> >> +++ b/Documentation/userspace-api/mseal.rst
+> >> @@ -50,8 +50,10 @@ mseal syscall signature
+> >>           * The start address (``addr``) is not allocated.
+> >>           * The end address (``addr`` + ``len``) is not allocated.
+> >>           * A gap (unallocated memory) between start and end address.
+> >> -      - **-EPERM**:
+> >> -         * sealing is supported only on 64-bit CPUs, 32-bit is not supported.
+> >> +      - **-EINTR**:
+> >> +         * Interrupted while waiting for the mmap write lock.
+> >> +      - **-ENOSYS**:
+> >> +         * The kernel does not implement ``mseal()``.
+> >>  
+> >>     **Note about error return**:
+> >>        - For above error cases, users can expect the given memory range is
+> > 
+> > Honestly, this whole thing needs to be deleted. We need a proper manpage.
+> 
+> $ man mseal
+> No manual entry for mseal
+> 
+> When searching "mseal manual" using Google, this doc is the first entry.
+> 
+> So, this change is worthy.
 
-LGTM! Do you want to send that then? People can comment on the actual path then
-(probably worth cc'ing everybody here on that also).
+Yes, I agree. To be clear, my main gripe is with the current state of things,
+not your patch.
+> 
+> > 
+> >> @@ -62,7 +64,8 @@ mseal syscall signature
+> >>          memory range could happen. However, those cases should be rare.
+> >>  
+> >>     **Architecture support**:
+> >> -      mseal only works on 64-bit CPUs, not 32-bit CPUs.
+> >> +      mseal is built only for 64-bit kernels. 32-bit kernels return
+> >> +      ``-ENOSYS``.
+> > 
+> > This LGTM.
+> > 
+> >>  
+> >>     **Idempotent**:
+> >>        users can call mseal multiple times. mseal on an already sealed memory
+> >> @@ -131,20 +134,19 @@ Use cases
+> >>  - Chrome browser: protect some security sensitive data structures.
+> >>  
+> >>  - System mappings:
+> >> -  The system mappings are created by the kernel and includes vdso, vvar,
+> >> +  The system mappings are created by the kernel and include vdso, vvar,
+> >>    vvar_vclock, vectors (arm compat-mode), sigpage (arm compat-mode), uprobes.
+> >>  
+> >>    Those system mappings are readonly only or execute only, memory sealing can
+> >> -  protect them from ever changing to writable or unmmap/remapped as different
+> >> +  protect them from ever changing to writable or unmapped/remapped as different
+> >>    attributes. This is useful to mitigate memory corruption issues where a
+> >>    corrupted pointer is passed to a memory management system.
+> > 
+> > Also LGTM.
+> > 
+> >>  
+> >>    If supported by an architecture (CONFIG_ARCH_SUPPORTS_MSEAL_SYSTEM_MAPPINGS),
+> >> -  the CONFIG_MSEAL_SYSTEM_MAPPINGS seals all system mappings of this
+> >> -  architecture.
+> >> +  CONFIG_MSEAL_SYSTEM_MAPPINGS seals mappings marked with VM_SEALED_SYSMAP.
+> > 
+> > VM_SEALED_SYSMAP isn't meaningful to userspace.
+> 
+> 
+> Got it. Will drop this change.
+> 
+> > 
+> >>  
+> >>    The following architectures currently support this feature: x86-64, arm64,
+> >> -  loongarch and s390.
+> >> +  loongarch, riscv, and s390.
+> > 
+> > This is also useless, every 64-bit architecture will support this.
+> 
+> 
+> Do you mean dropping this sentence, or this change?
 
->
->
-> But I am not really sure why we should specify other tools here, really.
-> People usually do that as part of the patch description, including sharing
-> coccinelle scripts etc.
->
-> Because looking at the history:
->
+This sentence (this is not architecture specific...).
 
-(for succinctness :P)
+> 
+> > 
+> >>  
+> >>    WARNING: This feature breaks programs which rely on relocating
+> >>    or unmapping system mappings. Known broken software at the time
+> >> diff --git a/init/Kconfig b/init/Kconfig
+> >> index 5230d4879b1c..12bb39f637b1 100644
+> >> --- a/init/Kconfig
+> >> +++ b/init/Kconfig
+> >> @@ -2112,7 +2112,7 @@ config ARCH_SUPPORTS_MSEAL_SYSTEM_MAPPINGS
+> >>  	  from a kernel perspective.
+> >>  
+> >>  	  After the architecture enables this, a distribution can set
+> >> -	  CONFIG_MSEAL_SYSTEM_MAPPING to manage access to the feature.
+> >> +	  CONFIG_MSEAL_SYSTEM_MAPPINGS to manage access to the feature.
+> >>  
+> >>  	  For complete descriptions of memory sealing, please see
+> >>  	  Documentation/userspace-api/mseal.rst
+> >> diff --git a/mm/mseal.c b/mm/mseal.c
+> >> index 9781647483d1..0464c7b94ab9 100644
+> >> --- a/mm/mseal.c
+> >> +++ b/mm/mseal.c
+> >> @@ -132,8 +132,8 @@ static int mseal_apply(struct mm_struct *mm,
+> >>   *   addr is not a valid address (not allocated).
+> >>   *   end (start + len) is not a valid address.
+> >>   *   a gap (unallocated memory) between start and end.
+> >> - *  -EPERM:
+> >> - *  - In 32 bit architecture, sealing is not supported.
+> >> + *  -EINTR:
+> >> + *   interrupted while waiting for the mmap write lock.
+> >>   * Note:
+> >>   *  user can call mseal(2) multiple times, adding a seal on an
+> >>   *  already sealed memory is a no-action (no error).
+> > 
+> > And this whole header needs to be deleted as well. No one's looking at
+> > kernel code for documentation (and if they are, we did a horrendous job
+> > at actually documenting the thing).
+> > 
+> 
+> Just to confirm, do you mean removing the entire function comment above
+> do_mseal()?
 
-$ git log | grep "Assisted-by" | grep -Ei "(coccinelle|sparse|smatch|clang)" | wc -l
-30
+Yes. Again, not your fault, just old gripes :)
 
-Yeah, doesn't seem much used, but I guess for the non-controversial version
-worth keeping that stuff around in the doc.
-
-> --
-> Cheers,
->
-> David
-
-Cheers, Lorenzo
+-- 
+Pedro
