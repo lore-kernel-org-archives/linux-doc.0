@@ -1,214 +1,216 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D320414A07
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 12:39:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CA93E7BC7;
+	Tue,  7 Jul 2026 12:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783427988; cv=none; b=Ff1c1fOMTjLMeN6tZmSQ5n3u7EA9Sq9coeE0Pnl8ydwpA0zF9IVCVCpE0nHSJDC8Q4awg+Y3UaaQ4K47zDcF+md0UbfyGJ5bc+u8E/4p4e0ZxMy+mbY4iqRap90mIjw/wUjXaIMYOnXF0xUAuy/AuQKhDw9Rcq47DhfuX5GtArc=
+	t=1783428036; cv=none; b=C5huw3LR3vD2rkBvNXffXyZOhWQKcYxL4xRsl07az7uCOuUUfBTKsn1tGfjRIm+H7vuZxrrw74nYESJwb78AdQIVvEiFmDqmW/M/tpMBPlcjxKLes1CncAsp+eLoeumCuU5TqenYCsNsoK9/tCq+o8SM1HY7/UyGoegcVTon+Go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783427988; c=relaxed/simple;
-	bh=vkEuyudynAbdDdHXbCABH5roVxW1tlfjkxheK4tjgSs=;
+	s=arc-20240116; t=1783428036; c=relaxed/simple;
+	bh=n0xUh5OGPh9z2w0Sp46nckGuiAEOctFlK6hVKNx2f1c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K4tEqKD5+e8guPhJp1PSEgjwgE4P2Ec77aK42N55TK0ivRvqkIGcGrMQDG/Dfo8fME47tNz7dkwBGeAf4DqeH2JzIFg/QfX8GVP6pkhz+ipuz+IqcF8z0x9KLl3IO+CohgiEFXbhv2Eso/7i4hb3yy4zTDmjKv6UmKMJ16UC9RM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=wPHaqrho; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	 Content-Type:Content-Disposition:In-Reply-To; b=R//Q7eNMPqTbL9RQdnIwLKG/s5Q2o+B5+4LOCJ6RoBWezugJKGvXC3bZ+OQBJW4HzzbwESqgg5sKOJY5ufCxU1JIMYfUXfL1J1x3Ad5GjxnsEaOeYxJUHYOZ/M8gExr8DTYBlEmjGjqDemFY5byRon2QKryyPB9vqfJzafntp+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pr9ECtD8; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="wPHaqrho"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c15b1da6b82so60517666b.1
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 05:39:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1783427983; x=1784032783; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=EnwDL12vlYEazYcGR9rb54AP+Tj9amAPmQc3cAai/2c=;
-        b=wPHaqrhom2bOThCI718MGxUviGgB+/wipuir650vZ75B54HGGe8ljZDV6r1hxTrc0A
-         A8uNe4YwXxyWXKy3CxBq7L6Ycm3dTEy8eT1njE52Dcu8gpmsThe6xnKSTaMN9RppnQx8
-         vMtV25V6/Q1Pu3+ZqXMln3fZsq6P9u9jXdMNAbcblrtd6qVdF2T7pjczRsY4K51NqJkQ
-         vWF0jGnD+ec5rhioEVdu7ApZ9VFVvv4cGLm/DjPtuWlzrh8qUybUD/r8+TJunyUf1UMM
-         O42dPNknDb+jRXYhvq9HUqvCnrpyGCTiEdoADgTcQprny1ry+ubqyAAwxUHT13QqGugY
-         IaXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783427983; x=1784032783;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EnwDL12vlYEazYcGR9rb54AP+Tj9amAPmQc3cAai/2c=;
-        b=dYJwKOg5cQaZKCiO3noG9F34gLryXth/1YRCl2pOibNBiZ8J6gSWnFBXdgFdv8cSfO
-         zurd90fEjFExyeuxD12Qq/v8WS+xlsQf4osk8xQDLeMj9qEopRlRACSzpN3lWhupNgoP
-         hYTtRSKQG2BnQixP7j27BOaCAXHM6Eiikz9BVqn5BN1JdFOm47Z4zsJSDtIsJuNdH7gH
-         4qDBR5CS+0VsIipprWcwzsbWaasEKtrghyX33Q22c0Byvd77BORIaB++D+B4HBKjGNe2
-         +fcPyrD2ak/TlsH2C3aNocq6hSPMf2AylwNtGjLvp0Pp+JC4W/hTg1H4TPmAuW6hBX9P
-         U2OQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp5atCItqGPpuvA/IC2LYrT+/QVk7JZiFLyp7mUn4dDVV5uDZxyoVY7WPE9xzAsgq/4x1uiLf0va8g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrU72QgY0r3rZawcQkZDWf6pGFI0k/7mOlNpwPpl7CD6FHGLTp
-	2KPScm+4Zdl2vIkDBM010d+fK7F7Y9vj1nKOamAzySAE+qJ3L212M5vzUjQdr2im4Dw=
-X-Gm-Gg: AfdE7ckAYXaWfGvPRukvmJTmgC5sTZy8Jzwjw7rm0mqCnuZrs/hPDiq2sul3ay7nvzx
-	i7VDw3IyOLJXQbc6Idil4iN1fo71FhboXUE8YsTp5SE0jXGRdtDTX/MyRNOAfJjcWzvt3Mgutg7
-	5WSuZ0+BtVF/dKxN56sgAUsutFfifsRfHwHSfGE4mpWsV43DmKlASIYjIUhjPrbV1GnCVbtoZ8X
-	puRsFQRVkB7qyEVRBO+zkOBjbh3u9qkV51sOfkFhRVYLiRWoGAJBEmDxmTesm9tZgVRIYG5s6Ku
-	s1oU1fYQr4S94cIm/Zv52rygObFN6hWj3OL024VyaHoKFjJzc4nmhgJsmAsok8xtLrS1ua8TQjc
-	p2bbNTYwNmFw+MY9NqlNDVp0WuaWejpP00VvMjkAHWQOpdU4NR5lcCKSj1UAHbGK/6VjxKv4ehi
-	EYRLJTxc8akF0UXMKff+Fe
-X-Received: by 2002:a17:907:6d20:b0:c12:e4c6:c4d4 with SMTP id a640c23a62f3a-c15ab074a88mr199441966b.63.1783427982190;
-        Tue, 07 Jul 2026 05:39:42 -0700 (PDT)
-Received: from localhost ([128.77.52.125])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15ad9be55csm126574866b.31.2026.07.07.05.39.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 05:39:41 -0700 (PDT)
-Date: Tue, 7 Jul 2026 14:39:37 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Mark Bloch <mbloch@nvidia.com>
-Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
-	Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next V4 4/6] devlink: Apply eswitch mode boot defaults
-Message-ID: <akzzW3aDgej-r26T@FV6GYCPJ69>
-References: <20260629182102.245150-1-mbloch@nvidia.com>
- <20260629182102.245150-5-mbloch@nvidia.com>
- <akThPmvUHvCMT2cp@FV6GYCPJ69>
- <1d4ca929-82b8-4891-9058-1451bf71a660@nvidia.com>
- <akUfXyKioGNAO_iB@FV6GYCPJ69>
- <ecaeeef0-c463-4f10-885a-02ad2d648be0@nvidia.com>
- <akYX4pMrDTnxa6yK@FV6GYCPJ69>
- <4fa57470-0d4f-43dc-af4d-e66ddb450923@nvidia.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pr9ECtD8"
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9C012673;
+	Tue,  7 Jul 2026 14:39:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1783427983;
+	bh=n0xUh5OGPh9z2w0Sp46nckGuiAEOctFlK6hVKNx2f1c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pr9ECtD8qCdWzZnArS158+LZBum436RpE+whkULJndc87+LXTAapOABZb++49Rzho
+	 iUXVsO5t0uLygtqVudGC1v2lgcxflnEP2GsS3Xe3fvRWugXvubQUOw+/c6Nj4ec5Hu
+	 QiAE+KFiICDstz+Lw30atdZ648Rl/NBHRS2DmexU=
+Date: Tue, 7 Jul 2026 15:40:31 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, Boris Burkov <boris@bur.io>,
+	Jeff Layton <jlayton@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Justin Stitt <justinstitt@google.com>,
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Brian Foster <bfoster@redhat.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+Message-ID: <20260707124031.GC211515@killaraus.ideasonboard.com>
+References: <2026070227-payroll-eradicate-8f66@gregkh>
+ <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
+ <akaWnQ5Pkg_676B-@lucifer>
+ <20260702211740.GA639365@zen.localdomain>
+ <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
+ <akez23ZhLRSGMFQ1@lucifer>
+ <20260703163251.GB3734786@killaraus.ideasonboard.com>
+ <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
+ <akzETpsps4TMfqpC@lucifer>
+ <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <4fa57470-0d4f-43dc-af4d-e66ddb450923@nvidia.com>
+In-Reply-To: <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
 
-Fri, Jul 03, 2026 at 08:27:28PM +0200, mbloch@nvidia.com wrote:
->
->
->On 02/07/2026 10:52, Jiri Pirko wrote:
->> Wed, Jul 01, 2026 at 07:42:57PM +0200, mbloch@nvidia.com wrote:
->>>
->>>
->>> On 01/07/2026 17:09, Jiri Pirko wrote:
->>>> Wed, Jul 01, 2026 at 02:57:21PM +0200, mbloch@nvidia.com wrote:
->>>>>
->>>>>
->>>>> On 01/07/2026 12:48, Jiri Pirko wrote:
->>>>>> Mon, Jun 29, 2026 at 08:20:59PM +0200, mbloch@nvidia.com wrote:
->>>>>>> Apply parsed devlink_eswitch_mode= defaults after devlink registration
->>>>>>> and after successful reload.
->>>>>>>
->>>>>>> devl_register() may still be called before the device is ready for an
->>>>>>
->>>>>> How so? I would assume that driver calls devl_register only after
->>>>>> everything is up and running and ready. If not, isn't it a bug?
->>>>>>
->>>>>
->>>>> You would think so :)
->>>>>
->>>>> Some drivers, mlx5 included, call devl_register() while holding the
->>>>> devlink instance lock and then finish setting up state before releasing
->>>>> the lock.
->>>>>
->>>>> In v3 I tried to enforce exactly that model, move devl_register() to
->>>>> be the last thing the driver does. Jakub pushed back on making that a
->>>>> general rule. So in v4 I changed the approach. devl_register() only
->>>>> schedules the work, and the actual eswitch mode change can run only
->>>>> after the driver releases the devlink lock.
->>>>
->>>> Wouldn't it make sense to use a completion instead of loop-reschedule of
->>>> delayed work?
->>>
->>> Just to make sure I understand the suggestion, this would mean that the
->>> work waits until the devlink lock holder drops the lock, and devl_unlock()
->>> would signal it, something like:
->>>
->>> void devl_unlock(struct devlink *devlink)
->>> {
->>> 	ool complete_apply = devlink->default_esw_mode_apply_pending;
->>>
->>> 	mutex_unlock(&devlink->lock);
->>>
->>> 	if (complete_apply)
->>> 		complete(&devlink->default_esw_mode_apply_ready);
->>> }
->>>
->>> That would avoid the retry loop, but it also means the queued work 
->>> sleeps until the driver drops devl_lock. It does keep one worker
->>> blocked per pending instance and adds this default-esw-mode signalling to
->>> the generic devl_unlock() path.
->>>
->>> The delayed retry was meant to avoid a sleeping worker and keep the
->>> instances independent. If one devlink instance is still locked, we just
->>> try it again later while other instances can progress.
->>>
->>> If you prefer the completion approach I can switch to it, but I don't see
->>> it as simpler overall.
->> 
->> Yeah, I don't have preference. I was just wondering. Feel free to leave
->> it as is.
->> 
->> Maybe, instead of "complete", you can schedule with "0" delay in
->> devl_unlock? Well, it does not really need to be delayed work, right?
->> The only single schedule may be done from devl_unlock. That would help
->> to eliminate the rescheduling. Am I missing something?
->
->Yeah, that can work.
->
->The only part I don't really like is adding default-esw-mode specific
->logic to devl_unlock(). But if you are fine with that, I can switch to
+On Tue, Jul 07, 2026 at 11:49:31AM +0200, David Hildenbrand (Arm) wrote:
+> On 7/7/26 11:20, Lorenzo Stoakes wrote:
+> > On Fri, Jul 03, 2026 at 08:22:20PM +0200, David Hildenbrand (Arm) wrote:
+> >> On 7/3/26 18:32, Laurent Pinchart wrote:
+> >>>
+> >>> I'd support a patch that replaces
+> >>>
+> >>> Assisted-by: Claude:claude-3-opus coccinelle sparse
+> >>>
+> >>> with
+> >>>
+> >>> Assisted-by: LLM # generate some test cases
+> >>>
+> >>> and rewrites the Attribution section of
+> >>> Documentation/process/coding-assistants.rst accordingly.
+> >>>
+> >>> I think most people in this mail thread have expressed that how
+> >>> generative AI was used is the most important information, and several
+> >>> people (including myself) have expressed a desire to stop the free
+> >>> advertising. Unless I missed something, I don't think anyone has
+> >>> expressed an interest in keeping the agent name and model.
+> >>
+> >> Yes, that's something I would enjoy seeing. Who reading along has a problem with
+> >> that? (assuming that the tag must stay)
+> > 
+> > I think the silence suggests nobody :)
+> > 
+> > What we could do is send a patch to simply add a section on adding a comment
+> > explaining _what_ used an LLM and strongly suggesting it would be helpful to do
+> > so.
+> > 
+> > That should hopefully be uncontroversial, then later (or alongside that?) we
+> > could submit an RFC for making the language move to 'you MUST do this', as that
+> > will probably be the more controversial bit.
+> 
+> Maybe we should just spell out about which scenario we care about where we really
+> expect the disclosure.
+> 
+> Sure, it might be more controversial and we could have that in a separate patch.
+> 
+> I was thinking of the following end result:
+> 
+> diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+> index 899f4459c52d2..4c2ab4dfc6da7 100644
+> --- a/Documentation/process/coding-assistants.rst
+> +++ b/Documentation/process/coding-assistants.rst
+> @@ -40,20 +40,37 @@ Attribution
+>  ===========
+>  
+>  When AI tools contribute to kernel development, proper attribution
+> -helps track the evolving role of AI in the development process.
+> -Contributions should include an Assisted-by tag in the following format::
+> +helps track the evolving role of AI in the development process. Further,
+> +for reviewers and maintainers it is also crucially important to know how
+> +AI tools were used.
+>  
+> -  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
+> +Contributions that used AI to generate significant portions of code,
+> +comments, or patch descriptions must include an Assisted-by tag in the
+> +following format::
+>  
+> -Where (preferred):
+> +  Assisted-by: LLM # brief description of usage
+> +
+> +Or alternatively::
+> +
+> +  Assisted-by: AGENT_NAME:MODEL_VERSION # brief description of usage
 
-Could be a devl_unlock_x variant? Idk.
+I would like to drop this one. As I understand, several people objected
+to including the product name in the git history as it is just free
+adverising, and nobody objected to dropping it.
 
+> +
+> +Where::
+>  
+>  * ``AGENT_NAME`` is the name of the AI tool or framework
+>  * ``MODEL_VERSION`` is the specific model version used
+> -* ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
+> -  (e.g., coccinelle, sparse, smatch, clang-tidy)
+> +
+> +If other tools were used, they should be specified through a dedicated
+> +Assisted-by tag in the following format::
+> +
+> +  Assisted-by: [TOOL1] [TOOL2]
+> +
+> +Where ``[TOOL1] [TOOL2]`` are specialized analysis tools used
+> +(e.g., coccinelle, sparse, smatch, clang-tidy)
+>  
+>  Basic development tools (git, gcc, make, editors) should not be listed.
+>  
+> -Example::
+> +Examples::
+>  
+> -  Assisted-by: Claude:claude-3-opus coccinelle sparse
+> +  Assisted-by: LLM # translate patch description
+> +  Assisted-by: Claude:claude-3-opus # generate most of the code
+> +  Assisted-by: coccinelle sparse
+> 
+> 
+> But I am not really sure why we should specify other tools here, really.
+> People usually do that as part of the patch description, including sharing
+> coccinelle scripts etc.
 
->this approach.
->
->There is still a small race between mutex_unlock() and queue_work(), where
->someone else can take devl_lock() first. So the worker may still wait on
->the lock, but the window should be small and we get rid of the delayed
->retry loop.
+We've mentioned coccinelle usage in commit messages, with a copy of the
+semantic patch, for years and years and I'm not aware of anyone giving a
+technical reason why we need a tag instead. The only reason I see is to
+avoid pointing specifically at LLMs and normalize their usage as "just
+another tool". That's a political reason, not a technical one.
 
-No problem.
+> Because looking at the history:
+> 
+> $ git log | grep "Assisted-by" | grep -E "(coccinelle|sparse|smatch|clang)"
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
+>     Assisted-by: unnamed:deepseek-v3.2 coccinelle
 
->
->Mark
->
->> 
->> 
->>>
->>> Mark
->>>
->>>>
->>>>>
->>>>> Mark
->>>>>
->>>>>>
->>>>>>> eswitch mode change, so keep a per-devlink delayed work item and pending
->>>>>>> flag for the registration path. Registration queues the work, and the
->>>>>>> worker tries to take the devlink instance lock.
->>>>>>>
->>>>>>> If the lock is busy, the worker requeues itself with a delay.
->>>>>>>
->>>>>>> For successful reloads that performed DRIVER_REINIT, devlink_reload()
->>>>>>> already holds the devlink instance lock and the driver has completed
->>>>>>> reload_up(). Clear pending work and apply the default directly from the
->>>>>>> reload path instead of queueing work.
->>>>>>>
->>>>>>> If a user sets eswitch mode through netlink before the pending
->>>>>>> registration work runs, clear the pending flag so the queued default does
->>>>>>> not override that user request. Cancel pending default apply work when
->>>>>>> freeing the devlink instance.
->>>>>>
->>>>>> These AI generated code descriptive messages are generally not very
->>>>>> useful :(
->>>>>>
->>>>>
->>>
->
->
+-- 
+Regards,
+
+Laurent Pinchart
