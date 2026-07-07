@@ -1,123 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1E33BB135;
-	Tue,  7 Jul 2026 09:41:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00AA03D525F;
+	Tue,  7 Jul 2026 09:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783417298; cv=none; b=JnLcDyxJ2ms8aZ9Tp89uSvEmUajhEp+upwqEp8paFwUnXQugAY3kG2HLjsgK5t9ZWtDjBYR8INPCKPPXBbR5VeIDYVEAdRF9bUYDhUKcr8cGU1IFmFU3W9Yu03NIk+QGACnpMZB87MtQTwHTzAH18PQW0CIXHNNDqnHGIM+iLp4=
+	t=1783417550; cv=none; b=Qugc2nARH3J/YrSRY50A+v9Vs2sC+f1edIzt64wPZ2QM53InoZChFCH9iaNClVtYu1brqtfHh7E0zrFkO+L20RQNGj6it5JNWNPMLrzBylFHpL07X7IOObnFRj9FM8HWE/Ptxr5L1rS6La/V04gv94aXcGbBKruN/h0+wbMBtiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783417298; c=relaxed/simple;
-	bh=C2QbuCacjTPszwp8554QdsIjQ5yl4pwtYb4k2JRAQzY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W/TyKib9JT32zF+c7lr+Hb4NyHcwXKpCc7sqlKUcl32LnMxmACn0he2Sx81nC8autuQzjh2ADqu9iT1xuAPlEqid1tuQW/yA+7f9m3yig51+4Vrt7wNQA7fP8iFldmveLowgGKdA41zgddjyvOTI65lsvEANWMHMSwV2WTbgxas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QfUUXnPj; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QfUUXnPj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0054E1F000E9;
-	Tue,  7 Jul 2026 09:41:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783417297;
-	bh=edq9/jN03tElaw6k+IpT0Yftpb/niEsz9qEsQVfwHiM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=QfUUXnPj15wViNjXPs9pgLJxKLcvzihhyeuHVy4vGQCrz2E0tXuQaFrhHxHojpPnY
-	 VochgGMZmL24b+nFmBaH7AlT+eqcZc67eWDCE/mWMI8b9o75cyUarVZeOGsGq9Wx32
-	 SA5MXJYpcaHdep/0UVXHAU/YkGhArhBHAuCLWGEMO82dfHUmOdTzfUIvsr+vlE/lKj
-	 bsBgRetjbjUFLoO9wW1SouScNkN4w53t+4BicQvI2GUe/YQfmmpXLOPjQEGRhVYZFf
-	 wSCeq0FZFUQiX32OXwx2OnBXymuO8MVhf0yM8is5OEnM6Gw5jwX4q0cA/82XZKZdfw
-	 eCC5ZlDxjZcEw==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wh2J4-00000002KzE-30Of;
-	Tue, 07 Jul 2026 09:41:34 +0000
-Date: Tue, 07 Jul 2026 10:41:34 +0100
-Message-ID: <868q7np25t.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Oliver Upton <oupton@kernel.org>
-Cc: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
+	s=arc-20240116; t=1783417550; c=relaxed/simple;
+	bh=vPiZ9O9MpD6iISIXOvLhlhqtkDIuhpgFIFdHlmb80Bg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=khU+tFdXIEnz/aT9hirZi6kqZWrRF4soj/o6rj/1tor9dDbn5SPyyW14rFa+PCERXBdGZGZUeYIYK1TC4qGZSOjKEaqO51rPLuA/ciISdlD9TATIHlX5FunrDPe0kZlUxaN9DRKxFMpawttvX8ZPg1eYMdDDzbP4uIqddxc1aq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 9f0b01ea79e811f1aa26b74ffac11d73-20260707
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:b2e96b49-6547-4be8-9b65-652b0a9f4a36,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:e7bac3a,CLOUDID:f3f7bb9b376452512748743dd6a179ce,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|123|136|850|865|898,TC:nil,Content:0
+	|15|50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,O
+	SI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 9f0b01ea79e811f1aa26b74ffac11d73-20260707
+X-User: luoliang@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <luoliang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 2050030750; Tue, 07 Jul 2026 17:45:43 +0800
+From: luoliang@kylinos.cn
+To: Tejun Heo <tj@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	devel@daynix.com,
-	kvm@vger.kernel.org,
+	Andrea Righi <arighi@nvidia.com>,
 	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v8 0/7] KVM: arm64: PMU: Use multiple host PMUs
-In-Reply-To: <aky0abet4NfzK4z8@kernel.org>
-References: <20260706-hybrid-v8-0-de459617b59d@rsg.ci.i.u-tokyo.ac.jp>
-	<akvzxDwZbj_sZ4pI@kernel.org>
-	<86bjcjp6x1.wl-maz@kernel.org>
-	<aky0abet4NfzK4z8@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	linux-kernel@vger.kernel.org,
+	Liang Luo <luoliang@kylinos.cn>
+Subject: [PATCH] sched_ext: Documentation: Fix ops table header reference
+Date: Tue,  7 Jul 2026 17:45:38 +0800
+Message-Id: <20260707094538.3033292-1-luoliang@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: oupton@kernel.org, odaki@rsg.ci.i.u-tokyo.ac.jp, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, kees@kernel.org, gustavoars@kernel.org, pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, skhan@linuxfoundation.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 07 Jul 2026 09:10:17 +0100,
-Oliver Upton <oupton@kernel.org> wrote:
-> 
-> On Tue, Jul 07, 2026 at 08:58:50AM +0100, Marc Zyngier wrote:
-> > On Mon, 06 Jul 2026 19:28:20 +0100,
-> > Oliver Upton <oupton@kernel.org> wrote:
-> > > 
-> > > On Mon, Jul 06, 2026 at 07:03:23PM +0900, Akihiko Odaki wrote:
-> > > > Akihiko Odaki (7):
-> > > >       KVM: arm64: Disallow vPMU when pPMUs do not cover all CPUs
-> > > >       KVM: arm64: PMU: Protect the list of PMUs with RCU
-> > > >       KVM: arm64: PMU: Pass the pPMU to kvm_map_pmu_event()
-> > > >       KVM: arm64: PMU: Pass the target CPU to kvm_pmu_probe_armpmu()
-> > > >       KVM: arm64: PMU: Implement fixed-counters-only emulation
-> > > >       KVM: arm64: PMU: Introduce FIXED_COUNTERS_ONLY
-> > > >       KVM: arm64: selftests: Test PMU_V3_FIXED_COUNTERS_ONLY
-> > > 
-> > > Thanks for respinning the series, I left some comments. I'd really like
-> > > to get this feature picked up, hope you have cycles to work on it soon.
-> > > 
-> > > FWIW, we're considering adding a new vCPU feature flag to deprecate all
-> > > the ugliness of the old PMUv3 UAPI. I'm tempted to say that the
-> > > FIXED_COUNTERS_ONLY feature is conditioned on the new feature flag...
-> > 
-> > It'd be good to have a strawman proposal on the list if we are going
-> > to change add a new API, specially if this is likely to gate new code.
-> > 
-> 
-> Patch 1 [*] of the series I linked does exactly this, no? Needs some
+From: Liang Luo <luoliang@kylinos.cn>
 
-Ah, I overlooked that, apologies.
+The "Where to Look" and "ABI Instability" sections state that the ops
+table is defined in include/linux/sched/ext.h. However, struct
+sched_ext_ops is actually defined in kernel/sched/ext/internal.h, along
+with the SCX_OPS_* flags; include/linux/sched/ext.h holds the core data
+structures (struct sched_ext_entity, struct scx_dispatch_q, ...) and the
+DSQ constants. Point the ops table references to the correct header.
 
-> attention like a KVM_CAP to make the bit discoverable by the VMM but
-> gets the general idea across.
+Signed-off-by: Liang Luo <luoliang@kylinos.cn>
+---
+ Documentation/scheduler/sched-ext.rst | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Not sure that's the ideal approach, specially in the light of this
-"multiple PMU" series. This "strict" API mandates the selection of a
-PMU (singular), while this stuff is the exact opposite (grab all the
-possible PMUs).
-
-	M.
-
+diff --git a/Documentation/scheduler/sched-ext.rst b/Documentation/scheduler/sched-ext.rst
+index 4b1ffd03f516..2771ea4cc14a 100644
+--- a/Documentation/scheduler/sched-ext.rst
++++ b/Documentation/scheduler/sched-ext.rst
+@@ -493,8 +493,9 @@ a freshly woken up task gets on a CPU.
+ Where to Look
+ =============
+ 
+-* ``include/linux/sched/ext.h`` defines the core data structures, ops table
+-  and constants.
++* ``include/linux/sched/ext.h`` defines the core data structures and
++  constants, while the ops table (``struct sched_ext_ops``) is defined in
++  ``kernel/sched/ext/internal.h``.
+ 
+ * ``kernel/sched/ext/ext.c`` contains sched_ext core implementation and helpers.
+   The functions prefixed with ``scx_bpf_`` can be called from the BPF
+@@ -555,7 +556,8 @@ ABI Instability
+ ===============
+ 
+ The APIs provided by sched_ext to BPF schedulers programs have no stability
+-guarantees. This includes the ops table callbacks and constants defined in
++guarantees. This includes the ops table callbacks defined in
++``kernel/sched/ext/internal.h`` and the constants defined in
+ ``include/linux/sched/ext.h``, as well as the ``scx_bpf_`` kfuncs defined in
+ ``kernel/sched/ext/ext.c`` and ``kernel/sched/ext/idle.c``.
+ 
 -- 
-Without deviation from the norm, progress is not possible.
+2.43.0
+
