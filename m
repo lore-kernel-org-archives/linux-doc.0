@@ -1,193 +1,131 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7024934CFAB
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 10:15:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD403DB99A
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 10:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783419348; cv=none; b=WA3vCIR3hy89zwDsLRc7j0tmYKWfeGlDlpTH2pnrKpxyVOqYrMUOmvV4/0tTqpS4M6furLw6Gu9zw1V+5AW463yV9ve9PXcwYGQfWY59v5kBT5e23OL2jNDvuNn5cSTQfaTMknxS+MG/cyy5kaVGLvrSlmIh1j6Os9pW2zyQLho=
+	t=1783419508; cv=none; b=IzZMj3V6D47yutiMwpzjlkogytn9/4C6ZNLIyiLpcnI7K0QAe9YShAX0m5dbGVTnex7KlJYZro5+3qXSRNewbNACSypDvNZ0WrBftCDAOu+9FSWpYh0Kp+tkpxPfKuBterbBOx4zufliEU6d/zlMNyda5yf51wED6btuVRea3dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783419348; c=relaxed/simple;
-	bh=Rl3p0URXys+IWXAxY8I2dgazOTxwsjW4Kf6oIQLur0E=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=RtmAtnPns9R+ErZB/wdECUxouOmhasf12MhBNNEWoY3xHvLpsKSC8W+fhjPvZbPJ4hzHGYTa90mPDp+yaEOHP6BIYlGQNqM2yaseYs5+ODyo6C3EKrNh2oyfyZy2cUaTwERbf4VsgBFYpgMUX0xifUMWPQiMexDdRpiTNW/3vhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=dQR26VBr; arc=none smtp.client-ip=195.121.94.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1783419508; c=relaxed/simple;
+	bh=98VhNMModFCcxiqm7ARQ8dKwSt5GANhTPKLjWFAsCsE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M4BQPPwgdcO8ch650nTHNB9MaX1KqHs7E4kdVFN5YAdTehyeL6Kr/EOPcDNG1VwemsXKcZOt/XEYutLlE83NLZ8hDBlorIpRMd0YL99mna77OpZUaRExwK6PMGTYeLPUVfe6hSBK8YavzQv2PhHy80vh3PeI2srQ+jjrP7xxV0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ifONFYuO; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=HpNFvvQR; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="dQR26VBr"
-X-KPN-MessageId: d05c04a6-79ec-11f1-9e8e-005056999439
-Received: from mta.kpnmail.nl (unknown [10.31.161.191])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id d05c04a6-79ec-11f1-9e8e-005056999439;
-	Tue, 07 Jul 2026 12:15:44 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id d059ea4e-79ec-11f1-91b4-00505699891e;
-	Tue, 07 Jul 2026 12:15:44 +0200 (CEST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ifONFYuO";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="HpNFvvQR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1783419506;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3slwj2XyzWQtqngmhVqaSA6RBHzpXga6waGc30WeTwg=;
+	b=ifONFYuOk72bELdNfNMhYpqN6wc6bDcAmrY6szzV+H6J0wUe4QHj7g18AvhZZ4+4XYdVCo
+	1K1ZuL9KS2kFLlvSYCWLmVhta1Y+rU+3RQ8HIHRH2lOWRAFkPsSK/F9HBKeWJBPEeY6BsX
+	xOK0VsBNAvk9xuKYudhiskE31be7Y2U=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-640-vDVMnoXiMdylx1HamzAfQw-1; Tue, 07 Jul 2026 06:18:25 -0400
+X-MC-Unique: vDVMnoXiMdylx1HamzAfQw-1
+X-Mimecast-MFC-AGG-ID: vDVMnoXiMdylx1HamzAfQw_1783419504
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-472c330e555so1697243f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 03:18:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=XrNegeszo3wuoNwRWe/Y6A1G9/9S/OEIl4RN+rC7Vaw=;
-	b=dQR26VBrYWmXBHtIQsbzhJdR89ux3uB7Ljbmp+Jv5l8JAZKCtBPFwu5pa9QspPb/c6+nv+IoKBSfz
-	 7RmhbytZMsKVlahD1oG5FH+ebY8KZL4ChUwVKizL4KTLOcI4qkJJowCF/G/7DEIGY3aaeHXro+lo2a
-	 lY/5XbyyS2MBWApIizlWyE9XdtzCjbaj9E1P3yE/otU/ZZryxThrWSThCKDVn2UCO2dfB3bJiWoQ1Q
-	 ns4u1VVh61/Wprhk4I01t3QBM/oikDZM4WGR18sDEWBQPkxro3mqMm1tEv/gCqIshcW9xOv8pVhoT2
-	 Xw7DnjIM/VyXZLVshtYu/EG0l8jl6iw==
-X-KPN-MID: 33|cnnF+rt6jiBs6YLB8W39m8g07+aG0qSte9UNUbdImx48zcBM+GIW9zzIwkWJnMs
- kKvsuQ/2QQyiKPT11JNnkS2tU2nvyRualoZ/Tp5973Mk=
-X-CMASSUN: 33|ryHYDpWzA6391rX2L66HVFKhg9bWKQV2c2lbri89ORF4vWDZgHSaZriJC/zyTcn
- Ozbp3UazShzioVELwIWitlw==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh06 (cpxoxapps-mh06.personalcloud.so.kpn.org [10.128.135.212])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id d04de160-79ec-11f1-916a-005056995d6c;
-	Tue, 07 Jul 2026 12:15:43 +0200 (CEST)
-Date: Tue, 7 Jul 2026 12:15:43 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Lorenzo Stoakes <ljs@kernel.org>,
-	"David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Justin Stitt <justinstitt@google.com>,
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Message-ID: <1778033301.182575.1783419343917@kpc.webmail.kpnmail.nl>
-In-Reply-To: <akzETpsps4TMfqpC@lucifer>
-References: <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
- <20260702161330.GH3534761@killaraus.ideasonboard.com>
- <2026070227-payroll-eradicate-8f66@gregkh>
- <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
- <akaWnQ5Pkg_676B-@lucifer> <20260702211740.GA639365@zen.localdomain>
- <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
- <akez23ZhLRSGMFQ1@lucifer>
- <20260703163251.GB3734786@killaraus.ideasonboard.com>
- <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
- <akzETpsps4TMfqpC@lucifer>
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM
- attribution
+        d=redhat.com; s=google; t=1783419504; x=1784024304; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3slwj2XyzWQtqngmhVqaSA6RBHzpXga6waGc30WeTwg=;
+        b=HpNFvvQRI9otjk1BVz0MSDbqpHp15ROiz8a9LEj4sDSMnW5YdhaY1fQO+8vViU3NnI
+         BNEx0TQsXfGyTDk7b7mar6FDGNC3R9OFdTxuarFkGoxIslO7zMe0tSGSJ/WtGdSbPCGB
+         4jriprwpnwHiL7qQidH9hc2CCVC0JtNHV5z6C8c3AgMpWmy2rd7MGMMUawXXLRApSLxn
+         wNsC7P2wOu7+Akqm62YHjRlJlh4dmB9+8U8a1EWl5U0O93P0VWXTscwO9i9kO/L2HJsq
+         mkl7L72xHnM/OReRUuZ1Z9lZWTiau+QrefSttG7ZTx32Q610dWG0TvfjW9uzDLfeNWZH
+         U8Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783419504; x=1784024304;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3slwj2XyzWQtqngmhVqaSA6RBHzpXga6waGc30WeTwg=;
+        b=p2ZCW2HLf3soSzckphEJmHzG8uO2xAORxKmQqKCb9E1lcTeb2CL+NQ3/8Y16Vj79pA
+         i7hVn1lNrfclMfWCA64KTewLiw1uyqe7MUvd2jJkFcIFPD7sc/ufIxJnS0/Ri0rS/XN0
+         cHr9DDKZWoddNxBkFwYTCyhNUAQ7O3HkpXtENxh4ddJAx/1/nk/fcn3YLFdmCQN5LES0
+         YHtgimMS/BwiqRbheImbXsLCkcJPq3WuUGzDTAYvJjh2rO89TAcZmE70Jx+egk8MuzFh
+         DwgBqMateHDMT36X3WIF9SRu3sCMA2DkWsYwlBNAvwlvhtKMfrm6UrTMyohhA8v8oqoC
+         BwRg==
+X-Forwarded-Encrypted: i=1; AHgh+RqrHGg2UhG9Ga0aW8RhUdxvjxF5/e5oQVjgz8pRjaHlJiWTG0rLITYopMVLBCC9o53ByV1DZOe39T0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcgUiK8VWzooafyFkNz/lOYuDyRUCwPwnuho0XmI/L4q+6X/o7
+	HR0B3MKpbkgD6uh14X/TN9GNuL11w6qrprnXeSpFrE0QNfAUU/UKjUsEHf/T0cyKRq6Y/fHLINI
+	672uL4C6dRLv2zn/vZedZjkyUN5iSc32fH9Vk5BUjmiruFJ7LC3X5/wrGjB0PyA==
+X-Gm-Gg: AfdE7cl28Ep5GO5/B5LhCKGu2OJRvmsATVEvTFI8vitSTndl1PBHF3l21QXFHg+QSYM
+	gMJmebEY186vQp2lACLylzeVus7MiKKAnV9nxqCtcVra5IPbrqv/GOFv946EQuYqIa1wLJSviKx
+	xOaxPJxtk6RngZJI5WfOMJzN39zd+gLEbk60j+BDjQ7kbE9gp9X93yTtcvsd+l6c2QiFkHfBcBS
+	TE7n/uBT5utZxj+fSMgG5hNyVeLfXpJUOGIM2pI2qjJaEuCl4uirwnZXT0naoX01MHh087XjxNT
+	e6Pf1VDQNVftSMPVguIxBXYm6Y3t/+HpxZqgBTclvmjtopA0BRHthQgi7garfFxlOdZv5vpiJUd
+	PM7KD5+IkhKXoFd+ZSnb1cQhWOuy8cN3n
+X-Received: by 2002:a05:600c:c173:b0:493:c98f:12e3 with SMTP id 5b1f17b1804b1-493e3066380mr12492975e9.20.1783419503693;
+        Tue, 07 Jul 2026 03:18:23 -0700 (PDT)
+X-Received: by 2002:a05:600c:c173:b0:493:c98f:12e3 with SMTP id 5b1f17b1804b1-493e3066380mr12490105e9.20.1783419500441;
+        Tue, 07 Jul 2026 03:18:20 -0700 (PDT)
+Received: from redhat.com (IGLD-80-230-68-31.inter.net.il. [80.230.68.31])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e0078d49sm49438995e9.0.2026.07.07.03.18.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 03:18:19 -0700 (PDT)
+Date: Tue, 7 Jul 2026 06:18:16 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Sourav Panda <souravpanda@google.com>
+Cc: muchun.song@linux.dev, osalvador@suse.de, akpm@linux-foundation.org,
+	david@kernel.org, ljs@kernel.org, liam@infradead.org,
+	vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
+	mhocko@suse.com, mhklinux@outlook.com, fvdl@google.com,
+	gthelen@google.com, mike.kravetz@oracle.com,
+	pasha.tatashin@soleen.com, rientjes@google.com, riel@surriel.com,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 6/6] mm/hugetlb: support free page reporting for cached
+ hugepages
+Message-ID: <20260707032839-mutt-send-email-mst@kernel.org>
+References: <20260707064235.1386552-1-souravpanda@google.com>
+ <20260707064235.1386552-7-souravpanda@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260707064235.1386552-7-souravpanda@google.com>
 
-
-> Op 07-07-2026 11:20 CEST schreef Lorenzo Stoakes <ljs@kernel.org>:
+On Tue, Jul 07, 2026 at 06:42:35AM +0000, Sourav Panda wrote:
+> Implement free page reporting for the HugeTLB dynamic cache.
 > 
->  
-> On Fri, Jul 03, 2026 at 08:22:20PM +0200, David Hildenbrand (Arm) wrote:
-> > On 7/3/26 18:32, Laurent Pinchart wrote:
-> > > On Fri, Jul 03, 2026 at 02:12:40PM +0100, Lorenzo Stoakes wrote:
-> > >> On Fri, Jul 03, 2026 at 09:05:58AM +0200, David Hildenbrand (Arm) wrote:
-> > >>
-> > >> I personally think 1-2 are the only relevant cases.
-> > >>
-> > >>>
-> > >>> Yes, I raised something similar as reply to Christian's RFC [1], where I said
-> > >>> that for me the information *how* it was used is much more important:
-> > >>>
-> > >>> "
-> > >>> Assisted-by: LLM # translate commit message
-> > >>> Assisted-by: LLM # generate some test cases
-> > >>> Assisted-by: LLM # cleanup logic
-> > >>> Assisted-by: LLM # everything and I have no clue what any in here does
-> > >>> "
-> > >>
-> > >> Yup, and we don't need complicated rules for that just 'document what you used
-> > >> it for and give a sense of how much'.
-> > >>
-> > >> It's fuzzy but useful.
-> > >>
-> > >>>
-> > >>> That tag is it stands is pretty useless, really.
-> > >>
-> > >> Not to go over it all again but I disagree, even as it stands, it allows us to
-> > >> engage in conversation about the LLM usage if admitted, and to point those who
-> > >> are misbehaving at the rules if not.
-> > >>
-> > >> And it is a clear way to get the boolean 'is this person saying they used an
-> > >> LLM'.
-> > >>
-> > >> But I agree with you it'd be MUCH more useful if we did the above.
-> > >>
-> > >> I wonder if we could get consensus on adding a section to the doc saying that
-> > >> it'd be _useful_ to add a comment explaining _what_ you did, and explaining the
-> > >> concept with some examples?
-> > >
-> > > I'd support a patch that replaces
-> > >
-> > > Assisted-by: Claude:claude-3-opus coccinelle sparse
-> > >
-> > > with
-> > >
-> > > Assisted-by: LLM # generate some test cases
-> > >
-> > > and rewrites the Attribution section of
-> > > Documentation/process/coding-assistants.rst accordingly.
-> > >
-> > > I think most people in this mail thread have expressed that how
-> > > generative AI was used is the most important information, and several
-> > > people (including myself) have expressed a desire to stop the free
-> > > advertising. Unless I missed something, I don't think anyone has
-> > > expressed an interest in keeping the agent name and model.
-> >
-> > Yes, that's something I would enjoy seeing. Who reading along has a problem with
-> > that? (assuming that the tag must stay)
+> Register HugeTLB hstates with the page reporting framework if they
+> support caching.
 > 
-> I think the silence suggests nobody :)
+> When pages are added to the cache (either via recycling in
+> free_huge_folio or direct population via sysfs nr_cached_hugepages),
+> trigger a page reporting cycle.
 > 
-> What we could do is send a patch to simply add a section on adding a comment
-> explaining _what_ used an LLM and strongly suggesting it would be helpful to do
-> so.
+> Page reporting isolates pages from the cache list, reports them to the
+> hypervisor via virtio-balloon, and then drains them back to the cache
+> list, marking them as reported (HPG_reported).
 > 
-> That should hopefully be uncontroversial, then later (or alongside that?) we
-> could submit an RFC for making the language move to 'you MUST do this', as that
-> will probably be the more controversial bit.
+> If a page is allocated from the cache, or reclaimed, clear the reported
+> flag.
 > 
-> I don't see any reason why we can't just send the softer version right away.
-> 
-> >
-> > --
-> > Cheers,
-> >
-> > David
-> 
-> Cheers, Lorenzo
+> Signed-off-by: Sourav Panda <souravpanda@google.com>
 
+So if you are going to look into this, I feel the 1st step
+should be reporting pages from hugepage_freelists - this
+can be done independently.
 
-I haven't really seen anyone opposed the following I wrote earlier:
+-- 
+MST
 
-- it's more relevant to know how an LLM was used than that it was used (and the
-  tag is just a quick indication of this)
-- advertising for particular corporations does not really serve any purpose to
-  the community, so just say "LLM"
-- the tags may be used to prevent arguing
-- the requirement to be open about LLM use (whether by tags or whatever) makes
-  it easier for maintainers (if they feel the need) to de-prioritize patches
-  by someone unwilling to abide by these rules whenever the maintainer perceives
-  or suspects prior undeclared LLM use. This prevents an asymmetrical situation
-  of LLM slop being produced much faster that what can be reviewed.
-
-Perhaps the last point is more controversial.
-
-I would really like to adept the systemd policy text.[1] If I have time later today
-I'll try to write something up... although maybe it is too ambitious :)
-
-[1]: https://lore.kernel.org/linux-fsdevel/20260702-bahnen-ertappen-verspannungen-0eaaf1e3f5af@brauner/
