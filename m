@@ -1,76 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66133BB48;
-	Tue,  7 Jul 2026 00:13:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5847A1A6813
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 00:25:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783383239; cv=none; b=cPfZq0VMtfgcSFiLMz6A3X6bHxg5DHA98i1ijCEuBckbRceQq7PPcKq9i97V9o7DIklbLsBji211742gaFbGJCUO1YnU44cExDEAdPjJmat3H3ftatVlsJQ2Q5jaVaza4pU12bzQoeTwXK1PDhUpVaFyLbs1fVZeuq9U3BH4E3I=
+	t=1783383919; cv=none; b=SG4O9smPgqEG211bBTPMp73iREdxv8Mw3yYNTGvunaxJ0BBzmjf5psDw1vR+3o944flcdGT56cB+MHydFBwWqVmE//eL2lmlYGxn3egxftUxZkLydPsrZxrwgcqr6m88JMs/ddWvFukVvjue3CBR7pXUNUyqcrOm8VUb9bzFtys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783383239; c=relaxed/simple;
-	bh=/0NVCbWgX65HWRuxfBgpZC6MLIvjEpKKOc5Y9vHiX7Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cyAUW0sUeGX6tQ7T1pSmYb1KhTDvttXw2t1voPHjwd0e0KjqSpH38zgbBcIPa8MJ5g/+pN0/WzAXf03xxJBU9OLHkIEhhxM6F/szAjLkRN3s9siTuIrp6ebosDQBkCy1jkGR39RQQo/7g6pnUzWKPc+Czdvu4hTrF4vJ2yIlras=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QfisRpmL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783383919; c=relaxed/simple;
+	bh=7x/R57qudJvKK/D5Vz7Hi1BoiQPVT6Eb3LFhPmwn7/k=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=BIPt4Zu7/87xI7jNdMgYZ4gd7IvTkALYMrWtZE9MQ2hTYHoAQyIRFtXvnhuoplkS0GbWSQAm0T5K5EnbZJ49NPdCfeH+1gX5fcpknKMbd1N2Dtia4Mu6yPzu7n9zLaBScEktLpGU3qWxSxY7Y1LOh5X4me0/GMppUn0oXnSqSIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UevzTKaL; arc=none smtp.client-ip=209.85.214.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QfisRpmL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F4061F000E9;
-	Tue,  7 Jul 2026 00:13:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783383238;
-	bh=eB1zO+hEcVPqicULA2t7Fk+v6ErU6JNrcgHBtzJJkzs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=QfisRpmL2Q7w5vhJODKT4L8MN52r2hKZK1CUd5JBD+iHnkyyQ5OhUgtVxtUeEg9lB
-	 eNxlm7zM36O9+peBNmx2jkzYsEVdlBRHCfLrIgKRpICoHXwykEeEh8hOEm9BrRBFYV
-	 o2OUt+qNG7f6ak+9jD8DgsavWkBS3gZs9X+WBIk3e5iQ53XnmJd7+ENMUET9bp69qs
-	 cyjgB1Rt5a/0BQfxxMrKkWX+XW/D2oQjJXAnR75wh3q8zqOeFqiHRtcAZlYytGCg/o
-	 sjMu98VOEpUkOyXfnviw9v4NUmS3Ic2lpdJ0rsLD0Bfoned6QsYjD1y4JHy9C5VsDc
-	 7MpJqJeD2tHrw==
-From: SJ Park <sj@kernel.org>
-To: SJ Park <sj@kernel.org>
-Cc: "Liam R. Howlett" <liam@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [RFC PATCH v1.1 00/16] mm/damon: introduce data attributes only monitoring
-Date: Mon,  6 Jul 2026 17:13:51 -0700
-Message-ID: <20260707001353.98054-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260706141912.88445-1-sj@kernel.org>
-References: 
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UevzTKaL"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2cc640dfde3so32587365ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 17:25:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1783383918; x=1783988718; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Y2tUu5e71+Sget3gJMSknqgMwie3pm4NkHG0E3M9coA=;
+        b=UevzTKaLqFeXEg8KXz9f4gfJ2fi/x6L1C5AIWHVRJy7xeYePfp95tchpb1Z5LnmWP9
+         ptfVoKSviSRTRq0bSktMaertVyi/rergZQR1vW0M6NfF0iLdPn7x4VzxutD6DBdNMQno
+         wL8bBkxDA4Hf4i8YlN+5FmvGf7dsysHKhXglM/JiXcpLPgKrqQ+dr2AGGQfon6cKoj1t
+         i7wRYBWxFqumr2gPvtvMlBflMWLCJDVAqbypHr2LfLJdN09oLwYVDHQUhpWmBotR+knh
+         jpIerBf+sQoaggQAvdGCNbZ57LT5HJE3GjG0czflvwUujWfxNIpVXBPinj0xLtAwG59R
+         aqtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783383918; x=1783988718;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Y2tUu5e71+Sget3gJMSknqgMwie3pm4NkHG0E3M9coA=;
+        b=MIVKFpfG3DjOPCx/y3steNiNWg9tRjlNfONxTsvpjsFxmPj98+Pg0w4HVxBmt0M954
+         1dkti/5wkEPSED9sdlkK/1bKgU6nlnCa9fqy+CpMctGyRvOBNgXu+8CM0D1pA1Rr6OoW
+         07681zr4BrDJ1UVTC42AOlJr5bM5X1vKdc5g394qsXu4+seq49zM8o3Ar7Vt4KkG6O+g
+         sOwuBhazVfX05qgKeIIgLu+tfn/pnD66rkTfRj8XhJPXXcF0gmq/KG/c/Z6DIXTurOIo
+         Zx2sDt6KlhpR2Ofr68VCBzeOLekEDSlikpohfi2Mi3w6hQzAXwPb+P5m54jmklneD2Jo
+         d0Yg==
+X-Forwarded-Encrypted: i=1; AHgh+Ro2KLxpvGBjcqyGb7t3eMfw57VZZOfKfwoBCw5sxz4bnr/pbesuyxYCHcC4/rlV8eyWCVzNUVYqSAE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9mwumHxTSe0i/Zn9yeRkdkAyzx6ufUAmJb/PAtyTOFQ/1t/ez
+	KXI6O+COY7C6Aqxf6iABpnmXOxZsLq1VTh/Ow/BF61b2ZgFaJyV59SLdmpo4CbP3Q788bbhLtlV
+	8tTt4KQ==
+X-Received: from plq4.prod.google.com ([2002:a17:903:2f84:b0:2cc:73ae:7d4c])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:ce01:b0:2ca:52ce:6f91
+ with SMTP id d9443c01a7336-2ccbf056a99mr33058945ad.27.1783383917478; Mon, 06
+ Jul 2026 17:25:17 -0700 (PDT)
+Date: Mon, 6 Jul 2026 17:25:16 -0700
+In-Reply-To: <b9e2c377a21a53329cd70ac48309981957814686.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
+ <20260526023515.288829-8-rick.p.edgecombe@intel.com> <akw-dgBE_dycts0o@google.com>
+ <b9e2c377a21a53329cd70ac48309981957814686.camel@intel.com>
+Message-ID: <akxHbKbMyF7PZ0Av@google.com>
+Subject: Re: [PATCH v6 07/11] KVM: TDX: Allocate PAMT memory for TD and vCPU
+ control structures
+From: Sean Christopherson <seanjc@google.com>
+To: Rick P Edgecombe <rick.p.edgecombe@intel.com>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>, Kai Huang <kai.huang@intel.com>, 
+	Dave Hansen <dave.hansen@intel.com>, Yan Y Zhao <yan.y.zhao@intel.com>, 
+	"kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>, "kas@kernel.org" <kas@kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, 
+	"pbonzini@redhat.com" <pbonzini@redhat.com>, "nik.borisov@suse.com" <nik.borisov@suse.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, 
+	"tglx@kernel.org" <tglx@kernel.org>, Vishal Annapurve <vannapurve@google.com>, "bp@alien8.de" <bp@alien8.de>, 
+	Chao Gao <chao.gao@intel.com>, "x86@kernel.org" <x86@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon,  6 Jul 2026 07:18:54 -0700 SJ Park <sj@kernel.org> wrote:
+On Mon, Jul 06, 2026, Rick P Edgecombe wrote:
+> On Mon, 2026-07-06 at 16:47 -0700, Sean Christopherson wrote:
+> > On Mon, May 25, 2026, Rick Edgecombe wrote:
+> > > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > > 
+> > > Use control page helpers for allocating and freeing TD control structures,
+> > > such these operations can work for Dynamic PAMT.
+> > > 
+> > > The TDX module tracks some state for each page of physical memory that it
+> > > might use. It calls this state the PAMT. It includes separate state for
+> > > each page size a physical page could be utilized at within the TDX module
+> > > (1GB, 2MB, 4KB). In Dynamic PAMT, only the 4KB page size state is
+> > > allocated dynamically. So the kernel must install PAMT backing for each 4KB
+> > > page before gifting it to the TDX module, and tear it down after the page
+> > > is reclaimed.
+> > > 
+> > > TD-scoped control pages (TDR, TDCS) and vCPU-scoped control pages (TDVPR,
+> > > TDCX) are all handed to the TDX module at 4KB page size and are therefore
+> > > subject to this requirement. Replace the raw alloc_page()/__free_page()
+> > > calls for these pages with tdx_alloc/free_control_page().
+> > > 
+> > > Switching between special Dynamic PAMT operations or normal page
+> > > alloc/free operations is handled internally in
+> > > tdx_alloc/free_control_page(). So don't check for Dynamic PAMT around these
+> > > calls. Just call them unconditionally. Similarly, drop the NULL checks
+> > > before freeing, as tdx_free_control_page() handles NULL internally.
+> > > 
+> > > No functional change intended when Dynamic PAMT is not in use.
+> > > 
+> > > Assisted-by: GitHub Copilot:claude-opus-4-6 Claude:claude-opus-4-7
+> > 
+> > Exactly what assistance was given, and when?  I certainly didn't use any of these
+> > tools, and given that Claude Opus 4.6 was released after I posted the v5 RFC, I
+> > doubt Kirill did either.
+> 
+> On this patch specifically, lots of "review this patch" type experiments IIRC.
+> Probably mostly around the log.
+> 
+> > 
+> > And in my strong opinion, even if AI tooling was used to rebase the patches, I
+> > don't think that level of "assistance" should be presented this way.  E.g. I would
+> > rather a more informal:
+> > 
+> >   [ Rick: enhance log, rebase with help from AI tooling]
+> > 
+> > Because unless I'm missing something, claiming that AI was used to write the patch
+> > is misleading and disingenuous.
+> 
+> Yea, I was just trying to follow the policy. It seems things are swinging the
+> other way now. This works.
 
-> TL;DR: Introduce a way to get DAMON's best effort accuracy monitoring of
-> user-demanding non-access data attributes.
-
-Sashiko is continuously finding a few things including integer overflows from
-wrong or weird user setups.  Those are minor issues in my opinion.  But because
-the core layer parameters validation patch series is merged into mm-new, fixing
-thosse should be straightforward.
-
-I will fix simple ones in the way, as a part of the next series or as a
-separate series.
-
-
-Thanks,
-SJ
-
-[...]
+FWIW, my read of the official policy, even before any change in direction, is that
+it only applies to using AI to write code.  It's not like we given any credit in
+the patch itself when changes are made in response to code review from human.
