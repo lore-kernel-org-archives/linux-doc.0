@@ -1,243 +1,161 @@
-Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23C63ECBEB;
-	Tue,  7 Jul 2026 12:53:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D0340D560;
+	Tue,  7 Jul 2026 12:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783428815; cv=none; b=TeTL0flOQ9Bq7ol1AI3U5Ta7m/mnBrRSu1uvIGhcYYK2rL7J6vGRDiDInAlhs3gg1Q377ybX6xisWxasHwo0BYPzH1uz8+0OknubSbhGsDrqRvU3jK17OAyyjxm4GmQY8vgeH1cSXN21EUg0J3wXIkLrLmfEEGh1tqsaaDTZ7EQ=
+	t=1783428856; cv=none; b=XwfILrU5KeoYXJsIrw5/KMFcABPuFmFqm5gZwRa1Kh6k+nAefgvjB+lB4lhdUM38KyP3x2oEdiTV/HNdHivvq4PJeJ4k72fVhJyEnWoz/RBzxeX/5M1te8FgcN4YIBRVaiNwBTRTaPuaABXAoIN+BhThY4PpDpHgnYOfumMv6Nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783428815; c=relaxed/simple;
-	bh=Xb+YqBjRz0qD+o6CKIOqq56fPsxW6/yG2jq8gj08s6w=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=sIiYPtktC28V2vXOiSFSCh7sdGQDcFwifdlCrMNxJ4Pv1+Kib1bC0vJ1GocWEnll6zoWqhfRHPx949C9HuutD51UWtDk0F9iqChTodQpj5fyeM5UPQqOHBfhJLlFh0D5YPz44bPliqItTlFgs6B2Ln7UYCMBykWx+C0N46kkznM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=R81RxZKK reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
+	s=arc-20240116; t=1783428856; c=relaxed/simple;
+	bh=coCOB5qqJ+X+DFURbG7Ogj2VXwfQ4/UW9Uydsi8FxI8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=I+Iv85R1LUMtN+41YUqQFrwfxRNByMZo/XvzfkqstCqWLhCW/hahmTUSmmCx6EoNU9/xqT4NPI4Rg7QtrHJOpa+EACmn758cvLZ7RwzzYXp3mGiVDqWwpotbKdwnrC9LPpCTN0WKRFoIxHXZDEHjLm/crZ2+zH3lfhc14YBeAi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2Eu4Dk0v; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=WJ1gCCbN; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="R81RxZKK"
-Received: from [133.11.54.183] (h183.csg.ci.i.u-tokyo.ac.jp [133.11.54.183])
-	(authenticated bits=0)
-	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 667Cqolx003077
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 7 Jul 2026 21:52:50 +0900 (JST)
-	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
-DKIM-Signature: a=rsa-sha256; bh=Q8mzB5h+eiRPcyM+Q6UnMUdYQq5QX0PPqK6QKz/gjn8=;
-        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
-        h=From:Message-ID:To:Subject:Date;
-        s=rs20250326; t=1783428770; v=1;
-        b=R81RxZKKr830m5okZVbuAUx4R8H9TjeZgWqeLdmsDWICaaofU7CAqfRjVh3fvZD3
-         mrliymgWKokZgwSB89BSujTeGSgjgItUFlZ9M/0gs0AnaVlRp91/oo2sR+MHyrRE
-         u/iC4N79tmrHs+w/SIt3Sqt8TuyTZQpZf0Mkvwea9OXeOiS6J2KTyJE2gN2hjwRU
-         G5EVKOY9d3cqJ2LUpgO0t9O8tlPEaetmyhzQxG/P8NrievxGEtr5Nqjr1/75WN2J
-         kc4fCJhY3PMJKabOSTXG+qkwTxV6xFS6PmaWS1iBzxNRPqn7Wj8u5ZNaOoX/+aDE
-         xixulSsKGWtekmOPgcjeWg==
-Message-ID: <5e66748a-bfda-41a9-8614-88cbf2fe1f09@rsg.ci.i.u-tokyo.ac.jp>
-Date: Tue, 7 Jul 2026 21:52:49 +0900
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2Eu4Dk0v";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WJ1gCCbN"
+Date: Tue, 7 Jul 2026 14:54:11 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1783428852;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y/hv61aOydzHugwomfJNYebuZeFTkwhx/1G/+dLQAjA=;
+	b=2Eu4Dk0v06ysm21QQr1mFBLNtn+bSKuW3OhImOytu9etUEFCC+cCkkaYxOXV39YPcf3o1t
+	Gx83fOV9JLHklzA3T3vX5Tzgqv6wI/f7kjK+NgPh2lzm2Xcv29gzFnB3OlfBmdIJGtB8od
+	DWxsVRx8gZbt5WCgqEfXzavgjgK+uqLLQ47Vhx63LmpTo5Zi6LxbJwtc1mh85+jo9yM3Zv
+	DjKWNn9OJf1y63RBb72Weuq2QGPIlTnQX9iiq6/NeTixmwvilbd1XrmcrQ2TYq2wLzX38J
+	LFJjbdtK0/h7qYyjmCbdlRdAI5ooVRt8bBs7XpzczHhrArizbVa5RG0cXrI1Sw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1783428852;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y/hv61aOydzHugwomfJNYebuZeFTkwhx/1G/+dLQAjA=;
+	b=WJ1gCCbNJ5O2SpMhyTBakk9vxkDQ3zD9r/Y9ROb779GAJXOW3JWWh29CrUsxt35SkmFFzU
+	AsI6rUH/kDVI7kAw==
+From: Benedikt Spranger <b.spranger@linutronix.de>
+To: Andrew Murray <amurray@thegoodpenguin.co.uk>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Russell King <linux@armlinux.org.uk>, Florian
+ Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
+ list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>, John Ogness
+ <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Randy
+ Dunlap <rdunlap@infradead.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2 3/4] printk: nbcon: move printk_delay to console
+ emiting code
+Message-ID: <20260707145411.53a10893@mitra>
+In-Reply-To: <CALqELGz-KSrGq5JYvLedZiO-p21pjpRKbceO+jiSfwZGyx+91Q@mail.gmail.com>
+References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
+	<20260630-deprecate_boot_delay-v2-3-f9883d36aa4b@thegoodpenguin.co.uk>
+	<20260703165654.71be8707@mitra>
+	<CALqELGz-KSrGq5JYvLedZiO-p21pjpRKbceO+jiSfwZGyx+91Q@mail.gmail.com>
+Organization: Linutronix GmbH
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 5/7] KVM: arm64: PMU: Implement fixed-counters-only
- emulation
-From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-To: Oliver Upton <oupton@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu
- <yuzenghui@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-References: <20260706-hybrid-v8-0-de459617b59d@rsg.ci.i.u-tokyo.ac.jp>
- <20260706-hybrid-v8-5-de459617b59d@rsg.ci.i.u-tokyo.ac.jp>
- <akvyvclUQ2b2YHiU@kernel.org>
- <cb5d5f13-a1a9-47dd-a717-5533a8b32b20@rsg.ci.i.u-tokyo.ac.jp>
-Content-Language: en-US
-In-Reply-To: <cb5d5f13-a1a9-47dd-a717-5533a8b32b20@rsg.ci.i.u-tokyo.ac.jp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 2026/07/07 20:23, Akihiko Odaki wrote:
-> On 2026/07/07 3:23, Oliver Upton wrote:
->> On Mon, Jul 06, 2026 at 07:03:28PM +0900, Akihiko Odaki wrote:
->>> Add internal state for PMUv3 emulation without programmable event
->>> counters. When fixed-counters-only mode is active, KVM reports no
->>> programmable counters and hides PMCEID, avoiding event-counter state
->>> whose behavior can depend on the selected hardware PMU.
->>>
->>> The cycle counter still uses a host perf event. Unlike the normal PMU
->>> path, fixed-counters-only mode may create that event from the hardware
->>> PMU attached to the VCPU's current pCPU. If the VCPU later loads on a
->>> pCPU that is not covered by the existing event's PMU, request a PMU
->>> reload so the cycle counter can be recreated against the new pCPU's PMU.
->>> Keep this affinity check limited to fixed-counters-only VMs; the normal
->>> programmable-counter mode continues to use the VM-wide PMU and does not
->>> need per-load reload decisions.
->>>
->>> Add a separate internal flag for explicit userspace PMU selection. The
->>> UAPI wiring added later will use it to keep explicit PMU selection and
->>> fixed-counters-only mode mutually exclusive while still allowing
->>> fixed-counters-only mode to replace the default PMU selected during
->>> KVM_ARM_VCPU_INIT.
->>>
->>> The UAPI wiring that sets the fixed-counters-only flag and records
->>> explicit PMU selection is added later in the series.
->>>
->>> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
->>> ---
->>>   arch/arm64/include/asm/kvm_host.h |  4 ++++
->>>   arch/arm64/kvm/arm.c              |  1 +
->>>   arch/arm64/kvm/pmu-emul.c         | 43 ++++++++++++++++++++++++++++ 
->>> +++++++++--
->>>   include/kvm/arm_pmu.h             |  2 ++
->>>   4 files changed, 48 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/ 
->>> asm/kvm_host.h
->>> index 0c39d9db7d57..aa07b05b8231 100644
->>> --- a/arch/arm64/include/asm/kvm_host.h
->>> +++ b/arch/arm64/include/asm/kvm_host.h
->>> @@ -353,6 +353,10 @@ struct kvm_arch {
->>>   #define KVM_ARCH_FLAG_WRITABLE_IMP_ID_REGS        10
->>>       /* Unhandled SEAs are taken to userspace */
->>>   #define KVM_ARCH_FLAG_EXIT_SEA                11
->>> +    /* PMUv3 is emulated with an explicitly specified hardware PMU */
->>> +#define KVM_ARCH_FLAG_PMU_V3_EXPLICIT            12
->>> +    /* PMUv3 is emulated without progammable event counters */
->>> +#define KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY    13
->>>       unsigned long flags;
->>>       /* VM-wide vCPU feature set */
->>> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
->>> index 68767bb08285..1cc7754d5ace 100644
->>> --- a/arch/arm64/kvm/arm.c
->>> +++ b/arch/arm64/kvm/arm.c
->>> @@ -687,6 +687,7 @@ void kvm_arch_vcpu_load(struct kvm_vcpu *vcpu, 
->>> int cpu)
->>>       if (has_vhe())
->>>           kvm_vcpu_load_vhe(vcpu);
->>>       kvm_arch_vcpu_load_fp(vcpu);
->>> +    kvm_vcpu_load_pmu(vcpu);
->>>       kvm_vcpu_pmu_restore_guest(vcpu);
->>>       if (kvm_arm_is_pvtime_enabled(&vcpu->arch))
->>>           kvm_make_request(KVM_REQ_RECORD_STEAL, vcpu);
->>> diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
->>> index e70628653e4b..40cad183376c 100644
->>> --- a/arch/arm64/kvm/pmu-emul.c
->>> +++ b/arch/arm64/kvm/pmu-emul.c
->>> @@ -96,6 +96,11 @@ u64 kvm_pmu_evtyper_mask(struct kvm *kvm)
->>>       return mask;
->>>   }
->>> +static bool kvm_pmu_fixed_counters_only(struct kvm *kvm)
->>> +{
->>> +    return test_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY, &kvm- 
->>> >arch.flags);
->>> +}
->>> +
->>>   /**
->>>    * kvm_pmc_is_64bit - determine if counter is 64bit
->>>    * @pmc: counter context
->>> @@ -343,7 +348,11 @@ u64 kvm_pmu_implemented_counter_mask(struct 
->>> kvm_vcpu *vcpu)
->>>   static void kvm_pmc_enable_perf_event(struct kvm_pmc *pmc)
->>>   {
->>> -    if (!pmc->perf_event) {
->>> +    struct kvm_vcpu *vcpu = kvm_pmc_to_vcpu(pmc);
->>> +
->>> +    if (!pmc->perf_event ||
->>> +        (kvm_pmu_fixed_counters_only(vcpu->kvm) &&
->>> +         !cpumask_test_cpu(vcpu->cpu, &to_arm_pmu(pmc->perf_event- 
->>> >pmu)->supported_cpus))) {
->>>           kvm_pmu_create_perf_event(pmc);
->>>           return;
->>>       }
->>> @@ -720,6 +729,12 @@ static void kvm_pmu_create_perf_event(struct 
->>> kvm_pmc *pmc)
->>>       int eventsel;
->>>       u64 evtreg;
->>> +    if (kvm_pmu_fixed_counters_only(vcpu->kvm)) {
->>> +        arm_pmu = kvm_pmu_probe_armpmu(vcpu->cpu);
->>> +        if (WARN_ON_ONCE(!arm_pmu))
->>> +            return;
->>> +    }
->>> +
->>>       evtreg = kvm_pmc_read_evtreg(pmc);
->>>       kvm_pmu_stop_counter(pmc);
->>> @@ -748,7 +763,7 @@ static void kvm_pmu_create_perf_event(struct 
->>> kvm_pmc *pmc)
->>>        * Don't create an event if we're running on hardware that 
->>> requires
->>>        * PMUv3 event translation and we couldn't find a valid mapping.
->>>        */
->>> -    eventsel = kvm_map_pmu_event(vcpu->kvm->arch.arm_pmu, eventsel);
->>> +    eventsel = kvm_map_pmu_event(arm_pmu, eventsel);
->>>       if (eventsel < 0)
->>>           return;
->>> @@ -878,6 +893,9 @@ u64 kvm_pmu_get_pmceid(struct kvm_vcpu *vcpu, 
->>> bool pmceid1)
->>>       u64 val, mask = 0;
->>>       int base, i, nr_events;
->>> +    if (kvm_pmu_fixed_counters_only(vcpu->kvm))
->>> +        return 0;
->>> +
->>
->> Even if we advertise bits in PMCEID, does it matter? There's no PMC that
->> the guest could use to count it.
->>
->> I understand it isn't aesthetic but I really want to minimize the
->> special-casing that has to be done for this feature.
-> 
-> This strictly ensures that sysregs are stable after migrating across 
-> physical CPUs, which may have different PMCEID values.
-> 
->>
->>> +void kvm_vcpu_load_pmu(struct kvm_vcpu *vcpu)
->>> +{
->>> +    /*
->>> +     * ARMV8_PMU_INSTR_IDX will need the same check once
->>> +     * FEAT_PMUv3_ICNTR is supported.
->>> +     */
->>> +    struct kvm_pmc *pmc = kvm_vcpu_idx_to_pmc(vcpu, 
->>> ARMV8_PMU_CYCLE_IDX);
->>> +    struct arm_pmu *cpu_pmu;
->>> +
->>> +    if (!kvm_pmu_fixed_counters_only(vcpu->kvm) ||
->>> +        !kvm_pmu_counter_is_enabled(pmc) || !pmc->perf_event)
->>> +        return;
->>> +
->>> +    cpu_pmu = to_arm_pmu(pmc->perf_event->pmu);
->>> +    if (!cpumask_test_cpu(vcpu->cpu, &cpu_pmu->supported_cpus))
->>> +        kvm_make_request(KVM_REQ_RELOAD_PMU, vcpu);
->>
->> Just detect the changing PMU implementation here, KVM_REQ_RELOAD_PMU
->> will need to detect the PMCs that require an update anyway. Stash the
->> last cpu in kvm_arch_vcpu_load() and pass it to this:
->>
->> void kvm_vcpu_load_pmu(struct kvm_vcpu *vcpu, int last_cpu)
->> {
->>     if (!kvm_pmu_fixed_counters_only(vcpu->kvm) || vcpu->cpu == last_cpu)
->>         return;
->>
->>     if (kvm_pmu_probe_armpmu(vcpu->cpu) != 
->> kvm_pmu_probe_armpmu(last_cpu))
->>         kvm_make_request(KVM_REQ_RELOAD_PMU);
->> }
-> 
-> It is a nice way to simplify the code and to avoid hardcoding 
-> ARMV8_PMU_INSTR_IDX. I'll use the code for the next version.
+On Mon, 6 Jul 2026 18:05:06 +0100
+Andrew Murray <amurray@thegoodpenguin.co.uk> wrote:
 
-I tried this but unfortunately it doesn't seem to work. 
-kvm_arch_vcpu_put() sets vcpu->cpu to -1 so we cannot simply read it to 
-get the last cpu in kvm_arch_vcpu_load().
+Hi Andrew,
 
-Regards,
-Akihiko Odaki
+> On Fri, 3 Jul 2026 at 15:56, Benedikt Spranger
+> <b.spranger@linutronix.de> wrote:
+> > On Tue, 30 Jun 2026 17:35:59 +0100
+> > Andrew Murray <amurray@thegoodpenguin.co.uk> wrote:
+> > > The printk_delay and boot_delay features are helpful for debugging
+> > > as kernel output can be slowed down during boot allowing messages
+> > > to be seen before scrolling off the screen, or to correlate timing
+> > > between some physical event and console output.
+> > By now, it slows down the boot process, which is the handy part of
+> > that feature.
+> >
+> > > However, since the introduction of nbcon and the legacy printer
+> > > thread for PREEMPT_RT kernels, printk records are now emited to
+> > > the console asynchronously to the caller of printk. Thus, any
+> > > printk delay added by boot_delay/printk_delay continues to slow
+> > > down the calling process but may not have any impact to the rate
+> > > in which records are emited to the console.
+> > Using this feature to slow down the boot/suspend/resume process and
+> > implicit make printk() happen, is the usefull part of that feature.
+> > Imagine this sequence (which hit me on suspend/resume on i.MX after
+> > shutting down all secondary CPUs)
+> >
+> >   printk("A");
+> >   (do some stuff)
+> >   printk("B");
+> >   read from peripheral --> system got stuck here since peripheral
+> > was not clocked or powered or both any more.
+> >
+> > The delay (and later on a ugly patch to make printk() synchrounous)
+> > helped to locate where the failed access happend. JTAG did not help,
+> > since the CPU got stuck --> no JTAG communication to that CPU.
+> 
+> I understand the use-case, you sprinkle printk's so you can find the
+> point where a read to a register causes the CPU to stop. This requires
+> that the printk happens before the read, and the output from the
+> printk is printed before the read.
+Enabling existing debug features in the kernel was a good start.
+
+> > With your purposed change you *may* see "A", but never "B".
+> > Quite challenging... 
+> At present you may see 'A' and you may see 'B'.
+That's correct. 
+
+> Prior to the changes in this patchset, and assuming an nbcon console
+iMX swtched over to nbcon, so your assumption is correct.
+
+> (which may not be your usecase, but is perhaps representative of
+> future use-cases), then the printk delay will always happen within the
+> call to printk (and always before emitting).
+Which is quite good, but can be better. (See the missing sync feature
+mentioned in Johns reply)
+
+> However, depending on the context, that printk call may return (and
+> proceed to your CPU halting register read), before the message is
+> actually emitted to the console. I.e. it's a race.
+I am aware of that.
+
+> This series moves the delay to the emit side, as well as moving the
+> delay after the emit. Thus the calling code may make progress more
+> quickly, but depending on the context, it may also flush/emit before
+> returning from printk.
+Unfortunately it makes things worse.
+
+> In my view, with or without this series, there are no guarantees that
+> you will see 'A' and 'B'. And in any case, achieving the functionality
+> for debugging required you to modify the printk anyway.
+The "sync" feature is on the TODO list as John mentioned. 
+
+> > So please leave the delay on the calling side - it is helpfull
+> > there.
+> 
+> If you want to ensure printk is synchronous, perhaps you could call
+> nbcon_cpu_emergency_enter() prior to your printk, or perhaps there are
+> already printk wrappers that do somthing similar whilst debugging?
+As said I did an ugly hack and forced printk() to be synchronous.
+
+> Would that provide a more reliable way to guarantee output?
+It does.
+
+Regards
+    Benedikt Spranger
