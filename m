@@ -1,103 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9C43DD857;
-	Tue,  7 Jul 2026 10:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC213E2AD8
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 10:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783419624; cv=none; b=fXnhrxKYp7nVgdZ+/G/U37LxCRKyWDpWZv8z3zPC9LJE7hOR+fR4kQXz2Q2hskvf7d1KmPufbYvREqhEvUlbvjzBSNUGOmV6eTkO1wjCzLJIn4avtjiVszZ2QY+YjddKeu23EjFY30RJREJG1DgQyvKgkqBwLlSbvL/Cm+eJMFg=
+	t=1783419746; cv=none; b=VJgTwGin6SSk8mnn1HccuwaZOhkLLEEiDHfnFbIROLhwU9jEIrV9n9/zuk6YhezvcLGWdItwdTtoU2msC9K7IQNE3vyZGMhJjmiq3pF7mVateHmE1mgQBEanqGV2sMPYNIyhkPPPm9Hrr9jw9H+1pSr2h5/+kIx/NZH97g3HmZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783419624; c=relaxed/simple;
-	bh=Saj76Lq9BEvEFw8B7zH2j9ldyhjzqJM6VhTK7aEmel8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P5B6WY4PQhXMHpLyS0EKvOOLU8DVl56uus1isOx0nfm9Ba1CfziVA7PNOdqnbKNuvd7I1lMcuIEJUSFAZLH6alAt12zkMa7iHbtHYEitYwtQPX8CFpn8X968Wbve/Lnc/Wx3Poc2n7saWmfKoner/Ck+A/9Kcn6v92zpaSBuytQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lL3ZLL5Z; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783419746; c=relaxed/simple;
+	bh=N3mlkE+V8OacYwpttMQ2zP/Vz4zdha1L7zeYJjcI1Jg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DB2VKcMK06bjHZa+lWtJFU9U7LyYk0wqUFNzLFnRGi540Rzq8kbUSWOKGUM0x/sJ8Gh1PwJqs/fusMPfIZwXLVfGSbqP25lMixUwHPz4CFN6lPslKdEPgMp+rFwX2tlyqo5wyfJtUukJiTNMwpTuaw2l15mUir6AhQhDQQ/A/SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=n5/pMC7x; arc=none smtp.client-ip=95.215.58.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lL3ZLL5Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD3941F000E9;
-	Tue,  7 Jul 2026 10:20:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783419622;
-	bh=zFHdqMXUD4SifWHe4Jfr5ztqAyuGMXTfuQjJsFdb/OY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lL3ZLL5Z5OQvQbkEcbNVoPRVf3P5h5jCaReGEPBQj+/jrb7a21WPSOyf9zclCmCNs
-	 sVOoZdxJomPR57xbNB4bnlwZXN2wIESuAH9rxblIHR2iOwzwe06htZpU3BftgzEIfY
-	 wa7kgbORZ5rhHe4NSVns5TVheR/iIoCsMwsSdDK0i7yxniRb/CU6cyV1kgFGO8KMYE
-	 EmtCLoe5g1v3qojA+K1ZnVGNRdJ5I7t9PWkaukoo1SZQoocWzUAWBKYNVUvH76N9l+
-	 1HcXmK2B0WzR5nIyepAZ3Cw2DXHG+qwO4PdJkcXSyF3p/H8/brCjKtkwWR0+71IDcE
-	 mGnv5NpK3CxXQ==
-Date: Tue, 7 Jul 2026 11:20:09 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>, 
-	Greg KH <gregkh@linuxfoundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>, 
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Brian Foster <bfoster@redhat.com>, 
-	Christoph Hellwig <hch@infradead.org>, David Disseldorp <ddiss@suse.de>, 
-	Mark Brown <broonie@kernel.org>, Jani Nikula <jani.nikula@intel.com>, 
-	Jens Axboe <axboe@kernel.dk>, Vlastimil Babka <vbabka@kernel.org>, 
-	"Christian Brauner (Amutable)" <brauner@kernel.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-Message-ID: <akzSY47Rjn7TDOL6@lucifer>
-References: <2026070227-payroll-eradicate-8f66@gregkh>
- <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
- <akaWnQ5Pkg_676B-@lucifer>
- <20260702211740.GA639365@zen.localdomain>
- <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
- <akez23ZhLRSGMFQ1@lucifer>
- <20260703163251.GB3734786@killaraus.ideasonboard.com>
- <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
- <akzETpsps4TMfqpC@lucifer>
- <1778033301.182575.1783419343917@kpc.webmail.kpnmail.nl>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="n5/pMC7x"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783419732;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=eWcDQnYOYYrvM2ZYBY8bvALrAF2J5/f2P4vYcNggq1c=;
+	b=n5/pMC7xiQirBMKCLQ5d5nmVfVzXRJFumz1+KMOioOerExgZhdvJ3fDoVB1ldAp8Md5NGi
+	Q3kyRsrA/UbBjKtAbKn6TN+u6mwDhx2b+ekZGCPRx64pRkaJ8J60EII34xp1i9eNGWbk59
+	M0ifxb7j2AdjwwNtu2D+wLPiSOvWV3I=
+From: Guopeng Zhang <guopeng.zhang@linux.dev>
+To: Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Guopeng Zhang <guopeng.zhang@linux.dev>,
+	Guopeng Zhang <zhangguopeng@kylinos.cn>
+Subject: [PATCH 0/3] Docs/admin-guide/cgroup: update controller interface docs
+Date: Tue,  7 Jul 2026 18:21:45 +0800
+Message-ID: <20260707102148.692250-1-guopeng.zhang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1778033301.182575.1783419343917@kpc.webmail.kpnmail.nl>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Jul 07, 2026 at 12:15:43PM +0200, Jori Koolstra wrote:
->
-> I haven't really seen anyone opposed the following I wrote earlier:
->
-> - it's more relevant to know how an LLM was used than that it was used (and the
->   tag is just a quick indication of this)
-> - advertising for particular corporations does not really serve any purpose to
->   the community, so just say "LLM"
-> - the tags may be used to prevent arguing
-> - the requirement to be open about LLM use (whether by tags or whatever) makes
->   it easier for maintainers (if they feel the need) to de-prioritize patches
->   by someone unwilling to abide by these rules whenever the maintainer perceives
->   or suspects prior undeclared LLM use. This prevents an asymmetrical situation
->   of LLM slop being produced much faster that what can be reviewed.
+From: Guopeng Zhang <zhangguopeng@kylinos.cn>
 
-Yup completely agree.
+Hi,
 
-I just want to get something merged rather than just talk :) and so to avoid any
-_possible_ argument 'keep it like it is but add a comment' is a much, much
-easier sell to everybody.
+This small series updates cgroup controller documentation to match the
+interfaces exposed by the current code.
 
-Then we can follow up with anything else one we get _something useful merged_ :)
+Patch 1 drops a stale interface-file count from the misc controller
+documentation.
 
->
-> Perhaps the last point is more controversial.
+Patch 2 documents the RDMA v1 interface files that are already exposed
+by the controller and already documented for cgroup v2.
 
-Not in my opinion. We're only at the beginning of this horror show and I think
-far stronger measures will eventually be needed (e.g. newcomes will have to
-build trust first, which sucks, but it may be the only practical solution).
+Patch 3 notes that the io.latency-specific depth, avg_lat and win
+io.stat fields are only emitted when blkcg_debug_stats is enabled, and
+qualifies the usage text that suggests using avg_lat to pick a latency
+target.
 
->
-> I would really like to adept the systemd policy text.[1] If I have time later today
-> I'll try to write something up... although maybe it is too ambitious :)
->
-> [1]: https://lore.kernel.org/linux-fsdevel/20260702-bahnen-ertappen-verspannungen-0eaaf1e3f5af@brauner/
+Thanks,
+Guopeng
 
-:)
+Guopeng Zhang (3):
+  Docs/admin-guide/cgroup-v2: drop stale misc interface file count
+  Docs/admin-guide/cgroup-v1: document rdma.peak, rdma.events and
+    rdma.events.local
+  Docs/admin-guide/cgroup-v2: note blkcg_debug_stats gates io.latency
+    stats
 
-Cheers, Lorenzo
+ Documentation/admin-guide/cgroup-v1/rdma.rst | 66 ++++++++++++++++++++
+ Documentation/admin-guide/cgroup-v2.rst      | 16 +++--
+ 2 files changed, 76 insertions(+), 6 deletions(-)
+
+-- 
+2.43.0
