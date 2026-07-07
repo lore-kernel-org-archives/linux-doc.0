@@ -1,260 +1,193 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F50A3D8121;
-	Tue,  7 Jul 2026 10:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7024934CFAB
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 10:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783418847; cv=none; b=H8ZdeqagEY4r2xgRainG7UCz4Tm35FZ6iAzs6EmR5GynXCAk2elbRtWZlamF6YX3SIhQsBzOsbfHj9SaSBmSIdnlv1EGj8xLwc9G/96myRm/+ICuikGu7S7Wg2WOOpo03Gvg0dm2vkpC2HqJ5wuMs7vQdiIKSDQA2WoPtEMQWSg=
+	t=1783419348; cv=none; b=WA3vCIR3hy89zwDsLRc7j0tmYKWfeGlDlpTH2pnrKpxyVOqYrMUOmvV4/0tTqpS4M6furLw6Gu9zw1V+5AW463yV9ve9PXcwYGQfWY59v5kBT5e23OL2jNDvuNn5cSTQfaTMknxS+MG/cyy5kaVGLvrSlmIh1j6Os9pW2zyQLho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783418847; c=relaxed/simple;
-	bh=efPPuJBmHOVIcmAa1CJwiO+3EKUgUA53PYhTK93MGSI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=o24S6G9JACXCJXlVl+FUZcRc7r4KpnO6KWb3EDmaZhZNnBMHmklrzVMgD7FMm5qcFZnCRTked8gvt7s3/3uh/PfT6n8K/V1f5+lHho45XbmeH2t6kU4GBybFv+uy3yljbL21XWH44N5cEw7zs4Ep7YSAWJIMkAHCLuV1ymTesnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=rbe3MZI+; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1783419348; c=relaxed/simple;
+	bh=Rl3p0URXys+IWXAxY8I2dgazOTxwsjW4Kf6oIQLur0E=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=RtmAtnPns9R+ErZB/wdECUxouOmhasf12MhBNNEWoY3xHvLpsKSC8W+fhjPvZbPJ4hzHGYTa90mPDp+yaEOHP6BIYlGQNqM2yaseYs5+ODyo6C3EKrNh2oyfyZy2cUaTwERbf4VsgBFYpgMUX0xifUMWPQiMexDdRpiTNW/3vhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=dQR26VBr; arc=none smtp.client-ip=195.121.94.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="rbe3MZI+"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 31D5C1691;
-	Tue,  7 Jul 2026 03:07:19 -0700 (PDT)
-Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5F65D3F85F;
-	Tue,  7 Jul 2026 03:07:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1783418843; bh=efPPuJBmHOVIcmAa1CJwiO+3EKUgUA53PYhTK93MGSI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rbe3MZI++urCP1OCSOL/NfQrdslSkTwiCgeA9Q9anpf+Ns2m6p4JqP36x4i8l1pF5
-	 fb29/Ly4R6dJr8KGLT6MsmCN2M8+HWcEEVpszo+08LPmaT06d5iDmLPqkaq/zbRL69
-	 uVvTAbUBciXqLYBrviuDehD4/e50rUuQUuj3aL1o=
-From: Leonardo Bras <leo.bras@arm.com>
-To: Tian Zheng <zhengtian10@huawei.com>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Marc Zyngier <maz@kernel.org>,
-	oupton@kernel.org,
-	catalin.marinas@arm.com,
-	corbet@lwn.net,
-	pbonzini@redhat.com,
-	will@kernel.org,
-	yuzenghui@huawei.com,
-	wangzhou1@hisilicon.com,
-	liuyonglong@huawei.com,
-	Jonathan.Cameron@huawei.com,
-	yezhenyu2@huawei.com,
-	linuxarm@huawei.com,
-	joey.gouly@arm.com,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	suzuki.poulose@arm.com
-Subject: Re: [PATCH v3 3/5] KVM: arm64: Add support for FEAT_HDBSS
-Date: Tue,  7 Jul 2026 11:07:14 +0100
-Message-ID: <akzP0T_Qd9yuZsPI@LeoBrasDK>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <34447d66-8d53-4dc7-82fe-58057f2a5b57@huawei.com>
-References: <20260225040421.2683931-1-zhengtian10@huawei.com> <20260225040421.2683931-4-zhengtian10@huawei.com> <ahzUUDAMoHtDFJD3@inochi.infowork> <864ijmvdpy.wl-maz@kernel.org> <ah1KLrpYBXSMM91H@inochi.infowork> <22abfaf8-8636-4ed3-9a5c-fb4fdef1bc19@huawei.com> <aku1N23Szkta9uA6@LeoBrasDK> <34447d66-8d53-4dc7-82fe-58057f2a5b57@huawei.com>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="dQR26VBr"
+X-KPN-MessageId: d05c04a6-79ec-11f1-9e8e-005056999439
+Received: from mta.kpnmail.nl (unknown [10.31.161.191])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id d05c04a6-79ec-11f1-9e8e-005056999439;
+	Tue, 07 Jul 2026 12:15:44 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id d059ea4e-79ec-11f1-91b4-00505699891e;
+	Tue, 07 Jul 2026 12:15:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=XrNegeszo3wuoNwRWe/Y6A1G9/9S/OEIl4RN+rC7Vaw=;
+	b=dQR26VBrYWmXBHtIQsbzhJdR89ux3uB7Ljbmp+Jv5l8JAZKCtBPFwu5pa9QspPb/c6+nv+IoKBSfz
+	 7RmhbytZMsKVlahD1oG5FH+ebY8KZL4ChUwVKizL4KTLOcI4qkJJowCF/G/7DEIGY3aaeHXro+lo2a
+	 lY/5XbyyS2MBWApIizlWyE9XdtzCjbaj9E1P3yE/otU/ZZryxThrWSThCKDVn2UCO2dfB3bJiWoQ1Q
+	 ns4u1VVh61/Wprhk4I01t3QBM/oikDZM4WGR18sDEWBQPkxro3mqMm1tEv/gCqIshcW9xOv8pVhoT2
+	 Xw7DnjIM/VyXZLVshtYu/EG0l8jl6iw==
+X-KPN-MID: 33|cnnF+rt6jiBs6YLB8W39m8g07+aG0qSte9UNUbdImx48zcBM+GIW9zzIwkWJnMs
+ kKvsuQ/2QQyiKPT11JNnkS2tU2nvyRualoZ/Tp5973Mk=
+X-CMASSUN: 33|ryHYDpWzA6391rX2L66HVFKhg9bWKQV2c2lbri89ORF4vWDZgHSaZriJC/zyTcn
+ Ozbp3UazShzioVELwIWitlw==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh06 (cpxoxapps-mh06.personalcloud.so.kpn.org [10.128.135.212])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id d04de160-79ec-11f1-916a-005056995d6c;
+	Tue, 07 Jul 2026 12:15:43 +0200 (CEST)
+Date: Tue, 7 Jul 2026 12:15:43 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Lorenzo Stoakes <ljs@kernel.org>,
+	"David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Justin Stitt <justinstitt@google.com>,
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Brian Foster <bfoster@redhat.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Message-ID: <1778033301.182575.1783419343917@kpc.webmail.kpnmail.nl>
+In-Reply-To: <akzETpsps4TMfqpC@lucifer>
+References: <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
+ <20260702161330.GH3534761@killaraus.ideasonboard.com>
+ <2026070227-payroll-eradicate-8f66@gregkh>
+ <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
+ <akaWnQ5Pkg_676B-@lucifer> <20260702211740.GA639365@zen.localdomain>
+ <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
+ <akez23ZhLRSGMFQ1@lucifer>
+ <20260703163251.GB3734786@killaraus.ideasonboard.com>
+ <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
+ <akzETpsps4TMfqpC@lucifer>
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM
+ attribution
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-On Tue, Jul 07, 2026 at 02:11:23PM +0800, Tian Zheng wrote:
-> 
-> On 7/6/2026 10:01 PM, Leonardo Bras wrote:
-> > On Fri, Jun 05, 2026 at 04:29:49PM +0800, Tian Zheng wrote:
-> > > On 6/1/2026 5:05 PM, Inochi Amaoto wrote:
-> > > > On Mon, Jun 01, 2026 at 09:58:49AM +0100, Marc Zyngier wrote:
-> > > > > On Mon, 01 Jun 2026 01:50:22 +0100,
-> > > > > Inochi Amaoto <inochiama@gmail.com> wrote:
-> > > > > > On Wed, Feb 25, 2026 at 12:04:19PM +0800, Tian Zheng wrote:
-> > > > > > > From: eillon <yezhenyu2@huawei.com>
-> > > > > > > 
-> > > > > > > Armv9.5 introduces the Hardware Dirty Bit State Structure (HDBSS) feature,
-> > > > > > > indicated by ID_AA64MMFR1_EL1.HAFDBS == 0b0100. A CPU capability is added
-> > > > > > > to notify the user of the feature.
-> > > > > > > 
-> > > > > > > Add KVM_CAP_ARM_HW_DIRTY_STATE_TRACK ioctl and basic framework for
-> > > > > > > ARM64 HDBSS support. Since the HDBSS buffer size is configurable and
-> > > > > > > cannot be determined at KVM initialization, an IOCTL interface is
-> > > > > > > required.
-> > > > > > > 
-> > > > > > > Actually exposing the new capability to user space happens in a later
-> > > > > > > patch.
-> > > > > > > 
-> > > > > > > Signed-off-by: eillon <yezhenyu2@huawei.com>
-> > > > > > > Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
-> > > > > > > ---
-> > > > > > >    arch/arm64/include/asm/cpufeature.h |  5 +++++
-> > > > > > >    arch/arm64/kernel/cpufeature.c      | 12 ++++++++++++
-> > > > > > >    arch/arm64/tools/cpucaps            |  1 +
-> > > > > > >    include/uapi/linux/kvm.h            |  1 +
-> > > > > > >    tools/include/uapi/linux/kvm.h      |  1 +
-> > > > > > >    5 files changed, 20 insertions(+)
-> > > > > > > 
-> > > > > > > diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
-> > > > > > > index 4de51f8d92cb..dcc2e2cad5ad 100644
-> > > > > > > --- a/arch/arm64/include/asm/cpufeature.h
-> > > > > > > +++ b/arch/arm64/include/asm/cpufeature.h
-> > > > > > > @@ -856,6 +856,11 @@ static inline bool system_supports_haft(void)
-> > > > > > >    	return cpus_have_final_cap(ARM64_HAFT);
-> > > > > > >    }
-> > > > > > > 
-> > > > > > > +static inline bool system_supports_hdbss(void)
-> > > > > > > +{
-> > > > > > > +	return cpus_have_final_cap(ARM64_HAS_HDBSS);
-> > > > > > > +}
-> > > > > > > +
-> > > > > > >    static __always_inline bool system_supports_mpam(void)
-> > > > > > >    {
-> > > > > > >    	return alternative_has_cap_unlikely(ARM64_MPAM);
-> > > > > > > diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-> > > > > > > index c31f8e17732a..348b0afffc3e 100644
-> > > > > > > --- a/arch/arm64/kernel/cpufeature.c
-> > > > > > > +++ b/arch/arm64/kernel/cpufeature.c
-> > > > > > > @@ -2124,6 +2124,11 @@ static bool hvhe_possible(const struct arm64_cpu_capabilities *entry,
-> > > > > > >    	return arm64_test_sw_feature_override(ARM64_SW_FEATURE_OVERRIDE_HVHE);
-> > > > > > >    }
-> > > > > > > 
-> > > > > > > +static bool has_vhe_hdbss(const struct arm64_cpu_capabilities *entry, int cope)
-> > > > > > > +{
-> > > > > > > +	return is_kernel_in_hyp_mode() && has_cpuid_feature(entry, cope);
-> > > > > > > +}
-> > > > > > > +
-> > > > > > >    bool cpu_supports_bbml2_noabort(void)
-> > > > > > >    {
-> > > > > > >    	/*
-> > > > > > > @@ -2759,6 +2764,13 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
-> > > > > > >    		ARM64_CPUID_FIELDS(ID_AA64MMFR1_EL1, HAFDBS, HAFT)
-> > > > > > >    	},
-> > > > > > >    #endif
-> > > > > > > +	{
-> > > > > > > +		.desc = "Hardware Dirty state tracking structure (HDBSS)",
-> > > > > > > +		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
-> > > > > > > +		.capability = ARM64_HAS_HDBSS,
-> > > > > > > +		.matches = has_vhe_hdbss,
-> > > > > > > +		ARM64_CPUID_FIELDS(ID_AA64MMFR1_EL1, HAFDBS, HDBSS)
-> > > > > > > +	},
-> > > > > > >    	{
-> > > > > > >    		.desc = "CRC32 instructions",
-> > > > > > >    		.capability = ARM64_HAS_CRC32,
-> > > > > > > diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
-> > > > > > > index 7261553b644b..f6ece5b85532 100644
-> > > > > > > --- a/arch/arm64/tools/cpucaps
-> > > > > > > +++ b/arch/arm64/tools/cpucaps
-> > > > > > > @@ -68,6 +68,7 @@ HAS_VA52
-> > > > > > >    HAS_VIRT_HOST_EXTN
-> > > > > > >    HAS_WFXT
-> > > > > > >    HAS_XNX
-> > > > > > > +HAS_HDBSS
-> > > > > > >    HAFT
-> > > > > > >    HW_DBM
-> > > > > > >    KVM_HVHE
-> > > > > > > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> > > > > > > index 65500f5db379..15ee42cdbd51 100644
-> > > > > > > --- a/include/uapi/linux/kvm.h
-> > > > > > > +++ b/include/uapi/linux/kvm.h
-> > > > > > > @@ -985,6 +985,7 @@ struct kvm_enable_cap {
-> > > > > > >    #define KVM_CAP_ARM_SEA_TO_USER 245
-> > > > > > >    #define KVM_CAP_S390_USER_OPEREXEC 246
-> > > > > > >    #define KVM_CAP_S390_KEYOP 247
-> > > > > > > +#define KVM_CAP_ARM_HW_DIRTY_STATE_TRACK 248
-> > > > > > > 
-> > > > > > >    struct kvm_irq_routing_irqchip {
-> > > > > > >    	__u32 irqchip;
-> > > > > > > diff --git a/tools/include/uapi/linux/kvm.h b/tools/include/uapi/linux/kvm.h
-> > > > > > > index dddb781b0507..93e0a1e14dc7 100644
-> > > > > > > --- a/tools/include/uapi/linux/kvm.h
-> > > > > > > +++ b/tools/include/uapi/linux/kvm.h
-> > > > > > > @@ -974,6 +974,7 @@ struct kvm_enable_cap {
-> > > > > > >    #define KVM_CAP_GUEST_MEMFD_FLAGS 244
-> > > > > > >    #define KVM_CAP_ARM_SEA_TO_USER 245
-> > > > > > >    #define KVM_CAP_S390_USER_OPEREXEC 246
-> > > > > > > +#define KVM_CAP_ARM_HW_DIRTY_STATE_TRACK 248
-> > > > > > > 
-> > > > > > >    struct kvm_irq_routing_irqchip {
-> > > > > > >    	__u32 irqchip;
-> > > > > > > --
-> > > > > > > 2.33.0
-> > > > > > > 
-> > > > > > Instead of having these architecture specific capability, I wonder if
-> > > > > > we can add a generic capability like "KVM_CAP_HW_DIRTY_STATE", so
-> > > > > > other architecture supports similar things can reuse this capability,
-> > > > > What of the existing stuff doing the same thing? x86's PML, to start
-> > > > > with?
-> > > > > 
-> > > > In fact I think the HDBSS is the first one with non-fixed size.
-> > > > Although there is a in process RISC-V extension for it, there will
-> > > > be a long story to make it ratified.
-> > > > 
-> > > > > > For this generic thing I suggest, the getter returns the max support
-> > > > > > entry count (or the buffer size) it supports like the dirty ring
-> > > > > > capability. And the setter just let the architecture set the parameters
-> > > > > > based on the user request.
-> > > > > This looks wrong on a number of levels.
-> > > > > 
-> > > > > - If you want something generic, there is the existing dirty
-> > > > >     log/bitmap. How this stuff is populated is none of the user's
-> > > > >     business (trapping write accesses, dirty bit collection from the
-> > > > >     PTs, or HW-generated log), and we don't need an extra feature for
-> > > > >     it. Performance will obviously suck, but that's what you pay for
-> > > > >     something abstracted and cross-architecture.
-> > > > > 
-> > > > > - If you want something architecture specific, then it can't be
-> > > > >     generic, by definition. You get the raw speed and compatibility with
-> > > > >     other arch-specific extensions.
-> > > > > 
-> > > > OK, I agree, it is better to keep this thing arch-specific. Doing a
-> > > > generic thing does not benefit too much, I have made a mistake on
-> > > > it. Thanks for your kindly explanation.
-> > > 
-> > > Awesome. Thanks for the review.
-> > > 
-> > > I agree with Marc—keeping this ARM-specific is the right approach.
-> > > Also, in v4 we're removing the ioctl interface entirely. HDBSS will be
-> > > auto-enabled during migration setup and auto-disabled when migration
-> > > completes, so the capability naming issue becomes moot.
-> > > 
-> > > I plan to post v4 with the updated approach soon.
-> > Hi Tian,
-> > 
-> > Any updates in the v4?
-> > Please let me know if you want help in any kind, in regards to this
-> > patchset.
-> > 
-> > Thanks!
-> > Leo
-> Hi Leo,
-> 
-> Thanks for the follow-up. I've finished polishing v4 and am doing one last
-> internal review.
-> 
-> In this version, I've also aligned with the latest HACDBS v2 implementation
-> you shared—e.g.,
-> auto-inserting KVM_PGTABLE_S2_DBM into pgt->flags during
-> kvm_init_stage2_mmu.
-> 
-> One note: dirty ring mode is not yet supported in v4—the series currently
-> focuses on the
-> dirty bitmap mode. I'll explicitly call this out in the commit messages
-> (including that
-> KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE and related dirty ring components are
-> omitted) to avoid
-> any confusion during review.
-> 
-> I plan to send v4 out later this week.
-> 
-> Thanks,
-> Tian
 
-Hi Tian,
+> Op 07-07-2026 11:20 CEST schreef Lorenzo Stoakes <ljs@kernel.org>:
+> 
+>  
+> On Fri, Jul 03, 2026 at 08:22:20PM +0200, David Hildenbrand (Arm) wrote:
+> > On 7/3/26 18:32, Laurent Pinchart wrote:
+> > > On Fri, Jul 03, 2026 at 02:12:40PM +0100, Lorenzo Stoakes wrote:
+> > >> On Fri, Jul 03, 2026 at 09:05:58AM +0200, David Hildenbrand (Arm) wrote:
+> > >>
+> > >> I personally think 1-2 are the only relevant cases.
+> > >>
+> > >>>
+> > >>> Yes, I raised something similar as reply to Christian's RFC [1], where I said
+> > >>> that for me the information *how* it was used is much more important:
+> > >>>
+> > >>> "
+> > >>> Assisted-by: LLM # translate commit message
+> > >>> Assisted-by: LLM # generate some test cases
+> > >>> Assisted-by: LLM # cleanup logic
+> > >>> Assisted-by: LLM # everything and I have no clue what any in here does
+> > >>> "
+> > >>
+> > >> Yup, and we don't need complicated rules for that just 'document what you used
+> > >> it for and give a sense of how much'.
+> > >>
+> > >> It's fuzzy but useful.
+> > >>
+> > >>>
+> > >>> That tag is it stands is pretty useless, really.
+> > >>
+> > >> Not to go over it all again but I disagree, even as it stands, it allows us to
+> > >> engage in conversation about the LLM usage if admitted, and to point those who
+> > >> are misbehaving at the rules if not.
+> > >>
+> > >> And it is a clear way to get the boolean 'is this person saying they used an
+> > >> LLM'.
+> > >>
+> > >> But I agree with you it'd be MUCH more useful if we did the above.
+> > >>
+> > >> I wonder if we could get consensus on adding a section to the doc saying that
+> > >> it'd be _useful_ to add a comment explaining _what_ you did, and explaining the
+> > >> concept with some examples?
+> > >
+> > > I'd support a patch that replaces
+> > >
+> > > Assisted-by: Claude:claude-3-opus coccinelle sparse
+> > >
+> > > with
+> > >
+> > > Assisted-by: LLM # generate some test cases
+> > >
+> > > and rewrites the Attribution section of
+> > > Documentation/process/coding-assistants.rst accordingly.
+> > >
+> > > I think most people in this mail thread have expressed that how
+> > > generative AI was used is the most important information, and several
+> > > people (including myself) have expressed a desire to stop the free
+> > > advertising. Unless I missed something, I don't think anyone has
+> > > expressed an interest in keeping the agent name and model.
+> >
+> > Yes, that's something I would enjoy seeing. Who reading along has a problem with
+> > that? (assuming that the tag must stay)
+> 
+> I think the silence suggests nobody :)
+> 
+> What we could do is send a patch to simply add a section on adding a comment
+> explaining _what_ used an LLM and strongly suggesting it would be helpful to do
+> so.
+> 
+> That should hopefully be uncontroversial, then later (or alongside that?) we
+> could submit an RFC for making the language move to 'you MUST do this', as that
+> will probably be the more controversial bit.
+> 
+> I don't see any reason why we can't just send the softer version right away.
+> 
+> >
+> > --
+> > Cheers,
+> >
+> > David
+> 
+> Cheers, Lorenzo
 
-Awesome! Thanks for letting me know!
-Leo
+
+I haven't really seen anyone opposed the following I wrote earlier:
+
+- it's more relevant to know how an LLM was used than that it was used (and the
+  tag is just a quick indication of this)
+- advertising for particular corporations does not really serve any purpose to
+  the community, so just say "LLM"
+- the tags may be used to prevent arguing
+- the requirement to be open about LLM use (whether by tags or whatever) makes
+  it easier for maintainers (if they feel the need) to de-prioritize patches
+  by someone unwilling to abide by these rules whenever the maintainer perceives
+  or suspects prior undeclared LLM use. This prevents an asymmetrical situation
+  of LLM slop being produced much faster that what can be reviewed.
+
+Perhaps the last point is more controversial.
+
+I would really like to adept the systemd policy text.[1] If I have time later today
+I'll try to write something up... although maybe it is too ambitious :)
+
+[1]: https://lore.kernel.org/linux-fsdevel/20260702-bahnen-ertappen-verspannungen-0eaaf1e3f5af@brauner/
