@@ -1,125 +1,214 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BAB3E7BC7;
-	Tue,  7 Jul 2026 12:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D320414A07
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 12:39:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783427636; cv=none; b=dkkft0DlzrdMmllwlx01o+8ApDc2p4wfgTCzSeuZnJpxWYA+bj0E+qYnIzafELaXsnn+akyTdE+X78K5UYqEL2gbd9rhLpK4WXwVj3YAYNZP7wkFKjp5airDQTAktCYn+ANsykezqvDb3XXD0jgreOeWj++LVMxAQx+N0kILh+I=
+	t=1783427988; cv=none; b=Ff1c1fOMTjLMeN6tZmSQ5n3u7EA9Sq9coeE0Pnl8ydwpA0zF9IVCVCpE0nHSJDC8Q4awg+Y3UaaQ4K47zDcF+md0UbfyGJ5bc+u8E/4p4e0ZxMy+mbY4iqRap90mIjw/wUjXaIMYOnXF0xUAuy/AuQKhDw9Rcq47DhfuX5GtArc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783427636; c=relaxed/simple;
-	bh=2X2f17+SaiZpN/kyGAeIZvF3iwfnmYyAJWQinjbK6kY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=sC30sUk5flaGFQaAjHcpgXngBZJUJ7OhIK9Fono+G9Njswn5lkAzIfKVeN4EOg3kA/NKhiqBL4EGac9Axo0w/SXUbtPq/uDnkYVdkPT2PC2xJhILU1vcYZOZ+7THvaEcyU0tTZfYroj9g5BI/m1jFm8klVf9aplN6fM/lrd1oVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZKcgtQxR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783427988; c=relaxed/simple;
+	bh=vkEuyudynAbdDdHXbCABH5roVxW1tlfjkxheK4tjgSs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K4tEqKD5+e8guPhJp1PSEgjwgE4P2Ec77aK42N55TK0ivRvqkIGcGrMQDG/Dfo8fME47tNz7dkwBGeAf4DqeH2JzIFg/QfX8GVP6pkhz+ipuz+IqcF8z0x9KLl3IO+CohgiEFXbhv2Eso/7i4hb3yy4zTDmjKv6UmKMJ16UC9RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=wPHaqrho; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZKcgtQxR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCD771F000E9;
-	Tue,  7 Jul 2026 12:33:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783427635;
-	bh=QzW6uwwOUqEyx4tLpOzMNYd+85Csd0yuKFurZWGEI8Y=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=ZKcgtQxR8EniGd6O4MUDkjao3K+byc0fbsVHstwTYcTlPQzq6ba8YXRtTVfCZ7s+t
-	 PV/kpXaticIjX7s7DXXWH3GK+b56jDForw+FEHnw3WznmtyT++O2SO1Ihs1cloXV37
-	 urn+R5RqxtOryUgrMAPI4pk7xiXdsAwxIrCqQzS1qMzou12B5nXi7pvAkdk0ft/v+h
-	 /6wYksv2wjz4A4KKM/lwYspUCEL5yUUb7XmcSnevE6cATvmEalh7PcDhE/qs7udcmu
-	 jwYpFWd2GKzuQfjgCICsY1vcTBdyW2oT4EJwZC9ahfX0U/hhcDQUDmufeUBRHNWuAA
-	 GldGFHzJUAeEA==
-Message-ID: <2df78a49-fade-423f-9b74-8d68330709cf@kernel.org>
-Date: Tue, 7 Jul 2026 14:33:37 +0200
+	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="wPHaqrho"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c15b1da6b82so60517666b.1
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 05:39:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1783427983; x=1784032783; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=EnwDL12vlYEazYcGR9rb54AP+Tj9amAPmQc3cAai/2c=;
+        b=wPHaqrhom2bOThCI718MGxUviGgB+/wipuir650vZ75B54HGGe8ljZDV6r1hxTrc0A
+         A8uNe4YwXxyWXKy3CxBq7L6Ycm3dTEy8eT1njE52Dcu8gpmsThe6xnKSTaMN9RppnQx8
+         vMtV25V6/Q1Pu3+ZqXMln3fZsq6P9u9jXdMNAbcblrtd6qVdF2T7pjczRsY4K51NqJkQ
+         vWF0jGnD+ec5rhioEVdu7ApZ9VFVvv4cGLm/DjPtuWlzrh8qUybUD/r8+TJunyUf1UMM
+         O42dPNknDb+jRXYhvq9HUqvCnrpyGCTiEdoADgTcQprny1ry+ubqyAAwxUHT13QqGugY
+         IaXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783427983; x=1784032783;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EnwDL12vlYEazYcGR9rb54AP+Tj9amAPmQc3cAai/2c=;
+        b=dYJwKOg5cQaZKCiO3noG9F34gLryXth/1YRCl2pOibNBiZ8J6gSWnFBXdgFdv8cSfO
+         zurd90fEjFExyeuxD12Qq/v8WS+xlsQf4osk8xQDLeMj9qEopRlRACSzpN3lWhupNgoP
+         hYTtRSKQG2BnQixP7j27BOaCAXHM6Eiikz9BVqn5BN1JdFOm47Z4zsJSDtIsJuNdH7gH
+         4qDBR5CS+0VsIipprWcwzsbWaasEKtrghyX33Q22c0Byvd77BORIaB++D+B4HBKjGNe2
+         +fcPyrD2ak/TlsH2C3aNocq6hSPMf2AylwNtGjLvp0Pp+JC4W/hTg1H4TPmAuW6hBX9P
+         U2OQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp5atCItqGPpuvA/IC2LYrT+/QVk7JZiFLyp7mUn4dDVV5uDZxyoVY7WPE9xzAsgq/4x1uiLf0va8g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrU72QgY0r3rZawcQkZDWf6pGFI0k/7mOlNpwPpl7CD6FHGLTp
+	2KPScm+4Zdl2vIkDBM010d+fK7F7Y9vj1nKOamAzySAE+qJ3L212M5vzUjQdr2im4Dw=
+X-Gm-Gg: AfdE7ckAYXaWfGvPRukvmJTmgC5sTZy8Jzwjw7rm0mqCnuZrs/hPDiq2sul3ay7nvzx
+	i7VDw3IyOLJXQbc6Idil4iN1fo71FhboXUE8YsTp5SE0jXGRdtDTX/MyRNOAfJjcWzvt3Mgutg7
+	5WSuZ0+BtVF/dKxN56sgAUsutFfifsRfHwHSfGE4mpWsV43DmKlASIYjIUhjPrbV1GnCVbtoZ8X
+	puRsFQRVkB7qyEVRBO+zkOBjbh3u9qkV51sOfkFhRVYLiRWoGAJBEmDxmTesm9tZgVRIYG5s6Ku
+	s1oU1fYQr4S94cIm/Zv52rygObFN6hWj3OL024VyaHoKFjJzc4nmhgJsmAsok8xtLrS1ua8TQjc
+	p2bbNTYwNmFw+MY9NqlNDVp0WuaWejpP00VvMjkAHWQOpdU4NR5lcCKSj1UAHbGK/6VjxKv4ehi
+	EYRLJTxc8akF0UXMKff+Fe
+X-Received: by 2002:a17:907:6d20:b0:c12:e4c6:c4d4 with SMTP id a640c23a62f3a-c15ab074a88mr199441966b.63.1783427982190;
+        Tue, 07 Jul 2026 05:39:42 -0700 (PDT)
+Received: from localhost ([128.77.52.125])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15ad9be55csm126574866b.31.2026.07.07.05.39.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 05:39:41 -0700 (PDT)
+Date: Tue, 7 Jul 2026 14:39:37 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Mark Bloch <mbloch@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
+	Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next V4 4/6] devlink: Apply eswitch mode boot defaults
+Message-ID: <akzzW3aDgej-r26T@FV6GYCPJ69>
+References: <20260629182102.245150-1-mbloch@nvidia.com>
+ <20260629182102.245150-5-mbloch@nvidia.com>
+ <akThPmvUHvCMT2cp@FV6GYCPJ69>
+ <1d4ca929-82b8-4891-9058-1451bf71a660@nvidia.com>
+ <akUfXyKioGNAO_iB@FV6GYCPJ69>
+ <ecaeeef0-c463-4f10-885a-02ad2d648be0@nvidia.com>
+ <akYX4pMrDTnxa6yK@FV6GYCPJ69>
+ <4fa57470-0d4f-43dc-af4d-e66ddb450923@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] hwmon: (pmbus) Add driver for Analog Devices MAX20912
- and MAX20916
-To: Fred Chen <fredchen.openbmc@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Wensheng Wang <wenswang@yeah.net>, Frank Li <Frank.Li@nxp.com>,
- Brian Chiang <chiang.brian@inventec.com>, Cosmo Chou <chou.cosmo@gmail.com>,
- Dixit Parmar <dixitparmar19@gmail.com>, Eddie James <eajames@linux.ibm.com>,
- Antoni Pokusinski <apokusinski01@gmail.com>,
- Thorsten Blum <thorsten.blum@linux.dev>,
- Ashish Yadav <ashish.yadav@infineon.com>,
- Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
- Syed Arif <arif.syed@hpe.com>, ChiShih Tsai <tomtsai764@gmail.com>,
- Abdurrahman Hussain <abdurrahman@nexthop.ai>,
- Kim Seer Paller <kimseer.paller@analog.com>, Colin Huang
- <u8813345@gmail.com>, Yuxi Wang <Yuxi.Wang@monolithicpower.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260707122701.751878-1-fredchen.openbmc@gmail.com>
- <20260707122701.751878-3-fredchen.openbmc@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20260707122701.751878-3-fredchen.openbmc@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4fa57470-0d4f-43dc-af4d-e66ddb450923@nvidia.com>
 
-On 07/07/2026 14:26, Fred Chen wrote:
-> +
-> +static const struct of_device_id max20912_of_match[] = {
-> +	{ .compatible = "adi,max20912" },
-> +	{ .compatible = "adi,max20916" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, max20912_of_match);
-> +
-> +static const struct i2c_device_id max20912_id[] = {
-> +	{"max20912"},
-> +	{"max20916"},
+Fri, Jul 03, 2026 at 08:27:28PM +0200, mbloch@nvidia.com wrote:
+>
+>
+>On 02/07/2026 10:52, Jiri Pirko wrote:
+>> Wed, Jul 01, 2026 at 07:42:57PM +0200, mbloch@nvidia.com wrote:
+>>>
+>>>
+>>> On 01/07/2026 17:09, Jiri Pirko wrote:
+>>>> Wed, Jul 01, 2026 at 02:57:21PM +0200, mbloch@nvidia.com wrote:
+>>>>>
+>>>>>
+>>>>> On 01/07/2026 12:48, Jiri Pirko wrote:
+>>>>>> Mon, Jun 29, 2026 at 08:20:59PM +0200, mbloch@nvidia.com wrote:
+>>>>>>> Apply parsed devlink_eswitch_mode= defaults after devlink registration
+>>>>>>> and after successful reload.
+>>>>>>>
+>>>>>>> devl_register() may still be called before the device is ready for an
+>>>>>>
+>>>>>> How so? I would assume that driver calls devl_register only after
+>>>>>> everything is up and running and ready. If not, isn't it a bug?
+>>>>>>
+>>>>>
+>>>>> You would think so :)
+>>>>>
+>>>>> Some drivers, mlx5 included, call devl_register() while holding the
+>>>>> devlink instance lock and then finish setting up state before releasing
+>>>>> the lock.
+>>>>>
+>>>>> In v3 I tried to enforce exactly that model, move devl_register() to
+>>>>> be the last thing the driver does. Jakub pushed back on making that a
+>>>>> general rule. So in v4 I changed the approach. devl_register() only
+>>>>> schedules the work, and the actual eswitch mode change can run only
+>>>>> after the driver releases the devlink lock.
+>>>>
+>>>> Wouldn't it make sense to use a completion instead of loop-reschedule of
+>>>> delayed work?
+>>>
+>>> Just to make sure I understand the suggestion, this would mean that the
+>>> work waits until the devlink lock holder drops the lock, and devl_unlock()
+>>> would signal it, something like:
+>>>
+>>> void devl_unlock(struct devlink *devlink)
+>>> {
+>>> 	ool complete_apply = devlink->default_esw_mode_apply_pending;
+>>>
+>>> 	mutex_unlock(&devlink->lock);
+>>>
+>>> 	if (complete_apply)
+>>> 		complete(&devlink->default_esw_mode_apply_ready);
+>>> }
+>>>
+>>> That would avoid the retry loop, but it also means the queued work 
+>>> sleeps until the driver drops devl_lock. It does keep one worker
+>>> blocked per pending instance and adds this default-esw-mode signalling to
+>>> the generic devl_unlock() path.
+>>>
+>>> The delayed retry was meant to avoid a sleeping worker and keep the
+>>> instances independent. If one devlink instance is still locked, we just
+>>> try it again later while other instances can progress.
+>>>
+>>> If you prefer the completion approach I can switch to it, but I don't see
+>>> it as simpler overall.
+>> 
+>> Yeah, I don't have preference. I was just wondering. Feel free to leave
+>> it as is.
+>> 
+>> Maybe, instead of "complete", you can schedule with "0" delay in
+>> devl_unlock? Well, it does not really need to be delayed work, right?
+>> The only single schedule may be done from devl_unlock. That would help
+>> to eliminate the rescheduling. Am I missing something?
+>
+>Yeah, that can work.
+>
+>The only part I don't really like is adding default-esw-mode specific
+>logic to devl_unlock(). But if you are fine with that, I can switch to
 
-Please use named initializers (see recent code).
+Could be a devl_unlock_x variant? Idk.
 
-Best regards,
-Krzysztof
+
+>this approach.
+>
+>There is still a small race between mutex_unlock() and queue_work(), where
+>someone else can take devl_lock() first. So the worker may still wait on
+>the lock, but the window should be small and we get rid of the delayed
+>retry loop.
+
+No problem.
+
+>
+>Mark
+>
+>> 
+>> 
+>>>
+>>> Mark
+>>>
+>>>>
+>>>>>
+>>>>> Mark
+>>>>>
+>>>>>>
+>>>>>>> eswitch mode change, so keep a per-devlink delayed work item and pending
+>>>>>>> flag for the registration path. Registration queues the work, and the
+>>>>>>> worker tries to take the devlink instance lock.
+>>>>>>>
+>>>>>>> If the lock is busy, the worker requeues itself with a delay.
+>>>>>>>
+>>>>>>> For successful reloads that performed DRIVER_REINIT, devlink_reload()
+>>>>>>> already holds the devlink instance lock and the driver has completed
+>>>>>>> reload_up(). Clear pending work and apply the default directly from the
+>>>>>>> reload path instead of queueing work.
+>>>>>>>
+>>>>>>> If a user sets eswitch mode through netlink before the pending
+>>>>>>> registration work runs, clear the pending flag so the queued default does
+>>>>>>> not override that user request. Cancel pending default apply work when
+>>>>>>> freeing the devlink instance.
+>>>>>>
+>>>>>> These AI generated code descriptive messages are generally not very
+>>>>>> useful :(
+>>>>>>
+>>>>>
+>>>
+>
+>
