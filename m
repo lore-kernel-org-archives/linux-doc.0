@@ -1,254 +1,88 @@
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6B3385D8B;
-	Tue,  7 Jul 2026 06:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F41C2771E;
+	Tue,  7 Jul 2026 06:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783404690; cv=none; b=BEEo50LwiHq0I9l9KMb3xTMAD0rwyFW+fub323YUjA49bhLQM5vcvyH/wOFmuAXw848G6i5is8rbX7XwPUY4Vj1OSfqgLlL0S0lYTV89ejQiYWNxu6V+16Qjsh7g8RYo1dTJcmIpAIJrOgU172nJwn1kRYcj/iYuLXELuki/CUY=
+	t=1783405328; cv=none; b=MGtnSrCmYKtpDyjnmDmUBsx6LX5mKbjl6OjRBKN2mVcxgRoSdBsHvulp/c/0T/KXs+4aiBJwFH5IyTaP+CFJ7lehBVMiO4t5b9kbx3i9qXLnDa/lpaImWrxKGIImWe4V5sikIvO1NTIOAVogM+wpeV/tYhzb9O741qDgm5YvKq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783404690; c=relaxed/simple;
-	bh=HvKROzRN/MmyW+Iduf8yLOxjL5M1hd6nBbz9xNooYxU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Vly5Ih4qYvZhnRZNGhUqnujSPfv0qoeFMCxt8oqz6ZmmLxF615/8DHg3QXokQc5RMn+H9rPWpQcLpzwQhHwo7wnNhFGOBEHr3VKaWXtgMZrtKhj6F8m/O3KCjeBAl8Z5yyMuTavWxgXVA9CsnusZGYO7vRNgK2qJ+LVyvJgwaIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=FfcxKaHv; arc=none smtp.client-ip=113.46.200.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1783405328; c=relaxed/simple;
+	bh=RvgyL+jT7ZBf3+nwcbXQoOpkUUnRchDvFvUEvmmySfo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bC53xsBC+ugtRwm++Tr15RaktUEnP+34iTk71OcGxGkrAU4DFoMvgt1RsxkM38FYW2GM5fs38byGH1tPw0yKa9jnq0787Y2saI/SvuG51WzGLQwVboAv3+uGKcB6AJOZ7O4MNTRcY1zftRRLYZt/FU+OXnrGnF1nZjM6FwzG3BQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KX6oQElB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="FfcxKaHv"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=s+k4YLB2aPZHJzgI+LGSMyb/EUFeyoNW7T6bVJeLgOM=;
-	b=FfcxKaHvWGpE+OeszGHja+ic7QDEU3LpDfI8ikmg81TzbLTp/Ge9Kto+SmX2wLWNOTVw5vhVk
-	xj0Gr7KTy1IWHVW8YTdBteMO/0D5pkTSi7AphDH7FeODvlY97lpG7evc2eD9LrUv3yrxhqCy50d
-	gpdkute1U/cEGKIYO34DQKY=
-Received: from mail.maildlp.com (unknown [172.19.162.144])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4gvVxx0cTJzpT0K;
-	Tue,  7 Jul 2026 14:02:45 +0800 (CST)
-Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
-	by mail.maildlp.com (Postfix) with ESMTPS id 4588F4056E;
-	Tue,  7 Jul 2026 14:11:23 +0800 (CST)
-Received: from [10.67.120.103] (10.67.120.103) by
- kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Tue, 7 Jul 2026 14:11:22 +0800
-Message-ID: <34447d66-8d53-4dc7-82fe-58057f2a5b57@huawei.com>
-Date: Tue, 7 Jul 2026 14:11:23 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KX6oQElB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2E881F00A3A;
+	Tue,  7 Jul 2026 06:22:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783405327;
+	bh=yn/kZO4u9dWBVxPs71FKMvr7XU7SEACJ62k7H7NLLHk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KX6oQElB50riJguELkN1/oM9JSIx8kufrjmms3fiXJNuW5KspQJmZPSt5txAZwfZ2
+	 qmwzwv32TZ5VQ3oVo86MzmGlBTLY0Bult2je9cYUNm2GumxPfXXh02U5/eP8vmHATh
+	 l0yk6hi+eNbFC6j4Z2RJlqcTzZ7DOp8Uj1YjkWzycPc4UWvkIAm4v5o6S6kgQnsXsC
+	 E5uOMqlHsQQayQziHVuprBAfwDQOqDDMnD6V8Q0bGxtuBz+B3iFjgb7Li8Vf9AlbpN
+	 RpGXmnITZ7hRagUJHFpM3AfnuqLKeiy/VdtNQMbB8VYinItP9T+2lm4M+HfkO2i1RE
+	 HQyPN68VjyoBw==
+Date: Tue, 7 Jul 2026 09:21:58 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Pnina Feder <pnina.feder@mobileye.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Dave Young <ruirui.yang@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>, Alexandre Ghiti <alex@ghiti.fr>,
+	kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/4] vmcore-tasks: export per-task metadata to vmcoreinfo
+Message-ID: <akybBoCAm-kJbfHL@kernel.org>
+References: <20260622211430.4008899-1-pnina.feder@mobileye.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/5] KVM: arm64: Add support for FEAT_HDBSS
-To: Leonardo Bras <leo.bras@arm.com>
-CC: Inochi Amaoto <inochiama@gmail.com>, Marc Zyngier <maz@kernel.org>,
-	<oupton@kernel.org>, <catalin.marinas@arm.com>, <corbet@lwn.net>,
-	<pbonzini@redhat.com>, <will@kernel.org>, <yuzenghui@huawei.com>,
-	<wangzhou1@hisilicon.com>, <liuyonglong@huawei.com>,
-	<Jonathan.Cameron@huawei.com>, <yezhenyu2@huawei.com>, <linuxarm@huawei.com>,
-	<joey.gouly@arm.com>, <kvmarm@lists.linux.dev>, <kvm@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <skhan@linuxfoundation.org>,
-	<suzuki.poulose@arm.com>
-References: <20260225040421.2683931-1-zhengtian10@huawei.com>
- <20260225040421.2683931-4-zhengtian10@huawei.com>
- <ahzUUDAMoHtDFJD3@inochi.infowork> <864ijmvdpy.wl-maz@kernel.org>
- <ah1KLrpYBXSMM91H@inochi.infowork>
- <22abfaf8-8636-4ed3-9a5c-fb4fdef1bc19@huawei.com>
- <aku1N23Szkta9uA6@LeoBrasDK>
-From: Tian Zheng <zhengtian10@huawei.com>
-In-Reply-To: <aku1N23Szkta9uA6@LeoBrasDK>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemr100010.china.huawei.com (7.202.195.125)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260622211430.4008899-1-pnina.feder@mobileye.com>
 
+(adding new Baoquan's email)
 
-On 7/6/2026 10:01 PM, Leonardo Bras wrote:
-> On Fri, Jun 05, 2026 at 04:29:49PM +0800, Tian Zheng wrote:
->> On 6/1/2026 5:05 PM, Inochi Amaoto wrote:
->>> On Mon, Jun 01, 2026 at 09:58:49AM +0100, Marc Zyngier wrote:
->>>> On Mon, 01 Jun 2026 01:50:22 +0100,
->>>> Inochi Amaoto <inochiama@gmail.com> wrote:
->>>>> On Wed, Feb 25, 2026 at 12:04:19PM +0800, Tian Zheng wrote:
->>>>>> From: eillon <yezhenyu2@huawei.com>
->>>>>>
->>>>>> Armv9.5 introduces the Hardware Dirty Bit State Structure (HDBSS) feature,
->>>>>> indicated by ID_AA64MMFR1_EL1.HAFDBS == 0b0100. A CPU capability is added
->>>>>> to notify the user of the feature.
->>>>>>
->>>>>> Add KVM_CAP_ARM_HW_DIRTY_STATE_TRACK ioctl and basic framework for
->>>>>> ARM64 HDBSS support. Since the HDBSS buffer size is configurable and
->>>>>> cannot be determined at KVM initialization, an IOCTL interface is
->>>>>> required.
->>>>>>
->>>>>> Actually exposing the new capability to user space happens in a later
->>>>>> patch.
->>>>>>
->>>>>> Signed-off-by: eillon <yezhenyu2@huawei.com>
->>>>>> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
->>>>>> ---
->>>>>>    arch/arm64/include/asm/cpufeature.h |  5 +++++
->>>>>>    arch/arm64/kernel/cpufeature.c      | 12 ++++++++++++
->>>>>>    arch/arm64/tools/cpucaps            |  1 +
->>>>>>    include/uapi/linux/kvm.h            |  1 +
->>>>>>    tools/include/uapi/linux/kvm.h      |  1 +
->>>>>>    5 files changed, 20 insertions(+)
->>>>>>
->>>>>> diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
->>>>>> index 4de51f8d92cb..dcc2e2cad5ad 100644
->>>>>> --- a/arch/arm64/include/asm/cpufeature.h
->>>>>> +++ b/arch/arm64/include/asm/cpufeature.h
->>>>>> @@ -856,6 +856,11 @@ static inline bool system_supports_haft(void)
->>>>>>    	return cpus_have_final_cap(ARM64_HAFT);
->>>>>>    }
->>>>>>
->>>>>> +static inline bool system_supports_hdbss(void)
->>>>>> +{
->>>>>> +	return cpus_have_final_cap(ARM64_HAS_HDBSS);
->>>>>> +}
->>>>>> +
->>>>>>    static __always_inline bool system_supports_mpam(void)
->>>>>>    {
->>>>>>    	return alternative_has_cap_unlikely(ARM64_MPAM);
->>>>>> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
->>>>>> index c31f8e17732a..348b0afffc3e 100644
->>>>>> --- a/arch/arm64/kernel/cpufeature.c
->>>>>> +++ b/arch/arm64/kernel/cpufeature.c
->>>>>> @@ -2124,6 +2124,11 @@ static bool hvhe_possible(const struct arm64_cpu_capabilities *entry,
->>>>>>    	return arm64_test_sw_feature_override(ARM64_SW_FEATURE_OVERRIDE_HVHE);
->>>>>>    }
->>>>>>
->>>>>> +static bool has_vhe_hdbss(const struct arm64_cpu_capabilities *entry, int cope)
->>>>>> +{
->>>>>> +	return is_kernel_in_hyp_mode() && has_cpuid_feature(entry, cope);
->>>>>> +}
->>>>>> +
->>>>>>    bool cpu_supports_bbml2_noabort(void)
->>>>>>    {
->>>>>>    	/*
->>>>>> @@ -2759,6 +2764,13 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
->>>>>>    		ARM64_CPUID_FIELDS(ID_AA64MMFR1_EL1, HAFDBS, HAFT)
->>>>>>    	},
->>>>>>    #endif
->>>>>> +	{
->>>>>> +		.desc = "Hardware Dirty state tracking structure (HDBSS)",
->>>>>> +		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
->>>>>> +		.capability = ARM64_HAS_HDBSS,
->>>>>> +		.matches = has_vhe_hdbss,
->>>>>> +		ARM64_CPUID_FIELDS(ID_AA64MMFR1_EL1, HAFDBS, HDBSS)
->>>>>> +	},
->>>>>>    	{
->>>>>>    		.desc = "CRC32 instructions",
->>>>>>    		.capability = ARM64_HAS_CRC32,
->>>>>> diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
->>>>>> index 7261553b644b..f6ece5b85532 100644
->>>>>> --- a/arch/arm64/tools/cpucaps
->>>>>> +++ b/arch/arm64/tools/cpucaps
->>>>>> @@ -68,6 +68,7 @@ HAS_VA52
->>>>>>    HAS_VIRT_HOST_EXTN
->>>>>>    HAS_WFXT
->>>>>>    HAS_XNX
->>>>>> +HAS_HDBSS
->>>>>>    HAFT
->>>>>>    HW_DBM
->>>>>>    KVM_HVHE
->>>>>> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
->>>>>> index 65500f5db379..15ee42cdbd51 100644
->>>>>> --- a/include/uapi/linux/kvm.h
->>>>>> +++ b/include/uapi/linux/kvm.h
->>>>>> @@ -985,6 +985,7 @@ struct kvm_enable_cap {
->>>>>>    #define KVM_CAP_ARM_SEA_TO_USER 245
->>>>>>    #define KVM_CAP_S390_USER_OPEREXEC 246
->>>>>>    #define KVM_CAP_S390_KEYOP 247
->>>>>> +#define KVM_CAP_ARM_HW_DIRTY_STATE_TRACK 248
->>>>>>
->>>>>>    struct kvm_irq_routing_irqchip {
->>>>>>    	__u32 irqchip;
->>>>>> diff --git a/tools/include/uapi/linux/kvm.h b/tools/include/uapi/linux/kvm.h
->>>>>> index dddb781b0507..93e0a1e14dc7 100644
->>>>>> --- a/tools/include/uapi/linux/kvm.h
->>>>>> +++ b/tools/include/uapi/linux/kvm.h
->>>>>> @@ -974,6 +974,7 @@ struct kvm_enable_cap {
->>>>>>    #define KVM_CAP_GUEST_MEMFD_FLAGS 244
->>>>>>    #define KVM_CAP_ARM_SEA_TO_USER 245
->>>>>>    #define KVM_CAP_S390_USER_OPEREXEC 246
->>>>>> +#define KVM_CAP_ARM_HW_DIRTY_STATE_TRACK 248
->>>>>>
->>>>>>    struct kvm_irq_routing_irqchip {
->>>>>>    	__u32 irqchip;
->>>>>> --
->>>>>> 2.33.0
->>>>>>
->>>>> Instead of having these architecture specific capability, I wonder if
->>>>> we can add a generic capability like "KVM_CAP_HW_DIRTY_STATE", so
->>>>> other architecture supports similar things can reuse this capability,
->>>> What of the existing stuff doing the same thing? x86's PML, to start
->>>> with?
->>>>
->>> In fact I think the HDBSS is the first one with non-fixed size.
->>> Although there is a in process RISC-V extension for it, there will
->>> be a long story to make it ratified.
->>>
->>>>> For this generic thing I suggest, the getter returns the max support
->>>>> entry count (or the buffer size) it supports like the dirty ring
->>>>> capability. And the setter just let the architecture set the parameters
->>>>> based on the user request.
->>>> This looks wrong on a number of levels.
->>>>
->>>> - If you want something generic, there is the existing dirty
->>>>     log/bitmap. How this stuff is populated is none of the user's
->>>>     business (trapping write accesses, dirty bit collection from the
->>>>     PTs, or HW-generated log), and we don't need an extra feature for
->>>>     it. Performance will obviously suck, but that's what you pay for
->>>>     something abstracted and cross-architecture.
->>>>
->>>> - If you want something architecture specific, then it can't be
->>>>     generic, by definition. You get the raw speed and compatibility with
->>>>     other arch-specific extensions.
->>>>
->>> OK, I agree, it is better to keep this thing arch-specific. Doing a
->>> generic thing does not benefit too much, I have made a mistake on
->>> it. Thanks for your kindly explanation.
->>
->> Awesome. Thanks for the review.
->>
->> I agree with Marc—keeping this ARM-specific is the right approach.
->> Also, in v4 we're removing the ioctl interface entirely. HDBSS will be
->> auto-enabled during migration setup and auto-disabled when migration
->> completes, so the capability naming issue becomes moot.
->>
->> I plan to post v4 with the updated approach soon.
-> Hi Tian,
->
-> Any updates in the v4?
-> Please let me know if you want help in any kind, in regards to this
-> patchset.
->
-> Thanks!
-> Leo
-Hi Leo,
+Hi Pnina,
+On Tue, Jun 23, 2026 at 12:14:26AM +0300, Pnina Feder wrote:
+> This series extends vmcoreinfo with struct offsets and sizes needed by
+> the vmcore-tasks userspace tool to extract per-task state from a vmcore
+> dump without requiring kernel debug symbols (DWARF/BTF).
+> 
+> The vmcore-tasks tool reads /proc/vmcore (or a saved vmcore file) and
+> reconstructs, for each task:
+>   - task name, pid, state, flags
+>   - VMA list (start, end, flags, backing file)
+>   - user register state (saved on the kernel stack at kernel entry)
+>   - user-space backtrace with VMA/filename mapping
+>   - kernel dmesg buffer
+> 
+> This provides a lightweight post-mortem crash analysis capability for
+> production environments where full debug info (DWARF/BTF) is not
+> available.
+> 
+> The companion userspace tool is submitted to kexec-tools:
+>   https://lore.kernel.org/all/20260622205550.1087163-1-pnina.feder@mobileye.com/
 
-Thanks for the follow-up. I've finished polishing v4 and am doing one 
-last internal review.
+Sorry for the delay, this fell between the cracks somehow.
 
-In this version, I've also aligned with the latest HACDBS v2 
-implementation you shared—e.g.,
-auto-inserting KVM_PGTABLE_S2_DBM into pgt->flags during 
-kvm_init_stage2_mmu.
+The kernel side looks fine overall, but to merge it there should be an agreement
+from the userspace side maintainers that vmcore-tasks is something they are
+wishing to accept.
 
-One note: dirty ring mode is not yet supported in v4—the series 
-currently focuses on the
-dirty bitmap mode. I'll explicitly call this out in the commit messages 
-(including that
-KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE and related dirty ring components 
-are omitted) to avoid
-any confusion during review.
-
-I plan to send v4 out later this week.
-
-Thanks,
-Tian
+-- 
+Sincerely yours,
+Mike.
