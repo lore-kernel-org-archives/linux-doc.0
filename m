@@ -1,130 +1,249 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010043.outbound.protection.outlook.com [52.101.85.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA921A6823;
-	Tue,  7 Jul 2026 17:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783445818; cv=none; b=jyk4kRTjxf1NVB+E4QTT8ZsITknikHGGA07sAfDsJZXyEcT32wNCh5a7Kv77VGGR0MMGauM+cGTm/M2d3dt/F/utvdPe6L1V9+QlfJhxeZNbZB3u72AhaWA3/FpmFluNudbCb9Pl7Dz+QrQkTTc6RuQ5ZCZKbQ6sYSmu9WBeGnM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783445818; c=relaxed/simple;
-	bh=Ib/vVqcal4j1MGj8D0TYa+zICO91dCuZmlsT4KqrO20=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kbhe1D6CfBqyCa33ahnEuScufC0CJlEaP5FOC7LJlhbqy4ULa5O2K438sHokrcUSsPzutOXWkFyk2hfOgmeKVTY4db814wRw1+JOafjeAtRH8BCB04DeTHFYn7rs/nlhrLbkwGB/DxXNILvGCQKagBMNOfycldIs3iZOQVv0YBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=rk3/UTRm; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002B933F8D9;
+	Tue,  7 Jul 2026 17:45:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783446356; cv=fail; b=I+nGXuHNuHs6i05026LjRfsmT8cNvb1Dt0qmZb9zkDtK3ZcvBF+oqabcILV0S5ksa3IQeDIzmvyphMxGy5eYYnh0lKvUYgsML039mWjCPPJ00ZU/+LTNF/Nn4N2qIAhJDImMPgtqI0fY+wO5TI/+tuoG3b6G/6E4yVRMLXmhWSg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783446356; c=relaxed/simple;
+	bh=lU/BzVDnmD9OMjRSwxYuwFsKXGlB87wv11eFRfFNoPw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CiBP1NFMP4gnRgOjvfbVIBm+DkiYZHKCk8zqRfyXYfuIXQSFmGizg1c3w+MOR/557cSrVIoHH3ilVXUaZGVM1em8FD1ivk2YI64sS8UqVACotx/On19P4pRbHdD7ArEUmVkCwENeL7DsxhxGc/KAcFW/6565vKypeM8L8f3L2LE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kGDsJcaF; arc=fail smtp.client-ip=52.101.85.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="rk3/UTRm"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A66E040430
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1783445815; bh=COXHWe8bmkjlnZivcKeLq98DBvhs3tW0/+YwQdc3IWU=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=rk3/UTRmwQJgFwPjxnuOk8nvd6IPczW0ZRnxhLUuJI2lKSkc/tuTYIkJIykpMXW8h
-	 KHdNGLyfbsW9paWamyXjGuOUuY8o6jfuK8aA9T6av66YqdsvyvYA0qPmGIdXXEJyAQ
-	 cLRW18gw2+pDpjjcTDQsyU+YqL63JB72AgLYlSoG+NBys79xzQH4InPJzUTtVKOTof
-	 DBLY6cQPeYBxOPeBg1opVkSzE2sdhVfW2t3xiPtvRv/6pYVgVXnYhf1oxkycqEiqJ3
-	 xR1OA5YO8555kUaWG1dEMmKDNgEPSvRUh6bz6PknNig/u66IMir+TRRkEmfCk1Hvkk
-	 1NLzgpNmKWIZA==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A66E040430;
-	Tue,  7 Jul 2026 17:36:55 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Daniel Lundberg Pedersen <dlp@qtec.com>, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, Rito Rhymes <rito@ritovision.com>
-Subject: Re: Bad wrapping in some tables
-In-Reply-To: <c542aaf7-6a40-4730-8bd6-208c9fe932d5@qtec.com>
-References: <c542aaf7-6a40-4730-8bd6-208c9fe932d5@qtec.com>
-Date: Tue, 07 Jul 2026 11:36:54 -0600
-Message-ID: <87pl0yr9ah.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kGDsJcaF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VLtPlP2p3VhuyiXybJ92z0L4St62lfNfl/JUurVZBYCwFhBZ177XlreTEvTD+H+YuGNMehT7cwcF5OsRGY13Kr9OmLxEYMjVvZ2l+HCOxS1REdv/0y++a82Tk8MnN+mBuRC3Lh831H0MrV8sbyMvLwm26FTT+YddmT1d7+QXW40pjK1wMvfMILc+r/hjIDb5pQiq/l11osqiWSdIovNnUUVrpoj6gTboCZqkz8c0jM8qR9ospt6oU1sjjUbgok01BaiaZYuyG0crQthIDRRpRoRTvotMNyNe3wX51pipEn+7BpSPLMydRzMnLz09sXMvumvXBma6LT7dWLDxiOdpLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xNq7PECFwyr8T1mzXA4HE94KTtJpnyl9LQK9/KdUDjQ=;
+ b=pkOrwWK3PHAhUwM/gGtbUp7+xnKmPVgpFkgiwmvhTBIXCLWLgYJ+Nv3LR0ic2hKltihow1FedrEO24PnsNbVyymN5qvtp5SqMlnM1b0hjhG6IBnh48M4m/QKNX48aeHT7L0ZQBhWkV6T7tJFV97kT52dYRmQTDudZ319mnf+V/wCWu+pvLE7dr6phObEsX+JOIq4byd2nau7dMM0WF+f/g+mlmo/4JG47+YjfetqHV0MS505R7+J7kJRgO9MyFafVmdxp0VsJ2bg1pWC2ZUpEcZu9g2yMWA6u2hzkh9X8B7JDEuq8L7OYn9maJujK/Lo6HbadUX5kb7mnOnBWBIcKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=resnulli.us smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xNq7PECFwyr8T1mzXA4HE94KTtJpnyl9LQK9/KdUDjQ=;
+ b=kGDsJcaF3HGfdtIKroQ0mVhnaiNjTkNQxeDM91Y7qE+cVMPUtaaLA1auFdtHumDlzaPVw9oZqtuTtmiIaMaF6hujRdThqRIWMcp0mH9BdFJ4r7y5+BwhToN6OnSyIYwlYiB7Us4Y0etT8ZjCqRYrSNHRNblO7A8ArczuuUpcDcgRDim4Ks3UvP2sTxDU/yCT1GYYJBMq7d9D6RRWciT0Z1HrI+b3pOOUIDS5nUzISSIqFa26iQ2FXXiH+16ZSmeXFhD7w9mqFv4DGm5xzlKa+d2RgT7X0Fz6xXl4BW6DeJfvwwT9gL5j24TGn+UUDAMpkXf0/ENmQmKbboIhAagmEg==
+Received: from CH0PR13CA0055.namprd13.prod.outlook.com (2603:10b6:610:b2::30)
+ by PH7PR12MB6395.namprd12.prod.outlook.com (2603:10b6:510:1fd::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Tue, 7 Jul
+ 2026 17:45:46 +0000
+Received: from CH2PEPF0000013B.namprd02.prod.outlook.com
+ (2603:10b6:610:b2:cafe::a1) by CH0PR13CA0055.outlook.office365.com
+ (2603:10b6:610:b2::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.202.9 via Frontend Transport; Tue, 7
+ Jul 2026 17:45:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ CH2PEPF0000013B.mail.protection.outlook.com (10.167.244.68) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Tue, 7 Jul 2026 17:45:46 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 7 Jul
+ 2026 10:45:36 -0700
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Tue, 7 Jul 2026 10:45:35 -0700
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.126.190.180) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Tue, 7 Jul 2026 10:45:32 -0700
+From: Mark Bloch <mbloch@nvidia.com>
+To: Jiri Pirko <jiri@resnulli.us>, Eric Dumazet <edumazet@google.com>, "Jakub
+ Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>
+CC: Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+	Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	<netdev@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, Mark Bloch <mbloch@nvidia.com>
+Subject: [PATCH net-next V5 0/6] devlink: Add boot-time eswitch mode defaults
+Date: Tue, 7 Jul 2026 20:45:21 +0300
+Message-ID: <20260707174527.425134-1-mbloch@nvidia.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF0000013B:EE_|PH7PR12MB6395:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5336d72d-a423-4b0f-0b02-08dedc4f933e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|82310400026|7416014|1800799024|36860700016|23010399003|3023799007|18002099003|56012099006|11063799006|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	CvbT+E2w0krBsvAyddbwvRkQO6W1xt1+lZBvi+OXQx8v0nFBBOlkezSIZV/ZFi1WpPtYCs4Jn0JfsvGSgEt1ZtWNlD3CWRQNjO1x1+d0qqeAIyipDZJrWef11poXFFSVh0mGhb3fznBS9QeLNS04Qhb04g9+9EKex+IT+EsqHyjoG0ZtYZQIF2RnqbcB3/0Lgbz2/L5/8TxcvLraBVWGIEk6rY3B1v9aVufeMXlYAO0ghp925OdTPgRg43Sl7OyE5WSvnVcr5nXGIfxEBvENABxYqwa1Q/3cS52+K/4sN6I78f673q5MbtxPLJMlbeL5WriHclb3vWRPFnSwaWkFd/qTA0UaeLItJoiJoMOzt262CkdSPMhNcKCgiJZLjTklKOOa6o5ek8InZC4pmhMjOLR1fTZwQcX+apwq3kSci1Mg7EJI9HLVaa9w3lyfKSzPAKqoPdM3VgxpS4430wcKs5XsW5toM6rWr6VZpw+UObSAhvqhv+6Sp+XsKjRKlEbdAOi10kVZ1sT+O2IT1p6ovR/RAu7qkCNMzH9QdabEOmLB3BQYm+w2orvcb5EIC+fHXrtGKS4vMS1rcHDSlo975xTZ9XbWDyjC9qM/rR8jSV0ctdWGBwE1eedAxn6QyFJDFaijEjQ8lwntmyc1kBx7PkoYJMIVEuNx7MYsy5ZLXLjZpkY772eLbLIR3Q/+yw2h6a2nk8hAuWCuQPE0Yj1Chw==
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(82310400026)(7416014)(1800799024)(36860700016)(23010399003)(3023799007)(18002099003)(56012099006)(11063799006)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	n8REWwoR/hN9Ann0KVNmCVC+Jt3NICHJqUxDwuqEYbNA5rj8vQFscPVXptZltvT2JMigE5bSNcNspV4NTggetK91L/cjm/eSURh64gm3mBoKwlqrtSxSAwF3yZftIf/XdW3X+xj9eUAW/yfHsl2nsKioubx0FQ+VNRUA3d4Bjv2JOHJEYDKDClb8HY+Gf+naj9kq9VR0Zj3fk9Unx7jrnYvI4eB2KvxcPTqVQJIsyubuVpKccOjZz7+lWc9sAdyBnZKVMhT6+1r40xw2Xou9Ja9PO5nwDeAa0TorZt8IXHCoH3NWVI3csaSZkWQFsgwG88AJ9ojRBoE6SqxAiGyruiSnyU8VrQ2LpatUO/3JhzYhHoYLwEY2Ws0otlqVdtvpFwQOfDgQH+ED3t1Hejoca7fUpvCVTUAG5EFITOiyX0Z/vAQyjQAauRGIxPGgxjrJ
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 17:45:46.2563
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5336d72d-a423-4b0f-0b02-08dedc4f933e
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH2PEPF0000013B.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6395
 
-Daniel Lundberg Pedersen <dlp@qtec.com> writes:
+This series adds a devlink_eswitch_mode= kernel command line parameter
+for setting a default devlink eswitch mode during boot.
 
-> I've noticed some bad wrapping happening in tables, seemingly only in
-> the Media docs, but that's also where I look the most, after v7.1.
->
-> See:
->
-> https://www.kernel.org/doc/html/v7.1/userspace-api/media/v4l/vidioc-create-bufs.html#c.V4L.v4l2_create_buffers
->
-> Compared to:
->
-> https://www.kernel.org/doc/html/v7.0/userspace-api/media/v4l/vidioc-create-bufs.html#c.V4L.v4l2_create_buffers
->
-> Other tables have also changed, but they don't end up this bad, e.g:
->
-> https://www.kernel.org/doc/html/v7.1/process/debugging/kgdb.html#run-time-parameter-kgdbreboot
->
-> I've bisected it to be f2679ac773899f5fdea0b68d5077eef5f88dfd42 that
-> has caused the change, and I did try some quick changes to see if I
-> could fix it for the tables, but I didn't get any positive results.
+Following the discussion with Jakub[1] and the feedback on the RFC
+postings, this version keeps the scope limited to a boot-time devlink
+eswitch mode default only.
 
-For future reference, it really does help to copy the maintainer and the
-author of the patch.
+The option selects either all devlink handles or an explicit
+comma-separated handle list:
 
-The patch in question tweaked our CSS thusly:
+devlink_eswitch_mode=*=switchdev
+devlink_eswitch_mode=pci/0000:08:00.0,pci/0000:09:00.1=switchdev_inactive
 
-> +code.docutils.literal span.pre {
-> +    white-space: normal;
-> +    overflow-wrap: anywhere;
-> +}
+The supported modes are legacy, switchdev and switchdev_inactive. The
+selected mode is applied through the existing eswitch_mode_set() devlink
+operation, the same operation used by the devlink eswitch mode command.
 
-That overflow-wrap line is the problem.  The patch was trying to improve
-overflow from some literal blocks, but it does seem that the cure is
-worse than the disease.
+Registration may happen before a driver is ready to change eswitch mode,
+so devlink core marks the default as pending and queues async work from
+devl_unlock() once the instance is registered. The worker takes the
+devlink instance lock before calling into the driver.
 
-I've just made the attached revert - thanks for the report!
+After a successful reload that performed DRIVER_REINIT, devlink core
+already holds the devlink instance lock and the driver completed
+reload_up(), so the default is applied directly from the reload path.
 
-jon
+Drivers that know exactly when the device is ready can call
+devl_apply_default_esw_mode() directly. mlx5 uses this after initial
+probe, when the device is initialized and the devlink lock is already
+held.
 
-From 1afefde902c5267d1197da8a3b039354ed771d37 Mon Sep 17 00:00:00 2001
-From: Jonathan Corbet <corbet@lwn.net>
-Date: Tue, 7 Jul 2026 11:34:47 -0600
-Subject: [PATCH] Revert "docs: allow inline literals in paragraphs to wrap to
- prevent overflow"
+Patch 1 clears the mlx5 FW reset-in-progress bit before reload.
 
-This reverts commit f2679ac773899f5fdea0b68d5077eef5f88dfd42.
+Patch 2 factors the common eswitch mode set validation into a helper.
 
-This change causes truly unreadable breaking of literal strings in a number
-of settings.
+Patch 3 adds the devlink_eswitch_mode= parser and documentation.
 
-Reported-by: Daniel Lundberg Pedersen <dlp@qtec.com>
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/sphinx-static/custom.css | 9 ---------
- 1 file changed, 9 deletions(-)
+Patch 4 applies parsed defaults from devlink core.
 
-diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-index 5aa0a1ed9864..2e019c8f8a56 100644
---- a/Documentation/sphinx-static/custom.css
-+++ b/Documentation/sphinx-static/custom.css
-@@ -156,15 +156,6 @@ div.language-selection ul li:hover {
-     background: #dddddd;
- }
- 
--/*
-- * Let long inline literals in paragraph text wrap as needed to prevent
-- * overflow.
-- */
--code.docutils.literal span.pre {
--    white-space: normal;
--    overflow-wrap: anywhere;
--}
--
- /* Let rendered reference links in tables wrap when needed. */
- div.body table.docutils a.reference {
-     overflow-wrap: anywhere;
+Patch 5 adds devl_apply_default_esw_mode() for drivers.
+
+Patch 6 wires mlx5 to apply the default after initial probe.
+
+Changelog:
+
+v4 -> v5:
+
+- Moved the default eswitch mode code into a separate file, per Jiri's
+  comment.
+
+- Dropped the delayed workqueue and switched to regular work triggered
+  via devl_unlock(), per Jiri's comment.
+
+- Renamed some functions to better align with devlink code.
+
+v3 -> v4:
+
+- Rework registration time apply to use per devlink delayed work instead
+  of calling eswitch_mode_set() directly from devl_register().
+
+- Apply the default directly after successful DRIVER_REINIT devlink reload,
+  where the devlink lock is already held and reload_up() has completed.
+
+- Add devl_apply_default_esw_mode() for drivers that know their exact ready
+  point.
+
+- Drop the driver registration-ordering preparation patches that are no
+  longer needed with the async registration apply path.
+
+v2 -> v3:
+
+- Change the devlink_eswitch_mode= API syntax to use <selector>=<mode>
+  instead of [<selector>]:<mode>, following a comment from Randy Dunlap.
+
+v1 -> v2:
+
+- Move default eswitch mode application into devlink core. The default is
+  now applied during devlink registration and after a successful devlink
+  reload that performed DRIVER_REINIT.
+
+- Remove the exported devl_apply_default_esw_mode() driver API and the mlx5
+  driver-side call to it.
+
+- Skip devlink health recovery notifications while the devlink instance is
+  not registered, so drivers can move registration later without early
+  health work hitting registration assertions.
+
+- Move mlx5 devlink registration after device initialization, including the
+  lightweight init path, so the core can apply the default through the
+  normal registration flow.
+
+- Move the matching netdevsim and mlx5 unregister paths before object
+  teardown, so unregister notifications come from devl_unregister() and the
+  later object teardown paths run while the devlink instance is no longer
+  registered.
+
+- Add registration-ordering preparation patches for netdevsim and octeontx2
+  AF/PF, so their eswitch state is ready before registration-time defaults
+  may call eswitch_mode_set().
+
+[1] lore.kernel.org/r/20260502184153.4fd8d06f@kernel.org/
+RFC v1: lore.kernel.org/r/20260506123739.1959770-1-mbloch@nvidia.com/
+RFC v2: lore.kernel.org/r/20260510185424.2041415-1-mbloch@nvidia.com/
+v1: lore.kernel.org/r/20260521072434.362624-1-tariqt@nvidia.com/
+v2: lore.kernel.org/all/20260603193259.3412464-1-mbloch@nvidia.com/
+v3: lore.kernel.org/all/20260605181030.3486619-1-mbloch@nvidia.com/
+v4: lore.kernel.org/all/20260629182102.245150-1-mbloch@nvidia.com/
+
+Mark Bloch (6):
+  net/mlx5: Clear FW reset-in-progress bit before reload
+  devlink: Factor out eswitch mode setting
+  devlink: Parse eswitch mode boot defaults
+  devlink: Apply eswitch mode boot defaults
+  devlink: Add API to apply eswitch mode boot default
+  net/mlx5: Apply devlink eswitch mode boot default on probe
+
+ .../admin-guide/kernel-parameters.txt         |  25 ++
+ .../networking/devlink/devlink-defaults.rst   |  78 ++++
+ Documentation/networking/devlink/index.rst    |   1 +
+ .../ethernet/mellanox/mlx5/core/fw_reset.c    |  28 +-
+ .../net/ethernet/mellanox/mlx5/core/main.c    |  13 +
+ include/net/devlink.h                         |   1 +
+ net/devlink/Makefile                          |   2 +-
+ net/devlink/core.c                            |  13 +
+ net/devlink/default.c                         | 364 ++++++++++++++++++
+ net/devlink/dev.c                             |  33 +-
+ net/devlink/devl_internal.h                   |  12 +
+ 11 files changed, 551 insertions(+), 19 deletions(-)
+ create mode 100644 Documentation/networking/devlink/devlink-defaults.rst
+ create mode 100644 net/devlink/default.c
+
+
+base-commit: 4a13f31a92f35161b499bf29638336885259da78
 -- 
-2.54.0
-
+2.43.0
 
