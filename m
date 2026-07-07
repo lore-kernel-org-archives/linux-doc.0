@@ -1,132 +1,93 @@
-Received: from bregans-0.gladserv.net (bregans-0.gladserv.net [185.128.210.58])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9266A3B9D9E;
-	Tue,  7 Jul 2026 20:06:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.128.210.58
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38F442087F;
+	Tue,  7 Jul 2026 20:24:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783454781; cv=none; b=fbx47/HJ6L4cPlXr69jrdBDLK1NBaCDR5oReexNTcv9K5lKJ+sdbTWTiTOnDrmHQwEFyekGXDSFRK+Omy+xZlXvv72ZuJgeD5vGB0zRhGNDr/ezKNryRn6CvpcL1GNB1pvPzUp3ivVOpYm24ZPxdk5x2kp80G4pLqla26YMX0Ak=
+	t=1783455861; cv=none; b=bp+ag6D0kCMed7oSiJyygW+jHv36+sVMPuz9M6PZJQ1yNcfpvNnL9x7QPO6qEtffb3sEzDUVRflWYxoasVTFa4dnRJPvtxwWQeR27gIa7C0qUggm2Zr94pX3RxHa5In57zQtj0qME62BEWxXgQNTbGSCgF+a4ph1JqBnl0oBZOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783454781; c=relaxed/simple;
-	bh=WYqFwOi8quQy3Uk+VrFiQW/eZL0UWoAEItTKR3fuMzU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fy8TqWheW8kwIolC9mWpORCFQdMbKhyFh/Jx477/vuAMWS6Wiw2FxCuqca+Bg0MDUVifLgpXcm34pkLwF4KIew60wTHGzAr6Yn9EymHxgrGES57kpWVjiL7Uu82MGZVyZIGPX2/v3pb/XHi+g3+ey+hxaj2ZCuileydb+YHcRgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=librecast.net; spf=pass smtp.mailfrom=librecast.net; arc=none smtp.client-ip=185.128.210.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=librecast.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=librecast.net
-Date: Tue, 7 Jul 2026 22:05:52 +0200
-From: Brett A C Sheffield <bacs@librecast.net>
-To: Simon Schippers <simon.schippers@tu-dortmund.de>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Tim Gebauer <tim.gebauer@tu-dortmund.de>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v2] tun/tap & vhost-net: make qdisc backpressure
- opt-in via IFF_BACKPRESSURE
-Message-ID: <ak1cIAwQzKS35x0m@karahi.librecast.net>
-References: <20260706094242.115992-1-simon.schippers@tu-dortmund.de>
- <akt_Q7kdR3Zb8_GZ@karahi.librecast.net>
- <20260706091706-mutt-send-email-mst@kernel.org>
- <2728c540-2e76-4e06-9064-ed1dff071cbe@tu-dortmund.de>
- <akvhhy_JpH64KrcL@karahi.librecast.net>
- <0d28fdc4-3c03-48d6-bd59-e59f7a01f4b6@tu-dortmund.de>
+	s=arc-20240116; t=1783455861; c=relaxed/simple;
+	bh=fwReva9uoUxB1MQyBfEquSl0KIEHdpI1AQyr6XKGsNI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aa32OWy9EGSIVcOwfJHEX0kU7L2lUA/8Vxe4kFEdl74/h26T8nGWCqQdImAzK4iDCmnD/y1XWveGMA1W/rdCE7XrEHHp5SJ9qQ0kmIkyK/jQ8e+KFQWpbsXqoexiuoi8a06ZmnZd+nr+9la1AxkzkglLKdnuR0EIFzGdOKNOCDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=hlX9qH3P; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hlX9qH3P"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gvt3r6X4zzMlHZ;
+	Tue, 07 Jul 2026 22:24:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783455848;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pE6yNMp+uXpgGUcwJt1cNGBLI12Hj8FXQ5m2BI8bX4s=;
+	b=hlX9qH3P7QNIy3fjcF4n/8eSucWZ176Mk6rgjs1M739zaMKvTQvGGk549o/lK7yzZY8UKe
+	jrzFdT6d+qGQ8TmH5E8onyjvFhIdY+IgHM7HLT6Llob5IE5V+y8Fk7WgrW3QqWf4ODCQIa
+	eYSgnfyQrdAPnV8IUCnsSUcelKJAkz9guNykDXeTGHK/kY5secL5vamRRk/cwduEriTwSM
+	f8CZF+4XnDZ0VgOApdQJ4+L+WpHH7MVIYfFxN6LKJEcgVUhp1FGVkc5sucYDAu0sbcym+B
+	BmjQEfAMRLzikJr7elz3UFrWy8d2X9uQAUaLcjfAlrZXHRJsHRxMO6xWLW81Dw==
+Message-ID: <e67d526b-7e4c-424d-b971-35e06c163376@mailbox.org>
+Date: Tue, 7 Jul 2026 22:24:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0d28fdc4-3c03-48d6-bd59-e59f7a01f4b6@tu-dortmund.de>
+Subject: Re: [PATCH v3 1/5] PCI: dwc: Determine whether iMSI is used before
+ calling .init
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: linux-pci@vger.kernel.org, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Conor Dooley
+ <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20260701203918.63189-1-marek.vasut+renesas@mailbox.org>
+ <20260701203918.63189-2-marek.vasut+renesas@mailbox.org>
+ <4qyn4fljtb3cbzcmfpkdomkm7vqnwn2rfbtqng4iwmtvfd4bpj@t6kkw53erl7f>
+ <8a921ce9-e339-445a-af05-d20f9f2df01e@mailbox.org>
+ <p4it4hcg24narbtjtoqdk6zg7wpfs5hc2mm77acyoi6hwfkh5u@5bqlwhylosmo>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <p4it4hcg24narbtjtoqdk6zg7wpfs5hc2mm77acyoi6hwfkh5u@5bqlwhylosmo>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 073d86a19c85a0d025b
+X-MBO-RS-META: 5dycfot7945dqgf3kieqojhkr9yf6hae
 
-On 2026-07-07 08:52, Simon Schippers wrote:
-> Brett, can you try the two attached patches here with iperf3?
-> I think testing with 8 and 16 threads is enough, so where there is a
-> regression.
+On 7/7/26 5:36 PM, Manivannan Sadhasivam wrote:
+> On Mon, Jul 06, 2026 at 07:48:24PM +0200, Marek Vasut wrote:
+>> On 7/6/26 6:43 PM, Manivannan Sadhasivam wrote:
+>>> On Wed, Jul 01, 2026 at 10:37:44PM +0200, Marek Vasut wrote:
+>>>> The R-Car Gen4 PCIe controller integration configures MSI registers
+>>>> in the controller driver .init callback, because those registers
+>>>> have to be configured while PERST signal is asserted, and the PERST
+>>>> signal is asserted across the controller driver .init callback.
+>>>>
+>>>> The registers have to be configured differently in case the iMSI is
+>>>> or is not used. Assign pp->use_imsi_rx before the controller driver
+>>>> .init callback is called, so the controller driver .init callback
+>>>> implementation can use the pp->use_imsi_rx value.
+>>>>
+>>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>>>
+>>> LGTM!
+>> Thank you. Can I get AB/RB before sending V4 ?
 > 
-> The two patches are about time when to wake:
-> Currently we wake after consuming half the internal ring buffer.
-> One of the attached patches wakes after 2 cachelines (128 of 1000
-> packets) and the other one just wakes once the ring buffer is empty.
-> 
-> This would really help :)
-
-Sure...
-
-
-7.2.0-rc2 (unpatched)
-
-threads 1
-[  5]   0.00-10.00  sec  20.4 GBytes  17.5 Gbits/sec    0            sender
-[  5]   0.00-10.00  sec  2.00 GBytes  1.72 Gbits/sec                  receiver
-
-threads 2
-[SUM]   0.00-10.00  sec  12.7 GBytes  10.9 Gbits/sec    0             sender
-[SUM]   0.00-10.00  sec  4.00 GBytes  3.43 Gbits/sec                  receiver
-
-threads 8
-[SUM]   0.00-10.00  sec  11.5 GBytes  9.85 Gbits/sec    0             sender
-[SUM]   0.00-10.01  sec  11.4 GBytes  9.83 Gbits/sec                  receiver
-
-threads 16
-[SUM]   0.00-10.00  sec  11.6 GBytes  9.95 Gbits/sec    0             sender
-[SUM]   0.00-10.01  sec  11.5 GBytes  9.91 Gbits/sec                  receiver
-
-
-7.2.0-rc2 with 0001-tun-set-waking-threshold-to-ptr_ring_empty.patch
-
-threads 1
-[  5]   0.00-10.00  sec  19.6 GBytes  16.8 Gbits/sec    0            sender
-[  5]   0.00-10.00  sec  2.00 GBytes  1.72 Gbits/sec                  receiver
-
-threads 2
-[SUM]   0.00-10.00  sec  11.1 GBytes  9.50 Gbits/sec    0             sender
-[SUM]   0.00-10.00  sec  4.00 GBytes  3.43 Gbits/sec                  receiver
-
-threads 8
-[SUM]   0.00-10.00  sec  10.8 GBytes  9.25 Gbits/sec    0             sender
-[SUM]   0.00-10.01  sec  10.7 GBytes  9.23 Gbits/sec                  receiver
-
-threads 16
-[SUM]   0.00-10.00  sec  10.9 GBytes  9.34 Gbits/sec    0             sender
-[SUM]   0.00-10.01  sec  10.8 GBytes  9.30 Gbits/sec                  receiver
-
-
-7.2.0-rc2 with 0001-tun-set-waking-threshold-to-tx_ring.batch.patch
-
-threads 1
-[  5]   0.00-10.00  sec  19.6 GBytes  16.9 Gbits/sec    2            sender
-[  5]   0.00-10.00  sec  2.00 GBytes  1.72 Gbits/sec                  receiver
-
-threads 2
-[SUM]   0.00-10.00  sec  13.9 GBytes  11.9 Gbits/sec    0             sender
-[SUM]   0.00-10.00  sec  4.00 GBytes  3.43 Gbits/sec                  receiver
-
-threads 8
-[SUM]   0.00-10.00  sec  12.7 GBytes  10.9 Gbits/sec    0             sender
-[SUM]   0.00-10.01  sec  12.3 GBytes  10.6 Gbits/sec                  receiver
-
-threads 16
-[SUM]   0.00-10.00  sec  12.5 GBytes  10.7 Gbits/sec    0             sender
-[SUM]   0.00-10.00  sec  12.4 GBytes  10.7 Gbits/sec                  receiver
-
-
-
-HTH,
-
-
-Brett
--- 
-Brett Sheffield (he/him)
-Librecast - Decentralising the Internet with Multicast
-https://librecast.net/
-https://blog.brettsheffield.com/
+> Why? Since this series goes through PCI tree and all PCI patches are controller
+> patches, I'm going to merge the series. So no need of the A-b/R-b tags.
+All right, V4 patchset is coming shortly.
