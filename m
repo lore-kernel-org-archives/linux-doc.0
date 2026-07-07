@@ -1,97 +1,109 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B11634750A
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 19:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE9D3859DF;
+	Tue,  7 Jul 2026 19:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783452216; cv=none; b=sgYN4i87o8mfK06fUt9XZU+tVU8q3JdjvDphG4HAhkBCsU8t7Qy+Te18T+C1DrFFbzv0P+mbGFMf0tzEKpiDqRvEirYaoiyIgpaKyXmTMV0UlYJjf9C5wsOlu2auVGEfGHvjRctt/a+H80XOUw3GHb1uHYvyoTXSZiZH03WXxkw=
+	t=1783452397; cv=none; b=VXdNHTU2k9hci6PeVTOmtYgtpIAtcfH2GMXcJhoB/kUN2SNC61hepiOeMA682HD3/U0kpEffcTLGYezoNP90NRGx9K3FG8ItuqNwjD2+IxAJ1UpfBtJWTZTVMWWIfbV7rdXIoHowYnCPH1iCrNYtAaYn9JsVCP+esv/PFmoObYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783452216; c=relaxed/simple;
-	bh=tvfVPTg3uQ934U2ZkmrytHVd+DvK7QHUy9b9fovHGdk=;
+	s=arc-20240116; t=1783452397; c=relaxed/simple;
+	bh=0/PYz8AAmDx6GuhrFyTeLVO7zjHVCWvDmL+dQgw4xUs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XoGOTtKkqFLP4RYtZDTLSjJ1a1nTuGA4SWaTTbubFhFHNtooQfJjiLajUZmRQgGaXE9Fb9kdnqC3c8h9n86xze1ClrwNOLon1zF2G5LxvITTeVTGWJ9B98e5PCwsJubVoj/CUAdr5MeE4cj4wyYfFvAJ73fDiiA0jVxq1v6B2lQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=XJoVcuMp; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=qbfUb7BKOyL8wyHO/lVFqN3draWL14ScL77zcaYOBG9/1D/hjcaegj9z4UK9p6PSav6tKXFBT60BtUxGTLaFPITffcwcp8QSaLvXFw00N6ZLLnyf254crugzgPtZUB4QM40h6e5HTOt27M/e9/QIjL7lvPlgRASO4dJVQ9FD59Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jAjyaq67; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="XJoVcuMp"
-Date: Wed, 8 Jul 2026 03:23:07 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1783452203;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EDsrPUGKqfjTB8RTfXsXzAwlfJG2kDd7rFmDKhomJL8=;
-	b=XJoVcuMpwjebIgsUK/nMkAg6Hxt3WUQvGUe7+/MiRivBbMOZD3Y2dg+xF3tnH+yoO22LUX
-	z+90dQ0U2CVpWpuKcr6b6OZqXz7ttLpNgMS+UvUqmN05avRM5YGb+UEaxml1uj+XCSe2sJ
-	tFCmUd0uC9YJUb3AfZtKJIqsl3g9vajS35LsdSJqIYoU0uL/bfBICjPKvTgYBGbNmtgHM2
-	1SeiVxz0H8owZCu0jNTS8DW/086gHKCacYsX4fQ9eY7aURaXm3V0YaLlZ6MAYBF/OrZxuo
-	hpt3YkB9VV/TqTEoZLqSVg3L522KOHTH2yPqI1pwxvcf5eqDB+B9higWbDzE/A==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: Jiandong Qiu <qiujiandong1998@gmail.com>
-Cc: Alexs Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] docs/zh_CN: update translations for
- process/changes.rst and sphinx.rst
-Message-ID: <ak1SG5mw7y2UZrvR@wyuan.org>
-References: <20260621131215.1303439-1-qiujiandong1998@gmail.com>
- <akn4oYmihmNHFOY7@wyuan.org>
- <akpxuLXKrbN7qB9o@archlinux>
- <akp9kzW3bG_pYLW8@wyuan.org>
- <akuoP6z-GMfbKucI@archlinux>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jAjyaq67"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36ABD1F000E9;
+	Tue,  7 Jul 2026 19:26:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783452396;
+	bh=0/PYz8AAmDx6GuhrFyTeLVO7zjHVCWvDmL+dQgw4xUs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jAjyaq67h3aIS9SIgV3N0ca/py7U5gGDJ5aC89MvU5eUoWjT2RFZfjUSEj1vuXR83
+	 tYWNCEnr5HCkvXepgUF7RdE0QqgA+hLFANm2im06mOdZlQcmn4TfowtJpDxm3eBfr7
+	 zDAmVP7b3JwKrQrbo06YmWuXRzbRckx7BIB/+uAQL9jG/n30RwCnt5DU+HNvCk7kNf
+	 RAwD1VOkmng/NF3jVTWYOcqZJdpTQCzgZCsQ63cGVg4V6HfDGw8ighstkSVEHfejcx
+	 YcPDR5ug8USqSHoAlzkOZmXGQdKb40oB3UtBvhhaOtk3sNbiEEnocRHWly7kr5H8+V
+	 s/U/yP7WAP4rA==
+Date: Tue, 7 Jul 2026 12:26:34 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Atish Kumar Patra <atishp@rivosinc.com>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
+	yunhui cui <cuiyunhui@bytedance.com>, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, x86@kernel.org,
+	devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 8/8] riscv_cbqri: Add CBQRI capacity allocation
+ platform driver
+Message-ID: <ak1S6stZ6Y1iLj2f@thelio>
+References: <20260706-dfustini-atl-sc-cbqri-dt-v4-0-e75c20201d64@kernel.org>
+ <20260706-dfustini-atl-sc-cbqri-dt-v4-8-e75c20201d64@kernel.org>
+ <aky9S8A5dgIJjd7b@monoceros>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wBdm7NaO/F3mvZ63"
 Content-Disposition: inline
-In-Reply-To: <akuoP6z-GMfbKucI@archlinux>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <aky9S8A5dgIJjd7b@monoceros>
 
-Hi Jiandong,
 
-Sorry for the late reply.
+--wBdm7NaO/F3mvZ63
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for delving deeply into this issue! Appreciate it! And I agree
-with your analysis on this. So I would like to adjust my font setup
-later to give it a try.
+On Tue, Jul 07, 2026 at 10:48:32AM +0200, Uwe Kleine-K=F6nig wrote:
+> Hello,
+>=20
+> On Mon, Jul 06, 2026 at 04:06:18PM -0700, Drew Fustini wrote:
+> > +#include <linux/mod_devicetable.h>
+>=20
+> Please don't add new users for this header file. Only use those
+> <linux/device-id/*.h> that you actually need (if any).
 
-Your fontconfig setup is useful for an individual reader, and it is a
-good workaround for someone who wants lore or a local editor to display
-such tables nicely. However, I don't think the document source should
-depend too much on each reader having such a setup, and that's what I
-might not express myself clearly about in my previous mail.
+Thanks for the review. I will switch to just including device-id/of.h
 
-My concern is mainly about the readability of the plain .rst source in
-common environments, such as lore (as well as git.kernel.org web
-interface), email clients, and text editors. In those places, many
-readers may not have a carefully configured 2:1 CJK/ASCII monospace
-font. So, as far as reasonable, I think it is better for the table
-boundaries to remain readable in common cases, instead of asking every
-individual reader to tune their local font configuration.
+Drew
 
-I suggest:
+--wBdm7NaO/F3mvZ63
+Content-Type: application/pgp-signature; name="signature.asc"
 
- * For the first table, keeping "optional" in English seems like a
-   simple solution. That row appears to be the only place where the CJK
-   text causes visible misalignment, and "optional" is not a difficult
-   word for kernel developers.
+-----BEGIN PGP SIGNATURE-----
 
- * For the other two tables, I agree that there may not be a perfect
-   solution that satisfies every environment. I mainly wanted to raise
-   the plain-source readability concern and ask what maintainers prefer.
+iHUEABYKAB0WIQSy8G7QpEpV9aCf6Lbb7CzD2SixDAUCak1S5gAKCRDb7CzD2Six
+DHlpAQDdGHQhtjb5i4voWvj8dOvD9/iBGOUI20Vlg8krBkESVQD8Dx9SgPodnTs4
+Y2Jx/hpo8cNk9JmOdZ9qfpeGwS1pPAE=
+=rAy4
+-----END PGP SIGNATURE-----
 
-Overall, I think we should try to keep table boundaries readable in
-common plain-text environments (i.e. without additional settings) where
-reasonably possible, but I do not think this issue should block the
-patch. (Ah, sorry, till now I do not even read the patches themselves
-yet ;-0
-
-Best regards,
-Weijie
+--wBdm7NaO/F3mvZ63--
