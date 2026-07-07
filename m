@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2250D3368B6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22591399369;
 	Tue,  7 Jul 2026 22:34:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783463681; cv=none; b=Bu6uRAHh78HM+vidHzkTvNq5zxQP4GRAhaHF3OVKZ1tDCyL1x/g9AkYBn4osNgWIqNdHWRNKVop8nNQN9Uje8A5SD7cwv1HZAGqFne0XTc5YRuHhNo5j/tomv2LCUS/nICtWvglLApWVbl51bSPiFNRk+r3SEAMfX/wKQi6OALQ=
+	t=1783463681; cv=none; b=c9Xmoj3VimL1yE7NL8MCHYiUYIkGeiyff+ApDuQXYF3gQhpTTd88aXdAwLo8/ORg1erJ+6QeUYqgVbtf/2eWDaCCzwiFGFOKRaZNWHfdwRfzyGWN1Eiqjfq+l1ADa5PiVdkVltZa+ncLQ0xyJ0ea7ZD8FVaB9ZJjuHDvr8U/8Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1783463681; c=relaxed/simple;
-	bh=xfYpIBxJe+DvZ7duMYivaR1HHOrIzRkMRoRl3Zj0Ydg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KbaVgo7Axy3kZXZ6ZxqTi8JxC3/v83MWSswAJuLsWy2oVvH3A86sT2LdH+mbrNQq9xgSjujFlMlSOM4p2vyxlqX9v8KMOuOWP6RLz4wRlhRgUIAAkas7fqmqmlf5nh5zm3YYjBESob+YJ16bAVvuKxLe1LsW0xuTD5XDzu0q7Gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E6tgH5AB; arc=none smtp.client-ip=10.30.226.201
+	bh=GKek7BKxQB7/xxzN++vZHwPvtziG5YW58YNpawvGyBs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=io62iAJ8bFM4EiHPlpbAlMDtMeaRMDjiOIrUfYDnUG+VQ08cG1bXUAu13RN4Nz+LOCFvY2lwn5WOl+2dflx1viimiLCLH8KAgTvhhdtxjY6tab3pXcCLbIv9iQtnO7BLpIXTbb8tqwjdOgsu+qkLH1aa8mh7eHPOxCc20/S+kBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RuUwh3xO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E6tgH5AB"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CA8EEC2BCF4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RuUwh3xO"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B1752C2BCB8;
 	Tue,  7 Jul 2026 22:34:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1783463680;
-	bh=xfYpIBxJe+DvZ7duMYivaR1HHOrIzRkMRoRl3Zj0Ydg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=E6tgH5AB73Q7CA58GqKBnVX9UTW0wMwnYhn6LJY4+cNWz7yBliiQAmtMwxeZ6nKvU
-	 3YcLmo7LTxWYU3DFPuZRLdByEp1qjHOaQ0c1mVf+LNyyIr7+SEkM6y5gGtWDAcQuLK
-	 N3iw62lpjL/lH3GvjdiEhtIh7vx+0z4vACj6r9lxS6X5awIEjmf9oxEYSpQtQGcOBN
-	 br1M0yMN1GUCtqq30HlP2g8INjPDhrxTo/K5CP+B53rYrwvSAk9koISrOIepu+mh97
-	 hrrwMZ/d1VLNPiYzGz1KcgA5kpE7HYSRf0vB22udZkDDA/kbBVUJ27SNo8hPZfr1iB
-	 yz19WO9MoV+2Q==
+	bh=GKek7BKxQB7/xxzN++vZHwPvtziG5YW58YNpawvGyBs=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=RuUwh3xOu3mMRBzsf3C75AiaZAfdjwhFa3tFS9nF3HJfFbiBuvKGHTuvTsv3dBRAC
+	 8MuIG5pVMf9ttkV3dt1ltjneZxZvSXPB9WvV95y9yHiXsCAlh33GofO9sMZ1Rt7aXk
+	 iiYR97UVxK4nbJ94cj8rfGoFOLUvBqOc20u6Cgf61iRV3CFX52jeFMhEawBHwpmXSD
+	 9NrjfXXcviB+VArZqxX3QGnfTyM0VFGrZcXFP67O+NJagSZsvbhkwCXeuaqTKjywT2
+	 nJ9uR+atUswtK4CNXOL0t3uGHgRLc6QlCU/Xbq3d60NE4oUOsfm/QpeTN/mjDeAXKr
+	 oXKP4Nj9VZ2WA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB4A8C44503;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CB7AC43458;
 	Tue,  7 Jul 2026 22:34:40 +0000 (UTC)
 From: Ciprian Regus via B4 Relay <devnull+ciprian.regus.analog.com@kernel.org>
-Date: Wed, 08 Jul 2026 01:33:30 +0300
-Subject: [PATCH net-next v5 02/13] net: ethernet: oa_tc6: Handle the OA TC6
- SPI protected mode
+Subject: [PATCH net-next v5 00/13] net: Add ADIN1140 support
+Date: Wed, 08 Jul 2026 01:33:28 +0300
+Message-Id: <20260708-adin1140-driver-v5-0-4aca7b51a58b@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,9 +40,11 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260708-adin1140-driver-v5-2-4aca7b51a58b@analog.com>
-References: <20260708-adin1140-driver-v5-0-4aca7b51a58b@analog.com>
-In-Reply-To: <20260708-adin1140-driver-v5-0-4aca7b51a58b@analog.com>
+X-B4-Tracking: v=1; b=H4sIALh+TWoC/2XQwY4CIQwG4FcxnJdNoSC4p30P4wFpVZJdxjATo
+ jHz7hIuari1+dOvaR9i5pJ4Fj+bhyhc05ym3Br7tRHxEvKZZaLWCw16C0bvZKCUlTIgqaTKRe4
+ wMBC6LSov2tS18CndurgXmReZ+baIQ0suaV6mcu+rqup5Vy3goFYlW01gMBJ5f4LfkMPfdP6O0
+ 3/Hqn4DtBsB3QB0bKMnwxBGAF9Au2wEsAGW+EhHVA6jGQDzDoyPqaYB4Cyy9swAn8C6rk/4PjQ
+ 8fAEAAA==
 To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
  Andrew Lunn <andrew+netdev@lunn.ch>, 
  "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
@@ -56,13 +57,14 @@ To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
  Conor Dooley <conor+dt@kernel.org>
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, devicetree@vger.kernel.org, 
- Ciprian Regus <ciprian.regus@analog.com>
+ Ciprian Regus <ciprian.regus@analog.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783463678; l=8803;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783463678; l=7828;
  i=ciprian.regus@analog.com; s=20260330; h=from:subject:message-id;
- bh=SM0rmSB5zit7aaPvFAKTNfnnH6p7eTfSSvlehEnKdhc=;
- b=ZoG2gRlmpu8OU3R0Hqm67ZbN7WXJXnVElw2uZs7iPRe66q3P3pjF+UPekuEFnopeasjeAOzhb
- BF4eCYv177tB+BygLaRrj+ehPkiQ42K8Jzu6Q1qalUovjPfDXtNwVyv
+ bh=GKek7BKxQB7/xxzN++vZHwPvtziG5YW58YNpawvGyBs=;
+ b=Z/jUDDxu4FoUgkngr88l/D/Q7DfRrjnKeHq5WdVUuZvzZJIcjxISuATxdQnZ/F80zbyfxVhfS
+ vcOKFfqQW7TB/0x0WXA2tWx9hnajZoZ8joeMj6+K7jh8eoGIdPH5mrc
 X-Developer-Key: i=ciprian.regus@analog.com; a=ed25519;
  pk=8WoNhI0kQcQUl8YqJO5ZevROYk9HP8lOIeIgIYgjfbc=
 X-Endpoint-Received: by B4 Relay for ciprian.regus@analog.com/20260330 with
@@ -70,266 +72,150 @@ X-Endpoint-Received: by B4 Relay for ciprian.regus@analog.com/20260330 with
 X-Original-From: Ciprian Regus <ciprian.regus@analog.com>
 Reply-To: ciprian.regus@analog.com
 
-From: Ciprian Regus <ciprian.regus@analog.com>
+This series introduces support for the ADIN1140 (also called AD3306)
+10BASE-T1S single port MACPHY. The device integrates the MAC and PHY in
+the same package. The communication with the host CPU is done through an
+SPI interface, using the Open Alliance TC6 protocol for control and data
+transactions. As a result, the oa_tc6 framework is used to implement
+the communication with the device (register accesses and Ethernet frame
+RX/TX).
 
-Implement the OA TC6 standard defined protected mode for control (register
-access) transactions. In addition to the current register access formats
-the oa_tc6 driver handles, 1's complement values of the data field
-are included (by both the host and the MACPHY) in the SPI transfer frames.
-This feature acts as an integrity check.
+The MAC and PHY are connected internally using an MII and MDIO bus.
 
-Control write transactions look like this:
+The PHY is a half duplex 10Mbps device, which implements both the PLCA
+RS (IEEE 802.3 clause 148) and CSMA/CD methods of accessing the Ethernet
+medium. The 10BASE-T1S standard allows multiple PHY devices to be
+connected (in parallel) on the same single twisted pair network segment,
+so PLCA can be configured in order to provide a fair access scheme to
+all the nodes and reduce the jitter introduced by the unordered CSMA/CD
+transmits. The PHY's internal register map can be accessed using the
+direct MDIO mode of the OA TC6. The control, status, phy id 1 & 2 C22
+registers are mapped to the 0xFF00 - 0xFF03 range. As for C45
+addressable devices, the PHY has PCS, PMA and PLCA blocks.
 
-          |<- 32 bits ->|<--- data_size --->|<- 32 bits ->|
-    MOSI: | ctrl header | reg write data    | ignored     |
-    MISO: | (discard)   | echoed ctrl hdr   | echoed data |
+The oa_tc6 framework patches are changes that would make the library
+usable by the subsequent ADIN1140 MAC driver.
 
-    data_size (LEN = number of registers to read in a sequence):
-      Unprotected: 32 x (LEN + 1) bits
-      Protected:   2 x 32 x (LEN + 1) bits
+The protected mode patch is required because the ADIN1140 only allows
+protected mode OA TC6 control transactions, which the oa_tc6 framework
+doesn't currently implement.
 
-Control read transaction:
+The OA_TC6_BROKEN_PHY quirk patch is required in order to allow the MAC
+driver to have a custom implementation for the mii_bus access methods as a
+workaround for hardware issues:
 
-          |<- 32 bits ->|<--- 32 bits --> |<- data_size ->|
-    MOSI: | ctrl header | ignored ...                     |
-    MISO: | (discard)   | echoed ctrl hdr | reg read data |
+1. The OA TC6 standard defines the direct and indirect access modes for
+   MDIO transactions. The ADIN1140 incorrectly advertises indirect mode
+   only (supported capabilities register - 0x2, bit 9), while actually
+   implementing just the direct mode. We cannot rely on the CAP register
+   to choose an access method (which oa_tc6 does by default, even though
+   it only implements the direct mode), so the driver has to use its
+   own.
+2. The ADIN1140 cannot access the C22 register space of the internal
+   PHY, while the PHY is busy receiving frames. If that happens, the
+   CONFIG0 and CONFIG2 registers of the MAC will get corrupted and the
+   data transfer will stop. Those two registers configure settings for
+   the transfer protocol between the MAC and host, so the value for some
+   of their subfields shouldn't be changed while the netdev is up.
+   Since we know the PHY is internal, the MAC driver can implement a
+   custom mii_bus, which can intercept C22 accesses. Most of the
+   registers mapped in the 0x0 - 0x3 range (the only ones the PHY offers)
+   are read only, and their value can be read from somewhere else (e.g
+   the PHYID 1 & 2 have the same value as 0x1 in the MAC memory map).
+   C45 accesses do not cause this issue, so we can properly implement
+   them.
 
-    data_size (LEN = number of registers to read in a sequence):
-      Unprotected: 32 x (LEN + 1) bits
-      Protected:   2 x 32 x (LEN + 1) bits
-
-Register data format ("reg write data" and "reg read data"):
-
-    Unprotected:
-      | W1 (normal) | W2 (normal) | ... | Wx (normal) |
-
-    Protected:
-    | W1 (normal) | W1 (complement) | ... | Wx (normal) | Wx (complement)|
-
-The protected mode state can be read from the bit 5 of CONFIG0 (0x4)
-register, and this setting is usually only configured during the
-MACPHY's reset (depending on the device it can be done by setting the
-state of a pin). We can read the protected mode configuration before any
-other register access and since the SPI transfer is initially sized for an
-unprotected read, the MACPHY's complement words are never clocked out
-and no checking is required. The data transactions (Ethernet frames)
-remain unchanged.
+Even though they have different driver, the MAC one cannot function
+without the PHY driver, since the PHY is not compatible with the generic
+c22 driver. As such CONFIG_ADIN1140 selects CONFIG_ADIN1140_PHY.
 
 Signed-off-by: Ciprian Regus <ciprian.regus@analog.com>
+---
+Changes in v5:
+- Used ndo_set_rx_mode_async instead of ndo_set_rx_mode for configuring
+  the MAC filter table in the adin1140 driver.
+- Updated the MAC filter logic to allow setting individual
+  unicast/multicast entries when IFF_ALLMULTI is enabled.
+- Configured the MAC hardware to clear statistics registers on read and
+  accumulated the values in the software stats counter.
+- Removed some MAC statistics counters from the custom ethtool strings,
+  since they were already included in the standard set.
+- Link to v4: https://lore.kernel.org/r/20260609-adin1140-driver-v4-0-0753e28ee004@analog.com
+
+Changes in v4:
+- Renamed the dt bindings file after the adi,ad3306 compatible.
+- Renamed a few register address macros to match the OA TC6 standard and
+  the ADIN1140 reference manual.
+- Link to v3: https://lore.kernel.org/r/20260604-adin1140-driver-v3-0-5debdb3173c4@analog.com
+
+Changes in v3:
+- Added adi,ad3306 as a fallback compatible in the DT schema.
+- Keep the current spi_device and net_device parameters for
+  oa_tc6_init() and add a new struct parameter for passing the quirk
+  flags, insted of changing the function to take a single config
+  parameter.
+- Add the oa_tc6_write_register_mms() and oa_tc6_read_register_mms()
+  functions instead of defining a new macro for MMS and register address
+  formatting.
+- Split the OA TC6 register address macro exports patch into two
+  different commits (export + rename).
+- Use the devres API for mii_bus and net_device management in the
+  ADIN1140 driver.
+- Fix a bug related to the destination MAC filter mask in the ADIN1140
+  driver.
+- Link to v2: https://lore.kernel.org/r/20260527-adin1140-driver-v2-0-37e5c8d4e0a0@analog.com
+
+Changes in v2:
+- Add the OA_TC6_BROKEN_PHY quirk flag to the oa_tc6 framework in order
+  to allow ethernet drivers to manage their own mii_bus struct and PHY.
+- Move the OA TC6 standard register definitions in the oa_tc6.h header
+  so other drivers can use them. Do the same for the C45 access
+  functions
+- Add the genphy_read_mmd_c45 and genphy_write_mmd_c45 functions to
+  genphy, which allow drivers that have been discovered over C22 to make
+  direct C45 operations, without using the 0xD and 0xE register. The
+  change was implemented based on the suggestion in this thread:
+  https://lore.kernel.org/all/CY8PR02MB9249CDA8F2C560FDD0F662D883382@CY8PR02MB9249.namprd02.prod.outlook.com/
+- Link to v1: https://lore.kernel.org/r/20260503-adin1140-driver-v1-0-dd043cdd88f0@analog.com
 
 ---
-v5 changelog:
- - no change
-v4 changelog:
- - no change
-v3 changelog:
- - no change
-v2 changelog:
- - Updated OA_TC6_CTRL_SPI_BUF_SIZE to always alloc the control
-   transaction buffer size required by the protected mode, instead of
-   calling krealloc if the PROTE bit is set.
- - Formatting to fit the 80 character column limit.
+Ciprian Regus (13):
+      dt-bindings: net: Add ADIN1140
+      net: ethernet: oa_tc6: Handle the OA TC6 SPI protected mode
+      net: ethernet: oa_tc6: add OA_TC6_BROKEN_PHY quirk flag
+      net: ethernet: oa_tc6: Export the C45 access functions
+      net: ethernet: oa_tc6: Export standard defined registers
+      net: ethernet: oa_tc6: Add the OA_TC6_ prefix to standard registers
+      net: ethernet: oa_tc6: Add read_mms/write_mms register access functions
+      net: ethernet: oa_tc6: Use the read_mms/write_mms functions for C45
+      net: ethernet: oa_tc6: Add new register address defines
+      net: phy: add generic helpers for direct C45 MMD access
+      net: phy: microchip-t1s: use generic C45 MMD access helpers
+      net: phy: Add support for the ADIN1140 PHY
+      net: ethernet: adi: Add a driver for the ADIN1140 MACPHY
+
+ .../devicetree/bindings/net/adi,ad3306.yaml        |  71 ++
+ Documentation/networking/oa-tc6-framework.rst      |   3 +-
+ MAINTAINERS                                        |  15 +
+ drivers/net/ethernet/adi/Kconfig                   |  12 +
+ drivers/net/ethernet/adi/Makefile                  |   1 +
+ drivers/net/ethernet/adi/adin1140.c                | 791 +++++++++++++++++++++
+ drivers/net/ethernet/microchip/lan865x/lan865x.c   |   2 +-
+ drivers/net/ethernet/oa_tc6.c                      | 263 ++++---
+ drivers/net/phy/Kconfig                            |   6 +
+ drivers/net/phy/Makefile                           |   1 +
+ drivers/net/phy/adin1140-phy.c                     |  72 ++
+ drivers/net/phy/microchip_t1s.c                    |  32 +-
+ drivers/net/phy/phy_device.c                       |  25 +
+ include/linux/oa_tc6.h                             |  73 +-
+ include/linux/phy.h                                |   3 +
+ 15 files changed, 1240 insertions(+), 130 deletions(-)
 ---
- drivers/net/ethernet/oa_tc6.c | 93 +++++++++++++++++++++++++++++++++++--------
- 1 file changed, 76 insertions(+), 17 deletions(-)
+base-commit: 538d89fd914610852a6fb20b823ba70566153d46
+change-id: 20260429-adin1140-driver-93ae0d376318
 
-diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6.c
-index 0727d53345a3..8b9655883496 100644
---- a/drivers/net/ethernet/oa_tc6.c
-+++ b/drivers/net/ethernet/oa_tc6.c
-@@ -25,6 +25,7 @@
- #define OA_TC6_REG_CONFIG0			0x0004
- #define CONFIG0_SYNC				BIT(15)
- #define CONFIG0_ZARFE_ENABLE			BIT(12)
-+#define CONFIG0_PROTE				BIT(5)
- 
- /* Status Register #0 */
- #define OA_TC6_REG_STATUS0			0x0008
-@@ -90,14 +91,17 @@
- #define OA_TC6_PHY_C45_AUTO_NEG_MMS5		5	/* MMD 7 */
- #define OA_TC6_PHY_C45_POWER_UNIT_MMS6		6	/* MMD 13 */
- 
-+#define OA_TC6_CTRL_PROT_REPLY_SIZE		4
- #define OA_TC6_CTRL_HEADER_SIZE			4
- #define OA_TC6_CTRL_REG_VALUE_SIZE		4
- #define OA_TC6_CTRL_IGNORED_SIZE		4
- #define OA_TC6_CTRL_MAX_REGISTERS		128
--#define OA_TC6_CTRL_SPI_BUF_SIZE		(OA_TC6_CTRL_HEADER_SIZE +\
--						(OA_TC6_CTRL_MAX_REGISTERS *\
--						OA_TC6_CTRL_REG_VALUE_SIZE) +\
--						OA_TC6_CTRL_IGNORED_SIZE)
-+#define OA_TC6_CTRL_SPI_BUF_SIZE	(OA_TC6_CTRL_HEADER_SIZE +\
-+					(OA_TC6_CTRL_MAX_REGISTERS *\
-+					(OA_TC6_CTRL_REG_VALUE_SIZE +\
-+					OA_TC6_CTRL_PROT_REPLY_SIZE)) +\
-+					OA_TC6_CTRL_IGNORED_SIZE)
-+
- #define OA_TC6_CHUNK_PAYLOAD_SIZE		64
- #define OA_TC6_DATA_HEADER_SIZE			4
- #define OA_TC6_CHUNK_SIZE			(OA_TC6_DATA_HEADER_SIZE +\
-@@ -130,6 +134,7 @@ struct oa_tc6 {
- 	bool rx_buf_overflow;
- 	bool int_flag;
- 	bool disable_traffic;
-+	bool prot_ctrl;
- };
- 
- enum oa_tc6_header_type {
-@@ -213,25 +218,36 @@ static void oa_tc6_update_ctrl_write_data(struct oa_tc6 *tc6, u32 value[],
- {
- 	__be32 *tx_buf = tc6->spi_ctrl_tx_buf + OA_TC6_CTRL_HEADER_SIZE;
- 
--	for (int i = 0; i < length; i++)
-+	for (int i = 0; i < length; i++) {
- 		*tx_buf++ = cpu_to_be32(value[i]);
-+		if (tc6->prot_ctrl)
-+			*tx_buf++ = cpu_to_be32(~value[i]);
-+	}
- }
- 
--static u16 oa_tc6_calculate_ctrl_buf_size(u8 length)
-+static u16 oa_tc6_calculate_ctrl_buf_size(u8 length, bool ctrl_prot)
- {
-+	u32 reply_size = OA_TC6_CTRL_REG_VALUE_SIZE;
-+
-+	if (ctrl_prot)
-+		reply_size += OA_TC6_CTRL_PROT_REPLY_SIZE;
-+
- 	/* Control command consists 4 bytes header + 4 bytes register value for
--	 * each register + 4 bytes ignored value.
-+	 * each register (+ 4 bytes for the register value complement in case
-+	 * protected mode is used) + 4 bytes ignored value.
- 	 */
--	return OA_TC6_CTRL_HEADER_SIZE + OA_TC6_CTRL_REG_VALUE_SIZE * length +
-+	return OA_TC6_CTRL_HEADER_SIZE + reply_size * length +
- 	       OA_TC6_CTRL_IGNORED_SIZE;
- }
- 
- static void oa_tc6_prepare_ctrl_spi_buf(struct oa_tc6 *tc6, u32 address,
- 					u32 value[], u8 length,
--					enum oa_tc6_register_op reg_op)
-+					enum oa_tc6_register_op reg_op,
-+					u16 buf_size)
- {
- 	__be32 *tx_buf = tc6->spi_ctrl_tx_buf;
- 
-+	memset(tx_buf, 0, buf_size);
- 	*tx_buf = oa_tc6_prepare_ctrl_header(address, length, reg_op);
- 
- 	if (reg_op == OA_TC6_CTRL_REG_WRITE)
-@@ -254,10 +270,12 @@ static int oa_tc6_check_ctrl_write_reply(struct oa_tc6 *tc6, u8 size)
- 	return 0;
- }
- 
--static int oa_tc6_check_ctrl_read_reply(struct oa_tc6 *tc6, u8 size)
-+static int oa_tc6_check_ctrl_read_reply(struct oa_tc6 *tc6, u8 length)
- {
--	u32 *rx_buf = tc6->spi_ctrl_rx_buf + OA_TC6_CTRL_IGNORED_SIZE;
--	u32 *tx_buf = tc6->spi_ctrl_tx_buf;
-+	__be32 *rx_buf = tc6->spi_ctrl_rx_buf + OA_TC6_CTRL_IGNORED_SIZE;
-+	__be32 *tx_buf = tc6->spi_ctrl_tx_buf;
-+	u32 complement;
-+	u32 reply;
- 
- 	/* The echoed control read header must match with the one that was
- 	 * transmitted.
-@@ -265,6 +283,20 @@ static int oa_tc6_check_ctrl_read_reply(struct oa_tc6 *tc6, u8 size)
- 	if (*tx_buf != *rx_buf)
- 		return -EPROTO;
- 
-+	if (tc6->prot_ctrl) {
-+		/* Skip past the echoed header to the value/complement pairs */
-+		rx_buf += 1;
-+		for (int i = 0; i < length; i++) {
-+			reply = be32_to_cpu(rx_buf[0]);
-+			complement = be32_to_cpu(rx_buf[1]);
-+
-+			if (complement != ~reply)
-+				return -EPROTO;
-+
-+			rx_buf += 2;
-+		}
-+	}
-+
- 	return 0;
- }
- 
-@@ -274,8 +306,13 @@ static void oa_tc6_copy_ctrl_read_data(struct oa_tc6 *tc6, u32 value[],
- 	__be32 *rx_buf = tc6->spi_ctrl_rx_buf + OA_TC6_CTRL_IGNORED_SIZE +
- 			 OA_TC6_CTRL_HEADER_SIZE;
- 
--	for (int i = 0; i < length; i++)
-+	for (int i = 0; i < length; i++) {
- 		value[i] = be32_to_cpu(*rx_buf++);
-+
-+		/* skip complement word */
-+		if (tc6->prot_ctrl)
-+			rx_buf++;
-+	}
- }
- 
- static int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 address, u32 value[],
-@@ -284,10 +321,10 @@ static int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 address, u32 value[],
- 	u16 size;
- 	int ret;
- 
--	/* Prepare control command and copy to SPI control buffer */
--	oa_tc6_prepare_ctrl_spi_buf(tc6, address, value, length, reg_op);
-+	size = oa_tc6_calculate_ctrl_buf_size(length, tc6->prot_ctrl);
- 
--	size = oa_tc6_calculate_ctrl_buf_size(length);
-+	/* Prepare control command and copy to SPI control buffer */
-+	oa_tc6_prepare_ctrl_spi_buf(tc6, address, value, length, reg_op, size);
- 
- 	/* Perform SPI transfer */
- 	ret = oa_tc6_spi_transfer(tc6, OA_TC6_CTRL_HEADER, size);
-@@ -302,7 +339,7 @@ static int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 address, u32 value[],
- 		return oa_tc6_check_ctrl_write_reply(tc6, size);
- 
- 	/* Check echoed/received control read command reply for errors */
--	ret = oa_tc6_check_ctrl_read_reply(tc6, size);
-+	ret = oa_tc6_check_ctrl_read_reply(tc6, length);
- 	if (ret)
- 		return ret;
- 
-@@ -1272,6 +1309,20 @@ netdev_tx_t oa_tc6_start_xmit(struct oa_tc6 *tc6, struct sk_buff *skb)
- }
- EXPORT_SYMBOL_GPL(oa_tc6_start_xmit);
- 
-+static int oa_tc6_check_ctrl_protection(struct oa_tc6 *tc6)
-+{
-+	u32 regval;
-+	int ret;
-+
-+	ret = oa_tc6_read_register(tc6, OA_TC6_REG_CONFIG0, &regval);
-+	if (ret)
-+		return ret;
-+
-+	tc6->prot_ctrl = FIELD_GET(CONFIG0_PROTE, regval);
-+
-+	return 0;
-+}
-+
- /**
-  * oa_tc6_init - allocates and initializes oa_tc6 structure.
-  * @spi: device with which data will be exchanged.
-@@ -1324,6 +1375,14 @@ struct oa_tc6 *oa_tc6_init(struct spi_device *spi, struct net_device *netdev)
- 	if (!tc6->spi_data_rx_buf)
- 		return NULL;
- 
-+	/* Check the PROTE bit status so that we can reset the device */
-+	ret = oa_tc6_check_ctrl_protection(tc6);
-+	if (ret) {
-+		dev_err(&tc6->spi->dev,
-+			"Failed to check the protection mode: %d\n", ret);
-+		return NULL;
-+	}
-+
- 	ret = oa_tc6_sw_reset_macphy(tc6);
- 	if (ret) {
- 		dev_err(&tc6->spi->dev,
-
+Best regards,
 -- 
-2.43.0
+Ciprian Regus <ciprian.regus@analog.com>
 
 
