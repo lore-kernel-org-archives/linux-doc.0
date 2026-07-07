@@ -1,60 +1,60 @@
 Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA683AB5DC;
-	Tue,  7 Jul 2026 06:48:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD383B1022;
+	Tue,  7 Jul 2026 06:50:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783406906; cv=none; b=fUBjklkmqO/vcbINcjt1+MwBbvGGKnkuDtPNDBU8Cg4PDYOJQXs2NuQXMv4pwI8lUz85cHwgflDqVbhPBpCTDuUY9D06BqAWoWrOWxY4mfCAa7Xbj45/jgUymuQxzWZutIqoZrzVKdAS8BIJLYu+KlknhziLfLhs3M9rffsFPis=
+	t=1783407046; cv=none; b=ky6quOsEcLfjXHHH7EKkIri1Ik6NREOwRMMYM/o7T6J1+vfK+8x5SxYBm9Ah8f0KXTwteN3Q6KeVw0qzah85Trq+ti5Y2k8YH/GZ2Ym/EQ/eXc85A5YDrlwMzE3XRMjCP9tKELgHRXo4pMRFsLXDwTmJzCcylzn3YhOkuM3Z6s8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783406906; c=relaxed/simple;
-	bh=1ydsa+fOQJZODM1Y+IOoRshQlH1TQjxeguwrEGSBnrE=;
+	s=arc-20240116; t=1783407046; c=relaxed/simple;
+	bh=kTb0TX9bsC5BbfSENAaM66NKvWylS4yA1Y+fZCtVBak=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pDyXdXPzGcmMfaXX5i6rXymmitySY/goLWHFJtOb+6I3cOtDpjdJJH+QNFLQ+gceuwXs4hDXsRym0jQLtQ/5yQBD0hShfPf7drcPReRp8Hl3ofGxEP8FrXiPJHPmybCj549Shq0gXyVfdB2inQms2u67L3vMOOJOl2g8oQNfcks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=tb68d3LC; arc=none smtp.client-ip=148.163.158.5
+	 In-Reply-To:Content-Type; b=nB4FhFXvdT0Xsalq10kGeyNsxwBENxLg3i5FNALkKZ1i2vo4hRRmwnrzTe3Ve8rfl0kuItp30Rt/bq+bcgWs0G+TvtT6AG/4U0zfJlIx/SOhu6gEYMlWqklfUaHRkfW2H6B1Kl2VQ3o4ywfptePvzQnM4VdqMaCWnErCYNvqaf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=kOIYGzXA; arc=none smtp.client-ip=148.163.158.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="tb68d3LC"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="kOIYGzXA"
 Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6674IMCj2519194;
-	Tue, 7 Jul 2026 06:48:04 GMT
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6674IlRa2520119;
+	Tue, 7 Jul 2026 06:50:23 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=HRvaSa
-	kncrh09qu13k1xczOPMDayMpdxhshKMIwUdJM=; b=tb68d3LC9aMr8GRzjpEy0h
-	i3u59pb2dvwhOzn4siG/g5GdLx0nydZa2ZdkG4fBPcg3oiJSKX6FzIMAZc4oRlu5
-	hrgeptBBl9hbT5DG2ZcYTrVppzZh3UCJGka7EGk8hbgiazYARdjDfwBzWQUP9EIy
-	Fnz2qcvIxX8cVqxjr6Vdl7L97Vxr1OuiTCJB5vzbtc+oQknulOnKlbgsKXbPpPJ6
-	+dpQHX2E8vnMon5GDhpbPO/HPCGPrLnohD9tFegRwl6Ylimun+lGsLiw3/cqtzTb
-	MqqQnLlIEc2cCbBPArZ99HhZ4RSj6+xNoA3tjKMTmUNkEW9S7Syk4fiIoMuEqPgg
+	:message-id:mime-version:references:subject:to; s=pp1; bh=vXMk/U
+	jf8AkORHWqpXWcXzu92DQaBwdc8poSsdU1RLk=; b=kOIYGzXAu9ESa9hgpc+/5Z
+	ud/1uoOikXSmG/a5K+lPJHjCxlW9VxHlRnMiFih6Td4QkCYnO/rCgOZMpCyjHyKY
+	BLnJK5xO0ZrFAcnP7Gmqdre2VwQ0BuuQVs6XFW61Zzv7v3jJrCCc7TLZoC3NQv06
+	KZbWAuNjy30fOFfy316Na9Jwis2aMnJNKUpEKyMT7mBHhIuactocrhfg7lzarNCb
+	pXd+uxq00Z7tKmyv+lMzLhNmfRX71WsgN2HD7/5JWKBJN6EFqWfZET1bZ6XHqER3
+	aasJOgFtiqsxFXin9P3OpBTB19nqyUl7zUE3pJJ4rqvqIkKsBgN6CnFrlifGwX4A
 	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6qkndfqs-1
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6qkndg1d-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 Jul 2026 06:48:02 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6676Yc6A010050;
-	Tue, 7 Jul 2026 06:48:02 GMT
+	Tue, 07 Jul 2026 06:50:22 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6676ni5t029869;
+	Tue, 7 Jul 2026 06:50:21 GMT
 Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f7dgk1ce6-1
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4f7f6y11xk-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 Jul 2026 06:48:01 +0000 (GMT)
+	Tue, 07 Jul 2026 06:50:21 +0000 (GMT)
 Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6676lvur48628022
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6676oHEu50856278
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 7 Jul 2026 06:47:57 GMT
+	Tue, 7 Jul 2026 06:50:17 GMT
 Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B60BE20043;
-	Tue,  7 Jul 2026 06:47:57 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 8EC222004B;
+	Tue,  7 Jul 2026 06:50:17 +0000 (GMT)
 Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 19A2520040;
-	Tue,  7 Jul 2026 06:47:49 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id D615020040;
+	Tue,  7 Jul 2026 06:50:08 +0000 (GMT)
 Received: from [9.124.214.176] (unknown [9.124.214.176])
 	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  7 Jul 2026 06:47:48 +0000 (GMT)
-Message-ID: <796920fb-7355-4c5f-aa7c-6ff8a4c55b7a@linux.ibm.com>
-Date: Tue, 7 Jul 2026 12:17:47 +0530
+	Tue,  7 Jul 2026 06:50:08 +0000 (GMT)
+Message-ID: <efec9ac9-6301-40fc-a466-73e4a595766d@linux.ibm.com>
+Date: Tue, 7 Jul 2026 12:20:07 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,7 +62,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 12/23] virt: Introduce steal monitor driver
+Subject: Re: [PATCH v6 17/23] virt/steal_monitor: Provide default method to
+ get systemwide steal time
 To: Yury Norov <ynorov@nvidia.com>
 Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
         juri.lelli@redhat.com, vincent.guittot@linaro.org,
@@ -77,34 +78,33 @@ Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
         rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
         linux-doc@vger.kernel.org
 References: <20260701141654.500125-1-sshegde@linux.ibm.com>
- <20260701141654.500125-13-sshegde@linux.ibm.com> <akf9cE22wvPeYNiM@yury>
- <akf_Kg3jaenNbb-g@yury> <ce2b5699-8e22-4eb4-bd55-c3df5ff30f74@linux.ibm.com>
- <akv4vGpII2tx4gSZ@yury>
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
+ <20260701141654.500125-18-sshegde@linux.ibm.com> <akgKfm_sSl_ZAXfT@yury>
+ <8efa7a72-18c1-44b8-aaaf-80006a7c8fff@linux.ibm.com> <akv8UNpSfrrkH2aU@yury>
 Content-Language: en-US
-In-Reply-To: <akv4vGpII2tx4gSZ@yury>
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+In-Reply-To: <akv8UNpSfrrkH2aU@yury>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=Q/XiJY2a c=1 sm=1 tr=0 ts=6a4ca123 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+X-Authority-Analysis: v=2.4 cv=Q/XiJY2a c=1 sm=1 tr=0 ts=6a4ca1ae cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
  a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=NEAV23lmAAAA:8
- a=7b60b9dzrNT4AM6lYCgA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: dkpKwFEarqz-Pm6DD6P1_dyhKgddLeEt
-X-Proofpoint-ORIG-GUID: VkeC1_Ti8Y1XqOMbmrvwe9lvWGR7yPY7
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA3MDA2NCBTYWx0ZWRfXxbzcie/fOYO4
- dNp89MCtawOWOfZSO2gnqRmk+arH9jgraqZzOxF2AxoaoaJI+MFcTUmHI8GpocFRvBqpBf3+BHd
- aWaRxiLJtSUX6I3dxm1U0Lpx60cT2Uc=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA3MDA2NCBTYWx0ZWRfXxHAj3IF9qY5T
- blHJJOPdmZLIbMC+f3+QHMSuFO9rUv+cv2HG1VLve9rxW+lai/c+sjYrqdKBnfc1lhtd86z1bA0
- RRvSgU6JEqBKVMhGH2vhLiHec3pbgvkLOJsC7LRqFUW3P5r7wn5a8y22wy8wGmqHA6Cq3b5tHMT
- ENV9pf7yJphlXX/CWfFu3keHxUw3Wu+WxNQgX4MQCf6IKhp7MUmNXMf28cOHJZqRccKBzy6OsuA
- tzbfZ8F/JtaiwFpPcHOwSL/7NSdf+L9KHvjVeJRvLEKTEkPc7cuvcbmswQC7RymZrK5MKuUuPcg
- exE6FY3VELhn/KB+ySRM8uC1Ymh0pGQzm8yf0daoMcg1y5j2Axo9GH4h6CeaSfR8vMEcQPMWTra
- BOFQR3dBmZ5FzXFENPl1CTqo81cI9NQdJQdmqAnyQXiU16/HMF8oLEM1uvtl2QNQwmkBpnBDHgD
- pWZO5SlmEqz7FRH6QpQ==
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8
+ a=31w_dGClEHoRUF-FxQoA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: slDuxLYG8riQO-kSpKuNF-yJXFqqStxL
+X-Proofpoint-ORIG-GUID: Ev5pf9nlbRQPQLjTGGk7c6zinYlgfaLw
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA3MDA2NCBTYWx0ZWRfX8ZJ132PlGlGH
+ gBVzIYvaFJ2P4MTpI7pu24mstTqhqHW/ApCx6tSqGA6+Q9fpgaZOEM3hvLsFkqQ6Dux1nGEDRVD
+ dNASvoxKg3dXHVdvf9ipy+wRh6uYOfI=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA3MDA2NCBTYWx0ZWRfX+zglNhfT9JY/
+ ZfXhqm+qEBjR1bUlCEoLo6t4GPoGaRhDAHOMF9Ajde0t8xLqnuxcrG83Mi50M5m0QU7K2N4L8ux
+ iUqtQDlNYrn8TF2KZQrCVNzU2Dm1xUoTN9eGjC2yuGcrqu/iYWg5K94FffXFpIIqDnNCiKqJMCu
+ VGxIoVEwUv+InnLsc2z3y8Du/muoRQrUGCnqC3uN3uG1cCz2tRuL0Q7Mkz7J07gJjpW5axREuI4
+ 3TCAyHEWrarwG8M3qdAwqNcYtq1+GYxrSdPWCqkT5JvLYxeL5p9vn1nuNj1h3PCM+jnYb1buarq
+ Odd/zJHJARblmRNCTYB5JvoP4t8z9499Ya8YfjFW2wMffTlXiqXgzYkO5lc70URfmbXy1BeFCL/
+ O9xN4kKuJpPtUJy99tkppnMlpLcw6xyHHGV8DG5rMzlgb7P2J3DqmJlbajhauKwtmFZdtxPqpDs
+ 8zdKC37Ec3742usehYQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-07_01,2026-07-06_02,2025-10-01_01
@@ -114,134 +114,98 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607070064
 
-Hi Yury,
 
-On 7/7/26 12:19 AM, Yury Norov wrote:
-> On Mon, Jul 06, 2026 at 01:54:05PM +0530, Shrikanth Hegde wrote:
+
+On 7/7/26 12:34 AM, Yury Norov wrote:
+> On Mon, Jul 06, 2026 at 02:17:15PM +0530, Shrikanth Hegde wrote:
 >>
 >>
->> On 7/3/26 11:57 PM, Yury Norov wrote:
->>> On Fri, Jul 03, 2026 at 02:20:32PM -0400, Yury Norov wrote:
->>>> On Wed, Jul 01, 2026 at 07:46:43PM +0530, Shrikanth Hegde wrote:
->>>>> Introduce a new driver in virt named steal_monitor. This driver
->>>>> will compute the steal time and drive the policy decisions of preferred
->>>>> CPU state.
->>>>>
->>>>> More on it can be found in the Documentation/driver-api/steal-monitor.rst
->>>>> Introduce the skeleton code first.
->>>>>
->>>>> There is no new kconfig. It depends on CONFIG_PREFERRED_CPU.
->>>>> - If CONFIG_PREFERRED_CPU=y, it gets compiled as a module. It is not
->>>>>     loaded by default.
+>> On 7/4/26 12:46 AM, Yury Norov wrote:
+>>> On Wed, Jul 01, 2026 at 07:46:48PM +0530, Shrikanth Hegde wrote:
+>>>> steal monitor takes global view of steal time instead of individual
+>>>> vCPU. For this collect overall steal values across all the vCPUs or
+>>>> vCPUs of interest.
+>>>>
+>>>> Default implementation chooses steal time across all active CPUs.
+>>>>
+>>>> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+>>>> ---
+>>>> v5->v6:
+>>>> - Add cpus_read_lock() for hotplug safety
+>>>>
+>>>>    drivers/virt/steal_monitor/Makefile   |  2 +-
+>>>>    drivers/virt/steal_monitor/defaults.c | 28 +++++++++++++++++++++++++++
+>>>>    drivers/virt/steal_monitor/sm_core.h  |  3 +++
+>>>>    3 files changed, 32 insertions(+), 1 deletion(-)
+>>>>    create mode 100644 drivers/virt/steal_monitor/defaults.c
+>>>>
+>>>> diff --git a/drivers/virt/steal_monitor/Makefile b/drivers/virt/steal_monitor/Makefile
+>>>> index 24cee55342ce..7c16f8cf9583 100644
+>>>> --- a/drivers/virt/steal_monitor/Makefile
+>>>> +++ b/drivers/virt/steal_monitor/Makefile
+>>>> @@ -11,4 +11,4 @@
+>>>>    #
+>>>>    obj-$(subst y,m,$(CONFIG_PREFERRED_CPU)) += steal_monitor.o
+>>>> -steal_monitor-y := sm_core.o
+>>>> +steal_monitor-y := sm_core.o defaults.o
+>>>> diff --git a/drivers/virt/steal_monitor/defaults.c b/drivers/virt/steal_monitor/defaults.c
+>>>> new file mode 100644
+>>>> index 000000000000..6681f9938f6a
+>>>> --- /dev/null
+>>>> +++ b/drivers/virt/steal_monitor/defaults.c
+>>>> @@ -0,0 +1,28 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0-only
+>>>> +/*
+>>>> + * Base file contains the default implementations.
+>>>> + * These are defined as __weak so that arch may define
+>>>> + * strong symbols to override.
 >>>
->>> What if I've got my own monitor, and don't need this one? Please add a
->>> way to not compile it, even if CONFIG_PREFERRED_CPU is enabled.
+>>> But there's no arch doing that, right? It looks like overcomplication
+>>> with no benefit.
+>>>
+>>> There's just ~50 drivers defining weak symbols, so this is not a
+>>> common practice. I think it would be much simpler for the arch people
+>>> to simply write their own driver controlling cpu_preferred_mask,
+>>> rather than tweaking your code.
 >>>
 >>
->> You mean make a new config like VIRT_MONITOR depend on CONFIG_PREFERRED_CPU and
->> make it as default n?
+>> s390 folks asked for explicit hooks since they have some of the info
+>> coming from HW w.r.t to vertical high/vertical low etc. So i have designed it that way.
+>> (I know code is not there yet)
 >>
->> Can we defer this until such a new monitor is needed?
->> We will in state where CONFIG_PREFERRED_CPU=y & VIRT_MONITOR=n.
+>> If each arch writes its own driver, wouldn't that lead to
+>> - code duplication as each arch more or less may have to do same.
+>> - each arch has to catch up any improvements that happens to default monitor.
+>> - each arch has to honor design construct and not violate it.
+>> - kconfig puzzles, to choose generic or arch specific ones etc.
+>   
+> That sounds reasonable and logically correct. But wait...
 > 
-> I think the VIRT_MONITOR should select PREFERRED_CPU. Whether
-> PREFERRED_CPU should be enabled without an in-tree driver using it -
-> IDK. Probably yes.
+> Why only 50 drivers play nasty __weak games? How all others handle
+> that? Maybe callbacks? Maybe hooks or function tables? Something else?
+> 
+> You started this as a small demonstration, now it more reminds
+> a framework enterprise solution. Which it isn't
+>   
+>> If it makes sense,
+>> - I can make it as strong symbols for now.
+>> - when the arch specific implementations arrive, can make it as
+>>    __weak to accommodate that.
+> 
+> Please make the symbols all strong unless you actually have arch
+> implementation. If you think that weak functions is the best approach
+> for s390, feel free to provide such a patch as the very last in the
+> series, mentioning it's for those s390 people reference, not for
+> immediate imclusion.
 > 
 
-That's good idea too. User has to enable VIRT_MONITOR, that will select
-PREFERRED_CPU. If any other driver wants this feature, it will have to do the
-same. Assumption is whichever driver selects PREFERRED_CPU, it has to ensure that
-design constrains are met.
+Yes, Let me keep them strong symbols for now. When the patches arrive for arch hooks,
+then we can decide on the best interface.
 
-I did below. I think this is what you meant. Let me know if i got it wrong.
+Let me put some of these bits in changelog for future reference.
 
----
+> Thanks,
+> Yury
 
-diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
-index 52eb7e4ba71f..a52233b2502e 100644
---- a/drivers/virt/Kconfig
-+++ b/drivers/virt/Kconfig
-@@ -47,6 +47,8 @@ source "drivers/virt/nitro_enclaves/Kconfig"
-  
-  source "drivers/virt/acrn/Kconfig"
-  
-+source "drivers/virt/steal_monitor/Kconfig"
-+
-  endif
-  
-  source "drivers/virt/coco/Kconfig"
-diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
-index aff715cea42d..b67fd8968ec3 100644
---- a/drivers/virt/Makefile
-+++ b/drivers/virt/Makefile
-@@ -9,5 +9,5 @@ obj-y                           += vboxguest/
-  
-  obj-$(CONFIG_NITRO_ENCLAVES)   += nitro_enclaves/
-  obj-$(CONFIG_ACRN_HSM)         += acrn/
--obj-$(CONFIG_PREFERRED_CPU)    += steal_monitor/
-+obj-$(CONFIG_STEAL_MONITOR)    += steal_monitor/
-  obj-y                          += coco/
-diff --git a/drivers/virt/steal_monitor/Kconfig b/drivers/virt/steal_monitor/Kconfig
-new file mode 100644
-index 000000000000..efb94b3a60e4
---- /dev/null
-+++ b/drivers/virt/steal_monitor/Kconfig
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+config STEAL_MONITOR
-+       tristate "Dynamic vCPU management based on steal time"
-+       depends on PARAVIRT && SMP
-+       select PREFERRED_CPU
-+       default m
-+       help
-+         This feature helps to reduce the steal time in paravirtualised
-+         environment, there by reducing vCPU preemption. Reducing vCPU
-+         preemption provides improved lock holder preemption and reduces
-+         cost of vCPU preemption in the host.
-+
-+         By default preferred CPUs will be same as active CPUs. Depending
-+         on the steal time when steal_monitor driver is enabled,
-+         preferred CPUs could become subset of active CPUs.
-diff --git a/drivers/virt/steal_monitor/Makefile b/drivers/virt/steal_monitor/Makefile
-index 7c16f8cf9583..d206e048a9ea 100644
---- a/drivers/virt/steal_monitor/Makefile
-+++ b/drivers/virt/steal_monitor/Makefile
-@@ -9,6 +9,6 @@
-  # It is always compiled as module if CONFIG_PREFERRED_CPU=y
-  # One has to enable the module.
-  #
--obj-$(subst y,m,$(CONFIG_PREFERRED_CPU)) += steal_monitor.o
-+obj-$(CONFIG_STEAL_MONITOR) += steal_monitor.o
-  
-  steal_monitor-y := sm_core.o defaults.o
-diff --git a/kernel/Kconfig.preempt b/kernel/Kconfig.preempt
-index 01b908ff1740..ed02e4431230 100644
---- a/kernel/Kconfig.preempt
-+++ b/kernel/Kconfig.preempt
-@@ -194,15 +194,4 @@ config SCHED_CLASS_EXT
-             https://github.com/sched-ext/scx
-  
-  config PREFERRED_CPU
--       bool "Dynamic vCPU management based on steal time"
--       depends on PARAVIRT && SMP
--       default y
--       help
--         This feature helps to reduce the steal time in paravirtualised
--         environment, thereby reducing vCPU preemption. Reducing vCPU
--         preemption provides improved lock holder preemption and reduces
--         cost of vCPU preemption.
--
--         By default preferred CPUs will be same as active CPUs. Depending
--         on the steal time when steal_monitor driver is enabled,
--         preferred CPUs could become subset of active CPUs.
-+       bool
-
-
-> Enabling some random driver, and even worse overriding user
-> preferences looks questionable, at least.
-> 
-> I'm one of those who build VMs with the localyes config, particularly
-> because it decouples me from rootfs headache. So please let me just
-> compile-in your monitor, if I want.
+Thanks.
 
