@@ -1,139 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553303DB65A;
-	Tue,  7 Jul 2026 11:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA783DD522;
+	Tue,  7 Jul 2026 11:09:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783422409; cv=none; b=kiBmLQy3KGDxRVBeMb9E1NnQu/rOg5S7WcJeckVaiCGutEkAnqDAGladgCX373ls2XHZfU63D25Bu2bqO34zB7HQsUK7X56KD9CNwZ+0Hs5ny73bRuDSRCSjexfRaV8GzK0OKK+zLQTSyZ6bileSLpZxP/J0zyFQYr1r0cng4is=
+	t=1783422554; cv=none; b=ESHeXIBTVyGWbYJdAsRqkr+t5Fyf1norkbxrGKgE7UtiCwyKPkGBiOt2hXTYIq5VbkPtahmABzTE/JBEEaHt5uOIE3hRcRDEkbgNoRJkkqBfFzeR/SUy4PMrNm+Isrec8cNLMFZv5nzzbhr5sXVSDDvsIHulW/qtHVQ6oqhzigM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783422409; c=relaxed/simple;
-	bh=qngC33WR9/kx24F16EevrpbDDdP9gfTUT8wCtufnanM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HhJXv8WV7KM6Et735k7RZBBcGd3sCCltYWIYYtfkV/3Xb12kwaL1Vak6PKXL1tb1KMcKCCwtY/TwOqVdT4mmyCG5ZNvVGAXfXSoQUhaAz4kVaIwFlEoYbF0IDZ8nnHxgkfLMg9WM8b8q0yyLODfSV8JLKeXme15EEMdyAa2pXSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eNsHbIf4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783422554; c=relaxed/simple;
+	bh=iK7dKcjYUoHiHjp3U9/+pUN7cnRMsGs/EjDO7OFT2Cg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OnR1TnFW1VudPhftBp/EkBb2UIva/LURnL3CdHgWnYQwDXxEgFmp4QqI1KYygA/PLyxP4kHdBwfwTBll7AOF1m5H3M8Er/VbnnX5ZBT9tNg+9wlsCwJXzh9q1uUI0//lWUvpaXCUJDnKJqBr6wdvclxtPgkUOrBh/tJCXN1z+iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=sT4HpAzG reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eNsHbIf4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D59441F00A3A;
-	Tue,  7 Jul 2026 11:06:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783422407;
-	bh=uxQP3gLmIUzYBfoacOtJptD05zMRflOQs+DB0wW0xpo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eNsHbIf4sOdWw6JCQpCaE2eEgsRjvyXM0TUxaM/x+HUWu/rR2CciAzQqnoECZaJQP
-	 7TEpqs6ZE12aRoYV3bMmMfsJau6Ydnj7iFnb8pWmuEa7H4SjEhfeIyGFpJzvYC6GGY
-	 SOGdrZDZKX1RaGFDjE/2DkMaQfkQQOEGEpNHVXONMHdyHm4vLv+qJfHghVL5y708KS
-	 t9P1p7NQR2ry1N2SYphqCNTE7QJEopIIn2vS5+Af0aTIrPWOdVs50g/I8sZiuNvaK2
-	 Botwhf8za+Mg5LB4L/RmIP19QXFqK+9FfHiMyVhKffEK6HkilXr+z8tpQAyIPS2CXS
-	 13E8O5UYUzRVg==
-Date: Tue, 7 Jul 2026 12:06:34 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, 
-	Sourav Panda <souravpanda@google.com>, muchun.song@linux.dev, osalvador@suse.de, 
-	akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, 
-	surenb@google.com, mhocko@suse.com, mhklinux@outlook.com, fvdl@google.com, 
-	gthelen@google.com, mike.kravetz@oracle.com, pasha.tatashin@soleen.com, 
-	rientjes@google.com, riel@surriel.com, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH 0/6] mm/hugetlb: Dynamic, NUMA-aware HugePage Cache &
- Free Page Reporting
-Message-ID: <akzZr2jfJ0J8zox4@lucifer>
-References: <20260707064235.1386552-1-souravpanda@google.com>
- <9624988a-366e-4884-9408-3f3b88c27290@kernel.org>
- <20260707062428-mutt-send-email-mst@kernel.org>
- <b9a48d89-74f1-43d4-b7bb-be988b6855c9@kernel.org>
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="sT4HpAzG"
+Received: from [133.11.54.183] (h183.csg.ci.i.u-tokyo.ac.jp [133.11.54.183])
+	(authenticated bits=0)
+	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 667B84DM000649
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 7 Jul 2026 20:08:04 +0900 (JST)
+	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
+DKIM-Signature: a=rsa-sha256; bh=g0ZGQJGJ1qWqh1QXg5+nZXDEWKnJXbLoKauNjx/PAYs=;
+        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
+        h=From:Message-ID:To:Subject:Date;
+        s=rs20250326; t=1783422484; v=1;
+        b=sT4HpAzGMYEhZYKHTkNka9jCpR9kdvZwWiGM6RHY8o5Jh50Xpv3CLKHIKN5BSGDP
+         UO9T1j6Mo6pDZFawvG0JpSHS1WRGQgTcL5yPRrmCURV1XzeKV/H3TMAPnxTU9p1V
+         BLHavpto5ibL75WXfBnQhvRrIXlF9L7zRvrsUE/sWBqGdW/n26udhLUkIK8iD6v2
+         yiKor0wuTpnWYPkRduMdyP3Y5HN5FEhy/fSIctEA6OldtFope5KzYn0rd7aaALgB
+         4kw5t2aTJC5oKb2k3QLKVcaLjYMySaA/rW8Xxp5xBwzj/GbXi2uJlJKHeUSBneYY
+         1WxHlDXk9luvKXTDy+VdmA==
+Message-ID: <e03f17b2-a765-4912-adf6-3da26e7eeecd@rsg.ci.i.u-tokyo.ac.jp>
+Date: Tue, 7 Jul 2026 20:08:03 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b9a48d89-74f1-43d4-b7bb-be988b6855c9@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/7] KVM: arm64: Disallow vPMU when pPMUs do not cover
+ all CPUs
+To: Oliver Upton <oupton@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu
+ <yuzenghui@huawei.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+References: <20260706-hybrid-v8-0-de459617b59d@rsg.ci.i.u-tokyo.ac.jp>
+ <20260706-hybrid-v8-1-de459617b59d@rsg.ci.i.u-tokyo.ac.jp>
+ <akvgIWqBjAp_VA_A@kernel.org>
+Content-Language: en-US
+From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+In-Reply-To: <akvgIWqBjAp_VA_A@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 07, 2026 at 12:28:44PM +0200, David Hildenbrand (Arm) wrote:
-> On 7/7/26 12:25, Michael S. Tsirkin wrote:
-> > On Tue, Jul 07, 2026 at 09:29:07AM +0200, David Hildenbrand (Arm) wrote:
-> >> On 7/7/26 08:42, Sourav Panda wrote:
-> >>> Overview
-> >>> This patch series introduces a dynamic, NUMA-aware HugePage Cache,
-> >>> backed by a kernel shrinker to safely return memory under pressure, and
-> >>> integrates it with Free Page Reporting (virtio-balloon) for HugeTLB,
-> >>> specifically targeting gigantic (1GB) hugepages. The goal is to solve
-> >>> the tradeoff between allocation latency and memory
-> >>> fungibility in virtualized and heterogeneous cloud environments.
-> >>
-> >> Hi,
-> >>
-> >> in general, we consider hugetlb nowadays to be mostly in feature freeze, as we
-> >> realized a while ago that adding more special casing on top of something too
-> >> special for all of MM is only going to hurt us more in the long run.
-> >>
-> >> We want to have less special casing and less special sauce, not more.
-> >>
-> >> Now, there is nothing wrong in making hugetlb be less special, by making it use
-> >> more of core infrastructure etc.
-> >>
-> >> But optimizing for surplus hugetlb pages by teaching hugetlb about new caches
-> >> and its custom free-page-reporting support rather looks like the wrong direction
-> >> for me?
-> >>
-> >> --
-> >> Cheers,
-> >>
-> >> David
-> >
-> >
-> > It is currently bypassing free-page-reporting completely.
-> > Making existing free lists not ignore free-page-reporting would
-> > maybe considered "making it be less special"?
-> >
+On 2026/07/07 2:04, Oliver Upton wrote:
+> Hi,
+> 
+> On Mon, Jul 06, 2026 at 07:03:24PM +0900, Akihiko Odaki wrote:
+>> Commit ec3eb9ed6081 ("KVM: arm64: PMU: Disallow vPMU on non-uniform
+>> PMUVer") made KVM reject vPMU unless the system-wide PMUVer is usable.
+>> That covers systems where PMUv3 is absent or non-uniform, as well as
+>> systems where IMPDEF PMUv3 sysreg traps are unavailable.
+>>
+>> However, KVM can still accept vPMU when all CPUs uniformly trap PMUv3
+>> sysregs, but the pPMUs registered with KVM only cover a subset of
+>> possible CPUs.
+>>
+>> Reject vPMU unless the registered pPMUs cover every possible CPU.
+>> This avoids carrying support for partial pPMU coverage into the
+>> fixed-counters-only UAPI introduced later in the series.
+> 
+> Doesn't CPU hotplug screw this up? I could online a CPU that doesn't
+> have a PMU after creating the VM.>
+> I'd rather just change ARM64_WORKAROUND_PMUV3_IMPDEF_TRAPS to become a
+> system feature. That way any CPU which breaks the system-wide assumption
+> cannot be onlined.
 
-You have this completely backwards.
+ARM64_WORKAROUND_PMUV3_IMPDEF_TRAPS only says that IMPDEF PMUv3 sysregs 
+are trapped. It does not say that KVM has a driver-backed PMU usable for 
+PMUv3 emulation. This patch checks that extra requirement.
 
-You're advocating making hugetlb _more special_ by duplicating functionality that
-core mm already supports.
+I re-checked CPU hotplug. Onlining a CPU without a PMU later does not 
+make an accepted VM unsafe, since the check is against 
+cpu_possible_mask. The problem is the reverse case on ACPI: this check 
+can disable vPMU when a possible CPU is offline. DT populates 
+supported_cpus at boot, while ACPI initially populates it only from 
+online CPUs and grows it as matching CPUs come online.
 
-I mean:
+That makes this patch too conservative. In practice, I do not expect 
+systems to mix CPUs with and without a usable PMU. A better approach is 
+probably to treat such a host as out of spec and add 
+TAINT_CPU_OUT_OF_SPEC. We already do that for architectural PMUv3 by 
+detecting mismatches in ID_AA64DFR0_EL1.PMUVer; we can do the same for 
+ARM64_WORKAROUND_PMUV3_IMPDEF_TRAPS with non-standard PMUs.
 
-mm/hugetlb.c                                 | 590 ++++++++++++++++++-
-
-Tells the whole story right?
-
-The whole issue with hugetlb is the very fact that it's a parallel
-implementation of a bunch of mm stuff in its own little world.
-
-We make it less special by mm/hugetlb.c smaller and smaller and implementing
-what it does sanely elsewhere in _core mm_.
-
->
-> Depends. We don't really want an orthogonal implementation of something we have
-> in core-mm.
-
-Yes, exactly.
-
-Feature freeze means feature freeze, not 'feature that core mm doesn't support
-feature freeze'.
-
-Hugetlb is a poster child for poor decision making in mm that has left us
-saddled with maintenance nightmares because we allowed 'just one more feature
-in' (TM) with little to no thought to the future.
-
-And we've all learned from that and don't want to repeat these kinds of
-mistakes, nor make existing mistakes worse.
-
-And work to improve hugetlbfs and make changes like the above are VERY welcome
-:)
-
-Laying a foundation for hugetlbfs to be more of a sane mm citizen through rework
-series is really the asking price for stuff like this in my opinion.
-
->
-> --
-> Cheers,
->
-> David
-
-Thanks, Lorenzo
+Regards,
+Akihiko Odaki
