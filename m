@@ -1,438 +1,335 @@
-Received: from smtp-42ad.mail.infomaniak.ch (smtp-42ad.mail.infomaniak.ch [84.16.66.173])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012008.outbound.protection.outlook.com [40.107.209.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD4D289E13
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 21:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783458236; cv=none; b=AMbyrvJETzLyRJwGXymk9MrPcHg7y4s11nbJLXrWi8B7BL/lyFGCUNhybaNIrvnVOI/MKu/9UbO719vgdC39Tfkz7UbmQ0UmgREC0I/ZEJuhzLs8GE8BRBLPdQPklvxfeYladBa2WOrGegQC8PNKqM7rr2Sx2RKJaZTmqvkiPko=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783458236; c=relaxed/simple;
-	bh=/GHpxg3W+Y+wDuZarAwpGoKa11LGRJ3hlJslECjAe6w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Du4hRhlo4rnum5q9oic7XwlSBEP9TGDPKa9Zijkmtz1t5ND+Di4t0EbCXnuCYBycTKYpoNKR0jNY2pxlCWH4pRTSGk3aiGiOSsXTw8/GdWeDBalqGCcIK6v2eOozC8A6i9nkNbAps7WHVft/CXYJmo7yu7ySjBmjpZ3pGIaKLXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=ow7P/xsx; arc=none smtp.client-ip=84.16.66.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C3D326923;
+	Tue,  7 Jul 2026 21:17:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783459041; cv=fail; b=PIGSrcH5XU24SJpF6BsZ981Mpq76mAz5NzI8d/48OUQJeIWh3zCCB0OxWcti5eEDNtGuy2BFUg0B2IqbsBO7OF+nmH/bX3xKZBaH+32cGuf0XbtWudFnTfgSwqPNamGIZu00JJF3Y3Yd7Zt8AEu2mJnsLdJ2BgsOZHgwbaeJOVk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783459041; c=relaxed/simple;
+	bh=FF9POI5EOaWzswrum39jHoRFkh27nefcn5WbG8At3j8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GvMUAqPzRbAJKVqtJ4847xYE1BYfm7r/gJLC4mVibtUeddRcAM8GklZgQ/h6ehdSy8c2Tb71lPOBIzzYsVQd5HwBuJOpLw2l0yXeqd6FnSCCR9fDh/sTcMLyhzc5zZ2XSUGJiT1YRRxu2gfQ17FwWYH9OulIhmKa1NtBABD1mOo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=wScVYfWl; arc=fail smtp.client-ip=40.107.209.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="ow7P/xsx"
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4gvtxc14CKzhB;
-	Tue,  7 Jul 2026 23:03:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1783458227;
-	bh=4GlmezGiWpjbnBrVzUXeI1Az5mqfgsxKWYQjcaKFZsU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ow7P/xsxsBUAbYrpfoUFT8t/JBZMyWwxj7gO8e22BYSmGmp+bGM3z88Iaqz/FBve2
-	 0Kq/MKcfQZEd4TzA4rqXkzi8wgMh8IxzlNDSbtJhwS7ye1XXIerBxAGji1CCd9VQ0J
-	 a/nDQWyWTCzUg4gnkNoSUWHDkDcGzjMh7sM7usOs=
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4gvtxY0P2zzHJ0;
-	Tue,  7 Jul 2026 23:03:44 +0200 (CEST)
-From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To: =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>
-Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	Bryam Vargas <hexlabsecurity@proton.me>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jann Horn <jannh@google.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Justin Suess <utilityemal77@gmail.com>,
-	Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Matthieu Buffet <matthieu@buffet.re>,
-	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>,
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
-	Paul Moore <paul@paul-moore.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Tingmao Wang <m@maowtm.org>,
-	Ubisectech Sirius <bugreport@ubisectech.com>,
-	Willy Tarreau <w@1wt.eu>,
-	Yuxian Mao <maoyuxian@cqsoftware.com.cn>,
-	kernel-team@cloudflare.com,
-	landlock@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: [PATCH v1] landlock: Document the threat model
-Date: Tue,  7 Jul 2026 23:03:33 +0200
-Message-ID: <20260707210336.2060040-1-mic@digikod.net>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="wScVYfWl"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PexGPUu0ma9ZIXIFZX86Gb2adszTSbgmVJ6zaNQUL3HdLChP3dnYNoPX+cLZzMs4KbVZHKSzDtFvfv/Hbzq3TRt+Rr98NzcJQrcFhX4D6BQE2+8aV0qTtrpBz8CJ/gWbF+0/6/RSz8NmywhgTc6MudqJUO/ovIeYudj3LKbTIIYO41SZOET53Gf5M6r1JsMaJ7JTqpkQlMrNlJfBDwd7leEytpolVsL/3obYgBCp7Sli87uRFWjca5rVLOizurPt6mbNsD7e2hdYXsZGQzuHtHDDTXb8/8aqRzRq/hCo+Cbcl+345Rv9vDzA5C0jtvt4W0C1UrX8UTHOwXTOiWDq+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EUbQgYfA8MRTXiA1sk89Ns3neAkmfV/Sy9/TfSIGWyc=;
+ b=PKxr+s2KjVht7nyIxvdeBCGJGivn3sXm+F6+dw0UOE3fkOll8gLtMvwQQ0tViFk/P2SbD6YV9S/AUSYnbaLk99CZ/9SQrWXKLkO6X1R3NJ2eHoe2rCHQKzXWU/Hs92XI7P+TDk6WACO6uZQjUhvibtZaH+e2irQLTVS7KGK8l5/N6+K2HVC4+ZkzV+W+FHG7FdCSpHuHilrmDQMEOSNXZhh9Qk+R4bSzw7nFflWd4xIDJWjKLuswpu6Zr35/o0Gt+/szK1WBZvF3EEZinWTw+2GCc0M6W721+5xv7wAi4qkZYQfcsr8Ftokosw922RZIv2K07d60cllYMYDf7MFPMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EUbQgYfA8MRTXiA1sk89Ns3neAkmfV/Sy9/TfSIGWyc=;
+ b=wScVYfWlGULyyTBKT6bO2kKr/UYqZTM1gwfPoxRLFfQ9KaR1BPu3Ky4JRQoKKfYqV0VazzlqNkkiWsDRmMeuSfMujdewok3xRrCI1xwRfLHtIUqHWFh3DYmvZ2lv85z17ztdo4n/98cez/7RsIorU0PVF3OxGHdE6vlwpm7FGBI=
+Received: from PH7P221CA0021.NAMP221.PROD.OUTLOOK.COM (2603:10b6:510:32a::27)
+ by CH0PR12MB8506.namprd12.prod.outlook.com (2603:10b6:610:18a::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Tue, 7 Jul
+ 2026 21:17:12 +0000
+Received: from SA2PEPF00003F65.namprd04.prod.outlook.com
+ (2603:10b6:510:32a:cafe::89) by PH7P221CA0021.outlook.office365.com
+ (2603:10b6:510:32a::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.202.9 via Frontend Transport; Tue, 7
+ Jul 2026 21:17:11 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SA2PEPF00003F65.mail.protection.outlook.com (10.167.248.40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Tue, 7 Jul 2026 21:17:11 +0000
+Received: from bmoger-ubuntu.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 7 Jul
+ 2026 16:17:09 -0500
+From: Babu Moger <babu.moger@amd.com>
+To: <corbet@lwn.net>, <tony.luck@intel.com>, <reinette.chatre@intel.com>,
+	<Dave.Martin@arm.com>, <james.morse@arm.com>, <tglx@kernel.org>,
+	<bp@alien8.de>, <ben.horgan@arm.com>, <fenghuay@nvidia.com>
+CC: <skhan@linuxfoundation.org>, <x86@kernel.org>, <babu.moger@amd.com>,
+	<mingo@redhat.com>, <dave.hansen@linux.intel.com>, <hpa@zytor.com>,
+	<akpm@linux-foundation.org>, <rdunlap@infradead.org>, <peterz@infradead.org>,
+	<feng.tang@linux.alibaba.com>, <dapeng1.mi@linux.intel.com>,
+	<elver@google.com>, <enelsonmoore@gmail.com>, <kuba@kernel.org>,
+	<ebiggers@kernel.org>, <lirongqing@baidu.com>, <seanjc@google.com>,
+	<nikunj@amd.com>, <xin@zytor.com>, <pawan.kumar.gupta@linux.intel.com>,
+	<tiala@microsoft.com>, <chang.seok.bae@intel.com>, <kprateek.nayak@amd.com>,
+	<prathyushi.nangia@amd.com>, <kim.phillips@amd.com>, <naveen@kernel.org>,
+	<darwi@linutronix.de>, <elena.reshetova@intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<thomas.lendacky@amd.com>, <eranian@google.com>, <peternewman@google.com>,
+	<qinyuntan@linux.alibaba.com>
+Subject: [PATCH v4 00/15] x86/resctrl: Add kernel-mode (e.g., PLZA) support to the resctrl subsystem
+Date: Tue, 7 Jul 2026 16:16:48 -0500
+Message-ID: <cover.1783459023.git.babu.moger@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F65:EE_|CH0PR12MB8506:EE_
+X-MS-Office365-Filtering-Correlation-Id: 53b7c012-ccea-42a1-8ada-08dedc6d1bf4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|23010399003|1800799024|82310400026|7416014|376014|13003099007|3023799007|11063799006|6133799003|56012099006|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	tT2IMkib9E2wcAq9jrPN7S0rFtklZZeaCwN4Trt9XtF3EOWTkIsZAP5DJPP5DGZ0XEwrevK5cA3TwdB8VUlMEQHGq1Odn+hlLvwmOcQZ+rTMcv4J+Gj7BueCH2bg9yPNvRsTkzYNuT6wWEd7P0k1Rf/SXzjUv3D3ad9Eg1nlIuaLbmjoINGt0DmNKyZlfYcwGO28AMhSH17AIOaBd5WvPSofXsYnDsPRV7bzedPnOoyULIvvOuFgeziAx3bx1dfnLR0wfNkFJ/BGamoUGsJdktMn/3kEHRFf+D9EDc6ZipZSquGuR3c8q0jT1Rwz1y4eK0vlhML1JNHLlpKvFh2kWtmKJhr/sOJ3+b8pd2WbZVYxRiA98spCVCCjtAPUIR3rxVy9bSXXpbXHWgvE2HD18C2asRndXhgs+ejKlqJK8lsT4/qDxoHbdZ9MjpUgGP0NJVqw+sZVnij92zaxzdaH8FT2T3Fy3sohMgQbcqEt9jU7sqWDD7MC0Lu6hNGBMKPFqhlxmXAtkvAk/W6Rcy/aKRr6KmbKr2bkEzEaVrJ54To2YBod5Y+Zm67mBBmiAD/TNhkZwagyBq3lsbbnVO5FF2qvHoeFTai4QI4GGx+FGQ1KfhNFqxjCZ8Kq9iOt0+a1Jmyjw3Z63sKrxEz3AeptjA==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(1800799024)(82310400026)(7416014)(376014)(13003099007)(3023799007)(11063799006)(6133799003)(56012099006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	YtaN6sq5GUhZA7ZV9ZrLd85nMyGgPOj8L51SNmuk1JN82fT491vARlpGao5f3Qs9fWr8F+vdfUol3zERfCKXy0XZr3T2F8ahiEyBpY/yt4RepxMN14DS9s2zsJSC7q+IGiGapQXahoLRaCZuSfA/vV96jCS6vefopfgqsLtp2MRRN4/uI9DjtST/BOTOF6zfvpHulgVcNGnge3tJaP3PH7i1APUjxF3LGoasK+PjMxj/U08+T49G+5MLlYe1QZfAQbpdz23OAgTicUIN+PdXFBKoYfvshlRtQjoy7SUZuPfLXKJuF3tzC8Bp2OAr4+LILnS6dH6Wq58B9w/qb4B0Z71Apw9SsbkGOQhNGzu85cQc4hk9+vK62B9xve4tJihTFDTwJpp/joDrDmL2JsGC8B+pmCdvKYM7mkbOK8YP/VVmKzhd2w1oOv97wZ6lZg6R
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 21:17:11.1172
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53b7c012-ccea-42a1-8ada-08dedc6d1bf4
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00003F65.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8506
 
-Landlock's threat model has been defined since its initial submission
-[1] but is scattered across cover letters, commit messages, and
-mailing-list threads.  A security reporter has no single place to decide
-whether a behavior is a Landlock bug, leading to recurring invalid
-reports, for example treating io_uring's creation-time credentials,
-which are inherited from the sandboxed subject, as a bypass.
 
-Add a self-sufficient "Threat model" section as the first section of the
-Landlock security documentation.  Read alongside the general kernel
-threat model, it consolidates that scattered knowledge and lets a
-reporter classify an issue without maintainer intervention: is this a
-Landlock security bug, and if so, what is its blast radius?
+Hi All,
 
-The section defines Landlock's guarantees (unprivileged self-sandboxing
-and per-domain confinement), its trust model (union-when-building versus
-intersection-when-transitioning), the per-right semantic contract, and
-the criteria that distinguish security bugs (under-enforcement) from
-compatibility bugs (over-enforcement), best-effort limitations, and
-out-of-scope behaviors.  It explains what makes a bypass narrow or
-broad, and which interactions are intentionally out of scope: privileged
-actions, same-domain and same-process-thread interactions, actions a
-user space service performs on the caller's behalf, resources passed
-into the sandbox from outside, information disclosure, denial of
-service, and syscall-argument filtering.
+This series adds support for AMD's Privilege-Level Zero Association
+(PLZA) so kernel work can be assigned to a resctrl group, and wires it
+up through a small generic "kernel mode" (kmode) layer in fs/resctrl
+so future architectures can plug in without touching core resctrl.
 
-Retitle the document to reflect this: it documents Landlock's security
-design (threat model, guiding principles, design choices), and its title
-now follows the focus-based pattern of the other Landlock documents.
+The features are documented in:
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Günther Noack <gnoack@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Leon Romanovsky <leon@kernel.org>
-Cc: Paul Moore <paul@paul-moore.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Willy Tarreau <w@1wt.eu>
-Cc: Yuxian Mao <maoyuxian@cqsoftware.com.cn>
-Link: https://lore.kernel.org/r/20210422154123.13086-1-mic@digikod.net [1]
-Closes: https://github.com/landlock-lsm/linux/issues/64
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
----
- Documentation/security/landlock.rst | 303 +++++++++++++++++++++++++++-
- 1 file changed, 299 insertions(+), 4 deletions(-)
+   AMD64 Zen6 Platform Quality of Service (PQOS) Extensions,
+   Publication # 69193 Revision 1.00, Issue Date March 2026
 
-diff --git a/Documentation/security/landlock.rst b/Documentation/security/landlock.rst
-index c5186526e76f..fae13145af5d 100644
---- a/Documentation/security/landlock.rst
-+++ b/Documentation/security/landlock.rst
-@@ -1,13 +1,14 @@
- .. SPDX-License-Identifier: GPL-2.0
- .. Copyright © 2017-2020 Mickaël Salaün <mic@digikod.net>
- .. Copyright © 2019-2020 ANSSI
-+.. Copyright © 2026 Cloudflare, Inc.
- 
--==================================
--Landlock LSM: kernel documentation
--==================================
-+=========================
-+Landlock: Security design
-+=========================
- 
- :Author: Mickaël Salaün
--:Date: March 2026
-+:Date: July 2026
- 
- Landlock's goal is to create scoped access-control (i.e. sandboxing).  To
- harden a whole system, this feature should be available to any process,
-@@ -28,6 +29,300 @@ constraints can be added.
- User space documentation can be found here:
- Documentation/userspace-api/landlock.rst.
- 
-+Threat model
-+============
-+
-+Landlock lets any process, even an unprivileged one, restrict itself.  Its
-+threat model therefore treats a sandboxed process as potentially malicious. The
-+adversary is a sandboxed process that tries to perform an action its own policy
-+should deny.  A Landlock security bug is when it succeeds.  This complements
-+Documentation/process/threat-model.rst.
-+
-+What Landlock protects
-+----------------------
-+
-+A Landlock *domain* is a ruleset (a set of rules), or a stack of them, enforced
-+on a task (a thread), attached to its credentials and inherited across
-+:manpage:`fork(2)` and :manpage:`execve(2)`.  A sandboxed *subject* (a task
-+restricted by a domain) is confined in the *actions* it may perform, such as
-+accessing files, binding or connecting to network ports, or sending signals.  A
-+ruleset declares the *handled* actions it restricts, in one of two shapes:
-+access rights and *scopes* that the running kernel supports.
-+
-+An access right allows specific accesses to a target named by a rule.  Currently
-+a target is a file descriptor, which designates one kernel object: the inode it
-+references, or for a directory the file hierarchy beneath it.  It can instead be
-+a network port, a value matching any socket using it rather than a specific
-+object.  Any access a handled right covers but does not explicitly allow is
-+denied.
-+
-+A scope instead restricts crossing out of the domain hierarchy, denying outgoing
-+interaction with processes or IPC peers that are neither in the subject's domain
-+nor in a domain nested under it (e.g. sending signals or connecting to abstract
-+UNIX sockets).
-+
-+Beyond these two declared shapes, a domain also carries restrictions Landlock
-+imposes implicitly, which a policy does not select.  It may :manpage:`ptrace(2)`
-+only a target confined by its own domain or by a domain nested under it
-+(necessarily more restricted); tracing a less restricted, unrelated, or
-+unsandboxed target is denied regardless of the policy.  A domain restricting the
-+filesystem also denies changes to the filesystem topology and, by default,
-+reparenting a file to a different directory, so inode-based rules cannot be
-+bypassed by relocating a file (see `Limitations are not security bugs`_).
-+Actions that are neither handled nor implicitly restricted are left to the
-+system's other access controls; likewise, semantics that live only in user
-+space, such as a service's own handling of the requests it receives, are beyond
-+a kernel mechanism's reach.  Landlock's coverage (the set of restrictable
-+actions) grows over time, extended without changing the meaning of existing
-+rights.
-+
-+Landlock also supports observability: each domain has an identifier that is
-+unique and not reused for the system's lifetime and increases by a random step,
-+which hides the exact next value but not the underlying monotonic progression,
-+so the identifier is an observability aid, not a confidentiality boundary.
-+Denied actions can be logged through audit, but this per-domain configuration is
-+not a security boundary.  Landlock access records describe denials, never
-+allowed accesses, and a nested layer's denial is attributed to that layer, not
-+bypassing an outer one (see :ref:`admin-guide/LSM/landlock:Audit`).
-+
-+Composition and trust boundaries
-+--------------------------------
-+
-+Building a ruleset combines rights as a *union*: its rules come from a single
-+trusted author, so each rule grants the accesses it describes.
-+
-+Enforcing a ruleset on a thread (a domain transition) combines constraints as an
-+*intersection*: the stacked layers do not trust each other, so a thread's own
-+transition can only ever remove access.  A thread cannot un-sandbox itself or
-+regain an access a previous layer (or an inherited parent sandbox) denied. A
-+thread may enforce a ruleset on all threads of its process at once, replacing
-+the siblings' Landlock configuration.  This is not a relaxation across a
-+security boundary, since threads share an address space and are not a security
-+boundary (see `What is not a Landlock security bug`_).  Landlock's restrictions
-+therefore stay attached to the thread for its lifetime, aside from such
-+whole-process synchronization.
-+
-+Each access right has a precise and fixed semantic
-+--------------------------------------------------
-+
-+An access right or scope controls exactly the operations its semantic defines,
-+no more and no less.  A semantic is defined by an operation's effect, not by the
-+syscall or code path used to reach it, including an indirect, deferred, or
-+kernel-mediated effect the subject arranges.  Every path that produces a covered
-+effect is in scope, so missing one is under-enforcement.  For example, the TCP
-+rights control TCP ``bind`` and ``connect`` only, on any path (including an
-+implicit connect performed while sending data), but they do not apply to MPTCP
-+or SCTP, even when those use TCP internally.  A scope likewise covers the
-+cross-domain interaction however it is produced: ``LANDLOCK_SCOPE_SIGNAL``
-+covers a signal the subject arranges the kernel to deliver (e.g. ``SIGIO`` via
-+:manpage:`fcntl(2)` ``F_SETOWN``), not only a direct :manpage:`kill(2)`.
-+
-+Each right is checked at its own enforcement point against the current domain,
-+and Landlock does not retroactively revoke access already tied to an explicitly
-+referenced kernel object (e.g. a file descriptor or io_uring instance).  A file
-+descriptor obtained before enforcement is thus not covered afterward.  This is
-+not under-enforcement but the intended capability-model behavior: a program can
-+open its dependencies before restricting itself, or use only what a broker
-+passes it while being unable to obtain those resources directly.
-+
-+This semantic is a permanent interface contract: it does not change, and the set
-+of rights a policy targets does not grow on its own (new rights are opt-in; see
-+:ref:`userspace-api/landlock:Compatibility`).  A kernel update only makes
-+*enforcement* converge toward the semantic, in either direction:
-+
-+* Enforcing *less* than the semantic is under-enforcement: a security bug. The
-+  fix may make a deployed policy stricter, but only by finally enforcing what it
-+  already requested.
-+* Enforcing *more* than the semantic is over-enforcement: a compatibility bug,
-+  not a security bug.  The fix relaxes the restriction; because that is visible
-+  to user space, it is advertised through the errata mechanism (see
-+  :ref:`userspace-api/landlock:Compatibility`).  Most programs need not check
-+  errata; when they do, an erratum should only gate enabling a restriction,
-+  never dropping one.
-+* An operation whose effect lies outside every right's semantic is simply not
-+  covered; controlling it requires a new access right, not redefining an
-+  existing one.
-+
-+What is a Landlock security bug
-+-------------------------------
-+
-+A Landlock security bug is a deviation from this contract.  A sandboxed subject
-+performs an action that its own active policy should deny (under-enforcement),
-+including regaining an access across a domain transition. To classify a
-+behavior, check in order:
-+
-+#. Does the domain *handle* the relevant access right or scope, or does an
-+   implicit restriction above apply, and does that semantic cover the operation?
-+   If not, the action is not restricted, possibly a limitation described below,
-+   not a bug.
-+#. Could the subject perform an action that a missing allow-list entry, a scope,
-+   or an implicit restriction should deny?  That is a security bug.
-+#. Did an access become allowed for the transitioning thread only after a
-+   further domain transition, which must only remove access?  That is a security
-+   bug.
-+
-+Conversely, Landlock denying a *legitimate* action is not under-enforcement. An
-+intentional implicit restriction is expected, such as the ptrace hierarchy, or a
-+filesystem-topology or reparenting restriction while a filesystem right is
-+handled; these are non-selective limitations, described below.  Denying more
-+than a handled right's semantic requires is over-enforcement, a compatibility
-+bug, not a security bug.
-+
-+This concerns Landlock's access-control guarantees.  A vulnerability in
-+Landlock's own implementation that an unprivileged process could exploit to
-+escalate privileges or compromise the kernel, separate from this access-control
-+classification, is a security bug under the general kernel threat model, like
-+any other kernel code.
-+
-+Impact and blast radius
-+-----------------------
-+
-+Security bugs (under-enforcement) vary in impact along two dimensions:
-+
-+* *Blast radius within a sandbox*: a flaw in a domain-wide mechanism such as
-+  credential handling can drop all of a domain's restrictions (broad), while a
-+  missing check for one access right only affects sandboxes using that right and
-+  leaves their other restrictions intact (narrow).
-+* *Affected processes*: a Landlock policy is self-imposed per domain, not
-+  system-wide, so a bug weakens only the sandboxes that requested the affected
-+  restriction; other sandboxes and unsandboxed processes are unaffected.
-+
-+Because Landlock only adds restrictions on top of existing access controls, an
-+*enforcement* bug can at most undo Landlock's own restrictions on the affected
-+sandbox: the leaked access is still subject to standard DAC and the other LSMs.
-+
-+What is not a Landlock security bug
-+-----------------------------------
-+
-+The following are outside Landlock's threat model and are handled as ordinary
-+issues, not security bugs (see also Documentation/process/threat-model.rst):
-+
-+* **Actions relying on privileges Landlock does not control**: a sandboxed
-+  process stays bound by its domain whatever capabilities it holds, so bypassing
-+  a handled right is a bug even for a privileged process.  Out of scope is what
-+  a retained privilege (e.g. ``CAP_SYS_ADMIN``) enables outside Landlock's
-+  coverage, including undermining the sandbox's own construction; dropping such
-+  privileges is the sandbox's job (see `Sandboxing is layered`_).
-+
-+* **Interactions within the same domain**: the cross-domain restrictions
-+  (:manpage:`ptrace(2)` and the ``LANDLOCK_SCOPE_*`` scopes) apply only when
-+  leaving the domain hierarchy, not among tasks of the same domain or a domain
-+  nested under it; a domain's filesystem and network access rights still apply
-+  to all of its tasks.
-+
-+* **Direct interactions between threads of the same process**: Linux manages
-+  credentials, and therefore the Landlock domain, per thread, so threads of one
-+  process may even be in different domains.  Sharing an address space, they are
-+  not a security boundary, and for practical reasons some restrictions are not
-+  enforced between them: notably ``LANDLOCK_SCOPE_SIGNAL`` always allows signals
-+  between threads of the same process, even in different domains (like the
-+  :manpage:`ptrace(2)` same-process exception), because user space synchronizes
-+  per-thread credentials by signaling within the process, and some runtimes do
-+  not expose thread control.  This does not extend to objects tied to a
-+  creator's domain, such as abstract UNIX sockets.  Consequently a per-thread
-+  domain does not protect the process; a whole-process guarantee requires
-+  confining all its threads with the same domain (see `Sandboxing is layered`_).
-+
-+* **Resources obtained from outside the sandbox**: receiving or inheriting a
-+  file descriptor (or similar) is governed by the capability model, not
-+  Landlock.  If an unsandboxed process willingly passes a sensitive resource,
-+  that is a security-architecture issue (a possible confused deputy), not a
-+  bypass; the resource carries the access rights set when it was created (e.g.
-+  an FD's read/write mode), which may exceed the receiver's policy.  By
-+  contrast, a resource the sandboxed process obtains itself stays bound by its
-+  own domain: a subsystem it sets up, such as io_uring, captures the subject's
-+  credentials, and with them the domain, so the work it later performs stays
-+  restricted.
-+
-+* **Actions a user space service performs on the caller's behalf**: Landlock
-+  mediates the kernel-level access to a service, such as reaching its socket,
-+  not the service's own authorization of the requests it receives.  Exposing a
-+  service to a sandbox is a policy choice; a more-privileged service that acts
-+  on a sandboxed client's request without checking what that client should be
-+  allowed is a confused deputy, an issue in the service, not a Landlock bypass.
-+
-+* **Denial of service by an already-privileged user**: such a user can exhaust
-+  resources regardless of Landlock.  Landlock must, however, not give an
-+  *unprivileged* process a new way to do so: its long-lived allocations are
-+  accounted to the requesting task's memory cgroup (and thus limitable) and its
-+  computation impacts only the processes requesting it (see
-+  :ref:`userspace-api/landlock:Current limitations` and `Guiding principles for
-+  safe access controls`_).
-+
-+* **Information disclosure about the policy or filesystem layout**: a denial
-+  error code (e.g. ``EACCES`` versus ``ENOENT`` or ``EXDEV``) or timing can
-+  reveal whether a path exists or what a policy allows.  Consistent with the
-+  general kernel threat model, such probing side channels are not Landlock
-+  security bugs; Landlock only minimizes avoidable ones (e.g. the random-step
-+  domain identifiers above).
-+
-+* **Syscall-argument filtering**: that is seccomp-bpf's role, not Landlock's
-+  (see `Guiding principles for safe access controls`_).
-+
-+Limitations are not security bugs
-+---------------------------------
-+
-+Landlock is best-effort: it enforces what the running kernel and the program's
-+configuration allow rather than refusing to sandbox at all.  An operation that
-+cannot be restricted is a limitation, not a bug, in three cases:
-+
-+#. **Not requested**: the program did not handle the relevant right (a policy
-+   choice).
-+#. **Not supported by the running kernel**: the right belongs to a newer ABI
-+   than the running kernel; programs query the ABI version and enable the
-+   largest available subset.
-+#. **Not supported by any kernel yet**: no access right covers the operation.
-+   For example, Landlock restricts access to a file's data but not yet changes
-+   to its metadata (chmod, chown, utime, setxattr).
-+
-+Likewise, some objects cannot be tied to rules and are not explicitly
-+restrictable, such as pipes or sockets reachable only through
-+``/proc/<pid>/fd/*``.  See :ref:`userspace-api/landlock:Current limitations`.
-+
-+Some restrictions are also non-selective rather than absent: a domain handling
-+any filesystem right denies filesystem-topology changes (:manpage:`mount(2)`,
-+:manpage:`pivot_root(2)` and the like), since Landlock cannot yet scope them to
-+particular mounts, and denies reparenting a file to a different directory by
-+default.  The ``LANDLOCK_ACCESS_FS_REFER`` right is denied even when not
-+handled, and allowing a reparenting is subject to further constraints (see
-+:ref:`userspace-api/landlock:Kernel interface`).  A policy cannot opt out of
-+these while keeping its filesystem rights.  :manpage:`chroot(2)` is not denied:
-+it only changes the calling process's root directory without relocating any
-+inode, so the inode-based rules still apply (it can even narrow the visible
-+tree).
-+
-+Best-effort matters because a program and its kernel are built and released
-+independently, often by different parties, so the running kernel is often
-+unknown at build time.  A program tested against the newest features it targets
-+should still protect users as much as possible on an older kernel. This is safe
-+because a right's semantic is identical across kernels (above), so a policy
-+degrades gracefully.
-+
-+Landlock started with a limited set of access rights and gains more over time.
-+Each new right is designed, tested, and documented, and once released its
-+meaning becomes a permanent interface (above) that can never change. Classifying
-+an operation as a limitation does not discourage lifting it: extending
-+Landlock's coverage is welcome, and ongoing or planned work is listed in the
-+`Landlock issue tracker <https://github.com/landlock-lsm/linux/issues>`_.
-+
-+Sandboxing is layered
-+---------------------
-+
-+Landlock is the access-control layer of a sandbox, not the whole sandbox.  A
-+robust sandbox also needs steps that are the program's responsibility: switching
-+to an unprivileged user, dropping capabilities, setting ``PR_SET_NO_NEW_PRIVS``,
-+and confining all threads of the process with the same domain.  A
-+single-threaded process gets the latter for free; a multithreaded one can
-+enforce a ruleset atomically on all its threads, or must otherwise synchronize
-+them before any untrusted work.  Landlock is typically applied last, to tighten
-+access and make the domain identifiable and auditable.
-+
-+Stronger isolation can come from combining Landlock with other mechanisms in a
-+defense-in-depth approach, notably seccomp-bpf (see
-+Documentation/userspace-api/seccomp_filter.rst) for what Landlock does not yet
-+cover.  A long-term goal of Landlock is to control access to any kind of kernel
-+resource in a way suited to sandboxing.
-+
- Guiding principles for safe access controls
- ===========================================
- 
+available at https://bugzilla.kernel.org/show_bug.cgi?id=206537
+
+The patches are based on top of commit (tip/master v7.2-rc2):
+
+  f705c6728b35 Merge branch into tip/master: 'x86/msr'
+
+Background
+==========
+
+Customers have identified an issue while using the QoS resource Control
+feature. If a memory bandwidth associated with a CLOSID is aggressively
+throttled, and it moves into Kernel mode, the Kernel operations are also
+aggressively throttled. This can stall forward progress and eventually
+degrade overall system performance.
+
+Privilege-Level Zero Association (PLZA) allows the user to specify a CLOSID
+and/or RMID for execution at Privilege Level Zero. When PLZA is enabled on
+a CPU, kernel work at PL0 uses the CLOSID and/or RMID from MSR
+PQR_PLZA_ASSOC; otherwise, the CPU uses the CLOSID and RMID from PQR_ASSOC.
+
+
+Design
+======
+
+A new sysfs file, info/kernel_mode, holds the global policy for resource
+allocation and monitoring of kernel work and the resource group (when
+applicable) associated with the policy.  Reads list the supported modes
+and the currently active binding; writes change the policy or rebind to a
+different group.  Look at the thread below for design discussion.
+https://lore.kernel.org/lkml/14a8ad0a-e842-4268-871a-0762f1169e03@intel.com/
+
+Per-rdtgroup files kmode_cpus and kmode_cpus_list scope the binding
+to a subset of online CPUs without unbind/rebind churn.  They are
+visible only on the group that is currently the active kernel-mode
+binding.
+
+The arch hook, resctrl_arch_configure_kmode keep the fs/resctrl layer
+arch-neutral.
+
+Introduced `resctrl_set_kmode_support()` so architecture code
+can register supported kernel-mode policies during resctrl initialization.
+
+Only AMD PLZA is wired up here; Intel and ARM can add their own
+support later by implementing the hooks.
+
+Examples
+========
+
+(See Documentation/filesystems/resctrl.rst, "kernel_mode",
+"kmode_cpus", and "Examples on working with kernel_mode", for the full
+UAPI.)
+
+  # Mount resctrl
+  # mount -t resctrl resctrl /sys/fs/resctrl
+  # cd /sys/fs/resctrl
+
+  # Read the supported modes.  The active mode is bracketed for display
+  # only.  Inactive global-assign modes report ":group=uninitialized".
+  # cat info/kernel_mode
+  [inherit_ctrl_and_mon]
+  global_assign_ctrl_inherit_mon_per_cpu:group=uninitialized
+  global_assign_ctrl_assign_mon_per_cpu:group=uninitialized
+
+  # Create a CTRL_MON group and bind kernel-mode allocation to it.
+  # mkdir ctrl1
+  # echo "global_assign_ctrl_inherit_mon_per_cpu:group=ctrl1//" \
+          > info/kernel_mode
+  # cat info/kernel_mode
+  inherit_ctrl_and_mon
+  [global_assign_ctrl_inherit_mon_per_cpu:group=ctrl1//]
+  global_assign_ctrl_assign_mon_per_cpu:group=uninitialized
+
+  # kmode_cpus and kmode_cpus_list are visible only on the bound group.
+  # ls ctrl1/kmode_cpus*
+  ctrl1/kmode_cpus  ctrl1/kmode_cpus_list
+
+  # Restrict the binding to a CPU subset; the write is incremental.
+  # echo 0-3 > ctrl1/kmode_cpus_list
+  # cat ctrl1/kmode_cpus
+  f
+  # cat ctrl1/kmode_cpus_list
+  0-3
+
+  # Return to the default inherit mode.
+  # echo "inherit_ctrl_and_mon" > info/kernel_mode
+  # cat info/kernel_mode
+  [inherit_ctrl_and_mon]
+  global_assign_ctrl_inherit_mon_per_cpu:group=uninitialized
+  global_assign_ctrl_assign_mon_per_cpu:group=uninitialized
+
+Tested on AMD with PLZA; the generic bits build clean on x86 without
+PLZA support and are no-ops at runtime.
+
+Layout
+======
+
+  01-03  x86: PLZA CPU feature, command-line option, and MSR/data-structure
+         plumbing.
+  04-07  fs/resctrl + x86: kmode data structures, arch hooks, supported-mode
+         initialization, and PLZA policy advertisement.
+  08     fs/resctrl: info/kernel_mode read-only introspection.
+  09-10  fs/resctrl: per-rdtgroup kmode_cpus[_list] exposure and reset of
+         the binding when the bound rdtgroup is removed.
+  11     fs/resctrl: program kernel-mode binding when a CPU comes online.
+  12     resctrl: hide kmode_cpus[_list] on groups not bound to kernel-mode.
+  13-14  fs/resctrl: info/kernel_mode write and incremental kmode_cpus[_list]
+         writes.
+  15     fs/resctrl: documentation and end-to-end examples.
+
+
+Changelog
+=========
+v4:
+  - Reorder and split the series into 15 patches: separate read-only
+    info/kernel_mode display (08) from the write path (13);
+    add hotplug support when a CPU comes online (11); add an end-to-end
+    documentation/examples patch (15).
+
+  - Introduced `resctrl_set_kmode_support()` so architecture code can
+    register supported kernel-mode policies during resctrl initialization.
+
+  - info/kernel_mode UAPI: inactive global-assign modes report
+    ":group=uninitialized" (not ":group=none"); the inherit mode has
+    no ":group=" suffix; square brackets mark the active mode on read
+    only and must not be included when writing.
+
+  - info/kernel_mode write: validate group type (assign_mon may bind an
+    RDTMON_GROUP or RDTCTRL_GROUP; inherit_mon only RDTCTRL_GROUP);
+    run fail paths before tearing down the active binding so errors
+    retain the old binding; reset any active global-assign binding
+    before reprogramming when rebinding.
+
+  - kmode_cpus / kmode_cpus_list: writable with incremental
+    enable/disable deltas; empty masks are allowed; offline CPUs and
+    writes through stale file descriptors (opened before an
+    info/kernel_mode change) are rejected; pseudo-locked and
+    pseudo-lock-setup groups are rejected.
+
+  - Hotplug: newly online CPUs are added to the bound group's
+    kmode_cpu_mask and programmed when a global-assign policy is
+    active.
+
+  - Documentation updated alongside the UAPI changes, including an
+    "Examples on working with kernel_mode" walk-through.
+
+v3:
+  - Generalise the layer beyond AMD: rename "PLZA mode" to "kernel
+    mode" (kmode) in code, sysfs, and Documentation.  The public
+    interface is now info/kernel_mode and per-group kmode_cpus[_list].
+  - info/kernel_mode UAPI cleanups: designated initialisers +
+    static_assert for the mode-name table; strim() the input; clearer
+    error messages via last_cmd_status.
+  - kmode_cpus / kmode_cpus_list: expose read-only, gate visibility on
+    the bound group, and allow incremental writes.
+  - Reset the binding when the bound rdtgroup is removed, instead of
+    leaving stale state.
+  - Kerneldoc/comment cleanups across the series.
+
+v2:
+  - Similar to RFC with a new proposal; interface names were not final.
+  - Separated Global Bandwidth Enforcement (GLBE) from PLZA; this
+    series only adds PLZA support.
+  - Used "kmode" instead of "PLZA" in the generic layer.
+
+Previous versions:
+v3: https://lore.kernel.org/lkml/cover.1777591496.git.babu.moger@amd.com/
+v2: https://lore.kernel.org/lkml/cover.1773347820.git.babu.moger@amd.com/
+v1: https://lore.kernel.org/lkml/cover.1769029977.git.babu.moger@amd.com/
+
+
+Babu Moger (15):
+  x86/resctrl: Support Privilege Level Zero Association (PLZA)
+  x86/resctrl: Add PLZA support to command-line options
+  x86/resctrl: Add data structures and definitions for PLZA
+    configuration
+  fs/resctrl: Introduce kernel mode (kmode) data structures
+  x86,fs/resctrl: Introduce architecture hooks to program kernel-mode
+  fs/resctrl: Introduce resctrl_set_kmode_support() to initialize
+    supported modes
+  x86/resctrl: Expose the supported PLZA kernel-mode policies during
+    init
+  fs/resctrl: Add interface to display supported and active kernel-mode
+    policy
+  fs/resctrl: Introduce kmode_cpus/kmode_cpus_list per rdtgroup
+  fs/resctrl: Reset the kernel-mode binding when an rdtgroup is removed
+  fs/resctrl: Program kernel-mode binding when CPU comes online
+  fs/resctrl: Hide kmode_cpus[_list] on groups not bound to kernel-mode
+  fs/resctrl: Add interface to modify kernel-mode via info/kernel_mode
+  fs/resctrl: Allow user space to write kmode_cpus/kmode_cpus_list
+  fs/resctrl: Add documentation on kernel_mode with example
+
+ .../admin-guide/kernel-parameters.txt         |   2 +-
+ Documentation/filesystems/resctrl.rst         | 195 ++++++
+ arch/x86/include/asm/cpufeatures.h            |   1 +
+ arch/x86/include/asm/msr-index.h              |   1 +
+ arch/x86/kernel/cpu/resctrl/core.c            |   8 +
+ arch/x86/kernel/cpu/resctrl/ctrlmondata.c     |  36 +
+ arch/x86/kernel/cpu/resctrl/internal.h        |  37 +
+ arch/x86/kernel/cpu/scattered.c               |   1 +
+ drivers/resctrl/mpam_resctrl.c                |   5 +
+ fs/resctrl/internal.h                         |  16 +
+ fs/resctrl/rdtgroup.c                         | 663 ++++++++++++++++++
+ include/linux/resctrl.h                       |  56 ++
+ 12 files changed, 1020 insertions(+), 1 deletion(-)
+
 -- 
-2.54.0
+2.43.0
 
