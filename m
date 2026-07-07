@@ -1,56 +1,54 @@
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D083AD534
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188543AE19D
 	for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2026 06:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783406565; cv=none; b=sDUxvytoSPUC5mOslHV9KKQVsxjnfWRP07IxWwUnW2qpzSmV3VXgIoGw/3NQUqlCK6dTbluLwsUiZeZc9rPHF6lKVi6lIgVlSdIIID2iJz4i07ISypOPL1FglRIoRWZ3AMuoloxVQE7rU6MqmYIB+vGI29oDWVzVa47jIpNtOy4=
+	t=1783406566; cv=none; b=tJzLKBMhIMuocBEsGIwtMdwJ3pUHeGOXAFhzr9xBcR78KsjDGGqM7vGBn5zs+GIyOssMxBJiJkhMccbyPybPyuVEqiOXu4pZPCNJdj1AhUfVladkNRHv3ocTuA/X3yBK/GGQqcuYEO6q6+qWKQqH7qcm2PEBLC8MMsXZOggEjRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783406565; c=relaxed/simple;
-	bh=6v+ghItK7ul3adjRGUNabgeElM/A5NB7kggjLSChwns=;
+	s=arc-20240116; t=1783406566; c=relaxed/simple;
+	bh=bACI+1p7dWUgOc9CiEORGW8gR6VAgYkgPmefTHvT2VA=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=qIiRstbWd54Q8gbpS0r8wPgG/eiHTk2/vAgQf3cGUufFuP6B11Z7urt7q5tsfxVjJzPxHJrV5MgBweYvfrNXiEhUDbpwjVaUKd3QD0LCm7Tq3s65VPu0KS/3MgpJM9DcCu0C+JzDiXdojHOzzttBrKQGe7cl2xY8ElIOS3xs/dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--souravpanda.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=irpNA6X/; arc=none smtp.client-ip=209.85.215.201
+	 To:Cc:Content-Type; b=dl21W6QKJ+fcpvlHVUYV4Qw4wEYfYiodqbZp1wbpQLJXrxytbqFuQvQ+CXQhJb+ZJV1eo4w1DnaK1b6T24s6uALcUcFWg/SRNd43gdR/Fs8wYB/qhHUKXdxjgutojxc+FAjpv4DBPFd+3ZYQzdJvfUDgCWBX/39Kk/abP7w/4BQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--souravpanda.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=A1dbaDFH; arc=none smtp.client-ip=209.85.210.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--souravpanda.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="irpNA6X/"
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-c88da04b719so3194753a12.2
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="A1dbaDFH"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-8478423e020so6160168b3a.0
         for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2026 23:42:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783406563; x=1784011363; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Mr0Imss8jl6Lql5T0sFpczm9SFtWuez0AZQ8VASrGcw=;
-        b=irpNA6X/X4aGuuJ/u7v1TAi+bwUBZhCZvWcO2Qbgz8zIfJZ9LL8VWngxSep8ulXSqW
-         9wntec3nwebXao46b7uX1t1ALqvqyY4YZDt8K4mzvVH0GZH02FJi3xmP9lD65vvfyHWq
-         1d6qCoOAbsIaUE4pCG8/AMJKmceJumB9pcYP5/aEL8DIqh3ccXyBiJ8Y1A8F7RCtVWQ+
-         gGhm+/mOSeojmZS/zRqam2UtlkmpOhqnH/nF1v/itY/3PoMb6I5h3rob2oqxRhAy9bjk
-         7byezXpHZh2zpusuEgxYqUxEYdJeBW1SU9EOEiPZZP/k4xb0TgTHpqJ2rMPzpTrfAtmb
-         +w+g==
+        d=google.com; s=20251104; t=1783406564; x=1784011364; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pw6BVJ/QVNzRTvmuXXHDf40tgOrCadUtgbpK+Kq2rCY=;
+        b=A1dbaDFHoahtc5Jvi4HGZMU8QxT2fQAh8e7cIP8xZAB14tOJyFMOP0F2CssDnEjgPu
+         v+L+JiiR/6jsiSDJU4bhMjtWl4zuRg4/xY3xKC2/FWsBE5uBU4ORZru3qlyLk/Oaq6Bq
+         ZGmmoWnOKDYPwvEeiUtD4BeHjQ0h1sEGdiYXmCQTBekIwDBLhx/YO21v5HWCiB4Ohvuh
+         8IGy491nItv4NJASb0O50qyeRRi6VWM5LKDJV+LdrG7rpl7E+ZNtDEWuHoV2iQolz0Ov
+         rdgWFG5AeLirYfol3depzhXBzLdC8ys0unjXQzxQj/xwPqahtRyAvnzyO02+ZKIIDe5A
+         9Jlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783406563; x=1784011363;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Mr0Imss8jl6Lql5T0sFpczm9SFtWuez0AZQ8VASrGcw=;
-        b=ISH6PYnx/YmyDXnc++S/2uI09ivPpqRPTIxhfC34kL9842WiElkMgR5OzKWSbuS8qh
-         t6o0FTD8fSNXXj3eP2BwlTqwCgXt927u6+AbWFAE7xQOfqz6joGXwL+rKMz16PiF5KfH
-         hv5+9OH24Q5c68vVFNOr7835z/y/7BqiZtpgslBAwAzNPdQe4ZQJ7+A6IJq/rqkdYI75
-         sntKVnI6HECztSUlweXjq9xNlBcY/Alc14Xe7WGunvQPT0B3198BlFzUincbO2WgeiXR
-         AZAEAjC9e3lCgP1s8sJNBJErMOE8bbjFaIltQaNJa3Q07gLNvoL1f21+oAkItONDe4V9
-         mCeQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqv6M7ew9Sg8RAi27rheD7UmpW1IQIJ3Zuw2MRl5KLfhAWhDljgBLe1zZjzk0IdTmMfIhA1IFDwuMc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywl/HozO3DpxKBgWGH7gCf1JVOOpcZAR8j5e3tXHj8raA1X6jYK
-	gmnv3MpAVPwuiyxcyIEl+en60B3aVMqVGErZ+KjBsUgQ39lpot0ZFDAqcdTBOmAirvqOMvFs+4g
-	+PYQeXTx2eNQVmOqYRDVUPC8gEQ==
-X-Received: from pjui23.prod.google.com ([2002:a17:90a:cf97:b0:382:3fe5:7a9b])
+        d=1e100.net; s=20251104; t=1783406564; x=1784011364;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pw6BVJ/QVNzRTvmuXXHDf40tgOrCadUtgbpK+Kq2rCY=;
+        b=nXKFIbe3CQshXbrOX070MlrcWdYo+VyCJasK3EYw/WgscX/RQHBUAKzwO/aqHYIMp4
+         OyCVAd6YXg3WU3XW12VWarHLYwin6M2LJhIqj50RkPanW6KUW3Pd35yTJih+eI0JUgTA
+         wUq1QHddYaiN0dQ+LdcJcI5Qp/rANI+/h+r4SgeJL29EpHKwzSJRQvCYsbfIiIIMzBtc
+         rgXhccFrubsmjjPmXRAGQ4oBLxj2SqhsiZqjnKIy3etGeU2VKY5+9J4Uu32HcdH20zLY
+         Y98GHKhxKRapxpU/dg2u2rXwRttIpRfTIj0stKT7dQk9YgZDGt3IjjMQ/6T1EPOavnN5
+         xQ2w==
+X-Forwarded-Encrypted: i=1; AHgh+RrQZT7jVQVv1JuQcHqlmoHvCLy9ffttPCACFOyA8r49IdZXYrj5U/9AmMFb0oGqCu3Pj+j8tZs6dBo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwftTfEqzctCOHOqmK1IERyxBD1AnQWj1aP/0k0qbCF1YSZicn2
+	uWuwvaLLLdE4gqhyCEVLFfJ8bhfCG7kg+Sj+WYsLcOu08XHUi+2MlaNZ/2sCXWIB/88NBIudiKZ
+	+uBGAf6CbnWvjKK2R5M0DbQYi3Q==
+X-Received: from pfbbj20.prod.google.com ([2002:a05:6a00:3194:b0:847:74c2:35f5])
  (user=souravpanda job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:570d:b0:37f:eaf9:4682 with SMTP id 98e67ed59e1d1-3875586394cmr3986337a91.14.1783406563403;
- Mon, 06 Jul 2026 23:42:43 -0700 (PDT)
-Date: Tue,  7 Jul 2026 06:42:34 +0000
+ 2002:a05:6a00:8085:b0:846:8b21:6304 with SMTP id d2e1a72fcca58-84826bb949bmr3922339b3a.14.1783406564179;
+ Mon, 06 Jul 2026 23:42:44 -0700 (PDT)
+Date: Tue,  7 Jul 2026 06:42:35 +0000
 In-Reply-To: <20260707064235.1386552-1-souravpanda@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -60,9 +58,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260707064235.1386552-1-souravpanda@google.com>
 X-Mailer: git-send-email 2.55.0.rc2.803.g1fd1e6609c-goog
-Message-ID: <20260707064235.1386552-6-souravpanda@google.com>
-Subject: [PATCH 5/6] Documentation/admin-guide/mm/hugetlbpage.rst: document
- cache interfaces
+Message-ID: <20260707064235.1386552-7-souravpanda@google.com>
+Subject: [PATCH 6/6] mm/hugetlb: support free page reporting for cached hugepages
 From: Sourav Panda <souravpanda@google.com>
 To: muchun.song@linux.dev, osalvador@suse.de, akpm@linux-foundation.org
 Cc: david@kernel.org, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, 
@@ -74,85 +71,325 @@ Cc: david@kernel.org, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
 	linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Document the newly introduced sysfs interfaces for the HugeTLB
-dynamic cache. This includes max_cached_huge_pages,
-nr_cached_hugepages and their NUMA/mempolicy variants.
+Implement free page reporting for the HugeTLB dynamic cache.
+
+Register HugeTLB hstates with the page reporting framework if they
+support caching.
+
+When pages are added to the cache (either via recycling in
+free_huge_folio or direct population via sysfs nr_cached_hugepages),
+trigger a page reporting cycle.
+
+Page reporting isolates pages from the cache list, reports them to the
+hypervisor via virtio-balloon, and then drains them back to the cache
+list, marking them as reported (HPG_reported).
+
+If a page is allocated from the cache, or reclaimed, clear the reported
+flag.
 
 Signed-off-by: Sourav Panda <souravpanda@google.com>
 ---
- Documentation/admin-guide/mm/hugetlbpage.rst | 34 ++++++++++++++++++--
- 1 file changed, 32 insertions(+), 2 deletions(-)
+ include/linux/hugetlb.h        |  27 +++++++
+ include/linux/page_reporting.h |   1 +
+ mm/hugetlb.c                   | 125 +++++++++++++++++++++++++++++++++
+ mm/page_reporting.c            |  10 ++-
+ mm/page_reporting.h            |   6 ++
+ 5 files changed, 163 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation/admin-guide/mm/hugetlbpage.rst
-index 67a941903fd2..6b96779e2584 100644
---- a/Documentation/admin-guide/mm/hugetlbpage.rst
-+++ b/Documentation/admin-guide/mm/hugetlbpage.rst
-@@ -264,6 +264,10 @@ pages may exist::
- 	free_hugepages
- 	resv_hugepages
- 	surplus_hugepages
-+	max_cached_huge_pages
-+	max_cached_huge_pages_mempolicy
-+	nr_cached_hugepages
-+	nr_cached_hugepages_mempolicy
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index e882c99780b6..bde23edcb803 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -587,6 +587,7 @@ enum hugetlb_page_flags {
+ 	HPG_cma,
+ #ifdef CONFIG_HUGETLB_CACHE
+ 	HPG_cached,
++	HPG_reported,
+ #endif
+ 	__NR_HPAGEFLAGS,
+ };
+@@ -650,10 +651,14 @@ HPAGEFLAG(RawHwpUnreliable, raw_hwp_unreliable)
+ HPAGEFLAG(Cma, cma)
+ #ifdef CONFIG_HUGETLB_CACHE
+ HPAGEFLAG(Cached, cached)
++HPAGEFLAG(Reported, reported)
+ #else
+ static inline bool folio_test_hugetlb_cached(const struct folio *folio) { return false; }
+ static inline void folio_clear_hugetlb_cached(struct folio *folio) { }
+ static inline void folio_set_hugetlb_cached(struct folio *folio) { }
++static inline bool folio_test_hugetlb_reported(const struct folio *folio) { return false; }
++static inline void folio_clear_hugetlb_reported(struct folio *folio) { }
++static inline void folio_set_hugetlb_reported(struct folio *folio) { }
+ #endif
  
- The demote interfaces provide the ability to split a huge page into
- smaller huge pages.  For example, the x86 architecture supports both
-@@ -286,8 +290,28 @@ demote
-         actually demoted, compare the value of nr_hugepages before and after
-         writing to the demote interface.  demote is a write only interface.
+ #ifdef CONFIG_HUGETLB_PAGE
+@@ -1093,6 +1098,20 @@ void hugetlb_unregister_node(struct node *node);
+  */
+ bool is_raw_hwpoison_page_in_hugepage(struct page *page);
  
--The interfaces which are the same as in ``/proc`` (all except demote and
--demote_size) function as described above for the default huge page-sized case.
-+max_cached_huge_pages
-+        is the maximum number of cached hugepages for this size (global).
-+        Surplus hugepages freed by applications are recycled into this cache
-+        instead of being released back to the buddy allocator immediately.
-+        Subsequent allocations for surplus pages will prefer this cache.
-+        A user with root privileges can write to this file to set the limit.
-+        This interface accepts absolute values as well as relative adjustments
-+        using +1 or -1.
++#ifdef CONFIG_HUGETLB_CACHE
++struct page_reporting_dev_info;
++int hugetlb_page_reporting(struct page_reporting_dev_info *prdev,
++			   struct scatterlist *sgl);
++#else /* !CONFIG_HUGETLB_CACHE */
++struct page_reporting_dev_info;
++struct scatterlist;
++static inline int hugetlb_page_reporting(struct page_reporting_dev_info *prdev,
++					 struct scatterlist *sgl)
++{
++	return 0;
++}
++#endif /* CONFIG_HUGETLB_CACHE */
 +
-+max_cached_huge_pages_mempolicy
-+        is the same as max_cached_huge_pages, but the nodes from which pages
-+        are cached are controlled by the memory policy of the task.
+ static inline unsigned long huge_page_mask_align(struct file *file)
+ {
+ 	return PAGE_MASK & ~huge_page_mask(hstate_file(file));
+@@ -1311,6 +1330,14 @@ static inline bool hugetlbfs_pagecache_present(
+ static inline void hugetlb_bootmem_alloc(void)
+ {
+ }
 +
-+nr_cached_hugepages
-+        reports the current number of cached hugepages. Writing to this file
-+        allows manual expansion or contraction of the cache.
-+        A user with root privileges can write to this file.
-+        This interface accepts absolute values as well as relative adjustments
-+        using +1 or -1.
++struct page_reporting_dev_info;
++struct scatterlist;
++static inline int hugetlb_page_reporting(struct page_reporting_dev_info *prdev,
++					 struct scatterlist *sgl)
++{
++	return 0;
++}
+ #endif	/* CONFIG_HUGETLB_PAGE */
+ 
+ static inline spinlock_t *huge_pte_lock(struct hstate *h,
+diff --git a/include/linux/page_reporting.h b/include/linux/page_reporting.h
+index 9d4ca5c218a0..bd5a5a293dc3 100644
+--- a/include/linux/page_reporting.h
++++ b/include/linux/page_reporting.h
+@@ -27,4 +27,5 @@ struct page_reporting_dev_info {
+ /* Tear-down and bring-up for page reporting devices */
+ void page_reporting_unregister(struct page_reporting_dev_info *prdev);
+ int page_reporting_register(struct page_reporting_dev_info *prdev);
++extern unsigned int page_reporting_order;
+ #endif /*_LINUX_PAGE_REPORTING_H */
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 1bc0198a695c..110c566efc3b 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -46,7 +46,9 @@
+ #include <linux/io.h>
+ #include <linux/node.h>
+ #include <linux/page_owner.h>
++#include <linux/page_reporting.h>
+ #include "internal.h"
++#include "page_reporting.h"
+ #include "hugetlb_vmemmap.h"
+ #include "hugetlb_cma.h"
+ #include "hugetlb_internal.h"
+@@ -1414,6 +1416,7 @@ static void hugetlb_cache_remove(struct hstate *h, struct folio *folio, bool to_
+ 	list_del_init(&folio->lru);
+ 	folio_clear_hugetlb_freed(folio);
+ 	folio_clear_hugetlb_cached(folio);
++	folio_clear_hugetlb_reported(folio);
+ 	h->nr_cached_hugepages--;
+ 	h->nr_cached_hugepages_node[nid]--;
+ 	if (to_surplus) {
+@@ -1806,6 +1809,7 @@ void free_huge_folio(struct folio *folio)
+ 		    !folio_test_hwpoison(folio)) {
+ 			arch_clear_hugetlb_flags(folio);
+ 			hugetlb_cache_add(h, folio, true);
++			page_reporting_notify_free(h->order);
+ 			spin_unlock_irqrestore(&hugetlb_lock, flags);
+ 			return;
+ 		}
+@@ -4231,6 +4235,7 @@ static int adjust_cached_huge_pages(struct hstate *h, long count, bool is_delta,
+ 			account_new_hugetlb_folio(h, folio);
+ 
+ 			hugetlb_cache_add(h, folio, false);
++			page_reporting_notify_free(h->order);
+ 			spin_unlock_irq(&hugetlb_lock);
+ 			cond_resched();
+ 		}
+@@ -4310,6 +4315,7 @@ static int adjust_cached_huge_pages(struct hstate *h, long count, bool is_delta,
+ 			account_new_hugetlb_folio(h, folio);
+ 
+ 			hugetlb_cache_add(h, folio, false);
++			page_reporting_notify_free(h->order);
+ 			spin_unlock_irq(&hugetlb_lock);
+ 			cond_resched();
+ 		}
+@@ -7763,3 +7769,122 @@ void fixup_hugetlb_reservations(struct vm_area_struct *vma)
+ 	if (is_vm_hugetlb_page(vma))
+ 		clear_vma_resv_huge_pages(vma);
+ }
 +
-+nr_cached_hugepages_mempolicy
-+        is the same as nr_cached_hugepages, but obeys the memory policy.
++#ifdef CONFIG_HUGETLB_CACHE
++static void page_reporting_drain_hugetlb(struct hstate *h,
++					 struct scatterlist *sgl, unsigned int nents, bool reported)
++{
++	struct scatterlist *sg = sgl;
++	unsigned int left = nents;
 +
-+The interfaces which are the same as in ``/proc`` (all except demote,
-+demote_size, and the cache interfaces) function as described above
-+for the default huge page-sized case.
- 
- .. _mem_policy_and_hp_alloc:
- 
-@@ -372,6 +396,8 @@ contains the following attribute files::
- 	nr_hugepages
- 	free_hugepages
- 	surplus_hugepages
-+	nr_cached_hugepages
-+	max_cached_huge_pages
- 
- The free\_' and surplus\_' attribute files are read-only.  They return the number
- of free and surplus [overcommitted] huge pages, respectively, on the parent
-@@ -382,6 +408,10 @@ specified node.  When this attribute is written, the number of persistent huge
- pages on the parent node will be adjusted to the specified value, if sufficient
- resources exist, regardless of the task's mempolicy or cpuset constraints.
- 
-+The ``nr_cached_hugepages`` and ``max_cached_huge_pages`` attributes return the
-+number of cached huge pages and the max limit on the specified node, respectively.
-+Writing to these attributes adjusts the cache on the parent node.
++	spin_lock_irq(&hugetlb_lock);
++	do {
++		struct page *page = sg_page(sg);
++		struct folio *folio = page_folio(page);
 +
- Note that the number of overcommit and reserve pages remain global quantities,
- as we don't know until fault time, when the faulting task's mempolicy is
- applied, from which node the huge page allocation will be attempted.
++		hugetlb_cache_add(h, folio, false);
++
++		if (reported)
++			folio_set_hugetlb_reported(folio);
++	} while (--left && (sg = sg_next(sg)));
++	spin_unlock_irq(&hugetlb_lock);
++
++	sg_init_table(sgl, nents);
++}
++
++static int hugetlb_page_reporting_cycle(struct page_reporting_dev_info *prdev,
++					struct hstate *h, int nid,
++					struct scatterlist *sgl, unsigned int *offset)
++{
++	struct list_head *list = &h->hugepage_cache_lists[nid];
++	unsigned int page_len = huge_page_size(h);
++	struct folio *folio, *next;
++	long budget = 100; /* Limit */
++	int err = 0;
++
++	if (list_empty(list))
++		return err;
++
++	spin_lock_irq(&hugetlb_lock);
++
++	list_for_each_entry_safe(folio, next, list, lru) {
++		if (folio_test_hugetlb_reported(folio))
++			continue;
++
++		if (budget < 0) {
++			atomic_set(&prdev->state, PAGE_REPORTING_REQUESTED);
++			break;
++		}
++
++		if (*offset) {
++			/* Isolate */
++			hugetlb_cache_remove(h, folio, false);
++
++			--(*offset);
++			sg_set_page(&sgl[*offset], &folio->page, page_len, 0);
++			continue;
++		}
++
++		spin_unlock_irq(&hugetlb_lock);
++
++		err = prdev->report(prdev, sgl, PAGE_REPORTING_CAPACITY);
++		if (!err) {
++			pr_info("HugeTLB page reporting: reported %u pages of size %luKB\n",
++				PAGE_REPORTING_CAPACITY, huge_page_size(h) / 1024);
++		}
++
++		*offset = PAGE_REPORTING_CAPACITY;
++		budget--;
++
++		page_reporting_drain_hugetlb(h, sgl, PAGE_REPORTING_CAPACITY, !err);
++
++		spin_lock_irq(&hugetlb_lock);
++
++		if (list_empty(list))
++			break;
++		next = list_first_entry(list, struct folio, lru);
++
++		if (err)
++			break;
++	}
++
++	spin_unlock_irq(&hugetlb_lock);
++	return err;
++}
++
++int hugetlb_page_reporting(struct page_reporting_dev_info *prdev,
++			   struct scatterlist *sgl)
++{
++	struct hstate *h;
++	int err = 0;
++	int nid;
++
++	for_each_hstate(h) {
++		if (h->order < page_reporting_order)
++			continue;
++
++		for_each_online_node(nid) {
++			unsigned int offset = PAGE_REPORTING_CAPACITY;
++
++			err = hugetlb_page_reporting_cycle(prdev, h, nid, sgl, &offset);
++			if (err)
++				return err;
++
++			/* Report leftovers */
++			unsigned int leftover = PAGE_REPORTING_CAPACITY - offset;
++
++			if (leftover) {
++				struct scatterlist *sg = &sgl[offset];
++
++				err = prdev->report(prdev, sg, leftover);
++				page_reporting_drain_hugetlb(h, sg, leftover, !err);
++				if (err)
++					return err;
++				pr_info("HugeTLB page reporting: reported %u pages of size %luKB\n",
++					leftover, huge_page_size(h) / 1024);
++			}
++		}
++	}
++	return 0;
++}
++#endif
+diff --git a/mm/page_reporting.c b/mm/page_reporting.c
+index 7418f2e500bb..882496b8b2c9 100644
+--- a/mm/page_reporting.c
++++ b/mm/page_reporting.c
+@@ -2,6 +2,7 @@
+ #include <linux/mm.h>
+ #include <linux/mmzone.h>
+ #include <linux/page_reporting.h>
++#include <linux/hugetlb.h>
+ #include <linux/gfp.h>
+ #include <linux/export.h>
+ #include <linux/module.h>
+@@ -50,12 +51,6 @@ EXPORT_SYMBOL_GPL(page_reporting_order);
+ #define PAGE_REPORTING_DELAY	(2 * HZ)
+ static struct page_reporting_dev_info __rcu *pr_dev_info __read_mostly;
+ 
+-enum {
+-	PAGE_REPORTING_IDLE = 0,
+-	PAGE_REPORTING_REQUESTED,
+-	PAGE_REPORTING_ACTIVE
+-};
+-
+ /* request page reporting */
+ static void
+ __page_reporting_request(struct page_reporting_dev_info *prdev)
+@@ -334,6 +329,9 @@ static void page_reporting_process(struct work_struct *work)
+ 			break;
+ 	}
+ 
++	if (!err)
++		err = hugetlb_page_reporting(prdev, sgl);
++
+ 	kfree(sgl);
+ err_out:
+ 	/*
+diff --git a/mm/page_reporting.h b/mm/page_reporting.h
+index c51dbc228b94..74e05af4bac1 100644
+--- a/mm/page_reporting.h
++++ b/mm/page_reporting.h
+@@ -11,6 +11,12 @@
+ #include <linux/scatterlist.h>
+ 
+ #ifdef CONFIG_PAGE_REPORTING
++enum {
++	PAGE_REPORTING_IDLE = 0,
++	PAGE_REPORTING_REQUESTED,
++	PAGE_REPORTING_ACTIVE
++};
++
+ DECLARE_STATIC_KEY_FALSE(page_reporting_enabled);
+ extern unsigned int page_reporting_order;
+ void __page_reporting_notify(void);
 -- 
 2.55.0.rc0.799.gd6f94ed593-goog
 
