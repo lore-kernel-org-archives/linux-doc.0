@@ -1,46 +1,46 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013057.outbound.protection.outlook.com [40.93.201.57])
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011005.outbound.protection.outlook.com [52.101.62.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E784B344D92;
-	Tue,  7 Jul 2026 21:18:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7C93314B9;
+	Tue,  7 Jul 2026 21:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.5
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783459089; cv=fail; b=t89aFQHX6C2z2LuKOLXFHphHXqAprbN4f90kxULZF+WiIrrOflEr22yagCmy+XL7k57swGGfuXl6EfuHw42HxIH66elaiEmg1wfr5oRAkVLGotpKSbmYSlU7IapV0mfCXfn8xNpEDb6DQ3xv5GLHP6/uJPTP9U6+9TqnRO1gTtg=
+	t=1783459097; cv=fail; b=U5zcu4HfrtY/5BXonUkdGkFDJfvyOqlMZ3SJA6urLpqxZZkQiY52qYCL5Z2wrHPmhtV9QoENJgOy05cbQ7uoZt985qtChfs4uZTQ2PUQpXVfSc8BNhFBWOxQBDE4wjNOIGFIbFSeXLEtiWfOsBSowI0/WvhYrqHusfv1e6CVLks=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783459089; c=relaxed/simple;
-	bh=VYjOFaWBYvRbPsUIQTMMR8mb9i8L4jNeFRHPFYe8340=;
+	s=arc-20240116; t=1783459097; c=relaxed/simple;
+	bh=QhxPJPInBGY8KdahsNCoS1nUyc+fxb9Lxms2Y4bGook=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=owR9mxxFfzQeaJESVa4gRxJX8kjRhSbFffwwuzpownoWrmTXe/lWBchdNDHUqtpzkY7GvsFGDc9QVo2qiTVJieSs0HnIlf8jK6uqncM+881Na+EhDNP8xR3jXLsINOAVjM5TjEMsfIlf36NlfXZs3frZ42S3ak+d+gYc0d1aAPM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=oGghV5pP; arc=fail smtp.client-ip=40.93.201.57
+	 MIME-Version:Content-Type; b=DXBaU9jDfYwZLH1IaflPzDinms145Y9xZmyqQxjRLYbU4vXXb+px6GfclIl+adGCE/zMqHl/rT3A32djH187KZRHmzudSWKmtpIQQQuF+EDF25r6UgiCGa8BJ9EBd06Ggwr0n6/96QKwR2lJ/s7irveLrBCbh7VgPAa3oyqM5aA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=g0UN/8bE; arc=fail smtp.client-ip=52.101.62.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="oGghV5pP"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="g0UN/8bE"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vKQwO/i9UgIjVduQpCP0aZ2PbWCuKY71savUShdapwjnl/w9HqIvd+tozSO/veQlahw+QykmQE1kU/lOiwzitQrGrMcYhGef7TzKH3F78wtaZ/MsJFoHam3CUHYUjdEIB8lo/wofAkOge80bQwWAwibyIBrkgmkGipZpNo9cRDC9Sza36aiEtYaDjasEkGQaTOi/Bdzay49Imw8xQl+5x0AXip0k0kP1pKGRRQLulW+M1GT2V+Ak8jV1hdzsseJyJPFnealmTGU8+AUp1EHXd402DSOAGQA9TDUf88Aybx1GVVWeSWCQsFc2nnUcoHm7TgmcGSXI9Oohf6vOfdLBXw==
+ b=bjHPK3GDLc2NrrGRYw1tLGFot5Wjj94AR2rYihI4sWCgS6cXwCUB0f35NH1Hmc5Ya3KlcQRDB9V2F4wt0fZ6Dl7ZiTzFGrPWpU/JBpdzNFEDsoRH1C7EyuOo2q/wpQMW2q4do31Kh0FgPkmTpGKZLAMBdVm3EhNLtlxfInvRz9kRSuL5dqWmz7RavYoodj77FZZWhie0A7aFCXIGS1wiv/pCQKgrxxzF9B25UMfPybMASJd/jS81bVBDMes7kUPpLBrVVqjBf3mzuBh/1I7YZ2grQzSbbHz/0bkQaALWNgGI44+/FAHMpFmA6TztBDq0T2b7iOUD/tmqttOyoZZAJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t/DbEge/052qDT+6k7SSTEYL8swnRJz3s1jNTvXZoJg=;
- b=Q2MP9g8ABV0mJLTWR2I82ZOxSow7gilhZKHX4pcj83szMxJRcMgmhKCpAqKwM9TbC/75R63c6Zz2cERNwK2RoAyVXVIinz0AVlHEs/bhu7S2pgSxiBWsqPRX4OEdbSid7ce4ndC5uboMIMcPiZB1BTNM+vX9yc94bA8H5edsb6kCW1bCQeMM8ShTTjfY8B8G4cAEVFszVWPg85iAwtgrIpuXoIRd+S4z4IBBW6wV0QA7IMfbF4740FXAM7+uAz6D1IPeGdVidR1aRgA27onrR3FP8u9Z8sZ94ramt8yCj1eWj6Xnvbh/phwYSkrBAKSZmecX5sE3x5Ns0rmMxpPTAg==
+ bh=v2Cgs1+joqhG/adWlAEDwVlblZS44+8mgNNcrhSDj8E=;
+ b=yqe4h/ac09S3m/Vuy9yPncvNFqvIqKQ+B2MUE+ap12qgHc+NXT/1bRhSehB8TAYb8UEyVvvTgyYlGpTPnprbiYSc7mNO3YSWsVbxA/z528clrXBvQV6WUIhvIL0e8kGd5m0OFWCk7J0M641n5YTfbnFTWJDBoQBl6kAbHItIK/bG+Vv07MqZqGyR54g/fY6j9/Tj5pJ2EphJLBzKQKzRRhvMU4OqbASQ6Bsu7CrOTb4dwDgJGIF81LYqzK/ti8VlKrsa/GcEyuR+7fd2OE+CzSsFboxUFoLHuadXR1kvX8Di710NI1DLLGxtUG7nOiPVhA3Nq1G9AGOiPAGbtWGifg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t/DbEge/052qDT+6k7SSTEYL8swnRJz3s1jNTvXZoJg=;
- b=oGghV5pPgbWAZIsMoBtTNPLjt4mtDSrooWQ/pI4kLbOCxTpYudi5/tR/ddckMieBvT91FNFEbKAhfAWvpTySJ+jB5VX0ZTzTCUUUifrIH4F9lOMjETXJtqdDPXZlEwnpPVv4AWn5WVi4hHCZRP/Ws6TWU5i56Pn8IAqLdvxWDaY=
-Received: from SA0PR11CA0059.namprd11.prod.outlook.com (2603:10b6:806:d0::34)
- by DS0PR12MB8367.namprd12.prod.outlook.com (2603:10b6:8:fd::17) with
+ bh=v2Cgs1+joqhG/adWlAEDwVlblZS44+8mgNNcrhSDj8E=;
+ b=g0UN/8bErT9INzwAiWLjnUzn/x3UsbiopbW/zJwHs2P2dcsrAUejeInjVTylPt/MVgk71kMGQGYqI8abhqcBokxG5isiegp4XCBO+FiLi79xLlmpctmsV4c5/6t64fKmW4gsanD3vOUcbLyV1Bej5xnh2kJHcJ/2dpC1tzWVsCw=
+Received: from PH7P221CA0015.NAMP221.PROD.OUTLOOK.COM (2603:10b6:510:32a::11)
+ by CY1PR12MB9697.namprd12.prod.outlook.com (2603:10b6:930:107::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Tue, 7 Jul
- 2026 21:17:56 +0000
-Received: from SA2PEPF00003F68.namprd04.prod.outlook.com
- (2603:10b6:806:d0:cafe::a5) by SA0PR11CA0059.outlook.office365.com
- (2603:10b6:806:d0::34) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.13 via Frontend Transport; Tue, 7
- Jul 2026 21:17:56 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Tue, 7 Jul
+ 2026 21:18:10 +0000
+Received: from SA2PEPF00003F65.namprd04.prod.outlook.com
+ (2603:10b6:510:32a:cafe::54) by PH7P221CA0015.outlook.office365.com
+ (2603:10b6:510:32a::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.202.9 via Frontend Transport; Tue, 7
+ Jul 2026 21:18:09 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- SA2PEPF00003F68.mail.protection.outlook.com (10.167.248.43) with Microsoft
+ SA2PEPF00003F65.mail.protection.outlook.com (10.167.248.40) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Tue, 7 Jul 2026 21:17:56 +0000
+ 15.21.181.6 via Frontend Transport; Tue, 7 Jul 2026 21:18:09 +0000
 Received: from bmoger-ubuntu.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 7 Jul
- 2026 16:17:54 -0500
+ 2026 16:18:07 -0500
 From: Babu Moger <babu.moger@amd.com>
 To: <corbet@lwn.net>, <tony.luck@intel.com>, <reinette.chatre@intel.com>,
 	<Dave.Martin@arm.com>, <james.morse@arm.com>, <tglx@kernel.org>,
@@ -72,9 +72,9 @@ CC: <skhan@linuxfoundation.org>, <x86@kernel.org>, <babu.moger@amd.com>,
 	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<thomas.lendacky@amd.com>, <eranian@google.com>, <peternewman@google.com>,
 	<qinyuntan@linux.alibaba.com>
-Subject: [PATCH v4 05/15] x86,fs/resctrl: Introduce architecture hooks to program kernel-mode
-Date: Tue, 7 Jul 2026 16:16:53 -0500
-Message-ID: <34a5119a28e102b8d6a0d0cfc3623fb0813a11f7.1783459023.git.babu.moger@amd.com>
+Subject: [PATCH v4 06/15] fs/resctrl: Introduce resctrl_set_kmode_support() to initialize supported modes
+Date: Tue, 7 Jul 2026 16:16:54 -0500
+Message-ID: <f4926d9bc70261ba0245a1d1158d8bd3d09bdefb.1783459023.git.babu.moger@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1783459023.git.babu.moger@amd.com>
 References: <cover.1783459023.git.babu.moger@amd.com>
@@ -90,158 +90,138 @@ X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003F68:EE_|DS0PR12MB8367:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0313b1bf-f318-4a30-a506-08dedc6d371e
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F65:EE_|CY1PR12MB9697:EE_
+X-MS-Office365-Filtering-Correlation-Id: 50dba51c-30b3-44e3-1ff5-08dedc6d3ee1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|7416014|36860700016|23010399003|11063799006|5023799004|56012099006|22082099003|6133799003|18002099003;
+	BCL:0;ARA:13230040|1800799024|7416014|376014|82310400026|23010399003|36860700016|22082099003|18002099003|13003099007|11063799006|56012099006|6133799003;
 X-Microsoft-Antispam-Message-Info:
-	MbG9sstf7UXFU7uxv68gLHRRDRi5pXqVIZuf97b9hSc7UiJJDSsroXWoi/hTWMClbJT8CKbaxyMjHWtZGZPNPdWL3s5+HAmpdlYrxJ5cBhpeuAJkzIpZQymivRN8fhzGIbj6dzQW9op2TrDh/LrBr6bmu5zKCMjOdQ9oFHtQkJrtS4AV8v17S+pOqXPeiue96X1nLwrFD7FA2CgRMF1U0Oq8NXNCLHe+U+M55S0YNQmCK7JZ0drN2KJKZaryfjpK0gkZddC5lNA+69511wBiySYVhTUIZvwDotPj72r49bsHSBQMgv0kTHCo5Mav1vCSElzaDGNcwk7UuVZkyW7dxJgUYMTtWdASwK8HSWeawRmlVbb/g94NnO3tnmyJBsgBELPJECcQ/QSlQw55rhxbybTlhSWnmqAOyT+UZJwfJflGNt63pGN+DtKcT4ijcCuFncG9DWqXj9fwWv1D7Es8WYEpMghpGu/aSHwcvSVH7tK2Fau3g7mHQo8yXtsG1LRDt1QUFfaIe0x6AG2lQs/00drYcaC2/uwEsO5ziwEeHLsVAY/cGsDoU9dSb+yyCpckyp8M650ECRxVUbNQ9qz9des9Rw+c/KACMu7lEjpz9EokiXpIlrIl0L/8bMT2SPNqpxFU7Sj0d5CeJuQWWF2nSzjvenYN1nqz/GYWOpmXUY+yo7f20uBmDkw1Crdkfdc077WPlamhU3ZczhbLc9mwxQ==
+	R35z7XbcOXFADcN+DrEGwkiqKyzHB0WxnUqsYABKfV3DutIELRNsTiXBGJJOANSzOI0rb2AF8gnnxs9MxmYyW3/B54jt7QWv1Nq483+bpi9lCTk8nhkwtmee8IOTKCSLEi4ZWhN8FC2o0fC/HZ+qIOdeswPsj9c0cIMgIIPg6KqpGWyQ9Xl6RYeIwBIruDG828ZcGaVd8ScBEV4N9/wOpilmYGLK8OW9guD1r9JnYjZjHa9oJwYtGpacFGcc/sxvLqJivP9pBsF48AZ0pFTog/ct/38QVmYSDkqgA58t8q6H08f0Pu7sQAtDag93WdSA40gpP4uxI+l+UVDA33Nc12sHiTUjNEiBpZZnUqS7xIPFz8xcnBTLXQ4QTOfPlzbPdRF+uw7UKBimYDZNtmicbaIwf9Z70Dy9T7IuhumSeDA/kQNvW6KcfTQ28rO5ah6NIn27/ud6OpaIxJ9FqeGhNBICBEVlDFi0Zf14KZCCn3FLDRL6iJehmSveYQurD594kn5fbzM4WefmyzPgLlcINOBWp7N7mYRF4EDGkg6a8XUQTyhGaKUc1DHtEjIGtJYmoxzRM/RR+DEM5qetjDFOQuxDO8ckoJo+ROo8iEB7qeek93l8KvsUXEgwlVfHd0r3OLBUlIshCHig9ZmCqbsSvblgPKrWjjBZYWzNbGCSVxs4bqRDYnstg04s+eJt9JGSxMHRFJbV+GCNuER7slfbuQ==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(7416014)(36860700016)(23010399003)(11063799006)(5023799004)(56012099006)(22082099003)(6133799003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(82310400026)(23010399003)(36860700016)(22082099003)(18002099003)(13003099007)(11063799006)(56012099006)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	X0xmLKDxpchsTsoIOVt/g3gufh5WM2q033oK9v+Hkt+dDxTZWxPXxr55n8r9hXFh1ReiXoNOiTVXs/5z7WmR3Eaqr5tmqwP04j2fGdtdw6Mus6xvP7LV2MZ0B9ytJkA8egH42GtmrHcwOnmQpyRwLwDqQZM67aP85UUyQ4K93DMzHdHw/wCU8sz5asZqVVBDC++ruXCuQV165Hm43alHDv8XE1JbHnpzVhjzIDemanPMUskVjoIE1qp94ILR4H7K+TkgNv0KlhKGbTft4XXEJyUEN8SIq8Wymv72rPD2SZF6liV09V9+oEHHr2/lGuMVgE5UEUk5flpvzr5MrEP/K0/NGuxACtf4RF937BDld7XGY2zPNRTytE2lG433Kmy+xsarbayDRmFnQDSeO+zKvqDqwOu/1Oa2XItWUEN/YJVRNWl4OM3LF7sEKqeIhXxb
+	xGw4u0ZcKpFtPkhL+FnwJoVzc68/TpxHq9Xrmf2vTPuZkyEJNoDC0JdCZHiDdnCvXIGCKZdvA5vBLh6ldxpTHEFual6pNFxQTuPv9gKTGrd+Y7HYF2QPQRm/o5x6Vuc5HlM0C9pdqnZQ1/7Wq6u2r3L/KB5Bi0FQzUi4TdaxLHFIGa5IVee/ZMyu7SLX9B1I2yat8tryd76nBppwcCB7lIS5ObepTCyX0HOxR3komMdHdroWbd6hbV4BfC1f59GcWe38g61axiyMpt/1wfvkX6RvoJtes19yf16qBNzmRuuXEU2CSYGLP4oY1cJ28Zkf0hsXKIhkU2iY8Ksa68BOZcBAYqrSUcua/SNIahGl86gWvaMMpPHMt8urkOSYxbcxzyAqwJuiGBtyW7tYec2OAQp44Y7ObrYw+54RPHCp89ielTNnzmyyDouNgjK4eAeM
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 21:17:56.6832
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 21:18:09.7017
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0313b1bf-f318-4a30-a506-08dedc6d371e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50dba51c-30b3-44e3-1ff5-08dedc6d3ee1
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF00003F68.namprd04.prod.outlook.com
+	SA2PEPF00003F65.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8367
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR12MB9697
 
-Kernel-mode policies defined by enum resctrl_kernel_mode must be applied to
-each affected CPU whenever a policy is selected or its scope changes.
-Generic resctrl therefore requires an architecture-specific interface to
-program allocation and monitoring associations in hardware across a given
-CPU mask.
+Architectures need a way to advertise which kernel-mode resctrl policies
+they support before generic resctrl exposes those policies through the
+filesystem.
 
-Introduce a helper, resctrl_arch_configure_kmode(),  to handle kernel-mode
-programming. On x86/AMD systems, this helper programs the
-MSR_IA32_PQR_PLZA_ASSOC register on all online CPUs in the specified mask
-via on_each_cpu_mask(). Also provide a no-op stub for MPAM systems.
-
-Generic resctrl does not invoke this hook yet; it will be used when user
-space selects a kernel-mode policy or updates the associated CPU set.
+Add the `struct resctrl_kmode_cfg` to define the default mode statically,
+and introduce `resctrl_set_kmode_support()` so architecture code can
+register supported kernel-mode policies during resctrl initialization. The
+`INHERIT_CTRL_AND_MON` policy is supported by default, so architectures
+only need to register any additional modes.
 
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 ---
-v4: Added assign_mon parameter in resctrl_arch_configure_kmode() to program the RMID
-    as discussed in below.
-    https://lore.kernel.org/lkml/20260605100642.1103628-1-qinyuntan@linux.alibaba.com/
-    Changed cpumask type to "const struct cpumask *cpu_mask".
-    Added MPAM stub to avoid any linking issues when resctrl_arch_configure_kmode()
-    is called from FS layer. Thanks to Qinyun.
-    Re-wrote the changelog to be generic.
-    Updated code comments.
-
-v3: Removed task based PLZA implementation so related changes are removed.
-    Removed handling of rmid_en as it is not required. The group type assigned
-    will be different so the monitoring part is already taken care.
-    Updated the change log with details.
-    Removed resctrl_arch_set_kmode() as arch only provides the modes supported.
-    It is FS which decided which mode to apply.
-
-v2: Updated the commit message to include the sequence of steps to enable PLZA.
-    Added mode code comments for clarity.
-    Added kmode to functin names to be generic.
+v4: New patch to initialize supported kernel-mode's.
+    https://lore.kernel.org/lkml/737a4228-52fb-4583-ac64-8efe79c107e6@intel.com/
+    Changed the kmode_cur to enum resctrl_kernel_mode in resctrl_kmode_cfg.
+    Moved the resctrl_kmode_cfg to filesystem code.
 ---
- arch/x86/kernel/cpu/resctrl/ctrlmondata.c | 36 +++++++++++++++++++++++
- drivers/resctrl/mpam_resctrl.c            |  5 ++++
- include/linux/resctrl.h                   | 15 ++++++++++
- 3 files changed, 56 insertions(+)
+ fs/resctrl/internal.h   | 12 ++++++++++++
+ fs/resctrl/rdtgroup.c   | 23 +++++++++++++++++++++++
+ include/linux/resctrl.h | 10 ++++++++++
+ 3 files changed, 45 insertions(+)
 
-diff --git a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-index b20e705606b8..025f139434f2 100644
---- a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-+++ b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-@@ -131,3 +131,39 @@ int resctrl_arch_io_alloc_enable(struct rdt_resource *r, bool enable)
+diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
+index 48af75b9dc85..178126bb2da5 100644
+--- a/fs/resctrl/internal.h
++++ b/fs/resctrl/internal.h
+@@ -314,6 +314,18 @@ struct mbm_state {
+ 	u32	prev_bw;
+ };
  
- 	return 0;
- }
-+
-+static void resctrl_kmode_set_one_amd(void *arg)
-+{
-+	union msr_pqr_plza_assoc *plza = arg;
-+
-+	wrmsrq(MSR_IA32_PQR_PLZA_ASSOC, plza->full);
-+}
-+
-+/*
-+ * Program Privilege Level Zero Association (PLZA) on @cpu_mask.
-+ *
-+ * When @enable is true, CPL 0 allocation traffic on the targeted CPUs uses
-+ * @closid from MSR_IA32_PQR_PLZA_ASSOC instead of the CLOSID from
-+ * MSR_IA32_PQR_ASSOC. Monitoring is redirected to @rmid only when
-+ * @assign_mon is true; otherwise kernel-mode monitoring continues to use the
-+ * RMID associated with the current task.
-+ *
-+ * @cpu_mask:	CPUs whose PLZA MSR should be updated.
-+ * @closid:	CLOSID to use for kernel-mode allocation when PLZA is enabled.
-+ * @rmid:	RMID to use for kernel-mode monitoring when @assign_mon is true.
-+ * @assign_mon:	Whether PLZA should provide the kernel-mode RMID.
-+ * @enable:	Whether PLZA should provide the kernel-mode association.
++/**
++ * struct resctrl_kmode_cfg - Kernel-mode policy snapshot from architecture
++ * @kmode:	Bitmap of supported &enum resctrl_kernel_mode values. Each
++ *		supported mode is represented by BIT(mode).
++ * @kmode_cur:	Currently selected kernel-mode policy.
++ * @k_rdtgrp:	Resource group backing global-assign modes when applicable;
 + */
-+void resctrl_arch_configure_kmode(const struct cpumask *cpu_mask, u32 closid, u32 rmid,
-+				  bool assign_mon, bool enable)
-+{
-+	union msr_pqr_plza_assoc plza = { 0 };
++struct resctrl_kmode_cfg {
++	unsigned long			kmode;
++	enum resctrl_kernel_mode	kmode_cur;
++	struct rdtgroup			*k_rdtgrp;
++};
+ extern struct mutex rdtgroup_mutex;
+ 
+ static inline const char *rdt_kn_name(const struct kernfs_node *kn)
+diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+index cc9966ff6cdf..0ee0dfaf9065 100644
+--- a/fs/resctrl/rdtgroup.c
++++ b/fs/resctrl/rdtgroup.c
+@@ -78,6 +78,16 @@ static void mon_put_kn_priv(void);
+ 
+ struct dentry *debugfs_resctrl;
+ 
++/*
++ * Global kernel-mode resctrl policy. Architectures add supported modes before
++ * resctrl is mounted; @kmode_cur tracks the active policy after user selection.
++ */
++static struct resctrl_kmode_cfg resctrl_kcfg = {
++	.kmode = BIT(INHERIT_CTRL_AND_MON),
++	.kmode_cur = INHERIT_CTRL_AND_MON,
++	.k_rdtgrp = NULL
++};
 +
-+	plza.split.rmid = rmid;
-+	plza.split.rmid_en = assign_mon;
-+	plza.split.closid = closid;
-+	plza.split.closid_en = 1;
-+	plza.split.plza_en = enable;
-+
-+	on_each_cpu_mask(cpu_mask, resctrl_kmode_set_one_amd, &plza, 1);
-+}
-diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/mpam_resctrl.c
-index 226ff6f532fa..630b6cfc0269 100644
---- a/drivers/resctrl/mpam_resctrl.c
-+++ b/drivers/resctrl/mpam_resctrl.c
-@@ -158,6 +158,11 @@ bool resctrl_arch_get_io_alloc_enabled(struct rdt_resource *r)
- 	return false;
+ /*
+  * Memory bandwidth monitoring event to use for the default CTRL_MON group
+  * and each new CTRL_MON group created by the user.  Only relevant when
+@@ -888,6 +898,19 @@ static int rdtgroup_rmid_show(struct kernfs_open_file *of,
+ 	return ret;
  }
  
-+void resctrl_arch_configure_kmode(const struct cpumask *cpu_mask, u32 closid,
-+				  u32 rmid, bool assign_mon, bool enable)
++/**
++ * resctrl_set_kmode_support() - Advertise support for a kernel-mode policy
++ * @kmode:	Kernel-mode policy supported by the architecture.
++ *
++ * Architectures call this during resctrl initialization to make @kmode visible
++ * to the resctrl filesystem. INHERIT_CTRL_AND_MON is always supported.
++ */
++void resctrl_set_kmode_support(enum resctrl_kernel_mode kmode)
 +{
++	if (kmode <= RESCTRL_KMODE_LAST)
++		__set_bit(kmode, &resctrl_kcfg.kmode);
 +}
 +
- void resctrl_arch_pre_mount(void)
- {
- }
+ #ifdef CONFIG_PROC_CPU_RESCTRL
+ /*
+  * A task can only be part of one resctrl control group and of one monitor
 diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
-index c7abed51cd5f..47db34dd167e 100644
+index 47db34dd167e..8dd02579f354 100644
 --- a/include/linux/resctrl.h
 +++ b/include/linux/resctrl.h
-@@ -734,6 +734,21 @@ enum resctrl_kernel_mode {
+@@ -734,6 +734,16 @@ enum resctrl_kernel_mode {
  
  #define RESCTRL_NUM_KERNEL_MODES (RESCTRL_KMODE_LAST + 1)
  
 +/**
-+ * resctrl_arch_configure_kmode() - Program kernel-mode association on CPUs
-+ * @cpu_mask:	CPUs to update; the architecture applies the change on the
-+ *		online subset of this mask.
-+ * @closid:	Allocation class for kernel-mode traffic. On x86 this is the
-+ *		CLOSID programmed when allocation is assigned for kernel work.
-+ * @rmid:	Monitoring context for kernel-mode traffic. On x86 this is the
-+ *		RMID programmed when monitoring is assigned for kernel work.
-+ * @assign_mon:	true to assign @rmid for kernel work; false to inherit
-+ *		monitoring from the user task.
-+ * @enable:	true to enable kernel-mode association on the targeted CPUs.
++ * resctrl_set_kmode_support() - Advertise a supported kernel-mode policy
++ * @kmode:	Kernel-mode policy supported by the architecture.
++ *
++ * Architectures use this during resctrl initialization to make additional
++ * kernel-mode policies available to the filesystem. INHERIT_CTRL_AND_MON is
++ * supported by default and does not need to be registered.
 + */
-+void resctrl_arch_configure_kmode(const struct cpumask *cpu_mask, u32 closid, u32 rmid,
-+				  bool assign_mon, bool enable);
++void resctrl_set_kmode_support(enum resctrl_kernel_mode kmode);
 +
- extern unsigned int resctrl_rmid_realloc_threshold;
- extern unsigned int resctrl_rmid_realloc_limit;
- 
+ /**
+  * resctrl_arch_configure_kmode() - Program kernel-mode association on CPUs
+  * @cpu_mask:	CPUs to update; the architecture applies the change on the
 -- 
 2.43.0
 
