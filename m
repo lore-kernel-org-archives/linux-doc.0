@@ -1,153 +1,198 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from unimail.uni-dortmund.de (mx1.hrz.uni-dortmund.de [129.217.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE3F43934A
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 15:09:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B5E35E92F;
+	Wed,  8 Jul 2026 15:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.217.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783523356; cv=none; b=IwpdMLpU7/eIKHWJJFhCkjwIsbkoKndFKcJrU0FfZbanF4hIhJJi9ieemAo4HAMoRbanXKH8RLBGc73SdFFgfCTZdP2CbnXF12zCub26HUBi07PnKJ/4SlcI14IHhamli2KZ5gQNDcL6vi4k1qFueKU5zPblIIMVYC12o1ds1Ko=
+	t=1783523750; cv=none; b=ssv8MFkeZZs6mgZ9bUPTUhwLw7/bFbuRGkxj3XmbR7qCaPxdM7Q/WaTsYqThMuvJhW+iOmnc35TTLs1XA8ABt96sw2MfJkni76PLN08zMwWPgi9g0IDiHPJ4JfwTZewxnjkGyKkQu0c9XV0ESRrxo6mhXM9cVFYTJBIZTMPdTr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783523356; c=relaxed/simple;
-	bh=z/N7Kqy4VoN7rjklbVEOz2uDR/SzdIzcOligfSMXm24=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uzIi054yDVEmdhpa3Yxm1hH5CUH2EiYSDLBzNNJWORI4lhgm5mFsrp92MTJsw4Akmx68VHoKG8UNZ5QzKZp+E2M86kIv/hkk3nloIsUeASN1l3Cb9Ac01Q/YihAJHMY0pVU2XtXmn4v1PxEQV1y8/jU49khuWanps2WWCayFcsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=FEUsHQQJ; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1783523750; c=relaxed/simple;
+	bh=Z/M4qo4aKet++ZcdMmdrhg8tuZe93BjhicMEfgYQ8Tk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AFT0k7tFrv53WZff5ZDo6W+YUE2fmspQ1KfEChtZP2uE1mIGEHqZZBNFdKn6zaNjvi/o629ClhdhjXwF7NLBXPBWcHd+kG7P2vdfA7GzVoF6WjR52nrerPq4/hlWlPoOSbly/u+7zay6nvtt/l9ctqjmnqNDnYJw1QMlC6SA4Q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de; spf=pass smtp.mailfrom=tu-dortmund.de; dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b=eqdssayO; arc=none smtp.client-ip=129.217.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tu-dortmund.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="FEUsHQQJ"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-493c2c0b9a8so6412905e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 08:09:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1783523353; x=1784128153; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=y2V4c6FXtAmxv+8d6AOr3BYyTP+hfZgC/AR0Ye5xNZs=;
-        b=FEUsHQQJwClPHVfnwyOxPX9oIVeKKKCU2vwPC5PwxLXU/VFXeTU4oMkORByPM2LMAZ
-         hAgo1WgauKhDWvv5HNDCDLuduPyW4q998X4SZbqS42m1Rl/aVShUsxo2sryQ7TCM+Vak
-         ti3V0fnIWoet6J1OvsaCJ+Fw+E1+ppUIfQNuscdAhohSHqKGZVeX+nPSOeo3G/drMWU+
-         an3b1EydAcf4/nJRciTlW9E/WAB/Xr0PhyhPP25kd9zP9nbi58J7DjqOByZoBAUhPyaL
-         zKTaMD7z7p2vYqlVmtn7T1+9PQYmcqhaAOc1xdHNH+3gJtz7EmgEaRCdCmcL8A1P2P1Y
-         5j7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783523353; x=1784128153;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=y2V4c6FXtAmxv+8d6AOr3BYyTP+hfZgC/AR0Ye5xNZs=;
-        b=iMmeq+IWe0jVNLG91H4zSn4ECHUbOMkeKxhakCZREjgp33Za/6tdg/bxxrdyx5VH80
-         9BGYxVO3WMjIB1pkzcGAqmuEUlVdq1E8Ng4EcXqTCEn99dcuza/kIu0YV1cAYo0V3cQ4
-         ktlVQ5F3FaZbFBT/dKwX18Pt7CZ39VAFpdDCHTynGLgomV7cVcblBr90TouQQRU4BZbC
-         JGFhsmwdPRU+DOASEONUIp/wo+pZBDdddGIdRf6yCJqGGuLy36FqNW3RL/8ukw+63pjt
-         vF418mmT50ma9d4mtf9AOHVJApW+QDUch+c35zxJnM/pRlR/bAmUysq6Cpk/okaTchEr
-         OZig==
-X-Forwarded-Encrypted: i=1; AHgh+RoHDrqyOWNNu3dlmTEhRl/qikC3k31bwoy0v4I9MCYHw5M5cuXs2Yc5B3rlPaqO2V4wsNRPwLizEuU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWP67Zp9L3Y8y3X4XkXJNz1ORWsFRhZikhvJtHDfesG9NbjGBi
-	HOYIAmth4yAwGYgzdQQKO0XrpPMQilzuDS4A9ZKLvcwLHHCuQfIcgfGt3aOczGb6BEk=
-X-Gm-Gg: AfdE7cmpzH3J3dRxoxyqRchY9Y95/OHkmyEIvz6p3Mi+C6Jn2p/TPeyQF4ap2mtZoQ4
-	Td2yYc1JxIeCvkLCuf5wIkrUhQAWFIFj0cCXnKbriVIwblJlSq3xxCNcpRJFk6c3ZQVCul8sNjj
-	HyTVuAkztAMIiicje/WveX/TOgr4jpZiSGY2/YWKUNBKUeaPFhZ8OfCXwlPev+PiAOG7ukY3thm
-	n6wij6mt82mpzgxLmLMB6ggpw9zW34jmfwe5+8zGzNdHQElcNbR6CKZ9InIInr2MmpV4O1RG20/
-	4v94jFEQsIiTIoOSfgYkKxl5DK9W4ML5nC2Pie7+JvnZHQA7e/6QGlmRWyJW7ndXvPawOMLFIJY
-	YNXfvgyQSCi5akLP8IJ6pO1kKaLYYV1iFea8QtVfHrRcI1AYsMLKYOgnX9SGRRKOUXAoWX6Nji7
-	n3pXl65IiPUv7N+pQ=
-X-Received: by 2002:a05:600c:34d3:b0:493:b4cf:d37f with SMTP id 5b1f17b1804b1-493e68c699bmr33093525e9.16.1783523353384;
-        Wed, 08 Jul 2026 08:09:13 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e0f5b811sm238538095e9.13.2026.07.08.08.09.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 08:09:12 -0700 (PDT)
-Date: Wed, 8 Jul 2026 17:09:10 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: John Ogness <john.ogness@linutronix.de>
-Cc: Benedikt Spranger <b.spranger@linutronix.de>,
-	Andrew Murray <amurray@thegoodpenguin.co.uk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2 3/4] printk: nbcon: move printk_delay to console
- emiting code
-Message-ID: <ak5oFk3Snnt9Wr95@pathway.suse.cz>
-References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
- <20260630-deprecate_boot_delay-v2-3-f9883d36aa4b@thegoodpenguin.co.uk>
- <20260703165654.71be8707@mitra>
- <CALqELGz-KSrGq5JYvLedZiO-p21pjpRKbceO+jiSfwZGyx+91Q@mail.gmail.com>
- <20260707145411.53a10893@mitra>
- <ak0VguIf-PxmbUOS@pathway.suse.cz>
- <87qzldvqpm.fsf@jogness.linutronix.de>
- <ak5eCp5qw9LYrnAH@pathway.suse.cz>
- <87zf01ttve.fsf@jogness.linutronix.de>
+	dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b="eqdssayO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tu-dortmund.de;
+	s=unimail; t=1783523541;
+	bh=JUDy9KU7vJOTJs+mWZpY03LuKhL3NZcOljSDWdfTCWA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=eqdssayOH+/cStC+U/0yFHImlwHFTayvhMtscaSSyYc/avX8xY2PRMifV/gj/+FWF
+	 9+HjBhXrw8IHgPVt+ms0Eza6uSxiyjVRcQvexIdn/2cjCv4zxsUQfV9hYPf8jJROwr
+	 S07ZOTA1Nug4/AHiMhghK71Y2nyvh0cLHrZV+WUw=
+Received: from [129.217.186.105] ([129.217.186.105])
+	(authenticated bits=0)
+	by unimail.uni-dortmund.de (8.19.0.2/8.19.0.2) with ESMTPSA id 668FCKJF013807
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 8 Jul 2026 17:12:20 +0200 (CEST)
+Message-ID: <c743935b-7b6f-49f4-b1dd-3fe1cc528464@tu-dortmund.de>
+Date: Wed, 8 Jul 2026 17:12:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87zf01ttve.fsf@jogness.linutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v2] tun/tap & vhost-net: make qdisc backpressure
+ opt-in via IFF_BACKPRESSURE
+To: Brett A C Sheffield <bacs@librecast.net>,
+        "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Jason Wang <jasowangio@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+        Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        Tim Gebauer <tim.gebauer@tu-dortmund.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260706094242.115992-1-simon.schippers@tu-dortmund.de>
+ <akt_Q7kdR3Zb8_GZ@karahi.librecast.net>
+ <20260706091706-mutt-send-email-mst@kernel.org>
+ <2728c540-2e76-4e06-9064-ed1dff071cbe@tu-dortmund.de>
+ <akvhhy_JpH64KrcL@karahi.librecast.net>
+ <0d28fdc4-3c03-48d6-bd59-e59f7a01f4b6@tu-dortmund.de>
+ <ak1cIAwQzKS35x0m@karahi.librecast.net>
+Content-Language: en-US
+From: Simon Schippers <simon.schippers@tu-dortmund.de>
+In-Reply-To: <ak1cIAwQzKS35x0m@karahi.librecast.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed 2026-07-08 16:59:57, John Ogness wrote:
-> On 2026-07-08, Petr Mladek <pmladek@suse.com> wrote:
-> >> The synchronous mode would rely on the driver being nbcon. I envision
-> >> something like this:
-> >>
-> >> ---- BEGIN SYNC IDEA ----
-> >> --- a/kernel/printk/nbcon.c
-> >> +++ b/kernel/printk/nbcon.c
-> >> @@ -1200,7 +1200,7 @@ static bool nbcon_kthread_should_wakeup(struct console *con, struct nbcon_contex
-> >>  	cookie = console_srcu_read_lock();
-> >>  
-> >>  	flags = console_srcu_read_flags(con);
-> >> -	if (console_is_usable(con, flags, false)) {
-> >> +	if (!(flags & CON_SYNC) &&  console_is_usable(con, flags, false)) {
-> >
-> > The dependency on con->flags means that the sync mode can be entered
-> > only in task context where synchronize_srcu() can be called. It might
-> > be good enough. But I am afraid that people are creative and would
-> > like to have even atomic variant sooner or later.
+On 7/7/26 22:05, Brett A C Sheffield wrote:
+> On 2026-07-07 08:52, Simon Schippers wrote:
+>> Brett, can you try the two attached patches here with iperf3?
+>> I think testing with 8 and 16 threads is enough, so where there is a
+>> regression.
+>>
+>> The two patches are about time when to wake:
+>> Currently we wake after consuming half the internal ring buffer.
+>> One of the attached patches wakes after 2 cachelines (128 of 1000
+>> packets) and the other one just wakes once the ring buffer is empty.
+>>
+>> This would really help :)
 > 
-> You mean it can only be _modified_ in task context. Yes. I expect it is
-> either specified as a boot arg or modified via some sysfs interface.
-
-Makes sense.
-
-> > Also it will do the flush in NORMAL_PRIO which is good. But it might
-> > fail to get the context ownership when it is blocked, for example,
-> > by uart_port_lock() which might be even sleepable context in
-> > PREEMPT_RT kernel.
+> Sure...
 > 
-> Indeed. This is the same limitation of the atomic printing in
-> general. But I do not think this can be worked around during normal
-> operation. Ignoring locks is not an option.
+> 
 
-Let's see how it works in practice. But it might work pretty well.
+The reverted results for reference:
+7.2.0-rc1 reverted:
 
-Now, the question is how to move forward. It would be nice to
-have the sync mode available before we add this boot/printk_delay
-clean up.
+threads 1
+[  5]   0.00-10.00  sec  15.3 GBytes  13.1 Gbits/sec  368            sender
+[  5]   0.00-10.00  sec  2.00 GBytes  1.72 Gbits/sec                  receiver
 
-Would you have time to prepare and send a patch anytime soon, please?
+threads 2
+[SUM]   0.00-10.00  sec  15.9 GBytes  13.7 Gbits/sec  1567             sender
+[SUM]   0.00-10.00  sec  4.00 GBytes  3.43 Gbits/sec                  receiver
 
-Or I wonder whether Andrew Murray might try to create a patch
-based on your "SYNC IDEA".
+threads 4
+[SUM]   0.00-10.00  sec  16.5 GBytes  14.1 Gbits/sec  6701             sender
+[SUM]   0.00-10.00  sec  8.00 GBytes  6.87 Gbits/sec                  receiver
 
-Best Regards,
-Petr
+threads 8
+[SUM]   0.00-10.00  sec  16.2 GBytes  14.0 Gbits/sec  19319             sender
+[SUM]   0.00-10.00  sec  15.7 GBytes  13.5 Gbits/sec                  receiver
+
+threads 16
+[SUM]   0.00-10.00  sec  14.4 GBytes  12.4 Gbits/sec  43593             sender
+[SUM]   0.00-10.00  sec  14.4 GBytes  12.4 Gbits/sec                  receiver
+
+
+> 7.2.0-rc2 (unpatched)
+> 
+> threads 1
+> [  5]   0.00-10.00  sec  20.4 GBytes  17.5 Gbits/sec    0            sender
+> [  5]   0.00-10.00  sec  2.00 GBytes  1.72 Gbits/sec                  receiver
+> 
+> threads 2
+> [SUM]   0.00-10.00  sec  12.7 GBytes  10.9 Gbits/sec    0             sender
+> [SUM]   0.00-10.00  sec  4.00 GBytes  3.43 Gbits/sec                  receiver
+> 
+> threads 8
+> [SUM]   0.00-10.00  sec  11.5 GBytes  9.85 Gbits/sec    0             sender
+> [SUM]   0.00-10.01  sec  11.4 GBytes  9.83 Gbits/sec                  receiver
+> 
+> threads 16
+> [SUM]   0.00-10.00  sec  11.6 GBytes  9.95 Gbits/sec    0             sender
+> [SUM]   0.00-10.01  sec  11.5 GBytes  9.91 Gbits/sec                  receiver
+> 
+> 
+> 7.2.0-rc2 with 0001-tun-set-waking-threshold-to-ptr_ring_empty.patch
+> 
+> threads 1
+> [  5]   0.00-10.00  sec  19.6 GBytes  16.8 Gbits/sec    0            sender
+> [  5]   0.00-10.00  sec  2.00 GBytes  1.72 Gbits/sec                  receiver
+> 
+> threads 2
+> [SUM]   0.00-10.00  sec  11.1 GBytes  9.50 Gbits/sec    0             sender
+> [SUM]   0.00-10.00  sec  4.00 GBytes  3.43 Gbits/sec                  receiver
+> 
+> threads 8
+> [SUM]   0.00-10.00  sec  10.8 GBytes  9.25 Gbits/sec    0             sender
+> [SUM]   0.00-10.01  sec  10.7 GBytes  9.23 Gbits/sec                  receiver
+> 
+> threads 16
+> [SUM]   0.00-10.00  sec  10.9 GBytes  9.34 Gbits/sec    0             sender
+> [SUM]   0.00-10.01  sec  10.8 GBytes  9.30 Gbits/sec                  receiver
+> 
+> 
+> 7.2.0-rc2 with 0001-tun-set-waking-threshold-to-tx_ring.batch.patch
+> 
+> threads 1
+> [  5]   0.00-10.00  sec  19.6 GBytes  16.9 Gbits/sec    2            sender
+> [  5]   0.00-10.00  sec  2.00 GBytes  1.72 Gbits/sec                  receiver
+> 
+> threads 2
+> [SUM]   0.00-10.00  sec  13.9 GBytes  11.9 Gbits/sec    0             sender
+> [SUM]   0.00-10.00  sec  4.00 GBytes  3.43 Gbits/sec                  receiver
+> 
+> threads 8
+> [SUM]   0.00-10.00  sec  12.7 GBytes  10.9 Gbits/sec    0             sender
+> [SUM]   0.00-10.01  sec  12.3 GBytes  10.6 Gbits/sec                  receiver
+> 
+> threads 16
+> [SUM]   0.00-10.00  sec  12.5 GBytes  10.7 Gbits/sec    0             sender
+> [SUM]   0.00-10.00  sec  12.4 GBytes  10.7 Gbits/sec                  receiver
+> 
+> 
+> 
+> HTH,
+> 
+> 
+> Brett
+
+Thank you again!
+
+These results show that waking earlier performs better in this case:
+For 8 threads we get 10.6 Gbit/s instead of 9.83 Gbit/s when waking early
+but we are still *far* from the 13.5 Gbit/s when we revert everything
+(see above I pasted the reverted results there).
+
+So I come to the conclusion:
+
+1. Waking earlier/later will not fix the performance issues. It may
+   improve the performance slightly.
+   Apart from that we introduce smp_mb__after_atomic() for the re-check
+   on producer side (noop on x86) and a full smp_mb() for the re-check on
+   consumer side.
+   Nothing else stands out to me apart from the overheads of
+   netif_tx_stop_queue() and netif_tx_wake_queue(). But we must use
+   those 2 functions one way or another.
+
+2. Users may depend on the dropping. Without backpressure tun/tap acts
+   like a pfifo qdisc which tail-drops. Some users may require this.
+
+--> I would merge this opt-in patchset, it should be fine (it is not
+    flagged by Sashiko anymore btw). I would not be mad if it would not
+    get merged but I am out of ideas on how to improve.
+
+Thanks,
+Simon
+
