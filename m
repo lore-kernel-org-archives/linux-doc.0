@@ -1,67 +1,68 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941E53B6C0A
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 02:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3C23B71B5
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 02:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783477120; cv=none; b=dVBG7aFC9CrqX+NrbRobpLhO+EH+ICsZ5w8FyuDROdk8h426HTnuLrlHvW9yKUsidhPmg1anG6qcOIrOBWnVm+S/NsLnYKRmV87PJ+YMXgqzVYypW1cwV/jh8KVNNtzyeru4TUfs/oqLtSzJunFu7Mmm9yqT/m8cbX6ss3kxNcU=
+	t=1783477124; cv=none; b=D3bRFdLeacQuzWr1Gf5Y45Jfogss25Vgvz3OzjlagOAqsJdncCUnuGsibKB3xikUqhO9Xhls//ixqmi/L27zQymdDU5EIUXPbhu2OfDeDyIn8HtizAHmMXmSFZ+TdSAA05QjL5NGWq3o9xl87pA1M9TbVrSSySSzNLYQ9ov0i24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783477120; c=relaxed/simple;
-	bh=ZuzqA3zGt/j9kYmFGfFlaL94NbjSKGlzcBcWBUqAWbM=;
+	s=arc-20240116; t=1783477124; c=relaxed/simple;
+	bh=yfxjNCD2FfV6WQ7UCS9hJEIU3/cj9TtYhccgD7F2GOk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UarsE3zpHpkP3HxnMsauHkef+/DmYbI4xZzQCTZotPctCsl4pGe1OKwbgWKvYPu/4D6AW9/HwVdxa1nsQH02dlP8qSoPr6sAZ4jt0D9dWfNFILhATS2imTumqj0BmQGQZ73/fMNBv+8E4At6ixSo6E/xHzlYcNzVAJeDJr5nvpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K6KW+t23; arc=none smtp.client-ip=209.85.167.173
+	 In-Reply-To:To:Cc; b=cm19v8Aa3opxI+pzCnW05ytW7lYnYgFX0SH2DhTSXay73uxOtoM7EV6pdArB5KpBKJbcdxWOnpzASxm72UZ6n0vPTkBhj37bvyCoHx19YtevTEA9B9bPpGFwJfZCu0XOq/42CvMsqkAnnK+Oqdcckie7BFZQT+vF5hqCIhRKD04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rVmUZcQL; arc=none smtp.client-ip=209.85.167.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K6KW+t23"
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-497d3e4460aso1305414b6e.1
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 19:18:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rVmUZcQL"
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-49c86d1d21cso75753b6e.3
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 19:18:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783477117; x=1784081917; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783477119; x=1784081919; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z8dUvDJ5uj/iqj7Hr1Y3Cg7XHwt3DLPAXGIUQMEXgMI=;
-        b=K6KW+t23RRnF0eUDmExN1coP77KTqWHLZxvsn0s7bguE75vlYDrQS6KxCliW+SYmRd
-         TxJMhyTwbBEv25jSMAkmDIZ2dHbHbphaOpVtoK6bT0/+gF4eb74y7uF8iUTAcyZ4LzeW
-         gvOF7etrhUuc3VM3moP2Rzuf/rincvjdiY+TjpnandRFhBczCkb/VOsrbL46ZAz3CihT
-         DG9+yHWJSXdK3+A+z0C1RpoCE2VVHps1SpQFqrzGPZjq4sL9s7+Iris3evUoU7Kwp6ph
-         zGvu7StJ4Ow864bsmcUY8lKxKmYTzdmIL/saGrMjQKZxXyDv7Jn6G4p3in3N+tKwZXMm
-         hpVw==
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Tkpd6XZrbayv1qGlRLm5NJZ/GcnFTR7uIhPPki4vU/s=;
+        b=rVmUZcQLaFw0aNmApg6noNV43uIbiXNhcrYwmKT2v5ATs44QHqEXN2gl9qBnhTIoKM
+         y11v8/9pWYpjo697LEUyIKhWdQ8CC5KWEpLBJaobQ4xIoUKsk1u9fKCdHgyMzTqhUVGE
+         KCS5iPtB99xFqDak++QSBP8Y82qWcXOYRW+sMWHQj7H59jiMrnnBeRCYdAkQ2mAej+8G
+         k5+rdPsptizeYQZAtHA7PTIQfZqJlf9v4grm+IaUFGHO7ifm0ggyccetlw/oWW5x3S/F
+         xRYCwmJvl5HWyJlcW+y3pxDyM8IZYzTUnUOlbzcF2ADBEuxcyoVlvkEv0ZROmqcOkFAO
+         NJ+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783477117; x=1784081917;
+        d=1e100.net; s=20251104; t=1783477119; x=1784081919;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=z8dUvDJ5uj/iqj7Hr1Y3Cg7XHwt3DLPAXGIUQMEXgMI=;
-        b=Lli6JQT4XRsFAqnkD+cIgu7Cv3a3YSL/OoYfMl/i6fxhG01HCIoxPb/luFCKnMc3Td
-         AyuePlQq8ylKvGXP0yXHAFx9NDn8+xBrq3BO8iRbxdyWGIDeMa/DHmiDpZbcSIg7c5qV
-         VfEAF/fmgNQ0Mmrue/njBxVxDlp3Xb+j3F9s8m0t2DRBsl14NkxvOy4/48wLCUqP5fnr
-         3oiemo1db9wSJ26iwfXln+RnKYwlk8sa3p7aq4xLM2gSXsMJ1EXWG/Gxl5Hg6FqEYWUO
-         0aurL+AKtZzXPS8INj/UVuoqN5twvuAx5cEjIyEIb0GNmoRGjQ0z3zy7v0Lyt3Cwe/ur
-         DbUQ==
-X-Forwarded-Encrypted: i=1; AFNElJ89f3HNYmkLxIdNXqPPSFXYejPka4lY8xVSvK0fL7wt3IIahFen+q1fcxPLjFkIuGxHIvUyeB6SqMI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3f9JNTS3uYDmvcxKJgkGBoYSvYn4lP8Syqe4RWoIzHgHTj5Rl
-	fzBQbVRrTtUiS743hRoLXzqHWpOa45U9k8cuN8g1PfzB95fH3hLtHAS5
-X-Gm-Gg: AfdE7cm9KdVo5WeMc3zom+hIgMiLAkJj7UvS4W+5oUT1ta98HBC8PPbWSe0XUAHmLhk
-	i1uyixfUh33HiuLskPPYuo8q0Ks24Udqx4lDQkBo6p177OqAWrynHAhCWLtzY3jvMjOWLfxv9cX
-	QDIJJiSljE+RDIBlUYo8ovpGiTGKQjiUNGrgtQu1HjKxcXb+lLCRE4O8tIJJpdmfdjN0MfCPtwD
-	8tZuHYt8nvY50s5k82wurX/CPCVsX1p24LblpQUoBNRClJG+WOfcyKwWcDBSKt4yH1vRgiczUAD
-	93zIje6yCNwNcZNLY28DWWbNbaxmIfR6fHpn0tRcY7Gkjx2YLfDxikCTpwoXkwv7Dpj1SQFLWx2
-	qAoEUcy/a4kTEsDTU2jTMiEsc0ACX013XRAK87758uh/cPVntvu49EOF3h+3vWU5ufxa/0MLWFn
-	xvK1PcPFkj1fTV6uFic1fBR/kFNKVSpDZUzJXxFnvZ/Q8f6KAfcxM=
-X-Received: by 2002:a05:6808:5383:b0:495:dd23:1634 with SMTP id 5614622812f47-4a078d678fdmr4414093b6e.15.1783477117572;
-        Tue, 07 Jul 2026 19:18:37 -0700 (PDT)
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Tkpd6XZrbayv1qGlRLm5NJZ/GcnFTR7uIhPPki4vU/s=;
+        b=P9rSylbt2WZn9/eoXaaNiAcPzHdYiEKt0mVKAobuzyN2E3lLaHQEVMNRsW0VlRyM3U
+         Nq5eX3m3V2hR4kO0/TEbnexR9/Q3DMc4+XlsdofFwk33KZCP/fcZOFuLviA6Y9Wjrde6
+         Qkc0hMbN+tUPs0mAPHlLiHE4hdD15Gh+79hDj+Te6Z824xPwmSF3QfUpHVlxAe0LV7xM
+         kr8Il6BjzFv0Bp3NKqR1PjK1jbAmspMNhTga5DCmucF4ArH+SEtgbcLNZy8R3ErJNc+n
+         QFfAimKUhiVry1DP43eIIyzyY5WofrEWa7lYzuWlQ17rkyFV2KllUDl6h29Bke1Ptsrq
+         iD6Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+ur5WPaNG5Bn+KxEK9fJFPIu263N53TbzPvpHUg9CXfnHxSgzEWvXSLsXxLkqa5Ho16R1TA8f8Ilg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOgYl4FPXELl89AcBhmpJhk1Jhyu2JmT164iVPrTxxHzDjWQ7P
+	Mmnm0U7k395jGhBntovDk4Rke/B/nIvUp/16uacEuGSL9RVVfgEHpAZd
+X-Gm-Gg: AfdE7cnHCgKSclhCV85mmKTZAVUzPBvzZSjDhmvH9oecc2lLCbGxRFuxHs/PbbklzGn
+	uR0PNvj7N48gmheqye81s48XktEFokNlEA0n60UxYxl73fUyg1764I1g9yJ23u5MkrkEDOMHAaY
+	OEqALD5gYamk6WY76N/KJJP9UYNT0nYBTdSISnE3Qhv7buRDUzY4jaxlg9QcZb+rz17qsXGMwKR
+	Vrwke37s02iIBh4DVQsvgGauriVEZyadxxCSYBNSTelfrOsjjPPwxj7VHWh4cOFnts1UekMeg3T
+	6JWTIK3l++E8s6nulobQugO9sscAJNO36g9KZPT5ksk3Wxf9fOfJdGTDJLXv8GiNXhb8jnRct0h
+	dh2006It1Gb/0LYS6yu3E/Y2Sb9Sj9ZwVzQzBfg7cu6VDNCTplynGX3k+B02644AU2f/640sOG1
+	csoZTORcsOTlHETN8r6ry1nR8CrB49P7U9te4OSGiSvYUKztUCq+I=
+X-Received: by 2002:a05:6808:1385:b0:496:301:36b9 with SMTP id 5614622812f47-4a1fea2d9fdmr467296b6e.0.1783477119240;
+        Tue, 07 Jul 2026 19:18:39 -0700 (PDT)
 Received: from [192.168.0.245] (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
-        by smtp.googlemail.com with ESMTPSA id 5614622812f47-4a1aa006f74sm799975b6e.0.2026.07.07.19.18.35
+        by smtp.googlemail.com with ESMTPSA id 5614622812f47-4a1aa006f74sm799975b6e.0.2026.07.07.19.18.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 19:18:37 -0700 (PDT)
+        Tue, 07 Jul 2026 19:18:38 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
-Date: Tue, 07 Jul 2026 20:18:07 -0600
-Subject: [PATCH v6 07/24] dyndbg: add stub macro for
- DECLARE_DYNDBG_CLASSMAP
+Date: Tue, 07 Jul 2026 20:18:08 -0600
+Subject: [PATCH v6 08/24] dyndbg: reword "class unknown," to
+ "class:_UNKNOWN_"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +71,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260707-dd-maint-2-v6-7-381f3edb0045@gmail.com>
+Message-Id: <20260707-dd-maint-2-v6-8-381f3edb0045@gmail.com>
 References: <20260707-dd-maint-2-v6-0-381f3edb0045@gmail.com>
 In-Reply-To: <20260707-dd-maint-2-v6-0-381f3edb0045@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -84,93 +85,52 @@ To: Andrew Morton <akpm@linux-foundation.org>,
  Petr Pavlu <petr.pavlu@suse.com>
 Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org, 
- linux-modules@vger.kernel.org, Jim Cromie <jim.cromie@gmail.com>
+ linux-modules@vger.kernel.org, Jim Cromie <jim.cromie@gmail.com>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783477102; l=3163;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783477102; l=1375;
  i=jim.cromie@gmail.com; s=20260203; h=from:subject:message-id;
- bh=ZuzqA3zGt/j9kYmFGfFlaL94NbjSKGlzcBcWBUqAWbM=;
- b=Df/3Jimg35ze3m1P/ozSvM5FvBWV8r61gESD6JGx3nop2TPly5KJeYBPy+kA2q5XrW74Hvatj
- GIqsDorjqu3DRe7lb5t9WSRn+uPKlFWyrPUIZa3ReDIinFblSpF4CJw
+ bh=yfxjNCD2FfV6WQ7UCS9hJEIU3/cj9TtYhccgD7F2GOk=;
+ b=BqO4fRVBObl9QNOP0WewNHKxLyFZjbRWwWNClrxuHOAw7XsQmdRiZGqV/r7Wn3OiYiYYQsKGT
+ PfAkGsNm/bUARzjCeCDIMDx56NqFAFY351zybs4JuMgykY0D7McoJD5
 X-Developer-Key: i=jim.cromie@gmail.com; a=ed25519;
  pk=C6E5ODlPQo7ZBynATXH9wg7K6HxP0pIXyf4s38Qw0XE=
 
-Add the stub macro for !DYNAMIC_DEBUG builds, after moving the
-original macro-defn down under the big ifdef.  Do it now so future
-changes have a cleaner starting point.
+When a dyndbg classname is unknown to a kernel module, the callsite is
+un-addressable via >control queries, and therefore uncontrollable.
+
+The control-file displays this condition as "class unknown, _id:N"
+currently.  That spelling is sub-optimal/too-generic, so change it to
+"class:_UNKNOWN_ _id:N" to loudly announce the erroneous situation,
+and to make it uniquely greppable.
+
+NB: while this might be seen as a user-visible change, this shouldn't
+disqualify the change:
+
+a- it reports a classmap coding error condition, which should be
+   detected in (or before) review.
+b- SHOUTING the error makes it more visible, uniquely greppable.
+c- the classmap feature is marked BROKEN for its only current user.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- include/linux/dynamic_debug.h | 43 ++++++++++++++++++++++---------------------
- 1 file changed, 22 insertions(+), 21 deletions(-)
+ lib/dynamic_debug.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index 05743900a116..a10adac8e8f0 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -93,27 +93,6 @@ struct ddebug_class_map {
- 	enum class_map_type map_type;
- };
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index 577a07916072..a86e1d5845e6 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -1170,7 +1170,7 @@ static int ddebug_proc_show(struct seq_file *m, void *p)
+ 		if (class)
+ 			seq_printf(m, " class:%s", class);
+ 		else
+-			seq_printf(m, " class unknown, _id:%d", dp->class_id);
++			seq_printf(m, " class:_UNKNOWN_ _id:%d", dp->class_id);
+ 	}
+ 	seq_putc(m, '\n');
  
--/**
-- * DECLARE_DYNDBG_CLASSMAP - declare classnames known by a module
-- * @_var:   a struct ddebug_class_map, passed to module_param_cb
-- * @_type:  enum class_map_type, chooses bits/verbose, numeric/symbolic
-- * @_base:  offset of 1st class-name. splits .class_id space
-- * @classes: class-names used to control class'd prdbgs
-- */
--#define DECLARE_DYNDBG_CLASSMAP(_var, _maptype, _base, ...)		\
--	static const char *_var##_classnames[] = { __VA_ARGS__ };	\
--	static struct ddebug_class_map __aligned(8) __used		\
--		__section("__dyndbg_classes") _var = {			\
--		.mod = THIS_MODULE,					\
--		.mod_name = KBUILD_MODNAME,				\
--		.base = _base,						\
--		.map_type = _maptype,					\
--		.length = NUM_TYPE_ARGS(char*, __VA_ARGS__),		\
--		.class_names = _var##_classnames,			\
--	}
--#define NUM_TYPE_ARGS(eltype, ...)				\
--        (sizeof((eltype[]){__VA_ARGS__}) / sizeof(eltype))
--
- /* encapsulate linker provided built-in (or module) dyndbg data */
- struct _ddebug_info {
- 	struct _ddebug *descs;
-@@ -138,6 +117,27 @@ struct ddebug_class_param {
- #if defined(CONFIG_DYNAMIC_DEBUG) || \
- 	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
- 
-+/**
-+ * DECLARE_DYNDBG_CLASSMAP - declare classnames known by a module
-+ * @_var:   a struct ddebug_class_map, passed to module_param_cb
-+ * @_type:  enum class_map_type, chooses bits/verbose, numeric/symbolic
-+ * @_base:  offset of 1st class-name. splits .class_id space
-+ * @classes: class-names used to control class'd prdbgs
-+ */
-+#define DECLARE_DYNDBG_CLASSMAP(_var, _maptype, _base, ...)		\
-+	static const char *_var##_classnames[] = { __VA_ARGS__ };	\
-+	static struct ddebug_class_map __aligned(8) __used		\
-+		__section("__dyndbg_classes") _var = {			\
-+		.mod = THIS_MODULE,					\
-+		.mod_name = KBUILD_MODNAME,				\
-+		.base = _base,						\
-+		.map_type = _maptype,					\
-+		.length = NUM_TYPE_ARGS(char*, __VA_ARGS__),		\
-+		.class_names = _var##_classnames,			\
-+	}
-+#define NUM_TYPE_ARGS(eltype, ...)				\
-+	(sizeof((eltype[]) {__VA_ARGS__}) / sizeof(eltype))
-+
- extern __printf(2, 3)
- void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...);
- 
-@@ -314,6 +314,7 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
- 
- #define DEFINE_DYNAMIC_DEBUG_METADATA(name, fmt)
- #define DYNAMIC_DEBUG_BRANCH(descriptor) false
-+#define DECLARE_DYNDBG_CLASSMAP(...)
- 
- #define dynamic_pr_debug(fmt, ...)					\
- 	no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
 
 -- 
 2.55.0
