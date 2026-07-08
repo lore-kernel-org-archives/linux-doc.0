@@ -1,111 +1,92 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp-1908.mail.infomaniak.ch (smtp-1908.mail.infomaniak.ch [185.125.25.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0D93B27CC;
-	Wed,  8 Jul 2026 10:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417833BE627
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 10:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783506998; cv=none; b=BCu9T2SfHsmhTmO+3YSAGbpxdEqsV5LMLbaECq9XPEGGuCTRZT/9nvfj6wk+Pfl4Gp1CPcAPxyQRZV3ncQUAZFim6YghrFeVV2wS2L7XE9ymBjyG0itRr7psxFmvln0laN8imsNXgPRRVSCF9+Em/0nNHkQfXOeqIr1aRojZwj4=
+	t=1783507268; cv=none; b=PJDeHtpzRaZXpCQW0PvKIU6nUEe0w/yUqNhjIBDgTFH4Tc0A9meEUIwxY+5I9jPES0d1ND4qleTek20c35K+44XwHOXFeo7feV/lZHUs1z/D+uNWHiLvaY/1cEZ7TDQbR8Yjkut7Ug3NngKCTQTp+d9y76VcTsX/C6dc3R2sQr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783506998; c=relaxed/simple;
-	bh=CptA4H/0yTvtYAkCQi2Kx0njcJk4uT/iLYE9SPVIZgM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=tCveNkeQZKNP0Kjr/aVVDi4v0B+otfmjlH6Pk5w9v6AQZncf1tsEDNrWdmM7wD93GXW6Z2/Rq4d0jJZAxCLvX0VwAK5l1MN1vS+yA40dT4VLJYKX4W6YGPaScQ8OAkNu6KE0RRXN+3PkievMHnu+8Gg0eyj2lYaCTFcXZ6BQZ6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Gb3HtCoK; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fRArbuaP; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1783507268; c=relaxed/simple;
+	bh=KIPKS9qTYssUK1Pdf4rnW1pNs1gOm+YQLMiuu14W4mY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Epf/a/mL8xLVfwLi6cOg4oenMiWGkj+s06//j1Vq9EQhbfVWeqyCONniJKiPiI6jcbfDeF2o/B/UdH8CeXaDbW2FkWCnYEme5RqFlzscYX3dbCubDLDsXhBLixN+ZPBioARitLHqZcxCD3riv9HxDUWp9nvtAexN0xW83kumqBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=KfPXKnUC; arc=none smtp.client-ip=185.125.25.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Gb3HtCoK";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fRArbuaP"
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783506983;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4oSZ0VvgFHGlDOd8o6hkiwFx03nfgdvtHM1XfLEEIwY=;
-	b=Gb3HtCoKx6JK0GUWAyn+2ejS0xH2woEWxw3+K/nj2+wIJBR7fWvEPMFvFkyMvlwrSHvH3y
-	eYqC9WH6f0zAbTbuXVSWvtLBe4ST35ka3Sx3qaoz/My1koLC2UrFc5rGvE+V0VwrOd6njF
-	/6QPl/3E393XAhbRW6KoVsP/8FRAxYG9XY/ou3u5uSQQnxhnOp9j85d7VB+TGEBiacExE3
-	xJRbPhjE0DAIxiNex0yDdcKTec11EZmdD/YpK0wBUMeLP0I3e2YCMqu/Pyf5yPUyWPHO70
-	yB/zK+5LOoE4/L0SthgVe+xva8k3B7NyCM772BL/6skjkpHuTGfdHgW9SEka3Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783506983;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4oSZ0VvgFHGlDOd8o6hkiwFx03nfgdvtHM1XfLEEIwY=;
-	b=fRArbuaPMd9AD20Wgcx6lGklXPR5RU5QhFZJ34To/S8oQ81VuWWkxh+y3qq05R2rkX18yj
-	OVN5nvYiWZtrpKCA==
-To: Petr Mladek <pmladek@suse.com>
-Cc: Andrew Murray <amurray@thegoodpenguin.co.uk>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Russell King
- <linux@armlinux.org.uk>, Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>, Steven Rostedt
- <rostedt@goodmis.org>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- Andrew Morton <akpm@linux-foundation.org>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Randy
- Dunlap <rdunlap@infradead.org>, Linus Torvalds
- <torvalds@linux-foundation.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2 3/4] printk: nbcon: move printk_delay to console
- emiting code
-In-Reply-To: <ak0b2S9jjYy49a8V@pathway.suse.cz>
-References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
- <20260630-deprecate_boot_delay-v2-3-f9883d36aa4b@thegoodpenguin.co.uk>
- <87zf08w7qo.fsf@jogness.linutronix.de> <ak0b2S9jjYy49a8V@pathway.suse.cz>
-Date: Wed, 08 Jul 2026 12:42:22 +0206
-Message-ID: <87echdvkd5.fsf@jogness.linutronix.de>
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="KfPXKnUC"
+Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4gwF4D66lZzCn3;
+	Wed,  8 Jul 2026 12:40:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1783507244;
+	bh=h+szCH3qJjavBjzWpe3u9PkHYRvYTjkN/5nGy0sOvZI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KfPXKnUCFCNh8ENlkTCjQEhAnkBFiBDQSMY7TF6N4sDRhNsBXyjkWvIXRj41n4poQ
+	 AzCyThAcp1BgNH7R6+wbN63bPcK2PKFnEEBpViokSZHxwhOFnJcvdLXTsO4svLkbjr
+	 eH6HoCoHLvLCe6lQwj1qs7tSblD/SG2J6cEHVBkY=
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4gwF4D1NTkzNTQ;
+	Wed,  8 Jul 2026 12:40:44 +0200 (CEST)
+Date: Wed, 8 Jul 2026 12:40:42 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	Alejandro Colomar <alx.manpages@gmail.com>, Alejandro Colomar <alx@kernel.org>
+Subject: Re: [PATCH] landlock: Documentation wording cleanups
+Message-ID: <20260708.EimaePheb3ji@digikod.net>
+References: <20260516190112.4924-1-gnoack3000@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260516190112.4924-1-gnoack3000@gmail.com>
+X-Infomaniak-Routing: alpha
 
-On 2026-07-07, Petr Mladek <pmladek@suse.com> wrote:
->> This is too deep (also pointed out by Sashiko) because it multiplies the
->> delay times the number of consoles. For the legacy printing, it would be
->> more appropriate to put the delay inside console_flush_all() and
->> legacy_kthread_func().
->
-> True. The question is if the proper solution is worth the complexity.
-> We would need to pass the information down two level of the API.
-> It would require adding a new (output) parameter to console_flush_one_record(),
-> nbcon_legacy_emit_next_record(), and console_emit_next_record().
->
-> It is not that complicated but these functions are already hairy
-> enough so we should be careful.
+Thanks, applied!
 
-Fair enough. But then it should be consistent and
-console_emit_next_record() should perform the delay before allowing the
-handover. Something like this:
-
-diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index 2fe9a963c823a..62fd6a5ebef66 100644
---- a/kernel/printk/printk.c
-+++ b/kernel/printk/printk.c
-@@ -3161,6 +3161,8 @@ static bool console_emit_next_record(struct console *con, bool *handover, int co
- 		 */
- 
- 		con->write(con, outbuf, pmsg.outbuf_len);
-+		printk_delay(false);
-+
- 		con->seq = pmsg.seq + 1;
- 	} else {
- 		/*
-@@ -3182,6 +3184,7 @@ static bool console_emit_next_record(struct console *con, bool *handover, int co
- 		printk_legacy_allow_spinlock_enter();
- 		con->write(con, outbuf, pmsg.outbuf_len);
- 		printk_legacy_allow_spinlock_exit();
-+		printk_delay(true);
- 
- 		start_critical_timings();
- 
-
-John
+On Sat, May 16, 2026 at 09:01:12PM +0200, Günther Noack wrote:
+> Documentation cleanups suggested by Alejandro Colomar,
+> which we have also applied in the man pages.
+> 
+> Link: https://lore.kernel.org/all/agW4yMK6CinJGqXt@devuan/
+> Suggested-by: Alejandro Colomar <alx@kernel.org>
+> Signed-off-by: Günther Noack <gnoack3000@gmail.com>
+> ---
+>  include/uapi/linux/landlock.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
+> index 10a346e55e95..48c12ddf1108 100644
+> --- a/include/uapi/linux/landlock.h
+> +++ b/include/uapi/linux/landlock.h
+> @@ -255,16 +255,16 @@ struct landlock_net_port_attr {
+>   *   :manpage:`connect(2)` as well as calls to :manpage:`sendmsg(2)` with an
+>   *   explicit recipient address.
+>   *
+> - *   This access right only applies to connections to UNIX server sockets which
+> + *   This access right applies only to connections to UNIX server sockets which
+>   *   were created outside of the newly created Landlock domain (e.g. from within
+>   *   a parent domain or from an unrestricted process).  Newly created UNIX
+>   *   servers within the same Landlock domain continue to be accessible.  In this
+>   *   regard, %LANDLOCK_ACCESS_FS_RESOLVE_UNIX has the same semantics as the
+>   *   ``LANDLOCK_SCOPE_*`` flags.
+>   *
+> - *   If a resolve attempt is denied, the operation returns an ``EACCES`` error,
+> - *   in line with other filesystem access rights (but different to denials for
+> - *   abstract UNIX domain sockets).
+> + *   If a resolution attempt is denied, the operation returns an ``EACCES``
+> + *   error, in line with other filesystem access rights (but different to
+> + *   denials for abstract UNIX domain sockets).
+>   *
+>   *   This access right is available since the ninth version of the Landlock ABI.
+>   *
+> -- 
+> 2.54.0
+> 
+> 
