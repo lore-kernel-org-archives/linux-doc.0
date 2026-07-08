@@ -1,145 +1,221 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3BD3D0C07;
-	Wed,  8 Jul 2026 19:01:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9843CF054
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 19:05:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783537268; cv=none; b=AnMp+B0HM/9rtwlfIt1m4NTXvmdI78gCsbUF1LdYjxp/M1HlP+2r6B3NkXOKSZ8IsZQIuJNqMFHb3jBr/NHNVcd+92MKEEomP10Yv44QhFNGiZydQ6/eLFRMyb/jV/Ul1g9GknWBCuJdenbduWLUVAN9aUj1PEnuasYBg3g/YN4=
+	t=1783537562; cv=none; b=joN6/PXKy2UsvUrkrIWJHcUA3rcJIihO3rmYxnjIhxUlxRhLeiZzXfOd0yQPeOFGtPydAebp5nucekxu7DzKipCgqm3iFooJwufpoe4m3ASCQEsFEa7cq21DmpaZUZSXAf/czYvtqVcxRZbD9lsOqlAiWqwJU6NgGN0SnJvSiRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783537268; c=relaxed/simple;
-	bh=JmvmXqvoJhxel/XCqY2ga/B/piNjvTPEr8lOPuxpubA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aXwPGJGb2zvuU3NOrM95sclFhylRtBAe2OIwQinjut+I8XAU1j+skRnGbgC4UzC2ciiVolNZbiy65MjmV8O2WCmaKMlZyQP7UfSrx1VFqFKdaoL3jAKagV37r1SjJThv9/n+lYvNYO2OhtBBxPlNqSvrn0RxoZ5nDTXyh1wNnAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ox/qzpCj; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783537562; c=relaxed/simple;
+	bh=YItqT8T7it2rqu0Ag40WP8xbh00oL0oNgmOzd217gSY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lQDHBxsKf2kQaCt9x835gUMivt8IwkAgZMTcy8Ue1D/zfVyB4DYbRVV8fgIdkaY87uGf1RT6sfbdEBTFX57VobZOQ4srcGmSAVqyB0tDr99HG1iMom66EvCZ4vP4hrhpX8vdzH/GGWNYxVbQDRzYGLec8PKex4OU6sJ79AcyYuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=C/Z3O8TS; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TaVdRaOB; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ox/qzpCj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783537266; x=1815073266;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=JmvmXqvoJhxel/XCqY2ga/B/piNjvTPEr8lOPuxpubA=;
-  b=Ox/qzpCjVd4vPGM6qroNVc30olmwg8ENwV9KqmGs9r473Ct7i0nWdVC2
-   974ePQiU9yTSMZad3NFxDN9NQ6GDu9CIFbzIHRgcz71Xd/P+qMnjsw0af
-   rvyIjtjdaJB/hSHQtX6DVNyruj/H/u07dMXULslDQq2nYPHhb5WX/eNrC
-   4K+ARjDk5rjGSUVUNhH+/+qFJzgcm7kYvyWY1wXDHIWFUA07mkgfdZt19
-   a7/kux3FL16dMZEciOrg4iqNw5cv/JYZY4FVUOiV2FliBUoN5O86aO92+
-   6OMuz3D8iVkK5wVWiIvZlz5Kb5OZoSPI4tplgX7hMaCreve8LYkDXHwfG
-   g==;
-X-CSE-ConnectionGUID: TG1A1FebR5S4E0wed8ScfA==
-X-CSE-MsgGUID: ESx5ZoUMTYKzUKWcPOdrTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="94567117"
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="94567117"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 12:01:05 -0700
-X-CSE-ConnectionGUID: 3obKFQgzQqS3quORMBg99Q==
-X-CSE-MsgGUID: punpz2zRRdqR7+3AYOReyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="251717242"
-Received: from jmaxwel1-mobl.amr.corp.intel.com (HELO [10.125.111.66]) ([10.125.111.66])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 12:01:04 -0700
-Message-ID: <1d60cebf-4764-4785-bf01-8ca59ab2cc7d@intel.com>
-Date: Wed, 8 Jul 2026 12:01:01 -0700
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="C/Z3O8TS";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TaVdRaOB"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 668IM41b3580197
+	for <linux-doc@vger.kernel.org>; Wed, 8 Jul 2026 19:05:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=CeHf8ZnOmdDt8+90mSP4wYI2
+	u2NYKjn3Be4iJ272f5Q=; b=C/Z3O8TSU/K6ST7I/5NLvaXUbyaBPKdv0+DgP40l
+	nQUMyIiRO9eb0HkYDoQACetPWHg33l4B4SndJBK78czyFY2O72YHuNe0IwlvvEDO
+	e3Y5cvI4c3FPt59an/wepDFFpz+Z03T8w+4iB0iNKikofEJk+NSkHJqWjAuBGuDu
+	AtCF25xZE9fajt5L8vuDM1kN1dXUr3yeqChMyf4fl6dNiYLugaM5q29YztM8AH9s
+	XpjSoOZW0vNUVP2e+nShpv9KxBXbZv+Ku+p0c6/+UfEDrWTF5ZEDyfUzfYbgBzid
+	ORzfs/9zn+9EvdTrpupSEOicov9omFUig51PTAzYEyTiVA==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f9urvr54r-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 19:05:56 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3823dcc1647so1512272a91.3
+        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 12:05:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1783537555; x=1784142355; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=CeHf8ZnOmdDt8+90mSP4wYI2u2NYKjn3Be4iJ272f5Q=;
+        b=TaVdRaOBpzvB3sQFBAEcWmcDx/oLzP0IrwweH/DQly4YNfb7bLluGOkH4f1e0ugFbx
+         7D8Oz5PvtAfizYXfXJReHdylvgLKwS/72bPb/+nKhmOxA0rw4RZh8GpHfG1QsyhhAfs0
+         LRY4AnHCrtUfwi1tOOk1XN6vt0c7XFjJud2Yn31KcQojtpTOqfewVFEvDjfKdwgm2ln/
+         uxUP0AozutmPGMBpF7a/oIcbPJunJuML5IgueBPTHDv566YUWrCCBWQr38wQslEe43Er
+         pEoLSczQAXe1n8ZDDpdUD6RSR/djvXl8LL/KFsGpbGm12Wrimwt5mzMxT9L9KzzxQ/cf
+         Kxcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783537555; x=1784142355;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CeHf8ZnOmdDt8+90mSP4wYI2u2NYKjn3Be4iJ272f5Q=;
+        b=gDHUXUPCbD91B85pLvgCXamu34tK1aHYASwWJ3tDbHvMj3XotURBogCD+Aw2EK/3i1
+         EtR8PggXKi/9godGKclv6BCCW86ITFB1Rep4TYr9zsiTwA5jK5zreOO3dzTTkGavUbEA
+         3U/lTMNfDFv3+EfY86cogqlWtLdYBijZmM4+dfS6wX2/R3NakHpuL6oArPPIkG3VpZZF
+         gXstxeVlp+fno5M9dr0OrvMfPjQlDnUVBNFg4rRbq28JXeElO/2cRQgsbCYrvDVuUJ6a
+         TgvXLb5a/3kTgWQjsHz301p0s2cMiY85eqhE5RbQBKfbd944DcRQiYt1GoHPPOvTOB+8
+         sEbw==
+X-Forwarded-Encrypted: i=1; AHgh+RpuwjAJnisOBqvdp206wubpJEXbWhvwgYFLrAGDk+KpnIOEVsSfhfhtJBMuL5ubXDcVoOjf4amYYr8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2+BN8F9KTHJRsrUihbVGnHpNc+61F5n759xTL1ZeHsy5up8yq
+	PLFzcDOtVKqT+M3Hb5DmGw+hdOuj0XZZgW+S76I/6iHAyhty2W5CsRNyRZQwCo1gdRfAbgEjl9t
+	wFVKDw4qyUM1aFQWYKI0/awnls+wYCj1xpKDqE7PM765nGUUA5DfIigueh4fW9Cc=
+X-Gm-Gg: AfdE7cnlnqjOz7T5hKUvGnJpAlF+CxSjIB2cQ3/qSMt7lAjg0YzMdLt1MI/FrH2L91Z
+	A/P8UMqphoviZyo1ycv6YJhMmrPKGkv8wzEQXFI7emd9IN6NxC0iKZ3tx6X/NVewjyvdDPCKZ5u
+	WIzFDE+ntlnwy539i06oz24avvvnmZwBAkTLFm+6vZmOfYPb3Qgb7ofgr4TaOkrcGfxD2aOLKWg
+	Zjp6JU2j02dNbTz15tNgOhRPdgbTbmj5dqSI4PgJZQyDOhEScfl4bx1Y6hgwAJx3UCUitSgfJ4R
+	Vd7ssuTJ9gcIFlJ+whygF+fIq9hFpPH8HcUdc5NX9j7M2ZzDvm6qcv3Sk1vgMoA6NXOzZg68Dex
+	kC1hJ8rdx78PFgY8Xhktm48pFo9QaxKA2bQWYbQ==
+X-Received: by 2002:a17:90b:4d8d:b0:37f:db06:229c with SMTP id 98e67ed59e1d1-38942f7105cmr3621986a91.22.1783537555394;
+        Wed, 08 Jul 2026 12:05:55 -0700 (PDT)
+X-Received: by 2002:a17:90b:4d8d:b0:37f:db06:229c with SMTP id 98e67ed59e1d1-38942f7105cmr3621916a91.22.1783537554731;
+        Wed, 08 Jul 2026 12:05:54 -0700 (PDT)
+Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174ae6cd9sm24772373eec.31.2026.07.08.12.05.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 12:05:54 -0700 (PDT)
+Date: Thu, 9 Jul 2026 00:35:35 +0530
+From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+        Eugen Hristev <ehristev@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Christoph Lameter <cl@gentwo.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Anna-Maria Behnsen <anna-maria@linutronix.de>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
+        Kees Cook <kees@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+        Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+        K Prateek Nayak <kprateek.nayak@amd.com>,
+        David Hildenbrand <david@kernel.org>,
+        "Liam R. Howlett" <liam@infradead.org>,
+        Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+        Brendan Jackman <jackmanb@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+        Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+        Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
+        Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>,
+        Youngjun Park <youngjun.park@lge.com>, Petr Mladek <pmladek@suse.com>,
+        John Ogness <john.ogness@linutronix.de>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Saravana Kannan <saravanak@kernel.org>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org,
+        linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 11/26] mm/swapfile: Annotate static information into
+ meminspect
+Message-ID: <20260708190535.fhqaddicljho44eq@hu-mojha-hyd.qualcomm.com>
+References: <20260708-meminspect-v3-v3-0-7aa5a0a74d5c@oss.qualcomm.com>
+ <20260708-meminspect-v3-v3-11-7aa5a0a74d5c@oss.qualcomm.com>
+ <ak4AgXqMnkn8rVGE@lucifer>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 05/11] x86/virt/tdx: Handle concurrent callers in
- tdx_pamt_get/put()
-To: Rick Edgecombe <rick.p.edgecombe@intel.com>, bp@alien8.de, hpa@zytor.com,
- kas@kernel.org, kvm@vger.kernel.org, linux-coco@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, mingo@redhat.com,
- nik.borisov@suse.com, pbonzini@redhat.com, seanjc@google.com,
- tglx@kernel.org, vannapurve@google.com, x86@kernel.org, chao.gao@intel.com,
- yan.y.zhao@intel.com, kai.huang@intel.com
-Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
- <20260526023515.288829-6-rick.p.edgecombe@intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20260526023515.288829-6-rick.p.edgecombe@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ak4AgXqMnkn8rVGE@lucifer>
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA4MDE4NyBTYWx0ZWRfX77iy03OzHDIn
+ NCPETMM1SzsprN5lnUiv5fAtMOaPmz/RSGl4ddOyzIyXKBVH1/id481/LWdaHFpxhxwilpWHx3i
+ 6i0+nUG5Pgqy5v4agEHJ2vLMan84X94=
+X-Proofpoint-GUID: lnW9V1Kz7wqyHMEtNDV3PgYOqPBM3GOE
+X-Proofpoint-ORIG-GUID: lnW9V1Kz7wqyHMEtNDV3PgYOqPBM3GOE
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA4MDE4NyBTYWx0ZWRfX6XZWCASRKGvc
+ nJETMtSO801fLFHYYmv6k1d0eGAtvbpROiil2P5whs2D2Fl+mYB/iAoe4Z2fj8TMBy7WheXyoGH
+ KVHV3wgvVA/A212EOaUsjqlcqs6GZthhPT0HJqmYOOFVFJ5KTrnvZv7AULst5KW8i9ZHIX2QPJT
+ s4pJCwulhYv3j5HHUhcrvQYMyIFbAX9s5xN4qusJ89mzUx7N9N1agRR2ptQtC1E3kBrkfkeSB7r
+ xPgTXPdRaIIrHGy3pfulaJ5xz4QCCj7Pl8cxNZMxa7V3q200o710TMliOEnC6qF7xOYIGi526SH
+ baSLEhKL5o3w33a8Nko7DWkDUO8M/LGkQ6qDMMVaTxh81qgt6L1o6GvqRqZbo0GcGytr+VNmzzY
+ TYkdMth08eAuryecc11x/pUu7vvUoUNxhANW2Gs/gduLyXi+4/A1LAdUR0x7O/AqFAuhMMZozE+
+ Ph5tkpL6B6xOHRTOK8A==
+X-Authority-Analysis: v=2.4 cv=H43rBeYi c=1 sm=1 tr=0 ts=6a4e9f94 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=cq8IU3OeMPPiwu34qS0A:9
+ a=CjuIK1q_8ugA:10 a=uKXjsCUrEbL0IQVhDsJ9:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-08_03,2026-07-08_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0 adultscore=0 spamscore=0 phishscore=0
+ bulkscore=0 priorityscore=1501 malwarescore=0 lowpriorityscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607080187
 
-On 5/25/26 19:35, Rick Edgecombe wrote:
-> +	scoped_guard(spinlock, &pamt_lock) {
-> +		/*
-> +		 * If the pamt page is already added (i.e. refcount >= 1),
-> +		 * then just increment the refcount.
-> +		 */
-> +		if (atomic_read(pamt_refcount)) {
-> +			atomic_inc(pamt_refcount);
-> +			goto out_free;
-> +		}
+On Wed, Jul 08, 2026 at 08:47:51AM +0100, Lorenzo Stoakes wrote:
+> On Wed, Jul 08, 2026 at 11:01:50AM +0530, Mukesh Ojha wrote:
+> > From: Eugen Hristev <ehristev@kernel.org>
+> >
+> > Annotate vital static information into inspection table:
+> >  - nr_swapfiles
+> >
+> > Information on these variables is stored in a dedicated meminspect
+> > section.
+> >
+> > Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
+> > Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> > ---
+> >  mm/swapfile.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/mm/swapfile.c b/mm/swapfile.c
+> > index a602e5820513..d480727e4987 100644
+> > --- a/mm/swapfile.c
+> > +++ b/mm/swapfile.c
+> > @@ -42,6 +42,7 @@
+> >  #include <linux/suspend.h>
+> >  #include <linux/zswap.h>
+> >  #include <linux/plist.h>
+> > +#include <linux/meminspect.h>
+> >
+> >  #include <asm/tlbflush.h>
+> >  #include <linux/leafops.h>
+> > @@ -65,6 +66,7 @@ static void move_cluster(struct swap_info_struct *si,
+> >   */
+> >  static DEFINE_SPINLOCK(swap_lock);
+> >  static unsigned int nr_swapfiles;
+> > +MEMINSPECT_SIMPLE_ENTRY(nr_swapfiles);
+> 
+> Now the EXPORT_SYMBOL_GPL() is an EXPORT_SYMBOL() in effect no?
 
-I think this pattern is a good fit for atomic_inc_not_zero().
+The whole reason we had to tag most of the MM symbols is that
+the crash tool looks for this information while launching itself.
 
-I think it's also fair to say that using an atomic_t here is unnecessary
-because of the spinlock protecting all accesses. But I also understand
-that it's here because you want to optimize this path to avoid the
-spinlock in the future.
+e.g.,
 
-This is not a hot enough path to care about an atomic_t vs. int. In
-practice, the performance is going to be bottlenecked on the big
-spinlock, *not* the atomic_t overhead.
+./crash --no_modules --no_panic --no_kmem_cache --zero_excluded ./vmlinux  ./minidump.elf
 
-I'd just add a changelog blurb to handwave it away for the moment:
 
-	The pamt_refcount[]s are atomic_t's. They do not strictly need
-	to be because all access is protected by pamt_lock. The overhead
-	of an atomic_t in this situation is minuscule compared to the
-	global lock. Leave the (unnecessary) atomic_t in place to enable
-	future optimization with minimal churn.
+> 
+> >  atomic_long_t nr_swap_pages;
+> >  /*
+> >   * Some modules use swappable objects and may try to swap them out under
+> >
+> > --
+> > 2.53.0
+> >
 
-Does that work for everybody?
+-- 
+-Mukesh Ojha
