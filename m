@@ -1,325 +1,211 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0DB748A2B5
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 17:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783530635; cv=pass; b=qHCnxU+4hnLvX/yhK5A5WlXUVAlDB4qW8oedMgqx+fBYYUWqDQUK65LVoB/5oaHh0Ig38o15nw1nUKf9OzjdRw6m+UeA5nQsrINYdvFRw0g3Sfc36uG7kd4FQ8MGGCOaQ2B8oB34ilnUy0Jk8IhAmGdY3wTayrwTm0dHHNDykxI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783530635; c=relaxed/simple;
-	bh=nLrXdDrb0nyne/TQYCI/4G0d9DCOxawO24KBDUJ5nQg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ddgyKJd/BUU3LWOmp+kne4XJhu1pIoafn3Fy7/nPxeKX+2CBCgESslO63MpvaxF+5sC3aq/DEpjTXTZjwot1axGoO/l6ztQyBxQzwE2YjyAjBwrgAm9n/j7DOaXD16ebm+EOpMWckvanfPAX8i3wYPVsbnyJmCFxxpPyIHZlscI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YPPJJu9J; arc=pass smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADCD37C933;
+	Wed,  8 Jul 2026 17:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783530756; cv=none; b=boyK8YjXY/rfDecXdmHSX6r7MWU9BgNSvaRnIfrJfm7dem5CHmZYVe0ZYzXeIQd/KG5lyCLeXgk9Hagi+/QSwWGlC7i3PWAuf0mTwjdzb6MbiVLf3G0PRl/QCBI+fxict9NgfPTfpydD8dzi4PXT8Vt8IS3aSLFYYe3YvN0niKA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783530756; c=relaxed/simple;
+	bh=DTJ/AVTjSgEn0aE1ysyJ9vYZ6cwhQVTh3u4GriDXbs0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=f7+bhuxf0iFI/G2rUWPyphG92TZ0suBmlD4jm0Nld6XdjTobYFZv+BpVT/WPzR5tJ5d3HPvHmt81X4wRP40T6WXQhXB0N+R4tG53lxS7oI3YO0T2Bb5JtaDxAGqQPqavtelIufCZJG9Pma5D2q5Y5Abkt+eUGtCsYlUzCPn977k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=khDnkbYW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YPPJJu9J"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3997a448ecbso10668571fa.0
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 10:10:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783530629; cv=none;
-        d=google.com; s=arc-20260327;
-        b=SubRRlAWI8+Yc6Bd8f8FWGWdq1Sl1RGlu/4/oENEOrlbC9afzCqz9MHgGLubH+y9r5
-         vky94IJedOJlWqQC6ayVtCdaVbri9sXSx/LAmjzp4N7pDTH3VhoYdu8n83hF0/TsO9lc
-         xwQ+uj/koDlVKmECTVRK/TMI5gdjz+g+lgkTvc8arrqinCs2cGIDv8PKDxqN/7KyRU5C
-         vPacPxflJqRrBL4+eJ/cQHKcpRARBgRfQa4vW7wiAxgCUXVtygrvh9Wb/GRkMsxyvIFA
-         j2HjixTeeD2CZNxVYC9oatweQ1zusouM1DLDBxBEDrY+CVSx/hvk42gdHHiql4t0wANf
-         EXgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=GKNYdbS14PoiaCYd8c0Qa4S9RDI1yii1jmGBffqUnvc=;
-        fh=rkzE3RFPuohLA388KSUhASKToluXssVkobRUG3Hdgyo=;
-        b=As4aKXAdXvHdau8RSDWhFTrAVfjcb4rftgh0VFrppjpFb0CrUltkQSHOUk0aExbAXY
-         ki3KJZZVYgUAh8N8jLobDOSRnh7bi78dfjIYGtUEQTynISRsGXGtbFAoWmuDRpOCmRaV
-         yFW7zZLZI02zIaXzF1SuJ5bQbIzhWvSx0wZBySf75NwaFCmzfz4AAURMJACNIQ4bN9tN
-         efBoZpg/depQMvadyT/XGKTvnav3Zc5NUW0Fg4JFQuphWbMrPq1VUwPnHV2+PTM6bdZ5
-         ON/SQV1sf3YiRlSpOjzF6K/nwnOGO3YshX40qZRHBfxIIGTI7OpShO2DvzueonPJ42J/
-         GtCg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783530629; x=1784135429; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GKNYdbS14PoiaCYd8c0Qa4S9RDI1yii1jmGBffqUnvc=;
-        b=YPPJJu9JhokUkAGtnyGl0aXkb2kdnISQQ5C2in0ral0v24ScIcoYBJAd7n44rW80AO
-         6fijKTzF6a5Ac+ivvJiwkUHdQAXgid5NQSq7lFZyazZvMmBktmaORk2661Vy53KBbq4h
-         osptmkOdlzLWb+vB2tYJzoWkrIetuIM2hLHwlHjVHZIrHOj+1SJGuelLqGlQ21Dy+wvc
-         k5Qyp8DFcE3OciHH2o3HTE024J19N48F+D97szHvcngKaMiNZqBPhFZdhT/ZhrruX1uq
-         s8pvzz5qjb2LcxC2AYpPBouPv4AwVNbQIdULQGs7B2wpoUUH3I4769lc4e7C8jimz7ej
-         Kz7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783530629; x=1784135429;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GKNYdbS14PoiaCYd8c0Qa4S9RDI1yii1jmGBffqUnvc=;
-        b=MBC/g7OFQS5PQVq1FXycKl91M3kRzS7P9RuAo+m+1GgAI8a+qZDx386/A4xq3KGQA2
-         AiwbmTQpyR132O8snogPljSvkjmEmiMNT7jc5TadTqWjmqmBoW1IwhhSMbv9McHI7t+i
-         o4P6q+PP38A2XBapV+CVsHAZztMngu/7Ad2t/L7BjRsrk3eB4HB1pE5cKd7g1QdNn/WC
-         HvTYceNdEraCLYizgKlK+59jGGRCcg6Lmh5RmhoNG9th7BWqDIlnTDbQV7FDSB37zObT
-         o33VYv7GwPxupZs3485hg1Qc8NXfIp1Ggm/KjLMc0pxp3EqTuGCMQnabc9XlUVssv6PJ
-         p2iQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpVkuf4H4c4EJGaHiHA1dRfynanxJtUXqvN1kqlobMckBORBqQiejmMKP0CDUtSR3MaDd4/2yvrsp4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGNlx8i/pu8EFFJoYDESjaqHPSN1K9uoBzQOyByqdl/QrPaIvL
-	0U7QN9trVGgtn+AYJNpHZK/75uBorIalSpKZoxKTeSlmZ+LW0hgzbMO+olRy9evA434o0CCjlyV
-	VEL351TCPoP4pNvtEoXLHp3RuXWybpns=
-X-Gm-Gg: AfdE7cmyBwbJal6P2QwYeiKmOD7Hw8zxT2B1EoJhYiwaV2KdzBWFrHz2YTnArq8nNig
-	z9mmIeo30D7Y9xiZPnInt5dlSmnu7hiwq9kz2o34Ps1MrFLWGM2YIBS7Dgn2FTr4f3SBDQwm8+H
-	L5fA8Q+pCf3TaNrZceCVxxwkNHLcm4u8xySXfnayPvqjGyzr57wG34koyLP6OIxLZUWSBVhQKZ5
-	+bdEGKiFQblDRe/ydryinsTaE09+E1gY4iC0G98R+sG6cPlo9minnhG+s30RHOos/+fEZXqujbD
-	0w+X7MGAenqxdDm9BS/tKCqdkpE42pQ=
-X-Received: by 2002:a05:6512:4507:b0:5ae:b604:4c9 with SMTP id
- 2adb3069b0e04-5b0114b4371mr859389e87.65.1783530628850; Wed, 08 Jul 2026
- 10:10:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="khDnkbYW"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 69167C2BCB9;
+	Wed,  8 Jul 2026 17:12:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1783530756;
+	bh=DTJ/AVTjSgEn0aE1ysyJ9vYZ6cwhQVTh3u4GriDXbs0=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=khDnkbYWuuK0NUq99S5Sd5V1e37G8Ql+CnZHlqk1ys7YndA7WXkYX3X657+X8Tql+
+	 Q4HaAC5F1y0swFXU0+8wjkQhR09oFoP8zZFVikZHlKl/x7SBJOycDW435mZ8BD3H2X
+	 39o4x4TJ/xC+KqlrPfrvLrGl0DHo8P7SaKaWNbZqXS4s2C4SL3W7G421j2AJDEQHRi
+	 WTjmJggkzdUweE96DDJn9st+zJDoRW4XCyI8HrFTi40vfO0fJLWMOIbteQS58pTW9+
+	 iZNW0fjASsAyUT5BJWcGKI9dBROGlhD0hU52m669m8VfmgMVuwwYtRhrGk26gFjPXe
+	 Asiidl/YBChjA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49A44C44503;
+	Wed,  8 Jul 2026 17:12:36 +0000 (UTC)
+From: Selvamani Rajagopal via B4 Relay <devnull+Selvamani.Rajagopal.onsemi.com@kernel.org>
+Date: Wed, 08 Jul 2026 10:12:31 -0700
+Subject: [PATCH net-next v7 01/15] dt-bindings: net: add onsemi's S2500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260629083542.10041-1-lucaslnobrega38@gmail.com>
- <CAJZ5v0iVD90XPsWgT8B+fw9vmFRZTVL7MasPP-=Ci0OdUmNR=A@mail.gmail.com>
- <6021784.DvuYhMxLoT@rafael.j.wysocki> <CAMVixxV83tSLEi_o1vmHjqfgPnnXDwo2LjP_m-Y7iEWfvUAP2g@mail.gmail.com>
- <CAJZ5v0h=u3dGbujFpU2yObyLXT0ZLZTxpG2+zLZLP7wpKsBvQw@mail.gmail.com>
- <CAMVixxXpT90bkwGTpL+T-d3ve7BTK3xXwBcaMfhvJ7R+DkxXiw@mail.gmail.com>
- <CAMVixxXCOMb330_rvgbx2Zdy4yufW0BiB5jmv04v_icK-TTVpA@mail.gmail.com> <c21a1bc0-ef6d-4cd3-9575-9dd36e911a3c@arm.com>
-In-Reply-To: <c21a1bc0-ef6d-4cd3-9575-9dd36e911a3c@arm.com>
-From: Lucas Lima <lucaslnobrega38@gmail.com>
-Date: Wed, 8 Jul 2026 14:10:16 -0300
-X-Gm-Features: AVVi8CeOZFqAxPo2RdlM2ZkQChmtgbYb68M23B3G6xQ5JyKDwR2NMrbAx7RZ9-Y
-Message-ID: <CAMVixxXrbQR9KgKGGfbBarfqTFHTA0z7797q4h4hmacW_fZ-Mg@mail.gmail.com>
-Subject: Re: [PATCH] sched/topology: Allow EAS without schedutil for
- artificial Energy Models
-To: Christian Loehle <christian.loehle@arm.com>
-Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, viresh.kumar@linaro.org, mingo@redhat.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com, corbet@lwn.net, 
-	skhan@linuxfoundation.org, linux-pm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260708-s2500-mac-phy-support-v7-1-478c877aa1a9@onsemi.com>
+References: <20260708-s2500-mac-phy-support-v7-0-478c877aa1a9@onsemi.com>
+In-Reply-To: <20260708-s2500-mac-phy-support-v7-0-478c877aa1a9@onsemi.com>
+To: Andrew Lunn <andrew@lunn.ch>, 
+ Piergiorgio Beruto <pier.beruto@onsemi.com>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
+ Selva Rajagopal <selvamani.rajagopal@onsemi.com>, 
+ Richard Cochran <richardcochran@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Jerry Ray <jerry.ray@microchip.com>, 
+ Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783530757; l=4147;
+ i=Selvamani.Rajagopal@onsemi.com; s=20260531; h=from:subject:message-id;
+ bh=XAd0t4FugeDllDDK5kiSCMkGzC57YFB6VV27txzu9F8=;
+ b=yOuUt1vTs2/2r0sh6vktake3ENj6ZwLdqe6EstcNo/7bJVbakL0+gi/NAtUdIFLvSzoaoKrDY
+ ia2Pi/PtyqyBz5z/QyM9tmU+fQc/wk8903z9IF59RixJGlaPO4+K/jw
+X-Developer-Key: i=Selvamani.Rajagopal@onsemi.com; a=ed25519;
+ pk=5QRdM0HS/LGWWcUZZ9hVfZ+qbPQGZCumcTXOiN7Fyug=
+X-Endpoint-Received: by B4 Relay for
+ Selvamani.Rajagopal@onsemi.com/20260531 with auth_id=803
+X-Original-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+Reply-To: Selvamani.Rajagopal@onsemi.com
 
-Em seg., 6 de jul. de 2026 =C3=A0s 06:05, Christian Loehle
-<christian.loehle@arm.com> escreveu:
->
-> On 7/2/26 22:27, Lucas Lima wrote:
-> > After some testing I found out schedutil is indeed slower to react to l=
-oad
-> > changes compared to pstate active.
-> >
-> > The methodology was to empty a cpu, run a serial float recurrence
-> > (kept non-vectorizable
-> > on purpose, to isolate frequency ramp-up rather than throughput headroo=
-m)
-> > and compare the average throughput over several initial time windows
-> > against the steady-state throughput in order to measure the CPU frequen=
-cy
-> > ramp-up delay under pstate active and schedutil.
->
-> You might be interested in rt-app for more complex experiments along thos=
-e lines.
-Will take a look, thanks!
->
-> >
-> > ### P-core
-> >                                   pstate-eas-balanced
-> > pstate-eas-performance    schedutil-eas-balanced
-> > schedutil-eas-performance
-> > -----------------------------------------------------------------------=
--------------------------------------------------------------------
-> > Ramp-up (average throughput at time window / steady):
-> >     0-0.005s (%)                  70.6                      99.4
-> >                59.7                      61.3
-> >     0-0.01s (%)                   83.0                      99.5
-> >                60.2                      62.1
-> >     0-0.02s (%)                   91.3                      99.5
-> >                62.9                      65.7
-> >     0-0.05s (%)                   96.7                      99.8
-> >                74.8                      77.6
-> >     0-0.1s (%)                    98.6                      99.9
-> >                86.9                      88.7
-> >     0-0.5s (%)                    100.0                     100.1
-> >                97.4                      97.8
-> >     0-1.0s (%)                    100.2                     100.1
-> >                98.7                      98.9
-> >   Convergence to 95% (ms)         5                         0
-> >                52                        47
-> > Steady-state:
-> >     Throughput (Mops/s)           649.8                     654.4
-> >                652.3                     651.7
-> > Energy:
-> >     Average Power (W)             9.01                      8.98
-> >                9.10                      9.07
-> >     Efficiency (J/Gop)            13.889                    13.735
-> >                14.000                    13.961
-> >
-> > ### E-core
-> >                                   pstate-eas-balanced
-> > pstate-eas-performance    schedutil-eas-balanced
-> > schedutil-eas-performance
-> > -----------------------------------------------------------------------=
--------------------------------------------------------------------
-> > Ramp-up (average throughput at time window / steady):
-> >     0-0.005s (%)                  75.6                      99.0
-> >                62.3                      57.9
-> >     0-0.01s (%)                   85.1                      99.1
-> >                62.2                      58.8
-> >     0-0.02s (%)                   92.4                      99.3
-> >                64.5                      61.0
-> >     0-0.05s (%)                   97.0                      99.7
-> >                72.9                      69.2
-> >     0-0.1s (%)                    98.6                      99.9
-> >                84.8                      82.1
-> >     0-0.5s (%)                    99.8                      100.0
-> >                96.9                      96.4
-> >     0-1.0s (%)                    100.0                     100.0
-> >                98.5                      98.2
-> >   Convergence to 95% (ms)         8                         0
-> >                67                        72
-> > Steady-state:
-> >     Throughput (Mops/s)           540.6                     540.8
-> >                540.1                     539.7
-> > Energy:
-> >     Average Power (W)             5.46                      5.47
-> >                5.61                      5.51
-> >     Efficiency (J/Gop)            10.119                    10.125
-> >                10.426                    10.241
-> >
->
-> Thanks for the data, is this 1000HZ?
-Yes.
-> Rampup is one thing, the vast difference is obviously when tasks are migr=
-ated,
-> which EAS is very eager to do on wakeup, sugov 'knows' the right OPP imme=
-diately,
-> HWP needs to run through the same wakeup again, and during that window yo=
-u're
-> energy calculations are bogus.
+From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 
-That's a fair point, and worth being explicit about: my ramp-up test pinned
-the workload to a single core via taskset for the whole run, so it measures
-frequency ramp-up when load appears on a core that's already selected.
-Also, I selected performance power profile, which in our current branch,
-disables EAS.
+Add device tree binding for the onsemi S2500 IEEE 802.3cg
+compliant Ethernet transceiver device.
 
->
-> > That alone might make it worth it to use pstate active alongside EAS, a=
-s
-> > responsiveness gains are noticeable while busy energy consumption is si=
-milar.
-> >
-> > Furthermore, I implemented an EPP based EAS compatibility selection: wh=
-en
-> > EPP is set to 0 (performance), eas_compatible is set to false regardles=
-s
-> > of the active cpufreq driver mode -- this also overrides schedutil's ow=
-n
-> > eas_compatible assignment in sugov_init()/sugov_exit() when running in
-> > passive mode. IMHO that makes more sense than gating only on the govern=
-or,
-> > as users selecting the performance power profile are looking for
-> > responsiveness above all, independently of intel_pstate or governor set=
-tings.
-> >
-> > It's also worth noting that governors already have the ability to chang=
-e
-> > EPP on their own (via intel_pstate_hwp_set()'s save/restore logic for
-> > CPUFREQ_POLICY_PERFORMANCE), which can lead to a state where the deskto=
-p's
-> > power profile indicator becomes inconsistent with the actual EPP value:
-> >
-> >   1. Switch governor: powersave -> performance
-> >      (intel_pstate saves the current EPP internally and forces EPP to 0=
-)
-> >
-> >   2. Switch power profile: balanced -> performance
-> >      (EPP is explicitly written as 0 again; no visible change, since it
-> >      was already 0)
-> >
-> >   3. Switch governor: performance -> powersave
-> >      (intel_pstate restores the EPP to balanced,
-> >      because the current EPP still reads as 0 and the
-> >      restore heuristic cannot tell that this 0 was an explicit choice
-> >      rather than the still-forced value from step 1)
-> >
-> > After step 3, EAS becomes re-enabled, since EPP is no longer "performan=
-ce"
-> > -- but the desktop still shows "performance" as the active power profil=
-e,
-> > since nothing told power-profiles-daemon that the EPP changed underneat=
-h
-> > it. This isn't something my patch introduces, it's an existing property
-> > of intel_pstate's governor-triggered EPP save/restore, but it is releva=
-nt
-> > here.
->
-> I think this is a separate ownership problem, but IMO the user gets a cho=
-ice,
-> either have a userspace daemon take care of these settings or set it them=
-selves,
-> i.e. step 1 mustn't happen (I'm reading that correctly that 1. wasn't set
-> through power-profiles-daemon? If it was that seems a bug in power-profil=
-es-daemon).
+We use IRQF_TRIGGER_FALLING, though OPEN Alliance 10BASE-T1x
+Serial Interface specification calls for IRQF_TRIGGER_LOW.
 
-Understood. In fact, using only one of the options (either power
-profiles or setting governor)
-is fine.
+This is to match IRQF_TRIGGER_FALLING used by OA TC6 framework code.
+This bug fix requires changes to the stable branch. At that time,
+this will be changed to IRQF_TRIGGER_LOW.
 
->
-> >
-> > diff --git a/drivers/cpufreq/intel_pstate.c b/drivers/cpufreq/intel_pst=
-ate.c
-> > index 8f5ab9fa3..6d7133b94 100644
-> > --- a/drivers/cpufreq/intel_pstate.c
-> > +++ b/drivers/cpufreq/intel_pstate.c
-> > @@ -791,6 +791,18 @@
-> > cpufreq_freq_attr_ro(energy_performance_available_preferences);
-> >
-> >  static struct cpufreq_driver intel_pstate;
-> >
-> > +static inline void update_eas_compatibility(struct cpufreq_policy
-> > *policy, struct cpudata *cpu)
-> > +{
-> > + bool eas_compatible_was =3D policy->eas_compatible;
-> > +
-> > + policy->eas_compatible =3D hwp_is_hybrid &&
-> > + cpu->policy !=3D CPUFREQ_POLICY_PERFORMANCE &&
-> > + intel_pstate_get_epp(cpu, 0) !=3D HWP_EPP_PERFORMANCE;
-> > +
-> > + if (policy->eas_compatible !=3D eas_compatible_was)
-> > + em_rebuild_sched_domains();
-> > +}
-> > +
-> >  static ssize_t store_energy_performance_preference(
-> >   struct cpufreq_policy *policy, const char *buf, size_t count)
-> >  {
-> > @@ -856,6 +868,8 @@ static ssize_t store_energy_performance_preference(
-> >
-> >   mutex_unlock(&intel_pstate_limits_lock);
-> >
-> > + update_eas_compatibility(policy, cpu);
-> > +
-> >   return ret ?: count;
-> >  }
-> >
-> > @@ -2922,10 +2936,7 @@ static int intel_pstate_set_policy(struct
-> > cpufreq_policy *policy)
-> >   intel_pstate_clear_update_util_hook(policy->cpu);
-> >   intel_pstate_hwp_set(policy->cpu);
-> >
-> > - policy->eas_compatible =3D hwp_is_hybrid &&
-> > - cpu->policy !=3D CPUFREQ_POLICY_PERFORMANCE;
-> > - if (policy->eas_compatible)
-> > - em_rebuild_sched_domains();
-> > + update_eas_compatibility(policy, cpu);
-> >   }
-> >   /*
-> >   * policy->cur is never updated with the intel_pstate driver, but it
-> >
->
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+
+---
+changes in v7
+  - Added the missing review tag
+  - Removed the word YAML from the commit message
+changes in v6
+  - Moved the signed off information to the right place.
+changes in v5
+  - no changes
+changes in v4:
+  - added spi-max-frequency as suggested by AI review
+  - changed interrupt to IRQ_TYPE_EDGE_FALLING as it is
+    being taken care in net (stable) branch
+changes in v3
+  - Removed URL link that failed verification
+changes in v2
+  - removed spi-max-frequency entry
+  - changed the compatible string to s2500
+changes in v1
+  - Added the first version of YAML file for onsemi MAC-PHY
+---
+ .../devicetree/bindings/net/onnn,s2500.yaml        | 67 ++++++++++++++++++++++
+ MAINTAINERS                                        |  7 +++
+ 2 files changed, 74 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/net/onnn,s2500.yaml b/Documentation/devicetree/bindings/net/onnn,s2500.yaml
+new file mode 100644
+index 000000000000..11edf10508d9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/net/onnn,s2500.yaml
+@@ -0,0 +1,67 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/net/onnn,s2500.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: onsemi S2500 10BASE-T1S MACPHY Ethernet Controllers
++
++maintainers:
++  - Piergiorgio Beruto <pier.beruto@onsemi.com>
++  - Selva Rajagopal <Selvamani.Rajagopal@onsemi.com>
++
++description:
++  The S2500 combines a Media Access Controller (MAC) and an
++  Ethernet PHY to enable 10BASE‑T1S networks. The Ethernet Media Access
++  Controller (MAC) module implements a 10 Mbps half duplex Ethernet MAC,
++  compatible with the IEEE 802.3 standard and a 10BASE-T1S physical layer
++  transceiver integrated into the S2500. The communication between
++  the host and the MAC-PHY is specified in the OPEN Alliance 10BASE-T1x
++  MACPHY Serial Interface (TC6).
++
++allOf:
++  - $ref: /schemas/net/ethernet-controller.yaml#
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    const: onnn,s2500
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    description:
++      Interrupt from MAC-PHY asserted in the event of Receive Chunks
++      Available, Transmit Chunk Credits Available and Extended Status
++      Event.
++    maxItems: 1
++
++  spi-max-frequency:
++    maximum: 25000000
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - spi-max-frequency
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    spi {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      ethernet@0 {
++        compatible = "onnn,s2500";
++        reg = <0>;
++        pinctrl-names = "default";
++        pinctrl-0 = <&eth0_pins>;
++        interrupt-parent = <&gpio>;
++        interrupts = <25 IRQ_TYPE_EDGE_FALLING>;
++        spi-max-frequency = <15000000>;
++      };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 52f1a55eca99..fab0804329db 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20188,6 +20188,13 @@ S:	Supported
+ W:	http://www.onsemi.com
+ F:	drivers/net/phy/ncn*
+ 
++ONSEMI S2500 10BASE-T1S MACPHY ETHERNET DRIVER
++M:	Selva Rajagopal <selvamani.rajagopal@onsemi.com>
++L:	netdev@vger.kernel.org
++S:	Supported
++F:	Documentation/devicetree/bindings/net/onnn,s2500.yaml
++F:	drivers/net/ethernet/onsemi/s2500/s2500_*
++
+ OP-TEE DRIVER
+ M:	Jens Wiklander <jens.wiklander@linaro.org>
+ L:	op-tee@lists.trustedfirmware.org (moderated for non-subscribers)
+
+-- 
+2.43.0
+
+
