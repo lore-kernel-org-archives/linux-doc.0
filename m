@@ -1,216 +1,161 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599152744F;
-	Wed,  8 Jul 2026 00:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783471995; cv=none; b=gP9ovtnTofSIIRsHq0Wep0/8ljBW6p2X5OdcdMhEQzO91buhX4pa/itywKZ8obX4jpn8JDRLtFjmYK+l/Fhj3Musa8mSUqqsXGV9jA+MPio77PeiMXc0z285Wsw+RH2TuIc6erup3dHKMHI1SAvzK0ap1FmIVVrX6KrJyPjZ3Os=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783471995; c=relaxed/simple;
-	bh=LJ0J/F+MiC+l50mfwabHL5ag2lbrE+0HOss/l35n5xo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CCxXAhQsWTYMFJWO/ny1sCG0235/v/dfZGFFh4DNHr6LkBUyD9BBrPysbOpBXFogLSQFJXrOhXjbGE5ONb8+ZNC1vSXPTH+YjMtHFmP7cq6LYT71R9uGWhT8VaRkBoQuJyNhJ+NCERIFhHJ8BfnI7txoAV6Leu0l6pazf4iyu4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gcoqcTDc; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764683AA504
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 00:58:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783472317; cv=pass; b=XNLMpFj1UuTo7hmLDGpARev4/eftRpriPTjOiXzknX5b4XMPzpwvMg2hXOKIddYNR4MtpODwRnURmqcetct2vb7TDehqhBkSL4+kK7okoYm5ZsQemxkVEv2Wk3NHSfANbxLOp5wTKvfdwvRqoZbmM6CtiBgQqYC5xPl6U+7aPFc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783472317; c=relaxed/simple;
+	bh=+hIl/HQXBYWcuegkAYkELIz7U+ycmd+AvKPaRLhmKXA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sPQ7FsJbaMM7HU4VkzOxWb7lH/CpGITnJod1P0Rzuohbj/RFYN9sQDocju3FvjmpKADShEBC2urn/5W78XDhs0kUe1IuNEmcwM0SXQbS9BJGAzvhBRyCrZSd+Upl3OqitNcdi9aLHEXvZv1YEz5fEnbTIn9u0S4gVBr92DVepNM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ch/7+41M; arc=pass smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gcoqcTDc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=nT9dyDZkXxOBIWa2aNlNCaalMJPwXGui6V/AuDqcEUc=; b=gcoqcTDcb0ZU0Zz6TsGsSfE5Vj
-	I697AgfZpl4oo+FtjpU64jyM1YJ4nwUru1QqacPWcGFl40WugpYjoq+iirJDBtoYA7f4NYic94tkh
-	8SbmPfeHv2lOpWOf0kZXcIECuePJxD5TJ/FX85O2vvDNJEEB4XuYTCqTQYxTxj3pdORpsd7+RWd9f
-	0OP6azi11u1wJIAW3gheD43WscLNjVXGJqd4vJ2kZB30mQXU4Tt26HWhHdTEIhTgUqFuovTjWcP4B
-	5mCFgTISxMmeSRmIxktJAoDlZL0I0i808e++uF+VApFqxsMjZF6j/qoKxJsz5ZAKX70u4UbzgwkRe
-	yNtoAkCQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whGXB-0000000G4bC-3aGL;
-	Wed, 08 Jul 2026 00:53:05 +0000
-Message-ID: <17aee024-e1c3-488a-aade-bd4df139cccb@infradead.org>
-Date: Tue, 7 Jul 2026 17:53:04 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ch/7+41M"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5aebd77cbb4so99373e87.2
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 17:58:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783472315; cv=none;
+        d=google.com; s=arc-20260327;
+        b=auWoWi05JZDqahEAdWAuk4YZWzhg7mb6/mPHqdQJSiiM+qFyX/auhnsblgnwmjum6h
+         TPbXi0bGTGz9VWtOCinfW8JSY6zVrcozQtiJ+veEpUb0nGEK7GNUEmpos15bLl966jqh
+         235MQGCRuS5jQfWOlGkWT77CiNazdOWPUXOB+b55mSarvj0jY3dzAuTnTcWLrbBeJq2N
+         mjxwFnNoDwW1pkUv6tefDbO5t7umxPjQx6hrVTvT2e88s6FnazRAsDWjvzo1jNisNY/r
+         hAdUmJ6O9ggXJsCI4IL1Bqvjxr1DbPyLqIimH6vLV3Uln69dNo1zTTWHeG0s0eIW0jj2
+         l4Xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4ilqlfxB1qMrIlQQgTnVlWL8ZHvza4jm7iDlYLXPmfM=;
+        fh=jsRksNhLz+YjHaYBW1BfMPEyd+16rIctGr4OIary+5M=;
+        b=VFR6VdOZFZrcaizExFrq4dKF3KMlgww/Uy5eX7XGyHrGbiKbUUnMQyEvICl80t+OGS
+         NdpiXByPsbIjscEr0zndZnplsmBb/GKBfa1OmA4ZlN4aliFtiYMs93W2I9IKXHGwld6n
+         BSQN2+gMGjyQUBu34FKm/95tUMXNm7JyTpLv0WWVZ7teUi3JLmhk6PW/D57mg2/GUSG9
+         cpPoaJyrkZnIBgC3zUg8TNjyuYAxIZMiR3YsjplzOzpUOyHKQFl8h+gXZ/WpzkGAb/sy
+         K+BKsZtF2c25szKRl/uDyd+ZtzuFkOE3eQaA4BJNcnVn0q9fwzaL3zeigjZynOUN5ma3
+         eJdA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783472315; x=1784077115; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4ilqlfxB1qMrIlQQgTnVlWL8ZHvza4jm7iDlYLXPmfM=;
+        b=Ch/7+41M2iAVnpKEKXC5QC5Pt+3FZo/NXelkrRbibj611CTAlunU6Wd2cGvWKk1uop
+         tQUsezRnKWDRsZ7j5Se/kZXDpykmF6p9nIhpdTP1UW1GDpYji09cRSqICnAtXEDYa56h
+         gSRS20eGdjGm397LSb9jrQTfMvWtpC1n19Unhnq9YwWsbyoNObryhQtKX5hy9aSp6xcs
+         Z/GG2LKlSKsZ58dxkpWFoWZj/rPCdprsv2OX8x69SOKE6JdLa/8DSuCdCbNfgJanvOue
+         aX2CBWdioRRcQKEPShsTtq3C0cJer/PAas5vX06CEd9DPGBvP+fLA4ExUjU6soXNQe1S
+         2sgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783472315; x=1784077115;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4ilqlfxB1qMrIlQQgTnVlWL8ZHvza4jm7iDlYLXPmfM=;
+        b=DVs2OaQPDyB76Eeyx/B0CzcJZAM1MB9VORdFiaC5AaEazrLTLBhBKqL8j20J9zGChQ
+         jyLidPM4Hh5uzvWCrsR9RtInpD4P+8t1aVxeoL8Kmhh6TIGwFAo2bRj0O8gRjfh1+Qyy
+         mI2rDpZJylzWBrO4I30bpKNYgrwbEA4p5nDiKuSeoPUBi25rTVOhro1OXWHzth+PJG/S
+         Ybaa/ccJF8kC5BKG6Rxi2XBG0ATB52ZXumsNxMkmG6I9T6lU7bluBCu1R79yCgmQ2rw0
+         tTfbDvnPE3AVsdSndQY2W7kdLnbzO/PWsD8ToSCguPzr7ma0GHd59u2ooiC5KjWgk+Jw
+         HKnQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoKolYTjrZVBKHSzY511plvrElFsrZATEqklp4FptZO/zyS2VVECPCbfPcFp9FtL/PXINqINwQ9O5g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7aB9+Lm+MGdmZP3Jycnzyp1R8RheZysDzJ2LS1A4i6Fa0vNqa
+	qe3vpPuWVo00XEgTa6CX2ehml3V6a//iHP0pu7SisoxqJqdFMWdDKs34jr2SqM+LnWYle2Mejgs
+	ojTG6gjYrs9ZIZ87XbT9RtR1J1EL1kJQ=
+X-Gm-Gg: AfdE7ckkbrDX6IAjM7yJQQ+B18f+JZg0rRZWPFo2RrOcr0BUOx/17nk3DCVoRtQEsNY
+	6oxSh0KAWCFPSRFU8msvYdMG7T+j0QfSjvxjn8jmh52w7Lk3CQU/lVEIfSPCFVI9kc7AtdKcW7z
+	IPYLhEUURfbsDbFdV6y+lDT5zFlIGT14RxStIb8bTGETSSQ2zXaoym4dt+TkAFq0LM4Om+wdUwd
+	RnPKl/6tChYV6LTVh8yshDXMe9olSCjsZIQ/i+54tWWGWwqlLznVcYr7Jvql7lQViVxTVau13ia
+	xBvQPIg8ZeR+rhOPQ5oyVy/IhA==
+X-Received: by 2002:a05:6512:3e06:b0:5ae:b36c:81c7 with SMTP id
+ 2adb3069b0e04-5b01145e9a8mr71155e87.35.1783472314305; Tue, 07 Jul 2026
+ 17:58:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation: Update after split of
- <linux/mod_devicetable.h>
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
- <u.kleine-koenig@baylibre.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
- Alexander Usyskin <alexander.usyskin@intel.com>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Takashi Sakamoto <o-takashi@sakamocchi.jp>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Dongliang Mu <dzm91@hust.edu.cn>,
- linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org
-References: <ede7ce64f20e10660ebf6bc1b41836dad750ae3b.1783349758.git.ukleinek@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ede7ce64f20e10660ebf6bc1b41836dad750ae3b.1783349758.git.ukleinek@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260708-ch-swap-series-plus-folio-lru-cleanup-v8-0-e816812698a8@gmail.com>
+ <20260708-ch-swap-series-plus-folio-lru-cleanup-v8-1-e816812698a8@gmail.com> <ak0sOv4UN1ug9-cN@casper.infradead.org>
+In-Reply-To: <ak0sOv4UN1ug9-cN@casper.infradead.org>
+From: Jianyue Wu <wujianyue000@gmail.com>
+Date: Wed, 8 Jul 2026 08:58:23 +0800
+X-Gm-Features: AVVi8Cc5Zmf35Lf-bssS054JLk4GyeUvRR4EIUvxF7JfQqBByqntSP6BB9Yr0BQ
+Message-ID: <CAJxJ_jg3JtTFFcVPp0iYf+hF+k63d_spiMumLyovA_w5UuUQyg@mail.gmail.com>
+Subject: Re: [PATCH v8 1/3] mm/swap: colocate page-cluster sysctl with swap readahead
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Youngjun Park <youngjun.park@lge.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, David Hildenbrand <david@kernel.org>, Michal Hocko <mhocko@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Baoquan He <baoquan.he@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, Jul 8, 2026 at 12:41=E2=80=AFAM Matthew Wilcox <willy@infradead.org=
+> wrote:
+>
+> On Wed, Jul 08, 2026 at 12:11:27AM +0800, Jianyue Wu wrote:
+> > +++ b/mm/swap.h
+> > @@ -336,6 +334,7 @@ static inline unsigned int folio_swap_flags(struct =
+folio *folio)
+> >
+> >  #else /* CONFIG_SWAP */
+> >  struct swap_iocb;
+> > +
+> >  static inline struct swap_cluster_info *swap_cluster_lock(
+> >       struct swap_info_struct *si, pgoff_t offset, bool irq)
+> >  {
+>
+> This change is not related; please drop it.
+>
+> > @@ -985,6 +990,38 @@ struct folio *swapin_readahead(swp_entry_t entry, =
+gfp_t gfp_mask,
+> >       return folio;
+> >  }
+> >
+> > +static const struct ctl_table swap_readahead_sysctl_table[] =3D {
+> > +     {
+> > +             .procname       =3D "page-cluster",
+> > +             .data           =3D &page_cluster,
+> > +             .maxlen         =3D sizeof(int),
+> > +             .mode           =3D 0644,
+> > +             .proc_handler   =3D proc_dointvec_minmax,
+> > +             .extra1         =3D SYSCTL_ZERO,
+> > +             .extra2         =3D (void *)&page_cluster_max,
+> > +     }
+> > +};
+> > +
+> > +/**
+> > + * swap_readahead_setup - defaults and sysctl for swap cache readahead=
+ clustering
+> > + */
+>
+> This comment:
+>  - Does not need to be kernel-doc formatted as it is static
+>  - Only contains information that is obvious (at least to me).
+> I would drop it entirely.
+>
 
-On 7/6/26 8:01 AM, Uwe Kleine-König (The Capable Hub) wrote:
-> Most structs that were defined in <linux/mod_devicetable.h> before were
-> moved to a bus specific header. Follow the movement to get the struct's
-> documenation back.
-> 
-> For the list of device ids in basic.rst use an explict list of all the
+Hello Matthew,
 
-                                basics.rst
+Ah, yes, sorry for that, both make sense. Thanks, I'll drop the
+unrelated blank line and remove the redundant comment in
+the next version.
 
-> headers that have kernel-doc annotations and that are not described
-> elsewhere (i.e. pci and mei_cl).
-> 
-> Also repair the referencing in the zh_CN translation of pci.rst and
-> don't duplicate `struct mei_cl_device_id`.
-> 
-> Fixes: ad428f5811bd ("mod_devicetable.h: Split into per subsystem headers")
-> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
-> ---
-> Hello,
-> 
-> the explicit list is a bit ugly, but I don't have a better idea.
-> 
-> If you're happy with the patch, can Linus and Jonathan please agree on how this
-> is applied?
-> 
-> Best regards
-> Uwe
-> 
->  Documentation/PCI/pci.rst                     |  2 +-
->  Documentation/driver-api/basics.rst           | 31 +++++++++++++++++--
->  .../driver-api/mei/mei-client-bus.rst         | 12 ++-----
->  Documentation/pcmcia/driver.rst               |  2 +-
->  Documentation/staging/rpmsg.rst               |  2 +-
->  Documentation/translations/zh_CN/PCI/pci.rst  |  8 ++---
->  6 files changed, 39 insertions(+), 18 deletions(-)
-> 
-> diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
-> index be35e9a1ee75..71c42b0bfa8b 100644
-> --- a/Documentation/PCI/pci.rst
-> +++ b/Documentation/PCI/pci.rst
-> @@ -84,7 +84,7 @@ initialization with a pointer to a structure describing the driver
->  The ID table is an array of ``struct pci_device_id`` entries ending with an
->  all-zero entry.  Definitions with static const are generally preferred.
->  
-> -.. kernel-doc:: include/linux/mod_devicetable.h
-> +.. kernel-doc:: include/linux/device-id/pci.h
->     :functions: pci_device_id
->  
->  Most drivers only need ``PCI_DEVICE()`` or ``PCI_DEVICE_CLASS()`` to set up
-> diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
-> index 8b6a5888cb11..647e14254cfb 100644
-> --- a/Documentation/driver-api/basics.rst
-> +++ b/Documentation/driver-api/basics.rst
-> @@ -10,9 +10,36 @@ Driver Entry and Exit points
->  Driver device table
->  -------------------
->  
-> -.. kernel-doc:: include/linux/mod_devicetable.h
-> +.. kernel-doc:: include/linux/device-id/amba.h
-> +   :internal:
-> +.. kernel-doc:: include/linux/device-id/cdx.h
-> +   :internal:
-> +.. kernel-doc:: include/linux/device-id/coreboot.h
-> +   :internal:
-> +.. kernel-doc:: include/linux/device-id/dfl.h
-> +   :internal:
-> +.. kernel-doc:: include/linux/device-id/fsl_mc.h
-> +   :internal:
-> +.. kernel-doc:: include/linux/device-id/ishtp.h
-> +   :internal:
-> +.. kernel-doc:: include/linux/device-id/mdio.h
-> +   :internal:
-> +.. kernel-doc:: include/linux/device-id/mhi.h
-> +   :internal:
-> +.. kernel-doc:: include/linux/device-id/mips_cdmm.h
-> +   :internal:
-> +.. kernel-doc:: include/linux/device-id/rio.h
-> +   :internal:
-> +.. kernel-doc:: include/linux/device-id/tb.h
-> +   :internal:
-> +.. kernel-doc:: include/linux/device-id/tee_client.h
-> +   :internal:
-> +.. kernel-doc:: include/linux/device-id/typec.h
-> +   :internal:
-> +.. kernel-doc:: include/linux/device-id/usb.h
-> +   :internal:
-> +.. kernel-doc:: include/linux/device-id/wmi.h
->     :internal:
-> -   :no-identifiers: pci_device_id
->  
-
-LGTM. Thanks.
-(see nits below)
-
->  
->  Delaying and scheduling routines
-> diff --git a/Documentation/driver-api/mei/mei-client-bus.rst b/Documentation/driver-api/mei/mei-client-bus.rst
-> index f242b3f8d6aa..d46c0d0b3540 100644
-> --- a/Documentation/driver-api/mei/mei-client-bus.rst
-> +++ b/Documentation/driver-api/mei/mei-client-bus.rst
-> @@ -41,17 +41,11 @@ the ``struct mei_cl_driver`` structure defined in :file:`include/linux/mei_cl_bu
->  
-
-Would be nice to add kernel-doc comments in <linux/mei_cl_bus.h>
-and then include those here instead of duplicating the struct.
-(for mei_cl_driver)
->  
->  
-> -The mei_cl_device_id structure defined in :file:`include/linux/mod_devicetable.h` allows a
-> +The mei_cl_device_id structure defined in :file:`include/linux/device-id/mei_cl.h` allows a
->  driver to bind itself against a device name.
->  
-> -.. code-block:: C
-> -
-> -        struct mei_cl_device_id {
-> -                char name[MEI_CL_NAME_SIZE];
-> -                uuid_le uuid;
-> -                __u8    version;
-> -                kernel_ulong_t driver_info;
-> -        };
-> +.. kernel-doc:: include/linux/device-id/mei_cl.h
-> +   :functions: mei_cl_device_id
->  
->  To actually register a driver on the ME Client bus one must call the :c:func:`mei_cl_add_driver`
->  API. This is typically called at module initialization time.
-> diff --git a/Documentation/pcmcia/driver.rst b/Documentation/pcmcia/driver.rst
-> index 5c4fe84d51c1..b91e5c14cb87 100644
-> --- a/Documentation/pcmcia/driver.rst
-> +++ b/Documentation/pcmcia/driver.rst
-> @@ -15,7 +15,7 @@ runtime as shown below::
->  All fields are passed in as hexadecimal values (no leading 0x).
->  The meaning is described in the PCMCIA specification, the match_flags is
->  a bitwise or-ed combination from PCMCIA_DEV_ID_MATCH_* constants
-> -defined in include/linux/mod_devicetable.h.
-> +defined in include/linux/device-id/pcmcia.h.
-
-It would look a little nicer (IMO) and be more consistent to use:
-   defined in file:`include/linux/device_id/pcmcia.h`.
->  
->  Once added, the driver probe routine will be invoked for any unclaimed
->  PCMCIA device listed in its (newly updated) pcmcia_device_id list.
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
--- 
-~Randy
+Best regards,
+Jianyue
