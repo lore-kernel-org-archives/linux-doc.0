@@ -1,50 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D8837C11C;
-	Wed,  8 Jul 2026 18:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986094C900B
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 18:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783535457; cv=none; b=XGWIhnYlL/e0VUrhZ+0qRquJI5F+hi3muLTfdQ6UT2G6racN0SLlk8RzQjL2egjZuEyNfF9359OYWLDDepOrljdfBnV1HL0rP8t3/N9xVTIUVGwnO8RQNaeFwX98Z4vIwe/WlKiT9Osj1uxrGgGPhDRnXMdBksUJ7zSz+gjr118=
+	t=1783535584; cv=none; b=Du8n2deVS0oYihd+qsrU/x74KH78tKMC8apc4C+u5TOQkmKwXQo8i+Q7ysPAdAZLXnnJsMXe7/k2euivFy4JbwCaxvYuauzwXVgWiITZBltpi6DEKN3+vvoO8u9Dv7A3T3dIwDagFmNN3mMH2nLkQQSPMvXkA/QXt5zHAfqROLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783535457; c=relaxed/simple;
-	bh=PeEpSEZq1+VMqDqAHelt/AmWF/XCE8R8BLld6KCqkC0=;
+	s=arc-20240116; t=1783535584; c=relaxed/simple;
+	bh=SHxjgvKIMaYBcy18nLq/RCsUZcXCbDcnAVND+PF4gh0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bArtUv1mqXYz9u4lGTZXTEQXWMQAVqNCfV9Jbbs+4me0GDKGsVB7skwfhGTehcZHeH4H10NmqOvR8cboRFGNuMhgT2puS8WkJPcvRixjHcJPDTm6tsIDBXR+oJXDgFXNUL7AUkQ2HmFATrZ/qsGp+rgOm1AV/OLkwVXbAnSooDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eF97BtCU; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 In-Reply-To:Content-Type; b=mjAGtNv+TUw1KPfrRHkyWXaCy9SuVjaNdBut9ti7Oioe7qYomsZpo9BT7q1Y8CmiMbP2rN9SKaxYd/lKfXIgROhAQdDvuqeJ99WjAcP8dfGo9cWNIvPZ2YiOo3RRBOFyV6zjNHCtQ4MEuh53uuKl7FnWsBz0VXBhBt+jfru6ZV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dfa8BB6R; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eF97BtCU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783535456; x=1815071456;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=PeEpSEZq1+VMqDqAHelt/AmWF/XCE8R8BLld6KCqkC0=;
-  b=eF97BtCUkzh5zFfaNbLJ0283TFbT+vGX4KlGqj9jC2AaaYI/wJ4zs/tW
-   1UYz/dGvBZwh5VFI27BMkAvqcxsn0rTRk0arkrVtcneBTwQNSmhKAQtf8
-   UKz2VSlTPrC+GCsFwlFtuhkDxgbsOnKPNtmGtILpOOgS2Gv3/ujivLvHe
-   GTpVjFpdNJt1Zii2/gwNssTCyseTChiIPEPi7QDVx5ec8men9wg0nJ9fL
-   HRo+VAKEBOkVR9iTKSO3RNubbeDswol6AJrwHepo85atPVMXqOERYD+ye
-   iXVlCI/cAL3UwQ5+qQCof9+gVwW/wHNHsHiUT9OGDuJ50TVY/fE5bJsVR
-   Q==;
-X-CSE-ConnectionGUID: g4Dk7s9YS3ekRktw3YyxPw==
-X-CSE-MsgGUID: pcCldno5TvyefzcoM7TuWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="95367632"
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="95367632"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 11:30:55 -0700
-X-CSE-ConnectionGUID: wDfqHoS3T9OFsDlcr0el2A==
-X-CSE-MsgGUID: WAw7ajAbSuCqb6nB/coM7w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="278751101"
-Received: from jmaxwel1-mobl.amr.corp.intel.com (HELO [10.125.111.66]) ([10.125.111.66])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 11:30:54 -0700
-Message-ID: <a16ebde9-e275-4f32-9759-a9378b0e36bc@intel.com>
-Date: Wed, 8 Jul 2026 11:30:51 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dfa8BB6R"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2cc61541f8cso2492925ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 11:33:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783535582; x=1784140382; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fokS4FLPD/17BZqVqY44hxzinHKUjbRhuv13BN1UvAg=;
+        b=dfa8BB6R3EE9zhZPNy15Dug9EBN6SHEBgMHAhmDen3Bp3qZqjCfyQ6OcJtFFCyKFhu
+         sRge97rSauhFMcaHGe5LA8SwjCa+xh+WUpVrTWKbvgCNrHfDEI4zgopYZv/EI87r0i0V
+         /vNfmFM6Bap6+NLohY99AiU/tZc+zZTrmN8H6pK3pTGyf72OKwBAUPbxtTSRAojRbnrm
+         4E9pAdDhU2aibOw0+1ZeZIcY0fHAReECyXHBW15Rr+XHRTUpyfN4Fj11I8P9gwrCKnwy
+         LlmiQN3gS2n3pF334IS0Gs6cKhcjZCDP8HQh4PdRaqE94/DSdzhjBgS0EF8yPTXfTJaV
+         nxjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783535582; x=1784140382;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=fokS4FLPD/17BZqVqY44hxzinHKUjbRhuv13BN1UvAg=;
+        b=GKpm1C7lwtk/gaeTQXVOqK8XY4Y2xCXDmcc5pfZ/J8xCeGMdx/l/wRoRq3rnnyW6A/
+         3FPAYPCa6RBaOHHagN5D3QAZyMD4iVdBQcKgbcswi0V+fEQAtrScHPKP3a/jKO1sRA3F
+         F3caE+6aKaGgJ0jSOIF1OSTp6Ni+QF/B5ZI+PDLDWoVk+02z/Cs3atgVfqUBUzTYe3zd
+         UJjNckf7si31U5pdWiEzssg2CZcVB4MmR9EUh3Czu/oUjkubThKCuBDjpxS+cvuQJ+S8
+         jtVv135PFvM9Ynzu66vXbSE3pTzwbbqFE3gn99bc+48GyUr1INzq9z8jhw3KBlK8p54w
+         JWcA==
+X-Forwarded-Encrypted: i=1; AHgh+RqARFqouFrA9FMN9xdVKtDKkCjRfTf3A/FcDXlgE6SrrwvrNShdXc0F2nEaOp92Wzp/G7N7Hc7/aZY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfUTCYHfqwbsehkeDBm6n4ckCJcBC62zX3FJHx1iWPeJEneTeX
+	d3ehB+IcGYFr9+7koKVA71xpi3LzHVeS0OBvSP3bDyGXh3UDr+8bz1bl
+X-Gm-Gg: AfdE7cmo5hoXTXRUfnxzwLzJE1NXAu6J7sCsisLcwiNrV/oFzxG++P60FLi6dExUv/2
+	wLq0+hO+sXeI5e/4ix7CFofeJ0Rz1zKM7gFdhBhxvO2+ErjZPpe7WXZTbY/vHXCPnOJkBuzC3+C
+	IRWMOs5tvUPRwqVF98YUaJ0/M200OHlv3JlwJmVDNsCkbiCdPj0V4lBXTg/CQlRLY4At/d5x7VK
+	0VphOcJKLm7fXe7vjdCvdlHqfJrRuyj5E2Fcg8q8YURMtg8ltSCNDlb8hSTidYmMDb26Vuy+2Dl
+	mPyWs8otk1IJDb+SJjTIUZ2sGubor66En5y33XCd+T5mtCUbulPo3pT24sdz0iVVA1nymQsztTG
+	OBGuamAUlwz1uGuStyF4hPuUNY0vj4TUVdAW35V4EHqBrkNVF8iP7Ku0J3Q37s8flbhTbjDqwCk
+	z9/uGVsesSYV9lXDRzg3QR8hTUDmbNW97JQyZFf/4g+xWGv7x0piFfuSOnj9WvBw==
+X-Received: by 2002:a05:6a20:da14:b0:3bf:8230:1b71 with SMTP id adf61e73a8af0-3c09b21b139mr10359792637.25.1783535581746;
+        Wed, 08 Jul 2026 11:33:01 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174accae5sm34245609eec.29.2026.07.08.11.32.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Jul 2026 11:33:01 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <b2a5e99c-6d4d-454e-8ecd-8638e4dc0ddb@roeck-us.net>
+Date: Wed, 8 Jul 2026 11:32:58 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,78 +70,141 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 07/11] KVM: TDX: Allocate PAMT memory for TD and vCPU
- control structures
-To: Sean Christopherson <seanjc@google.com>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc: bp@alien8.de, hpa@zytor.com, kas@kernel.org, kvm@vger.kernel.org,
- linux-coco@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, mingo@redhat.com, nik.borisov@suse.com,
- pbonzini@redhat.com, tglx@kernel.org, vannapurve@google.com, x86@kernel.org,
- chao.gao@intel.com, yan.y.zhao@intel.com, kai.huang@intel.com,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
- <20260526023515.288829-8-rick.p.edgecombe@intel.com>
- <akw-dgBE_dycts0o@google.com>
-From: Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH 2/2] hwmon: (pmbus) Add driver for Analog Devices MAX20912
+ and MAX20916
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Fred Chen <fredchen.openbmc@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Wensheng Wang <wenswang@yeah.net>, Frank Li <Frank.Li@nxp.com>,
+ Brian Chiang <chiang.brian@inventec.com>, Cosmo Chou <chou.cosmo@gmail.com>,
+ Dixit Parmar <dixitparmar19@gmail.com>, Eddie James <eajames@linux.ibm.com>,
+ Antoni Pokusinski <apokusinski01@gmail.com>,
+ Thorsten Blum <thorsten.blum@linux.dev>,
+ Ashish Yadav <ashish.yadav@infineon.com>,
+ Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
+ Syed Arif <arif.syed@hpe.com>, ChiShih Tsai <tomtsai764@gmail.com>,
+ Abdurrahman Hussain <abdurrahman@nexthop.ai>,
+ Kim Seer Paller <kimseer.paller@analog.com>, Colin Huang
+ <u8813345@gmail.com>, Yuxi Wang <Yuxi.Wang@monolithicpower.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260707122701.751878-1-fredchen.openbmc@gmail.com>
+ <20260707122701.751878-3-fredchen.openbmc@gmail.com>
+ <f9e32dd1-7c2c-4055-83fa-94683777e30b@roeck-us.net> <ak4QO9uhKOt68dl1@nsa>
+ <20260708-true-carp-of-champagne-a0dcca@quoll> <ak41BRQBNdsQrYww@nsa>
 Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <akw-dgBE_dycts0o@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <ak41BRQBNdsQrYww@nsa>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 7/6/26 16:47, Sean Christopherson wrote:
->> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
->> [sean: handle alloc+free+reclaim in one patch]
->> Co-developed-by: Sean Christopherson <seanjc@google.com>
-> Where did this come from?  I don't think me squashing two patches together
-> warrants a Co-developed-by.
+On 7/8/26 04:32, Nuno Sá wrote:
+> On Wed, Jul 08, 2026 at 12:50:25PM +0200, Krzysztof Kozlowski wrote:
+>> On Wed, Jul 08, 2026 at 10:19:56AM +0100, Nuno Sá wrote:
+>>> On Tue, Jul 07, 2026 at 06:52:48AM -0700, Guenter Roeck wrote:
+>>>> On 7/7/26 05:26, Fred Chen wrote:
+>>>>> Add support for the Analog Devices MAX20912 and MAX20916 dual-output
+>>>>> multiphase voltage regulators with PMBus interfaces.
+>>>>>
+>>>>> Signed-off-by: Fred Chen <fredchen.openbmc@gmail.com>
+>>>>
+>>>> Please provide evidence that those chips actually exist.
+>>>> Internet search comes up blank. I'll need confirmation
+>>>> from someone at Analog.
+>>>
+>>> Hi Guenter,
+>>>
+>>> Well, in fact I'm in the middle of preparing a series that adds support
+>>> for:
+>>>
+>>> "max20826"
+>>> "max20855b"
+>>> "max20908"
+>>> "max20912"
+>>> "max20916"
+>>>
+>>> All the above parts have the datasheet under NDA. But before we had a
+>>> one page "datasheet" in analog.com but I guess that is gone! For context
+>>> I mainly did the base (core) driver for max20826 and then Alexis added
+>>> the other ones.
+>>>
+>>> Not sure how to proceed... I can wait and then work on top of what Fred
+>>> has but this patch is very minimal when compared with what we have.
+>>> Like:
+>>>
+>>> * No regulator support;
+>>> * No direct mode. The chip has two ways to access registers (paging and
+>>> * direct mode).
+>>> * No way to count how many phases we have or if RAIL_B (func[1]) is being used at
+>>> all.
+>>>
+>>>
+>>> Some other things more intriguing is that these chips, as far as I'm
+>>> aware (at least for max20826), always have bit 2 set in ON_OFF_CONFIG so
+>>> a gpio vout. Also we needed some special handling to read phase current
+>>> which I'm not seeing in the driver. So I would like to understand how
+>>> the chip was tested?
+>>>
+>>> Anyways, if Fred is ok with it I can just finish what I'm doing and send
+>>> the patches. It would make sense to have something more complete on
+>>> submission but I don't want to just "steal" the work already done.
+>>
+>> Binding should be in such case posted complete, so probably not a
+>> trivial device.
+> 
+> Yes, in my series bindings are not in trivial as we support the enable
+> gpios.
+> 
 
-FWIW, I think the pendulum has swung way too far in terms of people
-trying to tell the whole tortured story of their patches via tags. I
-prefer some prose which is less formal *and* more descriptive than tags.
+Same question I asked before: What is your use case ?
 
-Sounds like Sean and I are mostly on the same page here too, which is a
-bonus.
+Thanks,
+Guenter
+
