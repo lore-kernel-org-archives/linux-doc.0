@@ -1,193 +1,202 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60EBB3B0AD7;
-	Wed,  8 Jul 2026 04:34:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44C723BD06;
+	Wed,  8 Jul 2026 04:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783485260; cv=none; b=d4f/51ud89Z92Lqel21Qv5IE33KYWjeIFWWRvQRm1sK8qWJgnOLxgoU69zqEpNMs40Abg41bdnq5lPMiWOsyW9RuvZL5yUoaZU5q2k59EsbgBm2spGOhUmUPwzJxTSgQXetlrhxBo8FdlxRbAk3GMyaM6m7x2GRRpfalkF+9WeI=
+	t=1783485975; cv=none; b=gzpoPc4PnAXbj3xmq6zZmmi6Xclh33w9f3uDRvv0E9IkW0s3gYuHVNbnX0EY/T6IELateCKDDyY4XiSchekasVq/UL0strXtDieKfNCnD5/bIChWsHoJblr1xogG0j1Sn2M3xegQImSi3ApjybbWiJc1IUk5Qxspas7yBf5HBNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783485260; c=relaxed/simple;
-	bh=3Qf77x5UNso8Szde6l9Wn6t4nKVUvU94zkIFBCO0Y2E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ky7mCDpgRedVQRkg9QuoDkhExZ5C7ULHLM0uVR7KfCAOF2LxDyweTMUbSotIzxQ4y5a89N2xbk8N/OxUUgxg/BNcRlxjGU+sbBHE9XgPDI1/zTgx8qe9aOdu+raGiNm013jbj9z+TnQw4T83KGFEo7hW9TJdYdZaW9+ggUROro8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A/17wdEM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783485975; c=relaxed/simple;
+	bh=k8eSz3UPeDb1xHXbixSxk5F6fo5hKwN1ozpHmChFMFs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qJAH2yeeISQ+V6bw4jDxSb5oBUhPxR31HCyn5t9KGTUb0MSd6taseY42aaHRlbYVwthHFkfjJvy5BAzIem2mffc49IxLV/LDk2pNVahOXO8ieF4uBdtXcfBhVAUE+Oy0hjdFv6upzuf7imKlD4IVNsLt/30l0KI7qCrVpLsG5OM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vKc5Tjb1; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A/17wdEM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FFF91F000E9;
-	Wed,  8 Jul 2026 04:34:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783485259;
-	bh=iUtm5SAe2SeQY6Iq7y1PN0eZx12oV8hhEPW1fl/WPVM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=A/17wdEMrVWCVbFD/bxICv6Rj5UU94gKQRI/BgQDjcBjV7McTmdbOTNmC19e1ZaZV
-	 UrbG97uyqtom3gA7r/HnpjiTi2w9hN6buqPpn5CPgVXBTDsw/CJPWBfOxj92h0Vu6T
-	 H+YaO7ya0cRKN0Ny7Rl7C94OYNYkihGhcfWqrLrlnhGQx8jP+dM5P2yFS0kC0gUq4y
-	 o6pXjkxah579iCz84d3/t08bdZohwM8+1Pf/z+6r2EV88dZo2XkQ+OnB8wz1pCn0Cc
-	 xuYX7Xs052v20zXzcQlndSvB2mCTCHPraFh46iP1PrsfuOV4w/LmxavJosGNAxhSPZ
-	 YJYoalXZ+KCWQ==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	tzungbi@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	tfiga@chromium.org,
-	senozhatsky@chromium.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v6 2/2] PM: dpm_watchdog: Allow disabling DPM watchdog by default
-Date: Wed,  8 Jul 2026 04:33:17 +0000
-Message-ID: <20260708043317.2980098-3-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.55.0.795.g602f6c329a-goog
-In-Reply-To: <20260708043317.2980098-1-tzungbi@kernel.org>
-References: <20260708043317.2980098-1-tzungbi@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vKc5Tjb1"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=adWoLdqqX8285InOHHUleyt6hKDQ7O9XUGMsAwczw3U=; b=vKc5Tjb1mGE3FAiO6cHvyHHrpL
+	WBg7vEIQL2vHQE6sQ+8FChCGGDNEfyjMTYKy5d5bwMVkoCKc+acGk4iK8N81+5mAjwbcGao2+BVBv
+	NobgshllXiCRdDAzqw4REuhLIyN3oiP05FJeV31zxsHzrLoU+yfWFk5e62srSNfI8ZXbeP3YawqbE
+	JNgANX7zVUAF/Qy871JHpP1zi1qKfigdEtjDXMwaRk6ttYEnGPtu6UkZ9vqBEHuMAbGwnObP2ld9O
+	INgJ/CAQqea6A0ELRrN69tBM/KMud6ZM+XTqD0chBXsXNleQcqo8SdyXPOmZZjMJNWaQGJPozAY5f
+	vyY7n9OQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1whKAl-0000000GKrD-1oZS;
+	Wed, 08 Jul 2026 04:46:12 +0000
+Message-ID: <699644e7-2fc2-41b5-9e02-7f4dbc2aa3a7@infradead.org>
+Date: Tue, 7 Jul 2026 21:46:10 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/7] Add documentation for Sahara protocol
+To: Kishore Batta <kishore.batta@oss.qualcomm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ mhi@lists.linux.dev
+References: <20260701-sahara_protocol_new_v2-v6-0-3a78362c4741@oss.qualcomm.com>
+ <20260701-sahara_protocol_new_v2-v6-1-3a78362c4741@oss.qualcomm.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260701-sahara_protocol_new_v2-v6-1-3a78362c4741@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Introduce the "dpm_watchdog_enabled" module parameter to allow the DPM
-watchdog to be enabled or disabled at boot time and runtime.
 
-Additionally, introduce the CONFIG_DPM_WATCHDOG_ENABLED Kconfig option
-to set the default value of the module parameter at compile time.
+On 7/1/26 3:37 AM, Kishore Batta wrote:
+> +The packet flow sequence is as follows :
+> +
+> +1. The target sends the hello packet to the host to initiate the protocol
+> +   with the mode set to image transfer pending.
+> +
+> +2. The host sends a hello response packet with a success status and sets the
+> +   mode to image transfer pending after it receives the hello packet and
+> +   validates the protocol version running on the target.
+> +
+> +3. After the target receives the hello response, it initiates the data
+> +   transfer by requesting the size of DDR training/calibration data.
+> +
+> +4. The host sends back the DDR training/calibration data to the target.
+> +
+> +5. The target decodes the training data and does not find valid DDR
+> +   calibration data, target sends END_IMAGE_TX to interrupt the transfer.
+> +
+> +6. The host sends DONE after receives END_IMAGE_TX.
+> +
+> +7. The target sends DONE_RESP with mode = IMAGE_TX_PENDING because it has
+> +   not received all images.
+> +
+> +8. The target executes DDR training process to generate valid DDR calibration
+> +   data and prepares to push back to host.
+> +
+> +9. The target initiates protocol by sending a hello packet with COMMAND_MODE
+> +   to the host.
+> +
+> +10. The host sends a hello response packet with a success status and sets the
+> +    mode to COMMAND_MODE.
+> +
+> +11. The target sends CMD_READY to the host.
+> +
+> +12. The host receives CMD_READY and starts to get command IDs to be executed.
+> +
+> +13. The target sends CMD_ID = 9 to push DDR calibration data to host.
+> +
+> +14. The host executes CMD_ID = 9 to get DDR calibration data from the target.
+> +
+> +15. The target sends RAW_DATA with the payload which contains DDR calibration
+> +    data to host.
+> +
+> +16. The host saves training data in the kernel buffer and exposes to userspace
+> +    via the sysfs entry. The host sends CMD_SWITCH_MODE with the mode set to
+> +    IMAGE_TX_PENDING to continue booting.
+> +
+> +17. After the target receives the CMD_SWITCH_MODE command, it sends HELLO to
+> +    the host with the mode set to IMAGE_TX_PENDING. The target and the host
+> +    repeat the packet flow for image transfer to get all booting-required
+> +    images.
+> +
+> +18. Upon successful transfer of all images, the target sends an END_IMAGE_TX
+> +    packet with a success status to the host.
+> +
+> +19. The host sends DONE after it receives END_IMAGE_TX.
+> +
+> +20. The target sends DONE_RESP with the mode set to IMAGE_TX_COMPLETE because
+> +    it has received all images. The process has been completed after the host
+> +    receives DONE_RESP with the mode set to IMAGE_TX_COMPLETE.
+> +
+> +Subsequent boot scenario with valid DDR calibration data
+> +--------------------------------------------------------
+> +
+> +The below firgure shows the subsequent boot scenario with valid DDR calibration
+> +data process being loaded from host to target.
+> +
+> +.. code-block:: text
+> +
+> +                        Host                       Target
+> +                          |          HELLO            |
+> +                          |   (mode = image transfer) |
+> +                          |<--------------------------|
+> +                          |                           |
+> +                          |         HELLO RESP        |
+> +                          |   (mode = image transfer) |
+> +                          |-------------------------->|
+> +                          |                           |
+> +                          |         READ_DATA         |
+> +                          |   (img ID:34, 0, offset,  |
+> +                          | size of DDR training data)|
+> +                          |<--------------------------|
+> +                          |                           |
+> +                          |         RAW_DATA          |
+> +                          |(size of DDR training data)|
+> +                          |-------------------------->|
+> +                          |                           |
+> +                          |                           |
+> +                          |       END_IMAGE_TX        |
+> +                          |<--------------------------|
+> +                          |                           |
+> +                          |                           |
+> +                          |          DONE             |
+> +                          |-------------------------->|
+> +                          |                           |
+> +                          |                           |
+> +                          |         DONE_RESP         |
+> +                          | (mode = IMAGE_TX_PENDING) |
+> +                          |<--------------------------|
+> +                          |                           |
+> +                          | Subsequent boot scenario  |
+> +                          | (valid calibration data)  |
+> +                          | DDR driver configures DDR |
+> +                          | using valid calibration   |
+> +                          | data                      |
+> +                          |                           |
+> +                          |                           |
+> +                          |          HELLO            |
+> +                          | (mode = IMAGE_TX_PENDING) |
+> +                          |<--------------------------|
+> +                          |                           |
+> +                          |         HELLO RESP        |
+> +                          | (mode = IMAGE_TX_PENDING) |
+> +                          |-------------------------->|
+> +                          |                           |
+> +                          | Boot/Load rest of the     |
+> +                          |    images....             |
+> +                          |                           |
+> +                          |       END_IMAGE_TX        |
+> +                          |<--------------------------|
+> +                          |                           |
+> +                          |                           |
+> +                          |          DONE             |
+> +                          |-------------------------->|
+> +                          |                           |
+> +                          |                           |
+> +                          |         DONE_RESP         |
+> +                          |(mode = IMAGE_TX_COMPLETE) |
+> +                          |<--------------------------|
+> +                          |                           |
+> +
+> +The packet flow is as follows :
+> +
 
-The primary motivation for this configurability resolves around Android
-GKI (Generic Kernel Image).  We want to enable CONFIG_DPM_WATCHDOG in
-the GKI so the feature is available.  However, because the GKI is shared
-across many different devices, we don't want to inadvertently affect
-devices that are unaware of this feature.  This provides a way to
-compile it in, but keep it disabled by default for those devices via the
-kernel command line or module parameters.
+s/as follows :/as follows:/
+in 2 places.
 
-To maintain backward compatibility, CONFIG_DPM_WATCHDOG_ENABLED relies
-on `default y`.  Previously, the DPM watchdog was always active if
-CONFIG_DPM_WATCHDOG was set.  Defaulting this new option to 'y' ensures
-that the behavior remains unchanged for existing users and defconfigs
-when they upgrade.
+> +1. The target sends the hello packet to the host to initiate the protocol
+> +   with the mode set to image transfer pending.
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
-v6:
-- Change the prefix "pm_sleep" -> "pm".
-
-v5: https://lore.kernel.org/all/20260701045640.3130090-3-tzungbi@kernel.org
-- No changes.
-
-v4: https://lore.kernel.org/all/20260611021219.2093476-3-tzungbi@kernel.org
-- Rewrite the commit message to indicate the module parameter is the
-  main change in the patch.
-- DPM_WATCHDOG_DEFAULT_ENABLED -> DPM_WATCHDOG_ENABLED.
-
-v3: https://lore.kernel.org/all/20260608021526.1023248-3-tzungbi@kernel.org
-- Add "PM" tag (was missing).
-- Update the format and specify dependencies in kernel-parameters.txt.
-- Update the help message in Kconfig to reflect that dpm_watchdog_enabled
-  can be set at runtime as well.
-
-v2: https://lore.kernel.org/all/20260604090756.2884671-3-tzungbi@kernel.org
-- Use module parameter and bool for dpm_watchdog_enabled.
-- Use IS_ENABLED().
-
-v1: https://lore.kernel.org/all/20260528103215.505795-1-tzungbi@kernel.org
----
- Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
- drivers/base/power/main.c                       | 11 +++++++++++
- kernel/power/Kconfig                            | 10 ++++++++++
- 3 files changed, 28 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index b5493a7f8f22..ea0b70f87472 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -47,6 +47,7 @@
- 	PCI	PCI bus support is enabled.
- 	PCIE	PCI Express support is enabled.
- 	PCMCIA	The PCMCIA subsystem is enabled.
-+	PM	Power Management support is enabled.
- 	PNP	Plug & Play support is enabled.
- 	PPC	PowerPC architecture is enabled.
- 	PPT	Parallel port support is enabled.
-@@ -5354,6 +5355,12 @@ Kernel parameters
- 	pm_debug_messages	[SUSPEND,KNL]
- 			Enable suspend/resume debug messages during boot up.
- 
-+	pm.dpm_watchdog_enabled=
-+			[PM] Enable or disable the DPM watchdog.  Requires
-+			CONFIG_PM_SLEEP and CONFIG_DPM_WATCHDOG enabled.
-+			Format: <bool>
-+			Default value is set by CONFIG_DPM_WATCHDOG_ENABLED.
-+
- 	pnp.debug=1	[PNP]
- 			Enable PNP debug messages (depends on the
- 			CONFIG_PNP_DEBUG_MESSAGES option).  Change at run-time
-diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-index 49ea6e2cd735..184dc4b3b938 100644
---- a/drivers/base/power/main.c
-+++ b/drivers/base/power/main.c
-@@ -535,6 +535,11 @@ module_param(dpm_watchdog_all_cpu_backtrace, bool, 0644);
- MODULE_PARM_DESC(dpm_watchdog_all_cpu_backtrace,
- 		 "Backtrace all CPUs on DPM watchdog timeout");
- 
-+static bool __read_mostly dpm_watchdog_enabled =
-+				IS_ENABLED(CONFIG_DPM_WATCHDOG_ENABLED);
-+module_param(dpm_watchdog_enabled, bool, 0644);
-+MODULE_PARM_DESC(dpm_watchdog_enabled, "Enable DPM watchdog");
-+
- static unsigned int __read_mostly dpm_watchdog_timeout = CONFIG_DPM_WATCHDOG_TIMEOUT;
- static unsigned int __read_mostly dpm_watchdog_warning_timeout =
- 						CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT;
-@@ -630,6 +635,9 @@ static void dpm_watchdog_set(struct dpm_watchdog *wd, struct device *dev)
- {
- 	struct timer_list *timer = &wd->timer;
- 
-+	if (!dpm_watchdog_enabled)
-+		return;
-+
- 	wd->dev = dev;
- 	wd->tsk = current;
- 	wd->fatal = dpm_watchdog_timeout == dpm_watchdog_warning_timeout;
-@@ -648,6 +656,9 @@ static void dpm_watchdog_clear(struct dpm_watchdog *wd)
- {
- 	struct timer_list *timer = &wd->timer;
- 
-+	if (!dpm_watchdog_enabled)
-+		return;
-+
- 	timer_delete_sync(timer);
- 	timer_destroy_on_stack(timer);
- }
-diff --git a/kernel/power/Kconfig b/kernel/power/Kconfig
-index 530c897311d4..71165e7f04f4 100644
---- a/kernel/power/Kconfig
-+++ b/kernel/power/Kconfig
-@@ -268,6 +268,16 @@ config DPM_WATCHDOG
- 	  captured in pstore device for inspection in subsequent
- 	  boot session.
- 
-+config DPM_WATCHDOG_ENABLED
-+	bool "Enable DPM watchdog by default"
-+	depends on DPM_WATCHDOG
-+	default y
-+	help
-+	  If you say Y here, the DPM watchdog will be enabled by default.
-+	  If you say N, it will be compiled in but disabled.  It can be
-+	  enabled at boot time via the "pm.dpm_watchdog_enabled" kernel
-+	  parameter or at runtime via sysfs.
-+
- config DPM_WATCHDOG_TIMEOUT
- 	int "Watchdog timeout to panic in seconds"
- 	range 1 120
 -- 
-2.55.0.795.g602f6c329a-goog
+~Randy
 
