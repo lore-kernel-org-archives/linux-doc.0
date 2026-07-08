@@ -1,245 +1,151 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012058.outbound.protection.outlook.com [40.107.209.58])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD88D202963;
-	Wed,  8 Jul 2026 23:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783551879; cv=fail; b=BnUQSISVdmar9YPexXR32fm9xv/s5GQnWzqc7zlSRaW3QX9P1rDNGvU9istsq6llnj1yJMZ7H+pdUx6/CqMX9bWn+bYLSJwMmaErTuYmpzsNLHTF7QOro2lhgRtgtdZp5uYzcE0yfAv2pU+3Br5Q3VI5MFs5NhoSupCThCHCaV8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783551879; c=relaxed/simple;
-	bh=iFeYyQqQ2ESYVJ/Z9qzIlDs5uOXRhXE4SratLAfQr4o=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=MkZa43823Av6HCUHc+Kig3McOZ6DTZCe4TJBymey/ASgco+2phQ/bfdijVHSJHQOOF19TDqYW74bM4ErFVK/AlrvyH23WqZuiSHhrNlcUvyLury97fhXYaJlh4+oc+mQoi5iqSdf7odOlzjkRU5wx/jPUdIz3YB5KSlYIfjvlDk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=iWbQYYTe; arc=fail smtp.client-ip=40.107.209.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDB931CA4E;
+	Wed,  8 Jul 2026 23:14:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783552469; cv=none; b=cNTZ8Ibo6UElWrWrTIczEnoQMAnftapAtr0+NTB61KVqVcuOZUCr/wWLwowzEQq3Es2TQXBXE29j7Bvan0OAj9LHlPKyL/Fb2LDYGQoEq6AGtloOm2sCvVEf2U3Uvs/FXx9x5OzKZciCHxFPP+ZpLU8CzzI7wG5uRk4M9k33QR8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783552469; c=relaxed/simple;
+	bh=SkGVtiGzBaQGD2MgVwXs0xyAs7utyWEIxaZuHZIRv7w=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=f7p5kr5T+wzMvNGKNCOxRfwU3zwlO9zN5niZQ18wj+W+rBNLr1lI/ZV4guElwcFMatjmpaIkLpcnL2RKYvtF9hI8HWtWI9RZCSmkEGurICiuAYoMih46iz5Ey370a/iGrv0R0qnnY7jZZD3GQdq7ldOEtbMi17YwtCC/QlI80CY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U7j9DuQ2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="iWbQYYTe"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DnOa5b245H05vEHhMXJ3ABezFZ//ve9Qu8TfNmfUyFzNATHD6O+IQIfK833OM+GtrBhVfI+7aERLSFssS+E0JBNpnoVsxVtiranplTOPGKpUY6CjDXDZqlrFxq3E0XmKPwAPT6QupuW+zbaige9YY5rpB/MLHHCtXH10cP43H87CCvx3Ngq+PVeeo481Tz7fJzjZvHvMfzltKxLdDTxFFokMus/21FkrchDv2KWNSr/SNczk0mOFJpdWWpD32pfSoViK0cPVfysrjiXdkI4sNfojt7Pg1RZ0sOTT58r+cXNjG7iVTdvVPD94WLSzlyyPS1GKkezDnsXhxRo7YCyg+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vQ7rfUlKoTW7CpSwrS03RKUAkuZykq+CVQRCbZrVIMs=;
- b=mA0b4s0ZhILz8zq8+n9vaGAObk030N+IoSJnibo+DxfBrMsW9pEtNEWndu97HBb+PE9yF1HOIQkF0OwYjCG0G6AJsv9oV52Mnx+RZs+D/zTUonl1zAKu2f9tctUgbWjhI75LhBTHsE2L9bRyOhRjs7DSjTyi1hUcgFFGWl4F6+/Cseb8gJJV1hmlaLOtKRISbPWo2DjYJlGK1GyB4qvn4TiulDR+jCvUdkVObP5siQ6WAtfFiYnhFIfzgUDQOL157i0Yn+ulj3n2X3zz/GVk1qMurlKwDt+LfyyZJ4IfYPigdwq3OilH8dlQ55Y7XjaZQpbFt19Eg04SbNxT5oUztQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vQ7rfUlKoTW7CpSwrS03RKUAkuZykq+CVQRCbZrVIMs=;
- b=iWbQYYTeppuzfUwAbBvuNasjaLqwNHeASu3JVg6eZZ+JmgdpXO3bYO2SoVpVhAxrRe3OoEOFXHTlljDniBM2y/KUFHu2WbVa59UztSab+2IkIdQWOsAZnfUxOKq/hy5kEKqyhalgkKJ45pXwQhRtisJ8qrIwHueHwMxDa8wNRVE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by DM4PR12MB5819.namprd12.prod.outlook.com (2603:10b6:8:63::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Wed, 8 Jul
- 2026 23:04:31 +0000
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0181.014; Wed, 8 Jul 2026
- 23:04:31 +0000
-Message-ID: <e828f9cd-2820-480a-bc48-6964f551ffd6@amd.com>
-Date: Wed, 8 Jul 2026 18:04:27 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v4 05/15] x86,fs/resctrl: Introduce architecture
- hooks to program kernel-mode
-To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
- reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
- tglx@kernel.org, bp@alien8.de, ben.horgan@arm.com, fenghuay@nvidia.com
-Cc: skhan@linuxfoundation.org, x86@kernel.org, mingo@redhat.com,
- dave.hansen@linux.intel.com, hpa@zytor.com, akpm@linux-foundation.org,
- rdunlap@infradead.org, peterz@infradead.org, feng.tang@linux.alibaba.com,
- dapeng1.mi@linux.intel.com, elver@google.com, enelsonmoore@gmail.com,
- kuba@kernel.org, ebiggers@kernel.org, lirongqing@baidu.com,
- seanjc@google.com, nikunj@amd.com, xin@zytor.com,
- pawan.kumar.gupta@linux.intel.com, tiala@microsoft.com,
- chang.seok.bae@intel.com, kprateek.nayak@amd.com, prathyushi.nangia@amd.com,
- kim.phillips@amd.com, naveen@kernel.org, darwi@linutronix.de,
- elena.reshetova@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, thomas.lendacky@amd.com, eranian@google.com,
- peternewman@google.com, qinyuntan@linux.alibaba.com
-References: <cover.1783461016.git.babu.moger@amd.com>
- <34a5119a28e102b8d6a0d0cfc3623fb0813a11f7.1783461016.git.babu.moger@amd.com>
-Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <34a5119a28e102b8d6a0d0cfc3623fb0813a11f7.1783461016.git.babu.moger@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA9PR13CA0074.namprd13.prod.outlook.com
- (2603:10b6:806:23::19) To BL1PR12MB5320.namprd12.prod.outlook.com
- (2603:10b6:208:314::17)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U7j9DuQ2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5FD11F000E9;
+	Wed,  8 Jul 2026 23:14:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783552467;
+	bh=znSNM+MGjR1fppYrLy7qoTqjpqFxQICpffN75ccsbrI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=U7j9DuQ2nc8ydd23uGNZv2p9cQUiXygCkAVxSq71mj+NkX2cdLrmoGsFASFGg4Ml0
+	 bDwc3/JpNMt1iiuBfO2+u2t8OwVWEKPRBEqFojt4WTEHrS5dyU+Rrl+iHhRZJ43XFU
+	 Tp4PiEAswwCoD7KapE0e4aTY0MQO/lRQruojDYgw6tkvWRm9BrYDb1Uy0bxO7Zv6Ig
+	 NQWzkZJfqj2mxHN2D5QfuxwgKNzrkIccqqWhDuluZJB6zK0q7BbhRN+Pi08TxExqdC
+	 M1JIWRaFxQmoW8FElnvw5Vst8d3UaIMnUJuT2C8niIgtq2a4qubF9EJ5FQZPKi1rPF
+	 fpIGbT8HGVkAQ==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Michal =?utf-8?Q?Such=C3=A1nek?= <msuchanek@suse.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>, Shrikanth
+ Hegde <sshegde@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Kees Cook
+ <kees@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt
+ <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, Sven Schnelle
+ <svens@linux.ibm.com>, linux-s390@vger.kernel.org, x86@kernel.org, Mark
+ Rutland <mark.rutland@arm.com>, Jinjie Ruan <ruanjinjie@huawei.com>, Andy
+ Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Richard
+ Henderson <richard.henderson@linaro.org>, Russell King
+ <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Guo
+ Ren <guoren@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, Helge Deller <deller@gmx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Richard Weinberger
+ <richard@nod.at>, Chris Zankel <chris@zankel.net>,
+ linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
+ linux-csky@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-um@lists.infradead.org, Arnd Bergmann
+ <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>, Will Deacon
+ <will@kernel.org>, Brian Cain <bcain@kernel.org>, Michal Simek
+ <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, "David S. Miller"
+ <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
+ linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
+ linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-arch@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+Subject: Re: [patch 13/18] entry: Make trace_syscall_enter() return type bool
+In-Reply-To: <87se5tqkyp.ffs@fw13>
+References: <20260707181957.433213175@kernel.org>
+ <20260707190254.338083894@kernel.org> <ak5ySpil83TNWxeq@kunlun.suse.cz>
+ <87se5tqkyp.ffs@fw13>
+Date: Thu, 09 Jul 2026 01:14:24 +0200
+Message-ID: <87ik6pqdkf.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|DM4PR12MB5819:EE_
-X-MS-Office365-Filtering-Correlation-Id: 713cc554-0bca-4c0b-8b79-08dedd4544d7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|23010399003|921020|4143699003|5023799004|11063799006|56012099006|6133799003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	s2M0WssJI8bpMhdz2DnK/pWyIuTNFOHOoHh22Por67EScZgZ7TAGxkFilwebJEumfz5kAl2xmWTRYAozFjnbXXWdP+3a5wnq2eEYlS9CpKpgB9KDNDp1hqYQjchkkRC6ebBpYlxEOxCP60uwDMfCcVRahd9XFfE7OeZujC8nEYj9ld1WVqSC4wbzxpPAZnBvVUHjXFhg6yHEdt5FFAegvU0WTZ46umGjQu4o+h9ahQplgEODi+weVn6hcUucK5B797L8MLVyXzqRVfj6OKWA1b5jb8RqO4lK/68YuywOJB38r8E+JfaoH0AgCc2eoojB4llSYol8F0LeFx9CntC7DkGW/6C5sK4pfKbsBEE5mHCDgw+Wy/K80l4HKgAIqBIkdswJPDMb/pEVhAHbmKJVKDMxaQWYp5/KoobtpvdxggE2Tn/UjxK2CYId83A8s07x3r+xsPa3QBLDUALUFo4pOCs85VVXq/Sm/x8JmwCu1yDs6boN7NDXop1wSxMQL7weCCcc3yGC1tORsbaB+O1jLNmuVcpaGpz02oVnr7aLhyS41ZvEXFkiNqml2eJWv/cPrpB8BPSaeSBdfb1njkBkfVjrhqXdXxum6FkTgRQ4GRv04jx4lwZelN9khulo5t8dc1B3N3lmEYNs/kMGgavCiA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(23010399003)(921020)(4143699003)(5023799004)(11063799006)(56012099006)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?R0V4VjBOdzBLWFA1cjhzL2N4dTFBOUZUUzRJUjZ1SlpQM1JSWkEvUk5PRmUy?=
- =?utf-8?B?aGFxZVRYeWhySitDdE1BRW9QWmpPYjBHbExuU1duNkVuYnlZNlJ0ZWFqVHhC?=
- =?utf-8?B?QVQrbHpGTTRybTI4eXc0V2J2dnIzdVNZeEpoRDhnTzBab0w4WTRLNTBjVGFQ?=
- =?utf-8?B?S1NHV3dxRmNsUzlERERxQ1ByRmVUSXhwUGJwL3JieG9WWlRyQjVGR1o3Qnlw?=
- =?utf-8?B?WXRxV1FIdEU3dklwU3NpNjNPcU9LQUhpV0xDZFZLb1NLK016YVB2bTNtNGxY?=
- =?utf-8?B?OFBsemkxeG96c0hFcXBuWWQxSmNCc1hkUzh6MTN6VXR0YnhLbTN4Q2xMNUhp?=
- =?utf-8?B?TWE3NjBiREprYUk1aHdPTG5ENXFlUGcvUDJSVmpmelJVRmprTDFSSGtLSXRK?=
- =?utf-8?B?SXFkaVRlMzJGRVZBakcyMUhQWGM1VEdTOTFuMGdTMi81RXN2bEpHeDlaVGxi?=
- =?utf-8?B?NHZBci9KZkdpZ1JpbnB2c3hxdll0OWMrVzF1dUh6L2k4ME4xSnhVWGw1S0d5?=
- =?utf-8?B?MXFldUFWM205MlI5Z3J2MXVFVWNUN2hlT1lOV2ljRmlTMzF2L3YwMlNnWjFy?=
- =?utf-8?B?N015OFhhR2MwVHFJSE4rMjc4VHgrMFBRQmZkaGtqcE9ZVlY0LzUvejQyT2Mx?=
- =?utf-8?B?TjhhNllXU2RLYVgzSmFBV2hwbHh4Q01hWVJ2TENDNTI2ZUJVRlo2MEg3STVx?=
- =?utf-8?B?VEdHYXhPY2RiQm9QN05QQkFaMDdjbEFCV2FQY3gwWTUrVFBWMU4vc2VTWWVu?=
- =?utf-8?B?SkpnQXRnOUoreEVlcjlDYVhjc1o0ZCtuL0REeWtLL2VmYTl6WUVLQzNGNkp4?=
- =?utf-8?B?TXJRTzgwNlRFMzZzdFd5bWk2S01DNW9OZXo1aURVWXczY01ZNW90TnBHOXg4?=
- =?utf-8?B?Y1dBUDd0NjRQRDRxOXYvcWxxVlBKSXY0QTg1dGttTUNSM3RLZWlNYWdpenZy?=
- =?utf-8?B?OTJzRjNNc3ZFcG1Dckx0TXRWajVxWjNIRzZ2SVdKcjkyM0JVZUxzQWRIZ1JX?=
- =?utf-8?B?Z2lKRktZdTRNUDJkM3QveWFyUDIzdXo5S2dQaG1KQ0k1Qmh5NnJleS9WN3BP?=
- =?utf-8?B?RVlmZkxvcmhsaTlvNXhTKzlMSUU3TmxabXNCOGpLajVsNDlsbUtpb2NxUTNj?=
- =?utf-8?B?YmF1d2E4MUhxYVorcFl4ajF3OE0wbDdhZ0t0eEZEWW93Wjd1UjhFdWhraG54?=
- =?utf-8?B?a1pMdE5HemJBTGNsMEdhUHpRVzRxWm9XNjl3SWtDSURkbGxsSTJQMGVsaWU2?=
- =?utf-8?B?NzBKRDBiRFdLT3JMWllOd2Z4SW1Xc0daVytwaFl1RWFHM0Fkc25SS25CWXBp?=
- =?utf-8?B?cnlhaHBlRkZkSzArdWdqaGQrOWo5dVNRQjgwUnBYYUsvNEFBOVJaRkl1bnJX?=
- =?utf-8?B?WjMzT1MvYTcxaGxwcEJ0N1haNGxsQWRVdC95M0dKNWVBdUczQ0t4djBhaDgv?=
- =?utf-8?B?clVoN0Vvd0Vnd1BMd0NEdmNITnBUVmEybll3T2NibHA5VXRJNmZrZ1YvRDNp?=
- =?utf-8?B?K295U3F5M2tjd1NjZ3RrT011NnVjUGtiYnhWck8vcGdzYk1NTHJDNHlaWFVH?=
- =?utf-8?B?QnZDNU1sVlZyYzlUc2ptUitHSFFub1kvNVdrS2VtZnMyL0pWZ1lXaVEzSWNi?=
- =?utf-8?B?dE1paHBwdkFkeEZsc25ycjF3TUpnUjdLbTVWb2IvVTFBQ1lWN05UaGJjWkdC?=
- =?utf-8?B?c2lJYTUyc3poa254WWdyZ3Y1QWxaclFHQmFxOHY0UmR2NzUrWm5TRllsRFJU?=
- =?utf-8?B?eWo4YTlMakpRY1F1dkZ6K0ZkUmp1SnRjWTNPRTQyTHRFcVRycDBZZEtsN3RQ?=
- =?utf-8?B?NlVnWVJPeVpoUS8yZnBNblh4MHBPbEt1U3lFTEZCY21DRzFWUnA0cEZHakdH?=
- =?utf-8?B?SW8vTERlN0VLckFpYnk3TStEU1NFT24rSk92Z29McWtWR0RUVlpkdURuMnZR?=
- =?utf-8?B?cmtnak1KWmZqamk4OGVKcTlrYnNZeVlJYlFKWW5XbUdYRDJRRTl0cG5Ya0xY?=
- =?utf-8?B?djdPVmxVekZaaDgwRmdlUDg4c1hsMVg2bFhwYTFXYXgvY2s2R1lCOFRvaGdW?=
- =?utf-8?B?QXJXYVNpNld1QmJlV1VKcElMSGZlM25oTmtNNTNmUm1VRXBOQUZJQVVLUXFQ?=
- =?utf-8?B?bU5oNTJoMnhjTHFBNThUSDNhbnFkenZWMUFZNmVhRzBsYnFDd05FVUFFekhi?=
- =?utf-8?B?S3FWa243R1JQa3dSQmZncDloc1Q1ZW1Bdi92SFpuUldtSXdmTmkvWnVJYUJr?=
- =?utf-8?B?b21zVXVMNUxiZDAxVS9MUGptRjA0UC9ERm5EemdnbUpDcGdkQ3czVXVHOEdS?=
- =?utf-8?Q?u3aeX147N/Bkq2gLIv?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 713cc554-0bca-4c0b-8b79-08dedd4544d7
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2026 23:04:31.2497
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: STas7dXefMIUnvXIncOfHeboK00nxCMCfqNmTuaooUCH97wv8r71nfTQOYUA4b62
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5819
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 7/7/2026 4:50 PM, Babu Moger wrote:
-> Kernel-mode policies defined by enum resctrl_kernel_mode must be applied to
-> each affected CPU whenever a policy is selected or its scope changes.
-> Generic resctrl therefore requires an architecture-specific interface to
-> program allocation and monitoring associations in hardware across a given
-> CPU mask.
-> 
-> Introduce a helper, resctrl_arch_configure_kmode(),  to handle kernel-mode
-> programming. On x86/AMD systems, this helper programs the
-> MSR_IA32_PQR_PLZA_ASSOC register on all online CPUs in the specified mask
-> via on_each_cpu_mask(). Also provide a no-op stub for MPAM systems.
-> 
-> Generic resctrl does not invoke this hook yet; it will be used when user
-> space selects a kernel-mode policy or updates the associated CPU set.
-> 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> ---
-> v4: Added assign_mon parameter in resctrl_arch_configure_kmode() to program the RMID
->      as discussed in below.
->      https://lore.kernel.org/lkml/20260605100642.1103628-1-qinyuntan@linux.alibaba.com/
->      Changed cpumask type to "const struct cpumask *cpu_mask".
->      Added MPAM stub to avoid any linking issues when resctrl_arch_configure_kmode()
->      is called from FS layer. Thanks to Qinyun.
->      Re-wrote the changelog to be generic.
->      Updated code comments.
-> 
-> v3: Removed task based PLZA implementation so related changes are removed.
->      Removed handling of rmid_en as it is not required. The group type assigned
->      will be different so the monitoring part is already taken care.
->      Updated the change log with details.
->      Removed resctrl_arch_set_kmode() as arch only provides the modes supported.
->      It is FS which decided which mode to apply.
-> 
-> v2: Updated the commit message to include the sequence of steps to enable PLZA.
->      Added mode code comments for clarity.
->      Added kmode to functin names to be generic.
-> ---
->   arch/x86/kernel/cpu/resctrl/ctrlmondata.c | 36 +++++++++++++++++++++++
->   drivers/resctrl/mpam_resctrl.c            |  5 ++++
->   include/linux/resctrl.h                   | 15 ++++++++++
->   3 files changed, 56 insertions(+)
-> 
-> diff --git a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-> index b20e705606b8..025f139434f2 100644
-> --- a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-> +++ b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-> @@ -131,3 +131,39 @@ int resctrl_arch_io_alloc_enable(struct rdt_resource *r, bool enable)
->   
->   	return 0;
->   }
+On Wed, Jul 08 2026 at 22:34, Thomas Gleixner wrote:
+> On Wed, Jul 08 2026 at 17:52, Michal Such=C3=A1nek wrote:
+> Q: Is it perfect?
+> A: No
+>
+> Q: Can it be made perfect?
+> A: No, because you can't change history and established practice.
+>
+> Just for illustration. Changing the logic in trace_syscall_enter() to:
+>
+> --- a/kernel/entry/syscall-common.c
+> +++ b/kernel/entry/syscall-common.c
+> @@ -9,13 +9,15 @@
+>=20=20
+>  bool trace_syscall_enter(struct pt_regs *regs, long *syscall)
+>  {
+> +	long orig_syscall =3D *syscall;
 > +
-> +static void resctrl_kmode_set_one_amd(void *arg)
-> +{
-> +	union msr_pqr_plza_assoc *plza = arg;
-> +
-> +	wrmsrq(MSR_IA32_PQR_PLZA_ASSOC, plza->full);
-> +}
-> +
+>  	trace_sys_enter(regs, *syscall);
+>  	/*
+>  	 * Probes or BPF hooks in the tracepoint may have changed the
+>  	 * system call number. Reread it.
+>  	 */
+>  	*syscall =3D syscall_get_nr(current, regs);
+> -	return *syscall !=3D -1L;
+> +	return *syscall =3D=3D orig_syscall || *syscall !=3D -1L;
+>  }
+>=20=20
+>  void trace_syscall_exit(struct pt_regs *regs, long ret)
+>
+> does not make #2 magically go away. It's still the same problem whether
+> you like it or not.
 
-Sashiko reported:
+And just to be entirely clear, the syscall() interface has to be correct
+in the first place, but then it's all about performance.
 
-https://sashiko.dev/#/patchset/cover.1783461016.git.babu.moger%40amd.com?part=5
+So the sequence of:
 
---- Patch [5]: [RESEND PATCH v4 05/15] x86,fs/resctrl: Introduce 
-architecture hooks to program kernel-mode ---
-commit 97958c0d99b7e538d1f8d019e6c63712b44a6289
-Author: Babu Moger <babu.moger@amd.com>
-x86,fs/resctrl: Introduce architecture hooks to program kernel-mode
+   pt_regs =3D PUSH_REGS();
+   syscall =3D pt_regs->syscall_reg;
+   pt_regs->result =3D -ENOSYS;
 
-Kernel-mode policies defined by enum resctrl_kernel_mode must be applied to
-each affected CPU whenever a policy is selected or its scope changes. 
-Generic
-resctrl therefore requires an architecture-specific interface to program
-allocation and monitoring associations in hardware across a given CPU mask.
-This patch introduces resctrl_arch_configure_kmode() to handle this.
- > diff --git a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c 
-b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
- > --- a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
- > +++ b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-[ ... ]
- > +static void resctrl_kmode_set_one_amd(void *arg)
- > +{
- > +	union msr_pqr_plza_assoc *plza = arg;
- > +
- > +	wrmsrq(MSR_IA32_PQR_PLZA_ASSOC, plza->full);
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Will this truncate the upper 32 bits of the MSR on 32-bit x86 builds?
-It appears that union msr_pqr_plza_assoc in
-arch/x86/kernel/cpu/resctrl/internal.h uses unsigned long for both the
-bitfields and the full variable. On 32-bit x86 architectures, unsigned long
-is 32 bits, which means reading plza->full will truncate the 64-bit value.
-When this is implicitly zero-extended to u64 and passed to wrmsrq(), the
-upper 32 bits of the MSR, which contain plza_en, closid_en, and closid,
-will be overwritten with zeros.
+   arch_syscall(pt_regs, syscall) {
+      if (likely(syscall_enter_from_user_mode(pt_regs, &syscall) {
+         if (syscall < SYSCALL_max)
+            pt_regs->result =3D invoke_syscall(pt_regs, syscall);
+      }
+      ,,,,
+   }
+   pt_regs->($RETURN_VALUE) =3D pt_regs->result;
+   POP_REGS();
+   return;
 
-Will change the union msr_pqr_plza_assoc to use u64 instead on unsigned 
-long. It should take care of this.
+is the correct and obviuosly most efficient way idependent of the -1L
+return value overload in the original implementation, which this series
+gets rid of for clarity.
 
-Thanks
-Babu
+If an architecture decide[sd] to do otherwise and makes up it's own rules
+which only cover parts of the problem then it _is_ an architecture
+problem and not something which has to be solved by claiming that every
+architecture has to implement the same nonsense as you falsely claimed
+in your RFC^WPOC^Whack thread:
+
+  "However, the API should be specified in a way that does not require
+   everyone implementing such flag."
+
+There is _ZERO_ requirement for any architecture to implement that
+flag. Just because S390 decided it's a brilliant idea to do so does not
+make it a requirement for everyone.
+
+No. Every other architecture got it right because they looked at the
+historical patterns despite having correct documentation at hand.
+
+Feel free to prove me wrong with actual facts.
+
+Thanks,
+
+        tglx
