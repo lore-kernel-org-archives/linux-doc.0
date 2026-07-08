@@ -1,65 +1,65 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67E138910E
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 07:34:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B963E63BB
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 07:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783496050; cv=none; b=C6gSkVrFOu9UWCPZHPf/L12uYU2aTcVQLh4g0ljKbxRQ/IdYgY9vkAXSdSiRQEFmFwJ3fRks/N3GslFyZ/mnJpCyMJ1HyyXkIxj/SceD4GNnc7N3j2RFGw9e1yWprey7ND0tmmE20ej+mp8pjqPpCGnU5M9hiyxyU6SrJkv0iB4=
+	t=1783496055; cv=none; b=I+eVHaJuFb8hP1Q8ra/n3RA9uVEgwqGicx/yEUdBiMwdk4FsRUN2tzpYa5NTvlQHD5EG7xuQyqYmH8t4cm80Gfm0gW1cEN4S/0IQkMcVswCEgEWHhytoE54vfJXM0Vx0hPc5MdLFhwrR6SlXHCPN3mvSXfW1RFyJXv19MlxUvLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783496050; c=relaxed/simple;
-	bh=Io2+2DoyZ+/tP/NSGU5iQkRUwbQAexl+mSKZsuY3WBc=;
+	s=arc-20240116; t=1783496055; c=relaxed/simple;
+	bh=IBIsXPsiyG0M3VuvrMK9bIS+RRh0mxA2w8MD+MPV0kc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=McZIin8qJ/NG6xHpoG1NQ4xMEUF+3IrQ/yejbFyC3oQdly4x1emNu4fNisCkD6FzWl0ToeETycx+RRuiKsBsHoBANfQjQRPboWdxQmc5jbH7dORcSyb+n9TJb++jU4UMXKx38hQcCELY81pEOc3It4FD2J5irMtSfMOHoBXH8O8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z/FW2hUT; arc=none smtp.client-ip=209.85.128.46
+	 MIME-Version:Content-Type; b=bEuiFlMbqcMkghkgeiGqSeqqcNdqYb84rqK5B6qiVzd7jNOGDU9+uBeJW1JJq+Tpug5gMRuC6Ky0ZzA2wzdoZw7cnn7ekaokid89YwZAHnLOPGASUM3RrX4gCAmSVWMRWLJ63ZDzKS2HlxTHInPIThIIslm7HzFCeW1U7VEj6yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TFAAxF3y; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z/FW2hUT"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-493c2c7770bso333755e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 00:34:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TFAAxF3y"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490d6730461so349595e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 00:33:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783496038; x=1784100838; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783496032; x=1784100832; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=s31nZQVBL8BUGSoys1iksqFJSqf6kbi1kgLlk3gjtUc=;
-        b=Z/FW2hUTUONq4DbaWNqOfWYLsAK/kM47SMDGMqlchuLYy3PwothZ5WzzkwSZTObwn1
-         oP15uaxntKOk6QtWrtygp0PqU55chFth+/oWPItEWNJNfbZ3QPqc0In1/D0LTciDKNtr
-         fmqeXpP3kCrLAiWhatq6IaCsLfe2sPtxJdOzTLrAQTs5iis0bG1keXVosSUwGjAFcXea
-         mXzsDAIdPddadC/v6vBP8kialMMF2F5e/mPf3B7F17bv1tUjHywUphWsHXDrKXgufUdW
-         bPbnEfCDu7i4tNdd0DBw7pFB3ZDrqy0coEhz9tGB/Wdx1AAFFoBuYQTp3YCwwWwDp8OD
-         pVmQ==
+        bh=gzGp4RSK/VKV73d1qH4iqIoZ1Boa7bH9bYUYJjvkcf8=;
+        b=TFAAxF3yLsPHpMdathFtlDeDKF42jVtqkN4WfWUbdOSHdJn49K4wCqwkS75sSEJMYk
+         qVlq7mjKD/BWsOVbDm6Z34cLvM5edBx42NlOcOe900gilYhwDBo7fJpVtEzdYjL8UyUv
+         JsMa9m4YItd6ncduU+x3fwDwlT2me832YZ7WwjjyXQEjg8yB9dhgNVoYzMePYFywZhFe
+         w3iQOHl5e1IpOoy/3sj3LBddni/UQxhYwtiT8cwK+UT+akLB153g0AInJMOcJo4qW6Nx
+         AX/mFe3e/2cxi61PCoKUjEvUnqTqv2VU/oRW7Nyra+zAYO2H7Qc6v9dk5UTJCkrs+vS3
+         BiMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783496038; x=1784100838;
+        d=1e100.net; s=20251104; t=1783496032; x=1784100832;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=s31nZQVBL8BUGSoys1iksqFJSqf6kbi1kgLlk3gjtUc=;
-        b=qmhA0Mb+GWUbLEdWudOyawBukhZwYyrX+O5gWI+1WqXCTt9EVAT9czHL1cfvCglSlc
-         hivUGlnfQ5yRo3hYYTo+e6BBWFdKpP1BF16DWRcQSnylfrFahz34LRDHABsILlAtGfp7
-         +dfVuLikv4RfccGhPSHtfg+km8kDMv3uD7XxC5/i9V2dEU7puf9U4ZVuGXEQHrOmhaCo
-         6e2AJ4U56fWhxc0iJ1ts10qz1UMjh39gqEvPiwaFoc4o1qsJxalk3lZHPRMoYUDS3qgQ
-         JlJwtbgeB8CB6163Bl2MaiZFn0P+l8IYx4Eo0j3UNODQ4jMereqPj0DjyIag+lGgDkjn
-         Mjiw==
-X-Forwarded-Encrypted: i=1; AHgh+RrDRgw1RateLM+Qm97AkpxOGxhtHDFUl0sFBM8Q+c2Ps9qexEpDb6ZtU+VjpWWKAhBvf8l+kZc12o0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxiyc/yFgvj/yxehZxrqOg8JAdOVr5WZTrLQ/2NNiD5ABJwIRRe
-	Hz4jTLkIEUdDNIN4pnEkUEj8TgUYwGghiNSuA+uDKSTPBMEVbbuv2p545dYmoOV9
-X-Gm-Gg: AfdE7cn72l1MaTy8Gk3iVVhMjQn9p5iur6o1XgMhEmfI9ReKiiEUv/uv+gyGElu7Y1k
-	MRExYLAYedgNGWxkVyjzDzd4jibpWCZ7aAwd4nPjEBRDTFOb759M/LNuXlLTJMittNZDbhgTrq7
-	yTFp2XRcrD0eKzbD9dvqxKuFclGGhXapwu9xzbiGq+HSz1/uaQl9D/Na1PnqhXdWkGrc5/+ehFH
-	nXSs66Ev7BiYX7bfabpU8vkWwxH8jbO7pTbgGWfC02te4mXLs+IgbtDN13E0BvN6hSH4bFK8MiK
-	x4/IXzgcwXYhUYg5617XUPVBGa6yku5O3BOc6Wy0YsL8iW9y8v7Fh0K3cHRNsxREkJ5agrGKVlV
-	jf2Yrwt9rEguzyi3qrJUKhjAtqTJEJT4rkffPD4gTapuw17/clpI8JGSCL+VNL3O7EdOXaOnlgY
-	V7qAi5nKPnaanOXFRtBUYCUS5nFpP3zPt+6/JKrRjag/uMaRtqguzekTUBiwYUA9aCzBweMiKU/
-	+SL/LNAKHCxcykx
-X-Received: by 2002:a05:600c:c172:b0:493:e4ca:8358 with SMTP id 5b1f17b1804b1-493e76a5647mr3439455e9.5.1783496037536;
-        Wed, 08 Jul 2026 00:33:57 -0700 (PDT)
+        bh=gzGp4RSK/VKV73d1qH4iqIoZ1Boa7bH9bYUYJjvkcf8=;
+        b=LTX/VmClHiDAJdKngBCSy4o/+M2p0iUhtP8luAFtmwKPxrLNozccNbDlT7mtwQmtTz
+         7dsx7SHoU9dfAqFROm2/UgB0t2UwLBlvtjkTOp7Ry0ZWqv/t0wIl12hsBNEzJawbss4p
+         WVDm9KW4Uy0GvJDS/egWDMYhx09Zdk6rwXvHq6grfr0G77ySLZnxlFNbhgiETLgJDsEB
+         GjZN8SO5B8kn9vuLkOTW71rCgVT3/yjq6hgUiJ5LoJtDngOjoKb+uDHWgKJMHSyfOWvC
+         LnkgSgrO6O+k8rHwXvIk8Oy0sEo4QYrIxem8pj18tqtjyAB9pOmsOBecFjUHJkZ7MKlv
+         WKQg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp/d6G6x/q9IK2fduipaG0zLgsbzRJBb1tqxdAo+Zxja2WfqWo9CM7OJzbGBWgwbGsn7HpDW5xnPtY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw79BFCOF5U9JXVd8KpfJZSqVhm+8BcgHX14wpqPfzuRQ93qUOO
+	lS7xsYMkD7NQQUG7D+gFHdQTTaZFL9e3ChujbusVV1Um5wuCfGDfQby2
+X-Gm-Gg: AfdE7cnTngUlvkKa16dz+b4+xQwvoa5QMKaCBBnQZt7gGutM37Rzm62A+wYyOfTF6KD
+	1iHvT+fRu2i9sV0w1dQ2C2eNciR4ok6hfJ1JkYgZ8aG3+kqX4kmn/r1sUNr1ACC2xx9mzl6HUNj
+	Ms40bc2YJzTXtxGlKyYGylHFN1X86OBugTVMYD+umAjFqZPyE4vXNyHOtmMBbYG+EY03Nv2WUBh
+	u3fx05Cb9cilQF1wu0b9bIqPT9To5wLAfJG/LAzxVSVbX5xsFwntBTojerX5Nj5iIbMzd8vQmXN
+	0ZxcmM8fkglmCO23lx8TZG29vp6/OvTDDU9AGHcZS6OG3EB3G+RyP53gYtqvFCj+H8JmyCCfJ5y
+	vnp3sNjr/IhCDPVvDroQOAqT5Epgq7c6qckGYDwMqmUfwk20uHr8UayeeHGdPWirME8FopQ/QQx
+	PSwpPjPacm8fskDZSu6o930EaZd2IXWzK+UrPJIluZapJlldKU+md9rBMlnqMlKriAjbxbRjfyK
+	yD0PijLNloJEqd3z6MCvT4D6V4=
+X-Received: by 2002:a05:600c:34d1:b0:493:b7f1:2e03 with SMTP id 5b1f17b1804b1-493e65e09a9mr7319995e9.0.1783496031640;
+        Wed, 08 Jul 2026 00:33:51 -0700 (PDT)
 Received: from doehyun-dev.pradel.rg.cispa.de (x06.xlate.fw.cispa.de. [195.37.157.6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e610532fsm32876355e9.0.2026.07.08.00.33.55
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e610532fsm32876355e9.0.2026.07.08.00.33.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 00:33:56 -0700 (PDT)
+        Wed, 08 Jul 2026 00:33:50 -0700 (PDT)
 From: Doehyun Baek <doehyunbaek@gmail.com>
 To: Alex Shi <alexs@kernel.org>,
 	Yanteng Si <si.yanteng@linux.dev>
@@ -72,9 +72,9 @@ Cc: Dongliang Mu <dzm91@hust.edu.cn>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Doehyun Baek <doehyunbaek@gmail.com>
-Subject: [PATCH v6 7/7] docs/zh_CN: update DAMON LRU sort translation
-Date: Wed,  8 Jul 2026 07:32:46 +0000
-Message-ID: <20260708073246.1652828-8-doehyunbaek@gmail.com>
+Subject: [PATCH v6 6/7] docs/zh_CN: update DAMON reclaim translation
+Date: Wed,  8 Jul 2026 07:32:45 +0000
+Message-ID: <20260708073246.1652828-7-doehyunbaek@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260708073246.1652828-1-doehyunbaek@gmail.com>
 References: <20260708073246.1652828-1-doehyunbaek@gmail.com>
@@ -87,94 +87,110 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Update the Chinese translation of .../admin-guide/mm/damon/lru_sort.rst.
+Update the Chinese translation of .../admin-guide/mm/damon/reclaim.rst.
 
 Update the translation through commit c9380cdd949d
 ("Docs/{admin-guide,mm}/damon: fix DAMON documentation details").
 
 Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
 ---
- .../zh_CN/admin-guide/mm/damon/lru_sort.rst   | 68 +++++++++++++++++--
- 1 file changed, 64 insertions(+), 4 deletions(-)
+ .../zh_CN/admin-guide/mm/damon/reclaim.rst    | 82 ++++++++++++++++++-
+ 1 file changed, 80 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/lru_sort.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/lru_sort.rst
-index 03d33c710604..6af0dd59ef5d 100644
---- a/Documentation/translations/zh_CN/admin-guide/mm/damon/lru_sort.rst
-+++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/lru_sort.rst
-@@ -48,7 +48,7 @@ DAMON_LRU_SORT使用DAMON寻找热页（范围内的页面访问频率高于用
+diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
+index d14ba32f7788..1e9375947295 100644
+--- a/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
++++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
+@@ -58,6 +58,19 @@ enabled
+ DAMON_RECLAIM。注意，由于基于水位的激活条件，DAMON_RECLAIM不能进行真正的监测和回收。
+ 这一点请参考下面关于水位参数的描述。
  
- 为了让系统管理员打开或者关闭并且调节指定的系统，DAMON_LRU_SORT设计了模块参数。
- 这意味着，你可以添加 ``damon_lru_sort.<parameter>=<value>`` 到内核的启动命令行
--参数，或者在 ``/sys/modules/damon_lru_sort/parameters/<parameter>`` 写入正确的
-+参数，或者在 ``/sys/module/damon_lru_sort/parameters/<parameter>`` 写入正确的
- 值。
- 
- 下边是每个参数的描述
-@@ -71,6 +71,41 @@ commit_inputs
- ，DAMON_LRU_SORT会再次读取除了 ``enabled`` 之外的参数。读取完成后，这个参数会被
- 设置为 ``N`` 。如果在读取时发现有无效参数，DAMON_LRU_SORT会被关闭。
- 
++commit_inputs
++-------------
++
++让 DAMON_RECLAIM 再次读取除 ``enabled`` 外的输入参数。
++
++DAMON_RECLAIM 运行期间更新的输入参数默认不会应用。一旦该参数被设置为
++``Y``，DAMON_RECLAIM 会再次读取除 ``enabled`` 外的参数值。重新读取完成后，
++该参数会被设置为 ``N``。如果重新读取时发现无效参数，DAMON_RECLAIM 会被
++禁用。
++
 +一旦向该参数写入 ``Y``，用户在再次读取 ``commit_inputs`` 返回 ``N`` 之前，
 +不得写入任何参数。如果用户违反该规则，内核可能表现出未定义行为。
 +
-+active_mem_bp
-+-------------
-+
-+期望的活跃内存与[非]活跃内存比率，单位为 bp（1/10,000）。
-+
-+在保持其他配额设置的上限的同时，DAMON_LRU_SORT 会自动增减配额的有效水平，
-+目标是让热/冷内存的 LRU [降低]优先级处理产生该活跃内存与[非]活跃内存比率。
-+值为零表示禁用该自动调优功能。
-+
-+默认禁用。
-+
+ min_age
+ -------
+ 
+@@ -68,6 +81,15 @@ min_age
+ 
+ 默认为120秒。
+ 
 +autotune_monitoring_intervals
 +-----------------------------
 +
-+如果该参数设置为 ``Y``，DAMON_LRU_SORT 会自动调优 DAMON 的采样和聚集间隔。
++如果该参数设置为 ``Y``，DAMON_RECLAIM 会自动调优 DAMON 的采样和聚集间隔。
 +自动调优的目标是在每个 DAMON 快照中捕获有意义数量的访问事件，同时将采样
 +间隔限制在最小 5 毫秒、最大 10 秒。将其设置为 ``N`` 会禁用自动调优。
 +
 +默认禁用。
 +
-+filter_young_pages
-+------------------
+ quota_ms
+ --------
+ 
+@@ -98,6 +120,29 @@ quota_reset_interval_ms
+ 
+ 默认为1秒。
+ 
++quota_mem_pressure_us
++---------------------
 +
-+相应地为 LRU [降低]优先级处理过滤[非]年轻页。
++期望的内存压力停滞时间水平，单位为微秒。
 +
-+如果设置该参数，则在每次 LRU [降低]优先级处理操作前再次检查页级访问
-+（年轻性）。如果该页自上次检查以来未被访问（不年轻），则跳过 LRU 提高
-+优先级操作。如果该页自上次检查以来已被访问（年轻），则跳过 LRU 降低优先级
-+操作。当该参数分别设置为 ``Y`` 或 ``N`` 时，会启用或禁用该功能。
++在保持其他配额设置的上限的同时，DAMON_RECLAIM 会自动增减配额的有效水平，
++目标是产生该水平的内存压力。系统范围的 ``some`` 内存 PSI 会按每个配额重置
++间隔（``quota_reset_interval_ms``）以微秒为单位收集，并与该值比较，以判断
++目标是否满足。值为零表示禁用该自动调优功能。
 +
 +默认禁用。
 +
- hot_thres_access_freq
- ---------------------
++quota_autotune_feedback
++-----------------------
++
++用户可指定的有效配额自动调优反馈。
++
++在保持其他配额设置的上限的同时，DAMON_RECLAIM 会自动增减配额的有效水平，
++目标是从用户接收到值为 ``10,000`` 的反馈。DAMON_RECLAIM 假定反馈值和配额
++成正比。值为零表示禁用该自动调优功能。
++
++默认禁用。
++
+ wmarks_interval
+ ---------------
  
-@@ -163,6 +198,8 @@ min_nr_regions
- 对冷内存区域监测的最小数量。这个值可以作为监测质量的下限。不过，这个值设置的过
- 大会增加开销。更多细节请参考DAMON文档 (:doc:`usage`) 。默认值为10。
+@@ -149,6 +194,8 @@ min_nr_regions
+ DAMON用于冷内存监测的最小监测区域数。这可以用来设置监测质量的下限。但是，设
+ 置的太高可能会导致监测开销的增加。更多细节请参考DAMON文档 (:doc:`usage`) 。
  
 +请注意，该值必须为 3 或更高。该下限的理由请参考设计文档的 :ref:`监测 <damon_design_monitoring_zh_CN>` 章节。
 +
  max_nr_regions
  --------------
  
-@@ -176,14 +213,34 @@ monitor_region_start
+@@ -163,7 +210,7 @@ monitor_region_start
+ 目标内存区域的物理地址起点。
  
- 目标内存区域的起始物理地址。
- 
--DAMON_LRU_SORT要处理的目标内存区域的起始物理地址。默认，使用系统最大内存。
-+DAMON_LRU_SORT要处理的目标内存区域的起始物理地址。默认，使用系统的整个物理内存。
+ DAMON_RECLAIM将对其进行工作的内存区域的起始物理地址。也就是说，DAMON_RECLAIM
+-将在这个区域中找到冷的内存区域并进行回收。默认情况下，该区域使用最大系统内存区。
++将在这个区域中找到冷的内存区域并进行回收。默认情况下，该区域使用系统的整个物理内存。
  
  monitor_region_end
  ------------------
- 
+@@ -171,7 +218,35 @@ monitor_region_end
  目标内存区域的结束物理地址。
  
--DAMON_LRU_SORT要处理的目标内存区域的结束物理地址。默认，使用系统最大内存。
-+DAMON_LRU_SORT要处理的目标内存区域的结束物理地址。默认，使用系统的整个物理内存。
+ DAMON_RECLAIM将对其进行工作的内存区域的末端物理地址。也就是说，DAMON_RECLAIM将
+-在这个区域内找到冷的内存区域并进行回收。默认情况下，该区域使用最大系统内存区。
++在这个区域内找到冷的内存区域并进行回收。默认情况下，该区域使用系统的整个物理内存。
 +
 +addr_unit
 +---------
@@ -185,35 +201,37 @@ index 03d33c710604..6af0dd59ef5d 100644
 +
 +``monitor_region_start`` 和 ``monitor_region_end`` 应以该单位提供。例如，
 +假设 ``addr_unit``、``monitor_region_start`` 和 ``monitor_region_end``
-+分别设置为 ``1024``、``0`` 和 ``10``。那么 DAMON_LRU_SORT 将处理从地址零
++分别设置为 ``1024``、``0`` 和 ``10``。那么 DAMON_RECLAIM 将处理从地址零
 +开始、长度为 10 KiB 的物理地址范围（以字节表示为
 +``[0 * 1024, 10 * 1024)``）。
 +
-+带有 ``bytes_`` 前缀的统计参数也使用该单位。例如，假设 ``addr_unit``、
-+``bytes_lru_sort_tried_hot_regions`` 和 ``bytes_lru_sorted_hot_regions`` 的值
-+分别为 ``1024``、``42`` 和 ``32``。那么这表示 DAMON_LRU_SORT 尝试对
-+42 KiB 热内存进行 LRU 排序，并总共成功对其中 32 KiB 内存进行了 LRU 排序。
++``bytes_reclaim_tried_regions`` 和 ``bytes_reclaimed_regions`` 也使用该单位。
++例如，假设 ``addr_unit``、``bytes_reclaim_tried_regions`` 和
++``bytes_reclaimed_regions`` 的值分别为 ``1024``、``42`` 和 ``32``。那么这
++表示 DAMON_RECLAIM 总共尝试回收 42 KiB 内存，并成功回收了 32 KiB 内存。
 +
 +如果不确定，只使用默认值（``1``）并忘记这个参数即可。
++
++skip_anon
++---------
++
++跳过匿名页回收。
++
++如果该参数设置为 ``Y``，DAMON_RECLAIM 不会回收匿名页。默认值为 ``N``。
++
  
  kdamond_pid
  -----------
-@@ -252,7 +309,7 @@ LRU的优先级的提升，同时降低那些超过120秒无人访问的内存
- 进展且空闲内存低于20%，再次让DAMON_LRU_SORT停止工作，以此回退到以LRU链表为基础
- 以页面为单位的内存回收上。 ::
- 
--    # cd /sys/modules/damon_lru_sort/parameters
-+    # cd /sys/module/damon_lru_sort/parameters
-     # echo 500 > hot_thres_access_freq
-     # echo 120000000 > cold_min_age
-     # echo 10 > quota_ms
-@@ -261,3 +318,6 @@ LRU的优先级的提升，同时降低那些超过120秒无人访问的内存
-     # echo 400 > wmarks_mid
+@@ -223,6 +298,9 @@ DAMON_RECLAIM再次什么都不做，这样我们就可以退回到基于LRU列
      # echo 200 > wmarks_low
      # echo Y > enabled
-+
-+请注意，该模块（damon_lru_sort）不能与其他基于 DAMON 的专用模块同时运行。
+ 
++请注意，该模块（damon_reclaim）不能与其他基于 DAMON 的专用模块同时运行。
 +更多细节请参考 :ref:`DAMON 设计文档的专用模块互斥性 <damon_design_special_purpose_modules_exclusivity_zh_CN>`。
++
+ .. [1] https://research.google/pubs/pub48551/
+ .. [2] https://lwn.net/Articles/787611/
+ .. [3] https://www.kernel.org/doc/html/latest/mm/free_page_reporting.html
 -- 
 2.43.0
 
