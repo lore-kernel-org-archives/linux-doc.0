@@ -1,147 +1,93 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C55B416CEF
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 09:18:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA89409631;
+	Wed,  8 Jul 2026 09:30:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783502337; cv=none; b=jJ8V/F42PgRq46XA+kPISjvk8+d0T7MTP3+MmmRq0MflqKyd5zCC04gkfxGpOj/JKxwuF+7Ed8ZFUVtziuvWVgxCk0jTdmf3/UIVnzEO7mfaE32acEcbEk0hQJWk4JGfYyqYGgk6wwxtLRoOUtDa81mpJQmEwbF+RoKhmacy62c=
+	t=1783503031; cv=none; b=LyBpZG+4Z6SkZrwjqsea10dKnXaD1fkE1DqGU4v6luPCiAiP9bhf0bOY6JMDgazHYRt6fY/2RtsI3zZfBBzq/cm1kQNa00wOv1Enoy37Fnxt21ttf0I8cgi7n5Vd4uC6vybq1n//Cm17hge7h+wlyR163k+PCMxfBqF2+vbCwZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783502337; c=relaxed/simple;
-	bh=eDH2tYdoi0b0ofvijaNMD2HtX1hICdbEb+w0OEWQndg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZDb3qqq9DgUNEnouKPLnn3Jg368drYA3HgyAylTZOMSWW6sV9RMb00ZEsnMXJA39VxWX8M/ILzXlTyYNhLZZsN7okRqXKg0p971a/4qfeVs2EIMzTlCabJMwUgqyUHk1KH2FBch62nDyLetH6CXV6gy+autn9Cp2V1FQWhXF6EU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k+bNX10K; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783503031; c=relaxed/simple;
+	bh=/2j4cwYxuKWS4+udthx3B8WvhFnFUuf4/Mi2+zu589Q=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=o+2Px81sdDcjKh6SLwiPsX6FQBBSB/1K7h7a2tvaqQr+zbUKGNiNYxG0l4IjeVp2x34Dk2k5q0I+vZYT0xFujKtGQGGAOzsiqkxtOMSTudaIaYffqir6xFF9elwPvZl3sUjfwru+ilhrSmO5MxxX9F1FZzyAQAJt5349fU265O8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G2Qv3WY5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k+bNX10K"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493b1710405so2619865e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 02:18:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783502332; x=1784107132; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=hgts3cXxi3OIQen+lK5BRu5vo0eVsiVEbfqLXX+In5o=;
-        b=k+bNX10KjZ/1dgKXum247MaFfweyajH+w9g3kTaBKJ3xL4ZYaApM86CMGuUa8RSYx9
-         AuNpbtIhdVfnESR1O8cGUxlcxYxgXqbie/YXsMyVdNwk207dtUy2GGelMizr+e98Uvt8
-         QUmXIF3ChFqDbS/bf1OxXpRqsjQZABWARZmN6EzEYCS1XTFHZS9Ck6zd/oUhliyS3kPH
-         fWRrtBXcWK2HIJ322ZKk8oJrY8+lKaUW5hobvg17qDs/bGZErEo+PcJXlB7XYLncWl/1
-         kDnLVaXTDweMTlIQTUb6/69sAjO9ZEfjh3K5fV5FDxjPJ804AmqWhzLZRf5uhaK1Df9k
-         xorg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783502332; x=1784107132;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hgts3cXxi3OIQen+lK5BRu5vo0eVsiVEbfqLXX+In5o=;
-        b=HytQHsSQVnj+6k8cA71shqKapvoYvac1/iwdnaz+6BlwZm0ZT8bS6Z+D7KOTn78U3l
-         XGBjUKvwdwWtWFgVg6+OShD9qIopC5bcomdldamrbwZHki8rgupLHkvfqOvcxvOpOjm7
-         tVJlK+RITXMxD0NedFAHds4G0h7ixT+TqwHfl2js+bJ7mJ1FRZBRP0XAC3PatL0vr8OP
-         YSEbAM+arVqMIoZDwvz/U6mcTE3aUg7iLv4Sq6o/MhQiAotyv5Lb8oEyD6SBOZ/Re0HK
-         owgKDOVrwMjpoIfb8fm4IKkFOF+bAOBUvXaCPeAXM73ngDJrZUbIrrTwaPEwEKNoLL5y
-         mOew==
-X-Forwarded-Encrypted: i=1; AHgh+RqE1vJHp8Ex6bmexrUfor3VyEqxUMrOh55SxcQDtPPe0AXGu8msT0AooPzr43p5eq9MhdOX/W77cbU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyiQytkt7xHeAvTAOghjn3EUHveaMWLKUgAXvZf/jj25jhZqXDf
-	0EJqTbhhYaXmqfHX0q81I1Lx67f6x2gK5oR6Q8c5DE4n0IpeBMOdJ+ZS
-X-Gm-Gg: AfdE7ckFCf3jPf2je2Jugxrn9RPJx3YKck9qkFn//98hhhrfYmTQJSCmetocf8I3ZRj
-	5uJrr5nFwnWXETbVVFhVKeTzhH/x9+tTmqyRoOPS368Ok7EglfZO5tBzYOAfgmuKO3jpSH9kMGC
-	yd3sutxc3RixQH8bL/H+rWyvp5Mr8QUhVOXReEjgQ/AVc6amRn8tJCnt5kfJ0RwVsFCZdtx0Tgw
-	cj9kye/1JN+INZnkUJX027G5QqJjb6A/lGtRSCXqI6lZ/4OpPWJ+u34LWeUbDN2ZZIaHM87DyLL
-	2EPgGSFqCh7dRQcjx43RErnXLuO3lB39gRReuoymxsDXXw5FGPZsix8/cCOES3Ke9D40lnGfKhW
-	xMb6mcucu6cYRLpD2HLJWRVZ96dE4t0p2teWnT2AzEDTIlMBeMCMxgdwV58tQhRoNO8Gz++0tya
-	3gywJn
-X-Received: by 2002:a05:600c:8b54:b0:493:bc4a:9547 with SMTP id 5b1f17b1804b1-493e68815bemr16151505e9.39.1783502332232;
-        Wed, 08 Jul 2026 02:18:52 -0700 (PDT)
-Received: from nsa ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e0f40912sm118117685e9.4.2026.07.08.02.18.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 02:18:51 -0700 (PDT)
-Date: Wed, 8 Jul 2026 10:19:56 +0100
-From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Fred Chen <fredchen.openbmc@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Wensheng Wang <wenswang@yeah.net>, Frank Li <Frank.Li@nxp.com>, 
-	Brian Chiang <chiang.brian@inventec.com>, Cosmo Chou <chou.cosmo@gmail.com>, 
-	Dixit Parmar <dixitparmar19@gmail.com>, Eddie James <eajames@linux.ibm.com>, 
-	Antoni Pokusinski <apokusinski01@gmail.com>, Thorsten Blum <thorsten.blum@linux.dev>, 
-	Ashish Yadav <ashish.yadav@infineon.com>, Alexis Czezar Torreno <alexisczezar.torreno@analog.com>, 
-	Syed Arif <arif.syed@hpe.com>, ChiShih Tsai <tomtsai764@gmail.com>, 
-	Abdurrahman Hussain <abdurrahman@nexthop.ai>, Kim Seer Paller <kimseer.paller@analog.com>, 
-	Colin Huang <u8813345@gmail.com>, Yuxi Wang <Yuxi.Wang@monolithicpower.com>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: (pmbus) Add driver for Analog Devices
- MAX20912 and MAX20916
-Message-ID: <ak4QO9uhKOt68dl1@nsa>
-References: <20260707122701.751878-1-fredchen.openbmc@gmail.com>
- <20260707122701.751878-3-fredchen.openbmc@gmail.com>
- <f9e32dd1-7c2c-4055-83fa-94683777e30b@roeck-us.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G2Qv3WY5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09F171F000E9;
+	Wed,  8 Jul 2026 09:30:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783503029;
+	bh=VOLjFkTtD2WeJzPh6YV7IO8zlHSCJPyGX+mnycJQSAU=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=G2Qv3WY51e/EUcelScfmwcU6jqmBByjVehf8+5XpN3g9PwUwA8KLYl9ZoKsyuZ8jU
+	 J/bvb9E8+jMLKe/RRZTjKbYsByknky8UNX2MdlcPbvCNNWbh1XD4i8ucUjnADo8lB0
+	 56g8ufknvRkmPjVOBdVUEq5aSE3r3S1ItPaWo+ZlYKPtWKIMYtc5dDnvVcixy6BfdT
+	 fQOCW6XKmDmRp5ZH8MtMfMazzN+LZT4S7zIxFc2sSgbejTRvAEpCtgWDfpl4KGEvaW
+	 ntoCYHxb9/0RRkjvqYeWWodtH9dzsxJO9z1Xnty+iFS+jDoRjvPsGgK2OjUFgsmO1S
+	 6DEFC+3E6TGwQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93CA539263BF;
+	Wed,  8 Jul 2026 09:30:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f9e32dd1-7c2c-4055-83fa-94683777e30b@roeck-us.net>
+Subject: Re: [PATCH net-next 0/2] devlink: extend phys_port_name controller
+ prefix
+ to non-external ports
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178350300814.2399537.7921578576105301581.git-patchwork-notify@kernel.org>
+Date: Wed, 08 Jul 2026 09:30:08 +0000
+References: <20260702111726.816985-1-tariqt@nvidia.com>
+In-Reply-To: <20260702111726.816985-1-tariqt@nvidia.com>
+To: Tariq Toukan <tariqt@nvidia.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, netdev@vger.kernel.org, pabeni@redhat.com,
+ ajayachandra@nvidia.com, cmi@nvidia.com, danielj@nvidia.com,
+ jiri@resnulli.us, corbet@lwn.net, kees@kernel.org, leon@kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, mbloch@nvidia.com, moshe@nvidia.com,
+ ohartoov@nvidia.com, parav@nvidia.com, saeedm@nvidia.com, shayd@nvidia.com,
+ skhan@linuxfoundation.org, horms@kernel.org
 
-On Tue, Jul 07, 2026 at 06:52:48AM -0700, Guenter Roeck wrote:
-> On 7/7/26 05:26, Fred Chen wrote:
-> > Add support for the Analog Devices MAX20912 and MAX20916 dual-output
-> > multiphase voltage regulators with PMBus interfaces.
-> > 
-> > Signed-off-by: Fred Chen <fredchen.openbmc@gmail.com>
+Hello:
+
+This series was applied to netdev/net-next.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
+
+On Thu, 2 Jul 2026 14:17:24 +0300 you wrote:
+> Hi,
 > 
-> Please provide evidence that those chips actually exist.
-> Internet search comes up blank. I'll need confirmation
-> from someone at Analog.
-
-Hi Guenter,
-
-Well, in fact I'm in the middle of preparing a series that adds support
-for:
-
-"max20826"
-"max20855b"
-"max20908"
-"max20912"
-"max20916"
-
-All the above parts have the datasheet under NDA. But before we had a
-one page "datasheet" in analog.com but I guess that is gone! For context
-I mainly did the base (core) driver for max20826 and then Alexis added
-the other ones.
-
-Not sure how to proceed... I can wait and then work on top of what Fred
-has but this patch is very minimal when compared with what we have.
-Like:
-
-* No regulator support;
-* No direct mode. The chip has two ways to access registers (paging and
-* direct mode).
-* No way to count how many phases we have or if RAIL_B (func[1]) is being used at
-all.
-
-
-Some other things more intriguing is that these chips, as far as I'm
-aware (at least for max20826), always have bit 2 set in ON_OFF_CONFIG so
-a gpio vout. Also we needed some special handling to read phase current
-which I'm not seeing in the driver. So I would like to understand how
-the chip was tested?
-
-Anyways, if Fred is ok with it I can just finish what I'm doing and send
-the patches. It would make sense to have something more complete on
-submission but I don't want to just "steal" the work already done.
-
-- Nuno Sá
-
+> This series by Moshe includes the controller number in phys_port_name
+> for non-external ports with a non-zero controller, and updates the mlx5
+> driver to mark satellite PFs as non-external.
 > 
-> Thanks,
-> Guenter
+> The controller prefix (c) in phys_port_name was previously only included
+> for ports marked as external. However, newer devices can have multiple
+> controllers within the DPU itself, even within a single host
+> environment. For example, a SmartNIC may have additional local PCI
+> physical functions that are managed by the eswitch but are not on an
+> external host. These ports use a non-zero controller number to
+> distinguish them from the eswitch manager's own functions, while the
+> external flag remains unset.
 > 
+> [...]
+
+Here is the summary with links:
+  - [net-next,1/2] devlink: print controller prefix for non-zero controller
+    https://git.kernel.org/netdev/net-next/c/f6ec46b7e2b2
+  - [net-next,2/2] net/mlx5: Set satellite PF devlink ports as non-external
+    https://git.kernel.org/netdev/net-next/c/a49ea2e042af
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
