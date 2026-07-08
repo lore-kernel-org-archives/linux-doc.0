@@ -1,221 +1,186 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9843CF054
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 19:05:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BFD24E4C6
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 19:48:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783537562; cv=none; b=joN6/PXKy2UsvUrkrIWJHcUA3rcJIihO3rmYxnjIhxUlxRhLeiZzXfOd0yQPeOFGtPydAebp5nucekxu7DzKipCgqm3iFooJwufpoe4m3ASCQEsFEa7cq21DmpaZUZSXAf/czYvtqVcxRZbD9lsOqlAiWqwJU6NgGN0SnJvSiRk=
+	t=1783540117; cv=none; b=Fo54h3YluT7S1ZRReHk2B93+IAHDRmua8PohO0iX24Oz6ABpyTkOQ94mS9aojWOxRwn9HJZAf2n7A913/mpUXYe7qiAlDffF1O9+zyGmwexIP+q6pNNmLIso7SdVDYHNPkCyAQToQK8LWHhIz9CA+GvOvRw9tnZyp1cI14EgflI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783537562; c=relaxed/simple;
-	bh=YItqT8T7it2rqu0Ag40WP8xbh00oL0oNgmOzd217gSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lQDHBxsKf2kQaCt9x835gUMivt8IwkAgZMTcy8Ue1D/zfVyB4DYbRVV8fgIdkaY87uGf1RT6sfbdEBTFX57VobZOQ4srcGmSAVqyB0tDr99HG1iMom66EvCZ4vP4hrhpX8vdzH/GGWNYxVbQDRzYGLec8PKex4OU6sJ79AcyYuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=C/Z3O8TS; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TaVdRaOB; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1783540117; c=relaxed/simple;
+	bh=Ghlr+avBEixSaVhL6xV8udcrvOQwEYxFq5oqvOlsQTk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=L3Aqo9lDVoESAC2okGPnyS+IrnigCCWeewYve0m235vmSBNxJdJiz9vyHrGU9QB+qrJtKAfts+kEH5AzFt7bmn+U0JeTvdwZ1iQfu5tqYH7Suct16mu5pMVkAH7w0HvcfqFtJ0cpfBTCXbBwV+oHQiCSvkomVPYvyaB3RFn56ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Qil1fVDq; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=W0TKygWB; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="C/Z3O8TS";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TaVdRaOB"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 668IM41b3580197
-	for <linux-doc@vger.kernel.org>; Wed, 8 Jul 2026 19:05:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=CeHf8ZnOmdDt8+90mSP4wYI2
-	u2NYKjn3Be4iJ272f5Q=; b=C/Z3O8TSU/K6ST7I/5NLvaXUbyaBPKdv0+DgP40l
-	nQUMyIiRO9eb0HkYDoQACetPWHg33l4B4SndJBK78czyFY2O72YHuNe0IwlvvEDO
-	e3Y5cvI4c3FPt59an/wepDFFpz+Z03T8w+4iB0iNKikofEJk+NSkHJqWjAuBGuDu
-	AtCF25xZE9fajt5L8vuDM1kN1dXUr3yeqChMyf4fl6dNiYLugaM5q29YztM8AH9s
-	XpjSoOZW0vNUVP2e+nShpv9KxBXbZv+Ku+p0c6/+UfEDrWTF5ZEDyfUzfYbgBzid
-	ORzfs/9zn+9EvdTrpupSEOicov9omFUig51PTAzYEyTiVA==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f9urvr54r-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 19:05:56 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3823dcc1647so1512272a91.3
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 12:05:56 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Qil1fVDq";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="W0TKygWB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1783540114;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ghlr+avBEixSaVhL6xV8udcrvOQwEYxFq5oqvOlsQTk=;
+	b=Qil1fVDqn43Ninn+uIMJmwbOh7YufLT2gv5rcOrs7VLk+s+Tx8atG+DGG1Kzxn3t/WIRHC
+	8M2Sad8wHu/K6sl+OSPfTFjVgbK0TCOW9NOPlsHiaVZWbTO/dHpUw2GWufPj8FknGBdrzT
+	1fEXwduJRBTS4waVksnZ3MtgFKslpZE=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-486-Dlkfsk3xNxS5u5jyEHfgFw-1; Wed, 08 Jul 2026 15:48:33 -0400
+X-MC-Unique: Dlkfsk3xNxS5u5jyEHfgFw-1
+X-Mimecast-MFC-AGG-ID: Dlkfsk3xNxS5u5jyEHfgFw_1783540112
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-6984787eeddso99188a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 12:48:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783537555; x=1784142355; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=CeHf8ZnOmdDt8+90mSP4wYI2u2NYKjn3Be4iJ272f5Q=;
-        b=TaVdRaOBpzvB3sQFBAEcWmcDx/oLzP0IrwweH/DQly4YNfb7bLluGOkH4f1e0ugFbx
-         7D8Oz5PvtAfizYXfXJReHdylvgLKwS/72bPb/+nKhmOxA0rw4RZh8GpHfG1QsyhhAfs0
-         LRY4AnHCrtUfwi1tOOk1XN6vt0c7XFjJud2Yn31KcQojtpTOqfewVFEvDjfKdwgm2ln/
-         uxUP0AozutmPGMBpF7a/oIcbPJunJuML5IgueBPTHDv566YUWrCCBWQr38wQslEe43Er
-         pEoLSczQAXe1n8ZDDpdUD6RSR/djvXl8LL/KFsGpbGm12Wrimwt5mzMxT9L9KzzxQ/cf
-         Kxcw==
+        d=redhat.com; s=google; t=1783540112; x=1784144912; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=Ghlr+avBEixSaVhL6xV8udcrvOQwEYxFq5oqvOlsQTk=;
+        b=W0TKygWBt1EIgkAxTf5kykT67WuZMD8eykar0aEOteenFhu2ZjXRKqB8VHUdYXbEdn
+         /imhnibGLOQPT5vuFWnYnp/HGDpRrh37QasmkfFG0Ejdnb67tCDrflneGtsxp3cPbrKL
+         o/3uY2G3AKJ33Ip2I1rALOs6U8uxBcOW2quZPcMHUy6CZB5otOGcoIlkRSCn3G0S/Odw
+         k+/Jjn6QFMyIKvQnb4tKjIh2j9SSllhxbndnsQlLfx2hgerJmChxMCeCWggSWk48m7XH
+         dlFe4IE8SRDJhP+fwqCiFFs9EjvMfa1tooS/2xYurJiWx2vdo3twzO58WFnFzdaUaumr
+         BeqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783537555; x=1784142355;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1783540112; x=1784144912;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=CeHf8ZnOmdDt8+90mSP4wYI2u2NYKjn3Be4iJ272f5Q=;
-        b=gDHUXUPCbD91B85pLvgCXamu34tK1aHYASwWJ3tDbHvMj3XotURBogCD+Aw2EK/3i1
-         EtR8PggXKi/9godGKclv6BCCW86ITFB1Rep4TYr9zsiTwA5jK5zreOO3dzTTkGavUbEA
-         3U/lTMNfDFv3+EfY86cogqlWtLdYBijZmM4+dfS6wX2/R3NakHpuL6oArPPIkG3VpZZF
-         gXstxeVlp+fno5M9dr0OrvMfPjQlDnUVBNFg4rRbq28JXeElO/2cRQgsbCYrvDVuUJ6a
-         TgvXLb5a/3kTgWQjsHz301p0s2cMiY85eqhE5RbQBKfbd944DcRQiYt1GoHPPOvTOB+8
-         sEbw==
-X-Forwarded-Encrypted: i=1; AHgh+RpuwjAJnisOBqvdp206wubpJEXbWhvwgYFLrAGDk+KpnIOEVsSfhfhtJBMuL5ubXDcVoOjf4amYYr8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2+BN8F9KTHJRsrUihbVGnHpNc+61F5n759xTL1ZeHsy5up8yq
-	PLFzcDOtVKqT+M3Hb5DmGw+hdOuj0XZZgW+S76I/6iHAyhty2W5CsRNyRZQwCo1gdRfAbgEjl9t
-	wFVKDw4qyUM1aFQWYKI0/awnls+wYCj1xpKDqE7PM765nGUUA5DfIigueh4fW9Cc=
-X-Gm-Gg: AfdE7cnlnqjOz7T5hKUvGnJpAlF+CxSjIB2cQ3/qSMt7lAjg0YzMdLt1MI/FrH2L91Z
-	A/P8UMqphoviZyo1ycv6YJhMmrPKGkv8wzEQXFI7emd9IN6NxC0iKZ3tx6X/NVewjyvdDPCKZ5u
-	WIzFDE+ntlnwy539i06oz24avvvnmZwBAkTLFm+6vZmOfYPb3Qgb7ofgr4TaOkrcGfxD2aOLKWg
-	Zjp6JU2j02dNbTz15tNgOhRPdgbTbmj5dqSI4PgJZQyDOhEScfl4bx1Y6hgwAJx3UCUitSgfJ4R
-	Vd7ssuTJ9gcIFlJ+whygF+fIq9hFpPH8HcUdc5NX9j7M2ZzDvm6qcv3Sk1vgMoA6NXOzZg68Dex
-	kC1hJ8rdx78PFgY8Xhktm48pFo9QaxKA2bQWYbQ==
-X-Received: by 2002:a17:90b:4d8d:b0:37f:db06:229c with SMTP id 98e67ed59e1d1-38942f7105cmr3621986a91.22.1783537555394;
-        Wed, 08 Jul 2026 12:05:55 -0700 (PDT)
-X-Received: by 2002:a17:90b:4d8d:b0:37f:db06:229c with SMTP id 98e67ed59e1d1-38942f7105cmr3621916a91.22.1783537554731;
-        Wed, 08 Jul 2026 12:05:54 -0700 (PDT)
-Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174ae6cd9sm24772373eec.31.2026.07.08.12.05.39
+        bh=Ghlr+avBEixSaVhL6xV8udcrvOQwEYxFq5oqvOlsQTk=;
+        b=TLDsda08PSqZLygwuEyRHqR1Pb1A8vLA95hku39V5XG/A/Bh9+88+5mCy1Lmxesj/v
+         LwsZVwGnKIolO2mIdnRX+AKzUHf3PpMEaRVqzibO51E85ixqRNnDjNyJqcv54wL+P86u
+         hQIDSywBdcfiODmYolgpD8lRUvTpLK+KXsLCtU3OI+V/UOFviakq/Pajq78OGQekoTC6
+         EbBoQMMRzaVNimSXBSUm41yZfySkXsHmT/J5tDv8BDEu4GSMPQ7lj0TA456NgM8Mf9af
+         O5DOT91CV0AYxSbkT/qajLceIUqBn3/wcdvP7QjR00xuauc5zxutam/Ww1Hu8OrM1YDA
+         7fEg==
+X-Forwarded-Encrypted: i=1; AHgh+RrgwKaU00VdyzXlOu3J/4EJb3OAcuUOiBAJybQR3Yd80ZXLMsjWzQ5n9j7355NnTAkrJ8rHJargAr0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRXgCpzWzmAEbV5EzPFKhNeV1bhAssiKnL4Dz5amklh1qHHvHS
+	7qD0ozSP/7vojSuLtTQdvKqb7BZM5bcTVYVB4JECfVPUPjUU4blksH2O7MYa41XykYQCk4dZPXt
+	I7Yw5VKe6hvTtFPzu4Aa/bHmHAGKEJJQBZFP2VOlRx0hq/myGnKzo+1BHlTKzaA==
+X-Gm-Gg: AfdE7ckPviJ5xkUooNF1yIcnSXhMPiV/44gDSCn8uC8QasbPN8rZu//Mk9yZU+5UDF2
+	bwEdO5Mhng9+xn1tKeGsZjhrrdrIjgUfqsYSVV3KCluWienFBC3tEZeOyxSJhu5i4v98YFKjfrB
+	9BqZlF0SxyqxP+7u4z3qyYQLcbNzw+mKQ/W27M2jXKEPBLIdWkTGWFIh6YvDX58Gk/tLXVu5QSX
+	iYwm/0HoUrUVq1jp4BMt4L94h1A+m4hwsOc9hIknuRf5gTgzk/PjLqO/oB7I82nXBb0tIdFlCkf
+	HeK5AQkM+mRht6xGjYjCQILohI6dmzN4Ct/RaT0Dw9MFpz7/u0ELJk4C4RknNvSGNxAuNmBbJca
+	i/HbkY7DV2WkOk8J96dz0rUyvz8FEj0MrlG0mhPthJvtZT3lr40AVI+m+DmWxU1E=
+X-Received: by 2002:a05:6402:3788:b0:698:3ce6:767f with SMTP id 4fb4d7f45d1cf-69ab445dd6amr1730462a12.12.1783540112169;
+        Wed, 08 Jul 2026 12:48:32 -0700 (PDT)
+X-Received: by 2002:a05:6402:3788:b0:698:3ce6:767f with SMTP id 4fb4d7f45d1cf-69ab445dd6amr1730448a12.12.1783540111797;
+        Wed, 08 Jul 2026 12:48:31 -0700 (PDT)
+Received: from ?IPv6:2a01:41e1:62a8:c300:7322:3fab:8db6:d28c? ([2a01:41e1:62a8:c300:7322:3fab:8db6:d28c])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69a19cf68f5sm8795151a12.13.2026.07.08.12.48.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 12:05:54 -0700 (PDT)
-Date: Thu, 9 Jul 2026 00:35:35 +0530
-From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Eugen Hristev <ehristev@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Christoph Lameter <cl@gentwo.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Anna-Maria Behnsen <anna-maria@linutronix.de>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
-        Kees Cook <kees@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
-        Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
-        K Prateek Nayak <kprateek.nayak@amd.com>,
-        David Hildenbrand <david@kernel.org>,
-        "Liam R. Howlett" <liam@infradead.org>,
-        Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Brendan Jackman <jackmanb@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-        Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-        Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
-        Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>,
-        Youngjun Park <youngjun.park@lge.com>, Petr Mladek <pmladek@suse.com>,
-        John Ogness <john.ogness@linutronix.de>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Saravana Kannan <saravanak@kernel.org>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 11/26] mm/swapfile: Annotate static information into
- meminspect
-Message-ID: <20260708190535.fhqaddicljho44eq@hu-mojha-hyd.qualcomm.com>
-References: <20260708-meminspect-v3-v3-0-7aa5a0a74d5c@oss.qualcomm.com>
- <20260708-meminspect-v3-v3-11-7aa5a0a74d5c@oss.qualcomm.com>
- <ak4AgXqMnkn8rVGE@lucifer>
+        Wed, 08 Jul 2026 12:48:31 -0700 (PDT)
+Message-ID: <8b35057f72cd281637cf9d4bcbe1d0d753a3710e.camel@redhat.com>
+Subject: Re: [PATCH 0/4] KVM: x86: Document and enforce APIC base memory hole
+From: Tim Wiederhake <twiederh@redhat.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>,  "H. Peter Anvin"	 <hpa@zytor.com>, Ingo
+ Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  Paolo Bonzini <pbonzini@redhat.com>, Shuah
+ Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
+	x86@kernel.org
+Date: Wed, 08 Jul 2026 21:48:30 +0200
+In-Reply-To: <ak5TojZfR04SWWd-@google.com>
+References: <20260706092021.3625908-2-twiederh@redhat.com>
+	 <akwrncCjosItvAeO@google.com>
+	 <bceedaf195adf713db70a1dba743055fe4f20bc0.camel@redhat.com>
+	 <ak5TojZfR04SWWd-@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ak4AgXqMnkn8rVGE@lucifer>
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA4MDE4NyBTYWx0ZWRfX77iy03OzHDIn
- NCPETMM1SzsprN5lnUiv5fAtMOaPmz/RSGl4ddOyzIyXKBVH1/id481/LWdaHFpxhxwilpWHx3i
- 6i0+nUG5Pgqy5v4agEHJ2vLMan84X94=
-X-Proofpoint-GUID: lnW9V1Kz7wqyHMEtNDV3PgYOqPBM3GOE
-X-Proofpoint-ORIG-GUID: lnW9V1Kz7wqyHMEtNDV3PgYOqPBM3GOE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA4MDE4NyBTYWx0ZWRfX6XZWCASRKGvc
- nJETMtSO801fLFHYYmv6k1d0eGAtvbpROiil2P5whs2D2Fl+mYB/iAoe4Z2fj8TMBy7WheXyoGH
- KVHV3wgvVA/A212EOaUsjqlcqs6GZthhPT0HJqmYOOFVFJ5KTrnvZv7AULst5KW8i9ZHIX2QPJT
- s4pJCwulhYv3j5HHUhcrvQYMyIFbAX9s5xN4qusJ89mzUx7N9N1agRR2ptQtC1E3kBrkfkeSB7r
- xPgTXPdRaIIrHGy3pfulaJ5xz4QCCj7Pl8cxNZMxa7V3q200o710TMliOEnC6qF7xOYIGi526SH
- baSLEhKL5o3w33a8Nko7DWkDUO8M/LGkQ6qDMMVaTxh81qgt6L1o6GvqRqZbo0GcGytr+VNmzzY
- TYkdMth08eAuryecc11x/pUu7vvUoUNxhANW2Gs/gduLyXi+4/A1LAdUR0x7O/AqFAuhMMZozE+
- Ph5tkpL6B6xOHRTOK8A==
-X-Authority-Analysis: v=2.4 cv=H43rBeYi c=1 sm=1 tr=0 ts=6a4e9f94 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=cq8IU3OeMPPiwu34qS0A:9
- a=CjuIK1q_8ugA:10 a=uKXjsCUrEbL0IQVhDsJ9:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-08_03,2026-07-08_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 adultscore=0 spamscore=0 phishscore=0
- bulkscore=0 priorityscore=1501 malwarescore=0 lowpriorityscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607080187
 
-On Wed, Jul 08, 2026 at 08:47:51AM +0100, Lorenzo Stoakes wrote:
-> On Wed, Jul 08, 2026 at 11:01:50AM +0530, Mukesh Ojha wrote:
-> > From: Eugen Hristev <ehristev@kernel.org>
-> >
-> > Annotate vital static information into inspection table:
-> >  - nr_swapfiles
-> >
-> > Information on these variables is stored in a dedicated meminspect
-> > section.
-> >
-> > Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
-> > Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> > ---
-> >  mm/swapfile.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/mm/swapfile.c b/mm/swapfile.c
-> > index a602e5820513..d480727e4987 100644
-> > --- a/mm/swapfile.c
-> > +++ b/mm/swapfile.c
-> > @@ -42,6 +42,7 @@
-> >  #include <linux/suspend.h>
-> >  #include <linux/zswap.h>
-> >  #include <linux/plist.h>
-> > +#include <linux/meminspect.h>
-> >
-> >  #include <asm/tlbflush.h>
-> >  #include <linux/leafops.h>
-> > @@ -65,6 +66,7 @@ static void move_cluster(struct swap_info_struct *si,
-> >   */
-> >  static DEFINE_SPINLOCK(swap_lock);
-> >  static unsigned int nr_swapfiles;
-> > +MEMINSPECT_SIMPLE_ENTRY(nr_swapfiles);
-> 
-> Now the EXPORT_SYMBOL_GPL() is an EXPORT_SYMBOL() in effect no?
+On Wed, 2026-07-08 at 06:41 -0700, Sean Christopherson wrote:
+> On Wed, Jul 08, 2026, Tim Wiederhake wrote:
+> > On Mon, 2026-07-06 at 15:26 -0700, Sean Christopherson wrote:
+> > > On Mon, Jul 06, 2026, Tim Wiederhake wrote:
+> > > > When an in-kernel irqchip is enabled on x86, KVM installs a
+> > > > private
+> > > > memory slot at the default APIC base address (0xfee00000)
+> > > > during
+> > > > vcpu
+> > > > creation.=C2=A0 If user space has already mapped a memory region
+> > > > covering
+> > > > that address, vcpu creation fails with -EEXIST.=C2=A0 The same
+> > > > happens
+> > > > in
+> > > > reverse: mapping memory over the APIC base after vcpu creation
+> > > > also
+> > > > fails with -EEXIST.
+> > > >=20
+> > > > None of this is documented, and the error is reported far from
+> > > > where
+> > > > the actual conflict is introduced.=C2=A0 A VMM developer hitting
+> > > > this
+> > > > has
+> > > > to trace through KVM internals to understand what went wrong.
+> > > >=20
+> > > > This series documents the two undocumented constraints (irqchip
+> > > > before
+> > > > vcpu, APIC base memory hole) and adds early checks so the error
+> > > > is
+> > > > reported at the ioctl that actually violates the constraint.
+> > > >=20
+> > > > Patches 1-2 are documentation only.=C2=A0 Patches 3-4 add early
+> > > > validation
+> > > > that turns a confusing -EEXIST at vcpu creation into an
+> > > > explicit
+> > > > error
+> > > > at the point where the conflict is introduced.
+> > >=20
+> > > I'm 100% in favor of documenting the behavior, but I'm not
+> > > exactly
+> > > excited about
+> > > the enforcement.=C2=A0 It's not needed for KVM's safety, and while I
+> > > appreciate that
+> > > such a goof would be somewhat annoying to debug, I have a hard
+> > > time
+> > > believing it's
+> > > a common failure.=C2=A0 I.e. I'm not convinced carrying the code is
+> > > worth
+> > > the marginal
+> > > benefits it provides.
+> >=20
+> > FWIW, I did run into this exact issue myself and debugging it was
+>=20
+> What were you doing (or trying to do?) when you ran afoul of this?=C2=A0 =
+I
+> ask because
+> maybe there's a way to help developers without impacting KVM's uABI.
+>=20
 
-The whole reason we had to tag most of the MM symbols is that
-the crash tool looks for this information while launching itself.
+Experimenting, mostly with pmode code. For simplicity, I use a single
+memory slot at 0x0. Due to an off-by-one error, I gave the VM only 2 GB
+instead of 4 GB as intended. When I fixed that, suddenly vcpu creation
+failed.
 
-e.g.,
+> > indeed quite a ride. The EEXIST from vcpu creation led me
+> > completely
+> > astray and I was very close to just giving up. If I had, I wouldn't
+> > have written this patch, and the failure would be perceived as even
+> > less common.
+> >=20
+> > I don't mind dropping patches 3 and 4 (the actual "enforcement"
+> > patches) for v2, the documentation is more important in my opinion.
+> > Still, if there is interest, I'd be more than happy to rework these
+> > patches for eventual inclusion.
+> >=20
+> > Thanks for the review,
+> > Tim
+> >=20
 
-./crash --no_modules --no_panic --no_kmem_cache --zero_excluded ./vmlinux  ./minidump.elf
-
-
-> 
-> >  atomic_long_t nr_swap_pages;
-> >  /*
-> >   * Some modules use swappable objects and may try to swap them out under
-> >
-> > --
-> > 2.53.0
-> >
-
--- 
--Mukesh Ojha
