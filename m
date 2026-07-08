@@ -1,248 +1,257 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012044.outbound.protection.outlook.com [52.101.53.44])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6037A44CAEC;
-	Wed,  8 Jul 2026 16:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783529741; cv=fail; b=MLZufvsSE21LttvrUcaps/q9EJpwzwC49QccQf1fWtug248GXk2SuPCrNcNUmDoTbeL5Uo/4GmEVWWWcVXosnbia9dZRA0QNuaKjs3PHh5Y9gI9Bs7V8bR7anjOdRTOht8WG677gOuddqyH/BaamJmJ/U9qkneasoPYUaQuvVx0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783529741; c=relaxed/simple;
-	bh=fivOQLpso6RTfKPmKq+RyBLSHKioTXMS0si+gqKIfm0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=OCkmWUFvbnL/D0cPtYldVUdU4q67Giv3HrKPX8Kl5ca1Nv+s8UgOVDzogQt17tO6rZ0aqpCsWd3KDiajO4E3Ix+FLncDKjkn50e6Wfg3UEoy8WreGQahVyb3xw1renbfWUN1UHbrGuuQfmopnpdTJW9tEfiJe5ST4oLAgkoq/U8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=UUN+1pmS; arc=fail smtp.client-ip=52.101.53.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56FD943E9F5;
+	Wed,  8 Jul 2026 16:55:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783529742; cv=none; b=syfeH6OtpNqxa0BSX4jWHsMogDA3uk5meDM6yEUTiZ6BCd9+1SY9pi3LJaR4R4Z6Ngyg1BHXz3sinM6eiiCu/dElVr7prIFfPH09C39xhjf8H8IL0/D8O8Mw6jEdAulLC78NW6ig8UzGqfLB5A9aIcfbV8p6SfvcECvYeS1hQDQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783529742; c=relaxed/simple;
+	bh=m5DE0lZfKqZmVltyApYxSsMWfZEGIO1gwSRIU03RUlw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uZ/btzmjVYhIZRc00jiW8oJOLZLb/64qlJ9NKqjzyfQx1J8Yqbh0iS5Yxp1jI+EmQa+BW6eeP4SZxEe5NOgue7BCLCN0aV+WOO7N5R3f8I12ynvabyAT5LYAlFYV/49n2dQ0HSO9CgtmzBxuI26DAIjQwh7c0Wxi618ISOgyYcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=FT325xqj; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UUN+1pmS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cAXlBrLx08xapkGiGEKfYtkhLH2sSDBS/D8IaiaTAIz28G7qeN1rgpvgQEMiZgiU6pP6xCTfqVhC3542iqrg9S2ZTcNon+c4tFW5wHeTSDF8BShokIVvyYC1VF5lialOxwbVy9bh39IxH2Sg30ZaQZqFTggayCk9cyqvskH11mN5HxUppl00mZRWDl2yn8bWqFPLgQGIgGQm2pb74uUFV4+vZdsu+ceFL3AaC/cyzNQxkUQTjIFAqvCQ6Z2vC30bnW0+pQVOCdff4+zPTxA1BuM4/iuqu/G92CodlrW6PGVi3/2QV4JDfWfl0aOacuC1d71qOl0EZ8QnPZ+nDAK8wA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zElE5wdKvc7Wmb/ozjBLNVTdncqZTwbfXLpiKssWaW0=;
- b=jTnjmsSeWhKanEXpSfG/ZsjtH1G9/5J5bgrVtxqrZxYeVn88Cx0rWx8bIIDlHZp9HIwruvR3qG1Y05ZjPwu45Cao+dzGiiOrRuXQ7cTli50mqGJ4y0y0elznMLBhO77ePEm31X9sLky1em9xU+sRQuQNohNSdMoDvEGxFmti8nOZfLabN+XDZKjYOyazK2idxGNABQJvILhU48aohxyjvVEBKU+hbQypet/zW+CpDy2io8Bz6bYqh3lu6TdjlYrgH8iLAGDM2XVEL3Zt4n7Br5i7LYKGS+idRPeLbNb13vfBtQzN05HcritBaEPRx8ZLLEKlqC/tihvOXwkS2HyQZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zElE5wdKvc7Wmb/ozjBLNVTdncqZTwbfXLpiKssWaW0=;
- b=UUN+1pmSx5wPpocqOcrMdU3OfaaVSAkESZiO3UFAakF8lHf/TKoL4TKgnYHrldrDGeJYPqQ26aIo9iMzR74sdgL6Fn6fuxZ8e/SnaPteRzhgar6hy8TvYtEmkhe3GpkzwzAGn6FNCcDnRBRDgFrNFQlVTEI0qLZEEzri4Bzrm4s=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by IA0PR12MB8930.namprd12.prod.outlook.com (2603:10b6:208:481::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Wed, 8 Jul
- 2026 16:55:34 +0000
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0181.014; Wed, 8 Jul 2026
- 16:55:34 +0000
-Message-ID: <0af5122c-20df-4aea-8ab4-cba63f71dc3b@amd.com>
-Date: Wed, 8 Jul 2026 11:55:30 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v4 01/15] x86/resctrl: Support Privilege Level Zero
- Association (PLZA)
-To: corbet@lwn.net, tony.luck@intel.com, reinette.chatre@intel.com,
- Dave.Martin@arm.com, james.morse@arm.com, tglx@kernel.org, bp@alien8.de,
- ben.horgan@arm.com, fenghuay@nvidia.com
-Cc: skhan@linuxfoundation.org, x86@kernel.org, mingo@redhat.com,
- dave.hansen@linux.intel.com, hpa@zytor.com, akpm@linux-foundation.org,
- rdunlap@infradead.org, peterz@infradead.org, feng.tang@linux.alibaba.com,
- dapeng1.mi@linux.intel.com, elver@google.com, enelsonmoore@gmail.com,
- kuba@kernel.org, ebiggers@kernel.org, lirongqing@baidu.com,
- seanjc@google.com, nikunj@amd.com, xin@zytor.com,
- pawan.kumar.gupta@linux.intel.com, tiala@microsoft.com,
- chang.seok.bae@intel.com, kprateek.nayak@amd.com, prathyushi.nangia@amd.com,
- kim.phillips@amd.com, naveen@kernel.org, darwi@linutronix.de,
- elena.reshetova@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, thomas.lendacky@amd.com, eranian@google.com,
- peternewman@google.com, qinyuntan@linux.alibaba.com
-References: <cover.1783461016.git.babu.moger@amd.com>
- <d462f5c3d3a4413d4271384f914d1895436f06ac.1783461016.git.babu.moger@amd.com>
-Content-Language: en-US
-From: Babu Moger <babu.moger@amd.com>
-In-Reply-To: <d462f5c3d3a4413d4271384f914d1895436f06ac.1783461016.git.babu.moger@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DS7PR03CA0170.namprd03.prod.outlook.com
- (2603:10b6:5:3b2::25) To BL1PR12MB5320.namprd12.prod.outlook.com
- (2603:10b6:208:314::17)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="FT325xqj"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 668GIxwJ3190061;
+	Wed, 8 Jul 2026 16:55:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=ljliNS
+	VRpioEVkf06Lv4MMebxNflmUVMBElTgHzrEDU=; b=FT325xqjkpuAAmVzOBDiGT
+	g7oIFfRbLR76SYUff0LStFWdP6NvbXHdv992pPh91yGB7bcQgJzTVt8bJapRRmqC
+	2KSG3BUAPxJGUhvP/tFl9vxQn36VMxkU2IoboqOsy+KQQBvh2yDyGah4GZRULaUP
+	rK+IMvGcl+ixbIM0VlQwnEUpSn0ovlNaQ9otpbiR7noEv0i8Cpsx81mZh2tCQnsK
+	lwACTncCt71ZvvLjJEdA7hJXmLO5AA8YbQoHNzGMcnJY/FOrlIYYMzx8lb6K5X0i
+	WSiuiOd16QKT4kuby/utcsCnXRqOlQmW4MlWo01D44hRJL4Z6JbAOj63HPARksIA
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6rkdwwtg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Jul 2026 16:55:23 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 668GnfLE000927;
+	Wed, 8 Jul 2026 16:55:22 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f7e0hgvea-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Jul 2026 16:55:22 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 668GtIg352298196
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 8 Jul 2026 16:55:18 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1ABBD20043;
+	Wed,  8 Jul 2026 16:55:18 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9909620040;
+	Wed,  8 Jul 2026 16:55:10 +0000 (GMT)
+Received: from [9.39.26.208] (unknown [9.39.26.208])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  8 Jul 2026 16:55:10 +0000 (GMT)
+Message-ID: <7eea685e-e5ab-4487-bafb-3131969e5acd@linux.ibm.com>
+Date: Wed, 8 Jul 2026 22:25:09 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|IA0PR12MB8930:EE_
-X-MS-Office365-Filtering-Correlation-Id: 354948c8-e764-4700-4bbd-08dedd11b9f4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|23010399003|1800799024|366016|4143699003|6133799003|11063799006|56012099006|13003099007|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	lsqcpnU5q/uV96ixBKs/89oMiM+0DFhLHO63b5AYAxWMbOvjUUUSFPU9BKkb57NdegoH3OG8ApiNQYdSjhV98Mg2RObOMyxM0a9Y2V46XOH4s5xLHK7UNSyV2ntw+hQHYRvTM9QWodVqje/5gwkLYkgdq/k7TZaAyACJOcx3z9cXF9NZmAzoHzLCA0PB42eCjUeibVO4xdJ7hLwLG0vjhqKQi8rl1cfoX6m6scPylojY0/zagO8bdaUGDiV2Jl+lvRWg3JeARd69pzVT7xhIj8iR05g8GLilyZuwDxs7vD0SikCR1R+IdQZXhAO1PcVZtagz0l1Cdp71GcHOknNvtOq+1yXGGRgTz3tXpcsrrrr4AfQW7JR5O3juZXZNJCd9gqUR6dE0iC3X8sGYzNOyKdNp+2CaZnkMMIks/UbaNbB36ZJOb3hHNKs0w/0glEaucbttH63D9QeSfvuschhBmxliNdyQFDtc4bseLmUhOEqt0GudWYB3EYJOxmWBIrIJNYcbEH57uxlOUlnEJBEZZHFWniCZR7CvJv1c3NJcgNt0uEa5Dh9Zn5O0cNAfdcob1KP2tIT5nMvZnUIpZINlyiRnUqPLTarc6uUOZtHvtLuIGS9Oem3n5++4eOemz/VZaF9sjoxpgV+WCtNKEn8aUltN6FIhszfyMItGqehMgxo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(1800799024)(366016)(4143699003)(6133799003)(11063799006)(56012099006)(13003099007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aHZVSkM1bVgxZDc2TUlZM25GZ3JPbndaaXlEeklQNzhrOXorcFRVYnRmSE1j?=
- =?utf-8?B?ekVXaFU0WTNlQWtjSXBNenlseHBTY1lTV0xpL05Yb3VGWmZ6WXA5SG1PUDBt?=
- =?utf-8?B?emRNR2hDWkRoRk1ySFNZSkE4dWUraUk2R1RGRTBrY2dtQndkejhsTVZZUXln?=
- =?utf-8?B?S1pzQkhNTjNUdmozRW8vRXBtNlkvRm0yRmhPdlJMRGZ2NTlLWE9hT3VGNVZn?=
- =?utf-8?B?bFFrN3ZuRzhoNFJMeVpWeFI5UEc2cWo1a3ZvdzBNMExzU1JMV3JEQk5pNnZC?=
- =?utf-8?B?elVhcDBBN1BhaTN4ZE56bFYrTGdrb05RUmxhU2tMQUNYR09ESmlQWVJSVW5q?=
- =?utf-8?B?RTZQQTlicnllY01TY1YxUG1hejVmREYyM09hOVNIYUtFN0FpQUNnZHZsbXZI?=
- =?utf-8?B?dUY0cnZEN0hNa2tHRnoyOUs1S3BUZFhFY0tQeW1Lbmg4SEFManhYQTFsUTA2?=
- =?utf-8?B?ZFFMK1dXZkZEbFh6WkFKM0FPc0VQc1ozd1RhaWlZMUJOV2RXT1JGeDdjZFUr?=
- =?utf-8?B?TkpuMlVPWm90RkZHcGozZVl3RHF1VVJBQzUyZk45MHIvVzlDZTJWYjhqMGJ4?=
- =?utf-8?B?cDRybXJtUi9KNDRIZXdmQ2V4ZzRINFZxeUpSRnN4ZzVNbmFUNnVsSVdySE1w?=
- =?utf-8?B?S3JnQVU2ZFNBZUs5RmFJWEpqS2J4bGhRUEZQUmJaeEdwZlpTelZIV1JOeHd0?=
- =?utf-8?B?TTBOaktjYm9VMWtFWGFmUHdSaExSSGV6RjltdUxOM1dGTUlqU0pBamFvT2NW?=
- =?utf-8?B?ZVFqL2thcTFBU0Rka2JzZGY3c1FIS0hrWGorK3drSGRlNzQ0d2toSWtDMCtm?=
- =?utf-8?B?SnNsWmo3MEpLWjRtK0lCdGxsS1BGRFBrM0QraGRVZVpXdE9vVzFtNFd4RG9H?=
- =?utf-8?B?SFBFMkRpQzVKQVErMGxTSjJsdkdLellQUmQrcnBlZFdSeEExVTAyZDlTdXlS?=
- =?utf-8?B?MHZFZ1lCTzRWak51SXR2Q1BubFoyYVNtTXJYMjI0WFNrcDFOWk14Z2xaZ3U1?=
- =?utf-8?B?bE8rUGlFdFV1QjdNK21xdTNjeDJ6byszTnN2eDZHYXpLV3dlU3BiZS9Kc0ow?=
- =?utf-8?B?Y2t6TlR6SERocFE3L2RYSnpaZFBFRzNxWm1lZmQ4SXNUYnU2WDdwcTBobG9l?=
- =?utf-8?B?UDBKZGVpaWZxSnVnWjZMUlNLbTRYV2VZdERFQkc5UjdOVDJGT29MM0diSTA3?=
- =?utf-8?B?SkhQWEFUbzN5L1pNQWgvZEZxNk4xcDQ4QjJzOWNoUXdvY1BXRVFTUlZxZjRn?=
- =?utf-8?B?SHUwTkdockdGZDgyUUxnVDBZQjBEWkt5eWxCRDdLa25QYmI4WFc4VWF1ckZm?=
- =?utf-8?B?M3NMSmlHWmJsUWVJM2duYnczTFRDRllLUmxzS21CQXpDU2FheWZoS25SQlJr?=
- =?utf-8?B?ellZeXl4YUdxckk4OWpoQTZTZDBMUU52Z251SjR3K1dzMGJteGhvU3R1M2Ns?=
- =?utf-8?B?ektEYlJFRU9kQ1NaU0M5R3ZxWHBhYXFIekhZY0xHTEFJN0F4U0U2RnlWTFpj?=
- =?utf-8?B?dkZoNCtRejFDc0Zid2w0YS82eUlYOGJqMzR6Nk1sa201VlZwdWIrZk5GN1hq?=
- =?utf-8?B?K0J2dWdxck03YWN3ai9vVjhxUGZnbmdEZmNQMW1MeE9QajlRc1JFRGNGY1cw?=
- =?utf-8?B?VjdCV0dvRTEwWTc1WHFSSGRBQ0VqOTN2M2hSY002akJUL1lxVVAzSERCa0Fm?=
- =?utf-8?B?eGg1V0RYYzdRNjNBY1k3SUdreWUrUURaTVBkdk01UHdZZFJ3MHozWXZMUERH?=
- =?utf-8?B?KzFEYUNVQjhYRVFIaXNvWUQ2cit4REt3RU1RYW1BMFJvYjNaeFF4RmFxVEZX?=
- =?utf-8?B?M0RIR1NIZitCc2lZNThRN3lPbjNuZjlrSFU5VXpnYzNvNnl4VWFpZjRidGFP?=
- =?utf-8?B?MEN3M2kxalU0YXRvYkFzZkRCcGVCN2tJaHNSeFEzUWhWRXZGTWVmZytoY0JP?=
- =?utf-8?B?dC96RUQwKzh3M3VENHQzQ1dzQVN4S1ZrU2Q3WGdwMDFjZVdmY2Uyb0lwc3BZ?=
- =?utf-8?B?b2RFaGpnMDkrelAyclJFWVhINzM0Vm9nRUVSWGdGc0d1QTFNa3VtTGlkTEtF?=
- =?utf-8?B?ZU8wcUovZXpjTXVOOGpHQWFoa1B2R0J5Si9WS2Njd1o2RjBoREdEdG1XSnhY?=
- =?utf-8?B?MHZZdEhVK1RDcWFOMnBmQ0JlZUVTaGMrZ0pCY3A0VHBRSHNINjI3aVFoVWND?=
- =?utf-8?B?S2VnTTlhQW93SlVrQ3UwYTFqdy9FdXNxblMvcU9QRGxCeFUrVEFsMWREcmNk?=
- =?utf-8?B?ci9pUXVaZ05yVmE4Q3BTeVR3YWV5STBrbTlHQzNXOXlTeTZDbmxhcGxHVFpo?=
- =?utf-8?Q?nkZ18KgdDHdPrn1UF1?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 354948c8-e764-4700-4bbd-08dedd11b9f4
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2026 16:55:33.9236
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IxDX36lWapTn/0XrrzXsGnw8Y4FLj05cbkwDBAnWcsAMf2MpV+eqQwSZ+grhuZHN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8930
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 20/23] virt/steal_monitor: Act on steal values at
+ regular intervals
+To: Yury Norov <ynorov@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
+        corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
+        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
+        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
+        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
+        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
+        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
+        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
+        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
+        linux-doc@vger.kernel.org
+References: <20260701141654.500125-1-sshegde@linux.ibm.com>
+ <20260701141654.500125-21-sshegde@linux.ibm.com> <akwRJnQklymOjNTv@yury>
+ <6548b668-d3e1-42dd-be9f-2fe3193874a1@linux.ibm.com>
+ <be544e00-8cf7-4a09-8b13-2d8b5a98c2ce@linux.ibm.com> <ak53I9beUB-2plNQ@yury>
+Content-Language: en-US
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+In-Reply-To: <ak53I9beUB-2plNQ@yury>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=M7J97Sws c=1 sm=1 tr=0 ts=6a4e80fb cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8
+ a=7zOuVmdEg6JVUKogFm4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA4MDE2NSBTYWx0ZWRfX/3bBwzDrqaoU
+ vXvktXkE6DimdEudmPRn93OHcO6kOfphSqTAfKSi3woHD9/Ep73gIA/aAJiNfCYKbfhW4ydeFCp
+ leNU6C3KcQfKrc4TIjpK/hXA6CIe0TT/sUogUtJ2NVWd77bzJPpr91XVV49WYaXQU5krRcx545F
+ 92L5RdlVdZczAUzDYjttcgO0spL3/8aUpb8CTASU5BNNJ+BoGTovw+P8S5vQTS5O3ei72UIl9Il
+ xXA19igVFq6Kq+nklcIvn8xqLLM7iwuMAxX08ZGmspODQyN6ycxVwVyMFonO8PU8N8VKa8KU1eJ
+ q9TyhXZRMNT30LlBaDDYb2iDuRd6ZEYOgV5TtlgawwQPUQXh/TTFzCt+Wqtpw21RkLKWiurVWcn
+ 82nUq05jeV8WtYqdaDN4a1vf9I+8L9Y1o8ROKYchQtPEtws+p3L5xT8tiJnzxkYmBZ/XVYwLr+d
+ +B9lLoosKODE6JJ1uXQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA4MDE2NSBTYWx0ZWRfX/hiejhVWAxf2
+ +buPAH7tGStor76r6qWr86wqERO4zwKEWh3fmeJKxVgm8k2Qler3Rree0iwAFnvOp3X56ONLlKE
+ HCMVEFsiUTi9NXz11eu44WwXNCzodEU=
+X-Proofpoint-GUID: hUW7vE16ZPD1iH0LbQPFMMRW_umJxuYb
+X-Proofpoint-ORIG-GUID: vgFdX69fPlUH-SEKP9-2wxsdrQI3Atky
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-08_03,2026-07-08_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015 adultscore=0
+ priorityscore=1501 bulkscore=0 spamscore=0 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607080165
 
 
 
-On 7/7/26 16:50, Babu Moger wrote:
-> Customers have identified an issue while using the QoS resource control
-> feature. If memory bandwidth associated with a CLOSID is aggressively
-> throttled, and a task with that CLOSID moves into kernel mode, the kernel
-> operations are also aggressively throttled. This can stall forward progress
-> and eventually degrade overall system performance.
+On 7/8/26 9:43 PM, Yury Norov wrote:
+> On Wed, Jul 08, 2026 at 04:03:18PM +0530, Shrikanth Hegde wrote:
+>>
+>>
+>> On 7/7/26 12:46 PM, Shrikanth Hegde wrote:
+>>>
+>>>
+>>> On 7/7/26 2:03 AM, Yury Norov wrote:
+>>>> On Wed, Jul 01, 2026 at 07:46:51PM +0530, Shrikanth Hegde wrote:
+>>>>> This is the steal_monitor core functionality done in periodic work
+>>>>>
+>>>>> - Calculate the steal_ratio. It is multiplied by 100 to consider the
+>>>>>     fractional values of steal time. I.e 10 means 0.1% steal time.
+>>>>> - If steal value is higher than high threshold, call the method
+>>>>> to reduce
+>>>>>     the preferred CPUs.
+>>>>> - If steal value is lower or equal to low threshold, call the method to
+>>>>>     increase the preferred CPUs.
+>>>>> - If the steal value is in between, no action is taken.
+>>>>> - Save the values for next delta calculations.
+>>>>>
+>>>>> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+>>>>> ---
+>>>>> v5->v6:
+>>>>> - Address u64 overflow concerns.
+>>>>>
+>>>>>    drivers/virt/steal_monitor/sm_core.c | 33 ++++++++++++++++++++++++++++
+>>>>>    1 file changed, 33 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/virt/steal_monitor/sm_core.c
+>>>>> b/drivers/virt/ steal_monitor/sm_core.c
+>>>>> index b499faa61010..7b7435f79b85 100644
+>>>>> --- a/drivers/virt/steal_monitor/sm_core.c
+>>>>> +++ b/drivers/virt/steal_monitor/sm_core.c
+>>>>> @@ -34,6 +34,37 @@ MODULE_PARM_DESC(low_threshold,
+>>>>>    static void compute_preferred_cpus_work(struct work_struct *work)
+>>>>>    {
+>>>>> +    u64 curr_steal, delta_steal, delta_ns, steal_ratio;
+>>>>> +    ktime_t now;
+>>>>> +
+>>>>> +    curr_steal = get_system_steal_time();
+>>>>> +    now = ktime_get();
+>>>>> +
+>>>>> +    /* get the deltas */
+>>>>> +    delta_steal = curr_steal > sm_core_ctx.prev_steal ?
+>>>>> +              curr_steal - sm_core_ctx.prev_steal : 0;
+>>>>> +    delta_ns = max_t(u64, ktime_to_ns(ktime_sub(now,
+>>>>> sm_core_ctx.prev_time)), 1);
+>>>>
+>>>> The below return on '!delta_ns' makes this max(...) useless, right?
+>>>> Regardless, if the time between 2 measures is less then 1ns, I
+>>>> believe, the whole measure is not trustworthy
+>>>>
+>>>
+>>> Seeing sashiko comment on divide by zero, i forgot I had max above there :(
+>>>
+>>>>> +
+>>>>> +    /* Update for next calculation */
+>>>>> +    sm_core_ctx.prev_steal = curr_steal;
+>>>>> +    sm_core_ctx.prev_time = now;
+>>>>
+>>>> So below return should go prior to this update, because 'now' is actually
+>>>> the same as 'prev_time', right?
+>>>>
+>>>> I don't understand why 'now' can be so close to prev_time, because
+>>>> you've scheduled this callback on the regular interval. But if that's
+>>>> possible, can you explain that and do like this at the very beginning
+>>>> of the function:
+>>>>
+>>
+>> I don't think it is possible.
+>>
+>>>>           now = ktime_get();
+>>>>           if (unlikely(now < sm_core_ctx.prev_time +
+>>>> sm_core_ctx.interval / 2)) {
+>>>>                   pr_warn(...);
+>>>>                   return;
+>>>>           }
+>>>
+>>> Pretty much, just have to requeue the work.
+>>>
+>>>>
+>>>> And if it's a never-happen condition, just use WARN_ON().
+>>>>
+>>
+>> I have decided keep just max_t() to ensure no divide by zero happens.
+>>
+>> Issue with putting sm_core_ctx.interval_ms check is that, one may edit
+>> it while the work is queued, but not yet called. It would print wrongly
+>> in that case.
 > 
-> AMD hardware supports a feature Privilege Level Zero Association (PLZA),
-> which allows the CPU's CLOSID association to be changed during the
-> transition from user mode to kernel mode. This allows the kernel to run
-> using a different CLOSID than user space, which can improve system
-> performance in certain scenarios.
+> Who is that 'one'? If it's userspace, you can simply disallow changing
+> the interval. If it's kernel, you're already compromised, and
+> everything is not trustworthy.
 > 
-> The feature is detected via CPUID_Fn80000020_EBX_x00 [Bit 9]:
-> Privilege Level Zero Association (PLZA).
+> I would simply disallow to change any parameters while the driver is
+> loaded. If I need to change something - I unload it and load with new
+> interval, or whatever.
+
+It is user writing to /sys/module/steal_monitor/parameters/interval_ms
+that i thought of. So user.
+
+If we disable then those checks can be valid.
+
 > 
-> The PLZA feature details are documented in [1] available from [2].
-> 
-> [1] AMD64 Zen6 Platform Quality of Service (PQOS) Extensions:
->      Publication # 69193 Revision: 1.00, Issue Date: March 2026
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537 # [2]
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> ---
-> v4: Split the patch into 2. This patch only handles x86 changes.
->      Re-wrote the changelog along the ABMC changes.
-> 
-> v3: Code did not change. Patch order changed.
->      Added documentation link.
-> 
-> v2: Rebased on top of the latest tip.
-> ---
->   arch/x86/include/asm/cpufeatures.h | 1 +
->   arch/x86/kernel/cpu/scattered.c    | 1 +
->   2 files changed, 2 insertions(+)
-> 
-> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-> index 1b4a48bff18f..bf6fc71f87fa 100644
-> --- a/arch/x86/include/asm/cpufeatures.h
-> +++ b/arch/x86/include/asm/cpufeatures.h
-> @@ -517,6 +517,7 @@
->   						      * and purposes if CLEAR_CPU_BUF_VM is set).
->   						      */
->   #define X86_FEATURE_X2AVIC_EXT		(21*32+20) /* AMD SVM x2AVIC support for 4k vCPUs */
-> +#define X86_FEATURE_PLZA		(21*32+21) /* Privilege Level Zero Association */
+>> Even if work function gets called prematurely, it should be fine since the
+>> steal also increases accordingly. No issues in delta logic.
+>>
+>> So capping to 1 to ensure no divide by 0 happens due to scaling of
+>> delta_ns is good enough.
 >   
->   /*
->    * BUG word(s)
-> diff --git a/arch/x86/kernel/cpu/scattered.c b/arch/x86/kernel/cpu/scattered.c
-> index 937129ce6a96..1fa4d5aef17e 100644
-> --- a/arch/x86/kernel/cpu/scattered.c
-> +++ b/arch/x86/kernel/cpu/scattered.c
-> @@ -61,6 +61,7 @@ static const struct cpuid_bit cpuid_bits[] = {
->   	{ X86_FEATURE_BMEC,			CPUID_EBX,  3, 0x80000020, 0 },
->   	{ X86_FEATURE_ABMC,			CPUID_EBX,  5, 0x80000020, 0 },
->   	{ X86_FEATURE_SDCIAE,			CPUID_EBX,  6, 0x80000020, 0 },
-> +	{ X86_FEATURE_PLZA,			CPUID_EBX,  9, 0x80000020, 0 },
->   	{ X86_FEATURE_TSA_SQ_NO,		CPUID_ECX,  1, 0x80000021, 0 },
->   	{ X86_FEATURE_TSA_L1_NO,		CPUID_ECX,  2, 0x80000021, 0 },
->   	{ X86_FEATURE_AMD_WORKLOAD_CLASS,	CPUID_EAX, 22, 0x80000021, 0 },
-
-Sashiko reported:
-
---- Patch [1]: [RESEND PATCH v4 01/15] x86/resctrl: Support Privilege 
-Level Zero Association (PLZA) ---
-commit 0f2aa093b81d7a2e0dc203ce3466562f708898df
-Author: Babu Moger <babu.moger@amd.com>
-x86/resctrl: Support Privilege Level Zero Association (PLZA)
-This commit adds support for AMD's Privilege Level Zero Association (PLZA)
-feature. It detects the feature via CPUID_Fn80000020_EBX_x00 [Bit 9] and
-adds the corresponding feature flag to the x86 cpufeatures array.
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537 # [2]
- > diff --git a/arch/x86/include/asm/cpufeatures.h 
-b/arch/x86/include/asm/cpufeatures.h
- > index 1b4a48bff18f7..bf6fc71f87fab 100644
- > --- a/arch/x86/include/asm/cpufeatures.h
- > +++ b/arch/x86/include/asm/cpufeatures.h
- > @@ -517,6 +517,7 @@
- >  						      * and purposes if CLEAR_CPU_BUF_VM is set).
- >  						      */
- >  #define X86_FEATURE_X2AVIC_EXT		(21*32+20) /* AMD SVM x2AVIC support 
-for 4k vCPUs */
- > +#define X86_FEATURE_PLZA		(21*32+21) /* Privilege Level Zero 
-Association */
-Should this addition also be mirrored in the tools directory copies of
-cpufeatures.h and kcpuid.csv?
-If tools/arch/x86/include/asm/cpufeatures.h is not updated to match, 
-tools like
-perf can generate build warnings during check-headers.sh verification. Also,
-without updating tools/arch/x86/kcpuid/cpuid.csv, the kcpuid tool will be
-unaware of the new PLZA feature bit when users query CPU capabilities.
+> If there's 1 nanosecond between two calls, your statistics is very
+> inaccurate, pretty much a noise. You want to make decision based on
+> noise. That's simply wrong.
 
 
-I thought tools/arch/x86/include/asm/cpufeatures.h would be synced after 
-the changes to arch/x86/include/asm/cpufeatures.h are merged. Has that 
-process changed?
+yes, that makes sense too. I have kept interval_ms/8 as safe bet.
+Return will not queue the timer and effectively disables it.
 
-If the expectation is to update tools/arch/x86/include/asm/cpufeatures.h 
-as part of this patch, I can add those changes as well.
+         ktime_t now;
 
-Thanks,
-Babu
+         now = ktime_get();
+         delta_ns = ktime_to_ns(ktime_sub(now, sm_core_ctx.prev_time));
+
+         if (unlikely(delta_ns < sm_core_ctx.interval_ms * ((u64)NSEC_PER_MSEC >> 3))) {
+                 pr_err("work scheduled too soon delta_time: %llu ns. Abort steal_monitor.\n",
+                        delta_ns);
+
+                 guard(cpus_read_lock)();
+                 cpumask_copy(&__cpu_preferred_mask, cpu_active_mask);
+                 return;
+         }
+
+
+>   
+>>> Ya, it is a never-happen condition. I will use WARN_ON.
+>>>
 
