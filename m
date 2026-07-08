@@ -1,144 +1,192 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74883EB809
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 08:34:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783499703; cv=none; b=b2ZKoHH3LZUVQcj+OFHePVfwIVsog/1VMUhNgPr1/BVewZKFuUBLbbkAmczDFHrgIMTFyBTkQKvgt3OKNYo7TW7HEkSgifjd/hfj+Pb7eayHSNBpSyJmcj8jOiEhKd4SzDIiMudxgBK+YL5zDdnQ6IXAHEPI/bJLmAZDtrOyQ1w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783499703; c=relaxed/simple;
-	bh=i8NUcW/oTATrxmS6+QrhnDTWblS1EuQ+OATB9E3pmdE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ChE/dscT69yn6bPAgKByOBQJlyJGDQLDTMRMbpxdpeo7PQ12UoulxBkqRQ7CmKKsffw6pqD1INjjRbJczH6Yw96O+c1oF0xRs2PjS/Zfx3ChMlRr/dg/RQHF+0Y8r1pD37tX8VFucjvZlT50+LLrwOV8puiUBt5+2/lSvi0Q9oY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=SS000QVm; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BC24028D8;
+	Wed,  8 Jul 2026 08:35:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783499753; cv=fail; b=qoTiNPGZACrX/9+ttdi+U2b2u8xUdjSZsr8HzlLYFP4QSMyy6Ee1xX2BaMu9Ch0L/4HisatXRUeYcPaY9RtZ1miLZ3UTeil7YmsYpIY00e6dX2zWSMAGrFkL0KapHO1g5V491Vne5dqRudPxnoUHWUpymu3AB9o03QjJnZ/1Cu0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783499753; c=relaxed/simple;
+	bh=PiREt+2ESdGoNg6vz0uQMfcTYrhtQCI6ZFzxHRt5xpc=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=gaSw/jhA7h6jyK3+h3txpg6gFFgOibzNa21MBJQIhd5sQpP6GwYhpJ2o+JQop/HXLSpcc3VPi9Tl7VmfeOHiRXTTHDvjI4I+0e26BitrkZIGgv2TRsKAQLCDxz6tgJFTxG+P/mA4LIjYZQ28tqjSj79KP1fsDZNuMtlMSm3M9UI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MukvqoGB; arc=fail smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="SS000QVm"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493b6f1b14bso1500295e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 01:34:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1783499698; x=1784104498; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=d65vlscf3MRlCdV5SPB30z4zAVCml2R2BL0nflKn+XI=;
-        b=SS000QVmxWWkm0E2IwPRChuI4Jrwye4c14r18/hTPNnyc8J9csQxLTMNKw4GORlHxV
-         Rgw8bXpbGXcZsKbpTVYabF/b0Ag5w6gSVTgY60HsyuJsjHDcn7ENn8MfsMdE84jW4A2v
-         2f655a9u+N6xXeU5nY2NpenbxRQ7yiWfG9ld6LfGgDq+L6zF0/m+pFPUNnYwUDPL1CvC
-         weUBeSTfZI1GOyxqrEQNoDNM9NS2C7d/ERUYQObPceIk9EHjFJTQFhqe3FWt54/OjULu
-         0JLP8vAYCzfJADPAxhH8p1Gr+aaxtbhwchNnGSwQbS27OMhYU4llfa2er3B9FbSMlQwG
-         9USw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783499698; x=1784104498;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d65vlscf3MRlCdV5SPB30z4zAVCml2R2BL0nflKn+XI=;
-        b=R3Sxm96Obvj7wzwxDLJVTotLwPKNfODHULoV8MQvD8LKORKAiT2+dTiKs/5X5s6Oww
-         1aMA4K8fMBedg9iOyCqD061oCDcU02N6jx1t0NAwH7Df5M797qabWr8n6sAT49YpSFj0
-         pTXNTD0RGLB3Jlzw5j4IS9tm4SzsrENDIKObH20thKbWHdaivl3k9jEehwffIrL1sguV
-         ynHMYD20RcOgzongN/awp6bgf3cNIOD45dhUl8gec818bEs6spTmKKMQSXsB7b+DzHcA
-         Udd60RSB2GU998f0NFjWpSrnxBjY13vrK8BsJAFTAKLmkYukCFLDbw5FWrIN6+vW87PU
-         +gpw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr9xayQIcb77a9otP2fUo8MINPHfEAdHGmLziFOCLAOzGM1wcRthwnXExOmynTp6/t96iZi3z9XXc4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzH1tQWo7EjYg+vXCPGK+1zbqLtgh3oTEj3pxcV08Vh+1A8SD2P
-	l+zZLqkpp3W8z/Mh8iqCxNdtnypkeIaW2A34nTMZvY+RZzOWID1qR/tmWJZD/YjhGWw=
-X-Gm-Gg: AfdE7cljkD+dDf75amLM6ttRTn/NSfVnuJyKJqAuDYmbWDJ6FPiLNd8gxhZzuXEDlWD
-	H74mK1TbUTIIzaTBxQwvmxk4Zsr+Tkhu9aJUUcM1hfiPUDw95CuHF4srZTM515U+Em+DIoAjXdn
-	sUHwe38BSnpCEWi8X2P+1PhlO2kvZ3XQqjKVaoXZTugVilPxhGd5gqSlxQdDzWEwU6VeTRUTpYG
-	EoAtcCEuRPsmP9lU5e+xcP49CsRiGMQwNb+gfVUkSkZYRESdLvUfDOKjLd3z/Rtd0z1I+b57ras
-	lrXSo59zO7CJ0n2U+PXduqngi1/iwbUedlzG04zEtFVb+55tRU8LD02EOkbqTdGUo2RxXxoYDPq
-	ojolPwRbHgQGYt1aGCH1m0mtJf4l3yVItwjlI2F5VsITPmnJRroee0KjFb5zcWlzmtlpJuQqaND
-	cArAeRNP5zK9ohTgtARPZ0
-X-Received: by 2002:a05:600c:82c3:b0:492:45a0:dcef with SMTP id 5b1f17b1804b1-493e683c514mr13471085e9.5.1783499698217;
-        Wed, 08 Jul 2026 01:34:58 -0700 (PDT)
-Received: from localhost ([208.127.45.21])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0a558easm40791770f8f.27.2026.07.08.01.34.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 01:34:57 -0700 (PDT)
-Date: Wed, 8 Jul 2026 10:34:54 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Mark Bloch <mbloch@nvidia.com>
-Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
-	Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next V5 6/6] net/mlx5: Apply devlink eswitch mode
- boot default on probe
-Message-ID: <ak4LVcyKofmtrWcU@FV6GYCPJ69>
-References: <20260707174527.425134-1-mbloch@nvidia.com>
- <20260707174527.425134-7-mbloch@nvidia.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MukvqoGB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783499751; x=1815035751;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=PiREt+2ESdGoNg6vz0uQMfcTYrhtQCI6ZFzxHRt5xpc=;
+  b=MukvqoGB13C6EapDwPkdBmX2Gr1fe8pf6/NLuBCHIEHfQuvsFUUWl/sO
+   ik+XK8heTPVhphFDNrG7Y6aynUGYV81sLMoLw2hAsYi3+ugxzQjiKQiRe
+   5D/ldgAI9ZZAESDKogSMT0cS6wqxwtXxJ/fjvXQ1fTP+Eelp3TZFaH9Py
+   g7xxAguqdYW5Y2ZcEsk7MrSPORl9d16MN3fX1DaDUpylJjrDiy3VPGShg
+   CKdfEzCAQQp2nodJllNJ38nzOzZJRSmPwHHx1ah5Q2HFiBl7MP6qBIY7O
+   PJQoX9888tDZysBX4P9Qh1Qc7EagWvWAejYkf8KxiR2Pa5euMpRfVcvey
+   A==;
+X-CSE-ConnectionGUID: egkmOFFZQbSY7A1cH/ldAA==
+X-CSE-MsgGUID: XOY5kSdfQgCW9B+IBXIFYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="84275495"
+X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
+   d="scan'208";a="84275495"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 01:35:51 -0700
+X-CSE-ConnectionGUID: 2yiIAGw/QqGkjpLer0t/OA==
+X-CSE-MsgGUID: 0946r057TH6lLAqJQoXp3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
+   d="scan'208";a="254870306"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 01:35:51 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Wed, 8 Jul 2026 01:35:50 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43 via Frontend Transport; Wed, 8 Jul 2026 01:35:50 -0700
+Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.21) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Wed, 8 Jul 2026 01:35:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=B7zb51A/QVix9uM1rhL4fazm+QszH/xetXvQVPuYVL/cjTrf4gxU59/y8c3zC6cftMVS8Zv+uUKe8XY9/CkrStO8LAo3a9LTy9V123ABVKM+eN0B6qez1tqutdTvo9ZuJfgu1rY6vHNCeXbsmCI5p2xvTRiRgwbzTgWUm08F9OSXjpbs1rorif2MIUJMtW5Eth8l4Zm/adS4J6mPg1IXiri4F9qnQ4fvTh5GxdEhu4579GpBz0QEmqRDSCA522ijMyjgKNq7ygSEiIdsS7my4k4bv61Tzzg28R2lV4uljlODTjkBnWCfFX76oosmG5cGrqVvR+f/o1TCQRaDrPJcOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZznFCGJt89tU+fPu1+FDCV9hx4JW2d3rOG2XeT31gYY=;
+ b=R3U3gVw3G4jKuAUCv3IKvaKkbm9oAKfPGdvxw4R6aQf2XvP/n+G6wY81s6i7wNqVLg4lvTJTXOotrbe8PqRCD6q9ODO//2hdtmx0a9wlMS9uW2piCu/RsaHFb3s8UTG5v2itC1FzZqR39sEkGVgubn0RnfqSLOE4fa+J/ixInG21I0mka9TLQ9OpQ+j/QG0lUQb5qb+K9Yqm4oUsHKnj8Scj6YtsWZJhV5KqssVUrBfrZqxtMieNnbxCyQBD1gNoggrcPxJQ8iDa1Rgcz2+junofLAv54thSdCnz1szLVciBatpcItc8hlv7XQMsnDYGh7LRTqXSkD7mXOZQi9uoSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BN7PR11MB2836.namprd11.prod.outlook.com (2603:10b6:406:ad::26)
+ by MW4PR11MB6786.namprd11.prod.outlook.com (2603:10b6:303:20b::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 8 Jul 2026
+ 08:35:47 +0000
+Received: from BN7PR11MB2836.namprd11.prod.outlook.com
+ ([fe80::ac36:7540:4e6f:8d3b]) by BN7PR11MB2836.namprd11.prod.outlook.com
+ ([fe80::ac36:7540:4e6f:8d3b%6]) with mapi id 15.21.0181.012; Wed, 8 Jul 2026
+ 08:35:47 +0000
+Date: Wed, 8 Jul 2026 16:35:11 +0800
+From: Chao Gao <chao.gao@intel.com>
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+CC: <bp@alien8.de>, <dave.hansen@intel.com>, <hpa@zytor.com>,
+	<kas@kernel.org>, <kvm@vger.kernel.org>, <linux-coco@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<mingo@redhat.com>, <nik.borisov@suse.com>, <pbonzini@redhat.com>,
+	<seanjc@google.com>, <tglx@kernel.org>, <vannapurve@google.com>,
+	<x86@kernel.org>, <yan.y.zhao@intel.com>, <kai.huang@intel.com>, "Kirill A.
+ Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v6 09/11] KVM: TDX: Get/put PAMT pages when (un)mapping
+ private memory
+Message-ID: <ak4Lv+CQIG1P3k/f@intel.com>
+References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
+ <20260526023515.288829-10-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260526023515.288829-10-rick.p.edgecombe@intel.com>
+X-ClientProxiedBy: SI1PR02CA0020.apcprd02.prod.outlook.com
+ (2603:1096:4:1f4::9) To BN7PR11MB2836.namprd11.prod.outlook.com
+ (2603:10b6:406:ad::26)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260707174527.425134-7-mbloch@nvidia.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN7PR11MB2836:EE_|MW4PR11MB6786:EE_
+X-MS-Office365-Filtering-Correlation-Id: 871dd234-2dc6-4230-281c-08dedccbe85d
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|366016|7416014|1800799024|56012099006|4143699003|11063799006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: gQMhqoZ6C9Lzju0VZScjxjDdgYITXELYNmD9jtPCcPjuyylz155J3Kf/d5PBK0/Kdy+eqz7j5zA6rZ6VlB9UKzHwGDJUTR7cmEdVT2kCDm1lRoQKe33+j17SOGTO100YThrI2PkXajuXDUJOwDtrvOH5uyemvESBALzLikd5h5HggbDkSWfxnPbcuoMPR547EhI7UpKb3uVQBusd1U8IWL0+CQM4a2uvq6adfS3CJebc5fxburGG4EdSFKhEU+WxG27BH65HRMNqgxnYoR5kyROKcBN1RwQMlFcitFTtWGRftu5Be1OyEmSz7zQlmpJ5wOmvLtlMlxVvAwzGnzZfXWSJQoY+OHOLWO3e0ZNfWy89PkcNH912xKpF9mJF3nCSGVvXJnuFh7rkXCVFfBtbh3MH3khePdUYt914d6yeaXddei3sUtxaOnLD7ir6zlcHlGiEbh31g7cEgh4RBT45xVWMwcKxzVdzNfKyTAeACApSNBO5sIccvAQNIqLcECSuqMJF22zGBhWUn4igRnAFZhYyktYq8ca5Wv42itQd0icBQqkqwIy2Sj39ff+X+Jhff9NV0cILl+1t7XI+q6GohuO/OkzmdnugDhEQL8ZKBR6BFu2e/e8ysxm52y3NbsltblZ/gf7373YkUycx7H1sRl5TyrL1dH+khO58txWB59w=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR11MB2836.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(7416014)(1800799024)(56012099006)(4143699003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?61mdzYtRqOZPmTgOQ+n/INz0pxURO9OI2oGb9G3D0Faqk8rwSGOXqbIWc50V?=
+ =?us-ascii?Q?PsCEx0F+rLD4KOUOeLBkprcPGnwVhznKISxoZ05mAu8xXfGuAauD1CVqkVf1?=
+ =?us-ascii?Q?7kzzajq62QVNYJKYrPuFqti7xJ3fcZ9m25/WQgoNQpL15XmktfZuh4El+08Z?=
+ =?us-ascii?Q?C30IyAZskGPTqfAtI3OTOX6V1zct9XmGTiK+9zJLF1NARcvAKA8twgQRpRv7?=
+ =?us-ascii?Q?WT7CPf82I5CyInjWZtqKOxUhTNg0OgMaYVACquAFcTrY+AkSy3tOw4RI68ar?=
+ =?us-ascii?Q?agrdsrukFLYkWRW2Aj4st0rRtiL7SxHQPxN8JWTubGWOj7z5dsty4ucfpQaN?=
+ =?us-ascii?Q?iXqEoG22bDexmVkb4wzTQSB3VUwJ7STZIeWwrtchD/2kqjm+Cf8YGkwvblj3?=
+ =?us-ascii?Q?RIMVLPFLVrIns+qU/TDU7hnpuLQXz0GAI2PETaZ0CsYud9LbKKQS7gAxd3Rc?=
+ =?us-ascii?Q?uHAMYKKXhW6pyyIClq1Hvs/nI5Hvq2Qu8k4TsXd3Jd27A/mt2hCtMzEJZi3+?=
+ =?us-ascii?Q?GV9uFik6U9o2D8p28Z3+Nu5ladhjW0ESibaP26Yl5YtEz7NQ7FoOXnKtcs+S?=
+ =?us-ascii?Q?fiG91AefOlAhdmDa432ixpuZpJ1mbKD1sgaOB88Qiu8mPkAY0mBhXLeC2QgQ?=
+ =?us-ascii?Q?oxy8XhGMhsyKGZDDwuGh/qN29G+R810F2jZpuD+BNoLNrcVoSEFNsRMY1Nt4?=
+ =?us-ascii?Q?XCg6zXZXdAn1u4XmA8bMacBK6p6SPQ41S70qU8j62UkOSL1yaE0QyEXWAekJ?=
+ =?us-ascii?Q?TPzMAx7EdSeQAWVJ94w9VAEsIxxP7YpKYEy5caCQm76zEn0yyhsLPPWNrw9s?=
+ =?us-ascii?Q?22gT78d7AeZ52YLhBzFnlNVa0XNJi2DM18PlQNQfGWqWFR5PM5QX0hRWUA6F?=
+ =?us-ascii?Q?z1B9HzYLLBjSGaYACV9wK7ThCZUmdR0G6NN8dnkISbaOImjdCQTRfrWhYzY8?=
+ =?us-ascii?Q?ptmTUyWTnNBgsgoobKLifQXHGx1TPVG1ebnZeS5vWEJhMl/FAR4b0ujBr5ST?=
+ =?us-ascii?Q?vrEGPvkykibXgutQABJMJMBYgumNcb6ChMcoQk0hb0e5+Q4LtY8GoqjYAaaw?=
+ =?us-ascii?Q?tAg+wpxaRYoEstWvWx08aeNjE29HYWWggc0SkW5tkwkicc3+1/KqNmaB0IU8?=
+ =?us-ascii?Q?QRHVao+RCdgJ5iI/elRY1tNOu4pswEiQLk4i528RiKMC/GYI7Wq/m28H1s3P?=
+ =?us-ascii?Q?5u3LR31CPXElYhdQ9Gz0i3TVS8fXFP0eRrV9Myj1f3kFP+s6ObQd+EiucoSu?=
+ =?us-ascii?Q?y1hsvAL+lygyIpWGbjN5tQ7cXMZytjHm3GmrvtTtFZ2wLWlbrfZ7QAD5lZlG?=
+ =?us-ascii?Q?sRNJ1P4rmo23njiu/GZmIM+ExiVJkZMjAMPxVfoOP7cpWxbMX1DFOtmX8LdV?=
+ =?us-ascii?Q?b1xeEBGn4wAsm4dd63u6/jcU978Zmv/s1ZLdfKzYoL1rML5MXbz3WiMvDRae?=
+ =?us-ascii?Q?JT2piAqz8zgGPR62wG3AgAjOvL53ElHZEnR0lFCdZvgFqerF50naZ3a/q2kG?=
+ =?us-ascii?Q?Fg6dBmdHvCj013eNlmI4PTBtQNUgHnkdv6yy9MSgKbXTAykgf4C+LhVMmoTY?=
+ =?us-ascii?Q?QSwy+Q6pX+TDoYUAo5gnysy8IDSfPzeQzxSLjhOWuLQVmkmjj1uH7aXPoCnu?=
+ =?us-ascii?Q?bGfZaz+VzFDPkEUty8iDiJ0r3swX1ib4U3/NM4qMe2KCnOIve9OJQB0fOirI?=
+ =?us-ascii?Q?zfnoTBrsxDC/wl79QLDCy9cZ3zDwOlA4aa+i9hcBnbMrU2aVIQm6MN8BxGzV?=
+ =?us-ascii?Q?FsHob9TBPw=3D=3D?=
+X-Exchange-RoutingPolicyChecked: rc5c/H7S0L/JHuJmHsZyajBSZs+OwsJNHB9lX+Wbfp+oSr/JX9ioLxHi1NRsFZH+vh6if/CI2PGLtqk3AmJNfeSp/MKSty+/Itya4CBbCD/PoNRpiwTyTv3IHFLOyPFHw731WSVAEMi+F8D3Zi+mf/yYjB242gu9I279a+DcZjhNZ4clQpedBvqTfiuKBedlhwUWB94tsUGAueD6nM8ZHaRBzi/0OGnJdERxM7maSGUnhU7X3PN21caNavhqP1wevZlORR/29QF8DnLVM8/+MGxnb9TxITScwBzOTZygwy9+iOunn0nuBr9ox6NTotybpzZs8zG4CclrAPJnM5xblA==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 871dd234-2dc6-4230-281c-08dedccbe85d
+X-MS-Exchange-CrossTenant-AuthSource: BN7PR11MB2836.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2026 08:35:47.3958
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: s9DsVo75Rj8wHpGcSZdCS5U4kMbRVCSgy8jTKQ8DBsX1kufEg21aoQrFXg9cIqkDF1Td66ZXbZwou9WUpIjyHg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6786
+X-OriginatorOrg: intel.com
 
-Tue, Jul 07, 2026 at 07:45:27PM +0200, mbloch@nvidia.com wrote:
->Apply devlink_eswitch_mode= boot defaults for mlx5 after the initial
->probe finishes device initialization while holding the devlink instance
->lock.
+On Mon, May 25, 2026 at 07:35:13PM -0700, Rick Edgecombe wrote:
+>From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 >
->At this point the devlink instance is registered and mlx5 can perform an
->eswitch mode change. Calling devl_apply_default_esw_mode() also clears
->any pending default apply work queued by devl_register(), so the queued
->work will not apply the same default again.
+>Add Dynamic PAMT support to KVM's S-EPT MMU by "getting" a PAMT page when
+>adding guest memory (PAGE.ADD or PAGE.AUG), and "putting" the page when
+>removing guest memory (PAGE.REMOVE).
 >
->Keep this call in mlx5_init_one() rather than the lower-level
->devl-locked init helper. That helper is also used by devlink reload, and
->devlink core already applies the boot default after a successful
->DRIVER_REINIT reload.
+>To access the per-vCPU PAMT caches without plumbing @vcpu throughout the
+>TDP MMU, begrudgingly use kvm_get_running_vcpu() to get the vCPU, and bug
+>the VM if KVM attempts to set an S-EPT leaf without an active vCPU.  KVM
+>only supports creating _new_ mappings in page (pre)fault paths, all of
+>which require an active vCPU.
 >
->Signed-off-by: Mark Bloch <mbloch@nvidia.com>
+>The PAMT memory holds metadata for TDX-protected memory. With Dynamic
+>PAMT, PAMT_4K is allocated on demand. The kernel supplies the TDX module
+>with a few pages that cover 2M of host physical memory.
+>
+>Releases are balanced via tdx_pamt_put(): every control-page free goes
+>through tdx_free_control_page(), and guest data pages are put directly on
+>the successful tdh_mem_page_remove() path and in the
+>tdx_mem_page_add/aug() error path.
+>
+>Assisted-by: Sashiko:claude-opus-4-6 GitHub Copilot:claude-opus-4-6 Claude:claude-opus-4-7
+>Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+>Co-developed-by: Sean Christopherson <seanjc@google.com>
+>Signed-off-by: Sean Christopherson <seanjc@google.com>
+>Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+>Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 >---
-> drivers/net/ethernet/mellanox/mlx5/core/main.c | 13 +++++++++++++
-> 1 file changed, 13 insertions(+)
->
->diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
->index 643b4aac2033..0712efea74cc 100644
->--- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
->+++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
->@@ -1392,6 +1392,17 @@ static void mlx5_unload(struct mlx5_core_dev *dev)
-> 	mlx5_free_bfreg(dev, &dev->priv.bfreg);
-> }
-> 
->+static void mlx5_devl_apply_default_esw_mode(struct mlx5_core_dev *dev)
->+{
->+	struct devlink *devlink = priv_to_devlink(dev);
->+
->+	if (!MLX5_ESWITCH_MANAGER(dev))
->+		return;
->+
->+	devl_assert_locked(devlink);
->+	devl_apply_default_esw_mode(devlink);
->+}
->+
-> int mlx5_init_one_devl_locked(struct mlx5_core_dev *dev)
-> {
-> 	bool light_probe = mlx5_dev_is_lightweight(dev);
->@@ -1471,6 +1482,8 @@ int mlx5_init_one(struct mlx5_core_dev *dev)
-> 	err = mlx5_init_one_devl_locked(dev);
-> 	if (err)
-> 		devl_unregister(devlink);
->+	else
->+		mlx5_devl_apply_default_esw_mode(dev);
+>v6:
+> - Don't have topup op take a min param (Yan, Sean)
 
-I don't understand why this patch is needed at all. Just leave the job
-to the devlink core, no? That was the point to not pollute drivers with
-code like this. Is it some kind of leftover?
-
-
-
-> unlock:
-> 	devl_unlock(devlink);
-> 	return err;
->-- 
->2.43.0
->
+The topup_external_cache x86 op still takes int min_nr_spts. Did you
+forget to remove it, or am I misreading this changelog?
