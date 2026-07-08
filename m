@@ -1,173 +1,172 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19D040683A
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 14:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783519380; cv=pass; b=JWsA97yud9B9ePpFitTIA4umaDFz63i/8A4lrlqi7/9+3gZCqz/fPMm/ZdznZ3HtJSyxJbas+/DVpOCys1OgTCPUyRwmTObJy+69n5Kj2OCrcVDnATrSZrCEBR93J8PT780KUCFolZdSFgUt17lMSWUTeez/k97pCIA+RSeb+Ow=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783519380; c=relaxed/simple;
-	bh=3ZYFE1rOhJaETonX/yn/WpO5nVdnpgJJ8jQu6xZIt1k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iorE2zKuEIFUlHlVWOPdF7CulfM1bKnqvvpzYAUn47/r5EumQadcOAiID5LPFA0IfqtPu6FB+t1h9r/ul0gjT0E9Mjcc9wR0q+OcgIDGf32iafFr1+5F4dYSB6wPhwex3SxAh5z5kLRKyZQrk1WnRltdgyXCvZzKIZPd2oXTcwY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I5QeIcJL; arc=pass smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2444442114;
+	Wed,  8 Jul 2026 14:09:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783519754; cv=none; b=pNQTE2LnWTb/thw3LlB5ODWIM0htL4aPK7RQdBM9szKgKPOIT4IIbQdiJ7ghEHEMO2hXDWJgRE2Dxe6Bt7+5zHa+s7ZVX5Drt308FI+7QDEzIbxBuzz3SnQIGUYQMotnN2VAl2QRV/a3Yxe38ca5dbJlA3WHnVkWr5NRe/0NoCo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783519754; c=relaxed/simple;
+	bh=M1ph9XIqBC2fH+vP/HCbgBGMTjNgNaNhQndf8/PAhgc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jkeXlL+79KIw5bntKWlTTHPxWP0Mjg3fhPYNwfIHwGTEUQT7JcCzZLkqvvuWhV2M+zs4NnLWK2nT5EUB+iJ5vEHGSL2PM3WiwYy+cPc9ozP3J8vga2SfQU8uaCkoD3yTFLaRVDnah5vXzYj5mPFzws3AE0p3BLMC4QectWORV6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=it1AC++S; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I5QeIcJL"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8f1e274ccb9so3738796d6.2
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 07:02:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783519378; cv=none;
-        d=google.com; s=arc-20260327;
-        b=L0TRl3U6hajd4dh34AWoFjWf0v8+ZPu05Wurh2yah3xgKghFVNGvO676BM9N42RH72
-         3DRbRhalc3s27wEJn9MPHfAaMBHdaxB3nhmmc9zQuf5Yy/I4JiCbuVRlEecquOLUcGsS
-         sjHayTDMmh5chdgFOA/AL//zDCe1sJlyDPku1CzpXkSTxohCdjPR665ZyMtSuVcvHIxk
-         EsRMw3zbDAI8IOCHcNrvUFkieArQsPxe/wngTZAHBhX/s45Y6xupbHGPVKwN6KD1mDbz
-         pRUIzJ7DT4NJ8Gt2+f31IxVBjcs4M35AB2fDP339pCxaDG6GnESD6tcDFmGdvC6fRcJW
-         E52g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=3ZYFE1rOhJaETonX/yn/WpO5nVdnpgJJ8jQu6xZIt1k=;
-        fh=kPd+0CO5eMXdCCEQ8RVuPiiZeMTY/UsdKBGF0EIcNjI=;
-        b=TG2ULbEWmTeHgwCALe02dbzmJLtKS+FLtk+aMfDXc5YxkP/eOln/2NJMVEzxCDPQwt
-         jcNMO56d4tMkxSUqUZeT8lNPcqGGF5a+Nq/KjcV/VoyWZAzsQr9gn8MEUtrrBz8lVMVU
-         V1r7nx9a9JDENP0vo/F8Aeq5c+Efwmj//8BPR13Hsyzj3DlZNhOIh0pLK2sHj4njpiKQ
-         z715lcAhx6Y+RCUmRJcIPTfI/WwkAl9CdKDVuI8DR2WJL8uxdufo569QEJAwa1f0IOQn
-         VgWVqXz3ucgu+JFe6ve+/crcwS+05NZW+eM/RrnTUdcfvv5xyTgs6sES5VSnH5xQRwO7
-         Z3MQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783519378; x=1784124178; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3ZYFE1rOhJaETonX/yn/WpO5nVdnpgJJ8jQu6xZIt1k=;
-        b=I5QeIcJLHovs062XIRW0Q1x9n9q8QS0QX6srjhu3iYq/4tRCRYZnltB9iPHhdSyQ3j
-         a5pdpTf/2ogmMKaFrmlOuxB7x7La17P8mBM25irfP93DQ5MZDabnmnvtmU9qF57UBkJo
-         HuvuY8QGhhwMdZumArCSOoaXiKnsQJJiCYI0abwnay3saQAgpkTj8He9p7q1tA9ZM1kr
-         5tgkv56E2fpcftLCWIEJGNteat9AhPDSKGe1WG8Hk3OjL7VnC1SN2lG15gPDoIc8PMhV
-         0KyeJJ886TyvO02TBuIR15xUI5JzRkJ5mlRYrL5GmvRccw4z8oxOug2QcZt7ZLofBUi1
-         lH1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783519378; x=1784124178;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3ZYFE1rOhJaETonX/yn/WpO5nVdnpgJJ8jQu6xZIt1k=;
-        b=PQYkz97QMyBOQaTeEIjM6NHmFP0T+TSkMI9ZevOdTIyiVFLyfRCyBtDhGPmBERpr0F
-         HGlDB6LD1AEkxsPaUS2h2EK8dNndGtR88dvZLBiZDAGzZnuj6zbbkWKL9AEZwZqFFsA9
-         /oordSGECuH/rJgH6p1id+PVM5sLu45qzc9QGI20jmqrIbEyA/qyVmBi+S6AK3rouMVJ
-         j0fEz5MAUA6+BmfDKhuE19JuR+EAkfQP7JkQnWkiQTUSr+pJI2deG14SsePNKCkJUACw
-         sa/nwDup5z0HD2QNGwxh4AydcRo3FjSRfAXUaphtfyUBKVw484Uy0WICk89/7BvEJ0hv
-         LT/Q==
-X-Gm-Message-State: AOJu0Yyv7ic80RMW8DwyfYndi6tiRNuz1CVvzu9gkrtoLcU4zbWsAmgs
-	RO9gQ5kBuDjjCCPPYFyT1oNwCKlfh7CV+gbsMD15pNgGo+AYrzAvW2+a7qSxL7JoQ06HCyLWZG4
-	b7N3LdiL7PpiskyfDDpNSYRG3QCK6xWEi2rStC+0=
-X-Gm-Gg: AfdE7ckYjxBg9tU20dWdVaF5/tn/LiYsmytc70eQ+LCgkwlNTu82LvLGLaUN2cw0YQN
-	yToVmAgH/RbA2D/hBkUgq0dza/UCG3dCoqf5t+gYFmSYFC3jleBPlZTfI0l0Rcjvtsi5ULAM4pU
-	YXoOrAEawRa9YUVZnciNAI2ACEFv+T/HCY9S0jsWMsQwUvIuB1NS4/uR+zzRyBuW/+LDr1jr397
-	LpuD0e9633eRe3GZidNghN0FRot0I5XD7dNCs07Nh0jFA+TVkT2rpf4O59Yme9s1xY982RiNmIB
-	oDMm0+/odsb/mc4dQM4brAzXCmDcNJ2N+oQ4FltRX1F+jPwshpl6QcPaRw0BRcudsjHSTqg5s+i
-	9AgTiqngGTco=
-X-Received: by 2002:ad4:5f8f:0:b0:8e9:f62b:8f90 with SMTP id
- 6a1803df08f44-8fec2f50f89mr24619336d6.54.1783519377022; Wed, 08 Jul 2026
- 07:02:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="it1AC++S"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 668CIYUk3243532;
+	Wed, 8 Jul 2026 14:08:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=GEjSUR
+	f+Oc47/KvAIRxIcmtLYIml26GEKQF9rwik+OM=; b=it1AC++SiBIAqAcqiPq93t
+	pjWkqrK605Ig+Fp+n6nyGY4MvyzTT6PVTI1d/QjJkcXBDkutS+kGZr/rMVLnsK20
+	83Nf2F5IgcwxVpzlmCJx3J59iuz/ImvWoCglnlVb9KpAsAqGRC2XDl/YWK1+5eOp
+	+BnXqWxI/05TkIjjB9RzIa/RPLO8v5Ce+RKot2wZXGgt+unxuZnOVkY/2cx6ABEy
+	pDND8FrIXRdIESKhXHId05Wgv68LATT9kkNZiQhQN6JLtMmcnTyzSWeq/RWgrKZd
+	4CNMJriX/u2aMZKyKFDeU3Xj3NqrL5l0d7VK7IFQCg9CIUGyvE7hFtSo7NlZk0Qw
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6sp3vt4n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Jul 2026 14:08:10 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 668E4aiX000987;
+	Wed, 8 Jul 2026 14:08:09 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4f7cgq8hub-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Jul 2026 14:08:09 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 668E87B552953472
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 8 Jul 2026 14:08:07 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5893220043;
+	Wed,  8 Jul 2026 14:08:07 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 31CB520040;
+	Wed,  8 Jul 2026 14:07:52 +0000 (GMT)
+Received: from [9.39.26.208] (unknown [9.39.26.208])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  8 Jul 2026 14:07:51 +0000 (GMT)
+Message-ID: <771d3150-7650-4ba6-b9d7-31a534f72cb5@linux.ibm.com>
+Date: Wed, 8 Jul 2026 19:37:51 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260706015213.1828-1-silvapfabio@gmail.com>
-In-Reply-To: <20260706015213.1828-1-silvapfabio@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Wed, 8 Jul 2026 11:02:44 -0300
-X-Gm-Features: AVVi8Cc0cPyEwi1vv_0KP27BmwPAkTWAkNmPhR7_seBpGK97cFNb5sLJVmmJrqU
-Message-ID: <CAMAsx6fO3mE3tatXmSCYDGvTUfsTSF6Zzz-+KHcMmkXO8s_rPg@mail.gmail.com>
-Subject: Re: [PATCH] docs: pt_BR: process: Translate CVE documentation
-To: Fabio Pereira da Silva <silvapfabio@gmail.com>
-Cc: linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [patch 01/18] powerpc: Move stack randomization after
+ syscall_enter_from_user_mode()
+To: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+        Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org,
+        Kees Cook <kees@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+        loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org,
+        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org,
+        x86@kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        Jinjie Ruan <ruanjinjie@huawei.com>, Andy Lutomirski <luto@kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>, Guo Ren <guoren@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Helge Deller
+ <deller@gmx.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Richard Weinberger <richard@nod.at>, Chris Zankel <chris@zankel.net>,
+        linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
+        linux-csky@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
+        Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>,
+        Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>,
+        Michal Simek <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Andreas Larsson <andreas@gaisler.com>,
+        linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
+        linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch@vger.kernel.org,
+        =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20260707181957.433213175@kernel.org>
+ <20260707190253.718191130@kernel.org>
+Content-Language: en-US
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+In-Reply-To: <20260707190253.718191130@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=KsJ9H2WN c=1 sm=1 tr=0 ts=6a4e59cb cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VwQbUJbxAAAA:8
+ a=VnNF1IyMAAAA:8 a=voM4FWlXAAAA:8 a=xoOMMzrzzHNEA0Jk9MYA:9 a=QEXdDO2ut3YA:10
+ a=IC2XNlieTeVoXbcui8wp:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA4MDEzNSBTYWx0ZWRfX3Hbrj21CCLzB
+ kKSW8jXH6Bj74UUfNzioqmwVCV/ijDVvhJAjSPEr0PRBP7f/C8rZNu60kYcZr5VFMnqEWqfDA++
+ inZSpN3ruIS55U0sAZiMr1mp3yETXqg=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA4MDEzNSBTYWx0ZWRfX1zZjIJAFUCrC
+ DZZFHPLhsL8y5odyoK2G1FgYpxRt932tRoGDWK0fyKR4ICWQTR7y9CixTwoRlTEsJgHxYdDsxW/
+ vDCytNNTBf9qGopcuoTa/AfoIYP5/zKMOESsc5h8MkN4K+Uf4AdxEGyFCI5+vOxHPIbB8IqmeJm
+ pofTRmoVVtdakQlcUwa/5iQWPHLRHFh3nnXP7i2wdhEwKU50t4+I1IxbYK74aJOGz40WRB4Y+V4
+ 4L8Sbqh1GTuOEjLQb44e8SVXpvqwnYBDql+ViuMKMw7GgSmmOYeHOKcPR0lJvuu+XVbWRZ1EUzc
+ 6crZl+xqk34xyqm/WMIBKetDHnyOG4hsMvqdfd6LFN/EzEGxxsXwZFa2vrz4uXcEoEG8vRy8hAQ
+ jQT68kRhg96HNn0D/8F1334ciC2LdYUUMBojPYYvDfcCxB6zftVE1+6IswOt2cm6NCMaXOgtD9o
+ i6zmvswRSv/7ugcSyPw==
+X-Proofpoint-ORIG-GUID: -jmj0fPWFB_5RGym_5okOoW04BYgxv97
+X-Proofpoint-GUID: UewskUPBCDVeXb9KcNrW_7wrTfTPl4fV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-08_02,2026-07-08_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 malwarescore=0 spamscore=0 adultscore=0 clxscore=1015
+ suspectscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607080135
 
-Em dom., 5 de jul. de 2026 =C3=A0s 22:52, Fabio Pereira da Silva
-<silvapfabio@gmail.com> escreveu:
->
-> Translate Documentation/process/cve.rst into Brazilian Portuguese and lin=
-k it from the pt_BR documentation index.
 
->Somente esses indiv=C3=ADduos, com
-> +profundo conhecimento especializado e conhecimento =C3=ADntimo do subsis=
-tema, podem
-> +avaliar de forma eficaz a validade e o escopo de uma vulnerabilidade rel=
-atada e
-> +determinar sua designa=C3=A7=C3=A3o CVE apropriada. Qualquer tentativa d=
-e modificar ou
-> +contestar um CVE fora dessa autoridade designada pode levar a confus=C3=
-=A3o, relato
-> +impreciso e, em =C3=BAltima an=C3=A1lise, sistemas comprometidos.
 
-Hi Fabio, let's change "conhecimento especializado" to "Conhecimento
-t=C3=A9cnico" to avoid repeating "conhecimento" in the same sentence.
+On 7/8/26 12:35 AM, Thomas Gleixner wrote:
+> add_random_kstack_offset() is invoked before syscall_enter_from_user_mode()
+> establishes state. That's wrong because add_random_kstack_offset() calls
+> into instrumentable code.
 
-> +Qualquer CVE atribu=C3=ADdo contra o kernel Linux para uma vers=C3=A3o d=
-e kernel
-> +ativamente suportada, por qualquer grupo que n=C3=A3o seja a equipe de a=
-tribui=C3=A7=C3=A3o de
-> +CVEs do kernel, n=C3=A3o deve ser tratado como um CVE v=C3=A1lido. Por f=
-avor, notifique
-> +a equipe de atribui=C3=A7=C3=A3o de CVEs do kernel em <cve@kernel.org> p=
-ara que ela
-> +possa trabalhar para invalidar essas entradas por meio do processo de re=
-media=C3=A7=C3=A3o
-> +da CNA.
+Thanks for fixing that.
 
-Hi, the phrase 'assigned against the Linux kernel' sounds a bit
-unnatural when translated literally to Portuguese. It would be more
-fluid to use
- 'assigned to' ('atribu=C3=ADdo ao'). Can we update this? Thanks!
+> 
+> Move it after syscall_enter_from_user_mode() to ensure that state is
+> correctly established.
+> 
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Shrikanth Hegde <sshegde@linux.ibm.com>
+> Cc: linuxppc-dev@lists.ozlabs.org
+> ---
+>   arch/powerpc/kernel/syscall.c |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> --- a/arch/powerpc/kernel/syscall.c
+> +++ b/arch/powerpc/kernel/syscall.c
+> @@ -19,8 +19,8 @@ notrace long system_call_exception(struc
+>   	long ret;
+>   	syscall_fn f;
+>   
+> -	add_random_kstack_offset();
+>   	r0 = syscall_enter_from_user_mode(regs, r0);
+> +	add_random_kstack_offset();
+>   
+>   	if (unlikely(r0 >= NR_syscalls)) {
+>   		if (unlikely(trap_is_unsupported_scv(regs))) {
+> 
 
-> +Aplicabilidade de CVEs espec=C3=ADficos
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Como o kernel Linux pode ser usado de muitas formas diferentes, com muit=
-as
-> +formas diferentes de acesso por usu=C3=A1rios externos, ou sem nenhum ac=
-esso, a
-> +aplicabilidade de qualquer CVE espec=C3=ADfico cabe ao usu=C3=A1rio do L=
-inux determinar;
-> +isso n=C3=A3o cabe =C3=A0 equipe de atribui=C3=A7=C3=A3o de CVEs. Por fa=
-vor, n=C3=A3o entre em contato
-> +conosco para tentar determinar a aplicabilidade de qualquer CVE espec=C3=
-=ADfico.
-
-I noticed a slight redundancy in this translation: 'de muitas formas
-diferentes, com muitas formas diferentes...'.
-To make the Portuguese text sound more natural and fluid, I suggest
-using synonyms to avoid repeating the phrase. Here is a suggestion:
-'Como o kernel Linux pode ser usado de m=C3=BAltiplas maneiras, com
-diversas formas de acesso por usu=C3=A1rios externos...'
-What do you thinks?
-
-> +Al=C3=A9m disso, como a =C3=A1rvore de fontes =C3=A9 muito grande, e qua=
-lquer sistema usa
-> +apenas um pequeno subconjunto da =C3=A1rvore de fontes, qualquer usu=C3=
-=A1rio do Linux
-> +deve estar ciente de que grandes n=C3=BAmeros de CVEs atribu=C3=ADdos n=
-=C3=A3o s=C3=A3o relevantes
-> +para seus sistemas.
-
- In this section, I suggest updating '=C3=A1rvore de fontes' to '=C3=A1rvor=
-e de
-c=C3=B3digos-fonte',
- changing 'grandes n=C3=BAmeros' to 'grandes quantidades' for better flow,
-and removing the repeated 'qualquer'.
-
-Thanks.
-
-Dan
+Reviewed-by: Shrikanth Hegde <sshegde@linux.ibm.com>
