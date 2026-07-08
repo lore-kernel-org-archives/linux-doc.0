@@ -1,213 +1,165 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4932C11CB
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 14:15:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B081A3BCD3E
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 14:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783520126; cv=none; b=MfNqiR72IBgtqqOn5+nTHdxIPvWa/JoBBOxLJ3ZzPOEcTahBhbC+WIycOk/E+SzJJr3dtxIKP+a/CZGi/9NrgroRe1aMlzmDA9Lu9HydJmhmORhfhloEXtYw3QzOIem6Gx7aYmMC7hF9tht3hMIFTVTXbtoCVHNLYrNK9f60vgU=
+	t=1783520784; cv=none; b=QLe1PeKVIbUztNSIPU6nJMlHzGjs4FGlJjz+Tz5TjhFpKUJjoyRytXbe8/XEomD2SD4TuHM5ZNV82KCwD/F11Q+HLDWRci9NfW0OyA9Ww7rmWu7qgGSsh/J4yH2EhpZSOJDIS1uSNmy/gjU2anHxvWkVYj7uYaqEffcDY7nXZMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783520126; c=relaxed/simple;
-	bh=LhWIkOjBRhSchfsWBTlfKi+6aOVgB2iAPIJukRdfpfw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C0QGMfRcL8MyUhLjm80Gg2bY1SsXckVdiYgOQAb++IjARCnFtXYEX1PdSKJBfPGk2MR6md8hB2emkuokcinil5Ta5ECvNx8QDTJM+lfWZtTktml+mA4ygMDNjg7CYKHDejv4IX1qZDb0LQ03kZJQAgQIaP8M9MOQ8L3vzE0F4kI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iPfJJLRZ; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783520784; c=relaxed/simple;
+	bh=uuOvnq1jqJcyHqom7LOWBjJv/hTzGqurf6hJE/afojM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bz0b/GRFJquRa/4cR8tXLFQks7OVlIfhrLdOTC8CBr3BPvUq53aNcZ+YMV4uMom83eHXfEwa9kaSABWKHYoE0OGQFbw3YDpD7nZz0T5+YXUjhD/uN37dHcRblY1sHM/bzA6k8dhLq1R95y7JpWk7MNVZuDIvciofcPsOhVVCCVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Hu0RmUEv; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iPfJJLRZ"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2c6b67d5fa1so8268765ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 07:15:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Hu0RmUEv"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-493b1710405so4845725e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 07:26:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783520124; x=1784124924; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=idL2Xz0mU2qCcJAvF4YtSgzLnoGRC91n4WDotTzDTTc=;
-        b=iPfJJLRZqejPJNjmhna2pPeAxMlBTGdU7uu2gZlS7WoIWbxBrmSk5mMfDxDLi9GAeM
-         nh+S4C+c1ZXrIF8yFb1zMjzworWXTnL1jJQks2E010I40Cpzqyn0nD6aLbW3rmoBL/jS
-         E0DSfekyUKcXDkH3bTD9/dnYoH4ObX7F3CAeKK5B8m6pxHzh5JxevcZqksCZWDLTagFO
-         vmuUqrWS68BOcFnww0GNGzqpJrlogRxlUFi0SAhg05PwzOxa7CptBBJby4lxVDYvPRVU
-         bGqAaPZGy6fTr805Apj5YjFx92wd2oIlNRxCI5AlkI3SMzGBTjPb85KuuXIsDWQLKM7q
-         S/uA==
+        d=suse.com; s=google; t=1783520781; x=1784125581; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=y+2oxnA5/005eAPx9+D3ISlHqx+7lNA7OCwPVcy4+pQ=;
+        b=Hu0RmUEvEzgsKLTTatt63vRSF8ZccjimJNUEsn8ncr2SKecU4MN5jJnOKeUDOgEXuu
+         E4MSB/fxdVBNq1YSkUZSCpDoZdRvXtpFlj6ZJlcum2NCYtaISj29KLDlFFoh9szCBq7O
+         IERJl5YDXOW9mjfQqo8nMMYjn3C6QXHaAvrt22k9F+d4RQKFh4nljpMEzGx8XnrhZb6k
+         fnTfZOYlyKWqQUHjHG9nGnXAC+UiWGzkFLgs93M7cPeABLOFGAI3ELZLQv23fxxskLjS
+         v7lj6EKFVsmM52Bxhu+Tp+NS1zrdrR+/FbqF1KlHLyGnpuG1xjxLGsPYU4qezjrLSENz
+         +GMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783520124; x=1784124924;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
+        d=1e100.net; s=20251104; t=1783520781; x=1784125581;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=idL2Xz0mU2qCcJAvF4YtSgzLnoGRC91n4WDotTzDTTc=;
-        b=oG2yoXN2X/xEuZ6zzAlo1oHRzwvnJvlJyOjmtb3Ff+Ipy0mhoRfVt0tYsfNo5uujSY
-         tD8nx0U6z33BW/smndsC26o+IgykdauvI/izK5oDVpSQMJBkoyISTlDJ9upxYhFWioz0
-         lZUxpAMalKwVPm82ZZ/roDLk+0ZjkwNyvADViK/i9bcaXwAFMVdNff/ZgFcRhCmzB7d/
-         Szy9YInbHC5T7SoioUF3qLTbUH5CEbENnipv/uXJkHvC++msSg8iqWSQFoCkuT5jZEpk
-         ObutJN60YZSYmKyJKp1FxOiRFAiAbNicfbKAJ937cqquTNQS4n+E9dx0o3piOVFwFFKm
-         hwVw==
-X-Forwarded-Encrypted: i=1; AHgh+RqqNYUZLxga5WgVqWBk1B+KACNWcRoy+XPrGujuShjVmFksR6MnVtp+CvziJk2w+oh2ikiynqN+44E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqD18m2sJ3HFpxYNduxUmXfG+pLf4UrBPr1SLkBkK8irwKPyqz
-	0pMI+pk5eT/zd2JJV0zUEOmHITCFuNCmmhzVYI7w1iyD0F6jZ5vYTRuz
-X-Gm-Gg: AfdE7clsZVNerRbJcyDPVjWJug5EV2RHbfQj7AdXrGPXOI1GIRre56IJd97s/Ukirmv
-	neDLjRtF8HA238kFWesWz74jMuLlzXLS6BWiiSsXUr7T8I2/i1tR4R9XCN8YykWIDqagHZgtOaq
-	8o5bc0EMcyWri3e4LBVfVK8MtZ4zO4meEWQfW/RegqeT/Ko49sHeKYS17/eL8X1s5UBJLmY+5hj
-	Ikc6EPZqGfM61zKhVClavD5GXL+14ie9kN469bbaqBylK+YHU9FAy6xCmiUO5OtFimqr7QDttUi
-	Q5kBqvCb2UFQaxdAYneSJ3aB/EkqbLaTk/xJEhk5jXOJwSYfhT+2pobgWCILryJ8rkzlO4h7YlD
-	BHjhqMn29e02+3EyCBxBy6xfUlj3Ex71QP5gArSwhSqHlw0axfUJeDiLLf9ksZrT9u18nz6yA/G
-	pmYsW0lJYvPs1HFouSO8s9T2a0qWWVH1Wl4Xoq3xndgOVh
-X-Received: by 2002:a17:903:3c67:b0:2ca:9d5a:8b6c with SMTP id d9443c01a7336-2ccea37d246mr27168615ad.5.1783520124216;
-        Wed, 08 Jul 2026 07:15:24 -0700 (PDT)
-Received: from [10.125.192.148] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9c21429sm29047715ad.37.2026.07.08.07.15.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jul 2026 07:15:23 -0700 (PDT)
-Message-ID: <bf14cfe5-e98e-c20a-231e-37b3a2489040@gmail.com>
-Date: Wed, 8 Jul 2026 22:15:08 +0800
+        bh=y+2oxnA5/005eAPx9+D3ISlHqx+7lNA7OCwPVcy4+pQ=;
+        b=lmPb8crZh0XfmsoKiWd5z1FaZ7yb2vmBqCt3fjrKx4gLHYfH0z1a80VqG1Tj0StDDu
+         n5l80CS2ZeUwiqsnsghnLxh/qLiaFMehd/MLtQmyiMuMzrZn/hBGC3DEmsBUwQOb22tD
+         AxjXlCw5WtQEtW8LlapwFhJ8xyVBaJx9pg2XCIC/lcozH6z13dyravQRcWdbD/IdeJjA
+         Tbkxb4P/W7Yr/vHeW2A8KMYj2jXWs3pJ+sc+lXmifk4ngU190FfSgxmyk0bb4vBH3Ofv
+         093EyAA5N8L0t8tbyDK+eRIbZCQXwnX4Kc1nxF0l5QXozPIp8b+1lpoaiSE4U6Ke9aTr
+         1MaQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoEu5FI9S4PDa0A8fZoQjNh7rQTqg/9+YZmnUsDQxc48hPmrc5+RYz8xdWB97Rf7VUyAlu4Svj4BYQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9PhgTwKdchAm88QVM+XexVbHR8iaTrD1r82WGnMIAZfSS961z
+	FxzlK/O3XaVYOYhDeNzcvihR7Hmb6iJBEr0UjJcN5B/MguguXjBwORSKmn0LGWlhpJs=
+X-Gm-Gg: AfdE7cmdBhQvjGpHn4s7drn3UjKbGmoUYh2ekjsH4qDEpeCu/728nSkVAvRYU+9Hlxt
+	/iaDHVcEyBScpcEAGldNYY1lQMzDK5v4fNzTXyoM7L4rElZcyduvpTvKwRvPn1tDGy7TDB48OzQ
+	HtcTW7KqnJ4B46MVdS8mySIjiYes9NScFrkdQT2LrtORyvaJv4MDaUAv/hGT4pU3n/LkekBB0DW
+	4nqLwN66hEPDmDrd/j8Et8Ir0VnMauyPkGXx+oIoAIKcNlzaE+XsLRfAyFSV/5YoJrFxNKjAHSf
+	lJtJuy1/MPrtBZWKgoL78iPMTfJK1SvUyuXozlUeNcQPCnOvh2qO1LvY9TVFiZx1rcmja7mpZTK
+	qY03OWCdm6PlhuYjd7/EuzMPhK8dSJE/Q5el8VaeqVtAkFk/mevfg+2lpfKleY5heOu3S7gtgui
+	aXmUv6PwLHZ9tuf0M=
+X-Received: by 2002:a05:600c:4e93:b0:490:e5c1:b8b9 with SMTP id 5b1f17b1804b1-493e67f7c3emr28578075e9.0.1783520781102;
+        Wed, 08 Jul 2026 07:26:21 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e0f5ca1fsm153295645e9.15.2026.07.08.07.26.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 07:26:20 -0700 (PDT)
+Date: Wed, 8 Jul 2026 16:26:18 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: John Ogness <john.ogness@linutronix.de>
+Cc: Benedikt Spranger <b.spranger@linutronix.de>,
+	Andrew Murray <amurray@thegoodpenguin.co.uk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2 3/4] printk: nbcon: move printk_delay to console
+ emiting code
+Message-ID: <ak5eCp5qw9LYrnAH@pathway.suse.cz>
+References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
+ <20260630-deprecate_boot_delay-v2-3-f9883d36aa4b@thegoodpenguin.co.uk>
+ <20260703165654.71be8707@mitra>
+ <CALqELGz-KSrGq5JYvLedZiO-p21pjpRKbceO+jiSfwZGyx+91Q@mail.gmail.com>
+ <20260707145411.53a10893@mitra>
+ <ak0VguIf-PxmbUOS@pathway.suse.cz>
+ <87qzldvqpm.fsf@jogness.linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v5 4/6] mm/zswap: Implement proactive writeback
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org,
- shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com,
- nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev,
- roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
-References: <20260629112032.20423-1-jiahao.kernel@gmail.com>
- <20260629112032.20423-5-jiahao.kernel@gmail.com>
- <akMJ8UfeZXrVe5LN@google.com>
- <cbbdf506-b67d-193c-2c94-bacf828d559f@gmail.com>
- <CAO9r8zNCEis2QHROEsM5QZsb_H4ofNjA_sE-pM7SVxtgHg_rqg@mail.gmail.com>
- <4ec2bd64-af40-8ebf-b8a8-2dd7421a1100@gmail.com>
- <5ce4035b-7f56-d1d2-2d2a-668446d870e8@gmail.com>
- <CAO9r8zOLe5eJfNmoszCX3rtD=6YEa_7xrvDV1acVDOtZg4vWYA@mail.gmail.com>
-From: Hao Jia <jiahao.kernel@gmail.com>
-In-Reply-To: <CAO9r8zOLe5eJfNmoszCX3rtD=6YEa_7xrvDV1acVDOtZg4vWYA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87qzldvqpm.fsf@jogness.linutronix.de>
 
-
-
-On 2026/7/7 03:33, Yosry Ahmed wrote:
-> On Thu, Jul 2, 2026 at 5:32 AM Hao Jia <jiahao.kernel@gmail.com> wrote:
->>
->>
->>
->> On 2026/7/1 19:45, Hao Jia wrote:
->>>
->>>
->>> On 2026/7/1 00:10, Yosry Ahmed wrote:
->>>>>> Before going through more versions we need to figure out if this will
->>>>>> pivot to be a proactive demotion interfcae for swap tiering.
->>>>>>
->>>>>
->>>>> Yes. Should I drop patches 4-6 in the next version and wait for swap
->>>>> tiering to be finalized?
->>>>> We can try to get the non-memcg parts (patches 1-3) merged upstream
->>>>> first. This would also give them plenty of time to bake and catch any
->>>>> potential regressions. Thoughts?
->>>>
->>>> Patches 1-2 can be sent and merged separately, yes. For patch 2,
->>>> please include some numbers for the writeback performance before and
->>>> after batching.
->>>
->>> I'd love to collect some performance data. Do you have any recommended
->>> benchmarks for this?
->>>
->>
->> Perhaps the following test case could work?
->>
->> Test Setup:
->> - Total memory: 32 GB
->> - zswap settings: max_pool_percent=1, accept_threshold_percent=50,
->> shrinker_enabled=N
->> - cgroup constraint: memory.max=1G
->> - Workload: Run the following stress-ng command inside the cgroup for
->> 120s to
->>     continuously force zswap store failures and trigger shrink_worker():
->>
->>     bash -c 'echo $$ > /sys/fs/cgroup/zswaptest/cgroup.procs ; \
->>     exec stress-ng --vm 4 --vm-bytes 4G --vm-keep --vm-method rand-set -t
->> 120s -q'
->>
->> The following comparison results were collected over multiple runs via
->> bpftrace
->> and the 'written_back_pages' sysfs interface:
->>
->>                            Baseline         Patched
->> ---------------------------------------------------
->> shrink_worker wakeups       5,587             878
->> shrink_memcg calls      7,823,853       2,347,320
->> written_back                  257         781,214
->>
->> Conclusion:
->> Under the same workload and duration, the patched kernel shows a
->> significant reduction
->> in both shrink_worker wakeups and shrink_memcg calls, while successfully
->> executing a
->> much higher volume of page writebacks.
+On Wed 2026-07-08 10:25:17, John Ogness wrote:
+> On 2026-07-07, Petr Mladek <pmladek@suse.com> wrote:
+> > To summarize this discussion:
+> >
+> >   + Benedikt would prefer to add the synchronous mode before
+> >     moving the delay from the printk() caller to the console emit
+> >     code path.
+> >
+> >   + The delay in the printk() caller code path did not guarantee
+> >     the output but it increased the chance to see it.
+> >
+> >   + The synchronous mode will be even more reliable than the delay
+> >     in printk() caller path.
+> >
+> > Please, let me know if I did not get it right,
+> >
+> > John, did you have any plan how to add the synchronous mode, please?
+> > Does it look complicated?
+> >
+> > I guess that we would somehow need to "mis-use" the emergency
+> > priority and force it everywhere by some global system setting.
 > 
-> Hmm this is actually a bit concerning. Yes, we are invoking the
-> shrinker less, but we're writing back *a lot* more memory, orders of
-> magnitude more. We are using a batch size of 64, and making ~1/3 of
-> the calls to shrink_memcg(), so the number of written back pages
-> should be ~20x more, not 3000x more? I think I am missing something.
+> The synchronous mode would rely on the driver being nbcon. I envision
+> something like this:
+
+Thanks for sharing the code.
+
+> ---- BEGIN SYNC IDEA ----
+> --- a/kernel/printk/nbcon.c
+> +++ b/kernel/printk/nbcon.c
+> @@ -1200,7 +1200,7 @@ static bool nbcon_kthread_should_wakeup(struct console *con, struct nbcon_contex
+>  	cookie = console_srcu_read_lock();
+>  
+>  	flags = console_srcu_read_flags(con);
+> -	if (console_is_usable(con, flags, false)) {
+> +	if (!(flags & CON_SYNC) &&  console_is_usable(con, flags, false)) {
+
+The dependency on con->flags means that the sync mode can be entered
+only in task context where synchronize_srcu() can be called. It might
+be good enough. But I am afraid that people are creative and would
+like to have even atomic variant sooner or later.
+
+Also it will do the flush in NORMAL_PRIO which is good. But it might
+fail to get the context ownership when it is blocked, for example,
+by uart_port_lock() which might be even sleepable context in
+PREEMPT_RT kernel.
+
+>  		/* Bring the sequence in @ctxt up to date */
+>  		ctxt->seq = nbcon_seq_read(con);
+>  
+> ---- END SYNC IDEA ----
 > 
-> Also, ideally, the batching wouldn't result in significantly more
-> writeback, but a similar amount of writeback over less shrinker
-> invocations. If we are writing back significantly more pages then the
-> batching logic is probably too aggressive?
+> BTW: The sync mode is the final piece so that PeterZ can start using
+> mainline code for debugging by serial instead of his own workaround [0].
 
-Apologies, I think the test I constructed has a bit of a problem. This 
-test has very, very heavy memory pressure and is already a very abnormal 
-case.
+> [0] https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/log/?h=debug/experimental
 
-The zswap entry returns the first time because of "second chance" after 
-setting referenced to false. For the baseline, it scans 1 page per node 
-each time for 16 loops. During the test, shrink_worker() basically exits 
-at about 16 pages each time.
+I see.
 
-Since stress-ng periodically and randomly writes to this 4G memory, it 
-keeps triggering zswapin and then waiting to zswapout new zswap entries 
-after falling below the pool threshold. When the speed of zswapin/out is 
-far greater than the scanning speed of shrink_worker(), a large number 
-of zswap entries cannot wait until the second scan for writeback. New 
-entries are stored on the zswap LRU list again, and the referenced of 
-the new zswap entries is set to true again. During the test, it was 
-found that 99.21% of the return values of shrink_memcg_cb() in the 
-baseline kernel were LRU_ROTATE.
-
-For the patched kernel, shrink_worker() scans at least 64 * 16 entries 
-in a single pass, so it can trigger writeback during the second scan.
-
-
-I have re-tested using a more common, reproducible scenario:
-
-Test Setup:
-- Total memory: 32 GB
-- zswap settings: max_pool_percent=1, accept_threshold_percent=50, 
-shrinker_enabled=N
-
-Test Procedure:
-Allocate 512MB anonymous pages and fill the data with random numbers (to 
-avoid compression), then use cgroup memory.reclaim to force 512M 
-anonymous pages into zswap.
-Allocate a 4K anonymous page at an interval of 2ms, and then trigger a 
-reclamation of a 4K anonymous page through cgroup memory.reclaim. When 
-the pool threshold is reached, shrink_memcg() will be triggered.
-
-The test data after running for 300s is as follows: (it will eventually 
-stop writing back because the pool threshold is reached)
-
-                           Baseline         Patched
----------------------------------------------------
-shrink_worker wakeups          5126            85
-shrink_memcg calls      11,003,734       173,420
-written_back                40200          40233
-
-
-Thanks,
-Hao
+Best Regards,
+Petr
