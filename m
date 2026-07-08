@@ -1,72 +1,100 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774C8405C30
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 10:59:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E553CF97F;
+	Wed,  8 Jul 2026 11:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783508369; cv=none; b=Q3cRzvsKpNzUNMY4qENZYA9BPxC78lIpLpSOb2ysOEz9IPqzu/6y5GSQx1nhjpT4QicfxXXrsVxjNucGZ5CjkAbFRAzvPOlm1VRnizqx8aVuzxJzuhV/BF8Ha6QBSro7GXyo9vTQZJfO7neHc4atvgJC/wMycU4yLCZkLPparXY=
+	t=1783509262; cv=none; b=lfkIteKUiyfNxwqthMJCYVZTmogH9I40xQammjyePkLyThQqlV6oyiaIbq9VNfSX5DWNr0sZ4Sm6Rff1Rjs9b0Dk2knb6WIkr7n4EmNVBrYXN3F7WRFM5QcIVQPps6QhGP0hJGNE1FeF47zxAR6dDWcYB3jJM33E03M3t22qhGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783508369; c=relaxed/simple;
-	bh=NFroFX5L47tzT5lUjRdEpTIj20bWWs2qlriH2hOmBBY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CZyRTTSndq8tYIm/zo76XMSKOA9f8ol+XA/oCXKxpoed8Kl5GvPUwIu/R9wGpfe/w5XE9KLBiZipxPnAm9bIc283NU3NeWRbT/irBUcblwfKxqWsA9eyPXlpsjSATY48tWTDnyWGO1KpZqr/F+q5BEA6NL6RRteAFZS8tU0bEkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VWBSHCf2; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783509262; c=relaxed/simple;
+	bh=I55nioxr/rAFFSvgHNg4gvGXKkW9I6aClJS10s+4TFg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XQB9jgPY65+p/E5GDiFC2Kjfw2FV1HYUVMsvsHWtOsq/PpkCIprL8+rdOhwh4gLSuNFlXDJmcgZv61fEuNV4DX8ZQxWJqhw3lhQvmkm0KZx5RwEhtEyASFdvWB9Qa4kAmm5MdEsoE00wec8AkTd+R3JNG24avEYTKzvY4BTROjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=lQtOsh2e; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BlXJF+qp; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VWBSHCf2"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-381891a9525so676570a91.3
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 03:59:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783508363; x=1784113163; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bikp1xGXJkxccYxznAEASXFZtMNyKcxCQ1sq/BOiCcc=;
-        b=VWBSHCf28o7VqtA1PxjH9BcFW+Oa8QlkpHd3Eg3Pzf1XleNMCBGFtdp0rD01hxO7x/
-         OmUeLePDYt8vpb7+hiMliSsy/QSKpxuYRPAalh/zMzD15/gKdXf4cD5SZtz7ogt6XWYc
-         XIIVi/wfDOMUU+oOfXYpGT659TmqvcJNt9ld9/aZmlQkyQ2IIS22avxBkOLcoA2vDkfQ
-         mrnyqwJXv1pQM5xlLHthqDuXTAM8iw/rEZcofvAOMzynKDGTRcIARqRgvXuO/HRIPrK/
-         LfwwT9kO/yBR3WNFSINk7S74KpMiggfzFe/D7ojQZeBT1ZBLmVU1EMcFvLdTGpMKopjZ
-         vWgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783508363; x=1784113163;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bikp1xGXJkxccYxznAEASXFZtMNyKcxCQ1sq/BOiCcc=;
-        b=UNPErAFs6ebf0TBveRKQFvV7y7zfAZpSkKYijl7u4DACkMle/cT4dyXlCRbrRDmp0a
-         7r5X9nlJ7o5wxW+1NtDyOVbx2aIYUltHYipnG1nLSUlihmYcyfP6RZ0Jbps7IzVc35qi
-         Ti+sSPS9USSMrkPdWo6IxGY770S3JNELwYjuyHOMobslRvqrurgMs9m12RqYw/worSta
-         u0fygCpxFdxOhAjaH8vMex1382F8mSEYdujL3rquiGYw0GMfZXZX+mEG1wRl7xrb/uiY
-         LCEr/SJIjUc9zBRiXq6nn7A4mTLc/EwtQPwvdZmGqGzGesd2KhidOTzS9ThBwWXMA4tf
-         I9pA==
-X-Forwarded-Encrypted: i=1; AHgh+Rra3y/8/zz5pWbgMtUtArkOw++i75aT0Q3OTYTYQzFBaT+ks9LQCXM0wkxUFSgv9I3UfPNitrETHFY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwX4ZjUeuTlRtUOButETBIpUpjK9iDj9oMVf76pzcrvC7AF12I+
-	4f13qHZk44XoU3C38N98MzR93zECO689nW1OtxNFLP/8mufmnXK0YHzj
-X-Gm-Gg: AfdE7cmKAxUV6MjLr/L9829WctFV56iQTjurtle5NBl4E8XtPHWTLae+PJQAq4Fti6p
-	xW90YJdcU2Dj4YKeouAQsyArY9U13R6IsVeH5ay9ur6JLmnDXMctTCp3XJMtNqht52P4HHCCpAG
-	3YGOyjcb4e2/hPiOhEYz63J7e99Ko3xEvxqjK97ICDr1Zfhv/YKiyAXHXrgZqrXiCwQjo5QS4dt
-	vHaJcQUsqHXCLDImwtFwR6aljB4T9vm436NJp9wbmLbXaWuTtNycKPlrsS+4uQnvrwb8buLMpdJ
-	oybteeNtP6XSR9ShXHMj1bg4X2T+c6N8cSsFflsH2XQ1TFfkFZeB00BPaturpVVPHw10tAZGuMc
-	BhSNck8l4/09O9BvFAj8Otcg8Q3U+Rgh+02YaRAzI3qtze1FF4095igijTwOirzJLH9uwOqnwhZ
-	R5xBvbj7plMusRHqSpLZSZcQpm3dkQJEtmWFxhbablg/NgbOEU/KAxUhy59rly
-X-Received: by 2002:a17:90b:57ee:b0:380:a5a9:7586 with SMTP id 98e67ed59e1d1-3893f693819mr2200362a91.6.1783508362994;
-        Wed, 08 Jul 2026 03:59:22 -0700 (PDT)
-Received: from ubuntu-2404.. (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-387d17e9ff3sm2558148a91.7.2026.07.08.03.59.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 03:59:22 -0700 (PDT)
-From: Akira Yokosawa <akiyks@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="lQtOsh2e";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BlXJF+qp"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id B63307A00A1;
+	Wed,  8 Jul 2026 07:14:19 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Wed, 08 Jul 2026 07:14:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:message-id:mime-version
+	:reply-to:subject:subject:to:to; s=fm3; t=1783509259; x=
+	1783595659; bh=JvAyjlWNI6YZO6NfvIOecLrwqYMYnO8FDhEy8qDdGng=; b=l
+	QtOsh2eY1e5/SzYl/z9xZrEwP0i4Ta/I4BOzfBEVqD1bV5kVEV8CpUmKoqkAJ0ro
+	c+VqUjy3oAqde+7VbTl7w+6n83k5Veoia0ctTHZCOtt9sd3y/cu65FZ+CvWFbNKJ
+	CLPEOOGTRFLzFtCU25aUrR24wqWeCccNRO+Z8wM5sBKHRJpgBcL/0xFgl6XaJQyt
+	5FfqpRpa5vPesyptP32mblkcceCeg5qmDmLp+9wzMm8ZSQTXHjc1GI9Ir2tfPawm
+	nfZ0UTrI5wISrF83zcF8ld0AIAFJRFfBiSsb/cdvOVlNIy6LJBVi5kHETkO70d8p
+	tf1mem/OP8s3xm8OeoHtg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1783509259; x=1783595659; bh=JvAyjlWNI6YZO6NfvIOecLrwqYMY
+	nO8FDhEy8qDdGng=; b=BlXJF+qpmCkN+UKm21yuF+vPkGPktq/Yx5FYbIKerUir
+	vJAcMfNq2qT1a8yuDLGu/B4RbgJRopYjiT/htqrFBa3ZDHM/CBnv15VcmrlMu4pV
+	ouJ7nioF+5VVS+ogZCI3NUft8T/VkNp1/HHTlvFerciUyHYHzCqFmCsti2k82EiS
+	LHMi5NsGMQTUCMNILFBPW1B5ECKyHYx8WnsC1aNSLQvJ9m2oHIGLwzluMSX2BTDB
+	s9J6YSC16ys0r1/qQl+UcVYlVItGnqkpBX3DZs0X/86dSUq3xsMrVCBkV87z9N0W
+	+ihYzKFJE14koaTfSCBfnglt7rCvIHfzybFg2xRAXQ==
+X-ME-Sender: <xms:CzFOajbPK9Xfa4V_yoPr6pp6UISy4fb00wA2prVuB4WB2qDJBo12NQ>
+    <xme:CzFOamUFxMfU6lUh9SYU4BQCv35JDGNJZwCDyZEclLQ0M52aLKLlW6k6Cr845SkQ8
+    ngZffZ0qq_RIcDkhm_xy52C4K3ZIGio7M4uTGj6MSeRnd6wUACRiA>
+X-ME-Received: <xmr:CzFOaudJKANtGLqU6SoZOFnlewgH4VPT_MuoYJLCRVrqpcAgmkYKvXrWUnpRJQ>
+X-ME-Proxy-Cause: dmFkZTEotIPoabf5BNYebqczoCEby+reBUPP5i1YdRZEdQfjort4psOrp/0yEBug8FqBK/
+    Qao8Wy+oXokmG1sT8yeQ5gIv5e8osU1jW6dY4ciJrov5HFwukC3tLsa1O+ZrhX1cixDo2l
+    3o/ha0BGK73pj/TiZWfdKazvCN7F9H6rRUYLWDa8BQO4IV9s9PrMv8MVZTRfXTaCvA6nHQ
+    w+nZJOXrTSKMsIeBWJW2VDY9I3jsjddpdZ2NZbh5Uoiw/80CjHQMg9HjjYudoPHtjqYnNN
+    y96cVtrwMWVc8vYWYWcj3+BlMbivfyAZ563yjsmxjR94v9YxkPdIwuEgkgxkw5tjypaqPD
+    o4fFRdGL5sJxFfBwNXo3Sglpb41cbpizJDM6OErGUhdNtTGqsmlnvwPo4a+qT+QAK0sY8e
+    4IgrBOH3cwemJ0puOLOPD8Djs3n5j0qnqMg6a4I5T9gdeKnSRCYnQRbtwJeJwZbNONTpFK
+    /VbhddwcHtZfP3yOCltEM/55lIiu/9Mh0rGxG9PvBD+X1DpCtPAdRqQ9gR89jRtw+ETwWU
+    pO8L9L5O1t0J0VQAoDWb851CWqiSTEYKOubyrK7sARaJELQpFmYR/Wqt+1vfpt305MMbty
+    uk3ySP+3dJ/T3MrPSaweSbCiMfvijorfVV35tiuWnEmLmrR8QkXWUvjWZE/g
+X-ME-Proxy: <xmx:CzFOajMSXW_LeKu482x11LvhplBz8W9LPq33Xbi3fXHXyaA2Dscl7g>
+    <xmx:CzFOamLkxtgE6zNe59Dl_8qWchhDfxZbF2uNAhxEoqIkHn9DuzNtew>
+    <xmx:CzFOaplbgIOX2Qww2ywNDIUkevbdN7b2fHko_36dYk92y3EZ0LUDjg>
+    <xmx:CzFOalac777D98G0SCwxiv4eB2lxycceAUPPL2eXZqwK9YEKApGoKQ>
+    <xmx:CzFOaqZxmcEZYZ0DTLns-tae7S1wjcGqNNUI12bRO0k7vmx5Ruy0uJYC>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 8 Jul 2026 07:14:18 -0400 (EDT)
+From: Kiryl Shutsemau <kirill@shutemov.name>
+To: akpm@linux-foundation.org,
+	rppt@kernel.org,
+	peterx@redhat.com,
+	david@kernel.org
+Cc: ljs@kernel.org,
+	surenb@google.com,
+	vbabka@kernel.org,
+	Liam.Howlett@oracle.com,
+	ziy@nvidia.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	seanjc@google.com,
+	pbonzini@redhat.com,
+	jthoughton@google.com,
+	aarcange@redhat.com,
+	sj@kernel.org,
+	usama.arif@linux.dev,
+	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Akiyoshi Kurita <weibu@redadmin.org>
-Subject: [PATCH] docs/ja_JP: submitting-patches: Refine wording etc for "splitting changes" and later
-Date: Wed,  8 Jul 2026 19:59:03 +0900
-Message-ID: <20260708105906.40954-1-akiyks@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kernel-team@meta.com,
+	kas@kernel.org
+Subject: [PATCH v10 00/15] userfaultfd: working set tracking for VM guest memory
+Date: Wed,  8 Jul 2026 12:14:01 +0100
+Message-ID: <20260708111417.173443-1-kirill@shutemov.name>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -76,297 +104,228 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Resolve rough edges in translation text added since commit 61e4155c81d1
-("docs/ja_JP: translate more of submitting-patches.rst").
+From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 
-As with commit 999084ee0b11 ("docs/ja_JP: submitting-patches: Amend
-"Describe your changes""), do the following tweaks:
+This series adds userfaultfd support for tracking the working set of
+VM guest memory, so a VMM can identify hot pages and reclaim cold ones
+to tiered or remote storage.
 
-- Rewording and rephrasing.
-- Suppress extra white spaces rendered before and after strong emphasis
-  in HTML and PDF by using espcaped spaces.
-- Provide translation words for "embargo", "word-wrap", "top-posting",
-  etc.
-- Rather than keep "interleaved replies", use only 「インライン返信」
-  ("inline reply"), which is a popular term in Japanese.
+v1: https://lore.kernel.org/all/20260427114607.4068647-1-kas@kernel.org/
+v2: https://lore.kernel.org/all/cover.1778254670.git.kas@kernel.org/
+v3: https://lore.kernel.org/all/20260522133857.552279-1-kirill@shutemov.name/
+v4: https://lore.kernel.org/all/20260525113737.1942478-1-kas@kernel.org/
+v5: https://lore.kernel.org/all/20260526130509.2748441-1-kirill@shutemov.name/
+v6: https://lore.kernel.org/all/20260529172716.357179-1-kas@kernel.org/
+v7: https://lore.kernel.org/all/20260629120749.566063-1-kirill@shutemov.name/
+v8: https://lore.kernel.org/all/20260703133615.1039465-1-kirill@shutemov.name/
+v9: https://lore.kernel.org/all/20260706084805.8400-1-kirill@shutemov.name/
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Cc: Akiyoshi Kurita <weibu@redadmin.org>
----
-Kurita-san,
+== Changes since v9 ==
 
-If you find some of my word choices strange, please submit a patch
-on top of this change.
+Rebased onto mm-new; resolved the copy_hugetlb_page_range() conflict
+Andrew hit against the hugetlb swap-corruption fix -- hwpoison keeps no
+clear, migration uses pte_swp_clear_uffd() with userfaultfd_protected().
 
-Thanks,
-Akira
+  - 11/15: gate the pte_none PAGE_IS_WRITTEN report in
+    pagemap_page_category() on userfaultfd_wp(vma). The standalone fix
+    now in mm-new reports pte_none unconditionally to match the ungated
+    fast path; this series gates that fast path on VM_UFFD_WP, so the
+    generic path must gate too. RWP has no such fast path and
+    unpopulated pages are not part of the RWP working set.
+  - 14/15: tolerate EINVAL from madvise(MADV_NOHUGEPAGE) so the test
+    does not abort on CONFIG_TRANSPARENT_HUGEPAGE=n; rwp-mprotect and
+    rwp-fork-pin assert the marker survived before the auto-resolving
+    access (posted earlier as a v9 14/15 update [1]).
 
-.../ja_JP/process/submitting-patches.rst      | 150 +++++++++---------
- 1 file changed, 75 insertions(+), 75 deletions(-)
+Based on mm-new plus the hugetlb swap-corruption fix [2] (in
+mm-hotfixes), shown here as a prerequisite-patch-id. The PAGEMAP_SCAN
+PMD-hole fix [3] is independent and not required.
 
-diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rst b/Documentation/translations/ja_JP/process/submitting-patches.rst
-index d31d469909e4..fa794a44d8c4 100644
---- a/Documentation/translations/ja_JP/process/submitting-patches.rst
-+++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
-@@ -182,7 +182,7 @@ URL は禁止です。
- 変更を分割する
- --------------
- 
--各 **論理的な変更** は、個別のパッチに分けてください。
-+それぞれの\ **論理的な変更**\ は、個別のパッチに分けてください。
- 
- たとえば、単一のドライバに対する変更にバグ修正と性能改善の
- 両方が含まれるなら、それらは 2 つ以上のパッチに分けてください。
-@@ -208,7 +208,7 @@ URL は禁止です。
- ことがあります。途中でバグを持ち込めば、彼らに感謝されることは
- ないでしょう。
- 
--パッチセットをこれ以上小さくできないなら、一度に投稿するのは
-+パッチセットをそれ以上小さくできないなら、一度に投稿するのは
- 15 個程度までにして、レビューと統合を待ってください。
- 
- 
-@@ -220,18 +220,17 @@ Documentation/process/coding-style.rst を参照してください。
- これを怠ると、単にレビューアの時間を無駄にするだけでなく、
- パッチはおそらく読まれもせずに却下されます。
- 
--大きな例外が 1 つあります。コードをあるファイルから別の
--ファイルへ移動する場合です。このときは、コードを移動する
--その同じパッチの中で、移動したコードを一切変更してはいけません。
--そうすることで、コードの移動という行為と、あなたの変更とを
--明確に区別できます。これは実際の差分のレビューを大いに助け、
--ツールがコード自体の履歴をより適切に追跡できるようにします。
-+一つの重要な例外は、コードをあるファイルから別のファイルへ移動する場合です。
-+その際は、コードを移動するその同じパッチの中で、一切コードを変更しては
-+いけません。これにより、コードの移動という行為と、コードの変更とが
-+明確に区別されます。これは実際の差分のレビューを大いに助け、また、ツールを
-+使ったコード変更の履歴の追跡を容易にします。
- 
- 提出前に、パッチスタイルチェッカー
- (``scripts/checkpatch.pl``) でパッチを確認してください。
--ただし、スタイルチェッカーは指針として見るべきであり、
-+ただし、スタイルチェッカーは指針にすぎず、
- 人間の判断に取って代わるものではないことに注意してください。
--違反があっても、その方がコードの見栄えがよいなら、
-+違反が指摘されるままのコードの方が見栄えがよいなら、おそらく
- そのままにしておくのが最善でしょう。
- 
- チェッカーは 3 つのレベルで報告します:
-@@ -240,8 +239,7 @@ Documentation/process/coding-style.rst を参照してください。
-  - WARNING: 慎重なレビューを要するもの
-  - CHECK: 検討を要するもの
- 
--パッチに残した違反については、すべて理由を説明できなければ
--なりません。
-+パッチに違反を残す場合は、そのすべてを正当化できなければなりません。
- 
- 
- パッチの宛先を選択する
-@@ -256,8 +254,8 @@ Documentation/process/coding-style.rst を参照してください。
- サブシステムのメンテナが見つからない場合は、Andrew Morton
- (akpm@linux-foundation.org) が最後の手段となるメンテナです。
- 
--すべてのパッチでは、デフォルトで linux-kernel@vger.kernel.org を
--使うべきですが、このリストの流量が多いため、目を通さなくなった
-+すべてのパッチは、デフォルトで linux-kernel@vger.kernel.org にも
-+送られるべきですが、このリストは流量が多く、目を通さなくなった
- 開発者も少なくありません。とはいえ、無関係なメーリングリストや
- 無関係な人々にスパムを送らないでください。
- 
-@@ -268,103 +266,104 @@ Documentation/process/coding-style.rst を参照してください。
- Linux カーネルに採用されるすべての変更の最終的な裁定者は
- Linus Torvalds です。彼のメールアドレスは
- <torvalds@linux-foundation.org> です。Linus は大量のメールを
--受け取っており、現時点では彼に直接届くパッチはごくわずかなので、
--通常は彼にメールを送ることを極力避けてください。
-+受け取っており、現時点では直接彼を経由するパッチはごくわずかなので、
-+通常は彼にメールを送ることを極力\ **避けて**\ ください。
- 
--悪用可能なセキュリティバグを修正するパッチがあるなら、
--そのパッチを security@kernel.org に送ってください。深刻なバグに
-+悪用可能なセキュリティバグを修正するパッチの場合は、
-+それを security@kernel.org に送ってください。深刻なバグに
- ついては、ディストリビュータがユーザーにパッチを配布できるよう、
--短期間の embargo が検討される場合があります。そのような場合、
--そのパッチを公開メーリングリストに送るべきではありません。
-+短期間の秘匿措置 (訳註: embargo) が検討される可能性があります。
-+ですので、その種のパッチを公開メーリングリストに送らないでください。
- Documentation/process/security-bugs.rst も参照してください。
- 
- リリース済みカーネルの深刻なバグを修正するパッチは、次のような行を
--パッチの sign-off 欄に入れることで、stable メンテナへ向けてください::
-+パッチの sign-off 欄に入れることで、stable メンテナに知らせてください。
-+(メールの宛先ではないことに注意。) ::
- 
-   Cc: stable@vger.kernel.org
- 
--これはメールの受信者ではないことに注意してください。また、
--この文書に加えて Documentation/process/stable-kernel-rules.rst も
--読んでください。
-+また、この文書に加えて Documentation/process/stable-kernel-rules.rst
-+も読んでください。
- 
- 変更がユーザーランドとカーネルのインターフェースに影響する場合は、
- MAINTAINERS ファイルに記載されている MAN-PAGES メンテナに
--man-pages パッチ、少なくとも変更の通知を送って、情報が
--マニュアルページに反映されるようにしてください。ユーザー空間 API の
-+マニュアルページのパッチ、もしくは少なくとも変更の通知を送って、情報が
-+そちらにも反映されるようにしてください。ユーザー空間 API の
- 変更は、linux-api@vger.kernel.org にも Cc してください。
- 
- MIME・リンク・圧縮・添付なし、プレーンテキストのみ
- ----------------------------------------------------
- 
- Linus や他のカーネル開発者は、あなたが投稿する変更を読み、
--コメントできる必要があります。カーネル開発者が標準的な
--メールツールを使ってあなたの変更を「引用」し、コードの特定の
--箇所についてコメントできることが重要です。
-+コメントできる必要があります。カーネル開発者にとって、コードの特定の
-+箇所について、標準的なメールツールを使ってあなたの変更を「引用」し、
-+コメントできることが重要です。
- 
--このため、すべてのパッチはメール本文中に ``inline`` で投稿すべきです。
-+このため、すべてのパッチはメール本文中に「インライン」で投稿すべきです。
- これを行う最も簡単な方法は ``git send-email`` を使うことであり、
- 強く推奨されます。``git send-email`` の対話型チュートリアルは
--https://git-send-email.io で利用できます。
-+https://git-send-email.io にあります。
- 
--``git send-email`` を使わないことを選ぶ場合:
-+``git send-email`` を使わない場合:
- 
- .. warning::
- 
--  パッチをコピー＆ペーストする場合は、エディタの word-wrap によって
--  パッチが壊れないよう注意してください。
-+  パッチをコピー＆ペーストする際に、エディタによる自動改行で
-+  パッチが壊されないよう注意してください。
- 
- 圧縮の有無にかかわらず、パッチを MIME 添付ファイルとして添付しては
--いけません。多くの一般的なメールアプリケーションは、MIME 添付
--ファイルを常にプレーンテキストとして送信するとは限らず、あなたの
--コードにコメントできなくなります。MIME 添付ファイルは Linus が
--処理するのにも少し余分な時間がかかるため、MIME 添付された変更が
--受け入れられる可能性を下げます。
-+いけません。よく使われるメールアプリケーションの多くは、MIME 添付
-+ファイルをプレーンテキストとして送信するとは限らず、あなたのコードに
-+対するコメントを妨げます。MIME 添付ファイルは Linus (訳補: をはじめ
-+とする開発者）が処理するのに余分な手間がかかるため、MIME 添付すると
-+その変更が受け入れられる可能性を下げることになります。
- 
--例外:  メーラがパッチを壊してしまう場合は、誰かから MIME を使って
--再送するよう求められることがあります。
-+例外:  パッチがメーラーによって壊されている場合に、MIME による再送
-+を求められることがあります。
- 
--パッチを変更せずに送信するようメールクライアントを設定するための
--ヒントについては、Documentation/process/email-clients.rst を参照してください。
-+改変なしにパッチを送信するためのメールクライアント設定のヒントは、
-+Documentation/process/email-clients.rst を参照してください。
- 
- 
--レビューコメントに返答する
-+レビューコメントに応答する
- --------------------------
- 
--あなたのパッチには、ほぼ確実に、パッチを改善する方法について
--レビューアからコメントが付きます。それは、あなたのメールへの返信という
--形で届きます。それらのコメントには必ず返答してください。レビューアを
--無視することは、こちらも無視されるためのよい方法です。コメントに
--答えるには、単にそのメールへ返信すれば構いません。コード変更に
-+あなたのパッチには、ほぼ確実に、その改善に向けてレビューアから
-+コメントが付きます。それは、あなたのメールへの返信という
-+形で届きます。それらのコメントには必ず応答してください。レビューアを
-+無視することは、あなたが無視されることにつながります。コメントに
-+答えるには、単にそのメールへ返信すればよいです。コード変更に
- つながらないレビューコメントや質問であっても、次のレビューアが状況を
--よりよく理解できるように、ほぼ確実にコメントまたは changelog エントリに
--反映すべきです。
--
--どのような変更を行うのかをレビューアに必ず伝え、時間を割いてくれた
--ことに感謝してください。コードレビューは疲れる、時間のかかる作業であり、
--レビューアが不機嫌になることもあります。そのような場合であっても、
--丁寧に返答し、指摘された問題に対応してください。次の版を送るときは、
--cover letter または個々のパッチに ``patch changelog`` を追加し、前回の
-+よりよく理解できるよう、多くの場合、コメントまたは changelog エントリ
-+として残すべきです。
-+
-+どのような変更を行うのかを忘れずにレビューアに伝えてください。そして
-+時間を割いてくれることへの感謝を忘れないでください。
-+コードレビューは疲れる、時間のかかる作業であり、
-+ときにはレビューアが機嫌を損ねることもあります。そのような場合でも、
-+丁寧に応答し、指摘された問題に対応してください。次の版を送る際には、
-+カバーレターまたは個々のパッチに ``patch changelog`` を追加し、前回の
- 投稿との差分を説明してください。詳細は原文の該当節
- ("The canonical patch format") を参照してください。
- 
- .. TODO: Convert to file-local cross-reference when the destination is
-    translated.
- 
--あなたのパッチにコメントした人には、パッチの Cc リストに追加して、
--新しい版を知らせてください。
-+あなたのパッチにコメントしてくれた人たちは、パッチの Cc リストに追加して
-+新しい版について知らせてください。
- 
- メールクライアントとメーリングリストでの作法についての推奨事項は、
- Documentation/process/email-clients.rst を参照してください。
- 
--メール議論では不要な引用を削った interleaved replies を使う
--------------------------------------------------------------
-+要点に絞ったインライン返信での議論
-+---------------------------------------
- 
--Linux カーネル開発の議論では、top-posting は強く非推奨とされています。
--Interleaved replies、または ``inline`` replies を使うと、会話の流れを
--ずっと追いやすくなります。詳細は次を参照してください:
-+Linux カーネル開発の議論では、全文引用 (訳註: top-posting) は強く非推奨です。
-+インライン返信 (訳註: interleaved reples or "inline" replies) を使うと、
-+会話の流れをずっと追いやすくなります。詳細は次を参照してください:
- https://en.wikipedia.org/wiki/Posting_style#Interleaved_style
- 
--メーリングリストでは、よく次のように引用されます::
-+これについて、メーリングリストでは、次の引用をしばしば目にします::
- 
-   A: http://en.wikipedia.org/wiki/Top_post
-   Q: Where do I find info about this thing called top-posting?
-@@ -381,24 +380,25 @@ https://en.wikipedia.org/wiki/Posting_style#Interleaved_style
-   Q: Should I include quotations after my reply?
- 
- 
--落胆しない、そして急がない
----------------------------
-+落胆しない - いらいらしない
-+---------------------------
- 
- 変更を投稿した後は、辛抱強く待ってください。レビューアは忙しい人たちであり、
--あなたのパッチをすぐに見られるとは限りません。
-+あなたのパッチにすぐに取りかかれるとは限りません。
- 
- かつては、パッチが何のコメントもなく虚空へ消えていくこともありましたが、
- 現在の開発プロセスはそれよりも円滑に機能しています。数週間以内、
- 通常は 2〜3 週間以内にコメントを受け取るはずです。そうならない場合は、
- パッチを正しい場所へ送ったか確認してください。再投稿したりレビューアに
--ping したりする前に、少なくとも 1 週間は待ってください。merge window の
--ような忙しい時期には、さらに長く待つ方がよい場合もあります。
-+ping したりする前に、少なくとも 1 週間は待ってください。マージ期間
-+(訳註: merge window) のような忙しい時期には、さらに長く待ちましょう。
- 
--数週間後に、subject line に "RESEND" を追加して、パッチまたは
--パッチシリーズを再送しても構いません::
-+数週間後に、サブジェクト (訳註: subject line) に "RESEND" を追加して、
-+パッチまたはパッチシリーズを再送しても構いません::
- 
-    [PATCH Vx RESEND] sub/sys: Condensed patch summary
- 
--パッチまたはパッチシリーズの修正版を投稿する場合は、"RESEND" を
--追加しないでください。"RESEND" は、前回の投稿から一切変更していない
--パッチまたはパッチシリーズを再送する場合にのみ使います。
-+ただし、パッチまたはパッチシリーズの修正版を投稿する際には "RESEND"
-+を追加しないでください。
-+"RESEND" は、前回の投稿から一切変更のないパッチまたはパッチシリーズの
-+再送だけに当てはまります。
+[1] https://lore.kernel.org/all/20260706104906.36084-1-kirill@shutemov.name/
+[2] https://lore.kernel.org/all/20260708090110.136162-1-kirill@shutemov.name/
+[3] https://lore.kernel.org/all/20260708103429.150655-1-kirill@shutemov.name/
 
-base-commit: 2933b82083e758fe6cfff570143541d4dba672c3
+114/114 of tools/testing/selftests/mm/uffd-unit-tests pass on mm-new
+(47 RWP cases plus the existing UFFD groups, no regressions).
+
+== Problem ==
+
+A VMM managing guest memory needs to:
+
+  1. detect which pages are still being touched (working-set
+     tracking);
+  2. safely reclaim cold pages to slower tiered or remote storage;
+  3. fetch them back on demand when accessed again.
+
+== Approach ==
+
+UFFDIO_REGISTER_MODE_RWP is a new userfaultfd registration mode, in
+parallel with the existing MODE_MISSING / MODE_WP / MODE_MINOR. It
+uses the same mechanism on every backing -- anon, shmem, hugetlbfs:
+
+  - PAGE_NONE on the PTE (the same primitive NUMA balancing uses)
+    makes the page inaccessible while keeping it resident;
+  - the uffd PTE bit (the one MODE_WP already owns) marks the entry
+    as "userfaultfd-tracked" so the protnone fault path can tell an
+    RWP fault apart from an mprotect(PROT_NONE) or NUMA hinting
+    fault.
+
+VM_UFFD_WP and VM_UFFD_RWP are mutually exclusive per VMA, so the
+same PTE bit safely carries both meanings depending on the
+registered VMA flag.
+
+In sync mode, the kernel delivers a UFFD_PAGEFAULT_FLAG_RWP message
+to the registered handler, and the handler resolves the fault with
+UFFDIO_RWPROTECT clearing MODE_RWP. In async mode
+(UFFD_FEATURE_RWP_ASYNC), the fault is auto-resolved in-place: the
+kernel restores the original PTE permissions and the faulting thread
+continues without a userfaultfd message ever being delivered.
+Userspace then learns which pages were touched during the cycle by
+reading PAGE_IS_ACCESSED out of PAGEMAP_SCAN -- that set is the
+working set; everything else is a reclaim candidate.
+
+UFFDIO_RWPROTECT is the protect/unprotect ioctl, mirroring
+UFFDIO_WRITEPROTECT.
+
+UFFDIO_SET_MODE flips RWP_ASYNC <-> sync at runtime under
+mmap_write_lock() + vma_start_write(), so a VMM can run in async
+mode for detection and switch to sync for race-free reclaim without
+re-registering the userfaultfd.
+
+== Typical VMM workflow ==
+
+  /* arm */
+  UFFDIO_API(features = RWP | RWP_ASYNC)
+  UFFDIO_REGISTER(MODE_RWP)
+
+  /* detection cycle (async) */
+  UFFDIO_RWPROTECT(range, RWP)
+  sleep(interval)
+
+  /* freeze the snapshot before scanning */
+  UFFDIO_SET_MODE(disable = RWP_ASYNC)                  /* sync */
+  PAGEMAP_SCAN(PAGE_IS_ACCESSED) -> hot pages (working set)
+
+  /* reclaim everything not in the hot set from the backing file */
+  fallocate(FALLOC_FL_PUNCH_HOLE, non-hot) /* or pwrite to remote */
+  UFFDIO_SET_MODE(enable  = RWP_ASYNC)                  /* resume */
+
+== Series layout ==
+
+Patches 1 to 3 are preparatory:
+
+  1: decouple protnone helpers from CONFIG_NUMA_BALANCING.
+  2-3: rename _PAGE_BIT_UFFD_WP, pte_uffd_wp() and friends to drop
+       the _WP suffix, since the bit now carries WP and RWP meaning
+       depending on the VMA flag. The SCAN_PTE_UFFD enum's ftrace
+       output string is intentionally kept as "pte_uffd_wp" so
+       trace-based tooling does not silently break.
+
+Patch 4 switches the uffd VMA-flag helpers to the vma_flags_t
+accessors (vma_test_*_mask), so the VMA_UFFD_* masks are the single
+place that knows which modes the build offers.
+
+Patches 5 to 8 add the in-kernel mechanism:
+
+  5: VM_UFFD_RWP VMA flag (aliased to VM_NONE until patch 9
+     introduces CONFIG_USERFAULTFD_RWP together with the UAPI).
+  6: MM_CP_UFFD_RWP change_protection() primitive (PAGE_NONE +
+     uffd bit, plus a RESOLVE counterpart).
+  7: marker preservation across swap, device-exclusive, migration,
+     fork, mremap, UFFDIO_MOVE, hugetlb copy, and mprotect().
+  8: handle VM_UFFD_RWP in khugepaged, rmap, and GUP.
+
+Patches 9 to 13 wire the userspace surface:
+
+  9:  UFFDIO_REGISTER_MODE_RWP and UFFDIO_RWPROTECT plumbing
+      (introduces CONFIG_USERFAULTFD_RWP).
+  10: RWP fault delivery and exposure of UFFDIO_REGISTER_MODE_RWP.
+  11: PAGE_IS_ACCESSED in PAGEMAP_SCAN.
+  12: UFFD_FEATURE_RWP_ASYNC for async fault resolution.
+  13: UFFDIO_SET_MODE for runtime sync/async toggle.
+
+Patches 14 and 15 are kernel tests and Documentation/. The matching
+man-pages series is already upstream.
+
+The series is also available at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git uffd/v10
+
+Kiryl Shutsemau (Meta) (15):
+  mm: decouple protnone helpers from CONFIG_NUMA_BALANCING
+  mm: rename uffd-wp PTE bit macros to uffd
+  mm: rename uffd-wp PTE accessors to uffd
+  userfaultfd: test uffd VMA flags through the vma_flags_t API
+  mm: add VM_UFFD_RWP VMA flag
+  mm: add MM_CP_UFFD_RWP change_protection() flag
+  mm: preserve RWP marker across PTE rewrites
+  mm: handle VM_UFFD_RWP in khugepaged, rmap, and GUP
+  userfaultfd: add UFFDIO_REGISTER_MODE_RWP and UFFDIO_RWPROTECT
+    plumbing
+  mm/userfaultfd: add RWP fault delivery and expose
+    UFFDIO_REGISTER_MODE_RWP
+  mm/pagemap: add PAGE_IS_ACCESSED for RWP tracking
+  userfaultfd: add UFFD_FEATURE_RWP_ASYNC for async fault resolution
+  userfaultfd: add UFFDIO_SET_MODE for runtime sync/async toggle
+  selftests/mm: add userfaultfd RWP tests
+  Documentation/userfaultfd: document RWP working set tracking
+
+ Documentation/admin-guide/mm/pagemap.rst     |  13 +-
+ Documentation/admin-guide/mm/userfaultfd.rst | 269 +++++-
+ Documentation/filesystems/proc.rst           |   1 +
+ arch/arm64/Kconfig                           |   1 +
+ arch/arm64/include/asm/pgtable-prot.h        |   8 +-
+ arch/arm64/include/asm/pgtable.h             |  47 +-
+ arch/loongarch/Kconfig                       |   1 +
+ arch/loongarch/include/asm/pgtable.h         |   4 +-
+ arch/powerpc/include/asm/book3s/64/pgtable.h |   8 +-
+ arch/powerpc/platforms/Kconfig.cputype       |   1 +
+ arch/riscv/Kconfig                           |   1 +
+ arch/riscv/include/asm/pgtable-bits.h        |  12 +-
+ arch/riscv/include/asm/pgtable.h             |  59 +-
+ arch/s390/Kconfig                            |   1 +
+ arch/s390/include/asm/hugetlb.h              |  12 +-
+ arch/s390/include/asm/pgtable.h              |   4 +-
+ arch/x86/Kconfig                             |   1 +
+ arch/x86/include/asm/pgtable.h               |  56 +-
+ arch/x86/include/asm/pgtable_types.h         |  16 +-
+ fs/proc/task_mmu.c                           | 116 ++-
+ include/asm-generic/hugetlb.h                |  18 +-
+ include/asm-generic/pgtable_uffd.h           |  32 +-
+ include/linux/huge_mm.h                      |   7 +
+ include/linux/leafops.h                      |   4 +-
+ include/linux/mm.h                           |  65 +-
+ include/linux/mm_inline.h                    |   4 +-
+ include/linux/pgtable.h                      |  32 +-
+ include/linux/swapops.h                      |   4 +-
+ include/linux/userfaultfd_k.h                | 100 +-
+ include/trace/events/huge_memory.h           |   2 +-
+ include/trace/events/mmflags.h               |   7 +
+ include/uapi/linux/fs.h                      |   1 +
+ include/uapi/linux/userfaultfd.h             |  54 +-
+ init/Kconfig                                 |   8 +
+ mm/Kconfig                                   |   9 +
+ mm/debug_vm_pgtable.c                        |   4 +-
+ mm/huge_memory.c                             | 170 +++-
+ mm/hugetlb.c                                 | 155 +++-
+ mm/internal.h                                |   4 +-
+ mm/khugepaged.c                              |  40 +-
+ mm/memory.c                                  | 152 ++-
+ mm/migrate.c                                 |  20 +-
+ mm/migrate_device.c                          |   8 +-
+ mm/mprotect.c                                |  70 +-
+ mm/mremap.c                                  |  17 +-
+ mm/page_table_check.c                        |   8 +-
+ mm/rmap.c                                    |  18 +-
+ mm/swapfile.c                                |   9 +-
+ mm/userfaultfd.c                             | 389 +++++++-
+ tools/include/uapi/linux/fs.h                |   1 +
+ tools/testing/selftests/mm/uffd-unit-tests.c | 919 +++++++++++++++++++
+ 51 files changed, 2511 insertions(+), 451 deletions(-)
+
+
+base-commit: 302dfbff3e73be2ba5723237c6303244ec27cebb
+prerequisite-patch-id: c9e6fd9c901f858b5bc4f275c5bef195ea71329a
 -- 
-2.43.0
+2.54.0
 
