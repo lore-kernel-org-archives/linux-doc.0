@@ -1,277 +1,195 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD473033D6
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 11:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9259D4314A3;
+	Wed,  8 Jul 2026 11:43:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783510943; cv=none; b=hYdZT4Yk9rrAVnTrYrga91GInVLfb/AN4JSBeoOkMQlXwV/jmtnOBU9px0NdVae/MhjCJ5uxhHAgNrb+78PAyOelBejE1Oza2ZDlarfDCUpdNHV1omQ3/SI0OVOoDBu3Ab0Tgwm4qnG+C19mG/902NL/EvSoa2pFdtM9Z0dQOCY=
+	t=1783511019; cv=none; b=WLiwafLdnD3UOdJZSFaMYlFPyty2SCIFg2CmQKdGAwFPX1dfhTWQvGUxvxJeUN6D423jfvE2wlwnn4PqyzOoOmBL8itrPs2rPdn7PSNdLY8qjka/M4Z3KZsZwVbHzB8a900YqlXRJBdzPhNIHx5carMXZikh+tVDVJXL7tzzgoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783510943; c=relaxed/simple;
-	bh=ZtHn4mYlln7ylKSz2NusJM+Pjh7gr8K34Nva+jWD49A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gBZp3qKU0Mm5Y6K6dvf9jETgbWfsq0ncd15NaQjeZ3lb0gZZtREZpditUPFXjit2BH3bPM+umtHOqVlo+fbA4ixozOZ61AKH4sWQ38LhgRyzTSMiRDYvN/2uGgNA9qMbVSznpllKgkaWOH0PMynFUu5XLfx0UGg8aB4idW86z48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d7H9wteK; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783511019; c=relaxed/simple;
+	bh=cYBjM+6JUbUWk9wD+XnEhHPnVniDXVmsFcLu4IVx7Pk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m5AiYcf2NP/JtULulHAXJAi5ssWHP+TB4lpji1vaKVc9mYy7GB6Pe/UidH/LHgMzUSYn81ZvLe9i9K3wPKGAtS7z0kdfGcYudqUV3m0SAQdfij46ubmHgzFnCULHtgNqiK6IZCwoczHbc7OyrQDPpLUANKlXQoRAhgxtkQwoXMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=At+bgtaT; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d7H9wteK"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-47debaa89cfso16951f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 04:42:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783510940; x=1784115740; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=dILBe1BnJLM80i1tBMIfeTWpSxlQ3O/R8C79FjvEbEM=;
-        b=d7H9wteKNn8frYq2d+FpU2rUkHi2yrNw2mKZ1WbtRjWB0Z8z0PQjPbYQhWC2M3JvnK
-         TR+L8zAWDorwdJ5NJnOYm7Jne37REy1fx+ylDARg6DnYdfc3TFWbEBJomxxJUEgsKuky
-         8O8DEVMNI9SceuF53qOusYbtDVhL5pEGFlxOv3EMrepVfry7MVwqtonU6sod2sU3oZI5
-         EBguNETwgAlfvFJTsRZ/M6i05HKtAoxpu/cKTOkJ8CTPiE/k91/xIenZdp3+JNd6zzZe
-         jL0nuZYfRUw/4KkZyeLgjdf1yf1xP1Wrwysy4cgto3vxtjBrd2tTL9GsDLcC+6xLRS5V
-         Ck/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783510940; x=1784115740;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dILBe1BnJLM80i1tBMIfeTWpSxlQ3O/R8C79FjvEbEM=;
-        b=lvv3hoIl1w3oMfz4FEfOd26ls4BCaBNlToP8os9TAdwa2+3AXNMxwdbZ7u7tSTHSxN
-         87M1hxJaIg/52zPjYYOKSSs/P/bXWG9YnoSur8qDgvVR/2CSSiEOy4KBcbu+d3rZP78K
-         7NnyHWmNLMQxNkiHZkhnNNMhO4iruA+MlIfoctMB0Ac4T0glHVOTp8Ej9cFGinbNKBIC
-         qMWDTFNDG6YHug9mt8U2Py1EKerGZRBXzPGTcprIMEBfrPzVdbv0HelkjFcdbDxCmRnR
-         c0cQKPXbiR9z4ZIYj3ndZfS8zMoCuzaU/tnw/cCDmJLLCE4hsJ4G9VlJQi/oW2oafvBn
-         jx8g==
-X-Gm-Message-State: AOJu0YzuyURI4Oxjmm6ndWdzSEI4TtBU5bslFzwN6e1ltGsOyl0QRAMZ
-	K0FZVvgWOE9eF6u8pJ8/CmYUuabFDRUUAWivRjex07eUCP+S9XkgI/e8KzKcVu8Z
-X-Gm-Gg: AfdE7cnU9zG6IC6NMbNBZzWdnuTkP3pWGrpVhreCvyXoAPxnjRHwEvgWHQO2gJymcuA
-	Yxd8pDFm4vkgvqFaDuXoFMBENDl7kkru1V4GIEjHZJATKe0OpC/Ak5WOQkLuClfhrhcGALMUFm5
-	2f9blQoMhNPAZjKe6hg5Wp0vVamBsOois9YolQZ4Wkxn9bisO1ajdiDsdchtWRTB8VYx+51phhJ
-	YMHChXA9+Oj7APJU9XIsKGAOgqMHAZfOwdmvAFZa2kUVDbyGGdvym6uGBC5EOu/OuLQK2OYBn5N
-	uSqbT38zEJ3aMVaNozlRcdmNnC5S20Hq0VSAm5E2XfxIgNbTjdTuRIQAUi29N1uHvXdOusjjOvA
-	1dSCjnsCZqe6WgAbpDgV7KokRPIIfL0FRnlsgQr92ptWO5KZ88XPNwl3AjJ/irrcOJ1XhPyq5pl
-	U+/S6BCTiekwC/P0Up3lnsd8RCCAJwnX7WKc+OAah9AW0fCSwTUO6g2RSv0bYfWN3QQaFTPQz5g
-	8qf1uMVgC4ithLX
-X-Received: by 2002:a05:6000:402a:b0:472:6416:4550 with SMTP id ffacd0b85a97d-47df082f1f2mr1341803f8f.8.1783510939628;
-        Wed, 08 Jul 2026 04:42:19 -0700 (PDT)
-Received: from doehyun-dev.pradel.rg.cispa.de (x06.xlate.fw.cispa.de. [195.37.157.6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9de1d905sm43631730f8f.2.2026.07.08.04.42.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 04:42:19 -0700 (PDT)
-From: Doehyun Baek <doehyunbaek@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: federico.vaga@vaga.pv.it,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	Doehyun Baek <doehyunbaek@gmail.com>
-Subject: [PATCH v3] Docs/translations/it_IT: sync changes.rst requirements
-Date: Wed,  8 Jul 2026 11:42:08 +0000
-Message-ID: <20260708114212.1769512-1-doehyunbaek@gmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="At+bgtaT"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 668BSrg52637355;
+	Wed, 8 Jul 2026 11:42:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=n4xUiTW+CHf35eqdhEgJ3yXNSJuJIczfbeD
+	Ax06fgzs=; b=At+bgtaTRxYXf9MG0a6cXwyNHiByzZcrokBGKodSYiMhTZ5AKd8
+	7tybyX8G4HtjRTbVfH2r/SstLxk2HFYf4G2IpEs4K0HW3KISWdIcq/hVvo74Ovj5
+	PEI+ov9mCfvwUSlfVvxCAl6IBCNXpBhPJmL1aGgb4F1jnLKHh8YiYU3NROu5rKwi
+	Cw/NPe7ssfm2p2b4U4J2ycfDtcS5Hl1xqqUyPFzl1HcTAkaOafrsvLn3wOyUSjKM
+	HTlD25yaoa1DQL7kd4UDX41qaNgbJ4pEPoeu85BlMa3fjeEV8mUzUU5Lk2H2krqs
+	OVXLfVtmdlGgJQcaVOuoRFNHagqWbfaP8vA==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f95fd48dm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Jul 2026 11:42:51 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 668Bgl4m017613;
+	Wed, 8 Jul 2026 11:42:47 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4f6u8k3w6e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Jul 2026 11:42:47 +0000 (GMT)
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 668Bgle7017604;
+	Wed, 8 Jul 2026 11:42:47 GMT
+Received: from blr-ubuntu-283-g06.qualcomm.com (blr-ubuntu-283-g06.qualcomm.com [10.131.30.181])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 668BglBG017602
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Jul 2026 11:42:47 +0000 (GMT)
+Received: by blr-ubuntu-283-g06.qualcomm.com (Postfix, from userid 4791667)
+	id 0FE45411C9; Wed,  8 Jul 2026 17:12:46 +0530 (IST)
+From: Aakarsh Jain <aakarsh.jain@oss.qualcomm.com>
+To: m.szyprowski@samsung.com, robin.murphy@arm.com
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, akpm@linux-foundation.org,
+        bp@alien8.de, rdunlap@infradead.org, peterz@infradead.org,
+        feng.tang@linux.alibaba.com, dapeng1.mi@linux.intel.com,
+        elver@google.com, enelsonmoore@gmail.com, kuba@kernel.org,
+        lirongqing@baidu.com, ebiggers@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+        aneesh.kumar@kernel.org, alexey.kardashevskiy@amd.com,
+        thomas.lendacky@amd.com, jeff.hugo@oss.qualcomm.com,
+        thanson@qti.qualcomm.com, Aakarsh Jain <aakarsh.jain@oss.qualcomm.com>
+Subject: [RFC PATCH] x86/pci-dma: add "any" keyword to swiotlb= kernel parameter
+Date: Wed,  8 Jul 2026 17:12:44 +0530
+Message-ID: <20260708114244.246176-1-aakarsh.jain@oss.qualcomm.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260707092613.1373425-1-doehyunbaek@gmail.com>
-References: <20260707092613.1373425-1-doehyunbaek@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA4MDExMyBTYWx0ZWRfX4TXkTMCQNiuF
+ s4ndd9JyVmOylo1pK8PI17K9qR0KBwyTL8PJ7oc9kRUBBkYDDgnoX7sWlKFy0ziI0Uqb7uW4CUp
+ UbDM6zc2JQh5G+kZ7fu5rO3elpedwOAHbw1UtUiLRoI2WZQ+NzHw3HLu8O49TEyWxNMbsNDkBSi
+ 5WnccKJCTZMZ1CEwC+0mOgGj3HzccFEkv3nlHGQxetbd9NmZMAeuV2cgLMqTLeAkdByOT0SN2wh
+ uODTY8/fAMGxYoRoUmJ6fuqJavCX0fsRFX5JqU9NwM7YX/xcZ4ppRRlFlYhNC1sY6Gd2JkcV3Jb
+ 0Zc4VtUmys7lXJtXXf5n5MNEElKpdmzuafYBmt3jqnPbzaev5nAgr63QS1vdRfPKEQpfekRf4ql
+ jq3BvKtQWmX5JfF3LThoOAyGbvf8HgypReus5lLWeLrdER3NK8jZvHyeTiBLPYjQ98tTgbsWQr0
+ ChgburvucqNqSpbuM5Q==
+X-Authority-Analysis: v=2.4 cv=VZLH+lp9 c=1 sm=1 tr=0 ts=6a4e37bb cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=gowsoOTTUOVcmtlkKump:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=pVVJNHN2wY_hqiUAWGQA:9
+X-Proofpoint-ORIG-GUID: HHQIIRUIrqTv45gud0z-RZEU5dA_wkyV
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA4MDExMyBTYWx0ZWRfX7lF2DFSCKL9L
+ 2UWIG92n/ORia1QNoi2jSlKGWRJZqVp/9qcPUptpXcJ6hMmzZqtkxPCJuRC60s0Z+vPqsa7N3sS
+ 7xcaCVbe0EYH5OekBimRjbpcu850jKE=
+X-Proofpoint-GUID: HHQIIRUIrqTv45gud0z-RZEU5dA_wkyV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-08_01,2026-07-08_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 priorityscore=1501 suspectscore=0
+ lowpriorityscore=0 spamscore=0 malwarescore=0 adultscore=0 clxscore=1011
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607080113
 
-The Italian current requirements text had fallen behind the English
-Documentation/process/changes.rst version.
+CoCo guests (AMD SEV-SNP, Intel TDX) require large swiotlb pools for
+streaming DMA workloads such as high-speed NIC and AI accelerator
+inference. The existing swiotlb pool allocator restricts placement to
+low memory (below 4GB by default), capping usable pool size at ~1GB even
+when a larger pool is requested via swiotlb=<nslabs>.
 
-Sync the current requirements table and add the missing ver_linux note.
-Also update directly related text for pahole, Python and GNU AWK, add the
-Rust/bindgen source links, and remove the stale cpio source entry.
+The SWIOTLB_ANY flag already exists to lift this restriction, and
+swiotlb_init_remap() already handles it correctly via the flags
+parameter (see CONFIG_SWIOTLB_DYNAMIC path: io_tlb_default_mem.phys_limit
+is set to virt_to_phys(high_memory-1) when SWIOTLB_ANY is set).
 
-Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
+However, there is no way to set SWIOTLB_ANY from the command line. The
+only existing mechanism was via arch-specific code (e.g. powerpc SVM sets
+SWIOTLB_ANY in pci_iommu_init). x86 CoCo guests have no such path.
+
+After Aneesh  series ("dma-mapping: Track shared DMA state through
+direct, pool and swiotlb paths", https://patchwork.kernel.org/project/linux-arm-kernel/cover/20260701054926.825925-1-aneesh.kumar@kernel.org/)
+removes SWIOTLB_FORCE, x86 pci_swiotlb_detect() leaves x86_swiotlb_flags = 0 for
+CoCo guests. The pool falls back to low memory and caps at ~1GB:
+
+  Without "any": pool at 0x35a9c000 (~900MB, below 4GB boundary)
+  With    "any": pool at 0x1df9c00000 (~120GB, anywhere in RAM)
+  [Tested on AMD SEV-SNP guest, swiotlb=4194304]
+
+Add "any" as a new keyword to the swiotlb= kernel parameter. This is an
+explicit, opt-in mechanism that sets SWIOTLB_ANY for the default pool at
+boot time, without touching any arch-specific code.
+
+Devices with 32-bit DMA masks are not affected, they still use the normal
+low-memory bounce buffer path. The "any" option is only meaningful for
+workloads where all active DMA devices have 64-bit masks.
+
+Signed-off-by: Aakarsh Jain <aakarsh.jain@oss.qualcomm.com>
 ---
-Note: this version focuses on keeping the "Current Minimal Requirements"
-section and directly related requirements text in sync with the English file.
-If a full-file sync is preferred, I can do that instead.
+ Documentation/admin-guide/kernel-parameters.txt | 5 ++++-
+ kernel/dma/swiotlb.c                            | 5 +++++
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-Changes in v3:
-- Sync the full current requirements table with the English version.
-- Update directly related requirements text for pahole, Python and GNU AWK.
-- Add Rust/bindgen source links and remove the stale cpio source entry.
-
-Changes in v2:
-- Rebase on current docs-next.
-
- .../translations/it_IT/process/changes.rst    | 112 +++++++++++-------
- 1 file changed, 70 insertions(+), 42 deletions(-)
-
-diff --git a/Documentation/translations/it_IT/process/changes.rst b/Documentation/translations/it_IT/process/changes.rst
-index 7ee54c972418..a0db135ca529 100644
---- a/Documentation/translations/it_IT/process/changes.rst
-+++ b/Documentation/translations/it_IT/process/changes.rst
-@@ -23,7 +23,9 @@ Requisiti minimi correnti
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index b5493a7f8f22..8a1fccbd9b25 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -7477,7 +7477,7 @@ Kernel parameters
+ 			Execution Facility on pSeries.
  
- Prima di pensare d'avere trovato un baco, aggiornate i seguenti programmi
- **almeno** alla versione indicata!  Se non siete certi della versione che state
--usando, il comando indicato dovrebbe dirvelo.
-+usando, il comando indicato dovrebbe dirvelo. Per avere una lista dei programmi
-+sul vostro sistema, incluse le rispettive versioni, eseguite
-+./scripts/ver_linux.
+ 	swiotlb=	[ARM,PPC,MIPS,X86,S390,EARLY]
+-			Format: { <int> [,<int>] | force | noforce }
++			Format: { <int> [,<int>] | force | noforce | any}
+ 			<int> -- Number of I/O TLB slabs
+ 			<int> -- Second integer after comma. Number of swiotlb
+ 				 areas with their own lock. Will be rounded up
+@@ -7485,6 +7485,9 @@ Kernel parameters
+ 			force -- force using of bounce buffers even if they
+ 			         wouldn't be automatically used by the kernel
+ 			noforce -- Never use bounce buffers (for debugging)
++			any --  Allow the swiotlb pool to be placed anywhere in
++				system RAM, lifting the default low-memory (4GB)
++				restriction.
  
- Questa lista presume che abbiate già un kernel Linux funzionante.  In aggiunta,
- non tutti gli strumenti sono necessari ovunque; ovviamente, se non avete una
-@@ -32,41 +34,42 @@ PC Card, per esempio, probabilmente non dovreste preoccuparvi di pcmciautils.
- ====================== =================  ========================================
-         Programma       Versione minima       Comando per verificare la versione
- ====================== =================  ========================================
--GNU C                  8.1                gcc --version
--Clang/LLVM (optional)  17.0.1             clang --version
--Rust (opzionale)       1.78.0             rustc --version
--bindgen (opzionale)    0.65.1             bindgen --version
--GNU make               4.0                make --version
--bash                   4.2                bash --version
--binutils               2.30               ld -v
--flex                   2.5.35             flex --version
--bison                  2.0                bison --version
--pahole                 1.16               pahole --version
--util-linux             2.10o              mount --version
--kmod                   13                 depmod -V
--e2fsprogs              1.41.4             e2fsck -V
--jfsutils               1.1.3              fsck.jfs -V
--xfsprogs               2.6.0              xfs_db -V
--squashfs-tools         4.0                mksquashfs -version
--btrfs-progs            0.18               btrfsck
--pcmciautils            004                pccardctl -V
--quota-tools            3.09               quota -V
--PPP                    2.4.0              pppd --version
--nfs-utils              1.0.5              showmount --version
--procps                 3.2.0              ps --version
--udev                   081                udevd --version
--grub                   0.93               grub --version || grub-install --version
--mcelog                 0.6                mcelog --version
--iptables               1.4.2              iptables -V
--openssl & libcrypto    1.0.0              openssl version
--bc                     1.06.95            bc --version
--Sphinx\ [#f1]_         2.4.4              sphinx-build --version
--cpio                   any                cpio --version
--GNU tar                1.28               tar --version
--gtags (opzionale)      6.6.5              gtags --version
--mkimage (opzionale)    2017.01            mkimage --version
--Python (opzionale)     3.5.x              python3 --version
--====================== =================  ========================================
-+bash                   4.2              bash --version
-+bc                     1.06.95          bc --version
-+bindgen (opzionale)    0.71.1           bindgen --version
-+binutils               2.30             ld -v
-+bison                  2.0              bison --version
-+btrfs-progs            0.18             btrfs --version
-+Clang/LLVM (opzionale) 17.0.1           clang --version
-+e2fsprogs              1.41.4           e2fsck -V
-+flex                   2.5.35           flex --version
-+gdb                    7.2              gdb --version
-+GNU awk (opzionale)    5.1.0            gawk --version
-+GNU C                  8.1              gcc --version
-+GNU make               4.0              make --version
-+GNU tar                1.28             tar --version
-+GRUB                   0.93             grub --version || grub-install --version
-+gtags (opzionale)      6.6.5            gtags --version
-+iptables               1.4.2            iptables -V
-+jfsutils               1.1.3            fsck.jfs -V
-+kmod                   13               kmod -V
-+mcelog                 0.6              mcelog --version
-+mkimage (opzionale)    2017.01          mkimage --version
-+nfs-utils              1.0.5            showmount --version
-+openssl & libcrypto    1.0.0            openssl version
-+pahole                 1.26             pahole --version
-+pcmciautils            004              pccardctl -V
-+PPP                    2.4.0            pppd --version
-+procps                 3.2.0            ps --version
-+Python                 3.9.x            python3 --version
-+quota-tools            3.09             quota -V
-+Rust (opzionale)       1.85.0           rustc --version
-+Sphinx\ [#f1]_         3.4.3            sphinx-build --version
-+squashfs-tools         4.0              mksquashfs -version
-+udev                   081              udevadm --version
-+util-linux             2.10o            mount --version
-+xfsprogs               2.6.0            xfs_db -V
-+====================== ===============  ========================================
+ 	switches=	[HW,M68k,EARLY]
  
- .. [#f1] Sphinx è necessario solo per produrre la documentazione del Kernel
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index 1abd3e6146f4..34773ae7c770 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -80,6 +80,7 @@ struct io_tlb_slot {
  
-@@ -144,7 +147,13 @@ pahole
+ static bool swiotlb_force_bounce;
+ static bool swiotlb_force_disable;
++static unsigned int swiotlb_param_flags __initdata;
  
- Dalla versione 5.2, quando viene impostato CONFIG_DEBUG_INFO_BTF, il sistema di
- compilazione genera BTF (BPF Type Format) a partire da DWARF per vmlinux. Più
--tardi anche per i moduli. Questo richiede pahole v1.16 o successivo.
-+tardi anche per i moduli. Questo richiede pahole v1.22 o successivo.
+ #ifdef CONFIG_SWIOTLB_DYNAMIC
+ 
+@@ -198,6 +199,8 @@ setup_io_tlb_npages(char *str)
+ 		swiotlb_force_bounce = true;
+ 	else if (!strcmp(str, "noforce"))
+ 		swiotlb_force_disable = true;
++	else if (!strcmp(str, "any"))
++		swiotlb_param_flags |= SWIOTLB_ANY;
+ 
+ 	return 0;
+ }
+@@ -445,6 +448,8 @@ int swiotlb_init_late(size_t size, gfp_t gfp_mask,
+ 
+ 	io_tlb_default_mem.force_bounce = swiotlb_force_bounce;
+ 
++	flags |= swiotlb_param_flags;
 +
-+Dalla versione 7.0, le kfunc annotate con KF_IMPLICIT_ARGS richiedono pahole
-+v1.26 o successivo. Senza questa versione, tali kfunc avranno prototipi BTF
-+errati in vmlinux, causando il fallimento del caricamento dei programmi BPF con
-+l'errore "func_proto incompatible with vmlinux". Molte kfunc sched_ext sono
-+interessate.
- 
- A seconda della distribuzione, lo si può trovare nei pacchetti 'dwarves' o
- 'pahole'. Oppure lo si può trovare qui: https://fedorapeople.org/~acme/dwarves/.
-@@ -155,6 +164,14 @@ Perl
- Per compilare il kernel vi servirà perl 5 e i seguenti moduli ``Getopt::Long``,
- ``Getopt::Std``, ``File::Basename``, e ``File::Find``.
- 
-+Python
-+------
-+
-+Diverse opzioni di configurazione lo richiedono: è necessario per le
-+configurazioni predefinite di arm/arm64, CONFIG_LTO_CLANG, alcune opzioni
-+configurabili del DRM, lo strumento kernel-doc e la generazione della
-+documentazione (Sphinx), fra gli altri.
-+
- BC
- --
- 
-@@ -193,6 +210,12 @@ pacchetto ``u-boot-tools`` oppure può essere compilato dal codice sorgente di
- U-Boot. Consultate le istruzioni
- https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-linux
- 
-+GNU AWK
-+-------
-+
-+GNU AWK è necessario se si vuole che la compilazione del kernel generi dati
-+sugli intervalli di indirizzi per i moduli incorporati
-+(CONFIG_BUILTIN_MODULE_RANGES).
- 
- Strumenti di sistema
- ********************
-@@ -405,6 +428,16 @@ Clang/LLVM
- 
- - :ref:`Getting LLVM <getting_llvm>`.
- 
-+Rust
-+----
-+
-+- Documentation/rust/quick-start.rst.
-+
-+bindgen
-+-------
-+
-+- Documentation/rust/quick-start.rst.
-+
- Make
- ----
- 
-@@ -507,11 +540,6 @@ mcelog
- 
- - <https://www.mcelog.org/>
- 
--cpio
------
--
--- <https://www.gnu.org/software/cpio/>
--
- Rete
- ****
- 
+ #ifdef CONFIG_SWIOTLB_DYNAMIC
+ 	if (!remap)
+ 		io_tlb_default_mem.can_grow = true;
 -- 
 2.43.0
 
