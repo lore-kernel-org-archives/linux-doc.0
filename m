@@ -1,195 +1,94 @@
-Received: from mail.mindbit.ro (xs1.mindbit.ro [80.86.107.70])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550FE36212C;
-	Wed,  8 Jul 2026 17:26:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.86.107.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6D442DA56;
+	Wed,  8 Jul 2026 17:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783531616; cv=none; b=PcHdBNBB1bKMQcG+dbN9okvP2062qGiagNAzV8uSuvs4l2kuUa4MFYAJbvNLzfdJe2z2FNUxTytEYtKCg+JpjngL7QdHUjryvYe1iZSR6sLHstE44xJ13LtccKPc2xTe+jTIlTcdp6f2f8ac7mcwvoOVUu0UxOtXzCdxz+4RwBg=
+	t=1783531696; cv=none; b=PybqvsXXuowTRF4QvOkYm+kW+i+ttyk4UgV7ddVLecHrILndScxLj8Bz17xmk0HkudghV9U6/nyUAU7w3IrH+SQ722KrF33AlwGUxk1MDhYJM/NjraoX4/Jr3WBl54crmss2jI3aTX3lVMJ9V4/+cyEHWPqMLXR/bNiox4+FUNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783531616; c=relaxed/simple;
-	bh=2hoJA0I8rorlRGOq+HwlWXfcZlYFh59K/rfqYRa+z8c=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OnmEaSSdpxvXPv09TxQGxPwiuszf1jrd+H5sNQTRXTaYE3CURpgmB1N2cpVhkeDT9wMRWxFJXOI30aEeHuWrCEUWwy3RjCDAEPEt14vQi9DdnUyDo3CU/EDWY3oSH4hM9qCRziEy66Q1yL52akxkPSuJl71amcwRnIdxnh5dNc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rendec.net; spf=pass smtp.mailfrom=rendec.net; dkim=pass (2048-bit key) header.d=rendec.net header.i=@rendec.net header.b=Z6pyfRb1; arc=none smtp.client-ip=80.86.107.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rendec.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rendec.net
+	s=arc-20240116; t=1783531696; c=relaxed/simple;
+	bh=m484dPzJKeAwhDFIs/WhomQIuIDOqXhmgknaK142i40=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=o/YyICrULFp/IQOx/tdo60l4HB7Uws1jPx+oYCMgNivyUMzVRfoJXefBtYnOseYjuFtfmTQEesuSlMRkE0yVDdP761DQo1M/VRqVvFUQOsmZmTDOe4TaU5sJFMNjUleCGe4SuUJ1NCzjONEjFfcwINNs2DFkhgv/VSlDcg++Aos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=TBRFV00U; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rendec.net header.i=@rendec.net header.b="Z6pyfRb1"
-Received: from bat.kanata.rendec.net (unknown [24.114.111.125])
-	by mail.mindbit.ro (Postfix) with ESMTPSA id 1B198C343D;
-	Wed,  8 Jul 2026 20:26:25 +0300 (EEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.mindbit.ro 1B198C343D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rendec.net;
-	s=default; t=1783531613;
-	bh=1gcsmXz67IjQqMY0eBQ3O8esAmywA90IGOEUSqxZHJQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=Z6pyfRb1XnNrJb7Iy5l8RXt+U4vqsGvqqzStbhN7435vjpK29RR4S8ie2UFwESgWv
-	 CcSG+nZyfqWkQNIiMihfXIe5SU5d9xFxuT/FVpIkY2si8YfqZBiGdxwpOgc4+v6GTu
-	 NSt9pFgzwrUImE/LpJy0sei+Lk+GBqVAsmPsiJ8VtpU8nMjFtYkmKduWX13Ouy9uBJ
-	 1ENXVXzDYQWjK4BhPh/7z7U3FCNNVQhlgPxqvAWAfKgmRqCj2sxf9iIIgCC2PgpYcH
-	 RSMOv3KD/QpK9l25WlQ3grvgf5R2LttSDjfKaawhSgxe9j5XVHCFPDPCqOj6a4P2dQ
-	 eMxeS2+WglD9w==
-Message-ID: <8b21dbb1e167b4a50b72613f09fdbb800a420fb8.camel@rendec.net>
-Subject: Re: [patch 03/18] entry: Provide
- [syscall_]enter_from_user_mode_randomize_stack()
-From: Radu Rendec <radu@rendec.net>
-To: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Michael Ellerman
- <mpe@ellerman.id.au>,  Shrikanth Hegde <sshegde@linux.ibm.com>,
- linuxppc-dev@lists.ozlabs.org, Kees Cook <kees@kernel.org>, Huacai Chen	
- <chenhuacai@kernel.org>, loongarch@lists.linux.dev, Paul Walmsley
- <pjw@kernel.org>,  Palmer Dabbelt <palmer@dabbelt.com>,
- linux-riscv@lists.infradead.org, Sven Schnelle <svens@linux.ibm.com>, 
-	linux-s390@vger.kernel.org, x86@kernel.org, Mark Rutland
- <mark.rutland@arm.com>,  Jinjie Ruan <ruanjinjie@huawei.com>, Andy
- Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>,  Richard
- Henderson <richard.henderson@linaro.org>, Russell King
- <linux@armlinux.org.uk>, Catalin Marinas	 <catalin.marinas@arm.com>, Guo
- Ren <guoren@kernel.org>, Geert Uytterhoeven	 <geert@linux-m68k.org>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>,  Helge Deller	 <deller@gmx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Richard Weinberger
- <richard@nod.at>, Chris Zankel <chris@zankel.net>,
- linux-arm-kernel@lists.infradead.org, 	linux-alpha@vger.kernel.org,
- linux-csky@vger.kernel.org, 	linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, 	linux-parisc@vger.kernel.org,
- linux-sh@vger.kernel.org, 	linux-um@lists.infradead.org, Arnd Bergmann
- <arnd@arndb.de>, Vineet Gupta	 <vgupta@kernel.org>, Will Deacon
- <will@kernel.org>, Brian Cain <bcain@kernel.org>,  Michal Simek
- <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, "David S. Miller"
- <davem@davemloft.net>,  Andreas Larsson <andreas@gaisler.com>,
- linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org, 
-	linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-arch@vger.kernel.org, Michal =?ISO-8859-1?Q?Such=E1nek?=	
- <msuchanek@suse.de>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-doc@vger.kernel.org
-Date: Wed, 08 Jul 2026 13:26:19 -0400
-In-Reply-To: <20260707190253.816918647@kernel.org>
-References: <20260707181957.433213175@kernel.org>
-	 <20260707190253.816918647@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="TBRFV00U"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 34DE940E0031;
+	Wed,  8 Jul 2026 17:28:11 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id ERSV0ycxTNzw; Wed,  8 Jul 2026 17:28:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1783531680; bh=m484dPzJKeAwhDFIs/WhomQIuIDOqXhmgknaK142i40=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=TBRFV00Uc9pwBa51dZm/TWhVzmLPt8v/j1U4TaIPLoF0EwjLaglU7wbEVl3XVZdF2
+	 xyvqr7mmIiqSd9pFeTtGC6KpmGR8vNUS/JOZvQBdlOiAL3H71JDhHvhpT+31B3b+6P
+	 a051ed6vCuHWg6t45xs5FqlSB2MEXJPdbWSYvuYDR6ywDqBr4nBrXasHD2YjZmLiu1
+	 wklqOp2ngGnBlQ0crnvpPFteHEI61/tDGQNsWaBbDTl/y1PlLZXGDdiIk/JDqBUdXF
+	 13nUiaHKOytLjhf3AlYb1Yfvl88InSGTLYTr9RQz31tVfT0yzMVrbz8L+k21WXHNOp
+	 sgB5PZHTRou97eF3UdpSd7Ihzlq75mhKUmePzeXtLSOihc5lW6QXLN6kzpgPTVcL7m
+	 A4x7mc7Dl9iCwfV58N2C0VZ1FYw3jmrQKb5tYwTqPsmRpRkNQVXoE3SxeXNI53Dzyg
+	 Af2qAU0ebXcZJPvtq+E5QKw9/83Md+X+APLNm4ovRTtz3AJi9YGV+/aYFc5uMuSkk6
+	 CicoMf/L47BmqYga+Ns1EtHngxY9XrNDChOdx6/m6GlS+ZTE47SkHzUttHw78ZiJMn
+	 JsVrosktNaHHACIhU27ozjge7wcGfnVgpvSET/hcmG0guOuD/xUNMNuGfnXHpGrmPg
+	 5ikhjN+s/1zOsZU0AL3pJxJA=
+Received: from ehlo.thunderbird.net (mobile-166-170-42-114.mycingular.net [166.170.42.114])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 147C340E02B1;
+	Wed,  8 Jul 2026 17:27:17 +0000 (UTC)
+Date: Wed, 08 Jul 2026 17:27:10 +0000
+From: Borislav Petkov <bp@alien8.de>
+To: Babu Moger <babu.moger@amd.com>
+CC: corbet@lwn.net, tony.luck@intel.com, reinette.chatre@intel.com,
+ Dave.Martin@arm.com, james.morse@arm.com, tglx@kernel.org,
+ ben.horgan@arm.com, fenghuay@nvidia.com, skhan@linuxfoundation.org,
+ x86@kernel.org, mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
+ akpm@linux-foundation.org, rdunlap@infradead.org, peterz@infradead.org,
+ feng.tang@linux.alibaba.com, dapeng1.mi@linux.intel.com, elver@google.com,
+ enelsonmoore@gmail.com, kuba@kernel.org, ebiggers@kernel.org,
+ lirongqing@baidu.com, seanjc@google.com, nikunj@amd.com, xin@zytor.com,
+ pawan.kumar.gupta@linux.intel.com, tiala@microsoft.com,
+ chang.seok.bae@intel.com, kprateek.nayak@amd.com, prathyushi.nangia@amd.com,
+ kim.phillips@amd.com, naveen@kernel.org, darwi@linutronix.de,
+ elena.reshetova@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, thomas.lendacky@amd.com, eranian@google.com,
+ peternewman@google.com, qinyuntan@linux.alibaba.com
+Subject: =?US-ASCII?Q?Re=3A_=5BRESEND_PATCH_v4_01/15=5D_x86/resctrl=3A_Sup?=
+ =?US-ASCII?Q?port_Privilege_Level_Zero_Association_=28PLZA=29?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <017ac20b-851e-43aa-9043-f3a2def2a2e6@amd.com>
+References: <cover.1783461016.git.babu.moger@amd.com> <d462f5c3d3a4413d4271384f914d1895436f06ac.1783461016.git.babu.moger@amd.com> <20260707220116.GFak13LChoDbSaCh1O@fat_crate.local> <017ac20b-851e-43aa-9043-f3a2def2a2e6@amd.com>
+Message-ID: <4B062170-48CF-4D17-A288-E8C90461BBC2@alien8.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2026-07-07 at 21:06 +0200, Thomas Gleixner wrote:
-> Randomizing the syscall stack can only happen after state is established
-> via enter_from_user_mode() or syscall_enter_from_user_mode(). The earlier
-> it happens the better.
->=20
-> Provide two new macros to consolidate that:
->=20
-> =C2=A0 - enter_from_user_mode_randomize_stack()
-> 	enter_from_user_mode();
-> 	add_random_kstack_offset_irqsoff();
->=20
-> =C2=A0 - syscall_enter_from_user_mode_randomize_stack()
-> 	enter_from_user_mode_randomize_stack();
-> 	syscall_enter_from_user_mode_work();
-> =C2=A0=C2=A0=C2=A0=20
-> to reduce boiler plate code.
->=20
-> Those are macros and not inline functions as the latter would limit the
-> stack randomization scope to the inline function itself.
->=20
-> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
-> ---
-> =C2=A0include/linux/entry-common.h |=C2=A0=C2=A0 56 +++++++++++++++++++++=
-++++++++++++++++++++++
-> =C2=A01 file changed, 56 insertions(+)
->=20
-> --- a/include/linux/entry-common.h
-> +++ b/include/linux/entry-common.h
-> @@ -6,6 +6,7 @@
-> =C2=A0#include <linux/irq-entry-common.h>
-> =C2=A0#include <linux/livepatch.h>
-> =C2=A0#include <linux/ptrace.h>
-> +#include <linux/randomize_kstack.h>
-> =C2=A0#include <linux/resume_user_mode.h>
-> =C2=A0#include <linux/seccomp.h>
-> =C2=A0#include <linux/sched.h>
-> @@ -150,6 +151,61 @@ static __always_inline long syscall_ente
-> =C2=A0}
-> =C2=A0
-> =C2=A0/**
-> + * enter_from_user_mode_randomize_stack - Establish state and add stack =
-randomization
-> + *					=C2=A0 before invoking syscall_enter_from_user_mode_work()
-> + * @regs:	Pointer to currents pt_regs
-                           ^^^^^^^^
+On July 8, 2026 2:51:02 PM UTC, Babu Moger <babu=2Emoger@amd=2Ecom> wrote:
+>Will change the text to:
+>
+>When memory bandwidth associated with a CLOSID is aggressively
+>throttled, and a task with that CLOSID moves into kernel mode, the kernel=
+ operations are also aggressively throttled=2E This can stall forward progr=
+ess and eventually degrade overall system performance=2E
 
-Nit: current
+Yes, pls keep it generic=2E=20
 
-> + *
-> + * Invoked from architecture specific syscall entry code with interrupts
-> + * disabled. The calling code has to be non-instrumentable. When the fun=
-ction
-> + * returns all state is correct, interrupts are still disabled and the
-> + * subsequent functions can be instrumented.
-> + *
-> + * Implemented as a macro so that the stack randomization is effective
-> + * throughout the function in which it is invoked. An inline would only =
-make it
-> + * effective in the scope of the inline function.
-> + */
-> +#define enter_from_user_mode_randomize_stack(regs)			\
-> +do {									\
-> +	enter_from_user_mode(regs);					\
-> +	instrumentation_begin();					\
-> +	add_random_kstack_offset_irqsoff();				\
-> +	instrumentation_end();						\
-> +} while (0)
-> +
-> +/**
-> + * syscall_enter_from_user_mode_randomize_stack - Establish state and ch=
-eck and handle work
-> + *						=C2=A0 before invoking a syscall
-> + * @regs:	Pointer to currents pt_regs
-                           ^^^^^^^^
+Thx=2E
 
-Same here.
-
-> + * @syscall:	The syscall number
-> + *
-> + * Invoked from architecture specific syscall entry code with interrupts
-> + * disabled. The calling code has to be non-instrumentable. When the
-> + * function returns all state is correct, interrupts are enabled and the
-> + * subsequent functions can be instrumented.
-> + *
-> + * This is the combination of enter_from_user_mode_randomize_stack() and
-> + * syscall_enter_from_user_mode_work() to be used when there is no
-> + * architecture specific work to be done between the two.
-> + *
-> + * Returns: The original or a modified syscall number. See
-> + * syscall_enter_from_user_mode_work() for further explanation.
-> + *
-> + * Implemented as a macro to make stack randomization effective in the c=
-alling
-> + * scope.
-> + */
-> +#define syscall_enter_from_user_mode_randomize_stack(regs, syscall)	\
-> +({									\
-> +	enter_from_user_mode_randomize_stack(regs);			\
-> +									\
-> +	instrumentation_begin();					\
-> +	local_irq_enable();						\
-> +	long _ret =3D syscall_enter_from_user_mode_work(regs, syscall);	\
-> +	instrumentation_end();						\
-> +									\
-> +	_ret;								\
-> +})
-> +
-> +/**
-> =C2=A0 * syscall_enter_from_user_mode - Establish state and check and han=
-dle work
-> =C2=A0 *				=C2=A0 before invoking a syscall
-> =C2=A0 * @regs:	Pointer to currents pt_regs
-
-With the above nits,
-
-Reviewed-by: Radu Rendec <radu@rendec.net>
+--=20
+Small device=2E Typos and formatting crap
