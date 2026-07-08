@@ -1,201 +1,250 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8AC3B47EE;
-	Wed,  8 Jul 2026 02:10:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783476624; cv=fail; b=LKhGV2l6hrHEtEXCpaFiL0pQBlpH+MoaGYsWB3UZzegKc0BObFle8Lera/cvnOpTqnOydz2kNPAATeRnMBzrTup5PxmAXbu+GEn0VcXSHoMJJoiryYMFXwzgFf1aMr5kkF1fkWVEAKd8nc5nGwk1z4l1gO6GzXkO75MayHKfGaU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783476624; c=relaxed/simple;
-	bh=xoSAOgTJbwY2P2Mh8rifel/4JaTvzqgtdcUEy/fKX2o=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=rYs7OP+9guHFpwYn9eQsKvYIIuOyfsrXx4nQY97xvXRCfJC8n2VdzuSOV9VJsr7KYlG96yX10j/1NZvPHV3sUEFoqgjKjjBOwH05CrhkL3FZbq3NtV8i4/I4rVOfbky/aR4QT1nJZKciCiP1D9RQS2pcc4przFe+AmxmRDsTaJg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WDpv560n; arc=fail smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B950C3939C8
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 02:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783477108; cv=none; b=OHir7irUR8/Nwiy4LJlF0MjlU2OPGr/POM27wAEuLqrFV/PWBIsWyRFeHHhjuLE+Pm11yHb3+zfyYUx273VKIiw0O+kHKqR5uO8OlLjjoSG2dnifLoSHVLkb/r0Dn8dbraIFd+j3w54LdAg+TOFZ8LpK3xOa4bC5eZpLqONUZBQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783477108; c=relaxed/simple;
+	bh=Y6iplDL8rNgmn0X2LDL04ve9ymDJVghIuEaIPWNObfk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DSRbZuuFzayxNaLLvk1+Vm9EAK2qGwNvot32sQoH44fcNVIDwEA6BjOMTyVbJVofcyHsxi9r5eIyf7/w3lg1JT24q9BfZQ4KPITDSh1fAn5v3fBn9GhUyHYDzhYDTO8R81EDXku2n0HMRUQvlM0T/QzX0yMJ10QHAnGznf2A9ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OksUuq3G; arc=none smtp.client-ip=209.85.167.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WDpv560n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783476623; x=1815012623;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=xoSAOgTJbwY2P2Mh8rifel/4JaTvzqgtdcUEy/fKX2o=;
-  b=WDpv560npTQSkDSAE3j5ZuFI6AxE3+Nu3VJ7RbIiDg5oc5/8v0H2w12V
-   /+v5ie6b3iTUpx9h9li2YzgosnfRPky14Dh0ePJjt9cvVh9TFpuAhiRv/
-   wZHhhGO3DkDitZssneSOO59a4x5yvCErmz96Dwc8qF5/5MMYdSw1iJGmI
-   JQ5f3jHOVlJLeNNLIZ9XG+/GxuJbYVjcODlsQOwyE/ZwBPfgqwB3U+j4B
-   CkdeP6eHmVAynU5+9Ui+ov2sJjdjXvkpADDs4rZl36Zv3d4d2zuhC8zX+
-   Z8kauvza4eYDwv7tj5TqtvQCGMdI2Ylj423ek12AHXJ09AApz+oVF0wO8
-   Q==;
-X-CSE-ConnectionGUID: hffD2bVKQKe7rBiQ4ItmMA==
-X-CSE-MsgGUID: JODYc3fwSyeUGLzJOwpSEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="94739028"
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="94739028"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 19:10:22 -0700
-X-CSE-ConnectionGUID: jOTdz1jeSJCkxaVo5ECLYw==
-X-CSE-MsgGUID: JzOy40+0RyCVLKxi0XwIag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="258034080"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 19:10:22 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Tue, 7 Jul 2026 19:10:22 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Tue, 7 Jul 2026 19:10:22 -0700
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.67)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Tue, 7 Jul 2026 19:10:21 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HJOo+hIwh5CrHiFf4ii/iG8MRmscJpKCIXUU8f8MQmhjmDyzhfW3wud4JOnR8+sJEDmTizisajjfl5aoEBOTIc15tCDv5lDE8dCw1cu4zb2A/4k52eDmtvUuX7QDjiNEAmJ+Q5yzFN0ykwfhUXnafh4aq8zhAN94kOg10HNNHM2Ku1j2YaXmTKEi8C4IMVnpfcQh/ImIYCZ2Tlmrg9TB7hY3tkIbYl9RxOVg8LCQYAUFt9SLcFPUCuSm0mL1pM/DCtmEUfVcloMvHd+8kRP80rez+XM+JVXFNl9v7bRZlA8qx8YpFmFfSRWnwIwSEcIomMnwqZuG/dlfGv46XUZPDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xoSAOgTJbwY2P2Mh8rifel/4JaTvzqgtdcUEy/fKX2o=;
- b=n7gk4T4dHL2Q5GCH6ypwxt9ivCzUFUfFaV/iJmVqSfaQ8p2/8DPyfhO8I0FcNu5UySw4qQA3gtGx7kUbbDB6pN6OI+Fb/7YNfftLaLpKW91McTmBcMPXLGFXG1b0KLCLAzd2RN5hYpY+Gpj2hdchgrJz6XFWYBn+X+wQvdBLEcI46+yXzaeyK1myUSJKEh4LSQUqHkmRxy7MOgcHi1Cd92UZTPsR5doZoeZO0Ch8D6KFlVZb7J/pWVIAmmos/vlk9E/UwUHAofQOE35b/TQgt3xMGjcpoOElVSqhjiNVyVhLIGQLUXb+8zcsjnN/lBuhykSqRTDVfA6pFLtorNxJtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from PH7PR11MB6771.namprd11.prod.outlook.com (2603:10b6:510:1b5::20)
- by CY8PR11MB7011.namprd11.prod.outlook.com (2603:10b6:930:55::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 8 Jul 2026
- 02:10:08 +0000
-Received: from PH7PR11MB6771.namprd11.prod.outlook.com
- ([fe80::effa:162e:c9c9:a1b4]) by PH7PR11MB6771.namprd11.prod.outlook.com
- ([fe80::effa:162e:c9c9:a1b4%4]) with mapi id 15.21.0181.008; Wed, 8 Jul 2026
- 02:10:08 +0000
-From: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-coco@lists.linux.dev"
-	<linux-coco@lists.linux.dev>, "Huang, Kai" <kai.huang@intel.com>, "Hansen,
- Dave" <dave.hansen@intel.com>, "Zhao, Yan Y" <yan.y.zhao@intel.com>,
-	"kas@kernel.org" <kas@kernel.org>, "seanjc@google.com" <seanjc@google.com>,
-	"mingo@redhat.com" <mingo@redhat.com>, "pbonzini@redhat.com"
-	<pbonzini@redhat.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "nik.borisov@suse.com"
-	<nik.borisov@suse.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "Annapurve,
- Vishal" <vannapurve@google.com>, "tglx@kernel.org" <tglx@kernel.org>, "Mehta,
- Sohil" <sohil.mehta@intel.com>, "bp@alien8.de" <bp@alien8.de>, "Gao, Chao"
-	<chao.gao@intel.com>, "x86@kernel.org" <x86@kernel.org>
-CC: "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-	"binbin.wu@linux.intel.com" <binbin.wu@linux.intel.com>
-Subject: Re: [PATCH v6 02/11] x86/virt/tdx: Allocate page bitmap for Dynamic
- PAMT
-Thread-Topic: [PATCH v6 02/11] x86/virt/tdx: Allocate page bitmap for Dynamic
- PAMT
-Thread-Index: AQHc7LhSIZlCRlcQpE6fbqoCJ0ANmLZjDbSAgAAVzgCAAADYgA==
-Date: Wed, 8 Jul 2026 02:10:08 +0000
-Message-ID: <818e0de368588836810718106e3b592323aaa0f1.camel@intel.com>
-References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
-	 <20260526023515.288829-3-rick.p.edgecombe@intel.com>
-	 <efbff823-7b4e-4349-bdc4-72a244699d76@intel.com>
-	 <a724bce3e92e8a8dfb04798bc21860ba9be786d9.camel@intel.com>
-In-Reply-To: <a724bce3e92e8a8dfb04798bc21860ba9be786d9.camel@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Evolution 3.44.4-0ubuntu2.1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH7PR11MB6771:EE_|CY8PR11MB7011:EE_
-x-ms-office365-filtering-correlation-id: bf5d8e38-4571-4204-335d-08dedc9608b5
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|7416014|1800799024|23010399003|376014|366016|56012099006|4143699003|11063799006|22082099003|18002099003|38070700021|921020;
-x-microsoft-antispam-message-info: p+D+jHlsVCDhtdPW4ovoKKuK8ApRrz6gK9IXo7PTWNV01WnMQo1YU2tTIf3rgoz533UGACk+DlkspU9fWC35sWwixNOr+YMrKaiN3exTwRS/EsWGTwAShsWg8SYoL/MWqszMn0i2oSp7PEBov7r1rgW4igeIMbo+lxqwhrj8rq+UbtGVgIcdIUMFtXBEsYGfVW8/N8d8v69C1ZDrbvO8qhmaHPxqxrYbbAZesLvNx7IiOowzMtxHFtDFAQ8+objw2tbAUyQZzQ4JW9F8tbddopz/aC637eyS0mKQOmtjqkFxWmZGACiZy916+vf9XDxmg0VnMj70urf/RXYi8i/CffKNqHf2fJb0uFTo5ITj4oZFDD1wy27qL1KCVPSQqyJMs00TQatxZ3qbpJndoncsxi8dE1Ahysv0N13zH/v3BJuUpPdSKeFTBeIAqjSxjr1gK4JuAlPAhlhD1tOm3FIEdG8hFhznimMnsqaCfp4ZwPa6/p3XX9Vlas+PLErAqUwt96awKmtalhUWGVuC1kM+fi23KGwuYhfVnggnATq4boFeWGsZElW2jjUXzpsQ23oum1HZn83A29041E8Y98NJQC24NeZSecO6SFq3WRio6p8LIQr5yzvb/Ms/6etqTyFkmHhh2FJupnNVj9+vMYMcZQwAu8vJmwq2RnvLsBGX13D8aWdMTddPBGsc6zP7gIlyrZ8baTohHaVynevh/MvpwDOnheSwvCqV7oxw2VCygRc=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6771.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(23010399003)(376014)(366016)(56012099006)(4143699003)(11063799006)(22082099003)(18002099003)(38070700021)(921020);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?emEzNGdTbncxamxyeHFMSlJLVllPZEs5VlFYVlpQL0wrZkdhaWpheWNyRW5L?=
- =?utf-8?B?em1TSS95SFZHWFJ1cVB6dGxpYng1SXJ5V3NjeTNlQUZSLysraVkzRVhoMjhj?=
- =?utf-8?B?Rk1id2d0NExhWXdDRHNWeFZCTzk1d2xodnJHRmdMNmdoSkk0ZGxPVndJWkdv?=
- =?utf-8?B?Skk1ZUU1WVBPWWwxK0pEUWlkMnJJTGczck9nT0E2c3JrdU5NRHpYT05aQjJS?=
- =?utf-8?B?S1o0ZWdRbjIraTd6UkFEU3ZZMFdQNHN3TDBrVlYzeFkxZVR2WWxscUI0SjNS?=
- =?utf-8?B?TzlyZWRxTHFSK2ZXUG9vNlhaNUkweGpHb3JyNTNITmdhZ2tjMzJSNytQVldw?=
- =?utf-8?B?S2J5aVdMUll1Y0s2T3pvZlNPbnJPNzU2NVFGUEM4TTAyNCsyYkRCRnpPd1dr?=
- =?utf-8?B?K28wRmRhWnZUdFg1UG5QbldhNVlRYWFoUjY4Tlp0UG0wYTcva2tsK3pXUTBW?=
- =?utf-8?B?dEMxN1ZDKzlSU0VXYkhWbklQdS9LY2psK0RIbDZ1c1pBeEJRVHVpdTdDOFJD?=
- =?utf-8?B?UzgvMUVvd21jdzdIbEdqRWtycUNQZ081QmVmanAxS3NjYS9IbjdGRGZrOFJm?=
- =?utf-8?B?V01oNWZTcEFlK29keVhUNEZYRzhrbEpSQUlWUkRMRjVMQWxRVmpRNm1lZm1u?=
- =?utf-8?B?UWFINXhSNFNONDVyMnF2dkN1MjdES3ZFRGtRMnpMRDR4bHR4aEVVTlZiNkto?=
- =?utf-8?B?cmp3Q0s2WVcrUkhvaFhYeWw5ZmJFcWpiUkY2Y2dUNHhUQWdvWFYxQnN1S0xF?=
- =?utf-8?B?dDBjWUZ5R3ZpbkpkVzhyUWlaSExXWTJMamFua3VESm5hMmdHWVB5UE1FeDIz?=
- =?utf-8?B?c0xrZHFVKy92RDhxWkxQdVVpdU1RQk0yZG1QenVmYU1OTHBZUFdwRFN6YitC?=
- =?utf-8?B?T3FEdXMrdlBLZ2lsNW9NaFJrUlErclAvQWtuVnE2SVFpcS90UGgvNmNjK2Ji?=
- =?utf-8?B?enh0UXM3M0dmZGNYNWVmS0pYaWorUFRGSVl2QlNPTW1Xdk1ENDZBR2poOXA0?=
- =?utf-8?B?UCthWGtwdmtvbU1pcFdOYXFQWmpyaGN1c2F6RFp1dnRjbUFWR01vaU1TN21W?=
- =?utf-8?B?QjVuR0toZjU1NklFZE9vNlVqRDRxRVk2VUJIMVV1SE9VR1lnMU9odUt1N25D?=
- =?utf-8?B?MUlyOFRLZm95WUNNbGxwNEkwSEp0a09wWUhIYlhpV2hySllmY2QwcUpkczBh?=
- =?utf-8?B?VkY0TklvamZlU2Y1SnZaeWNySC9HZUd5UzFJMTM0NUJFa2duYmJRbXRYblhJ?=
- =?utf-8?B?MUZKM2JGOEJ5TVE0aXRvVE5KZVNVUmZyNDJwbzh0b1pDNHB1YzNkSVFRNDhE?=
- =?utf-8?B?d3ZvK29pSkdjUWJRek5uQjBPNHI0bjJnais2bWpvWjIrMzBRZlB6UnBwMDFJ?=
- =?utf-8?B?M0xrQU9jQjFrQkMxVTdvcDgwWU1lL0ZNNW1KZHFMV0dqZXNDbHRMSkdyTlpo?=
- =?utf-8?B?ZmxSUHZraWUrNDlTZEh5anNLZXdPaWNhbHZwaktZSHk4ckV1WGRXeExOZDlz?=
- =?utf-8?B?K1UzK0tYTHA0emFRM2VBRjNYSS9tSEJXcXZzYksrYURLc0xXWmM3VXp2YXVm?=
- =?utf-8?B?Zlp4dTVLaU0zZENxUlBpZnFuSCtHa2RGQTVWY01zeVp3K3FQU0JOekNmaVhK?=
- =?utf-8?B?NTNEdnNvSWxROVBBbGhsVXRsTml1OTZlbkxZVnRlMCtqNi9obG5WbXZVSGRX?=
- =?utf-8?B?V3o5M29FSERwL0I1QzhOV1Fwdk5VclczcVA2bGxINFp1WjhaVGhvQk1SK21B?=
- =?utf-8?B?N3hrN2Y0QkpJTkJrSmlxUmo1YmpHSmJ0alNDZG9TbGxwODhublpJUzBmdW5R?=
- =?utf-8?B?R2tRdDZlZTJMLzVCR0pOMnB6Y0xSa2ZmVU9QV01TZHlJR1VMWUhnaDBpek9j?=
- =?utf-8?B?RzFxQ2FqQkJFc1pVZlpvY0Y5KzF6OEtFVkdGWGtSZnFtTE5STHAvTmM2NkxJ?=
- =?utf-8?B?S0pEdnNJb2tacnhBYXZMY0tJRnZRMXc3WUJERVF6VTkxeGM4SXVEME9Bek52?=
- =?utf-8?B?U1RPY3Yyekw3K0NmK21nVjBDaVhEdlZibURtckwyZytYOVA5NC9SVXRsZ2kw?=
- =?utf-8?B?WS95WTdMcGQ0eHdNN2pLaTIrSjBGbUUzck1mcE1JV09DUnhBdUJKY2FBTWZ2?=
- =?utf-8?B?dFRuWVl5N2dWMU9Ka2NOenFhMTduSVliUWlrZVRXWkRaYTZJK25Kd0diNklQ?=
- =?utf-8?B?dEFnQ1psZzExTkRpZXg1NUJIUDN5YUhMYlhCSUZZdTVoNnBFeFlSZ3RIa2xs?=
- =?utf-8?B?azRTY0k1SU50eFVOYlQ2K25wdERmei8yU1MzaXBFR3kxd3hFcE92QjZwZWxY?=
- =?utf-8?B?elk1TmxQQzBneEZTTVExeS9qbnQzRHhGeTZOdDFOL1h3cEg1MnhPVVJSa0ts?=
- =?utf-8?Q?geCWFD19INv8EDoo=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BE2BD9F4B47AFE4490D70A034106B8B1@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OksUuq3G"
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-495ee8e807aso83971b6e.2
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 19:18:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783477104; x=1784081904; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=NMN7ABXuRfB8gym1Nu0oTUlXvbUyY+lInnKbjPM/RBo=;
+        b=OksUuq3G+F5BYq1mp/g/x3TRFM3f3G6wzq6vp8qeJaYOxQLULGccEswKfUVpdeUlZe
+         v8wBRgqVXzSnrOZa9KiipM7bo7Dz4gYNoSoauKCFJN7IGUDlbrdSxMlxG41t7oqX431C
+         YOInNbxxnrKrqQaQmhWfleZH4njXtePPjfEtk6whiGtOiUa1LbiUXVnwxnr60GEoszcR
+         3+yD4jFKI1JH+NSBVUuxMxoTI9qeo330cusJ9vS1bqtRTJnisSJ9crb/xucTeOoUE/a0
+         XTgteH4oWYO0W7pi21NBV3ko/HAKGqmMLPq+B5BanV3rBAqJ4L2jUGVvTtxiPzXxz7Vz
+         P12Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783477104; x=1784081904;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=NMN7ABXuRfB8gym1Nu0oTUlXvbUyY+lInnKbjPM/RBo=;
+        b=asgSfjDr+SmFF3D9pB8hI8X06pDhx0Etc9zorVY42B8UM2NdVxntG99Sbt37wtugtA
+         AlnM9leK+anH3fWu2JJGj11yI5t/fxKLuaEB5kKUL+TAP4dvw/PPwwzjBEM3rh193Soi
+         F4E5MgdVPJ9EvzT6XNCcO4Hp7lRAixJpxmlIvc3A/6tNLPSVqg+ZK/XMyJIDqe1UQug1
+         +DK7p6m8ZVViQN5kVlpsTU2U9vqbXdgD49EyUJHAdqNYaNJPTwA5B9lIHllE5xy/oJ/u
+         1JiTrkrK4h1hODtPA5Ukelecx08Vdmr0r1hXYV/TPOuH29bvWN8IRZHQ992sMeY3cWzs
+         crJQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+tipuuRq4pSBAhRXUfnHRaM7yXXnVKFWilO2R/V7HKlDcnyg4XPKldgLNENi51pnzYCIftray20U8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsgNsu5FRit6voCLO1UGeyFiUE6gGJEM72wz7qSwjnUAXBAjmB
+	BYPK3PDqSY4NtsK+xRb8XNDU4oXxdL01h2IGuCpY9T+1QPajmS+1wOD4
+X-Gm-Gg: AfdE7cmhR7XxoFX0UxEWfv1Fof3xLPLcmQMu4mchezdLWfGIYjt5Ls7czT6bN+NqQGy
+	RjbxZf/j3gUIvCDmDawfgeS9OBMnv7xqb/O9QPt0LJnIzUhQqGZclU2z9eEOm3nl7EiNMh8pzap
+	MJydComm27AQikrEtjjy3IuF2mmEBTnIFW7mwdtjEW4iwxfQZAPNRbJYAznSjFR+nG2yg/hIaHv
+	Z+ypH0LK0nv8IMowWtpP7mjU7pv+ZQg8XO7CiYR8TNsoUQ1QIZS+dvOh6G6Soolbe4sCcQRJumm
+	6n+VO4Tbjr+cFOH2SKCMtQBr6ySX7zTlU4DOKQeBtwS7BxUgp8VlRYLKnqXJCfHcBZb7TZYPNV5
+	rrRmpdXg3ykLU8lOXWu84aw+qIcbVmYqmWZKDMAFrm6ZS5gEZeh9fpBY1rdW7ki6KUXntm+iklU
+	M7xNz4ON3UA7cvMCBmsdRxdG0yhXH6aHih6tpezi4kQl21my8+xCo=
+X-Received: by 2002:a05:6808:3305:b0:492:5b42:ab02 with SMTP id 5614622812f47-4a1fe930f52mr487342b6e.0.1783477104559;
+        Tue, 07 Jul 2026 19:18:24 -0700 (PDT)
+Received: from [192.168.0.245] (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
+        by smtp.googlemail.com with ESMTPSA id 5614622812f47-4a1aa006f74sm799975b6e.0.2026.07.07.19.18.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 19:18:24 -0700 (PDT)
+From: Jim Cromie <jim.cromie@gmail.com>
+Subject: [PATCH v6 00/24] fix dynamic-debug classmaps API for DRM
+Date: Tue, 07 Jul 2026 20:18:00 -0600
+Message-Id: <20260707-dd-maint-2-v6-0-381f3edb0045@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: dlbW5Dm2AZAmW2Kkhi2CL5TFHWnTHYKGE7rctVc9vcAZHRLnZDnQIxf07PsUqFs7Wl2yAMFnA0Qg4Bw/Cw0BWjxoHShApEGbn8LaTE2X2eo5zmB6/bpV3E6PpPBpMwqUpnYpuxzlwxmYDf5Iw+P3taZ1SURAVK9axCSFaYawc16Ph4KKrix3dFy6QYLyuM3HZX+126h+h2Bfe5f5wKf8NwhRFiDaPl+BBQiTfw/W4emW2wwsGsWsJ1MAoWjjYs+8twJT68OjuDNv1p/PI9ZGrcxWBkpyEFB8QRzFZnl+InyWGKPy99bsgOITX6eNxhgtYNlKav1KPXaB7/mHdWcPGQ==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6771.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf5d8e38-4571-4204-335d-08dedc9608b5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2026 02:10:08.2329
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hW+DbklcpWrEGENdYMFqccaI48VbPvfmhvSMNC8M/OYMDY/adV+YjY2Q0uO6zm/Yn4VJbsRuN1RijALq93Lxh9CY2GU/hPIb420jQG7JfFA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7011
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/13QTW6DMBAF4KsgrzuVPf4DVr1HlYUNhlhKIDXUa
+ hVx906CKggbS2Prexq/O5tCimFidXFnKeQ4xXGgwbwVrDm7oQ8QW5oZcjRco4C2hauLwwwI1jR
+ aIbcVHYzALYUu/jzDPk80n+M0j+n3mZ3xcfsfI/cxGYGDr6SVAp3jpfzo6eny3oxX9ojJcqOGv
+ 2yQJVHlhPaohG9lc6RqT/GFKqKickIprUvtyiPVG7UHqomi6hA9/cV3uKfLWkQKX99U5ry2sXV
+ ZF+sykgN1Be4S+wF0WVlZGoPCiJp2Pi3LH4EByVuZAQAA
+X-Change-ID: 20260521-dd-maint-2-76c542079420
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ Jason Baron <jbaron@akamai.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, 
+ Petr Pavlu <petr.pavlu@suse.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org, 
+ linux-modules@vger.kernel.org, Jim Cromie <jim.cromie@gmail.com>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783477102; l=6982;
+ i=jim.cromie@gmail.com; s=20260203; h=from:subject:message-id;
+ bh=Y6iplDL8rNgmn0X2LDL04ve9ymDJVghIuEaIPWNObfk=;
+ b=hWui+05aR2eCgLHG18GUk6iggaF9pb0RRyc9fuSQ1A3d8frVErXNCduqRoSg+LWSEuaT6EG92
+ EWCyo8dj6zEASJiOtzA9I2v/73xkxdS+1F7bjpsf+KOR3j+igWyo56D
+X-Developer-Key: i=jim.cromie@gmail.com; a=ed25519;
+ pk=C6E5ODlPQo7ZBynATXH9wg7K6HxP0pIXyf4s38Qw0XE=
 
-T24gVHVlLCAyMDI2LTA3LTA3IGF0IDE5OjA3IC0wNzAwLCBSaWNrIEVkZ2Vjb21iZSB3cm90ZToN
-Cj4gPiBJIHRoaW5rIHlvdSBjYW4gYXZvaWQgdGhlIGNvbW1lbnQgYWx0b2dldGhlciBpbiB0aGF0
-IGNhc2UuDQo+IA0KPiBJIGRvbid0IHRoaW5rIGl0IHJlbW92ZXMgdGhlIG5lZWQgZm9yIGEgY29t
-bWVudC4gVGhlIHBvaW50IGlzIGlmDQo+IHRkeF9zdXBwb3J0c19keW5hbWljX3BhbXQoKSBpcyBu
-b3Qgc3VwcG9ydGVkLiBUaGUgY29tbWVudCBzaG91bGQgYmUgbW9yZSBhYm91dA0KPiAid2h5Iiwg
-dGhhbiB3aGF0IHRoZSBjb2RlIGRvZXMsIHJpZ2h0Pw0KPiANCj4gSG93IGFib3V0Og0KPiANCj4g
-CWlmIChyZXQpDQo+IAkJcmV0dXJuIHJldDsNCj4gDQo+IAkvKg0KPiAJICogVGhlIGtlcm5lbCBz
-dXBwb3J0cyB1c2luZyBURFggd2l0aG91dCBEeW5hbWljIFBBTVQsIHNvDQo+IAkgKiBhdm9pZCBy
-ZXBvcnRpbmcgZmFpbHVyZSBpZiBpdCdzIG5vdCBzdXBwb3J0ZWQuDQo+IAkgKi8NCj4gCWlmICh0
-ZHhfc3VwcG9ydHNfZHluYW1pY19wYW10KHN5c2luZm8pKQ0KPiAJCXJldCA9IGdldF90ZHhfc3lz
-X2luZm9fdGRtcl9kcGFtdCgmc3lzaW5mby0+dGRtcik7DQo+IA0KPiAJcmV0dXJuIHJldDsNCg0K
-QWN0dWFsbHkgdGhpcyByZWFsbHkgc3RhbmRzIG91dCBmcm9tIHRoZSBhdXRvZ2VuZXJhdGVkIGNv
-ZGUgbm93LCBob3cgYWJvdXQ6DQoNCgkvKg0KCSAqIFRoZSBrZXJuZWwgc3VwcG9ydHMgdXNpbmcg
-VERYIHdpdGhvdXQgRHluYW1pYyBQQU1ULCBzbw0KCSAqIGF2b2lkIHJlcG9ydGluZyBmYWlsdXJl
-IGlmIGl0J3Mgbm90IHN1cHBvcnRlZC4NCgkgKi8NCglpZiAoIXJldCAmJiB0ZHhfc3VwcG9ydHNf
-ZHluYW1pY19wYW10KHN5c2luZm8pKQ0KCQlyZXQgPSBnZXRfdGR4X3N5c19pbmZvX3RkbXJfZHBh
-bXQoJnN5c2luZm8tPnRkbXIpOw0KDQpJdCB3aHktaWZ5cyB0aGUgY29tbWVudCBtb3JlLCBidXQg
-b25seSBnZW50bHkgbW92ZXMgZnJvbSB0aGUgYXV0by1nZW5lcmF0ZWQNCnBhdHRlcm5zLg0K
+This series fixes problems which broke CONFIG_DRM_USE_DYNAMIC_DEBUG=Y.
+
+1st chunk fixes a section misalignement on i386, when CONFIG_DRM=y and
+CONFIG_DRM_USE_DYNAMIC_DEBUG=Y.  It also repairs a linkage failure
+where the dyndbg sections got dropped from loadable modules in some
+arches.  This chunk was reviewed by Petr Pavlu (thx).
+
+2nd chunk is a set of cleanups, callchain refactors, struct refactors,
+and internal reorgs in preparation for the API change needed to fix
+the regression seen in DRM where boot-time drm.debug settings (in
+core) did not propagate to drivers.
+
+3rd is the API change itself; replacing DECLARE_DYNDBG_CLASSMAP (used
+in both core and drivers, a K&R define-once-use-thereafter violation,
+which caused the regression) with DYNAMIC_DEBUG_CLASSMAP_DEFINE in
+core, and $1_USE in drivers and helpers.
+
+There are 2 user-visible changes:
+
+1. change an ERROR condition displayed in dynamic_debug/control,
+from "class:unknown, _id:1" to "class:_UNKNOWN_ id:1"
+
+This only happens if a classmap is incorrectly defined, so it should
+not pass review, and should be SHOUTED about.  And since classmaps are
+BROKEN for DRM (its only user), this affects no users.
+
+2. change builtin module names, displayed in dynamic_debug/control,
+from simple "[main]" to subsystem "[init/main]" etc.  This corrects an
+existing naming ambiguity, which is disallowed for loadable modules by
+the module loader.  To preserve legacy query behavior, "module main"
+will select all of "[*/main]".
+
+NB: the current ambiguity prevents cleanly adding classmaps to
+builtins named "[main]".  Such an addition is quite unlikely, so this
+change could be dropped, but it seemed proper to correct it and point
+it out.
+
+3. revert a change in classmaps-v1 (2022) which enlarged __drm_debug
+from (unsigned) int to long int.  64 categories of drm-debug is well
+past reasonable, the param is now a u32, for clarity.
+
+---
+this is based on v7.2-rc2
+Ive trimmed the cc-list to stay under gmail's 500msgs/day
+
+Changes in v6:
+
+previous versions split the 1st chunk into a separate submission, in
+an attempt to get past gmail's 500 msgs/day limit, and to ease review.
+
+This complicated application; although the 2nd chunk had the b4
+dependency on the 1st, this fact was missed by sashiko, which
+therefore couldnt apply it.
+
+A followon series adds compile-time and runtime checks to fail-fast if
+classmaps are used incorrectly.
+
+Changes in v5:
+
+move KBUILD_MODFILE ahead of array-slice, to address sashiko
+complaints which were fixed by later patches in V4.
+
+Changes in v4:
+
+Dyndbg previously used KBUILD_MODNAME to provide module-name, this
+works well for loadable modules (module loader requires unique module
+names), but for builtin modules, is effectively kbasename, and is not
+guaranteed unique.
+
+So we get 4 modules named "main": init/main, kernel/power/main,
+kernel/base/power/main.  This ambiguity is visible in user-space since
+the beginning of dyndbg.
+
+Now suppose kernel/{,base}/power/main want to define classmaps to
+categorize the various pr-debugs they have.  The current code finds a
+module's classmaps by strcmp on modname, so init/main will match
+against classmaps defined by both kernel/{,base}/power/main.
+
+The current code will also map "main" classes to kernel/*/power/main,
+so they will probably work at first, but 2 independent classmaps can
+both use class-ids 0-N, but will conflict if they're both used by a
+module.  Then we have classmap overlaps and unpredictable results.
+
+v3:
+- move #includes to top of files,
+- drop redundant ALIGN(8) in dydnbg.lds.S: DYNDBG_SECTIONS macro
+- add Reviewed-by tag (thx Petr)
+
+v2:
+- avoid BOUNDED_SECTION in modules, dont need _start & _end symbols.
+- sets 0 address to the sections, not just whatever current is.
+
+---
+Jim Cromie (24):
+      vmlinux.lds.h: refactor BOUNDED_SECTION_* macros into bounded_sections.lds.h
+      vmlinux.lds.h: drop unused HEADERED_SECTION* macros
+      vmlinux.lds.h: Fix ALIGN(8) omission causing NULL ptr on i386
+      vmlinux.lds.h: remove redundant ALIGN(8) directives
+      dyndbg.lds.S: fix lost dyndbg sections in modules
+      dyndbg: factor ddebug_match_desc out from ddebug_change
+      dyndbg: add stub macro for DECLARE_DYNDBG_CLASSMAP
+      dyndbg: reword "class unknown," to "class:_UNKNOWN_"
+      dyndbg-API: remove DD_CLASS_TYPE_(DISJOINT|LEVEL)_NAMES and code
+      dyndbg: drop NUM_TYPE_ARGS
+      dyndbg: bump num-tokens in a query-cmd from 9 to 15
+      dyndbg: reduce verbose/debug clutter
+      lib/parser: add match_wildcard_hyphen() for agnostic matching
+      dyndbg: use KBUILD_MODFILE for unique builtin module names
+      dyndbg: refactor param_set_dyndbg_classes and below
+      dyndbg: tighten fn-sig of ddebug_apply_class_bitmap
+      dyndbg: replace classmap list with an array-slice
+      dyndbg: macrofy a 2-index for-loop pattern
+      dyndbg: pin class param storage to u32
+      dyndbg,module: make proper substructs in _ddebug_info
+      dyndbg: move mod_name down from struct ddebug_table to _ddebug_info
+      dyndbg: hoist classmap-filter-by-modname up to ddebug_add_module
+      dyndbg: change __dynamic_func_call_cls* macros into expressions
+      dyndbg-API: replace DECLARE_DYNDBG_CLASSMAP
+
+ Documentation/admin-guide/dynamic-debug-howto.rst |  42 +-
+ MAINTAINERS                                       |   1 +
+ drivers/gpu/drm/drm_print.c                       |   6 +-
+ include/asm-generic/bounded_sections.lds.h        |  32 ++
+ include/asm-generic/dyndbg.lds.h                  |  22 +
+ include/asm-generic/vmlinux.lds.h                 |  68 +--
+ include/drm/drm_print.h                           |   2 +-
+ include/linux/dynamic_debug.h                     | 275 +++++++---
+ include/linux/parser.h                            |   1 +
+ kernel/module/main.c                              |  15 +-
+ lib/Kconfig.debug                                 |  24 +-
+ lib/Makefile                                      |   3 +
+ lib/dynamic_debug.c                               | 608 +++++++++++++---------
+ lib/parser.c                                      |  58 ++-
+ lib/test_dynamic_debug.c                          | 145 ++++--
+ lib/test_dynamic_debug_submod.c                   |  14 +
+ scripts/module.lds.S                              |   2 +
+ 17 files changed, 846 insertions(+), 472 deletions(-)
+---
+base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
+change-id: 20260521-dd-maint-2-76c542079420
+prerequisite-change-id: 20260630-fix-align-589738662161:v4
+prerequisite-patch-id: d6b2b7d254c7e8bbc0aea891d49b15dc1e71eaa4
+prerequisite-patch-id: 3dffaa165e78dc58e443469755eddb07972d0ddf
+prerequisite-patch-id: 2c4827d84b4159e71df89cca2a03938a534ecdb5
+prerequisite-patch-id: 4599f9be1eb06c0d7f2a7c657d4940411635e94b
+prerequisite-patch-id: aea9e121b30e3c7f3d76921b49f81ad421b7af51
+
+Best regards,
+-- 
+Jim Cromie <jim.cromie@gmail.com>
+
