@@ -1,186 +1,92 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BFD24E4C6
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 19:48:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1753ACF0C;
+	Wed,  8 Jul 2026 19:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783540117; cv=none; b=Fo54h3YluT7S1ZRReHk2B93+IAHDRmua8PohO0iX24Oz6ABpyTkOQ94mS9aojWOxRwn9HJZAf2n7A913/mpUXYe7qiAlDffF1O9+zyGmwexIP+q6pNNmLIso7SdVDYHNPkCyAQToQK8LWHhIz9CA+GvOvRw9tnZyp1cI14EgflI=
+	t=1783540152; cv=none; b=bOfVkl39g0CUYPNQje+HeBcwByOKvRMd3Rfhf7iV5zqvfhSQcI7m08gpMxoiSvzXQT3yl0XI3OzEG+iT0a89W5JHFPnedPtSZaXwoQ89t4n7E4io8JQCVk8/68f+n/QaStNDlBbV542rWcNxpyuYHVkmXIvYsGiwMydkOdXpTiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783540117; c=relaxed/simple;
-	bh=Ghlr+avBEixSaVhL6xV8udcrvOQwEYxFq5oqvOlsQTk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=L3Aqo9lDVoESAC2okGPnyS+IrnigCCWeewYve0m235vmSBNxJdJiz9vyHrGU9QB+qrJtKAfts+kEH5AzFt7bmn+U0JeTvdwZ1iQfu5tqYH7Suct16mu5pMVkAH7w0HvcfqFtJ0cpfBTCXbBwV+oHQiCSvkomVPYvyaB3RFn56ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Qil1fVDq; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=W0TKygWB; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1783540152; c=relaxed/simple;
+	bh=pLRE4JgFkHItzuI3iagub5B+SnPM/rhv/Ew4PCwRLu0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hRriVDC78AQYUqRKGRK8vc9NKRdEyQFoSR8RhvOtMFklNFsIdQ18xpYOa6JsAUNSTCxXD0KxjOIYy0MsTB4nYyS0bXtghhwFjmz76YqyHcxXvscLnV4oURNPsN4TtBn/jQu28zk+8/9DQQIGOKa+UOajmCYDtaqo7GausOWghm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=W3cP4Voe; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=crKqnlCH; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Qil1fVDq";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="W0TKygWB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783540114;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="W3cP4Voe";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="crKqnlCH"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gwTDy4zMmzMlJ3;
+	Wed, 08 Jul 2026 21:49:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783540146;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ghlr+avBEixSaVhL6xV8udcrvOQwEYxFq5oqvOlsQTk=;
-	b=Qil1fVDqn43Ninn+uIMJmwbOh7YufLT2gv5rcOrs7VLk+s+Tx8atG+DGG1Kzxn3t/WIRHC
-	8M2Sad8wHu/K6sl+OSPfTFjVgbK0TCOW9NOPlsHiaVZWbTO/dHpUw2GWufPj8FknGBdrzT
-	1fEXwduJRBTS4waVksnZ3MtgFKslpZE=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-486-Dlkfsk3xNxS5u5jyEHfgFw-1; Wed, 08 Jul 2026 15:48:33 -0400
-X-MC-Unique: Dlkfsk3xNxS5u5jyEHfgFw-1
-X-Mimecast-MFC-AGG-ID: Dlkfsk3xNxS5u5jyEHfgFw_1783540112
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-6984787eeddso99188a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 12:48:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1783540112; x=1784144912; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=Ghlr+avBEixSaVhL6xV8udcrvOQwEYxFq5oqvOlsQTk=;
-        b=W0TKygWBt1EIgkAxTf5kykT67WuZMD8eykar0aEOteenFhu2ZjXRKqB8VHUdYXbEdn
-         /imhnibGLOQPT5vuFWnYnp/HGDpRrh37QasmkfFG0Ejdnb67tCDrflneGtsxp3cPbrKL
-         o/3uY2G3AKJ33Ip2I1rALOs6U8uxBcOW2quZPcMHUy6CZB5otOGcoIlkRSCn3G0S/Odw
-         k+/Jjn6QFMyIKvQnb4tKjIh2j9SSllhxbndnsQlLfx2hgerJmChxMCeCWggSWk48m7XH
-         dlFe4IE8SRDJhP+fwqCiFFs9EjvMfa1tooS/2xYurJiWx2vdo3twzO58WFnFzdaUaumr
-         BeqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783540112; x=1784144912;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Ghlr+avBEixSaVhL6xV8udcrvOQwEYxFq5oqvOlsQTk=;
-        b=TLDsda08PSqZLygwuEyRHqR1Pb1A8vLA95hku39V5XG/A/Bh9+88+5mCy1Lmxesj/v
-         LwsZVwGnKIolO2mIdnRX+AKzUHf3PpMEaRVqzibO51E85ixqRNnDjNyJqcv54wL+P86u
-         hQIDSywBdcfiODmYolgpD8lRUvTpLK+KXsLCtU3OI+V/UOFviakq/Pajq78OGQekoTC6
-         EbBoQMMRzaVNimSXBSUm41yZfySkXsHmT/J5tDv8BDEu4GSMPQ7lj0TA456NgM8Mf9af
-         O5DOT91CV0AYxSbkT/qajLceIUqBn3/wcdvP7QjR00xuauc5zxutam/Ww1Hu8OrM1YDA
-         7fEg==
-X-Forwarded-Encrypted: i=1; AHgh+RrgwKaU00VdyzXlOu3J/4EJb3OAcuUOiBAJybQR3Yd80ZXLMsjWzQ5n9j7355NnTAkrJ8rHJargAr0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRXgCpzWzmAEbV5EzPFKhNeV1bhAssiKnL4Dz5amklh1qHHvHS
-	7qD0ozSP/7vojSuLtTQdvKqb7BZM5bcTVYVB4JECfVPUPjUU4blksH2O7MYa41XykYQCk4dZPXt
-	I7Yw5VKe6hvTtFPzu4Aa/bHmHAGKEJJQBZFP2VOlRx0hq/myGnKzo+1BHlTKzaA==
-X-Gm-Gg: AfdE7ckPviJ5xkUooNF1yIcnSXhMPiV/44gDSCn8uC8QasbPN8rZu//Mk9yZU+5UDF2
-	bwEdO5Mhng9+xn1tKeGsZjhrrdrIjgUfqsYSVV3KCluWienFBC3tEZeOyxSJhu5i4v98YFKjfrB
-	9BqZlF0SxyqxP+7u4z3qyYQLcbNzw+mKQ/W27M2jXKEPBLIdWkTGWFIh6YvDX58Gk/tLXVu5QSX
-	iYwm/0HoUrUVq1jp4BMt4L94h1A+m4hwsOc9hIknuRf5gTgzk/PjLqO/oB7I82nXBb0tIdFlCkf
-	HeK5AQkM+mRht6xGjYjCQILohI6dmzN4Ct/RaT0Dw9MFpz7/u0ELJk4C4RknNvSGNxAuNmBbJca
-	i/HbkY7DV2WkOk8J96dz0rUyvz8FEj0MrlG0mhPthJvtZT3lr40AVI+m+DmWxU1E=
-X-Received: by 2002:a05:6402:3788:b0:698:3ce6:767f with SMTP id 4fb4d7f45d1cf-69ab445dd6amr1730462a12.12.1783540112169;
-        Wed, 08 Jul 2026 12:48:32 -0700 (PDT)
-X-Received: by 2002:a05:6402:3788:b0:698:3ce6:767f with SMTP id 4fb4d7f45d1cf-69ab445dd6amr1730448a12.12.1783540111797;
-        Wed, 08 Jul 2026 12:48:31 -0700 (PDT)
-Received: from ?IPv6:2a01:41e1:62a8:c300:7322:3fab:8db6:d28c? ([2a01:41e1:62a8:c300:7322:3fab:8db6:d28c])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69a19cf68f5sm8795151a12.13.2026.07.08.12.48.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 12:48:31 -0700 (PDT)
-Message-ID: <8b35057f72cd281637cf9d4bcbe1d0d753a3710e.camel@redhat.com>
-Subject: Re: [PATCH 0/4] KVM: x86: Document and enforce APIC base memory hole
-From: Tim Wiederhake <twiederh@redhat.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>,  "H. Peter Anvin"	 <hpa@zytor.com>, Ingo
- Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,  Paolo Bonzini <pbonzini@redhat.com>, Shuah
- Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
-	x86@kernel.org
-Date: Wed, 08 Jul 2026 21:48:30 +0200
-In-Reply-To: <ak5TojZfR04SWWd-@google.com>
-References: <20260706092021.3625908-2-twiederh@redhat.com>
-	 <akwrncCjosItvAeO@google.com>
-	 <bceedaf195adf713db70a1dba743055fe4f20bc0.camel@redhat.com>
-	 <ak5TojZfR04SWWd-@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=tnCNKFWG5+RYkd4rYC3cLVG3V6JWs73HNHt5pGmKfWA=;
+	b=W3cP4Voeus9nY2LiOVk5IXBObnHB4TyINe/9FSIigDKaDWkho8GrcZpMDbBcxE1/23S4qI
+	RX3iidXxbnZ5wIrIrzsf66Y/QqStGjx/hKNeYRKe77fUBYzhW8y8W/nENZynByMaLY/O6/
+	ZbqLnsuYkRSzixrOgtQqzQGHf00Ysuh01LsXiPueJ3SvZQhlqQejidQoOXgBeeYkAXqw3A
+	5d6OipWxwn7aXxznuc48/DK77HZZDc/QJYS8uJ0aq694tXU59bnp5kHaqplyqAyjg+2kQw
+	WvFGnLMR9DK3B1SalGqvZ8Q0qmnnOghCXY8Rh83sB40NhhOQqsJlxMfXWzFy4A==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=crKqnlCH;
+	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783540145;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=tnCNKFWG5+RYkd4rYC3cLVG3V6JWs73HNHt5pGmKfWA=;
+	b=crKqnlCH2styztAkjKu5MDOI5t3Fuoha8bml4r5QkrAAFRwikeEUunscArUXA1V7vP4yfW
+	VS/7WUev5oAyL0cPIjxgEupn7Px6JaIs3yqtkWp8U2oavqiJw/wEwcDADCmLnLLzlPxGXo
+	7AxztK4Pumuvm4+9OtXNprHy65eQI9FaXVFrVXIx2zMLYwFhvU/NjCYcnXCMPUxOcv2bPD
+	KTEEdSgiXSskZ7flO02ZcKAIrjVhSO8ayDFGPASLXtFZWxFr2QuYTYmQaaT4JzHVwdfJ6g
+	FRVqKFY0JluGAml6S6GlfeubjykscomscYlek7+WyR/Hyz3nd5a8blo2jBCwWw==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Manuel Ebner <manuelebner@mailbox.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: dma-api: remove needless bracket
+Date: Wed,  8 Jul 2026 21:48:21 +0200
+Message-ID: <20260708194821.357548-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: rjxo9w6qc91snfr7qmg9s5an5kaj8ecj
+X-MBO-RS-ID: 8a432433f27aae60cd8
+X-Rspamd-Queue-Id: 4gwTDy4zMmzMlJ3
 
-On Wed, 2026-07-08 at 06:41 -0700, Sean Christopherson wrote:
-> On Wed, Jul 08, 2026, Tim Wiederhake wrote:
-> > On Mon, 2026-07-06 at 15:26 -0700, Sean Christopherson wrote:
-> > > On Mon, Jul 06, 2026, Tim Wiederhake wrote:
-> > > > When an in-kernel irqchip is enabled on x86, KVM installs a
-> > > > private
-> > > > memory slot at the default APIC base address (0xfee00000)
-> > > > during
-> > > > vcpu
-> > > > creation.=C2=A0 If user space has already mapped a memory region
-> > > > covering
-> > > > that address, vcpu creation fails with -EEXIST.=C2=A0 The same
-> > > > happens
-> > > > in
-> > > > reverse: mapping memory over the APIC base after vcpu creation
-> > > > also
-> > > > fails with -EEXIST.
-> > > >=20
-> > > > None of this is documented, and the error is reported far from
-> > > > where
-> > > > the actual conflict is introduced.=C2=A0 A VMM developer hitting
-> > > > this
-> > > > has
-> > > > to trace through KVM internals to understand what went wrong.
-> > > >=20
-> > > > This series documents the two undocumented constraints (irqchip
-> > > > before
-> > > > vcpu, APIC base memory hole) and adds early checks so the error
-> > > > is
-> > > > reported at the ioctl that actually violates the constraint.
-> > > >=20
-> > > > Patches 1-2 are documentation only.=C2=A0 Patches 3-4 add early
-> > > > validation
-> > > > that turns a confusing -EEXIST at vcpu creation into an
-> > > > explicit
-> > > > error
-> > > > at the point where the conflict is introduced.
-> > >=20
-> > > I'm 100% in favor of documenting the behavior, but I'm not
-> > > exactly
-> > > excited about
-> > > the enforcement.=C2=A0 It's not needed for KVM's safety, and while I
-> > > appreciate that
-> > > such a goof would be somewhat annoying to debug, I have a hard
-> > > time
-> > > believing it's
-> > > a common failure.=C2=A0 I.e. I'm not convinced carrying the code is
-> > > worth
-> > > the marginal
-> > > benefits it provides.
-> >=20
-> > FWIW, I did run into this exact issue myself and debugging it was
->=20
-> What were you doing (or trying to do?) when you ran afoul of this?=C2=A0 =
-I
-> ask because
-> maybe there's a way to help developers without impacting KVM's uABI.
->=20
+Remove single ')'.
 
-Experimenting, mostly with pmode code. For simplicity, I use a single
-memory slot at 0x0. Due to an off-by-one error, I gave the VM only 2 GB
-instead of 4 GB as intended. When I fixed that, suddenly vcpu creation
-failed.
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+---
+ Documentation/core-api/dma-api.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> > indeed quite a ride. The EEXIST from vcpu creation led me
-> > completely
-> > astray and I was very close to just giving up. If I had, I wouldn't
-> > have written this patch, and the failure would be perceived as even
-> > less common.
-> >=20
-> > I don't mind dropping patches 3 and 4 (the actual "enforcement"
-> > patches) for v2, the documentation is more important in my opinion.
-> > Still, if there is interest, I'd be more than happy to rework these
-> > patches for eventual inclusion.
-> >=20
-> > Thanks for the review,
-> > Tim
-> >=20
+diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
+index ca75b3541679..ba23a472f794 100644
+--- a/Documentation/core-api/dma-api.rst
++++ b/Documentation/core-api/dma-api.rst
+@@ -508,7 +508,7 @@ call to dma_iova_try_alloc.  This can be useful in the unmap path.
+ 
+ Is used to link ranges to the IOVA previously allocated.  The start of all
+ but the first call to dma_iova_link for a given state must be aligned
+-to the DMA merge boundary returned by ``dma_get_merge_boundary())``, and
++to the DMA merge boundary returned by ``dma_get_merge_boundary()``, and
+ the size of all but the last range must be aligned to the DMA merge boundary
+ as well.
+ 
+-- 
+2.54.0
 
