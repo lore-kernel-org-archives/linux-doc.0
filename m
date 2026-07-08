@@ -1,257 +1,325 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56FD943E9F5;
-	Wed,  8 Jul 2026 16:55:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783529742; cv=none; b=syfeH6OtpNqxa0BSX4jWHsMogDA3uk5meDM6yEUTiZ6BCd9+1SY9pi3LJaR4R4Z6Ngyg1BHXz3sinM6eiiCu/dElVr7prIFfPH09C39xhjf8H8IL0/D8O8Mw6jEdAulLC78NW6ig8UzGqfLB5A9aIcfbV8p6SfvcECvYeS1hQDQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783529742; c=relaxed/simple;
-	bh=m5DE0lZfKqZmVltyApYxSsMWfZEGIO1gwSRIU03RUlw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uZ/btzmjVYhIZRc00jiW8oJOLZLb/64qlJ9NKqjzyfQx1J8Yqbh0iS5Yxp1jI+EmQa+BW6eeP4SZxEe5NOgue7BCLCN0aV+WOO7N5R3f8I12ynvabyAT5LYAlFYV/49n2dQ0HSO9CgtmzBxuI26DAIjQwh7c0Wxi618ISOgyYcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=FT325xqj; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0DB748A2B5
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 17:10:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783530635; cv=pass; b=qHCnxU+4hnLvX/yhK5A5WlXUVAlDB4qW8oedMgqx+fBYYUWqDQUK65LVoB/5oaHh0Ig38o15nw1nUKf9OzjdRw6m+UeA5nQsrINYdvFRw0g3Sfc36uG7kd4FQ8MGGCOaQ2B8oB34ilnUy0Jk8IhAmGdY3wTayrwTm0dHHNDykxI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783530635; c=relaxed/simple;
+	bh=nLrXdDrb0nyne/TQYCI/4G0d9DCOxawO24KBDUJ5nQg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ddgyKJd/BUU3LWOmp+kne4XJhu1pIoafn3Fy7/nPxeKX+2CBCgESslO63MpvaxF+5sC3aq/DEpjTXTZjwot1axGoO/l6ztQyBxQzwE2YjyAjBwrgAm9n/j7DOaXD16ebm+EOpMWckvanfPAX8i3wYPVsbnyJmCFxxpPyIHZlscI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YPPJJu9J; arc=pass smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="FT325xqj"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 668GIxwJ3190061;
-	Wed, 8 Jul 2026 16:55:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=ljliNS
-	VRpioEVkf06Lv4MMebxNflmUVMBElTgHzrEDU=; b=FT325xqjkpuAAmVzOBDiGT
-	g7oIFfRbLR76SYUff0LStFWdP6NvbXHdv992pPh91yGB7bcQgJzTVt8bJapRRmqC
-	2KSG3BUAPxJGUhvP/tFl9vxQn36VMxkU2IoboqOsy+KQQBvh2yDyGah4GZRULaUP
-	rK+IMvGcl+ixbIM0VlQwnEUpSn0ovlNaQ9otpbiR7noEv0i8Cpsx81mZh2tCQnsK
-	lwACTncCt71ZvvLjJEdA7hJXmLO5AA8YbQoHNzGMcnJY/FOrlIYYMzx8lb6K5X0i
-	WSiuiOd16QKT4kuby/utcsCnXRqOlQmW4MlWo01D44hRJL4Z6JbAOj63HPARksIA
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6rkdwwtg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 Jul 2026 16:55:23 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 668GnfLE000927;
-	Wed, 8 Jul 2026 16:55:22 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f7e0hgvea-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 Jul 2026 16:55:22 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 668GtIg352298196
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 8 Jul 2026 16:55:18 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1ABBD20043;
-	Wed,  8 Jul 2026 16:55:18 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9909620040;
-	Wed,  8 Jul 2026 16:55:10 +0000 (GMT)
-Received: from [9.39.26.208] (unknown [9.39.26.208])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  8 Jul 2026 16:55:10 +0000 (GMT)
-Message-ID: <7eea685e-e5ab-4487-bafb-3131969e5acd@linux.ibm.com>
-Date: Wed, 8 Jul 2026 22:25:09 +0530
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YPPJJu9J"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3997a448ecbso10668571fa.0
+        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 10:10:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783530629; cv=none;
+        d=google.com; s=arc-20260327;
+        b=SubRRlAWI8+Yc6Bd8f8FWGWdq1Sl1RGlu/4/oENEOrlbC9afzCqz9MHgGLubH+y9r5
+         vky94IJedOJlWqQC6ayVtCdaVbri9sXSx/LAmjzp4N7pDTH3VhoYdu8n83hF0/TsO9lc
+         xwQ+uj/koDlVKmECTVRK/TMI5gdjz+g+lgkTvc8arrqinCs2cGIDv8PKDxqN/7KyRU5C
+         vPacPxflJqRrBL4+eJ/cQHKcpRARBgRfQa4vW7wiAxgCUXVtygrvh9Wb/GRkMsxyvIFA
+         j2HjixTeeD2CZNxVYC9oatweQ1zusouM1DLDBxBEDrY+CVSx/hvk42gdHHiql4t0wANf
+         EXgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=GKNYdbS14PoiaCYd8c0Qa4S9RDI1yii1jmGBffqUnvc=;
+        fh=rkzE3RFPuohLA388KSUhASKToluXssVkobRUG3Hdgyo=;
+        b=As4aKXAdXvHdau8RSDWhFTrAVfjcb4rftgh0VFrppjpFb0CrUltkQSHOUk0aExbAXY
+         ki3KJZZVYgUAh8N8jLobDOSRnh7bi78dfjIYGtUEQTynISRsGXGtbFAoWmuDRpOCmRaV
+         yFW7zZLZI02zIaXzF1SuJ5bQbIzhWvSx0wZBySf75NwaFCmzfz4AAURMJACNIQ4bN9tN
+         efBoZpg/depQMvadyT/XGKTvnav3Zc5NUW0Fg4JFQuphWbMrPq1VUwPnHV2+PTM6bdZ5
+         ON/SQV1sf3YiRlSpOjzF6K/nwnOGO3YshX40qZRHBfxIIGTI7OpShO2DvzueonPJ42J/
+         GtCg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783530629; x=1784135429; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=GKNYdbS14PoiaCYd8c0Qa4S9RDI1yii1jmGBffqUnvc=;
+        b=YPPJJu9JhokUkAGtnyGl0aXkb2kdnISQQ5C2in0ral0v24ScIcoYBJAd7n44rW80AO
+         6fijKTzF6a5Ac+ivvJiwkUHdQAXgid5NQSq7lFZyazZvMmBktmaORk2661Vy53KBbq4h
+         osptmkOdlzLWb+vB2tYJzoWkrIetuIM2hLHwlHjVHZIrHOj+1SJGuelLqGlQ21Dy+wvc
+         k5Qyp8DFcE3OciHH2o3HTE024J19N48F+D97szHvcngKaMiNZqBPhFZdhT/ZhrruX1uq
+         s8pvzz5qjb2LcxC2AYpPBouPv4AwVNbQIdULQGs7B2wpoUUH3I4769lc4e7C8jimz7ej
+         Kz7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783530629; x=1784135429;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GKNYdbS14PoiaCYd8c0Qa4S9RDI1yii1jmGBffqUnvc=;
+        b=MBC/g7OFQS5PQVq1FXycKl91M3kRzS7P9RuAo+m+1GgAI8a+qZDx386/A4xq3KGQA2
+         AiwbmTQpyR132O8snogPljSvkjmEmiMNT7jc5TadTqWjmqmBoW1IwhhSMbv9McHI7t+i
+         o4P6q+PP38A2XBapV+CVsHAZztMngu/7Ad2t/L7BjRsrk3eB4HB1pE5cKd7g1QdNn/WC
+         HvTYceNdEraCLYizgKlK+59jGGRCcg6Lmh5RmhoNG9th7BWqDIlnTDbQV7FDSB37zObT
+         o33VYv7GwPxupZs3485hg1Qc8NXfIp1Ggm/KjLMc0pxp3EqTuGCMQnabc9XlUVssv6PJ
+         p2iQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpVkuf4H4c4EJGaHiHA1dRfynanxJtUXqvN1kqlobMckBORBqQiejmMKP0CDUtSR3MaDd4/2yvrsp4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGNlx8i/pu8EFFJoYDESjaqHPSN1K9uoBzQOyByqdl/QrPaIvL
+	0U7QN9trVGgtn+AYJNpHZK/75uBorIalSpKZoxKTeSlmZ+LW0hgzbMO+olRy9evA434o0CCjlyV
+	VEL351TCPoP4pNvtEoXLHp3RuXWybpns=
+X-Gm-Gg: AfdE7cmyBwbJal6P2QwYeiKmOD7Hw8zxT2B1EoJhYiwaV2KdzBWFrHz2YTnArq8nNig
+	z9mmIeo30D7Y9xiZPnInt5dlSmnu7hiwq9kz2o34Ps1MrFLWGM2YIBS7Dgn2FTr4f3SBDQwm8+H
+	L5fA8Q+pCf3TaNrZceCVxxwkNHLcm4u8xySXfnayPvqjGyzr57wG34koyLP6OIxLZUWSBVhQKZ5
+	+bdEGKiFQblDRe/ydryinsTaE09+E1gY4iC0G98R+sG6cPlo9minnhG+s30RHOos/+fEZXqujbD
+	0w+X7MGAenqxdDm9BS/tKCqdkpE42pQ=
+X-Received: by 2002:a05:6512:4507:b0:5ae:b604:4c9 with SMTP id
+ 2adb3069b0e04-5b0114b4371mr859389e87.65.1783530628850; Wed, 08 Jul 2026
+ 10:10:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 20/23] virt/steal_monitor: Act on steal values at
- regular intervals
-To: Yury Norov <ynorov@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-        corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
-        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
-        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
-        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
-        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
-        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
-        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
-        linux-doc@vger.kernel.org
-References: <20260701141654.500125-1-sshegde@linux.ibm.com>
- <20260701141654.500125-21-sshegde@linux.ibm.com> <akwRJnQklymOjNTv@yury>
- <6548b668-d3e1-42dd-be9f-2fe3193874a1@linux.ibm.com>
- <be544e00-8cf7-4a09-8b13-2d8b5a98c2ce@linux.ibm.com> <ak53I9beUB-2plNQ@yury>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <ak53I9beUB-2plNQ@yury>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=M7J97Sws c=1 sm=1 tr=0 ts=6a4e80fb cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8
- a=7zOuVmdEg6JVUKogFm4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA4MDE2NSBTYWx0ZWRfX/3bBwzDrqaoU
- vXvktXkE6DimdEudmPRn93OHcO6kOfphSqTAfKSi3woHD9/Ep73gIA/aAJiNfCYKbfhW4ydeFCp
- leNU6C3KcQfKrc4TIjpK/hXA6CIe0TT/sUogUtJ2NVWd77bzJPpr91XVV49WYaXQU5krRcx545F
- 92L5RdlVdZczAUzDYjttcgO0spL3/8aUpb8CTASU5BNNJ+BoGTovw+P8S5vQTS5O3ei72UIl9Il
- xXA19igVFq6Kq+nklcIvn8xqLLM7iwuMAxX08ZGmspODQyN6ycxVwVyMFonO8PU8N8VKa8KU1eJ
- q9TyhXZRMNT30LlBaDDYb2iDuRd6ZEYOgV5TtlgawwQPUQXh/TTFzCt+Wqtpw21RkLKWiurVWcn
- 82nUq05jeV8WtYqdaDN4a1vf9I+8L9Y1o8ROKYchQtPEtws+p3L5xT8tiJnzxkYmBZ/XVYwLr+d
- +B9lLoosKODE6JJ1uXQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA4MDE2NSBTYWx0ZWRfX/hiejhVWAxf2
- +buPAH7tGStor76r6qWr86wqERO4zwKEWh3fmeJKxVgm8k2Qler3Rree0iwAFnvOp3X56ONLlKE
- HCMVEFsiUTi9NXz11eu44WwXNCzodEU=
-X-Proofpoint-GUID: hUW7vE16ZPD1iH0LbQPFMMRW_umJxuYb
-X-Proofpoint-ORIG-GUID: vgFdX69fPlUH-SEKP9-2wxsdrQI3Atky
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-08_03,2026-07-08_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015 adultscore=0
- priorityscore=1501 bulkscore=0 spamscore=0 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607080165
+References: <20260629083542.10041-1-lucaslnobrega38@gmail.com>
+ <CAJZ5v0iVD90XPsWgT8B+fw9vmFRZTVL7MasPP-=Ci0OdUmNR=A@mail.gmail.com>
+ <6021784.DvuYhMxLoT@rafael.j.wysocki> <CAMVixxV83tSLEi_o1vmHjqfgPnnXDwo2LjP_m-Y7iEWfvUAP2g@mail.gmail.com>
+ <CAJZ5v0h=u3dGbujFpU2yObyLXT0ZLZTxpG2+zLZLP7wpKsBvQw@mail.gmail.com>
+ <CAMVixxXpT90bkwGTpL+T-d3ve7BTK3xXwBcaMfhvJ7R+DkxXiw@mail.gmail.com>
+ <CAMVixxXCOMb330_rvgbx2Zdy4yufW0BiB5jmv04v_icK-TTVpA@mail.gmail.com> <c21a1bc0-ef6d-4cd3-9575-9dd36e911a3c@arm.com>
+In-Reply-To: <c21a1bc0-ef6d-4cd3-9575-9dd36e911a3c@arm.com>
+From: Lucas Lima <lucaslnobrega38@gmail.com>
+Date: Wed, 8 Jul 2026 14:10:16 -0300
+X-Gm-Features: AVVi8CeOZFqAxPo2RdlM2ZkQChmtgbYb68M23B3G6xQ5JyKDwR2NMrbAx7RZ9-Y
+Message-ID: <CAMVixxXrbQR9KgKGGfbBarfqTFHTA0z7797q4h4hmacW_fZ-Mg@mail.gmail.com>
+Subject: Re: [PATCH] sched/topology: Allow EAS without schedutil for
+ artificial Energy Models
+To: Christian Loehle <christian.loehle@arm.com>
+Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, viresh.kumar@linaro.org, mingo@redhat.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, 
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
+	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com, corbet@lwn.net, 
+	skhan@linuxfoundation.org, linux-pm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Em seg., 6 de jul. de 2026 =C3=A0s 06:05, Christian Loehle
+<christian.loehle@arm.com> escreveu:
+>
+> On 7/2/26 22:27, Lucas Lima wrote:
+> > After some testing I found out schedutil is indeed slower to react to l=
+oad
+> > changes compared to pstate active.
+> >
+> > The methodology was to empty a cpu, run a serial float recurrence
+> > (kept non-vectorizable
+> > on purpose, to isolate frequency ramp-up rather than throughput headroo=
+m)
+> > and compare the average throughput over several initial time windows
+> > against the steady-state throughput in order to measure the CPU frequen=
+cy
+> > ramp-up delay under pstate active and schedutil.
+>
+> You might be interested in rt-app for more complex experiments along thos=
+e lines.
+Will take a look, thanks!
+>
+> >
+> > ### P-core
+> >                                   pstate-eas-balanced
+> > pstate-eas-performance    schedutil-eas-balanced
+> > schedutil-eas-performance
+> > -----------------------------------------------------------------------=
+-------------------------------------------------------------------
+> > Ramp-up (average throughput at time window / steady):
+> >     0-0.005s (%)                  70.6                      99.4
+> >                59.7                      61.3
+> >     0-0.01s (%)                   83.0                      99.5
+> >                60.2                      62.1
+> >     0-0.02s (%)                   91.3                      99.5
+> >                62.9                      65.7
+> >     0-0.05s (%)                   96.7                      99.8
+> >                74.8                      77.6
+> >     0-0.1s (%)                    98.6                      99.9
+> >                86.9                      88.7
+> >     0-0.5s (%)                    100.0                     100.1
+> >                97.4                      97.8
+> >     0-1.0s (%)                    100.2                     100.1
+> >                98.7                      98.9
+> >   Convergence to 95% (ms)         5                         0
+> >                52                        47
+> > Steady-state:
+> >     Throughput (Mops/s)           649.8                     654.4
+> >                652.3                     651.7
+> > Energy:
+> >     Average Power (W)             9.01                      8.98
+> >                9.10                      9.07
+> >     Efficiency (J/Gop)            13.889                    13.735
+> >                14.000                    13.961
+> >
+> > ### E-core
+> >                                   pstate-eas-balanced
+> > pstate-eas-performance    schedutil-eas-balanced
+> > schedutil-eas-performance
+> > -----------------------------------------------------------------------=
+-------------------------------------------------------------------
+> > Ramp-up (average throughput at time window / steady):
+> >     0-0.005s (%)                  75.6                      99.0
+> >                62.3                      57.9
+> >     0-0.01s (%)                   85.1                      99.1
+> >                62.2                      58.8
+> >     0-0.02s (%)                   92.4                      99.3
+> >                64.5                      61.0
+> >     0-0.05s (%)                   97.0                      99.7
+> >                72.9                      69.2
+> >     0-0.1s (%)                    98.6                      99.9
+> >                84.8                      82.1
+> >     0-0.5s (%)                    99.8                      100.0
+> >                96.9                      96.4
+> >     0-1.0s (%)                    100.0                     100.0
+> >                98.5                      98.2
+> >   Convergence to 95% (ms)         8                         0
+> >                67                        72
+> > Steady-state:
+> >     Throughput (Mops/s)           540.6                     540.8
+> >                540.1                     539.7
+> > Energy:
+> >     Average Power (W)             5.46                      5.47
+> >                5.61                      5.51
+> >     Efficiency (J/Gop)            10.119                    10.125
+> >                10.426                    10.241
+> >
+>
+> Thanks for the data, is this 1000HZ?
+Yes.
+> Rampup is one thing, the vast difference is obviously when tasks are migr=
+ated,
+> which EAS is very eager to do on wakeup, sugov 'knows' the right OPP imme=
+diately,
+> HWP needs to run through the same wakeup again, and during that window yo=
+u're
+> energy calculations are bogus.
 
+That's a fair point, and worth being explicit about: my ramp-up test pinned
+the workload to a single core via taskset for the whole run, so it measures
+frequency ramp-up when load appears on a core that's already selected.
+Also, I selected performance power profile, which in our current branch,
+disables EAS.
 
-On 7/8/26 9:43 PM, Yury Norov wrote:
-> On Wed, Jul 08, 2026 at 04:03:18PM +0530, Shrikanth Hegde wrote:
->>
->>
->> On 7/7/26 12:46 PM, Shrikanth Hegde wrote:
->>>
->>>
->>> On 7/7/26 2:03 AM, Yury Norov wrote:
->>>> On Wed, Jul 01, 2026 at 07:46:51PM +0530, Shrikanth Hegde wrote:
->>>>> This is the steal_monitor core functionality done in periodic work
->>>>>
->>>>> - Calculate the steal_ratio. It is multiplied by 100 to consider the
->>>>>     fractional values of steal time. I.e 10 means 0.1% steal time.
->>>>> - If steal value is higher than high threshold, call the method
->>>>> to reduce
->>>>>     the preferred CPUs.
->>>>> - If steal value is lower or equal to low threshold, call the method to
->>>>>     increase the preferred CPUs.
->>>>> - If the steal value is in between, no action is taken.
->>>>> - Save the values for next delta calculations.
->>>>>
->>>>> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
->>>>> ---
->>>>> v5->v6:
->>>>> - Address u64 overflow concerns.
->>>>>
->>>>>    drivers/virt/steal_monitor/sm_core.c | 33 ++++++++++++++++++++++++++++
->>>>>    1 file changed, 33 insertions(+)
->>>>>
->>>>> diff --git a/drivers/virt/steal_monitor/sm_core.c
->>>>> b/drivers/virt/ steal_monitor/sm_core.c
->>>>> index b499faa61010..7b7435f79b85 100644
->>>>> --- a/drivers/virt/steal_monitor/sm_core.c
->>>>> +++ b/drivers/virt/steal_monitor/sm_core.c
->>>>> @@ -34,6 +34,37 @@ MODULE_PARM_DESC(low_threshold,
->>>>>    static void compute_preferred_cpus_work(struct work_struct *work)
->>>>>    {
->>>>> +    u64 curr_steal, delta_steal, delta_ns, steal_ratio;
->>>>> +    ktime_t now;
->>>>> +
->>>>> +    curr_steal = get_system_steal_time();
->>>>> +    now = ktime_get();
->>>>> +
->>>>> +    /* get the deltas */
->>>>> +    delta_steal = curr_steal > sm_core_ctx.prev_steal ?
->>>>> +              curr_steal - sm_core_ctx.prev_steal : 0;
->>>>> +    delta_ns = max_t(u64, ktime_to_ns(ktime_sub(now,
->>>>> sm_core_ctx.prev_time)), 1);
->>>>
->>>> The below return on '!delta_ns' makes this max(...) useless, right?
->>>> Regardless, if the time between 2 measures is less then 1ns, I
->>>> believe, the whole measure is not trustworthy
->>>>
->>>
->>> Seeing sashiko comment on divide by zero, i forgot I had max above there :(
->>>
->>>>> +
->>>>> +    /* Update for next calculation */
->>>>> +    sm_core_ctx.prev_steal = curr_steal;
->>>>> +    sm_core_ctx.prev_time = now;
->>>>
->>>> So below return should go prior to this update, because 'now' is actually
->>>> the same as 'prev_time', right?
->>>>
->>>> I don't understand why 'now' can be so close to prev_time, because
->>>> you've scheduled this callback on the regular interval. But if that's
->>>> possible, can you explain that and do like this at the very beginning
->>>> of the function:
->>>>
->>
->> I don't think it is possible.
->>
->>>>           now = ktime_get();
->>>>           if (unlikely(now < sm_core_ctx.prev_time +
->>>> sm_core_ctx.interval / 2)) {
->>>>                   pr_warn(...);
->>>>                   return;
->>>>           }
->>>
->>> Pretty much, just have to requeue the work.
->>>
->>>>
->>>> And if it's a never-happen condition, just use WARN_ON().
->>>>
->>
->> I have decided keep just max_t() to ensure no divide by zero happens.
->>
->> Issue with putting sm_core_ctx.interval_ms check is that, one may edit
->> it while the work is queued, but not yet called. It would print wrongly
->> in that case.
-> 
-> Who is that 'one'? If it's userspace, you can simply disallow changing
-> the interval. If it's kernel, you're already compromised, and
-> everything is not trustworthy.
-> 
-> I would simply disallow to change any parameters while the driver is
-> loaded. If I need to change something - I unload it and load with new
-> interval, or whatever.
+>
+> > That alone might make it worth it to use pstate active alongside EAS, a=
+s
+> > responsiveness gains are noticeable while busy energy consumption is si=
+milar.
+> >
+> > Furthermore, I implemented an EPP based EAS compatibility selection: wh=
+en
+> > EPP is set to 0 (performance), eas_compatible is set to false regardles=
+s
+> > of the active cpufreq driver mode -- this also overrides schedutil's ow=
+n
+> > eas_compatible assignment in sugov_init()/sugov_exit() when running in
+> > passive mode. IMHO that makes more sense than gating only on the govern=
+or,
+> > as users selecting the performance power profile are looking for
+> > responsiveness above all, independently of intel_pstate or governor set=
+tings.
+> >
+> > It's also worth noting that governors already have the ability to chang=
+e
+> > EPP on their own (via intel_pstate_hwp_set()'s save/restore logic for
+> > CPUFREQ_POLICY_PERFORMANCE), which can lead to a state where the deskto=
+p's
+> > power profile indicator becomes inconsistent with the actual EPP value:
+> >
+> >   1. Switch governor: powersave -> performance
+> >      (intel_pstate saves the current EPP internally and forces EPP to 0=
+)
+> >
+> >   2. Switch power profile: balanced -> performance
+> >      (EPP is explicitly written as 0 again; no visible change, since it
+> >      was already 0)
+> >
+> >   3. Switch governor: performance -> powersave
+> >      (intel_pstate restores the EPP to balanced,
+> >      because the current EPP still reads as 0 and the
+> >      restore heuristic cannot tell that this 0 was an explicit choice
+> >      rather than the still-forced value from step 1)
+> >
+> > After step 3, EAS becomes re-enabled, since EPP is no longer "performan=
+ce"
+> > -- but the desktop still shows "performance" as the active power profil=
+e,
+> > since nothing told power-profiles-daemon that the EPP changed underneat=
+h
+> > it. This isn't something my patch introduces, it's an existing property
+> > of intel_pstate's governor-triggered EPP save/restore, but it is releva=
+nt
+> > here.
+>
+> I think this is a separate ownership problem, but IMO the user gets a cho=
+ice,
+> either have a userspace daemon take care of these settings or set it them=
+selves,
+> i.e. step 1 mustn't happen (I'm reading that correctly that 1. wasn't set
+> through power-profiles-daemon? If it was that seems a bug in power-profil=
+es-daemon).
 
-It is user writing to /sys/module/steal_monitor/parameters/interval_ms
-that i thought of. So user.
+Understood. In fact, using only one of the options (either power
+profiles or setting governor)
+is fine.
 
-If we disable then those checks can be valid.
-
-> 
->> Even if work function gets called prematurely, it should be fine since the
->> steal also increases accordingly. No issues in delta logic.
->>
->> So capping to 1 to ensure no divide by 0 happens due to scaling of
->> delta_ns is good enough.
->   
-> If there's 1 nanosecond between two calls, your statistics is very
-> inaccurate, pretty much a noise. You want to make decision based on
-> noise. That's simply wrong.
-
-
-yes, that makes sense too. I have kept interval_ms/8 as safe bet.
-Return will not queue the timer and effectively disables it.
-
-         ktime_t now;
-
-         now = ktime_get();
-         delta_ns = ktime_to_ns(ktime_sub(now, sm_core_ctx.prev_time));
-
-         if (unlikely(delta_ns < sm_core_ctx.interval_ms * ((u64)NSEC_PER_MSEC >> 3))) {
-                 pr_err("work scheduled too soon delta_time: %llu ns. Abort steal_monitor.\n",
-                        delta_ns);
-
-                 guard(cpus_read_lock)();
-                 cpumask_copy(&__cpu_preferred_mask, cpu_active_mask);
-                 return;
-         }
-
-
->   
->>> Ya, it is a never-happen condition. I will use WARN_ON.
->>>
-
+>
+> >
+> > diff --git a/drivers/cpufreq/intel_pstate.c b/drivers/cpufreq/intel_pst=
+ate.c
+> > index 8f5ab9fa3..6d7133b94 100644
+> > --- a/drivers/cpufreq/intel_pstate.c
+> > +++ b/drivers/cpufreq/intel_pstate.c
+> > @@ -791,6 +791,18 @@
+> > cpufreq_freq_attr_ro(energy_performance_available_preferences);
+> >
+> >  static struct cpufreq_driver intel_pstate;
+> >
+> > +static inline void update_eas_compatibility(struct cpufreq_policy
+> > *policy, struct cpudata *cpu)
+> > +{
+> > + bool eas_compatible_was =3D policy->eas_compatible;
+> > +
+> > + policy->eas_compatible =3D hwp_is_hybrid &&
+> > + cpu->policy !=3D CPUFREQ_POLICY_PERFORMANCE &&
+> > + intel_pstate_get_epp(cpu, 0) !=3D HWP_EPP_PERFORMANCE;
+> > +
+> > + if (policy->eas_compatible !=3D eas_compatible_was)
+> > + em_rebuild_sched_domains();
+> > +}
+> > +
+> >  static ssize_t store_energy_performance_preference(
+> >   struct cpufreq_policy *policy, const char *buf, size_t count)
+> >  {
+> > @@ -856,6 +868,8 @@ static ssize_t store_energy_performance_preference(
+> >
+> >   mutex_unlock(&intel_pstate_limits_lock);
+> >
+> > + update_eas_compatibility(policy, cpu);
+> > +
+> >   return ret ?: count;
+> >  }
+> >
+> > @@ -2922,10 +2936,7 @@ static int intel_pstate_set_policy(struct
+> > cpufreq_policy *policy)
+> >   intel_pstate_clear_update_util_hook(policy->cpu);
+> >   intel_pstate_hwp_set(policy->cpu);
+> >
+> > - policy->eas_compatible =3D hwp_is_hybrid &&
+> > - cpu->policy !=3D CPUFREQ_POLICY_PERFORMANCE;
+> > - if (policy->eas_compatible)
+> > - em_rebuild_sched_domains();
+> > + update_eas_compatibility(policy, cpu);
+> >   }
+> >   /*
+> >   * policy->cur is never updated with the intel_pstate driver, but it
+> >
+>
