@@ -1,151 +1,144 @@
-Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC3138C414;
-	Wed,  8 Jul 2026 08:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74883EB809
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 08:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783499592; cv=none; b=BVgu88qrOk86QNM7pPe6hggqSXc4ZoUKR1guNkdCdpHPYtrzU7DNxitr/K/ViSpAyuFl8Jqqld4gc2VqpSZPVBBx9xwnezxbVqEL/h3f/226Tqd8K6PbPzemIswRpUfoFgtkl5m8yv5WrUI0EpgYWVexlJFgScZWz/t3D4Oo43A=
+	t=1783499703; cv=none; b=b2ZKoHH3LZUVQcj+OFHePVfwIVsog/1VMUhNgPr1/BVewZKFuUBLbbkAmczDFHrgIMTFyBTkQKvgt3OKNYo7TW7HEkSgifjd/hfj+Pb7eayHSNBpSyJmcj8jOiEhKd4SzDIiMudxgBK+YL5zDdnQ6IXAHEPI/bJLmAZDtrOyQ1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783499592; c=relaxed/simple;
-	bh=fFhtZ67NZllrYCd832GHNGIAdgvZJIjHuqhWxtbGXmo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iSr88nKMaLbkFhDoo8d/QySZkKdklBocUqedniM97Pk0mLLfgDwl1kYKOgC/5+FUcKVKgCGQZCmekb4E1ITtL7ey4XgMHrX2VDQu8VG37J7ntBVo79Gyea2EEUM0Vn4asYxmvGPT4bUHJgRMcNmBnNe8wxelsDiAaO/x2vQMemo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=ZiFIfM95 reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
+	s=arc-20240116; t=1783499703; c=relaxed/simple;
+	bh=i8NUcW/oTATrxmS6+QrhnDTWblS1EuQ+OATB9E3pmdE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ChE/dscT69yn6bPAgKByOBQJlyJGDQLDTMRMbpxdpeo7PQ12UoulxBkqRQ7CmKKsffw6pqD1INjjRbJczH6Yw96O+c1oF0xRs2PjS/Zfx3ChMlRr/dg/RQHF+0Y8r1pD37tX8VFucjvZlT50+LLrwOV8puiUBt5+2/lSvi0Q9oY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=SS000QVm; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="ZiFIfM95"
-Received: from [133.11.54.183] (h183.csg.ci.i.u-tokyo.ac.jp [133.11.54.183])
-	(authenticated bits=0)
-	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 6688WKbc097244
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 8 Jul 2026 17:32:20 +0900 (JST)
-	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
-DKIM-Signature: a=rsa-sha256; bh=CE0Ute93tZYNyM/ptOJZ4hDRYpAdgE2IvA/+HRQtmKs=;
-        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
-        h=From:Message-ID:To:Subject:Date;
-        s=rs20250326; t=1783499541; v=1;
-        b=ZiFIfM95K+oOjjYwp9L1z9EKyqwpu4VPlhs0nyMnWoctpX/G6HUndJyHy9FFN1z/
-         neri5+DSRWnKKNke2RFzpZgjUoxG3NbV9aqpSQbp1xNzKceqMYM6/12aLhXwEhZy
-         ODNcSHI1/pmWB+a29oR0TlimAr0jZvBhIU/LdUkYz6rx7ZpSSdzi6/TUC+EVSXky
-         kc/lCR0J4/rZ08bUkhGfIEGjis4TLL3K6n5xD6ovdVZqKSB/9W82xlZvsZpN8e0G
-         7ynZZSeiwbxcWAqRSTGi9tzp+Dxe4pVnemAPliUgzZk5hBoLaNJ+6j3+IanDRzF3
-         HfT8XOd9Jk/lD9fWn456aQ==
-Message-ID: <7bf6c440-5f14-4326-9800-9821adc4e2e4@rsg.ci.i.u-tokyo.ac.jp>
-Date: Wed, 8 Jul 2026 17:32:20 +0900
+	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="SS000QVm"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493b6f1b14bso1500295e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 01:34:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1783499698; x=1784104498; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=d65vlscf3MRlCdV5SPB30z4zAVCml2R2BL0nflKn+XI=;
+        b=SS000QVmxWWkm0E2IwPRChuI4Jrwye4c14r18/hTPNnyc8J9csQxLTMNKw4GORlHxV
+         Rgw8bXpbGXcZsKbpTVYabF/b0Ag5w6gSVTgY60HsyuJsjHDcn7ENn8MfsMdE84jW4A2v
+         2f655a9u+N6xXeU5nY2NpenbxRQ7yiWfG9ld6LfGgDq+L6zF0/m+pFPUNnYwUDPL1CvC
+         weUBeSTfZI1GOyxqrEQNoDNM9NS2C7d/ERUYQObPceIk9EHjFJTQFhqe3FWt54/OjULu
+         0JLP8vAYCzfJADPAxhH8p1Gr+aaxtbhwchNnGSwQbS27OMhYU4llfa2er3B9FbSMlQwG
+         9USw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783499698; x=1784104498;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=d65vlscf3MRlCdV5SPB30z4zAVCml2R2BL0nflKn+XI=;
+        b=R3Sxm96Obvj7wzwxDLJVTotLwPKNfODHULoV8MQvD8LKORKAiT2+dTiKs/5X5s6Oww
+         1aMA4K8fMBedg9iOyCqD061oCDcU02N6jx1t0NAwH7Df5M797qabWr8n6sAT49YpSFj0
+         pTXNTD0RGLB3Jlzw5j4IS9tm4SzsrENDIKObH20thKbWHdaivl3k9jEehwffIrL1sguV
+         ynHMYD20RcOgzongN/awp6bgf3cNIOD45dhUl8gec818bEs6spTmKKMQSXsB7b+DzHcA
+         Udd60RSB2GU998f0NFjWpSrnxBjY13vrK8BsJAFTAKLmkYukCFLDbw5FWrIN6+vW87PU
+         +gpw==
+X-Forwarded-Encrypted: i=1; AHgh+Rr9xayQIcb77a9otP2fUo8MINPHfEAdHGmLziFOCLAOzGM1wcRthwnXExOmynTp6/t96iZi3z9XXc4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzH1tQWo7EjYg+vXCPGK+1zbqLtgh3oTEj3pxcV08Vh+1A8SD2P
+	l+zZLqkpp3W8z/Mh8iqCxNdtnypkeIaW2A34nTMZvY+RZzOWID1qR/tmWJZD/YjhGWw=
+X-Gm-Gg: AfdE7cljkD+dDf75amLM6ttRTn/NSfVnuJyKJqAuDYmbWDJ6FPiLNd8gxhZzuXEDlWD
+	H74mK1TbUTIIzaTBxQwvmxk4Zsr+Tkhu9aJUUcM1hfiPUDw95CuHF4srZTM515U+Em+DIoAjXdn
+	sUHwe38BSnpCEWi8X2P+1PhlO2kvZ3XQqjKVaoXZTugVilPxhGd5gqSlxQdDzWEwU6VeTRUTpYG
+	EoAtcCEuRPsmP9lU5e+xcP49CsRiGMQwNb+gfVUkSkZYRESdLvUfDOKjLd3z/Rtd0z1I+b57ras
+	lrXSo59zO7CJ0n2U+PXduqngi1/iwbUedlzG04zEtFVb+55tRU8LD02EOkbqTdGUo2RxXxoYDPq
+	ojolPwRbHgQGYt1aGCH1m0mtJf4l3yVItwjlI2F5VsITPmnJRroee0KjFb5zcWlzmtlpJuQqaND
+	cArAeRNP5zK9ohTgtARPZ0
+X-Received: by 2002:a05:600c:82c3:b0:492:45a0:dcef with SMTP id 5b1f17b1804b1-493e683c514mr13471085e9.5.1783499698217;
+        Wed, 08 Jul 2026 01:34:58 -0700 (PDT)
+Received: from localhost ([208.127.45.21])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0a558easm40791770f8f.27.2026.07.08.01.34.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 01:34:57 -0700 (PDT)
+Date: Wed, 8 Jul 2026 10:34:54 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Mark Bloch <mbloch@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
+	Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next V5 6/6] net/mlx5: Apply devlink eswitch mode
+ boot default on probe
+Message-ID: <ak4LVcyKofmtrWcU@FV6GYCPJ69>
+References: <20260707174527.425134-1-mbloch@nvidia.com>
+ <20260707174527.425134-7-mbloch@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/7] KVM: arm64: Disallow vPMU when pPMUs do not cover
- all CPUs
-To: Oliver Upton <oupton@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu
- <yuzenghui@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-References: <20260706-hybrid-v8-0-de459617b59d@rsg.ci.i.u-tokyo.ac.jp>
- <20260706-hybrid-v8-1-de459617b59d@rsg.ci.i.u-tokyo.ac.jp>
- <akvgIWqBjAp_VA_A@kernel.org>
- <e03f17b2-a765-4912-adf6-3da26e7eeecd@rsg.ci.i.u-tokyo.ac.jp>
- <ak1DVUs0bgkpZh0N@kernel.org>
-Content-Language: en-US
-From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-In-Reply-To: <ak1DVUs0bgkpZh0N@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260707174527.425134-7-mbloch@nvidia.com>
 
-On 2026/07/08 3:20, Oliver Upton wrote:
-> On Tue, Jul 07, 2026 at 08:08:03PM +0900, Akihiko Odaki wrote:
->> On 2026/07/07 2:04, Oliver Upton wrote:
->>> Hi,
->>>
->>> On Mon, Jul 06, 2026 at 07:03:24PM +0900, Akihiko Odaki wrote:
->>>> Commit ec3eb9ed6081 ("KVM: arm64: PMU: Disallow vPMU on non-uniform
->>>> PMUVer") made KVM reject vPMU unless the system-wide PMUVer is usable.
->>>> That covers systems where PMUv3 is absent or non-uniform, as well as
->>>> systems where IMPDEF PMUv3 sysreg traps are unavailable.
->>>>
->>>> However, KVM can still accept vPMU when all CPUs uniformly trap PMUv3
->>>> sysregs, but the pPMUs registered with KVM only cover a subset of
->>>> possible CPUs.
->>>>
->>>> Reject vPMU unless the registered pPMUs cover every possible CPU.
->>>> This avoids carrying support for partial pPMU coverage into the
->>>> fixed-counters-only UAPI introduced later in the series.
->>>
->>> Doesn't CPU hotplug screw this up? I could online a CPU that doesn't
->>> have a PMU after creating the VM.>
->>> I'd rather just change ARM64_WORKAROUND_PMUV3_IMPDEF_TRAPS to become a
->>> system feature. That way any CPU which breaks the system-wide assumption
->>> cannot be onlined.
->>
->> ARM64_WORKAROUND_PMUV3_IMPDEF_TRAPS only says that IMPDEF PMUv3 sysregs are
->> trapped. It does not say that KVM has a driver-backed PMU usable for PMUv3
->> emulation. This patch checks that extra requirement.
->>
->> I re-checked CPU hotplug. Onlining a CPU without a PMU later does not make
->> an accepted VM unsafe, since the check is against cpu_possible_mask.
+Tue, Jul 07, 2026 at 07:45:27PM +0200, mbloch@nvidia.com wrote:
+>Apply devlink_eswitch_mode= boot defaults for mlx5 after the initial
+>probe finishes device initialization while holding the devlink instance
+>lock.
+>
+>At this point the devlink instance is registered and mlx5 can perform an
+>eswitch mode change. Calling devl_apply_default_esw_mode() also clears
+>any pending default apply work queued by devl_register(), so the queued
+>work will not apply the same default again.
+>
+>Keep this call in mlx5_init_one() rather than the lower-level
+>devl-locked init helper. That helper is also used by devlink reload, and
+>devlink core already applies the boot default after a successful
+>DRIVER_REINIT reload.
+>
+>Signed-off-by: Mark Bloch <mbloch@nvidia.com>
+>---
+> drivers/net/ethernet/mellanox/mlx5/core/main.c | 13 +++++++++++++
+> 1 file changed, 13 insertions(+)
+>
+>diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
+>index 643b4aac2033..0712efea74cc 100644
+>--- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
+>+++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
+>@@ -1392,6 +1392,17 @@ static void mlx5_unload(struct mlx5_core_dev *dev)
+> 	mlx5_free_bfreg(dev, &dev->priv.bfreg);
+> }
 > 
-> Sorry, I missed that this was against the possible mask.
-> 
->> The problem is the reverse case on ACPI: this check can disable vPMU when a
->> possible CPU is offline. DT populates supported_cpus at boot, while ACPI
->> initially populates it only from online CPUs and grows it as matching CPUs
->> come online.
->>
->> That makes this patch too conservative. In practice, I do not expect systems
->> to mix CPUs with and without a usable PMU. A better approach is probably to
->> treat such a host as out of spec and add TAINT_CPU_OUT_OF_SPEC. We already
->> do that for architectural PMUv3 by detecting mismatches in
->> ID_AA64DFR0_EL1.PMUVer; we can do the same for
->> ARM64_WORKAROUND_PMUV3_IMPDEF_TRAPS with non-standard PMUs.
-> 
-> The presence of the workaround is, by definition, out of spec. I just
-> never bothered tainting the kernel because these machines are already
-> TAINT_CPU_OUT_OF_SPEC by way of the broken VGIC.
-> 
-> Ok, so how about you keep the check that you're doing here and promote
-> IMPDEF_TRAPS to a system-wide feature? That would satisfy the two
-> preconditions we have for PMU emulation, which is system register traps
-> and a backing arm_pmu that understands PMUv3 events.
+>+static void mlx5_devl_apply_default_esw_mode(struct mlx5_core_dev *dev)
+>+{
+>+	struct devlink *devlink = priv_to_devlink(dev);
+>+
+>+	if (!MLX5_ESWITCH_MANAGER(dev))
+>+		return;
+>+
+>+	devl_assert_locked(devlink);
+>+	devl_apply_default_esw_mode(devlink);
+>+}
+>+
+> int mlx5_init_one_devl_locked(struct mlx5_core_dev *dev)
+> {
+> 	bool light_probe = mlx5_dev_is_lightweight(dev);
+>@@ -1471,6 +1482,8 @@ int mlx5_init_one(struct mlx5_core_dev *dev)
+> 	err = mlx5_init_one_devl_locked(dev);
+> 	if (err)
+> 		devl_unregister(devlink);
+>+	else
+>+		mlx5_devl_apply_default_esw_mode(dev);
 
-This check turned out to be faulty: it can disable PMU emulation on ACPI
-systems when a possible CPU is offline, because ACPI grows
-arm_pmu::supported_cpus as matching CPUs come online.
+I don't understand why this patch is needed at all. Just leave the job
+to the devlink core, no? That was the point to not pollute drivers with
+code like this. Is it some kind of leftover?
 
-My current plan is:
 
-- drop the possible-mask coverage check, to avoid breaking ACPI;
-- promote ARM64_WORKAROUND_PMUV3_IMPDEF_TRAPS to
-   ARM64_CPUCAP_EARLY_LOCAL_CPU_FEATURE, so the system will have the
-   feature only if all online CPUs implement it;
-- explicitly taint hosts with ARM64_WORKAROUND_PMUV3_IMPDEF_TRAPS,
-   matching what KVM already does for non-architectural VGICs. The
-   comment will make it clear that this is out of spec because KVM cannot
-   make the usual architectural assumptions about PMUv3 sysreg traps and
-   uniform driver-backed PMU availability.
 
-That lets the code keep assuming uniform PMU availability without adding 
-an ACPI-hostile possible-CPU check, and makes that assumption explicit 
-for humans like me and tools such as Sashiko [1].
-
-[1] 
-https://sashiko.dev/#/patchset/20260706-hybrid-v8-0-de459617b59d@rsg.ci.i.u-tokyo.ac.jp?part=6
-
-Regards,
-Akihiko Odaki
-
+> unlock:
+> 	devl_unlock(devlink);
+> 	return err;
+>-- 
+>2.43.0
+>
