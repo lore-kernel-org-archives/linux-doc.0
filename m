@@ -1,289 +1,346 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010023.outbound.protection.outlook.com [52.101.46.23])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28A63AE6E9;
-	Wed,  8 Jul 2026 20:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.23
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783540805; cv=fail; b=bVQScMtFUVm5u+5xmogq5UgtUJ2lpjC3FFxaFOTuXYOvW1QFovkK21glBefp6vZsy4cL7+g53ztNdYY3iEj094G0GJER0rZyrpQN/xdLM/Xzi5v0KWqvCJFydL/XOQvrFSgD4i0v1yMzwIFmZJUrkQ/Yw3QeWlCkr0ONlk2QZ78=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783540805; c=relaxed/simple;
-	bh=LCkq6zq0BAlgpVApGALT6v/LnhZ6b2obWtlpOJpyRy8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=vBDVBrO+xb88fsiMxlNKxORQbEOuS0Yyn/dqiyDByqDsKbbzeDItBpJ87gdtk7ItN0r1rTlBwUebxQ4PfatPFm6IfFVGEGhBiIB6KSdnTe+WMYM8avkNNTLJNfc+OK3se++YudAgjHm9grvYoPxF1899u7u0gmjDTqrRn49FJAs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=fail (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=fkk/wuWj reason="signature verification failed"; arc=fail smtp.client-ip=52.101.46.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BDA3A1A5D;
+	Wed,  8 Jul 2026 20:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783541153; cv=none; b=XeVzAQUiKZQjkpHiOq5xtjmXulOSyTyecFF+xlTEvStz5UUcKDVYPqGksCQlg7Mg+rowu7zB2a9QRW1TGZijmysl1W8a2TZvYxkPhIK+02awEyaHbo0WTEGbua8m6llOtdQzr9YmsR0+e4/pLC8Ev8jJfwP0KILNcPRlLN8AId0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783541153; c=relaxed/simple;
+	bh=sPf0Ylj9MpTyciNkSEwknj07K7ZPLalqolAS2jU+nu8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Acsmilg/dZBExU9ZNTwv6FVqeG/a89/GUjYBG/+JjQz6A0vwX3nAAakWB0vzEghiCl/14lin/oCLrngySjSdkK96wFQwWylAFhW+Wu+Q/yIJlOAaAOMf3uT3q28mvYZaAFe2AMHu3byInfjm+HTCSMVHP2zHGzhR0e6x6MvALc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PKe0TAYr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="fkk/wuWj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Pa0Gq/X6znOkLij6TzL3SFPZTWTsgluy/4ILSz42Vw1q5ufuOAO23YrULb3eslqfZjcaFBZCeecL0cyrkB86WVd784bt3DestceH6f6D2vN3/+jB7Xy2+O6A6OKjXjljVo1aHW3OJt9deZDNU/xYsXR1vkJc6fvsAxAvrwbn+0cQj0Bjh6o98JZwGUacmn4kSKXtf5SV2D8fwjVOTobIZKSPGbpvM0U/0dZ1Jia9eMDHvT/RkuFRoIfx5Gq35cZOQ7FAjESUzocbx3BkeW9d0oioTrJdw+I0QFrh2PMBOrTgWUQzvGR+ePnSKYmNSZGDgqyBdAc2zdie7tm2ObPUSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0vDTY+aVJFE6oEXoiQ7c6xYzNLuRz3KLmE0aIVHPcEE=;
- b=QpdH4vWeqywYzOxmfP+pJDw4pz5o+a7eVd+7F5Ywp0sQdYg6nIhfCmoQvlwA8jaeqQ7OBTp6D0aedSD/kB3AjPQT+pzlste20hdeMp4sw1Y+1L0d5K5ORBhYBhbwhIIwbPOmr3zeyQnGCay4mCE/Chx4kfxAz1KydrF8VU2JiJWnYAyJeDaHeUxOEPEpfRStovPTXVvOF5V5GxXCe3R0ig4QkB6i9DOH11hQVy5IR0G5e9/dlwh6SsBlQ/OCdzd2aUph+1PHRk45lPfXYzfAPd1WVzYp1MsoY4/HqjR6jPzdTridTpyyyARyKaI/M8foMy0Y6C0WR1oZnExtQJp3Sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0vDTY+aVJFE6oEXoiQ7c6xYzNLuRz3KLmE0aIVHPcEE=;
- b=fkk/wuWjq3GFTpHt3WLmiySEY4V+OTH++gZl5YsOaR28r3OZv/Kx3hvQ9oDbN4hyot8B1fsV4+Sr6gz2jA/pJ0xDwSfpsLpi/acx4qt1ZGLn5ekMM1ZKFtTLdpyg+Io94t6N/QV64lOhy324gda5tuMMJmOLZEJ5uiFgzZwSPVCE8zh42WeYzmVS8TR6wC13bld+k4ULNJznfHJPQQVZ6io/iwIxlrn5wgl9hSUCMgTPHVmQmWw7atOXyK6KUaizbGSgkPtV+wABnfUVLI6uIMfKrRqh54m8qF6aN0UGd5F+ffEUJcrCgxVpsSsdeEePkf2k/vynMznguYVTt0s+iA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by DS4PR12MB9585.namprd12.prod.outlook.com (2603:10b6:8:27e::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 8 Jul 2026
- 19:59:57 +0000
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0181.014; Wed, 8 Jul 2026
- 19:59:56 +0000
-Date: Wed, 8 Jul 2026 15:59:55 -0400
-From: Yury Norov <ynorov@nvidia.com>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-	corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
-	pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-	huschle@linux.ibm.com, rostedt@goodmis.org,
-	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
-	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
-	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
-	christian.loehle@arm.com, tj@kernel.org,
-	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-	rdunlap@infradead.org, kernellwp@gmail.com,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 20/23] virt/steal_monitor: Act on steal values at
- regular intervals
-Message-ID: <ak6sO7eAfC-AWEWe@yury>
-References: <20260701141654.500125-1-sshegde@linux.ibm.com>
- <20260701141654.500125-21-sshegde@linux.ibm.com>
- <akwRJnQklymOjNTv@yury>
- <6548b668-d3e1-42dd-be9f-2fe3193874a1@linux.ibm.com>
- <be544e00-8cf7-4a09-8b13-2d8b5a98c2ce@linux.ibm.com>
- <ak53I9beUB-2plNQ@yury>
- <7eea685e-e5ab-4487-bafb-3131969e5acd@linux.ibm.com>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7eea685e-e5ab-4487-bafb-3131969e5acd@linux.ibm.com>
-X-ClientProxiedBy: MN2PR01CA0063.prod.exchangelabs.com (2603:10b6:208:23f::32)
- To LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PKe0TAYr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B7901F00A3A;
+	Wed,  8 Jul 2026 20:05:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783541151;
+	bh=o1EJFaelHO7bNaahIRXhAl/2FMvk9KxgFAgA1vUqLzE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=PKe0TAYrF4r7bSEOsyphJGiu7RFb+OCdl1cxMhleIAf8qzIssF8tyfLlaD/cTpeKz
+	 CyzrD4glps68+f+4G4ujEECxJ19TuLQXU0tnw874kRLitzzmxdpguy2daKpn3bHyJM
+	 keIkQoQvte3U4KEGmyNSsfI/Ni+D4sl+W38LO/srGRm5iWh5A6TDax+D41222+hhvQ
+	 CPocsSDISMEPpFBE76l5vy4S7CxVZ3hdpLm/jjUg0c00GzpNMeUZ+Vo1LPulgufLbs
+	 3P9BXyDv9bwLKUrFGWVgVmrzJc1QsN6Vct75KTYIKaX6PPdMC+568D82faTwt902FH
+	 CgCOX3KzzOzTQ==
+Message-ID: <acf4d604-3081-463c-892f-12c01533c31d@kernel.org>
+Date: Wed, 8 Jul 2026 22:05:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|DS4PR12MB9585:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6facc0f7-13f4-4e4d-6612-08dedd2b7c01
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|7416014|376014|1800799024|3023799007|18002099003|22082099003|56012099006|4143699003|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	5duXPUS6J2cn6H570MuS2VnbHFLyWk23U4Y0X1yanW+E5CX1/+yPcgcYqz7S1w5AjqumbSa9s5yQrFMoqYP/UIRLfceuSPDKVUAInmmsT4X1CaGMW5g5BB0NiJ9O9uEW4BU5oYMCfuS8wUKOg7nZmkzzE8RxUTXr+sVQ7gQ4tFk1Up2RJRk68J2VEqWdHYjWaKGYfwEPOy1lLMTy4bYFhZevgmlLE3l9OZbRrEB5ekl+IVnWv1FO5Uq3Ijyb9nw7iN7/Xq27MApJliD/FNZRQNwkHLWPibQxRWhjkQZCGXVgGbd7Wfcu8HJMP4Vl67vd5H8Yruusme51PMGCgEjXQRKIjH7Q6PgKeWqlj+d46schYjcQ/hKCV90ewUSQpztfN77PzUo5Vi+Sax+EWpGM6HPZi26JRwkgHvL/WrUhTuXQiz0Cod0jcckE/ZKkVt6nLAv2UvK7uBWt35iF8j1BK9bizQmvxPEGfPKHKF7SkeefKQtF3N0oPOtw5xPLVA7V68P7O4lf07rwyp2RNtlDHlfc4r0ntPETwQUQApjiDTD5D7RwHMr10xJo8uh/sBRCu/D+uGeBEGSg9+J+krVRNBHP4nvoBetcVBCHZjXrOFOoZZlScoAhPhHeozbX60NM1f2FvPiO7UTh5GfHdsBgwZFMRBtgTOQty8N42UjUhGs=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(7416014)(376014)(1800799024)(3023799007)(18002099003)(22082099003)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?DLgOcIA9LKzDVsJf2vOGjlkH1mqwanh9Q6E5k4k6kv9oFlaV5T1mxmy8f/?=
- =?iso-8859-1?Q?3c2oBVoD+aIlrJ27MjWdpYNf/Hjv1wgMqQXxQStvbntsZ793wkI4oEhRJg?=
- =?iso-8859-1?Q?Oqp9q2yV+gw7tsBozdx4erWn3OOEdfsFr1URFdIU7xkoOHJHXYG0VP/k0N?=
- =?iso-8859-1?Q?xeztO3sLEHguhXa48PZmBpE/D2VI4EwuIl7A4zLFguQqO5JSMONFUiJEnE?=
- =?iso-8859-1?Q?njosp9uMRRi1Ik21SRXqG7+b9laPhcco/Mg1H0u79JM4SnRXR8zhmNjL29?=
- =?iso-8859-1?Q?Vs3V/RK8RzTadbnpz5g9tEO31wzIWiDETYZa7ewcQK1+kq8RanUyfTtOHX?=
- =?iso-8859-1?Q?kcYeHqvSSMSmhkhG4pLV6pyeJPxI3AXxwHqdiJMVGVpAmP1pYyuKqOxVwP?=
- =?iso-8859-1?Q?Pv+n2g7Nrd+URCHIbczZN9miYMhJIbpCYy0fzpGSWFWRUmYB6f57FnmdQm?=
- =?iso-8859-1?Q?lJizpSc3b6nlMhz4oGtCv+iWe/KhwfRTjHwy1M7bMhxw70bLKT0voZKjSz?=
- =?iso-8859-1?Q?XoomgIcqp7KIE0jCEjHKSLxryCPQVCKSMbph9DDmCjIKEa2VyiwTOQRY9b?=
- =?iso-8859-1?Q?YzBdZzopJnUL5ItgIjOrs0ZTzpiyJg2E3fgjhL50cVTLmjGTZCiTPYQkeT?=
- =?iso-8859-1?Q?S+f2Szuedc28jmOJugspJc1R02P9GVkl/MP0dYtXWW6daV4xfJy2a8o1eT?=
- =?iso-8859-1?Q?zHbI1dImC/SkuUVOBRb62/afWdCJlNPe8dq/j8evgiTMB8oYoNjojBEICZ?=
- =?iso-8859-1?Q?EaBLXFwX6g6Hv4TErWBw/of0l18zuolC9Xx4VJkacDReXbfo/Jx8R4GlZZ?=
- =?iso-8859-1?Q?v9SMVHn89MOE2vkgXx+2pj6KrPjCOzBGyfW+vhWQgvH0Zb8t6cot3oheG/?=
- =?iso-8859-1?Q?x+TZgRfkr8CxaL9hdglIK+DUfSUelfMEjJBAGXQjBYsJqOT4AgDBSRZTrU?=
- =?iso-8859-1?Q?RRLp6USyO08UXXZcL61+vP55QcCEcDLZJTYVMEUZjvn/4IFK+wrmMdfrFw?=
- =?iso-8859-1?Q?sCOtLdwQbDize5GIr+qjwnj3bxrJFbfYzHYGMQ6l/tMPyXuT64bs+dlzTn?=
- =?iso-8859-1?Q?X4pCaUSLw8UCi6vT7S6D9I2eluoUjMw3WoHMbKolyhHvdlQo56Qbm1Gvei?=
- =?iso-8859-1?Q?EU6oG4BcyPeQ1HcXud3jNLhte2I7upoc2ywVcgqLsQ0GvVjKFeKoNz85wW?=
- =?iso-8859-1?Q?6H0rPGB5bqHRxlqx5S42lN51XbGDFHb41Cjb0OhjdCJS31Mab+nXmAro7A?=
- =?iso-8859-1?Q?JxGGT8T7IkBYNFEDjzSA2uHBe6E+qzGp7c8asvUlanBDXjhgIgQFMIRaH6?=
- =?iso-8859-1?Q?zpCFlFwOYgIKcLC30g8m/p1yneVed+BkpUL+TY8eZZa+ve9mgjw9VUqAuZ?=
- =?iso-8859-1?Q?FvLCgo7OX46g+Cmf+FaybfC01w2aW5GtumTWpOxxBdSp69lZzF8wM2z9Xg?=
- =?iso-8859-1?Q?X0CRDyJY9DawzS9oCYTZAn02ridma3gpr/zJBEkFRHD67HcNE1+zN1QWdl?=
- =?iso-8859-1?Q?istOb/De5kbgDVDEjZD2gKbD5WJDtdLgbdOwFuk6KZgrQizyWW+lM0FCwC?=
- =?iso-8859-1?Q?Y+1qaJwMisNAl1XqoOHq80oTGRH5Uyxj5v5M7g028HV9bT5C2NQfAi1Zkt?=
- =?iso-8859-1?Q?GrjxOfXm0HSoeCbWIEujz4GaazgumS9a5XykT5k6fBCK7sSdLAaLx/KdZB?=
- =?iso-8859-1?Q?jHyRykxwlP3JoaYO7dxbQn5w3DBCQR1+vGolppo/m39x1CatUrHBXOptRo?=
- =?iso-8859-1?Q?1Ze7zKTfiUlPUI+YgAevpu7xu1q0mYcm/yxN7Ul1ZQsST2?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6facc0f7-13f4-4e4d-6612-08dedd2b7c01
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2026 19:59:56.9167
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZeT1EnHC99ct50v7kVdS75FCka4BV2BAUr0cgCEnCaFeceYGWrFJcEjMatEV0JvjEYar1dfIQEvpg7gARhc6Xw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9585
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/23] Introduce SCMI Telemetry support
+To: Subrahmanya Lingappa <subrahmanya.lingappa@oss.qualcomm.com>,
+ Cristian Marussi <cristian.marussi@arm.com>
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ sudeep.holla@kernel.org, james.quinlan@broadcom.com, f.fainelli@gmail.com,
+ vincent.guittot@linaro.org, etienne.carriere@st.com, peng.fan@oss.nxp.com,
+ michal.simek@amd.com, d-gole@ti.com, jic23@kernel.org, elif.topuz@arm.com,
+ lukasz.luba@arm.com, philip.radford@arm.com, brauner@kernel.org,
+ souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+ puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
+References: <20260703123601.381275-1-cristian.marussi@arm.com>
+ <20260707063137.3222972-1-subrahmanya.lingappa@oss.qualcomm.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260707063137.3222972-1-subrahmanya.lingappa@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 08, 2026 at 10:25:09PM +0530, Shrikanth Hegde wrote:
-> 
-> 
-> On 7/8/26 9:43 PM, Yury Norov wrote:
-> > On Wed, Jul 08, 2026 at 04:03:18PM +0530, Shrikanth Hegde wrote:
-> > > 
-> > > 
-> > > On 7/7/26 12:46 PM, Shrikanth Hegde wrote:
-> > > > 
-> > > > 
-> > > > On 7/7/26 2:03 AM, Yury Norov wrote:
-> > > > > On Wed, Jul 01, 2026 at 07:46:51PM +0530, Shrikanth Hegde wrote:
-> > > > > > This is the steal_monitor core functionality done in periodic work
-> > > > > > 
-> > > > > > - Calculate the steal_ratio. It is multiplied by 100 to consider the
-> > > > > >     fractional values of steal time. I.e 10 means 0.1% steal time.
-> > > > > > - If steal value is higher than high threshold, call the method
-> > > > > > to reduce
-> > > > > >     the preferred CPUs.
-> > > > > > - If steal value is lower or equal to low threshold, call the method to
-> > > > > >     increase the preferred CPUs.
-> > > > > > - If the steal value is in between, no action is taken.
-> > > > > > - Save the values for next delta calculations.
-> > > > > > 
-> > > > > > Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-> > > > > > ---
-> > > > > > v5->v6:
-> > > > > > - Address u64 overflow concerns.
-> > > > > > 
-> > > > > >    drivers/virt/steal_monitor/sm_core.c | 33 ++++++++++++++++++++++++++++
-> > > > > >    1 file changed, 33 insertions(+)
-> > > > > > 
-> > > > > > diff --git a/drivers/virt/steal_monitor/sm_core.c
-> > > > > > b/drivers/virt/ steal_monitor/sm_core.c
-> > > > > > index b499faa61010..7b7435f79b85 100644
-> > > > > > --- a/drivers/virt/steal_monitor/sm_core.c
-> > > > > > +++ b/drivers/virt/steal_monitor/sm_core.c
-> > > > > > @@ -34,6 +34,37 @@ MODULE_PARM_DESC(low_threshold,
-> > > > > >    static void compute_preferred_cpus_work(struct work_struct *work)
-> > > > > >    {
-> > > > > > +    u64 curr_steal, delta_steal, delta_ns, steal_ratio;
-> > > > > > +    ktime_t now;
-> > > > > > +
-> > > > > > +    curr_steal = get_system_steal_time();
-> > > > > > +    now = ktime_get();
-> > > > > > +
-> > > > > > +    /* get the deltas */
-> > > > > > +    delta_steal = curr_steal > sm_core_ctx.prev_steal ?
-> > > > > > +              curr_steal - sm_core_ctx.prev_steal : 0;
-> > > > > > +    delta_ns = max_t(u64, ktime_to_ns(ktime_sub(now,
-> > > > > > sm_core_ctx.prev_time)), 1);
-> > > > > 
-> > > > > The below return on '!delta_ns' makes this max(...) useless, right?
-> > > > > Regardless, if the time between 2 measures is less then 1ns, I
-> > > > > believe, the whole measure is not trustworthy
-> > > > > 
-> > > > 
-> > > > Seeing sashiko comment on divide by zero, i forgot I had max above there :(
-> > > > 
-> > > > > > +
-> > > > > > +    /* Update for next calculation */
-> > > > > > +    sm_core_ctx.prev_steal = curr_steal;
-> > > > > > +    sm_core_ctx.prev_time = now;
-> > > > > 
-> > > > > So below return should go prior to this update, because 'now' is actually
-> > > > > the same as 'prev_time', right?
-> > > > > 
-> > > > > I don't understand why 'now' can be so close to prev_time, because
-> > > > > you've scheduled this callback on the regular interval. But if that's
-> > > > > possible, can you explain that and do like this at the very beginning
-> > > > > of the function:
-> > > > > 
-> > > 
-> > > I don't think it is possible.
-> > > 
-> > > > >           now = ktime_get();
-> > > > >           if (unlikely(now < sm_core_ctx.prev_time +
-> > > > > sm_core_ctx.interval / 2)) {
-> > > > >                   pr_warn(...);
-> > > > >                   return;
-> > > > >           }
-> > > > 
-> > > > Pretty much, just have to requeue the work.
-> > > > 
-> > > > > 
-> > > > > And if it's a never-happen condition, just use WARN_ON().
-> > > > > 
-> > > 
-> > > I have decided keep just max_t() to ensure no divide by zero happens.
-> > > 
-> > > Issue with putting sm_core_ctx.interval_ms check is that, one may edit
-> > > it while the work is queued, but not yet called. It would print wrongly
-> > > in that case.
-> > 
-> > Who is that 'one'? If it's userspace, you can simply disallow changing
-> > the interval. If it's kernel, you're already compromised, and
-> > everything is not trustworthy.
-> > 
-> > I would simply disallow to change any parameters while the driver is
-> > loaded. If I need to change something - I unload it and load with new
-> > interval, or whatever.
-> 
-> It is user writing to /sys/module/steal_monitor/parameters/interval_ms
-> that i thought of. So user.
-> 
-> If we disable then those checks can be valid.
-> 
-> > 
-> > > Even if work function gets called prematurely, it should be fine since the
-> > > steal also increases accordingly. No issues in delta logic.
-> > > 
-> > > So capping to 1 to ensure no divide by 0 happens due to scaling of
-> > > delta_ns is good enough.
-> > If there's 1 nanosecond between two calls, your statistics is very
-> > inaccurate, pretty much a noise. You want to make decision based on
-> > noise. That's simply wrong.
-> 
-> 
-> yes, that makes sense too. I have kept interval_ms/8 as safe bet.
-> Return will not queue the timer and effectively disables it.
-> 
->         ktime_t now;
-> 
->         now = ktime_get();
->         delta_ns = ktime_to_ns(ktime_sub(now, sm_core_ctx.prev_time));
-> 
->         if (unlikely(delta_ns < sm_core_ctx.interval_ms * ((u64)NSEC_PER_MSEC >> 3))) {
->                 pr_err("work scheduled too soon delta_time: %llu ns. Abort steal_monitor.\n",
->                        delta_ns);
-> 
->                 guard(cpus_read_lock)();
->                 cpumask_copy(&__cpu_preferred_mask, cpu_active_mask);
->                 return;
->         }
+On 7/7/26 08:31, Subrahmanya Lingappa wrote:
+> Hi Cristian,
 
-Don't overthink it. Simply don't allow user to change the parameters
-while the driver is running. It may only cause troubles to those
-compiling the driver into the Image. Those compiling it as a module
-will only have to reload the driver. This is how most of the kernel
-works.
+Hi!
 
-So, when the driver is loaded, make sanity checks for all user parameters.
-Interval, for example must be between 10ms and 10s. If user wants 20s,
-pr_err() something and fail to load. After the driver is loaded, don't
-allow to change the params exactly because it may bring certain type of
-errors in the logic, and you don't want to mitigate them.
+Thanks for having a look. Christian is out this week, so let me ask some
+clarifying questions and raise some points.
 
-If there will be a real need to adjust parameters on the fly - it will
-be another interesting topic (mostly interesting why user wants this).
+> 
+> Thanks for posting this. I think the direction of not forcing these
+> Telemetry Data Events into hwmon/IIO/perf prematurely is the right one.
 
-Thanks,
-Yury
+Good.
+
+> The cover letter explains the core problem well: most DE IDs are
+> platform-defined, and without external metadata the kernel cannot reliably
+> know whether a DE is a thermal sensor, a performance counter, a power value,
+> or something entirely platform-specific.
+
+Right.
+
+> 
+> That said, I think the current layering is still too SCMI-shaped for the
+> ABI it is trying to introduce.
+
+Just to be clear: the data is exposed through /dev/scmi/ device nodes. It is
+expected to be very, very SCMI specific as it stands :)
+
+> 
+> The thing being exposed here is not only "SCMI Telemetry"; it is a more
+> general kernel concept of telemetry:
+> 
+>   - enumerate provider-specific data/event descriptors
+>   - expose capabilities, units, data format and topology/grouping metadata
+>   - configure collection rate and collection mode where supported
+>   - collect samples with timestamp/freshness/validity information
+>   - track generation/state changes
+>   - optionally expose provider-private raw backing storage for debugging
+
+Yes, there are some generic concepts there. However, when we talk about
+generalizing, I suspect that other telemetry implementations might vary quite
+already even on these generic points?
+
+In particular when it comes about enumeration (as discussed previously, some
+telemetry solutions might expose way more detailed information about events) and
+configurations (and, in particular, things like configuration groups).
+
+But also efficient ways to receive data in user space.
+
+I mean, sure, if someone uses the exact same concept but instead of calling it
+SCMI, calls it XXMI, that's one thing.
+
+But a true generic telemetry concept would have to take way more options into
+account.
+
+So defining something actual generic and extensible might be rather challenging,
+no? And for that, I would expect a pretty good reason to do so.
+
+"Make tool X easier to implement" would not be a good reason in my option. I'm
+sure you have something in mind, what would that be?
+
+> 
+> SCMI is one provider of that model. It happens to transport the data through
+> SCMI v4.0 concepts such as DEs, groups, SHMTIs and TDCF.
+
+Right.
+
+> But another firmware
+> or control-plane specification could show up later with the same broad
+> telemetry model and a different wire format. Call it XXMI or YYMI: the
+
+"could" is a bit vague. Do you have any concrete examples in mind? It will be
+rather challenging to figure out what's generic without other real examples.
+
+> protocol mechanics would differ, but the kernel consumers should not have to
+> learn a new in-kernel and userspace ABI for each one.
+
+So far, the tools that consume this data are expected to be very platform specific.
+
+IOW, not your ordinary perf/top/whatever :)
+
+Assuming there is some XXMI telemetry in the future, I would expect tools that
+could operate across multiple platforms to build upon some generic user space
+library that abstracts these things and knows how to talk to the different devices.
+
+> 
+> The common ABI should therefore avoid treating the DE numeric namespace or
+> the wire/storage format as the abstraction. The useful common contract is
+> closer to:
+> 
+>   - what is being measured: component/type/instance/name;
+>   - how to interpret it: unit, exponent/rate unit, data width and signedness;
+>   - how it behaves: instantaneous, accumulating, average, state/counter, etc.;
+>   - how it is controlled: individual event vs group-wide collection;
+>   - how fresh it is: timestamp, sequence/generation and validity/error flags.
+> 
+> So I would strongly consider inserting a generic telemetry layer above SCMI,
+> with SCMI registering as a telemetry provider rather than owning the stable
+> userspace ABI directly.
+
+Again, I think that's rather hard. And it's not immediately clear to me why this
+abstraction must be had in the kernel, instead of in user space?
+
+So it would be good if you could elaborate on that.
+
+> 
+> Roughly:
+> 
+>   drivers/telemetry/
+>       provider registration
+>       descriptor/sample/config abstractions
+>       generation tracking and poll support
+>       common userspace ABI
+
+That will be a struggle to define in a future-proof way I'm afraid.
+
+> 
+>   drivers/firmware/arm_scmi/telemetry.c
+>       SCMI protocol implementation
+>       TDCF/SHMTI/notification parsing
+>       translation into generic telemetry descriptors/samples
+> 
+>   optional provider-private raw/debug path
+>       SCMI SHMTI mmap or dumps, if kept, behind explicit privilege/debug
+>       policy rather than as the baseline telemetry ABI
+
+That makes the SCMI SHMTI mmap interface a second-class citizen, which IIUC is
+rather bad performance wise.
+
+> 
+> With that shape, future in-kernel consumers could bind to generic telemetry
+> objects and capabilities instead of SCMI internals. Architected/well-known
+> DEs could later grow adapters into hwmon/IIO/perf where the semantics are
+> clear, while platform-specific DEs remain available through the generic
+> telemetry interface plus userspace metadata.
+> 
+> This would also help avoid making the SCMI protocol's internal resource
+> storage part of the ABI. Right now the public protocol header exposes
+> structures such as scmi_telemetry_res_info, scmi_telemetry_group and
+> scmi_telemetry_de, and the chardev indexes those objects directly. That feels
+> too tightly coupled for something that may need more consumers later. I would
+> prefer copy-out or iterator-style provider ops instead, for example:
+> 
+>   info_get()
+>   de_count_get()
+>   de_info_get()
+>   group_info_get()
+>   intervals_get()
+>   collection_set()
+>   collection_get()
+>   sample_read()
+>   reset()
+> 
+> where the backing arrays, xarrays, lazy enumeration, SHMTI mappings and TDCF
+> parsing remain private to the SCMI provider.
+> 
+> The sample side probably needs an explicit common result contract too. A
+> sample is not only an integer value: it may have optional timestamping,
+> provider data width, stale/not-yet-valid state, partial collection failures,
+> hardware-fault indications, and a sequence/generation value that lets
+> userspace detect races against reconfiguration or shared-memory updates. Those
+> details can still be backed by SCMI-specific status codes and TDCF parsing
+> internally, but I think the stable ABI should expose them in provider-neutral
+> terms.
+> 
+> I would also be careful about freezing the raw SHMTI mmap part as a baseline
+> ABI. It is useful for bring-up and high-performance tooling, but it exposes
+
+Correct me if I'm wrong: most user space tools we expect will fall into the
+category of "high-performance tooling"?
+
+Or which tools do you have in mind that have different requirements?
+
+> firmware-owned shared memory layout and TDCF parsing rules directly to
+> userspace. If this stays, I think it should be clearly separated as a
+> privileged/debug/raw provider facility, with a precise mmap contract:
+> 
+>   - required mmap length
+>   - vm_pgoff semantics
+>   - page alignment
+>   - VMA flags
+>   - cache/coherency expectations
+>   - lifetime across reset/remove/reprobe
+>   - required capability, if any
+> 
+> Even outside the raw mmap case, telemetry can be a sensitive high-rate view
+> of system behavior. The ABI should make access policy explicit: who can
+> enumerate, who can read, who can change collection state, and whether
+> production systems can restrict sampling granularity or intervals
+> independently of what firmware advertises.
+> 
+> For the stable telemetry ABI, I would start smaller: descriptor enumeration,
+> sample reads with validity metadata, optional group-aware configuration, and a
+> generation counter/poll mechanism so userspace can detect reconfiguration or
+> partial re-enumeration races.
+> 
+> One other point related to this layering: configuration appears to be global
+> to the SCMI instance. Any process opening /dev/scmi/tlm_N can change
+> collection mode, sampling interval, DE enablement and timestamp state for
+> other users. That may be OK, but it should be an explicit policy decision.
+> A generic telemetry layer could make the model clearer: multi-reader with a
+> privileged/single writer, or fully shared global controls, with instance-level
+> locking and generation updates after each visible state change.
+> 
+> So my high-level suggestion for v6 would be:
+> 
+>   1. define the generic telemetry provider/consumer model first;
+>   2. make SCMI Telemetry one provider of that model;
+>   3. keep SCMI/TDCF/SHMTI details below the provider boundary;
+>   4. keep raw SHMTI access separate from the stable ABI;
+>   5. define common sample validity/freshness/error semantics;
+>   6. add generation/poll semantics to the common ABI;
+>   7. make lifetime, access policy and configuration concurrency explicit.
+> 
+> I do not think this invalidates the protocol work in the series. Most of the
+> SCMI parsing and resource discovery can still be the provider implementation.
+> The main question is where the stable kernel/userspace contract should sit.
+> My preference would be that it sits at "telemetry", not at "SCMI Telemetry",
+> so that SCMI, and any future XXMI/YYMI-style provider, can share one consumer
+> interface.
+
+Again, I'd like to understand why you think this abstraction should be had in
+the kernel, when it could also be had in user space. I'm sure there is a good
+reason you have in mind.
+
+In particular, I am curious about tools you would expect to run across platforms
+that would even care about this.
+
+Last but not least, which other telemetry implementations do you have in mind
+that are on the horizon?
+
+In particular, I'm afraid a generic abstraction in the kernel for a handful of
+specialized user space tools might take a rather long time to flesh out.
+
+Finally, I wonder if something generic is really required when talking about an
+ioctl interface. I would completely agree if we would be talking about something
+like resctl, that actually exposes the data to user space in an abstracted,
+easy-to-use fashion -- not just an ioctl interface to talk to a device
+
+Thanks for taking the time to write all this up. I'll have to leave all the SCMI
+details to Christian!
+
+-- 
+Cheers,
+
+David
