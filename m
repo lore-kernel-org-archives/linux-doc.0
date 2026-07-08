@@ -1,247 +1,386 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011005.outbound.protection.outlook.com [52.101.52.5])
+Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5CDF41CB50;
-	Wed,  8 Jul 2026 16:13:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D0F43932C;
+	Wed,  8 Jul 2026 16:24:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=222.228.43.154
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783527220; cv=fail; b=EerrdyrbaZmWSt9lcH6nEVtbY6Yu0fxoTdWN6Uq2WeW9hECDjGbQpuKQAn5N14Btw7hFk2VCaN/LzcaJAeaM8d47U0vZTcnjH8Okq7EcJGHqcxgEKrJxmMlaJyH6WNqVUEFu00qRmQqk7/DUv8g9vW/2dsMNh+gVA67vm6/WjQo=
+	t=1783527892; cv=pass; b=D1fp+w0yB+NkUzUMqwVHWqLVAXBJouVQ4IBmRMxtAALqb3B4kaWqJhyV3GBdyh8xTCTZCRh6o/6lYVfM2QIHcMYyWKb5mLlZiSJht/CHEWVCN4VAo6Dug0YREPlRSdvijc1nIl9kaJqmBJwS8+XRgz6CCSG93S9Y8vxeLeQOjwI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783527220; c=relaxed/simple;
-	bh=XKC6pmuTiF12GB5R1VLQXIcKiaMAEn+Rmph2IJZk10s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=UH8SLMJa5O7E32Lp7y1IBFNqmQhcB/gAsRaQJbEwMb6sGPSlNlM0/p411QIDqIJz0Cq6Pa2rGiUYiluNcAMwKdMWDeqrI1z6eBL+1adYFnaaDniEsYShZGDSOqTf30kCfX/xsqgIm5eZWP95jToy3b5L4Co9M1QqHQvVjyqy8uE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=fail (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=X/CRvFPF reason="signature verification failed"; arc=fail smtp.client-ip=52.101.52.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1783527892; c=relaxed/simple;
+	bh=flbUQjllSMTdj0IAmLdKr2k7a9WysdbZGy2xkJ/ztnY=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=FmN942EsiY/68bz3S3T165y37dVXvylan8vf+lXetkErowrk4Szuc7yg+dDKiZ9G4yXqV666DT8dvhJja/Inqz9YO/v8n05Z7MOjoej58Tt7WF3PZ+PNpyPC1yVacSGCc94AEia8pO6l2/tnl45krqxUVdYw+4S1Jy8UhOqKyFI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=JZqYZvZe; arc=pass smtp.client-ip=222.228.43.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="X/CRvFPF"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=y7EL0XZxmoI2ekOMc07caPtgEo7+uQkZiydsr1zTiEDDJyW6U3+7Frq+E6exCfbeSzlZAdqWUL+NeuprkDvOp/cYh1VMbsZoLNSVJjj4VcltTkvHLjWbJj3qcIgO7pg1ni51hbMKf3UfgVGlCfWv1XdeOkB+h7uEo4SYN8oAygbmETDqhQZucPtwr42v9cE2ed1+vIMqsJAhpTH3ahaXm4S17uNoDzAEGF7huo0Dn0Ty7YIM52BjN00UD9zaT1U8zTviXzGTwDIF/r33rHjoMtX4xT5XHtXPaQHZL6lviB3WZwSqy7f5gDaVUZqAk8stqxk4wpzY+R4l4KIHGsyVKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EMOI6d38p+crCdzPv13nQcSZa17tcdGB0DQiDKlgDEg=;
- b=ixMMwntWvjOpfqgHUWb1ndhy1pCwNgR1eCHZ0KhJlIGOLKGm6L9GFzEA6juNHZXc+3UCZPCNJ75TRf/tpNoelOmaO4poRE7dlkH8Mn41VkmcvXLqJCYLKprmy0Tio2p3gL5XG99/glml+Qgbx9EBfHvKyCR7W7fldxcIxlBancJPfbI2EDQePjTRI22f+DMYU1q3kx52A6kscDW9JnQu2+7sRgjacWgdesL2uvF9MxJiAVs+hbYIdAdWwSrd/wxOXi9uEQr5q4h5e8OrNsMn7xYCbKtswKWqfnIAtH/KZvL+ilJr3zELQT3w5t0RaUcVI3RlpJ6lCgVSY7o8q5jVog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EMOI6d38p+crCdzPv13nQcSZa17tcdGB0DQiDKlgDEg=;
- b=X/CRvFPFlmELzlhuVZKyDXwqvWW9AAYv3S/hERIMOcIl9+2aah9r6kZK1PbkFePO4EM9FYWorcJPdh/wenQ45oFi3DjOuL2jDPSdF+kS3e0z8uWLE6dV1Tuksg31UBF7SnEmhfSzwUKz4Muf4qcVy0xTJXucBUNLDuU/WyJ9n1CYsS6t74m0l94JAao1IlfCFDL7qe9IuyiJ5WqYB0phjrUhlmwfMDM6xyIrkDgzyfWz42DC0tRxznwvkZWTM/fDGtPbhzX+9kdjuUavV3IB+EEOPz3jcmq46ro8tNbuPkN7qQ3v/PwFM0zcuJj4/pmsrAgus8p+Q3fxRkL6P9OHSw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by CY5PR12MB9056.namprd12.prod.outlook.com (2603:10b6:930:34::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 8 Jul 2026
- 16:13:26 +0000
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0181.014; Wed, 8 Jul 2026
- 16:13:26 +0000
-Date: Wed, 8 Jul 2026 12:13:23 -0400
-From: Yury Norov <ynorov@nvidia.com>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-	corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
-	pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-	huschle@linux.ibm.com, rostedt@goodmis.org,
-	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
-	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
-	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
-	christian.loehle@arm.com, tj@kernel.org,
-	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-	rdunlap@infradead.org, kernellwp@gmail.com,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 20/23] virt/steal_monitor: Act on steal values at
- regular intervals
-Message-ID: <ak53I9beUB-2plNQ@yury>
-References: <20260701141654.500125-1-sshegde@linux.ibm.com>
- <20260701141654.500125-21-sshegde@linux.ibm.com>
- <akwRJnQklymOjNTv@yury>
- <6548b668-d3e1-42dd-be9f-2fe3193874a1@linux.ibm.com>
- <be544e00-8cf7-4a09-8b13-2d8b5a98c2ce@linux.ibm.com>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <be544e00-8cf7-4a09-8b13-2d8b5a98c2ce@linux.ibm.com>
-X-ClientProxiedBy: SJ0PR13CA0043.namprd13.prod.outlook.com
- (2603:10b6:a03:2c2::18) To LV3PR12MB9356.namprd12.prod.outlook.com
- (2603:10b6:408:20c::21)
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="JZqYZvZe"
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id A7083109BED15;
+	Thu,  9 Jul 2026 01:17:01 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ZSL8nmZ042FQ; Thu,  9 Jul 2026 01:16:55 +0900 (JST)
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=192.168.11.50
+DMARC-Filter: OpenDMARC Filter v1.4.2 www.redadmin.org EFF96109EFD81
+ARC-Seal: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256; cv=none;
+	t=1783527415;
+	b=ZV6r/8IwMr5YN3//218YKY1r5bfXkEGPQ475Y8fU2iLDSW/Q2LMh81ZcugYtf1EK95uD
+	 npe7+QoxB/3x1SAK67r3xCkvYouTrK8jpDRSweoFoWbKWEzUTBL5hNghNwMdOHnl+6lbH
+	 tAEiHUwXMnPIKCRkeplwXB8ueb6t63ixYI=
+ARC-Message-Signature: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256;
+	c=relaxed/relaxed; t=1783527415;
+	h=DKIM-Filter:DKIM-Signature:MIME-Version:Date:From:To:Cc:Subject:
+	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=xBUo8j5GvY/rIrP2lsQbrrx02jeQlRXGN1JHBLMTZQI=;
+	b=rEvCS6WTSEaf/fI7pXRALCx1FMr6JDCuoVgpJpVTrXvct1Jy0dxz4M8j+D9xDvn+7npn
+	 8+IfjPp5xt7sKveL2Q+ooANKjce7YtFtxPF6vtQaqcGoydxTEeJsL2LNCmLpHOkUl5I6N
+	 pT8iiarwdMWHFqhS9+3loBRQriOhWiudWY=
+ARC-Authentication-Results: i=1; www.redadmin.org; arc=none smtp.remote-ip=192.168.11.50
+Received: from webmail.redadmin.org (redadmin.org [192.168.11.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: weibu@redadmin.org)
+	by www.redadmin.org (Postfix) with ESMTPSA id EFF96109EFD81;
+	Thu,  9 Jul 2026 01:16:54 +0900 (JST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org EFF96109EFD81
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1783527415;
+	bh=xBUo8j5GvY/rIrP2lsQbrrx02jeQlRXGN1JHBLMTZQI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=JZqYZvZeMZq8ABAsEdZLt3oaunYz8qu0vPRmM+IuykhGu8Nek19/1R+eYo6Duq0tY
+	 FIlJ0CP62ARvU9eRx80IGmV7ILcgoPH5VOn2Tm4YCfcla1b1+p+U+jnId1yJeHxyq2
+	 3K9nvGyIuZcBjY2H3Rard6lWaeeZfecWQGmlTPsU=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|CY5PR12MB9056:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5f6d1dcc-28a8-446e-a621-08dedd0bd713
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|11063799006|56012099006|4143699003|18002099003|3023799007|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	SeD8G3vptedMrqjFG6bIwtUps976tL4xFCTRNIeiB9V8UIYDaob87IkpNfHIRHfV7tznxe/ysBE63beZ0IiSPVAjWxeEBDVfCDf1iwcXWv64klWVU8VDsAk5ojSgO4uSLrlYmaf+nAPHSNgYKFJbI6QfbcVSdhrIhOOXytixUGibD0qWVVbeKKOggHx2DUPGaXkTHbGg2wTv316ILVun23bxXOiMlXBjBaZDAao1nfWErGCxbWizNCtKE+2sDrvbGkhAcv2mwgeUV0Wz4P4frpOK7RrPjvaJbm+vrXUI+dv/zblHWcr442dlZvsomn8TOiCX7tiPs+/FRGbrtn+M4HvuftHbR/LK48gap0+uctO14IzpT3feERIT/6KZEckEVMjS5h/uUUhuIyz4Pi4wi1638/W1R64lZ4LDdzVF6Az21ku5qLAjaUaq5TETCdXrFM1O/nCr/B1dEh1TqCLqMKg9B8zQPoYXPPPvMY9x630MvGOCmNUZMGpaKvaN73hRoUs2fdg0YRxTecR8Q7bBSDLew9GOUBB8p17coIXZ5wfGn/2kPQr6jNntd5WoW7XXrQWGa+rJufV6Ov4ZhRGYXRiele8G04qX3mg63xkzLQ9Xqf225OLY2dURFBB/vYpatvkdVXBIiDiddpYKixXny2cf2/8cYOapX41RgjKgcwY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(11063799006)(56012099006)(4143699003)(18002099003)(3023799007)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?D8m1Ns8HRkUkxZEoKDTuyi76K7iVF9VJttv77TP4jW7O2RuhOTkC5Cnz0f?=
- =?iso-8859-1?Q?r0Qe0mNKKbFWFk0ot784Hy/TbPqbRKWEeiL2pvd7cQJQolbPVIMp2E6j25?=
- =?iso-8859-1?Q?YEMW9jcrdNezrcndGJh2Pd0D3YXDF3Z/boLsVBHgGMDAoToILC2zSbiRQB?=
- =?iso-8859-1?Q?A2ZUu2cqE7dPPrb3Xh2AtfrMj8yzjPSb99ZLgodcbR5Qm5VBPQPfwonLe8?=
- =?iso-8859-1?Q?GomreWpGYtjKX7wFX8b6wkhLj+nXByyuaEmHtHdK+NXaTx5wyC0vlAf/Ka?=
- =?iso-8859-1?Q?UxG5C7rLio/6EzMYi9cVbS2bZOHz2DzhrLbSFlHpzCeGiR6EjX2y+zohZR?=
- =?iso-8859-1?Q?3osgAwF2qPHFG/Awhd3qhscdP2JniV6m+VpnDX7VmuPs79ToOC4Rg2YN6/?=
- =?iso-8859-1?Q?I0jAxlhkDsqiuKE1FJ2W7kt+Q/pN0jwjoXWDMoOhPgwWYGTJQAZlYvOXc8?=
- =?iso-8859-1?Q?Sx50we/yh/nfSqB9s6pXw4EhyZIzLKx1/Tk4VzNLPBtlLfKcL7WgTPwHe/?=
- =?iso-8859-1?Q?zAAFTWYFONx/jTi42UJ7w08dQWygSc96QyBfLCqQE+ay0POiGX9QVxJDlH?=
- =?iso-8859-1?Q?YhS8MXNdO/Y9Mb4xLtFpwJlllIDV1B9/BTL+nIGJ3PZOds6DMsCoS5K7bK?=
- =?iso-8859-1?Q?vwjGODmUbSRi0OANBMLkiNJLxTHbr61BgDUaJQQvdlB0RNooYgdTA9WZZk?=
- =?iso-8859-1?Q?YxCXQh5Ip+bAIXn02K9ZcXYPPuC6L8shz60xS6zH0FgtzIq8GEvlKLredD?=
- =?iso-8859-1?Q?avuoDvDItryjT7RwDV8eShdhLpHQvLcY8F4SNfHzyGKdfZEwp8lvJpjr/D?=
- =?iso-8859-1?Q?rFS5y8PnfTpnldpnQPsw/atcP813HIoPOKrrQSE6ppqg99rSG0PlJ0CNW2?=
- =?iso-8859-1?Q?CYnZJOHdmK5Tzf+LjvJk8WWwXbUbkU3rxgZmeB9zJtfz4v92jYZjHhHHaw?=
- =?iso-8859-1?Q?VRyNTAHoFlWRFL5Ia2IsfzX9p+ShJsMQweEvaHHMatKbAXMLkyjwsariyg?=
- =?iso-8859-1?Q?Ru4SYBeI8I4awUKT2vz1TGOblxrVn5hdl8r4K2tLTCY/956bZ4/BlgjG82?=
- =?iso-8859-1?Q?5euHrH6TOTS88bfboptks/8lqSYSoPTR5xQ1M6nbKwgNGj+cpw1kGy6FrR?=
- =?iso-8859-1?Q?qe58EqqPIbxDLIPFrM4ZZr78FBfGG9rlEoVwxUd8qHndQfU/VcSk//fbLY?=
- =?iso-8859-1?Q?tFAe58wTXcxzVLjE0R+6FP2fwk5BhdPBBGok9Awgf6kVRzmT89eHiSuBT3?=
- =?iso-8859-1?Q?ZuwToWzHAvQTtQf2xjGPE3ISPXa5UR+Zb2Z9NIXpk0tRQvicKfd50Ev5Mp?=
- =?iso-8859-1?Q?AJJLxVdrRD/TvJ3br+3hRtQiyWQ3imvHUiGOrboK4hUog0poHfahIouBqm?=
- =?iso-8859-1?Q?zVuBPARYL9TqeFZSQa/HqR2hLrjlWDvGLU8Ob4JUDPMbPyCXDenlDpXHeq?=
- =?iso-8859-1?Q?ALKG6AsvLfEFrfBB5c33jix++6ActDpE2nCQrvgYHi4XyrtYen4afsl2r5?=
- =?iso-8859-1?Q?Nj7BCdU5UDI5YJSD9Kb0gz1okp3UjYLZxoLYZ58XBZFVvndLt9xZp/uYXA?=
- =?iso-8859-1?Q?sWgYJDd0UYIQamea4XXcMXApF5FsZG6Pm2DuBKzH+0pJ0x4sneizjIEkbw?=
- =?iso-8859-1?Q?bre5dBE2Lt2wtJZ6biDKAF+QOVwqvdg51EsCWxWlrooVi4V+VP7/VAiuyW?=
- =?iso-8859-1?Q?PxqBUMopIIjUi1+w2vFHBbRsyRi7h1aPvv6dEEIbvCJ3FzcD7749YzkVYk?=
- =?iso-8859-1?Q?0qhMnW7biJjZPBPUAybjgiJis2G7jS69BHJ0IMfnJDViComXuOmIdrkdVV?=
- =?iso-8859-1?Q?Qbrw/RhQOA=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f6d1dcc-28a8-446e-a621-08dedd0bd713
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2026 16:13:26.0504
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dPeuusz7hKws09nafQoKuUETORdHWEGGTYrIuyMBrTFpzD4eEbQl+Sp3M15dewBYWg2r5PjoKgVvhhF0nTJfYg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB9056
+Date: Thu, 09 Jul 2026 01:16:54 +0900
+From: weibu@redadmin.org
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/ja_JP: submitting-patches: Refine wording etc for
+ "splitting changes" and later
+In-Reply-To: <20260708105906.40954-1-akiyks@gmail.com>
+References: <20260708105906.40954-1-akiyks@gmail.com>
+Message-ID: <7313ca559ef8a984e0cd1bd8f9fb8c17@redadmin.org>
+X-Sender: weibu@redadmin.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 08, 2026 at 04:03:18PM +0530, Shrikanth Hegde wrote:
-> 
-> 
-> On 7/7/26 12:46 PM, Shrikanth Hegde wrote:
-> > 
-> > 
-> > On 7/7/26 2:03 AM, Yury Norov wrote:
-> > > On Wed, Jul 01, 2026 at 07:46:51PM +0530, Shrikanth Hegde wrote:
-> > > > This is the steal_monitor core functionality done in periodic work
-> > > > 
-> > > > - Calculate the steal_ratio. It is multiplied by 100 to consider the
-> > > > �� fractional values of steal time. I.e 10 means 0.1% steal time.
-> > > > - If steal value is higher than high threshold, call the method
-> > > > to reduce
-> > > > �� the preferred CPUs.
-> > > > - If steal value is lower or equal to low threshold, call the method to
-> > > > �� increase the preferred CPUs.
-> > > > - If the steal value is in between, no action is taken.
-> > > > - Save the values for next delta calculations.
-> > > > 
-> > > > Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-> > > > ---
-> > > > v5->v6:
-> > > > - Address u64 overflow concerns.
-> > > > 
-> > > > � drivers/virt/steal_monitor/sm_core.c | 33 ++++++++++++++++++++++++++++
-> > > > � 1 file changed, 33 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/virt/steal_monitor/sm_core.c
-> > > > b/drivers/virt/ steal_monitor/sm_core.c
-> > > > index b499faa61010..7b7435f79b85 100644
-> > > > --- a/drivers/virt/steal_monitor/sm_core.c
-> > > > +++ b/drivers/virt/steal_monitor/sm_core.c
-> > > > @@ -34,6 +34,37 @@ MODULE_PARM_DESC(low_threshold,
-> > > > � static void compute_preferred_cpus_work(struct work_struct *work)
-> > > > � {
-> > > > +��� u64 curr_steal, delta_steal, delta_ns, steal_ratio;
-> > > > +��� ktime_t now;
-> > > > +
-> > > > +��� curr_steal = get_system_steal_time();
-> > > > +��� now = ktime_get();
-> > > > +
-> > > > +��� /* get the deltas */
-> > > > +��� delta_steal = curr_steal > sm_core_ctx.prev_steal ?
-> > > > +������������� curr_steal - sm_core_ctx.prev_steal : 0;
-> > > > +��� delta_ns = max_t(u64, ktime_to_ns(ktime_sub(now,
-> > > > sm_core_ctx.prev_time)), 1);
-> > > 
-> > > The below return on '!delta_ns' makes this max(...) useless, right?
-> > > Regardless, if the time between 2 measures is less then 1ns, I
-> > > believe, the whole measure is not trustworthy
-> > > 
-> > 
-> > Seeing sashiko comment on divide by zero, i forgot I had max above there :(
-> > 
-> > > > +
-> > > > +��� /* Update for next calculation */
-> > > > +��� sm_core_ctx.prev_steal = curr_steal;
-> > > > +��� sm_core_ctx.prev_time = now;
-> > > 
-> > > So below return should go prior to this update, because 'now' is actually
-> > > the same as 'prev_time', right?
-> > > 
-> > > I don't understand why 'now' can be so close to prev_time, because
-> > > you've scheduled this callback on the regular interval. But if that's
-> > > possible, can you explain that and do like this at the very beginning
-> > > of the function:
-> > > 
-> 
-> I don't think it is possible.
-> 
-> > > �������� now = ktime_get();
-> > > �������� if (unlikely(now < sm_core_ctx.prev_time +
-> > > sm_core_ctx.interval / 2)) {
-> > > ���������������� pr_warn(...);
-> > > ���������������� return;
-> > > �������� }
-> > 
-> > Pretty much, just have to requeue the work.
-> > 
-> > > 
-> > > And if it's a never-happen condition, just use WARN_ON().
-> > > 
-> 
-> I have decided keep just max_t() to ensure no divide by zero happens.
-> 
-> Issue with putting sm_core_ctx.interval_ms check is that, one may edit
-> it while the work is queued, but not yet called. It would print wrongly
-> in that case.
+Hi Akira-san,
 
-Who is that 'one'? If it's userspace, you can simply disallow changing
-the interval. If it's kernel, you're already compromised, and
-everything is not trustworthy.
+Thank you for the cleanup.
 
-I would simply disallow to change any parameters while the driver is
-loaded. If I need to change something - I unload it and load with new
-interval, or whatever.
+I will review the wording, and if I find anything that should be 
+adjusted,
+I will submit a follow-up patch on top of this change.
 
-> Even if work function gets called prematurely, it should be fine since the
-> steal also increases accordingly. No issues in delta logic.
+Thanks,
+Akiyoshi
+
+2026-07-08 19:59 に Akira Yokosawa さんは書きました:
+> Resolve rough edges in translation text added since commit 61e4155c81d1
+> ("docs/ja_JP: translate more of submitting-patches.rst").
 > 
-> So capping to 1 to ensure no divide by 0 happens due to scaling of
-> delta_ns is good enough.
- 
-If there's 1 nanosecond between two calls, your statistics is very
-inaccurate, pretty much a noise. You want to make decision based on
-noise. That's simply wrong.
- 
-> > Ya, it is a never-happen condition. I will use WARN_ON.
-> > 
+> As with commit 999084ee0b11 ("docs/ja_JP: submitting-patches: Amend
+> "Describe your changes""), do the following tweaks:
+> 
+> - Rewording and rephrasing.
+> - Suppress extra white spaces rendered before and after strong emphasis
+>   in HTML and PDF by using espcaped spaces.
+> - Provide translation words for "embargo", "word-wrap", "top-posting",
+>   etc.
+> - Rather than keep "interleaved replies", use only 「インライン返信」
+>   ("inline reply"), which is a popular term in Japanese.
+> 
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: Akiyoshi Kurita <weibu@redadmin.org>
+> ---
+> Kurita-san,
+> 
+> If you find some of my word choices strange, please submit a patch
+> on top of this change.
+> 
+> Thanks,
+> Akira
+> 
+> .../ja_JP/process/submitting-patches.rst      | 150 +++++++++---------
+>  1 file changed, 75 insertions(+), 75 deletions(-)
+> 
+> diff --git 
+> a/Documentation/translations/ja_JP/process/submitting-patches.rst 
+> b/Documentation/translations/ja_JP/process/submitting-patches.rst
+> index d31d469909e4..fa794a44d8c4 100644
+> --- a/Documentation/translations/ja_JP/process/submitting-patches.rst
+> +++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
+> @@ -182,7 +182,7 @@ URL は禁止です。
+>  変更を分割する
+>  --------------
+> 
+> -各 **論理的な変更** は、個別のパッチに分けてください。
+> +それぞれの\ **論理的な変更**\ は、個別のパッチに分けてください。
+> 
+>  たとえば、単一のドライバに対する変更にバグ修正と性能改善の
+>  両方が含まれるなら、それらは 2 つ以上のパッチに分けてください。
+> @@ -208,7 +208,7 @@ URL は禁止です。
+>  ことがあります。途中でバグを持ち込めば、彼らに感謝されることは
+>  ないでしょう。
+> 
+> -パッチセットをこれ以上小さくできないなら、一度に投稿するのは
+> +パッチセットをそれ以上小さくできないなら、一度に投稿するのは
+>  15 個程度までにして、レビューと統合を待ってください。
+> 
+> 
+> @@ -220,18 +220,17 @@ Documentation/process/coding-style.rst を参照してください。
+>  これを怠ると、単にレビューアの時間を無駄にするだけでなく、
+>  パッチはおそらく読まれもせずに却下されます。
+> 
+> -大きな例外が 1 つあります。コードをあるファイルから別の
+> -ファイルへ移動する場合です。このときは、コードを移動する
+> -その同じパッチの中で、移動したコードを一切変更してはいけません。
+> -そうすることで、コードの移動という行為と、あなたの変更とを
+> -明確に区別できます。これは実際の差分のレビューを大いに助け、
+> -ツールがコード自体の履歴をより適切に追跡できるようにします。
+> +一つの重要な例外は、コードをあるファイルから別のファイルへ移動する場合です。
+> +その際は、コードを移動するその同じパッチの中で、一切コードを変更しては
+> +いけません。これにより、コードの移動という行為と、コードの変更とが
+> +明確に区別されます。これは実際の差分のレビューを大いに助け、また、ツールを
+> +使ったコード変更の履歴の追跡を容易にします。
+> 
+>  提出前に、パッチスタイルチェッカー
+>  (``scripts/checkpatch.pl``) でパッチを確認してください。
+> -ただし、スタイルチェッカーは指針として見るべきであり、
+> +ただし、スタイルチェッカーは指針にすぎず、
+>  人間の判断に取って代わるものではないことに注意してください。
+> -違反があっても、その方がコードの見栄えがよいなら、
+> +違反が指摘されるままのコードの方が見栄えがよいなら、おそらく
+>  そのままにしておくのが最善でしょう。
+> 
+>  チェッカーは 3 つのレベルで報告します:
+> @@ -240,8 +239,7 @@ Documentation/process/coding-style.rst を参照してください。
+>   - WARNING: 慎重なレビューを要するもの
+>   - CHECK: 検討を要するもの
+> 
+> -パッチに残した違反については、すべて理由を説明できなければ
+> -なりません。
+> +パッチに違反を残す場合は、そのすべてを正当化できなければなりません。
+> 
+> 
+>  パッチの宛先を選択する
+> @@ -256,8 +254,8 @@ Documentation/process/coding-style.rst を参照してください。
+>  サブシステムのメンテナが見つからない場合は、Andrew Morton
+>  (akpm@linux-foundation.org) が最後の手段となるメンテナです。
+> 
+> -すべてのパッチでは、デフォルトで linux-kernel@vger.kernel.org を
+> -使うべきですが、このリストの流量が多いため、目を通さなくなった
+> +すべてのパッチは、デフォルトで linux-kernel@vger.kernel.org にも
+> +送られるべきですが、このリストは流量が多く、目を通さなくなった
+>  開発者も少なくありません。とはいえ、無関係なメーリングリストや
+>  無関係な人々にスパムを送らないでください。
+> 
+> @@ -268,103 +266,104 @@ Documentation/process/coding-style.rst 
+> を参照してください。
+>  Linux カーネルに採用されるすべての変更の最終的な裁定者は
+>  Linus Torvalds です。彼のメールアドレスは
+>  <torvalds@linux-foundation.org> です。Linus は大量のメールを
+> -受け取っており、現時点では彼に直接届くパッチはごくわずかなので、
+> -通常は彼にメールを送ることを極力避けてください。
+> +受け取っており、現時点では直接彼を経由するパッチはごくわずかなので、
+> +通常は彼にメールを送ることを極力\ **避けて**\ ください。
+> 
+> -悪用可能なセキュリティバグを修正するパッチがあるなら、
+> -そのパッチを security@kernel.org に送ってください。深刻なバグに
+> +悪用可能なセキュリティバグを修正するパッチの場合は、
+> +それを security@kernel.org に送ってください。深刻なバグに
+>  ついては、ディストリビュータがユーザーにパッチを配布できるよう、
+> -短期間の embargo が検討される場合があります。そのような場合、
+> -そのパッチを公開メーリングリストに送るべきではありません。
+> +短期間の秘匿措置 (訳註: embargo) が検討される可能性があります。
+> +ですので、その種のパッチを公開メーリングリストに送らないでください。
+>  Documentation/process/security-bugs.rst も参照してください。
+> 
+>  リリース済みカーネルの深刻なバグを修正するパッチは、次のような行を
+> -パッチの sign-off 欄に入れることで、stable メンテナへ向けてください::
+> +パッチの sign-off 欄に入れることで、stable メンテナに知らせてください。
+> +(メールの宛先ではないことに注意。) ::
+> 
+>    Cc: stable@vger.kernel.org
+> 
+> -これはメールの受信者ではないことに注意してください。また、
+> -この文書に加えて Documentation/process/stable-kernel-rules.rst も
+> -読んでください。
+> +また、この文書に加えて Documentation/process/stable-kernel-rules.rst
+> +も読んでください。
+> 
+>  変更がユーザーランドとカーネルのインターフェースに影響する場合は、
+>  MAINTAINERS ファイルに記載されている MAN-PAGES メンテナに
+> -man-pages パッチ、少なくとも変更の通知を送って、情報が
+> -マニュアルページに反映されるようにしてください。ユーザー空間 API の
+> +マニュアルページのパッチ、もしくは少なくとも変更の通知を送って、情報が
+> +そちらにも反映されるようにしてください。ユーザー空間 API の
+>  変更は、linux-api@vger.kernel.org にも Cc してください。
+> 
+>  MIME・リンク・圧縮・添付なし、プレーンテキストのみ
+>  ----------------------------------------------------
+> 
+>  Linus や他のカーネル開発者は、あなたが投稿する変更を読み、
+> -コメントできる必要があります。カーネル開発者が標準的な
+> -メールツールを使ってあなたの変更を「引用」し、コードの特定の
+> -箇所についてコメントできることが重要です。
+> +コメントできる必要があります。カーネル開発者にとって、コードの特定の
+> +箇所について、標準的なメールツールを使ってあなたの変更を「引用」し、
+> +コメントできることが重要です。
+> 
+> -このため、すべてのパッチはメール本文中に ``inline`` で投稿すべきです。
+> +このため、すべてのパッチはメール本文中に「インライン」で投稿すべきです。
+>  これを行う最も簡単な方法は ``git send-email`` を使うことであり、
+>  強く推奨されます。``git send-email`` の対話型チュートリアルは
+> -https://git-send-email.io で利用できます。
+> +https://git-send-email.io にあります。
+> 
+> -``git send-email`` を使わないことを選ぶ場合:
+> +``git send-email`` を使わない場合:
+> 
+>  .. warning::
+> 
+> -  パッチをコピー＆ペーストする場合は、エディタの word-wrap によって
+> -  パッチが壊れないよう注意してください。
+> +  パッチをコピー＆ペーストする際に、エディタによる自動改行で
+> +  パッチが壊されないよう注意してください。
+> 
+>  圧縮の有無にかかわらず、パッチを MIME 添付ファイルとして添付しては
+> -いけません。多くの一般的なメールアプリケーションは、MIME 添付
+> -ファイルを常にプレーンテキストとして送信するとは限らず、あなたの
+> -コードにコメントできなくなります。MIME 添付ファイルは Linus が
+> -処理するのにも少し余分な時間がかかるため、MIME 添付された変更が
+> -受け入れられる可能性を下げます。
+> +いけません。よく使われるメールアプリケーションの多くは、MIME 添付
+> +ファイルをプレーンテキストとして送信するとは限らず、あなたのコードに
+> +対するコメントを妨げます。MIME 添付ファイルは Linus (訳補: をはじめ
+> +とする開発者）が処理するのに余分な手間がかかるため、MIME 添付すると
+> +その変更が受け入れられる可能性を下げることになります。
+> 
+> -例外:  メーラがパッチを壊してしまう場合は、誰かから MIME を使って
+> -再送するよう求められることがあります。
+> +例外:  パッチがメーラーによって壊されている場合に、MIME による再送
+> +を求められることがあります。
+> 
+> -パッチを変更せずに送信するようメールクライアントを設定するための
+> -ヒントについては、Documentation/process/email-clients.rst を参照してください。
+> +改変なしにパッチを送信するためのメールクライアント設定のヒントは、
+> +Documentation/process/email-clients.rst を参照してください。
+> 
+> 
+> -レビューコメントに返答する
+> +レビューコメントに応答する
+>  --------------------------
+> 
+> -あなたのパッチには、ほぼ確実に、パッチを改善する方法について
+> -レビューアからコメントが付きます。それは、あなたのメールへの返信という
+> -形で届きます。それらのコメントには必ず返答してください。レビューアを
+> -無視することは、こちらも無視されるためのよい方法です。コメントに
+> -答えるには、単にそのメールへ返信すれば構いません。コード変更に
+> +あなたのパッチには、ほぼ確実に、その改善に向けてレビューアから
+> +コメントが付きます。それは、あなたのメールへの返信という
+> +形で届きます。それらのコメントには必ず応答してください。レビューアを
+> +無視することは、あなたが無視されることにつながります。コメントに
+> +答えるには、単にそのメールへ返信すればよいです。コード変更に
+>  つながらないレビューコメントや質問であっても、次のレビューアが状況を
+> -よりよく理解できるように、ほぼ確実にコメントまたは changelog エントリに
+> -反映すべきです。
+> -
+> -どのような変更を行うのかをレビューアに必ず伝え、時間を割いてくれた
+> -ことに感謝してください。コードレビューは疲れる、時間のかかる作業であり、
+> -レビューアが不機嫌になることもあります。そのような場合であっても、
+> -丁寧に返答し、指摘された問題に対応してください。次の版を送るときは、
+> -cover letter または個々のパッチに ``patch changelog`` を追加し、前回の
+> +よりよく理解できるよう、多くの場合、コメントまたは changelog エントリ
+> +として残すべきです。
+> +
+> +どのような変更を行うのかを忘れずにレビューアに伝えてください。そして
+> +時間を割いてくれることへの感謝を忘れないでください。
+> +コードレビューは疲れる、時間のかかる作業であり、
+> +ときにはレビューアが機嫌を損ねることもあります。そのような場合でも、
+> +丁寧に応答し、指摘された問題に対応してください。次の版を送る際には、
+> +カバーレターまたは個々のパッチに ``patch changelog`` を追加し、前回の
+>  投稿との差分を説明してください。詳細は原文の該当節
+>  ("The canonical patch format") を参照してください。
+> 
+>  .. TODO: Convert to file-local cross-reference when the destination is
+>     translated.
+> 
+> -あなたのパッチにコメントした人には、パッチの Cc リストに追加して、
+> -新しい版を知らせてください。
+> +あなたのパッチにコメントしてくれた人たちは、パッチの Cc リストに追加して
+> +新しい版について知らせてください。
+> 
+>  メールクライアントとメーリングリストでの作法についての推奨事項は、
+>  Documentation/process/email-clients.rst を参照してください。
+> 
+> -メール議論では不要な引用を削った interleaved replies を使う
+> -------------------------------------------------------------
+> +要点に絞ったインライン返信での議論
+> +---------------------------------------
+> 
+> -Linux カーネル開発の議論では、top-posting は強く非推奨とされています。
+> -Interleaved replies、または ``inline`` replies を使うと、会話の流れを
+> -ずっと追いやすくなります。詳細は次を参照してください:
+> +Linux カーネル開発の議論では、全文引用 (訳註: top-posting) は強く非推奨です。
+> +インライン返信 (訳註: interleaved reples or "inline" replies) を使うと、
+> +会話の流れをずっと追いやすくなります。詳細は次を参照してください:
+>  https://en.wikipedia.org/wiki/Posting_style#Interleaved_style
+> 
+> -メーリングリストでは、よく次のように引用されます::
+> +これについて、メーリングリストでは、次の引用をしばしば目にします::
+> 
+>    A: http://en.wikipedia.org/wiki/Top_post
+>    Q: Where do I find info about this thing called top-posting?
+> @@ -381,24 +380,25 @@ 
+> https://en.wikipedia.org/wiki/Posting_style#Interleaved_style
+>    Q: Should I include quotations after my reply?
+> 
+> 
+> -落胆しない、そして急がない
+> ---------------------------
+> +落胆しない - いらいらしない
+> +---------------------------
+> 
+>  変更を投稿した後は、辛抱強く待ってください。レビューアは忙しい人たちであり、
+> -あなたのパッチをすぐに見られるとは限りません。
+> +あなたのパッチにすぐに取りかかれるとは限りません。
+> 
+>  かつては、パッチが何のコメントもなく虚空へ消えていくこともありましたが、
+>  現在の開発プロセスはそれよりも円滑に機能しています。数週間以内、
+>  通常は 2〜3 週間以内にコメントを受け取るはずです。そうならない場合は、
+>  パッチを正しい場所へ送ったか確認してください。再投稿したりレビューアに
+> -ping したりする前に、少なくとも 1 週間は待ってください。merge window の
+> -ような忙しい時期には、さらに長く待つ方がよい場合もあります。
+> +ping したりする前に、少なくとも 1 週間は待ってください。マージ期間
+> +(訳註: merge window) のような忙しい時期には、さらに長く待ちましょう。
+> 
+> -数週間後に、subject line に "RESEND" を追加して、パッチまたは
+> -パッチシリーズを再送しても構いません::
+> +数週間後に、サブジェクト (訳註: subject line) に "RESEND" を追加して、
+> +パッチまたはパッチシリーズを再送しても構いません::
+> 
+>     [PATCH Vx RESEND] sub/sys: Condensed patch summary
+> 
+> -パッチまたはパッチシリーズの修正版を投稿する場合は、"RESEND" を
+> -追加しないでください。"RESEND" は、前回の投稿から一切変更していない
+> -パッチまたはパッチシリーズを再送する場合にのみ使います。
+> +ただし、パッチまたはパッチシリーズの修正版を投稿する際には "RESEND"
+> +を追加しないでください。
+> +"RESEND" は、前回の投稿から一切変更のないパッチまたはパッチシリーズの
+> +再送だけに当てはまります。
+> 
+> base-commit: 2933b82083e758fe6cfff570143541d4dba672c3
