@@ -1,254 +1,247 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011005.outbound.protection.outlook.com [52.101.52.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0387C361DBC
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 16:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783527067; cv=none; b=o1MTeZ6kKB4cel2+uoq/pfcP3qAbNQGffvAyCPicSLhly0CjbIdDhq4eZTvgfiNE16NE3T2WgRjbXVZT4PJhpSRStJpu+Ch8yYs/YQHKt++esravaUen90aIFut31xrSx/yCfpIYzMqjpiozXpyknod7gsFMhgABITEJBSAPSPo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783527067; c=relaxed/simple;
-	bh=V5ux1nZN04PwAUuGu52W1iz2CbiB1pVFL2Nt7W3m3IM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dTnLqZZ+Wd4TZmoJZi63ccEAb/7fmIurpKeq5XjLx3dIeXpuDUBnUnFzx8w2nvhNtXyoEcsGNygwsxBYgTOoeiBRy9x+F87bDlOF8PIsRog+TOFhkdQdu8AMPmMFV0L6AmRwDprx+P2IAUSC+I0c86uv+OgNqThoCa/9Zn7/Y88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c05qyYMt; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=c9Zr6g/4; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5CDF41CB50;
+	Wed,  8 Jul 2026 16:13:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.5
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783527220; cv=fail; b=EerrdyrbaZmWSt9lcH6nEVtbY6Yu0fxoTdWN6Uq2WeW9hECDjGbQpuKQAn5N14Btw7hFk2VCaN/LzcaJAeaM8d47U0vZTcnjH8Okq7EcJGHqcxgEKrJxmMlaJyH6WNqVUEFu00qRmQqk7/DUv8g9vW/2dsMNh+gVA67vm6/WjQo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783527220; c=relaxed/simple;
+	bh=XKC6pmuTiF12GB5R1VLQXIcKiaMAEn+Rmph2IJZk10s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=UH8SLMJa5O7E32Lp7y1IBFNqmQhcB/gAsRaQJbEwMb6sGPSlNlM0/p411QIDqIJz0Cq6Pa2rGiUYiluNcAMwKdMWDeqrI1z6eBL+1adYFnaaDniEsYShZGDSOqTf30kCfX/xsqgIm5eZWP95jToy3b5L4Co9M1QqHQvVjyqy8uE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=fail (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=X/CRvFPF reason="signature verification failed"; arc=fail smtp.client-ip=52.101.52.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c05qyYMt";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="c9Zr6g/4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783527065;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vo2GCqsDo0gKVs+6QoyTlZNbpg5pdmI6w3O4Dfz0CRY=;
-	b=c05qyYMt4hmFy/zGuvHscBLYVbcYYgTcspxosMPWmFznJ7O0iCF7M9KwsJS19859/jRZOq
-	vdBHQ5KXLDimh7j6WVgmcvP5CVL+FzaQvm7fSCcqarhD92e30xEYU+Q/jhLIYVErDM+vqt
-	+ImiQscojBfIQ7sICn4Cj7oHkw8vfhE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-161-snkOy9gmMPu36N3vZ1WpFQ-1; Wed, 08 Jul 2026 12:11:03 -0400
-X-MC-Unique: snkOy9gmMPu36N3vZ1WpFQ-1
-X-Mimecast-MFC-AGG-ID: snkOy9gmMPu36N3vZ1WpFQ_1783527062
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-475b0b4e8d5so908166f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 09:11:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1783527062; x=1784131862; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vo2GCqsDo0gKVs+6QoyTlZNbpg5pdmI6w3O4Dfz0CRY=;
-        b=c9Zr6g/4UBNEzkylVPUrye7+0oJXUDCK9+qFDRhqr9mpYSHVH8XRHfw7WXwcDuhojo
-         4DCfx9YyXvdJ+oJKvW6SyQ4izFgdZ18H8Aq8jQAioJbPkBJEt8KQJZFKzTrZpvhIppA0
-         ni6fQqVw4u0P+V4oS6xYEDAejoosNaeaSkL4gE41NUUNx84N09aYBiNdVqbGtwwnVB7d
-         9AFZMXeN20YZCndhTlMEUfa0to5tJiXD56o61b39+3UuSwORnP6Q03zIpgnMv7BIJfbh
-         ZSt9wc5JzRRg3CQFEdj/z5x+XWLx7yY5mWkRtF3ZhEAHsdUS0hbTLaNIgPAbL078iBNB
-         H82Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783527062; x=1784131862;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vo2GCqsDo0gKVs+6QoyTlZNbpg5pdmI6w3O4Dfz0CRY=;
-        b=CzlLRc7P3S+yiaIDlvpoMxq3Tb+a9ccNX0BFsap8qSUCJzj5L3g7VWOupKcvcDcvIh
-         arc9uGxXO2VgLVBmDinsmoquWg4JpjkC8iNISB3PtcM4azbXcDzvNVR3vRCBc09MeYV7
-         NPdLbTL1acpvEa4hOsarqLNqup2ELdIfVWqW8amFPxknkVePhZFSGVvy2OBK9MOUEW/A
-         3xdlnmskmHFFTpBio8UssUunMbAMYYAepY4AQET1b0I+ZmtJKaLRfArVPmKZYNNEGWWo
-         Y6KmdisvWAy2BMVFJ28KDO1Moyy7swkBtJL82b9/2eSfpYdk9vw9C0U14uy+6ZYY/0u2
-         cpkw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr20aO95d2IqvLoiVSLwd6n9R+FTKOtm4NvKnKftudrHUL1F9DxJmEQzXb0FqqfmSG3ZAKY8qYaArw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4Xrh6Dbt54IHnuUEtPFjXAPDMFtYf6VRYjaJqTtv1ez1DSfIp
-	UhK/nNuJHIrq9bKSG11JwntBJRo+yLAOk9QJN7y5tJZvBeRWj/L9Xa1JoVqqLUnNvP8EHkYaEXB
-	nAgm1cV1HhhtYJ9wLN/V9v86IkwGWpnNg7qskcILEqVXVS23zY45Pm4JKG1VN4Q==
-X-Gm-Gg: AfdE7cngwpV9mxUz3vNVvruhuXJ9KINeYbq/UcnaNoPfmhsJswkBM2LHpxrrTR7xXZV
-	ps3uH1tBoTlNSy7pPl36m+jyYw+fdhXwwHtu/JBWX199TO8N8lRcoquk765TvRGoDHKyHCbIYxY
-	rUzZoL6BnpUj1dWTLUG+p9htphYCANSoWU6wTsBPXMehx5V+WYgPjZyUHVk0YmNABSWaVoDwn/d
-	lfsWEuzzD1S99rmy0U4ZYO725FIIi2hiSZwre0SI21rDKcYoZoA48673WUcl3HTSXbG42K/XeUA
-	xbVQBSDAE1VH2TM4n3+fLg/7didU/1dFteUWh75ZtL2dZq4bV3JMt9rP66QtYF0oTI3NH1QLM1c
-	ya7yhdSiV3or5WbOfeFgS5pPuAs8D+Usm
-X-Received: by 2002:a5d:5e8c:0:b0:46d:8169:bb39 with SMTP id ffacd0b85a97d-47df075c5eemr3831553f8f.37.1783527062163;
-        Wed, 08 Jul 2026 09:11:02 -0700 (PDT)
-X-Received: by 2002:a5d:5e8c:0:b0:46d:8169:bb39 with SMTP id ffacd0b85a97d-47df075c5eemr3831505f8f.37.1783527061636;
-        Wed, 08 Jul 2026 09:11:01 -0700 (PDT)
-Received: from redhat.com (IGLD-80-230-68-31.inter.net.il. [80.230.68.31])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e4d8410sm44511080f8f.15.2026.07.08.09.10.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 09:11:00 -0700 (PDT)
-Date: Wed, 8 Jul 2026 12:10:57 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Simon Schippers <simon.schippers@tu-dortmund.de>
-Cc: Brett A C Sheffield <bacs@librecast.net>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Tim Gebauer <tim.gebauer@tu-dortmund.de>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v2] tun/tap & vhost-net: make qdisc backpressure
- opt-in via IFF_BACKPRESSURE
-Message-ID: <20260708120925-mutt-send-email-mst@kernel.org>
-References: <20260706094242.115992-1-simon.schippers@tu-dortmund.de>
- <akt_Q7kdR3Zb8_GZ@karahi.librecast.net>
- <20260706091706-mutt-send-email-mst@kernel.org>
- <2728c540-2e76-4e06-9064-ed1dff071cbe@tu-dortmund.de>
- <akvhhy_JpH64KrcL@karahi.librecast.net>
- <0d28fdc4-3c03-48d6-bd59-e59f7a01f4b6@tu-dortmund.de>
- <ak1cIAwQzKS35x0m@karahi.librecast.net>
- <c743935b-7b6f-49f4-b1dd-3fe1cc528464@tu-dortmund.de>
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="X/CRvFPF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y7EL0XZxmoI2ekOMc07caPtgEo7+uQkZiydsr1zTiEDDJyW6U3+7Frq+E6exCfbeSzlZAdqWUL+NeuprkDvOp/cYh1VMbsZoLNSVJjj4VcltTkvHLjWbJj3qcIgO7pg1ni51hbMKf3UfgVGlCfWv1XdeOkB+h7uEo4SYN8oAygbmETDqhQZucPtwr42v9cE2ed1+vIMqsJAhpTH3ahaXm4S17uNoDzAEGF7huo0Dn0Ty7YIM52BjN00UD9zaT1U8zTviXzGTwDIF/r33rHjoMtX4xT5XHtXPaQHZL6lviB3WZwSqy7f5gDaVUZqAk8stqxk4wpzY+R4l4KIHGsyVKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EMOI6d38p+crCdzPv13nQcSZa17tcdGB0DQiDKlgDEg=;
+ b=ixMMwntWvjOpfqgHUWb1ndhy1pCwNgR1eCHZ0KhJlIGOLKGm6L9GFzEA6juNHZXc+3UCZPCNJ75TRf/tpNoelOmaO4poRE7dlkH8Mn41VkmcvXLqJCYLKprmy0Tio2p3gL5XG99/glml+Qgbx9EBfHvKyCR7W7fldxcIxlBancJPfbI2EDQePjTRI22f+DMYU1q3kx52A6kscDW9JnQu2+7sRgjacWgdesL2uvF9MxJiAVs+hbYIdAdWwSrd/wxOXi9uEQr5q4h5e8OrNsMn7xYCbKtswKWqfnIAtH/KZvL+ilJr3zELQT3w5t0RaUcVI3RlpJ6lCgVSY7o8q5jVog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EMOI6d38p+crCdzPv13nQcSZa17tcdGB0DQiDKlgDEg=;
+ b=X/CRvFPFlmELzlhuVZKyDXwqvWW9AAYv3S/hERIMOcIl9+2aah9r6kZK1PbkFePO4EM9FYWorcJPdh/wenQ45oFi3DjOuL2jDPSdF+kS3e0z8uWLE6dV1Tuksg31UBF7SnEmhfSzwUKz4Muf4qcVy0xTJXucBUNLDuU/WyJ9n1CYsS6t74m0l94JAao1IlfCFDL7qe9IuyiJ5WqYB0phjrUhlmwfMDM6xyIrkDgzyfWz42DC0tRxznwvkZWTM/fDGtPbhzX+9kdjuUavV3IB+EEOPz3jcmq46ro8tNbuPkN7qQ3v/PwFM0zcuJj4/pmsrAgus8p+Q3fxRkL6P9OHSw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by CY5PR12MB9056.namprd12.prod.outlook.com (2603:10b6:930:34::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 8 Jul 2026
+ 16:13:26 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0181.014; Wed, 8 Jul 2026
+ 16:13:26 +0000
+Date: Wed, 8 Jul 2026 12:13:23 -0400
+From: Yury Norov <ynorov@nvidia.com>
+To: Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
+	corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
+	pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
+	huschle@linux.ibm.com, rostedt@goodmis.org,
+	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
+	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
+	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
+	christian.loehle@arm.com, tj@kernel.org,
+	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
+	rdunlap@infradead.org, kernellwp@gmail.com,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 20/23] virt/steal_monitor: Act on steal values at
+ regular intervals
+Message-ID: <ak53I9beUB-2plNQ@yury>
+References: <20260701141654.500125-1-sshegde@linux.ibm.com>
+ <20260701141654.500125-21-sshegde@linux.ibm.com>
+ <akwRJnQklymOjNTv@yury>
+ <6548b668-d3e1-42dd-be9f-2fe3193874a1@linux.ibm.com>
+ <be544e00-8cf7-4a09-8b13-2d8b5a98c2ce@linux.ibm.com>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <be544e00-8cf7-4a09-8b13-2d8b5a98c2ce@linux.ibm.com>
+X-ClientProxiedBy: SJ0PR13CA0043.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c2::18) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c743935b-7b6f-49f4-b1dd-3fe1cc528464@tu-dortmund.de>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|CY5PR12MB9056:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5f6d1dcc-28a8-446e-a621-08dedd0bd713
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|11063799006|56012099006|4143699003|18002099003|3023799007|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	SeD8G3vptedMrqjFG6bIwtUps976tL4xFCTRNIeiB9V8UIYDaob87IkpNfHIRHfV7tznxe/ysBE63beZ0IiSPVAjWxeEBDVfCDf1iwcXWv64klWVU8VDsAk5ojSgO4uSLrlYmaf+nAPHSNgYKFJbI6QfbcVSdhrIhOOXytixUGibD0qWVVbeKKOggHx2DUPGaXkTHbGg2wTv316ILVun23bxXOiMlXBjBaZDAao1nfWErGCxbWizNCtKE+2sDrvbGkhAcv2mwgeUV0Wz4P4frpOK7RrPjvaJbm+vrXUI+dv/zblHWcr442dlZvsomn8TOiCX7tiPs+/FRGbrtn+M4HvuftHbR/LK48gap0+uctO14IzpT3feERIT/6KZEckEVMjS5h/uUUhuIyz4Pi4wi1638/W1R64lZ4LDdzVF6Az21ku5qLAjaUaq5TETCdXrFM1O/nCr/B1dEh1TqCLqMKg9B8zQPoYXPPPvMY9x630MvGOCmNUZMGpaKvaN73hRoUs2fdg0YRxTecR8Q7bBSDLew9GOUBB8p17coIXZ5wfGn/2kPQr6jNntd5WoW7XXrQWGa+rJufV6Ov4ZhRGYXRiele8G04qX3mg63xkzLQ9Xqf225OLY2dURFBB/vYpatvkdVXBIiDiddpYKixXny2cf2/8cYOapX41RgjKgcwY=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(11063799006)(56012099006)(4143699003)(18002099003)(3023799007)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-1?Q?D8m1Ns8HRkUkxZEoKDTuyi76K7iVF9VJttv77TP4jW7O2RuhOTkC5Cnz0f?=
+ =?iso-8859-1?Q?r0Qe0mNKKbFWFk0ot784Hy/TbPqbRKWEeiL2pvd7cQJQolbPVIMp2E6j25?=
+ =?iso-8859-1?Q?YEMW9jcrdNezrcndGJh2Pd0D3YXDF3Z/boLsVBHgGMDAoToILC2zSbiRQB?=
+ =?iso-8859-1?Q?A2ZUu2cqE7dPPrb3Xh2AtfrMj8yzjPSb99ZLgodcbR5Qm5VBPQPfwonLe8?=
+ =?iso-8859-1?Q?GomreWpGYtjKX7wFX8b6wkhLj+nXByyuaEmHtHdK+NXaTx5wyC0vlAf/Ka?=
+ =?iso-8859-1?Q?UxG5C7rLio/6EzMYi9cVbS2bZOHz2DzhrLbSFlHpzCeGiR6EjX2y+zohZR?=
+ =?iso-8859-1?Q?3osgAwF2qPHFG/Awhd3qhscdP2JniV6m+VpnDX7VmuPs79ToOC4Rg2YN6/?=
+ =?iso-8859-1?Q?I0jAxlhkDsqiuKE1FJ2W7kt+Q/pN0jwjoXWDMoOhPgwWYGTJQAZlYvOXc8?=
+ =?iso-8859-1?Q?Sx50we/yh/nfSqB9s6pXw4EhyZIzLKx1/Tk4VzNLPBtlLfKcL7WgTPwHe/?=
+ =?iso-8859-1?Q?zAAFTWYFONx/jTi42UJ7w08dQWygSc96QyBfLCqQE+ay0POiGX9QVxJDlH?=
+ =?iso-8859-1?Q?YhS8MXNdO/Y9Mb4xLtFpwJlllIDV1B9/BTL+nIGJ3PZOds6DMsCoS5K7bK?=
+ =?iso-8859-1?Q?vwjGODmUbSRi0OANBMLkiNJLxTHbr61BgDUaJQQvdlB0RNooYgdTA9WZZk?=
+ =?iso-8859-1?Q?YxCXQh5Ip+bAIXn02K9ZcXYPPuC6L8shz60xS6zH0FgtzIq8GEvlKLredD?=
+ =?iso-8859-1?Q?avuoDvDItryjT7RwDV8eShdhLpHQvLcY8F4SNfHzyGKdfZEwp8lvJpjr/D?=
+ =?iso-8859-1?Q?rFS5y8PnfTpnldpnQPsw/atcP813HIoPOKrrQSE6ppqg99rSG0PlJ0CNW2?=
+ =?iso-8859-1?Q?CYnZJOHdmK5Tzf+LjvJk8WWwXbUbkU3rxgZmeB9zJtfz4v92jYZjHhHHaw?=
+ =?iso-8859-1?Q?VRyNTAHoFlWRFL5Ia2IsfzX9p+ShJsMQweEvaHHMatKbAXMLkyjwsariyg?=
+ =?iso-8859-1?Q?Ru4SYBeI8I4awUKT2vz1TGOblxrVn5hdl8r4K2tLTCY/956bZ4/BlgjG82?=
+ =?iso-8859-1?Q?5euHrH6TOTS88bfboptks/8lqSYSoPTR5xQ1M6nbKwgNGj+cpw1kGy6FrR?=
+ =?iso-8859-1?Q?qe58EqqPIbxDLIPFrM4ZZr78FBfGG9rlEoVwxUd8qHndQfU/VcSk//fbLY?=
+ =?iso-8859-1?Q?tFAe58wTXcxzVLjE0R+6FP2fwk5BhdPBBGok9Awgf6kVRzmT89eHiSuBT3?=
+ =?iso-8859-1?Q?ZuwToWzHAvQTtQf2xjGPE3ISPXa5UR+Zb2Z9NIXpk0tRQvicKfd50Ev5Mp?=
+ =?iso-8859-1?Q?AJJLxVdrRD/TvJ3br+3hRtQiyWQ3imvHUiGOrboK4hUog0poHfahIouBqm?=
+ =?iso-8859-1?Q?zVuBPARYL9TqeFZSQa/HqR2hLrjlWDvGLU8Ob4JUDPMbPyCXDenlDpXHeq?=
+ =?iso-8859-1?Q?ALKG6AsvLfEFrfBB5c33jix++6ActDpE2nCQrvgYHi4XyrtYen4afsl2r5?=
+ =?iso-8859-1?Q?Nj7BCdU5UDI5YJSD9Kb0gz1okp3UjYLZxoLYZ58XBZFVvndLt9xZp/uYXA?=
+ =?iso-8859-1?Q?sWgYJDd0UYIQamea4XXcMXApF5FsZG6Pm2DuBKzH+0pJ0x4sneizjIEkbw?=
+ =?iso-8859-1?Q?bre5dBE2Lt2wtJZ6biDKAF+QOVwqvdg51EsCWxWlrooVi4V+VP7/VAiuyW?=
+ =?iso-8859-1?Q?PxqBUMopIIjUi1+w2vFHBbRsyRi7h1aPvv6dEEIbvCJ3FzcD7749YzkVYk?=
+ =?iso-8859-1?Q?0qhMnW7biJjZPBPUAybjgiJis2G7jS69BHJ0IMfnJDViComXuOmIdrkdVV?=
+ =?iso-8859-1?Q?Qbrw/RhQOA=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f6d1dcc-28a8-446e-a621-08dedd0bd713
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2026 16:13:26.0504
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dPeuusz7hKws09nafQoKuUETORdHWEGGTYrIuyMBrTFpzD4eEbQl+Sp3M15dewBYWg2r5PjoKgVvhhF0nTJfYg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB9056
 
-On Wed, Jul 08, 2026 at 05:12:19PM +0200, Simon Schippers wrote:
-> On 7/7/26 22:05, Brett A C Sheffield wrote:
-> > On 2026-07-07 08:52, Simon Schippers wrote:
-> >> Brett, can you try the two attached patches here with iperf3?
-> >> I think testing with 8 and 16 threads is enough, so where there is a
-> >> regression.
-> >>
-> >> The two patches are about time when to wake:
-> >> Currently we wake after consuming half the internal ring buffer.
-> >> One of the attached patches wakes after 2 cachelines (128 of 1000
-> >> packets) and the other one just wakes once the ring buffer is empty.
-> >>
-> >> This would really help :)
-> > 
-> > Sure...
-> > 
-> > 
-> 
-> The reverted results for reference:
-> 7.2.0-rc1 reverted:
-> 
-> threads 1
-> [  5]   0.00-10.00  sec  15.3 GBytes  13.1 Gbits/sec  368            sender
-> [  5]   0.00-10.00  sec  2.00 GBytes  1.72 Gbits/sec                  receiver
-> 
-> threads 2
-> [SUM]   0.00-10.00  sec  15.9 GBytes  13.7 Gbits/sec  1567             sender
-> [SUM]   0.00-10.00  sec  4.00 GBytes  3.43 Gbits/sec                  receiver
-> 
-> threads 4
-> [SUM]   0.00-10.00  sec  16.5 GBytes  14.1 Gbits/sec  6701             sender
-> [SUM]   0.00-10.00  sec  8.00 GBytes  6.87 Gbits/sec                  receiver
-> 
-> threads 8
-> [SUM]   0.00-10.00  sec  16.2 GBytes  14.0 Gbits/sec  19319             sender
-> [SUM]   0.00-10.00  sec  15.7 GBytes  13.5 Gbits/sec                  receiver
-> 
-> threads 16
-> [SUM]   0.00-10.00  sec  14.4 GBytes  12.4 Gbits/sec  43593             sender
-> [SUM]   0.00-10.00  sec  14.4 GBytes  12.4 Gbits/sec                  receiver
+On Wed, Jul 08, 2026 at 04:03:18PM +0530, Shrikanth Hegde wrote:
 > 
 > 
-> > 7.2.0-rc2 (unpatched)
-> > 
-> > threads 1
-> > [  5]   0.00-10.00  sec  20.4 GBytes  17.5 Gbits/sec    0            sender
-> > [  5]   0.00-10.00  sec  2.00 GBytes  1.72 Gbits/sec                  receiver
-> > 
-> > threads 2
-> > [SUM]   0.00-10.00  sec  12.7 GBytes  10.9 Gbits/sec    0             sender
-> > [SUM]   0.00-10.00  sec  4.00 GBytes  3.43 Gbits/sec                  receiver
-> > 
-> > threads 8
-> > [SUM]   0.00-10.00  sec  11.5 GBytes  9.85 Gbits/sec    0             sender
-> > [SUM]   0.00-10.01  sec  11.4 GBytes  9.83 Gbits/sec                  receiver
-> > 
-> > threads 16
-> > [SUM]   0.00-10.00  sec  11.6 GBytes  9.95 Gbits/sec    0             sender
-> > [SUM]   0.00-10.01  sec  11.5 GBytes  9.91 Gbits/sec                  receiver
+> On 7/7/26 12:46 PM, Shrikanth Hegde wrote:
 > > 
 > > 
-> > 7.2.0-rc2 with 0001-tun-set-waking-threshold-to-ptr_ring_empty.patch
+> > On 7/7/26 2:03 AM, Yury Norov wrote:
+> > > On Wed, Jul 01, 2026 at 07:46:51PM +0530, Shrikanth Hegde wrote:
+> > > > This is the steal_monitor core functionality done in periodic work
+> > > > 
+> > > > - Calculate the steal_ratio. It is multiplied by 100 to consider the
+> > > >    fractional values of steal time. I.e 10 means 0.1% steal time.
+> > > > - If steal value is higher than high threshold, call the method
+> > > > to reduce
+> > > >    the preferred CPUs.
+> > > > - If steal value is lower or equal to low threshold, call the method to
+> > > >    increase the preferred CPUs.
+> > > > - If the steal value is in between, no action is taken.
+> > > > - Save the values for next delta calculations.
+> > > > 
+> > > > Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+> > > > ---
+> > > > v5->v6:
+> > > > - Address u64 overflow concerns.
+> > > > 
+> > > >   drivers/virt/steal_monitor/sm_core.c | 33 ++++++++++++++++++++++++++++
+> > > >   1 file changed, 33 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/virt/steal_monitor/sm_core.c
+> > > > b/drivers/virt/ steal_monitor/sm_core.c
+> > > > index b499faa61010..7b7435f79b85 100644
+> > > > --- a/drivers/virt/steal_monitor/sm_core.c
+> > > > +++ b/drivers/virt/steal_monitor/sm_core.c
+> > > > @@ -34,6 +34,37 @@ MODULE_PARM_DESC(low_threshold,
+> > > >   static void compute_preferred_cpus_work(struct work_struct *work)
+> > > >   {
+> > > > +    u64 curr_steal, delta_steal, delta_ns, steal_ratio;
+> > > > +    ktime_t now;
+> > > > +
+> > > > +    curr_steal = get_system_steal_time();
+> > > > +    now = ktime_get();
+> > > > +
+> > > > +    /* get the deltas */
+> > > > +    delta_steal = curr_steal > sm_core_ctx.prev_steal ?
+> > > > +              curr_steal - sm_core_ctx.prev_steal : 0;
+> > > > +    delta_ns = max_t(u64, ktime_to_ns(ktime_sub(now,
+> > > > sm_core_ctx.prev_time)), 1);
+> > > 
+> > > The below return on '!delta_ns' makes this max(...) useless, right?
+> > > Regardless, if the time between 2 measures is less then 1ns, I
+> > > believe, the whole measure is not trustworthy
+> > > 
 > > 
-> > threads 1
-> > [  5]   0.00-10.00  sec  19.6 GBytes  16.8 Gbits/sec    0            sender
-> > [  5]   0.00-10.00  sec  2.00 GBytes  1.72 Gbits/sec                  receiver
+> > Seeing sashiko comment on divide by zero, i forgot I had max above there :(
 > > 
-> > threads 2
-> > [SUM]   0.00-10.00  sec  11.1 GBytes  9.50 Gbits/sec    0             sender
-> > [SUM]   0.00-10.00  sec  4.00 GBytes  3.43 Gbits/sec                  receiver
-> > 
-> > threads 8
-> > [SUM]   0.00-10.00  sec  10.8 GBytes  9.25 Gbits/sec    0             sender
-> > [SUM]   0.00-10.01  sec  10.7 GBytes  9.23 Gbits/sec                  receiver
-> > 
-> > threads 16
-> > [SUM]   0.00-10.00  sec  10.9 GBytes  9.34 Gbits/sec    0             sender
-> > [SUM]   0.00-10.01  sec  10.8 GBytes  9.30 Gbits/sec                  receiver
-> > 
-> > 
-> > 7.2.0-rc2 with 0001-tun-set-waking-threshold-to-tx_ring.batch.patch
-> > 
-> > threads 1
-> > [  5]   0.00-10.00  sec  19.6 GBytes  16.9 Gbits/sec    2            sender
-> > [  5]   0.00-10.00  sec  2.00 GBytes  1.72 Gbits/sec                  receiver
-> > 
-> > threads 2
-> > [SUM]   0.00-10.00  sec  13.9 GBytes  11.9 Gbits/sec    0             sender
-> > [SUM]   0.00-10.00  sec  4.00 GBytes  3.43 Gbits/sec                  receiver
-> > 
-> > threads 8
-> > [SUM]   0.00-10.00  sec  12.7 GBytes  10.9 Gbits/sec    0             sender
-> > [SUM]   0.00-10.01  sec  12.3 GBytes  10.6 Gbits/sec                  receiver
-> > 
-> > threads 16
-> > [SUM]   0.00-10.00  sec  12.5 GBytes  10.7 Gbits/sec    0             sender
-> > [SUM]   0.00-10.00  sec  12.4 GBytes  10.7 Gbits/sec                  receiver
-> > 
-> > 
-> > 
-> > HTH,
-> > 
-> > 
-> > Brett
+> > > > +
+> > > > +    /* Update for next calculation */
+> > > > +    sm_core_ctx.prev_steal = curr_steal;
+> > > > +    sm_core_ctx.prev_time = now;
+> > > 
+> > > So below return should go prior to this update, because 'now' is actually
+> > > the same as 'prev_time', right?
+> > > 
+> > > I don't understand why 'now' can be so close to prev_time, because
+> > > you've scheduled this callback on the regular interval. But if that's
+> > > possible, can you explain that and do like this at the very beginning
+> > > of the function:
+> > > 
 > 
-> Thank you again!
+> I don't think it is possible.
 > 
-> These results show that waking earlier performs better in this case:
-> For 8 threads we get 10.6 Gbit/s instead of 9.83 Gbit/s when waking early
-> but we are still *far* from the 13.5 Gbit/s when we revert everything
-> (see above I pasted the reverted results there).
+> > >          now = ktime_get();
+> > >          if (unlikely(now < sm_core_ctx.prev_time +
+> > > sm_core_ctx.interval / 2)) {
+> > >                  pr_warn(...);
+> > >                  return;
+> > >          }
+> > 
+> > Pretty much, just have to requeue the work.
+> > 
+> > > 
+> > > And if it's a never-happen condition, just use WARN_ON().
+> > > 
 > 
-> So I come to the conclusion:
+> I have decided keep just max_t() to ensure no divide by zero happens.
 > 
-> 1. Waking earlier/later will not fix the performance issues. It may
->    improve the performance slightly.
->    Apart from that we introduce smp_mb__after_atomic() for the re-check
->    on producer side (noop on x86) and a full smp_mb() for the re-check on
->    consumer side.
->    Nothing else stands out to me apart from the overheads of
->    netif_tx_stop_queue() and netif_tx_wake_queue(). But we must use
->    those 2 functions one way or another.
-> 
-> 2. Users may depend on the dropping. Without backpressure tun/tap acts
->    like a pfifo qdisc which tail-drops. Some users may require this.
-> 
-> --> I would merge this opt-in patchset, it should be fine (it is not
->     flagged by Sashiko anymore btw). I would not be mad if it would not
->     get merged but I am out of ideas on how to improve.
-> 
-> Thanks,
-> Simon
+> Issue with putting sm_core_ctx.interval_ms check is that, one may edit
+> it while the work is queued, but not yet called. It would print wrongly
+> in that case.
 
-I am fine with it being opt in, but we IMHO, need to be more clear, for users,
-opt in to what this is.
+Who is that 'one'? If it's userspace, you can simply disallow changing
+the interval. If it's kernel, you're already compromised, and
+everything is not trustworthy.
 
--- 
-MST
+I would simply disallow to change any parameters while the driver is
+loaded. If I need to change something - I unload it and load with new
+interval, or whatever.
 
+> Even if work function gets called prematurely, it should be fine since the
+> steal also increases accordingly. No issues in delta logic.
+> 
+> So capping to 1 to ensure no divide by 0 happens due to scaling of
+> delta_ns is good enough.
+ 
+If there's 1 nanosecond between two calls, your statistics is very
+inaccurate, pretty much a noise. You want to make decision based on
+noise. That's simply wrong.
+ 
+> > Ya, it is a never-happen condition. I will use WARN_ON.
+> > 
