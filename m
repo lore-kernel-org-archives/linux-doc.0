@@ -1,104 +1,116 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECAF3403FE;
-	Wed,  8 Jul 2026 04:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9DF642088E;
+	Wed,  8 Jul 2026 04:34:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783484346; cv=none; b=NFwfdWwT3y/+5d31/288KrS5ba2gE89l6jD1utA0KwicAVCpY83HEZKuIMYTJeeIkYxIrji2WJ5ItjFA3Y/KgMjGSpWLwqMsZZexUjKWT+LrtLqUwpjZj75/xJvDx3SCtKHoZXfsCuEelexU52nWytz7V20D5/AdZfCUj1eGWbk=
+	t=1783485254; cv=none; b=f39U7YTy9sTd8gEPLZqrztw/oTi421BmBFbicNg76gEjSOfSTtpKQpzUkww44gXwBshsY18hq3d2EYZtduwkcEFVkPhhX8dYDEiSeE3KMjt3KKNNMgQaCBXpFCUrjeaNcWLi29EPpIDwDH8peUD4ctdotuZKWp0LYd9/IpCCe34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783484346; c=relaxed/simple;
-	bh=t9xbrvVv0BC+qXtaFOE/1qrhUeY+oiX8UVKiIi5zZ30=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jrp0Eab+E7Id1+TpZ6c6xtSND6BNUiNfn09yk3IZy1FkJ/WrXDQ+54s7555ddS//UYC0YXOhwo7cPZsHRsTj45NKO9VSaaWqwprOnzh+r5WpmbdoW9YY8DK2keoVmOSTK8wpO9y4HiesX2GAvsoEoVGYHd7sgVPQThg3j9yKa9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mvz5J5tM; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1783485254; c=relaxed/simple;
+	bh=js0llBOdkJNDIRk9T3auG88K93xaYSJmaQk2iydpp5E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FhqFZNJrmQo6APYdEh0t2YDHM0PDQx63NIpYiPUQ/b7SZYkIvr7MInQjy6YMixBGetXSk8WrzENlktxjgDkA4G0cRvvHLzUOBnNBN+bsZnxIv8Fz0UiaEsI9IPyOy1BDKhV7sec67dzCx2QV5aQi1o79211HcNy39Jz0eslYZvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Go9ex8q5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mvz5J5tM"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=qaxuoTtZwBt3Y13D9JDbs1NZnlcQC4SHVLf6/R9Bl3M=; b=mvz5J5tMiH2fYZDlgS05S4LwcM
-	6bmVhNRd9jZpt1VqOcu2jhi7wy+Ibs8AMobnfS6tNSyqeJeHw8I+kuHtz/dNn0AD4t8fNjSNGDsFU
-	TYL1/gLd9BTFw6B6HIZEX63opbaUC2fpnctNUC9+JF28evpeZk3T4mk84P0nNBwI/SxFLyG+a9Hmh
-	+Ey+7rQyfboYjEcp6XtHV8qJaQahGCWCQhQQWwbBw3a8rtMMe2shg+1HT/3E1+sptpEqwD3PGt3Ay
-	DHHbfA0X9OLCDlWmaLqEM6Tbo9q0vtYcaOCa1OjNEX5YA1ct0tEDvUYXw/B/k01KAB5iTAyiy3MxG
-	zaNZ9hFw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whJkS-0000000GJU8-1sPC;
-	Wed, 08 Jul 2026 04:19:00 +0000
-Message-ID: <ff4de85e-e21c-482b-b758-d2b43d786763@infradead.org>
-Date: Tue, 7 Jul 2026 21:18:59 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Go9ex8q5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC31B1F000E9;
+	Wed,  8 Jul 2026 04:34:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783485253;
+	bh=e2ISK8b2fzjNMIJpxR6K8Mnj8XL4W13/HvIME0ErR+Q=;
+	h=From:To:Cc:Subject:Date;
+	b=Go9ex8q5UxgrpwTHFuXcI5YhEqr9bCEccsVQM+S4R74URoauHENCw/L7dSZvZszJU
+	 624M2tTGJQ45iaEU7fsvoQVTAOhpIjrNKzDH2tKBS8KCx9aKwRnJxCd1m31jt3z9nm
+	 dSE4UYVF9uMHshijC0kRaV2A+yufHYC7dnyikpGXfud65aTcLQI+KVQhngNGj0r1pK
+	 FxQewuZcT6Oxhg4ck+L9wlNdXrI2ng+LeZYEaHOxfTOAhVR68QBbWAHg3dgGvM3DBa
+	 4RmDtG+J+td0OAH660X4+312pBfZC7CfPngbHmTMVtTPl7ZMk53cQo6Pi56hE8NIFi
+	 II/43KPNgjkbQ==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	tzungbi@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	tfiga@chromium.org,
+	senozhatsky@chromium.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v6 0/2] PM: dpm_watchdog: Improve DPM watchdog configurability
+Date: Wed,  8 Jul 2026 04:33:15 +0000
+Message-ID: <20260708043317.2980098-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.55.0.795.g602f6c329a-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/kernel-parameters: fix brackets
-To: Manuel Ebner <manuelebner@mailbox.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: Kernel Janitors <kernel-janitors@vger.kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260703080806.223782-2-manuelebner@mailbox.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260703080806.223782-2-manuelebner@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+This series improves the configurability of the DPM watchdog.
 
+Currently, the DPM watchdog is always enabled if compiled in.  Also, the
+module parameters defined in drivers/base/power/main.c use the generic
+and non-descriptive "main" prefix.
 
-On 7/3/26 1:08 AM, Manuel Ebner wrote:
-> Add a few missing ']'s and a ')'.
-> 
-> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+This series addresses these limitations.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
+Patch 1 renames the module parameter prefix for
+drivers/base/power/main.c from "main" to "pm".
 
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index b5493a7f8f22..60777968a063 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6413,9 +6413,9 @@ Kernel parameters
->  	reboot=		[KNL]
->  			Format (x86 or x86_64):
->  				[w[arm] | c[old] | h[ard] | s[oft] | g[pio]] | d[efault] \
-> -				[[,]s[mp]#### \
-> +				[[,]s[mp]]#### \
->  				[[,]b[ios] | a[cpi] | k[bd] | t[riple] | e[fi] | p[ci]] \
-> -				[[,]f[orce]
-> +				[[,]f[orce]]
->  			Where reboot_mode is one of warm (soft) or cold (hard) or gpio
->  					(prefix with 'panic_' to set mode for panic
->  					reboot only),
-> @@ -6875,7 +6875,7 @@ Kernel parameters
->  			xtime_lock contention on larger systems, and/or RCU lock
->  			contention on all systems with CONFIG_MAXSMP set.
->  			Format: { "0" | "1" }
-> -			0 -- disable. (may be 1 via CONFIG_CMDLINE="skew_tick=1"
-> +			0 -- disable. (may be 1 via CONFIG_CMDLINE="skew_tick=1")
->  			1 -- enable.
->  			Note: increases power consumption, thus should only be
->  			enabled if running jitter sensitive (HPC/RT) workloads.
-> @@ -6916,7 +6916,7 @@ Kernel parameters
->  			apic=verbose is specified.
->  			Example: apic=debug show_lapic=all
->  
-> -	slab_debug[=options[,slabs][;[options[,slabs]]...]	[MM]
-> +	slab_debug[=options[,slabs][;[options[,slabs]]...]]	[MM]
->  			Enabling slab_debug allows one to determine the
->  			culprit if slab objects become corrupted. Enabling
->  			slab_debug can create guard zones around objects and
+Patch 2 introduces the "dpm_watchdog_enabled" module parameter to allow
+enabling/disabling the watchdog at boot time and runtime.  It also adds
+CONFIG_DPM_WATCHDOG_ENABLED to set the default value of the module
+parameter at compile time.
+
+The primary motivation for this configurability revolves around Android
+GKI (Generic Kernel Image).  We want to enable CONFIG_DPM_WATCHDOG in
+the GKI so the feature is available.  However, because the GKI is shared
+across many different devices, we don't want to inadvertently affect
+devices that are unaware of this feature.  This provides a way to
+compile it in, but keep it disabled by default for those devices via the
+kernel command line or module parameters.
+
+To maintain backward compatibility, CONFIG_DPM_WATCHDOG_ENABLED relies
+on `default y`.  Previously, the DPM watchdog was always active if
+CONFIG_DPM_WATCHDOG was set.  Defaulting this new option to 'y' ensures
+that the behavior remains unchanged for existing users and defconfigs
+when they upgrade.
+---
+v6:
+- Change the prefix "pm_sleep" -> "pm".
+
+v5: https://lore.kernel.org/all/20260701045640.3130090-1-tzungbi@kernel.org
+- Rebase to v7.2-rc1.
+- Fix Signed-off-by lines.
+
+v4: https://lore.kernel.org/all/20260611021219.2093476-1-tzungbi@kernel.org
+- Address review comments.
+- Patch 3 in v3 has applied separately.
+
+v3: https://lore.kernel.org/all/20260608021526.1023248-1-tzungbi@kernel.org
+- Address review comments on patch 2.
+
+v2: https://lore.kernel.org/all/20260604090756.2884671-1-tzungbi@kernel.org
+- Form a new series.
+
+v1: Doesn't exist.
+
+Tzung-Bi Shih (2):
+  PM: sleep: Rename module parameters prefix to "pm"
+  PM: dpm_watchdog: Allow disabling DPM watchdog by default
+
+ Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
+ drivers/base/power/main.c                       | 14 ++++++++++++++
+ kernel/power/Kconfig                            | 10 ++++++++++
+ 3 files changed, 31 insertions(+)
 
 -- 
-~Randy
+2.55.0.795.g602f6c329a-goog
+
