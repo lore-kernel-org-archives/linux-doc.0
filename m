@@ -1,68 +1,67 @@
 Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136663ACF16
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 02:18:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECCA3B5310
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 02:18:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783477134; cv=none; b=PCanggzwExs835rTitBBFsvvwSFzZiAposF2v4sZzN/w4HPcxsoDd5QaA4Y4hWF9MLlxeF+NrpCBBdPORLBFeKX6ZuqrdDwq0fboUYd2LBPRGPtLnBzeXOrxxQf2ZOzL9cYUnybv5dTvLlHKZF9XIxuPXe3CH51L2f/GeZxCVg4=
+	t=1783477136; cv=none; b=akNxVV+ZFXXP2eXMJbDsoFn0nExJ1RqPxiMuuX12+zx/fq/j4YVphfq0ocgBIBsLHb+F31T55uzkNmVkcwpufqaZ0fI9duJnRcy1pzBQ7KRr/oFx4KGWw9g3kTLse0fU2FYD5e85oflQRADYNCGMHMlJCSkNUu/Gp8sdPRavcMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783477134; c=relaxed/simple;
-	bh=cOvO6sx3YqLFd3U+lr49fTx42/CUMz8iaG20o06tc/Q=;
+	s=arc-20240116; t=1783477136; c=relaxed/simple;
+	bh=RzrIxar2pUCMOS3uvTB/QLvw+jvQ/WW5WK4QNk+y9is=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=imY9SKXyeLAHZfCkKTnR0t4Rhl6LSTOlW6BHk2R8KTzf8iqJRGzLc5i6DRD9zF80ukIHa5CJMDzPXzqUDhCEXEr50rvwUh4x9SrOjzxngYvy5K1W+Hmly0/LjYUStBFXbVRO8UL31hpUye7eUrCR8UPxg3Ww1K/fmKCC9yfcHxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rKBQhxlS; arc=none smtp.client-ip=209.85.167.176
+	 In-Reply-To:To:Cc; b=qNo7gFB20RZXUnoBZPgCpOx2pox8IeurItQiwbDyPQ7NUCuILizA9CrVwO9NsYsC3kIe9jq794RoOzVgUrUe37rk7ZbsaUNrXtnTRWhd3l0TvDhtDcdaK9JzqhbzAiznnBdFU136TwHIlyhldpVYUOuDPsMBJ3sKjYpML2Xml4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RawzE/oM; arc=none smtp.client-ip=209.85.167.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rKBQhxlS"
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-495d310b587so71294b6e.3
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 19:18:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RawzE/oM"
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-491f5e6d564so114258b6e.1
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2026 19:18:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783477129; x=1784081929; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783477131; x=1784081931; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=l/mBb0fGCUwSIYa5j0WOJP7wxrKLNvtiy/Z40bYPFTI=;
-        b=rKBQhxlSZsCCIYPy4cXSy9IvRV6WsF8ApUKiNTBn6LiX9ASXPTYFezer2qFdLHu0mc
-         4PTZWnZsQyIVbFOuJ12y5VDQJS4KhPJkxsAMGQX2mx8I7v2bmljaKmNrRuNf2wH/XN86
-         iIuZO28J3/NZXa0+iiOZuK+RaPHZXrbSj9Bo8HqZwLIcjRZywxLMWhtxdrm9A8nrbca0
-         SLJqFXQ7UWHeHikArbj8w9YWnwv8vH7tcb9elnSxOv8KcEj9gn4XaNbTBgnYo3LFki/M
-         xC6vdWHj+RvF3q3ZhcxoI6qqL16Rqy+iChjZJCXz0SE2SrS9hmtBa+S/bA4kQx07Lyiz
-         Ii7A==
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QOLvA6jbnfc/c27LIRV0n7mgdpMF8Pu4CkvMzdxT5Oc=;
+        b=RawzE/oMue/piQV++icXw0F+RDPbPpDEUvGqUB7VF97m6IqcGARSA7HeK7Hp4jjZNp
+         tDt9yK1BnsklU1cS3BOwcUiSykywzAllsfJroPhnWIlAp8iPi2zWo9yyBhIWh2Trj2bD
+         H0w3o2diliuFb+bFhU/fTgZmR76an9ulJVBg3cYrcgjr4N5z1bXBR5b+VLQvQoh90LQG
+         8fbDPvPl5/zWXu9iPFsb6Lbqk5onbZC6OhmPkHjgq1Q7G/vCQ2FlmdQEMbdyUy703DDc
+         X0sbQUM5exOzEsXqsFRXtR+WTwpf6jXrO2Eu8BceTwt3i2h6X7v7qXX19Ne/J4t4kUeX
+         NggQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783477129; x=1784081929;
+        d=1e100.net; s=20251104; t=1783477131; x=1784081931;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=l/mBb0fGCUwSIYa5j0WOJP7wxrKLNvtiy/Z40bYPFTI=;
-        b=MaiQVSSZfPkGsVlg0EMp93AXfeK3PA6s8cHdgqhv5qOMvsLOQADr9bqkOp/uAZi2FF
-         iaZ8seZaMXx9temcCcuFH8fI2MFc+epba6erZA0K7XA3yMSsfFJsGk4ka2oE48PzbJwl
-         UXyr5MDRKqWx0L+kx+zKJbkvcfYRo0yCaWyYf2gv/iw61A02+fPkXQsDXYmbeRL6zM0N
-         aKI0RVbebDLSO+djgealFPgnDYmTvJK0EVTOeVTdGHdn2Lo151dwblErEj7u0X0GXx9x
-         Ep22QzTSJyUf8jWg9FdOpVXcQo25hnuOb2RI2QCiRZZCgmXoBw+uOD2RGRjI44IwWnvb
-         2Hxg==
-X-Forwarded-Encrypted: i=1; AFNElJ/7e9cDFfoDvFaazQoIsE6rDNUqFLxMPgGtb7omJVcwgwipAmM/wTn0kJzHEe94FSzXJLgeDLYbMTM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7HWhX/bYfwyE/q5GFe8FVbjnjKpKhIyJeyZavi1gBttHYh4wt
-	CnrMM3t2uTecBF7ofPFlJqDRSeQGpYPM1lUv/OXhj3u1SJv670mCkWRB
-X-Gm-Gg: AfdE7ckA4Pz4Z1rsHrUyj1ve3czhgtzPFVNmnURxx3TgKFWV7kSz97ahBtcjmLSUKnm
-	ywL/z1EHQNdkC40GBeXOWxGidgQ4iWmgZraYabAiTexj+Iv7beAy6EBcbptAhg7LsejzwM3lZ1k
-	6HR5Qdomp/QVXMterqeBmTjlmlkfVKZB8Y16LfwVXkiNod0JOH+U6nMvRUpYNbZos+moax4ioSs
-	VW2GTc2WjBvtK1fAzeEpAjx327ntNH610rbO9/rT30iB3PdliyR3GSLf7ENeaHaWk0UiQUV6xxm
-	4YgOVJj6QEncc0dCKXRhHSJXqjnkFTFTsCOEGiF2/RYqv4rIEp9cnpNFEBKMwttlQOjKZUToNu2
-	KuC4dSND8wjrx6VxThE7kM6LA4+iT62YwOvT/y0NM/8YlekmKSs1GVcjC6bNjDc5DZ/xI0LwKkj
-	LsaBi6YlfwiEAb6kWv/T9asXoh9qvTJVOBZSUuX1wMWtlb7qzngfw=
-X-Received: by 2002:a05:6808:690a:b0:491:3ade:8b9e with SMTP id 5614622812f47-4a204be6dafmr307849b6e.36.1783477128889;
-        Tue, 07 Jul 2026 19:18:48 -0700 (PDT)
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=QOLvA6jbnfc/c27LIRV0n7mgdpMF8Pu4CkvMzdxT5Oc=;
+        b=G6WPrdJkQ15EhxrelpNUSuEynfNXGPiEOYFk+WOFnT8T8Cb5/xqbp3bwAQnJxCmn8F
+         g3RNtQcFopJACnOdH8aSZu9mFkaqoxN76WI+NvZ69CXK7wI3Ekso8FKcl4JXYuwQi5Ja
+         2RI2S0WPodR5am66AMkIZ7sTzoKWTIE0w13iTPZZGGb41mCQrOKvb2DSdKCCtwf6AkBS
+         OU25g/E7UqpzpMzRnIW+DhonFkOTb29kAWTe0jlT2Nb6JBlLzEODs7FZAiZUf3/l4sbI
+         3ajjbLfsvSZy7+SYmL0dOP0C6N/NbiOqlBG6rmaraGxMGHgbD/Nvr1O5JzRGo0eWydSs
+         CgWw==
+X-Forwarded-Encrypted: i=1; AFNElJ8DRwAypW/Mj57Qb11orhOcdCfjlw88HlkCizA9qq3jHGruv1L8itx/NVAEdWydwhjXvitql98qzw4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyz7zuO0DCRw91dXHv76zwPv+Bt/A2BmKmD9T/DnHAwodqbF8d5
+	ghxPFcfBS/fzd+aCO1YZX8dButQuBKMpcsUscYVU18movQ+oiBIxVrzg
+X-Gm-Gg: AfdE7clM/5+KiFPTFdpcxOT30ECG9SI+5cNh/AVkxW5rkVhVfvS9R7onIm8nzH9vQAx
+	xGrv2uqBgM8WjrzIi2y6nPqN4SpLgPY71oFoUz4HcZ25NWpr55UdQSTFds98ARnUkx6t9PqgKz9
+	BzS0XbCkk3Bdi+oMeDojS7gbpnUHdXZfr9JKAaIdxQU479HCaZuTJXLt6muf/ZIew6WRcbGeFaI
+	cKubwoMYO3BVAoa+Ok4/Ze6ApIbe9pgWB14ZBXzKyOTQMdGBxd245aoAa9ElKFrfaQRGTE/tPg8
+	5Qnng2IIXU9VJ+GoV9McWx/TAZ2n4CNdO5dNsZrqnnrxxzQOyYyH0s7UEpduqgDH+RRDNhn37HP
+	2s0zYdbUo5Et17Txj+aUgGNl/0fnP41o7vPr5Z8EXqlhl9XUmGrpzoGxqf9wHJcUjVVeTNxEo9D
+	1fO3PqWbSsM4NyGsIV106XJjZZcjTVvJlnE9ndU67fO0O4bb7bduM=
+X-Received: by 2002:a05:6808:5282:b0:486:5466:e41f with SMTP id 5614622812f47-4a204dfcdddmr356853b6e.38.1783477131430;
+        Tue, 07 Jul 2026 19:18:51 -0700 (PDT)
 Received: from [192.168.0.245] (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
-        by smtp.googlemail.com with ESMTPSA id 5614622812f47-4a1aa006f74sm799975b6e.0.2026.07.07.19.18.47
+        by smtp.googlemail.com with ESMTPSA id 5614622812f47-4a1aa006f74sm799975b6e.0.2026.07.07.19.18.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 19:18:48 -0700 (PDT)
+        Tue, 07 Jul 2026 19:18:50 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
-Date: Tue, 07 Jul 2026 20:18:13 -0600
-Subject: [PATCH v6 13/24] lib/parser: add match_wildcard_hyphen() for
- agnostic matching
+Date: Tue, 07 Jul 2026 20:18:14 -0600
+Subject: [PATCH v6 14/24] dyndbg: use KBUILD_MODFILE for unique builtin
+ module names
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260707-dd-maint-2-v6-13-381f3edb0045@gmail.com>
+Message-Id: <20260707-dd-maint-2-v6-14-381f3edb0045@gmail.com>
 References: <20260707-dd-maint-2-v6-0-381f3edb0045@gmail.com>
 In-Reply-To: <20260707-dd-maint-2-v6-0-381f3edb0045@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -87,134 +86,202 @@ Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org, 
  linux-modules@vger.kernel.org, Jim Cromie <jim.cromie@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783477102; l=4222;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783477102; l=8855;
  i=jim.cromie@gmail.com; s=20260203; h=from:subject:message-id;
- bh=cOvO6sx3YqLFd3U+lr49fTx42/CUMz8iaG20o06tc/Q=;
- b=fH4cz7gW7gQleI3gjGUtJ+SY/4OyEbN39bNTdvRHLXKHHDuXqOnwRFYYoExs8ygRoRpHkgAe6
- ZV6Ju8DSs2hD4+zruFWjdvsTEtNVTmLSJGv4jSilNH7wWImQjGLOnL4
+ bh=RzrIxar2pUCMOS3uvTB/QLvw+jvQ/WW5WK4QNk+y9is=;
+ b=4pdYgovF1y3kKIJY82j0T/no333FMDF5fzRY2h/fx9JHNadGa2pvTJOqoUfZuFklQ55qGYPf1
+ Tar3TCfcnkUDklwUc2pomUMYzZVTNDPTSxfOp9++JLHtY0kEWMLy2AE
 X-Developer-Key: i=jim.cromie@gmail.com; a=ed25519;
  pk=C6E5ODlPQo7ZBynATXH9wg7K6HxP0pIXyf4s38Qw0XE=
 
-This commit introduces match_wildcard_hyphen() as a variant of the
-existing match_wildcard() function. It treats hyphens and underscores
-as identical characters during the matching process.
+Historically dynamic-debug gets its module names from KBUILD_MODNAME.
+This works well for loadable modules, as the module loader has always
+required them to have unique names, but for builtins it is basically
+kbasename(srcfile), which sadly gives us many modules named "main".
 
-This is necessary for subsystems like dynamic_debug that need to match
-module names provided by users (who often use underscores) against
-names stored in the kernel (which may use hyphens, especially when
-using KBUILD_MODFILE for built-ins).
+IOW, it makes this ambiguous:
+  bash-5.3# echo module main +m > /proc/dynamic_debug/control
 
-To avoid code duplication, the core logic is refactored into a private
-__match_wildcard() function marked as __always_inline. This allows the
-compiler to generate optimized versions for both the strict and agnostic
-callsites with zero runtime overhead.
+since it would affect all 4 independent modules named main:
+  bash-5.3# ddgrep =m
+  init/main.c:1265 [main]initcall_blacklist =m "blacklisting initcall %s\n"
+  kernel/power/main.c:49 [main]pm_restore_gfp_mask =m "GFP mask restored\n"
+  kernel/module/main.c:2862 [main]move_module =m "\t0x%lx 0x%.8lx %s\n"
+  drivers/base/power/main.c:149 [main]device_pm_add =m "Adding info for %s:%s\n"
+
+We can improve this by using KBUILD_MODFILE for dyndbg's modname in
+builtins (which is unique), and KBUILD_MODNAME for loadables (which is
+already required/guaranteed to be unique by module-loader):
+
+The above control-file entries then become:
+  init/main.c:1265 [init/main]initcall_blacklist ...
+  kernel/power/main.c:49 [kernel/power/main]pm_restore_gfp_mask ...
+  kernel/module/main.c:2862 [kernel/module/main]move_module ...
+  drivers/base/power/main.c:149 [drivers/base/power/main]device_pm_add ...
+
+While this is a user visible change; [params] becomes [kernel/params]
+etc, it is not a behavior change; we now match the query-module
+against the subsystem/module name or its kbasename (the
+simple-modname), which as before, matches all 4 modules.
+
+This allows queries to be specific when desired: "module init/main",
+while preserving the existing meaning of "module main"
+
+The deeper reason for this change is not obvious.  If any builtin
+"main" module were to add a classmap, it would attach to all "main"
+modules.  If 2 "main" modules defined separate classmaps, both modules
+would inadvertently share both classmaps.  Since classmaps map
+classnames to 0..62, and independently defined classmaps are most
+likely to start at 0 (unless author is planning to share the 0..62
+range with other classmaps), we have a setup for later reserved range
+conflicts.  Having unique names prevents future conflicts.
+
+This solution isn't perfect:
+1. it changes displayed [params] to [kernel/params] etc
+2. its mostly redundant with "filename */main.*"
+3. Ideally, queries like "module power", "module module", "module
+   base/power" might be better but would break old queries.
+
+Adding classmaps to the builtins named "[main]" is unlikely, so this
+change isn't absolutely necessary, but it seemed proper to at least
+address the latent problem.
+
+Adjust Documentation with "simple modname" and "subsystem modname".
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
 v5: move ahead of array-slice patch to silence sashiko complaint about it
-v4: initial version
+v4: call match_wildcard_hyphen() to allow dash vs underscore modname equivalence
+v3: use KBUILD_MODFILE to give unique modnames for builtins
 ---
- include/linux/parser.h |  1 +
- lib/parser.c           | 58 +++++++++++++++++++++++++++++++++++++-------------
- 2 files changed, 44 insertions(+), 15 deletions(-)
+ Documentation/admin-guide/dynamic-debug-howto.rst | 42 +++++++++++++----------
+ include/linux/dynamic_debug.h                     | 15 ++++++--
+ lib/dynamic_debug.c                               |  3 +-
+ 3 files changed, 38 insertions(+), 22 deletions(-)
 
-diff --git a/include/linux/parser.h b/include/linux/parser.h
-index dd79f45a37b8..a3cc7bc5fb93 100644
---- a/include/linux/parser.h
-+++ b/include/linux/parser.h
-@@ -34,6 +34,7 @@ int match_u64(substring_t *, u64 *result);
- int match_octal(substring_t *, int *result);
- int match_hex(substring_t *, int *result);
- bool match_wildcard(const char *pattern, const char *str);
-+bool match_wildcard_hyphen(const char *pattern, const char *str);
- size_t match_strlcpy(char *, const substring_t *, size_t);
- char *match_strdup(const substring_t *);
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 9c2f096ed1d8..99bbae37d34e 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -38,12 +38,12 @@ You can view the currently configured behaviour in the *prdbg* catalog::
  
-diff --git a/lib/parser.c b/lib/parser.c
-index 62da0ac0d438..d5be01fa9adf 100644
---- a/lib/parser.c
-+++ b/lib/parser.c
-@@ -268,20 +268,13 @@ int match_hex(substring_t *s, int *result)
- }
- EXPORT_SYMBOL(match_hex);
+   :#> head -n7 /proc/dynamic_debug/control
+   # filename:lineno [module]function flags format
+-  init/main.c:1179 [main]initcall_blacklist =_ "blacklisting initcall %s\n"
+-  init/main.c:1218 [main]initcall_blacklisted =_ "initcall %s blacklisted\n"
+-  init/main.c:1424 [main]run_init_process =_ "  with arguments:\n"
+-  init/main.c:1426 [main]run_init_process =_ "    %s\n"
+-  init/main.c:1427 [main]run_init_process =_ "  with environment:\n"
+-  init/main.c:1429 [main]run_init_process =_ "    %s\n"
++  init/main.c:1179 [init/main]initcall_blacklist =_ "blacklisting initcall %s\n"
++  init/main.c:1218 [init/main]initcall_blacklisted =_ "initcall %s blacklisted\n"
++  init/main.c:1424 [init/main]run_init_process =_ "  with arguments:\n"
++  init/main.c:1426 [init/main]run_init_process =_ "    %s\n"
++  init/main.c:1427 [init/main]run_init_process =_ "  with environment:\n"
++  init/main.c:1429 [init/main]run_init_process =_ "    %s\n"
  
--/**
-- * match_wildcard - parse if a string matches given wildcard pattern
-- * @pattern: wildcard pattern
-- * @str: the string to be parsed
-- *
-- * Description: Parse the string @str to check if matches wildcard
-- * pattern @pattern. The pattern may contain two types of wildcards:
-- *
-- * * '*' - matches zero or more characters
-- * * '?' - matches one character
-- *
-- * Return: If the @str matches the @pattern, return true, else return false.
-- */
--bool match_wildcard(const char *pattern, const char *str)
-+static inline char dash2underscore(char c)
-+{
-+	return (c == '-') ? '_' : c;
-+}
+ The 3rd space-delimited column shows the current flags, preceded by
+ a ``=`` for easy use with grep/cut. ``=p`` shows enabled callsites.
+@@ -59,10 +59,10 @@ query/commands to the control file.  Example::
+ 
+   :#> ddcmd '-p; module main func run* +p'
+   :#> grep =p /proc/dynamic_debug/control
+-  init/main.c:1424 [main]run_init_process =p "  with arguments:\n"
+-  init/main.c:1426 [main]run_init_process =p "    %s\n"
+-  init/main.c:1427 [main]run_init_process =p "  with environment:\n"
+-  init/main.c:1429 [main]run_init_process =p "    %s\n"
++  init/main.c:1424 [init/main]run_init_process =p "  with arguments:\n"
++  init/main.c:1426 [init/main]run_init_process =p "    %s\n"
++  init/main.c:1427 [init/main]run_init_process =p "  with environment:\n"
++  init/main.c:1429 [init/main]run_init_process =p "    %s\n"
+ 
+ Error messages go to console/syslog::
+ 
+@@ -161,17 +161,21 @@ file
+ 	file kernel/freezer.c	# ie column 1 of control file
+ 	file drivers/usb/*	# all callsites under it
+ 	file inode.c:start_*	# parse :tail as a func (above)
+-	file inode.c:1-100	# parse :tail as a line-range (above)
++	file inode.c:1-100	# parse :tail as a line-range (below)
+ 
+ module
+-    The given string is compared against the module name
+-    of each callsite.  The module name is the string as
+-    seen in ``lsmod``, i.e. without the directory or the ``.ko``
+-    suffix and with ``-`` changed to ``_``.  Examples::
+-
+-	module sunrpc
+-	module nfsd
+-	module drm*	# both drm, drm_kms_helper
++    The query string is compared against the subsystem module name of
++    each callsite, as shown in the control file, or its simple name.
++    The simple module name is the string as seen in ``lsmod``,
++    i.e. without the directory or the ``.ko`` suffix and with ``-``
++    changed to ``_``.
++    Examples::
 +
-+static __always_inline bool __match_wildcard(const char *pattern, const char *str,
-+					     bool hyphen_agnostic)
- {
- 	const char *s = str;
- 	const char *p = pattern;
-@@ -301,7 +294,9 @@ bool match_wildcard(const char *pattern, const char *str)
- 			pattern = p;
- 			break;
- 		default:
--			if (*s == *p) {
-+			if (hyphen_agnostic ?
-+			    (dash2underscore(*s) == dash2underscore(*p)) :
-+			    (*s == *p)) {
- 				s++;
- 				p++;
- 			} else {
-@@ -319,8 +314,41 @@ bool match_wildcard(const char *pattern, const char *str)
- 		++p;
- 	return !*p;
- }
-+
-+/**
-+ * match_wildcard - parse if a string matches given wildcard pattern
-+ * @pattern: wildcard pattern
-+ * @str: the string to be parsed
-+ *
-+ * Description: Parse the string @str to check if matches wildcard
-+ * pattern @pattern. The pattern may contain two types of wildcards:
-+ *
-+ * * '*' - matches zero or more characters
-+ * * '?' - matches one character
-+ *
-+ * Return: If the @str matches the @pattern, return true, else return false.
++        module nfsd        # simple modname (as from lsmod)
++	module init/main   # subsystem modname (as in control file)
++	module */main	   # any subsystem ending in main
++        module main	   # simple modname, selects same as above
++	module drm*	   # both drm, drm_kms_helper
+ 
+ format
+     The given string is searched for in the dynamic debug format
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index 9ae1accb9bf6..da9e5c35bc43 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -10,6 +10,17 @@
+ 
+ #define __DDEBUG_ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
+ 
++/*
++ * Pick the best name for the module:
++ * KBUILD_MODFILE includes the path (e.g., drivers/usb/core/usbcore) for built-ins.
++ * Fall back to KBUILD_MODNAME for modules (loader requires unique names).
 + */
-+bool match_wildcard(const char *pattern, const char *str)
-+{
-+	return __match_wildcard(pattern, str, false);
-+}
- EXPORT_SYMBOL(match_wildcard);
- 
-+/**
-+ * match_wildcard_hyphen - parse if a string matches given wildcard pattern
-+ * @pattern: wildcard pattern
-+ * @str: the string to be parsed
-+ *
-+ * Description: Same as match_wildcard, but treats '-' and '_' as identical.
-+ *
-+ * Return: If the @str matches the @pattern, return true, else return false.
-+ */
-+bool match_wildcard_hyphen(const char *pattern, const char *str)
-+{
-+	return __match_wildcard(pattern, str, true);
-+}
-+EXPORT_SYMBOL(match_wildcard_hyphen);
++#ifdef KBUILD_MODFILE
++# define DDEBUG_MODNAME KBUILD_MODFILE
++#else
++# define DDEBUG_MODNAME KBUILD_MODNAME
++#endif
 +
- /**
-  * match_strlcpy - Copy the characters from a substring_t to a sized buffer
-  * @dest: where to copy to
+ /*
+  * An instance of this structure is created in a special
+  * ELF section at every dynamic debug callsite.  At runtime,
+@@ -121,7 +132,7 @@ struct ddebug_class_param {
+ 	static struct ddebug_class_map __aligned(8) __used		\
+ 		__section("__dyndbg_classes") _var = {			\
+ 		.mod = THIS_MODULE,					\
+-		.mod_name = KBUILD_MODNAME,				\
++		.mod_name = DDEBUG_MODNAME,				\
+ 		.base = _base,						\
+ 		.map_type = _maptype,					\
+ 		.length = (sizeof(_var##_classnames) / sizeof(_var##_classnames[0])), \
+@@ -160,7 +171,7 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
+ #define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt)	\
+ 	static struct _ddebug  __aligned(8)			\
+ 	__section("__dyndbg") name = {				\
+-		.modname = KBUILD_MODNAME,			\
++		.modname = DDEBUG_MODNAME,			\
+ 		.function = __func__,				\
+ 		.filename = __FILE__,				\
+ 		.format = (fmt),				\
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index 2e321b7eb957..ce42e03f1600 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -239,7 +239,8 @@ static int ddebug_change(const struct ddebug_query *query,
+ 
+ 		/* match against the module name */
+ 		if (query->module &&
+-		    !match_wildcard(query->module, dt->mod_name))
++		    !match_wildcard_hyphen(query->module, dt->mod_name) &&
++		    !match_wildcard_hyphen(query->module, kbasename(dt->mod_name)))
+ 			continue;
+ 
+ 		if (query->class_string) {
 
 -- 
 2.55.0
