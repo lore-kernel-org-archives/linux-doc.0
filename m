@@ -1,185 +1,74 @@
-Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44BF23EB7FD;
-	Wed,  8 Jul 2026 09:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C55DD384CC2;
+	Wed,  8 Jul 2026 10:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783503854; cv=none; b=PpwJ6PLtGdPujJRc3c+2fk4wk2vyY+s5ADywBEEdpQJemK77oEqueHAW6qAGXNyZ0xWVFbI7GHDHFTq3DciURVgHdlCocHsIOvu3+/rl1HU0EVo6JT0ilYwYrJm2P+IxCMmo4ubrjcYHYytIkwhiV3m+24tFAzNcLOuryc04oUA=
+	t=1783504835; cv=none; b=AW0kt4LF6uw3EYQWJUhhOXe1WaEjVfSoCyuOZccD0Inrx14IP8kuROfo1kSOCgtt9pSTwtGlhO97KI6yZPQYSawhOJbEU4TNJ1nFyo4x3Mxn9L8oSsenp8I5nyEE2EzrjQCSO/4GKRiw6yzDAXCt0jwxkDHaLTQWQi6p6XioV9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783503854; c=relaxed/simple;
-	bh=iAp/2iIyG11ZG11l4saqEYvca5yGcgnsjr+HcDo3CNI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c/LtMsvPazK76nmGy3d/QSkc/LYLtFLeZrSVYO2VYpdrlu9gx4fvNeYMZNZfpiiQVcmNajWhEWvFqiop6IRiLBBUyFwWxssfr5ypqsMpWbRRnaw8QgSZ3JLQwrxzECmoGFWQD4BeZ9WajVC4N8jEHUdUBgHXV+i1C9KB+f46vfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=i5/M71p/ reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
+	s=arc-20240116; t=1783504835; c=relaxed/simple;
+	bh=8oFU73UDNb1/JzzX/59Hz8/SUvhrGo6jInm1l2EOvkk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=SC5yzpSvK+qioOC/ZeUDXoB2yw9xxs6s9n7xuNKHvxQZbu1v9OHI8sJKa8fT88LErKD0Wv7SqF8UGnPqpPfMPvEmoukrMeUcc70wKyQucY2LtyHypMQa/u2IpIeSOZ5LNTHmeFtnZtmZIyP6FJ9MkTk5Oq4SEjUYmxIT3zmAEqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=K2QzZNWS; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="i5/M71p/"
-Received: from [133.11.54.183] (h183.csg.ci.i.u-tokyo.ac.jp [133.11.54.183])
-	(authenticated bits=0)
-	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 6689hWTh023275
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 8 Jul 2026 18:43:33 +0900 (JST)
-	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
-DKIM-Signature: a=rsa-sha256; bh=5rGUgl8D8cEFi7JteuJI6fPSAC+UPbsjLAqZsYFvBLY=;
-        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
-        h=From:Message-ID:To:Subject:Date;
-        s=rs20250326; t=1783503813; v=1;
-        b=i5/M71p/b8sSTK+HDV4OHUq/SgIc9wIyvsE8xdPImpdn4DlyASk6OCwfGZiB4AV7
-         QixiwPfKNM++x5DdafRW/wl24DGg0NFa9IXroeXxpS7Ln4z8cH+dgAgzI2mNJDsa
-         UV9SYpU2sL7Fj/lLqQ2OhnQvVNrtgUbruVG3CpWZtD6XWrqmqcyKKmBQhedrymw/
-         b7yXnKmuqBcMfeGZn753Chok+ZaLEfh/NCxlJHLRF1R24b5NQelMjxXXrRqf2tfc
-         j0RVP2JGVBe8gnVi4sSl4zm+FMOJgW7vQqeWrmMc7510oHCGR+oU4a8OvPvWYPt/
-         /diQ9dYSZcwlUnWPP3IqKg==
-Message-ID: <a2d7ed42-b82e-4c0c-8985-32c12d7c49b0@rsg.ci.i.u-tokyo.ac.jp>
-Date: Wed, 8 Jul 2026 18:43:32 +0900
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="K2QzZNWS"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B75871E5E;
+	Wed,  8 Jul 2026 03:00:28 -0700 (PDT)
+Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 31A4B3F85F;
+	Wed,  8 Jul 2026 03:00:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1783504833; bh=8oFU73UDNb1/JzzX/59Hz8/SUvhrGo6jInm1l2EOvkk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=K2QzZNWS5qvtc90qr2P/bmEBxGozBIkajd4g2BYgXL6Gp07XfQg2fDAaRimBjytR3
+	 AnMyVUC1k+1MwDKxSrlcekXCA+Xo6jxwuhPGUKvb9LNjSYAl8jWKoOD6L8rj1fhHUR
+	 MBLQpicTg0GtL6aQ3jsYy8mAbKKMKwErUf1HScIM=
+Date: Wed, 8 Jul 2026 11:00:27 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Shyam Saini <shyamsaini@linux.microsoft.com>
+Cc: Mike Rapoport <rppt@kernel.org>, ardb@kernel.org, david@kernel.org,
+	will@kernel.org, linux-arm-kernel@lists.infradead.org,
+	akpm@linux-foundation.org, bboscaccy@linux.microsoft.com,
+	bp@alien8.de, dapeng1.mi@linux.intel.com, ebiggers@kernel.org,
+	elver@google.com, enelsonmoore@gmail.com,
+	feng.tang@linux.alibaba.com, gpiccoli@igalia.com, kees@kernel.org,
+	kuba@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	lirongqing@baidu.com, peterz@infradead.org, rdunlap@infradead.org,
+	tgopinath@linux.microsoft.com, tony.luck@intel.com,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>
+Subject: Re: [RFC v2 PATCH] reserve_mem: add support for static memory
+Message-ID: <ak4fu1qINGyAQUEl@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 5/7] KVM: arm64: PMU: Implement fixed-counters-only
- emulation
-To: Oliver Upton <oupton@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu
- <yuzenghui@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-References: <20260706-hybrid-v8-0-de459617b59d@rsg.ci.i.u-tokyo.ac.jp>
- <20260706-hybrid-v8-5-de459617b59d@rsg.ci.i.u-tokyo.ac.jp>
- <akvyvclUQ2b2YHiU@kernel.org>
- <cb5d5f13-a1a9-47dd-a717-5533a8b32b20@rsg.ci.i.u-tokyo.ac.jp>
- <5e66748a-bfda-41a9-8614-88cbf2fe1f09@rsg.ci.i.u-tokyo.ac.jp>
- <ak0_PSnxyAWm9_Fu@kernel.org>
-Content-Language: en-US
-From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-In-Reply-To: <ak0_PSnxyAWm9_Fu@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260630170911.43521-1-shyamsaini@linux.microsoft.com>
 
-On 2026/07/08 3:02, Oliver Upton wrote:
-> On Tue, Jul 07, 2026 at 09:52:49PM +0900, Akihiko Odaki wrote:
->> On 2026/07/07 20:23, Akihiko Odaki wrote:
->>> On 2026/07/07 3:23, Oliver Upton wrote:
->>>> Just detect the changing PMU implementation here, KVM_REQ_RELOAD_PMU
->>>> will need to detect the PMCs that require an update anyway. Stash the
->>>> last cpu in kvm_arch_vcpu_load() and pass it to this:
->>>>
->>>> void kvm_vcpu_load_pmu(struct kvm_vcpu *vcpu, int last_cpu)
->>>> {
->>>>      if (!kvm_pmu_fixed_counters_only(vcpu->kvm) || vcpu->cpu == last_cpu)
->>>>          return;
->>>>
->>>>      if (kvm_pmu_probe_armpmu(vcpu->cpu) !=
->>>> kvm_pmu_probe_armpmu(last_cpu))
->>>>          kvm_make_request(KVM_REQ_RELOAD_PMU);
->>>> }
->>>
->>> It is a nice way to simplify the code and to avoid hardcoding
->>> ARMV8_PMU_INSTR_IDX. I'll use the code for the next version.
->>
->> I tried this but unfortunately it doesn't seem to work. kvm_arch_vcpu_put()
->> sets vcpu->cpu to -1 so we cannot simply read it to get the last cpu in
->> kvm_arch_vcpu_load().
-> 
-> Urgh, there's no reason for doing that any more. Let's fix it, I want a
-> straightforward way to detect pCPU migrations. There may be other
-> reasons for using it in the future.
-> 
-> Untested, but could you give this a whirl?
+Hi Shyam,
 
-It looks good to me. I'll test it and include it in the next version.
+Adding Lorenzo, Hanjun, Sudeep.
 
-Regards,
-Akihiko Odaki
+On Tue, Jun 30, 2026 at 10:09:11AM -0700, Shyam Saini wrote:
+> Following up on this, As Mike pointed that reserve_mem is best effort
+> reservation mechanism, so what is the recommended reliable Linux
+> mechanism, if any, to reserve a predetermined memory range during
+> early boot on ARM64/ACPI platforms for warm boot scenarios? KHO is
+> one option, but I'm specifically looking for a solution that preserves
+> the region across warm reboots.
 
-> 
->  From bb5af058030aada66f5c9eafa54db604979acf55 Mon Sep 17 00:00:00 2001
-> From: Oliver Upton <oupton@kernel.org>
-> Date: Tue, 7 Jul 2026 09:50:00 -0700
-> Subject: [PATCH] KVM: arm64: Don't clear vcpu->cpu in kvm_arch_vcpu_put()
-> 
-> commit e9b152cb957c ("arm/arm64: kvm: Set vcpu->cpu to -1 on vcpu_put")
-> reset vcpu->cpu in order for the VGIC to determine if there was any vCPU
-> running at the time of access. The VGIC has gone through an entire
-> rewrite since then, and with commit 7d450e282171 ("KVM: arm/arm64:
-> vgic-new: Add userland access to VGIC dist registers") the user
-> accessors just grab all vCPU mutexes instead.
-> 
-> Drop this remaining vestige such that kvm_arch_vcpu_load() can properly
-> detect a CPU migration. While at it, rework kvm_reset_vcpu() to do a
-> much more pedantic check that the provided vCPU is actually what's
-> running on the present CPU.
-> 
-> Signed-off-by: Oliver Upton <oupton@kernel.org>
-> ---
->   arch/arm64/kvm/arm.c   |  1 -
->   arch/arm64/kvm/reset.c | 15 ++++++++++-----
->   2 files changed, 10 insertions(+), 6 deletions(-)
-> 
-> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> index 50adfff75be8..735acc42b50b 100644
-> --- a/arch/arm64/kvm/arm.c
-> +++ b/arch/arm64/kvm/arm.c
-> @@ -749,7 +749,6 @@ void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
->   	kvm_arm_vmid_clear_active();
->   
->   	vcpu_clear_on_unsupported_cpu(vcpu);
-> -	vcpu->cpu = -1;
->   }
->   
->   static void __kvm_arm_vcpu_power_off(struct kvm_vcpu *vcpu)
-> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
-> index b963fd975aac..6aba085c0673 100644
-> --- a/arch/arm64/kvm/reset.c
-> +++ b/arch/arm64/kvm/reset.c
-> @@ -190,7 +190,8 @@ static void kvm_vcpu_reset_sve(struct kvm_vcpu *vcpu)
->   void kvm_reset_vcpu(struct kvm_vcpu *vcpu)
->   {
->   	struct vcpu_reset_state reset_state;
-> -	bool loaded;
-> +	struct kvm_vcpu *running;
-> +	bool loaded = false;
->   	u32 pstate;
->   
->   	spin_lock(&vcpu->arch.mp_state_lock);
-> @@ -198,10 +199,15 @@ void kvm_reset_vcpu(struct kvm_vcpu *vcpu)
->   	vcpu->arch.reset_state.reset = false;
->   	spin_unlock(&vcpu->arch.mp_state_lock);
->   
-> -	preempt_disable();
-> -	loaded = (vcpu->cpu != -1);
-> -	if (loaded)
-> +	guard(preempt)();
-> +
-> +	if ((running = kvm_get_running_vcpu())) {
-> +		if (KVM_BUG_ON(running != vcpu, vcpu->kvm))
-> +			return;
-> +
-> +		loaded = true;
->   		kvm_arch_vcpu_put(vcpu);
-> +	}
->   
->   	if (!kvm_arm_vcpu_sve_finalized(vcpu)) {
->   		if (vcpu_has_feature(vcpu, KVM_ARM_VCPU_SVE))
-> @@ -269,7 +275,6 @@ void kvm_reset_vcpu(struct kvm_vcpu *vcpu)
->   
->   	if (loaded)
->   		kvm_arch_vcpu_load(vcpu, smp_processor_id());
-> -	preempt_enable();
->   }
->   
->   u32 kvm_get_pa_bits(struct kvm *kvm)
+If you need ramoops-like support, I think ACPI ERST is a better fit and
+we don't need any memory reservation tricks. I'll let the arm ACPI
+maintainers comment further.
 
+-- 
+Catalin
