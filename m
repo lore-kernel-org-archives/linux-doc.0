@@ -1,128 +1,185 @@
-Received: from tpecef21.compal.com (exmail3.compal.com [59.120.207.196])
+Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FDF340BCC1;
-	Wed,  8 Jul 2026 09:30:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=59.120.207.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44BF23EB7FD;
+	Wed,  8 Jul 2026 09:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783503036; cv=none; b=ceBTo8N7yb5XSUOnx3nRWeww8p2Bl3SQ1XlVQ3vjHgTxrxMgeTvVebcxVZNeToN5M++R8t4e8tRflnGFLGUemGH7u+hPvwaucPS8g/EMMds802tPn3C5JqNnfFBQrR6zT1KaDWWo5Xo+KcsETyvqGbc+9sGE38G155Qha22Y5Js=
+	t=1783503854; cv=none; b=PpwJ6PLtGdPujJRc3c+2fk4wk2vyY+s5ADywBEEdpQJemK77oEqueHAW6qAGXNyZ0xWVFbI7GHDHFTq3DciURVgHdlCocHsIOvu3+/rl1HU0EVo6JT0ilYwYrJm2P+IxCMmo4ubrjcYHYytIkwhiV3m+24tFAzNcLOuryc04oUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783503036; c=relaxed/simple;
-	bh=fdXCHFlSHY6Pi75XVezjTuGAQRUzEJGxffv1ff2kPdo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=je4wM1L8bj+uoDJbaFBkEy6LRtG/jBG2MYovLdf1McACdrm9wlgv6ghqjnen4kKUr/R7pQvkM3Z12vO9zcf+MOLr5mMIQ2/AUBxdJK1gBje/h/TRGSR2gR+Eo26U3zGAia4gqU2U/bTJ1yefYRqfsnxxFE5jQ4TE/jO6129nMe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com; spf=pass smtp.mailfrom=compal.com; arc=none smtp.client-ip=59.120.207.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.com
-X-UUID: a318ae327aaf11f1b2470fb4f881575f-20260708
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.17,REQID:ace3b483-2243-4700-bb3f-c990361bb1fa,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:d497b38,CLOUDID:922b396e-22d0-4ede-bde2-6d8eba2d8269,B
-	ulkID:nil,BulkQuantity:0,SF:80|81|82|83|102|110|111|836|865|888|898,TC:-5,
-	Content:-10|0|15|50|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,B
-	EC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: a318ae327aaf11f1b2470fb4f881575f-20260708
-Received: from sdmg11.sdbg.compal.com [(10.113.168.9)] by tpecef21.compal.com
-	(envelope-from <jackbb_wu@compal.com>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 430219693; Wed, 08 Jul 2026 17:30:19 +0800
-X-UUID: a0d994747aaf11f1b328fd8a884f4420-20260708
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.15,REQID:67e242bb-a205-4bc1-8542-34d19cf307b3,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e276073,CLOUDID:b579e314-ea64-44d4-98db-4e1fb89955a3,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|865|888|
-	898,TC:-5,Content:-10|0|15|50|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:ni
-	l,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE
-	:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: a0d994747aaf11f1b328fd8a884f4420-20260708
-Received: from sdbmbx13.tpe.compalcomm.com [(10.113.2.137)] by sdmg11.sdbg.compal.com
-	(envelope-from <jackbb_wu@compal.com>)
-	(Compal Mail Service with TLSv1.2 ECDHE-RSA-AES128-SHA 128/128)
-	with ESMTP id 2050100014; Wed, 08 Jul 2026 17:30:16 +0800
-Received: from SDBMBX13.tpe.compalcomm.com (10.113.2.137) by
- SDBMBX13.tpe.compalcomm.com (10.113.2.137) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
- Wed, 8 Jul 2026 17:30:12 +0800
-Received: from SDBMBX13.tpe.compalcomm.com ([fe80::2b98:6c2c:37df:2a86]) by
- SDBMBX13.tpe.compalcomm.com ([fe80::2b98:6c2c:37df:2a86%11]) with mapi id
- 15.02.2562.043; Wed, 8 Jul 2026 17:30:12 +0800
-From: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
-To: Andrew Lunn <andrew@lunn.ch>
-CC: Loic Poulain <loic.poulain@oss.qualcomm.com>, Sergey Ryazanov
-	<ryazanov.s.a@gmail.com>, Johannes Berg <johannes@sipsolutions.net>, "Andrew
- Lunn" <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Wen-Zhi Huang <wen-zhi.huang@mediatek.com>, Shi-Wei Yeh
-	<shi-wei.yeh@mediatek.com>, Minano Tseng <Minano.tseng@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-mediatek@lists.infradead.org"
-	<linux-mediatek@lists.infradead.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>
-Subject: RE: [External Mail] Re: [PATCH v3 2/7] net: wwan: t9xx: Add control
- plane transaction layer
-Thread-Topic: [External Mail] Re: [PATCH v3 2/7] net: wwan: t9xx: Add control
- plane transaction layer
-Thread-Index: AQHdA/KoG0AzoVDQmky5mWyAxH40ubZVI4cU///wpwCABNxa7P//y6CAgAm0KDo=
-Date: Wed, 8 Jul 2026 09:30:12 +0000
-Message-ID: <e85332119e154021b062b5fc55c0e7b8@compal.com>
-References: <20260624-t9xx_driver_v1-v3-0-73ff03f60c48@compal.com>
- <20260624-t9xx_driver_v1-v3-2-73ff03f60c48@compal.com>
- <2a90ae6b-2b6d-4340-b557-915252cc3488@lunn.ch>
- <49939d4d682f4c1fb359973ea2cdbd00@compal.com>
- <92b1e341-31a1-4f60-80d5-ccf8f742a38a@lunn.ch>
- <4ec081f8df234cc584702abc67213965@compal.com>,<1e75c090-f4aa-4a02-82f5-fd4f3854acbe@lunn.ch>
-In-Reply-To: <1e75c090-f4aa-4a02-82f5-fd4f3854acbe@lunn.ch>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-30054.005
-x-tm-as-result: No-10--3.904000-8.000000
-x-tmase-matchedrid: CEwNJ/T/RZQuv++HU7VXryRFbfQbCufdN0X64jGy2db7+pncqRJfyx3E
-	y8bUOyJjLw+bI5poIljs40ztshOst3xCS+CiD3FqO9AbTF0WkMJ2Tr80kEaYUBxnMY5CbhsDBK5
-	jsahkTKnXaWrmEWCMgtXNOAQ2MSi2E+WLy1iJCWo58Sarp97J8xfqd/DJ3Zya7rEbQf2fdE7Y1X
-	9Lfi2tyajbSjLATgmfsOVWI173K16vZxwuuLqHzTAkd+hz53cJ9DE2tWwfka1IaQZV+iBbeJT/N
-	1bEGeXqAyJyOEvE0jHbYRPoS4v8I1dlNryGcEYBugRp53kzD5HdjOqvc66oIgeBiFV2jjCF
-x-tm-as-user-approved-sender: No
-x-tm-as-user-blocked-sender: No
-x-tmase-result: 10--3.904000-8.000000
-x-tmase-version: SMEX-14.0.0.3239-9.1.2019-30054.005
-x-tm-snts-smtp: 67EF2485A09C352298FE9A9653BA47C3F06CDA692DB1F078D6CA9BF212C9D1CA2000:8
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1783503854; c=relaxed/simple;
+	bh=iAp/2iIyG11ZG11l4saqEYvca5yGcgnsjr+HcDo3CNI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=c/LtMsvPazK76nmGy3d/QSkc/LYLtFLeZrSVYO2VYpdrlu9gx4fvNeYMZNZfpiiQVcmNajWhEWvFqiop6IRiLBBUyFwWxssfr5ypqsMpWbRRnaw8QgSZ3JLQwrxzECmoGFWQD4BeZ9WajVC4N8jEHUdUBgHXV+i1C9KB+f46vfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=i5/M71p/ reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="i5/M71p/"
+Received: from [133.11.54.183] (h183.csg.ci.i.u-tokyo.ac.jp [133.11.54.183])
+	(authenticated bits=0)
+	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 6689hWTh023275
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 8 Jul 2026 18:43:33 +0900 (JST)
+	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
+DKIM-Signature: a=rsa-sha256; bh=5rGUgl8D8cEFi7JteuJI6fPSAC+UPbsjLAqZsYFvBLY=;
+        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
+        h=From:Message-ID:To:Subject:Date;
+        s=rs20250326; t=1783503813; v=1;
+        b=i5/M71p/b8sSTK+HDV4OHUq/SgIc9wIyvsE8xdPImpdn4DlyASk6OCwfGZiB4AV7
+         QixiwPfKNM++x5DdafRW/wl24DGg0NFa9IXroeXxpS7Ln4z8cH+dgAgzI2mNJDsa
+         UV9SYpU2sL7Fj/lLqQ2OhnQvVNrtgUbruVG3CpWZtD6XWrqmqcyKKmBQhedrymw/
+         b7yXnKmuqBcMfeGZn753Chok+ZaLEfh/NCxlJHLRF1R24b5NQelMjxXXrRqf2tfc
+         j0RVP2JGVBe8gnVi4sSl4zm+FMOJgW7vQqeWrmMc7510oHCGR+oU4a8OvPvWYPt/
+         /diQ9dYSZcwlUnWPP3IqKg==
+Message-ID: <a2d7ed42-b82e-4c0c-8985-32c12d7c49b0@rsg.ci.i.u-tokyo.ac.jp>
+Date: Wed, 8 Jul 2026 18:43:32 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 5/7] KVM: arm64: PMU: Implement fixed-counters-only
+ emulation
+To: Oliver Upton <oupton@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu
+ <yuzenghui@huawei.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+References: <20260706-hybrid-v8-0-de459617b59d@rsg.ci.i.u-tokyo.ac.jp>
+ <20260706-hybrid-v8-5-de459617b59d@rsg.ci.i.u-tokyo.ac.jp>
+ <akvyvclUQ2b2YHiU@kernel.org>
+ <cb5d5f13-a1a9-47dd-a717-5533a8b32b20@rsg.ci.i.u-tokyo.ac.jp>
+ <5e66748a-bfda-41a9-8614-88cbf2fe1f09@rsg.ci.i.u-tokyo.ac.jp>
+ <ak0_PSnxyAWm9_Fu@kernel.org>
+Content-Language: en-US
+From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+In-Reply-To: <ak0_PSnxyAWm9_Fu@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-SGkgQW5kcmV3LA0KDQo+ID4gV2Ugd2lsbCBhbHNvIHJlbW92ZSBhbGwgdW5uZWNlc3NhcnkgZGV2
-bV9rZnJlZSgpIGNhbGxzIGZyb20gcHJvYmUNCj4gPiBlcnJvciBwYXRocyBhbmQgcmVtb3ZlIHBh
-dGhzLCBrZWVwaW5nIHRoZW0gb25seSB3aGVyZSByZXNvdXJjZXMNCj4gPiBhcmUgZnJlZWQgYW5k
-IHJlLWFsbG9jYXRlZCBhdCBydW50aW1lIChlLmcuLCBDTERNQSBxdWV1ZSBsaWZlY3ljbGUNCj4g
-PiBkdXJpbmcgbW9kZW0gcmVzZXQgY3ljbGVzKS4NCj4NCj4gVGhlcmUgaXMgbm8gcG9pbnQgdXNp
-bmcgZGV2bV8gaWYgeW91IGFyZSBnb2luZyB0byBtYW51YWxseSBtYW5hZ2UNCj4gdGhlaXIgcmVs
-ZWFzZS4gQW55dGhpbmcgd2hpY2ggaGFzIGEgc2hvcnRlciBsaWZldGltZSB0aGFuIHRoZSBkZXZp
-Y2UNCj4gc2hvdWxkIHVzZSBremFsbG9jKCkva2ZyZWUoKS4NCg0KV2Ugd2lsbCBjb252ZXJ0IGFs
-bCBydW50aW1lLW1hbmFnZWQgcmVzb3VyY2VzIGZyb20NCmRldm1fa3phbGxvYy9kZXZtX2tmcmVl
-IHRvIHBsYWluIGt6YWxsb2Mva2ZyZWUsIHNpbmNlIHRoZXkgaGF2ZQ0Kc2hvcnRlciBsaWZldGlt
-ZXMgdGhhbiB0aGUgZGV2aWNlLiBPbmx5IGRldmljZS1saWZldGltZSByZXNvdXJjZXMNCndpbGwg
-cmVtYWluIGFzIGRldm1fa3phbGxvYy4NCg0KVGhhbmtzLg0KICAgIEphY2sgV3U=
+On 2026/07/08 3:02, Oliver Upton wrote:
+> On Tue, Jul 07, 2026 at 09:52:49PM +0900, Akihiko Odaki wrote:
+>> On 2026/07/07 20:23, Akihiko Odaki wrote:
+>>> On 2026/07/07 3:23, Oliver Upton wrote:
+>>>> Just detect the changing PMU implementation here, KVM_REQ_RELOAD_PMU
+>>>> will need to detect the PMCs that require an update anyway. Stash the
+>>>> last cpu in kvm_arch_vcpu_load() and pass it to this:
+>>>>
+>>>> void kvm_vcpu_load_pmu(struct kvm_vcpu *vcpu, int last_cpu)
+>>>> {
+>>>>      if (!kvm_pmu_fixed_counters_only(vcpu->kvm) || vcpu->cpu == last_cpu)
+>>>>          return;
+>>>>
+>>>>      if (kvm_pmu_probe_armpmu(vcpu->cpu) !=
+>>>> kvm_pmu_probe_armpmu(last_cpu))
+>>>>          kvm_make_request(KVM_REQ_RELOAD_PMU);
+>>>> }
+>>>
+>>> It is a nice way to simplify the code and to avoid hardcoding
+>>> ARMV8_PMU_INSTR_IDX. I'll use the code for the next version.
+>>
+>> I tried this but unfortunately it doesn't seem to work. kvm_arch_vcpu_put()
+>> sets vcpu->cpu to -1 so we cannot simply read it to get the last cpu in
+>> kvm_arch_vcpu_load().
+> 
+> Urgh, there's no reason for doing that any more. Let's fix it, I want a
+> straightforward way to detect pCPU migrations. There may be other
+> reasons for using it in the future.
+> 
+> Untested, but could you give this a whirl?
+
+It looks good to me. I'll test it and include it in the next version.
+
+Regards,
+Akihiko Odaki
+
+> 
+>  From bb5af058030aada66f5c9eafa54db604979acf55 Mon Sep 17 00:00:00 2001
+> From: Oliver Upton <oupton@kernel.org>
+> Date: Tue, 7 Jul 2026 09:50:00 -0700
+> Subject: [PATCH] KVM: arm64: Don't clear vcpu->cpu in kvm_arch_vcpu_put()
+> 
+> commit e9b152cb957c ("arm/arm64: kvm: Set vcpu->cpu to -1 on vcpu_put")
+> reset vcpu->cpu in order for the VGIC to determine if there was any vCPU
+> running at the time of access. The VGIC has gone through an entire
+> rewrite since then, and with commit 7d450e282171 ("KVM: arm/arm64:
+> vgic-new: Add userland access to VGIC dist registers") the user
+> accessors just grab all vCPU mutexes instead.
+> 
+> Drop this remaining vestige such that kvm_arch_vcpu_load() can properly
+> detect a CPU migration. While at it, rework kvm_reset_vcpu() to do a
+> much more pedantic check that the provided vCPU is actually what's
+> running on the present CPU.
+> 
+> Signed-off-by: Oliver Upton <oupton@kernel.org>
+> ---
+>   arch/arm64/kvm/arm.c   |  1 -
+>   arch/arm64/kvm/reset.c | 15 ++++++++++-----
+>   2 files changed, 10 insertions(+), 6 deletions(-)
+> 
+> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> index 50adfff75be8..735acc42b50b 100644
+> --- a/arch/arm64/kvm/arm.c
+> +++ b/arch/arm64/kvm/arm.c
+> @@ -749,7 +749,6 @@ void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
+>   	kvm_arm_vmid_clear_active();
+>   
+>   	vcpu_clear_on_unsupported_cpu(vcpu);
+> -	vcpu->cpu = -1;
+>   }
+>   
+>   static void __kvm_arm_vcpu_power_off(struct kvm_vcpu *vcpu)
+> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
+> index b963fd975aac..6aba085c0673 100644
+> --- a/arch/arm64/kvm/reset.c
+> +++ b/arch/arm64/kvm/reset.c
+> @@ -190,7 +190,8 @@ static void kvm_vcpu_reset_sve(struct kvm_vcpu *vcpu)
+>   void kvm_reset_vcpu(struct kvm_vcpu *vcpu)
+>   {
+>   	struct vcpu_reset_state reset_state;
+> -	bool loaded;
+> +	struct kvm_vcpu *running;
+> +	bool loaded = false;
+>   	u32 pstate;
+>   
+>   	spin_lock(&vcpu->arch.mp_state_lock);
+> @@ -198,10 +199,15 @@ void kvm_reset_vcpu(struct kvm_vcpu *vcpu)
+>   	vcpu->arch.reset_state.reset = false;
+>   	spin_unlock(&vcpu->arch.mp_state_lock);
+>   
+> -	preempt_disable();
+> -	loaded = (vcpu->cpu != -1);
+> -	if (loaded)
+> +	guard(preempt)();
+> +
+> +	if ((running = kvm_get_running_vcpu())) {
+> +		if (KVM_BUG_ON(running != vcpu, vcpu->kvm))
+> +			return;
+> +
+> +		loaded = true;
+>   		kvm_arch_vcpu_put(vcpu);
+> +	}
+>   
+>   	if (!kvm_arm_vcpu_sve_finalized(vcpu)) {
+>   		if (vcpu_has_feature(vcpu, KVM_ARM_VCPU_SVE))
+> @@ -269,7 +275,6 @@ void kvm_reset_vcpu(struct kvm_vcpu *vcpu)
+>   
+>   	if (loaded)
+>   		kvm_arch_vcpu_load(vcpu, smp_processor_id());
+> -	preempt_enable();
+>   }
+>   
+>   u32 kvm_get_pa_bits(struct kvm *kvm)
+
