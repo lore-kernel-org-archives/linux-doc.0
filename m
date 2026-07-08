@@ -1,163 +1,110 @@
-Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.153.120])
+Received: from mail.mindbit.ro (xs1.mindbit.ro [80.86.107.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FF7C36212C
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 17:23:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.153.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BA7423142;
+	Wed,  8 Jul 2026 17:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.86.107.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783531409; cv=none; b=mDcRzkbJcUqS0JhqQqtVA/9PEN3GSPHLCZqHLf/hvHsW25NqZdRABuTGnQXxE8j6W77srwtIPl2Z7WVdN6iULEz7XjZpYlc1i/imld7SVlbBjV9Yqf4k7vaaj1dGkdwc3qDp+UAKz/ZfL5AkfNzCjNVVWuhkqdA9UgaWiedoWUo=
+	t=1783531427; cv=none; b=fxH8cldDHZ2J+6U6UuC12FwBl/8w5AZNzm/ewymhoUSjZtyb/S9uqmpTaDcOO5Hf11YX9fSmPJsxaaFmVw+NKpHb/op9BTzhuAHfPegkjN2xokvOtmtqEuFPcouIyyw923ntWuDKfcJioH1KgvulexJQhZTG3qtjNqVICObLNOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783531409; c=relaxed/simple;
-	bh=opa2vJ38yo/TmbBikeSJKFf5BP2xboddjxfMfty6vr0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=heYNmzhCvI37ezHY7gNlDeaRjGuh18i/iV48Yuwn4hhNDyQ2VicXaQoF5LK/kIiuRZDJ4H33IFgn48t4fpKreutOnNvUikJjhgJ32WPJI2eGTB375IaaumqiIx/C713BH9xtr+l3waIMF26WrW4Lm3KQ7RPRIMXfZjXN8+ijifY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=Om5Kjp1e; arc=none smtp.client-ip=170.10.153.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
+	s=arc-20240116; t=1783531427; c=relaxed/simple;
+	bh=2FwtfvgYnqfApEQzRk2DFogg7eg5G8hQUvc99OfH2ig=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=b84SP7LnmZcj0+jcfb0cw9vrmMWRLuZLnB0EYoTvn7/D96LnTgNWcHIAdHnoCn34FVCLV/L0Ta6yE4VIHBuRq2KRS3HMFdZ6jSDVv2faCNhMYA++jS8aUxw7Dv2DygkLMHlA1Z5Nw3Y7NPTXkXHa8OB08DRg+LH8S0kidtg8Qas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rendec.net; spf=pass smtp.mailfrom=rendec.net; dkim=pass (2048-bit key) header.d=rendec.net header.i=@rendec.net header.b=MwinUj84; arc=none smtp.client-ip=80.86.107.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rendec.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rendec.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="Om5Kjp1e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
-	s=mimecast20250127; t=1783531401;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=opa2vJ38yo/TmbBikeSJKFf5BP2xboddjxfMfty6vr0=;
-	b=Om5Kjp1efSRNc7NIANlgyKY8B8fMdTRUWtR0v6pNOBG0UkpDNOoqgNI5HCwDRXUCFTpKG8
-	x7KEnzBvZageisHM7nbKm7xF9yPlYF/MNwqORU8lgBaaVlDaOmyY9h0G1gh3nsXoGIQx/c
-	q3ay8VWPJXc4UHghFfvbsvAy7wTGOKPfcq96PUg1Db+Lr+oA9XBc8Mtfnt0SbnmNbXs867
-	U2a4QrorQl9ZRmeKCVVddCI+UuM1wofOydTxVdvf4a2TeoomM91YP0SG7c85DAoH6egrzq
-	xIRdz4bvx53ZzeiTUdJmG0BXnttpr56SOkCUkVCllorcb/jertGyyrAe4adVBg==
-Received: from PH7PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11010020.outbound.protection.outlook.com [52.101.201.20])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id usb-mta-12-SGChQ_NuMHOVX9M66_CEcA-2; Wed,
- 08 Jul 2026 10:23:15 -0700
-X-MC-Unique: SGChQ_NuMHOVX9M66_CEcA-2
-X-Mimecast-MFC-AGG-ID: SGChQ_NuMHOVX9M66_CEcA_1783531390
-Received: from CYYPR02MB9828.namprd02.prod.outlook.com (2603:10b6:930:b8::20)
- by DSVPR02MB11614.namprd02.prod.outlook.com (2603:10b6:8:3aa::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Wed, 8 Jul
- 2026 17:23:05 +0000
-Received: from CYYPR02MB9828.namprd02.prod.outlook.com
- ([fe80::2767:f7d2:778c:8dca]) by CYYPR02MB9828.namprd02.prod.outlook.com
- ([fe80::2767:f7d2:778c:8dca%4]) with mapi id 15.21.0181.009; Wed, 8 Jul 2026
- 17:23:05 +0000
-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-To: "ciprian.regus@analog.com" <ciprian.regus@analog.com>, Parthiban
- Veerasooran <parthiban.veerasooran@microchip.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Andrew Lunn
-	<andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
-	<linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH net-next v5 07/13] net: ethernet: oa_tc6: Add
- read_mms/write_mms register access functions
-Thread-Topic: [PATCH net-next v5 07/13] net: ethernet: oa_tc6: Add
- read_mms/write_mms register access functions
-Thread-Index: AQHdDmHhTw2cxvt8oEy8gW3cJW1mz7Zj3pAQ
-Date: Wed, 8 Jul 2026 17:23:05 +0000
-Message-ID: <CYYPR02MB9828C512D59B69CB8EBC721083FF2@CYYPR02MB9828.namprd02.prod.outlook.com>
-References: <20260708-adin1140-driver-v5-0-4aca7b51a58b@analog.com>
- <20260708-adin1140-driver-v5-7-4aca7b51a58b@analog.com>
-In-Reply-To: <20260708-adin1140-driver-v5-7-4aca7b51a58b@analog.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CYYPR02MB9828:EE_|DSVPR02MB11614:EE_
-x-ms-office365-filtering-correlation-id: 34bcb85c-d316-41c6-3099-08dedd15928f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|23010399003|366016|921020|38070700021|6133799003|56012099006|4143699003|11063799006|22082099003|18002099003
-x-microsoft-antispam-message-info: SNCH4lmiHOawX5LgT8NED6dNxZnBVo+eIVA7bn4PGaml04VP6Z2GDzalesuOdJlCpRP7NQBYJntelehMD47rMY+vpANxfNeCThnSMtWAIrMb1GlvjD8O3RZ/PWfDVgV9dW27iGVNwixodP4pxrnDIDZEIH+SCXKi2Cu6EmDYzpECldAfBlRr+XlN+AA3NlXHdGojJgtfUvvJGj5cmk1CJVuJUWKog/9VXUF3Y1UshpLvhUE/m5yzLBLdNsG2i7oaS5fS+Y7yFafF+qFHF5bWMbSfZcyuUW6NhGan7HBRqbQkjUAn+qUfcIn7b1QmFJEMUrLhiKPmeXZoRLhHFZG/n62/qwzfNKQDxKdpJzFc+TWsk9ezANJF6u4oPVLBwM7IT6aNQiR14uSNPOObiYZhmcNv16YvehRPtlIC3SWEwzpZRiJ8tr2e73RBTNiGxBgjHnNmnNNxS6Rn9852Ftt8zuf0FwV9AKSX++zwSrYWjLAtHS9WSLjZabS6qQUxhNevaa2BehGtpS4pUsXESe8+Wt7RCD/6XA4tBsq1oUA8GZHG2dejvhXVDj8U3dlWYKLPy7V3RxyntU5zjtwGtXoIEBfUN2Ng0idmK+fbd2cNjcSThDbW9b6iUYnx6oxHciYYYieARrS+aOLpVscQRHKvD3OQ4iVS+h8ZHqrbWNYcM7UcbKf6k6qpMf4bDr5hVQzY2o2gn8kVkK1epzYuR9uLlz2ZplRLI3joKjfbbR5gZJU=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYYPR02MB9828.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(23010399003)(366016)(921020)(38070700021)(6133799003)(56012099006)(4143699003)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?L1U4c3FhQmhKb3ZuRTFtd0JjRC9DL0ZsUCtxeWRtZzQ1REhEYTJVU3RNdGdL?=
- =?utf-8?B?d2FLK0xUSW50ZmV5d3RyWXdzTDZwOFFvMXlwUVNqaEJNdVppUjRTUlBpNDJ1?=
- =?utf-8?B?MHFBeWZxOG1CelZQTTQ5ZXh2TGV1L1NGZTVWaTlNdFcwUnlONk5BU0Ztd2tF?=
- =?utf-8?B?TlpLZDUyd0dkZitwaGcvcmRESmlmUk9JUCtobTVBL0xrTGc4RmpMdG9INGVk?=
- =?utf-8?B?dFlUand4OEEzanl0TERNNm9KVXdMdjNNbHZqUUFYS09BYStSY1FDYUljWlRF?=
- =?utf-8?B?Nk50LzN6OGpjclkvY0VYdHptN0N1T0lCSEp0VE1LdzZhczU5NmlFNGVJdFpB?=
- =?utf-8?B?OG9XWG9WSGNqbW9ET1oxUitoSVBxZy84QXExMXcxYndHeHc5MHhYWmU1K0dx?=
- =?utf-8?B?aUN3U09Uak9Mb0hNMWpQRlhjU3d2dkJqbzdtT1ZtMDdHV0Q4aTJyYWNWMThB?=
- =?utf-8?B?d0tiMTk0RGRpeXZEQXBlamN1NzhWT245Z3d6MzcyVlBYTWJsUmJDenZZUm1r?=
- =?utf-8?B?UFRaQ3hISlVaRlVOSzBsRWo0VkY2NXF5WkN1UXZYUUl4cHVUSVRjbnA5bllk?=
- =?utf-8?B?bE12WWhtWDFHVTVQTzN0VzVxTWIwK09aMlVCU0hDT09zbGY0dzJ2RTJzeUU2?=
- =?utf-8?B?NDN4QmRWRFFOQnI4S25hbU9GRnBtYTA3UVpLbTQzdHdWNHgyZjV6ZHVwemZH?=
- =?utf-8?B?NlVSTlJZTnRTb1ducS9OTDh2azBlWnJ4b0RsR05tYkZwWDB0UmNBbFhZZEhH?=
- =?utf-8?B?ZEhOZ0Z0bTVCb2lqVzd1b1p1SUVvOFFRTGphTm9rMjk3Z2pybjBJNk5YZ1Q1?=
- =?utf-8?B?Mm5VMkU4dTIybVVLMkQzWVlCWHJBV2JTalhSdE0rY2p0aC8vbTdyN2JJYkVQ?=
- =?utf-8?B?ZkUyMGlpbjhUbmtMSnhOcWthOVpuNWFUMFpSZmdsU1dpVFM3V0Y4Z3c0S1ZF?=
- =?utf-8?B?NkYwY1RhRW1yYkQxa083VUowcGR5UDFTUk5lRjliTlNpYU0wcWdvZmkrWjRz?=
- =?utf-8?B?RXE1SzJNOEU0dXFmNUNZY1Z2RlBMeUdJMnkzSVlWdW9rZnRQYjh4K21ZaTV6?=
- =?utf-8?B?L3pNQVZNTTNGS0NHY1IweHFKaVpFWWFuRWg5ZDJPMWFDSnlkUmFXbTd0Nmwx?=
- =?utf-8?B?eEJ5OVdEaUNzbzNGTG9RdFJ1VExpejdXdWZvckNRWkJINUdLOUExTFduZG5Y?=
- =?utf-8?B?ZFhhLy9TSGpMbEdwcWFyQXV1R2o5R0piOXVBUHNiZlhBcGtWRmV1WEtRdDZT?=
- =?utf-8?B?VlcrM0FqaTVyUkhWdUdKZFJTUFppS2dTb2NWeDYzUmg1bi8xb0VSbHhpYjEr?=
- =?utf-8?B?MVBabmVGTjVteTlmNzVvU3BVbDdnVS9mV09XL3BpUHlieHk4RnNmd2I1dVZH?=
- =?utf-8?B?Z3RXcWtKY0RIRUlKWWgyR3FsdWZoaXNHM0ExTW9YeVBPdE1mMHNjL1lLYlc5?=
- =?utf-8?B?VDJDaXI2Yy9nQlNMUEJ4NSs1TVdObGxJME81Q1Z6a1AxYnFDMzE4N3hBR0dW?=
- =?utf-8?B?YkhLRHNadU9yQnZPb0VZSXJFUVJhSnRlTENLOUhuN0xRaHNoWUp3T2JSSi9H?=
- =?utf-8?B?a0xRamR4cFNjWVlVbGM2VlFLMW5BOEhiWlQ1MkFMSUtMcHRneXlQK21jQUlY?=
- =?utf-8?B?QllRUnM5MmdIZGh6U0R0UmcvRTJmajZ3V083WFVDcE95MnUzQm9TOWhFVFBC?=
- =?utf-8?B?NUZEWXlJTkJ5eGNIQXpHQ3lyUk5HcnFObkUrQU5xRVNhZXVXRzRVd241OVBZ?=
- =?utf-8?B?NVhacHdrYlZhazcrRjBVYUVDMjBxbkNsd0NhcXJycUFzeVZYNjJNbkk5ZkhC?=
- =?utf-8?B?bmZFcTRLYWpDYnlyRjdoUTc5d3QvNVI2eDhnMlRUeGlmdEdMNCtOQ25LSCtG?=
- =?utf-8?B?SmRtOHBKbDRkRFAzbVdLb1puWW1UbXYyamZEbS9COFA1WDlDRnBMSmUxRnRR?=
- =?utf-8?B?YmM1OEVrL1p2RlNDYkFEcHBVZEY0TUMrZFRrQmxOTUJzbDJ3ZlN4UEdWWUFa?=
- =?utf-8?B?SkRocWZTNlUzZ0Z2TVA1OE14ZXFHUFpiUDViWEhIeUFwUWc0UVBsTFlJMkho?=
- =?utf-8?B?SGlNTHFtOUlJYldKcXlCTFFMcEIrMkc0VUcxT09laEdTQ1VNbnhtT0dJMVo3?=
- =?utf-8?B?MmN6bjQvdjJ3Rnd5bUFLRXlUb0ZKWUREckF0TGdvZVlKT0hURlZkKy92TmdG?=
- =?utf-8?B?OUI4dkpNOTh1dUtGejg4Uzl6eUZFajdGUENpdzRma1k4UVpQU0ZKRTNSMFlC?=
- =?utf-8?B?L0t6V2lHMXdnUmJPZDQyQmw4SUJhM2pHR1lYZjBuOHRhMGtFblROZzZnT2lj?=
- =?utf-8?B?UGFwaEhERjRsLzFWbGtlNkRjR0tqTkw5eE03ZTlSSUlWOGxqVGo2VE4xU0Zl?=
- =?utf-8?Q?AyyWChpLl0fZBtZ4=3D?=
+	dkim=pass (2048-bit key) header.d=rendec.net header.i=@rendec.net header.b="MwinUj84"
+Received: from bat.kanata.rendec.net (unknown [24.114.111.125])
+	by mail.mindbit.ro (Postfix) with ESMTPSA id C6722C2A01;
+	Wed,  8 Jul 2026 20:23:07 +0300 (EEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.mindbit.ro C6722C2A01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rendec.net;
+	s=default; t=1783531415;
+	bh=Z81AqF8sZ0HbKd4OyTLskHjABuyT0Tc0putXPru6w9M=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=MwinUj84iH00nexlmnhmDgR8X+WQik+DrvADedzcPZ9CeQY6xX1Fx3GoyEAx9wrw+
+	 Qdscs2HlxOLAQsUWmM9C8f5DrkHkoVgKYwJs+XQ2tFPd5t4en+6vUqgSLYxSBdIwBj
+	 555LvdKRH7m1aCTa5jMD6siDGQdvrKp961ZSe90G1chGvdgdtY0LoAvKa+i9v8wU5c
+	 bWRF7OLablSVqprq4HLnjHYPD0Doh6wC1fnDaN+ZveYxw8RUEs8Ut6dFJfZDIKl5We
+	 w78c65fWXzE8Q1+/ZRaJSLn4ncOl+TKAdXUve5QtEGG7DQ85WMF0AHi0oAnduE4Xgt
+	 l68qBKty9jNkA==
+Message-ID: <4614d1281cace737e3e117bd7242253475a30f58.camel@rendec.net>
+Subject: Re: [patch 01/18] powerpc: Move stack randomization after
+ syscall_enter_from_user_mode()
+From: Radu Rendec <radu@rendec.net>
+To: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Michael Ellerman
+ <mpe@ellerman.id.au>,  Shrikanth Hegde <sshegde@linux.ibm.com>,
+ linuxppc-dev@lists.ozlabs.org, Kees Cook <kees@kernel.org>, Huacai Chen	
+ <chenhuacai@kernel.org>, loongarch@lists.linux.dev, Paul Walmsley
+ <pjw@kernel.org>,  Palmer Dabbelt <palmer@dabbelt.com>,
+ linux-riscv@lists.infradead.org, Sven Schnelle <svens@linux.ibm.com>, 
+	linux-s390@vger.kernel.org, x86@kernel.org, Mark Rutland
+ <mark.rutland@arm.com>,  Jinjie Ruan <ruanjinjie@huawei.com>, Andy
+ Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>,  Richard
+ Henderson <richard.henderson@linaro.org>, Russell King
+ <linux@armlinux.org.uk>, Catalin Marinas	 <catalin.marinas@arm.com>, Guo
+ Ren <guoren@kernel.org>, Geert Uytterhoeven	 <geert@linux-m68k.org>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>,  Helge Deller	 <deller@gmx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Richard Weinberger
+ <richard@nod.at>, Chris Zankel <chris@zankel.net>,
+ linux-arm-kernel@lists.infradead.org, 	linux-alpha@vger.kernel.org,
+ linux-csky@vger.kernel.org, 	linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, 	linux-parisc@vger.kernel.org,
+ linux-sh@vger.kernel.org, 	linux-um@lists.infradead.org, Arnd Bergmann
+ <arnd@arndb.de>, Vineet Gupta	 <vgupta@kernel.org>, Will Deacon
+ <will@kernel.org>, Brian Cain <bcain@kernel.org>,  Michal Simek
+ <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, "David S. Miller"
+ <davem@davemloft.net>,  Andreas Larsson <andreas@gaisler.com>,
+ linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org, 
+	linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-arch@vger.kernel.org, Michal =?ISO-8859-1?Q?Such=E1nek?=	
+ <msuchanek@suse.de>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-doc@vger.kernel.org
+Date: Wed, 08 Jul 2026 13:22:58 -0400
+In-Reply-To: <20260707190253.718191130@kernel.org>
+References: <20260707181957.433213175@kernel.org>
+	 <20260707190253.718191130@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: oD7njjBOruSeb2O0BdTQrEdr2cShCEf0NSV7h07betT/jiGTw1M88bvDv5ZfJwpmQlPTEQ/isouxiad/Mq13ddpbm2GbfQl9mPkyNAvhS8QU3X9CQWqnEKfxXq0vnUvdisruxPBUm8VNw/8En5xyXJJfYOxyhjxJw3jpYfh8MgWmikf7iyeuI8vUAeTIAu/9Vp9SkwBzVyH5Y+d1c3rKINVvb2nwVoXy4Gv/HKyPB57XSk/UN/3JOA9N6mrhfcQ2nB3HcaO5ZK/4Dk/u5hwI1fejg+AOuMry9csCrM9PLzbd/k7ySERfadUVPcYpZZNkRrO1TawB5Di5F24Q19USjg==
-X-OriginatorOrg: onsemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR02MB9828.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34bcb85c-d316-41c6-3099-08dedd15928f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2026 17:23:05.5858
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CWIW4vgT1EBFEOeWFJhzTHLSmb+daYwtgyVBl8MCGkWr56hbmGV7CqJV8k+vcPRtb2OxeTaJ8m/lkLLXcHSRs/nvXa6kv2RvQDgd9xB8DHE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSVPR02MB11614
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 9pXVn3SbhaVrTS0HZ93SRbJgQM9-IZ05iz_V6p36oII_1783531390
-X-Mimecast-Originator: onsemi.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBDaXByaWFuIFJlZ3VzIHZpYSBC
-NCBSZWxheSA8ZGV2bnVsbCtjaXByaWFuLnJlZ3VzLmFuYWxvZy5jb21Aa2VybmVsLm9yZz4NCj4g
-U2VudDogVHVlc2RheSwgSnVseSA3LCAyMDI2IDM6MzQgUE0NCj4gU3ViamVjdDogW1BBVENIIG5l
-dC1uZXh0IHY1IDA3LzEzXSBuZXQ6IGV0aGVybmV0OiBvYV90YzY6IEFkZCByZWFkX21tcy93cml0
-ZV9tbXMNCj4gcmVnaXN0ZXIgYWNjZXNzIGZ1bmN0aW9ucw0KPiANCj4gDQo+IEZyb206IENpcHJp
-YW4gUmVndXMgPGNpcHJpYW4ucmVndXNAYW5hbG9nLmNvbT4NCj4gDQo+ICsgKi8NCj4gK2ludCBv
-YV90YzZfcmVhZF9yZWdpc3Rlcl9tbXMoc3RydWN0IG9hX3RjNiAqdGM2LCB1OCBtbXMsIHUxNiBh
-ZGRyZXNzLA0KPiArIHUzMiAqdmFsdWUpDQo+ICt7DQoNCkNpcHJpYW4sDQoNCkkgaG9wZSB5b3Ug
-bm90aWNlZCB0aGF0IEkgaGF2ZSBzaW1pbGFyIGZ1bmN0aW9uIGluIG15IHBhdGNoIHdoZXJlICJt
-bXMiIGNvbWVzIGFmdGVyICJhZGRyZXNzIi4NCkkgdGhvdWdodCBvZiBhbGlnbmluZyBteSBwYXRj
-aCB3aXRoIHlvdXJzLiBUaGVuIEkgcmVhbGl6ZWQsIGlmIHlvdXIgY29kZSBnZXRzIG1lcmdlZCBm
-aXJzdCwgdGhpcyB3b24ndCBiZQ0KdGhlIG9ubHkgY2hhbmdlIEkgd291bGQgYmUgZG9pbmcuIFRo
-YXQncyB0aGUgcmVhc29uIEkgZGVjaWRlZCB0byB3YWl0IGZvciBvbmUgb2Ygb3VyIHBhdGNoZXMg
-DQpnZXQgbWVyZ2VkIHNvIHRoYXQgd2UgY2FuIHVwZGF0ZSB0aGUgcGF0Y2ggYWNjb3JkaW5nbHku
-DQoNCkhvcGUgaXQgbWFrZXMgc2Vuc2UuDQoNClNpbmNlcmVseQ0KU2VsdmENCg0K
+On Tue, 2026-07-07 at 21:05 +0200, Thomas Gleixner wrote:
+> add_random_kstack_offset() is invoked before syscall_enter_from_user_mode=
+()
+> establishes state. That's wrong because add_random_kstack_offset() calls
+> into instrumentable code.
+>=20
+> Move it after syscall_enter_from_user_mode() to ensure that state is
+> correctly established.
+>=20
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Shrikanth Hegde <sshegde@linux.ibm.com>
+> Cc: linuxppc-dev@lists.ozlabs.org
+> ---
+> =C2=A0arch/powerpc/kernel/syscall.c |=C2=A0=C2=A0=C2=A0 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> --- a/arch/powerpc/kernel/syscall.c
+> +++ b/arch/powerpc/kernel/syscall.c
+> @@ -19,8 +19,8 @@ notrace long system_call_exception(struc
+> =C2=A0	long ret;
+> =C2=A0	syscall_fn f;
+> =C2=A0
+> -	add_random_kstack_offset();
+> =C2=A0	r0 =3D syscall_enter_from_user_mode(regs, r0);
+> +	add_random_kstack_offset();
+> =C2=A0
+> =C2=A0	if (unlikely(r0 >=3D NR_syscalls)) {
+> =C2=A0		if (unlikely(trap_is_unsupported_scv(regs))) {
 
+Reviewed-by: Radu Rendec <radu@rendec.net>
