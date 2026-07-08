@@ -1,41 +1,55 @@
-Received: from smtp-1908.mail.infomaniak.ch (smtp-1908.mail.infomaniak.ch [185.125.25.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417833BE627
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 10:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C8742E8E6;
+	Wed,  8 Jul 2026 10:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783507268; cv=none; b=PJDeHtpzRaZXpCQW0PvKIU6nUEe0w/yUqNhjIBDgTFH4Tc0A9meEUIwxY+5I9jPES0d1ND4qleTek20c35K+44XwHOXFeo7feV/lZHUs1z/D+uNWHiLvaY/1cEZ7TDQbR8Yjkut7Ug3NngKCTQTp+d9y76VcTsX/C6dc3R2sQr0=
+	t=1783507843; cv=none; b=L2V11kW1W2EfSQ6db4AQdE+esA078DLW40VC2tCFbxQCbncCRegLq0SZQzefavC69XNO+vvDbjrdmic2ozSzN4h8qnnXwdgJDIQD3VJ1wQFU9kQdqa9QcA6iWSQiCmXZC3kHyME9u5mW22VjtsWM98VHuijMCajX8+WupQv8NBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783507268; c=relaxed/simple;
-	bh=KIPKS9qTYssUK1Pdf4rnW1pNs1gOm+YQLMiuu14W4mY=;
+	s=arc-20240116; t=1783507843; c=relaxed/simple;
+	bh=d032drDqky5KzDhvKMflWjg9LG7OfLWmPzgJ+fvrOpE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Epf/a/mL8xLVfwLi6cOg4oenMiWGkj+s06//j1Vq9EQhbfVWeqyCONniJKiPiI6jcbfDeF2o/B/UdH8CeXaDbW2FkWCnYEme5RqFlzscYX3dbCubDLDsXhBLixN+ZPBioARitLHqZcxCD3riv9HxDUWp9nvtAexN0xW83kumqBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=KfPXKnUC; arc=none smtp.client-ip=185.125.25.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=KO6b0aXiLuxtOWm0kjqyWxQc5cGoph4hmHDDVOKFZVKrV6anD/80e8UIPLNah9Ac2u1x4S/xM2lCrwYfm+tBs+QjMx3hbJV9P0NlflsevFxm9amuOAb87Ap68S9+ivNNA95KJId1hdcANuDe8wwTiQc3juFzeB0MpAucalwZZMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ibwz4bf6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="KfPXKnUC"
-Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4gwF4D66lZzCn3;
-	Wed,  8 Jul 2026 12:40:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1783507244;
-	bh=h+szCH3qJjavBjzWpe3u9PkHYRvYTjkN/5nGy0sOvZI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KfPXKnUCFCNh8ENlkTCjQEhAnkBFiBDQSMY7TF6N4sDRhNsBXyjkWvIXRj41n4poQ
-	 AzCyThAcp1BgNH7R6+wbN63bPcK2PKFnEEBpViokSZHxwhOFnJcvdLXTsO4svLkbjr
-	 eH6HoCoHLvLCe6lQwj1qs7tSblD/SG2J6cEHVBkY=
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4gwF4D1NTkzNTQ;
-	Wed,  8 Jul 2026 12:40:44 +0200 (CEST)
-Date: Wed, 8 Jul 2026 12:40:42 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	Alejandro Colomar <alx.manpages@gmail.com>, Alejandro Colomar <alx@kernel.org>
-Subject: Re: [PATCH] landlock: Documentation wording cleanups
-Message-ID: <20260708.EimaePheb3ji@digikod.net>
-References: <20260516190112.4924-1-gnoack3000@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ibwz4bf6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 622321F00A3A;
+	Wed,  8 Jul 2026 10:50:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783507828;
+	bh=d032drDqky5KzDhvKMflWjg9LG7OfLWmPzgJ+fvrOpE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ibwz4bf6ZWdc2y3Uii8snfheqYLAQLkbL1qe9WkXw20toarMn87Z3LCNseS5ZXqn1
+	 HOqq7eD8NTuCvbyDupIX9ZNM7IiIWIQjrj8pte9uTVS9yRFSLjCysvBN5BGbKGDJ1W
+	 Wqb/cUU57RUHCS8qxdhx36hkU1iCb/ZY+DWZW6FiGmdhsajoKbVKPwjN2tdXV9zloE
+	 iEAhLXY3EehifNDFYFBsUM1iqdzmLL6pG88CDLqL3Nqqf4FbL0ipI5aFjq8IE3l5Oi
+	 EBMZSBOX90SG3TE4PLUlzPUL/ocIZiF8xGSn6Rrg5ruo8r5isMN4G7RDoCAkC9qiHx
+	 ONJ8qjwzsulKg==
+Date: Wed, 8 Jul 2026 12:50:25 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, 
+	Fred Chen <fredchen.openbmc@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Wensheng Wang <wenswang@yeah.net>, Frank Li <Frank.Li@nxp.com>, 
+	Brian Chiang <chiang.brian@inventec.com>, Cosmo Chou <chou.cosmo@gmail.com>, 
+	Dixit Parmar <dixitparmar19@gmail.com>, Eddie James <eajames@linux.ibm.com>, 
+	Antoni Pokusinski <apokusinski01@gmail.com>, Thorsten Blum <thorsten.blum@linux.dev>, 
+	Ashish Yadav <ashish.yadav@infineon.com>, Alexis Czezar Torreno <alexisczezar.torreno@analog.com>, 
+	Syed Arif <arif.syed@hpe.com>, ChiShih Tsai <tomtsai764@gmail.com>, 
+	Abdurrahman Hussain <abdurrahman@nexthop.ai>, Kim Seer Paller <kimseer.paller@analog.com>, 
+	Colin Huang <u8813345@gmail.com>, Yuxi Wang <Yuxi.Wang@monolithicpower.com>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] hwmon: (pmbus) Add driver for Analog Devices
+ MAX20912 and MAX20916
+Message-ID: <20260708-true-carp-of-champagne-a0dcca@quoll>
+References: <20260707122701.751878-1-fredchen.openbmc@gmail.com>
+ <20260707122701.751878-3-fredchen.openbmc@gmail.com>
+ <f9e32dd1-7c2c-4055-83fa-94683777e30b@roeck-us.net>
+ <ak4QO9uhKOt68dl1@nsa>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,49 +58,62 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260516190112.4924-1-gnoack3000@gmail.com>
-X-Infomaniak-Routing: alpha
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <ak4QO9uhKOt68dl1@nsa>
 
-Thanks, applied!
+On Wed, Jul 08, 2026 at 10:19:56AM +0100, Nuno S=C3=A1 wrote:
+> On Tue, Jul 07, 2026 at 06:52:48AM -0700, Guenter Roeck wrote:
+> > On 7/7/26 05:26, Fred Chen wrote:
+> > > Add support for the Analog Devices MAX20912 and MAX20916 dual-output
+> > > multiphase voltage regulators with PMBus interfaces.
+> > >=20
+> > > Signed-off-by: Fred Chen <fredchen.openbmc@gmail.com>
+> >=20
+> > Please provide evidence that those chips actually exist.
+> > Internet search comes up blank. I'll need confirmation
+> > from someone at Analog.
+>=20
+> Hi Guenter,
+>=20
+> Well, in fact I'm in the middle of preparing a series that adds support
+> for:
+>=20
+> "max20826"
+> "max20855b"
+> "max20908"
+> "max20912"
+> "max20916"
+>=20
+> All the above parts have the datasheet under NDA. But before we had a
+> one page "datasheet" in analog.com but I guess that is gone! For context
+> I mainly did the base (core) driver for max20826 and then Alexis added
+> the other ones.
+>=20
+> Not sure how to proceed... I can wait and then work on top of what Fred
+> has but this patch is very minimal when compared with what we have.
+> Like:
+>=20
+> * No regulator support;
+> * No direct mode. The chip has two ways to access registers (paging and
+> * direct mode).
+> * No way to count how many phases we have or if RAIL_B (func[1]) is being=
+ used at
+> all.
+>=20
+>=20
+> Some other things more intriguing is that these chips, as far as I'm
+> aware (at least for max20826), always have bit 2 set in ON_OFF_CONFIG so
+> a gpio vout. Also we needed some special handling to read phase current
+> which I'm not seeing in the driver. So I would like to understand how
+> the chip was tested?
+>=20
+> Anyways, if Fred is ok with it I can just finish what I'm doing and send
+> the patches. It would make sense to have something more complete on
+> submission but I don't want to just "steal" the work already done.
 
-On Sat, May 16, 2026 at 09:01:12PM +0200, Günther Noack wrote:
-> Documentation cleanups suggested by Alejandro Colomar,
-> which we have also applied in the man pages.
-> 
-> Link: https://lore.kernel.org/all/agW4yMK6CinJGqXt@devuan/
-> Suggested-by: Alejandro Colomar <alx@kernel.org>
-> Signed-off-by: Günther Noack <gnoack3000@gmail.com>
-> ---
->  include/uapi/linux/landlock.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
-> index 10a346e55e95..48c12ddf1108 100644
-> --- a/include/uapi/linux/landlock.h
-> +++ b/include/uapi/linux/landlock.h
-> @@ -255,16 +255,16 @@ struct landlock_net_port_attr {
->   *   :manpage:`connect(2)` as well as calls to :manpage:`sendmsg(2)` with an
->   *   explicit recipient address.
->   *
-> - *   This access right only applies to connections to UNIX server sockets which
-> + *   This access right applies only to connections to UNIX server sockets which
->   *   were created outside of the newly created Landlock domain (e.g. from within
->   *   a parent domain or from an unrestricted process).  Newly created UNIX
->   *   servers within the same Landlock domain continue to be accessible.  In this
->   *   regard, %LANDLOCK_ACCESS_FS_RESOLVE_UNIX has the same semantics as the
->   *   ``LANDLOCK_SCOPE_*`` flags.
->   *
-> - *   If a resolve attempt is denied, the operation returns an ``EACCES`` error,
-> - *   in line with other filesystem access rights (but different to denials for
-> - *   abstract UNIX domain sockets).
-> + *   If a resolution attempt is denied, the operation returns an ``EACCES``
-> + *   error, in line with other filesystem access rights (but different to
-> + *   denials for abstract UNIX domain sockets).
->   *
->   *   This access right is available since the ninth version of the Landlock ABI.
->   *
-> -- 
-> 2.54.0
-> 
-> 
+Binding should be in such case posted complete, so probably not a
+trivial device.
+
+Best regards,
+Krzysztof
+
