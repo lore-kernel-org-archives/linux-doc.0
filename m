@@ -1,217 +1,478 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE1E1B4223;
-	Thu,  9 Jul 2026 01:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783560142; cv=fail; b=RsdF6CZQKv+ShdBi72q+l7x9mhBjA8bbjisY52kR4fUtkBktvgo9t+gtUz89LuGIGdOtrscLG9jH2XOXFd9VUyw+JuxVpaqF3fOeuRJ/R/rXgL+khIkoGlnKGnxyz2UQQkaQcuW5zub6A5rDfEF/iFy5YDO0pRLWbeJ9Tp5o5Sk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783560142; c=relaxed/simple;
-	bh=+XyUKE+cSWhEM29DjsGkEi7lBaH0OSxed+NXylMSwRQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=mpeJDJS8GLtV+8HkCJv8pAB1NKYJEeY+kYE8Lz860JftA/v3ak2OcQUGmXlQqXCtVRwUrX5Jc6AM9ADlmd6BPuQp446cE/7r7RYBkjdyTVRwwRzHt7WJ4Bl/91+UUMEx5hAKQSX54bLPPnTHcaMVMXb13WHVz28b1lxaQexGgBM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DBjO1+zP; arc=fail smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A03F282F3B;
+	Thu,  9 Jul 2026 01:41:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783561304; cv=none; b=PSNvTvkeOdRhZqQtVmUNU11ESHhqkFF302Ptl3WNKBWYg+FljDNmkryS1K0Xz+GA6h/Q6SlwNm5YkKMuT3cu2ttpkkevhpaPQjeGpGSYXgGBJpibIcKXPWcabQHrI8TOn8PDpSCKE2/Cpq1+x9DipfcVYpUQg+9unSbDB0/mDhk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783561304; c=relaxed/simple;
+	bh=UChpmtX0rQDDkApsnRqSCqBqYdyd7qGUXLGX0oZnhTQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=K8f10r9jDDHmMqRhUR4FhRgVit8o/ff/52xWT7zKMRop4LU1IBGFATW4KevWsQZTSYoDVkyRDCK4DjlX3YkmuEv3QJtLnf1JA5sjPsbau0heJ4GHRgePmQwdKJRBue/yHzQe8VAPgeTOSpgVi/SLgcDxm3FzvpwYc8h9NFmXhs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=gWx7PLKQ; arc=none smtp.client-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DBjO1+zP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783560140; x=1815096140;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=+XyUKE+cSWhEM29DjsGkEi7lBaH0OSxed+NXylMSwRQ=;
-  b=DBjO1+zPozgAuxAbUk9Mk4nNq3USPap9+6ac3SxvpE8UFJJSMSQnMizo
-   tIbHQtjY6FzzFPNgOV9aJGkvj+tRVuG8ArYk3iEJgD9FQzKvkyoPLbkXs
-   7Mzl+RR+SV2Qm35IjEb3hg3VNCi1Q3gkT8Q7kK2kBUmL3avl5XuraQA5D
-   SSUg+JO2VAMuEtkma5M4tFoUmd0N1goKlSeecxGOYrTaUP74Fx98PO57l
-   fAsc96+l7ZPw6igg6jIKjJn2YaFdcPA3A2qSr3bPs/C9ynerTLHBRlEvc
-   6YzEX9FTMiEG64rK52lt061TcEPBwyd2AbZbA4g4mqmrHSlT+ujEEPKmL
-   Q==;
-X-CSE-ConnectionGUID: SjAdMHR0Q/WUiBkLSCVCkQ==
-X-CSE-MsgGUID: AdhmMT9LS6SfdyTfXH1d5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="87921616"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="87921616"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 18:22:19 -0700
-X-CSE-ConnectionGUID: 9tGJP7R9TBKe5gxJuFur9w==
-X-CSE-MsgGUID: 3mCI+6jGTDSnljbM+Jbp3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="251787845"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 18:22:19 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="gWx7PLKQ"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=lWJC/T42Y9Sctt8rfR0gbHYHLNR85QUffiSqQbtjZWU=;
+	b=gWx7PLKQYMG59jNzPyTqABRgFGdzDXuNK+aKu4gTd6cfqGrBhsk7NJaJseY55RiMHidGwPKa/
+	InQtchs+8Rj1ylu7LahYH9QcUc7E6+6QeMicGFQKMsw7lP8LiguRhka+2ExKpHbscls/EwgObTE
+	cW4ikU/U5n8c2VG7mabAV/I=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4gwcrp64RQzRhTc;
+	Thu,  9 Jul 2026 09:32:10 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0104940575;
+	Thu,  9 Jul 2026 09:41:24 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Wed, 8 Jul 2026 18:22:18 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Wed, 8 Jul 2026 18:22:18 -0700
-Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.49) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Wed, 8 Jul 2026 18:22:18 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hcczG5FaDC9aG5WXqwNfP75bZPFLwD2cNTs3C1jOl/BmkLNZSy+iKGlzS8tmIVi3cr1IGB/Uz0dmq3dPtZGyF0UZpu95mPsbWaW4emjyZ72YcdroTvyAXNi+K7/Kov7zcQGijlx9PD19wNIAGhO1xP2YsF4EvTOxXT0EqvTBossXlFaKKe6iF2kdBwWkPnR8KUZcvrsA46ytmFAvB6hgP8DUFzDPG7yYexq8t6ljq65ckTYjuAQbrYCecRrKb3YbNSSKujHvL80Dre11SorVJX9ViSlkID4pZI/BBFswaEsqaXsEGsW4d+rXEmmLgXSzGESb1yieUnGpT/VKlBrOGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+XyUKE+cSWhEM29DjsGkEi7lBaH0OSxed+NXylMSwRQ=;
- b=tN65Tm9g5MkMPp5ufIl5Qj5cv6O1qTqDbgPAIyYPVI96lq9rbqJFFDG9cDnW88QQ8Ct8JdjxdVvYOzZMbEAazLv3Xu7fpBUaYHy2GSZSiotC69wnoUt8vxhC3eWyLd/Fi9HqjxzayHQcTysXsudkerOzUVsYv7nTPWZ1nFVkmRcby0gd7pAF2fO0yABXZ/gVO3Ap4ycGrl0YvAiTz+mO+Sj/MECaTQoIoCLW8PAVCBVMbgwx6kqMEzWVq8vsUgRBlnwwuCltqOqpTTB63iEGgoUA72DM077YDxOx/+s0fPY/wLJ27P8dIUFoELndemC+EuUtzG9T7U/ed089wcS0Lg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from PH7PR11MB6771.namprd11.prod.outlook.com (2603:10b6:510:1b5::20)
- by PH7PR11MB5888.namprd11.prod.outlook.com (2603:10b6:510:137::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.9; Thu, 9 Jul 2026
- 01:22:15 +0000
-Received: from PH7PR11MB6771.namprd11.prod.outlook.com
- ([fe80::effa:162e:c9c9:a1b4]) by PH7PR11MB6771.namprd11.prod.outlook.com
- ([fe80::effa:162e:c9c9:a1b4%4]) with mapi id 15.21.0181.014; Thu, 9 Jul 2026
- 01:22:14 +0000
-From: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To: "Gao, Chao" <chao.gao@intel.com>
-CC: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-coco@lists.linux.dev"
-	<linux-coco@lists.linux.dev>, "Huang, Kai" <kai.huang@intel.com>, "Hansen,
- Dave" <dave.hansen@intel.com>, "Zhao, Yan Y" <yan.y.zhao@intel.com>,
-	"kas@kernel.org" <kas@kernel.org>, "seanjc@google.com" <seanjc@google.com>,
-	"mingo@redhat.com" <mingo@redhat.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
-	"nik.borisov@suse.com" <nik.borisov@suse.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"tglx@kernel.org" <tglx@kernel.org>, "Annapurve, Vishal"
-	<vannapurve@google.com>, "bp@alien8.de" <bp@alien8.de>,
-	"kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-	"x86@kernel.org" <x86@kernel.org>
-Subject: Re: [PATCH v6 09/11] KVM: TDX: Get/put PAMT pages when (un)mapping
- private memory
-Thread-Topic: [PATCH v6 09/11] KVM: TDX: Get/put PAMT pages when (un)mapping
- private memory
-Thread-Index: AQHc7LhX9RO+2pRq0U2tIIZKWA6Q3bZjj/CAgAEZWwA=
-Date: Thu, 9 Jul 2026 01:22:14 +0000
-Message-ID: <2e5a6ff96782a7e3e5de14c9967211eaec48010c.camel@intel.com>
-References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
-	 <20260526023515.288829-10-rick.p.edgecombe@intel.com>
-	 <ak4Lv+CQIG1P3k/f@intel.com>
-In-Reply-To: <ak4Lv+CQIG1P3k/f@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Evolution 3.44.4-0ubuntu2.1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH7PR11MB6771:EE_|PH7PR11MB5888:EE_
-x-ms-office365-filtering-correlation-id: 1c3e61e6-43f9-49f6-9f61-08dedd58823c
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|23010399003|7416014|376014|22082099003|18002099003|38070700021|11063799006|56012099006|4143699003;
-x-microsoft-antispam-message-info: q8c2FG4TPbyZLXw5TyHhuEEAnUU7QrEp+u/p7aCVJfZQKENL5JKsXsUz2tYQPPsVJieIrvDht6EJbt0O0k5vQVbPQxqCFuUPfXue4ZbtaitqIDK+RE0yEM5yuGRr5XiORV32AnfAcO6Oar7f/+SqH+IV/8qJiLWb5GVtGkP5ITSx9eFvzqDfHChTS0QkbeajGa+PvjOzjNCpYbczlcNJFsmKOpy0aX0iEavbpltLooLTnpr9YhyDw+pbZTA/MGGl0qxc4KI+ATUoGoDetQYVsTSx9DDJ8472JLhL+2ZIPrAY6ri9U56NHnIU4d4m2wYKC5ivJFBMY0nHfJYc6hzCk4PZ2CxViDyY1vI/hV9G560Zd8M7PFxFHGq9jzEHT1Y7wM79cOPDJ9mY+Gjhoyey7yl5lJ+ppgxcHk2Vs5qBBnk/jBMv8/DAczT3oTVN/CAq/b8uV7ny2gF6MVoXUhy7Wap7d1iqCOhbvJGQRnhb1cGP9uVR38OZrCItHUGRthkHdKshuRaWfecc2dlc5wl+1TneyUCex1tFP5gNQVYcqL1GbP57aVULxUyyZaq7guc35tv3RG9szT36jEnUDvfiaMu4wIfeqNvVKVGWMkaC9llHFSzC94PPFWW13cjkkrD3toHt+GP+e0gTnJfrsZXKNYGwTBgWSQArwm5xTfvbILtKg1eaF62U1LCyWx8/Xhsh
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6771.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(7416014)(376014)(22082099003)(18002099003)(38070700021)(11063799006)(56012099006)(4143699003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TktKUjR2NVRsUGZoQjM5NnUzTnhLUXI2NnZHd0YwUFpMdW85YTI3am9leGFr?=
- =?utf-8?B?VXdTYUw4ZnU4SzJXTTV0NXdZUmRJYk4xQlRKUkdJR2VGb0xGTEVQSDJneEZK?=
- =?utf-8?B?SUlUMThvRjN1U0FvOVl0cWdZYTduZk42RVA2dHlmZW9YVmRQYVNIU3NDSFVC?=
- =?utf-8?B?U3lmQzM0dmdROXVoNjNqRXdSYmZheWJwMHJTRUk4aDE1M1d2ODlBcHZLZFl1?=
- =?utf-8?B?VUN2Y1NzNDFTdEdZVmpUTU9WQVdoakxjRFNTL1BmMlp2VzArR0Nhc0RoN0V4?=
- =?utf-8?B?VVVZRlNTRHhza2ZLQXNzUWY5d0ZpSEdOWkQ4T0I0c2ZqUGdtam1JQnRzcmJ6?=
- =?utf-8?B?Rzh5SURiMStPSWcyOXIycEx5YXNJbXIxdmN6ZFIzZmNTZzhoaGdJRHROMmsv?=
- =?utf-8?B?NEVWcjJRKzJFUzhTTTBPZDN2b3NNb2Z4SjZrcWQ4b1dnaGNCWVhrWUZWTm4r?=
- =?utf-8?B?VWNRSEY1ZVlOWTJYU1R5V0NUNnlMaWdLNW9Wb3ZqOUtmamsxTGRnKzQxNFY4?=
- =?utf-8?B?QXlGZGg2cUFwbWhPVW5ySzVobFRKcW55VTdnVlJpRUJjY0EvZlROMjh0MTQ0?=
- =?utf-8?B?ZWR4QUVuekw3N3BMQkwwSUsrazFrNXlJQ2FhNzYxakRMUlY0UFVXZEFlQ2JJ?=
- =?utf-8?B?NDhVVUhLRXhSWHh1Nit4aVprUThoK0VpM0grbENyUUYrakFBRFU3bHdXMVhD?=
- =?utf-8?B?MS9lU1JNUTZzWUx5WnM0ZEN1eFFhVWdLSU51aDJxVWNUeXBqSGRXSEh6Qk1G?=
- =?utf-8?B?eS9Ob1FnTFQ5WjE2bW5RbXhiY3FhUXBPSjZrRHBQdFNpZ2g5NFNCUlp4dmNi?=
- =?utf-8?B?TUlHZEZtYllXMjZkVW5JcnhHVHJjN3gzL3c3eWN2TGYvbDRGK0hTbjllaUZO?=
- =?utf-8?B?ditWQ3RHMVNhTEV6aklXZE1reit0dW4yOUJtaWpoVUF6aGN3aDdtQ1YxcnZz?=
- =?utf-8?B?SmJQMjBza1NxRFo0a2c1Wm1BY1NWZTUzRDdwc1pWQVJEMmFEMXh6SVVNNE5K?=
- =?utf-8?B?R0ZibDFvQ3d2STNhQ2dMTUU1My9BUmFYWXBoOWdKV2xlL2lFY3dEelVJTWp5?=
- =?utf-8?B?bmRnb2FQekt4bG5qZ2xLSlRYdExSVW9RK2dKcXBhSVRZZG9mWDRLZnU1ZkdC?=
- =?utf-8?B?N3FUNlZFTURsWXI5THpubkVGUlhYTDE5SWQyN2s5OE1kR1lkQ1NFbWJvQWhS?=
- =?utf-8?B?Rnd6bVArR2VzcjkrcFM3eTdNSDRvVHl4NTE4c2JzUDhIazZvbDlxa3JTRDN3?=
- =?utf-8?B?L1JKd3VDeXRhVkwxR2ovcjVITjVKVWRKNkQ2N1gzc3BFdjNPVTJGYlovRVA3?=
- =?utf-8?B?THBGcmhYek5lVUZxbHhtd2VCYng0MnF1YmRaZXNMMUtKWitJdEIzTzhpalJu?=
- =?utf-8?B?OVRwMFZaNG5GeG0rUXJuWWVtTWRwYmlIMjJXa2VJL0Zwa2FUelBZZE4yeCth?=
- =?utf-8?B?dUp6M0FOSUNRNWhLbHF6TTJSSS9Dbk1EV01aaERReitCS0dvSFhZZmRSRFJz?=
- =?utf-8?B?OGUzWlNiVC9ROHZwM2NCbDVoK0tMRFo0bUFQaHh2aFZOeC9Sbm5wWm4xQmpE?=
- =?utf-8?B?YmFNYzQrbWNxKzZ4ZmZ3VGZ6ODF2WFp2b0JrVCtFZWhuOFF6QTN1anE4QU5p?=
- =?utf-8?B?QWh3NUtGZkJTYTVKY0hrZkxHRHpKRlU2bm5JNmZFc2tsMWhNcTd5eXNKdUpm?=
- =?utf-8?B?STVRUnEwNUc1QURlTEtPN3M4YjhQdTFQV0dVT0JrLzhqcVh5alZhdWZTVmdC?=
- =?utf-8?B?b3FyZnkvS0R1aFRqQlpIV2VubEh2OE5uQloxSXlHakVLQk51ZlZmME8rcnMy?=
- =?utf-8?B?dXc4a0RmT0RySlJyM1dBS2NGdHV5SkJpN0w2QTQ4NW9KTkp4VDdiUzdEeWFL?=
- =?utf-8?B?Ui9KdmtmcUs0cjVpdGdEUlZsaHhlajFDTjE3SjFVeXg3dmEyUUVZQVhYdGMy?=
- =?utf-8?B?WnFxQlVRM09DVTVTVUNJMFdESnRwTDc2akdud29sY1hrS2hta0llSVgzYnl0?=
- =?utf-8?B?ZTcrRHFpTmpSTGR5bnFJakVmeUdEd2txSkRrR2pHc0FVQ21IeThJRXZRQjdm?=
- =?utf-8?B?YTJBdWNyMEdNR0MvWGtZbkc0Z1pxTVBoY2V2Vk5tZEs2QzVsQ3dBbU1rRFNR?=
- =?utf-8?B?RDRUS29QdnZOM2VCSmpiOUcyWmc2aWdpQkdJTEdIb2RBYkNUcS9PVFpvYm5I?=
- =?utf-8?B?eWIvWUFmb2tCNmZiUWRQc2crZFdZT1lFZ2dOL0JsbG9Qa0k3L2NGK3BKL3Qv?=
- =?utf-8?B?cWhNWVIxWFUzNW1iUi9uYTRKS2wycmlUQXE2emVkMC9oMEh5czQ5TGpsbTNx?=
- =?utf-8?B?Y0ZQTUNxSSs4SFVrYWd3bTRWaXFJcGpjd1ZUMTZxZkw1TCtsdGJBWkpMbkhr?=
- =?utf-8?Q?/coZ5FGUQfbbMLVg=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <08697C605079E6478053B11C9C44E334@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ 15.2.1544.11; Thu, 9 Jul 2026 09:41:19 +0800
+Message-ID: <8bcac80c-7f5d-4bfb-ac54-b659b4e999f1@huawei.com>
+Date: Thu, 9 Jul 2026 09:41:18 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: HyYyjeKSSXc2jlTzvxwYnoSqIErm6V7R77v+qs6Jc6ibH2LS5cTJmnsNnQfpSHOP4nDQZOxOcVuWNKQwiHH9hgLYUCtO6casZeCa+pBv/MliRSqnrTU2f8k6S0lIdZQQ4fTUMYuoLO/a9/WF7kZANTHdcSGni36+E4KNt9qlUOv7cYhoe1q80bHW4zUFWyPhnxjkcAbREowq7YmX/0l5Hc3TnNaEOOcl/E5WMuA5j+4Eg3IUIvmpajDgHnF40JeCWhsrqB8ZKiq3AJsX2p3V+KRQG3yC+D+X8WkWxxO602vASgDn+v0FDFzcnXHjhGGeb02jAx/gIisB4xWHevymug==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6771.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c3e61e6-43f9-49f6-9f61-08dedd58823c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2026 01:22:14.4941
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kRi+F6wdJ+zDZYxTIaRhFTE99C5v6jCfH7lQlQN4xmiEnedYxpyXluAjfEVCdNbQQNHOSi7wRuzwk+cpbDZ3Z5NgRAK6aPaQ83yAW2ftgfs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5888
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [patch 12/18] ptrace, treewide: Rename
+ ptrace_report_syscall_entry() to ptrace_report_syscall_permit_entry()
+To: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>
+CC: Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>, Oleg
+ Nesterov <oleg@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+	Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Guo
+ Ren <guoren@kernel.org>, Brian Cain <bcain@kernel.org>, Geert Uytterhoeven
+	<geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>, Thomas Bogendoerfer
+	<tsbogend@alpha.franken.de>, Dinh Nguyen <dinguyen@kernel.org>, Helge Deller
+	<deller@gmx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>, "David S.
+ Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, Chris
+ Zankel <chris@zankel.net>, <linux-alpha@vger.kernel.org>,
+	<linux-snps-arc@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-csky@vger.kernel.org>, <linux-hexagon@vger.kernel.org>,
+	<linux-m68k@lists.linux-m68k.org>, <linux-mips@vger.kernel.org>,
+	<linux-openrisc@vger.kernel.org>, <linux-parisc@vger.kernel.org>,
+	<linux-sh@vger.kernel.org>, <sparclinux@vger.kernel.org>,
+	<linux-um@lists.infradead.org>, <linux-arch@vger.kernel.org>, Michael
+ Ellerman <mpe@ellerman.id.au>, Shrikanth Hegde <sshegde@linux.ibm.com>,
+	<linuxppc-dev@lists.ozlabs.org>, Kees Cook <kees@kernel.org>, Huacai Chen
+	<chenhuacai@kernel.org>, <loongarch@lists.linux.dev>, Paul Walmsley
+	<pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	<linux-riscv@lists.infradead.org>, Sven Schnelle <svens@linux.ibm.com>,
+	<linux-s390@vger.kernel.org>, <x86@kernel.org>, Mark Rutland
+	<mark.rutland@arm.com>, Andy Lutomirski <luto@kernel.org>, Richard Weinberger
+	<richard@nod.at>, =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+References: <20260707181957.433213175@kernel.org>
+ <20260707190254.280015701@kernel.org>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <20260707190254.280015701@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
-T24gV2VkLCAyMDI2LTA3LTA4IGF0IDE2OjM1ICswODAwLCBDaGFvIEdhbyB3cm90ZToNCj4gT24g
-TW9uLCBNYXkgMjUsIDIwMjYgYXQgMDc6MzU6MTNQTSAtMDcwMCwgUmljayBFZGdlY29tYmUgd3Jv
-dGU6DQo+ID4gRnJvbTogIktpcmlsbCBBLiBTaHV0ZW1vdiIgPGtpcmlsbC5zaHV0ZW1vdkBsaW51
-eC5pbnRlbC5jb20+DQo+ID4gDQo+ID4gQWRkIER5bmFtaWMgUEFNVCBzdXBwb3J0IHRvIEtWTSdz
-IFMtRVBUIE1NVSBieSAiZ2V0dGluZyIgYSBQQU1UIHBhZ2Ugd2hlbg0KPiA+IGFkZGluZyBndWVz
-dCBtZW1vcnkgKFBBR0UuQUREIG9yIFBBR0UuQVVHKSwgYW5kICJwdXR0aW5nIiB0aGUgcGFnZSB3
-aGVuDQo+ID4gcmVtb3ZpbmcgZ3Vlc3QgbWVtb3J5IChQQUdFLlJFTU9WRSkuDQo+ID4gDQo+ID4g
-VG8gYWNjZXNzIHRoZSBwZXItdkNQVSBQQU1UIGNhY2hlcyB3aXRob3V0IHBsdW1iaW5nIEB2Y3B1
-IHRocm91Z2hvdXQgdGhlDQo+ID4gVERQIE1NVSwgYmVncnVkZ2luZ2x5IHVzZSBrdm1fZ2V0X3J1
-bm5pbmdfdmNwdSgpIHRvIGdldCB0aGUgdkNQVSwgYW5kIGJ1Zw0KPiA+IHRoZSBWTSBpZiBLVk0g
-YXR0ZW1wdHMgdG8gc2V0IGFuIFMtRVBUIGxlYWYgd2l0aG91dCBhbiBhY3RpdmUgdkNQVS4gIEtW
-TQ0KPiA+IG9ubHkgc3VwcG9ydHMgY3JlYXRpbmcgX25ld18gbWFwcGluZ3MgaW4gcGFnZSAocHJl
-KWZhdWx0IHBhdGhzLCBhbGwgb2YNCj4gPiB3aGljaCByZXF1aXJlIGFuIGFjdGl2ZSB2Q1BVLg0K
-PiA+IA0KPiA+IFRoZSBQQU1UIG1lbW9yeSBob2xkcyBtZXRhZGF0YSBmb3IgVERYLXByb3RlY3Rl
-ZCBtZW1vcnkuIFdpdGggRHluYW1pYw0KPiA+IFBBTVQsIFBBTVRfNEsgaXMgYWxsb2NhdGVkIG9u
-IGRlbWFuZC4gVGhlIGtlcm5lbCBzdXBwbGllcyB0aGUgVERYIG1vZHVsZQ0KPiA+IHdpdGggYSBm
-ZXcgcGFnZXMgdGhhdCBjb3ZlciAyTSBvZiBob3N0IHBoeXNpY2FsIG1lbW9yeS4NCj4gPiANCj4g
-PiBSZWxlYXNlcyBhcmUgYmFsYW5jZWQgdmlhIHRkeF9wYW10X3B1dCgpOiBldmVyeSBjb250cm9s
-LXBhZ2UgZnJlZSBnb2VzDQo+ID4gdGhyb3VnaCB0ZHhfZnJlZV9jb250cm9sX3BhZ2UoKSwgYW5k
-IGd1ZXN0IGRhdGEgcGFnZXMgYXJlIHB1dCBkaXJlY3RseSBvbg0KPiA+IHRoZSBzdWNjZXNzZnVs
-IHRkaF9tZW1fcGFnZV9yZW1vdmUoKSBwYXRoIGFuZCBpbiB0aGUNCj4gPiB0ZHhfbWVtX3BhZ2Vf
-YWRkL2F1ZygpIGVycm9yIHBhdGguDQo+ID4gDQo+ID4gQXNzaXN0ZWQtYnk6IFNhc2hpa286Y2xh
-dWRlLW9wdXMtNC02IEdpdEh1YiBDb3BpbG90OmNsYXVkZS1vcHVzLTQtNiBDbGF1ZGU6Y2xhdWRl
-LW9wdXMtNC03DQo+ID4gU2lnbmVkLW9mZi1ieTogS2lyaWxsIEEuIFNodXRlbW92IDxraXJpbGwu
-c2h1dGVtb3ZAbGludXguaW50ZWwuY29tPg0KPiA+IENvLWRldmVsb3BlZC1ieTogU2VhbiBDaHJp
-c3RvcGhlcnNvbiA8c2VhbmpjQGdvb2dsZS5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogU2VhbiBD
-aHJpc3RvcGhlcnNvbiA8c2VhbmpjQGdvb2dsZS5jb20+DQo+ID4gQ28tZGV2ZWxvcGVkLWJ5OiBS
-aWNrIEVkZ2Vjb21iZSA8cmljay5wLmVkZ2Vjb21iZUBpbnRlbC5jb20+DQo+ID4gU2lnbmVkLW9m
-Zi1ieTogUmljayBFZGdlY29tYmUgPHJpY2sucC5lZGdlY29tYmVAaW50ZWwuY29tPg0KPiA+IC0t
-LQ0KPiA+IHY2Og0KPiA+IC0gRG9uJ3QgaGF2ZSB0b3B1cCBvcCB0YWtlIGEgbWluIHBhcmFtIChZ
-YW4sIFNlYW4pDQo+IA0KPiBUaGUgdG9wdXBfZXh0ZXJuYWxfY2FjaGUgeDg2IG9wIHN0aWxsIHRh
-a2VzIGludCBtaW5fbnJfc3B0cy4gRGlkIHlvdQ0KPiBmb3JnZXQgdG8gcmVtb3ZlIGl0LCBvciBh
-bSBJIG1pc3JlYWRpbmcgdGhpcyBjaGFuZ2Vsb2c/DQoNClRoZXJlIHdhcyBzb21lIGRpc2N1c3Np
-b24gb24gdjUgdG8gZHJvcCB0aGUgIm1pbiIgcGFyYW0sIGJ1dCBpdCBnb3QgYWRkZWQgYmFjaw0K
-aW4gbGF0ZXIgZGlzY3Vzc2lvbiBhbmQgcmVuYW1lZCBtaW5fbnJfc3B0czoNCmh0dHBzOi8vbG9y
-ZS5rZXJuZWwub3JnL2xrbWwvYVlwcnhuU0hLSFV0azdwdEBnb29nbGUuY29tLyN0DQoNCg0K
+
+
+On 7/8/2026 3:06 AM, Thomas Gleixner wrote:
+> The return value of that function is boolean and tells the caller whether
+> to permit the syscall processing or not.
+> 
+> Rename the function so the purpose is clear and make the return type bool.
+> 
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Oleg Nesterov <oleg@redhat.com>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Vineet Gupta <vgupta@kernel.org>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Guo Ren <guoren@kernel.org>
+> Cc: Brian Cain <bcain@kernel.org>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Michal Simek <monstr@monstr.eu>
+> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> Cc: Dinh Nguyen <dinguyen@kernel.org>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Andreas Larsson <andreas@gaisler.com>
+> Cc: Chris Zankel <chris@zankel.net>
+> Cc: linux-alpha@vger.kernel.org
+> Cc: linux-snps-arc@lists.infradead.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-csky@vger.kernel.org
+> Cc: linux-hexagon@vger.kernel.org
+> Cc: linux-m68k@lists.linux-m68k.org
+> Cc: linux-mips@vger.kernel.org
+> Cc: linux-openrisc@vger.kernel.org
+> Cc: linux-parisc@vger.kernel.org
+> Cc: linux-sh@vger.kernel.org
+> Cc: sparclinux@vger.kernel.org
+> Cc: linux-um@lists.infradead.org
+> Cc: linux-arch@vger.kernel.org
+> ---
+>  arch/alpha/kernel/ptrace.c      |    2 +-
+>  arch/arc/kernel/ptrace.c        |    2 +-
+>  arch/arm/kernel/ptrace.c        |    2 +-
+>  arch/arm64/kernel/ptrace.c      |    2 +-
+>  arch/csky/kernel/ptrace.c       |    2 +-
+>  arch/hexagon/kernel/traps.c     |    2 +-
+>  arch/m68k/kernel/ptrace.c       |    2 +-
+>  arch/microblaze/kernel/ptrace.c |    2 +-
+>  arch/mips/kernel/ptrace.c       |    2 +-
+>  arch/nios2/kernel/ptrace.c      |    2 +-
+>  arch/openrisc/kernel/ptrace.c   |    2 +-
+>  arch/parisc/kernel/ptrace.c     |   10 ++++------
+>  arch/sh/kernel/ptrace_32.c      |    2 +-
+>  arch/sparc/kernel/ptrace_32.c   |    2 +-
+>  arch/sparc/kernel/ptrace_64.c   |    2 +-
+>  arch/um/kernel/ptrace.c         |    2 +-
+>  arch/xtensa/kernel/ptrace.c     |    2 +-
+>  include/asm-generic/syscall.h   |    4 ++--
+>  include/linux/entry-common.h    |   25 ++++++++++++-------------
+>  include/linux/ptrace.h          |   13 ++++++-------
+>  20 files changed, 40 insertions(+), 44 deletions(-)
+> 
+> --- a/arch/alpha/kernel/ptrace.c
+> +++ b/arch/alpha/kernel/ptrace.c
+> @@ -375,7 +375,7 @@ asmlinkage unsigned long syscall_trace_e
+>  	struct pt_regs *regs = current_pt_regs();
+>  
+>  	if (test_thread_flag(TIF_SYSCALL_TRACE) &&
+> -		ptrace_report_syscall_entry(regs)) {
+> +		!ptrace_report_syscall_permit_entry(regs)) {
+>  		syscall_set_nr(current, regs, -1);
+>  		if (regs->r19 == 0 && regs->r0 == (unsigned long)-1)
+>  			syscall_set_return_value(current, regs, -ENOSYS, 0);
+> --- a/arch/arc/kernel/ptrace.c
+> +++ b/arch/arc/kernel/ptrace.c
+> @@ -342,7 +342,7 @@ long arch_ptrace(struct task_struct *chi
+>  asmlinkage int syscall_trace_enter(struct pt_regs *regs)
+>  {
+>  	if (test_thread_flag(TIF_SYSCALL_TRACE))
+> -		if (ptrace_report_syscall_entry(regs))
+> +		if (!ptrace_report_syscall_permit_entry(regs))
+>  			return ULONG_MAX;
+>  
+>  #ifdef CONFIG_HAVE_SYSCALL_TRACEPOINTS
+> --- a/arch/arm/kernel/ptrace.c
+> +++ b/arch/arm/kernel/ptrace.c
+> @@ -840,7 +840,7 @@ static void report_syscall(struct pt_reg
+>  
+>  	if (dir == PTRACE_SYSCALL_EXIT)
+>  		ptrace_report_syscall_exit(regs, 0);
+> -	else if (ptrace_report_syscall_entry(regs))
+> +	else if (!ptrace_report_syscall_permit_entry(regs))
+>  		current_thread_info()->abi_syscall = -1;
+>  
+>  	regs->ARM_ip = ip;
+> --- a/arch/arm64/kernel/ptrace.c
+> +++ b/arch/arm64/kernel/ptrace.c
+> @@ -2379,7 +2379,7 @@ static int report_syscall_entry(struct p
+>  	int regno, ret;
+>  
+>  	saved_reg = ptrace_save_reg(regs, PTRACE_SYSCALL_ENTER, &regno);
+> -	ret = ptrace_report_syscall_entry(regs);
+> +	ret = !ptrace_report_syscall_permit_entry(regs);
+>  	if (ret)
+>  		forget_syscall(regs);
+>  	regs->regs[regno] = saved_reg;
+> --- a/arch/csky/kernel/ptrace.c
+> +++ b/arch/csky/kernel/ptrace.c
+> @@ -320,7 +320,7 @@ long arch_ptrace(struct task_struct *chi
+>  asmlinkage int syscall_trace_enter(struct pt_regs *regs)
+>  {
+>  	if (test_thread_flag(TIF_SYSCALL_TRACE))
+> -		if (ptrace_report_syscall_entry(regs))
+> +		if (!ptrace_report_syscall_permit_entry(regs))
+>  			return -1;
+>  
+>  	if (!seccomp_permit_syscall())
+> --- a/arch/hexagon/kernel/traps.c
+> +++ b/arch/hexagon/kernel/traps.c
+> @@ -345,7 +345,7 @@ void do_trap0(struct pt_regs *regs)
+>  
+>  		/* allow strace to catch syscall args  */
+>  		if (unlikely(test_thread_flag(TIF_SYSCALL_TRACE) &&
+> -			ptrace_report_syscall_entry(regs)))
+> +			!ptrace_report_syscall_permit_entry(regs)))
+>  			return;  /*  return -ENOSYS somewhere?  */
+>  
+>  		/* Interrupts should be re-enabled for syscall processing */
+> --- a/arch/m68k/kernel/ptrace.c
+> +++ b/arch/m68k/kernel/ptrace.c
+> @@ -279,7 +279,7 @@ asmlinkage int syscall_trace_enter(void)
+>  	int ret = 0;
+>  
+>  	if (test_thread_flag(TIF_SYSCALL_TRACE))
+> -		ret = ptrace_report_syscall_entry(task_pt_regs(current));
+> +		ret = !ptrace_report_syscall_permit_entry(task_pt_regs(current));
+>  
+>  	if (!seccomp_permit_syscall())
+>  		return -1;
+> --- a/arch/microblaze/kernel/ptrace.c
+> +++ b/arch/microblaze/kernel/ptrace.c
+> @@ -139,7 +139,7 @@ asmlinkage unsigned long do_syscall_trac
+>  	secure_computing_strict(regs->r12);
+>  
+>  	if (test_thread_flag(TIF_SYSCALL_TRACE) &&
+> -	    ptrace_report_syscall_entry(regs))
+> +	    !ptrace_report_syscall_permit_entry(regs))
+>  		/*
+>  		 * Tracing decided this syscall should not happen.
+>  		 * We'll return a bogus call number to get an ENOSYS
+> --- a/arch/mips/kernel/ptrace.c
+> +++ b/arch/mips/kernel/ptrace.c
+> @@ -1324,7 +1324,7 @@ asmlinkage long syscall_trace_enter(stru
+>  	user_exit();
+>  
+>  	if (test_thread_flag(TIF_SYSCALL_TRACE)) {
+> -		if (ptrace_report_syscall_entry(regs))
+> +		if (!ptrace_report_syscall_permit_entry(regs))
+>  			return -1;
+>  	}
+>  
+> --- a/arch/nios2/kernel/ptrace.c
+> +++ b/arch/nios2/kernel/ptrace.c
+> @@ -133,7 +133,7 @@ asmlinkage int do_syscall_trace_enter(vo
+>  	int ret = 0;
+>  
+>  	if (test_thread_flag(TIF_SYSCALL_TRACE))
+> -		ret = ptrace_report_syscall_entry(task_pt_regs(current));
+> +		ret = !ptrace_report_syscall_permit_entry(task_pt_regs(current));
+>  
+>  	return ret;
+>  }
+> --- a/arch/openrisc/kernel/ptrace.c
+> +++ b/arch/openrisc/kernel/ptrace.c
+> @@ -293,7 +293,7 @@ asmlinkage long do_syscall_trace_enter(s
+>  	long ret = 0;
+>  
+>  	if (test_thread_flag(TIF_SYSCALL_TRACE) &&
+> -	    ptrace_report_syscall_entry(regs))
+> +	    !ptrace_report_syscall_permit_entry(regs))
+>  		/*
+>  		 * Tracing decided this syscall should not happen.
+>  		 * We'll return a bogus call number to get an ENOSYS
+> --- a/arch/parisc/kernel/ptrace.c
+> +++ b/arch/parisc/kernel/ptrace.c
+> @@ -326,7 +326,7 @@ long compat_arch_ptrace(struct task_stru
+>  long do_syscall_trace_enter(struct pt_regs *regs)
+>  {
+>  	if (test_thread_flag(TIF_SYSCALL_TRACE)) {
+> -		int rc = ptrace_report_syscall_entry(regs);
+> +		bool permit = ptrace_report_syscall_permit_entry(regs);
+>  
+>  		/*
+>  		 * As tracesys_next does not set %r28 to -ENOSYS
+> @@ -334,12 +334,10 @@ long do_syscall_trace_enter(struct pt_re
+>  		 */
+>  		regs->gr[28] = -ENOSYS;
+>  
+> -		if (rc) {
+> +		if (!permit) {
+>  			/*
+> -			 * A nonzero return code from
+> -			 * ptrace_report_syscall_entry() tells us
+> -			 * to prevent the syscall execution.  Skip
+> -			 * the syscall call and the syscall restart handling.
+> +			 * Skip the syscall call and the syscall restart
+> +			 * handling.
+>  			 *
+>  			 * Note that the tracer may also just change
+>  			 * regs->gr[20] to an invalid syscall number,
+> --- a/arch/sh/kernel/ptrace_32.c
+> +++ b/arch/sh/kernel/ptrace_32.c
+> @@ -455,7 +455,7 @@ long arch_ptrace(struct task_struct *chi
+>  asmlinkage long do_syscall_trace_enter(struct pt_regs *regs)
+>  {
+>  	if (test_thread_flag(TIF_SYSCALL_TRACE) &&
+> -	    ptrace_report_syscall_entry(regs)) {
+> +	    !ptrace_report_syscall_permit_entry(regs)) {
+>  		regs->regs[0] = -ENOSYS;
+>  		return -1;
+>  	}
+> --- a/arch/sparc/kernel/ptrace_32.c
+> +++ b/arch/sparc/kernel/ptrace_32.c
+> @@ -441,7 +441,7 @@ asmlinkage int syscall_trace(struct pt_r
+>  		if (syscall_exit_p)
+>  			ptrace_report_syscall_exit(regs, 0);
+>  		else
+> -			ret = ptrace_report_syscall_entry(regs);
+> +			ret = !ptrace_report_syscall_permit_entry(regs);
+>  	}
+>  
+>  	return ret;
+> --- a/arch/sparc/kernel/ptrace_64.c
+> +++ b/arch/sparc/kernel/ptrace_64.c
+> @@ -1093,7 +1093,7 @@ asmlinkage int syscall_trace_enter(struc
+>  		user_exit();
+>  
+>  	if (test_thread_flag(TIF_SYSCALL_TRACE))
+> -		ret = ptrace_report_syscall_entry(regs);
+> +		ret = !ptrace_report_syscall_permit_entry(regs);
+>  
+>  	if (unlikely(test_thread_flag(TIF_SYSCALL_TRACEPOINT)))
+>  		trace_sys_enter(regs, regs->u_regs[UREG_G1]);
+> --- a/arch/um/kernel/ptrace.c
+> +++ b/arch/um/kernel/ptrace.c
+> @@ -135,7 +135,7 @@ int syscall_trace_enter(struct pt_regs *
+>  	if (!test_thread_flag(TIF_SYSCALL_TRACE))
+>  		return 0;
+>  
+> -	return ptrace_report_syscall_entry(regs);
+> +	return !ptrace_report_syscall_permit_entry(regs);
+>  }
+>  
+>  void syscall_trace_leave(struct pt_regs *regs)
+> --- a/arch/xtensa/kernel/ptrace.c
+> +++ b/arch/xtensa/kernel/ptrace.c
+> @@ -547,7 +547,7 @@ int do_syscall_trace_enter(struct pt_reg
+>  		regs->areg[2] = -ENOSYS;
+>  
+>  	if (test_thread_flag(TIF_SYSCALL_TRACE) &&
+> -	    ptrace_report_syscall_entry(regs)) {
+> +	    !ptrace_report_syscall_permit_entry(regs)) {
+>  		regs->areg[2] = -ENOSYS;
+>  		regs->syscall = NO_SYSCALL;
+>  		return 0;
+> --- a/include/asm-generic/syscall.h
+> +++ b/include/asm-generic/syscall.h
+> @@ -58,8 +58,8 @@ void syscall_set_nr(struct task_struct *
+>   *
+>   * It's only valid to call this when @task is stopped for system
+>   * call exit tracing (due to %SYSCALL_WORK_SYSCALL_TRACE or
+> - * %SYSCALL_WORK_SYSCALL_AUDIT), after ptrace_report_syscall_entry()
+> - * returned nonzero to prevent the system call from taking place.
+> + * %SYSCALL_WORK_SYSCALL_AUDIT), after ptrace_report_syscall_permit_entry()
+> + * returned False to prevent the system call from taking place.
+>   *
+>   * This rolls back the register state in @regs so it's as if the
+>   * system call instruction was a no-op.  The registers containing
+> --- a/include/linux/entry-common.h
+> +++ b/include/linux/entry-common.h
+> @@ -38,21 +38,22 @@
+>  				 SYSCALL_WORK_SYSCALL_EXIT_TRAP)
+>  
+>  /**
+> - * arch_ptrace_report_syscall_entry - Architecture specific ptrace_report_syscall_entry() wrapper
+> + * arch_ptrace_report_syscall_permit_entry - Architecture specific wrapper for
+> + *					     ptrace_report_syscall_permit_entry()
+>   * @regs: Pointer to the register state at syscall entry
+>   *
+> - * Invoked from syscall_trace_enter() to wrap ptrace_report_syscall_entry().
+> + * Invoked from syscall_trace_enter() to wrap ptrace_report_syscall_permit_entry().
+>   *
+> - * This allows architecture specific ptrace_report_syscall_entry()
+> + * This allows architecture specific ptrace_report_syscall_permit_entry()
+>   * implementations. If not defined by the architecture this falls back to
+> - * to ptrace_report_syscall_entry().
+> + * to ptrace_report_syscall_permit_entry().
+>   */
+> -static __always_inline int arch_ptrace_report_syscall_entry(struct pt_regs *regs);
+> +static __always_inline bool arch_ptrace_report_syscall_permit_entry(struct pt_regs *regs);
+>  
+> -#ifndef arch_ptrace_report_syscall_entry
+> -static __always_inline int arch_ptrace_report_syscall_entry(struct pt_regs *regs)
+> +#ifndef arch_ptrace_report_syscall_permit_entry
+> +static __always_inline bool arch_ptrace_report_syscall_permit_entry(struct pt_regs *regs)
+>  {
+> -	return ptrace_report_syscall_entry(regs);
+> +	return ptrace_report_syscall_permit_entry(regs);
+>  }
+>  #endif
+>  
+> @@ -73,8 +74,6 @@ static inline void syscall_enter_audit(s
+>  static __always_inline long syscall_trace_enter(struct pt_regs *regs, unsigned long work,
+>  						long syscall)
+>  {
+> -	long ret = 0;
+> -
+>  	/*
+>  	 * Handle Syscall User Dispatch.  This must comes first, since
+>  	 * the ABI here can be something that doesn't make sense for
+> @@ -95,8 +94,8 @@ static __always_inline long syscall_trac
+>  
+>  	/* Handle ptrace */
+>  	if (work & (SYSCALL_WORK_SYSCALL_TRACE | SYSCALL_WORK_SYSCALL_EMU)) {
+> -		ret = arch_ptrace_report_syscall_entry(regs);
+> -		if (ret || (work & SYSCALL_WORK_SYSCALL_EMU))
+> +		if (!arch_ptrace_report_syscall_permit_entry(regs) ||
+> +		    (work & SYSCALL_WORK_SYSCALL_EMU))
+>  			return -1L;
+>  	}
+>  
+> @@ -137,7 +136,7 @@ static __always_inline long syscall_trac
+>   * It handles the following work items:
+>   *
+>   *  1) syscall_work flag dependent invocations of
+> - *     ptrace_report_syscall_entry(), __seccomp_permit_syscall(), trace_sys_enter()
+> + *     ptrace_report_syscall_permit_entry(), __seccomp_permit_syscall(), trace_sys_enter()
+>   *  2) Invocation of audit_syscall_entry()
+>   */
+>  static __always_inline long syscall_enter_from_user_mode_work(struct pt_regs *regs, long syscall)
+> --- a/include/linux/ptrace.h
+> +++ b/include/linux/ptrace.h
+> @@ -405,13 +405,13 @@ extern void sigaction_compat_abi(struct
+>  /*
+>   * ptrace report for syscall entry and exit looks identical.
+>   */
+> -static inline int ptrace_report_syscall(unsigned long message)
+> +static inline bool ptrace_report_syscall(unsigned long message)
+>  {
+>  	int ptrace = current->ptrace;
+>  	int signr;
+>  
+>  	if (!(ptrace & PT_PTRACED))
+> -		return 0;
+> +		return true;
+>  
+>  	signr = ptrace_notify(SIGTRAP | ((ptrace & PT_TRACESYSGOOD) ? 0x80 : 0),
+>  			      message);
+> @@ -424,11 +424,11 @@ static inline int ptrace_report_syscall(
+>  	if (signr)
+>  		send_sig(signr, current, 1);
+>  
+> -	return fatal_signal_pending(current);
+> +	return !fatal_signal_pending(current);
+>  }
+>  
+>  /**
+> - * ptrace_report_syscall_entry - task is about to attempt a system call
+> + * ptrace_report_syscall_permit_entry - task is about to attempt a system call
+>   * @regs:		user register state of current task
+>   *
+>   * This will be called if %SYSCALL_WORK_SYSCALL_TRACE or
+> @@ -438,7 +438,7 @@ static inline int ptrace_report_syscall(
+>   * call number and arguments to be tried.  It is safe to block here,
+>   * preventing the system call from beginning.
+>   *
+> - * Returns zero normally, or nonzero if the calling arch code should abort
+> + * Returns True normally, or False if the calling architecture code should abort
+>   * the system call.  That must prevent normal entry so no system call is
+>   * made.  If @task ever returns to user mode after this, its register state
+>   * is unspecified, but should be something harmless like an %ENOSYS error
+> @@ -447,8 +447,7 @@ static inline int ptrace_report_syscall(
+>   *
+>   * Called without locks, just after entering kernel mode.
+>   */
+> -static inline __must_check int ptrace_report_syscall_entry(
+> -	struct pt_regs *regs)
+> +static inline __must_check bool ptrace_report_syscall_permit_entry(struct pt_regs *regs)
+>  {
+>  	return ptrace_report_syscall(PTRACE_EVENTMSG_SYSCALL_ENTRY);
+>  }
+
+Reviewed-by: Jinjie Ruan <ruanjinjie@huawei.com>
+
+> 
+
