@@ -1,105 +1,66 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08816435EE7
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 16:27:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0197397347;
+	Thu,  9 Jul 2026 16:38:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783614427; cv=none; b=H6t0UY7KlDPlUg+hlQeSVbjIY7u8gU/OaJtTup46aO1g5C0u+nj7TRhk7/Q6qwGInTS8mP1fJHNOzLNiVwZUUiJxjs8Z/mkhnIjYoZuTUPdgZ3Gly0Eh+Ng1FJAqwKZr6PEFhfWZF6NqUCZxitXGeo1HrRGEQULsRn3041Nb+wk=
+	t=1783615122; cv=none; b=K7RUcuCTVxpZT2WJ6sIVRZj0VW3huc+qowzv8LQ79KAVN+ccoQgjiAieAPTkGLi8ZEoxMIiaMljxcMm3Tv6ir8RHNknMPNRHmp6GLYin9JQhmQZuwdJ7Tsv6jklmMnHwzZbH6n46ib2O8pxchZbO6Ge8V+b7ScCsnNlUyhhUGqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783614427; c=relaxed/simple;
-	bh=S/xAtxH9kCAjFwM1/MAEgEQMpcNiqhEBM0MEXLopRqg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FELSPzNx7ooNFNzuOTcd+6ff7zRl9WETchUD2E3B7PSPKRfCwmq92hFdTZiFj80feEHkhClxBJp1AEiEPDU3/ayROsNUSOve+gjg/RCVs0cJKQ28OgEV8iE2squewnaJm2o9pU6WrMBGNCBivyYuADqKr+zKv7azKFlBlHBBcSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f66IYRb3; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783615122; c=relaxed/simple;
+	bh=EDgCjq9M4cLU2lDIJy1Wh4zjhCIDueGaFTDQ6SCIpx4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=i73Uz/FlPFUaYtUMuHlBv0lz4RmzcKxeWApg5VCBti7Se5tA63cHrXrrSVZKFtmL9FLwn2o+Pn0IDcEAzVCkQ6szdKsPXhG+MWm67iKbQIGYaf4W+GsuOzbkuT0JflRZRXj8+lhqg9mvqO5o+MpoGu5fYm21onzNayTDMSRCBhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g/42Gm33; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f66IYRb3"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-493b7612475so18619215e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 09:27:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783614423; x=1784219223; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GEOL8DOWD1Msvjz7k5cAG0xDAOqwGsu0BnpwMff10wU=;
-        b=f66IYRb3W3n4wUp60vuJmeagFdempVA19+GvfglfbGXQNr32Jgf6Zu59Uj+bcep6dg
-         jsx4MIO/Rg0Jc8lrVT/RQMxMMW76zzTchDs11lEHMl8wueX5jr2m95gnsMPuCp+FiVia
-         BXcS1RfCaig3WVexG8fiT0f1WyIZI2ZFqmCdfMorSUHquBf0Y5WGXwn3lYxbxm4/2faj
-         NWGL5ZyKcF+WzWoxiQjAkz+rxwePY89gZ4a0ESMuDMMFx4G3ZLECB3j0O5NlKwsrjWw/
-         4IqBiE/i3mAHjgYbMO+ob6qHoEPfbgtS+ClBm3imDY87X4M/jBzC1B5Fmge7V4/JxTvX
-         p0Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783614423; x=1784219223;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GEOL8DOWD1Msvjz7k5cAG0xDAOqwGsu0BnpwMff10wU=;
-        b=Sz1jXZD5tYZIaiLrd/9sF4vXmYW4SXPUZuBk4LIny/kmF6IKQoMaRWItcABKAYNQKx
-         4DiQy/arO3N8oW9KCDdF3uzvr3CtXrJ5dqrvdZPIQLdoAhP7BVsePCdob/zLE3e318FX
-         pmQVpip0R4+yLHtTUfaKYfgAYNQHmmhf+HTsKjEFw/xMEUNHZu794EasB4XcL3OaOuHk
-         nDT+5gt5nqzHEhmUZW0eK6Tl/gqzGTuBS0dBQlR3WBzctyyfMMX66XrKMOZQUjJeFmvF
-         oFb7QJw2JPdFs5wnr//t03RvZVFY+70d8e1JkG2yMb3esaKgz0vjjF7Q7zOxu9YIPOFL
-         lGNw==
-X-Forwarded-Encrypted: i=1; AHgh+Rq11d8yozQHipc9lZ3ljJnXZJHavm4OWoz2eVM/WzIsVhZSOazdtGzXGq789XeFn6dNS0kHLca6WwU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLGPgcicLJee9mx46aiFenEG6mlp2hZy1lQ6441KArMgwFcVqv
-	UWWj42DPImG5LFs+HJOtrSxo+erKh9r0VpttiODQC7K7ANDqoIDRcyly
-X-Gm-Gg: AfdE7cm2rC7ySL3x4v0Fv7c6ojRmRiY1BXfUpCqmVIKorWyc6c6HA0gDrNe6EAvUU7E
-	8Rk5A1y5JKFkF8mwSasewa9aKxFBAf3xbOcvQ21wkuYiuYpHk3x8w6lGcrmkdzNGjxTc54DeBt7
-	vHawNLDp1qBxrmO5a6e/ckucmqHuhWpCdNy/Fma8nCt1FL/nD4Py8E1CpEKhjFIwSP0jr7R4fj6
-	svFNqtjmOIFVANgiJZYzg6lodIrSuDbB+5WazvuC1fREGS+qG7XaHJ6ibsmGq95oVarmtCaYNTD
-	rS9h6S7xtanAA+lqKQVKv/Yhu4DlLktzhmuY957GhcnvN/yQzHnNO+C7KjAN2PB63cSYVb4TWMC
-	UwqD/ybhP3yUFs4R2jbL++VfEh2lr/0MS5MqV26Lr+8Q3C0kr4C4szD1ParqfVMMZ3JF8H6/rkh
-	RO5MGB/0ztnv2n8/d2l8c92K+oVw9sAtpD2esYnL8WJ9gL2w==
-X-Received: by 2002:a05:600d:6405:10b0:493:eec0:2b8c with SMTP id 5b1f17b1804b1-493eec02c80mr19641245e9.12.1783614423204;
-        Thu, 09 Jul 2026 09:27:03 -0700 (PDT)
-Received: from pumpkin (host-92-21-50-228.as13285.net. [92.21.50.228])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb670a41sm70023415e9.0.2026.07.09.09.27.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 09:27:02 -0700 (PDT)
-Date: Thu, 9 Jul 2026 17:26:59 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: Michal =?UTF-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>, LKML
- <linux-kernel@vger.kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Michael Ellerman <mpe@ellerman.id.au>, Shrikanth Hegde
- <sshegde@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Kees Cook
- <kees@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
- loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt
- <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, Sven Schnelle
- <svens@linux.ibm.com>, linux-s390@vger.kernel.org, x86@kernel.org, Mark
- Rutland <mark.rutland@arm.com>, Jinjie Ruan <ruanjinjie@huawei.com>, Andy
- Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>, Russell King
- <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Guo Ren
- <guoren@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>, Helge Deller <deller@gmx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Richard Weinberger
- <richard@nod.at>, Chris Zankel <chris@zankel.net>,
- linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
- linux-csky@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-um@lists.infradead.org, Arnd Bergmann
- <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>, Will Deacon
- <will@kernel.org>, Brian Cain <bcain@kernel.org>, Michal Simek
- <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, "David S. Miller"
- <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
- linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
- linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-arch@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org
-Subject: Re: [patch 13/18] entry: Make trace_syscall_enter() return type
- bool
-Message-ID: <20260709172659.7040db33@pumpkin>
-In-Reply-To: <87ik6pqdkf.ffs@fw13>
-References: <20260707181957.433213175@kernel.org>
-	<20260707190254.338083894@kernel.org>
-	<ak5ySpil83TNWxeq@kunlun.suse.cz>
-	<87se5tqkyp.ffs@fw13>
-	<87ik6pqdkf.ffs@fw13>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g/42Gm33"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C0E01F000E9;
+	Thu,  9 Jul 2026 16:38:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783615120;
+	bh=UPo/CkfZikxZ8iFCyHanHXt0i9MElllnJAnYRTmz2E4=;
+	h=From:To:Cc:Subject:Date;
+	b=g/42Gm333ocrDt1aSohmknsCck8KQ7gg7yxDs+MsX8aL/RQphjkGo9YRXZ73oyiNu
+	 aEwiVZIpUkdB+9gvpo0gOQlgL9jkOWT0MLIfmlktJJxPY4NqpWraDbrDXD55nfBNSM
+	 lV2z+8B2+rAVVDyBjunA8LPVQZg+sqjyzApZ61431a6pZFhVQGHriy9U0RWh02N9mH
+	 onZvNelxCDSYfKGx2HNDj6riwro/aZ6EKCtYZAPU89RLhlMYu8/hEutvkOQgTLe76t
+	 YsqdekKf1FBIJo5PeBEsrPZK62sW8nExR6Cct7viW2z4gZzN1lV//IJZzGiqd7v5Kn
+	 8Rtj8USv6Ntsg==
+From: Sasha Levin <sashal@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Richard Weinberger <richard@nod.at>,
+	Juergen Gross <jgross@suse.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Kees Cook <kees@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Helge Deller <deller@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Vivian Wang <wangruikang@iscas.ac.cn>,
+	Zhen Lei <thunder.leizhen@huawei.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v7 0/4] kallsyms: embed source file:line info in kernel stack traces
+Date: Thu,  9 Jul 2026 12:38:26 -0400
+Message-ID: <20260709163833.3851179-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -107,97 +68,291 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, 09 Jul 2026 01:14:24 +0200
-Thomas Gleixner <tglx@kernel.org> wrote:
+This series adds CONFIG_KALLSYMS_LINEINFO, which embeds source file:line
+information directly in the kernel image so that stack traces annotate
+every frame with the originating source location - no external tools, no
+debug symbols at runtime, and safe to use in NMI/panic context.
 
-> On Wed, Jul 08 2026 at 22:34, Thomas Gleixner wrote:
-> > On Wed, Jul 08 2026 at 17:52, Michal Such=C3=A1nek wrote:
-> > Q: Is it perfect?
-> > A: No
-> >
-> > Q: Can it be made perfect?
-> > A: No, because you can't change history and established practice.
-> >
-> > Just for illustration. Changing the logic in trace_syscall_enter() to:
-> >
-> > --- a/kernel/entry/syscall-common.c
-> > +++ b/kernel/entry/syscall-common.c
-> > @@ -9,13 +9,15 @@
-> > =20
-> >  bool trace_syscall_enter(struct pt_regs *regs, long *syscall)
-> >  {
-> > +	long orig_syscall =3D *syscall;
-> > +
-> >  	trace_sys_enter(regs, *syscall);
-> >  	/*
-> >  	 * Probes or BPF hooks in the tracepoint may have changed the
-> >  	 * system call number. Reread it.
-> >  	 */
-> >  	*syscall =3D syscall_get_nr(current, regs);
-> > -	return *syscall !=3D -1L;
-> > +	return *syscall =3D=3D orig_syscall || *syscall !=3D -1L;
-> >  }
-> > =20
-> >  void trace_syscall_exit(struct pt_regs *regs, long ret)
-> >
-> > does not make #2 magically go away. It's still the same problem whether
-> > you like it or not. =20
->=20
-> And just to be entirely clear, the syscall() interface has to be correct
-> in the first place, but then it's all about performance.
->=20
-> So the sequence of:
->=20
->    pt_regs =3D PUSH_REGS();
->    syscall =3D pt_regs->syscall_reg;
->    pt_regs->result =3D -ENOSYS;
->=20
->    arch_syscall(pt_regs, syscall) {
->       if (likely(syscall_enter_from_user_mode(pt_regs, &syscall) {
+Motivation
+==========
 
-I guess most architectures inline that to avoid the &syscall.
-Otherwise you'd want:
-	syscall =3D syscall_enter_from_user_mode(pt_regs, syscall);
-with the 'error' return being selected to fail the test below
-(which -1L converted to ~0UL will do nicely).
+The recent "slowly decommission bugzilla?" thread surfaced a recurring
+problem: when users encounter kernel crashes they see stack traces like
+`func+0x1ec/0x240` but have no way to identify which subsystem or
+maintainer to contact. Richard Weinberger proposed building a database
+mapping symbols to source files using nm/DWARF. Linus pointed to
+scripts/decode_stacktrace.sh as the existing solution. But as the
+discussion progressed, it became clear that decode_stacktrace.sh has
+significant practical barriers that prevent it from being useful in the
+common case.
 
-	David
+Problems with scripts/decode_stacktrace.sh
+==========================================
 
->          if (syscall < SYSCALL_max)
->             pt_regs->result =3D invoke_syscall(pt_regs, syscall);
->       }
->       ,,,,
->    }
->    pt_regs->($RETURN_VALUE) =3D pt_regs->result;
->    POP_REGS();
->    return;
->=20
-> is the correct and obviuosly most efficient way idependent of the -1L
-> return value overload in the original implementation, which this series
-> gets rid of for clarity.
->=20
-> If an architecture decide[sd] to do otherwise and makes up it's own rules
-> which only cover parts of the problem then it _is_ an architecture
-> problem and not something which has to be solved by claiming that every
-> architecture has to implement the same nonsense as you falsely claimed
-> in your RFC^WPOC^Whack thread:
->=20
->   "However, the API should be specified in a way that does not require
->    everyone implementing such flag."
->=20
-> There is _ZERO_ requirement for any architecture to implement that
-> flag. Just because S390 decided it's a brilliant idea to do so does not
-> make it a requirement for everyone.
->=20
-> No. Every other architecture got it right because they looked at the
-> historical patterns despite having correct documentation at hand.
->=20
-> Feel free to prove me wrong with actual facts.
->=20
-> Thanks,
->=20
->         tglx
->=20
+- Requires debug symbols: the script needs vmlinux with DWARF debug
+  info. Many distros don't retain debug symbols for older or security
+  kernels, and even when available, asking users to obtain matching
+  debuginfo packages is a significant hurdle.
+
+- Requires toolchain: users need addr2line and nm installed.
+
+- Version-matching requirement: debug symbols must exactly match the
+  running kernel binary.
+
+What this series does
+=====================
+
+Patch 1: CONFIG_KALLSYMS_LINEINFO
+
+At build time, a host tool (scripts/gen_lineinfo) reads DWARF
+.debug_line from vmlinux, extracts address-to-file:line mappings, and
+embeds them as sorted lookup tables in .rodata.  At runtime,
+kallsyms_lookup_lineinfo() binary-searches the table and
+sprint_backtrace() appends "(file:line)" to each stack frame.
+NMI/panic-safe (no locks, no allocations), KASLR-compatible.
+
+Patch 2: CONFIG_KALLSYMS_LINEINFO_MODULES
+
+Extends lineinfo to loadable modules.  Each .ko gets .mod_lineinfo and
+.init.mod_lineinfo sections embedded at build time, each carrying one
+or more per-section sub-tables identified by an ELF relocation against
+the covered text section's symbol.  The module loader's existing
+apply_relocations() pass resolves the anchor on load - no special-cased
+loader logic, no implicit MOD_TEXT-base assumption.  Coverage extends
+to .text, .exit.text, and .init.text; the init blob is freed alongside
+init memory.
+
+Patch 3: delta compression
+
+Block-indexed delta-encoding with LEB128 varints, implementing the
+approach suggested by Juergen Gross in the RFC review.  Reduces
+overhead from ~44 MiB to ~11 MiB (~3.7 bytes/entry), addressing the
+primary size concern from the RFC.  Compression applies independently
+to each per-section table inside the module blobs.
+
+Patch 4: KUnit tests
+
+30 KUnit tests covering the lineinfo lookup paths, delta-decode logic,
+boundary conditions, the module-side multi-section format, and
+integration with the backtrace formatting APIs.
+
+Example output
+==============
+
+  [   11.206749]  dump_stack_lvl+0x5d/0x80 (lib/dump_stack.c:94)
+  [   11.207403]  vpanic+0x36e/0x620 (kernel/panic.c:650)
+  [   11.209324]  panic+0xc9/0xd0 (kernel/panic.c:787)
+  [   11.213312]  sysrq_handle_crash+0x1a/0x20 (drivers/tty/sysrq.c:154)
+  [   11.214005]  __handle_sysrq.cold+0x66/0x256 (drivers/tty/sysrq.c:611)
+  [   11.214712]  write_sysrq_trigger+0x65/0x80 (drivers/tty/sysrq.c:1221)
+  [   11.215424]  proc_reg_write+0x1bd/0x3c0 (fs/proc/inode.c:330)
+  [   11.216061]  vfs_write+0x1c6/0xff0 (fs/read_write.c:686)
+  [   11.218848]  ksys_write+0xfa/0x200 (fs/read_write.c:740)
+  [   11.222394]  do_syscall_64+0xf3/0x690 (arch/x86/entry/syscall_64.c:63)
+
+Size impact
+===========
+
+Measured with a Debian kernel config:
+
+- bzImage: +3.6 MiB (14 MiB -> 18 MiB, +26%)
+- Runtime memory: +5.9 MiB (text+data+bss)
+- Code overhead: +5.0 KiB (.text, lookup functions only)
+- Data overhead: +5.9 MiB (.data, lineinfo tables)
+
+The ~5.9 MiB is after 2.7x delta compression; uncompressed would be
+~16 MiB.  This is a fraction of the cost of shipping full DWARF debug
+info (hundreds of MiB), which distros must store and serve for every
+kernel version.
+
+For distros, maintaining debug symbol repositories is expensive:
+storage, mirrors, and CDN bandwidth for hundreds of MiB per kernel
+build add up quickly.  A ~5.9 MiB increase in the kernel image itself
+is a modest cost that eliminates the need for users to find, download,
+and version-match debuginfo packages just to make a crash report
+useful.
+
+For developers, the file:line annotations appear immediately in crash
+traces - no post-processing with decode_stacktrace.sh needed.
+
+Changes since v6
+================
+
+- Address Sashiko AI review comments.
+
+Changes since v5
+================
+
+- Rebased onto v7.2-rc2:
+
+  - scripts/Makefile.modfinal: adapt to the removal of
+    if_changed_except in commit 7abef41afad05b ("kbuild/btf: Remove
+    broken module relinking exclusion").
+
+  - Drop unrelated MAINTAINERS hunks that had leaked into patch 2
+    during v5 preparation; those updates are already upstream.
+
+Changes since v4
+================
+
+- Replace mod->mem[MOD_TEXT].base derivation with an ELF relocation
+  against the covered section's symbol; resolved by the module loader
+  on load.  (Suggested by Petr Pavlu)
+
+- Cover .exit.text and .init.text in addition to .text.  Init code
+  lives in a parallel .init.mod_lineinfo blob (MOD_INIT_RODATA) that
+  is revoked and freed alongside init memory.
+
+- Switch the build step from objcopy --add-section to ld -r, so
+  .rela.mod_lineinfo / .rela.init.mod_lineinfo ride along into the .ko.
+
+- Pick up lineinfo sections via section_objs() (not any_section_objs)
+  to validate SHF_ALLOC and avoid dangling pointers into the temporary
+  load image.
+
+- Drop the unused "reserved" placeholder field from mod_lineinfo_root
+  and mod_lineinfo_header.  (Suggested by Petr Pavlu)
+
+- Guard the per-module fields with #ifdef CONFIG_KALLSYMS_LINEINFO_MODULES
+  and expose them via inline reader accessors.  (Suggested by Petr Pavlu)
+
+- Update the per-section header layout comment to name struct fields.
+  (Suggested by Petr Pavlu)
+
+- Cap vmlinux-side captured DWARF addresses at _etext: sections placed
+  after .rodata shift as the real lineinfo replaces the empty stub
+  during the multi-pass link, so addresses outside the invariant .text
+  window become stale in the final image.
+
+- Append "(file:line)" only via sprint_backtrace*(), not plain
+  sprint_symbol*() (which backs %ps); many format strings already
+  follow %ps with literal "()" and would otherwise render as
+  "foo (file:line)()".  KUnit gains a sprint_with_lineinfo() helper.
+
+- Build-side fixes in scripts/gen_lineinfo: apply 64-bit absolute
+  relocations to .debug_line (libdw doesn't relocate ET_REL inputs);
+  endian-safe writes for cross-builds; declare empty
+  .text/.exit.text/.init.text stanzas so ld -r binds anchors to LOCAL
+  rather than GLOBAL UND symbols.
+
+Changes since v3
+=================
+
+- Remove redundant gen_lineinfo entry in scripts/Makefile for
+  CONFIG_KALLSYMS_LINEINFO_MODULES (depends on CONFIG_KALLSYMS_LINEINFO
+  which already builds it). (Reported by Petr Pavlu)
+
+- Use R_* constants from <elf.h> instead of hardcoded relocation type
+  values in r_type_abs32(). (Reported by Petr Pavlu)
+
+- Simplify duplicated-path detection in make_relative(): replace loop
+  over every '/' with a direct midpoint check, since true path
+  duplication always splits at len/2. (Suggested by Petr Pavlu)
+
+- Fix comment in process_dwarf(): sections in ET_REL objects have
+  sh_addr == 0 and therefore overlapping address ranges; this is
+  expected behavior, not a "may" situation. (Reported by Petr Pavlu)
+
+- Use U32_MAX instead of UINT_MAX for the module raw_offset bounds
+  check, matching the u32 type of the addrs array.
+  (Reported by Petr Pavlu)
+
+- Document the assumption that .text is at the start of the MOD_TEXT
+  segment in module_lookup_lineinfo(). A proper fix using ELF
+  relocations is planned for a future series.
+  (Reported by Petr Pavlu)
+
+- Wrap -fno-inline-functions-called-once in $(call cc-option,...) for
+  clang compatibility. Clang does not support this GCC-specific flag;
+  the noinline attribute is sufficient.
+
+Changes since v2
+=================
+
+- Replace #ifdef CONFIG_KALLSYMS_LINEINFO with IS_ENABLED() throughout,
+  so the compiler checks the code for syntax errors regardless of
+  configuration. (Suggested by Helge Deller)
+
+- Replace zigzag + ULEB128 encoding of signed deltas with native SLEB128,
+  removing the unnecessary zigzag transform layer.
+  (Suggested by Vivian Wang)
+
+- Deduplicate the binary search and delta-decode logic: extract shared
+  struct lineinfo_table and lineinfo_search() into mod_lineinfo.h
+  instead of maintaining near-identical copies in kernel/kallsyms.c and
+  kernel/module/kallsyms.c. (Suggested by Vivian Wang)
+
+- Use .uleb128 / .sleb128 assembler directives in gen_lineinfo output
+  instead of encoding varints in C and emitting .byte hex literals.
+  (Suggested by Vivian Wang)
+
+- Redesign module mod_lineinfo_header to use explicit (offset, size)
+  pairs for each sub-array, similar to flattened devicetree layout.
+  This makes bounds validation straightforward: offset + size <=
+  section_size. (Suggested by Vivian Wang)
+
+- Remove dead sym_start parameter from kallsyms_lookup_lineinfo() and
+  module_lookup_lineinfo().
+
+Changes since v1
+=================
+
+- Fix path stripping regression on architectures where DWARF comp_dir is
+  a subdirectory (e.g. arch/parisc/kernel) rather than the source tree
+  root: paths now correctly show "kernel/traps.c:212" instead of bare
+  "traps.c:212". Added kernel_dirs[] fallback scan and bare-filename
+  recovery via comp_dir. (Reported by Helge Deller)
+
+- Fix RST heading: overline/underline must be at least as long as the
+  heading text in kallsyms-lineinfo.rst. (Reported by Randy Dunlap)
+
+- Fix MAINTAINERS alphabetical ordering: move KALLSYMS LINEINFO entry
+  before KASAN. (Reported by Randy Dunlap)
+
+- Fix arch-portability of .debug_line relocation handling: replace
+  hardcoded R_X86_64_32 with r_type_abs32() supporting x86, arm, arm64,
+  riscv, s390, mips, ppc, loongarch, and parisc.
+
+Sasha Levin (4):
+  kallsyms: embed source file:line info in kernel stack traces
+  kallsyms: extend lineinfo to loadable modules
+  kallsyms: delta-compress lineinfo tables for ~2.7x size reduction
+  kallsyms: add KUnit tests for lineinfo feature
+
+ Documentation/admin-guide/index.rst           |    1 +
+ .../admin-guide/kallsyms-lineinfo.rst         |   97 ++
+ MAINTAINERS                                   |    9 +
+ include/linux/kallsyms.h                      |   18 +-
+ include/linux/mod_lineinfo.h                  |  312 ++++
+ include/linux/module.h                        |   40 +
+ init/Kconfig                                  |   35 +
+ kernel/kallsyms.c                             |   98 +-
+ kernel/kallsyms_internal.h                    |   11 +
+ kernel/module/kallsyms.c                      |  180 ++
+ kernel/module/main.c                          |   26 +
+ lib/Kconfig.debug                             |   10 +
+ lib/tests/Makefile                            |    3 +
+ lib/tests/lineinfo_kunit.c                    |  973 +++++++++++
+ scripts/.gitignore                            |    1 +
+ scripts/Makefile                              |    3 +
+ scripts/Makefile.modfinal                     |    6 +
+ scripts/empty_lineinfo.S                      |   38 +
+ scripts/gen-mod-lineinfo.sh                   |   50 +
+ scripts/gen_lineinfo.c                        | 1458 +++++++++++++++++
+ scripts/kallsyms.c                            |   17 +
+ scripts/link-vmlinux.sh                       |   43 +-
+ 22 files changed, 3418 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/admin-guide/kallsyms-lineinfo.rst
+ create mode 100644 include/linux/mod_lineinfo.h
+ create mode 100644 lib/tests/lineinfo_kunit.c
+ create mode 100644 scripts/empty_lineinfo.S
+ create mode 100644 scripts/gen-mod-lineinfo.sh
+ create mode 100644 scripts/gen_lineinfo.c
+
+
+base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
+-- 
+2.53.0
 
