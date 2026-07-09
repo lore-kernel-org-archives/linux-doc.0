@@ -1,110 +1,99 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.229.168.213])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1950718C008;
-	Thu,  9 Jul 2026 11:41:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.229.168.213
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518B03F44CB;
+	Thu,  9 Jul 2026 11:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783597288; cv=none; b=mzYcyIwq/p9h5M6AhCHl05vnkmmqz4mqScigcffO8YhsUO3HDhcLGPobSxllvOWojiLn2KeNhU/83dvnx1qluWHeqHFdwkLd3IP84EiiWZkUPuTAbmhgwIHfay6mE0QuwguAYugT5unQLrFrmAmrobinxVPzTAO2gZGADhLTO2A=
+	t=1783597442; cv=none; b=ZgXFfXiq03HQu3dta3rEXYG+rmQMntEPobK9ttesp78kvx7WlCynMYnvc/d7Jl/RWx3zTZqUckGnk6W9v974rgrLAxqwxM07r7iJAl7FoTXyU9salNuC5n9dg6fc5VeMpmkfTBqyuGHzLmUral5yG5y7YD9fM4yN4tJHwQeG9Xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783597288; c=relaxed/simple;
-	bh=0xdS83oiT6Ai/yx5hafRImRZGhbGDJgNU8qQQXbzS8c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UD73+cPrkq32Esbf9UqRsip0Ze7PmMDYPdeQ3osN0C93U5hMF04i6QFxU9WPqH2Eo0e7F5Gbyov1p2bEsUYV/MRV/zJZUriDvI5n4rpHW9say9AbbovYwdG0VivMBpkvvdg/CQOaUdejIrAqrb1D2vX0EkPyt45dujfEOzK26Cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.229.168.213
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrAAHLaLViE9qSpa_AQ--.6654S2;
-	Thu, 09 Jul 2026 19:41:09 +0800 (CST)
-Received: from [100.81.40.43] (unknown [222.20.126.216])
-	by gateway (Coremail) with SMTP id _____wCHgNfTiE9qo_itAA--.25541S2;
-	Thu, 09 Jul 2026 19:41:08 +0800 (CST)
-Message-ID: <ec8a1a82-c5b1-4e5b-a103-7e4b91348630@hust.edu.cn>
-Date: Thu, 9 Jul 2026 19:41:07 +0800
+	s=arc-20240116; t=1783597442; c=relaxed/simple;
+	bh=SDuZ9XKtIIcUDNLCmati6JxqmOkTYKk3QU4b9VRA0AA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YEAWTsR9ZCOxnO6xwSWqX+ED+fY+wjcpP7H+9crAGp4GpGICYKSvv7t0ISUeHhI+EqjpYgUvc0zfFrZ7E/fmBjuYNRzzvO1gVFkO/FsIgxPLo06qEToLtiT33pbY9/9ebdyuZA6ZpvWP7G8f8761ohfiskuXtf4T6+JYjggq/SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YJr3Esz2; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YJr3Esz2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D991B1F000E9;
+	Thu,  9 Jul 2026 11:43:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783597441;
+	bh=TtGOdqwY0KuojvV8YYw/HtNgBXr2vYI0UMqzFnUtGbE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YJr3Esz2DICzZk5KDvEXQNvo6ASxPM9Zw2D5kGxAoIyEbtolY+mldGhVCsFrLzFfA
+	 g8LomLwuURqx6wdNvGaCqnDIaGLqUVV64fhcC0yFwhuaOso0dAonQakqoQdeZGszFN
+	 R8WllypdDbwT/dpUkSzz/DTlR2lt0HknEfqgyAhmvcOE4UdR6YfFfofZlbLsB6C5DZ
+	 8QDeEDHlzatbnLGQWMi/H7g9AgF1S0zVO09lKDFD9bOE4MU5Qch9B/4wOn2hFgtCvx
+	 zIvaVa0Tjp3GCz4ygWegRppEcRf5BCRwQrD0JE2j+vlOtTgjdEG7CXia5Kw28tk6nq
+	 QSvIgmP8uUj5g==
+Date: Thu, 9 Jul 2026 12:43:54 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Fuad Tabba <fuad.tabba@linux.dev>
+Cc: Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
+	Ben Horgan <ben.horgan@arm.com>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v11 00/29] KVM: arm64: Implement support for SME
+Message-ID: <eef020cf-68d8-42f2-9303-292068c839a2@sirena.org.uk>
+References: <20260709-kvm-arm64-sme-v11-0-32799f66db9d@kernel.org>
+ <CA+EHjTyAxBx4jhGq-Gme5hPi1ZyDAkL2CP_U22ykkQemD1dUhg@mail.gmail.com>
+ <ak-Fyvzpj9SkF75j@J2N7QTR9R3>
+ <CA+EHjTydGzbgi9FwWQaFjuRNqUFC_HeOfHggZAHhPL4FfLYBog@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] sched/doc: Fix stale em_pd_energy() reference in
- sched-energy
-To: luoliang@kylinos.cn, Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260707085335.2942128-1-luoliang@kylinos.cn>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <20260707085335.2942128-1-luoliang@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrAAHLaLViE9qSpa_AQ--.6654S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxWF1rZrW7ur48XF13uryxGrg_yoW5Ww17pF
-	yvgr4Iq3WfArn8KryxCw1UXryrX3yxCw4UGF45t3Zaqrs5XrW0kw13tw13Gr97Zry0yFZr
-	ZryYg34Iy342vw7anT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQYb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw2
-	8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
-	vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IY
-	x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
-	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
-	wI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IUnb4S5UUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lZsf7WESsK5u0OW0"
+Content-Disposition: inline
+In-Reply-To: <CA+EHjTydGzbgi9FwWQaFjuRNqUFC_HeOfHggZAHhPL4FfLYBog@mail.gmail.com>
+X-Cookie: MS-DOS must die!
 
 
-On 7/7/26 4:53 PM, luoliang@kylinos.cn wrote:
-> From: Liang Luo <luoliang@kylinos.cn>
->
-> The scheduler energy-aware placement documentation refers to the
-> em_pd_energy() API, which was renamed to em_cpu_energy() in commit
-> f0b5694791ce ("PM / EM: change name of em_pd_energy to em_cpu_energy").
-> Update the reference to the current name.
->
-> em_cpu_energy() is the EM helper that compute_energy() in
-> kernel/sched/fair.c calls to estimate a performance domain's energy
-> consumption (defined in include/linux/energy_model.h).
->
-> Sync the zh_CN translation, which carries the same stale name.
-Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
->
-> Signed-off-by: Liang Luo <luoliang@kylinos.cn>
-> ---
->   Documentation/scheduler/sched-energy.rst                    | 2 +-
->   Documentation/translations/zh_CN/scheduler/sched-energy.rst | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
-> index 4e47aaf103eb..83bac0da4869 100644
-> --- a/Documentation/scheduler/sched-energy.rst
-> +++ b/Documentation/scheduler/sched-energy.rst
-> @@ -141,7 +141,7 @@ in its previous activation.
->   find_energy_efficient_cpu() uses compute_energy() to estimate what will be the
->   energy consumed by the system if the waking task was migrated. compute_energy()
->   looks at the current utilization landscape of the CPUs and adjusts it to
-> -'simulate' the task migration. The EM framework provides the em_pd_energy() API
-> +'simulate' the task migration. The EM framework provides the em_cpu_energy() API
->   which computes the expected energy consumption of each performance domain for
->   the given utilization landscape.
->   
-> diff --git a/Documentation/translations/zh_CN/scheduler/sched-energy.rst b/Documentation/translations/zh_CN/scheduler/sched-energy.rst
-> index fdbf6cfeea93..03dedc69839a 100644
-> --- a/Documentation/translations/zh_CN/scheduler/sched-energy.rst
-> +++ b/Documentation/translations/zh_CN/scheduler/sched-energy.rst
-> @@ -119,7 +119,7 @@ EAS覆盖了CFS的任务唤醒平衡代码。在唤醒平衡时，它使用平
->   
->   如果唤醒的任务被迁移，find_energy_efficient_cpu()使用compute_energy()来估算
->   系统将消耗多少能量。compute_energy()检查各CPU当前的利用率情况，并尝试调整来
-> -“模拟”任务迁移。EM框架提供了API em_pd_energy()计算每个性能域在给定的利用率条件
-> +“模拟”任务迁移。EM框架提供了API em_cpu_energy()计算每个性能域在给定的利用率条件
->   下的预期能量消耗。
->   
->   下面详细介绍一个优化能量消耗的任务放置决策的例子。
+--lZsf7WESsK5u0OW0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Thu, Jul 09, 2026 at 12:31:45PM +0100, Fuad Tabba wrote:
+
+> Thanks, I have 7.2-rc2, but `git show
+> 4c45e14df2f4e77982ad70d6d8e3fe750edd4c37` gives me `fatal: bad object
+> 4c45e14df2f4e77982ad70d6d8e3fe750edd4c37` . The SHA for rc2 is
+> 8cdeaa50eae8dad34885515f62559ee83e7e8dda (which is what shows in the
+> link above, not sure what ID is, which is the part that matches your
+> SHA.
+
+Which version of git are you using there?  I'd expect that anywhere in
+the git UI that takes a commitish (like git show) would do the right
+thing when given either a tag name or the hash for the tag, it certianly
+seems to for me with 2.47.3.  I'd have thought it more likely that
+you've not fetched the tag and therefore don't have the object.
+
+--lZsf7WESsK5u0OW0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpPiXkACgkQJNaLcl1U
+h9CmrQf/e6LMFzC4cy2DvRx3al+SDYi/cTU553QQ/IWhh4rA+PABr4GBmfuVgCcL
+4Dp/Le4V6hRNPKhBNVBKJdugKbKOypc5lildh4HuXeCxwOHLUxm/4/xDNE29bAD3
+gwyQ40mmVrWG5G983wOiXJTBnz/4j1LQ3O7zzO68HYwbgu9We+PrD1HLDTQhfyMo
+BcRSm/9HCrOklBJFf5VILalR79AvLDgI0ProCmvrRrKk5sZz98Nqumo7nLqN/vra
+OycGQBsvmHnnkNGH/cpEKTEPGUJWsHmWYdzwoZecuDe+eJpX0yD9bSLGtomtXSou
+dRHplDX80nR4V4HlwCiravHQDsPHgA==
+=iYLX
+-----END PGP SIGNATURE-----
+
+--lZsf7WESsK5u0OW0--
