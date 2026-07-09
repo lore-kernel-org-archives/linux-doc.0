@@ -1,493 +1,211 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011031.outbound.protection.outlook.com [40.93.194.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576A031AA87;
-	Thu,  9 Jul 2026 23:14:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783638877; cv=fail; b=GzWxOsaKIVVDrLszeaKFfopEAw7Pjbz5QQ4P+CkqgxeseSZkR3Am0kW8U3zAg6Ugf6YG7Ix2bgVWRAtYh0dPnlM7V7nMh1F1Aqk/CamVlQ9w9YEgxm112Hggz9kvEJcrAdpuPxHfMBqEC26F5OGGMuuwHNl/C7yOQhXW2AuM9hE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783638877; c=relaxed/simple;
-	bh=43ZQOY4wichCvvnSUl0kUfh1Wz3vbhj2jrpoM7EaDlc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=pjvkEDUNrf29RWnbHoDmujg6UQSoOm6wcBVm0UIESf6k3+vA9C6TJXPL20jSedP2F0nUKeX8AS8uUxfRmglQ4gs21RBrlg+OiZkRO2YP0pl9OVwxa8ydJhpRuyLJvO8IavKzGEakVNQD0y5gL/VhzZjThZf0g8tknmaa1kVqHXg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=G74AcWtg; arc=fail smtp.client-ip=40.93.194.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7604499A4
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 23:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783640381; cv=none; b=qO6SOBfpf2EvEkP3yZEOqvJHd8lj5Lc9es/3CTwBMWozDxzAoUK5hFTbJFITvNit7isrW7hquxkfN17oCsl6CwPK4YPcDrD9ki0UKGBw6HVa5rEfsxFw42nIDSH1PZF6aKSi/x7QnaJbqV6zOfMLvtaRrahoNAriV7PDCTPZ/JI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783640381; c=relaxed/simple;
+	bh=BBS43bYqANX3sdc4izW1nmPremUY1KXU3+Wx3uJXVMM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uoOkMdCb7jKTDOT1bbRaepleo4yhAB6zG52944Tnn9wEzHsM1n+jpqBdR2jstgp0R4SU6SnF7WUEJMh7C3AI+CupIrRxb8QJxQKld27Em0rc2KigNogb/WDLLQtZiAnLrcy3OBg9jXzybsK/RNCXahJ5kMZGC930aXvcU6UsmnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ceB0s+cb; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="G74AcWtg"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QB6Vi3o1FjCp3e6430cdIylR5Aw87ZyLYYVnzCjSX3JxpYfsGC89KDd3lavkEqZryZdsUA8GOyrg1mtbkgOCov8FQoi7wB7VberqJMKVkJ+H+Cirve4LTqGIr0gM6gpMCmNB9Q9cECXZ+7eGglnzWzZN7AbaydjkpyZpjigyTa58qa3+VN/IZXrmaZyjdgQBXtaW0zwMHb3aJ+D1Dry0Kei1C2d6Mrs3DzH/Eqo7JMpt6AofqD01QLaMTn2G56nNzkONH4+9RLnWUGo4WjeJ3jk7N7k2XwFBIyqhQ14Tx7lzo3zcnPEj2pQiovUB9vwD26uVit7VDEz8/uUPYXVSSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IK5UC34rjSi4VI2ZvSE1bPzcTRD9BahvIRyZa5FGCjQ=;
- b=FrMw0ax4T3Q+RMinhJMngY+c3QAVhclfEXfnUEe9DYFoFp9WQHE+KxGFOv+pRBKJwDfqVuFybVpsfWeMiFroqMNWx5OgYBPjmH71y3PVkRg6n/we3hPqvVB5OmLotewFsYo/tZiNL/qJ+I0QGikeHHOPS1b5xVeWmTsRycdEq4DpKc0GUEpeXFbEBnM4j0Zof932rZn4G25mw/dN/OHoQSeIgOiSEOYswjuV33Q208kG6Z2pW9VIdeMyNkI4XRJoQUPHADRo5FrvlAgr0O1nl0jdQ8AzOpjVK7KevghYtxQckDrEujC3+6tQcs7KZtrbG/00CXRtTSVZ8gY9L9pLhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IK5UC34rjSi4VI2ZvSE1bPzcTRD9BahvIRyZa5FGCjQ=;
- b=G74AcWtghHIyaF+uWZ4UUJzC8GbIfEVLhZR1A1NUqIJlD60LVHBUU5i+jP8ZMb+rxRcHquMWPIw3SH5BklHUO/cEV2uaaw2Meh12CXtfNV0RaRs0suND1GDYBaGRPuv8EuYiX2TsvODw8N11STmWHyO/yQPO2EabRGWg0VQjFvM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5326.namprd12.prod.outlook.com (2603:10b6:5:39a::16)
- by CH3PR12MB7545.namprd12.prod.outlook.com (2603:10b6:610:146::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.16; Thu, 9 Jul
- 2026 23:14:30 +0000
-Received: from DM4PR12MB5326.namprd12.prod.outlook.com
- ([fe80::cb64:d14d:7f37:b883]) by DM4PR12MB5326.namprd12.prod.outlook.com
- ([fe80::cb64:d14d:7f37:b883%5]) with mapi id 15.21.0181.014; Thu, 9 Jul 2026
- 23:14:30 +0000
-Message-ID: <d5b873cc-4313-4d35-912f-dcaa64d5b641@amd.com>
-Date: Thu, 9 Jul 2026 18:14:25 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v4 14/15] fs/resctrl: Allow user space to write
- kmode_cpus/kmode_cpus_list
-To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
- reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
- tglx@kernel.org, bp@alien8.de, ben.horgan@arm.com, fenghuay@nvidia.com
-Cc: skhan@linuxfoundation.org, x86@kernel.org, mingo@redhat.com,
- dave.hansen@linux.intel.com, hpa@zytor.com, akpm@linux-foundation.org,
- rdunlap@infradead.org, peterz@infradead.org, feng.tang@linux.alibaba.com,
- dapeng1.mi@linux.intel.com, elver@google.com, enelsonmoore@gmail.com,
- kuba@kernel.org, ebiggers@kernel.org, lirongqing@baidu.com,
- seanjc@google.com, nikunj@amd.com, xin@zytor.com,
- pawan.kumar.gupta@linux.intel.com, tiala@microsoft.com,
- chang.seok.bae@intel.com, kprateek.nayak@amd.com, prathyushi.nangia@amd.com,
- kim.phillips@amd.com, naveen@kernel.org, darwi@linutronix.de,
- elena.reshetova@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, thomas.lendacky@amd.com, eranian@google.com,
- peternewman@google.com, qinyuntan@linux.alibaba.com
-References: <cover.1783461016.git.babu.moger@amd.com>
- <e2deefce19f3cf087ea96a7aba3f6850812e3036.1783461016.git.babu.moger@amd.com>
-Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <e2deefce19f3cf087ea96a7aba3f6850812e3036.1783461016.git.babu.moger@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DS7PR03CA0183.namprd03.prod.outlook.com
- (2603:10b6:5:3b6::8) To DM4PR12MB5326.namprd12.prod.outlook.com
- (2603:10b6:5:39a::16)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ceB0s+cb"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2cacd69a9c0so2708415ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 16:39:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783640379; x=1784245179; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Dr11GjuErsqvv88bA0ajz6+C0H5haFeLgvXd4cjf/pI=;
+        b=ceB0s+cbx49YeRAEBEYTbwL/36IjxOq5sbJJ8yt7nxkHl2tQ2pXLlvp7lg3z3ROz3i
+         +mpU3GXv8B7d4yksnbt3//hzYyutInoHvBBvh/KUXSqNWChfrTaoFpaL4gCosPAPij3w
+         DsXdw8kqy0pzSEOJ2xL7kOb+Wua3mit0CiHATUcCd5v/WjZAgooMOOhpUdiEHQszrtKX
+         Dw/jHcfJurBrE5R1vzJjpFASP3dN/1jBwdMRJnPQYzSBcawCinP+i/BQV621bmjajn5i
+         9hDBoepToEihy0lqQpjEv/9XcSSkMdHqJsz43fIRGeoM2lVFgPPG6MZ/Yrs4QQfHFLmD
+         jlDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783640379; x=1784245179;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Dr11GjuErsqvv88bA0ajz6+C0H5haFeLgvXd4cjf/pI=;
+        b=YQ2zI13YBqEz/cXY5YzQqGkiQr3B/8QxeKnT0RJMtMd+QbUjc7tSgcaFqdRqsuFjrM
+         0/Vce6xv2fjUHhHTcKu9kD68TbG1a+sVXqXbjxnWOs2eWNfRwxyHvHolc+FEeVwlhpZK
+         kWqerRnooTeWPsjvpq/89E1pvSm8vNlZg8KiYJWzPzQpM6Txol8sBuZwwFmKu62/hVpb
+         Y2eFPG7MOZbiAK09kJ1ExdvQj02z9633wpflN8uNjY2E7kz2EOONNawoIfjmDxMHzyTs
+         jH/ru2FhfzI1HaYxmMfvA/BuWj9zAlpVRvIpqED5Fl6VvFoubd3Lo1ZjB2eMrrDpMJxH
+         sgWg==
+X-Forwarded-Encrypted: i=1; AHgh+Rpxvuai58bypSPTw2K0Me6/TWB8YP2fBRltoQQ0xOiMOzaoomnzgkF8A47WXersnW36gLY4jvlQN00=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9AcuQJvP8MnLkumLHdiqUXVl0FZtngn6lwGp0orxjILxoeCf9
+	vWEfZZZ8OVlCSzB5J4HkTIxZebNgL06lol+6/GDgs0f8ZUNRDBn75Fo+
+X-Gm-Gg: AfdE7cm4abRatnoaxyv0njw86UWLs2G3GmKSGgXkwXYx0ga8UQscDGvbec5vYfBGK3t
+	W6RZw9sXLMJi1qaRCEDH+sdwusdmhQS06R6pGdDCCV/O3BwiV8x0Ic8FHCwQ4/skKIGiB/xR2eq
+	vE1rvQsSQVoHFZO4BPJB1iSt8ld6erGxoX1kvQVFfn2sI2McvQ8dzkqnDJcJy+nfL7Fv9EnB1Nr
+	SCK3HfAkTWvpJErQqqwxfQpa2S/9exOA25MOtora+aOhClDMAjZ7yHUmcbJY9Z/FFyLWjYfCcDR
+	FDSnsl/9Q+RA6GPqn1XlW6uUA9aLlyqE3lhMm2h5cepjlJFFkv/GD8NCgmjQOUIKT0HFgdn46Sd
+	El+To5Sv4HU19xemra2MF3Av6izsFdqAIiRE4ITdHgL+vap5IyMx3boXd6B+eT78tIU6sPAzDU7
+	Y/5qoJUeCOo2Vn1zvqs/v1zAdQPgCuYADnW8hX1vEH3k82o7JGIB2p6AGbji6Qmg==
+X-Received: by 2002:a17:902:e945:b0:2c8:f34c:82c0 with SMTP id d9443c01a7336-2ccea348a91mr92933375ad.2.1783640379482;
+        Thu, 09 Jul 2026 16:39:39 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bf92bfsm51002325ad.28.2026.07.09.16.39.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jul 2026 16:39:38 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <94010bec-7921-4fac-ba48-755e51c59bcb@roeck-us.net>
+Date: Thu, 9 Jul 2026 16:39:36 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5326:EE_|CH3PR12MB7545:EE_
-X-MS-Office365-Filtering-Correlation-Id: 57c27bc0-2fe9-42b6-d5d5-08dede0fd3f6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|23010399003|366016|921020|18002099003|22082099003|11063799006|6133799003|3023799007|4143699003|5023799004|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	sROXUzKBpsFZBjlKlgfE6F8GtRrlltUnHh/AAejFV5ft3/ssx/Uc+n/GCpdFNV2ZmFwuNuQ3gcAqC7fS+N4yhv/435G4KOLdsQMy8gxbuYHtC0pY/iuEEoc4aRnrfbqZDBhun3GGCLYxj9i8yK20PP0PMhMS2FIkKhJj3ISga0jV9yUpKfFccu2kaEO7UYHShIW+3p4x3eChp+k64+weYFCchieKdHkzOyC70OViPwWwVoeP+D97GG+WFxr5TSj1BHqBbKsVG7p6cqeH+oKyyCEv1dr3fptl7hXnydC+Raun1YWgPw1mA6Jgp5LCgTPb/sJVWQnTmkKNR2cEm41LYqNdyGuyZ+N3hlbMIFAMD9tiAaZArqatpxOyI6XLtOJxlMgcum/79dJYq3VYlnilpt5ebvgGn6PnrSYZ+YymcU8YEQ5ZY+zlhLRsRPRIhYNE0cFMih/FUvgI4oICfjVny0A1TZdbjeesyB9jTOwwu156dvTmRmG4Ujd3FtEoxfJcRdjRAZ+1NCN5hOI1FncXMOo+ZVl/ZZVxqQ3CfDJvK7FsLb3O8CBE+P//YirMf7fzGd6wjjoQATrI9jpZ5NuEuOzvg8bVWCbCCTO+6QyoDMk3PEuxTszpp7WILokea2wQddiF7SH7imqnIZyQYMO4uA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5326.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(23010399003)(366016)(921020)(18002099003)(22082099003)(11063799006)(6133799003)(3023799007)(4143699003)(5023799004)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aU9sY2VCa3FZb0Q5bzFuRjRNQnJPekNFelRWQS9nUnp3bU9IOHgxUVN1dHJB?=
- =?utf-8?B?eGFmSGIxUFErd0hGUUpqY3lEMm1UejdnWit3dUl1R1hWRkEzdVNDOWd3bU5X?=
- =?utf-8?B?dDdTZUtUWHgvYWYzVVB6MEJsdFZ6RGxMZjNlVzBPdURCWTBzRlRxRklXNWZF?=
- =?utf-8?B?ZEQ1UFVHcGVzMnQvSitZcS9KcmpUeXpROENkOW5XY3lFUGtxYThoc0ZRSTMw?=
- =?utf-8?B?ZU5uUEJSUENoS2ttV21tRE9ObjhzYmJVdnBnUzBZRkZPMVRqVjd6cDFBWk16?=
- =?utf-8?B?QS9JOVROWGorQWtBSDVTcnpOL1hpelBFa3M5K09aUU5pVXJ3RGRZQjJFTXlN?=
- =?utf-8?B?TW9FV0MxQVJCT1FWa2R4SFVSWlA1eTMza0ZoeVRUaE9TcDZ0bm9OM25GYjYx?=
- =?utf-8?B?Z1J3b3pnbzltTStHenlmU1RxQzZrTGg4dTQyRm9UTzhDSDloS2wraTNTMW9k?=
- =?utf-8?B?N3JGMXNaMmFQNEM4VU5QaVNLZXhEeUdTc3JpUHcxbldVMjdPSmFxNGQyRkhr?=
- =?utf-8?B?MEhWQnNMdTMyeCtLQ0NNbk1MbTAxZFhvTkhJWWY0b3k3QkxqY0Izdk1rSVU2?=
- =?utf-8?B?SVh4U2pjRDgzSnpjNG9jSTB3aHdFTkQ0ZXJUVzd3c25ZVGlXdk9GT2NROFVu?=
- =?utf-8?B?N05vclY4dDhxczF0b1E3TFRnclZTZDE1T0ZKRGovRkFWenhVUU5OaVdjTEJC?=
- =?utf-8?B?TXRBYXFEcGtmZFloaFE3WC85KzRWUXlKditITG5NeTRramZzY2RwKzBaWERs?=
- =?utf-8?B?WDc3eCtUSFhhS3VjRFlwaHF6bDlmckJhVXRoYmhWV0x1WkRaaUZrOGVvbTdQ?=
- =?utf-8?B?TEVtazUwS0dMZitCbXdRbFJYWmJkT2FDZmlHcEVOMGY5SkNwam53U1VaS1cz?=
- =?utf-8?B?MDhJY2tRL21FcFdHQ0VJTGYrZ2dpWjZLZ01XU1NDck5UTkpzRENjQVNlRjk3?=
- =?utf-8?B?YzloNnJkbVBYTjFJM2Vwak1FYkhEendlVEkrcVZWMTdudnZFNDBpd011QWFs?=
- =?utf-8?B?Y01TK2hXam1qdktDNWk0ekpMQ2pNZUFwQWNHRDlBRWxDcGFoSzM1MTFDVElR?=
- =?utf-8?B?MFh0bHRiaG41Y0R3eFpsaUxQRGI1RE45dmNNQ2J0L1p1dThnd0VGNHNDNGx2?=
- =?utf-8?B?eHh4VXEvRzlmVzlLeFo1ajZDaWNkWStCM3dBMHdhOG8zbnorS2dyeHF4ZWVn?=
- =?utf-8?B?UElEUlFiZTFrN3krcWIxL1VUaHBrMDlBU2tobEJ0U01kMnFKcG90Z29NVFR1?=
- =?utf-8?B?OVR0T2RUWERkdHJIRFZzN1dYZTRqNGNQRmZUS3VqMUdMNVB1d2hYSHBJRHR4?=
- =?utf-8?B?S3prQVYvcEVNQzJHZkdPK3hVNUJ3SEY0Y3FpOHVtK0tmNVAyVVRBUzRHRlM1?=
- =?utf-8?B?QWtwZlpCZVE0bHljVCtDRWs4Zkc2ellzTExRL3gycjBRUzN5L2NFVkhUblB4?=
- =?utf-8?B?aTJ2aDgyc2xUeG51UmMxYWxkUUNLWHl4Q2IzUzg3UTJvNld6a1RrWW1mMDlK?=
- =?utf-8?B?V3g2aVJrclY5YlZsWkJiTzFyeFQyeHZESDFGUGZwWGVuQ2UzeFJkU2NWUEs1?=
- =?utf-8?B?cDVPLzZLTVE3OTNWenJCUFVUVFRhNEtaOTBPMmFoNW0zcnBWT1IvYmNVcGpN?=
- =?utf-8?B?REZaNHc4VlZDeDA3aXgxdWFreHFWVWFSYWdFdDloSkdDTW5kQkFyRDZGNFVI?=
- =?utf-8?B?UXpCaC90MXM5ME9KaGxVMTRTdUlrVVJjZTk4Rnh3cnBnS3pyWnlreko1QW82?=
- =?utf-8?B?WG5jM3J2emtaUkNJazdLVWdxY0xRKzkyYWtTYzlOc2d6LzRwQzhDdVNlelhn?=
- =?utf-8?B?UjlLRGcxcERmMGZkelRhcVIrY1FZVUVsK3JLdHNUY2VwMER6TmZOd2J0bVFX?=
- =?utf-8?B?WGt0eFF1YVZOTStCeDh4T1hsRkdScERPTTEydTN1bVE5VHgxSkxlTFpiVkU1?=
- =?utf-8?B?L3RhSDZlc1pPMEkrdVZJdFU5L1g2eGNzTEVUMzhNVDV6clB0bW5rY0xvZ0pS?=
- =?utf-8?B?VU1xUExtMW5qcWhzQ1hreXRianMrdTNGdTM3MnpPeGgxVEJ1cUlPTlFaczFt?=
- =?utf-8?B?aW5PQzlScWdVTWloSnJlQWYwUUMxbVI2Tzl6bnJYYWY2Sm5UekNEUHRHSTZG?=
- =?utf-8?B?czdnWkZBbnE3U0lNMzZwclJ4NVFwcHVqa05GamdtZTNWaVFSbWFFMStZSXU4?=
- =?utf-8?B?SjVNaUZMUElYSVFrT215U3BVbDZsUk14YUZKbGgycGl2dU5jb0JqU05GUFh2?=
- =?utf-8?B?U1UzS0RMK1YzZmczWDB1ZzlnOGxiSFJHOVpYSFNsTW5GOHNNSzNiOHRmL2Ro?=
- =?utf-8?Q?EJE6C/PnSSOGfF+uQo?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57c27bc0-2fe9-42b6-d5d5-08dede0fd3f6
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5326.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 23:14:29.7311
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fIef7y2nI2anzEOqiHKcJBUtXwJPDdro0OjxnKPVtcTACrNf8Cw4z1T0mdYtCx00
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7545
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] hwmon: (pmbus) Add driver for Analog Devices MAX20912
+ and MAX20916
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>
+Cc: Fred Chen <fredchen.openbmc@gmail.com>,
+ "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Wensheng Wang <wenswang@yeah.net>, Frank Li <Frank.Li@nxp.com>,
+ Brian Chiang <chiang.brian@inventec.com>, Cosmo Chou <chou.cosmo@gmail.com>,
+ Dixit Parmar <dixitparmar19@gmail.com>, Eddie James <eajames@linux.ibm.com>,
+ Antoni Pokusinski <apokusinski01@gmail.com>,
+ Thorsten Blum <thorsten.blum@linux.dev>,
+ Ashish Yadav <ashish.yadav@infineon.com>, Syed Arif <arif.syed@hpe.com>,
+ ChiShih Tsai <tomtsai764@gmail.com>,
+ Abdurrahman Hussain <abdurrahman@nexthop.ai>,
+ "Paller, Kim Seer" <KimSeer.Paller@analog.com>,
+ Colin Huang <u8813345@gmail.com>, Yuxi Wang <Yuxi.Wang@monolithicpower.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20260707122701.751878-3-fredchen.openbmc@gmail.com>
+ <f9e32dd1-7c2c-4055-83fa-94683777e30b@roeck-us.net> <ak4QO9uhKOt68dl1@nsa>
+ <20260708-true-carp-of-champagne-a0dcca@quoll> <ak41BRQBNdsQrYww@nsa>
+ <b2a5e99c-6d4d-454e-8ecd-8638e4dc0ddb@roeck-us.net>
+ <PH0PR03MB63512A19C32B7722D17D0FD4F1FE2@PH0PR03MB6351.namprd03.prod.outlook.com>
+ <CABOy65_GqKiZLM+soZUK_34T8MYZS3dRX38-CMf_Bd1EmG0jhA@mail.gmail.com>
+ <ak9gFKkfEgkU_q1G@nsa> <5b865eed-ae58-47fc-8d80-e14a76a93050@roeck-us.net>
+ <ak_G4_eAUYflt9M3@nsa>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <ak_G4_eAUYflt9M3@nsa>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-
-
-On 7/7/2026 4:50 PM, Babu Moger wrote:
-> kmode_cpus and kmode_cpus_list expose the CPU scope for the rdtgroup bound
-> to the active kernel-mode policy. They are currently read-only, so changing
-> the scope requires rebinding through info/kernel_mode, which reprograms the
-> whole binding instead of only the CPUs whose state changes.
+On 7/9/26 09:09, Nuno Sá wrote:
+> On Thu, Jul 09, 2026 at 08:54:09AM -0700, Guenter Roeck wrote:
+>> On Thu, Jul 09, 2026 at 09:54:22AM +0100, Nuno Sá wrote:
+>>>>
+>>>> Based on the MAX20912/16 specs on my hand, these chips do not support
+>>>> PMBUS_PHASE (0x04). Furthermore, the spec only indicates support for VID mode
+>>>> and does not provide m/b/r. Therefore, some of the features you mentioned might
+>>>> be specific to the MAX20826 series.
+>>>
+>>> I see, phases are not supported using standard PMBUS.
+>>>
+>>
+>> As mentioned in my other e-mail, it can still be supported by the driver.
+>> That is what the chip drivers are for, after all.
+>>
+>>>>
+>>>> Regarding enabling VOUT via GPIO, our platform handles this via the CPLD as
+>>>> part of the hardware power sequencing. Managing this pin through the driver is
+>>>> not a requirement for our system.
+>>>
+>>> But we cannot assume all systems will behave like the above. But now i
+>>> do wonder about controlling the GPIOs in the driver. In your system you
+>>> clearly did not need to do it. In mine (testing with a rpi) I had to
+>>> use a GPIO (well I could have used hogs or pinctrl). But if you control the pin
+>>> you do gain the ability to turn off the regulator. If you don't it's always on
+>>> (which might be indeed the bulk of the real usecases for these systems).
+>>>
+>> Agreed. I don't really like it, but if the chip and some specific hardware
+>> mandate it, it should be supported. However, that code also needs to be
+>> tested - an untested implementation would be worse than no implementation.
 > 
-> Make kmode_cpus and kmode_cpus_list writable. Parse writes as a bitmap or
-> CPU range list. Reject pseudo-locked and pseudo-lock-setup groups, writes
-> to a group other than resctrl_kcfg.k_rdtgrp (including stale file
-> descriptors left open across an info/kernel_mode change), malformed input,
-> and masks that name offline CPUs.
+> That's how I tested it :). So from what I understand the preferred way
+> is to support these pins as optional? If they are not there we just
+> assume the pins are always enabled by some other means? In contrast to
+> what I have today which makes these pins mandatory!
 > 
-> Update the bound group's kmode_cpu_mask and reprogram hardware
-> incrementally: disable kernel-mode association on CPUs in the old mask but
-> not the new mask, and enable it on CPUs in the new mask but not the old
-> mask.
-> 
-> Document the interface in Documentation/filesystems/resctrl.rst.
-> 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> ---
-> v4: Empty masks are now allowed and updated masks are in rdtgroup->kmode_cpu_mask.
->      Updated the changelog.
-> 
-> v3: New patch to add "kmode_cpus" and "kmode_cpus_list" to support
->      kernel_modes.
-> ---
->   Documentation/filesystems/resctrl.rst |  30 +++++
->   fs/resctrl/rdtgroup.c                 | 151 +++++++++++++++++++++++++-
->   2 files changed, 179 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-> index 5a13814d1325..4a2bdd74d4aa 100644
-> --- a/Documentation/filesystems/resctrl.rst
-> +++ b/Documentation/filesystems/resctrl.rst
-> @@ -676,6 +676,36 @@ All groups contain the following files:
->   "cpus_list":
->   	Just like "cpus", only using ranges of CPUs instead of bitmasks.
->   
-> +"kmode_cpus":
-> +	Visible only on the rdtgroup currently bound to the active kernel
-> +	mode (see "info/kernel_mode"); hidden on every other rdtgroup,
-> +	including when "inherit_ctrl_and_mon" is active.
-> +
-> +	Bitmask of the logical CPUs scoped for this group's kernel-mode
-> +	binding.  At bind time through info/kernel_mode, every currently
-> +	online CPU is included in the scope.  CPUs that come online later
-> +	are automatically added to the scope and programmed with the binding.
-> +
-> +	Writing a mask reprograms the binding incrementally: it enables on
-> +	the CPUs newly added by the write and disables on the CPUs dropped
-> +	from the previous mask.  An empty mask disables the binding on all
-> +	CPUs in the current scope.  The mask must contain only online CPUs;
-> +	masks naming offline CPUs are rejected.
-> +	Errors are reported in "info/last_cmd_status".  Example::
-> +
-> +	  # mkdir ctrl1
-> +	  # echo "global_assign_ctrl_inherit_mon_per_cpu:group=ctrl1//" \
-> +	        > info/kernel_mode
-> +	  # echo 0-3 > ctrl1/kmode_cpus_list
-> +	  # cat ctrl1/kmode_cpus
-> +	  f
-> +	  # cat ctrl1/kmode_cpus_list
-> +	  0-3
-> +
-> +"kmode_cpus_list":
-> +	Just like "kmode_cpus", only using ranges of CPUs instead of bitmasks.
-> +	Writable with the same semantics and restrictions as "kmode_cpus".
-> +
->   
->   When control is enabled all CTRL_MON groups will also contain:
->   
-> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-> index 7b06c3b3f00e..8ecd107368b3 100644
-> --- a/fs/resctrl/rdtgroup.c
-> +++ b/fs/resctrl/rdtgroup.c
-> @@ -423,6 +423,151 @@ static int rdtgroup_kmode_cpus_show(struct kernfs_open_file *of,
->   	return ret;
->   }
->   
-> +/**
-> + * kmode_cpus_write() - Update @rdtgrp's kmode_cpu_mask from @newmask
-> + * @rdtgrp:	Resctrl group whose kmode_cpu_mask is being updated.
-> + * @kmode:	Kernel-mode policy currently active on @rdtgrp.
-> + * @newmask:	Set of online CPUs scoped for @rdtgrp's kernel-mode binding.
-> + * @tmpmask:	Caller-allocated scratch cpumask used to compute the
-> + *		incremental enable/disable deltas; contents on entry are
-> + *		ignored and on return are unspecified.
-> + *
-> + * Compute the difference between @rdtgrp->kmode_cpu_mask and @newmask
-> + * and call resctrl_arch_configure_kmode() only on the CPUs whose enable
-> + * state actually changes:
-> + *
-> + *   - disable on (old & ~new)
-> + *   - enable on (new & ~old)
-> + *
-> + * Then copy @newmask into @rdtgrp->kmode_cpu_mask so subsequent
-> + * show/write operations reflect the updated scope.
-> + */
-> +static void kmode_cpus_write(struct rdtgroup *rdtgrp, enum resctrl_kernel_mode kmode,
-> +			     cpumask_var_t newmask, cpumask_var_t tmpmask)
-> +{
-> +	bool assign_mon = (kmode == GLOBAL_ASSIGN_CTRL_ASSIGN_MON_PER_CPU);
-> +	u32 closid, rmid;
-> +
-> +	closid = rdtgrp->closid;
-> +	rmid = rdtgrp->mon.rmid;
-> +
-> +	/* CPUs dropped from this group: old & ~newmask. */
-> +	cpumask_andnot(tmpmask, &rdtgrp->kmode_cpu_mask, newmask);
-> +	if (!cpumask_empty(tmpmask))
-> +		resctrl_arch_configure_kmode(tmpmask, closid, rmid, assign_mon, false);
-> +
-> +	/* CPUs newly added: newmask & ~old. */
-> +	cpumask_andnot(tmpmask, newmask, &rdtgrp->kmode_cpu_mask);
-> +	if (!cpumask_empty(tmpmask))
-> +		resctrl_arch_configure_kmode(tmpmask, closid, rmid, assign_mon, true);
-> +
-> +	cpumask_copy(&rdtgrp->kmode_cpu_mask, newmask);
-> +}
-> +
-> +/**
-> + * rdtgroup_kmode_cpus_write() - Sysfs write handler for kmode_cpus[_list]
-> + * @of:		kernfs open file (selects bitmap vs range-list parsing via
-> + *		is_cpu_list()).
-> + * @buf:	NUL-terminated input from userspace.
-> + * @nbytes:	Length of @buf, returned on success.
-> + * @off:	File offset (unused).
-> + *
-> + * Parses @buf into a cpumask and rejects:
-> + *   - pseudo-locked / pseudo-lock-setup groups,
-> + *   - writes when INHERIT_CTRL_AND_MON is active or to a group other than
-> + *     resctrl_kcfg.k_rdtgrp (stale fds opened before an info/kernel_mode
-> + *     change),
-> + *   - malformed input,
-> + *   - masks containing offline CPUs.
-> + *
-> + * Validated masks are passed to kmode_cpus_write() to update
-> + * @rdtgrp->kmode_cpu_mask and reprogram hardware incrementally.
-> + * Errors are reported in last_cmd_status.
-> + *
-> + * Return: @nbytes on success, -ENOENT if the group has been deleted,
-> + * -EINVAL for pseudo-locked or pseudo-lock-setup groups, malformed input, or
-> + * offline CPUs in the requested mask, -EBUSY if INHERIT_CTRL_AND_MON is active
-> + * or the group is not resctrl_kcfg.k_rdtgrp, and -ENOMEM if the scratch
-> + * cpumasks cannot be allocated.
-> + */
-> +static ssize_t rdtgroup_kmode_cpus_write(struct kernfs_open_file *of,
-> +					 char *buf, size_t nbytes, loff_t off)
-> +{
-> +	cpumask_var_t tmpmask, newmask;
-> +	struct rdtgroup *rdtgrp;
-> +	int ret;
-> +
-> +	if (!buf)
-> +		return -EINVAL;
-> +
-> +	if (!zalloc_cpumask_var(&tmpmask, GFP_KERNEL))
-> +		return -ENOMEM;
-> +	if (!zalloc_cpumask_var(&newmask, GFP_KERNEL)) {
-> +		free_cpumask_var(tmpmask);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	rdtgrp = rdtgroup_kn_lock_live(of->kn);
-> +	if (!rdtgrp) {
-> +		ret = -ENOENT;
-> +		goto unlock;
-> +	}
-> +
-> +	rdt_last_cmd_clear();
-> +
-> +	if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKED ||
-> +	    rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP) {
-> +		ret = -EINVAL;
-> +		rdt_last_cmd_puts("Pseudo-locked group cannot host kernel-mode binding\n");
-> +		goto unlock;
-> +	}
-> +
-> +	if (resctrl_kcfg.kmode_cur == INHERIT_CTRL_AND_MON) {
-> +		ret = -EBUSY;
-> +		rdt_last_cmd_puts("No active kernel-mode binding\n");
-> +		goto unlock;
-> +	}
-> +
-> +	/*
-> +	 * The visibility layer (kernfs_show()) prevents fresh open() on a
-> +	 * non-bound group, but file descriptors opened while the group was
-> +	 * bound stay valid across an info/kernel_mode change.  Reject those
-> +	 * stale-fd writes so they cannot corrupt the now-active binding.
-> +	 */
-> +	if (resctrl_kcfg.k_rdtgrp != rdtgrp) {
-> +		ret = -EBUSY;
-> +		rdt_last_cmd_puts("Group is not the active kernel-mode binding\n");
-> +		goto unlock;
-> +	}
-> +
-> +	if (is_cpu_list(of))
-> +		ret = cpulist_parse(buf, newmask);
-> +	else
-> +		ret = cpumask_parse(buf, newmask);
-> +
-> +	if (ret) {
-> +		rdt_last_cmd_puts("Bad CPU list/mask\n");
-> +		goto unlock;
-> +	}
-> +
-> +	/* kernel-mode binding is only programmed on online CPUs. */
-> +	cpumask_andnot(tmpmask, newmask, cpu_online_mask);
-> +	if (!cpumask_empty(tmpmask)) {
-> +		ret = -EINVAL;
-> +		rdt_last_cmd_puts("Can only assign online CPUs\n");
-> +		goto unlock;
-> +	}
-> +
-> +	kmode_cpus_write(rdtgrp, resctrl_kcfg.kmode_cur, newmask, tmpmask);
-> +
-> +unlock:
-> +	rdtgroup_kn_unlock(of->kn);
-> +	free_cpumask_var(tmpmask);
-> +	free_cpumask_var(newmask);
-> +
-> +	return ret ?: nbytes;
-> +}
-> +
->   /*
->    * Update the PGR_ASSOC MSR on all cpus in @cpu_mask,
->    *
-> @@ -2531,15 +2676,17 @@ static struct rftype res_common_files[] = {
->   	},
->   	{
->   		.name		= "kmode_cpus",
-> -		.mode		= 0444,
-> +		.mode		= 0644,
->   		.kf_ops		= &rdtgroup_kf_single_ops,
-> +		.write		= rdtgroup_kmode_cpus_write,
->   		.seq_show	= rdtgroup_kmode_cpus_show,
->   		.fflags		= RFTYPE_BASE,
->   	},
->   	{
->   		.name		= "kmode_cpus_list",
-> -		.mode		= 0444,
-> +		.mode		= 0644,
->   		.kf_ops		= &rdtgroup_kf_single_ops,
-> +		.write		= rdtgroup_kmode_cpus_write,
->   		.seq_show	= rdtgroup_kmode_cpus_show,
->   		.flags		= RFTYPE_FLAGS_CPUS_LIST,
->   		.fflags		= RFTYPE_BASE,
 
-Sashiko reported:
+I had to go back a bit in mental history .... actually, the regulator code
+in the PMBus core doesn't touch the ON_OFF_CONFIG register. It uses the
+OPERATION command to enable/disable outputs. The reason is that the enable
+pin and ON_OFF_CONFIG typically affect the entire chip, while the OPERATION
+command only affects a single channel.
 
-https://sashiko.dev/#/patchset/cover.1783461016.git.babu.moger%40amd.com?part=14
+So far PMBus drivers typically don't touch ON_OFF_CONFIG. The ibm-cffps
+driver supports writing it, but only through a debugfs file. The tda38640
+driver supports writing it, but only because it does not (or not correctly)
+support the OPERATION command. ON_OFF_CONFIG (if it is modified at all)
+is normally set by the firmware or even in production (if the chip supports
+non-volatile configuration). It is one of the "hairy" PMBus commands
+which should be left alone if at all possible.
 
---- Patch [14]: [RESEND PATCH v4 14/15] fs/resctrl: Allow user space to 
-write kmode_cpus/kmode_cpus_list ---
-commit 263cb432ef00bc0bc1801a5cac6bf42139e89250
-Author: Babu Moger <babu.moger@amd.com>
-fs/resctrl: Allow user space to write kmode_cpus/kmode_cpus_list
-This commit makes the kmode_cpus and kmode_cpus_list files writable. It
-allows userspace to incrementally reprogram the CPU scope for the active
-kernel-mode policy. Writes are parsed and validated to reject
-pseudo-locked groups, incorrect groups, malformed input, and offline CPUs.
- > diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
- > index 7b06c3b3f00e0..8ecd107368b3d 100644
- > --- a/fs/resctrl/rdtgroup.c
- > +++ b/fs/resctrl/rdtgroup.c
-[ ... ]
- > +static ssize_t rdtgroup_kmode_cpus_write(struct kernfs_open_file *of,
- > +					 char *buf, size_t nbytes, loff_t off)
- > +{
- > +	cpumask_var_t tmpmask, newmask;
- > +	struct rdtgroup *rdtgrp;
- > +	int ret;
-[ ... ]
- > +	if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKED ||
- > +	    rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP) {
- > +		ret = -EINVAL;
----------------------------------------------------------------------
-While we reject writing to kmode_cpus for pseudo-locksetup groups, what
-prevents the active kernel-mode binding group from entering
-pseudo-locksetup mode in the first place?
-------------------------------------------------------------------------
+You can not make the property mandatory since most systems will neither
+support nor need it since it is handled by hardware/firmware.
+In many if not almost all cases there won't even _be_ a GPIO pin that
+can be set by software.
 
-Will add a check "rdtgrp->kmode" in rdtgroup_locksetup_enter()
-This should avoid the following issue
----------------------------------------------------------------------
+Guenter
 
-If a group bound as resctrl_kcfg.k_rdtgrp transitions via
-rdtgroup_mode_write() -> rdtgroup_locksetup_enter(), and
-rdtgroup_locksetup_enter() does not check kmode_cpu_mask or active
-kernel-mode bindings, it can successfully enter pseudo-locksetup mode.
-Later, if the user removes this group, rdtgroup_rmdir() routes to
-rdtgroup_ctrl_remove() instead of rdtgroup_rmdir_ctrl():
-rdtgroup_rmdir() {
-     ...
-     if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP ||
-         rdtgrp->mode == RDT_MODE_PSEUDO_LOCKED) {
-         ret = rdtgroup_ctrl_remove(rdtgrp);
-     } else {
-         ret = rdtgroup_rmdir_ctrl(rdtgrp, tmpmask);
-     }
-}
-Since rdtgroup_ctrl_remove() bypasses the rdtgroup_kmode_detach()
-call present in rdtgroup_rmdir_ctrl(), the group is deleted without
-detaching from resctrl_kcfg.k_rdtgrp. Can this leave
-resctrl_kcfg.k_rdtgrp as a dangling pointer, leading to a use-after-free
-regression on subsequent CPU hotplug events?
-
-
-
- > +		rdt_last_cmd_puts("Pseudo-locked group cannot host kernel-mode 
-binding\n");
- > +		goto unlock;
- > +	}
- > +
- > +	if (resctrl_kcfg.kmode_cur == INHERIT_CTRL_AND_MON) {
-[ ... ]
- > +	/* kernel-mode binding is only programmed on online CPUs. */
- > +	cpumask_andnot(tmpmask, newmask, cpu_online_mask);
- > +	if (!cpumask_empty(tmpmask)) {
- > +		ret = -EINVAL;
-
-If resctrl_offline_cpu() does not clear offline CPUs from
-kmode_cpu_mask:
-resctrl_offline_cpu() {
-     list_for_each_entry(rdtgrp, &rdt_all_groups, rdtgroup_list) {
-         if (cpumask_test_and_clear_cpu(cpu, &rdtgrp->cpu_mask)) {
-             clear_childcpus(rdtgrp, cpu);
-             break;
-         }
-     }
-}
-Would this regression break the read-modify-write workflow for kmode_cpus?
-If a CPU in the active kernel-mode mask goes offline, userspace reading
-kmode_cpus and rewriting it (or modifying it) would be rejected here
-with -EINVAL because the offline CPU was left in kmode_cpu_mask.
-
-----------------------------------------------------------------------
-
-Yes. This is an issue.
-Need to clear the kmode_cpu_list if the cpu being offlined is part of
-the current kmode. Also, need to disable PLZA on the CPU that is offlined.
-
-Will take care of this in resctrl_offline_cpu().
-
-
-Thanks
-Babu
