@@ -1,58 +1,57 @@
 Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD213ADB9B;
-	Thu,  9 Jul 2026 21:57:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E04664499AB;
+	Thu,  9 Jul 2026 21:57:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783634262; cv=none; b=dUAQqNu7+ax+L8OJNwoXLq1brOirY5P+wPlOooszmot7TKyEFDYTXL7WEEIP0lQNC2bugpXGOStrCdJcXYfq7z8wTxLXOY2uK0ddy799ipaPa0KAaqMRvkYlvFUczY0+ZucUabgW9doFPTuyRvuZgX+3KFgTZwgMBBvAtphP91w=
+	t=1783634281; cv=none; b=m7LzeKirOQzl3e8297W5nvLA5eoP4+9prc0068Elmhb2DQ+CEUc+3RJ1oS159NQLWFI1jP0fqAdUNl9u/kEvdPCyn3pdm+UVkHez0qm3oGCbU9oDiHFuuVdqrz+ygjr/6jXpKLPax/Gn1yiEYcMWkj76ZioWX23DAp7O0RETMHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783634262; c=relaxed/simple;
-	bh=pt/qjjJN7oBPGhUMuY2mEI+0X5rs1FuH6WFunRf3ErU=;
+	s=arc-20240116; t=1783634281; c=relaxed/simple;
+	bh=o68AkbvsF/aaUqQiQspWVJrd+DQZZelLQqlqNBOOCMI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gVWSwHF9ljkzmw1XxB+vlYGM+6yxmgl9Y3f6ZgD3ybDOtg0Pvko7eNdoQntyya53Q9zZhpOCqYluTunDIwZYHaXfmMspo2yFeOGLz1YJPHYjbCdPr3weyHTa2Bk+dGL2nWLCMpwmsZkDbs1ES/f35CKvH+nUut9eq4vbcTASpJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=QYTm7Uz+; arc=none smtp.client-ip=148.163.156.1
+	 MIME-Version; b=TqiSsc/brymjL3H2r+niIefWvEXTZZh8jER/WEQ3OF/0JaGKnB4qn2KwwUoEWIBrGMpc3MsT/5LKHJOkdu1jsATS2a5K3/+YZeWIEApQ0/dEjnZ7q9pb23ihW9KCRUL6EwGnNe8R1+QR9zMeKWR7/qhIBitGkGntRTYV2CmIv7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=pNsWhfUY; arc=none smtp.client-ip=148.163.156.1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="QYTm7Uz+"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="pNsWhfUY"
 Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 669HmfGa2623918;
-	Thu, 9 Jul 2026 21:57:22 GMT
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 669HmhDv2623989;
+	Thu, 9 Jul 2026 21:57:14 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=w8pYo4
-	2D3JI7ruKDAnn2R33D+8xvdKTJ81MnYsZa5CQ=; b=QYTm7Uz+dBHBW8A8nmd+lq
-	njmNiZQ3d3nuUYl4ZEe2bv699OLhSW/AoJOF6D8dIhQjvpCA/RJ+ZbvY88AQ7lsU
-	f/aRubLAkPOwB1seMB9mP3DQD8SgBISsBtxq2cfph6LL5gop+JWVqeJRNDJdeyle
-	S2pAXRnWuUnYpAgJR9hZPOAsDqAMpPAkxmLm3iluQZj8rkXwxmZcbnTRtfAwzNcN
-	bwwfdGwEUyNQDTmjdWNg97oUZ+75UOLpZjrhwgaj+kjvezSHXWWsODIdU23/fgyM
-	wc3uO2CiVeY0VB1lI4QolHe+wAkmEno/6gSNXL/D6bDDthMJ1IkvOV/g5hNMvGzg
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6sw53uex-1
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=SVLfK3hvsva//4hJn
+	U3q/ERmJ2eyFRUJeo8VK/yC0GU=; b=pNsWhfUY7kqwcOIH7BE1C8GEGdNajHbts
+	BOQeqa4P6o0QyjEpFYAQ6dnGVL9caNRxEyNd0EoH5U9CRz5aKcv1fwGwSdhVGZAI
+	wTKXKckOnRRqaMTsm7IDwuScNDXUCnEhI4Z8TstXe/L7hJSrCKhdyZWZPz2zHhO5
+	R+7Weo+oRKE8l9qS8p2vuQ8XT1ZP34ihmOEuD3AaW4xcqHKn/tMPJ5hYFSSieFbX
+	sXkGJzDe6yGMn+eUkq4eUWpoaCdAWziZT1Qnp4ojDNcXkQl/gUAxjmpoDzaFjF/x
+	CCw50v2NXnZvlKq7kf01i4IqZs0yedRbgNfDMoQ+Yv34shH599qlw==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6sw53ueg-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 09 Jul 2026 21:57:21 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 669Lnxst009465;
-	Thu, 9 Jul 2026 21:57:20 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f7cvwfauw-1
+	Thu, 09 Jul 2026 21:57:13 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 669LngW2027225;
+	Thu, 9 Jul 2026 21:57:12 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4f7cgqfbx9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 09 Jul 2026 21:57:19 +0000 (GMT)
+	Thu, 09 Jul 2026 21:57:12 +0000 (GMT)
 Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 669LvFNX50266382
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 669Lv7hG52494630
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 9 Jul 2026 21:57:15 GMT
+	Thu, 9 Jul 2026 21:57:07 GMT
 Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 70EBF20049;
-	Thu,  9 Jul 2026 21:57:15 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id ABFB720049;
+	Thu,  9 Jul 2026 21:57:07 +0000 (GMT)
 Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1ACB720040;
-	Thu,  9 Jul 2026 21:57:08 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id AD11D20040;
+	Thu,  9 Jul 2026 21:56:59 +0000 (GMT)
 Received: from li-7bb28a4c-2dab-11b2-a85c-887b5c60d769.ibm.com.com (unknown [9.39.26.144])
 	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  9 Jul 2026 21:57:07 +0000 (GMT)
+	Thu,  9 Jul 2026 21:56:59 +0000 (GMT)
 From: Shrikanth Hegde <sshegde@linux.ibm.com>
 To: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
         juri.lelli@redhat.com, vincent.guittot@linaro.org,
@@ -66,10 +65,10 @@ Cc: sshegde@linux.ibm.com, tglx@kernel.org, gregkh@linuxfoundation.org,
         arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
         tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
         rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v7 02/12] cpumask: Introduce cpu_preferred_mask
-Date: Fri, 10 Jul 2026 03:26:38 +0530
-Message-ID: <20260709215648.1246821-3-sshegde@linux.ibm.com>
+        linux-doc@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: [PATCH v7 01/12] sched/docs: Document cpu_preferred_mask and Preferred CPU concept
+Date: Fri, 10 Jul 2026 03:26:37 +0530
+Message-ID: <20260709215648.1246821-2-sshegde@linux.ibm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260709215648.1246821-1-sshegde@linux.ibm.com>
 References: <20260709215648.1246821-1-sshegde@linux.ibm.com>
@@ -79,28 +78,27 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: 2oUrFM7T8u0Qbrik64yN3UR-QAC9iOA1
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA5MDIxOCBTYWx0ZWRfX5FyoDNrjgOrF
- 4fmMOvZarA6rvDxulxAOOpaA+Jvw2zTHAYP4JOs3NOiRnclV3nxPssEWyoVVjS33fMcRD4xDLby
- wTM3FV0ZeJs5X0LVfC+lZmr8suf+ffR84svV1uS+WprbN+AY+vPFO+ytN5neDHMAtzenCQqMkPM
- oRUBc4PpufLdoTWowAmPII2VYwuVZZIjYJb7QU6wLo7OSuW+oqbHA4RMjdKEU11CbXGxSOvRq+H
- WdFkuHSWTJKp659qeTnErKUiQf1yeLyxyQB/glLQ27IsNHvsUKFTaxWiGH0on0UFMky8F5hW5HX
- 1kn6eRFi0sG8RENuzJ5lLenai3bWEB3VBv5OWvkemOpaMqaSfxyNJKXUhp25DbfcIaqTcHOg1Hs
- zJtBXPtyXwP2FWlQgVFlYeYqWKAmS3Tor1rNW1Y1ftPmJnSxuIvJVuBs25ldyu/+nFzNerWe4nT
- p88bqBcJf/pSQVdNKSQ==
-X-Proofpoint-ORIG-GUID: CJfhniZYsTlBmQ5neBIVdLTj2B-HfzXp
-X-Authority-Analysis: v=2.4 cv=FqQ1OWrq c=1 sm=1 tr=0 ts=6a501941 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=NEAV23lmAAAA:8
- a=VnNF1IyMAAAA:8 a=9QGdkmv71c8RgJbqbJ4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA5MDIxOCBTYWx0ZWRfX0PrZSwz+o8q6
- 4wPu/oCrGZI0jzlJrvoMt7219d3KPD7++Ex7DrdD7UtFr2O1hZNKRoD6AHHeI/jGJ5ZDoUfDYVI
- gt4v420DUUAybwBuTz64QyzWh2xYs18=
+X-Proofpoint-GUID: Qo-xgbweHZWQnFaGhVNFA524YCwY-V-z
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA5MDIxOCBTYWx0ZWRfX7HjIAIpyZqOn
+ s7m5ASAKhwvQx5IGTqbkpfjUFRv9mSeKbstC/6dNtIexq1YZqbxO+ryP+fpVMAZivuJPiGcUEM+
+ yScWt1oeoRDV4lg8r/cCHItoQqebeYtLK7cs9ILrKt4mgoNVpj7ynhlBxvQbnpSvNmhDUD3TZU8
+ F1nEXsOVTthzfushKV8lBWJ/bWIy7CZzYstI+y/NvkcjvEC57/bCTRjEQADGyAmMPaatmJtBAol
+ Jp9UgbFU2ptALBegMzNa283TxwLCI4sEQnWy3biKowdo5wPf1p5LPN/3JyH87KQ9/ereZfy3Tio
+ co0Zjyv3D9ZFYOu2rdFZSf+t4ZTsyx5Zn7rpUsLsxishwJaGiysOZqyrhleW+HRAFKgi24rTnGe
+ WopmCEZCyFqFr4COD+iK5BrLILOIj4R+FHCboBzTaUOn1FvZI3bhgbrmXIJpAK7HvMAy7mOfWsJ
+ 8I4fdOzRWgcUZx/8/vA==
+X-Proofpoint-ORIG-GUID: CVZnBEzxMStcDing9OGenmHL76GmNlXD
+X-Authority-Analysis: v=2.4 cv=FqQ1OWrq c=1 sm=1 tr=0 ts=6a501939 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=U7nrCbtTmkRpXpFmAIza:22 a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8 a=VnNF1IyMAAAA:8
+ a=d8MiXRUMn4SEn--m04oA:9
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA5MDIxOCBTYWx0ZWRfX+y8chdtNExgV
+ 8Z0etvGwPxnWaANiKuY9zpk5uFLO9COJ37VWFmKNCnDRshaRQN897qicNCBv3vYeaPReIRmOzw7
+ bPk6EXRyQhLeLHYGqEzSQ3KGcnGN+0Y=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-09_04,2026-07-09_04,2025-10-01_01
@@ -110,157 +108,87 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607090218
 
-Provide cpu_preferred_mask infrastructure. Define get/set macros
-which could be used to get/set CPU state as preferred.
+Add documentation for new cpumask called cpu_preferred_mask. This could
+help users in understanding what this mask is and the concept behind it.
 
-PREFERRED_CPU config will be selected by the driver which handles
-steal time values. It is going to set/clear preferred CPU state.
-This driver will be called steal_monitor and it is introduced in
-subsequent patches. It periodically samples the steal time and
-decides on preferred CPU state.
+Document how to enable it and implementation aspects of it.
 
-A CPU is set to preferred when it becomes active. Later it may be
-marked as non-preferred depending on steal time values with
-steal_monitor being enabled.
-
-Always maintain design construct of preferred is subset of active.
-i.e. preferred ⊆ active ⊆ online ⊆ present ⊆ possible
-
-With PREFERRED_CPU=n, ensure set_cpu_preferred is a nop and get
-method returns the active state in that case.
-
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202606180717.yNM0yb41-lkp@intel.com/
 Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
 ---
-v6->v7:
-- removed CONFIG_PREFERRED_CPU as user option.
-- Use do { } while (0) for nop 
+ Documentation/scheduler/sched-arch.rst | 58 ++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
- include/linux/cpumask.h | 24 ++++++++++++++++++++++++
- kernel/Kconfig.preempt  |  3 +++
- kernel/cpu.c            |  6 ++++++
- kernel/sched/core.c     |  5 +++++
- 4 files changed, 38 insertions(+)
-
-diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-index d3cda0544954..34d08a3d80e1 100644
---- a/include/linux/cpumask.h
-+++ b/include/linux/cpumask.h
-@@ -122,12 +122,20 @@ extern struct cpumask __cpu_enabled_mask;
- extern struct cpumask __cpu_present_mask;
- extern struct cpumask __cpu_active_mask;
- extern struct cpumask __cpu_dying_mask;
+diff --git a/Documentation/scheduler/sched-arch.rst b/Documentation/scheduler/sched-arch.rst
+index ed07efea7d02..82bc27c7daac 100644
+--- a/Documentation/scheduler/sched-arch.rst
++++ b/Documentation/scheduler/sched-arch.rst
+@@ -62,6 +62,64 @@ Your cpu_idle routines need to obey the following rules:
+ arch/x86/kernel/process.c has examples of both polling and
+ sleeping idle functions.
+ 
++Preferred CPUs
++==============
 +
-+#ifdef CONFIG_PREFERRED_CPU
-+extern struct cpumask __cpu_preferred_mask;
-+#else
-+#define __cpu_preferred_mask __cpu_active_mask
-+#endif
++In virtualised environments it is possible to overcommit CPU resources. i.e.
++the sum of virtual CPUs (vCPUs) of all VMs is greater than number of physical
++CPUs (pCPUs). Under such conditions when all or many VMs have high utilization,
++hypervisor won't be able to satisfy the CPU requirement and has to context
++switch within or across VMs. The hypervisor needs to preempt one vCPU to run
++another. This is called vCPU preemption. This is more expensive compared to
++task context switch within a vCPU.
 +
- #define cpu_possible_mask ((const struct cpumask *)&__cpu_possible_mask)
- #define cpu_online_mask   ((const struct cpumask *)&__cpu_online_mask)
- #define cpu_enabled_mask   ((const struct cpumask *)&__cpu_enabled_mask)
- #define cpu_present_mask  ((const struct cpumask *)&__cpu_present_mask)
- #define cpu_active_mask   ((const struct cpumask *)&__cpu_active_mask)
- #define cpu_dying_mask    ((const struct cpumask *)&__cpu_dying_mask)
-+#define cpu_preferred_mask ((const struct cpumask *)&__cpu_preferred_mask)
- 
- extern atomic_t __num_online_cpus;
- extern unsigned int __num_possible_cpus;
-@@ -1164,6 +1172,12 @@ void init_cpu_possible(const struct cpumask *src);
- #define set_cpu_active(cpu, active)	assign_cpu((cpu), &__cpu_active_mask, (active))
- #define set_cpu_dying(cpu, dying)	assign_cpu((cpu), &__cpu_dying_mask, (dying))
- 
-+#ifdef CONFIG_PREFERRED_CPU
-+#define set_cpu_preferred(cpu, preferred) assign_cpu((cpu), &__cpu_preferred_mask, (preferred))
-+#else
-+#define set_cpu_preferred(cpu, preferred) do { } while (0)
-+#endif
++In such cases it is better that combined vCPU ask from all VMs is reduced
++by not using some of the vCPUs in each VM. vCPUs where workload can be safely
++scheduled which won't increase any contention for pCPU are called as
++"Preferred CPUs".
 +
- void set_cpu_online(unsigned int cpu, bool online);
- void set_cpu_possible(unsigned int cpu, bool possible);
- 
-@@ -1258,6 +1272,11 @@ static __always_inline bool cpu_dying(unsigned int cpu)
- 	return cpumask_test_cpu(cpu, cpu_dying_mask);
- }
- 
-+static __always_inline bool cpu_preferred(unsigned int cpu)
-+{
-+	return cpumask_test_cpu(cpu, cpu_preferred_mask);
-+}
++Main design construct is preferred CPUs are always a subset of active CPUs.
++In most cases preferred CPUs will be same as active CPUs, when there is pCPU
++contention, Preferred CPUs will reduce based on the amount of steal time.
++When the pCPU contention goes away as indicated by steal time, Preferred CPUs
++will become same as active CPUs again. This is done by loading the
++steal_monitor driver available at drivers/virt/steal_monitor.
 +
- #else
- 
- #define num_online_cpus()	1U
-@@ -1296,6 +1315,11 @@ static __always_inline bool cpu_dying(unsigned int cpu)
- 	return false;
- }
- 
-+static __always_inline bool cpu_preferred(unsigned int cpu)
-+{
-+	return cpu == 0;
-+}
++For scheduling decisions such as wakeup, pushing the task etc, needs this
++CPU state info. This is maintained in cpu_preferred_mask.
++vCPUs which are not in cpu_preferred_mask should be treated as vCPUs which
++should not be used at this moment provided it doesn't break user affinity.
 +
- #endif /* NR_CPUS > 1 */
- 
- #define cpu_is_offline(cpu)	unlikely(!cpu_online(cpu))
-diff --git a/kernel/Kconfig.preempt b/kernel/Kconfig.preempt
-index 88c594c6d7fc..ed02e4431230 100644
---- a/kernel/Kconfig.preempt
-+++ b/kernel/Kconfig.preempt
-@@ -192,3 +192,6 @@ config SCHED_CLASS_EXT
- 	  For more information:
- 	    Documentation/scheduler/sched-ext.rst
- 	    https://github.com/sched-ext/scx
++This is achieved by:
 +
-+config PREFERRED_CPU
-+	bool
-diff --git a/kernel/cpu.c b/kernel/cpu.c
-index b3c8553d7bd6..376d297a6292 100644
---- a/kernel/cpu.c
-+++ b/kernel/cpu.c
-@@ -3103,6 +3103,11 @@ EXPORT_SYMBOL(__cpu_dying_mask);
- atomic_t __num_online_cpus __read_mostly;
- EXPORT_SYMBOL(__num_online_cpus);
- 
-+#ifdef CONFIG_PREFERRED_CPU
-+struct cpumask __cpu_preferred_mask __read_mostly;
-+EXPORT_SYMBOL_GPL(__cpu_preferred_mask);
-+#endif
++1. Selecting a preferred CPU at wakeup using fallback mechanism.
++2. Push the task away from non-preferred CPU at tick.
++3. Only select preferred CPUs for load balance.
 +
- void init_cpu_present(const struct cpumask *src)
- {
- 	cpumask_copy(&__cpu_present_mask, src);
-@@ -3160,6 +3165,7 @@ void __init boot_cpu_init(void)
- 	/* Mark the boot cpu "present", "online" etc for SMP and UP case */
- 	set_cpu_online(cpu, true);
- 	set_cpu_active(cpu, true);
-+	set_cpu_preferred(cpu, true);
- 	set_cpu_present(cpu, true);
- 	set_cpu_possible(cpu, true);
- 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 2e7cde033a31..a45f7c308329 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -8690,6 +8690,9 @@ int sched_cpu_activate(unsigned int cpu)
- 	 */
- 	sched_set_rq_online(rq, cpu);
- 
-+	/* preferred is subset of active and follows its state */
-+	set_cpu_preferred(cpu, true);
++/sys/devices/system/cpu/preferred prints the current cpu_preferred_mask in
++cpulist format.
 +
- 	return 0;
- }
- 
-@@ -8703,6 +8706,8 @@ int sched_cpu_deactivate(unsigned int cpu)
- 	if (ret)
- 		return ret;
- 
-+	set_cpu_preferred(cpu, false);
++Notes:
 +
- 	/*
- 	 * Remove CPU from nohz.idle_cpus_mask to prevent participating in
- 	 * load balancing when not active
++1. This feature is available under CONFIG_PREFERRED_CPU. It is selected
++   by steal_monitor driver (CONFIG_STEAL_MONITOR=y). On enabling the driver,
++   CPU preferred state can change based on steal time. Without that driver,
++   preferred CPUs is same as active CPUs.
++
++2. This feature works for FAIR class only.
++
++3. A task pinned, which can't be moved to preferred CPUs will continue
++   to run based on its affinity. But no load balancing happens.
++
++4. Decision to use/not use is driven by kernel. Hence it shouldn't
++   break user affinities. One of the main reasons why CPU hotplug
++   or Isolated cpuset partitions was not a solution.
++
++5. This feature works best only when all the VMs enable the feature as
++   it is a co-operative scheme. If a specific VM doesn't enable this feature
++   it may end up with more CPUs than others, still should lead to better
++   performance when seen from system view.
++   Users who enable this driver must ensure it is enabled in all VMs.
+ 
+ Possible arch/ problems
+ =======================
 -- 
 2.47.3
 
