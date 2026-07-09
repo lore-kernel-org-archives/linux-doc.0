@@ -1,162 +1,187 @@
-Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.153.120])
+Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6332F8E82
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 02:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.153.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1C431F98D;
+	Thu,  9 Jul 2026 02:34:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783564187; cv=none; b=IHtjt05Nd8U4FbU6MN33Ba90Y6zfEGB50IVzI+AIurQJe9DgFTyQncYkcX1PH9CAzanCcLeAn2Nu3lEzTYKb86Qz0XbtcNSkBoThfMIR5DKf3zgkePoh8X2HYoJC5ChF42MPc6XnXVe7lctlxeaOSIYzyIF+ZCC28lYw816iLgI=
+	t=1783564475; cv=none; b=WB2Kkkhzgm7hq0yTvKDzEmRPdBLa4FlMK438XkPmFjRrnpThOc9kuCJXOaBhHbWL+mdpnOK/FKyZEjLREbacltFjYzn6qb6GmdAgs//BcM8YoReroMb9vntrTWHTyr3BmWnTGbygQZnKhxY81FTBJNZ0gKYXZgJ1USDOPqTqsOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783564187; c=relaxed/simple;
-	bh=h7ixAFmKcgZptEaFgwYIMwhx22MwAhDKeNBxTwFO+gk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=KVC7dHe0NVGgw+PJyuighwoQakmLkHisB2pL8rCRRuP1SPVw7O16HDs69J06ohpLCfipM6O0vgYsv6UFX6XTN2GBIZPugN3YgsrNZ6DcZiRRvWm7QO94Dh+Mu5tOfE7TZnohZZX0VgOTO//DT/inMn7GFsO9N3H9DGJDpm6Mw1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=Duipelcg; arc=none smtp.client-ip=170.10.153.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
+	s=arc-20240116; t=1783564475; c=relaxed/simple;
+	bh=2rADA5LOo87QUCvdBe9Wce5Sy5RqDhX9Q2kGxEFIV3g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=fq8w3qLbrgrR6E3FQOQmzgAVYI4yW9UoNIVcwB/pTxsmPDydAOG8e+2YApdIqWvYcOG4QbrPvVCCqt3u/W7FVohI8Zmq7P3HrIHkw4kCetrNx4f109OHvMrC8Ke979M0YT7Ec/3pJAPjimE6Eyu7Btpf98b+mbeKf0PVMO9G35E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=wLN4PuTD; arc=none smtp.client-ip=113.46.200.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="Duipelcg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
-	s=mimecast20250127; t=1783564180;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h7ixAFmKcgZptEaFgwYIMwhx22MwAhDKeNBxTwFO+gk=;
-	b=DuipelcgW0J7slaGL0HMXjByWyBK7qGVRFrnXjhxKLolub/8zO+ibffoYssiQ/pqRY2UaE
-	UNBfbVaJ4cJCFOS8zNZvsCiH1w4+e/fuPiwT6+smI9QfCgNg0HLnjyJgFPIhRgNit/lACF
-	1mixe+A3ECByXI9DSMFx4c9SqIc3ZkMq7Zadcp1HSb58KYU+Bve+KAvR0zeJyQiDbLKEOz
-	KvLVW1NhGyeuoQgkF4zVHYzlCHx8nesOQ6YWWjt4lCiR2JMDIDTgvEUSeIr6wBDpzRzhgO
-	31WLwUG6Z0iH6x4nbwYv7yJpzmGOAQN2eJKyGgKTcFqbftP6Aj/b99kT79E8Mw==
-Received: from DM5PR21CU001.outbound.protection.outlook.com
- (mail-centralusazon11011044.outbound.protection.outlook.com [52.101.62.44])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id usb-mta-10-v36LDFo5NyKphKHIYueCfQ-1; Wed,
- 08 Jul 2026 19:29:34 -0700
-X-MC-Unique: v36LDFo5NyKphKHIYueCfQ-1
-X-Mimecast-MFC-AGG-ID: v36LDFo5NyKphKHIYueCfQ_1783564168
-Received: from CYYPR02MB9828.namprd02.prod.outlook.com (2603:10b6:930:b8::20)
- by BN0PR02MB7917.namprd02.prod.outlook.com (2603:10b6:408:160::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.15; Thu, 9 Jul
- 2026 02:29:27 +0000
-Received: from CYYPR02MB9828.namprd02.prod.outlook.com
- ([fe80::2767:f7d2:778c:8dca]) by CYYPR02MB9828.namprd02.prod.outlook.com
- ([fe80::2767:f7d2:778c:8dca%4]) with mapi id 15.21.0181.009; Thu, 9 Jul 2026
- 02:29:27 +0000
-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-To: "ciprian.regus@analog.com" <ciprian.regus@analog.com>, Parthiban
- Veerasooran <parthiban.veerasooran@microchip.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Andrew Lunn
-	<andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
-	<linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH net-next v5 10/13] net: phy: add generic helpers for
- direct C45 MMD access
-Thread-Topic: [PATCH net-next v5 10/13] net: phy: add generic helpers for
- direct C45 MMD access
-Thread-Index: AQHdDmHokZwNZhTmyEi12dE3JLi4pLZkd5Zw
-Date: Thu, 9 Jul 2026 02:29:26 +0000
-Message-ID: <CYYPR02MB9828A0F83559EF025D01A14C83FE2@CYYPR02MB9828.namprd02.prod.outlook.com>
-References: <20260708-adin1140-driver-v5-0-4aca7b51a58b@analog.com>
- <20260708-adin1140-driver-v5-10-4aca7b51a58b@analog.com>
-In-Reply-To: <20260708-adin1140-driver-v5-10-4aca7b51a58b@analog.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CYYPR02MB9828:EE_|BN0PR02MB7917:EE_
-x-ms-office365-filtering-correlation-id: ea9e8d8c-2f13-49cc-b343-08dedd61e5cb
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|7416014|376014|23010399003|1800799024|921020|38070700021|18002099003|22082099003|6133799003|56012099006|4143699003|11063799006
-x-microsoft-antispam-message-info: OAZxQLv4TukccaRUtc9+mcsyCHTvPE0dfQYRmkiRyZrXNSJYQFt/9zrvVu2W8IPJfxbuP0BNwmeqyYVlUWz2Ek/kLJUSJciNNyTHcVDJj1eihlkgK4xcdwJ8/qd5EKEP3YTBrNCRW2g5SCfBhF9a4TRdwddgYe2AfVJl5SsbAmRoVM1KKTekfxJZh6vHpGedBWmOhRGc50sUfBqVHtLuI1JV1HoBgNFBVo4TA+WxbWReP5VXkAVuseIhavrA+V009+pcEkav0GlsWxblZrnReLr9NVhvtcORHbsIxjx1GNiOX4HcMgqY41M0WgQ6RgY8ttv9P4YySjr4qr7Km7DMTAU7OGzYFRlsGHYd5lauAPMw49t5VuKLz2pjmylyAiV/1UqwdhcBk1ehIER/Y0cgPldAO5R+35mWHox8w+JQV/5u7zZayPYzADIGoCAFit2kxBd4OE97XEvb+cA/IV3dBBMwUhSKAUvAIdOgTm0QRHPRgrwPDtnTSKAKfhDCsPCnlUX2zYNExbNEWnfOCL14Q3qinUZeM6KioDMlQ3HZ2+0V9zBhXU7V49k1lycloe0bt3S1i9nuzvql/K3F9tioZsZUDlnS0nMZ78KCQMa3ABmei1iMkznp424nhfQeTAz7wLbODBmj0EJTemeql9coaaUIspQXVDxfbtf7igUSmSIlel/W6vEcv/MAvMUmcWxKF/suRZXqqsp0G0/HT6Xm7zvRD1P4/IiuskjXFc/JemJEGZl1fbUW3gENF+t2SHnc
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYYPR02MB9828.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(23010399003)(1800799024)(921020)(38070700021)(18002099003)(22082099003)(6133799003)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?T3Y5dTlKeE1GZTZiYXo4OFI2V09rdmhuSzNlRnJ3RVQycGNNc3RGK3BBUCtV?=
- =?utf-8?B?bHVPeE1aZEpFR3lWb0ppcjlGejNVSEkrUVEwWkcrTDF6cXhHSG1jTHJMZVZa?=
- =?utf-8?B?RFRDNTBhTUVoSTFEcmdoc1pjMnlYbnlDWllvMWREK3FaY1pGSzdJbWlYbS9H?=
- =?utf-8?B?WVN5Q1pVNU5jWGVzR0srczR2eTR0Yi83bnRTd2F6UXdZZE9qNG1aWlFPbUcz?=
- =?utf-8?B?WVU3bzNOS3ZPU3RsZzZNck1QcmcweFVac1RtbHd5NnYwcFlmeEpzanpCSXZy?=
- =?utf-8?B?TGtZUkptV0x3Y205cVdTTjBjTW5Oa0puaGZGU1U1NzRkcGZFSjJ1K2NvRzc4?=
- =?utf-8?B?a2hCUzhWSGZJUk55eWl6SElibm1oRkVKUDdDYnBURTRmRXp1S1ZZUXJWSzI4?=
- =?utf-8?B?bTFvcHJhR3c2Zi9XRmhMUGthZk1xWUM4b0svQUVBYW9WQklNMCs0cTlabHZH?=
- =?utf-8?B?c2wvVVJSNm1QUGtySGowWE5qZ0gzZUpndEpCU0crWnhQVy9hZkwrczcvOC8x?=
- =?utf-8?B?Tkd2QWhVZU1NZ21pajdEelJ6b2dtdWtSRUlqQXhiaXYyVFZ6VmhBYnZBSzhS?=
- =?utf-8?B?Z0lvTHlhR1ZaTnJZaGRpTEJHaFZzUnp0eEdkeUZ2T1VCNGtSVm83c3BSU3dZ?=
- =?utf-8?B?TVcrRm95cVBaeTV2SGRacktTd2V1bC9ObjFrSk1McGZsMllxdVFMNUFXeHdz?=
- =?utf-8?B?TStuTDljeFFUanN6QlhhZDY3cjI3aTRua3JmMFpKcDlmVDhUTFQ4N1Z0VW9k?=
- =?utf-8?B?YVVydUZiblJwQjlZNVRmOVBmL0MyaDRKeWVBckFwdlpYZjNKVU5yNVFCYmg3?=
- =?utf-8?B?bXNPd1FpNVphT2FSOUsxUkV0M1RDS1NtMnJlTGFVWW1ab0xQampKT1pmTCtF?=
- =?utf-8?B?aEU1OWxzU0QzNkFWbzhGWkNTZVA0ZFFldWJ2UjFwMjUyanVhQmNkQ2VMMk5H?=
- =?utf-8?B?TjNicHNqNGhqdTBpQ0lEM3VMQWdEdlltK0VpMUdnYWQrU3paSVJtWlFpMHhp?=
- =?utf-8?B?SjJsekF2MTBoNCs5cG1FVjNGYnFBYzVmZjZJVkZKV0l0TjJJZytBYUZqb1gw?=
- =?utf-8?B?TUhUaTdBbjg5anZxeEluYzgvZnZHb1JjTnVWUlRtMkZ2b2xxSnAxWnpFQ1c5?=
- =?utf-8?B?SkF0QU15MW1zcW5IakZyNU82d1ZHVzlaV051R3djczZCWlVRWE5rT3RMcG1G?=
- =?utf-8?B?UjlCQVBjaFZCZmdQYVVKZXkxUjd6MW5PcWJ6WTVOVU5EUFBpRERDSmQzKzNn?=
- =?utf-8?B?REpqYXhZcnRjTUxrbGYwTEd0ZmppRzRkRzBVTTdvcmNxL3p3dmpWQVdmOEts?=
- =?utf-8?B?TW53amsyOVI5MXZ5MzAxVWw4YU4xY1J2Tkoza1dsTm5WcU41NW9oL0Jybmgr?=
- =?utf-8?B?YWl5RWR6cTJkcENqSkEwS29lTldpb3B5bGVDYWFDK1BKR0dnaG04R1cwRUJC?=
- =?utf-8?B?bTRxbzAxeU5NZVQyRUZsZWhCYzJXYi8va3pXbEI3YVEydngzOHg1L0d0cFo3?=
- =?utf-8?B?aFRZc1BlRVdONjNndTFjSWNNSW9uNmRnMjFnTlFpbDQxcm44dzJxc3RqUmVw?=
- =?utf-8?B?T3RiQXowMHlCdEVQOEVRQVFlSVJtb09nckxsSjFqUzBvZnhPY1p3bHFNdFVl?=
- =?utf-8?B?dVRMbVhhYXBOUExzNXVrKzJYSEdQQVFET2IwV0JOdUhPaE05MW82aURtU3Ix?=
- =?utf-8?B?Vzg2dEJGdkdQd2pmQXhDTlM1YjBVbWt4eHVyL2RuMldIbVFYREtjR3ZyS2Rh?=
- =?utf-8?B?Zm5oNFBaN0hpeklaRGt3ams4UFZlVHRjaGp0eFZaOTlUTi9KUWUySGlEVEh3?=
- =?utf-8?B?NHgwb1BxaHBqVm1uMlVjVkVsMkRtV1JzSG80YTQrRUJFdmVXaFhpYVZUVm5Q?=
- =?utf-8?B?ZFpmckJPbVVLWVY0S3VWZzdNcW9mSFhMQ1hIUFJsbEdlL05zUks0b1RndENG?=
- =?utf-8?B?ay8xNndJRnlSV1p6NnFkTW4wTDZlSXY1ZDBDNUxLUUZIUnR4a3h5bm9qY0lP?=
- =?utf-8?B?QjJicWU3eExRSXhtTUhTUVRsbjMvRXdEUGtGSTQ2cXlJcnBZSG96N01LOHVj?=
- =?utf-8?B?OWg1UWtpU3ZUbHhrTmEyeXZHOFdNMUVIM211WWZWLzVyZFp1c1haNy9DVDhu?=
- =?utf-8?B?TGd0a2IxRmtGZHczNHNZam9HUTZpU09RaXJFQkwzTFJ0N094a2J6VFdJN1d5?=
- =?utf-8?B?MjluWDB2ai81VkY0MFdJSTZBOVpQRDB5L1pPbUdSWllVR1lhM3VJelRuZmla?=
- =?utf-8?B?TDJab0JlY0haVkZuT2kxbUJpU0xiTCtNVkxGNi9td0VHOG5waHRzWmNCdzFz?=
- =?utf-8?B?NHB6cXdKNG1MeUJRU2ZIREI1Q2lza3hFbVRWUGNNRmMxOWFBRTRUSm15eE9u?=
- =?utf-8?Q?meVj+lKBpoKlT39g=3D?=
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="wLN4PuTD"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Y5gPTQlvZ5+PltKfyd7jsM9jOpB/L3Mods25ly3hUmU=;
+	b=wLN4PuTDh2Bs3oUFfNRxSZSE7gCwmqjYG039d/qXSq1UpIOaCLhb2iezcdm336V58TY0kTXy4
+	szfWi9o5up7AY22Girs57z0q9Oi7TCvcfhRpAuei9Dgq6Q3rv8QoRLbJRWC1d+UazJf8zIhojgL
+	pcWHZ91jG23KLVROOKeLeOw=
+Received: from mail.maildlp.com (unknown [172.19.163.15])
+	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4gwf2174NCz1K96m;
+	Thu,  9 Jul 2026 10:25:13 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id 387FB40586;
+	Thu,  9 Jul 2026 10:34:27 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 9 Jul 2026 10:34:24 +0800
+Message-ID: <3fdebd1c-f7ea-4b49-808d-8dec99e68623@huawei.com>
+Date: Thu, 9 Jul 2026 10:34:22 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: ezuC4Yp30IrfcPbyz+qykLsl4WV28+xQI4zcaxJ31V0KWLG6w/22KqYkizVRuxBkxzPqX6I5mxcpMkFA5pIgn///RZFC+8QX7efuFqQZnla0o4xpkO3YfC19ubOzzAnWDvBErAL8i/253KePzQyjG/yG4QTyD8ghn1GUHkAne3DtnCKrwdlpNCmYYwI7wTHoNvF3d4wUZnHGoo+vOV7faRiqi2caPeZzN8bPqCx5/r1JilCrgPB70OHNRXNpT/FBmX22cIIicbkTFA9fqCHBFuGcM89Be1EKAVNPy3XQXDmOilxIS81zOfJdncjRMoUPwZ62JfQs6U4mnvvncp8oRQ==
-X-OriginatorOrg: onsemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR02MB9828.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea9e8d8c-2f13-49cc-b343-08dedd61e5cb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2026 02:29:26.9607
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dAC6CMVxNRglRSLs9Bu4f6KbdAKHjCg7w3XLLvpasRKYW+lNFfYWeopcx/Xi9U+zurSRCA2DECHEvjr3BYUWCwgNBk8xacQzxbAvjxOgEh4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR02MB7917
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: NcrYmltnOGU-J8LBy064iBAWg_2hYo212FZMDbHfakA_1783564168
-X-Mimecast-Originator: onsemi.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+User-Agent: Mozilla Thunderbird
+Subject: Re: [patch 03/18] entry: Provide
+ [syscall_]enter_from_user_mode_randomize_stack()
+To: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>
+CC: Peter Zijlstra <peterz@infradead.org>, Michael Ellerman
+	<mpe@ellerman.id.au>, Shrikanth Hegde <sshegde@linux.ibm.com>,
+	<linuxppc-dev@lists.ozlabs.org>, Kees Cook <kees@kernel.org>, Huacai Chen
+	<chenhuacai@kernel.org>, <loongarch@lists.linux.dev>, Paul Walmsley
+	<pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	<linux-riscv@lists.infradead.org>, Sven Schnelle <svens@linux.ibm.com>,
+	<linux-s390@vger.kernel.org>, <x86@kernel.org>, Mark Rutland
+	<mark.rutland@arm.com>, Andy Lutomirski <luto@kernel.org>, Oleg Nesterov
+	<oleg@redhat.com>, Richard Henderson <richard.henderson@linaro.org>, Russell
+ King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Guo
+ Ren <guoren@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, Helge Deller <deller@gmx.de>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>, Richard Weinberger
+	<richard@nod.at>, Chris Zankel <chris@zankel.net>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-alpha@vger.kernel.org>,
+	<linux-csky@vger.kernel.org>, <linux-m68k@lists.linux-m68k.org>,
+	<linux-mips@vger.kernel.org>, <linux-parisc@vger.kernel.org>,
+	<linux-sh@vger.kernel.org>, <linux-um@lists.infradead.org>, Arnd Bergmann
+	<arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>, Will Deacon
+	<will@kernel.org>, Brian Cain <bcain@kernel.org>, Michal Simek
+	<monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, "David S. Miller"
+	<davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
+	<linux-snps-arc@lists.infradead.org>, <linux-hexagon@vger.kernel.org>,
+	<linux-openrisc@vger.kernel.org>, <sparclinux@vger.kernel.org>,
+	<linux-arch@vger.kernel.org>, =?UTF-8?Q?Michal_Such=C3=A1nek?=
+	<msuchanek@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+	<linux-doc@vger.kernel.org>
+References: <20260707181957.433213175@kernel.org>
+ <20260707190253.816918647@kernel.org>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <20260707190253.816918647@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
-DQo+ICtpbnQgZ2VucGh5X3JlYWRfbW1kX2M0NShzdHJ1Y3QgcGh5X2RldmljZSAqcGh5ZGV2LCBp
-bnQgZGV2bnVtLCB1MTYgcmVnbnVtKQ0KPiArew0KPiArIHN0cnVjdCBtaWlfYnVzICpidXMgPSBw
-aHlkZXYtPm1kaW8uYnVzOw0KPiArIGludCBhZGRyID0gcGh5ZGV2LT5tZGlvLmFkZHI7DQoNCllv
-dSBtYXkgd2FudCB0byBpbnNlcnQgdGhlIGxvY2tkZXBfYXNzZXJ0IGhlcmUuIFRoYXQnbGwgZW5z
-dXJlIHRoYXQgcmVhZC93cml0ZSBBUElzIGFyZSBjYWxsZWQNCmFmdGVyIHRoZSBtZGlvLWxvY2sg
-aXMgdGFrZW4uIEFuZHJldydzIHN1Z2dlc3Rpb24uDQoNCiAgIGxvY2tkZXBfYXNzZXJ0X2hlbGQo
-JmJ1cy0+bWRpb19sb2NrKQ0KDQoNCj4gKyByZXR1cm4gX19tZGlvYnVzX2M0NV9yZWFkKGJ1cywg
-YWRkciwgZGV2bnVtLCByZWdudW0pOw0KPiArfQ0KDQoNCj4gK2ludCBnZW5waHlfd3JpdGVfbW1k
-X2M0NShzdHJ1Y3QgcGh5X2RldmljZSAqcGh5ZGV2LCBpbnQgZGV2bnVtLCB1MTYgcmVnbnVtLA0K
-PiArIHUxNiB2YWwpDQo+ICt7DQo+ICsgc3RydWN0IG1paV9idXMgKmJ1cyA9IHBoeWRldi0+bWRp
-by5idXM7DQo+ICsgaW50IGFkZHIgPSBwaHlkZXYtPm1kaW8uYWRkcjsNCg0KDQpBbmQgaGVyZSB0
-b28uDQoNCg0KPiArIHJldHVybiBfX21kaW9idXNfYzQ1X3dyaXRlKGJ1cywgYWRkciwgZGV2bnVt
-LCByZWdudW0sIHZhbCk7DQo+ICt9DQo+ICtFWFBPUlRfU1lNQk9MKGdlbnBoeV93cml0ZV9tbWRf
-YzQ1KTsNCj4gKw0KDQo=
+
+
+On 7/8/2026 3:06 AM, Thomas Gleixner wrote:
+> Randomizing the syscall stack can only happen after state is established
+> via enter_from_user_mode() or syscall_enter_from_user_mode(). The earlier
+> it happens the better.
+> 
+> Provide two new macros to consolidate that:
+> 
+>   - enter_from_user_mode_randomize_stack()
+> 	enter_from_user_mode();
+> 	add_random_kstack_offset_irqsoff();
+> 
+>   - syscall_enter_from_user_mode_randomize_stack()
+> 	enter_from_user_mode_randomize_stack();
+> 	syscall_enter_from_user_mode_work();
+>     
+> to reduce boiler plate code.
+> 
+> Those are macros and not inline functions as the latter would limit the
+> stack randomization scope to the inline function itself.
+> 
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+> ---
+>  include/linux/entry-common.h |   56 +++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 56 insertions(+)
+> 
+> --- a/include/linux/entry-common.h
+> +++ b/include/linux/entry-common.h
+> @@ -6,6 +6,7 @@
+>  #include <linux/irq-entry-common.h>
+>  #include <linux/livepatch.h>
+>  #include <linux/ptrace.h>
+> +#include <linux/randomize_kstack.h>
+>  #include <linux/resume_user_mode.h>
+>  #include <linux/seccomp.h>
+>  #include <linux/sched.h>
+> @@ -150,6 +151,61 @@ static __always_inline long syscall_ente
+>  }
+>  
+>  /**
+> + * enter_from_user_mode_randomize_stack - Establish state and add stack randomization
+> + *					  before invoking syscall_enter_from_user_mode_work()
+> + * @regs:	Pointer to currents pt_regs
+> + *
+> + * Invoked from architecture specific syscall entry code with interrupts
+> + * disabled. The calling code has to be non-instrumentable. When the function
+> + * returns all state is correct, interrupts are still disabled and the
+> + * subsequent functions can be instrumented.
+> + *
+> + * Implemented as a macro so that the stack randomization is effective
+> + * throughout the function in which it is invoked. An inline would only make it
+> + * effective in the scope of the inline function.
+> + */
+> +#define enter_from_user_mode_randomize_stack(regs)			\
+> +do {									\
+> +	enter_from_user_mode(regs);					\
+> +	instrumentation_begin();					\
+> +	add_random_kstack_offset_irqsoff();				\
+> +	instrumentation_end();						\
+> +} while (0)
+> +
+> +/**
+> + * syscall_enter_from_user_mode_randomize_stack - Establish state and check and handle work
+> + *						  before invoking a syscall
+> + * @regs:	Pointer to currents pt_regs
+> + * @syscall:	The syscall number
+> + *
+> + * Invoked from architecture specific syscall entry code with interrupts
+> + * disabled. The calling code has to be non-instrumentable. When the
+> + * function returns all state is correct, interrupts are enabled and the
+> + * subsequent functions can be instrumented.
+> + *
+> + * This is the combination of enter_from_user_mode_randomize_stack() and
+> + * syscall_enter_from_user_mode_work() to be used when there is no
+> + * architecture specific work to be done between the two.
+> + *
+> + * Returns: The original or a modified syscall number. See
+> + * syscall_enter_from_user_mode_work() for further explanation.
+> + *
+> + * Implemented as a macro to make stack randomization effective in the calling
+> + * scope.
+> + */
+> +#define syscall_enter_from_user_mode_randomize_stack(regs, syscall)	\
+> +({									\
+> +	enter_from_user_mode_randomize_stack(regs);			\
+> +									\
+> +	instrumentation_begin();					\
+> +	local_irq_enable();						\
+> +	long _ret = syscall_enter_from_user_mode_work(regs, syscall);	\
+> +	instrumentation_end();						\
+> +									\
+> +	_ret;								\
+> +})
+
+Reviewed-by: Jinjie Ruan <ruanjinjie@huawei.com>
+
+> +
+> +/**
+>   * syscall_enter_from_user_mode - Establish state and check and handle work
+>   *				  before invoking a syscall
+>   * @regs:	Pointer to currents pt_regs
+> 
 
