@@ -1,370 +1,212 @@
-Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF92401A25;
-	Thu,  9 Jul 2026 08:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A80F3FBECB
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 08:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783587072; cv=none; b=Jbd6hvOd66m0g3HAmpwZ/LT2OuH8iVCdwEqxJBbk+Eml6KOAYHI0h5kweIm3b5QcksTflWTxNGUzz7DmH1RCHqzul0mOGC9iDHAE4PlejWlb2CJSc9HrfO2kADhh3YWOo6iAw2/suiaZ1lAbcpbXIrQkeDcXXT+T00jxVCNP73c=
+	t=1783587201; cv=none; b=bVjn/xaHnC5P1wXMLQKw57rs3EzKj221zNaNEnvnf4zHCPUJ61fh53HR+u3Bd0+IOIoHhVT0VJUdEMJC4wN0zxa03zA2/1d/+hBJu6Lyg3e41cPl7OWdlXrtiMm9an0u02waFJ/X5meAjJs5tIt/63ERxmOrQD9+NJN2GO0jqtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783587072; c=relaxed/simple;
-	bh=Gzue0wXD7dOgBiIiLp1g8F0rX9C137u75V+oh7Yxv1w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=cQ0S+lir4+P7cHdWnk1nX3weLUPz63MyZc0/QftgZXPmA3LfefbYmPFtcqK6TVSC0/OUgHoOITLkGHTnvgDZyf3rJWEULIqtTChO54XKCPuYuW5iFvpwR+xhduQQzZf8oOt6Hzwl893PvTI+yg/FS4lc6hRtvyBrp6Hk7N5Hcx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=VC47+a0X; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1783587201; c=relaxed/simple;
+	bh=gJH9guXcAfNJ6SsL+eO4i7xE/NDXFjDkDL6cAwmmE40=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KRcvKARXimkOrljjfwrj/r33PrtZC361it94jyknXeTJA0g1Om12bAOGTfDW2dQ1J+3lEtnW3CXLYnmKS5adQY5FIUzBZqRVFFEehu9B5iOekwaZfHmzRCPR6X54x4uPD0i7TZSBV4T4WiOR53VYyust/AekiPQT8E43d+EOJwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jksxRTYV; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="VC47+a0X"
-Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6697aLtq267962;
-	Thu, 9 Jul 2026 04:50:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=lHdOD
-	KHongYEY/mkHZFd+aKhUu6QqlZLnHMVB+W9gI8=; b=VC47+a0X6zj/hWl8kNA1G
-	ytuEKTUfpfAgyBmy0ZMk4uRSWo+6bXn2oGJq9+q9MfXm2WVnioF0nbcg9cRDN8pu
-	6G0JN9WtURyHT/IXB5pItZJZXqGm73EmedBRczHU47v+Zz4sh17FmdIVRXIvNtvd
-	4L0JUrcTdb+3BN/o/zjiwlRY/CXY/zGVkQe1KB8QJAgfseiNJ14QntDZ6D66rOFw
-	cE7gPvplk8hIg6mrPEzGITpy8Y6sJ9WBqJbtRcY+c6vk0Qg4gQBJtlEF0L8CT9/E
-	UbejqmHItNMUeLNssNmXk9otrJeAfs/7D61DyNf7KUZow1bF2CfDu+Yys2e2Gnu3
-	g==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4fa2jghraf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 09 Jul 2026 04:50:55 -0400 (EDT)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 6698osSa003610
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 9 Jul 2026 04:50:54 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Thu, 9 Jul
- 2026 04:50:54 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Thu, 9 Jul 2026 04:50:54 -0400
-Received: from HYB-e1y2fvUQ3cx.ad.analog.com (HYB-e1y2fvUQ3cx.ad.analog.com [10.44.3.70])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 6698oLR2015849;
-	Thu, 9 Jul 2026 04:50:47 -0400
-From: Janani Sunil <janani.sunil@analog.com>
-Date: Thu, 9 Jul 2026 10:50:17 +0200
-Subject: [PATCH 6/6] Documentation: iio: Add AD7768 Documentation
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jksxRTYV"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4758bd3731bso425807f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 01:53:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783587197; x=1784191997; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=W3WCN+xm9Ku357SP4qkc2nLAhmJTaNSJBwAXmI/hZS4=;
+        b=jksxRTYVH0bOAxQiQT5u/DZMQ87Z5qlltniQc8dywmvycj0i62hJ82UpiEgeDT5lGF
+         fjJdfEoRk6maqbwwKW+gitrKyTMdZcsMT4k1KouHq3RMglWYp7QmJti6wyqQTjboYLTN
+         uz6Ol20xtiYyiA49JlWk220H5bL/spsLxhpkHG7+sSD6X0xTV+HdemhFyq3QRaKgwBWB
+         Dr9b5PVzl+ZQCPzw1OR8pl1xfm25sqEUZVCzDHik84Q38dMYZe6naoR/k0v1erEHHW+z
+         A6ZcQ819qVKNcva8PgADxK5dwwlwDMRXeVW3fhmZs9Nd2x/l/W7wGkTEwdBillnXvNGI
+         7uqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783587197; x=1784191997;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=W3WCN+xm9Ku357SP4qkc2nLAhmJTaNSJBwAXmI/hZS4=;
+        b=mZP+kX4X6m1htuXTioRPF4mBsrPJXdpPcKDNYaZgb5A2387Fa8/xDKrxuujEy8Do/Z
+         n+hEws+/cIwJjMcItc3MsTO7wCQ4khHF9CgNIQ9G/wjt4sV9B1jG+WBvOohUw5Fz3X1x
+         2LpWEIN7qdpMfD1Z6GgGxWk8vAwNEt+3ov0XuFUfdp4SDFCzwTgWfOzxVnr6pjkd3l2M
+         taNEn70VAkIZ+M/I0XGsVk1uGyyRgLeCQj0DqU653MNa/1KDo3DySmC86P/R9DYq4M44
+         1OhZNS4OVuE+rnjtNAgUVSSFyyzMQDYYYRWYLeGuELAoyeEdo1pFRBPWPmeEc3Y2RVZG
+         LQ4Q==
+X-Forwarded-Encrypted: i=1; AHgh+RqNGelsX0RwtGVO3FJOBLT57OPhRiJq4holAk0t9BGaL1kTvsi65SZN2ZVi1WBLDYqSZ40foOHIt0Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/C2IroNf5r1lVI+OkvBnC2Sf0fS/7YuVm6Kwgt+gWYZnqkMAf
+	uvAYkP2Eoh498TF2zjDYliC8om+/X9skO2sI+NHU0xrfoDcFCtzMrgkY
+X-Gm-Gg: AfdE7cnevJtMKE7Ou3F2tau/NWvi+MEOC3404oGgviXIHBWqU64Fz8cxpMZsyt64fLA
+	dKCNGtU6Qb5MVy5d0oD1QIAWFgnQA2BBfJQKtek/SODAO2GJS3AFyTJfrwpzc1aA0jUSyA3Njfm
+	G6ld7NtwaFDxJiF3MhcYW8OZwBEuQG6NkVaMZWmjOXZdHhpZ/UguEleqe+JTExpMHFahtmKIEFv
+	8GMuwzTr7ltoxJbx+XYilsJBnSnLuCl0p15dcRJGCtDqccFqhrABVL50R3HxdFWsF+iYUqNt3vE
+	3o1JYLAZVmlEx2IfMEvMUqCW9cq+eTAbyMghzZUZJhuZqLz4G7W+WBS/b1/NNJoDMCDie50la3Q
+	iyrKjKHdthtUoBCevDP9HneTisvr957MvmH+KhrwxqdKUTsuvZ4QRddlRS93tGNPspxR2rwgH1c
+	x39PqA
+X-Received: by 2002:a05:6000:2509:b0:475:da0e:744d with SMTP id ffacd0b85a97d-47df754dbc2mr2043290f8f.8.1783587197256;
+        Thu, 09 Jul 2026 01:53:17 -0700 (PDT)
+Received: from nsa ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa039ae44sm47621073f8f.23.2026.07.09.01.53.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 01:53:16 -0700 (PDT)
+Date: Thu, 9 Jul 2026 09:54:22 +0100
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: Fred Chen <fredchen.openbmc@gmail.com>
+Cc: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Wensheng Wang <wenswang@yeah.net>, Frank Li <Frank.Li@nxp.com>, 
+	Brian Chiang <chiang.brian@inventec.com>, Cosmo Chou <chou.cosmo@gmail.com>, 
+	Dixit Parmar <dixitparmar19@gmail.com>, Eddie James <eajames@linux.ibm.com>, 
+	Antoni Pokusinski <apokusinski01@gmail.com>, Thorsten Blum <thorsten.blum@linux.dev>, 
+	Ashish Yadav <ashish.yadav@infineon.com>, Syed Arif <arif.syed@hpe.com>, 
+	ChiShih Tsai <tomtsai764@gmail.com>, Abdurrahman Hussain <abdurrahman@nexthop.ai>, 
+	"Paller, Kim Seer" <KimSeer.Paller@analog.com>, Colin Huang <u8813345@gmail.com>, 
+	Yuxi Wang <Yuxi.Wang@monolithicpower.com>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 2/2] hwmon: (pmbus) Add driver for Analog Devices
+ MAX20912 and MAX20916
+Message-ID: <ak9gFKkfEgkU_q1G@nsa>
+References: <20260707122701.751878-1-fredchen.openbmc@gmail.com>
+ <20260707122701.751878-3-fredchen.openbmc@gmail.com>
+ <f9e32dd1-7c2c-4055-83fa-94683777e30b@roeck-us.net>
+ <ak4QO9uhKOt68dl1@nsa>
+ <20260708-true-carp-of-champagne-a0dcca@quoll>
+ <ak41BRQBNdsQrYww@nsa>
+ <b2a5e99c-6d4d-454e-8ecd-8638e4dc0ddb@roeck-us.net>
+ <PH0PR03MB63512A19C32B7722D17D0FD4F1FE2@PH0PR03MB6351.namprd03.prod.outlook.com>
+ <CABOy65_GqKiZLM+soZUK_34T8MYZS3dRX38-CMf_Bd1EmG0jhA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260709-ad7768-driver-v1-6-44e1194fd96a@analog.com>
-References: <20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com>
-In-Reply-To: <20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com>
-To: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
-        Michael Hennerich
-	<Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        David
- Lechner <dlechner@baylibre.com>,
-        Andy Shevchenko <andy@kernel.org>, Rob
- Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor
- Dooley <conor+dt@kernel.org>,
-        Olivier Moysan <olivier.moysan@foss.st.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Linus Walleij <linusw@kernel.org>,
-        Bartosz Golaszewski <brgl@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>
-CC: <linux@analog.com>, <linux-iio@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <jananisunil.dev@gmail.com>, Janani Sunil <janani.sunil@analog.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783587021; l=9441;
- i=janani.sunil@analog.com; s=20260507; h=from:subject:message-id;
- bh=Gzue0wXD7dOgBiIiLp1g8F0rX9C137u75V+oh7Yxv1w=;
- b=go9SaAst0su+CEu08GXXG4+pn0Pwhnj7LQaX1urggcSmBGjMugPcjEIMSe6idmxsGHXAV/NGJ
- /3Usa1IYcSIAhnTI3OiHT4eO6VJOgsbu4b730Yb7GC01TQYEOZ4QJwU
-X-Developer-Key: i=janani.sunil@analog.com; a=ed25519;
- pk=e25MyjRLPY3RWrYm/LrJ+/+t1MZJUbkgIW5CZg+g+hA=
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA5MDA4MyBTYWx0ZWRfXwZic2XDUvkKB
- EkeV5LgxVnVCieUQeXoCcgtwqXffiUSiDszkY0svnKKb5Ri9fpKA5Z5WZp++CWGoj1jjrt88Tna
- Xv+R2SqlkzyZ9HlOLLtUjyMIQYNi7TiEUITiZAcbldqAs5mtebx0
-X-Authority-Analysis: v=2.4 cv=bPcm5v+Z c=1 sm=1 tr=0 ts=6a4f60ef cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=0sLvza09kfJOxVLZPwjg:22 a=N--XFCr6TIEc_64PeIT2:22 a=gAnH3GRIAAAA:8
- a=VwQbUJbxAAAA:8 a=GV2GhdOKgmG-7AKwTDsA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: jQkRfAWnSYx8XI0sZvIO71I1U0m4BF7L
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA5MDA4MyBTYWx0ZWRfX9k+7xwwST4je
- mbjxw/FpIPVkUaY+qJ36tOXQfqyIeUPtrk+3eJm+eSDF0EKWWZ1lDzH+LGx56J5JyvQU4zIF7pM
- HAsQi1RUt9A+V2+swEB5jKR7B8fOJm/wf2Xzhlr2jNcHXNUSZMa6s2FGyVb0ONx1X2TurQ5dVmc
- hpbtdy89WwjWCrLmnvGnyWaEq+Zm9Dm3ofy5vSpM+ie3WeKhuKGKziwSJGTrWbwuENoh4p/0mYp
- 18AyO0Qpd5uR7AeqIQSu1vw2RzrEMl+iXhrEu5JWOCUWpindaIivV5vmbmM8ZQZTHdML4BfUGcc
- sQIGyMxpAk96vJPbbhW5ZLN8GAPH+V/97dQJBoNo7ou55GARP4bcTzrszJJQyQxyxgbh3TUBqUN
- koVSGfuTu7XgeBkmwBNqhNMBmlKATJLX1M+4kxMcF2DkBUGPoFXFC4gXCEx6DxCCotDEQRH2HnW
- B9cBY5aqHkgWi8JXztg==
-X-Proofpoint-ORIG-GUID: jQkRfAWnSYx8XI0sZvIO71I1U0m4BF7L
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-09_01,2026-07-08_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 malwarescore=0 impostorscore=0 phishscore=0
- clxscore=1015 spamscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607090083
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABOy65_GqKiZLM+soZUK_34T8MYZS3dRX38-CMf_Bd1EmG0jhA@mail.gmail.com>
 
-Add driver documentation for AD7768
+On Thu, Jul 09, 2026 at 03:23:55PM +0800, Fred Chen wrote:
+> Torreno, Alexis Czezar <AlexisCzezar.Torreno@analog.com> 於 2026年7月9日週四 上午8:59寫道：
+> >
+> > > On 7/8/26 04:32, Nuno Sá wrote:
+> > > > On Wed, Jul 08, 2026 at 12:50:25PM +0200, Krzysztof Kozlowski wrote:
+> > > >> On Wed, Jul 08, 2026 at 10:19:56AM +0100, Nuno Sá wrote:
+> > > >>> On Tue, Jul 07, 2026 at 06:52:48AM -0700, Guenter Roeck wrote:
+> > > >>>> On 7/7/26 05:26, Fred Chen wrote:
+> > > >>>>> Add support for the Analog Devices MAX20912 and MAX20916
+> > > >>>>> dual-output multiphase voltage regulators with PMBus interfaces.
+> > > >>>>>
+> > > >>>>> Signed-off-by: Fred Chen <fredchen.openbmc@gmail.com>
+> > > >>>>
+> > > >>>> Please provide evidence that those chips actually exist.
+> > > >>>> Internet search comes up blank. I'll need confirmation from someone
+> > > >>>> at Analog.
+> > > >>>
+> > > >>> Hi Guenter,
+> > > >>>
+> > > >>> Well, in fact I'm in the middle of preparing a series that adds
+> > > >>> support
+> > > >>> for:
+> > > >>>
+> > > >>> "max20826"
+> > > >>> "max20855b"
+> > > >>> "max20908"
+> > > >>> "max20912"
+> > > >>> "max20916"
+> > > >>>
+> > > >>> All the above parts have the datasheet under NDA. But before we had
+> > > >>> a one page "datasheet" in analog.com but I guess that is gone! For
+> > > >>> context I mainly did the base (core) driver for max20826 and then
+> > > >>> Alexis added the other ones.
+> > > >>>
+> > > >>> Not sure how to proceed... I can wait and then work on top of what
+> > > >>> Fred has but this patch is very minimal when compared with what we have.
+> > > >>> Like:
+> > > >>>
+> > > >>> * No regulator support;
+> > > >>> * No direct mode. The chip has two ways to access registers (paging
+> > > >>> and
+> > > >>> * direct mode).
+> > > >>> * No way to count how many phases we have or if RAIL_B (func[1]) is
+> > > >>> being used at all.
+> > > >>>
+> > > >>>
+> > > >>> Some other things more intriguing is that these chips, as far as I'm
+> > > >>> aware (at least for max20826), always have bit 2 set in
+> > > >>> ON_OFF_CONFIG so a gpio vout. Also we needed some special handling
+> > > >>> to read phase current which I'm not seeing in the driver. So I would
+> > > >>> like to understand how the chip was tested?
+> > > >>>
+> > > >>> Anyways, if Fred is ok with it I can just finish what I'm doing and
+> > > >>> send the patches. It would make sense to have something more
+> > > >>> complete on submission but I don't want to just "steal" the work already
+> > > done.
+> > > >>
+> > > >> Binding should be in such case posted complete, so probably not a
+> > > >> trivial device.
+> > > >
+> > > > Yes, in my series bindings are not in trivial as we support the enable
+> > > > gpios.
+> > > >
+> > >
+> > > Same question I asked before: What is your use case ?
+> > >
+> >
+> > Hi Guenter,
+> >
+> > Unlike my MAX20830 patches, for some reason these chips (not only Nuno's max20826)
+> > hardwired the bit 2 in ON_OFF_CONFIG to '1'. This makes the use of gpio to enable the
+> > device a requirement.  (as of the latest info given to us)
+> >
+> > Regards,
+> > Alexis
+> 
+> Hi Nuno,
+> 
+> Based on the MAX20912/16 specs on my hand, these chips do not support
+> PMBUS_PHASE (0x04). Furthermore, the spec only indicates support for VID mode
+> and does not provide m/b/r. Therefore, some of the features you mentioned might
+> be specific to the MAX20826 series.
 
-Signed-off-by: Janani Sunil <janani.sunil@analog.com>
----
- Documentation/iio/ad7768.rst | 207 +++++++++++++++++++++++++++++++++++++++++++
- Documentation/iio/index.rst  |   1 +
- MAINTAINERS                  |   1 +
- 3 files changed, 209 insertions(+)
+I see, phases are not supported using standard PMBUS.
 
-diff --git a/Documentation/iio/ad7768.rst b/Documentation/iio/ad7768.rst
-new file mode 100644
-index 000000000000..438e33d4f375
---- /dev/null
-+++ b/Documentation/iio/ad7768.rst
-@@ -0,0 +1,207 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+=============
-+AD7768 driver
-+=============
-+
-+ADC driver for Analog Devices Inc. AD7768 and AD7768-4 devices. The module name
-+is ``ad7768``.
-+
-+Supported devices
-+=================
-+
-+The following chips are supported by this driver:
-+
-+* `AD7768 <https://www.analog.com/en/products/ad7768.html>`_ - 8-channel, 24-bit simultaneous sampling ADC
-+* `AD7768-4 <https://www.analog.com/en/products/ad7768-4.html>`_ - 4-channel, 24-bit simultaneous sampling ADC
-+
-+Supported features
-+==================
-+
-+Power modes
-+-----------
-+
-+The AD7768 family supports three configurable power and performance modes:
-+
-+* **Low power mode** - Optimized for lowest power consumption
-+* **Median mode** - Balanced power and performance
-+* **Fast mode** - Highest performance with maximum sampling rates
-+
-+The power mode affects the available sampling frequencies and power consumption.
-+Set via the ``adi,power-mode`` device tree property.
-+
-+Data output configuration
-+-------------------------
-+
-+The devices support flexible serial data output configurations:
-+
-+AD7768 data lines
-+^^^^^^^^^^^^^^^^^
-+
-+* 1 data line (DOUT0) - Standard single-lane output
-+* 2 data lines (DOUT0, DOUT1) - Dual-lane output for higher throughput
-+* 8 data lines (DOUT0-DOUT7) - Maximum throughput, one line per channel
-+
-+AD7768-4 data lines
-+^^^^^^^^^^^^^^^^^^^
-+
-+* 1 data line (DOUT0) - Standard single-lane output
-+* 4 data lines (DOUT0-DOUT3) - Maximum throughput, one line per channel
-+
-+The number of data lines is configured via the ``adi,data-lines-number``
-+device tree property.
-+
-+Channel configuration
-+---------------------
-+
-+Each channel can be individually configured with:
-+
-+Channel modes
-+^^^^^^^^^^^^^
-+
-+* **Mode A** - First set of filter and decimation settings
-+* **Mode B** - Second set of filter and decimation settings
-+
-+Each channel can be assigned to either Mode A or Mode B via the
-+``adi,ch-mode`` device tree property.
-+
-+Channels assigned to the same mode share the same runtime filter and
-+decimation configuration. The per-channel IIO attributes for sampling
-+frequency and filter type are aliases to the channel's assigned mode
-+profile rather than independent per-channel settings.
-+
-+Precharge and reference buffers
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Per-channel buffer control for optimal signal integrity:
-+
-+* Positive input precharge buffer (``adi,prebuf-pos-en``)
-+* Negative input precharge buffer (``adi,prebuf-neg-en``)
-+* Positive reference buffer (``adi,refbuf-pos-en``)
-+* Negative reference buffer (``adi,refbuf-neg-en``)
-+
-+Common mode voltage
-+-------------------
-+
-+Configurable common mode output voltage levels:
-+
-+* (AVDD - AVSS) / 2V
-+* 1.65V
-+* 2.5V
-+* 2.14V
-+
-+Set via the ``adi,common-mode-output`` device tree property.
-+The common mode buffer can be powered down using ``adi,vcm-power-down``.
-+
-+Filter types
-+------------
-+
-+Two digital filter types are available:
-+
-+* **Wideband** - Optimized for wide bandwidth applications
-+* **Sinc5** - Fifth-order sinc filter for high rejection of out-of-band noise
-+
-+IIO backend support
-+-------------------
-+
-+The driver integrates with IIO backends (e.g., AXI ADC) for high-speed data
-+capture and DMA operations. Features include:
-+
-+* Automatic channel enable/disable based on scan mask
-+* CRC on data interface. CRC replaces the header every 4th output sample.
-+* High-throughput buffered data acquisition
-+
-+GPIO controller
-+---------------
-+
-+The AD7768 includes a 5-pin GPIO controller for auxiliary digital I/O
-+operations. The GPIO pins can be configured as inputs or outputs.
-+
-+Device attributes
-+=================
-+
-+The following IIO attributes are available for each enabled channel:
-+
-+Sampling frequency
-+------------------
-+
-++---------------------------------------+--------------------------------------------------------------+
-+| Attribute                             | Description                                                  |
-++=======================================+==============================================================+
-+| ``in_voltage<N>_sampling_frequency``  | Current sampling frequency in Hz for channel N. Channels     |
-+|                                       | assigned to the same mode profile read back the same value.  |
-++---------------------------------------+--------------------------------------------------------------+
-+
-+Filter configuration
-+---------------------
-+
-++---------------------------------------+--------------------------------------------------------------+
-+| Attribute                             | Description                                                  |
-++=======================================+==============================================================+
-+| ``in_voltage<N>_filter_type``         | Current filter type for channel N: "wideband" or "sinc5".    |
-+|                                       | Channels assigned to the same mode profile share this value. |
-++---------------------------------------+--------------------------------------------------------------+
-+| ``in_voltage<N>_filter_type_          | Available filter types for channel N: "wideband sinc5".      |
-+| available``                           |                                                              |
-++---------------------------------------+--------------------------------------------------------------+
-+
-+Per-channel calibration
-+-----------------------
-+
-++---------------------------------------+--------------------------------------------------------------+
-+| Attribute                             | Description                                                  |
-++=======================================+==============================================================+
-+| ``in_voltage<N>_calibbias``           | Channel offset calibration value                             |
-++---------------------------------------+--------------------------------------------------------------+
-+| ``in_voltage<N>_calibscale``          | Channel gain calibration value                               |
-++---------------------------------------+--------------------------------------------------------------+
-+| ``in_voltage<N>_phase``               | Channel phase calibration value.                             |
-++---------------------------------------+--------------------------------------------------------------+
-+
-+Device buffers
-+==============
-+
-+This driver supports IIO buffered data acquisition through IIO backends.
-+When used with compatible backends like the AXI ADC, it provides:
-+
-+* High-speed simultaneous sampling across all enabled channels
-+* Hardware-triggered data capture
-+* DMA-based data transfer for minimal CPU overhead
-+* CRC error detection
-+
-+See :doc:`iio_devbuf` for more information about IIO device buffers.
-+
-+Example usage
-+=============
-+
-+.. code-block:: bash
-+
-+	# Read current sampling frequency for channel 0
-+	cat /sys/bus/iio/devices/iio:device0/in_voltage0_sampling_frequency
-+
-+	# Update sampling frequency for channel 0
-+	echo 8000 > /sys/bus/iio/devices/iio:device0/in_voltage0_sampling_frequency
-+
-+	# Read current filter type for channel 0
-+	cat /sys/bus/iio/devices/iio:device0/in_voltage0_filter_type
-+
-+	# List available filter types for channel 0
-+	cat /sys/bus/iio/devices/iio:device0/in_voltage0_filter_type_available
-+
-+	# Update filter type for channel 0 to wideband
-+	echo wideband > /sys/bus/iio/devices/iio:device0/in_voltage0_filter_type
-+
-+	# Updating one channel also updates all channels assigned to the same
-+	# mode profile (Mode A or Mode B) selected by adi,ch-mode in devicetree
-+
-+	# Read calibration scale for channel 0
-+	cat /sys/bus/iio/devices/iio:device0/in_voltage0_calibscale
-+
-+	# Read phase calibration for channel 0
-+	cat /sys/bus/iio/devices/iio:device0/in_voltage0_phase
-+
-+
-+Unimplemented features
-+======================
-+
-+* CRC message every 16 samples (CRC_SEL configuration) - currently only supports CRC every 4 samples
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-index b02b879b053a..73c58cec7620 100644
---- a/Documentation/iio/index.rst
-+++ b/Documentation/iio/index.rst
-@@ -29,6 +29,7 @@ Industrial I/O Kernel Drivers
-    ad7380
-    ad7606
-    ad7625
-+   ad7768
-    ad7944
-    ade9000
-    adf41513
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3de7ebcc4ee7..b93c77d3a4c3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1639,6 +1639,7 @@ L:	linux-iio@vger.kernel.org
- S:	Supported
- W:	https://ez.analog.com/linux-software-drivers
- F:	Documentation/devicetree/bindings/iio/adc/adi,ad7768.yaml
-+F:	Documentation/iio/ad7768.rst
- F:	drivers/gpio/gpio-ad7768.c
- F:	drivers/iio/adc/ad7768.c
- 
+> 
+> Regarding enabling VOUT via GPIO, our platform handles this via the CPLD as
+> part of the hardware power sequencing. Managing this pin through the driver is
+> not a requirement for our system.
 
--- 
-2.43.0
+But we cannot assume all systems will behave like the above. But now i
+do wonder about controlling the GPIOs in the driver. In your system you
+clearly did not need to do it. In mine (testing with a rpi) I had to
+use a GPIO (well I could have used hogs or pinctrl). But if you control the pin
+you do gain the ability to turn off the regulator. If you don't it's always on
+(which might be indeed the bulk of the real usecases for these systems).
 
+> 
+> As for the testing, I have verified that the telemetry readings for both Rail A
+> and Rail B behave as expected. The driver reports valid data after system
+> power-on, and the readings drop to 0 properly after power-off.
+> 
+> It's possible my specs are outdated or that I'm missing some use cases. If
+> you plan to submit your more complete driver covering the MAX20912/16
+> soon, I'm more than willing to hold off on sending v2 patch.
+>
+
+Sure, soon enough :)
+
+- Nuno Sá
