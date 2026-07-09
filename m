@@ -1,113 +1,214 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE924219F7
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 12:32:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783600333; cv=none; b=hqJhrVA6+YBnYOQ4m4H9FLUW7HUqRRq2buz9/4gTRa/Ssx5T+x97bo7Z4nHnYLSi69UztwkrifxkRCMqs50cZTyI5L/xHsMRKPz3rhZahI8BWJK92kTJ0eM2k+Pj2/falIPx50R83QGnFCmI3u6OrtjxYz6B8sXtVKu2mhdinlc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783600333; c=relaxed/simple;
-	bh=oD7sVcKI0EP5wbCBcbErCM6cSOoSEbzddvyLGpoAsBI=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sv8zlUVWmZrg6rI5oeDAP4JyZgBr1AphdHDRuGsL4U4xMOm60wWm2Zuu2pUjPYEjLi2voQpOuo1FTh3ckDAG8HZo0H+Q/E3NplQCTe3bKmFrqWVnvca20C4S+YxgIPRzXyj2mQ6Zokr8ULZDiCv2yk0jV0WVWFpKxzD34GySFvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SO0DVmru; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6801041C308
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 12:32:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783600345; cv=pass; b=I/r/Kkq8j1mWjS3a9r0dTxYOyoS0DEyo9Vc1apBVeoxS6NgUMj3WdBUch1HTkWkZnAQRLrUd2HuNyKYwVFXiRpsB28jaPFZRHDOcFFugQijMV2ToCHHRCCIW/3h5/NWbrUSq7oOxFqrV1F6ttdIZIfAUl3R4N12nRJB1vOkj9tI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783600345; c=relaxed/simple;
+	bh=HpM5oyfiz/PBhye6COIAJQLw8QryulxM6H5RQMFWI74=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Mud286IJqqvjq2pmt4m3zYk9mcl/lreecGFN2FRorjyiV8D5Rz6euVDNrPQeL879rE5gP6GQef7YgELTnHVP8Rpftra3/myGAEKCpY/Bs6BCjJwb2fJIfLQtCkbhOTOw/8OB5iCBo91LS+AFqt6025h7gNRzv3dmD+CKxylCdT0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=ZHPE9wRn; arc=pass smtp.client-ip=209.85.210.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SO0DVmru"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ED7D1F00A3F
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 12:32:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783600331;
-	bh=4aR9R9rWW9lEHBtHD1X7oe8tDfOcExVaxQWxI0iwWpw=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=SO0DVmruKzGhRCEDUhvR08+VaUPO+EXfcFiEUq4/kCU65mP7IoJMaFZlkS29qL85z
-	 jJqVr+be51s9PC+n6LxjenfQicQBWU32x3EIrjs7o/hMtZB2cOSXQFXBPVWyZA37s+
-	 oKn8SU8hXX0zXwTCgFwdn7WykFJ0ofTRsbWH7aBSz65+B1qiEIpHw5b8/h2JIoeVpm
-	 EORHEOYRb6ulLk49aBGhA5mNE6BpjbffZ6cO/hT199i4VW+7qhIazzFa1Qeeg5rVGs
-	 0Tlrpw2m9NyIusahdzqvKHIIMwUyY5lxR3fLthjVU6h87fT5qGJS4DpYLy8E+bmBQg
-	 4R7ZRsOUP/47Q==
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-39c610a7ab9so13336851fa.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 05:32:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrlV4nQ5MIbTxLsOLFTLpM/Mp0gbvP9FEH/QCZLcooJmaL/t5yYVpqNaMO4XacDwoKbW/tCCv3FlbA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWQKP/vQRxV16ZYDZgO0hGTFTD/1J5bmSejshWF3Gv9kQC7vC9
-	JlAoNtxoSfLLg2IYQ1dnu88I0Yf9dUI+fU2cKLfR5bfcja/JrXu8h5IHBtkczgl+P4zvQW80e+m
-	kG+0DARG0kzd0BQ58VkfCi+t0w2lG7hDY1YSAU8Jmig==
-X-Received: by 2002:a05:651c:a09:b0:39a:d7f7:9823 with SMTP id
- 38308e7fff4ca-39c798813b4mr15252851fa.17.1783600329964; Thu, 09 Jul 2026
- 05:32:09 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 9 Jul 2026 05:32:08 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 9 Jul 2026 05:32:08 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <ak4_vsdef9MJd1Yv@linaro.org>
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="ZHPE9wRn"
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7e9f69eeb6cso998816a34.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 05:32:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783600342; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ewGoC4glD06vihrmtWN9pV0nPgCFxj8MwAyTb2cy7vq+3ZZhdmkrvx0Y80m6jIxIB6
+         6rurT+/7XH/0wy+pgck7Zz/WD6zAzNSJdXyiBG0Ze1E/MAMbRqtSFvkItUBESiabdpiP
+         UbqmzCLzpSDJa0JHl7KNBNwZSnLLlqCmJCk3fc32/3tjmqnRGPDTz4Q4GLwOh4fSQX/V
+         bw6mkRj4N5xRBVVfRtiUsqEIy1tfG8m5IewSjwGxLJVbwLdj3f7H5TouPJyVmxNml+Uu
+         R/domv16c8F9G5jHY8kHp7nltmHb4gVZeypdJyuqAao2RJsN8hPPwbG187ZJc+vEsBDS
+         65SA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Q6uaaRn1apsA/2p+t1DBPwc+zrUv3t/8R7VmEga46LQ=;
+        fh=vEHNC7DBge0hamco2aRru3US34cw+KR0Bsj0V9BBaqc=;
+        b=UdkyCB+M0t6KSAyJ1Zx8S5kRy1gixS1CO+w1ZlJY5lyxlMBfXi56b/J2yujv+QHNw8
+         opc5gmN1udVoFi20TQX5kD4LhRhY805PIjovF7xx16aXKHiLdyyWoRRwclJHFBJaFtdp
+         6fa0mp+jYZznD7RxhYlTUFox2dgO2vpAW7acGWzl9V6jOskjbyJkQiBG02APWvBTg8ao
+         k8jTr1BW26PivOmT/DSGpWmfXhQ2hX3GxkE4qp4MvxlhYmCf2ssKKVsXK9LdY4rUKqaJ
+         zzd1CLavkmSq4xG3XPYEHGN47E/QM+mYd41cfQ+sFw85tyyRQGp+ovu/HrBpPHKChd5R
+         n6ug==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1783600342; x=1784205142; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Q6uaaRn1apsA/2p+t1DBPwc+zrUv3t/8R7VmEga46LQ=;
+        b=ZHPE9wRn/dvk1Z0TpzB4U78xf9l1k3d/03n8G4l/IPpzRC6KAqLWWB5TtaLRyXuc/l
+         /Fok29DrYTBRik2MVwgvRvdcrRmLDFFx6uhfbm9lBg1F/P3/aA0+Jk3pZpSSQXKf6wdx
+         qyc+j7LY3XD3TveFzw9/kL4ozIO/WAF5LN/YbF2Tmwz7RHgDxE4yMcD1TWordTqyivde
+         Sjbf9bWM9j8sxbboKrzXE/eoXBcrvCe0qFgB0XMkyOkijk7+6XfR85BuvCgPvmQqNE4C
+         2mUlJ75MT+7PENlAa1ikjUfaXffwemSBgn/Uy72fUme+L6yWQdhn/0grUsJEvo/Zn/X4
+         Ul4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783600342; x=1784205142;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Q6uaaRn1apsA/2p+t1DBPwc+zrUv3t/8R7VmEga46LQ=;
+        b=WGw9HQlG66Gt/Ei/m+dKJlctaqfPS1XoGS8e7jx7+Fu/9X8+eaVAGoONzl4B2cQefN
+         NSoeVoMRNd6jsY1PIG6yddmgL3nYt42TrGBogIrN50DLvSlMR8DB//Qbku4l+dhPCayl
+         MDmREUMV3ejX5OufIpibigKhA8MHssiHFBAgNcWBFNReaYwt8oUFEln+NTrPoKd7Hnwk
+         8JawZ/AsXbOsqUxDrhQ/HPxokkWYTnlcPmhwoKObGZ8PDHUvEAfkxJn6+aidnpNJTefr
+         IQCKnEwAExLAzQWvY8d97gzRSAWp1wjWGcJ8qL4nd6jDTSQ6nDCiH2ydSwMw6M1PgL51
+         WWYg==
+X-Forwarded-Encrypted: i=1; AFNElJ/YNadQfYfVHPOA+TZwpEzkqVfjy9lfJUEpkwHxHoHqtX7Q/rjq20fTf6jm4q8cNdT4euN73K3aCUA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyL+Fwl+lIlE68rkWAUMRPZgRq45pNyR1VXce6Ryp07gXhIdkXP
+	hx4Jza/I7aTKh3mmXlTJ3VNIS7nE6W/k42OIzNA9lxcq5dNBKiMnbhNFdSh2WoIPs3ozaE/UvUk
+	1goqJIrFjJYmwvM0wd1XDfYx2iJC+56nKOpFVnhXOVw==
+X-Gm-Gg: AfdE7ckxLQ1qq8KORMXZHkU6Vqpq7XdxDezO4G4+1OHy05zKKiz0NxpgeChflRq/Cv6
+	MaNaUcATpmGIrBrFyjnYNQwnpuND0f+q2GXezT9ETth7DU99oYK7rVATEpOUEqqh6YiJ2ZKw4eh
+	OLiKycCy4RP50ebqsdRiMUYL+rWvZiKL2HIYMUVVIGu2l7U7IbENhYalmrKlBSKyUS7myCtfeOg
+	FA4MCBNfXba58BCIQ/8x9Dx12TVncAKc4YyuebOdFH3LzHOjjP23+H+d498BMiss9Yx8msn9kti
+	+DDHJWht6IZriNmijk1XOUl+yO0RaqBlplZy3XUxuy+ddszvAUOR6ofXU2QhIqeNdGKNxcaRv9r
+	rp45dCLmzc1jZ6/jV7S9g/kuPCPOEi5sVIZX74ZY=
+X-Received: by 2002:a05:6820:1628:b0:6a1:18fc:519f with SMTP id
+ 006d021491bc7-6a36d6d6ec2mr5214376eaf.0.1783600342380; Thu, 09 Jul 2026
+ 05:32:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260629-qcom-qce-cmd-descr-v20-0-56f67da84c05@oss.qualcomm.com>
- <20260629-qcom-qce-cmd-descr-v20-6-56f67da84c05@oss.qualcomm.com> <ak4_vsdef9MJd1Yv@linaro.org>
-Date: Thu, 9 Jul 2026 05:32:08 -0700
-X-Gmail-Original-Message-ID: <CAMRc=Me93OOyk5gzqD2kSEbR=SNXbOC7azsqc14BLVirnkEmjg@mail.gmail.com>
-X-Gm-Features: AVVi8Cee9x38eRLPwnHC8PzzhrHOdP202SPN2_gv8BvqViABwY4y57pWiMje_Lg
-Message-ID: <CAMRc=Me93OOyk5gzqD2kSEbR=SNXbOC7azsqc14BLVirnkEmjg@mail.gmail.com>
-Subject: Re: [PATCH v20 06/14] dmaengine: qcom: bam_dma: add support for BAM locking
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Thara Gopinath <thara.gopinath@gmail.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
-	Udit Tiwari <quic_utiwari@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
-	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>, 
-	Andy Gross <agross@codeaurora.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	brgl@kernel.org, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
+ <20260630-deprecate_boot_delay-v2-2-f9883d36aa4b@thegoodpenguin.co.uk> <ak5mPxUdp2pzCMt5@pathway.suse.cz>
+In-Reply-To: <ak5mPxUdp2pzCMt5@pathway.suse.cz>
+From: Andrew Murray <amurray@thegoodpenguin.co.uk>
+Date: Thu, 9 Jul 2026 13:32:10 +0100
+X-Gm-Features: AUfX_myRkAQr3RlL8KDtHhqAkW7mutgbWnQw5V1Od8NNNQcLPSvfj_bgH0j4NKw
+Message-ID: <CALqELGxjTZAXEp1C1CNO2tLbUpUChZW3DHcNgyhEu4Ma-ct2ow@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] printk: deprecate boot_delay in favour of printk_delay
+To: Petr Mladek <pmladek@suse.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Russell King <linux@armlinux.org.uk>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	John Ogness <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 8 Jul 2026 14:17:51 +0200, Stephan Gerhold
-<stephan.gerhold@linaro.org> said:
-> On Mon, Jun 29, 2026 at 12:01:08PM +0200, Bartosz Golaszewski wrote:
->>
->> @@ -1064,9 +1220,23 @@ static void bam_start_dma(struct bam_chan *bchan)
->>
->>  	lockdep_assert_held(&bchan->vc.lock);
->>
->> +	vd = vchan_next_desc(&bchan->vc);
->>  	if (!vd)
->>  		return;
->>
->> +	/*
->> +	 * Wrap the issued work with a LOCK/UNLOCK pair exactly once, at the
->> +	 * start of a fresh sequence and only when there is real work to lock
->> +	 * around. On a re-entry after a full FIFO, we see the BAM is locked
->> +	 * and must not add another pair we simply continue loading the
->> +	 * remainder of the same locked sequence.
->> +	 */
->> +	if (!bchan->bam_locked) {
->> +		ret = bam_setup_pipe_lock(bchan);
->> +		if (ret == 0 && bchan->bam_locked)
->> +			vd = vchan_next_desc(&bchan->vc);
->> +	}
->
-> I *suspect* though that Sashiko is right about the new race condition
-> here if new descriptors are queued while the hardware is busy processing
-> a locked sequence.
->
-> https://sashiko.dev/#/patchset/20260629-qcom-qce-cmd-descr-v20-0-56f67da84c05%40oss.qualcomm.com?part=6
->
-> Any idea how to fix this?
->
+Hi Petr,
 
-We could move the bam_clocked clearing from the IRQ handler into
-bam_start_dma(), right after the UNLOCK descriptor is committed to the FIFO.
-Basically track the state at queue-time, not at interrupt time. Once we commit
-the UNLOCK, the locked range of descriptors is "sealed". If there's more work,
-we'd call bam_setup_pipe_lock() again with a new "sealed" range surrounded
-by LOCK/UNLOCK.
+On Wed, 8 Jul 2026 at 16:01, Petr Mladek <pmladek@suse.com> wrote:
+>
+> On Tue 2026-06-30 17:35:58, Andrew Murray wrote:
+> > The boot_delay (BOOT_PRINTK_DELAY) kernel parameter and printk_delay sysctl
+> > are two distinct mechanisms for providing similar functionality which add a
+> > delay prior to each printed printk message.
+> >
+> > boot_delay provides a kernel parameter for delaying printk output from
+> > kernel start through to boot (SYSTEM_RUNNING), whereas printk_delay is
+> > configurable only via sysctl and thus is only used post boot.
+> >
+> > Let's deprecate the boot_delay feature in favour of printk_delay. In order
+> > to preserve functionality, we'll also extend printk_delay such that it can
+> > additionally configured via an early kernel parameter.
+> >
+> > Behavior change:
+> >
+> > The delay enabled by both "boot_delay" and "printk_delay" continues
+> > working even in SYSTEM_RUNNING state. It must be explicitly stopped
+> > by setting printk_delay=0 via sysctl.
+> >
+> > The delay is skipped when the message is suppressed in all system
+> > states. It used to skipped only for the boot_delay.
+> >
+> > Signed-off-by: Andrew Murray <amurray@thegoodpenguin.co.uk>
+>
+> Looks good to me:
+>
+> Reviewed-by: Petr Mladek <pmladek@suse.com>
+>
+> Note that Sashiko AI warns about possible problems with negative
+> printk_delay values, see
+> https://sashiko.dev/#/patchset/20260630-deprecate_boot_delay-v2-0-f9883d36aa4b%40thegoodpenguin.co.uk
+>
+> But they should be handled in both the early parameter
+> and sysctl interface by the "10 * 1000" and "&ten_thousand"
+> limits.
 
-Bart
+Yes, that was my also view.
+
+
+>
+> The only potential problem might be a warning about possible
+> "sign" mismatch from the compiler. But I do not see any
+> even with make W=2.
+
+I suspect this will come up everytime a change is made in this area,
+or perhaps some W=2 errors will pop up via kernelci or similar. I
+propose updating the patch as follows:
+
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index 5278d9cb19e4..fbb67f10c21e 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -1338,10 +1338,13 @@ static inline void early_boot_delay_msec(void)
+
+ static int __init printk_delay_setup(char *str)
+ {
+-       get_option(&str, &printk_delay_msec);
+-       if (printk_delay_msec > 10 * 1000)
+-               printk_delay_msec = 0;
++       int printk_delay_val = 0;
+
++       get_option(&str, &printk_delay_val);
++       if (printk_delay_val < 0 || printk_delay_val > 10 * 1000)
++               return 0;
++
++       printk_delay_msec = (unsigned int)printk_delay_val;
+        printk_delay_calculate();
+
+        return 0;
+diff --git a/kernel/printk/sysctl.c b/kernel/printk/sysctl.c
+index f15732e93c2e..f256fc05faaf 100644
+--- a/kernel/printk/sysctl.c
++++ b/kernel/printk/sysctl.c
+@@ -46,7 +46,7 @@ static const struct ctl_table printk_sysctls[] = {
+                .data           = &printk_delay_msec,
+                .maxlen         = sizeof(int),
+                .mode           = 0644,
+-               .proc_handler   = proc_dointvec_minmax,
++               .proc_handler   = proc_douintvec_minmax,
+                .extra1         = SYSCTL_ZERO,
+                .extra2         = (void *)&ten_thousand,
+        },
+
+This makes the cast explict, verifies the range before casting (I
+guess a range of negative values could result in a postive value
+within the 10,000 range) and also uses the correct proc_handler.
+
+This has the side effect of not showing the following pr_debug for the
+lpj calculation when a delay is not set. Though loops_per_msec is only
+used during boot, so I don't think there is any loss here.
+
+        pr_debug("printk_delay: %u, preset_lpj: %ld, lpj: %lu, "
+                "HZ: %d, loops_per_msec: %llu\n",
+                printk_delay_msec, preset_lpj, lpj, HZ, loops_per_msec);
+
+Can I keep your Reviewed-By with these changes?
+
+Thanks,
+
+Andrew Murray
+
+>
+> Best Regards,
+> Petr
