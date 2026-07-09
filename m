@@ -1,296 +1,146 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010005.outbound.protection.outlook.com [52.101.61.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C4A3932D3;
-	Thu,  9 Jul 2026 04:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783571922; cv=none; b=h7fHOndbPzmlAd73xihuBSd4Ei/y+4XZF82osg2kyeLeGmGX5HaS0OM03c+NgbqQE8C+rej7of1M19+lJWIXHCKQrXUxHyIfuVyZWGMMtsARRMAKTYYtqEmkQY7Sn6rQL+0Lv2JNseVjpD/nk1fLO2XCr2imtawmPc82g3rt0rg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783571922; c=relaxed/simple;
-	bh=aOeTIgLXzRNxGAkqxCrkLxaHmL0G2EwLCrc0vQVKlOY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oXvZc6ua8x+AMP5fGmmqb9QyUexgtf2YgIHTN2yNlRhYUPEaJZtzk5W3JeUvv1rr+fl6ve0ouINz6LC46+U6mGECUx8SjIcJrNYTFuCQ9jiLj0QP5fPjt64UwQUw/B+O2hZwFDvn8auUXhMOXXFQOWRGQFWKgsBX5d5x3oouNTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=AaaHFp+k; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C391E633C;
+	Thu,  9 Jul 2026 05:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.5
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783573508; cv=fail; b=gv1yavsN9+9qnlGbb82y6fEju01r/Y2aZa0+TyijcjirL78Xseg6tsU+n8i0CZO96yu6UprGsrm/yd2RSiLwcnxLDjxWpJr2a4OA2ZQ7arRrX4XYVULtzGJjCVMwb8jlL/K7xaqo9UOvtR3JVKDT+sbQFauhHAqsLGEzHkITKmE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783573508; c=relaxed/simple;
+	bh=aKs60+wL7EDRzV2AY1W1riW0/yjn6I7AxOXA5svWgb4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ZtEwU9uw4HXyCd8ttUbetJP7cNkDVGIpc0whzZh4uc2gVDjYakhoz5v2pAYFBx8wum2aTb/p/z9Jqk5uZ5aYfTSxt/Wj6zGph23mIKTwrTPMNccehgJpPDp0yI3xFU3fHUcpCI1lXLJmU0NNMGtl6aZ4glxGKvk0bfunQHVO7xo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=POKL5jML; arc=fail smtp.client-ip=52.101.61.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="AaaHFp+k"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 668NJjVC3803074;
-	Thu, 9 Jul 2026 04:38:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=TVwie5
-	yuscbH5h8Hbry4y/2oONJe9Vks7iAdzwrRXiA=; b=AaaHFp+km6LEdISZ4OZqRl
-	wupzWIJg0kKHmNgXYmjRluFOaTrIDo1jAr0BP8wcxDeMv0OVA3bmCPgLe3adY/3J
-	1zuBmI54OD5tiMrLO2ash+uPR3UdBoD5/TbsHJX9kVBMUBxqW5UVsEL50Brx0cgM
-	YQ/AQrSdqwHTFMytzdD182hWv+FO5Nir6IDmiFKtK8oXTh7jyaidjVt256KA0ITU
-	l6QBhqAAFLtYTLN/y8wscJK67n5B044k/JRNKdn9ejiDf/7+OmouiBEQHA1LNTOG
-	DGl+DohEVQVR1zDbb0hSbfTfVS93oEaFiJtJxuKyl1S7LTy86BJAgQq93m4vc47Q
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6stt0a4s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 09 Jul 2026 04:38:15 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6694Yocs014754;
-	Thu, 9 Jul 2026 04:38:14 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f7e0hkf7d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 09 Jul 2026 04:38:14 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6694cAwE49873202
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 9 Jul 2026 04:38:10 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9AE2B20043;
-	Thu,  9 Jul 2026 04:38:10 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B17F420040;
-	Thu,  9 Jul 2026 04:38:02 +0000 (GMT)
-Received: from [9.124.216.180] (unknown [9.124.216.180])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  9 Jul 2026 04:38:02 +0000 (GMT)
-Message-ID: <3962bf6a-23c7-42a3-bd72-76580c0a9297@linux.ibm.com>
-Date: Thu, 9 Jul 2026 10:08:01 +0530
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="POKL5jML"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bCIrkW3M7j4m8mJ16olNXqgNd1ypbxjbBjhHVjcLtZPjRob/V8pq3cdOet4gpExbLMlKOeZXe4PAX4P8Xr30Qf0qo3Sxl7fx11EsiROQ0qM3Q5YMLfENYGWhK3ODi/n0v8zOJ1DaM4E4Um1GdDXfuUvFQGue298ECUegLJAUCa4wm1sOGkwIE7jrx2GyKeMf7qYQ3VE2uZ39QACxI/UyjYq+pd4LNxew7m44dIGaDH+469Wlf667iZ6pyCfKtRox2qZCxXS+BKEQV5BsRXYBth3NUZuun8+Zf14i5quUzBP1vueYWw8l0H0ocju6JzIPWolcxSgjSEXaX34GhBmzDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZtX8rBbtoUXs7PDMfYBh0zPvuDXYFHrC8P7KQI4qNDs=;
+ b=BhUv0vTojU/1vXRcvxzamRCzbjIdUzcqZbezkLI2/W84RjwYGNSaDkQQ8HW4c0Lr4ZvUFQkMGLtKQ8pbSde2jJNPcojdGEz1UZ8yXtfXrpnqaXQSA/FuaHAPytS+a8AFUz8Eeu5B+wjnLgjJYNNWmvXZPBbX9yMbwn6PKx5FelOke3/w7aAPVDX22R5juwG4vBkiHWykX0OSdrt7leWej4gTLANi2dZkzVFb9k6RwXeAJsinfEChSwAmc6/pCbXqzUY77AZBQnpv9iRDHTsB4Ds6m83Ln0kEmxdnm7x9L/rBeIZki1SNtHn7lE2+ZiJjA8dmNeZgcQksYRpIYUKBiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZtX8rBbtoUXs7PDMfYBh0zPvuDXYFHrC8P7KQI4qNDs=;
+ b=POKL5jMLp1CNRL2KZB2kN72VXOpL5eJy1sYaoXxOLqt3HkH7fEitRqQb5yTcXWXKHBEo3eUOtvxHANS41QvOSkHuepcF9rtFuzgHRyjY3Q2/raJYWN3CSSc15Eb4VpeFgeAs+AOHBf+va5Ei61TitrkHMQxRKybP3DTeRA8ONYRLDS3pW+gbQwKs/aHrX16kR7wYOc0q98zEXE4HZVDdE1n/s3298+31TGzNB7YxrO1NGO8Uiw7e/GufeSJXrZYykzhnkdovGl7IkmkNt6zJDden+nJpz9LcD10rY9J2fx5+RBqS+SgYvc/G0E22Bf6z4P7Or3HvtlOoHHWcRRU2rw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by PH7PR12MB9076.namprd12.prod.outlook.com (2603:10b6:510:2f6::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Thu, 9 Jul
+ 2026 05:05:02 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0181.014; Thu, 9 Jul 2026
+ 05:05:02 +0000
+Date: Thu, 9 Jul 2026 01:04:59 -0400
+From: Yury Norov <ynorov@nvidia.com>
+To: Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
+	corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
+	pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
+	huschle@linux.ibm.com, rostedt@goodmis.org,
+	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
+	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
+	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
+	christian.loehle@arm.com, tj@kernel.org,
+	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
+	rdunlap@infradead.org, kernellwp@gmail.com,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 00/23] sched: Introduce cpu_preferred_mask and
+ steal-driven vCPU backoff
+Message-ID: <ak8r-xZ_xxLI8ach@yury>
+References: <20260701141654.500125-1-sshegde@linux.ibm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260701141654.500125-1-sshegde@linux.ibm.com>
+X-ClientProxiedBy: BY3PR03CA0019.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a::24) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 20/23] virt/steal_monitor: Act on steal values at
- regular intervals
-To: Yury Norov <ynorov@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-        corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
-        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
-        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
-        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
-        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
-        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
-        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
-        linux-doc@vger.kernel.org
-References: <20260701141654.500125-1-sshegde@linux.ibm.com>
- <20260701141654.500125-21-sshegde@linux.ibm.com> <akwRJnQklymOjNTv@yury>
- <6548b668-d3e1-42dd-be9f-2fe3193874a1@linux.ibm.com>
- <be544e00-8cf7-4a09-8b13-2d8b5a98c2ce@linux.ibm.com> <ak53I9beUB-2plNQ@yury>
- <7eea685e-e5ab-4487-bafb-3131969e5acd@linux.ibm.com> <ak6sO7eAfC-AWEWe@yury>
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <ak6sO7eAfC-AWEWe@yury>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: wxIlvO0Pa09FB87d0iOQe5Fw2dQrhMZ8
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA5MDAzNyBTYWx0ZWRfX+GRd00XXNC4O
- M1iIjC87kLyYalF8E59Y0iiNN8sJz8IM8ROAUNvAP6LVzEKlJPV5BGnZSEuJdaiZe9WIFBZFRiF
- L81H+2jXiN+VrvXagckfNzM2RDsGtxU=
-X-Authority-Analysis: v=2.4 cv=DKW/JSNb c=1 sm=1 tr=0 ts=6a4f25b8 cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VnNF1IyMAAAA:8
- a=_3gNgwcxiskMq6tCYXsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: CennpVjNQOWmnNz15QrechJ9EZ05VWbl
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA5MDAzNyBTYWx0ZWRfX1h5980rzjPxE
- 8BfrvO7Pk1CpjtIAul/OvLfzSgp09A+yR385yjxzcq3dwU7luF/NBP/EAsZtYoi8dtLO+WQhvki
- gQ9QbfyTXzis6Z52YF4KT+gM0mMoAkvHj7lHAGrStuitZ7SbNhIEmYmyUmLkN+/avds0t0oAe/h
- o6rrjlrsMY4tessQZbKKEnqsBI65wf07C3AC5/pfNEK/OPDs6deUQQ6sgYErj+w8VbRYJAhaDQA
- bFMiDC+PWWc17GtUgce1YGeqiBk4aZ/5+zq1aymIAu2daHdvgGTD+xr7k3RKzGkGoGcTozrgQ+0
- 1rPme48XSa7De31OAEpPzZC1s2RFB9S38G0r6CcHG1UNovnSX3SPbTPghYZ0fzQEF1qDGMEvP+w
- MK+3FAQlGIceC6az/8KzKl0I0Le9IsP1JR/P8vTCtIIkKjxFk3x5pMtDQxn4y9/ekxQkUFITUro
- tKfkePzloRZEU9aUNGA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-08_05,2026-07-08_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 clxscore=1015 phishscore=0 impostorscore=0
- priorityscore=1501 adultscore=0 lowpriorityscore=0 suspectscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607090037
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|PH7PR12MB9076:EE_
+X-MS-Office365-Filtering-Correlation-Id: f9c80270-bd73-4d4a-5708-08dedd77a1d5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|23010399003|366016|1800799024|56012099006|11063799006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	EgNnOVeL8fPw6zQwWLLZQkvSYcpWG57kQivgTP53ySMdYsqjx/QILJHSSV9usiWkbjh4lowU1FgK7SQPhpfpjfOGlYV/gHyzDJ8PwXyp806MpCseofXJ4ZO8+bm1CueMsZHkxDcWcbHytm05QOKJx/xQDySy7Y9EJ18s0F4UqZ+JsesIt9xZMAe9IDhoO4J/Bw9WxxjqQyNcFHM5RO6YCSafO3yattQV9YzQ2VxCMMmxEQWzeaLgNRLxa7LDGL/Lwr+ka4bIATdEVpNwYW8Rw/AFa1J7yiU9reDFd/fU+9WpbptPGZIgwVp0xBpGwUIA5BQU6fhYVWuY9YqEQCQkQeZT0sdW4g8Ney3B6VXPDrZLDOLhSXcUkMQvuBBqHQY50wgj6PB+0HEdAJUrPOI6X3WCG6Ylh8vzefPLuCs61rCcHlcmeL5meDjYReIyNT5n/jH+CeXhtRT9XLnHC/RM4suHrI0dH5sL6odKxTS6ELEPLtbi2W0QoYgwZMx7e91f/UUF9nxmu37FCqGf4Bt9zf4HsvOSXOgr2Ef7NOaBBvYyhhLY18cOGpRSZtCA8vZFM9bD6BiFfmRDKL5CnN+oCDziLziPvBSzZuKWNbxuCZxGNNhA0P2Lgtp7abk1Cm4H6wxHw/1QT8cL5kDJpFxf4/G7Z8aP2ghhu5AjMuFdEfQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(366016)(1800799024)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?G+EftcGqaGYvEXY8ZnIk0T0v44NF+nroI3pUZK4de27VRj2946gTm38rxdDx?=
+ =?us-ascii?Q?Ly+6w9bxOkGDCFfjsMJqRJjb3oRNicyXnyilX8RYXADWDGS3kcT/bHFiA9U2?=
+ =?us-ascii?Q?L3Tli4/dmyGYzzcJTiwaf+27HmU3pRVyybv9ePvvTAmVomtuuXIly8EF6qOW?=
+ =?us-ascii?Q?1aUzZ+mtcLmwqeeJoO2qEXggbqwRw/KvSFfh5ZcYaSv4G1kjlPWfCrSuvi7D?=
+ =?us-ascii?Q?MzDS7SKiqvxVkFNOCWD8qCLiJFpljq6nXJuD5NNBuaP/MWPWVSGjalRzrM4q?=
+ =?us-ascii?Q?G8EZBiZZkTdw+srMNx0SJc5R1X8i6HZweTtL6K4bmOomh/q8gD0eZeUlxsrv?=
+ =?us-ascii?Q?KvLLcDk81+4F16GZWS5i3agw8Tt9xNTIEe17Mw3/M2kw1vBhJO8/Exy1agC7?=
+ =?us-ascii?Q?wk7xQPK9ZUdIhU0RBZ3c7FQBCni+F+doznCCcFEciqVkDR5TvZBlzcWILk6X?=
+ =?us-ascii?Q?ZkhDtugOsFen5e5Q5ZGpHO1CIJ2Ik5vD+1W6bT8fAzVpzQgSCgjMQTPOn2U0?=
+ =?us-ascii?Q?XnHTMoVDjycSXm0bM8K3TmchdOqFn4DZx3TSMo2BWDzMs3wUu0HtQjB2KULN?=
+ =?us-ascii?Q?UQMPd3klrQs8n2c9Rw4dzR73OKVW25NkWrXS7SA/1wfbvCY4qvzpeZ69/yiI?=
+ =?us-ascii?Q?SZcAkYmQ2ewSX7ACYrjtjHPqMVHTzSO3/gbJUcBDLzoFY3L2ABpb7WPcBm1Q?=
+ =?us-ascii?Q?DvGT81Mwz4U2pe/unHRCdh47e8J05GY5Tz5YfvhRXCIucEGxxVZvtLN6+Sap?=
+ =?us-ascii?Q?nqZhG1YnQmXr/97Wb9BDKldGbIEsVHpBH8AgpQvZkIUGA7CM8VyOGa+cwJRd?=
+ =?us-ascii?Q?z2/dO7jHs/C9c7khQnzetxmoxSzHrnVzyLugGXRoj1KQF8Qt5ON07hwJUtTG?=
+ =?us-ascii?Q?T8H/XkolgGd0bM2YQ43QHY+jQH8S3Fgig8Fptp3+haMv3umCW13SoBDh5IIj?=
+ =?us-ascii?Q?s+vxiUwTBbYlZgcOBhu2zGbhhWnsAWsi/EJDgCp+TXm7P/nzFC4FrVy1xpMw?=
+ =?us-ascii?Q?0oAyZ5c33GPpf6FolmAsm3bwbFUPZGkYmCjcSMi7bTU/pw6kXWfvikRuIVno?=
+ =?us-ascii?Q?Ssyei9colddu1RW4uU37bFCjCDc3/7LuX6RKxNLyACAR5zB4g0DStLNNwdt/?=
+ =?us-ascii?Q?E6fd/JZ0I6ibIGUO3iDAC1pujPm5/7LV+4mFa0PSeOmjHJOrn8U91T+BN4Km?=
+ =?us-ascii?Q?j16yNZOECk/U/7RonDZHDqLmuHPmgnAnURb1cfDAiU4KqdQQXNIqIaxwe5JY?=
+ =?us-ascii?Q?PXwXJFHeZ4Wf6RXxqyrtOBqkIPODYiPenJ7egeam3guKjNkYyYqkTxOmAg/a?=
+ =?us-ascii?Q?PmZcBXDKMRAg6OS0+HOuvzsV5enDVZuWLLMYKzxvLZ0twUAspdihQdfNFIil?=
+ =?us-ascii?Q?a33pUKbZ2ceqtQ6R3uCqjipy480wvkmPn1p+sUJM8s889TSXfYUUr565pMbp?=
+ =?us-ascii?Q?rFDNfk2Ps+HdjI+STSHKjR2kj9Td9cES+Ap+dY6z4Y/a0uxoIzPr+OWYufrq?=
+ =?us-ascii?Q?FkSLxfvBuS2FaOR71hBVutRoljW0kx1NARCCE1ltjvJj1t6RqTlZ0LW65kPL?=
+ =?us-ascii?Q?FMnbJ0r5t8FLyXhjq7Uf3aV5QTuMOliDNNJiziRUPYcoRAsl3GZSqmrLWDhQ?=
+ =?us-ascii?Q?eGl1T1B4PGinDkuB5/aM144VIdpVnxManTmods/7yz8DI8Z9j3EuBUi8IwqZ?=
+ =?us-ascii?Q?uD/Dh4yKogAY1YzXofy/451HhKW5TRKU7SiErDgKNzW/p/mzDs54TWhiC7YK?=
+ =?us-ascii?Q?DBQX2frf1g=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9c80270-bd73-4d4a-5708-08dedd77a1d5
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 05:05:02.1232
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 09XfUbNs9HMd0lrg+Nax8v85RTXiqOTpFB00LHTsA0y7kuAkq9Potid2SH0vC/Mw1gqyTmV3T3Tx9EvoM1a76w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9076
 
+On Wed, Jul 01, 2026 at 07:46:31PM +0530, Shrikanth Hegde wrote:
+> As mentioned in previous v5[3]'s cover-letter, I am looking for guidance 
+> on the below concern that will arise.
+> I think there should be a MAINTAINERS file entry for new
+> driver. I don't see a drivers/virt/* entry.
+> Either as a new entry for driver or a few file in SCHEDULER entry.
+> Let me know if/what I should add it.
 
+There should be no new unmaintained files in the kernel. For the new
+driver, create a new entry making yourself a maintainer, and relevant
+people - the reviewers.
 
-On 7/9/26 1:29 AM, Yury Norov wrote:
-> On Wed, Jul 08, 2026 at 10:25:09PM +0530, Shrikanth Hegde wrote:
->>
->>
->> On 7/8/26 9:43 PM, Yury Norov wrote:
->>> On Wed, Jul 08, 2026 at 04:03:18PM +0530, Shrikanth Hegde wrote:
->>>>
->>>>
->>>> On 7/7/26 12:46 PM, Shrikanth Hegde wrote:
->>>>>
->>>>>
->>>>> On 7/7/26 2:03 AM, Yury Norov wrote:
->>>>>> On Wed, Jul 01, 2026 at 07:46:51PM +0530, Shrikanth Hegde wrote:
->>>>>>> This is the steal_monitor core functionality done in periodic work
->>>>>>>
->>>>>>> - Calculate the steal_ratio. It is multiplied by 100 to consider the
->>>>>>>      fractional values of steal time. I.e 10 means 0.1% steal time.
->>>>>>> - If steal value is higher than high threshold, call the method
->>>>>>> to reduce
->>>>>>>      the preferred CPUs.
->>>>>>> - If steal value is lower or equal to low threshold, call the method to
->>>>>>>      increase the preferred CPUs.
->>>>>>> - If the steal value is in between, no action is taken.
->>>>>>> - Save the values for next delta calculations.
->>>>>>>
->>>>>>> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
->>>>>>> ---
->>>>>>> v5->v6:
->>>>>>> - Address u64 overflow concerns.
->>>>>>>
->>>>>>>     drivers/virt/steal_monitor/sm_core.c | 33 ++++++++++++++++++++++++++++
->>>>>>>     1 file changed, 33 insertions(+)
->>>>>>>
->>>>>>> diff --git a/drivers/virt/steal_monitor/sm_core.c
->>>>>>> b/drivers/virt/ steal_monitor/sm_core.c
->>>>>>> index b499faa61010..7b7435f79b85 100644
->>>>>>> --- a/drivers/virt/steal_monitor/sm_core.c
->>>>>>> +++ b/drivers/virt/steal_monitor/sm_core.c
->>>>>>> @@ -34,6 +34,37 @@ MODULE_PARM_DESC(low_threshold,
->>>>>>>     static void compute_preferred_cpus_work(struct work_struct *work)
->>>>>>>     {
->>>>>>> +    u64 curr_steal, delta_steal, delta_ns, steal_ratio;
->>>>>>> +    ktime_t now;
->>>>>>> +
->>>>>>> +    curr_steal = get_system_steal_time();
->>>>>>> +    now = ktime_get();
->>>>>>> +
->>>>>>> +    /* get the deltas */
->>>>>>> +    delta_steal = curr_steal > sm_core_ctx.prev_steal ?
->>>>>>> +              curr_steal - sm_core_ctx.prev_steal : 0;
->>>>>>> +    delta_ns = max_t(u64, ktime_to_ns(ktime_sub(now,
->>>>>>> sm_core_ctx.prev_time)), 1);
->>>>>>
->>>>>> The below return on '!delta_ns' makes this max(...) useless, right?
->>>>>> Regardless, if the time between 2 measures is less then 1ns, I
->>>>>> believe, the whole measure is not trustworthy
->>>>>>
->>>>>
->>>>> Seeing sashiko comment on divide by zero, i forgot I had max above there :(
->>>>>
->>>>>>> +
->>>>>>> +    /* Update for next calculation */
->>>>>>> +    sm_core_ctx.prev_steal = curr_steal;
->>>>>>> +    sm_core_ctx.prev_time = now;
->>>>>>
->>>>>> So below return should go prior to this update, because 'now' is actually
->>>>>> the same as 'prev_time', right?
->>>>>>
->>>>>> I don't understand why 'now' can be so close to prev_time, because
->>>>>> you've scheduled this callback on the regular interval. But if that's
->>>>>> possible, can you explain that and do like this at the very beginning
->>>>>> of the function:
->>>>>>
->>>>
->>>> I don't think it is possible.
->>>>
->>>>>>            now = ktime_get();
->>>>>>            if (unlikely(now < sm_core_ctx.prev_time +
->>>>>> sm_core_ctx.interval / 2)) {
->>>>>>                    pr_warn(...);
->>>>>>                    return;
->>>>>>            }
->>>>>
->>>>> Pretty much, just have to requeue the work.
->>>>>
->>>>>>
->>>>>> And if it's a never-happen condition, just use WARN_ON().
->>>>>>
->>>>
->>>> I have decided keep just max_t() to ensure no divide by zero happens.
->>>>
->>>> Issue with putting sm_core_ctx.interval_ms check is that, one may edit
->>>> it while the work is queued, but not yet called. It would print wrongly
->>>> in that case.
->>>
->>> Who is that 'one'? If it's userspace, you can simply disallow changing
->>> the interval. If it's kernel, you're already compromised, and
->>> everything is not trustworthy.
->>>
->>> I would simply disallow to change any parameters while the driver is
->>> loaded. If I need to change something - I unload it and load with new
->>> interval, or whatever.
->>
->> It is user writing to /sys/module/steal_monitor/parameters/interval_ms
->> that i thought of. So user.
->>
->> If we disable then those checks can be valid.
->>
->>>
->>>> Even if work function gets called prematurely, it should be fine since the
->>>> steal also increases accordingly. No issues in delta logic.
->>>>
->>>> So capping to 1 to ensure no divide by 0 happens due to scaling of
->>>> delta_ns is good enough.
->>> If there's 1 nanosecond between two calls, your statistics is very
->>> inaccurate, pretty much a noise. You want to make decision based on
->>> noise. That's simply wrong.
->>
->>
->> yes, that makes sense too. I have kept interval_ms/8 as safe bet.
->> Return will not queue the timer and effectively disables it.
->>
->>          ktime_t now;
->>
->>          now = ktime_get();
->>          delta_ns = ktime_to_ns(ktime_sub(now, sm_core_ctx.prev_time));
->>
->>          if (unlikely(delta_ns < sm_core_ctx.interval_ms * ((u64)NSEC_PER_MSEC >> 3))) {
->>                  pr_err("work scheduled too soon delta_time: %llu ns. Abort steal_monitor.\n",
->>                         delta_ns);
->>
->>                  guard(cpus_read_lock)();
->>                  cpumask_copy(&__cpu_preferred_mask, cpu_active_mask);
->>                  return;
->>          }
-> 
-> Don't overthink it. Simply don't allow user to change the parameters
-> while the driver is running. It may only cause troubles to those
-> compiling the driver into the Image. Those compiling it as a module
-> will only have to reload the driver. This is how most of the kernel
-> works.
+If you decide to add me, please use the
 
-Ok. I have made it that way.
-
-I will just put a pr_err for delta_ns less than 1ms. If anyone hits it,
-then we can bring in the logic to abort etc.
-
-PS: I wasn;t able to hit it even with 1ms as interval and check for delta_ns as (1ms/8)
-
-> 
-> So, when the driver is loaded, make sanity checks for all user parameters.
-> Interval, for example must be between 10ms and 10s. If user wants 20s,
-
-I have it as 10ms and 100s in current v7.
-
-> pr_err() something and fail to load. After the driver is loaded, don't
-> allow to change the params exactly because it may bring certain type of
-> errors in the logic, and you don't want to mitigate them.
-> 
-> If there will be a real need to adjust parameters on the fly - it will
-> be another interesting topic (mostly interesting why user wants this).
-> 
-
-Makes sense. If the need arise, we will figure something out.
-I have kept it simple for now.
-
-         now = ktime_get();
-         delta_ns = ktime_to_ns(ktime_sub(now, sm_core_ctx.prev_time));
-
-         if (unlikely(delta_ns < NSEC_PER_MSEC)) {
-                 pr_err_ratelimited("steal_monitor: work scheduled too soon delta_ns: %llu\n",
-                                    delta_ns);
-                 goto requeue_work;
-         }
-
+Yury Norov <yury.norov@gmail.com>
