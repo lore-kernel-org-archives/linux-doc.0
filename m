@@ -1,113 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064B2382373;
-	Thu,  9 Jul 2026 13:48:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783604932; cv=none; b=ckcGyuLn+NB6qcxy7+wHsLH3PW48tI6pBPCSZ1cjZPIynFFXBm4eXNomuhMtAPIr7hzXjS+a8QC6aEJ5RSmjA3SdQ1ZPDWMz2OrRajNT1Sz7j2gLy6h95Ttw5IBFJ6cW1HfLmgdMyKqt+/VS3M7TaslW39Iv9GENte1K9BBi7Ik=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783604932; c=relaxed/simple;
-	bh=K+LVGraXAMblh/wS3bFKCf1Rotn9jKdnH5k+fGzPHRk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WVMr+QP8eKPGGpjWkJgkR67pMYcVCG9wdcFoL/pU5WxOcGgRD7MAKDIjiIRwzK3jKkJW4nrYqku5NqjIF9sZh1U61zjvPgzaLMFpYxkyx4Ac6Fukb6BpXfuUOu+UbA5AUd5ApzX0S01H6ggRB+JXrcH4CU/zDVfrVdvaowAprsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I59NSzva; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF6A430799
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 13:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783605104; cv=pass; b=aH7UN2lTb85IdhHC9hHtoRfAdgZy2H4bduu02t7CM3h51NhrEGcXPiQWe6D5uzqiuf7h4c8Ic0tpOZuuJAOcTUSzk1mGRAU1fGxSGWLSTdl5zSjed8xnu/3PYH2GtFT/gKveMMlnqMSavod6eZ0mQBi8yl3YN2RCVX4NE8U42ko=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783605104; c=relaxed/simple;
+	bh=cP2eCBR04jml/7MTMjp5phR7VgWJ0CqsTpqvNBw2ab4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gMIqBgxYi7e1vA+2JAjLypGxnJr/UR1K+VIn9C0+ny69YG/9dKNdxzioEAvzKv+cmupkjhkW7s2Kg8D/I7ezhKcdu5vdPJnxjw8+6etEip7KXohqgjjiCnuYu8cYCLsA9QJv1DuZxCGLVpdI2jeLwkdPkUAb1bjCbMbfCrPi1aA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TnOQnGOR; arc=pass smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I59NSzva"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87AB21F000E9;
-	Thu,  9 Jul 2026 13:48:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783604930;
-	bh=K+LVGraXAMblh/wS3bFKCf1Rotn9jKdnH5k+fGzPHRk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=I59NSzvaQxwTdYf/ydnUSsp3J7DRGD6vuGADrtJX3lWUUqErsp6d6+63BaCU2UH3V
-	 q9i0SATbBbTGY4RuXl/8pyesWUhMIhjOoL53RMDtqdAUhVElEm3TPWrOmWent7AISY
-	 U19kiYNZLe6XkO+rAPKDIRyhqlFQEKFTMUdtVk9nzDXYN2QNkboKu5KMB6h67J/qAX
-	 5AWIXf1rUbdA38oscMMdV4R7ETds30jthSI7xq6ilNGfe1DH8Vd7xLeNN3d3dzTgGj
-	 EmdXIlZNa1vL4OQeCpQZY4L1IxOauswZHU4kCZHv0NLOzZyltr7bONZorKx4UUTnV1
-	 zUeN3v07P3ZzA==
-Date: Thu, 9 Jul 2026 14:48:39 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Michal Simek <michal.simek@amd.com>
-Cc: linux-kernel@vger.kernel.org, monstr@monstr.eu, git@amd.com,
-	vincent.guittot@linaro.org, Souvik.Chakravarty@arm.com,
-	Alex Shi <alexs@kernel.org>, Andy Shevchenko <andy@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Brian Masney <bmasney@redhat.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Pavel Machek <pavel@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Ulf Hansson <ulfh@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Yanteng Si <si.yanteng@linux.dev>, arm-scmi@vger.kernel.org,
-	"open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>,
-	linux-arm-kernel@lists.infradead.org,
-	"open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-	"open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
-	"open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
-	"open list:ENERGY MODEL" <linux-pm@vger.kernel.org>
-Subject: Re: [RFC PATCH] firmware: scmi: Make SCMI arch independent
-Message-ID: <28cc462c-4c65-4de9-a9e2-965646eb4c83@sirena.org.uk>
-References: <d7f7e8c9589d937b60e43168845ab4fda15037a3.1783603600.git.michal.simek@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TnOQnGOR"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8eff5ce3b95so13347746d6.3
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 06:51:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783605102; cv=none;
+        d=google.com; s=arc-20260327;
+        b=OXseg7Nsdbg3VQAtSDd74+Qe+BGSmVzZ3lGj4BuB2sOM8X+Yij8FlvrpsDuIXvb6Nr
+         dDXxh4Fw4ZXELFu/e58OltExEYVH2bDRBawIQ9nTZAr9ZgJFEL4RvB0/bgMeeMNA24jF
+         YGf4SI+3MNvmVEH8gmvB9yHifGaAp6F2f1R/pkHqhtSScG2U91caRXRytP5AKmNU3H3M
+         H2yNs75qJxWvPVWbe8HVpfoSEuSRt0MZmUuoSOMnD9q2jzcLrnVAwk09j+LOC8sktLQL
+         YiehdwPfGnI4BWDh4pGf5mZwctIvDUWafdF3SZ0VXGrc2/PvBO7hO24clf6bGNfqn22R
+         Z1CA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cP2eCBR04jml/7MTMjp5phR7VgWJ0CqsTpqvNBw2ab4=;
+        fh=kPd+0CO5eMXdCCEQ8RVuPiiZeMTY/UsdKBGF0EIcNjI=;
+        b=Kf3A6PxYy4gZ1Xtw78elZrPQc4EWm7ikJY/nK5KFYiQEBUNSDTCuiJ4WJwQepYsExl
+         QUUm070t5j3odffYJEDaxPeebL3Ui9aqTnDjv4PVqKEULfuKqgjq8EJgFxDL29Qy3wKh
+         0v70fUOjwIJqB8QLetOyQssdJ2w4m8UNI8u5f8T9i8Mw/r5H6mmkkhqq4XqxcNP9ebuU
+         MCWmWvlPL0I1EW98Wc8MEtn2VibWvFqyTYQ3woCBefdznAEvlzij7Ggz8uDXys/mshD0
+         EFtc9/SyITHJFykYbe01t0Mzq3k9JY5hlYTtsQFMBxoiolXrURYgpv1ABB88+GyL1Wwf
+         F+NA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783605102; x=1784209902; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cP2eCBR04jml/7MTMjp5phR7VgWJ0CqsTpqvNBw2ab4=;
+        b=TnOQnGORHCCmGiYk4gxnM+JJNz48wbRUKn87bxyPzYp/ZuBt8Ba0DHndSt6HUXIalR
+         Mhhsu+o5tX7D040adfeLd5gGUWTxGL02ex9phw+GUpdT88CBEg/Vc4lV4qr5VZe7EMFM
+         4734Ineiwowq8tNkih/zxTABKrWWDADb1uFYOwQGEojwLxWu+M8KQ3ueDeDhfEG/eW1p
+         yejJq0EDLiQOqJDMRqD+UWCKpICcVwnDvRmWEwKls8uKqIlBZ++9m9OL3Vd0JlO9cjaA
+         nmipesRe5QGVHuxi+xWrgUAL9Ybw0KDZ7B06FD5pQXEfdd1+p5lGU+s1jZLkTTe238vJ
+         ZveQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783605102; x=1784209902;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cP2eCBR04jml/7MTMjp5phR7VgWJ0CqsTpqvNBw2ab4=;
+        b=mIX7sjfFXos9uHaxjcEZD8jW2jk4PptPd95NNogMmE0qINJYgpdD46ZHYq6TvTxtfi
+         w4jNUDO4IDlhYe432svEjjKU5xe64Pw4eQHBlpoKwJGgoIbyVr10yvkzTqVfpOKADEqs
+         3yoJPTIrAjWa4djQ/7KOULc2M59JjeLtX1FzDL8Ibn8rCzFA15yerdfHrs6HU9/Q8tCI
+         OUGvI3Z2N/UDhTX1zCsN5c2wQd2foDGs1QO1dfo9mhRMSKfSXIjhcGYKj+aKFdISAm13
+         N3VeI0Hy6y0KfW9u0my9+lp5R87t+G9ctol7+CCPScdVwR7+XhtbZgEL2qxKPhCKvVR4
+         8V5w==
+X-Gm-Message-State: AOJu0YySqUNHMaxosuFWJyoMDOq3ppFT5tqw4Pf1BJTwA0fwb7a0kbrJ
+	D7wp8dEcpTCnLfuGTEet8+zyGi9ukpOxHneCFyqWE41kautB0lnFisUPnBEbikZC3+wFV+TkmqK
+	pKGNeiVW9AHcvixhMkdV8jj/LaWSAOcczXQAC7Co=
+X-Gm-Gg: AfdE7cmJ/0cNlZyoMHWVMFRw1zHFnaQOqxHrjJ0k22BaOe+izLwd3PZOA6gXsyGSoX3
+	rxLrWdnoAU89fDyJEHVh78+gpPs1VX7+bhmSW6arHjmU+93NlhhQChsTiqVJFE+TOXagGbnuA5d
+	PPKrrN6uI8w43ozp1ooBt1aCdSfafjG0WS65G+z5LNPDyHW4O2ZdVqWDrMZS/37sUl3FNMRLFaY
+	9/GU+wnJsOt1Cw7LzsUnVJjEgYXmw5Rv8nCsVbS4tDrXgPftmELYRc3b/O9IqMcmOoeERP8kYal
+	HuvFEWEywMOg0vgx96sobcWNFBGCxKP8cAEB8qtIylYJIO0GsLyjBfPyi+tDBEhda7Ztl20o716
+	ena5cWAUlIg==
+X-Received: by 2002:a05:6214:226b:b0:8f4:d86:ec0f with SMTP id
+ 6a1803df08f44-8fec13a7ee0mr83752686d6.27.1783605102266; Thu, 09 Jul 2026
+ 06:51:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="yR+snn5kvWfft1sV"
-Content-Disposition: inline
-In-Reply-To: <d7f7e8c9589d937b60e43168845ab4fda15037a3.1783603600.git.michal.simek@amd.com>
-X-Cookie: MS-DOS must die!
+References: <20260709131213.1216-1-silvapfabio@gmail.com>
+In-Reply-To: <20260709131213.1216-1-silvapfabio@gmail.com>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Thu, 9 Jul 2026 10:51:31 -0300
+X-Gm-Features: AUfX_mztIoPUWPHFcsorg_pjpKcwb_UaZsoydk6nHrDzfwnaWFLPQbgyx-FahhE
+Message-ID: <CAMAsx6eZPuemkce7EPUJQMaN0k8fBmFLMgM3Gv8eA9Ns7i8ZFw@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: pt_BR: process: Translate CVE documentation
+To: Fabio Pereira da Silva <silvapfabio@gmail.com>
+Cc: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Em qui., 9 de jul. de 2026 =C3=A0s 10:12, Fabio Pereira da Silva
+<silvapfabio@gmail.com> escreveu:
+>
+> Translate Documentation/process/cve.rst into Brazilian Portuguese and
+> link it from the pt_BR documentation index.
+>
+> Changes in v2:
+> - replace "conhecimento especializado" with "conhecimento t=C3=A9cnico"
+> - change "atribu=C3=ADdo contra o kernel Linux" to "atribu=C3=ADdo ao ker=
+nel Linux"
+> - reduce repetition in the applicability paragraph
+> - replace "=C3=A1rvore de fontes" with "=C3=A1rvore de c=C3=B3digos-fonte=
+"
+> - replace "grandes n=C3=BAmeros" with "grandes quantidades"
+> - remove the repeated "qualquer" wording in the same paragraph
+>
 
---yR+snn5kvWfft1sV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hi,
 
-On Thu, Jul 09, 2026 at 03:27:00PM +0200, Michal Simek wrote:
-> On heterogenious systems like AMD/Xilinx FPGA there is a need to talk to
-> SCMI server from different architectures than ARM that's why remove
-> ARM/ARM64 Kconfig dependency with also remove ARM from description and
-> rename folder to reflect it.
-> From specification perspective only ARM specific transport layers should be
-> available on ARM/ARM64 architectures.
+The grammar makes sense. Thanks!
 
-Acked-by: Mark Brown <broonie@kernel.org>
-
---yR+snn5kvWfft1sV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpPprYACgkQJNaLcl1U
-h9BuZwf7BOfh7haRASNEf+GyM/vJ8Rk5M6i8yfFXIOEaCoBhABZ8W1qPGH3D9QB6
-j85LaXzp5x1NmpHyO1zPkfENzIT8rDMO3sNcd2V1i9UbGT5EZAOjkvFpEAiUbDPg
-6vmqmlrPHzncOhGwzSsjgbGIrv8q6IDUKZCPB1fFjuBJICagQCuAQ8onuA+RLmMH
-mCYg0dJz9kljPFTkBn0UXgVnCBDyR0em/jBJoFVGQqmNEuAit/KicZ13TP6+ApXP
-fsZpWN+9x9deYwe20wbBAoZ6dpnPlv86m1OPhEO3WtcoKmnXLo7onCWHsRAKLJB7
-57OJGcXyJz+mFT2Y1Clm/wpPUCck8g==
-=gvbq
------END PGP SIGNATURE-----
-
---yR+snn5kvWfft1sV--
+Acked-by: Daniel Pereira <danielmaraboo@gmail.com>
