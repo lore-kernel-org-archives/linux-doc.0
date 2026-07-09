@@ -1,34 +1,53 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0433AA9D1;
-	Thu,  9 Jul 2026 00:00:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3350D28E0;
+	Thu,  9 Jul 2026 00:13:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783555204; cv=none; b=FkBnYW0rbpOuv1qPirh2sNpZ0ImeCIlf5xgM2DWolVM6kasGPNRVfAEg/XDKhuzb1APJOYFCBjdq+50vK1MUM9CSjwGMOipXh0V4tuR6DZQ2eaC0Al1q+6N/T0I+6818UnvZBGQu1ozg8VxRI1WI06ww0vpCTSPWhmNnU3xCzqg=
+	t=1783556027; cv=none; b=fNsP+dDq+CfmQCMbYD8E+KOTvRgr2wL1o9R4hF05XYJv+EZRLEDehbWm1ntf473UIQuWZgbUraig1ehLabBJ+ROVbafvdbnvxcJV34rr6SDsxv4MS0RCpr/6QLZb56HaJJP6tMBRjnX4a53NVNvlpZYozpU4kvq0Tb9FejZXdsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783555204; c=relaxed/simple;
-	bh=CN+j1ci183pXEmOjg1N3F/o7p3M5RcPRfGMcfrRUdig=;
+	s=arc-20240116; t=1783556027; c=relaxed/simple;
+	bh=o6+FdIK32ujbiAy8E040lU6hw/zhNA+0f/tqyf/tniY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YsIcRRu+SkYM6c+Cw3ajr66JnvE7SyHUaOe0S1uY+1l8xXc6KNxdIRGhow6nO+NDwzVDNE1YLkPamhMAQaSwiYu4UrpDcstN8ZUPW4uEZjOXRH3NBI0jHZkVVc0IbmFEi48zD3s7bU5xBPMAHzpB1yrNrVcMmFXJeYk6/9ktjh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D4E7f0fU; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=EElvcD8EGAFROENQCqPi6Nm6AX+2j0Vep66vEqY5Bt0/cobfrILfN7y257APgMNlwKlFJbvdB37Zt0VLwC+c+bN6xoTIu/GC6c+mjS+aenKdOkAR4CUKzqDpdOcppCYsQS2KJs35Q4hmUk4airSMZatd0oD3vJVJ9vXTScCot20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=A6HDH6gT; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D4E7f0fU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB2D21F00A3A;
-	Thu,  9 Jul 2026 00:00:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783555203;
-	bh=1F+72s4tH7w3Cnf8voLWM78n4YOiurcby61hUJ0YTXY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=D4E7f0fUpHeubojOJaU24vuI4R3BPaWcrLQMvNB5YH+Yhdqtweovo07lIb4Vxx/5J
-	 myef6p7uqthdF8T+3vydUqwzOye45OgQF2Rk7LT5Hk9mIbXA1r7iu+62UlySYxNwws
-	 pjnRvWwbG3Rpnysj+lv1mCWwaO20BgSQ7pWcsh005wz4HcJdnA0R7L46tlj4xUqL6R
-	 hOe6SRbzJfL+kwB18y2YpctpizJrwSMA5NDfzwWYFxE3RVVWrTlMv9V2oXMaqk4AMZ
-	 dvlcRet7iEaDLKB8c6VAPCEGzyGaWSLh2dD7QzGWXAXF1yzM60Cp81K9jS0yvlsnBX
-	 gf9iTxi7eM0Bw==
-Date: Wed, 8 Jul 2026 17:00:00 -0700
-From: Namhyung Kim <namhyung@kernel.org>
-To: Borislav Petkov <bp@alien8.de>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="A6HDH6gT"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 70FDC40E02B3;
+	Thu,  9 Jul 2026 00:13:41 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id Nw6wzWAasnRp; Thu,  9 Jul 2026 00:13:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1783556010; bh=Dm142gdEcTFW/K9q2hEUYlWar6YFLyEh07MT+JePuXE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=A6HDH6gT9tSmpGm7gFBb/zhdlHgbVz1vAN3hdKCTt8avHG6GDcMqOkm2q0UeWJgP5
+	 mPP7npwtAwMaukjfTKWu2skzW4OjvT+JzT///eMqXXa+eLQAk6I00tt8mP8X6njaiF
+	 ADj5LN3F5Q2en4+1YDGo5EWz/VuSNxnnFB6Pffh6jGAsiiHwyRQTBbMP/xwZBKMdPv
+	 D3WVZXc47avg+tru4fyObIuSqbx+6St68K6I2e4HhvK2MwzwtuCCfdWEELBfJrl0mC
+	 YdosmLKT9bzZ+7o7Y7HhTfMTiGH9rZ2wGspOg/NLCWOfxHN2S+HVyNCDl84Usgls71
+	 Y5tY7Hp/s+REbrGk7pIV+KLTgOKBRTHmnyjHE+fIwWOvAt+okJ24D854k54RJJ0MPt
+	 /WzzC73Sg8+Uc3TiZ7xRhNuI1I38BXQa9rPDweLrCjLSS6T4mHfQE4tog0mmj7QkHD
+	 UgfrBbg7CjWePrEMpl2R4LXn2sGFcVmAH5yuwuY6Yv/9EHoGhjW9Q6xbWXb9odyAI7
+	 5nYQbQfDXaGdwaqPvFlaKSeUH5MLY0+c+r0D9OVE0ZJDwiy8Y4hkd1R6e+ipOf4JuH
+	 z9Wh9BhVB8Ab2Lx7P3JHFZ0z4XwwFN6FmHGKH6pts1rO457NWF8udf5FRXbTPqHdoK
+	 csHy5RojnCi7B+bg/++YBpo4=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C4F1540E02B1;
+	Thu,  9 Jul 2026 00:12:45 +0000 (UTC)
+Date: Wed, 8 Jul 2026 17:12:42 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Namhyung Kim <namhyung@kernel.org>
 Cc: Babu Moger <babu.moger@amd.com>,
 	Arnaldo Carvalho de Melo <acme@redhat.com>, corbet@lwn.net,
 	tony.luck@intel.com, reinette.chatre@intel.com, Dave.Martin@arm.com,
@@ -50,9 +69,10 @@ Cc: Babu Moger <babu.moger@amd.com>,
 	qinyuntan@linux.alibaba.com
 Subject: Re: [RESEND PATCH v4 01/15] x86/resctrl: Support Privilege Level
  Zero Association (PLZA)
-Message-ID: <ak7kgJZyKmEVUdMj@google.com>
+Message-ID: <20260709001242.GDak7nevAzb45IGkem@fat_crate.local>
 References: <0af5122c-20df-4aea-8ab4-cba63f71dc3b@amd.com>
  <20260708232806.GCak7dBi1loq3QLjg7@fat_crate.local>
+ <ak7kgJZyKmEVUdMj@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,87 +81,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260708232806.GCak7dBi1loq3QLjg7@fat_crate.local>
+In-Reply-To: <ak7kgJZyKmEVUdMj@google.com>
 
-Hello,
+Hey Namhyung,
 
-On Wed, Jul 08, 2026 at 04:28:06PM -0700, Borislav Petkov wrote:
-> On Wed, Jul 08, 2026 at 11:55:30AM -0500, Babu Moger wrote:
-> > > diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-> > > index 1b4a48bff18f..bf6fc71f87fa 100644
-> > > --- a/arch/x86/include/asm/cpufeatures.h
-> > > +++ b/arch/x86/include/asm/cpufeatures.h
-> > > @@ -517,6 +517,7 @@
-> > >   						      * and purposes if CLEAR_CPU_BUF_VM is set).
-> > >   						      */
-> > >   #define X86_FEATURE_X2AVIC_EXT		(21*32+20) /* AMD SVM x2AVIC support for 4k vCPUs */
-> > > +#define X86_FEATURE_PLZA		(21*32+21) /* Privilege Level Zero Association */
-> > >   /*
-> > >    * BUG word(s)
-> > > diff --git a/arch/x86/kernel/cpu/scattered.c b/arch/x86/kernel/cpu/scattered.c
-> > > index 937129ce6a96..1fa4d5aef17e 100644
-> > > --- a/arch/x86/kernel/cpu/scattered.c
-> > > +++ b/arch/x86/kernel/cpu/scattered.c
-> > > @@ -61,6 +61,7 @@ static const struct cpuid_bit cpuid_bits[] = {
-> > >   	{ X86_FEATURE_BMEC,			CPUID_EBX,  3, 0x80000020, 0 },
-> > >   	{ X86_FEATURE_ABMC,			CPUID_EBX,  5, 0x80000020, 0 },
-> > >   	{ X86_FEATURE_SDCIAE,			CPUID_EBX,  6, 0x80000020, 0 },
-> > > +	{ X86_FEATURE_PLZA,			CPUID_EBX,  9, 0x80000020, 0 },
-> > >   	{ X86_FEATURE_TSA_SQ_NO,		CPUID_ECX,  1, 0x80000021, 0 },
-> > >   	{ X86_FEATURE_TSA_L1_NO,		CPUID_ECX,  2, 0x80000021, 0 },
-> > >   	{ X86_FEATURE_AMD_WORKLOAD_CLASS,	CPUID_EAX, 22, 0x80000021, 0 },
-> > 
-> > Sashiko reported:
-> > 
-> > --- Patch [1]: [RESEND PATCH v4 01/15] x86/resctrl: Support Privilege Level
-> > Zero Association (PLZA) ---
-> > commit 0f2aa093b81d7a2e0dc203ce3466562f708898df
-> > Author: Babu Moger <babu.moger@amd.com>
-> > x86/resctrl: Support Privilege Level Zero Association (PLZA)
-> > This commit adds support for AMD's Privilege Level Zero Association (PLZA)
-> > feature. It detects the feature via CPUID_Fn80000020_EBX_x00 [Bit 9] and
-> > adds the corresponding feature flag to the x86 cpufeatures array.
-> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537 # [2]
-> > > diff --git a/arch/x86/include/asm/cpufeatures.h
-> > b/arch/x86/include/asm/cpufeatures.h
-> > > index 1b4a48bff18f7..bf6fc71f87fab 100644
-> > > --- a/arch/x86/include/asm/cpufeatures.h
-> > > +++ b/arch/x86/include/asm/cpufeatures.h
-> > > @@ -517,6 +517,7 @@
-> > >  						      * and purposes if CLEAR_CPU_BUF_VM is set).
-> > >  						      */
-> > >  #define X86_FEATURE_X2AVIC_EXT		(21*32+20) /* AMD SVM x2AVIC support for
-> > 4k vCPUs */
-> > > +#define X86_FEATURE_PLZA		(21*32+21) /* Privilege Level Zero Association
-> > */
-> > Should this addition also be mirrored in the tools directory copies of
-> > cpufeatures.h and kcpuid.csv?
-> > If tools/arch/x86/include/asm/cpufeatures.h is not updated to match, tools
-> > like
-> > perf can generate build warnings during check-headers.sh verification. Also,
-> > without updating tools/arch/x86/kcpuid/cpuid.csv, the kcpuid tool will be
-> > unaware of the new PLZA feature bit when users query CPU capabilities.
-> > 
-> > 
-> > I thought tools/arch/x86/include/asm/cpufeatures.h would be synced after the
-> > changes to arch/x86/include/asm/cpufeatures.h are merged. Has that process
-> > changed?
+On Wed, Jul 08, 2026 at 05:00:00PM -0700, Namhyung Kim wrote:
+> Well.. it's changed as Linus wanted to not update the headers for
+> trivial changes.  The script is still there but it's not running
+> automatically.  For perf, we used to check ioctl and other user-visible
+> changes for system call tracing.  And some headers moved to the
+> tools/perf/trace/beauty/include directory to sync separately.
 > 
-> I guess that hasn't changed:
-> 
-> tools/include/uapi/README
-> 
-> Let's add those perf tools hackers to confirm.
+> I think the headers will be sync-ed less frequently.  So you may need to
+> update the header for tooling changes manually.
 
-Well.. it's changed as Linus wanted to not update the headers for
-trivial changes.  The script is still there but it's not running
-automatically.  For perf, we used to check ioctl and other user-visible
-changes for system call tracing.  And some headers moved to the
-tools/perf/trace/beauty/include directory to sync separately.
+I'm reading this as, we should not touch cpufeatures.h in tools/ and let you
+guys decide when you actually need bits from it? In the sense: only when you
+really need bits from it, you'll update it and other, unrelated bits which are
+not needed, can remain different...
 
-I think the headers will be sync-ed less frequently.  So you may need to
-update the header for tooling changes manually.
+Or?
 
-Thanks,
-Namhyung
+-- 
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
