@@ -1,224 +1,492 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CA63BED37
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 07:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783581775; cv=pass; b=O6zpAg1uo0pkuHIbRXqqA9p0+coOqaB+TaH2rMayeCjsUHz68EGhhdj62tCmJD+WutDvXYst0vewv6Lt6ANC2q1XZINM60k5oaGj3bk5aAscw8Sof6UttdYndvCJ8SWRl1V1etLnrbKobuwwkQ+2KNmvfKKg0WlVMe5UOfcO4sU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783581775; c=relaxed/simple;
-	bh=/gyp4ujD3GD0ZScmU7hZBb2XngMiQOw42I4RTgf+0JY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g16sr1bICcsv2W0z8snsE6LznzN9hMb8h3HynpO+Lw2INmyybG7tWkkmx8v1P3auRlQOovvmI1IE6EErBnKdTUotdxDh4XWsmfu2Gsl3MfxsGl8h05YA0ctxWYZpFIA4YAcaDrwubMJMs+J5WiWLY0mesr/LEysFKFibZU7EYrI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vd3AGBI/; arc=pass smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B518E3E4C66
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 07:32:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783582380; cv=none; b=K+Z0mmHBuH7Mlqo5eQI0N4AaRzxBPrpUMQOtVg1jAbc5GgbVyy/ZG8TIbQjjKLxSRRE0+vO61tMxspw4AI4hI3+bfGHeFuWjH/AL3S8opWza9jELM4w+xcZRSv+ptU8qzAI0Njvbe5yr+ALfjGDs1FZiklspQqDiMkDjzLb3Hpo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783582380; c=relaxed/simple;
+	bh=Qo+MgNY6yBz1C5MBrPVhwqA/w+a3aRhRwPEIzWRLWaE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pPPdLL5tWMS+ot0QSKAgvj6BO1WBh1eTUNZLiHtoJazpQnwi7aDPAzDGUmVdaDBzQsYuuyJ5OT9q41ie0nwSfvFdSt4dSf4/1y/yG9zGV8jUTIC+HkOSUvElYu2uJApAf/Am1mbrs+dwSWENRgaL9LDN3xE8ejqPZ/NlMldO+5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ANe3sxa4; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vd3AGBI/"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-698c0ff45b5so994961a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 00:22:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783581772; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jX6dqc+1a7CgHrc+bV3gOwgjas1SxwZwTvPY7ZqocJ71VxFrkANG/M6AEY37bzrOpk
-         v4XG6/XZjjhEZatiYttDfN1vMviHJcbGDg1gr8kFYbzq6AK8eigFPO1jUdy0KD3N0YcP
-         GQE0vIFr52sy67mQXNLbBeaIOZRQIFK6iRmoxFDx1DGJQb27F5R/g3hj6MBfWP3fT5CW
-         WPkZAqJiLWytyM/cgbTDBrZKKt2Bj2AvPaLsLTUZ4MQYLvsCfXYX/oC4eVzYthvWA6jD
-         mXKk9DL+P6c570u8Q/DedoKSDc8QdnZibI4AsHqeyUShVtbFPpY2Fv2jJtupJCx7EPcY
-         Oo8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=sxyGm26N1qjAhfVKYZO1lt228h3VMsDm3JuJekK9pf8=;
-        fh=IfLH4jSXw7kM4SxGlDFLuIVta/LmBBZFBkpkbwjpShM=;
-        b=NEE+jFRIJr4OpgKsyBpLYqiOpyr7eArDmYWHVJW/SSceuceEnygYroVG3A0oaIJ70i
-         girgR1P/WWJo6qAEeBcaRyHPNJitqy63hVIqoIvFV/QvpQfCad9DwUPzvbf7OCRrfik2
-         NjPrXCsQ6CoAbx+CfhrclOo979JsQr7mruK2SovK1C4qQsJEPHA8c7FzSVTW+LmvjBum
-         TOovKXYQ22rlpdFQLTMn0GnZw9W16CWBCWJ1PjC9flQdkgOJse5rsYZsn4VvV3nUgTW3
-         Hf3BCgcEms6wUVlryyPazWmSf2sTqcZUTkbCHXOa0u4+mf/5UAc2FYJkNAQSaj0JmLKX
-         KLTg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783581772; x=1784186572; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=sxyGm26N1qjAhfVKYZO1lt228h3VMsDm3JuJekK9pf8=;
-        b=Vd3AGBI/uCfqbjC47ExRHHFSSrMsQLGEbAYtYPbt7dN61PND380rqIAKyKoMap9tIr
-         qFimIViZxz78rWmghWIpHNIY9dPaTVHmW4woAYJ02R70sxnAQ3YHl8GanIRwCYkS7w62
-         oJ9MD0grulnBHnzwZaXZd/UOAR1J629lyNF6j8tM7ok8zbaSvLX+FIUomYQz1MgvYTVD
-         vsULFjo5D61Wpe1HPzL6kuEK1VJ7W1S+G7zgqfjFbZFiHoubLHjV9BUtdrZZx05ad6DP
-         hzBZrZLqG/kfYAdf2T+TG7isxtHhB1SROcZ6IdckuxzHiVYce442VgODHRE70A6/+chh
-         ZqoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783581772; x=1784186572;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sxyGm26N1qjAhfVKYZO1lt228h3VMsDm3JuJekK9pf8=;
-        b=tJFWBbD9QiMeMM94h8/znlEj1eDlDv8T2XUwC0LiktVzisr3kbsCWiMPvt9NsTDCmK
-         TKLyLg36SafyDpJkmjFV56S54OS60G/lnapSWTEtVD0vFYdFstCA7/C/HEw+qU32dr1A
-         BxjLRerdukMAPGU6OvfxluhUWI0Pi5p6n9/rmd2DyljVcnVC1ROJq3OKudPcoFKMcVBg
-         VIv5G+yRK4U+sVGoWv0Exhmk8/NGFPu1jlCt+m4FCWduVbE4XDsytiqIsxwlW6RcB43d
-         4uy/192vW0vpn4nrgii/sAhbCsV0lD8Hti+a79tSz6Hn06Uzo+yWHJ9xuFdWNZPpt2oM
-         dhcg==
-X-Forwarded-Encrypted: i=1; AHgh+Rpx2YpJagX+rhgyTLSeTZy2ksYSaNLaIYLKROKDwqXKN7J9yJI1v84Ta1BHzm6Q8Eji+PcOZgmEt2w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOiOrzRx9jnr7yGqhDxMARAu3eh4cYcecGo654HCnlbd8Jw6TV
-	lWPWTrU3VFnUg+LgGnIuzVM7xoNzgmfTvCiXELgP5PmFmdGZKvy5qtXUMzYcDX8+bsEc6fl4DjH
-	GhBrOuwC25VVrIc/CQ282Qne5W6shyxQ=
-X-Gm-Gg: AfdE7ckVctCmU55ullHuGQQkU7ebQAKcdQibBB5I8COMoKvAaRO7bIgMSyEkrBKwSxp
-	QukuEKs0as8uHh6IOTsnDBP1Mei12E3dox3qRGF57Hg7MAo+ufdwVCHbVmOJQrYzpkh8NmFssyl
-	5FaWwpn8jjKC8pwvSbRiH0zKtMU5gV/YUw3CvgcxDke0nAxbsSN/bt32vp65PIzTTyUClWRtWG2
-	G6a3X1TyTkIpwsqHJOAnuz+pqIgqqEVbKv4/MLVzal7+0FAP7xH2FQ6MysuCE/ba6uEkhoJ0g==
-X-Received: by 2002:a17:906:6a15:b0:beb:d461:7b09 with SMTP id
- a640c23a62f3a-c15e74474fdmr69932566b.11.1783581772023; Thu, 09 Jul 2026
- 00:22:52 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ANe3sxa4"
+Message-ID: <05bb3890-b73d-4a27-af93-cca21d2858f0@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783582375;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TOOMe6IpaFT02HH9/Qn4PU6aCKChtMhWhozxlWqpN/A=;
+	b=ANe3sxa4KGL8Vlg1uLrN582e19xfxk8qJ6TMHafU4aD/SpqUVOXr5nEToOoMk7E5N9xAs3
+	nho/A0aJ+XmSRS/h8PgPxR01C33DBU2bDir1atKZmXpS2skRRn/8P6rZ1xZcDT+f+McRn3
+	5EinY5SieB3T2aD5XSWuDqGNaRuNEbc=
+Date: Thu, 9 Jul 2026 15:32:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260707122701.751878-1-fredchen.openbmc@gmail.com>
- <20260707122701.751878-3-fredchen.openbmc@gmail.com> <f9e32dd1-7c2c-4055-83fa-94683777e30b@roeck-us.net>
- <ak4QO9uhKOt68dl1@nsa> <20260708-true-carp-of-champagne-a0dcca@quoll>
- <ak41BRQBNdsQrYww@nsa> <b2a5e99c-6d4d-454e-8ecd-8638e4dc0ddb@roeck-us.net> <PH0PR03MB63512A19C32B7722D17D0FD4F1FE2@PH0PR03MB6351.namprd03.prod.outlook.com>
-In-Reply-To: <PH0PR03MB63512A19C32B7722D17D0FD4F1FE2@PH0PR03MB6351.namprd03.prod.outlook.com>
-From: Fred Chen <fredchen.openbmc@gmail.com>
-Date: Thu, 9 Jul 2026 15:23:55 +0800
-X-Gm-Features: AUfX_mwHN0qjb5l6G7Ei5hODszmeESynskEUV0pbmWdBSl0w574p6cMqhnzJh7Y
-Message-ID: <CABOy65_GqKiZLM+soZUK_34T8MYZS3dRX38-CMf_Bd1EmG0jhA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hwmon: (pmbus) Add driver for Analog Devices MAX20912
- and MAX20916
-To: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, =?UTF-8?B?TnVubyBTw6E=?= <noname.nuno@gmail.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Wensheng Wang <wenswang@yeah.net>, 
-	Frank Li <Frank.Li@nxp.com>, Brian Chiang <chiang.brian@inventec.com>, 
-	Cosmo Chou <chou.cosmo@gmail.com>, Dixit Parmar <dixitparmar19@gmail.com>, 
-	Eddie James <eajames@linux.ibm.com>, Antoni Pokusinski <apokusinski01@gmail.com>, 
-	Thorsten Blum <thorsten.blum@linux.dev>, Ashish Yadav <ashish.yadav@infineon.com>, 
-	Syed Arif <arif.syed@hpe.com>, ChiShih Tsai <tomtsai764@gmail.com>, 
-	Abdurrahman Hussain <abdurrahman@nexthop.ai>, "Paller, Kim Seer" <KimSeer.Paller@analog.com>, 
-	Colin Huang <u8813345@gmail.com>, Yuxi Wang <Yuxi.Wang@monolithicpower.com>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v8 5/6] kselftest: alloc_tag: add kselftest for ioctl
+ interface
+To: Abhishek Bapat <abhishekbapat@google.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ Sourav Panda <souravpanda@google.com>, Suren Baghdasaryan
+ <surenb@google.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Kent Overstreet <kent.overstreet@linux.dev>
+References: <cover.1783532853.git.abhishekbapat@google.com>
+ <e2a3795677a14aeab249758ba570cd5e98402032.1783532853.git.abhishekbapat@google.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Ge <hao.ge@linux.dev>
+In-Reply-To: <e2a3795677a14aeab249758ba570cd5e98402032.1783532853.git.abhishekbapat@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Torreno, Alexis Czezar <AlexisCzezar.Torreno@analog.com> =E6=96=BC 2026=E5=
-=B9=B47=E6=9C=889=E6=97=A5=E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=888:59=E5=AF=
-=AB=E9=81=93=EF=BC=9A
+Hi Abhishek
+
+
+On 2026/7/9 02:01, Abhishek Bapat wrote:
+> Introduce a kselftest to verify the new IOCTL-based interface for
+> /proc/allocinfo. The test covers:
 >
-> > On 7/8/26 04:32, Nuno S=C3=A1 wrote:
-> > > On Wed, Jul 08, 2026 at 12:50:25PM +0200, Krzysztof Kozlowski wrote:
-> > >> On Wed, Jul 08, 2026 at 10:19:56AM +0100, Nuno S=C3=A1 wrote:
-> > >>> On Tue, Jul 07, 2026 at 06:52:48AM -0700, Guenter Roeck wrote:
-> > >>>> On 7/7/26 05:26, Fred Chen wrote:
-> > >>>>> Add support for the Analog Devices MAX20912 and MAX20916
-> > >>>>> dual-output multiphase voltage regulators with PMBus interfaces.
-> > >>>>>
-> > >>>>> Signed-off-by: Fred Chen <fredchen.openbmc@gmail.com>
-> > >>>>
-> > >>>> Please provide evidence that those chips actually exist.
-> > >>>> Internet search comes up blank. I'll need confirmation from someon=
-e
-> > >>>> at Analog.
-> > >>>
-> > >>> Hi Guenter,
-> > >>>
-> > >>> Well, in fact I'm in the middle of preparing a series that adds
-> > >>> support
-> > >>> for:
-> > >>>
-> > >>> "max20826"
-> > >>> "max20855b"
-> > >>> "max20908"
-> > >>> "max20912"
-> > >>> "max20916"
-> > >>>
-> > >>> All the above parts have the datasheet under NDA. But before we had
-> > >>> a one page "datasheet" in analog.com but I guess that is gone! For
-> > >>> context I mainly did the base (core) driver for max20826 and then
-> > >>> Alexis added the other ones.
-> > >>>
-> > >>> Not sure how to proceed... I can wait and then work on top of what
-> > >>> Fred has but this patch is very minimal when compared with what we =
-have.
-> > >>> Like:
-> > >>>
-> > >>> * No regulator support;
-> > >>> * No direct mode. The chip has two ways to access registers (paging
-> > >>> and
-> > >>> * direct mode).
-> > >>> * No way to count how many phases we have or if RAIL_B (func[1]) is
-> > >>> being used at all.
-> > >>>
-> > >>>
-> > >>> Some other things more intriguing is that these chips, as far as I'=
-m
-> > >>> aware (at least for max20826), always have bit 2 set in
-> > >>> ON_OFF_CONFIG so a gpio vout. Also we needed some special handling
-> > >>> to read phase current which I'm not seeing in the driver. So I woul=
-d
-> > >>> like to understand how the chip was tested?
-> > >>>
-> > >>> Anyways, if Fred is ok with it I can just finish what I'm doing and
-> > >>> send the patches. It would make sense to have something more
-> > >>> complete on submission but I don't want to just "steal" the work al=
-ready
-> > done.
-> > >>
-> > >> Binding should be in such case posted complete, so probably not a
-> > >> trivial device.
-> > >
-> > > Yes, in my series bindings are not in trivial as we support the enabl=
-e
-> > > gpios.
-> > >
-> >
-> > Same question I asked before: What is your use case ?
-> >
+> 1. Validation of the filename filter.
+> 2. Validation of the function filter.
 >
-> Hi Guenter,
+> The first test validates the functionality of the filename filter. Using
+> "mm/memory.c" as the candidate filename filter, it retrieves filtered
+> entries from both procfs and ioctl and matches the first VEC_MAX_ENTRIES
+> entries.
 >
-> Unlike my MAX20830 patches, for some reason these chips (not only Nuno's =
-max20826)
-> hardwired the bit 2 in ON_OFF_CONFIG to '1'. This makes the use of gpio t=
-o enable the
-> device a requirement.  (as of the latest info given to us)
+> The second test validates the functionality of the function filter.
+> It uses "dup_mm" as the candidate function as we do not expect this
+> function name to change frequently and hence won't be needing to modify
+> this test often.
 >
-> Regards,
-> Alexis
+> Note that both the tests match line no, function name and file name
+> fields. Bytes allocated and calls are not matched as those values may
+> change in the time when the data is being read from procfs and ioctl and
+> hence can lead to false negatives.
+>
+> Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
+> ---
+>   MAINTAINERS                                   |   1 +
+>   tools/testing/selftests/Makefile              |   1 +
+>   tools/testing/selftests/alloc_tag/Makefile    |   9 +
+>   .../alloc_tag/allocinfo_ioctl_test.c          | 334 ++++++++++++++++++
+>   4 files changed, 345 insertions(+)
+>   create mode 100644 tools/testing/selftests/alloc_tag/Makefile
+>   create mode 100644 tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8e316eba7b4c..3d54fd8d69c1 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -16938,6 +16938,7 @@ F:	include/linux/alloc_tag.h
+>   F:	include/linux/pgalloc_tag.h
+>   F:	include/uapi/linux/alloc_tag.h
+>   F:	mm/alloc_tag.c
+> +F:	tools/testing/selftests/alloc_tag/
+>   
+>   MEMORY MANAGEMENT - BALLOON
+>   M:	Andrew Morton <akpm@linux-foundation.org>
+> diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
+> index 8d4db2241cc2..12941d68a7f8 100644
+> --- a/tools/testing/selftests/Makefile
+> +++ b/tools/testing/selftests/Makefile
+> @@ -1,5 +1,6 @@
+>   # SPDX-License-Identifier: GPL-2.0
+>   TARGETS += acct
+> +TARGETS += alloc_tag
+>   TARGETS += alsa
+>   TARGETS += amd-pstate
+>   TARGETS += arm64
+> diff --git a/tools/testing/selftests/alloc_tag/Makefile b/tools/testing/selftests/alloc_tag/Makefile
+> new file mode 100644
+> index 000000000000..f41d92d06b18
+> --- /dev/null
+> +++ b/tools/testing/selftests/alloc_tag/Makefile
+> @@ -0,0 +1,9 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +TEST_GEN_PROGS := allocinfo_ioctl_test
+> +
+> +CFLAGS += -Wall
+> +CFLAGS += $(KHDR_INCLUDES)
+> +
+> +include ../lib.mk
+> +
+> diff --git a/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c b/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
+> new file mode 100644
+> index 000000000000..9ce7b53078b1
+> --- /dev/null
+> +++ b/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
+> @@ -0,0 +1,334 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +/* kselftest for allocinfo ioctl
+> + * allocinfo ioctl retrives allocinfo data through ioctl
+> + * Copyright (C) 2026 Google, Inc.
+> + */
+> +
 
-Hi Nuno,
 
-Based on the MAX20912/16 specs on my hand, these chips do not support
-PMBUS_PHASE (0x04). Furthermore, the spec only indicates support for VID mo=
-de
-and does not provide m/b/r. Therefore, some of the features you mentioned m=
-ight
-be specific to the MAX20826 series.
+I recall we discussed the "retrives" typo previously.
 
-Regarding enabling VOUT via GPIO, our platform handles this via the CPLD as
-part of the hardware power sequencing. Managing this pin through the driver=
- is
-not a requirement for our system.
+nit: s/retrives/retrieves/
 
-As for the testing, I have verified that the telemetry readings for both Ra=
-il A
-and Rail B behave as expected. The driver reports valid data after system
-power-on, and the readings drop to 0 properly after power-off.
 
-It's possible my specs are outdated or that I'm missing some use cases. If
-you plan to submit your more complete driver covering the MAX20912/16
-soon, I'm more than willing to hold off on sending v2 patch.
+I've verified this selftest on kernels both with and without 
+CONFIG_MEM_ALLOC_PROFILING enabled,
 
-Regards,
-Fred
+and it works as expected.
+
+
+Tested-by: Hao Ge <hao.ge@linux.dev>
+
+Acked-by: Hao Ge <hao.ge@linux.dev>
+
+
+Thanks
+
+Best Regards
+
+Hao
+
+
+> +#include <fcntl.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <stdbool.h>
+> +#include <unistd.h>
+> +#include <sys/ioctl.h>
+> +#include <linux/types.h>
+> +#include <linux/alloc_tag.h>
+> +#include "../kselftest.h"
+> +
+> +#define MAX_LINE_LEN		512
+> +#define ALLOCINFO_PROC		"/proc/allocinfo"
+> +
+> +enum ioctl_ret {
+> +	IOCTL_SUCCESS = 0,
+> +	IOCTL_FAILURE = 1,
+> +	IOCTL_INVALID_DATA = 2,
+> +};
+> +
+> +#define VEC_MAX_ENTRIES 32
+> +
+> +struct allocinfo_tag_data_vec {
+> +	struct allocinfo_tag_data tag[VEC_MAX_ENTRIES];
+> +	__u64 count;
+> +};
+> +
+> +static inline int __allocinfo_get_content_id(int dev_fd, struct allocinfo_content_id *params)
+> +{
+> +	return ioctl(dev_fd, ALLOCINFO_IOC_CONTENT_ID, params);
+> +}
+> +
+> +static inline int __allocinfo_get_at(int dev_fd, struct allocinfo_get_at *params)
+> +{
+> +	return ioctl(dev_fd, ALLOCINFO_IOC_GET_AT, params);
+> +}
+> +
+> +static inline int __allocinfo_get_next(int dev_fd, struct allocinfo_tag_data *params)
+> +{
+> +	return ioctl(dev_fd, ALLOCINFO_IOC_GET_NEXT, params);
+> +}
+> +
+> +static bool match_entry(const struct allocinfo_tag_data *procfs_entry,
+> +			const struct allocinfo_tag_data *tag_data,
+> +			bool match_bytes, bool match_calls, bool match_lineno,
+> +			bool match_function, bool match_filename)
+> +{
+> +	if (match_bytes && tag_data->counter.bytes != procfs_entry->counter.bytes) {
+> +		ksft_print_msg("size retrieved through ioctl does not match procfs\n");
+> +		return false;
+> +	}
+> +
+> +	if (match_calls && tag_data->counter.calls != procfs_entry->counter.calls) {
+> +		ksft_print_msg("call count retrieved through ioctl does not match procfs\n");
+> +		return false;
+> +	}
+> +
+> +	if (match_lineno && tag_data->tag.lineno != procfs_entry->tag.lineno) {
+> +		ksft_print_msg("lineno retrieved through ioctl does not match procfs\n");
+> +		return false;
+> +	}
+> +
+> +	if (match_function &&
+> +	    strncmp(tag_data->tag.function, procfs_entry->tag.function, ALLOCINFO_STR_SIZE)) {
+> +		ksft_print_msg("function retrieved through ioctl does not match procfs\n");
+> +		return false;
+> +	}
+> +
+> +	if (match_filename &&
+> +	    strncmp(tag_data->tag.filename, procfs_entry->tag.filename, ALLOCINFO_STR_SIZE)) {
+> +		ksft_print_msg("filename retrieved through ioctl does not match procfs\n");
+> +		return false;
+> +	}
+> +	return true;
+> +}
+> +
+> +static bool match_entries(const struct allocinfo_tag_data_vec *procfs_entries,
+> +			  const struct allocinfo_tag_data_vec *tags,
+> +			  bool match_bytes, bool match_calls, bool match_lineno,
+> +			  bool match_function, bool match_filename)
+> +{
+> +	__u64 i;
+> +
+> +	if (procfs_entries->count != tags->count) {
+> +		ksft_print_msg("Entry count mismatch. ioctl entries: %llu, proc entries: %llu\n",
+> +			       tags->count, procfs_entries->count);
+> +		return false;
+> +	}
+> +	for (i = 0; i < procfs_entries->count; i++) {
+> +		if (!match_entry(&procfs_entries->tag[i], &tags->tag[i],
+> +				 match_bytes, match_calls, match_lineno,
+> +				 match_function, match_filename)) {
+> +			ksft_print_msg("%lluth entry does not match.\n", i);
+> +			return false;
+> +		}
+> +	}
+> +	return true;
+> +}
+> +
+> +static const char *allocinfo_str(const char *str)
+> +{
+> +	size_t len = strlen(str);
+> +
+> +	if (len >= ALLOCINFO_STR_SIZE)
+> +		str += (len - ALLOCINFO_STR_SIZE) + 1;
+> +	return str;
+> +}
+> +
+> +static void allocinfo_copy_str(char *dest, const char *src)
+> +{
+> +	strncpy(dest, allocinfo_str(src), ALLOCINFO_STR_SIZE - 1);
+> +	dest[ALLOCINFO_STR_SIZE - 1] = '\0';
+> +}
+> +
+> +static int get_filtered_procfs_entries(struct allocinfo_tag_data_vec *procfs_entries,
+> +				       const struct allocinfo_filter *filter)
+> +{
+> +	FILE *fp = fopen(ALLOCINFO_PROC, "r");
+> +	char line[MAX_LINE_LEN];
+> +	int matches;
+> +	struct allocinfo_tag_data procfs_entry;
+> +
+> +	if (!fp) {
+> +		ksft_print_msg("Failed to open " ALLOCINFO_PROC " for reading\n");
+> +		return 1;
+> +	}
+> +	memset(procfs_entries, 0, sizeof(*procfs_entries));
+> +	while (fgets(line, sizeof(line), fp) && procfs_entries->count < VEC_MAX_ENTRIES) {
+> +		char filename[MAX_LINE_LEN];
+> +		char function[MAX_LINE_LEN];
+> +
+> +		memset(&procfs_entry, 0, sizeof(procfs_entry));
+> +		matches = sscanf(line, "%llu %llu %[^:]:%llu func:%s",
+> +				 &procfs_entry.counter.bytes,
+> +				 &procfs_entry.counter.calls,
+> +				 filename,
+> +				 &procfs_entry.tag.lineno,
+> +				 function);
+> +
+> +		if (matches != 5)
+> +			continue;
+> +
+> +		allocinfo_copy_str(procfs_entry.tag.filename, filename);
+> +		allocinfo_copy_str(procfs_entry.tag.function, function);
+> +
+> +		if (filter->mask & ALLOCINFO_FILTER_MASK_FILENAME) {
+> +			if (strncmp(procfs_entry.tag.filename,
+> +				    filter->fields.filename, ALLOCINFO_STR_SIZE))
+> +				continue;
+> +		}
+> +		if (filter->mask & ALLOCINFO_FILTER_MASK_FUNCTION) {
+> +			if (strncmp(procfs_entry.tag.function,
+> +				    filter->fields.function, ALLOCINFO_STR_SIZE))
+> +				continue;
+> +		}
+> +		if (filter->mask & ALLOCINFO_FILTER_MASK_LINENO) {
+> +			if (procfs_entry.tag.lineno != filter->fields.lineno)
+> +				continue;
+> +		}
+> +		if (filter->mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) {
+> +			if (procfs_entry.counter.bytes < filter->min_size)
+> +				continue;
+> +		}
+> +		if (filter->mask & ALLOCINFO_FILTER_MASK_MAX_SIZE) {
+> +			if (procfs_entry.counter.bytes > filter->max_size)
+> +				continue;
+> +		}
+> +
+> +		memcpy(&procfs_entries->tag[procfs_entries->count++], &procfs_entry,
+> +		       sizeof(procfs_entry));
+> +	}
+> +	fclose(fp);
+> +	return 0;
+> +}
+> +
+> +static enum ioctl_ret get_filtered_ioctl_entries(struct allocinfo_tag_data_vec *tags,
+> +						 const struct allocinfo_filter *filter,
+> +						 __u64 start_pos)
+> +{
+> +	int fd = open(ALLOCINFO_PROC, O_RDONLY);
+> +
+> +	if (fd < 0) {
+> +		ksft_print_msg("Failed to open " ALLOCINFO_PROC " for IOCTL\n");
+> +		return IOCTL_FAILURE;
+> +	}
+> +
+> +	struct allocinfo_content_id start_cont_id, end_cont_id;
+> +	struct allocinfo_get_at get_at_params;
+> +	const int max_retries = 10;
+> +	int retry_count = 0;
+> +	int status;
+> +
+> +	/*
+> +	 * __allocinfo_get_content_id may return different values if a kernel module was loaded
+> +	 * between the two calls. If that happens, the data gathered cannot be considered consistent
+> +	 * and hence needs to be fetched again to avoid flakiness.
+> +	 */
+> +	do {
+> +		if (__allocinfo_get_content_id(fd, &start_cont_id)) {
+> +			ksft_print_msg("allocinfo_get_content_id failed\n");
+> +			status = IOCTL_FAILURE;
+> +			break;
+> +		}
+> +
+> +		memset(tags, 0, sizeof(*tags));
+> +		memset(&get_at_params, 0, sizeof(get_at_params));
+> +		memcpy(&get_at_params.filter, filter, sizeof(*filter));
+> +		get_at_params.pos = start_pos;
+> +		if (__allocinfo_get_at(fd, &get_at_params)) {
+> +			ksft_print_msg("allocinfo_get_at failed\n");
+> +			status = IOCTL_FAILURE;
+> +			break;
+> +		}
+> +		memcpy(&tags->tag[tags->count++], &get_at_params.data, sizeof(get_at_params.data));
+> +
+> +		while (tags->count < VEC_MAX_ENTRIES &&
+> +		       __allocinfo_get_next(fd, &tags->tag[tags->count]) == 0)
+> +			tags->count++;
+> +
+> +		if (__allocinfo_get_content_id(fd, &end_cont_id)) {
+> +			ksft_print_msg("allocinfo_get_content_id failed\n");
+> +			status = IOCTL_FAILURE;
+> +			break;
+> +		}
+> +
+> +		if (start_cont_id.id == end_cont_id.id) {
+> +			status = IOCTL_SUCCESS;
+> +		} else {
+> +			ksft_print_msg("allocinfo_get_content_id mismatch, retrying...\n");
+> +			status = IOCTL_INVALID_DATA;
+> +		}
+> +	} while (status == IOCTL_INVALID_DATA && retry_count++ < max_retries);
+> +
+> +	close(fd);
+> +	return status;
+> +}
+> +
+> +static int run_filter_test(const struct allocinfo_filter *filter)
+> +{
+> +	struct allocinfo_tag_data_vec *tags = malloc(sizeof(*tags));
+> +	struct allocinfo_tag_data_vec *procfs_entries = malloc(sizeof(*procfs_entries));
+> +	int ioctl_status;
+> +	int ret = KSFT_PASS;
+> +
+> +	if (!tags || !procfs_entries) {
+> +		ksft_print_msg("Memory allocation failed.\n");
+> +		ret = KSFT_FAIL;
+> +		goto exit;
+> +	}
+> +
+> +	if (get_filtered_procfs_entries(procfs_entries, filter)) {
+> +		ksft_print_msg("Error retrieving entries from " ALLOCINFO_PROC "\n");
+> +		ret = KSFT_SKIP;
+> +		goto exit;
+> +	}
+> +
+> +	if (procfs_entries->count == 0) {
+> +		ksft_print_msg("No entries found in " ALLOCINFO_PROC ", skipping test\n");
+> +		ret = KSFT_SKIP;
+> +		goto exit;
+> +	}
+> +
+> +	ioctl_status = get_filtered_ioctl_entries(tags, filter, 0);
+> +	if (ioctl_status == IOCTL_INVALID_DATA) {
+> +		ksft_print_msg("Trouble retrieving valid IOCTL entries, skipping.\n");
+> +		ret = KSFT_SKIP;
+> +		goto exit;
+> +	}
+> +	if (ioctl_status == IOCTL_FAILURE) {
+> +		ksft_print_msg("Error retrieving IOCTL entries.\n");
+> +		ret = KSFT_FAIL;
+> +		goto exit;
+> +	}
+> +
+> +	if (!match_entries(procfs_entries, tags, false, false, true, true, true))
+> +		ret = KSFT_FAIL;
+> +
+> +exit:
+> +	free(tags);
+> +	free(procfs_entries);
+> +	return ret;
+> +}
+> +
+> +static int test_filename_filter(void)
+> +{
+> +	struct allocinfo_filter filter;
+> +	const char *target_filename = "mm/memory.c";
+> +
+> +	memset(&filter, 0, sizeof(filter));
+> +	filter.mask |= ALLOCINFO_FILTER_MASK_FILENAME;
+> +	strncpy(filter.fields.filename, target_filename, ALLOCINFO_STR_SIZE);
+> +
+> +	return run_filter_test(&filter);
+> +}
+> +
+> +static int test_function_filter(void)
+> +{
+> +	struct allocinfo_filter filter;
+> +	const char *target_function = "dup_mm";
+> +
+> +	memset(&filter, 0, sizeof(filter));
+> +	filter.mask |= ALLOCINFO_FILTER_MASK_FUNCTION;
+> +	strncpy(filter.fields.function, target_function, ALLOCINFO_STR_SIZE);
+> +
+> +	return run_filter_test(&filter);
+> +}
+> +
+> +int main(int argc, char *argv[])
+> +{
+> +	int ret;
+> +
+> +	ksft_set_plan(2);
+> +
+> +	ret = test_filename_filter();
+> +	if (ret == KSFT_SKIP)
+> +		ksft_test_result_skip("Skipping test_filename_filter\n");
+> +	else
+> +		ksft_test_result(ret == KSFT_PASS, "test_filename_filter\n");
+> +
+> +	ret = test_function_filter();
+> +	if (ret == KSFT_SKIP)
+> +		ksft_test_result_skip("Skipping test_function_filter\n");
+> +	else
+> +		ksft_test_result(ret == KSFT_PASS, "test_function_filter\n");
+> +
+> +	ksft_finished();
+> +}
