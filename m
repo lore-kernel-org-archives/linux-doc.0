@@ -1,76 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E50D420E78;
-	Thu,  9 Jul 2026 12:19:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677643B14D3;
+	Thu,  9 Jul 2026 12:21:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783599577; cv=none; b=TjtBugGK2c2id4gpk0/3mqai2zk6vAzVWE4qzQ0Mwlv/SBFchoUjc0K0FfwJZObLyMaVIyJiDAidc2A5yF3ZlCAt0l9TFNSDMwuc/0wplOXTbgcEmJP3Tbk248yrkqQqaeIpPcVtV5v6BimQO2kjh480lsLs+b1H+Sc0GiUmJd8=
+	t=1783599711; cv=none; b=kuzfY4AdzPm88SGGG0JiTQEEfWlnbeVe5KGazKBvA6tRMSR4dtDLXDfSZW0m08c+WHQiCCewGK5FfFAc5CbU34Br0HTMqrPBYGy8mwgqPFZGc01JOtL6AuohuuKmkMbyQsnoGu8xsCiJzVnvifiJDscmYIEXxmrdAMmkZh7CNPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783599577; c=relaxed/simple;
-	bh=580PdfO5T/N0wE5TSQ8iHnD+J0cD0gm6d8xwCpWvU+k=;
+	s=arc-20240116; t=1783599711; c=relaxed/simple;
+	bh=je+/HG0EMtJs/loHSe9xZu5retxVO446cgavJsDZxa4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PtOs4ZFtqlRIqu+PKIq8yQmTXH/pldKebUjFYv4siGauOyblKdKPyQqmTHtYQsjrnFgGNu/DfATqbhLhCUmNUSNx4ahWTBlhndB3jMBxM1oYn4QRxWWIz1MXmgLUiWhBhICIKXGq0o/aCx5t2urcBDuHyJnCC3ZBGttnmhaugM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OBUR1DGw; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Uv9D2UcvA+rw4BpX22rNKRQsT3Qy3zLpQk8nCWFcUWbAJOlYz5WPio0XVd5lVMjswJyTVilwkoV8MuFBH0+KtkJKQU8koQk944ihRS7ZtXsChAS9sySinm4wTQ48Lt3n8h/Aegecgwv5fOQjNDp8fbrlLCbEybUldt2QMRDVHrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ejE2Et99; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OBUR1DGw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E99FD1F000E9;
-	Thu,  9 Jul 2026 12:19:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ejE2Et99"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 197831F000E9;
+	Thu,  9 Jul 2026 12:21:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783599575;
-	bh=gxbdaaWxpr16WNk35CrzdmbV8r7MBy1PuvbOHdfmxDE=;
+	s=k20260515; t=1783599710;
+	bh=LuOciaS8DK8jmb2CFQM4/jZaaLCATTx50eQ2Thwjxio=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OBUR1DGwpGFYcbqf0LlDuPPlLYUTgZvfuO5U6Ul/MnY4wx0OBCbaIyS958hgXIYQG
-	 K3HyWh9Y84+xfOKpEaJhGRzvHqiItFCexfHA+pSGdHlXhZciC3L2cfVf9qbx4JceWy
-	 YBovMQRpd8h8XhMCf/+oCvIa75iStdsgTUnQ3TJrH4YcsNwjLTud6dXAvg0OlXAd+L
-	 gwjJfuv3x9oPyJ9zGYNSbp+XSBA4qzthNNE/oLdkz3bagqc/Xp196k1RKx56yjt7et
-	 apjnSUESOnPia+q48p/WW3GU1rQT6yzxATz4Lrt3TbnFds9+jUD/nxLrh+cPUmVmrn
-	 ACdrFZmlY6HkQ==
-Date: Thu, 9 Jul 2026 14:19:23 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-pci@vger.kernel.org, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 0/5] PCI: rcar-gen4: irqchip/gic-v3: Handle GIC ITS
-Message-ID: <ybnitlgx3dcqsesubz6jz7pn6snseuxhtz564tinbtvukianaq@33ubmcynyqmt>
-References: <20260707203743.88299-1-marek.vasut+renesas@mailbox.org>
+	b=ejE2Et99WozJ1ypz+xTfglTg5W4D821r3YBkSWZ69VfT/DXUVQDgsyOw2BKsE5Rus
+	 n5UQr2tQffCuQ+eTIMbnAhij7IZKyiJDuQ3EjdGG1tJVzTdwUqLrELSFHkS8pQqxsA
+	 hlEspvq+80/eU+Gj45dsw0kymVVmclO6yyDyVAdylITZ6ebavOl8agRveBg1in94XG
+	 Us/hNWSBeZUmgejcm52jNyPqjdI2sacuRoPucQqiAAeFH820A8aiLPNxMeIvRI0m57
+	 TumZ6eFD9Ldh/KW5/ZRTF6fxvikmcBe9pvzdWBw7P4MW1GRSGQcmLSCYYjKPEHwWym
+	 qupaWM2bLQdzQ==
+Date: Thu, 9 Jul 2026 13:21:43 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>
+Cc: Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Ben Horgan <ben.horgan@arm.com>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v11 00/29] KVM: arm64: Implement support for SME
+Message-ID: <ac8c0aa6-d84d-4fd4-9059-ea79adc337a1@sirena.org.uk>
+References: <20260709-kvm-arm64-sme-v11-0-32799f66db9d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lvkuTVR/BvRRX0hU"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260707203743.88299-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20260709-kvm-arm64-sme-v11-0-32799f66db9d@kernel.org>
+X-Cookie: MS-DOS must die!
 
-On Tue, Jul 07, 2026 at 10:35:38PM +0200, Marek Vasut wrote:
-> Configure all R-Car Gen4 PCIe controller MSI registers fully, both in
-> case MSI are enabled and disabled.
-> 
-> Patch GIC ITS driver and add quirks for R-Car Gen4 GIC ITS, which is
-> configured to 32-bit address width for AXI or APB interface.
-> 
-> Switch R-Car V4H to use GIC ITS in its DT and describe the GIC ITS
-> implementation cacheable and shareable limitations.
-> 
-> Marek Vasut (5):
->   PCI: dwc: Determine whether iMSI is used before calling .init
->   PCI: rcar-gen4: Configure AXIINTC if iMSI-RX not used
->   irqchip/gic-v3: Refactor GIC600 limited to 32bit PA erratum handling
->   irqchip/gic-v3: Add Renesas R-Car Gen4 erratum workaround
 
-Is there a functional dependency between irqchip and PCI patches? Since the
-irqchip patches touch ARM64 Kconfig etc... I'm wondering if it still need to go
-through PCI tree.
+--lvkuTVR/BvRRX0hU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-- Mani
+On Thu, Jul 09, 2026 at 01:51:37AM +0100, Mark Brown wrote:
+> [ Note: I've spoken with both Mark Rutland and James Morse both of whom
+>   might potentially have some overlapping changes, they've both agreed
+>   that they'll deal with any rebasing if it's a question of this getting
+>   in or something else. ]
 
--- 
-மணிவண்ணன் சதாசிவம்
+Main testing for this was, in addition to a lot of not particularly
+relevant coverage, running the KVM and arm64 selftests and KVM unit
+tests.  I also ran the arm64 selftests (particularly fp-stress) in
+guests while running fp-stress in continuous mode on the host.  Testing
+was done for each of nVHE, VHE, protected mode and nested mode.
+
+--lvkuTVR/BvRRX0hU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpPklYACgkQJNaLcl1U
+h9B0qAf+LBdXTQ7AYWPPO2VCenkHI7Mk3Ar2J3NEDvdagbuxAigD9tRaRejVQbv6
+X+hE5pP2Ij0vPRnhodiUla8xiKplqUKX9qF8UKOi3K1USJMLnOC4FKyukI4seelo
+/OMB3xjuTCcOhkffh0zUSv+6ssNVUQa9F0eGoXaDCBB0Z+Y5ut+96O3TB6o9CY2P
+PYeZeycw0bLZvYzuOYXwRej52aiR/J4asZV5i8OOWTTEMEJIXB2PaVWTBnhMiEDR
+VEGyfz/uIdg1RJv5lcChLnlP38Ai0leGL9Gh+bSo672GA8KEUdycqNrTpQuCV2j8
+MSqXDTT5NYsRGwpA29E9JKTBqQ+46w==
+=Cpl8
+-----END PGP SIGNATURE-----
+
+--lvkuTVR/BvRRX0hU--
