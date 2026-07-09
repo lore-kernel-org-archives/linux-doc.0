@@ -1,150 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473B13F9278;
-	Thu,  9 Jul 2026 11:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F5E63F4106;
+	Thu,  9 Jul 2026 11:37:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783596983; cv=none; b=AOOVUw4Q/loNIbakzNHCJTosIXki9/k57f9Zxprs0nmFS3cAweUhqreP2nT7a0pAS87r2RWbsK4/LSmrIHa/xBZxDcta2qGSGq+CpBeZRsWd9t1BKzsQUFu9ex9xH2z1xsb3jZpeau3TPjhr0r4g+bth2vRkT4aRKKro0HM2Wb4=
+	t=1783597076; cv=none; b=FYnZSgl50vCSMA2tPRCJiW+jol3MxoxVsqlZzAEEyN2Z7u9mZc8jObUxsOdDwMdAvB5MsaZAuDPlgYM2bkrsgru8PCh4cajhRHpl/QG7bkOpt5BEXHgo8mD2OLYwHYqV36knPi5L6IIBeDAuRH4qlOUYSYEKo9lI/JMdFfwd+MY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783596983; c=relaxed/simple;
-	bh=s6yCP+j+CSpKEx2S1kHiRs2sZEdka39+3G9nvjTPyP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S7qZJy3/1MtUXVS5fc7o6fjnrAW5TmhNTU2UcwGpW0HaJwcGEF0FaZuuyB3gGKVs4HPWGi8Ncxxra+G110Y8tTuPkvtB4ack91A9WBX9TS+nkX+CU+By2xd+dW29SbRvDcviH/upN+kwWh/J0xnNCjguAe7Jfne5Iy4JW8wdgfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kh7SD9AJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783597076; c=relaxed/simple;
+	bh=gKoJt6/ETe0fH6d7Da8df8bHVJwEA8WWn2gMjCx/l6Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=m1RXlfFtj/M80pvwKvWIa1PDC664jKZ1LSpgqWTOibdyxoWH/sYTVvuDBI7zBz7QlVV2JhMyjtVhrN0wSKJUgWGow0ri9ZcoD33dOt95Wm+IRCR6eh03lIZTpgdTjRuPH8nr7oRjLvrhRiO6bcHuFuCMpy7ejFbNd+9zkH3W5DU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=AwPYWrTi; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kh7SD9AJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F96B1F00A3A;
-	Thu,  9 Jul 2026 11:36:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783596982;
-	bh=U8kqjUvW4uoDK1/F36IchB4nsoc7z+3Xsi7IlngIQAA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Kh7SD9AJfxKGWnaL668g2yVHds3VxPUHmbadri6DA6nvT1HEAKg3INmtGoDrS3uZG
-	 0+bS2Duy3EG8Fe/hLKAWHFS1MoAOdlmEnNjjX4P267iK9gEtdZDl7jliet+1iZK4Iz
-	 ntjxv4gMRv7XaiYO/4GKvZKxuCRwQOdtIKIEL5CFkkZleHj+2sTIMuA9TDtb6S1uqp
-	 EJdgqX3gunp1DqYJsxbFGnwcJ+OipXK768VPDMEDE32KlhRHHJ+3nEZ9HNY7qtduK9
-	 lDynLuc8QvqEssqmCIgiysqzJS+rDZ03fHa17v9A+SlPriDZ6sFXGozW1vT5ark5NL
-	 5asjUeDov4ajw==
-Date: Thu, 9 Jul 2026 12:36:14 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Fuad Tabba <fuad.tabba@linux.dev>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Ben Horgan <ben.horgan@arm.com>,
-	Jean-Philippe Brucker <jpb@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>, tools@kernel.org
-Subject: Re: [PATCH v11 00/29] KVM: arm64: Implement support for SME
-Message-ID: <4b2fb0ef-4d3e-4a1f-8d33-177bb4af2005@sirena.org.uk>
-References: <20260709-kvm-arm64-sme-v11-0-32799f66db9d@kernel.org>
- <CA+EHjTyAxBx4jhGq-Gme5hPi1ZyDAkL2CP_U22ykkQemD1dUhg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="AwPYWrTi"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 990083570;
+	Thu,  9 Jul 2026 04:37:41 -0700 (PDT)
+Received: from [10.57.0.219] (unknown [10.57.0.219])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3FBD33FE53;
+	Thu,  9 Jul 2026 04:37:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1783597065; bh=gKoJt6/ETe0fH6d7Da8df8bHVJwEA8WWn2gMjCx/l6Q=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=AwPYWrTiIqGyl1Nn6U98iBlI968hpm+AJLFS37is5X1+zS3lOX1Hp0KDqjaRTHO34
+	 zqrw9XNa2nERFJJ4odDK3wZG8uRJnIOTD6B9CG9LG8Ovl5LONXZ3NiJfNsfV68OAZ4
+	 opUvGPi/or0rvhkIXcxeusSj9oKVAQpJj97ma4/A=
+Message-ID: <a6339f25-41b5-4186-a9d1-d46b5b36c998@arm.com>
+Date: Thu, 9 Jul 2026 12:37:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xXD2CewWwbORdhWs"
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTyAxBx4jhGq-Gme5hPi1ZyDAkL2CP_U22ykkQemD1dUhg@mail.gmail.com>
-X-Cookie: MS-DOS must die!
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] sched/doc: Fix stale em_pd_energy() reference in
+ sched-energy
+To: luoliang@kylinos.cn
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Dongliang Mu <dzm91@hust.edu.cn>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>
+References: <20260707085335.2942128-1-luoliang@kylinos.cn>
+Content-Language: en-US
+From: Lukasz Luba <lukasz.luba@arm.com>
+In-Reply-To: <20260707085335.2942128-1-luoliang@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
---xXD2CewWwbORdhWs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 09, 2026 at 11:26:41AM +0100, Fuad Tabba wrote:
-> > base-commit: 4c45e14df2f4e77982ad70d6d8e3fe750edd4c37
+On 7/7/26 09:53, luoliang@kylinos.cn wrote:
+> From: Liang Luo <luoliang@kylinos.cn>
+> 
+> The scheduler energy-aware placement documentation refers to the
+> em_pd_energy() API, which was renamed to em_cpu_energy() in commit
+> f0b5694791ce ("PM / EM: change name of em_pd_energy to em_cpu_energy").
+> Update the reference to the current name.
+> 
+> em_cpu_energy() is the EM helper that compute_energy() in
+> kernel/sched/fair.c calls to estimate a performance domain's energy
+> consumption (defined in include/linux/energy_model.h).
+> 
+> Sync the zh_CN translation, which carries the same stale name.
+> 
+> Signed-off-by: Liang Luo <luoliang@kylinos.cn>
+> ---
+>   Documentation/scheduler/sched-energy.rst                    | 2 +-
+>   Documentation/translations/zh_CN/scheduler/sched-energy.rst | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
+> index 4e47aaf103eb..83bac0da4869 100644
+> --- a/Documentation/scheduler/sched-energy.rst
+> +++ b/Documentation/scheduler/sched-energy.rst
+> @@ -141,7 +141,7 @@ in its previous activation.
+>   find_energy_efficient_cpu() uses compute_energy() to estimate what will be the
+>   energy consumed by the system if the waking task was migrated. compute_energy()
+>   looks at the current utilization landscape of the CPUs and adjusts it to
+> -'simulate' the task migration. The EM framework provides the em_pd_energy() API
+> +'simulate' the task migration. The EM framework provides the em_cpu_energy() API
+>   which computes the expected energy consumption of each performance domain for
+>   the given utilization landscape.
+>   
+> diff --git a/Documentation/translations/zh_CN/scheduler/sched-energy.rst b/Documentation/translations/zh_CN/scheduler/sched-energy.rst
+> index fdbf6cfeea93..03dedc69839a 100644
+> --- a/Documentation/translations/zh_CN/scheduler/sched-energy.rst
+> +++ b/Documentation/translations/zh_CN/scheduler/sched-energy.rst
+> @@ -119,7 +119,7 @@ EAS覆盖了CFS的任务唤醒平衡代码。在唤醒平衡时，它使用平
+>   
+>   如果唤醒的任务被迁移，find_energy_efficient_cpu()使用compute_energy()来估算
+>   系统将消耗多少能量。compute_energy()检查各CPU当前的利用率情况，并尝试调整来
+> -“模拟”任务迁移。EM框架提供了API em_pd_energy()计算每个性能域在给定的利用率条件
+> +“模拟”任务迁移。EM框架提供了API em_cpu_energy()计算每个性能域在给定的利用率条件
+>   下的预期能量消耗。
+>   
+>   下面详细介绍一个优化能量消耗的任务放置决策的例子。
 
-> I think this SHA is local to your tree. I can't locate it, and neither
-> could Sashiko [1, 2]. For a series this big and complex, it would be
-> good to get Sashiko to review it. Could you please fix that?
 
-That is the v7.2-rc2 tag, copying in Konstantin since this probably
-wants fixing in b4 and Roman for sashiko since this might bite others.
-I told b4 the code was based on v7.2-rc2 (which it is) by specifiying it
-as "v7.2-rc2" in --edit-deps and it's translated that into the git
-object hash for the tag and dropped that in there rather than the hash
-of the commit that was signed.
+Good catch Liang. I've missed that doc bit back then, thank you.
 
-Probably if b4 is going to resolve deps into hashes it should make sure
-to resolve them into a commit object in case users aren't pulling tags
-(which I'm guessing is what's affected both Sashiko and you here).
-Either that or just keep the text (which would make it more obvious
-what's happened but doesn't actually fix anything if it's automation
-that's impacted).
+Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
 
-Unless someone objects I'll resend with the dependency specified as the
-commit object for Sashiko's benefit :/
-
-FWIW:
-
-$ git show 4c45e14df2f4e77982ad70d6d8e3fe750edd4c37=20
-tag v7.2-rc2
-Tagger: Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sun Jul 5 14:44:06 2026 -1000
-
-Linux 7.2-rc2
------BEGIN PGP SIGNATURE-----
-
-iQFSBAABCgA8FiEEq68RxlopcLEwq+PEeb4+QwBBGIYFAmpK+lYeHHRvcnZhbGRz
-QGxpbnV4LWZvdW5kYXRpb24ub3JnAAoJEHm+PkMAQRiGsv8H/Rn7Hr3Hp8t6au8B
-xQueZThJWjqQ4v8pyLnXF6OomKiDR24OTXMCrFgDkcmZ7RK2ALqowI3tQVwLUTuI
-yUN0qL2z2y+LyTcO0CYf3Lple8KlgLAXYMsv7pGLsOvhS7BW2jW97/bcbpUNxoHb
-eghxqbIEnyRImUbbyg+nW7VVk65RKdPUNkBPXfQ2NMVwe+SDE5Rl+NXNVqDNjGad
-soDTUBrD9yXkWX+4s0myleE62UzzH5nYgGPQeQgYmzWgq7LybH6WBlbQK9D7ODJR
-Cw3LCq1hwZZ2w04Yx+XwMHquGJYHW8L2pj77h95uhzksz8buKnM0AGwBCTC6RMoi
-AyUQvdc=3D
-=3DJUWl
------END PGP SIGNATURE-----
-
-commit 8cdeaa50eae8dad34885515f62559ee83e7e8dda=20
-Author: Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sun Jul 5 14:44:06 2026 -1000
-
-    Linux 7.2-rc2
-
-diff --git a/Makefile b/Makefile
-index b9c5792c79e0..b4035d3cef26 100644
---- a/Makefile
-+++ b/Makefile
-@@ -2,7 +2,7 @@
- VERSION =3D 7
- PATCHLEVEL =3D 2
- SUBLEVEL =3D 0
--EXTRAVERSION =3D -rc1
-+EXTRAVERSION =3D -rc2
- NAME =3D Baby Opossum Posse
-=20
- # *DOCUMENTATION*
-
---xXD2CewWwbORdhWs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpPh64ACgkQJNaLcl1U
-h9C1Wwf/UT/h3LJlUaPMvXwgEDzODT9p1bkNG4mvuCnR+0OqxswhBk5Izdznt3QR
-/OfTcvf6+B3c3DAy1KtIPN7oyva2qvRyTL37aLRGt1jNybf4SW716qkCMTAvQGez
-XrEICAKRVpw8/wj39nxPmbHwnx/OTFeGQUnakOoHiG4Ujh3Lb5cR9NXdBXxRi489
-yq/wuVvxR4GnsX6fpJDIEEB109AYhiyX121wC/tlmozkjZqQOh4KJFL9WRYfjVPn
-egfvJBOXvr8JRypwpdxTN7EXBDadmzEqSz5kVerbpGFDdN3Oxj7Q9HkX/ZaJqN+5
-68n9512IoFxOucBJvACLfazMW2rkWw==
-=EeUH
------END PGP SIGNATURE-----
-
---xXD2CewWwbORdhWs--
