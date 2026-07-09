@@ -1,163 +1,312 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 625B03F39DF;
-	Thu,  9 Jul 2026 09:31:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51FC3F39F3
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 09:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783589492; cv=none; b=M3BE0QeoMH2X8b4o0DKKuJZWBiJuT/siXMKRNtxGYNTHbPg1g+up51e3jnVz89f6xys3bN2EOmwVkKlnGT9y3AAUkgx4lUJOemexf58ZNVeTuoMcZ5jS8s3t3i0GWpUxtv/KZ6YTMfQv/nxmZKus65gub07lOw0Npim/mL4Hc5M=
+	t=1783590413; cv=none; b=l+R+6VEY9mDvPPS5O0jYgmxXVrSTLY4x7DT4FAPeVtVM9lmpQq3kcaQsBxl90AOz+6qy31F9MfocP9d+EK+K2TbZcM3Ppu1vw7co4E5X5o71F1Jf5E8yrnyBhOYFMtjTy2+UZky7Dz71j0V1xeCKAuvBth+3SbuVDN7YuRMptL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783589492; c=relaxed/simple;
-	bh=t5sgyOS/YMPlSIGlIhTDAXNQwL+40MNkrGLuFRaobww=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W7SmzRfOSGOKU8JZjI6KlPXMFiwf9WOmoCK7BDwrbrVaCfzKNlourHZjHXUEqQQ9ThEj8Mvu5SNW1S0kDUsZstU92vJ9mP3OzfAXvsSNPjcxM9+67KJn86/aQC46GcCAeDbWfxVEGw2sxC6h++lmYVyO8ocf9IasIe/3HdJyYcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=siCOPqfq; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1783590413; c=relaxed/simple;
+	bh=QjxnfdFkEb0Z6vufY3cN0U0+kv71/r1+joErkMeCX14=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FGM6grBzRUV6ZlmcBmJoqePpqPpadOACkZQ9SXiLkArz2As5AJQF1euHdBdTcvGoyiyZhxxS/NQxYYauofAb/lf9cyOtnoK0r6Thjd05ZWbkT7DI1xvS42CUif6sJlxqaDxYwzzFho1aCVfhCUT8VU8YY24bWg9RnZk1EqkK3B0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=cUZ2jZs3; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="siCOPqfq"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 76C1B357B;
-	Thu,  9 Jul 2026 02:31:25 -0700 (PDT)
-Received: from e134344.cambridge.arm.com (e134344.arm.com [10.2.212.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 62C1D3F66F;
-	Thu,  9 Jul 2026 02:31:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1783589489; bh=t5sgyOS/YMPlSIGlIhTDAXNQwL+40MNkrGLuFRaobww=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=siCOPqfqR9IziKWBfmYeyUA+/SEsDILD/Z4jLSope+1LLCZPrSkoEK6th0TPqnipJ
-	 CkFuclhzb0pVXHvtVkKd2xP6bC3Uty48y2lbqFaOrJoIpLW+Qw6mQEolUHbUZeo6fd
-	 RW0JmOEjThSMKFv+hezh4Ag2JDhwGl1DxozgJ/zI=
-From: Ben Horgan <ben.horgan@arm.com>
-To: ben.horgan@arm.com
-Cc: james.morse@arm.com,
-	reinette.chatre@intel.com,
-	fenghuay@nvidia.com,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	hpa@zytor.com,
-	corbet@lwn.net,
-	x86@kernel.org,
-	linux-doc@vger.kernel.org,
-	dave.martin@arm.com,
-	Dave Martin <Dave.Martin@arm.com>,
-	Ben Horgan <Ben.Horgan@arm.com>
-Subject: [PATCH v5 3/3] fs/resctrl: Factor MBA parse-time conversion to be per-arch
-Date: Thu,  9 Jul 2026 10:31:11 +0100
-Message-ID: <20260709093111.367851-4-ben.horgan@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260709093111.367851-1-ben.horgan@arm.com>
-References: <20260709093111.367851-1-ben.horgan@arm.com>
+	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="cUZ2jZs3"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4720f3bf164so342937f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 02:46:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1783590405; x=1784195205; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jCDpigf6NAvGtv4KCK1nKWmd+1oUaDS0btU+snL4BhY=;
+        b=cUZ2jZs3CBzcw9ITDguBXjdMkWvvAC214XaHjyoq90rBob86KOU/+yQyj1ktffnD9p
+         OpTMwuKs2jJPJn77eRvEO+KuEo3Zqwhfvu5lmVDP2sqxf6ygE0vj3p2h3vK0uNp9/bEO
+         pxLQSFmGbY1KUVaAZtGrd+2gH3TYx5ERTXUJ3qkgJb/44iKHwcmmuP3bk+vAr7CKJ5Dr
+         n1ZJKQ9ryNHX4+Z18cTN6QH62QAnBBNYbRSIH6K0fg0EuDNAUkV58/73PwT3wfgT5J8p
+         flHgTIZEQvAPwBAqpxZYnIgF2ySdUGbBr932kRyWkvf9IVnFT99FOLELz9uDhaw5Es8a
+         Fwlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783590405; x=1784195205;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=jCDpigf6NAvGtv4KCK1nKWmd+1oUaDS0btU+snL4BhY=;
+        b=Pt2o8mRmWHFRyLNZLdzyuNmau8JBs1aLM9MV6VpA8J994MAT/BO+ceScwI9FrK75i3
+         OyD4ZMA0NUpkqjRPRtzJIimYEaQ687qrUH38VFtdf06x4cc9kJ6lFXdCEfiTHdRU21vr
+         rZJUaAGvjaFJ3EzXLd5dF2HS/U6LFqOq85+R7X5r5BMFfkZc+ksipAJio4quyvF6QswD
+         hYtcZ+Yaiye1pAkKC1yQ5OcQ/EINVcYa+GmQFYB8Y6fGA7iw4QMWekXPnnhvy7ZyXv0m
+         z0pUJg6Iyr2pywAZ29OwVMUrXnDofpoK8ZxcFtLdC7lSn4iksTfF11KTmu+bmuWCSyGU
+         gFmA==
+X-Forwarded-Encrypted: i=1; AHgh+RpFL7omI1+msWkYN0ODifJ1OW9PWbztkVDIA2Z0Om8Y6sHMzWWA4PAjrno6QHKSg0L0zwBiLuw0ncQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7Z91Rg5JGYGMzmwvmg1PSJ59U//nalBSGnG6e2At8K1whLqTV
+	QZb1V8Ym/f4bpARf8US5zCfg4N8SaBTTQjP4A3K0YiJ+Y+WWu4QEh7mK7YzwGx29QmI=
+X-Gm-Gg: AfdE7cn9ge5A3d9nX1sPzVljD+UnxzbvLLkbtzRLpX5fjbQdT9OKjZ0amxQz0jug1YO
+	QoxTQPx6U8gAxiNdswVRLuv797v6Ko/8AVfrenQ0mr7D3iBZc4Z3EX8HN0Twdm9W467DxiqrYei
+	jtdfX4XC2ZLlVv7RU/AxsVaYi0b6XFh77Ssdwt+9HT5cBt8PUcm+WRIkImDWEV+DuNiFkGlTguM
+	YG5eKG6Xb7+iMK+6yPW3KQ7jNK18yCb9qG0hK204pn5X/qdXdsNJo4SBcRSEhkMMKiTIzH5OvUF
+	5vdqnBqPkwnw8RFeUxbWynrxJpA3j01ZrI+0GnhUnBZ5yMKs24qG/JELkd5cEDZGbqe0nt/GhuZ
+	ELh/69F4pYiGIf50CZT8qwKsFaiiPaQxCVkaj/EZncRdiEoDRc6iNt16xJfZ/x2gV6KavEiIsSo
+	C4aob5cGMSwaQcARQfiuHctw==
+X-Received: by 2002:a05:6000:4602:b0:475:f0c2:75ae with SMTP id ffacd0b85a97d-47df7561a22mr2165637f8f.25.1783590404637;
+        Thu, 09 Jul 2026 02:46:44 -0700 (PDT)
+Received: from localhost ([140.209.217.211])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9de1e736sm53671269f8f.7.2026.07.09.02.46.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 02:46:44 -0700 (PDT)
+Date: Thu, 9 Jul 2026 11:46:40 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Mark Bloch <mbloch@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
+	Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next V5 4/6] devlink: Apply eswitch mode boot defaults
+Message-ID: <ak9thhKgtDBepkcD@FV6GYCPJ69>
+References: <20260707174527.425134-1-mbloch@nvidia.com>
+ <20260707174527.425134-5-mbloch@nvidia.com>
+ <ak4Muihtk40r3lfV@FV6GYCPJ69>
+ <e9445ff1-87b5-4111-8264-74016634d3bb@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <e9445ff1-87b5-4111-8264-74016634d3bb@nvidia.com>
 
-From: Dave Martin <dave.martin@arm.com>
+Thu, Jul 09, 2026 at 07:45:20AM +0200, mbloch@nvidia.com wrote:
+>
+>
+>On 08/07/2026 11:59, Jiri Pirko wrote:
+>> Tue, Jul 07, 2026 at 07:45:25PM +0200, mbloch@nvidia.com wrote:
+>>> Apply parsed devlink_eswitch_mode= defaults after devlink registration
+>>> and after successful reload.
+>>>
+>>> devl_register() may still be called before the device is ready for an
+>>> eswitch mode change. Keep the registration path passive and let the
+>>> regular devl_unlock() path queue the async apply work once the instance
+>>> is registered and the default is still pending.
+>>>
+>>> The queueing path runs while the devlink instance lock is held, so the
+>>> queued work gets its devlink reference before the caller drops the lock.
+>>> The worker then takes the devlink instance lock normally and applies the
+>>> default only if the instance is still registered and the default is still
+>>> pending.
+>> 
+>> This is very code-descriptive. What's the benefit of that?
+>
+>The point is that there is still a window before the queued work
+>runs where the user can explicitly set the eswitch mode. If they 
+>do, the default will no longer be pending, so the worker will skip
+>applying it.
+>
+>I'll reword.
+>
+>> 
+>> 
+>>>
+>>> For successful reloads that performed DRIVER_REINIT, devlink_reload()
+>>> already holds the devlink instance lock and the driver has completed
+>>> reload_up(). Clear pending work and apply the default directly from the
+>>> reload path instead of queueing work.
+>>>
+>>> Preserve the user configured mode when it is set before devlink applies
+>>> the default.
+>>>
+>> 
+>> [..]
+>> 
+>> 
+>>> +void devlink_default_esw_mode_apply_locked(struct devlink *devlink)
+>>> +{
+>>> +	const struct devlink_ops *ops = devlink->ops;
+>>> +	int err;
+>>> +
+>>> +	devl_assert_locked(devlink);
+>>> +
+>>> +	if (!devlink_default_esw_mode_match(devlink))
+>>> +		return;
+>>> +
+>>> +	if (!ops->eswitch_mode_set) {
+>>> +		if (!devlink_default_esw_mode_match_all)
+>>> +			devl_warn(devlink,
+>>> +				  "devlink_eswitch_mode= selected this device but eswitch mode setting is not supported\n");
+>>> +		return;
+>>> +	}
+>>> +
+>>> +	err = devlink_eswitch_mode_set(devlink, devlink_default_esw_mode, NULL);
+>>> +	if (err)
+>>> +		devl_warn(devlink,
+>>> +			  "Couldn't apply default eswitch mode, err %d\n",
+>>> +			  err);
+>>> +}
+>>> +
+>>> +void devlink_default_esw_mode_queue_apply_work(struct devlink *devlink)
+>> 
+>> eswitch/esw - we call it "eswitch" consistently everywhere. Why "esw"
+>> here?
+>
+>Ack
+>
+>> 
+>> 
+>> 
+>>> +{
+>>> +	devl_assert_locked(devlink);
+>>> +
+>>> +	if (!devlink_default_esw_mode_enabled || !devlink_default_esw_mode_wq)
+>>> +		return;
+>>> +	if (!devlink->default_esw_mode_apply_pending ||
+>>> +	    !__devl_is_registered(devlink))
+>>> +		return;
+>>> +	if (!devlink_try_get(devlink))
+>>> +		return;
+>>> +	if (!queue_work(devlink_default_esw_mode_wq,
+>>> +			&devlink->default_esw_mode_apply_work))
+>>> +		devlink_put(devlink);
+>>> +}
+>>> +
+>>> +static void devlink_default_esw_mode_apply_work(struct work_struct *work)
+>>> +{
+>>> +	struct devlink *devlink;
+>>> +
+>>> +	devlink = container_of(work, struct devlink,
+>>> +			       default_esw_mode_apply_work);
+>>> +
+>> 
+>> What happens if userspace eswitch mode set happens now? Any userspace
+>> attempt should cancel the default apply. I don't see such mechanism in
+>> your patches, did I miss it?
+>
+>devlink_nl_eswitch_set_doit() calls
+>devlink_default_esw_mode_apply_pending_clear(), which clears the
+>pending bit.
+>
+>So if a user sets the eswitch mode before the queued default
+>work applies it, the worker will see that the default is no longer
+>pending and will do nothing
 
-The control value parser for the MB resource currently coerces the memory
-bandwidth percentage value from userspace to be an exact multiple of the
-rdt_resource::resctrl_membw::bw_gran parameter.
+Okay.
 
-On MPAM systems, this results in somewhat worse-than-worst-case rounding, since
-the bandwidth granularity advertised to resctrl by the MPAM driver is in general
-only an approximation to the actual hardware granularity on these systems, and
-the hardware bandwidth allocation control value is not natively a percentage --
-necessitating a further conversion in the resctrl_arch_update_domains() path,
-regardless of the conversion done at parse time.
 
-For MPAM and x86 use their custom pre-prepared parse-time conversion,
-resctrl_arch_preconvert_bw(). This will avoid accumulated error from rounding
-the value twice on MPAM systems. For x86 systems there is no functional change.
+>
+>> 
+>> 
+>> 
+>>> +	devl_lock(devlink);
+>>> +
+>>> +	if (devl_is_registered(devlink) &&
+>>> +	    devlink->default_esw_mode_apply_pending) {
+>>> +		devlink_default_esw_mode_apply_locked(devlink);
+>>> +		devlink->default_esw_mode_apply_pending = false;
+>>> +	}
+>>> +
+>>> +	devl_unlock(devlink);
+>>> +	devlink_put(devlink);
+>>> +}
+>>> +
+>>> +void devlink_default_esw_mode_instance_init(struct devlink *devlink)
+>> 
+>> Why "_instance_"? Care to drop?
+>
+>Ack
+>
+>> 
+>> 
+>>> +{
+>>> +	INIT_WORK(&devlink->default_esw_mode_apply_work,
+>>> +		  devlink_default_esw_mode_apply_work);
+>>> +	devlink->default_esw_mode_apply_pending = true;
+>>> +}
+>>> +
+>>> +void devlink_default_esw_mode_apply_pending_clear(struct devlink *devlink)
+>>> +{
+>>> +	devl_assert_locked(devlink);
+>>> +
+>>> +	devlink->default_esw_mode_apply_pending = false;
+>>> +}
+>>> +
+>>> +void devlink_default_esw_mode_instance_cleanup(struct devlink *devlink)
+>> 
+>> Why "_instance_"? Care to drop?
+>
+>Ack
+>
+>> 
+>> 
+>>> +{
+>>> +	if (cancel_work_sync(&devlink->default_esw_mode_apply_work))
+>>> +		devlink_put(devlink);
+>>> +}
+>>> +
+>>> static int __init devlink_default_esw_mode_setup(char *str)
+>>> {
+>>> 	devlink_default_esw_mode_param = str;
+>>> @@ -228,10 +325,21 @@ int __init devlink_default_esw_mode_init(void)
+>>> 		return err;
+>>> 	}
+>>>
+>>> +	devlink_default_esw_mode_wq = alloc_workqueue("devlink_default_esw_mode",
+>>> +						      WQ_UNBOUND | WQ_MEM_RECLAIM,
+>>> +						      0);
+>>> +	if (!devlink_default_esw_mode_wq) {
+>>> +		devlink_default_esw_mode_param = NULL;
+>>> +		devlink_default_esw_mode_nodes_clear();
+>>> +		pr_warn("devlink: devlink_eswitch_mode parameter ignored, failed to allocate workqueue\n");
+>> 
+>> Why you don't "return"  here? I think that we don't need to allow the
+>> case wq is not allocated.
+>
+>The function returns right after this block. It is not treated
 
-Clarify the documentation, but avoid overly exact promises.
+What I ment was "return error".
 
-Clamping to bw_min and bw_max still feels generic: leave it in the core code,
-for now.
 
-[ BH: Split out x86 specific changes ]
-Signed-off-by: Dave Martin <Dave.Martin@arm.com>
-Signed-off-by: Ben Horgan <Ben.Horgan@arm.com>
-Reviewed-by: Ben Horgan <ben.horgan@arm.com>
-Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
----
-Changes since v3:
-Parameter order swap (Reinette)
-Reflow commit message to use 80 characters (Reinette)
-Adjust comment line length (Reinette)
-Add Reinette's R-b
+>as a valid “workqueue unavailable” mode, the parsed defaults are
+>cleared, the parameter is ignored, and no default eswitch mode will
+>be applied.
+>
+>I kept it as a non critical failure so we do not abort the whole
+>devlink init just because the default-mode workqueue could not be
+>allocated.
 
-Changes since v4:
-Make Dave the author as he wrote the patch
----
- Documentation/filesystems/resctrl.rst | 17 +++++++++--------
- fs/resctrl/ctrlmondata.c              |  6 +++---
- 2 files changed, 12 insertions(+), 11 deletions(-)
+Why to treat it like this? Is there any other example of such flow in
+devlink? I don't see the benefit, only potential confusion in very
+unlikely case the alloc_workqueue fails. Am I wrong? If not, just bail
+out here.
 
-diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index e4b66af55ffb..e4448c20c72e 100644
---- a/Documentation/filesystems/resctrl.rst
-+++ b/Documentation/filesystems/resctrl.rst
-@@ -236,12 +236,11 @@ with respect to allocation:
- 		user can request.
- 
- "bandwidth_gran":
--		The granularity in which the memory bandwidth
--		percentage is allocated. The allocated
--		b/w percentage is rounded off to the next
--		control step available on the hardware. The
--		available bandwidth control steps are:
--		min_bandwidth + N * bandwidth_gran.
-+		The approximate granularity in which the memory bandwidth
-+		percentage is allocated. The allocated bandwidth percentage
-+		is rounded up to the next control step available on the
-+		hardware. The available hardware steps are no larger than
-+		this value.
- 
- "delay_linear":
- 		Indicates if the delay scale is linear or
-@@ -881,8 +880,10 @@ The minimum bandwidth percentage value for each cpu model is predefined
- and can be looked up through "info/MB/min_bandwidth". The bandwidth
- granularity that is allocated is also dependent on the cpu model and can
- be looked up at "info/MB/bandwidth_gran". The available bandwidth
--control steps are: min_bw + N * bw_gran. Intermediate values are rounded
--to the next control step available on the hardware.
-+control steps are, approximately, min_bw + N * bw_gran.  The steps may
-+appear irregular due to rounding to an exact percentage: bw_gran is the
-+maximum interval between the percentage values corresponding to any two
-+adjacent steps in the hardware.
- 
- The bandwidth throttling is a core specific mechanism on some of Intel
- SKUs. Using a high bandwidth and a low bandwidth setting on two threads
-diff --git a/fs/resctrl/ctrlmondata.c b/fs/resctrl/ctrlmondata.c
-index 9a7dfc48cb2e..62c9c6b24d54 100644
---- a/fs/resctrl/ctrlmondata.c
-+++ b/fs/resctrl/ctrlmondata.c
-@@ -37,8 +37,8 @@ typedef int (ctrlval_parser_t)(struct rdt_parse_data *data,
- /*
-  * Check whether MBA bandwidth percentage value is correct. The value is
-  * checked against the minimum and max bandwidth values specified by the
-- * hardware. The allocated bandwidth percentage is rounded to the next
-- * control step available on the hardware.
-+ * hardware. The allocated bandwidth percentage is converted as appropriate
-+ * for consumption by the specific hardware driver.
-  */
- static bool bw_validate(char *buf, u32 *data, struct rdt_resource *r)
- {
-@@ -71,7 +71,7 @@ static bool bw_validate(char *buf, u32 *data, struct rdt_resource *r)
- 		return false;
- 	}
- 
--	*data = roundup(bw, (unsigned long)r->membw.bw_gran);
-+	*data = resctrl_arch_preconvert_bw(r, bw);
- 	return true;
- }
- 
--- 
-2.43.0
 
+
+>
+>That said, I can make this more explicit by returning 0 directly
+>from this error path.
+>
+>Mark
+>
+>> 
+>> 
+>>> +	}
+>>> +
+>>> 	return 0;
+>>> }
+>>>
+>>> void __init devlink_default_esw_mode_cleanup(void)
+>>> {
+>>> +	if (devlink_default_esw_mode_wq)
+>>> +		destroy_workqueue(devlink_default_esw_mode_wq);
+>>> 	devlink_default_esw_mode_nodes_clear();
+>>> }
+>> 
+>> [..]
+>
