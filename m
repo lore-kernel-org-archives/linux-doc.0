@@ -1,233 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02BBB3F12C8;
-	Thu,  9 Jul 2026 11:05:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937A8410D3D
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 11:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783595131; cv=none; b=YJf3KhQpJ9e4cxsq58aBeOL/G69ZAz3f0pFGRmKMlEUSxkX/jvSvsT3loaiJ9sS2Q0vY0KtJlG4gb2ha+h3PHdeJxbNrpKebNVRAIrwsJaYoPgG1U2BAI/gb59LRr2Wp+FoUeXsdNSxm3X7w3jF3BbX3qd28m44Ui6DAtELKAIM=
+	t=1783595587; cv=none; b=JWr0mAs/73RSdvYCZdF10+617HqwTGVOwoyOvhZ9QwgXezIhw/9z6eAmUfVeK4ovvwahtu9kNAXceDr8jH4CozIcaTPh4nvoBiJgYRwq2PyKS85tWFWUA2zdMeMESORwK38XaUo6ekBvxUoqw65dbvayH8BB7+ciHBCjA0UbE1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783595131; c=relaxed/simple;
-	bh=DYI0s2TFb57lFQ0gvywKehEfd0ZgiLrFZltpj0Nyjsc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J0bIc6fGc7D5oAJPiQepKypSDaJ+gC2QYwXgerLN6I2HcUNhRE1Hv96HPQSj7lBW/iHFMJoRsvssVG26Q7HYsBgC5SosZFu38ru8oDOA7/aovyXWs+GC2C//e9+70uGXe6FrNLHPhZUw0jgU/PC3OO2AXHjjrKHaA725OtaOHUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f3JQneT3; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783595587; c=relaxed/simple;
+	bh=HqXh4BfYQkZLyAofgdtRXqw9mAcQUWbFiU48fKsf49U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JbWzX3ZgUvEexCyTvXrx5h6IBPoMBrimjVywdJJKkvonBYuWr7QcM61or83BS782UyNJGP46GkggzTPZZsWlewo+d5KSlPR03LhHtGjRmW7xSPsy9u8qLaPmJJ+Y+zIQhIMMyE8gGGHzULFsrfyueGDNLrBeWDx6VQsSy2uYsxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jqvWJK8P; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=iG0CDJi3; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f3JQneT3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783595130; x=1815131130;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DYI0s2TFb57lFQ0gvywKehEfd0ZgiLrFZltpj0Nyjsc=;
-  b=f3JQneT3+SygSj2JW6vbWl3QHp52PM3+1OHuJUVvzJfpCgOa08JkW2d3
-   NgZ9IXCLO2cih4x5RdOkS4HOsPj0eJwAgNCcQTQK6pOK7zXc4OFvy8g8m
-   vzkokpnkwOarxZ8e0oYwTyjtHYMGllquee7DyUYMyhnx607km1dZbU5vh
-   Fa/IEw93UbhUPR/poi9++MxhQRclw85kQvg3tomMBW1IxBaEjM1s1149D
-   FF2zjXTbj3j2oyuR0fBnLKTKAFcV6qTHmdo5kCIDF/vtHYcv+fc9p0CxU
-   tQFgfkQWuqIOE1Ms2xeR+0VyfdEolAaC4VGnZzOxyHMunOdZ+2csrhAb9
-   Q==;
-X-CSE-ConnectionGUID: 4sn09S+UQFWdH150ruEY9w==
-X-CSE-MsgGUID: JfNi0X31SfKvJy4tlhH39g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84244812"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="84244812"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 04:05:29 -0700
-X-CSE-ConnectionGUID: sjFSbMCtQF2jzOd04fxeKQ==
-X-CSE-MsgGUID: joLmG57JQAqn+CVmznUw3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="256477444"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.235])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 04:05:23 -0700
-Date: Thu, 9 Jul 2026 14:05:21 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux@analog.com,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com
-Subject: Re: [PATCH 5/6] gpio: ad7768: Add AD7768 GPIO auxiliary driver
-Message-ID: <ak-AcfH-Igsa_ksV@ashevche-desk.local>
-References: <20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com>
- <20260709-ad7768-driver-v1-5-44e1194fd96a@analog.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jqvWJK8P";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="iG0CDJi3"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 669Axcix1619468
+	for <linux-doc@vger.kernel.org>; Thu, 9 Jul 2026 11:13:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Tx1kSZXz579iItxHsi1/8Nt3maK8vpLohSpfVXF4Ysw=; b=jqvWJK8PLEi8s+Po
+	PkAhOcF1EZ0TGn8umnL5kgryJ/tFquXm2xFzKz63mEvAAckXJG2v/bBhmyd/J+vv
+	w606gHPQkOOhu8auM9bbQnd68PLYN5DhMVRn/TQO3SYM9ZXEOEAB8F2FTaHvyyzL
+	/gj6GXZOaZ7Kqn5MccKMlGU9Y/8NaD7WUS1XOInbClq4x0wSv71WFJfHopsmfL88
+	joRiOO1NBxKuiVXV4p/tSPunQ9pAf4nwUwhwVoGhXqa2d3YUXy3NiFuuL84Sr5z0
+	sFBM3VIfsHX5R32LvKrkWCid7sj7it6qPECFAQp6EaOHyXV68SwSVXRcZbVTi1ag
+	vIF6OQ==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f9sqsbx0p-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 11:13:03 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-51c075c1e25so7847841cf.3
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 04:13:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1783595583; x=1784200383; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Tx1kSZXz579iItxHsi1/8Nt3maK8vpLohSpfVXF4Ysw=;
+        b=iG0CDJi3fEdX0+CvpLHa3ZPfVRJBQiHYA56w/vMcyBgF2+hpy32q3CU1HZq6nPC6xy
+         UmjDZFf4CwiqV+QRBUVkridGTJW9uiQzqQdFVGemCQ+fVOre4X736H4qF6HV/I/Mg0mm
+         4mQQgA3UOxLee/+tn5H8iVMGP5DDnyDMYlMIM9yoA1vaqRiHEh4xDXOiyTrPenIWL3Xv
+         eEl3zNhexfGNgmBPVd+rnFNzwmYjP+AaruVL6dHO/2bvZ+hVBZIQCV8e7So3Wmx1wRIW
+         WODuJ0vTVTLLQ2w4X1BNziAAkXp95D3RtzBpcq8BLOHS2Nfw+jtRug1n/63Y//6MSIFB
+         fkwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783595583; x=1784200383;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Tx1kSZXz579iItxHsi1/8Nt3maK8vpLohSpfVXF4Ysw=;
+        b=Ounag9KDG5MT0PraOOvL1zAE4CSN4gXo/yBtsJ1pcyJCeqla4WBS9eNFXY6pD3T7Ig
+         ZVbnNki0zK8ErZy4qIjmrkKFXA2lnGOvTS6PSjzl1k7BDjWlloWkgtQLUISLRFootOqP
+         Oa3csAOjS7+882U7zGAUQt94hWs5C26IMv7ssThXLYETAPYvknbz7B439Ki1eVOF1QgJ
+         GpKgdrxNKUjYt2yaCtoN4Uf3IxbISWOyFw3NRnSTYZwXp34rZXH2++1tUCk4BH6QKlK0
+         6rlS7lWEVt9JnkE5MU9k1Y3Yi9wc81UwfAGpZk46nyHtGyksJJG80kg0R/jE3792E2I4
+         d4Sw==
+X-Forwarded-Encrypted: i=1; AHgh+RpCGyzuX691e+tH3FAxMk/Tt6KIKNvGrt88naJdLleJ2TLYwDEfGd+gtr0xfzfwJXelVpCEXiVhtDc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwTmuDiURCndlnMhQIuNRVDkuGCEdvJkRkzxeVOgDK0OIVC9b9
+	zg0HN+tJCmXEzv1OpAZo1iU5kWeGPKVuTMfwJJBixAiAsQd9BLoDdKC4DRZv9NItPysRozJrsGc
+	aFkGv4acwOkG3ohSO1RZxPbJI7jj+Sbfj5IY1Bjq0/U49/mjRNFhQ5njuwx5pZmU=
+X-Gm-Gg: AfdE7cl8Gjbn/06uFyn3M6t2sTST4QLtuxIG3eFSloANNBS4GCuYg2c321kAnDsUocn
+	ZwFy331MM9BxFDTbCWgl/z7dcscufIMuisr3A4jJkxGIatEuvez5XMNGCEdD2C25339peHPDva/
+	PFGaOwkRmaxw2lz3RuQB3TKKAa5ahviEDel1zpeIXFaBDRcIK3XE8j9u/4hsa8XkxgPs6bEMv4l
+	ZJRiDGFJiPMeaM+4uW1/C4OEcaeDJXYwt9D4nVIejqyhctO+beNRnxzc8HYI2mGOu/Jd28Nm9Rn
+	PufWsV8CA2O4FdofBoh6pe/RT2c8UCqliTf3u/gNFDUzht8ePDlGMDfp5ecxpU6PWJPHZleW4dp
+	PxYWYH+sLTy7lzdj/cIatyrqMvU43iBRph8Tya1auENEO1NTiCV2HMrmqksdnJQ==
+X-Received: by 2002:ac8:7d14:0:b0:517:61d5:2f7b with SMTP id d75a77b69052e-51c8b4d596amr63974551cf.56.1783595582889;
+        Thu, 09 Jul 2026 04:13:02 -0700 (PDT)
+X-Received: by 2002:ac8:7d14:0:b0:517:61d5:2f7b with SMTP id d75a77b69052e-51c8b4d596amr63973951cf.56.1783595582395;
+        Thu, 09 Jul 2026 04:13:02 -0700 (PDT)
+Received: from [192.168.69.219] (88-187-86-199.subs.proxad.net. [88.187.86.199])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0f213e8sm48543085f8f.34.2026.07.09.04.12.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jul 2026 04:13:01 -0700 (PDT)
+Message-ID: <835e2f62-3b66-45d4-a614-dc2198a715ad@oss.qualcomm.com>
+Date: Thu, 9 Jul 2026 13:12:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260709-ad7768-driver-v1-5-44e1194fd96a@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [patch 01/18] powerpc: Move stack randomization after
+ syscall_enter_from_user_mode()
+Content-Language: en-US
+To: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Shrikanth Hegde <sshegde@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
+        Kees Cook <kees@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+        loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org,
+        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org,
+        x86@kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        Jinjie Ruan <ruanjinjie@huawei.com>, Andy Lutomirski <luto@kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>, Guo Ren <guoren@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Helge Deller
+ <deller@gmx.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Richard Weinberger <richard@nod.at>, Chris Zankel <chris@zankel.net>,
+        linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
+        linux-csky@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
+        Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>,
+        Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>,
+        Michal Simek <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Andreas Larsson <andreas@gaisler.com>,
+        linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
+        linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch@vger.kernel.org,
+        =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20260707181957.433213175@kernel.org>
+ <20260707190253.718191130@kernel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@oss.qualcomm.com>
+In-Reply-To: <20260707190253.718191130@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA5MDEwOCBTYWx0ZWRfX11aZGAD5eeG0
+ zk9vUMJJwfj2UgiYfGlo5gPr7mfCzxlMlb2VP/JlcMUdjV24ABxWGfNCjG031j5QSH5GURGrH0P
+ OMOIziLIBOmsbiWoI+RORq8nHxRd4Y0=
+X-Proofpoint-GUID: WA2_RUTjasINmRDQHr-bFasyClfNDf1_
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA5MDEwOCBTYWx0ZWRfX/OT5LtB1r7n+
+ 9Nt/uOJKTy0jFCWK63FklqYAY1gJd1PPngAhbv1MuF+0bhJIf21r3rqh9LKWbBsPQNBxlmF8qMT
+ Cnu06I/O7xJB5fimf5Mm1q1/VfSUmIFDxkjIfLKennJQfxauGADAjGVnU31CBzbsMg8bGKSG1iH
+ u136poxOrjfBeWnyVNIFAr9VvlkhJqwfC71404nVsmrGmlmEbFgXjqtbaEcHAgbsFDfGJw3P95P
+ z/yMU8mRqzEc63Y7vyrN0bi4psBD4DBdD0wrPkhanMqtmwnh8Lsvohsgr++iirmN/6jgix4xAe5
+ 0kA/7LEg7Dk7e55NfT5d8/ki9u3R6XEpDpIBT4ADrtM9tr3+30iI9pvkwHyssq+xrk2cQP6nJUG
+ XIt1vapwexyR5QqEDY08sQud/boatsOcDiX49767qyxQMBHt7YysSzZHpFm6m4QEQoUrv2O5Q0W
+ /CesKtbkwOc+Wslxx6w==
+X-Authority-Analysis: v=2.4 cv=Sv2gLvO0 c=1 sm=1 tr=0 ts=6a4f823f cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=4s3hRJSeHn4rkQlkrse1kQ==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=M51BFTxLslgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8 a=voM4FWlXAAAA:8 a=EUspDBNiAAAA:8
+ a=63ny2n9c4_t8xnV3ltYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22 a=IC2XNlieTeVoXbcui8wp:22
+X-Proofpoint-ORIG-GUID: WA2_RUTjasINmRDQHr-bFasyClfNDf1_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-09_02,2026-07-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
+ impostorscore=0 lowpriorityscore=0 clxscore=1011 bulkscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607090108
 
-On Thu, Jul 09, 2026 at 10:50:16AM +0200, Janani Sunil wrote:
-> The AD7768/AD7768-4 ADC exposes 5 general-purpose I/O pins that can be
-> independently configured as inputs or outputs. Add an auxiliary bus driver
-> to expose these pins as a GPIO chip, registered by the parent IIO driver.
+On 7/7/26 21:05, Thomas Gleixner wrote:
+> add_random_kstack_offset() is invoked before syscall_enter_from_user_mode()
+> establishes state. That's wrong because add_random_kstack_offset() calls
+> into instrumentable code.
 > 
-> The driver uses the parent's regmap for register access and delegates
-> runtime power management to the parent device.
-
-...
-
-> +config GPIO_AD7768
-> +	tristate "Analog Devices AD7768 GPIO support"
-> +	depends on AD7768 && GPIOLIB
-
-Make depend on GPIOLIB on a separate line (it helps a lot when grepping for
-the users of GPIOLIB).
-
-> +	help
-> +	  Say yes here to expose the AD7768 utility pins as GPIOs when the
-> +	  device tree node is marked as a GPIO controller.
-> +
-> +	  To compile this driver as a module, choose M here: the module will be
-> +	  called gpio-ad7768.
-
->  config GPIO_LTC4283
-
-Shouldn't Kconfig entry be aligned by order with Makefile ordering?
-
-...
-
-> +#include <linux/auxiliary_bus.h>
-
-+ bits.h
-
-> +#include <linux/cleanup.h>
-> +#include <linux/device.h>
-> +#include <linux/err.h>
-> +#include <linux/gpio/driver.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/regmap.h>
-
-Please, IWYU! I believe AD knows this very well and again same mistake from AD!
-
-...
-
-> +struct ad7768_gpio_state {
-> +	struct device *parent;
-> +	struct regmap *regmap;
-
-As far as I can see these two are dups. One may be derived from the other.
-Try both and check (with probably bloat-o-meter) which one is better.
-
-> +	struct mutex lock; /* protects regmap accesses */
-
-This is not fully correct comment. This protects GPIO IO which may require more
-than one regmap call in a row.
-
-> +	struct gpio_chip gc;
-> +};
-
-...
-
-> +static int ad7768_gpio_direction_input(struct gpio_chip *chip,
-> +				       unsigned int offset)
-> +{
-> +	struct ad7768_gpio_state *st = gpiochip_get_data(chip);
-> +
-> +	PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(st->parent, pm);
-
-> +	int ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
-
-No, declare it usual way.
-
-> +
-
-And drop this blank line.
-
-> +	if (ret)
-> +		return ret;
-> +
-> +	return regmap_update_bits(st->regmap, AD7768_REG_GPIO_CONTROL,
-> +				  BIT(offset), AD7768_GPIO_INPUT);
-> +}
-
-...
-
-So, I briefly looked at the implementation and I don't understand why
-gpio-regmap can't be used. Do you need PM runtime there? It can be
-done for all (if absent).
-
-...
-
-> +static int ad7768_gpio_probe(struct auxiliary_device *adev,
-> +			     const struct auxiliary_device_id *id)
-> +{
-> +	struct device *dev = &adev->dev;
-> +	const char *label = dev_get_platdata(dev);
-> +	struct ad7768_gpio_state *st;
-> +	struct gpio_chip *gc;
-> +	int ret;
-> +
-> +	st = devm_kzalloc(dev, sizeof(*st), GFP_KERNEL);
-> +	if (!st)
-> +		return -ENOMEM;
-> +
-> +	st->parent = dev->parent;
-> +	st->regmap = dev_get_regmap(dev->parent, NULL);
-> +
-> +	ret = devm_mutex_init(dev, &st->lock);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = pm_runtime_resume_and_get(st->parent);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = regmap_update_bits(st->regmap, AD7768_REG_GPIO_CONTROL,
-> +				 AD7768_GPIO_UGPIO_ENABLE,
-> +				 AD7768_GPIO_UGPIO_ENABLE);
-> +
-
-> +	pm_runtime_mark_last_busy(st->parent);
-
-For a few releases this is a dup call.
-
-> +	pm_runtime_put_autosuspend(st->parent);
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	gc = &st->gc;
-> +	gc->label = label;
-> +	gc->base = -1;
-> +	gc->ngpio = AD7768_NUM_GPIOS;
-> +	gc->parent = dev;
-> +	gc->owner = THIS_MODULE;
-> +	gc->can_sleep = true;
-> +	gc->get_direction = ad7768_gpio_get_direction;
-> +	gc->direction_input = ad7768_gpio_direction_input;
-> +	gc->direction_output = ad7768_gpio_direction_output;
-> +	gc->get = ad7768_gpio_get;
-> +	gc->set = ad7768_gpio_set;
-> +
-> +	return devm_gpiochip_add_data(dev, &st->gc, st);
-> +}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> Move it after syscall_enter_from_user_mode() to ensure that state is
+> correctly established.
+> 
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Shrikanth Hegde <sshegde@linux.ibm.com>
+> Cc: linuxppc-dev@lists.ozlabs.org
+> ---
+>   arch/powerpc/kernel/syscall.c |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> --- a/arch/powerpc/kernel/syscall.c
+> +++ b/arch/powerpc/kernel/syscall.c
+> @@ -19,8 +19,8 @@ notrace long system_call_exception(struc
+>   	long ret;
+>   	syscall_fn f;
+>   
+> -	add_random_kstack_offset();
+>   	r0 = syscall_enter_from_user_mode(regs, r0);
+> +	add_random_kstack_offset();
+>   
+>   	if (unlikely(r0 >= NR_syscalls)) {
+>   		if (unlikely(trap_is_unsupported_scv(regs))) {
+> 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@oss.qualcomm.com>
