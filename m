@@ -1,160 +1,83 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1454307A1
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 16:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE07430CF1;
+	Thu,  9 Jul 2026 16:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783613245; cv=none; b=l4H2IcV7o1oIACe45VutwvDrXLi2rgzSaP5CFfHy7HCbiOFLqw5CYkSaormGs0VCg9HOAbQmYHaHrY3i7h1VQIAH+IgdYCUi7lzZuH5L+2fXq4zoiPis96gh2IRoBrOjUpwwsNU9/aMG01Afx/VprNvuvQCFQPi8n7PmIK0j1qA=
+	t=1783613277; cv=none; b=fikra6i+QsJBVpEWbsgpPtw/lMrmJvGxBNZXHFKPpbigbeLz+w0hY2VCf8w3lJcQXJS/AwUils7HXe9258yUxFTZoiJ9OM6vRvbkFUte3NUwzSzw9YnwHn/YsxnWUPjNGq5fBPxodxMJMCecsfnJsLpCznxIVl9mMCXvjMIc38A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783613245; c=relaxed/simple;
-	bh=TfiHSLMBjZ80AM2O04NWCaLK29aZWfR88RfiqOuVlcw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IM4lXe5IM4ENM6vtekPWVIYnwfs+oHRNcWhlmVVSmXdCvlMHx5lstm92/2mKebq63fFoiK39IEnkC7opBmd3JlswOC0aEeMhz8hSK4FiZEE76QvlL+g0UX4dDiz1TM0AbnKyCU80yGzlSBEhGytizCQwnoYYfVrhdQTfKcZPIEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cBDFzVUC; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783613277; c=relaxed/simple;
+	bh=PnKg2JIuvoh8F2F6VCTDzTBDp5JC3YGYITROXMJD5JU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fgDC7NCKUUQ7gR+ihn6W0leFTdNkhn79opgVrZYtdq4bUeb1eqwZzfNb/RZ+XDy3/jNcld1e0JozaZ1difrWV2ieCI9b1E4yecjQjJVU2mQGdeIGAQZRFvm5RZT8r4Kj0T5tszNnSZt4ZhdTjnY9hJxcJZP0QzrQZlXL+9JjhVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=PTAiH/jt; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cBDFzVUC"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-84867f07d63so538287b3a.2
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 09:07:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783613243; x=1784218043; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ysgGA9FNs2LC6p8SRgBycN6NLmY0OUHVJV77+UK20Sc=;
-        b=cBDFzVUCfbVwT+blU5hStVzsUa9sb8BUQReUAD95t+v/joFsWgfLfXi/KIYxD8YffC
-         G44nohEBHc4A/nR7D7lCwVu7n7m6GnBUohblqBMtnNboRz9jv1s3T8fqiNn0YFZSb8Ei
-         GU6IEyMzABSKWr4Ez79eNWQhkEsGMiYNZMzFIp5S/zi2DtL5fYYZ0Gt5+yUI30u63f8P
-         LT3Rbbx/a38OCfPOodVXurkG7rdcLGcZNX4Rn59NbE/aP/hB3OCL7Dc6xvPuPMNgplfq
-         wVWIlSkYSqo5m2elj56+rgscbhddEMk5vloWmpLVBaZ54LgZb3Vo765+eLawjm4pdJbY
-         Shkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783613243; x=1784218043;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ysgGA9FNs2LC6p8SRgBycN6NLmY0OUHVJV77+UK20Sc=;
-        b=isRH+xwSyC7zBnT8GrZSLojetSZJ9iXwD8g6H2kdki7ng96mg0b0VltASB5JO3kB2t
-         TknvyNHVJwKYYNMY2xzfp2PT1JkhNsuJKn35inbY5NdETkT1R3xbPIO7ut5qRzhLv5Rn
-         1rYQfhYoltYLlXAoe5VqycM0ip/48ylPXcOyteoUrepyrot+b6+qOxVKeais9kW1/6fx
-         DmVDOFEdpIz+bBU0V2lS3v1uHZ/En07TJpe+VNsOL+g+u3+KtX/TEt0WkWZNVKkMGrPY
-         XSOGfQpYm1yMorEUo9ZQRDC3iwvMBFSBIDOItYwiBJwTB35JzfhxRd2JGSxDhgehn/D4
-         M/pw==
-X-Forwarded-Encrypted: i=1; AHgh+RpM+04LXih7YPJk3M8VDa1CgdNE0v16wBj3H/yhol8LMBhESxQaYXoDKAEgvGZkHK9+J1MHcWLQibg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpuDxAhwJBTQkfFsY+5Ud+EyNbH/h4eJp9EvRPF7k4wC2CdQvx
-	UT8Q9+klMOP6xa9zHT2tID9JJgtZ3A3ydvOaAIJpEBRBZDXLjIpWoEXE
-X-Gm-Gg: AfdE7cle2tJ5Z9T98/80Jfyg/J//2IMu6mozNJAaQza6ZgwN146uvfQFC4BsOi3uU/L
-	IKIwAOFnybLglsmdsybhCXFdUSVhGrbShAcYO7t9PL7YK0iBSh2DbSHqMnWVk4mQG/HY69mJs01
-	+GG4tfy2haToT5/8DLRUJrgJCo4gJjgslz//5brcMxxD6gtjrPKuYuGKZSXGtL9wInsMxNlStJq
-	itHBn4FyJAC/cEkd2KUKSpGL8r2PngOQdfTwQjSjbYwT421B0zCy6RCedWzkC1k9kGv19CCqZMu
-	851aH2fhmOgcs2QKQosA+GTM9IXVoc2bwC2yTC0n5ZP4uBJxqZP0RqcP8mPVJ0CLxzdpVLQZhAa
-	F1qO/5WVuULiJizYK2dZEjsVTDAZ4G9eUGDcj1vhBK+ywORgmNFG0OMRoIhu/aeJZTxtR9xxkHV
-	y3Qaq4+7m5rGcRTDGK0CM5+I88FA==
-X-Received: by 2002:a05:6a00:91a9:b0:848:44d2:72a2 with SMTP id d2e1a72fcca58-84844d2940fmr6740302b3a.27.1783613242449;
-        Thu, 09 Jul 2026 09:07:22 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8484d465991sm2206257b3a.47.2026.07.09.09.07.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 09:07:21 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 9 Jul 2026 09:07:21 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Michal Simek <michal.simek@amd.com>
-Cc: linux-kernel@vger.kernel.org, monstr@monstr.eu, git@amd.com,
-	vincent.guittot@linaro.org, Souvik.Chakravarty@arm.com,
-	Alex Shi <alexs@kernel.org>, Andy Shevchenko <andy@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Brian Masney <bmasney@redhat.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Lukasz Luba <lukasz.luba@arm.com>, Mark Brown <broonie@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Pavel Machek <pavel@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Ulf Hansson <ulfh@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Yanteng Si <si.yanteng@linux.dev>, arm-scmi@vger.kernel.org,
-	"open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>,
-	linux-arm-kernel@lists.infradead.org,
-	"open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-	"open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
-	"open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
-	"open list:ENERGY MODEL" <linux-pm@vger.kernel.org>
-Subject: Re: [RFC PATCH] firmware: scmi: Make SCMI arch independent
-Message-ID: <6cc90547-a3d6-40b4-8914-a1ff60944cdf@roeck-us.net>
-References: <d7f7e8c9589d937b60e43168845ab4fda15037a3.1783603600.git.michal.simek@amd.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PTAiH/jt"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=HcBMb+6D4S/K7r/BZ0NE4SuMZ8OElwJqXphji4FvtZU=; b=PTAiH/jtEJm1yxmaCijGbqdlt8
+	xgSjh+BybPuJ9sM/pjlKVp7rmkUfRMx58NLUCpy3CzdCbJHUTb206+WI4PStvbzbTpVUVmL/3fgj7
+	VV6dP5fK5bOHdZKmoImSvswHsEkjrFNMWlIS77Xa7BDnRVlP0vdR6Oq7Y4fgN7nD163ZLNqOvguuF
+	7a5MiNM/tst+aZIh4NXskgHb9MmQ+aC9LU2ROngdC8l7uO6idaX96MMJiSu//llscMoBFFzwVwdVH
+	QkKdPjAC7O+ZuddBmsYbWNxf2d2yPqLb97CQ5HWYI+q/DfbD1Jx1jPk2qMPUbqziba0a+F/tVs152
+	aiM9WIIg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1whrHz-0000000300l-43Oj;
+	Thu, 09 Jul 2026 16:07:52 +0000
+Message-ID: <6bf7fae9-9b77-4970-87a2-2ef5da049656@infradead.org>
+Date: Thu, 9 Jul 2026 09:07:50 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d7f7e8c9589d937b60e43168845ab4fda15037a3.1783603600.git.michal.simek@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] errseq: add missing bracket
+To: Manuel Ebner <manuelebner@mailbox.org>,
+ Matthew Wilcox <willy@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260709092900.380694-1-manuelebner@mailbox.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260709092900.380694-1-manuelebner@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 09, 2026 at 03:27:00PM +0200, Michal Simek wrote:
-> On heterogenious systems like AMD/Xilinx FPGA there is a need to talk to
-> SCMI server from different architectures than ARM that's why remove
-> ARM/ARM64 Kconfig dependency with also remove ARM from description and
-> rename folder to reflect it.
-> From specification perspective only ARM specific transport layers should be
-> available on ARM/ARM64 architectures.
+
+
+On 7/9/26 2:28 AM, Manuel Ebner wrote:
+> Add missing ')' to nested functions of code block.
 > 
-> That's why get rid of ARM prefix and description from documentation, file
-> names, folder names, MODULE description, module names, Kconfig and
-> comments.
-> But keep origin Kconfig symbols not to break existing users.
-> 
-> Hwmon, pinctrl, powercap, regulator, reset, clk and cpufreq scmi drivers
-> already miss arm prefix that's why synchronize all of them to be without
-> arm prefix.
-> 
-> Signed-off-by: Michal Simek <michal.simek@amd.com>
+> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
+
 > ---
+>  Documentation/core-api/errseq.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Likely I missed other locations but I wanted to send this RFC to have a
-> discussion about it.
-> ---
-...
->  drivers/hwmon/Kconfig                                 |  2 +-
-...
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 2bfbcc033d59..cda0aedb36ca 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -401,7 +401,7 @@ config SENSORS_ARCTIC_FAN_CONTROLLER
->  	  will be called arctic_fan_controller.
+> diff --git a/Documentation/core-api/errseq.rst b/Documentation/core-api/errseq.rst
+> index ff332e272405..d298d4cd2f60 100644
+> --- a/Documentation/core-api/errseq.rst
+> +++ b/Documentation/core-api/errseq.rst
+> @@ -143,7 +143,7 @@ Because of this, it's often advantageous to first do an errseq_check to
+>  see if anything has changed, and only later do an
+>  errseq_check_and_advance after taking the lock. e.g.::
 >  
->  config SENSORS_ARM_SCMI
-> -	tristate "ARM SCMI Sensors"
-> +	tristate "SCMI Sensors"
->  	depends on ARM_SCMI_PROTOCOL
->  	depends on THERMAL || !THERMAL_OF
->  	help
+> -        if (errseq_check(&wd.wd_err, READ_ONCE(su.s_wd_err)) {
+> +        if (errseq_check(&wd.wd_err, READ_ONCE(su.s_wd_err))) {
+>                  /* su.s_wd_err is protected by s_wd_err_lock */
+>                  spin_lock(&su.s_wd_err_lock);
+>                  err = errseq_check_and_advance(&wd.wd_err, &su.s_wd_err);
 
-I agree in principle, but I don't see why this would have to be done
-in a single patch. Also, both the Kconfig file (SENSORS_ARM_SCMI,
-ARM_SCMI_PROTOCOL) and the driver itself (""ARM SCMI HWMON interface
-driver") still reference ARM.
-
-Thanks,
-Guenter
+-- 
+~Randy
