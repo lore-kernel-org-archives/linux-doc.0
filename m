@@ -1,114 +1,248 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6C12853E9
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 08:48:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49AAF3CE4B1;
+	Thu,  9 Jul 2026 08:50:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783586917; cv=none; b=RgQZZKQTgtL3LnNBvSHLJGLpsRSNM7gSVFGNgfQHM2cgc/b4dk8ZRKmaDMqdBcwj3TIfMNS1SqYSCznL76GW6peoniEy4AhIEreZzVqeH9RNco0LirdCGjbLrf+ZQeq+4d4X5VYhHoUYJx8kg+VWx5da3KYiciXQPBuN8L/jFZc=
+	t=1783587054; cv=none; b=rdrHfDT0zfmscEb+hvVa51SU8Sy/qOvXWWJ/QsQSdXbqlIwjIFV0zFseocdQjH2Hpd2eQLwt7js69OD4OV+7kNPry4TGXLMxPai5sFbn/5bdFpHHqruOxevIz4niBRkQ5Rlr1WyvR+JlfHiwK7op6lHyNV8WPHWFZ3bTQc1GK/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783586917; c=relaxed/simple;
-	bh=vcIYcFn8wOu64JToHCd3V3ghUBsco6aWxPDuriYHfZc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DEVD4SBRjmU11lCJKu4CvFKNvu7Cz/9vQDFcxkNTlcegtGxdzflc3mC8NniF7xNY4zi7+yQFIPHjTq5YiME1M2NeJQRsw8qLm0+dQA/ov0hOi8YmMaR1G3urag0adGCSN1T7CxXIOcz73cR3920V37/GX8etOwLW8uDa+F/8H84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2c9b1edf2bdso23706525ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 01:48:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783586915; x=1784191715;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=O3mkBNkViagFAJs3obyg41kBlrTMtmvpPUP/R2gZOPo=;
-        b=lHdVlNnWLxpayZJb7TxgYyRkqw6L7Z/Hhx7FOpt2Vc9LFGXQwarZBgXoP1gIDJGKBT
-         yTuK/U4SuHZVWRLIXKlVjNtrV9Ug0tcBAWdqCOoTOegPQDq5AS/2sQ6tzRbSbCGr5az5
-         p+sawwyy6U55oL2Rkk3mPHcjQk+uFuDv2zqW8+O0HNa37Ypus0xodQoA3+61xC04zEsj
-         lrfIPRNxCs38PAx6Eqf3C4FRCrLCn+3Ym5xjo/jAM1fV5fU3DuW6/vHeYBBtqZrTMieR
-         FGtpJS1a5MxSGz1ejFNs/8Vd66EGfFP2NrmzwThP9vkxikoIreg/kfVBozvGEK9Ev5y/
-         89cw==
-X-Forwarded-Encrypted: i=1; AHgh+RoU6JRI6B9Nokgfs4Sb6zFiEk1oKl3pD5sLdPHrtFz5tNNFlE5v7EpyfhZR2ZGoxo32YZpzmDckEUM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx12YTGwLHzxHpeWbrEZiGBdZ2Jz3ztQL/nlW0omWhkmnEICVzo
-	9eqtWu8NGMMGBWyY9U0NobiCXe84ox565snrjPU+wATfKhs9e7Ajd1j1qXX9Ppc4zD0=
-X-Gm-Gg: AfdE7clb6x+VRk4qYWlXioSZrYNmFL3+ooxB0XUQRgcyw70egsKfZHZ2lU2zWcsSC2K
-	lV6MS4dksdU9vrSdTHqefIe2v1ZqsxgfT+zUcZz5HFj7e87R4u+fRZs92voXEg7/WVnIgt3wTTe
-	BHO2kWwV3wMIUJNG23DB/U29/T/Gu6Fv52Tm8HKd1Di2ipMnSuK2TdyXosB6T3kCqduh7dC/PJS
-	IT5M/fTswevLQqsyACn7GdD3FAiIISB+It4brCJfIwgfW5O9QUSHGaKdq0Pxg46FNBy1r9lAT4O
-	56X31l0j+P+qbbTaKOpRWMqQpMAgUbC5ts4SS+3gVjft58VAe7bFqxqGtnvvRwQH3FUanTOIyqW
-	e7Yp8kAK0PMhjl7MZNKR/wBY5yAGRbUfjiwa8hZ20FvN18Ng1zU5trlfJ9gXmv7AiHcuI2ITPLY
-	VNDQvmwZi2DwT3xpwzf21UCxR8cw3AXO8A/mAiwg7J9+wJW303Ig==
-X-Received: by 2002:a17:902:e74a:b0:2ca:e08e:9e70 with SMTP id d9443c01a7336-2ccea47fc80mr61026455ad.46.1783586914749;
-        Thu, 09 Jul 2026 01:48:34 -0700 (PDT)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com. [209.85.216.52])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d5bd2fsm40144315ad.78.2026.07.09.01.48.34
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jul 2026 01:48:34 -0700 (PDT)
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3817f800c8bso1361357a91.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 01:48:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RqwDw2pJO9N1U3HoJrdOPhxm+Cts7vHXPkj78SLN7+M5/TEPaPuaWW3ZJOg6GfnEeAeYkZwWPenQpw=@vger.kernel.org
-X-Received: by 2002:a05:6102:6895:b0:738:9dd5:9b03 with SMTP id
- ada2fe7eead31-744e03a337dmr3306957137.20.1783586528282; Thu, 09 Jul 2026
- 01:42:08 -0700 (PDT)
+	s=arc-20240116; t=1783587054; c=relaxed/simple;
+	bh=bi9PWVrJuxHBQcOWRM2ZSnjMGuXeMgPX3Nc171NmM+c=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=YNbVcysV5D8bK9U2Crg9QKqcEXIJzgkAqmaj+YqtA6w3qxqJ6KhgR29qo51EwUmX66+HON+O+zH9LhcAPOfHv5pGwDqml+mUNzkI6b28/0yFFYK809w/7um/ypkKW3eLocOwXaH3oq7NBGrkgDBSbZztbAJMrqCmvfwq3R2lEqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=NzSxWxXf; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="NzSxWxXf"
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6697qG21413646;
+	Thu, 9 Jul 2026 04:50:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=s7+RLKVKEtBtM3zaZvamjXSp1Pe
+	p5+RPJ3cd61Exs9A=; b=NzSxWxXfn1HHn1Wq1P8/2UtdbkmPleD5rY7OlNs3e/3
+	axcvmw7Zjb14xAHTj06plJDtoo8szRR85qO2HuHmrESHIr4NyVdD392RRQUcerwb
+	Q1Ayp+sJx0VIDZtOyfLlI8RGv3/7QjIgc1pVpUmuxL6Yw3TSR5Owrk4H3N8cKDm3
+	T9Nyt2Y9fz0wKzdE+YMizbv1QuahtueRW02RjLWfj6MQcGM41xMzdFlvE8/h9BdG
+	XJqWA4ttbxU00eDlh+hEudkYEABCK7gjjLV9Soag0r5rJmIgrFzt5DukAWzV3LDB
+	9DN0SMCRpK+ZFAShk/4Vmg7jBQ+Mk6WzqCMsQp4FdiQ==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4fa7mug6hv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 Jul 2026 04:50:40 -0400 (EDT)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 6698odGs003581
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 9 Jul 2026 04:50:39 -0400
+Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
+ ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Thu, 9 Jul 2026 04:50:39 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
+ ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Thu, 9 Jul 2026 04:50:39 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Thu, 9 Jul 2026 04:50:38 -0400
+Received: from HYB-e1y2fvUQ3cx.ad.analog.com (HYB-e1y2fvUQ3cx.ad.analog.com [10.44.3.70])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 6698oLQu015849;
+	Thu, 9 Jul 2026 04:50:23 -0400
+From: Janani Sunil <janani.sunil@analog.com>
+Subject: [PATCH 0/6] iio: adc: Add AD7768/AD7768-4 ADC driver support
+Date: Thu, 9 Jul 2026 10:50:11 +0200
+Message-ID: <20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260707181957.433213175@kernel.org> <20260707190254.280015701@kernel.org>
-In-Reply-To: <20260707190254.280015701@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 9 Jul 2026 10:41:56 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWe1D0CZrav5h6EhDDbeJzgJcHvT89jrs6109Bdj-pdTw@mail.gmail.com>
-X-Gm-Features: AUfX_mw8w2Kp5VuAYozzfDNS6gDbdKhQdYzfXsv-G72F3LS58UBytbGwOmplITc
-Message-ID: <CAMuHMdWe1D0CZrav5h6EhDDbeJzgJcHvT89jrs6109Bdj-pdTw@mail.gmail.com>
-Subject: Re: [patch 12/18] ptrace, treewide: Rename ptrace_report_syscall_entry()
- to ptrace_report_syscall_permit_entry()
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>, 
-	Richard Henderson <richard.henderson@linaro.org>, Vineet Gupta <vgupta@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>, Brian Cain <bcain@kernel.org>, 
-	Michal Simek <monstr@monstr.eu>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Dinh Nguyen <dinguyen@kernel.org>, Helge Deller <deller@gmx.de>, 
-	Yoshinori Sato <ysato@users.sourceforge.jp>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Chris Zankel <chris@zankel.net>, linux-alpha@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
-	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-arch@vger.kernel.org, 
-	Michael Ellerman <mpe@ellerman.id.au>, Shrikanth Hegde <sshegde@linux.ibm.com>, 
-	linuxppc-dev@lists.ozlabs.org, Kees Cook <kees@kernel.org>, 
-	Huacai Chen <chenhuacai@kernel.org>, loongarch@lists.linux.dev, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, 
-	Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org, x86@kernel.org, 
-	Mark Rutland <mark.rutland@arm.com>, Jinjie Ruan <ruanjinjie@huawei.com>, 
-	Andy Lutomirski <luto@kernel.org>, Richard Weinberger <richard@nod.at>, =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMNgT2oC/x3MQQqAIBBA0avErBNGIbWuEi1Ep5qNxQgSSHdPW
+ r7F/w0KCVOBZWggVLnwlTv0OEA8Qz5IceoGg8aiQ69Ccs56lYQridIYk57MbKNB6M0ttPPz/9b
+ tfT/rRp30XwAAAA==
+X-Change-ID: 20260708-ad7768-driver-10cd15296c20
+To: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+        Michael Hennerich
+	<Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        "David
+ Lechner" <dlechner@baylibre.com>,
+        Andy Shevchenko <andy@kernel.org>, "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Olivier Moysan <olivier.moysan@foss.st.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Linus Walleij <linusw@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>
+CC: <linux@analog.com>, <linux-iio@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <jananisunil.dev@gmail.com>, Janani Sunil <janani.sunil@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783587021; l=5451;
+ i=janani.sunil@analog.com; s=20260507; h=from:subject:message-id;
+ bh=bi9PWVrJuxHBQcOWRM2ZSnjMGuXeMgPX3Nc171NmM+c=;
+ b=l+WwEXmyCqSV5++zxa5+d+Y+H32OEitgDntYKOuYH98a2Sam7IBLRdU56N1d7fgTO9wgPQvCe
+ WjVMXmkZ5rlCQ6hhkWaUjVwNPvfyQFGJt475hQP4Yb3Ldc8ibQBnRar
+X-Developer-Key: i=janani.sunil@analog.com; a=ed25519;
+ pk=e25MyjRLPY3RWrYm/LrJ+/+t1MZJUbkgIW5CZg+g+hA=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: fASKV-jZnKemKbLRdbZlbiJ0q7IdrttC
+X-Authority-Analysis: v=2.4 cv=Bv6tB4X5 c=1 sm=1 tr=0 ts=6a4f60e0 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=0sLvza09kfJOxVLZPwjg:22 a=Z0pTeXoby7EwIRygza74:22 a=gAnH3GRIAAAA:8
+ a=VwQbUJbxAAAA:8 a=IpJZQVW2AAAA:8 a=8b9GpE9nAAAA:8 a=07d9gI8wAAAA:8
+ a=ag1SF4gXAAAA:8 a=pGLkceISAAAA:8 a=k0hceuYl1n33KlZN5j0A:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=IawgGOuG5U0WyFbmm1f5:22 a=T3LWEMljR5ZiDmsYVIUa:22
+ a=e2CUPOnPG4QKp8I52DXD:22 a=Yupwre4RP9_Eg_Bd0iYG:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA5MDA4MyBTYWx0ZWRfXzXg+PA+TIvAj
+ MiK6IXzSk6ehhGYFRz9lNAWeQz0RJzVG8G134WD3ewH2KT/W4uPtoMevvn8157wCgWqQjOExJJw
+ dGD3PxYjjjSYfzsACASzo9bOm1Om2JPxzjzIzPCv2VGydyiOz1EIQnCWcel1M6G59ttH3uTxqGQ
+ C7T89fU7bANKEZpJBWlxEjJV8WhKizeS4rcWp8fCp4366xJC62c2JQ63wvf5kEBqACvb/b9o6VM
+ kmaiQ1JWVEayYkLFRgDkq5HegFOlph1b0qBlR/h5V/W/t1csgOXsau986Q47Sy/HPNfSmFMO60M
+ bRuS/p+kKjvi6i/gLm81TVhRPF1ehTpwMgEb+qlna04PVdtZSM6K/dtFEjsVzgoJo1WR5MzlH6p
+ jWOtV88S4Ig26+BP/4Y1fvKQdM/l8CvSVE97KcCw8Szowo8kA6bVN1GKOeTMrydc10cEVc+G7rv
+ nNV43Vtp5qg8eIomkAA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA5MDA4MyBTYWx0ZWRfX+V6pIqsHxzsv
+ hxPbfe4sR8vfQywZjukzp1LxXf/BoAQetQIWj5IFD0GlgSFUvPEQaIw7K50J75noUNgemN4AUnb
+ xfd5aSpDBor1bRUkkCUu0d+/w/Xc3lNuMqY5A5+KPZ9WfCc4skZR
+X-Proofpoint-ORIG-GUID: fASKV-jZnKemKbLRdbZlbiJ0q7IdrttC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-09_01,2026-07-08_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0
+ clxscore=1011 impostorscore=0 priorityscore=1501 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607090083
 
-On Tue, 7 Jul 2026 at 21:06, Thomas Gleixner <tglx@kernel.org> wrote:
-> The return value of that function is boolean and tells the caller whether
-> to permit the syscall processing or not.
->
-> Rename the function so the purpose is clear and make the return type bool.
+Add support for Analog Devices AD7768 and AD7768-4, 24-bit simultaneous
+sampling Sigma-Delta ADCs with configurable power and performance modes.
 
->  arch/m68k/kernel/ptrace.c       |    2 +-
+Datasheet:
+https://www.analog.com/media/en/technical-documentation/data-sheets/ad7768.pdf
 
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # m68k
+**Device Overview:**
+The AD7768 is an 8-channel, 24-bit simultaneous sampling ADC. The
+AD7768-4 is a 4-channel variant. Both support configurable power modes,
+programmable decimation filters, and a high-speed serial interface with
+1, 2, 4, or 8 data output lines. Per-channel offset, gain, and phase
+calibration registers are available.
 
-Gr{oetje,eeting}s,
+**Features Implemented:**
+- Support for AD7768 (8-channel) and AD7768-4 (4-channel) via device
+  match data.
+- Configurable power modes (fast, median, low power) with associated
+  decimation rate and output data rate tables.
+- Per-channel offset, gain, and phase calibration via IIO attributes.
+- SPI communication with custom regmap bus for the device's protocol.
+- IIO backend integration with adi-axi-adc for high-speed data capture.
+- CRC data integrity verification over the serial interface.
+- GPIO auxiliary driver to expose the 5 on-chip GPIO pins.
 
-                        Geert
+**Patch Summary:**
+1. **dt-bindings**: Binding documentation for AD7768 and AD7768-4,
+   covering SPI interface, clock, power supplies, reference voltage,
+   reset GPIO, serial data lane count, and on-chip GPIO controller.
+2. **iio: backend**: Add CRC enable/disable backend operation for data
+   integrity verification over the high-speed serial interface.
+3. **iio: adi-axi-adc**: Implement the new CRC backend operation.
+4. **driver**: Core IIO driver for AD7768/AD7768-4 with regmap, power
+   mode, calibration, and IIO backend support. Registers an auxiliary
+   device to expose the GPIO functionality.
+5. **gpio**: Auxiliary bus GPIO driver for the AD7768's 5 general-purpose
+   I/O pins, reusing the parent's regmap and runtime PM.
+6. **docs**: Driver documentation.
 
+**Testing:**
+The driver was compiled and tested on the EVAL-AD7768FMCZ using a
+Zedboard with a mainline kernel.
+
+**Driver Rationale:**
+The AD7768/AD7768-4 warrants its own driver due to several
+device-specific characteristics:
+
+1. A custom SPI framing protocol: register reads and writes use 16-bit
+   frames with embedded read/write bits and register address fields,
+   requiring a custom regmap bus implementation rather than the standard
+   SPI regmap backend.
+
+2. A coupled power mode / sample rate model: available output data rates
+   are not a flat list but depend on the active power mode (fast, median,
+   low power), each with its own set of valid decimation rates. This
+   relationship must be managed in the driver.
+
+3. Simultaneous sampling across all channels with per-channel calibration
+   registers (24-bit offset, gain, and phase) that are laid out
+   differently between the 8-channel AD7768 and the 4-channel AD7768-4,
+   requiring device-specific register mapping.
+
+4. IIO backend integration for high-speed data capture via adi-axi-adc,
+   including CRC data integrity verification over the serial interface.
+
+5. On-chip GPIO: 5 general-purpose I/O pins exposed via an auxiliary bus
+   driver, sharing the parent's regmap and runtime PM.
+
+To: Nuno Sá <nuno.sa@analog.com>
+To: Michael Hennerich <Michael.Hennerich@analog.com>
+To: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+To: Andy Shevchenko <andy@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Olivier Moysan <olivier.moysan@foss.st.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+To: Linus Walleij <linusw@kernel.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux@analog.com
+Cc: linux-iio@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-gpio@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: jananisunil.dev@gmail.com
+
+Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+---
+Janani Sunil (6):
+      dt-bindings: iio: adc: Add AD7768
+      iio: backend: Add support for CRC
+      iio: adc: adi-axi-adc: Add support for CRC
+      iio: adc: Add AD7768 IIO Driver support
+      gpio: ad7768: Add AD7768 GPIO auxiliary driver
+      Documentation: iio: Add AD7768 Documentation
+
+ .../devicetree/bindings/iio/adc/adi,ad7768.yaml    |  285 +++++
+ Documentation/iio/ad7768.rst                       |  207 ++++
+ Documentation/iio/index.rst                        |    1 +
+ MAINTAINERS                                        |   10 +
+ drivers/gpio/Kconfig                               |   10 +
+ drivers/gpio/Makefile                              |    1 +
+ drivers/gpio/gpio-ad7768.c                         |  208 ++++
+ drivers/iio/adc/Kconfig                            |   16 +
+ drivers/iio/adc/Makefile                           |    1 +
+ drivers/iio/adc/ad7768.c                           | 1291 ++++++++++++++++++++
+ drivers/iio/adc/adi-axi-adc.c                      |   20 +
+ drivers/iio/industrialio-backend.c                 |   33 +
+ include/linux/iio/backend.h                        |    4 +
+ 13 files changed, 2087 insertions(+)
+---
+base-commit: b75697ef53e435d894833dad2a8c2fa882cb9b19
+change-id: 20260708-ad7768-driver-10cd15296c20
+
+Best regards,
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Janani Sunil <janani.sunil@analog.com>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
