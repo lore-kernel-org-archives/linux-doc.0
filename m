@@ -1,196 +1,198 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBC13B2FE4
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 06:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783577717; cv=pass; b=j1bH1ZbfzYJ7V8qrTzsFJxNoJY0ySWTQ0DwbB5EdQravjkR7qCLjIlQOd+gFXwrEzQ/MoIQ7dBQx1FV7zsZUN8nn/Qo6ju8jJAoRXp/SJsrDgZjBL1SNhjPOzWlQGKYjgjVRjktbOcXcv73R2sPb6n+jtMdiioVFpGJ7dnfbt+g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783577717; c=relaxed/simple;
-	bh=JrbsYVzEGqTfjZyxrQZpuPhsJ4MZ4qmxAe6eVAvM7JU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GRHjFKCiCPogSJMPPedB8Hd4EnFDyFvAdnCkJDYCjmzjy2IUygz87P6+yij7VqC5d2nzWVagKEXofRnpIX2QT0TELEYN94P0TpQekd3v2MpP8iXuqjtyE9bD8PESMY7j8p6Tnxc8571/sh9QbUQudI3IBWjeCNRp2QTq9/WXEdk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NbfdKeed; arc=pass smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969023845A4;
+	Thu,  9 Jul 2026 06:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783577966; cv=none; b=U8+dVcRTt+AGfeKmIe1bEpd6zvQQrt/PRAIM1d3pwe+FfeMMiMATij2TG+RZna/yB3sGiJ0PcdqxZkJRguAM1NbyAuIDyuMhORlKY67q1cyDDoocGNC7FK7wwluevWVNjW96gRCuJeqTscQUzR977x9Kf6lv8smrv/gD6YwXSPE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783577966; c=relaxed/simple;
+	bh=b3vwuROwR75ZNbwPw1lMhYCu/z43/EngiIFlll/Kbuk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DlvbWjQ4PBSajEGv7pDftYYbGsoARb9p1HktjK4jgfxXvVuk7GMf8ZcOiq2GPVOgLZ4sH9BfNngdb0+9v2neKVVjjHIHwlVIXJ/KeLosJvPOQJNcC+yeWwcYYUOn+rKU6tlQOiUZuKHbjDNwRjL1pAkpsQXTFFyoQ0IPZiQVL0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xj2nAPqj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NbfdKeed"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5b0077d7053so3586e87.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 23:15:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783577714; cv=none;
-        d=google.com; s=arc-20260327;
-        b=b39tZR6SrwkHE6qALrQ+2OGxtPHDXrkoV1ldBbqm7Q6Ny7w3AocHMuLmRRY/k+zlQz
-         GSZi/JYPrIsMVQ5IC//wZgSwUqwIxo7JL+L/fIGWURyVwkZQjFoXWouOXCu2uV6tAfTO
-         YPu/+ozDlqwCifh0jV68NduE9D4z3USvo/wBCvTkYfnUZs5MaYJw/CyBNi7LKAZ9qWDV
-         Bg8TqAX1DU1h9eG0NbOgnvVEgCjQewLmeTUxrbJFNNVOLfTFOKevoMaXWoM68Cd1caPO
-         GxBzjW9wYSljFU/IG6mYEBlmQBN8u4X4Lx+s7QKQ3dNUnbyVN0AeQSO2eqTrTZ8bW9Ck
-         yR8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=nDhfXy+JFjOkSTFePIfLU/zhbaeABDCklVisKt6pztc=;
-        fh=/Qzklj5Vn2srWJLvdlCayBA6ptM2XLjxjEsOiN2g7LY=;
-        b=LFktjUBLv93EkDctKJ/lyt9qj/B7p/5y5Eu8sLPmWLgF4v0XaN6J+lU3THCbPPpKgH
-         Azo7eBCmTBFZHrPNl8t0pDRxy5VYcJEF+hikgkqiGcRzKk422/YjNfscm0DKGr83FtxR
-         UWoU+xYNneWEirrLN4SXKDfBhd5dJ2sYizs2B73ZUYpv+If/4KsubGyDkDlDs0nKwBmO
-         Lq1GtK+HoYHP239fDFm5OyGW9AoWw2MH928drFVG4GawgTVG3WuUFv8sfYD6+/U1ySqj
-         qGSTn7oQqZBYgOoUoL2Ccsn559u5LbkqiIyAmcUaG27QRDAV9tfELKduAE18Hik8Ub8R
-         l9Jg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783577714; x=1784182514; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=nDhfXy+JFjOkSTFePIfLU/zhbaeABDCklVisKt6pztc=;
-        b=NbfdKeedlVfuphQGQYH6kLAcEX5b202OPDgMjfj5jJZGqapl8IGXO1a8CJvhtiWr6a
-         m1RE5KtAk//9YgLj4VQR1GPN7LOrW48+qOvE21jwyA0eGty+oo4dGeNZlOI+xKQ1omcP
-         IZ3n1ZI+bFEahBVkjcJiAa7GiyYqiR/SU1Oz031O0eF+Xylhq9XTofjH9fHX2IC8fM3J
-         EDu4rg7jW2kE60b1E/Y5f6tACWqvd2cCmP/QSGetA+8Id/G5x8zylbZeLAL9CWhlFaBj
-         +t4ZRQtcPE3X23SrrpB3HIq8gNZt5MHcEcTnTwyTkWxwktLC141Kwqi5Cav3HXshce4m
-         Gnag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783577714; x=1784182514;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nDhfXy+JFjOkSTFePIfLU/zhbaeABDCklVisKt6pztc=;
-        b=HfJetIg2iWwXV5/ef7g1cBaBsLXm8RLdeeWnZG1t5AEGI5uDqiaDDN8NcEJCZLPudp
-         N8mN4bfBdD7olrjbjKtq5/NHwInQUgO2W+P1dgox/V35uQwLLskYnuVXx/Xogq5klcHd
-         WrQJs+NShX+RfGoL4YcWA1w3gSeGsSTZzrD1CMo+/WSbgbvcPWZ9lHD2TjPIjyOeU9Y7
-         +ly9Fweouk6oOTNkDprtAMI0t3XzJrrXWu2M/bO0DEHANbgX/zk3vfuLJHt/epbnsSyh
-         ykiox/5dpWzsfr+aNWI0OSk+YhW5vQNid0nLwMNCdbicIxnhnXhrfAl9jM33E5EQ73/z
-         0mYw==
-X-Forwarded-Encrypted: i=1; AHgh+RqNQNehsI1c1U31B2deMZzlzSAewY9gHG2nJth/+XaNp3Id/Kr5mfQUKitdDSTT1mRXyORallILwfk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YytA1M2syEoAehWp7boMy2yPuoEK4PMT61YYxOL2tv5p7itZZsM
-	9Iw0eCW+M1ipWGjDCgIZq8tfDvgCWcwxKXtJtNkcQPBN5BD5R/+9RmR7qpx1lV+CNM35mIQyfGw
-	+dVHVWmqk4R2kDbfNcQsvtSZu2aqq0EI6Hs6W3olL
-X-Gm-Gg: AfdE7ckWj2lr84hoPJfYVU7pnWkjpBd59yUJeIPZ6s0clMW4HtVBaVmdFeHpRXlCJb8
-	fMuOXgIxO/QxJWlNATj+SOqWrCxDhIGE91kqNSA/tdhgbQWOg8wmk4Yt0B8jc+WQgRuSmKOnY4c
-	8hngfEbWwKWkc5SNp7M7tOVhVZCfQ2FqGNSG+cVkhBn8vF2a/5FNfa+njwM/cQoKPg9d3Mw2TjJ
-	8LdYAPueRJOrzYNolVxuZuxblilMlXvCl6nHSRZ6BQHSpFOjDlnjE0uGFmi9tXm8TvTU3ELcvN+
-	2q3t0eSEWt2/n5TupBLGld61Qy323JO9PHgfY3wP70N3/6HjNN/QScMQn+unlTt0v6vuBzcD
-X-Received: by 2002:a05:6512:3d8f:b0:5ae:ba90:8a21 with SMTP id
- 2adb3069b0e04-5b0163a0071mr87384e87.0.1783577714119; Wed, 08 Jul 2026
- 23:15:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xj2nAPqj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C823F1F000E9;
+	Thu,  9 Jul 2026 06:19:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783577965;
+	bh=P55A+JYorEZ78pydXyA8ExRBLDhH3TJQ6tb/oYsGNtg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Xj2nAPqjf+pUbZQOtAN+IvYgivepLAvWoa0qOp5yzZ2BOdLrkS8UuIF6FpCsQcBe+
+	 1eC8M6baKLuKkCqZZ2MPvzR3f4QXW/r8Krr/NtxTe4nKXibLvPFpQcDvJxl682TeqR
+	 t6uDDbIqIeAQWFDgaSv97CkmZsBhR0tQ1fMWIafYQgSxr++hJMAbo7je9qcaur9ooF
+	 QXj5EuzsAg9oToGULd0Cpe0CWyIdjp+pRaUv8Te2gvg/d8neANGebNE7FBQO20jULs
+	 V98Jb3xo1VQg01sq/Wx58lXhppSV6UKAgFekmWIDM0lUq3akc32rRjKmxsrzwg/IXd
+	 3Bt+KUwkVqAVQ==
+Date: Thu, 9 Jul 2026 08:19:17 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Kishore Batta <kishore.batta@oss.qualcomm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+	Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	mhi@lists.linux.dev
+Subject: Re: [PATCH v6 4/7] bus: mhi: Add QDU100 Sahara variant and firmware
+ fallback
+Message-ID: <n45ii7ekxeefuxw2ydwzsx7lqlfczbgg6obrzmzpytl2fin7j5@vbhmrptcjvcb>
+References: <20260701-sahara_protocol_new_v2-v6-0-3a78362c4741@oss.qualcomm.com>
+ <20260701-sahara_protocol_new_v2-v6-4-3a78362c4741@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260707064235.1386552-1-souravpanda@google.com>
- <9624988a-366e-4884-9408-3f3b88c27290@kernel.org> <20260707062428-mutt-send-email-mst@kernel.org>
- <b9a48d89-74f1-43d4-b7bb-be988b6855c9@kernel.org> <akzZr2jfJ0J8zox4@lucifer>
- <20260707095843-mutt-send-email-mst@kernel.org> <ak0xWgpJPSaNWPsl@lucifer>
- <20260707152755-mutt-send-email-mst@kernel.org> <f9bad4b3-93ee-4daf-84d5-97f6ca305240@kernel.org>
- <ak4JiBcvi29sYx0v@lucifer> <20260708050547-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20260708050547-mutt-send-email-mst@kernel.org>
-From: Sourav Panda <souravpanda@google.com>
-Date: Wed, 8 Jul 2026 23:15:02 -0700
-X-Gm-Features: AVVi8Ce9AmF7X4hV5ixsxIF5PZt3E2eW-xAowBuyJMbKi0GinxpYNGmtl7bX_VY
-Message-ID: <CANruzcTQbfnsx6dMxbc8=2tQVF2gK1ROm3LOKiHc-sdT3xV2Ww@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/6] mm/hugetlb: Dynamic, NUMA-aware HugePage Cache &
- Free Page Reporting
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, "David Hildenbrand (Arm)" <david@kernel.org>, muchun.song@linux.dev, 
-	osalvador@suse.de, akpm@linux-foundation.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	mhklinux@outlook.com, fvdl@google.com, gthelen@google.com, 
-	mike.kravetz@oracle.com, pasha.tatashin@soleen.com, rientjes@google.com, 
-	riel@surriel.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260701-sahara_protocol_new_v2-v6-4-3a78362c4741@oss.qualcomm.com>
 
-On Wed, Jul 8, 2026 at 2:16=E2=80=AFAM Michael S. Tsirkin <mst@redhat.com> =
-wrote:
->
-> On Wed, Jul 08, 2026 at 09:26:18AM +0100, Lorenzo Stoakes wrote:
-> > On Tue, Jul 07, 2026 at 09:46:14PM +0200, David Hildenbrand (Arm) wrote=
-:
-> > > On 7/7/26 21:32, Michael S. Tsirkin wrote:
-> > > > On Tue, Jul 07, 2026 at 07:46:28PM +0100, Lorenzo Stoakes wrote:
-> > > >> On Tue, Jul 07, 2026 at 10:01:55AM -0400, Michael S. Tsirkin wrote=
-:
-> > > >>>
-> > > >>> Fair enough.
-> > > >>>
-> > > >>>
-> > > >>> Lorenzo, do you know *how* you want it reworked? Could you write =
-it up
-> > > >>> at a high level?
-> > > >>> Because if not, it's not really practical to make it the asking p=
-rice.
-> > > >>
-> > > >> Michael, you're an experienced maintainer, I'm surprised I have to=
- tell you that
-> > > >> the burden for that lands on the submitter.
-> > > >
-> > > > Oh sure, "fix bugs A,B,C before you add to this mess" is a classic =
-way
-> > > > to actually not end up with even more of a mess.  But I usually do =
-try
-> > > > to be explicit of what are specific issues I want submitter to addr=
-ess.
-> > > > I don't really feel figuring that out lands on the submitter.
-> > >
-> > > Sometimes it's certainly easier. With things like hugetlb there often=
- just isn't
-> > > a feasible way to integrate it nicely into core-mm. It's just too spe=
-cial.
-> >
-> > Yeah exactly :) once you reach a certain level of 'specialness' it is m=
-ore like
-> > pointing at a flaming trash pile and crying ;)
-> >
-> > >
-> > > --
-> > > Cheers,
-> > >
-> > > David
-> >
-> > Cheers, Lorenzo
->
-> Well as long as I'm not the one being asked to put it out ... it is just
-> hard for me to get motivated to do cleanups if there's no actual bug to
-> fix, or a feature to develop somewhat proportional in size to the
-> cleanup.  But for example, and without calling anything trash, after poki=
-ng
-> at memory-failure.c, *I* want to cry, because either there's multiple
-> races, or I just don't understand the code.  Some of these we discussed
-> here already.
->
-> It seems to boil down to the fact that when people start getting lots of
-> these errors they rush out and buy a new system, so hey. But maybe with
-> RAM prices spiking it will become less practical. I'll put together an
-> email with a list later, maybe.
->
+On Wed, Jul 01, 2026 at 04:07:38PM +0530, Kishore Batta wrote:
+> The Sahara driver currently selects a firmware image table based on the
+> attached device, but it does not recognize QDU100 devices that expose the
+> protocol on the SAHARA MHI channel. As a result, the host cannot associate
+> QDU100 devices with the correct firmware namespace during image transfer.
+> 
+> Extend the probe time variant selection to match the SAHARA MHI channel and
+> associate it with the QDU100 firmware folder. Add a firmware lookup
+> fallback for cases where an image does not have an explicit entry in the
+> device's firmware table. This allows required images to be provisioned by
+> the platform.
+> 
+> This change only affects devices matched on the SAHARA MHI channel and
+> does not change behavior for existing AIC100 and AIC200 devices.
+> 
+> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
+> ---
+>  drivers/bus/mhi/host/clients/sahara/sahara.c | 27 +++++++++++++++--
+>  drivers/bus/mhi/host/pci_generic.c           | 45 ++++++++++++++++++++++++++++
+>  2 files changed, 70 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/clients/sahara/sahara.c b/drivers/bus/mhi/host/clients/sahara/sahara.c
+> index e339c67e236af271645ca81cc517efd9eead87e4..9adbd84859073d8024ba2a5fcfa33897439d6759 100644
+> --- a/drivers/bus/mhi/host/clients/sahara/sahara.c
+> +++ b/drivers/bus/mhi/host/clients/sahara/sahara.c
+> @@ -189,6 +189,7 @@ static bool is_streaming(struct sahara_context *context)
+>  
+>  static int sahara_find_image(struct sahara_context *context, u32 image_id)
+>  {
+> +	char *fw_path;
+>  	int ret;
+>  
+>  	if (image_id == context->active_image_id)
+> @@ -201,8 +202,28 @@ static int sahara_find_image(struct sahara_context *context, u32 image_id)
+>  	}
+>  
+>  	if (image_id >= context->table_size || !context->image_table[image_id]) {
+> -		dev_err(&context->mhi_dev->dev, "request for unknown image: %d\n", image_id);
+> -		return -EINVAL;
+> +		if (!context->fw_folder) {
+> +			dev_err(&context->mhi_dev->dev,
+> +				"Request for unknown image: %u (no fw folder)\n", image_id);
+> +			return -EINVAL;
+> +		}
+> +
+> +		fw_path = kasprintf(GFP_KERNEL, "qcom/%s/%u",
+> +				    context->fw_folder, image_id);
+> +		if (!fw_path)
+> +			return -ENOMEM;
+> +
+> +		ret = firmware_request_nowarn(&context->firmware,
+> +					      fw_path,
+> +					      &context->mhi_dev->dev);
+> +		kfree(fw_path);
+> +		if (ret) {
+> +			dev_err(&context->mhi_dev->dev,
+> +				"request for unknown image: %d\n", image_id);
+> +			return -EINVAL;
+> +		}
+> +		context->active_image_id = image_id;
+> +		return 0;
+>  	}
+>  
+>  	/*
+> @@ -870,8 +891,10 @@ static void sahara_mhi_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result
+>  
+>  static const struct mhi_device_id sahara_mhi_match_table[] = {
+>  	{ .chan = "QAIC_SAHARA", },
+> +	{ .chan = "SAHARA"},
+>  	{},
+>  };
+> +MODULE_DEVICE_TABLE(mhi, sahara_mhi_match_table);
+>  
 
-Hi Lorenzo, David, Muchun, and Michael,
+This change should belong to a separate patch.
 
-Thank you all for the candid feedback :)
+>  static struct mhi_driver sahara_mhi_driver = {
+>  	.id_table = sahara_mhi_match_table,
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 391ab146f501c6ce1c81f6138f7c491a49c2f264..82e41632afc555a53dec3d8395558ae039b33bbd 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -300,6 +300,43 @@ static const struct mhi_pci_dev_info mhi_qcom_qdu100_info = {
+>  	.reset_on_remove = true,
+>  };
+>  
+> +static const char * const qdu100_image_table[] = {
+> +	[5] = "qcom/qdu100/uefi.elf",
+> +	[8] = "qcom/qdu100/qdsp6sw.mbn",
+> +	[16] = "qcom/qdu100/efs1.bin",
+> +	[17] = "qcom/qdu100/efs2.bin",
+> +	[20] = "qcom/qdu100/efs3.bin",
+> +	[23] = "qcom/qdu100/aop.mbn",
+> +	[25] = "qcom/qdu100/tz.mbn",
+> +	[29] = "qcom/qdu100/zeros_1sector.bin",
+> +	[33] = "qcom/qdu100/hypvm.mbn",
+> +	[34] = "qcom/qdu100/mdmddr.mbn",
+> +	[36] = "qcom/qdu100/multi_image_qti.mbn",
+> +	[37] = "qcom/qdu100/multi_image.mbn",
+> +	[38] = "qcom/qdu100/xbl_config.elf",
+> +	[39] = "qcom/qdu100/abl_userdebug.elf",
+> +	[40] = "qcom/qdu100/zeros_1sector.bin",
+> +	[41] = "qcom/qdu100/devcfg.mbn",
+> +	[42] = "qcom/qdu100/zeros_1sector.bin",
+> +	[45] = "qcom/qdu100/tools_l.elf",
+> +	[46] = "qcom/qdu100/Quantum.elf",
+> +	[47] = "qcom/qdu100/quest.elf",
+> +	[48] = "qcom/qdu100/xbl_ramdump.elf",
+> +	[49] = "qcom/qdu100/shrm.elf",
+> +	[50] = "qcom/qdu100/cpucp.elf",
+> +	[51] = "qcom/qdu100/aop_devcfg.mbn",
+> +	[52] = "qcom/qdu100/fw_csm_gsi_3.0.elf",
+> +	[53] = "qcom/qdu100/qdsp6sw_dtbs.elf",
+> +	[54] = "qcom/qdu100/qupv3fw.elf",
+> +};
+> +
+> +static const struct mhi_sahara_fw_table qdu100_sahara_fw = {
+> +	.image_table = qdu100_image_table,
+> +	.table_size = ARRAY_SIZE(qdu100_image_table),
+> +	.fw_folder = "qdu100",
+> +	.non_streaming = false,
+> +};
+> +
+>  static const struct mhi_channel_config mhi_qcom_sa8775p_channels[] = {
+>  	MHI_CHANNEL_CONFIG_UL(46, "IP_SW0", 2048, 1),
+>  	MHI_CHANNEL_CONFIG_DL(47, "IP_SW0", 2048, 2),
+> @@ -1399,6 +1436,14 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  
+>  	pci_set_drvdata(pdev, mhi_pdev);
+>  
+> +	/*
+> +	 * Provide Sahara firmware mapping. Sahara consumes it via
+> +	 * mhi_dev->mhi_cntrl->sahara_fw at probe time.
+> +	 */
+> +	if (info == &mhi_qcom_qdu100_info ||
+> +	    (info->name && !strcmp(info->name, "qcom-qdu100")))
+> +		mhi_cntrl->sahara_fw = &qdu100_sahara_fw;
+> +
 
-Lorenzo, David, Muchun, your points are well taken. I agree that
-adding hugetlb caching and shrinker logic to hugetlb goes against your
-long-term goal of integrating with core-mm and reducing special
-casing.
+Why are you adding QAIC MHI controller config in pci_generic driver? This driver
+only handles Modem devices.
 
-Michael, taking your advice, I will strictly focus on Free Page
-Reporting for Hugepages as that is a regression in the page reporting
-infrastructure.
+- Mani
 
-I will send a single, isolated patch that wires up the standard
-hugepage_freelists to page reporting.
-
-Let me know if there are any objections to that!
-
-With regards,
-Sourav Panda
-
-> --
-> MST
->
+-- 
+மணிவண்ணன் சதாசிவம்
