@@ -1,133 +1,362 @@
-Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6923731E822;
-	Thu,  9 Jul 2026 02:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445F411CBA
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 02:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783563202; cv=none; b=muvDXHG3IbqV1kRyZT1RwMOMoww0kvr8XIvByUdf6za+2eHsznJ9QXOg4EKirDZ0zpEFpZ0kVCHICbYEieSQaZcdipqVDUQrykHXNqXTqS9GHAzhrcWv4luO4Z7EHh1TnxXE8JYYr1GWrVoEDdERvod9Ds8v15/n7PTOuTzTN6o=
+	t=1783563347; cv=none; b=FpmcTIs/vCBSwCxbIfTlqdPlTV4+6nPXKdjhefdznfheCpCkCl5c0j2GrGpVgmH8S/F6DvU3DTizZi4kfeXN8pF6ka/R8J/oeqe/hcIy4lQtkcAWMhVZ31mmcEItu5GMsJFKd9GgDVe8HGWxgc3A3abMGs+qZCXxgRMWEwTReQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783563202; c=relaxed/simple;
-	bh=SOuxBEMe6Snhg5If1hoAhWP9tSzyKmHrj1lSJoOW4xI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=g8v0o7m3bSU0thA+rDo2FfTbxIFkuCeKkzhabX5YLFXZ8qj2xc/yk8GFd5QAMKdYFnM8XVzur1MX/Bo/J/7ayL01oZvZfCqE3dp3A0WabtQErtEKpgLz2NkMJdzaUhUS+syOBxLWndbVpWyzMtj46jqjiM9bAprRY9j5WxETgmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=2rmhw3tA; arc=none smtp.client-ip=113.46.200.225
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1783563347; c=relaxed/simple;
+	bh=KPN/ZkZrqF4fSSBcs/sPVJGUpjpHcZRlcVIAWHsQ3UM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TBSLFFPjqlBsdnd/BN9jbVwy0+mtUQGSX5aWm7zpc4NzddCoNB2ablVv9zsOUJOKndjoeNpTuGu37AsfQc4hpvl/4gQYW+PkUx72a51soelTXZnscLJuhKG0kfR0rLkZ1QS2KeC+68NL2GBZeb3HBeLRVna3LQmKjbVx1Mrrgm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CPpMxiDw; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="2rmhw3tA"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=EIzhkxswirYpNGm9CWwkdDS2HF3tntCDkdxaAlmwFV4=;
-	b=2rmhw3tAjKXtz09O7hvY7cAlY/1Yd/KOqZ+ZN+0RclN3O1JQ97bO9iM01OI1tNyjUBfVBZ+JE
-	tsopHd70NpH1/LAqiYYENqjY7FRDJ+e6LjhHTLPLPPp1WxyG71HEpSeN/TNuJ3k9DIYW/ZQQXNg
-	+wXo3TuMW926WHIty2rH81A=
-Received: from mail.maildlp.com (unknown [172.19.163.15])
-	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4gwdYY6NQGz1K97H;
-	Thu,  9 Jul 2026 10:04:01 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1EDDC40578;
-	Thu,  9 Jul 2026 10:13:15 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 9 Jul 2026 10:13:12 +0800
-Message-ID: <289cf9a8-aa46-4dac-b370-07a35c6c7c7e@huawei.com>
-Date: Thu, 9 Jul 2026 10:13:11 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CPpMxiDw"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2cace7da66eso14302975ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 19:15:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783563346; x=1784168146; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fMkPiJq/fyrzWCUwRPm6G+BYtSCZmkHOyXwa6vbMRgo=;
+        b=CPpMxiDwhmJMp0hSRtlrqt7QaRdA3h9QNbwFTa1HHhojFtKm/DcuSSPS4tkA2OSxzK
+         OBTfmY0K+Im/1fqbgFu3PinivPT2hni5EO6v6aA9kgJqeMSk0pOT0loQXUcmQn3uXyk8
+         Tfs0pyeBVupPch22mKZhNr06DKdMyug++MKnHj+96hHDf1F8sLXXSdq+6oOIhY3dGUET
+         gAjNoGIIW8FKAEjmG4bFBPZZ3UleNqgAKQkmAvS3SgXGmHYcfVKPzdaXBslUYYBPp6Kx
+         BaTIeClX06Tff/LBRRsGyptzY1w+EYyKYSmswAL1r035jYuUPzJvDaE0LXpKWy7j5oeR
+         /4XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783563346; x=1784168146;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fMkPiJq/fyrzWCUwRPm6G+BYtSCZmkHOyXwa6vbMRgo=;
+        b=ja2qt5tJcbs0qrIfPIydyFRMx5FzXOg/j306YoAm/NSAoHwp6MM4wxu8W66VYqPOyD
+         WNSRootPLsomzNgSchOWhCia8KY86BfCtsD8DL6XMEmS3pbofmUR7i7KU+z6s7EZ2FyX
+         GRxPzKiE959Nm8S50NepGXtUnQVrEuqKoUn3/Dy/N1CCfFnNECMbTwkCUMDX3ys5K9O+
+         IrWvG9+toUTby6+GGkJ2A9weHIJp2Bk4d7cowFrWpfAR71sMDXgEZt9iadaNMk4YLWOm
+         eGto3aZ6j7WL+//g1rdZUGgm+6IyAj51/GWy5gOEDkkr7Qd+Xad3jij4aNLNNPQ3zIWd
+         AyrQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rrx9l986um5oGTwGeVwgacV3WUL53+Ldyf7caY7j2xJgSOOaHfFicIqOSNR0fLACL+OL9Y5LbyRDfw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZG+fLsUtTcLgsgZ9yoRt4xKNhNdU5UqeNWi16yrGL6Z+b9BjP
+	JRWm77KD/VRKvUw0l9XjotqMZT/Sni5uorj9ZpvFzq44Wz6BsU+Pucxc
+X-Gm-Gg: AfdE7ckTpApt7J4/rVc6yNKHmrTSJL104njQ3LUy9m6TFi61o8a26Cg81p+Ks+Y27tl
+	ZBVjXuIAe0bK8pFs0XWwCRp70jwBNSiC3awA1RGNuu5ifFT/VjgP5HHNeYr0IhyRQ2jN8WGJXcW
+	6gx+R+w56/wGVxla/gouhZmBDHOsuqXsyJ7+VnpUfHbYHdbu+9dyZIDGumoSqtpSh5UkMVxP/fT
+	QhdElrieTPNphNEpXT1yIY0GoCNYMiuGG341f8bYCCwBGopP30XLGSrJbh8p2JZmcwQpgy87NYv
+	O4j9iMvYLia1E9swaHHpePJ5WU1CIGDCawTNKBPHOC9yebbn9SFQG4nqan5xZRbCDUYKwY0wmuS
+	qdVO9L/if36sOnI+AjrQkiHPGsGzNXw/gjnayFQVXaQeE40L4t7wMAY0N8YF7iqVNuwW+EfN8Gg
+	mrs9s6UT3xN/UpjHW6zNHy6CLXWR7U5Y442MWErc8=
+X-Received: by 2002:a17:903:1b23:b0:2cc:d6de:d597 with SMTP id d9443c01a7336-2ccea36a539mr54667875ad.7.1783563345563;
+        Wed, 08 Jul 2026 19:15:45 -0700 (PDT)
+Received: from c12-ThinkPad-X1-Carbon-Gen-12 ([2400:2410:5f2b:700:e18a:624b:af6a:fe87])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d60da9sm35234455ad.84.2026.07.08.19.15.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 19:15:44 -0700 (PDT)
+From: Vishnu Sankar <vishnuocv@gmail.com>
+To: ilpo.jarvinen@linux.intel.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	derekjohn.clark@gmail.com,
+	hansg@kernel.org
+Cc: platform-driver-x86@vger.kernel.org,
+	mark.pearson@lenovo.com,
+	linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	ibm-acpi-devel@lists.sourceforge.net,
+	vsankar@lenovo.com,
+	Vishnu Sankar <vishnuocv@gmail.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>
+Subject: [PATCH v4] platform/x86: thinkpad_acpi: Add USB-C Security (USCS) support
+Date: Thu,  9 Jul 2026 11:15:04 +0900
+Message-ID: <20260709021504.465792-1-vishnuocv@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [patch 02/18] randomize_kstack: Provide
- add_random_kstack_offset_irqsoff()
-To: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>
-CC: Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>, Shrikanth Hegde
-	<sshegde@linux.ibm.com>, <linuxppc-dev@lists.ozlabs.org>, Huacai Chen
-	<chenhuacai@kernel.org>, <loongarch@lists.linux.dev>, Paul Walmsley
-	<pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	<linux-riscv@lists.infradead.org>, Sven Schnelle <svens@linux.ibm.com>,
-	<linux-s390@vger.kernel.org>, <x86@kernel.org>, Mark Rutland
-	<mark.rutland@arm.com>, Andy Lutomirski <luto@kernel.org>, Oleg Nesterov
-	<oleg@redhat.com>, Richard Henderson <richard.henderson@linaro.org>, Russell
- King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Guo
- Ren <guoren@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>, Helge Deller <deller@gmx.de>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>, Richard Weinberger
-	<richard@nod.at>, Chris Zankel <chris@zankel.net>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-alpha@vger.kernel.org>,
-	<linux-csky@vger.kernel.org>, <linux-m68k@lists.linux-m68k.org>,
-	<linux-mips@vger.kernel.org>, <linux-parisc@vger.kernel.org>,
-	<linux-sh@vger.kernel.org>, <linux-um@lists.infradead.org>, Arnd Bergmann
-	<arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>, Will Deacon
-	<will@kernel.org>, Brian Cain <bcain@kernel.org>, Michal Simek
-	<monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, "David S. Miller"
-	<davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
-	<linux-snps-arc@lists.infradead.org>, <linux-hexagon@vger.kernel.org>,
-	<linux-openrisc@vger.kernel.org>, <sparclinux@vger.kernel.org>,
-	<linux-arch@vger.kernel.org>, =?UTF-8?Q?Michal_Such=C3=A1nek?=
-	<msuchanek@suse.de>, Jonathan Corbet <corbet@lwn.net>,
-	<linux-doc@vger.kernel.org>
-References: <20260707181957.433213175@kernel.org>
- <20260707190253.768842729@kernel.org>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <20260707190253.768842729@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- dggpemf500011.china.huawei.com (7.185.36.131)
+Content-Transfer-Encoding: 8bit
 
+Newer ThinkPad systems expose a USB-C Security (Restricted Mode) feature.
+When active, USB-C data connections are disabled while power delivery is
+preserved. This is useful for kiosk and physically-secured deployments.
 
+Hardware interface:
 
-On 7/8/2026 3:06 AM, Thomas Gleixner wrote:
-> add_random_kstack_offset() uses get/put_cpu_var() which is pointless
-> overhead when it is invoked from low level entry code with interrupts
-> disabled.
-> 
-> Provide a irqsoff() variant, which avoids that.
-> 
-> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
-> Cc: Kees Cook <kees@kernel.org>
-> ---
->  include/linux/randomize_kstack.h |   19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> --- a/include/linux/randomize_kstack.h
-> +++ b/include/linux/randomize_kstack.h
-> @@ -77,8 +77,27 @@ static __always_inline u32 get_kstack_of
->  	}								\
->  } while (0)
->  
-> +/**
-> + * add_random_kstack_offset_irqsoff - Increase stack utilization by a random offset.
-> + *
-> + * This should be used in the syscall entry path after user registers have been
-> + * stored to the stack. Interrupts must be still disabled.
-> + */
-> +#define add_random_kstack_offset_irqsoff()					\
-> +do {										\
-> +	lockdep_assert_irqs_disabled();						\
-> +	if (static_branch_maybe(CONFIG_RANDOMIZE_KSTACK_OFFSET_DEFAULT,		\
-> +				&randomize_kstack_offset)) {			\
-> +		u32 offset = prandom_u32_state(raw_cpu_ptr(&kstack_rnd_state));	\
-> +		u8 *ptr = __kstack_alloca(KSTACK_OFFSET_MAX(offset));		\
-> +		/* Keep allocation even after "ptr" loses scope. */		\
-> +		asm volatile("" :: "r"(ptr) : "memory");			\
-> +	}									\
-> +} while (0)
+The HKEY device exposes a read-only ACPI method USCS():
 
-Or can we avoid these repetitions and reuse the same code?
+  Return value bit layout:
+    Bit 16 : Capability flag (1 = feature present on this SKU)
+    Bit  0 : Current state  (0 = security OFF, 1 = security ON)
 
-> +
->  #else /* CONFIG_RANDOMIZE_KSTACK_OFFSET */
->  #define add_random_kstack_offset()		do { } while (0)
-> +#define add_random_kstack_offset_irqsoff()	do { } while (0)
->  #endif /* CONFIG_RANDOMIZE_KSTACK_OFFSET */
->  
->  #endif
-> 
+The sysfs attribute is read-only.
+
+The Fn+U followed by Fn+S hotkey chord is the only way to toggle the
+hardware state.
+
+Hotkey:
+
+Fn+U followed by Fn+S generates HKEY event 0x131e.
+
+sysfs interface:
+
+  /sys/devices/platform/thinkpad_acpi/usb_c_security  (read-only)
+  "enabled\n"  -- data connections are currently blocked
+  "disabled\n" -- data connections are currently allowed
+
+  The attribute is hidden on SKUs where the USCS capability bit (bit 16)
+  is not set, so there is no ABI impact on unsupported hardware.
+
+Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
+---
+Changes since v3:
+- Add comment to usbc_security_mutex documenting what the lock protects
+
+Changes since v2:
+- Move usbc_security_enabled out of tp_features bitfield to a bool
+  member of tp_features to avoid unsafe concurrent bitfield RMW;
+  usbc_security_supported remains a bitfield as it is init-only.
+- Pass &tp_features.usbc_security_enabled directly to
+  usbc_security_query() removing the local bool intermediary
+  in both init and hotkey paths.
+- Remove extra blank line before */ in block comment.
+- Fix kerneldoc Returns: syntax and rewrite return value description
+  to match the int return type.
+- Split ternary return into two separate if statements for clarity
+
+Changes since v1:
+- Use guard(mutex) from cleanup.h instead of manual mutex_lock/unlock
+- Revert usbc_security_query() to return int (-EIO/-ENODEV/0) instead
+  of bool to avoid uninitialized *enabled bug on unsupported platforms
+- Remove !! when assigning to bool in usbc_security_query()
+- Remove dead tp_features.usbc_security_supported check in show()
+  since is_visible() already gates the attribute on unsupported SKUs
+- Use str_enabled_disabled() from string_choices.h in show()
+- Fix uninitialized *enabled bug in tpacpi_usbc_security_init() by
+  only assigning usbc_security_enabled after a successful query
+---
+ .../admin-guide/laptops/thinkpad-acpi.rst     |  24 ++++
+ drivers/platform/x86/lenovo/thinkpad_acpi.c   | 117 ++++++++++++++++++
+ 2 files changed, 141 insertions(+)
+
+diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+index f874db31801d..db4588af0278 100644
+--- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
++++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+@@ -1543,6 +1543,30 @@ Values:
+ 
+ 	This setting can also be toggled via the Fn+doubletap hotkey.
+ 
++USB-C Security
++--------------
++
++sysfs: usb_c_security
++
++Reports the current state of the USB-C Security (Restricted Mode) feature
++on supported ThinkPad systems. When enabled, USB-C data connections are
++disabled while power delivery is preserved.
++
++The available command is::
++
++        cat /sys/devices/platform/thinkpad_acpi/usb_c_security
++
++Values:
++
++	* ``enabled``  - USB-C data connections are currently blocked
++	* ``disabled`` - USB-C data connections are currently allowed
++
++The attribute is read-only. The USB-C Security state can only be toggled
++via the Fn+U followed by Fn+S hotkey chord.
++
++The sysfs attribute is not created on platforms that do not support this
++feature.
++
+ Auxmac
+ ------
+ 
+diff --git a/drivers/platform/x86/lenovo/thinkpad_acpi.c b/drivers/platform/x86/lenovo/thinkpad_acpi.c
+index 445e1403308e..91db4c8eeac2 100644
+--- a/drivers/platform/x86/lenovo/thinkpad_acpi.c
++++ b/drivers/platform/x86/lenovo/thinkpad_acpi.c
+@@ -38,6 +38,7 @@
+ #include <linux/backlight.h>
+ #include <linux/bitfield.h>
+ #include <linux/bitops.h>
++#include <linux/cleanup.h>
+ #include <linux/debugfs.h>
+ #include <linux/delay.h>
+ #include <linux/dmi.h>
+@@ -67,6 +68,7 @@
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
+ #include <linux/string.h>
++#include <linux/string_choices.h>
+ #include <linux/string_helpers.h>
+ #include <linux/sysfs.h>
+ #include <linux/types.h>
+@@ -186,6 +188,7 @@ enum tpacpi_hkey_event_t {
+ 	TP_HKEY_EV_AMT_TOGGLE		= 0x131a, /* Toggle AMT on/off */
+ 	TP_HKEY_EV_CAMERASHUTTER_TOGGLE = 0x131b, /* Toggle Camera Shutter */
+ 	TP_HKEY_EV_DOUBLETAP_TOGGLE	= 0x131c, /* Toggle trackpoint doubletap on/off */
++	TP_HKEY_EV_USB_C_SECURITY	= 0x131e, /* USB C Security (Fn+U, Fn+S) */
+ 	TP_HKEY_EV_PROFILE_TOGGLE	= 0x131f, /* Toggle platform profile in 2024 systems */
+ 	TP_HKEY_EV_PROFILE_TOGGLE2	= 0x1401, /* Toggle platform profile in 2025 + systems */
+ 
+@@ -374,6 +377,8 @@ static struct {
+ 	u32 has_adaptive_kbd:1;
+ 	u32 kbd_lang:1;
+ 	u32 trackpoint_doubletap_enable:1;
++	u32 usbc_security_supported:1;
++	bool usbc_security_enabled;
+ 	struct quirk_entry *quirks;
+ } tp_features;
+ 
+@@ -11285,6 +11290,111 @@ static struct ibm_struct hwdd_driver_data = {
+ 	.name = "hwdd",
+ };
+ 
++/*************************************************************************
++ * USB-C Security subdriver
++ *
++ * HKEY.USCS(0) is a read-only ACPI method; its argument is ignored.
++ * It always returns:
++ *   bit 16 - USB-C security capability present on this SKU or not
++ *   bit  0 - USB-C Security state (enable or disable)
++ *
++ * Hotkey
++ * ------
++ * 0x131e (Fn+U, Fn+S): firmware toggles USBS before firing the event.
++ * The driver reads back the new state and notifies the sysfs attribute.
++ */
++
++/* USCS() return word bit layout */
++#define USCS_CAP_BIT		BIT(16)	/* capability: feature present on SKU */
++#define USCS_STATUS_BIT		BIT(0)	/* current security state */
++
++/* Protects USCS() ACPI method calls in usbc_security_query() */
++static DEFINE_MUTEX(usbc_security_mutex);
++
++/**
++ * usbc_security_query - read current USB-C security state via USCS()
++ * @enabled: out - true when security is ON (data connections blocked)
++ *
++ * Returns:
++ *   0        success, @enabled contains the current state
++ *  -EIO      ACPI evaluation failed
++ *  -ENODEV   capability bit absent; feature not present on this SKU*
++ */
++static int usbc_security_query(bool *enabled)
++{
++	int status;
++
++	guard(mutex)(&usbc_security_mutex);
++	if (!acpi_evalf(hkey_handle, &status, "USCS", "dd", 0))
++		return -EIO;
++
++	if (!(status & USCS_CAP_BIT)) {
++		pr_debug("USCS cap bit absent (raw=0x%x)\n", status);
++		return -ENODEV;
++	}
++
++	*enabled = status & USCS_STATUS_BIT;
++	return 0;
++}
++
++/* sysfs: /sys/devices/platform/thinkpad_acpi/usb_c_security ---------- */
++static ssize_t usb_c_security_show(struct device *dev,
++				   struct device_attribute *attr,
++				   char *buf)
++{
++	return sysfs_emit(buf, "%s\n",
++			  str_enabled_disabled(tp_features.usbc_security_enabled));
++}
++
++static DEVICE_ATTR_RO(usb_c_security);
++
++static struct attribute *usbc_security_attributes[] = {
++	&dev_attr_usb_c_security.attr,
++	NULL,
++};
++
++static umode_t usbc_security_attr_is_visible(struct kobject *kobj,
++					     struct attribute *attr, int n)
++{
++	return tp_features.usbc_security_supported ? attr->mode : 0;
++}
++
++static const struct attribute_group usbc_security_attr_group = {
++	.is_visible = usbc_security_attr_is_visible,
++	.attrs = usbc_security_attributes,
++};
++
++static int tpacpi_usbc_security_init(struct ibm_init_struct *iibm)
++{
++	int err;
++
++	err = usbc_security_query(&tp_features.usbc_security_enabled);
++	if (err == -ENODEV)
++		return 0;
++	if (err)
++		return err;
++
++	tp_features.usbc_security_supported = true;
++	return 0;
++}
++
++/* tpacpi_usbc_security_hotkey - handle Fn+U Fn+S hotkey (0x131e) */
++static bool tpacpi_usbc_security_hotkey(void)
++{
++	if (!tp_features.usbc_security_supported)
++		return false;
++
++	if (usbc_security_query(&tp_features.usbc_security_enabled))
++		return false;
++
++	sysfs_notify(&tpacpi_pdev->dev.kobj, NULL, "usb_c_security");
++	return true;
++}
++
++static struct ibm_struct usbc_security_driver_data = {
++	.name = "usbc_security",
++};
++
+ /* --------------------------------------------------------------------- */
+ 
+ static struct attribute *tpacpi_driver_attributes[] = {
+@@ -11345,6 +11455,7 @@ static const struct attribute_group *tpacpi_groups[] = {
+ 	&dprc_attr_group,
+ 	&auxmac_attr_group,
+ 	&hwdd_attr_group,
++	&usbc_security_attr_group,
+ 	NULL,
+ };
+ 
+@@ -11499,6 +11610,8 @@ static bool tpacpi_driver_event(const unsigned int hkey_event)
+ 	case TP_HKEY_EV_PROFILE_TOGGLE2:
+ 		platform_profile_cycle();
+ 		return true;
++	case TP_HKEY_EV_USB_C_SECURITY:
++		return tpacpi_usbc_security_hotkey();
+ 	}
+ 
+ 	return false;
+@@ -11964,6 +12077,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
+ 		.init = tpacpi_hwdd_init,
+ 		.data = &hwdd_driver_data,
+ 	},
++	{
++		.init = tpacpi_usbc_security_init,
++		.data = &usbc_security_driver_data,
++	},
+ };
+ 
+ static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
+-- 
+2.51.0
 
