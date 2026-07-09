@@ -1,225 +1,245 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1D132E126
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 14:26:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783607217; cv=none; b=APjKOvdvfWxdyCsmgF/jD1JgnXQ3kLzkynWLGVWQyz9P0VcDKfo9/rzy8i3SBknYs3iZspGoWfCAaKuCRoaHwWjAiXlZGqb0CwKvV1tQnhkeUnQXOsrqa8A4eiNjR9y0sK7XvUSmrM1MnnrL4dRIMUWZEM88bkYN8MMO026gQfI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783607217; c=relaxed/simple;
-	bh=YI6Csvady8zUfpKj0TSyww8TUuACFjmAGkHdUe3RKM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SVGiYTLSG/1IRMQFnFsUwnwsII/GgaeNcOq2oYsQEZ1AjPjjikxyNkUAFUTDdgqIPgniXszXd/DT1p83uwiK9Tog9vipEzdtEb+x3Tl6kPOHTrKYPd7yU/k2FDUFAvUxIbIOvody0L57CupuZyQyHiisKft6eyfGfaSfvWcvYBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=JeQqwm7f; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DFA1BD9D0
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 14:28:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783607283; cv=pass; b=d/tvphwCFgyhDKdFnvQe3CwK1meugma1uinKD8VWfVRDgBUn7Vb8PJOQBvRVFUoms36744BKjCmTldYjG4Aq2xBr/HPtyscCc2Jd7BHPw6nMFhlF03seh1wD+68HvIn1I/GKMN1426NULvhkAWlQD3KCA8ouXg2H8kQrmeaGoGY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783607283; c=relaxed/simple;
+	bh=ew/ahYHt1PSqBy2HvgZ4gSry+8kYZ616VqSL2DoDe+8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nfnCfXqxVHj3y7uT9MEH+dl0HS4kI80ILftJZznoUSv8l9NfbK9Ch51nCqcHy5tuyzs2AZBY2rn1g1sQtre++9V1uiSo+Wymw3rBzAqXYW75bAhVkdN7AAP+NRmJwQ0JN0ZMyvwFE9cpCEh/nhqXsrymPgHY16z8421uoz/KJMs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=Mjnmn2EM; arc=pass smtp.client-ip=209.85.210.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="JeQqwm7f"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-493ba701891so14498505e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 07:26:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="Mjnmn2EM"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7eb64085c45so1157330a34.2
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 07:28:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783607279; cv=none;
+        d=google.com; s=arc-20260327;
+        b=kLZMA6T6R8EZYrjLCyQIyBg9cQPYXUGHkZuA0XVb7pgDAK3jGZYA3VHHLF5xtoVMNL
+         X5UdsvnE6Zbjti1NS4oXE8XqTCEPtiryB6ffl1FvW/unlNX3ZGb4TmER6TwSwrQxl17q
+         k1Z9ADhZ/JXbyGHzO/8NHYVOqPO1ynxRDRu/nWM5sCxXCsUeDzwYMFsdpLFwIk8RjLkM
+         l0tbmPN134+YNQoB2AmWwAd0anH8+Jjv3FtDLS9BXEIVLd5Bb697qg+AE7UNluzI0NuG
+         9P0TnjMb9Sg4vaaTVQcvxPSGG1AwuvIcPjr1rQGTcVO3ZL9fATR3LWYZ0e95zB22doCA
+         cgUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=o/Aj/fQ0/cX0gUBelTJEVsUYvKgREoT3ILbqcgtsbZk=;
+        fh=M7FxkSKNZxTYmK5s++/oYTIFBB85J74KFZ2OIyGLc+U=;
+        b=BUy6E0c2WnEzPFPzRJt9Z/Xy0J5NEYbkXA5jgVZCXvUpL/ZX4OgA5MaYnF6yDeCceY
+         Ic5dsKh5JxyWzmmI7EAx5ECYihtWM6kGHDXSSylBd5PeaKRPyBitZktbsjuAYgvbFsCr
+         AgsvCPJmaXewonHdGUKr4H7evlBcj9QfW2mdQxo3UGX2CMvqSm70SmMVxykNiGyz2jyq
+         lkeC/gKWyJAullNIvo5VjPqyDU/zYGAyGi2B7/Kkqw5mIqqquili88IiKeb1casCM3nm
+         d7+g+gKKRWjdwg7iw0Ru78YHQuBsQDFWeinMh/2N61itpQhV3TbztmTWl0DV4Ad3BERM
+         G9mg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1783607213; x=1784212013; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=pgKeluas+jUY/8yJAiAEBG5t4/+qnuDSzD0+HGXJqIM=;
-        b=JeQqwm7fY5TK5HdwKmPnbsPyJbmwKls0Sd/TdmA7PSFYVzQwNiDwXzLw0bo05wd1Cz
-         VHDCmoZmImDtjbHy9RqH4i52Xe/dndjYuatgwO93vtkszavtg2iI4KqYsb2e+WY+HP2P
-         hisYTv5sDVlHgE6l1lbTMANbYNPF6JUSpaIZLEYUclAkEE3YHlbV5mB6yK188P5i8zhk
-         SRwWtYrnbkej+ExQIkqu1Fnsuo7tWrTPVIvNtey3CoUL9O3XdtGb0JkuCJ5E8Vv5KUAw
-         C2Mis5lpzNny2XsybWus/sY2UnwB7P2kcpNjP9+ml21AaP7L1WTDckVPN4d0WFfkTz+N
-         Ysfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783607213; x=1784212013;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1783607279; x=1784212079; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=pgKeluas+jUY/8yJAiAEBG5t4/+qnuDSzD0+HGXJqIM=;
-        b=W0iGuvQCLui2Uiv1J6Hdy9Z/Fz+ffdcU+wEijf5Qxv9unpVObq/V8Er6r8/lHVrbpl
-         aBg65tB5PopiKeoxXEup9Nho7f1FAndzbxDH3WYuiA3I+sTzwrURy0W3ZFb72HEgU8pM
-         vupxr7fNSrvSbGptAv4irBq9CVPYuIaVAZkoakl3KJQdtZ5VLXVHaJFS0jcbNuFmZI1I
-         LWEzMP63grvOU/EQZkpjvOlfq/iAMPUDq1rSSHphJd6GXobwGm9G5/M4XYlVz0bliM3B
-         HEqZ3U8Dp9ND2WMUnGxbzSAMWjwKXeop19CJpNtLBZsWUZ2VCrQI6v7KsJXbc+dsOQLP
-         n6/Q==
-X-Forwarded-Encrypted: i=1; AHgh+RoMiD05Y9kiL6A3ruv4nSLTiyeiGO0aezb1G/sKY9wOLqLqBD0P1Rx+d9GbhsTb1sO3UdyzYiaGbqc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZHP4c+rJ982ZHigjn6RqUm1PFR9dDQdctZZs5f8KdjBmWu/cN
-	iYSnsUSmPak35bppi+67XvoxnlODUA9eIVT5VfPSlFa5ZOpGo19ICyz8f0ACQxO4wXA=
-X-Gm-Gg: AfdE7cnbCTTj/aBf52LsEXWyfwISsogbUgjm6z8GTEkolh5r7PZc/zkFa+av/+M5f0u
-	mfP9roS3cZi46JiNLksaADocbndx8k8W8rcej1m0IMerb8RI+lYKlRLJQ2nIgENiym95WH2OdBu
-	JNbXN5mTpfUJRzI3lE9+7oGbw+KLSicVeZIDos07/QWdYvD75NfB/NLxrvUXjqF093hp3UkGaAH
-	vxiJMkWgddiPvhlyn6KiU345C4ucazvZNRpCWu9YSBiFHXp68ETXHBz/pL9NiYZP4gecCvan2Fv
-	TZRqgGyhE6LaoGlZMdHxScNblvOetmxxKUazARoZhQxPI6un1K999CV3dA4+vICHjKax2Fa7GxE
-	SaWkDpFhWKj8wL8FQUO9G1Cooud1HSlv5uttqpMnemXjsJHRpHQ2txrWxzIBxduZ+pyvf2xZ4MJ
-	DwEgsFSyeBGQftP38=
-X-Received: by 2002:a05:600c:34c3:b0:493:bb29:af40 with SMTP id 5b1f17b1804b1-493e689b37amr85711945e9.14.1783607213522;
-        Thu, 09 Jul 2026 07:26:53 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb74835esm72452175e9.14.2026.07.09.07.26.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 07:26:53 -0700 (PDT)
-Date: Thu, 9 Jul 2026 16:26:50 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2 2/4] printk: deprecate boot_delay in favour of
- printk_delay
-Message-ID: <ak-vqrSr7NLCkGQw@pathway.suse.cz>
-References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
- <20260630-deprecate_boot_delay-v2-2-f9883d36aa4b@thegoodpenguin.co.uk>
- <ak5mPxUdp2pzCMt5@pathway.suse.cz>
- <CALqELGxjTZAXEp1C1CNO2tLbUpUChZW3DHcNgyhEu4Ma-ct2ow@mail.gmail.com>
+        bh=o/Aj/fQ0/cX0gUBelTJEVsUYvKgREoT3ILbqcgtsbZk=;
+        b=Mjnmn2EMtBf3x8igFQKf1/TdlKL5LcGzR9jVohup+qDcWWodo/kHZwGiRwhanmNOor
+         Fq43BVNOFgZQR8et7IiQ6J5XgVZxHV9ntZWqozrX1WBDfCGEkYapR6e0BF0ZMofPAwZL
+         oh5egbtKz5kggHCJSTZzm3KKoJYB74VRQPrEHfC0tSZxoCD4cUbhKFZkqKT1Tlv2WrCG
+         0egaCkITMzn7BZN8JPh6YFL6Q3P1O9YqqMycKaPiZIjVy0hDhpv7o+L8R3v9f9DcJWvq
+         /4zm3nF87lHmOIYlLlH8ZwrN7UO3xHXUuN/Xrnrl6XU2d+7QKIDHMsYpHGHCEY2/i4Oc
+         kXdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783607279; x=1784212079;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=o/Aj/fQ0/cX0gUBelTJEVsUYvKgREoT3ILbqcgtsbZk=;
+        b=OvuX/bNbRQZD/a1viwlJ6vgil6Fw3CXOA1KQhBtUg6q+gC8qIoF6CQnJ2nwOr7bg26
+         lKhhEq75gCz5tP3pqlRZIp7v5cUGxK3NOFxpgG5jtSjHIMQOSOrtoSvMa7Ryq6bbSBX1
+         Z+vCVJZ6nMCpnWrTlGdZJeVzQSirSvVxDluGRZgjkXtqZfOvg6lpDsrew+btcwxokYli
+         vGJCraPOty8To+p23p2fy+TAdayoQ9SOHE0nIDhNlD8eFrhan+R8MOqxF3vat8q3Ym7I
+         d+6M5v2VFvn+a1zE73s11JimuVp23DLEnGdnSFBuKNVK8f7aQZEBAPJ4bmNekpw5QH3W
+         pl+g==
+X-Forwarded-Encrypted: i=1; AFNElJ8q/g5GRDH/4jTnWYlhV2bKTB4PXZa61Tk37R1qycSFcRomXk4309maSeK8nImweNSD9HGbvf4Mszo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzeLdPgUPHVcpf3RjbxcnqiNFbzU1BG+GffU87N3RnPAagqvIM+
+	bC/aRcJS5wS45aFP/ylmMi2yE/3iec1UpD3FMf6giypXEHOYqOCnsssiyzuFcge6r+/qyx2b34R
+	PpQPwAZOtYIkI26Km7LEt5QX1a2qpvb6AxTC0KMHLPg==
+X-Gm-Gg: AfdE7cmRuoRdgIzYFjEVdzgzBy4x0jP4V4rJnS+KFW53/srgyAfwTCxl/yOYCC/q+W5
+	FRePCaJbFq+355SbLRVlWAZ6uoL6AItA+u6mYkpBD0/ImeMcXDr1+wfRQp/ftpd5jZABKoJMliW
+	jTFY07xr8eRD8JL01jQe0jhfkstCp1dchoDgJyaMqqGFiz1aHsYzQLDuhZcF9KgeKo2g82wYtq/
+	LwActsOBn/gf0aD51aGSDXEhlPEQ9h44ISau/XGOQySFlHD6On37hjBqPidC2GF/f9jPOjbUPjl
+	/Pt6XZh1UgqM81r9WBqFEpuRMuUwW2IKYbrfd/NUwwYQZXOC3glTzkjeEzvdqWag/A7P6HmFWTq
+	AjvM+O2aP2OYyUMaT9qldqqZmdOiD
+X-Received: by 2002:a05:6820:210d:b0:6a1:87cb:c34e with SMTP id
+ 006d021491bc7-6a36da8c20amr5154700eaf.72.1783607279485; Thu, 09 Jul 2026
+ 07:27:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALqELGxjTZAXEp1C1CNO2tLbUpUChZW3DHcNgyhEu4Ma-ct2ow@mail.gmail.com>
+References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
+ <20260630-deprecate_boot_delay-v2-3-f9883d36aa4b@thegoodpenguin.co.uk>
+ <20260703165654.71be8707@mitra> <CALqELGz-KSrGq5JYvLedZiO-p21pjpRKbceO+jiSfwZGyx+91Q@mail.gmail.com>
+ <20260707145411.53a10893@mitra> <ak0VguIf-PxmbUOS@pathway.suse.cz> <87qzldvqpm.fsf@jogness.linutronix.de>
+In-Reply-To: <87qzldvqpm.fsf@jogness.linutronix.de>
+From: Andrew Murray <amurray@thegoodpenguin.co.uk>
+Date: Thu, 9 Jul 2026 15:27:47 +0100
+X-Gm-Features: AUfX_mz4PcZ8QKTOvulicXteeeMZuJNGsMqSn_rhQXpmhC8-QWtUxRPj3PV0YiM
+Message-ID: <CALqELGx+7RSKL0+kdOxu0TpXaOifYkzxmOTv+4gTSHqrbLEJ5Q@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] printk: nbcon: move printk_delay to console
+ emiting code
+To: John Ogness <john.ogness@linutronix.de>
+Cc: Petr Mladek <pmladek@suse.com>, Benedikt Spranger <b.spranger@linutronix.de>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Russell King <linux@armlinux.org.uk>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu 2026-07-09 13:32:10, Andrew Murray wrote:
-> Hi Petr,
-> 
-> On Wed, 8 Jul 2026 at 16:01, Petr Mladek <pmladek@suse.com> wrote:
+Hi John,
+
+On Wed, 8 Jul 2026 at 09:19, John Ogness <john.ogness@linutronix.de> wrote:
+>
+> On 2026-07-07, Petr Mladek <pmladek@suse.com> wrote:
+> > To summarize this discussion:
 > >
-> > On Tue 2026-06-30 17:35:58, Andrew Murray wrote:
-> > > The boot_delay (BOOT_PRINTK_DELAY) kernel parameter and printk_delay sysctl
-> > > are two distinct mechanisms for providing similar functionality which add a
-> > > delay prior to each printed printk message.
-> > >
-> > > boot_delay provides a kernel parameter for delaying printk output from
-> > > kernel start through to boot (SYSTEM_RUNNING), whereas printk_delay is
-> > > configurable only via sysctl and thus is only used post boot.
-> > >
-> > > Let's deprecate the boot_delay feature in favour of printk_delay. In order
-> > > to preserve functionality, we'll also extend printk_delay such that it can
-> > > additionally configured via an early kernel parameter.
-> > >
-> > > Behavior change:
-> > >
-> > > The delay enabled by both "boot_delay" and "printk_delay" continues
-> > > working even in SYSTEM_RUNNING state. It must be explicitly stopped
-> > > by setting printk_delay=0 via sysctl.
-> > >
-> > > The delay is skipped when the message is suppressed in all system
-> > > states. It used to skipped only for the boot_delay.
-> > >
-> > > Signed-off-by: Andrew Murray <amurray@thegoodpenguin.co.uk>
+> >   + Benedikt would prefer to add the synchronous mode before
+> >     moving the delay from the printk() caller to the console emit
+> >     code path.
 > >
-> > Looks good to me:
+> >   + The delay in the printk() caller code path did not guarantee
+> >     the output but it increased the chance to see it.
 > >
-> > Reviewed-by: Petr Mladek <pmladek@suse.com>
+> >   + The synchronous mode will be even more reliable than the delay
+> >     in printk() caller path.
 > >
-> > Note that Sashiko AI warns about possible problems with negative
-> > printk_delay values, see
-> > https://sashiko.dev/#/patchset/20260630-deprecate_boot_delay-v2-0-f9883d36aa4b%40thegoodpenguin.co.uk
+> > Please, let me know if I did not get it right,
 > >
-> > But they should be handled in both the early parameter
-> > and sysctl interface by the "10 * 1000" and "&ten_thousand"
-> > limits.
-> 
-> Yes, that was my also view.
-> 
-> 
+> > John, did you have any plan how to add the synchronous mode, please?
+> > Does it look complicated?
 > >
-> > The only potential problem might be a warning about possible
-> > "sign" mismatch from the compiler. But I do not see any
-> > even with make W=2.
-> 
-> I suspect this will come up everytime a change is made in this area,
-> or perhaps some W=2 errors will pop up via kernelci or similar. I
-> propose updating the patch as follows:
-> 
+> > I guess that we would somehow need to "mis-use" the emergency
+> > priority and force it everywhere by some global system setting.
+>
+> The synchronous mode would rely on the driver being nbcon. I envision
+> something like this:
+
+Is it possible to apply synchronous mode for both nbcon and legacy
+consoles? For the debugging case Benedikt suggested (is this the main
+use case for this feature?), it would be helpful if a developer could
+indicate a preference for synchronous mode without first determining
+the console type. Though I'm not sure what means you propose to
+indicate such a preference.
+
+
+>
+> ---- BEGIN SYNC IDEA ----
 > diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-> index 5278d9cb19e4..fbb67f10c21e 100644
+> index 2fe9a963c823a..beb5bb3c037b5 100644
 > --- a/kernel/printk/printk.c
 > +++ b/kernel/printk/printk.c
-> @@ -1338,10 +1338,13 @@ static inline void early_boot_delay_msec(void)
-> 
->  static int __init printk_delay_setup(char *str)
+> @@ -2456,6 +2456,8 @@ asmlinkage int vprintk_emit(int facility, int level,
+>
+>         if (ft.nbcon_atomic)
+>                 nbcon_atomic_flush_pending();
+> +       else if (have_nbcon_console_sync)
+> +               nbcon_atomic_flush_sync_pending();
+>
+>         if (ft.nbcon_offload)
+>                 nbcon_kthreads_wake();
+
+My interest in misusing (not proposing that as a solution) the
+emergency mode, is that the flush mode is nicely abstracted by
+printk_get_console_flush_type. Depending on how you trigger the sync
+mode, could printk_get_console_flush_type be expanded to look at a
+flag and return ft.legacy_direct, ft.legacy_offload or
+ft.nbcon_atomic_sync ? I.e. if a sync flag isn't set then
+printk_get_console_flush_type returns based on NBCON_PRIO_type but if
+it is, then it shortcuts to ft.legacy_direct, ft.legacy_offload or
+ft.nbcon_atomic_sync?
+
+I'm not familiar with this area of printk, so please forgive any
+obvious issues with this. But as someone that happily uses printk to
+debug the kernel, it would be nice to have an easy way to do this
+without the friction of figuring out what console I have.
+
+
+> diff --git a/kernel/printk/nbcon.c b/kernel/printk/nbcon.c
+> index 4b03b019cd5ee..8f8f29f757614 100644
+> --- a/kernel/printk/nbcon.c
+> +++ b/kernel/printk/nbcon.c
+> @@ -1200,7 +1200,7 @@ static bool nbcon_kthread_should_wakeup(struct console *con, struct nbcon_contex
+>         cookie = console_srcu_read_lock();
+>
+>         flags = console_srcu_read_flags(con);
+> -       if (console_is_usable(con, flags, false)) {
+> +       if (!(flags & CON_SYNC) &&  console_is_usable(con, flags, false)) {
+>                 /* Bring the sequence in @ctxt up to date */
+>                 ctxt->seq = nbcon_seq_read(con);
+>
+> @@ -1654,7 +1654,7 @@ static void nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
+>   *                                     write_atomic() callback
+>   * @stop_seq:                  Flush up until this record
+>   */
+> -static void __nbcon_atomic_flush_pending(u64 stop_seq)
+> +static void __nbcon_atomic_flush_pending(u64 stop_seq, bool sync_only)
 >  {
-> -       get_option(&str, &printk_delay_msec);
-> -       if (printk_delay_msec > 10 * 1000)
-> -               printk_delay_msec = 0;
-> +       int printk_delay_val = 0;
-> 
-> +       get_option(&str, &printk_delay_val);
-> +       if (printk_delay_val < 0 || printk_delay_val > 10 * 1000)
-> +               return 0;
+>         struct console *con;
+>         int cookie;
+> @@ -1666,6 +1666,9 @@ static void __nbcon_atomic_flush_pending(u64 stop_seq)
+>                 if (!(flags & CON_NBCON))
+>                         continue;
+>
+> +               if (sync_only && !(flags & CON_SYNC))
+> +                       continue;
 > +
-> +       printk_delay_msec = (unsigned int)printk_delay_val;
->         printk_delay_calculate();
-> 
->         return 0;
-> diff --git a/kernel/printk/sysctl.c b/kernel/printk/sysctl.c
-> index f15732e93c2e..f256fc05faaf 100644
-> --- a/kernel/printk/sysctl.c
-> +++ b/kernel/printk/sysctl.c
-> @@ -46,7 +46,7 @@ static const struct ctl_table printk_sysctls[] = {
->                 .data           = &printk_delay_msec,
->                 .maxlen         = sizeof(int),
+>                 if (!console_is_usable(con, flags, true))
+>                         continue;
+>
+> @@ -1688,7 +1691,12 @@ static void __nbcon_atomic_flush_pending(u64 stop_seq)
+>   */
+>  void nbcon_atomic_flush_pending(void)
+>  {
+> -       __nbcon_atomic_flush_pending(prb_next_reserve_seq(prb));
+> +       __nbcon_atomic_flush_pending(prb_next_reserve_seq(prb), false);
+> +}
+> +
+> +void nbcon_atomic_flush_sync_pending(void)
+> +{
+> +       __nbcon_atomic_flush_pending(prb_next_reserve_seq(prb), true);
+>  }
+>
+>  /**
+> @@ -1701,7 +1709,7 @@ void nbcon_atomic_flush_pending(void)
+>  void nbcon_atomic_flush_unsafe(void)
+>  {
+>         panic_nbcon_allow_unsafe_takeover = true;
+> -       __nbcon_atomic_flush_pending(prb_next_reserve_seq(prb));
+> +       __nbcon_atomic_flush_pending(prb_next_reserve_seq(prb), false);
+>         panic_nbcon_allow_unsafe_takeover = false;
+>  }
+>
+> ---- END SYNC IDEA ----
+>
+> BTW: The sync mode is the final piece so that PeterZ can start using
+> mainline code for debugging by serial instead of his own workaround [0].
+>
+> John
 
-I would change this to sizeof(unsigned int) as well.
+Thanks,
 
->                 .mode           = 0644,
-> -               .proc_handler   = proc_dointvec_minmax,
-> +               .proc_handler   = proc_douintvec_minmax,
->                 .extra1         = SYSCTL_ZERO,
->                 .extra2         = (void *)&ten_thousand,
->         },
+Andrew Murray
 
-Otherwise, it looks good to me.
-
-> This makes the cast explict, verifies the range before casting
-
-Yup.
-
-> (I guess a range of negative values could result in a postive value
-> within the 10,000 range) and also uses the correct proc_handler.
-
-IMHO, this should not happen. I have never seen int smaller than 4
-bytes. If I count it correctly, positive numbers should be up to 32767.
-
-
-> This has the side effect of not showing the following pr_debug for the
-> lpj calculation when a delay is not set. Though loops_per_msec is only
-> used during boot, so I don't think there is any loss here.
-
-I agree that it should not harm. But please mention this in
-the commit message.
-
->         pr_debug("printk_delay: %u, preset_lpj: %ld, lpj: %lu, "
->                 "HZ: %d, loops_per_msec: %llu\n",
->                 printk_delay_msec, preset_lpj, lpj, HZ, loops_per_msec);
-> 
-> Can I keep your Reviewed-By with these changes?
-
-Feel free to keep it. That said, please put at least the change
-of the ctl_table into a separate patch. I would rather put both new
-changes into separate file. It is never a good idea to hide
-such changes in a complex patch which mostly reshuffles an existing
-code.
-
-Best Regards,
-Petr
+>
+> [0] https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/log/?h=debug/experimental
