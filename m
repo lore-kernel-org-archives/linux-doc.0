@@ -1,170 +1,295 @@
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010056.outbound.protection.outlook.com [52.101.61.56])
+Received: from unimail.uni-dortmund.de (mx1.hrz.uni-dortmund.de [129.217.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97AC405C4B;
-	Thu,  9 Jul 2026 09:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783591007; cv=fail; b=J8MpNCZC0s487kpVF0EejJ5H2ztztu9QwVsyWHoTGmz8AH4Cjv/ClWpr4z9xG4PFxJHq87VIXTNWbnELR0zzEoykGQ/4T3NaOTIVTKDAnyIFamvUjaau/BpHCzQFYK/db0dAQI3E8J5YvCvm+BGhM+SslG/yD/jKOa/JOR5+wgE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783591007; c=relaxed/simple;
-	bh=RLh2kNV7umCHlxkpIeqps8YH/c/50jKN52FfiMxpidk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ji3ajZWoZpJDwMzrl4q8MabnxDFaIYf+ecwagyMs+1LnyrdWGyIQjRai6nLoVnX52M+dZ5xuU3LVFJaTGHJNvoXd1pvufc4llh3ztwIS/mW719YAq9m6HQMf8K33QOox3+wOelXR72xNN7AmsuCCmygLahn/xWvUozYyIZJeZzM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=hp2RDbO0; arc=fail smtp.client-ip=52.101.61.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6029A403E8D;
+	Thu,  9 Jul 2026 09:58:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.217.128.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783591126; cv=none; b=UuOVRe7o1cRm4GFOnv7RuZ9lWnOt9Igo8odZPNyiGo01Hx4hxvNXZFRKYW+CxE2B6/aRqYbrSHN4PzjE7N830kSIm+pU38ponpgXVuhV1ymnmCQObtQQT0KLtr7z3EsV2ygeisPc6A6B0zueWKKRGA7tX/9SIvqcGGrytyGehkE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783591126; c=relaxed/simple;
+	bh=MjexOoQqD7W7Z7SkflJSsLkpxw9/veDfOxuiFA6iOOE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PDOupiNw+Zy5P5O9FzrLN4RmxIaiJfZknRahthZGnOarV/RYlIrbTgcrEMuuGze6cuzsi3mnLFibdvWSRTYPNEftsWVdBDhj2t4c2PoO2MR3l2783L63SGf91aNFXgG3kUikLwZFvTMyToHhvOT88WCaX65Nlq8S9pB2MH8yoL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de; spf=pass smtp.mailfrom=tu-dortmund.de; dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b=hfU+EMeW; arc=none smtp.client-ip=129.217.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tu-dortmund.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="hp2RDbO0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZO7POv29WoJGOOCIGKhYmJbQt39MlIEQ5yTNQJzRnFm7BzBeW4rmK63Tqw0uGxgBpNxezHBXW1WqY9guJUCGazivJ5ipu+ELSEZLFYRRtCmNm+2BSd/w6sVolrRvIMAc3jSHaWuyKAby8eCN6yhlAZ0xDy85F/aJB6Q/tiUfPxnrsb9R91zHYTZmXMooUPhR3zegttmBt5+vciTIR7kPCLDr515LStHzGLMkZ4HBQfuSd9mlfaURuctmBp30oNonlvNVAVOkBRNSLgnLOShWX+wf4PV+SCOpEcgH9hl5kNKUWHRuMwGYcVx4n8ESRDBW5RQA2bABulVcqbIovt7dbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KYjxNYVwQUH+tnwHGdXumKGXm34E00c2T8jSHKpsEzQ=;
- b=NUzWVLXXKwEYo5RZr6TqdIoYgSGHg5s4XDWThrbMz/EhNoo3LfjpTSOWv4xNfIq7UqBetgw2pwz/piFEOVVQK4CJ+WfbUK03K+r/mMKz4q4cUSfgU/yMMrODU3acdhYN1Ipc26Ad1vANNFlggfe1F0EkSPeRDhfOvtF5C910KX1SgfazEI6bvSfhL3cCYYukBATw1XgxXAsQxm5PdyVXyMA02pZCwnVIhI5KWO7DSxuGx+eX7Nzag+dpqAcYAOqtDHzFjS0fF5sr1OtWnhlBDE/lmR8js/8bprKgDoe6zu3SKQ/Im2CBL7FLdnK91rk8bzPPXw7PFiCZHXd5h9Oyhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=arm.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KYjxNYVwQUH+tnwHGdXumKGXm34E00c2T8jSHKpsEzQ=;
- b=hp2RDbO0MrRRASsrNu5aloz7FoRxkCwAoFKO6daXe/6l4ZcZ3Xsz2hkXuLF79Lrh3mpPbEl1g6j7/FS8nuKpC/BHtjIkjC6M2BZSaW6BQ4fpbu765oKBR3dmm9bUY1qWFM6awKiiXBnfYOQKzSI+CV+PiqDaC69t+wdSn+tp6CVrY6oRJqe0K/7hCnD1lNo397/4hrDkiASpqxsSLm/qBZma8cqAuf+n0WXWRWu5kg4hxFZ0K+wlG9oorx7shZ4L9jR6rNGpqnYhBAgNJ7F3Sl+fUdwx6NSw87W3TQTMhGoSsdzrek9DeNrpCzisho12y+OZpLFCQV+g3SikfsNAJQ==
-Received: from BY3PR03CA0002.namprd03.prod.outlook.com (2603:10b6:a03:39a::7)
- by CH2PR12MB4311.namprd12.prod.outlook.com (2603:10b6:610:a8::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.15; Thu, 9 Jul
- 2026 09:56:40 +0000
-Received: from SJ5PEPF000001F7.namprd05.prod.outlook.com
- (2603:10b6:a03:39a::4) by BY3PR03CA0002.outlook.office365.com
- (2603:10b6:a03:39a::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.202.11 via Frontend Transport; Thu, 9
- Jul 2026 09:56:40 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SJ5PEPF000001F7.mail.protection.outlook.com (10.167.242.75) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Thu, 9 Jul 2026 09:56:39 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 9 Jul
- 2026 02:56:19 -0700
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 9 Jul
- 2026 02:56:19 -0700
-Received: from build-amhetre-focal-20250829.internal (10.127.8.12) by
- mail.nvidia.com (10.129.68.6) with Microsoft SMTP Server id 15.2.2562.20 via
- Frontend Transport; Thu, 9 Jul 2026 02:56:19 -0700
-From: Ashish Mhetre <amhetre@nvidia.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Robin Murphy <robin.murphy@arm.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>
-CC: <linux-tegra@vger.kernel.org>, Ashish Mhetre <amhetre@nvidia.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>
-Subject: [PATCH v5 3/3] iommu/arm-smmu-v3: Enable CFGI/TLBI-repeat workaround on Tegra264
-Date: Thu, 9 Jul 2026 09:56:09 +0000
-Message-ID: <20260709095613.831769-3-amhetre@nvidia.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260709095613.831769-1-amhetre@nvidia.com>
-References: <20260709095613.831769-1-amhetre@nvidia.com>
+	dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b="hfU+EMeW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tu-dortmund.de;
+	s=unimail; t=1783590916;
+	bh=pREjUoxcrWg5nsSFCo8/8ue8BnNKXRer/1tf19TeS4g=;
+	h=From:To:Cc:Subject:Date;
+	b=hfU+EMeWdHkRNFWDmkq+kILgOCDWe7Kx+pXaYNK5Vbp/C7JoyKWuZRyI9Ycbczu6V
+	 EZtHuidtongqE/wbqnQbzSmbCIVGbHHJyqkfImQLEpCETlP7M2T0H+qmnkTMsr6fES
+	 3z3qEHdKToytcNj9kfLHoIsLj3m8xltEsP0NatcI=
+Received: from simon-Latitude-5450.cni.e-technik.tu-dortmund.de ([129.217.186.172])
+	(authenticated bits=0)
+	by unimail.uni-dortmund.de (8.19.0.2/8.19.0.2) with ESMTPSA id 6699tETW006952
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 9 Jul 2026 11:55:14 +0200 (CEST)
+From: Simon Schippers <simon.schippers@tu-dortmund.de>
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Jason Wang <jasowangio@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        "Michael S . Tsirkin" <mst@redhat.com>, netdev@vger.kernel.org
+Cc: Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        Tim Gebauer <tim.gebauer@tu-dortmund.de>,
+        Brett Sheffield <brett@librecast.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Simon Schippers <simon.schippers@tu-dortmund.de>
+Subject: [PATCH net v3] tun/tap & vhost-net: make qdisc backpressure opt-in via IFF_BACKPRESSURE
+Date: Thu,  9 Jul 2026 11:55:11 +0200
+Message-ID: <20260709095511.168235-1-simon.schippers@tu-dortmund.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-NVConfidentiality: public
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F7:EE_|CH2PR12MB4311:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd0faed1-7e75-4109-874d-08dedda05f9c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|36860700016|7416014|376014|23010399003|11063799006|56012099006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	LlUdCzaWDsKVIIisUyKfDLJxzNk+ZEtbFA5KM1o2oe0XprhKFotGXn/5A/1Ohv7OpkeZQGaYyP5l1/3z7oP7fVu4NK2EsQ4NrYo0/AnmSOOHAs1bxARxvWgneY1jZ+9QRzFrhFsROiD61ggh4RYtrNN8GIyc322YDZOXSlML2wN5uhGBBY2H6lJIu9IrUigc/W4luSkGW6I4FnPCiCLrPNCSvfeku5PL0vvw3H3w6k7PJ+HLwPu4Gbq9MZsJ0yDFTs0JvZlINMGqzWhI2U6ST02cu3sU+8+PncEmYz/JwOk8vlm7H6pR0eT4uuZGvI+UTzolAEAJdYDZxR6RoQHsgehGcScwu33xu0vop6coE6nH0FRtpx0+VdGsgD9z/+A6nKRw3FOw9fCmISmJqHB9+UGm8MAPbgMKWoCcNtDijSAOoFl8WLmhQqmPKvz+q5ajlP+81dC0BKNokp14JJOGq/+DE8TtLOqOtGSAJWtKJrv26hJjFklH5V8C8F0ZN75QsK9RgEGAApVVCG5AMc791ZozAqJOLc+yE8BGhHdKSWD+wrWheZk4BFprBsE4ZRbnAFf5LL0ArA9LsaieCcxsEpXLNZqyZfsmAPWTmyFEUY42AMlawxx2VUmNbmXyyJ0P4iLPOyqFH89D3F+vFSwmzPKjNJpkmWBSNPnPkQEZh3wSGasNUhUeJD4LpXMS/9VDWgHPYuteKjFwlilaJyYd7A==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700016)(7416014)(376014)(23010399003)(11063799006)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	ZSQqVpa4/bIlZCn362OQMpjyMNG+Kem0sPOyBpaSVS7wWKcRiX1m2r2u6aazl/m8ZdokmwF0LH+ObsaqnJG4XbuqpIESXspFJiUKtoZCp/HM66owJB+IsScY2MuCuR0ze5mv6HRJshr9Ftxk7fK+Jzkvra3GGF7b4zo6x3VLOh/+jIUddFeOHNy7AGFGRCgti7xRjKw2oIVHGCbfZyEwNe794pqlnDAVpK2iTkYoJI4gRZC8U/nSxztVf0K0u1rChG4TX/+TFXK47tULFcjl7ziA0Nyj5pRe/Z18utqfAf+QmC4rryvGzQZFkUWehTXgkaN47kagvQ9Ve9C1h9rz+Uylyh6V/qckaaTkLcgO7LX7Sg0k+c0goN5SBpcqQazjvk3tadJM7VTzLrqx2V1n+YpnuD0Dw8SU4OVwL7XlFx24LNnsYcy+X/cDBuMUdHJ8
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 09:56:39.9374
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd0faed1-7e75-4109-874d-08dedda05f9c
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001F7.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4311
 
-Nvidia Tegra264 SMMU is affected by an erratum where a TLB entry can
-survive an invalidation that races with concurrent traffic targeting
-the same entry. The hardware-recommended software workaround is to
-issue every CFGI/TLBI command (each followed by CMD_SYNC) twice, and
-that infrastructure is already in place behind
-arm_smmu_erratum_repeat_tlbi_cfgi_key.
+Commit 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop
+when a qdisc is present") did not show a relevant performance regression
+in my testing but on Brett Sheffield's librecast testbed it shows a
+significant performance drop in a IPv6 multicast testcase. The regression
+can be pinpointed when multiple iperf3 TCP threads are sending. For 8
+threads the performance dropped from 13.5 Gbit/s to 9.13 Gbit/s. This is
+the reason why this patch makes the qdisc backpressure behavior opt-in.
 
-Neither IDR nor IIDR flags this Tegra264-specific bug, so hardware
-detection is not possible. Tegra264 is device-tree-only (no ACPI/IORT
-support) and already has a dedicated "nvidia,tegra264-smmu" compatible,
-so DT-probe is the only viable detection path.
+One option to accomplish the opt-in would be to set the default qdisc to
+noqueue at init. However this may also break userspace as users might
+have chosen a custom qdisc even though most of the qdiscs did nothing
+for tun/tap in the past due to missing backpressure...
 
-Enable the workaround on instances matching the existing
-"nvidia,tegra264-smmu" compatible by calling static_branch_enable() on
-arm_smmu_erratum_repeat_tlbi_cfgi_key. Document the erratum in
-Documentation/arch/arm64/silicon-errata.rst.
+This is the reason why in this patch, the flag IFF_BACKPRESSURE is
+introduced instead which is required to enable the backpressure logic.
+This means the stopping logic in tun_net_xmit() and the waking logic in
+__tun_wake_queue() are skipped if the flag is disabled. Setting
+IFF_BACKPRESSURE makes an attached qdisc effective by stopping the queue
+instead of tail-dropping when the internal ring is full.
 
-Signed-off-by: Ashish Mhetre <amhetre@nvidia.com>
+To avoid a possible stall due to disabling IFF_BACKPRESSURE, the new
+helper tun_force_wake_queue() is implemented. The helper safely wakes the
+respective netdev queue and resets cons_cnt while the consumer_lock and
+the producer_lock of the ring are held. The helper is run in tun_attach()
+when a queue (re)attaches, in tun_set_iff() for attached tfiles, and
+in tun_queue_resize().
+
+The documentation in tuntap.rst is updated accordingly.
+
+Fixes: 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop when a qdisc is present")
+Reported-by: Brett Sheffield <brett@librecast.net>
+Closes: https://lore.kernel.org/netdev/akVnoOYQOrt8k-Gu@karahi.librecast.net/T/#u
+Signed-off-by: Simon Schippers <simon.schippers@tu-dortmund.de>
 ---
- Documentation/arch/arm64/silicon-errata.rst | 2 ++
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 4 +++-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+V2 -> V3:
+- As suggested by MST: Clarify in tuntap.rst and the UAPI header what
+  enabling IFF_BACKPRESSURE opts into: an attached qdisc becomes effective
+  instead of the driver tail-dropping when the internal ring is full.
+- Avoid lines over 75 characters.
+- Update comment in tun_net_xmit() to include IFF_BACKPRESSURE.
+- Brett: Update in commit message that the referenced tests were TCP.
 
-diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index 014aa1c215a1..076b3947d259 100644
---- a/Documentation/arch/arm64/silicon-errata.rst
-+++ b/Documentation/arch/arm64/silicon-errata.rst
-@@ -312,6 +312,8 @@ stable kernels.
- |                |                 | T241-MPAM-4,    |                             |
- |                |                 | T241-MPAM-6     |                             |
- +----------------+-----------------+-----------------+-----------------------------+
-+| NVIDIA         | T264 SMMU       | T264-SMMU-3     | N/A                         |
-++----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
- | Freescale/NXP  | LS2080A/LS1043A | A-008585        | FSL_ERRATUM_A008585         |
- +----------------+-----------------+-----------------+-----------------------------+
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 15b9d0170520..edb7a5d38cf9 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -5331,8 +5331,10 @@ static int arm_smmu_device_dt_probe(struct platform_device *pdev,
- 	if (of_dma_is_coherent(dev->of_node))
- 		smmu->features |= ARM_SMMU_FEAT_COHERENCY;
+V1 -> V2:
+- Sashiko: Ensure detached queues are woken on re-attach by calling the
+  new tun_force_wake_queue() helper from tun_attach(), and reuse it
+  across the existing wake paths.
+- Specify the failing test case in the commit message.
+
+V1: https://lore.kernel.org/netdev/20260704112058.95421-1-simon.schippers@tu-dortmund.de/T/#u
+V2: https://lore.kernel.org/netdev/20260706094242.115992-1-simon.schippers@tu-dortmund.de/T/#u
+
+ Documentation/networking/tuntap.rst | 22 +++++++++++++
+ drivers/net/tun.c                   | 51 ++++++++++++++++++++---------
+ include/uapi/linux/if_tun.h         |  4 +++
+ tools/include/uapi/linux/if_tun.h   |  1 +
+ 4 files changed, 62 insertions(+), 16 deletions(-)
+
+diff --git a/Documentation/networking/tuntap.rst b/Documentation/networking/tuntap.rst
+index 4d7087f727be..5921a924c2ae 100644
+--- a/Documentation/networking/tuntap.rst
++++ b/Documentation/networking/tuntap.rst
+@@ -206,6 +206,28 @@ enable is true we enable it, otherwise we disable it::
+       return ioctl(fd, TUNSETQUEUE, (void *)&ifr);
+   }
  
--	if (of_device_is_compatible(dev->of_node, "nvidia,tegra264-smmu"))
-+	if (of_device_is_compatible(dev->of_node, "nvidia,tegra264-smmu")) {
- 		tegra_cmdqv_dt_probe(dev->of_node, smmu);
-+		static_branch_enable(&arm_smmu_erratum_repeat_tlbi_cfgi_key);
++3.4 qdisc backpressure
++----------------------
++
++Starting with Linux 7.2, IFF_BACKPRESSURE can be set to enable qdisc
++backpressure. Without it, TX drops occur when the internal ring buffer
++is full, so any attached qdisc is effectively bypassed and applications
++only learn about congestion through those drops.
++
++With it, the kernel stops instead, letting the qdisc hold and schedule
++packets, so its AQM, shaping and fairness actually apply. This helps
++protocols like TCP, which cut throughput in reaction to packet drops.
++With IFF_BACKPRESSURE, drops then only occur as a rare race. Backpressure
++requires a qdisc to be attached and has no effect with noqueue.
++
++The txqueuelen can be reduced alongside this flag to further shift
++buffering into the qdisc and reduce bufferbloat, but comes at possible
++performance cost.
++
++When running multiple network streams in parallel through a single
++TUN/TAP queue, the flag may reduce performance due to the extra overhead
++of the backpressure mechanism.
++
+ Universal TUN/TAP device driver Frequently Asked Question
+ =========================================================
+ 
+diff --git a/drivers/net/tun.c b/drivers/net/tun.c
+index ffbe6f13fb1f..5941e8f302ea 100644
+--- a/drivers/net/tun.c
++++ b/drivers/net/tun.c
+@@ -98,7 +98,8 @@ static void tun_default_link_ksettings(struct net_device *dev,
+ #define TUN_FASYNC	IFF_ATTACH_QUEUE
+ 
+ #define TUN_FEATURES (IFF_NO_PI | IFF_ONE_QUEUE | IFF_VNET_HDR | \
+-		      IFF_MULTI_QUEUE | IFF_NAPI | IFF_NAPI_FRAGS)
++		      IFF_MULTI_QUEUE | IFF_NAPI | IFF_NAPI_FRAGS | \
++		      IFF_BACKPRESSURE)
+ 
+ #define GOODCOPY_LEN 128
+ 
+@@ -694,6 +695,20 @@ static void tun_detach_all(struct net_device *dev)
+ 		module_put(THIS_MODULE);
+ }
+ 
++static void tun_force_wake_queue(struct tun_struct *tun,
++				 struct tun_file *tfile)
++{
++	/* Ensure that the producer can not stop the
++	 * queue concurrently by taking locks.
++	 */
++	spin_lock_bh(&tfile->tx_ring.consumer_lock);
++	spin_lock(&tfile->tx_ring.producer_lock);
++	netif_wake_subqueue(tun->dev, tfile->queue_index);
++	tfile->cons_cnt = 0;
++	spin_unlock(&tfile->tx_ring.producer_lock);
++	spin_unlock_bh(&tfile->tx_ring.consumer_lock);
++}
++
+ static int tun_attach(struct tun_struct *tun, struct file *file,
+ 		      bool skip_filter, bool napi, bool napi_frags,
+ 		      bool publish_tun)
+@@ -737,11 +752,9 @@ static int tun_attach(struct tun_struct *tun, struct file *file,
+ 		goto out;
+ 	}
+ 
+-	spin_lock(&tfile->tx_ring.consumer_lock);
+-	tfile->cons_cnt = 0;
+-	spin_unlock(&tfile->tx_ring.consumer_lock);
+ 	tfile->queue_index = tun->numqueues;
+ 	tfile->socket.sk->sk_shutdown &= ~RCV_SHUTDOWN;
++	tun_force_wake_queue(tun, tfile);
+ 
+ 	if (tfile->detached) {
+ 		/* Re-attach detached tfile, updating XDP queue_index */
+@@ -1077,7 +1090,8 @@ static netdev_tx_t tun_net_xmit(struct sk_buff *skb, struct net_device *dev)
+ 
+ 	spin_lock(&tfile->tx_ring.producer_lock);
+ 	ret = __ptr_ring_produce(&tfile->tx_ring, skb);
+-	if (!qdisc_txq_has_no_queue(queue) &&
++	if ((tun->flags & IFF_BACKPRESSURE) &&
++	    !qdisc_txq_has_no_queue(queue) &&
+ 	    __ptr_ring_check_produce(&tfile->tx_ring) == -ENOSPC) {
+ 		netif_tx_stop_queue(queue);
+ 		/* Paired with smp_mb() in __tun_wake_queue() */
+@@ -1088,8 +1102,8 @@ static netdev_tx_t tun_net_xmit(struct sk_buff *skb, struct net_device *dev)
+ 	spin_unlock(&tfile->tx_ring.producer_lock);
+ 
+ 	if (ret) {
+-		/* This should be a rare case if a qdisc is present, but
+-		 * can happen due to lltx.
++		/* This should be a rare case if IFF_BACKPRESSURE is enabled and
++		 * a qdisc is present, but can happen due to lltx.
+ 		 * Since skb_tx_timestamp(), skb_orphan(),
+ 		 * run_ebpf_filter() and pskb_trim() could have tinkered
+ 		 * with the SKB, returning NETDEV_TX_BUSY is unsafe and
+@@ -2151,8 +2165,12 @@ static ssize_t tun_put_user(struct tun_struct *tun,
+ static void __tun_wake_queue(struct tun_struct *tun,
+ 			     struct tun_file *tfile, int consumed)
+ {
+-	struct netdev_queue *txq = netdev_get_tx_queue(tun->dev,
+-						tfile->queue_index);
++	struct netdev_queue *txq;
++
++	if (!(tun->flags & IFF_BACKPRESSURE))
++		return;
++
++	txq = netdev_get_tx_queue(tun->dev, tfile->queue_index);
+ 
+ 	/* Paired with smp_mb__after_atomic() in tun_net_xmit() */
+ 	smp_mb();
+@@ -2764,7 +2782,7 @@ static int tun_set_iff(struct net *net, struct file *file, struct ifreq *ifr)
+ 	struct tun_struct *tun;
+ 	struct tun_file *tfile = file->private_data;
+ 	struct net_device *dev;
+-	int err;
++	int err, i;
+ 
+ 	if (tfile->detached)
+ 		return -EINVAL;
+@@ -2893,8 +2911,12 @@ static int tun_set_iff(struct net *net, struct file *file, struct ifreq *ifr)
+ 	/* Make sure persistent devices do not get stuck in
+ 	 * xoff state.
+ 	 */
+-	if (netif_running(tun->dev))
+-		netif_tx_wake_all_queues(tun->dev);
++	if (netif_running(tun->dev)) {
++		for (i = 0; i < tun->numqueues; i++) {
++			tfile = rtnl_dereference(tun->tfiles[i]);
++			tun_force_wake_queue(tun, tfile);
++		}
 +	}
  
- 	return ret;
- }
+ 	strscpy(ifr->ifr_name, tun->dev->name);
+ 	return 0;
+@@ -3693,10 +3715,7 @@ static int tun_queue_resize(struct tun_struct *tun)
+ 	if (!ret) {
+ 		for (i = 0; i < tun->numqueues; i++) {
+ 			tfile = rtnl_dereference(tun->tfiles[i]);
+-			spin_lock(&tfile->tx_ring.consumer_lock);
+-			netif_wake_subqueue(tun->dev, tfile->queue_index);
+-			tfile->cons_cnt = 0;
+-			spin_unlock(&tfile->tx_ring.consumer_lock);
++			tun_force_wake_queue(tun, tfile);
+ 		}
+ 	}
+ 
+diff --git a/include/uapi/linux/if_tun.h b/include/uapi/linux/if_tun.h
+index 79d53c7a1ebd..a0ddc50a7534 100644
+--- a/include/uapi/linux/if_tun.h
++++ b/include/uapi/linux/if_tun.h
+@@ -69,6 +69,10 @@
+ #define IFF_NAPI_FRAGS	0x0020
+ /* Used in TUNSETIFF to bring up tun/tap without carrier */
+ #define IFF_NO_CARRIER	0x0040
++/* Stop the queue instead of dropping when the internal ring is full, so an
++ * attached qdisc applies backpressure instead of being bypassed.
++ */
++#define IFF_BACKPRESSURE	0x0080
+ #define IFF_NO_PI	0x1000
+ /* This flag has no real effect */
+ #define IFF_ONE_QUEUE	0x2000
+diff --git a/tools/include/uapi/linux/if_tun.h b/tools/include/uapi/linux/if_tun.h
+index 2ec07de1d73b..97b670f5bc0a 100644
+--- a/tools/include/uapi/linux/if_tun.h
++++ b/tools/include/uapi/linux/if_tun.h
+@@ -67,6 +67,7 @@
+ #define IFF_TAP		0x0002
+ #define IFF_NAPI	0x0010
+ #define IFF_NAPI_FRAGS	0x0020
++#define IFF_BACKPRESSURE	0x0080
+ #define IFF_NO_PI	0x1000
+ /* This flag has no real effect */
+ #define IFF_ONE_QUEUE	0x2000
 -- 
-2.50.1
+2.43.0
 
