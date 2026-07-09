@@ -1,57 +1,57 @@
 Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3253D88FA;
-	Thu,  9 Jul 2026 21:58:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E886E3B8D70;
+	Thu,  9 Jul 2026 21:58:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783634297; cv=none; b=pNzHjj1IwQKtcLNYDyccgk0dxaqRfOt5y5uOKEFol54EpnRIZ9/TbTIpGBMMtv6FoGy9SkzGd2iTFpgwaA/laZsvBlqDKXCEyFz07fsV0a2ACMbd9TI+Hy2KXAmZBori8UofJLeLLPZJnHGhQCBIq8b1TmbteqyrSCJla4/VdJI=
+	t=1783634311; cv=none; b=Fa54LpIZJD2MREAKw63v1YqdxSv8NFuc7CEnpYyJwDgaEPzqvYtsaoeB/DZ/LqxQcPSI7Hy9ZVKetUv45ODAobF1NrkxHFmnP3lv/ctXhVvjEWYNrBdsOlwZJfkAP0b2eNbST/bCuVFbqac/BZvDTlsTX1xTU1LWMfsoUY6udXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783634297; c=relaxed/simple;
-	bh=5FuEM5ziYslUFVdIrEkCvsDYz8S70mdYhf72H9GQm4k=;
+	s=arc-20240116; t=1783634311; c=relaxed/simple;
+	bh=zFLhdkSPVX3cU4VHIO6/Eer3d57paTSo+val8cPIL48=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=emG1/ZsWH1MHk+slHVT528gZi+QLgiZTgZe5sTeHtM4M3DhzyovZjDroztutgy0AouqLSXUJbXGaG5XXRxxekL/qf1jqxQ1DVzVItiSwxMckTN8L+bO+HuhXabNXIv6KrOICaQarHAN8/dv+hNVpTj9q7DEyi44m2lHIFKE0nM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=U1pfFOTt; arc=none smtp.client-ip=148.163.156.1
+	 MIME-Version; b=g68Yx+aHLIFI1rKJ7BlMNrcg3AS5iXd4sWppOK6OQfmSqvGQ3yH+j+7bWUD2pvX/uKfRe3/Y/f8T1F8Pp7FDWzxVpWqwvZc42cn7vhsOes32iGpIV0G3ojJnrXNlKoFBR6i2pwDQdh3V4zTDCzS9Wal0lDtmlN+r4gbBIbBnze4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=MIEoDtGj; arc=none smtp.client-ip=148.163.156.1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="U1pfFOTt"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 669HmV7C2860929;
-	Thu, 9 Jul 2026 21:57:55 GMT
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="MIEoDtGj"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 669HmVwx2623604;
+	Thu, 9 Jul 2026 21:58:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=e6hIre7nDfpHzeCg3
-	aafExC1wzPYvqwUb7hkM4rMuw0=; b=U1pfFOTt8y7Z9JE7BX2sATsXjBEYjiCJo
-	QBwt38Z3hemJfk5EcDo/hwn6J+6CEWHEpkqxHbObJF2KIYlTXCxHBUltNuO8Rsht
-	TaTnygKtvXg/HqhV/F+xLOtqpzlL38AIttFrnmcJvPgQ7Ll6sD33NeA7j0yuLpcr
-	si8kx4fLJCOXTnBI4GzT8Np247r2MWJuprmIKprsXYsT7+MGcPEcCbS7uVKvk3vl
-	ieKMBGmUB6fiMDU08IV0H9jRaZDE7NMYOttIjb9grAhrsOGGuLE509trsof6h7XE
-	M7Q/3R99kn0UGgjloOIN24GttYmLWzVB6Dj+hTMhCIAT/o7jy+w9w==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fafh0935r-1
+	:mime-version:references:subject:to; s=pp1; bh=E0DRGKpNLJpZocoMz
+	k0hqdz9z+ZjTk++q3UzPLMGXfU=; b=MIEoDtGjcXqV+9o/m29KJIoethDv4Ysko
+	ot1Un77tJ3BRh1Hu32qnODVqaC2g3xZij6ZtGx3R9s9lHu1WBmhgokOqOlhidoSE
+	dqPmi1ClmqtE6mdA0b4299WQ5GWp+hn9P/xCWb9UJgXUMUOOLr9EhZGay2zRKF3l
+	0HWp2GrQoKmWL1kC8mYSFTRIlRuX2m4gcmp5Zsg9fDwk/tHb0n5WZ2SMaZAZynB3
+	JICikkhwpL6oPR5lpA7WrnTypl6zEAZK2VK5gHz+GJbtguOCG/a1YZSV5fPxhby9
+	ib3CxkT2W7Fw/HtO0nBe03FsC14TMbP995Yd0sFN03AXfHz0IFp6g==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6sw53uh0-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 09 Jul 2026 21:57:54 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 669Lo0lG004986;
-	Thu, 9 Jul 2026 21:57:53 GMT
+	Thu, 09 Jul 2026 21:58:02 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 669Lo4sL025750;
+	Thu, 9 Jul 2026 21:58:01 GMT
 Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f7e0hq1ng-1
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f7dgkf4rp-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 09 Jul 2026 21:57:53 +0000 (GMT)
+	Thu, 09 Jul 2026 21:58:01 +0000 (GMT)
 Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 669Lvn0042533170
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 669Lvuj847579560
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 9 Jul 2026 21:57:49 GMT
+	Thu, 9 Jul 2026 21:57:56 GMT
 Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E17272004B;
-	Thu,  9 Jul 2026 21:57:48 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id B830A20049;
+	Thu,  9 Jul 2026 21:57:56 +0000 (GMT)
 Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7810920040;
-	Thu,  9 Jul 2026 21:57:41 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 5C37420040;
+	Thu,  9 Jul 2026 21:57:49 +0000 (GMT)
 Received: from li-7bb28a4c-2dab-11b2-a85c-887b5c60d769.ibm.com.com (unknown [9.39.26.144])
 	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  9 Jul 2026 21:57:41 +0000 (GMT)
+	Thu,  9 Jul 2026 21:57:49 +0000 (GMT)
 From: Shrikanth Hegde <sshegde@linux.ibm.com>
 To: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
         juri.lelli@redhat.com, vincent.guittot@linaro.org,
@@ -66,9 +66,9 @@ Cc: sshegde@linux.ibm.com, tglx@kernel.org, gregkh@linuxfoundation.org,
         tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
         rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
         linux-doc@vger.kernel.org
-Subject: [PATCH v7 06/12] sched/core: Push current task from non preferred CPU
-Date: Fri, 10 Jul 2026 03:26:42 +0530
-Message-ID: <20260709215648.1246821-7-sshegde@linux.ibm.com>
+Subject: [PATCH v7 07/12] sched/debug: Add migration stats due to non preferred CPUs
+Date: Fri, 10 Jul 2026 03:26:43 +0530
+Message-ID: <20260709215648.1246821-8-sshegde@linux.ibm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260709215648.1246821-1-sshegde@linux.ibm.com>
 References: <20260709215648.1246821-1-sshegde@linux.ibm.com>
@@ -81,177 +81,91 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=VebH+lp9 c=1 sm=1 tr=0 ts=6a501963 cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+X-Proofpoint-GUID: KgVQvuIPTnqXkQramDLMYw8AeInfXGn7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA5MDIxOCBTYWx0ZWRfXw3i8RbQ5sGvB
+ SIJnr1d74SQZtaFWm1sa/5srqlxZChKi0tznzygnNGOr1balIhq4yDhy6kNDb5Dt9Y00JuyLb0n
+ YJ37J94Lo3OvCIS1iWkdlqBc1wuAh8RlJjDuAIfLSiMjRVqpx2OXlFQmemM34dGQ8s4+DzBK8m7
+ EEnE9nqmJPp6vej/vd2Uj1E173gq8uWtSqC1elYGsZx8sfobSJMXlcSF4Vj7+yIxC+pBaRNhPWN
+ AvpBNQD4R45vB07J7Vo7ld5X1VsL8l+43MrV3PhxQ+ObzlSgXfnrtvN2GDgXRSLPPENdalAZwZ7
+ 91PpO0XSYZ0U3NTlCr3kyZJSRIvlC2BYuPHLoUNE+YOlzZaEsjGqWpp0gN8KQc4nn3f6hmxVz8i
+ THhV+O9Ro/xU86NbMqL7n0WkZmg/nCMwwUOPH8OrI3so0eb+jXz+z0R2rwUe0FWFUHov3Y5QF6o
+ t3vwwnsEaloB20sjPgg==
+X-Proofpoint-ORIG-GUID: KIDFo0dyc-nu05P1MddBxc3X_wGcH_b2
+X-Authority-Analysis: v=2.4 cv=FqQ1OWrq c=1 sm=1 tr=0 ts=6a50196b cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
  a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=iQ6ETzBq9ecOQQE5vZCe:22 a=VnNF1IyMAAAA:8 a=cUlZA3h0E36_aS3HAx0A:9
-X-Proofpoint-GUID: gcSqeJk5QKaHtS64tpS2JEFE5HWiYAM_
-X-Proofpoint-ORIG-GUID: hmqVsHRsKPyWk_CSUNmRf6tMnDiDW5b_
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA5MDIxOCBTYWx0ZWRfX6ay9uRLf+EGI
- CLyI4Z9mAFbTKma1X9hojUVCLBp1/fcO2VjG4bZBUl0Ypcnj1N9jb3UNl0pkrCD5w6DgqwSLu/X
- TVvYCkR8MO3ODHjrgQHv20l6RxXfGNo=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA5MDIxOCBTYWx0ZWRfX1VLUZV/9wSiq
- lNs9hOYE9Rki+G57GPyBzdIyvPUv4XSEThXCIygSOKEAvIVOJfATSZoZQ7mPYmP2kPfHoqysx/m
- 8gVW1Eh7ZkSbC7Tz3f7SqmR6rjaW0o1DpRvay7N0pMnjDSna+hf2lqrthzhVBEHAm795ykmYeuA
- awuN7XysOXA3XERtE/Kj4YkWHW9icC29PDyFEOXyyMSrVu5sfK2GR4dS9SgPwiKEYzdfBAYIu3L
- 8R2GI4OE4ioguRaqQ+QgLEYe+wNtaUqJSlatamsUExsm/n1f240Qf2/o+IncFBUam7QxiPqVkzV
- 78OGXnoQvz/LHHSpnJtv2OufjH5VeweQxvonOYq2XJV5mnnpqzdD8UsHKvkmSkgsKd7E3NnmHEv
- ALP2IOVSC+wYjXT7/RV5lOkPtLx15bIfL4Ca3RX9bjkVh9U+h4zOpmyuPq5CDot9lU4tzC6DbKa
- wlk45lDCVz1VMrj5kFA==
+ a=U7nrCbtTmkRpXpFmAIza:22 a=VnNF1IyMAAAA:8 a=-i9lZGrASMRMKgkbeRgA:9
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA5MDIxOCBTYWx0ZWRfX9MTfo8hacsLR
+ grdQjBQYK2IA3e+pnU7zLnD3L7UWW6jYI3A3Cf06w+d+jEg+zrboUxKDeWeythlOWjxnsKjGK6b
+ i3DgEJUmJ/WBwkeQMuSddn9ygrh2P94=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-09_04,2026-07-09_04,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 clxscore=1015 malwarescore=0
- impostorscore=0 phishscore=0 lowpriorityscore=0 adultscore=0 spamscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607090218
+ adultscore=0 impostorscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 bulkscore=0 suspectscore=0 spamscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607090218
 
-Actively push out task running on a non-preferred CPU. Since the task is
-running on the CPU, need to stop the cpu and push the task out.
-However, if the task is pinned only to non-preferred CPUs, it will continue
-running there. This will help in maintaining the userspace affinities
-unlike CPU hotplug or isolated cpusets.
-
-Though code is similar to  __balance_push_cpu_stop and quite close to
-push_cpu_stop, it is being kept separate as it provides a cleaner
-implementation with CONFIG_PREFERRED_CPU.
-
-Add push_task_work_done flag to protect work buffer.
-Works only with FAIR class.
-
-For now, only current running task is pushed out. This keeps the code
-simpler. In future optimization maybe done to move all the queued
-task on the rq.
+Add a new stat,
+- nr_migrations_cpu_non_preferred: number of migrations happened since
+  a CPU was marked as non preferred due to high steal time.
 
 Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
 ---
 v6->v7:
-- Moved is_migration_disabled
-- removed fair class check 
+- Check if rq indeed changed or not before increment.
 
- kernel/sched/core.c  | 78 ++++++++++++++++++++++++++++++++++++++++++++
- kernel/sched/sched.h |  8 +++++
- 2 files changed, 86 insertions(+)
+ include/linux/sched.h |  1 +
+ kernel/sched/core.c   | 10 ++++++++--
+ kernel/sched/debug.c  |  1 +
+ 3 files changed, 10 insertions(+), 2 deletions(-)
 
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 968b18a7f470..37849d2f1dbd 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -554,6 +554,7 @@ struct sched_statistics {
+ 	u64				nr_failed_migrations_running;
+ 	u64				nr_failed_migrations_hot;
+ 	u64				nr_forced_migrations;
++	u64				nr_migrations_cpu_non_preferred;
+ 
+ 	u64				nr_wakeups;
+ 	u64				nr_wakeups_sync;
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 9e8eec4451b6..74c93a88bf84 100644
+index 74c93a88bf84..1ca1eefbdaf9 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
-@@ -5774,6 +5774,9 @@ void sched_tick(void)
- 	unsigned long hw_pressure;
- 	u64 resched_latency;
+@@ -11324,8 +11324,14 @@ static int sched_non_preferred_cpu_push_stop(void *arg)
  
-+	if (!cpu_preferred(cpu))
-+		sched_push_current_non_preferred_cpu(rq);
-+
- 	if (housekeeping_cpu(cpu, HK_TYPE_KERNEL_NOISE))
- 		arch_scale_freq_tick();
+ 	context_unsafe_alias(rq);
  
-@@ -11292,3 +11295,78 @@ void sched_change_end(struct sched_change_ctx *ctx)
- 		p->sched_class->prio_changed(rq, p, ctx->prio);
- 	}
- }
+-	if (task_rq(p) == rq && task_on_rq_queued(p))
+-		rq = __migrate_task(rq, &rf, p, cpu);
++	if (task_rq(p) == rq && task_on_rq_queued(p)) {
++		struct rq *dest_rq;
 +
-+#ifdef CONFIG_PREFERRED_CPU
-+static DEFINE_PER_CPU(struct cpu_stop_work, npc_push_task_work);
-+
-+static int sched_non_preferred_cpu_push_stop(void *arg)
-+{
-+	struct task_struct *p = arg;
-+	struct rq *rq = this_rq();
-+	struct rq_flags rf;
-+	int cpu;
-+
-+	/* sanity checks and clear */
-+	if (cpu_preferred(rq->cpu) || is_migration_disabled(p)) {
-+		scoped_guard(rq_lock, rq)
-+			rq->push_task_work_done = false;
-+		put_task_struct(p);
-+		return 0;
++		dest_rq = __migrate_task(rq, &rf, p, cpu);
++		if (rq != dest_rq)
++			schedstat_inc(p->stats.nr_migrations_cpu_non_preferred);
++		rq = dest_rq;
 +	}
-+
-+	raw_spin_lock_irq(&p->pi_lock);
-+
-+	/* This could take rq lock. So call it before rq lock is taken */
-+	cpu = select_fallback_rq(rq->cpu, p);
-+	rq_lock(rq, &rf);
-+	rq->push_task_work_done = false;
-+	update_rq_clock(rq);
-+
-+	context_unsafe_alias(rq);
-+
-+	if (task_rq(p) == rq && task_on_rq_queued(p))
-+		rq = __migrate_task(rq, &rf, p, cpu);
-+
-+	rq_unlock(rq, &rf);
-+	raw_spin_unlock_irq(&p->pi_lock);
-+	put_task_struct(p);
-+
-+	return 0;
-+}
-+
-+/*
-+ * Push the current task running on non-preferred CPU(npc).
-+ * Using this non preferred CPU will lead to more vCPU preemptions
-+ * in the host. So it is better not to use this CPU.
-+ *
-+ * Since task is running, call a stopper to push the task out. This is
-+ * similar to how task moves during hotplug. In select_fallback_rq a
-+ * preferred CPU will be chosen and henceforth task shouldn't come back to
-+ * this CPU again.
-+ *
-+ * Works for FAIR class only
-+ *
-+ * If task is affined only non-preferred CPUs, it can't be moved out
-+ */
-+void sched_push_current_non_preferred_cpu(struct rq *rq)
-+{
-+	struct task_struct *push_task = rq->curr;
-+
-+	/* Don't push the task if task's affinity doesn't allow */
-+	if (!task_can_sched_on_preferred(rq->cpu, push_task))
-+		return;
-+
-+	/* There is already a stopper thread. Don't race with it. */
-+	if (rq->push_task_work_done)
-+		return;
-+
-+	/* sched_tick runs with interrupts disabled. */
-+	get_task_struct(push_task);
-+
-+	scoped_guard(rq_lock, rq)
-+		rq->push_task_work_done = true;
-+
-+	stop_one_cpu_nowait(rq->cpu, sched_non_preferred_cpu_push_stop,
-+			    push_task, this_cpu_ptr(&npc_push_task_work));
-+}
-+#endif
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index 6de6366f2faa..80c02e2c09eb 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -1277,6 +1277,8 @@ struct rq {
  
- 	struct list_head cfs_tasks;
- 
-+	bool			push_task_work_done;
-+
- 	struct sched_avg	avg_rt;
- 	struct sched_avg	avg_dl;
- #ifdef CONFIG_HAVE_SCHED_AVG_IRQ
-@@ -4242,4 +4244,10 @@ static inline bool task_can_sched_on_preferred(int cpu, struct task_struct *p)
- 	return cpumask_intersects(p->cpus_ptr, cpu_preferred_mask);
- }
- 
-+#ifdef CONFIG_PREFERRED_CPU
-+void sched_push_current_non_preferred_cpu(struct rq *rq);
-+#else	/* !CONFIG_PREFERRED_CPU */
-+static inline void sched_push_current_non_preferred_cpu(struct rq *rq) { }
-+#endif
-+
- #endif /* _KERNEL_SCHED_SCHED_H */
+ 	rq_unlock(rq, &rf);
+ 	raw_spin_unlock_irq(&p->pi_lock);
+diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
+index 72236db67983..5ebb2055e6d5 100644
+--- a/kernel/sched/debug.c
++++ b/kernel/sched/debug.c
+@@ -1446,6 +1446,7 @@ void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
+ 		P_SCHEDSTAT(nr_failed_migrations_running);
+ 		P_SCHEDSTAT(nr_failed_migrations_hot);
+ 		P_SCHEDSTAT(nr_forced_migrations);
++		P_SCHEDSTAT(nr_migrations_cpu_non_preferred);
+ 		P_SCHEDSTAT(nr_wakeups);
+ 		P_SCHEDSTAT(nr_wakeups_sync);
+ 		P_SCHEDSTAT(nr_wakeups_migrate);
 -- 
 2.47.3
 
