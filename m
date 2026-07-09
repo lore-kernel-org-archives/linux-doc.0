@@ -1,153 +1,129 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFAE8426EA3
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 15:54:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3917538C2BF
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 15:54:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783612453; cv=none; b=gkk1OEkab/nHC6c9f56jHj/hOeyXF1VudTU18MSRZwevDOp/dWdMutKNox1DchIovhs9LAhl51MBiDLKOxmkvoSKNj3vQGyeCEz4pt0ResXdC6MyUdbVjx59TMiPF61RZK/P0je+9toP6HXAYkPQS9LXA3zZCxh0ZE2i4v/BU84=
+	t=1783612484; cv=none; b=o4ELUw1rARJHxmXIBVHcxTlFdMYI0mB5G4P1N6JtVPwMgvFwYtvXdimdv0oJf70voCkwNOzIt0M/c6KiKUrV5RybMoDA4OQgvXzr0YavRjvGpQydMfpNUIgQcHGf9BQFsyvthoH4DBf+kosA3O+CCPoTsB3pJn/xl1d4JMng2p4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783612453; c=relaxed/simple;
-	bh=E7xh6evd46JlapDcP1wu59TPdEBuTy/YptxJBkiz3T8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QqNgyeowOmjniI2qtEArbZApS102ZQvEYffOn5ZbPALRJyQNDynUqNA//d+CmXgfW0AttbDilIOSncVMjNI8H/c2ASnq6YmOTVLGz6WzhC1roMxFu+B2bQyqv5j1Y0/2TWO2umVSaGKwQWzA/4VCGp59eH1mZU4Szb8+YHiOojo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CAhydAe+; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783612484; c=relaxed/simple;
+	bh=PLoGulolsNch+biEk21nQng2ImxUq6L8OXGcxAC3fPk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZxWuty9sJ5FevzH6oLkmHH661+QxdGU3QyefQNcRxQaHVVWd9UvxCUztHsi5zMfxJUHCL7zz8cNpLaxPWGoliW26uLnFbQL1FV0jpe5xsvNDm9QFeRJ8/3gFmN07s9MYq4UfYafCHGQwbKE+WIFMX3sD6buyWOT8dyKWlLwvUF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=SyFWovOc; arc=none smtp.client-ip=209.85.160.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CAhydAe+"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2cc7e86e7aeso20557565ad.2
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 08:54:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="SyFWovOc"
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-448df16ab34so454563fac.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 08:54:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783612451; x=1784217251; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:sender:from:to:cc:subject:date:message-id:reply-to
+        d=baylibre.com; s=google; t=1783612480; x=1784217280; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=iyiC5ezPowkdRB/jC99TZVbd/6jva1/e2ioHJ+vpJlU=;
-        b=CAhydAe+OhkxBPdygMWMa98stHEw/YsRduHEum3lnZ9PBWL6Qfbuc/Ejfs7VGCi8oj
-         ZuuessoqrKGRMWQSNnBMiBFJkRc08UOfASEIEWl+o3lDzF5qj6OdKecR1fP3mDwtJe8M
-         29a/uqvBok7bYqahsDYPvFSjgh62w9n2I1tsVwMoci7cj7Mpcvi1XX4+3axOzFnkok80
-         PEbjc/KFGoWagNG1O8Qjm28K57SwFUiJ42uotEG8A76sZOJ7STPEu2noJcwnEoEwWOcv
-         3sION70qAfk+4vvN3mArxF7hMjX/x/mBdgdLDL5Dxnt1ZFPjbjvC3aESJo6a6JDgT6sy
-         9m3Q==
+        bh=LoJZzYBp1oB4KO4xVaDbxz5nVfTJ4PzYKcsEvK7N4q4=;
+        b=SyFWovOc2/JnIM7UW2tlc0zHngTi1DwrmYmGFPF/ZXAaeuHvpMevVR2+i4J1gZG/0i
+         lUMW95P0nDvl1L/NDYUh05FQc0Hg7FzpQ+UYiRmmgl7zteZvEfbHyjoHN4QhA0c8kN1J
+         rBPNiKw2PJ6lYoylU6epf4oIH5M9wg3AuOdn4iTkLjNjyen+BixMjmQG46H5hn0/lB57
+         yR/oqVuDF/oyw4vWN1S/ToGOiDr67+rZ1VU7aQDuvovEZtZwO+Qs16+U78s3yg0v1hNM
+         PCDlfHGQuxWREDgcN1WbOeBSw7o4FPCF/GjjmQ5UPuJEjL977pNIYiZzP45ZtNc5D+Bz
+         nb2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783612451; x=1784217251;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1783612480; x=1784217280;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=iyiC5ezPowkdRB/jC99TZVbd/6jva1/e2ioHJ+vpJlU=;
-        b=rPm6VZ1RUdlL6zU1yw0bAA+3IYI6CtPY91ghIRaUP3VnWLGV6IbQqRL1wn5o/pmsIg
-         0BrVt/kFnOQFaKKuAfVNvO23YtPj6Ax5rkTluh8vqJgEF/fNfCNUOVKWCIJ/qUr7bhf1
-         5dTwXXvzyQ6QA3E96MpL4Jmp4MfHgqMclFWx09wZBdPOonbQjlRjKfoYgJSYxgGdbyMt
-         98SuUcti6+jQSTzRpnkblC3pfFHffMsevAbVRzNg2I0fPciEc9wn8MSqT9/OZZ7ZuN9N
-         LEumaxAbR3u3UYGoQSHKJipjDpANJudE3NErt+d/9sMWW+VFE6++lSmUBpa0/4Yppk/q
-         UDgQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqzL1m33QYaK/LjBQHrdC3715sGqMS1o4LecVo5BIeqvyzxNxoexdiefeEGPTSYFUotVH4fnhngAaE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBo0Yn9wwwErBvdlGBQ1LYBFq+bqyBK8BJjjEocUXogfdg3Vy1
-	kxYR9uYJDMkt1LOEY5l4YAsJy1M1wFZNoPXTJpqtvP2bQvDOfe4ceTIt
-X-Gm-Gg: AfdE7ckqkTIoQpxdVfczSfKHUBYOMJ14p5u1pJlgUKCpDXewjsPBrwUQh/7YI32BpS+
-	PESkHLnwC0AL17DOQTMAteHj8sb5L30MUqMFNzNnZplaPXXvpt+uNohcKq+NI6kHh1xiA6KdkhO
-	veQfaLB4ogOJ8zXZFkpoucwDSFvQ1drMj1WchqDWLKRG3cvG+NYlBMDhymY/yzPHXTCI3kj0mvR
-	m+Cniik5yerhSzor4NsQ8ybcT7Mg7NDhJxoo2bth5/FqyZMFUgKNBKt3mCNKVVLKUAYs6JPlpzN
-	StVe04YM+UnAmzzQZ6MNPomUyzAqTlR4hvdYvpoBE1/1da1RP2tGPL3L+q+25xQzLnvl8MebUhl
-	Da0NExuiNcSNN+RhAhFQIGB4l8qe2pc1WjUxS6F/cWoIoLJXkQZQwaf+uQXr13KPiGUuXuvV/H6
-	GQQ2UOWULZiKH8BmUmkwVddb2j0A==
-X-Received: by 2002:a17:903:2990:b0:2cc:f4d4:29a7 with SMTP id d9443c01a7336-2ccf4d46bd1mr64154525ad.24.1783612451048;
-        Thu, 09 Jul 2026 08:54:11 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d1edb0sm46019575ad.53.2026.07.09.08.54.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 08:54:10 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 9 Jul 2026 08:54:09 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: Fred Chen <fredchen.openbmc@gmail.com>,
-	"Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Wensheng Wang <wenswang@yeah.net>, Frank Li <Frank.Li@nxp.com>,
-	Brian Chiang <chiang.brian@inventec.com>,
-	Cosmo Chou <chou.cosmo@gmail.com>,
-	Dixit Parmar <dixitparmar19@gmail.com>,
-	Eddie James <eajames@linux.ibm.com>,
-	Antoni Pokusinski <apokusinski01@gmail.com>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Ashish Yadav <ashish.yadav@infineon.com>,
-	Syed Arif <arif.syed@hpe.com>, ChiShih Tsai <tomtsai764@gmail.com>,
-	Abdurrahman Hussain <abdurrahman@nexthop.ai>,
-	"Paller, Kim Seer" <KimSeer.Paller@analog.com>,
-	Colin Huang <u8813345@gmail.com>,
-	Yuxi Wang <Yuxi.Wang@monolithicpower.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 2/2] hwmon: (pmbus) Add driver for Analog Devices
- MAX20912 and MAX20916
-Message-ID: <5b865eed-ae58-47fc-8d80-e14a76a93050@roeck-us.net>
-References: <20260707122701.751878-1-fredchen.openbmc@gmail.com>
- <20260707122701.751878-3-fredchen.openbmc@gmail.com>
- <f9e32dd1-7c2c-4055-83fa-94683777e30b@roeck-us.net>
- <ak4QO9uhKOt68dl1@nsa>
- <20260708-true-carp-of-champagne-a0dcca@quoll>
- <ak41BRQBNdsQrYww@nsa>
- <b2a5e99c-6d4d-454e-8ecd-8638e4dc0ddb@roeck-us.net>
- <PH0PR03MB63512A19C32B7722D17D0FD4F1FE2@PH0PR03MB6351.namprd03.prod.outlook.com>
- <CABOy65_GqKiZLM+soZUK_34T8MYZS3dRX38-CMf_Bd1EmG0jhA@mail.gmail.com>
- <ak9gFKkfEgkU_q1G@nsa>
+        bh=LoJZzYBp1oB4KO4xVaDbxz5nVfTJ4PzYKcsEvK7N4q4=;
+        b=AFiAc6vpzfF2fgAqsoKIiIyCIAXvaZYJls6BiF4++O4MccXnmdrxJHT1rE4BHVYsPY
+         v1HtJBqZV7zCvxIAA+wUdC4M3S23Hflm6qMeqEzs802hEGPqDy8vlcqpczi6k4ouiGBt
+         Tq5Uq/Tss1w0AGmBmUtmYDcZpOYBoQS2+/TekwfDsdR1BwP0rRMz16v+sX8Y1g68GdF1
+         TOIgUt+FIf3AhJ/XWhLzNTA0ogmpZzr8ryBgyxa8pIKTFOf3COdMRWWgE1+2U/wPPHDs
+         hn0JDyZlirfj8WbSuci+z3SJld5jUovzadRxeEvKI5QggJ/kQjybVgyIhT1EA6nxUsDI
+         QKsQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9v432LcK+urJZtfMe3TBkW8bGOcteNnd1TaOU8AKkzIXqNKaN/vaKa5GZXvTdVzzfbLtwPIGi9LMA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyneoMdofDxWOr6Db+s1StNuwJFWiFU26XWUK77Tj5gET2JFeVb
+	iIy9/Lr7RG1+Aus7RIHpo6ypPGpdY8SNNjoBKwIp45NDtN6pxAjgsFZp2NN9BhT44Xg=
+X-Gm-Gg: AfdE7cmVNDIEHlzecwkx/tBc3PjjN6jYyFvfqdJ6C3zOFFIxXAOWnoKtZxSV/Tgf9WP
+	cyV/5IYg0/qcjCDCWhv4ALILfjAGB8/XPt8oU7vYCTqZAML9blpGT+nmE8VeWEfMxTRA81iD8T2
+	WrC3MuxcOSZUSgrxWPTjboSJttPLliRvK1XPsOkz7zITrbY68Ox4WLGmhxFjCVBVNBBkln38Scz
+	aafDM4x5nz9C5EVANUPPe60glX25QjAfYXsvIqp0YIdyUjgH13HF0uGl8rzDVFIC1lCYVJnKThj
+	sjhaW4y5ZWwIHa03bGmnUsYwGh9RP3rr6G/mM/XQ+d/YV6zgY6RfEDP3nlQvgvXyuZ+AT/X9QgB
+	oQRcNMQNnfJRhV/dSYAj8RD08oWPqh6ICqrd40guUw+Uc0MjGWYJkfMwUl2vEHFzOquazItjiHD
+	vzMNkS89flyW5CL1cubtpvEFZHpgaVLEHFRpOHsUwCIEO+dD4I6i5XNG4+zaMxxPI=
+X-Received: by 2002:a05:6808:3086:b0:496:b7c:274b with SMTP id 5614622812f47-4a202e98156mr8019702b6e.19.1783612480192;
+        Thu, 09 Jul 2026 08:54:40 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:2a8b:8d9e:f359:9a35? ([2600:8803:e7e4:500:2a8b:8d9e:f359:9a35])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4a1adca6bedsm4124082b6e.8.2026.07.09.08.54.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jul 2026 08:54:39 -0700 (PDT)
+Message-ID: <517f688a-6958-473f-bd4d-65dcb56278cb@baylibre.com>
+Date: Thu, 9 Jul 2026 10:54:37 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ak9gFKkfEgkU_q1G@nsa>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/6] iio: adc: adi-axi-adc: Add support for CRC
+To: Janani Sunil <janani.sunil@analog.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux@analog.com, linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org, jananisunil.dev@gmail.com
+References: <20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com>
+ <20260709-ad7768-driver-v1-3-44e1194fd96a@analog.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20260709-ad7768-driver-v1-3-44e1194fd96a@analog.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 09, 2026 at 09:54:22AM +0100, Nuno Sá wrote:
-> > 
-> > Based on the MAX20912/16 specs on my hand, these chips do not support
-> > PMBUS_PHASE (0x04). Furthermore, the spec only indicates support for VID mode
-> > and does not provide m/b/r. Therefore, some of the features you mentioned might
-> > be specific to the MAX20826 series.
+On 7/9/26 3:50 AM, Janani Sunil wrote:
+> Add support for enabling and disabling Cyclic Redundancy Check (CRC)
+> processing in the AXI ADC backend. CRC provides data integrity verification
+> for high-speed ADC data streams, ensuring reliable data transfer between
+> the ADC frontend and backend processing systems.
 > 
-> I see, phases are not supported using standard PMBUS.
+> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+> ---
+>  drivers/iio/adc/adi-axi-adc.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
 > 
+> diff --git a/drivers/iio/adc/adi-axi-adc.c b/drivers/iio/adc/adi-axi-adc.c
+> index 26b9c75bd4d8..8af42d26aac0 100644
+> --- a/drivers/iio/adc/adi-axi-adc.c
+> +++ b/drivers/iio/adc/adi-axi-adc.c
+> @@ -47,6 +47,8 @@
+>  #define    ADI_AXI_ADC_CTRL_DDR_EDGESEL_MASK	BIT(1)
+>  
+>  #define ADI_AXI_ADC_REG_CNTRL_3			0x004c
+> +#define    ADI_AXI_ADC_REG_CNTRL3_CRC_EN_MASK	BIT(8)
 
-As mentioned in my other e-mail, it can still be supported by the driver.
-That is what the chip drivers are for, after all.
+	ADI_AXI_ADC_CNTRL_3_CRC_EN_MASK
 
-> > 
-> > Regarding enabling VOUT via GPIO, our platform handles this via the CPLD as
-> > part of the hardware power sequencing. Managing this pin through the driver is
-> > not a requirement for our system.
-> 
-> But we cannot assume all systems will behave like the above. But now i
-> do wonder about controlling the GPIOs in the driver. In your system you
-> clearly did not need to do it. In mine (testing with a rpi) I had to
-> use a GPIO (well I could have used hogs or pinctrl). But if you control the pin
-> you do gain the ability to turn off the regulator. If you don't it's always on
-> (which might be indeed the bulk of the real usecases for these systems).
-> 
-Agreed. I don't really like it, but if the chip and some specific hardware
-mandate it, it should be supported. However, that code also needs to be
-tested - an untested implementation would be worse than no implementation.
+to match the existing naming pattern.
 
-Note to anyone from Analog listening: It is really unfortunate that I,
-as subsystem maintainer, do not have access to datasheets. That means I have
-to rely on assumptions and can not really provide actionable feedback other
-than guesswork based on the PMBus standard. That feedback may and likely
-will miss essential details.
+Also, add a comment that bit 8 is shared by all AXI ADC cores while bits
+7-0 are custom per HDL project. (That is why they have names like AD485X
+instead of AXI_ADC).
 
-Thanks,
-Guenter
+> +
+>  #define   AXI_AD485X_CNTRL_3_OS_EN_MSK		BIT(2)
+>  #define   AXI_AD485X_CNTRL_3_PACKET_FORMAT_MSK	GENMASK(1, 0)
+>  #define   AXI_AD485X_PACKET_FORMAT_20BIT	0x0
+> @@ -567,6 +569,22 @@ static int axi_adc_reg_access(struct iio_backend *back, unsigned int reg,
+>  	return regmap_write(st->regmap, reg, writeval);
+>  }
+>  
