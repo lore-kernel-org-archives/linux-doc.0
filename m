@@ -1,205 +1,163 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.153.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448BF33121E
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 15:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783609308; cv=pass; b=mxr68P6ps0Ph5StVL1UPLe0lRTt5tS6mHZtLMSw+RuwVLn/st4QhihtddYLjg97QbUWV2AX+ygfWbMh/IE1odSIYzZEKZgM/Tmyo4ZwuvXkfUICAmm6a5X9SutnOUjeRidGh6VRZMFNzgTIE8qHhjipInp2xLmkrRaiGk2oqDVI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783609308; c=relaxed/simple;
-	bh=4SZMuyVOXCpXxD5R6Zg7kloOZfZmtjVJIRVSodune7c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l+iKGCK2woVi9DE0schb+iyNpp/z3NClmyNxKMuhjzIGzMayu1GW09o5GBlwJYMWVxXiXY5xl1Lyaw31ZKrkm9EpK4w+RiYgqNk9xPhkrI0BHn0ZiAJb/8dGPR6xLQf4BB3HmyJUa9jos52pIWYw8GGZUjKiF9hdM1Mm0CIRp0s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=DxpiU6L4; arc=pass smtp.client-ip=209.85.161.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89AEF32694E
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 15:03:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.153.120
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783609386; cv=none; b=KpvomiNyekPeb4BlW2Ya/Xni4N+VEowZ0f3MqX4Ai+kLTLTyLiO1TCyvWx4ySeYg8FzXzVRkSFPv84yPsWNl+95Upul1+SJMgAmN1AmdgSHvTtiXcpSagk7BRHMNPsVvNzHww7XFAnbwufH6jQOl5Tz4kGGIEe8NCoe7XWlh6NM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783609386; c=relaxed/simple;
+	bh=b+7gt16ss+1aXCdimO3zYtlkRqfM3eem9aodXMTqg5A=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=YSr0c13SquHtyvZzE+108dhthIZsrB8wwq29QzeLz+QIXjKn3gbzdOQVATllJTcVzO7ZhEDOouhVycg5Iq5b/99uyIF0uJyl6jPU0bhOJQV93pP2ATHnMLQGDSuCHeWZqgWRO1i23N3jDL1quIo+3Yx3Vg4A83nVKGeGme4zzAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=d5/bmdvp; arc=none smtp.client-ip=170.10.153.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="DxpiU6L4"
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-6a190528769so5210eaf.0
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 08:01:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783609306; cv=none;
-        d=google.com; s=arc-20260327;
-        b=UwWNEwTYJkWTt1F/c8nj/FFc0QyIJA7NNiG1BppNQoXMQLCVTofTNcKcxEoW4Bpn0z
-         n+ICDFiAd6h5QCl1j5teM9Zc32vvzA2vinQ/vLH0WrmP1cGljUHQ7fAGe9Imq1o9uzGU
-         A19xnz0VG+co7NhmIH58zX74KxP4bOdGvrgo40BT5Hzv0SSlzvrGGKhtSCdfKjjvgODS
-         k3kJG/uovLelcBaVCy82ApyU8siyfbDpglSvD4uFdB6J0At0iKoxJ7VB0mC1P8YurkgP
-         XQTqcTX6THXDNd7+UXRHr71/9687WvqUlKFAjDxMLri41Dp9fYYvTvh7Jw6dy+b6rqbw
-         rYhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=54Dj02k3uul5TPtw9U5JIJjN3eOpWu3nQg9JkvEUFro=;
-        fh=3hwNWqUbOh69NCPXbwKdyjjefOooaVkOFyTlQfDBXiU=;
-        b=ZpWybYWJqbOZHg8lZJa4STMuBN39FIPJl1cQ9h1m0qfPfU3lGfahQOQV2Da59Nsytj
-         CeC/28CK6f1H8s88UzS2xtFgIIvgbbaqLSLWZQHLi5Z0I2Yz8A+w5/FIhdjVrb9JgcNc
-         RkIM6e3U7+s4kO6/INWaFEUHGByNQX3w/3LSTzVFUvslbiv3QV//wDd8Bu6dPA34ASHm
-         vaNLZKmkRJdCYirXsqjHfMo8vbEbq0wiHf5NYHyTPgMNu3B+e4dBW6LZ7Vc33YRDgdsn
-         j7DSOT8yJvPQBdsyNEY7KNgidhHrTaBsFuA+cafkZksXh1j0rs5uLRmcTlxhIjdEiaMW
-         l0RQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1783609306; x=1784214106; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=54Dj02k3uul5TPtw9U5JIJjN3eOpWu3nQg9JkvEUFro=;
-        b=DxpiU6L4G9rYJEL8AB6AdF2BIUxuL5IV3mx6XtVCL4bTNHQdbDl+Dri2nhp2LEeRpH
-         ahI6ifLzNdjnH5Ni8SU9FCSTOZ6tRBXp7SV2zab2Wg0mizHUCX1Qj+fzpoNF9B+/dMtH
-         4KmJmy4HlVTkkOurCafb2dSuKLIpdvW5vCpkrlkpBX3g39V+Mfl5rY4nDpBTzhA3CO3d
-         5K5HaZsn7cq0bPtIDQHz+reVc8CFfyi1KZPC0Ut7GIdC321RvND9LL1U2QcF5R2xNNTn
-         a3TO6pJfR9U0rF7j01r45WBs1lTuzIzPOUs8bnbiuxEczx4Ii7DOiVrnvPhqHRbJGKbp
-         qY4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783609306; x=1784214106;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=54Dj02k3uul5TPtw9U5JIJjN3eOpWu3nQg9JkvEUFro=;
-        b=o+7JWeuNx5B3DriE3Xhe4uXdrcL5x2NRz3z3422RZCT2bBebhxxVDNrPj2jaxjrvfI
-         /U1oHl+p1lskeuIASP60GMCMkVkGm2VOYRGQeA3eMFZXgN5I+ZEcfzT8HTqTvMUVj99u
-         TuuGBJUh/f3WmzNLuRhMzlKLxGiEQtnejTo881hSbuci4jbaszV/ePjVJkWamjDBAi6o
-         TKsEsAGYXvxGcEG4SvIpmpfmp2EcN/xzcymesxzrAiPLM+ILcJDz9n5bdx9sfgPm2BlQ
-         1Cu8OIAVN5E3phl2WnXMe/RY93cWBbQigJpYot4yzaYjvFKaDnzX02GaQjMLGXyDr/CL
-         0Qkw==
-X-Forwarded-Encrypted: i=1; AFNElJ/YXRgbaXAPInegIvEQNeIFk8rRI76P65D/Y/xbICSoKgiaXUZ/+lhG5bGmNfCgRNOn2WejQOIrjjU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0ZSNyk2oQ5iuVNJ0gjAVmV9v3FpIVyhro/dExyNDziRqf8sLq
-	DjBlGstJUibW9kh+30LrQ/Ky4laMlmAkrkdWEBUuhsXOWnmjorclhQI2UGrWH3DXDMfvgU5qcDl
-	JwbF9qdGSdwJmH2Aqc7Wnsj/a3/ZgQ0t9XgwCBE3l5g==
-X-Gm-Gg: AfdE7cnHBnYId4zRJksTudPiLlwsc5w34EQeD5fpLDvNoGs3uQU2ZzsQsz9MRjqALxw
-	x0+qlrxpcnaAt34iFnlbXgjH+h6f7VWNfhTINLkPEBUifUHuQAe2sOOIJiraU/204YKyB5Sansx
-	CTLi7kIclysBNy/gi1kTZf/+RJy7QWP/LCxa3WiAIqGG6Te0eSzVziYaWcZEL3ptH1fYTizTdUD
-	/a2MKLr8bG6g+a1ysMNjqYOWLxfz7PUlAtTHgrUFnIjVwHzX4XYNdrI7i43ocv1sPG/Se8zVZ2u
-	xy3/LuD+2SZeobzUwz8jJft1JhsrG4NkhnVEh4tx7AoJNWJf86ItaWtkDpOWMPHVLxSDQqWttL5
-	18xLUhog75g+GSGIasV8Wefak8nck
-X-Received: by 2002:a05:6820:80c9:b0:6a1:7d5d:d55b with SMTP id
- 006d021491bc7-6a36da40a78mr6610565eaf.63.1783609306048; Thu, 09 Jul 2026
- 08:01:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="d5/bmdvp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
+	s=mimecast20250127; t=1783609383;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b+7gt16ss+1aXCdimO3zYtlkRqfM3eem9aodXMTqg5A=;
+	b=d5/bmdvpI9YKsGcWKwNo+lWJT1F6WKJGtCvok899YthPik4wMD3lYEXBiYBZXx89xcoo9U
+	33acsxatpEx3hdLURZgkQqMiIAyRItgXUdwzkwOMg9u5RvBZuuL5UG8vPYkrHAGVO64v8k
+	7QQoWySj0LiMqIWebrNamLhEnxbQ9j9u2aqIwL9JrzVwBcla2N9Ew4QRGMYN9xbFqPIugN
+	7OXh3e3wq1l3fVHkAf1pzz+90fNUsegxa7EHR8/Pwl9cxTlNsOOflhU2GAz6rNz1nkZkdM
+	c/oeckzR7iU5un8NG4Ui7X1oUxAmgAbgEMtB7rrHkwSAEsY2L2hzPifBe4W+1g==
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010050.outbound.protection.outlook.com
+ [40.93.198.50]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ usb-mta-32-Wm7kqzisP0WutrOUEJrjjg-1; Thu, 09 Jul 2026 08:02:56 -0700
+X-MC-Unique: Wm7kqzisP0WutrOUEJrjjg-1
+X-Mimecast-MFC-AGG-ID: Wm7kqzisP0WutrOUEJrjjg_1783609368
+Received: from CYYPR02MB9828.namprd02.prod.outlook.com (2603:10b6:930:b8::20)
+ by PH0PR02MB7176.namprd02.prod.outlook.com (2603:10b6:510:1d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.14; Thu, 9 Jul
+ 2026 15:02:45 +0000
+Received: from CYYPR02MB9828.namprd02.prod.outlook.com
+ ([fe80::2767:f7d2:778c:8dca]) by CYYPR02MB9828.namprd02.prod.outlook.com
+ ([fe80::2767:f7d2:778c:8dca%4]) with mapi id 15.21.0181.009; Thu, 9 Jul 2026
+ 15:02:44 +0000
+From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>, Andrew Lunn <andrew@lunn.ch>,
+	Piergiorgio Beruto <Pier.Beruto@onsemi.com>, Heiner Kallweit
+	<hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, Parthiban Veerasooran
+	<parthiban.veerasooran@microchip.com>, Richard Cochran
+	<richardcochran@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Simon
+ Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>
+CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Jerry Ray
+	<jerry.ray@microchip.com>
+Subject: RE: [PATCH net-next v7 08/15] net: ethernet: oa_tc6: Support for
+ hardware timestamp
+Thread-Topic: [PATCH net-next v7 08/15] net: ethernet: oa_tc6: Support for
+ hardware timestamp
+Thread-Index: AQHdD5DdBz2+4L1RLE6n9UH5TdAjtLZlSDqw
+Date: Thu, 9 Jul 2026 15:02:44 +0000
+Message-ID: <CYYPR02MB982841173093F85A04D3DF4B83FE2@CYYPR02MB9828.namprd02.prod.outlook.com>
+References: <20260708-s2500-mac-phy-support-v7-0-478c877aa1a9@onsemi.com>
+ <20260708-s2500-mac-phy-support-v7-8-478c877aa1a9@onsemi.com>
+ <4a847a6b-7837-4044-8a87-0ddac47725f8@linux.dev>
+In-Reply-To: <4a847a6b-7837-4044-8a87-0ddac47725f8@linux.dev>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CYYPR02MB9828:EE_|PH0PR02MB7176:EE_
+x-ms-office365-filtering-correlation-id: effb33f1-8911-4fdb-5969-08deddcb21ca
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|7416014|56012099006|3023799007|11063799006|4143699003|22082099003|18002099003|6133799003|38070700021|921020
+x-microsoft-antispam-message-info: 2FYgo1LzSRfjkkI9fySRtfD8barDQZjqpQJmcRyL3REhrzWvRBmcm++cf6hmdaKgMhExtIEHe5TrQgVvSpMrHMHEPgnmkyZs5kRWajMA7dqDClfyS5bloTSJSeIkwkYk48UbanB5vicL60pUrgFWcNC4ElF2+6k45OAEG3ry5PYpXLKI6JaxEMC6ZESwAeqn9+93INBkaBsMSVtk5/825A//Olp9fHWXNhA2Y3ZQwG5wJ/vzDnoVWsJS2jvFyqw2sh6RlLAwzRkyPBiQe3om4LJdvY/wA+S4HCMqyuthRRWp+O/SCpl7qyC0tlGMJj4n9SaLvS0GCR+nUIZup8Do6InIqsMN985lpBS2Byp2QcEa2MOMXw3KDyjJitOG0SGaPgdLRQlqswbZd0MWdvm6z0qQ+VKuuIgJ1mM7/mLb1v9GhVCegFuRCHTUGpaaCQPjeYnpPnJixTTvftvCBp2nkWCHq8sACkEN5oA0Y2kIbH9lFM62x3S2+uG+pZEeFAmb23p0z1yxCaeTxfwF/TwgAgO/LoDm5ip6DcUbOrQVd49tr0yvDM+shB9Pz5mmEfnz9XRAOPV2K/8gujxMDCKMli2TBp+9Q4Ht45KM4U6CF9XinPJHGAN7X98XkXr8KIWNr67EXideuNyLSOYzExoxYDrjoZZaumdF54Nq7z8u+2K801KRXKzhFzhsoK4DLvLNqD8VxP6JunHlX2sX9QEv2QO9guNMshnqI/qAjhzFez49yDjN2zYIgKCagY/dDUQb
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYYPR02MB9828.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(7416014)(56012099006)(3023799007)(11063799006)(4143699003)(22082099003)(18002099003)(6133799003)(38070700021)(921020);DIR:OUT;SFP:1101
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?b0JkaFZKM2pmMHMyM0ZiM2NoT2E5dmdqWHZmeUhrRXFFWVJhVGhNdWZpamcz?=
+ =?utf-8?B?Y3A2enFmaE5HNnJiUkJSOGlEa2dabDRkWnRRL3NNQ3BLZ2hvWU1zU2FjL3Js?=
+ =?utf-8?B?djV5ZWxHM0xwRjA4Wmc1T1kyQ2hNaUlQQWlEV0R1NDd5clc4QmFlR1hNWGJG?=
+ =?utf-8?B?bnBxVWZsd2pnWHNHY0FJRHBRN3V4YlZDcVQ3VDZuVW9wQ2EvbUs0T0tVYmZ4?=
+ =?utf-8?B?bHZLSVJSeTByMUliZGtpejFEOC83VmhIQjNRN2t5QllvWjhpdEUrUmRtcmJp?=
+ =?utf-8?B?VHNkVGhUL1hYUWpJQTVzS0luaE9CRXFkME5LMUU0d2d1RHpOV3BLTWxXM3lH?=
+ =?utf-8?B?MFRqSEJqbTJaTFFpQnZhOElLMlNJWE95aDV5VUtWejFTa1BtMDJUUXVxWDZS?=
+ =?utf-8?B?d0hhOTdmdThVYmxxVTE1eVlxUlRCMDVQT0Q2OEI4TGIza04vZFJNVWU1QnJB?=
+ =?utf-8?B?SlhOeDhCc000VkFWdllWL3ZLMGliMloyVE5sTWdrcmlqL0VCWTFxRzBoN2V6?=
+ =?utf-8?B?ejl0c1UxV2VqWFd6dzNBNFBjbVhwclZRRWxVUDV2OUcwQ2RRUnVWZnFqczhF?=
+ =?utf-8?B?eFFFb2VmU2syOGZLZUFELzRrM0N1NzdyY2FiWHAycXNPMWRvMlN1REUvRzZF?=
+ =?utf-8?B?UiszbjgzT0pxaDBQaEd6MGRYRVB5c1BmOE1sdmxHOGdRd0swbVJRNm1Ld3hI?=
+ =?utf-8?B?YWl6SVgrZytrZ1RXeHB5U2NMbjlaZ2pmY2trdXRUTGdPeWZ2YWdFdk90bU9X?=
+ =?utf-8?B?YmxLTEtEVHdIRXRGbCtaRjkydXNoK3FxRDI5ODFrQU82czY4R3hzZVhUTldE?=
+ =?utf-8?B?bEc3RXQ2Ukc0NERJdDhtTGhyMi9EWFp5VWlSNyt6YUU0N2xnV0I4a1M1TmxG?=
+ =?utf-8?B?K2Y4SmluR2ZndEhMTiswTWR1YzlibURYYm00ZWJxVkFhbDA0NTNxMStlYjhI?=
+ =?utf-8?B?N1VXTVFvcnhxa1BoR2g1NEkrQkZML3lhc1BNNFJsZGFML01UamlBbnJmMlAx?=
+ =?utf-8?B?eE5oS2tZUWxQMXdQK29VWG9MdVVndVJxNUVSTTJPZ1dOWC9OVXdGSjVYalQw?=
+ =?utf-8?B?N2k1WFNYSzZwS3IxSWR4Qm9sa2lLeFRFYU8wc3RCZmR1QzlldElQMzRBK3NL?=
+ =?utf-8?B?Tm4wR1VXeTUydEl5TFBLb01uMlYzQjhtZFFWa3Uxc01vRlk3Y2tBcGs0RzJ4?=
+ =?utf-8?B?dnRRQ2ZGNUJjTXNHYWVTaHFyMnIrV3A5VnhrenpsWC9mMlFUZTZOQW83S09j?=
+ =?utf-8?B?blhlSEYxd0xYdS8rc2FOMGZsT0FLSzVCb21jZlJOS2FyR05PamhzeHVReDA5?=
+ =?utf-8?B?RFBUUzMwQjZ4VmhISWtUVVM1UzY4RzNjRUxMblBKZ2Z2cHUrd2hYVDExemZ0?=
+ =?utf-8?B?Y0tRMXNHK21CUERSbkpzMHBwZGdnbmtkWGxjVloyRjhvQXErdzJSa2JQcHFB?=
+ =?utf-8?B?dGszLzRYWEQwU2QvTTRZbS9rYmlGZmhZMGJJTVNaTlBFeGdSSnFCWlQ3OEFK?=
+ =?utf-8?B?WXhBUFVGaWM0a25XQ1pKR0lKQktPb2gvbUhaV1NLcHA5SGVvL1N2clBPQ0pO?=
+ =?utf-8?B?KzJLYXFvczRFVUREL2xrMTNKRGhobGVDOTVva25VMXFoMjFydFlwL3Q2S2FL?=
+ =?utf-8?B?dytFVHozRUc3RncwVVkyZ1BvRjV0OHBPV2dsT1ZseG1STnJ0a1I3QjdEWm5D?=
+ =?utf-8?B?b0c5MmlwUW5KKzZ4cVBZYm5qMW9pNkRLZTZXak1QMGt4Q1A1NmxQYnpzTG1U?=
+ =?utf-8?B?bGJqeU1JcEpGTktCT0gramp4U3FSeXUxRVhOV3NlRHJXL2VnZjh1VmJ5RDdG?=
+ =?utf-8?B?cXZxbkZGSmx5Q3BHZWtUaEhuRnhJYk04NDg2VklJdUZObGNZSytGNjc1eS9w?=
+ =?utf-8?B?am1ROGZIWVBxT1lQMGh6Q2tkMDZVeTdUNXovR3FHUzVWRGV1T0RVRHE4S1ZU?=
+ =?utf-8?B?QjBraFNGaEtEeUZsNXRUc1B0cnhVQk9BcnBPU0VldHhVei85R1c3SnZoRFRV?=
+ =?utf-8?B?Smx6eFJiQzJLZlUxN0dDNVBYS21Yai90R29QQ0lDN2hGcTlvUWcrWEM4MXU2?=
+ =?utf-8?B?Mk1pd21CUERxb3VVbURza04zUGt6algrYXZ0VVFRQ1IrY3dlOXo3dmU5U0JE?=
+ =?utf-8?B?VEJRT2lPdWd0VkE4aDBOZDJvZldiSGFoMEFPQVpoRGJLSlFkZDQ0MWU4V25o?=
+ =?utf-8?B?ZUU5YUNxNmVxekxoM1ZxcFNUN0h6QzYydzFGZjlia05zc1pCRm1lVFlicHlo?=
+ =?utf-8?B?ZkZEWTlHYjVReHNuanRndFdLWW1DTVlQUjFzdWdzZW0waGM3WlpsSERLZTg2?=
+ =?utf-8?B?UU1kOHJYQ3F3RTlZZ3hwbWszcHVRK3djS1M3OC9DdU5rWlZPQWladz09?=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
- <20260630-deprecate_boot_delay-v2-3-f9883d36aa4b@thegoodpenguin.co.uk> <87zf08w7qo.fsf@jogness.linutronix.de>
-In-Reply-To: <87zf08w7qo.fsf@jogness.linutronix.de>
-From: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Date: Thu, 9 Jul 2026 16:01:33 +0100
-X-Gm-Features: AUfX_mzxAEUtA0gfeGBkNwUL4IfvDIIDWxjRLhkwrbukoka3ocYrFDWdq-jaaZM
-Message-ID: <CALqELGxAXDF-cz-b=2G64TayXDU1U1vBzb_qBwcEJ2Bvw+fFjA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] printk: nbcon: move printk_delay to console
- emiting code
-To: John Ogness <john.ogness@linutronix.de>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Russell King <linux@armlinux.org.uk>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+X-Exchange-RoutingPolicyChecked: TGD1p0HMxRuilVzhnP9nHonfkafy76n/9fhnwwo7lmu2gNwHfFM17UivhgUfNMeRB7R4yDcCtOqZ7940DZgJeFzROR0mjRu6TbmOEg+uTsEsBlbQZ140ScePd09q5/vLOS5Rk8rP+uVQeUj6F0OaJe5gbUgaLS+DjZ/yNwXwbAMB7DZSlwDh7oWx7tyRsDAHbn4fPM93eL+7IddMrHS9W6annesVWY9R1lVpVhkzUic5DfYUxAL9pIZqQDDZLeUzQabu9zWdxUhn/dVLPQvQwX86AxBP3Xspoby55+iNVKDYE2N5kC91u+AVtU3VtuaJg1ZyUZiNF/D2uvqvpY55Jw==
+X-OriginatorOrg: onsemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR02MB9828.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: effb33f1-8911-4fdb-5969-08deddcb21ca
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2026 15:02:44.7884
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2GznbPpSVo5W+2TN5wP1SpAKNuXhMOAXwNL2zAJAJ3+zTmHDRketZAoZ6wrumtbY0KH/4LwqNurBwMy519KKEstOgyvJIzLVelE6/cfTiYs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB7176
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: iLrL5t7kHqbc46sai6_s7xnvsz3pIPybj3Y36QsJHFU_1783609368
+X-Mimecast-Originator: onsemi.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-On Fri, 3 Jul 2026 at 13:57, John Ogness <john.ogness@linutronix.de> wrote:
->
-> Hi,
->
-> Sorry I am so late to this party.
->
-> On 2026-06-30, Andrew Murray <amurray@thegoodpenguin.co.uk> wrote:
-> > diff --git a/include/linux/console.h b/include/linux/console.h
-> > index d624200cfc1708bf73925892a466efe0c95c5586..3478b556c0eb9579530409dc6fbb9b5a8bff581c 100644
-> > --- a/include/linux/console.h
-> > +++ b/include/linux/console.h
-> > @@ -290,6 +290,8 @@ struct nbcon_context {
-> >   * @outbuf:          Pointer to the text buffer for output
-> >   * @len:             Length to write
-> >   * @unsafe_takeover: If a hostile takeover in an unsafe state has occurred
-> > + * @emitted:         The write context attempted to emit the message. Might
-> > + *                   be incomplete.
-> >   * @cpu:             CPU on which the message was generated
-> >   * @pid:             PID of the task that generated the message
-> >   * @comm:            Name of the task that generated the message
-> > @@ -298,7 +300,8 @@ struct nbcon_write_context {
-> >       struct nbcon_context    __private ctxt;
-> >       char                    *outbuf;
-> >       unsigned int            len;
-> > -     bool                    unsafe_takeover;
-> > +     unsigned char           unsafe_takeover : 1;
-> > +     unsigned char           emitted         : 1;
->
-> This is the wrong structure to add this flag. This structure is for
-> the nbcon drivers.
->
-> struct nbcon_context would be the correct structure.
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBWYWRpbSBGZWRvcmVua28gPHZh
+ZGltLmZlZG9yZW5rb0BsaW51eC5kZXY+DQo+IFNlbnQ6IFRodXJzZGF5LCBKdWx5IDksIDIwMjYg
+Mzo0NSBBTQ0KPiBTdWJqZWN0OiBSZTogW1BBVENIIG5ldC1uZXh0IHY3IDA4LzE1XSBuZXQ6IGV0
+aGVybmV0OiBvYV90YzY6IFN1cHBvcnQgZm9yIGhhcmR3YXJlDQo+IHRpbWVzdGFtcA0KPiANCj4g
+DQo+ID4gKw0KPiA+ICsgaWYgKGNtZCA9PSBTSU9DU0hXVFNUQU1QIHx8IGNtZCA9PSBTSU9DR0hX
+VFNUQU1QKQ0KPiA+ICsgcmV0dXJuIG9hX3RjNl90c3RhbXBfaW9jdGwodGM2LCBycSwgY21kKTsN
+Cj4gDQo+IGlvY3RsIGludGVyZmFjZSBmb3IgSFcgdGltZXN0YW1wIGNvbmZpZ3VyYXRpb24gaXMg
+ZGVwcmVjYXRlZCwga2VybmVsDQo+IGNvZGUgd2FzIHJlY2VudGx5IGNsZWFuZWQgdXAgdG8gYXZp
+b2QgdGhlc2UgaW9jdGwgY29tbWFuZHMgaW4gZmF2b3Igb2YNCj4gbmRvX2h3dHN0YW1wX2dldC9u
+ZG9faHd0c3RhbXBfc2V0IGNhbGxiYWNrcy4gTmV3IGRyaXZlcnMgbXVzdCBub3QgdXNlDQo+IGRl
+cHJlY2F0ZWQgaW9jdGwgY29tbWFuZHMuDQo+IA0KDQpJIHNlZS4gU3VyZS4gV2lsbCByZW1vdmUg
+aXQuIA0K
 
-That's no problem, I'll update on the next series.
-
-
->
-> > diff --git a/kernel/printk/nbcon.c b/kernel/printk/nbcon.c
-> > index 4b03b019cd5ee25d68e9ace84392045e91241a7f..ae45cb0589c0effafc66f1756bdaecd1c1e53ab9 100644
-> > --- a/kernel/printk/nbcon.c
-> > +++ b/kernel/printk/nbcon.c
-> > @@ -1525,6 +1532,8 @@ bool nbcon_legacy_emit_next_record(struct console *con, bool *handover,
-> >       }
-> >
-> >       progress = nbcon_emit_one(&wctxt, use_atomic);
-> > +     if (progress && wctxt.emitted)
-> > +             printk_delay(use_atomic);
-> >
-> >       if (use_atomic) {
-> >               start_critical_timings();
->
-> This is too deep (also pointed out by Sashiko) because it multiplies the
-> delay times the number of consoles. For the legacy printing, it would be
-> more appropriate to put the delay inside console_flush_all() and
-> legacy_kthread_func().
->
-> > @@ -1584,6 +1593,8 @@ static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
-> >                       if (!nbcon_context_try_acquire(ctxt, false))
-> >                               return -EPERM;
-> >
-> > +                     wctxt.emitted = 0;
-> > +
-> >                       /*
-> >                        * nbcon_emit_next_record() returns false when
-> >                        * the console was handed over or taken over.
-> > @@ -1600,6 +1611,8 @@ static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
-> >                       if (nbcon_seq_read(con) < stop_seq)
-> >                               err = -ENOENT;
-> >                       break;
-> > +             } else if (wctxt.emitted > 0) {
-> > +                     printk_delay(true);
->
-> @emitted is a flag:
->
->                 } else if (wctxt.emitted) {
->
-
-Good spot, that was sloppy of me. I'll fix.
-
-Thanks,
-
-Andrew Murray
-
-> > diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-> > index cc203327247aa4f81f55b907c66ac88f30ce6da8..5278d9cb19e4177a00998fba5c1438251e033578 100644
-> > --- a/kernel/printk/printk.c
-> > +++ b/kernel/printk/printk.c
-> > @@ -3211,6 +3208,8 @@ static bool console_emit_next_record(struct console *con, bool *handover, int co
-> >               *handover = console_lock_spinning_disable_and_check(cookie);
-> >               printk_safe_exit_irqrestore(flags);
-> >       }
-> > +     printk_delay(true);
-> > +
->
-> Again, too deep. Let console_flush_all() and legacy_kthread_func()
-> perform the delay appropriately between each message.
->
-> John Ogness
