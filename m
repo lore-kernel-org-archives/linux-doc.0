@@ -1,132 +1,147 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B392227A907
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jul 2026 23:40:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783554053; cv=pass; b=B/vmHuq9gL/3XzMId3fYKtNjRCNA6dS+SiA7mvDuIwboBlujpaaUkqoeD15FmDfDL1ewBIxDwRUAY3qh5T5hWV//Nyica593eGEn45KiV9t5pR/3mRea+7oabd1N9S3wYrq8DUBn0su8tw8CBTYLmy0y4bvVF4yFuvR3ZOb96W4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783554053; c=relaxed/simple;
-	bh=aWtLtj4iRp90NZJB2jStosr1Mlq1Yx4ltH+17ZTnNKA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=keYEMZAiS4jlROsKEs5jGpICNz72I915jgiaxqGNbPEkn9TUo5PhxL7QupAFwIeClQjzGfC1KjBT7UBtBeFf43fWkyJhIvk8y8JGrpBo/YJmU6waxhF4h3GWICSDzYfebYDbuHuh8zt8HKciiZnOf3hQhBQw4ogOyIOgGU+6eZ4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jrv+5U6D; arc=pass smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0433AA9D1;
+	Thu,  9 Jul 2026 00:00:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783555204; cv=none; b=FkBnYW0rbpOuv1qPirh2sNpZ0ImeCIlf5xgM2DWolVM6kasGPNRVfAEg/XDKhuzb1APJOYFCBjdq+50vK1MUM9CSjwGMOipXh0V4tuR6DZQ2eaC0Al1q+6N/T0I+6818UnvZBGQu1ozg8VxRI1WI06ww0vpCTSPWhmNnU3xCzqg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783555204; c=relaxed/simple;
+	bh=CN+j1ci183pXEmOjg1N3F/o7p3M5RcPRfGMcfrRUdig=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YsIcRRu+SkYM6c+Cw3ajr66JnvE7SyHUaOe0S1uY+1l8xXc6KNxdIRGhow6nO+NDwzVDNE1YLkPamhMAQaSwiYu4UrpDcstN8ZUPW4uEZjOXRH3NBI0jHZkVVc0IbmFEi48zD3s7bU5xBPMAHzpB1yrNrVcMmFXJeYk6/9ktjh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D4E7f0fU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jrv+5U6D"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8efbafa1bacso9076296d6.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2026 16:40:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783554052; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ad5IRiarZckjZPko+17v7gkvKDmDa5PW6+pRWm27JqY8QicLIh4Dkq1aZ+F3QO7HGz
-         uOxxYHBfCHKn7zL2/br8AkyGTAC69woUig+HzysD5W3KMTv5aOs947VRKIv4ZE9CIRz5
-         5MjuCtmB3QpRe/R1Z7v5kklHhcpNCt7ZUvUltjaofqp/RVT5cDpk4QfsdQg/YeZMiTca
-         LEfyysHMvMCHhPJFsEL1MHxrh9RKrqQpUohQLgT66i05Q4FAj31o9sW9/McvlHhIHqm1
-         uUCJLeOoZu13+MxTfndz6aIgwgdTaV05Jf+QdCKW3Gv/FsS4HnMmN9wmSpHtuN5D9aCZ
-         zeyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=aWtLtj4iRp90NZJB2jStosr1Mlq1Yx4ltH+17ZTnNKA=;
-        fh=nSU9rmRBPnErh/cfMrt9smGRLPrN9S4kzz3toct2N+4=;
-        b=BhAVpLQAhyqD8Vc2jf5nDckGOLsYwsBNSbxp2kFkd4lxQgBC1GhgDNQm8uNI0nefoT
-         EZqr2ngBkEKf+qVoCy8922u1jfNOq7gVi0/fngyYXR70lDqC6CfLQPZsbZzbfmjJ3raA
-         07LN2WvS5pAGJPmuA216iKk4QxK/k/YFokv1I1Y16rv4c7uyXSgSL8KrqJ4T7OoEd0Af
-         WjyRTH3vuJ7yUvpkvd6I9oTRBc3JmSCqsaF+HjteZVhHK9s5VuPqCQ7WKElS2E4gJ6mY
-         NeBH0weZEF9S6xopRlXwrKp/iaUGnk87fcexnZ+iZU2adrTghFBVBmHNKrDVYQAvM3Yi
-         9wUA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783554052; x=1784158852; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=aWtLtj4iRp90NZJB2jStosr1Mlq1Yx4ltH+17ZTnNKA=;
-        b=jrv+5U6DWA6aoC0XuFkvJvnipLN/QO43fbHIklwDX3fzQePzwejEulurjsj4ZTE9qK
-         MlZE97yveNEgYuFEsubBRmcT4EIstttqCpGL5FO4eN39UH9p/GzdZJFueed/I+xmYmMP
-         GFil4vngROKeGqfwfBPQXuA9QrGvRXUYDIw+HHBOHPdi96O9gBFVfBs28zO0C8aMP2j7
-         JP3omZGJzeAvMTZSLxuGHfMngtT4oUb7JyAVBoy6SncUdN7/DP7oZkq0/bOkTccElv75
-         w6eKdmH46N/eNIe4sEDSM4J888MP8hcg2qmxMtvJ6wRMDCcRibZgYOVB4m1vmzWcQTJ6
-         7Ddw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783554052; x=1784158852;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aWtLtj4iRp90NZJB2jStosr1Mlq1Yx4ltH+17ZTnNKA=;
-        b=d/Iko2kmCIWgPN3FHqUydIV6vE/GK/Qu79DX8LQBQzKZJE5L0h2pe2g9z32N2E6Wj9
-         GThTPSRkAoQP7c+6F9EIdDtjhE/ItmKn5HbBnTStk+eMTUMpzSMrBS8bf6HjNL+T6dFR
-         PjXBv3bK896BdIPpJGKslYzBRixMeym6W7tWsgecRCGNs5aHorUISViXwJMCgBX53vGp
-         y52/wUsPm43LIACddBhVhCMSAj1/UTT/ReUZIPlzBvFLOUMymjxJ2WX/+uU/ty2CBbni
-         E6Z+E4L/A69uxHqPqgdjNVa/szVBbBpKLzaj4ayhvwHNQnBFiWDZVXccMXXts5y+uQJk
-         1A7w==
-X-Gm-Message-State: AOJu0YwZ873Ax6TqQgreyyYRcwPfp2LJl3oAm/VPDC7nEg5mfU7eeZ1D
-	7CPBtcADoil2vGs1PZ14yodJQ1LY9kR+1xwmACc1i5YDrzHC7QV/W+BoGYsMxYClNZ8JpTO2Wvk
-	WV43BsI/cB/6w9VCRrlGo6D0Pa5RphpE7LHO84HI=
-X-Gm-Gg: AfdE7clPGacEjf33nJGuvyF5rVXIM+2iSohRzQ+JIJxwPLPpT1++ieKur7Ix/8GSbD+
-	sc3pUPcd/gPjPFrXvI1xijYqR65OeqoRC/e3GA+ArRot+Mk94SbPmlaHbXf/DTTkmF0duk/sz6p
-	qPZEdX8mLemxsNa82mtZoJeKrYqKzObVbpl3s+xlcE3o9R/AtkgS0v7cfN3ZPmZwhM0tNYNTNIr
-	c3UpQS3bs+pTRjGdPvIpXhlu6SZT/HH4OJTZswMzsnU3iNxmQw5R8btJ9rfMOLWTjsmWw3t3kOe
-	qxMbx+aJz3u9/BG0/lPyT4J9UIUdfqgH5/lLZeLpJ8P5ASaGoGQSsSJhNi1iSY/tMuPn2SlDd8/
-	phWuknt+N4N8=
-X-Received: by 2002:a05:6214:2344:b0:8ea:184f:c15a with SMTP id
- 6a1803df08f44-8fec1d7887bmr51017886d6.17.1783554051454; Wed, 08 Jul 2026
- 16:40:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D4E7f0fU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB2D21F00A3A;
+	Thu,  9 Jul 2026 00:00:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783555203;
+	bh=1F+72s4tH7w3Cnf8voLWM78n4YOiurcby61hUJ0YTXY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=D4E7f0fUpHeubojOJaU24vuI4R3BPaWcrLQMvNB5YH+Yhdqtweovo07lIb4Vxx/5J
+	 myef6p7uqthdF8T+3vydUqwzOye45OgQF2Rk7LT5Hk9mIbXA1r7iu+62UlySYxNwws
+	 pjnRvWwbG3Rpnysj+lv1mCWwaO20BgSQ7pWcsh005wz4HcJdnA0R7L46tlj4xUqL6R
+	 hOe6SRbzJfL+kwB18y2YpctpizJrwSMA5NDfzwWYFxE3RVVWrTlMv9V2oXMaqk4AMZ
+	 dvlcRet7iEaDLKB8c6VAPCEGzyGaWSLh2dD7QzGWXAXF1yzM60Cp81K9jS0yvlsnBX
+	 gf9iTxi7eM0Bw==
+Date: Wed, 8 Jul 2026 17:00:00 -0700
+From: Namhyung Kim <namhyung@kernel.org>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Babu Moger <babu.moger@amd.com>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>, corbet@lwn.net,
+	tony.luck@intel.com, reinette.chatre@intel.com, Dave.Martin@arm.com,
+	james.morse@arm.com, tglx@kernel.org, ben.horgan@arm.com,
+	fenghuay@nvidia.com, skhan@linuxfoundation.org, x86@kernel.org,
+	mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
+	akpm@linux-foundation.org, rdunlap@infradead.org,
+	peterz@infradead.org, feng.tang@linux.alibaba.com,
+	dapeng1.mi@linux.intel.com, elver@google.com,
+	enelsonmoore@gmail.com, kuba@kernel.org, ebiggers@kernel.org,
+	lirongqing@baidu.com, seanjc@google.com, nikunj@amd.com,
+	xin@zytor.com, pawan.kumar.gupta@linux.intel.com,
+	tiala@microsoft.com, chang.seok.bae@intel.com,
+	kprateek.nayak@amd.com, prathyushi.nangia@amd.com,
+	kim.phillips@amd.com, naveen@kernel.org, darwi@linutronix.de,
+	elena.reshetova@intel.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, thomas.lendacky@amd.com,
+	eranian@google.com, peternewman@google.com,
+	qinyuntan@linux.alibaba.com
+Subject: Re: [RESEND PATCH v4 01/15] x86/resctrl: Support Privilege Level
+ Zero Association (PLZA)
+Message-ID: <ak7kgJZyKmEVUdMj@google.com>
+References: <0af5122c-20df-4aea-8ab4-cba63f71dc3b@amd.com>
+ <20260708232806.GCak7dBi1loq3QLjg7@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260706174905.34552-1-matheuslinuxdeb@gmail.com>
-In-Reply-To: <20260706174905.34552-1-matheuslinuxdeb@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Wed, 8 Jul 2026 20:40:39 -0300
-X-Gm-Features: AUfX_mwsc14iuvAqdZGdq4NUB0wK_a8_yMc6JV--Q8PLthENF0SuEHgX_KadFnE
-Message-ID: <CAMAsx6cQkozV2f9eix7fsrXH5EG041OSp4+8OrXdGbOpDEik4A@mail.gmail.com>
-Subject: Re: [PATCH] docs: pt_BR: process: Translate stable kernel rules guide
-To: Matheus Patriota <matheuslinuxdeb@gmail.com>
-Cc: linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260708232806.GCak7dBi1loq3QLjg7@fat_crate.local>
 
-Em seg., 6 de jul. de 2026 =C3=A0s 14:49, Matheus Patriota
-<matheuslinuxdeb@gmail.com> escreveu:
->
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. _stable_kernel_rules:
+Hello,
 
-his `_stable_kernel_rules` label will cause a conflict because it
-already exists in the original document.
-Please either rename it to `_pt_BR_stable_kernel_rules` or remove it
-entirely. I've been dropping these labels
-in the current translations, so feel free to just remove it.
+On Wed, Jul 08, 2026 at 04:28:06PM -0700, Borislav Petkov wrote:
+> On Wed, Jul 08, 2026 at 11:55:30AM -0500, Babu Moger wrote:
+> > > diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+> > > index 1b4a48bff18f..bf6fc71f87fa 100644
+> > > --- a/arch/x86/include/asm/cpufeatures.h
+> > > +++ b/arch/x86/include/asm/cpufeatures.h
+> > > @@ -517,6 +517,7 @@
+> > >   						      * and purposes if CLEAR_CPU_BUF_VM is set).
+> > >   						      */
+> > >   #define X86_FEATURE_X2AVIC_EXT		(21*32+20) /* AMD SVM x2AVIC support for 4k vCPUs */
+> > > +#define X86_FEATURE_PLZA		(21*32+21) /* Privilege Level Zero Association */
+> > >   /*
+> > >    * BUG word(s)
+> > > diff --git a/arch/x86/kernel/cpu/scattered.c b/arch/x86/kernel/cpu/scattered.c
+> > > index 937129ce6a96..1fa4d5aef17e 100644
+> > > --- a/arch/x86/kernel/cpu/scattered.c
+> > > +++ b/arch/x86/kernel/cpu/scattered.c
+> > > @@ -61,6 +61,7 @@ static const struct cpuid_bit cpuid_bits[] = {
+> > >   	{ X86_FEATURE_BMEC,			CPUID_EBX,  3, 0x80000020, 0 },
+> > >   	{ X86_FEATURE_ABMC,			CPUID_EBX,  5, 0x80000020, 0 },
+> > >   	{ X86_FEATURE_SDCIAE,			CPUID_EBX,  6, 0x80000020, 0 },
+> > > +	{ X86_FEATURE_PLZA,			CPUID_EBX,  9, 0x80000020, 0 },
+> > >   	{ X86_FEATURE_TSA_SQ_NO,		CPUID_ECX,  1, 0x80000021, 0 },
+> > >   	{ X86_FEATURE_TSA_L1_NO,		CPUID_ECX,  2, 0x80000021, 0 },
+> > >   	{ X86_FEATURE_AMD_WORKLOAD_CLASS,	CPUID_EAX, 22, 0x80000021, 0 },
+> > 
+> > Sashiko reported:
+> > 
+> > --- Patch [1]: [RESEND PATCH v4 01/15] x86/resctrl: Support Privilege Level
+> > Zero Association (PLZA) ---
+> > commit 0f2aa093b81d7a2e0dc203ce3466562f708898df
+> > Author: Babu Moger <babu.moger@amd.com>
+> > x86/resctrl: Support Privilege Level Zero Association (PLZA)
+> > This commit adds support for AMD's Privilege Level Zero Association (PLZA)
+> > feature. It detects the feature via CPUID_Fn80000020_EBX_x00 [Bit 9] and
+> > adds the corresponding feature flag to the x86 cpufeatures array.
+> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537 # [2]
+> > > diff --git a/arch/x86/include/asm/cpufeatures.h
+> > b/arch/x86/include/asm/cpufeatures.h
+> > > index 1b4a48bff18f7..bf6fc71f87fab 100644
+> > > --- a/arch/x86/include/asm/cpufeatures.h
+> > > +++ b/arch/x86/include/asm/cpufeatures.h
+> > > @@ -517,6 +517,7 @@
+> > >  						      * and purposes if CLEAR_CPU_BUF_VM is set).
+> > >  						      */
+> > >  #define X86_FEATURE_X2AVIC_EXT		(21*32+20) /* AMD SVM x2AVIC support for
+> > 4k vCPUs */
+> > > +#define X86_FEATURE_PLZA		(21*32+21) /* Privilege Level Zero Association
+> > */
+> > Should this addition also be mirrored in the tools directory copies of
+> > cpufeatures.h and kcpuid.csv?
+> > If tools/arch/x86/include/asm/cpufeatures.h is not updated to match, tools
+> > like
+> > perf can generate build warnings during check-headers.sh verification. Also,
+> > without updating tools/arch/x86/kcpuid/cpuid.csv, the kcpuid tool will be
+> > unaware of the new PLZA feature bit when users query CPU capabilities.
+> > 
+> > 
+> > I thought tools/arch/x86/include/asm/cpufeatures.h would be synced after the
+> > changes to arch/x86/include/asm/cpufeatures.h are merged. Has that process
+> > changed?
+> 
+> I guess that hasn't changed:
+> 
+> tools/include/uapi/README
+> 
+> Let's add those perf tools hackers to confirm.
 
-> +Tudo o que voc=C3=AA sempre quis saber sobre as vers=C3=B5es -stable do =
-Linux
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Regras sobre que tipos de patches s=C3=A3o aceitos =E2=80=94 e quais n=
-=C3=A3o s=C3=A3o =E2=80=94 na =C3=A1rvore
-> +"-stable":
+Well.. it's changed as Linus wanted to not update the headers for
+trivial changes.  The script is still there but it's not running
+automatically.  For perf, we used to check ioctl and other user-visible
+changes for system call tracing.  And some headers moved to the
+tools/perf/trace/beauty/include directory to sync separately.
 
-Regarding this line:
-> +Regras sobre que tipos de patches s=C3=A3o aceitos =E2=80=94 e quais n=
-=C3=A3o s=C3=A3o =E2=80=94 na =C3=A1rvore
-Why so many dashes ("=E2=80=94") here? It would be better to remove them to
-make the sentence flow more naturally.
-You could replace them with commas or parentheses, for example:
-"...s=C3=A3o aceitos, e quais n=C3=A3o s=C3=A3o, na =C3=A1rvore".
+I think the headers will be sync-ed less frequently.  So you may need to
+update the header for tooling changes manually.
 
+Thanks,
+Namhyung
 
-> +- As filas de patches, tanto para vers=C3=B5es conclu=C3=ADdasamp; quant=
-o para vers=C3=B5es
-
-Just to confirm, wasn't "conclu=C3=ADdasamp;" a typo here?. It should
-probably just be "conclu=C3=ADdas".
