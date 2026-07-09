@@ -1,186 +1,118 @@
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBFD3F9278
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 12:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783598962; cv=none; b=L/sClWXp76zlz5yBCzLXoKLKm4YAWfBmJ8053R4M/Ii76ZSiXI6/T16rF7+TKhNeNXfZyf04QuO9wr9xcZQuOm0eNMFHf8gpyCpLUXe7MTftZtf4P3SvpJkkI712BmESCG0h082VdFHAnZnNURVuBvt+9eB8+3qgH6gbaawoBVI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783598962; c=relaxed/simple;
-	bh=3a9pgwxWrLLuvuTwQFg/tCaqfqW0jQ0Y87hVWHCHY+A=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C7221638D
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 12:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783599156; cv=pass; b=biJAe8c3jP1gMPijQKz6d0/M42awbOdCAHI7PFTpRHKohRrC8HLJv79tg2ph+I6E+oLD8wzphQrcme8mAcl8drtl07ZVP1xgGm0KMQzG/WLoDh3jnBB/MdWW7yBNNFoNrXbiK/m+mmas5CZzZ+RyeSKk9SsQVRF/EZjL3K+TuSU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783599156; c=relaxed/simple;
+	bh=zwiWiYsDppIktlruouILg8tzAw30tCwKKAoq8zReISg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fYqGBA2n2Tn+aRwDKpMVGPr1XJSSzMTir3yDr4Mtcfzdnuon/LJ6bCzRlfKS1aTnRv3XAz4E2zWBjt6oUbbTJmf6sQTSYIgKnVS8aO/ds9yHS6fyPHiAWTeOuT8loauNmJmdyT0Wv0/E9pWy1Chg/f5ADJuLlclHYnZN+2jwwwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ivDf6YHt; arc=none smtp.client-ip=95.215.58.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 To:Cc:Content-Type; b=PNKqciR2uW2r7ZmJxzw+VIx3hguh9uTDl9cPmiv4Iwo1ixKdd4Ib+ThMc4JTc8DLSj16bgz++JpvHoafPlT8LpVJtjr27myFQu0GOCfRgT7Z8pl9ZSTo+9en5tYvC1rR7fg7Ev1ICykPvS8Ups5qQzaeospbJX4pF4QiGaSS0Sw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q3Ae0MYm; arc=pass smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ivDf6YHt"
-X-Forwarded-Encrypted: i=1; AHgh+RorZCvBFOxh+2M1auoAp4wfCzzIGJK9YoFamd8UwOJRSOuzEW6jrF0F0ccJEowm8cnTKbvvNYJPX7o=@vger.kernel.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1783598958;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BmsvLtE51JsvqUb4kaVyH7ncNDCmu7y58Wka6Jpy3e4=;
-	b=ivDf6YHtGWd7iOlTeXJ+mqqsk0bmlSpoNB5f0ktQnTSaQ7aYueQyvwdYFldYOiNM1U/gI9
-	qAiqZhSBEkLGlAI2pdfBLCTFHhAIZiJWWWwhnCmBMmOtWalOz0M70OMIKhy23VMF5uI2vY
-	n7FgldiljP9yKCbkRuL5pqjLRXedLLg=
-X-Gm-Message-State: AOJu0YzzV2rIlk4MH7swjhWxNdo0oKX6R1u4n9fIdT6FuxovGBDZgckd
-	fUddxOoqMTnLUrQ835Or7BkDgqJrXp3PT6Rb4ATacvvaHwEyq24SvaavQg0YfMJKYYe4vkzZ8mv
-	Xwg9N1hGt8nlMWpaUfdWbWZJKRTljwPbLYGD9qmcP
-X-Received: by 2002:a05:622a:1f0d:b0:51c:d16:b48e with SMTP id
- d75a77b69052e-51c9a8c1f20mr7564121cf.22.1783598945046; Thu, 09 Jul 2026
- 05:09:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q3Ae0MYm"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8f1e274ccb9so8735196d6.2
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 05:12:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783599154; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bMs6Euhp0woqbqstppt/wcy+S1pQKRVxKpOAESZ18yV3Z5VoL1qUW+2Et4jXu+Z1eb
+         bU7nQ0iJNqUpLS+OxVkLZJyqMK8uJ8zqsawB5JUZCti36XE15xIqKNNzMnJpf17ZSFZ/
+         BHEZuMDP7q3MO6haTppq4R5tyzyJCO3qtH3XPx4dt4wVKKjZLVd1vvX3aE1QDyRSLfGO
+         EXhNuXyCDyBms0hO8HI9LDnpqQziKzXHn11jddi8FI8jA/tBd8oEP9nwMGgQ2TNL+3cP
+         VKYVRY4QdvWGitw31jfpZzbeZ6OaDEN0ZA8ZYW3Hio4szQFd6GjLBnR5LXgbWzN4V4H3
+         7ZpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=mxl4gTQYvP4QMzULGxqd9rXn/Yk7CnK/pf/p++h4E4c=;
+        fh=JQtkNgAJzNPa/qaucRHd2VhMs3fv4GX6yhChEVoZ2Ek=;
+        b=SQnvXbR/SH30ErH8Lxh+AIxZqO/SfsP0CJmv93r02+yjSYQUfGFlfmBoMEPT+o/Qkz
+         dHoYGGr/957h8rQIsx8zENIpSD+i144SC61nMixlYegb2CbFM8RJDgFP5I3XASJ21xCq
+         ZIG++hNBtVhTByux1luqmsdKbsY3dfvr0Xy7DxvuNU+gtYWc/T3wDPrqB6j+pqG4GMSU
+         CwfCw/R6luh22jRejWa4pwNPvlMy5dUPaB5K5O6USWlmprglKVe+pt1i7o6MeKj1W/wB
+         3+pcTDQhqE1aZIiHHkF4/khHin03UgZpuHS4a42bv0Ydg8D713lLNbBp7i/YPWTJwOO9
+         Ygkw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783599154; x=1784203954; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=mxl4gTQYvP4QMzULGxqd9rXn/Yk7CnK/pf/p++h4E4c=;
+        b=q3Ae0MYm2WarrR8CH8U6uQ145+aIbMVdNn+/hxh2r0KvEKewtKAr6bVS/YL2LuAQRb
+         Op7Mqirb81w9Y0+khBV7V05UFw4TCPIHk6qWKDUCnVRrFV7C3XOb7xuBtWXwklZjj0o+
+         rg8HkGQb5ZsGsITTnIilrn16YAZyeyOpHIsv3sJUb/vaz96rVZwZHJcAD74aSg1ynix6
+         uUq265ykquIGzuVgsS8tZU9v/EIUyz/esBF/8hNSHcbFXuSCtQzMvja29wZEQBGxUy/4
+         UsaINNsmieyj4YoBD9koeL2uKL/GVv+tE3E1U8aO+8MLy0L92TYKKo/IkAILytpdmnSq
+         V0YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783599154; x=1784203954;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mxl4gTQYvP4QMzULGxqd9rXn/Yk7CnK/pf/p++h4E4c=;
+        b=I8BrEx1KHrokQvVYrIgF0hoIQEFS7ob0EIMLcWlmlAJIpK7LxuAL04g5uDnt9ah0Pc
+         i9+KR/n1zrGvR6XhRN8+9+7P3O40FUBqTxKljyYqtfpDwBpSDS8NBvZOhOdILCpIbRk6
+         JkTAoV5RIp6mzIjzZlPc670bsategc0rYUzLlYnGLOEU1i+uNlLwp9uRtoJV9ovK1dKg
+         mAotqm97Jb+XVgu4x+CMqPyEbu4IKDZUhVMTofzd8CZRLqPz7u7S4Q8carA/xRiSLwUL
+         sz3NUuld8ybx0lkk2sgHtvX7vtEfk6Fmy1hGdcICOcPGgwnZW1pi7Cerkpl/g/DdXl+A
+         DsDw==
+X-Gm-Message-State: AOJu0Yybu3t6FpUWZbf3uAQfoXoAPmxPXts4b0WMTp816+2V1QOJIesa
+	Knp83tG6Ac+4fVPN2+dZmLlPPcTXYIMosUK4+K1Pv1tZwFUsllb/shR5OOdULj2qGKjbc/Cl3XR
+	cUvtKhotpzDgP9DTqLO26kVI8hl4cR2WXl4YjMvI=
+X-Gm-Gg: AfdE7cnBBm4zCgOdyNm+iKJxYqPKP/05nkHRSWSCzkhTa1vNl0zt6NTxBvXeTVQG6Sk
+	mKDM2ySG9T3a1hrattopZmYd+1NbHmLSGrQIuWlYcwgBhhd0apOS403Dmx4ADfeDHoumDLAw8Xn
+	yfuI8HWc4zHlQM1nxZq8fjSfWoVo4p1YqZTyNugvtb72CuX1B9RMLqnK3H4oIQ/askv2tMk5yEm
+	0BlgPhokx2kxEPmnbc+7AVCIJVj+WJtQy5/HKKwhRrDaso3VKEY2FLnugT9CH9ILYEGM3tvc8tu
+	p0QzQfGs31rKvQCF+W3G/rUrRS1eohDigiw8JgGeAOvK7Gpv2Xfv2emoN8WCbApa9Vij5ZXD+YL
+	3yQedQ+wUHQ==
+X-Received: by 2002:a05:6214:2dc3:b0:8f0:65c7:3237 with SMTP id
+ 6a1803df08f44-8fec02f1a14mr77715556d6.5.1783599153737; Thu, 09 Jul 2026
+ 05:12:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260709-kvm-arm64-sme-v11-0-32799f66db9d@kernel.org>
- <CA+EHjTyAxBx4jhGq-Gme5hPi1ZyDAkL2CP_U22ykkQemD1dUhg@mail.gmail.com>
- <ak-Fyvzpj9SkF75j@J2N7QTR9R3> <CA+EHjTydGzbgi9FwWQaFjuRNqUFC_HeOfHggZAHhPL4FfLYBog@mail.gmail.com>
- <ak-Kzyv0eXq05QQA@J2N7QTR9R3>
-In-Reply-To: <ak-Kzyv0eXq05QQA@J2N7QTR9R3>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Thu, 9 Jul 2026 13:08:28 +0100
-X-Gmail-Original-Message-ID: <CA+EHjTxzKJ=UxdvPmboNSo6KBppDtr88z3_BdqghJ-6f_ttqMA@mail.gmail.com>
-X-Gm-Features: AUfX_myJfL1pQLx--A1TjYYVTKJyGE6cEnwXXwo5heMGbxsjfkRXSVoLh7fWFO8
-Message-ID: <CA+EHjTxzKJ=UxdvPmboNSo6KBppDtr88z3_BdqghJ-6f_ttqMA@mail.gmail.com>
-Subject: Re: [PATCH v11 00/29] KVM: arm64: Implement support for SME
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>, 
-	Ben Horgan <ben.horgan@arm.com>, Jean-Philippe Brucker <jpb@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Peter Maydell <peter.maydell@linaro.org>, 
-	Eric Auger <eric.auger@redhat.com>
+References: <20260708130558.12604-1-igorgphotoarte@gmail.com>
+In-Reply-To: <20260708130558.12604-1-igorgphotoarte@gmail.com>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Thu, 9 Jul 2026 09:12:22 -0300
+X-Gm-Features: AUfX_mx7fpFj3e9ICFpT6wEk2eKM3a9OGuTh4lzgW7pjWBReQwYacE_8nUaiOBM
+Message-ID: <CAMAsx6cpPDR=rXYj+Vj5sHO0_J3LEfNj_AgK5dwJBE_odsUUmg@mail.gmail.com>
+Subject: Re: [PATCH] docs: pt_BR: process: Translate the kernel driver statement
+To: Igor Giamoniano <igorgphotoarte@gmail.com>
+Cc: linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
 
-Hi Mark and Mark,
+Em qua., 8 de jul. de 2026 =C3=A0s 10:07, Igor Giamoniano
+<igorgphotoarte@gmail.com> escreveu:
+>
+> Translate Documentation/process/kernel-driver-statement.rst into Brazilia=
+n
+> Portuguese, keeping the reStructuredText formatting and the list of
+> signatories unchanged.
+>
+> Signed-off-by: Igor Giamoniano <igorgphotoarte@gmail.com>
+> ---
+>  .../pt_BR/process/kernel-driver-statement.rst | 205 ++++++++++++++++++
+>  1 file changed, 205 insertions(+)
 
-On Thu, 9 Jul 2026 at 12:49, Mark Rutland <mark.rutland@arm.com> wrote:
->
-> On Thu, Jul 09, 2026 at 12:31:45PM +0100, Fuad Tabba wrote:
-> > On Thu, 9 Jul 2026 at 12:28, Mark Rutland <mark.rutland@arm.com> wrote:
-> > >
-> > > On Thu, Jul 09, 2026 at 11:26:41AM +0100, Fuad Tabba wrote:
-> > > > > base-commit: 4c45e14df2f4e77982ad70d6d8e3fe750edd4c37
-> > > >
-> > > > I think this SHA is local to your tree. I can't locate it, and neit=
-her
-> > > > could Sashiko [1, 2].
-> > >
-> > > That's the tagged commit for v7.2.-rc2. See:
-> > >
-> > >   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-commit/?id=3D4c45e14df2f4e77982ad70d6d8e3fe750edd4c37
-> > >
-> > > I think that neither you nor sashiko have fetched mainline recently.
-> >
-> > Thanks, I have 7.2-rc2, but `git show
-> > 4c45e14df2f4e77982ad70d6d8e3fe750edd4c37` gives me `fatal: bad object
-> > 4c45e14df2f4e77982ad70d6d8e3fe750edd4c37` . The SHA for rc2 is
-> > 8cdeaa50eae8dad34885515f62559ee83e7e8dda (which is what shows in the
-> > link above, not sure what ID is, which is the part that matches your
-> > SHA.
->
-> Sorry, 4c45e14df2f4e77982ad70d6d8e3fe750edd4c37 is the tag object for
-> v7.2-rc2, which points to commit object
-> 8cdeaa50eae8dad34885515f62559ee83e7e8dda.
->
-> The odd thing is that we see different behaviour; for me (with git
-> 2.30.2) running:
->
->         git show 4c45e14df2f4e77982ad70d6d8e3fe750edd4c37
->
-> ... gives me the description of the tag as per the example in the
-> context below.
->
-> I'm surprised that git show doesn't find that for you.
->
-> > That's what confused both Sashiko and I, since it's used as the base-co=
-mmit SHA.
->
-> Sure; I'm just surprised as above that git show doesn't find the tag
-> object.
+Hi Igor,
 
-Two different issues that manifested in the same way:
-- Sashiko wasn't advancing HEAD after fetch (
-https://github.com/sashiko-dev/sashiko/pull/317 )
-- Neither Sashiko nor I were fetching tags
+Since this is a new file, you also need to add it to
+Documentation/translations/pt_BR/index.rst so it connects to the main
+documentation page.
+Please add the file to the index, fix those rST formatting warnings we
+found, and submit a v2.
 
-Thanks for this, and sorry for the noise.
-
-Cheers,
-/fuad
-
->
-> Mark.
->
-> >
-> > Cheers,
-> > /fuad
-> >
-> > >
-> > > I have it locally after fetching from Linus's tree, as below.
-> > >
-> > > Mark.
-> > >
-> > > | [mark@lakrids:~/src/linux]% git describe 4c45e14df2f4e77982ad70d6d8=
-e3fe750edd4c37
-> > > | v7.2-rc2
-> > > | [mark@lakrids:~/src/linux]% git show 4c45e14df2f4e77982ad70d6d8e3fe=
-750edd4c37
-> > > | tag v7.2-rc2
-> > > | Tagger:     Linus Torvalds <torvalds@linux-foundation.org>
-> > > | TaggerDate: Sun Jul 5 14:44:06 2026 -1000
-> > > |
-> > > | Linux 7.2-rc2
-> > > | -----BEGIN PGP SIGNATURE-----
-> > > |
-> > > | iQFSBAABCgA8FiEEq68RxlopcLEwq+PEeb4+QwBBGIYFAmpK+lYeHHRvcnZhbGRz
-> > > | QGxpbnV4LWZvdW5kYXRpb24ub3JnAAoJEHm+PkMAQRiGsv8H/Rn7Hr3Hp8t6au8B
-> > > | xQueZThJWjqQ4v8pyLnXF6OomKiDR24OTXMCrFgDkcmZ7RK2ALqowI3tQVwLUTuI
-> > > | yUN0qL2z2y+LyTcO0CYf3Lple8KlgLAXYMsv7pGLsOvhS7BW2jW97/bcbpUNxoHb
-> > > | eghxqbIEnyRImUbbyg+nW7VVk65RKdPUNkBPXfQ2NMVwe+SDE5Rl+NXNVqDNjGad
-> > > | soDTUBrD9yXkWX+4s0myleE62UzzH5nYgGPQeQgYmzWgq7LybH6WBlbQK9D7ODJR
-> > > | Cw3LCq1hwZZ2w04Yx+XwMHquGJYHW8L2pj77h95uhzksz8buKnM0AGwBCTC6RMoi
-> > > | AyUQvdc=3D
-> > > | =3DJUWl
-> > > | -----END PGP SIGNATURE-----
-> > > |
-> > > | commit 8cdeaa50eae8dad34885515f62559ee83e7e8dda (HEAD, tag: v7.2-rc=
-2, kernel-org-tip/locking/debug, kernel-org-stable/master, kernel-org-rw-pm=
-/master, kernel-org-rw-pm/fixes, kernel-org-powerpc/topic/ppc-kvm, kernel-o=
-rg-powerpc/next-test, kernel-org-powerpc/next, kernel-org-powerpc/fixes-tes=
-t, kernel-org-powerpc/fixes, google-android-kvm/master)
-> > > | Author:     Linus Torvalds <torvalds@linux-foundation.org>
-> > > | AuthorDate: Sun Jul 5 14:44:06 2026 -1000
-> > > | Commit:     Linus Torvalds <torvalds@linux-foundation.org>
-> > > | CommitDate: Sun Jul 5 14:44:06 2026 -1000
-> > > |
-> > > |     Linux 7.2-rc2
-> > > |
-> > > | diff --git a/Makefile b/Makefile
-> > > | index b9c5792c79e01..b4035d3cef266 100644
-> > > | --- a/Makefile
-> > > | +++ b/Makefile
-> > > | @@ -2,7 +2,7 @@
-> > > |  VERSION =3D 7
-> > > |  PATCHLEVEL =3D 2
-> > > |  SUBLEVEL =3D 0
-> > > | -EXTRAVERSION =3D -rc1
-> > > | +EXTRAVERSION =3D -rc2
-> > > |  NAME =3D Baby Opossum Posse
-> > > |
-> > > |  # *DOCUMENTATION*
-> > >
+Thanks!
