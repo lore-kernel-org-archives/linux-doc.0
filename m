@@ -1,134 +1,122 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9B236680C;
-	Thu,  9 Jul 2026 15:21:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E4A36827E;
+	Thu,  9 Jul 2026 15:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783610476; cv=none; b=WyBZsIOqM40P3jhCF3S+7J+Tlpc2i7Nzl2wqw+nOVfcPHWuQwS4E5lIlcFV7iZc8FHhllC4VGpCrdKY3Zsfg8Hv4l96cFu0EWuozf/UStjyBn8SVjKtAz8WDbvAToeY9FbpQayoT7V5xK/fKmFz0gzJgEOQ0wUoyVkyVaeqHKZQ=
+	t=1783610548; cv=none; b=Jm//J7XON4oOEIZkFzOv5/L3I218JdFqWlRiaC2agLZoiqGKEqSznZPfotjCi8NNNnB86qCXheVC0nY3XwiUog/fhNRUQkDx1m4++3xMJfUsKoqlZdtD+hH1Dq9cB4iho1G8GybHu1X2Xxx27DP1BTzCPK0BiXnnkNrUODQCU7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783610476; c=relaxed/simple;
-	bh=9+/P+XHbUPLPWvGhwXv03lbgWUb5sN9SZqDazJvnm5k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=t8iyKW3KhwFci69Mw6fVPpxkkfKQCqhRPK02lX80OiC91TxKM9oGSo9Wf09FrlSTSj5oTnteKyl2Y1Y2OyMoF2iAslWLt6MflQZlaroJXgus/rWfzFSh1DASzijaWSi0EXdqb3rxBrTtaM4tLz0GybLm2PPKwmvGhZmOvqeOQHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=yPxeCtv7; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bvJKA43v; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1783610548; c=relaxed/simple;
+	bh=BSIfjK1k/RavKFMkJAdhOhD5k3mXFCRucl7IdwdjzMY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cu+JzI67yc9nCsOeREatajyr419LLzaunvj/Zkr9KLlnjwOvhHZDf4LJ07b9Nbd+pdX0YWtfPNgEqh8Nia80Y+ivF3SvoaVLw+FJe8mvngh0h1QjEJQKHNf51Drsa3999wKv1FegTRl/9sZK8Pflyffey98e7J1irH7Pynf1Kcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=rtC/EAly; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="yPxeCtv7";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bvJKA43v"
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783610472;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="rtC/EAly"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gwzGl2hsWzMlFX;
+	Thu, 09 Jul 2026 17:22:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783610543;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zCvSGqbhj9/NhLA9ZbyAvA3dzoWQlSiAOLf8QjRL6Pg=;
-	b=yPxeCtv7/v66gXx/D1fcRyKL1cphG+7D0+7gfqZuKG5TY3Lov3QxQicfiad2nf95WZilHe
-	utDBJu89JL2Yz1xzvn/CqzATfh6OfU3NW4XH6tUL20l0tUE6yLZmhCajmqCiAIoLuyidOu
-	D8WEMvAyXq7HJgmxiCJGnfYrMBsKrUU4S4Q1dGOk3PQZXhKlYD6v/GtkW2umOKDT5gsa30
-	bxorj8UIbFEVTJRuPqQUX4Jje9dRhNgU9ho6TNhTcp1wnYlbMV1vsk/amHvLmPc0SOkf2f
-	HCCzJjeXFQkCmLlYzKz8xyqkS4oA8LMfUjMKTsFtMNcH92sx+hk/Yq8JPgCduQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783610472;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zCvSGqbhj9/NhLA9ZbyAvA3dzoWQlSiAOLf8QjRL6Pg=;
-	b=bvJKA43vE00gb5w8aGww1E5ceOM62dgrQ8tJ096LJSDDO76decZm7uufcWpQd/8ogpAWkH
-	+ZRzcy3uOwxnWTAg==
-To: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Cc: Petr Mladek <pmladek@suse.com>, Benedikt Spranger
- <b.spranger@linutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Russell King <linux@armlinux.org.uk>, Florian
- Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
- list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>, Steven Rostedt
- <rostedt@goodmis.org>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- Andrew Morton <akpm@linux-foundation.org>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Randy
- Dunlap <rdunlap@infradead.org>, Linus Torvalds
- <torvalds@linux-foundation.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2 3/4] printk: nbcon: move printk_delay to console
- emiting code
-In-Reply-To: <CALqELGx+7RSKL0+kdOxu0TpXaOifYkzxmOTv+4gTSHqrbLEJ5Q@mail.gmail.com>
-References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
- <20260630-deprecate_boot_delay-v2-3-f9883d36aa4b@thegoodpenguin.co.uk>
- <20260703165654.71be8707@mitra>
- <CALqELGz-KSrGq5JYvLedZiO-p21pjpRKbceO+jiSfwZGyx+91Q@mail.gmail.com>
- <20260707145411.53a10893@mitra> <ak0VguIf-PxmbUOS@pathway.suse.cz>
- <87qzldvqpm.fsf@jogness.linutronix.de>
- <CALqELGx+7RSKL0+kdOxu0TpXaOifYkzxmOTv+4gTSHqrbLEJ5Q@mail.gmail.com>
-Date: Thu, 09 Jul 2026 17:27:11 +0206
-Message-ID: <87jyr4jijc.fsf@jogness.linutronix.de>
+	bh=dsIcksqCjHhl+PgskQMA9X+AMXn/bCWoXZcBglPsCLQ=;
+	b=rtC/EAlyOKiXirZSk/d71ooja/c7nLc/BRFJk2yPB9Kp77blaHjJixRruUPHZShcnQmrMh
+	7+SMmdJEdMxFsB5ZS7lZPfaJ+uVcB/KjL9gMSXOj56cxfdFXHHhVVxljxPCcL6NsH/puCO
+	FoVe9kapTLf4GFyfNn/3znlCX6oEG7hqvtGSw4XwUWovt25rISI/AKNsA66c4U8xvMxhPx
+	3c6MvDftlnqEPNrogLW4S8YKlLwiEb1GkNAos/eb8XFxS23SScur9PYnsWuljTvW1QQ6fM
+	29aOllfZZP/td96j/NbsGuV27BUOp/FVm82DoRkNx1FQ6FwOEnIxfqooQWgq2w==
+Message-ID: <a8eaf0be-175e-4e3e-a773-d0684a23b396@mailbox.org>
+Date: Thu, 9 Jul 2026 17:22:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Subject: Re: [PATCH v4 0/5] PCI: rcar-gen4: irqchip/gic-v3: Handle GIC ITS
+To: Manivannan Sadhasivam <mani@kernel.org>, Marc Zyngier <maz@kernel.org>
+Cc: linux-pci@vger.kernel.org, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Conor Dooley
+ <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20260707203743.88299-1-marek.vasut+renesas@mailbox.org>
+ <ybnitlgx3dcqsesubz6jz7pn6snseuxhtz564tinbtvukianaq@33ubmcynyqmt>
+ <c12941e4-3715-404e-b674-090c62b868b8@mailbox.org>
+ <87v7ao5o5t.wl-maz@kernel.org>
+ <lkxuw3lgr6gbi4vnj33pfq5kh7h7qefkwiovlqsltnfivbrfit@khnoyfmibg5f>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <lkxuw3lgr6gbi4vnj33pfq5kh7h7qefkwiovlqsltnfivbrfit@khnoyfmibg5f>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 329c7eef028ecd092b3
+X-MBO-RS-META: tctohij9qgjyajkrm4cs6844iwq15twh
 
-Hi Andrew,
-
-On 2026-07-09, Andrew Murray <amurray@thegoodpenguin.co.uk> wrote:
->> The synchronous mode would rely on the driver being nbcon. I envision
->> something like this:
->
-> Is it possible to apply synchronous mode for both nbcon and legacy
-> consoles?
-
-For !RT, legacy consoles are already "somewhat best effort"
-synchronous. I really do not want to try to somehow improve on that. Our
-goal is not to improve legacy, but to get rid of it.
-
-> For the debugging case Benedikt suggested (is this the main
-> use case for this feature?), it would be helpful if a developer could
-> indicate a preference for synchronous mode without first determining
-> the console type.
-
-The developer is free to add ",sync" regardless if it is an nbcon or
-not. My sync series (which I am currently testing) will simply give a
-boot message that the console does not support sync mode.
-
->> ---- BEGIN SYNC IDEA ----
->> diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
->> index 2fe9a963c823a..beb5bb3c037b5 100644
->> --- a/kernel/printk/printk.c
->> +++ b/kernel/printk/printk.c
->> @@ -2456,6 +2456,8 @@ asmlinkage int vprintk_emit(int facility, int level,
+On 7/9/26 2:57 PM, Manivannan Sadhasivam wrote:
+> On Thu, Jul 09, 2026 at 01:43:26PM +0100, Marc Zyngier wrote:
+>> On Thu, 09 Jul 2026 13:33:22 +0100,
+>> Marek Vasut <marek.vasut@mailbox.org> wrote:
+>>>
+>>> On 7/9/26 2:19 PM, Manivannan Sadhasivam wrote:
+>>>> On Tue, Jul 07, 2026 at 10:35:38PM +0200, Marek Vasut wrote:
+>>>>> Configure all R-Car Gen4 PCIe controller MSI registers fully, both in
+>>>>> case MSI are enabled and disabled.
+>>>>>
+>>>>> Patch GIC ITS driver and add quirks for R-Car Gen4 GIC ITS, which is
+>>>>> configured to 32-bit address width for AXI or APB interface.
+>>>>>
+>>>>> Switch R-Car V4H to use GIC ITS in its DT and describe the GIC ITS
+>>>>> implementation cacheable and shareable limitations.
+>>>>>
+>>>>> Marek Vasut (5):
+>>>>>     PCI: dwc: Determine whether iMSI is used before calling .init
+>>>>>     PCI: rcar-gen4: Configure AXIINTC if iMSI-RX not used
+>>>>>     irqchip/gic-v3: Refactor GIC600 limited to 32bit PA erratum handling
+>>>>>     irqchip/gic-v3: Add Renesas R-Car Gen4 erratum workaround
+>>>>
+>>>> Is there a functional dependency between irqchip and PCI patches? Since the
+>>>> irqchip patches touch ARM64 Kconfig etc... I'm wondering if it still need to go
+>>>> through PCI tree.
+>>> I do not believe there is.
+>>>
+>>> These two configure the PCIe controller hardware:
+>>>    PCI: dwc: Determine whether iMSI is used before calling .init
+>>>    PCI: rcar-gen4: Configure AXIINTC if iMSI-RX not used
+>>>
+>>> These two fill in GIC ITS quirks:
+>>>    irqchip/gic-v3: Refactor GIC600 limited to 32bit PA erratum handling
+>>>    irqchip/gic-v3: Add Renesas R-Car Gen4 erratum workaround
+>>>
+>>> This one does yes depend on the two and two patches above, and can
+>>> only be applied once all four aforementioned patches land, otherwise
+>>> things really yes will break:
+>>>    arm64: dts: renesas: r8a779g0: Add GICv3 ITS and update PCIe nodes
+>>>
+>>> Would you like me to split the series up , or can you and Marc (?)
+>>> pick the relevant parts via matching trees ?
 >>
->>         if (ft.nbcon_atomic)
->>                 nbcon_atomic_flush_pending();
->> +       else if (have_nbcon_console_sync)
->> +               nbcon_atomic_flush_sync_pending();
+>> I don't think there's anything for me to pick. The whole thing looks
+>> like a consistent set, and it probably should be kept together.
 >>
->>         if (ft.nbcon_offload)
->>                 nbcon_kthreads_wake();
->
-> My interest in misusing (not proposing that as a solution) the
-> emergency mode, is that the flush mode is nicely abstracted by
-> printk_get_console_flush_type. Depending on how you trigger the sync
-> mode, could printk_get_console_flush_type be expanded to look at a
-> flag and return ft.legacy_direct, ft.legacy_offload or
-> ft.nbcon_atomic_sync ?
-
-Yes, I could do this, although it would only be "usable" for the
-vprintk_emit() case. For the other two call sites:
-
-nbcon_kthread_should_wakeup()
-nbcon_device_release()
-
-it would still need to be a @flags check because it is about a
-particular console.
-
-Of course, we could make printk_get_console_flush_type() per-console,
-but that would be a considerable semantic change that would require
-quite a bit of refactoring.
-
-We can continue this conversation once I have posted my sync series.
-
-John
+>> Given that the irqchip stuff has been acked by the relevant party, and
+>> that the last patch will cause havoc if taken on its own, the only
+>> course of action is to route the whole thing together, the PCI tree
+>> being the most obvious victim.
+> 
+> Alright then. I'll merge all 4 patches to PCI tree.
+Thank you all.
