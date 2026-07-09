@@ -1,147 +1,189 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89490437466
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 18:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CD3437475;
+	Thu,  9 Jul 2026 18:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783622421; cv=none; b=hjYvjrpuw2F9omQqMq9Qsy0LgbOrBank6LzWvn4jtj0DC0vX6zo7wehcLtX3zGjj+2yOWw3LUofmxiKBf+exywPouq38uWdYT84HOj/4nXNDindYFb+4vrs4EEF2EOeMDrZlnrYYnuTZcX+zcQ42BGPzXUevO92P7B2kD2Fyif8=
+	t=1783622423; cv=none; b=JF+yiaB/a3+bKZGDTbCNhchdPzQ32skOV2FrjBFFrL/Zsxh4bLO3vrE6VXGR+d5bDKkcaf+kCFCbE8LRuDIuQb/dkCzDr3l/XEKm0veGCJMAO51KKmnjdF+E32OROsyFI+bsnayKEG/gvUCN4O6Lhi/ljc2MOV2KKGGdfncp8U0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783622421; c=relaxed/simple;
-	bh=rnI8Mtk7zFh67ToOxrITQJjhD2smVc7SMC3A0Srfn7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kr6kkOlcKuRdp8bGaZR8Rbae8QyQUErQGTf+8waUqhqXLn0OSdMmBR1cLlv7SuzPsR8PEV0OyuvxQHPMl0+FyB0a+faHBbw7XyIkLPElcbHuApbj7vxyeoJ2o61cwZeQODkJah3ORQDWZ6me/qIK3sLTVnJOC5jFqpg8PLNSDW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hSxrzxxE; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783622423; c=relaxed/simple;
+	bh=LWJU1DW0v04tDKSLTA3TrlLIRe48SZoL4LVSvdSUkiE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=mUi5zbjKzLWo/oyM+zVLhGERn1WC4ujEXouE5GmPIzazoAeiCQ5b3HrV+ZM8oeNDuJpJz/PwedIqavaeV8auamLInNcOrh+D5FGoBsfC39B8zg2Z9Qib9F+VJYBUK8izfhtDzN5tM1HEphJyvMAOF2RpfoD52GuR4a58oE1MbqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l2cmPnWH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hSxrzxxE"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c96bfabc8d4so87830a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 11:40:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783622419; x=1784227219; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=v3NWG3nzWzn0lD5brSEphHHDIxNRitNNFv0e1po41sA=;
-        b=hSxrzxxEgcIPpX4HGktg5ZBZPXnANJ73MP3lQU8dB8IP7Qadq7oJ8G+4+MWybMR345
-         8CD1MkedcDdfN9mmArcgE/028EQezgTd0kAfl421CaxIudItiKKE10qi8Hx/9r62yEyx
-         L94i9XpzAPgVLVw5oRo/Cu4zV80C73sGdWFgFhGCzziH+NX//k6+57HkXCDPFDDUBWZc
-         ASWX5fCCg0oURezyLULnlaLxVPoPewDbOh1Y8+e6IUs/KO6/S3FQwLZwN/3FF0sAVTqs
-         pcWyaUPVyMBfu+h0C/SdPiDsIEvJVLAXiECIbVjHMA/BigcVj3icz30PkDlWEhhKpoRQ
-         lmjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783622419; x=1784227219;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=v3NWG3nzWzn0lD5brSEphHHDIxNRitNNFv0e1po41sA=;
-        b=q1PzPHfwi6bpXCuLi31znxk0w27BhdTnLtFZsTcw8oWjtZtUKZUmT5XhTd5rJ3gM6Y
-         5lwD00Grbeub6SU/fFwLKwtHSb9hs94PqPfPaIhGvC87vi8bwFoyPMTcd29p05qKzZHw
-         D9sx/xW4aDGhDyJj/6KYYO7Ay+UK+v85uNrt/uUajQkRlhqfPCvqqRbqsHGiCoaGe65s
-         gO0iaAC4PmM5FJnhEWSB/Dulw3LYQmUmTo/B/00pRHYU864bUrXdvBst0sYgsy2g1iQC
-         Cikv1Y2HOi25g6qrKL7/+/o3Ng4yjqXgWU6qByA+iBB6sx+nLToCglXB5JcZ355Y7ohe
-         w5rQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro8mAIYkoRaZSRpo8/0KzYYQuPNksyb84DAnyOBF+wgzaCzb54w4gp07XFJiqluoQijeZ17YUz7Lfs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvRdZbeMFUFNH1XceobOrTiekSfc/Gg5e8EDgbM7eIso6BBO6g
-	A4g+SP3Y54+rpKnlcL2al3yk27h8WD1KNnSvYyNs1hW/3uckoMECDV2t
-X-Gm-Gg: AfdE7ckjU6j71hdxCXwNn470g3EKj6gjEuDxVPt1QJ29UHMw+A2QCyvGjiT8S5DDf1b
-	N7v+tF7g9WjIh5TJxow73NQ6tNAcXQSN1BJOqRhDZ142SWf8G/vxLiyS25lGo0+jYYou7LY6b28
-	hiPe5nilaq4AYijOmW7Sd+ZwusYGkMBd+VSYhw12qDCUXF3UEINHs2bfDwqBQuaT/5LUtgnu2kr
-	YeJVvLzbdkKkM2NVLHb/rF8/EGxHqbh6wWWpIu2zpZzT406CZVG8ZCa0KaNWnNY3UF7eLpmLWVk
-	3dhCU5W22FFl2p+Cbjxwop8R7bXKRMhhFoIa2O5rHOEaZ5OvhGQXxjpG+6NPjdE3Zx0AcZF2n7v
-	EXJc2ZoFRJstPhvEY7uxpUu6CYocXjV8Bb9fGql+vjYpggdsZ+fRTiIOo93TUia/h3begP3GIDP
-	ItEKsD+YeNlBkFkVYiAQuPpF1JPM19tSpJJbcnS4uYQTpVRwKXZGrX/3IJL9gW
-X-Received: by 2002:a05:6a21:4902:b0:3b4:8300:7019 with SMTP id adf61e73a8af0-3c0bcf656a1mr10343651637.18.1783622418932;
-        Thu, 09 Jul 2026 11:40:18 -0700 (PDT)
-Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com ([106.51.160.236])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3118ee6091dsm28653518eec.14.2026.07.09.11.40.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 11:40:18 -0700 (PDT)
-Date: Fri, 10 Jul 2026 00:10:01 +0530
-From: Mukesh Kumar Chaurasiya <mkchauras@gmail.com>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Huacai Chen <chenhuacai@kernel.org>, loongarch@lists.linux.dev, 
-	Michael Ellerman <mpe@ellerman.id.au>, Shrikanth Hegde <sshegde@linux.ibm.com>, 
-	linuxppc-dev@lists.ozlabs.org, Kees Cook <kees@kernel.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, 
-	Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org, x86@kernel.org, 
-	Mark Rutland <mark.rutland@arm.com>, Jinjie Ruan <ruanjinjie@huawei.com>, 
-	Andy Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Richard Henderson <richard.henderson@linaro.org>, Russell King <linux@armlinux.org.uk>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Guo Ren <guoren@kernel.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Helge Deller <deller@gmx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
-	Richard Weinberger <richard@nod.at>, Chris Zankel <chris@zankel.net>, 
-	linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org, linux-csky@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linux-sh@vger.kernel.org, linux-um@lists.infradead.org, Arnd Bergmann <arnd@arndb.de>, 
-	Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>, 
-	Michal Simek <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
-	linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org, linux-openrisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-arch@vger.kernel.org, 
-	Michal =?utf-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [patch 04/18] loongarch/syscall: Use
- syscall_enter_from_user_mode_randomize_stack()
-Message-ID: <ak_q9qWuifFdo_9S@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
-References: <20260707181957.433213175@kernel.org>
- <20260707190253.865955911@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l2cmPnWH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B91D01F000E9;
+	Thu,  9 Jul 2026 18:40:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783622419;
+	bh=IePB7KK76qxAQZKa79z6gQ5nNy5ze/T0hxePNaWjw8A=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=l2cmPnWHFyYbPkDYyvLBK5Fi/6kooRZPCGFknTSS+nOdekx9qCSRwddCYNZ65NcL1
+	 fif9v1Snw86W7mJXJc/fLlgUJ/Fr8MjDpajkKsyGe8DtA4zsrj3XCgqKDqNPaNwJa7
+	 K1kOnl3j3gjk4jdoikgSiwHCcbK6WGqq/mu2EpQKN3LDARmwkb2LoLyTO8MaPrD7E7
+	 ltV2ayheCMJ9jgP8Fyiq49k+k1Uvu+bpCQhw2q//QTXhvNCm7/HNC/s5d/WHYUaHK6
+	 cfBcTxC4UuQGkgtUQmbNFBq39ptPZEeO2tLJR5pSsgAFlFpueQQZzKoO4IQcd4vGk2
+	 Q/ts3lU1gO1bw==
+From: Mark Brown <broonie@kernel.org>
+Date: Thu, 09 Jul 2026 19:27:24 +0100
+Subject: [PATCH v12 03/29] arm64/fpsimd: Decide to save ZT0 and streaming
+ mode FFR at bind time
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260707190253.865955911@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260709-kvm-arm64-sme-v12-3-d0301d79ef58@kernel.org>
+References: <20260709-kvm-arm64-sme-v12-0-d0301d79ef58@kernel.org>
+In-Reply-To: <20260709-kvm-arm64-sme-v12-0-d0301d79ef58@kernel.org>
+To: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Will Deacon <will@kernel.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>
+Cc: Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>, 
+ Mark Rutland <mark.rutland@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
+ Jean-Philippe Brucker <jpb@kernel.org>, 
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Eric Auger <eric.auger@redhat.com>, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4661; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=LWJU1DW0v04tDKSLTA3TrlLIRe48SZoL4LVSvdSUkiE=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqT+rsH3CO5eCSYAwZpZpLlQCAO43p+RG46DeWJ
+ i5+CW7cHHqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCak/q7AAKCRAk1otyXVSH
+ 0MzlB/4hewygpuTmbVfoDGlv6L6XoXc5eDfeCbFGfqBc2n+UAqwBQr9an8HUqeiwFy2B2DwLSxZ
+ fvGt2yawkX6SuanEt7OcdyWoi7zLhGaoUsXhg7P+IADURnm0xkmr7kygZXg6O0Z2h2+bI5q8Rdv
+ 0i60koBR1RCN6Gx/2x3RHrIla7g7+LqbIkhjAMnoqZxi7kjxxAWrHHvpJDvkOHCivWpbD+u/QDP
+ ZyKlCg+SbqIzGJEtWLtCfjxUQ03+LACbvJd5OGDjtWgRJjK9wLEl1xwlEDOOlFVDKr47PCLuY0d
+ unTqdbbLRutdhDKbmiGCk3OfI64iMf1OjaHNQ591px+f7eXW
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, Jul 07, 2026 at 09:06:11PM +0200, Thomas Gleixner wrote:
-> syscall_enter_from_user_mode_randomize_stack() replaces
-> syscall_enter_from_user_mode() and the subsequent invocation of
-> add_random_kstack_offset().
-> 
-> The advantage is that it applies the stack randomization right after
-> enter_from_user_mode() and thereby avoids the overhead of get/put_cpu_var()
-> as that code is invoked with interrupts disabled.
-> 
-> No functional change.
-> 
-> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
-> Cc: Huacai Chen <chenhuacai@kernel.org>
-> Cc: loongarch@lists.linux.dev
-> ---
->  arch/loongarch/kernel/syscall.c |    5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> --- a/arch/loongarch/kernel/syscall.c
-> +++ b/arch/loongarch/kernel/syscall.c
-> @@ -11,7 +11,6 @@
->  #include <linux/linkage.h>
->  #include <linux/nospec.h>
->  #include <linux/objtool.h>
-> -#include <linux/randomize_kstack.h>
->  #include <linux/syscalls.h>
->  #include <linux/unistd.h>
->  
-> @@ -70,9 +69,7 @@ void noinstr __no_stack_protector do_sys
->  	regs->orig_a0 = regs->regs[4];
->  	regs->regs[4] = -ENOSYS;
->  
-> -	nr = syscall_enter_from_user_mode(regs, nr);
-> -
-> -	add_random_kstack_offset();
-> +	nr = syscall_enter_from_user_mode_randomize_stack(regs, nr);
->  
->  	if (nr < NR_syscalls) {
->  		syscall_fn = sys_call_table[array_index_nospec(nr, NR_syscalls)];
-> 
-> 
-Reviewed-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
-> _______________________________________________
-> linux-snps-arc mailing list
-> linux-snps-arc@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+Some parts of the SME state are optional, enabled by additional features
+on top of the base FEAT_SME and controlled with enable bits in SMCR_ELx. We
+unconditionally enable these for the host but for KVM we will allow the
+feature set exposed to guests to be restricted by the VMM. These are the
+FFR register (FEAT_SME_FA64) and ZT0 (FEAT_SME2).
+
+We defer saving of guest floating point state for non-protected guests to
+the host kernel. We also want to avoid having to reconfigure the guest
+floating point state if nothing used the floating point state while running
+the host. If the guest was running with the optional features disabled then
+traps will be enabled for them so the host kernel will need to skip
+accessing that state when saving state for the guest.
+
+Support this by moving the decision about saving this state to the point
+where we bind floating point state to the CPU, instead of only storing
+the SME VL to use we store the SMCR value.  This includes all the enable
+controls for the subfeatures along the vector length.
+
+In order to keep the code paths for the vector extensions consistent
+also adjust the SVE path to store a ZCR value instead of the VL, since
+no fields other than LEN are currently defined for ZCR this is much less
+of a meaningful change.
+
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ arch/arm64/include/asm/fpsimd.h |  4 ++--
+ arch/arm64/kernel/fpsimd.c      | 16 ++++++++--------
+ arch/arm64/kvm/fpsimd.c         |  3 ++-
+ 3 files changed, 12 insertions(+), 11 deletions(-)
+
+diff --git a/arch/arm64/include/asm/fpsimd.h b/arch/arm64/include/asm/fpsimd.h
+index 8d2a3d63481b..0a3299142683 100644
+--- a/arch/arm64/include/asm/fpsimd.h
++++ b/arch/arm64/include/asm/fpsimd.h
+@@ -166,8 +166,8 @@ struct cpu_fp_state {
+ 	struct arm64_sme_state *sme_state;
+ 	u64 *svcr;
+ 	u64 *fpmr;
+-	unsigned int sve_vl;
+-	unsigned int sme_vl;
++	u64 smcr;
++	u64 zcr;
+ 	enum fp_type *fp_type;
+ 	enum fp_type to_save;
+ };
+diff --git a/arch/arm64/kernel/fpsimd.c b/arch/arm64/kernel/fpsimd.c
+index 8009213288b1..dc1ad10e39a2 100644
+--- a/arch/arm64/kernel/fpsimd.c
++++ b/arch/arm64/kernel/fpsimd.c
+@@ -470,7 +470,7 @@ static void fpsimd_save_user_state(void)
+ 	/* set by fpsimd_bind_task_to_cpu() or fpsimd_bind_state_to_cpu() */
+ 	bool save_sve_regs = false;
+ 	bool save_ffr;
+-	unsigned int vl;
++	unsigned int vq;
+ 
+ 	WARN_ON(!system_supports_fpsimd());
+ 	WARN_ON(preemptible());
+@@ -494,7 +494,7 @@ static void fpsimd_save_user_state(void)
+ 	    last->to_save == FP_STATE_SVE) {
+ 		save_sve_regs = true;
+ 		save_ffr = true;
+-		vl = last->sve_vl;
++		vq = SYS_FIELD_GET(ZCR_ELx, LEN, last->zcr) + 1;
+ 	}
+ 
+ 	if (system_supports_sme()) {
+@@ -504,19 +504,19 @@ static void fpsimd_save_user_state(void)
+ 
+ 		if (*svcr & SVCR_ZA_MASK)
+ 			sme_save_state(last->sme_state,
+-				       system_supports_sme2());
++				       last->smcr & SMCR_ELx_EZT0);
+ 
+ 		/* If we are in streaming mode override regular SVE. */
+ 		if (*svcr & SVCR_SM_MASK) {
+ 			save_sve_regs = true;
+-			save_ffr = system_supports_fa64();
+-			vl = last->sme_vl;
++			save_ffr = last->smcr & SMCR_ELx_FA64;
++			vq = SYS_FIELD_GET(SMCR_ELx, LEN, last->smcr) + 1;
+ 		}
+ 	}
+ 
+ 	if (IS_ENABLED(CONFIG_ARM64_SVE) && save_sve_regs) {
+ 		/* Get the configured VL from RDVL, will account for SM */
+-		if (WARN_ON(sve_get_vl() != vl)) {
++		if (WARN_ON(sve_get_vl() != sve_vl_from_vq(vq))) {
+ 			/*
+ 			 * Can't save the user regs, so current would
+ 			 * re-enter user with corrupt state.
+@@ -1704,8 +1704,8 @@ static void fpsimd_bind_task_to_cpu(void)
+ 	last->st = &current->thread.uw.fpsimd_state;
+ 	last->sve_state = current->thread.sve_state;
+ 	last->sme_state = current->thread.sme_state;
+-	last->sve_vl = task_get_sve_vl(current);
+-	last->sme_vl = task_get_sme_vl(current);
++	last->zcr = task_zcr(current);
++	last->smcr = task_smcr(current);
+ 	last->svcr = &current->thread.svcr;
+ 	last->fpmr = &current->thread.uw.fpmr;
+ 	last->fp_type = &current->thread.fp_type;
+diff --git a/arch/arm64/kvm/fpsimd.c b/arch/arm64/kvm/fpsimd.c
+index 3f6b1e29cd6b..567dd43970c5 100644
+--- a/arch/arm64/kvm/fpsimd.c
++++ b/arch/arm64/kvm/fpsimd.c
+@@ -89,7 +89,8 @@ void kvm_arch_vcpu_ctxsync_fp(struct kvm_vcpu *vcpu)
+ 		 */
+ 		fp_state.st = &vcpu->arch.ctxt.fp_regs;
+ 		fp_state.sve_state = vcpu->arch.sve_state;
+-		fp_state.sve_vl = vcpu->arch.sve_max_vl;
++		fp_state.zcr = vcpu_sve_max_vq(vcpu) - 1;
++		fp_state.smcr = 0;
+ 		fp_state.sme_state = NULL;
+ 		fp_state.svcr = __ctxt_sys_reg(&vcpu->arch.ctxt, SVCR);
+ 		fp_state.fpmr = __ctxt_sys_reg(&vcpu->arch.ctxt, FPMR);
+
+-- 
+2.47.3
+
