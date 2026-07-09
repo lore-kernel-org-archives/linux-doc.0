@@ -1,293 +1,514 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.mindbit.ro (xs1.mindbit.ro [80.86.107.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7959D23393E
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 17:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783616620; cv=pass; b=F9Rgbo8aC5J8Ex4ur0frKj/u5pR/RTO3WrejCWpPnOX4NDlCVh8LhelFmNgugpTxubbhHyW6mTvNGdepMdzI23AFVfrgFJq9t0u9w+RGJmXYd3T6QHzUcBIOcYbrDLzdWm9bTVjbuDjaEGwOkzWUaIY8A2ll+vRYAZ3mKteGHZU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783616620; c=relaxed/simple;
-	bh=YewI3WK0FI+k+A8vApRuZn3wTz1R19tXNTxrVUVVf90=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nmsxPFDACmWhT4dPgGfsalfK648Z4vSNPFl9ul3lWOfkTCQ0VvlV7ar9aFqiOXRVUkSn1bXB7kKsGHBUpk8J09k/8VFhxtHTqRDTVHz71zF+WAMZM8eZXLLsaADgnmoErvx1/B3oW7f39+QQ7vz4Sa/TNuUPHWYD/WjeDAam7+U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=l3iLdhWm; arc=pass smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE66823393E;
+	Thu,  9 Jul 2026 17:03:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.86.107.70
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783616643; cv=none; b=r2Otq6Ehxkfo/r156U4/A0Fhp4c35tPhwqjZ4qTmo4J1/cUBdb5PwA1JbIFvEeZFx//gxJWEdEhaRwBmGwCXeunkh65+IBf+r4RWEMwhc8UrXdOfrLInsSsJfeqsVQ2XHakvWrRVkDANNXdzG4JKGirO//+8G8yIf2gOO4RuDCE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783616643; c=relaxed/simple;
+	bh=/bD4BeTxdfxYh0darR2dlQC+0vxoNknWmqlPDt7NGm8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=EuFD/6IeWemB0P1DPnHavgj09dQXj2R7erSyFAkDUbR4GyOj5M4DiGTGtmXQc+rEADo8cU+dcbcq5F5/HxzEl+OwrNoswX6/l1x3Nz8YcH/gB4wARYtvhXRZGlRxZ9yYumrzBJwzmF1/rfwlGGJSL/s8lZ8ohclzS4YFzdkRhdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rendec.net; spf=pass smtp.mailfrom=rendec.net; dkim=pass (2048-bit key) header.d=rendec.net header.i=@rendec.net header.b=HOQdvRC4; arc=none smtp.client-ip=80.86.107.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rendec.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rendec.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l3iLdhWm"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-667bae10ba3so1567d50.2
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 10:03:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783616616; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ViI4knEnjrVbT2iuu2Z7vhN9OAkHYQctNUk2Fetb4Od2NbkaDP+TQ71CaQDee2+gNx
-         TnNvzuzAxkt0BM3eF5csRGvI8TW3N8+j3svgxASTYuyP76eSjvhMbQy16M/RE6sKy+9Y
-         w3ecX9YLdxvpJLP0K3Vy00WDwAxRITzjUo7qW2fYSzS9wCAyESBlpsP1E1gErvfzS+Ce
-         04d1hvMTL6/i0yygKMbhDwd0gLQiG8EjVdhAZ98y0EQSOJE5iIAfM0/KAMhhaP/8OKor
-         xOApq+Tyik2i3ZfHl2nsOOD9wef4m5SQmMTeKPBaZfxpxhEn5COgJw2ZkPOiGY7GxbGs
-         TyJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=yR14oOjUi6OI2bUfX4NS8nwAQpf3oK/jBWo0jGsJb5s=;
-        fh=pTOI5XLu0VV1DDwhzmqun9c1qRC1ZANo2DpFY4OaFhw=;
-        b=SKeRLRkuUOdiFXkU8K08jYrNYgDRO9feF67aUcQYQlEK/B4/q9NBCdZumPLn05ED0f
-         VWD7lVL5q4umXMgVebut4ymoory3iIKPuX5Oqz5/PglL4gHlVyrNv5MfadSKcVWiuPQD
-         EuRxpreBwPOWGMIVl8PrZgHc/2V2QzZ7XjhjTeQz+dMq2Wr6leU1ToEkIlTe6PQrwJBQ
-         tbyadK9CPJyNK79LyVS5KBZkLVv7rgY9aVYTO8H6kbx0aSAkMPcnWL1HxLtTNOEbzSin
-         Nc2Bx/QIvYhjPq/0nOmsbgVvAVaoFsUq5wPYrQhbETwMAXGCdRuSRbOK1R0YEvXkUP8M
-         +U6g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1783616616; x=1784221416; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=yR14oOjUi6OI2bUfX4NS8nwAQpf3oK/jBWo0jGsJb5s=;
-        b=l3iLdhWm4Lr6dqmAXx3obxcvhPOTqgHUIv8dY1C7gxY+yRtL8Vp5yTkiHFol8CtjUQ
-         28Az9pmVs530WZFTRWqEykBpSZX7/fmz6n/7z3GbEl//Gra+5f8kvCieYpThdRx0u3+E
-         lYi2DiqPDKNfyKV0lC6z72YlC2UUObjea40RmRXh8NjEIVgLBbDEJaov7fccpa2Dzb6k
-         5zIZMdJMsp/UOCbfTPUwKEVWIz4cjyV3Mr8mlqh18Ou1O5Le5ubZuFPHq76RXE6FX0W3
-         gdEvzB2+RCWeJcgPeDAS3yVihAgSZQNo0AwaTVSRgIWMsjVRwsKhfrnuWB+Hyp+CUAJZ
-         6QjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783616616; x=1784221416;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yR14oOjUi6OI2bUfX4NS8nwAQpf3oK/jBWo0jGsJb5s=;
-        b=D1WUFDE3x+IC8F0g1tlv/P8On8Y0duwu8TpzBoBmTv+nppsb2XKdSeCjAyvuQJsuEz
-         EH9gqghPuEhZ5tyG1etJs3xUuz2ScWyLSF0XAyzDpcDMQBfZw5d/wdJXlx5z3nQFSZlM
-         jT/6437MnXGA9xu6MFf5gSj7UJY21qB/Nu0q2cZq1pkSOhJiIe0CRxDtCuqhCKTFFFTW
-         D4y7PGCrUpvGoOOekXIdxsiTCxGXpYxRKuMl1yTnt7+CIlK4nqINkTsW73FkXTy1Wy7Q
-         cTD0oGqe2zzJ2FTG7Kjp9fy7UJBY+jFUpuJo4mRf/Cb0bqxyvA28UUYy17G8L8PuWl3C
-         Tu2w==
-X-Forwarded-Encrypted: i=1; AHgh+RpMyBwNNn4xRHjcbveiSO4mw7SztiUe4OdVzNLoRatxwPOjahMrp3hPuOoWc7ru3oR3dj9nn1u351o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzng074SEtcUIOY2JuAK7ZC7JDEcXJdZqcae7PPrJ3RCyPZ0Rfo
-	vWuupyg3GkbGK+Yo609Xm0Aa8QvY/fPudaIKQqiPaWa6ocXkgeTzbx9mA+BmO2SoCteZAbvWFel
-	/5LOTMqLUwb83Hibt2pRVc5dVOnyQqsVL3oHtl+1/IA==
-X-Gm-Gg: AfdE7clZfZROyLUdGWUAfx05FcS9XPgbi91Y+56S2Whev2mBcxJafOyD6Sh8016JmU2
-	vJUPqgeNVedxNYl+nMwXvfClzGHEg6abhEsCa9DztCevqNnw+KSr36wKWdZ0DUhhsGvC4lL1g84
-	+Q79q1swxZHN2DSIHXTOw6wlMuoqj44/8K1voglpllxYZIoCytps10Kr+/s8Usof2xDqU98wExf
-	KThX4zW6Y7Pj9oQ/Gtz0V7dgyvtnwpvIy12I22cYvkppp6+ZH1YX1upVkiFr/eB+do2vb9JMwpk
-	Q4c79r1qsrYR9TqY4f4PNRWRewFMoKuHBMvF88g47yNnapQGftNyBGHZnlJj0QgG9VGDFF48pRE
-	WKVvsLdMenYkaCLqF16NKmmCegxPqpJbdrsy21HuHPwdiNplKGs9q3/nhWBETNExVSKLjUq3dLY
-	L0IooScArfBmNgqCl8PWmROQCE5IIxstC3cw9gWdft3bzMuTTSwFJt/vVlZwi/ArPWVLPZW30Vt
-	oI+BdujrkkuGTUgj5rOFqHSLMpbLn8TvnjzmdCizbDKs7n2Sua0PQdsbigY+5pHq2qEWaYsnbx/
-	rciDqFix49i/zb8nh+/ed7TH25vHfGJY8QyK3VR7JYH1Lu/G7v4w5ogoN1O68OGpWd1AbXiw
-X-Received: by 2002:a53:5a08:0:b0:667:8b91:2439 with SMTP id
- 956f58d0204a3-6679f26f7a1mr4147877d50.104.1783616616104; Thu, 09 Jul 2026
- 10:03:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rendec.net header.i=@rendec.net header.b="HOQdvRC4"
+Received: from bat.kanata.rendec.net (unknown [24.114.110.115])
+	by mail.mindbit.ro (Postfix) with ESMTPSA id 635A0C3444;
+	Thu,  9 Jul 2026 20:03:34 +0300 (EEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.mindbit.ro 635A0C3444
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rendec.net;
+	s=default; t=1783616636;
+	bh=QeTQcmCkS021HmkZ3w/J1fE+WH2x3hk465jNzOmdiww=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=HOQdvRC4cpDjWxoO4q76o7VJpxbZjQlbfuUOsiqDAUaPuPJStaRmbiQcxJQ980Eps
+	 MKFq/GOxxZLqgfu23csRihSSRUSW/5gctxpZAo1uinpu1GDEqcDEuIex/Mzbgh47ta
+	 cCEipZ2fxijuCgu82+Hv9gPEgIpv+01gj1FsjVkBe0BVe8PsJncm6hNS4/ilHElftk
+	 flFvwyBgIEh76z+XJg23ownBxmO2Sv8OyobBemr1+LB6/Q+hd+F4qDL8I9pInHlerr
+	 toXkuZm1JvzkIIQQaZAtM1eVcf+e7dYfEcqZsxsJx1eEuphZ7eWQNXng18btEVDbYR
+	 zQBb+9iNgz9Dg==
+Message-ID: <390d4e005e22d64734167b656f393518682e0613.camel@rendec.net>
+Subject: Re: [patch 12/18] ptrace, treewide: Rename
+ ptrace_report_syscall_entry() to ptrace_report_syscall_permit_entry()
+From: Radu Rendec <radu@rendec.net>
+To: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Oleg Nesterov <oleg@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Vineet Gupta	 <vgupta@kernel.org>, Russell
+ King <linux@armlinux.org.uk>, Catalin Marinas	 <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Guo Ren	 <guoren@kernel.org>, Brian Cain
+ <bcain@kernel.org>, Geert Uytterhoeven	 <geert@linux-m68k.org>, Michal
+ Simek <monstr@monstr.eu>, Thomas Bogendoerfer	 <tsbogend@alpha.franken.de>,
+ Dinh Nguyen <dinguyen@kernel.org>, Helge Deller	 <deller@gmx.de>, Yoshinori
+ Sato <ysato@users.sourceforge.jp>, "David S. Miller"	
+ <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, Chris Zankel	
+ <chris@zankel.net>, linux-alpha@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-arch@vger.kernel.org, Michael Ellerman	
+ <mpe@ellerman.id.au>, Shrikanth Hegde <sshegde@linux.ibm.com>, 
+	linuxppc-dev@lists.ozlabs.org, Kees Cook <kees@kernel.org>, Huacai Chen	
+ <chenhuacai@kernel.org>, loongarch@lists.linux.dev, Paul Walmsley
+ <pjw@kernel.org>,  Palmer Dabbelt <palmer@dabbelt.com>,
+ linux-riscv@lists.infradead.org, Sven Schnelle <svens@linux.ibm.com>, 
+	linux-s390@vger.kernel.org, x86@kernel.org, Mark Rutland
+ <mark.rutland@arm.com>,  Jinjie Ruan <ruanjinjie@huawei.com>, Andy
+ Lutomirski <luto@kernel.org>, Richard Weinberger <richard@nod.at>,  Michal
+ =?ISO-8859-1?Q?Such=E1nek?=	 <msuchanek@suse.de>, Jonathan Corbet
+ <corbet@lwn.net>, 	linux-doc@vger.kernel.org
+Date: Thu, 09 Jul 2026 13:03:28 -0400
+In-Reply-To: <20260707190254.280015701@kernel.org>
+References: <20260707181957.433213175@kernel.org>
+	 <20260707190254.280015701@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260701091226.7SWW4TrT@linutronix.de>
-In-Reply-To: <20260701091226.7SWW4TrT@linutronix.de>
-From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Date: Thu, 9 Jul 2026 20:03:00 +0300
-X-Gm-Features: AVVi8CeGWVzdbJXgI7g1MhHGlIvtNbOsamz5SlMClo5-ZNqp3TXp_jMt7pChNFA
-Message-ID: <CAC_iWjKEcK8Z2TGCAVNU+pHLO2QvKKTmA01d-EqhE6exaTKcsQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: Extend the real-time hardware bits with
- some firmware bits
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, "jenswi@kernel.org" <jenswi@kernel.org>
-Cc: linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-efi@vger.kernel.org, op-tee@lists.trustedfirmware.org, 
-	Ard Biesheuvel <ardb@kernel.org>, Clark Williams <clrkwllms@kernel.org>, 
-	Jan Kiszka <jan.kiszka@siemens.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	John Ogness <john.ogness@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-++Cc Jens  on his kernel.org email
-
-On Wed, 1 Jul 2026 at 12:12, Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> I have been reviewing how OP=E2=80=91TEE is implemented and how secure=E2=
-=80=91world
-> invocations behave. The goal was to determine whether an OP=E2=80=91TEE c=
-all can
-> delay the Linux side and introduce latency depending on the time spent
-> in the secure world.
->
-> Similar latency effects are already known for EFI runtime services, but
-> this was not documented. To mitigate the impact, EFI runtime invocations
-> can be restricted to specific CPUs so that real=E2=80=91time workloads on=
- other
-> CPUs remain unaffected. This mechanism, however, is only described in
-> the commit that introduced it.
->
-> This change adds a firmware section that documents these behaviours
-> explicitly. It highlights cases where firmware can delay the kernel,
-> information that may be unfamiliar to some users and surprising-or
-> concerning-to others.
->
-> Assisted-by: Microsoft-Copilot
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+On Tue, 2026-07-07 at 21:06 +0200, Thomas Gleixner wrote:
+> The return value of that function is boolean and tells the caller whether
+> to permit the syscall processing or not.
+>=20
+> Rename the function so the purpose is clear and make the return type bool=
+.
+>=20
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Oleg Nesterov <oleg@redhat.com>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Vineet Gupta <vgupta@kernel.org>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Guo Ren <guoren@kernel.org>
+> Cc: Brian Cain <bcain@kernel.org>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Michal Simek <monstr@monstr.eu>
+> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> Cc: Dinh Nguyen <dinguyen@kernel.org>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Andreas Larsson <andreas@gaisler.com>
+> Cc: Chris Zankel <chris@zankel.net>
+> Cc: linux-alpha@vger.kernel.org
+> Cc: linux-snps-arc@lists.infradead.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-csky@vger.kernel.org
+> Cc: linux-hexagon@vger.kernel.org
+> Cc: linux-m68k@lists.linux-m68k.org
+> Cc: linux-mips@vger.kernel.org
+> Cc: linux-openrisc@vger.kernel.org
+> Cc: linux-parisc@vger.kernel.org
+> Cc: linux-sh@vger.kernel.org
+> Cc: sparclinux@vger.kernel.org
+> Cc: linux-um@lists.infradead.org
+> Cc: linux-arch@vger.kernel.org
 > ---
->
-> I would appreciate an ACK from the OP-TEE camp that I got my little
-> research right.
->
->  Documentation/core-api/real-time/hardware.rst | 92 +++++++++++++++++++
->  1 file changed, 92 insertions(+)
->
-> diff --git a/Documentation/core-api/real-time/hardware.rst b/Documentatio=
-n/core-api/real-time/hardware.rst
-> index 19f9bb3786e03..fb113848c2f70 100644
-> --- a/Documentation/core-api/real-time/hardware.rst
-> +++ b/Documentation/core-api/real-time/hardware.rst
-> @@ -130,3 +130,95 @@ https://github.com/Linutronix/RTC-Testbench.
->  The goal of this project is to validate real-time network communication.=
- It can
->  be thought of as a "cyclictest" for networking and also serves as a star=
-ting
->  point for application development.
-> +
-> +Firmware
-> +--------
-> +
-> +The firmware often plays a significant role in system operation because =
-it can
-> +perform tasks that the kernel cannot directly access, and in some cases =
-it can
-> +even preempt or intercept the kernel.
-> +
-> +A common example of firmware assisting the kernel is when it provides a =
-generic
-> +interface to a resource. Instead of accessing an RTC chip through an I2C=
- host
-> +controller, the kernel may query the firmware for the current time, and =
-the
-> +firmware then accesses the RTC behind the scenes.
-> +
-> +Firmware can also intercept kernel execution by providing services that
-> +temporarily take control of the system. One example is memory scrubbing,=
- where
-> +the firmware periodically pauses the kernel, reads back portions of syst=
-em
-> +memory, and then returns control. During this time, the kernel is effect=
-ively
-> +interrupted.
-> +In contrast, some systems provide hardware=E2=80=91based memory scrubbin=
-g, which
-> +operates independently of firmware or software. See
-> +Documentation/edac/scrub.rst for details.
-> +
-> +If the kernel is intercepted for longer periods then these periods can b=
-e made
-> +visible with the hardware latency detector. See
-> +Documentation/trace/hwlat_detector.rst.
-> +
-> +The kernel can also be intercepted in response to specific events, such =
-as
-> +overheating. In this case, the firmware may throttle the CPU or shut it =
-down
-> +immediately to prevent hardware damage.
-> +
-> +Unless the firmware is well documented, it should be thoroughly tested t=
-o
-> +uncover any unexpected behaviour.
-> +
-> +EFI
-> +~~~~
-> +
-> +EFI provides runtime services that act as a communication interface betw=
-een the
-> +firmware and the operating system. One such service is reading and writi=
-ng EFI
-> +variables, which are used, for example, to determine the boot source.
-> +
-> +Invoking a runtime service may require the architecture to disable kerne=
-l
-> +preemption or interrupts during the call. This means the duration of a s=
-ervice
-> +invocation directly affects the system=E2=80=99s observable latency. The=
-re is also
-> +nothing that prevents a service call from disabling interrupts internall=
-y while
-> +it runs.
-> +
-> +For these reasons, EFI runtime services are disabled by default on a PRE=
-EMPT_RT
-> +kernel. They can still be enabled at boot time or via a Kconfig option i=
-f
-> +required.
-> +The native EFI runtime service implementation (where both the EFI servic=
-e and
-> +the kernel are either 32=E2=80=91bit or 64=E2=80=91bit executables) uses=
- a wrapper mechanism
-> +that invokes the service through a dedicated workqueue. This workqueue i=
-s named
-> +efi_runtime, and it can be restricted to a housekeeping CPU using the
-> +``/sys/devices/virtual/workqueue/efi_runtime/cpumask`` sysfs file. Assig=
-ning it
-> +to a housekeeping CPU ensures that potentially long service invocations =
-do not
-> +impact the real=E2=80=91time workload which is restricted to other CPUs.
-> +
-> +It must also be verified that the runtime services behave as expected. S=
-ome
-> +implementations on the x86 architecture pause all other CPUs while one C=
-PU
-> +performs the service call. In such cases, the interruption affects all C=
-PUs,
-> +and restricting the workqueue to a single CPU provides no benefit.
-> +
-> +OP-TEE (ARM)
-> +~~~~~~~~~~~~
-> +
-> +OP=E2=80=91TEE uses a global serialization mechanism (the "big lock"), e=
-nsuring that on
-> +each core only one OP=E2=80=91TEE thread executes secure=E2=80=91world c=
-ode at a time.
-> +
-> +Execution flows from the normal world (Linux) into the secure world (OP=
-=E2=80=91TEE)
-> +through the secure monitor at EL3. Linux and OP=E2=80=91TEE cannot disab=
-le or mask each
-> +other=E2=80=99s interrupts because both run at EL1 in different security=
- states.
-> +
-> +Architecturally, the secure monitor can mask or reroute normal=E2=80=91w=
-orld interrupts
-> +before entering the secure world. In a correct OP=E2=80=91TEE/ TF=E2=80=
-=91A implementation, it
-> +does not do this for the duration of secure calls. Normal=E2=80=91world =
-interrupts
-> +remain deliverable, and a normal=E2=80=91world IRQ will preempt OP=E2=80=
-=91TEE via EL3 and
-> +return control to Linux.
-> +
-> +Secure=E2=80=91world interrupts (FIQs) are possible if the SoC routes a =
-device's
-> +interrupt as secure. Such a secure FIQ will preempt Linux immediately, t=
-rap
-> +into EL3, and transfer control to OP=E2=80=91TEE's secure interrupt hand=
-ler. Linux
-> +cannot mask or preempt this. Secure FIQ handlers must therefore be extre=
-mely
-> +short to avoid introducing noticeable latency.
-> +
-> +The transition from normal world -> secure monitor -> OP=E2=80=91TEE and=
- back introduces
-> +additional latency due to world switching and context save/ restore. Thi=
-s
-> +overhead is typically a few microseconds and usually remains in the nois=
+> =C2=A0arch/alpha/kernel/ptrace.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
+=A0=C2=A0 2 +-
+> =C2=A0arch/arc/kernel/ptrace.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+|=C2=A0=C2=A0=C2=A0 2 +-
+> =C2=A0arch/arm/kernel/ptrace.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+|=C2=A0=C2=A0=C2=A0 2 +-
+> =C2=A0arch/arm64/kernel/ptrace.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
+=A0=C2=A0 2 +-
+> =C2=A0arch/csky/kernel/ptrace.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0=C2=A0=C2=A0 2 +-
+> =C2=A0arch/hexagon/kernel/traps.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=
+=C2=A0 2 +-
+> =C2=A0arch/m68k/kernel/ptrace.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0=C2=A0=C2=A0 2 +-
+> =C2=A0arch/microblaze/kernel/ptrace.c |=C2=A0=C2=A0=C2=A0 2 +-
+> =C2=A0arch/mips/kernel/ptrace.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0=C2=A0=C2=A0 2 +-
+> =C2=A0arch/nios2/kernel/ptrace.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
+=A0=C2=A0 2 +-
+> =C2=A0arch/openrisc/kernel/ptrace.c=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 2 +-
+> =C2=A0arch/parisc/kernel/ptrace.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1=
+0 ++++------
+> =C2=A0arch/sh/kernel/ptrace_32.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
+=A0=C2=A0 2 +-
+> =C2=A0arch/sparc/kernel/ptrace_32.c=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 2 +-
+> =C2=A0arch/sparc/kernel/ptrace_64.c=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 2 +-
+> =C2=A0arch/um/kernel/ptrace.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0=C2=A0=C2=A0 2 +-
+> =C2=A0arch/xtensa/kernel/ptrace.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=
+=C2=A0 2 +-
+> =C2=A0include/asm-generic/syscall.h=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 4 ++-=
+-
+> =C2=A0include/linux/entry-common.h=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 25 +++=
++++++++++-------------
+> =C2=A0include/linux/ptrace.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0 13 ++++++-------
+> =C2=A020 files changed, 40 insertions(+), 44 deletions(-)
+>=20
+> --- a/arch/alpha/kernel/ptrace.c
+> +++ b/arch/alpha/kernel/ptrace.c
+> @@ -375,7 +375,7 @@ asmlinkage unsigned long syscall_trace_e
+> =C2=A0	struct pt_regs *regs =3D current_pt_regs();
+> =C2=A0
+> =C2=A0	if (test_thread_flag(TIF_SYSCALL_TRACE) &&
+> -		ptrace_report_syscall_entry(regs)) {
+> +		!ptrace_report_syscall_permit_entry(regs)) {
+> =C2=A0		syscall_set_nr(current, regs, -1);
+> =C2=A0		if (regs->r19 =3D=3D 0 && regs->r0 =3D=3D (unsigned long)-1)
+> =C2=A0			syscall_set_return_value(current, regs, -ENOSYS, 0);
+> --- a/arch/arc/kernel/ptrace.c
+> +++ b/arch/arc/kernel/ptrace.c
+> @@ -342,7 +342,7 @@ long arch_ptrace(struct task_struct *chi
+> =C2=A0asmlinkage int syscall_trace_enter(struct pt_regs *regs)
+> =C2=A0{
+> =C2=A0	if (test_thread_flag(TIF_SYSCALL_TRACE))
+> -		if (ptrace_report_syscall_entry(regs))
+> +		if (!ptrace_report_syscall_permit_entry(regs))
+> =C2=A0			return ULONG_MAX;
+> =C2=A0
+> =C2=A0#ifdef CONFIG_HAVE_SYSCALL_TRACEPOINTS
+> --- a/arch/arm/kernel/ptrace.c
+> +++ b/arch/arm/kernel/ptrace.c
+> @@ -840,7 +840,7 @@ static void report_syscall(struct pt_reg
+> =C2=A0
+> =C2=A0	if (dir =3D=3D PTRACE_SYSCALL_EXIT)
+> =C2=A0		ptrace_report_syscall_exit(regs, 0);
+> -	else if (ptrace_report_syscall_entry(regs))
+> +	else if (!ptrace_report_syscall_permit_entry(regs))
+> =C2=A0		current_thread_info()->abi_syscall =3D -1;
+> =C2=A0
+> =C2=A0	regs->ARM_ip =3D ip;
+> --- a/arch/arm64/kernel/ptrace.c
+> +++ b/arch/arm64/kernel/ptrace.c
+> @@ -2379,7 +2379,7 @@ static int report_syscall_entry(struct p
+> =C2=A0	int regno, ret;
+> =C2=A0
+> =C2=A0	saved_reg =3D ptrace_save_reg(regs, PTRACE_SYSCALL_ENTER, &regno);
+> -	ret =3D ptrace_report_syscall_entry(regs);
+> +	ret =3D !ptrace_report_syscall_permit_entry(regs);
+> =C2=A0	if (ret)
+> =C2=A0		forget_syscall(regs);
+> =C2=A0	regs->regs[regno] =3D saved_reg;
+> --- a/arch/csky/kernel/ptrace.c
+> +++ b/arch/csky/kernel/ptrace.c
+> @@ -320,7 +320,7 @@ long arch_ptrace(struct task_struct *chi
+> =C2=A0asmlinkage int syscall_trace_enter(struct pt_regs *regs)
+> =C2=A0{
+> =C2=A0	if (test_thread_flag(TIF_SYSCALL_TRACE))
+> -		if (ptrace_report_syscall_entry(regs))
+> +		if (!ptrace_report_syscall_permit_entry(regs))
+> =C2=A0			return -1;
+> =C2=A0
+> =C2=A0	if (!seccomp_permit_syscall())
+> --- a/arch/hexagon/kernel/traps.c
+> +++ b/arch/hexagon/kernel/traps.c
+> @@ -345,7 +345,7 @@ void do_trap0(struct pt_regs *regs)
+> =C2=A0
+> =C2=A0		/* allow strace to catch syscall args=C2=A0 */
+> =C2=A0		if (unlikely(test_thread_flag(TIF_SYSCALL_TRACE) &&
+> -			ptrace_report_syscall_entry(regs)))
+> +			!ptrace_report_syscall_permit_entry(regs)))
+> =C2=A0			return;=C2=A0 /*=C2=A0 return -ENOSYS somewhere?=C2=A0 */
+> =C2=A0
+> =C2=A0		/* Interrupts should be re-enabled for syscall processing */
+> --- a/arch/m68k/kernel/ptrace.c
+> +++ b/arch/m68k/kernel/ptrace.c
+> @@ -279,7 +279,7 @@ asmlinkage int syscall_trace_enter(void)
+> =C2=A0	int ret =3D 0;
+> =C2=A0
+> =C2=A0	if (test_thread_flag(TIF_SYSCALL_TRACE))
+> -		ret =3D ptrace_report_syscall_entry(task_pt_regs(current));
+> +		ret =3D !ptrace_report_syscall_permit_entry(task_pt_regs(current));
+> =C2=A0
+> =C2=A0	if (!seccomp_permit_syscall())
+> =C2=A0		return -1;
+> --- a/arch/microblaze/kernel/ptrace.c
+> +++ b/arch/microblaze/kernel/ptrace.c
+> @@ -139,7 +139,7 @@ asmlinkage unsigned long do_syscall_trac
+> =C2=A0	secure_computing_strict(regs->r12);
+> =C2=A0
+> =C2=A0	if (test_thread_flag(TIF_SYSCALL_TRACE) &&
+> -	=C2=A0=C2=A0=C2=A0 ptrace_report_syscall_entry(regs))
+> +	=C2=A0=C2=A0=C2=A0 !ptrace_report_syscall_permit_entry(regs))
+> =C2=A0		/*
+> =C2=A0		 * Tracing decided this syscall should not happen.
+> =C2=A0		 * We'll return a bogus call number to get an ENOSYS
+> --- a/arch/mips/kernel/ptrace.c
+> +++ b/arch/mips/kernel/ptrace.c
+> @@ -1324,7 +1324,7 @@ asmlinkage long syscall_trace_enter(stru
+> =C2=A0	user_exit();
+> =C2=A0
+> =C2=A0	if (test_thread_flag(TIF_SYSCALL_TRACE)) {
+> -		if (ptrace_report_syscall_entry(regs))
+> +		if (!ptrace_report_syscall_permit_entry(regs))
+> =C2=A0			return -1;
+> =C2=A0	}
+> =C2=A0
+> --- a/arch/nios2/kernel/ptrace.c
+> +++ b/arch/nios2/kernel/ptrace.c
+> @@ -133,7 +133,7 @@ asmlinkage int do_syscall_trace_enter(vo
+> =C2=A0	int ret =3D 0;
+> =C2=A0
+> =C2=A0	if (test_thread_flag(TIF_SYSCALL_TRACE))
+> -		ret =3D ptrace_report_syscall_entry(task_pt_regs(current));
+> +		ret =3D !ptrace_report_syscall_permit_entry(task_pt_regs(current));
+> =C2=A0
+> =C2=A0	return ret;
+> =C2=A0}
+> --- a/arch/openrisc/kernel/ptrace.c
+> +++ b/arch/openrisc/kernel/ptrace.c
+> @@ -293,7 +293,7 @@ asmlinkage long do_syscall_trace_enter(s
+> =C2=A0	long ret =3D 0;
+> =C2=A0
+> =C2=A0	if (test_thread_flag(TIF_SYSCALL_TRACE) &&
+> -	=C2=A0=C2=A0=C2=A0 ptrace_report_syscall_entry(regs))
+> +	=C2=A0=C2=A0=C2=A0 !ptrace_report_syscall_permit_entry(regs))
+> =C2=A0		/*
+> =C2=A0		 * Tracing decided this syscall should not happen.
+> =C2=A0		 * We'll return a bogus call number to get an ENOSYS
+> --- a/arch/parisc/kernel/ptrace.c
+> +++ b/arch/parisc/kernel/ptrace.c
+> @@ -326,7 +326,7 @@ long compat_arch_ptrace(struct task_stru
+> =C2=A0long do_syscall_trace_enter(struct pt_regs *regs)
+> =C2=A0{
+> =C2=A0	if (test_thread_flag(TIF_SYSCALL_TRACE)) {
+> -		int rc =3D ptrace_report_syscall_entry(regs);
+> +		bool permit =3D ptrace_report_syscall_permit_entry(regs);
+> =C2=A0
+> =C2=A0		/*
+> =C2=A0		 * As tracesys_next does not set %r28 to -ENOSYS
+> @@ -334,12 +334,10 @@ long do_syscall_trace_enter(struct pt_re
+> =C2=A0		 */
+> =C2=A0		regs->gr[28] =3D -ENOSYS;
+> =C2=A0
+> -		if (rc) {
+> +		if (!permit) {
+> =C2=A0			/*
+> -			 * A nonzero return code from
+> -			 * ptrace_report_syscall_entry() tells us
+> -			 * to prevent the syscall execution.=C2=A0 Skip
+> -			 * the syscall call and the syscall restart handling.
+> +			 * Skip the syscall call and the syscall restart
+> +			 * handling.
+> =C2=A0			 *
+> =C2=A0			 * Note that the tracer may also just change
+> =C2=A0			 * regs->gr[20] to an invalid syscall number,
+> --- a/arch/sh/kernel/ptrace_32.c
+> +++ b/arch/sh/kernel/ptrace_32.c
+> @@ -455,7 +455,7 @@ long arch_ptrace(struct task_struct *chi
+> =C2=A0asmlinkage long do_syscall_trace_enter(struct pt_regs *regs)
+> =C2=A0{
+> =C2=A0	if (test_thread_flag(TIF_SYSCALL_TRACE) &&
+> -	=C2=A0=C2=A0=C2=A0 ptrace_report_syscall_entry(regs)) {
+> +	=C2=A0=C2=A0=C2=A0 !ptrace_report_syscall_permit_entry(regs)) {
+> =C2=A0		regs->regs[0] =3D -ENOSYS;
+> =C2=A0		return -1;
+> =C2=A0	}
+> --- a/arch/sparc/kernel/ptrace_32.c
+> +++ b/arch/sparc/kernel/ptrace_32.c
+> @@ -441,7 +441,7 @@ asmlinkage int syscall_trace(struct pt_r
+> =C2=A0		if (syscall_exit_p)
+> =C2=A0			ptrace_report_syscall_exit(regs, 0);
+> =C2=A0		else
+> -			ret =3D ptrace_report_syscall_entry(regs);
+> +			ret =3D !ptrace_report_syscall_permit_entry(regs);
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	return ret;
+> --- a/arch/sparc/kernel/ptrace_64.c
+> +++ b/arch/sparc/kernel/ptrace_64.c
+> @@ -1093,7 +1093,7 @@ asmlinkage int syscall_trace_enter(struc
+> =C2=A0		user_exit();
+> =C2=A0
+> =C2=A0	if (test_thread_flag(TIF_SYSCALL_TRACE))
+> -		ret =3D ptrace_report_syscall_entry(regs);
+> +		ret =3D !ptrace_report_syscall_permit_entry(regs);
+> =C2=A0
+> =C2=A0	if (unlikely(test_thread_flag(TIF_SYSCALL_TRACEPOINT)))
+> =C2=A0		trace_sys_enter(regs, regs->u_regs[UREG_G1]);
+> --- a/arch/um/kernel/ptrace.c
+> +++ b/arch/um/kernel/ptrace.c
+> @@ -135,7 +135,7 @@ int syscall_trace_enter(struct pt_regs *
+> =C2=A0	if (!test_thread_flag(TIF_SYSCALL_TRACE))
+> =C2=A0		return 0;
+> =C2=A0
+> -	return ptrace_report_syscall_entry(regs);
+> +	return !ptrace_report_syscall_permit_entry(regs);
+> =C2=A0}
+> =C2=A0
+> =C2=A0void syscall_trace_leave(struct pt_regs *regs)
+> --- a/arch/xtensa/kernel/ptrace.c
+> +++ b/arch/xtensa/kernel/ptrace.c
+> @@ -547,7 +547,7 @@ int do_syscall_trace_enter(struct pt_reg
+> =C2=A0		regs->areg[2] =3D -ENOSYS;
+> =C2=A0
+> =C2=A0	if (test_thread_flag(TIF_SYSCALL_TRACE) &&
+> -	=C2=A0=C2=A0=C2=A0 ptrace_report_syscall_entry(regs)) {
+> +	=C2=A0=C2=A0=C2=A0 !ptrace_report_syscall_permit_entry(regs)) {
+> =C2=A0		regs->areg[2] =3D -ENOSYS;
+> =C2=A0		regs->syscall =3D NO_SYSCALL;
+> =C2=A0		return 0;
+> --- a/include/asm-generic/syscall.h
+> +++ b/include/asm-generic/syscall.h
+> @@ -58,8 +58,8 @@ void syscall_set_nr(struct task_struct *
+> =C2=A0 *
+> =C2=A0 * It's only valid to call this when @task is stopped for system
+> =C2=A0 * call exit tracing (due to %SYSCALL_WORK_SYSCALL_TRACE or
+> - * %SYSCALL_WORK_SYSCALL_AUDIT), after ptrace_report_syscall_entry()
+> - * returned nonzero to prevent the system call from taking place.
+> + * %SYSCALL_WORK_SYSCALL_AUDIT), after ptrace_report_syscall_permit_entr=
+y()
+> + * returned False to prevent the system call from taking place.
+> =C2=A0 *
+> =C2=A0 * This rolls back the register state in @regs so it's as if the
+> =C2=A0 * system call instruction was a no-op.=C2=A0 The registers contain=
+ing
+> --- a/include/linux/entry-common.h
+> +++ b/include/linux/entry-common.h
+> @@ -38,21 +38,22 @@
+> =C2=A0				 SYSCALL_WORK_SYSCALL_EXIT_TRAP)
+> =C2=A0
+> =C2=A0/**
+> - * arch_ptrace_report_syscall_entry - Architecture specific ptrace_repor=
+t_syscall_entry() wrapper
+> + * arch_ptrace_report_syscall_permit_entry - Architecture specific wrapp=
+er for
+> + *					=C2=A0=C2=A0=C2=A0=C2=A0 ptrace_report_syscall_permit_entry()
+> =C2=A0 * @regs: Pointer to the register state at syscall entry
+> =C2=A0 *
+> - * Invoked from syscall_trace_enter() to wrap ptrace_report_syscall_entr=
+y().
+> + * Invoked from syscall_trace_enter() to wrap ptrace_report_syscall_perm=
+it_entry().
+> =C2=A0 *
+> - * This allows architecture specific ptrace_report_syscall_entry()
+> + * This allows architecture specific ptrace_report_syscall_permit_entry(=
+)
+> =C2=A0 * implementations. If not defined by the architecture this falls b=
+ack to
+> - * to ptrace_report_syscall_entry().
+> + * to ptrace_report_syscall_permit_entry().
+> =C2=A0 */
+> -static __always_inline int arch_ptrace_report_syscall_entry(struct pt_re=
+gs *regs);
+> +static __always_inline bool arch_ptrace_report_syscall_permit_entry(stru=
+ct pt_regs *regs);
+> =C2=A0
+> -#ifndef arch_ptrace_report_syscall_entry
+> -static __always_inline int arch_ptrace_report_syscall_entry(struct pt_re=
+gs *regs)
+> +#ifndef arch_ptrace_report_syscall_permit_entry
+> +static __always_inline bool arch_ptrace_report_syscall_permit_entry(stru=
+ct pt_regs *regs)
+> =C2=A0{
+> -	return ptrace_report_syscall_entry(regs);
+> +	return ptrace_report_syscall_permit_entry(regs);
+> =C2=A0}
+> =C2=A0#endif
+> =C2=A0
+> @@ -73,8 +74,6 @@ static inline void syscall_enter_audit(s
+> =C2=A0static __always_inline long syscall_trace_enter(struct pt_regs *reg=
+s, unsigned long work,
+> =C2=A0						long syscall)
+> =C2=A0{
+> -	long ret =3D 0;
+> -
+> =C2=A0	/*
+> =C2=A0	 * Handle Syscall User Dispatch.=C2=A0 This must comes first, sinc=
 e
-> +floor.
-> +
-> +If the secure monitor masks normal=E2=80=91world interrupts during OP=E2=
-=80=91TEE invocations,
-> +or if OP=E2=80=91TEE uses long=E2=80=91running secure FIQ handlers, then=
- OP=E2=80=91TEE can introduce
-> +measurable latency spikes.
-> --
-> 2.53.0
->
+> =C2=A0	 * the ABI here can be something that doesn't make sense for
+> @@ -95,8 +94,8 @@ static __always_inline long syscall_trac
+> =C2=A0
+> =C2=A0	/* Handle ptrace */
+> =C2=A0	if (work & (SYSCALL_WORK_SYSCALL_TRACE | SYSCALL_WORK_SYSCALL_EMU)=
+) {
+> -		ret =3D arch_ptrace_report_syscall_entry(regs);
+> -		if (ret || (work & SYSCALL_WORK_SYSCALL_EMU))
+> +		if (!arch_ptrace_report_syscall_permit_entry(regs) ||
+> +		=C2=A0=C2=A0=C2=A0 (work & SYSCALL_WORK_SYSCALL_EMU))
+> =C2=A0			return -1L;
+> =C2=A0	}
+> =C2=A0
+> @@ -137,7 +136,7 @@ static __always_inline long syscall_trac
+> =C2=A0 * It handles the following work items:
+> =C2=A0 *
+> =C2=A0 *=C2=A0 1) syscall_work flag dependent invocations of
+> - *=C2=A0=C2=A0=C2=A0=C2=A0 ptrace_report_syscall_entry(), __seccomp_perm=
+it_syscall(), trace_sys_enter()
+> + *=C2=A0=C2=A0=C2=A0=C2=A0 ptrace_report_syscall_permit_entry(), __secco=
+mp_permit_syscall(), trace_sys_enter()
+> =C2=A0 *=C2=A0 2) Invocation of audit_syscall_entry()
+> =C2=A0 */
+> =C2=A0static __always_inline long syscall_enter_from_user_mode_work(struc=
+t pt_regs *regs, long syscall)
+> --- a/include/linux/ptrace.h
+> +++ b/include/linux/ptrace.h
+> @@ -405,13 +405,13 @@ extern void sigaction_compat_abi(struct
+> =C2=A0/*
+> =C2=A0 * ptrace report for syscall entry and exit looks identical.
+> =C2=A0 */
+> -static inline int ptrace_report_syscall(unsigned long message)
+> +static inline bool ptrace_report_syscall(unsigned long message)
+> =C2=A0{
+> =C2=A0	int ptrace =3D current->ptrace;
+> =C2=A0	int signr;
+> =C2=A0
+> =C2=A0	if (!(ptrace & PT_PTRACED))
+> -		return 0;
+> +		return true;
+> =C2=A0
+> =C2=A0	signr =3D ptrace_notify(SIGTRAP | ((ptrace & PT_TRACESYSGOOD) ? 0x=
+80 : 0),
+> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 message);
+> @@ -424,11 +424,11 @@ static inline int ptrace_report_syscall(
+> =C2=A0	if (signr)
+> =C2=A0		send_sig(signr, current, 1);
+> =C2=A0
+> -	return fatal_signal_pending(current);
+> +	return !fatal_signal_pending(current);
+> =C2=A0}
+> =C2=A0
+> =C2=A0/**
+> - * ptrace_report_syscall_entry - task is about to attempt a system call
+> + * ptrace_report_syscall_permit_entry - task is about to attempt a syste=
+m call
+> =C2=A0 * @regs:		user register state of current task
+> =C2=A0 *
+> =C2=A0 * This will be called if %SYSCALL_WORK_SYSCALL_TRACE or
+> @@ -438,7 +438,7 @@ static inline int ptrace_report_syscall(
+> =C2=A0 * call number and arguments to be tried.=C2=A0 It is safe to block=
+ here,
+> =C2=A0 * preventing the system call from beginning.
+> =C2=A0 *
+> - * Returns zero normally, or nonzero if the calling arch code should abo=
+rt
+> + * Returns True normally, or False if the calling architecture code shou=
+ld abort
+> =C2=A0 * the system call.=C2=A0 That must prevent normal entry so no syst=
+em call is
+> =C2=A0 * made.=C2=A0 If @task ever returns to user mode after this, its r=
+egister state
+> =C2=A0 * is unspecified, but should be something harmless like an %ENOSYS=
+ error
+> @@ -447,8 +447,7 @@ static inline int ptrace_report_syscall(
+> =C2=A0 *
+> =C2=A0 * Called without locks, just after entering kernel mode.
+> =C2=A0 */
+> -static inline __must_check int ptrace_report_syscall_entry(
+> -	struct pt_regs *regs)
+> +static inline __must_check bool ptrace_report_syscall_permit_entry(struc=
+t pt_regs *regs)
+> =C2=A0{
+> =C2=A0	return ptrace_report_syscall(PTRACE_EVENTMSG_SYSCALL_ENTRY);
+> =C2=A0}
+
+Reviewed-by: Radu Rendec <radu@rendec.net>
