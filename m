@@ -1,215 +1,170 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010056.outbound.protection.outlook.com [52.101.61.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069D73F1670
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 09:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783590756; cv=none; b=owWDnwKr8+CiIsep25CNbkdLY91rPdv1dpdwIyhpEz8HyziRdTkO85BeCEqF8yn3PTJKItor4ta4PqdsCFuiMBiTUrBRgXIU6XNgnTROH5d3+3JyBtUY304sqmhKJPjmLOTt22cwBvwPcdDKapRkSAxv+T7g3zKOy9qU0wbNUW8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783590756; c=relaxed/simple;
-	bh=iQNrGVvv3ujLtkwmKctK+PWCeJB+Z38/i3Nxrwmlsrs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WqodRHJ7FiDzBcV9S7An39uO5uC8dkAQTDhmqhh8u3YS5ci93/Luxhwq+kCoe276+uG2Pym4oto2+zzWL/lIQczgfytONyVvS9rHsic8QuHAccDcHsP20Ww+UgYplVFsxjFKB+nWYWyr+iyZucjipDPmXtnC9sdwDyA5Don3YLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=bMxSyS0j; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97AC405C4B;
+	Thu,  9 Jul 2026 09:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.56
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783591007; cv=fail; b=J8MpNCZC0s487kpVF0EejJ5H2ztztu9QwVsyWHoTGmz8AH4Cjv/ClWpr4z9xG4PFxJHq87VIXTNWbnELR0zzEoykGQ/4T3NaOTIVTKDAnyIFamvUjaau/BpHCzQFYK/db0dAQI3E8J5YvCvm+BGhM+SslG/yD/jKOa/JOR5+wgE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783591007; c=relaxed/simple;
+	bh=RLh2kNV7umCHlxkpIeqps8YH/c/50jKN52FfiMxpidk=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ji3ajZWoZpJDwMzrl4q8MabnxDFaIYf+ecwagyMs+1LnyrdWGyIQjRai6nLoVnX52M+dZ5xuU3LVFJaTGHJNvoXd1pvufc4llh3ztwIS/mW719YAq9m6HQMf8K33QOox3+wOelXR72xNN7AmsuCCmygLahn/xWvUozYyIZJeZzM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=hp2RDbO0; arc=fail smtp.client-ip=52.101.61.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="bMxSyS0j"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493b77b150aso13103345e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 02:52:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1783590752; x=1784195552; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=cmUvpg/LGglbFmX5TbG8S8cuP4tLEOPmrTkk7nQFQLo=;
-        b=bMxSyS0jwGsmJ9MuQogJyBz3F63LUvsACq+qyW5SuL5TGiMrFn6oWnP1raMt0zSqOs
-         KPCHAvEOkvHnkgapRFG3coOIo2t7LdYiwODMKtMHP6dhftejtSoBSnC6yt57SoDVYGyS
-         SkhTVmOi6VM6+P3CGSP2ryQE6Iv+vEm5x5RL8J8gMojBQuvog5v3dyC+em/tw/nGQ1rx
-         ewWmylZPOhEYFoL16n5oSCbtFWL0GWF8MDYlBlw3QRnx75eWGNeE4EdAJcgZMd+U8wGb
-         f1z2SUs+qsLUakRRl5k/M/CdjDwr5+6vDIdpXVIdWMeXsbGrfpJmIkoxrfLaCzmfpliB
-         iErw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783590752; x=1784195552;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cmUvpg/LGglbFmX5TbG8S8cuP4tLEOPmrTkk7nQFQLo=;
-        b=J4U33Z5Z/uc/pwt2ebhg+gtanLnPsXmYHx+w/oskvK21gJtAes9yjqzFSLKtQDvjdu
-         7EkyfnNt4SxysRGZQ/zMJjQEuMuZGAYcfnShaqGpuWGxrTsnioQWvUuMWy/RrRfroILn
-         3l1JOar89TaJmVb4NbZ3RaAZIFFuDt5o4Xq2vr1XKme4m4pDm+uoZOUT6YE6QdMjXy2I
-         SMiFxFmjzuxyjkumZa/unTnDGmNQSbOQ4x/quAe45C1P+ROvZ8WuCH3Xl+1mgjFUsosR
-         yd9apzHJHn0eI29ODTUg/3/TXp2aMOqp3ym3PDe4Y5zZNjK2FzmXmIQdgiQMB7MtEekF
-         aEQQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp0Y494TGRaY+LmT7jLHTDCkQpQ5GmMjA+YG/Z9kfKb+wfF/OVjILEPzK5Bkh5zslCM8ABHjIb49WA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLTKel4BpD6AL43NwxVPHOgg9IylvqCWT79bVHTDgbiewPRxhi
-	E7Iw5ziCLj/SHmBAhSU6oo4CH8K8nVk5W8V4JWCKGitYxzHUV32C6t30gMeG0TntF5w=
-X-Gm-Gg: AfdE7clafjMaNKFfllD+HSrsCm3C3sgfqsEQ8/09z0GimlroXlNy+GlLYrtrgIleOvO
-	wexQpI83oazghh2Ii271lKLVeajR9NcBofp+yt0i6nj3hxban16EgmfXZli6mG5GSn0SEGptv12
-	eZ9//kNxjfCf9bD3rktPGN0EtT5Bo+X2xrs1gLDJDyjlqz2ynZmsp4Eqvt5vT/uMWx0NHfFFxsm
-	qt5DekaPvMmBX4dWK3Zarj58DXQBbIqFhzpwcXpW+9yAp5UXhlZSbAeb+2GpQQqgW9uFKpkY3me
-	dx+GrmNyZHWSOZL49DGuUduVEwYD4Uobh4D08ZlgmNX+cpHZcyBn29VSoXYOOvlOZxd+Pypo/b+
-	p+gK7GWIBL4jj+0mgTJExoq3LuVAh6mlIJErD5VQUNEXddUwQXGLJUCvOtbh4qqiiklm9gWw+4u
-	FM2m+JcC8CIa7YhnwGiIElO/g1UR0ogjrX
-X-Received: by 2002:a05:600c:3111:b0:493:aab3:c09c with SMTP id 5b1f17b1804b1-493e6a4a8b1mr61043955e9.28.1783590752378;
-        Thu, 09 Jul 2026 02:52:32 -0700 (PDT)
-Received: from localhost ([140.209.217.211])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9de1d8cdsm53652344f8f.1.2026.07.09.02.52.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 02:52:31 -0700 (PDT)
-Date: Thu, 9 Jul 2026 11:52:28 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Mark Bloch <mbloch@nvidia.com>
-Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
-	Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next V5 6/6] net/mlx5: Apply devlink eswitch mode
- boot default on probe
-Message-ID: <ak9un-lCDmhGI9tL@FV6GYCPJ69>
-References: <20260707174527.425134-1-mbloch@nvidia.com>
- <20260707174527.425134-7-mbloch@nvidia.com>
- <ak4LVcyKofmtrWcU@FV6GYCPJ69>
- <7309e57a-89bc-4e4a-97e9-d843b02efa42@nvidia.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="hp2RDbO0"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZO7POv29WoJGOOCIGKhYmJbQt39MlIEQ5yTNQJzRnFm7BzBeW4rmK63Tqw0uGxgBpNxezHBXW1WqY9guJUCGazivJ5ipu+ELSEZLFYRRtCmNm+2BSd/w6sVolrRvIMAc3jSHaWuyKAby8eCN6yhlAZ0xDy85F/aJB6Q/tiUfPxnrsb9R91zHYTZmXMooUPhR3zegttmBt5+vciTIR7kPCLDr515LStHzGLMkZ4HBQfuSd9mlfaURuctmBp30oNonlvNVAVOkBRNSLgnLOShWX+wf4PV+SCOpEcgH9hl5kNKUWHRuMwGYcVx4n8ESRDBW5RQA2bABulVcqbIovt7dbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KYjxNYVwQUH+tnwHGdXumKGXm34E00c2T8jSHKpsEzQ=;
+ b=NUzWVLXXKwEYo5RZr6TqdIoYgSGHg5s4XDWThrbMz/EhNoo3LfjpTSOWv4xNfIq7UqBetgw2pwz/piFEOVVQK4CJ+WfbUK03K+r/mMKz4q4cUSfgU/yMMrODU3acdhYN1Ipc26Ad1vANNFlggfe1F0EkSPeRDhfOvtF5C910KX1SgfazEI6bvSfhL3cCYYukBATw1XgxXAsQxm5PdyVXyMA02pZCwnVIhI5KWO7DSxuGx+eX7Nzag+dpqAcYAOqtDHzFjS0fF5sr1OtWnhlBDE/lmR8js/8bprKgDoe6zu3SKQ/Im2CBL7FLdnK91rk8bzPPXw7PFiCZHXd5h9Oyhw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=arm.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KYjxNYVwQUH+tnwHGdXumKGXm34E00c2T8jSHKpsEzQ=;
+ b=hp2RDbO0MrRRASsrNu5aloz7FoRxkCwAoFKO6daXe/6l4ZcZ3Xsz2hkXuLF79Lrh3mpPbEl1g6j7/FS8nuKpC/BHtjIkjC6M2BZSaW6BQ4fpbu765oKBR3dmm9bUY1qWFM6awKiiXBnfYOQKzSI+CV+PiqDaC69t+wdSn+tp6CVrY6oRJqe0K/7hCnD1lNo397/4hrDkiASpqxsSLm/qBZma8cqAuf+n0WXWRWu5kg4hxFZ0K+wlG9oorx7shZ4L9jR6rNGpqnYhBAgNJ7F3Sl+fUdwx6NSw87W3TQTMhGoSsdzrek9DeNrpCzisho12y+OZpLFCQV+g3SikfsNAJQ==
+Received: from BY3PR03CA0002.namprd03.prod.outlook.com (2603:10b6:a03:39a::7)
+ by CH2PR12MB4311.namprd12.prod.outlook.com (2603:10b6:610:a8::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.15; Thu, 9 Jul
+ 2026 09:56:40 +0000
+Received: from SJ5PEPF000001F7.namprd05.prod.outlook.com
+ (2603:10b6:a03:39a::4) by BY3PR03CA0002.outlook.office365.com
+ (2603:10b6:a03:39a::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.202.11 via Frontend Transport; Thu, 9
+ Jul 2026 09:56:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SJ5PEPF000001F7.mail.protection.outlook.com (10.167.242.75) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Thu, 9 Jul 2026 09:56:39 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 9 Jul
+ 2026 02:56:19 -0700
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 9 Jul
+ 2026 02:56:19 -0700
+Received: from build-amhetre-focal-20250829.internal (10.127.8.12) by
+ mail.nvidia.com (10.129.68.6) with Microsoft SMTP Server id 15.2.2562.20 via
+ Frontend Transport; Thu, 9 Jul 2026 02:56:19 -0700
+From: Ashish Mhetre <amhetre@nvidia.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Robin Murphy <robin.murphy@arm.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>
+CC: <linux-tegra@vger.kernel.org>, Ashish Mhetre <amhetre@nvidia.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>
+Subject: [PATCH v5 3/3] iommu/arm-smmu-v3: Enable CFGI/TLBI-repeat workaround on Tegra264
+Date: Thu, 9 Jul 2026 09:56:09 +0000
+Message-ID: <20260709095613.831769-3-amhetre@nvidia.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260709095613.831769-1-amhetre@nvidia.com>
+References: <20260709095613.831769-1-amhetre@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7309e57a-89bc-4e4a-97e9-d843b02efa42@nvidia.com>
+X-NVConfidentiality: public
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F7:EE_|CH2PR12MB4311:EE_
+X-MS-Office365-Filtering-Correlation-Id: bd0faed1-7e75-4109-874d-08dedda05f9c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700016|7416014|376014|23010399003|11063799006|56012099006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	LlUdCzaWDsKVIIisUyKfDLJxzNk+ZEtbFA5KM1o2oe0XprhKFotGXn/5A/1Ohv7OpkeZQGaYyP5l1/3z7oP7fVu4NK2EsQ4NrYo0/AnmSOOHAs1bxARxvWgneY1jZ+9QRzFrhFsROiD61ggh4RYtrNN8GIyc322YDZOXSlML2wN5uhGBBY2H6lJIu9IrUigc/W4luSkGW6I4FnPCiCLrPNCSvfeku5PL0vvw3H3w6k7PJ+HLwPu4Gbq9MZsJ0yDFTs0JvZlINMGqzWhI2U6ST02cu3sU+8+PncEmYz/JwOk8vlm7H6pR0eT4uuZGvI+UTzolAEAJdYDZxR6RoQHsgehGcScwu33xu0vop6coE6nH0FRtpx0+VdGsgD9z/+A6nKRw3FOw9fCmISmJqHB9+UGm8MAPbgMKWoCcNtDijSAOoFl8WLmhQqmPKvz+q5ajlP+81dC0BKNokp14JJOGq/+DE8TtLOqOtGSAJWtKJrv26hJjFklH5V8C8F0ZN75QsK9RgEGAApVVCG5AMc791ZozAqJOLc+yE8BGhHdKSWD+wrWheZk4BFprBsE4ZRbnAFf5LL0ArA9LsaieCcxsEpXLNZqyZfsmAPWTmyFEUY42AMlawxx2VUmNbmXyyJ0P4iLPOyqFH89D3F+vFSwmzPKjNJpkmWBSNPnPkQEZh3wSGasNUhUeJD4LpXMS/9VDWgHPYuteKjFwlilaJyYd7A==
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700016)(7416014)(376014)(23010399003)(11063799006)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	ZSQqVpa4/bIlZCn362OQMpjyMNG+Kem0sPOyBpaSVS7wWKcRiX1m2r2u6aazl/m8ZdokmwF0LH+ObsaqnJG4XbuqpIESXspFJiUKtoZCp/HM66owJB+IsScY2MuCuR0ze5mv6HRJshr9Ftxk7fK+Jzkvra3GGF7b4zo6x3VLOh/+jIUddFeOHNy7AGFGRCgti7xRjKw2oIVHGCbfZyEwNe794pqlnDAVpK2iTkYoJI4gRZC8U/nSxztVf0K0u1rChG4TX/+TFXK47tULFcjl7ziA0Nyj5pRe/Z18utqfAf+QmC4rryvGzQZFkUWehTXgkaN47kagvQ9Ve9C1h9rz+Uylyh6V/qckaaTkLcgO7LX7Sg0k+c0goN5SBpcqQazjvk3tadJM7VTzLrqx2V1n+YpnuD0Dw8SU4OVwL7XlFx24LNnsYcy+X/cDBuMUdHJ8
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 09:56:39.9374
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd0faed1-7e75-4109-874d-08dedda05f9c
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ5PEPF000001F7.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4311
 
-Thu, Jul 09, 2026 at 08:00:19AM +0200, mbloch@nvidia.com wrote:
->
->
->On 08/07/2026 11:34, Jiri Pirko wrote:
->> Tue, Jul 07, 2026 at 07:45:27PM +0200, mbloch@nvidia.com wrote:
->>> Apply devlink_eswitch_mode= boot defaults for mlx5 after the initial
->>> probe finishes device initialization while holding the devlink instance
->>> lock.
->>>
->>> At this point the devlink instance is registered and mlx5 can perform an
->>> eswitch mode change. Calling devl_apply_default_esw_mode() also clears
->>> any pending default apply work queued by devl_register(), so the queued
->>> work will not apply the same default again.
->>>
->>> Keep this call in mlx5_init_one() rather than the lower-level
->>> devl-locked init helper. That helper is also used by devlink reload, and
->>> devlink core already applies the boot default after a successful
->>> DRIVER_REINIT reload.
->>>
->>> Signed-off-by: Mark Bloch <mbloch@nvidia.com>
->>> ---
->>> drivers/net/ethernet/mellanox/mlx5/core/main.c | 13 +++++++++++++
->>> 1 file changed, 13 insertions(+)
->>>
->>> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
->>> index 643b4aac2033..0712efea74cc 100644
->>> --- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
->>> +++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
->>> @@ -1392,6 +1392,17 @@ static void mlx5_unload(struct mlx5_core_dev *dev)
->>> 	mlx5_free_bfreg(dev, &dev->priv.bfreg);
->>> }
->>>
->>> +static void mlx5_devl_apply_default_esw_mode(struct mlx5_core_dev *dev)
->>> +{
->>> +	struct devlink *devlink = priv_to_devlink(dev);
->>> +
->>> +	if (!MLX5_ESWITCH_MANAGER(dev))
->>> +		return;
->>> +
->>> +	devl_assert_locked(devlink);
->>> +	devl_apply_default_esw_mode(devlink);
->>> +}
->>> +
->>> int mlx5_init_one_devl_locked(struct mlx5_core_dev *dev)
->>> {
->>> 	bool light_probe = mlx5_dev_is_lightweight(dev);
->>> @@ -1471,6 +1482,8 @@ int mlx5_init_one(struct mlx5_core_dev *dev)
->>> 	err = mlx5_init_one_devl_locked(dev);
->>> 	if (err)
->>> 		devl_unregister(devlink);
->>> +	else
->>> +		mlx5_devl_apply_default_esw_mode(dev);
->> 
->> I don't understand why this patch is needed at all. Just leave the job
->> to the devlink core, no? That was the point to not pollute drivers with
->> code like this. Is it some kind of leftover?
->
->It was discussed with Jakub here:
->https://lore.kernel.org/all/20260611085440.4fe36bf2@kernel.org/
->
->The main reason is timing. If the default is applied only by devlink
->core, it has to wait until the driver drops the devlink lock.
+Nvidia Tegra264 SMMU is affected by an erratum where a TLB entry can
+survive an invalidation that races with concurrent traffic targeting
+the same entry. The hardware-recommended software workaround is to
+issue every CFGI/TLBI command (each followed by CMD_SYNC) twice, and
+that infrastructure is already in place behind
+arm_smmu_erratum_repeat_tlbi_cfgi_key.
 
-I don't follow.
+Neither IDR nor IIDR flags this Tegra264-specific bug, so hardware
+detection is not possible. Tegra264 is device-tree-only (no ACPI/IORT
+support) and already has a dedicated "nvidia,tegra264-smmu" compatible,
+so DT-probe is the only viable detection path.
 
-<quote>
-	devl_lock(devlink);
-	if (dev->shd) {
-		err = devl_nested_devlink_set(dev->shd, devlink);
-		if (err)
-			goto unlock;
-	}
-	devl_register(devlink);
-	err = mlx5_init_one_devl_locked(dev);
-	if (err)
-		devl_unregister(devlink);
-unlock:
-	devl_unlock(devlink);
-</quote>
+Enable the workaround on instances matching the existing
+"nvidia,tegra264-smmu" compatible by calling static_branch_enable() on
+arm_smmu_erratum_repeat_tlbi_cfgi_key. Document the erratum in
+Documentation/arch/arm64/silicon-errata.rst.
 
-devlink lock is droped right after.
+Signed-off-by: Ashish Mhetre <amhetre@nvidia.com>
+---
+ Documentation/arch/arm64/silicon-errata.rst | 2 ++
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 4 +++-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
+diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+index 014aa1c215a1..076b3947d259 100644
+--- a/Documentation/arch/arm64/silicon-errata.rst
++++ b/Documentation/arch/arm64/silicon-errata.rst
+@@ -312,6 +312,8 @@ stable kernels.
+ |                |                 | T241-MPAM-4,    |                             |
+ |                |                 | T241-MPAM-6     |                             |
+ +----------------+-----------------+-----------------+-----------------------------+
++| NVIDIA         | T264 SMMU       | T264-SMMU-3     | N/A                         |
+++----------------+-----------------+-----------------+-----------------------------+
+ +----------------+-----------------+-----------------+-----------------------------+
+ | Freescale/NXP  | LS2080A/LS1043A | A-008585        | FSL_ERRATUM_A008585         |
+ +----------------+-----------------+-----------------+-----------------------------+
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+index 15b9d0170520..edb7a5d38cf9 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+@@ -5331,8 +5331,10 @@ static int arm_smmu_device_dt_probe(struct platform_device *pdev,
+ 	if (of_dma_is_coherent(dev->of_node))
+ 		smmu->features |= ARM_SMMU_FEAT_COHERENCY;
+ 
+-	if (of_device_is_compatible(dev->of_node, "nvidia,tegra264-smmu"))
++	if (of_device_is_compatible(dev->of_node, "nvidia,tegra264-smmu")) {
+ 		tegra_cmdqv_dt_probe(dev->of_node, smmu);
++		static_branch_enable(&arm_smmu_erratum_repeat_tlbi_cfgi_key);
++	}
+ 
+ 	return ret;
+ }
+-- 
+2.50.1
 
-
->For mlx5, that usually happens very late in the init sequence. I
->wanted drivers to be able to apply the default as soon as the driver
->is ready for it, because on NICs with a DPU the host PF can remain
->stuck until the ECPF moves to switchdev.
->
->This API is also useful beyond the initial devlink registration path.
->Follow-up patches will use it for driver controlled paths that are
->not covered by the devlink core, such as recovery and FW reset.
->
->There is also a race window where userspace may take the devlink lock
->before the core gets a chance to apply the default. Letting the driver
->explicitly apply the default at the right point avoids that scenario.
->
->Thinking about this again, maybe the simpler approach is to apply the
->default from devl_unlock(). That would avoid the whole workqueue
->infra.
->
->I avoided doing that earlier because applying a default mode as a
->side effect of devl_unlock() feels a bit odd. But compared to adding
->dedicated workqueue handling maybe it is the lesser evil here.
->
->What do you think?
-
-I was under impression that you need the work to resolve nested locking.
-If not, drop it, sure.
-
-
->
->About the extra API, I still think it's useful and would like to keep
->it if possible.
->
->Mark
->
->
->> 
->> 
->> 
->>> unlock:
->>> 	devl_unlock(devlink);
->>> 	return err;
->>> -- 
->>> 2.43.0
->>>
->
