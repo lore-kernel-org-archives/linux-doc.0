@@ -1,37 +1,106 @@
-Received: from bregans-0.gladserv.net (bregans-0.gladserv.net [185.128.210.58])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986A23382E5;
-	Thu,  9 Jul 2026 16:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.128.210.58
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1454307A1
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 16:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783613198; cv=none; b=pGHnf/tW4s3nLJHKUVTSL3QMa7xT0nxoCE2omeWTYg+7X+yCVzO/yVSYVShemEeS5awtzSzvpIoTKjcclntDvOTBkNQkRUXMBN0aIR+B2PsKvemitsNC7SnasKC3Uvbn2I3KWrT9Dk2wtNIrWLoeaAy+PNHHILwMNrnvH1RUVKk=
+	t=1783613245; cv=none; b=l4H2IcV7o1oIACe45VutwvDrXLi2rgzSaP5CFfHy7HCbiOFLqw5CYkSaormGs0VCg9HOAbQmYHaHrY3i7h1VQIAH+IgdYCUi7lzZuH5L+2fXq4zoiPis96gh2IRoBrOjUpwwsNU9/aMG01Afx/VprNvuvQCFQPi8n7PmIK0j1qA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783613198; c=relaxed/simple;
-	bh=pZLCgred6rdnvWnUkEvfxYrToRNIaeBDZSoHQYeKenY=;
+	s=arc-20240116; t=1783613245; c=relaxed/simple;
+	bh=TfiHSLMBjZ80AM2O04NWCaLK29aZWfR88RfiqOuVlcw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bdy6L5LcdcylxwWVLodWZgiXmzZK1GlAYuX2Xlo4CltkWm6cghyzSTFZM0lpTXVJd6L+rZ1gqdTKktVoG2jpob1/YNsPvaSmBLFnwtQmlSdO+0314FA5FrtIw5EJq/YbGPTbrAjnETGBQCG4qZXshhZSDCMvM0zvmMnEVo9XNF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=librecast.net; spf=pass smtp.mailfrom=librecast.net; arc=none smtp.client-ip=185.128.210.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=librecast.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=librecast.net
-Date: Thu, 9 Jul 2026 18:06:09 +0200
-From: Brett Sheffield <brett@librecast.net>
-To: Simon Schippers <simon.schippers@tu-dortmund.de>
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>, netdev@vger.kernel.org,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=IM4lXe5IM4ENM6vtekPWVIYnwfs+oHRNcWhlmVVSmXdCvlMHx5lstm92/2mKebq63fFoiK39IEnkC7opBmd3JlswOC0aEeMhz8hSK4FiZEE76QvlL+g0UX4dDiz1TM0AbnKyCU80yGzlSBEhGytizCQwnoYYfVrhdQTfKcZPIEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cBDFzVUC; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cBDFzVUC"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-84867f07d63so538287b3a.2
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 09:07:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783613243; x=1784218043; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ysgGA9FNs2LC6p8SRgBycN6NLmY0OUHVJV77+UK20Sc=;
+        b=cBDFzVUCfbVwT+blU5hStVzsUa9sb8BUQReUAD95t+v/joFsWgfLfXi/KIYxD8YffC
+         G44nohEBHc4A/nR7D7lCwVu7n7m6GnBUohblqBMtnNboRz9jv1s3T8fqiNn0YFZSb8Ei
+         GU6IEyMzABSKWr4Ez79eNWQhkEsGMiYNZMzFIp5S/zi2DtL5fYYZ0Gt5+yUI30u63f8P
+         LT3Rbbx/a38OCfPOodVXurkG7rdcLGcZNX4Rn59NbE/aP/hB3OCL7Dc6xvPuPMNgplfq
+         wVWIlSkYSqo5m2elj56+rgscbhddEMk5vloWmpLVBaZ54LgZb3Vo765+eLawjm4pdJbY
+         Shkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783613243; x=1784218043;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ysgGA9FNs2LC6p8SRgBycN6NLmY0OUHVJV77+UK20Sc=;
+        b=isRH+xwSyC7zBnT8GrZSLojetSZJ9iXwD8g6H2kdki7ng96mg0b0VltASB5JO3kB2t
+         TknvyNHVJwKYYNMY2xzfp2PT1JkhNsuJKn35inbY5NdETkT1R3xbPIO7ut5qRzhLv5Rn
+         1rYQfhYoltYLlXAoe5VqycM0ip/48ylPXcOyteoUrepyrot+b6+qOxVKeais9kW1/6fx
+         DmVDOFEdpIz+bBU0V2lS3v1uHZ/En07TJpe+VNsOL+g+u3+KtX/TEt0WkWZNVKkMGrPY
+         XSOGfQpYm1yMorEUo9ZQRDC3iwvMBFSBIDOItYwiBJwTB35JzfhxRd2JGSxDhgehn/D4
+         M/pw==
+X-Forwarded-Encrypted: i=1; AHgh+RpM+04LXih7YPJk3M8VDa1CgdNE0v16wBj3H/yhol8LMBhESxQaYXoDKAEgvGZkHK9+J1MHcWLQibg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpuDxAhwJBTQkfFsY+5Ud+EyNbH/h4eJp9EvRPF7k4wC2CdQvx
+	UT8Q9+klMOP6xa9zHT2tID9JJgtZ3A3ydvOaAIJpEBRBZDXLjIpWoEXE
+X-Gm-Gg: AfdE7cle2tJ5Z9T98/80Jfyg/J//2IMu6mozNJAaQza6ZgwN146uvfQFC4BsOi3uU/L
+	IKIwAOFnybLglsmdsybhCXFdUSVhGrbShAcYO7t9PL7YK0iBSh2DbSHqMnWVk4mQG/HY69mJs01
+	+GG4tfy2haToT5/8DLRUJrgJCo4gJjgslz//5brcMxxD6gtjrPKuYuGKZSXGtL9wInsMxNlStJq
+	itHBn4FyJAC/cEkd2KUKSpGL8r2PngOQdfTwQjSjbYwT421B0zCy6RCedWzkC1k9kGv19CCqZMu
+	851aH2fhmOgcs2QKQosA+GTM9IXVoc2bwC2yTC0n5ZP4uBJxqZP0RqcP8mPVJ0CLxzdpVLQZhAa
+	F1qO/5WVuULiJizYK2dZEjsVTDAZ4G9eUGDcj1vhBK+ywORgmNFG0OMRoIhu/aeJZTxtR9xxkHV
+	y3Qaq4+7m5rGcRTDGK0CM5+I88FA==
+X-Received: by 2002:a05:6a00:91a9:b0:848:44d2:72a2 with SMTP id d2e1a72fcca58-84844d2940fmr6740302b3a.27.1783613242449;
+        Thu, 09 Jul 2026 09:07:22 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8484d465991sm2206257b3a.47.2026.07.09.09.07.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 09:07:21 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 9 Jul 2026 09:07:21 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Michal Simek <michal.simek@amd.com>
+Cc: linux-kernel@vger.kernel.org, monstr@monstr.eu, git@amd.com,
+	vincent.guittot@linaro.org, Souvik.Chakravarty@arm.com,
+	Alex Shi <alexs@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Brian Masney <bmasney@redhat.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Lukasz Luba <lukasz.luba@arm.com>, Mark Brown <broonie@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Pavel Machek <pavel@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Tim Gebauer <tim.gebauer@tu-dortmund.de>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v3] tun/tap & vhost-net: make qdisc backpressure
- opt-in via IFF_BACKPRESSURE
-Message-ID: <ak_G8auk2xI8PtlM@karahi.librecast.net>
-References: <20260709095511.168235-1-simon.schippers@tu-dortmund.de>
+	Stephen Boyd <sboyd@kernel.org>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Ulf Hansson <ulfh@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Yanteng Si <si.yanteng@linux.dev>, arm-scmi@vger.kernel.org,
+	"open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>,
+	linux-arm-kernel@lists.infradead.org,
+	"open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+	"open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
+	"open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
+	"open list:ENERGY MODEL" <linux-pm@vger.kernel.org>
+Subject: Re: [RFC PATCH] firmware: scmi: Make SCMI arch independent
+Message-ID: <6cc90547-a3d6-40b4-8914-a1ff60944cdf@roeck-us.net>
+References: <d7f7e8c9589d937b60e43168845ab4fda15037a3.1783603600.git.michal.simek@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,257 +109,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260709095511.168235-1-simon.schippers@tu-dortmund.de>
+In-Reply-To: <d7f7e8c9589d937b60e43168845ab4fda15037a3.1783603600.git.michal.simek@amd.com>
 
-On 2026-07-09 11:55, Simon Schippers wrote:
-> Commit 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop
-> when a qdisc is present") did not show a relevant performance regression
-> in my testing but on Brett Sheffield's librecast testbed it shows a
-> significant performance drop in a IPv6 multicast testcase. The regression
-> can be pinpointed when multiple iperf3 TCP threads are sending. For 8
-> threads the performance dropped from 13.5 Gbit/s to 9.13 Gbit/s. This is
-> the reason why this patch makes the qdisc backpressure behavior opt-in.
+On Thu, Jul 09, 2026 at 03:27:00PM +0200, Michal Simek wrote:
+> On heterogenious systems like AMD/Xilinx FPGA there is a need to talk to
+> SCMI server from different architectures than ARM that's why remove
+> ARM/ARM64 Kconfig dependency with also remove ARM from description and
+> rename folder to reflect it.
+> From specification perspective only ARM specific transport layers should be
+> available on ARM/ARM64 architectures.
 > 
-> One option to accomplish the opt-in would be to set the default qdisc to
-> noqueue at init. However this may also break userspace as users might
-> have chosen a custom qdisc even though most of the qdiscs did nothing
-> for tun/tap in the past due to missing backpressure...
+> That's why get rid of ARM prefix and description from documentation, file
+> names, folder names, MODULE description, module names, Kconfig and
+> comments.
+> But keep origin Kconfig symbols not to break existing users.
 > 
-> This is the reason why in this patch, the flag IFF_BACKPRESSURE is
-> introduced instead which is required to enable the backpressure logic.
-> This means the stopping logic in tun_net_xmit() and the waking logic in
-> __tun_wake_queue() are skipped if the flag is disabled. Setting
-> IFF_BACKPRESSURE makes an attached qdisc effective by stopping the queue
-> instead of tail-dropping when the internal ring is full.
+> Hwmon, pinctrl, powercap, regulator, reset, clk and cpufreq scmi drivers
+> already miss arm prefix that's why synchronize all of them to be without
+> arm prefix.
 > 
-> To avoid a possible stall due to disabling IFF_BACKPRESSURE, the new
-> helper tun_force_wake_queue() is implemented. The helper safely wakes the
-> respective netdev queue and resets cons_cnt while the consumer_lock and
-> the producer_lock of the ring are held. The helper is run in tun_attach()
-> when a queue (re)attaches, in tun_set_iff() for attached tfiles, and
-> in tun_queue_resize().
-> 
-> The documentation in tuntap.rst is updated accordingly.
-> 
-> Fixes: 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop when a qdisc is present")
-> Reported-by: Brett Sheffield <brett@librecast.net>
-> Closes: https://lore.kernel.org/netdev/akVnoOYQOrt8k-Gu@karahi.librecast.net/T/#u
-> Signed-off-by: Simon Schippers <simon.schippers@tu-dortmund.de>
-
-Tested v3 patch applied to 7.2.0-rc2.  OK.
-
-Tested-by: Brett A C Sheffield <bacs@librecast.net>
-
+> Signed-off-by: Michal Simek <michal.simek@amd.com>
 > ---
-> V2 -> V3:
-> - As suggested by MST: Clarify in tuntap.rst and the UAPI header what
->   enabling IFF_BACKPRESSURE opts into: an attached qdisc becomes effective
->   instead of the driver tail-dropping when the internal ring is full.
-> - Avoid lines over 75 characters.
-> - Update comment in tun_net_xmit() to include IFF_BACKPRESSURE.
-> - Brett: Update in commit message that the referenced tests were TCP.
 > 
-> V1 -> V2:
-> - Sashiko: Ensure detached queues are woken on re-attach by calling the
->   new tun_force_wake_queue() helper from tun_attach(), and reuse it
->   across the existing wake paths.
-> - Specify the failing test case in the commit message.
-> 
-> V1: https://lore.kernel.org/netdev/20260704112058.95421-1-simon.schippers@tu-dortmund.de/T/#u
-> V2: https://lore.kernel.org/netdev/20260706094242.115992-1-simon.schippers@tu-dortmund.de/T/#u
-> 
->  Documentation/networking/tuntap.rst | 22 +++++++++++++
->  drivers/net/tun.c                   | 51 ++++++++++++++++++++---------
->  include/uapi/linux/if_tun.h         |  4 +++
->  tools/include/uapi/linux/if_tun.h   |  1 +
->  4 files changed, 62 insertions(+), 16 deletions(-)
-> 
-> diff --git a/Documentation/networking/tuntap.rst b/Documentation/networking/tuntap.rst
-> index 4d7087f727be..5921a924c2ae 100644
-> --- a/Documentation/networking/tuntap.rst
-> +++ b/Documentation/networking/tuntap.rst
-> @@ -206,6 +206,28 @@ enable is true we enable it, otherwise we disable it::
->        return ioctl(fd, TUNSETQUEUE, (void *)&ifr);
->    }
+> Likely I missed other locations but I wanted to send this RFC to have a
+> discussion about it.
+> ---
+...
+>  drivers/hwmon/Kconfig                                 |  2 +-
+...
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 2bfbcc033d59..cda0aedb36ca 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -401,7 +401,7 @@ config SENSORS_ARCTIC_FAN_CONTROLLER
+>  	  will be called arctic_fan_controller.
 >  
-> +3.4 qdisc backpressure
-> +----------------------
-> +
-> +Starting with Linux 7.2, IFF_BACKPRESSURE can be set to enable qdisc
-> +backpressure. Without it, TX drops occur when the internal ring buffer
-> +is full, so any attached qdisc is effectively bypassed and applications
-> +only learn about congestion through those drops.
-> +
-> +With it, the kernel stops instead, letting the qdisc hold and schedule
-> +packets, so its AQM, shaping and fairness actually apply. This helps
-> +protocols like TCP, which cut throughput in reaction to packet drops.
-> +With IFF_BACKPRESSURE, drops then only occur as a rare race. Backpressure
-> +requires a qdisc to be attached and has no effect with noqueue.
-> +
-> +The txqueuelen can be reduced alongside this flag to further shift
-> +buffering into the qdisc and reduce bufferbloat, but comes at possible
-> +performance cost.
-> +
-> +When running multiple network streams in parallel through a single
-> +TUN/TAP queue, the flag may reduce performance due to the extra overhead
-> +of the backpressure mechanism.
-> +
->  Universal TUN/TAP device driver Frequently Asked Question
->  =========================================================
->  
-> diff --git a/drivers/net/tun.c b/drivers/net/tun.c
-> index ffbe6f13fb1f..5941e8f302ea 100644
-> --- a/drivers/net/tun.c
-> +++ b/drivers/net/tun.c
-> @@ -98,7 +98,8 @@ static void tun_default_link_ksettings(struct net_device *dev,
->  #define TUN_FASYNC	IFF_ATTACH_QUEUE
->  
->  #define TUN_FEATURES (IFF_NO_PI | IFF_ONE_QUEUE | IFF_VNET_HDR | \
-> -		      IFF_MULTI_QUEUE | IFF_NAPI | IFF_NAPI_FRAGS)
-> +		      IFF_MULTI_QUEUE | IFF_NAPI | IFF_NAPI_FRAGS | \
-> +		      IFF_BACKPRESSURE)
->  
->  #define GOODCOPY_LEN 128
->  
-> @@ -694,6 +695,20 @@ static void tun_detach_all(struct net_device *dev)
->  		module_put(THIS_MODULE);
->  }
->  
-> +static void tun_force_wake_queue(struct tun_struct *tun,
-> +				 struct tun_file *tfile)
-> +{
-> +	/* Ensure that the producer can not stop the
-> +	 * queue concurrently by taking locks.
-> +	 */
-> +	spin_lock_bh(&tfile->tx_ring.consumer_lock);
-> +	spin_lock(&tfile->tx_ring.producer_lock);
-> +	netif_wake_subqueue(tun->dev, tfile->queue_index);
-> +	tfile->cons_cnt = 0;
-> +	spin_unlock(&tfile->tx_ring.producer_lock);
-> +	spin_unlock_bh(&tfile->tx_ring.consumer_lock);
-> +}
-> +
->  static int tun_attach(struct tun_struct *tun, struct file *file,
->  		      bool skip_filter, bool napi, bool napi_frags,
->  		      bool publish_tun)
-> @@ -737,11 +752,9 @@ static int tun_attach(struct tun_struct *tun, struct file *file,
->  		goto out;
->  	}
->  
-> -	spin_lock(&tfile->tx_ring.consumer_lock);
-> -	tfile->cons_cnt = 0;
-> -	spin_unlock(&tfile->tx_ring.consumer_lock);
->  	tfile->queue_index = tun->numqueues;
->  	tfile->socket.sk->sk_shutdown &= ~RCV_SHUTDOWN;
-> +	tun_force_wake_queue(tun, tfile);
->  
->  	if (tfile->detached) {
->  		/* Re-attach detached tfile, updating XDP queue_index */
-> @@ -1077,7 +1090,8 @@ static netdev_tx_t tun_net_xmit(struct sk_buff *skb, struct net_device *dev)
->  
->  	spin_lock(&tfile->tx_ring.producer_lock);
->  	ret = __ptr_ring_produce(&tfile->tx_ring, skb);
-> -	if (!qdisc_txq_has_no_queue(queue) &&
-> +	if ((tun->flags & IFF_BACKPRESSURE) &&
-> +	    !qdisc_txq_has_no_queue(queue) &&
->  	    __ptr_ring_check_produce(&tfile->tx_ring) == -ENOSPC) {
->  		netif_tx_stop_queue(queue);
->  		/* Paired with smp_mb() in __tun_wake_queue() */
-> @@ -1088,8 +1102,8 @@ static netdev_tx_t tun_net_xmit(struct sk_buff *skb, struct net_device *dev)
->  	spin_unlock(&tfile->tx_ring.producer_lock);
->  
->  	if (ret) {
-> -		/* This should be a rare case if a qdisc is present, but
-> -		 * can happen due to lltx.
-> +		/* This should be a rare case if IFF_BACKPRESSURE is enabled and
-> +		 * a qdisc is present, but can happen due to lltx.
->  		 * Since skb_tx_timestamp(), skb_orphan(),
->  		 * run_ebpf_filter() and pskb_trim() could have tinkered
->  		 * with the SKB, returning NETDEV_TX_BUSY is unsafe and
-> @@ -2151,8 +2165,12 @@ static ssize_t tun_put_user(struct tun_struct *tun,
->  static void __tun_wake_queue(struct tun_struct *tun,
->  			     struct tun_file *tfile, int consumed)
->  {
-> -	struct netdev_queue *txq = netdev_get_tx_queue(tun->dev,
-> -						tfile->queue_index);
-> +	struct netdev_queue *txq;
-> +
-> +	if (!(tun->flags & IFF_BACKPRESSURE))
-> +		return;
-> +
-> +	txq = netdev_get_tx_queue(tun->dev, tfile->queue_index);
->  
->  	/* Paired with smp_mb__after_atomic() in tun_net_xmit() */
->  	smp_mb();
-> @@ -2764,7 +2782,7 @@ static int tun_set_iff(struct net *net, struct file *file, struct ifreq *ifr)
->  	struct tun_struct *tun;
->  	struct tun_file *tfile = file->private_data;
->  	struct net_device *dev;
-> -	int err;
-> +	int err, i;
->  
->  	if (tfile->detached)
->  		return -EINVAL;
-> @@ -2893,8 +2911,12 @@ static int tun_set_iff(struct net *net, struct file *file, struct ifreq *ifr)
->  	/* Make sure persistent devices do not get stuck in
->  	 * xoff state.
->  	 */
-> -	if (netif_running(tun->dev))
-> -		netif_tx_wake_all_queues(tun->dev);
-> +	if (netif_running(tun->dev)) {
-> +		for (i = 0; i < tun->numqueues; i++) {
-> +			tfile = rtnl_dereference(tun->tfiles[i]);
-> +			tun_force_wake_queue(tun, tfile);
-> +		}
-> +	}
->  
->  	strscpy(ifr->ifr_name, tun->dev->name);
->  	return 0;
-> @@ -3693,10 +3715,7 @@ static int tun_queue_resize(struct tun_struct *tun)
->  	if (!ret) {
->  		for (i = 0; i < tun->numqueues; i++) {
->  			tfile = rtnl_dereference(tun->tfiles[i]);
-> -			spin_lock(&tfile->tx_ring.consumer_lock);
-> -			netif_wake_subqueue(tun->dev, tfile->queue_index);
-> -			tfile->cons_cnt = 0;
-> -			spin_unlock(&tfile->tx_ring.consumer_lock);
-> +			tun_force_wake_queue(tun, tfile);
->  		}
->  	}
->  
-> diff --git a/include/uapi/linux/if_tun.h b/include/uapi/linux/if_tun.h
-> index 79d53c7a1ebd..a0ddc50a7534 100644
-> --- a/include/uapi/linux/if_tun.h
-> +++ b/include/uapi/linux/if_tun.h
-> @@ -69,6 +69,10 @@
->  #define IFF_NAPI_FRAGS	0x0020
->  /* Used in TUNSETIFF to bring up tun/tap without carrier */
->  #define IFF_NO_CARRIER	0x0040
-> +/* Stop the queue instead of dropping when the internal ring is full, so an
-> + * attached qdisc applies backpressure instead of being bypassed.
-> + */
-> +#define IFF_BACKPRESSURE	0x0080
->  #define IFF_NO_PI	0x1000
->  /* This flag has no real effect */
->  #define IFF_ONE_QUEUE	0x2000
-> diff --git a/tools/include/uapi/linux/if_tun.h b/tools/include/uapi/linux/if_tun.h
-> index 2ec07de1d73b..97b670f5bc0a 100644
-> --- a/tools/include/uapi/linux/if_tun.h
-> +++ b/tools/include/uapi/linux/if_tun.h
-> @@ -67,6 +67,7 @@
->  #define IFF_TAP		0x0002
->  #define IFF_NAPI	0x0010
->  #define IFF_NAPI_FRAGS	0x0020
-> +#define IFF_BACKPRESSURE	0x0080
->  #define IFF_NO_PI	0x1000
->  /* This flag has no real effect */
->  #define IFF_ONE_QUEUE	0x2000
-> -- 
-> 2.43.0
-> 
+>  config SENSORS_ARM_SCMI
+> -	tristate "ARM SCMI Sensors"
+> +	tristate "SCMI Sensors"
+>  	depends on ARM_SCMI_PROTOCOL
+>  	depends on THERMAL || !THERMAL_OF
+>  	help
 
--- 
-Brett Sheffield (he/him)
-Librecast - Decentralising the Internet with Multicast
-https://librecast.net/
-https://blog.brettsheffield.com/
+I agree in principle, but I don't see why this would have to be done
+in a single patch. Also, both the Kconfig file (SENSORS_ARM_SCMI,
+ARM_SCMI_PROTOCOL) and the driver itself (""ARM SCMI HWMON interface
+driver") still reference ARM.
+
+Thanks,
+Guenter
