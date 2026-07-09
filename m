@@ -1,205 +1,167 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11022089.outbound.protection.outlook.com [40.107.209.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A3231AA87
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 20:16:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783628198; cv=none; b=DWLCsxmjr3vBfvtLr6KpVU8U2DGks0SDdTOOU9Y3yaVQSH7JGzggVa1PzcKHb384nnN/tiAxN8wq1O/jpGV5JUDRHZWy2w1F5am1nM+CDVUGj1QOjmHvka+GqsAgoYQMv5Du9izv7pKN/TBsFaCBoCdwJyCJWBSxdf674BdoQSI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783628198; c=relaxed/simple;
-	bh=sCIzHr6LIKs/1PVbD9pk77j9HIdph/3wuYTdeeKTPZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P151JW9zQEvKF9bh0194Ox2cMs8+vuD6lWrqkft+vU7IR+nvEN3Rjyo2wZfe8hQrdtHoA5/lTR8bGHS25GdqvR02Y9MajQ3MwhByh6S5TV5U1mHMHQ/Fdq+HAplKVim66tQplINZoGZQxAVQs7XYHJ1SlxkZi69KIVOZ1KlU87Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LN9zvlFk; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E973C3BB690;
+	Thu,  9 Jul 2026 20:31:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.89
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783629089; cv=fail; b=nGV9gpJXR6KGXRw+D4ConboE98V8ALNdeYA6yvNnHlSDHVj9UcVt8cO30/OyNL3mmbBeOd7FYROEteBBJXWaaZIMGjeT4EYw4yNZCLBPJReOtbHSdo/TEc97v62vjKX3JnZFpv99RLTgbFZ7Rd9CrQnyccdm2jPT+SPgyzE/y/U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783629089; c=relaxed/simple;
+	bh=RXH+7StCTr2wb1/D2sV6JgqxomTmuS3kWEDJthweZSQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pudvVdzxpcvM2Y09jk2bEitFSMOgKS1fR1ztqF7XFKrqOwrBL9hCBE39eZNRjz3iTdjl7UAMSdyrg5/MmC/HBAJ63nmjpgUjCv0GrDgLeTS/weO64fYuQieYc22/dWwuaPugAA85DtXYL5P/n3emsPt/fy+UekTUoPpKf01YYMY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=5p1fdGvC; arc=fail smtp.client-ip=40.107.209.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=rambus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LN9zvlFk"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c999f162c9aso140739a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 13:16:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783628196; x=1784232996; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5lqgggpghOuMWXpzCLQ94POSykk42wtAfFSu9QYNYOQ=;
-        b=LN9zvlFkNJ60YDGWzD5t5/FnefwlQj/dAbo9V+cQWsHkPlFO7hDf6p0kZGTE/2zUio
-         haoA9bklwDqJOjIuCR5t5PrIR/XAVUrQCSewkXhcHAXy4EHVf0kv8Tl//IXrbdRvUGHb
-         Q7lsKPgqWR43GHo94vo7eWFLbRZcxwu8K+0AaMXNGeGQ+HAvimtWMwGqparl6d61AASS
-         oyLNl0SDwcfk4YVN4oGnyhQgIZMbxyBYgoQQOsSqjAnn8jc4gBc+iwivr28ZVABM9H/W
-         79aH5cXFcsPw//FRg3np6kClZPiLsXZGQNaIgJiydjjF4PCAQ7x3P+SpReD6mMHRHR45
-         120g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783628196; x=1784232996;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5lqgggpghOuMWXpzCLQ94POSykk42wtAfFSu9QYNYOQ=;
-        b=BvSQXMN3fsQReEbhR7nq6ALJQo6RBYE+TVukGp6mm1YgvhG+SN6xHGWcSP8egQO/cx
-         omaW3I/71CvuvoTn5ESJTB5Ko7goaCfKraZ0SNbRerWQLhlyAUsdpUNcMqtUSCZR06lm
-         G/QcxRhIZVOkwWhopXuotvTJ1PpqPWRn3RoP5+Phc1TWCRXkQzzFTVFhwBr4kvnixjBb
-         EGX3kyTDg6rSFWuqpuSXy/yv68F4lcRxKTSkGXG06yGfsHJi96QpFpeJ4c8W3aBYm499
-         GjjkDZIq43sCsBi/x2tPwa4no+kGGhFQeIS8OQYh3dGO9D+SWileH80jBEMyqfFzmUXq
-         xR1g==
-X-Forwarded-Encrypted: i=1; AHgh+RpMsKZCCcHYck1DzoCgR+2SkBow5QBVJ6R5X61Jj6un6XxBl1IeJaRV//Ds3oQe6Ns1Ww9yX1xj1UE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxglqTzRq2r1Xs/1vl9WQo5pp4RplUAmH0ghfTI2bBCOgmn+W9e
-	e4W0/xfhPHRxukgJLNeI3C1NED0dGVzm8d8UoMhqCN2Xed3EQC9HW8A7
-X-Gm-Gg: AfdE7ckPyGsgGZpI0dIhcnQCP7JnWarOR3BavJ8JRvMKfMk8/Zj1aKe1X5P47SHjjPX
-	9otBCDJLns3O5qgQFxmV7HtD3MVAMCtnU3oc9xKYIpkQEDpxBJ2Z7wDqVTkEpJdi0YZjjdBK/4o
-	UuKAeE65kbm5LmYOM3UwQpUz/Gj09JJ8Uz0iRyuolujXIL/RmqvGVpQURtTv0cSCgbqvGY/kLFt
-	dxCyhyHgAtm1okWtB6llZB/8wt57mA9C4ue5nsis4e+i9iMrUBw3D9VjvpIPrUFOBurxF5nTeix
-	0uekZPBDi1pcEDKHCR/faWNqDhJNLpcYQkm0BlDF9UG5oTLnGeQClL3X7u06xPq9owO3CGyEhJq
-	nLCU7lEdv5NZDchJC2eL5bNoXcli39lJ6ry0G982XgXZwzwUqBYHLJ3qj75KN5eDOcz+KFNFscc
-	vY+yUQVtn/so+unwE6/gMQyHetEcCdCjLRwJcQD4pUy2/Uu3qzXQWuSTUt8MGQ
-X-Received: by 2002:a05:6a20:12d0:b0:3b1:882a:607b with SMTP id adf61e73a8af0-3c0bc95630amr10563387637.22.1783628195005;
-        Thu, 09 Jul 2026 13:16:35 -0700 (PDT)
-Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com ([106.51.160.236])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174a583bcsm38446663eec.19.2026.07.09.13.16.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 13:16:34 -0700 (PDT)
-Date: Fri, 10 Jul 2026 01:46:15 +0530
-From: Mukesh Kumar Chaurasiya <mkchauras@gmail.com>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Shrikanth Hegde <sshegde@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Kees Cook <kees@kernel.org>, 
-	Huacai Chen <chenhuacai@kernel.org>, loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, 
-	Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org, x86@kernel.org, 
-	Mark Rutland <mark.rutland@arm.com>, Jinjie Ruan <ruanjinjie@huawei.com>, 
-	Andy Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Richard Henderson <richard.henderson@linaro.org>, Russell King <linux@armlinux.org.uk>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Guo Ren <guoren@kernel.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Helge Deller <deller@gmx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
-	Richard Weinberger <richard@nod.at>, Chris Zankel <chris@zankel.net>, 
-	linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org, linux-csky@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linux-sh@vger.kernel.org, linux-um@lists.infradead.org, Arnd Bergmann <arnd@arndb.de>, 
-	Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>, 
-	Michal Simek <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
-	linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org, linux-openrisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-arch@vger.kernel.org, 
-	Michal =?utf-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [patch 03/18] entry: Provide
- [syscall_]enter_from_user_mode_randomize_stack()
-Message-ID: <alABgaW3OpGvH_Oc@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
-References: <20260707181957.433213175@kernel.org>
- <20260707190253.816918647@kernel.org>
+	dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b="5p1fdGvC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LG9AHbfbP6kitddVFbAGelgYLTUjF6pVNOUgO2NBzYDn1gZrpyqgOpy10AR+pBcxHl/FmdaG95GXtfkqF2IRqulyVVHWur1RgxRUHkaIdp6RCXu4rRqgGTf++fg+Xg1ug7E2QlB3huDawNeF02xQhjB6+DDAQhtQGinfOsCEl/UwFQ9dxmaWR79AOsSYUnK9bBIkRrau06JGllOa0bSMhZALERLj/5y6QcH2n5Xsve0l+cdA8/OEnJ5WwEEunk/+h/SpDwRcHyz3yJb7g0in+/CtyK2KGFEvTn44dyNLkvn0dzFWdeRN0w0U3vWOZQXvFqt+d42gIXDHyOatJE81aw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N2Gvlj7CPrvOIDQ5v7xoQ92Y6S2eisSDD4WdQ+mG380=;
+ b=YY7PDA8jT9REo9rStfMWtGJSo35J2hO+mXrWPLlxQhFHLmr/l+sGfNydiyEDAe7qRFDVdSIj8h2auXhPOoMLVBW8gEauWIHfny19+wt+SPfGJsm8FaKjyWr3aXeR3bM6rXsL4VAZHYh69Tbk16TnB+eUBDW+c4imzYvOS9/Of+THhL2j7cNG0fMlZvp6kEvNQ/ClAna3ifwhtY/TRVl3O+A7FtNBDqdezgqOyzBHT3/+EJrBh1pAj8MwaNoTPKloDwBTw8Gfq1mF/PHZj2/e0RNT8f1rGE5WzoHO24aBlVCfYs5OCfGOUXJ1GaIUFI4qsuIXo/gCTUT2j7bWODGsVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.86.86.210) smtp.rcpttodomain=cryptography.com smtp.mailfrom=rambus.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=rambus.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rambus.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N2Gvlj7CPrvOIDQ5v7xoQ92Y6S2eisSDD4WdQ+mG380=;
+ b=5p1fdGvCgQzlenrQkWz+Jggh/ijxw0yAXOd297hFGLrp0OjI8v3ehkZ9h3g8lVUjX9vhhr2mJDNIoryA2nRaSmNlkbZWhYvC8lSIY0lM6b/LPa+MiNDKPlP1BR1qEjeyjaivputltDJmEAKNHeuQNs3T4zE8rvrhrf03ABRGelyux625X2JcW6mrmxiINuctszZrFxauOicrYEF3YFVEAVFKA529VXjNz66uuKJcxNifyBFJk0PoAcQfk7+7KI2pPpjYlTN/C5UcFASml60CrbgEipzPVGhVUtABiasfCH4JhULuAjgrIWXchiGWelW4SpOT7a4Dt05/x3woxYLR8w==
+Received: from SJ0PR13CA0068.namprd13.prod.outlook.com (2603:10b6:a03:2c4::13)
+ by SA6PR04MB9143.namprd04.prod.outlook.com (2603:10b6:806:40e::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Thu, 9 Jul
+ 2026 20:31:24 +0000
+Received: from CO1PEPF000075F1.namprd03.prod.outlook.com
+ (2603:10b6:a03:2c4:cafe::b7) by SJ0PR13CA0068.outlook.office365.com
+ (2603:10b6:a03:2c4::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.223.5 via Frontend Transport; Thu, 9
+ Jul 2026 20:31:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.86.86.210)
+ smtp.mailfrom=rambus.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=rambus.com;
+Received-SPF: Pass (protection.outlook.com: domain of rambus.com designates
+ 192.86.86.210 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.86.86.210; helo=hqxsv-psmtppxy02.rambus.com; pr=C
+Received: from hqxsv-psmtppxy02.rambus.com (192.86.86.210) by
+ CO1PEPF000075F1.mail.protection.outlook.com (10.167.249.40) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.6
+ via Frontend Transport; Thu, 9 Jul 2026 20:31:23 +0000
+Received: from hqxsv-cmdev3-skrishnamoorthy.rambus.com (hqn-lb-int-float.rambus.com [10.12.20.20])
+	by hqxsv-psmtppxy02.rambus.com (Postfix) with ESMTPS id 9026E180177F;
+	Thu,  9 Jul 2026 20:31:21 +0000 (UTC)
+From: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
+To: Albert Ou <aou@eecs.berkeley.edu>,
+	Alex Ousherovitch <aousherovitch@rambus.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <pjw@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>,
+	Shuah Khan <shuah@kernel.org>
+Cc: Alexandre Ghiti <alex@ghiti.fr>,
+	devicetree@vger.kernel.org,
+	Joel Wittenauer <Joel.Wittenauer@cryptography.com>,
+	linux-api@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thi Nguyen <thin@rambus.com>
+Subject: [PATCH v2 19/19] MAINTAINERS: add Rambus CryptoManager Hub (CMH)
+Date: Thu,  9 Jul 2026 13:30:37 -0700
+Message-ID: <20260709203037.1884436-20-skrishnamoorthy@rambus.com>
+X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20260709203037.1884436-1-skrishnamoorthy@rambus.com>
+References: <20260709203037.1884436-1-skrishnamoorthy@rambus.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260707190253.816918647@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000075F1:EE_|SA6PR04MB9143:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 60c4a879-840a-4e3d-252a-08deddf90b64
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700016|7416014|376014|23010399003|82310400026|921020|18002099003|22082099003|11063799006|56012099006|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	/IVrSLm3X8irf3XyZI2ITGDZe0PIDTPWVxMMvz1NEf5y6tQpkra/8yKLwXSUFp7WD6P0qV2JfuljUOrwCFWY78sn5UgulRNl7cmI7IjkMXTrZE3e3jZ1JEy8JQBjDyf+QdQfIUvrAYwiEypmjOJsV+btETtf6lZuxQ1VIVJJcvy/Gc5gkaRWlTLgcAwy0UDTs77BP4JRavQQz1qoVe42QXmRGHGvxylmOggs23nwFtK9IpGKQjoFeBNQjbRtxXXQ5+4i+e0eIZSmtEtJVBPEI9n2Zw4cvrdp4RbsLZqX/GdAId5tqwOwpgcMZD0bp9o8wcAKYeXkM81l8O4kN7SMixVM34iDx1nhk8AftxAA9WavBQKKh0Y6yl2xnsO35G4rQoO3yGD0rzAn/lCshiDrS5qKc1ZXKyCC/dVFbVmi8vH3kPEvETMjAQVUJTChXpW5B7VAWYMAk1QGjU0H8DeQ/w9H4xzbMntbPoVUXl56JGENy9s5Bb84AMHPv7X4IczCR1HFCQ9eVxS0jvJs91N2svq0pkPs1BJ9fHs7wWArF+fFn/p1DkpHWEsAHiRr2LwOEBW9O9K5t12RRldr7bZVCVqAobwcU40RRZhxih9tYT08vmgZQZP30erXqKcOEmeZ6DsUMXOkpiXDQNjimEwNXO1r0Z1KyzwFIBy8ejUcsRJ6evtMTR93jS+1X4kNN6Ud2Jjv4tz8p4JyPd6ngIA4pCYcReNq+dSSNVyNvP2o2WH554i7GAPs1j6bwoE0GVqR
+X-Forefront-Antispam-Report:
+	CIP:192.86.86.210;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hqxsv-psmtppxy02.rambus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(7416014)(376014)(23010399003)(82310400026)(921020)(18002099003)(22082099003)(11063799006)(56012099006)(6133799003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	pVzAx6S+dfqiGP25jAsTqStgY6OnMq/1DOrmNefST9qYWcHDJV23aYu6yfiHZ7wL+7aoNp6E01nslYPLzq2e+ZN7+LD1ehzoAoReuPC8X1lrNs3Uagldu6uovEE3P4+znbbMQaBxLjrx9OPYyuDPso7aPPinMbECtNn5QRLzg+dzbdxSjQskB1MBZ78tIupCWr/7vP5T1M3S5F+1u6Z5eNwI2zT0mby0mPY5MIVtvHlOOFqB3Tslae4Ho9miJ/ggGFvqn+bAZ/wmCf1yhR/2T96StxXQ5Beu0xnY1DrWzdcn67G/r/zjbtSvu+VPDgM22BDFri6NCI+xwzIcsxrTLhbM6JozDVMKKxPQ/tW1PPYMroScgL++EYKKwa3bkSIQrO7Gh8HmXRPVvP/+kWCATbJSS7a2EZCHzUU20rMh6Bneebq5sq+/pMkEyU/SKSuM
+X-OriginatorOrg: rambus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 20:31:23.9998
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60c4a879-840a-4e3d-252a-08deddf90b64
+X-MS-Exchange-CrossTenant-Id: bd0ba799-c2b9-413c-9c56-5d1731c4827c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bd0ba799-c2b9-413c-9c56-5d1731c4827c;Ip=[192.86.86.210];Helo=[hqxsv-psmtppxy02.rambus.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000075F1.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA6PR04MB9143
 
-On Tue, Jul 07, 2026 at 09:06:07PM +0200, Thomas Gleixner wrote:
-> Randomizing the syscall stack can only happen after state is established
-> via enter_from_user_mode() or syscall_enter_from_user_mode(). The earlier
-> it happens the better.
-> 
-> Provide two new macros to consolidate that:
-> 
->   - enter_from_user_mode_randomize_stack()
-> 	enter_from_user_mode();
-> 	add_random_kstack_offset_irqsoff();
-> 
->   - syscall_enter_from_user_mode_randomize_stack()
-> 	enter_from_user_mode_randomize_stack();
-> 	syscall_enter_from_user_mode_work();
->     
-> to reduce boiler plate code.
-> 
-> Those are macros and not inline functions as the latter would limit the
-> stack randomization scope to the inline function itself.
-> 
-> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
-> ---
->  include/linux/entry-common.h |   56 +++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
-> 
-> --- a/include/linux/entry-common.h
-> +++ b/include/linux/entry-common.h
-> @@ -6,6 +6,7 @@
->  #include <linux/irq-entry-common.h>
->  #include <linux/livepatch.h>
->  #include <linux/ptrace.h>
-> +#include <linux/randomize_kstack.h>
->  #include <linux/resume_user_mode.h>
->  #include <linux/seccomp.h>
->  #include <linux/sched.h>
-> @@ -150,6 +151,61 @@ static __always_inline long syscall_ente
->  }
->  
->  /**
-> + * enter_from_user_mode_randomize_stack - Establish state and add stack randomization
-> + *					  before invoking syscall_enter_from_user_mode_work()
-> + * @regs:	Pointer to currents pt_regs
-> + *
-> + * Invoked from architecture specific syscall entry code with interrupts
-> + * disabled. The calling code has to be non-instrumentable. When the function
-> + * returns all state is correct, interrupts are still disabled and the
-> + * subsequent functions can be instrumented.
-> + *
-> + * Implemented as a macro so that the stack randomization is effective
-> + * throughout the function in which it is invoked. An inline would only make it
-> + * effective in the scope of the inline function.
-> + */
-> +#define enter_from_user_mode_randomize_stack(regs)			\
-> +do {									\
-> +	enter_from_user_mode(regs);					\
-> +	instrumentation_begin();					\
-> +	add_random_kstack_offset_irqsoff();				\
-> +	instrumentation_end();						\
-> +} while (0)
-> +
-> +/**
-> + * syscall_enter_from_user_mode_randomize_stack - Establish state and check and handle work
-> + *						  before invoking a syscall
-> + * @regs:	Pointer to currents pt_regs
-> + * @syscall:	The syscall number
-> + *
-> + * Invoked from architecture specific syscall entry code with interrupts
-> + * disabled. The calling code has to be non-instrumentable. When the
-> + * function returns all state is correct, interrupts are enabled and the
-> + * subsequent functions can be instrumented.
-> + *
-> + * This is the combination of enter_from_user_mode_randomize_stack() and
-> + * syscall_enter_from_user_mode_work() to be used when there is no
-> + * architecture specific work to be done between the two.
-> + *
-> + * Returns: The original or a modified syscall number. See
-> + * syscall_enter_from_user_mode_work() for further explanation.
-> + *
-> + * Implemented as a macro to make stack randomization effective in the calling
-> + * scope.
-> + */
-> +#define syscall_enter_from_user_mode_randomize_stack(regs, syscall)	\
-> +({									\
-> +	enter_from_user_mode_randomize_stack(regs);			\
-> +									\
-> +	instrumentation_begin();					\
-> +	local_irq_enable();						\
-> +	long _ret = syscall_enter_from_user_mode_work(regs, syscall);	\
-> +	instrumentation_end();						\
-> +									\
-> +	_ret;								\
-> +})
-> +
-> +/**
->   * syscall_enter_from_user_mode - Establish state and check and handle work
->   *				  before invoking a syscall
->   * @regs:	Pointer to currents pt_regs
-> 
-Reviewed-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
-> 
-> _______________________________________________
-> linux-snps-arc mailing list
-> linux-snps-arc@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+From: Alex Ousherovitch <aousherovitch@rambus.com>
+
+Add MAINTAINERS entry for the CRI CryptoManager Hub (CMH) hardware
+crypto accelerator driver under drivers/crypto/cmh/.
+
+Co-developed-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
+Signed-off-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
+Signed-off-by: Alex Ousherovitch <aousherovitch@rambus.com>
+Reviewed-by: Joel Wittenauer <Joel.Wittenauer@cryptography.com>
+Reviewed-by: Thi Nguyen <thin@rambus.com>
+---
+ MAINTAINERS | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d1dbf2f07104..1c153a84f70f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6891,6 +6891,23 @@ F:	kernel/cred.c
+ F:	rust/kernel/cred.rs
+ F:	Documentation/security/credentials.rst
+ 
++CRI CRYPTOMANAGER HUB (CMH) HARDWARE CRYPTO ACCELERATOR
++M:	Alex Ousherovitch <aousherovitch@rambus.com>
++M:	Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
++R:	Joel Wittenauer <Joel.Wittenauer@cryptography.com>
++R:	Thi Nguyen <thin@rambus.com>
++L:	linux-crypto@vger.kernel.org
++S:	Maintained
++F:	Documentation/ABI/testing/cmh-mgmt
++F:	Documentation/ABI/testing/debugfs-driver-cmh
++F:	Documentation/ABI/testing/sysfs-driver-cmh
++F:	Documentation/crypto/device_drivers/cmh.rst
++F:	Documentation/devicetree/bindings/crypto/cri,cmh.yaml
++F:	Documentation/userspace-api/ioctl/cmh_mgmt.rst
++F:	drivers/crypto/cmh/
++F:	include/uapi/linux/cmh_mgmt_ioctl.h
++F:	tools/testing/selftests/drivers/crypto/cmh/
++
+ INTEL CRPS COMMON REDUNDANT PSU DRIVER
+ M:	Ninad Palsule <ninad@linux.ibm.com>
+ L:	linux-hwmon@vger.kernel.org
+-- 
+2.43.7
+
