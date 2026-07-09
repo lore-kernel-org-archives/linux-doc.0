@@ -1,238 +1,214 @@
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DED9279903
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 13:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8688287E
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2026 13:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783602743; cv=none; b=i0k9Z+reNBOGNeQMhkHzJKxP6c+/hLPdtddRa4Mdpczfy9fvMWp6qQ9Uzk3t82avipJWznHi4kig2fI9fpt3W+7+ZoMjlIek3SGh0Yshsw/tdnxBrZ8m12+f/BimUqYI8qOa1EHlu3hwCkLkD4yg8dfVtqHHaNNG0PQNvQU/xp8=
+	t=1783603501; cv=none; b=tAGo5AqYVR5GcFPjPnJDzDpD82WsYLjvVWE10yZ2dS8RSUGfuqL6dMF/I3od3/NR5RbNFqbwEUe1FJK9SxHdhZc0CpOMG1tcmuFC/Ipu/4R1QQUXtn+ZsjbGAZbXLFAypjvyg8ZNT1uvjdgJyHcVgDzP5M/h2+G4esknXcvKVXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783602743; c=relaxed/simple;
-	bh=xW808fuPPWsltOQ2b7g49MQqOmp4eBJWZLNHomx9uzI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=P9hrGG7Yq18qdXgJITI5YiBNxXSjsgw2JowmR6Vpk+wwovAQLiSC/36LmYMCiEX+nMokofoonJpLP7xnzYl8NYCLC0cnBL5u0GARqBP0IHI481WkGpLGavzc31MXRJFBo7O+Sm6xarw43PQLULNqAkc8IrCtCfl+Iqq69mgQryI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sC0rjWiS; arc=none smtp.client-ip=74.125.224.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783603501; c=relaxed/simple;
+	bh=7ISU5xPOy74bICjanRZFVU/MoFoShesRb4zQUg2TqBY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C7wlv5qKFZG8jVXsi/TsgQKkGRrynHkxfWhS9hifVGuIgApNGq5CJ2OtZ8hl9wXElltqkDsnykZnz6/Jc7ETZQKFPC9rNMCds2dWbVudjUyzEBRLdM/hllfzI0nHacM4V68cMlQH6/VrQWFq3rfCBQKlOWXsTA9yVZShLX2pWEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Wzua9qWw; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sC0rjWiS"
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-6651bc5730dso2823441d50.2
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 06:12:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Wzua9qWw"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4703bc0a99aso1122854f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 06:24:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783602738; x=1784207538; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+        d=suse.com; s=google; t=1783603498; x=1784208298; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=BOha3PyFvY0LqRGYAsh8D3QLL9jBKYEJb2OG4/6I7eI=;
-        b=sC0rjWiSkACC27Ij2nzz/V4Qd/xSbsJiyqLXmSiZw2XNYyMX6IW5Wx/APClVivOXsk
-         fwllQkw1dXshVD080p1famTf5tllkgNahaeMIsJw2zu0p4L5rcCKPxNBLedg8PQqJdA0
-         nOJqCKEhRPmCgiBkFDM6u1vSQhNatUTAY2W+hhOj8yL8dovyV73pCj5/or+A9SutEp+O
-         bL4+A2Lg4cSvhN4G/l4AS/pRQRrCVqjWcUpwA/yd9x+zsycS8k1KZs/5bU5hAEaJDelI
-         1Ltjuj1oafQikHgist4op6QOirp+bosV/v912f/RDUMEyqDAVjF22FbB15Xht4To0NfO
-         JIHw==
+        bh=X+2+l0R7RX9cCzxaoR4qreoVsEJbp9qB9SwPbos71OM=;
+        b=Wzua9qWwbN16wpcMUQD2HQzqjaIDt6s5Xiotl7GUM94PxCcWlXR4WcgNkvzvyR9DIw
+         hBSyh/HJq7PwgDGmo/yy/Mvfoty27OK7ID/UU+ZnthIiD5GWAFLBy08oRXOeiMiQPbJb
+         OSriVOtOJB6Aw/BO9ERxVhefDLYl2A0tXehA08EaZYT9NLREIBQQJMVQvm7f8ZqRf+jS
+         j0frJ8WDFLUS8d13Vov48HJF0Hvr8Bv/kx3hKo16I+L6ke/ZLQjcPCkicGV0JiKerxWL
+         hiVVKxlyudOBr2gcfKTV+72TpMSBrQdoSsTWD2fFF2O6oU+o9M11FoEpVIHzZ/aC8SoQ
+         4Sww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783602738; x=1784207538;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BOha3PyFvY0LqRGYAsh8D3QLL9jBKYEJb2OG4/6I7eI=;
-        b=kOhg6pIhWWQcbmxFUWgim+fwj95P4stzL/plzLx0+XMW5sa4YMvXN2HuLw3KTrmoSB
-         Q9ssI8sWG03LCdddHHK7kS4byf78hPuR0MBzWK7VD/kCCEMPvLp6DroHbvJmiSBowvkr
-         mHZYXvkPvv3rZhD16PxqGcAw1wtEIS1+XXtDC95g+KvKsaQ7oijIphaCOv/MWKNGXCvn
-         lWkjjKkSDRoDJZyoVbKlzL0ha5YFEtlnoDb3f01azuaqQrOG8eNtfophf7yrSz55PV9G
-         vkVotfyfxaIx3VqC+x6riEukpjy6uGU1E/BRpAXss6ZRvzT6+QhuM9y4DsSu/PfXJZxQ
-         U2Kg==
-X-Gm-Message-State: AOJu0YxLqXEWOnHMUYMVdg26VzA4rk4cRMh0IQ5pYuWaycdbDV/DKOng
-	9N7lfuOjbf5uNMPwjHmae0qlP8BfMnxu5hV1EV1jypZDYpcjabY5OaHa
-X-Gm-Gg: AfdE7clUzL45bOPPz6j6zTvBJ/rZcoslMLsXf94PEWBTkIXwSGCq1lCLJnsi/GWLiRC
-	xlPU1IZ9W1Ezd/oREzjfYvNrI8GD1g45QdA36oq6LDs5Gl5KGkXAL7+FJngXNLTakkpvvsVx70V
-	Q+cC4gTGJaHNwyBwjT4bJo0irkbCcuGlFzgMOBwZNQHClk95QjKlil57SaO1nTvQPK98IHZ3+Dd
-	2qm/5v4Yh76687kuPDAlIctLE2+BMN9RRrgSDc13WoJjdQWPpX3gFVmqvK2U9aZ8YfsHB9bcKSk
-	dd7CTti6syFt3QRQ4NOh4A6cW/2OAniCMCvc3hoLZJ8WSxj19OQIWZ9+7g4nyyZIgJIn8WdjrGN
-	WM+WAeUdzJbYoJPT3ReyX8m0MsHf3V72JLsMgJ4yL0c7IoIWcKiK3DZdz0ryDOq9NvSyB33kMJT
-	iwLFXP26Nnz2nGLpo=
-X-Received: by 2002:a05:690e:d08:b0:667:902c:db76 with SMTP id 956f58d0204a3-6679f140a3fmr5043392d50.64.1783602737510;
-        Thu, 09 Jul 2026 06:12:17 -0700 (PDT)
-Received: from x-wing ([2804:7f0:7c80:39ba:e431:f4cb:6514:a2c2])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6c1a439asm16906497b3.27.2026.07.09.06.12.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 06:12:16 -0700 (PDT)
-From: Fabio Pereira da Silva <silvapfabio@gmail.com>
-To: Daniel Pereira <danielmaraboo@gmail.com>
-Cc: linux-doc@vger.kernel.org
-Subject: [PATCH v2] docs: pt_BR: process: Translate CVE documentation
-Date: Thu,  9 Jul 2026 10:12:12 -0300
-Message-ID: <20260709131213.1216-1-silvapfabio@gmail.com>
-X-Mailer: git-send-email 2.55.0.windows.2
+        d=1e100.net; s=20251104; t=1783603498; x=1784208298;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=X+2+l0R7RX9cCzxaoR4qreoVsEJbp9qB9SwPbos71OM=;
+        b=Farb41t40JeQTUdD5CmEIs986ZZ/dLhgQPva3Xng9w+dc6KM5gPT5ohdSJpiFrkH8L
+         8AWgM+Jyw0roYBSRPDVCUvxPsn01qGOAiY33JsP+3JQrmKd5UA6p/99dYnV01zBhJb/k
+         awXd6tXESkPw16eBM/TM9+P2RvI3b4mz4DAirQTAH21i1oAxsA2kpNNGatEEEro92lzK
+         nEJkmoT1qnjV3Ixcs5+B9YDeY8zxMouIp8VmmwUmb75YoLZGUE8RYYseDu7itO3B6pvf
+         c6iO+4ythL5rFaj+TEJMz8TqPCX25+rCK0NTIjSDeIvcLa7SEMyFvO156pff/OIoAW7k
+         nhcg==
+X-Forwarded-Encrypted: i=1; AHgh+Rr65KSIYksoCdbdituOHwqoiJs974AtT0ZmfAU5ZIioabsV5sd315nkJ1Ox4FthiiJVi/VuiEtIdnQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytMNW6XuOm7H64s5l9zNhk4z8AZbm8zOzCIMAIRXPAUBcl2QT/
+	pjkhBvB56yhN7TXMgMdSnj594pwqbDu7iRCig1qKvlpDFFAIj03E0SfwPg82m09HBYM=
+X-Gm-Gg: AfdE7cmmqf1cFwH/gK2cS5wFjkVg8E70GcrMXT25yL8ja78Ru1ipRx9xL9ZmPUTzIwK
+	vQ9zF4sV5OE8/E2X+7L0QF1ROdbwzMbbtr7/MDMUx9rxXpdxzuVrZAjJIQUlVGpggh+La0P5sTn
+	PNaCh56J3eSp5bxVTgSxKLpc8w07UvGsLtKF5gds24ZlSucOhDIULGlYzX8uMz18j2EjL69Z42t
+	oXJOd2GwTdOqzlOg8M3ohmKF2DWAcTDPzk32qp7Z5rOMaD35eXyk9mhY9pCUpPz7/xxAfDzPZky
+	/TAMBUTDeuMGL400qYZz0G2Gcr1imHvqQAenNSkTaJDOct2aO2++6Z4AOArdbWWsag4xZuaXagC
+	hDFo3S+hA1hH98nGavxt3oEcNzcRYKDd4u0S0gzAePrYPTN1euAxwuzBUrvJf+xeQYJ79Zwyxm0
+	2AwQBM9VAYjqFkxzWtX6LRYF9JlvtXVbXfO3Bn+AM0FTzC
+X-Received: by 2002:a05:6000:2013:b0:46e:624e:3c2f with SMTP id ffacd0b85a97d-47df077b2e6mr7512557f8f.47.1783603497728;
+        Thu, 09 Jul 2026 06:24:57 -0700 (PDT)
+Received: from [192.168.42.79] (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0a55be4sm47212857f8f.31.2026.07.09.06.24.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jul 2026 06:24:57 -0700 (PDT)
+Message-ID: <84ded2aa-397f-465b-b2e5-d2fa31fc807d@suse.com>
+Date: Thu, 9 Jul 2026 15:24:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 26/26] meminspect: Add debug kinfo compatible driver
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Cc: akpm@linux-foundation.org, anna-maria@linutronix.de, arnd@arndb.de,
+ andersson@kernel.org, chrisl@kernel.org, cl@gentwo.org, conor+dt@kernel.org,
+ david@kernel.org, dennis@kernel.org, devicetree@vger.kernel.org,
+ ehristev@kernel.org, frederic@kernel.org, mingo@redhat.com,
+ jstultz@google.com, corbet@lwn.net, juri.lelli@redhat.com,
+ kasong@tencent.com, kees@kernel.org, konradybcio@kernel.org,
+ krzk+dt@kernel.org, linux-arch@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-remoteproc@vger.kernel.org, mathieu.poirier@linaro.org,
+ peterz@infradead.org, pmladek@suse.com, robh@kernel.org,
+ saravanak@kernel.org, tj@kernel.org, tglx@kernel.org,
+ vincent.guittot@linaro.org, workflows@vger.kernel.org, atomlin@atomlin.com,
+ ast@kernel.org, aliceryhl@google.com, linux.amoon@gmail.com,
+ ardb@kernel.org, baoquan.he@linux.dev, baohua@kernel.org,
+ bsegall@google.com, jackmanb@google.com, leitao@debian.org,
+ brauner@kernel.org, coxu@redhat.com, dietmar.eggemann@arm.com,
+ dianders@chromium.org, ebiggers@kernel.org, feng.tang@linux.alibaba.com,
+ yangfeng@kylinos.cn, gary@garyguo.net, guohanjun@huawei.com, jack@suse.cz,
+ wangjinchao600@gmail.com, joel.granados@kernel.org, hannes@cmpxchg.org,
+ john.ogness@linutronix.de, jpoimboe@kernel.org, shikemeng@huaweicloud.com,
+ kas@kernel.org, kprateek.nayak@amd.com, liam@infradead.org, ljs@kernel.org,
+ elver@google.com, mgorman@suse.de, mhocko@suse.com, ojeda@kernel.org,
+ rppt@kernel.org, namcao@linutronix.de, nathan@kernel.org, nphamcs@gmail.com,
+ n.schier@fritz.com, pasha.tatashin@soleen.com, pnina.feder@mobileye.com,
+ rdunlap@infradead.org, rioo.tsukatsukii@gmail.com, senozhatsky@chromium.org,
+ skhan@linuxfoundation.org, sboyd@kernel.org, rostedt@goodmis.org,
+ surenb@google.com, thomas.weissschuh@linutronix.de, vschneid@redhat.com,
+ vbabka@kernel.org, youngjun.park@lge.com, zhengyejian@huaweicloud.com,
+ ziy@nvidia.com, Eugen Hristev <eugen.hristev@linaro.org>
+References: <20260708-meminspect-v3-v3-0-7aa5a0a74d5c@oss.qualcomm.com>
+ <20260708070809.2660886-1-mukesh.ojha@oss.qualcomm.com>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20260708070809.2660886-1-mukesh.ojha@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Translate Documentation/process/cve.rst into Brazilian Portuguese and
-link it from the pt_BR documentation index.
+On 7/8/26 9:08 AM, Mukesh Ojha wrote:
+> From: Eugen Hristev <eugen.hristev@linaro.org>
+> 
+> With this driver, the registered regions are copied to a shared memory
+> zone at register time. The shared memory zone is supplied via OF. This
+> driver will select only regions that are of interest, and keep only
+> addresses. The format of the list is Kinfo compatible, with devices like
+> Google Pixel phone. The firmware is only interested in some symbols'
+> addresses.
+> 
+> Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> ---
+[...]
+> diff --git a/kernel/meminspect/kinfo.c b/kernel/meminspect/kinfo.c
+> new file mode 100644
+> index 000000000000..7451c13bc316
+> --- /dev/null
+> +++ b/kernel/meminspect/kinfo.c
+> @@ -0,0 +1,257 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + *
+> + * Copyright 2002 Rusty Russell <rusty@rustcorp.com.au> IBM Corporation
+> + * Copyright 2021 Google LLC
+> + * Copyright 2025 Linaro Ltd. Eugen Hristev <eugen.hristev@linaro.org>
+> + */
+> +#include <linux/container_of.h>
+> +#include <linux/kallsyms.h>
+> +#include <linux/meminspect.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_reserved_mem.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/utsname.h>
+> +
+> +#define BUILD_INFO_LEN		256
+> +#define DEBUG_KINFO_MAGIC	0xcceeddff
+> +
+> +/*
+> + * Header structure must be byte-packed, since the table is provided to
+> + * bootloader.
+> + */
+> +struct kernel_info {
+> +	/* For kallsyms */
+> +	u8 enabled_all;
+> +	u8 enabled_base_relative;
+> +	u8 enabled_absolute_percpu;
+> +	u8 enabled_cfi_clang;
+> +	u32 num_syms;
+> +	u16 name_len;
+> +	u16 bit_per_long;
+> +	u16 module_name_len;
+> +	u16 symbol_len;
+> +	u64 _relative_pa;
+> +	u64 _text_pa;
+> +	u64 _stext_pa;
+> +	u64 _etext_pa;
+> +	u64 _sinittext_pa;
+> +	u64 _einittext_pa;
+> +	u64 _end_pa;
+> +	u64 _offsets_pa;
+> +	u64 _names_pa;
+> +	u64 _token_table_pa;
+> +	u64 _token_index_pa;
+> +	u64 _markers_pa;
+> +	u64 _seqs_of_names_pa;
+> +
+> +	/* For frame pointer */
+> +	u32 thread_size;
+> +
+> +	/* For virt_to_phys */
+> +	u64 swapper_pg_dir_pa;
+> +
+> +	/* For linux banner */
+> +	u8 last_uts_release[__NEW_UTS_LEN];
+> +
+> +	/* For module kallsyms */
+> +	u32 enabled_modules_tree_lookup;
+> +	u32 mod_mem_offset;
+> +	u32 mod_kallsyms_offset;
+> +} __packed;
 
-Changes in v2:
-- replace "conhecimento especializado" with "conhecimento técnico"
-- change "atribuído contra o kernel Linux" to "atribuído ao kernel Linux"
-- reduce repetition in the applicability paragraph
-- replace "árvore de fontes" with "árvore de códigos-fonte"
-- replace "grandes números" with "grandes quantidades"
-- remove the repeated "qualquer" wording in the same paragraph
+Is this kinfo format documented anywhere? I was only able to find
+a reference to the equivalent downstream Android driver [1] in the cover
+letter. However, I don't quite understand what it is or what the
+associated bootloader component does with this information. In
+particular, I'm unclear about the purpose of the following
+module-related fields:
 
-Signed-off-by: Fabio Pereira da Silva <silvapfabio@gmail.com>
----
- Documentation/translations/pt_BR/index.rst    |   1 +
- .../translations/pt_BR/process/cve.rst        | 125 ++++++++++++++++++
- 2 files changed, 126 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/cve.rst
+module_name_len
+enabled_modules_tree_lookup
+mod_mem_offset
+mod_kallsyms_offset
 
-diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index 76936710b06e..dcc238a5ecfe 100644
---- a/Documentation/translations/pt_BR/index.rst
-+++ b/Documentation/translations/pt_BR/index.rst
-@@ -71,6 +71,7 @@ kernel e sobre como ver seu trabalho integrado.
-    Regras de licenciamento <process/license-rules>
-    Como começar <process/howto>
-    Requisitos mínimos <process/changes>
-+   CVEs <process/cve>
-    Conclave (Continuidade do projeto) <process/conclave>
-    Manuais dos mantenedores <process/maintainer-handbooks>
-    Processo do subsistema de rede (netdev) <process/maintainer-netdev>
-diff --git a/Documentation/translations/pt_BR/process/cve.rst b/Documentation/translations/pt_BR/process/cve.rst
-new file mode 100644
-index 000000000000..3612ec3c3679
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/cve.rst
-@@ -0,0 +1,125 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+====
-+CVEs
-+====
-+
-+Os números Common Vulnerabilities and Exposure (CVE®) foram desenvolvidos
-+como uma forma inequívoca de identificar, definir e catalogar vulnerabilidades
-+de segurança divulgadas publicamente. Com o tempo, sua utilidade diminuiu em
-+relação ao projeto do kernel, e os números CVE foram frequentemente atribuídos
-+de formas inadequadas e por motivos inadequados. Por causa disso, a comunidade
-+de desenvolvimento do kernel tendeu a evitá-los. No entanto, a combinação da
-+pressão contínua para atribuir CVEs e outras formas de identificadores de
-+segurança, e abusos contínuos por indivíduos e empresas de fora da comunidade
-+do kernel, deixou claro que a comunidade do kernel deve controlar
-+essas atribuições.
-+
-+A equipe de desenvolvedores do kernel Linux tem a capacidade de atribuir CVEs
-+para possíveis problemas de segurança do kernel Linux. Essa atribuição é
-+independente do processo normal de relato de bugs de segurança do kernel
-+Linux, descrito em :ref:`securitybugs`.
-+
-+Uma lista de todos os CVEs atribuídos ao kernel Linux pode ser encontrada nos
-+arquivos da lista de discussão linux-cve, como visto em
-+https://lore.kernel.org/linux-cve-announce/. Para receber notificações sobre
-+os CVEs atribuídos, por favor, `inscreva-se
-+<https://subspace.kernel.org/subscribing.html>`_ nessa lista de discussão.
-+
-+Processo
-+========
-+
-+Como parte do processo normal de lançamento estável, alterações do kernel que
-+são potencialmente problemas de segurança são identificadas pelos
-+desenvolvedores responsáveis pelas atribuições de números CVE e recebem
-+automaticamente números CVE. Essas atribuições são publicadas na lista de
-+discussão linux-cve-announce como anúncios frequentes.
-+
-+Observe que, devido à camada em que o kernel Linux se encontra em um sistema,
-+quase qualquer bug pode ser explorável para comprometer a segurança do kernel,
-+mas a possibilidade de exploração muitas vezes não é evidente quando o bug é
-+corrigido. Por causa disso, a equipe de atribuição de CVEs é excessivamente
-+cautelosa e atribui números CVE a qualquer correção de bug que identificar.
-+Isso explica o número aparentemente grande de CVEs emitidos pela equipe do
-+kernel Linux.
-+
-+Se a equipe de atribuição de CVEs deixar passar uma correção específica que
-+qualquer usuário considere que deveria receber um CVE, por favor envie um
-+e-mail para <cve@kernel.org> e a equipe trabalhará com você nisso. Observe
-+que nenhum possível problema de segurança deve ser enviado para esse alias;
-+ele é SOMENTE para atribuição de CVEs a correções que já estejam em árvores de
-+kernel lançadas. Se você acredita ter encontrado um problema de segurança
-+ainda
-+não corrigido, por favor siga o processo normal de relato de bugs de segurança do kernel
-+Linux, descrito em :ref:`securitybugs`.
-+
-+Nenhum CVE será atribuído automaticamente para problemas de segurança ainda
-+não corrigidos no kernel Linux; a atribuição só acontecerá automaticamente
-+depois que uma correção estiver disponível e aplicada a uma árvore de kernel
-+estável, e ela será rastreada dessa forma pelo ID do commit git da correção
-+original. Se alguém desejar que um CVE seja atribuído antes que um problema
-+seja resolvido com um commit, por favor entre em contato com a equipe de
-+atribuição de CVEs do kernel em <cve@kernel.org> para obter um identificador
-+atribuído a partir de seu lote de identificadores reservados.
-+
-+Nenhum CVE será atribuído para qualquer problema encontrado em uma versão do
-+kernel que atualmente não esteja sendo mantida ativamente pela equipe de kernel
-+Stable/LTS. Uma lista dos ramos de kernel atualmente suportados pode ser
-+encontrada em https://kernel.org/releases.html
-+
-+Contestações de CVEs atribuídos
-+===============================
-+
-+A autoridade para contestar ou modificar um CVE atribuído a uma alteração
-+específica do kernel pertence exclusivamente aos mantenedores do subsistema
-+relevante afetado. Esse princípio garante um alto grau de precisão e
-+responsabilização no relato de vulnerabilidades. Somente esses indivíduos, com
-+profundo conhecimento técnico e conhecimento íntimo do subsistema, podem
-+avaliar de forma eficaz a validade e o escopo de uma vulnerabilidade relatada e
-+determinar sua designação CVE apropriada. Qualquer tentativa de modificar ou
-+contestar um CVE fora dessa autoridade designada pode levar a confusão, relato
-+impreciso e, em última análise, sistemas comprometidos.
-+
-+CVEs inválidos
-+==============
-+
-+Se um problema de segurança for encontrado em um kernel Linux que é suportado
-+apenas por uma distribuição Linux devido às alterações feitas por essa
-+distribuição, ou porque a distribuição oferece suporte a uma versão do kernel
-+que não é mais uma das versões suportadas pelo kernel.org, então um CVE não
-+pode ser atribuído pela equipe de CVEs do kernel Linux e deve ser solicitado à
-+própria distribuição Linux.
-+
-+Qualquer CVE atribuído ao kernel Linux para uma versão de kernel
-+ativamente suportada, por qualquer grupo que não seja a equipe de atribuição de
-+CVEs do kernel, não deve ser tratado como um CVE válido. Por favor, notifique
-+a equipe de atribuição de CVEs do kernel em <cve@kernel.org> para que ela
-+possa trabalhar para invalidar essas entradas por meio do processo de remediação
-+da CNA.
-+
-+Aplicabilidade de CVEs específicos
-+==================================
-+
-+Como o kernel Linux pode ser usado de múltiplas maneiras, com diversas
-+formas de acesso por usuários externos, ou sem nenhum acesso, a
-+aplicabilidade de qualquer CVE específico cabe ao usuário do Linux determinar;
-+isso não cabe à equipe de atribuição de CVEs. Por favor, não entre em contato
-+conosco para tentar determinar a aplicabilidade de qualquer CVE específico.
-+
-+Além disso, como a árvore de códigos-fonte é muito grande, e cada sistema usa
-+apenas um pequeno subconjunto dessa árvore, o usuário do Linux deve estar
-+ciente de que grandes quantidades de CVEs atribuídos não são relevantes para
-+seus sistemas.
-+
-+Em resumo, não conhecemos o seu caso de uso e não sabemos quais partes do
-+kernel você usa, portanto não há como determinarmos se um CVE específico é
-+relevante para o seu sistema.
-+
-+Como sempre, o melhor é adotar todas as alterações de kernel lançadas, pois
-+elas são testadas em conjunto como um todo unificado por muitos membros da
-+comunidade, e não como alterações individuais selecionadas. Observe também que,
-+para muitos bugs, a solução do problema geral não é encontrada em uma única
-+alteração, mas pela soma de muitas correções umas sobre as outras. Idealmente,
-+CVEs serão atribuídos a todas as correções de todos os problemas, mas às vezes
-+podemos deixar de perceber algumas correções; portanto, presuma que algumas alterações
-+sem um CVE atribuído podem ser relevantes para adotar.
-\ No newline at end of file
+These appear to be exposed for reading the internals of the module
+loader. Be aware that this data is not stable.
+
+[1] https://android.googlesource.com/kernel/common/+/refs/heads/android-mainline/drivers/android/debug_kinfo.c
+
 -- 
-2.43.0
+Thanks,
+Petr
