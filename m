@@ -1,110 +1,89 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D05222D8773;
-	Thu,  9 Jul 2026 09:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E098B3E47B;
+	Thu,  9 Jul 2026 09:29:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783589160; cv=none; b=fk9AsQY3d9H37ZU7vaipvfNHxNcHtSdz3B9Mpb+7WefRyYt+JBH/1/8fMMt6pnFrVppxEKRH+1Upo9AkU0y6thudJGh2wskKwoqSgH1RBGqzrNGJGD3a4EK6qcSZKVNhVmqyXZfMxwSUKmoG06o95922JQutCe23zIj3JvOxr8s=
+	t=1783589377; cv=none; b=AFnSGUGoqfIgoWn0Y7JJ3cZTBiMqi2O1IYAtmD5wWb6vdO/hRt3Xrzgdym0RkhGr0LyoNzHgosVsKD26cJcbWzBv2efhs2ohkclFnC8teeDY7dDZN/UgJ343I88olPscgLnnx4PYIoafHvDzfIYhoLSksEa6RCzWfEHOiuH6k/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783589160; c=relaxed/simple;
-	bh=r1QShwB/9V/I0bdqwOV4mWuyphrL3DCBdCUyGIHA03s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ec968/s8qL+jwNap6WXStqLSlU3YP9EY/iCe/nKS3YLfbc+4Wxn/CDwaj76Y0el49jkfjIFnglpKkgtvoNxRiiXWD2ckkFD0GkRO2qSqQ9UL0zZMJCg3p8/quIBuuGCFv3040wPiOHHgWj6mkFFPTa2sTKWywGoNQHTMUIMoaDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=soghxfur; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1783589377; c=relaxed/simple;
+	bh=OW1FFR7/d3swW000cxuVwZz1pzLHLwgeDEXJUYZvR40=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tAWprMLLof3XRgNlJxGbM6a/mAFGxfiV7SwyFNZj2IyJOn302nQ+UUeZde6Lj2S+FVXjxveboGLv3UMsfiQAoYBctREFQaYpskug8Dqa+HeCHVQo466019AXxkUVhr2zB92v5ykfGO7XtoUkddEbddkP8E9k22L8QLaNd7zATJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=m4EL8QNL; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=nCuhx+IQ; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="soghxfur"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E42F9357B;
-	Thu,  9 Jul 2026 02:25:53 -0700 (PDT)
-Received: from [10.2.212.8] (e134344.arm.com [10.2.212.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 57F2A3F66F;
-	Thu,  9 Jul 2026 02:25:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1783589158; bh=r1QShwB/9V/I0bdqwOV4mWuyphrL3DCBdCUyGIHA03s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=soghxfurEEX84ljf4uRd93H+Thd3S0QZKTyNgrf/Ga7kG0mU7NGwTqf5c5fm7BGmg
-	 ssRgcMOUX3GkElbF48HVNBWA7lbZD2IhMGp/DpGGXtU+Uq57HwQr8MPEgUzoiNJLu7
-	 fDDtZKikUufCT/CUuIZD8Kr9mEAwoj3rR4YNMHKM=
-Message-ID: <0aa3bbbc-c0f0-404c-b03b-9113a1e91ce5@arm.com>
-Date: Thu, 9 Jul 2026 10:25:54 +0100
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="m4EL8QNL";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="nCuhx+IQ"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gwqRX3YC2zKnDQ;
+	Thu, 09 Jul 2026 11:29:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783589368;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=MPqKsE3vrjg5Cni2ih7Mz6hed+EmMzR60oeIPkrTaTk=;
+	b=m4EL8QNLD4GKW4D3wgbbhcKTVdir9Vtmn2Q+Qbpks0AKVyZs6uuETXcK8DtIyUZ94o4AQr
+	AMBAGBYFNigmKI3DnMI68xEnhX7Qc9QHwduXxA7ib8Q4RJiYtoybXQcXtXaQmZw8jeZOot
+	RDNyZNh8CtWVdbAe/u+96tyPfBi045RHmYl0blUPs6dFee0ocxYhZnDOeuT0N3blag3ILt
+	u1seIbqYXfXqznjLJMCU9nG4Bjw8surw3bMgykvsDRNtVzc1fmUj9aZmVeMJ5w4acLPC99
+	qu4RqavMik2nbwdlC2Q/ptLe/v7tT125Nh5pBdAjXCjYmTJe/8/OguvcwVJ0XA==
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783589366;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=MPqKsE3vrjg5Cni2ih7Mz6hed+EmMzR60oeIPkrTaTk=;
+	b=nCuhx+IQOrS9P7hKRk/8bwnnqsAzFc5KMKHcG/MTGPou+X89LZf1xiTSIQs63t1smVX+bX
+	Jd+FjXDZdA4llsajLo0vdNBTV00F/wdGQDFxKUwNr5neYGnwXRO1o0ELy4ZZbcopcu/jVN
+	aiwIAxKSEPgEeSOnyKybY0NUzd3ObgyU2aK83PWgAyglx3HjO3EHbsOqfGtesDF2/C7Psi
+	OlqfCNVl7j9abPaod6wWx41rgUc8WcxtIJONiMVsPdgW7txFw4H8XpNyPmaZSMPeedVn4u
+	WKM2dIP9c+y8sc++jBca0pd6jDLASlctnYz4/17Kc9uN/cRS6JCXTxLXc4K+6g==
+To: Matthew Wilcox <willy@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Manuel Ebner <manuelebner@mailbox.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] errseq: add missing bracket
+Date: Thu,  9 Jul 2026 11:28:59 +0200
+Message-ID: <20260709092900.380694-1-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Thunderbird Daily
-Subject: Re: [PATCH v4 2/3] arm_mpam: resctrl: Add pass-through
- resctrl_arch_preconvert_bw()
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: james.morse@arm.com, fenghuay@nvidia.com, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com, corbet@lwn.net,
- x86@kernel.org, linux-doc@vger.kernel.org, dave.martin@arm.com
-References: <20260706160639.2136674-1-ben.horgan@arm.com>
- <20260706160639.2136674-3-ben.horgan@arm.com>
- <4c520a28-9a72-4abd-8e5b-654a312c92fd@intel.com>
- <e9185282-94b9-4de4-89db-f9451e47b506@arm.com>
- <8d5d9c98-54df-44fe-8795-189554ea2399@intel.com>
-Content-Language: en-US
-From: Ben Horgan <ben.horgan@arm.com>
-In-Reply-To: <8d5d9c98-54df-44fe-8795-189554ea2399@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 5493skuyzbui4hobtbo3sujmc8ch4tou
+X-MBO-RS-ID: ad95e304c2e767a33e5
 
-Hi Reinette,
+Add missing ')' to nested functions of code block.
 
-On 7/7/26 15:51, Reinette Chatre wrote:
-> Hi Ben,
-> 
-> On 7/7/26 1:35 AM, Ben Horgan wrote:
->> Hi Reinette,
->>
->> On 7/6/26 22:33, Reinette Chatre wrote:
->>> Hi Ben,
->>>
->>> On 7/6/26 9:06 AM, Ben Horgan wrote:
->>>> resctrl rounds up the percentage value of the MBA based on the bw_gran. As
->>>> MPAM uses a binary fixed point fraction format for MBA rather than a
->>>> decimal percentage, this introduces rounding errors.
->>>>
->>>> Without this additional rounding, if the user reads the value in an MB
->>>> schema and then writes it back to the schema, the value in hardware won't
->>>> change. However, with this additional rounding, this guarantee is broken
->>>> for systems with mbw_wd < 7.
->>>>
->>>> resctrl is introducing resctrl_arch_preconvert_bw() to allow the arch code
->>>> to specify the conversion resctrl does to the user-provided bandwidth
->>>> value. Add the MPAM version of resctrl_arch_preconvert_bw(). This does no
->>>> conversion.
->>>>
->>>> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
->>>> Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
->>>>
->>>
->>> Unfortunately the "---" separator is missing here.
->>
->> Another silly mistake.. sorry about that. I've corrected locally and
->> will send a respin in a day or two.
-> No problem. 
-> 
-> When you respin, could you please add a snippet to the cover about expectations
-> how this series should be merged? This will be the first piece of work that
-> touches the x86 and Arm driver as well as resctrl fs code. So far I assumed it
-> will go in via tip but I think it will help to state this from Arm side.
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+---
+ Documentation/core-api/errseq.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, I was assuming that too. I'll make it explicit in the cover letter.
-
-> We still need a plan for if/when the Arm side touches the same code though. Thankfully
-> this work is small.
-
-I'm open to whatever works best for you and the others involved.
-
-Thanks,
-
-Ben
-
-> 
-> Reinette
+diff --git a/Documentation/core-api/errseq.rst b/Documentation/core-api/errseq.rst
+index ff332e272405..d298d4cd2f60 100644
+--- a/Documentation/core-api/errseq.rst
++++ b/Documentation/core-api/errseq.rst
+@@ -143,7 +143,7 @@ Because of this, it's often advantageous to first do an errseq_check to
+ see if anything has changed, and only later do an
+ errseq_check_and_advance after taking the lock. e.g.::
+ 
+-        if (errseq_check(&wd.wd_err, READ_ONCE(su.s_wd_err)) {
++        if (errseq_check(&wd.wd_err, READ_ONCE(su.s_wd_err))) {
+                 /* su.s_wd_err is protected by s_wd_err_lock */
+                 spin_lock(&su.s_wd_err_lock);
+                 err = errseq_check_and_advance(&wd.wd_err, &su.s_wd_err);
+-- 
+2.54.0
 
