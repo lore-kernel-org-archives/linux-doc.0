@@ -1,155 +1,172 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010006.outbound.protection.outlook.com [52.101.46.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED6D23392B;
-	Fri, 10 Jul 2026 06:35:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783665335; cv=none; b=Mu0oYWyIhRBqs0I0J9V8q+x3cdDX7yDAJuymDboN1gvvAHKEX+f5RiZa1zde6UHByuWsACoaaMHi6VcS8BOnLQUITEgnYA8Fu/onyynhcE7XV8jL5Rcwqu5V2hikqwO9NJxtEZDLW6ixXaeUwZXQ0Q628tHjGvvAhDIKN4PDHM4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783665335; c=relaxed/simple;
-	bh=HX0+S3UJrGdpjL9XHwHkU58cROtDo6AFlvOfcNIsw5s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=t+Hx+vAdUgLV0gVPhCdfwPMV16dD6l/4/dKwK4BJQ7DFsaBms1YTbNKVfAsOE5iY9PlBIeNsWvPtaQD5qssh3yg+cZ16ckTpTyQ3QDqovYUjerYbws9E9wov83RbAAeCw5AkUHQRgBDofdVeexfDsPQXcCureiqMF6YICSvF7gM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=dMppCi5G; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC943563FA;
+	Fri, 10 Jul 2026 06:37:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.6
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783665425; cv=fail; b=mA2fTsQQFPJFYVfPX1qDV6VVspFaHNnFdxODiZH/8S4i7MsxYPLRPQyhzmdDUzDFTxkDcsGlw22JchWqdBoL0bZXKqigvoZWfBS9KY10y4Tiea5Kh17rh18ctX9uWUl+B7bcLQ2X5xgxMthHwTL1ZiOHaqJnLjwg/9+JJE+mGOc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783665425; c=relaxed/simple;
+	bh=p8d6f8e+hLAOL2CuoAKuNXQqINjOK9LI4FiOzRIabu0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=fIiBBmnzPApiTK1yhkhAhQ1GxSvpaXq5JbrWEvQHRqN85/m13Q6q1ZC4b8rR+kWMUKGQI2cYmfTehqDHpdeTYbkNQrH0IPUC2UdLZON9A520hn2eCs5bcAtFbHyodemO6lXKAELPsCIbym7xX0xjBrEnu+sqxzMnsqsOtGeaqaQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=h5f7y4i2; arc=fail smtp.client-ip=52.101.46.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="dMppCi5G"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66A3o5AO077794;
-	Fri, 10 Jul 2026 06:35:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=J7/xfC
-	F6vmPqkdEJPIMXZnOE1pd2vcvNItJDK8fe7eI=; b=dMppCi5GcAZp/w7Hg04zCJ
-	u2O/Audklq9GizLyAzb3LEu3CEdl4eByDJdg4WZjy4pe6RKVAu9d5TkbyduSs9B+
-	HZeIMaZs6q4j0KSlCaw6kwwrfeRsoTA7zMyI9w4YKq35c/PcEkeugaWq4R/DNcf+
-	0yg67vtmBMnGjAhgc0C15AM0i+5hf84HfDK2O8++f5oqLkT55uWYZh+d872Ji6/G
-	1qzK9GL2gZ5FWkcqgbTPXiDzlC7ILZ27SRRGekG8xBK6qP1hwNVHO1001r+ePuVj
-	z1kWBW4Q062qE6skVBuyT6ufGF5h9ve+2gK0UL1/atEFQYvTRCY0zsEEw3vg3wBQ
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6qknvq7h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Jul 2026 06:35:15 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66A6YkQ3015323;
-	Fri, 10 Jul 2026 06:35:14 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4f7cgqgxw8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Jul 2026 06:35:14 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66A6ZAeR14746056
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 10 Jul 2026 06:35:10 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6443020043;
-	Fri, 10 Jul 2026 06:35:10 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3B21920040;
-	Fri, 10 Jul 2026 06:35:03 +0000 (GMT)
-Received: from [9.124.216.30] (unknown [9.124.216.30])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 10 Jul 2026 06:35:02 +0000 (GMT)
-Message-ID: <a9825ec1-fe62-42da-9a24-36fd30772700@linux.ibm.com>
-Date: Fri, 10 Jul 2026 12:05:02 +0530
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="h5f7y4i2"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=A+Xhwj0uJiphPk4Vqb6WKck487aRW2j9pVI46zop9SlcKmVueE/fPrW2UfI/dRc3XN2GQ+dEt58rXn8NNoK74kGHd374QpztnAN7qsRylZ0d7w2Zn9cO8FCGXND7KNn/a63oV9piNWQaQhodtocqZkeYscFmX3Csgy26ghBi84XrkuVgOoh3hI0IhX7h0vOGlaYp92laNjkMpZqQA15ooCcRpBTbCJMQVLoK/pGJ6rTim760HgLsMevjgVMmpiAQru0TMHvAFkRx4lit6Xn7XX9H8QuUl/0WCcuaAk4iUbHu+Xzgrl1CR8N2e2NaTOHD5YcL+wfT+FPCbSMo875zqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p8d6f8e+hLAOL2CuoAKuNXQqINjOK9LI4FiOzRIabu0=;
+ b=Fv3A1+bxGJOLaXMPzoy+JF2bsrBWGld2IDwC96jlp72Ti0c7gstCz7dl4HiuifZkugl6l9fZ4Db08TicN/WAtyc1Cy8/PpqRulvsE730h9YQynyDJHinCTOAV0/jemJiSw5gPOnsahXBQS5htTPuyeoQUKF6t/INccMTLw7bwq6pyE6PFXznIJARUTdlfptEkdkZgITH1Z6U6jQbIMwcyUUnaN32hMMYM6g2YjomxwgA9r9ktVCqJQ1a4pMe0GHuqjX3geMlgSVchluuG3f6VmnfLVhbAEDggT90JsLHj4zjykw9i9M8AubRGXA0bARO3qvCCroTpObKzF/jjFjl8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p8d6f8e+hLAOL2CuoAKuNXQqINjOK9LI4FiOzRIabu0=;
+ b=h5f7y4i2pR48igtLU34vUQACt44ABHhgYfdYgfuwpwNpM6hpYlIJnZx/YwlpdKazf+3nj+/Ux30fq7N68nWxj3BHpo1nnXg5XYhRozl7WOOHfjiIMWl5swhj886hjZq5mrdhXF1GiWU7gakyWYZ8uBZ/53QX0SnEeknVjNLEV/L42zJWTUPdaqCklH54NbPExSk+DOqvsaAzlvK3D2S13KnNwt5VawB7puxJlj9Tw7GuA8CDdd2IS/JQAYfXRCircVBp7ijdIJRtM41YvU1r0DdY+kwCG6Sa46FWj9qp6HL6YVZCX93UlRBwIt8p/WggKcqN79diaenT27aX3DWQMQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BN5PR12MB9511.namprd12.prod.outlook.com (2603:10b6:408:2a9::14)
+ by SA1PR12MB7344.namprd12.prod.outlook.com (2603:10b6:806:2b7::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.17; Fri, 10 Jul
+ 2026 06:37:01 +0000
+Received: from BN5PR12MB9511.namprd12.prod.outlook.com
+ ([fe80::4d8d:5f91:6c3c:dc8c]) by BN5PR12MB9511.namprd12.prod.outlook.com
+ ([fe80::4d8d:5f91:6c3c:dc8c%4]) with mapi id 15.21.0181.009; Fri, 10 Jul 2026
+ 06:37:01 +0000
+Message-ID: <14839890-3509-47b0-97d4-6c7379079452@nvidia.com>
+Date: Fri, 10 Jul 2026 12:06:52 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/3] iommu/arm-smmu-v3: Enable CFGI/TLBI-repeat
+ workaround on Tegra264
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Robin Murphy <robin.murphy@arm.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>,
+ linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev
+References: <20260709095613.831769-1-amhetre@nvidia.com>
+ <20260709095613.831769-3-amhetre@nvidia.com> <alB0VfK5n3PsE8oK@nvidia.com>
+Content-Language: en-US
+From: Ashish Mhetre <amhetre@nvidia.com>
+In-Reply-To: <alB0VfK5n3PsE8oK@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0337.namprd03.prod.outlook.com
+ (2603:10b6:a03:39c::12) To BN5PR12MB9511.namprd12.prod.outlook.com
+ (2603:10b6:408:2a9::14)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 12/12] sched, virt/steal_monitor: Keep tick on for
- faster push on nohz_full CPU
-To: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com
-Cc: tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
-        seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
-        rostedt@goodmis.org, dietmar.eggemann@arm.com, maddy@linux.ibm.com,
-        srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org,
-        vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com,
-        pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org,
-        tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-        rdunlap@infradead.org, kernellwp@gmail.com, linux-doc@vger.kernel.org,
-        corbet@lwn.net
-References: <20260709215648.1246821-1-sshegde@linux.ibm.com>
- <20260709215648.1246821-13-sshegde@linux.ibm.com>
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <20260709215648.1246821-13-sshegde@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=Q/XiJY2a c=1 sm=1 tr=0 ts=6a5092a3 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8
- a=3W3EUuIwW94Ror9ydsAA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: ZlRdD4jm7bnXbMeLrpHnJ1SWxOZauAHv
-X-Proofpoint-ORIG-GUID: -pgY7B6-a6uamqI_tZ-eFSonEM0n5b1A
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEwMDA1OCBTYWx0ZWRfX7Oc5QmxfdXUy
- HpQuMsDROnhUaDuifFpAfRFBECH1/e74nUNXZbf+KehTzDaCQEpbAV+lz3prkSmOcghFCZN92il
- 9VW8RVIRcr5qSc9OBg1o8KCLFoACA4Q=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEwMDA1OCBTYWx0ZWRfX3R02Fvl9Xiu2
- cIv8kcUGijjeaj8QUNn+USaVcKnxh6v7ZI8tVZn/11CQOwXEsLFNoahHpFSuRkiMVReeDcHCmtA
- K6ZQYjXN08tNLd4fhgYTQOGY5bUtzkdQtTsD3QIWlGILpc+mjpS6kKwfQdKWIaVeA05CmKiUCvK
- WMIeMJLUn3hmcPvtAhNglZAe7IB/tkLL9Lh4I1NSDHtgXUjtrkUsHvJcNHB5qpn9u9rQAMNfgh+
- FCDDwfCSH2V3tkZxlo2Asw/OHQLw3nNZmt0dJhJ8Ge3irs5KA/3GVjfZLUz/lriLG72vw6q4eCT
- Gl8IMAaqFbbqGLr/twQnhSayP+Ccd+KnbQLj10WefeMc89w+VmOntbEyrhA0p4y7dVyTflEVOHM
- f5c4A6zNAJTlewVpK/0DJYHxWg8p89kgIoCFdSdwViChw0ggqeXsEc4xSFJByXwS1rEvE4KxOx+
- b60LRlpofhirjl6YrnQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-10_01,2026-07-09_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0 spamscore=0 phishscore=0 priorityscore=1501
- bulkscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607100058
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN5PR12MB9511:EE_|SA1PR12MB7344:EE_
+X-MS-Office365-Filtering-Correlation-Id: aa12ea7c-6df3-4fc5-5994-08dede4da5c0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|7416014|376014|1800799024|18002099003|22082099003|4143699003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	EnvIxwR0isRAgY3kFLPMiEmvbqqeteOYSaRcV4X6vXBf3TrZLZCpm/wd/Y2cVmTS2VTjh87mdioQkS3kUlwSO4wYpEcDVvtBLjD8Ww1AwzJciO062mp+QAX6qPU/I+rRM79YJLjMK9vGCpm1DKfYuCwtwh/klIcPorgq8c/JgILYJm4bfKRhBaSP6grgTIeLe3Aky00CLzo41wezsKCCKFCHGBdl2KQv9Fbd1rq4B9xye90HLnxO/ICTenmzY1UjZLRTaptoxTjvI5dgVA+peLp9V1ISYaaiR/nDJRdWYjEELuiaz+oIVPagV84vTszKkJIekmGJvbGmfFLGit829I0BPlwB4lhEaeyFStJHf0nJ/K9tGxLuCc4E+/qPIPlTp/PXxd2iBCtXDK4kP8+yWaXSDARLlqkVkzQDS/UKT5i2aytq41SRw0imOlccLls59ktwL0ObpVfde11ZtDmzPY7vnMvwt9Tvg4MtU0/Rv9gLjuk46C10l8jWhNtewJXsOR6mDVseabZRB5zwaH3JoJB/BrxYaP3YjxKLHlolMASGJIHBNDPi0UrFy6MN/3Tn1z0i4YEhP8QIHxONoExVsWgeOjxDoyr2vgHRAAz4VjP+KWJzgw668EXpaKc/JeczEhXt/sDEAxOu09bNe66Hobvux9ZGi2CxxduxpQHWSqc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN5PR12MB9511.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(7416014)(376014)(1800799024)(18002099003)(22082099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QVU2QW9TRmMrUmNHWitvQzNGc0dlUTRNYWVQSHJHTVRxT2tJSDRtV0ZwZytr?=
+ =?utf-8?B?cFBqSkdUTXlEdExOZU9BMGUxUkszZXgrQ3dmdGxRbmh6cjZoNGsvek95ZStz?=
+ =?utf-8?B?VGNHbFVUTk9jeUlWcDBnaU1nMUprVnhhdy9tcUhhUTAzdnVQVXZRVzhZMXQw?=
+ =?utf-8?B?ekt4eGVReit3RkJQNzJRS29lbUhUZ2Y0Z2RMYjVkYWg5Y0lXaWIyUmlUVDB0?=
+ =?utf-8?B?NVFQNTdKRjdMbXkrakMwQVc0VlZ5SmRRUU9Ga2trQXp1dTR5amhtYzJZd3B2?=
+ =?utf-8?B?bG54ZTVXclFvT29qdlE1ODU1c2laU0FnSGYxdnRDeUtLR05QUFkrbzZIL2lN?=
+ =?utf-8?B?enpVb1JOYVRENUJzTGtnZW9xSXA5dlBIZ0ljTkRCRzZraWMrNVRzWTVJTkxk?=
+ =?utf-8?B?cFBsY2RZWTlIeGV5Y2VrWGVsY0x0R2xoYm1VNWp4dVdaQ1NhSnlFZElVcVdT?=
+ =?utf-8?B?ZnNycUVjd29XaGtiaXpoWUZUdmdDVVdtSm81N1Q1T0RFODN0UDZnWjFLUHlM?=
+ =?utf-8?B?bnpmZnZEbXpmbmJld0xPRUtJQ1VVbWJiYTVrdTNYbnBzaVZmelhiMTAzZ0Ew?=
+ =?utf-8?B?V0ljbmp1WjFHOE9LRUJXUnRJQWZOMFAzdzFoYURuZXhDSVNoeUY4M3N1N3NL?=
+ =?utf-8?B?aVlvajBXL3dsVTg4WEgxd2I4NzZ0V3ZNVlN6R1I4UGtpb25NTDNwK1prSEdI?=
+ =?utf-8?B?TkFwTS9mNlZPV3lxaXZacmhkR1NRUFZITzJiOHVJczYwNWpGenphdUVlZFQx?=
+ =?utf-8?B?ZG9WRkhzSWJSZzZyd3dXRzNjeG1Jc0ZENm1rU1EyZlh5UTl2dVU4MVlIQ3Rx?=
+ =?utf-8?B?dTY3ZzcrYUNvYkc1VFlDaG9QRjY0NURzWGtzYld5Q01uMXEvMDViVXU5VnNH?=
+ =?utf-8?B?YVd1ODU5OGoyZE1UTUgwNmRuRE5EeC9qYmdwdTloMUVnMEtyMm9FZUpPZW03?=
+ =?utf-8?B?aFl1MncrMmc0YVZ5Q0tDQmNZWGtXaFlDVFNlbjh0Vmxyc2hCbkNZSFRlbjRs?=
+ =?utf-8?B?aUNyZ29mTHdMWTJ0aW4wVkpqSWU5RFM3L01ZdFNJUkgrRlhDb1hLTFloWS8x?=
+ =?utf-8?B?ZU45S0hSNngzdFY1NThlUHVPMzJ3NWU4RTJNU3FKMitXSTNpZVpEeU1vL09S?=
+ =?utf-8?B?cG5COGxucUlnQVJwQ1pUenlQWmdYbzlZOWd5SVViMUxtYldlS3pBOThLQUla?=
+ =?utf-8?B?L1pOUitERGN0N2JTUFRTa0hwdnBuUm8xSGx6d09IekQ2c0pmUGVwUWYzL1JI?=
+ =?utf-8?B?YkJseU85Mk4wL1JnS3NZckxvdnpHRnpMV2dJUnNyOXJUUURYR2tPWTVBblM4?=
+ =?utf-8?B?eXVvYWMvSndYc0txYm82Q09TV2FoRnNxOURvYXJScGlKQ216TjhWbnpuVEMx?=
+ =?utf-8?B?aC9vQ0JDNTFkOVRHRlNWdk1KSzl0UDB2bUJSRm5yN0Y5OFRWcW9DUldtRUNC?=
+ =?utf-8?B?bkdnd0FrM1JOOUhSSjVrcGNIaFVYVjZKRUVnbjUzdVZPRXJwZXEvRmw0RU41?=
+ =?utf-8?B?TUx1MnJaWERyNnU1SWtyUnhHT3owRHF5RSsvVEJ2ZmhKL3hhbjQ1M0VJczBR?=
+ =?utf-8?B?dzMwNUhTR3BBSnBIQ3RFQXFvMGxVbmRXM084UnV0cmRrdWszSzJwRDZGSjgr?=
+ =?utf-8?B?YjJaemNUbGtzb05ublZLYkdKWm5WTXY2SmJRVDNRZC9PZ1NFaHplRVlzRHZC?=
+ =?utf-8?B?YVAvRWlDcWl3WTl0NDNqcWJOUWtER3VkSkVUNkZpOUM5OWZHVmRLNWZNaldM?=
+ =?utf-8?B?NWpHMTFMZkVqUno5cjlPRkJFVndFYkV3V3JWdFBTVGl2RW1DSTl4QUhoSnJC?=
+ =?utf-8?B?U0p4WHh2WU9HQU5oVXY4TVg1THFoeU9NbVY1bGZoOG1vT3ZNbVl3YlpHYzk3?=
+ =?utf-8?B?bkIxWkQzdzE1bDJSWUwxRG9qS1dMY1J2T1pFWGl0a2pqSnlSajA2OUV1ZE9G?=
+ =?utf-8?B?cGF4Um16R3Jid2hyU3FyVm8zZmw3Vjlpbkt4UDVQZE10OER5U1JmY1htM3Jr?=
+ =?utf-8?B?NXZMWUU3OEJOVzZLeERhdmRHSjI0WWFwcTZHQS9mL2xMbzMwUE1hV3BzR0hX?=
+ =?utf-8?B?MXcvQ2E2cEpQWkZGN1lIOVV6TEJHZEtJZTkxeHVnMjg3bTBjaVdMRDBwOVN3?=
+ =?utf-8?B?SWp3SVJxVU5ZcnR0Y1RLUXVvdkdtaGJWYlVoZWliTURxRU1PaGgvUndHWFM0?=
+ =?utf-8?B?OTZNZGxXK1N3OXMvV0VYSytSaWp0dTdKZnRsZkU5bmVBWVFrNVdHWXdMNUxF?=
+ =?utf-8?B?ZE83TjNld2dGMzZCQVRuaFdCUjUzLzBUcG9iemQwN0VtblVvNUR0L1RTdE1s?=
+ =?utf-8?B?TlRKV1gwZDdIZTJmelNwZnZTdFFMaURSd1pRSnNEN0RRVWoxR1R0dz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa12ea7c-6df3-4fc5-5994-08dede4da5c0
+X-MS-Exchange-CrossTenant-AuthSource: BN5PR12MB9511.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2026 06:37:00.9601
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sz9s0NOC6Scdgp4m9rDU9uqJ/+3IWURLyqk82u8Wdtyyy39bK/PItJr888AS8srbKpIw3BsGEd9VsNM5t0ZQRg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7344
 
-Hi.
 
-On 7/10/26 3:26 AM, Shrikanth Hegde wrote:
-> Enable tick on nohz full CPU when it is marked as non-preferred.
-> This helps to push the task out faster and in more predictable
-> manner on nohz_full CPUs.
-> 
-> Steal time handling code will call tick_nohz_dep_set_cpu with
-> TICK_DEP_BIT_SCHED. This helps to push the task out of nohz_full
-> faster as push task depends on tick.
-> 
-> If there is pinned task on non-preferred CPU, it may not stop the tick.
-> That is rare case. Even then, this preferred CPU state change can
-> happen only inside the guest. So even if guest stop the tick,
-> it may not necessary mean power saving since host disabling the
-> tick is what matters more.
-> 
-> sched_can_stop_tick flow doesn't change if cpu_preferred. On disabling
-> the feature, module ensure it restores the CPU as preferred.
-> 
-> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-> ---
 
-I will drop this patch 12 as it is an optimization for rare case.
+On 7/10/2026 9:55 AM, Nicolin Chen wrote:
+> On Thu, Jul 09, 2026 at 09:56:09AM +0000, Ashish Mhetre wrote:
+>> Nvidia Tegra264 SMMU is affected by an erratum where a TLB entry can
+>> survive an invalidation that races with concurrent traffic targeting
+>> the same entry. The hardware-recommended software workaround is to
+>> issue every CFGI/TLBI command (each followed by CMD_SYNC) twice, and
+>> that infrastructure is already in place behind
+>> arm_smmu_erratum_repeat_tlbi_cfgi_key.
+>>
+>> Neither IDR nor IIDR flags this Tegra264-specific bug, so hardware
+>> detection is not possible. Tegra264 is device-tree-only (no ACPI/IORT
+>> support) and already has a dedicated "nvidia,tegra264-smmu" compatible,
+>> so DT-probe is the only viable detection path.
+>>
+>> Enable the workaround on instances matching the existing
+>> "nvidia,tegra264-smmu" compatible by calling static_branch_enable() on
+>> arm_smmu_erratum_repeat_tlbi_cfgi_key. Document the erratum in
+>> Documentation/arch/arm64/silicon-errata.rst.
+>>
+>> Signed-off-by: Ashish Mhetre <amhetre@nvidia.com>
+> Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
+>
+> Sashiko pointed out a concern at PATCH-3 regarding the static key:
+> https://sashiko.dev/#/patchset/20260709095613.831769-1-amhetre%40nvidia.com
+>
+> It's a false positive. But perhaps we could fold in an inline note;
+> it'd belong to the missing description that I commented in PATCH-2.
+>
+> Nicolin
 
-The reason being,
-- If there is one pinned task, it leaves the tick on.
-- Can't just the clear the tick while disable, that will cause break.
-- need to know if there was one pinned task in sched_can_stop_tick
-   which is tricky.
-- optimization is applicable only for a forever running thread on nohz_full
-   CPU and non-pinned. Such use case is rare i think.
+Ack, I will address this in v6.
 
-and
-
-- Task eventually move out that nohz_full CPU, it takes a few more
-   seconds. Likely it happens on natural boundary, maybe a external
-   interrupt, background workqueue or kthread etc.
-
-- One configures nohz_full CPU carefully.  If the need arises,
-   lets bother about at that time.
+Thanks,
+Ashish Mhetre
