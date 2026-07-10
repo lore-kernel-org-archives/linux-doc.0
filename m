@@ -1,239 +1,490 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3C9395AF5
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 21:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A403B9920
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 21:26:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783718786; cv=none; b=lxTaEVonbRl8k+8DPuAlQ3IOGYpycISVYr9OnF+8o9kgt1gd7zEVl0jcqTJeOqYqWPhcZWaMYE+aDEIjL6mqxx3USaNKc/K+Ik98XFZpEraRmlPbUiTSna+Adb6BT7rO1e5Gv5q/3wnl4hLNaFh4sWvcArHoKqjwVeuHjx4/TGY=
+	t=1783718787; cv=none; b=SaL5cSG7e3AYeogdNKkV0fxvk5HlDDHZNdwwmvsgARes3X19Kj1tTRzjzS9FvD4VUMYkXW3BJ1AD9TZZ9ZddBwJr/LrPWlWN5br4fO/UdlJT0srbBO7gTn5YlVG7eF6PepH52ewy25XMw0A3Z67JbqLdmA8iXqQzoRVGDYWpYtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783718786; c=relaxed/simple;
-	bh=nZglqMW0/eP7owoyvDUWbmALINlrtJKECjh4WdGf9vY=;
-	h=Subject:From:To:Cc:Date:Message-ID:MIME-Version:Content-Type; b=sznjIEr8Ci0x55DRYNZVCOER4ED72zhbHh9qfEqPKJLWLDM0a2FR6A51e64cAQ0bIyCwOK8TiDKh1vL9LxJq1ap6phBqrnmQqiY8e6tRH2qMHdGNDhaA/pUJMbIS0lFDrM3VwBDHZjChfjzPpp4clWNvgMtoF/CA++vz7Js/lgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C7LRuU8W; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783718787; c=relaxed/simple;
+	bh=yhxxTEDUxYjf8DzFRoKAY/bC6BCrZ9/scSTPlz0R2qU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=T+r3l9pn8j2hKP+47ASsLJkpJGrCC0UPrRvluBsoU1fgmf+AktIAD4zD+1QSBTuqbzBxGusjZIMV/BWI6ra+qUM8fuxa1Xr/HNoxNiybGPStg8YUWQJ+/0AOtzJG9VoCeHxRN2i3cuNSN9G1hURlOl+CTgvbgrnLsRaetiZucaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qX9LlNKm; arc=none smtp.client-ip=209.85.215.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C7LRuU8W"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cc73e322dbso14236695ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 14:26:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qX9LlNKm"
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c894c1c4aa9so1753143a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 14:26:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783718783; x=1784323583; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:user-agent
-         :message-id:date:cc:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=wQ4/e++dwiJ2hODy08BO64CkfLW5GsFjzHevL1ATi0c=;
-        b=C7LRuU8WU7HxWahoH2aH6lbeXhC8b5RoQ2vxonF8rVfp7axsRHpaqD8YaUXCCQD+3y
-         eULr0jY/wdHMG7QwR6WpZMKI6uRviexewympmlfJyL9kEWSpyJNVnKZu8xvOomTOiv2M
-         i/Lm8qD5SLcEkOfRfYPdr6uFX0zyNFxKA2AZRyxky/RuMdZPMqohpu8XJw+M2uu2d36w
-         sG/gXExtGkLUkM5IC7kHfiA8jX03xAyRPQmnHGbVWGg0FQJN0JOdioy7sVrJxAyCXAOo
-         iR/mQ78lEp9lU9kHm6onxerVy0LJILtD7fiROe30IAw9cCQUkClzVG3LyWy4KNqEPRab
-         M2yw==
+        d=google.com; s=20251104; t=1783718784; x=1784323584; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nJNVxjvVmYROzvILHkxiv/3zu6J6S8o6lQRGVaWTNbg=;
+        b=qX9LlNKm3NkBtToXIj5JWKTDuzVdhq6gIbTUb1n8crgFlD6/VdPStWPHB7M34qDWq7
+         zN96aA2L4STf6qIQPRTIMQ3pX/sSDrbU6nwkz2CawCfnBaKxueK0Ywg6ezk1kHRM2Kon
+         /ivxbs9x12l7/+MYw55pIhFcIdxcMkwDvHCW4rZuek0BEnlQtYw9r4NAbRHuJTuC7Yb7
+         sewbTqaRNBR1O7m2xSbZP4+MJbMuT782dO7oFYS5j1IGMswL45PHITNeZhxZMnEVhwU+
+         6laCYqqdzUEKRWDv+MfmTdksqTKXgZHD4G2pYz1K4S0KhlBWeHCkWgnZoSHZN1UubD3Q
+         xvVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783718783; x=1784323583;
-        h=content-transfer-encoding:content-type:mime-version:user-agent
-         :message-id:date:cc:to:from:subject:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wQ4/e++dwiJ2hODy08BO64CkfLW5GsFjzHevL1ATi0c=;
-        b=mSvRxSRsXOq7/nTZ5cRi7H5JYxHcR7psVI5w5vm0MzPdMxZ3rDCDKvcgbfNYn7GMxd
-         7tqpxEQKuFTSyzGqMqHRZ4TavuFCfRVOEfDJuhTtJBouLyWHCT6/beboVt1F7YhAMw7e
-         OUmtYUaKZMT5QjC9i0x6HaSlCrVxWtRXsoTP60pSzPfzivIkL9IYYXXMfluFhqsOriRG
-         GPnvnEcw68Db6wGLofjN+Q5e06euy60H6bAh7lTdhKFpN+Hum4ty02tsryvYHlH2+L4o
-         +BC4cTAD/5SVi44C5UrsPOCMUCvad5s0hJazC+mESKyo5Gt2jMqTsf2RA5Mofl0veYU0
-         qtmA==
-X-Forwarded-Encrypted: i=1; AHgh+RrU3nFv7wYvkw3aE1oRC69wtDVi/7cZA32UPKp3pKVgqVwkwvGh4OCS2OXHFnZi2XodilD6UTMBwwg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDccednmwIK9H+o9Nx7CvVam1oEkX+cA6RxUtTAtXduR3PuBlL
-	GAxTh5KKCWAcP4lgwYrps+h3lnsh9PrVPwAuFMnIRdcrnYzeN4/2yfOW
-X-Gm-Gg: AfdE7cnSXvco2HzRyDFHNzaF06t3nzOQv0EKeSDROEncWbXkTaofS70UMorzbdW50GZ
-	hIVLzWSQ3y3OceVQKR971BzY6cP+3PA7+lHNGzYpQEyz0Q9ww58fg6Hv10JW39ZuIVB4sEF3dMn
-	CCTnJvs/B/+Sll89HKgi5JtOlKMO2r0e0jcc4FprNeOcTJa2DDsRRQIH9zrwT5D/erA0NdZU23r
-	TpE6uIXjEGqWH59Yqu4yAJtH35Tx7HFCicErgkvO56qwpq0wm7x02iV1v/UShvaNvT3r2jFGWJL
-	KZSR+fK7i4/RucdFqzGHRB52gPmMRXTFtUUrkBZyJYnGt1h+Q7iVrtx6K94fgg76f17SLAmhrw7
-	+kkNAiszs00aV6bf+m/+wRjfZEs4Xv1z8NNt58BPrDVzXev5qKYWqsZuH9bPENG1vnGnMukldKD
-	dsCVrsmXlUtjhg1ep7jXqKsT61Ec3YVoEgSfEI+k6Qn57A4M5pg2Od2Ah42Ew=
-X-Received: by 2002:a17:903:1a0c:b0:2ca:6c8:abde with SMTP id d9443c01a7336-2ce9eacd763mr7143275ad.18.1783718782878;
-        Fri, 10 Jul 2026 14:26:22 -0700 (PDT)
-Received: from [192.168.0.160] (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d1e28fsm67098765ad.43.2026.07.10.14.26.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 14:26:22 -0700 (PDT)
-Subject: [PATCH v8 0/8] mm/hmm: Add mmap lock-drop support for
- userfaultfd-backed mappings
-From: Stanislav Kinsburskii <skinsburskii@gmail.com>
-To: airlied@gmail.com, akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org,
- corbet@lwn.net, dakr@kernel.org, david@kernel.org, decui@microsoft.com,
- haiyangz@microsoft.com, jgg@ziepe.ca, kees@kernel.org, kys@microsoft.com,
- leon@kernel.org, liam@infradead.org, lizhi.hou@amd.com, ljs@kernel.org,
- longli@microsoft.com, lyude@redhat.com, maarten.lankhorst@linux.intel.com,
- mamin506@gmail.com, mhocko@suse.com, mripard@kernel.org,
- nouveau@lists.freedesktop.org, ogabbay@kernel.org, oleg@redhat.com,
- rppt@kernel.org, shuah@kernel.org, simona@ffwll.ch,
- skhan@linuxfoundation.org, skinsburskii@gmail.com, surenb@google.com,
- tzimmermann@suse.de, vbabka@kernel.org, wei.liu@kernel.org,
- skinsburskii@gmail.com
-Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-rdma@vger.kernel.org
-Date: Fri, 10 Jul 2026 14:26:20 -0700
-Message-ID: <178371866223.900500.12312667138651735591.stgit@skinsburskii>
-User-Agent: StGit/0.19
+        d=1e100.net; s=20251104; t=1783718784; x=1784323584;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=nJNVxjvVmYROzvILHkxiv/3zu6J6S8o6lQRGVaWTNbg=;
+        b=cExs311bFuZc0FGm+xSlsPDByLx3J7llLmXjAbEKamuNFSHz0USbvZnhvOebgUTwsx
+         pyvtiUQzSZdOZvNFPwRshfimIwh/PfaAnukbR8WarTemT90hrEMu8RUYSWMprmcFICH/
+         YCK9Xr9r1rN6S18hvcC0kjGmfOsScVEBCf+AOb/B5hHOQhV7NzmriHoBtM6MPVog6LoO
+         kmah1RgDNWvfNS3ZReqRyVsvMC+4FqVP+Jp8ATUPxVqNbhEshTn7zYb0BBPo/b5t1rKK
+         66rhRrR7E+7+ck2A2dS9ETn1EOfrcAJaIg1kE91MMRPSN+nFp/YnV733dVFuRugNmqda
+         giYg==
+X-Forwarded-Encrypted: i=1; AHgh+RqfTSGYhzoc9oahf+P0scLHXDosZKkw7tp8Xr6FY59ARrdX/147ozMaRFxPkx6VdDqrkSIDzdadEmY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+ZoEHLwqJKmQ+mOCydM10+HcbWQ0JlXDaefN3I3PrUB0cQWZN
+	DmPP0VFY1vrIL5mHZIjjwBC2Y+yn1/GlqtzH+G2dkzAP/xFdJgeQYArOnI5XM/lqt3wTWx0FQzG
+	U8JqhjH5IcBSNPg==
+X-Received: from pfbln8.prod.google.com ([2002:a05:6a00:3cc8:b0:848:48a0:41e6])
+ (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a00:179b:b0:848:30fe:da34 with SMTP id d2e1a72fcca58-8488974b074mr589334b3a.45.1783718783985;
+ Fri, 10 Jul 2026 14:26:23 -0700 (PDT)
+Date: Fri, 10 Jul 2026 21:26:04 +0000
+In-Reply-To: <20260710212616.1351130-1-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260710212616.1351130-1-dmatlack@google.com>
+X-Mailer: git-send-email 2.55.0.795.g602f6c329a-goog
+Message-ID: <20260710212616.1351130-2-dmatlack@google.com>
+Subject: [PATCH v7 01/12] PCI: liveupdate: Set up FLB handler for the PCI core
+From: David Matlack <dmatlack@google.com>
+To: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org
+Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
+	Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
+	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, Leon Romanovsky <leonro@nvidia.com>, 
+	Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-This series extends the HMM framework to support userfaultfd-backed memory
-by allowing the mmap read lock to be dropped during hmm_range_fault().
+Set up a File-Lifecycle-Bound (FLB) handler for the PCI core to enable
+it to participate in the preservation of PCI devices across Live Update.
+Essentially, this commit enables the PCI core to allocate a struct
+(struct pci_ser) and preserve it across a Live Update whenever at least
+one device is preserved.
 
-Some page fault handlers — most notably userfaultfd — require the mmap lock
-to be released so that userspace can resolve the fault. The current HMM
-interface never sets FAULT_FLAG_ALLOW_RETRY, making it impossible to fault
-in pages from userfaultfd-registered regions.
+Preserving PCI devices across Live Update is built on top of the Live
+Update Orchestrator's (LUO) support for file preservation. Drivers are
+expected to expose a file to userspace to represent a single PCI device
+and support preservation of that file. This is intended primarily to
+support preservation of PCI devices bound to VFIO drivers.
 
-This series follows the established int *locked pattern from
-get_user_pages_remote() in mm/gup.c. A new helper function,
-hmm_range_fault_locked(), accepts an int *locked parameter. When the
-mmap lock is dropped during fault resolution (VM_FAULT_RETRY or
-VM_FAULT_COMPLETED), the function returns 0 with *locked = 0, signalling
-the caller to restart its walk. The existing hmm_range_fault() is
-refactored into a thin wrapper that passes NULL, preserving current
-behavior for all existing callers.
+This commit enables drivers to register their liveupdate_file_handler
+with the PCI core so that the PCI core can do its own tracking and
+enforcement of which devices are preserved.
 
-Possible approaches to lift this limitation are documented in
-Documentation/mm/hmm.rst.
+  pci_liveupdate_register_flb(driver_file_handler);
+  pci_liveupdate_unregister_flb(driver_file_handler);
 
-Changes in v8:
+When the first file (with a handler registered with the PCI core) is
+preserved, the PCI core will be notified to allocate its tracking struct
+(pci_ser). When the last file is unpreserved (i.e. preservation
+cancelled) the PCI core will be notified to free struct pci_ser.
 
-  - Make hmm_range_fault_unlocked_timeout() the primary documented HMM
-    range-fault API, and move hmm_range_fault() into the “use only if the
-    caller really must hold mmap_lock” category.
-  - Clarify that the timeout is a retry budget for repeated mmu-notifier
-    invalidation retries. HMM does not interrupt an in-progress page fault
-    when the timeout expires.
-  - Restart the retry timeout only when handle_mm_fault() dropped
-    mmap_lock, because that indicates a lock-dropping fault handler such as
-    userfaultfd made progress. Ordinary -EBUSY retries keep the existing
-    deadline.
-  - Remove the attempted timeout selftest. The remaining selftest covers the
-    intended userfaultfd path by resolving missing-page faults through
-    HMM_DMIRROR_READ_UNLOCKED and hmm_range_fault_unlocked_timeout(..., 0).
+This struct is preserved across a Live Update using KHO and can be
+fetched by the PCI core during early boot (e.g. during device
+enumeration) so that it knows which devices were preserved.
 
-Changes in v7:
-  - Replaced the unlocked HMM API with
-    hmm_range_fault_unlocked_timeout(). The helper now takes a timeout in
-    jiffies, with 0 meaning retry indefinitely.
-  - Moved -EBUSY retry handling into the HMM helper for the unlocked path.
-    The helper refreshes range->notifier_seq internally before each retry.
-  - Switched the unlocked path to mmap_read_lock_killable() and return
-    -EINTR if mmap lock acquisition is interrupted or a fatal signal is
-    pending during retry handling.
-  - Removed the redundant non-timeout hmm_range_fault_unlocked() interface.
-  - Updated Documentation/mm/hmm.rst and kernel-doc to describe the timeout API
-    and the intended caller pattern.
-  - Updated the HMM selftests to use hmm_range_fault_unlocked_timeout()
-    only, including coverage for the finite-timeout path.
-  - Added in-tree users of the new helper:
-      - mshv
-      - nouveau
-      - RDMA/umem
-      - amdxdna
-      - drm/gpusvm
-  - Preserved each converted driver’s existing timeout convention:
-      - unbounded retry where the old code retried indefinitely,
-      - HMM_RANGE_DEFAULT_TIMEOUT where the old code used that budget,
-      - existing driver-specific timeout return values such as -ETIME.
-  - Used max_t(long, timeout - jiffies, 1) when passing remaining time from
-    absolute jiffies deadlines to avoid unsigned underflow while keeping a
-    minimum one-jiffy retry window.
-  - Left callers on hmm_range_fault() when they already need to hold
-    mmap_lock across surrounding work, such as drm_gpusvm_check_pages().
+Note: This commit only allocates struct pci_ser and preserves it across
+Live Update. A subsequent commit will add an API for drivers to tell the
+PCI core exactly which devices are being preserved.
 
-Changes in v6:
-  - Reworked the new API from the external int *locked pattern to
-    hmm_range_fault_unlocked(), which owns mmap_read_lock() internally.
-  - Changed the dropped-lock contract: hmm_range_fault_unlocked() now returns
-    -EBUSY when the mmap lock is dropped, and callers restart with a fresh
-    mmu_interval_read_begin() sequence.
-  - Kept hmm_range_fault() as the locked variant for existing users, preserving
-    its caller-held mmap lock contract.
-  - Added an in-tree user by converting the MSHV region fault path to
-    hmm_range_fault_unlocked().
-  - Updated Documentation/mm/hmm.rst and kernel-doc to describe the unlocked
-    helper and retry pattern.
-  - Updated commit messages to match the new API and return semantics.
-  - Kept the userfaultfd HMM selftest using the test_hmm unlocked read ioctl
-    path.
+Note: There is no reason to check for kho_is_enabled() since it can be
+assumed to return true. If KHO was not enabled then Live Update would
+not be enabled and these routines would never run.
 
-Changes in v5:
- - Rework hmm_range_fault_unlockable() retry handling to retry
-   VM_FAULT_RETRY internally with FAULT_FLAG_TRIED set, matching the
-   fixup_user_fault() pattern and avoiding repeated first-retry lock drops.
- - Distinguish VM_FAULT_RETRY from VM_FAULT_COMPLETED: retry faults now
-   reacquire the mmap lock internally, while completed faults return to the
-   caller with *locked = 0 so the caller can restart with a fresh notifier
-   sequence.
- - Document the two *locked return states, including the -EINTR case when a
-   fatal signal is pending after the mmap lock has already been dropped.
- - Update comments around HMM_FAULT_UNLOCKED and the HMM fault loop to match
-   the current hmm_range_fault_unlockable() implementation.
-
-Changes in v4:
- - Rebased on 7.2-rc1
-
-Changes in v3:
- - Return -EFAULT from dmirror_fault_unlockable() when the mirrored mm can
-   no longer be pinned.
- - Add an eventfd stop signal for the userfaultfd handler thread to avoid
-   waiting for the poll timeout on successful test completion.
-
-
-Changes in v2:
-
- - Split into a preparatory refactor (new patch 1) that moves
-   handle_mm_fault() out of the walk callbacks, plus a smaller feature
-   patch on top.  Suggested by David Hildenbrand.
- - Hugetlb regions are now supported on the unlockable path; the v1
-   -EFAULT short-circuit and the hugetlb_vma_lock_read drop/retake
-   dance are gone.
- - Distinct internal sentinels for "needs fault" (HMM_FAULT_PENDING)
-   and "lock dropped" (HMM_FAULT_UNLOCKED).
- - Outer loop now re-walks after a successful internal fault so the
-   faulted pfns end up in range->hmm_pfns.
- - Kernel-doc on hmm_range_fault_unlockable() and the
-   Documentation/mm/hmm.rst example match the implementation.
- - Dropped the mshv driver conversion (v1 patch 2); will post
-   separately.
- - Selftest converted to drive the path through test_hmm with a
-   userfaultfd handler (new HMM_DMIRROR_READ_UNLOCKABLE ioctl).
-
+Reviewed-by: Pranjal Shrivastava <praan@google.com>
+Signed-off-by: David Matlack <dmatlack@google.com>
 ---
+ Documentation/core-api/liveupdate.rst |   4 +
+ MAINTAINERS                           |  13 +++
+ drivers/pci/Kconfig                   |  15 +++
+ drivers/pci/Makefile                  |   1 +
+ drivers/pci/liveupdate.c              | 155 ++++++++++++++++++++++++++
+ include/linux/kho/abi/pci.h           |  58 ++++++++++
+ include/linux/pci.h                   |   1 +
+ include/linux/pci_liveupdate.h        |  30 +++++
+ 8 files changed, 277 insertions(+)
+ create mode 100644 drivers/pci/liveupdate.c
+ create mode 100644 include/linux/kho/abi/pci.h
+ create mode 100644 include/linux/pci_liveupdate.h
 
-Stanislav Kinsburskii (8):
-      mm/hmm: move page fault handling out of walk callbacks
-      mm/hmm: add hmm_range_fault_unlocked_timeout() for mmap lock-drop support
-      selftests/mm: add HMM test for mmap lock-dropping faults
-      mshv: Use hmm_range_fault_unlocked_timeout() for region faults
-      drm/nouveau: Use hmm_range_fault_unlocked_timeout() for SVM faults
-      RDMA/umem: Use hmm_range_fault_unlocked_timeout() for ODP faults
-      accel/amdxdna: Use hmm_range_fault_unlocked_timeout() for range population
-      drm/gpusvm: Use hmm_range_fault_unlocked_timeout() for range faults
-
-
- Documentation/mm/hmm.rst               |   76 +++++++--
- drivers/accel/amdxdna/aie2_ctx.c       |   17 --
- drivers/gpu/drm/drm_gpusvm.c           |   52 +-----
- drivers/gpu/drm/nouveau/nouveau_svm.c  |   12 -
- drivers/hv/mshv_regions.c              |   54 +------
- drivers/infiniband/core/umem_odp.c     |   18 +-
- include/linux/hmm.h                    |    2 
- lib/test_hmm.c                         |  107 +++++++++++++
- lib/test_hmm_uapi.h                    |    1 
- mm/hmm.c                               |  259 +++++++++++++++++++++++++-------
- tools/testing/selftests/mm/hmm-tests.c |  150 +++++++++++++++++++
- 11 files changed, 541 insertions(+), 207 deletions(-)
+diff --git a/Documentation/core-api/liveupdate.rst b/Documentation/core-api/liveupdate.rst
+index 5a292d0f3706..b3c689e633c1 100644
+--- a/Documentation/core-api/liveupdate.rst
++++ b/Documentation/core-api/liveupdate.rst
+@@ -1,5 +1,7 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
++.. _luo:
++
+ ========================
+ Live Update Orchestrator
+ ========================
+@@ -18,6 +20,8 @@ LUO Preserving File Descriptors
+ .. kernel-doc:: kernel/liveupdate/luo_file.c
+    :doc: LUO File Descriptors
+ 
++.. _flb:
++
+ LUO File Lifecycle Bound Global Data
+ ====================================
+ .. kernel-doc:: kernel/liveupdate/luo_flb.c
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a3ed337e827d..9cc7b9291ace 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20824,6 +20824,19 @@ L:	linux-pci@vger.kernel.org
+ S:	Supported
+ F:	Documentation/PCI/pci-error-recovery.rst
+ 
++PCI LIVE UPDATE
++M:	David Matlack <dmatlack@google.com>
++R:	Pasha Tatashin <pasha.tatashin@soleen.com>
++R:	Mike Rapoport <rppt@kernel.org>
++R:	Pratyush Yadav <pratyush@kernel.org>
++L:	kexec@lists.infradead.org
++L:	linux-pci@vger.kernel.org
++S:	Maintained
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/liveupdate/linux.git
++F:	drivers/pci/liveupdate.c
++F:	include/linux/kho/abi/pci.h
++F:	include/linux/pci_liveupdate.h
++
+ PCI MSI DRIVER FOR ALTERA MSI IP
+ L:	linux-pci@vger.kernel.org
+ S:	Orphan
+diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
+index 0c7408509ba2..3781e2b5f095 100644
+--- a/drivers/pci/Kconfig
++++ b/drivers/pci/Kconfig
+@@ -271,6 +271,21 @@ config VGA_ARB_MAX_GPUS
+ 	  Reserves space in the kernel to maintain resource locking for
+ 	  multiple GPUS.  The overhead for each GPU is very small.
+ 
++config PCI_LIVEUPDATE
++	bool "PCI Live Update Support"
++	depends on PCI && LIVEUPDATE
++	help
++	  Enable PCI core support for preserving PCI devices across Live
++	  Update. This, in combination with support in a device's driver,
++	  enables PCI devices to run and perform memory transactions
++	  uninterrupted during a kexec for Live Update.
++
++	  This option should only be enabled by users who plan to use Live
++	  Update for kernel upgrades and require preserving PCI devices during
++	  those upgrades.
++
++	  If unsure, say N.
++
+ source "drivers/pci/hotplug/Kconfig"
+ source "drivers/pci/controller/Kconfig"
+ source "drivers/pci/endpoint/Kconfig"
+diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
+index 41ebc3b9a518..e8d003cb6757 100644
+--- a/drivers/pci/Makefile
++++ b/drivers/pci/Makefile
+@@ -16,6 +16,7 @@ obj-$(CONFIG_PROC_FS)		+= proc.o
+ obj-$(CONFIG_SYSFS)		+= pci-sysfs.o slot.o
+ obj-$(CONFIG_ACPI)		+= pci-acpi.o
+ obj-$(CONFIG_GENERIC_PCI_IOMAP) += iomap.o
++obj-$(CONFIG_PCI_LIVEUPDATE)	+= liveupdate.o
+ endif
+ 
+ obj-$(CONFIG_OF)		+= of.o
+diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+new file mode 100644
+index 000000000000..899758883dd5
+--- /dev/null
++++ b/drivers/pci/liveupdate.c
+@@ -0,0 +1,155 @@
++// SPDX-License-Identifier: GPL-2.0
++
++/*
++ * Copyright (c) 2026, Google LLC.
++ * David Matlack <dmatlack@google.com>
++ */
++
++/**
++ * DOC: PCI Live Update
++ *
++ * The PCI subsystem participates in the Live Update process to enable drivers
++ * to preserve their PCI devices across kexec.
++ *
++ * :ref:`FLB <flb>` Data
++ * =====================
++ *
++ * PCI device preservation across Live Update is built on top of the
++ * :ref:`LUO <luo>` support for file preservation across kexec. Drivers are
++ * expected to expose a file to represent a single PCI device and support
++ * preservation of that file with ``ioctl(LIVEUPDATE_SESSION_PRESERVE_FD)``.
++ * This allows userspace to control the preservation of devices and ensure
++ * proper lifecycle management while a device is preserved. The first intended
++ * use-case is preserving vfio-pci device files.
++ *
++ * The PCI core maintains its own state about what devices are being preserved
++ * across Live Update using FLB data in LUO. Essentially, this allows the PCI
++ * core to allocate struct pci_ser when the first device (file) is preserved
++ * and free it when the last device (file) is unpreserved. After kexec, the
++ * PCI core can fetch the struct pci_ser (which was constructed by the previous
++ * kernel) from LUO at any time (e.g. during enumeration) so that it knows
++ * which devices were preserved.
++ *
++ * To enable the PCI core to be notified whenever a file representing a device
++ * is preserved, drivers must register their struct liveupdate_file_handler with
++ * the PCI core by using the following APIs:
++ *
++ *  * ``pci_liveupdate_register_flb(driver_file_handler)``
++ *  * ``pci_liveupdate_unregister_flb(driver_file_handler)``
++ */
++
++#define pr_fmt(fmt) "PCI: " KBUILD_BASENAME ": " fmt
++
++#include <linux/io.h>
++#include <linux/kexec_handover.h>
++#include <linux/kho/abi/pci.h>
++#include <linux/liveupdate.h>
++#include <linux/mm.h>
++#include <linux/kho_block.h>
++#include <linux/mutex.h>
++#include <linux/pci.h>
++#include <linux/slab.h>
++
++/**
++ * struct pci_flb_outgoing - Outgoing PCI FLB object
++ * @ser: Pointer to the preserved struct pci_ser.
++ * @block_set: The KHO block set holding the outgoing devices.
++ *
++ * This structure holds the runtime state for the outgoing PCI Live Update
++ * state. It wraps the serialized pci_ser and the block_set used to manage
++ * the serialized entries.
++ */
++struct pci_flb_outgoing {
++	struct pci_ser *ser;
++	struct kho_block_set block_set;
++};
++
++static int pci_flb_preserve(struct liveupdate_flb_op_args *args)
++{
++	struct pci_flb_outgoing *outgoing;
++	struct pci_ser *ser;
++
++	outgoing = kzalloc_obj(*outgoing);
++	if (!outgoing)
++		return -ENOMEM;
++
++	ser = kho_alloc_preserve(sizeof(*ser));
++	if (IS_ERR(ser)) {
++		kfree(outgoing);
++		return PTR_ERR(ser);
++	}
++
++	ser->nr_devices = 0;
++	ser->devices = 0;
++
++	outgoing->ser = ser;
++	kho_block_set_init(&outgoing->block_set, sizeof(struct pci_dev_ser));
++
++	args->obj = outgoing;
++	args->data = virt_to_phys(ser);
++	return 0;
++}
++
++static void pci_flb_unpreserve(struct liveupdate_flb_op_args *args)
++{
++	struct pci_flb_outgoing *outgoing = args->obj;
++
++	WARN_ON(outgoing->ser->nr_devices);
++	kho_block_set_destroy(&outgoing->block_set);
++	kho_unpreserve_free(outgoing->ser);
++	kfree(outgoing);
++	pr_debug("Unpreserved struct pci_ser\n");
++}
++
++static int pci_flb_retrieve(struct liveupdate_flb_op_args *args)
++{
++	args->obj = phys_to_virt(args->data);
++	return 0;
++}
++
++static void pci_flb_finish(struct liveupdate_flb_op_args *args)
++{
++	kho_restore_free(args->obj);
++}
++
++static struct liveupdate_flb_ops pci_liveupdate_flb_ops = {
++	.preserve = pci_flb_preserve,
++	.unpreserve = pci_flb_unpreserve,
++	.retrieve = pci_flb_retrieve,
++	.finish = pci_flb_finish,
++	.owner = THIS_MODULE,
++};
++
++static struct liveupdate_flb pci_liveupdate_flb = {
++	.ops = &pci_liveupdate_flb_ops,
++	.compatible = PCI_LUO_FLB_COMPATIBLE,
++};
++
++/**
++ * pci_liveupdate_register_flb() - Register a file handler with the PCI core
++ * @fh: The file handler to register.
++ *
++ * Drivers should call pci_liveupdate_register_flb() to register their
++ * struct liveupdate_file_handler with the PCI core. This enables the PCI core
++ * to allocate its outgoing struct pci_ser whenever the first device is
++ * preserved, and free it when the last device is unpreserved.
++ *
++ * Return: 0 on success, <0 on failure.
++ */
++int pci_liveupdate_register_flb(struct liveupdate_file_handler *fh)
++{
++	pr_debug("Registering file handler \"%s\"\n", fh->compatible);
++	return liveupdate_register_flb(fh, &pci_liveupdate_flb);
++}
++EXPORT_SYMBOL_GPL(pci_liveupdate_register_flb);
++
++/**
++ * pci_liveupdate_unregister_flb() - Unregister a file handler with the PCI core
++ * @fh: The file handler to unregister.
++ */
++void pci_liveupdate_unregister_flb(struct liveupdate_file_handler *fh)
++{
++	pr_debug("Unregistering file handler \"%s\"\n", fh->compatible);
++	liveupdate_unregister_flb(fh, &pci_liveupdate_flb);
++}
++EXPORT_SYMBOL_GPL(pci_liveupdate_unregister_flb);
+diff --git a/include/linux/kho/abi/pci.h b/include/linux/kho/abi/pci.h
+new file mode 100644
+index 000000000000..de549016807a
+--- /dev/null
++++ b/include/linux/kho/abi/pci.h
+@@ -0,0 +1,58 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++/*
++ * Copyright (c) 2026, Google LLC.
++ * David Matlack <dmatlack@google.com>
++ */
++
++#ifndef _LINUX_KHO_ABI_PCI_H
++#define _LINUX_KHO_ABI_PCI_H
++
++#include <linux/bug.h>
++#include <linux/compiler.h>
++#include <linux/types.h>
++
++/**
++ * DOC: PCI File-Lifecycle Bound (FLB) Live Update ABI
++ *
++ * This header defines the ABI for preserving core PCI state across kexec using
++ * Live Update File-Lifecycle Bound (FLB) data.
++ *
++ * This interface is a contract. Any modification to any of the serialization
++ * structs defined here constitutes a breaking change. Such changes require
++ * incrementing the version number in the PCI_LUO_FLB_COMPATIBLE string.
++ */
++
++#define PCI_LUO_FLB_COMPATIBLE "pci-v1"
++
++/**
++ * struct pci_dev_ser - Serialized state about a single PCI device.
++ *
++ * @domain: The device's PCI domain number (segment).
++ * @bdf: The device's PCI bus, device, and function number.
++ * @refcount: Reference count used by the PCI core to keep track of whether it
++ *            is done using a device's struct pci_dev_ser. The value of the
++ *            refcount is equal to 1 when the struct pci_dev_ser is in use, and
++ *            0 otherwise.
++ */
++struct pci_dev_ser {
++	u32 domain;
++	u16 bdf;
++	u16 refcount;
++} __packed;
++
++/**
++ * struct pci_ser - PCI Subsystem Live Update State
++ *
++ * This struct tracks state about all devices that are being preserved across
++ * a Live Update for the next kernel.
++ *
++ * @nr_devices: The number of devices that were preserved.
++ * @devices: Physical address of the first KHO block containing pci_dev_ser.
++ */
++struct pci_ser {
++	u32 nr_devices;
++	u64 devices;
++} __packed;
++
++#endif /* _LINUX_KHO_ABI_PCI_H */
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index ebb5b9d76360..da58aa101e4c 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -43,6 +43,7 @@
+ #include <uapi/linux/pci.h>
+ 
+ #include <linux/pci_ids.h>
++#include <linux/pci_liveupdate.h>
+ 
+ #define PCI_STATUS_ERROR_BITS (PCI_STATUS_DETECTED_PARITY  | \
+ 			       PCI_STATUS_SIG_SYSTEM_ERROR | \
+diff --git a/include/linux/pci_liveupdate.h b/include/linux/pci_liveupdate.h
+new file mode 100644
+index 000000000000..8ec98beefcb4
+--- /dev/null
++++ b/include/linux/pci_liveupdate.h
+@@ -0,0 +1,30 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * PCI Live Update support (Public/Driver API)
++ *
++ * Copyright (c) 2026, Google LLC.
++ * David Matlack <dmatlack@google.com>
++ */
++#ifndef LINUX_PCI_LIVEUPDATE_H
++#define LINUX_PCI_LIVEUPDATE_H
++
++#include <linux/liveupdate.h>
++#include <linux/types.h>
++
++struct pci_dev;
++
++#ifdef CONFIG_PCI_LIVEUPDATE
++int pci_liveupdate_register_flb(struct liveupdate_file_handler *fh);
++void pci_liveupdate_unregister_flb(struct liveupdate_file_handler *fh);
++#else
++static inline int pci_liveupdate_register_flb(struct liveupdate_file_handler *fh)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline void pci_liveupdate_unregister_flb(struct liveupdate_file_handler *fh)
++{
++}
++#endif
++
++#endif /* LINUX_PCI_LIVEUPDATE_H */
+-- 
+2.55.0.795.g602f6c329a-goog
 
