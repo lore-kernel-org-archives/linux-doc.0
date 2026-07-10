@@ -1,69 +1,68 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7917E3358C4
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 16:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49539426410
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 16:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783700872; cv=none; b=b+D+6xO5yLQNXsqn9PTrUd7zVu/CiMA8z7T6Ht7f4qfF8oAD5QZZGIXMpSdwqUVA/mBflVymwc8RMdcNgLsNCUZEQWpQ3mBVFPa7BBnrzQb6HZKs3r7yJZAtji7Kyb0vB3/yH/G2q3IKbnUyarp70YeCR7VVlMVo1nIopH1E5gk=
+	t=1783701101; cv=none; b=Vkgy6V74vc4vXOXjXw5Oee40nPkAklYwx4y5swutJ/UOJ+s8XcWrjg2KCtWyVsOuxACacYDyBxxnidcFIRMu0BuzUo+qZWWf4kFrp+MsAr3lmYrRl7ytCdjxQ5ijoGMk930C023bKjcgHiMbxlElFBua6VeItbrVY7Hy1UW0DKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783700872; c=relaxed/simple;
-	bh=zFHfJ1sc06mEROvkctmUCy8ljGsoiIWpsgO49VU7hjE=;
+	s=arc-20240116; t=1783701101; c=relaxed/simple;
+	bh=Sbx8vXWqQQ/M0W9UlsuLQM8Ua5Q1vedFs+JL66TJWSc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KmB+57aWwfzCMD74r0TrW0Jr/XlXAQYNRPnc+GMxNZddNNeaQiWAsdYNelJrHF0fweL16/kZN+X78d/4WdSXfgCy+Q4KcWVSSZzBHCh+cxj5G0JF+Si+F+1ti4cYMa3TPCeW+xTqQLYuzK1vuXYGGV/39y5C2lHex+y0Z1QQCZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=kzWtCM71; arc=none smtp.client-ip=209.85.219.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=oJ+9IMhL3H17oXulQBWjhQ+BBLRVghKys/NUyROY63Z8lZySQhEns6e4Z5VaT9GKWAS4IyQq04rcM8k/0M3JB7mKAWNMIVrAYf8ZBALayBK8s17Qp3KB5YRKFUEcwGnjm6cvClr4GY95YqyIirLqL7mZ8aEAHTFo3NujmSC89jI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=C9B0DUBQ; arc=none smtp.client-ip=209.85.219.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="kzWtCM71"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-8ee88fce476so11922726d6.0
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 09:27:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="C9B0DUBQ"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-9030f8ea3b3so6978056d6.1
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 09:31:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1783700870; x=1784305670; darn=vger.kernel.org;
+        d=ziepe.ca; s=google; t=1783701099; x=1784305899; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=UNIXCm8Zus/z4nQ3xLBTLCwOawMM/+5sDMMsd2dm66E=;
-        b=kzWtCM71+HYvSg5oE26kEeUnwihq3A/acXX4BVp3dJc4iGnjTsKQa4fnDYBQ6pBk5b
-         29P7+Ypob7sR/qVJoC4xvQRlyVPCMjusy4b039Vp+MK0tL862RkeqyZhehuW4fn6jBFg
-         BjxPS2nXse00VxL/pgQkm6gJ4jdEQwmI73lDyKnZGowzDZmOCSL17+P5Ktrf+fL6mmzf
-         zxy6NhAvixXcWArIhMEK+//tQhuCNzrhiieoCnSaFt3Czfuu+cqU5kw81pvl3qkEYBbL
-         S7JSGCUqPHUb7lYX8lvUJynDgusxrNxM7CH2DQtYQy3HkWF8djnbgx0z0K5075l4UiLM
-         NK8g==
+        bh=ihr9TBqVvOWsgDH+NpkUYsK2K2fCkLkiaNuX2IHUYwY=;
+        b=C9B0DUBQrFvmPqU9NSXU7hegpl7ojs8/mhmMnr9+I8B5xI9cbJN4vquMR+TKjoSRbe
+         hRVqntMatUOMVwQ77aec0J9Doya+aG8IZxs5XirF5Ku3Ah35eFZG0l4ACmfIwbWBJMhX
+         oVNossKW2Twv3Vh/obtosrQ/pXr9DDd7KelvhktBuY09jEM5IGYcXMOnzEoGs6Q/7Jdj
+         K7AUzEdbaXOvsXR0zmLhfvAaQjl+FLj+w+DzYga35xmOl5qsbr94OSq0jOzS2tfeoYeK
+         6EJs8zXW2Mz1qdRSBb4NWbEFf6BK3WwdCTjumyD2SidvzWStaTThJnCiasO0muhiqMZ2
+         k0bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783700870; x=1784305670;
+        d=1e100.net; s=20251104; t=1783701099; x=1784305899;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=UNIXCm8Zus/z4nQ3xLBTLCwOawMM/+5sDMMsd2dm66E=;
-        b=HgJyDyNfXd/3+EqoWfSl/1PA1kLwE9BscUE/nIZEbxsr2eV4KXgbx4qciIvggPM7my
-         zVIaLmThQEZkS2dy368wgEChIcR6eJ6AIMdODe16z8nG92rwXVg4B5Z70b0Aucf3h5sZ
-         jl5DzmyecY7CL+GwEa/MTQIOee2gCRUhB52reckEOySMTCTUHYO8lnTuJSx5dTSTVhBe
-         75ZxuyD3HDVuFVejf/zsNY2rZTjukyq9TPzasS0bSxJdB5erM85MZTt4UX6XUM6P8AHN
-         g7m4zct8eG7qTALovBlyNqaDuWF9FB9u5y7kC5u6j2+oMf1T9euulNsG8ZO7tfwP+oF3
-         28JA==
-X-Forwarded-Encrypted: i=1; AHgh+RpAvhwXBpuxyq4L9/l/P0F8tKYonJllOLqWxK9kql8hSsqDzHpmKh6IEYyNWaG0KmL8YU6FemtTFEE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2sGckli/o1ixExcCWKR3pOEue4GKZvWbk6zfN/28VciWbgll2
-	ONKymMdiYLpdNL3O5zBTnfyFsZ0B/V+09VerpSlFbEnOWsnE7FqG4B2V8QQjs2kFM0W432IPFkY
-	iI10C
-X-Gm-Gg: AfdE7ckv6DBTr36uHzARnDNo8eqoqDz1oWzf4i0omNI92A3IA8J+TXNcDBP7qiiMw16
-	mz0tGTT45r0eWNAtNGOufkBBla5zmaph0g+DbORDqZAXaPlBlR4NY0+tSeHsx6Un+XXnhcn8C3w
-	n83K9uaQH5NhnRfwfVzS1hQCGN5hQMbA2eG1jE0XyYBL+cQWpUW+67u6DQ8aIl8KMOYS0mwzspL
-	L++llbarbC6YqEx+aFor5b7rMAsGctVb1JjlgApSjQDPDxd2hY+/qzQBI2bs/Judp5SsRcNhbwm
-	1+W9rmBPDyx8goO7ra7b7eT0W3gcbEbnvhHlemW1V04cFLExB44NZ9wDj5lL0pKppiYF5bQijSs
-	dFJgqJkYg2Of+Sa45pWAK4kmN/uWKW1f+OYX+5KehbH90cU98yU/2Ox8rfWuXDsiUSBppmKg=
-X-Received: by 2002:a05:6214:2127:b0:8f5:eea1:6f04 with SMTP id 6a1803df08f44-8fec3522cffmr120531466d6.54.1783700870475;
-        Fri, 10 Jul 2026 09:27:50 -0700 (PDT)
+        bh=ihr9TBqVvOWsgDH+NpkUYsK2K2fCkLkiaNuX2IHUYwY=;
+        b=pdz3yI0S2cP9Hk9VDTQD+30MU+qqygYeNOrNBUEU0EeweISL2rcwuIfcb8DPyB2Nbg
+         CnOUiITImKiQ9xJaxEg+3h4p78038zhdj625bEKlo2LMhmB8+EhuWgf4GbGEJseQX0yZ
+         Thc3tZVTP8qOKFye8xylmbR47pCc6q/RyMAx2CKd8cl8rQ4A8+zqaO1Sl9IqZjpJtSWw
+         qal05rt2h9S2pA9Awt6NVRa5DFQgi/P/VPRaCvQ7g5dd34TVEqhcTNn2fw5og/RN372M
+         aYsaUtNhgakrDSWGebCYpI75eROV8dUFNDMnbUxNPQ0YoqhvB/sf36YDcdY+WzVE8s5k
+         h5ag==
+X-Forwarded-Encrypted: i=1; AHgh+RrulsmZwaZFcSIjNG0DIZCixSEGOgrFsBcwPwr0lcGgWUtr18scWZ2TNPyS9Wc4AyeF9A/1v0x8ZHo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdgPO0DFTEZl/tEwcVqGCwotDl9Kgw36/K8BXHxyswhB3G8TM3
+	4gdNsnYatSjB26eNRoY2ud2vmZYd0eE0C0ecESJqA6a5MurXgBvz/Nf4XLR3edvxuFs=
+X-Gm-Gg: AfdE7ckFQQ1KI7A7nv1Gzbq9SI1nsB9vzn62Xzh1te0ncbQFye0zuYnu89qmTN6hLl2
+	PkDccoA4jrvfZEFoRk26M3QpePJjUtjYWNXFnaAnfassUQms9bUUlwXlUbuyvJ5D3uS8VlMaKLS
+	yONERA6/AbGIE8WL9BVEqih+bIT0LfSJnEWPQNRMqQeCNWDbKWwt6oXDF0LTEEK+70v6ZzRQGPo
+	KOULkYmFTy1u/0mBptIN3BHSVlbNFutX2yiGiCAtBo9q6KXOuwdaSNEFqtC8B/z3NutxaMCrdil
+	AcF/zih1EJGGP+9hSIYA/CRA3dypxAqHa5uHqfU8jFhdfVjYEBzfFz61Tlu8OIFEDI+kKM35ydo
+	U9Dpfb+0zaspQyLyZxI4hyKYbYH+laS5y7z2LJIUxlDTNPXc7vNHt3QDrR20aJrPeKs6MYeM=
+X-Received: by 2002:a05:6214:4710:b0:903:12c9:cba6 with SMTP id 6a1803df08f44-90312c9dcb8mr32500716d6.47.1783701099176;
+        Fri, 10 Jul 2026 09:31:39 -0700 (PDT)
 Received: from ziepe.ca ([159.2.72.92])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ffd50e081dsm44781476d6.9.2026.07.10.09.27.49
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ffd56c4cd1sm44753226d6.16.2026.07.10.09.31.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 09:27:49 -0700 (PDT)
+        Fri, 10 Jul 2026 09:31:38 -0700 (PDT)
 Received: from jgg by wakko with local (Exim 4.97)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1wiE4r-00000007XPF-1WDC;
-	Fri, 10 Jul 2026 13:27:49 -0300
-Date: Fri, 10 Jul 2026 13:27:49 -0300
+	id 1wiE8X-00000007Xks-3Vyo;
+	Fri, 10 Jul 2026 13:31:37 -0300
+Date: Fri, 10 Jul 2026 13:31:37 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Stanislav Kinsburskii <skinsburskii@gmail.com>
 Cc: airlied@gmail.com, akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org,
@@ -81,11 +80,11 @@ Cc: airlied@gmail.com, akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org,
 	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
 	linux-rdma@vger.kernel.org
-Subject: Re: [PATCH v7 2/8] mm/hmm: add hmm_range_fault_unlocked_timeout()
- for mmap lock-drop support
-Message-ID: <20260710162749.GP118978@ziepe.ca>
+Subject: Re: [PATCH v7 1/8] mm/hmm: move page fault handling out of walk
+ callbacks
+Message-ID: <20260710163137.GQ118978@ziepe.ca>
 References: <178345345668.660027.2952911919681614557.stgit@skinsburskii>
- <178345362182.660027.12809852179204464964.stgit@skinsburskii>
+ <178345361483.660027.16455119612963295072.stgit@skinsburskii>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -94,28 +93,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <178345362182.660027.12809852179204464964.stgit@skinsburskii>
+In-Reply-To: <178345361483.660027.16455119612963295072.stgit@skinsburskii>
 
-On Tue, Jul 07, 2026 at 12:47:01PM -0700, Stanislav Kinsburskii wrote:
+On Tue, Jul 07, 2026 at 12:46:54PM -0700, Stanislav Kinsburskii wrote:
+> hmm_range_fault() currently triggers page faults from inside the page-table
+> walk callbacks: hmm_vma_walk_pmd(), hmm_vma_walk_pud(),
+> hmm_vma_walk_hugetlb_entry() and the pte-level helper all call
+> hmm_vma_fault(), which in turn calls handle_mm_fault() while the walker
+> still holds nested locks.  The pte spinlock is dropped explicitly by each
+> caller, and the hugetlb path manually drops and retakes
+> hugetlb_vma_lock_read around the fault to dodge a deadlock against the walk
+> framework's unconditional unlock.
+> 
+> This layering does not extend cleanly to fault handlers that may release
+> mmap_lock (VM_FAULT_RETRY, VM_FAULT_COMPLETED). If the lock is dropped
+> while walk_page_range() is mid-traversal, the VMA can be freed before the
+> walk framework's matching hugetlb_vma_unlock_read(), turning that unlock
+> into a use-after-free.
+> 
+> Split the responsibilities the way get_user_pages() does. Walk callbacks
+> become inspect-only: when they detect a range that needs to be faulted in,
+> they record it in struct hmm_vma_walk and return a private sentinel
+> (HMM_FAULT_PENDING). The outer loop in hmm_range_fault() then drops out of
+> walk_page_range(), invokes a new helper hmm_do_fault() that calls
+> handle_mm_fault() with only mmap_lock held, and restarts the walk so the
+> now-present entries are collected into hmm_pfns.
+> 
+> No functional change for existing callers. As a side effect the hugetlb
+> callback no longer needs the hugetlb_vma_{un}lock_read dance, and every
+> fault-path exit from the callbacks now releases the pte spinlock on a
+> single, common path. This refactor is also a precursor for adding an
+> unlockable variant of hmm_range_fault() in a follow-up patch.
+> 
+> Signed-off-by: Stanislav Kinsburskii <skinsburskii@gmail.com>
+> ---
+>  mm/hmm.c |  118 +++++++++++++++++++++++++++++++++++++++-----------------------
+>  1 file changed, 75 insertions(+), 43 deletions(-)
 
-> +int hmm_range_fault_unlocked_timeout(struct hmm_range *range,
-> +				     unsigned long timeout)
-> +{
-> +	struct mm_struct *mm = range->notifier->mm;
-> +	unsigned long deadline = 0;
-> +	int locked, ret;
-> +
-> +	if (timeout)
-> +		deadline = jiffies + timeout;
-> +
-> +	do {
-> +		if (fatal_signal_pending(current))
-> +			return -EINTR;
-> +
-> +		if (timeout && time_after(jiffies, deadline))
-> +			return -EBUSY;
-
-I really dislike there is a timeout here, HMM is supposed to be more
-deterministic. GUP doesn't have a timeout, what is this about?
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
 Jason
