@@ -1,104 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA7B52C11CA;
-	Fri, 10 Jul 2026 19:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4756A2367DF
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 19:21:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783711201; cv=none; b=OpyWq5NKKPiQhZfJvvkPL71E/GlL7FYkkQQgwhiXcIwKHH2sjXmMJXR8xqALMyl5GPKlq6NZQ6kvrrMtKGoihTugupGiZ1+TVt40HasTKh02y1bBTd8c5jpWbMuWa/GKWU2vX1jLO1BBf1xGYYuIZ9fHVwQsh9LR9n3mqcG1DUo=
+	t=1783711296; cv=none; b=TlNJcMLtCp7T5JebQ+RGOh5ggve5NIxNRAG/og9NYRblhKgbWOBjDsJcvwz3cMkq4Y+6Io4TDm+Le0DlCpxv5yOdDh2g4+oRWftIGd9x0H/BjnsLQDwtYyMIznbhMKiPZCwIKSv7EvHiF37UXgavAZqWy3Te9D7Hw834eVqFRpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783711201; c=relaxed/simple;
-	bh=2rw2PxLGznQEWQfneszCluqe4OqXoypkNdS9ILgvT5w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VD/1RXhLRMykSYf/F/IwvgkCQoVEuOpasaINOZ4PSUie+QKLr2uh5jn96P8MTi6A9ajGCD5ZOp3T/O6QNssrapAjIJBAcY5OIH3bgPM535THtrSFaIixWtLYqoejT4henXWgs1i9ZhNWu5Dw2ibYTcYSNiKtBKC3dnCS7KwHMPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GEJqiMos; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783711296; c=relaxed/simple;
+	bh=7E5WD+zVTl37AL4SlMGtY6HC6iHeLpVknqlRrVOPp/o=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=YMjJf80nP36dcbpVds0nctV9ELibDMw/QSA76H3XkBC8I6cUKVevrErfa5Ar5fqthvN41Hd5PMOB4MjGzLLWRYtCpl8ssY44ebdNCmO8hcjDNU/dT466gykPi5ALehsi6GqMBbZlRd/LTaP2U0x1Sug13Qrj2l36geSbV+caR5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=KHYw0w66; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GEJqiMos"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05E681F000E9;
-	Fri, 10 Jul 2026 19:19:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783711199;
-	bh=7vaDAEzbyRLblqFIJzSExEX+Fr8GhvQNfu9Gwp2NWyw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=GEJqiMosDruYqisdW+phxteUPy3iHgILrQMivz5euJ8bS+hUmhdd27d5awf2DrfbK
-	 vcxcVEb622u5gqNn7KE5H4SrHa2iAO8oIWYSiKsghMJ6lOq3dRxdxndkQphjIMisye
-	 h659COxfNcPvdro1ElOBYvHzSwlHarGtFM23U9j7dQLZl1wAfc3mRlMLJk+5C5Z9yh
-	 A0lRv61iPgecL0QQcbl5oJ0GacPMPL/uKju4Z2PSp/LiUxToNRLtGFOF7uhSYEA0bO
-	 4LKKBDQekmE1yhMvWNVUQRA1MmLT/m4MCleo28Jg5z6O9fuYVQL2zJccDI4vZnlQGU
-	 29n6IpB066iUA==
-Date: Fri, 10 Jul 2026 21:19:53 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, Clinton Phillips
- <clintdotphillips@gmail.com>, Daniel Lundberg Pedersen <dlp@qtec.com>, Hans
- Verkuil <hverkuil+cisco@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Petr Vorel <pvorel@suse.cz>, Randy Dunlap
- <rdunlap@infradead.org>, Rito Rhymes <rito@ritovision.com>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH] docs: custom.css: don't limit randering to old 800px
- monitors
-Message-ID: <20260710211953.2a3dbfa9@foz.lan>
-In-Reply-To: <87fr1qn9us.fsf@trenco.lwn.net>
-References: <1950557405f1150acb1de50de1801f2413223b87.1783673996.git.mchehab+huawei@kernel.org>
-	<87fr1qn9us.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KHYw0w66"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7AF5F4108A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1783711294; bh=FUKWhrGAsZnLJyaQ4CDccxzHqtNVsmT3KGRtBadwwXQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=KHYw0w66WXNoMsptTrXoEGWfXU7BzJMu7zuKYuc9OE0uSys5/7vT5yjZFWui1TncC
+	 heQon3xav+eXGjfEOaM3OY3VDcThm48l1l/kSow73vYpWcqe5DZAs+cEaxnb7NY9YR
+	 ixrTgADcYKcIho8KxpBaWpRQj+xjz8N6Q0KrpcTT/g+TlVS8WIonJ+lI9iE3fAbPzW
+	 FWhzNvDFGTEywHymRUlBrp/udzYgo+YF3O9RtYgdWg1Zlmx/SoPYuSz/SCIpAUkzgb
+	 0zbao3uKdci55iH5kxarLnsvk4Du2aROYJV10anyqnMy0uzVRTa7UBh4UaLbr9Euwf
+	 CXdUNhQTFaYRQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7AF5F4108A;
+	Fri, 10 Jul 2026 19:21:34 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Daniel Pereira <danielmaraboo@gmail.com>, Amanda =?utf-8?Q?Corr=C3=AAa?=
+ <amandacorreasilvax@gmail.com>
+Cc: linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: pt_BR: translate the management-style.rst to
+ Brazilian Portuguese
+In-Reply-To: <CAMAsx6ewmXd205h37LDTzj9FgFasgodNzS51KzSEH8M_guNJGQ@mail.gmail.com>
+References: <20260703181326.47524-1-amandacorreasilvax@gmail.com>
+ <CAMAsx6ewmXd205h37LDTzj9FgFasgodNzS51KzSEH8M_guNJGQ@mail.gmail.com>
+Date: Fri, 10 Jul 2026 13:21:33 -0600
+Message-ID: <878q7ilkg2.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 10 Jul 2026 09:27:23 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
+Daniel Pereira <danielmaraboo@gmail.com> writes:
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > Right now, base.css style imposes a maximum limit of 800 horizontal
-> > pixels to be compatible with very old SVGA monitors.
-> >
-> > Remove such artificial limit, letting the output to be adjusted to
-> > the browser windows size.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  Documentation/sphinx-static/custom.css | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-> > index 5aa0a1ed9864..1055db7dc1dd 100644
-> > --- a/Documentation/sphinx-static/custom.css
-> > +++ b/Documentation/sphinx-static/custom.css
-> > @@ -3,6 +3,8 @@
-> >   * CSS tweaks for the Alabaster theme
-> >   */
-> >  
-> > +div.body {  max-width: none; }
-> > +  
-> 
-> 800px is clearly a dumb limit, I have no problem changing that.  Going
-> to arbitrary width doesn't seem good for readability, though.  What do
-> you think about, instead, setting a limit in a resolution-independent
-> say, to (say) 60em?
+> Em sex., 3 de jul. de 2026 =C3=A0s 15:13, Amanda Corr=C3=AAa
+> <amandacorreasilvax@gmail.com> escreveu:
+>>
+>> Key changes include:
+>> - Translated management-style.rst into and adapted idiomatic expressions
+>>   and humor to sound natural in Brazilian Portuguese while maintaining
+>>   the original tone.
+>>
+>> Signed-off-by: Amanda Corr=C3=AAa <amandacorreasilvax@gmail.com>
+>
+> Amanda, for organization purposes, please resubmit the patch using the
+> email address that will be used.
 
-60em also seems too small, considering the size of tables we have on
-media. Some tables have one column for each bit, plus one or two other
-columns, so the table would easily have up to 34 columns. After adding
-long fourcc codes there and V4L macro names, it can easily be very big,
-in terms of "em" measures.
-
-If you don't want to let it become too big(*), then perhaps it could
-be something like:
-
-	div.body {  max-width: 80%; }
-
-(*) personally, I don't see any issues on it. My monitor's ratio is
-    32/9. Quite the opposite, with such ultra-wide screen, I don't like
-    sites that have fixed max-width limits, as they end limiting my
-    personal taste for no good reason.
+I don't understand what you are asking for here?  There is one email
+address used consistently in this patch, is there something wrong with
+it?
 
 Thanks,
-Mauro
+
+jon
