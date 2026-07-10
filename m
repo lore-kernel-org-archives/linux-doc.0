@@ -1,331 +1,206 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D353E3BF665
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 21:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CCE3BF699
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 21:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783718795; cv=none; b=hgNSUb0hOQGMP+aQLy8A/5jp8rq8AC8a00l6lntdskBgIkGCZkegrFJbZDwOVUNzDHi7WP6j0TIhuF4Ajjg/tejcLvuR22T7UQZRZfaChP5dIdp220d61PSR4GkAbAMn2p97ilEyjIT2G5bjXew+Z8Vg9Xuvj71sDm7lqefCiVY=
+	t=1783718796; cv=none; b=OLAUs5d8QfynVeLeovWEF6Tm+WCEE0rWHrJS3+UPr5R8qdUfPtuvNmlXuY2i2R5/lZxDopVsa6H5WA11OYVHmooB6S99OLJ9ExAc5X3zrIDmUwSyOD5vqDLW7Q5I1g0zHXNUX/f8+m+t29DWoXTrsC+IKGS6DEBFiyNXiwQP7xQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783718795; c=relaxed/simple;
-	bh=EkKsxGxbwqoAEVoChmNYdEJ3T6vK01FnBsNC9G9arvg=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Bvsz2zC72UAwWlB47NDNRVPXWGucZMD5tQ9ZwUws6fARgJJAwXmsgkjCsuXv/MW6aLdqiyG6LDqPPlaPJNGnOhHs83afy+y9c4/2m5zjxKtKssRSlsp4WP+tXP1DY6ojzSR2o/erC13389JKBjz+XnlgFT1L7KEuOxotau4Rxkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pYM/HePd; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783718796; c=relaxed/simple;
+	bh=hBpyAX1ANil//5hIqEWoMbY4GyRjYVO8UOaUzZ3AIBE=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=TVj//bD3fhf1PMhyLD/h5z/iyuJ6vzLD1hTs2M5zfQHL0JX2/lVQ4xgjYB2ut/lpNEpPPutDzWH//kkAk1odwcJ3PFyJQu0Yf4ikpZFqs3pk/AEKuVAZt+CoOfY8CQ1b0aR8TB1tkTeTe7CkAtFe9ZuFxfFMjgDpolc0H+bxmLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HEIN/LiG; arc=none smtp.client-ip=209.85.210.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pYM/HePd"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-38dbb3e08c4so723814a91.1
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 14:26:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HEIN/LiG"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-848662cd2a1so1740572b3a.2
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 14:26:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783718790; x=1784323590; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:user-agent
-         :references:in-reply-to:message-id:date:cc:to:from:subject:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=8+MHxD8uf0HO8SRBYZIasl4vPo7jNKxT6S73gN/spU8=;
-        b=pYM/HePdkgyz9sRexjpJV2zNuxQ2oEBuxzV6Ka9zhgeN46Z9DKBPNHWs2kZOkzzWG5
-         s91VJ3OkYi6vnMsRR21zJaJL+o9Y5Cm6SLT/NyxRYH3B/JcOK1C4ZYSEJH797j/O1bl4
-         /fV0KtTWVZOyi3fzodS2JYUS6s8DiT+hZs73wHgkp7jK8Fvc6cPr0WmDlQ6QOvrZX0dZ
-         G2XKVFWmYC426FW2LgQWoktCarpPPsuZbq5hz1Am7DF82m6kMwTENLsVh8BQt7uh6I52
-         pM9p+KV1HuO00992Usj8eOmO6NBFI6MA8hMkwrPE228sKQs3ETtFwsg48ATnDo5Utby+
-         ZxKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783718790; x=1784323590;
-        h=content-transfer-encoding:content-type:mime-version:user-agent
-         :references:in-reply-to:message-id:date:cc:to:from:subject:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1783718791; x=1784323591; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=8+MHxD8uf0HO8SRBYZIasl4vPo7jNKxT6S73gN/spU8=;
-        b=CxU9sdfmQ+4MpV7DOAbn4cpLzWKuf12lauKVn6q7fgtWNANjYoa+4EdQziihZc9Ani
-         C0uaxivlJPm5nnZX+igXWKjg+Xrw34/d8+zLjcH3GDMl9PXSaywl28ltAzzTdUemPt6A
-         KMSfScSnwkOk9dzvl4ewgA2Tjlr7dYQbqtYoKx80ipxx59y1EZo/C9fCUkNdj0tvGNoj
-         VfQeyKp6mK/8uhadMQa7xF8V5fEZYy+5dH9cWMbmnleqaPKIEe2+rwra4yk/WVhW2/3b
-         ipOU3GZxquqymYn4UR/Xzg9XbLfkz8IU+LmgN1V+W9diYnBUEwIfX/RHiG3n05ppeZds
-         YpBg==
-X-Forwarded-Encrypted: i=1; AHgh+RrRBbpw50K66wVydxT5Gd0lBxbOjzfOCKHSaGOuT3WfHN5LLr0NlLMR76KWJmwseXla93kUYopMN5E=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywn9VVAjSMCX6oU+vncNqG/s1cVnL7ce+KxIPLfsgye6PNoweOp
-	XZEMiinEF6CxPfDL9ClI4msgjEGAcSup0BabcajTnepDq0jGaiNjWj/J
-X-Gm-Gg: AfdE7ckA+aYaU2AgcJ8cXIh4bhfAmM9BKlmhmOy5hWqZZUVMARzeyXIFLbWsaQNaMmx
-	pKBALz7KaQ407AYLPCLGRhutFT2dBkLBtyYjPGKUBXLjZlAEkkOhuijgEHahvp8uvRh3gg/vZbw
-	JRb0DU7kNq4ky9sMN7RhB3YBj2NLLR3LrRahvG5thmNY6SOskBNqzYM0woW5fbCCrpiYomWxkVU
-	bFiU/51W5ATdS+ARniwh1J6TwseQlwz15vM0LqGOgkLtKGMPETqke6uH41CEx+ArCQoGsiwkXac
-	e29ozh60U16P4qMVSL47T95DMTw9ys4KoBxq6A6r3vty/GEqY6GCjFVpTof1Q8KErgtB3ahMTAd
-	Y6LOB4Oz1vRol9e5b/YThuHWLQ4wrgG9fKaJF5dUrgdGwZygGO88jfBAEsHNRLcXIXhprJqdOAC
-	bZfq5V9quhgTnWnAPJF3u0gIRZPRrL3k2BbawLUAL1W93Ic39lXWOGerhkUhc=
-X-Received: by 2002:a17:90a:e705:b0:38c:e9e9:e7ce with SMTP id 98e67ed59e1d1-38dc74c5007mr567748a91.3.1783718790283;
-        Fri, 10 Jul 2026 14:26:30 -0700 (PDT)
-Received: from [192.168.0.160] (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38a55557f39sm3404785a91.6.2026.07.10.14.26.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 14:26:29 -0700 (PDT)
-Subject: [PATCH v8 1/8] mm/hmm: move page fault handling out of walk callbacks
-From: Stanislav Kinsburskii <skinsburskii@gmail.com>
-To: airlied@gmail.com, akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org,
- corbet@lwn.net, dakr@kernel.org, david@kernel.org, decui@microsoft.com,
- haiyangz@microsoft.com, jgg@ziepe.ca, kees@kernel.org, kys@microsoft.com,
- leon@kernel.org, liam@infradead.org, lizhi.hou@amd.com, ljs@kernel.org,
- longli@microsoft.com, lyude@redhat.com, maarten.lankhorst@linux.intel.com,
- mamin506@gmail.com, mhocko@suse.com, mripard@kernel.org,
- nouveau@lists.freedesktop.org, ogabbay@kernel.org, oleg@redhat.com,
- rppt@kernel.org, shuah@kernel.org, simona@ffwll.ch,
- skhan@linuxfoundation.org, skinsburskii@gmail.com, surenb@google.com,
- tzimmermann@suse.de, vbabka@kernel.org, wei.liu@kernel.org,
- skinsburskii@gmail.com
-Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-rdma@vger.kernel.org
-Date: Fri, 10 Jul 2026 14:26:27 -0700
-Message-ID: <178371878774.900500.3975008123082170472.stgit@skinsburskii>
-In-Reply-To: <178371866223.900500.12312667138651735591.stgit@skinsburskii>
-References: <178371866223.900500.12312667138651735591.stgit@skinsburskii>
-User-Agent: StGit/0.19
+        bh=Vh0w4YZ9EkCKSJvWXCxWBgNBQIG8ERULbiy01R/Xx2Q=;
+        b=HEIN/LiGTO/ZqWzPQ4sPvjCX1KMrMXJR7nLySDNp7uxlzuY1b1ttY3t6A8+xHfksfm
+         RiqYJ1C4pvAiS2sTL2QyP8M3MhCr57Svt04ongjl4UWaBjZIf8hb74LWbutMSAwdDk9x
+         TPMeSpy0jXHuFbzxEG9O0cFRoZBCRwzjmFuA496mLCIVMfZglG442phWFHvmB7Gw7Sw6
+         ZmMyRgkEUFR3dom1nPPT0IBN3jGdP3+5XQmdcxJG97jau5cNW2eiFBGHkjcusJcHySfj
+         lqiH1tPWGB0imnbtJsOh2M2diStgILk0pgbeWkV+Dcwfq27FefHK3zb+tUKr/nD952yY
+         gN/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783718791; x=1784323591;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Vh0w4YZ9EkCKSJvWXCxWBgNBQIG8ERULbiy01R/Xx2Q=;
+        b=H4zjxdKJToRBSR3+QDAPlzO3rTw836WBjZkIQthnGbFCAZeD1+eqr+5LQPuE5+69XU
+         uDYAx6lWmogiV7JrMMUQWxUbu9bkWlbNdI4cDcoxAxy1XYFtj5eR2PtupwOpj8w88RnG
+         Pw1i+WktqZFwkfv7d1wToqDl31N14/lQ9pwQeRDTBfVulcqF/WMIJD3080uoY6YCOoQO
+         6fY2PB0i7tkucN+hgAF7JpEx5ry31tX5M9e9OsebpnZEbLZlNdTZgp3zkfazqsY1iSTo
+         h7mqLY3Ury8WA9TFxC9+Ub6ty4XtA+9DzvjEfKJS1+tZEtwJfxSONmkmuAREDAwH94E0
+         yqLg==
+X-Forwarded-Encrypted: i=1; AHgh+Rpe1S62+rrhY/3BmhfkYyIFhFIhT49jaqbVTvoo1tDuZR/u06D4q+eBqZ3HiZrPIiIoZdhBA+aCJOg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxejhM+DmmHPOPF+qklQrSxW3b/deDH3AXA+7ltDCCSdV6bda5
+	vu/ip6vLAQ3H6tG1jdylS9zDnz2prckwkx+HZ5AYsfhkTfgPkc4seD6u6drmoPUpn/30DxZXFbY
+	O+lYmis0YdKxPpA==
+X-Received: from pfbfe24.prod.google.com ([2002:a05:6a00:2f18:b0:848:401c:994])
+ (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a00:14c3:b0:847:9c06:2bef with SMTP id d2e1a72fcca58-8488971669emr605929b3a.29.1783718791168;
+ Fri, 10 Jul 2026 14:26:31 -0700 (PDT)
+Date: Fri, 10 Jul 2026 21:26:13 +0000
+In-Reply-To: <20260710212616.1351130-1-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20260710212616.1351130-1-dmatlack@google.com>
+X-Mailer: git-send-email 2.55.0.795.g602f6c329a-goog
+Message-ID: <20260710212616.1351130-11-dmatlack@google.com>
+Subject: [PATCH v7 10/12] PCI: liveupdate: Freeze preservation status during shutdown
+From: David Matlack <dmatlack@google.com>
+To: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org
+Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
+	Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
+	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, Leon Romanovsky <leonro@nvidia.com>, 
+	Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-hmm_range_fault() currently triggers page faults from inside the page-table
-walk callbacks: hmm_vma_walk_pmd(), hmm_vma_walk_pud(),
-hmm_vma_walk_hugetlb_entry() and the pte-level helper all call
-hmm_vma_fault(), which in turn calls handle_mm_fault() while the walker
-still holds nested locks.  The pte spinlock is dropped explicitly by each
-caller, and the hugetlb path manually drops and retakes
-hugetlb_vma_lock_read around the fault to dodge a deadlock against the walk
-framework's unconditional unlock.
+Freeze a device's outgoing preservation status (preserved or not
+preserved) during shutdown. This enables the PCI core and drivers to
+safely make decisions based on the device's preservation status during
+shutdown.
 
-This layering does not extend cleanly to fault handlers that may release
-mmap_lock (VM_FAULT_RETRY, VM_FAULT_COMPLETED). If the lock is dropped
-while walk_page_range() is mid-traversal, the VMA can be freed before the
-walk framework's matching hugetlb_vma_unlock_read(), turning that unlock
-into a use-after-free.
+Note that pci_liveupdate_freeze() is triggered by the PCI core rather
+than from drivers participating in Live Update so that all devices can
+have their status frozen (i.e. prevent non-preserved devices from
+getting preserved late).
 
-Split the responsibilities the way get_user_pages() does. Walk callbacks
-become inspect-only: when they detect a range that needs to be faulted in,
-they record it in struct hmm_vma_walk and return a private sentinel
-(HMM_FAULT_PENDING). The outer loop in hmm_range_fault() then drops out of
-walk_page_range(), invokes a new helper hmm_do_fault() that calls
-handle_mm_fault() with only mmap_lock held, and restarts the walk so the
-now-present entries are collected into hmm_pfns.
-
-No functional change for existing callers. As a side effect the hugetlb
-callback no longer needs the hugetlb_vma_{un}lock_read dance, and every
-fault-path exit from the callbacks now releases the pte spinlock on a
-single, common path. This refactor is also a precursor for adding an
-unlockable variant of hmm_range_fault() in a follow-up patch.
-
-Signed-off-by: Stanislav Kinsburskii <skinsburskii@gmail.com>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Reviewed-by: Pranjal Shrivastava <praan@google.com>
+Signed-off-by: David Matlack <dmatlack@google.com>
 ---
- mm/hmm.c |  118 +++++++++++++++++++++++++++++++++++++++-----------------------
- 1 file changed, 75 insertions(+), 43 deletions(-)
+ drivers/pci/liveupdate.c       | 16 ++++++++++++++++
+ drivers/pci/liveupdate.h       |  5 +++++
+ drivers/pci/pci-driver.c       |  2 ++
+ include/linux/pci_liveupdate.h |  3 +++
+ 4 files changed, 26 insertions(+)
 
-diff --git a/mm/hmm.c b/mm/hmm.c
-index e5c1f4deed24..bc9361a715fa 100644
---- a/mm/hmm.c
-+++ b/mm/hmm.c
-@@ -33,8 +33,17 @@
- struct hmm_vma_walk {
- 	struct hmm_range	*range;
- 	unsigned long		last;
-+	unsigned long		end;
-+	unsigned int		required_fault;
- };
- 
-+/*
-+ * Internal sentinel returned by walk callbacks when they need a page fault.
-+ * The callback stores end/required_fault in hmm_vma_walk; the outer loop
-+ * consumes the sentinel and never propagates it to the caller.
-+ */
-+#define HMM_FAULT_PENDING	-EAGAIN
-+
- enum {
- 	HMM_NEED_FAULT = 1 << 0,
- 	HMM_NEED_WRITE_FAULT = 1 << 1,
-@@ -60,37 +69,25 @@ static int hmm_pfns_fill(unsigned long addr, unsigned long end,
- }
- 
- /*
-- * hmm_vma_fault() - fault in a range lacking valid pmd or pte(s)
-- * @addr: range virtual start address (inclusive)
-- * @end: range virtual end address (exclusive)
-- * @required_fault: HMM_NEED_* flags
-- * @walk: mm_walk structure
-- * Return: -EBUSY after page fault, or page fault error
-+ * hmm_record_fault() - record a range that needs to be faulted in
-  *
-- * This function will be called whenever pmd_none() or pte_none() returns true,
-- * or whenever there is no page directory covering the virtual address range.
-+ * Called by the walk callbacks when they discover that part of the range
-+ * needs a page fault.  The callback records what to fault and returns
-+ * HMM_FAULT_PENDING; the outer loop in hmm_range_fault() drops back out of
-+ * walk_page_range() and invokes handle_mm_fault() from a context where no
-+ * page-table or hugetlb_vma_lock is held.
-  */
--static int hmm_vma_fault(unsigned long addr, unsigned long end,
--			 unsigned int required_fault, struct mm_walk *walk)
-+static int hmm_record_fault(unsigned long addr, unsigned long end,
-+			    unsigned int required_fault,
-+			    struct mm_walk *walk)
+diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+index 74a11e520f0d..64052892ea84 100644
+--- a/drivers/pci/liveupdate.c
++++ b/drivers/pci/liveupdate.c
+@@ -352,6 +352,11 @@ static int pci_liveupdate_unpreserve_device(struct pci_flb_outgoing *outgoing, s
  {
- 	struct hmm_vma_walk *hmm_vma_walk = walk->private;
--	struct vm_area_struct *vma = walk->vma;
--	unsigned int fault_flags = FAULT_FLAG_REMOTE;
+ 	struct pci_dev_ser *dev_ser = dev->liveupdate.outgoing;
  
- 	WARN_ON_ONCE(!required_fault);
- 	hmm_vma_walk->last = addr;
--
--	if (required_fault & HMM_NEED_WRITE_FAULT) {
--		if (!(vma->vm_flags & VM_WRITE))
--			return -EPERM;
--		fault_flags |= FAULT_FLAG_WRITE;
--	}
--
--	for (; addr < end; addr += PAGE_SIZE)
--		if (handle_mm_fault(vma, addr, fault_flags, NULL) &
--		    VM_FAULT_ERROR)
--			return -EFAULT;
--	return -EBUSY;
-+	hmm_vma_walk->end = end;
-+	hmm_vma_walk->required_fault = required_fault;
-+	return HMM_FAULT_PENDING;
- }
- 
- static unsigned int hmm_pte_need_fault(const struct hmm_vma_walk *hmm_vma_walk,
-@@ -174,7 +171,7 @@ static int hmm_vma_walk_hole(unsigned long addr, unsigned long end,
- 		return hmm_pfns_fill(addr, end, range, HMM_PFN_ERROR);
- 	}
- 	if (required_fault)
--		return hmm_vma_fault(addr, end, required_fault, walk);
-+		return hmm_record_fault(addr, end, required_fault, walk);
- 	return hmm_pfns_fill(addr, end, range, 0);
- }
- 
-@@ -209,7 +206,7 @@ static int hmm_vma_handle_pmd(struct mm_walk *walk, unsigned long addr,
- 	required_fault =
- 		hmm_range_need_fault(hmm_vma_walk, hmm_pfns, npages, cpu_flags);
- 	if (required_fault)
--		return hmm_vma_fault(addr, end, required_fault, walk);
-+		return hmm_record_fault(addr, end, required_fault, walk);
- 
- 	pfn = pmd_pfn(pmd) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
- 	for (i = 0; addr < end; addr += PAGE_SIZE, i++, pfn++) {
-@@ -328,7 +325,7 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
- fault:
- 	pte_unmap(ptep);
- 	/* Fault any virtual address we were asked to fault */
--	return hmm_vma_fault(addr, end, required_fault, walk);
-+	return hmm_record_fault(addr, end, required_fault, walk);
- }
- 
- #ifdef CONFIG_ARCH_HAS_PMD_SOFTLEAVES
-@@ -371,7 +368,7 @@ static int hmm_vma_handle_absent_pmd(struct mm_walk *walk, unsigned long start,
- 					      npages, 0);
- 	if (required_fault) {
- 		if (softleaf_is_device_private(entry))
--			return hmm_vma_fault(addr, end, required_fault, walk);
-+			return hmm_record_fault(addr, end, required_fault, walk);
- 		else
- 			return -EFAULT;
- 	}
-@@ -517,7 +514,7 @@ static int hmm_vma_walk_pud(pud_t *pudp, unsigned long start, unsigned long end,
- 						      npages, cpu_flags);
- 		if (required_fault) {
- 			spin_unlock(ptl);
--			return hmm_vma_fault(addr, end, required_fault, walk);
-+			return hmm_record_fault(addr, end, required_fault, walk);
- 		}
- 
- 		pfn = pud_pfn(pud) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
-@@ -564,21 +561,8 @@ static int hmm_vma_walk_hugetlb_entry(pte_t *pte, unsigned long hmask,
- 	required_fault =
- 		hmm_pte_need_fault(hmm_vma_walk, pfn_req_flags, cpu_flags);
- 	if (required_fault) {
--		int ret;
--
- 		spin_unlock(ptl);
--		hugetlb_vma_unlock_read(vma);
--		/*
--		 * Avoid deadlock: drop the vma lock before calling
--		 * hmm_vma_fault(), which will itself potentially take and
--		 * drop the vma lock. This is also correct from a
--		 * protection point of view, because there is no further
--		 * use here of either pte or ptl after dropping the vma
--		 * lock.
--		 */
--		ret = hmm_vma_fault(addr, end, required_fault, walk);
--		hugetlb_vma_lock_read(vma);
--		return ret;
-+		return hmm_record_fault(addr, end, required_fault, walk);
- 	}
- 
- 	pfn = pte_pfn(entry) + ((start & ~hmask) >> PAGE_SHIFT);
-@@ -637,6 +621,44 @@ static const struct mm_walk_ops hmm_walk_ops = {
- 	.walk_lock	= PGWALK_RDLOCK,
- };
- 
-+/*
-+ * hmm_do_fault - fault in a range recorded by a walk callback
-+ *
-+ * Called from the outer loop in hmm_range_fault() after a callback
-+ * returned HMM_FAULT_PENDING.  At this point we hold only mmap_lock;
-+ * the page-table spinlock and any hugetlb_vma_lock acquired by the walk
-+ * framework have already been released by the unwind.
-+ *
-+ * Returns -EBUSY on success (all pages faulted, caller should re-walk).
-+ * Returns a negative errno on failure.
-+ */
-+static int hmm_do_fault(struct mm_struct *mm,
-+			struct hmm_vma_walk *hmm_vma_walk)
-+{
-+	unsigned long addr = hmm_vma_walk->last;
-+	unsigned long end = hmm_vma_walk->end;
-+	unsigned int required_fault = hmm_vma_walk->required_fault;
-+	unsigned int fault_flags = FAULT_FLAG_REMOTE;
-+	struct vm_area_struct *vma;
-+
-+	vma = vma_lookup(mm, addr);
-+	if (!vma)
-+		return -EFAULT;
-+
-+	if (required_fault & HMM_NEED_WRITE_FAULT) {
-+		if (!(vma->vm_flags & VM_WRITE))
-+			return -EPERM;
-+		fault_flags |= FAULT_FLAG_WRITE;
++	if (dev->liveupdate.frozen) {
++		pci_warn(dev, "Cannot unpreserve device after it is frozen!\n");
++		return -EINVAL;
 +	}
 +
-+	for (; addr < end; addr += PAGE_SIZE)
-+		if (handle_mm_fault(vma, addr, fault_flags, NULL) &
-+		    VM_FAULT_ERROR)
-+			return -EFAULT;
+ 	if (!dev_ser) {
+ 		pci_warn(dev, "Cannot unpreserve device that is not preserved\n");
+ 		return -EINVAL;
+@@ -422,6 +427,11 @@ static int __pci_liveupdate_preserve_device(struct pci_flb_outgoing *outgoing, s
+ 
+ static int pci_liveupdate_preserve_device(struct pci_flb_outgoing *outgoing, struct pci_dev *dev)
+ {
++	if (dev->liveupdate.frozen) {
++		pci_warn(dev, "Cannot preserve device after it is frozen!\n");
++		return -EINVAL;
++	}
 +
-+	return -EBUSY;
+ 	if (dev->liveupdate.outgoing)
+ 		return pci_liveupdate_preserve_device_again(dev);
+ 
+@@ -713,6 +723,12 @@ void pci_liveupdate_cleanup_device(struct pci_dev *dev)
+ 	}
+ }
+ 
++void pci_liveupdate_freeze(struct pci_dev *dev)
++{
++	guard(rwsem_write)(&pci_liveupdate.rwsem);
++	dev->liveupdate.frozen = 1;
 +}
 +
- /**
-  * hmm_range_fault - try to fault some address in a virtual address range
-  * @range:	argument structure
-@@ -674,6 +696,16 @@ int hmm_range_fault(struct hmm_range *range)
- 			return -EBUSY;
- 		ret = walk_page_range(mm, hmm_vma_walk.last, range->end,
- 				      &hmm_walk_ops, &hmm_vma_walk);
-+		/*
-+		 * When HMM_FAULT_PENDING is returned a walk callback
-+		 * recorded a range that needs handle_mm_fault();
-+		 * hmm_do_fault() runs the fault outside walk_page_range()
-+		 * (so no page-table or hugetlb_vma_lock is held) and
-+		 * returns -EBUSY so the loop re-walks and picks up the
-+		 * now-present entries.
-+		 */
-+		if (ret == HMM_FAULT_PENDING)
-+			ret = hmm_do_fault(mm, &hmm_vma_walk);
- 		/*
- 		 * When -EBUSY is returned the loop restarts with
- 		 * hmm_vma_walk.last set to an address that has not been stored
-
+ static int pci_liveupdate_finish_device(struct pci_ser *ser, struct pci_dev *dev)
+ {
+ 	if (!dev->liveupdate.incoming) {
+diff --git a/drivers/pci/liveupdate.h b/drivers/pci/liveupdate.h
+index 6f21ec50927b..bcb0bc73d684 100644
+--- a/drivers/pci/liveupdate.h
++++ b/drivers/pci/liveupdate.h
+@@ -13,6 +13,7 @@
+ #ifdef CONFIG_PCI_LIVEUPDATE
+ void pci_liveupdate_setup_device(struct pci_dev *dev);
+ void pci_liveupdate_cleanup_device(struct pci_dev *dev);
++void pci_liveupdate_freeze(struct pci_dev *dev);
+ bool pci_liveupdate_scan_bridge_begin(struct pci_bus *bus, struct pci_dev *dev,
+ 				      int pass);
+ void pci_liveupdate_scan_bridge_end(struct pci_dev *dev, int pass);
+@@ -28,6 +29,10 @@ static inline void pci_liveupdate_cleanup_device(struct pci_dev *dev)
+ {
+ }
+ 
++static inline void pci_liveupdate_freeze(struct pci_dev *dev)
++{
++}
++
+ static inline bool pci_liveupdate_scan_bridge_begin(struct pci_bus *bus,
+ 						    struct pci_dev *dev,
+ 						    int pass)
+diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+index f36778e62ac1..51616e4327d3 100644
+--- a/drivers/pci/pci-driver.c
++++ b/drivers/pci/pci-driver.c
+@@ -21,6 +21,7 @@
+ #include <linux/acpi.h>
+ #include <linux/dma-map-ops.h>
+ #include <linux/iommu.h>
++#include "liveupdate.h"
+ #include "pci.h"
+ #include "pcie/portdrv.h"
+ 
+@@ -536,6 +537,7 @@ static void pci_device_shutdown(struct device *dev)
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+ 	struct pci_driver *drv = pci_dev->driver;
+ 
++	pci_liveupdate_freeze(pci_dev);
+ 	pm_runtime_resume(dev);
+ 
+ 	if (drv && drv->shutdown)
+diff --git a/include/linux/pci_liveupdate.h b/include/linux/pci_liveupdate.h
+index 2446c6d237ca..150993405754 100644
+--- a/include/linux/pci_liveupdate.h
++++ b/include/linux/pci_liveupdate.h
+@@ -24,6 +24,8 @@
+  * @was_preserved: True if this struct pci_dev was preserved by the previous
+  *                 kernel. Unlike @incoming, this field is not cleared after
+  *                 the device is finished participating in Live Update.
++ * @frozen: True if the outgoing preservation status of this device is frozen
++ *          and thus cannot be changed.
+  */
+ struct pci_liveupdate {
+ 	struct pci_dev_ser *outgoing;
+@@ -31,6 +33,7 @@ struct pci_liveupdate {
+ 	u16 acs_ctrl;
+ 	bool inherit_buses;
+ 	bool was_preserved;
++	bool frozen;
+ };
+ 
+ struct pci_dev;
+-- 
+2.55.0.795.g602f6c329a-goog
 
