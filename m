@@ -1,302 +1,798 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F4E823DD;
-	Fri, 10 Jul 2026 01:51:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07BAB22D4E9;
+	Fri, 10 Jul 2026 02:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783648311; cv=none; b=lmA6eieueoSbwuc6ItOOmChJUy++2kXsqZ6PeIN5Lw83JVvFOr3jhojXdTVAyi3hecH9NnWjQOqRIycqhE77Hdom8vtFalTFBp0CwNgLAnFzMBOzix7yLvGv208M9RFgZ4aA2QcL4lCZSl0bO26ZWouL+h58dzvx81UCoyey8ik=
+	t=1783649448; cv=none; b=cV/1J/oYSpIuL+7ARaiQkeg/+nRpvjvh8+sbr8mXp2Gd5CS1gWO2EgTzbEuAHp2YYFNrKVVsS1EkdIzsKilO1iyb7UO1bS7IdtVOQNtxPG4BNgE60qAgL9iy+HIQ06oB8RunYpNqnD/DkKhIy7MyQNPcdUVOrY4YgyLER4x7dhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783648311; c=relaxed/simple;
-	bh=nu1jSDwAVe7Y93Z1DISr1x7OUmMsPas/eQ9XUv9QW8I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RYSTmUEzIo7TFLFnZyEWOHee8L32nb1A7BAh58QJ7hYxBHUEU/DzweJZkPe/PWZDzES1vx4NNlx4lWPEf4GJCdbabNW/7aGc1W9vyxNzVPsRpECcGXZXrsUbBxYGsi9zWN+q26jPw/5x3FeWXHRihwoNicIQwNWTbfLVooKr43c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Y5vWpFZo; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1783649448; c=relaxed/simple;
+	bh=woq6WgXy9TfakaN1qZGNrx9DsmZmCvdY4fvu2f3tMHA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=A0O3iwRcRgYnkICJwtJs+iJWSsJ2iI/OZiY7dnURu/NKLIjDj36pCkgatA/5bvxN3aFTuEKUjErEyodLdi/sfJQx6j1V2ueDUyt4ghCv6GZi0/GuDVOyNX+VfK68aShAPbJrvmMPkeIqtw6Nb6btWbrnUPa/nidgZyxP+s3OE5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cOCKyDgI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Y5vWpFZo"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=c2AhhBh/dPKvgPqtDJOCEU1oiwd5ZFn4bkZTsDVrv3c=; b=Y5vWpFZonQ/LY+i1UBGa2Z4f99
-	vuERjYW/ZVTlXMXTEP4AO/8mbKIpiN12ghufQgu//DSUoOx2b/Y3ROrhk2J63fBEuZkJrYKheJMmX
-	6ejdpPeNbgf4u8vSOQ9PNws/1ieWbYh3rKGJ0smYalQupMkC2tbipQnVGAW363kTZwHljN0YS9DF+
-	/WB7wtwhUxThyRt2u7tpTigMsZ7z0mAkKZBEP7ZRysa0RUYh4arwFN0MeuDjTdyfYehiLljNd2FlU
-	VNONKPrqarbM57BywC62i2UCuJAfdmXTexbwNrJUT1O+dN2JVauVMuGH83EhnNANpkWhZMM+/RBtA
-	H/JNBwdg==;
-Received: from [38.23.173.23] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wi0Ok-00000003vjK-0uru;
-	Fri, 10 Jul 2026 01:51:26 +0000
-Date: Thu, 9 Jul 2026 21:51:06 -0400
-From: "Liam R. Howlett" <liam@infradead.org>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Eugen Hristev <ehristev@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Christoph Lameter <cl@gentwo.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
-	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, 
-	Petr Mladek <pmladek@suse.com>, John Ogness <john.ogness@linutronix.de>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Mathieu Poirier <mathieu.poirier@linaro.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-mm@kvack.org, linux-arm-msm@vger.kernel.org, 
-	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 00/26] Introduce meminspect
-Message-ID: <wpwqpdrwj664tzpijvtui4eqg45uismcltf752h6dxmpiklba5@4zttrmspzhva>
-References: <20260708-meminspect-v3-v3-0-7aa5a0a74d5c@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cOCKyDgI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8092C1F000E9;
+	Fri, 10 Jul 2026 02:10:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783649446;
+	bh=nHCdTMtFEcwpxyUY8ehNZy9hqBWY0Y1eRe3jsHCgWSQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=cOCKyDgI0SLvi4MUk8cEEgmUfELxo7JkjDU9/q7xfYn+DBkMUq6TvPhcyr4FTFHFu
+	 rV+UskIKR/KwGUmvi62XLYunsi6EgfZYW3ELEOs9cCn05bqO1z3rIu6z3YMNG95f55
+	 YHt1T4wLCqaqcZVk1HTCsvGOlxD4USyeTsOWepcoMj0zL56GCaeJ86Gov5ru6VgqtJ
+	 WaNCOIkflWRqbhxDATsaC85ZeUDj7gkqW4+2AteBT9LDZPEBHlstSsBLdi0afca22i
+	 WjuLJvg02LVb+Mg0o/kDcjhhDJ6kjFrN4dc+ivPlTXSHzgLmXD5i9C0bHS+pNuqP0G
+	 3i4nuJmolSo8w==
+Date: Fri, 10 Jul 2026 03:10:39 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Olivier
+ Moysan <olivier.moysan@foss.st.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>, Bartosz
+ Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, <linux@analog.com>,
+ <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <jananisunil.dev@gmail.com>
+Subject: Re: [PATCH 4/6] iio: adc: Add AD7768 IIO Driver support
+Message-ID: <20260710031039.3d41982d@jic23-huawei>
+In-Reply-To: <20260709-ad7768-driver-v1-4-44e1194fd96a@analog.com>
+References: <20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com>
+	<20260709-ad7768-driver-v1-4-44e1194fd96a@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260708-meminspect-v3-v3-0-7aa5a0a74d5c@oss.qualcomm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 26/07/08 11:01AM, Mukesh Ojha wrote:
-> First of all, I want to thank Eugene for his excellent work on this
-> series. What began as the Qualcomm Minidump driver from me has now
-> evolved into meminspect. He also presented meminspect at Linux
-> Plumbers 2025.
-> 
-> Video of the recording is available here for anyone interested:
-> https://www.youtube.com/watch?v=aDZv4-kOLSc
-> 
-> Introduction: Memory inspection mechanism
-> 
-> meminspect is a mechanism which allows the kernel to mark specific
-> memory areas for memory dumping or specific inspection, statistics,
-> usage.  Once regions are marked, meminspect keeps an internal list with
-> the regions in a dedicated table.  Further, these regions can be
-> accessed using specific API by any interested driver.  Regions being
-> marked beforehand, when the system is up and running, there is no need
-> nor dependency on a panic handler, or a working kernel that can dump the
-> debug information.  meminspect can be primarily used for debugging. The
-> approach is feasible to work when pstore, kdump, or another mechanism do
-> not. Pstore relies on persistent storage, a dedicated RAM area or
-> flash, which has the disadvantage of having the memory reserved all the
-> time, or another specific non volatile memory. Some devices cannot keep
-> the RAM contents on reboot so ramoops does not work. Some devices do not
-> allow kexec to run another kernel to debug the crashed one.  For such
-> devices, that have another mechanism to help debugging, like firmware,
-> meminspect is a viable solution.
-> 
-> meminspect can create a core image, similar with /proc/vmcore, with only
-> the registered regions included. This can be loaded into crash tool/gdb
-> and analyzed. This happens if CRASH_DUMP=y.  To have this working,
-> specific information from the kernel is registered, and this is done at
-> meminspect init time, no need for the meminspect users to do anything.
-> 
-> This version of the meminspect patch series includes two drivers that
-> make use of it: one is the Qualcomm Minidump, and the other one is the
-> Debug Kinfo backend for Android devices, reworked from this source here:
-> https://android.googlesource.com/kernel/common/+/refs/heads/android-mainline/drivers/android/debug_kinfo.c
-> written originally by Jone Chou <jonechou@google.com>
-> 
-> Tested on Qualcomm SA8775P (Lemans EVK) on next-20260707 with the
-> minidump backend: kernel crash dump regions correctly captured
-> via firmware.
-> 
-> This series introduces a new cross-subsystem framework and, to
-> avoid merge ordering issues, I suggest the entire series be taken
-> via the mm tree. Subsystem maintainers for touched files have
-> been CC'd; I request an Acked-by from them if the respective
-> patches look fine from their side.
+On Thu, 9 Jul 2026 10:50:15 +0200
+Janani Sunil <janani.sunil@analog.com> wrote:
 
+> Add support for AD7768 4/8 channel,simultaneous sampling Sigma-Delta
+> ADC, supporting configurable power modes, decimation filters and data
+> output lines
+> 
+> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+Hi Janani.
 
-You are adding a cross-subsystem framework without tests?  How did this
-get to v3 without tests?  Surely there were bugs during development and
-you added new tests to make sure there wasn't regressions?  Where are
-those?
+Various things inline.
 
-It's a firmware debug framework for qualcomm devices?  Why would we want
-to allow such an invasive change in core kernel infrastructure to help
-keep firmware blobs big?  It really sounds like the wrong direction all
-together.
-
-
-> 
-> Alternatively, the qcom backend patches (22-24) can be deferred
-> to Bjorn's qcom tree in a follow-on series once the core
-> meminspect framework lands.
-> 
-> *** How to use meminspect with minidump backend on Qualcomm platform guide ***
-> 
-> Prerequisites:
-> Crash tool compiled with target=ARM64.
-
-What other targets are supported?
-
-> 
-> Target kernel must be built with: CONFIG_DEBUG_INFO_REDUCED=n;
-> this will have vmlinux include all the debugging information
-> needed for the crash tool and CONFIG_MEMINSPECT,
-> CONFIG_CRASH_DUMP, and the driver CONFIG_QCOM_MINIDUMP.
-> Kernel arguments: Kernel firmware must be set to mode 'mini' by kernel
-> module parameter like this : qcom_scm.download_mode=mini
-> 
-> After the kernel boots and the minidump module is loaded,
-> everything is ready for a possible crash. Upon triggering a
-> forced kernel crash, the target board will wait in download mode,
-> where QDL (https://github.com/linux-msm/qdl) running on the host
-> connected to the target (here, Lemans EVK) can be used to collect
-> minidump.elf from the target device onto the host.
-> 
-> Currently, --minimal mode is being used to get dmesg log from
-> crashed device.
-> 
-> Without --minimal mode, the crash tool needs to be patched to
-> not crash on missing symbols and needs to be tuned, which I am
-> currently working on in parallel.
-
-It sounds like your debug tool needs more development to avoid crashing?
-
-> 
-> crash> log
-> [    0.000000] Booting Linux on physical CPU 0x0000000000 [0x514f0014]
-> [    0.000000] Linux version 7.0.0-rc3-next-20260309-00028-g528b3c656121 (@21e3bca4168f) (aarch64-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, GNU ld (GNU Binutils for Ubuntu) 2.42) #5 SMP PREEMPT Tue Mar 10 18:18:41 UTC 2026
-> 
-> *** Debug Kinfo backend driver ***
-> I need help with the testing of this driver, Anyone who actually wants
-> to test this, feel free to reply to the patch. we have also written a
-> simple DT binding for the driver.
-> 
-> Thanks in advance for the review, and apologies if I missed addressing any comment.
-> 
-> -Mukesh
-> 
-> Changes in v3: https://lore.kernel.org/lkml/20260311-minidump-v2-v2-0-f91cedc6f99e@oss.qualcomm.com/
-> - Addressed most of doc. comments and binding and 0-day kernel
->   test robot warning.
-> - Add timekeeping: Register tk_data into meminspect
-> - fixed some of the bugs identified during testing.
-> - Fix missing return before dev_err_probe() in qcom_md_probe(); all
->   three error paths (SMEM lookup, table validation, table init) now
->   correctly abort probe on failure
-> - Fix meminspect_traverse() kernel-doc: @priv description corrected
-> - Fix meminspect.rst: replace stale MEMINSPECT_ITERATOR_CB type name
->   with the actual meminspect_iter_cb_t typedef
-> - Add kernel-doc for meminspect_iter_cb_t typedef
-> - Lot of code formating and style change as per coding standard.
-> 
-> Changes in v2: https://lore.kernel.org/lkml/20251119154427.1033475-1-eugen.hristev@linaro.org/
->  - Fixed doc warnings
->  - Fixed kernel-test robot warnings.
->  - Took Mike suggestion to remove mark inspect flag for dynamic memory.
->  - Added R-b for printk patch.
->  - Modified some commit messages for clarity.
->  - corrected binding change for debug-kinfo as per Rob suggestion.
-> 
-> Changelog for meminspect v1:
-> - rename to meminspect
-> - start on top of v2 actually, with the section and all.
-> - remove the backend thing, change the API to access the table
-> - move everything to kernel/
-> - add dependency to CRASH_DUMP instead of a separate knob
-> - move the minidump driver to soc/qcom
-> - integrate the meminspect better into memblock by using a new memblock flag
-> - minor fixes : use dev_err_probe everywhere, rearrange variable declarations,
-> remove some useless code, etc.
-> 
-> Changelog for RFC v3:
-> - V2 available here : https://lore.kernel.org/all/20250724135512.518487-1-eugen.hristev@linaro.org/
-> - Removed the .section as requested by David Hildenbrand.
-> - Moved all kmemdump registration(when possible) to vmcoreinfo.
-> - Because of this, some of the variables that I was registering had to be non-static
-> so I had to modify this as per David Hildenbrand suggestion.
-> - Fixed minor things in the Kinfo driver: one field was broken, fixed some
-> compiler warnings, fixed the copyright and remove some useless includes.
-> - Moved the whole kmemdump from drivers/debug into mm/ and Kconfigs into mm/Kconfig.debug
-> and it's now available in kernel hacking, as per Randy Dunlap review
-> - Reworked some of the Documentation as per review from Jon Corbet
-> 
-> Changelog for RFC v2:
-> - V1 available here: https://lore.kernel.org/lkml/20250422113156.575971-1-eugen.hristev@linaro.org/
-> - Reworked the whole minidump implementation based on suggestions from Thomas Gleixner.
-> This means new API, macros, new way to store the regions inside kmemdump
-> (ditched the IDR, moved to static allocation, have a static default backend, etc)
-> - Reworked qcom_minidump driver based on review from Bjorn Andersson
-> - Reworked printk log buffer registration based on review from Petr Mladek.
-> 
 > ---
-> Eugen Hristev (21):
->       kernel: Introduce meminspect
->       init/version: Annotate static information into meminspect
->       mm/percpu: Annotate static information into meminspect
->       cpu: Annotate static information into meminspect
->       genirq/irqdesc: Annotate static information into meminspect
->       timers: Annotate static information into meminspect
->       kernel/fork: Annotate static information into meminspect
->       mm/page_alloc: Annotate static information into meminspect
->       mm/show_mem: Annotate static information into meminspect
->       mm/swapfile: Annotate static information into meminspect
->       kernel/vmcore_info: Register dynamic information into meminspect
->       kernel/configs: Register dynamic information into meminspect
->       mm/init-mm: Annotate static information into meminspect
->       panic: Annotate static information into meminspect
->       kallsyms: Annotate static information into meminspect
->       mm/mm_init: Annotate static information into meminspect
->       sched/core: Annotate runqueues into meminspect
->       remoteproc: qcom: Move minidump data structures into its own header
->       soc: qcom: Add minidump backend driver
->       soc: qcom: smem: Add minidump platform device
->       meminspect: Add debug kinfo compatible driver
-> 
-> Mukesh Ojha (5):
->       timekeeping: Register tk_data into meminspect
->       mm/numa: Register node data information into meminspect
->       mm/sparse: Register information into meminspect
->       printk: Register information into meminspect
->       dt-bindings: reserved-memory: Add Google Kinfo Pixel reserved memory
-> 
->  Documentation/dev-tools/index.rst                  |   1 +
->  Documentation/dev-tools/meminspect.rst             | 144 +++++++
->  .../reserved-memory/google,debug-kinfo.yaml        |  48 +++
+>  MAINTAINERS              |    1 +
+>  drivers/iio/adc/Kconfig  |   16 +
+>  drivers/iio/adc/Makefile |    1 +
+>  drivers/iio/adc/ad7768.c | 1291 ++++++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 1309 insertions(+)
 
-Probably shouldn't be here?
+> diff --git a/drivers/iio/adc/ad7768.c b/drivers/iio/adc/ad7768.c
+> new file mode 100644
+> index 000000000000..f76a7081090e
+> --- /dev/null
+> +++ b/drivers/iio/adc/ad7768.c
+> @@ -0,0 +1,1291 @@
+...
+> +
+> +#define AD7768_AUX_DEV_GPIO_NAME	"gpio"
 
->  MAINTAINERS                                        |  16 +
+Can this just go inline?
+
+> +#define AD7768_REG_GPIO_CONTROL		0x0E
+
+> +/* AD7768_REG_POWER_MODE */
+> +#define   AD7768_SLEEP_MODE_MSK			BIT(7)
+> +#define   AD7768_POWER_MODE_POWER_MODE_MSK	GENMASK(5, 4)
+> +#define   AD7768_POWER_MODE_POWER_MODE(x)	(((x) & 0x3) << 4)
+> +#define   AD7768_POWER_MODE_GET_POWER_MODE(x)	(((x) >> 4) & 0x3)
+> +#define   AD7768_POWER_MODE_MCLK_DIV_MSK	GENMASK(1, 0)
+> +#define   AD7768_POWER_MODE_MCLK_DIV_MODE(x)	(((x) & 0x3) << 0)
+
+FIELD_GET() inline. This define doesn't give us anything wrt
+to readability over that.
+
+> +
+> +/* AD7768_REG_DATA_CONTROL */
+> +#define   AD7768_DATA_CONTROL_SPI_RESET_MSK	GENMASK(1, 0)
+> +#define   AD7768_DATA_CONTROL_SPI_RESET_1	0x03
+> +#define   AD7768_DATA_CONTROL_SPI_RESET_2	0x02
+> +#define   AD7768_DATA_CONTROL_SPI_SYNC_MSK	BIT(7)
+> +#define   AD7768_DATA_CONTROL_SPI_SYNC		BIT(7)
+
+No need for define, use FIELD_PREP(AD7768_DATA_CONTROL_SPI_SYNC_MASK, 1)
+inline
+> +#define   AD7768_DATA_CONTROL_SPI_SYNC_CLEAR	0
+Not obvious why a define is needed for this. 
+> +
+> +/* AD7768_REG_INTERFACE_CFG */
+> +#define   AD7768_INTERFACE_CFG_DCLK_DIV_MSK	GENMASK(1, 0)
+> +#define   AD7768_INTERFACE_CFG_DCLK_DIV_MODE(x)	(4 - ffs(x))
+> +#define   AD7768_MAX_DCLK_DIV			8
+> +
+> +#define   AD7768_INTERFACE_CFG_CRC_SELECT_MSK	GENMASK(3, 2)
+> +/* only 4 samples CRC calculation support exists */
+
+Exists where?  In the backend, or if the hardware. Good to be more specific.
+
+> +#define   AD7768_INTERFACE_CFG_CRC_SELECT	FIELD_PREP(GENMASK(3, 2), 0x01)
+
+> +/* AD7768_REG_PRECHARGE_BUF1 and 2*/
+> +#define   AD7768_PRECHARGE_BUF1_MSK(val)	((val) & GENMASK(7, 0))
+> +#define   AD7768_PRECHARGE_BUF2_MSK(val)	(((val) & GENMASK(15, 8)) >> 8)
+> +#define   AD7768_4_PRECHARGE_BUF1_MSK(val)	((val) & GENMASK(3, 0))
+> +#define   AD7768_4_PRECHARGE_BUF2_MSK(val)	(((val) & GENMASK(7, 4)) >> 4)
+
+
+> +#define   AD7768_CALIB_REG_MSB_MASK(val)		(((val) & 0xFF0000) >> 16)
+
+That seems unlikely to be the mask. It's the value. So just define the mask
+and let FIELD_GET() deal with the shift.
+
+
+> +#define   AD7768_CALIB_REG_MID_MASK(val)		(((val) & 0x00FF00) >> 8)
+> +#define   AD7768_CALIB_REG_LSB_MASK(val)		((val) & 0x0000FF)
+> +#define   AD7768_REV_ID_VAL			0x06
+
+
+...
+> +
+> +static const unsigned int ad7768_4_available_datalines[] = {
+> +	1, 4
+> +};
+> +
+> +static const char * const ad7768_supply_names[] = {
+> +	"avdd", "avss", "dvdd", "iovdd", "vref"
+> +};
+
+Add trailing commas to these.  They aren't terminated in
+any way so in theory at least we might get more elements
+on the next line.
+
+> +
+> +static int ad7768_regmap_read(void *context, const void *reg_buf,
+> +			      size_t reg_size, void *val_buf, size_t val_size)
+> +{
+> +	struct spi_device *spi = context;
+> +	struct ad7768_state *st = spi_get_drvdata(spi);
+> +	unsigned int reg;
+> +	int ret;
+> +	struct spi_transfer t[] = {
+> +		{
+> +			.tx_buf = &st->d16,
+> +			.len = 2,
+> +			.cs_change = 1,
+> +		}, {
+> +			.tx_buf = &st->d16,
+
+Sashiko moaned about this.  Add a comment on why tx_buf is
+set to the same thing.
+
+> +			.rx_buf = &st->d16,
+> +			.len = 2,
+> +		},
+> +	};
+> +
+> +	reg = *(const u8 *)reg_buf;
+> +
+> +	st->d16 = cpu_to_be16(AD7768_SPI_READ_CMD |
+> +			      FIELD_PREP(AD7768_SPI_REG_MASK, reg));
+> +
+> +	ret = spi_sync_transfer(spi, t, ARRAY_SIZE(t));
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	*(u8 *)val_buf = FIELD_GET(AD7768_SPI_DATA_MASK, be16_to_cpu(st->d16));
+I'd prefer seeing a local pointer variable for the correct size
+
+	u8 *data_val = val_buf;
 ...
 
-I really think you need to step back and think about how your firmware
-and driver can gain information without requiring so many tentacles
-across the kernel but also without having an entire dump of ram.  Maybe
-your firmware is doing some of what the driver should be doing?
+> +
+> +	return ret;
+> +}
 
-It really seems like you are trying to upstream QA for firmware or
-device issues and I don't see an argument against that in any of your
-responses to any other emails.
+> +
+> +static int ad7768_read_calib_value(struct ad7768_state *st,
+> +				   unsigned int base_reg, int *val)
+> +{
+> +	unsigned int msb, mid, lsb;
+> +	int ret;
+> +
+> +	guard(mutex)(&st->lock);
+> +
+> +	ret = regmap_read(st->regmap, base_reg + 0, &msb);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_read(st->regmap, base_reg + 1, &mid);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_read(st->regmap, base_reg + 2, &lsb);
+> +	if (ret)
+> +		return ret;
+> +
+> +	*val = (msb << 16) | (mid << 8) | lsb;
 
-Your problem statement seems to be: a phone freezes and we need our
-firmware have global access to all memory to tell us why.  To reduce the
-dump size from all of the memory to some subset (up to and including all
-of the memory), we want to give our driver access to all of the memory.
-Is that correct?
+No bulk read?  
 
-What is even more concerning is that you aren't limiting this to debug,
-but also to statistics and usage.  Leaving the door open to larger abuse
-of the access this cross-subsystem framework - with no testing - will
-allow.
+> +
+> +	return 0;
+> +}
 
-Thanks,
-Liam
+
+> +static unsigned int ad7768_get_max_mode_freq(const struct ad7768_state *st,
+> +					     unsigned int mode,
+> +					     unsigned int mode_freq)
+> +{
+> +	unsigned int max_freq = 0;
+> +	unsigned int i, freq;
+> +
+> +	for (i = 0; i < AD7768_NUM_CHANNEL_MODES; i++) {
+> +		if (!(st->active_modes & BIT(i)))
+> +			continue;
+> +
+> +		freq = i == mode ? mode_freq : st->mode_freq[i];
+> +		if (freq > max_freq)
+> +			max_freq = freq;
+		max_freq = max(max_freq, freq);
+
+> +	}
+> +
+> +	return max_freq;
+> +}
+> +
+> +static int ad7768_set_sampling_freq(struct iio_dev *indio_dev,
+> +				    unsigned int freq, unsigned int ch)
+> +{
+> +	struct ad7768_state *st = iio_priv(indio_dev);
+> +	unsigned int mode = st->chn_mode[ch];
+> +	int ret = 0;
+
+Always set before use so don't init.
+
+> +	unsigned int max_freq;
+> +
+> +	if (!freq)
+> +		return -EINVAL;
+> +
+> +	guard(mutex)(&st->lock);
+> +
+> +	max_freq = ad7768_get_max_mode_freq(st, mode, freq);
+> +
+> +	ret = ad7768_set_clk_divs(st, max_freq, ch);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = ad7768_set_channel_decimation(st, freq, ch);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = ad7768_sync(st);
+> +	if (ret)
+> +		return ret;
+> +
+> +	st->mode_freq[mode] = freq;
+
+blank line before simple returns like this one.
+
+> +	return 0;
+> +}
+
+> +
+> +static int ad7768_read_raw(struct iio_dev *indio_dev,
+> +			   const struct iio_chan_spec *chan,
+> +			   int *val, int *val2, long info)
+> +{
+
+...
+
+> +	case IIO_CHAN_INFO_PHASE:
+> +		if (st->chip_info->num_channels == AD7768_MAX_CHANNEL)
+> +			base_reg = AD7768_REG_PHASE(chan->address);
+> +		else
+> +			base_reg = AD7768_4_REG_PHASE(chan->address);
+> +
+> +		ret = regmap_read(st->regmap, base_reg, val);
+
+As below. Check units.
+
+> +		if (ret)
+> +			return ret;
+> +
+> +		return IIO_VAL_INT;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static int ad7768_write_raw(struct iio_dev *indio_dev,
+> +			    struct iio_chan_spec const *chan,
+> +			    int val, int val2, long info)
+> +{
+> +	struct ad7768_state *st = iio_priv(indio_dev);
+> +	unsigned int base_reg;
+> +	int ret;
+> +
+> +	PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(&st->spi->dev, pm);
+> +	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
+> +	if (ret)
+> +		return ret;
+> +
+> +	switch (info) {
+> +	case IIO_CHAN_INFO_SAMP_FREQ:
+> +		return ad7768_set_sampling_freq(indio_dev, val, chan->channel);
+> +
+> +	case IIO_CHAN_INFO_CALIBBIAS:
+> +		return ad7768_write_calib_value(st,
+> +			ad7768_get_calib_reg_base(st, chan, false), val);
+
+Probably use a local variable for the reg base as you do for
+phase so you can align easily after the (
+
+> +
+> +	case IIO_CHAN_INFO_CALIBSCALE:
+> +		return ad7768_write_calib_value(st,
+> +			ad7768_get_calib_reg_base(st, chan, true), val);
+> +
+> +	case IIO_CHAN_INFO_PHASE:
+> +		if (st->chip_info->num_channels == AD7768_MAX_CHANNEL)
+> +			base_reg = AD7768_REG_PHASE(chan->address);
+> +		else
+> +			base_reg = AD7768_4_REG_PHASE(chan->address);
+> +
+> +		return regmap_write(st->regmap, base_reg, val);
+
+Is val in the units the ABI expects? Seems unlikely given that's radians.
+
+
+> +
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+
+> +
+> +static int ad7768_buffer_postdisable(struct iio_dev *indio_dev)
+> +{
+> +	struct ad7768_state *st = iio_priv(indio_dev);
+> +
+> +	pm_runtime_mark_last_busy(&st->spi->dev);
+
+Look up what the next call does.
+
+> +	pm_runtime_put_autosuspend(&st->spi->dev);
+> +	return 0;
+> +}
+
+> +
+> +static void ad7768_set_available_sampl_freq(struct ad7768_state *st)
+> +{
+> +	unsigned int mode;
+> +	unsigned int dec;
+> +	unsigned int mclk = clk_get_rate(st->mclk);
+> +	struct ad7768_avail_freq *avail_freq;
+> +
+> +	for (mode = 0; mode < AD7768_NUM_POWER_MODES; mode++) {
+	for (unsigned int mode = 0;  
+> +		avail_freq = &st->avail_freq[mode];
+> +		for (dec = ARRAY_SIZE(ad7768_dec_rate); dec > 0; dec--) {
+
+for (unsigned int dec = ...
+
+
+> +			struct ad7768_freq_config freq_cfg;
+> +
+> +			freq_cfg.dec_rate = dec - 1;
+> +			freq_cfg.freq = mclk / (ad7768_dec_rate[dec - 1] *
+> +					ad7768_mclk_div[mode]);
+> +			avail_freq->freq_cfg[avail_freq->n_freqs++] = freq_cfg;
+> +		}
+> +	}
+> +
+> +	/* The max frequency is not supported in one data line configuration */
+> +	if (st->datalines == 1)
+> +		st->avail_freq[AD7768_FAST_MODE].n_freqs--;
+> +}
+> +
+> +static int ad7768_gpio_adev_init(struct ad7768_state *st)
+> +{
+> +	struct device *dev = &st->spi->dev;
+> +	struct auxiliary_device *adev;
+> +	int id;
+> +
+> +	if (!device_property_read_bool(dev, "gpio-controller"))
+> +		return 0;
+> +
+> +	id = (st->spi->controller->bus_num << 8) | spi_get_chipselect(st->spi, 0);
+
+Why that particular ID?  Add some comment.
+
+> +	adev = __devm_auxiliary_device_create(dev, KBUILD_MODNAME,
+> +					      AD7768_AUX_DEV_GPIO_NAME,
+> +					      (void *)st->chip_info->name, id);
+
+Why is the cast to void * needed?  Suggests perhaps the type is wrong for name.
+
+
+> +	if (!adev)
+> +		return dev_err_probe(dev, -ENODEV,
+> +				     "Failed to create GPIO auxiliary device\n");
+> +
+> +	return 0;
+> +}
+
+> +
+> +static int ad7768_configure_precharge_buffers(struct iio_dev *indio_dev,
+> +					      struct ad7768_precharge_config *precharge_cfg)
+> +{
+> +	struct ad7768_state *st = iio_priv(indio_dev);
+> +	int ret;
+> +	u8 ch;
+> +	u8 prebuf1_val, prebuf2_val;
+
+Prefer reverse xmas tree where the ordering isn't really enforced by anything else.
+
+> +	u16 prebuf_mask = 0;
+> +	u8 refbufp_val = 0;
+> +	u8 refbufn_val = 0;
+> +
+> +	if (st->chip_info->num_channels == AD7768_MAX_CHANNEL) {
+
+This match is odd. Encode what you need in chip_info, don't use the
+number of channels as a place holder for which chip it is.
+Maybe via a callback, or maybe via data. I haven't messed around
+with it to see how bad the data version is (masks etc)
+
+> +		for (ch = 0; ch < indio_dev->num_channels; ch++) {
+> +			u8 channel = indio_dev->channels[ch].channel;
+> +
+> +			if (precharge_cfg[channel].prebufp_en)
+> +				prebuf_mask |= AD7768_PREBUF_POS_EN(channel);
+> +
+> +			if (precharge_cfg[channel].prebufn_en)
+> +				prebuf_mask |= AD7768_PREBUF_NEG_EN(channel);
+> +
+> +			if (precharge_cfg[channel].refbufp)
+> +				refbufp_val |= BIT(channel);
+> +
+> +			if (precharge_cfg[channel].refbufn)
+> +				refbufn_val |= BIT(channel);
+> +		}
+> +
+> +		prebuf1_val = AD7768_PRECHARGE_BUF1_MSK(prebuf_mask);
+> +		prebuf2_val = AD7768_PRECHARGE_BUF2_MSK(prebuf_mask);
+> +	} else {
+> +		for (ch = 0; ch < indio_dev->num_channels; ch++) {
+> +			u8 channel = indio_dev->channels[ch].channel;
+> +
+> +			if (precharge_cfg[channel].prebufp_en)
+> +				prebuf_mask |= AD7768_PREBUF_POS_EN(channel);
+> +
+> +			if (precharge_cfg[channel].prebufn_en)
+> +				prebuf_mask |= AD7768_PREBUF_NEG_EN(channel);
+> +
+> +			if (precharge_cfg[channel].refbufp)
+> +				refbufp_val |= ad7768_4_get_refbuf(channel);
+> +
+> +			if (precharge_cfg[channel].refbufn)
+> +				refbufn_val |= ad7768_4_get_refbuf(channel);
+> +		}
+> +
+> +		prebuf1_val = AD7768_4_PRECHARGE_BUF1_MSK(prebuf_mask);
+> +		prebuf2_val = AD7768_4_PRECHARGE_BUF2_MSK(prebuf_mask);
+> +	}
+> +
+> +	ret = regmap_write(st->regmap, AD7768_REG_PRECHARGE_BUF1, prebuf1_val);
+Mentioned below, but if (ret) is more appropriate for regmap calls because...
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = regmap_write(st->regmap, AD7768_REG_PRECHARGE_BUF2, prebuf2_val);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = regmap_write(st->regmap, AD7768_REG_REFP_BUF, refbufp_val);
+> +	if (ret < 0)
+> +		return ret;
+> +
+
+If ret did go positive ever the following would treat it differently to
+every other call.
+
+> +	return regmap_write(st->regmap, AD7768_REG_REFN_BUF, refbufn_val);
+> +}
+
+> +
+> +static struct iio_chan_spec_ext_info ad7768_ext_info[] = {
+> +	IIO_ENUM("filter_type", IIO_SEPARATE,
+> +		 &ad7768_filter_types_enum),
+> +	IIO_ENUM_AVAILABLE("filter_type", IIO_SEPARATE, &ad7768_filter_types_enum),
+> +	{ },
+
+No trailing comma on a terminating entry like that one.
+
+
+> +};
+> +
+> +static const struct iio_chan_spec ad7768_channel_template = {
+> +	.type = IIO_VOLTAGE,
+> +	.info_mask_separate =	BIT(IIO_CHAN_INFO_CALIBBIAS) |
+> +				BIT(IIO_CHAN_INFO_CALIBSCALE) |
+> +				BIT(IIO_CHAN_INFO_PHASE) |
+> +				BIT(IIO_CHAN_INFO_SAMP_FREQ),
+> +	.indexed = 1,
+> +	.scan_type = {
+> +		.sign = 's',
+> +		.realbits = 24,
+> +		.storagebits = 32,
+> +	},
+> +	.ext_info = ad7768_ext_info,
+> +};
+> +
+> +static void ad7768_init_chan(struct iio_chan_spec *chan, unsigned int channel)
+> +{
+> +	*chan = ad7768_channel_template;
+I'd replace where this is called with
+		chan[chan_idx] = (struct iio_chan_spec) {
+			.type = IIO_VOLTAGE,
+etc.
+  Generally ends up easier to read than a template and modify.
+
+> +	chan->address = channel;
+> +	chan->channel = channel;
+> +	chan->scan_index = channel;
+> +}
+> +
+> +static int ad7768_parse_config(struct iio_dev *indio_dev,
+> +			       struct device *dev)
+> +{
+> +	struct ad7768_state *st = iio_priv(indio_dev);
+> +	const unsigned int *available_datalines;
+> +	struct ad7768_precharge_config precharge_cfg[AD7768_MAX_CHANNEL] = {};
+
+Trivial but { }; would be my preference for style of that.
+
+> +	struct iio_chan_spec *chan;
+> +	unsigned int num_channels;
+> +	unsigned int channel;
+> +	unsigned int i, len, vcm_sel, vcm_pd, ch_mode, pwr_mode;
+
+What you combine and what you don't combine here seems a bit random. Maybe
+take another look and see if there is a more logical combination.
+(or maybe this makes sense after a later patch, in which case ignore
+this comment).
+
+> +	int chan_idx = 0;
+> +	int ret;
+> +
+> +	num_channels = device_get_child_node_count(dev);
+> +
+
+Given following is a check on the value returned, no blank line here would
+keep that association more obvious.
+
+> +	if (!num_channels || num_channels > st->chip_info->num_channels)
+> +		return dev_err_probe(dev, -EINVAL, "Invalid number of channels\n");
+> +
+> +	chan = devm_kcalloc(indio_dev->dev.parent, num_channels,
+> +			    sizeof(*chan), GFP_KERNEL);
+> +	if (!chan)
+> +		return -ENOMEM;
+> +
+> +	indio_dev->channels = chan;
+> +	indio_dev->num_channels = num_channels;
+> +
+> +	ret = regmap_write(st->regmap, AD7768_REG_CH_STANDBY,
+> +			   GENMASK(st->chip_info->num_channels - 1, 0));
+> +	if (ret < 0)
+> +		return ret;
+
+regmap is always 0 or negative, so these can be if (ret)
+
+> +
+> +	device_for_each_child_node_scoped(dev, child) {
+> +		ret = fwnode_property_read_u32(child, "reg", &channel);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret,
+> +					     "Failed to parse reg property of %pfwP\n", child);
+> +
+> +		if (channel >= st->chip_info->num_channels)
+> +			return dev_err_probe(dev, -EINVAL,
+> +					     "Invalid channel number %d\n", channel);
+
+maybe put "from firmware" in that error message.
+
+> +
+> +		ret = regmap_update_bits(st->regmap, AD7768_REG_CH_STANDBY,
+> +					 BIT(channel), 0);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		ret = fwnode_property_read_u32(child, "adi,ch-mode", &ch_mode);
+
+David covered this when reviewing the binding. There is quite a bit of precedence
+of smaller sets of config registers than channels. Usually we just make it a userspace
+thing and fail if too many configs are requested.
+
+> +		if (ret)
+> +			return dev_err_probe(dev, ret,
+> +					     "Failed to parse property adi,ch-mode %pfwP\n",
+> +					     child);
+
+> +
+> +	ret = regmap_update_bits(st->regmap,
+> +				 AD7768_REG_GENERAL_CONFIG,
+> +				 AD7768_GEN_CONFIG_VCM_PD,
+> +				 vcm_pd ? AD7768_GEN_CONFIG_VCM_PD : 0);
+
+regmap_assign_bits()
+
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = device_property_match_property_string(&st->spi->dev,
+> +						    "adi,power-mode",
+> +						    ad7768_power_mode_str,
+> +						    ARRAY_SIZE(ad7768_power_mode_str));
+> +	if (ret < 0) {
+> +		if (ret != -ENODATA)
+
+Check for device property existing before reading it. Avoids need for caring
+about the specific return value.
+
+	if (device_property_present()) {
+		ret = device_property_match...
+...
+	} else {
+		pwr_mode = AD7768_LOW_POWER_MODE;
+	}
+
+> +			return dev_err_probe(&st->spi->dev, ret,
+> +					     "Invalid \"adi,power-mode\" property\n");
+> +
+> +		pwr_mode = AD7768_LOW_POWER_MODE;
+> +	} else {
+> +		pwr_mode = ret;
+> +	}
+> +
+> +	ret = ad7768_set_power_mode(indio_dev, pwr_mode);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to set power mode\n");
+> +
+> +	for (i = 0; i < indio_dev->num_channels; i++) {
+> +		ret = ad7768_set_sampling_freq(indio_dev, st->sampling_freq,
+> +					       indio_dev->channels[i].channel);
+> +		if (ret < 0)
+> +			return dev_err_probe(dev, ret,
+> +					     "Failed to set sampling freq for channel %d\n",
+> +					     indio_dev->channels[i].channel);
+> +	}
+> +
+> +	available_datalines = st->chip_info->available_datalines;
+> +	len = st->chip_info->num_datalines;
+> +
+> +	for (i = 0; i < len; i++) {
+> +		if (available_datalines[i] == st->datalines)
+> +			return 0;
+I'd be tempted to not do something so specific to it being the last bit
+of the function and keep the error case as clearly out of line.
+		if (...)
+			break;
+	}
+	if (i == len)
+		return dev_err_probe();
+
+	return 0;
+> +	}
+> +
+> +	return dev_err_probe(&st->spi->dev, -EINVAL,
+
+use dev
+
+> +			     "Invalid data-lines-number %d for %s\n",
+> +			     st->datalines, st->chip_info->name);
+> +}
+> +
+> +static int ad7768_reset(struct ad7768_state *st)
+> +{
+> +	struct reset_control *reset_ctrl;
+> +	int ret;
+> +
+> +	reset_ctrl = devm_reset_control_get_optional_exclusive(&st->spi->dev, NULL);
+> +	if (IS_ERR(reset_ctrl))
+> +		return PTR_ERR(reset_ctrl);
+> +
+> +	if (reset_ctrl) {
+> +		ret = reset_control_assert(reset_ctrl);
+> +		if (ret)
+> +			return ret;
+
+Probably do need a delay of some type here. See if you can find anything in the
+data sheet on what it should be (sashiko)
+
+> +
+> +		ret = reset_control_deassert(reset_ctrl);
+> +		if (ret)
+> +			return ret;
+> +	} else {
+> +		ret = regmap_write(st->regmap, AD7768_REG_DATA_CONTROL,
+> +				   AD7768_DATA_CONTROL_SPI_RESET_1);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ret = regmap_write(st->regmap, AD7768_REG_DATA_CONTROL,
+> +				   AD7768_DATA_CONTROL_SPI_RESET_2);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	/* ADC start-up time after reset: 1.66 ms max (datasheet Table 1) */
+> +	fsleep(2000);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ad7768_probe(struct spi_device *spi)
+> +{
+
+...
+
+> +	ret = devm_iio_backend_enable(dev, st->back);
+> +	if (ret)
+> +		return ret;
+> +
+> +	pm_runtime_set_autosuspend_delay(dev, 2000);
+> +	pm_runtime_use_autosuspend(dev);
+> +	pm_runtime_set_active(dev);
+> +
+> +	ret = devm_pm_runtime_enable(dev);
+
+I'm fairly sure the sashiko comment here is incorrect but do check it.
+
+> +	if (ret)
+> +		return ret;
+> +
+> +	indio_dev->setup_ops = &ad7768_buffer_ops;
+> +
+> +	ret = ad7768_gpio_adev_init(st);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return devm_iio_device_register(dev, indio_dev);
+> +}
+> +
+> +static int ad7768_runtime_suspend(struct device *dev)
+> +{
+> +	struct ad7768_state *st = dev_get_drvdata(dev);
+> +
+> +	return regmap_update_bits(st->regmap, AD7768_REG_POWER_MODE,
+> +				  AD7768_SLEEP_MODE_MSK,
+> +				  AD7768_SLEEP_MODE_MSK);
+
+regmap_set_bits()
+
+> +}
+> +
+> +static int ad7768_runtime_resume(struct device *dev)
+> +{
+> +	struct ad7768_state *st = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret = regmap_update_bits(st->regmap, AD7768_REG_POWER_MODE,
+> +				 AD7768_SLEEP_MODE_MSK, 0);
+
+regmap_clear_bits()
+
+> +	if (ret)
+> +		return ret;
+
 
