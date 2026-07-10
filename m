@@ -1,183 +1,248 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B85B296BD2;
-	Fri, 10 Jul 2026 08:42:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D79A3B95F8
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 08:44:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783672951; cv=none; b=Z4EY3amG9lQ/AKVlt9ndlUGQi12IrOZmj4xKsx0NbM7NVKwMC9ct5gsgqGgrowcryHn+VvoLKLHBxPKtY6Gbrk7W/PNlqZByJQ9IL/LaTVOETH1lY17pCDTVZOJrjhtDAyXzmZKcDX7/aUOtlkB0vYyFkQapD03QnnNWf0h3Sa0=
+	t=1783673044; cv=none; b=tVL7pEs8Xq+rhDekhTCsflFcpN+maX9bNJOOMUaskOTlfCLfFr8EoadsqHXgG5VI6s/Q064YQAO0EYCuKUxiaCAeZsIxuh27W9qcQPOGzh2oIQveqjODiCMjdAql1dSNtMYuEG7+yp6LO8icSbgRb2dF6+ZDncHqfd9v+yzVWQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783672951; c=relaxed/simple;
-	bh=2GWtpCyP7wC+xB3l85V9kd6n5G7kGHLECiEgXtRkPcQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tmQa+pP+1ficFinJx4l/Xt/1sFvNJgZnouWYM0396AOY3PDntgXlElrpmKALcKzvUKk6lNF1nZf9y3mczO4TuxEHCqYB0jIMu38hdRZhcepZf+V0zzTJ3YwDCjAoDfLW6p7CGKMWUP/RvesKLtjnF6O6Awa8THUjNbZdk+BL9gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DPDz2reh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783673044; c=relaxed/simple;
+	bh=WBqhhNaUo0Wti5P891QHXsZMh0Ox3ClSmdHtOCtrUIA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HuActvmBtdlhvRz4Fk0UgJ7LWkbgHtCR4C9KZ+iWUwylb6M7PW3tODKnNCiAJC4J+QGVbDeKqDk2/l95aTeD+XbzRg7IbvKP9EmAc4OGRjArZ0ETuEftcJjSCDJTHwDsIs/CAFKJEQjm7m8Zan5Pymubl3fuR/bRqizjWpftoXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=A/f3jkMB; arc=none smtp.client-ip=91.218.175.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DPDz2reh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 702F91F00A3A;
-	Fri, 10 Jul 2026 08:42:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783672949;
-	bh=eBzQq1U8VbvptrmLiJP28LO5PgLiYF8VHCaE1mBbTZ4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=DPDz2rehXdf4UhMXvJEyIKp0kbx/xxvvE0bKC1R8YIiej/YohWvrgt7fxB8CrVZ3r
-	 urS09QeRb4aM2bAJDSYQi/RqHW8pMT2KAVkqOtHnGXSLkE04aBa1TBpr5Kri1Y+bV6
-	 fp3Rj1q0VJBomlc7+zMUdIzXodrzkCKLEdFqVJqWccya2i3+3zEQZ8JgevXACxnRQE
-	 x81BbDfCAPZ7dywOtaVvYBz7h7Nqv/pdz66SVJCe512zKZgkDxsehtUuUxEeZ33OGs
-	 R9eG7OfPRkDEHlZHRV8lyXJYjOaKPyaUO63ONG36f5MUYPqKnFU6wyH6BpLUIpgyVH
-	 ENMgtmGPuvE2A==
-Date: Fri, 10 Jul 2026 10:42:25 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: Rito Rhymes <rito@ritovision.com>, Jonathan Corbet <corbet@lwn.net>,
- Daniel Lundberg Pedersen <dlp@qtec.com>, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org
-Subject: Re: Bad wrapping in some tables
-Message-ID: <20260710104220.2b165f2d@foz.lan>
-In-Reply-To: <7fcac682-60e3-4e1d-b26b-5b23f8035a91@kernel.org>
-References: <c542aaf7-6a40-4730-8bd6-208c9fe932d5@qtec.com>
-	<87pl0yr9ah.fsf@trenco.lwn.net>
-	<DJUP0UXLLHJ0.3P121A982R9TP@ritovision.com>
-	<7fcac682-60e3-4e1d-b26b-5b23f8035a91@kernel.org>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="A/f3jkMB"
+X-Forwarded-Encrypted: i=1; AHgh+Roxv5zU+Ol04Vv9xEHOrBiPkSkm9UCF/47Prq6xi6d++zCvU25NLnNh35+yH50+z/Bg+V89vtKQq0g=@vger.kernel.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783673038;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=siduqZ2wtPSfCiwUG4eYK+3EbnxMFmH0JOEC1+cp3Go=;
+	b=A/f3jkMBvduUXI7/ZtCzfc5ZoYypHAfqSc+WmbpZvv2+fi3he+GUU/tbh22D6S62ho+rzb
+	13D3IutmlhEAhQdF9iuJO67OscWyyWAnq6f2r09LpdDLcyIn16Mh1XH+pn7/WPXspfTHWu
+	7GuQwO4YlvlxJ/BlSx0oIqN/qZNta6k=
+X-Gm-Message-State: AOJu0YzvztxXMqFmlsEYjrNMgdJTyHkV9NuCdQfdvSQa8IJxerkmkmoH
+	WLCCfvo0jZn4O5Gd+a14x71A5nLtR4vB8lLcCO92Qsklv9xmd+egPeFJkccao3nnd1CCaarXxxY
+	oQGzhK0M4toG8zI24LVr6Fg9loydm/MmGD8d67tr9
+X-Received: by 2002:a05:622a:5908:b0:517:5e32:2d14 with SMTP id
+ d75a77b69052e-51caa298ab4mr8006471cf.10.1783673035194; Fri, 10 Jul 2026
+ 01:43:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260709-kvm-arm64-sme-v12-0-d0301d79ef58@kernel.org>
+In-Reply-To: <20260709-kvm-arm64-sme-v12-0-d0301d79ef58@kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Fuad Tabba <fuad.tabba@linux.dev>
+Date: Fri, 10 Jul 2026 09:43:17 +0100
+X-Gmail-Original-Message-ID: <CA+EHjTzgFA0_Pu5FkSAx46Ax9hdGS0QYCVAf+UcFvjgWWgAfZw@mail.gmail.com>
+X-Gm-Features: AUfX_mxrvzBv6NCMbjRMoOO6a2K0vxT04s13QWsrnVddbkkVnfBSRhldHB06vuw
+Message-ID: <CA+EHjTzgFA0_Pu5FkSAx46Ax9hdGS0QYCVAf+UcFvjgWWgAfZw@mail.gmail.com>
+Subject: Re: [PATCH v12 00/29] KVM: arm64: Implement support for SME
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
+	Jean-Philippe Brucker <jpb@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Peter Maydell <peter.maydell@linaro.org>, Eric Auger <eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, 10 Jul 2026 10:11:20 +0200
-Hans Verkuil <hverkuil+cisco@kernel.org> wrote:
+Hi Mark,
 
-> On 10/07/2026 08:55, Rito Rhymes wrote:
-> > I just got caught up to speed, reviewing the links, the regression, the
-> > prior state and other relevant context.
-> > 
-> > Daniel, thanks for pointing out the regression. As Jon said, it's
-> > always good to inform the author of the patch, and I'd have been happy
-> > to discuss and test out solutions with you.
-> >   
-> >> That overflow-wrap line is the problem. The patch was trying to
-> >> improve overflow from some literal blocks, but it does seem that the
-> >> cure is worse than the disease.  
-> >   
-> >> This change causes truly unreadable breaking of literal strings in a
-> >> number of settings.  
-> > 
-> > Can anyone provide any examples of issues happening outside of tables?
-> > 
-> > If not, that suggests the fix is working fine except inside tables,
-> > which means a targeted fix for tables is possible.
-> > 
-> > The intention of the fix is that inline literals in regular text bodies
-> > that have a generally defined (max) width will respect that width and
-> > not exceed it and cause overflow. It's serving that purpose and is a
-> > sensible default behavior because it is often used like text in text
-> > bodies and surrounded by other text, thus we make it also behave like
-> > text.
-> > 
-> > I don't believe a reversion is the right answer, for two reasons.
-> > 
-> > Reason 1:
-> > 
-> > Reverting the fix restores the issues outside the tables it previously
-> > fixed, and fixes some of the tables, but makes others just as
-> > unreadable.
-> > 
-> > In the second example Daniel provided, there is a two column table
-> > spanning the full width of the page on mobile viewport sizes without
-> > overflowing. The left column is inline literals only, the right column
-> > is regular text.
-> > 
-> > After my fix:
-> > https://www.kernel.org/doc/html/v7.1/process/debugging/kgdb.html#run-time-parameter-kgdbreboot
-> > 
-> > The left column of inline literals wraps down into vertical text and is
-> > unreadable, because the column has no minimum width and expects the
-> > contents to set the width, but it wraps immediately. That's a problem.
-> > The right column text is readable, though it does some wrapping for a
-> > few words.
-> > 
-> > Before the fix:
-> > https://www.kernel.org/doc/html/v7.0/process/debugging/kgdb.html#run-time-parameter-kgdbreboot
-> > 
-> > The issue is as bad or worse. The left column is fully readable and
-> > spans literals as far as needed, but it's crushing the right column and
-> > forcing that into vertical text (maybe 2-3 characters wide), making
-> > that column unreadable.
-> > 
-> > What's worse, unreadable vertical text as inline literals or as regular
-> > text? Regular text is worse because it's meant to be descriptive, but
-> > having either one is unacceptable.
-> > 
-> > Reason 2: the real culprit here is this:
-> > 
-> > Table mobile responsiveness in general in the Linux kernel
-> > documentation is systemically pathological.
-> > 
-> > Many if not most of the tables on smaller screens overflow page width
-> > and break the page margins. And this page is another example of
-> > pathological table behavior where the table doesn't overflow and
-> > break the page margins, it respects the page margin width, but
-> > instead makes the content inside unreadable as vertical text, either
-> > from the string literal wrapping or from the text wrapping. Neither
-> > my current fix nor the reverted state resolves that issue.
-> > 
-> > The best solution:
-> > Make targeted changes to the tables to make them fundamentally behave
-> > better on smaller screen sizes.
-> > 
-> > I began this effort with:
-> > [PATCH v3] docs: wrap generated tables to contain small-screen overflow
-> > 
-> > Jon hadn't followed up after testing out the fix with CSS and my
-> > explaining why the wrapper was the better approach, because it prevented
-> > regressions. That fix is a start, but more would need to be done.
-> > 
-> > If Daniel is willing to help test out table fixes and provide examples
-> > of regressions, and if Jon has the bandwidth to review my patch
-> > submissions to improve the tables, I am willing to tackle this systemic
-> > issue, which will result in this issue being resolved as well.
-> > 
-> > Rito
-> >   
-> 
-> FYI: the Media subsystem userspace API is full of tables, e.g.:
-> 
-> https://docs.kernel.org/userspace-api/media/v4l/vidioc-enuminput.html
-> https://docs.kernel.org/userspace-api/media/cec/cec-ioc-receive.html
-> 
-> There are many, many more of those.
-> 
-> Currently it is basically unreadable due to the breaking up of the literals.
+[snip]
 
-Breaking up literals is more important on PDF output, if one wants to print
-the documentation.
+>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 
-> Hopefully this can be fixed. I only noticed this issue yesterday, so it was
-> good to see your email so I know why it changed.
-> 
-> We're well aware that the tables in the media subsystem do not work well on
-> small screens. The only workable solution would be to move away from tables
-> and format it differently. And that's not going to happen as that would be a
-> massive job.
+Gave this a spin on top of v7.2-rc2, applied cleanly and built fine.
 
-IMO what should be changed is the maximum column limit at the html CSS profile.
+Booted a host+guest with the host in VHE and in nVHE mode, and booted
+both a normal guest and a protected guest under pKVM. All came up
+cleanly. Note that a protected guest doesn't get SME, but it boots
+fine without it.
 
-Right now it sets max-width to 800px, which comes from basic.css:
+Ran set_id_regs against a guest in all three host configurations (VHE,
+nVHE, and protected/pKVM); all passed, with the new SME ID-register
+checks actually executing rather than skipping, since QEMU's max CPU
+exposes SME2.
 
-	div.body {
-	    min-width: inherit;
-	    max-width: 800px;
-	}
+Also ran get-reg-list, since patch 28 adds the SME registers to the
+expected reg list, so it's the regression guard confirming the
+guest-visible register set matches what the series intends to expose.
+It passed too.
 
-This is quite small on my monitor (it is a wide monitor with 5120px).
+Will start reviewing soon. For now:
+Tested-by: Fuad Tabba <fuad.tabba@linux.dev>
 
-I would override this to none, to let it auto-adjust it to the actual
-monitor limits.
+Cheers,
+/fuad
 
-Thanks,
-Mauro
+
+> ---
+> Changes in v12:
+> - Resend with commit rather than tag object specified as the base.
+> - Link to v11: https://patch.msgid.link/20260709-kvm-arm64-sme-v11-0-32799f66db9d@kernel.org
+>
+> Changes in v11:
+> - Rebase onto v7.2-rc2.
+> - Rework VL enumeration.
+> - Refactor ZCR and SMCR value generation for the host into helper
+>   functions.
+> - Add handling of FEAT_IDST for hidden system registers.
+> - Ensure we manage traps correctly for emulated EL2.
+> - Always allocate space for ZT0 if the hardware supports it.
+> - Tighten the register enumeration ABI to reflect current VM state.
+> - Sanitise SMIDR_EL1.
+> - Fix generation of invalid values in set_id_regs.
+> - Various smaller fixups, including from Jean-Phillipe's review.
+> - Link to v10: https://patch.msgid.link/20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org
+>
+> Changes in v10:
+> - Define and use a SME_VQ_INVALID for the case where there is no
+>   virtuablisable SME VL.
+> - Fix handling of SMCR_EL2 accesses.
+> - Correct VNCR constant for SMPRI_EL2.
+> - Correct trapping for SMPRI_EL1.
+> - Reject userspace access to FFR when in streaming mode without FA64.
+> - Constrain the VL set by sme_cond_update_smcr() to fit within LEN.
+> - Reject userspace access to ZA and ZT0 when SVCR.SM is 0.
+> - Use -EACCESS for inaccessible SME registers.
+> - Remove some unused functions.
+> - Further bugfixes from review.
+> - Commit log typo fixes.
+>
+> - Link to v9: https://patch.msgid.link/20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org
+>
+> Changes in v9:
+> - Rebase onto v6.19-rc1.
+> - ABI document clarifications.
+> - Add changes dropping asserts on single bit wide bitfields in set_id_regs.
+> - Link to v8: https://lore.kernel.org/r/20250902-kvm-arm64-sme-v8-0-2cb2199c656c@kernel.org
+>
+> Changes in v8:
+> - Small fixes in ABI documentation.
+> - Link to v7: https://lore.kernel.org/r/20250822-kvm-arm64-sme-v7-0-7a65d82b8b10@kernel.org
+>
+> Changes in v7:
+> - Rebase onto v6.17-rc1.
+> - Handle SMIDR_EL1 as a VM wide ID register and use this in feat_sme_smps().
+> - Expose affinity fields in SMIDR_EL1.
+> - Remove SMPRI_EL1 from vcpu_sysreg, the value is always 0 currently.
+> - Prevent userspace writes to SMPRIMAP_EL2.
+> - Link to v6: https://lore.kernel.org/r/20250625-kvm-arm64-sme-v6-0-114cff4ffe04@kernel.org
+>
+> Changes in v6:
+> - Rebase onto v6.16-rc3.
+> - Link to v5: https://lore.kernel.org/r/20250417-kvm-arm64-sme-v5-0-f469a2d5f574@kernel.org
+>
+> Changes in v5:
+> - Rebase onto v6.15-rc2.
+> - Add pKVM guest support.
+> - Always restore SVCR.
+> - Link to v4: https://lore.kernel.org/r/20250214-kvm-arm64-sme-v4-0-d64a681adcc2@kernel.org
+>
+> Changes in v4:
+> - Rebase onto v6.14-rc2 and Mark Rutland's fixes.
+> - Expose SME to nested guests.
+> - Additional cleanups and test fixes following on from the rebase.
+> - Flush register state on VMM PSTATE.{SM,ZA}.
+> - Link to v3: https://lore.kernel.org/r/20241220-kvm-arm64-sme-v3-0-05b018c1ffeb@kernel.org
+>
+> Changes in v3:
+> - Rebase onto v6.12-rc2.
+> - Link to v2: https://lore.kernel.org/r/20231222-kvm-arm64-sme-v2-0-da226cb180bb@kernel.org
+>
+> Changes in v2:
+> - Rebase onto v6.7-rc3.
+> - Configure subfeatures based on host system only.
+> - Complete nVHE support.
+> - There was some snafu with sending v1 out, it didn't make it to the
+>   lists but in case it hit people's inboxes I'm sending as v2.
+>
+> ---
+> Mark Brown (29):
+>       arm64/sysreg: Define full value read/modify/write helpers
+>       arm64/fpsimd: Update FA64 and ZT0 enables when loading SME state
+>       arm64/fpsimd: Decide to save ZT0 and streaming mode FFR at bind time
+>       arm64/sve: Factor virtualizable VL discovery out of SVE specific code
+>       arm64/fpsimd: Determine maximum virtualisable SME vector length
+>       KVM: arm64: Handle FEAT_IDST for guest accesses to hidden registers
+>       KVM: arm64: Pull ctxt_has_ helpers to start of sysreg-sr.h
+>       KVM: arm64: Rename SVE finalization constants to be more general
+>       KVM: arm64: Define internal features for SME
+>       KVM: arm64: Rename sve_state_reg_region
+>       KVM: arm64: Store vector lengths in an array
+>       KVM: arm64: Factor SVE code out of fpsimd_lazy_switch_to_host()
+>       KVM: arm64: Document the KVM ABI for SME
+>       KVM: arm64: Implement SME vector length configuration
+>       KVM: arm64: Support SME control registers
+>       KVM: arm64: Support TPIDR2_EL0
+>       KVM: arm64: Support SME identification registers for guests
+>       KVM: arm64: Support SME priority registers
+>       KVM: arm64: Support userspace access to streaming mode Z and P registers
+>       KVM: arm64: Flush register state on writes to SVCR.SM and SVCR.ZA
+>       KVM: arm64: Expose SME specific state to userspace
+>       KVM: arm64: Context switch SME state for guests
+>       KVM: arm64: Handle SME exceptions
+>       KVM: arm64: Expose SME to nested guests
+>       KVM: arm64: Provide interface for configuring and enabling SME for guests
+>       KVM: arm64: selftests: Remove spurious check for single bit safe values
+>       KVM: arm64: selftests: Skip impossible invalid value tests
+>       KVM: arm64: selftests: Add SME system registers to get-reg-list
+>       KVM: arm64: selftests: Add SME to set_id_regs test
+>
+>  Documentation/virt/kvm/api.rst                   | 124 +++++---
+>  arch/arm64/include/asm/fpsimd.h                  |  17 +-
+>  arch/arm64/include/asm/kvm_emulate.h             |  16 +
+>  arch/arm64/include/asm/kvm_host.h                | 113 ++++++-
+>  arch/arm64/include/asm/kvm_hyp.h                 |   2 +-
+>  arch/arm64/include/asm/kvm_nested.h              |   2 +
+>  arch/arm64/include/asm/kvm_pkvm.h                |   2 +-
+>  arch/arm64/include/asm/sysreg.h                  |   8 +
+>  arch/arm64/include/asm/vncr_mapping.h            |   2 +
+>  arch/arm64/include/uapi/asm/kvm.h                |  34 +++
+>  arch/arm64/kernel/cpufeature.c                   |   2 -
+>  arch/arm64/kernel/fpsimd.c                       | 134 ++++----
+>  arch/arm64/kvm/arm.c                             |  10 +
+>  arch/arm64/kvm/config.c                          |  12 +-
+>  arch/arm64/kvm/emulate-nested.c                  |   6 +-
+>  arch/arm64/kvm/fpsimd.c                          |  27 +-
+>  arch/arm64/kvm/guest.c                           | 369 ++++++++++++++++++++---
+>  arch/arm64/kvm/handle_exit.c                     |  14 +
+>  arch/arm64/kvm/hyp/include/hyp/switch.h          | 234 +++++++++++---
+>  arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h       |  96 +++---
+>  arch/arm64/kvm/hyp/nvhe/hyp-main.c               | 129 ++++++--
+>  arch/arm64/kvm/hyp/nvhe/pkvm.c                   |  90 ++++--
+>  arch/arm64/kvm/hyp/nvhe/switch.c                 |   2 +
+>  arch/arm64/kvm/hyp/nvhe/sys_regs.c               |   6 +
+>  arch/arm64/kvm/hyp/vhe/switch.c                  |  17 +-
+>  arch/arm64/kvm/hyp/vhe/sysreg-sr.c               |   7 +
+>  arch/arm64/kvm/inject_fault.c                    |  15 +
+>  arch/arm64/kvm/nested.c                          |   8 +-
+>  arch/arm64/kvm/reset.c                           | 159 +++++++---
+>  arch/arm64/kvm/sys_regs.c                        | 152 +++++++++-
+>  include/uapi/linux/kvm.h                         |   1 +
+>  tools/testing/selftests/kvm/arm64/get-reg-list.c |  15 +-
+>  tools/testing/selftests/kvm/arm64/set_id_regs.c  |  96 +++++-
+>  33 files changed, 1554 insertions(+), 367 deletions(-)
+> ---
+> base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
+> change-id: 20230301-kvm-arm64-sme-06a1246d3636
+>
+> Best regards,
+> --
+> Mark Brown <broonie@kernel.org>
+>
