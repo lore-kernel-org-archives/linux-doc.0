@@ -1,125 +1,125 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877373B2AA;
-	Fri, 10 Jul 2026 13:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1239E38E5DF
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 13:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783690525; cv=none; b=VopLgL2QnhxawIUDVd+ZWQe2Kv7DRkYSQsztPg/MGq3PAR/s+BVn372Qd24SULQFvRSUw5FLdgsz+AtQRFpKl5XgEWJxrQHzr39OIomSLtndr3zmAwEC43mNSl0rNzN5X5AzwrtPU4zbG2I56QdZkJ4a016YXGL7+Kz6YFWXa9M=
+	t=1783690639; cv=none; b=GMJEP0Lc0Hwl5LYZuZ8VZJtO8M/33CVE/RH5ASxTYSQTYvGfyNGsLtk3NEggJE56Jaz9YGJmOdbN3m6oMJOX9+mU1gguhUWO+5SU7yRvmnfz2jBtjRQJaznSu16ma5abwOd7uk0+Tyj1KyOaMl9NiTOEDNPDJjWxOq958geLXEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783690525; c=relaxed/simple;
-	bh=qfIZLF+bh/b40e3fxtqo0rkYJysVYWbXTttsLuuzEFo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OpXUm8eFPNqAZtMILgkRie9Peynq4Z8Pz/PHjZ41SJn9/jStbn72LC3b9hetAK7PaDd9xQAXW9gn8721m2Er/vN5pQfU2SVH9ARNff0bScDf2cpP6woV9hLM3mmDNbQwsacrID7hpl0m5lN1nvJ3DEnWitrRv638ECNZNQi4cS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=FJJxmCIV; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1783690639; c=relaxed/simple;
+	bh=hhpIx+vn1tS+JbOs3eduXUGbMVrRbCgueaBDa4h/vSY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dDWRXZP7L5aZmz+dAJFp+PurLI0/fzLLfSl+HEhgXflJDpjYMWCEhpyM+xAdaZ7KXgy03ebdODa4OmStfT2aXnbt/L7q89O4bBovIHEE83+daNk2roD2yfPPjs7Nj83lK7S8gwQ+OSfD5jMsowJKIaI+Jj4QudApVmg+uoP/4EU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=Pig8F497; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="FJJxmCIV"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gxXrj5TZ7z8txZ;
-	Fri, 10 Jul 2026 15:35:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783690517;
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="Pig8F497"
+Date: Fri, 10 Jul 2026 21:36:47 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
+	t=1783690625;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zlKLNJPOGiDKqWlVl/uUtpjI3Xr5vwkpin4+jwj51A4=;
-	b=FJJxmCIVt4hbz0GcuAzOD5mSpmcsjTnSJgrxCHghbGivf1Dkcd3M4z9rFhJWFg20UWKD39
-	mArdJWRl/y32FYiRJQcatQdN091jZQoC7Paz6gweqie3AqfP8b6Hp4l78nu5krwcRynQwB
-	4zegO5t8mrZbHwC4YIpuMZfrrw/tAOfbJFyWOa0af5cIGCXt3egqU7eCBQGOr70+rJa4hV
-	gKVylEMRpUk3b6H63tA8q6QuhGvLnvHZIwWDCclCxm/A7KSmn7v7xf0jgjI4khnE+8O4Ew
-	PauB/VmiEs60KqqKfk88beChhnqUwcN8Mq/q0Ry67f685oyQY4bl7WYxSDW+3Q==
-Message-ID: <2cb03029-0957-4ed8-98bd-9b3e0e0bce2d@mailbox.org>
-Date: Fri, 10 Jul 2026 15:35:10 +0200
+	bh=OSkxz6hWZlekybWNXSqS04gHS+z10g6OG2C9qvTUmgs=;
+	b=Pig8F497zy6he3IX0SB7CrgFigfvXn6y6bSSwJI7vQeO4hxBv+7wWkUPfE4Rpi2IJ78PIX
+	EJ0cxsv7GZLPQIYc56rekp3qpNpLa3V7B33P4f7ciJkzwU+IlU8P/6+iBP4uiIvitXnqKg
+	kjoYtvNXoI4x/odk5SwkSsWMXr+NXLJ0ojzkNqOZ4MIWcWQbVbtWUltB56reU2sp9kAFpS
+	dv+qmcKkd3Hd3Vpl+EtPMwidqLJ0Um1WRyK03jlfwWRTgW68c8ViBVrPJAVDwL4ehZ91RX
+	QTeNn+BVzp6dZDStfSOh1C/7fOJJTnLgrkGSYqLD7AIuqx4UiWrRtwjOq8pbCg==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Weijie Yuan <wy@wyuan.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_CN: add docs-next checkout workaround
+Message-ID: <alD1b7O6KaIMqWpa@wyuan.org>
+References: <4e5e728877c77a89f6c59e89c88ba8ffa8842643.1783609005.git.wy@wyuan.org>
+ <ce715802-1b46-4ba6-b388-39260f217ba3@hust.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] PCI: rcar-gen4: Inline GIC_TRANSLATER offset macro
-To: Marc Zyngier <maz@kernel.org>
-Cc: linux-pci@vger.kernel.org, kernel test robot <lkp@intel.com>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20260709201103.90162-1-marek.vasut+renesas@mailbox.org>
- <87qzlb5jsl.wl-maz@kernel.org>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <87qzlb5jsl.wl-maz@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 39334qfx7t74yz6t7hkn76hnui4r95h5
-X-MBO-RS-ID: c43d4b05b532b168186
+In-Reply-To: <ce715802-1b46-4ba6-b388-39260f217ba3@hust.edu.cn>
+X-Migadu-Flow: FLOW_OUT
 
-On 7/10/26 10:30 AM, Marc Zyngier wrote:
-> On Thu, 09 Jul 2026 21:10:03 +0100,
-> Marek Vasut <marek.vasut+renesas@mailbox.org> wrote:
->>
->> Instead of pulling in the whole linux/irqchip/arm-gic-v3.h , copy the
->> one GITS_TRANSLATER register offset macro directly into the driver.
->> This repairs the ability to build the driver on non-ARM non-GIC targets
->> the way it was possible until now, which retains good build test coverage.
->>
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes: https://lore.kernel.org/oe-kbuild-all/202607100310.iQw5m9Uo-lkp@intel.com/
->> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->> ---
->> Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
->> Cc: Bjorn Helgaas <bhelgaas@google.com>
->> Cc: Catalin Marinas <catalin.marinas@arm.com>
->> Cc: Conor Dooley <conor+dt@kernel.org>
->> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
->> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
->> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
->> Cc: Manivannan Sadhasivam <mani@kernel.org>
->> Cc: Marc Zyngier <maz@kernel.org>
->> Cc: Rob Herring <robh@kernel.org>
->> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
->> Cc: devicetree@vger.kernel.org
->> Cc: linux-arm-kernel@lists.infradead.org
->> Cc: linux-doc@vger.kernel.org
->> Cc: linux-kernel@vger.kernel.org
->> Cc: linux-pci@vger.kernel.org
->> Cc: linux-renesas-soc@vger.kernel.org
->> ---
->> Note: The alternative I could think of would be ifdeffery which
->>        is not nice and thwarts the build coverage, or limit the
->>        driver to ARM/ARM64 in Kconfig which also thwarts the build
->>        coverage. I could also split off the register macros in
->>        linux/irqchip/arm-gic-v3.h into some separate header
->>        linux/irqchip/arm-gic-v3-regs.h and include that which
->>        might be OKish and avoids duplication. Thoughts ?
+On Fri, Jul 10, 2026 at 09:21:16PM +0800, Dongliang Mu wrote:
 > 
-> No, I'm not hacking something that is purely architecture specific for
-> the purpose of a bizarre integration quirk that should be handled by
-> the boot firmware, and not Linux.
+> On 7/9/26 11:25 PM, Weijie Yuan wrote:
+> > Hi all,
+> > 
+> > Since cloning Alex Shi's tree from the HUST mirror may be unstable, as
+> > reported in [1]. I think adding one more option for beginners to get
+> > started might be a good idea.
+> > 
+> > Thanks,
+> > Weijie
+> > 
+> > [1] https://lore.kernel.org/linux-doc/4292BADB2022F3A5+5117009.JcJflTAXpt@anka-vmware20-1/
+> > 
+> > --- >8 ---
+> Is this a special mark for LKML? If I understand correctly, the following
+> should be the patch content.
 
-The PCIe controller is fully controlled by Linux. I don't think this can 
-be handled by the boot firmware. The GIC ITS TRANSLATER address could be 
-derived from the DT compatible string of the PCIe controller (I had that 
-implemented before), but that is the less generic option.
+Yes, the following is the commit message body.
 
-> Add whatever you want to the PCI glue code, limit this to arm64 (which
-> is the only architecture this can ever be used on, and the build
-> coverage argument really doesn't hold), but please leave the GIC code
-> alone.
-So in the end, it is either this patch or limit the build to arm/arm64 . 
-At least this patch still allows building this driver with more 
-compilers on the various build bots, so I would opt for this patch here.
+You can apply this patch by "git am -c" or "git am --scissors", which
+means: Remove everything in body before a scissors line (see git-mailinfo[1]).
 
-Thank you for your help !
+https://git-scm.com/docs/git-am#Documentation/git-am.txt---scissors
+
+Git community sometimes use it, for the cases if you want to swap the
+actual commit message and the supplementary information.
+
+> > 
+> > The Chinese documentation guide asks contributors to base their work on
+> > the docs-next branch of Alex Shi's tree. However, cloning that tree from
+> > git.kernel.org or mirrors.hust.edu.cn may fail in some network
+> > environments.
+> > 
+> > Document an alternative workflow: clone Linus Torvalds' tree from a
+> > local mirror, add Alex Shi's tree as another remote, fetch docs-next
+> > from it, and then create a local branch that tracks alexs/docs-next.
+> > 
+> > Signed-off-by: Weijie Yuan <wy@wyuan.org>
+> > ---
+> >   Documentation/translations/zh_CN/how-to.rst | 10 ++++++++++
+> >   1 file changed, 10 insertions(+)
+> > 
+> > diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
+> > index 9ec2384e1e76..fcfe0a4a8be2 100644
+> > --- a/Documentation/translations/zh_CN/how-to.rst
+> > +++ b/Documentation/translations/zh_CN/how-to.rst
+> > @@ -53,6 +53,16 @@ Linux 发行版和简单地使用 Linux 命令行，那么可以迅速开始了
+> >   这是 Alex 开发树的镜像库，每两个小时同步一次上游。如果您了解到更快的 mirror，
+> >   请随时 **添加** 。
+> > +或者::
+> > +
+> > +	git clone https://mirrors.tuna.tsinghua.edu.cn/git/linux.git
+> > +	cd linux
+> > +	git remote add alexs https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git/
+> > +	git fetch alexs docs-next:refs/remotes/alexs/docs-next
+> > +	git switch -c docs-next --track alexs/docs-next
+> > +
+> > +这将先用清华源拉取 Linus Torvalds 的开发树，再增量下载中文开发分支中的内容。
+> 
+> This would make the envionment preparation more difficult. My suggestion is
+> to ask maintainers of some mirror sites to sync this repo like us.
+> 
+> Dongliang Mu
+
+Makes sense. Could I kindly ask, for example, Tsinghua tuna team to
+mirror our repo, on behalf of our Chinese document team? I'm afraid they
+are unlikely to consider my request in my individual capacity. ;-)
+
+Thanks,
+Weijie
