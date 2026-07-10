@@ -1,106 +1,109 @@
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9ABAD2BDC28;
-	Fri, 10 Jul 2026 14:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C0B3403E4;
+	Fri, 10 Jul 2026 14:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783692309; cv=none; b=i7wDMUbmy1tRD9VpwI3aMvfO2SyjVyztIXBX4SOBvfvD1eSpc2nXRn6qbKgK9WyXYqY4f7fecowNrWAQG8P1Rz1kZ9rugsRGW/nlTR8E7jmVWbYn6rzhGETEhowIH1ewDDOwtR0R1tFcUY1plIWvdi74OL14HSy1dmXkh3dhJjk=
+	t=1783692999; cv=none; b=km86ysj88mNlgRmqj+np6twMKkZeM5TKTjKhtWsSFlfOqxuFqM3yZL/Eucg1MePih39Awy45Qxr7r3Pul7+12Dn8vE8xNhHrNriYskymH6gIVivCaSVr09OkggRDZcqQ+gWqvF/K2TZljUr19PAWaDlkqUQTdMddlVO4qxgCM3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783692309; c=relaxed/simple;
-	bh=3d0heJyLIz3x/emPVA5PtIBWq1mdlvJB2VVFSbQqcDM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p+hx+l6kWS/FyRI3asjJ1P0CDyj+ePZeqHNWxJA9hozmRhl8TG0ACLW+EkkwO1wbPyjTecAKVuUxAHVq9+0wb8cR2rrI3eDjRY3aLaUVXrDBsJZWTuDe9/yyk48wma5+kkUA8pE1wZlcybZO+24OAm3P2rbYJw6lhDd+wJPHqgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with SMTP id HwEQrAC3jjXY+1BqX+phAA--.3147S2;
-	Fri, 10 Jul 2026 22:04:08 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wAXEMTW+1BquX5yAA--.56064S2;
-	Fri, 10 Jul 2026 22:04:07 +0800 (CST)
-Message-ID: <399a9ec1-76f0-4b5f-a18d-049fba813cb5@hust.edu.cn>
-Date: Fri, 10 Jul 2026 22:04:06 +0800
+	s=arc-20240116; t=1783692999; c=relaxed/simple;
+	bh=ZdMIB1Jlm15iHZeVbTSHD+qNSv1SzX1FTEraIbk3b98=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sG4+YVYcbH/M7W9hLwMcVAwPTWNrVVhf9n9lFdymvSAmIXo1/vaYTjOVLIxh/TQ1PPYavuj6MNi/+7c8lY9Wp5BwO4KPMiGDDCKiRmB1mj5KtX/r6R0Pp2vzagYHHf/5qTAZqzAXivTRniuAk3pZGKcHOkvmK3Lk4FpO0pb8WZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KahqDGrV; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KahqDGrV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA4A81F00A3A;
+	Fri, 10 Jul 2026 14:16:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783692998;
+	bh=QaIclYB8bbvFhsCZS8P52iBbwbOGPeVuy63rBC+62Yw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=KahqDGrVB23ELbwXbfrA0bkp0js04Cm/Sd3I7TGV92lsdkdd7qyEbPwROUSAJSohT
+	 NrueGXCoe7BiMBfiWG863Nt3bEJVBDn+o1o1baPQvxomFbSf9YoCp7N+OUBb2HxXK5
+	 8dGhBMdmTWJAcsGjQK/7J/XN+8DJqg3e8Uot9jW9QZYxV+cntA9WGWqYgD416KLFSo
+	 XSqHrta9v1gh1aCHEc5i/aHtnC//JoPtvqbfrI4bVlD1+X0MCOFR0axUKCHh8y73HL
+	 u061aLt5n0t9FxLsZye2mR40+u8n4kgE7x50T/kNEP4WgdCzwielOjqAVRIbXi4Pj5
+	 jd9IXI/6kzibQ==
+From: SJ Park <sj@kernel.org>
+To: Song Hu <husong@kylinos.cn>
+Cc: SJ Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>
+Subject: Re: [PATCH 0/4] Docs/ABI/damon: sysfs ABI document fixes and additions
+Date: Fri, 10 Jul 2026 07:16:30 -0700
+Message-ID: <20260710141631.24657-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260710044737.561102-1-husong@kylinos.cn>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/zh_CN: add docs-next checkout workaround
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <4e5e728877c77a89f6c59e89c88ba8ffa8842643.1783609005.git.wy@wyuan.org>
- <ce715802-1b46-4ba6-b388-39260f217ba3@hust.edu.cn>
- <alD1b7O6KaIMqWpa@wyuan.org>
- <f637a819-5596-4cd7-b2fe-be7293eedf14@hust.edu.cn>
- <alD6UJw1Y2VNK3x1@wyuan.org>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <alD6UJw1Y2VNK3x1@wyuan.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:HwEQrAC3jjXY+1BqX+phAA--.3147S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7AF4kGF45KFy7Cw4kXF1fWFg_yoW8Xryxpr
-	45tFyIkFs5JrW3ta1xKw1fZF1rK345Jw4UJFn8Xayvkwn0gF1rXF4ftF4F9FyDZa18Ww10
-	vw42gasrWF4YvaDanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmYb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCF04k20x
-	vE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_
-	GFv_Wrylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
-	AY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAI
-	cVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
-	IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIev
-	Ja73UjIFyTuYvjxU3oqcUUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Transfer-Encoding: 8bit
+
+'hkml patch check' [1] says you forgot Cc-ing below people who are recommended
+by get_maintainer.pl.  I Cc-ed them.  Please Cc all recipients who
+get_maitnainer.pl is recommending, from the next time.  'hkml patch format' [2]
+could also help you doing so.
+
+- Andrew Morton <akpm@linux-foundation.org>
+- David Hildenbrand <david@kernel.org>
+- Lorenzo Stoakes <ljs@kernel.org>
+- "Liam R. Howlett" <liam@infradead.org>
+- Vlastimil Babka <vbabka@kernel.org>
+- Mike Rapoport <rppt@kernel.org>
+- Suren Baghdasaryan <surenb@google.com>
+- Michal Hocko <mhocko@suse.com>
+
+On Fri, 10 Jul 2026 12:47:33 +0800 Song Hu <husong@kylinos.cn> wrote:
+
+> This series fixes typos and fills in missing entries in the DAMON
+> sysfs ABI document (Documentation/ABI/testing/sysfs-kernel-mm-damon).
+> 
+> Patch 1 fixes a path typo, "intrvals_goal" -> "intervals_goal", in
+> four What: entries; the documented path points to a non-existent
+> directory, so it is Cc'ed to stable.
+> 
+> Patch 2 fixes two further typos ("WDate:", "manimum").
+> 
+> Patches 3 and 4 add ABI entries that exist in the kernel and are
+> already described in usage.rst but are missing from the canonical ABI
+> document: the 'update_tuned_intervals' state command (patch 3) and the
+> 'tried_regions/<R>/probes/<P>/hits' file (patch 4).
+
+Looks good overall.  Patch 3 looks unnecessary, though.  Let me add comments to
+each patch.
+
+> 
+> Song Hu (4):
+>   Docs/ABI/damon: fix typo in intervals_goal sysfs path
+>   Docs/ABI/damon: fix typos
+>   Docs/ABI/damon: document update_tuned_intervals state command
+>   Docs/ABI/damon: document tried_regions probe hits
+> 
+>  .../ABI/testing/sysfs-kernel-mm-damon         | 29 ++++++++++++++-----
+>  1 file changed, 22 insertions(+), 7 deletions(-)
+> 
+> -- 
+> 2.43.0
+
+[1] https://github.com/sjp38/hackermail/blob/master/USAGE.md#checking-patches
+[2] https://github.com/sjp38/hackermail/blob/master/USAGE.md#formatting-patches
 
 
-On 7/10/26 9:57 PM, Weijie Yuan wrote:
-> On Fri, Jul 10, 2026 at 09:44:45PM +0800, Dongliang Mu wrote:
->>>>> --- >8 ---
->>>> Is this a special mark for LKML? If I understand correctly, the following
->>>> should be the patch content.
->>> Yes, the following is the commit message body.
->>>
->>> You can apply this patch by "git am -c" or "git am --scissors", which
->>> means: Remove everything in body before a scissors line (see git-mailinfo[1]).
->>>
->>> https://git-scm.com/docs/git-am#Documentation/git-am.txt---scissors
->>>
->>> Git community sometimes use it, for the cases if you want to swap the
->>> actual commit message and the supplementary information.
->> Understood.
-> Sorry for any confusion.
->
->>>> This would make the envionment preparation more difficult. My suggestion is
->>>> to ask maintainers of some mirror sites to sync this repo like us.
->>>>
->>>> Dongliang Mu
->>> Makes sense. Could I kindly ask, for example, Tsinghua tuna team to
->>> mirror our repo, on behalf of our Chinese document team? I'm afraid they
->>> are unlikely to consider my request in my individual capacity. ;-)
->> I can help contact TUNA maintainers.
->>
->> Dongliang Mu
-> That would be great! Apparently your words carry more weight than mine
-> ;-) So do you mean that I just need to wait quietly for your good news?
-
-Yes, I have explained the situation to TUNA maintainers and asked for 
-repository syncing. Let's wait for their response.
-
-Dongliang Mu
-
->
-> Appreciate it!
->
-> Thanks,
-> Weijie
-
+Thanks,
+SJ
