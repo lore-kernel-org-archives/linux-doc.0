@@ -1,219 +1,226 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34428372073
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 17:06:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783703209; cv=none; b=s/FvzCehsdyfxGtLRxOoHwIMha7hGHOi8dPGJ17TWt6pV6bMWbqJAzGWcwHw3g9jESrFf+WMWKlwd6ovRfORAMdU549Jm5XH8bv9wqJxT7hrWslH53+o4nMw+1q2G/kqM47UF6leAJs+Hb7fqWD/vJiTI/pC3uaz62nWTOo1vVs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783703209; c=relaxed/simple;
-	bh=9lSzgAW8+FmEe+Hp7Rve4vbC7ZImzNSGMC/0E8OnJU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iyWcq3Z+5wCMijL3tkanELPmogc1HIUXHRArTdgM1n7mOE5ADqXEbKgLROXrIHxBxAOGLPihZz3DqIAck0EB8mRPxHkWOuSJYxd5giSLACOi8Zwzzf8wphJWVSV0k3l5V9FTT8hOtKpJ0PWPapgVWxGsQDiyV0mDf+H88U+kaho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KELdLpIE; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4611D8834
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 18:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783706522; cv=pass; b=po7vLxd/xsnnBC57r2pV2WG+tDcA7ipdyxdGZvbhU7GlajsRbpeeXpgirmXDJw2pGhDt9jM7IMZJfJlJ8BkadhPr6HzhgSx+BqkQ9Rh+rxJ3IrHOcT7x3DAav0cL8+OpNmzxarAVkN9IZxonmfm3syLR6rS+OUxM1TREDhTO1WM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783706522; c=relaxed/simple;
+	bh=h8/FG3AD0C5tKGc/UZC4CslCzsrcK87ZuwQ/lC5wsDs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=O4LA3V5BtdNe5vds3JFP1dvS6Nb10AbK7JMW0soApoSrsvADzSmt37POABOWVi0QGBCsEZLwc2MDOrYWFtpSOn6r5InrrDPoF7pehff8vw+8Oh97JAugUxtSFTyRcOCocOf1rDw/4SF2a4uzS5knJP/d5TcSrqtRB0NGC1gPvPo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DC2iUFcb; arc=pass smtp.client-ip=209.85.208.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KELdLpIE"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-84847f60deeso2034038b3a.0
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 10:06:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DC2iUFcb"
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-39c6e2d2563so835431fa.0
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 11:02:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783706518; cv=none;
+        d=google.com; s=arc-20260327;
+        b=a5NmNlO4L+t6WQCz6xnf4B3XZg0Otwhi38VIfyX0ZxqUzghjdtRzFWwRHk4vZXVpp6
+         bsp6uqZlxLsMseMD5WoBDK9x1xjgCs9yuGYoh9wRCHiDFjN3ktbv1aWTnq/GgvEusZ7h
+         lrGGgAwNtnBWD9WINIh1kocN9d6GfA3jrgb2USfzGYvmY9MqkOynC6M3jcYRyqLY0J5K
+         CtFpeqQN/eVNeiGNUHJ83JM4M9upPC8h8a4ELqnATvXDOXFFjqzjNtPxOusyDHgzpKgO
+         3RUVu47i/h2fwRjGKk4BqVc2VZ6V4GaNJ336K4Yeiqpdn3+SlSOHjFQ7U/BiCmFLOsAI
+         CG2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=45z2mO979ew2s5MbKTJhZ0ctKGUNPJiivlO2IVqMVtw=;
+        fh=M7MHnI9uW2bJt77kkuozEcFRLXdLpKV3myyMAG8zoag=;
+        b=aogLVOSn3X7w7o19L40UYw/UlFSXWriNWpw7AX12eFUCTXA4x7PnlMV67ACk4aNER1
+         FKnSYa+rB8km32Sx/Kyt/0EOV0DU/LoZW4JWyy8L2LTTSNskUDIksW9P/DL089rOH3S5
+         9rfyOEW3pmoGAty5CukjMDCz+BbHqwlKUCdIUsumG1i6o6LkDFsmeTKeAhdf5WaQmqT8
+         S7Arjzz0ofvJ1o83crWnW4l7dChfl2fEKl1YRnGmt9Jbf4FLoiS3bdDGTRVq5tjgMYX1
+         2tauZwfw4HvJHgxeI/64iyM/8lbcBvxEWkNs/2HL5sSqTyDHMA526SE56aCxBhSExWR3
+         ZBtg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783703208; x=1784308008; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1783706518; x=1784311318; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=SpFBfA7wdgGokfuzCR83lopKSZdMUZgccIdXLTCA/gs=;
-        b=KELdLpIEG69QzorDWc9dOz8Phaqk0PdwKcMWah/KS+00zAtkxakyNOocwduHCVZHBH
-         xvKjGEVu7mCXvCBwEAEi0dfWYLj6Pk29lGoTX/JBVr8nOY/M2mGzrNL8r4UwoHIpeWEQ
-         J1bVxtTNnjRcV3ILNFDKqKCcFKO1AL/h+xr5iKGRmyf8hlzjGCQFtIWbHDml3HdjCGfp
-         F5Tjao/4E3jfWuNeuNdEC0v6BNRNxhmiaghwC98VdS6K9tFxaL7hqO16oU2RVsMFGNhf
-         oV6EVy6Cd2EKPsm7qSZPquBndbMcyOw0MCbbYHLayOZfDBvBQzaNhHCna93v4kDIzD+W
-         t8Uw==
+        bh=45z2mO979ew2s5MbKTJhZ0ctKGUNPJiivlO2IVqMVtw=;
+        b=DC2iUFcbEn5CmPYJM/HGy0Cn3RnyqYa1C33xFfV8kM3b4xzQaiM9RWU/wpj4PdOC7w
+         0Z7xAsuJqI5DDSBHLGdMuvxie+m64gjMWvSLKGR9R1ZiDPGC1QDTXdjevYbmPUR9dcSn
+         W89HytIQZdfi0/B9RYu0y6eukD4sU6d2Tt37RAD1IlTX7ov/mpcH4J3snvPSKKZ9gW8w
+         OX5MNcRvEGwjKjwGX9FjpQnToKmGoqa1ZqgO5s8srkTfCGQZQ9nDNrWtCmsyYTsF2PcZ
+         UsFOnGgu26uUwf9uABX1ksw7BpjOLb4PWMU/8n4pHxWOMQiOgXNthiFA8vWFQUZIE5HK
+         5S8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783703208; x=1784308008;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1783706518; x=1784311318;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=SpFBfA7wdgGokfuzCR83lopKSZdMUZgccIdXLTCA/gs=;
-        b=iMZdBrnrwJukEoOoFX8TZQzzfPyrg87naP8XriIUiuDjK1fBsoYG15nYExYA6Yc1+0
-         cuH9pUe66eT5uMxAHcrc8HR1WP0INXFbu9+fbeQBdLaxNF8NL9QL5dvwaeTKzStXlol5
-         FBr8f64UBevs3++PC3nJj44kHMML9tXFytTg2HIVrWsbjBq6xlNDmYuRv88kuuaC3AYF
-         lp06f7qFoTrle7Y1dskXZR0RDI4yUslJNe9T8UMUqRLDKAxTfE9k3qRK0dNk2JE6J2g5
-         DCdezkQlGzBydAutabYH7cJOa+rC7yciPnrmpOgf9gpJ+lrWUARh/7qSsnNuU82Z2Sei
-         PC0Q==
-X-Forwarded-Encrypted: i=1; AHgh+RqgmsVYbsSTPOxEVt/0UpejW+mRTLV9UgQcoQ5kIsbG3d711FTR2cWVOE1BdGpTEoJux91UkXSpoYw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAKje8WIXou3p9uOFTLuDd8yTQlkS2Ycdw4EPPWMyQecr3kS2c
-	bivyrHXrq5+UKkkBNwfvjT+RYGbPQlGBSzO6V0ZeTjzSXtasoyDg1bXC
-X-Gm-Gg: AfdE7cncsnBai2leiUgCIlJnROMRp/mMubJGvfvfQ7wyMaebwqNXMQdG5TCw1Ak2tSg
-	hRowrf4XFoMXqAdXacc9bWfWZIp4RAUkoRxrsY6BMP9NNKtLCNtzwBs1mfafB1L22Cxf4vnBryW
-	mIzoaiRmuoFMfeQhgJlWnYmawt1+R14/x98s11CUmW19NtmtMDPA88Sbuu8EgPxRgCzR6LZGnZJ
-	jJIRyCKIAJ4aw+Ap0ZwCF6Se8HV7q96wf0EC3nwAzJqF44gaOJjiUo+QRO4MTPqXa4JFH1imqEW
-	6ijflKesQIcjLiBNb6xcAIIBBlHXIGnLzLx5VgAfHiuYFL0LWYyGZqntjU4M2lAyCLlNl1zrSMv
-	3JOOpAdnHvZ6MPh1rV1S4fAossJJHfQAzih22arkCoX8yD0dBTDYHP7fMapRQjOGudBvMC02bim
-	N6KKGnGchk6C/P41edVEIRMGK23tLZdyltOKy3ic9inBmgHcXtqOlVe2g=
-X-Received: by 2002:a05:6a20:d494:b0:3c0:9acb:400 with SMTP id adf61e73a8af0-3c0f13a6583mr4025578637.37.1783703207546;
-        Fri, 10 Jul 2026 10:06:47 -0700 (PDT)
-Received: from skinsburskii (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5b3a2e42bsm5458929a12.30.2026.07.10.10.06.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 10:06:46 -0700 (PDT)
-Date: Fri, 10 Jul 2026 10:06:44 -0700
-From: Stanislav Kinsburskii <skinsburskii@gmail.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: airlied@gmail.com, akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org,
-	corbet@lwn.net, dakr@kernel.org, david@kernel.org,
-	decui@microsoft.com, haiyangz@microsoft.com, kees@kernel.org,
-	kys@microsoft.com, leon@kernel.org, liam@infradead.org,
-	lizhi.hou@amd.com, ljs@kernel.org, longli@microsoft.com,
-	lyude@redhat.com, maarten.lankhorst@linux.intel.com,
-	mamin506@gmail.com, mhocko@suse.com, mripard@kernel.org,
-	nouveau@lists.freedesktop.org, ogabbay@kernel.org, oleg@redhat.com,
-	rppt@kernel.org, shuah@kernel.org, simona@ffwll.ch,
-	skhan@linuxfoundation.org, surenb@google.com, tzimmermann@suse.de,
-	vbabka@kernel.org, wei.liu@kernel.org,
-	dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Subject: Re: [PATCH v7 2/8] mm/hmm: add hmm_range_fault_unlocked_timeout()
- for mmap lock-drop support
-Message-ID: <alEmpEv-Q_bQFzNu@skinsburskii>
-References: <178345345668.660027.2952911919681614557.stgit@skinsburskii>
- <178345362182.660027.12809852179204464964.stgit@skinsburskii>
- <20260710163835.GR118978@ziepe.ca>
+        bh=45z2mO979ew2s5MbKTJhZ0ctKGUNPJiivlO2IVqMVtw=;
+        b=f5jE4Sxh5LW0lpwkIfIY6EYc/kbdLTZ5h3pAs64Kq0IB5QqIf0XgClrWY83lDA5AHA
+         KXNFzB8thzBnx5PFlU3cVPQxn2go8wFqMPw2b33uUiZInSNaBAcqOBuoPy1V5kX8Jx1w
+         zkF49DTiZYlE5mtCaHzAVodKOyiZ/aNyrjmklOIHWR3YAOXctxKvwExzULx3OtQfo3N9
+         9vA2yGZl1nc6fK7VIwBrgqlpoRaz4xBX3CCUrG1omazuhJbN3acCtaTEbB2Lb9gDB2SA
+         Kk9hRxSVjxxytDcGpDZc73dz53s1omIUGV4wIfUtkvtvdvAqmP26h/qWdxsqvmN4+x4a
+         1xwg==
+X-Forwarded-Encrypted: i=1; AHgh+RpiHWc6rx8iPf6ul0hNLY4DD5skFzMSaibB9YyQN9pYdBcr4dCEYdGHLHVXmBJqvCbv7q2+0RqdUew=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzw4WiSgyNFeeP1hZAZEW7HMmkwM6jgYvlgxqfAzEE5t28eRP50
+	XgnZasgkvItcEDpBGL0fCxBru2xKvh9hB1HDgcvahOqm9hllmU7pBZX5kQ/3sRYx3ikszefSvYQ
+	pcdouU+ZV7sj+z0h+MVJ04jOuSvsZKlY=
+X-Gm-Gg: AfdE7clcH6Xa4QafamMiv4JTkYCnmOXkDofZusKqS4LV7lzVCTmjvsHa4TNiTjmPtra
+	F+NB8S8fdUqsO2U45qEO8tGtTTbtOyX57Rj1DK8XmOpNA7X0k4MXxjWfx0ExItCrn6eEzgHuJuf
+	MNOwbcP53Tl6y0w4W3QZv3EV6FV9kYCviZ2N9SYcD0Z2lDHG0n1vtdPdtxfXzmVYYT2u0fRmWH6
+	HUgcoyh+ezO7iYtcSNmInUu2qPy7/TQH/sl3CPH4CDW2SWtP2vmiG94gyYw2Wi4LjFwfCq/dr2H
+	VTK107pq4qRC+sw+UtpFp9X3iX34oZRZgDen7VfA1umsHUSdq9p8I7s=
+X-Received: by 2002:a2e:be0b:0:b0:39a:fc1d:4706 with SMTP id
+ 38308e7fff4ca-39c82a26a11mr11003641fa.5.1783706518181; Fri, 10 Jul 2026
+ 11:01:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260710163835.GR118978@ziepe.ca>
+References: <20260603082531.263115-1-chenyou910331@gmail.com>
+ <CAKspUh+2ndK1qMP58hPPmvwczruCikEuaO2tmyw=APCGrd9yaw@mail.gmail.com>
+ <alDs8bnIK8bWApIr@wyuan.org> <57e42f43-44dd-4b22-8d81-c88e20016138@hust.edu.cn>
+In-Reply-To: <57e42f43-44dd-4b22-8d81-c88e20016138@hust.edu.cn>
+From: =?UTF-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
+Date: Sat, 11 Jul 2026 02:01:46 +0800
+X-Gm-Features: AVVi8CfiXYruXm3ZI1rLVvctp_BXzh-R04K9HgbdUhN-VR16D-A4MZrLpX0OiS0
+Message-ID: <CAKspUhKh=cT_ks1hH9B4G8KppR=XT+THHsmNUFH_irX6xo1SZw@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: zh_TW: process: localize terminologies and
+ improve fluency in 8.Conclusion
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Weijie Yuan <wy@wyuan.org>, Hu Haowen <2023002089@link.tyut.edu.cn>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Dongliang Mu <mudongliangabcd@gmail.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Yuchen Tian <cat@malon.dev>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <si.yanteng@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 10, 2026 at 01:38:35PM -0300, Jason Gunthorpe wrote:
-> On Tue, Jul 07, 2026 at 12:47:01PM -0700, Stanislav Kinsburskii wrote:
-> > hmm_range_fault() requires the caller to hold the mmap read lock for the
-> > duration of the call. This is incompatible with mappings whose fault
-> > handler may release the mmap lock, notably userfaultfd-managed regions,
-> > where handle_mm_fault() can return VM_FAULT_RETRY or VM_FAULT_COMPLETED
-> > after dropping the lock. Drivers that need to populate device page tables
-> > for such mappings have no way to do so today.
-> 
-> sashiko could not apply v7 for some reason but the remarks on v6
-> seemed meaningful, did you see them were they delt with?
-> 
+Hi Weijie,
 
-Yes, I dealt with them.
+> I think currently having Alex apply your patch is a temporary measure,
+> because the maintainer of traditional Chinese seems unlikely to be
+> available in the near future.
 
-> https://sashiko.dev/#/patchset/178336023903.504354.7500950448226027718.stgit%40skinsburskii
-> 
-> > diff --git a/Documentation/mm/hmm.rst b/Documentation/mm/hmm.rst
-> > index 7d61b7a8b65b..70885f153d03 100644
-> > --- a/Documentation/mm/hmm.rst
-> > +++ b/Documentation/mm/hmm.rst
-> > @@ -208,6 +208,69 @@ invalidate() callback. That lock must be held before calling
-> >  mmu_interval_read_retry() to avoid any race with a concurrent CPU page table
-> >  update.
-> >  
-> > +Dropping the mmap lock during page faults
-> > +=========================================
-> > +
-> > +Some VMAs have fault handlers that need to release the mmap lock while
-> > +servicing a fault (for example, regions managed by ``userfaultfd``).
-> > +``hmm_range_fault()`` cannot be used on such mappings because it must hold the
-> > +mmap lock for the duration of the call. Drivers that need to support them
-> > +should call::
-> 
-> Given the majority of callers use this API it should probably be the
-> focus of the documentation and example, regulate the existing API to a
-> 'BTW if you really need the mmap lock, and you really shouldn't, this
-> exists too'
-> 
+Thanks for taking the time to explain the bigger picture in such detail.
+Details. I understand the concern: accepting individual fixes doesn=E2=80=
+=99t=E2=80=A6
+Solve the underlying problem that zh_TW documents have been facing.
+Stagnant for a long time.
+> So if we are doing zh_TW instead of a direct simplified and
+> traditional Chinese conversion, I don't think we can handle this
+> properly without the help of Taiwanese friends.
 
-Sure, I'll update the doc to reflect it this way.
+For what it's worth, I am from Taiwan and a native zh_TW speaker.
+That is actually what motivated this patch: much of the current text
+reads like converted zh_CN rather than natural Taiwanese Mandarin,
+and 8.Conclusion was simply where I started. Within my ability as a
+newcomer, I would be happy to help review zh_TW patches or keep
+improving the process/ documents, if that is useful to the discussion
+you are planning to start.
 
-> > @@ -32,6 +32,7 @@
-> >  
-> >  struct hmm_vma_walk {
-> >  	struct hmm_range	*range;
-> > +	int			*locked;
-> 
-> Let's use bool if you have to respin this
-> 
+This is also my first kernel patch, so naturally I would be glad to
+see it applied. That said, I fully respect whatever direction you and
+the docs maintainers decide is best for zh_TW as a whole, and I am
+happy to rebase or adjust it if the discussion lands somewhere that
+requires changes.
 
-Sure.
+> Sorry, I think you will prefer being called Chen-Yu instead :-)
 
-> > @@ -651,37 +663,33 @@ static int hmm_do_fault(struct mm_struct *mm,
-> >  		fault_flags |= FAULT_FLAG_WRITE;
-> >  	}
-> >  
-> > -	for (; addr < end; addr += PAGE_SIZE)
-> > -		if (handle_mm_fault(vma, addr, fault_flags, NULL) &
-> > -		    VM_FAULT_ERROR)
-> > -			return -EFAULT;
-> > +	for (; addr < end; addr += PAGE_SIZE) {
-> > +		vm_fault_t ret;
-> > +
-> > +		ret = handle_mm_fault(vma, addr, fault_flags, NULL);
-> > +
-> > +		if (ret & (VM_FAULT_COMPLETED | VM_FAULT_RETRY)) {
-> > +			*hmm_vma_walk->locked = 0;
-> > +			return HMM_FAULT_UNLOCKED;
-> > +		}
-> > +
-> > +		if (ret & VM_FAULT_ERROR) {
-> > +			int err = vm_fault_to_errno(ret, 0);
-> > +
-> > +			if (err)
-> > +				return err;
-> > +			BUG();
-> 
-> Linux will be upset if he sees this.  
-> 
-> if (WARN_ON(!err))
->    err = -EINVAL
-> 
+No worries at all :-)
 
-It will. I copied it from GUP.
-I'll change it the way you propose it.
+Hi Dongliang,
 
-> > +/**
-> > + * hmm_range_fault - try to fault some address in a virtual address range
-> > + * @range:	argument structure
-> > + *
-> > + * Returns 0 on success or one of the following error codes:
-> > + *
-> > + * -EINVAL:	Invalid arguments or mm or virtual address is in an invalid vma
-> > + *		(e.g., device file vma).
-> > + * -ENOMEM:	Out of memory.
-> > + * -EPERM:	Invalid permission (e.g., asking for write and range is read
-> > + *		only).
-> > + * -EBUSY:	The range has been invalidated and the caller needs to wait for
-> > + *		the invalidation to finish.
-> > + * -EFAULT:     A page was requested to be valid and could not be made valid
-> > + *              ie it has no backing VMA or it is illegal to access
-> > + *
-> > + * This is similar to get_user_pages(), except that it can read the page tables
-> > + * without mutating them (ie causing faults).
-> > + *
-> > + * The mmap lock must be held by the caller and will remain held on return.
-> > + * For a variant that allows the mmap lock to be dropped during faults (e.g.,
-> > + * for userfaultfd support), see hmm_range_fault_unlocked_timeout().
-> > + */
-> 
-> Add a comment discourging anyone from using this function and prefer
-> hmm_range_fault_unlocked_timeout()
-> 
+> I can help review patches in traditional Chinese. With the help of
+> LLM, it is fine for me to handle local terminologies in zh_TW.
 
-Will do.
+Thank you for offering to help with review, and thanks again for your
+comments on v1.
 
 Thanks,
-Stanislav
+Chen-Yu
 
-> Other than the concern about the timeout and minor nits this looks
-> fine
-> 
-> Jason
+Dongliang Mu <dzm91@hust.edu.cn> =E6=96=BC 2026=E5=B9=B47=E6=9C=8810=E6=97=
+=A5=E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=889:16=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+>
+> On 7/10/26 9:00 PM, Weijie Yuan wrote:
+> > On Fri, Jul 10, 2026 at 04:49:30PM +0800, =E8=91=89=E5=AE=B8=E4=BD=91 w=
+rote:
+> >> Gentle ping.
+> >>
+> >> This v2 addressed the review comments from Alex and Dongliang.
+> >> Is there anything else I should improve, or is it queued somewhere
+> >> I might have missed?
+> > Hi Chenyou,
+> >
+> > I think currently having Alex apply your patch is a temporary measure,
+> > because the maintainer of traditional Chinese seems unlikely to be
+> > available in the near future.
+>
+> I can help review patches in traditional Chinese. With the help of LLM,
+> it is fine for me to handle local terminologies in zh_TW.
+>
+> Dongliang Mu
+>
+> >
+> > Outside the patch itself, I noticed that Traditional Chinese is actuall=
+y
+> > in a state of stagnation, which makes me think that receiving such
+> > patches is a temporary solution rather than a long-term fix.
+> >
+> > As Jonathan said, "...But there does come a point where a translation
+> > is so obsolete that it does more harm than good and there are no
+> > prospects of it being updated."
+> >
+> > So, after a period of about two years of stagnation, the Traditional
+> > Chinese documents seem to have really reached an unreadable state. This
+> > is something we don't want to see, but we must accept the reality and
+> > then take action. Please note that I have no intention of offending
+> > Haowen. On the contrary, I am definitely grateful for all that he has
+> > done.
+> >
+> > I did some interactions with one of the L10n Taiwan team (who are
+> > involved with Git L10n) [1] in their telegram channel a few days before=
+,
+> > but sadly they said the biggest problems are:
+> >
+> >    1. No one is willing to take over. (hey, I totally understand)
+> >    2. There are different opinions on translation. (I don't know the
+> >       deeper details)
+> >
+> > Besides, I'm also very curious about how exactly we define the position
+> > of traditional Chinese or zh_TW. From my rough observation, the existin=
+g
+> > documents merely performed a simple conversion between simplified and
+> > traditional Chinese, without taking into account the local expressions
+> > specific to Taiwan. Therefore, that's why we are receiving the patch
+> > here and commit aba18be23f14 ("docs/zh_TW: replace =E6=8E=A5=E5=8F=A3 w=
+ith =E4=BB=8B=E9=9D=A2 in stable-api-nonsense.rst")
+> > (Please correct me if I'm wrong, as I have not got into many
+> > translated pages)
+> >
+> > So if we are doing zh_TW instead of a direct simplified and traditional
+> > Chinese conversion, I don't think we can handle this properly without
+> > the help of Taiwanese friends.
+> >
+> > Of course, I feel quite ashamed that I'm saying these above here withou=
+t
+> > having made any substantial contributions to this community, sorry.
+> >
+> > Could we discuss this matter in another thread? Very sorry Chenyou, wha=
+t
+> > I'm saying is completely unrelated to the patch itself.
+> >
+> > Finally, I would like to express my sincere gratitude to Haowen.
+> >
+> > Thanks,
+> > Weijie
+> >
+> > [1] https://l10n.tw/
+>
