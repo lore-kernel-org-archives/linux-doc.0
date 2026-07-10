@@ -1,68 +1,68 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B7BD3672B3
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 03:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5423367292
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 03:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783654152; cv=none; b=HYIIZAbnu6hHGSeL/UmBOMHWzEt5h/s0NwdKkH9iabsD5mW+YJFZMu0/6ONATaVZ6kx52wiHDso38Q3iRPpgVTPsgV5dMaeEEBSwPs5EJVes+bwRCXCXRNYa7O6wzm9nKdXM8g5WDYtEIIgyucTy5gbs1CQMfV/xrjZK0CXS5bc=
+	t=1783654160; cv=none; b=rLh7BhLyECI7T8SU2nEsD6MfhSd+RmcYonSSz3tAPYlUmyY+UAvGP5dBRwTTHkUlMWLYHX+oNtagkna6rlNLPdPOn0JZ5XGk78D21hbadusatAkxoqBo8wCi2z3S7itGRwJTO+5cUjl1TEOCvQ01uyqt+2PtmjTTJRwH7EB6b04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783654152; c=relaxed/simple;
-	bh=cZmplDdace8ka2XP9vD8p3ABtAIzwqaOpdlJ1+3LPG8=;
+	s=arc-20240116; t=1783654160; c=relaxed/simple;
+	bh=XLXzIgc0ems38hTXhytSCLWNSTJ6/lnczDaOsWqzk80=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=c7NwpEqSm6jtVbmQ7wrOG6ruFrmhpLKVaHlXYzqRqAnPoz7xQ1db7CW644LKLcs/nrs49SMfcUOfCNInSigEEFFf+l5JwwjLJzDBtQGp12TkekUlliX8ZrP/S4/JW8t+y0d2RC5iN1S9+QC6zHLOJJg+cvmQV6BM2YUvUyZNIm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BJWYlpQe; arc=none smtp.client-ip=209.85.214.179
+	 In-Reply-To:To:Cc; b=kEbRTJA2ONfoIJ3gXDTwUgyhkmiSRjavBS1A2ftbXKeolQQtxVXjyttyTDpO8LZukmCBIrMTzyBjSErWLXgApPsSf7JrsOkpDx2OLHErFIMLiP8JOki7TxGopv1TXXiFYr8zcKVIRO00DPMGKmleDco33MLCj5G/5dM2QGPmkwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FAwlXME/; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BJWYlpQe"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ca64c3ce5fso5853855ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 20:29:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FAwlXME/"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2ca64c3ce5fso5855385ad.3
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 20:29:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783654150; x=1784258950; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783654158; x=1784258958; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=2v7qKSZXWIDgV3PiMinRsvjWO8t8BKfsRKjtUJUHEIk=;
-        b=BJWYlpQePs5LgU89Ap/ztAaLrVUh9Ys/ozCiulN8O8u5mNxv1MOK3uzC1IYFUGz7wn
-         eePjfSa4axkfO4knzEvIEYSVURceFD79DmS5bKamCHTBZcKVAfLPQootUhF/t4M3cSif
-         I2FfqBksYwJagrKjOC6RdJkAJBu3hJK7HPdaQ3v1q8G1gp8ZN2Sf0nHGE86OkE25nw12
-         4rwYkll3DLBPL96HWUv3lRes024hE5y8M4LjZP4Upsjp5wKXN00tRQ35qkRseaBbSQdn
-         JEiYudHwzGv9o/BFNWuxuDE6R9bkC938pHlCfYFaH763xN2jocs6lsjMRLX3UE1qE0iJ
-         88Kg==
+        bh=foKf2OzW/IJk9qSRNXtj3QHT8NO8zJPjssJk6y4CFnQ=;
+        b=FAwlXME/ZU8CIggt766MxOWFrtD1DEAq+1QJV89HtJ/4qNAdyqlrf/mhagoGSGEkRn
+         simFefKR9u1kk0tTchJvpGxeImcfcMQ+B3g9eTnnkDEH9XXJLiKeNBiBoFJhpiNoTROV
+         JPfNXiOvjRdsXCNgbxO6KYKDP20enDacVWXEzfyJzG3eTFqBg1o+IgDB+qgBK4SpH1bV
+         yjUrAOOQSD0c67wB5qVWQYidOMm3XPFPFvlrZxewjKtLcSQg5kZIti0sNZqwA4jlgV1T
+         5fy1b02DQ9S97U8n8/oJN3AhnVlmiLR1Dx9eL1uSHP/O9VPhJb8mU8FiWzuxGLj7+ByE
+         oXkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783654150; x=1784258950;
+        d=1e100.net; s=20251104; t=1783654158; x=1784258958;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=2v7qKSZXWIDgV3PiMinRsvjWO8t8BKfsRKjtUJUHEIk=;
-        b=Er29X93Lae7QndZ/11/ledODgIGRWslNRCKuEWEIq58mRV/Bw6jqjF+BPkiK0PAEh0
-         cmLJisHSafgw3/PPkp29GJR4xIHZmRsxs4H4W0sfiUtySjGb/EHHNYT4JTbS+fMR2ySU
-         0YmXR+PoHMUdVNeG7pNePe29DE8isMeXDhn38VZqTCNHX87Fy/C5t6FgRRME6Jly8FpV
-         RvXzoNUgCPqsSxrLvdA4hht6vUFBBEO/1BCRsTrzBFxpz/u9x3/bTmOu4Wkr+HZW60I7
-         DH/NWecfOB4jl6gB9BSLs7FkpsxH9rdDcK7nWP5C6eh5vilkYiSzfXGXaH335BDC4YXW
-         wUEQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro1CvjFYwQ+TReT3E6ClMOKFen+RgkyhpNc8BkTB1ktF6vRm0+MmshOIyhX9YXJUA4+xYa2gKHABjw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwsYJ2k8G/cjcN65dbuuHG353jOH9n4qXg0FCACkQwytaK1dgnL
-	MyWDwcOdHM0XlcJ+BwFnFVH3PGuImrv2xi3j6eLq9uPIxYfDCTdvWl1/
-X-Gm-Gg: AfdE7ck7BGdBxkrbmEW891mLp8BOMgczyjydywHq1wJcHL41XXS45iWRb5Ni0n6YpDz
-	/qQuyAVv2VCcLxYlACSnJc7eGrauOKF8kOj0+Wb96vVKOcE8zHI1v094TUiZf4OHmv20B8qQ7dR
-	kekh9L19upHkMKBpSwwvEmU/6zBiEBTGiId3iFzAl8kc8OFkVXPzT0yTABeeknd3YT/TcLoEVkC
-	CcAcGHmt83GQnjcZ+2q0yzh9dQYTkHOL+irg5q1eAcjC1MxooudmJoYv5TRyrbEo16Szm7evtEY
-	bHLoq/rkgSOky34N+ZvDWu793PA2sE1wSrz7XfCUzO2Yu8UUb4W8i7WYT/DCa7ujpWrcfybNBwN
-	Yv8R/xauK9JXePa6Izem/1STy4VhyVDLX7jgscz+5ZdEq9negmgoPAX52pHtO+aUguYmp9pJoI1
-	Ykcv0M7wdSYf4=
-X-Received: by 2002:a17:903:3803:b0:2c9:d298:6c06 with SMTP id d9443c01a7336-2ccea45f203mr97612355ad.25.1783654149819;
-        Thu, 09 Jul 2026 20:29:09 -0700 (PDT)
+        bh=foKf2OzW/IJk9qSRNXtj3QHT8NO8zJPjssJk6y4CFnQ=;
+        b=bRx5MPFGyOOmqtJ5BN2RZoKW1mitUcfgV16fNhYA+3QBd35bOuyf/gj4mPTun1rWQd
+         jFlad2WcP2A26sFdBrXU0aX95jA6T4oVgh6UwhzR/hF/KBl26idDCFtyt+wa11zqsjOw
+         Iy4KpqQCYlDWtU+GwMOTBIypoeo1T9tqPfr8BnbRIyj/m+Ays4hg0mOaBWAvTW/tn6e7
+         e1ctANUMN3Yf+maX6P6TgOWkEgwW261XxjIEv5tsUzgzfV3iY62kWj6augOUjqr8v13n
+         8+vbq2U8tiz88ZTg+S1w5m/pluw2n63ldklM/7QH0erXHljlIsWqVgWBzlbTE1TTo1Wi
+         w+HA==
+X-Forwarded-Encrypted: i=1; AHgh+RqOjHZWW3Zu20y0FQIJ3H+oyhIgV3h/ouJNzJvGq1fPKZxTsig5jrciLH3WBMQeDmPggn9XjDHXZv4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+iX7y4OW/8iNkaxnRUypGqHEd5o5lOYL4RB+cgHG6W2LZA2eM
+	iNNtgd5zMSCWwd6ey+g/mTCBa8L+1rBTOIZaMKrk7hiITOJ7qfNFjdew
+X-Gm-Gg: AfdE7clCrpkSdIwIp+HJFibBY5PG9Zbo126n6MbyrC4itzq3iIxt7TvkVeKs+4gJEwM
+	rAeysqkkpZSEWIFgnh7qpDQPiKLe9MYgLS2q6Sm/y/EHNTO1+NITqBxFHf/f/pyTbtJlmlNX0BR
+	c7PJp5GOvuRUHcsUL79vSHHmDFBwhsAEfu2/g5RWOiLirTu9c51aRxgzOkFIs/PfbXsmbvrFRiA
+	DzKMAYblY+TfFaOYwxjRB6N8g4rv4rKPMzT1JGvQQALE/wp678h+b1nB0G7R7xyagpzsff6y5Da
+	CVWPEbEkq97Tt3M9ZvjtKWAGbzt1CoX97Ov2RNZ1dCe3Zo1PQYfLAIlhCKhQBkZJ+ow1bOBSZ8P
+	kh4IlK6A0foqzUNAHRENrURgPJYHa5BVymFqu9uyx2TNPF2bwowdDDozU5cMk33dagnBfw/oqaw
+	GDUBcYO3vsOnU=
+X-Received: by 2002:a17:902:f78b:b0:2ce:6d4a:5b8a with SMTP id d9443c01a7336-2ce6d4a5c71mr56853935ad.38.1783654158257;
+        Thu, 09 Jul 2026 20:29:18 -0700 (PDT)
 Received: from [127.0.1.1] ([138.199.21.246])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bdb56fsm53436465ad.15.2026.07.09.20.28.59
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bdb56fsm53436465ad.15.2026.07.09.20.29.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 20:29:08 -0700 (PDT)
+        Thu, 09 Jul 2026 20:29:17 -0700 (PDT)
 From: Jing Wu <realwujing@gmail.com>
-Date: Fri, 10 Jul 2026 11:28:16 +0800
-Subject: [PATCH v4 05/11] rcu/nocb: support lazy init for runtime CPU
- isolation
+Date: Fri, 10 Jul 2026 11:28:17 +0800
+Subject: [PATCH v4 06/11] watchdog: sync watchdog_cpumask with
+ HK_TYPE_KERNEL_NOISE on isolation
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-wujing-dhm-v4-5-2e912e5d9645@gmail.com>
+Message-Id: <20260710-wujing-dhm-v4-6-2e912e5d9645@gmail.com>
 References: <20260710-wujing-dhm-v4-0-2e912e5d9645@gmail.com>
 In-Reply-To: <20260710-wujing-dhm-v4-0-2e912e5d9645@gmail.com>
 To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
@@ -97,136 +97,101 @@ Cc: Waiman Long <longman@redhat.com>, linux-kernel@vger.kernel.org,
  Qiliang Yuan <yuanql9@chinatelecom.cn>
 X-Mailer: b4 0.13.0
 
-When a cpuset isolated partition first requests kernel-noise isolation,
-it needs to offload RCU callbacks from the affected CPUs. The existing
-rcu_nocb_cpu_offload() requires rcu_nocbs= or nohz_full= at boot so
-that rcu_organize_nocb_kthreads() has already set rdp->nocb_gp_rdp for
-each CPU. Without a boot parameter, nocb_gp_rdp is NULL and offload
-fails immediately.
+The watchdog is initialized at boot to run on all housekeeping CPUs
+(HK_TYPE_KERNEL_NOISE). When a cpuset isolated partition removes CPUs
+from that mask at runtime, watchdog continues running on those CPUs
+because nothing updates watchdog_cpumask.
 
-Introduce lazy nocb initialization so that the first call into the
-isolation path triggers the one-time setup automatically:
+Save the boot-time watchdog_cpumask as watchdog_cpumask_boot, which
+captures the user's intended coverage (possibly narrowed via kernel
+parameter or sysctl) before any runtime isolation. Introduce
+lockup_detector_hk_update() which intersects this boot snapshot with
+the current HK_TYPE_KERNEL_NOISE mask and reconfigures the detector.
+This ensures that isolated CPUs are excluded while honoring any
+manual narrowing the admin applied at or after boot.
 
-  rcu_nocb_lazy_init() - allocates rcu_nocb_mask and calls
-    rcu_organize_nocb_kthreads() (now without __init) to set
-    nocb_gp_rdp for every possible CPU. Uses a dedicated mutex
-    for serialization with a fast-path read of nocb_is_setup.
-
-  rcu_nocb_cpu_isolate() - exported entry point called per-CPU
-    while the CPU is offline. Calls rcu_nocb_lazy_init() for the
-    one-time setup, spawns the GP and CB kthreads via the existing
-    rcu_spawn_cpu_nocb_kthread(), then finalizes offload through
-    rcu_nocb_cpu_offload(). Adding the CPU to the GP kthread's
-    nocb_head_rdp list is handled by nocb_gp_toggle_rdp() in the
-    GP kthread, so rcu_organize_nocb_kthreads() can run with an
-    empty mask.
-
-Remove __init from rcu_organize_nocb_kthreads() to allow this
-runtime call path; the function itself has no __initdata dependencies.
+lockup_detector_hk_update() snapshots the RCU-protected housekeeping
+mask under rcu_read_lock(), then updates watchdog_cpumask and calls
+__lockup_detector_reconfigure() under watchdog_mutex, matching the
+same locking discipline used by proc_watchdog_cpumask().
 
 Co-developed-by: Qiliang Yuan <yuanql9@chinatelecom.cn>
 Signed-off-by: Qiliang Yuan <yuanql9@chinatelecom.cn>
 Signed-off-by: Jing Wu <realwujing@gmail.com>
 ---
- include/linux/rcupdate.h |  2 ++
- kernel/rcu/tree.h        |  2 +-
- kernel/rcu/tree_nocb.h   | 43 ++++++++++++++++++++++++++++++++++++++++++-
- 3 files changed, 45 insertions(+), 2 deletions(-)
+ include/linux/nmi.h |  2 ++
+ kernel/watchdog.c   | 24 ++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
 
-diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
-index bfa765132de85..5937485d59118 100644
---- a/include/linux/rcupdate.h
-+++ b/include/linux/rcupdate.h
-@@ -149,6 +149,7 @@ static __always_inline void rcu_irq_work_resched(void) { }
- void rcu_init_nohz(void);
- int rcu_nocb_cpu_offload(int cpu);
- int rcu_nocb_cpu_deoffload(int cpu);
-+int rcu_nocb_cpu_isolate(int cpu);
- void rcu_nocb_flush_deferred_wakeup(void);
+diff --git a/include/linux/nmi.h b/include/linux/nmi.h
+index bc1162895f355..0bbe562de67b7 100644
+--- a/include/linux/nmi.h
++++ b/include/linux/nmi.h
+@@ -37,6 +37,7 @@ extern int sysctl_hardlockup_all_cpu_backtrace;
+ static inline void lockup_detector_init(void) { }
+ static inline void lockup_detector_retry_init(void) { }
+ static inline void lockup_detector_soft_poweroff(void) { }
++static inline void lockup_detector_hk_update(void) { }
+ #endif /* !CONFIG_LOCKUP_DETECTOR */
  
- #define RCU_NOCB_LOCKDEP_WARN(c, s) RCU_LOCKDEP_WARN(c, s)
-@@ -158,6 +159,7 @@ void rcu_nocb_flush_deferred_wakeup(void);
- static inline void rcu_init_nohz(void) { }
- static inline int rcu_nocb_cpu_offload(int cpu) { return -EINVAL; }
- static inline int rcu_nocb_cpu_deoffload(int cpu) { return 0; }
-+static inline int rcu_nocb_cpu_isolate(int cpu) { return -EINVAL; }
- static inline void rcu_nocb_flush_deferred_wakeup(void) { }
+ #ifdef CONFIG_SOFTLOCKUP_DETECTOR
+@@ -120,6 +121,7 @@ void watchdog_hardlockup_enable(unsigned int cpu);
+ void watchdog_hardlockup_disable(unsigned int cpu);
  
- #define RCU_NOCB_LOCKDEP_WARN(c, s)
-diff --git a/kernel/rcu/tree.h b/kernel/rcu/tree.h
-index 7dfc57e9adb18..f3d31918ea322 100644
---- a/kernel/rcu/tree.h
-+++ b/kernel/rcu/tree.h
-@@ -517,7 +517,7 @@ static void rcu_nocb_unlock_irqrestore(struct rcu_data *rdp,
- 				       unsigned long flags);
- static void rcu_lockdep_assert_cblist_protected(struct rcu_data *rdp);
- #ifdef CONFIG_RCU_NOCB_CPU
--static void __init rcu_organize_nocb_kthreads(void);
-+static void rcu_organize_nocb_kthreads(void);
+ void lockup_detector_reconfigure(void);
++void lockup_detector_hk_update(void);
  
- /*
-  * Disable IRQs before checking offloaded state so that local
-diff --git a/kernel/rcu/tree_nocb.h b/kernel/rcu/tree_nocb.h
-index 1047b30cd46b7..694fd615f1809 100644
---- a/kernel/rcu/tree_nocb.h
-+++ b/kernel/rcu/tree_nocb.h
-@@ -1347,6 +1347,47 @@ void __init rcu_init_nohz(void)
- 	rcu_organize_nocb_kthreads();
+ #ifdef CONFIG_HARDLOCKUP_DETECTOR_BUDDY
+ void watchdog_buddy_check_hardlockup(int hrtimer_interrupts);
+diff --git a/kernel/watchdog.c b/kernel/watchdog.c
+index c18c3e9781d7b..26463f6d3a39d 100644
+--- a/kernel/watchdog.c
++++ b/kernel/watchdog.c
+@@ -53,6 +53,8 @@ static int __read_mostly watchdog_hardlockup_available;
+ 
+ struct cpumask watchdog_cpumask __read_mostly;
+ unsigned long *watchdog_cpumask_bits = cpumask_bits(&watchdog_cpumask);
++/* Boot snapshot: user's intended watchdog mask before any runtime isolation. */
++static struct cpumask watchdog_cpumask_boot __ro_after_init;
+ 
+ #ifdef CONFIG_HARDLOCKUP_DETECTOR
+ 
+@@ -1348,6 +1350,27 @@ static void __init lockup_detector_delay_init(struct work_struct *work)
+ 	lockup_detector_setup();
  }
  
-+static DEFINE_MUTEX(rcu_nocb_lazy_mutex);
-+
-+/*
-+ * Lazily initialize nocb infrastructure on the first call. Allocates
-+ * rcu_nocb_mask and sets nocb_gp_rdp for every possible CPU so that
-+ * rcu_nocb_cpu_isolate() can offload callbacks without rcu_nocbs= at boot.
-+ */
-+static noinline int rcu_nocb_lazy_init(void)
++void lockup_detector_hk_update(void)
 +{
-+	if (rcu_state.nocb_is_setup)
-+		return 0;
++	cpumask_var_t new_mask;
 +
-+	mutex_lock(&rcu_nocb_lazy_mutex);
-+	if (!rcu_state.nocb_is_setup) {
-+		if (!zalloc_cpumask_var(&rcu_nocb_mask, GFP_KERNEL)) {
-+			mutex_unlock(&rcu_nocb_lazy_mutex);
-+			return -ENOMEM;
-+		}
-+		rcu_organize_nocb_kthreads();
-+		rcu_state.nocb_is_setup = true;
-+	}
-+	mutex_unlock(&rcu_nocb_lazy_mutex);
-+	return 0;
++	if (!alloc_cpumask_var(&new_mask, GFP_KERNEL))
++		return;
++
++	rcu_read_lock();
++	cpumask_and(new_mask, &watchdog_cpumask_boot,
++		    housekeeping_cpumask_rcu(HK_TYPE_KERNEL_NOISE));
++	rcu_read_unlock();
++
++	mutex_lock(&watchdog_mutex);
++	cpumask_copy(&watchdog_cpumask, new_mask);
++	__lockup_detector_reconfigure(false);
++	mutex_unlock(&watchdog_mutex);
++
++	free_cpumask_var(new_mask);
 +}
++EXPORT_SYMBOL_GPL(lockup_detector_hk_update);
 +
-+/*
-+ * Offload RCU callbacks for a CPU entering a kernel-noise isolated partition.
-+ * @cpu must be offline. Lazily initializes nocb infrastructure on first use.
-+ */
-+int rcu_nocb_cpu_isolate(int cpu)
-+{
-+	int ret;
-+
-+	ret = rcu_nocb_lazy_init();
-+	if (ret)
-+		return ret;
-+	rcu_spawn_cpu_nocb_kthread(cpu);
-+	return rcu_nocb_cpu_offload(cpu);
-+}
-+EXPORT_SYMBOL_GPL(rcu_nocb_cpu_isolate);
-+
- /* Initialize per-rcu_data variables for no-CBs CPUs. */
- static void __init rcu_boot_init_nocb_percpu_data(struct rcu_data *rdp)
- {
-@@ -1439,7 +1480,7 @@ module_param(rcu_nocb_gp_stride, int, 0444);
  /*
-  * Initialize GP-CB relationships for all no-CBs CPU.
-  */
--static void __init rcu_organize_nocb_kthreads(void)
-+static void rcu_organize_nocb_kthreads(void)
- {
- 	int cpu;
- 	bool firsttime = true;
+  * lockup_detector_retry_init - retry init lockup detector if possible.
+  *
+@@ -1390,6 +1413,7 @@ void __init lockup_detector_init(void)
+ 
+ 	cpumask_copy(&watchdog_cpumask,
+ 		     housekeeping_cpumask(HK_TYPE_KERNEL_NOISE));
++	cpumask_copy(&watchdog_cpumask_boot, &watchdog_cpumask);
+ 
+ 	if (!watchdog_hardlockup_probe())
+ 		watchdog_hardlockup_available = true;
 
 -- 
 2.43.0
