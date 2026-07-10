@@ -1,149 +1,124 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A829425CF7
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 12:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861CF408624
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 12:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783686741; cv=none; b=YB8xoqBrBR2vKE5FsJk/T0OBS4TJKMHTjrL2J3W3Ev3nqi0XtLtLowtjYkJvG3VC6v3zZftZE8cDSWE9Z2OaZ4kKuzSiWYAPy0p9F/+44XfV7WrrFjAsWf1gACupSj1EwOZpvPkmqR91/55uCKQG4WvW8EmKsaf2V73oSulZpFI=
+	t=1783687093; cv=none; b=NX83iofv10Wc1N6rYv4tJKO3SwwoE4urZyUhGTbAb4Jp7Mr1gUVTFMoEYiJCoEvYwZoFr5xqT7sklH3Hjsi7OIR/7dDQRGczXFu8Y3JcpA3wAHlgY/8Qs9bR6inHnKrOlnm3ImgIJ0+IiWo31HnijDkCu8ZVaWPtEFOeMoyCeKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783686741; c=relaxed/simple;
-	bh=ys9eY4ViqB4VHoA/lZua2Zw3TzyK+DqDveJx1YabTEI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cWiBmRAny+3s2qcaTyj1SgE+d++uLoRKGGGr5CEMttM4ddyzu4KnbHW6UNbKVCyjw3eQyq8KKvQMixm9bH6SI83d2qiWLjsm/2Iugd6qb3RwUxhp/QQA7fBSWV2T2+JtNLp81OFPbdaZX3sBUk28n4EpvfjLn+HJKLOqkh8TL2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from kunlun.suse.cz (unknown [IPv6:2a07:de40:b306:2000::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AE9AB764C1;
-	Fri, 10 Jul 2026 12:32:14 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
-	none
-Date: Fri, 10 Jul 2026 14:32:13 +0200
-From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	linuxppc-dev@lists.ozlabs.org, Kees Cook <kees@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>, loongarch@lists.linux.dev,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	linux-riscv@lists.infradead.org,
-	Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org,
-	x86@kernel.org, Mark Rutland <mark.rutland@arm.com>,
-	Jinjie Ruan <ruanjinjie@huawei.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Guo Ren <guoren@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Helge Deller <deller@gmx.de>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Richard Weinberger <richard@nod.at>,
-	Chris Zankel <chris@zankel.net>,
-	linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
-	linux-csky@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
-	Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>,
-	Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>,
-	Michal Simek <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
-	linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-arch@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: Re: [patch 13/18] entry: Make trace_syscall_enter() return type bool
-Message-ID: <alDmTcgzMlKiio9H@kunlun.suse.cz>
-References: <20260707181957.433213175@kernel.org>
- <20260707190254.338083894@kernel.org>
- <ak5ySpil83TNWxeq@kunlun.suse.cz>
- <87se5tqkyp.ffs@fw13>
- <alDQ7isUKJFl8Va4@kunlun.suse.cz>
- <alDaOw8t-e3rxIPm@redhat.com>
+	s=arc-20240116; t=1783687093; c=relaxed/simple;
+	bh=C3HhkpWE6qU85b4hr6HvJtthh4oucD293NGx2vb+4Hw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=fqFinta0ceUN0b5ntGjsFuLkwOYXFIEAbH14p5A+myy4S4x2IjXzb7OuPQiIOt+CDbHmn+u7UUPJ4q3aAbp8uSFZilBMWDZrx7T/IcU5uHfAQu+kD17Fypj3ue3muBlpmE31an4Rgh9FtC7oLE68TKw1DRmPSbsvNfBJ3wUI7g0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qtec.com; spf=pass smtp.mailfrom=qtec.com; dkim=pass (2048-bit key) header.d=qtec.com header.i=@qtec.com header.b=YI7DAuk5; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qtec.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qtec.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qtec.com header.i=@qtec.com header.b="YI7DAuk5"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-39c9107baa7so10049981fa.3
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 05:38:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=qtec.com; s=google; t=1783687088; x=1784291888; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fG0KIih+vx57RDic8M93xs1kz9fPC82KqiNSjebxkcE=;
+        b=YI7DAuk5f4Ug+9+yT5XQ8xLc+RLSBljsssn19UH8KPmiCCXW7zOlzIbT5vtsJtjCNv
+         yI/aoN2c0J2mepHN+eVB4EDrBJ0HYzBhDpxSzDl3/RQRZ9XmhYdi7xTsQN0Bgg5sEqmq
+         DeqF2iEr7mYBtprt6oHG+hO4Rwm0qGEUS58tOiODwwttfXVTBt2oEQqUad/A1rlQ25ar
+         h1bpRWZz8WOMuA1QvCjk7W6qYBqhF8VsmP1ja5pXxggcIwvhBFSAOxU3YLYb0NAcp5bV
+         17roL1f57wUcFBuLXYXOYUDvVJv6eyj7y3cVbpKhWEwvjiF4YXaGoKSWigvUQrDhoHL+
+         gfLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783687088; x=1784291888;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fG0KIih+vx57RDic8M93xs1kz9fPC82KqiNSjebxkcE=;
+        b=d6wbU1x5cXO0B+lMF6uOIbG4NAbZS5QLcF+werVkZ7iMAJoo288nwUC752nraDP1Qg
+         khPY3QdpmZOIZcOcVjhmVCmMdrMTTlkolOgsrUeRSPeauoXLzMXIGllFDXo1LBMXkWLb
+         MOA2RrGmzfejoB9CczLGjWQcICiCGRRwATfTA+NWk0RoKA0aea1foGF3rKB28tUjfHO3
+         70qPL2zca6SRthSx7qVj4HBUrgsNgVO7qOkrJxFm1yOIxFMhFLMnoRCYr8mQSp046BpO
+         uzUrE4fB7y0UlIqRJ2gjp2MpjBMYrGOIdPtQ6CEO0ve2iXf6eU7pDxdp2h/2K1zPtuFp
+         hkXQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrSCkB0x8Fnm/Hro9v98J5BHiAsCBuiuD0PokFQqacmwjrMGySFBkDM6QIIeiBesCfWYenCR3H0UCs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCpi2Y60ieMwft+LVDhxNEzdiKoT/KLJU79F4JEoAb3tEo21or
+	5c840CrulKXZiMddvpvRXFdcEKcYxsgepNmfGXEkF619p+HKMmG4qHU6yYe12aQw2whO5ypVrEj
+	o3g3x+h8=
+X-Gm-Gg: AfdE7cnJ/oRUH6o782pMByt+OW3y8qmQyDYCD7Txe7DIESRjzHcRr/LYRDENA4o7TLX
+	VsvJsOIENzDqTTsq8FHHWU5kYQH6DMWJH3AxxulfBc9q6xoZuzo+F+wqAjT3cCuOlaueE6Loqgl
+	jKxBahsZ0pRPynJCSfQblmJsTKSggu5RodlP02vH+ouaVtR+uLtLM6BkF4ghd7ApTmUzUD9PHUb
+	ATN/Muxp6QdYBvdxMHpSymky9LFHKsr9fUqFnOCf+zcMUv8hPqLs4drz2jdwmDFLgjdX6jFXfsR
+	e5Qq3lgnRm4al9nYEEhYiQUbkk8oHVT+7xbfODwXRg5ob7tmii6w9k/8Meb7UA7703E/vItzpCI
+	mr6V7v1ziP4qJ1J0kYsS2aF9U45NSg01iS8uLfUZVmzKixgDrL4Pxsi6dBUZpYJO5k0pQdZ6pj0
+	Mr+dAkrFEQqsY6HhHE7YL+JQ1glMf8xfWat0uP+9xFkM5n74Tsh0Hni4f1f4c/NbPlJ4NUK15Mp
+	s4cqy04n9YvTh+EYlaD96Mz02kUag4quoVnBW3JIMrm61YhajPwpRAYfns=
+X-Received: by 2002:a05:6512:314f:b0:5ae:c3c1:822a with SMTP id 2adb3069b0e04-5b011478028mr1822557e87.58.1783687088448;
+        Fri, 10 Jul 2026 05:38:08 -0700 (PDT)
+Received: from [192.168.2.43] (cpe.ge-3-0-8-100.ryvnqe10.dk.customer.tdc.net. [80.197.57.18])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b01caa667asm580895e87.66.2026.07.10.05.38.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jul 2026 05:38:06 -0700 (PDT)
+Message-ID: <82c74030-88c6-4bf2-ae76-41c2a68ced61@qtec.com>
+Date: Fri, 10 Jul 2026 14:38:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <alDaOw8t-e3rxIPm@redhat.com>
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spam-Flag: NO
-X-Spam-Score: -2.00
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.00 / 50.00];
-	REPLY(-4.00)[];
-	RDNS_NONE(2.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLrpyf51xp5ujasy9bitsaikab)]
-X-Rspamd-Queue-Id: AE9AB764C1
-X-Rspamd-Action: no action
+User-Agent: Mozilla Thunderbird
+Subject: Re: Bad wrapping in some tables
+To: Rito Rhymes <rito@ritovision.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-media@vger.kernel.org
+References: <c542aaf7-6a40-4730-8bd6-208c9fe932d5@qtec.com>
+ <87pl0yr9ah.fsf@trenco.lwn.net> <DJUP0UXLLHJ0.3P121A982R9TP@ritovision.com>
+Content-Language: en-US
+From: Daniel Lundberg Pedersen <dlp@qtec.com>
+In-Reply-To: <DJUP0UXLLHJ0.3P121A982R9TP@ritovision.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 10, 2026 at 01:40:43PM +0200, Oleg Nesterov wrote:
-> On 07/10, Michal Suchánek wrote:
-> >
-> > On Wed, Jul 08, 2026 at 10:34:38PM +0200, Thomas Gleixner wrote:
-> > >
-> > >   1) The set in stone rule is that if the entry code returns -1L as the
-> > >      syscall number then the architecture code has to skip the syscall
-> > >      invocation _and_ is not supposed to change the return value.
-> >
-> > Which stone?
-> >
-> > Pics or it did not happen.
-> >
-> > >
-> > >   2) There is no guarantee and never has been that any of the involved
-> > >      mechanisms (ptrace, seccomp, tracing) will change the return value
-> > >      when it sets the syscall number to -1L.
-> >
-> > For ptrace to correctly emulate a syscall it needs to set the syscall nr
-> > to an invalid value on entry, and the desired result if the syscall on
-> > exit AFAICT.
+Hi
+
+On 10/07/2026 08:55, Rito Rhymes wrote:
+> I just got caught up to speed, reviewing the links, the regression, the
+> prior state and other relevant context.
 > 
-> I can only say that ptrace users do want to skip the syscall and set the
-> return value on entry.
+> Daniel, thanks for pointing out the regression. As Jon said, it's
+> always good to inform the author of the patch, and I'd have been happy
+> to discuss and test out solutions with you.
+
+Sorry about that, I'll remember that for next time.
+
+[...]
 > 
-> See
-> 	[PATCH v5 1/2] ptrace: add PTRACE_SET_SYSCALL_INFO syscall skipping support
-> 	https://lore.kernel.org/all/20260709100949.94345-2-renzo@cs.unibo.it/
+> The best solution:
+> Make targeted changes to the tables to make them fundamentally behave
+> better on smaller screen sizes.
 > 
-> The changelog explains that currently this doesn't work because
-> among the arches which define HAVE_ARCH_TRACEHOOK (at least) arch/mips is
-> broken in this regard.
+> I began this effort with:
+> [PATCH v3] docs: wrap generated tables to contain small-screen overflow
+> 
+> Jon hadn't followed up after testing out the fix with CSS and my
+> explaining why the wrapper was the better approach, because it prevented
+> regressions. That fix is a start, but more would need to be done.
+> 
+> If Daniel is willing to help test out table fixes and provide examples
+> of regressions, and if Jon has the bandwidth to review my patch
+> submissions to improve the tables, I am willing to tackle this systemic
+> issue, which will result in this issue being resolved as well.
 
-Or it could be documented that setting the return value has to be done
-in the exit trace, and that would than work on any architecture AFAICT.
+I don't mind testing some stuff if you want me to, but as Hans mentions 
+the media docs is full of tables which have these issues, from a quick
+check, almost all sub-pages of the Function Reference are affected:
 
-With ppc and s390 using the same register for the syscall number and
-syscall return value it's very much impossible to poke the return value
-on entry into a register using the generic register access function. As
-of now there is no place to store the value ot of the return value
-outside of the registers, either.
+https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/user-func.html
 
-And the current PTRACE_SET_SYSCALL_INFO indeed sets the syscall nr and
-arguments on entry and the syscall return value on exit, that
-disctincion is implemented.
+> 
+> Rito
 
-Not sure how the patchset you point out is relevant, it only adds
-changes in the exit case.
 
-Thanks
-
-Michal
+Regards Daniel
