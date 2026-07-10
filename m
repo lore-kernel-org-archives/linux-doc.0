@@ -1,341 +1,147 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD30331A7E;
-	Fri, 10 Jul 2026 22:09:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F896376A1A;
+	Fri, 10 Jul 2026 22:10:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783721347; cv=none; b=Wn9r8RTq/kY+Ak8aaSn6vLNSRqsQenPZkth9v7NADdkuEl2dkYFP04dZ6+MqyY0vqmQh6y0C5vRM7sU3wergYFCnDn2renQAISiodDqA5XTcdZOsvIYrF+5Ee4YiXgnD48mv4+5HLDx+aRJrGTBy4BJR6+l9H20h4HpCpvgX1Aw=
+	t=1783721423; cv=none; b=nZu57CcyLgnHBOkOZjr7pbCUvbqaXgOVEClhfWEThuTGTY4xptTZ043JpV+9uiYD1mHK2dhqrt/fpgnn848sDQhue3riclR7zfMM268fcu/Bj3STxf4kQ57T4t/nKEb/tffVOQ/qQD3v1qF+9qQlvpZqkIbYMGqS2ib3CGlMN+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783721347; c=relaxed/simple;
-	bh=PgwSs0hDroFDVh66+GeKk0RoQRpxD7pwigmXj+9OOw0=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=NCTbsGaeVNruNkXV6q48m12+mHlYl8EhsJ8mIQ3rFxpGdIrUYPHvF4O7Rzhuze5U0loX0hKQ4jPMMPmpExsKWcLuQ1epHLtqzB0WhYLRYTObmzfq+qGxVggi59LBamj+JFjgM02eW/dlw/Nzu7ZwokA1vDvGp6aIbgwCLW4GnEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oJQNwXbZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783721423; c=relaxed/simple;
+	bh=3lMVYBJh9AOOrlIfe42E8crqK1zaWHyg9SuRHBrtcQ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=o7pWX0D0mwkc4dVfpZvVrAoRgoXVdF4AFI99ppoKkUIycaQYemPKlTLxJL3JF7NuZ9wETL4Ic8xtScTh7AtJjTDb3mr9Xpmm8dIjIQyTWFW4XzgkuEbhALTWXGy7+YCyeImhUg+h1kYrrsDZ/sltU5lHjpiXVFcQMeCuqeAHso4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QbcaZMVa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oJQNwXbZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 821B91F00A3A;
-	Fri, 10 Jul 2026 22:09:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QbcaZMVa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26E6C1F000E9;
+	Fri, 10 Jul 2026 22:10:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783721345;
-	bh=8RIAbAfybpAIUyqGEkw+zfng9AgfFDST8G4sFtli3E8=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=oJQNwXbZ+DM/vrOD/vDKUCXAr2wXO27fOqed1Jgw8aRLgR5UArw+XBndICWogAcHR
-	 e+SyjfjegY6UMiSa0lqW4acY5yBNWSDUHpjMPtag+88JyPfmamwLIfr9F68Uxsf/uz
-	 mpAHmOVT/OLm7KcH4qyGA2NkrOWib0SzBazeJs/XoEg07vIPcVpoxOtpooNyNfa6mA
-	 hsK1F+rW0+MQ3n3vRoW0Ee+wmFgHAJp88LHozesh2/EmYi1kfTCGWl4Aeks+XYaGWj
-	 eeYjgpFrfqLdPo0j7N8/8K03b1fbbKR/e9rG5wsqirpAAbW6HFOk+FjGj2YYzQGUnl
-	 wXCvDeEZiMz3Q==
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfauth.phl.internal (Postfix) with ESMTP id B6353F401F7;
-	Fri, 10 Jul 2026 18:09:03 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Fri, 10 Jul 2026 18:09:03 -0400
-X-ME-Sender: <xms:f21RaqyYaBfVpZVlY49q7uKvmO_oV37Unmj4kYTx5IDNlOy865wuSg>
-    <xme:f21RahCaby_xczqTdmXilgWHgskYeGyVauhqM3iGv-SF5GdGgyMHFsZRYD9S57vLQ
-    HkrLwf6YrzOAiwOu9LJgm9UBCA6ntcQwocT1U8EHR2D1QcvsHkl46CA>
-X-ME-Received: <xmr:f21RarPIUWoBrmI-HsdAx5fh6MqXUP1RN5UyonN0hTjjH_ekhy6xqhDZZYXLXJPhfW8TXxlnD4jjhi2NQxgpw7wO4l9FoiCXtV8>
-X-ME-Proxy-Cause: dmFkZTEn+eWyFc00+AGqjnwpynLXuA5R/Ebkj45KWFU/p5tUktQVXGuGguxeW0jD5pDJTN
-    dSXacLoNFEI6k/YAW21oQHHMAU+JpvzK0FoXhR/pMWlzwVpSQfYqWAx1c2Hgr5zE0wmyd7
-    K0OSx4o4ggx6T+Fwgerl4iWDG+vYiUkC1B+dylIz4+v3bH/O9Eejv0/cZbt2jVjAeHi2la
-    4XyR4BXh8Be/YGP/BV92LbDSi8SBTw7qS0cJMlNKsWgFZOddkeTv7K4e58Px6jeqbhRCLx
-    T611jMQ60NckjBo0l7Ka0alSqZuruaHHK8zw3hghKMz5SHYnn9cPsySe/MLox4yN1SQLAL
-    xmyWIiiooDU/Oum6d0QEFDCtEY8KMzCK+aHpGG3T/ZM7WUK7tjfhHoIUIlNzQlj3sUqADt
-    9XoOGTuXvWasWS7cNsAQ+/rZza1mMEioYN0HbmedRd92ZaLyWyrZNGGLS8kVH9CM3ZZC0o
-    lHUHlINW5kEBFJzyUn6dlX0WmY3B35cLMdn6sJjsUjjUTQYCKmddbv2zT6gAn/wyLqmmnG
-    OZWWL8G4hC3Pmf21C8+LbbY0fCzNHrkx4aIGIFBqKDVdO2aGpbcAC5USGQ+gXnMN0iDmqw
-    I8Fxn/eGkYRtqU6TWk8us1KqAUExNyEV17eMUfQEb2zPlSMoemkP7b2PMBUg
-X-ME-Proxy: <xmx:f21RanSfb5qsuNrLceieRrskxoVioFIbZTG-aPipo4lbw6Usf7UqQw>
-    <xmx:f21Rastj42_vr-ioH-qP8-VZdglOrZc2A_DNuq2X_T9Syy5ua_zKNw>
-    <xmx:f21RalUfW0F1FBWocs_raKrWvLljYIwPBSngXC3mIzVce718B4D8pQ>
-    <xmx:f21RagnGKryEud_KyEf1swo2YgBpLbAti6dyfaCLwSWM-imtVPQBXw>
-    <xmx:f21RaoC6NrlkS9DblYnC3W36Z177POnOcTneUeCfujkzpmpd3Zjfpb-A>
-Feedback-ID: i67ae4b3e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Jul 2026 18:09:02 -0400 (EDT)
-Date: Fri, 10 Jul 2026 15:09:02 -0700
-From: "Dan Williams (nvidia)" <djbw@kernel.org>
-To: mhonap@nvidia.com, 
- djbw@kernel.org, 
- alex@shazbot.org, 
- jgg@ziepe.ca, 
- jic23@kernel.org, 
- dave.jiang@intel.com, 
- ankita@nvidia.com, 
- alejandro.lucero-palau@amd.com, 
- alison.schofield@intel.com, 
- dave@stgolabs.net, 
- dmatlack@google.com, 
- gourry@gourry.net, 
- ira.weiny@intel.com
-Cc: cjia@nvidia.com, 
- kjaju@nvidia.com, 
- vsethi@nvidia.com, 
- zhiw@nvidia.com, 
- mhonap@nvidia.com, 
- kvm@vger.kernel.org, 
- linux-cxl@vger.kernel.org, 
- linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org
-Message-ID: <6a516d7e2216f_3cfbb510079@djbw-dev.notmuch>
-In-Reply-To: <20260625165407.1769572-9-mhonap@nvidia.com>
-References: <20260625165407.1769572-1-mhonap@nvidia.com>
- <20260625165407.1769572-9-mhonap@nvidia.com>
-Subject: Re: [PATCH v3 08/11] vfio/pci/cxl: Add HDM + COMP_REGS regions and
- DVSEC clipping shim
+	s=k20260515; t=1783721421;
+	bh=WHmKVrTHqUOu0t0HzhdbiTzgSST566vrKFh+Ipx55oc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=QbcaZMVacjeFRPAKBmr6KOPXwIERjDdELg58KQZHknEzj1q9EZf72CXdcIGNGvIOb
+	 3hVQOQi7C9wXLGTizfnHGyKL89uCcWTxqT+1qgngXRsO3eRZutIwbo+Rd3D6cgsg8L
+	 7lKIks2DA+3aR4gI9VfIQ76YbeYG512cY8VDjAYFaXzdDrAJvQRPyGKa2AI2hFNM9a
+	 hQ6VCaEuCZMn8ZsKZV0k0LoxVwAjo67rpm462A/QT070ctYPeB6NEoEFifAZJPiIM+
+	 g1h6fiLDOtiBV+N7AHqVhFRnNhDwaFVyUTuq3q6GfFVpxMT4+ZJJoMC0t15ErGvr1+
+	 bOsHha1ywnpCQ==
+Date: Sat, 11 Jul 2026 00:10:15 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, Clinton Phillips
+ <clintdotphillips@gmail.com>, Daniel Lundberg Pedersen <dlp@qtec.com>, Hans
+ Verkuil <hverkuil+cisco@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Petr Vorel <pvorel@suse.cz>, Randy Dunlap
+ <rdunlap@infradead.org>, Rito Rhymes <rito@ritovision.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH] docs: custom.css: don't limit randering to old 800px
+ monitors
+Message-ID: <20260711001015.3cf5d166@foz.lan>
+In-Reply-To: <87a4ryk4fc.fsf@trenco.lwn.net>
+References: <1950557405f1150acb1de50de1801f2413223b87.1783673996.git.mchehab+huawei@kernel.org>
+	<87fr1qn9us.fsf@trenco.lwn.net>
+	<20260710211953.2a3dbfa9@foz.lan>
+	<87a4ryk4fc.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-mhonap@ wrote:
-> From: Manish Honap <mhonap@nvidia.com>
-> =
+On Fri, 10 Jul 2026 13:52:55 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-> Complete the vfio-pci-core integration of CXL Type-2 device
-> passthrough by exposing two VFIO regions to userspace, wiring DVSEC
-> config-space accesses through cxl-core's register-virtualization
-> helpers, and reserving the CXL component register block from BAR
-> mmap and BAR resource claim.
-> =
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> 
+> > On Fri, 10 Jul 2026 09:27:23 -0600
+> > Jonathan Corbet <corbet@lwn.net> wrote:
+> >  
+> >> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> >>   
+> >> > Right now, base.css style imposes a maximum limit of 800 horizontal
+> >> > pixels to be compatible with very old SVGA monitors.
+> >> >
+> >> > Remove such artificial limit, letting the output to be adjusted to
+> >> > the browser windows size.
+> >> >
+> >> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> >> > ---
+> >> >  Documentation/sphinx-static/custom.css | 2 ++
+> >> >  1 file changed, 2 insertions(+)
+> >> >
+> >> > diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+> >> > index 5aa0a1ed9864..1055db7dc1dd 100644
+> >> > --- a/Documentation/sphinx-static/custom.css
+> >> > +++ b/Documentation/sphinx-static/custom.css
+> >> > @@ -3,6 +3,8 @@
+> >> >   * CSS tweaks for the Alabaster theme
+> >> >   */
+> >> >  
+> >> > +div.body {  max-width: none; }
+> >> > +    
+> >> 
+> >> 800px is clearly a dumb limit, I have no problem changing that.  Going
+> >> to arbitrary width doesn't seem good for readability, though.  What do
+> >> you think about, instead, setting a limit in a resolution-independent
+> >> say, to (say) 60em?  
+> >
+> > 60em also seems too small, considering the size of tables we have on
+> > media. Some tables have one column for each bit, plus one or two other
+> > columns, so the table would easily have up to 34 columns. After adding
+> > long fourcc codes there and V4L macro names, it can easily be very big,
+> > in terms of "em" measures.  
+> 
+> I did say "say" :)  I don't feel the need to argue too much about the
+> exact value.  I do believe, though, that excessively wide columns are
+> not good human factors in general.
 
-> HDM region (VFIO_REGION_SUBTYPE_CXL):
->   - mmappable view of the device's firmware-committed HPA range
->   - mmap fault handler calls vmf_insert_pfn() from the physical HPA
->     so the guest gets the same backing memory the host sees
->   - pread/pwrite go through the memremap_wb() kva captured at
->     bind time by vfio_cxl_map_hdm()
-> =
+If one gets a big enough "em" to fit the largest tables and ascii artwork,
+I'm ok using "em" but one would need to double check what's the bigger
+one, which would require some time and someone would need to periodically
+review it.
 
-> COMP_REGS region (VFIO_REGION_SUBTYPE_CXL_COMP_REGS):
->   - pread/pwrite only, dword-aligned (-EINVAL on misalignment)
->   - thin transport: each dword dispatches by offset to
->     cxl_passthrough_cm_rw() (CM cap-array snapshot) or
->     cxl_passthrough_hdm_rw() (HDM Decoder block).  No shadow buffer
->     on the vfio side; all per-field semantics live in cxl-core.
-> =
+My feeling is that, on media, the bigger tables are the pixformat ones,
+but maybe the biggest one is somewhere else.
 
-> DVSEC config-space access:
->   - vfio_pci_cxl_config_boundary() clips a chunk at the CXL Device
->     DVSEC body edge in vfio_pci_config_rw_single() so the generic
->     perm-bits path handles the DVSEC header bytes and the CXL hook
->     handles the body bytes.  The clipping shim is used instead of
->     re-pointing the ecap_perms[] readfn/writefn (which would mutate
->     a module-init static and race across multiple CXL devices).
->   - vfio_pci_cxl_config_rw() forwards clipped accesses to
->     cxl_passthrough_dvsec_rw(); cxl-core enforces the per-field
->     write semantics (LOCK/RWO, CONTROL/RWL, STATUS/RW1C,
->     RANGE1/HwInit, RANGE2/RsvdZ).
-> =
+Most (if not all) artwork fits on 80 columns, but I vaguely remember
+some that were bigger (can't remember if they were changed to fit on
+80 cols).
 
-> GET_INFO / GET_REGION_INFO:
->   - VFIO_DEVICE_INFO_CAP_CXL advertises the two region indices, the
->     component BAR layout, and HOST_FIRMWARE_COMMITTED.
->   - GET_REGION_INFO on the component BAR returns a sparse-mmap cap
->     that excludes [comp_reg_offset, comp_reg_offset+comp_reg_size).
-> =
+Probably a way to define a limit that covers artwork would be to run a script
+to get the max column size for .rst files. Not perfect because of indentation,
+on codeblocks, but it could work as a hint. Unfortunately, this won't work
+for tables using flat-table (which is used on ~235 files - most on media,
+but ~20 files elsewhere).
 
-> BAR resource handling:
->   - cxl-core holds request_mem_region() on the CXL component
->     register sub-range from devm_cxl_probe_mem(), so vfio_pci-core's
->     pci_request_selected_regions() on the full BAR would collide.
->     map_bars() skips the request for the component BAR (still iomaps
->     it; vfio holds the BAR via driver binding); disable() mirrors
->     the asymmetric skip.
->   - mmap of the component BAR refuses any range overlapping the CXL
->     sub-range via vfio_pci_cxl_mmap_overlaps_comp_regs().
-> =
+> 
+> > If you don't want to let it become too big(*), then perhaps it could
+> > be something like:
+> >
+> > 	div.body {  max-width: 80%; }  
+> 
+> I like that even less...I tend to use relatively narrow browser windows
+> so that I can fit more of them on the screen...it shouldn't waste that
+> space unnecessarily.
 
-> vfio_pci_cxl_open() now registers both VFIO regions; close()
-> unregisters them.  Raw BAR rw redirect into the CXL sub-range is
-> intentionally not implemented: VMMs use the COMP_REGS region
-> directly.
+Agreed.
 
-I jumped ahead in the review to see how passthrough.c was being
-used.
+> > (*) personally, I don't see any issues on it. My monitor's ratio is
+> >     32/9. Quite the opposite, with such ultra-wide screen, I don't like
+> >     sites that have fixed max-width limits, as they end limiting my
+> >     personal taste for no good reason.  
+> 
+> Well, I won't fight about it (too much :).  I definitely agree that the
+> 800px value makes little sense.
+> 
+> jon
 
-This patch is doing a lot which raises the risk that individual
-proposals within it are going to raise questions.
 
-> Signed-off-by: Manish Honap <mhonap@nvidia.com>
-> ---
->  drivers/vfio/pci/cxl/vfio_cxl_core.c | 521 ++++++++++++++++++++++++++-=
 
->  drivers/vfio/pci/vfio_pci_config.c   |  31 ++
->  drivers/vfio/pci/vfio_pci_core.c     |  44 ++-
->  drivers/vfio/pci/vfio_pci_priv.h     |  72 ++++
->  drivers/vfio/pci/vfio_pci_rdwr.c     |  17 +
->  5 files changed, 679 insertions(+), 6 deletions(-)
-> =
-
-> diff --git a/drivers/vfio/pci/cxl/vfio_cxl_core.c b/drivers/vfio/pci/cx=
-l/vfio_cxl_core.c
-> index 42cd00bbe869..8a00b776d7c7 100644
-> --- a/drivers/vfio/pci/cxl/vfio_cxl_core.c
-> +++ b/drivers/vfio/pci/cxl/vfio_cxl_core.c
-> @@ -123,12 +123,24 @@ static int vfio_cxl_probe_regs(struct vfio_pci_cx=
-l_state *cxl)
->  	if (rc)
->  		return rc;
->  =
-
-> +	/*
-> +	 * The CXL Component Register block is a fixed 64 KiB area (CXL r4.0
-> +	 * =C2=A78.2.3).  cxl_pci_setup_regs() records the remaining BAR leng=
-th
-> +	 * after the regblock offset in reg_map.max_size, which is an upper
-> +	 * bound, not the spec-defined size.  Bail if the BAR does not have
-> +	 * room for a full component register block at the recorded offset,
-> +	 * and publish the spec size so the UAPI, sparse-mmap exclusion, and
-> +	 * COMP_REGS region all agree on the same window.
-> +	 */
-> +	if (cxlds->reg_map.max_size < CXL_COMPONENT_REG_BLOCK_SIZE)
-> +		return -ENXIO;
-
-This feels like a generic check that should not be vfio specific...
-
-Indeed it is an existing check in cxl_decode_regblock() that already
-makes this assertion.
-
->  	cxl->info.hdm_count               =3D hdm_count;
->  	cxl->info.hdm_reg_offset          =3D hdm_off;
->  	cxl->info.hdm_reg_size            =3D hdm_size;
->  	cxl->info.comp_reg_bir            =3D bir;
->  	cxl->info.comp_reg_offset         =3D bar_off;
-> -	cxl->info.comp_reg_size           =3D cxlds->reg_map.max_size;
-> +	cxl->info.comp_reg_size           =3D CXL_COMPONENT_REG_BLOCK_SIZE;
->  	cxl->info.host_firmware_committed =3D true;
->  =
-
->  	/*
-> @@ -354,16 +366,515 @@ void vfio_pci_cxl_release(struct vfio_pci_core_d=
-evice *vdev)
->  	vdev->cxl =3D NULL;
->  }
->  =
-
-> +static int vfio_pci_cxl_register_hdm(struct vfio_pci_core_device *vdev=
-);
-> +static int vfio_pci_cxl_register_comp_regs(struct vfio_pci_core_device=
- *vdev);
-> +
->  int vfio_pci_cxl_open(struct vfio_pci_core_device *vdev)
->  {
-> +	struct vfio_pci_cxl_state *cxl =3D vdev->cxl;
-> +	int rc;
-> +
-> +	if (!cxl)
-> +		return 0;	/* plain vfio-pci device */
-> +
-> +	rc =3D vfio_pci_cxl_register_comp_regs(vdev);
-> +	if (rc) {
-> +		pci_warn(vdev->pdev,
-> +			 "vfio-cxl: COMP_REGS region register failed (%d)\n",
-> +			 rc);
-> +		return rc;
-> +	}
-> +
-> +	rc =3D vfio_pci_cxl_register_hdm(vdev);
-> +	if (rc) {
-> +		pci_warn(vdev->pdev,
-> +			 "vfio-cxl: HDM region register failed (%d)\n", rc);
-> +		/*
-> +		 * COMP_REGS already registered above.  vfio core does not
-> +		 * call close_device() when open_device() returns an error,
-> +		 * so roll back the COMP_REGS dynamic region here to avoid
-> +		 * a leaked half-registered open state.
-> +		 */
-> +		vfio_pci_cxl_close(vdev);
-> +		return rc;
-> +	}
-> +	return 0;
-> +}
-> +
-> +void vfio_pci_cxl_close(struct vfio_pci_core_device *vdev)
-> +{
-> +	struct vfio_pci_cxl_state *cxl =3D vdev->cxl;
-> +	unsigned int i;
-> +
-> +	if (!cxl)
-> +		return;
-> +
-> +	for (i =3D vdev->num_regions; i > 0; i--) {
-> +		struct vfio_pci_region *r =3D &vdev->region[i - 1];
-> +
-> +		if (r->data !=3D cxl)
-> +			break;
-> +		if (r->ops->release)
-> +			r->ops->release(vdev, r);
-> +		vdev->num_regions--;
-> +	}
-> +}
-> +
-> +/* ------------------------------------------------------------------ =
-*/
-> +/* HDM region: mmappable view of the device's HPA range               =
-*/
-> +/* ------------------------------------------------------------------ =
-*/
-> +
-> +static vm_fault_t hdm_region_fault(struct vm_fault *vmf)
-> +{
-> +	struct vm_area_struct *vma =3D vmf->vma;
-> +	struct vfio_pci_cxl_state *cxl =3D vma->vm_private_data;
-> +	unsigned long off =3D (vmf->address - vma->vm_start) +
-> +			    (vma->vm_pgoff << PAGE_SHIFT);
-> +	phys_addr_t pa;
-> +
-> +	if (!cxl || !cxl->info.hpa_size)
-> +		return VM_FAULT_SIGBUS;
-> +	if (off >=3D cxl->info.hpa_size)
-> +		return VM_FAULT_SIGBUS;
-> +
-> +	pa =3D cxl->info.hpa_base + off;
-> +	return vmf_insert_pfn(vma, vmf->address, PHYS_PFN(pa));
-
-It seems unfortunate that this reimplements vfio_pci_mmap_ops without
-huge mapping support. If CXL is going to be a first class citizen in
-vfio then why not extend vfio_pci_core_device with the concept that
-devices can have HDM ranges, or some scheme to address large mappings
-from day one.
-
-[..]
-> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_p=
-ci_core.c
-> index 05ab4ae59157..2d2dae278d1e 100644
-> --- a/drivers/vfio/pci/vfio_pci_core.c
-> +++ b/drivers/vfio/pci/vfio_pci_core.c
-> @@ -501,6 +501,23 @@ static void vfio_pci_core_map_bars(struct vfio_pci=
-_core_device *vdev)
->  		if (!pci_resource_len(pdev, i))
->  			continue;
->  =
-
-> +		/*
-> +		 * cxl-core already holds request_mem_region() on the CXL
-> +		 * component register sub-range of this BAR.  Skip the
-> +		 * full-BAR request so we do not collide with that
-> +		 * sub-region; vfio still owns the BAR via the driver
-> +		 * binding and the iomap below succeeds without a region
-> +		 * claim.
-> +		 */
-
-Rather than working around a problem in the CXL core why not fix it?
-This is the second time someone has run across a conflict with
-devm_cxl_iomap_block() when trying to reuse CXL code.
-
-devm_cxl_iomap_block() was a response to folks wanting /dev/mem access
-to CXL BAR space. When VFIO owns the whole BAR it should be blocking
-/dev/mem access to enforce going through VFIO.
-
-I think this looks like a flag on cxl_register_map that only cxl_pci
-sets to indicate the legacy special mode of doing piecemeal resource
-requests of just the component registers. External CXL drivers likely
-just want to own the whole BAR and not workaround an internal detail
-like this.=
+Thanks,
+Mauro
