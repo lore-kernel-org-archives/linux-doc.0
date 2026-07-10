@@ -1,208 +1,387 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011066.outbound.protection.outlook.com [52.101.62.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B7D434417;
-	Fri, 10 Jul 2026 15:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783698130; cv=fail; b=DS1akG1+Av3WiZYogKSMHa4xSPjcf8AdXQPLVgjO6tXiIk1U+5x08Exr2DsY4/o5zRDK+kpCK/eci+wL6TpzB4cAkAsHSOozrAZg3gAwcs7M0EUHG0RkSjt0eiAmpCIkU3OT9wdUUtqZikbcfgcQEkplLS/U6YKnKUfsMX1XkGk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783698130; c=relaxed/simple;
-	bh=Z5uYb8RBCi2gS6+j+XEwGuhi2u8rUejcknuLHj9W+nc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=glm6RJ26xXM8frxzg+rAXDBV+KgIkhKGGOVgsfS7MRKM/cEfd7u95qoDTcfWwNneP9U6DMt8WdBbnUTFytFC/z/kOJiYp2Iqh+iF3bD88BdaPi2hDalYKrkpDSg40RbtcBgaKx/3/Un8WIN3jQ9DwRdIhrM1rjkMLNJzSGomBvs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=UW+BFAJ9; arc=fail smtp.client-ip=52.101.62.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 401EC3F9284;
+	Fri, 10 Jul 2026 16:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783699246; cv=none; b=mzgHdA28s2mEvVwkiLEUlTnbae6fSR+RyFoYSRex/cgwe6EEBHH7X0aVsZEYUf4IjR61ZmXzX9CqfyYjlMYz5sESuSJ6HKqgHMIg3nXjhcwEOxhHeG829R6dGgfIvJbadACd2Oad5LQB/LWGqrkqZoaFdslGcVOl51iVe+UUySM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783699246; c=relaxed/simple;
+	bh=z0yCpQeDkX3hG7AALYr5bGD5kaYabUwozDcrHEvAB9E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=abxNx2wHyCsGWDw0AuAscn1h/rJpcB2SQ1hkiy7Pel9FvevCoXLdHlVNmrWo3tZu9200HRDSdGm+Ov5NbizrDb/dxaI69cL3+6KTd1OpPAusoVktNWV0ipMj8/wOLYqwzH0Im5G0G/dBq9u1A/M4B9IQOKNV/lwpThv0iiK6f3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=MdvwnxnD; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="UW+BFAJ9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XRia3S4j6HdIGrZ1b4QezLqfkSUtFw0noWMsNsqt257zZK746n+hOM8FTEerdXdq5JPMeu7UqZMF5f0ZYCOtBIcYcbU+yHfDw0VgOCfhBVSP6wvju78RL3f/AhX4PBY8gcBKCWC6pJfd4GUKJXiTrZBqfxMqOh4F74y3qIwYPK8JXkmnpGUH+w/Myb5RvaCVCrbiCJyKvnSxNVVC2NF4/jZ/82kLOoP+klNAB9mYvt7s5fasDC5JS/RFHg4AU+UdRXBU5a6UN9RQF2pMbh+ux8HoOSNYq0dcWZMZ/lmTZL4DMK651aW2rNecodNcGtVvC/gNDRfGzMUvOoCz0y0EaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T48y8LSED7mjLIHpX8aQFeEvKhSwDhb61EPPCQWaH88=;
- b=dfwAdqE8MHO7Ri4xWSZ92yJmnxgwq1/gaTEq1CEnQC2GWteCSaDq4a8ckoiFiAGgcp/+80wjxNrOIHlr+A2UmUAvWCeKaDx2LcF4NDxj4kRHT2BkrvGhE1fsibVxGvRgP8u3xKji4DLt73oeXurbaWSo1jeGPvU6VGifdTABsjVm4102ezWoh5s4Ki+WCeieyAAa0+R+YLjv8RLyubYVEUyOlsl/oAOh6OJ1ar7Nba6GHLWZMg01BYSw+79fx2KZCbtOECYWWDYq7j3V8Smo7rYiWyOZQPHfjCiL+WgrqpuZgOMfVBhyysgRSnPLgBMzt9WEx4kqHH79WqoHvGS3xQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T48y8LSED7mjLIHpX8aQFeEvKhSwDhb61EPPCQWaH88=;
- b=UW+BFAJ9aGXT/mVuN4g37FCAzkNxwI5CsAx3x7uLRwkpEVrxTwfq5CZYMB1mi78faainFx5k1EA6sSxDLYf55ZTJPxvwgBTfEjNE/JR/DNhD2TPCFIqRnygpHWVTMxvExKlQy1FToGg6KVsID55lATJ3Q6CgL9o1v/suSj44/Aga++7IqwYI6Oa26mc3rOatsILFMMPxWBdtJyEzzSQBn1diNGGQCWarkJu8knzXbpYGwEtEZRiPuUDwf6LLiW3DLNjG0Sd7pxbDTkI2zewpq7ICZvf41yR1ON/B0u5r+iYDNIotN1I4W+hOwLbf+5TA9BF3vPmqxn6W7n8cXmbr6g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by SJ1PR12MB6025.namprd12.prod.outlook.com (2603:10b6:a03:48c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.17; Fri, 10 Jul
- 2026 15:42:04 +0000
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0181.016; Fri, 10 Jul 2026
- 15:42:03 +0000
-Date: Fri, 10 Jul 2026 11:41:59 -0400
-From: Yury Norov <ynorov@nvidia.com>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-	corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
-	pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-	huschle@linux.ibm.com, rostedt@goodmis.org,
-	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
-	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
-	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
-	christian.loehle@arm.com, tj@kernel.org,
-	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-	rdunlap@infradead.org, kernellwp@gmail.com,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 03/12] sysfs: Add preferred CPU file
-Message-ID: <alESuG6IYZCRESJY@yury>
-References: <20260709215648.1246821-1-sshegde@linux.ibm.com>
- <20260709215648.1246821-4-sshegde@linux.ibm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260709215648.1246821-4-sshegde@linux.ibm.com>
-X-ClientProxiedBy: BN9PR03CA0732.namprd03.prod.outlook.com
- (2603:10b6:408:110::17) To LV3PR12MB9356.namprd12.prod.outlook.com
- (2603:10b6:408:20c::21)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="MdvwnxnD"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5E64616F2;
+	Fri, 10 Jul 2026 09:00:31 -0700 (PDT)
+Received: from raptor (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0DA3B3F85F;
+	Fri, 10 Jul 2026 09:00:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1783699235; bh=z0yCpQeDkX3hG7AALYr5bGD5kaYabUwozDcrHEvAB9E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MdvwnxnDq+EXMZgYxSPv4y84UQx4PfbyDCvOfCwGc0/62I5GOr/gfaQkzGY8y2rv2
+	 l6CmBjL8eQ5rjj2I5z5LtQl54VF7qWC1htGKYh4bpQJzjkya3JcxhwTG1T6GeXbdB/
+	 VYDecpGQlIMPAnOdA1rebX2oSbdBoDk0cznnMvI4=
+Date: Fri, 10 Jul 2026 17:00:26 +0100
+From: Alexandru Elisei <alexandru.elisei@arm.com>
+To: Jack Thomson <jackabt.amazon@gmail.com>
+Cc: maz@kernel.org, oupton@kernel.org, pbonzini@redhat.com,
+	joey.gouly@arm.com, seiden@linux.ibm.com, suzuki.poulose@arm.com,
+	yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org,
+	shuah@kernel.org, corbet@lwn.net, vladimir.murzin@arm.com,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	isaku.yamahata@intel.com, Jack Thomson <jackabt@amazon.com>
+Subject: Re: [PATCH v5 2/5] KVM: arm64: Add pre_fault_memory implementation
+Message-ID: <alEXGmKiXgWPPdhF@raptor>
+References: <20260612162354.73378-1-jackabt.amazon@gmail.com>
+ <20260612162354.73378-3-jackabt.amazon@gmail.com>
+ <ak5sAxb3G6hhFmBF@raptor>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|SJ1PR12MB6025:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2e8bd907-197b-42d3-96d5-08dede99c9d4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|23010399003|18002099003|22082099003|6133799003|11063799006|4143699003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	RD8xSyJ7pM2dxP8sOVz4AZs8wrTbJa1T3sReffOZ8WyfZfTTsymndZxsHwui/hVw2KYG/A1otuIos5S8e38xzyDbODkorl4/54G0z8hTpG8HUvKyfpEdD/BGrGISbXwh63ehBQV7pRLh9VFm52alD2RaIMOKEQtHzUOWLYW+4PDiuXnRnrLQjl1DIBZD9M5xkcrT6jLAa/GF1u3r/Q67jYEN1QB1xIWq2uHVtZ+bD805FGIpUxhgAD6AjkGNNZq/gIi4/Ca1ckQQuaJx1JSsxrFoDS13eJzEY7lshIKDMs62NscJMMCHNXHLrvxwDTcK4qJirBwc/u2+LpahpyxG8JNutN+yhq2VQEARStnMZDvhcziDRMEjIKE2K3/ohW126iVhflxQOmtYgN3roADmDE11g0mRRobAqou35mesMQb0oR8JWCcg5jPQKV++nSJT5LKOjO7Lni/Ys86ZFyo0l7CTAV8f1vt2ttD52c7b94MurE2R4AoChOXewKd4EyRPb//GPWmHFdy3m8gVbBarYmgZrj7owOSRVfwtBurVEWXRAoOBSAAGqggL8HFywdqAMTHdcZ6N+se9PiWWFYGA83ZruphcsXKxHZY22hUYtjRo1um6Ok/jRbONJtbfNi2y87TW0vSF/+Qq5Frsm8sIr0KSZAXtEVa7uezlVjlJqfE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(23010399003)(18002099003)(22082099003)(6133799003)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Que9MKn2aSW+Ldo3HG1iKy2NkL+7sgPoIX11+MLpHN/GIqziCuYWRgSqHRLj?=
- =?us-ascii?Q?e1/KYUegnicD8JWTTHO3aWl2iEvpl/jhuMr/VjGFKWVYtS4puh6BD2cU9+80?=
- =?us-ascii?Q?53noB/P53+DBl74248dCu8xPudLCGnrtgdffMPKzfNSnjpb/n4uW9VrQsv5V?=
- =?us-ascii?Q?0aVKh3x646Qtbz/RtILihPwwM9TMvEIXx2o/a+7QzXGPtEwbnG9AXBjRxW/H?=
- =?us-ascii?Q?goOE6GoHOVOW7kkiywgovrOVskuSpi/4zcbVG8t8dpVNqeOIWg9Fweg607IN?=
- =?us-ascii?Q?+oCqI/eypkZxgtOH4tG4Drpiujmie6abYyUu/nIXEn0kMfVCyoFkyaeJEfWW?=
- =?us-ascii?Q?AC3jF9ThNd+FDILQCaIaTZiJcFs3beVXIyYcqnoAKs5U4Cghqe6c/efyf8Qx?=
- =?us-ascii?Q?pbiZ/qB1vHueI2Eat8AsSO/VYAybTRdPYBlqigA+VOsOsS2obwScH1NAyYqs?=
- =?us-ascii?Q?HcOPd/Cuposm2u0io/acxt6g0BKkPhUJCym/uL858rqhRpoEqWEZFKGXghhy?=
- =?us-ascii?Q?yV2H1Xd36c4BDcn4CYzxOCsi66d+J65eVBGQHmc58MgOMqDibDMKmLK01Ej/?=
- =?us-ascii?Q?Ucx18AlQYrUVPzHFbrDdnpm9y/jyL+OByHzqqMKjEYI5/Xa+wdifpZvbDhjC?=
- =?us-ascii?Q?GtYeLFPEyNT8iDza8QTucbK53djkDoFhwJtWowtErjR7kqogDyBgKIBV7faa?=
- =?us-ascii?Q?DpH6rb35urS1g5R1MpH/JNrylQ8BtxR01RPg0J4OgpptquAS7vymyx8N8rKj?=
- =?us-ascii?Q?8oGcqKT7mAXlTUz78tYEpeNG2/jcGyrZOk+eFPQEsqgiXROxHIXi1KAV7Bch?=
- =?us-ascii?Q?488mXczoQ0G3ZKpVxg16Bo4WuJkDw+PEwz+ed3hGiJR4vbkFhhhjUHSl5IFr?=
- =?us-ascii?Q?2wW+TDCqQ9kzBM2r4tpGPMXTQ5vGVp/gLIV830kJzxkyXUEQpChruifaExC2?=
- =?us-ascii?Q?xqug3RkL6bJJTpt2w/KJZtAxcocOQqWFeCs5vIfwd2wg2ph3dI+KrgPJqLy5?=
- =?us-ascii?Q?eDcDC8ZGyD4vW5JmSsjVKic/2QsKX7lS0SYwjgLehWCf/mZlvA+W2rRHj0Vc?=
- =?us-ascii?Q?SgfQYtbRl4nWOTnkJNT4SpUd1cUepx2csdc+iHMDkWv6uHjI8kimzy6plRmA?=
- =?us-ascii?Q?5HOGEPyjcOQgZoYs+ta39gapMc2y87LDtSZO3jGmwPguG5imyPbik9FC2SCs?=
- =?us-ascii?Q?YJDlfxPOOiW3BN8/AVqdl55d3/IczT4dXzyswQgrRdCpbjVkrwjTVfQXPjIB?=
- =?us-ascii?Q?fLb31RMR04bkUjgZdyUhRzzXhbeYC7faAVCqG4CH4YhBnZUpdwxhjYvZa5XE?=
- =?us-ascii?Q?Hkb005eSjs0lxYcbHWG4Z17VcG9LZ8RTkydrYHPDb3PNlSXf46/wAHKKXNg4?=
- =?us-ascii?Q?xO1AtrrMvyNQgcQ1eH6kpN15YmzFgELEuEmxWARD44dQT3FYKPzoO4DGhLK0?=
- =?us-ascii?Q?HS3sAHo3TR08cn0CIvWJ30hmpzQoqgPffQ9bnwRYttJ7LJbbNTtRdtWmf0Wc?=
- =?us-ascii?Q?jy0ZPPTB9/au2zc3/pt1wUn4sL43eK1gNlP+MURlg0v1Yi9w17g8ma1L205j?=
- =?us-ascii?Q?Cf4pEmN8USKOCdIeB9BOlHhXm/TP4YQfLv64MG2VzFn+Kfx6iDh8mSDkguTK?=
- =?us-ascii?Q?77bPtqBCjudtDu0+tnA1V4czCbho5teKafwuRKArkkJav49VOg18Q/+7dy6Y?=
- =?us-ascii?Q?A7h6g5C9uUz+dXaQxaRFU+XHqQOwDsTotPB4SQWttluPQDVL?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e8bd907-197b-42d3-96d5-08dede99c9d4
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2026 15:42:03.4932
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OO9s1MzquBDRpwsEqexoXBNdEh4qxSfO7gUXoKK5Uip4vooSChSnk9jvG587PmSb2v2hGYONpnieIHwZqeJ36w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6025
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ak5sAxb3G6hhFmBF@raptor>
 
-On Fri, Jul 10, 2026 at 03:26:39AM +0530, Shrikanth Hegde wrote:
-> Add "preferred" file in /sys/devices/system/cpu
-> 
-> This offers
-> - User can quickly check which CPUs are marked as preferred at this
->   moment.
-> - Userspace algorithms irqbalance could use this mask to send irq into
->   preferred CPUs.
-> 
-> For example:
-> cat /sys/devices/system/cpu/online
-> 0-719
-> cat /sys/devices/system/cpu/preferred
-> 0-599        <<< Implies 0-599 are preferred for workloads and 600-719
->                  should be avoided at this moment.
-> 
-> cat /sys/devices/system/cpu/preferred
-> 0-719        <<< All CPUs are usable. There is no preference.
-> 
-> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-> ---
->  Documentation/ABI/testing/sysfs-devices-system-cpu | 11 +++++++++++
->  drivers/base/cpu.c                                 |  8 ++++++++
->  2 files changed, 19 insertions(+)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
-> index 82d10d556cc8..ac1dbb209cc7 100644
-> --- a/Documentation/ABI/testing/sysfs-devices-system-cpu
-> +++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
-> @@ -806,3 +806,14 @@ Date:		Nov 2022
->  Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
->  Description:
->  		(RO) the list of CPUs that can be brought online.
-> +
-> +What:		/sys/devices/system/cpu/preferred
-> +Date:		July 2026
-> +Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
-> +Description:
-> +		(RO) the list of preferred CPUs at this moment.
-> +		These are the only CPUs meant to be used at the moment.
-> +		Using CPU outside of the list could lead to more
-> +		contention of underlying physical CPU resource. Dynamically
-> +		changes based on steal time. With CONFIG_PREFERRED_CPU=n it
-> +		is same as active CPUs. See sched-arch.rst for more details.
+Hi,
 
-This should mention that it's about paravirtualization.
+On Wed, Jul 08, 2026 at 04:25:55PM +0100, Alexandru Elisei wrote:
+> Hi Jack,
+> 
+> I've been trying to review the patch, until I realised that I don't
+> understand what KVM_PRE_FAULT_MEMORY is supposed to do.
+> 
+> Does it guarantee that, after it completes and returns to userspace, the
+> address range [gpa, gpa + size] is mapped in the VM's stage 2 tables? Or
+> does it guarantee that the address range was mapped at stage 2 at some
+> point during the ioctl's execution, but parts, or all of it, might not be
+> mapped after the ioctl completes and returns to userspace?
 
-> diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
-> index 19d288a3c80c..4ac990efee7c 100644
-> --- a/drivers/base/cpu.c
-> +++ b/drivers/base/cpu.c
-> @@ -391,6 +391,13 @@ static int cpu_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  }
->  #endif
->  
-> +static ssize_t preferred_show(struct device *dev,
-> +			      struct device_attribute *attr, char *buf)
-> +{
-> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpu_preferred_mask));
-> +}
-> +static DEVICE_ATTR_RO(preferred);
-> +
->  const struct bus_type cpu_subsys = {
->  	.name = "cpu",
->  	.dev_name = "cpu",
-> @@ -532,6 +539,7 @@ static struct attribute *cpu_root_attrs[] = {
->  #ifdef CONFIG_GENERIC_CPU_AUTOPROBE
->  	&dev_attr_modalias.attr,
->  #endif
-> +	&dev_attr_preferred.attr,
+Nevermind, spend some time thinking about it and it turns out it's
+impossible for KVM to guarantee that the memory is still mapped after the
+ioctls returns.  So I answered my own question, thanks.
 
- #ifdef CONFIG_PREFERRED_CPUS ?
+Alex
 
->  	NULL
->  };
->  
-> -- 
-> 2.47.3
+> 
+> Thanks,
+> Alex
+> 
+> On Fri, Jun 12, 2026 at 05:23:50PM +0100, Jack Thomson wrote:
+> > From: Jack Thomson <jackabt@amazon.com>
+> > 
+> > Add arm64 support for KVM_PRE_FAULT_MEMORY by synthesizing a read data
+> > abort and routing it through the existing stage-2 fault handlers. Treat
+> > the requested GPA as an IPA in the userspace-owned VM's memslot space
+> > and always target the canonical stage-2, even if the vCPU last ran with
+> > a nested/shadow MMU selected.
+> > 
+> > If the vCPU last ran in a nested context, switch to the canonical
+> > stage-2 with the vCPU put/load helpers so VMID, VNCR and shadow-MMU
+> > refcount state stay consistent. Leave the switch in place for the ioctl;
+> > vcpu_put() at ioctl exit drops the hw_mmu and the next vcpu_load()
+> > reselects the correct MMU from vCPU state.
+> > 
+> > Check existing mappings with a shared page-table walk under the MMU read
+> > lock, and use the resulting walk level when constructing the synthetic
+> > fault. Report poisoned pages through the ioctl return path with
+> > -EHWPOISON instead of also queueing SIGBUS, and use the installed
+> > mapping size to advance the prefault range.
+> > 
+> > Advertise KVM_CAP_PRE_FAULT_MEMORY on arm64. Protected VMs remain
+> > unsupported: pKVM filters the capability, and the ioctl returns
+> > -EOPNOTSUPP if invoked anyway.
+> > 
+> > Signed-off-by: Jack Thomson <jackabt@amazon.com>
+> > ---
+> >  Documentation/virt/kvm/api.rst |  18 +++-
+> >  arch/arm64/kvm/Kconfig         |   1 +
+> >  arch/arm64/kvm/arm.c           |   1 +
+> >  arch/arm64/kvm/mmu.c           | 162 +++++++++++++++++++++++++++++++++
+> >  4 files changed, 178 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> > index 52bbbb553ce1..657e05656fa6 100644
+> > --- a/Documentation/virt/kvm/api.rst
+> > +++ b/Documentation/virt/kvm/api.rst
+> > @@ -6462,7 +6462,7 @@ See KVM_SET_USER_MEMORY_REGION2 for additional details.
+> >  ---------------------------
+> >  
+> >  :Capability: KVM_CAP_PRE_FAULT_MEMORY
+> > -:Architectures: none
+> > +:Architectures: x86, arm64
+> >  :Type: vcpu ioctl
+> >  :Parameters: struct kvm_pre_fault_memory (in/out)
+> >  :Returns: 0 if at least one page is processed, < 0 on error
+> > @@ -6470,11 +6470,14 @@ See KVM_SET_USER_MEMORY_REGION2 for additional details.
+> >  Errors:
+> >  
+> >    ========== ===============================================================
+> > +  EAGAIN     A memslot update raced with the ioctl before any page was
+> > +             processed.
+> >    EINVAL     The specified `gpa` and `size` were invalid (e.g. not
+> >               page aligned, causes an overflow, or size is zero).
+> >    ENOENT     The specified `gpa` is outside defined memslots.
+> >    EINTR      An unmasked signal is pending and no page was processed.
+> >    EFAULT     The parameter address was invalid.
+> > +  EHWPOISON  A poisoned host page was encountered.
+> >    EOPNOTSUPP Mapping memory for a GPA is unsupported by the
+> >               hypervisor, and/or for the current vCPU state/mode.
+> >    EIO        unexpected error conditions (also causes a WARN)
+> > @@ -6494,7 +6497,14 @@ Errors:
+> >  KVM_PRE_FAULT_MEMORY populates KVM's stage-2 page tables used to map memory
+> >  for the current vCPU state.  KVM maps memory as if the vCPU generated a
+> >  stage-2 read page fault, e.g. faults in memory as needed, but doesn't break
+> > -CoW.  However, KVM does not mark any newly created stage-2 PTE as Accessed.
+> > +CoW.  However, on x86, KVM does not mark any newly created stage-2 PTE as
+> > +Accessed.  On arm64, newly created stage-2 PTEs are marked Accessed.
+> > +
+> > +On arm64, `gpa` is interpreted as an IPA in the userspace-owned VM's
+> > +memslot address space.  If the vCPU most recently ran a nested guest, KVM
+> > +still targets the VM's canonical stage-2, and does not interpret `gpa` as
+> > +a nested guest IPA or target the nested/shadow stage-2 selected by the
+> > +vCPU's last run state.
+> >  
+> >  In the case of confidential VM types where there is an initial set up of
+> >  private guest memory before the guest is 'finalized'/measured, this ioctl
+> > @@ -6507,9 +6517,9 @@ case, the ioctl can be called in parallel.
+> >  
+> >  When the ioctl returns, the input values are updated to point to the
+> >  remaining range.  If `size` > 0 on return, the caller can just issue
+> > -the ioctl again with the same `struct kvm_map_memory` argument.
+> > +the ioctl again with the same `struct kvm_pre_fault_memory` argument.
+> >  
+> > -Shadow page tables cannot support this ioctl because they
+> > +On x86, shadow page tables cannot support this ioctl because they
+> >  are indexed by virtual address or nested guest physical address.
+> >  Calling this ioctl when the guest is using shadow page tables (for
+> >  example because it is running a nested guest with nested page tables)
+> > diff --git a/arch/arm64/kvm/Kconfig b/arch/arm64/kvm/Kconfig
+> > index 449154f9a485..6b89262e8ba7 100644
+> > --- a/arch/arm64/kvm/Kconfig
+> > +++ b/arch/arm64/kvm/Kconfig
+> > @@ -24,6 +24,7 @@ menuconfig KVM
+> >  	select HAVE_KVM_CPU_RELAX_INTERCEPT
+> >  	select KVM_MMIO
+> >  	select KVM_GENERIC_DIRTYLOG_READ_PROTECT
+> > +	select KVM_GENERIC_PRE_FAULT_MEMORY
+> >  	select VIRT_XFER_TO_GUEST_WORK
+> >  	select KVM_VFIO
+> >  	select HAVE_KVM_DIRTY_RING_ACQ_REL
+> > diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> > index 9453321ef8c6..dcb92bee13af 100644
+> > --- a/arch/arm64/kvm/arm.c
+> > +++ b/arch/arm64/kvm/arm.c
+> > @@ -392,6 +392,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+> >  	case KVM_CAP_COUNTER_OFFSET:
+> >  	case KVM_CAP_ARM_WRITABLE_IMP_ID_REGS:
+> >  	case KVM_CAP_ARM_SEA_TO_USER:
+> > +	case KVM_CAP_PRE_FAULT_MEMORY:
+> >  		r = 1;
+> >  		break;
+> >  	case KVM_CAP_SET_GUEST_DEBUG2:
+> > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> > index c720f07cb82e..4bf048bbcf8b 100644
+> > --- a/arch/arm64/kvm/mmu.c
+> > +++ b/arch/arm64/kvm/mmu.c
+> > @@ -1571,6 +1571,8 @@ struct kvm_s2_fault_desc {
+> >  	struct kvm_s2_trans	*nested;
+> >  	struct kvm_memory_slot	*memslot;
+> >  	unsigned long		hva;
+> > +	unsigned long		*page_size;
+> > +	bool			prefault;
+> >  };
+> >  
+> >  static int gmem_abort(const struct kvm_s2_fault_desc *s2fd)
+> > @@ -1882,6 +1884,13 @@ static int kvm_s2_fault_pin_pfn(const struct kvm_s2_fault_desc *s2fd,
+> >  				      &s2vi->map_writable, &s2vi->page);
+> >  	if (unlikely(is_error_noslot_pfn(s2vi->pfn))) {
+> >  		if (s2vi->pfn == KVM_PFN_ERR_HWPOISON) {
+> > +			/*
+> > +			 * When prefaulting, report the poison via -EHWPOISON
+> > +			 * only; don't also queue a SIGBUS as the run path
+> > +			 * does for the faulting vCPU thread.
+> > +			 */
+> > +			if (s2fd->prefault)
+> > +				return -EHWPOISON;
+> >  			kvm_send_hwpoison_signal(s2fd->hva, __ffs(s2vi->vma_pagesize));
+> >  			return 0;
+> >  		}
+> > @@ -2053,6 +2062,9 @@ static int kvm_s2_fault_map(const struct kvm_s2_fault_desc *s2fd,
+> >  	kvm_release_faultin_page(kvm, s2vi->page, !!ret, writable);
+> >  	kvm_fault_unlock(kvm);
+> >  
+> > +	if (s2fd->page_size && !ret)
+> > +		*s2fd->page_size = mapping_size;
+> > +
+> >  	/*
+> >  	 * Mark the page dirty only if the fault is handled successfully,
+> >  	 * making sure we adjust the canonical IPA if the mapping size has
+> > @@ -2757,3 +2769,153 @@ void kvm_toggle_cache(struct kvm_vcpu *vcpu, bool was_enabled)
+> >  
+> >  	trace_kvm_toggle_cache(*vcpu_pc(vcpu), was_enabled, now_enabled);
+> >  }
+> > +
+> > +/*
+> > + * Prefaulting always targets the canonical stage-2.  If the vCPU last ran
+> > + * in a nested context, swap in the canonical MMU via the vCPU put/load
+> > + * helpers so that preemption, VMID, VNCR fixmap and shadow-MMU refcount
+> > + * state stay consistent.
+> > + *
+> > + * The swap is deliberately not undone: nothing runs in between the
+> > + * per-page invocations of kvm_arch_vcpu_pre_fault_memory() except the
+> > + * generic prefault loop, and the vcpu_put() at ioctl exit discards
+> > + * vcpu->arch.hw_mmu anyway (see kvm_vcpu_put_hw_mmu()), so the next
+> > + * vcpu_load() re-derives the correct MMU from the vCPU's context.  If the
+> > + * prefault task is preempted in the meantime, kvm_vcpu_put_hw_mmu()
+> > + * keeps the canonical MMU in place for the reload.  Leaving the swap in
+> > + * place also bounds the cost to at most one put/load pair per ioctl,
+> > + * rather than two pairs per prefaulted page.
+> > + */
+> > +static void kvm_pre_fault_load_canonical_mmu(struct kvm_vcpu *vcpu)
+> > +{
+> > +	if (!vcpu_has_nv(vcpu) || vcpu->arch.hw_mmu == &vcpu->kvm->arch.mmu)
+> > +		return;
+> > +
+> > +	preempt_disable();
+> > +	kvm_arch_vcpu_put(vcpu);
+> > +	vcpu->arch.hw_mmu = &vcpu->kvm->arch.mmu;
+> > +	kvm_arch_vcpu_load(vcpu, smp_processor_id());
+> > +	preempt_enable();
+> > +}
+> > +
+> > +long kvm_arch_vcpu_pre_fault_memory(struct kvm_vcpu *vcpu,
+> > +				    struct kvm_pre_fault_memory *range)
+> > +{
+> > +	struct kvm_vcpu_fault_info *fault_info = &vcpu->arch.fault;
+> > +	struct kvm_vcpu_fault_info fault_backup = *fault_info;
+> > +	s8 walk_level = KVM_PGTABLE_LAST_LEVEL;
+> > +	unsigned long page_size = PAGE_SIZE;
+> > +	struct kvm_memory_slot *memslot;
+> > +	phys_addr_t gpa = range->gpa;
+> > +	struct kvm_pgtable *pgt;
+> > +	phys_addr_t end;
+> > +	kvm_pte_t pte;
+> > +	hva_t hva;
+> > +	gfn_t gfn;
+> > +	long ret;
+> > +
+> > +	if (vcpu_is_protected(vcpu))
+> > +		return -EOPNOTSUPP;
+> > +
+> > +	/*
+> > +	 * Interpret range->gpa in the userspace-owned VM's IPA space, not in
+> > +	 * any nested guest IPA space that may have been active on the vCPU's
+> > +	 * last run.  Always target the canonical stage-2.
+> > +	 */
+> > +	kvm_pre_fault_load_canonical_mmu(vcpu);
+> > +
+> > +	if (gpa >= kvm_phys_size(vcpu->arch.hw_mmu)) {
+> > +		ret = -ENOENT;
+> > +		goto out;
+> > +	}
+> > +
+> > +	gfn = gpa_to_gfn(gpa);
+> > +	memslot = gfn_to_memslot(vcpu->kvm, gfn);
+> > +	if (!memslot) {
+> > +		ret = -ENOENT;
+> > +		goto out;
+> > +	}
+> > +
+> > +	/*
+> > +	 * A racing memslot deletion or move installs an invalid slot before
+> > +	 * zapping stage-2.  Ask userspace to retry once the update settles.
+> > +	 */
+> > +	if (memslot->flags & KVM_MEMSLOT_INVALID) {
+> > +		ret = -EAGAIN;
+> > +		goto out;
+> > +	}
+> > +
+> > +	/*
+> > +	 * pKVM stage-2 mappings aren't directly walkable from the host; let
+> > +	 * the fault path handle both new and existing mappings.
+> > +	 */
+> > +	if (!is_protected_kvm_enabled()) {
+> > +		pgt = vcpu->arch.hw_mmu->pgt;
+> > +		scoped_guard(read_lock, &vcpu->kvm->mmu_lock) {
+> > +			ret = kvm_pgtable_get_leaf(pgt, gpa, &pte, &walk_level,
+> > +						   KVM_PGTABLE_WALK_SHARED);
+> > +		}
+> > +		if (ret)
+> > +			goto out;
+> > +
+> > +		if (kvm_pte_valid(pte)) {
+> > +			page_size = kvm_granule_size(walk_level);
+> > +			if (!(pte & KVM_PTE_LEAF_ATTR_LO_S2_AF))
+> > +				handle_access_fault(vcpu, gpa);
+> > +			goto out_success;
+> > +		}
+> > +	}
+> > +
+> > +	/*
+> > +	 * Synthesize a read translation fault for the canonical IPA, at the
+> > +	 * level where the stage-2 walk currently ends (the last level under
+> > +	 * pKVM, where stage-2 isn't walkable from the host).
+> > +	 */
+> > +	fault_info->esr_el2 = (ESR_ELx_EC_DABT_LOW << ESR_ELx_EC_SHIFT) |
+> > +		ESR_ELx_IL | ESR_ELx_FSC_FAULT_L(walk_level);
+> > +	fault_info->hpfar_el2 = HPFAR_EL2_NS |
+> > +		FIELD_PREP(HPFAR_EL2_FIPA, gpa >> 12);
+> > +
+> > +	struct kvm_s2_fault_desc s2fd = {
+> > +		.vcpu		= vcpu,
+> > +		.fault_ipa	= gpa,
+> > +		.nested		= NULL,
+> > +		.memslot	= memslot,
+> > +		.page_size	= &page_size,
+> > +		.prefault	= true,
+> > +	};
+> > +
+> > +	/*
+> > +	 * As in the run path, -EAGAIN from the abort handlers is treated as
+> > +	 * progress: either a parallel fault installed the mapping, or a racing
+> > +	 * invalidation is in flight and the next access will refault.
+> > +	 */
+> > +	if (kvm_slot_has_gmem(memslot)) {
+> > +		ret = gmem_abort(&s2fd);
+> > +	} else {
+> > +		hva = gfn_to_hva_memslot_prot(memslot, gfn, NULL);
+> > +		if (kvm_is_error_hva(hva)) {
+> > +			ret = -EFAULT;
+> > +			goto out;
+> > +		}
+> > +
+> > +		s2fd.hva = hva;
+> > +		ret = user_mem_abort(&s2fd);
+> > +	}
+> > +
+> > +	if (ret < 0)
+> > +		goto out;
+> > +
+> > +out_success:
+> > +	end = ALIGN_DOWN(gpa, page_size) + page_size;
+> > +	ret = min_t(u64, range->size, end - gpa);
+> > +out:
+> > +	/*
+> > +	 * Restore the synthetic fault state so a subsequent KVM_RUN does not
+> > +	 * observe it. kvm_handle_mmio_return() runs before guest entry can
+> > +	 * refresh fault.esr_el2 from hardware, so leaving the synthetic ESR
+> > +	 * in place would corrupt the completion of a pending MMIO exit.
+> > +	 */
+> > +	*fault_info = fault_backup;
+> > +	return ret;
+> > +}
+> > -- 
+> > 2.43.0
+> > 
+> > 
+> 
