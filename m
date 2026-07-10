@@ -1,68 +1,68 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2649143B4A1
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 16:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E4024E4C6
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 16:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783701876; cv=none; b=gaHTJeACmpq5auOgDpVuWT3GyqfXVn3AhbabC89RMDKeIbHN7uryVzy0/srecQvBf8ryEX50iPoS7awucjps5ze21EaLe+vBOfWel/mXQXUgYYYdWzBvEql/rofJ8pIv35njf+QK/ds64kYmtxRH3w1eJxQWJeOrDeq6gEumtF0=
+	t=1783702069; cv=none; b=C9DwOZjjQ1b3enxHnY6ofwisz4mS1YH51UPV0SoY1lnNVDyClsKVEF0E3IinJfKOdhMeg0e/6pAzUOZVMz+oV9Kc7/aUXLbRRArLA4zdD0a9itFB+g1/ylXtLkUym0MzGBynZRgzVTyzlFUk63PYSjCD5HkSCLf245VKuIvfrOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783701876; c=relaxed/simple;
-	bh=f7MiJ/V3Sa3Z4+LOlKBCBuiD8YraJfksnG/xFb+njPc=;
+	s=arc-20240116; t=1783702069; c=relaxed/simple;
+	bh=5mY/LNzOoYWIQwJjGaIbGESQyPbUXU5+u9YysOMf/yw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T7f0yGL8h8oOtExhjnzH+05c7fxOQOw6htH7uY7JACWp/kVPmLWg0RCo5HfunLy2/KGgTXem3YPfVBrBnPpaqLBe8efxR6QRwnAiJMJzby124F/CSfbUqpEHHV7aP/zBiv0CnqlSHWpXRltn0+oZ7wuupWqyAfPeTU350G7AMeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=n2mfLfYD; arc=none smtp.client-ip=209.85.160.170
+	 Content-Type:Content-Disposition:In-Reply-To; b=qlR7u6Do/f91mQ5Cb9liglWc4aJn+076FzTjpAOyqzwmaJbScpdAZ+cm53kSREHR4D6VsNhNdO/WwjVytmge2dbA4DHgkTK+68Rl0wSJmrIzYVkYIAFYDqQ6jv+4V7zVYb04r/tkF5H/YvcCcaCKb0fwGdYio65d3B1v3xegecA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=pJjUs4fx; arc=none smtp.client-ip=209.85.222.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="n2mfLfYD"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-51c22c61795so7683641cf.0
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 09:44:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="pJjUs4fx"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-9204711e831so93964085a.2
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 09:47:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1783701874; x=1784306674; darn=vger.kernel.org;
+        d=ziepe.ca; s=google; t=1783702065; x=1784306865; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=f7jwDOcuUIXFwEJ3t6jZRtuRC5qCtLyV1KSZwcqARY0=;
-        b=n2mfLfYDLULPdcCb2P7n+Ftl20rt5v6FrgTSuKs61+/A4tY+V41uTSFtv6fblckkkT
-         eyDRILWpy2iIOb2Q1pIfPYo1dDoTZFibhlAMymsBxFJ8Dp/ui6P8eXJsygMIxAKvHZzl
-         ug1G6kmK/OtX1dxfua4fBK7FrSs1lLgwcPQnQVKeK8S9uO4thq1c7Of2nun7mYW28nVL
-         uKZuESe1xhm4p3ugfzGenvk+jty096m9nCA8vBEQWZv99TSbBNxZrTDv3JD8dDzn3jQ/
-         t8ngPJ+yqUVHaslZIcME744MrbSqfoqz28zE9xzG6+foiDJYJHcVVJM96UeFplG+KFZN
-         l6oA==
+        bh=ldYpDeT5zs3T98XMfsT8ni9uE73SXe2oYxwTATvCf1s=;
+        b=pJjUs4fxJRRV4JyKYlLYpWw2bzk38dHrOh6nkT9Fk9sBD5r2HLAYjShp/o6Cg6ZF/q
+         Gcp+e2f0MX07bpFIZtTZE3rC/QY83URHHcn/Y7Of2fITSLy3FIy18aw7x1UoV35GELov
+         dNC0vVBsROWvwix7FeVYppBiNutBs7LzTTbELawNd6P7ReUVwboVJ66LT1SzaVt3ZDbv
+         cwpfjr33yr5c0UpQqB072mC1rty2Ao2KZWj4gV2U8OvZPENCqA2SvCxk2+P4seYkMskX
+         N8kFoYFWDXKD+KoWDBl/g/WHzBDxI+NIKG4vTr/cF/0hgOXKAAnzXeMOSvwbBLoVQWwl
+         RI1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783701874; x=1784306674;
+        d=1e100.net; s=20251104; t=1783702065; x=1784306865;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=f7jwDOcuUIXFwEJ3t6jZRtuRC5qCtLyV1KSZwcqARY0=;
-        b=GSDT0PhaVunZpA6DruTnC2e86xKWm1Ry/2w9nJNoOZ2G7zsh7OJZyCHK1Cyxchhwbg
-         yz5CUUrGSK58kpfd+4oxJmnrU7fp4qBhMxIWM0TbCxo6oYvu+39rZDMyLPMiluDuuUxB
-         QbDyJ3zDTIu+lfVD6MGCruGzeWlImdIGDo6X0+PXXXVmi07diUfR8ZT9io4ZKhyFoQLp
-         XDeY6L2TPjGkyZl1m4+yjHesILHUHlgpMrVy4ufLETDvxeegcToYAB1H5+ra2iTV4Kx2
-         BUdEX0h1fk47Y9Fdq7EO6OO2jOqtjmASC2kWyvD1LPyx/uhBKKdmc6aVHdr1DlotYzPb
-         8J0g==
-X-Forwarded-Encrypted: i=1; AHgh+Rpc97zBveYlE2h9MdlSHc8tfbJsE7+IeWr2n2VBr7R6kdHcTdIkORqbX/rSlhfoYNWKqt39WK+95To=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7GDJHfU23BisOpOSJ6dc3i+XFMDkU3Mvv0zFK65RYlpYoCL/A
-	CgcPfZes8UymuK406dDwJfH8W4KwKYe1995vWHqpNBjTPGVmHx0/Jf5QWeRggQmqHo8=
-X-Gm-Gg: AfdE7clk/byXzkfK5MJQ/u+PQZJKKz5PQAsFFXVDfeAK1HvANYqa0zBIkaFDtQsCG44
-	NHEddqeb12OdPs0LV7l4cD6sEKQEWmZkWE/OwBBQQlBWvWevR4f+JmLf8WKLySDcl9t0T9RMVvD
-	sBqOUDVryTcbBnD6vEeWXNTUnH+1S/TXeAUzrDTDXOVsO3v9axhO4nm8Rni7XO9bQT9QWvnU33b
-	09Zv4O4vB6gx+/OzcooHRpSIdBvMRsDAGx2AyIJOk1XfPBzNtFvYLeZ+woWCZN4XXqSAE1e239T
-	ZphgIp8JRPpGcpyc/dX5+xu8kEEW5yJJB14IpZ5Xnj2UueP8WVONP4PoZOIhLFHMYnEHhWnm6FR
-	hZD5xE3udCtPPig5DrjPpPBa4yaoMw/HT6kni8TmriXNan12Ypoa44VUgBEWS
-X-Received: by 2002:a05:622a:96:b0:51c:7b12:5ff5 with SMTP id d75a77b69052e-51c8b43fec2mr132124531cf.81.1783701869227;
-        Fri, 10 Jul 2026 09:44:29 -0700 (PDT)
+        bh=ldYpDeT5zs3T98XMfsT8ni9uE73SXe2oYxwTATvCf1s=;
+        b=IpIu91rzfpo+MTyWVWqXG5giV7o214a760cmY80qNN/lB6i2J4adavaQtS8+r2DdJY
+         icXCEDGhhOyIOG35IeLgU6Xgt+P2l//U9KRU5CiqqBKUyRwkc4gZjvdMIGZIUvw7oMd7
+         PtnOTHVGHg7VzxPAGGXuTOTJnVTTH5WYOLrJ/6QHvZ79Xa8Sm7VuH5XX2G1d2wCBX9QJ
+         ZcpUot618KyUrninVukiGkitCuLDUT9ORo3F8rwYchLKWRePfPvefyfb9KQEIigWodHX
+         bgbQZ+frOjR0d1myPxNzsb40wwSLlLav+Oe+FLR65vHzpD8zNGvHCrErR9m605qLeeO8
+         mnuw==
+X-Forwarded-Encrypted: i=1; AHgh+Rpl4hyKAEtuwXm5yDiqfdWlxFg0ohIR44eNAD8Ra8IM/CIzIoUmflwU3318iIAVp7p8ZjW1KFF8MOQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzhc5O9+O2U52ejYp11OuI30NimCzxHM/U/cLbptti5fNKj8cno
+	bZ/7Wd2on9UTKmc+7nnSVHUhsBF7MxSdoZzt8NqRQeiba0fKWLhv+jiORoAZgjBiPzA=
+X-Gm-Gg: AfdE7ck9wx2dssVX0h5USaEZ1YlZ5WG8HTUoWtOW2ZSaSHu8pvkbT95Mqbd1KNNI+K6
+	HiJPOGCaqRDhgEtKSh8P2vLH/zWHjJ++QCq1GFJHfTpE9GeGdHBogFRFlr4IyjS9maFvXwbBTeE
+	GMKEjdROCYBVDjC9D1BGGFb0dzeaM28g+JomhS7pFnPVJ2n7JhvkUEdJUwb65ZAosoKq6WZD7H1
+	DQanctKkutPB2Au0J+Ss9uWanoGIXCdPzfs58I6GG1gTP7ti1USCzGfipIPmXm0bOnrlP+mIexI
+	2M7zFeZfVffGEZQgYaOG7cdjcmZ9DD26EMUwbeMc5DU1LAf/OGLVToYykGvbRnGEq80Jj9AclNQ
+	/jKSP4K9ERONCcctLQbXHROwAPbbsTiI3y0xzYmPtOutqadCQKPmsfB6vUPrw
+X-Received: by 2002:a05:620a:4044:b0:92a:3ceb:9cf1 with SMTP id af79cd13be357-92ecf68b839mr1385461685a.37.1783702065110;
+        Fri, 10 Jul 2026 09:47:45 -0700 (PDT)
 Received: from ziepe.ca ([159.2.72.92])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ffd56c4b91sm45168766d6.19.2026.07.10.09.44.28
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ffd5bbac2asm45778726d6.21.2026.07.10.09.47.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 09:44:28 -0700 (PDT)
+        Fri, 10 Jul 2026 09:47:44 -0700 (PDT)
 Received: from jgg by wakko with local (Exim 4.97)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1wiEKx-00000007Yxj-3wpY;
-	Fri, 10 Jul 2026 13:44:27 -0300
-Date: Fri, 10 Jul 2026 13:44:27 -0300
+	id 1wiEO7-00000007ZDn-3hnt;
+	Fri, 10 Jul 2026 13:47:43 -0300
+Date: Fri, 10 Jul 2026 13:47:43 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Stanislav Kinsburskii <skinsburskii@gmail.com>
 Cc: airlied@gmail.com, akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org,
@@ -80,11 +80,12 @@ Cc: airlied@gmail.com, akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org,
 	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
 	linux-rdma@vger.kernel.org
-Subject: Re: [PATCH v7 8/8] drm/gpusvm: Use
- hmm_range_fault_unlocked_timeout() for range faults
-Message-ID: <20260710164427.GW118978@ziepe.ca>
+Subject: Re: [PATCH v7 2/8] mm/hmm: add hmm_range_fault_unlocked_timeout()
+ for mmap lock-drop support
+Message-ID: <20260710164743.GX118978@ziepe.ca>
 References: <178345345668.660027.2952911919681614557.stgit@skinsburskii>
- <178345366389.660027.12986386801605494596.stgit@skinsburskii>
+ <178345362182.660027.12809852179204464964.stgit@skinsburskii>
+ <20260710162749.GP118978@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -93,34 +94,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <178345366389.660027.12986386801605494596.stgit@skinsburskii>
+In-Reply-To: <20260710162749.GP118978@ziepe.ca>
 
-On Tue, Jul 07, 2026 at 12:47:43PM -0700, Stanislav Kinsburskii wrote:
-> Several GPU SVM paths take mmap_read_lock() only to call hmm_range_fault(),
-> then retry -EBUSY until HMM_RANGE_DEFAULT_TIMEOUT expires. Those paths use
-> MMU interval notifiers whose mm matches the mm that was locked for the HMM
-> fault.
+On Fri, Jul 10, 2026 at 01:27:49PM -0300, Jason Gunthorpe wrote:
+> On Tue, Jul 07, 2026 at 12:47:01PM -0700, Stanislav Kinsburskii wrote:
 > 
-> Use hmm_range_fault_unlocked_timeout() for those faults and pass the
-> remaining retry budget to HMM. The helper owns mmap_lock acquisition and
-> refreshes range->notifier_seq internally for each retry, while GPU SVM
-> keeps its existing driver-lock validation with mmu_interval_read_retry()
-> after a successful fault.
+> > +int hmm_range_fault_unlocked_timeout(struct hmm_range *range,
+> > +				     unsigned long timeout)
+> > +{
+> > +	struct mm_struct *mm = range->notifier->mm;
+> > +	unsigned long deadline = 0;
+> > +	int locked, ret;
+> > +
+> > +	if (timeout)
+> > +		deadline = jiffies + timeout;
+> > +
+> > +	do {
+> > +		if (fatal_signal_pending(current))
+> > +			return -EINTR;
+> > +
+> > +		if (timeout && time_after(jiffies, deadline))
+> > +			return -EBUSY;
 > 
-> Leave drm_gpusvm_check_pages() on hmm_range_fault() because that path is
-> called with the mmap lock already held by its caller.
-> 
-> Signed-off-by: Stanislav Kinsburskii <skinsburskii@gmail.com>
-> ---
->  drivers/gpu/drm/drm_gpusvm.c |   52 ++++++------------------------------------
->  1 file changed, 7 insertions(+), 45 deletions(-)
+> I really dislike there is a timeout here, HMM is supposed to be more
+> deterministic. GUP doesn't have a timeout, what is this about?
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+It looks like you've moved the timeout processing related to the mmnu
+notifier sequence from the callers into this helper. I'm fine with
+that, but maybe add some comments that this timeout is helping
+implement the mmu notifiers, and we do expect that the HMM part will
+not timeout.
 
-> -	mmap_read_unlock(range->gpusvm->mm);
-> +	err = hmm_range_fault_unlocked_timeout(&hmm_range,
-> +				max_t(long, timeout - jiffies, 1));
+Though it is a little hard to see how your stated purpose of enabling
+userfaultfd is going to work, aren't you pretty much guarenteed to hit
+a timeout if the userfaultfd process is adversly scheduled? That's
+going to end up broken.
 
-Same remark about max_t
+So, maybe the deadline should be resetting after every handled fault?
+ie the timeout really is only about the mmu notifier and we don't
+count the time spent handling faults or walking?
 
 Jason
