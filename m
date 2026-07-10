@@ -1,41 +1,41 @@
 Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1B8440F8D6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C8341168A
 	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 11:15:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783682119; cv=none; b=GEH/pOt9Xf89bNAhUOg5WMLzgYu4t4BbduXtKHUKjtQqEPge7pUXmpipcrAIaBDHEHb4eLbddthgkl13OPVdWWkH+sFK3eSEXp46sgheVEIFvDMPhya6GPv5TkCeivm7DPbCE8jWPGpLVYhhSFYb/kkVVQ8i8ltTG/q63MEawXM=
+	t=1783682120; cv=none; b=cnddzb5h2cU4e1oHdqcMr5N77QVvUTROzvOnz7ii9nOK2BAOi7Z7viin3JtsgHrjVNbcwGCcg6vbwRAcEPQoadTfXSmELNSZbwv1+NFghJhdzuzb4xyBIlecPoCSYbyjUcCoxNylVH3SX5/nOBERO8K8a6UBOiF1m7YpeE05dl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783682119; c=relaxed/simple;
-	bh=GcmCes6lQAiKzkcGE+JER7EEugEN/SgS0n7mt6P7COA=;
+	s=arc-20240116; t=1783682120; c=relaxed/simple;
+	bh=U9MEpE2Ih98r0rKIS5ukgUhQF9OCUYmg2BREdlUGgos=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MBe0L3izPHHhK8MCFWhZaNpbBsko39f/Koh/ckCMW+lNA39AWOAOd2/ppyi92NKhQd3OHiZEhKZ7j4Qk4cd9r8qit49lu7J8JXuZZi3HwbMwJTeMWEj5c5qCtYukH9ls659cwiksd1Muexn+1Bn+fPECy95zSywBdDnj+i6waM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=JLT8WZJt reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
+	 In-Reply-To:To:Cc; b=n5e8wudbR28BOFNjgf2qTbkWzUIFpGg6snvJ6V/r0s+3zQVpHUQW3qWMz0FHNpQ+Qv+G+l9E4Kd+uvATNVUvQ+RboHEddxndGAQkJRBOqyJRp7fPIMlkYmuVrWtY85a3dhezZtfJjdF6HbpuEYCKxSawIx1Q2VQ2/ISKt1NhsjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=mZ/mHjw+ reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="JLT8WZJt"
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="mZ/mHjw+"
 Received: from h183.csg.ci.i.u-tokyo.ac.jp (h183.csg.ci.i.u-tokyo.ac.jp [133.11.54.183])
 	(authenticated bits=0)
-	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 66ABEvsL024946
+	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 66ABEvsH024946
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 10 Jul 2026 20:15:11 +0900 (JST)
+	Fri, 10 Jul 2026 20:15:10 +0900 (JST)
 	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
-DKIM-Signature: a=rsa-sha256; bh=HxASWJordbwbK0dfh3jueBnYsD6Vv4drYFkhabaJ2Rc=;
+DKIM-Signature: a=rsa-sha256; bh=uYrOcz7cPsXjyBNdYSNHFBXBQv6JgbTYi8PN49aaXZ8=;
         c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
         h=From:Message-Id:To:Subject:Date;
-        s=rs20250326; t=1783682111; v=1;
-        b=JLT8WZJtnfeQSeysxTLOQv/IXLP7DcdbdUjW4OoAjvT4T9QU43XTaks92DVo4AH8
-         pVRBO1OUBCY9+7ldEgHCNEkz0D3UQxywyHV5JWmA4b3VUqwnNX7DaBhgTDDzB7A6
-         7z7lAd1QSP63gD4twKdcwt7lXNTCXCiJPAiKIma59MNehFLYZxGBBpHpYXIcWyq1
-         MYOOjnJ1hpmN0/Thgx/MPwK9RAYpjw5h7pdM4fd+3X/NbuzxipYq/tvzDALFYjPR
-         rfCt5IgbblbGYpT4EPCP7BTI7wsAKXBx5aUZyC3bHa4O/f/Q230Ha1RcE50cBysI
-         dWfH7/p6807zzdxFesKpRg==
+        s=rs20250326; t=1783682110; v=1;
+        b=mZ/mHjw+q5qmL6SJzncK0NvUHK9WAcp5mzhrd+351BTQ3OTW9tPlk8hESlrpH9eu
+         WvTo7LkX++pgZuuMDnEmALooMjv0hO0A04LoqC/4A3otIkV07uAY+XjdwAoPWgGo
+         yRUSqXk9XRdEfnmK9P3Fq5GSlCllRghQ1G5NsSpAEyEZ6hRnEBSzzBLdG34xVVFt
+         EDKMRxkTq9HDwrSCgmnAOxifIua5gxb1wZW+JboMnZ3aEZM5fulciA4NnS31W//E
+         UV9bw192xIrz4ExCj/R89VqKrh9460iRgoZ38dANsub5tnHciSEnJwPXS5LkDLAi
+         OkRtOUVpJwByY1bh9TdNpA==
 From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-Date: Fri, 10 Jul 2026 20:15:01 +0900
-Subject: [PATCH v8 07/11] KVM: arm64: PMU: Pass the pPMU to
- kvm_map_pmu_event()
+Date: Fri, 10 Jul 2026 20:14:57 +0900
+Subject: [PATCH v8 03/11] KVM: arm64: selftests: Cover PMU state in
+ MDCR_EL2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,7 +44,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-hybrid-v8-7-621409f3a592@rsg.ci.i.u-tokyo.ac.jp>
+Message-Id: <20260710-hybrid-v8-3-621409f3a592@rsg.ci.i.u-tokyo.ac.jp>
 References: <20260710-hybrid-v8-0-621409f3a592@rsg.ci.i.u-tokyo.ac.jp>
 In-Reply-To: <20260710-hybrid-v8-0-621409f3a592@rsg.ci.i.u-tokyo.ac.jp>
 To: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
@@ -64,51 +64,131 @@ Cc: linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
         linux-kselftest@vger.kernel.org,
         Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
 X-Mailer: b4 0.16-dev-925f5
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1455;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4101;
  i=odaki@rsg.ci.i.u-tokyo.ac.jp; h=from:subject:message-id;
- bh=GcmCes6lQAiKzkcGE+JER7EEugEN/SgS0n7mt6P7COA=;
- b=owGbwMvMwCWmMbc20y1CyJDxtFoSQ1bAFYs6gwv31I7O9j67mbfs16Z5uUYnUvquVQUxn1p1v
- X3OiYv3O0pZGMS4GGTFFFlSinZza0TXfipMiG+BmcPKBDKEgYtTACbi9pfhn+lrkXeBwpfPpO25
- 3BBslG79XuhN+/dHnInJPiWnFRR5NzIy/Jt8fMvhiBT1oPuVdhsXbin7I6vw0+zTWq3P/5fXTTV
- 3ZQYA
+ bh=U9MEpE2Ih98r0rKIS5ukgUhQF9OCUYmg2BREdlUGgos=;
+ b=owGbwMvMwCWmMbc20y1CyJDxtFoSQ1bAFdOoCdslkj9tDK85mGkeprzlWJKYd6tsW/56hf+r2
+ KNM+uZ2lLIwiHExyIopsqQU7ebWiK79VJgQ3wIzh5UJZAgDF6cATORBAiPD4fz/qRuFXrndFrHc
+ 6Tv74rv96UenzKrcc69SWX9L16LQcwz//Ts3vivq/XrNsfHy8XrPi112U4xuZvXquH6r6vTXVrz
+ DAgA=
 X-Developer-Key: i=odaki@rsg.ci.i.u-tokyo.ac.jp; a=openpgp;
  fpr=AEDC03C9AF734F2EC26A7BFFA4BAEAA73536753C
 
-Replace the VM argument with the pPMU used for event creation. The
-current caller still passes the VM's default pPMU, but this removes the
-implicit lookup from kvm_map_pmu_event() so later changes can map events
-against the pPMU selected for an individual vCPU.
+Add MDCR_EL2 coverage to vpmu_counter_access when EL2 is available.
 
+For each configured PMCR_EL0.N value, verify that HPMN tracks the
+configured counter count, HPME can be toggled without disturbing HPMN,
+and KVM_SET_ONE_REG rejects an out-of-range HPMN without changing
+MDCR_EL2. Reset the vCPU and verify that HPMN is restored from the
+configured count.
+
+Assisted-by: Codex:gpt-5.5
 Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
 ---
- arch/arm64/kvm/pmu-emul.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ .../selftests/kvm/arm64/vpmu_counter_access.c      | 76 ++++++++++++++++++++++
+ 1 file changed, 76 insertions(+)
 
-diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
-index 68fce960ba69..1d03d0cb62f3 100644
---- a/arch/arm64/kvm/pmu-emul.c
-+++ b/arch/arm64/kvm/pmu-emul.c
-@@ -665,10 +665,8 @@ static bool kvm_pmc_counts_at_el2(struct kvm_pmc *pmc)
- 	return kvm_pmc_read_evtreg(pmc) & ARMV8_PMU_INCLUDE_EL2;
+diff --git a/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c b/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
+index 22223395969e..25203ea117b0 100644
+--- a/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
++++ b/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
+@@ -25,6 +25,14 @@
+ /* The cycle counter bit position that's common among the PMU registers */
+ #define ARMV8_PMU_CYCLE_IDX		31
+ 
++#ifndef MDCR_EL2_HPMN
++#define MDCR_EL2_HPMN			GENMASK_ULL(4, 0)
++#endif
++
++#ifndef MDCR_EL2_HPME
++#define MDCR_EL2_HPME			BIT_ULL(7)
++#endif
++
+ struct vpmu_vm {
+ 	struct kvm_vm *vm;
+ 	struct kvm_vcpu *vcpu;
+@@ -583,6 +591,73 @@ static void run_pmregs_validity_test(u64 pmcr_n)
+ 	destroy_vpmu_vm();
  }
  
--static int kvm_map_pmu_event(struct kvm *kvm, unsigned int eventsel)
-+static int kvm_map_pmu_event(struct arm_pmu *pmu, unsigned int eventsel)
- {
--	struct arm_pmu *pmu = kvm->arch.arm_pmu;
--
- 	/*
- 	 * The CPU PMU likely isn't PMUv3; let the driver provide a mapping
- 	 * for the guest's PMUv3 event ID.
-@@ -720,7 +718,7 @@ static void kvm_pmu_create_perf_event(struct kvm_pmc *pmc)
- 	 * Don't create an event if we're running on hardware that requires
- 	 * PMUv3 event translation and we couldn't find a valid mapping.
- 	 */
--	eventsel = kvm_map_pmu_event(vcpu->kvm, eventsel);
-+	eventsel = kvm_map_pmu_event(vcpu->kvm->arch.arm_pmu, eventsel);
- 	if (eventsel < 0)
- 		return;
++static void run_mdcr_el2_validity_test(u64 pmcr_n)
++{
++	struct kvm_vcpu_init init;
++	struct kvm_vcpu *vcpu;
++	u64 mdcr, old_mdcr;
++	int ret;
++
++	pr_debug("MDCR_EL2 test with pmcr_n %lu\n", pmcr_n);
++
++	test_create_vpmu_vm_with_nr_counters(pmcr_n, false);
++	if (!vm_supports_el2(vpmu_vm.vm)) {
++		destroy_vpmu_vm();
++		return;
++	}
++
++	vcpu = vpmu_vm.vcpu;
++
++	mdcr = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2));
++	TEST_ASSERT(FIELD_GET(MDCR_EL2_HPMN, mdcr) == pmcr_n,
++		    "MDCR_EL2.HPMN is not updated after PMU_V3_SET_NR_COUNTERS (expected %lu, got %lu)",
++		    pmcr_n, FIELD_GET(MDCR_EL2_HPMN, mdcr));
++
++	old_mdcr = mdcr;
++	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2),
++		     old_mdcr ^ MDCR_EL2_HPME);
++
++	mdcr = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2));
++	TEST_ASSERT(mdcr == (old_mdcr ^ MDCR_EL2_HPME),
++		    "MDCR_EL2 was not properly updated after HPME write (expected 0x%lx, got 0x%lx)",
++		    old_mdcr ^ MDCR_EL2_HPME, mdcr);
++
++	if (pmcr_n < FIELD_MAX(MDCR_EL2_HPMN)) {
++		errno = 0;
++		old_mdcr = mdcr;
++		ret = __vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2),
++				     u64_replace_bits(mdcr, pmcr_n + 1, MDCR_EL2_HPMN));
++		TEST_ASSERT(ret == -1 && errno == EINVAL,
++			    "Setting MDCR_EL2.HPMN to %lu unexpectedly succeeded",
++			    pmcr_n + 1);
++
++		mdcr = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2));
++		TEST_ASSERT(mdcr == old_mdcr,
++			    "MDCR_EL2 changed after failed HPMN write (expected 0x%lx, got 0x%lx)",
++			    old_mdcr, mdcr);
++	}
++
++	old_mdcr = mdcr;
++	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2),
++		     u64_replace_bits(mdcr, 0, MDCR_EL2_HPMN));
++
++	mdcr = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2));
++	TEST_ASSERT(mdcr == u64_replace_bits(old_mdcr, 0, MDCR_EL2_HPMN),
++		    "MDCR_EL2 was not properly updated after HPMN write (expected 0x%lx, got 0x%lx)",
++		    u64_replace_bits(old_mdcr, 0, MDCR_EL2_HPMN), mdcr);
++
++	kvm_get_default_vcpu_target(vpmu_vm.vm, &init);
++	init.features[0] |= (1 << KVM_ARM_VCPU_PMU_V3);
++	aarch64_vcpu_setup(vcpu, &init);
++
++	mdcr = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2));
++	TEST_ASSERT(FIELD_GET(MDCR_EL2_HPMN, mdcr) == pmcr_n,
++		    "MDCR_EL2.HPMN is not updated after INIT (expected %lu, got %lu)",
++		    pmcr_n, FIELD_GET(MDCR_EL2_HPMN, mdcr));
++
++	destroy_vpmu_vm();
++}
++
+ /*
+  * Create a guest with one vCPU, and attempt to set the PMCR_EL0.N for
+  * the vCPU to @pmcr_n, which is larger than the host value.
+@@ -634,6 +709,7 @@ int main(void)
+ 	for (i = 0; i <= pmcr_n; i++) {
+ 		run_access_test(i);
+ 		run_pmregs_validity_test(i);
++		run_mdcr_el2_validity_test(i);
+ 	}
  
+ 	for (i = pmcr_n + 1; i < ARMV8_PMU_MAX_COUNTERS; i++)
 
 -- 
 2.55.0
