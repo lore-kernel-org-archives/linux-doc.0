@@ -1,148 +1,119 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8489140800F
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 12:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEBA42B311;
+	Fri, 10 Jul 2026 13:00:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783688003; cv=none; b=jaqAuyvN8Wyrvk5OE85DntNSR/fJ24RJhV2URXcUBwRJ3EU0M0r++ya2PF6ejD1q59n0nfr80Avs2YKOc8/u7e/G2C6jYj8BSqXFEJxOshKLb/veXMthsKjS0NfVoB+UrBsO84wHsiADEsXxeEcoVTlTpbqciWYiOAa7dnKcNz8=
+	t=1783688460; cv=none; b=c1geC0TXW5aDgGzXDfepANe2K2ApaxMhMi6bsyq6uHmKHJFB2XGJ/ec/OFRPHTmGXenxJ5rBEAh4b0Z6wFPUnxbW5rxHkxSFBZRXqQhlv+AF//FZ58wXVVS86Q66GZg4ZdZw6gPAjR0gHI5PJfaoIx+sHCyZxowppdAh538kY6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783688003; c=relaxed/simple;
-	bh=sxv6a13OPgrK6TOsUQ/kBJYeYtA4hSsjpL/QVUw8MJI=;
+	s=arc-20240116; t=1783688460; c=relaxed/simple;
+	bh=YcxbQ2Btzg7iuA1pSYuYSjQQft9gHlB/8xDODM4Q9dQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ff14UT4OBEjLXP1iVEMS6o7Z2ggesijQ06mJlFwQgjzpI6FOgUHEu6iTGPo4YpP/+qT/sWBQlud64sQzyMBxKjHQaL4XHYoRQvGBrY55pEP103Sq5H3bRJLP8PwJuIruqFVFTM+pSFV5cdDWq2GOJi46VxS1B9drH1bynbRNoVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=O2AA42wc; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=UR+ala2qm1ahuGvzouT0HR3B2QehCwt9FW2X12ym6RzN/MBa71J774XdIkXgpuYpG5mYDuRNYa7wPB0V5ZClOJ2Jwjrud1WX4j8Hyd29v5UUGZ6Vq2DEJdjvy9Jdp2qCaVpGUxvpO6EbbvK1SQTqD8916pIwnAQpwB4DVMM5gEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=QErSRtrM; arc=none smtp.client-ip=91.218.175.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O2AA42wc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783688000;
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="QErSRtrM"
+Date: Fri, 10 Jul 2026 21:00:33 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
+	t=1783688454;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XTxMckJ71iKdcnC625lbZ9WJQgTp+gyXuVTaxsSZYeA=;
-	b=O2AA42wc0EFpHFaeTcNaA+5w2Vxj2dLQZ00YjfR5A3+JB1y4OPtfyeY1VNKeuyYVDjlqoy
-	TzMenwjfF9q+zFqyZXi8XP+H48JHs7nMPojLVdTC4UG6U94iupybkM9uqpYd1CMMtl1uyc
-	pySLQjyn0zU5XCWVDK7TvBD50TiZKnw=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-640-duefXCb_NOaqJcpTJsNlCw-1; Fri,
- 10 Jul 2026 08:53:17 -0400
-X-MC-Unique: duefXCb_NOaqJcpTJsNlCw-1
-X-Mimecast-MFC-AGG-ID: duefXCb_NOaqJcpTJsNlCw_1783687991
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AAE061801379;
-	Fri, 10 Jul 2026 12:53:07 +0000 (UTC)
-Received: from fedora (unknown [10.44.49.164])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 8AEF2180029C;
-	Fri, 10 Jul 2026 12:52:47 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Fri, 10 Jul 2026 14:53:07 +0200 (CEST)
-Date: Fri, 10 Jul 2026 14:52:40 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-Cc: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	linuxppc-dev@lists.ozlabs.org, Kees Cook <kees@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>, loongarch@lists.linux.dev,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	linux-riscv@lists.infradead.org,
-	Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org,
-	x86@kernel.org, Mark Rutland <mark.rutland@arm.com>,
-	Jinjie Ruan <ruanjinjie@huawei.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Guo Ren <guoren@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Helge Deller <deller@gmx.de>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Richard Weinberger <richard@nod.at>,
-	Chris Zankel <chris@zankel.net>,
-	linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
-	linux-csky@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
-	Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>,
-	Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>,
-	Michal Simek <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
-	linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-arch@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: Re: [patch 13/18] entry: Make trace_syscall_enter() return type bool
-Message-ID: <alDrGBMdTuoLcVyy@redhat.com>
-References: <20260707181957.433213175@kernel.org>
- <20260707190254.338083894@kernel.org>
- <ak5ySpil83TNWxeq@kunlun.suse.cz>
- <87se5tqkyp.ffs@fw13>
- <alDQ7isUKJFl8Va4@kunlun.suse.cz>
- <alDaOw8t-e3rxIPm@redhat.com>
- <alDmTcgzMlKiio9H@kunlun.suse.cz>
+	bh=ymO/MhynCVa2Vt6zoxXVJAmYlve+weaHSl/T20TzvNQ=;
+	b=QErSRtrM4OkydiPspPZ8iIyW08vsaSM2g5dfPY/8t9/AG7UGnaa5xeGIgx7XH5yRCJC7du
+	e/ZHt+M10x4Qok2japnjjLsKaYPtZvGba+6S1x1WKOkaR+3ZCc7h5jhaSOYtHlB3bx6aJp
+	zLKHGVTTsTjRCRfQ2lZUjgoMr1gK3/sg6Ct/z3VCzAkzZ4LCISIaV3/xbs015/CyNTUNA/
+	dEAfw79XdGUWGRjoJtFpyAvghAlEYCpJSFlHhS3uxbpblmLSFGA9wnlgreqvxSYzTxQRpe
+	ekDYg27jE/MMLJFE6xgoUBr7qRN+7UbjeTgIbVhrRL9XDKFyy6TR/umFRoCBXA==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Weijie Yuan <wy@wyuan.org>
+To: =?utf-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
+Cc: Hu Haowen <2023002089@link.tyut.edu.cn>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Dongliang Mu <mudongliangabcd@gmail.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Dongliang Mu <dzm91@hust.edu.cn>,
+	Yuchen Tian <cat@malon.dev>, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>
+Subject: Re: [PATCH v2] docs: zh_TW: process: localize terminologies and
+ improve fluency in 8.Conclusion
+Message-ID: <alDs8bnIK8bWApIr@wyuan.org>
+References: <20260603082531.263115-1-chenyou910331@gmail.com>
+ <CAKspUh+2ndK1qMP58hPPmvwczruCikEuaO2tmyw=APCGrd9yaw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <alDmTcgzMlKiio9H@kunlun.suse.cz>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+In-Reply-To: <CAKspUh+2ndK1qMP58hPPmvwczruCikEuaO2tmyw=APCGrd9yaw@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On 07/10, Michal Such�nek wrote:
->
-> On Fri, Jul 10, 2026 at 01:40:43PM +0200, Oleg Nesterov wrote:
-> >
-> > I can only say that ptrace users do want to skip the syscall and set the
-> > return value on entry.
-> >
-> > See
-> > 	[PATCH v5 1/2] ptrace: add PTRACE_SET_SYSCALL_INFO syscall skipping support
-> > 	https://lore.kernel.org/all/20260709100949.94345-2-renzo@cs.unibo.it/
-> >
-> > The changelog explains that currently this doesn't work because
-> > among the arches which define HAVE_ARCH_TRACEHOOK (at least) arch/mips is
-> > broken in this regard.
->
-> Or it could be documented that setting the return value has to be done
-> in the exit trace, and that would than work on any architecture AFAICT.
+On Fri, Jul 10, 2026 at 04:49:30PM +0800, 葉宸佑 wrote:
+> Gentle ping.
+> 
+> This v2 addressed the review comments from Alex and Dongliang.
+> Is there anything else I should improve, or is it queued somewhere
+> I might have missed?
 
-Well, ptrace users know the problem. And this what they have to do
-currently.
+Hi Chenyou,
 
-> With ppc and s390 using the same register for the syscall number and
-> syscall return value it's very much impossible to poke the return value
-> on entry into a register using the generic register access function. As
-> of now there is no place to store the value ot of the return value
-> outside of the registers, either.
+I think currently having Alex apply your patch is a temporary measure,
+because the maintainer of traditional Chinese seems unlikely to be
+available in the near future.
 
-I know nothing about ppc and s390. Can't comment right now.
+Outside the patch itself, I noticed that Traditional Chinese is actually
+in a state of stagnation, which makes me think that receiving such
+patches is a temporary solution rather than a long-term fix.
 
-> And the current PTRACE_SET_SYSCALL_INFO indeed sets the syscall nr and
-> arguments on entry and the syscall return value on exit, that
-> disctincion is implemented.
->
-> Not sure how the patchset you point out is relevant, it only adds
-> changes in the exit case.
+As Jonathan said, "...But there does come a point where a translation
+is so obsolete that it does more harm than good and there are no
+prospects of it being updated." 
 
-No. It allows to skip-and-set-retval on PTRACE_EVENT_SECCOMP.
+So, after a period of about two years of stagnation, the Traditional
+Chinese documents seem to have really reached an unreadable state. This
+is something we don't want to see, but we must accept the reality and
+then take action. Please note that I have no intention of offending
+Haowen. On the contrary, I am definitely grateful for all that he has
+done.
 
-But ENTRY -> EXIT transition is not yet allowed due to the problems
-above.
+I did some interactions with one of the L10n Taiwan team (who are
+involved with Git L10n) [1] in their telegram channel a few days before,
+but sadly they said the biggest problems are:
 
-Oleg.
+  1. No one is willing to take over. (hey, I totally understand)
+  2. There are different opinions on translation. (I don't know the
+     deeper details)
 
+Besides, I'm also very curious about how exactly we define the position
+of traditional Chinese or zh_TW. From my rough observation, the existing
+documents merely performed a simple conversion between simplified and
+traditional Chinese, without taking into account the local expressions
+specific to Taiwan. Therefore, that's why we are receiving the patch
+here and commit aba18be23f14 ("docs/zh_TW: replace 接口 with 介面 in stable-api-nonsense.rst")
+(Please correct me if I'm wrong, as I have not got into many
+translated pages)
+
+So if we are doing zh_TW instead of a direct simplified and traditional
+Chinese conversion, I don't think we can handle this properly without
+the help of Taiwanese friends.
+
+Of course, I feel quite ashamed that I'm saying these above here without
+having made any substantial contributions to this community, sorry.
+
+Could we discuss this matter in another thread? Very sorry Chenyou, what
+I'm saying is completely unrelated to the patch itself.
+
+Finally, I would like to express my sincere gratitude to Haowen.
+
+Thanks,
+Weijie
+
+[1] https://l10n.tw/
