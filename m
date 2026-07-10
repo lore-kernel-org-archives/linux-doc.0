@@ -1,254 +1,106 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF60B3FB7D5
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 10:04:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86AD73FF1A4
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 10:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783677884; cv=none; b=RCML43CbgbfGZxRbK0PIqIWT/iZZKOgCEvtktzuLamU1rOXsmHjW8hUA5SG1+Xc/8zHjNKCA3GnU1p5B434EghyEOWdXPI+dESCLe0V0ecgaoChoo9fiPS8FYYE0V7zs5Gw53932eFNReAs5eqwh76rWmNEb+IXVQe4O+EZ047M=
+	t=1783677912; cv=none; b=O/T1/U1BFhCWFs55aeRnQ+bZY07strcuUFZ8SCQ73tOBgo67JGxVm98gy8uTwyaJz6hxy21rSBLR6DveD7pihaQKlNSBaRyEx1+aA13gJYP47wQLrT2Q7qRVSfQOMpp90MVLvMRP/TjYyhnK4+/pWcXKVxFZxszbY09Ei5tmobA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783677884; c=relaxed/simple;
-	bh=5WDDaaDAVQXdrw4/FTB+NaWlzMTU0oH389jY57JulR8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B9V318eprTlW2nAzQC4Bip53rIS9auKtsnDJ9nLTbaeG6Ji8Gp0R0QKDg5cnucOMwzU/zRcV7karlrsoGFOOq98xB8g1VqAnG2Tcj9/Fw4dFOQ6m+f9OlB6t7jNQh/5Ym1USvJrRfAl+NdX8y1oH1u6u7b3r6/4RPQAEixH88uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pw86qs3u; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1783677912; c=relaxed/simple;
+	bh=Akkf3kL+PsQe7xmYXgLVaSqFrB61iytAQiQ6WDcfnyw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kfh++wfviJ0o9ERJJusf+tsaEVIQhdQIFMhJx4hrIQRHkTkPQQTXcZBlToonC6mcdT5Mn17tAiSlfUaG8N7mBuuBlFDVY7Al6TSpDSijHZd9Z8zMUbGpq125KxAEpRnEVo4d8sIM81xlgzPyKqOY82Bscn9UaiKM/ziTWjv/mt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pw86qs3u"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c9cf07d2df6so547719a12.2
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 03:04:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783677882; x=1784282682; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=myL3E4LURnOhpDjDCaKjpNj79ZKyqlfQLnc/0/n7x1Q=;
-        b=pw86qs3uFVYGOHHpERto6NL7H+nv9j79BTQ42/QCCZWNp94sE+zo5F5M3qg9AofQFE
-         6R61Q91zqY5iLl7yiLH3EQLOYE3bxVFRPwFd8ToaJSdetLLOOOYolbjDtHzWGgNZf7B6
-         YJBlYg60HLxue6oqcTj62G5ToPUpqimBVlQ4ZZ6oDuxiRFpAQSwimqd4yDSOBe70XmxL
-         p8HhyW/tJ8zdedJTUXfFqHodK9aiYsz9+O0vGAhwLRpbUW/fX0L7h86jwtVzJbtAbZmU
-         XwcZuZEOq522brEEKm+JXrhuEgaUY3bVmkOU6G1Ku6E0EuIwlBAeW0+pTFDFyTUodWam
-         F+Nw==
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-728f9ecd56aso343612137.3
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 03:05:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783677882; x=1784282682;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=myL3E4LURnOhpDjDCaKjpNj79ZKyqlfQLnc/0/n7x1Q=;
-        b=V4xtiA8+4QX4srYmNy9VQ7TN5K7RzkPcNL4QfkzwDAHRI59X7UlPoiIHeceBej9Lk+
-         1k6qSk1G17YCJcA85e7WCUR/4TNzdm/dxlt0jHlorxuIxG5TG1RaA4M65Z4N2PIjq/xJ
-         lVBjgRLZswmGWMrWADDK8bQr8ICYvRBX7rLzEjqiBRaeQSgomK8sdaAYDrVJvtC/5Udt
-         G60zvbiz0KUEjICtnscDtRp7+VNmBscRC0baS2ffEl09Rn6Ww8DD83fq0ftBhaHPkpdA
-         D79ZDNvoKymj8uvs/1Sq4lpycjfEk+bUYXhNzjmPfZmne7eBMwiPvjRgkMqoLoYooznN
-         lKFg==
-X-Forwarded-Encrypted: i=1; AHgh+RrhgASNGfve8ng1HwrMS1kz0IC5q6+4v/XlE7VD6sZC3ZCoYcR9KbNNaR6YBMbuMT+qXiE0mAMnOkA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGj+Q9V9OLDiHyo+2p764MpEvC5VF3rQKYm2cgSj0DARes7O8y
-	MFK27HVbSy7XgAacuRRK/ptJpDtxlz07G7GCci/SQgLRsEEI9G346pYO
-X-Gm-Gg: AfdE7cmyWMa7bhcMVHf+jgARa1CQnwxlQVXJUywqq/Xktfzi7qkQ1f+nJCHmRmKK2ds
-	jc6ume6YgdFglayjg2tzyL6pgZQmI9hDPBWwCsaOWURkC0VIAsJQtMNBX88T2ZNcVYlNHhjrG7Y
-	Kj1HUk2A3iQs1wBJ5VrOyVexITlws4xKBAJMcJU7VFkTNJti/pHmYzWPxNZycJTNI+Q+vDfXaHq
-	EOl2lN9is4yysXP2pOhryGkQ0zs+8NaN5bdoPmgtAkwfdONUw8rfmqHlzvS6Mm1hryOBMQONEbE
-	JQOk2fwcuoYlEDQnQ34DcKKLLeFo6swWWCFKg+QLxU/GrZglccC1EEftDsI/igwda5AxGxbZ9O5
-	3r93krlrC7BU7agVy7a8y9zkVZ3odQtyBxXLNEqRRC/wNmVX1XOVDWEHfwsLuSGDjzd6KgGvr3X
-	36tueWGZ2rJJ7MVsPjX4APEo66SMNjvA4vRA==
-X-Received: by 2002:a05:6a20:12d0:b0:3b4:6f7e:d0f4 with SMTP id adf61e73a8af0-3c0bce18a95mr13340629637.15.1783677881818;
-        Fri, 10 Jul 2026 03:04:41 -0700 (PDT)
-Received: from [10.125.192.148] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca75ef0c30dsm3257653a12.17.2026.07.10.03.04.32
+        d=1e100.net; s=20251104; t=1783677910; x=1784282710;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=4CIBplsIuVz8rQQd1I0ICk9drRx4a3WpiYxfYnZ5Bfk=;
+        b=S97qhEXe7kw62G3jay5RHqqHn8HEw09XDQRnRbFwiL1BNuLt4QM/t6R3WGu68xV/VH
+         keQ2PlJ+TW3lN6ZrBd8dpuPAaKdB2bPvw8XRRb3nKmybrpTnOPbZD3FyxsG1fNoLU/VD
+         kmldO1MG/QnvSrd2KTyUE1y17CBsltChmfwYpMfXilpGkS0+zTLefDcXdSJvQxC9fHFx
+         tKTHmXgWDMtUZo+AoHIcMK/JF+oo0UbEaB4mhEGwP4esiCDVAwmIpL0+7YCfz7DVWQAJ
+         giNhW6qoonm97PAzoHBVhf86I9coDuBcPA11Tpjxqeft/UGLpdBPYh8UBknn8vHfAGnQ
+         Ur+g==
+X-Forwarded-Encrypted: i=1; AHgh+RqeAUxAsCD6i1AQ7j/rohXsM9bFjMc7yM8SZKrQLnTJp/VUCGevKomj3CrSTLZKC7TiGadxVKnyjZE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVRkTGr9WwxQc8etVqRovhHNtqam4ePnUWmXovMJx+bStbP9+9
+	dUDCQ4CEr6ZfnrDpmGppKce4ikjHTwTwd3BSYwkMQpuOwUgDzi5eXzkN+fV6ctRH6oc=
+X-Gm-Gg: AfdE7cmGR3EbDPANSypobaiSioe7IjNh+RVCFCbYhyMQV+ZrVO4DCBnP16i/KLZ3W1Z
+	3yqypwEQGKpY1oDqecr/+Gi1Kt/Wek2hUo9y/0LaWYJlFBur3BCdhRC8H+/SBvHjw0kLYipLcex
+	Bu5O4kqJ9Wf9m9TJaLo8mvlYeAFLvHb6WPcPGhY3sIlfs8kQyWV01hvyq0uOujRFJ8Pp/Y1LBlG
+	a1sZPwUYmtPz/eZQjJcXDwX5zXI4MGWDgu14YRY/AodBgJriO7/uujiDflnHYtyMA4al8apZkRX
+	eN/j8F+ux0wgv633BTh+Wcr0w5cIPzGQzwLNms9ziLRR0xpUvEaLnlv1nALNbYK+jW1NnwyBLae
+	Lp+hKI42cA3Uxke0RyolNvcsadXCAT2IHv1EB/tEMeHfw0cFQcHEUe2yL6rZQDNMUJM3eO8CuW8
+	DKWGUOzQLqRypnfeDD/oRrdy0ECIaFMf67zhWnU5KIm9P+zrsMNvKa4g==
+X-Received: by 2002:a05:6102:3f44:b0:738:ecd7:1983 with SMTP id ada2fe7eead31-744e03e4c23mr6810853137.28.1783677910363;
+        Fri, 10 Jul 2026 03:05:10 -0700 (PDT)
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-744d6dea737sm4973761137.9.2026.07.10.03.05.08
+        for <linux-doc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jul 2026 03:04:41 -0700 (PDT)
-Message-ID: <30c8df43-9464-8fa0-3614-0ca06b97862e@gmail.com>
-Date: Fri, 10 Jul 2026 18:04:23 +0800
+        Fri, 10 Jul 2026 03:05:09 -0700 (PDT)
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-5bf94664327so399583e0c.1
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 03:05:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rq4HzwhzLQn1Bzi6V9mPGgHwc7MBEivOXZK6Y6d4PznVhrx1bru+eLBbceCS2Nt5i/DRhwYOIMDAVs=@vger.kernel.org
+X-Received: by 2002:a05:6102:5605:b0:737:d2e8:d644 with SMTP id
+ ada2fe7eead31-744e01af814mr5812204137.20.1783677907869; Fri, 10 Jul 2026
+ 03:05:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v5 4/6] mm/zswap: Implement proactive writeback
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org,
- shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com,
- nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev,
- roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
-References: <20260629112032.20423-1-jiahao.kernel@gmail.com>
- <20260629112032.20423-5-jiahao.kernel@gmail.com>
- <akMJ8UfeZXrVe5LN@google.com>
- <cbbdf506-b67d-193c-2c94-bacf828d559f@gmail.com>
- <CAO9r8zNCEis2QHROEsM5QZsb_H4ofNjA_sE-pM7SVxtgHg_rqg@mail.gmail.com>
- <4ec2bd64-af40-8ebf-b8a8-2dd7421a1100@gmail.com>
- <5ce4035b-7f56-d1d2-2d2a-668446d870e8@gmail.com>
- <CAO9r8zOLe5eJfNmoszCX3rtD=6YEa_7xrvDV1acVDOtZg4vWYA@mail.gmail.com>
- <bf14cfe5-e98e-c20a-231e-37b3a2489040@gmail.com>
- <CAO9r8zNzRWxCvUok7FJTZZOp6pS9D-Qdrsbi10rLBn4QRhw81A@mail.gmail.com>
-From: Hao Jia <jiahao.kernel@gmail.com>
-In-Reply-To: <CAO9r8zNzRWxCvUok7FJTZZOp6pS9D-Qdrsbi10rLBn4QRhw81A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260709163833.3851179-1-sashal@kernel.org>
+In-Reply-To: <20260709163833.3851179-1-sashal@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 10 Jul 2026 12:04:56 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUCAX642tSJhvG_Ku6Y=D8GK3owbyed9qkhzPpgrU1kdg@mail.gmail.com>
+X-Gm-Features: AUfX_mzFVzbeb8aPhbmCJAceFXYQjpxJuPF0DPyyv44pDz5k7_z7ZhaQ8shBBRI
+Message-ID: <CAMuHMdUCAX642tSJhvG_Ku6Y=D8GK3owbyed9qkhzPpgrU1kdg@mail.gmail.com>
+Subject: Re: [PATCH v7 0/4] kallsyms: embed source file:line info in kernel
+ stack traces
+To: Sasha Levin <sashal@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Richard Weinberger <richard@nod.at>, Juergen Gross <jgross@suse.com>, 
+	James Bottomley <James.Bottomley@hansenpartnership.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@kernel.org>, Greg KH <gregkh@linuxfoundation.org>, 
+	Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Kees Cook <kees@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Thorsten Leemhuis <linux@leemhuis.info>, 
+	Vlastimil Babka <vbabka@kernel.org>, Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Vivian Wang <wangruikang@iscas.ac.cn>, 
+	Zhen Lei <thunder.leizhen@huawei.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-modules@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Sasha,
 
+On Thu, 9 Jul 2026 at 18:38, Sasha Levin <sashal@kernel.org> wrote:
+> Changes since v6
+> ================
+>
+> - Address Sashiko AI review comments.
 
-On 2026/7/10 04:44, Yosry Ahmed wrote:
-> On Wed, Jul 8, 2026 at 7:15 AM Hao Jia <jiahao.kernel@gmail.com> wrote:
->>
->>
->>
->> On 2026/7/7 03:33, Yosry Ahmed wrote:
->>> On Thu, Jul 2, 2026 at 5:32 AM Hao Jia <jiahao.kernel@gmail.com> wrote:
->>>>
->>>>
->>>>
->>>> On 2026/7/1 19:45, Hao Jia wrote:
->>>>>
->>>>>
->>>>> On 2026/7/1 00:10, Yosry Ahmed wrote:
->>>>>>>> Before going through more versions we need to figure out if this will
->>>>>>>> pivot to be a proactive demotion interfcae for swap tiering.
->>>>>>>>
->>>>>>>
->>>>>>> Yes. Should I drop patches 4-6 in the next version and wait for swap
->>>>>>> tiering to be finalized?
->>>>>>> We can try to get the non-memcg parts (patches 1-3) merged upstream
->>>>>>> first. This would also give them plenty of time to bake and catch any
->>>>>>> potential regressions. Thoughts?
->>>>>>
->>>>>> Patches 1-2 can be sent and merged separately, yes. For patch 2,
->>>>>> please include some numbers for the writeback performance before and
->>>>>> after batching.
->>>>>
->>>>> I'd love to collect some performance data. Do you have any recommended
->>>>> benchmarks for this?
->>>>>
->>>>
->>>> Perhaps the following test case could work?
->>>>
->>>> Test Setup:
->>>> - Total memory: 32 GB
->>>> - zswap settings: max_pool_percent=1, accept_threshold_percent=50,
->>>> shrinker_enabled=N
->>>> - cgroup constraint: memory.max=1G
->>>> - Workload: Run the following stress-ng command inside the cgroup for
->>>> 120s to
->>>>      continuously force zswap store failures and trigger shrink_worker():
->>>>
->>>>      bash -c 'echo $$ > /sys/fs/cgroup/zswaptest/cgroup.procs ; \
->>>>      exec stress-ng --vm 4 --vm-bytes 4G --vm-keep --vm-method rand-set -t
->>>> 120s -q'
->>>>
->>>> The following comparison results were collected over multiple runs via
->>>> bpftrace
->>>> and the 'written_back_pages' sysfs interface:
->>>>
->>>>                             Baseline         Patched
->>>> ---------------------------------------------------
->>>> shrink_worker wakeups       5,587             878
->>>> shrink_memcg calls      7,823,853       2,347,320
->>>> written_back                  257         781,214
->>>>
->>>> Conclusion:
->>>> Under the same workload and duration, the patched kernel shows a
->>>> significant reduction
->>>> in both shrink_worker wakeups and shrink_memcg calls, while successfully
->>>> executing a
->>>> much higher volume of page writebacks.
->>>
->>> Hmm this is actually a bit concerning. Yes, we are invoking the
->>> shrinker less, but we're writing back *a lot* more memory, orders of
->>> magnitude more. We are using a batch size of 64, and making ~1/3 of
->>> the calls to shrink_memcg(), so the number of written back pages
->>> should be ~20x more, not 3000x more? I think I am missing something.
->>>
->>> Also, ideally, the batching wouldn't result in significantly more
->>> writeback, but a similar amount of writeback over less shrinker
->>> invocations. If we are writing back significantly more pages then the
->>> batching logic is probably too aggressive?
->>
->> Apologies, I think the test I constructed has a bit of a problem. This
->> test has very, very heavy memory pressure and is already a very abnormal
->> case.
->>
->> The zswap entry returns the first time because of "second chance" after
->> setting referenced to false. For the baseline, it scans 1 page per node
->> each time for 16 loops. During the test, shrink_worker() basically exits
->> at about 16 pages each time.
->>
->> Since stress-ng periodically and randomly writes to this 4G memory, it
->> keeps triggering zswapin and then waiting to zswapout new zswap entries
->> after falling below the pool threshold. When the speed of zswapin/out is
->> far greater than the scanning speed of shrink_worker(), a large number
->> of zswap entries cannot wait until the second scan for writeback. New
->> entries are stored on the zswap LRU list again, and the referenced of
->> the new zswap entries is set to true again. During the test, it was
->> found that 99.21% of the return values of shrink_memcg_cb() in the
->> baseline kernel were LRU_ROTATE.
-> 
-> Hmm if I understand correctly, you are saying that the current
-> upstream code is actually failing to writeback when it should in the
-> previous test case with very high memory pressure, but it is with
-> batching? If that's the case, I think it's actually really good data
-> to include. However, we should make sure that's what's actually
-> happening. If the current shrinker is not keeping up and failing to
-> writeback, we should observe:
-> 1. shrink_worker() hitting MAX_RECLAIM_RETRIES continuously and bailing.
-> 2. zswap usage consistently remains at/near the limit, and not going
-> down to the acceptance threshold.
-> 3. zswap_store() failing to accept pages and the pages going directly
-> to disk, causing an LRU inversion (hotter pages on disk, colder pages
-> in zswap).
-> 
-> Can you confirm that this is what's observed with the high pressure test case?
-> 
+What does that mean?
+Please list the changes, so reviewers know what to look at.
+Thanks!
 
-Apologies, my previous explanation might not have been very clear.
+Gr{oetje,eeting}s,
 
-For an entry to be written back, the shrinker must scan the *same* entry 
-twice: the first scan sets referenced to false and returns ROTATE, and 
-only during the second scan can it be written back.
+                        Geert
 
-If a swap entry is zswapin'd between the first and second scan (meaning 
-the entry is no longer on the zswap LRU), then this swap entry will not 
-be written back by the shrinker. Therefore, the second scan must occur 
-before this entry is zswapin'd for it to be possible to be written back.
-So, if the baseline scanning speed is far slower than the lifecycle 
-speed of the swap entries, it results in only scanning once. In the 
-baseline kernel, 99.21% of the return values of shrink_memcg_cb() are 
-LRU_ROTATE, while the patched kernel's shrink_worker() scans at least 64 
-* 16 entries in a single pass, resulting in only 58.7% of the return 
-values of shrink_memcg_cb() being LRU_ROTATE.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-              Baseline         Patched
----------------------------------------------------
-zswapin       929,096          281,196   <----
-zswapout      982,731        1,058,746
-
-After modifying the kernel to remove the "second chance" algorithm, the 
-test data of the baseline kernel roughly conforms to our expectations.
-
-Therefore, the constructed test has a bit of a problem. The second test 
-case in my previous email can ensure that the entries on the zswap LRU 
-are relatively stable.
-
-
-
-It is worth noting that the capacity of the zswap pool will not remain 
-constant all the time. Since stress-ng periodically writes to and reads 
-from this 4G memory, accessing the pages in the zswap pool will trigger 
-zswapin, causing the zswap pool size to decrease. Other pages attempting 
-to zswapout into zswap via zswap_store() will fail (until the zswap pool 
-size becomes 160M (accept_threshold_percent=50)), but the zswap_store() 
-path will wake up shrink_worker() to try to perform scanning and 
-writeback. Then stress-ng will continue to read and write memory, 
-continuously triggering zswapin to further reduce the zswap pool size 
-until the threshold, at which point shrink_memcg() will also stop. Then, 
-new zswap entries (with referenced as true) are added to the zswap LRU 
-again via zswap_store(), until the zswap pool size reaches 320MB (32 GB 
-(Total memory) * 1%). This process repeats continuously during the test.
-
-Thanks,
-Hao
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
