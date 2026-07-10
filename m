@@ -1,132 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-2-39.ptr.blmpb.com (va-2-39.ptr.blmpb.com [209.127.231.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2C8223328;
-	Fri, 10 Jul 2026 02:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB027282F14
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 02:24:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783649817; cv=none; b=CJhleytvv8rp9c2mpsg55ANaMDWbOEDU3fPaK9xbA9PBX8senVcxID7bdUKuyla3k3+BsbGltoVlB0e6DxV1fErSUBGHe2cy5tVW7lEO61Rn8sBUqnoY+PZQcX0GLoxvWnxFcLbFL8RkrFXyhoBWe8WUQE3P/PsHad/SN5TyS+8=
+	t=1783650268; cv=none; b=DBjfP5+D7Zrf5p5HC8aA8DJgI/7xEmlTdAtEi/gn7iQi6cdNLXOz/Ef8v6cKVu+ZUAHw/Ohr9bTAVmTPFE47jpsdAiZ28zLzlTqSqZa6NkUGp17JKspSvIftU5F0CStK4FsiU9zXsaCEiAckpPSxeNZUcS2PfCSHKuqZIrwPyTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783649817; c=relaxed/simple;
-	bh=D/dN7LGqtP9647f0RQhBpO302dnD/skTciVXeHx//Uc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bMIlMP52FctXDcobf+V5mRfvVsOuhDIyElQgEIMni//rp2zezyjH2ZUkSOSljck30x5gWJ4nQg1pk8XnoMQXLY/Mz/fAs+a6uGr3cQq+baaMVSn+HgRysQVTCn2b2DrX6yoy/WpG7RGoogWAEz1zsc20SRTGZyEd/SQLUlpD/jI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d6O8wvXV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783650268; c=relaxed/simple;
+	bh=K5Jmk4MLismimT91XqVIyzZsrXHM0gd702jDILnLGME=;
+	h=Subject:References:Content-Type:In-Reply-To:To:Cc:Date:Message-Id:
+	 From:Mime-Version; b=Vheg7c5/JB0q3VoG03jEFk9giJFX3o2LuhtMgz5N2g29Df9gVJR2wD/lKGFs5KgaFszW0F7XuEoapDYaCR6HzwA8iLBF95O7x7uQgWP/sEcQlNGR8Btbd2+cbp5Aax5kP3NbDhOUThLJXWrFuTqovCaWZJK8fmBO9NO6am8050I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openatom.club; spf=pass smtp.mailfrom=openatom.club; dkim=pass (2048-bit key) header.d=openatom-club.20200927.dkim.feishu.cn header.i=@openatom-club.20200927.dkim.feishu.cn header.b=n9vJCuDN; arc=none smtp.client-ip=209.127.231.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openatom.club
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=openatom.club
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d6O8wvXV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D3DA1F000E9;
-	Fri, 10 Jul 2026 02:16:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783649815;
-	bh=IGrOD0HuFaYY0Hyc+KEXUarnR1BmY8m/LQ1T4cO+tPg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=d6O8wvXVU7uKNVVmrYKrHopvGZb29W5jTvjU/HPyWEOPtx3icE6BVSG+S6rGWofdj
-	 qqj2l2Z8KXUHmaOAEZeQbD34Vd76o3npxQSmOBdk4/gyNbn8gJDhqdlxyq33xYodAY
-	 Hhf6IQKcs/964iHDVlNj71ONwyZNfHv/nViRpHftfNCDDuUFBO8bxGZ1hzEmIf+DGv
-	 84NBASMFkZ4yjHhxjOT1UVT47NgL/NxBlFSjgVO/RYdgGdptaFMAP7yq8tTcgDenp3
-	 mNwLZ3Qgr8wLe7BB5hj2fQHTTXZ8AWehSk3lZmT+rzWpth8ds5QFcRa2Fs3vpDb1jZ
-	 DwWEQ0r7yzrYg==
-Date: Fri, 10 Jul 2026 03:16:49 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Olivier
- Moysan <olivier.moysan@foss.st.com>, Philipp Zabel
- <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>, Bartosz
- Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, <linux@analog.com>,
- <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <jananisunil.dev@gmail.com>
-Subject: Re: [PATCH 6/6] Documentation: iio: Add AD7768 Documentation
-Message-ID: <20260710031649.48311368@jic23-huawei>
-In-Reply-To: <20260709-ad7768-driver-v1-6-44e1194fd96a@analog.com>
-References: <20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com>
-	<20260709-ad7768-driver-v1-6-44e1194fd96a@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=openatom-club.20200927.dkim.feishu.cn header.i=@openatom-club.20200927.dkim.feishu.cn header.b="n9vJCuDN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=openatom-club.20200927.dkim.feishu.cn; t=1783650255;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=K5Jmk4MLismimT91XqVIyzZsrXHM0gd702jDILnLGME=;
+ b=n9vJCuDNsNjiae3orJhTtmtXHKAV3OPxYRC61ehp/Jtkw5GZJRbpC3lgukh/Q6AKiSsFYb
+ h8RpQUjvZ/63Z9UhkHlsYQdDDF0lSgH/hoGIn8O3POmkvs51Nd5eV0G6vf1bOeoZKiKolq
+ i3PVdR9/7eei1uF1Oq3YSg4pfZFNngGpkwEsx0dRCzSsUoE2CGwSdvtibuzAQSOwytoQ6D
+ WtnML4VUaJz6doH/HKQ/5sdCroWkTizJiacc0349ahpDKRzxA7gu/q0mAm9Dl+zuH8trUS
+ faRvVEWQmFOpiI/remz1ZAg4aUYGn8DABmceikyJj8fO3zILOJA9b7u8zw0Y3A==
+Subject: Re: [PATCH 2/4] docs/zh_CN: Update rust/general-information.rst translation
+References: <cover.1783480076.git.ben.guo@openatom.club> <9104e9b6a59f06ec514010e61aa240c343bead2a.1783480076.git.ben.guo@openatom.club> <DJT65VLXQ3HI.1D3T4VTAWU4XA@garyguo.net>
+X-Lms-Return-Path: <lba+26a5057cd+c3f5ba+vger.kernel.org+ben.guo@openatom.club>
+User-Agent: Mozilla Thunderbird
+Content-Type: text/plain; charset=UTF-8
+Received: from [198.18.0.1] ([58.35.126.19]) by smtp.feishu.cn with ESMTPS; Fri, 10 Jul 2026 10:24:11 +0800
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <DJT65VLXQ3HI.1D3T4VTAWU4XA@garyguo.net>
+To: "Gary Guo" <gary@garyguo.net>, "Alex Shi" <alexs@kernel.org>, 
+	"Yanteng Si" <si.yanteng@linux.dev>, "Dongliang Mu" <dzm91@hust.edu.cn>, 
+	"Jonathan Corbet" <corbet@lwn.net>
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<rust-for-linux@vger.kernel.org>, 
+	<hust-os-kernel-patches@googlegroups.com>
+Date: Fri, 10 Jul 2026 10:24:06 +0800
+Message-Id: <2f9675be-b541-4137-9e71-0f5a6f488408@openatom.club>
+Autocrypt: addr=ben.guo@openatom.club; keydata= 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
+From: "Ben Guo" <ben.guo@openatom.club>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Original-From: Ben Guo <ben.guo@openatom.club>
 
-On Thu, 9 Jul 2026 10:50:17 +0200
-Janani Sunil <janani.sunil@analog.com> wrote:
+On 7/8/26 7:56 PM, Gary Guo wrote:
+> sound should be translated to "=E5=8F=AF=E9=9D=A0".
+>=20
+> Best,
+> Gary
+Hi Gary,
 
-> Add driver documentation for AD7768
-> 
-> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-> ---
->  Documentation/iio/ad7768.rst | 207 +++++++++++++++++++++++++++++++++++++++++++
->  Documentation/iio/index.rst  |   1 +
->  MAINTAINERS                  |   1 +
->  3 files changed, 209 insertions(+)
-> 
-> diff --git a/Documentation/iio/ad7768.rst b/Documentation/iio/ad7768.rst
-> new file mode 100644
-> index 000000000000..438e33d4f375
-> --- /dev/null
-> +++ b/Documentation/iio/ad7768.rst
-> @@ -0,0 +1,207 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +=============
-> +AD7768 driver
-> +=============
-> +
-> +ADC driver for Analog Devices Inc. AD7768 and AD7768-4 devices. The module name
-> +is ``ad7768``.
-> +
-> +Supported devices
-> +=================
-> +
-> +The following chips are supported by this driver:
-> +
-> +* `AD7768 <https://www.analog.com/en/products/ad7768.html>`_ - 8-channel, 24-bit simultaneous sampling ADC
-> +* `AD7768-4 <https://www.analog.com/en/products/ad7768-4.html>`_ - 4-channel, 24-bit simultaneous sampling ADC
+Thanks for the review.
 
-Too long. Wrap those.  In general keep to 80 chars for docs
-unless you are breaking up some thing greppable like a file name.
+I'll update it in v2.
 
-
-> +
-> +Supported features
-> +==================
-> +
-> +Power modes
-> +-----------
-> +
-> +The AD7768 family supports three configurable power and performance modes:
-> +
-> +* **Low power mode** - Optimized for lowest power consumption
-> +* **Median mode** - Balanced power and performance
-> +* **Fast mode** - Highest performance with maximum sampling rates
-> +
-> +The power mode affects the available sampling frequencies and power consumption.
-> +Set via the ``adi,power-mode`` device tree property.
-
-Control it from the sampling frequency probably as David suggested.
-
-> +
-> +Per-channel calibration
-> +-----------------------
-> +
-> ++---------------------------------------+--------------------------------------------------------------+
-> +| Attribute                             | Description                                                  |
-> ++=======================================+==============================================================+
-> +| ``in_voltage<N>_calibbias``           | Channel offset calibration value                             |
-> ++---------------------------------------+--------------------------------------------------------------+
-> +| ``in_voltage<N>_calibscale``          | Channel gain calibration value                               |
-> ++---------------------------------------+--------------------------------------------------------------+
-> +| ``in_voltage<N>_phase``               | Channel phase calibration value.                             |
-Be consistent on .
-
-Also does this mean the phase offset is a tweak, or do we know the scaling?
-
-> ++---------------------------------------+--------------------------------------------------------------+
-> +
+Thanks,
+Ben
