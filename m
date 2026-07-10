@@ -1,231 +1,182 @@
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FAF13E1713
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 07:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783670388; cv=pass; b=oJKOeWHzfME8c/36IaRD9wbJH8aKqNgPXsOkU/GGAhQCDVu0R6aNU7ltqti1qiV/SPKAzcn/OH0WGegyM5b8iwtNQ9Y3IpcI0HCAl/PC/WFaVrUnEOonisqQYhQ9WHDoiW9rx3GwXyQ76nf8AARQ0G4jDRTb2aOEHVamm3rP+Rc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783670388; c=relaxed/simple;
-	bh=VOWM6CrABsSE1ZgAmtTX+wv+twEBAQ/PjFUZeWerkIA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tb2ONGS4pjjAyGf6nDA8JomZpCaBxFI4hAsGN75gLEIg8RmOX7GjHGmfkNUqq1c6HLCrxmV9i9cl9ncs1qyOXAEQDAhDUxCcTAMMkbvOq8h63j+C/M66ZVFDDkkyqQoNHt9joIr91DiT8x0KGLxSjT/3deRR8MR196Xh3x9JbZA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iIANNGyd; arc=pass smtp.client-ip=74.125.224.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743583DE424
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 08:02:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783670533; cv=none; b=W4QdWi+xmyzQL1A+j77Q04SE5EqByHb2/oTsZkUEnp1B2Xbce/Nfd48M5mfDZ17wSLlv9sf7gAEsDG0S4T1gHG5v0YFsUxuAhg4o2T+s5iiuAjYze1hGULZ504/vbEVO3s1qpftORF9Z/7IfASaeddLRHciU78Pzd1LN4a+iV/c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783670533; c=relaxed/simple;
+	bh=s/wTkh6VxtbX/sDC0CijC4ncQbmEF5imof1tuQCO9bI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=SWYJIExbDNT6D3Ro1U3PxYNL10s9+GjcZbZWMxX/EPyuhsnDR0hcEXmzG5/60YxxWrEUGsJOXMyKH3ZM8DXEEkDCNGbmXBGTjEbuLDwmTe754hRxrnViju8otqY2NW0zYLftCL6q2ZJ0V22bnyPllkQfkE3A+oFJxbT5sd+Lwt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H6y/9RHU; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=PTWsO+UZ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iIANNGyd"
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-667971437d6so879694d50.2
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 00:59:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783670386; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RSPhkTllW2TQMvgpIRsFmlEyfhuqtLJCH4afu7frP1xu71MkwXEQD+6BDdLekRbpeS
-         kzq3QNH+6Hfj/qfUvB/Tf6meRemtjZZSCPbsXEOPH0v6X+x3bMbI2sOR8/V6jFBvPy62
-         BaGyvOZNdN7p7167ts6a4ki+Z4B3gTPKvLwttmFWft31b8klPFDyRIFsLgiPO0RqOM21
-         0daPakSzosygnO9CW7cIg+v8hTtB2R2VARy7GxZ4dU0IMmReUGGgSro3FNwXeYpx8Brl
-         MPiENu2c1LcZ3QzB6eyIBCvuIm5v09R8c5uie69Q9IfsQTVB0qYYlMZSF3OpEM1tnb04
-         cJJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=VOWM6CrABsSE1ZgAmtTX+wv+twEBAQ/PjFUZeWerkIA=;
-        fh=9wPTKKmy/LWwH740OXVKPlEUhvd/v5BRtBspjYwXK08=;
-        b=jmy9eNZ8R3klIHDm/E1Osn9+akhjE+hbfD3QJrOh2jT9gWyBcsIyBOVJXxr34kesyI
-         21Bd0P9C+r6aTuDRXAy4CJFQCpgf/sepf2u/7jVRbu8yY73qUGuppHdGKWO/yYysFncC
-         Awg2/3hcr/aR0p7s+HQOeiClSMUbnCRIE4hHRcU16wXal2JTYwz7mZ1kBcpYgsGRiSiU
-         RTDIXApX0O3wBeKHWVdwTHS6WSCYpqLpBxilThcO4eE5N+hGiLeQFgNTvZh2A2vSxrhZ
-         gaPzhHsMf/3AOk+hE90pfjBOIRyl5YqsAlQb1mmz7e3WegtM6OfGcmusY+DRWBknXoGF
-         1laQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H6y/9RHU";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="PTWsO+UZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1783670530;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s/wTkh6VxtbX/sDC0CijC4ncQbmEF5imof1tuQCO9bI=;
+	b=H6y/9RHUayGNFj8XJpyIK1j/+37BGyvlLfsS9r57ZfzTFIyqP0UVSvh8vVBdzcFe4UGwID
+	5WO/6VsiCxVijrngsWEaWR/A71I4/4OW4Dl5dINw0cHUyZWv3avgbEP12cZ+7Nrfkzv0PR
+	WkRwlFlcB5hA4X/8zbLLbKrYpHMJu+E=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-394-p7KuIClzNJCGyZL79xIGqg-1; Fri, 10 Jul 2026 04:02:09 -0400
+X-MC-Unique: p7KuIClzNJCGyZL79xIGqg-1
+X-Mimecast-MFC-AGG-ID: p7KuIClzNJCGyZL79xIGqg_1783670528
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-c15e555a164so72214766b.1
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 01:02:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1783670386; x=1784275186; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=VOWM6CrABsSE1ZgAmtTX+wv+twEBAQ/PjFUZeWerkIA=;
-        b=iIANNGydPn9B6IsfEs3bw1zmDrsBzGJRxv4Qp9w95AnzrFspRgMY5qTSS4yvvqTJ4s
-         cWZq+Cl74kFRxy7zjUzLw2pqHb0f225cwuSNSD0XULtMblY3EzgCis+4eHIfex7t9zET
-         EE8L9siQzkxFU8M6vwk16zzgra2C9bUmvaUAjOS3/YlBQwvrqgkEYmHuVH5sObAWOOGZ
-         4OM4dZwtZbt9kJmveq8sLteLyQam6z/ViGH/lSixmZAFw6JBKTkkwSzltwBqiAdmrrbi
-         AmYBYWS6VQ+tyKNOqBaqIckPsuFYzYqfMrvkjlQbMlIXNTAcitNand7MEJYBCzY5ccBK
-         aXhA==
+        d=redhat.com; s=google; t=1783670528; x=1784275328; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=s/wTkh6VxtbX/sDC0CijC4ncQbmEF5imof1tuQCO9bI=;
+        b=PTWsO+UZtBo/iKKtOh5LqDMRSB5xkCvtjgDbatwnzSTwYAPtyb9FSP2r/GXNaNHd3x
+         Ubo7eyDqlp4DKZfdr130npFmmLHXZT3lz1vHi+BaB9ffPfMlO7YjfRtIrhq8cI9sWyHE
+         IN74R6K5t2fEgOkB4xfheYVOCTFXSHrkeLQIlUnselYxd7SzmpFkhEidH1D8JAKOck4/
+         pP55ZR+dzL4P82pQiG9fmBL2oyO2IiqV/FmjAetwJoLWxk90EP/aODpgQN1nWuHwXJdH
+         t4Q4788ZUH1QNWutFPEMbZ+9Jt+p4IYJDlbpyALgmdRZ8VwIVoCxPXhWOWPfkgbZ3RaN
+         VnGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783670386; x=1784275186;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1783670528; x=1784275328;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=VOWM6CrABsSE1ZgAmtTX+wv+twEBAQ/PjFUZeWerkIA=;
-        b=V4lxaF++XAZqShCHBJt44l6JBrJo1W9KNbEjiC0gx77PyitgeCqa+dJqRWvgzrSelJ
-         VhEfW/hEQAPOLbNNgBMy6VAGJHo04lwUPIpWgP914gr6NPUpwSasZohsg2CiRSjgO1G4
-         afHNBmt9gA72i/ajg8zKXXRamKiXCPc50X5iXudA590POToHyyChFBPxAShA5FNh+DqI
-         Y0GsRyvpwQp2WqGVk15ZhoAy5r3YycXBMN4L2grZ/kuLLzc1x25k4adhigZN56o+k0K/
-         zlaZyBmImipMxtx0W3sgbxUEQgrvhmDKqfMOknnoQXkEAq7K+k9I4H80FQkaQIenwZXD
-         cbBA==
-X-Forwarded-Encrypted: i=1; AHgh+RrxrNvWOPldRySPExnrpYt60pg6oGQB9xmHJ/tExGiz1ZNnXcdJYrxLJ2pujhyA09oTF49xYOui6EU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwC6sU9I9UOCU7iCwYLDPfB3V+pOaKvr3vRu5EKXXskdUdaIB2H
-	giuTKEWgS1F+qmcMon1c1jaWdKIGIq3lPkLGWnsBMFUzbWIG6PLxFHGZaOMYF3ITupDeNg6x253
-	T6xrZ2xLQzOrVsBgIerDXWLjH40YT70UdTKTaMxGK48R3QkoR4h8sztk=
-X-Gm-Gg: AfdE7ckC9E3thUZHz1qLA5Fn6uoeyrF90o/yqoI2iXTKhaFDj0AHC8tpkc+yOELSPEA
-	EJJxY+Y3JAn5NsuhxuB0s23K3DrxKsoBY6Ho/RrgxLE/+jgV7plPtIVeCP6CB3HxdVl2ZLsJXF+
-	927ozXgC9BJm7ZVmXDiWObsNfHAXbBuQq80NeXQmlUJcJ6W9KN0ZmMotasyYTBl7EYWkLQm2Ulc
-	RUq93uP4Dz0vTDNrh2igEhZwyMelQOoUUGJuMJiX+0Cu5XvvvtmqLGYeVEZb8Kbq10XcDntiiFS
-	Nj9N8Kre7rawuaQ8O3COuwO8QiY2Y8AbzeNTwUWY/JV77JspLczGfEt+34ZA0RjUcblVkH0hx6/
-	nFw6I6tCAO6v6n0xSNK6DeI0nbMnY0BCVl7FkRsIpg0nL5o09qcvh/8DzSeHh+YF+vcpZtsq4z5
-	qafLzcIZn5yXBoLpJdar1CB9Ib9VeU7h8EIT+Z/JoJjNMKFSHGIcNAs64Deikh3DHEBjfwZaoaV
-	dOsLQdZ09PoiLW0bWB+HOAlmBhConGDTEqxtmbGvMAvpdeXhAned89blB9o2vrs+8t/XlDOVu3K
-	xdeBt8JFyGgiFnoiXATujYqB3mFTF+NkVLFN6heGZlHZMMrPvU5R5rvnYeBVoXAvExRcSdE=
-X-Received: by 2002:a05:690e:43d4:b0:664:99a3:34a7 with SMTP id
- 956f58d0204a3-6679f1ac64amr4926164d50.60.1783670032531; Fri, 10 Jul 2026
- 00:53:52 -0700 (PDT)
+        bh=s/wTkh6VxtbX/sDC0CijC4ncQbmEF5imof1tuQCO9bI=;
+        b=PewmD6EO60TtTf3tZINEawEgXUZhA4SL2IMJJkfx+Nlai0ZW9XjmLaaT/tvfmw4GYC
+         OmPj7CKhleLqm+nDuaxSU7tJiMeRB6mLGYGqKxymmG9I7/moH55+an89zZIRkLxUwZey
+         2OU1MCzlkh0w5Wncs14860taD6IrmRk5YX77He03gKesSEBeACDjNpBYoNXdXONzzocs
+         in9Pq+t8sTiroZYGDe7BujGHdxshsjosX8wfd5pKEZvJsC3NSznbn+Q0wVTLaW+oiOiY
+         RdJWQmzfSTR6qP5Wds5Co8j+54Xj3evFn2wEm6PjyPl7VnyLmMW+rX2VZMPImlF1YMuM
+         g08Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rrzljr2EzNF05anDF5Um9pDAOsSNfBD70n4AC0rWZwFa7R4pDGIGnY8dJMoOpYwfhSvCwj10qceatc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAHL7a0Lv8rUx7bQRXI6YDE9mtYl0bWdWti0Iu1kyHKYAtPkWA
+	BFjUU2l5vpGx6YZ29t0wJDhkW7gTAVwGy7U8yKmAil/6M9wEviHNGy+bM0b7+oVdxS2P+vIW3XN
+	yveNbFwZAxvue93yNY/cH+Wou4nQY1JYVMrwvz5N/CzhZjxj+tHQfnrNgS0rLMQ==
+X-Gm-Gg: AfdE7cksiReG58cCMaHiOmcVgUyAFoxqMxEQUk3YryIybWkJJSbPzzB96d6YRGWKJRw
+	aBO1iULfhCYCa/lF9z3JQ1phPoAvkYGhmVfxibYHOWi9eyjoxpOhoetJA8KO2P7GaV5x5qt37U3
+	X7YzeiJbChb4xArFYE8kfjTiSDIEySNYdQOep6B611RD8eM2AHEnUhuN5Ik5X34ZQnnQroaRxZ2
+	dfx6ymN4kssppYErx9TVCSRblV8JejdLw4rpgM+S5fLmibOIFQHaHEOqMy69EzptkDEIyLF9kUV
+	eMT2nDIBCvfOiu3Myl0/mSvMSfxx69E7vc/OUgW+Qj5mXcstuphqZ5YZMim1+Yldw9fSt3s7fMi
+	CRf9FIYEyHZquaXxyxC7xwg6CNVZbX2rhnx1E2Ww0IMBKcokKns/7PcETNNln
+X-Received: by 2002:a17:907:d50c:b0:c15:d08a:2cb1 with SMTP id a640c23a62f3a-c15fe271f91mr103709666b.0.1783670527676;
+        Fri, 10 Jul 2026 01:02:07 -0700 (PDT)
+X-Received: by 2002:a17:907:d50c:b0:c15:d08a:2cb1 with SMTP id a640c23a62f3a-c15fe271f91mr103708166b.0.1783670527209;
+        Fri, 10 Jul 2026 01:02:07 -0700 (PDT)
+Received: from ?IPv6:2a01:41e1:62d2:1700:b0c7:4985:769b:d2d? ([2a01:41e1:62d2:1700:b0c7:4985:769b:d2d])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69a19ce4ad4sm10624182a12.12.2026.07.10.01.02.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jul 2026 01:02:06 -0700 (PDT)
+Message-ID: <fcc4455b1272433bd04ea1f774b5ecd180823795.camel@redhat.com>
+Subject: Re: [PATCH 0/4] KVM: x86: Document and enforce APIC base memory hole
+From: Tim Wiederhake <twiederh@redhat.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>,  "H. Peter Anvin"	 <hpa@zytor.com>, Ingo
+ Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  Paolo Bonzini <pbonzini@redhat.com>, Shuah
+ Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
+	x86@kernel.org
+Date: Fri, 10 Jul 2026 10:02:06 +0200
+In-Reply-To: <ak_cqiwZwNBEhRNj@google.com>
+References: <20260706092021.3625908-2-twiederh@redhat.com>
+	 <akwrncCjosItvAeO@google.com>
+	 <bceedaf195adf713db70a1dba743055fe4f20bc0.camel@redhat.com>
+	 <ak5TojZfR04SWWd-@google.com>
+	 <8b35057f72cd281637cf9d4bcbe1d0d753a3710e.camel@redhat.com>
+	 <ak_cqiwZwNBEhRNj@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260701091226.7SWW4TrT@linutronix.de> <CAC_iWj+xDErhPeKGtsLK=nvPB7P8cQE3g9XCkaWf-d_j85FxCQ@mail.gmail.com>
- <20260710073147.XJAJbIwc@linutronix.de>
-In-Reply-To: <20260710073147.XJAJbIwc@linutronix.de>
-From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Date: Fri, 10 Jul 2026 10:53:16 +0300
-X-Gm-Features: AVVi8CfEoTWISJnCnc9-eLJA2a3H9SubdRhk1-OoqodnM6Xg_e0TDYWFCpSokGU
-Message-ID: <CAC_iWjLO3CAAFXE3s15Xcy3pWFK3ge5sWYmHHRBtcccKM2e1hw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: Extend the real-time hardware bits with
- some firmware bits
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: "jenswi@kernel.org" <jenswi@kernel.org>, linux-rt-devel@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-efi@vger.kernel.org, 
-	op-tee@lists.trustedfirmware.org, Ard Biesheuvel <ardb@kernel.org>, 
-	Clark Williams <clrkwllms@kernel.org>, Jan Kiszka <jan.kiszka@siemens.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, John Ogness <john.ogness@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, 10 Jul 2026 at 10:31, Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> On 2026-07-10 09:29:55 [+0300], Ilias Apalodimas wrote:
-> > Hi Sebastian!
-> Hi Ilias,
->
-> > > +++ b/Documentation/core-api/real-time/hardware.rst
-> > > @@ -130,3 +130,95 @@ https://github.com/Linutronix/RTC-Testbench.
-> >
-> > [...]
-> >
-> > > +
-> > > +OP-TEE (ARM)
-> > > +~~~~~~~~~~~~
-> >
-> > That's RISC-V as well nowadays
->
-> I did not find much here. Their architecture isn't the same as on ARM is
-> it? But the overall concept is the same, right?
+On Thu, 2026-07-09 at 10:38 -0700, Sean Christopherson wrote:
+> On Wed, Jul 08, 2026, Tim Wiederhake wrote:
+> > On Wed, 2026-07-08 at 06:41 -0700, Sean Christopherson wrote:
+> > > On Wed, Jul 08, 2026, Tim Wiederhake wrote:
+> > > > On Mon, 2026-07-06 at 15:26 -0700, Sean Christopherson wrote:
+> > > > > On Mon, Jul 06, 2026, Tim Wiederhake wrote:
+> > > > > > When an in-kernel irqchip is enabled on x86, KVM installs a
+> > > > > > private
+> > > > > > memory slot at the default APIC base address (0xfee00000)
+> > > > > > during vcpu
+> > > > > > creation.=C2=A0 If user space has already mapped a memory regio=
+n
+> > > > > > covering
+> > > > > > that address, vcpu creation fails with -EEXIST.=C2=A0 The same
+> > > > > > happens in
+> > > > > > reverse: mapping memory over the APIC base after vcpu
+> > > > > > creation also
+> > > > > > fails with -EEXIST.
+> > > > > >=20
+> > > > > > None of this is documented, and the error is reported far
+> > > > > > from where
+> > > > > > the actual conflict is introduced.=C2=A0 A VMM developer hittin=
+g
+> > > > > > this has
+> > > > > > to trace through KVM internals to understand what went
+> > > > > > wrong.
+> > > > > I'm 100% in favor of documenting the behavior, but I'm not
+> > > > > exactly
+> > > > > excited about the enforcement.
+>=20
+> ...
+>=20
+> > > > FWIW, I did run into this exact issue myself and debugging it
+> > > > was
+> > >=20
+> > > What were you doing (or trying to do?) when you ran afoul of
+> > > this?=C2=A0 I ask
+> > > because maybe there's a way to help developers without impacting
+> > > KVM's
+> > > uABI.
+> >=20
+> > Experimenting, mostly with pmode code.=20
+>=20
+> "pmode" being Protected Mode?=C2=A0 Or something else?
+>=20
+Yes, Protected Mode.
 
-I haven't checked the IRQ vectors on risc-v, but I assume they have a
-similar logic since that's an OP-TEE design decision not a per
-architecture one.
+> > For simplicity, I use a single memory slot at 0x0. Due to an off-
+> > by-one
+> > error, I gave the VM only 2 GB instead of 4 GB as intended. When I
+> > fixed
+> > that, suddenly vcpu creation failed.
+>=20
+> Heh, fun.=C2=A0 I don't think there's a good answer here.=C2=A0 Or rather=
+, I
+> don't think
+> there's an answer that you'll find satisfying.=C2=A0 "Unintentionally"
+> creating a
+> memslot that overlaps the PCI hole and the RESET vector is always
+> going to end
+> in tears unless VMM and the guest are doing very special things.=C2=A0
+> I.e. not
+> covering up the local APIC base is so foundational that trying to
+> guard against
+> it in KVM isn't worthwhile, because such a goof is just the tip of
+> the iceberg.
 
->
-> > > +
-> > > +OP=E2=80=91TEE uses a global serialization mechanism (the "big lock"=
-), ensuring that on
-> > > +each core only one OP=E2=80=91TEE thread executes secure=E2=80=91wor=
-ld code at a time.
-> > > +
-> > > +Execution flows from the normal world (Linux) into the secure world =
-(OP=E2=80=91TEE)
-> > > +through the secure monitor at EL3. Linux and OP=E2=80=91TEE cannot d=
-isable or mask each
-> > > +other=E2=80=99s interrupts because both run at EL1 in different secu=
-rity states.
-> >
-> > That's not always true. It depends on a combination of OP-TEE and TF-A
-> > configs iirc.
-> > The most common though is that IRQs and FIQs are directly delivered to
-> > S-EL1, in which case OP-TEE can mask IRQs.
-> > There's also a difference between GICv2 and GICv3 in the way
-> > interrupts are delivered.
->
-> You are saying that OP-TEE can mask Linux' interrupts or if OP-TEE
-> instructs TF-A to do so (via config)?
+I noticed :). And I learned a lot from the experience, which made it
+worthwhile. But I'd love to make the experience less painful for the
+next person, hence v2 that puts up some warning signs in the docs:
+=20
+https://lore.kernel.org/kvm/20260708133856.302151-1-twiederh@redhat.com/
 
-OP-TEE can mask Linux IRQs
-
->
-> > > +
-> > > +Architecturally, the secure monitor can mask or reroute normal=E2=80=
-=91world interrupts
-> > > +before entering the secure world. In a correct OP=E2=80=91TEE/ TF=E2=
-=80=91A implementation, it
-> > > +does not do this for the duration of secure calls. Normal=E2=80=91wo=
-rld interrupts
-> > > +remain deliverable, and a normal=E2=80=91world IRQ will preempt OP=
-=E2=80=91TEE via EL3 and
-> > > +return control to Linux.
-> >
-> > The 'sane' case is indeed where IRQs are delivered to OP-TEE which
-> > exits back to Linux immediately.
-> >
-> > > +
-> > > +Secure=E2=80=91world interrupts (FIQs) are possible if the SoC route=
-s a device's
-> > > +interrupt as secure. Such a secure FIQ will preempt Linux immediatel=
-y, trap
-> > > +into EL3, and transfer control to OP=E2=80=91TEE's secure interrupt =
-handler. Linux
-> > > +cannot mask or preempt this. Secure FIQ handlers must therefore be e=
-xtremely
-> > > +short to avoid introducing noticeable latency.
-> >
-> > There are also 'fast SMCs', which run with IRQs disabled for their
-> > entire duration.
->
-> can their be distinguished somehow from normal SMC invocations or is
-> just a consequence that the secure monitor does not enable interrupts
-> during transition for some of the "functions"?
-
-They can be identified. There's a function identifier defined in the
-SMC calling conventions doc [0].
-Bit 31 is always 1 for fast calls and 0 for yielding.
-
->
-> > > +
-> > > +The transition from normal world -> secure monitor -> OP=E2=80=91TEE=
- and back introduces
-> > > +additional latency due to world switching and context save/ restore.=
- This
-> > > +overhead is typically a few microseconds and usually remains in the =
-noise
-> > > +floor.
-> >
-> > That's correct.
-> >
-> > > +
-> > > +If the secure monitor masks normal=E2=80=91world interrupts during O=
-P=E2=80=91TEE invocations,
-> > > +or if OP=E2=80=91TEE uses long=E2=80=91running secure FIQ handlers, =
-then OP=E2=80=91TEE can introduce
-> > > +measurable latency spikes.
-> > > --
-> > > 2.53.0
-> > >
-> >
-> > Overall I think this is worth documenting, but infortunately there's a
-> > wider range of configs and corner cases we have to describe.
->
-> Okay.
-
-[0] https://developer.arm.com/documentation/den0028/h/?lang=3Den
-
-Cheers
-/Ilias
->
-> > Cheers
-> > /Ilias
->
-> Sebastian
