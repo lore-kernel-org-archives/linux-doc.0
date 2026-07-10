@@ -1,200 +1,106 @@
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835FB395AF2
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 14:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5741F42F6F2;
+	Fri, 10 Jul 2026 14:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783694478; cv=none; b=EvtdiAK/9Bm9Qeg2skIBBNqA4Bppi9duyjwjRbyBbzoo6BBI3bZx9yV8Gr4EDDkOJxauRnkvC4lz8xTf6cTsAWQxxVW8bYnSrG6pyI8w83OaOETvk1W8n/2FrNB5TOnRIADjjk1rCDOI1Wkgq8p50HKVdeg3rkp6Y31qaEb1p84=
+	t=1783694773; cv=none; b=enQ9hT9FnH4niSletZiZ2kaTIvoa/6J5kXzN3lu87pUoUUn5xEPxTBvKlCSvdtK3XOUpIjj8qNaFgGfpRny6RgCipT2ILA2QSlXSrlY3FjQcHRSspD55sHvHG1nIZlkGnPiYCMEMpqnHgS3/65IpuJ5BXEt/btj0WAbzKEv3WDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783694478; c=relaxed/simple;
-	bh=p8c/arKa90Z4dNGGxUlJWXFwV/KbP/DasoQgKhBPRSs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Xs810XHOPkDEBImpir6lBFqZkVUiDOlZzWuT7CAUexb7sE7rZMo3OyW7RbnWjcAloBlbpM3Kij8KkXJti5P3TgfucXQp8m/aiR+aF17iCwJ+02F/V1nTP47yKK0AtIkUluJkvpfKsc3yRNoNN5L3PxitCBybFN/FM/D9sBjP/oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SOQldiul; arc=none smtp.client-ip=209.85.160.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783694773; c=relaxed/simple;
+	bh=elAE6D5Z++pEyg1DyynZG9mJNbmNvM6lzkncroj9yek=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GHJl6Jz6EQ9qnlNsbXUa1eXxYmD13t7BmicWV6qV7KJJBjxYtL9eW8QVQ/2TVehyvZDD0nGM1HCAbZfOP1OGeYRABDYuh+q36EwLqv/GasWrtHCp5Qmv2gylLXVtYEELJ5JNrcRyGZl82nJRrIe57RUL4aJBBLK/DHAxlwjhET4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=UCvB8fsI; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=i3qdUi3R; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SOQldiul"
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-447a81776e9so310470fac.0
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 07:41:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783694475; x=1784299275; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EQbC/idj+KWiHJ76OYqOrWBCaq0CRuQ9zf9be54q7bc=;
-        b=SOQldiulT5ur/SWG83vEiROeqCGwbj9rXGJmZM+jnmoMZFJzTVkbp4nDRl7589R3LM
-         /rGaItOL1ehxPhNPR3kXLliwC747SC2qRh2rrVyWpMpR1YY62KfcihSXhBP4c0MkGk5z
-         8kXfq7C7XBYll1h0MQg2ke8PdyUnLt4B113GpNiTTy3hcFlc7XE0s3k1vbAWMhlJ3b0C
-         28/DbAPhWQ59cdHHowoYs2GhsLBujKzxAAQDVFBawX/1qTGkNU3MUEI4djFmnUJJ5s4z
-         RZRNnO7arAjcrlczvrUKMqoZCA0FiBndSDbcwW7ELp8rny0Jnd+6KmJTd0k6ujl1JGLI
-         j+pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783694475; x=1784299275;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=EQbC/idj+KWiHJ76OYqOrWBCaq0CRuQ9zf9be54q7bc=;
-        b=d0D4YnA2y9vFKMC+q88B2aH6K5Dp2CHGpZ9xSJLciPEBBkwOcwpFUGB9vsJRC8vIj2
-         mnhBD8Q4LbnCTJ4gZoFirAZugR+O9nIaVJTyB63pjprWMs3pj8ytDXqffF4nRn+ZswQG
-         YzcSLa8cHzEesvN+S8T0abL0A8CNmCFZ2tw2SBlyA6XnAA/alFfFzuhpokB+e08l0/HG
-         nku1gdBMG/biqhF3VM/8r6dmCdX+VrEF92tjmwx3MPmSeCTysv0jmB5+EtB4bUHj2oNH
-         RjgeA4nYu8KpQEhF+Jgu/BRT7JnmepIb6DDTIRH/6hidj5/26rUJoMmscXajWhfPFpUl
-         gDdg==
-X-Forwarded-Encrypted: i=1; AFNElJ/PUiZIElfhXkwTAdOKefXouO+BtSHKOb4uo7spH2yoIg6YaJKN2FPTpKON6OJoJdOzyhfIT8FZMjM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIEuDXV5Tx6LYzK93Hr/xZt8HJF7g8iEPIGaDqkSLjyx/bp2fY
-	S2Y26wm9znuEH2rZPUMJH0UMhFkpTm7f5+RC6tdaq2it0X61Lf0DB6ne
-X-Gm-Gg: AfdE7cnj3QJrdSUWgw+xZZMgHEtY1OnQxY1RFwChBzFnbVAp/Hn4bL+xzs8mgn4g/pW
-	569hNA+4MTABaB30MEVrcxNF7p/2yCNN/HMUd8q9OJFXtr81xjNBO4LsrTEPapgNgdrfOJvLxEC
-	z2ltu0ld6tmlLI2zkXUCW1nnXzDRG8m9AevniH4Y7lU4+qLFo2L/GhDBqmMoKYJq2VuLefhFMFm
-	VCR46LYv2lLI+cRsz18mtiLJ0rO0y0oh2LZnN7pEjL11ZH4tGdcA0dCBn594doFR1POQiAKFcHC
-	SUMxoZ/Qg5abHv0zs4edQHa4x6WY0hoDQXD9plN91lp7bkaimcb97GYbhCqO1oSLp0tbdr8H4qW
-	rIH/VGH8Fb5iMtTNcQ+ybCzR1VJwOXoVZoUMolh8Kg3mziAyjdT7yG7KJCb8Hpr7gV/pzQlSjlz
-	iseCay3qQjowmGSSbOzC0Bmbx78Yg43fQ9IJIf/jQcVC22iXTUhOtMs5ZckLromQ==
-X-Received: by 2002:a05:6871:68b:b0:42f:d09d:1fc9 with SMTP id 586e51a60fabf-45163c73427mr7267499fac.32.1783694475320;
-        Fri, 10 Jul 2026 07:41:15 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-451c248101esm2164251fac.3.2026.07.10.07.41.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jul 2026 07:41:14 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <6c26aa82-2efe-4493-8992-b6d2c5889fe5@roeck-us.net>
-Date: Fri, 10 Jul 2026 07:41:12 -0700
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UCvB8fsI";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="i3qdUi3R"
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1783694770;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=cNxbM391+Qm3cGBLaONG5xv7fKBiXEdYVvGFwCkYBdE=;
+	b=UCvB8fsIfRz7eQbjSvm6R9nnSsi87XOTbOFr0pgLS61IhnuME60Icy4fA1BuCN0xuA/3Q0
+	pzVTHNMU8hiZsJ7Wdi5x/4WhxuqIGHLpM1L40/8sCUTP4lKc5BJjc7mRpOT5dZC6oEebDH
+	cWee3AYJcwW2Y8mrdA1sJHTQib6RP2Hc6b3+U7lzpzqBs3q7c2Pzi2xN+HvFwAXTOUjzxo
+	jqNlg4TavjdQRSzdTOl8JpsOVOvQMMyuYT43cCjYZyqooX5MeIHh4Bp31pCZJeMTk8uMpp
+	6JSB/OZUB1fHeviN1x1E1bK+jE2A2gb0e+LBH2JOvUKkBpIya9O1Ln6fsamM1g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1783694770;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=cNxbM391+Qm3cGBLaONG5xv7fKBiXEdYVvGFwCkYBdE=;
+	b=i3qdUi3RLz8QnJDBe0cnUZKhqk+V4oSoxswgo7rphDJqxbGp8JJCmgscnz+QUO3rHyA4Ys
+	+5/Fb4y4A2bMAzCg==
+To: Petr Mladek <pmladek@suse.com>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andrew Murray <amurray@thegoodpenguin.co.uk>,
+	Chris Down <chris@chrisdown.name>,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-fsdevel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH printk 0/3] Introduce sync mode
+Date: Fri, 10 Jul 2026 16:51:50 +0206
+Message-ID: <20260710144609.194487-1-john.ogness@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] dt-bindings: hwmon: (pmbus/max20830): add
- enable-gpios property and complete examples
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20260706-dev-max20830c-v2-0-37761e89bb5f@analog.com>
- <20260706-dev-max20830c-v2-1-37761e89bb5f@analog.com>
- <20260706-neat-perky-malamute-7518b7@quoll>
- <PH0PR03MB6351C4B212D2CCBA3F1BF113F1F12@PH0PR03MB6351.namprd03.prod.outlook.com>
- <65ebf21f-5a23-43b5-b10c-684fe421b0dc@roeck-us.net>
- <20260710-acrid-enchanted-prawn-5de949@quoll>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260710-acrid-enchanted-prawn-5de949@quoll>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 7/10/26 03:13, Krzysztof Kozlowski wrote:
-> On Mon, Jul 06, 2026 at 09:33:32AM -0700, Guenter Roeck wrote:
->> On 7/6/26 00:13, Torreno, Alexis Czezar wrote:
->>>
->>>> On Mon, Jul 06, 2026 at 10:08:41AM +0800, Alexis Czezar Torreno wrote:
->>>>> Adding an entry for the MAX20830 EN (enable) pin. This pin exist but
->>>>> was not included before. Also edited examples entry to be more complete.
->>>>>
->>>>> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
->>>>> ---
->>>>>    .../devicetree/bindings/hwmon/pmbus/adi,max20830.yaml         | 11
->>>> +++++++++++
->>>>>    1 file changed, 11 insertions(+)
->>>>>
->>>>
->>>> How did you address previous feedback?
->>>>
->>>
->>> Regarding the enable pin, I added this since I know bindings like being complete
->>> and saw that I didn't add it the first time I submitted max20830.
->>> I added driver code for the gpio but learned that it wasn't really a use case so
->>> I simply dropped the patch for it.
->>>
->>
->> I guess I am completely missing the point here. I can not imagine a situation
->> where one would want to connect the enable pin to a driver-controlled GPIO pin,
->> or why would one connect the chip's PGOOD output pin to a GPIO input pin
->> and connect that back to the driver.
->>
->> I think we will need guidance from devicetree maintainers explaining what
->> "complete" means in such a context to avoid having to repeat this discussion
->> for every driver going forward.
-> 
-> I think complete means all reasonable hardware resources/properties,
-> regardless whether current OS implementation uses them or not. That's
-> why if there is enable-gpios which is not used by Linux but could be in
-> the future, then it should be documented.
-> 
-> However if you claim that enable-gpios will absolutely NEVER be used by
-> Linux or bootloader or any other DT bindings user (*BSD, Barebox, U-boot
-> etc), then I would skip it, just like we do not describe many other
-> parts which simply have no use for the software.
-> 
-> IOW, DTS is description of non-discoverable hardware for the software.
-> We do not describe hardware for the sake of description, to mirror
-> schematics. That's not the goal. The goal is to make some software
-> happy, even if this is a future software implementation.
-> 
-> What is the case here - I rely on your guidance whether enable-gpios can
-> EVER be used by software. If there is a chance, then IMO property could
-> stay.
-> 
+Hi,
 
-Unfortunately, as it turns out, some of the chips handled by this driver
-do _not_ implement software-override for the enable pin (or at least so I
-am told; the chip datasheets are not public). Given that, we will have
-to support the enable pin property.
+As proposed in an LKML thread [0], here is a series to introduce a
+new console feature to use synchronous printing. The feature is
+activated using the keyword "sync" in the console= command line
+argument. For example:
 
-Sorry, I was not aware of this detail.
+   console=ttyS0,115200,sync
 
-Guenter
+Sync mode is only available for nbcon consoles that provide a
+safe write_atomic() callback. Specifying it for other consoles
+will have no effect other than a log entry that sync mode is not
+supported.
+
+Patch 3/3 shamelessly copied an implementation from Chris Down
+to parse and update the console options. (Chris's version of 
+find_and_remove_console_option() is here [1]). I slightly extended
+the function to support valueless-options.
+
+At some point we may want to add a sysfs interface to toggle sync
+mode.
+
+John Ogness
+
+[0] https://lore.kernel.org/lkml/87v7aruub1.fsf@jogness.linutronix.de
+[1] https://lore.kernel.org/lkml/77aa59337507e067f3a4ad7e15375893612bcfa3.1763492585.git.chris@chrisdown.name
+
+John Ogness (3):
+  printk: Introduce console sync mode
+  proc: Add console sync support for /proc/consoles
+  printk: Support setting console sync mode via console=
+
+ Documentation/admin-guide/serial-console.rst |   8 ++
+ fs/proc/consoles.c                           |   1 +
+ include/linux/console.h                      |   2 +
+ kernel/printk/console_cmdline.h              |   1 +
+ kernel/printk/internal.h                     |   2 +
+ kernel/printk/nbcon.c                        |  42 ++++++--
+ kernel/printk/printk.c                       | 104 +++++++++++++++++++
+ 7 files changed, 154 insertions(+), 6 deletions(-)
+
+
+base-commit: 080d60fffa8e0d285871cde8395438006a9b5b0c
+-- 
+2.47.3
 
