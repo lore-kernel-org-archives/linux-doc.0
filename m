@@ -1,47 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C5933260F;
-	Fri, 10 Jul 2026 19:04:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F82A34BA42;
+	Fri, 10 Jul 2026 19:07:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783710257; cv=none; b=GpPWq0lojMNYhBhxYKqyKFIjCKqTHa2TtHbl0PopzLBdLgsEo8TcTu34d9XC3RHYivZ8hVxgWfeP7aohocnA1tptWCPtzj9leCNcHaG9GOjCxWlzuKT7urIGg+jsphD8SkuNn3NxbuAPBggWgKPv8PFiLVzi6wPovYi5IPoE80o=
+	t=1783710458; cv=none; b=Ko5EiWP8LB3WxPBE3UMOUu0NYIke2swwysQYXP90QT1vWTO71ZU8LQea2Gw8FUH8jo6LU8Yq7YxHCj/Br+DpU12hrUsMWPDZpCmQL9jpkdFFfIDsjQofKwpQaQogCgQsZuIPL1d2igrEP7oewqeOROcYkWnZsKdF2qBMbWLhSYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783710257; c=relaxed/simple;
-	bh=+E616054C9Na1NkH/JyJmBOuyOv3EAsFmeshhFJtbnU=;
+	s=arc-20240116; t=1783710458; c=relaxed/simple;
+	bh=eVzl3ZKzOmwMgYUy4vaRUwOPxQoy1+4R3QbEUI1c+mw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=TTmHtzJbkPllyLbO62knO8GUxEWVM7P4/maUkcSrRIFna5/Jnlh3SM+A+vkSxfu1ncOFS02vy+ADWMGYadmEJ475kVWaC9o3+Ty1mCaUBU7XYAHSFagsvoBcZs2M29u+Qs/f4A8v1SuVEB9Em2Hlf32VMNW+ZYxdx9iy5FOQC4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hBgq0DXc; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=jOgI21RsIQpJHialDryGo8qZnQ/GUzwIkhgEPWPD4HaRz9mOrH9x7sqs/IwrEWecLgZh/q4sFhcfWAqLVKFDheh31XsO2R/Rcz4OwXaf/FdKYPnJAhEq+elVSaGuEKu8GFbtu8nwimqvRl2HCzrXchoKXAVu/1RHITfodlfi4SM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Yu+Xa2O8; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hBgq0DXc"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 05E43415A7
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Yu+Xa2O8"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6E2154108A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1783710255; bh=oXO9ioi+GNI92xgsz5yYdbJQL2e1ffUGbU2+7pkI/zs=;
+	t=1783710456; bh=DKAYXLbvcdS/nh/N0UtEn9RkpPQVxQ83fkRjJXpZedU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=hBgq0DXc+Us3mHktbrVLLSRUBpLn1iGXk4yxFoS9uqTmHxmnL6w8VpSckHb+ZuRix
-	 imkMmyYUNF9euqwZxlNgm/pNywJ808D8ZcyR3OcVOUCecBM/2B5sZxRwnuS3jnotfN
-	 dm0YQZ9mHjbchvrh6QM2EkwgWHRD+q2U+vCWJf9dUO824nTJtAy/qSKv4VsicQXUvB
-	 GKVN+GkwHVKGn7Lx3o3+Fhyvgfq6rAYjlZFoS/EnAlJmkX+HQvix1Bn3S4n8hOnE7u
-	 8ojnMBnYJHOhn/P4GORWg8vRZKaMzHiYNwkeBc4jmz2m8YkifZMtYWQmrVPX36GG2H
-	 0hnRJTWCEbA9g==
+	b=Yu+Xa2O8GVdCgtW7Ra41DnenwKG/fQ22Q7cqt3mzOV43auwNS4BsJi1jhS1BQPmZh
+	 QZicCcIxq0vFEgl8ARCbB6pDf4RnRsfa39SEd3+DaZpRp3irmxZS90UddJDpHUHtZH
+	 CWdur9P429Mn1d3Fhuh7+KDN2eurGCVikQlXEuw/9mXqdBr0ZHTSR0bFq+1g1qUaWn
+	 EGIlxW4P9EpGR9Z+u6vAL8qsdtPnv4wS1lUjOkR1wlE9lVoxeT/G7M1iwMByQamAHn
+	 OOv7ExJ/CQlb3RQODR3mmXf0OFVArHkm0uKiWlJSdR2l7cXYhbrkOYA9/6bNEJg1BO
+	 ia4LLJJB+HbqQ==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 05E43415A7;
-	Fri, 10 Jul 2026 19:04:14 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6E2154108A;
+	Fri, 10 Jul 2026 19:07:36 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebner@mailbox.org>, Matthew Wilcox
- <willy@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>
+To: Manuel Ebner <manuelebner@mailbox.org>, Shuah Khan
+ <skhan@linuxfoundation.org>
 Cc: Manuel Ebner <manuelebner@mailbox.org>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] errseq: add missing bracket
-In-Reply-To: <20260709092900.380694-1-manuelebner@mailbox.org>
-References: <20260709092900.380694-1-manuelebner@mailbox.org>
-Date: Fri, 10 Jul 2026 13:04:14 -0600
-Message-ID: <87tsq6ll8x.fsf@trenco.lwn.net>
+Subject: Re: [PATCH] docs: dma-api: remove needless bracket
+In-Reply-To: <20260708194821.357548-2-manuelebner@mailbox.org>
+References: <20260708194821.357548-2-manuelebner@mailbox.org>
+Date: Fri, 10 Jul 2026 13:07:35 -0600
+Message-ID: <87pl0ull3c.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,24 +52,24 @@ Content-Type: text/plain
 
 Manuel Ebner <manuelebner@mailbox.org> writes:
 
-> Add missing ')' to nested functions of code block.
+> Remove single ')'.
 >
 > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 > ---
->  Documentation/core-api/errseq.rst | 2 +-
+>  Documentation/core-api/dma-api.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/core-api/errseq.rst b/Documentation/core-api/errseq.rst
-> index ff332e272405..d298d4cd2f60 100644
-> --- a/Documentation/core-api/errseq.rst
-> +++ b/Documentation/core-api/errseq.rst
-> @@ -143,7 +143,7 @@ Because of this, it's often advantageous to first do an errseq_check to
->  see if anything has changed, and only later do an
->  errseq_check_and_advance after taking the lock. e.g.::
+> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
+> index ca75b3541679..ba23a472f794 100644
+> --- a/Documentation/core-api/dma-api.rst
+> +++ b/Documentation/core-api/dma-api.rst
+> @@ -508,7 +508,7 @@ call to dma_iova_try_alloc.  This can be useful in the unmap path.
 >  
-> -        if (errseq_check(&wd.wd_err, READ_ONCE(su.s_wd_err)) {
-> +        if (errseq_check(&wd.wd_err, READ_ONCE(su.s_wd_err))) {
->                  /* su.s_wd_err is protected by s_wd_err_lock */
+>  Is used to link ranges to the IOVA previously allocated.  The start of all
+>  but the first call to dma_iova_link for a given state must be aligned
+> -to the DMA merge boundary returned by ``dma_get_merge_boundary())``, and
+> +to the DMA merge boundary returned by ``dma_get_merge_boundary()``, and
+>  the size of all but the last range must be aligned to the DMA merge boundary
 
 Applied, thanks.
 
