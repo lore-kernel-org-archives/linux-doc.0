@@ -1,146 +1,344 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012058.outbound.protection.outlook.com [52.101.53.58])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6270C153BE9;
-	Fri, 10 Jul 2026 04:26:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783657576; cv=fail; b=pXE70rmGz1V0Uojw6h2KXxGW3cKeP7gTa6Vtwcyr+14V2+JEhl9kHqRKjbiHiI5Vc2LbppallMcSFFOL4v030wfdBBp8eTkH7ZzjHsBu7CBq13fLstuZdaskbrIeb3S2qrmAOG9CyueGxp5pgJ0WHkEOETDPbeBWB35ncI57lew=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783657576; c=relaxed/simple;
-	bh=hghBdsiwaI6pe5Bpd01j5OnbWRdgs/MjoNYkYmkfUgo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JXG2MAtIRfS2BbcJKRYpwCso5sepTmDssob7RI8ls6l4dGtaMWHvgrY2Jh9kJVRqPNi9T6SjKwnetIhQcGWaLULzF0I3c1kGQVLmZONqL26JeTOFKHzM5CNHVH2HzwZTgyA3VB0PII/m+WNfJl3XwYmruG/qZPbVBDT3hAaD7yA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=jjSxmyXt; arc=fail smtp.client-ip=52.101.53.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB520291C10;
+	Fri, 10 Jul 2026 04:28:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783657690; cv=none; b=qeX4vGai9tTzLxUl7AgWNDpHVZjtgZKrMOET2llwDe18fFE93Fhc+ai7dN4wLEtWP9yDLoP4dpozEZIxRmFbpJilKhRrEei0fxo18gN7F1jH4ljuF734h5bEkhgJGpaSzPbKRk5ufTv+l7LLoCPAozqRByQe/Qu3rlGKDLqhzF0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783657690; c=relaxed/simple;
+	bh=/saN+go42/S1NHyt594LmwkZ8G5RKJSVfH/UKc/LjxY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LO5p4qxUIFZrsIuhiUa1hN8MvFmrYZ0V+7WWjrDuJMFNSlJmFfNkiMLTvkEz2HDteK3b7CSktKuMf9aV4aj1UoN2dyit78YFcyEmtk4aIQPEvGBVgp7TSXmyoay657shRGSit2B1Lz358i0h8Rcr0xrIF0jCxmR9/QEEH5Hx+0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=IK1E4AO5; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="jjSxmyXt"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nUveUNYU9Tj4+aJ4drZZtlvVTOZvrWOazigNpWSgJpA8ENSUQgpQqYzksyk+zBorK0I/hc1t7bk1uSaC0/49L1GnnBslgQNIyAujSN1QZBntxeA1Ol6ptHe+5yAFJYIFhdTlJedQasnI6aagFZOGazbPc0YYs3rx84qHCjFGHEbWXR2lVddt4pmj2weTNclfitgiFH9lN/PDwi/aCFejaPzMQ6Cams2Ph0vKH4phrk9z1IvDs9evuELSlLndz6a0+Bb4P/uBgZ2Kiz9+xJHsmAHP2ELnZHiRNDkDhH9KjRQ6wZ+il/w1+hDi3vP5QrCGfz7KQH6nqOnX9J7O96dRtw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cVxCj6B4/M2PTspa9DBqCrG5/2JiJpmmRHwoKMmKbQU=;
- b=v3qBmQh7CKI9sXAz3FTCR1l/xB8CGYmS0BG79MSWN8q/eUdV7OYbdntJAAz1DkGIodi5e2qxE1sbDMfiuA4ojrx0v1j+pzA0qecClD8UEt/7nmBd4+obUjx2Kjz1y09t79JPGPlKIB5kBT2bC4cUFnQOIjhEXxjh3a4e+TnrZwnUXF15Q53iQ2Bm5T9Dq2mBlkjmOLGsz8QukhCrKdj31HChDkzfRGV8VNZwIpAX16gGEpi0zdMcUlT7ZJiHwyosbDlld4G3nmT4UZoyhWR2IZMbY/Br00E/ippoQyXMY3ef9Ss1EummoX04IQG7Y9IHjV9WDULiGApnk1XKNu7IIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=arm.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cVxCj6B4/M2PTspa9DBqCrG5/2JiJpmmRHwoKMmKbQU=;
- b=jjSxmyXtnE1BAUhu/p8nIlD+iCfUBmofibG+WfkyXwRwhQGTxSp14c4OSeJjxHoBXqSb3LfSlkLtINvSPuNC1eAC1Fss/gBfNkAovaiw3P9yWP/B86Zbd7J1iR5JqU9usVMuw/PJ09eWEJTLStPKGxJM0whp4NxL63tTluweJemGw5D50LcMYA3mon/ROCdZVEKrQ1+yZgCmk3JiHrQFQRiEHm8P1w4veIfU2Q3rDdWaKUz/iAvNYekuj7v7mssL9EQyYvKgr95sa945K9J+6k6FkdKEmf6W53WvrnoPGHRW0U3zWqbBON6+COxi76+VTqVANcRAzP+FgXAs/NGXAA==
-Received: from BL1PR13CA0065.namprd13.prod.outlook.com (2603:10b6:208:2b8::10)
- by SJ0PR12MB8165.namprd12.prod.outlook.com (2603:10b6:a03:4e4::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Fri, 10 Jul
- 2026 04:26:09 +0000
-Received: from BL6PEPF0001AB56.namprd02.prod.outlook.com
- (2603:10b6:208:2b8:cafe::94) by BL1PR13CA0065.outlook.office365.com
- (2603:10b6:208:2b8::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.223.4 via Frontend Transport; Fri, 10
- Jul 2026 04:26:09 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- BL6PEPF0001AB56.mail.protection.outlook.com (10.167.241.8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Fri, 10 Jul 2026 04:26:09 +0000
-Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 9 Jul
- 2026 21:26:00 -0700
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Thu, 9 Jul 2026 21:26:00 -0700
-Received: from nvidia.com (10.127.8.10) by mail.nvidia.com (10.126.190.181)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 9 Jul 2026 21:25:58 -0700
-Date: Thu, 9 Jul 2026 21:25:57 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Ashish Mhetre <amhetre@nvidia.com>
-CC: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Robin Murphy <robin.murphy@arm.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>,
-	<linux-tegra@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<iommu@lists.linux.dev>
-Subject: Re: [PATCH v5 3/3] iommu/arm-smmu-v3: Enable CFGI/TLBI-repeat
- workaround on Tegra264
-Message-ID: <alB0VfK5n3PsE8oK@nvidia.com>
-References: <20260709095613.831769-1-amhetre@nvidia.com>
- <20260709095613.831769-3-amhetre@nvidia.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="IK1E4AO5"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66A3nCsT3492618;
+	Fri, 10 Jul 2026 04:27:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=fIRhO0
+	ADNyDLwQ/IZRvklRM1Po9CZOdkg0iq6pCb+Ng=; b=IK1E4AO5rS0j9MlW7HKEvK
+	/eAr8LrXcn6NjQF/K3x3qcawDCFFysSSep8iQmAr+mzj7Q/t4plApMbYIOr7Kv0Z
+	ByLBveFwRh/dRIwmA4tidwEcXhUVAWCLJ03FRVXfSLvErtORvGMDxlUZt9Aa12EA
+	CVIMUE6ojHEqznKjGR9mG8cBVr+d6JE0MnBm6BKUe2VmeKEy/opWs3rxBrIHoD9g
+	POmOwSIj0MnUpNUHKFioVOLNnovo4W8HcAIl9zUx5BvvqNerS4wQCJCKjQXPqAFE
+	6kVm55KWWTF8rMAoDVsyHaOVRQ7OTAHqx3ytQycjoejr7+cpBOZJ5j9Qc4Ybxx5w
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6rke57ee-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Jul 2026 04:27:50 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66A4JdwK023387;
+	Fri, 10 Jul 2026 04:27:49 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f7cvwghe1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Jul 2026 04:27:49 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66A4RjWK42860906
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 10 Jul 2026 04:27:45 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 917A820043;
+	Fri, 10 Jul 2026 04:27:45 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2B06620040;
+	Fri, 10 Jul 2026 04:27:38 +0000 (GMT)
+Received: from [9.124.216.30] (unknown [9.124.216.30])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 10 Jul 2026 04:27:37 +0000 (GMT)
+Message-ID: <82e9b5e5-e19c-424a-933b-c6e351d44605@linux.ibm.com>
+Date: Fri, 10 Jul 2026 09:57:37 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260709095613.831769-3-amhetre@nvidia.com>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB56:EE_|SJ0PR12MB8165:EE_
-X-MS-Office365-Filtering-Correlation-Id: 29ee0889-b7a3-40f9-48a3-08dede3b5e00
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700016|82310400026|376014|7416014|23010399003|11063799006|22082099003|18002099003|4143699003|56012099006|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	H2Ap6Zmc6D+PMXhAfcEQv9mPPaA2IbaqYGzP4TFvp+uLRZRQpslbSpx7ayypufdQh+Y/Ud0DrgLtp/OblrqN3Gwognl71CvwMc+LmOXkswqNG5I6Rghx5/OtcVcrFSOpF//FxdHFOYTeoDw1eQMJjRdFzHiFF+/iUG9zNkAuqW9xcIwJO9w9G4amxusAw/VhfeqjksLtXlRVJXUZ7EhOBrB7bwkJgMkiZB4+vXqxBrnnzcC1rqjxrmkVzT5jkAVnr6ZO2hVeLUWM9U7CuN56uL7zxd7++j+5EgrM54GabXt06gK2TmgYLjJvjEOIhv18pf0bxrdafv2mF1GfI8qqmcJCkk5GAB+WCArvkb3YshHxdwN/X4eMGgmIQcIcw870zX5x/mfc3lb5a7UhuxyCjpEvQW1Npj5RZHazSGhekNnGByFulWPt7rxIcLkpJzxYhf+GW3r3bF7g7pg2JwwTrgbXeFY/QTdXA5YAHJzleCFZJzr3AdqXn81IBW0Xz91qjIgVciEnokrwuYNVGGL7OMSCFpIf7QMkiyFdqUyQvFQkRVH8qb354s9Q+0Wv5F10/TWOkhEIbpege46j0++9M+HSr1u0ratAmg8KBMb0sOdu7qffNfIOvqnub+oVPtt3cJSA6XMzJjhkj7Gj2FAlxwURn0I0l8Zfr6tXhSFuKuUFmTLRsSdjcOADY6HbnNwM1Ofp7czpafsiqDre0ieUJw==
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(82310400026)(376014)(7416014)(23010399003)(11063799006)(22082099003)(18002099003)(4143699003)(56012099006)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	915jD9XmF21Szxof4IRwU38F+oHx7RaFlelq1d1FkzCCwVb79OebJ5QTPYGieLDAo5skUxckNJ4YOhyylIHnrjkQyP33E/hICWnSoj7HMQNO4uPTu9T7s1gLM46nP5QtbfRz4teK6RZrARb+gkJUsSkwxaFfDDllTLJxt2h+S0pXhQzvropgPvndbHrZtmcaYQTfavvXieLkQ20t7ePpiVVyChNEZhjJ8E5pSik6HISaLoPrQ4nmtJRn/WVuPkxNOQQVFVduf5zMc7XR+QFRyH1vuuh/4TAVLsB/+8qykEnoQdfH1WR4jd+OIPn4M3yPTniZCNSKAFYzavruoj7lG02IwvSIpLGr5NPCu1uFAzsbCoIv+cFEMAXUc4lqZ6gB/VB8I4eKVvIGF5jpgK9YTqsrYRVVCEThz6DPsKiuhZzmiRoG/7AUIW8oxUIVLsqA
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2026 04:26:09.3002
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29ee0889-b7a3-40f9-48a3-08dede3b5e00
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB56.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB8165
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 09/12] virt/steal_monitor: Add control knobs for
+ handling steal values
+To: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
+        corbet@lwn.net
+Cc: tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
+        seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
+        rostedt@goodmis.org, dietmar.eggemann@arm.com, maddy@linux.ibm.com,
+        srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org,
+        vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com,
+        pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org,
+        tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
+        rdunlap@infradead.org, kernellwp@gmail.com, linux-doc@vger.kernel.org
+References: <20260709215648.1246821-1-sshegde@linux.ibm.com>
+ <20260709215648.1246821-10-sshegde@linux.ibm.com>
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <20260709215648.1246821-10-sshegde@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=M7J97Sws c=1 sm=1 tr=0 ts=6a5074c7 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8
+ a=F3ZZLrnZV5QeUzuNjWUA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEwMDAzNiBTYWx0ZWRfX9+cwuSyZRzgN
+ ShYRY+QN0k1xjtIGeLzInzNAq4RBLUCqY7QNFSsOanUc2TJPOHsHlcl+E0ZrWnoQRsv+Ih3zYGo
+ 2+DLyeHrzFoacyi/fCOGvwea/I+CpBU6XuYVrW0mS7hM0yzjhuhkhcaOEBJrNVyugWCIiNPWPSI
+ P0RWs9wy0hXw0NNKsUWlBdlNhfQsEC5RJKhCpseaVa9Y7Fht9vdIUnq5IcK6Vhixa66nr8q3Lwe
+ sjefvarOLAokRJVFwtTUZxGPDcDJecop++d9TY9cyyxj1uUb5vGVierqrQegdqZbo5oJqYhYByW
+ 0DV2aIy1qfT5nd/5fL7P+PsUrTt4a/FWTpSUKRPnCPldwNjc8LyX5slc47xcDYZkd4aGZjDqATP
+ 5RDkFmIsRj0HeNC/SG3rp88Y9szHDztFbGmlPQooG9+6Dwbhef9IY/XUSqOiAIT3hmBXSG9al8b
+ czUSPV8Uuzhg1YrM94g==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEwMDAzNiBTYWx0ZWRfX9zWMYSnRZDx7
+ mo20SyJuRtEu3BCDUoj4YReHGCrVq1tmaFHSFMaAffKxD68xJxW/wZWsv1h0MsgqX4c7iQg+Fqx
+ EeEh7NS0Bvae7VtvaM7bYDuKd6KdLPs=
+X-Proofpoint-GUID: ey5xN1VxSTOKRb2BcSy3XgbrXGV77oyQ
+X-Proofpoint-ORIG-GUID: LoWZTcvQCznptVpLblZBroAFALXOjO8q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-10_01,2026-07-09_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015 adultscore=0
+ priorityscore=1501 bulkscore=0 spamscore=0 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607100036
 
-On Thu, Jul 09, 2026 at 09:56:09AM +0000, Ashish Mhetre wrote:
-> Nvidia Tegra264 SMMU is affected by an erratum where a TLB entry can
-> survive an invalidation that races with concurrent traffic targeting
-> the same entry. The hardware-recommended software workaround is to
-> issue every CFGI/TLBI command (each followed by CMD_SYNC) twice, and
-> that infrastructure is already in place behind
-> arm_smmu_erratum_repeat_tlbi_cfgi_key.
+
+
+On 7/10/26 3:26 AM, Shrikanth Hegde wrote:
+> These are the knobs to control the steal_monitor.
 > 
-> Neither IDR nor IIDR flags this Tegra264-specific bug, so hardware
-> detection is not possible. Tegra264 is device-tree-only (no ACPI/IORT
-> support) and already has a dedicated "nvidia,tegra264-smmu" compatible,
-> so DT-probe is the only viable detection path.
+> interval_ms:
+> How often steal monitor checks for steal time.
+> (Default: 1000 i.e 1 second)
+> This controls how fast steal monitor driver reacts to changes to
+> the contention of physical CPUs. Since it does a fair amount of
+> work, setting too low will have overheads. Setting it too high
+> might render the feature ineffective.
+> Can be set between 10 to 100000. i.e. 10ms to 100seconds.
 > 
-> Enable the workaround on instances matching the existing
-> "nvidia,tegra264-smmu" compatible by calling static_branch_enable() on
-> arm_smmu_erratum_repeat_tlbi_cfgi_key. Document the erratum in
-> Documentation/arch/arm64/silicon-errata.rst.
+> low_threshold:
+> lower threshold value in percentage * 100.
+> (Default: 200, i.e 2% steal is considered as low threshold)
+> This determines what values should be considered as nil/no steal values.
+> When steal monitor see steal time is below or equal to this value, it
+> will increase the preferred CPUs by 1 core. Having value as zero
+> might cause oscillations
 > 
-> Signed-off-by: Ashish Mhetre <amhetre@nvidia.com>
+> high_threshold:
+> higher threshold value in percentage * 100
+> (Default: 500, i.e 5% steal is considered as high threshold)
+> This determines what values should be considered as high steal values.
+> When steal monitor sees steal time is higher than this value, it will
+> reduce the preferred CPUs by 1 core.
+> 
+> module_param_cb methods are used to do the validation checks.
+> This helps to ensure one configures sane values.
+> Parameters values can't be changed at runtime. One has to unload
+> the module and change it.
+> 
+> Also available at: Documentation/driver-api/steal-monitor.rst
+> 
+> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+> ---
+> v6->v7:
+> - Add module_param_cb to do parameter checks.
+> - Make parameters read only after module load.
+> 
+> 
+>   drivers/virt/steal_monitor/sm_core.c | 92 +++++++++++++++++++++++++++-
+>   1 file changed, 91 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/virt/steal_monitor/sm_core.c b/drivers/virt/steal_monitor/sm_core.c
+> index 180db424846c..4a03c14337be 100644
+> --- a/drivers/virt/steal_monitor/sm_core.c
+> +++ b/drivers/virt/steal_monitor/sm_core.c
+> @@ -14,7 +14,97 @@
+>   
+>   #include "sm_core.h"
+>   
+> -struct steal_monitor sm_core_ctx;
+> +struct steal_monitor sm_core_ctx = {
+> +	.interval_ms = 1000,	/* 1 second */
+> +	.high_threshold = 500,	/* 5% */
+> +	.low_threshold = 200,	/* 2% */
+> +};
+> +
+> +static int param_set_interval_ms(const char *val, const struct kernel_param *kp)
+> +{
+> +	unsigned int interval;
+> +	int ret;
+> +
+> +	ret = kstrtouint(val, 0, &interval);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (interval < 10 || interval > 100000) {
+> +		pr_err("steal_monitor: interval_ms must be between 10 and 100000\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	return param_set_uint(val, kp);
+> +}
+> +
+> +static const struct kernel_param_ops interval_ms_ops = {
+> +	.set = param_set_interval_ms,
+> +	.get = param_get_uint,
+> +};
+> +
+> +module_param_cb(interval_ms, &interval_ms_ops, &sm_core_ctx.interval_ms, 0444);
+> +MODULE_PARM_DESC(interval_ms,
+> +		 "Sampling frequency in milliseconds. default: 1000");
+> +
+> +static int param_set_high_threshold(const char *val, const struct kernel_param *kp)
+> +{
+> +	unsigned int threshold;
+> +	int ret;
+> +
+> +	ret = kstrtouint(val, 0, &threshold);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (threshold <= sm_core_ctx.low_threshold) {
+> +		pr_err("steal_monitor: high_threshold (%u) must be more than low_threshold (%u)\n",
+> +		       threshold, sm_core_ctx.low_threshold);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (threshold >= 100 * 100) {
+> +		pr_err("steal_monitor: high_threshold (%u) can't be more than 99.99%%\n",
+> +		       threshold);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return param_set_uint(val, kp);
+> +}
+> +
+> +static const struct kernel_param_ops high_threshold_ops = {
+> +	.set = param_set_high_threshold,
+> +	.get = param_get_uint,
+> +};
+> +
+> +module_param_cb(high_threshold, &high_threshold_ops, &sm_core_ctx.high_threshold, 0444);
+> +MODULE_PARM_DESC(high_threshold,
+> +		 "High steal threshold. default: 500 i.e 5%. Must be > low_threshold");
+> +
+> +static int param_set_low_threshold(const char *val, const struct kernel_param *kp)
+> +{
+> +	unsigned int threshold;
+> +	int ret;
+> +
+> +	ret = kstrtouint(val, 0, &threshold);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (threshold >= sm_core_ctx.high_threshold) {
+> +		pr_err("steal_monitor: low_threshold (%u) must be less than high_threshold (%u)\n",
+> +		       threshold, sm_core_ctx.high_threshold);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return param_set_uint(val, kp);
+> +}
+> +
+> +static const struct kernel_param_ops low_threshold_ops = {
+> +	.set = param_set_low_threshold,
+> +	.get = param_get_uint,
+> +};
+> +
+> +module_param_cb(low_threshold, &low_threshold_ops, &sm_core_ctx.low_threshold, 0444);
+> +MODULE_PARM_DESC(low_threshold,
+> +		 "Low steal threshold. default: 200 i.e 2%. Must be < high_threshold");
+>  
 
-Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
+As reported correctly by sashiko, below fails, but is a valid parameter set.
+modprobe steal_monitor low_threshold=700 high_threshold=1500
 
-Sashiko pointed out a concern at PATCH-3 regarding the static key:
-https://sashiko.dev/#/patchset/20260709095613.831769-1-amhetre%40nvidia.com
+Since low_threshold and high_thresholds are interdependent, I need to
+defer this to steal_monitor_init. That's probably what yury mentioned
+earlier, just that i didn't understand.
 
-It's a false positive. But perhaps we could fold in an inline note;
-it'd belong to the missing description that I commented in PATCH-2.
+I think interval_ms, high_thresholds check can still be as module_param_cb
+as they are independent.
 
-Nicolin
+I will fix it in v8.
+
+Effectively diff:
+---
+
+diff --git a/drivers/virt/steal_monitor/sm_core.c b/drivers/virt/steal_monitor/sm_core.c
+index 09a5c3a299c3..38007791a2dd 100644
+--- a/drivers/virt/steal_monitor/sm_core.c
++++ b/drivers/virt/steal_monitor/sm_core.c
+@@ -61,12 +61,6 @@ static int param_set_high_threshold(const char *val, const struct kernel_param *
+         if (ret)
+                 return ret;
+  
+-       if (threshold <= sm_core_ctx.low_threshold) {
+-               pr_err("steal_monitor: high_threshold (%u) must be more than low_threshold (%u)\n",
+-                      threshold, sm_core_ctx.low_threshold);
+-               return -EINVAL;
+-       }
+-
+         if (threshold >= 100 * 100) {
+                 pr_err("steal_monitor: high_threshold (%u) can't be more than 99.99%%\n",
+                        threshold);
+@@ -85,30 +79,7 @@ module_param_cb(high_threshold, &high_threshold_ops, &sm_core_ctx.high_threshold
+  MODULE_PARM_DESC(high_threshold,
+                  "High steal threshold. default: 500 i.e 5%. Must be > low_threshold");
+  
+-static int param_set_low_threshold(const char *val, const struct kernel_param *kp)
+-{
+-       unsigned int threshold;
+-       int ret;
+-
+-       ret = kstrtouint(val, 0, &threshold);
+-       if (ret)
+-               return ret;
+-
+-       if (threshold >= sm_core_ctx.high_threshold) {
+-               pr_err("steal_monitor: low_threshold (%u) must be less than high_threshold (%u)\n",
+-                      threshold, sm_core_ctx.high_threshold);
+-               return -EINVAL;
+-       }
+-
+-       return param_set_uint(val, kp);
+-}
+-
+-static const struct kernel_param_ops low_threshold_ops = {
+-       .set = param_set_low_threshold,
+-       .get = param_get_uint,
+-};
+-
+-module_param_cb(low_threshold, &low_threshold_ops, &sm_core_ctx.low_threshold, 0444);
++module_param_named(low_threshold, sm_core_ctx.low_threshold, uint, 0444);
+  MODULE_PARM_DESC(low_threshold,
+                  "Low steal threshold. default: 200 i.e 2%. Must be < high_threshold");
+  
+@@ -172,6 +143,11 @@ static void compute_preferred_cpus_work(struct work_struct *work)
+  
+  static int __init steal_monitor_init(void)
+  {
++       if (sm_core_ctx.low_threshold >= sm_core_ctx.high_threshold) {
++               pr_err("steal_monitor: low_threshold (%u) must be less than high_threshold (%u)\n",
++                      sm_core_ctx.low_threshold, sm_core_ctx.high_threshold);
++               return -EINVAL;
++       }
+         pr_info("steal_monitor is enabled. interval: %ums, high_threshold: %u, low_threshold: %u\n",
+                 sm_core_ctx.interval_ms, sm_core_ctx.high_threshold, sm_core_ctx.low_threshold);
+  
+
+
+  
+>   static int __init steal_monitor_init(void)
+>   {
+
