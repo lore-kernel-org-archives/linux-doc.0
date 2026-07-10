@@ -1,231 +1,155 @@
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F43B27AC31
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 06:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783665034; cv=pass; b=kj8lQpmMPnBYEyrfDMZjBOBIejGvZCuZJL0J3rUkCp3lL0Dwoicn0fRxlsMVJzzhHKYUO/p+ievIlna/Luhmw5fqzKg4I36gSgvJk3ETww2tzIOVNGcVj4C9IsT2mfgKzX98a4aKfrKwjaCHB404qxXi65XmsKi0RUeomDIF7bc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783665034; c=relaxed/simple;
-	bh=6X4b53rZef1KKZD4TQJDBFQHHBhHup5eeeap5U4K8mM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DX99XYcdtzws1jA1k8619Z/gLesAAbc0UfhJLu2NRx64MD1ukqMatAL238XRhp2/hj4zBffiqBQ867QwE0rddxCYfMotf7St/oq0t31fB3FWiB7zDYRfm6zddChRx0MWEM8Qbc9WC108PI+2hWTrrYHrCLRlPAQ2Kjd+fJ5hpeA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o0tFKQK1; arc=pass smtp.client-ip=74.125.224.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED6D23392B;
+	Fri, 10 Jul 2026 06:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783665335; cv=none; b=Mu0oYWyIhRBqs0I0J9V8q+x3cdDX7yDAJuymDboN1gvvAHKEX+f5RiZa1zde6UHByuWsACoaaMHi6VcS8BOnLQUITEgnYA8Fu/onyynhcE7XV8jL5Rcwqu5V2hikqwO9NJxtEZDLW6ixXaeUwZXQ0Q628tHjGvvAhDIKN4PDHM4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783665335; c=relaxed/simple;
+	bh=HX0+S3UJrGdpjL9XHwHkU58cROtDo6AFlvOfcNIsw5s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t+Hx+vAdUgLV0gVPhCdfwPMV16dD6l/4/dKwK4BJQ7DFsaBms1YTbNKVfAsOE5iY9PlBIeNsWvPtaQD5qssh3yg+cZ16ckTpTyQ3QDqovYUjerYbws9E9wov83RbAAeCw5AkUHQRgBDofdVeexfDsPQXcCureiqMF6YICSvF7gM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=dMppCi5G; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o0tFKQK1"
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-664cdeab266so871682d50.3
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2026 23:30:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783665031; cv=none;
-        d=google.com; s=arc-20260327;
-        b=BLoEBgqs9rTXH/B/pI/mdrXArlT+Z8SC/g/XeAsZmKXH2gfmRPjTHpt80UZ+RMAUWt
-         hcdjAqOz4m+YKT5myU/k7mq63x4mAFsBBAB1JXZbYfSniTYONGV2bYM4eMC9tvk5217u
-         1pX4Cpot9OwvyGluXq0oQi+PTTly3bcIe/v/foYB1fIde9USNnJjLozFqv9c2k5Rb2Fz
-         mv2ypYGaGzAyA7XLjmH7bldjkAVrwRfRCtUOg/7w/+z231W2E9FuAYa0OGP7u43XPZ+L
-         kJZ9OkH6NdUBOEHGgY4Vci8zJQFQeWXdHGcCdd6I/IWCr5fa2bqgyx5kW08SYzG5ueDL
-         YTTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZT819g/Oq6qSvxizAhqmr/HnAVYEmomTbXe1mM2C/vA=;
-        fh=bCHwUXXf1n5V2ke6BQ9aKpip4Ufz03Jhh3zJhZ48se8=;
-        b=W3rRlYSXnpSmPrDMJkdSkbdNC/E7MdEcuEO8nfPb/m5LB1sbsQKoTk99eDahPfncp7
-         K+/yKLUEWbY3FddTaWW1a/x0xOtrSReRwF0ipxA+XvrpMX2j5zh+ZLWOiU2jYCrc1iE3
-         xqkAYSSRBr8iLCP3JigzefNpqR7wmpbVVjmjUtPlDET6TMKw1Z25npxwRewmxcZipyEY
-         QHtWWQ0P37atMtntXjP05isM2/TBEmBB7QSSgM64BAxkgM9ejmGt7sudHc/yDnRDeiaA
-         dcDt3OwlhVk+bIlOhBgeQj8td/5SSwdwVk9ZxnShSG/qwA9e66nCY/9LB27LmuRMXQai
-         hhmw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1783665031; x=1784269831; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZT819g/Oq6qSvxizAhqmr/HnAVYEmomTbXe1mM2C/vA=;
-        b=o0tFKQK1nTrmzcKqPrvzT2BSemjMZQsacDQtokEmpGpWSMMvYwxssxtW2cuGpLuKku
-         k+pVfIlyh63KxnrGpDdjKfF7tPPJBijGVEMe+iPJg74B9IxLfMbsN9pua2CEBk11Gv9G
-         FFq81A6uuF3EICXeDedAPOHLV9WwNYHlNM2DVcwJ0Txzz/Tthpb0Xov72UIoy3a2tYEV
-         y8C8n5PrBgDvUWir8CjEk4oIizpkWkrcrA7leWzERsbqYNfRMrJaUBd8xLKzNZ3m7qhl
-         kDsqdUmaOqBgzLlMwtQeHGYZHourdgtGVl+oSOWD8MRLN5q7BBxSB61KISycMMGrCukj
-         4p7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783665031; x=1784269831;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZT819g/Oq6qSvxizAhqmr/HnAVYEmomTbXe1mM2C/vA=;
-        b=M+nABOPJpOPXTKMfpnPiEBc7mG/aS0IKKTJu4Ju9wiWo2+wNgmxVEs0g34/UMkBzAQ
-         hu79VqNZ+f7FazeeHHcym4og08zI6EQ5Ri/BopupN/QVnLuH/3Udyp4zIsc3UlvBhxek
-         zSs/3nD7B41QZfPzys2pXs+oS/uxO/Bu1JgI6fXI4b7EXQBUldvLoFAuOmnGR3dmubcI
-         Z8tURN0Amkuep8nzxJt7lDxyAb721/AfD58Kbp6VUaPNYG+28GUKjXKrxG/IIkQWfX76
-         ILMYQlt0V1ZhrlocaUWqfUFBfDUH5skcVpT+tZaRfEhsf6zPrgbO9lHeR+ZCi2yt7WGM
-         J0RA==
-X-Forwarded-Encrypted: i=1; AHgh+RoN2beMSZTL7XEh62QlzlUDbaOs+QFAPe3tKGF9FUWZK/nyjURN8LpVZC1RbdYjHNN+jlaqGoM2e7k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQhs4KUDf+ilDw7YZIyouQtO8E0U2sw47iXRypPGZJOCzT5Mjy
-	YBsH6EUhsjuhsPG+eEPBizWzbJ7FTr3XL2iWUWQ0mgQC11TWP2JvvPyWmuePkJeQWbKCJFYXCd1
-	dtSu9Xf7qYU7C/4p5o+04kWBO+0LoZnCtEFMy+IM0dw==
-X-Gm-Gg: AfdE7ckB5Nf25P55NWsCSqUb+ZGjDWNuV9gtcuhFE4dTaz6154qIqj6DTAOqFayVe+T
-	/kVxpGvH8fmi83ad2dMzA0l099Wy1GKtTnvC14pFbq/QXD0EA+H7EqN2pUlkKEYZ5kiWTMnKC61
-	sXfbIOwZhlkp9iQqA+cctWHnQ77yDP+yYegr0knMlsvftGqpKvvjSoujgnHZpK4RZLZITI+vV5C
-	mGZ6UD+U6DHE8Tdaw5g7AGCb5+HN5zxA5nfa5F/X0cZICSDy6q8AuhStr0h8L5I4cwbaQNxk4Uu
-	h6jCtlZBlXSbY+qsDbJ+atUHPX2zGwyXLvMuOsKohf8/EwErh4EJfx9nxgG3YD02JbsdMoHCYC8
-	wzdpePXYqRXpErVdH3shP0wIfvcUtN975KqsDeWqNBAQVLXC6IbI3B8L+Iy8XB5BP4i+Lgd4caT
-	LUji2hht7mjIx1JH8h3R3Yr+DwD+KBpapkPR1BBrKX70dA7bLJo7RgQHXS5vtsK9+tpddF+HA6y
-	ZE4aMJE+OoquDAZYmfEJ3ie/5jVPrtw6lACUU4zas02/+tr8AgP2eUB3eszb1qunXAZ810OP9Xc
-	2BUd9RHpib78UgqWTObQXbOyK987PqIo3KjmulPX63KCZv1U8vxj00A6hlNRsWSnFHvEjUY=
-X-Received: by 2002:a05:690e:1609:b0:667:9eb2:8ffd with SMTP id
- 956f58d0204a3-6679f25cc74mr4981051d50.90.1783665031305; Thu, 09 Jul 2026
- 23:30:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="dMppCi5G"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66A3o5AO077794;
+	Fri, 10 Jul 2026 06:35:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=J7/xfC
+	F6vmPqkdEJPIMXZnOE1pd2vcvNItJDK8fe7eI=; b=dMppCi5GcAZp/w7Hg04zCJ
+	u2O/Audklq9GizLyAzb3LEu3CEdl4eByDJdg4WZjy4pe6RKVAu9d5TkbyduSs9B+
+	HZeIMaZs6q4j0KSlCaw6kwwrfeRsoTA7zMyI9w4YKq35c/PcEkeugaWq4R/DNcf+
+	0yg67vtmBMnGjAhgc0C15AM0i+5hf84HfDK2O8++f5oqLkT55uWYZh+d872Ji6/G
+	1qzK9GL2gZ5FWkcqgbTPXiDzlC7ILZ27SRRGekG8xBK6qP1hwNVHO1001r+ePuVj
+	z1kWBW4Q062qE6skVBuyT6ufGF5h9ve+2gK0UL1/atEFQYvTRCY0zsEEw3vg3wBQ
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6qknvq7h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Jul 2026 06:35:15 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66A6YkQ3015323;
+	Fri, 10 Jul 2026 06:35:14 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4f7cgqgxw8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Jul 2026 06:35:14 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66A6ZAeR14746056
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 10 Jul 2026 06:35:10 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6443020043;
+	Fri, 10 Jul 2026 06:35:10 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3B21920040;
+	Fri, 10 Jul 2026 06:35:03 +0000 (GMT)
+Received: from [9.124.216.30] (unknown [9.124.216.30])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 10 Jul 2026 06:35:02 +0000 (GMT)
+Message-ID: <a9825ec1-fe62-42da-9a24-36fd30772700@linux.ibm.com>
+Date: Fri, 10 Jul 2026 12:05:02 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260701091226.7SWW4TrT@linutronix.de>
-In-Reply-To: <20260701091226.7SWW4TrT@linutronix.de>
-From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Date: Fri, 10 Jul 2026 09:29:55 +0300
-X-Gm-Features: AUfX_mxLJVuqDQuycLYMMiskfwdItuud7PupTjy9MFHq6Q3HmuV1dekuQzstXtk
-Message-ID: <CAC_iWj+xDErhPeKGtsLK=nvPB7P8cQE3g9XCkaWf-d_j85FxCQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: Extend the real-time hardware bits with
- some firmware bits
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, "jenswi@kernel.org" <jenswi@kernel.org>
-Cc: linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-efi@vger.kernel.org, op-tee@lists.trustedfirmware.org, 
-	Ard Biesheuvel <ardb@kernel.org>, Clark Williams <clrkwllms@kernel.org>, 
-	Jan Kiszka <jan.kiszka@siemens.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	John Ogness <john.ogness@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 12/12] sched, virt/steal_monitor: Keep tick on for
+ faster push on nohz_full CPU
+To: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com
+Cc: tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
+        seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
+        rostedt@goodmis.org, dietmar.eggemann@arm.com, maddy@linux.ibm.com,
+        srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org,
+        vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com,
+        pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org,
+        tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
+        rdunlap@infradead.org, kernellwp@gmail.com, linux-doc@vger.kernel.org,
+        corbet@lwn.net
+References: <20260709215648.1246821-1-sshegde@linux.ibm.com>
+ <20260709215648.1246821-13-sshegde@linux.ibm.com>
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <20260709215648.1246821-13-sshegde@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=Q/XiJY2a c=1 sm=1 tr=0 ts=6a5092a3 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8
+ a=3W3EUuIwW94Ror9ydsAA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: ZlRdD4jm7bnXbMeLrpHnJ1SWxOZauAHv
+X-Proofpoint-ORIG-GUID: -pgY7B6-a6uamqI_tZ-eFSonEM0n5b1A
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEwMDA1OCBTYWx0ZWRfX7Oc5QmxfdXUy
+ HpQuMsDROnhUaDuifFpAfRFBECH1/e74nUNXZbf+KehTzDaCQEpbAV+lz3prkSmOcghFCZN92il
+ 9VW8RVIRcr5qSc9OBg1o8KCLFoACA4Q=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEwMDA1OCBTYWx0ZWRfX3R02Fvl9Xiu2
+ cIv8kcUGijjeaj8QUNn+USaVcKnxh6v7ZI8tVZn/11CQOwXEsLFNoahHpFSuRkiMVReeDcHCmtA
+ K6ZQYjXN08tNLd4fhgYTQOGY5bUtzkdQtTsD3QIWlGILpc+mjpS6kKwfQdKWIaVeA05CmKiUCvK
+ WMIeMJLUn3hmcPvtAhNglZAe7IB/tkLL9Lh4I1NSDHtgXUjtrkUsHvJcNHB5qpn9u9rQAMNfgh+
+ FCDDwfCSH2V3tkZxlo2Asw/OHQLw3nNZmt0dJhJ8Ge3irs5KA/3GVjfZLUz/lriLG72vw6q4eCT
+ Gl8IMAaqFbbqGLr/twQnhSayP+Ccd+KnbQLj10WefeMc89w+VmOntbEyrhA0p4y7dVyTflEVOHM
+ f5c4A6zNAJTlewVpK/0DJYHxWg8p89kgIoCFdSdwViChw0ggqeXsEc4xSFJByXwS1rEvE4KxOx+
+ b60LRlpofhirjl6YrnQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-10_01,2026-07-09_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0 spamscore=0 phishscore=0 priorityscore=1501
+ bulkscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607100058
 
-Hi Sebastian!
+Hi.
 
-I'll let Jens fill in the gaps. Some general comments below.
-
-On Wed, 1 Jul 2026 at 12:12, Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> I have been reviewing how OP=E2=80=91TEE is implemented and how secure=E2=
-=80=91world
-> invocations behave. The goal was to determine whether an OP=E2=80=91TEE c=
-all can
-> delay the Linux side and introduce latency depending on the time spent
-> in the secure world.
->
-> Similar latency effects are already known for EFI runtime services, but
-> this was not documented. To mitigate the impact, EFI runtime invocations
-> can be restricted to specific CPUs so that real=E2=80=91time workloads on=
- other
-> CPUs remain unaffected. This mechanism, however, is only described in
-> the commit that introduced it.
->
-> This change adds a firmware section that documents these behaviours
-> explicitly. It highlights cases where firmware can delay the kernel,
-> information that may be unfamiliar to some users and surprising-or
-> concerning-to others.
->
-> Assisted-by: Microsoft-Copilot
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+On 7/10/26 3:26 AM, Shrikanth Hegde wrote:
+> Enable tick on nohz full CPU when it is marked as non-preferred.
+> This helps to push the task out faster and in more predictable
+> manner on nohz_full CPUs.
+> 
+> Steal time handling code will call tick_nohz_dep_set_cpu with
+> TICK_DEP_BIT_SCHED. This helps to push the task out of nohz_full
+> faster as push task depends on tick.
+> 
+> If there is pinned task on non-preferred CPU, it may not stop the tick.
+> That is rare case. Even then, this preferred CPU state change can
+> happen only inside the guest. So even if guest stop the tick,
+> it may not necessary mean power saving since host disabling the
+> tick is what matters more.
+> 
+> sched_can_stop_tick flow doesn't change if cpu_preferred. On disabling
+> the feature, module ensure it restores the CPU as preferred.
+> 
+> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
 > ---
->
-> I would appreciate an ACK from the OP-TEE camp that I got my little
-> research right.
->
->  Documentation/core-api/real-time/hardware.rst | 92 +++++++++++++++++++
->  1 file changed, 92 insertions(+)
->
-> diff --git a/Documentation/core-api/real-time/hardware.rst b/Documentatio=
-n/core-api/real-time/hardware.rst
-> index 19f9bb3786e03..fb113848c2f70 100644
-> --- a/Documentation/core-api/real-time/hardware.rst
-> +++ b/Documentation/core-api/real-time/hardware.rst
-> @@ -130,3 +130,95 @@ https://github.com/Linutronix/RTC-Testbench.
 
-[...]
+I will drop this patch 12 as it is an optimization for rare case.
 
-> +
-> +OP-TEE (ARM)
-> +~~~~~~~~~~~~
+The reason being,
+- If there is one pinned task, it leaves the tick on.
+- Can't just the clear the tick while disable, that will cause break.
+- need to know if there was one pinned task in sched_can_stop_tick
+   which is tricky.
+- optimization is applicable only for a forever running thread on nohz_full
+   CPU and non-pinned. Such use case is rare i think.
 
-That's RISC-V as well nowadays
+and
 
-> +
-> +OP=E2=80=91TEE uses a global serialization mechanism (the "big lock"), e=
-nsuring that on
-> +each core only one OP=E2=80=91TEE thread executes secure=E2=80=91world c=
-ode at a time.
-> +
-> +Execution flows from the normal world (Linux) into the secure world (OP=
-=E2=80=91TEE)
-> +through the secure monitor at EL3. Linux and OP=E2=80=91TEE cannot disab=
-le or mask each
-> +other=E2=80=99s interrupts because both run at EL1 in different security=
- states.
+- Task eventually move out that nohz_full CPU, it takes a few more
+   seconds. Likely it happens on natural boundary, maybe a external
+   interrupt, background workqueue or kthread etc.
 
-That's not always true. It depends on a combination of OP-TEE and TF-A
-configs iirc.
-The most common though is that IRQs and FIQs are directly delivered to
-S-EL1, in which case OP-TEE can mask IRQs.
-There's also a difference between GICv2 and GICv3 in the way
-interrupts are delivered.
-
-> +
-> +Architecturally, the secure monitor can mask or reroute normal=E2=80=91w=
-orld interrupts
-> +before entering the secure world. In a correct OP=E2=80=91TEE/ TF=E2=80=
-=91A implementation, it
-> +does not do this for the duration of secure calls. Normal=E2=80=91world =
-interrupts
-> +remain deliverable, and a normal=E2=80=91world IRQ will preempt OP=E2=80=
-=91TEE via EL3 and
-> +return control to Linux.
-
-The 'sane' case is indeed where IRQs are delivered to OP-TEE which
-exits back to Linux immediately.
-
-> +
-> +Secure=E2=80=91world interrupts (FIQs) are possible if the SoC routes a =
-device's
-> +interrupt as secure. Such a secure FIQ will preempt Linux immediately, t=
-rap
-> +into EL3, and transfer control to OP=E2=80=91TEE's secure interrupt hand=
-ler. Linux
-> +cannot mask or preempt this. Secure FIQ handlers must therefore be extre=
-mely
-> +short to avoid introducing noticeable latency.
-
-There are also 'fast SMCs', which run with IRQs disabled for their
-entire duration.
-
-> +
-> +The transition from normal world -> secure monitor -> OP=E2=80=91TEE and=
- back introduces
-> +additional latency due to world switching and context save/ restore. Thi=
-s
-> +overhead is typically a few microseconds and usually remains in the nois=
-e
-> +floor.
-
-That's correct.
-
-> +
-> +If the secure monitor masks normal=E2=80=91world interrupts during OP=E2=
-=80=91TEE invocations,
-> +or if OP=E2=80=91TEE uses long=E2=80=91running secure FIQ handlers, then=
- OP=E2=80=91TEE can introduce
-> +measurable latency spikes.
-> --
-> 2.53.0
->
-
-Overall I think this is worth documenting, but infortunately there's a
-wider range of configs and corner cases we have to describe.
-
-Cheers
-/Ilias
+- One configures nohz_full CPU carefully.  If the need arises,
+   lets bother about at that time.
