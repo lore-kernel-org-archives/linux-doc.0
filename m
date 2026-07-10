@@ -1,171 +1,135 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E1133B8939;
-	Fri, 10 Jul 2026 07:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE01371D07;
+	Fri, 10 Jul 2026 07:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783668711; cv=none; b=aNgc5gBX1T8Lj84OBR/WNdwHj4QsH/UVcVUsPxREmyQeqgrz/3my2DerTbunT329Tj/Uj0QtxawatWfz2ZBZHyzdLoCGc+NddvfdwwbyJ7qZnKrpHbe1DNSxOMHGN2nvhTmXmKTPoMNJTx0LYqy/XPpLTzteZ5RDSb+MyxMpAGk=
+	t=1783668915; cv=none; b=AHE2UMJ1PDDRAmEpffR2Bq9DPrfKMW4F8GQqBTAxkjzG4txE/xJDddGkZoPP9JPp+HJ+DMDEuKuY8hIyL3Qq8cAeOrZz/jEewt9Q5w72rdZkf6lBnCw7sLVSWWhcgBLwLzsE8PzsWmNbYhIY7DbghPUMxxju5MNHXOYJd4768TY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783668711; c=relaxed/simple;
-	bh=JneN2M9JbJqKy6qgUPNItB4lcaDHbu64RY5+o9oIB6c=;
+	s=arc-20240116; t=1783668915; c=relaxed/simple;
+	bh=A66JzFaRHhe/w+8bewl/fiwHWMXXLtE7PfKc6EDPdh8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jbHIOMPJhgmrIu2aZ43eU2TsqZAGpjDDOyxg5lhl9OVSemlsrtXgeYgG1Ckp/p4xYIV3Kt4MN08ZaK/dBXaK3B9JU3Q/Ei9bEzjLrawjr0jJX4Jbz5AYQwD9uK2kIRh7qHz8CSmFXvq3IUuMxgjnmLMeJAZw1SxajnH6/Mi4rPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CYWc2XMP; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zkjkvLix; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=JUc8AcW/V7RKJu07be+dFDjfzZjGVhst4zsTN88N55XZMAPKI6WIY6cYrmdMZSEzZNVyxzsmwoKxtvFVL9+0CNvUUFlY1UplJ2gL9Vk6Z5iJYSo0E01nSTizze6u+qWqwCId8VIIuY8dxLYkJbKnjZAhushzwVHFg6cvVxzqEMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jazFSLFh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CYWc2XMP";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zkjkvLix"
-Date: Fri, 10 Jul 2026 09:31:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783668708;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JneN2M9JbJqKy6qgUPNItB4lcaDHbu64RY5+o9oIB6c=;
-	b=CYWc2XMP2kSKRhOqDExn2t5iOXHPKvWWyfoW0a/ze3JYCZ5vMi4FDPWwqUMQJ8/ls5rI9t
-	Y6Sh03ZTfPt2czfIo/cFlYooQxO//Lxgj/5e0psGv+3tSOvph6UeW82CAhaI3j5mljprsu
-	BldCShDzu1wd/eyS6Ol6IYrJEKqKkYsWOr0Ml3Ekkxzp5nIKzWRjGvi4aXfka6i3A6uSVi
-	Y4Inty2gqa/naFDDlqJ1H/n42Jrset+NK18LImANbATiDgId3ZX0RTSqjlEUIyRAPDnbnk
-	bad8x5VHi8Lno0MQnH0cbYzkMO+Dd/LS9J5crKezaviuSkRutX/5w0mfKtGZ9w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783668708;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JneN2M9JbJqKy6qgUPNItB4lcaDHbu64RY5+o9oIB6c=;
-	b=zkjkvLixw+0vNVj1P8Y/gayysL+dJb4IuUxB5JvbUshMLYJ87X5OIZgQyRmbn7tYArod5m
-	K11MxyLDpE7zzFDA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Cc: "jenswi@kernel.org" <jenswi@kernel.org>, linux-rt-devel@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
-	op-tee@lists.trustedfirmware.org, Ard Biesheuvel <ardb@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jazFSLFh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 366B81F000E9;
+	Fri, 10 Jul 2026 07:35:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783668914;
+	bh=ZDFlTDkmewCOyJwFuz7uMa+pChp8dl4Jfof3pfwSFns=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jazFSLFhy3qbAb5zLVpefSY9VjtAOPPSuF0bFtPKWr2IN5T79pyQK5KGpaMOAfIc6
+	 DdZPkAkCso3aDJrQCYwXPqJyDZtV3InMthVBw9PBNULcbI0h9nSrvgI3kQxa1gRevI
+	 Cw18WuQFEWteXPPg/stW7Hi0RrAON/2PxhfqmFkDJKWcMHQr36ZQa5eeVP+gdFbE1I
+	 ZlR1DfePeVI/CxrgxQk8AlEkSWLY03s3U2mBMiqp6JDEK6FiV/7fWmx+8Ywb+hod7V
+	 quJoUaILjYqgzpBJv3xZFeP2spCjEp9la/utG+1xmIRgwTbL3qg1kx0TkS4XsTJjtY
+	 VhVgC6fJbbIrw==
+Date: Fri, 10 Jul 2026 08:35:05 +0100
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: Michal Simek <michal.simek@amd.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	linux-kernel@vger.kernel.org, monstr@monstr.eu, git@amd.com,
+	vincent.guittot@linaro.org, Souvik.Chakravarty@arm.com,
+	Alex Shi <alexs@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Brian Masney <bmasney@redhat.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Lukasz Luba <lukasz.luba@arm.com>, Mark Brown <broonie@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Pavel Machek <pavel@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>
-Subject: Re: [PATCH] Documentation: Extend the real-time hardware bits with
- some firmware bits
-Message-ID: <20260710073147.XJAJbIwc@linutronix.de>
-References: <20260701091226.7SWW4TrT@linutronix.de>
- <CAC_iWj+xDErhPeKGtsLK=nvPB7P8cQE3g9XCkaWf-d_j85FxCQ@mail.gmail.com>
+	Stephen Boyd <sboyd@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Yanteng Si <si.yanteng@linux.dev>, arm-scmi@vger.kernel.org,
+	"open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>,
+	linux-arm-kernel@lists.infradead.org,
+	"open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+	"open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
+	"open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
+	"open list:ENERGY MODEL" <linux-pm@vger.kernel.org>
+Subject: Re: [RFC PATCH] firmware: scmi: Make SCMI arch independent
+Message-ID: <20260710-lemon-pogona-of-wind-b3a003@sudeepholla>
+References: <d7f7e8c9589d937b60e43168845ab4fda15037a3.1783603600.git.michal.simek@amd.com>
+ <ak_Eu_eQKalPMwo-@pluto>
+ <77110e77-941d-4173-b2f5-6f3cf4858339@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAC_iWj+xDErhPeKGtsLK=nvPB7P8cQE3g9XCkaWf-d_j85FxCQ@mail.gmail.com>
+In-Reply-To: <77110e77-941d-4173-b2f5-6f3cf4858339@amd.com>
 
-On 2026-07-10 09:29:55 [+0300], Ilias Apalodimas wrote:
-> Hi Sebastian!
-Hi Ilias,
+On Fri, Jul 10, 2026 at 09:03:32AM +0200, Michal Simek wrote:
+> 
+> 
+> On 7/9/26 17:56, Cristian Marussi wrote:
+> > On Thu, Jul 09, 2026 at 03:27:00PM +0200, Michal Simek wrote:
+> > > On heterogenious systems like AMD/Xilinx FPGA there is a need to talk to
+> > > SCMI server from different architectures than ARM that's why remove
+> > > ARM/ARM64 Kconfig dependency with also remove ARM from description and
+> > > rename folder to reflect it.
+> > 
+> > While I understand dropping the dependency on ARM (I always wanted to do
+> > that and test if it worked at all on some otehr archs with QEMU), I am
+> > not sure about the whole renaming party ? why is needed just for
+> > cosmetic reasons ? it is at the end an arm originated protocol so I dont
+> > see it as a being wrong to be named as such even though used by other
+> > archs...I have not really strong opinion on this...
+> 
+> I have been in CC on U-Boot RPMI patches which got to my attention because
+> I don't want to have another interface for MB-V(riscv-) running in
+> programmable logic and have another server in the system doing the same
+> thing.
+> 
 
-> > +++ b/Documentation/core-api/real-time/hardware.rst
-> > @@ -130,3 +130,95 @@ https://github.com/Linutronix/RTC-Testbench.
->=20
-> [...]
->=20
-> > +
-> > +OP-TEE (ARM)
-> > +~~~~~~~~~~~~
->=20
-> That's RISC-V as well nowadays
+Ah that's interesting. I wasn't aware of that. I still agree with the move
+in principle, but how does that align with these:
 
-I did not find much here. Their architecture isn't the same as on ARM is
-it? But the overall concept is the same, right?
+drivers/clk/clk-rpmi.c
+drivers/irqchip/irq-riscv-rpmi-sysmsi.c
+include/linux/mailbox/riscv-rpmi-message.h
+drivers/mailbox/riscv-sbi-mpxy-mbox.c(Should be fine as it is just transport)
 
-> > +
-> > +OP=E2=80=91TEE uses a global serialization mechanism (the "big lock"),=
- ensuring that on
-> > +each core only one OP=E2=80=91TEE thread executes secure=E2=80=91world=
- code at a time.
-> > +
-> > +Execution flows from the normal world (Linux) into the secure world (O=
-P=E2=80=91TEE)
-> > +through the secure monitor at EL3. Linux and OP=E2=80=91TEE cannot dis=
-able or mask each
-> > +other=E2=80=99s interrupts because both run at EL1 in different securi=
-ty states.
->=20
-> That's not always true. It depends on a combination of OP-TEE and TF-A
-> configs iirc.
-> The most common though is that IRQs and FIQs are directly delivered to
-> S-EL1, in which case OP-TEE can mask IRQs.
-> There's also a difference between GICv2 and GICv3 in the way
-> interrupts are delivered.
+Now I feel we need some alignment before making $subject move.
 
-You are saying that OP-TEE can mask Linux' interrupts or if OP-TEE
-instructs TF-A to do so (via config)?
+> Based on that we had discussed about it with Vincent and Souvik (we missed
+> you there) about using SCMI on non ARM platform and both of them didn't see
+> the concern to be marked as ARM only protocol.
+> Truth is that some of protocols have ARM in description, file names, etc but
+> some of them not. That's why I think it is good time to sync it up and
+> enable
+> running this protocol on other SOCs.
+> 
+> > ... my concern really is ... wont this full scale rename simply generate
+> > a lot of un-needed churn for future fixes and/or backporting ?
+> I don't think it is going to be a big problem because it is just git mv
+> which git is able to gracefully handle.
+> 
 
-> > +
-> > +Architecturally, the secure monitor can mask or reroute normal=E2=80=
-=91world interrupts
-> > +before entering the secure world. In a correct OP=E2=80=91TEE/ TF=E2=
-=80=91A implementation, it
-> > +does not do this for the duration of secure calls. Normal=E2=80=91worl=
-d interrupts
-> > +remain deliverable, and a normal=E2=80=91world IRQ will preempt OP=E2=
-=80=91TEE via EL3 and
-> > +return control to Linux.
->=20
-> The 'sane' case is indeed where IRQs are delivered to OP-TEE which
-> exits back to Linux immediately.
->=20
-> > +
-> > +Secure=E2=80=91world interrupts (FIQs) are possible if the SoC routes =
-a device's
-> > +interrupt as secure. Such a secure FIQ will preempt Linux immediately,=
- trap
-> > +into EL3, and transfer control to OP=E2=80=91TEE's secure interrupt ha=
-ndler. Linux
-> > +cannot mask or preempt this. Secure FIQ handlers must therefore be ext=
-remely
-> > +short to avoid introducing noticeable latency.
->=20
-> There are also 'fast SMCs', which run with IRQs disabled for their
-> entire duration.
+Otherwise it may end up being unnecessary churn though I completely agree
+with the git/backporting aspects. Just don't want to churn things up until
+we have some plan and further changes/users of this move.
 
-can their be distinguished somehow from normal SMC invocations or is
-just a consequence that the secure monitor does not enable interrupts
-during transition for some of the "functions"?
-
-> > +
-> > +The transition from normal world -> secure monitor -> OP=E2=80=91TEE a=
-nd back introduces
-> > +additional latency due to world switching and context save/ restore. T=
-his
-> > +overhead is typically a few microseconds and usually remains in the no=
-ise
-> > +floor.
->=20
-> That's correct.
->=20
-> > +
-> > +If the secure monitor masks normal=E2=80=91world interrupts during OP=
-=E2=80=91TEE invocations,
-> > +or if OP=E2=80=91TEE uses long=E2=80=91running secure FIQ handlers, th=
-en OP=E2=80=91TEE can introduce
-> > +measurable latency spikes.
-> > --
-> > 2.53.0
-> >
->=20
-> Overall I think this is worth documenting, but infortunately there's a
-> wider range of configs and corner cases we have to describe.
-
-Okay.
-
-> Cheers
-> /Ilias
-
-Sebastian
+-- 
+Regards,
+Sudeep
