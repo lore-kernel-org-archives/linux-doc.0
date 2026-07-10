@@ -1,201 +1,399 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467B84499A6;
-	Fri, 10 Jul 2026 08:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46383CEB98;
+	Fri, 10 Jul 2026 08:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783673954; cv=none; b=p2t/JCM01EcgNjiu/Bgwq+9Ak3XT4VoHsjfG0E1l9XUIZf+b3HIxCPKj8uKDOqurMpddDxsYNjXLzKpUgqtAfBye85IkJpvxijZZ74cWJl8njOAWIpC94Axf1TNn0+zjLt54wM72DQThUgBgn4AUHWX98dytFeA0Wy8e9bEHvOA=
+	t=1783673982; cv=none; b=QQ38fv/dYBepEwAMUNsEp+4YB4NPHwMQhRcBnSVRp/UdxpH0VJm0gdSfIpV/hKxZQ1TebRoWamVswpScFsIBfa5TmgcQuAQbLCF4nK8uNM+61wkiluTdHIWpz2Kn4S2qG2Mcv9Ad55Cx7WtkHzFbHpMS/M+3OKoBb+yFQBIwGx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783673954; c=relaxed/simple;
-	bh=D3CnLG9FMhGkspTiDvmFSOI76CFvY6t7t6rmY+pnKgw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s75argpoPt7CZ7fEvlAQktHATCh7oAxbvmBAor1RYmaDLv0KdlzccRVAaYbAtYH9cOMMywhlHDHd7B1z6cfHQ+UFYw2wHkXXXULbyflF1OtABu52nHesTZj2osk1WCVgD2LThp2Vy4TiZD2EgCk9p6RYl852WX4Obj3ERyeENLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IKhLW3fT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783673982; c=relaxed/simple;
+	bh=ySeEdVyfLJ1FoqK1KDCiOu5dWvFOr79CGcqcGkC6+pU=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O1JqJ//9dbxUuGsFkusmvDyqaShLZ0hVP3sKiA40HF/T6wVLTR1R2/Zw14NraRpOyVcm+iY+6pIDzWkcTs8TWsmWRDQpOVIS6vZQgbYDEQykRcFFWF+3McyDR/sdXJN9gO+mRuyoigsHR+CKX7ndXmHoFaVukqs7USL0/7bqEUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=MBuZ6mNk; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IKhLW3fT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A8721F000E9;
-	Fri, 10 Jul 2026 08:59:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783673953;
-	bh=CVSlTfeD5BHl+GRA9mEIc/4kG/WjY5gCS/LshAAC+Q4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IKhLW3fT6orMnTU1cwoiIfWK4bgn1LdEED5oWv50CCfHaVe8qgo6eYDeGHu2BctBl
-	 IJsGA9DzhqEpXt5Wjeql5EAtBZzfkBMPykg71PinzYNhaiLtzRJsA87tra5b3Cyg4R
-	 Q+/eeF+UJCHFkQXYvozwBac7xayvBSF202VvsriDRYTTZ4tjeIVzFUUrcI7lY9TKUn
-	 bYRZHekZ/vchzYYCskcm3GsW4LmNEmsSDNlrrx4jxqKHm4Vf9d2mXeLFI6P7yCB+Hy
-	 IRf1jv45MJCjXXX4cas8jHZ+lTBJ2H+Eq3lSEX6tIcCYjXik+w8F2NgCWz21P++Gha
-	 BqK/EUaeJMFIg==
-Date: Fri, 10 Jul 2026 09:59:04 +0100
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Michal Simek <michal.simek@amd.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	linux-kernel@vger.kernel.org, monstr@monstr.eu, git@amd.com,
-	vincent.guittot@linaro.org, Souvik.Chakravarty@arm.com,
-	Alex Shi <alexs@kernel.org>, Andy Shevchenko <andy@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Brian Masney <bmasney@redhat.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Lukasz Luba <lukasz.luba@arm.com>, Mark Brown <broonie@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Pavel Machek <pavel@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Stephen Boyd <sboyd@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Yanteng Si <si.yanteng@linux.dev>, arm-scmi@vger.kernel.org,
-	"open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>,
-	linux-arm-kernel@lists.infradead.org,
-	"open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-	"open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
-	"open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
-	"open list:ENERGY MODEL" <linux-pm@vger.kernel.org>
-Subject: Re: [RFC PATCH] firmware: scmi: Make SCMI arch independent
-Message-ID: <20260710-romantic-dashing-gecko-e31a98@sudeepholla>
-References: <d7f7e8c9589d937b60e43168845ab4fda15037a3.1783603600.git.michal.simek@amd.com>
- <ak_Eu_eQKalPMwo-@pluto>
- <77110e77-941d-4173-b2f5-6f3cf4858339@amd.com>
- <20260710-lemon-pogona-of-wind-b3a003@sudeepholla>
- <5f5e8341-dbcc-4467-976e-35d007ae148e@amd.com>
- <20260710-macho-pristine-tanuki-b0d3ce@sudeepholla>
- <6f823bad-014c-4ac3-9e75-9edcdf28f7b8@amd.com>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="MBuZ6mNk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1783673980; x=1815209980;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ySeEdVyfLJ1FoqK1KDCiOu5dWvFOr79CGcqcGkC6+pU=;
+  b=MBuZ6mNkP/0S/zbN231bu5DjQckZiPlbcRWtjXxemb7K9wwMpGz5MD7p
+   gJq7FrPdxrAV/YuTr82t5GynMDPCDpNcZ2kw4BWb5+esWAa9qIZaAHTgC
+   wKPS8t3xVpnlJLo6Z1i1F2GlZ9HmUXdkAWTiAErrqUfB8m5VI68K5bkv3
+   G8W13m1XmtPBHNVk72nt2gGg3Q/Hmrz/yDgdLadQAAbhX103v+BUNiZNf
+   SRqI6llW4mF6vvy2ngOpS5cd76+YLNt6tt93iwPxM/P26nuCHittrMcVs
+   uEvBQsKYfc5ppl3OeNXtbVz9WjFMbyMmjWGvEmIruxG/0p4CmQJPe/Mvm
+   g==;
+X-CSE-ConnectionGUID: 93p7ykEDR4iIaWuQKtugoQ==
+X-CSE-MsgGUID: d97xofyKSd+Bzpg62yGSuw==
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="asc'?scan'208";a="59540370"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 01:59:33 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex1.mchp-main.com (10.10.87.30) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.43; Fri, 10 Jul 2026 01:59:32 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex02.mchp-main.com (10.10.85.144)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.58 via Frontend
+ Transport; Fri, 10 Jul 2026 01:59:29 -0700
+Date: Fri, 10 Jul 2026 09:58:34 +0100
+From: Conor Dooley <conor.dooley@microchip.com>
+To: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
+CC: Albert Ou <aou@eecs.berkeley.edu>, Alex Ousherovitch
+	<aousherovitch@rambus.com>, Conor Dooley <conor+dt@kernel.org>, "David S.
+ Miller" <davem@davemloft.net>, Herbert Xu <herbert@gondor.apana.org.au>,
+	Jonathan Corbet <corbet@lwn.net>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, Rob
+ Herring <robh@kernel.org>, Shuah Khan <shuah@kernel.org>, Alexandre Ghiti
+	<alex@ghiti.fr>, <devicetree@vger.kernel.org>, Joel Wittenauer
+	<Joel.Wittenauer@cryptography.com>, <linux-api@vger.kernel.org>,
+	<linux-crypto@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-riscv@lists.infradead.org>, Shuah Khan <skhan@linuxfoundation.org>,
+	Thi Nguyen <thin@rambus.com>
+Subject: Re: [PATCH v2 01/19] dt-bindings: crypto: add Rambus CryptoManager
+ Hub
+Message-ID: <20260710-siding-unmatched-5e066fbe4c01@wendy>
+References: <20260709203037.1884436-1-skrishnamoorthy@rambus.com>
+ <20260709203037.1884436-2-skrishnamoorthy@rambus.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="tVV5lCAGuauPQznU"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6f823bad-014c-4ac3-9e75-9edcdf28f7b8@amd.com>
+In-Reply-To: <20260709203037.1884436-2-skrishnamoorthy@rambus.com>
 
-On Fri, Jul 10, 2026 at 10:46:15AM +0200, Michal Simek wrote:
-> 
-> 
-> On 7/10/26 10:38, Sudeep Holla wrote:
-> > On Fri, Jul 10, 2026 at 09:42:09AM +0200, Michal Simek wrote:
-> > > 
-> > > 
-> > > On 7/10/26 09:35, Sudeep Holla wrote:
-> > > > On Fri, Jul 10, 2026 at 09:03:32AM +0200, Michal Simek wrote:
-> > > > > 
-> > > > > 
-> > > > > On 7/9/26 17:56, Cristian Marussi wrote:
-> > > > > > On Thu, Jul 09, 2026 at 03:27:00PM +0200, Michal Simek wrote:
-> > > > > > > On heterogenious systems like AMD/Xilinx FPGA there is a need to talk to
-> > > > > > > SCMI server from different architectures than ARM that's why remove
-> > > > > > > ARM/ARM64 Kconfig dependency with also remove ARM from description and
-> > > > > > > rename folder to reflect it.
-> > > > > > 
-> > > > > > While I understand dropping the dependency on ARM (I always wanted to do
-> > > > > > that and test if it worked at all on some otehr archs with QEMU), I am
-> > > > > > not sure about the whole renaming party ? why is needed just for
-> > > > > > cosmetic reasons ? it is at the end an arm originated protocol so I dont
-> > > > > > see it as a being wrong to be named as such even though used by other
-> > > > > > archs...I have not really strong opinion on this...
-> > > > > 
-> > > > > I have been in CC on U-Boot RPMI patches which got to my attention because
-> > > > > I don't want to have another interface for MB-V(riscv-) running in
-> > > > > programmable logic and have another server in the system doing the same
-> > > > > thing.
-> > > > > 
-> > > > 
-> > > > Ah that's interesting. I wasn't aware of that. I still agree with the move
-> > > > in principle, but how does that align with these:
-> > > > 
-> > > > drivers/clk/clk-rpmi.c
-> > > > drivers/irqchip/irq-riscv-rpmi-sysmsi.c
-> > > > include/linux/mailbox/riscv-rpmi-message.h
-> > > > drivers/mailbox/riscv-sbi-mpxy-mbox.c(Should be fine as it is just transport)
-> > > 
-> > > I am having separate discussion on u-boot mailing list about RPMI and it's
-> > > usage on non riscv architectures because one raised argument was that it is
-> > > community driver spec compare to SCMI which is owned by ARM. But IMHO only
-> > > for riscv.
-> > > 
-> > 
-> > IIRC in LPC 2024, we did discuss opening up SCMI so that RISCV could use it as
-> > is instead of copying quite a lot from SCMI for RPMI in some closed groups.
-> > 
-> > Here is the summary we got from couple of RISC-V vendors at the time:
-> > "
-> > RPMI is comparable to Arm SCMI, but it includes RISC-V-specific services such
-> > as HART State Management, CPPC, Management Mode, and RAS Agent. The SBI MPXY
-> > extension enables secure and non-secure system partitions to exchange RPMI
-> > messages, allows an M-mode RPMI transport to be shared with S-mode, and lets
-> > hypervisors virtualize RPMI for guests or VMs.
-> > 
-> > RPMI development is already well advanced, with much of the client-driver work
-> > implemented in OpenSBI. Supervisor software can access selected RPMI services
-> > through SBI MPXY. A permissively licensed reference implementation, librpmi,
-> > is also available for platform vendors.
-> > 
-> > RPMI was created after evaluating Arm SCMI, mainly to support RISC-V-specific
-> > requirements.
-> > "
-> > 
-> > I didn't pursue it any further following some of these followup discussions
-> > post LPC 2024.
-> 
-> interesting. It looks like that they even didn't try to ARM about it.
-> 
-> > 
-> > > > 
-> > > > Now I feel we need some alignment before making $subject move.
-> > > > 
-> > > > > Based on that we had discussed about it with Vincent and Souvik (we missed
-> > > > > you there) about using SCMI on non ARM platform and both of them didn't see
-> > > > > the concern to be marked as ARM only protocol.
-> > > > > Truth is that some of protocols have ARM in description, file names, etc but
-> > > > > some of them not. That's why I think it is good time to sync it up and
-> > > > > enable
-> > > > > running this protocol on other SOCs.
-> > > > > 
-> > > > > > ... my concern really is ... wont this full scale rename simply generate
-> > > > > > a lot of un-needed churn for future fixes and/or backporting ?
-> > > > > I don't think it is going to be a big problem because it is just git mv
-> > > > > which git is able to gracefully handle.
-> > > > > 
-> > > > 
-> > > > Otherwise it may end up being unnecessary churn though I completely agree
-> > > > with the git/backporting aspects. Just don't want to churn things up until
-> > > > we have some plan and further changes/users of this move.
-> > > 
-> > > As I wrote above AMD/Xilinx platform with SCMI server where ARM RPU/APUs
-> > > (with multiple VMs) and Microblaze-V in programmable logic acting as
-> > > separate agents is going to be the first user. And for being able to run
-> > > SCMI on Linux running on Microblaze-V I need enable SCMI on non ARM
-> > > architecture.
-> > > 
-> > 
-> > Ah OK, if the plan is to just use SCMI as is and having "ARM/arm" name is
-> > a blocker, then sure we can get that done. Hope you are aware of and already
-> > considered some of the RISC-V specifics listed above and ruled out any of
-> > those as concerns to use SCMI on RISC-V platforms.
-> 
-> I know that we can't maintain SCMI and RPMI servers running on the same chip
-> doing the same things. We don't have space for it and make no sense to
-> duplicate testing on it too.
-> 
+--tVV5lCAGuauPQznU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-That is very valid and compelling reason to re-use and agree with your
-assessment. If you can make it work, go for it 😉.
+Hey,
 
--- 
-Regards,
-Sudeep
+On Thu, Jul 09, 2026 at 01:30:19PM -0700, Saravanakrishnan Krishnamoorthy w=
+rote:
+> From: Alex Ousherovitch <aousherovitch@rambus.com>
+>=20
+> Add device tree binding schema for the CRI CryptoManager Hub (CMH)
+> hardware crypto accelerator.  The binding covers the parent SoC-level
+> node with register region, interrupt, DMA properties, and per-core
+> child nodes identified by compatible string and unit address.
+>=20
+> Register the 'cri' vendor prefix for Cryptography Research, Inc.
+
+This company no longer exists, you should probably introduce a rambus
+vendor prefix instead.
+
+>=20
+> Co-developed-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.=
+com>
+> Signed-off-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.co=
+m>
+> Signed-off-by: Alex Ousherovitch <aousherovitch@rambus.com>
+> Reviewed-by: Joel Wittenauer <Joel.Wittenauer@cryptography.com>
+> Reviewed-by: Thi Nguyen <thin@rambus.com>
+> ---
+>  .../devicetree/bindings/crypto/cri,cmh.yaml   | 222 ++++++++++++++++++
+>  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+>  2 files changed, 224 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/crypto/cri,cmh.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/crypto/cri,cmh.yaml b/Docu=
+mentation/devicetree/bindings/crypto/cri,cmh.yaml
+> new file mode 100644
+> index 000000000000..db41132e0591
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/crypto/cri,cmh.yaml
+> @@ -0,0 +1,222 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/crypto/cri,cmh.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: CRI CryptoManager Hub (CMH) Hardware Crypto Accelerator
+> +
+> +maintainers:
+> +  - Alex Ousherovitch <aousherovitch@rambus.com>
+> +  - Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
+> +  - Joel Wittenauer <Joel.Wittenauer@cryptography.com>
+> +
+> +description: |
+> +  The CRI CryptoManager Hub (CMH) is a hardware cryptographic accelerato=
+r accessed
+> +  via a mailbox-based VCQ (Virtual Command Queue) interface.  The host
+> +  writes VCQ command sequences into per-mailbox DMA queue buffers and
+> +  rings a doorbell; the CMH eSW processes them and signals completion
+> +  via interrupt.
+> +
+> +  Supported algorithm families: SHA-2, SHA-3, SM3, AES, SM4,
+> +  ChaCha20-Poly1305, RSA, ECDSA, EdDSA, ECDH, SM2, ML-KEM, ML-DSA,
+> +  SLH-DSA, LMS, XMSS, DRBG.
+> +
+> +properties:
+> +  compatible:
+> +    const: cri,cmh
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description:
+> +      SIC (System Interface Controller) MMIO region.  Mailbox instance
+> +      registers are at offsets N * 0x1000 within this region.
+> +
+> +  interrupts:
+> +    minItems: 1
+> +    maxItems: 64
+> +    description:
+> +      Per-mailbox completion/error interrupts from the CryptoManager Hub,
+> +      matching the real CMH ch_sys_interrupt_mbx[N-1:0] topology.
+> +      Entry i corresponds to MBX instance i.  The driver maps each
+> +      configured mailbox (cri,mbx-instances) to its DT interrupt
+> +      index and registers a separate threaded IRQ handler per MBX.
+> +
+> +  interrupt-names:
+> +    minItems: 1
+> +    maxItems: 64
+> +    items:
+> +      pattern: '^mbx[0-9]+$'
+> +    description:
+> +      Names for each mailbox interrupt, matching the interrupts array.
+> +      Format is "mbxN" where N is the mailbox instance index.
+> +
+> +  cri,mbx-instances:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 64
+> +    description:
+> +      Array of 0-based mailbox instance indices to configure.
+> +      Each index N maps to register offset N * 0x1000 within the
+> +      SIC region.  If absent, defaults to instances 0 and 1.
+
+This property seems like it could be replaced by having a reg entry for
+each mailbox.
+
+> +  cri,mbx-slots-log2:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 64
+> +    description:
+> +      Per-mailbox slot count as log2.  Valid range 1..15.
+> +      Array length must match cri,mbx-instances.
+> +      Default is 5 (32 slots).
+
+This looks like it should be deducible from a device-specific compatible.
+
+> +
+> +  cri,mbx-strides-log2:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 64
+> +    description:
+> +      Per-mailbox stride (bytes per slot) as log2.  Valid range 7..10.
+> +      Array length must match cri,mbx-instances.
+> +      Default is 7 (128 bytes per slot).
+
+Ditto here.
+
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^(hc|aes|sm4|sm3|hcq|qse|pke|drbg|ccp)@[0-9a-f]+$":
+> +    type: object
+> +    description:
+> +      Per-core-type child nodes.  Each child represents one crypto core
+> +      instance available in the hardware.  The driver enumerates these at
+> +      probe to discover which algorithm families are present.
+
+This whole subnode thing seems like it is only required because you
+don't have device-specific compatibles to deduce what is supported.
+
+> +
+> +    properties:
+> +      reg:
+> +        maxItems: 1
+> +        description:
+> +          Hardware core ID for this core type (e.g. 0x02 for HC, 0x03 fo=
+r AES).
+> +          Must match the CORE_ID_* values defined by the CMH hardware.
+> +
+> +      cri,mbx:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description:
+> +          Pin this core instance to a specific mailbox instance index.
+> +          Multiple child nodes of the same core type may each specify a
+> +          different cri,mbx value to spread instances across mailboxes.
+> +          When absent, the driver auto-assigns a mailbox via round-robin
+> +          across the instances listed in cri,mbx-instances.
+
+With the mailboxes converted to individual reg entries, this could
+probably be handled via reg-names? If the reg name is "aes" or w/e, use
+that mailbox for aes only, if it is $something-generic then it's
+available for round robin assignment.
+
+pw-bot: changes-requested
+
+Cheers,
+Conor.
+
+> +
+> +    required:
+> +      - reg
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    soc {
+> +        #address-cells =3D <2>;
+> +        #size-cells =3D <2>;
+> +
+> +        crypto@a4800000 {
+> +            compatible =3D "cri,cmh";
+> +            reg =3D <0x0 0xa4800000 0x0 0x41000>;
+> +            interrupts =3D <1 2>;
+> +            interrupt-names =3D "mbx0", "mbx1";
+> +            cri,mbx-instances =3D <0 1>;
+> +            cri,mbx-slots-log2 =3D <5 5>;
+> +            cri,mbx-strides-log2 =3D <7 7>;
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +
+> +            hc@2 {
+> +                reg =3D <0x02>;
+> +            };
+> +
+> +            aes@3 {
+> +                reg =3D <0x03>;
+> +            };
+> +
+> +            sm4@4 {
+> +                reg =3D <0x04>;
+> +            };
+> +
+> +            sm3@5 {
+> +                reg =3D <0x05>;
+> +            };
+> +
+> +            hcq@8 {
+> +                reg =3D <0x08>;
+> +            };
+> +
+> +            qse@9 {
+> +                reg =3D <0x09>;
+> +            };
+> +
+> +            pke@a {
+> +                reg =3D <0x0a>;
+> +                cri,mbx =3D <1>;
+> +            };
+> +
+> +            drbg@f {
+> +                reg =3D <0x0f>;
+> +            };
+> +
+> +            ccp@18 {
+> +                reg =3D <0x18>;
+> +            };
+> +        };
+> +    };
+> +
+> +  - |
+> +    /* Multi-instance: two AES cores on separate MBXes (future eSW suppo=
+rt) */
+> +    soc {
+> +        #address-cells =3D <2>;
+> +        #size-cells =3D <2>;
+> +
+> +        crypto@a4800000 {
+> +            compatible =3D "cri,cmh";
+> +            reg =3D <0x0 0xa4800000 0x0 0x41000>;
+> +            interrupts =3D <1 2>;
+> +            interrupt-names =3D "mbx0", "mbx1";
+> +            cri,mbx-instances =3D <0 1>;
+> +            cri,mbx-slots-log2 =3D <5 5>;
+> +            cri,mbx-strides-log2 =3D <7 7>;
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +
+> +            hc@2 {
+> +                reg =3D <0x02>;
+> +            };
+> +
+> +            aes@3 {
+> +                reg =3D <0x03>;
+> +                cri,mbx =3D <0>;
+> +            };
+> +
+> +            /* Second AES instance at core ID 0x06, pinned to MBX 1 */
+> +            aes@6 {
+> +                reg =3D <0x06>;
+> +                cri,mbx =3D <1>;
+> +            };
+> +
+> +            pke@a {
+> +                reg =3D <0x0a>;
+> +                cri,mbx =3D <1>;
+> +            };
+> +
+> +            drbg@f {
+> +                reg =3D <0x0f>;
+> +            };
+> +        };
+> +    };
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Doc=
+umentation/devicetree/bindings/vendor-prefixes.yaml
+> index 396044f368e7..8b7187ea0194 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -375,6 +375,8 @@ patternProperties:
+>      description: Crane Connectivity Solutions
+>    "^creative,.*":
+>      description: Creative Technology Ltd
+> +  "^cri,.*":
+> +    description: Cryptography Research, Inc.
+>    "^crystalfontz,.*":
+>      description: Crystalfontz America, Inc.
+>    "^csky,.*":
+> --=20
+> 2.43.7
+>=20
+
+--tVV5lCAGuauPQznU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCalC0JQAKCRB4tDGHoIJi
+0lDOAP4lM7VqD2SV+kzpePgkDgsK+A4p1hJGMNL/A0QhQxSjSgD8C+6gZEUcIcPi
+73MwrF0YJ8Q/LuZsV0RCYOPYGqMSIAc=
+=1fAE
+-----END PGP SIGNATURE-----
+
+--tVV5lCAGuauPQznU--
