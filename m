@@ -1,68 +1,80 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A973A6B65;
-	Fri, 10 Jul 2026 06:05:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A88A37186F;
+	Fri, 10 Jul 2026 06:24:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.138.36.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783663562; cv=none; b=aHs5i+apiAInU6zESQKMtbyN/fEiLLvZUsZ/arGqfEJCFOc+yQHIsnlc4FdLJtzSPt2Pr9w8pjr9MF5t/R/SCLmjwPmjIVhMkOwjlbYxyKyP+QzMVhNHYdQ4ac/jIN68NAO5AcK6uiE7HNY28+w5Lw+IWtCbfjhgSLTioAA+Jyc=
+	t=1783664668; cv=none; b=dteTXd42EtQ/ggO+cZZYybq3cdcbA3njZYtllIaTgfTBIPWxzu1Qy+k8IOecABOfsagwlWrZyb/EEWYxwqSt+k45qc9Hy39eJNpRCSCs+qDFBims85c4WoEXBo4ju8lQRej/IhKjP2apuNxeR/xLV8lUr8EvA9828ObTg80Nz1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783663562; c=relaxed/simple;
-	bh=sZgn80uGZ5bN6mebqldL+gMcSR7f26CP9F7FJbqhlVM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f6KcnsHDz47pp6q3nI15Y9wIbm5ZxudnhVLxbjFD0T+48pz/ZXBSG9ZvUJGWA2K7a0Wr8gG8itRe3CI8MY5KffvLEwDgzT172PUkjhMqNYg2XXIwWHU/KYnZPjeIQ4nSX0P6T9p6wFkGk8LFZzS/ltxN7+PG3jku1ih7H5GYQWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=s/WmvID9; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ODjyAngL; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1783664668; c=relaxed/simple;
+	bh=HFnS/IroUgrD3Efyx//OAMn0jrlTbDHdOHhqt9ZqYx4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FCN9FkVe1miFR79uEzduNWVtnEaFgYxR7am3h9H6OLkVpyeUl8Ls4rNtFpxXBNarYr13DcxrF+e0wJ9vqVF2OZFkxdHAAGSuIZmkTXKDJE/L3Dd9+OPei3bB7so9qYST3cMb4ml84ikQQgniyugmswiBnkJaTs91AdmZOWC5mAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=GiSIlRnM; arc=none smtp.client-ip=139.138.36.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="s/WmvID9";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ODjyAngL"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="GiSIlRnM"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1783664666; x=1815200666;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=HFnS/IroUgrD3Efyx//OAMn0jrlTbDHdOHhqt9ZqYx4=;
+  b=GiSIlRnMMhHWeaFY/VHwTlEXj3F0lDq4M1fmw92+l7xO60nJAMp+kCPI
+   zDd0eQjNE5TcJ1oUkUKJXt+gxQNfPw2xgQaZIWembqANbWYTiWSVvqGXQ
+   3EyxejOHsTfmS8p5J9XGrmrfMWRkAPFvn1VA5PiHqTYvVTKZCNW2ivSKD
+   YviCOXUUCVJkm1nDVFyoxGfmB2jMMnTfIZ79vojpB4ZK31Fpp61uea/5I
+   WkqXLa5diVE97FUtJIKXIXrGo55LJLyomcestm5jjaFM88YFckPiu7OgU
+   7U46WlOCQat9TIwBjRX5Qiotlbef69pp5mYv/imn8FkzGVjR5m2wsWU5s
+   Q==;
+X-CSE-ConnectionGUID: POcJ7gvtQTCyue1+O4rclA==
+X-CSE-MsgGUID: L2iczwXKRSad85vIC+qcVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="234349836"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779116400"; 
+   d="scan'208";a="234349836"
+Received: from gmgwuk01.global.fujitsu.com ([172.187.114.235])
+  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 15:23:15 +0900
+Received: from az2uksmgm1.o.css.fujitsu.com (unknown [10.151.22.198])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gxLt73d5gzMlG2;
-	Fri, 10 Jul 2026 08:05:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783663551;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Uv2CbFZ7cH3Hmd7yy3md8uk9BC4HCnVVFcTQsrjqWoY=;
-	b=s/WmvID9WitnpOyHV9ZQxHRKWt7qlkm04M3fXWa61Tv6OXQyqmQLIQmupfab+UjwqE+jPl
-	xhUj+55vajyExpLiU6Tg7Gs8tmt/Rm+O8IF4D2yC2wdFm80B5NXH63By688pFaadQFdepB
-	lJeYlZ39X1LWVpJvULF6fh8PzA8INOumEmXu1mkbgfE6IRgiR8EqsoxpFX0ceh3aGzgK6X
-	0eTalNyRX5izDF8CAJHAyHSb/8tJ1FYtZBbXge7tlVYFEwA59INO3igJk5/uYqoXVahDpv
-	iRn++V6dcrrD9pNkH2/HtshYQwGNXgENzjLk0B4i+89Ozj0R7avqcjY0r8cejQ==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=ODjyAngL;
-	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
-From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783663549;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Uv2CbFZ7cH3Hmd7yy3md8uk9BC4HCnVVFcTQsrjqWoY=;
-	b=ODjyAngLp71lLFv80JVaydUlqe2888YYgflFmJP1zkzPEzWpsjmGbBqMQ9adLrsHBD9jY7
-	Bj5BA//CKWm3w5Qu9dqer7wKb9UrGvaimr8PvGPzogU4nTnONgSN5aOZsllRIpVF+lvxDz
-	S5GEjQACZx7MJFmuZ18tnUnZoeodRgbZo5XC8CsZg3nm89mSM87AshyV7hyUN9+SDThKPA
-	uqwzLf3f+9zj7NjDI85acU5AVzHd6N+kqF5724ldpcASxdnjz9HcM3+O5iA4YIHT8d78+j
-	m4noIgJZ7gcWHL0Qvj8YDOyVKjBoUoHGvT4ISxEs9ISVJkJO9ic+E0k8qt9YWQ==
-To: Vladimir Oltean <olteanv@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jacob Keller <jacob.e.keller@intel.com>
-Cc: Manuel Ebner <manuelebner@mailbox.org>,
-	Andrew Lunn <andrew@lunn.ch>,
+	by gmgwuk01.global.fujitsu.com (Postfix) with ESMTPS id D8D5AC00359;
+	Fri, 10 Jul 2026 06:23:14 +0000 (UTC)
+Received: from az2nlsmom2.o.css.fujitsu.com (unknown [10.150.26.200])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id 8FA1396847F;
+	Fri, 10 Jul 2026 06:23:14 +0000 (UTC)
+Received: from whale.soft.fujitsu.com (unknown [10.125.16.33])
+	by az2nlsmom2.o.css.fujitsu.com (Postfix) with ESMTP id 1B9FF18021A7;
+	Fri, 10 Jul 2026 06:23:07 +0000 (UTC)
+From: Koki Iwata <iwata.koki@fujitsu.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Ard Biesheuvel <ardb@kernel.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Matthew Garrett <matthew.garrett@nebula.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Borislav Petkov <bp@alien8.de>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	netdev@vger.kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	Feng Tang <feng.tang@linux.alibaba.com>,
+	Dapeng Mi <dapeng1.mi@linux.intel.com>,
+	Marco Elver <elver@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Li RongQing <lirongqing@baidu.com>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Matt Fleming <mfleming@cloudflare.com>,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] docs: packing: fix brackets
-Date: Fri, 10 Jul 2026 08:03:46 +0200
-Message-ID: <20260710060346.417669-2-manuelebner@mailbox.org>
+	linux-efi@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	iwata.koki@fujitsu.com
+Subject: [PATCH RESEND] Documentation: admin-guide: fix a doc for efi_no_storage_paranoia the "5KB" instead of the "50%"
+Date: Fri, 10 Jul 2026 15:22:44 +0900
+Message-ID: <20260710062306.1204206-1-iwata.koki@fujitsu.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,51 +82,52 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 63237ca027c07557ae0
-X-MBO-RS-META: uxm6haoodbhcxhy8owyphy5q3f7g64sx
-X-Rspamd-Queue-Id: 4gxLt73d5gzMlG2
 
-Add two ')' to nested functions in code block.
+From: Iwata Koki <iwata.koki@fujitsu.com>
 
-Fixes: a9ad2a8dfb43 ("lib: packing: document recently added APIs")
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+The documentation for 'efi_no_storage_paranoia' incorrectly states
+the kernel cannot use "more than 50%" of the EFI variable storage.
+
+This percentage-based explanation has been outdated since commit
+f8b8404337de ("Modify UEFI anti-bricking code") introduced a fixed 5KB
+minimum reserve threshold (EFI_MIN_RESERVE) in
+arch/x86/platform/efi/quirks.c. At that time, the documentation was not
+updated to reflect this change.
+
+Update the documentation to reflect the "5KB" instead of the "50%".
+
+Fixes: f8b8404337de ("Modify UEFI anti-bricking code")
+Signed-off-by: Koki Iwata <iwata.koki@fujitsu.com>
 ---
-[v3]
- fix subject
- add Acked-by
-[v2]
- add Fixes tag.
- add Reviewed-by.
-[v1]
- https://lore.kernel.org/all/20260709121427.391749-2-manuelebner@mailbox.org/
----
- Documentation/core-api/packing.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/core-api/packing.rst b/Documentation/core-api/packing.rst
-index f68f1e08fef9..cff1a262efce 100644
---- a/Documentation/core-api/packing.rst
-+++ b/Documentation/core-api/packing.rst
-@@ -330,7 +330,7 @@ Here is an example of how to use the fields APIs:
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index b5493a7f8f22..3f75969a679b 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1614,10 +1614,17 @@ Kernel parameters
+ 			on all PCI bridges while in the EFI boot stub
  
-    void unpack_your_data(const packed_buf_t *buf, struct data *unpacked)
-    {
--           BUILD_BUG_ON(sizeof(*buf) != SIZE;
-+           BUILD_BUG_ON(sizeof(*buf) != SIZE);
+ 	efi_no_storage_paranoia [EFI,X86,EARLY]
+-			Using this parameter you can use more than 50% of
+-			your efi variable storage. Use this parameter only if
+-			you are really sure that your UEFI does sane gc and
+-			fulfills the spec otherwise your board may brick.
++			The kernel reserves 5KB of EFI variable storage for
++			safety, because some UEFI implementation may fail to
++			boot if there's insufficient space in the EFI variable
++			storage.
++
++			Using this parameter, you can use the 5KB reservation
++			in the EFI variable storage.
++
++			However, Use this parameter only if you are really
++			sure that your UEFI does sane gc and fulfills the spec
++			otherwise your board may brick.
  
-            unpack_fields(buf, sizeof(*buf), unpacked, fields,
-                          QUIRK_LITTLE_ENDIAN);
-@@ -338,7 +338,7 @@ Here is an example of how to use the fields APIs:
- 
-    void pack_your_data(const struct data *unpacked, packed_buf_t *buf)
-    {
--           BUILD_BUG_ON(sizeof(*buf) != SIZE;
-+           BUILD_BUG_ON(sizeof(*buf) != SIZE);
- 
-            pack_fields(buf, sizeof(*buf), unpacked, fields,
-                        QUIRK_LITTLE_ENDIAN);
+ 	efivar_ssdt=	[EFI; X86] Name of an EFI variable that contains an SSDT
+ 			that is to be dynamically loaded by Linux. If there are
 -- 
-2.54.0
+2.52.0
 
