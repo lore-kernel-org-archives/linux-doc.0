@@ -1,137 +1,267 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.78.106])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0222F23D7C2;
-	Fri, 10 Jul 2026 13:45:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.76.78.106
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF95D223DE7;
+	Fri, 10 Jul 2026 13:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783691145; cv=none; b=hwp/o7XeLTbP5jMGG0W8kaqxz/Exy/PjdKUqFCDYOr8ianrXKyqvfVoNNzYhcZ8nca5Bxrw+qseO6OSO7HSOVab7J18sJuOOazREKcCupibQ7CvmaYDgJDld/NF4M+DwBGxpgh3URQOSovSe7v019bD0jhBVU6IxQXxCnQLWXBY=
+	t=1783691222; cv=none; b=keBG36bwagMqKN8AVkAdmHznfYpdY6WeGnQzV5gWOPHuaqB2Kaq9mvGMst6zY2H77MWHWOJYwGhLyoI4BmMphz5D1nrsjOGwp7ZAvy5gAUjq/R47uaOB7ULQMJb+/ipx9nNBUn57xMkxcyKQrnjJGZccNP3tD/8qRCzrX1IROSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783691145; c=relaxed/simple;
-	bh=nrylM+sMvqtFGfbzOsJ2r4RaFtMLa1+llkkLCgt30Qo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iyc7+AwBeXOT4mPzAiD/zYVoeCKdedlIroezof2RMFCyjyhTlpaQyeNBeuniwcD8Y5rUYPYHuhsfOMVs1hgEdMJImKYf0SoJYM2ob/7DztIZcATFyjwlQjUc+ZmhS/YOmMDXJhtHkCYpKXe0g570yrsW0nmojuMK+ujuw1lcF/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=13.76.78.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrADH7KFP91Bq2o_OAQ--.48388S2;
-	Fri, 10 Jul 2026 21:44:47 +0800 (CST)
-Received: from [100.81.40.43] (unknown [222.20.126.216])
-	by gateway (Coremail) with SMTP id _____wB3fxNN91Bqlzq0AA--.5918S2;
-	Fri, 10 Jul 2026 21:44:46 +0800 (CST)
-Message-ID: <f637a819-5596-4cd7-b2fe-be7293eedf14@hust.edu.cn>
-Date: Fri, 10 Jul 2026 21:44:45 +0800
+	s=arc-20240116; t=1783691222; c=relaxed/simple;
+	bh=2oJiVm0J2v9kvUdap/DEt7Dg5yQdVUARp3FBHh3C9pI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ojUDEV8Y9J0EYXXqcwNKi/swz/27SIlz9bOlzwCS6xIoOxpK0HLJVS2nplZtXnwcHJFnMjWdowO1sBgZQUw4pbm3Pte80b/JowREExWMNJNDrlw3ORsTLPl/Kdz/qUOUWt+5uvn+Y4kZjvnS1D5R1m5Xjm3WOH/IOBPkTtp95mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=De6YCh9k; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="De6YCh9k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 703C91F000E9;
+	Fri, 10 Jul 2026 13:46:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783691220;
+	bh=F5AOmdAHXog1rg+jz/2akDmqr4uv17auS4VY00P0nsk=;
+	h=From:To:Cc:Subject:Date;
+	b=De6YCh9k2DWS+HtnAc27vzQ8a+Rt9P/ruPDPlwlvxY5Faj8i3fvrqluq4bS5rXYP9
+	 O3SKjrfjJAaAd+4IQX6tcCj10QlrIoMZ9Kih1OloYAffq3Ske8THiIesHu5Gu4vSGW
+	 xZPZljpw+OqSywpKmRGWuo/lEVfvpsch5wcjN/+341HaTzUfh2Vt8mwJPTJwT+wDAu
+	 jSk7N3bRrJrh7Cq7LMYd3xgeLzRHaSScB7kBjNjYfOtxwOO9qGT8LbM/cVGbINJRfP
+	 rEGhOotmLrzxUxVilzaEgE4Yeu+kpGC3AOI5byQCdJ4wYOw5F+mWelq4ubQHZ2nJlQ
+	 d6bKBh6iX+OwA==
+From: SJ Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SJ Park <sj@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH 00/19] mm/damon: introduce data attributes only monitoring
+Date: Fri, 10 Jul 2026 06:46:29 -0700
+Message-ID: <20260710134651.18084-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/zh_CN: add docs-next checkout workaround
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <4e5e728877c77a89f6c59e89c88ba8ffa8842643.1783609005.git.wy@wyuan.org>
- <ce715802-1b46-4ba6-b388-39260f217ba3@hust.edu.cn>
- <alD1b7O6KaIMqWpa@wyuan.org>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <alD1b7O6KaIMqWpa@wyuan.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrADH7KFP91Bq2o_OAQ--.48388S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxWw43GF1rXw15KF4kGF45ZFb_yoW5Zr47pF
-	4rKF1xKFn5Jr1fCa1xKw40vFy2ga4rGa47XFn8WwsYyrnxtr95tr4ftrWY9F98Zr10kFWY
-	vr42qa4xua45AFJanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQ2b7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04
-	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
-	Jr0_Gr1l4IxYO2xFxVAFwI0_Jw0_GFylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
-	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUVk9NDUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+
+TL;DR: Introduce a way to get DAMON's best effort accuracy monitoring of
+user-demanding non-access data attributes.
+
+Background
+==========
+
+DAMON was initially designed for only access monitoring.  It turned out
+users want to get the information together with more data attributes.
+For example, some users want to know how much of a hot memory region
+belongs to huge pages or specific cgroups.  Page level properties based
+monitoring was introduced with commit 626ffabe67c2 ("mm/damon: clarify
+trying vs applying on damos_stat kernel-doc comment") to fill the gap.
+Because it works only at snapshot level and snapshot capturing in the
+mode can induce high overhead, commit 45c49d9fd608 ("mm/damon/core:
+introduce struct damon_probe") introduced data attributes monitoring.
+
+Data attributes monitoring treats the attributes as only additional and
+subordinate information.  Data access monitoring is always turned on,
+and regions are adjusted for best accuracy of the access information. In
+some cases, users may be primarily interested in the attributes more
+than the access.  They might even not care about the access information
+at all.  Because DAMON treats data accesses as the only primary
+information, such users cannot get high quality attributes information.
+
+Design and Implementation
+=========================
+
+Introduce another way for treating data attributes as the primary
+information.  Add 'weight' property to each data attribute probe.  When
+any of the weights are set, the mode is enabled.  Data access monitoring
+is completely turned off in the mode.  For region  adjustment, the
+weighted sum of probe hit counters is used instead of the nr_accesses.
+
+Using the weights, users can specify to what attributes they are
+interested in to what degree.  DAMON will adjust the regions and provide
+the best-effort quality monitoring that is optimized for the user
+demands.
+
+Extend damon_operations for efficient use of probe hits.  Update regions
+merge and kdamond main logic to support the new mode.  Add a new struct
+field and a sysfs file for API callers and ABI users, respectively.
+
+Test
+====
+
+On ~7 GiB memory idle system, run a simple AI-assisted program.  The
+program allocates and faults 2 GiB anonymous pages.  Then, it does
+nothing but wait until the user terminates it.  Hence, the system ~2 GiB
+of anonymous pages with no active accesses.
+
+Monitor the distribution of the anonymous pages using DAMON attributes
+monitoring mode, using DAMON user-space tool, damo [1].
+
+    $ sudo ./damo start --probe_filter allow anon
+    $ sudo ./damo report access --dont_merge_regions
+    heatmap: 00000000000000000000000000000000000000000000000399999995111111146666666666666666
+    # min/max temperatures: -2,470,000,000, -1,620,000,000, column size: 99.800 MiB
+    intervals: sample 5 ms aggr 100 ms (max access hz 200)
+    #   <start>      <size>       <freq> <age>         <probe hits>
+    0   4.000 KiB    79.840 MiB   0 hz   24.700 s      2
+    1   79.844 MiB   718.562 MiB  0 hz   24.700 s      8
+    2   798.406 MiB  793.148 MiB  0 hz   24.700 s      7
+    3   1.554 GiB    797.828 MiB  0 hz   24.700 s      7
+    4   2.333 GiB    794.668 MiB  0 hz   24.600 s      8
+    5   3.109 GiB    791.117 MiB  0 hz   24.500 s      0
+    6   3.882 GiB    785.312 MiB  0 hz   24 s          2
+    7   4.649 GiB    787.867 MiB  0 hz   16.200 s      6
+    8   5.418 GiB    784.477 MiB  0 hz   23.300 s      6
+    9   6.184 GiB    783.820 MiB  0 hz   18.200 s      9
+    10  6.950 GiB    797.730 MiB  0 hz   18.900 s      7
+    11  7.729 GiB    69.625 MiB   0 hz   18.900 s      0
+    memory bw estimate: 0 B per second
+    total size: 7.797 GiB
+    record DAMON intervals: sample 5 ms, aggr 100 ms
+
+Note that the line after the line starting with "intervals:" is not
+provided by the current version of 'damo'.  I manually added the legends
+line for easier understanding of these results.
+
+Each of the 12 lines after the legend line shows the DAMON-found
+regions.  Each line shows 1) index of the region, 2) start address of
+the region, 3) size of the region, 4) access frequency of the region, 5)
+age (how long the access frequency on the region was kept) of the
+region, and finally 6) the probe hit count.
+
+Because data access is the primary information that adjusts region for,
+and there is only nearly zero access on the system, regions are naively
+adjusted with the same size.  Still <probe hits> show different
+distribution of the anonymous pages, but it is obviously very rough
+information.
+
+Switch to the attributes only mode and show how it changes the picture:
+
+    $ sudo ./damo tune --probe_filter allow anon --probe_weight 100
+    $ sudo ./damo report access --dont_merge_regions
+    heatmap: 88888888888888888889888999999889999999000004888888888888889999988888898888888888
+    # min/max temperatures: -4,430,000,000, 0, column size: 99.800 MiB
+    intervals: sample 5 ms aggr 100 ms (max access hz 200)
+    #   <start>      <size>       <freq> <age>         <probe hits>
+    0   4.000 KiB    60.445 MiB   0 hz   700 ms        0
+    1   60.449 MiB   1.363 MiB    0 hz   600 ms        18
+    2   61.812 MiB   144.000 KiB  0 hz   0 ns          1
+    3   61.953 MiB   1.922 MiB    0 hz   2.400 s       19
+    4   63.875 MiB   12.133 MiB   0 hz   200 ms        0
+    [...]
+    500 5.132 GiB    8.000 KiB    0 hz   2 m 15.800 s  20
+    501 5.132 GiB    8.000 KiB    0 hz   2 m 16.200 s  0
+    502 5.132 GiB    16.000 KiB   0 hz   2 m 16.900 s  20
+    503 5.132 GiB    24.000 KiB   0 hz   2 m 14.200 s  0
+    504 5.132 GiB    8.000 KiB    0 hz   2 m 14.900 s  20
+    [...]
+    923 7.534 GiB    126.637 MiB  0 hz   0 ns          6
+    924 7.658 GiB    252.000 KiB  0 hz   54.800 s      20
+    925 7.658 GiB    142.242 MiB  0 hz   300 ms        0
+    memory bw estimate: 0 B per second
+    total size: 7.797 GiB
+    record DAMON intervals: sample 5 ms, aggr 100 ms
+
+As expected, regions are adjusted to provide the best accurate picture
+for the anonymous pages distribution (<probe hits>).  The region 0
+(60.445 MiB memory from the address 4.000 KiB) has nearly zero anonymous
+pages.  The region 1 (1.363 MiB memory from the address 60.449 MiB) is
+nearly full with anonymous pages.  Region 500 (8 KiB memory from the
+address 5.132 GiB) is certainly two anonymous pages.
+
+Future Work
+===========
+
+Attributes only monitoring disables access monitoring.  We will enable
+that in future, by extending the supported attributes to include data
+accesses.  This patch series, and the future work are parts of the
+ongoing project [2] for extending DAMON.  The project aims to extend
+DAMON with primitives other than page table accessed bits such as AMD
+IBS, Intel PEBS, and Arm SPE, to provide more powerful and detailed
+information like per-CPUs/threads/reads/writes monitoring.
+
+Patches Sequence
+================
+
+Patch 1 introduces damon_probe->weight for specifying the weights of
+each attribute.  Patches 2-6 extends apply_probe() damon_ops callback to
+efficiently support the new mode.  Patch 7 fixes wrong use of abs() in
+the regions merge code.  Patch 8 extends regions merge function to work
+with probe hits in the mode.  Patch 8 also introduces the function for
+detecting the mode enablement but always returns false, for safe and
+incremental changes.  Patches 9 and 10 adds user parameters validation
+to prevent theoretical overflow of probe hits and the weighted sum.
+Patches 11-14 incrementally update kdamond_fn() to support the mode.
+Patch 15 completes the mode detection function implementation, so that
+the new mode really works.  Patch 16 introduces a new sysfs file for ABI
+users.  Finally, patches 17-19 respectively updates design, usage and
+ABI documents for the new feature and interfaces.
+
+[1] https://github.com/damonitor/damo
+[2] https://lore.kernel.org/20260525225208.1179-1-sj@kernel.org/
+
+Changelog
+=========
+
+Changes from RFC v1.3
+- RFC v1.3: https://lore.kernel.org/20260710002349.111414-1-sj@kernel.org
+- Drop RFC tag.
+- Rebase to latest mm-new.
+Changes from RFC v1.2
+- RFC v1.2: https://lore.kernel.org/20260709140600.90950-1-sj@kernel.org
+- Fix two typos in comments.
+Changes from RFC v1.1
+- RFC v1.1: https://lore.kernel.org/20260706141912.88445-1-sj@kernel.org
+- Fix typos in comments.
+- Fix wrong use of abs() with abs_diff().
+- Prevent probe hits and its weighted sum overflow.
+Changes from RFC
+- RFC: https://lore.kernel.org/20260705205743.98656-1-sj@kernel.org
+- Add kernel-doc comment for damon_probe->weight.
+- Fix typos in kernel-doc, design and usage documents.
+
+SJ Park (19):
+  mm/damon/core: introduce damon_probe->weight
+  mm/damon/core: ask apply_probes() ops callback to set sampling address
+  mm/damon/paddr: set samples in apply_probes() if requested
+  mm/damon/core: ask apply_probe() to return max probe hits weighted sum
+  mm/damon/core: implement damon_probe_hits_wsum()
+  mm/damon/paddr: respect return_max_wsum
+  mm/damon/core: use abs_diff() instead of abs()
+  mm/damon/core: extend merge function to work with probe hits
+  mm/damon/core: disallow probe_hits overflow on attrs only monitoring
+  mm/damon/core: validate params for probe hits weighted sum overflow
+  mm/damon/core: disable access monitoring when probe weights are set
+  mm/damon/core: set samples in apply_probes() if probe weights are set
+  mm/damon/core: s/max_nr_accesses/max_merge_score/ in kdamond_fn()
+  mm/damon/core: get merge threshold from probe hits when weights are
+    set
+  mm/damon/core: implement damon_has_probe_weight()
+  mm/damon/sysfs: implement probe/weight file
+  Docs/mm/damon/design: document attrs-only monitoring
+  Docs/admin-guide/mm/damon/usage: document weight sysfs file
+  Docs/ABI/damon: document probe weight file
+
+ .../ABI/testing/sysfs-kernel-mm-damon         |   6 +
+ Documentation/admin-guide/mm/damon/usage.rst  |  11 +-
+ Documentation/mm/damon/design.rst             |  25 ++++
+ include/linux/damon.h                         |  12 +-
+ mm/damon/core.c                               | 139 +++++++++++++++---
+ mm/damon/paddr.c                              |  11 +-
+ mm/damon/sysfs.c                              |  25 ++++
+ mm/damon/tests/core-kunit.h                   |  13 +-
+ 8 files changed, 217 insertions(+), 25 deletions(-)
 
 
-On 7/10/26 9:36 PM, Weijie Yuan wrote:
-> On Fri, Jul 10, 2026 at 09:21:16PM +0800, Dongliang Mu wrote:
->> On 7/9/26 11:25 PM, Weijie Yuan wrote:
->>> Hi all,
->>>
->>> Since cloning Alex Shi's tree from the HUST mirror may be unstable, as
->>> reported in [1]. I think adding one more option for beginners to get
->>> started might be a good idea.
->>>
->>> Thanks,
->>> Weijie
->>>
->>> [1] https://lore.kernel.org/linux-doc/4292BADB2022F3A5+5117009.JcJflTAXpt@anka-vmware20-1/
->>>
->>> --- >8 ---
->> Is this a special mark for LKML? If I understand correctly, the following
->> should be the patch content.
-> Yes, the following is the commit message body.
->
-> You can apply this patch by "git am -c" or "git am --scissors", which
-> means: Remove everything in body before a scissors line (see git-mailinfo[1]).
->
-> https://git-scm.com/docs/git-am#Documentation/git-am.txt---scissors
->
-> Git community sometimes use it, for the cases if you want to swap the
-> actual commit message and the supplementary information.
-Understood.
->
->>> The Chinese documentation guide asks contributors to base their work on
->>> the docs-next branch of Alex Shi's tree. However, cloning that tree from
->>> git.kernel.org or mirrors.hust.edu.cn may fail in some network
->>> environments.
->>>
->>> Document an alternative workflow: clone Linus Torvalds' tree from a
->>> local mirror, add Alex Shi's tree as another remote, fetch docs-next
->>> from it, and then create a local branch that tracks alexs/docs-next.
->>>
->>> Signed-off-by: Weijie Yuan <wy@wyuan.org>
->>> ---
->>>    Documentation/translations/zh_CN/how-to.rst | 10 ++++++++++
->>>    1 file changed, 10 insertions(+)
->>>
->>> diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
->>> index 9ec2384e1e76..fcfe0a4a8be2 100644
->>> --- a/Documentation/translations/zh_CN/how-to.rst
->>> +++ b/Documentation/translations/zh_CN/how-to.rst
->>> @@ -53,6 +53,16 @@ Linux 发行版和简单地使用 Linux 命令行，那么可以迅速开始了
->>>    这是 Alex 开发树的镜像库，每两个小时同步一次上游。如果您了解到更快的 mirror，
->>>    请随时 **添加** 。
->>> +或者::
->>> +
->>> +	git clone https://mirrors.tuna.tsinghua.edu.cn/git/linux.git
->>> +	cd linux
->>> +	git remote add alexs https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git/
->>> +	git fetch alexs docs-next:refs/remotes/alexs/docs-next
->>> +	git switch -c docs-next --track alexs/docs-next
->>> +
->>> +这将先用清华源拉取 Linus Torvalds 的开发树，再增量下载中文开发分支中的内容。
->> This would make the envionment preparation more difficult. My suggestion is
->> to ask maintainers of some mirror sites to sync this repo like us.
->>
->> Dongliang Mu
-> Makes sense. Could I kindly ask, for example, Tsinghua tuna team to
-> mirror our repo, on behalf of our Chinese document team? I'm afraid they
-> are unlikely to consider my request in my individual capacity. ;-)
-
-I can help contact TUNA maintainers.
-
-Dongliang Mu
-
->
-> Thanks,
-> Weijie
-
+base-commit: 6af40ebf40984a5ea1bbf273c65c9ad4b6e73291
+-- 
+2.47.3
