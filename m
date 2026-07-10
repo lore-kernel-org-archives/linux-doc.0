@@ -1,196 +1,121 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC243C8C49
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 21:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783718845; cv=none; b=ENTydXhJ1el9gOcmlQxaHl4ny7pZS7buMccFLjSGDeFRU1Eou03y7vnfUy0z4rkTpRYgbqIcubDShZOAvzQ9QkJHsKjG3CPevNsXrl+y7L/Ko4OYv9Dn1HmJMExhE8Hwf+sCqkx+i7VKQkymtcDJyBhiw+/v6M3w2Rza7shwUvU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783718845; c=relaxed/simple;
-	bh=pYhysMeIzYMEv8sb/P2wTG7Vkw/cqtE9UPpQ0ZrJ3m0=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HVjhb+OJDvLzpnHLJPJ5V+RKS6Tw9I11bznRwo1sTQrkKB61QgJr5EhEsjoOVDAsDKQ5FjvHtD/y5bsM6mmr+xQ8uimGdUOPG2ciIpSLYUmcKHe7TCTq7XRdaio+zkQklySwnLsw99xQuNvl4XXTSey0U1aa05Jeozsl0sj/9l4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WpD8hxSt; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870DE3264C8
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 21:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783720169; cv=pass; b=ikoe8iV9IcY/Vu1OW/iyq5jk/UNofp0Q4cb6rzsefyXELXHYg4AC07CfqgPJ9/xewak8BYeYDRZO/nFLLfc5EAR3kJXVtvqrTBNNbxwdmIBWQrOI7qMNVMkYA+9mOtlWMPkOckGV3eXCFA7jHUxsLiRXybL0O6nHc2p6WORCFsY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783720169; c=relaxed/simple;
+	bh=C48jzYSddH3EoJGyWKvhrzEBN36de2rVF/7OCoPEX7I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NcCneRM8CdSM7/pbLFPqxCfjKuo921zvCz0xgFDvtmCZvHF5isw05KDZadfzQwiiwDpRSzHyICVWUTRwININRoTsc0WkrsVnwMKfwpZqF7Ox431ONiOYOALnxYCaMjLZJXfJv19Be3v6+NwNn5+QiGk5XMiiE9hjusYHBiBC/2w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MJf93cP1; arc=pass smtp.client-ip=209.85.219.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WpD8hxSt"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2cacf197759so19207825ad.2
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 14:27:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MJf93cP1"
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-8ee43b3e5abso9962026d6.3
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 14:49:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783720167; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Q7Ia9rzGtCwOE3FEh7LlZag7H1WDjW957giaZZKWRFXrP5KoDRNthYJ7eb7LvPE/d4
+         H4dJz3LAoBeIbSLeL8e12AN5U/U8IIDl13M5wJlZrwUhf14gGzR+g2fKn1BPkZ9EKBcD
+         ixMPDkitt2wyapmsJwjz+ZJJ6swDWseyKc8qCJ8LxW5d6twrnUsVc42Qo6H0wwbEYaUt
+         Yili3kaaHSHvcf3qWzgAhDTiC9EoL4Qmb2SKBvPDZlo7Frts4vTcfhuxRwFq6hRVtRYX
+         gQLblsd9X7O6JmlawAIZI2JhcgKlusc80Qy5Z5fLZOYc7gDT1bqqwUcDVdjqZxj9IVS2
+         Vj6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=FnFIkE/w/7PZkG795+BpgFkK9Bqx6yUw4d2KF56dPKI=;
+        fh=RzNMLrEGaslcNHxkuLWYAH4qAJvkKQKqLP9SsoHxJbU=;
+        b=LVwKMFYnA6dBobOYbagtEeP5jUvkt6U5/tBju1I8cGD+UhN9Du2NSM5AF+mFTvhx1j
+         pCD/qhdE2LMvBslB7BeXghX8+/NrnZdGvk7zexM/NPjTyNIA23Qj9E4mupIRDejjLFJ/
+         k2/DSCM1rb9wAzGENMxAiKMB+T+S04gohSxYr8xGX0FHC0Mf3JLpeAp8rq6Pg9IgaiFJ
+         nacJu1lfrIv9ldWBmUpZc43cDia1bsHeQys93QtcgH7kKURI9oEKpt9GU2gwewm9EHfp
+         muvEGP+PGPHoWouTJfxlSQoGdIoB/1ko3DmSYZJONUeX2ypRrfpSscbzUdGTG7solVgs
+         qIMw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783718843; x=1784323643; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:user-agent
-         :references:in-reply-to:message-id:date:cc:to:from:subject:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=9/L8xh2nQ4nR7e9MheG1BnxPJ3sCm51YBcPVud12DY4=;
-        b=WpD8hxStX/pXg0XO4lzmZrLqJGkR2hDSTtTjUomEveeRWZ3613rmaB+mI7Q46hQfc0
-         9V0tKRSgPubGvz94bZDl3sFc44HJXusdlgQ5786YS6x9FMHXhkPjXigyXGcfvZ4viink
-         +dTxbfqKytycr68xHcVeEyY6quXq2djHpv0C3JKlyCp0enzB3m2RIiNmrrohw3pzJSMe
-         UUZMkE6ZAPQj/vXeKGtD/zEVoS1m1Qh9D2Z9h88lXyJSrXvxNVZb3gpX3n1eilRPZYPH
-         Na7LnwMqDT+o+ehXkIoRSp264EseD9ke2+v78wfFRc6UQmFvTrRRksaw3r1Hz7/DMFrG
-         oX0A==
+        d=gmail.com; s=20251104; t=1783720167; x=1784324967; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=FnFIkE/w/7PZkG795+BpgFkK9Bqx6yUw4d2KF56dPKI=;
+        b=MJf93cP1YLC0cvgOmlgCGtQgOj8cRqxs2VENLtj0JhHGfN0+dmvtMitu381J2GHhnk
+         8oDaW+2C3yuwTatEZImx8a9UZbJI8nk8hkvtaJHGK5cqoK+1sl2QKshLb+K/MfNpS+bZ
+         /6DwS1Qv3w2EtKWjnlUZ4p9tXtql00rv0MgAajfnnDMMczXMchktp+21P2xl33J3RdDw
+         ZSr5EXXwszKy/LjtCIFD2FIov47+Px6GjEYnSGJ12MDz2blYcFzr/0wdO68nkx6rI2jA
+         ibTCnlKb4YER4xCOvl6hjpN7u6kVX3DG2/1nQ41hoCl8BehnubSPeB1puB1hhzeoSU9N
+         G9Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783718843; x=1784323643;
-        h=content-transfer-encoding:content-type:mime-version:user-agent
-         :references:in-reply-to:message-id:date:cc:to:from:subject:x-gm-gg
+        d=1e100.net; s=20251104; t=1783720167; x=1784324967;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=9/L8xh2nQ4nR7e9MheG1BnxPJ3sCm51YBcPVud12DY4=;
-        b=TuTWYGtRsv1dgvLYWQUjrty9p1nKgCPqS+hQ6SnHZp22yoWR86CtRHigKW1Sbbf+Cp
-         i5lwV8u487S2TgcBwCtcwd3vcMgbLFq+nv26xA3mtIWbave0+wPRV+PGhZxfvqbR/RyY
-         DxKHxnNp+JAb13JH3Ol5Gluy9xgpNIB8dB+RVw4OjMsE8SdZ09lgOLTWKs2rCbucD9/j
-         eQGye7pzsRfmufg/cf2BpM+KIEMsxoAwmvUjz+HA+01t4KygOWEinNTPeVrAqJTF/dU0
-         fh+xx5m0RXKow0wX1tdbyXOcTHsXXq6N3AnyR043BJXd4jywEps58Aa1oKS7uRyS42KO
-         bN6A==
-X-Forwarded-Encrypted: i=1; AHgh+Roin7lJOxCRO8STYs9FMDhzmC3AOkQsSmSAOZrJI2BQZDTwnK53NyGHLG9Lj1lzMk1QhCVIIJc/u0c=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0DwtxagGZSJWWvEjyKX+sNVEKoIXt5rA+YL+AiGF8jHD79W2c
-	ctjM+WJbyDlV5x4W607COFdIrm+xl8//ntDhH0wlbc4ybRuE++YQcF3p
-X-Gm-Gg: AfdE7cn+Hhlz+QbTa7JCO0voGIYqY/duY5zXzmfEYmm1OZbKEtgoyXpfAS1OTkG312H
-	4ahIUdzBQQqcDXXxggTxIx1wD6qzsfgQezeyEz09buPVVUqke7nxmvLeE55VQ7TC/EKiH9GQf7H
-	wSBNxrKvVk8Cewi3/4BNl465QHerPC8hIoO9XPMVPitz1M0FDf3d4Eax17fL7FLc7+Z1t2OG/V4
-	NZnV/35Ukxbg37e7kw7nDdZYlHuZdnV9SWiqb9wP3G492CQzVZVZINaGbcQr9TfdUt3Ojz95uC4
-	c1rtXFXMh93XYz09dRznjkgMkpl8/QXEduL429c/zGoJUxOjEogMR//xat5ZSY3NopquIh2yG11
-	/AithMQNjgy8webUxQj8ioM/J0bfXG1aegyeNhcMamiAZL0oSd1SgD6fSRWujsUSbbmS2YqYH+P
-	B9OPIGdp+Amxyl3Uj5gaiIi5epjZsZIn9qJz/jQpQ1ltytOSBHfIcORGVC9Xw=
-X-Received: by 2002:a17:903:2b0d:b0:2ca:11af:5ee9 with SMTP id d9443c01a7336-2ce9ec0f0b4mr7098515ad.25.1783718843116;
-        Fri, 10 Jul 2026 14:27:23 -0700 (PDT)
-Received: from [192.168.0.160] (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bf77e4sm65443035ad.22.2026.07.10.14.27.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 14:27:22 -0700 (PDT)
-Subject: [PATCH v8 8/8] drm/gpusvm: Use hmm_range_fault_unlocked_timeout() for
- range faults
-From: Stanislav Kinsburskii <skinsburskii@gmail.com>
-To: airlied@gmail.com, akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org,
- corbet@lwn.net, dakr@kernel.org, david@kernel.org, decui@microsoft.com,
- haiyangz@microsoft.com, jgg@ziepe.ca, kees@kernel.org, kys@microsoft.com,
- leon@kernel.org, liam@infradead.org, lizhi.hou@amd.com, ljs@kernel.org,
- longli@microsoft.com, lyude@redhat.com, maarten.lankhorst@linux.intel.com,
- mamin506@gmail.com, mhocko@suse.com, mripard@kernel.org,
- nouveau@lists.freedesktop.org, ogabbay@kernel.org, oleg@redhat.com,
- rppt@kernel.org, shuah@kernel.org, simona@ffwll.ch,
- skhan@linuxfoundation.org, skinsburskii@gmail.com, surenb@google.com,
- tzimmermann@suse.de, vbabka@kernel.org, wei.liu@kernel.org,
- skinsburskii@gmail.com
-Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-rdma@vger.kernel.org
-Date: Fri, 10 Jul 2026 14:27:19 -0700
-Message-ID: <178371883977.900500.2198446134676328631.stgit@skinsburskii>
-In-Reply-To: <178371866223.900500.12312667138651735591.stgit@skinsburskii>
-References: <178371866223.900500.12312667138651735591.stgit@skinsburskii>
-User-Agent: StGit/0.19
+        bh=FnFIkE/w/7PZkG795+BpgFkK9Bqx6yUw4d2KF56dPKI=;
+        b=LY8Gx79yRVRHUPsbGLeSPtqa1389P5I8dJVQelPDXTnGoc0xsfdu09FHVozYezbhSN
+         Y1BPPivMVt8IELKVyc4IgPT+bVt8XdMLrUIqfi5ZNTkfAaMimnOwRs5XUvjGb7HJ46mH
+         RJUHQiAuaAIiqDATJt4/uUcl4EQiQXHg9cgZ1CKRKq2u6DDA7wspQ7ZCPDtGLtGEWTZD
+         p+SvFD06vh8syVP/eUzdQ/kPQ4lFRav/Usnl9vcS7zwh8rv1o7KLs+F0Vck2IzSAZkxC
+         XcdKcETtA5B+JwI8LGQYIWstpgr4W1j8UdCvhcF5KBAoFo/yLnUiaDfEzOTRXwfXg0PT
+         a12A==
+X-Forwarded-Encrypted: i=1; AHgh+RpYyjLFD8zKmNJKvKL0j31wMsTlf/gq2vDIZ1bd97uS1DqY5whmI12FQbpOuHeVO58PUw6WRZMdeAA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUYrotxX0kGYDjs29m9x7DNqmfVni2DO8sOvManozthmA3eYBX
+	TvDWI8bBVYOCM3XyDagSZwL3XM/UKcsWzTGOsNZt3J38DekLH8Z0hARTnBO8/yh8AhX/r7KyUUl
+	Y+jf7iomYVhXP0O/A3ErQrpvXAqCMcRw=
+X-Gm-Gg: AfdE7cmqW3C5xRgH/0DvHGsaROvR77sljIRrmt2+TfvLLVwPmgas9u3ld7PHpHV+7v+
+	ZO9H9b3lDT2QFaAdRWPBzzICQ12uLAIlx3raEaQWDWhQsvmHSWBcqwMgLVbpBWH8Der20wtUrUM
+	QBoh/x7+9kCZyiHbqO6x2CgSLiSlZW43Vq/CGgsYY1lPyv1gwwCq85gC/1NrC1f8kDqJhO3TP9Q
+	/DiLSo8zRepGj26GRZtD9kI/ITYLzeKrAgi56SU0jTWcrdVVMPdAhGzrgfpqwLIBdrohoFMy1rv
+	6gn12Y0rnAW0eCeq3icQomhy0UVoQKI8dbJdYz/kMqEl7reqnGC+8TPpl3SID6vZgOk6hM5LJcs
+	b1XH5kfOoUps=
+X-Received: by 2002:ad4:5ce4:0:b0:8db:4069:6e6e with SMTP id
+ 6a1803df08f44-904004833acmr9772646d6.6.1783720167283; Fri, 10 Jul 2026
+ 14:49:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+References: <20260703181326.47524-1-amandacorreasilvax@gmail.com>
+ <CAMAsx6ewmXd205h37LDTzj9FgFasgodNzS51KzSEH8M_guNJGQ@mail.gmail.com> <878q7ilkg2.fsf@trenco.lwn.net>
+In-Reply-To: <878q7ilkg2.fsf@trenco.lwn.net>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Fri, 10 Jul 2026 18:49:15 -0300
+X-Gm-Features: AUfX_mytO_ifmQrIP-8ku9-HOxdpDX6_cjSYKFeOPIKD-9VaaHRQeheb9p6HBw0
+Message-ID: <CAMAsx6cwhQHHejryFq-8-C9dGjk+YrKOb9pcX_KdJ9=EgBNkNA@mail.gmail.com>
+Subject: Re: [PATCH] docs: pt_BR: translate the management-style.rst to
+ Brazilian Portuguese
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: =?UTF-8?Q?Amanda_Corr=C3=AAa?= <amandacorreasilvax@gmail.com>, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Several GPU SVM paths take mmap_read_lock() only to call hmm_range_fault(),
-then retry -EBUSY until HMM_RANGE_DEFAULT_TIMEOUT expires. Those paths use
-MMU interval notifiers whose mm matches the mm that was locked for the HMM
-fault.
+Em sex., 10 de jul. de 2026 =C3=A0s 16:21, Jonathan Corbet <corbet@lwn.net>=
+ escreveu:
+>
+> I don't understand what you are asking for here?  There is one email
+> address used consistently in this patch, is there something wrong with
+> it?
+>
+> Thanks,
+>
+> jon
 
-Use hmm_range_fault_unlocked_timeout() for those faults and pass the
-remaining retry budget to HMM. The helper owns mmap_lock acquisition and
-refreshes range->notifier_seq internally for each retry, while GPU SVM
-keeps its existing driver-lock validation with mmu_interval_read_retry()
-after a successful fault.
+ Hi Jon,
 
-Leave drm_gpusvm_check_pages() on hmm_range_fault() because that path is
-called with the mmap lock already held by its caller.
+Apologies for the confusion. Amanda had used a different email address
+in the 'From' field of the initial patch compared to the one she sent
+it from. To keep our records organized and avoid any mix-ups, I asked
+her to resubmit the v2 with consistent information.
 
-Signed-off-by: Stanislav Kinsburskii <skinsburskii@gmail.com>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
----
- drivers/gpu/drm/drm_gpusvm.c |   52 ++++++------------------------------------
- 1 file changed, 7 insertions(+), 45 deletions(-)
+She has already submitted that v2.
 
-diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
-index 958cb605aedd..6b7a6eaebcd9 100644
---- a/drivers/gpu/drm/drm_gpusvm.c
-+++ b/drivers/gpu/drm/drm_gpusvm.c
-@@ -788,22 +788,8 @@ enum drm_gpusvm_scan_result drm_gpusvm_scan_mm(struct drm_gpusvm_range *range,
- 	hmm_range.hmm_pfns = pfns;
- 
- retry:
--	hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
--	mmap_read_lock(range->gpusvm->mm);
--
--	while (true) {
--		err = hmm_range_fault(&hmm_range);
--		if (err == -EBUSY) {
--			if (time_after(jiffies, timeout))
--				break;
--
--			hmm_range.notifier_seq =
--				mmu_interval_read_begin(notifier);
--			continue;
--		}
--		break;
--	}
--	mmap_read_unlock(range->gpusvm->mm);
-+	err = hmm_range_fault_unlocked_timeout(&hmm_range,
-+					       max(timeout - jiffies, 1L));
- 	if (err)
- 		goto err_free;
- 
-@@ -1439,21 +1425,8 @@ int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
- 	}
- 
- 	hmm_range.hmm_pfns = pfns;
--	while (true) {
--		mmap_read_lock(mm);
--		err = hmm_range_fault(&hmm_range);
--		mmap_read_unlock(mm);
--
--		if (err == -EBUSY) {
--			if (time_after(jiffies, timeout))
--				break;
--
--			hmm_range.notifier_seq =
--				mmu_interval_read_begin(notifier);
--			continue;
--		}
--		break;
--	}
-+	err = hmm_range_fault_unlocked_timeout(&hmm_range,
-+				max_t(long, timeout - jiffies, 1));
- 	mmput(mm);
- 	if (err)
- 		goto err_free;
-@@ -1736,24 +1709,13 @@ int drm_gpusvm_range_evict(struct drm_gpusvm *gpusvm,
- 		return -ENOMEM;
- 
- 	hmm_range.hmm_pfns = pfns;
--	while (!time_after(jiffies, timeout)) {
--		hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
--		if (time_after(jiffies, timeout)) {
--			err = -ETIME;
--			break;
--		}
--
--		mmap_read_lock(mm);
--		err = hmm_range_fault(&hmm_range);
--		mmap_read_unlock(mm);
--		if (err != -EBUSY)
--			break;
--	}
-+	err = hmm_range_fault_unlocked_timeout(&hmm_range,
-+				max_t(long, timeout - jiffies, 1));
- 
- 	kvfree(pfns);
- 	mmput(mm);
- 
--	return err;
-+	return err == -EBUSY ? -ETIME : err;
- }
- EXPORT_SYMBOL_GPL(drm_gpusvm_range_evict);
- 
-
-
+Thanks
