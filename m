@@ -1,48 +1,48 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010051.outbound.protection.outlook.com [52.101.46.51])
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010022.outbound.protection.outlook.com [52.101.201.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D9233B3C05;
-	Fri, 10 Jul 2026 23:02:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224A82E737D;
+	Fri, 10 Jul 2026 23:09:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.22
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783724555; cv=fail; b=bjuwe7HMjEBIDBiXeW6f1y9CATVB5UjjRvz0BNfqiSrhxw82Msk3p/qgvJn/1zrsmCzRRXHHB6Mj+wtvqbT5aF0glOHtVf7qJgGD4paQ8roDeZ8VEpuS3r22WR4TsRjhBqGzEWQ3PtBhKiSlHK6sC4b7RW6R3jqF96Y0O2MZFJU=
+	t=1783724985; cv=fail; b=DbpxhONt9U9O1jFjKCy4i2nRWGY83ZvQOUVA9Sm8hjZW7aaOT8aUTq5C4vb46tyvWxQfuqa+QpUJNWUtvqgwH0RKIFfOwW9QNjMEA4dSCbrT2ImXMeokSMuJ1eFX11nMLsWzYw/7r3ODmUNb7PgoHZ1S6kN9wu+Jbew8/EbMaJY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783724555; c=relaxed/simple;
-	bh=KsFl/tu4BdKVJaP0rSLwR8aExR4h4XDIyHlNNp/Zd20=;
+	s=arc-20240116; t=1783724985; c=relaxed/simple;
+	bh=qsxG4gyF9YB173Wn2ubnTVmTFmWK7clN7pePE9HP4xc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=KiraiTYmSXwez0snd1tfHpIXJTOumbu/zBDa6gcQ4qDyjoYXkYU/ISCbvOoh0Mrt3stBLjdPITI3Fy7FumTW1BJJS2VYFwvAOxF5vUrJbQrzxkXgVJV34mcGRPBu8ZSMNfxYbOalrzGpI2X3zJLLfDcMzog8UuJ+OW7iwtcNE1c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rAfMzrJG; arc=fail smtp.client-ip=52.101.46.51
+	 Content-Disposition:In-Reply-To:MIME-Version; b=dBmedsVoejEtcm6J6QYK9AWBZjuxhH56+QAqizXGcIxKGYuphq22UczzY3gJl2q4X36XMgfD47dM+aVAS67L/geMKscW5YFCMTQZ3HFdd5MFiA3ey8NOLz4uizdblAhKxHzMYLQLerOfra59gjdr1Saa8vY8WyxbjyuIGEOf4co=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Uv96y4kn; arc=fail smtp.client-ip=52.101.201.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rAfMzrJG"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Uv96y4kn"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zVEfsKTGK7JCKxfoUyCdXfx0vtZrwdmNDWv133c/Sbvp8ro6vXjOC1DYQ1ewuvatmUlAsMTlhWCWKiBWeSiwPFe3ZezD9T7jKlvfjjFG1SmzMcVd5Pk/A3Z1cjLnWaWj6UnHP0l2SUL0bZrZvvwVbuQs7Ym78RIBS6f6r25BKcKWJuy9KM9Dkar4pu3LbBxDdDURhSOVHJ7PndK771/Ou7uorAtuJyTA2kuD8THrIMWmp3Pl44k89zvXsWbfUv2Sls9QFa/ct1eM8d38UU7jz/v4PO/j81n+uQw5dqkSMJVTl+vXkyXs1ytxfvPDIdcS/sKR9YzWhi4QCB72/binng==
+ b=SR07S3bxw9X3I/x1BI6w3XP8O/m68QoGBd7tbeD0cz6QAB2qUUXSSbSY72J/LdJ6BXvlb0+X0EUUBWvPRuulnwj8HPhDN6ney+D5qCVndvqBfqAnS8VWGbGRUEtFlvlomkjXTY7xW6JLgxWkWu0+YZi0nhyUnZSHsP59rzRChMfqv+L//bcSZrGxWyEH1zlyEIWxcNHgPybgCCF5lRzZyNq4NQdIqLGIz1dWs/fa58gVEHUxxcA0h0M8Aik2nX+UhvSoRmbPrTMsR3ySme5GoOS2U78jp6v2D/xws89rJF6QfASWgcmB67VU8tP2ol0zNbA9uWSkLOH47N+qiqwnkA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SVfJc97+xcPyYJ+FxAepuicN8LA6cIPbsPeA5+fEJMQ=;
- b=qEozqPohYBW6Ue+mMJx2mCalxhdmZuVd+dRjJWbmzng6cxsT8eax4F+mx/fVQBjdK4gGXJP0MTA8KNJKFvH2YbvgT47CxLQqmyQPmd9eKC6Xyuz/sEEB+UXtTARatiL4+gqHlGCrLcJZAAFjxr2sgvbfn3CG3Zvz8Ly6hJU5+YqS/NyIqSF+XA61VAZVhQ10kHxGeTn37m1fgCqw56GNUEOWfEIqN0GkHm7gLhokrykQvsy60TkjW5D37K2CVPGnqSdTL/H7/iUsoztCcp6611KsXM001QvE0aYj+Z59711U5yhG/pt/Brs6OPfZUXfs+XHid9HHbALs2OUW3fbViw==
+ bh=DzkOfAz3bdyuD6tD/aw1ix6HAmFuqOEGHwHr42sC2RE=;
+ b=JdSdRW7ZxoTZ7/o0Pv2Wk+60IbK7OER0VmbxB3MYZUet8UGxCngMtu0YYrkTWw2+iI1yXQHecstKqA7Eu4QG4m7r3HAMR8aum8ntvbvINcDIXxQbx1MlFpVRY7PutTB6mYI2Ums3VR70+ySbhsDLnD7TF0CbWBG8o3s22v8pY2XwcmOjCJzxpOlIO4V3ylnKe4PqwL7lwAWRIYeSXUFiEDYxMK+6GYNty7HgeTWtwrAEoO4Ii7G9vzDxyK0sY/ypVDrW602LECpRzUvUZq+eVA9VDYeMToJtjkhtgfRHxjLUCklGnwfqvhTFSpfswbcM+JLdURD2YHKn2sg5RAKkTg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SVfJc97+xcPyYJ+FxAepuicN8LA6cIPbsPeA5+fEJMQ=;
- b=rAfMzrJGCKT6EQEehsyl9yycR2r8DN2J2EFqF6haE9VcQ1duujKYaoXmq6jo+BtKzsdut8qnn3RluK508Upml6HLrtax/zlKMkpqNf+nxvAiL/LCPrNrmT4kq7Iwq1bwg1ywFbMLDwZ6uhUUff7QKj/DFaoR3b7W8MIfS97y0kgfYzPd6amwbsaXmifjDjjnbR1q2T9u1JLcf/sb/i0w1dAqXzgqm5SVyTgUj+qRMi1gxTdt6uJu54CUHPJKRaCbyynLr+qMH7ZrCT+qddN74qvs4pf8KijWA6910sDT6KJ99R3nN5T/8Ro4CAtMdYQJKRXMphtV71XJyypwiDjBQQ==
+ bh=DzkOfAz3bdyuD6tD/aw1ix6HAmFuqOEGHwHr42sC2RE=;
+ b=Uv96y4knwL8KAxD/KWRxfbDhbMlCRWE1CBH/lBqcBXky8OVWdFpqXgcBhVwOqtADeX7WknOFCVJ4tkw2Iuz5nEtg3+OxITnOqvlBeoAiY9Ul6CJusolU2tyBE63KinTTJZ1qjcpI1ewjToOF8E/ETwp1l7WuIPMyoee6EdFB8d1xHGi5qEH+mmgGUUMBc6IFXENGWVUyzcYLT7fuJDQF+CJmny+TfgjnM/b1t7RMQgk0/SJshXjnVl19vmeCMJF4QR+l51sugOzlz+0KkXmRPM+enH1SkLx7joF1GkFMjQEDswb9l+WhVeIaiXu9b16q3e2XosQ+8G+A6L015r/MPg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by CY8PR12MB7244.namprd12.prod.outlook.com (2603:10b6:930:57::15) with
+ by PH8PR12MB7424.namprd12.prod.outlook.com (2603:10b6:510:228::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.16; Fri, 10 Jul
- 2026 23:02:28 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Fri, 10 Jul
+ 2026 23:09:38 +0000
 Received: from LV3PR12MB9356.namprd12.prod.outlook.com
  ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
  ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0181.016; Fri, 10 Jul 2026
- 23:02:28 +0000
-Date: Fri, 10 Jul 2026 19:02:26 -0400
+ 23:09:38 +0000
+Date: Fri, 10 Jul 2026 19:09:35 -0400
 From: Yury Norov <ynorov@nvidia.com>
 To: Shrikanth Hegde <sshegde@linux.ibm.com>
 Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
@@ -58,16 +58,17 @@ Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
 	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
 	rdunlap@infradead.org, kernellwp@gmail.com,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 06/12] sched/core: Push current task from non
- preferred CPU
-Message-ID: <alF6AqiSWZBlF_c2@yury>
+Subject: Re: [PATCH v7 03/12] sysfs: Add preferred CPU file
+Message-ID: <alF7r_dWfUHKEofx@yury>
 References: <20260709215648.1246821-1-sshegde@linux.ibm.com>
- <20260709215648.1246821-7-sshegde@linux.ibm.com>
+ <20260709215648.1246821-4-sshegde@linux.ibm.com>
+ <alESuG6IYZCRESJY@yury>
+ <adc1793e-694f-4531-ae61-b6b3eef568c5@linux.ibm.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260709215648.1246821-7-sshegde@linux.ibm.com>
-X-ClientProxiedBy: SJ2P220CA0013.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:5da::16) To LV3PR12MB9356.namprd12.prod.outlook.com
+In-Reply-To: <adc1793e-694f-4531-ae61-b6b3eef568c5@linux.ibm.com>
+X-ClientProxiedBy: BY3PR04CA0008.namprd04.prod.outlook.com
+ (2603:10b6:a03:217::13) To LV3PR12MB9356.namprd12.prod.outlook.com
  (2603:10b6:408:20c::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -76,209 +77,140 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|CY8PR12MB7244:EE_
-X-MS-Office365-Filtering-Correlation-Id: 104af64b-0782-45c4-c36c-08deded75091
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|PH8PR12MB7424:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2e06898-c3b0-4972-46e6-08deded8507e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|366016|376014|23010399003|3023799007|22082099003|18002099003|56012099006|11063799006|4143699003;
+	BCL:0;ARA:13230040|376014|7416014|23010399003|1800799024|366016|6133799003|56012099006|11063799006|22082099003|18002099003|4143699003;
 X-Microsoft-Antispam-Message-Info:
-	6QgsS80VtEwLWSJjJJfe9VW4J3ZbLF4bbYR5N2ZGSNFl2Uvn1VWdYbgyyDfoifz59PPU/6peHXXt+FqV8cVON1NQ88SrLi9UMtkzathRqu8lrqUj8oWanG4O23409Vr4tikx4COqpulLfv1A3v/mLfejUHtwhzcrH9DbaxjR3ObLx0+DAjOMNkW67Ea6sSZqq50rON8VnHwhUxqNos1dadyyvGnJh6GE0ETTo0UFI5jqVD8jAWCOM0Dj4JXGM6tZdlog4Uwc0cz+h449TSfilK2emtIz4NoizmxUYtqF1A0jlrJ3GTS/qgGzJpYRYjriT9NrNKEzrqoPPfXcftby/rNDhD7+W5wsy/l9rR8YtE63qWsVfthRm5Av4cQbkbnPLhWBGZ4l6zLr2Zptrj5tkabAFzz/hvPU1zrFzbLQwdTFW80Z2MqplQ+fx7nNC5+B/lmjFoI2JpwB+9Z+r/PTzAz/U92jDZhcWG1hDOcvw+e7pTUXAUcsn7LGKCnfki+tcaz4lE2Yp80eZzSiJJUBmgTENsgHuE9+kJ86Dsfib4SUEVLojYbMPpmTRAiK0IUNQL5t/xLk86zKtSqEyFmWO+djceaNrGJL3iA1dsUg1CySoJkwdz4M/CoSR89feJTkWyvbLG3zg3Th3Tuy2whNgWkG1D/ucU88CZ9BevUwfO4=
+	SJYo2TeIG3vnRJXndtAgUH2x2aUQAbs1KgILMqmm5/IdXxgYwUheKa1P9mol03LXrp/TRCaZukvhAqnU3ZzWMhLO28m17FngErAMzH1Q7tC26grEmQu4ROHQqzVYrvQ/IPhAT4CRO2aHCAgQma/2cb1IMCtJkqMa8R7d4+kV44cwp00/W0n+aye3azn6muWhBtlDnA3Y7WSKn8MShp7bfF1Cgh4yrS7MsYWWL+Hli4UCH+0z/lX/ChGerAaSIIFWd1Lby+s3IGPtLU9hyyVnE45dfOcMt1gMV0HxEisqwPjb+YWZCSYapJ5SBu2/Ai6D3XYT7obwLtyl9NOCRMyadOpi2jTby9iXB/YQo+4U3gDx9tYy1lzGXNTOirDI6fxSkowd2EwHh1djvXqogELcxYokqPoj99+xD6R4Or9wdkYN9JbzSLZfpY9eOMHMVxI/IcA7v9WJIKXFfpcyL8CXJXQinbOhjL5HqlsCk8A+8eZMETSR4cZlc/Goio97PxyDZyvzeYq6ytobUilL2aNA79+b0BvsClIwYFGZEBN913XuXr+E9Y4diP3IGHXOtCkusnUshxFKzZGcItElGXcQuinvKyX1AbK/MJZPhU9o6zEP2l3yCf0t1m1kT6xlNZID85XsicHQxzL9Fj80YaPtsb+yU8YOo9gYo0LJ15ZL098=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014)(23010399003)(3023799007)(22082099003)(18002099003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(1800799024)(366016)(6133799003)(56012099006)(11063799006)(22082099003)(18002099003)(4143699003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?D3+WdEya5VbE6cktZ8FXKj41PL84letNN9Rcab41KLLY5J212kN+lSXk8ngX?=
- =?us-ascii?Q?SrKKSyAJ9OlhSOxSK8Oe8hRIj1ZDMAyBlD3amyxZzEMmFORs5NjBBUS5u2oJ?=
- =?us-ascii?Q?xC5+DYxXvuwpd4ds6jKWxzBhYikfUqLStnxbspzrDcBpl7a11cXa9TeTtAsf?=
- =?us-ascii?Q?/rIp9OtWgHnSFyYgyEysDLrl0eZwP4tmTcaEk6ctX98VylTmHmn6c5gl0Arp?=
- =?us-ascii?Q?9dPm28/V1YJt7Trb9+3HizBXjLefXnH+l3AUIGIjDNtKfEpNV9JRzEjTPG1S?=
- =?us-ascii?Q?uih+HuPfiJSyQoOcEV8FvTyVWN2Hs5LeomAAGPP38jFrprZJN+vyO5oOL/MI?=
- =?us-ascii?Q?4D8CRAcuRLrrreeZpKY9uiZ/M19X64W5Nbq3pXQP+lw1En0giifkvl8g3mZh?=
- =?us-ascii?Q?LWDg1rTpppZkhYtHBXAOL3Dgt6H+3oOw0Dck3DDr4lw9MWjS/AgbIFDL/91s?=
- =?us-ascii?Q?bu9oIkpuIXNTFTvudSpQcP69qXPBR74Ym9VifqED/XvWvTrX7r2oaMvG1FET?=
- =?us-ascii?Q?Hwi3xfCYEbIOgDjZ3eOIiydeh/yfoLeJ+NG4Mw7dm3xqGQN6ESIP82YMQJ2F?=
- =?us-ascii?Q?CgYVUqaffTcuw/BT+n0SxPSinCvMIXXnFUY5lp4euY+o9wQNRBLyhMlsgrMX?=
- =?us-ascii?Q?jnR/nzDmimsJPQRNVb7nl95nQtBCg5c6FG5a2umhONePKRbGqNHIB3E6WqDc?=
- =?us-ascii?Q?R3c0fLT+IBaeGYsbYflgBUYuo0RqREKvJZhLGBIVH2ANjySSOAib4SxYi2XH?=
- =?us-ascii?Q?aK5mwD5NxjRt5v0liyGHxtJNImDsHTu3iMoL5dlTwXNTJEQ9OIaBBD1PqRxP?=
- =?us-ascii?Q?QiW+CEnHjMV8woGwybpVegdbZFEhVjiVRPf3ZIUQv84taITTTC+oUxQZ7VE5?=
- =?us-ascii?Q?QYdyWHS5A5R9oZxHaZ9eU3rY2MFBgw/+sE71YA39M9ZYTh0zcCQe8BtyAssa?=
- =?us-ascii?Q?8F8CDD4EO4NZi81xOMGq4d4O0S9IlqtVgMaEK9xUXE6WYuQf6/PHSBCEKBsS?=
- =?us-ascii?Q?t7jQvTQMJ30Svn+NaBImHuxe6BtruDj8Ryb8SSX8ayOK3WBFCu5ss9IuefVk?=
- =?us-ascii?Q?ULx4Q7KEpGOXPgCWu79gdT1WHEyUzWPDjJYS7R2IUw0ney3XKJPgI0quLkD4?=
- =?us-ascii?Q?fJpWVntPOGQq+rIXheyCbOE5byM6h9WZmWWZcjX/gw/fU9nt8ZIg3TRRFsDO?=
- =?us-ascii?Q?D4aTQm/u0qnBxO4fJXUYcZ4qdg+ABhBqQAIrnO2rZqdDb5hxqMuVYqAaFbVj?=
- =?us-ascii?Q?Thum0iSI87NSXR8WdvUibO/PvOKiWYwacqJdrZsdmoKrjmF5f/XSwWJv+xts?=
- =?us-ascii?Q?A3WWDHPFPkW39iX/vPRsx/Vi2EPstPJTRwle/oiVDaNXS1BKCbARFfscVDPQ?=
- =?us-ascii?Q?0LHA+ML/3d17NYRjEiYad04AWEElRpxuH+M1bh8EUkhN4YnuqWCP6ByHl5wz?=
- =?us-ascii?Q?E/B3FLlpU3CUCs33vEjoDau8pgY0ecfowaaGf2lvrq7ERfENEy509ltuFHKI?=
- =?us-ascii?Q?EC8TWnzwFYcGmDlbEn4Z3VpKeRQEVgSApxCHlsSIOCrTo16Ef3OlHvRRKn1M?=
- =?us-ascii?Q?Gs+QI/AHghUrblW5wyo0rTPTAeM7gn9/YtFVoujwtJkcHppx2xyqMfS7aSuM?=
- =?us-ascii?Q?9J9LGrRpt1uOZ9ZOKoo4f4QjTI7ec1hj589i8bzRs746yaD+pdPcSaD6Spj6?=
- =?us-ascii?Q?eQaeXDs0j7+X1P/t88YGQjwMIRUqdm83jhu/BwQd9J4WbIeLhIGVEcLYmL6y?=
- =?us-ascii?Q?Sd4vtj2qKQ=3D=3D?=
+	=?us-ascii?Q?eh6K1Qvw5vdZmRAeuoyzJBz9WI2lxpQFSn6vWkNl5UlbP3qfNrn9qnfZSkQU?=
+ =?us-ascii?Q?UUWdhGviYKJRqZ1A/FUnB20R6GhjNDO5ThV92ACOYmz35Hi41zDzQ6bJ+I1k?=
+ =?us-ascii?Q?hcNgPAJia9TVoMpiqFtiPDRB1GhNjwpScAtKWhD9iThzvv12r/8QIY/oEdZ8?=
+ =?us-ascii?Q?GQbzigf3j07SB6lf7HXeV+3SGBa2sPLDswRoQBDk+f1QBaucFII26mtyPGg1?=
+ =?us-ascii?Q?SsJeWwwAw5VMJjnOimbGPk1fxWTtQHp1vj7sXakL35j7uoDx7JcY7e08B6/h?=
+ =?us-ascii?Q?4iQrp87+Lcp19HqkofRdrOREWqdU4m2JHmwazc9KjZsqGzylRc9Tm/QZNuhS?=
+ =?us-ascii?Q?cPbesCU+A27XLj9gcJ3wtw+oqcBdMv4pODkwxqD7Rv6NGAMzJo+t+0JRcNFm?=
+ =?us-ascii?Q?U3dedrwObFUYDYwhC62Wgic72XqI7ceoIAASG7Z69T47ylJAte5JAFukdAew?=
+ =?us-ascii?Q?2pojfQUdfflGTYRPJy5TvUwFGpsnEQALrd54AvoPSJhr9Gsra1kF5TtsgCL8?=
+ =?us-ascii?Q?9+9sWuKg91KQubiycYVVWQjIOkO26JrW3KJufoh+eyL9nNHzT4PrB7YJk5ko?=
+ =?us-ascii?Q?4i19mG6WTagLVQinHPZpuC57P8XC5F3RXuRIE5T9sk8b7E74pDHbiHXhNZft?=
+ =?us-ascii?Q?IdzJ10jgNEJKUDibaQl/R9j1omBxsJBP7inlmlJJQCDi8w1LZQprK2pkpegJ?=
+ =?us-ascii?Q?uNppleQy3AqwCbCt07Tsza1BTmn1jNXIMlvAWpa8Nf3qHKiHJzy07mje8mif?=
+ =?us-ascii?Q?wufBuC2umKmozduFZPgk6J8DMlfQAcsz9QhDInou6PzaJ6ig6xQdfDbYauCM?=
+ =?us-ascii?Q?hNJi7AliTFR6WvKwYUTqRofJ/0skLhnD7jIysIIMR0Cq3VcQfLxFjvuJVgRX?=
+ =?us-ascii?Q?Q4pMU+oRBmKKQ3k2AFInv7cbx4xYpBPjjHe2qKlvqdD0zvxeTaI3KrAFe5G3?=
+ =?us-ascii?Q?ucFnqbBHsZtZzTML3YToROFaMM99vA5ShSQLyKNPy1f4yvTug/qgn/G4F5lg?=
+ =?us-ascii?Q?pWF3tDTdl2S5/30DHAgZ7OmLZVTTrk1bH7y26LOCv3jcHU+we4tFJLIxWvZO?=
+ =?us-ascii?Q?XqRl1nYiALBH2fYw306vjc16Ao/DJzFBZOgCe31qIp1N7rKDbDFoDjwv/bAT?=
+ =?us-ascii?Q?EYNIYGKyY8Kcld8xK90aPPj+emTulWqxL/L1bTudMmty8y6aT0TEXVuTUHiI?=
+ =?us-ascii?Q?6oW2gOSOBVwKRMDyLM+3tDmKIRRp9CLtwG20rzLQMzC0whl7zD0GNZFL5WNg?=
+ =?us-ascii?Q?NXZtS6r/arVjpH+obGQTbXT9t2f8C0hHc6+VHZQaqGdAjidF1uxyT7DUH7yB?=
+ =?us-ascii?Q?WXUWs92n5rrxXNQiKEhb8YLyt6d/XDRQ4HLwRi2tWgS4hflijh5+vQVinhif?=
+ =?us-ascii?Q?9yVUPwtmOf5G21pnDCgIw7fJAoS8zcUYmPFgxaKzMTYRAIs7JXZqPQVYy052?=
+ =?us-ascii?Q?QWqSle8/hpbZkmYwiYYNgY4hkTp5/plmPk8JMCxhL5u2YG6HTn4QclLdbI3N?=
+ =?us-ascii?Q?aCErV0SMSLpkcdRtzPbKkwKXmxSShYzicdJi1pVPRea5Ej9p+BsXk7m9k72O?=
+ =?us-ascii?Q?xb8DktG2b3EMPhagl00Bhj/+MQ2Nys1IG81zeRVKiwmPgTBAPcV+6OhI+F1N?=
+ =?us-ascii?Q?JP9neBSZRsRDOFRF4yzBvP1ChRHJ+JoRrdp9pOKn89Vu4ydE9Y3Tp01TBRHZ?=
+ =?us-ascii?Q?c5tvNf8MChyb3PboH58uuwdc9kwyFEXKvNsX/VCLBIRQc50Q+JD6xUT7Ywri?=
+ =?us-ascii?Q?xitfcVB+1A=3D=3D?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 104af64b-0782-45c4-c36c-08deded75091
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2e06898-c3b0-4972-46e6-08deded8507e
 X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2026 23:02:28.5837
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2026 23:09:37.9765
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sLkAewtUseumqNbq6flPZcvZBV0LnNjTWo2XsY6Zu+MgReongFDho451Gd9geakd/HdAc4w4bL1/haT6N6WvCw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7244
+X-MS-Exchange-CrossTenant-UserPrincipalName: Jx+rRtYsbDWB0tunRLtZ0UyfV1qGgrc+Ag4YR8H7PnjaNFxPeV5wIYErsYwti7pPE7aW3MlFjdUMIZB4e2bWog==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7424
 
-On Fri, Jul 10, 2026 at 03:26:42AM +0530, Shrikanth Hegde wrote:
-> Actively push out task running on a non-preferred CPU. Since the task is
-> running on the CPU, need to stop the cpu and push the task out.
-> However, if the task is pinned only to non-preferred CPUs, it will continue
-> running there. This will help in maintaining the userspace affinities
-> unlike CPU hotplug or isolated cpusets.
+On Fri, Jul 10, 2026 at 10:30:43PM +0530, Shrikanth Hegde wrote:
+> Hi Yury, thanks for taking a look.
 > 
-> Though code is similar to  __balance_push_cpu_stop and quite close to
-> push_cpu_stop, it is being kept separate as it provides a cleaner
-> implementation with CONFIG_PREFERRED_CPU.
+> On 7/10/26 9:11 PM, Yury Norov wrote:
+> > On Fri, Jul 10, 2026 at 03:26:39AM +0530, Shrikanth Hegde wrote:
+> > > Add "preferred" file in /sys/devices/system/cpu
+> > > 
+> > > This offers
+> > > - User can quickly check which CPUs are marked as preferred at this
+> > >    moment.
+> > > - Userspace algorithms irqbalance could use this mask to send irq into
+> > >    preferred CPUs.
+> > > 
+> > > For example:
+> > > cat /sys/devices/system/cpu/online
+> > > 0-719
+> > > cat /sys/devices/system/cpu/preferred
+> > > 0-599        <<< Implies 0-599 are preferred for workloads and 600-719
+> > >                   should be avoided at this moment.
+> > > 
+> > > cat /sys/devices/system/cpu/preferred
+> > > 0-719        <<< All CPUs are usable. There is no preference.
+> > > 
+> > > Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+> > > ---
+> > >   Documentation/ABI/testing/sysfs-devices-system-cpu | 11 +++++++++++
+> > >   drivers/base/cpu.c                                 |  8 ++++++++
+> > >   2 files changed, 19 insertions(+)
+> > > 
+> > > diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
+> > > index 82d10d556cc8..ac1dbb209cc7 100644
+> > > --- a/Documentation/ABI/testing/sysfs-devices-system-cpu
+> > > +++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
+> > > @@ -806,3 +806,14 @@ Date:		Nov 2022
+> > >   Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
+> > >   Description:
+> > >   		(RO) the list of CPUs that can be brought online.
+> > > +
+> > > +What:		/sys/devices/system/cpu/preferred
+> > > +Date:		July 2026
+> > > +Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
+> > > +Description:
+> > > +		(RO) the list of preferred CPUs at this moment.
+> > > +		These are the only CPUs meant to be used at the moment.
+> > > +		Using CPU outside of the list could lead to more
+> > > +		contention of underlying physical CPU resource. Dynamically
+> > > +		changes based on steal time. With CONFIG_PREFERRED_CPU=n it
+> > > +		is same as active CPUs. See sched-arch.rst for more details.
+> > 
+> > This should mention that it's about paravirtualization.
 > 
-> Add push_task_work_done flag to protect work buffer.
-> Works only with FAIR class.
+> Ok. I will rephrase it.
 > 
-> For now, only current running task is pushed out. This keeps the code
-> simpler. In future optimization maybe done to move all the queued
-> task on the rq.
+> > 
+> > > diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
+> > > index 19d288a3c80c..4ac990efee7c 100644
+> > > --- a/drivers/base/cpu.c
+> > > +++ b/drivers/base/cpu.c
+> > > @@ -391,6 +391,13 @@ static int cpu_uevent(const struct device *dev, struct kobj_uevent_env *env)
+> > >   }
+> > >   #endif
+> > > +static ssize_t preferred_show(struct device *dev,
+> > > +			      struct device_attribute *attr, char *buf)
+> > > +{
+> > > +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpu_preferred_mask));
+> > > +}
+> > > +static DEVICE_ATTR_RO(preferred);
+> > > +
+> > >   const struct bus_type cpu_subsys = {
+> > >   	.name = "cpu",
+> > >   	.dev_name = "cpu",
+> > > @@ -532,6 +539,7 @@ static struct attribute *cpu_root_attrs[] = {
+> > >   #ifdef CONFIG_GENERIC_CPU_AUTOPROBE
+> > >   	&dev_attr_modalias.attr,
+> > >   #endif
+> > > +	&dev_attr_preferred.attr,
+> > 
+> >   #ifdef CONFIG_PREFERRED_CPUS ?
 > 
-> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-> ---
-> v6->v7:
-> - Moved is_migration_disabled
-> - removed fair class check 
-> 
->  kernel/sched/core.c  | 78 ++++++++++++++++++++++++++++++++++++++++++++
->  kernel/sched/sched.h |  8 +++++
->  2 files changed, 86 insertions(+)
-> 
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 9e8eec4451b6..74c93a88bf84 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -5774,6 +5774,9 @@ void sched_tick(void)
->  	unsigned long hw_pressure;
->  	u64 resched_latency;
->  
-> +	if (!cpu_preferred(cpu))
-> +		sched_push_current_non_preferred_cpu(rq);
-> +
->  	if (housekeeping_cpu(cpu, HK_TYPE_KERNEL_NOISE))
->  		arch_scale_freq_tick();
->  
-> @@ -11292,3 +11295,78 @@ void sched_change_end(struct sched_change_ctx *ctx)
->  		p->sched_class->prio_changed(rq, p, ctx->prio);
->  	}
->  }
-> +
-> +#ifdef CONFIG_PREFERRED_CPU
-> +static DEFINE_PER_CPU(struct cpu_stop_work, npc_push_task_work);
-> +
-> +static int sched_non_preferred_cpu_push_stop(void *arg)
-> +{
-> +	struct task_struct *p = arg;
-> +	struct rq *rq = this_rq();
-> +	struct rq_flags rf;
-> +	int cpu;
-> +
-> +	/* sanity checks and clear */
-> +	if (cpu_preferred(rq->cpu) || is_migration_disabled(p)) {
-> +		scoped_guard(rq_lock, rq)
-> +			rq->push_task_work_done = false;
-> +		put_task_struct(p);
-> +		return 0;
-> +	}
-> +
-> +	raw_spin_lock_irq(&p->pi_lock);
-> +
-> +	/* This could take rq lock. So call it before rq lock is taken */
-> +	cpu = select_fallback_rq(rq->cpu, p);
-> +	rq_lock(rq, &rf);
-> +	rq->push_task_work_done = false;
-> +	update_rq_clock(rq);
-> +
-> +	context_unsafe_alias(rq);
-> +
-> +	if (task_rq(p) == rq && task_on_rq_queued(p))
-> +		rq = __migrate_task(rq, &rf, p, cpu);
-> +
-> +	rq_unlock(rq, &rf);
-> +	raw_spin_unlock_irq(&p->pi_lock);
-> +	put_task_struct(p);
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Push the current task running on non-preferred CPU(npc).
-> + * Using this non preferred CPU will lead to more vCPU preemptions
-> + * in the host. So it is better not to use this CPU.
-> + *
-> + * Since task is running, call a stopper to push the task out. This is
-> + * similar to how task moves during hotplug. In select_fallback_rq a
-> + * preferred CPU will be chosen and henceforth task shouldn't come back to
-> + * this CPU again.
-> + *
-> + * Works for FAIR class only
-> + *
-> + * If task is affined only non-preferred CPUs, it can't be moved out
-> + */
-> +void sched_push_current_non_preferred_cpu(struct rq *rq)
-> +{
-> +	struct task_struct *push_task = rq->curr;
-> +
-> +	/* Don't push the task if task's affinity doesn't allow */
-> +	if (!task_can_sched_on_preferred(rq->cpu, push_task))
-> +		return;
+> Not needed no? It will print active CPUs.
 
-Shouldn't you protect it with the rq lock against races with affinity or
-policy changes? The task_can_sched_on_preferred() checks p->sched_class
-and p->cpus_ptr.
-
-> +
-> +	/* There is already a stopper thread. Don't race with it. */
-> +	if (rq->push_task_work_done)
-> +		return;
-> +
-> +	/* sched_tick runs with interrupts disabled. */
-> +	get_task_struct(push_task);
-> +
-> +	scoped_guard(rq_lock, rq)
-> +		rq->push_task_work_done = true;
-> +
-> +	stop_one_cpu_nowait(rq->cpu, sched_non_preferred_cpu_push_stop,
-> +			    push_task, this_cpu_ptr(&npc_push_task_work));
-> +}
-> +#endif
-> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-> index 6de6366f2faa..80c02e2c09eb 100644
-> --- a/kernel/sched/sched.h
-> +++ b/kernel/sched/sched.h
-> @@ -1277,6 +1277,8 @@ struct rq {
->  
->  	struct list_head cfs_tasks;
->  
-> +	bool			push_task_work_done;
-> +
->  	struct sched_avg	avg_rt;
->  	struct sched_avg	avg_dl;
->  #ifdef CONFIG_HAVE_SCHED_AVG_IRQ
-> @@ -4242,4 +4244,10 @@ static inline bool task_can_sched_on_preferred(int cpu, struct task_struct *p)
->  	return cpumask_intersects(p->cpus_ptr, cpu_preferred_mask);
->  }
->  
-> +#ifdef CONFIG_PREFERRED_CPU
-> +void sched_push_current_non_preferred_cpu(struct rq *rq);
-> +#else	/* !CONFIG_PREFERRED_CPU */
-> +static inline void sched_push_current_non_preferred_cpu(struct rq *rq) { }
-> +#endif
-> +
->  #endif /* _KERNEL_SCHED_SCHED_H */
-> -- 
-> 2.47.3
+If I didn't enable preferred CPUs, I'll be pretty surprised having
+them in my statistics.
