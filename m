@@ -1,162 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C1939B970;
-	Fri, 10 Jul 2026 08:11:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B593DCDBC;
+	Fri, 10 Jul 2026 08:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783671085; cv=none; b=SPQhJvs4D0TMeye9TQOiYc28/1yAOZLUqPpw/AfFwwFLic9oMCJmUfLREfMBZ4Vfv1JsrAIYzANKAEqUnxun0JCeeO/5D6/arNyzhfxBYt+IghjIMv85nSCjrWewIq36vM3EgRlhUFq+yDbsJ3D46JM5+TEdlk6InjteeJT0Xxo=
+	t=1783671669; cv=none; b=XdkL+eh//MiAeShwaGBY1jFsDddW8ybPALsvugQSJrUWle0p9EGClcVFTAEbaKiuDTawDmrfqmuPBJs21XrqAxDs7pLlBI/XjB2fTgUalJieXUY+bN3mp0FtRZvf1sp2xjzxUZv8q2YD0Em/9cfwneBLObD34/t/3uhlj6Ltxzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783671085; c=relaxed/simple;
-	bh=tb4i1NFK2AtS7A19tqUyIjKvX2M3PZxC9zIsxtORnOs=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:References:
-	 In-Reply-To:Content-Type; b=rlZtQ+UfPC3zqZ2AgCFUA00gT0V4AjqMslO6Xvd+nW+rlgVr6HJu0m7ZewU72E6t58q0dxx+aYCbFrfIRhAEmLFHwvALHT4BgbUBWl8TTlIbvibVIvcWfUSx5nS5bceDqog46Qo0xDdqr3/fBNCWmYM5o1/Mo/7Ub6U0RDhTFJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PRQLOnyO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783671669; c=relaxed/simple;
+	bh=AKDaVCfJi39Tgs/2h1ZaZCW7yPhT+bWU0gjLilWomb8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KU/iUSbj51cvQdgn6jQNxDn0AaQNmwvBmJ6NYD1IkX58LqCqSv5EkVG0kYK8QOIldm4oW9qhpRVVt701ypgEmkM3JuXwkt4kDEFL6uBatXTbVH9mSHBJY1bJa7GKe8a1XKPA0uhiM+GjrbqHkLApMna1HlbxGLzYjqLpadSq1T4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=SYXdhwf6; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PRQLOnyO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43BF31F000E9;
-	Fri, 10 Jul 2026 08:11:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783671084;
-	bh=jMruBfVSyH3DVmk1GL0ZX3Bx9OKUNffdLyUYEdQDcYI=;
-	h=Date:From:Subject:To:References:In-Reply-To;
-	b=PRQLOnyO6sdmcbUffE89YnGACswQ+SQ2PxRL0B3fYF6//vXWGhePnmxKg9mZDVWt7
-	 3zGxZUr8miFjL1Rj9J2B6vC0piJg+ZVya3AlZ/rDtqiZqPiaP12julzAGl05dHPKXW
-	 xeU1mt9VCZIFs1QexWn8B8bXBAh1SQylicvoS5HfuGQzGwGOooVBYB8jExmkdeTrRC
-	 kF9aClUQVe4GsAhbLXn5DdFS1YCRVlVvQisNh9TG8o54xGaVNnxt7WA6RvYRhILKb2
-	 9s0lIdSqYeIm5MUlPedFuX8MAjUfzkmIZr7cmaJSzUx3FwuPi6Nx9zKVRpmmES5cJT
-	 rC6eOcLV07bzQ==
-Message-ID: <7fcac682-60e3-4e1d-b26b-5b23f8035a91@kernel.org>
-Date: Fri, 10 Jul 2026 10:11:20 +0200
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="SYXdhwf6"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=PLGhazUsM5CoDJX0gMbB8JmKh1fkD9xEB4wGjBKRQtk=; b=SYXdhwf6TnLG74rt3BsGAN1Jnu
+	8XeUOLT9UP7PIRK7VMt2N5WOjEdBZAiJi83YQ7Sfayyr9ydhbMTHZSoQrtORqBGBL1SqTOWxczJdp
+	zG0TPEe3qswltJhH6XxIiAntv+LH6NEsmt4u5XrIXny5kQ+l7G9qrvm+rjO7mtaHdj/JVKCYGvtkg
+	iju1OXKW9CdG4su1GyGWuzGKjj5SlAjjr7FhmmtJD7Djj+PKyDfyoHeSyhBSEVoCDdQnxUrGymxjR
+	UefwOZO2aK1UiJDyQNm1SsnfR8HfktgVBhqCQjqqARpcXyDYbP3I6wyJ1ebFoUqEfjxQw7WBQCN58
+	4LALyksQ==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wi6Tj-004LW4-2A;
+	Fri, 10 Jul 2026 08:21:00 +0000
+Date: Fri, 10 Jul 2026 01:20:54 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Illusion Wang <Illusion.Wang@nebula-matrix.com>
+Cc: Dimon <dimon.zhao@nebula-matrix.com>, 
+	Alvin <alvin.wang@nebula-matrix.com>, Sam <sam.chen@nebula-matrix.com>, 
+	netdev <netdev@vger.kernel.org>, andrew+netdev <andrew+netdev@lunn.ch>, corbet <corbet@lwn.net>, 
+	kuba <kuba@kernel.org>, horms <horms@kernel.org>, linux-doc <linux-doc@vger.kernel.org>, 
+	pabeni <pabeni@redhat.com>, "vadim.fedorenko" <vadim.fedorenko@linux.dev>, 
+	"lukas.bulwahn" <lukas.bulwahn@redhat.com>, edumazet <edumazet@google.com>, 
+	enelsonmoore <enelsonmoore@gmail.com>, skhan <skhan@linuxfoundation.org>, 
+	hkallweit1 <hkallweit1@gmail.com>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: =?utf-8?B?5Zue5aSN77yaW1BBVENIIHYyMSBuZXQtbmV4?= =?utf-8?Q?t?=
+ 01/12] net/nebula-matrix: add minimum nbl build framework
+Message-ID: <alCrVABK5CLd57e8@gmail.com>
+References: <20260708064742.35391-1-illusion.wang@nebula-matrix.com>
+ <20260708064742.35391-2-illusion.wang@nebula-matrix.com>
+ <ak5sjL21NQSWDB9S@gmail.com>
+ <25d3ffc3-6f45-4baf-9c3c-ff075de14778.Illusion.Wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: Bad wrapping in some tables
-To: Rito Rhymes <rito@ritovision.com>, Jonathan Corbet <corbet@lwn.net>,
- Daniel Lundberg Pedersen <dlp@qtec.com>, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org
-References: <c542aaf7-6a40-4730-8bd6-208c9fe932d5@qtec.com>
- <87pl0yr9ah.fsf@trenco.lwn.net> <DJUP0UXLLHJ0.3P121A982R9TP@ritovision.com>
-Content-Language: en-US, nl
-In-Reply-To: <DJUP0UXLLHJ0.3P121A982R9TP@ritovision.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <25d3ffc3-6f45-4baf-9c3c-ff075de14778.Illusion.Wang@nebula-matrix.com>
+X-Debian-User: leitao
 
-On 10/07/2026 08:55, Rito Rhymes wrote:
-> I just got caught up to speed, reviewing the links, the regression, the
-> prior state and other relevant context.
+On Fri, Jul 10, 2026 at 10:45:15AM +0800, Illusion Wang wrote:
+> >> From: illusion wang <illusion.wang@nebula-matrix.com>
+> >> +Support
+> >> +=======
+> >> +
+> >> +For more information about m18110-NIC/m18000-NIC, please visit the following URL:
+> >> +https://www.nebula-matrix.com/
+> >
+> >Do you have a link for the site in english?
 > 
-> Daniel, thanks for pointing out the regression. As Jon said, it's
-> always good to inform the author of the patch, and I'd have been happy
-> to discuss and test out solutions with you.
+> >Thanks
 > 
->> That overflow-wrap line is the problem. The patch was trying to
->> improve overflow from some literal blocks, but it does seem that the
->> cure is worse than the disease.
-> 
->> This change causes truly unreadable breaking of literal strings in a
->> number of settings.
-> 
-> Can anyone provide any examples of issues happening outside of tables?
-> 
-> If not, that suggests the fix is working fine except inside tables,
-> which means a targeted fix for tables is possible.
-> 
-> The intention of the fix is that inline literals in regular text bodies
-> that have a generally defined (max) width will respect that width and
-> not exceed it and cause overflow. It's serving that purpose and is a
-> sensible default behavior because it is often used like text in text
-> bodies and surrounded by other text, thus we make it also behave like
-> text.
-> 
-> I don't believe a reversion is the right answer, for two reasons.
-> 
-> Reason 1:
-> 
-> Reverting the fix restores the issues outside the tables it previously
-> fixed, and fixes some of the tables, but makes others just as
-> unreadable.
-> 
-> In the second example Daniel provided, there is a two column table
-> spanning the full width of the page on mobile viewport sizes without
-> overflowing. The left column is inline literals only, the right column
-> is regular text.
-> 
-> After my fix:
-> https://www.kernel.org/doc/html/v7.1/process/debugging/kgdb.html#run-time-parameter-kgdbreboot
-> 
-> The left column of inline literals wraps down into vertical text and is
-> unreadable, because the column has no minimum width and expects the
-> contents to set the width, but it wraps immediately. That's a problem.
-> The right column text is readable, though it does some wrapping for a
-> few words.
-> 
-> Before the fix:
-> https://www.kernel.org/doc/html/v7.0/process/debugging/kgdb.html#run-time-parameter-kgdbreboot
-> 
-> The issue is as bad or worse. The left column is fully readable and
-> spans literals as far as needed, but it's crushing the right column and
-> forcing that into vertical text (maybe 2-3 characters wide), making
-> that column unreadable.
-> 
-> What's worse, unreadable vertical text as inline literals or as regular
-> text? Regular text is worse because it's meant to be descriptive, but
-> having either one is unacceptable.
-> 
-> Reason 2: the real culprit here is this:
-> 
-> Table mobile responsiveness in general in the Linux kernel
-> documentation is systemically pathological.
-> 
-> Many if not most of the tables on smaller screens overflow page width
-> and break the page margins. And this page is another example of
-> pathological table behavior where the table doesn't overflow and
-> break the page margins, it respects the page margin width, but
-> instead makes the content inside unreadable as vertical text, either
-> from the string literal wrapping or from the text wrapping. Neither
-> my current fix nor the reverted state resolves that issue.
-> 
-> The best solution:
-> Make targeted changes to the tables to make them fundamentally behave
-> better on smaller screen sizes.
-> 
-> I began this effort with:
-> [PATCH v3] docs: wrap generated tables to contain small-screen overflow
-> 
-> Jon hadn't followed up after testing out the fix with CSS and my
-> explaining why the wrapper was the better approach, because it prevented
-> regressions. That fix is a start, but more would need to be done.
-> 
-> If Daniel is willing to help test out table fixes and provide examples
-> of regressions, and if Jon has the bandwidth to review my patch
-> submissions to improve the tables, I am willing to tackle this systemic
-> issue, which will result in this issue being resolved as well.
-> 
-> Rito
-> 
+> Sorry, I will fix this in the next revision of the patch series.
+> Our official English product page is available at:
+> https://www.nebula-matrix.com/snic_s1000_en
+> The S1000 series products are based on the m18000 chip family,
+> and you can find full NIC product introductions on this page.
 
-FYI: the Media subsystem userspace API is full of tables, e.g.:
-
-https://docs.kernel.org/userspace-api/media/v4l/vidioc-enuminput.html
-https://docs.kernel.org/userspace-api/media/cec/cec-ioc-receive.html
-
-There are many, many more of those.
-
-Currently it is basically unreadable due to the breaking up of the literals.
-
-Hopefully this can be fixed. I only noticed this issue yesterday, so it was
-good to see your email so I know why it changed.
-
-We're well aware that the tables in the media subsystem do not work well on
-small screens. The only workable solution would be to move away from tables
-and format it differently. And that's not going to happen as that would be a
-massive job.
-
-Regards,
-
-	Hans
+Thanks, that is what I was looking for. Please use the english like
+above.
