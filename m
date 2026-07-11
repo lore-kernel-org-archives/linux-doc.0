@@ -1,115 +1,120 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7712C2737F8
-	for <linux-doc@vger.kernel.org>; Sat, 11 Jul 2026 03:22:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA8614EC73;
+	Sat, 11 Jul 2026 05:04:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783740159; cv=none; b=PQN4f75vq9rEQnmTDDySCLrIPVGsWQGZ3g6Sf8EvLmZYmPLaEpbPXRkfsXOVzYeSJyoGqdeIYFXJ4PY8jQgy3lC3+EbxnBlfC9Ksc1ASGpB2UU0knqXOHHxX++KnzMjUJlbj2bww7ixJqYILPjKZwhlRMHqfeWtQJKxKWDTozAM=
+	t=1783746270; cv=none; b=AF+mFbRfT2CYahX7/vleMbicZXb6Lyrr4GLHgLAqClLiV0NXv6GCH6ACCbOaheGbJpgecexH4a1wN9g0vsCQtfdrEGH8RPeERFJ8Mt90Di0K4wE7L7NwWuX1V26gKlUfePso5h+ZBPq8iF/vx35RGPJHJJHeCf6QPB48dhDBRGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783740159; c=relaxed/simple;
-	bh=Sus7BKnPvFUSij7CjYjdJ5SdK+WtzY+EQEDkUmlaEDE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pzm947NXrkeSt9I0y02OwhNTL2cQYYthE/k6yAP4XSceamfekoNT5KNnUtqtJ38iGnzOQ3IFUD3NrlEfh8r13BGZROm/PbJyLDmdfuQ/tlU6BgujBw4U7oFAhsNRcztocVBk/iADbadtZRzGZIAIf/5NaXWTM7gX7vpdyVFOHbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y+T7qVfQ; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y+T7qVfQ"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-84862b0d5f8so1278259b3a.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2026 20:22:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783740158; x=1784344958; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZoRTmK7mqG76n1GL0uhVSS5eZwslPyOiLYDvdkV1GQU=;
-        b=Y+T7qVfQB2TUolswh+PJg2roQbg2dl792e74RhbyG/9Vj8N3+WvCQ3UIjHx98pcPsv
-         is2mm7ENnYmfoaDc5bE7/gq6fEKu019fp4/gbj9/v0igV96h2UO0N/1BiaC065sk8ylr
-         lF8EDEi7VXvTRm98EXSCwfFSt/ImJ636rlG3ntOjBtH05FFfcE5YWPgnFnTRrAObJ9Oj
-         aqesQhIYU64Em1aYmKWuSyG3xbGMAbIbH0yzO53DzB1Srir/r4KHX5GTvBRArbmp7/7c
-         cUGiE5LIe23VkhT+2v07URqgvcMoex+PNjQ2n70OnLg+zdPTlwfIENkTQvj1WG5PAEtQ
-         DCXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783740158; x=1784344958;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZoRTmK7mqG76n1GL0uhVSS5eZwslPyOiLYDvdkV1GQU=;
-        b=V+MNcGVMfffwCBe8nNQapU7QvpyImfzDtBfDtLGn1fF7z3XuzStyBGCxUZQjPcQtQp
-         IZ1D0lcD/e7fcsp0m4rf9oVuaGsR2FBAchdyy3GZ/gSOl6T7jNE1HRWvRkiRwwpyW9pt
-         6MhTMjIuIuPKUV2wb9ia8lWHj0KlRwj+ebF8xnn/nixNoSfm5SkzKF3E2riQfxDlY8wv
-         tk5rL6J6CV3SR75EifwHGeXR61VVDyvJQIxd2V9NFBoSHPSzMAhwlGkg99ci8k0GMFFq
-         ty2yk2uGieOm9O5ECQ/R0T8lDerlbPtI9ZHKJ0/a9RdqaJaCbryHio5GoWZBfzftvZPA
-         QWNw==
-X-Forwarded-Encrypted: i=1; AHgh+Rpo8Dm0InpMS84Z9s6vytJ0XVWfUR6gR80K9vShZPQ/A3n4WjEzIkE3ywGeEUCGmb/SMcmhJtMqUsY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw38m6OPZkiv7lfZ7JmmkoJLJF6HeObF/DRFDCzsRqsXF9y77cI
-	NRIXkYigF/Xw88abZo6IjeZr3n88uYG6KjCqwWEaGNgjU9nVraXGncK6
-X-Gm-Gg: AfdE7cnfTP6MGfJ9ZGMUNtzlmRPcGKTiQ4SMHFvpLOLnA94SPe7GOCMhZzy2YfMa2H1
-	bGghp6NT+I6W7s3ZWrcOzxnCKAclGKmR0lufgCyLMpxaSFig21I7VMgo8pIHHjl3zhoiYFe2XAS
-	bK+nNPicOqh0Zlv2p4u018PLwzdRiErDYxIuDtnd8UvbRr6iT6YBBiAUEa1giMfLZaRBsqdUhyz
-	pL0aCX8BcPXszrEm3G+RHwOCwXfqtyVX0Q8N/eYcxlrCj0Lotpz6psfndmYar4NxEaJOxuBVwJ5
-	68Ktfxyag99mloPFgkGj/BfptF9ctCrjeuaBl3MgbSCxscqvFpWAzEb2jZxyqmVlEhhH+zfuyhd
-	dMOtBhnUuSoBBWjwzBwFE4eXxGHQ9SmaN7vo19++fPPxryKLau7mTC2HLfJB+aKOlVPg/Q34jiy
-	x9NjdVoPcyvEOMGXD5visD9t8RZPwv4WDYzGx6SmWqfb7hk6Ahu5Nupnc=
-X-Received: by 2002:a05:6a00:2303:b0:848:2f74:1d68 with SMTP id d2e1a72fcca58-84889750a60mr1542258b3a.78.1783740157808;
-        Fri, 10 Jul 2026 20:22:37 -0700 (PDT)
-Received: from skinsburskii (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84856e7c8edsm3652647b3a.36.2026.07.10.20.22.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 20:22:37 -0700 (PDT)
-Date: Fri, 10 Jul 2026 20:22:33 -0700
-From: Stanislav Kinsburskii <skinsburskii@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: airlied@gmail.com, akhilesh@ee.iitb.ac.in, corbet@lwn.net,
-	dakr@kernel.org, david@kernel.org, decui@microsoft.com,
-	haiyangz@microsoft.com, jgg@ziepe.ca, kees@kernel.org,
-	kys@microsoft.com, leon@kernel.org, liam@infradead.org,
-	lizhi.hou@amd.com, ljs@kernel.org, longli@microsoft.com,
-	lyude@redhat.com, maarten.lankhorst@linux.intel.com,
-	mamin506@gmail.com, mhocko@suse.com, mripard@kernel.org,
-	nouveau@lists.freedesktop.org, ogabbay@kernel.org, oleg@redhat.com,
-	rppt@kernel.org, shuah@kernel.org, simona@ffwll.ch,
-	skhan@linuxfoundation.org, surenb@google.com, tzimmermann@suse.de,
-	vbabka@kernel.org, wei.liu@kernel.org,
-	dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Subject: Re: [PATCH v8 0/8] mm/hmm: Add mmap lock-drop support for
- userfaultfd-backed mappings
-Message-ID: <alG2-RSitzPWClAX@skinsburskii>
-References: <178371866223.900500.12312667138651735591.stgit@skinsburskii>
- <20260710151151.1e193eedd0cf2591ae392f76@linux-foundation.org>
+	s=arc-20240116; t=1783746270; c=relaxed/simple;
+	bh=sMujRkzP+0svfJnmRczxcQ7AePeemebynXdWZ0h9VGE=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=KVhC9Agh5btIIduBqBcyYBr0LkreeISB5odDr5I3VnOaLeeauI+uwxYt1tyV2uDuHYP57w+M/sR9WocKd9y6YK6Yqux+nyYvUaXw5iCcaNovZ0ja7zvl8PvHl6FMozGmPsxvMkPWwBKFT/BDQlYqhoK4VF99ymhnh5zY5KA8XNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: f88789647ce511f1aa26b74ffac11d73-20260711
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NO_NAME, HR_CTE_QP, HR_CTT_TXT
+	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_MAILER_MTBG
+	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
+	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_PRE_RE, HR_SJ_WS, HR_TO_COUNT
+	HR_TO_DOMAIN_COUNT, HR_TO_NAME, IP_UNTRUSTED, SRC_UNTRUSTED, IP_UNFAMILIAR
+	SRC_UNFAMILIAR, DN_TRUSTED, SRC_TRUSTED, SA_EXISTED, SN_UNTRUSTED
+	SN_UNFAMILIAR, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_GOOD_SPF
+	CIE_UNKNOWN, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU, AMN_GOOD
+	ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:1281cd33-2b67-4854-bbd9-17ee00ce8ccf,IP:10,
+	URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:5
+X-CID-INFO: VERSION:1.3.12,REQID:1281cd33-2b67-4854-bbd9-17ee00ce8ccf,IP:10,UR
+	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:5
+X-CID-META: VersionHash:e7bac3a,CLOUDID:2c71dac5849ae06242c1f1c11ef34077,BulkI
+	D:260710221752NO56G64A,BulkQuantity:4,Recheck:0,SF:17|19|64|66|78|80|81|82
+	|83|102|127|841|865|898,TC:nil,Content:0|15|52,EDM:-3,IP:-2,URL:0,File:nil
+	,RT:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,D
+	KP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: f88789647ce511f1aa26b74ffac11d73-20260711
+X-User: husong@kylinos.cn
+Received: from ehlo.thunderbird.net [(223.160.130.75)] by mailgw.kylinos.cn
+	(envelope-from <husong@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 1252713203; Sat, 11 Jul 2026 13:04:18 +0800
+Date: Sat, 11 Jul 2026 13:04:12 +0800
+From: Song Hu <husong@kylinos.cn>
+To: SJ Park <sj@kernel.org>
+CC: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 1/4] Docs/ABI/damon: fix typo in intervals_goal sysfs path
+User-Agent: Thunderbird for Android
+In-Reply-To: <20260711002127.32005-1-sj@kernel.org>
+References:  <20260711002127.32005-1-sj@kernel.org>
+Message-ID: <C8C472D0-9818-4569-87EC-1B95BE9667F2@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260710151151.1e193eedd0cf2591ae392f76@linux-foundation.org>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 10, 2026 at 03:11:51PM -0700, Andrew Morton wrote:
-> On Fri, 10 Jul 2026 14:26:20 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
-> 
-> > This series extends the HMM framework to support userfaultfd-backed memory
-> > by allowing the mmap read lock to be dropped during hmm_range_fault().
-> 
-> Thanks.  This seems fairly mature and mostly-reviewed so I'll give it a
-> spin in mm.git's mm-new branch.
-> 
-> Unfortunately Sashiko wasn't able to apply this or v7.  I'm not sure
-> what base you were using.  Hopefully there's a reason for a v9 so we
-> can retry this.
-> 
 
-I rebased this series on top of mm-new right before sending it out.
-Should I have used a different branch?
+
+=E4=BA=8E 2026=E5=B9=B47=E6=9C=8811=E6=97=A5 GMT+08:00 08:21:25=EF=BC=8CSJ=
+ Park <sj@kernel=2Eorg> =E5=86=99=E9=81=93=EF=BC=9A
+>On Fri, 10 Jul 2026 07:17:37 -0700 SJ Park <sj@kernel=2Eorg> wrote:
+>
+>> On Fri, 10 Jul 2026 12:47:34 +0800 Song Hu <husong@kylinos=2Ecn> wrote:
+>>=20
+>> > The ABI document spells the DAMON sysfs directory as "intrvals_goal"
+>> > (missing 'e') in four What: entries, but the kernel creates it as
+>> > "intervals_goal" (mm/damon/sysfs=2Ec)=2E  Following the documented pa=
+th
+>> > therefore yields a non-existent directory=2E
+>>=20
+>> Nice catch!
+>>=20
+>> >=20
+>> > Fixes: e2b23dc62369 ("Docs/ABI/damon: document intervals auto-tuning =
+ABI")
+>> > Cc: stable@vger=2Ekernel=2Eorg
+>
+Hi SJ,
+
+Thanks a lot for your thorough reviews and ongoing support=2E
+
+I will strictly check the complete recipient list generated by =C2=A0get_m=
+aintainer=2Epl=C2=A0 for all future patch submissions=2E
+
+>By the way, hotfixes and non-hotfixes usually take different trains to th=
+e
+>mainline=2E  Having those in single series therefore makes maintainer wor=
+ks
+>difficult=2E  I understand this is not a hotfix but just somewhat worthy =
+to
+>eventually be backported to stable kernels=2E  So no problem for this=2E
+>
+>But, from the next time, please clarify or use different series for Cc: s=
+table@
+>patches=2E
+>
+As I=E2=80=99m still figuring out the correct timing for =C2=A0Cc: stable@=
+=C2=A0, I will consult with you prior to adding this tag next time and sepa=
+rate stable-bound patches into an independent series=2E
 
 Thanks,
-Stanislav
-
-> I have a few niggles, nothing major...
+Song
+>
+>Thanks,
+>SJ
+>
+>[=2E=2E=2E]
