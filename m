@@ -1,38 +1,38 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5289935C185;
-	Sat, 11 Jul 2026 09:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2338138AC96;
+	Sat, 11 Jul 2026 09:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783762393; cv=none; b=s5ZOz+tN9ML0W4VyGsgIPRh17DqiW48bS24p4AhMAbiPVsUvfSKrhwm0dAZ7x/GWpalFjheL6cyrQupm5YaI43nkCFOkWSxJrUys1UOSEKtgZHKiyrqY4/OkWpOKyXA6p5yq+BuPBbHzidX2eeUTMYiR3FTVW8lY96CZxaELA7Y=
+	t=1783762441; cv=none; b=S2V+6of9KNb6MKhMdeftawjPAvLB7cCqLK3LCEm201mV7fHhYVT4DE5HLCFPXDGMl8mPOMQYJb5WELPn6nRa0czKYUfW9u8pG4VB50PuX102BqDGPGITMmR/UjllcXm8ISxiSz9QY2X5j0IlMowk+bYUhw67BJuEczBAbDag5lI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783762393; c=relaxed/simple;
-	bh=c/tcMr4L4LUbjLhpg0uHoT2DPsTJBSpz2+QYyxTjpV4=;
+	s=arc-20240116; t=1783762441; c=relaxed/simple;
+	bh=uiGN6lbz+LXKGOp/sXBDlsCU7QmfbaciJxVPU7JyGcg=;
 	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=cI0/nj64aM8ZMJtMCCWmuG7v917GBLA/MKrOlKggLXG6i3pyTijpffc1N0HRtz9oV/uiOOBXzEtwXQaXgIElyP/tPcBVaSkX5eezYlNkwSEAZFU1U0d9FNBoxsepQ/Jdq3Bb8PDgSvPZxuhucpGO/Si5nYlFqexPX2V2oQDJsEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+	 Subject:Content-Type; b=b7ooNr3zHpQLJlz22wwMi/f4Uz591uF4IUyMNS4MGi6ZfShq/eYD6tNZRfDECp082wqsrOCDsAXEHNsCycs92Rx96MKfDSnJTMlmzRYWrGDfWpxuO39PEOIxTLAQZjeZ6Cx0AjQ8JVuJj3Opoxnrkc++5NtPbHQb6cCoiQK7cd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4gy3Qf6zJGz52SG8;
-	Sat, 11 Jul 2026 17:32:58 +0800 (CST)
-Received: from xaxapp02.zte.com.cn ([10.88.97.241])
-	by mse-fl1.zte.com.cn with SMTP id 66B9Wr4t003697;
-	Sat, 11 Jul 2026 17:32:54 +0800 (+08)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4gy3Rn167Gz8XrrX;
+	Sat, 11 Jul 2026 17:33:57 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl2.zte.com.cn with SMTP id 66B9Xn4t001601;
+	Sat, 11 Jul 2026 17:33:49 +0800 (+08)
 	(envelope-from wang.yaxin@zte.com.cn)
-Received: from mapi (xaxapp01[null])
+Received: from mapi (xaxapp04[null])
 	by mapi (Zmail) with MAPI id mid32;
-	Sat, 11 Jul 2026 17:32:56 +0800 (CST)
-X-Zmail-TransId: 2af96a520dc86bc-f7016
+	Sat, 11 Jul 2026 17:33:50 +0800 (CST)
+X-Zmail-TransId: 2afb6a520dfe6dd-e5049
 X-Mailer: Zmail v1.0
-Message-ID: <20260711173256542-prxp-gSW6zPAMKAp8GOM@zte.com.cn>
+Message-ID: <20260711173350621GghnTbusUS0tPX02Dxbd-@zte.com.cn>
 In-Reply-To: <20260711173112482SCQEM08VED2PT1pxUYOXk@zte.com.cn>
 References: 20260711173112482SCQEM08VED2PT1pxUYOXk@zte.com.cn
-Date: Sat, 11 Jul 2026 17:32:56 +0800 (CST)
+Date: Sat, 11 Jul 2026 17:33:50 +0800 (CST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,354 +45,264 @@ Cc: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>,
         <yang.yang29@zte.com.cn>, <corbet@lwn.net>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <xu.xin16@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIDEvM10gZGVsYXl0b3A6IHJlZmFjdG9yIHJlcGV0aXRpdmUgZGVsYXkgZmllbGRzIGludG8gYXJyYXkgd2l0aCBlbnVt?=
+Subject: =?UTF-8?B?W1BBVENIIDIvM10gdG9vbHMvYWNjb3VudGluZzogZmFjdG9yIG91dCBzaGFyZWQgZm9ybWF0X3RpbWVzcGVjKCkgaW1wbGVtZW50YXRpb24=?=
 Content-Type: text/plain;
 	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 66B9Wr4t003697
+X-MAIL:mse-fl2.zte.com.cn 66B9Xn4t001601
 X-TLS: YES
 X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Sat, 11 Jul 2026 17:32:58 +0800
+X-SOURCE-IP: 10.5.228.133 unknown Sat, 11 Jul 2026 17:33:57 +0800
 X-CLEAN: YES
 X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6A520DCA.001/4gy3Qf6zJGz52SG8
+X-Fangmail-MID-QID: 6A520E05.000/4gy3Rn167Gz8XrrX
 
 From: Wang Yaxin <wang.yaxin@zte.com.cn>
 
-Replace the 9 groups of (count, delay_total, delay_max, delay_max_ts)
-named fields in struct task_info with a struct delay_metrics array
-indexed by enum delay_type. This eliminates all unsafe pointer
-arithmetic via offsetof() from compare_tasks(),
-field_delay_max_and_ts(), and get_field_delay_values().
+The same __kernel_timespec formatting logic existed independently in
+both getdelays.c and delaytop.c with minor differences (strftime vs
+snprintf, __kernel_time64_t vs time_t).
 
-The struct field_desc now stores an enum delay_type index instead of
-four separate unsigned long offset values.
+Create a shared format_timespec.c/h with a canonical implementation
+(strftime + time_t), remove the static copies from both files, and
+link both programs against the common object.
+
+Also simplify the Makefile with a pattern rule for %.o and a static
+pattern rule for the two programs that need format_timespec.o.
 
 Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
 ---
- tools/accounting/delaytop.c | 220 +++++++++++++++---------------------
- 1 file changed, 88 insertions(+), 132 deletions(-)
+ tools/accounting/Makefile             | 12 ++++++++-
+ tools/accounting/delaytop.c           | 39 +++------------------------
+ tools/accounting/format_timespec.c    | 39 +++++++++++++++++++++++++++
+ tools/accounting/format_timespec.h    |  9 +++++++
+ tools/accounting/getdelays.c          | 32 ++--------------------
+ tools/include/uapi/linux/time_types.h | 18 +++++++++++++
+ 6 files changed, 82 insertions(+), 67 deletions(-)
+ create mode 100644 tools/accounting/format_timespec.c
+ create mode 100644 tools/accounting/format_timespec.h
+ create mode 100644 tools/include/uapi/linux/time_types.h
 
+diff --git a/tools/accounting/Makefile b/tools/accounting/Makefile
+index 007c0bb8cbbb..22e690c853a5 100644
+--- a/tools/accounting/Makefile
++++ b/tools/accounting/Makefile
+@@ -3,8 +3,18 @@ CC := $(CROSS_COMPILE)gcc
+ CFLAGS := -I../include/uapi/
+
+ PROGS := getdelays procacct delaytop
++OBJS := format_timespec.o
+
+ all: $(PROGS)
+
++getdelays delaytop: %: %.o $(OBJS)
++	$(CC) $(CFLAGS) -o $@ $^
++
++procacct: procacct.o
++	$(CC) $(CFLAGS) -o $@ $^
++
++%.o: %.c
++	$(CC) $(CFLAGS) -c -o $@ $<
++
+ clean:
+-	rm -fr $(PROGS)
++	rm -fr $(PROGS) *.o
 diff --git a/tools/accounting/delaytop.c b/tools/accounting/delaytop.c
-index 1c40bb477320..f1d26ff98792 100644
+index f1d26ff98792..1144ca325447 100644
 --- a/tools/accounting/delaytop.c
 +++ b/tools/accounting/delaytop.c
-@@ -61,31 +61,51 @@
- #define MAX_MSG_SIZE	1024
- #define MAX_TASKS		1000
- #define MAX_BUF_LEN		256
--#define SET_TASK_STAT(task_count, field) tasks[task_count].field = stats.field
- #define BOOL_FPRINT(stream, fmt, ...) \
- ({ \
- 	int ret = fprintf(stream, fmt, ##__VA_ARGS__); \
- 	ret >= 0; \
- })
--#define TASK_AVG(task, field) average_ms((task).field##_delay_total, (task).field##_count)
-+#define TASK_AVG(task, type) \
-+	average_ms((task).delays[DELAY_##type].delay_total, \
-+		   (task).delays[DELAY_##type].count)
- #define PSI_LINE_FORMAT "%-12s %6.1f%%/%6.1f%%/%6.1f%%/%8llu(ms)\n"
- #define DELAY_FMT_DEFAULT "%8.2f %8.2f %8.2f %8.2f\n"
- #define DELAY_FMT_MEMVERBOSE "%8.2f %8.2f %8.2f %8.2f %8.2f %8.2f\n"
--#define SORT_FIELD(name, cmd, modes) \
--	{#name, #cmd, \
--	offsetof(struct task_info, name##_delay_total), \
--	offsetof(struct task_info, name##_count), \
--	offsetof(struct task_info, name##_delay_max), \
--	offsetof(struct task_info, name##_delay_max_ts), \
--	modes}
--#define SORT_FIELD_NO_MAX(name, cmd, modes) \
--	{#name, #cmd, \
--	offsetof(struct task_info, name##_delay_total), \
--	offsetof(struct task_info, name##_count), \
--	0, \
--	0, \
--	modes}
--#define END_FIELD {NULL, 0, 0, 0, 0, 0, 0}
-+#define COPY_DELAY(task_idx, type, stats_prefix) \
-+	do { \
-+		tasks[task_idx].delays[DELAY_##type].count = \
-+			stats.stats_prefix##_count; \
-+		tasks[task_idx].delays[DELAY_##type].delay_total = \
-+			stats.stats_prefix##_delay_total; \
-+		tasks[task_idx].delays[DELAY_##type].delay_max = \
-+			stats.stats_prefix##_delay_max; \
-+		tasks[task_idx].delays[DELAY_##type].delay_max_ts = \
-+			stats.stats_prefix##_delay_max_ts; \
-+	} while (0)
-+#define SORT_FIELD(name, cmd, type, modes, has_max) \
-+	{#name, #cmd, type, modes, has_max}
-+#define END_FIELD {NULL, 0, 0, 0, false}
+@@ -44,6 +44,8 @@
+ #include <linux/cgroupstats.h>
+ #include <stddef.h>
+
++#include "format_timespec.h"
 +
-+enum delay_type {
-+	DELAY_CPU,
-+	DELAY_BLKIO,
-+	DELAY_SWAPIN,
-+	DELAY_FREEPAGES,
-+	DELAY_THRASHING,
-+	DELAY_COMPACT,
-+	DELAY_WPCOPY,
-+	DELAY_IRQ,
-+	DELAY_MEM,
-+	NUM_DELAY_TYPES
-+};
-+
-+struct delay_metrics {
-+	unsigned long long count;
-+	unsigned long long delay_total;
-+	unsigned long long delay_max;
-+	struct __kernel_timespec delay_max_ts;
-+};
-
- /* Display mode types */
- #define MODE_TYPE_ALL	(0xFFFFFFFF)
-@@ -116,40 +136,7 @@ struct task_info {
- 	int pid;
- 	int tgid;
- 	char command[TASK_COMM_LEN];
--	unsigned long long cpu_count;
--	unsigned long long cpu_delay_total;
--	unsigned long long cpu_delay_max;
--	struct __kernel_timespec cpu_delay_max_ts;
--	unsigned long long blkio_count;
--	unsigned long long blkio_delay_total;
--	unsigned long long blkio_delay_max;
--	struct __kernel_timespec blkio_delay_max_ts;
--	unsigned long long swapin_count;
--	unsigned long long swapin_delay_total;
--	unsigned long long swapin_delay_max;
--	struct __kernel_timespec swapin_delay_max_ts;
--	unsigned long long freepages_count;
--	unsigned long long freepages_delay_total;
--	unsigned long long freepages_delay_max;
--	struct __kernel_timespec freepages_delay_max_ts;
--	unsigned long long thrashing_count;
--	unsigned long long thrashing_delay_total;
--	unsigned long long thrashing_delay_max;
--	struct __kernel_timespec thrashing_delay_max_ts;
--	unsigned long long compact_count;
--	unsigned long long compact_delay_total;
--	unsigned long long compact_delay_max;
--	struct __kernel_timespec compact_delay_max_ts;
--	unsigned long long wpcopy_count;
--	unsigned long long wpcopy_delay_total;
--	unsigned long long wpcopy_delay_max;
--	struct __kernel_timespec wpcopy_delay_max_ts;
--	unsigned long long irq_count;
--	unsigned long long irq_delay_total;
--	unsigned long long irq_delay_max;
--	struct __kernel_timespec irq_delay_max_ts;
--	unsigned long long mem_count;
--	unsigned long long mem_delay_total;
-+	struct delay_metrics delays[NUM_DELAY_TYPES];
- };
-
- /* Container statistics structure */
-@@ -165,11 +152,9 @@ struct container_stats {
- struct field_desc {
- 	const char *name;	/* Field name for cmdline argument */
- 	const char *cmd_char;	/* Interactive command */
--	unsigned long total_offset; /* Offset of total delay in task_info */
--	unsigned long count_offset; /* Offset of count in task_info */
--	unsigned long max_offset;  /* Offset of max delay in task_info */
--	unsigned long max_ts_offset; /* Offset of max delay timestamp in task_info */
-+	enum delay_type type;	/* Index into task_info.delays[] */
- 	size_t supported_modes; /* Supported display modes */
-+	bool has_max;		/* Whether this field has max/ts */
- };
-
- /* Program settings structure */
-@@ -193,15 +178,15 @@ static int task_count;
- static int running = 1;
- static struct container_stats container_stats;
- static const struct field_desc sort_fields[] = {
--	SORT_FIELD(cpu,		c,	MODE_DEFAULT | MODE_TYPE),
--	SORT_FIELD(blkio,	i,	MODE_DEFAULT | MODE_TYPE),
--	SORT_FIELD(irq,		q,	MODE_DEFAULT | MODE_TYPE),
--	SORT_FIELD_NO_MAX(mem,	m,	MODE_DEFAULT | MODE_MEMVERBOSE),
--	SORT_FIELD(swapin,	s,	MODE_MEMVERBOSE | MODE_TYPE),
--	SORT_FIELD(freepages,	r,	MODE_MEMVERBOSE | MODE_TYPE),
--	SORT_FIELD(thrashing,	t,	MODE_MEMVERBOSE | MODE_TYPE),
--	SORT_FIELD(compact,	p,	MODE_MEMVERBOSE | MODE_TYPE),
--	SORT_FIELD(wpcopy,	w,	MODE_MEMVERBOSE | MODE_TYPE),
-+	SORT_FIELD(cpu, c, DELAY_CPU, MODE_DEFAULT | MODE_TYPE, true),
-+	SORT_FIELD(blkio, i, DELAY_BLKIO, MODE_DEFAULT | MODE_TYPE, true),
-+	SORT_FIELD(irq, q, DELAY_IRQ, MODE_DEFAULT | MODE_TYPE, true),
-+	SORT_FIELD(mem, m, DELAY_MEM, MODE_DEFAULT | MODE_MEMVERBOSE, false),
-+	SORT_FIELD(swapin, s, DELAY_SWAPIN, MODE_MEMVERBOSE | MODE_TYPE, true),
-+	SORT_FIELD(freepages, r, DELAY_FREEPAGES, MODE_MEMVERBOSE | MODE_TYPE, true),
-+	SORT_FIELD(thrashing, t, DELAY_THRASHING, MODE_MEMVERBOSE | MODE_TYPE, true),
-+	SORT_FIELD(compact, p, DELAY_COMPACT, MODE_MEMVERBOSE | MODE_TYPE, true),
-+	SORT_FIELD(wpcopy, w, DELAY_WPCOPY, MODE_MEMVERBOSE | MODE_TYPE, true),
- 	END_FIELD
- };
- static int sort_selected;
-@@ -433,20 +418,20 @@ static void parse_args(int argc, char **argv)
- /* Calculate average delay in milliseconds for overall memory */
- static void set_mem_delay_total(struct task_info *t)
- {
--	t->mem_delay_total = t->swapin_delay_total +
--		t->freepages_delay_total +
--		t->thrashing_delay_total +
--		t->compact_delay_total +
--		t->wpcopy_delay_total;
-+	t->delays[DELAY_MEM].delay_total = t->delays[DELAY_SWAPIN].delay_total +
-+		t->delays[DELAY_FREEPAGES].delay_total +
-+		t->delays[DELAY_THRASHING].delay_total +
-+		t->delays[DELAY_COMPACT].delay_total +
-+		t->delays[DELAY_WPCOPY].delay_total;
+ #define PSI_PATH	"/proc/pressure"
+ #define PSI_CPU_PATH	"/proc/pressure/cpu"
+ #define PSI_MEMORY_PATH	"/proc/pressure/memory"
+@@ -817,41 +819,6 @@ static double average_ms(unsigned long long total, unsigned long long count)
+ 	return (double)total / 1000000.0 / count;
  }
 
- static void set_mem_count(struct task_info *t)
+-/*
+- * Format __kernel_timespec to human readable string (YYYY-MM-DDTHH:MM:SS)
+- * Returns formatted string or "N/A" if timestamp is zero
+- */
+-static const char *format_kernel_timespec(struct __kernel_timespec *ts)
+-{
+-	static char buffer[32];
+-	time_t time_sec;
+-	struct tm tm_info;
+-
+-	/* Check if timestamp is zero (not set) */
+-	if (ts->tv_sec == 0 && ts->tv_nsec == 0)
+-		return "N/A";
+-
+-	/* Avoid Y2038 truncation: check if timestamp fits in time_t on 32-bit platforms */
+-	if (sizeof(time_t) < sizeof(ts->tv_sec) &&
+-	    ts->tv_sec > (__u64)((1ULL << (sizeof(time_t) * 8 - 1)) - 1))
+-		return "N/A";
+-
+-	time_sec = (time_t)ts->tv_sec;
+-
+-	if (localtime_r(&time_sec, &tm_info) == NULL)
+-		return "N/A";
+-
+-	snprintf(buffer, sizeof(buffer), "%04d-%02d-%02dT%02d:%02d:%02d",
+-		tm_info.tm_year + 1900,
+-		tm_info.tm_mon + 1,
+-		tm_info.tm_mday,
+-		tm_info.tm_hour,
+-		tm_info.tm_min,
+-		tm_info.tm_sec);
+-
+-	return buffer;
+-}
+-
+ /* Comparison function for sorting tasks */
+ static int compare_tasks(const void *a, const void *b)
  {
--	t->mem_count = t->swapin_count +
--		t->freepages_count +
--		t->thrashing_count +
--		t->compact_count +
--		t->wpcopy_count;
-+	t->delays[DELAY_MEM].count = t->delays[DELAY_SWAPIN].count +
-+		t->delays[DELAY_FREEPAGES].count +
-+		t->delays[DELAY_THRASHING].count +
-+		t->delays[DELAY_COMPACT].count +
-+		t->delays[DELAY_WPCOPY].count;
- }
+@@ -1133,7 +1100,7 @@ static void display_results(int psi_ret)
+ 					&max_ms, &max_ts);
 
- /* Create a raw netlink socket and bind */
-@@ -758,38 +743,14 @@ static void fetch_and_fill_task_info(int pid, const char *comm)
- 						strncpy(tasks[task_count].command, comm,
- 							TASK_COMM_LEN - 1);
- 						tasks[task_count].command[TASK_COMM_LEN - 1] = '\0';
--						SET_TASK_STAT(task_count, cpu_count);
--						SET_TASK_STAT(task_count, cpu_delay_total);
--						SET_TASK_STAT(task_count, cpu_delay_max);
--						SET_TASK_STAT(task_count, cpu_delay_max_ts);
--						SET_TASK_STAT(task_count, blkio_count);
--						SET_TASK_STAT(task_count, blkio_delay_total);
--						SET_TASK_STAT(task_count, blkio_delay_max);
--						SET_TASK_STAT(task_count, blkio_delay_max_ts);
--						SET_TASK_STAT(task_count, swapin_count);
--						SET_TASK_STAT(task_count, swapin_delay_total);
--						SET_TASK_STAT(task_count, swapin_delay_max);
--						SET_TASK_STAT(task_count, swapin_delay_max_ts);
--						SET_TASK_STAT(task_count, freepages_count);
--						SET_TASK_STAT(task_count, freepages_delay_total);
--						SET_TASK_STAT(task_count, freepages_delay_max);
--						SET_TASK_STAT(task_count, freepages_delay_max_ts);
--						SET_TASK_STAT(task_count, thrashing_count);
--						SET_TASK_STAT(task_count, thrashing_delay_total);
--						SET_TASK_STAT(task_count, thrashing_delay_max);
--						SET_TASK_STAT(task_count, thrashing_delay_max_ts);
--						SET_TASK_STAT(task_count, compact_count);
--						SET_TASK_STAT(task_count, compact_delay_total);
--						SET_TASK_STAT(task_count, compact_delay_max);
--						SET_TASK_STAT(task_count, compact_delay_max_ts);
--						SET_TASK_STAT(task_count, wpcopy_count);
--						SET_TASK_STAT(task_count, wpcopy_delay_total);
--						SET_TASK_STAT(task_count, wpcopy_delay_max);
--						SET_TASK_STAT(task_count, wpcopy_delay_max_ts);
--						SET_TASK_STAT(task_count, irq_count);
--						SET_TASK_STAT(task_count, irq_delay_total);
--						SET_TASK_STAT(task_count, irq_delay_max);
--						SET_TASK_STAT(task_count, irq_delay_max_ts);
-+						COPY_DELAY(task_count, CPU, cpu);
-+						COPY_DELAY(task_count, BLKIO, blkio);
-+						COPY_DELAY(task_count, SWAPIN, swapin);
-+						COPY_DELAY(task_count, FREEPAGES, freepages);
-+						COPY_DELAY(task_count, THRASHING, thrashing);
-+						COPY_DELAY(task_count, COMPACT, compact);
-+						COPY_DELAY(task_count, WPCOPY, wpcopy);
-+						COPY_DELAY(task_count, IRQ, irq);
- 						set_mem_count(&tasks[task_count]);
- 						set_mem_delay_total(&tasks[task_count]);
- 						task_count++;
-@@ -912,10 +873,10 @@ static int compare_tasks(const void *a, const void *b)
- 		return 0;
- 	}
-
--	total1 = *(unsigned long long *)((char *)t1 + cfg.sort_field->total_offset);
--	total2 = *(unsigned long long *)((char *)t2 + cfg.sort_field->total_offset);
--	count1 = *(unsigned long long *)((char *)t1 + cfg.sort_field->count_offset);
--	count2 = *(unsigned long long *)((char *)t2 + cfg.sort_field->count_offset);
-+	total1 = t1->delays[cfg.sort_field->type].delay_total;
-+	total2 = t2->delays[cfg.sort_field->type].delay_total;
-+	count1 = t1->delays[cfg.sort_field->type].count;
-+	count2 = t2->delays[cfg.sort_field->type].count;
-
- 	avg1 = average_ms(total1, count1);
- 	avg2 = average_ms(total2, count2);
-@@ -929,22 +890,17 @@ static int compare_tasks(const void *a, const void *b)
- static void field_delay_max_and_ts(const struct task_info *task, const struct field_desc *field,
- 				     unsigned long long *max_ns, struct __kernel_timespec *max_ts)
- {
--	if (!field || !field->max_offset) {
-+	if (!field || !field->has_max) {
- 		*max_ns = 0;
- 		if (max_ts)
- 			memset(max_ts, 0, sizeof(*max_ts));
- 		return;
- 	}
-
--	*max_ns = *(unsigned long long *)((char *)task + field->max_offset);
-+	*max_ns = task->delays[field->type].delay_max;
-
--	if (max_ts) {
--		if (field->max_ts_offset)
--			*max_ts = *(struct __kernel_timespec *)((char *)task +
--							       field->max_ts_offset);
--		else
--			memset(max_ts, 0, sizeof(*max_ts));
--	}
-+	if (max_ts)
-+		*max_ts = task->delays[field->type].delay_max_ts;
- }
-
- /* Get delay values for a specific field */
-@@ -954,15 +910,15 @@ static void get_field_delay_values(const struct task_info *task, const struct fi
- {
- 	unsigned long long total, count, max;
-
--	if (!field || !field->max_offset) {
-+	if (!field) {
- 		*avg_ms = 0;
- 		*max_ms = 0;
- 		memset(max_ts, 0, sizeof(*max_ts));
- 		return;
- 	}
-
--	total = *(unsigned long long *)((char *)task + field->total_offset);
--	count = *(unsigned long long *)((char *)task + field->count_offset);
-+	total = task->delays[field->type].delay_total;
-+	count = task->delays[field->type].count;
- 	*avg_ms = average_ms(total, count);
-
- 	field_delay_max_and_ts(task, field, &max, max_ts);
-@@ -1180,18 +1136,18 @@ static void display_results(int psi_ret)
- 				avg_ms, max_ms, format_kernel_timespec(&max_ts));
+ 			suc &= BOOL_FPRINT(out, "%12.2f %12.2f %20s\n",
+-				avg_ms, max_ms, format_kernel_timespec(&max_ts));
++				avg_ms, max_ms, format_timespec(&max_ts));
  		} else if (cfg.display_mode == MODE_MEMVERBOSE) {
  			suc &= BOOL_FPRINT(out, DELAY_FMT_MEMVERBOSE,
--				TASK_AVG(tasks[i], mem),
--				TASK_AVG(tasks[i], swapin),
--				TASK_AVG(tasks[i], freepages),
--				TASK_AVG(tasks[i], thrashing),
--				TASK_AVG(tasks[i], compact),
--				TASK_AVG(tasks[i], wpcopy));
-+				TASK_AVG(tasks[i], MEM),
-+				TASK_AVG(tasks[i], SWAPIN),
-+				TASK_AVG(tasks[i], FREEPAGES),
-+				TASK_AVG(tasks[i], THRASHING),
-+				TASK_AVG(tasks[i], COMPACT),
-+				TASK_AVG(tasks[i], WPCOPY));
- 		} else {
- 			suc &= BOOL_FPRINT(out, DELAY_FMT_DEFAULT,
--				TASK_AVG(tasks[i], cpu),
--				TASK_AVG(tasks[i], blkio),
--				TASK_AVG(tasks[i], irq),
--				TASK_AVG(tasks[i], mem));
-+				TASK_AVG(tasks[i], CPU),
-+				TASK_AVG(tasks[i], BLKIO),
-+				TASK_AVG(tasks[i], IRQ),
-+				TASK_AVG(tasks[i], MEM));
- 		}
- 	}
+ 				TASK_AVG(tasks[i], MEM),
+diff --git a/tools/accounting/format_timespec.c b/tools/accounting/format_timespec.c
+new file mode 100644
+index 000000000000..1dba50cac895
+--- /dev/null
++++ b/tools/accounting/format_timespec.c
+@@ -0,0 +1,39 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Shared __kernel_timespec formatting for tools/accounting/
++ *
++ * Formats a __kernel_timespec to an ISO 8601 timestamp string
++ * (YYYY-MM-DDTHH:MM:SS). Returns "N/A" if the timestamp is zero
++ * or does not fit in time_t.
++ */
++#include <time.h>
++#include <linux/time_types.h>
++#include "format_timespec.h"
++
++const char *format_timespec(const struct __kernel_timespec *ts)
++{
++	static char buffer[32];
++	struct tm tm_info;
++	time_t time_sec;
++
++	if (ts->tv_sec == 0 && ts->tv_nsec == 0)
++		return "N/A";
++
++	/*
++	 * On 32-bit platforms time_t is 32-bit and cannot represent
++	 * dates beyond Y2038.  The kernel timestamp is always 64-bit,
++	 * so reject values that would overflow.
++	 */
++	if (sizeof(time_t) < sizeof(ts->tv_sec) &&
++	    ts->tv_sec > (__u64)((1ULL << (sizeof(time_t) * 8 - 1)) - 1))
++		return "N/A";
++
++	time_sec = ts->tv_sec;
++
++	if (!localtime_r(&time_sec, &tm_info))
++		return "N/A";
++
++	strftime(buffer, sizeof(buffer), "%Y-%m-%dT%H:%M:%S", &tm_info);
++
++	return buffer;
++}
+diff --git a/tools/accounting/format_timespec.h b/tools/accounting/format_timespec.h
+new file mode 100644
+index 000000000000..960496ebf5c2
+--- /dev/null
++++ b/tools/accounting/format_timespec.h
+@@ -0,0 +1,9 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef FORMAT_TIMESPEC_H
++#define FORMAT_TIMESPEC_H
++
++#include <linux/time_types.h>
++
++const char *format_timespec(const struct __kernel_timespec *ts);
++
++#endif
+diff --git a/tools/accounting/getdelays.c b/tools/accounting/getdelays.c
+index 6ac30d4f96f7..d3193f670d89 100644
+--- a/tools/accounting/getdelays.c
++++ b/tools/accounting/getdelays.c
+@@ -30,6 +30,8 @@
+ #include <linux/taskstats.h>
+ #include <linux/cgroupstats.h>
 
++#include "format_timespec.h"
++
+ /*
+  * Generic macros for dealing with netlink sockets. Might be duplicated
+  * elsewhere. It is recommended that commercial grade applications use
+@@ -221,36 +223,6 @@ static int get_family_id(int sd)
+ #define average_ms(t, c) (t / 1000000ULL / (c ? c : 1))
+ #define delay_ms(t) (t / 1000000ULL)
+
+-/*
+- * Format __kernel_timespec to human readable string (YYYY-MM-DD HH:MM:SS)
+- * Returns formatted string or "N/A" if timestamp is zero
+- */
+-static const char *format_timespec(struct __kernel_timespec *ts)
+-{
+-	static char buffer[32];
+-	struct tm tm_info;
+-	__kernel_time_t time_sec;
+-
+-	/* Check if timestamp is zero (not set) */
+-	if (ts->tv_sec == 0 && ts->tv_nsec == 0)
+-		return "N/A";
+-
+-	/* Avoid Y2038 truncation on 32-bit platforms */
+-	if (sizeof(time_sec) < sizeof(ts->tv_sec) &&
+-	    ts->tv_sec > (__u64)((1ULL << (sizeof(time_sec) * 8 - 1)) - 1))
+-		return "N/A";
+-
+-	time_sec = ts->tv_sec;
+-
+-	/* Use thread-safe localtime_r */
+-	if (localtime_r(&time_sec, &tm_info) == NULL)
+-		return "N/A";
+-
+-	strftime(buffer, sizeof(buffer), "%Y-%m-%dT%H:%M:%S", &tm_info);
+-
+-	return buffer;
+-}
+-
+ /*
+  * Version compatibility note:
+  * Field availability depends on taskstats version (t->version),
+diff --git a/tools/include/uapi/linux/time_types.h b/tools/include/uapi/linux/time_types.h
+new file mode 100644
+index 000000000000..375cfbdd8387
+--- /dev/null
++++ b/tools/include/uapi/linux/time_types.h
+@@ -0,0 +1,18 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++#ifndef _TOOLS_UAPI_LINUX_TIME_TYPES_H
++#define _TOOLS_UAPI_LINUX_TIME_TYPES_H
++
++#include <linux/types.h>
++
++/*
++ * Minimal definition for use by tools/.
++ * __kernel_time64_t is always 'long long' on all architectures,
++ * so we avoid pulling in kernel-private type definitions.
++ */
++
++struct __kernel_timespec {
++	long long	tv_sec;
++	long long	tv_nsec;
++};
++
++#endif /* _TOOLS_UAPI_LINUX_TIME_TYPES_H */
 -- 
 2.27.0
