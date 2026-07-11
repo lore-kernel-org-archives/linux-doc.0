@@ -1,158 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52BA033D4EC;
-	Sat, 11 Jul 2026 07:48:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF91525A321;
+	Sat, 11 Jul 2026 08:46:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783756108; cv=none; b=rylyamzh5gSOoOhwTK2hpSQpaWao/hQNWqSq9xAV8KUiojl0Wrg4J1tA7DsHBjUFCek2K6mobE1hgzgP02gbFsFjKmGjOTfqYHKrGmzqhQmJ9GFZGyCrbWIoYeAwgjc7+h1hzrCckrXzJAjnLbGwJU7QeLSn5yyPwzjaHOtev8A=
+	t=1783759588; cv=none; b=t8WIQRO9uou42imrqgkAwqbZluJ3RVtDk5SAni0eqqyNGPzvVU/l1iHdH5N4MUwrAx/ocgZKUC1B5r0ZyQV06LM9gzGgul+UmRqTRiRNe0VgMCH6b+neAl7xpKSbenQj9c74Yh1KQlPY9dUQ/KX0D2RXECjsM4Uy1SWlvxeZNvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783756108; c=relaxed/simple;
-	bh=KE+72P2uQcBXBlZZq1zaAkbc+AOsaUB3YGu4yTSMCeU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WT8u2GvNgKs85I3bqV4yH1a4YdBKXFD9yGIfH6qymWuwyIev7vBThjYyMAqIQ6IVZ/OiGQEt9Pl3AATN2W9yrmVUnTW1+sy64QfYAo3VNGKn34r/ozCYsXsxXR2ij5zAWaKHGdm2a2oaRNRNYZfL3laqpaKsHYbOmpj7RFBpoxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O5aYCdCj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783759588; c=relaxed/simple;
+	bh=v3c+36wh2ceq2usK/yjoQ3FjPoYKWvHIG6bWQcD6WsQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DeRDToiFPk0hpmwO5WBttBokttfqIgEUUrr4N2ZRdatr7Jg0/A0moBxauOvqTCtnjWp24YwEhcZADh2mdT6bIqL+2OM4rGv8OjtkuwjAJCsy+rHpklsqf2nl2U6zEHMY0nSaflfrjeTBRQm5DCUoO9xYf8dbrawEEyzQ1RQRdLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lphNzG5a; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O5aYCdCj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 596EF1F000E9;
-	Sat, 11 Jul 2026 07:48:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lphNzG5a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77C0D1F000E9;
+	Sat, 11 Jul 2026 08:46:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783756106;
-	bh=tKA7a+fh5KArhGWB9G167Li6VnYyGas0rjAKc2ZtQ3o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=O5aYCdCjrrtAWEu9taLih0uc4+kZVjpLI3Hf4RMRXnYe4CoJJG7AnCqKUo9GGolOF
-	 zbYYik8LGprtIheSGCyyeInOU2yfsmN99d7IEopvSZHyQ4zPc2J6WaL61KrskgmsQH
-	 uyTRzM24oVieIWxCfMSdPC0LKB3kLWdq2SyBPbXHddFGBk18CBoLz9JPl+HC2bfFaB
-	 PXUOaTe703kKBpKGAfRKWWvLE9HoUggGuuAkeXZ5JAJGj26iNI4pCoBZN0Cz25QG/r
-	 dAZn2QCqu5BQapCcuX/ZAjpoOvUQ0G0XSKNxyi5pZrMQcKuOiI/IYMjGN83p4KsXoK
-	 Jj88YOAJEwdag==
-Date: Sat, 11 Jul 2026 09:48:21 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, Clinton Phillips
- <clintdotphillips@gmail.com>, Daniel Lundberg Pedersen <dlp@qtec.com>, Hans
- Verkuil <hverkuil+cisco@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Petr Vorel <pvorel@suse.cz>, Randy Dunlap
- <rdunlap@infradead.org>, Rito Rhymes <rito@ritovision.com>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH] docs: custom.css: don't limit randering to old 800px
- monitors
-Message-ID: <20260711094821.5e262356@foz.lan>
-In-Reply-To: <20260711001015.3cf5d166@foz.lan>
-References: <1950557405f1150acb1de50de1801f2413223b87.1783673996.git.mchehab+huawei@kernel.org>
-	<87fr1qn9us.fsf@trenco.lwn.net>
-	<20260710211953.2a3dbfa9@foz.lan>
-	<87a4ryk4fc.fsf@trenco.lwn.net>
-	<20260711001015.3cf5d166@foz.lan>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	s=k20260515; t=1783759587;
+	bh=SzUeFlbzoB51knlYrwsa4ld06zBFzx87z5cYsxA9hvM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=lphNzG5aCe2I9/nHbGFP9qzj2fEQfkeMvpWpkGT3zy43DEQ69CVkc2DDQQF5BEkK6
+	 V26DslQ9cpyWlSY/GyykJ8+bhHocKo1K/Dxqd81KiouXVBYtYcTNhH4J9mYfuI2aLj
+	 TR9DYvqfJqU2BAaOoGJ544RJTFbgYMvP5V5RI/bR5OLL+f5BEwfzYeFQVHjqoHni6Y
+	 r9INSrgx04EGHfRHtz/Tbk0a7nySdEqOaca6BcrolrnjoBFD0nK2hiBf5fM/Hfu2+S
+	 AlGD1w1JJao4XG1AevP6UtfSBs94gDWWxf+dt1T2/TWCntHP/QnxHtnpUN6q7HGyZ5
+	 pXpCXkDAczBFA==
+Message-ID: <7ed06a98-c9d7-4888-aed6-b0b5cb916267@kernel.org>
+Date: Sat, 11 Jul 2026 10:46:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/5] dt-bindings: hwmon: (pmbus/max20830): add
+ enable-gpios property and complete examples
+To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
+ Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260706-dev-max20830c-v2-0-37761e89bb5f@analog.com>
+ <20260706-dev-max20830c-v2-1-37761e89bb5f@analog.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260706-dev-max20830c-v2-1-37761e89bb5f@analog.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Sat, 11 Jul 2026 00:10:15 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-
-> On Fri, 10 Jul 2026 13:52:55 -0600
-> Jonathan Corbet <corbet@lwn.net> wrote:
+On 06/07/2026 04:08, Alexis Czezar Torreno wrote:
+> Adding an entry for the MAX20830 EN (enable) pin. This pin exist but
+> was not included before. Also edited examples entry to be more complete.
 > 
-> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> > 
-> > > On Fri, 10 Jul 2026 09:27:23 -0600
-> > > Jonathan Corbet <corbet@lwn.net> wrote:
-> > >  
-> > >> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> > >>   
-> > >> > Right now, base.css style imposes a maximum limit of 800 horizontal
-> > >> > pixels to be compatible with very old SVGA monitors.
-> > >> >
-> > >> > Remove such artificial limit, letting the output to be adjusted to
-> > >> > the browser windows size.
-> > >> >
-> > >> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > >> > ---
-> > >> >  Documentation/sphinx-static/custom.css | 2 ++
-> > >> >  1 file changed, 2 insertions(+)
-> > >> >
-> > >> > diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-> > >> > index 5aa0a1ed9864..1055db7dc1dd 100644
-> > >> > --- a/Documentation/sphinx-static/custom.css
-> > >> > +++ b/Documentation/sphinx-static/custom.css
-> > >> > @@ -3,6 +3,8 @@
-> > >> >   * CSS tweaks for the Alabaster theme
-> > >> >   */
-> > >> >  
-> > >> > +div.body {  max-width: none; }
-> > >> > +    
-> > >> 
-> > >> 800px is clearly a dumb limit, I have no problem changing that.  Going
-> > >> to arbitrary width doesn't seem good for readability, though.  What do
-> > >> you think about, instead, setting a limit in a resolution-independent
-> > >> say, to (say) 60em?  
-> > >
-> > > 60em also seems too small, considering the size of tables we have on
-> > > media. Some tables have one column for each bit, plus one or two other
-> > > columns, so the table would easily have up to 34 columns. After adding
-> > > long fourcc codes there and V4L macro names, it can easily be very big,
-> > > in terms of "em" measures.  
-> > 
-> > I did say "say" :)  I don't feel the need to argue too much about the
-> > exact value.  I do believe, though, that excessively wide columns are
-> > not good human factors in general.
-> 
-> If one gets a big enough "em" to fit the largest tables and ascii artwork,
-> I'm ok using "em" but one would need to double check what's the bigger
-> one, which would require some time and someone would need to periodically
-> review it.
-> 
-> My feeling is that, on media, the bigger tables are the pixformat ones,
-> but maybe the biggest one is somewhere else.
-> 
-> Most (if not all) artwork fits on 80 columns, but I vaguely remember
-> some that were bigger (can't remember if they were changed to fit on
-> 80 cols).
-> 
-> Probably a way to define a limit that covers artwork would be to run a script
-> to get the max column size for .rst files. Not perfect because of indentation,
-> on codeblocks, but it could work as a hint. Unfortunately, this won't work
-> for tables using flat-table (which is used on ~235 files - most on media,
-> but ~20 files elsewhere).
+> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> ---
+>  .../devicetree/bindings/hwmon/pmbus/adi,max20830.yaml         | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 
-After sleeping on it, I think that we need something bigger than 100em,
-as this is is the checkpatch.pl max columns warning limit. To align with
-most pixfmt tables on media, 120em sounds a reasonable limit.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Patch enclosed.
-
-
-Thanks,
-Mauro
-
-[PATCH] docs: custom.css: don't limit randering to old 800px monitors
-
-Right now, base.css style imposes a maximum limit of 800 horizontal
-pixels to be compatible with very old SVGA monitors.
-
-This is not enough to display some tables like pixformat ones on
-media. Instead, use a more realistic maximum limit.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-index 2e019c8f8a56..be33d9ed1280 100644
---- a/Documentation/sphinx-static/custom.css
-+++ b/Documentation/sphinx-static/custom.css
-@@ -3,6 +3,8 @@
-  * CSS tweaks for the Alabaster theme
-  */
- 
-+div.body {  max-width: 120em; }
-+
- /* Shrink the headers a bit */
- div.body h1 { font-size: 180%; }
- div.body h2 { font-size: 150%; }
+Best regards,
+Krzysztof
