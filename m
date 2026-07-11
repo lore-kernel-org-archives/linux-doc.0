@@ -1,120 +1,83 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA8614EC73;
-	Sat, 11 Jul 2026 05:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B1C1D95A3
+	for <linux-doc@vger.kernel.org>; Sat, 11 Jul 2026 05:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783746270; cv=none; b=AF+mFbRfT2CYahX7/vleMbicZXb6Lyrr4GLHgLAqClLiV0NXv6GCH6ACCbOaheGbJpgecexH4a1wN9g0vsCQtfdrEGH8RPeERFJ8Mt90Di0K4wE7L7NwWuX1V26gKlUfePso5h+ZBPq8iF/vx35RGPJHJJHeCf6QPB48dhDBRGw=
+	t=1783747339; cv=none; b=rHZ403tNdu4VsPcdcwQLiI3Co5eRAIEGMFRQ3TSNCc/P7DJLIcYYnc8ZvLkV5drfeGWXSjhdwWQqjW1fEWj9qkFKCV6uftcbMcBpyJM3+1ykkxPtdcO06x9iHYVIUAts13gJIS4ev9leWt4OzERV2H+7441xV2cElBAhEuNOPZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783746270; c=relaxed/simple;
-	bh=sMujRkzP+0svfJnmRczxcQ7AePeemebynXdWZ0h9VGE=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=KVhC9Agh5btIIduBqBcyYBr0LkreeISB5odDr5I3VnOaLeeauI+uwxYt1tyV2uDuHYP57w+M/sR9WocKd9y6YK6Yqux+nyYvUaXw5iCcaNovZ0ja7zvl8PvHl6FMozGmPsxvMkPWwBKFT/BDQlYqhoK4VF99ymhnh5zY5KA8XNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: f88789647ce511f1aa26b74ffac11d73-20260711
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NO_NAME, HR_CTE_QP, HR_CTT_TXT
-	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_MAILER_MTBG
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_PRE_RE, HR_SJ_WS, HR_TO_COUNT
-	HR_TO_DOMAIN_COUNT, HR_TO_NAME, IP_UNTRUSTED, SRC_UNTRUSTED, IP_UNFAMILIAR
-	SRC_UNFAMILIAR, DN_TRUSTED, SRC_TRUSTED, SA_EXISTED, SN_UNTRUSTED
-	SN_UNFAMILIAR, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_GOOD_SPF
-	CIE_UNKNOWN, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU, AMN_GOOD
-	ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:1281cd33-2b67-4854-bbd9-17ee00ce8ccf,IP:10,
-	URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:5
-X-CID-INFO: VERSION:1.3.12,REQID:1281cd33-2b67-4854-bbd9-17ee00ce8ccf,IP:10,UR
-	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:5
-X-CID-META: VersionHash:e7bac3a,CLOUDID:2c71dac5849ae06242c1f1c11ef34077,BulkI
-	D:260710221752NO56G64A,BulkQuantity:4,Recheck:0,SF:17|19|64|66|78|80|81|82
-	|83|102|127|841|865|898,TC:nil,Content:0|15|52,EDM:-3,IP:-2,URL:0,File:nil
-	,RT:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,D
-	KP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: f88789647ce511f1aa26b74ffac11d73-20260711
-X-User: husong@kylinos.cn
-Received: from ehlo.thunderbird.net [(223.160.130.75)] by mailgw.kylinos.cn
-	(envelope-from <husong@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 1252713203; Sat, 11 Jul 2026 13:04:18 +0800
-Date: Sat, 11 Jul 2026 13:04:12 +0800
-From: Song Hu <husong@kylinos.cn>
-To: SJ Park <sj@kernel.org>
-CC: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 1/4] Docs/ABI/damon: fix typo in intervals_goal sysfs path
-User-Agent: Thunderbird for Android
-In-Reply-To: <20260711002127.32005-1-sj@kernel.org>
-References:  <20260711002127.32005-1-sj@kernel.org>
-Message-ID: <C8C472D0-9818-4569-87EC-1B95BE9667F2@kylinos.cn>
+	s=arc-20240116; t=1783747339; c=relaxed/simple;
+	bh=dFV+LO1M82dB9RBXlBhEZhqKjpuIWQ8xseZQnYjtQAI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TjhG6deZYwXQeRx697BHwLmsfqMTrre7QkSZpud4Naqowx0XyMG4DVUHy1cMHdNpZuY6g9Rx5/dzijZTQWzP06oRrK+wlE+kU/McDexHnRfEG45sexRuP4GDT8BSnGhmehfMdHlqgZhaT+tp9Gv5ehiY3JoxT0EyAEKNvXenTTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=jXPtMG30; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="jXPtMG30"
+Date: Sat, 11 Jul 2026 13:21:59 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
+	t=1783747334;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9RV1HW+vVW7pXGHkLyD0n62wdk/o+Nyex+xgSZJC4Zg=;
+	b=jXPtMG302fMD6f7mxcuv3zvj5TO/G7k+ozU25TfHWd9cp9J561Zu8e7xbX4ZWM3N0D13+T
+	hb/p0pQvBvNcoiGXBjvS9W6ZQtjZiv7jJvd4MK8S65tyYmMyFSphXu5lN5//Kn0TOHvvut
+	I54SYhx2I8MW1wH3qnOayW6YV9CTttq9atiyXJoltKtFZsLx78Sr8iirVAEeUaIaepwIjk
+	uRyz27ZNWw/FUbG6a+Y2sDv3GlgqM7p6F/Llf+ludL61hgylVhsT64KvMH3EkxAA/TPqz9
+	yvzO8HOFV9qmdH7yu9CTxSsxoy8IXGNykzi8MEdx3X6BDXfTpJJHDkWdJD57KQ==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Weijie Yuan <wy@wyuan.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: =?utf-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>,
+	Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Dongliang Mu <mudongliangabcd@gmail.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: zh_TW: process: localize terminologies and
+ improve fluency in 8.Conclusion
+Message-ID: <alHS9-zQQQ9aJRRW@wyuan.org>
+References: <20260603082531.263115-1-chenyou910331@gmail.com>
+ <CAKspUh+2ndK1qMP58hPPmvwczruCikEuaO2tmyw=APCGrd9yaw@mail.gmail.com>
+ <06fcda8b-b507-409e-9ded-299baa6ddd09@hust.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <06fcda8b-b507-409e-9ded-299baa6ddd09@hust.edu.cn>
+X-Migadu-Flow: FLOW_OUT
 
+On Fri, Jul 10, 2026 at 09:05:47PM +0800, Dongliang Mu wrote:
+> 
+> On 7/10/26 4:49 PM, 葉宸佑 wrote:
+> > Gentle ping.
+> > 
+> > This v2 addressed the review comments from Alex and Dongliang.
+> > Is there anything else I should improve, or is it queued somewhere
+> > I might have missed?
+> 
+> It seems like Alex is not on the cc list. None can pick up this patch.
+> 
+> Add Alex into this thread.
+> 
+> Dongliang Mu
 
+I suspect that some contributors would run the get_maintainers.pl script
+or b4 prep --auto-to-cc, so they did not cc Alex, as they didn't know
+the current situation. Because I noticed that for both two versions,
+Chen-yu didn't cc Alex or Dongliang or Yanteng. Am I right, @Chen-yu? ;-)
 
-=E4=BA=8E 2026=E5=B9=B47=E6=9C=8811=E6=97=A5 GMT+08:00 08:21:25=EF=BC=8CSJ=
- Park <sj@kernel=2Eorg> =E5=86=99=E9=81=93=EF=BC=9A
->On Fri, 10 Jul 2026 07:17:37 -0700 SJ Park <sj@kernel=2Eorg> wrote:
->
->> On Fri, 10 Jul 2026 12:47:34 +0800 Song Hu <husong@kylinos=2Ecn> wrote:
->>=20
->> > The ABI document spells the DAMON sysfs directory as "intrvals_goal"
->> > (missing 'e') in four What: entries, but the kernel creates it as
->> > "intervals_goal" (mm/damon/sysfs=2Ec)=2E  Following the documented pa=
-th
->> > therefore yields a non-existent directory=2E
->>=20
->> Nice catch!
->>=20
->> >=20
->> > Fixes: e2b23dc62369 ("Docs/ABI/damon: document intervals auto-tuning =
-ABI")
->> > Cc: stable@vger=2Ekernel=2Eorg
->
-Hi SJ,
-
-Thanks a lot for your thorough reviews and ongoing support=2E
-
-I will strictly check the complete recipient list generated by =C2=A0get_m=
-aintainer=2Epl=C2=A0 for all future patch submissions=2E
-
->By the way, hotfixes and non-hotfixes usually take different trains to th=
-e
->mainline=2E  Having those in single series therefore makes maintainer wor=
-ks
->difficult=2E  I understand this is not a hotfix but just somewhat worthy =
-to
->eventually be backported to stable kernels=2E  So no problem for this=2E
->
->But, from the next time, please clarify or use different series for Cc: s=
-table@
->patches=2E
->
-As I=E2=80=99m still figuring out the correct timing for =C2=A0Cc: stable@=
-=C2=A0, I will consult with you prior to adding this tag next time and sepa=
-rate stable-bound patches into an independent series=2E
+Therefore, how about adding zh_CN team temporarily to zh_TW in
+MAINTAINERS file? So that it won't confuse newcomers in the near future.
 
 Thanks,
-Song
->
->Thanks,
->SJ
->
->[=2E=2E=2E]
+Weijie
