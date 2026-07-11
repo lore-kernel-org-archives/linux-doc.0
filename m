@@ -1,299 +1,158 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC6C35E1CB;
-	Sat, 11 Jul 2026 07:36:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52BA033D4EC;
+	Sat, 11 Jul 2026 07:48:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783755367; cv=none; b=W7pib1fOH6vrHYiRQZGys1AoMXHHUX2g9J5RG0p5d7CBHR3nxNzjBZsNPRK4cyHdAUKfAGC5kYijUc1jZidwfS5CMGHklYPY7Prx6YvsuEBa9WTrYStcny+MynkxKPvwufOYbBvKCufB53PuqusiQn3z1Tywp1uv8k2IW1shtfM=
+	t=1783756108; cv=none; b=rylyamzh5gSOoOhwTK2hpSQpaWao/hQNWqSq9xAV8KUiojl0Wrg4J1tA7DsHBjUFCek2K6mobE1hgzgP02gbFsFjKmGjOTfqYHKrGmzqhQmJ9GFZGyCrbWIoYeAwgjc7+h1hzrCckrXzJAjnLbGwJU7QeLSn5yyPwzjaHOtev8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783755367; c=relaxed/simple;
-	bh=xvDA3ihShymzlrpZF+Id/IBdvPMSYSOYxB8aCkXWDhI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pDpEGDT2eGnIsmqoiMb0SuKZZK6w/uqhKas5TkPvXjGTPddDf7dREl3kKjbNKL8wKF4wb2MjUdJN87aSWTMPawbc8pMhi5KBaZqwUyzW7tUI492zXpAZIwMSwdOckAJTpQkCCg2pcq7/tGgDNCQWwvVDgc4yJYC7EbKH+Htg73U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EYw8Izdt; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783756108; c=relaxed/simple;
+	bh=KE+72P2uQcBXBlZZq1zaAkbc+AOsaUB3YGu4yTSMCeU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WT8u2GvNgKs85I3bqV4yH1a4YdBKXFD9yGIfH6qymWuwyIev7vBThjYyMAqIQ6IVZ/OiGQEt9Pl3AATN2W9yrmVUnTW1+sy64QfYAo3VNGKn34r/ozCYsXsxXR2ij5zAWaKHGdm2a2oaRNRNYZfL3laqpaKsHYbOmpj7RFBpoxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O5aYCdCj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EYw8Izdt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 640041F000E9;
-	Sat, 11 Jul 2026 07:36:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O5aYCdCj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 596EF1F000E9;
+	Sat, 11 Jul 2026 07:48:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783755365;
-	bh=3hHMuMSGcHj8MSVXJupK58876HkGZrvqVgI8Jh+FeUI=;
+	s=k20260515; t=1783756106;
+	bh=tKA7a+fh5KArhGWB9G167Li6VnYyGas0rjAKc2ZtQ3o=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=EYw8Izdt+88Jo8Luqm/PUbhw/nFKqEoO1KgRabuVac8asFohgFafDSZcWHKxZ3Enp
-	 sEHsYR7qkJD7Tz6WKRmFfhQ6Lbajc5aU4QEK4vMh+aDIghQQqt38wYELyEM6dgVVkH
-	 woxK9cDVKVOpcXJWh2Qoq4nQrEpU8+cOa21rbt4Bn7nENMnZt2PpwGHi9klT0UOrYM
-	 JvDmAWwuSfI8up9cVooZDL0PwDbfbH48vVoi6SFO2/IXfA5VxFDvb5Yob9NGnEB+Dz
-	 gmrS5XqxWud0PZmIOvEtSYS7LeGbn7IZY23PZ71Gp+/5m7Pkr1mA4mTXzQHAqEugbV
-	 u5yBNFWTW8Z4w==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=lobster-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wiSFm-00000003x2G-3G4i;
-	Sat, 11 Jul 2026 07:36:02 +0000
-Date: Sat, 11 Jul 2026 08:37:51 +0100
-Message-ID: <87mrvy5640.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: D Scott Phillips <scott@os.amperecomputing.com>
-Cc: Oliver Upton <oupton@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Zeng Heng <zengheng4@huawei.com>,
-	Wei Xu <xuwei5@hisilicon.com>,
-	Vladimir Murzin <vladimir.murzin@arm.com>,
-	Lucas Wei <lucaswei@google.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Sascha Bischoff <Sascha.Bischoff@arm.com>,
-	Yicong Yang <yangyicong@hisilicon.com>,
-	Yeoreum Yun <yeoreum.yun@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH] arm64: errata: Mitigate AmpereOne erratum AC03_CPU_57 and AC04_CPU_29
-In-Reply-To: <20260710222128.416581-1-scott@os.amperecomputing.com>
-References: <20260710222128.416581-1-scott@os.amperecomputing.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	b=O5aYCdCjrrtAWEu9taLih0uc4+kZVjpLI3Hf4RMRXnYe4CoJJG7AnCqKUo9GGolOF
+	 zbYYik8LGprtIheSGCyyeInOU2yfsmN99d7IEopvSZHyQ4zPc2J6WaL61KrskgmsQH
+	 uyTRzM24oVieIWxCfMSdPC0LKB3kLWdq2SyBPbXHddFGBk18CBoLz9JPl+HC2bfFaB
+	 PXUOaTe703kKBpKGAfRKWWvLE9HoUggGuuAkeXZ5JAJGj26iNI4pCoBZN0Cz25QG/r
+	 dAZn2QCqu5BQapCcuX/ZAjpoOvUQ0G0XSKNxyi5pZrMQcKuOiI/IYMjGN83p4KsXoK
+	 Jj88YOAJEwdag==
+Date: Sat, 11 Jul 2026 09:48:21 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, Clinton Phillips
+ <clintdotphillips@gmail.com>, Daniel Lundberg Pedersen <dlp@qtec.com>, Hans
+ Verkuil <hverkuil+cisco@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Petr Vorel <pvorel@suse.cz>, Randy Dunlap
+ <rdunlap@infradead.org>, Rito Rhymes <rito@ritovision.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH] docs: custom.css: don't limit randering to old 800px
+ monitors
+Message-ID: <20260711094821.5e262356@foz.lan>
+In-Reply-To: <20260711001015.3cf5d166@foz.lan>
+References: <1950557405f1150acb1de50de1801f2413223b87.1783673996.git.mchehab+huawei@kernel.org>
+	<87fr1qn9us.fsf@trenco.lwn.net>
+	<20260710211953.2a3dbfa9@foz.lan>
+	<87a4ryk4fc.fsf@trenco.lwn.net>
+	<20260711001015.3cf5d166@foz.lan>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: scott@os.amperecomputing.com, oupton@kernel.org, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, joey.gouly@arm.com, seiden@linux.ibm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, mark.rutland@arm.com, zengheng4@huawei.com, xuwei5@hisilicon.com, vladimir.murzin@arm.com, lucaswei@google.com, kuninori.morimoto.gx@renesas.com, Sascha.Bischoff@arm.com, yangyicong@hisilicon.com, yeoreum.yun@arm.com, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Content-Transfer-Encoding: 7bit
 
-Hi Scott,
+On Sat, 11 Jul 2026 00:10:15 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-On Fri, 10 Jul 2026 23:21:28 +0100,
-D Scott Phillips <scott@os.amperecomputing.com> wrote:
+> On Fri, 10 Jul 2026 13:52:55 -0600
+> Jonathan Corbet <corbet@lwn.net> wrote:
 > 
-> On AmpereOne, deactivating a physical interrupt through ICC_DIR_EL1 or
-> ICC_EOIRx_EL1 (depending on EOImode) which is not active, but is the
-> highest priority pending interrupt causes the cpu to lose the interrupt
-> pending state and also prevents the delivery of future interrupts.
->
-> Work around this in the vgic, avoiding the cpu issue.
-
-Thanks for getting to the bottom of this.
-
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> > 
+> > > On Fri, 10 Jul 2026 09:27:23 -0600
+> > > Jonathan Corbet <corbet@lwn.net> wrote:
+> > >  
+> > >> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> > >>   
+> > >> > Right now, base.css style imposes a maximum limit of 800 horizontal
+> > >> > pixels to be compatible with very old SVGA monitors.
+> > >> >
+> > >> > Remove such artificial limit, letting the output to be adjusted to
+> > >> > the browser windows size.
+> > >> >
+> > >> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > >> > ---
+> > >> >  Documentation/sphinx-static/custom.css | 2 ++
+> > >> >  1 file changed, 2 insertions(+)
+> > >> >
+> > >> > diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+> > >> > index 5aa0a1ed9864..1055db7dc1dd 100644
+> > >> > --- a/Documentation/sphinx-static/custom.css
+> > >> > +++ b/Documentation/sphinx-static/custom.css
+> > >> > @@ -3,6 +3,8 @@
+> > >> >   * CSS tweaks for the Alabaster theme
+> > >> >   */
+> > >> >  
+> > >> > +div.body {  max-width: none; }
+> > >> > +    
+> > >> 
+> > >> 800px is clearly a dumb limit, I have no problem changing that.  Going
+> > >> to arbitrary width doesn't seem good for readability, though.  What do
+> > >> you think about, instead, setting a limit in a resolution-independent
+> > >> say, to (say) 60em?  
+> > >
+> > > 60em also seems too small, considering the size of tables we have on
+> > > media. Some tables have one column for each bit, plus one or two other
+> > > columns, so the table would easily have up to 34 columns. After adding
+> > > long fourcc codes there and V4L macro names, it can easily be very big,
+> > > in terms of "em" measures.  
+> > 
+> > I did say "say" :)  I don't feel the need to argue too much about the
+> > exact value.  I do believe, though, that excessively wide columns are
+> > not good human factors in general.
 > 
-> Signed-off-by: D Scott Phillips <scott@os.amperecomputing.com>
-> ---
+> If one gets a big enough "em" to fit the largest tables and ascii artwork,
+> I'm ok using "em" but one would need to double check what's the bigger
+> one, which would require some time and someone would need to periodically
+> review it.
 > 
-> Hi Marc, we've tracked down the nested virt hang reported
-> previously[1] to a cpu erratum in AmpereOne[2].
+> My feeling is that, on media, the bigger tables are the pixformat ones,
+> but maybe the biggest one is somewhere else.
 > 
-> Here I'm just sort of parroting the change you had posted for
-> debugging. I'm not familiar with the vgic logic well enough to know if
-> this change is sufficient and doesn't have some unintended
-> consequences. I guess read this more are as "I've tested this and I'm
-> not seeing it hang now."
->
-> Sorry for sending this half-baked, I didn't want to further delay the
-> errata details on my ongoing vgic education. I'm happy to take any
-> advice you can give, otherwise I'll continue familiarizing myself and
-> will hopefully later have a patch which I can actually claim I think is
-> correct.
-
-No worries.
-
-To be perfectly clear, what I posted at [1] *is* a bug-fix. A very
-minor one. Nothing wrong should come as a result, except when it does,
-such as in your case.
-
-The core reason why this happens is that the L2 will have EOI'd its
-timer, and that the HW bit set in the LR will have propagated the
-deactivation all the way to the HW redistributor. Then L1 takes over,
-and needs to reconcile the LR state with its own, namely its view of
-the active state.
-
-The issue here is that when dealing with a nested vgic (the state
-contained in the LRs is for L2, not L1), the deactivation process
-doesn't need to involve the HW again -- this has already be dealt
-with, and results in the double deactivation I mentioned in my email.
-
+> Most (if not all) artwork fits on 80 columns, but I vaguely remember
+> some that were bigger (can't remember if they were changed to fit on
+> 80 cols).
 > 
-> [1]: https://lore.kernel.org/linux-arm-kernel/87ecjybz30.wl-maz@kernel.org/
-> 
-> [2]: https://amperecomputing.com/products/developer-errata
-> 
-> The updates with AC03_CPU_57 and AC04_CPU_29 have not yet been
-> published at the time I'm writing this. They should be coming
-> soon. I've reproduced the full entries from those two coming documents
-> collapsed together below:
-> 
-> | {AC03_CPU_57, AC04_CPU_29}: Deactivation of the non-active, highest
-> | priority pending interrupt prevents further interrupt delivery.
-> |
-> | Functional Unit: CPU
-> |
-> | Category: 4
-> |
-> | Affected Version(s): AmpereOne AC03 A0, AmpereOne AC03 B0
-> | Affected Version(s): AmpereOne AC04 A0, AmpereOne AC04_1 A0
-> |
-> | Fixed Version(s): Open
-> |
-> | Overview:
-> |
-> | If software directly deactivates a physical interrupt which is not
-> | in the active state, and the interrupt is also currently the highest
-> | priority pending interrupt, then interrupt delivery will cease on
-> | that PE. Deactivation can happen either through ICC_EOIRx_EL1 if
-> | ICC_CTLR_EL1.EOIMode==0, or through ICC_DIR_EL1 if
-> | ICC_CTLR_EL1.EOIMode==1. Deactivation of virtual interrupts that are
-> | redirected through ICV_ registers will not cause this issue, even
-> | when the virtual interrupt deactivation triggers a physical
-> | interrupt deactivation through ICH_LR<n>_EL2.HW=1.
+> Probably a way to define a limit that covers artwork would be to run a script
+> to get the max column size for .rst files. Not perfect because of indentation,
+> on codeblocks, but it could work as a hint. Unfortunately, this won't work
+> for tables using flat-table (which is used on ~235 files - most on media,
+> but ~20 files elsewhere).
 
-OK, that's pretty good news. Can I safely assume that your HW doesn't
-support VLPIs/VSGIs in any form (no GICv4+)?
+After sleeping on it, I think that we need something bigger than 100em,
+as this is is the checkpatch.pl max columns warning limit. To align with
+most pixfmt tables on media, 120em sounds a reasonable limit.
 
-> |
-> | This has been observed with Nested Virtualization starting with
-> | Linux-KVM v6.19.
-> |
-> | Impact:
-> |
-> | Physical interrupts will not be delivered after the deactivation of
-> | the non-active, highest priority pending interrupt. A core may
-> | appear to be hung.
-> |
-> | Workaround:
-> |
-> | Software must only deactivate interrupts which are currently active
-> 
-> 
->  Documentation/arch/arm64/silicon-errata.rst |  4 ++++
->  arch/arm64/Kconfig                          | 17 +++++++++++++++++
->  arch/arm64/kernel/cpu_errata.c              | 15 +++++++++++++++
->  arch/arm64/kvm/vgic/vgic-v3.c               |  4 +++-
->  arch/arm64/tools/cpucaps                    |  1 +
->  5 files changed, 40 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-> index 014aa1c215a16..89130404ce572 100644
-> --- a/Documentation/arch/arm64/silicon-errata.rst
-> +++ b/Documentation/arch/arm64/silicon-errata.rst
-> @@ -55,10 +55,14 @@ stable kernels.
->  +----------------+-----------------+-----------------+-----------------------------+
->  | Ampere         | AmpereOne       | AC03_CPU_38     | AMPERE_ERRATUM_AC03_CPU_38  |
->  +----------------+-----------------+-----------------+-----------------------------+
-> +| Ampere         | AmpereOne       | AC03_CPU_57     | AMPERE_ERRATUM_AC03_CPU_57  |
-> ++----------------+-----------------+-----------------+-----------------------------+
->  | Ampere         | AmpereOne AC04  | AC04_CPU_10     | AMPERE_ERRATUM_AC03_CPU_38  |
->  +----------------+-----------------+-----------------+-----------------------------+
->  | Ampere         | AmpereOne AC04  | AC04_CPU_23     | AMPERE_ERRATUM_AC04_CPU_23  |
->  +----------------+-----------------+-----------------+-----------------------------+
-> +| Ampere         | AmpereOne AC04  | AC04_CPU_29     | AMPERE_ERRATUM_AC03_CPU_57  |
-> ++----------------+-----------------+-----------------+-----------------------------+
->  +----------------+-----------------+-----------------+-----------------------------+
->  | ARM            | Cortex-A510     | #2457168        | ARM64_ERRATUM_2457168       |
->  +----------------+-----------------+-----------------+-----------------------------+
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index b3afe0688919b..ee5421283d8df 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -436,6 +436,23 @@ config AMPERE_ERRATUM_AC03_CPU_38
->  
->  	  If unsure, say Y.
->  
-> +config AMPERE_ERRATUM_AC03_CPU_57
-> +	bool "AmpereOne: AC03_CPU_57: Deactivation of the non-active, highest priority pending interrupt prevents further interrupt delivery."
-> +	default y
-> +	help
-> +	  This option adds an alternative code sequence to work around Ampere
-> +	  errata AC03_CPU_57 and AC04_CPU_29 on AmpereOne.
-> +
-> +	  Deactivating a physical interrupt through ICC_DIR_EL1 or
-> +	  ICC_EOIR1_EL1 (depending on EOImode) which is not active, but is the
-> +	  highest priority pending interrupt causes the cpu to lose the
-> +	  interrupt pending state and also prevents the delivery of future
-> +	  interrupts.
-> +
-> +	  The workaround is for KVM to not deactivate interrupts for nested vgics.
-> +
-> +	  If unsure, say Y.
-> +
->  config AMPERE_ERRATUM_AC04_CPU_23
->          bool "AmpereOne: AC04_CPU_23:  Failure to synchronize writes to HCR_EL2 may corrupt address translations."
->  	default y
-> diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-> index 1995e1198648e..9b03dccd55e09 100644
-> --- a/arch/arm64/kernel/cpu_errata.c
-> +++ b/arch/arm64/kernel/cpu_errata.c
-> @@ -631,6 +631,14 @@ static const struct midr_range erratum_ac03_cpu_38_list[] = {
->  };
->  #endif
->  
-> +#ifdef CONFIG_AMPERE_ERRATUM_AC03_CPU_57
-> +static const struct midr_range erratum_ac03_cpu_57_list[] = {
-> +	MIDR_ALL_VERSIONS(MIDR_AMPERE1),
-> +	MIDR_ALL_VERSIONS(MIDR_AMPERE1A),
-> +	{},
-> +};
-> +#endif
-> +
->  #ifdef CONFIG_AMPERE_ERRATUM_AC04_CPU_23
->  static const struct midr_range erratum_ac04_cpu_23_list[] = {
->  	MIDR_ALL_VERSIONS(MIDR_AMPERE1A),
-> @@ -987,6 +995,13 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
->  		ERRATA_MIDR_RANGE_LIST(erratum_ac03_cpu_38_list),
->  	},
->  #endif
-> +#ifdef CONFIG_AMPERE_ERRATUM_AC03_CPU_57
-> +	{
-> +		.desc = "AmpereOne erratum AC03_CPU_57",
-> +		.capability = ARM64_WORKAROUND_AMPERE_AC03_CPU_57,
-> +		ERRATA_MIDR_RANGE_LIST(erratum_ac03_cpu_57_list),
-> +	},
-> +#endif
->  #ifdef CONFIG_AMPERE_ERRATUM_AC04_CPU_23
->  	{
->  		.desc = "AmpereOne erratum AC04_CPU_23",
-> diff --git a/arch/arm64/kvm/vgic/vgic-v3.c b/arch/arm64/kvm/vgic/vgic-v3.c
-> index 9e841e7afd4a7..8f1d10872360c 100644
-> --- a/arch/arm64/kvm/vgic/vgic-v3.c
-> +++ b/arch/arm64/kvm/vgic/vgic-v3.c
-> @@ -275,7 +275,9 @@ void vgic_v3_deactivate(struct kvm_vcpu *vcpu, u64 val)
->  		lr = vgic_v3_compute_lr(vcpu, irq) & ~ICH_LR_ACTIVE_BIT;
->  	}
->  
-> -	if (lr & ICH_LR_HW)
-> +	if ((lr & ICH_LR_HW) &&
-> +	    !(cpus_have_final_cap(ARM64_WORKAROUND_AMPERE_AC03_CPU_57) &&
-> +	      vgic_state_is_nested(vcpu)))
->  		vgic_v3_deactivate_phys(FIELD_GET(ICH_LR_PHYS_ID_MASK, lr));
+Patch enclosed.
 
-I think this is slightly overkill. The hack I posted should be enough,
-and we can replace all the capability business with a simple comment
-referencing the errata numbers and the entries in silicon-errata.rst.
-
-Use the information provided above to beef up the commit message and
-stick:
-
-Cc: stable@vger.kernel.org
-Fixes: 6dd333c8942b2 ("KVM: arm64: GICv3: nv: Plug L1 LR sync into deactivation primitive")
-
-so that we know how far this needs to be backported.
 
 Thanks,
+Mauro
 
-	M.
+[PATCH] docs: custom.css: don't limit randering to old 800px monitors
 
--- 
-Jazz isn't dead. It just smells funny.
+Right now, base.css style imposes a maximum limit of 800 horizontal
+pixels to be compatible with very old SVGA monitors.
+
+This is not enough to display some tables like pixformat ones on
+media. Instead, use a more realistic maximum limit.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+index 2e019c8f8a56..be33d9ed1280 100644
+--- a/Documentation/sphinx-static/custom.css
++++ b/Documentation/sphinx-static/custom.css
+@@ -3,6 +3,8 @@
+  * CSS tweaks for the Alabaster theme
+  */
+ 
++div.body {  max-width: 120em; }
++
+ /* Shrink the headers a bit */
+ div.body h1 { font-size: 180%; }
+ div.body h2 { font-size: 150%; }
