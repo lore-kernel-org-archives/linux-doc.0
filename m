@@ -1,83 +1,83 @@
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B1C1D95A3
-	for <linux-doc@vger.kernel.org>; Sat, 11 Jul 2026 05:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9304499B4;
+	Sat, 11 Jul 2026 05:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783747339; cv=none; b=rHZ403tNdu4VsPcdcwQLiI3Co5eRAIEGMFRQ3TSNCc/P7DJLIcYYnc8ZvLkV5drfeGWXSjhdwWQqjW1fEWj9qkFKCV6uftcbMcBpyJM3+1ykkxPtdcO06x9iHYVIUAts13gJIS4ev9leWt4OzERV2H+7441xV2cElBAhEuNOPZ8=
+	t=1783748770; cv=none; b=u0iNxxxeFpZvGA3hKOz8ORjkzhEjPRryUa0/q6mhPoAskxKNYi936Au1YwVkWyruR/xnkYygZosxHxJ53L1PGNM8TpvvAxZIxHNfEIzbDOSwVu0YJX7p4PPpIYUPS4EC9zP5qLu9En5AJYMVugWbbofSP32ee0GOadMv3jScd/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783747339; c=relaxed/simple;
-	bh=dFV+LO1M82dB9RBXlBhEZhqKjpuIWQ8xseZQnYjtQAI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TjhG6deZYwXQeRx697BHwLmsfqMTrre7QkSZpud4Naqowx0XyMG4DVUHy1cMHdNpZuY6g9Rx5/dzijZTQWzP06oRrK+wlE+kU/McDexHnRfEG45sexRuP4GDT8BSnGhmehfMdHlqgZhaT+tp9Gv5ehiY3JoxT0EyAEKNvXenTTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=jXPtMG30; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1783748770; c=relaxed/simple;
+	bh=f5jTLoe3Zo1gc5ZUKEpY3XEPQiWZo5Y531JTyQooH8M=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=kKx1hxY/E/dt5WNvdLytiZIWspUxsJUFIUDQ53Lv002AVPXPqDEBJ73U5gopdSXwUj+kkiT5v0/kkLPI5/0iykpvnDttUXAdXIXhxsmmjRpAY5mr9SAhCeopnVfH32enivKJxKAhntFzWqlbpkdv71HOZmHI7zB0lI8NhlCwKEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=QgCET+Tx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="jXPtMG30"
-Date: Sat, 11 Jul 2026 13:21:59 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1783747334;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9RV1HW+vVW7pXGHkLyD0n62wdk/o+Nyex+xgSZJC4Zg=;
-	b=jXPtMG302fMD6f7mxcuv3zvj5TO/G7k+ozU25TfHWd9cp9J561Zu8e7xbX4ZWM3N0D13+T
-	hb/p0pQvBvNcoiGXBjvS9W6ZQtjZiv7jJvd4MK8S65tyYmMyFSphXu5lN5//Kn0TOHvvut
-	I54SYhx2I8MW1wH3qnOayW6YV9CTttq9atiyXJoltKtFZsLx78Sr8iirVAEeUaIaepwIjk
-	uRyz27ZNWw/FUbG6a+Y2sDv3GlgqM7p6F/Llf+ludL61hgylVhsT64KvMH3EkxAA/TPqz9
-	yvzO8HOFV9qmdH7yu9CTxSsxoy8IXGNykzi8MEdx3X6BDXfTpJJHDkWdJD57KQ==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: =?utf-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>,
-	Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Dongliang Mu <mudongliangabcd@gmail.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: zh_TW: process: localize terminologies and
- improve fluency in 8.Conclusion
-Message-ID: <alHS9-zQQQ9aJRRW@wyuan.org>
-References: <20260603082531.263115-1-chenyou910331@gmail.com>
- <CAKspUh+2ndK1qMP58hPPmvwczruCikEuaO2tmyw=APCGrd9yaw@mail.gmail.com>
- <06fcda8b-b507-409e-9ded-299baa6ddd09@hust.edu.cn>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="QgCET+Tx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBB7E1F000E9;
+	Sat, 11 Jul 2026 05:46:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1783748768;
+	bh=EaiPorL9ahIoJjJNitVwjgM9ztVnjvN7foqXLiq04lM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=QgCET+Tx8Bz0jrdks+rAbU8mUQHeVPcVhmNjnY9QEy3j0IQt8dtIhIBSKEh+5N9As
+	 WQNaEldSNdp9DDaqnyfla/F2QwjYqb48w5VbRYV51VDzIlmiP+A0SWtLpP3PLpBuAV
+	 qLAHT72ptNutim6kRtqCLNoKDrjqrESrQiMjB/7M=
+Date: Fri, 10 Jul 2026 22:46:06 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Stanislav Kinsburskii <skinsburskii@gmail.com>
+Cc: airlied@gmail.com, akhilesh@ee.iitb.ac.in, corbet@lwn.net,
+ dakr@kernel.org, david@kernel.org, decui@microsoft.com,
+ haiyangz@microsoft.com, jgg@ziepe.ca, kees@kernel.org, kys@microsoft.com,
+ leon@kernel.org, liam@infradead.org, lizhi.hou@amd.com, ljs@kernel.org,
+ longli@microsoft.com, lyude@redhat.com, maarten.lankhorst@linux.intel.com,
+ mamin506@gmail.com, mhocko@suse.com, mripard@kernel.org,
+ nouveau@lists.freedesktop.org, ogabbay@kernel.org, oleg@redhat.com,
+ rppt@kernel.org, shuah@kernel.org, simona@ffwll.ch,
+ skhan@linuxfoundation.org, surenb@google.com, tzimmermann@suse.de,
+ vbabka@kernel.org, wei.liu@kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH v8 4/8] mshv: Use hmm_range_fault_unlocked_timeout() for
+ region faults
+Message-Id: <20260710224606.69235ab5c49b5987fd33e924@linux-foundation.org>
+In-Reply-To: <alG1JwgUK44dCiN4@skinsburskii>
+References: <178371866223.900500.12312667138651735591.stgit@skinsburskii>
+	<178371881034.900500.5214601525971121683.stgit@skinsburskii>
+	<20260710151216.0397a6f9ac5c7b4ccd274cc1@linux-foundation.org>
+	<alG1JwgUK44dCiN4@skinsburskii>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <06fcda8b-b507-409e-9ded-299baa6ddd09@hust.edu.cn>
-X-Migadu-Flow: FLOW_OUT
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 10, 2026 at 09:05:47PM +0800, Dongliang Mu wrote:
-> 
-> On 7/10/26 4:49 PM, 葉宸佑 wrote:
-> > Gentle ping.
+On Fri, 10 Jul 2026 20:14:47 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
+
+> > > +	mutex_lock(&region->mreg_mutex);
+> > > +
+> > > +	if (mmu_interval_read_retry(range.notifier, range.notifier_seq)) {
+> > > +		mutex_unlock(&region->mreg_mutex);
+> > > +		cond_resched();
+> > > +		goto again;
+> > > +	}
+> > > +
 > > 
-> > This v2 addressed the review comments from Alex and Dongliang.
-> > Is there anything else I should improve, or is it queued somewhere
-> > I might have missed?
+> > If the calling process has realtime scheduling policy and either a)
+> > we're uniprocessor or b) this process and the holder of
+> > interval_sub->invalidate_seq are both pinned to the same CPU then
+> > cond_resched() won't do anything, and this might be an infinite loop?
 > 
-> It seems like Alex is not on the cc list. None can pick up this patch.
-> 
-> Add Alex into this thread.
-> 
-> Dongliang Mu
+> Yes, looks like it might.
+> What can be done to prevent this?
 
-I suspect that some contributors would run the get_maintainers.pl script
-or b4 prep --auto-to-cc, so they did not cc Alex, as they didn't know
-the current situation. Because I noticed that for both two versions,
-Chen-yu didn't cc Alex or Dongliang or Yanteng. Am I right, @Chen-yu? ;-)
+Well the best way is remove the polling loop and use a proper sleep/wakeup
+mechanism - mutex_lock()/prepare_to_wait()/etc.
 
-Therefore, how about adding zh_CN team temporarily to zh_TW in
-MAINTAINERS file? So that it won't confuse newcomers in the near future.
-
-Thanks,
-Weijie
+If the polling loop is to be retained then maybe msleep(1) or
+usleep_range()?
