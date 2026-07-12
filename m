@@ -1,78 +1,149 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A217E1ABEDE;
-	Sun, 12 Jul 2026 11:59:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555B43126B0;
+	Sun, 12 Jul 2026 12:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783857555; cv=none; b=YJdGqeeb78r7HGJAW4wju1M4V0s72+3WOCPW9jyqCkshyHhVhVSwgPM3EWbyspIRq2R7XauQsBhEzJHIdieRmL0aL6sfqqmR3wFUTNNx6j8K7Q/+GMFWTPQhWM/uqH372a4LE0qs84WXkjy1SMQGVSo3c+q+frY8zoAF5wSqVJM=
+	t=1783859557; cv=none; b=iejbJR13mF5KXgRJQEwGaxo85V3BDglLl0gO3o1qp/a77npuAhi/5B2P4UsViSe0etXv2HeLVIXxAzTkdd9zhy9DDzUV1znACCHS1PV+nRU7K7gs19NVkidmQSH/7N2S6DMEu4/rNn+QGuRpZzYiYD25QtKpA9zVsAO/wXX5xes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783857555; c=relaxed/simple;
-	bh=5whW4ebTAMtdcD0xnANVI4vJXYikg9p3TwCT2n3c8SI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Wlr1bLFtQeozTPFyr/2PC93GBnlIrKI0XgrD4uGKDKG1lvDE5jDf6Z8F9URJLs9d32djijYmD9OyH95velmKz7vGaY1OqhGXNg7m0Mp/Ip33JuNQqePTTwCzAQ5+IDk94DcWRglMTgKPPhwKWtmWlPL+sz0TdhovJUyIyU/UVsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ONlvmv2P; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ZQ4lJwf3; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1783859557; c=relaxed/simple;
+	bh=VU5CHIyaoqNRjqMq+N8FVvGRvPUNlYegA5+LAVSgSdo=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=EZd9z9xl70ofn07ivkByg8OFQbS/jI6bKzmLdVJ+tHFgic6h6sSaWqedqNFc5LqsWExBC4Hlyqqsr0JkXo01+CZLcAXVCfUcWW8BPESq9+HOgOywKesNsnv25YNq7TEBs7DkgvW4b6UjGgnggKud8KvttRPLsUUX1D8y5JSq8eo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=geJcKo8l; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ONlvmv2P";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ZQ4lJwf3"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gykcw5bwVzKv6q;
-	Sun, 12 Jul 2026 13:59:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783857552;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5whW4ebTAMtdcD0xnANVI4vJXYikg9p3TwCT2n3c8SI=;
-	b=ONlvmv2PllrE1zcxF16Q/Cx3oTH4paElVz3c47/gj/VDayFher5Ygh+mQh0QnanUUYcjrT
-	JafeyP50073P0yZ3sirAvcyaGRJntu5RWXjvGVgxRfL8Q6eoXc0Dtq0txe/CTFevi2hW6S
-	tUSpbP9QNBh7ANEoSBKZWSE7vV0uksae+PRfAYw90BM62hzJVj4j50CjFj4NqFJ22aq3Gy
-	mmmwgB8vLsERAZUZnJPY0EBe+H2SU7UEG17shA/UkUHFuxjlVM42Rk5HgkSgQ7L/Lhe0Sw
-	9isxB8XEXf2oRPJH3u2Z7rfMusaBbYn9HdFsDiegPYBB1U/f5+DAt9WPqhidTA==
-From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783857551;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5whW4ebTAMtdcD0xnANVI4vJXYikg9p3TwCT2n3c8SI=;
-	b=ZQ4lJwf3FnSO0iD3TY7YrS7+f25LvWmNB4G/GSJkaJX6mzhpkXVtDxa49NiSmTecvTtL3/
-	qn7pAfIRFwHNQcWgTxtF0hzvMpjjmHAlyeI5birUlqZzlz+eJE5iCBu3OTxKU4nwsJxms9
-	ra9Xhv/bdH9LerZlBAoKtMGxZKCDxBs73N/JA+Crth6kCqEc/9NhgQ0qIApP3F2dRN6gRr
-	89KSZi0DE//3R+9SqzIs6Sp2OuBroE6Y2r7BhfXOd1iXCOqMfYxAXDGi6jO8ZeTY//n414
-	ug+MwtYdMojo4O0MJ1ZxunE3hP8wn3L/wAystqkjiKE6Sj44B6IOwGv/B74Grg==
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	manuelebner@mailbox.org
-Cc: corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	workflows@vger.kernel.org
-Subject: Re: [Issue] maintainer-handbooks: html: list has duplicates
-Date: Sun, 12 Jul 2026 13:58:59 +0200
-Message-ID: <20260712115900.481835-1-manuelebner@mailbox.org>
-In-Reply-To: <98a558a87a07ab641f47c66c372ee7ed0735f4f5.camel@mailbox.org>
-References: <98a558a87a07ab641f47c66c372ee7ed0735f4f5.camel@mailbox.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="geJcKo8l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 625101F000E9;
+	Sun, 12 Jul 2026 12:32:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783859553;
+	bh=MtkGjiGoIClKqYf6WbMTADgvs1VSC4RCPwgWlBMIBnc=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=geJcKo8lmOCwLH8xvS3pjM6MSkf7G28eQyFiSG6nCT2g2bYC/iGbTzTX5BCP6XbKF
+	 8Rf5ExjwECx/W8ibPyCuvsaX6aIkGQeiXyzKVftKkSGaYcFpgb74pWSYDni7dIY711
+	 YwWiczEPH1l/JKVndl2Wd6OPsX5pkefjuJUQ8pQ58zGRZyM7GKVo50Yg5UJNXFZksh
+	 lgbpBhkNVQtqTbIFDCgXAbTjGE8fS3Ko6ejgWF4SOtfEweQ1AuICRDoUYLG8ex795L
+	 Ib/03fjU59OzPmCxaypFwa3282e1OH6uu7kpx0M0YeW+mz2cd0LFmQ3Pnx4DR9/8gE
+	 qc/wwrqo7bpwA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 0aa40160079857c896a
-X-MBO-RS-META: dn4fq1yyari1ngof1a3ofetjo1tqf13y
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 0/5] binfmt_misc: bpf-backed binary type handlers
+From: Christian Brauner <brauner@kernel.org>
+To: Farid Zakaria <farid.m.zakaria@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, Shuah Khan <shuah@kernel.org>, 
+ Andrii Nakryiko <andrii@kernel.org>, Kees Cook <kees@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Jonathan Corbet <corbet@lwn.net>, Jann Horn <jannh@google.com>, 
+ John Ericson <mail@johnericson.me>, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+In-Reply-To: <20260711-binfmt-misc-bpf-v2-v2-0-d6591ceaf207@gmail.com>
+References: <20260711-binfmt-misc-bpf-v2-v2-0-d6591ceaf207@gmail.com>
+Date: Sun, 12 Jul 2026 14:32:22 +0200
+Message-Id: <20260712-abluft-brutkasten-aufladen-c8063a4a1a0a@brauner>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4203; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=VU5CHIyaoqNRjqMq+N8FVvGRvPUNlYegA5+LAVSgSdo=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQFd8ZM3PJB2fnw3h2pDk1m9m0T/M/E6025wn7fzfpOW
+ d7C5AbXjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIkI/GNkeHPQiL3GYesmrc1v
+ tSZ2fPxUztu58LPf8We7040t9978e57hr8j8bbGpuRPkD7t/1zq2+011XTWvyL61nwVVJl7m3fb
+ NmAMA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-There are only two patches which can cause that:
+> This is a continuation of Christian's bpf-backed binfmt_misc POC [1], which he offered
+> to hand off to me. I am carrying it forward. The kernel design is his and is
+> unchanged. This series rebases it onto his binfmt_misc locking/cleanup series [2]
+> and adds selftests (+ fixed from the one's shared), and therefore does
+> not apply to mainline alone.
+> 
+> As for motivation for this whole change, Christian did a great VL;MR;
+> write-up [1].
+> 
+> TL;DR: binfmt_misc can match a binary and hand it to a fixed interpreter,
+> but it can't match programmatically or compute the interpreter per binary.
+> The Nix community would love to support relocatable binaries, where the
+> correct loader can only be found relative to the binary itself.
+> This adds a 'B' handler type: a binfmt_misc_ops struct_ops program that
+> inspects the binary and picks the interpreter with one new kfunc,
+> bpf_binprm_set_interp().
+> 
+>   bpftool struct_ops register nix_origin.bpf.o /sys/fs/bpf
+>   echo ':nix-origin:B:nix_origin::::' > /proc/sys/fs/binfmt_misc/register
 
-commit 8eae6da5f56c ("docs: auto-generate maintainer entry profile links")
-commit bda185c30593 ("docs: maintainers_include: Only show main entry for profiles")
+Thanks! So I've spent some more time working on this because I had some
+future ideas that I needed to make sure could be accomodated by this
+(currently on vacation but hey...). So the version I have givex this a
+better design and has future extensibility in mind:
 
-Therefore adding Mauro to recipients.
+- The single sleepable load op is split into two ops:
+
+      struct binfmt_misc_ops {
+      	bool (*match)(struct linux_binprm *bprm);
+      	int (*load)(struct linux_binprm *bprm);
+      	char name[BINFMT_MISC_OPS_NAME_MAX];
+      };
+
+  The non-sleepable match program runs from the RCU entry lookup
+  walk itself, exactly like magic and extension matching: same
+  registration order, same first-match-wins semantics, and it can
+  only rely on the prefetched bprm->buf. It must be free of side
+  effects since the walk may be restarted.
+
+  The sleepable load program runs once the walk has committed to the
+  entry and does the file reading and the interpreter selection. Both
+  ops are mandatory, the struct_ops plumbing enforces the sleepability
+  of each, and since bpf_binprm_set_interp() is KF_SLEEPABLE a match
+  program cannot select an interpreter by construction.
+
+- A match is a commitment. A failing load program fails the exec instead
+  of falling through to later entries. -ENOEXEC keeps its usual meaning
+  and hands the binary to the remaining binary formats, for a handler
+  that discovers it cannot serve the binary after all.
+
+  This kills the part of v1 I disliked the most: the skip cursor and the
+  leave-and-rescan loop in load_misc_binary() are gone. The walk is
+  never left and re-entered, and 'B' entries need no special semantics
+  against concurrent (un)registration anymore.
+
+  Your v2 changelog note about keeping the bpf retry loop in the
+  __free() style is moot as a consequence. The loop no longer exists.
+
+- The load return convention flipped: 0 now means success after the
+  program called bpf_binprm_set_interp(). Returning 0 without having
+  selected an interpreter or returning a positive value is treated as
+  -ENOEXEC, other negative errnos fail the exec.
+
+  So the "return bpf_binprm_set_interp(...) ?: 1" idiom from the v1-era
+  programs becomes plain "return bpf_binprm_set_interp(...)".
+
+- The handler name moved from the offset field to the interpreter field
+  that field consistently names whoever supplies the interpreter, a path
+  for static entries, a handler for 'B' entries. Offset, magic, and mask
+  must be empty:
+
+	echo ':nix-origin:B::::nix_origin:' > register
+
+- 'C' is allowed now, v1 rejected it. It behaves exactly as for a static
+   entry. The setuid transition stays gated by vfsuid_has_mapping() in
+   the caller's user namespace. Which makes 'B' handlers usable for a
+   per-binary loader over setuid binaries. 'F' stays rejected as there
+   is no fixed interpreter to pre-open (I have other ideas how we'll do
+   something like it later.).
+
+Nothing changed in the exec patch, the fs kfuncs patch, the kfunc
+itself, or the registry/namespacing model.
+
+I can send v3 in a bit if that's ok.
+
+-- 
+Christian Brauner <brauner@kernel.org>
