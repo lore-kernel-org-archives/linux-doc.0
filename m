@@ -1,67 +1,25 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0531A5474F
-	for <linux-doc@vger.kernel.org>; Sun, 12 Jul 2026 08:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40F23306776;
+	Sun, 12 Jul 2026 08:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.75.44.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783843879; cv=none; b=knwQgnJ8BcNA8wGXTPPsSVf0wQzVge8TY9L2D2CXiv35BQ5JhZ3QTw59mZuSC3uiMx4YIZOc6qn8ozo9lwXFAoEpCS3nf+eNxmN1QVivTATWIZcPAuYMgWT330JWP3CMTyvijZoFrUpZhbV7xnq35FkC5PnNAKToNuxfg8nXKI0=
+	t=1783845355; cv=none; b=pGczZTOFq99pED2z/IkQJ5ERnj0JfIdVAZEbQMpKabBeTF+YqCYcO4ARdrKhSNOT44mmnKHTMF+grOrIBQV1nqK2r0fhW25N6xCoqBAkfsN4onY163uI6AjnaZBVBEmv3pzGs+eLMnmUn+mI0GHwAKhUYwKBYS6PA1WvTBDXoGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783843879; c=relaxed/simple;
-	bh=YNK/Q15j0BfqaqQXS8D6gfs9S0DAyMyJjrSoOAPa0nI=;
+	s=arc-20240116; t=1783845355; c=relaxed/simple;
+	bh=OizSyL5Q7tCDR2wboLxU49WvrlbcwzmARSuDqniPHYQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=M3gaUpzDjE1JKpfToqm2y+RDEXEFD7tZfht92KOEvs43qC9y5fZ/kGKNOi3wVF2WXDzBp3z62L7VZpJ255VvsKzc+oIKfhAptmtuOv/BYkeakGHVS5aCiVV0OysJiEmtdLhMvYwYerTbwiy8J/VWX1KsrnmxJUYP4UDCf7H546U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o4JbFyVE; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o4JbFyVE"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8486ac3f347so2533734b3a.1
-        for <linux-doc@vger.kernel.org>; Sun, 12 Jul 2026 01:11:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783843876; x=1784448676; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+uE/zclQo2IaJtmQIQej2S/lPR7C+mRKZL6zecNEtNY=;
-        b=o4JbFyVEtGN9TrLl75yt/FvwS7b4/2Rx/b0kV96ATompaaOjeFnmYOAcVVg9rpFrnf
-         CS/N8NeZfW6XoBGgECNjwby9/1CXKwY+fALX8Jer5gxXftXWyLuholFaYEuiUvpOYcjL
-         if5ZsSb+azd1VOz2Fs3+HSjiAOmJFNY+MXTWDHtvT0wCdLXp+JhmJD/fWQqXS4V9j12O
-         O3DCCeV/wNPTwOH9HJqdYwqOqu3Na28voif9TCRC7/UFaUH2NPzU/O+rbznMbAQouS8t
-         3Bf/XCFmWZT3nz/Scy8EIr1J2Qk8P6CkHEibNF7J1xSwEezHvMQdwi2xCBV0Vz3CxEar
-         AMmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783843876; x=1784448676;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=+uE/zclQo2IaJtmQIQej2S/lPR7C+mRKZL6zecNEtNY=;
-        b=L7ZdNqG5ZfNlyU0brlYQfObsfrhFBzduspd98dU0I56hdlCDT0iVvO0pcFDOM9KVNM
-         hW8G8mdSO/V1gnaD6N0FZPuEBYUHonkbltYoL60hxdMIESNv4BVMdjrOovoBQ1Z/Ai50
-         ZbODao8YEn+6pVs4z2nWTXnxzhmBYvaGcoNivIcX3Jz7zngnDbDo1rHOyUob6qxvNpAv
-         9L16ByWRMU7/J8YukWtvyalBIE2BDQPMuBxmYlkp3XzkbZtAdrpkan7XMNLW5eW75FPP
-         dTI2p67D7MEdLTghefhaMNXOxV6/N63/iJG5JxWBqDlMSCdOVVS93sl+x1B7o+7d6uiw
-         giIw==
-X-Forwarded-Encrypted: i=1; AHgh+RpYiEswjmL1YPmCxNckh64yBmQLsoQGYfJc6VEmhaEeqXc/MVShfgD7fvNnEHDi0bmuYoHusy4HHws=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+B6kGFPPD84saIqKapkRSSOnPyik481JOjuqhVcJCuoaJ+rHZ
-	QuQl/MDUxqmR/qfNxlDhAKzF+EyLRiYkl0wUrz8g186o2S735OJpNoMh
-X-Gm-Gg: AfdE7cmFAguOgZoghfl0n6CmqVbitRI2F+XlDHEQxBepfs6XjqOavs0L9T3cFWLpKsD
-	B+/05uEAvUyqg9hXc+h636F0slBs87QdfFtyGki+EQGptjD8IQ5RsA54kM2/nqa3j934g23svxp
-	FsoF/+3DFY32vkAvuChTuRxNR+tw7wpx7+rWwFBG9tlYeGILv+s/csTjK9kBUO9iBaC+4aCyPtj
-	wl6t6XBYSwvqKyXTQIE8KeNRM/3Ii2LPA9DsSoYTh3vdqRcXSnY/0ejmPk8NZASnk/EZE65CwRg
-	6DyBHD6QgPjHyIbqDNNHW7KNQKUgg3f/ZMuNBcwgQWhy70uxcQCma2mfhVHK3eKXyjiFhFihSAs
-	eUSV1mrI9m1x94A2CSYARBcYff5q8PhhBIeoe0SJeTIiVpop+i4tQTcNmmNlWEHEDd26eoQIizs
-	S1f6LswY/GvV5d+BWSinG20hRVdnDMt/GjdOcuiWlUs9l/MCQPhcRqXw3EEQ==
-X-Received: by 2002:a05:6a21:4ccc:b0:3bf:bbad:500e with SMTP id adf61e73a8af0-3c112b9c1c6mr4671213637.5.1783843876304;
-        Sun, 12 Jul 2026 01:11:16 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5b31628c1sm6899731a12.19.2026.07.12.01.11.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Jul 2026 01:11:15 -0700 (PDT)
-Message-ID: <c8c36d99-9c0a-4767-8a4e-a5ad28093530@gmail.com>
-Date: Sun, 12 Jul 2026 17:11:13 +0900
+	 In-Reply-To:Content-Type; b=gwV1QIWcjtj1FTXd2GUrjy9j2BcmEdi0YvBb9nTd5u3w1knHcbu561RYm9b80kM9p2CJ29DQU2JSYiUMWvcXRYyc9WFU4EXXTva5JurhyXJXRnB2zAHpMS7ULBN7BsW5JRaAJUCyy+EOiblfRD8Rpr38/lZr4fXPPCurlZ/5XzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=13.75.44.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app1 (Coremail) with SMTP id HgEQrADHzyvLUVNqco3lAQ--.51686S2;
+	Sun, 12 Jul 2026 16:35:23 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wCHgNfJUVNq0oq+AA--.35361S2;
+	Sun, 12 Jul 2026 16:35:22 +0800 (CST)
+Message-ID: <8f01e453-6a4b-4f35-b533-55d89c1a9ae4@hust.edu.cn>
+Date: Sun, 12 Jul 2026 16:35:21 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,123 +27,129 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs/ja_JP: translate submitting-patches.rst
- (sign-off)
-To: Akiyoshi Kurita <weibu@redadmin.org>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, corbet@lwn.net
-References: <20260711215510.1708416-1-weibu@redadmin.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20260711215510.1708416-1-weibu@redadmin.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] docs/zh_CN: add docs-next checkout workaround
+To: Weijie Yuan <wy@wyuan.org>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <4e5e728877c77a89f6c59e89c88ba8ffa8842643.1783609005.git.wy@wyuan.org>
+ <ce715802-1b46-4ba6-b388-39260f217ba3@hust.edu.cn>
+ <alD1b7O6KaIMqWpa@wyuan.org>
+ <f637a819-5596-4cd7-b2fe-be7293eedf14@hust.edu.cn>
+ <alD6UJw1Y2VNK3x1@wyuan.org>
+ <91ea31b9-4154-4769-a620-43fea87cb949@hust.edu.cn>
+ <alMp5-UPJks0xEvS@wyuan.org>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <alMp5-UPJks0xEvS@wyuan.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:HgEQrADHzyvLUVNqco3lAQ--.51686S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxJw1UGrW8uF1ruw4DCw17Wrg_yoWrGFyDpF
+	yfJwn7t3y8JF12yrZ7GwsYkr1YyrWDuFW5J3sxWr4jyrsxuF9Yqr4Fkw4akFy7Ar45C3sx
+	ZFWq9F97W3Z8Ca7anT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUm0b7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jr
+	v_JF1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcV
+	Cjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWU
+	XVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
+	kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
+	6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
+	vEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
+	vjDU0xZFpf9x07bxmRUUUUUU=
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Hi,
 
-On Sun, 12 Jul 2026 06:55:10 +0900, Akiyoshi Kurita wrote:
-> Translate the "Include PATCH in the subject" and "Sign your work -
-> the Developer's Certificate of Origin" sections into Japanese.
-> 
-> Keep the DCO text as a literal block to match commit 999161066dc5
-> ("docs: submitting-patches: Fix section structure around DCO").
-> 
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
-> 
-> ---
-> Changes in v2:
-> 
-> - Added the Japanese translation of the "Include PATCH in the subject" section.
-> - Updated the DCO translation to match the current English text and structure.
-> - Kept the DCO statement in a literal block following commit 999161066dc5.
+On 7/12/26 1:45 PM, Weijie Yuan wrote:
+> On Sun, Jul 12, 2026 at 12:47:16PM +0800, Dongliang Mu wrote:
+>> Hi Weijie,
+>> Could you please try cloning
+>> https://mirror.nju.edu.cn/git/kernel-doc-zh.git/ <https://link.wtturl.cn/?target=https%3A%2F%2Fmirror.nju.edu.cn%2Fgit%2Fkernel-doc-zh.git%2F&scene=im&aid=582478&lang=zh>
+>> and verify whether this mirror is stable?
+> OK, I just did a quick test on my debian 13 (local physical server):
+>
+> $ git clone https://mirror.nju.edu.cn/git/kernel-doc-zh.git/
+> Cloning into 'kernel-doc-zh'...
+> remote: Enumerating objects: 11675982, done.
+> remote: Counting objects: 100% (11675982/11675982), done.
+> remote: Compressing objects: 100% (2008049/2008049), done.
+> error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: INTERNAL_ERROR (err 2)
+> error: 7397 bytes of body are still expected
+> fetch-pack: unexpected disconnect while reading sideband packet
+> fatal: early EOF
+> fatal: fetch-pack: invalid index-pack output
+>
+> then again:
+>
+> GIT_TRACE=1 \
+> GIT_TRACE_CURL=1 \
+> GIT_CURL_VERBOSE=1 \
+> git clone https://mirror.nju.edu.cn/git/kernel-doc-zh.git/
+>
+> [...many verbose outputs]
+> remote: Enumerating objects: 11675982, done.
+> remote: Counting objects: 100% (11675982/11675982), done.
+> remote: Compressing objects: 100% (2008049/2008049), done.
+> 13:24:10.505880 http.c:994              == Info: HTTP/2 stream 5 was not closed cleanly: INTERNAL_ERROR (err 2)
+> 13:24:10.505973 http.c:994              == Info: Connection #0 to host mirror.nju.edu.cn left intact
+> error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: INTERNAL_ERROR (err 2)
+> error: 6191 bytes of body are still expected
+> fetch-pack: unexpected disconnect while reading sideband packet
+> fatal: early EOF
+> fatal: fetch-pack: invalid index-pack output
 
-You didn't address my concern expressed in v1 review.
-This is what I said:
 
-    What you need to agree in signing off is the English certificate.
-    Not the translated one.  So this can confuse people.
+It seems like the same issue with our mirror site. I've forward this 
+email thread to NJU mirror maintainers.
 
-    I don't have any good idea.
 
-    Please convince me you can translate the certificate
-    without any concern of confusion.
+>  From the output, it seems that there was an error in the mirror of NJU's
+> nginx, the Git HTTP backend behind nginx, or the upstream connection
+> between them, but I'm not 100% sure.
+>
+> I will conduct several more tests immediately to troubleshoot the
+> problem, to see where exactly the problem lies.
+>
+> In addition, cloning with a cloud server in Hong Kong:
+>
+> Cloning into 'kernel-doc-zh'...
+> remote: Enumerating objects: 11675982, done.
+> remote: Counting objects: 100% (11675982/11675982), done.
+> remote: Compressing objects: 100% (2008049/2008049), done.
+> error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: INTERNAL_ERROR (err 2)
+> error: 3965 bytes of body are still expected
+> fetch-pack: unexpected disconnect while reading sideband packet
+> fatal: early EOF
+> fatal: fetch-pack: invalid index-pack output
 
-You said in your reply:
 
-    I agree that translating the DCO text itself could be confusing,
-    because the sign-off refers to the English certificate, not to a
-    translated version.
+I tried the NJU mirror in my laptop, and successfully clone the 
+repository from NJU mirror. There must exist some unknown reason to lead 
+to this failure.
 
-> 
-> 
->  .../ja_JP/process/submitting-patches.rst      | 66 +++++++++++++++++++
->  1 file changed, 66 insertions(+)
-> 
-[...]
 
-> +作業への署名 - Developer's Certificate of Origin
-> +--------------------------------------------------
-> +
-> +誰が何を行ったのかを追跡しやすくするため、特にパッチが複数階層の
-> +メンテナーを経由して最終的にカーネルへ取り込まれる場合に備えて、
-> +メールでやり取りされるパッチには sign-off の手続きが導入されています。
-> +
-> +sign-off は、パッチの説明の末尾に追加する単純な一行です。これは、
-> +そのパッチを自分で作成したか、オープンソースのパッチとして提出する
-> +権利を持っていることを証明します。以下を証明できる場合、規則は単純です::
-> +
-> +        Developer's Certificate of Origin 1.1
-> +
-> +        このプロジェクトへ貢献することにより、私は以下を証明します:
-> +
-> +        (a) この貢献の全部または一部を私が作成し、ファイルに示された
-> +            オープンソースライセンスの下で提出する権利を有していること。
-> +            または、
-> +
-> +        (b) 私の知る限り、この貢献は適切なオープンソースライセンスの
-> +            対象となる以前の成果物に基づいており、そのライセンスに従って、
-> +            私が全部または一部を変更した成果物を、ファイルに示された
-> +            同じオープンソースライセンスの下で提出する権利を有していること。
-> +            ただし、別のライセンスで提出することを許可されている場合を除く。
-> +            または、
-> +
-> +        (c) この貢献は、(a)、(b)、または (c) を証明した別の人物から
-> +            私へ直接提供されたものであり、私が変更を加えていないこと。
-> +
-> +        (d) このプロジェクトおよび貢献が公開されること、ならびに私が
-> +            提出したすべての個人情報と sign-off を含む貢献の記録が
-> +            無期限に保存され、このプロジェクトまたは関連する
-> +            オープンソースライセンスに従って再配布される可能性があることを
-> +            理解し、同意すること。
-> +
-
-This will confuse people, as you have agreed.
-
-So, I think you need to do something more to prevent any confusion.
-
-I guess you have another hurdle to clear.
-
-Text of DCO 1.1 is available at: https://developercertificate.org/
-
-It carries this legal statement:
-
-    Copyright (C) 2004, 2006 The Linux Foundation and its contributors.
-
-    Everyone is permitted to copy and distribute verbatim copies of this
-    license document, but changing it is not allowed.
-
-There is no mention of translation, so I can't figure out if translation
-is allowed.
-
-To be clear, I don't have sufficient background for reviewing
-legal (contract/agreement/certificate/...) text.  So there is a high
-chance of me being confused.
-
-Thanks,
-Akira
-
-> +上記を証明できる場合は、次のような行を追加します::
-> +
-> +        Signed-off-by: Random J Developer <random@developer.example.org>
-> +
-[...]
+>
+>> TUNA has limited storage capacity and has asked the NJU mirror site to host
+>> this Git repository.
+> Fully understand, easy to notice that TUNA is under big preesure these days.
+> Thanks, NJU!
+>
+>> We are currently diagnosing network issues on our mirror site. The classic
+>> architecture - Nginx (serving static frontend, HTTPS, and caching) -> Apache
+>> (reverse proxy + CGI execution) -> cgit / git-http-backend - appears to be
+>> functional in principle.
+>> The clone failures with large Git repositories are likely caused by
+>> insufficient or inappropriate parameter configurations rather than the
+>> architecture itself.
+> Agreed, it is very likely that the transmission problem is caused by the
+> large size of the warehouse.
+>
+>> P.S., I am the mentor of HUST OpenAtom Club, and our club is maintaining the
+>> hust mirror site.
+> Thanks very much.
 
