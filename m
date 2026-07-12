@@ -1,155 +1,93 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40F23306776;
-	Sun, 12 Jul 2026 08:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.75.44.102
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50750369D71;
+	Sun, 12 Jul 2026 09:51:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783845355; cv=none; b=pGczZTOFq99pED2z/IkQJ5ERnj0JfIdVAZEbQMpKabBeTF+YqCYcO4ARdrKhSNOT44mmnKHTMF+grOrIBQV1nqK2r0fhW25N6xCoqBAkfsN4onY163uI6AjnaZBVBEmv3pzGs+eLMnmUn+mI0GHwAKhUYwKBYS6PA1WvTBDXoGE=
+	t=1783849893; cv=none; b=g97C+wdqks5mgnHZo7cB036mTusGcvG0eldW9l3A8tFDCyfPHWkrAZWbhX8KWU743OvGCgFEX5fbynmFSrLPGQGiC8n53wK6zhHrFyCh0TE2VnHgA/PJpwM5TYnXV5G5OXtr95wepP+AfgEMVoG87LjA4dxyvbf5mL2z1iFrsdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783845355; c=relaxed/simple;
-	bh=OizSyL5Q7tCDR2wboLxU49WvrlbcwzmARSuDqniPHYQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gwV1QIWcjtj1FTXd2GUrjy9j2BcmEdi0YvBb9nTd5u3w1knHcbu561RYm9b80kM9p2CJ29DQU2JSYiUMWvcXRYyc9WFU4EXXTva5JurhyXJXRnB2zAHpMS7ULBN7BsW5JRaAJUCyy+EOiblfRD8Rpr38/lZr4fXPPCurlZ/5XzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=13.75.44.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrADHzyvLUVNqco3lAQ--.51686S2;
-	Sun, 12 Jul 2026 16:35:23 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wCHgNfJUVNq0oq+AA--.35361S2;
-	Sun, 12 Jul 2026 16:35:22 +0800 (CST)
-Message-ID: <8f01e453-6a4b-4f35-b533-55d89c1a9ae4@hust.edu.cn>
-Date: Sun, 12 Jul 2026 16:35:21 +0800
+	s=arc-20240116; t=1783849893; c=relaxed/simple;
+	bh=UUTPrVk9MPoWQl5qgG7RoPAhAuxqhxAdTplAK3yIO5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hTTUnVfRtwv4wK11UjsOGWsYHZpD9U/UZ8GsxkxxlPYJoNxDOW3Xs3/pFkG3wlZbUC0+RV9PAtXRj8PjFZtjgailheWfUoUwcerE1H6OQcJu3Gy+Y9q0bAn+ZK5rUh0XmvuvFkHVUOrbHc+l4ZsF8UZ0tNAKWhMKriaEt07fytk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JS0rhk09; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JS0rhk09"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783849893; x=1815385893;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UUTPrVk9MPoWQl5qgG7RoPAhAuxqhxAdTplAK3yIO5w=;
+  b=JS0rhk09rEP0g8PeFENFHx3DKgyiCioYM4n0A5y7csI34DdZM4B8yYlJ
+   l1ect9rb2FNpZyDgNTEOIxKytvBM9e1MPRrJi1kWoT3aoarUwVCl8YIBD
+   xIEUNaHcskyiY+agIYA2LrxHVMX2rFSGdiIcBEMUwUxeOhXjbHZsGGGdx
+   2T0yfY5CuUtR0KD9KJyxcFy7pf7jYGkd87/LhsX/odAVleD0U3gXvfaLl
+   PZK3SNWoLvUt7mnmaJ6DAUrXjM5iGhr0BlZ4DSxJ0G8M1Jy+xk55Cx23U
+   FvJmKqYessBsI16vMY7lN0R/VrPyab536Oe75c4pKSdESs8ShIwHXxJYR
+   w==;
+X-CSE-ConnectionGUID: kr0RTc1KR9mwbfKh2OYA1A==
+X-CSE-MsgGUID: Pd6RJHoaTnyKq61q987vhA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="88170047"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="88170047"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 02:51:32 -0700
+X-CSE-ConnectionGUID: bbqStwH/QtW4X7FAHnfr+w==
+X-CSE-MsgGUID: FyBeK+vATgmoXHljqIdUMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="251315259"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.24])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 02:51:29 -0700
+Date: Sun, 12 Jul 2026 12:51:26 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Kim Jinseob <kimjinseob88@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Lechner <dlechner@baylibre.com>, Nuno Sa <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 4/5] iio: osf: add authenticated stream parser
+Message-ID: <alNjnjAlLRr8Q23k@ashevche-desk.local>
+References: <20260707014525.1015-1-kimjinseob88@gmail.com>
+ <20260707014525.1015-5-kimjinseob88@gmail.com>
+ <ak0cVeEUhNP1wTkQ@ashevche-desk.local>
+ <CALMSewLACs7+QEq=3Pp=Wo6dvmEu0hFjmuOx8oe0AGoZHPmADw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/zh_CN: add docs-next checkout workaround
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <4e5e728877c77a89f6c59e89c88ba8ffa8842643.1783609005.git.wy@wyuan.org>
- <ce715802-1b46-4ba6-b388-39260f217ba3@hust.edu.cn>
- <alD1b7O6KaIMqWpa@wyuan.org>
- <f637a819-5596-4cd7-b2fe-be7293eedf14@hust.edu.cn>
- <alD6UJw1Y2VNK3x1@wyuan.org>
- <91ea31b9-4154-4769-a620-43fea87cb949@hust.edu.cn>
- <alMp5-UPJks0xEvS@wyuan.org>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <alMp5-UPJks0xEvS@wyuan.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:HgEQrADHzyvLUVNqco3lAQ--.51686S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxJw1UGrW8uF1ruw4DCw17Wrg_yoWrGFyDpF
-	yfJwn7t3y8JF12yrZ7GwsYkr1YyrWDuFW5J3sxWr4jyrsxuF9Yqr4Fkw4akFy7Ar45C3sx
-	ZFWq9F97W3Z8Ca7anT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUm0b7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jr
-	v_JF1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcV
-	Cjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWU
-	XVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
-	kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
-	6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
-	vEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
-	vjDU0xZFpf9x07bxmRUUUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALMSewLACs7+QEq=3Pp=Wo6dvmEu0hFjmuOx8oe0AGoZHPmADw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
+On Sat, Jul 11, 2026 at 12:24:12AM +0900, Kim Jinseob wrote:
 
-On 7/12/26 1:45 PM, Weijie Yuan wrote:
-> On Sun, Jul 12, 2026 at 12:47:16PM +0800, Dongliang Mu wrote:
->> Hi Weijie,
->> Could you please try cloning
->> https://mirror.nju.edu.cn/git/kernel-doc-zh.git/ <https://link.wtturl.cn/?target=https%3A%2F%2Fmirror.nju.edu.cn%2Fgit%2Fkernel-doc-zh.git%2F&scene=im&aid=582478&lang=zh>
->> and verify whether this mirror is stable?
-> OK, I just did a quick test on my debian 13 (local physical server):
->
-> $ git clone https://mirror.nju.edu.cn/git/kernel-doc-zh.git/
-> Cloning into 'kernel-doc-zh'...
-> remote: Enumerating objects: 11675982, done.
-> remote: Counting objects: 100% (11675982/11675982), done.
-> remote: Compressing objects: 100% (2008049/2008049), done.
-> error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: INTERNAL_ERROR (err 2)
-> error: 7397 bytes of body are still expected
-> fetch-pack: unexpected disconnect while reading sideband packet
-> fatal: early EOF
-> fatal: fetch-pack: invalid index-pack output
->
-> then again:
->
-> GIT_TRACE=1 \
-> GIT_TRACE_CURL=1 \
-> GIT_CURL_VERBOSE=1 \
-> git clone https://mirror.nju.edu.cn/git/kernel-doc-zh.git/
->
-> [...many verbose outputs]
-> remote: Enumerating objects: 11675982, done.
-> remote: Counting objects: 100% (11675982/11675982), done.
-> remote: Compressing objects: 100% (2008049/2008049), done.
-> 13:24:10.505880 http.c:994              == Info: HTTP/2 stream 5 was not closed cleanly: INTERNAL_ERROR (err 2)
-> 13:24:10.505973 http.c:994              == Info: Connection #0 to host mirror.nju.edu.cn left intact
-> error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: INTERNAL_ERROR (err 2)
-> error: 6191 bytes of body are still expected
-> fetch-pack: unexpected disconnect while reading sideband packet
-> fatal: early EOF
-> fatal: fetch-pack: invalid index-pack output
+What happened to your email? Regular MUAs add the line to see the quoting legend,
+and in your email it's gone?
 
+...
 
-It seems like the same issue with our mirror site. I've forward this 
-email thread to NJU mirror maintainers.
+> > Seems like reinvention of min() from minmax.h.
+> 
+> Agreed. The open-coded minimum calculations are now replaced with min().
 
+You too eagerly removed the context... But okay, it seems you agreed on
+the suggested changes.
 
->  From the output, it seems that there was an error in the mirror of NJU's
-> nginx, the Git HTTP backend behind nginx, or the upstream connection
-> between them, but I'm not 100% sure.
->
-> I will conduct several more tests immediately to troubleshoot the
-> problem, to see where exactly the problem lies.
->
-> In addition, cloning with a cloud server in Hong Kong:
->
-> Cloning into 'kernel-doc-zh'...
-> remote: Enumerating objects: 11675982, done.
-> remote: Counting objects: 100% (11675982/11675982), done.
-> remote: Compressing objects: 100% (2008049/2008049), done.
-> error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: INTERNAL_ERROR (err 2)
-> error: 3965 bytes of body are still expected
-> fetch-pack: unexpected disconnect while reading sideband packet
-> fatal: early EOF
-> fatal: fetch-pack: invalid index-pack output
+-- 
+With Best Regards,
+Andy Shevchenko
 
-
-I tried the NJU mirror in my laptop, and successfully clone the 
-repository from NJU mirror. There must exist some unknown reason to lead 
-to this failure.
-
-
->
->> TUNA has limited storage capacity and has asked the NJU mirror site to host
->> this Git repository.
-> Fully understand, easy to notice that TUNA is under big preesure these days.
-> Thanks, NJU!
->
->> We are currently diagnosing network issues on our mirror site. The classic
->> architecture - Nginx (serving static frontend, HTTPS, and caching) -> Apache
->> (reverse proxy + CGI execution) -> cgit / git-http-backend - appears to be
->> functional in principle.
->> The clone failures with large Git repositories are likely caused by
->> insufficient or inappropriate parameter configurations rather than the
->> architecture itself.
-> Agreed, it is very likely that the transmission problem is caused by the
-> large size of the warehouse.
->
->> P.S., I am the mentor of HUST OpenAtom Club, and our club is maintaining the
->> hust mirror site.
-> Thanks very much.
 
