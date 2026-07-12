@@ -1,87 +1,81 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6FAF24336D;
-	Sun, 12 Jul 2026 11:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783855210; cv=pass; b=lnP7g6rLvUFyO3oHl7vNHUXTlarJYSoAEykSc+3tkL7bfXMvGwzbi99qzWZiHX12KTOA9fXPv3TyUJOF75arXfNjmW9I/NJBUT5dzjXlzgKMgk1CYzHmcot4u8xMtsYVY3Rw5lBLSWnKku1dhJnCJX4MbCpYxxcm8F7mURQB5UE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783855210; c=relaxed/simple;
-	bh=czHN4mzH8v7HuuPxICj5uvc3lTRI5qw330MjxLOLEYU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=L54YLaw6kB4mS05yi8/pOO+Y4f6phONdFnXyU/jmYNX/Xrpx+5spekm4w4BQSunzFn7nMZ2qPoIj+s+FxGIkVFnHAPgX1LDIkIfgj8hSBrfmYN/7Bl0FXZ/r+QMLTmdU2SNXZwq+EzvVpKzNFqqBQnq31P4QQ5Z3ydEvapSb7I0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=P25iAD99; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7EB4149C6F;
+	Sun, 12 Jul 2026 11:56:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783857416; cv=none; b=HvFzQF0Liwz+xu2/BS+jdFX2X8C0Avtqyb7BN3QNV0PqP2/MiUroLspt638z0y79b5tZDbskl+/ywpOx0UnbIudAdSLl+NtLyqVqvEhM3qKLq9gNNvnj3+dJeYKgv9sSNuaTl5u/UVRI2kS25Y3paJTjMNVFFu+lbJwCDE+5fuU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783857416; c=relaxed/simple;
+	bh=5whW4ebTAMtdcD0xnANVI4vJXYikg9p3TwCT2n3c8SI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=s1NNR6mCIh948G8rp+/+s2f9sErURyLmDIqwwrDkNY17ZoStGucYz1fS+Nws2VoF2rdsa2N/JTmI9teu4ORpDNn4VaGzFKfW0BhUBcgVspuUHlyGG9XHldiXP3PO5wBwrWcxwIEwfZjNF2l0Jh1OWY5WK8nM+pBy2B01Euot0UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=TivjPfZO; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=NfV4K+ZZ; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="P25iAD99"
-ARC-Seal: i=1; a=rsa-sha256; t=1783855203; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=d0Zwk4omcLtVCdc345Pg3+CWDq7SLZtI3Wrc6kzkNbhzk3vaxCMEpCQQN2JR4AdkjiETXMlPg4Wr5nvwwVMErhVxbeU71pXlVmZaOdxYSgjGUfL92mX44HKYnp3r4nyWK5j86qUQnaC6kACCk7+iJAUPtg3ZPAMcFx94CcKPnQ8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1783855203; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=czHN4mzH8v7HuuPxICj5uvc3lTRI5qw330MjxLOLEYU=; 
-	b=MoyUoE4N85kk9EALlU1fZ+Ocj6BCv7FmLl/IGPdR6dJyVBu9dLmnky1pa5b616HmcZX8eJjyVZRMIsRC0jwJIgFboWQdrEwwYXYBCAKj7TQq4CpQzX2DKxVPSevdBs4sq8si/rB6dWAGfoii+PHx9LDTg03/giKh2YV7l+zjoKU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ritovision.com;
-	spf=pass  smtp.mailfrom=rito@ritovision.com;
-	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783855203;
-	s=zmail; d=ritovision.com; i=rito@ritovision.com;
-	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Subject:Subject:Cc:Cc:From:From:To:To:References:In-Reply-To:Reply-To;
-	bh=czHN4mzH8v7HuuPxICj5uvc3lTRI5qw330MjxLOLEYU=;
-	b=P25iAD99dYjxX+0d3rtiVVrTmoOx0kGZ9v/bShuBMiCt0hd9cfiBzNcbiX1PP+ei
-	e4r3ueYZSXS7QIbG4upDcLuTS4VT5zrQBqxpef9hJWIh/qKkKpRof+HfJ5BONLdlQ08
-	QRIp5dwqeiWcYUQ+S377EpI37i7agZ6ggXHa1e+Q=
-Received: by mx.zohomail.com with SMTPS id 1783855201176945.8781942050364;
-	Sun, 12 Jul 2026 04:20:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="TivjPfZO";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="NfV4K+ZZ"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gykZC4nBRzKv7G;
+	Sun, 12 Jul 2026 13:56:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783857411;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5whW4ebTAMtdcD0xnANVI4vJXYikg9p3TwCT2n3c8SI=;
+	b=TivjPfZO7VYqE74cd4+acWxWWREAKJwT4e1cQBU68vfFWmEEmOXIBPUWolDMMb5kfqbXy5
+	DbF3vp2UaZIQCTdM+lYO7Jwz8jacEIIYqRgmwX1tUbO6IMSwFe+xM+WxFXZOeGkMx8M0A4
+	zXHoTzg3vYujzVevz5C/k4ujWVtomst8GkaXEpr3nS2MoVY915JVU7AZyZmQbNn45pXSuH
+	h3JbHhkfQCcRyRyRt9IhZUReyy/QuB6UHhRFuqi7186F4PzF/J6sncxoLuxPRgEwrLY7oa
+	cYoyjWD+6X/pGw6VtEqN/+xv0vWop2MfioyYu+6s+H80zbxiFLn4X/83WQERTg==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=NfV4K+ZZ;
+	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783857410;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5whW4ebTAMtdcD0xnANVI4vJXYikg9p3TwCT2n3c8SI=;
+	b=NfV4K+ZZS6hASl1CANc1zZ/RJrbohDpRRZwfqEcZeIVbKCP81mB+1R+eUgvfUdiSwwysjr
+	Nyvosv471KKdFgek+2pYiEOJ/GvuvrRjwwcUg3qaQTlg+DscUaXpC95iaxtOLexOC2hvoQ
+	t5xY9XQqKQbWmdnV3AwuhYMPlBD93+ydZKgsGVDcJuXhXXS6wL6VKo5F0X1SznM/VL02re
+	ot9tc5PbIX5NaOCzQtvgojRCJ1U8IV7r5KPKQQPUyuesx/zsdG4434Mk3reHxTsvCdcU3G
+	BBUb2OZXdVAnOdOC0HC8UeRfhl8tT3Q0MpRToGPP8NXbwjcKv4c9A33Cm/cX3A==
+To: manuelebner@mailbox.org
+Cc: corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	workflows@vger.kernel.org
+Subject: Re: [Issue] maintainer-handbooks: html: list has duplicates
+Date: Sun, 12 Jul 2026 13:56:41 +0200
+Message-ID: <20260712115642.481583-1-manuelebner@mailbox.org>
+In-Reply-To: <98a558a87a07ab641f47c66c372ee7ed0735f4f5.camel@mailbox.org>
+References: <98a558a87a07ab641f47c66c372ee7ed0735f4f5.camel@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 12 Jul 2026 07:19:57 -0400
-Message-Id: <DJWJW4K4MAFK.2RJI3ENU1NQYE@ritovision.com>
-Subject: Re: Bad wrapping in some tables
-Cc: "Rito Rhymes" <rito@ritovision.com>, "Jonathan Corbet" <corbet@lwn.net>,
- "Daniel Lundberg Pedersen" <dlp@qtec.com>, <linux-doc@vger.kernel.org>,
- <linux-media@vger.kernel.org>
-From: "Rito Rhymes" <rito@ritovision.com>
-To: "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>, "Hans Verkuil"
- <hverkuil+cisco@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <c542aaf7-6a40-4730-8bd6-208c9fe932d5@qtec.com>
- <87pl0yr9ah.fsf@trenco.lwn.net> <DJUP0UXLLHJ0.3P121A982R9TP@ritovision.com>
- <7fcac682-60e3-4e1d-b26b-5b23f8035a91@kernel.org>
- <20260710104220.2b165f2d@foz.lan>
-In-Reply-To: <20260710104220.2b165f2d@foz.lan>
-X-ZohoMailClient: External
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: i535ua5r6fu3k343q5caotkoqzwhexz1
+X-MBO-RS-ID: 9911b0fcf20cfbe3313
+X-Rspamd-Queue-Id: 4gykZC4nBRzKv7G
 
-> Breaking up literals is more important on PDF output, if one wants to
-> print the documentation.
+There are only two patches which can cause that:
 
-Could you clarify what you mean by PDF output here? Are you referring to
-printing the HTML page through the browser, or to the PDF generated by
-the Sphinx build process?
+commit 8eae6da5f56c ("docs: auto-generate maintainer entry profile links")
+commit bda185c30593 ("docs: maintainers_include: Only show main entry for profiles")
 
-Are there any known problems or constraints we should account for
-printing? I assume you may mean that long unbroken literals can make
-tables wider than the printable page and hide outer columns, that and
-horizontal scroll overflow in general may be clipped when printing,
-making wrapping preferable for that output.
-
-That makes sense for print, but it is not necessarily the preferable
-behavior for navigating the normal HTML page, where contained horizontal
-scroll overflow can preserve the page and table structure. I do not
-think the print constraint should override the primary HTML
-presentation.
-
-I would like to account for both. If this concerns browser printing, we
-may be able to apply the necessary wrapping selectively through
-`@media print`.
-
-Rito
+Therefore adding Mauro to recipients.
