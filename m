@@ -1,66 +1,25 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07E52BDC26
-	for <linux-doc@vger.kernel.org>; Sun, 12 Jul 2026 04:33:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.175.55.52])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75CFD322A;
+	Sun, 12 Jul 2026 04:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.175.55.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783830828; cv=none; b=VDrP6vY+fnk2+Cl+NRV1CjlsFAHi0LMMpMrKK0irPw4I6dAgdBZpstwKcR+RfXCTOUxkxE1ItFVb9vmEx8w5XDtnQF8iZqHBUr2DLqUUWUeZjhdzId49dlrh3mT5K121vUxjDMpQojZGlfhRRZzF/XgCqx4mTiWkBd/frg/86c4=
+	t=1783831705; cv=none; b=XN9Y9Fhg5f1v+IYPSlKdniinI9FweUzYYXNuSU43FeYckAi2438nX13TN1ryhTNOwzjVbmgRIsH0fY5FviMIE1QJB7x93RyZHw+ELUBGz3R4abTdkgR8EeZQ2JCtTjIoDZT6rQQjSRLVUQNRvQu9GS+9HY9aMXQ45YDrZD6r61U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783830828; c=relaxed/simple;
-	bh=8J5HFwTOL0hAEEQYkTFwTFDExbt6v5qTfma9p+0sAPQ=;
+	s=arc-20240116; t=1783831705; c=relaxed/simple;
+	bh=ZNLHHHO3BzecojunocHGXGHYxt8A6X/rrUaFJ7NT/TE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tck+KK+Ew2BHhewNT/rocTQUC+5mR1PWeBt20UT9Br9ScuhEtC0yVTNMCiZOdqouPvkDL3JZezCRw0e1612+45Mje+IBws3n5Y3klRpsgO7siy5fnck0kasWHaULV+OGumZdOZprugPEGBeL5DzlqqS4dhnxp3DslHS4mN/iBZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P2LwWpDI; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P2LwWpDI"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-84a2dcec51cso226438b3a.3
-        for <linux-doc@vger.kernel.org>; Sat, 11 Jul 2026 21:33:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783830826; x=1784435626; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Vda1xnTOZd1wuechtYioOaYBebfyC/yXFuQlfaQigM8=;
-        b=P2LwWpDI2g0/EKq2l2la3+vNxsY3p2TR35VXvhDWBEhPl9mc2orcfwAQkUeulaKmlO
-         hj/itLJFYzk1w2PYaHjN5h6wYyGC5o3eKGtCXkxfPkV0k4PRn7O7Bs29FcVZ6bINFQ6O
-         PSO34UEw8FnYlfDT72m+TdVxAHRVWsge35UY85AjoSrqmKRAFQSlxeXdqzyuCHYBh0TA
-         2bUCt78oVCOYnhUVdvpLLmfdI2vJGbAWC56T+aCM+jjChU30wpV22PmywSCQtV6xcnfz
-         bIzqwY0OQHiqX/tOndY3mTekYVoIRoy1mepBlHGcZRV2UasrLq2EhsPY/dLEWp7+gCX0
-         tDqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783830826; x=1784435626;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Vda1xnTOZd1wuechtYioOaYBebfyC/yXFuQlfaQigM8=;
-        b=rA83RVDl2+eWa7fFz0Z+l0+jSQj/zYwwRj0SSd5mFY5QBhDg5qt+rNnA7J1AaFFZDA
-         4uFFbH8tIRm+hleT3hAgCtP6VOKe7gr79XSl1fMuHSisQsgtJM0rrtaS5TaNexzwzx7W
-         lub7mzLJHsicmxf8KoQGkm5A+CaOKHkXGaAi7HMnKUsWF67oFahZKFoDcTGgEPAkbLvQ
-         DwOY9TesCYS0dhUbQDJeaZkFiSNB7Tp5N8GUob+JDw9s2zUl1byCxhU54OT4up+6hYpR
-         vbuaESxFmQnN3EiDcg38TRMrtEcMtxsnS/3+cy7oJbiErq0aQ8HnnnDe0Por5Uw3+ZEY
-         dZlg==
-X-Forwarded-Encrypted: i=1; AHgh+RrgzT+hvMIom7A6ybr1j+GgaWD9Sv1jqbKTgLnVoVmNUN2IFGAMQflbVj6lyK0esSassVGpd2OHiPY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQUtrKrTpXd+hpd3kHOcdAvKwqeTWJBmmmEmXGGLDLTBwAKo9s
-	R4eHaFAOuTpkRVqVGDMAqBupCxULh+bFcMoLKsxZqTwjXqpnqe5cHP1d
-X-Gm-Gg: AfdE7cmXUTlCnf/WmjEAsb5nOvwoaDdsJzfAKwICZ52vylzd7PZc5omXBE0upEFfDxX
-	w5liKwXPZRrDwNg/CRwPsYO5N/IwnPFvtVgIzgWGC/X/z0h0C/zHd29H3k8noi5jy70LuRsjOHn
-	SOCu7PsGV/PWiT8+Q7u+swdE8ZtZoa2ElOgtX0sD0DwH4GK8+Ddc93pyfbclW5QVB7uzH8BTPUo
-	d+X0Y1eVNGNLzmYUJr9XrrgcqCIdgnJ9skm8yJznDDK0teGyfyFkPvvKoYGC4ooAXynSRoQ5kvL
-	tAHLUdTWtDISeoIlYOPHsOAVSEXUn1PGSpuz80gWKSoWSAcQpuJFgHnTnzg6eyZ5QegiPozLuIA
-	I/huL2z5u0mUt2TNPpw0UbvV95yCE7cVsFOxrFsE3ZgALk/t5AF8+G/2iEThfDTnlKR5Xe+4lmH
-	E0wvVxJz53hTHc28jrLo+JALKirMWN/Go3lwq3EEj2X+f6l46B7hRuCA==
-X-Received: by 2002:a05:6a00:2d02:b0:848:587f:8ac7 with SMTP id d2e1a72fcca58-848898a7653mr4429488b3a.52.1783830826161;
-        Sat, 11 Jul 2026 21:33:46 -0700 (PDT)
-Received: from ?IPV6:240e:38b:e68:3a01:122e:6182:a598:483c? ([240e:38b:e68:3a01:122e:6182:a598:483c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-849000ae480sm1251329b3a.6.2026.07.11.21.33.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Jul 2026 21:33:45 -0700 (PDT)
-Message-ID: <40155119-b6c1-40cc-bbf2-5d1bbe5743e8@gmail.com>
-Date: Sun, 12 Jul 2026 12:33:36 +0800
+	 In-Reply-To:Content-Type; b=XWvUfoEi33tyJ1qvTBFoa5bgi0gNcOlGdbCPUYtcNoQTVTkjEFFORMI3cFiLFc6fn9c/F05GL6YDZSNrMu2WXFxLOqsNDs6PfAbNRnwMq0ACmbjSpe2Wh93PEjPj7w0V+Q4NvuTKBD+QE5cENPrNsK6cSApbAEcRBl25z/4nT/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.175.55.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app2 (Coremail) with SMTP id HwEQrAA3DjVbHFNqWBFlAA--.6772S2;
+	Sun, 12 Jul 2026 12:47:23 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wD3_+tYHFNqkMK9AA--.12741S2;
+	Sun, 12 Jul 2026 12:47:22 +0800 (CST)
+Message-ID: <91ea31b9-4154-4769-a620-43fea87cb949@hust.edu.cn>
+Date: Sun, 12 Jul 2026 12:47:16 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,67 +27,91 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: zh_TW: process: localize terminologies and
- improve fluency in 8.Conclusion
-To: Weijie Yuan <wy@wyuan.org>, =?UTF-8?B?6JGJ5a645L2R?=
- <chenyou910331@gmail.com>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, Hu Haowen
- <2023002089@link.tyut.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Dongliang Mu <mudongliangabcd@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Yuchen Tian <cat@malon.dev>,
- Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>
-References: <20260603082531.263115-1-chenyou910331@gmail.com>
- <CAKspUh+2ndK1qMP58hPPmvwczruCikEuaO2tmyw=APCGrd9yaw@mail.gmail.com>
- <alDs8bnIK8bWApIr@wyuan.org>
- <57e42f43-44dd-4b22-8d81-c88e20016138@hust.edu.cn>
- <CAKspUhKh=cT_ks1hH9B4G8KppR=XT+THHsmNUFH_irX6xo1SZw@mail.gmail.com>
- <alJ7ocaqtpUkCGrd@wyuan.org>
-From: Alex Shi <seakeel@gmail.com>
-Content-Language: en-US
-In-Reply-To: <alJ7ocaqtpUkCGrd@wyuan.org>
+Subject: Re: [PATCH] docs/zh_CN: add docs-next checkout workaround
+To: Weijie Yuan <wy@wyuan.org>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <4e5e728877c77a89f6c59e89c88ba8ffa8842643.1783609005.git.wy@wyuan.org>
+ <ce715802-1b46-4ba6-b388-39260f217ba3@hust.edu.cn>
+ <alD1b7O6KaIMqWpa@wyuan.org>
+ <f637a819-5596-4cd7-b2fe-be7293eedf14@hust.edu.cn>
+ <alD6UJw1Y2VNK3x1@wyuan.org>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <alD6UJw1Y2VNK3x1@wyuan.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HwEQrAA3DjVbHFNqWBFlAA--.6772S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW7AF4kGF45KFy7Cw4kXF1fWFg_yoW8tFWxpF
+	45JFyqyrs5Jr43tF48tw4fXF15K345GF4UJFn8Xay8Cws0gF1vgF4ft3yF9Fy7Zw4UGr1j
+	va1j9asru3W5ZaDanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPEb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUXV
+	WUAwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AI
+	YIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr
+	1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm
+	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x
+	8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1Y
+	6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
+	AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
+	2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
+	C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73
+	UjIFyTuYvjxUvO6JUUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
 
-
-On 2026/7/12 01:21, Weijie Yuan wrote:
->> For what it's worth, I am from Taiwan and a native zh_TW speaker.
->> That is actually what motivated this patch: much of the current text
->> reads like converted zh_CN rather than natural Taiwanese Mandarin,
-> So, back to my confusion again, and quote myself:
-> 
-> How exactly we define the position of Traditional Chinese or zh_TW?
-> 
->    1. Simple conversion between simplified and traditional Chinese
->       characters
->    2. Taiwanese localized traditional Chinese
-> 
-> This issue needs to be confirmed by the senior maintenance personnel.
-> (I will review the archives to confirm. If there is already a clear
-> definition, please forgive me.)
-
+On 7/10/26 9:57 PM, Weijie Yuan wrote:
+> On Fri, Jul 10, 2026 at 09:44:45PM +0800, Dongliang Mu wrote:
+>>>>> --- >8 ---
+>>>> Is this a special mark for LKML? If I understand correctly, the following
+>>>> should be the patch content.
+>>> Yes, the following is the commit message body.
+>>>
+>>> You can apply this patch by "git am -c" or "git am --scissors", which
+>>> means: Remove everything in body before a scissors line (see git-mailinfo[1]).
+>>>
+>>> https://git-scm.com/docs/git-am#Documentation/git-am.txt---scissors
+>>>
+>>> Git community sometimes use it, for the cases if you want to swap the
+>>> actual commit message and the supplementary information.
+>> Understood.
+> Sorry for any confusion.
+>
+>>>> This would make the envionment preparation more difficult. My suggestion is
+>>>> to ask maintainers of some mirror sites to sync this repo like us.
+>>>>
+>>>> Dongliang Mu
+>>> Makes sense. Could I kindly ask, for example, Tsinghua tuna team to
+>>> mirror our repo, on behalf of our Chinese document team? I'm afraid they
+>>> are unlikely to consider my request in my individual capacity. ;-)
+>> I can help contact TUNA maintainers.
+>>
+>> Dongliang Mu
+> That would be great! Apparently your words carry more weight than mine
+> ;-) So do you mean that I just need to wait quietly for your good news?
 Hi Weijie,
+Could you please try cloning 
+https://mirror.nju.edu.cn/git/kernel-doc-zh.git/ 
+<https://link.wtturl.cn/?target=https%3A%2F%2Fmirror.nju.edu.cn%2Fgit%2Fkernel-doc-zh.git%2F&scene=im&aid=582478&lang=zh> 
+and verify whether this mirror is stable?
+TUNA has limited storage capacity and has asked the NJU mirror site to 
+host this Git repository.
+We are currently diagnosing network issues on our mirror site. The 
+classic architecture — Nginx (serving static frontend, HTTPS, and 
+caching) → Apache (reverse proxy + CGI execution) → cgit / 
+git-http-backend — appears to be functional in principle.
+The clone failures with large Git repositories are likely caused by 
+insufficient or inappropriate parameter configurations rather than the 
+architecture itself.
+P.S., I am the mentor of HUST OpenAtom Club, and our club is maintaining 
+the hust mirror site.
+Dongliang Mu
+>
+> Appreciate it!
+>
+> Thanks,
+> Weijie
 
-Regarding this issue, we also have Hong Kong and Macau Traditional 
-Chinese. While they are mutually intelligible with Taiwanese Chinese, 
-there are slight differences. If a Taiwan-specific Traditional Chinese 
-translation is required, does this imply that we would also need other 
-corresponding localized translations? This is similar to English—the 
-English used in the UK, the US, Australia, and so on all differ 
-slightly, yet the kernel documentation does not maintain separate 
-versions for different countries.
-
-Furthermore, aside from a few differences in computing terminology, 
-there are no significant differences between Taiwanese Chinese and 
-Mainland Chinese that would lead to misunderstandings. In fact, many of 
-the current Simplified Chinese translations were contributed by people 
-from Taiwan, like Haowen and others. To avoid scattering our efforts, I 
-suggest we minimize fragmentation as much as possible. When it comes to 
-technical documentation translation, not literary translation, a 
-straightforward, unadorned, and free from misunderstandings is the best 
-translation and easy to maintain.
-Let's keep thing simple, unless sth is really necessary.
-
-Thanks
-Alex
