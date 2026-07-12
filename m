@@ -1,67 +1,68 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF958299943
-	for <linux-doc@vger.kernel.org>; Sun, 12 Jul 2026 21:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D68D36605A
+	for <linux-doc@vger.kernel.org>; Sun, 12 Jul 2026 21:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783891927; cv=none; b=YW9pClIJtEVjCGEBZEExIq6cOla9NlTDJJknuHAMbABoZ7fZe7TW6eTD4FtoIN2yAToTYHZD5WwWNvtIyXT253OIvH2rfI/VaJ9iQCI2eKnsxoGtIzBUIaKSTydU/geuWliT6cLkXyyRMdi7PYso8DWcSfAGYNuBp07GZCdla0Q=
+	t=1783892639; cv=none; b=MZzMjRySl8TsGY3k4XYZQzRfVicXhXreKDVrjQHuy8VPQhomCOPGqh82aR+zlj2Np4jgCDc0jmHXSFSXFDxcVAD6qaDi5qyTpjKLCN+jK3QYWoFBT1C9JgZEPkwJdCfhvvEnZ9SER0uG8CdbOPshkuWv49qOGhwTdZsrYmk+BSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783891927; c=relaxed/simple;
-	bh=y8zaWWRlBXdoCTRTCckJiK4xo6/vhohLPR6vt7YCJ60=;
+	s=arc-20240116; t=1783892639; c=relaxed/simple;
+	bh=Ncd+Nr6ElASUJrESkoYzFZAFZojPrdkqIeZ6KwQJ7lk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=BnsB1w/eryuZy/h99XaRYKRkor4gpEtz4bdnSIXcRo0Hd8+e1YV4SSz/YownZ3BPHqT0JgSSL42Ti7knysF40n821tGH7KXwKSiZNXfV1OYk6H+FuwpcOZpyR6Vj9Bo9ZQkAEBNEf+6JXK8HXkwPRkf/LAlG610+AeFDKICDR9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lcbUTVkd; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version:Content-Type:Content-Disposition; b=jehfgz+ENl2Ovw2+mFPXSgvg4SofABuhKyc/KhU9tyuHuxXvImHyQyTaaWgbvvaffyvyhx3rzcemIrQQ2DQ17Q+nNBEMibNytMm4hBM9M5nvkskSxCF2BPzwg4sNknR/uZPTAd5Bb7v9UqRk9ju7VXZsjdE5PRnDz2rDcMPhstA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AZKNgL7x; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lcbUTVkd"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-493b27c7451so43018175e9.0
-        for <linux-doc@vger.kernel.org>; Sun, 12 Jul 2026 14:32:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AZKNgL7x"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-493e4ccccc2so16044905e9.2
+        for <linux-doc@vger.kernel.org>; Sun, 12 Jul 2026 14:43:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783891924; x=1784496724; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783892636; x=1784497436; darn=vger.kernel.org;
         h=content-transfer-encoding:content-disposition:content-type
          :mime-version:references:in-reply-to:message-id:date:subject:cc:to
          :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kZTw5ebndj59SW60Cuk+CY+pvjsLxjMDKRujQQgs+Vk=;
-        b=lcbUTVkd3ccf+Thq22Ky+c8dzQYbPo0ObnecW9dPAVyHiFY/EoBVQXHi5FW0y+tWEL
-         C8wNpkDskunsZPURqpNdY0b/XHu6mW1y8+AA9+Z5fU8CRRJbH0ayLkFEqtuYuWZq0R3t
-         IYBGretYbl9Dzao1lfl2nOXVZUNkkhKuhQuFiJE2WiZcZlIKirbCzxxYaKIkkjdZgxME
-         Kfct8KzO0ueqRMnri38AEwie4+Wge7g/MTMEE1lU6rl93QljRqL3R7mVgy/xcKQmajig
-         G/n4GcDR+2rX1h1yLrrDVfcWwbShHsYjvFsxnMxjcPhR1sN9his7IJlZFJdWnv8CMHN3
-         OHng==
+        bh=HCxD8V4rPJmnTk5Z484eCKRQlIsY0VOuU0QQtm5539w=;
+        b=AZKNgL7xdrMlACtmZRTDtNywfaRyvyVbj8MW1gKds2+83tZ9EVEruUbe8w+EsVfwlG
+         gXMN5Of4yiU1DHQH+tLdysAh62SQaPGM9/xplVFwwCVhMY9Xa84fUzQtZVEMzay0G08C
+         uvWKjVWheQepbqeyF6FTQhfC6wTuNMr45mvjal92m7Vu3r3uHxe9ucOjUT/EEf4cHWf1
+         wkhvyCuc82UiSXWLLSsVT++ZvrMPAhW29hFs7VBfw6bI8cHo2R2/5akeUoAFijRNPmo/
+         3wq3+jplO7vwLUiHQDVjEsq38sUhC5FvBsKyqGhXuI23Fm6V4OeFHd4d9hRTWD9zBsXH
+         myxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783891924; x=1784496724;
+        d=1e100.net; s=20251104; t=1783892636; x=1784497436;
         h=content-transfer-encoding:content-disposition:content-type
          :mime-version:references:in-reply-to:message-id:date:subject:cc:to
          :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=kZTw5ebndj59SW60Cuk+CY+pvjsLxjMDKRujQQgs+Vk=;
-        b=m5V1rcvQTKSOIlHjQ6OtkBhtPfPxruEZYtMotdGGOODsaxoDbnX/ykq561iPXmyoYN
-         ZfIT37ajh6B/LU2nQP3yKEubq37snKd/04UKQPdQxkRrBN7r7SmaRRhsZbsVysZ0Ped1
-         B+tRBzLL+yjrIbrW6ToNeUQjrf/iImOf1RFCMcFxn6nfU3t25zOSzjHxOP8sjcSchnV8
-         a2SXsR1qooL+ilWAQkpAEu489suH5b1FjvduzBCb9R+i6HsQekU01kcYZPgm4rHxLrI3
-         36Aolf7zie4ZfWiCoGXG7nblCTFxNhIo4C5CkMfzcQgksz/bWis6O9N7b7EWedHSn8TY
-         P5Hg==
-X-Forwarded-Encrypted: i=1; AHgh+RpducI5MNc0M1Y6nBQLAZox9873H6BtH+SQqS5lIqCsT8OKRwG3t2/D0A4lQxajWE3qJ55ONCLzCQA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzHhKs5Qd+Pti88xVhN7213/gyFDeJi9N9R/2fd3ZXdglLF8hk
-	FogtKT7uTuta5TjnoWmbNEojHGyXZWWqckH4/EmmyMc/VtJauoLlIdxK
-X-Gm-Gg: AfdE7cknRg48mWglx8dnEknQii5DTUoL8COHAtAYxUh475viP39t05YX14fhKQ2ElaL
-	7bfadbxPD5ObExxvTjoCMRyXEi9VrajuU13UIg0OJXXC+24NzFtrBrf4G1WgBCFFQAweXVLMx0K
-	AoCcOgC6T+4/TRIawnRY7LZCNkXtUaaGjjTKtZP4I7LUHi90WRvvcjAOu1CMohdaUZAU4H2jKwz
-	TcZ//jFIlOA/oaIDrVpBHMjChn4x+N7AblPhVB2a3RSqH+72RHubMJOugOpKgzw82rxkUbW40qv
-	qaxaZm+Nzxd88bNCBkt721YndM8yGrGMLfS8+7g8xvPLWwJ7rRNnXcj+tQkRN94LSs4iqMKnDyv
-	+RblpME6W5xAF+sOvqDFaJv03nwxB1xL+K7S4ERjyGEL60pxJjMjND/cI4q3dulq6xLpcFF+k49
-	F+YnOIiTyBPrIp34GUnKCDO7YzStAOBeZD
-X-Received: by 2002:a05:600c:1c27:b0:492:3fb5:3a17 with SMTP id 5b1f17b1804b1-493f887ab70mr70822705e9.2.1783891923923;
-        Sun, 12 Jul 2026 14:32:03 -0700 (PDT)
+        bh=HCxD8V4rPJmnTk5Z484eCKRQlIsY0VOuU0QQtm5539w=;
+        b=K4zhDUMEM3EoGaO8vPypf1Xa7LcnCSDZwgHwX21GYgE92GeJKYn2i7ninjJrho18hA
+         Mrty71r3WsvkBNOqz5liNnHhWNHSD8NSlW+BF6pKjVVKR87AmxDV0hD0TS/N0mYb3g5B
+         9EDL7pbS9unX9PgtIbB0whdrKM9Y16eu7uZC2dPfvH5Y1PmBRIGkqzYwxNB+k6zCdRsj
+         GJlMr2ryQk//7nYL3fg7CpT8j3yBv+iwt0g3+3xC6uOisk8cZjC6cxNGnfQBQYaeo9Fs
+         tkGOxqpLd2YWe/hpFvDZthyISd+KouRnoTwb73hGRs8gTLalZBdmn6eNOW/5rYcYNCkO
+         kJWw==
+X-Forwarded-Encrypted: i=1; AHgh+RqwAyl+WCKPhURF9TPKMl88xNqkQEsyT3TI53L4EztplRkbJ4Vx8BPRmNS9p2wf3poMlaPUSc3BAOU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnqgsRqJ4roA8qZA6FPJQzsrqTAbaInYUDSbxMAabQXMfH+9A2
+	w5vExeBDTKnBZvaw3b46kCpLRweXZmXkTxzg4RVYJrg+3jKnhiXGinqh
+X-Gm-Gg: AfdE7cmzGk70wp93lvOTWMbm9ZB64TGIkh1BR0JFrF0U9FdBayC/06lvIq2rsVVn1Gb
+	XRNyuP4eHq35vxPg7RBbRGzZFySvFv7rsu36YuaSPeNSunMXBaII04gnNmvVloxhVYGtcdT4oNZ
+	kpGURvZfSZ3yB6rgTY4vZO5+npXQnQD72191YeK0Yxrt0CtkuOJ2kw1ZJcEs66x/lZ+tSrtAxDc
+	wUzM7DnKXZL8ulUyfjlizC5LSAcTRXvm8mxhjk/3VTE7ekMv0rbRf7Ck8NpGp8KOuD7z79ZExbl
+	hfZQRxGgiqklJYlSkq+8lNcZazVD1/ZtwyTscks6d048MuEW8+x8ggxiuEgl9MoZZXf2bNL4rSp
+	Pc48dsz52LhSDjjTbXSxOFBD09j6pYqu6DizfsPhbwwUQpUn7runkNDiOX5SKkA9x3S30Q5HYlI
+	xzXeBHxliQlQ4m+9NFCwp/Tg==
+X-Received: by 2002:a05:600c:4691:b0:493:f764:1f69 with SMTP id 5b1f17b1804b1-493f87d5d44mr61691195e9.8.1783892635821;
+        Sun, 12 Jul 2026 14:43:55 -0700 (PDT)
 Received: from WindFlash.powerhub ([2a0a:ef40:f61:3b01:d08a:833b:756:8fce])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6df417sm332803075e9.8.2026.07.12.14.32.02
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493ffd304d8sm42196365e9.0.2026.07.12.14.43.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 14:32:03 -0700 (PDT)
+        Sun, 12 Jul 2026 14:43:55 -0700 (PDT)
 From: Leonardo Bras <leobras.c@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: Leonardo Bras <leobras.c@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Ingo Molnar <mingo@redhat.com>,
@@ -125,12 +126,12 @@ Cc: Leonardo Bras <leobras.c@gmail.com>,
 	linux-mm@kvack.org,
 	linux-rt-devel@lists.linux.dev,
 	Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH v4 1/4] Introducing pw_lock() and per-cpu queue & flush work
-Date: Sun, 12 Jul 2026 18:32:01 -0300
-Message-ID: <alQH0VK2X2smhaWQ@WindFlash>
+Subject: Re: [PATCH v4 3/4] swap: apply new pw_queue_on() interface
+Date: Sun, 12 Jul 2026 18:43:48 -0300
+Message-ID: <alQKlBaKIOAxMzc2@WindFlash>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <87tsruvv6z.fsf@trenco.lwn.net>
-References: <20260519012754.240804-1-leobras.c@gmail.com> <20260519012754.240804-2-leobras.c@gmail.com> <87tsruvv6z.fsf@trenco.lwn.net>
+In-Reply-To: <20260520150736.HZnlFkv7@linutronix.de>
+References: <20260519012754.240804-1-leobras.c@gmail.com> <20260519012754.240804-4-leobras.c@gmail.com> <20260520150736.HZnlFkv7@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -141,202 +142,89 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-On Tue, May 26, 2026 at 01:15:32PM -0600, Jonathan Corbet wrote:
-> Leonardo Bras <leobras.c@gmail.com> writes:
+On Wed, May 20, 2026 at 05:07:36PM +0200, Sebastian Andrzej Siewior wrote:
+> On 2026-05-18 22:27:49 [-0300], Leonardo Bras wrote:
 > 
-> > Some places in the kernel implement a parallel programming strategy
-> > consisting on local_locks() for most of the work, and some rare remote
-> > operations are scheduled on target cpu. This keeps cache bouncing low since
-> > cacheline tends to be mostly local, and avoids the cost of locks in non-RT
-> > kernels, even though the very few remote operations will be expensive due
-> > to scheduling overhead.
+> after digesting the slub patch,
+> 
+> > @@ -882,38 +879,38 @@ static inline void __lru_add_drain_all(bool force_all_cpus)
+> >  	 * If the paired barrier is done at any later step, e.g. after the
+> >  	 * loop, CPU #x will just exit at (C) and miss flushing out all of its
+> >  	 * added pages.
+> >  	 */
+> >  	WRITE_ONCE(lru_drain_gen, lru_drain_gen + 1);
+> >  	smp_mb();
+> >  
+> >  	cpumask_clear(&has_mm_work);
+> >  	cpumask_clear(&has_bh_work);
+> >  	for_each_online_cpu(cpu) {
+> > -		struct work_struct *mm_work = &per_cpu(lru_add_drain_work, cpu);
+> > +		struct pw_struct *mm_pw = &per_cpu(lru_add_drain_pw, cpu);
+> >  		struct work_struct *bh_work = &per_cpu(bh_add_drain_work, cpu);
+> >  
+> >  		if (cpu_needs_mm_drain(cpu)) {
+> > -			INIT_WORK(mm_work, lru_add_drain_per_cpu);
+> > -			queue_work_on(cpu, mm_percpu_wq, mm_work);
+> > +			INIT_PW(mm_pw, lru_add_drain_per_cpu, cpu);
+> > +			pw_queue_on(cpu, mm_percpu_wq, mm_pw);
+> >  			__cpumask_set_cpu(cpu, &has_mm_work);
+> >  		}
+> >  
+> >  		if (cpu_needs_bh_drain(cpu)) {
+> >  			INIT_WORK(bh_work, bh_add_drain_per_cpu);
+> >  			queue_work_on(cpu, mm_percpu_wq, bh_work);
+> >  			__cpumask_set_cpu(cpu, &has_bh_work);
+> >  		}
+> >  	}
+> >  
+> >  	for_each_cpu(cpu, &has_mm_work)
+> > -		flush_work(&per_cpu(lru_add_drain_work, cpu));
+> > +		pw_flush(&per_cpu(lru_add_drain_pw, cpu));
+> >  
+> >  	for_each_cpu(cpu, &has_bh_work)
+> >  		flush_work(&per_cpu(bh_add_drain_work, cpu));
+> 
+> Why do we have two iterations here? Is it just a proof of concept that
+> is not complete yet? I am curious why it is okay/needed to "remove" the
+> one workqueue but not the other. Maybe the other does not bother as much
+> as the other does.
 
-Hi Jonathan, thanks for reviewing!
+Argh, sorry about the above :/
 
-> 
-> A couple of documentation-related nits:
-> 
-> > ---
-> >  MAINTAINERS                                   |   7 +
-> >  .../admin-guide/kernel-parameters.txt         |  10 +
-> >  Documentation/locking/pwlocks.rst             |  76 +++++
-> 
-> You have added a new RST file here, but haven't added it to the table of
-> contents in index.rst.  So it won't be part of the docs build.
-
-Ooops, will find a place to add it then :)
-
-This part was added by Marcelo, I have no experience on adding docs to the 
-kernel tree. Your suggestions will be really useful :)
-
-
-> 
-> >  init/Kconfig                                  |  35 +++
-> >  kernel/Makefile                               |   2 +
-> >  include/linux/pwlocks.h                       | 265 ++++++++++++++++++
-> >  kernel/pwlocks.c                              |  47 ++++
-> >  7 files changed, 442 insertions(+)
-> >  create mode 100644 Documentation/locking/pwlocks.rst
-> >  create mode 100644 include/linux/pwlocks.h
-> >  create mode 100644 kernel/pwlocks.c
-> 
-> [...]
-> 
-> > diff --git a/Documentation/locking/pwlocks.rst b/Documentation/locking/pwlocks.rst
-> > new file mode 100644
-> > index 000000000000..09f4a5417bc1
-> > --- /dev/null
-> > +++ b/Documentation/locking/pwlocks.rst
-> > @@ -0,0 +1,76 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +=========
-> > +PW (Per-CPU Work) locks
-> > +=========
-> 
-> The over/underlines should match the text in length.
-> 
-
-Will change!
-
-> > +Some places in the kernel implement a parallel programming strategy
-> > +consisting on local_locks() for most of the work, and some rare remote
-> > +operations are scheduled on target cpu. This keeps cache bouncing low since
-> > +cacheline tends to be mostly local, and avoids the cost of locks in non-RT
-> > +kernels, even though the very few remote operations will be expensive due
-> > +to scheduling overhead.
-> > +
-> > +On the other hand, for RT workloads this can represent a problem:
-> > +scheduling work on remote cpu that are executing low latency tasks
-> > +is undesired and can introduce unexpected deadline misses.
-> > +
-> > +PW locks help to convert sites that use local_locks (for cpu local operations)
-> > +and queue_work_on (for queueing work remotely, to be executed
-> > +locally on the owner cpu of the lock) to a spinlocks.
-> > +
-> > +The lock is declared pw_lock_t type.
-> > +The lock is initialized with pw_lock_init.
-> > +The lock is locked with pw_lock (takes a lock and cpu as a parameter).
-> > +The lock is unlocked with pw_unlock (takes a lock and cpu as a parameter).
-> 
-> Did you want that to be an itemized list?  If so, put "- " in front of
-> each line.
-
-Oh, good idea!
+Slub was converted on a previous patchset version, and rebasing worked 
+fine. I should have properly checked if any other mechanism was added in 
+the file, but ended up just checking the one that was already converted.
 
 > 
-> > +The pw_lock_irqsave function disables interrupts and saves current interrupt state,
-> > +cpu as a parameter.
-> > +
-> > +For trylock variant, there is the pw_trylock_t type, initialized with
-> > +pw_trylock_init. Then the corresponding pw_trylock and pw_trylock_irqsave.
-> > +
-> > +work_struct should be replaced by pw_struct, which contains a cpu parameter
-> > +(owner cpu of the lock), initialized by INIT_PW.
-> > +
-> > +The queue work related functions (analogous to queue_work_on and flush_work) are:
-> > +pw_queue_on and pw_flush.
-> > +
-> > +The behaviour of the PW lock functions is as follows:
-> > +
-> > +* !CONFIG_PWLOCKS (or CONFIG_PWLOCKS and pwlocks=off kernel boot parameter):
-> > +        - pw_lock:			local_lock
-> > +        - pw_lock_irqsave:		local_lock_irqsave
-> > +        - pw_trylock:			local_trylock
-> > +        - pw_trylock_irqsave:		local_trylock_irqsave
-> > +        - pw_unlock:			local_unlock
-> > +        - pw_lock_local:		local_lock
-> > +        - pw_trylock_local:		local_trylock
-> > +        - pw_unlock_local:		local_unlock
-> > +        - pw_queue_on:         		queue_work_on
-> > +        - pw_flush:	            	flush_work
-> 
-> This will not render the way you expect it to.  You want a literal block
-> ere.  So end the text with "...is as follows::"  and indent the entire
-> literal block.
+> But essentially we can't use a spin_lock_t here because due to the
+> hotpath nature of the code it will kill performance. 
 
-Will do like this!
+Correct
 
-> 
-> > +* CONFIG_PWLOCKS (and CONFIG_PWLOCKS_DEFAULT=y or pwlocks=on kernel boot parameter),
-> > +        - pw_lock:			spin_lock
-> > +        - pw_lock_irqsave:		spin_lock_irqsave
-> > +        - pw_trylock:			spin_trylock
-> > +        - pw_trylock_irqsave:		spin_trylock_irqsave
-> > +        - pw_unlock:			spin_unlock
-> > +        - pw_lock_local:		preempt_disable OR migrate_disable + spin_lock
-> > +        - pw_trylock_local:		preempt_disable OR migrate_disable + spin_trylock
-> > +        - pw_unlock_local:		preempt_enable OR migrate_enable + spin_unlock
-> > +        - pw_queue_on:         		executes work function on caller cpu
-> > +        - pw_flush:            		empty
-> > +
-> > +pw_get_cpu(work_struct), to be called from within per-cpu work function,
-> > +returns the target cpu.
-> > +
-> > +On the locking functions above, there are the local locking functions
-> > +(pw_lock_local, pw_trylock_local and pw_unlock_local) that must only
-> 
-> If you write functions like pw_lock_local(), you'll get automatic cross
-> links to the kerneldoc documentation ... which I'm sure must exist ...
+> So instead we do it
+> anyway but behind a switch so that only those suffer from this that do
+> not want to suffer from workqueue interruption on a NOHZ full system,
+> right?
 
-They will be added at this patch, so I will add the () so the link works :)
+Yes, one can choose to pay the price to use spinlocks here and have less 
+workqueue interruptions, if !CONFIG_PREEMPT_RT
 
+In case of CONFIG_PREEMPT_RT, we have the local_lock() already becoming a 
+rt_spinlock(), so it already pays the price to hold the lock. So it should 
+be basically free on this scenario, and save time by doing the operation 
+remotelly instead of scheduling it.
+ 
 > 
-> > +be used to access per-CPU data from the CPU that owns that data,
-> > +and never remotely. They disable preemption/migration and don't require
-> > +a cpu parameter, making them a replacement for local_lock functions that
-> > +does not introduce overhead.
-> > +
-> > +These should only be used when accessing per-CPU data of the local CPU.
-> > +
+> I thought that this improved since commit
+>   ff042f4a9b050 ("mm: lru_cache_disable: replace work queue synchronization with synchronize_rcu")
 > 
-> [...]
-> 
-> > +#else /* CONFIG_PWLOCKS */
-> > +
-> > +DECLARE_STATIC_KEY_MAYBE(CONFIG_PWLOCKS_DEFAULT, pw_sl);
-> > +
-> > +typedef union {
-> > +	spinlock_t sl;
-> > +	local_lock_t ll;
-> > +} pw_lock_t;
-> > +
-> > +typedef union {
-> > +	spinlock_t sl;
-> > +	local_trylock_t ll;
-> > +} pw_trylock_t;
-> > +
-> > +struct pw_struct {
-> > +	struct work_struct work;
-> > +	int cpu;
-> > +};
-> > +
-> > +#ifdef CONFIG_PREEMPT_RT
-> > +#define preempt_or_migrate_disable migrate_disable
-> > +#define preempt_or_migrate_enable migrate_enable
-> > +#else
-> > +#define preempt_or_migrate_disable preempt_disable
-> > +#define preempt_or_migrate_enable preempt_enable
-> > +#endif
-> > +
-> > +#define pw_lock_init(lock)							\
-> > +do {										\
-> > +	if (static_branch_maybe(CONFIG_PWLOCKS_DEFAULT, &pw_sl))		\
-> > +		spin_lock_init(lock.sl);					\
-> > +	else									\
-> > +		local_lock_init(lock.ll);					\
-> > +} while (0)
-> 
-> Sigh, I guess I was over-optimistic about kerneldoc comments.
-> 
-> Is there a reason why these aren't inline functions?
+> Did it get worse or was it not entirely gone?
 > 
 
-I could not find a way of making *_irqsave() an inline function, so ended 
-up using macros as they looked simple enough (and the underlying functions 
-would take care of type check). Already working on converting as many of 
-the above as possible. 
+I worked in this patchset majorly after that commit date, and it was still 
+an issue up to last time Marcelo tested. Not sure of the impact of above 
+commit, but I suppose it may have brought some improvements without fully 
+fixing it.
 
-Thanks again for reviewing!
-
+Thanks!
 Leo
