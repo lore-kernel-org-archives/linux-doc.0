@@ -1,106 +1,87 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D7E1925BC;
-	Sun, 12 Jul 2026 10:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783853164; cv=none; b=XPYOIninxYBaY++d5w1QO7n0OZV1GUNhHiIclF3w+17nBab9QOUTENJLfzFYStk5vMTqh4nT1eWL7wUladE0Q1jGzh0fsG3ADz9i2//jUZNNMXOwC0tBac3jQ8F9sMBzGTtAVtInNtrSEhdVrr4U+35lNSvuNiBpjJk8+/4VjEg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783853164; c=relaxed/simple;
-	bh=HaWCVERoRq2AA5EvK5SjC4HIhI5tbIzi0oOykG/xBMw=;
-	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=RKroXurxC2KvfUfM8TtO9SX0cZRhD6Ne34TRkDhGD5uetrRIyjec3wjrC2fJRYhSyrcJ8Ni5v2t2Inr+Uw3Jg6jWfEb9Z982kr906g16fyDSkcKG3SHw5qNk2kXmx0/gJF5cxTEjycNvX+vxsOmxQUGYmSetiJ8BxqaqHFij5zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=OuWrgPEM; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6FAF24336D;
+	Sun, 12 Jul 2026 11:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783855210; cv=pass; b=lnP7g6rLvUFyO3oHl7vNHUXTlarJYSoAEykSc+3tkL7bfXMvGwzbi99qzWZiHX12KTOA9fXPv3TyUJOF75arXfNjmW9I/NJBUT5dzjXlzgKMgk1CYzHmcot4u8xMtsYVY3Rw5lBLSWnKku1dhJnCJX4MbCpYxxcm8F7mURQB5UE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783855210; c=relaxed/simple;
+	bh=czHN4mzH8v7HuuPxICj5uvc3lTRI5qw330MjxLOLEYU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
+	 References:In-Reply-To; b=L54YLaw6kB4mS05yi8/pOO+Y4f6phONdFnXyU/jmYNX/Xrpx+5spekm4w4BQSunzFn7nMZ2qPoIj+s+FxGIkVFnHAPgX1LDIkIfgj8hSBrfmYN/7Bl0FXZ/r+QMLTmdU2SNXZwq+EzvVpKzNFqqBQnq31P4QQ5Z3ydEvapSb7I0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=P25iAD99; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="OuWrgPEM"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gyj0P45qQzMlGQ;
-	Sun, 12 Jul 2026 12:45:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783853157;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=GcPKYfGjX+0DSaOR/OjGNIz04gXSzzPUKL3t2tQNdEg=;
-	b=OuWrgPEMWC0Z/ooU10kXLcW0cJGxdFqzqLjJEsAOBxjP2V0lbeGqQ9gbYv9ZY4nmv1yCb5
-	dv5OkDMjLElMCp9lzxyUGzYXBwljBYIXHP6Md1Yu1owzAMT+v7JET4ZlCHizI7+E+X7qPf
-	I2He0iWVtw1a/5CEdtORVPmRd/T1+YjZNA1ez2smKxNRUyL1uOMa24kuNxWBT1LF/6Gdoz
-	QxU+jKo+e6ZYcIuCiiO4pQKI6IxpFbr+o3I6GgNZ6FrooVNlx8xiwP3ej1Mtp+e/x1kY9N
-	ayqFUxMKkClRkmFM8ofEKluoZ4Hre+xqPylCcfWRiUMLYtwNlM+Ugl1Z8GXvVA==
-Message-ID: <98a558a87a07ab641f47c66c372ee7ed0735f4f5.camel@mailbox.org>
-Subject: [Issue] maintainer-handbooks: html: list has duplicates
-From: Manuel Ebner <manuelebner@mailbox.org>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	workflows@vger.kernel.org
-Date: Sun, 12 Jul 2026 12:45:53 +0200
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="P25iAD99"
+ARC-Seal: i=1; a=rsa-sha256; t=1783855203; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=d0Zwk4omcLtVCdc345Pg3+CWDq7SLZtI3Wrc6kzkNbhzk3vaxCMEpCQQN2JR4AdkjiETXMlPg4Wr5nvwwVMErhVxbeU71pXlVmZaOdxYSgjGUfL92mX44HKYnp3r4nyWK5j86qUQnaC6kACCk7+iJAUPtg3ZPAMcFx94CcKPnQ8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1783855203; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=czHN4mzH8v7HuuPxICj5uvc3lTRI5qw330MjxLOLEYU=; 
+	b=MoyUoE4N85kk9EALlU1fZ+Ocj6BCv7FmLl/IGPdR6dJyVBu9dLmnky1pa5b616HmcZX8eJjyVZRMIsRC0jwJIgFboWQdrEwwYXYBCAKj7TQq4CpQzX2DKxVPSevdBs4sq8si/rB6dWAGfoii+PHx9LDTg03/giKh2YV7l+zjoKU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=ritovision.com;
+	spf=pass  smtp.mailfrom=rito@ritovision.com;
+	dmarc=pass header.from=<rito@ritovision.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783855203;
+	s=zmail; d=ritovision.com; i=rito@ritovision.com;
+	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Subject:Subject:Cc:Cc:From:From:To:To:References:In-Reply-To:Reply-To;
+	bh=czHN4mzH8v7HuuPxICj5uvc3lTRI5qw330MjxLOLEYU=;
+	b=P25iAD99dYjxX+0d3rtiVVrTmoOx0kGZ9v/bShuBMiCt0hd9cfiBzNcbiX1PP+ei
+	e4r3ueYZSXS7QIbG4upDcLuTS4VT5zrQBqxpef9hJWIh/qKkKpRof+HfJ5BONLdlQ08
+	QRIp5dwqeiWcYUQ+S377EpI37i7agZ6ggXHa1e+Q=
+Received: by mx.zohomail.com with SMTPS id 1783855201176945.8781942050364;
+	Sun, 12 Jul 2026 04:20:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MBO-RS-ID: 0daaf726eff926e7231
-X-MBO-RS-META: g5jufyd1o8f1apdb7in4efwbxc5fcf9t
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 12 Jul 2026 07:19:57 -0400
+Message-Id: <DJWJW4K4MAFK.2RJI3ENU1NQYE@ritovision.com>
+Subject: Re: Bad wrapping in some tables
+Cc: "Rito Rhymes" <rito@ritovision.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Daniel Lundberg Pedersen" <dlp@qtec.com>, <linux-doc@vger.kernel.org>,
+ <linux-media@vger.kernel.org>
+From: "Rito Rhymes" <rito@ritovision.com>
+To: "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>, "Hans Verkuil"
+ <hverkuil+cisco@kernel.org>
+X-Mailer: aerc 0.21.0
+References: <c542aaf7-6a40-4730-8bd6-208c9fe932d5@qtec.com>
+ <87pl0yr9ah.fsf@trenco.lwn.net> <DJUP0UXLLHJ0.3P121A982R9TP@ritovision.com>
+ <7fcac682-60e3-4e1d-b26b-5b23f8035a91@kernel.org>
+ <20260710104220.2b165f2d@foz.lan>
+In-Reply-To: <20260710104220.2b165f2d@foz.lan>
+X-ZohoMailClient: External
 
-Hi,
+> Breaking up literals is more important on PDF output, if one wants to
+> print the documentation.
 
-I was reading documentation when I stumbled across this. There's a lot of
-repetition in the list at: https://docs.kernel.org/process/maintainer-handb=
-ooks.html
+Could you clarify what you mean by PDF output here? Are you referring to
+printing the HTML page through the browser, or to the PDF generated by
+the Sphinx build process?
 
-See below.
+Are there any known problems or constraints we should account for
+printing? I assume you may mean that long unbroken literals can make
+tables wider than the printable page and hide outer columns, that and
+horizontal scroll overflow in general may be clipped when printing,
+making wrapping preferable for that output.
 
-Thanks
- Manuel
+That makes sense for print, but it is not necessarily the preferable
+behavior for navigating the normal HTML page, where contained horizontal
+scroll overflow can preserve the page and table structure. I do not
+think the print constraint should override the primary HTML
+presentation.
 
-> [...]
-> For maintainers, consider documenting additional requirements and expecta=
-tions if submissions
-> routinely overlook specific submission criteria. See Maintainer Entry Pro=
-file.
->=20
->     process/maintainer-soc
->     process/maintainer-soc-clean-dts
->     process/maintainer-soc-clean-dts
->     Audit Subsystem
->     process/maintainer-tip
->     process/maintainer-tip
->     mm/damon/maintainer-profile
->     process/maintainer-tip
->     doc-guide/maintainer-profile
->     process/maintainer-tip
->     process/maintainer-tip
->     process/maintainer-soc-clean-dts
->     process/maintainer-tip
->     process/maintainer-tip
->     process/maintainer-tip
->     filesystems/nfs/nfsd-maintainer-entry-profile
->     process/maintainer-kvm-x86
->     nvdimm/maintainer-entry-profile
->     nvdimm/maintainer-entry-profile
->     nvdimm/maintainer-entry-profile
->     process/maintainer-tip
->     driver-api/media/maintainer-entry-profile
->     process/maintainer-netdev
->     process/maintainer-netdev
->     process/maintainer-tip
->     process/maintainer-tip
->     process/maintainer-tip
->     process/maintainer-tip
->     arch/riscv/patch-acceptance
->     Rust
->     Rust [Pin-Init]
->     process/maintainer-tip
->     Security Subsystem
->     Selinux Security Module
->     driver-api/vfio-pci-device-specific-driver-acceptance
->     process/maintainer-tip
->     filesystems/xfs/xfs-maintainer-entry-profile
+I would like to account for both. If this concerns browser printing, we
+may be able to apply the necessary wrapping selectively through
+`@media print`.
+
+Rito
