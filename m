@@ -1,444 +1,273 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012037.outbound.protection.outlook.com [40.93.195.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D9C324B22
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 17:16:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783963018; cv=none; b=Hyq9QLBDzSf2B0v/K363lO3gMm66ymQR37EdWTlUNHKz5aJmS8iCjD53cQY+S7K3MkfKQlegix3c4Q2TxuaT4mcEGX/Dox/sSFD4EOcljTBIQiTUpd8zZv3yH/+R9ZQrMoszs9PRDamW83Xs1Btag5KDfxm6jk/DLm88EKteBbI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783963018; c=relaxed/simple;
-	bh=D2R8QizWQ1Oql3WPKOFAzvhJaMnvI8vie8NTAJWg3Yo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WEU2ykVU5/raJts+bfVyinZM0SAl2ghd33mzFOJ34DFaC/upNNfOOJREp4UkWHkfQosHytP9uoOIT5Vlq5s1Nd+D3P8nXyDhAUHCf8u832OOszyPp21qv60D8jST9z7R20GNXmSjvI7PsdQPuZyWGOIPJJk2iIP0KqtQOU/mr0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xofpQroK; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF5134D4FE;
+	Mon, 13 Jul 2026 17:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783964439; cv=fail; b=jqu6dbuDCUsQZbQYS11Yqt0GD1EdohxxdoOTVHFSt7Bb03/lDKXLA+Qu0OUNYyTQjJcolY3lzhtX4uuvYBMHlciby0NSWtUxKZcYwgTBPVtS/Rb+jpb7b8bW31ilOcEotvjW9Nfhku6RSidohHETs3zk0xr2O3hPB/+WRtfDL7g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783964439; c=relaxed/simple;
+	bh=K4hThv6lnbTUWCF6clTHQQXceHRbFrYyIOJH8mz9GC8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=t8zyKZLnBQu3p9y5iZYdKiRpkblLhVba/OD9VGN8ystJm4NsQna9mlsDoUAy/t0ApnhfBCbf1lUU4rKiJz8Y84BJAP0eOYicyF26uKgeXCONtaBUdEERYxJ466dhGa4q1XmxRXXOBio+fVpFz1TFfvCv+i5p8uKBEFOUjwJn/Rk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=S2/FTYnb; arc=fail smtp.client-ip=40.93.195.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xofpQroK"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-84867f07d63so3776712b3a.2
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 10:16:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1783963016; x=1784567816; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=QMgQ2I83fSpv8VMH24bAJ52LUeteHATXzfSwUe6AnTM=;
-        b=xofpQroK4pwX9J6S9Vcf6aTb52C7dX8F49tJEuXn+7UCvrlGoSL5wOWiHE9AfQdA1F
-         kcxdtKzrKb7xgcD6IP+Tv2BSOU/ouqnDzk+tEurIhV6AKunMbxsiIc6bJWKnFjH3Ju7E
-         vnqi/8SDiV1thofzLe9w6sg+JwAxoBBByNbRUqKZgnTceVaGvqt9AzuhQVweFNbxJYir
-         hV7cCGOg8vHJKDkwyBk8AbibWMTQA3Z3/HiElK6WSU8I3f72RwhMrDOe4tB4Fuy41iCe
-         JnFm91Ky/R0uQxuUCaduXxgaJalnrD/IxIiHIrH2M3bUIW07M4Pv07XnIxEXIHkqc48Q
-         3JeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783963016; x=1784567816;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QMgQ2I83fSpv8VMH24bAJ52LUeteHATXzfSwUe6AnTM=;
-        b=ZHSlrWngCayu1G8KAVQCjfJMJLxJXCBmT6Mt2G9phWiMH2ynDPZSbkKwO4MYLbeuy5
-         9jDBKIPdYyMj+2xfx6aoKeaKIheY2XNELy5g2cWDh+jHw5kTAYIC0rBpwjQro7krAaiR
-         nZH9uwYwgnPwBPNVQRkLROhBjQoOhGUUkil5BZ15VmjCIf9hQjP/tYpVzYGmLbo7wfk+
-         vYo4+E1cuce4ECG6+Wnb09QQ9TchIp+ZdzKiEZdRZSRdqy+9ZEPuy9ItfAn5Eyb7HvLB
-         YJ7uKpE2mb1VimjRvAaRCjCRevSY2NZ5Fh8AE7XiR55p4bLmHITAYqAlpzjxh81tS2Lm
-         w4Aw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr7jM7lSRBUdQqmmoUccsECITqHD2qOMm/Vll60l8Y8dCwG8Wmkr0OJ9u9/0gJdMXd6XH2fCkHqL8Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgETeH6OaEPQF5fNjDoB/OrTHLkeidQjyVtpCcEKnZE4C27Ki3
-	kWn2q0peP0I8GD4o9GjmZZymJEdITdFfM9PppEqP0RjmM0wr2l3IIYxhWMeoYX3031s=
-X-Gm-Gg: AfdE7ckt2KK7czN71U2XMKvDGd37v5++KNfAajZvPctOrRtnWeK/H2YSVWjhRiEVMYz
-	PmDjtxn51xlqiuMVxVSpzyOLADOE7ET//RDfuPtTVni9ggRlKLa6b0pW9AQQZXM54dEjWKFTaZL
-	YhtIWnHJF3qGeFBZNuYzBShLYMgLvCIPptAfvdzdJhG5LWGhCnaguiFPDfW5o7fPdty8GFLp//4
-	GAS/6fpHbWTHEtgKPzKyuq6PhwFDt7z9okvsguaDBU8B30bfd/UIBRiUXRd+E4a1WSX8Mw4KBGS
-	ralj8GHzW6XDkyTNioZdQ5IHKLvypCy8ecJwyeQ0Q/lVUgU1/c/yUsCFA8v2vCBJm50G8S+OoAT
-	SF7g+t1KBdSjnK6Sj6OCHQV3NJbgCbP0aPulbNbphaRjLJiHsEzV0FTrljNAq2UGZoBalLl8aQ0
-	K1+/jrA/T3fr/VM33Piu5PwphoWhw=
-X-Received: by 2002:a05:6a00:4405:b0:848:2f7a:2e56 with SMTP id d2e1a72fcca58-84889753bcfmr8957113b3a.69.1783963016003;
-        Mon, 13 Jul 2026 10:16:56 -0700 (PDT)
-Received: from p14s ([2604:3d09:148c:c800:3ead:2a56:27bf:77cb])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84a4f819117sm137812b3a.59.2026.07.13.10.16.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 10:16:55 -0700 (PDT)
-Date: Mon, 13 Jul 2026 11:16:51 -0600
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: Shenwei Wang <shenwei.wang@oss.nxp.com>
-Cc: Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>,
-	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-imx@nxp.com, Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>,
-	b-padhi@ti.com, Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH v14 1/5] docs: driver-api: gpio: rpmsg gpio driver over
- rpmsg bus
-Message-ID: <alUdg9iTysXCFUa5@p14s>
-References: <20260625155432.815185-1-shenwei.wang@oss.nxp.com>
- <20260625155432.815185-2-shenwei.wang@oss.nxp.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="S2/FTYnb"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=J2+EX3PbSFgEJjN5xBGn9juVeZBN4hYJOtXIQtBS8FKRZ2EHIvo1TiyhQakwSYjDOSnfp7a7/vUI7PmPY0HbhwbCF58DeeQhd7Eof/H+T720tBlSAfFjNsVpR/VEWhvwxqU5Al/pKpqIy1SEFWNOY8BSBzimyOEwiMT3LBDDotqXblp7uDyAOLmxsa2DB1qTqfdIF9LDq2AjaOksVYU/Mo6PAH1Sjl0E2z1iqdCRpps1XUpzPe7WwSV8DLsMuDtBpQW57ID6A3mJf/krr0XybyqL2TBSiGX85ocTs5SYsbHEUsyKgsq7b7xKvlLZCHPSsOSevZ8vnMYyHRAvcM2Z9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cq8RP8jngoGDxJ542K0U/HE7eWn/mffYzdyUDBEd03Y=;
+ b=uSUJIceXo/RkcSBxjxrIT9rq6XUsxC26sAvRRvCyZXSRKXTvTjeW6kXQf8xWXeE6y2mH/klwWB1LD4feER1EHrnGxwbsICIQ5BR3+tP+fQaqMGF1WyiCKcyIGfCzecZjZA1qIpUtiWd8O/EhNQSqcujtSX50H+JGS9tSiVUJ/Efb56Ns7QwS06cBhRTu+9qAPPYFvo/DvXn6EpVFJgYgEydBd3eqmSKb8Ubpm9pve8u4b3/I16wzQMmpGmxAEyXZLGiCASHo6/pZ0WWHDAmST+TUTmPefwQ2yhgJD1hxdq22R9pkvodgJho0t1YRn7B5iNsFQEzbXjC6kwgqLZxFXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cq8RP8jngoGDxJ542K0U/HE7eWn/mffYzdyUDBEd03Y=;
+ b=S2/FTYnbLPHsyvfLUMkgMbzLrtqKgFF9fmTj/DDwkqVsmGHjHeBef3kNZt5RWmP+oH7xSIuHxfMkD93L2adHar1sNmfm9Y2TGxOG1yUbp4rXtQmQK2GkIpc+jTAZagK1u0T5dbThbqra6pPZRDC53zeWp5Sfm7ZiH+it338pCoaCsalBHXGpSNvwPOnYSlmBPdeOQ9ulod6rjmgd9UVBQ1xfl8RTbdult+19UPPOQmvh7JGmb+GDAJSGEWBQoFqSt5BkU1671n06CKxG4AFFtCGUxB6dmp7yTZ2fjD3H9fF9+CN6l5EbtPhCBQE8y1eCBEFlwR8QXki+3K4FDAQ9Mg==
+Received: from IA1PR12MB9030.namprd12.prod.outlook.com (2603:10b6:208:3f2::22)
+ by SA1PR12MB8119.namprd12.prod.outlook.com (2603:10b6:806:337::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Mon, 13 Jul
+ 2026 17:40:29 +0000
+Received: from IA1PR12MB9030.namprd12.prod.outlook.com
+ ([fe80::2c1d:ed27:b53a:97d2]) by IA1PR12MB9030.namprd12.prod.outlook.com
+ ([fe80::2c1d:ed27:b53a:97d2%7]) with mapi id 15.21.0202.014; Mon, 13 Jul 2026
+ 17:40:29 +0000
+From: Manish Honap <mhonap@nvidia.com>
+To: Alex Williamson <alex@shazbot.org>
+CC: "djbw@kernel.org" <djbw@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
+	"jic23@kernel.org" <jic23@kernel.org>, "dave.jiang@intel.com"
+	<dave.jiang@intel.com>, Ankit Agrawal <ankita@nvidia.com>,
+	"alejandro.lucero-palau@amd.com" <alejandro.lucero-palau@amd.com>,
+	"alison.schofield@intel.com" <alison.schofield@intel.com>,
+	"dave@stgolabs.net" <dave@stgolabs.net>, "dmatlack@google.com"
+	<dmatlack@google.com>, "gourry@gourry.net" <gourry@gourry.net>,
+	"ira.weiny@intel.com" <ira.weiny@intel.com>, Neo Jia <cjia@nvidia.com>,
+	Krishnakant Jaju <kjaju@nvidia.com>, Vikram Sethi <vsethi@nvidia.com>, Zhi
+ Wang <zhiw@nvidia.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, Manish
+ Honap <mhonap@nvidia.com>
+Subject: RE: [PATCH v3 05/11] vfio: UAPI for CXL Type-2 device passthrough
+Thread-Topic: [PATCH v3 05/11] vfio: UAPI for CXL Type-2 device passthrough
+Thread-Index: AQHdBMN4xuDJHQfm/UCI06mb/0iNl7Zna+gAgARCZHCAACGZkA==
+Date: Mon, 13 Jul 2026 17:40:29 +0000
+Message-ID:
+ <IA1PR12MB90301288F11754F9EE9A992CBDFA2@IA1PR12MB9030.namprd12.prod.outlook.com>
+References: <20260625165407.1769572-1-mhonap@nvidia.com>
+	<20260625165407.1769572-6-mhonap@nvidia.com>
+ <20260710162322.012be635@shazbot.org>
+ <IA1PR12MB9030E175587B09CEA7A4D90FBDFA2@IA1PR12MB9030.namprd12.prod.outlook.com>
+In-Reply-To:
+ <IA1PR12MB9030E175587B09CEA7A4D90FBDFA2@IA1PR12MB9030.namprd12.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA1PR12MB9030:EE_|SA1PR12MB8119:EE_
+x-ms-office365-filtering-correlation-id: 1620f6ed-52b2-48c2-be5c-08dee105d48e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|23010399003|376014|366016|1800799024|22082099003|18002099003|6133799003|56012099006|4143699003|11063799006|38070700021;
+x-microsoft-antispam-message-info:
+ WcRcjlBHaCwKMvUlTlJ6FPJZA62THOxNT1NNDmBMSbCfskcWazhYj+qLN+zUvZlhkAi1F8M7lZzPXJXzWPOn8bWxOQO8vKJroa8x5J3Awaxa2twsiGCz4mmEkQ6nYP5t6S1iw0ih3aXgP7gtFXaUS7KWgMkmRVGVF+3J65JyXLNyxCUR5Y6axHhTpduUTDSHv4Sk8fjyotQSWQWR0hM7R+kzvKuNxVcA5rtZYGEIRRyOjB4s59pDBI+sscSWmcm2WpCsP41mIAx00X8vlUeeV8DD3pgDFvmiORj3qPdr+psjYV9dw/2sezAHMf8eDBa/Gdgn2xUvh9NaPBeaxTBOdA5T1+G+KSkgX3XoRMiDWOdWwMUVQ/uSJ8Q0ENOaaHfIAGBIlW8+Xhg6lMxgaePrEFIcaPyET07CsoJ7PAhrzWJesut/H2P2ck4cllStvi5ShLP5TdwRNivNfrn7E8QB3t/IvBdYVWiFUNWI4w8tAEQ/yBh6Q92KV6j3RphNAM+ZDYiNv4eSdWIvQtXCRM90Zp8ntuwAt6MyZpkemuFgoGHn7nZeM1hx58MucT2D8UxAWwyPlFvcnoUBM+HOP3QxHgCLp73UcpB7xphyakAEJQNlIPtPuQ4tzMhkqouoRBs91y53USS+g4iYDeJiAB3V7M0ejgDrbsVouBpodw+0Ncm0C/vQ3Z1vy8U7gnxPMhFiRCoKW5rihxvj9hopilxu4XPU+zfBsh7Cqtukkbc2IZY=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB9030.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(366016)(1800799024)(22082099003)(18002099003)(6133799003)(56012099006)(4143699003)(11063799006)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?2w93eFZu+lBq9zAymnX9AxUt+cSa94vXB1vMMBZ6X3Q9Z7FAz18FiKa1tyv5?=
+ =?us-ascii?Q?vlH0msHQ303LxfNnEX5dpMIiu3/un1PuJE67fSqLHMiVuWQ+OfevLPLHsLMZ?=
+ =?us-ascii?Q?ll/R7WkRax8FHzhpNdP+gFWBNNqSgqr+5vBjKRJjgA2YL0Qb5lQb2mrKi/5L?=
+ =?us-ascii?Q?5IaTBej11xHEicTVAYk0UKPMcdyl6le5b2aNCw26tm7QZPwuPUoEUiikNjRJ?=
+ =?us-ascii?Q?vpkD7WO1GC8mXnfYUdjrWEd+X79qDkKWaw3AAvUv8TDymhD3JBAPynsdUZfz?=
+ =?us-ascii?Q?AWj1VHz+E54959xA2X1U+BIqHVwL7a3rBIilThOsqD4kGx0+wlEWQoWXQZgi?=
+ =?us-ascii?Q?qRPEfyp2NK8ITVgD1m97ZL5wIv08dmIW2uK3NFUGvOxMfTUETWoYmuQd+UJv?=
+ =?us-ascii?Q?prpvzjdskIcys/BJ8ozXFgs0ARH2HPlk9wpAvpWrcP9d1uVPNBfrMxbJ4rlK?=
+ =?us-ascii?Q?JeDZAhDV693mDlX51DM19P7VB/uIpnWi1PLTiiqxXfUlddhb7+MqpK6ccZwA?=
+ =?us-ascii?Q?b2vCvcneufP+M7DvcSi5zUoNJ3WPds+ZMoEA5KlAw7PDFKXvLnrFH4FZ6jUk?=
+ =?us-ascii?Q?XutF2wqkiqLXLno/CWf87SF2NDczhOPCheAvTVYFbVi9XOYSDRxqIynk0n0O?=
+ =?us-ascii?Q?YzKZln4P/qZMUq8AcvS5P34FbyMNOt3dasP7hGJ0BYUT7j6a0Ugya6+YsCy0?=
+ =?us-ascii?Q?8qwzDPpxT8mdhOIrkzLEov+51uvBtkBQqKa+fJUtChzzyDfgtXwLWPUBIdKs?=
+ =?us-ascii?Q?4B/hWUcFXMZfdFxt9oMZsykpA3xHpx5BX/O1REONiCLj6vttzHHrgTii43YG?=
+ =?us-ascii?Q?CMvCCvd94bygSHa1gyjIJKcniP0uZL7ICxRZBeiDuZOWnJiPSsZmm8uDp17K?=
+ =?us-ascii?Q?Eu5Ryey518hceqKLswjsUukdOK6HRGJkA6odPQMv7LLc7yQjsld3dCc18l2A?=
+ =?us-ascii?Q?Q297s5wCFKXFOa5YnKCgaCKq7ftWPcNPl6/eQbCY6bjYvUmOjAw3dnq2KuqR?=
+ =?us-ascii?Q?go3jM2btsiyyJ1pwBiGvQETLNsUjaftNj2cPPQp+FkCX1UaH9xyG9lmk3oSZ?=
+ =?us-ascii?Q?9YHexSB2ac4A/5PRlacVMXaqcV46IGwTrrSyivgAOdh2tJrOE+EP83HPpHgT?=
+ =?us-ascii?Q?xMPHIX8FSnQhLX5Lqh8a2XkteMRUnv01rUa0eo1I3hArNTeouo0YZbnGqjgh?=
+ =?us-ascii?Q?2bNiJdbFLqcytkbOvRpP1ET0sulpV+gwM6g2riQ+oNxEChFAVvX3sbxS94nI?=
+ =?us-ascii?Q?SaUug0B/SCJICZm+3wivyvTOVpSo5sXmWyUf0n40RwmQLNG7hKvwSePizUn9?=
+ =?us-ascii?Q?S8tyHJJ2x/4K50uR8MptxYEdBMhk7qH6kcNRrwDAoL9uXJXD23YyyIOuZ/9F?=
+ =?us-ascii?Q?4LWAlHTxeoYw+QuuNhJeeOAQFc/DSa0pCPWbQwlPVKdWpBE0VWIkd7B2ZlDM?=
+ =?us-ascii?Q?UTm6KYbtlrnEwpO1X/BuBrC0bkxaHIkibYKaFoTBoC/ABS0c8dGMard65VJM?=
+ =?us-ascii?Q?tc2UAy8EJPNiQBHZws+2K+D2QxUdaLh2nscze2PgUBNPqUiq4L4TD3tzLESF?=
+ =?us-ascii?Q?TDKWDP71Ji/zPSWDMAumEOUwSyuO3t2bIBld57vFmK337fbl4VKSfLWUWeCU?=
+ =?us-ascii?Q?1giuRKHulMEvLt+7fki4d+ccCqdh0Lru7vEUfsYOuWfKnNt7miP2nxNb1RoC?=
+ =?us-ascii?Q?chJWai/bqMxnFc1jXXYDuz0q4gss9reui6WWDiNarnZEnWIA?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260625155432.815185-2-shenwei.wang@oss.nxp.com>
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB9030.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1620f6ed-52b2-48c2-be5c-08dee105d48e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jul 2026 17:40:29.0299
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zc5xJQ9w3t4J9XImIzjsBmmR78zfHiSacr5sAogabTeLk+qlq06mm1P9VPaSfagZGbYg1NH/juHqLB5prxkN3Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8119
 
-On Thu, Jun 25, 2026 at 10:54:26AM -0500, Shenwei Wang wrote:
-> From: Shenwei Wang <shenwei.wang@nxp.com>
-> 
-> Describes the gpio rpmsg transport protocol over the rpmsg bus between
-> the remote system and Linux.
-> 
-> Signed-off-by: Shenwei Wang <shenwei.wang@nxp.com>
-> ---
->  Documentation/driver-api/gpio/gpio-rpmsg.rst | 271 +++++++++++++++++++
->  Documentation/driver-api/gpio/index.rst      |   1 +
->  2 files changed, 272 insertions(+)
->  create mode 100644 Documentation/driver-api/gpio/gpio-rpmsg.rst
-> 
-> diff --git a/Documentation/driver-api/gpio/gpio-rpmsg.rst b/Documentation/driver-api/gpio/gpio-rpmsg.rst
-> new file mode 100644
-> index 000000000000..7d351ff0adb0
-> --- /dev/null
-> +++ b/Documentation/driver-api/gpio/gpio-rpmsg.rst
-> @@ -0,0 +1,271 @@
-> +.. SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +GPIO RPMSG (Remote Processor Messaging) Protocol
-> +================================================
-> +
-> +The GPIO RPMSG transport protocol is used for communication and interaction
-> +with GPIO controllers on remote processors via the RPMSG bus.
-> +
-> +Message Format
-> +--------------
-> +
-> +The RPMSG message consists of a 8-byte packet with the following layout:
-> +
-> +.. code-block:: none
-> +
-> +   +------+------+------+------+------+------+------+------+
-> +   | 0x00 | 0x01 | 0x02 | 0x03 | 0x04 | 0x05 | 0x06 | 0x07 |
-> +   |     cmd     |    line     |           value           |
-> +   +------+------+------+------+------+------+------+------+
-> +
-> +- **cmd**: Command code, used for GPIO_RPMSG_SEND messages.
-> +
-> +- **line**: The GPIO line (pin) index of the port.
 
-Here and throughout, please remove any mention of 'port'.  This is handled by
-the endpoint device, i.e one GPIO controller (port) per endpoint.
 
-> +
-> +- **value**: See details in the command description below.
-> +
-> +
-> +GPIO Commands
-> +-------------
-> +
-> +Commands are specified in the **Cmd** field.
-> +
-> +The SEND message is always sent from Linux to the remote firmware. Each
-> +SEND corresponds to a single REPLY message. The GPIO driver should
-> +serialize messages and determine whether a REPLY message is required. If a
-> +REPLY message is expected but not received within the specified timeout
-> +period (currently 1 second in the Linux driver), the driver should return
-> +-ETIMEOUT.
-> +
-> +GET_DIRECTION (Cmd=2)
-> +~~~~~~~~~~~~~~~~~~~~~
-> +
-> +**Request:**
-> +
-> +.. code-block:: none
-> +
-> +   +------+------+------+------+------+------+------+------+
-> +   | 0x00 | 0x01 | 0x02 | 0x03 | 0x04 | 0x05 | 0x06 | 0x07 |
-> +   |      2      |    line     |             0             |
-> +   +------+------+------+------+------+------+------+------+
-> +
-> +**Reply:**
-> +
-> +.. code-block:: none
-> +
-> +   +------+--------+--------+
-> +   | 0x00 |  0x01  |  0x02  |
-> +   |   1  | status | value  |
-> +   +------+--------+--------+
-> +
-> +- **status**:
-> +
-> +  - 0: Ok
-> +  - 1: Error
-> +
-> +- **value**: Direction.
-> +
-> +  - 0: None
-> +  - 1: Output
-> +  - 2: Input
-> +
-> +
-> +SET_DIRECTION (Cmd=3)
-> +~~~~~~~~~~~~~~~~~~~~~
-> +
-> +**Request:**
-> +
-> +.. code-block:: none
-> +
-> +   +------+------+------+------+------+------+------+------+
-> +   | 0x00 | 0x01 | 0x02 | 0x03 | 0x04 | 0x05 | 0x06 | 0x07 |
-> +   |      3      |    line     |           value           |
-> +   +------+------+------+------+------+------+------+------+
-> +
-> +- **value**: Direction.
-> +
-> +  - 0: None
-> +  - 1: Output
-> +  - 2: Input
-> +
-> +**Reply:**
-> +
-> +.. code-block:: none
-> +
-> +   +------+--------+--------+
-> +   | 0x00 |  0x01  |  0x02  |
-> +   |   1  | status |    0   |
-> +   +------+--------+--------+
-> +
-> +- **status**:
-> +
-> +  - 0: Ok
-> +  - 1: Error
-> +
-> +
-> +GET_VALUE (Cmd=4)
-> +~~~~~~~~~~~~~~~~~
-> +
-> +**Request:**
-> +
-> +.. code-block:: none
-> +
-> +   +------+------+------+------+------+------+------+------+
-> +   | 0x00 | 0x01 | 0x02 | 0x03 | 0x04 | 0x05 | 0x06 | 0x07 |
-> +   |      4      |    line     |             0             |
-> +   +------+------+------+------+------+------+------+------+
-> +
-> +**Reply:**
-> +
-> +.. code-block:: none
-> +
-> +   +------+--------+--------+
-> +   | 0x00 |  0x01  |  0x02  |
-> +   |   1  | status | value  |
-> +   +------+--------+--------+
-> +
-> +- **status**:
-> +
-> +  - 0: Ok
-> +  - 1: Error
-> +
-> +- **value**: Level.
-> +
-> +  - 0: Low
-> +  - 1: High
-> +
-> +
-> +SET_VALUE (Cmd=5)
-> +~~~~~~~~~~~~~~~~~
-> +
-> +**Request:**
-> +
-> +.. code-block:: none
-> +
-> +   +------+------+------+------+------+------+------+------+
-> +   | 0x00 | 0x01 | 0x02 | 0x03 | 0x04 | 0x05 | 0x06 | 0x07 |
-> +   |      5      |    line     |           value           |
-> +   +------+------+------+------+------+------+------+------+
-> +
-> +- **value**: Output level.
-> +
-> +  - 0: Low
-> +  - 1: High
-> +
-> +**Reply:**
-> +
-> +.. code-block:: none
-> +
-> +   +------+--------+--------+
-> +   | 0x00 |  0x01  |  0x02  |
-> +   |   1  | status |    0   |
-> +   +------+--------+--------+
-> +
-> +- **status**:
-> +
-> +  - 0: Ok
-> +  - 1: Error
-> +
-> +
-> +SET_IRQ_TYPE (Cmd=6)
-> +~~~~~~~~~~~~~~~~~~~~
-> +
-> +**Request:**
-> +
-> +.. code-block:: none
-> +
-> +   +------+------+------+------+------+------+------+------+
-> +   | 0x00 | 0x01 | 0x02 | 0x03 | 0x04 | 0x05 | 0x06 | 0x07 |
-> +   |      6      |    line     |           value           |
-> +   +------+------+------+------+------+------+------+------+
-> +
-> +- **value**: IRQ types.
-> +
-> +  - 0: Interrupt disabled
-> +  - 1: Rising edge trigger
-> +  - 2: Falling edge trigger
-> +  - 3: Both edge trigger
-> +  - 4: High level trigger
-> +  - 8: Low level trigger
+> -----Original Message-----
+> From: Manish Honap <mhonap@nvidia.com>
+> Sent: 13 July 2026 22:15
+> To: Alex Williamson <alex@shazbot.org>
+> Cc: djbw@kernel.org; jgg@ziepe.ca; jic23@kernel.org;
+> dave.jiang@intel.com; Ankit Agrawal <ankita@nvidia.com>;
+> alejandro.lucero-palau@amd.com; alison.schofield@intel.com;
+> dave@stgolabs.net; dmatlack@google.com; gourry@gourry.net;
+> ira.weiny@intel.com; Neo Jia <cjia@nvidia.com>; Krishnakant Jaju
+> <kjaju@nvidia.com>; Vikram Sethi <vsethi@nvidia.com>; Zhi Wang
+> <zhiw@nvidia.com>; kvm@vger.kernel.org; linux-cxl@vger.kernel.org;
+> linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
+> kselftest@vger.kernel.org; Manish Honap <mhonap@nvidia.com>
+> Subject: RE: [PATCH v3 05/11] vfio: UAPI for CXL Type-2 device
+> passthrough
+>=20
+>=20
+>=20
+> > -----Original Message-----
+> > From: Alex Williamson <alex@shazbot.org>
+> > Sent: 11 July 2026 03:53
+> > To: Manish Honap <mhonap@nvidia.com>
+> > Cc: djbw@kernel.org; jgg@ziepe.ca; jic23@kernel.org;
+> > dave.jiang@intel.com; Ankit Agrawal <ankita@nvidia.com>;
+> > alejandro.lucero-palau@amd.com; alison.schofield@intel.com;
+> > dave@stgolabs.net; dmatlack@google.com; gourry@gourry.net;
+> > ira.weiny@intel.com; Neo Jia <cjia@nvidia.com>; Krishnakant Jaju
+> > <kjaju@nvidia.com>; Vikram Sethi <vsethi@nvidia.com>; Zhi Wang
+> > <zhiw@nvidia.com>; kvm@vger.kernel.org; linux-cxl@vger.kernel.org;
+> > linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
+> > kselftest@vger.kernel.org; alex@shazbot.org
+> > Subject: Re: [PATCH v3 05/11] vfio: UAPI for CXL Type-2 device
+> > passthrough
+> >
+> > External email: Use caution opening links or attachments
+> >
+> >
+> > On Thu, 25 Jun 2026 22:24:01 +0530
+> > <mhonap@nvidia.com> wrote:
+> > > diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+> > > index 5de618a3a5ee..3707d53c4de5 100644
+> > > --- a/include/uapi/linux/vfio.h
+> > > +++ b/include/uapi/linux/vfio.h
+> > > @@ -215,6 +215,7 @@ struct vfio_device_info {
+> > >  #define VFIO_DEVICE_FLAGS_FSL_MC (1 << 6)    /* vfio-fsl-mc device
+> */
+> > >  #define VFIO_DEVICE_FLAGS_CAPS       (1 << 7)        /* Info
+> supports
+> > caps */
+> > >  #define VFIO_DEVICE_FLAGS_CDX        (1 << 8)        /* vfio-cdx
+> > device */
+> > > +#define VFIO_DEVICE_FLAGS_CXL        (1 << 9)        /* vfio-cxl
+> > Type-2 device */
+> >
+> > Would we define a different flag for type-1/3 if we ever found a need
+> > to expose them through vfio?
+>=20
+> Yes. The current flag is named VFIO_DEVICE_FLAGS_CXL and refers to
+> Type-2 specifically. If Type-1 or Type-3 support is added later, a
+> separate flag (or a VFIO_DEVICE_INFO_CAP sub-type field) would
+> distinguish them. I can rename it VFIO_DEVICE_FLAGS_CXL_TYPE2 now if
+> that is preferable; please advise.
 
-I'm in agreement with cmd 3, 4, 5 and 6.  
+For this patchseries, I think keeping name as VFIO_DEVICE_FLAGS_CXL_TYPE2
+is a better choice since Type-2 is the only supported case now; a separate
+flag can be added when Type-1/3 support arrives.
 
-> +
-> +**Reply:**
-> +
-> +.. code-block:: none
-> +
-> +   +------+--------+--------+
-> +   | 0x00 |  0x01  |  0x02  |
-> +   |   1  | status |    0   |
-> +   +------+--------+--------+
-> +
-> +- **status**:
-> +
-> +  - 0: Ok
-> +  - 1: Error
-> +
-> +SET_WAKEUP (Cmd=16)
-> +~~~~~~~~~~~~~~~~~~~
+>=20
+> >
+> > >       __u32   num_regions;    /* Max region index + 1 */
+> > >       __u32   num_irqs;       /* Max IRQ index + 1 */
+> > >       __u32   cap_offset;     /* Offset within info struct of first
+> > cap */
+> > > @@ -257,6 +258,36 @@ struct vfio_device_info_cap_pci_atomic_comp {
+> > >       __u32 reserved;
+> > >  };
+> > >
+> > > +/*
+> > > + * VFIO_DEVICE_INFO capability for CXL Type-2 passthrough devices.
+> > > + * Present when VFIO_DEVICE_FLAGS_CXL is set on
+> > vfio_device_info::flags.
+> > > + *
+> > > + * @flags: VFIO_CXL_CAP_HOST_FIRMWARE_COMMITTED indicates the host
+> > CXL
+> > > + *   subsystem committed the endpoint HDM decoder.
+> > > + * @hdm_region_idx: VFIO region index for the HDM memory region
+> > > + *   (subtype VFIO_REGION_SUBTYPE_CXL).
+> > > + * @comp_reg_region_idx: VFIO region index for the CXL Component
+> > > + *   Register shadow (subtype VFIO_REGION_SUBTYPE_CXL_COMP_REGS).
+> >
+> > These regions are self describing via the noted CXL subtypes, what's
+> > the purpose of double reporting them here?
+>=20
+> Agreed; I will try to minimize the noise here.
+>=20
+> >
+> > > + * @comp_reg_bar: PCI BAR index that contains the CXL component
+> > > + *   register block.  Get-region-info on this BAR returns a
+> > > + *   VFIO_REGION_INFO_CAP_SPARSE_MMAP that excludes the CXL block.
+> > > + * @comp_reg_offset: byte offset of the CXL component register
+> block
+> > > + *   within @comp_reg_bar.
+> > > + * @comp_reg_size: byte size of the CXL component register block.
+> >
+> > Why don't we describe all of these via a capability on the relevant
+> > region info?
+>=20
+> okay, I will have v4 to remove hdm_region_idx, comp_reg_region_idx,
+> comp_reg_bar, comp_reg_offset, and comp_reg_size from
+> vfio_device_info_cap_cxl. The device-level cap will only have flags.
+>=20
+> This will also result in component register details to move to a new
+> VFIO_REGION_INFO_CAP_CXL_COMP_REGS capability on the comp-reg region
+> info, carrying comp_reg_bar, comp_reg_offset, and comp_reg_size.
+>=20
+> Regions will remain self-describing via VFIO_REGION_SUBTYPE_CXL and
+> VFIO_REGION_SUBTYPE_CXL_COMP_REGS.
+>=20
+> >
+> > Does that leave this device level capability describing the device as
+> > type-2 (by existence), with only a flags field to declare HDM as
+> > firmware committed, for future compatibility should we support non-fw
+> > committed?  Thanks,
+> >
+> > Alex
+>=20
+> Yes, I will shape the v4 in this direction. The device-level CAP_CXL
+> shrinks to "this is a CXL device" (by existence) plus a flags field
+> whose only defined bit today is HOST_FIRMWARE_COMMITTED, leaving room
+> for a future non-fw-committed mode. Everything else moves to region
+> caps. Thanks for this suggestion.
 
-I already commented on messages that are not part of the virtio-gpio
-specification.  
-
-> +
-> +**Request:**
-> +
-> +.. code-block:: none
-> +
-> +   +------+------+------+------+------+------+------+------+
-> +   | 0x00 | 0x01 | 0x02 | 0x03 | 0x04 | 0x05 | 0x06 | 0x07 |
-> +   |      1      |    line     |           value           |
-> +   +------+------+------+------+------+------+------+------+
-> +
-> +- **value**: Wakeup enable.
-> +
-> +  The remote system should always aim to stay in a power-efficient state by
-> +  shutting down or clock-gating the GPIO blocks that aren't in use. Since
-> +  the remoteproc driver is responsible for managing the power states of the
-> +  remote firmware, the GPIO driver does not require to know the firmware's
-> +  running states.
-> +
-> +  When the wakeup bit is set, the remote firmware should configure the line
-> +  as a wakeup source. The firmware should send the notification message to
-> +  Linux after it is woken from the GPIO line.
-> +
-> +  - 0: Disable wakeup from GPIO
-> +  - 1: Enable wakeup from GPIO
-> +
-> +**Reply:**
-> +
-> +.. code-block:: none
-> +
-> +   +------+--------+--------+
-> +   | 0x00 |  0x01  |  0x02  |
-> +   |   1  | status |    0   |
-> +   +------+--------+--------+
-> +
-> +- **status**:
-> +
-> +  - 0: Ok
-> +  - 1: Error
-> +
-> +Notification Message
-> +--------------------
-
-"Interrupt Messages"
-
-> +
-> +Notifications are sent by the remote core and they have
-> +**Type=2 (GPIO_RPMSG_NOTIFY)**:
-> +
-> +When a GPIO line asserts an interrupt on the remote processor, the firmware
-> +should immediately mask the corresponding interrupt source and send a
-> +notification message to the Linux. Upon completion of the interrupt
-> +handling on the Linux side, the driver should issue a
-> +command **SET_IRQ_TYPE** to the firmware to unmask the interrupt.
-> +
-> +A Notification message can arrive between a SEND and its REPLY message,
-> +and the driver is expected to handle this scenario.
-> +
-> +.. code-block:: none
-> +
-> +   +------+------+--------+
-> +   | 0x00 | 0x01 |  0x02  |
-> +   |   2  | line | trigger|
-> +   +------+------+--------+
-
-2 things here:
-
-1) You did not include messages that mask and unmask interrupts at the driver
-side.
-
-2) We are carrying virtio-gpio messages on top of RPMSG and as such, this whole
-protocol should be about thar:  
-
-+------+------+--------+--------
-| 0x00 |       payload         |          
-|  Q   |                       | 
-+------+------+--------+--------
-
-Q = 0 requestq
-Q = 1 eventq
-
-The "payload" part is simply the format of the messages as found in the
-virtio-gpio specification.  From there, the only thing left to mention is which
-messages are not supported, i.e get line names.
-
-> +
-> +- **line**: The GPIO line (pin) index of the port.
-> +
-> +- **trigger**: Optional parameter to indicate the trigger event type.
-
-Not part of the spec - remove.
-
-Given the refactoring work that is still needed, I will not look at the
-implementation.
-
-Thanks,
-Mathieu
-
-> +
-> diff --git a/Documentation/driver-api/gpio/index.rst b/Documentation/driver-api/gpio/index.rst
-> index bee58f709b9a..e5eb1f82f01f 100644
-> --- a/Documentation/driver-api/gpio/index.rst
-> +++ b/Documentation/driver-api/gpio/index.rst
-> @@ -16,6 +16,7 @@ Contents:
->     drivers-on-gpio
->     bt8xxgpio
->     pca953x
-> +   gpio-rpmsg
->  
->  Core
->  ====
-> -- 
-> 2.43.0
-> 
