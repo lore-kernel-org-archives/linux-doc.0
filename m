@@ -1,293 +1,302 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE932D8DDF;
-	Mon, 13 Jul 2026 05:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783921777; cv=none; b=qOSi23AixcQX4aK7GKZ1VOuzpwnAGrtPCz71EpiyG85508I/vMT2b29zxN9fkJVBHqypY3S3UfSiQqOQ0P5y8EGJ1VPe+uVJ2BvUzwUFYVRAWXKccXHNasA6xRYsTosc7AQ+ZEru+C8cLQuGBpNL+pXpWM+J47YZiZqlrZkDFFo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783921777; c=relaxed/simple;
-	bh=T24BVbBlCxhYVV7juo+oNJGtOYhmEPisTpUhnGFUY/g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D7OhCLUFU8ggwOHuukQG4CYjxOtHFv2CXVnpkp5lYR44J6oFOo0oQ5npTN+BbBzrTID3FAu8YMEUQ01tHFIYLjfrmCWv45hmAiFGVCnS/waal3oDzry1bx7i7JUKzv3l6MAXj4VX631v3kFNPcMBnATRRYc7BzqPZ/qq84VnXmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=BI+VFrLC; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E369A380FF5
+	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 06:35:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783924537; cv=pass; b=V/FwOYwCLtzxCkxzHhBO2lpd2z0qgUoZwCJ+cij7E24Kp5Vx+7Fvzvpux9cdHLmnHxkhyYKZLZOtcVOFJbDCngcqRXeHMGpXhvsl2PDTwtuhRraeL1MUIc9NwuyGRxjuUeguL5dpDJgpgCyW1kA33oKlH+bFbDhNT34FPsdYrHo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783924537; c=relaxed/simple;
+	bh=fHzZlLQ9n4LYx8lPgZ/4hbxCoowAOTMBA2xPOySCZPk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZQgyFsnybn2GwRWcXatZ3NWKFdlkIhdS6areq1OXXMhpx4ApZZLVVEFZXwiQmOa76vMuiKFgudkoqw9FHHZg9gnFpGDcF2hjkHu9WFFKgNPsLyoKoWD1hOYPU2s77JJ+T6i6IYHriBOqzroibkWKlXQkfl5yro7JbZRyrr4o5dY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a9zSR5iU; arc=pass smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="BI+VFrLC"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66D3EJtD1290334;
-	Mon, 13 Jul 2026 05:49:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=cP188D
-	CEUX+91Gi8Gr/0nYuyqqBOxPvY8GleSBCxe+s=; b=BI+VFrLCeXpAI44Ru9RKUe
-	0IRNVAilT7NzonSh1UDFFjhDE37JWyX7LaGcQPrMNG6LfaiNP3mBxOU3IT+fhuVS
-	8PvC2Z4/LLRW7RixpDN1scCdu82dwRwIwag5zB5eZZNCwXCaQbZrQcqbSxpMQqTW
-	DC2RQUPVItoU5OtTPoFsOj/QyPZezoXkL7SYs08nMhxpHtW32cCYtPtWgkxCOPsn
-	6rcCmjyEZINUqhDHhYcXNN7R3O0BGLD9PPxd8SkAI7x/Caqo6r3KWuE0GyNB3Ork
-	HrvBWrwaY5M9/22OOjT7LI499qYryZKp30v2W5jb9SQTZA+ycHKMF5uMDjV/uYTw
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fber86uh2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Jul 2026 05:49:16 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66D5YbeZ022400;
-	Mon, 13 Jul 2026 05:49:15 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fc1nh45kg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Jul 2026 05:49:15 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66D5nATK21365052
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 13 Jul 2026 05:49:10 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AB3F82004E;
-	Mon, 13 Jul 2026 05:49:10 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 96A9B20040;
-	Mon, 13 Jul 2026 05:49:00 +0000 (GMT)
-Received: from [9.39.29.148] (unknown [9.39.29.148])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 13 Jul 2026 05:49:00 +0000 (GMT)
-Message-ID: <9da4fd45-0a0f-495d-8207-816ee88c5937@linux.ibm.com>
-Date: Mon, 13 Jul 2026 11:18:59 +0530
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a9zSR5iU"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5aeafa51b5cso339522e87.1
+        for <linux-doc@vger.kernel.org>; Sun, 12 Jul 2026 23:35:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783924534; cv=none;
+        d=google.com; s=arc-20260327;
+        b=WJ2RqXNTPW5RetrF12Uh21jlhQDj80JucSI5JM0Es//jGsBghqIL9pxxSfcgksQ3Dw
+         5ObuV0zO6LmJLgzJs7TTg+yh+IJjNsvcRcWn1PJ2n7OU3WhXO1NUMqehaPdWgblsHkBw
+         3kB2CRgxwFsw+bVRjHFB+AyOBdqb679mPsdfjkidN+Iss/PBZE+KBr2OFGowOPDND7JP
+         s5HFX/eFvF7k6j25tKdyV2pNSIC2FwH5hMyozTGw64WLS3dgcQF9HnmcxniJ3F5kSq/N
+         NWvuRmQvpv9OKGibmqsgN3z1DhPKn+RGO1ijM8nUT+FKL4ZfPgqZl2s/1N4iqDQoM7Nd
+         Al8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=v9vA1gmeVdsFtcdXmXDDaJ7WtAHjsVCPbymrNsz2Fcc=;
+        fh=cfNAKgufMslG7v+JwyfdqlcOWOwb4Nw5GEl9Qh5MmOs=;
+        b=bY9W/QXMcUWf7GNGqdMj4ljj4zIK+GSFeUDkgcKT1b14MkdIUywUfLQrjbjTKMC0dh
+         2SWclI7E37jOSoj6speHdU9GYA7Pw53s4Grpk3iMt0dVhko9v9x4GaF2GCq4q6oeySvA
+         g5ZYoB3FwF0y2SLJ/zdRLZ1nDjSNKFRWn2i6c7jOuJuMNgTaXUa2IlZJQ/+j65S/CxSl
+         wzIE0Quk3fmY7iIt01dTneCCTLCiSSWJZT7m6UwpaZ6vvygILD2RZksKY0lhvOa77JWp
+         VAACu0CRXvYu/3Ou7Cwh0EKFvsqmhK/fGDdtxJICqLTn8ObkH0SNxrPp8bIi9S59QjrT
+         uNfg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783924534; x=1784529334; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=v9vA1gmeVdsFtcdXmXDDaJ7WtAHjsVCPbymrNsz2Fcc=;
+        b=a9zSR5iULMZ5l35HBo9M5JCGL1Onpn2jcwTOC5qDCXRbCHEKbzOL1D4WKAgx+xfeYz
+         6XZcZfKUhU/bR/qODTRPWa8SHyZIdMqpuaPiQ+C2QJXOafT8oQueioUJy06aa1I1rUb8
+         9pTDXVmb6ub50upe6+dpYPF8ODkpA7n79sbqgp5Subpar2eWFQJZwL9fHmV7spakbjRR
+         DzXK3E8zXPEkPyLD71/xVtqCCCBhA9cyjD4GqALXmdaa38fsL8T0s8Ijk3F5vgigVaK8
+         y3NCcyJXZOrMvbVp9fyZSdgHuVXSpscfUajTx8yvlHG2sPU1bjfH1In7SA1JJGWuvoVM
+         kWvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783924534; x=1784529334;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=v9vA1gmeVdsFtcdXmXDDaJ7WtAHjsVCPbymrNsz2Fcc=;
+        b=n3KsjFsUoNuvKHYpqk77M/crJSBzNvqTupMRwn6qplOPXswrUS8mXZw6X8MuR5RNj0
+         J7vJAfZMmE3QNX5KXlH/qR0IdtE0VqIxKxalLEzxcZzz0bAfqV8RFXXN+awaimZeqgFu
+         6FHD0dfmjd0c2UVSgV4WxgoP7ymf3wMXQA3FOdKy3l1a8GKVYuNR9dS/X15MtMyDdTUF
+         +qyYdZMP7Xi4JP2V/XSnAD9v0cFJNINTkn6GSrFdaPwy5FkXObJni/iDYXr+ErkRwc6F
+         cOyF88a2MiUUE09b6SVJwSw9BkPu8Xm+4oB4Os6Bf1YyxmeRkHXdBapdMgvmj5pE5xAG
+         +w6w==
+X-Forwarded-Encrypted: i=1; AHgh+RoNT5c7Yji9MaXTk8k9kJRoNw+76ZwgN3ZSArDmZGArBaT8KItEcE8/2wB37kWIgK1ugd9Hr3UL4dg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuCdfpeLoBhOS9toynv4VLpRom+1x+8wW5GY4+21Wi6a7+Lf6x
+	2TM4G99KH47NWn70htmCRoqJupXbo+AGCbD//mxsSmxMJVeIpDn4RBf8hjGP6A96kDnPMsW/fmb
+	cFK8eiDGgHT+Jso4X1u4pLjRsizR2vvo=
+X-Gm-Gg: AfdE7clXS62NZn2C/Y3uF2kvvoTD9K8VV2gICpGs04dsePdINZnhQ7BWWEeXnfq1reY
+	YijiD7tYnHJI+U3ZyFuMYiXkMhViALCpmibegfPZE2E+V8xi6zBJqppYlmNSaZSvpoy6lrkW1mi
+	2nc+ImMch0HFwUBuVje0iaP6IhbTbAYFPIQjyo8AnZhllDGy4KaIpA4L77FkoOrryumtj46j9vu
+	gureIIkF52ZZl8KCVEDgeVaSYmCd+b8tNh4q9d/bQF8xTdBUCs+jsgSaGZkhY2mcsDFOR5EvaDd
+	N0YjwN+XiGUUhk7+1SzyZ0bJdqKERekGjqJn6MO0bqa30sU1n9/6rOw=
+X-Received: by 2002:a05:651c:2212:b0:38d:fae9:9aa2 with SMTP id
+ 38308e7fff4ca-39caa136eedmr10911491fa.1.1783924533817; Sun, 12 Jul 2026
+ 23:35:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 11/12] virt/steal_monitor: Act on steal time
- periodically and decide on preferred CPUs
-To: Yury Norov <ynorov@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-        corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
-        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
-        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
-        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
-        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
-        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
-        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
-        linux-doc@vger.kernel.org
-References: <20260709215648.1246821-1-sshegde@linux.ibm.com>
- <20260709215648.1246821-12-sshegde@linux.ibm.com> <alFX75dzgkMnDXAD@yury>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <alFX75dzgkMnDXAD@yury>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEzMDA1NyBTYWx0ZWRfXybhuSNqGU84t
- 5MKl5RQUU0bWuDgIaQXmPbdRzsmrFWmo55IjN3luAsdmg8mEv+z5nzq/wbNcAZnLrTbXhqhFdkG
- YKcKaTOH6xXa5HMCQEscWXL0tCwVhnvl15v6OPnXVfTTWbiuVkNp06xZe5NwZUdWj9dOAzZh4bU
- aCBLpzyFsf2m6MjIF0Ws8pYh441YMZIZtAYylEI6t8W1s7F7oWWcDWarnC/L0rpVTeoJLfZajpj
- eNgmpbEF1adDOkC0v31gVAJH9nROnWerZisIApQxP4t/lv6c0kE8J+TrHjsgHvokqQuKK4Jax1H
- XvTwUyvHCcMgLSCfGV7uKhCopDHdFXY948EGLNozdm69FlXoNbRFVGcZo6svBWMS3nBFNsrKt3p
- 2yONTbY9cW9E9dyWDEcNe8lxFBL2ZbEnTrAubbyvmxhqJqWUkEFh1OpOhptGDDvPCQvMeJWXzSm
- zItZidWHSS9X9cw+zHQ==
-X-Proofpoint-ORIG-GUID: XsiY9Mt98LoK6Hf5Y2jXGGVbJDEGduvm
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEzMDA1NyBTYWx0ZWRfX+m4NN934xDA1
- UEScqF2rNmSix/HEQk0mD+xLjcT1KT9pbC4d96UEYbnw4uFBpYOalMMjLdQJTqlSts9xtLLojix
- JIQsTqZdL+dz4dn2flKtgGnf1RKScHM=
-X-Authority-Analysis: v=2.4 cv=TpzWQjXh c=1 sm=1 tr=0 ts=6a547c5d cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8
- a=1GShWzhfYtZKvYz12T8A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: cIbiax1z5aeQ_yly_CpR3saPR916p9Fm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-13_01,2026-07-10_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 impostorscore=0 malwarescore=0 bulkscore=0
- lowpriorityscore=0 adultscore=0 spamscore=0 clxscore=1015 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607130057
+References: <CAKspUhJE-6NN7XnfG0iJAxEiV9PJx6pDbUEU5jgO__+qvuU5ug@mail.gmail.com>
+ <alR4jP1-qlcQNma1@wyuan.org>
+In-Reply-To: <alR4jP1-qlcQNma1@wyuan.org>
+From: =?UTF-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
+Date: Mon, 13 Jul 2026 14:35:22 +0800
+X-Gm-Features: AVVi8CfbxRhwTCdQlYf9k-Z107D6fD9cUoepGTdr-l0ICmHIr_KIz1aEVhogUWc
+Message-ID: <CAKspUhLGq_Hz-EM+Jc9ga=ih_0Ui7WzHZt+uKxMvuERsYB93Bg@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: zh_TW: process: localize terminologies and
+ improve fluency in 8.Conclusion
+To: Weijie Yuan <wy@wyuan.org>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <seakeel@gmail.com>, 
+	Hu Haowen <2023002089@link.tyut.edu.cn>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Dongliang Mu <mudongliangabcd@gmail.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Yuchen Tian <cat@malon.dev>, Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Dongliang, Weijie,
 
+Thank you both -- this is more support than I expected, and I am glad
+to do this together.
 
-On 7/11/26 2:07 AM, Yury Norov wrote:
-> On Fri, Jul 10, 2026 at 03:26:47AM +0530, Shrikanth Hegde wrote:
->> schedule work at regular intervals. Interval is determined by
->> interval_ms parameter. schedule_delayed_work is used since interval_ms
->> is usually in order of milliseconds. Work need not happen instantly.
->>
->> Periodic work function essentially does:
->> - Calculate the steal_ratio as below.
->>
->>         steal_ratio = (delta_steal * 100*100)/(delta_ns * num_cpus())
->>
->>    It is calculated to consider the fractional values of steal time.
->>    I.e 10 means 0.1% steal time. A few tricks such as divide by 10,000
->>    are used to avoid possible overflow.
->> - If steal value is higher than high threshold, call the method to reduce
->>    the preferred CPUs.
->> - If steal value is lower or equal to low threshold, call the method to
->>    increase the preferred CPUs.
->> - If the steal value is in between, no action is taken.
->> - Save the values for next delta calculations.
->> - Save the current direction of steal values to avoid oscillations.
->>    So two consecutive values of high values or low values are taken for
->>    decrease/increase of preferred CPUs.
->> - Ensure design checks are met.
->>    1. At least one core/CPU must be there in preferred mask.
->>    2. preferred CPUs is subset of active CPUs.
->>
->> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
->> ---
->> v6->v7:
->> - Merge two patches which did periodic work function.
->> - Misc checks for early firing, requeue work, math safety.
->>
->>   drivers/virt/steal_monitor/sm_core.c | 76 +++++++++++++++++++++++++++-
->>   drivers/virt/steal_monitor/sm_core.h |  1 +
->>   2 files changed, 76 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/virt/steal_monitor/sm_core.c b/drivers/virt/steal_monitor/sm_core.c
->> index 4a03c14337be..09a5c3a299c3 100644
->> --- a/drivers/virt/steal_monitor/sm_core.c
->> +++ b/drivers/virt/steal_monitor/sm_core.c
->> @@ -20,6 +20,12 @@ struct steal_monitor sm_core_ctx = {
->>   	.low_threshold = 200,	/* 2% */
->>   };
->>   
->> +enum sm_direction {
->> +	SM_DIR_INCREASE = -1,
->> +	SM_DIR_NONE	=  0,
->> +	SM_DIR_DECREASE	=  1,
->> +};
->> +
->>   static int param_set_interval_ms(const char *val, const struct kernel_param *kp)
->>   {
->>   	unsigned int interval;
->> @@ -106,14 +112,82 @@ module_param_cb(low_threshold, &low_threshold_ops, &sm_core_ctx.low_threshold, 0
->>   MODULE_PARM_DESC(low_threshold,
->>   		 "Low steal threshold. default: 200 i.e 2%. Must be < high_threshold");
->>   
->> +static void compute_preferred_cpus_work(struct work_struct *work)
->> +{
->> +	u64 curr_steal, delta_steal, delta_ns, steal_ratio;
->> +	ktime_t now;
->> +
->> +	now = ktime_get();
->> +	delta_ns = ktime_to_ns(ktime_sub(now, sm_core_ctx.prev_time));
->> +
->> +	if (unlikely(delta_ns < NSEC_PER_MSEC)) {
->> +		pr_err_ratelimited("steal_monitor: work scheduled too soon delta_ns: %llu\n",
->> +				   delta_ns);
->> +		goto requeue_work;
->> +	}
->> +
->> +	curr_steal = get_system_steal_time();
->> +	delta_steal = curr_steal > sm_core_ctx.prev_steal ?
->> +		      curr_steal - sm_core_ctx.prev_steal : 0;
->> +
->> +	/* Update for next calculation */
->> +	sm_core_ctx.prev_steal = curr_steal;
->> +	sm_core_ctx.prev_time = now;
->> +
->> +	/*
->> +	 * steal_ratio = (delta_steal * 100*100)/(delta_ns * num_cpus())
->> +	 * To avoid possible overflow, divide the denominator early.
->> +	 * Note minimum interval is 10ms.
->> +	 */
->> +	delta_ns = div_u64(delta_ns * get_num_cpus_steal_ratio(), 100 * 100);
->> +	steal_ratio = div64_u64(delta_steal, delta_ns);
->> +
->> +	if (sm_core_ctx.prev_direction == SM_DIR_DECREASE &&
->> +	    steal_ratio > sm_core_ctx.high_threshold)
->> +		decrease_preferred_cpus(&sm_core_ctx);
->> +	if (sm_core_ctx.prev_direction == SM_DIR_INCREASE &&
->> +	    steal_ratio <= sm_core_ctx.low_threshold)
->> +		increase_preferred_cpus(&sm_core_ctx);
-> 
-> I already said, I don't like this SM_DIR approach. If you want to
-> avoid oscillations, just increase the gap. If it doesn't work, then we
-> need to understand why.
-> 
+> Chen-Yu, I would like to serve as co-maintainers to help maintain zh_TW.
+> [...]
+> As discussed with Alex before, maybe zh_TW patches can first go to
+> Alex's kernel tree and then push to Jon's tree. I am not sure if you are
+> familar with the maintainer workflow. If not, this solution may be
+> better for you to learn maintainer workflow.
 
-Ok. It was to avoid first simple, as it may have corner cases.
-But yes, dropping it for now to keep things simple.
+To be honest: no, I am not familiar with the maintainer workflow yet --
+so far I have only been on the contributor side. So routing zh_TW
+patches through Alex's tree first sounds like the right arrangement to
+me, both for reliability and so that I can learn the workflow properly
+before taking on more. Alex, if you are fine with this, thank you in
+advance.
 
->> +
->> +	/*
->> +	 * mark the direction. Increasing the gap between hi and lo_threshold
->> +	 * helps to avoid ping-pongs.
->> +	 */
->> +	if (steal_ratio > sm_core_ctx.high_threshold)
->> +		sm_core_ctx.prev_direction = SM_DIR_DECREASE;
->> +	else if (steal_ratio <= sm_core_ctx.low_threshold)
->> +		sm_core_ctx.prev_direction = SM_DIR_INCREASE;
->> +	else
->> +		sm_core_ctx.prev_direction = SM_DIR_NONE;
->> +
->> +requeue_work:
->> +	/* maintain design constructs always */
->> +	WARN_ON_ONCE(cpumask_empty(cpu_preferred_mask));
->> +	WARN_ON_ONCE(!cpumask_subset(cpu_preferred_mask, cpu_active_mask));
-> 
-> cpu_read_lock here? And again, you should do something to restore
-> integrity. WARN_ON is not enough. The simplest and safest thing you
-> can do is to unload the driver. You definitely shouldn't schedule a
-> new work against the broken cpu_preferred_mask.
+> I suggest that we could try out the provisional plan for about one or
+> two months (depends), and then make a formal change.
 
-How about not requeue the work if it broken. Add a pr_err and return.
-That makes driver pretty much nop until rmmod.
+Agreed. A trial period before touching MAINTAINERS is fair -- it lets
+the work speak first. I will send the MAINTAINERS patch when you both
+feel the arrangement has proven itself.
 
-         /* maintain design constructs always */
-         if (cpumask_empty(cpu_preferred_mask)) {
-                 pr_err("empty cpu_preferred_mask, stop steal_monitor work");
-                 return;
-         }
+>   * Considering that English documents are changing so rapidly, and even
+>     simplified Chinese cannot keep up with them immediately. I suggest
+>     we start working on catching up with simplified Chinese right now,
+>     which seems like a good place to begin.
 
-         if (!cpumask_subset(cpu_preferred_mask, cpu_active_mask)) {
-                 pr_err("preferred: %*pbl is not a subset of active: %*pbl, stop steal_monitor work\n",
-                        pr_cpuamsk_args(cpu_preferred_mask), pr_cpuamsk_args(cpu_active_mask));
-		return;
-	}
+This matches what I had in mind, and it also answers Alex's concern:
+zh_TW should track zh_CN in structure and coverage, and differ only in
+terminology. I will start by running checktransupdate.py over zh_TW to
+get a concrete inventory of what is stale and how far behind we are,
+and share the result here so we can prioritize together.
 
-(Ignore whitespace mangling)
+> re-translation may be more efficient.
 
-> 
->> +
->> +	/* Trigger for next sampling */
->> +	schedule_delayed_work(&sm_core_ctx.work,
->> +			      msecs_to_jiffies(sm_core_ctx.interval_ms));
->> +}
->> +
->>   static int __init steal_monitor_init(void)
->>   {
->> -	pr_info("steal_monitor is enabled\n");
->> +	pr_info("steal_monitor is enabled. interval: %ums, high_threshold: %u, low_threshold: %u\n",
->> +		sm_core_ctx.interval_ms, sm_core_ctx.high_threshold, sm_core_ctx.low_threshold);
->> +
->> +	INIT_DELAYED_WORK(&sm_core_ctx.work, compute_preferred_cpus_work);
->> +	sm_core_ctx.prev_steal = get_system_steal_time();
->> +	sm_core_ctx.prev_time = ktime_get();
->> +
->> +	schedule_delayed_work(&sm_core_ctx.work,
->> +			      msecs_to_jiffies(sm_core_ctx.interval_ms));
->> +
->>   	return 0;
->>   }
->>   
->>   static void __exit steal_monitor_exit(void)
->>   {
->> +	cancel_delayed_work_sync(&sm_core_ctx.work);
-> 
-> cancel_delayed_work_sync() is not enough for a self-requeueing work.
-> compute_preferred_cpus_work() always requeues itself. Module unload
-> can return with delayed work armed against module text/data. Use
-> disable_delayed_work_sync() or a stop flag checked before requeueing.
+Agreed for the badly outdated files -- patching a two-year-old
+translation line by line is likely more work than translating the
+current text afresh. The inventory should tell us which files fall
+into which category.
 
-ok. I will make it disable_delayed_work_sync.
-Thanks for catching that.
+> https://zh.wikibooks.org/wiki/%E5%A4%A7%E9%99%86%E5%8F%B0%E6%B9%BE%E8%AE%=
+A1%E7%AE%97%E6%9C%BA%E6%9C%AF%E8%AF%AD%E5%AF%B9%E7%85%A7%E8%A1%A8
+>
+> Is it comprehensive? I don't know. Perhaps we could add some specific
+> reference tables related to the Linux Kernel on top of it.
+
+As a native speaker: it is a reasonable general reference, but it is
+not kernel-specific, and some entries are dated or not what people
+actually write in Taiwan today. I would rather build the glossary
+bottom-up from the terms that actually appear in the kernel docs
+(=E8=BB=9F=E9=AB=94/=E8=BB=9F=E4=BB=B6, =E4=BB=8B=E9=9D=A2/=E6=8E=A5=E5=8F=
+=A3, =E8=A8=98=E6=86=B6=E9=AB=94, =E8=A1=8C=E7=A8=8B, =E6=A0=B8=E5=BF=83, =
+=E4=BD=87=E5=88=97, ...), and use the
+wikibooks table only as a cross-check. I will include the glossary as
+part of the first terminology series so it can be reviewed like any
+other patch.
+
+> Perhaps I can handle most of the operation and maintenance tasks of
+> chore, giving Chen-yu more time and concentration to focus on the actual
+> translation work.
+
+That would help a lot, thank you. It also sounds like a natural split:
+you on process and monitoring, me on the translation and the zh_TW
+terminology judgement.
+
+One last thing about the patch that started all this: rather than
+keeping the v2 for 8.Conclusion pending, I would suggest dropping it
+and folding its changes into the terminology series, so the fixes
+land in one consistent batch. Any objection?
+
+Thanks,
+Chen-Yu
+
+Weijie Yuan <wy@wyuan.org> =E6=96=BC 2026=E5=B9=B47=E6=9C=8813=E6=97=A5=E9=
+=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=881:33=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> On Mon, Jul 13, 2026 at 10:44:12AM +0800, =E8=91=89=E5=AE=B8=E4=BD=91 wro=
+te:
+> > Hi Weijie,
+> >
+> > > I suspect that some contributors would run the get_maintainers.pl scr=
+ipt
+> > > or b4 prep --auto-to-cc, so they did not cc Alex, as they didn't know
+> > > the current situation. Because I noticed that for both two versions,
+> > > Chen-yu didn't cc Alex or Dongliang or Yanteng. Am I right, @Chen-yu?=
+ ;-)
+> >
+> > Yes, exactly. For both v1 and v2 I ran get_maintainer.pl, which only
+> > lists Hu Haowen and the mailing lists for zh_TW files, so Alex and the
+> > zh_CN team were never on cc.
+>
+> Right, let's note this situation down. We'll deal with it after we come
+> up with the final solution.
+>
+> >
+> > > Given that this document has not been maintained for ~2 years and the=
+se
+> > > patches to the terminology actually don't have much significance, it
+> > > might be more appropriate to directly declare the status of Tradition=
+al
+> > > Chinese as "Orphan" provisionally for now, and remove it directly in =
+the
+> > > near future, until Hao Wen's return and opinion. Or maybe, waiting fo=
+r a
+> > > new good soul to take over, which is unpredictable.
+> >
+> > Before it comes to that: I would like to step up and help carry zh_TW
+> > forward. I am a native zh_TW speaker from Taiwan, and I understand
+> > this means staying with it, not a one-off effort.
+>
+> Nice and thanks. Frankly speaking, At the very beginning, I did consider
+> saying that I also wanted to take over, and I wished I could. However,
+> considering that I was certainly not familiar with the traditional
+> Chinese terms used in Taiwan (although I knew some, that was all), I
+> finally chose to be speak more conservatively.
+>
+> > Dongliang, since you kindly offered to help review zh_TW patches:
+> > would you be open to doing this together -- either as co-maintainers,
+> > or with me listed as a reviewer (R:) first if that is a more
+> > reasonable starting point for a newcomer?
+>
+> Since I was the one who shamelessly initiated this discussion, I
+> definitely have the obligation to do something. See below...
+>
+> > > > To avoid scattering our efforts, I suggest we minimize fragmentatio=
+n
+> > > > as much as possible. When it comes to technical documentation
+> > > > translation, not literary translation, a straightforward, unadorned=
+,
+> > > > and free from misunderstandings is the best translation and easy to
+> > > > maintain. Let's keep thing simple, unless sth is really necessary.
+> >
+> > Alex, I think this concern is fair, and I have no intention of
+> > forking the translation effort. The scope I have in mind is
+> > deliberately narrow: keep zh_TW aligned with zh_CN in structure and
+> > coverage, and localize only where terminology genuinely differs
+> > (e.g. =E8=BB=9F=E9=AB=94 vs =E8=BD=AF=E4=BB=B6, =E4=BB=8B=E9=9D=A2 vs =
+=E6=8E=A5=E5=8F=A3) -- exactly the kind of differences
+> > you mentioned. Plain, accurate technical translation, no literary
+> > rewriting.
+>
+> Exactly, before sending my first email here, I had already thought about
+> the following approach, what do you think?
+>
+>   * Considering that English documents are changing so rapidly, and even
+>     simplified Chinese cannot keep up with them immediately. I suggest
+>     we start working on catching up with simplified Chinese right now,
+>     which seems like a good place to begin. (ok... seems exactly what you=
+ said ;-)
+>
+> > Weijie, as a first concrete step I will prepare a terminology series
+> > (rather than one-word-at-a-time patches, as you suggested) covering
+> > the existing process/ documents, and use it to build a small glossary
+> > that future patches and reviews can follow.
+>
+> I used to read this:
+>
+> https://zh.wikibooks.org/wiki/%E5%A4%A7%E9%99%86%E5%8F%B0%E6%B9%BE%E8%AE%=
+A1%E7%AE%97%E6%9C%BA%E6%9C%AF%E8%AF%AD%E5%AF%B9%E7%85%A7%E8%A1%A8
+>
+> Is it comprehensive? I don't know. Perhaps we could add some specific
+> reference tables related to the Linux Kernel on top of it.
+>
+> On Mon, Jul 13, 2026 at 11:49:07AM +0800, Dongliang Mu wrote:
+> > Chen-Yu,I would like to serve as co-maintainers to help maintain zh_TW.=
+ The
+> > script - tools/docs/checktransupdate.py can seamlessly work on zh_TW. T=
+his
+> > can help track the missing changes.
+>
+> I would also like to take a job ;-) while my current contributions are
+> not sufficient. And wish soon.
+>
+> > As discussed with Alex before, maybe zh_TW patches can first go to Alex=
+'s
+> > kernel tree and then push to Jon's tree. I am not sure if you are famil=
+ar
+> > with the maintainer workflow. If not, this solution may be better for y=
+ou to
+> > learn maintainer workflow.
+>
+> I suggest that we could try out the provisional plan for about one or
+> two months (depends), and then make a formal change.
+>
+> Before we make a formal change, I will monitor the list (CN & TW), If
+> there is any situation like this patch which is not sent correctly, I
+> will handle it promptly.
+>
+> OK, I consider myself quite familiar with the development process and
+> the maintenance process, mainly from Git (seems more complicated).
+> Perhaps I can handle most of the operation and maintenance tasks of
+> chore, giving Chen-yu more time and concentration to focus on the actual
+> translation work. But this can be further discussed.
+>
+> Thanks,
+> Weijie
