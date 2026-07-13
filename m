@@ -1,91 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E0A3F482A;
-	Mon, 13 Jul 2026 12:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8CF12E9729;
+	Mon, 13 Jul 2026 12:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783944457; cv=none; b=LHOgFLcuqBnDsVPV/A9z8Qb7P1PNRja87b2I3iiO81LLqb48qgEr825lX8Jx7RtpqsvvF5vggZspm7tyuxwH45050DcRXakR8gwzjINESMBYgXFJFr/bd2eNJodSRvoxcYxQA/vD1Hjuvz9OS+ABTNJoLC9cNzxo/ewmTVbPSLo=
+	t=1783945464; cv=none; b=fn10HrrMyxEVmepbWwSDtGB6H3yGL79WfQ6OyA8QjAVC+j+qKmbcFpg0e3TMJcE5NbG6SUG0e05SOwivtEvp+KJ2Snz8n5tw1TefzZTOPOJC+V5gMSkRkaf3zgmTGQE9L0+jIbnVrwx/n+rRjQ2gEBI6s/S8H6bwrGBfSGt86EM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783944457; c=relaxed/simple;
-	bh=7jDZSD0ZXBMKU0DnAOHmPPwvUaOFC7qe+/DOFXEBCrM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WbKdtb6zWVOpvitJARAQ5mb0/nDJquvkPXCJYDitJ2CeG4wu01Uih8D0B3++/dGwItnJTzK+c6uui7UVqVQ9ljyzw3hD4nerSGJHVwnLg23BVmH8x4LvY4+pyUwIIOnn2HOZPb4qTxhG0QV42eoGrNGtPJgvKFb19C3UU5rNnTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BpA+61ub; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783945464; c=relaxed/simple;
+	bh=A3aSYk1GwIYJT5qS8P1DZ9j0iHScTjVPwhuOEejpz+M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OHfAt1Be0fxuFjZQZcMGYvBIOlQrEyfq3Bd1roC2V81mqaDmkQEpBLXaNKruh/EGA9oJrhHHGxvLXItILM3RpNA7E4kak8gKCoX3EV19QbCsvzBURSk1CyObGQLzXfcY4WfZShWULNfVKvs5V1JXgbWyXy3HZGhANL2ubb0sfY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=MQ8rvkaq; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BpA+61ub"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF2191F00A3A;
-	Mon, 13 Jul 2026 12:07:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783944455;
-	bh=7jDZSD0ZXBMKU0DnAOHmPPwvUaOFC7qe+/DOFXEBCrM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BpA+61ubk0J051AHcwHvcJDrGcIq7CrWdik61tyJi8gKjWK/Bh6rOoauz4nnoATP9
-	 z9B7lFZLzJDrHlyAzSokl43P2diwlF4AwhbABdmReNTjUMnKd3YKN2oGjFTDCS0boM
-	 z0MNQ52CSqHNk3Tr2wOwfuQ+QcTTesZW3Ksc0KM/lPg00H8Olnz7IF/j3Xud1wfUAc
-	 vgKXYEMmk2C1/RznpAzIjCIb8xHtq1ACvc2WEEJKd+k2G/XgS3DENa2uT6HvvpArcA
-	 ZMPqyJRjF7xI/aIAcegBvA9wwIEhREtkzqapyHKncikPXnkwI86yBPj2yiyibNP1ok
-	 SffBMTrce85bQ==
-Date: Mon, 13 Jul 2026 13:07:29 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Fuad Tabba <fuad.tabba@linux.dev>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Ben Horgan <ben.horgan@arm.com>,
-	Jean-Philippe Brucker <jpb@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v12 00/29] KVM: arm64: Implement support for SME
-Message-ID: <2b521e6d-be72-4d6f-b9f2-87b4d1175803@sirena.org.uk>
-References: <20260709-kvm-arm64-sme-v12-0-d0301d79ef58@kernel.org>
- <CA+EHjTw4uz9UjezNdHynMV38P0jORwfcxSSv834nQ8Q1JqW0Jg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="MQ8rvkaq"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A627B1576;
+	Mon, 13 Jul 2026 05:24:17 -0700 (PDT)
+Received: from [10.174.43.56] (unknown [10.174.43.56])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2300B3FB90;
+	Mon, 13 Jul 2026 05:24:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1783945461; bh=A3aSYk1GwIYJT5qS8P1DZ9j0iHScTjVPwhuOEejpz+M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=MQ8rvkaqEWuMeBqeVJTiCZSf3Yg5kR4Du674BMXwqU/SmmIvpTy6hdRPArJirH+si
+	 5FXSS0tXg05VjXKF1OhvBuIG3j+Q1PSda5Tu7/Vu12HxmnQD53U3+lxV3W3HLhOlKs
+	 d6qLKmdIomLQCq6eyW0hH4g9ejvv3i+90soPKFK0=
+Message-ID: <22ba1b98-ddc8-4fff-a372-6e4aa2b59c7c@arm.com>
+Date: Mon, 13 Jul 2026 17:54:16 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/XZSrZTLgS9atLBV"
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTw4uz9UjezNdHynMV38P0jORwfcxSSv834nQ8Q1JqW0Jg@mail.gmail.com>
-X-Cookie: Courage is grace under pressure.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] arch: arm64: add early_param idle=<wfi|yield|nop>
+To: Sudeep Holla <sudeep.holla@kernel.org>,
+ Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20260711-arm64-idle-param-v2-1-0ab67652a435@cyberchaos.dev>
+ <20260713-bulky-thistle-leopard-c66a18@sudeepholla>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <20260713-bulky-thistle-leopard-c66a18@sudeepholla>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 13/07/26 3:27 PM, Sudeep Holla wrote:
+> On Sat, Jul 11, 2026 at 09:35:25AM +0200, Yureka Lilian wrote:
+>> Overriding the idle mechanism might be useful for debugging and performance
+>> testing. Add a cmdline parameter for it, similar to the existing idle=
+>> parameter already present for the x86 and ppc architectures.
+>>
+>> It is also useful on platforms where the WFI instruction misbehaves,
+>> such as Apple Silicon SoCs. Generally, a misbehaving instruction should
+>> be treated as an erratum and patched using the alternatives framework.
+>> However, in the Apple Silicon case we need more flexibility because it is
+>> difficult to detect whether the erratum applies. For example, Linux VMs
+>> inside macOS have the same MIDR and may even seem like they're running
+>> in EL2 in the case of NV, but should continue using WFI (it's trapped and
+>> handled correctly by the hypervisor there). Thus, we prefer to
+>> let the m1n1 bootloader add the idle=nop parameter[1].
+>>
+>> Link[1]: https://lore.kernel.org/all/99b69262-e54b-424e-baa2-96ef7013b87a@kernel.org/
+>> Suggested-by: Will Deacon <will@kernel.org>
+>> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+>> ---
+>> Changes in v2:
+>> - Applied suggestions by Anshuman Khandual (Thanks!)
+>> - Link to v1: https://patch.msgid.link/20260705-arm64-idle-param-v1-1-7454249f473f@cyberchaos.dev
+>> ---
+>>  Documentation/admin-guide/kernel-parameters.txt | 23 +++++++++++++++++++
+>>  arch/arm64/kernel/idle.c                        | 30 +++++++++++++++++++++++--
+>>  arch/arm64/kernel/idle.h                        | 13 +++++++++++
+>>  arch/arm64/lib/delay.c                          |  5 ++++-
+>>  4 files changed, 68 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index b2d7d3540ded..d7f5471edf8f 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -2239,6 +2239,29 @@ Kernel parameters
+>>  
+>>  			idle=nomwait: Disable mwait for CPU C-states
+>>  
+>> +			[ARM64,EARLY]
+>> +			Format: idle=wfi, idle=yield, idle=nop
+>> +
+>> +			idle=wfi: Use the WFI (Wait For Interrupt) hint
+>> +			instruction in the idle loop. This is the default and
+>> +			allows the CPU to enter a low-power state until an
+>> +			interrupt arrives.
+> 
+> Just curious as when and why one would need to use idle=wfi if that is the
+> default behaviour. I am missing the need to have it.
 
---/XZSrZTLgS9atLBV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I guess once there is a list to chose options from
+in the command line, should not the default option 
+be listed there as well ?
 
-On Sun, Jul 12, 2026 at 03:03:59PM +0100, Fuad Tabba wrote:
-
-> Unrelated: on the get-reg-list restructuring you mention deferring to
-> a separate series: since ZA, ZT0 and SME_VLS are the
-> migration-critical SME state, it'd be good if that series also covered
-> a save/restore round-trip for them, not just get-reg-list enumeration.
-
-Yes, better testing for the register interface in general would be good.
-
---/XZSrZTLgS9atLBV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpU1QAACgkQJNaLcl1U
-h9DypAf/W0SOgAJEKLIa3gvYV64Dx0urVRKR0KeM2AmELN/5bT9A/YfIHa92+vNh
-LfoAgKaikhNdRjiuGg+BQF7lBPZLLXEvXtZMY8MC1oYyioWaiFvyb/xwvcby6LNP
-RoTvjFB1ONxEfKsdrMhJvWbBJKu5AUc+9LRVSqzdQ5A0RfpKIneMV6kyjSVi2Io4
-1wyPtODfqjf4qCSnqAODl2i/YGv+yROouYCFA24iCMJ9sVpc0UwBHAQb3AFfIWlm
-ETQgCJpqueXMCMJNTXqUqMc1natNGA81jOPIg7CB3a3fxCRb4HxwOf5P8JrUmPWo
-1VvaTIAG01p4n0S8IKjjG34RHqBxkQ==
-=cZj9
------END PGP SIGNATURE-----
-
---/XZSrZTLgS9atLBV--
