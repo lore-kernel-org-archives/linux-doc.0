@@ -1,336 +1,130 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA6335CB66;
-	Mon, 13 Jul 2026 20:36:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95DA355F5C
+	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 20:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783974993; cv=none; b=nnIWIRjH45vXb7TKvhGvVR8KgMGkd8gdOZb4cw9na9Lg1oaX2rLPFgEfjgYcqzi5Kq6R57HIGvg8QjjutowASr8oa6vujT3gVKYT0TVkJp9bdbpEpn8J/wY6JMOqiEzrEAmxKzJWtq2fpAbCcPr5j+FsXzHqDifhL93hP9NQWAw=
+	t=1783976280; cv=none; b=SPhdxHD6AbuCvtNEFskf3dX4MJ9cvyBfTus39miadPFNcyeNGtPsH/aRvBk8yXI1tNDVwyHUgUMYF/v82GHBk6jS5HdxIVw7/Eoey03jrqGSaru7rGU9Qm2FMJp3YZvXjDeUTXILsQYN98jMtTGLjgvmVKVrBFS8iMy8VHtukbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783974993; c=relaxed/simple;
-	bh=bnB/Rj10CeHD8dDw/g2YNp+SsOr/qZj71Gb2lV0xrbw=;
+	s=arc-20240116; t=1783976280; c=relaxed/simple;
+	bh=D3eahPIAIk1fvhyOZkYEJP6bQ6n0at+bhFjOvvkmzpo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PcaPvgIXTk/1sSI/7vSUPZvEUjM7OFXiJCnwOObqI9EW+Ik5LLxqtYyvq0M6zPZHWUbE0lP7OPDclVrglSdl+wgCnYT3dhBF6Jp0R2jqIHrbKWwopMNtQbbpWpHxQoAFZiC+t6K4T2s/REg7qLaVVnb0UbVxZDUhcispAi/Vo0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Pb+mw8M1; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q9iQgXRnRSiUJgE30I9hcb6uYk3gNDUjpvy+MXuBHlki8C0VacYjUWJLQmWgcbFHeeao6rSgbqeDODr/GkhjAH/e+5L0uJrB6ZeHIu16zh7dpFZqPiLbGRFUYs5X5Yo+o2hUFZfJVBcht0atPdZdnNwhZ1G7+ZUZXQFW4BJ5sm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NgBrxDlp; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Pb+mw8M1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1783974988;
-	bh=bnB/Rj10CeHD8dDw/g2YNp+SsOr/qZj71Gb2lV0xrbw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pb+mw8M19m10mggqJHy7wMtpZ4G8kvuFi4RBEqrsDJOcCqmVNaPh0gFsBBsMwwlPf
-	 ylfYc5FhbbWjjPF9x6CXuo3uxUlkAUkAE1dA1vS+gEZKVUc6K59os7SknnOOdmsN2Z
-	 S2soIQVNbD/IH7Dc/XmuVr/Dd2NVZl8RmSrrXW0s=
-Date: Mon, 13 Jul 2026 22:36:28 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Rong Zhang <i@rong.moe>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
-	"Derek J. Clark" <derekjohn.clark@gmail.com>, Hans de Goede <hansg@kernel.org>, 
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Ike Panhc <ikepanhc@gmail.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, 
-	Vishnu Sankar <vishnuocv@gmail.com>, Vishnu Sankar <vsankar@lenovo.com>, linux-leds@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH RFC v2 5/9] leds: Add trigger_may_offload attribute
-Message-ID: <b36aa937-b100-4fa3-bbc9-631c4c39ba40@t-8ch.de>
-References: <20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3@rong.moe>
- <20260618-leds-trigger-hw-changed-v2-5-c28c44053cf3@rong.moe>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NgBrxDlp"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-38dfe7eb825so249547a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 13:57:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783976279; x=1784581079; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=oNqruOZIzwruIpGvkzB4DJORZxeTGWU0clCn+vXfCzI=;
+        b=NgBrxDlpDoknd6Zv5Ca/Oeewg5yuANlXmHDRnnhqXDWhgDP2P44OrR0s0/MTMy34mZ
+         n3zXMmcIfGoNR7Sd680LfEr1/geQl8EGetahP7W6fUt1MxIqIdI/L1VUVBggJAmQ51v0
+         jXoSwvwvp/CrIoMSWg71PL3DRpm2hdJGate6aUcUOOKGl8xTstjSeqi6gEKS96UO7Zjd
+         lb2a22B/uNSSHg5FZmQ48yi/TVkiA9sVtHA1/za6mSwdA5n6CL1pr/nmcJGtyJ1Z/Prh
+         VUKEcE5b/3E9zbq5R57HBRuSsc33Y7ePwJV08k/0UBOriBpPl9MhiDN0KZiEmLww+N0n
+         mgVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783976279; x=1784581079;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=oNqruOZIzwruIpGvkzB4DJORZxeTGWU0clCn+vXfCzI=;
+        b=sWa75GYRuG6//GNBvSxFsDYjsVQSJl4HJg0KySSHYtGnz980RAeEGC3kr65jLhqi0k
+         wYUSlW+JFLAky00mF5/cVriQ9SS0lEHkmygfHTNiecQWGKr4E31efV3aBy54f/roY3jl
+         xZ83lsUHolawSmqH85J2uBCS2U+qBPIqnmaxBDqAWPGBad+z2nQCvgB9XYXk2ZiDVDrf
+         cG/JcPaNxxl5sPMCpDfni5uMNNkPETC2EbKuZ4qLes7oAHVrUT2hi6eqSA7CYxsEkxEh
+         Tq5jwrh8qjMoPo4rjdAM7wUdjNjrwUXdC6Z6IgSKClYX+/TD98227IliJmGwrf8prKrb
+         Zb8w==
+X-Forwarded-Encrypted: i=1; AHgh+Rq5j82tnO5pbmF8rd7wS7uylJA1Tj2b+463nxaUIIYIqYW7rkVZnVQrdep/+issFHEMKow0ymYyqr0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGvy/twQ9SUPrG/e9peUZ0dG4+gjtE3sz+yh0bP9JnilIzsH4p
+	i8l0ff4qKmr7jAuk4gMfBnysdoUyWYq/vFKeBowRtKzbdeHEOxdxuMh6
+X-Gm-Gg: AfdE7cm/BZNqeRSemIXw7xQEOU6fdbASEOSfOKhBgbVO26tX+T1ovlWwP6HzpCSrDq7
+	q+NNXGbaKBTAU5rd0NsqnK91cIToE/Js6m+MDVYh6Tz0hmFwXZh2c2ik9n1iJNPDzyNGh2CULhq
+	BkUnHN3WC8AkBayPEhWRnQWNHtZRi+mdOorMgPIWDt6IKg2mT3fRPjouf07HE/iaMEWLc2LvODj
+	PvlZz/Wf21oMbKE8oPUWd+J0af/j3dWwAuu5klZSK16zNE0k245JVfo/gyZ9rGGVD+FRb2V4ye6
+	DoGgA43zyZYkxf+kFaZKSyfaGXrCabnf3S8p5FBnENzz98WLw0FdWbMjrPEfbjICfuACOaoFOZH
+	XDMoD32ocUr7Ng2B8bBYQYlV7yVm4yWktzZQ8Hwuodo5gc+JgiEmcmfReCtQDr40gjzzXjp5ZXy
+	bSicznLWk08GE5TY3hw9qCpGbwwSWK3fOFgVlq2qgb2RuF8aKVfEI2hi8NkfnHnUeijg==
+X-Received: by 2002:a17:90a:d88b:b0:381:528a:808c with SMTP id 98e67ed59e1d1-38dc75e3d4fmr9572711a91.12.1783976279067;
+        Mon, 13 Jul 2026 13:57:59 -0700 (PDT)
+Received: from skinsburskii (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e172b6ce6sm403816a91.1.2026.07.13.13.57.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2026 13:57:58 -0700 (PDT)
+Date: Mon, 13 Jul 2026 13:57:55 -0700
+From: Stanislav Kinsburskii <skinsburskii@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: airlied@gmail.com, akhilesh@ee.iitb.ac.in, corbet@lwn.net,
+	dakr@kernel.org, david@kernel.org, decui@microsoft.com,
+	haiyangz@microsoft.com, jgg@ziepe.ca, kees@kernel.org,
+	kys@microsoft.com, leon@kernel.org, liam@infradead.org,
+	lizhi.hou@amd.com, ljs@kernel.org, longli@microsoft.com,
+	lyude@redhat.com, maarten.lankhorst@linux.intel.com,
+	mamin506@gmail.com, mhocko@suse.com, mripard@kernel.org,
+	nouveau@lists.freedesktop.org, ogabbay@kernel.org, oleg@redhat.com,
+	rppt@kernel.org, shuah@kernel.org, simona@ffwll.ch,
+	skhan@linuxfoundation.org, surenb@google.com, tzimmermann@suse.de,
+	vbabka@kernel.org, wei.liu@kernel.org,
+	dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-rdma@vger.kernel.org
+Subject: Re: [PATCH v8 0/8] mm/hmm: Add mmap lock-drop support for
+ userfaultfd-backed mappings
+Message-ID: <alVRU38lMfvmUFqJ@skinsburskii>
+References: <178371866223.900500.12312667138651735591.stgit@skinsburskii>
+ <20260710151151.1e193eedd0cf2591ae392f76@linux-foundation.org>
+ <alG2-RSitzPWClAX@skinsburskii>
+ <20260710224950.53bcb43ce7e564f07a1f6a8c@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260618-leds-trigger-hw-changed-v2-5-c28c44053cf3@rong.moe>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260710224950.53bcb43ce7e564f07a1f6a8c@linux-foundation.org>
 
-On 2026-06-18 00:47:59+0800, Rong Zhang wrote:
-> There are multiple triggers implementing hardware control. Only "netdev"
-> provides a custom attribute to determine if it's offloaded to hardware
-> (i.e., in hardware control). For other triggers, there is no obvious way
-> for userspace to determine the trigger state programmatically. Moreover,
-> userspace can't query if an LED device supports hardware control or
-> identifies these triggers.
+On Fri, Jul 10, 2026 at 10:49:50PM -0700, Andrew Morton wrote:
+> On Fri, 10 Jul 2026 20:22:33 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
 > 
-> Add a new attribute "trigger_may_offload" to the LED core, so that
-> userspace can determine:
+> > On Fri, Jul 10, 2026 at 03:11:51PM -0700, Andrew Morton wrote:
+> > > On Fri, 10 Jul 2026 14:26:20 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
+> > > 
+> > > > This series extends the HMM framework to support userfaultfd-backed memory
+> > > > by allowing the mmap read lock to be dropped during hmm_range_fault().
+> > > 
+> > > Thanks.  This seems fairly mature and mostly-reviewed so I'll give it a
+> > > spin in mm.git's mm-new branch.
+> > > 
+> > > Unfortunately Sashiko wasn't able to apply this or v7.  I'm not sure
+> > > what base you were using.  Hopefully there's a reason for a v9 so we
+> > > can retry this.
+> > > 
+> > 
+> > I rebased this series on top of mm-new right before sending it out.
+> > Should I have used a different branch?
 > 
-> - if the LED device supports hardware control (supported => visible)
-> - which trigger is the hardware control trigger selected by the LED
->   device
-> - if the trigger is selected ("<foo_trigger>")
-> - if the trigger is offloaded ("[foo_trigger]")
+> mm-new is good - Sashiko attempts that.  But it's changing rapidly at
+> this point in the development cycle.
 > 
-> Note: the documentation describes the attribute as "returning a list"
-> despite the LED core currently only supports one hardware control
-> trigger per LED device. This is intentional to make the attribute
-> extensible in the future without breaking userspace.
 
-Maybe also mention that the old 'offloaded' attribute is deprecated.
-However, does it really need to be deprecated?
+I’d like to send another revision addressing a few comments and also
+replace the `max/max_t` check with something simpler.
 
-> Signed-off-by: Rong Zhang <i@rong.moe>
-> ---
->  .../ABI/obsolete/sysfs-class-led-trigger-netdev    | 16 ++++++++
->  Documentation/ABI/testing/sysfs-class-led          | 22 +++++++++++
->  .../ABI/testing/sysfs-class-led-trigger-netdev     | 13 -------
->  Documentation/leds/leds-class.rst                  |  8 ++++
->  drivers/leds/led-class.c                           | 23 +++++++++++
->  drivers/leds/led-triggers.c                        | 45 ++++++++++++++++++++++
->  drivers/leds/leds.h                                |  2 +
->  drivers/leds/trigger/ledtrig-netdev.c              |  2 +
->  8 files changed, 118 insertions(+), 13 deletions(-)
-> 
-> diff --git a/Documentation/ABI/obsolete/sysfs-class-led-trigger-netdev b/Documentation/ABI/obsolete/sysfs-class-led-trigger-netdev
-> new file mode 100644
-> index 000000000000..8d2fbfaf50c3
-> --- /dev/null
-> +++ b/Documentation/ABI/obsolete/sysfs-class-led-trigger-netdev
-> @@ -0,0 +1,16 @@
-> +What:		/sys/class/leds/<led>/offloaded
-> +Date:		June 2026
-> +KernelVersion:	7.3
-> +Contact:	linux-leds@vger.kernel.org
-> +Description:
-> +		Communicate whether the LED trigger modes are offloaded to
-> +		hardware or whether software fallback is used.
-> +
-> +		If 0, the LED is using software fallback to blink.
-> +
-> +		If 1, the LED blinking in requested mode is offloaded to
-> +		hardware.
-> +
-> +		/sys/class/leds/<led>/trigger_may_offload provides a generic
-> +		method to query the offloaded state of supported triggers,
-> +		superseding this attribute.
-> diff --git a/Documentation/ABI/testing/sysfs-class-led b/Documentation/ABI/testing/sysfs-class-led
-> index 0313b82644f2..edd5a9a74dfd 100644
-> --- a/Documentation/ABI/testing/sysfs-class-led
-> +++ b/Documentation/ABI/testing/sysfs-class-led
-> @@ -78,6 +78,28 @@ Description:
->  		(which would often be configured in the device tree for the
->  		hardware).
->  
-> +What:		/sys/class/leds/<led>/trigger_may_offload
-> +Date:		June 2026
-> +KernelVersion:	7.3
-> +Contact:	linux-leds@vger.kernel.org
-> +Description:
-> +		Names and states of triggers that may be offloaded to hardware.
-> +		Such triggers are also called "hw control trigger" in some
-> +		context.
-> +
-> +		Only exists when the LED supports trigger offload.
-> +
-> +		Reading this file returns a list of triggers that are capable to
-> +		be offloaded. The optional brackets around the trigger name
-> +		indicate the state of the current trigger:
-> +
-> +		- `foo_trigger`: the trigger is not selected.
-> +		- `<foo_trigger>`: the trigger is selected, but falls back to
-> +		  software blink for some reason (e.g., incompatible trigger
-> +		  parameters)
-> +		- `[foo_trigger]`: the trigger is selected and offloaded to
-> +		  hardware.
-> +
->  What:		/sys/class/leds/<led>/inverted
->  Date:		January 2011
->  KernelVersion:	2.6.38
-> diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-netdev b/Documentation/ABI/testing/sysfs-class-led-trigger-netdev
-> index ed46b37ab8a2..396d37a4b820 100644
-> --- a/Documentation/ABI/testing/sysfs-class-led-trigger-netdev
-> +++ b/Documentation/ABI/testing/sysfs-class-led-trigger-netdev
-> @@ -62,19 +62,6 @@ Description:
->  		When offloaded is true, the blink interval is controlled by
->  		hardware and won't reflect the value set in interval.
->  
-> -What:		/sys/class/leds/<led>/offloaded
-> -Date:		Jun 2023
-> -KernelVersion:	6.5
-> -Contact:	linux-leds@vger.kernel.org
-> -Description:
-> -		Communicate whether the LED trigger modes are offloaded to
-> -		hardware or whether software fallback is used.
-> -
-> -		If 0, the LED is using software fallback to blink.
-> -
-> -		If 1, the LED blinking in requested mode is offloaded to
-> -		hardware.
-> -
->  What:		/sys/class/leds/<led>/link_10
->  Date:		Jun 2023
->  KernelVersion:	6.5
-> diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/leds-class.rst
-> index 84665200a88d..41342ecb5f6b 100644
-> --- a/Documentation/leds/leds-class.rst
-> +++ b/Documentation/leds/leds-class.rst
-> @@ -179,6 +179,9 @@ ops and needs to declare specific support for the supported triggers.
->  
->  With hw control we refer to the LED driven by hardware.
->  
-> +A sysfs attribute `trigger_may_offload` is provided for userspace to
-> +query supported triggers and their states.
-> +
->  LED driver must define the following value to support hw control:
->  
->      - hw_control_trigger:
-> @@ -240,6 +243,11 @@ LED trigger must implement the following API to support hw control:
->                  return a boolean indicating if the trigger is offloaded to
->                  hardware.
->  
-> +                If an LED driver specifies a hw control trigger but the
-> +                latter doesn't implement this callback, a dev_err_once will
-> +                be emitted and the LED trigger will be assumed to be not
-> +                offloaded.
+Which branch should I base it on so that Sashiko can apply it
+successfully?
 
-Not sure if this needs to be documented.
-I would make this optional initally and enforce it after all the drivers
-have been changed in the series.
+Or would it be better to send fixups against `mm-new`?
 
-> +
->  LED driver can activate additional modes by default to workaround the
->  impossibility of supporting each different mode on the supported trigger.
->  Examples are hardcoding the blink speed to a set interval, enable special
-> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> index 9e14ae588f78..0ac80b93b8b5 100644
-> --- a/drivers/leds/led-class.c
-> +++ b/drivers/leds/led-class.c
-> @@ -90,8 +90,31 @@ static const struct bin_attribute *const led_trigger_bin_attrs[] = {
->  	&bin_attr_trigger,
->  	NULL,
->  };
-> +
-> +static DEVICE_ATTR(trigger_may_offload, 0444, led_trigger_may_offload_show, NULL);
-
-DEVICE_ATTR_RO()
-
-> +static struct attribute *led_trigger_attrs[] = {
-> +	&dev_attr_trigger_may_offload.attr,
-> +	NULL,
-
-No comma after the sentinel.
-
-> +};
-> +
-> +static umode_t led_trigger_is_visible(struct kobject *kobj,
-> +				      struct attribute *attr,
-> +				      int idx)
-> +{
-> +	struct device *dev = kobj_to_dev(kobj);
-> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-> +
-> +	if (attr == &dev_attr_trigger_may_offload.attr &&
-> +	    !led_cdev->hw_control_trigger)
-
-Can be a single line.
-
-> +		return 0;
-> +
-> +	return attr->mode;
-> +}
-> +
->  static const struct attribute_group led_trigger_group = {
->  	.bin_attrs = led_trigger_bin_attrs,
-> +	.attrs = led_trigger_attrs,
-> +	.is_visible = led_trigger_is_visible,
->  };
->  #endif
->  
-> diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-> index b1223218bda1..c43229d9c4c1 100644
-> --- a/drivers/leds/led-triggers.c
-> +++ b/drivers/leds/led-triggers.c
-> @@ -313,6 +313,51 @@ void led_trigger_set_default(struct led_classdev *led_cdev)
->  }
->  EXPORT_SYMBOL_GPL(led_trigger_set_default);
->  
-> +/*
-> + * Caller must ensure led_cdev->trigger_lock held,
-
-Use lockdep_assert_held() to document and validate locking invariants.
-
-> + * and led_cdev->trigger->name must match led_cdev->hw_control_trigger.
-> + */
-> +static bool led_trigger_get_offloaded(struct led_classdev *led_cdev)
-> +{
-> +	if (likely(led_cdev->trigger->offloaded))
-> +		return led_cdev->trigger->offloaded(led_cdev);
-> +
-> +	dev_err_once(led_cdev->dev,
-> +		     "hw control trigger %s doesn't implement offloaded(), this is a bug\n",
-> +		     led_cdev->trigger->name);
-> +	return false;
-> +}
-> +
-> +ssize_t led_trigger_may_offload_show(struct device *dev,
-> +				     struct device_attribute *attr, char *buf)
-> +{
-> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-> +	bool hit, offloaded = false;
-> +	struct led_trigger *trig;
-> +	int len;
-> +
-> +	mutex_lock(&led_cdev->led_access);
-> +	down_read(&led_cdev->trigger_lock);
-
-guard()?
-
-> +
-> +	trig = led_cdev->trigger;
-> +
-> +	hit = trig && !strcmp(led_cdev->hw_control_trigger, trig->name);
-> +	if (hit)
-> +		offloaded = led_trigger_get_offloaded(led_cdev);
-> +
-> +	/* [offloaded] <active_but_not_offloaded> inactive */
-> +	len = sysfs_emit(buf, "%s%s%s\n",
-> +			 offloaded ? "[" : (hit ? "<" : ""),
-> +			 led_cdev->hw_control_trigger,
-> +			 offloaded ? "]" : (hit ? ">" : ""));
-> +
-> +	up_read(&led_cdev->trigger_lock);
-> +	mutex_unlock(&led_cdev->led_access);
-> +
-> +	return len;
-> +}
-> +EXPORT_SYMBOL_GPL(led_trigger_may_offload_show);
-> +
->  /* LED Trigger Interface */
->  
->  int led_trigger_register(struct led_trigger *trig)
-> diff --git a/drivers/leds/leds.h b/drivers/leds/leds.h
-> index bee46651e068..9177e098989b 100644
-> --- a/drivers/leds/leds.h
-> +++ b/drivers/leds/leds.h
-> @@ -27,6 +27,8 @@ ssize_t led_trigger_read(struct file *filp, struct kobject *kobj,
->  ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
->  			const struct bin_attribute *bin_attr, char *buf,
->  			loff_t pos, size_t count);
-> +ssize_t led_trigger_may_offload_show(struct device *dev,
-> +				     struct device_attribute *attr, char *buf);
->  
->  extern struct rw_semaphore leds_list_lock;
->  extern struct list_head leds_list;
-> diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-> index a26109ca4b1c..21f22eea4ab8 100644
-> --- a/drivers/leds/trigger/ledtrig-netdev.c
-> +++ b/drivers/leds/trigger/ledtrig-netdev.c
-> @@ -487,6 +487,8 @@ static ssize_t offloaded_show(struct device *dev,
->  {
->  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
->  
-> +	dev_warn_once(dev, "offloaded attribute has been deprecated, see trigger_may_offload.\n");
-> +
->  	return sprintf(buf, "%d\n", trigger_data->hw_control);
->  }
->  
-> 
-> -- 
-> 2.53.0
-> 
+Thanks, Stanislav
