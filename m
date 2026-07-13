@@ -1,177 +1,217 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE9A3382F4;
-	Mon, 13 Jul 2026 21:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A698623E358
+	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 21:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783977265; cv=none; b=Puk5RXe5PwXP3zYae8B2XYWsz4ookJwrXC3tvIGotVePZP+DvCopN9GZZgu9mHN43cGjVsrxdaL/3ASjxcqUCRE1LIMe8ZOuNlEpfdIlkcrU7jL3S5fouxdu/I0M6VB53/GhHPPhnlEb9yMzaZGqcbBUBtTdw3nfkjobUuXR/Dw=
+	t=1783977452; cv=none; b=VWRnwMErFtGYYOa6CC1Zv9uSFVDlUNpFGKjGAHk4TT6WGNU3zrKe63zylKNAGIzkOYxjINbWg4luMXg8uVlcsetSoTZ3fIvUjLYyx1VpfH9a8AFzc8Hzi8kwG7f7hPqeDCPP+SBujuvNBxqINInhtGjb+Gvg/fRquk/ckx6Ry1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783977265; c=relaxed/simple;
-	bh=hFLJTEOtnPP+/owFXOrP6LuYyD2e+GGiXgitKVu3Klk=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=NxDNCrlzg9okSEeQzwcmWyagBBLxlgm+V0QMthPD1clG/U6RG2cWtQiw5/mTfmSYF8SoWJ/xsLnwIZdJzdoQL3ZS2qXQhTRdmY22DXaPqh0RqS+yISihXEeHl2ith4nu+/Qf2wsID/ridYWJOmTh2ykiclTqytDiV9wq94Zzjlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bRLvYS10; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783977452; c=relaxed/simple;
+	bh=ESZSUj+QsiIF6nv0NbuhSDu+P6Pwr5U/SNiDVxlW6sk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Disposition; b=HptEz1Ybc4OBZ2UFOY9s5UoRcmAOK2EJy2soW2EsdVYCz9T81XICG/iWOgZjdKTk+zvMgnNkxta9KRIhAFfZTWzdy3PBBCJfO/EZL9Ud/vVRHgshrPQM02HYU0y+UZ1WEYAlm4cAph1Wj+uBT9/yoLXKCC4rSXbvUh3FKIor65Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oMHN5ODE; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bRLvYS10"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B4631F00A3D;
-	Mon, 13 Jul 2026 21:14:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783977264;
-	bh=sMBui836HM41KY8s3+Mm8qIHFtVsg0cuQwuzcHoGBGw=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=bRLvYS10AMK0kvxXR59RYA9FSFouJAeQczmz5wHotdAOb74uqEkRikcm5pf+pfEJc
-	 N32c0SXNup4oYQS36yo4Lw2rFyX7svFRyU9E/Z9DxaF7RZM3kPz7f+Iz44z00wbLy6
-	 xBQBrI3T6p91Oy/j2zaSSSRBnQcJjp7E8AWp/IbyE500OfGUjHVLTp+ssakvW2mteY
-	 ga6dVNMXSJZ0hqpksKKkmmENN+wIwLcD8UTyBq9M1S9dbyaq9/wUxWJn6M9Ile2HMg
-	 vN+C6lw/1x6vhf/Hb5XZU41u12CrKTyykSOwdGOq4ujQmoj+zaj9xKc1RPJFsgnjiQ
-	 QsjgcIMVf9ojw==
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 5B70AF40119;
-	Mon, 13 Jul 2026 17:14:22 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Mon, 13 Jul 2026 17:14:22 -0400
-X-ME-Sender: <xms:LlVVanX9epxdm6vE5XaKiNEEQE8RKCum1fePyhsn_ISXeIHTZMgGLA>
-    <xme:LlVVakf8QUACxIZ9ofCaRIvRzAE4f99-TaNSXzQNE0oDatgLYxvQ0VHz8z2sV9Keo
-    8I9j3WcFVjgh5iN3qEW2-JAYdbEL6AIGLOdyPxy52uN1QLDYg4Uic0>
-X-ME-Received: <xmr:LlVVag9FYCB5M6mjXULxej9uYDxuBEEl0WiGrWL_gmBJywMTsys5S7PVjWTfqxRETzZixnlc2zD6mbBT22skSFfdSTlgccsSgNI>
-X-ME-Proxy-Cause: dmFkZTFNij3gMh+X8Z9njSKkNHcXU0qZMJw/Gf1R/d3jzfKrxojwVNTxUV2e6GTfe7KByY
-    JijsFbEuiYnrxI0HagcW2l/RzWe8ge82nq9KT9GRAr3TDEmmqpMjDJNV6fEhBUsPJqJH9x
-    hioaW0XiA1PEFvoChOb0xHMAzsHUG1vslBm3qHrmUPMNxNGj55Br7P9rco5to57Ki8PYVN
-    iaTcBCQdQJxD3DftDB7VTuGVCIhM4yJL589c5sJhmWqP6VwwEpGINQtJvK06TFKk4fxN3y
-    88sk4YXX+DCCNUwIBOJwgt0dhTvbEWUISQho5kTNm5pVfdqWp1kocfsy1dWzX6GWcdQpf9
-    CVIycnV+YUFYiz34PXnhpZIOdzVSp7ca6F79kcbcLAJ6aea/zrPCAYyrzCbzMpGonQlCPQ
-    0WeEg2t+0qdX1lNeRjo9wAP/8IN1It6m5yY3lnpHY6NPa23cbE62uvKyGgU3l0+V39NNmc
-    8vYtkF5xdjOHYiED9NDvKTuJz1PRt8qIkJTFaROCBEwZCNxnr+5vUDKNc0y6nQjDIOZSwm
-    tAlrfS6+bUTtfnG8w9M9b1LRhQ3765pbUSEa6RTn+O0HBoIoSy0nUX7c0FokUGtNLPvTHI
-    gd62w4vF1ESfrI5ZbZHGgDvtwUIsaVr8tNPRvGBMcUbO/V2FnrmuI4imfsPw
-X-ME-Proxy: <xmx:LlVVakaxf__zGGvNap-G0VcZCHvGKTgpIknaKFPsN4SFO-CGy9GLfQ>
-    <xmx:LlVVagu4cz_fcZD7XFiW6WYtUDZIBVm6ZqVefKqvPUnAg9cGtZPg0w>
-    <xmx:LlVVahaG7f00MGJ4UGx3l9TQuFmS4wnLstbuR9VYMjrCkyMz2a_jiQ>
-    <xmx:LlVVakQbn33zqUbj-xtZv-5_1D6XSTeM6RfoQyscg_JzCJfnuqjnvQ>
-    <xmx:LlVVaszEyftclIAwPMVRESgjM2bmZBdJHybVxBjcC0cMjCJsDUO-tBMv>
-Feedback-ID: i67ae4b3e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Jul 2026 17:14:21 -0400 (EDT)
-Date: Mon, 13 Jul 2026 14:14:20 -0700
-From: "Dan Williams (nvidia)" <djbw@kernel.org>
-To: Manish Honap <mhonap@nvidia.com>, 
- Alex Williamson <alex@shazbot.org>
-Cc: "djbw@kernel.org" <djbw@kernel.org>, 
- "jgg@ziepe.ca" <jgg@ziepe.ca>, 
- "jic23@kernel.org" <jic23@kernel.org>, 
- "dave.jiang@intel.com" <dave.jiang@intel.com>, 
- Ankit Agrawal <ankita@nvidia.com>, 
- "alejandro.lucero-palau@amd.com" <alejandro.lucero-palau@amd.com>, 
- "alison.schofield@intel.com" <alison.schofield@intel.com>, 
- "dave@stgolabs.net" <dave@stgolabs.net>, 
- "dmatlack@google.com" <dmatlack@google.com>, 
- "gourry@gourry.net" <gourry@gourry.net>, 
- "ira.weiny@intel.com" <ira.weiny@intel.com>, 
- Neo Jia <cjia@nvidia.com>, 
- Krishnakant Jaju <kjaju@nvidia.com>, 
- Vikram Sethi <vsethi@nvidia.com>, 
- Zhi Wang <zhiw@nvidia.com>, 
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, 
- Manish Honap <mhonap@nvidia.com>
-Message-ID: <6a55552c98a82_35cf3310082@djbw-dev.notmuch>
-In-Reply-To: <IA1PR12MB9030E175587B09CEA7A4D90FBDFA2@IA1PR12MB9030.namprd12.prod.outlook.com>
-References: <20260625165407.1769572-1-mhonap@nvidia.com>
- <20260625165407.1769572-6-mhonap@nvidia.com>
- <20260710162322.012be635@shazbot.org>
- <IA1PR12MB9030E175587B09CEA7A4D90FBDFA2@IA1PR12MB9030.namprd12.prod.outlook.com>
-Subject: RE: [PATCH v3 05/11] vfio: UAPI for CXL Type-2 device passthrough
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oMHN5ODE"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-697cee2eb6dso342069a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 14:17:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783977449; x=1784582249; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=npiX22YSguzWJpXGx2hHTXeW3ywrBRl4LUKqa1yh85s=;
+        b=oMHN5ODEsWjYmZrdJCzfdOqFdP+qBC3cKNC+RxVz+zkhavTaEZJXW0euPRlaBJaoBS
+         aWuSY56DIscLKrywDNhaQFNnZ5SCQpy57WMrTVQCDrLWbd8b8+Jkgcs4LvGQhosohbtx
+         mi06pSDb7AGBtaNlIktcA/40JdTqWvXq8b8bBBuumxyhwCXCa/K/0cpk9EqP68ijmwau
+         pRlKqm6akrEhYdeVLZGRQn2a2BpsE7LnnWN92+9fXfDys90mIZeIUctDCa2WVIsR1y8I
+         u17sLoCC0fHxtTwQR9Xw7VMEjGPLxkh2B97lz+9zbR6cQknfbrBeEsANuhtJXcfBcr2I
+         glzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783977449; x=1784582249;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=npiX22YSguzWJpXGx2hHTXeW3ywrBRl4LUKqa1yh85s=;
+        b=hQ5M/GPexvKguVW3ujwyOOJYihcm6N2P0WycRyChbcqGTcuc4Ty4I3RgW9+zy5oyna
+         3Kid9knR2jc8J7QHeMBaMnUKKFgeG5uf1O0JEsqzzgSYvCugTsl3rq+YBzrbyaOFN2zF
+         5+TghYjknhcTWIhr6iWQjDLklrz/heV4TSd49bgDIIR5qQwpjxZiQ08mRvyZzzKXMXDM
+         PhoKnx/mI1/7sjwIEqmcQxT5SEyR2ivaAWSjYNmZT5MirVaOCa5Nogpkp8TbS2EEPiAz
+         SenmlUS2DA+AZ0E/JBlbRCaNgl/flGLrU80mHALzZKtGAkXdPh/l2KUoCeCV3JyVRh9O
+         PrVw==
+X-Forwarded-Encrypted: i=1; AHgh+Rrg+uGDNYVGNGNyPAQqlGHrH2yvFZtOB7Altrp2R0I0eCelImVmbtoYk0aK/yQVYZZ6tXzwoCkf+rc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQLMJNvWl333KEuPVVYJbPILQbA0t411P5OBsLJlJK2nFmMzhe
+	MwgyNSPF9xreiy4mVovVG2wDzIxeL0JXO7C9ZN/9M8YHvtW9UVUULky+
+X-Gm-Gg: AfdE7cklDqX4NjjPw5OjKQMayrAS5BveoJZujO0l28VW2mhUmjGyK+JUAGE57H6LUho
+	yc01yZ0FO9/gyX6lGoVRhtRs2Xhlsyy5v2KkyWMXNpxovN9KcTdEYA7mSm4GKt05nzDtq5Y0sNh
+	KBHvAZ4sZjjPZtxvdi4RICGoL3EY5tSDKvICQ1nHpBYuBQ0e6vdTsFPKrvrxSRKk9m9B3diA6Lz
+	nVArWxGO+R8YvvuRwUAd5Jc+qcZ+ejR//6+WeWWTcjiyAc5CNUIuaBWDWMU6cepvMkXAIXRtk4I
+	h6jcipBvBebML2mTy3ypBJED9JJ1BntYZvMJPrmHnndW2bjD490cy3E1v7QJB/lRhn44GtANQgH
+	byVEezky8Eq9eW9YSG5W2ihD2Ycyxw4Lm/OzOmpIvjAv6EEYA9+sDYSoVOMLDnHyz10NtI864iL
+	6Qwqp+Cxc/CRERhO29WcUIyBRG7VcLzydp
+X-Received: by 2002:a05:6402:3220:b0:698:ad7f:9383 with SMTP id 4fb4d7f45d1cf-69c5f0c3130mr4880740a12.14.1783977448821;
+        Mon, 13 Jul 2026 14:17:28 -0700 (PDT)
+Received: from WindFlash.powerhub ([2a0a:ef40:f61:3b01:d08a:833b:756:8fce])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69cd2952836sm386903a12.27.2026.07.13.14.17.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2026 14:17:27 -0700 (PDT)
+From: Leonardo Bras <leobras.c@gmail.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Leonardo Bras <leobras.c@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Brendan Jackman <jackmanb@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Zi Yan <ziy@nvidia.com>,
+	Harry Yoo <harry@kernel.org>,
+	Hao Li <hao.li@linux.dev>,
+	Christoph Lameter <cl@gentwo.org>,
+	David Rientjes <rientjes@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Baoquan He <bhe@redhat.com>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>,
+	Wei Xu <weixugc@google.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Feng Tang <feng.tang@linux.alibaba.com>,
+	Dapeng Mi <dapeng1.mi@linux.intel.com>,
+	Kees Cook <kees@kernel.org>,
+	Marco Elver <elver@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Li RongQing <lirongqing@baidu.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Douglas Anderson <dianders@chromium.org>,
+	Gary Guo <gary@garyguo.net>,
+	Christian Brauner <brauner@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Coiby Xu <coxu@redhat.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v4 0/4] Introduce Per-CPU Work helpers (was QPW)
+Date: Mon, 13 Jul 2026 18:17:23 -0300
+Message-ID: <alVV44RO_SolaqMW@WindFlash>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260713080723.XOTiibfG@linutronix.de>
+References: <20260519012754.240804-1-leobras.c@gmail.com> <20260520130903.Ebsd4aUa@linutronix.de> <alP58SgTc2_8OFPc@WindFlash> <20260713080723.XOTiibfG@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Manish Honap wrote:
-> > -----Original Message-----
-> > From: Alex Williamson <alex@shazbot.org>
-> > Sent: 11 July 2026 03:53
-> > To: Manish Honap <mhonap@nvidia.com>
-> > Cc: djbw@kernel.org; jgg@ziepe.ca; jic23@kernel.org;
-> > dave.jiang@intel.com; Ankit Agrawal <ankita@nvidia.com>;
-> > alejandro.lucero-palau@amd.com; alison.schofield@intel.com;
-> > dave@stgolabs.net; dmatlack@google.com; gourry@gourry.net;
-> > ira.weiny@intel.com; Neo Jia <cjia@nvidia.com>; Krishnakant Jaju
-> > <kjaju@nvidia.com>; Vikram Sethi <vsethi@nvidia.com>; Zhi Wang
-> > <zhiw@nvidia.com>; kvm@vger.kernel.org; linux-cxl@vger.kernel.org;
-> > linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
-> > kselftest@vger.kernel.org; alex@shazbot.org
-> > Subject: Re: [PATCH v3 05/11] vfio: UAPI for CXL Type-2 device
-> > passthrough
+On Mon, Jul 13, 2026 at 10:07:23AM +0200, Sebastian Andrzej Siewior wrote:
+> On 2026-07-12 17:32:49 [-0300], Leonardo Bras wrote:
+> > > > The idea:
+> > > > Currently with PREEMPT_RT=y, local_locks() become per-cpu spinlocks.
 > > 
-[..]
+> > Hi Sebastian, thank you for reviewing!
+> > (Sorry for the delay)
 > > 
-> > On Thu, 25 Jun 2026 22:24:01 +0530
-> > <mhonap@nvidia.com> wrote:
-> > > diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-> > > index 5de618a3a5ee..3707d53c4de5 100644
-> > > --- a/include/uapi/linux/vfio.h
-> > > +++ b/include/uapi/linux/vfio.h
-> > > @@ -215,6 +215,7 @@ struct vfio_device_info {
-> > >  #define VFIO_DEVICE_FLAGS_FSL_MC (1 << 6)    /* vfio-fsl-mc device */
-> > >  #define VFIO_DEVICE_FLAGS_CAPS       (1 << 7)        /* Info supports
-> > caps */
-> > >  #define VFIO_DEVICE_FLAGS_CDX        (1 << 8)        /* vfio-cdx
-> > device */
-> > > +#define VFIO_DEVICE_FLAGS_CXL        (1 << 9)        /* vfio-cxl
-> > Type-2 device */
+> > > It does not become a _spin_lock because it does not spin. It sleeps.
 > > 
-> > Would we define a different flag for type-1/3 if we ever found a need to
-> > expose them through vfio?
+> > Right, it's a per-cpu mutex. 
+> > My point is that it's a full lock, and we could use it instead of doing the 
+> > whole scheduling thing, since we are already paying the 'atomic overhead' 
+> > to get the lock here.
 > 
-> Yes. The current flag is named VFIO_DEVICE_FLAGS_CXL and refers to
-> Type-2 specifically. If Type-1 or Type-3 support is added later, a
-> separate flag (or a VFIO_DEVICE_INFO_CAP sub-type field) would
-> distinguish them. I can rename it VFIO_DEVICE_FLAGS_CXL_TYPE2 now if
-> that is preferable; please advise.
-
-The CXL specification itself has deprecated the "Type" names because
-they are ambiguous. For example, you can have a "Type-3" device that
-supports "device memory (HDM-DB)", Type-2 is a superset of Type-1 in
-many cases, etc.
-
-This flag will never be able to capture a coherent / standard set of
-device capabilities. It can really only be a plain "CXL" flag with
-an implementation that is ready for the superset of capabilities:
-CXL.cache, HDM-H (host-only memory expansion), HDM-D (legacy device
-memory), HDM-DB (device memory via device cache management
-back-invalidate).
-
-I think the HDM-{H,D,DB} difference are not relevant to VFIO, it is all
-just CXL HDM.
-
-The capabilities that may need a different VFIO implementation model are
-interleaved devices and maybe dynamic capacity devices, but that is not
-a type designation.
-
-[..]
-> > Does that leave this device level capability describing the device as
-> > type-2 (by existence), with only a flags field to declare HDM as
-> > firmware committed, for future compatibility should we support non-fw
-> > committed?  Thanks,
-> > 
-> > Alex
+> The whole lock is a spinlock_t. There is also raw_spinlock_t and
+> bit_spin_lock(). All three are considered spinlocks.
 > 
-> Yes, I will shape the v4 in this direction. The device-level CAP_CXL
-> shrinks to "this is a CXL device" (by existence) plus a flags field whose
-> only defined bit today is HOST_FIRMWARE_COMMITTED, leaving
-> room for a future non-fw-committed mode. Everything else moves to region
-> caps. Thanks for this suggestion.
+> > > > In this case, instead of scheduling work on a remote cpu, it should
+> > > > be safe to grab that remote cpu's per-cpu spinlock and run the required
+> > > > work locally. That major cost, which is un/locking in every local function,
+> > > > already happens in PREEMPT_RT.
+> > > 
+> > > We did have this before but only in the RT tree. It was a bit messy from
+> > > the naming because it started with local_ but then it was a remote CPU.
+> > 
+> > Had the same naming issue here. This idea was initially a expansion to 
+> > local_lock() mechanism, about the same way you were planning in the past.
+> > 
+> > > The main issue was the different code path which led to a few deadlocks
+> > > back then.
+> > > By the time local_lock_t went upstream, the cross-CPU locking was
+> > > removed. As far as I remember, the cross-CPU user which did schedule
+> > > work on a remote CPU and annoyed NOHZ folks were replaced.
+> > 
+> > I understand this could be a big issue if used in a generic way.
+> > 
+> > What I am proposing here a mechanism that standardizes those 
+> > local_lock()+IPI strategies based on how they are done today, so we are 
+> > only explected to get 'remote-cpu' pwlocks in the 'IPI replacement' 
+> > operations.
+> > 
+> > The idea is pwlock_local* in every local function, and pwlock*(,cpu) in 
+> > operations that can be remote. 
+> > 
+> > Maybe being used in a more constrained way, it has less chance of being an 
+> > issue. Also, the whole idea is to improve CPU isolation numbers by 
+> > reducing IPIs, so maybe NOHZ people will be happier with that :)
+> 
+> I get that part. The local_lock_t part is cheap on !RT and becomes a
+> full lock on RT. While the lock details change the overall expectation
+> remain the same. With this change it is possible to acquire the lock
+> cross-CPU but this depends on the config/ setup. This might not be easy
+> in terms of testing and maintenance.
+> The more potential users you have, the better it might become in terms
+> of a selling argument. If you have just (say) two users it might be
+> simpler to address just those.
+> 
 
-How can VFIO discern if the HDM is host firwmare committed? If
-devm_cxl_probe_mem() grows to auto-activate unmapped capacity rather
-than finds firmware committed decoders, can VFIO even tell the
-difference?
+IIRC there are multiple users of this mechanism around the kernel. I 
+remember picking the first three (swap, slub and memcontrol) as examples of 
+how to use pwlocks (QPW at the time). With the concept proven, I could then 
+proceed to work with other potential users to replace it. (We ended up 
+dropping memcontrol in the process)
+
+The main idea is to replace as many potential users as possible to reduce 
+as much as possible the amount of IPIs in isolated cpus, and allow Linux 
+to run workloads which require much lower latency.
+
+This idea came as a general solution to a bunch of latency violations  
+Marcelo and I were coming across.
+
+Thanks!
+Leo
