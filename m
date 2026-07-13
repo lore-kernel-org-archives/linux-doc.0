@@ -1,273 +1,383 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012037.outbound.protection.outlook.com [40.93.195.37])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF5134D4FE;
-	Mon, 13 Jul 2026 17:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69939233927;
+	Mon, 13 Jul 2026 17:42:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783964439; cv=fail; b=jqu6dbuDCUsQZbQYS11Yqt0GD1EdohxxdoOTVHFSt7Bb03/lDKXLA+Qu0OUNYyTQjJcolY3lzhtX4uuvYBMHlciby0NSWtUxKZcYwgTBPVtS/Rb+jpb7b8bW31ilOcEotvjW9Nfhku6RSidohHETs3zk0xr2O3hPB/+WRtfDL7g=
+	t=1783964551; cv=fail; b=MNR3xfCUUaOAHcWvPsrGoTIyyGXpauiZ2AfBlGqPyedygn6BNJzYCNgBX9W7zImSM7aaT7HBDHtEoUXo6CC5xp7+OfqQWVbmbFWHTwLVXf8Wy+J4eQW2byxBuiotXClTyORwIgZH7SF27dx7ADEvlqtkq0FmNy6Nw4O8fQDZ1Rc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783964439; c=relaxed/simple;
-	bh=K4hThv6lnbTUWCF6clTHQQXceHRbFrYyIOJH8mz9GC8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=t8zyKZLnBQu3p9y5iZYdKiRpkblLhVba/OD9VGN8ystJm4NsQna9mlsDoUAy/t0ApnhfBCbf1lUU4rKiJz8Y84BJAP0eOYicyF26uKgeXCONtaBUdEERYxJ466dhGa4q1XmxRXXOBio+fVpFz1TFfvCv+i5p8uKBEFOUjwJn/Rk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=S2/FTYnb; arc=fail smtp.client-ip=40.93.195.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1783964551; c=relaxed/simple;
+	bh=JO0mmlsdV1Ntp7S0XEPkqm6CttQi6xigAWWTJPoAjjU=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=aFeqaDgTwumstX2u150HSTIhva9mu8mEcDi742WHx+9igvooF4WVEm6qyiJU/3mYABKAev5Xa3INOedvY9Op5QJdHpLQV0/eaZul42Es67d9FYoEDguujoUm7tEwHdZiBpNBqhgFX5jTAfvA4m7XF/91HocwgxVNdz2xh2kBrSQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eLbr3h0s; arc=fail smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="S2/FTYnb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eLbr3h0s"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783964549; x=1815500549;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=JO0mmlsdV1Ntp7S0XEPkqm6CttQi6xigAWWTJPoAjjU=;
+  b=eLbr3h0s27VI/JfSH4L6UnRK88B6Rr1LFayX947i8gih11NrJU3GECZK
+   VZgAe6Vssc2LovFnRehpAmpX92OZ2NME4ez5ER1+N7M7litLbzlOj/m55
+   +uPdcCCSXs8TO3SQW3O3vjBXWiIJwZsDM6mDzzsvc0xSHZL975hNyt7UP
+   +UEvYiwrw3rFdHRUvGt3skk9LB7adnZEHr3Pjm7HuqqJFXVNVW4Hf4aOA
+   VhzFJg7Oryqwtt1b3u6EYXaw3HtBKJpQpqlsfmBKiP9gQJOTv4d73PYE8
+   Jovs+4//k5DjDKPrp/LWvjTIoawFilsonENc/JbPutP2hnoaYBpsWtPmQ
+   g==;
+X-CSE-ConnectionGUID: ti7YhcovQjejLczUOuU/PQ==
+X-CSE-MsgGUID: Bbb7YDEzTLaU7xXA5WdWyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84544305"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="84544305"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 10:42:29 -0700
+X-CSE-ConnectionGUID: ZKAiyt/OQIyfil2ZccvFiQ==
+X-CSE-MsgGUID: LHARrEkdQ2+HzkSkPpRQgQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="251670204"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 10:42:29 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Mon, 13 Jul 2026 10:42:28 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43 via Frontend Transport; Mon, 13 Jul 2026 10:42:28 -0700
+Received: from BN8PR05CU002.outbound.protection.outlook.com (52.101.57.47) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Mon, 13 Jul 2026 10:42:27 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J2+EX3PbSFgEJjN5xBGn9juVeZBN4hYJOtXIQtBS8FKRZ2EHIvo1TiyhQakwSYjDOSnfp7a7/vUI7PmPY0HbhwbCF58DeeQhd7Eof/H+T720tBlSAfFjNsVpR/VEWhvwxqU5Al/pKpqIy1SEFWNOY8BSBzimyOEwiMT3LBDDotqXblp7uDyAOLmxsa2DB1qTqfdIF9LDq2AjaOksVYU/Mo6PAH1Sjl0E2z1iqdCRpps1XUpzPe7WwSV8DLsMuDtBpQW57ID6A3mJf/krr0XybyqL2TBSiGX85ocTs5SYsbHEUsyKgsq7b7xKvlLZCHPSsOSevZ8vnMYyHRAvcM2Z9w==
+ b=L9w5eWahDs5DVryM00FryNQZ6o1B4y0GSXAqpM1sqU7fUhL2rlcAVPOEDat+8GFZRoRknDxmyYHmlpEzAK7T+bTFfH7msV6NZXHBSspI6oOymfbn1uc4H5misi4GqHAWXFDcf1FsmY3+T8sT93ukTyCXs2whtwvz6YAwXKkr5hKHuN+qLEnqz0Uv7u9cEqQsqjUZRfhUzUdXN3mIyETyn3ndlWkNobpg7iAMQJKaogQfNb8kRjV3fV0kBqF8Iv7WcPNFWtGGzHZIrIyXw3R6+HnGLWxDbccKgyBhcNUMsRfokHTsE2L4Z5/RXgaACf7jz7Y0MkHyMY8LWDwlo5iJAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cq8RP8jngoGDxJ542K0U/HE7eWn/mffYzdyUDBEd03Y=;
- b=uSUJIceXo/RkcSBxjxrIT9rq6XUsxC26sAvRRvCyZXSRKXTvTjeW6kXQf8xWXeE6y2mH/klwWB1LD4feER1EHrnGxwbsICIQ5BR3+tP+fQaqMGF1WyiCKcyIGfCzecZjZA1qIpUtiWd8O/EhNQSqcujtSX50H+JGS9tSiVUJ/Efb56Ns7QwS06cBhRTu+9qAPPYFvo/DvXn6EpVFJgYgEydBd3eqmSKb8Ubpm9pve8u4b3/I16wzQMmpGmxAEyXZLGiCASHo6/pZ0WWHDAmST+TUTmPefwQ2yhgJD1hxdq22R9pkvodgJho0t1YRn7B5iNsFQEzbXjC6kwgqLZxFXQ==
+ bh=t5vfSoBjLRhHEFaiOyD3kuAo6XRMXS/EwfbSuDQIIkg=;
+ b=Gv3Kfiwg+3pE2uwh6IH51uzXDz9JKfsGv5bmkSPAAd0oZERjsDErX5XaOudrtwdt6u+tolkjM2PvIhJAUbLZZf9e0oMxyEMbkujFM+thdxde6UZPtvO9h+eX5aIx8jgaYFNMlSRdcei7n4R97TIbebU+ZkiYjBiH7+ScRvIuKXIJXXw78i5LYMrwpbPMkZU5t+x7ODaYgQqQLTIEZvVXblxz6k7r36FCPzu7T7Q1DGvmSilbRwDFjSzaLOKJervLxVykuOOGhaCT955/xOulyl1rO244xva2YERlsmNSy8uVUUReAH23T4RzI/wHW7jSP4yFKDCCgV5l/hqImiz5Nw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cq8RP8jngoGDxJ542K0U/HE7eWn/mffYzdyUDBEd03Y=;
- b=S2/FTYnbLPHsyvfLUMkgMbzLrtqKgFF9fmTj/DDwkqVsmGHjHeBef3kNZt5RWmP+oH7xSIuHxfMkD93L2adHar1sNmfm9Y2TGxOG1yUbp4rXtQmQK2GkIpc+jTAZagK1u0T5dbThbqra6pPZRDC53zeWp5Sfm7ZiH+it338pCoaCsalBHXGpSNvwPOnYSlmBPdeOQ9ulod6rjmgd9UVBQ1xfl8RTbdult+19UPPOQmvh7JGmb+GDAJSGEWBQoFqSt5BkU1671n06CKxG4AFFtCGUxB6dmp7yTZ2fjD3H9fF9+CN6l5EbtPhCBQE8y1eCBEFlwR8QXki+3K4FDAQ9Mg==
-Received: from IA1PR12MB9030.namprd12.prod.outlook.com (2603:10b6:208:3f2::22)
- by SA1PR12MB8119.namprd12.prod.outlook.com (2603:10b6:806:337::19) with
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN2PR11MB3949.namprd11.prod.outlook.com (2603:10b6:208:138::31)
+ by PH0PR11MB7447.namprd11.prod.outlook.com (2603:10b6:510:28b::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Mon, 13 Jul
- 2026 17:40:29 +0000
-Received: from IA1PR12MB9030.namprd12.prod.outlook.com
- ([fe80::2c1d:ed27:b53a:97d2]) by IA1PR12MB9030.namprd12.prod.outlook.com
- ([fe80::2c1d:ed27:b53a:97d2%7]) with mapi id 15.21.0202.014; Mon, 13 Jul 2026
- 17:40:29 +0000
-From: Manish Honap <mhonap@nvidia.com>
-To: Alex Williamson <alex@shazbot.org>
-CC: "djbw@kernel.org" <djbw@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
-	"jic23@kernel.org" <jic23@kernel.org>, "dave.jiang@intel.com"
-	<dave.jiang@intel.com>, Ankit Agrawal <ankita@nvidia.com>,
-	"alejandro.lucero-palau@amd.com" <alejandro.lucero-palau@amd.com>,
-	"alison.schofield@intel.com" <alison.schofield@intel.com>,
-	"dave@stgolabs.net" <dave@stgolabs.net>, "dmatlack@google.com"
-	<dmatlack@google.com>, "gourry@gourry.net" <gourry@gourry.net>,
-	"ira.weiny@intel.com" <ira.weiny@intel.com>, Neo Jia <cjia@nvidia.com>,
-	Krishnakant Jaju <kjaju@nvidia.com>, Vikram Sethi <vsethi@nvidia.com>, Zhi
- Wang <zhiw@nvidia.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, Manish
- Honap <mhonap@nvidia.com>
-Subject: RE: [PATCH v3 05/11] vfio: UAPI for CXL Type-2 device passthrough
-Thread-Topic: [PATCH v3 05/11] vfio: UAPI for CXL Type-2 device passthrough
-Thread-Index: AQHdBMN4xuDJHQfm/UCI06mb/0iNl7Zna+gAgARCZHCAACGZkA==
-Date: Mon, 13 Jul 2026 17:40:29 +0000
-Message-ID:
- <IA1PR12MB90301288F11754F9EE9A992CBDFA2@IA1PR12MB9030.namprd12.prod.outlook.com>
-References: <20260625165407.1769572-1-mhonap@nvidia.com>
-	<20260625165407.1769572-6-mhonap@nvidia.com>
- <20260710162322.012be635@shazbot.org>
- <IA1PR12MB9030E175587B09CEA7A4D90FBDFA2@IA1PR12MB9030.namprd12.prod.outlook.com>
-In-Reply-To:
- <IA1PR12MB9030E175587B09CEA7A4D90FBDFA2@IA1PR12MB9030.namprd12.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA1PR12MB9030:EE_|SA1PR12MB8119:EE_
-x-ms-office365-filtering-correlation-id: 1620f6ed-52b2-48c2-be5c-08dee105d48e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|23010399003|376014|366016|1800799024|22082099003|18002099003|6133799003|56012099006|4143699003|11063799006|38070700021;
-x-microsoft-antispam-message-info:
- WcRcjlBHaCwKMvUlTlJ6FPJZA62THOxNT1NNDmBMSbCfskcWazhYj+qLN+zUvZlhkAi1F8M7lZzPXJXzWPOn8bWxOQO8vKJroa8x5J3Awaxa2twsiGCz4mmEkQ6nYP5t6S1iw0ih3aXgP7gtFXaUS7KWgMkmRVGVF+3J65JyXLNyxCUR5Y6axHhTpduUTDSHv4Sk8fjyotQSWQWR0hM7R+kzvKuNxVcA5rtZYGEIRRyOjB4s59pDBI+sscSWmcm2WpCsP41mIAx00X8vlUeeV8DD3pgDFvmiORj3qPdr+psjYV9dw/2sezAHMf8eDBa/Gdgn2xUvh9NaPBeaxTBOdA5T1+G+KSkgX3XoRMiDWOdWwMUVQ/uSJ8Q0ENOaaHfIAGBIlW8+Xhg6lMxgaePrEFIcaPyET07CsoJ7PAhrzWJesut/H2P2ck4cllStvi5ShLP5TdwRNivNfrn7E8QB3t/IvBdYVWiFUNWI4w8tAEQ/yBh6Q92KV6j3RphNAM+ZDYiNv4eSdWIvQtXCRM90Zp8ntuwAt6MyZpkemuFgoGHn7nZeM1hx58MucT2D8UxAWwyPlFvcnoUBM+HOP3QxHgCLp73UcpB7xphyakAEJQNlIPtPuQ4tzMhkqouoRBs91y53USS+g4iYDeJiAB3V7M0ejgDrbsVouBpodw+0Ncm0C/vQ3Z1vy8U7gnxPMhFiRCoKW5rihxvj9hopilxu4XPU+zfBsh7Cqtukkbc2IZY=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB9030.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(366016)(1800799024)(22082099003)(18002099003)(6133799003)(56012099006)(4143699003)(11063799006)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?2w93eFZu+lBq9zAymnX9AxUt+cSa94vXB1vMMBZ6X3Q9Z7FAz18FiKa1tyv5?=
- =?us-ascii?Q?vlH0msHQ303LxfNnEX5dpMIiu3/un1PuJE67fSqLHMiVuWQ+OfevLPLHsLMZ?=
- =?us-ascii?Q?ll/R7WkRax8FHzhpNdP+gFWBNNqSgqr+5vBjKRJjgA2YL0Qb5lQb2mrKi/5L?=
- =?us-ascii?Q?5IaTBej11xHEicTVAYk0UKPMcdyl6le5b2aNCw26tm7QZPwuPUoEUiikNjRJ?=
- =?us-ascii?Q?vpkD7WO1GC8mXnfYUdjrWEd+X79qDkKWaw3AAvUv8TDymhD3JBAPynsdUZfz?=
- =?us-ascii?Q?AWj1VHz+E54959xA2X1U+BIqHVwL7a3rBIilThOsqD4kGx0+wlEWQoWXQZgi?=
- =?us-ascii?Q?qRPEfyp2NK8ITVgD1m97ZL5wIv08dmIW2uK3NFUGvOxMfTUETWoYmuQd+UJv?=
- =?us-ascii?Q?prpvzjdskIcys/BJ8ozXFgs0ARH2HPlk9wpAvpWrcP9d1uVPNBfrMxbJ4rlK?=
- =?us-ascii?Q?JeDZAhDV693mDlX51DM19P7VB/uIpnWi1PLTiiqxXfUlddhb7+MqpK6ccZwA?=
- =?us-ascii?Q?b2vCvcneufP+M7DvcSi5zUoNJ3WPds+ZMoEA5KlAw7PDFKXvLnrFH4FZ6jUk?=
- =?us-ascii?Q?XutF2wqkiqLXLno/CWf87SF2NDczhOPCheAvTVYFbVi9XOYSDRxqIynk0n0O?=
- =?us-ascii?Q?YzKZln4P/qZMUq8AcvS5P34FbyMNOt3dasP7hGJ0BYUT7j6a0Ugya6+YsCy0?=
- =?us-ascii?Q?8qwzDPpxT8mdhOIrkzLEov+51uvBtkBQqKa+fJUtChzzyDfgtXwLWPUBIdKs?=
- =?us-ascii?Q?4B/hWUcFXMZfdFxt9oMZsykpA3xHpx5BX/O1REONiCLj6vttzHHrgTii43YG?=
- =?us-ascii?Q?CMvCCvd94bygSHa1gyjIJKcniP0uZL7ICxRZBeiDuZOWnJiPSsZmm8uDp17K?=
- =?us-ascii?Q?Eu5Ryey518hceqKLswjsUukdOK6HRGJkA6odPQMv7LLc7yQjsld3dCc18l2A?=
- =?us-ascii?Q?Q297s5wCFKXFOa5YnKCgaCKq7ftWPcNPl6/eQbCY6bjYvUmOjAw3dnq2KuqR?=
- =?us-ascii?Q?go3jM2btsiyyJ1pwBiGvQETLNsUjaftNj2cPPQp+FkCX1UaH9xyG9lmk3oSZ?=
- =?us-ascii?Q?9YHexSB2ac4A/5PRlacVMXaqcV46IGwTrrSyivgAOdh2tJrOE+EP83HPpHgT?=
- =?us-ascii?Q?xMPHIX8FSnQhLX5Lqh8a2XkteMRUnv01rUa0eo1I3hArNTeouo0YZbnGqjgh?=
- =?us-ascii?Q?2bNiJdbFLqcytkbOvRpP1ET0sulpV+gwM6g2riQ+oNxEChFAVvX3sbxS94nI?=
- =?us-ascii?Q?SaUug0B/SCJICZm+3wivyvTOVpSo5sXmWyUf0n40RwmQLNG7hKvwSePizUn9?=
- =?us-ascii?Q?S8tyHJJ2x/4K50uR8MptxYEdBMhk7qH6kcNRrwDAoL9uXJXD23YyyIOuZ/9F?=
- =?us-ascii?Q?4LWAlHTxeoYw+QuuNhJeeOAQFc/DSa0pCPWbQwlPVKdWpBE0VWIkd7B2ZlDM?=
- =?us-ascii?Q?UTm6KYbtlrnEwpO1X/BuBrC0bkxaHIkibYKaFoTBoC/ABS0c8dGMard65VJM?=
- =?us-ascii?Q?tc2UAy8EJPNiQBHZws+2K+D2QxUdaLh2nscze2PgUBNPqUiq4L4TD3tzLESF?=
- =?us-ascii?Q?TDKWDP71Ji/zPSWDMAumEOUwSyuO3t2bIBld57vFmK337fbl4VKSfLWUWeCU?=
- =?us-ascii?Q?1giuRKHulMEvLt+7fki4d+ccCqdh0Lru7vEUfsYOuWfKnNt7miP2nxNb1RoC?=
- =?us-ascii?Q?chJWai/bqMxnFc1jXXYDuz0q4gss9reui6WWDiNarnZEnWIA?=
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.19; Mon, 13 Jul
+ 2026 17:42:24 +0000
+Received: from MN2PR11MB3949.namprd11.prod.outlook.com
+ ([fe80::dfbf:4563:6676:e23d]) by MN2PR11MB3949.namprd11.prod.outlook.com
+ ([fe80::dfbf:4563:6676:e23d%7]) with mapi id 15.21.0181.019; Mon, 13 Jul 2026
+ 17:42:24 +0000
+Date: Mon, 13 Jul 2026 19:42:12 +0200
+From: Larysa Zaremba <larysa.zaremba@intel.com>
+To: Tony Nguyen <anthony.l.nguyen@intel.com>
+CC: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<edumazet@google.com>, <andrew+netdev@lunn.ch>, <netdev@vger.kernel.org>,
+	Phani R Burra <phani.r.burra@intel.com>, <przemyslaw.kitszel@intel.com>,
+	<aleksander.lobakin@intel.com>, <sridhar.samudrala@intel.com>,
+	<anjali.singhai@intel.com>, <michal.swiatkowski@linux.intel.com>,
+	<maciej.fijalkowski@intel.com>, <emil.s.tantilov@intel.com>,
+	<madhu.chittim@intel.com>, <joshua.a.hay@intel.com>,
+	<jacob.e.keller@intel.com>, <jayaprakash.shanmugam@intel.com>,
+	<jiri@resnulli.us>, <horms@kernel.org>, <corbet@lwn.net>,
+	<richardcochran@gmail.com>, <linux-doc@vger.kernel.org>, Bharath R
+	<bharath.r@intel.com>, Samuel Salin <Samuel.salin@intel.com>
+Subject: Re: [PATCH net-next v4 05/15] libie: add bookkeeping support for
+ control queue messages
+Message-ID: <alUjdKO-XHJw_AfO@soc-5CG4396X81.clients.intel.com>
+References: <20260710215313.1475803-1-anthony.l.nguyen@intel.com>
+ <20260710215313.1475803-6-anthony.l.nguyen@intel.com>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <20260710215313.1475803-6-anthony.l.nguyen@intel.com>
+X-ClientProxiedBy: VIVP296CA0046.AUTP296.PROD.OUTLOOK.COM
+ (2603:10a6:800:353::19) To MN2PR11MB3949.namprd11.prod.outlook.com
+ (2603:10b6:208:138::31)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR11MB3949:EE_|PH0PR11MB7447:EE_
+X-MS-Office365-Filtering-Correlation-Id: 66224410-98b2-4f3b-3a44-08dee1061943
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|23010399003|1800799024|376014|366016|10070799003|6133799003|3023799007|5023799004|11063799006|4143699003|56012099006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: E+dNm+DX/RbZ1yrKR0yejMMNUWEC50tm5DXeMQAYLBt84BeJDkiLG4BmRjEAn+8TmRlN4GlztFhxltZR8BAM5hPzTWeiE6taBRvijkiahqsgXFtVTOI4sM1p3HoWK87d4uBkGgid3s2j/jLKnHuBx5gOxxaZhOJI03m7yZmuNtx6qtAZ1LWx1LABlTlnMz/Mz84j8B+qcVlcKZKAXaQhLcXvJnuHYaWPZzGaHFd69wFU2slq6Mqq43bS6iYQORThF5eg/sled4xdct0z4squSaNkNpf3kCq5KyIJXRqAadEq24uM5NT8qvnMnwGinDbllX54iAqhY8kY2S2WugCleaE6/RI++fbjxHl4M1uodgZlwueJXgdBoQEMRUIITjLNR1ESTwQkoa76yWeFX6hbPKN4YkKFw2ZFbqaKgV20J6veic/xutxmcAmyJr7QrIqOql741Tlm/1CXu8UcjFYLzgDE1z+nOqC+IIwgBnFbXdCU+lxmmnlHTRmte19+6fV5q32jXOZi/moR600ZpmC05cfmrvVd7hzq1+hzoUpplzd9t3ea6CWC140epuhMHl3KbQaqfSYTK8sYKXi8E4Su0luRXpL0WLSU0IfOG7JuVCQlK7d0jDB2qxzYEIVN+mbm5QyDTEA3LbViDCJdub94hedC050cqFzl/DBVKCpwuoY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR11MB3949.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(1800799024)(376014)(366016)(10070799003)(6133799003)(3023799007)(5023799004)(11063799006)(4143699003)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UmndZw/yhLwMB0Ut+pNUqUddckUmeZtapS2XEuhCy3MPEnTkJaARXSl3E5UL?=
+ =?us-ascii?Q?SkHjUKTsXZYr7vMvbUBlWv80HJtcDbg9TfPsv0PlQVu/VJpSB6HNF2EuR4PQ?=
+ =?us-ascii?Q?PSOc0q7+2bsYY0BqGYzdqaC+emqo9KRdVvZgZy5Dnb/paggpKsHWCTgxesh7?=
+ =?us-ascii?Q?swe7XnzE5NMrmGRf2mtpRyC8IkUiPXuEuddRp38zE2to++1+t+xi4NHbg7VM?=
+ =?us-ascii?Q?PDm5RWh7m+7upqAkl05neM+lxJPaHVlQ2Vo6EEGbc9wH5EQxB+71RRaxp6km?=
+ =?us-ascii?Q?kgKHQbaObCNGLRNjGFQ9gozD0zSPTeMs526kP8IJUlb/y7KWdNyR9rFv4FBh?=
+ =?us-ascii?Q?wWObU9djmRuO3qISZNSPlnfIFeWZuypWRiNXdu0cPnlMTCPV3R6hwsRSc/G9?=
+ =?us-ascii?Q?k/+rA9hOyy59dazh3xohSjYzNc+KFPpcJ1Z4vYjPTTr4hVqU4XETEdD40sbE?=
+ =?us-ascii?Q?VDldxIW/iVu9sqt0nUYZzCfZFfpWObzdQY1ytRyBvxHW5e1BOtqwN8TAmTrf?=
+ =?us-ascii?Q?o6JE92UVZCceYNZY5JNWwEumncfQz02Cd0cHRmWQNMsDauY7nPTv5mqgQwuu?=
+ =?us-ascii?Q?VNu42nZ8asB/cZOcXGqmAPFoJ4nFij2hlLLI0LLEcNKAuqQy6Z2jiq3p5/bd?=
+ =?us-ascii?Q?Ln2LwSx4qxtlN4iDgm1dSS+OxYfNZhQ44xUjs08WEP3neMUi8VvGwyZOwVAe?=
+ =?us-ascii?Q?VpDQIPbGzwtZ1xGTxhDvAtyg89qxuf2OvTPl2rUCmOcW88QK7I94kW406Q1z?=
+ =?us-ascii?Q?3VQCZfAnD20IOqmeStYtNJaow59ts1N76Yyj5fA9VLskEN3QWVRjt0poLEBI?=
+ =?us-ascii?Q?ZXdCoYixc1JviFK1P2eBbVHevL46GbmUqbLHmHwHUeY5xKBB4ZtVoyIX4S1g?=
+ =?us-ascii?Q?l5MwPTUwCwnaYagP1aYpIwOraaIGfiwr9VRbAAHKEodmGlSxZPmaorVBgtUd?=
+ =?us-ascii?Q?o+GcjzwgdPfbchYzLn62qEDhsrYUXvugvMkFsTD7fC9QP84D7JSfbHFjiJOH?=
+ =?us-ascii?Q?KDxivLs609YGlgGJ/AbhCUM+wYghgxy3p46IDNgfjAWBGu9kXqc8fhhk5G4I?=
+ =?us-ascii?Q?gEo7qjSPZr0DgRVgHgrSgF4ayPgbwr7JYHyxmiA/N3j5yHSdxHBhXuQeJo+O?=
+ =?us-ascii?Q?yE+V5MZ7yembWyk6Wjl9J59h4RV6yOEJym8v8KX2KUiHkV2AJcQnfMgGgYhJ?=
+ =?us-ascii?Q?NTSJ2ynHJlIhiY4zKQHWqrSltt6jPUejIHNx9nATtyGNcfbwOA0gJfSiEA2u?=
+ =?us-ascii?Q?IIaiqwu2fLGDJ/iLp+KD+LVs0UEXWY8+hQKI3cVlJdQfkSRXgZMd+hWueGwB?=
+ =?us-ascii?Q?hGdRr2G8eBhU+Q8GcF0on2+NW7U6ETomucQq5D00kBwzSef2NxWloQgkVCZo?=
+ =?us-ascii?Q?Kf5pOvC9JmuM6dOWNgDmfiDRdYZUWaWKeo+oH/j1ZG1+0tKs94ghOcxQ+bAT?=
+ =?us-ascii?Q?cHf6ZzyFNxWkafO+FdqYEFjqwTq8Sp1Nhmw339OF09F75GxIcRNoyx/g1QZM?=
+ =?us-ascii?Q?QJCLpPz2j55NCSLrtQ4XQOrL3kVnHPS31NlfSTx7XqBJZ/KISpeo+g5/k+zQ?=
+ =?us-ascii?Q?QaShDMLGXqCCmvk/1yA4yi1lXFDGWdPJ2nRJxwYZ28cEvn1pRmATqmAW8wc/?=
+ =?us-ascii?Q?CFByLRgZzuJMiAT/k36Pxx7tOQokwzq5VkAZV7LnTD83VwvKvmRSLEU8xIgP?=
+ =?us-ascii?Q?JhX72fINc9O9xXNjCYRTjIuGbflvYb/EGx5XtmGSxTErBXrhLXCXtQKEDXQc?=
+ =?us-ascii?Q?J5iCfsODSkZAFHvRxlroGz8yYny05KlADqQgvrwu08yBtbYUhCC3dGlSpo30?=
+X-MS-Exchange-AntiSpam-MessageData-1: GY8895mrJD9KpRc84ZV4B+3em2vYYRp31M4=
+X-Exchange-RoutingPolicyChecked: sp1CFs9SGHr5YlO6LbRsS3Yv4YHPRGY7vOfQBGZ24ctaiarYXPR1faTHhKZegNApO9n37cPups+II+1X80Eb4dJlkdnKyn0pi2tndglCwIVEMLqDiEn9bPD3lOCjLrbtX36EuNZR84iDMWuzCwTh5GwEqbUusKQqEEvpMes22rBQuV2pLcMMNAb1PCQkd0Eu5JBaHOAHFw3R8MSJ3d/XBso1ZJSk66irIhTFB55xfFFDnQFQ5oFeAlRLlT+grBdKqG49nUUqZjChpZM7FolSLQlc5Yhkaqx6/u5I/YvEg5Rbw36wW4cGaXwEFWvFRGjj7lVUtJUid+lEiK44nkuoxg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66224410-98b2-4f3b-3a44-08dee1061943
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB3949.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB9030.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1620f6ed-52b2-48c2-be5c-08dee105d48e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jul 2026 17:40:29.0299
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2026 17:42:24.5888
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zc5xJQ9w3t4J9XImIzjsBmmR78zfHiSacr5sAogabTeLk+qlq06mm1P9VPaSfagZGbYg1NH/juHqLB5prxkN3Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8119
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XQZYbTtdiOhcODfvUh8NkTcpY+fXEZmST6FHWkHCMLsCG/kIXgWoqFDAOuQ0siq5lalouL/sNOcMSUzJOkhvJdI4etu9aOXw8AKpFT9Hblw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7447
+X-OriginatorOrg: intel.com
+
+Sashiko has some concerns about this patch.
+I have found one (very) valid concern there, and concerns memory usage.
+
+commit d7a772efb77228a1b12558dced6b1fdfeef123c4
+Author: Larysa Zaremba <larysa.zaremba@intel.com>
+Date:   Mon Jul 13 17:02:01 2026 +0200
+
+    fixup! libie: add bookkeeping support for control queue messages
+
+diff --git a/drivers/net/ethernet/intel/libie/controlq.c b/drivers/net/ethernet/intel/libie/controlq.c
+index c043c07dbb89..8e7b2783b86b 100644
+--- a/drivers/net/ethernet/intel/libie/controlq.c
++++ b/drivers/net/ethernet/intel/libie/controlq.c
+@@ -720,7 +720,7 @@ static int libie_ctlq_xn_init_dma(struct device *dev,
+                        goto dealloc_dma;
+
+                dma_mem->va = libie_cp_alloc_dma_mem(dev, dma_mem,
+-                                                    LIBIE_CTLQ_MAX_BUF_LEN);
++                                                    LIBIE_CP_TX_COPYBREAK);
+                if (!dma_mem->va) {
+                        kfree(dma_mem);
+                        goto dealloc_dma;
 
 
 
-> -----Original Message-----
-> From: Manish Honap <mhonap@nvidia.com>
-> Sent: 13 July 2026 22:15
-> To: Alex Williamson <alex@shazbot.org>
-> Cc: djbw@kernel.org; jgg@ziepe.ca; jic23@kernel.org;
-> dave.jiang@intel.com; Ankit Agrawal <ankita@nvidia.com>;
-> alejandro.lucero-palau@amd.com; alison.schofield@intel.com;
-> dave@stgolabs.net; dmatlack@google.com; gourry@gourry.net;
-> ira.weiny@intel.com; Neo Jia <cjia@nvidia.com>; Krishnakant Jaju
-> <kjaju@nvidia.com>; Vikram Sethi <vsethi@nvidia.com>; Zhi Wang
-> <zhiw@nvidia.com>; kvm@vger.kernel.org; linux-cxl@vger.kernel.org;
-> linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
-> kselftest@vger.kernel.org; Manish Honap <mhonap@nvidia.com>
-> Subject: RE: [PATCH v3 05/11] vfio: UAPI for CXL Type-2 device
-> passthrough
->=20
->=20
->=20
-> > -----Original Message-----
-> > From: Alex Williamson <alex@shazbot.org>
-> > Sent: 11 July 2026 03:53
-> > To: Manish Honap <mhonap@nvidia.com>
-> > Cc: djbw@kernel.org; jgg@ziepe.ca; jic23@kernel.org;
-> > dave.jiang@intel.com; Ankit Agrawal <ankita@nvidia.com>;
-> > alejandro.lucero-palau@amd.com; alison.schofield@intel.com;
-> > dave@stgolabs.net; dmatlack@google.com; gourry@gourry.net;
-> > ira.weiny@intel.com; Neo Jia <cjia@nvidia.com>; Krishnakant Jaju
-> > <kjaju@nvidia.com>; Vikram Sethi <vsethi@nvidia.com>; Zhi Wang
-> > <zhiw@nvidia.com>; kvm@vger.kernel.org; linux-cxl@vger.kernel.org;
-> > linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
-> > kselftest@vger.kernel.org; alex@shazbot.org
-> > Subject: Re: [PATCH v3 05/11] vfio: UAPI for CXL Type-2 device
-> > passthrough
-> >
-> > External email: Use caution opening links or attachments
-> >
-> >
-> > On Thu, 25 Jun 2026 22:24:01 +0530
-> > <mhonap@nvidia.com> wrote:
-> > > diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-> > > index 5de618a3a5ee..3707d53c4de5 100644
-> > > --- a/include/uapi/linux/vfio.h
-> > > +++ b/include/uapi/linux/vfio.h
-> > > @@ -215,6 +215,7 @@ struct vfio_device_info {
-> > >  #define VFIO_DEVICE_FLAGS_FSL_MC (1 << 6)    /* vfio-fsl-mc device
-> */
-> > >  #define VFIO_DEVICE_FLAGS_CAPS       (1 << 7)        /* Info
-> supports
-> > caps */
-> > >  #define VFIO_DEVICE_FLAGS_CDX        (1 << 8)        /* vfio-cdx
-> > device */
-> > > +#define VFIO_DEVICE_FLAGS_CXL        (1 << 9)        /* vfio-cxl
-> > Type-2 device */
-> >
-> > Would we define a different flag for type-1/3 if we ever found a need
-> > to expose them through vfio?
->=20
-> Yes. The current flag is named VFIO_DEVICE_FLAGS_CXL and refers to
-> Type-2 specifically. If Type-1 or Type-3 support is added later, a
-> separate flag (or a VFIO_DEVICE_INFO_CAP sub-type field) would
-> distinguish them. I can rename it VFIO_DEVICE_FLAGS_CXL_TYPE2 now if
-> that is preferable; please advise.
+Now regarding other concerns:
+* xn cookie overflow. The flow is consistent with what was in idpf beforehand, 
+  lengthy testing also did not detect any problems
+* Compromised CP accessing other CP message
 
-For this patchseries, I think keeping name as VFIO_DEVICE_FLAGS_CXL_TYPE2
-is a better choice since Type-2 is the only supported case now; a separate
-flag can be added when Type-1/3 support arrives.
+> Regarding cross-transaction disclosure in the pre-allocated small-send
+> buffer: in libie_ctlq_xn_process_send() the small path memcpys only
+> buf_len bytes into a LIBIE_CTLQ_MAX_BUF_LEN buffer, leaving prior
+> transaction data in the tail. The descriptor advertises
+> data_len = buf_len so a well-behaved device only reads that many bytes,
+> but could a compromised or buggy CP firmware read past data_len and
+> observe prior control-plane message content?
+> Would a memset of the unused tail (or of the whole buffer before
+> memcpy) close this at negligible cost?
+> 
+I think zeroing would be excessive
 
->=20
-> >
-> > >       __u32   num_regions;    /* Max region index + 1 */
-> > >       __u32   num_irqs;       /* Max IRQ index + 1 */
-> > >       __u32   cap_offset;     /* Offset within info struct of first
-> > cap */
-> > > @@ -257,6 +258,36 @@ struct vfio_device_info_cap_pci_atomic_comp {
-> > >       __u32 reserved;
-> > >  };
-> > >
-> > > +/*
-> > > + * VFIO_DEVICE_INFO capability for CXL Type-2 passthrough devices.
-> > > + * Present when VFIO_DEVICE_FLAGS_CXL is set on
-> > vfio_device_info::flags.
-> > > + *
-> > > + * @flags: VFIO_CXL_CAP_HOST_FIRMWARE_COMMITTED indicates the host
-> > CXL
-> > > + *   subsystem committed the endpoint HDM decoder.
-> > > + * @hdm_region_idx: VFIO region index for the HDM memory region
-> > > + *   (subtype VFIO_REGION_SUBTYPE_CXL).
-> > > + * @comp_reg_region_idx: VFIO region index for the CXL Component
-> > > + *   Register shadow (subtype VFIO_REGION_SUBTYPE_CXL_COMP_REGS).
-> >
-> > These regions are self describing via the noted CXL subtypes, what's
-> > the purpose of double reporting them here?
->=20
-> Agreed; I will try to minimize the noise here.
->=20
-> >
-> > > + * @comp_reg_bar: PCI BAR index that contains the CXL component
-> > > + *   register block.  Get-region-info on this BAR returns a
-> > > + *   VFIO_REGION_INFO_CAP_SPARSE_MMAP that excludes the CXL block.
-> > > + * @comp_reg_offset: byte offset of the CXL component register
-> block
-> > > + *   within @comp_reg_bar.
-> > > + * @comp_reg_size: byte size of the CXL component register block.
-> >
-> > Why don't we describe all of these via a capability on the relevant
-> > region info?
->=20
-> okay, I will have v4 to remove hdm_region_idx, comp_reg_region_idx,
-> comp_reg_bar, comp_reg_offset, and comp_reg_size from
-> vfio_device_info_cap_cxl. The device-level cap will only have flags.
->=20
-> This will also result in component register details to move to a new
-> VFIO_REGION_INFO_CAP_CXL_COMP_REGS capability on the comp-reg region
-> info, carrying comp_reg_bar, comp_reg_offset, and comp_reg_size.
->=20
-> Regions will remain self-describing via VFIO_REGION_SUBTYPE_CXL and
-> VFIO_REGION_SUBTYPE_CXL_COMP_REGS.
->=20
-> >
-> > Does that leave this device level capability describing the device as
-> > type-2 (by existence), with only a flags field to declare HDM as
-> > firmware committed, for future compatibility should we support non-fw
-> > committed?  Thanks,
-> >
-> > Alex
->=20
-> Yes, I will shape the v4 in this direction. The device-level CAP_CXL
-> shrinks to "this is a CXL device" (by existence) plus a flags field
-> whose only defined bit today is HOST_FIRMWARE_COMMITTED, leaving room
-> for a future non-fw-committed mode. Everything else moves to region
-> caps. Thanks for this suggestion.
+* Both Sashikos reported this one:
 
+> Regarding bitmap access without the bitmap lock: this iterates
+> xnm->free_xns_bm via for_each_clear_bit() without holding
+> xnm->free_xns_bm_lock, while __set_bit()/__clear_bit() elsewhere
+> (non-atomic RMW) mutate the same bitmap under that lock.
+> Is that intentional? The comment on free_xns_bm_lock says it protects
+> get/check entries, so reading the bitmap outside the lock appears to
+> break the invariant even if the subsequent xn_lock re-check masks the
+> functional impact today.
+> 
+If the xn becomes free in the meantime, we catch that under xn->xn_lock
+If the xn becomes taken in the meantime, we just check it next time
+
+* Also reported by both:
+
+> Regarding async timeout enforcement: libie_xn_check_async_timeout()
+> runs only from libie_ctlq_xn_recv(). If the driver stops polling recv
+> (link down, reset, NAPI suspended, interrupts masked, no incoming
+> ctlq traffic, budget exhausted repeatedly), do async transactions
+> ever fire their -ETIMEDOUT callback?
+> 
+This is intended
+> 
+> There is no independent watchdog inside the xnm (delayed_work,
+> hrtimer, etc.), while the sync path is self-contained via
+> wait_for_completion_timeout(). Is timeout_ms meant to be a hard
+> guarantee, or caller-responsibility to keep recv polling? Either the
+> kerneldoc should say so, or an independent timer inside the xnm would
+> back the guarantee.
+> 
+Caller's responsibility, timer would be excessive
+
+* BH-related concern
+
+> If a driver invokes xn_recv from NAPI/softirq on the same CPU that
+> another thread has entered xn_send in process context and grabbed one
+> of these locks, can the softirq spin-deadlock trying to reacquire the
+> lock?
+> Should these paths use spin_lock_bh() (or spin_lock_irqsave() if the
+> recv side may run from hardirq)?
+> 
+Both send and receive are in non-BH and non-IRQ context
+
+* DMA direction
+> For the small-message path here, direction is not set on xn->dma_mem,
+> so it stays at whatever kzalloc left it (DMA_BIDIRECTIONAL). The copy
+> of dma_mem into ctlq_msg->send_mem then carries that value. Today
+> libie_ctlq_xn_send_clean() only calls dma_unmap_single on the
+> non-onstack path, so this is not consumed, but should direction be
+> set consistently to avoid a future consumer of msg->send_mem.direction
+> misbehaving?
+
+dma->direction is not expected to be access by users outside of libeth.
+Library uses the field correctly
+
+* "For the NULL-iov_base large-buffer case" - I think this can be considered a 
+  driver's programming error, if this happens
+
+* XN_SHUTDOWN
+
+> The SHUTDOWN early-exit here jumps to unlock_xn, bypassing release_xn
+> which is the only place that resets state to IDLE and calls
+> reinit_completion(). So the xn is pushed back to free with
+> state == SHUTDOWN and a stale completion count.
+
+XN_SHUTDOWN means shutdown has already reclaimed the transaction and it cannot 
+be reused, hence can be dirty.
+
+* 0-data messages
+
+> The kerneldoc says "if force is set, then clear all the outstanding
+> send messages irrespective their send status", but the loop breaks
+> early on the first slot with data_len == 0. Should the wording be
+> adjusted to reflect the actual behavior?
+> 
+The only data_len = 0 message is VF reset, which can only be sent
+as the last message, so we can safely assume no further buffers
+need cleaning, if we encounter that
+
+* dma_wmb() + dma_rmb() = dma_mb()
+
+> Would dma_wmb() suffice here instead of dma_mb()? Only a write-side
+> ordering constraint is needed for the desc->qword0 = 0 store, and
+> dma_mb() is significantly more expensive on weakly-ordered
+> architectures.
+> libie_ctlq_recv() pairs its DD check with dma_rmb() before consuming
+> the rest of the descriptor. Here, DD is read via le64_to_cpu() with
+> no dma_rmb() before any further use. Today nothing device-updated is
+> read after the DD check, so this is safe, but should the same barrier
+> pattern be used for symmetry so a future descriptor field consumed
+> after DD is not silently unordered?
+> 
+Both read and write berriers are needed, therefore I have dma_mb().
+
+* Same answer as for the previous version:
+
+> Async callers of xn_send() typically pass a send_ctx that owns
+> resources released only by resp_cb. When shutdown races with in-flight
+> async transactions, does send_ctx (and anything it owns) leak?
+> Would calling xn->resp_cb(xn->send_ctx, NULL, -ESHUTDOWN) (or
+> -ECANCELED / -ETIMEDOUT) here, matching the timeout path, close this?
+> 
+Callers currently do not rely on those callbacks for cleanup,
+and they certainly should not do whatever handling they do,
+if we are shutting down
+
+* Clearing the queue before shutdown
+
+> Regarding TX cleanup on deinit: libie_ctlq_xn_deinit() calls
+> xn_shutdown() then xn_deinit_dma() then libie_ctlq_deinit(), none of
+> which iterate the TX ring calling libie_cp_unmap_dma_mem() or
+> rel_tx_buf() on outstanding sends.
+
+Both callers force-clean the queue beforehand.
+
+* Small return value concern:
+
+> The ctlq_deinit label unconditionally returns -ENOMEM, discarding the
+> ret from libie_ctlq_xn_init_dma() and papering over the kzalloc-failure
+> path with the same constant. init_dma today only returns -ENOMEM so it
+> works, but would "return ret;" (with ret set to -ENOMEM in the kzalloc
+> branch) be more robust against a future error code addition?
+> 
+Those are all memory-related functions, so this is very unlikely they return anything else.
+
+* xn->send_ctx
+
+> The send_ctx field here is never consumed by libie_ctlq_xn_send_clean()
+> or by the rel_tx_buf callback signature (which only takes buf_va).
+> Should send_ctx be removed, or should rel_tx_buf's signature be
+> updated to receive it?
+> 
+This field is used for async transactions and is usually
+a rather persistent object, like HW structure.
+xn->resp_cb(xn->send_ctx, response, status);
+
+* Slightly outdated commit message
+
+> Is this accurate? Only messages up to LIBIE_CP_TX_COPYBREAK (128 bytes)
+> use libie's pre-allocated per-slot DMA buffers via
+> libie_cp_can_send_onstack(); larger messages are caller-allocated and
+> freed via the caller-supplied rel_tx_buf callback. Could the wording
+> be tightened to describe this mixed ownership model?2
+> 
+This is correct interpretation, but the kdoc is outdated
+
+* Calling resp_cb() under xn_lock
+
+> Is it safe to invoke the opaque resp_cb() while holding xn->xn_lock?
+> If the caller attempts to submit another message from within the callback via
+> libie_ctlq_xn_send(), it will attempt to acquire free_xns_bm_lock and another
+> xn->xn_lock. Could this cause recursive locking or deadlocks?
+> 
+idpf and ixd do not behave that way
+
+* "memory leaks" for small buffers
+
+> > +	bool free_send = !libie_cp_can_send_onstack(params->send_buf.iov_len);
+> Does this logic cause memory leaks for dynamically allocated small buffers?
+> If the message size is <= 128 bytes (LIBIE_CP_TX_COPYBREAK), the data is
+> copied to the pre-allocated DMA buffer, and free_send is set to false. If the
+> caller provided a dynamically allocated buffer and passed a rel_tx_buf
+> callback to free it, the callback is never executed because of this flag.
+
+This is by design
+
+* transaction reuse
+
+> Can a timed-out transaction overwrite active DMA memory?
+> If a message <= 128 bytes times out, it breaks out of the switch here and is
+> pushed back to the free list in release_xn below.
+> However, the hardware descriptor in the transmit ring might still point to
+> xn->dma_mem->pa. If a new caller allocates this transaction entry and writes
+> its payload, it will overwrite the buffer while the hardware might still be
+> processing the old descriptor. Could this lead to hardware data corruption
+> or invalid firmware commands?
+> 
+Highly unlikely
