@@ -1,180 +1,359 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5183939099A;
-	Mon, 13 Jul 2026 08:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783930838; cv=none; b=LVAnLTzXQU/UDB7dZ8mrv6NbP/1W6qaJoJB42rbsDqlUHz2qa/99gbplspikXIJrAun1Eb1zws/oMdF+O68ASBAuUDBLtudbBnKnJH6X2+P92RkP+S2LpFLUxVsoSFdJa1Xi/WuHJBMaCbN6jJ5tYBQz4dXX0Qi2fx1GrfmJaCU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783930838; c=relaxed/simple;
-	bh=/i2syicifZJ3USjcLrnHL97T2+UWubEpCuWxspQutOo=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=tZ+gI4bTj5ZvYvMIzAt7ARqyD1309RJ2Q9F1bGoHMUKhyv4IR5wnXcQvoRfdS9s076ZAnQE1zHhj5t2XKnnpVXoXT/C/2nZ0A2Qv7i+3Tnj9RK88GaOcrav7a5/wEGvJVqUkFwh2R++d9LOZ/t2utYVk72JpUzof+4wA/ZK1/8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H/i7JmHx; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A0F3DC871
+	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 09:03:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783933408; cv=pass; b=QAOWiFuIiCG5xM8oFYzpruHO8WBYEeiEmy4X066/zvQubXCY1pdnTi3r+HMAUR/vIicYDM3nPwXEQzvnf4BuxAsTu6BoigvrDeUkI1A8eYVqD7aoRctcgxfwrjGQGJawFtQJUgasZwxjLKnInz2iMZt+HfYzfoDpPxAoni0ezy4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783933408; c=relaxed/simple;
+	bh=HkkiURfNnIpTqbnEHqelCe7LpKMrp8wbJa8JkOVeCOk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rWa3NySr8JBLcWBu52DpQ+WegUIUYCGnb1DlcTLv7vaTS+eKchzkBaFBeF/lNSRbPq6GGbPiDaGL6ruG08rzjly+6EMJwIbCqw1yWIxYi+2V7rLoHW0QH6R4pEouTij5Jj3M8ldKHs+r6ob9coARLuurGT7DkpXANjefY25cNhA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=izMRfUTQ; arc=pass smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H/i7JmHx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F210D1F000E9;
-	Mon, 13 Jul 2026 08:20:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783930837;
-	bh=AVaWRHxuOp1xucpt25y4qXpngLUErNt80kcT84Gj6Ec=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=H/i7JmHx+nL/+drkYk9FHiWsCAuDyQ/lPRCv3RvInE9zuSQcynJrwktJsvbx35+ap
-	 7xdiCe1oidtsult+mT39XvQW4KYxQ+8Osc4VpdrsvGZJmnuOCI8RonPzzOpzs1+z/r
-	 9AWTVcc+C97niunSyfVT6zPHFenfQnBoI+oD1diAvgemGBA+RAofP5Dz19+v21kVuw
-	 Wq1dv7fruhvIgzxVcUDpcsJVZHLgQg2AOghsPkd0UUKmMUQDoDAGqHOAMfKvt5keEF
-	 ktEC+w2rFmZmbWPccRFgK+9fCpbErPEvtXykxrLMr22psUB7in+u2srp1/DxPqPgZv
-	 UHbIVXfIH5NKg==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="izMRfUTQ"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aeb36c46bbso361925e87.3
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 02:03:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783933405; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ocbMs3tZqyLAW1ODAfW7BDLuKt4+kq96xKS3uEL0Ogpj4FzlqzjOF21rEdTA7y682v
+         2xuz9rH19ZkYLzsazouGMT/jq0nZUIz3YbxBDBevwcenqT6AXB5CQ11kW0t1mcb30xZj
+         qKbc0Tcn+45+o6aiHRmmQAvV/thf1YBb/niZZ7yybbyViyp4Z1QpnVJY2yCelWcyJKeH
+         xNoxDoidCMBHrbJpa81fiUQNNDArbAHPltRS8edId/PEra+zffL1gbP2+byU+QrS3EDt
+         eEjuvNxltSex8obEAmUUU/OFkRaUPwoBLHn59yfGPGsFTllHRC7XpnDnW8iFPdhHtHw6
+         p1dg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+u5qiteQ/Ek+qbnSNw5opnC9ZpEZd0h6fYUONPqht0Y=;
+        fh=Kx93oR1/e7gOP6aNZtKqg+oxfkyEiBvI/710Do6UCNQ=;
+        b=CFgT9e79tGRnotCTWknHE+WfLlooLxqrakCWC35VsD3hLT8rVsDyTTf48xoL6+dJPp
+         HOuFbspFK0gUsplM+HgqIpc3/9h6Dynn6SYzJjYZ/iEBiIc4KNIKEHwIdwGCNHGd0B/i
+         0KxKyYHutPaSC4lckETLm9oR65DXV6UqFfNjoWFg/AmbfQuokGDrZGqYLoqoarMznh2I
+         eT0VReNzr9wcSr0UTtKKlxTjPaJS9E3LNu2H2eZVnt8KYVqH0SOcEI02MaBDI4Wg4NiF
+         wHpki3rEVNcbNFfeaIeIXn21p2+zu8TAoo6TafaHduIMTWLYydFqoppkaqD7DLXrTDtx
+         pWCQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783933405; x=1784538205; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+u5qiteQ/Ek+qbnSNw5opnC9ZpEZd0h6fYUONPqht0Y=;
+        b=izMRfUTQ0qvAOmmz6LlRhKs0a6HTfVMUogPYSqwwUo0Kn812GgptUFLqMpd0ENKYP4
+         UoxxKOtTODFYRaWU1YT5sntv7QKzJWWhEONvmk34mAowVcQvhErd2Bn0OaUrEamOHYcS
+         /gGzFo8qmTbCaft6mpkUBmeyppl6C0BwJfC1ki45DPVkmCxpAreglsS0iuBUXA2aYS34
+         rtWVCQDzzfZphYfHDTMaHhrn8iQUL/YqGEm/92OBul2m3QVzo462RVSDVhn9UEnPiL0h
+         ljRPcPABUvh+cO65PdAxRSIH3374jUp6e7ofKz2Q7mMnmQ4ZzB34sKG8pjdz+D34lJJQ
+         MF+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783933405; x=1784538205;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+u5qiteQ/Ek+qbnSNw5opnC9ZpEZd0h6fYUONPqht0Y=;
+        b=IpAmn43pci61U0RG8/W0vP54ABIYrWMo3ttqMoByl/JrIJyHpyt9XJkjciRBSWhxWI
+         yOUkctcCvM8ohZGRHroLQLpn8YGiQbjFoqvVQA7lC31RM2800UUFXckbddg1isrNGDsD
+         JgkM3b18JUrQGkhour1tkX6mP81CFIchwjBkDVh/lXgNelwOO2BfHK6chvLJyZxopqYY
+         jRVwPUXG8aa7vxNjdQLhWnd0j04hLCGAwg5veqC+zZjcrq4O1mVYh4yuQFhHdx7ETZho
+         4ZNvZnS8xxTuUByGEeTqZRtjaUCE/IAbA/+KDKykZQrXw5S8carCs6eV+livhuUj3S84
+         Adzw==
+X-Forwarded-Encrypted: i=1; AHgh+RpGyX7ljCxNaf/mtl6wfNp6WRopbeX0vVfce6XDBtynhNrDg5Fvte2GZGbE7DTr/4r9Ho07QEnalec=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbSaxwpws8/kMfV1maaZFzGeXiDsahtyIWoJlArdA/4W8MM2Ih
+	Og3IJrNFKb1ueUM4YxwPgdCV7MKJWp2K+rBUbVIeBSeoXuMfj4ceszPJp10c0GsDVqg0rEsKOpB
+	8r+a+X1UWdh95qEqV7HgdyJF/OKCW8/E=
+X-Gm-Gg: AfdE7ckRjsuQk220+pa2grPldhJSaiuihLgkfJhkNI06MJTybEUfKf8Ch53Xq8E8q8z
+	EceCcNRykr95WPWvcxWAxVIjCHsgFSBbXCA5dzNgyc4LHzQJbzU8BXHOgbbjSrTOGdXc3p8e8kp
+	lZHgx62Apx2BERS9yduApFxBe/hDLO6EQpjjMWuhFAUOzWIQbosn0wCXcwwGKflyc6u6c6sp55A
+	kGNIP1U/VP0KvIzF2loZHKWGQ8aYeo85us2XcucmR7pxd02+FAULkCrwIn7uJbm0Ekm1SQAeiA4
+	MKmaMWLujcsOpVt4neqqVmrZlW1eVLqMrlho8BYybKKPZJqwco+LM3s=
+X-Received: by 2002:a05:651c:b26:b0:396:8c78:3d53 with SMTP id
+ 38308e7fff4ca-39caa88fa80mr8986231fa.8.1783933404339; Mon, 13 Jul 2026
+ 02:03:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2 0/5] binfmt_misc: bpf-backed binary type handlers
-From: Christian Brauner <brauner@kernel.org>
-To: Farid Zakaria <farid.m.zakaria@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Martin KaFai Lau <martin.lau@linux.dev>, Shuah Khan <shuah@kernel.org>, 
- Andrii Nakryiko <andrii@kernel.org>, Kees Cook <kees@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Jonathan Corbet <corbet@lwn.net>, Jann Horn <jannh@google.com>, 
- John Ericson <mail@johnericson.me>, linux-fsdevel@vger.kernel.org, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-In-Reply-To: <DJX4IFO55D9S.3IV3K5XICJAEV@gmail.com>
-References: <20260711-binfmt-misc-bpf-v2-v2-0-d6591ceaf207@gmail.com>
- <20260712-abluft-brutkasten-aufladen-c8063a4a1a0a@brauner>
- <DJX4IFO55D9S.3IV3K5XICJAEV@gmail.com>
-Date: Mon, 13 Jul 2026 10:20:02 +0200
-Message-Id: <20260713-unerlaubt-luftkammer-kosmetik-46532d395f9b@brauner>
-X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5642; i=brauner@kernel.org;
- h=from:subject:message-id; bh=/i2syicifZJ3USjcLrnHL97T2+UWubEpCuWxspQutOo=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSFzN968Y6VOqPC9JsP9qWHs0noxn0/3R4ZH2xSFH5/T
- +jLjDjmjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIlEqjL805+XauBhdHPVDt1v
- W60mzUieca+zv+rN4bQrZutUPzxez8HI0O3Kn/RRkL+DZ7vs7TmH/lrt1betv7l9Ti6nlWDRspV
- /2AE=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+References: <CAKspUhJE-6NN7XnfG0iJAxEiV9PJx6pDbUEU5jgO__+qvuU5ug@mail.gmail.com>
+ <alR4jP1-qlcQNma1@wyuan.org> <CAKspUhLGq_Hz-EM+Jc9ga=ih_0Ui7WzHZt+uKxMvuERsYB93Bg@mail.gmail.com>
+In-Reply-To: <CAKspUhLGq_Hz-EM+Jc9ga=ih_0Ui7WzHZt+uKxMvuERsYB93Bg@mail.gmail.com>
+From: =?UTF-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
+Date: Mon, 13 Jul 2026 17:03:12 +0800
+X-Gm-Features: AVVi8CfVD19v3n_RsxQHZhlsBpxJIJA5TwkL9uCKdVk4v6ykm2jp4BFVH7eTyIk
+Message-ID: <CAKspUhLaCuBOHy9L5DMYBUq4kk_8hgFXfGHzhGXjvS_9iqNFUg@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: zh_TW: process: localize terminologies and
+ improve fluency in 8.Conclusion
+To: Weijie Yuan <wy@wyuan.org>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <seakeel@gmail.com>, 
+	Hu Haowen <2023002089@link.tyut.edu.cn>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Dongliang Mu <mudongliangabcd@gmail.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Yuchen Tian <cat@malon.dev>, Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> > - The single sleepable load op is split into two ops:
-> >
-> >       struct binfmt_misc_ops {
-> >       	bool (*match)(struct linux_binprm *bprm);
-> >       	int (*load)(struct linux_binprm *bprm);
-> >       	char name[BINFMT_MISC_OPS_NAME_MAX];
-> >       };
-> >
-> >   The non-sleepable match program runs from the RCU entry lookup
-> >   walk itself, exactly like magic and extension matching: same
-> >   registration order, same first-match-wins semantics, and it can
-> >   only rely on the prefetched bprm->buf. It must be free of side
-> >   effects since the walk may be restarted.
-> >
-> 
-> Is relying on brpm->buf enough?
-> Right now that's only 256 bytes I think, which is not enough to read
-> segments we might care about. That worked fine when it was just a magic
-> number but the idea with the eBPF program is to make decisions based on
-> more data.
-> 
-> In the selftest I provided, the `PT_INTERP` segment is already at file
-> offset 0x318 (792). I was imaginging NixOS having to support
-> `PT_INTERP_NIX` in order for the produced binaries to be backwards
-> compatible with older kernels.
-> 
-> The other idea would be to make the `match()` broad and select
-> everything but then nearly all ELF64 binaries would match and then pay
-> the price to `load()` and ultimately `-ENOEXEC`. Seems like it would
-> make multiple BPF binfmt programs less useful.
+Here is the inventory I promised, from checktransupdate.py on mainline:
 
-Ok, so your idea is to have multiple bpf programs that look for
-different interpreters. Yeah, then you have to be able to sleep because
-you need to be able to fault. It makes the code uglier but I can see how
-that's useful. I'll see how nice I can make that.
+  zh_TW:  51 translated files, all out of date
+          221 distinct English commits to catch up with
 
-> >   The sleepable load program runs once the walk has committed to the
-> >   entry and does the file reading and the interpreter selection. Both
-> >   ops are mandatory, the struct_ops plumbing enforces the sleepability
-> >   of each, and since bpf_binprm_set_interp() is KF_SLEEPABLE a match
-> >   program cannot select an interpreter by construction.
-> >
-> > - A match is a commitment. A failing load program fails the exec instead
-> >   of falling through to later entries. -ENOEXEC keeps its usual meaning
-> >   and hands the binary to the remaining binary formats, for a handler
-> >   that discovers it cannot serve the binary after all.
-> >
-> >   This kills the part of v1 I disliked the most: the skip cursor and the
-> >   leave-and-rescan loop in load_misc_binary() are gone. The walk is
-> >   never left and re-entered, and 'B' entries need no special semantics
-> >   against concurrent (un)registration anymore.
-> >
-> >   Your v2 changelog note about keeping the bpf retry loop in the
-> >   __free() style is moot as a consequence. The loop no longer exists.
-> >
-> > - The load return convention flipped: 0 now means success after the
-> >   program called bpf_binprm_set_interp(). Returning 0 without having
-> >   selected an interpreter or returning a positive value is treated as
-> >   -ENOEXEC, other negative errnos fail the exec.
-> >
-> >   So the "return bpf_binprm_set_interp(...) ?: 1" idiom from the v1-era
-> >   programs becomes plain "return bpf_binprm_set_interp(...)".
-> >
-> > - The handler name moved from the offset field to the interpreter field
-> >   that field consistently names whoever supplies the interpreter, a path
-> >   for static entries, a handler for 'B' entries. Offset, magic, and mask
-> >   must be empty:
-> >
-> > 	echo ':nix-origin:B::::nix_origin:' > register
-> >
-> > - 'C' is allowed now, v1 rejected it. It behaves exactly as for a static
-> >    entry. The setuid transition stays gated by vfsuid_has_mapping() in
-> >    the caller's user namespace. Which makes 'B' handlers usable for a
-> >    per-binary loader over setuid binaries. 'F' stays rejected as there
-> >    is no fixed interpreter to pre-open (I have other ideas how we'll do
-> >    something like it later.).
-> >
-> > Nothing changed in the exec patch, the fs kfuncs patch, the kfunc
-> > itself, or the registry/namespacing model.
-> >
-> > I can send v3 in a bit if that's ok.
-> 
-> I don't mind at all you sending v3 and in fact I've been enjoying your
-> involvement. I didn't know what to expect when I offered this idea up to
-> the community. 
-> 
-> I'm happy to keep co-developing this with you within a design you feel
-> acceptable with. Please let me know how I can remain engaged and
-> helpful.
-> 
-> One last thing I was thinking about is that we will also need to support
-> $ORIGIN in the shebang path, however I just tested it and this current broad
-> BPF solution can largely handle it [1], with a small wrinkle.
-> 
->   $ printf '#!$ORIGIN/interp\n' > /opt/app/greet
->   $ cp ./interp /opt/app/interp     # any interpreter/loader
->   $ chmod +x /opt/app/greet /opt/app/interp
-> 
->   # stock kernel: binfmt_script opens the literal "$ORIGIN/interp"
->   $ /opt/app/greet
->   bash: /opt/app/greet: $ORIGIN/interp: bad interpreter: No such file or directory
-> 
->   # with the handler registered, $ORIGIN resolves to the script's dir
->   $ bpftool struct_ops register shebang_origin.bpf.o /sys/fs/bpf
->   $ echo ':shebang-origin:B:shebang_origin::::' > /proc/sys/fs/binfmt_misc/register
->   $ /opt/app/greet
->   <runs /opt/app/interp, the loader found next to the script>
-> 
-> The wrinkle is that it can't express today is the single optional argument.
-> (i.e. `#!interp arg" -> argv[1]=arg`). We might ned a way to express
-> that in the load.
+    process/      14 files
+    admin-guide/  15
+    arch/         12
+    dev-tools/     5
+    filesystems/   3
+    cpu-freq/      1
+    index.rst      1
 
-Ah, fun. binfmt_misc wasn't able to express this at all. It's good to
-close that gap. This can just be done by adding
-bpf_binprm_set_interp_arg().
+For calibration I ran the same tool on zh_CN: 178 translated files,
+also all out of date, 639 distinct commits behind. So in terms of
+drift from the English originals, zh_TW is not in a categorically
+different state from zh_CN -- the real gap is coverage (51 vs 178
+files), not decay. That makes me more optimistic than the "two years
+of stagnation" framing suggests: many zh_TW files are only behind by
+a typo fix or two.
 
+(The ~3300 documents with no Chinese translation at all are out of
+scope for both locales, so I do not think that is the problem to
+solve first.)
+
+One thing I noticed while reading the script: checktransupdate.py
+tracks the base commit accurately only when the translation commit
+message contains "update to commit HASH" (or "Update the translation
+through commit HASH"); otherwise it falls back to guessing from author
+dates. Adopting that convention for zh_TW commits from now on would
+make the tool's numbers reliable, and it costs nothing. Perhaps that
+could be part of the "more reasonable workflow" Weijie mentioned.
+
+My suggestion for the first step is process/ (14 files): it is where
+new contributors land first, it is small enough to finish as one
+series, and it is where the terminology differences are most visible.
+I would fold the pending 8.Conclusion patch into that series and build
+the glossary from it.
+
+=E8=91=89=E5=AE=B8=E4=BD=91 <chenyou910331@gmail.com> =E6=96=BC 2026=E5=B9=
+=B47=E6=9C=8813=E6=97=A5=E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=882:35=E5=AF=AB=
+=E9=81=93=EF=BC=9A
+>
+> Hi Dongliang, Weijie,
+>
+> Thank you both -- this is more support than I expected, and I am glad
+> to do this together.
+>
+> > Chen-Yu, I would like to serve as co-maintainers to help maintain zh_TW=
+.
+> > [...]
+> > As discussed with Alex before, maybe zh_TW patches can first go to
+> > Alex's kernel tree and then push to Jon's tree. I am not sure if you ar=
+e
+> > familar with the maintainer workflow. If not, this solution may be
+> > better for you to learn maintainer workflow.
+>
+> To be honest: no, I am not familiar with the maintainer workflow yet --
+> so far I have only been on the contributor side. So routing zh_TW
+> patches through Alex's tree first sounds like the right arrangement to
+> me, both for reliability and so that I can learn the workflow properly
+> before taking on more. Alex, if you are fine with this, thank you in
+> advance.
+>
+> > I suggest that we could try out the provisional plan for about one or
+> > two months (depends), and then make a formal change.
+>
+> Agreed. A trial period before touching MAINTAINERS is fair -- it lets
+> the work speak first. I will send the MAINTAINERS patch when you both
+> feel the arrangement has proven itself.
+>
+> >   * Considering that English documents are changing so rapidly, and eve=
+n
+> >     simplified Chinese cannot keep up with them immediately. I suggest
+> >     we start working on catching up with simplified Chinese right now,
+> >     which seems like a good place to begin.
+>
+> This matches what I had in mind, and it also answers Alex's concern:
+> zh_TW should track zh_CN in structure and coverage, and differ only in
+> terminology. I will start by running checktransupdate.py over zh_TW to
+> get a concrete inventory of what is stale and how far behind we are,
+> and share the result here so we can prioritize together.
+>
+> > re-translation may be more efficient.
+>
+> Agreed for the badly outdated files -- patching a two-year-old
+> translation line by line is likely more work than translating the
+> current text afresh. The inventory should tell us which files fall
+> into which category.
+>
+> > https://zh.wikibooks.org/wiki/%E5%A4%A7%E9%99%86%E5%8F%B0%E6%B9%BE%E8%A=
+E%A1%E7%AE%97%E6%9C%BA%E6%9C%AF%E8%AF%AD%E5%AF%B9%E7%85%A7%E8%A1%A8
+> >
+> > Is it comprehensive? I don't know. Perhaps we could add some specific
+> > reference tables related to the Linux Kernel on top of it.
+>
+> As a native speaker: it is a reasonable general reference, but it is
+> not kernel-specific, and some entries are dated or not what people
+> actually write in Taiwan today. I would rather build the glossary
+> bottom-up from the terms that actually appear in the kernel docs
+> (=E8=BB=9F=E9=AB=94/=E8=BB=9F=E4=BB=B6, =E4=BB=8B=E9=9D=A2/=E6=8E=A5=E5=
+=8F=A3, =E8=A8=98=E6=86=B6=E9=AB=94, =E8=A1=8C=E7=A8=8B, =E6=A0=B8=E5=BF=83=
+, =E4=BD=87=E5=88=97, ...), and use the
+> wikibooks table only as a cross-check. I will include the glossary as
+> part of the first terminology series so it can be reviewed like any
+> other patch.
+>
+> > Perhaps I can handle most of the operation and maintenance tasks of
+> > chore, giving Chen-yu more time and concentration to focus on the actua=
+l
+> > translation work.
+>
+> That would help a lot, thank you. It also sounds like a natural split:
+> you on process and monitoring, me on the translation and the zh_TW
+> terminology judgement.
+>
+> One last thing about the patch that started all this: rather than
+> keeping the v2 for 8.Conclusion pending, I would suggest dropping it
+> and folding its changes into the terminology series, so the fixes
+> land in one consistent batch. Any objection?
+>
+> Thanks,
+> Chen-Yu
+>
+> Weijie Yuan <wy@wyuan.org> =E6=96=BC 2026=E5=B9=B47=E6=9C=8813=E6=97=A5=
+=E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=881:33=E5=AF=AB=E9=81=93=EF=BC=9A
+> >
+> > On Mon, Jul 13, 2026 at 10:44:12AM +0800, =E8=91=89=E5=AE=B8=E4=BD=91 w=
+rote:
+> > > Hi Weijie,
+> > >
+> > > > I suspect that some contributors would run the get_maintainers.pl s=
+cript
+> > > > or b4 prep --auto-to-cc, so they did not cc Alex, as they didn't kn=
+ow
+> > > > the current situation. Because I noticed that for both two versions=
+,
+> > > > Chen-yu didn't cc Alex or Dongliang or Yanteng. Am I right, @Chen-y=
+u? ;-)
+> > >
+> > > Yes, exactly. For both v1 and v2 I ran get_maintainer.pl, which only
+> > > lists Hu Haowen and the mailing lists for zh_TW files, so Alex and th=
+e
+> > > zh_CN team were never on cc.
+> >
+> > Right, let's note this situation down. We'll deal with it after we come
+> > up with the final solution.
+> >
+> > >
+> > > > Given that this document has not been maintained for ~2 years and t=
+hese
+> > > > patches to the terminology actually don't have much significance, i=
+t
+> > > > might be more appropriate to directly declare the status of Traditi=
+onal
+> > > > Chinese as "Orphan" provisionally for now, and remove it directly i=
+n the
+> > > > near future, until Hao Wen's return and opinion. Or maybe, waiting =
+for a
+> > > > new good soul to take over, which is unpredictable.
+> > >
+> > > Before it comes to that: I would like to step up and help carry zh_TW
+> > > forward. I am a native zh_TW speaker from Taiwan, and I understand
+> > > this means staying with it, not a one-off effort.
+> >
+> > Nice and thanks. Frankly speaking, At the very beginning, I did conside=
+r
+> > saying that I also wanted to take over, and I wished I could. However,
+> > considering that I was certainly not familiar with the traditional
+> > Chinese terms used in Taiwan (although I knew some, that was all), I
+> > finally chose to be speak more conservatively.
+> >
+> > > Dongliang, since you kindly offered to help review zh_TW patches:
+> > > would you be open to doing this together -- either as co-maintainers,
+> > > or with me listed as a reviewer (R:) first if that is a more
+> > > reasonable starting point for a newcomer?
+> >
+> > Since I was the one who shamelessly initiated this discussion, I
+> > definitely have the obligation to do something. See below...
+> >
+> > > > > To avoid scattering our efforts, I suggest we minimize fragmentat=
+ion
+> > > > > as much as possible. When it comes to technical documentation
+> > > > > translation, not literary translation, a straightforward, unadorn=
+ed,
+> > > > > and free from misunderstandings is the best translation and easy =
+to
+> > > > > maintain. Let's keep thing simple, unless sth is really necessary=
+.
+> > >
+> > > Alex, I think this concern is fair, and I have no intention of
+> > > forking the translation effort. The scope I have in mind is
+> > > deliberately narrow: keep zh_TW aligned with zh_CN in structure and
+> > > coverage, and localize only where terminology genuinely differs
+> > > (e.g. =E8=BB=9F=E9=AB=94 vs =E8=BD=AF=E4=BB=B6, =E4=BB=8B=E9=9D=A2 vs=
+ =E6=8E=A5=E5=8F=A3) -- exactly the kind of differences
+> > > you mentioned. Plain, accurate technical translation, no literary
+> > > rewriting.
+> >
+> > Exactly, before sending my first email here, I had already thought abou=
+t
+> > the following approach, what do you think?
+> >
+> >   * Considering that English documents are changing so rapidly, and eve=
+n
+> >     simplified Chinese cannot keep up with them immediately. I suggest
+> >     we start working on catching up with simplified Chinese right now,
+> >     which seems like a good place to begin. (ok... seems exactly what y=
+ou said ;-)
+> >
+> > > Weijie, as a first concrete step I will prepare a terminology series
+> > > (rather than one-word-at-a-time patches, as you suggested) covering
+> > > the existing process/ documents, and use it to build a small glossary
+> > > that future patches and reviews can follow.
+> >
+> > I used to read this:
+> >
+> > https://zh.wikibooks.org/wiki/%E5%A4%A7%E9%99%86%E5%8F%B0%E6%B9%BE%E8%A=
+E%A1%E7%AE%97%E6%9C%BA%E6%9C%AF%E8%AF%AD%E5%AF%B9%E7%85%A7%E8%A1%A8
+> >
+> > Is it comprehensive? I don't know. Perhaps we could add some specific
+> > reference tables related to the Linux Kernel on top of it.
+> >
+> > On Mon, Jul 13, 2026 at 11:49:07AM +0800, Dongliang Mu wrote:
+> > > Chen-Yu,I would like to serve as co-maintainers to help maintain zh_T=
+W. The
+> > > script - tools/docs/checktransupdate.py can seamlessly work on zh_TW.=
+ This
+> > > can help track the missing changes.
+> >
+> > I would also like to take a job ;-) while my current contributions are
+> > not sufficient. And wish soon.
+> >
+> > > As discussed with Alex before, maybe zh_TW patches can first go to Al=
+ex's
+> > > kernel tree and then push to Jon's tree. I am not sure if you are fam=
+ilar
+> > > with the maintainer workflow. If not, this solution may be better for=
+ you to
+> > > learn maintainer workflow.
+> >
+> > I suggest that we could try out the provisional plan for about one or
+> > two months (depends), and then make a formal change.
+> >
+> > Before we make a formal change, I will monitor the list (CN & TW), If
+> > there is any situation like this patch which is not sent correctly, I
+> > will handle it promptly.
+> >
+> > OK, I consider myself quite familiar with the development process and
+> > the maintenance process, mainly from Git (seems more complicated).
+> > Perhaps I can handle most of the operation and maintenance tasks of
+> > chore, giving Chen-yu more time and concentration to focus on the actua=
+l
+> > translation work. But this can be further discussed.
+> >
+> > Thanks,
+> > Weijie
