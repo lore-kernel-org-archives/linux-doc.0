@@ -1,141 +1,123 @@
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A8A35C193;
-	Mon, 13 Jul 2026 23:37:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7932D2E8B9B;
+	Mon, 13 Jul 2026 23:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783985864; cv=none; b=kuewJVHtB8zSLuGb/4sVNzX4U3VAKjHKhqKprQ5lqY9kXw1H/37GA/kxa3SRGqSIf3xdH9j7G9fgLtPpS5aaI6CNIKrBYNZ2U8T5p6nIO0FEJS8Uq/WVLuIedlhGIwGiEoPO3TYmim5dbKJoPjSE8wL3NTDwMjIZLlicoPqy1rY=
+	t=1783986056; cv=none; b=FPSYP91bVQxqAEMFUMgJKeGO18KIt//193xlEP2oLGue1Qu6MmOB9ErIcCJ1Hv001iGmL4ZMgtxlgUTMVvVmQT/wsGaxxrWaQujTIbWCB9//toKcGLqf703+lHKA5mUKIIJ/KeyuzFJdJgTLZiP5/lU4rewElHKb13VjEalNTkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783985864; c=relaxed/simple;
-	bh=nzmqcvHtzlfyNgIdbNSmfa7GD/3tkvZtSUeAK2xyOsk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=goCtwoFB2JaTf8CKyp3VPVMEwsa8HqwJO0f2Zgd76vpSh4/yIqvc68Y0qYnwnklLB1IUDgnrNHSqPABKJiGYmr9oyqyPA5Oeqj++NF8p8xI8kEKi1tBqUioSm21X69lZYiSGOUfwin7kFovnjWTkir3BeQc8vFjSMxoJ3n9hFJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=SRay9pS1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XdA3khTG; arc=none smtp.client-ip=202.12.124.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	s=arc-20240116; t=1783986056; c=relaxed/simple;
+	bh=0NsG52ujgvHG9+TRQ5dWtOl0ctWKEYwuRb5e4iLxvU4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X6I9A45grfA9tp+u2Ei7KHEAc663GrfEcG6pkheTJmTS+QE2SFLqKUcC72aHxNfdLprqMCAKY4uELY3+VmkwtSyAYu76wUQy/NwqgGZbMFCGYAvzYMkUdVeNXAT9cLXxqScA/33fL4VIQfbRcv+v4KbdiX1pEAS/mvYhWa4H274=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MrKuK6P4; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="SRay9pS1";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XdA3khTG"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 7F0117A0116;
-	Mon, 13 Jul 2026 19:37:39 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Mon, 13 Jul 2026 19:37:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1783985859;
-	 x=1784072259; bh=hfaitaNnjEf6rqXv+1vAtt6Mfbk8w+tp59BoL8YIQZg=; b=
-	SRay9pS1t+MWuUKlrcj8xke1VSLP4EvKZ9vsZBtr8wQv+CWhwOsotbXUjR5ge4Ju
-	a65m5LTAWipR8cv0TRrlG46j62T8qz8H0qms0kRcAM/4l4XQDZJdUpPnPZGBe7f1
-	N9VjVmLhmT7SgCbh1Lf3jYq7UrTqBY3RjvFp76R6koRqxpooZlDY2zerPi/dm8IM
-	Rfer6dufhomrdZ2Y2j9Kvzym++I5h/VhFUQxeQ00tjIfsd9AhTQ4lCi6uYU+vXC0
-	DNZrd8RdBAM5B3+r6L8ZhLVmBexADjH5gax7IHy2vfSW0xWGcHlUFbA0MALT82XV
-	g1zP5s1v6OFUwSOl+hEtQw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783985859; x=
-	1784072259; bh=hfaitaNnjEf6rqXv+1vAtt6Mfbk8w+tp59BoL8YIQZg=; b=X
-	dA3khTGa1IE0Q5asqxHVIBc4mmX8iRqva4WvROY/uAmRsQ5POynIAJqm5NXUYkOZ
-	b+wDA+VK1fd6bCjAd0vXsxyiBjReHjyqYrttVi+GNSJwjbAeI8L5qUbfOme2KeZA
-	e4Z+djv1rVgh8Sw3rQ0swZWLLZz6+eBqMuvhFoTYSeAqFF/HrDAG7BWo8KBGqd3G
-	IFeK4KJ6ewZNAZP5N20F/VFaFHYzQMLSIoG+pZiDHSXJ9uBFvkcoRq4UVEwsJZih
-	iG86+JrR3H/EcnA+GSh4y7VgYRN7h2ftdaTBhcJABRCKguuGlgfIzyKGmjbMFq2A
-	icmrSapw30KzuPqtaxlMA==
-X-ME-Sender: <xms:wnZVap__XDov-SZJ86-0GWacm1LBJl9Gi8l8G4xuk5RIQaCEkj-Q5w>
-    <xme:wnZVaq4HDgYSTs9_kzrDhkyCmGxEHGNJfYrsudd7RiAt6GNG0EEnlyMN-8Tzc5YwC
-    lcWmJQRdkxjHMlKqhWelq4_5GwCzutZT8hfuGXxgvAPCB5BSviG>
-X-ME-Received: <xmr:wnZVargR_x7qFF8w60yD564XP0mXUirf337C9gcqz8hLqy7jsxOfeyrFMg0>
-X-ME-Proxy-Cause: dmFkZTGFOIUmX0QZz6a3YffLfc012wxaz6+SzFx8zgoMAEVEw426WACURyYV4j6lUaUfCj
-    6lXuZNlomwm6GJy9NLvq++SZgqlXuNbCB2o5G07uzK+pUY4Eg1NE6cpC9dCIxfO0z4ydkV
-    N0OWYSF0J2BRPOiIwa7ji1bnjeMDclHZVua0PCZzRC4tPvPRrtAFKges7mmvNYhS/otsjP
-    Yj5ZLDG6oH4hdKj7hSHQdfQKJLmUgCK9pY5m2MbloA0pqYyixNNw+Qsc8N3IC4q9uoFhQO
-    BoDWYHBr0BVdT1DSDaQe0da06aDPIsWoXuvutSyVJwY0x59hEtfYML7XeDaujCORNdY/Jx
-    QbScP9hzcIntUC/0bLb3/HT5tTLVdF7ZLvB220tqRRjlDibwMnayQ+uCbw4atxe2jrPczX
-    sHYun6h2RfA8ttJnuh3KhP1FppKkv/PCQlHuAN5NO9nE1k7VHEsQMjTlEg4j6Dv/1vClyM
-    2S18099asPYSNDZmTd20zXlWKz+5mj6f923tNbBK8N2Cn4AO/lCiG4LZSa/lGEQdSp8ju/
-    02d+CN9mBEIUzotdg9lanpqZMbqOJv8UB9Mn9gR3wUdrbrGEaRubuApgdtXVgwFXnj8Ieo
-    fautHEJubGwrXBKYIPIvibvtIrrGXIWKFw4MszdXTjMRt9WJnAqfWUodh14A
-X-ME-Proxy: <xmx:wnZVapri7lfez_yCCKAO11BDXkDNXCTs-IJhSwxrdD-WyoXNXfkvaw>
-    <xmx:wnZVavK8BuncSst8lSPKpxeHQRnjdxdeFXL11iPfMUPnEfBYF1AdxA>
-    <xmx:wnZVauuFyRb1pMLGBuIZImckHSGU1lL5JImPfXADUi_PNXV24pmHTQ>
-    <xmx:wnZVanvDvc4HuG_gENFAAEMbhgTJDyiJyttKte0gMHb_BEOP9CE3_A>
-    <xmx:w3ZVaheb7AY1p-2SOCKkhU1pFyRDOzXIfVvV4mj9DCDHP_Rc1nOh0y9f>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Jul 2026 19:37:34 -0400 (EDT)
-Date: Mon, 13 Jul 2026 17:37:30 -0600
-From: Alex Williamson <alex@shazbot.org>
-To: Manish Honap <mhonap@nvidia.com>
-Cc: "djbw@kernel.org" <djbw@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
- "jic23@kernel.org" <jic23@kernel.org>, "dave.jiang@intel.com"
- <dave.jiang@intel.com>, Ankit Agrawal <ankita@nvidia.com>,
- "alejandro.lucero-palau@amd.com" <alejandro.lucero-palau@amd.com>,
- "alison.schofield@intel.com" <alison.schofield@intel.com>,
- "dave@stgolabs.net" <dave@stgolabs.net>, "dmatlack@google.com"
- <dmatlack@google.com>, "gourry@gourry.net" <gourry@gourry.net>,
- "ira.weiny@intel.com" <ira.weiny@intel.com>, Neo Jia <cjia@nvidia.com>,
- Krishnakant Jaju <kjaju@nvidia.com>, Vikram Sethi <vsethi@nvidia.com>, Zhi
- Wang <zhiw@nvidia.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- alex@shazbot.org
-Subject: Re: [PATCH v3 05/11] vfio: UAPI for CXL Type-2 device passthrough
-Message-ID: <20260713173730.2de01a77@shazbot.org>
-In-Reply-To: <IA1PR12MB9030E175587B09CEA7A4D90FBDFA2@IA1PR12MB9030.namprd12.prod.outlook.com>
-References: <20260625165407.1769572-1-mhonap@nvidia.com>
-	<20260625165407.1769572-6-mhonap@nvidia.com>
-	<20260710162322.012be635@shazbot.org>
-	<IA1PR12MB9030E175587B09CEA7A4D90FBDFA2@IA1PR12MB9030.namprd12.prod.outlook.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MrKuK6P4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783986054; x=1815522054;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=0NsG52ujgvHG9+TRQ5dWtOl0ctWKEYwuRb5e4iLxvU4=;
+  b=MrKuK6P41JPadlA13nH3TxJtGFFq/dnPCjthwIS51DFQsT3SDBIlb6Cz
+   a1MfKDTN4IYlb7+cjPP5gnjOfgN31PO3SWMwim0XNbXgn7kKhCsgy0G3W
+   CXkfek49xMT1l+SHMVvazLlRX36pZNVXjTwaOoQbubJ+u6w497mcdo4Vq
+   2HJDvq0PvIEFE9PFFBt1hYh8DR4bSOV0qJbqj7towzPj1gfAuPGdzzWqW
+   8pnADfgOlCgrvAOdmO/KHSHX85jE21UxDz3XBPBD2xG0BWT6Zt1TU7thl
+   sd/vGxN92vvMVBqR7k6NmJJW2841JY9jztacwNEaHDozIO1aRo0XCemTO
+   g==;
+X-CSE-ConnectionGUID: N6LDwW6VTF+cXrNs8epPgA==
+X-CSE-MsgGUID: inBaQRWgSnGvimVKNVeEaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84480978"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="84480978"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 16:40:53 -0700
+X-CSE-ConnectionGUID: eHAC8Z0pS/GsH5SUN9wVlA==
+X-CSE-MsgGUID: 11/n+O3oRYeE5TObh612/w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="251261395"
+Received: from smithj1-mobl2.amr.corp.intel.com (HELO [10.125.108.83]) ([10.125.108.83])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 16:40:53 -0700
+Message-ID: <b03d7122-52a5-4539-817c-15735a774ef7@intel.com>
+Date: Mon, 13 Jul 2026 16:40:55 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND 0/3] x86/vdso: Improve vdso=/vdso32= boot parameter
+ validation
+To: Thorsten Blum <thorsten.blum@linux.dev>, Andy Lutomirski
+ <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
+Cc: x86@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260713233422.127348-5-thorsten.blum@linux.dev>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <20260713233422.127348-5-thorsten.blum@linux.dev>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Mon, 13 Jul 2026 16:44:53 +0000
-Manish Honap <mhonap@nvidia.com> wrote:
+On 7/13/26 16:34, Thorsten Blum wrote:
+> Replace the deprecated simple_strtoul() [1] with kstrtouint() when
+> parsing the vDSO boot parameters. This provides strict input validation,
+> rejects partial input, and warns when disabling vDSO for invalid values.
 
-> > -----Original Message-----
-> > From: Alex Williamson <alex@shazbot.org>
-> > Sent: 11 July 2026 03:53
-> > On Thu, 25 Jun 2026 22:24:01 +0530
-> > <mhonap@nvidia.com> wrote:  
-> > > diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-> > > index 5de618a3a5ee..3707d53c4de5 100644
-> > > --- a/include/uapi/linux/vfio.h
-> > > +++ b/include/uapi/linux/vfio.h
-> > > @@ -215,6 +215,7 @@ struct vfio_device_info {
-> > >  #define VFIO_DEVICE_FLAGS_FSL_MC (1 << 6)    /* vfio-fsl-mc device */
-> > >  #define VFIO_DEVICE_FLAGS_CAPS       (1 << 7)        /* Info supports  
-> > caps */  
-> > >  #define VFIO_DEVICE_FLAGS_CDX        (1 << 8)        /* vfio-cdx  
-> > device */  
-> > > +#define VFIO_DEVICE_FLAGS_CXL        (1 << 9)        /* vfio-cxl  
-> > Type-2 device */
-> > 
-> > Would we define a different flag for type-1/3 if we ever found a need to
-> > expose them through vfio?  
-> 
-> Yes. The current flag is named VFIO_DEVICE_FLAGS_CXL and refers to
-> Type-2 specifically. If Type-1 or Type-3 support is added later, a
-> separate flag (or a VFIO_DEVICE_INFO_CAP sub-type field) would
-> distinguish them. I can rename it VFIO_DEVICE_FLAGS_CXL_TYPE2 now if
-> that is preferable; please advise.
+Hey Thorsten,
 
-I'd keep the broader flag, CXL, and use the device info capability to
-zero in on the specific features we're trying to expose that can't be
-readily obtained through DVSEC or needs a mechanism within the vfio
-uAPI.  Thanks,
-
-Alex
+I'm curious what motivated this change. Were you trying to manipulate
+the VDSO and ran into some difficulties? Or is it a larger effort to
+audit and simple_strtoul() users?
