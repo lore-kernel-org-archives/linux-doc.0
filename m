@@ -1,84 +1,45 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AED03D9DD2
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 09:53:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF58A3E2AB6;
+	Mon, 13 Jul 2026 09:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783936389; cv=none; b=d7IFvh6yLqGywPcJZpAbE3ozoquCvOsD6UqFjf9T/pOiVhx/BHawX6Mn4GllamhrkWzaZsEe6BjEVBCfe7pwOc0sIcpMb3jT4ubSFcqXnvp5hV8cK9pn4+g1tAGA97UuBk2qoqBy2tA4KkgfqRPNcEanxErt7gFGLTHv2JAoAYM=
+	t=1783936668; cv=none; b=hWqM4hKU+ZxvyjoZ6MrK44l6smJ42mmUQk/3zacwJmZmk7Pst0HLK0JSfdf/Ueg1HqdKhydH/82MH7LnEMbjwnsG6iDuF+P7j/W5w7diHIsljSUIMCOXCyGm1uAKjCMPl29nMmXuoYQ8IPW1XyNJHYGKElB1x9d3IFPSST31r6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783936389; c=relaxed/simple;
-	bh=ij2M2kwiOeKDbVQfgMoEAJNmqYl0Dpypsxx7+TfCsrQ=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HDDFiqCr8jFMqodujTDAhJSeKuEGXn8Z5luPHj2ero+SVDzIUqAsU8YUWg9jiOJSRqCYT/FM5/rvgUvVruhCpu6MLu1gR7x8NTzqw6bBAGt8fR5Ir+aGm/W7cfAQxhyaV2yQC6Kbq+BpnVQXcbGYqA4PVrzjY9c8PO+t7pW94sE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A0JFgexU; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783936668; c=relaxed/simple;
+	bh=la3YNnos8fO30PpKphG30Z8QyQ2Elt6Z+LYql8V1iyU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kDBhxKZ+QywuVefpQ2sitsFz4zhyjGrfjA9iexurn8cCw3CjeOMVGDgLPs9B5aBUkVv5HA3GinNH5nVq5MKHgt9mJGBKfBcBe1R/8CxpP97AL0yZOFIjx7TwloXmbGBP7/r2ZjuiinEReFDSVbU/yR1FuIGzDcnWVl7V82sht7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hfTueQg9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A0JFgexU"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-69c108fee7fso4425883a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 02:53:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783936385; x=1784541185; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:date:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=XkoqjiJgvj0fIc6sWXvWxf3IczQwvql9N4c4357BiFs=;
-        b=A0JFgexUNYl7pPyM4pRup8Pl7+UFV6eQiII/8P0CfTFVryFg1uQaM7YAnk0kVfem8F
-         MnIrHXSo+PovyVwN273k+6K63OQOKPusMb08D0atM593GnFLFrX0Ow1zRci3B50ys/+k
-         wb8raIcmrpwdy+enh1nLJ/yAVpDklLevUAbMiUOhb4EBeSF8zTGc2LLtDMaCsowa0aCK
-         8ig955ObQ0Rtbm01PvE8ZBoBG9d4rsUnbB78r2Wv7o8BHlNSwsAxRQgDlsuU3acfMXqA
-         RbN52ZE6r1BimAIH934w61WK5ehL60mnmhJBb/rrhzMAfzw3Rf3Y9b+lQxVJ2WINAr1p
-         Hh5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783936385; x=1784541185;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XkoqjiJgvj0fIc6sWXvWxf3IczQwvql9N4c4357BiFs=;
-        b=o4eYzKBEwu5eUqb2sWpc6UjC/81iDUPReuFWZAMzo7roYd8Ij4Agrdo/V2sc3W0bAy
-         wgwRhFF8/SiIiIoYCWFreT3ImUafaUsL0Lrorz+yZIcKSyZ2xu/RSo6fZdaiNdrda4zi
-         eP8zdPSsi2a4vPFYxd600MoJhmDDQXngbURuj5kvmLgHcrZilIS/sB1gTEgPiES/O/pr
-         mMEyNBSdukOURmgzgMYPz7Xf/9NYEeGExXrZEF3w+x7sDKRtvs4zQLLHyvTFshfaXU8k
-         q8l5Mu8Do1UPIsSwcJG/ZrXDH1gioIzh0Ir5FLzUicfxLyJKz+TO7r3QEOthEXjZeS92
-         B5bA==
-X-Forwarded-Encrypted: i=1; AHgh+RrA8up6AknsZYHnXlGXuJC90yyGxH70djO0VUufHXAhCVQENzF1w1ppTdwSLS9jd1SWByK5vZrlz3k=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywu67yVeTzG5TreVSK59ORJX4rcRtYL78b0mMWTcva8lPm47BAO
-	EjfV/2llYh5LTbKOHNIjzKNYxz0DKb2lJvirujsEiuW4VlPFHQgotjYk
-X-Gm-Gg: AfdE7ckVQG0ErY7/ygx5FBn7fwdMmsqj0PHWSrDdXM2xAziyNKLez3Y0K7Gfun1FzBo
-	mpqmkl/vmH2WD4tMT+7tWWDPU4O7+G7Pw6EvTd8kBotVCJhKD9eFmRdMrFkZudvgS0BK1nEMSWr
-	kbQ5PsE4upDpfrbNEblum3PAUAipdqMOxzHd4/kxSUc6s6SQbHuFRgmF9TIw/J/cam4yhH10iNw
-	2+D5xq/H82z509vT0HfyE4620S5Wy0Hif9GBQGaQFGjK37ZCVdKDf7lQxpweaEiKJkSMy9KCV1F
-	cSslfHhFIKkixd14/FfaDU1+bQJB+ZA9KLXpKMPy+RNqGorO+KxaYCx+lAIESzxkDuBTT5em1CO
-	tFRs1VA9wxNJ3rRoJ3tEfkHjKvd+15Qsjx/LFHjS7FgfP3k1JHl2v8l1dU6ZmJ1jfrNjYVo1iBm
-	IkTjRf8a8T9ezzBowfiRAoi3AFP6uboCA0JV8HCKuLbJofy76AJLH0jVEnzi80313ozyWDedIi0
-	btsc0AzqSZVfCy4ZZGeyA12bU4=
-X-Received: by 2002:a05:6402:1e8c:b0:698:7485:3f12 with SMTP id 4fb4d7f45d1cf-69c5f0eafb7mr3910232a12.24.1783936385138;
-        Mon, 13 Jul 2026 02:53:05 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69ac41d7ceesm7759429a12.23.2026.07.13.02.53.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 02:53:04 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-Date: Mon, 13 Jul 2026 10:52:56 +0100
-To: Jonathan Cameron <jic23@kernel.org>, 
-	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH v7 07/17] iio: test: add kunit tests for channel prefix
- naming generation
-Message-ID: <egyms7ulkxsgu4pvfkoruelec3sf6ca4bndcuqkvxljrdluqwu@edlqne7oy3xs>
-References: <20260707-ad9910-iio-driver-v7-0-a4ec30f63700@analog.com>
- <20260707-ad9910-iio-driver-v7-7-a4ec30f63700@analog.com>
- <20260712020928.2c8d1667@jic23-huawei>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hfTueQg9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAB261F00A3D;
+	Mon, 13 Jul 2026 09:57:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783936662;
+	bh=aBrXVBLeI2IEHvIvaOWKwyqAdMHFb6oga++/AXMhGxQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hfTueQg900K2ypOWxlKMzGOIEgWSbJrvzJnxo3vCHRq+jA7KVhy3HOtmzQ5/GWEEl
+	 lpyAc37NQF69qqd/vVEsM3k1mfO28ktyM9yxPIRjpREeBcMfMniJdMWENMEqn5taMN
+	 k4ZenW3aSYUU6w3LQswfS7bPvbr41Zd8gC4HPSW3fQvxOvsEfjetms3C5rSp8zLC4L
+	 bFF5zuM8pCjti4SLwujr2ti0l0Wo1NKFpbPj7bTodj8FCcZG4ZCtis+zBRNPZtislV
+	 RS+8xBcr9nv0x9BOtuPHH1L1IrbTHSN3whtbtue3Dhc1o10q/sl0R/oeKDWJHa3omJ
+	 OoloLUPtEuoQA==
+Date: Mon, 13 Jul 2026 10:57:38 +0100
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] arch: arm64: add early_param idle=<wfi|yield|nop>
+Message-ID: <20260713-bulky-thistle-leopard-c66a18@sudeepholla>
+References: <20260711-arm64-idle-param-v2-1-0ab67652a435@cyberchaos.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,107 +48,127 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260712020928.2c8d1667@jic23-huawei>
+In-Reply-To: <20260711-arm64-idle-param-v2-1-0ab67652a435@cyberchaos.dev>
 
-On 12/07/26 02:09, Jonathan Cameron wrote:
-> On Tue, 07 Jul 2026 15:04:28 +0100
-> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+On Sat, Jul 11, 2026 at 09:35:25AM +0200, Yureka Lilian wrote:
+> Overriding the idle mechanism might be useful for debugging and performance
+> testing. Add a cmdline parameter for it, similar to the existing idle=
+> parameter already present for the x86 and ppc architectures.
 > 
-> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > 
-> > Add a KUnit test suite covering __iio_chan_prefix_emit(), the helper
-> > that builds IIO sysfs attribute name prefixes from an iio_chan_spec.
-> > The suite groups cases by the enum iio_shared_by mode it exercises:
-> > 
-> >   - IIO_SHARED_BY_ALL: produces an empty prefix.
-> >   - IIO_SHARED_BY_DIR: emits direction only ("in" / "out").
-> >   - IIO_SHARED_BY_TYPE: emits "<dir>_<type>" and the differential
-> >     "<dir>_<type>-<type>" variant.
-> >   - IIO_SEPARATE: covers the full matrix of indexed, differential,
-> >     modified, output and extend_name combinations, plus the two
-> >     documented error paths (differential without indexed, differential
-> >     with modifier).
-> > 
-> > A final case exercises the seq_buf overflow path by passing an
-> > undersized buffer and expects -EOVERFLOW.
-> > 
-> > Because __iio_chan_prefix_emit() is static, the test translation unit
-> > is pulled into industrialio-core.c.
+> It is also useful on platforms where the WFI instruction misbehaves,
+> such as Apple Silicon SoCs. Generally, a misbehaving instruction should
+> be treated as an erratum and patched using the alternatives framework.
+> However, in the Apple Silicon case we need more flexibility because it is
+> difficult to detect whether the erratum applies. For example, Linux VMs
+> inside macOS have the same MIDR and may even seem like they're running
+> in EL2 in the case of NV, but should continue using WFI (it's trapped and
+> handled correctly by the hypervisor there). Thus, we prefer to
+> let the m1n1 bootloader add the idle=nop parameter[1].
 > 
-> Isn't there some magic route cases like this that makes it non static
-> only when self tests are enabled? 
-> Claude tells me to look at include/kunit/visibility.h
-
-There is, Although I think that using
-
-	#if IS_ENABLED(CONFIG_IIO_CHANNEL_PREFIX_KUNIT_TEST)
-		#include "test/iio-test-channel-prefix.c"
-	#endif
-
-was more straight forward, less invasive and easier to change than..
-
-	/* In "drivers/iio/industrialio-core.c" */
-
-	#include <kunit/visibility.h>
-	...
-	VISIBLE_IF_KUNIT ssize_t __iio_chan_prefix_emit(...)
-	{
-	...
-	}
-	EXPORT_SYMBOL_IF_KUNIT(__iio_chan_prefix_emit);
-
-	/* In "iio_core.h" */
-
-	#if IS_ENABLED(CONFIG_KUNIT)
-		ssize_t __iio_chan_prefix_emit(...);
-	#endif
-
-	/* In "drivers/iio/test/iio-test-channel-prefix.c" */
-
-	#include <kunit/visibility.h>
-	#include <iio_core.h>
-	...
-	MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
-	...
-	// Use __iio_chan_prefix_emit() in tests
-
+> Link[1]: https://lore.kernel.org/all/99b69262-e54b-424e-baa2-96ef7013b87a@kernel.org/
+> Suggested-by: Will Deacon <will@kernel.org>
+> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+> ---
+> Changes in v2:
+> - Applied suggestions by Anshuman Khandual (Thanks!)
+> - Link to v1: https://patch.msgid.link/20260705-arm64-idle-param-v1-1-7454249f473f@cyberchaos.dev
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 23 +++++++++++++++++++
+>  arch/arm64/kernel/idle.c                        | 30 +++++++++++++++++++++++--
+>  arch/arm64/kernel/idle.h                        | 13 +++++++++++
+>  arch/arm64/lib/delay.c                          |  5 ++++-
+>  4 files changed, 68 insertions(+), 3 deletions(-)
 > 
-> Very nice.  A couple of really small additions requested inline.
-> I might well have missed where you exercised the corners requested though!
-> + I'll need an Ack from Lars for that maintainers entry. I'll guess that
-> Lars won't give one as not very active at the moment in this area.
-> 
-> Jonathan
-> 
-> > 
-> > Also, an entry is created under MAINTAINERS dedicated to tests for IIO
-> > core helpers.
-> > 
-> > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > ---
-> >  MAINTAINERS                                |   8 +
-> >  drivers/iio/industrialio-core.c            |   4 +
-> >  drivers/iio/test/Kconfig                   |  14 ++
-> >  drivers/iio/test/iio-test-channel-prefix.c | 246 +++++++++++++++++++++++++++++
-> >  4 files changed, 272 insertions(+)
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 2b1ec46c5919..57ffc0dcfdb6 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -12634,6 +12634,14 @@ F:	include/dt-bindings/iio/
-> >  F:	include/linux/iio/
-> >  F:	tools/iio/
-> >  
-> > +IIO CORE KUNIT TESTS
-> > +M:	Lars-Peter Clausen <lars@metafoo.de>
-> 
-> I'd need an Ack from Lars for this entry.   If we don't get one are you
-> fine looking after this without Lars listed?  
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index b2d7d3540ded..d7f5471edf8f 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2239,6 +2239,29 @@ Kernel parameters
+>  
+>  			idle=nomwait: Disable mwait for CPU C-states
+>  
+> +			[ARM64,EARLY]
+> +			Format: idle=wfi, idle=yield, idle=nop
+> +
+> +			idle=wfi: Use the WFI (Wait For Interrupt) hint
+> +			instruction in the idle loop. This is the default and
+> +			allows the CPU to enter a low-power state until an
+> +			interrupt arrives.
 
-That is fine, will drop his name.
+Just curious as when and why one would need to use idle=wfi if that is the
+default behaviour. I am missing the need to have it.
+
+> +
+> +			idle=yield: Use the YIELD hint instruction instead of
+> +			WFI. CPUs supporting simultaneous multi-threading (SMT),
+> +			can continue executing another thread when the current
+> +			thread reaches the idle loop. This will make the CPUs
+> +			eat more power, but may be useful to get slightly better
+> +			performance in some applications, since the CPUs will
+> +			not enter a low-power state.
+> +
+> +			idle=nop: Do not execute any idle instruction in the
+> +			idle loop. This is useful on platforms where WFI
+> +			misbehaves, leading to system instability or loss of CPU
+> +			state. This will make the CPUs eat more power, but may
+> +			give slightly better performance in some applications,
+> +			since the CPUs will not enter a low-power state.
+> +
+>  	idxd.sva=	[HW]
+>  			Format: <bool>
+>  			Allow force disabling of Shared Virtual Memory (SVA)
+> diff --git a/arch/arm64/kernel/idle.c b/arch/arm64/kernel/idle.c
+> index 05cfb347ec26..f161711a9954 100644
+> --- a/arch/arm64/kernel/idle.c
+> +++ b/arch/arm64/kernel/idle.c
+> @@ -11,6 +11,27 @@
+>  #include <asm/cpufeature.h>
+>  #include <asm/sysreg.h>
+>  
+> +#include "idle.h"
+> +
+> +enum arm64_idle_mode idle = ARM64_IDLE_WFI;
+> +
+> +static int __init setup_idle(char *arg)
+> +{
+> +	if (!arg)
+> +		return -1;
+> +	else if (!strcmp(arg, "wfi"))
+> +		idle = ARM64_IDLE_WFI;
+> +	else if (!strcmp(arg, "yield"))
+> +		idle = ARM64_IDLE_YIELD;
+> +	else if (!strcmp(arg, "nop"))
+> +		idle = ARM64_IDLE_NOP;
+> +	else
+> +		return -1;
+> +
+> +	return 0;
+> +}
+> +early_param("idle", setup_idle);
+> +
+>  /*
+>   *	cpu_do_idle()
+>   *
+> @@ -26,8 +47,13 @@ void __cpuidle cpu_do_idle(void)
+>  
+>  	arm_cpuidle_save_irq_context(&context);
+>  
+> -	dsb(sy);
+> -	wfi();
+> +	if (likely(idle == ARM64_IDLE_WFI)) {
+> +		dsb(sy);
+> +		wfi();
+> +	} else if (idle == ARM64_IDLE_YIELD) {
+> +		dsb(sy);
+> +		asm volatile("yield" ::: "memory");
+> +	}
+>  
+>  	arm_cpuidle_restore_irq_context(&context);
+
+
+If WFI is replaced by NOP or YIELD, do we really need to save/restore
+IRQ context used for pseudo-NMIs which may add some overhead ?
 
 -- 
-Kind regards,
-
-Rodrigo Alencar
+Regards,
+Sudeep
