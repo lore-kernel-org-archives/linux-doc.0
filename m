@@ -1,65 +1,65 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1102232A3E5
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 16:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35B63DEAD6
+	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 16:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783961777; cv=none; b=qXo+H1xtDeWHu4zQqYWMrQMemZqJkIB+YjrX14+dkgvGDkyXi+c6xa3YGiMvMfV1KLiJxkpRN0IC3KyiI+DdhnX/mxc29vUhK/DZDL339atxYOvCdM09kD4nbPnHyDD6drquP3H78gXClEns43LbZWhve20KWOvga6g44sOeFX4=
+	t=1783961962; cv=none; b=qTvgqDx3y/J6iNZXBhs5B5o0q6aDSeedLACZ9cmlptFskqc6hiviVD7ZcCoLF08vVIHwIo0RlJ9FmlpwbVOoHaq7F05m4HiDoU+8K+H8NtMYwaP2dZyj8/DsxzGCdHGy7krx0A/BZKTVefJyJoRb4EWacEUB56RLoacj4QGwZt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783961777; c=relaxed/simple;
-	bh=wYe7kym3kczWr73lptfB1bTj81zD5wvAqQaXYZ4DW5M=;
+	s=arc-20240116; t=1783961962; c=relaxed/simple;
+	bh=tdE4RavGGrmiiYMEe1QYFWztBn/Ajoszor6SkuOHfPc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IwpLszAuZcRowUgzyIkDfyO4/Fw730uR1YlbVnUHkUv4rlkVr8VcF0aAhpjcT7zQgCjGNPUtZmz8+TIFf/wPwjs+ODhzMoskYRu6dl11X48iOh410zLlYUMyXqSz5x35WY7fK9qaeZ6tNVZXzw0goHE4EAcjrktbzqqttxxxsDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pZ6p7Hie; arc=none smtp.client-ip=209.85.214.174
+	 Content-Type:Content-Disposition:In-Reply-To; b=q8uBakGYCcz7Q4i0nH78xSX2Q0fIZ+vV1ciw0OC9t7PM7qMKlnh/K7OuJktp5fAk2Xcn2sPunhWHbj7RuKW42t0tTi3T7BYhWXlNwf8jlzMhXHZsoWRlIcMVvUfrxvgbvDX/Ws3SKTHqMQ9IXY/qHuc54ph6OLcMMbY6JwUqXVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QrLHGCek; arc=none smtp.client-ip=209.85.215.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pZ6p7Hie"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2cc61541f8cso1066995ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 09:56:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QrLHGCek"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-ca88130e09aso2286265a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 09:59:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783961775; x=1784566575; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783961960; x=1784566760; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+wyTThpzWI663yfCX7yR0ohXV0bj+fwjL2+oCBrswHw=;
-        b=pZ6p7Hie+ZuMyCjYswdbNFYtHYwpTiPQJeBxQDgIy7EmtqA3YwrisiUmulxHWcgh7p
-         mSzANG/LXXobjGulyTi2kSjzBvp+JDDbq1wXipDZgrSJWUj1crZjkt2sxlTMK/zueLf7
-         5yPmfr75fWWklrWpWcDCcHrcGG157arPtZtcY2FARd/IaVTlv1jRZfHH+eqHXs12qk3G
-         A1xBemqKnmwrdUlPtwZs8SH4WDWAbkeFi8shvGawPWatfrORXtRU+Zq89GODYbZc/wYa
-         2Pe75HEhtpy9RKIUzBPRBHmH6bodAKIQlnOkVGuH4YWIkHJyDGjDsclp+F/R+JU8qqkD
-         UxpQ==
+        bh=ntUweueTN5fRqaQOoy5Hqmcgc1LaFPt81cAcvUtqRRA=;
+        b=QrLHGCektwMCrdobJqd/JDuo2MJ1s2EnbZ7n9iZZ4UdRHa/tT+ZFQNgLrxdXQpvdiH
+         xicxLf4Tgi8y+YgBpi3X1ckRBNUkN0Ul1NtPmQubC1MCTfoyugYSSuceG+40aPM0akzg
+         0HpLw19rY+GVB0POlt/JtTGQF8gr2fwSK73XpRF4LkpyY2eclKz+BEecdz3eHeCRMPcR
+         oCDTgT0LBVMzx4LC10dy2/u3Qa5L6VWsSxyCB9Mz/SB7az87x5tFKi6BLj4bfsGdGEzY
+         u2OO4/twwIy8ijVe26w6/rVhdOcUB4ZSJPI5o0ii9RI3SdzbugBhv5Ecf7eOb+EKjT6i
+         sv6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783961775; x=1784566575;
+        d=1e100.net; s=20251104; t=1783961960; x=1784566760;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=+wyTThpzWI663yfCX7yR0ohXV0bj+fwjL2+oCBrswHw=;
-        b=WHeDt2md1abTEs3GtrkEzU8CwwKXWS9Th/FhyZkotV65qwJYzVIZkVcLiYmu8JRx/Z
-         +bje7Gfqm/s3j6Got84/D4+XaH859cwX/WnX5Wuj19+X232u6s6FapEYwHiImn/qjXb0
-         FvSn6XEJPwg+r/hEisFLmkpWT9P4a2hg0iD8MifMiWX/JxR7lMknY725dwBWcU7+Ws26
-         WjqxQ1Hx4d91XIU/qA5FKLXtl/uz0LY+Yr0V6mMhCNwxuSu3ZwVdOL0bm8O7+Q3n9Lxo
-         a4PrmyaBAOU7TTbhHqvBLWDMThZHqeZ+IiLTUI4WbLGOk32blSA0WxwJqGGwAPyGPUz6
-         FqRg==
-X-Forwarded-Encrypted: i=1; AHgh+RqO4NN7Ia/vgPplPWzfxuQChQj7EDRitEUG90nTysEOLO0BKLTU2ajmKpXJp4Wi/vVZvVR35lKvnfo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx76tDYunMlq+Gx7f1JdWYM59T5YWrfelUh3/BqXysUGWLjknPT
-	KqKV8NauXMj8VATdc4sM8/7s2KMMo8VNcu4DzCU1/NVvI9rdLS4o9u36
-X-Gm-Gg: AfdE7cnMBY/DAG0H7Q8hcnDzOs7RS2uAdC7TUIArednqAuDjDsIiRuTLHZ9lil16Dzj
-	Z09xPFivzU4fv5RERqVm83goQLNCYdMG9l3aqaMQp2XQPzYD6IgDDZvAYO1MGGNOzIKVwchSe4m
-	ksfmXVxyKH3R97Dx60FiE7vDtKawlhLhLiMNNaAY8aMFU1F1gdgjbbH+82nx+eXe1b4GEcg/O1C
-	SyAbSKblhty3CTmjidwoFO9/KMuEiwg7VnE4gOLCZl8oVOzNAjELNF+/iPiNTdKcuv4fa+qLGV1
-	b+p0+/+1c3FUDIZE5+OVnpwca0lMUDSrONlRkVHysjarSGFF33SMc8lPXYZiuANap8m2lmAyb5X
-	LVbPV73bMyzCEM2Up4fE2HGliuC3h7jAbcsl7sAiJZIGaa3KGleBUjg7klOqes+tqZAonxlw/Op
-	VAfL/3OEXOIUqTGBHla4dlNSA4QI5KrCM9n/p/2hsbhhcHvUZYTygKe2c=
-X-Received: by 2002:a17:90b:57cb:b0:36b:769c:c037 with SMTP id 98e67ed59e1d1-38dc81978ecmr7351194a91.5.1783961775319;
-        Mon, 13 Jul 2026 09:56:15 -0700 (PDT)
+        bh=ntUweueTN5fRqaQOoy5Hqmcgc1LaFPt81cAcvUtqRRA=;
+        b=FpST0wv7aIgLhdjNQH/eBhvmLkuCLK/eefjqjy7HIWnAAkWg9eBUwWWL+NLDyMFuJb
+         v3PMTpcqF6RzqwwGYiV5MFsN0E/FniQbQk/YZBpZqjERjwzhPn5DRgyAV3uMEHDRqacP
+         lf6J8Xy2LMi82Gn6yx/jB9cDz9Eeqrq0xjnUVJcXab4L1GezEH63dJENG9iFDEG8RefX
+         o7yz3Tpg/QDDc8qV9ADM3HAV4gFqeCsVWUeplioG3TBoUE2q7MDTcV9eic8a/GapO80v
+         HmM8TWoLnmMh2AYjDoW/S8zv8/xlI1qEuUIRHlYdJJ9Clw2fhtTa6SaDEtgqDqKnGbdL
+         QlqA==
+X-Forwarded-Encrypted: i=1; AHgh+RrpJnbw9D5q479WmwkEEArBDBSKOkHlOgy1Ht6Tgylr+BfvxlVT+6SvxZXc8zrwp2Vs6mDdXFgGJ4o=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw301jGoIBp20LtbHK/3QBXW3t6VGszQLUv2l6axAbOrQS9Lt2a
+	FWxIUtfT08xKSmRmm+hqE1/4N2lzeyXdhjzAMmYTHWRMnGgJFoVaxQL1
+X-Gm-Gg: AfdE7clnVf137K5xhNs3PMoaHfj1C3IKqPq24wniKr2Eb+pOX+w/wulB8+v+VGXNts6
+	xVL0jmThMbDqORF05JBfbBNle9n4fwdR4K1E+fpTZokCplT3o14vdT9f+wYcuo0SxvPHtmgmZvR
+	bEORkLWoGTKFc58EO5xpch9k2HnHjJplRoosqw6+BHcPNrEI6PxxPe1yuF83Q1IE86Fw59jAFh4
+	ltZjuPW/pSyyB2UNh38G7XSMQKtX/eu9Dw+pukj4+xJ9OD3LPx3CUBRM7zYnY9/8yqyAYtdiKwS
+	M0nPew8oqi0RKWH8V9T25WfLzLeF13LfBw2Nwj+hYfmoppUf9eLhkdB07W/E1HfpR2rFa5UBJH9
+	A1a3rYNq63cBY6VMlnofoCOF+d/flNEfc5ORdYYjwYgLg84/whZTPj+MewV0qFkyI7ahfJbcpel
+	MNb8Q4L2lU+UTfj3ZfufYrD3Fb5Tx6rQCXck6Sk+oAQDv0UzSCLmtnJxg=
+X-Received: by 2002:a05:6a20:c907:b0:3bf:a1e5:ff62 with SMTP id adf61e73a8af0-3c110cdb078mr12110955637.47.1783961960162;
+        Mon, 13 Jul 2026 09:59:20 -0700 (PDT)
 Received: from skinsburskii (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e1745a596sm180718a91.15.2026.07.13.09.56.13
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5afbc1208sm8643053a12.9.2026.07.13.09.59.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 09:56:14 -0700 (PDT)
-Date: Mon, 13 Jul 2026 09:56:12 -0700
+        Mon, 13 Jul 2026 09:59:19 -0700 (PDT)
+Date: Mon, 13 Jul 2026 09:59:17 -0700
 From: Stanislav Kinsburskii <skinsburskii@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: airlied@gmail.com, akhilesh@ee.iitb.ac.in, corbet@lwn.net,
@@ -77,14 +77,14 @@ Cc: airlied@gmail.com, akhilesh@ee.iitb.ac.in, corbet@lwn.net,
 	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
 	linux-rdma@vger.kernel.org
-Subject: Re: [PATCH v8 4/8] mshv: Use hmm_range_fault_unlocked_timeout() for
- region faults
-Message-ID: <alUYrESVcHR_p-S_@skinsburskii>
+Subject: Re: [PATCH v8 5/8] drm/nouveau: Use
+ hmm_range_fault_unlocked_timeout() for SVM faults
+Message-ID: <alUZZYIPY-UkhpY4@skinsburskii>
 References: <178371866223.900500.12312667138651735591.stgit@skinsburskii>
- <178371881034.900500.5214601525971121683.stgit@skinsburskii>
- <20260710151216.0397a6f9ac5c7b4ccd274cc1@linux-foundation.org>
- <alG1JwgUK44dCiN4@skinsburskii>
- <20260710224606.69235ab5c49b5987fd33e924@linux-foundation.org>
+ <178371881847.900500.8789369230260725500.stgit@skinsburskii>
+ <20260710151222.ddb35eab9c81a8720491464a@linux-foundation.org>
+ <alG1k3JsoywE2CBM@skinsburskii>
+ <20260710224833.9caf2a0a9906f0515e326a45@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -94,41 +94,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260710224606.69235ab5c49b5987fd33e924@linux-foundation.org>
+In-Reply-To: <20260710224833.9caf2a0a9906f0515e326a45@linux-foundation.org>
 
-On Fri, Jul 10, 2026 at 10:46:06PM -0700, Andrew Morton wrote:
-> On Fri, 10 Jul 2026 20:14:47 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
+On Fri, Jul 10, 2026 at 10:48:33PM -0700, Andrew Morton wrote:
+> On Fri, 10 Jul 2026 20:16:35 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
 > 
-> > > > +	mutex_lock(&region->mreg_mutex);
-> > > > +
-> > > > +	if (mmu_interval_read_retry(range.notifier, range.notifier_seq)) {
-> > > > +		mutex_unlock(&region->mreg_mutex);
-> > > > +		cond_resched();
-> > > > +		goto again;
-> > > > +	}
-> > > > +
+> > On Fri, Jul 10, 2026 at 03:12:22PM -0700, Andrew Morton wrote:
+> > > On Fri, 10 Jul 2026 14:26:58 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
 > > > 
-> > > If the calling process has realtime scheduling policy and either a)
-> > > we're uniprocessor or b) this process and the holder of
-> > > interval_sub->invalidate_seq are both pinned to the same CPU then
-> > > cond_resched() won't do anything, and this might be an infinite loop?
+> > > > @@ -683,15 +683,11 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
+> > > >  			goto out;
+> > > >  		}
+> > > >  
+> > > > -		range.notifier_seq = mmu_interval_read_begin(range.notifier);
+> > > > -		mmap_read_lock(mm);
+> > > > -		ret = hmm_range_fault(&range);
+> > > > -		mmap_read_unlock(mm);
+> > > > -		if (ret) {
+> > > > -			if (ret == -EBUSY)
+> > > > -				continue;
+> > > > +		ret = hmm_range_fault_unlocked_timeout(&range,
+> > > > +						       max(timeout - jiffies,
+> > > > +							   1L));
+> > > 
+> > > "1UL" here?  I'd have expected min() to warn, as it likes to do.
 > > 
-> > Yes, looks like it might.
-> > What can be done to prevent this?
+> > I'm not sure... The "timeout - jiffies" can become negative.
+> > Won't 1UL convert both of them to "UL" and thus make the comparison
+> > overflow?
 > 
-> Well the best way is remove the polling loop and use a proper sleep/wakeup
-> mechanism - mutex_lock()/prepare_to_wait()/etc.
-> 
-> If the polling loop is to be retained then maybe msleep(1) or
-> usleep_range()?
+> `timeout' and `jiffies' are both unsigned long.
 
-Well, running MSHV - or, I suppose, any other VM - on a uniprocessor host
-would not be very efficient.
+Yeah, I’m sorry for the sloppy wording.
 
-I’m not sure whether this corner case needs to be handled explicitly.
-But even if it does, supporting or explicitly forbidding it would be a
-separate change. As Jason noted, this is not a regression introduced by
-this series.
+What I meant was: will "max(timeout - jiffies, 1UL)" correctly handle
+the case where jiffies < timeout?
 
 Thanks,
 Stanislav
