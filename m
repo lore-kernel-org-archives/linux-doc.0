@@ -1,117 +1,203 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0725240F8C3;
-	Mon, 13 Jul 2026 13:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783949457; cv=none; b=VmiKKdBcdsx80BaFlhNeXsZwPCpTqPQwcypHz5iH57l4+q8AJ/0CTCAqzF7DfYEs5mXyh4dyd4IwVBlJFQp+biIc7Nql32NFuoqPwHn2T4f49wZXf2K5X1SDUMc7iKuaRyAfizEe942S36+ijzBONmeH387aYcxAVpzUQ6Mg2y8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783949457; c=relaxed/simple;
-	bh=ErzqW2O0g/i8zFRKK9AZyKTYfMW8W9zx1lacXJE/7U0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ku+huRiPaPVQHVakwtTgQymHAqCDHlgYp9sdsK+qOTe1alOxunTHkZ+AjrXbUCAmgaOIJoo7iAv3Aqz/9MIC1AOJLlkhazTabav/VQS8E4qEY8czlYGMbgClm/egC+WyYUJBd1uh1nG7jarfgVycf+3240k+SZHMDCEpkVx1AZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikTp/ZDJ; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4145B408604;
+	Mon, 13 Jul 2026 13:35:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783949718; cv=fail; b=U4vgyKt7fsNmSKBvVWZVewSNFIc4jJQXrhdTZ0DSgsPv49GRPSQnqgCvTvy4n3GHEK2jSDuNQIR6F0svGgJu7ny2HOFQI8zTdc3BTJ9Yy8UUeZfpK+dCl7bI5c56VlSwoIxAfeLsfa9gatagqat271uePqVgvw6Xzb2Zn5oI3zM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783949718; c=relaxed/simple;
+	bh=fBevJW48p5YcschKEY61s26fOf4klak8RXc4TEjunSU=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=lCUQMgwOpkNza7nLvQD8YHMCzY6i4Bg1k5r0zKNAgalSTI/gsIq7bbjBZHaRvArIQDFjr5uiOAERiXHWK1fiBi9eVz8meywt0LJ+6lBAM8i5fahMtAv8zMkG36l6aMLrnLqCrWJRAk8Lkgz/WKux1EETxZR71pamStEgytWk9S4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TeOu+C38; arc=fail smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikTp/ZDJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 812431F00A3F;
-	Mon, 13 Jul 2026 13:30:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783949455;
-	bh=2PE3gaGsNLQ/wJ/jx4xmXlbU0Ll5weYz4ZF4wxRh4WY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ikTp/ZDJbKzZqXWQdgJFs4mxUmOx5W44no98j831xxLyCdzKqQoLZo0aubu7A6s4I
-	 pHh+efGT9meohmhUvaKUh/9NhBL49M6U1IfTZLuCDURT9zO31YfLr2SBN3ScUD26+W
-	 VkCFEJFSu9obPyRdJSJ72kzy/VLeOvMf10vfXZpbaCI3wSnfxgcpW76ZRvh3kS/ZHD
-	 Yv06UQBSZoTyN/qEb0fEQmSroyWlJiM4/+bIXwhSR1jQarFKw3ksg2oLI+HqyPRfF2
-	 CvzHlCEH2mrN/QQRWwvlsrczJMPg7BKTRAWndik19UrgS416WGQAAxpSqCM1/v4tJg
-	 yEau/1bCMbsqg==
-Date: Mon, 13 Jul 2026 14:30:47 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Fuad Tabba <fuad.tabba@linux.dev>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Ben Horgan <ben.horgan@arm.com>,
-	Jean-Philippe Brucker <jpb@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v12 22/29] KVM: arm64: Context switch SME state for guests
-Message-ID: <8db1cdd1-5294-4166-99f4-340d124d72c0@sirena.org.uk>
-References: <20260709-kvm-arm64-sme-v12-0-d0301d79ef58@kernel.org>
- <20260709-kvm-arm64-sme-v12-22-d0301d79ef58@kernel.org>
- <CA+EHjTx6P_Wz8=+3fanry_Cs6sqyTD8Swz61WZah46u6-UXP5w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TeOu+C38"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783949718; x=1815485718;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=fBevJW48p5YcschKEY61s26fOf4klak8RXc4TEjunSU=;
+  b=TeOu+C38s9ggXZaGbYU61pLD+5PkFVWJ68m0h1LPWKHc/dWTe6f1DXg6
+   OZWMYWCTybC655aftlkoyxYHqj3CFcgPGX+vOGtO9n7W4Wd5X8DdfwWVu
+   jmYwgBGYc27o88w7WyImII6Atbr3BYW2Pv0O9H7n146DECjGJC81IMX4Y
+   4VOcia7xM9h35uFPsBKjbyCchfijf1s4Nc++qoYAGyGKW/UKXC2Y+8+tH
+   2T4AKTOzGiRBrtC6fiBFWKzBmkYLwpGvc5QgWv7VMVeN6wU9ZR+0LtwjB
+   gWhUQyBcYbcgbeOACVQyQDf2Et5NVkE0LFUOirLuT6cXtuf0mXWKFO1N+
+   w==;
+X-CSE-ConnectionGUID: uaffw2tLRGaWlDklc8h5JA==
+X-CSE-MsgGUID: vCDwkyOOSSS567dwh1Drbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="110101231"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="110101231"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 06:35:17 -0700
+X-CSE-ConnectionGUID: aJSzTEuTR1OFfPQlsCBtuQ==
+X-CSE-MsgGUID: sUVcVgtWTveVE1kRK+oUgw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="253817695"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 06:35:16 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Mon, 13 Jul 2026 06:35:15 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43 via Frontend Transport; Mon, 13 Jul 2026 06:35:15 -0700
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.3) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Mon, 13 Jul 2026 06:35:15 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hLEEgZhGKU+0FkS3H1iiKUBchxpUxR6obQNmtpNMTOZKkZJttbGC8DZ9TadS8ghFwCfkBtXNM4bd96DZoreNQ0y5JlqA56A8IA95xYl0YFq/OT1+lt2Msh16lOrG81Rm90UZSyQ1/DJ+o5+P1Bj+34rsOQuchF8NO8KsXu+TltUW5Q5JQYPt8zFxlZDi0v5NvW2sFkhm6iDWCjig/HCjIds4FqEfN9l8Sm0zgs8XGKL1gyygsxTmvZJxtSmX1s2rQeg67Klq49JBKv+N5n6dWKaSaYrD82Nq2K+u6Z7dxu5piXEbvbTX1FoT4JF0fXnjEGCaeXZw68jnHMTVMJpdHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RgVEp3ua5vu9UBp7YrQgZFEx4ZUoHiG4WYbS5dlOq1A=;
+ b=cRFIv9hT3YA9KBqX+h1YTqFyisnaoQ06BavhIGoNVcEH1Obb19d6T5It+1e3h7z4vLHXjjXLklL2Bu4IcUuPvJavqJdIC2EyGQr2VvaCE1GigByRLLX0CO14vKxBU3CwhqNyHRkwzSzqQM7B5Hi1B0CERrQb7VaW55Hwc6mqV2V089j1fcBbvNUx93GoqNIVPrZbTj7t02Wac2Q/sfUw51u16gbo42xL02gIzHluhnxJNLJ9HV0OWz50YHj0MNvTBUbEHWC4QwQBAwFCuCDZjrryKD1HAUuZl+CVFcNqf7LjtglOdLWNGP0sQ1FsMrSqLoPZ73I56W+pQXU1q7pwqA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN2PR11MB3949.namprd11.prod.outlook.com (2603:10b6:208:138::31)
+ by DSWPR11MB9954.namprd11.prod.outlook.com (2603:10b6:8:39d::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Mon, 13 Jul
+ 2026 13:35:08 +0000
+Received: from MN2PR11MB3949.namprd11.prod.outlook.com
+ ([fe80::dfbf:4563:6676:e23d]) by MN2PR11MB3949.namprd11.prod.outlook.com
+ ([fe80::dfbf:4563:6676:e23d%7]) with mapi id 15.21.0181.019; Mon, 13 Jul 2026
+ 13:35:08 +0000
+Date: Mon, 13 Jul 2026 15:34:59 +0200
+From: Larysa Zaremba <larysa.zaremba@intel.com>
+To: Tony Nguyen <anthony.l.nguyen@intel.com>
+CC: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<edumazet@google.com>, <andrew+netdev@lunn.ch>, <netdev@vger.kernel.org>,
+	<przemyslaw.kitszel@intel.com>, <aleksander.lobakin@intel.com>,
+	<sridhar.samudrala@intel.com>, <anjali.singhai@intel.com>,
+	<michal.swiatkowski@linux.intel.com>, <maciej.fijalkowski@intel.com>,
+	<emil.s.tantilov@intel.com>, <madhu.chittim@intel.com>,
+	<joshua.a.hay@intel.com>, <jacob.e.keller@intel.com>,
+	<jayaprakash.shanmugam@intel.com>, <jiri@resnulli.us>, <horms@kernel.org>,
+	<corbet@lwn.net>, <richardcochran@gmail.com>, <linux-doc@vger.kernel.org>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>, Bharath R
+	<Bharath.r@intel.com>
+Subject: Re: [PATCH net-next v4 13/15] ixd: add reset checks and initialize
+ the mailbox
+Message-ID: <alTpgyxqacbNHYFD@soc-5CG4396X81.clients.intel.com>
+References: <20260710215313.1475803-1-anthony.l.nguyen@intel.com>
+ <20260710215313.1475803-14-anthony.l.nguyen@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260710215313.1475803-14-anthony.l.nguyen@intel.com>
+X-ClientProxiedBy: VI1P189CA0034.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:802:2a::47) To MN2PR11MB3949.namprd11.prod.outlook.com
+ (2603:10b6:208:138::31)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="v9CtVmyreETBkO2w"
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTx6P_Wz8=+3fanry_Cs6sqyTD8Swz61WZah46u6-UXP5w@mail.gmail.com>
-X-Cookie: Courage is grace under pressure.
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR11MB3949:EE_|DSWPR11MB9954:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4166352b-003b-494e-3d42-08dee0e38e23
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|1800799024|10070799003|376014|23010399003|18002099003|22082099003|11063799006|56012099006|6133799003|4143699003;
+X-Microsoft-Antispam-Message-Info: e3g/3kkldrZblkyVhtP1BAT/VrLPGoa9gxbnM4QkdRxQthxuy4JDqfWbzL0JEOhElto0HZszJQgmBgdqpA/dgi6si2QbxsDNjzupYOIkgzgcamcICz/wLRjLgASM0EmhhIuC42uUTqWNooKP8i+dzG2gn/DbOlM+9HUd6yceaOA3OttcN96fUw1Zkn2ONaSskVvo8kc7CHYFlj0lFRDGpL6E5yjQrn44iKlRKl6M5Fyg2U++LMfq9J2Imot/Azdhhb7QCkIBatpr+SbA+I9uELcnOrP0skcW66M0rCaXpI11qUHm4fEr3qZ3oPdRPQaxrt8YrOA4aeTBGq6XuKlAWdbQsKMgOPoKVDnBw2H0YOn2S0e6h1fjz5ByH91ip4Iwfhp3PBvEGT0nkojcZvJy58I26uoDoaryEhkEkxUyh1UCYSaJvanqDiIPimFu7kQntzXIG1JZGnoLKQaS29Mv/ShDodJJ6fZWfgenBciS74nsJ86WL9PK6z1acsRn1Wbgnch0o0am36NhDSxF7K4+m0/R9VIjkuxku+DIGVCBNAR7OhQSREJEVCk+7Rv4cxTChDmrdsjwDFPNMGZZDXclGGxw/JSgT92Ohn18H+w74uj/8qPHv6LdmyiHem1BS1ZoVwmfP7ZRD8wJw36w7Ej1zWProCStAVDweGXY9ZvV65Y=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR11MB3949.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(10070799003)(376014)(23010399003)(18002099003)(22082099003)(11063799006)(56012099006)(6133799003)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?W/bb25sbVD4RdZLnfHOWMxe0EQcokaCFNz8NP8ssVeSCf5ucMOtrt8r/MFXF?=
+ =?us-ascii?Q?4Rby6fiyyGsHrn9S3wXMiIAbl56GKJo32XVllGFFeqmdb1iriOKx9Y4ZR8bY?=
+ =?us-ascii?Q?1DtUbxcJ9oNbeqUa6Fa+QunHxE1nn8uJ6W8vXnAbbgnex0J3gOnMIv4CTt5q?=
+ =?us-ascii?Q?j01/T1aeBrZWWDwA6JwwMII/nPDKO+SuX4olT7nCypL9VLqTznizahpFIYNf?=
+ =?us-ascii?Q?vf1jr8XrZHKYwVZr1XRAgsmQU0B4E3s2Ix9MpDr0fZPGqgOHrOFbGy9LtY/A?=
+ =?us-ascii?Q?YIRrcs+K3fVqmZ7ROPIJ97slqBpANwnMkt+tzHPkJpYeElvR1u0SpS681obD?=
+ =?us-ascii?Q?Nyn7f+RV9lc28oalCutP0zFEV+OxiiVDek1aNwdt5XydfG/TkVjwlrmshbPV?=
+ =?us-ascii?Q?bkMDKSQ05NHd/sq6rKhWWvVbbWu//vKwUpiOsNaMIDv+8vYJHPdwVejLZMrI?=
+ =?us-ascii?Q?5AjqqkMgs5WqcgHqkKKaaccpzKThOhcu94EgIB5awoktxgtr2F+5GxRGKaao?=
+ =?us-ascii?Q?EDrMWH+2g+1nYNj2bDatb5dWlMLet0UzzKfG3TQ2GgSTPEh/WN+UK/jdUUQp?=
+ =?us-ascii?Q?ebiD/s34uQ4eTuMmtaL9xqzzEVBmbiE/yeF5c4OhyWmNyFARSr/8/13l0RYF?=
+ =?us-ascii?Q?WnFSIn2fDhr7hE9aaXJZs3s/vZ0UfnRnWv6u+fgO7NKnRThHcS6AFQy2+X8/?=
+ =?us-ascii?Q?jNFu2DdryqzBbHWEcFcsg4JudmGQnBOPOMcUkugwYJLsRGzSqCVYLZRf/k/j?=
+ =?us-ascii?Q?KQ7Re6JrMEQFWaDoBAMyAcORISCyO4Rgp439h3hi/JXb86rY2KmqLy7BVhim?=
+ =?us-ascii?Q?1/0OvecTE55Y4ogSFJYXJZVed5pnokvb8F1b2oob6N9B1zmIMGZrHOuVC/+w?=
+ =?us-ascii?Q?2Gib7SKTCJ468Cj9+2SJ2ADuioszVKbPo2vhAE6dqktcfZxaXpvCk7rjPALu?=
+ =?us-ascii?Q?uydpemcvAq4fQFU0k8Gr9S3gY8atGytd6IoO3vSkadpvnD/K1azvjzshOtwb?=
+ =?us-ascii?Q?OQb4Ab7MnlYSQuXcDGji/Lw7OhLUnUTCX9PWz/LmRBcE5HYedW6vddVXEWxx?=
+ =?us-ascii?Q?elrHE3iHBEvjCEclPfMHX8I/0qP8HuQOO2mez31TOBV0+8WgMxjcwurl+6z5?=
+ =?us-ascii?Q?V8LYQF4Ztv4blBv4674wRIDR3Qed7o5WvJoAmxqH8rnaYwZP5QrKkiEYII85?=
+ =?us-ascii?Q?IxNtRsXoR8g7l+azjMT23wEjtknYF3cuu2PrvCv7nmMEmVoItB3/Cvn56OJa?=
+ =?us-ascii?Q?br6j5bC43nm/w5tHp2/ukFS9IlwNc73i3xMHzAKg0YgNoeHvMWhGNQBStojE?=
+ =?us-ascii?Q?xC8/XV1rezs1VFDE4Qd3sefgPQGQ00EW1cIIgjK6k2D9DcVihh9yZA0bM2YV?=
+ =?us-ascii?Q?8g/syHTEmuRv/Nn/Cjwwg4+HU6LdJe6wD4DveywuV7B0zpKFRybJNDGuRHYK?=
+ =?us-ascii?Q?yHvaQDTgNe3ZuE4TR32Js2W5SUjb8/Nbm8ydvGzvm9+TnTyv8h5RU3morOpD?=
+ =?us-ascii?Q?PwYP8Uy1Xbm5W0uIZu/8SVkfNNF/VRQcvkUDdvrjLulpbD2QvFVOY7WmFY/B?=
+ =?us-ascii?Q?JsXGQPr7Xtc6+4e7zAvCiMV1KUju0pdL7Ipsn6k76+UgNx6xrT1qcCGJMQV8?=
+ =?us-ascii?Q?cstuqRoFfYfNTzCW24xWO0Q+2A/oJND1zYCGpzZsohdBZNtNAiYLqJHEc2ia?=
+ =?us-ascii?Q?GDQgv9D6d+vLiLRQ1c3lZ2pXtuWM/ikXUPKVh0iZNjEc+8BFw6iIMrJaRcvz?=
+ =?us-ascii?Q?xyCaXkGPK2GMjunwaEzC5cpvYCbDYCwOusL2TvIo27oGhK1Vqz4JseDlkF8Y?=
+X-MS-Exchange-AntiSpam-MessageData-1: veMZUwCE2MNng/2IXzh3QQoIKpooUCwQyKU=
+X-Exchange-RoutingPolicyChecked: kHXaTlfQ7YOzOr5/DtO2rvXbJEVRXJmVokzPqu0ApM70nsjSS7naBtsG629U13vw+NnUe435D69mRhIKcl6hGhcTpXWmNfE1zrwgzgduPHAI3FVtxMs1uKHrLowX0LGeiDh222p4ZLs9LtueEXaEJ8GNyFLEVQkVDv5L2afvvJ5mi4xLTUREdQkRPFU9sE7+BQoRX0pO48A/vPLQ7t3vWIbt4hIBFhvyp9gGuCiLl98ZIVQKlXMzhSmegJMBz/D/RrVNz0YeqX3LBSYX17X0/cTJxTCWPyknQjAceXlU/ZwHkjnBl0PYXZWNHSDr3kp61GZrLoxTfWuZXuRF9m2nOA==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4166352b-003b-494e-3d42-08dee0e38e23
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB3949.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2026 13:35:08.2401
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sQSn6GEfQAYBf9OXrK+Z842AklO/8MfxqEKf5HJ4yHL8Uz8x5F9ixFuRIDOUKxxWBaW970mJEXCZbEa0OCTP2Q1dx0aEKEjBOL9kAt7qNJo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSWPR11MB9954
+X-OriginatorOrg: intel.com
 
-
---v9CtVmyreETBkO2w
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, Jul 12, 2026 at 03:40:34PM +0100, Fuad Tabba wrote:
-
-> For a nested guest this folds in the LEN restriction from the guest
-> hypervisor's SMCR_EL2 just above, but not FA64/EZT0. vcpu_has_fa64()
-> and vcpu_has_sme2() are VM-level capabilities (kvm_has_fa64/sme2 on
-> vcpu->kvm), so an L1 that clears SMCR_EL2.FA64 or .EZT0 to deny them to
-> L2 is overridden here: the physical SMCR_EL2 gets the bits set from the
-> VM cap regardless.
-
-Doh, of course.  I've fixed this locally.
-
-> > @@ -128,7 +220,7 @@ static void flush_hyp_vcpu(struct pkvm_hyp_vcpu *hy=
-p_vcpu)
+Below is an answer to concerns from Sashiko:
+> --- Patch [13]: [PATCH net-next v4 13/15] ixd: add reset checks and initialize the mailbox ---
+> commit 7fa1c35636d0bae10b336e706045a6dfd122058d
+> Author: Larysa Zaremba <larysa.zaremba@intel.com>
+> ixd: add reset checks and initialize the mailbox
+> This commit adds hardware reset triggering and mailbox initialization
+> for the ixd driver, including a delayed work task to verify the reset
+> completion during probe.
+> [ ... ]
+> > diff --git a/drivers/net/ethernet/intel/ixd/ixd_main.c b/drivers/net/ethernet/intel/ixd/ixd_main.c
+> > index 75ee53152e614..35d0ff5c8d983 100644
+> > --- a/drivers/net/ethernet/intel/ixd/ixd_main.c
+> > +++ b/drivers/net/ethernet/intel/ixd/ixd_main.c
+> [ ... ]
+> > @@ -16,7 +17,15 @@ static void ixd_remove(struct pci_dev *pdev)
 > >  {
-> >         struct kvm_vcpu *host_vcpu =3D hyp_vcpu->host_vcpu;
-> >
-> > -       fpsimd_sve_flush();
-> > +       fpsimd_sve_flush(host_vcpu);
->=20
-> sync_hyp_vcpu() runs fpsimd_sve_sync() on &hyp_vcpu->vcpu, but flush
-> passes host_vcpu, so the two sides operate on different vCPUs. That
-> asymmetry alone looks wrong: flush and sync should cover the same
-> state.
->=20
-> Concretely it means kvm_sme_configure_traps() programs a protected
-> guest's SVCR/SMCR from host-owned values, so the host can e.g. set
-> SVCR.SM and fault the guest. Keying flush off &hyp_vcpu->vcpu like
-> sync fixes both.
-
-Thanks for spotting that, I've updated locally.
-
-BTW it'd be really helpful to delete unneeded context when replying
-
---v9CtVmyreETBkO2w
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpU6IcACgkQJNaLcl1U
-h9AaOAf+KDIg9SieNgLHu8cIPChCdW1/JE5Q90xi5O9YT1F33j626OleMhM1VngO
-WHezCRNFf8cg4aTf93obOsz6F6jnWTTZaK82gt6bRu3udlizG+33O7jnsnLFd589
-SMe5MOi6iwIgvK0yl8Tf4GAxXgJxMNb/vzvY9hfmke/jCDLYT7BF31PeQMwfDTgq
-pKvDiG9o4dUBK4pNzzKuyqaOxHbKmRBlI2+oYON8XCsp7k6PvWSxwnQcPS2WqoyD
-h9pAC1jb/eUt/5pQtbQOv1a0O+9QPeVg2CywPMriMQhSZERveEm4vNP+n4EmfEfH
-aDQwImKDchI/GbVfMboiAWDd+dLhrw==
-=X8+a
------END PGP SIGNATURE-----
-
---v9CtVmyreETBkO2w--
+> >  	struct ixd_adapter *adapter = pci_get_drvdata(pdev);
+> >  
+> > -	libie_pci_unmap_all_mmio_regions(&adapter->hw);
+> > +	/* Do not mix removal with (re)initialization */
+> > +	cancel_delayed_work_sync(&adapter->init_task.init_work);
+> > +	/* Leave the device clean on exit */
+> > +	if (adapter->xnm)
+> > +		libie_ctlq_xn_shutdown(adapter->xnm);
+> > +	ixd_trigger_reset(adapter);
+> > +	ixd_deinit_dflt_mbx(adapter);
+> Could this cause memory corruption or IOMMU faults?
+> In ixd_remove(), ixd_trigger_reset() issues a reset but does not wait
+> for it to complete. Immediately after, ixd_deinit_dflt_mbx() is called,
+> which unmaps and frees the DMA rings.
+> If the hardware is still actively bus mastering before the reset fully
+> takes effect, could it perform DMA into memory that has already been
+> unmapped? Does this path need to wait for the reset to complete using
+> ixd_check_reset_complete() before freeing the mailbox resources?
+> 
+No, ixd_check_reset_complete() is not needed here, triggering is enough
+> 
+> > +
+> > +	libie_pci_unmap_all_mmio_regions(&adapter->cp_ctx.mmio_info);
+> >  }
+> 
