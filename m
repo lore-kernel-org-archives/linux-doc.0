@@ -1,255 +1,132 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2E73054E4
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 15:54:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CDA43090D9;
+	Mon, 13 Jul 2026 15:58:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783958053; cv=none; b=TqL31v7WkQ4tQ5gLlxbroyS2z9sii/fXp8voehHFr5Hq6/2wXyQTstphF3/eP+yfclVSHFhCXJra9pbKu6jR6VKw8i2/g8iMeiHhan4JPpJ6oX30K03o+HNYdtQDXzc5ZSJXrFMkK49HUXXI7zG4q7QfHm2zIxwP/KMj9fNETkQ=
+	t=1783958291; cv=none; b=tQJSGs5yUb8No5FJILYH923M/rOklnLg9Ml8z2FHbnPmTDeqW+KFcvUxx0cPasBlMCR/K26Fs6/g1hRZNVAMaMQvao/DC5N9dfAT25H28Q8HhOWIWUOxHcwcPqKPZukrOze9MonDl7hUviK863fesD+turA9iAEmwa1n1T/tijo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783958053; c=relaxed/simple;
-	bh=uNT75hHkvYptAySgXEmQ+e4sFHUe8f/fW57wwFbihUM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n0Kl/fdZkEDGCTKyYakU6O8SKVkxtODDE1coKoGJWsCGDRoi/dn7T+YDir7CjSfcbJrht1D+TknoLaiI7TEITBt2LX4t3yAWgXNny0gkLAwSKed22u+qIsc4ieV+w33qYjg6geh2zd2kCS83Vz9ZBognpuUbBVyIMBy4+UrZul4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VORZTIQ4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783958291; c=relaxed/simple;
+	bh=W7eem1hxKBhR+qpjzH9sJ9OjOv3VJKcUDquaXYlqrJc=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=M70R8XpYKphNeG1F/GU1YmXPdVjlnyy6wDsrr0PQUweb8ggn0ViY0D8xmFLizci+tHFhxTEhorMphyfdYqtysSvivOCqu+OCcwrp1ay+flX9NfLpax85RW1JxfDXuHL9uIOBMYNZpJL+LXSr6hJWJVfL6luJrh8FrnSWUt+Wfq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aeYsF86g; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VORZTIQ4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 583A21F00A3D
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 15:54:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aeYsF86g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 405271F00ADB;
+	Mon, 13 Jul 2026 15:58:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783958052;
-	bh=7Wi+BDV+Li2I45KRRyhG/JcQYyz2VMwpLgz+pmqRyH0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=VORZTIQ4sVCUpJp9aFjnW5D6DZw9sxWvTk990TFyhM1TCzV7UHqITSDUyKLxh1G0G
-	 oX3qPRK53kPcmgoEY1wKO5YqoQyirtrVCFxtff3y7awk2AJaH4GiNZyMJISGNMNa+8
-	 8+LqGpEM5Xr0OXDAP7jBrfwgElGP2cerm279gm5b6/ncTIf6NcWHV6XIrOgMGbqbSu
-	 dDKQi3cpHs2UkcacMc56vn8Rctjj0az7Pj3bEa6LOlOCMtMWs/nV4rl7UPHZoSf3kc
-	 Fdqg1yMy8Fm9crYWr9gFEv+5K0WvdJXTzd183EGvtdjV2NLCPOlnVf6wDBtq4v4gPA
-	 BSWn4r2kPT7mA==
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c15e2937e9dso420284266b.0
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 08:54:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RovMeQEl7C2YznA4Yj7RlrHaqQi5Ha3WcTp0B3kh3LWCezGWROS6gTlZurcLb29l7diymTZs88XWdo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyF9s8IdHWAMQMvUpqljIgBNhHArReQ6O923P4sjbBPrFjxdEtv
-	vpQl/UMisrCdGKH7j7BqkL+en1UyfM8izF49Uq5uN1F3r9Z1N6y6EQWRuRiNNQmLzdwt/9W8zZ9
-	yuGbCKnQal4ChQpJbj3sXqARvrHAY6KA=
-X-Received: by 2002:a17:907:ea5:b0:c16:63c:a749 with SMTP id
- a640c23a62f3a-c161e8b39b5mr412150066b.18.1783958051252; Mon, 13 Jul 2026
- 08:54:11 -0700 (PDT)
+	s=k20260515; t=1783958288;
+	bh=7wJM8DAMKw46GCCUOJ84lZ1VhKPOJwTAzm+VqeGupW8=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=aeYsF86gJr53IfRDB1RqxivdjUIvzEMc74CYICJbuuLw/2SubhKRONGhF10y02Lkp
+	 jV/9Z0boG1fR3xQa7N/s2ORvWWPb4F38nF1FYHaxG3OEY54gDKpBA0Kbnqq5ZGxpEB
+	 rq3CZfewRRceQekqpp32X4ATzDl7hSJV+2QXNfmYEJllA4wFpGB1jg1+ZrADZaUM6E
+	 gl83aR4yG7HhApOgNXIGTueLSOSZAxLobIak9OSxjZnfw6j2V/FKsNZHpnnFTV1ldm
+	 wQEPtaYIkX/zFlhR/nYE0HnCZM2Sz0/lrrlQaAGkatqlQ3iVOAhgYnp1ESE6pLZo5C
+	 pxFc0nAnBn5TA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260629112032.20423-1-jiahao.kernel@gmail.com>
- <20260629112032.20423-5-jiahao.kernel@gmail.com> <akMJ8UfeZXrVe5LN@google.com>
- <cbbdf506-b67d-193c-2c94-bacf828d559f@gmail.com> <CAO9r8zNCEis2QHROEsM5QZsb_H4ofNjA_sE-pM7SVxtgHg_rqg@mail.gmail.com>
- <4ec2bd64-af40-8ebf-b8a8-2dd7421a1100@gmail.com> <5ce4035b-7f56-d1d2-2d2a-668446d870e8@gmail.com>
- <CAO9r8zOLe5eJfNmoszCX3rtD=6YEa_7xrvDV1acVDOtZg4vWYA@mail.gmail.com>
- <bf14cfe5-e98e-c20a-231e-37b3a2489040@gmail.com> <CAO9r8zNzRWxCvUok7FJTZZOp6pS9D-Qdrsbi10rLBn4QRhw81A@mail.gmail.com>
- <30c8df43-9464-8fa0-3614-0ca06b97862e@gmail.com>
-In-Reply-To: <30c8df43-9464-8fa0-3614-0ca06b97862e@gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Mon, 13 Jul 2026 08:53:58 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zNu=JPZG4be9beJUdBEGRgX6YaD_cpZw2P8WieDY=c06g@mail.gmail.com>
-X-Gm-Features: AVVi8Cc-M6D8QIj5nYsgvnSdHgSG_Ul8Jzmth_aCqS10AAfg94WJe5GDwQuLPLM
-Message-ID: <CAO9r8zNu=JPZG4be9beJUdBEGRgX6YaD_cpZw2P8WieDY=c06g@mail.gmail.com>
-Subject: Re: [PATCH v5 4/6] mm/zswap: Implement proactive writeback
-To: Hao Jia <jiahao.kernel@gmail.com>
-Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
-	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, 
-	nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
-	roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 0/5] binfmt_misc: bpf-backed binary type handlers
+From: Christian Brauner <brauner@kernel.org>
+To: Farid Zakaria <farid.m.zakaria@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, Shuah Khan <shuah@kernel.org>, 
+ Andrii Nakryiko <andrii@kernel.org>, Kees Cook <kees@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Jonathan Corbet <corbet@lwn.net>, Jann Horn <jannh@google.com>, 
+ John Ericson <mail@johnericson.me>, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+In-Reply-To: <DJXJM0838IJN.3AJ9MMQ89SUUR@gmail.com>
+References: <20260711-binfmt-misc-bpf-v2-v2-0-d6591ceaf207@gmail.com>
+ <20260712-abluft-brutkasten-aufladen-c8063a4a1a0a@brauner>
+ <DJX4IFO55D9S.3IV3K5XICJAEV@gmail.com>
+ <20260713-unerlaubt-luftkammer-kosmetik-46532d395f9b@brauner>
+ <DJXJM0838IJN.3AJ9MMQ89SUUR@gmail.com>
+Date: Mon, 13 Jul 2026 17:57:53 +0200
+Message-Id: <20260713-gekreische-membran-samtpfoten-6e0eb34e2a41@brauner>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3021; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=W7eem1hxKBhR+qpjzH9sJ9OjOv3VJKcUDquaXYlqrJc=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSFcrOc2nn2/tZvaXmvTeZkTFpuxnHv7D3Xa1O+fLnM9
+ 2Z31HoV/Y5SFgYxLgZZMUUWh3aTcLnlPBWbjTI1YOawMoEMYeDiFICJdJszMvRu8XQ8odlSoLbg
+ R9yru1zSvLEL93Lx9R6dMFfslWqImQgjw5weq6gb9nMM2Pe/CLVbr61ZMHVyiM+zwtQLyts3nrs
+ rxwUA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Fri, Jul 10, 2026 at 3:04=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.com> w=
-rote:
->
->
->
-> On 2026/7/10 04:44, Yosry Ahmed wrote:
-> > On Wed, Jul 8, 2026 at 7:15=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.com=
-> wrote:
-> >>
-> >>
-> >>
-> >> On 2026/7/7 03:33, Yosry Ahmed wrote:
-> >>> On Thu, Jul 2, 2026 at 5:32=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.c=
-om> wrote:
-> >>>>
-> >>>>
-> >>>>
-> >>>> On 2026/7/1 19:45, Hao Jia wrote:
-> >>>>>
-> >>>>>
-> >>>>> On 2026/7/1 00:10, Yosry Ahmed wrote:
-> >>>>>>>> Before going through more versions we need to figure out if this=
- will
-> >>>>>>>> pivot to be a proactive demotion interfcae for swap tiering.
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>> Yes. Should I drop patches 4-6 in the next version and wait for s=
-wap
-> >>>>>>> tiering to be finalized?
-> >>>>>>> We can try to get the non-memcg parts (patches 1-3) merged upstre=
-am
-> >>>>>>> first. This would also give them plenty of time to bake and catch=
- any
-> >>>>>>> potential regressions. Thoughts?
-> >>>>>>
-> >>>>>> Patches 1-2 can be sent and merged separately, yes. For patch 2,
-> >>>>>> please include some numbers for the writeback performance before a=
-nd
-> >>>>>> after batching.
-> >>>>>
-> >>>>> I'd love to collect some performance data. Do you have any recommen=
-ded
-> >>>>> benchmarks for this?
-> >>>>>
-> >>>>
-> >>>> Perhaps the following test case could work?
-> >>>>
-> >>>> Test Setup:
-> >>>> - Total memory: 32 GB
-> >>>> - zswap settings: max_pool_percent=3D1, accept_threshold_percent=3D5=
-0,
-> >>>> shrinker_enabled=3DN
-> >>>> - cgroup constraint: memory.max=3D1G
-> >>>> - Workload: Run the following stress-ng command inside the cgroup fo=
-r
-> >>>> 120s to
-> >>>>      continuously force zswap store failures and trigger shrink_work=
-er():
-> >>>>
-> >>>>      bash -c 'echo $$ > /sys/fs/cgroup/zswaptest/cgroup.procs ; \
-> >>>>      exec stress-ng --vm 4 --vm-bytes 4G --vm-keep --vm-method rand-=
-set -t
-> >>>> 120s -q'
-> >>>>
-> >>>> The following comparison results were collected over multiple runs v=
-ia
-> >>>> bpftrace
-> >>>> and the 'written_back_pages' sysfs interface:
-> >>>>
-> >>>>                             Baseline         Patched
-> >>>> ---------------------------------------------------
-> >>>> shrink_worker wakeups       5,587             878
-> >>>> shrink_memcg calls      7,823,853       2,347,320
-> >>>> written_back                  257         781,214
-> >>>>
-> >>>> Conclusion:
-> >>>> Under the same workload and duration, the patched kernel shows a
-> >>>> significant reduction
-> >>>> in both shrink_worker wakeups and shrink_memcg calls, while successf=
-ully
-> >>>> executing a
-> >>>> much higher volume of page writebacks.
-> >>>
-> >>> Hmm this is actually a bit concerning. Yes, we are invoking the
-> >>> shrinker less, but we're writing back *a lot* more memory, orders of
-> >>> magnitude more. We are using a batch size of 64, and making ~1/3 of
-> >>> the calls to shrink_memcg(), so the number of written back pages
-> >>> should be ~20x more, not 3000x more? I think I am missing something.
-> >>>
-> >>> Also, ideally, the batching wouldn't result in significantly more
-> >>> writeback, but a similar amount of writeback over less shrinker
-> >>> invocations. If we are writing back significantly more pages then the
-> >>> batching logic is probably too aggressive?
-> >>
-> >> Apologies, I think the test I constructed has a bit of a problem. This
-> >> test has very, very heavy memory pressure and is already a very abnorm=
-al
-> >> case.
-> >>
-> >> The zswap entry returns the first time because of "second chance" afte=
-r
-> >> setting referenced to false. For the baseline, it scans 1 page per nod=
-e
-> >> each time for 16 loops. During the test, shrink_worker() basically exi=
-ts
-> >> at about 16 pages each time.
-> >>
-> >> Since stress-ng periodically and randomly writes to this 4G memory, it
-> >> keeps triggering zswapin and then waiting to zswapout new zswap entrie=
-s
-> >> after falling below the pool threshold. When the speed of zswapin/out =
-is
-> >> far greater than the scanning speed of shrink_worker(), a large number
-> >> of zswap entries cannot wait until the second scan for writeback. New
-> >> entries are stored on the zswap LRU list again, and the referenced of
-> >> the new zswap entries is set to true again. During the test, it was
-> >> found that 99.21% of the return values of shrink_memcg_cb() in the
-> >> baseline kernel were LRU_ROTATE.
+On 2026-07-13 08:19 -0700, Farid Zakaria wrote:
+> On Mon Jul 13, 2026 at 1:20 AM PDT, Christian Brauner wrote:
+> >> > - The single sleepable load op is split into two ops:
+> >> >
+> >> >       struct binfmt_misc_ops {
+> >> >       	bool (*match)(struct linux_binprm *bprm);
+> >> >       	int (*load)(struct linux_binprm *bprm);
+> >> >       	char name[BINFMT_MISC_OPS_NAME_MAX];
+> >> >       };
+> >> >
+> >> >   The non-sleepable match program runs from the RCU entry lookup
+> >> >   walk itself, exactly like magic and extension matching: same
+> >> >   registration order, same first-match-wins semantics, and it can
+> >> >   only rely on the prefetched bprm->buf. It must be free of side
+> >> >   effects since the walk may be restarted.
+> >> >
+> >> 
+> >> Is relying on brpm->buf enough?
+> >> Right now that's only 256 bytes I think, which is not enough to read
+> >> segments we might care about. That worked fine when it was just a magic
+> >> number but the idea with the eBPF program is to make decisions based on
+> >> more data.
+> >> 
+> >> In the selftest I provided, the `PT_INTERP` segment is already at file
+> >> offset 0x318 (792). I was imaginging NixOS having to support
+> >> `PT_INTERP_NIX` in order for the produced binaries to be backwards
+> >> compatible with older kernels.
+> >> 
+> >> The other idea would be to make the `match()` broad and select
+> >> everything but then nearly all ELF64 binaries would match and then pay
+> >> the price to `load()` and ultimately `-ENOEXEC`. Seems like it would
+> >> make multiple BPF binfmt programs less useful.
 > >
-> > Hmm if I understand correctly, you are saying that the current
-> > upstream code is actually failing to writeback when it should in the
-> > previous test case with very high memory pressure, but it is with
-> > batching? If that's the case, I think it's actually really good data
-> > to include. However, we should make sure that's what's actually
-> > happening. If the current shrinker is not keeping up and failing to
-> > writeback, we should observe:
-> > 1. shrink_worker() hitting MAX_RECLAIM_RETRIES continuously and bailing=
-.
-> > 2. zswap usage consistently remains at/near the limit, and not going
-> > down to the acceptance threshold.
-> > 3. zswap_store() failing to accept pages and the pages going directly
-> > to disk, causing an LRU inversion (hotter pages on disk, colder pages
-> > in zswap).
+> > Ok, so your idea is to have multiple bpf programs that look for
+> > different interpreters. Yeah, then you have to be able to sleep because
+> > you need to be able to fault. It makes the code uglier but I can see how
+> > that's useful. I'll see how nice I can make that.
 > >
-> > Can you confirm that this is what's observed with the high pressure tes=
-t case?
-> >
->
-> Apologies, my previous explanation might not have been very clear.
->
-> For an entry to be written back, the shrinker must scan the *same* entry
-> twice: the first scan sets referenced to false and returns ROTATE, and
-> only during the second scan can it be written back.
->
-> If a swap entry is zswapin'd between the first and second scan (meaning
-> the entry is no longer on the zswap LRU), then this swap entry will not
-> be written back by the shrinker. Therefore, the second scan must occur
-> before this entry is zswapin'd for it to be possible to be written back.
-> So, if the baseline scanning speed is far slower than the lifecycle
-> speed of the swap entries, it results in only scanning once. In the
-> baseline kernel, 99.21% of the return values of shrink_memcg_cb() are
-> LRU_ROTATE, while the patched kernel's shrink_worker() scans at least 64
-> * 16 entries in a single pass, resulting in only 58.7% of the return
-> values of shrink_memcg_cb() being LRU_ROTATE.
+> 
+> I mean... I thought that's the intent to binfmt_misc, to have multiple
+> handlers -- with the expressiveness of eBPF vs. the limited
 
-Right, my question is, is the high rate of LRU_ROTATE leading to
-failure to writeback in a way that causes zswap store failures (and
-pages skipping zswap and going directly to swap)?
+I was thinking of having one bpf program per type (elf, python, etc) but
+I can see how it's useful to have multiple elf bpf handlers...
 
->
->               Baseline         Patched
-> ---------------------------------------------------
-> zswapin       929,096          281,196   <----
-> zswapout      982,731        1,058,746
->
-> After modifying the kernel to remove the "second chance" algorithm, the
-> test data of the baseline kernel roughly conforms to our expectations.
->
-> Therefore, the constructed test has a bit of a problem. The second test
-> case in my previous email can ensure that the entries on the zswap LRU
-> are relatively stable.
->
-> It is worth noting that the capacity of the zswap pool will not remain
-> constant all the time. Since stress-ng periodically writes to and reads
-> from this 4G memory, accessing the pages in the zswap pool will trigger
-> zswapin, causing the zswap pool size to decrease. Other pages attempting
-> to zswapout into zswap via zswap_store() will fail (until the zswap pool
-> size becomes 160M (accept_threshold_percent=3D50)), but the zswap_store()
-> path will wake up shrink_worker() to try to perform scanning and
-> writeback. Then stress-ng will continue to read and write memory,
-> continuously triggering zswapin to further reduce the zswap pool size
-> until the threshold, at which point shrink_memcg() will also stop. Then,
-> new zswap entries (with referenced as true) are added to the zswap LRU
-> again via zswap_store(), until the zswap pool size reaches 320MB (32 GB
-> (Total memory) * 1%). This process repeats continuously during the test.
->
-> Thanks,
-> Hao
->
+> > Ah, fun. binfmt_misc wasn't able to express this at all. It's good to
+> > close that gap. This can just be done by adding
+> > bpf_binprm_set_interp_arg().
+> 
+> What is "cool" about this is now it's also a net-new feature for shebags
+> which the "old" binfmt_misc didn't support. Anyways, I was thining ahead
+> about what I would need to support $ORIGIN fully and this was
+> a remaining gap. We also explored this idea in a patch pre-BPF [1] but
+> now that we've settled on this solution it seems much more natural.
+> 
+> 
+> I was recently reached out by some Bazel people who are also interested
+> in this $ORIGIN support. Interestingly they let me know that
+
+Yeah, for build systemd it's very nice ofc.
+
+> IllumOS/Solaris had support for it as well.
+
+The whole $ORIGIN thing comes from Illumos/Solaris afair. So no big
+surprise.
+
