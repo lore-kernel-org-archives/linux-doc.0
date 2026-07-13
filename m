@@ -1,157 +1,241 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E1A370D57
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 02:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783910669; cv=pass; b=WszYPFOe5aMcXO527mR9cmiDkgIXn5Ltx00bBOA0gPkWt68YwQ5hn+J1yuv+9l1kfKy45I+RJufR6C0SKWIgcEcKDWTup7f7AdEGsKTJZ02nRsL7uVjoO35eTOOxhClbTdPrf54gYn/rd+R8eAEMix9i9rZTWz7ICggD+9MjhGI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783910669; c=relaxed/simple;
-	bh=Ey1ajMl0bnOZQQEq/xNoF0WY07DvldUXG8XIFLrkJTs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YFboaHDyiPU5HxiXKmr1j6gUK8iraecmUjbNanRq2t89HKdyFvCTb1djzHeg0s9GHXkkn5bu0Ct+vdG9p06+g5Ww25lDqIiDedDgCrLeruqdHp0Z75c+ITgzTsEXX1k43TO3sxvDXzfD+Z4pBYOXyso1fjn5PyyhbzKDUtG+pXQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bH0UGuVu; arc=pass smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0973531715A
+	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 03:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783913372; cv=none; b=bKsFcLH47b7tmw93mTO1kz1DwfyOPE9BN2ovLDhDpftNGV9pjhwVgsveJi2Y/bSp9NUGozYQTzkUnCce0kVY0N/JOiFnjKermihFgblsQzGrpYZUpK7M/vOeuPUvFJvzCZsow/3/0zgaY4586iWZfrWMNzeLdEaxrf36dqqd2hQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783913372; c=relaxed/simple;
+	bh=yPcb2yhm4K2GOkEJfjvSUv790XphbvJ6WzOdoBRLa/g=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=k4zr/hQRBSLkFjVahBK0xKZlltochyr7V91l0NFRoF48dODWuSWDg826EJwCkS9sKIXaNBQXf1LP2zaw1YUo62MNnrADJcvFXtdk4HAVMu3IdP+cEBQdV/tykR0q9Q25+eMokywk+hijT9XV++AfnycGvBrY1L9xJXvWRU8TDLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=abWHddLW; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bH0UGuVu"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5aebe49b227so585864e87.2
-        for <linux-doc@vger.kernel.org>; Sun, 12 Jul 2026 19:44:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783910666; cv=none;
-        d=google.com; s=arc-20260327;
-        b=qu/9b5dLcqAkSk61gtPhkSc4eIByCQy9NVZEFQnzULUbU2pVewSACSLM9AAt2dU6dk
-         AZGRU4+UUF+GAeF4IloCiCRFEbo6jqrGN8drpgbDpozE6sojaKsfMTe5LEfz241twy3N
-         FKboQuF6s3g0OeJxW2tb+kq9W6J59a/nLeMlaqlauDfMSfPBI2BVQf28RSziEC9vMsZV
-         kkzgjMeeEHTj958DLybMIvcNoF8qtANDo5TkyJNi3UFP/k2B0ajwSxY8T/Hq3pKWg+ti
-         QiOnEYW6vyIDsQ1YTk1Nq6HOjAywMjxXKsIWs/N/DE5ZMOMbcX82HtLgB9vAL5MMXAX+
-         BZiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Ey1ajMl0bnOZQQEq/xNoF0WY07DvldUXG8XIFLrkJTs=;
-        fh=yOOe8s80jrycrU+Dho71+mVDsgRwMYrruxqLgo9hR3M=;
-        b=D4A4xKSMTH0c76CZjH+/4V4cdPFEUO49v9vcl3LfeDa91zXuJoC+I3ZhL7m7iuqnvs
-         BK+wgZqTbAul6pI71kEKhoeqdymdNIqf8PM4/tLiOEXNxjpCoUX2xz7RPR5B8XVQRVSZ
-         JKegCjwORu9Ub5nfxWuTMvAsNxUNrXyIxAcZp4CWsIhg/W1pJkZO4obd5ZTQTGY3StmR
-         RHk8VwqU44HJFSsqt3sKv94HNW+D09CL/4Xu7Ox7mGDO2lg1HAkwGSoMJzZXBPjuTEE/
-         FoG+jkyWob4PKFpBLjWQ1LVZpjvuEIR8+jyB/nG27J7BT3Bz/0J895bAU2XKpVOR/DwP
-         VW3A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="abWHddLW"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2ccdb73f0e1so22424535ad.3
+        for <linux-doc@vger.kernel.org>; Sun, 12 Jul 2026 20:29:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783910666; x=1784515466; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Ey1ajMl0bnOZQQEq/xNoF0WY07DvldUXG8XIFLrkJTs=;
-        b=bH0UGuVuGlFdJS1ZspXQfNMikhLHLLnTiI+nMLMsiKDXmS/bbEcAPWNHCGRKl3OHY1
-         My3irjyDQ8Jsi8aXM2Q/kTs1X8SGNJ61TeLHSed8dFg3VykYk0bzfI2Mfz7zbnliugrc
-         WsTkj/bHQapJZo6V395Ks+k8vYqHw/rhuDa9mr4ih5yLj+Ka5U+virHpzxbUOWwrDRts
-         ju7hto0lHYC7YVZaQl4W/0QmLIDzAV90E/I7B1pKEAk96K6+hdTdOFaxwmEEbyDnq/dZ
-         ciyHOlJv9NDFnJ/MyU1a05xJ0rmmbEfwsHsT055lTQ5cNKdk2lq6b+fgGc3nhLt9r8cU
-         8/vw==
+        d=gmail.com; s=20251104; t=1783913370; x=1784518170; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=N5LwUqjbpPHissd18BCl9UcC6YRNwOX+ZmfwwTb7nug=;
+        b=abWHddLW8gruXrxJtTArQg2G0cJAjmJcTESDjp943KYljubchkU1a9PALBxN50vj69
+         N0u6t3ou/ROShlxyary2jM4S1K9/pdHiVenqpRg52bMx8xlOrT81j2nJNKSLUjH2sekN
+         BMiYLwwJq4Ux45SMyTzvy//pobtLpND14rQmgfKMZZIQ4Y8c4IcVhyo2JjYsP0DJtMHC
+         3lLYqfHAcqtUgSW5XjqGyxGuk6VYXoSyROf7CUduOTo7lt9oUNrQhP4UEkdl7dVnbPrg
+         OZPzuMAqMfcoFyV06J4RaHbb/Ne93xqUJ7hEj0q2+YBzZfMC1ZGTJvxyAce7kCfEQ7qP
+         aEIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783910666; x=1784515466;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1783913370; x=1784518170;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Ey1ajMl0bnOZQQEq/xNoF0WY07DvldUXG8XIFLrkJTs=;
-        b=ST3/+Wvzv9IHXN3jVVQcwRdtpY27Jf8WwiqNhrjo+yOc2fJ/hxKkDaSfTRUHjyrnMd
-         IC2W/sXvzVs9xqiJubUCsA37DsWWuwdt82bwJlwXQXbAu7KWUq5pUiwsbmSuGj8vP692
-         2u5lnlAWCdhjWn2dK2+JHfT4MtPdu5fzhLkzJdUvMdUFvV1PwqbOR1u1zTfv9IUaMyQG
-         K7Q97Kteqsj+lDP78UpYYrjDSxjLg+fl2Tm5pfR6rvD6FJ7gVUZBol6SDn/udmZUz4ga
-         qtd4CD+svv/q7V/IOrVuR/vl8gYjznrc2oj9fh/VSX18KGy9xuu+KYmFTs7drWpuUsNi
-         ij6Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpzBemNcgiM3GxHnPA9qCPQ3kUIEd7Ko0u2uqtz/6s3ebv1TvOF0sEPeNoZOT/11WIG5IO0l2Jn3Kw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4b74u6t/Xo4XcFizCGg48oZzPhokUg361n5gISI0AfwUwav2x
-	5WVOPSwqdOJKMHq5QirTGiihsQntkWi83LMj4echR4fsMewwD51zhAgjG2UDqGG7o+kUDR5+NR0
-	Tz2u1nnSXb1U5Vxh46pUwORJ/cn5dctg=
-X-Gm-Gg: AfdE7clypPURqy/anBO8bD4awyGs5kdjHQjI9Foy8dZjmPeXOtOeEi6Z+NvKZk8+SLu
-	dIDlbl5gpnnzJNDmo7sKBBBVe0m8abFbRIBm6NvoA41QbRdNQr/qJ9sKwd93igO8VhIlz4EYds4
-	lK+lX2CeTDx1PfI11//NZ8qxgvHxyeLHUO+QzZOg+EjaallWSgyB/pDkFFomTZ5+R183+ELWrN/
-	gcSFIGcQT91TpHyK1s2Dr9pyk+PtEyMVRKraL+94jOvU/SirT/T86ElE71s70grQWvfshxPumPE
-	zd0T6LplZLP9ptKHRPaE2DvL/XDg7dpYY24+nLlTuPtldx3+eTVLrbY=
-X-Received: by 2002:a05:6512:8345:b0:5aa:61ed:482c with SMTP id
- 2adb3069b0e04-5b023699004mr574978e87.6.1783910665328; Sun, 12 Jul 2026
- 19:44:25 -0700 (PDT)
+        bh=N5LwUqjbpPHissd18BCl9UcC6YRNwOX+ZmfwwTb7nug=;
+        b=m/SLL6FyWKkSYnTGU6LJxd6KBhyNEJYPEXkKjeilvTNgQBDwH/FSwDJ4aYP8hq0rae
+         /914a67edoKKKWT6cJbZxzpTUCco4ls+39I4dTPwcMnK9iJsT0dIYaL9wM+3wE4z6brP
+         1tad3pzTHeKc+CICIRVlnCXg4D17LoSuj8oGazjvHDqe/sMWqiVrG/xLqjZlxc/l+qAM
+         TOWqo/c1FJWznzaewcM3HnIRR2kZiB8vziI7cKszGjOAN63UAWnnV1TyeQyEi0mWXDnA
+         Rr0/UnB/Lnr4NPlPfwTl6xfszBStyg6f3y08H1hf6yR0PdtId/JvAH9xqqOlAoA1zrQY
+         /R0Q==
+X-Forwarded-Encrypted: i=1; AHgh+RrPiORQf9r5ygCkGRvM4yHoQySv0bqVA1Ta9UwCkqfEQhlJgd09WHVWS1q0Mk2K84Z+YamulA6WsoA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXvga08Td1TsuJFOrAxvZGh3Dp5md/9HseNdsCrVQZMsuQ2I/V
+	fGa4ZgM1a38tYdmDFpR3heqjTsC75RpJJQf49hy8LRxopzBEh16MeD9d0m/19itq
+X-Gm-Gg: AfdE7cntaK7Z5dlvy1ITqtKqNkKjKj8XuxtbJoGu3SeFZlyt/qri5bT1TCY7G/vTTS8
+	flsQNDj8RGjbCVOzo9ckcdw+Wyj5P6zuKWQelj1kCwBxZAn8P+XBYq3jRQRfyJ0O8jQAPdGEgxx
+	dzJU3ZwSclxg0qPe6TnoCgZiUzDDDKCkBbPXBzi7tSNQxtEIuZwL6/JeJkAEkXpMFnxU4J/++p3
+	4oL6owV5KGpok3rOpl05TTD9EtXu7QjPcY+JS28Up+6JI3L2tlNADVULZmtjltWIt4UIaE7MxYM
+	dYd/vR1eZRxfqQ0yqJVnB1am4m6x3cPGlOQVa/B2EE8Uegmu21NV7SBCueHh6cSxOYwbcliIKgB
+	gunB2OnsisRrQRjXgtrU+VGLihPbmy2hHDRx5u1HyVw7//AB/2z2S33Z3LEH3XCkf0OO3ctI1k2
+	hWyosXtLSYBjnGm7yOQ6QlTir8
+X-Received: by 2002:a05:6a21:4d8f:b0:3c0:9c1a:894f with SMTP id adf61e73a8af0-3c110b33403mr8114739637.71.1783913370254;
+        Sun, 12 Jul 2026 20:29:30 -0700 (PDT)
+Received: from localhost ([98.35.8.117])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b84d6ce15sm26187778c88.5.2026.07.12.20.29.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Jul 2026 20:29:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260603082531.263115-1-chenyou910331@gmail.com>
- <CAKspUh+2ndK1qMP58hPPmvwczruCikEuaO2tmyw=APCGrd9yaw@mail.gmail.com>
- <alDs8bnIK8bWApIr@wyuan.org> <57e42f43-44dd-4b22-8d81-c88e20016138@hust.edu.cn>
- <CAKspUhKh=cT_ks1hH9B4G8KppR=XT+THHsmNUFH_irX6xo1SZw@mail.gmail.com>
- <alJ7ocaqtpUkCGrd@wyuan.org> <40155119-b6c1-40cc-bbf2-5d1bbe5743e8@gmail.com> <alNBB1Ju2GGk6Uqu@wyuan.org>
-In-Reply-To: <alNBB1Ju2GGk6Uqu@wyuan.org>
-From: =?UTF-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
-Date: Mon, 13 Jul 2026 10:44:12 +0800
-X-Gm-Features: AVVi8CftW27fF3Zz01D_9Na7r2FFsUhdkRwAHgN4VVlpxeY49nQzRbyiMixO9us
-Message-ID: <CAKspUhJE-6NN7XnfG0iJAxEiV9PJx6pDbUEU5jgO__+qvuU5ug@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: zh_TW: process: localize terminologies and
- improve fluency in 8.Conclusion
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Alex Shi <seakeel@gmail.com>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	Hu Haowen <2023002089@link.tyut.edu.cn>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Dongliang Mu <mudongliangabcd@gmail.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Yuchen Tian <cat@malon.dev>, Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 12 Jul 2026 20:29:27 -0700
+Message-Id: <DJX4IFO55D9S.3IV3K5XICJAEV@gmail.com>
+Cc: "Alexei Starovoitov" <ast@kernel.org>, "Daniel Borkmann"
+ <daniel@iogearbox.net>, "Martin KaFai Lau" <martin.lau@linux.dev>, "Shuah
+ Khan" <shuah@kernel.org>, "Andrii Nakryiko" <andrii@kernel.org>, "Kees
+ Cook" <kees@kernel.org>, "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan
+ Kara" <jack@suse.cz>, "Jonathan Corbet" <corbet@lwn.net>, "Jann Horn"
+ <jannh@google.com>, "John Ericson" <mail@johnericson.me>,
+ <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-kernel@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v2 0/5] binfmt_misc: bpf-backed binary type handlers
+From: "Farid Zakaria" <farid.m.zakaria@gmail.com>
+To: "Christian Brauner" <brauner@kernel.org>, "Farid Zakaria"
+ <farid.m.zakaria@gmail.com>
+X-Mailer: aerc 0.21.0
+References: <20260711-binfmt-misc-bpf-v2-v2-0-d6591ceaf207@gmail.com>
+ <20260712-abluft-brutkasten-aufladen-c8063a4a1a0a@brauner>
+In-Reply-To: <20260712-abluft-brutkasten-aufladen-c8063a4a1a0a@brauner>
 
-Hi Weijie,
+On Sun Jul 12, 2026 at 5:32 AM PDT, Christian Brauner wrote:
+>> This is a continuation of Christian's bpf-backed binfmt_misc POC [1], wh=
+ich he offered
+>> to hand off to me. I am carrying it forward. The kernel design is his an=
+d is
+>> unchanged. This series rebases it onto his binfmt_misc locking/cleanup s=
+eries [2]
+>> and adds selftests (+ fixed from the one's shared), and therefore does
+>> not apply to mainline alone.
+>>=20
+>> As for motivation for this whole change, Christian did a great VL;MR;
+>> write-up [1].
+>>=20
+>> TL;DR: binfmt_misc can match a binary and hand it to a fixed interpreter=
+,
+>> but it can't match programmatically or compute the interpreter per binar=
+y.
+>> The Nix community would love to support relocatable binaries, where the
+>> correct loader can only be found relative to the binary itself.
+>> This adds a 'B' handler type: a binfmt_misc_ops struct_ops program that
+>> inspects the binary and picks the interpreter with one new kfunc,
+>> bpf_binprm_set_interp().
+>>=20
+>>   bpftool struct_ops register nix_origin.bpf.o /sys/fs/bpf
+>>   echo ':nix-origin:B:nix_origin::::' > /proc/sys/fs/binfmt_misc/registe=
+r
+>
+> Thanks! So I've spent some more time working on this because I had some
+> future ideas that I needed to make sure could be accomodated by this
+> (currently on vacation but hey...). So the version I have givex this a
+> better design and has future extensibility in mind:
+>
 
-> I suspect that some contributors would run the get_maintainers.pl script
-> or b4 prep --auto-to-cc, so they did not cc Alex, as they didn't know
-> the current situation. Because I noticed that for both two versions,
-> Chen-yu didn't cc Alex or Dongliang or Yanteng. Am I right, @Chen-yu? ;-)
+I also enjoy hacking over my vacation. I'm often told to take break but
+some of the best ideas come when on vacation :)
 
-Yes, exactly. For both v1 and v2 I ran get_maintainer.pl, which only
-lists Hu Haowen and the mailing lists for zh_TW files, so Alex and the
-zh_CN team were never on cc.
+> - The single sleepable load op is split into two ops:
+>
+>       struct binfmt_misc_ops {
+>       	bool (*match)(struct linux_binprm *bprm);
+>       	int (*load)(struct linux_binprm *bprm);
+>       	char name[BINFMT_MISC_OPS_NAME_MAX];
+>       };
+>
+>   The non-sleepable match program runs from the RCU entry lookup
+>   walk itself, exactly like magic and extension matching: same
+>   registration order, same first-match-wins semantics, and it can
+>   only rely on the prefetched bprm->buf. It must be free of side
+>   effects since the walk may be restarted.
+>
 
-> Given that this document has not been maintained for ~2 years and these
-> patches to the terminology actually don't have much significance, it
-> might be more appropriate to directly declare the status of Traditional
-> Chinese as "Orphan" provisionally for now, and remove it directly in the
-> near future, until Hao Wen's return and opinion. Or maybe, waiting for a
-> new good soul to take over, which is unpredictable.
+Is relying on brpm->buf enough?
+Right now that's only 256 bytes I think, which is not enough to read
+segments we might care about. That worked fine when it was just a magic
+number but the idea with the eBPF program is to make decisions based on
+more data.
 
-Before it comes to that: I would like to step up and help carry zh_TW
-forward. I am a native zh_TW speaker from Taiwan, and I understand
-this means staying with it, not a one-off effort.
+In the selftest I provided, the `PT_INTERP` segment is already at file
+offset 0x318 (792). I was imaginging NixOS having to support
+`PT_INTERP_NIX` in order for the produced binaries to be backwards
+compatible with older kernels.
 
-Dongliang, since you kindly offered to help review zh_TW patches:
-would you be open to doing this together -- either as co-maintainers,
-or with me listed as a reviewer (R:) first if that is a more
-reasonable starting point for a newcomer?
+The other idea would be to make the `match()` broad and select
+everything but then nearly all ELF64 binaries would match and then pay
+the price to `load()` and ultimately `-ENOEXEC`. Seems like it would
+make multiple BPF binfmt programs less useful.
 
-> > To avoid scattering our efforts, I suggest we minimize fragmentation
-> > as much as possible. When it comes to technical documentation
-> > translation, not literary translation, a straightforward, unadorned,
-> > and free from misunderstandings is the best translation and easy to
-> > maintain. Let's keep thing simple, unless sth is really necessary.
 
-Alex, I think this concern is fair, and I have no intention of
-forking the translation effort. The scope I have in mind is
-deliberately narrow: keep zh_TW aligned with zh_CN in structure and
-coverage, and localize only where terminology genuinely differs
-(e.g. =E8=BB=9F=E9=AB=94 vs =E8=BD=AF=E4=BB=B6, =E4=BB=8B=E9=9D=A2 vs =E6=
-=8E=A5=E5=8F=A3) -- exactly the kind of differences
-you mentioned. Plain, accurate technical translation, no literary
-rewriting.
+>   The sleepable load program runs once the walk has committed to the
+>   entry and does the file reading and the interpreter selection. Both
+>   ops are mandatory, the struct_ops plumbing enforces the sleepability
+>   of each, and since bpf_binprm_set_interp() is KF_SLEEPABLE a match
+>   program cannot select an interpreter by construction.
+>
+> - A match is a commitment. A failing load program fails the exec instead
+>   of falling through to later entries. -ENOEXEC keeps its usual meaning
+>   and hands the binary to the remaining binary formats, for a handler
+>   that discovers it cannot serve the binary after all.
+>
+>   This kills the part of v1 I disliked the most: the skip cursor and the
+>   leave-and-rescan loop in load_misc_binary() are gone. The walk is
+>   never left and re-entered, and 'B' entries need no special semantics
+>   against concurrent (un)registration anymore.
+>
+>   Your v2 changelog note about keeping the bpf retry loop in the
+>   __free() style is moot as a consequence. The loop no longer exists.
+>
+> - The load return convention flipped: 0 now means success after the
+>   program called bpf_binprm_set_interp(). Returning 0 without having
+>   selected an interpreter or returning a positive value is treated as
+>   -ENOEXEC, other negative errnos fail the exec.
+>
+>   So the "return bpf_binprm_set_interp(...) ?: 1" idiom from the v1-era
+>   programs becomes plain "return bpf_binprm_set_interp(...)".
+>
+> - The handler name moved from the offset field to the interpreter field
+>   that field consistently names whoever supplies the interpreter, a path
+>   for static entries, a handler for 'B' entries. Offset, magic, and mask
+>   must be empty:
+>
+> 	echo ':nix-origin:B::::nix_origin:' > register
+>
+> - 'C' is allowed now, v1 rejected it. It behaves exactly as for a static
+>    entry. The setuid transition stays gated by vfsuid_has_mapping() in
+>    the caller's user namespace. Which makes 'B' handlers usable for a
+>    per-binary loader over setuid binaries. 'F' stays rejected as there
+>    is no fixed interpreter to pre-open (I have other ideas how we'll do
+>    something like it later.).
+>
+> Nothing changed in the exec patch, the fs kfuncs patch, the kfunc
+> itself, or the registry/namespacing model.
+>
+> I can send v3 in a bit if that's ok.
 
-Weijie, as a first concrete step I will prepare a terminology series
-(rather than one-word-at-a-time patches, as you suggested) covering
-the existing process/ documents, and use it to build a small glossary
-that future patches and reviews can follow.
+I don't mind at all you sending v3 and in fact I've been enjoying your
+involvement. I didn't know what to expect when I offered this idea up to
+the community.=20
 
-Jon, if this direction sounds acceptable, I am happy to send a
-MAINTAINERS patch once the details are settled in this thread.
+I'm happy to keep co-developing this with you within a design you feel
+acceptable with. Please let me know how I can remain engaged and
+helpful.
 
-Thanks,
-Chen-Yu
+One last thing I was thinking about is that we will also need to support
+$ORIGIN in the shebang path, however I just tested it and this current broa=
+d
+BPF solution can largely handle it [1], with a small wrinkle.
+
+  $ printf '#!$ORIGIN/interp\n' > /opt/app/greet
+  $ cp ./interp /opt/app/interp     # any interpreter/loader
+  $ chmod +x /opt/app/greet /opt/app/interp
+
+  # stock kernel: binfmt_script opens the literal "$ORIGIN/interp"
+  $ /opt/app/greet
+  bash: /opt/app/greet: $ORIGIN/interp: bad interpreter: No such file or di=
+rectory
+
+  # with the handler registered, $ORIGIN resolves to the script's dir
+  $ bpftool struct_ops register shebang_origin.bpf.o /sys/fs/bpf
+  $ echo ':shebang-origin:B:shebang_origin::::' > /proc/sys/fs/binfmt_misc/=
+register
+  $ /opt/app/greet
+  <runs /opt/app/interp, the loader found next to the script>
+
+The wrinkle is that it can't express today is the single optional argument.
+(i.e. `#!interp arg" -> argv[1]=3Darg`). We might ned a way to express
+that in the load.
+
+Anywyas, thanks again. All your ideas made sense modulo I'm unsure if
+`bprm->buf` is enough to make a decision...
+
+[1] https://gist.github.com/fzakaria/2e1e1c44fa488a951674f8761c672366
+
