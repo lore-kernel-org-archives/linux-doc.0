@@ -1,319 +1,282 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EBD13546C5;
-	Mon, 13 Jul 2026 22:54:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783983285; cv=none; b=BDhqXxBuSd2Atg4c8F5hN8Xhv3ypIfoS91jgSUaMAzif3/25Kf+NJe/XdDpHxAJf5V8VUZSs8XJbM46eufKPBgNWmPMFxQsenUaZ1vWjOK/6bgPDOcfETLnfR2CUKeWKX9iuJ/sHYY4CTYXgMwwWd5QsKN7sbWjgzUkxAvO4mG0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783983285; c=relaxed/simple;
-	bh=7TJNGr2v2ZA8mqosZnmTYS6Mnmq2SrK/xW5d6dqKIKs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QMROt2TINLVCX4vUAJxNkEQdsdKqaJTTHRtHROKitNqk5SjJmIrS+KprgGPJ5god964dpgTbxFSd4qasqaJVo8qjqm0oK+qYyYXS6+BQ2+aLKqtQ0bQ+0TfePC7paIIic4Rj1oiX0/nZrzKdObDLeKgjUJoae8ox7UK3tUtL0zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=g4Jveoab; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11022130.outbound.protection.outlook.com [52.101.43.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE6A3D3D09;
+	Mon, 13 Jul 2026 23:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.130
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783984648; cv=fail; b=fH+W7+0j5dcEqwlNzyVdbe/zXnWyyl/GsrRlJtKjZN3TjjLCdJguKoax/1WdXt0pM1wz4UZQ2KcQ3++iqNS7H0XKJITxSCQNJi2VdXJRP+ymwqGAKEWUyuVv8qvNB8lNNgtQwoQkmuMgrHDwBdlFikehVEFGxtOo+HDTdkcpWxc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783984648; c=relaxed/simple;
+	bh=KP4IS+NJyeWUGwxgKau0ZWm9Gi7mCZOmE5OO9keyZP8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=EvGK2Ja42nP5o8ra3Hlr+1S3nTVI/U25wsvcB2quawbITJBMtnSczPvn9d+qgnEgHXVvk6+Do4825PLcKMwKsdHWu+GiTNyfFhR11LzDIIJpcayiViW5y7ORWiPiXvjKd86pQ+Hc2VeV/WxNv33kwOMRbnsBnJCYFwfsyMD6rko=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=4paO3ghM; arc=fail smtp.client-ip=52.101.43.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=rambus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="g4Jveoab"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F29F2F;
-	Mon, 13 Jul 2026 15:54:36 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 00A293F7B4;
-	Mon, 13 Jul 2026 15:54:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1783983280; bh=7TJNGr2v2ZA8mqosZnmTYS6Mnmq2SrK/xW5d6dqKIKs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g4JveoabcjUqtzM0ZbhKLpIWeX7EYIGGR6wswI6LuGOhdM/Lpf0YCF9RH9+K5RGY1
-	 FEyeii2duF/l5pFmKBNV+gZSa4V82pYc53aIwQ5bvVRHNUVbemGBar23KdZt2/fPTw
-	 bQtsR0RMk09kaUGGbki3k//fUm0toDtFatXBA0d0=
-Date: Mon, 13 Jul 2026 23:54:29 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Fayssal Benmlih <Fayssal.Benmlih@arm.com>
-Cc: Cristian Marussi <Cristian.Marussi@arm.com>,
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"d-gole@ti.com" <d-gole@ti.com>,
-	"david@kernel.org" <david@kernel.org>,
-	Elif Topuz <Elif.Topuz@arm.com>,
-	"etienne.carriere@st.com" <etienne.carriere@st.com>,
-	"f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-	"james.quinlan@broadcom.com" <james.quinlan@broadcom.com>,
-	"jic23@kernel.org" <jic23@kernel.org>,
-	"kas@kernel.org" <kas@kernel.org>,
-	"kernel-team@meta.com" <kernel-team@meta.com>,
-	"leitao@kernel.org" <leitao@kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b="4paO3ghM"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=G6OZar+1sCmvc5v5PbjYAebfk/NnNYOfskcMS9Xq0dbp5hgIlEIB9ReIlkRt+boE8unQm3J4wkSE0VGFY0OoDQKvM2Lx48Hk5lrvu5xbkkCnWTD7bYIloh6YFHiJw6n/WDEh2YjjAHg3GVLkazHvVmP5xPxXUO0rZPGfX9ZihvMkwJjvA63xL1H0bAyZl6UymR6qnhekyVbQejx4XSoD0Mij/3duOqLP4vJThy6+W9+5jXqzW297ssYbcAb77Gxpqt0cE2fekIRDj4eHGH8s2HdQpSseqh6tpivvMm8EjSttCtWtu5Q/BQQMIIJ9dBazHwAKbG+ZuAO/ArS4IcK5uw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XlokhTNmQnMlSk/SvVWNKFln8Yvmnxi25KW4cKZf+0o=;
+ b=iEMx1E02zcM9kkDlC2+TWsFMhYzIvQZSYqFwu3qEQ8hPjSy9v1wYXtlBKzwXYk4vDoGlU+N7FktWB5bZr6RV7NSCCVrfUBBmU4Og2TdggOXn0DKOe0fJxhWK9n5WLufS/OlwVS0AJJF4ChL7nvKy8Kac3pu0DORAbMhCfETl59rXq8w/D0qxr0fI4vRd2XokswBtZ+5TvR7xmTE0XE+sKmFnQ6uW/9eX1I5NT4JiABWx4AAbVYXYAGZjJaM+1mk17rWxvJ9IT5PgEPWk8I3ryafDxDJZP+vlYufcRRSdB3dW4v0KG5/CMTMT71Uh91pArg96MhjfgopvESmHZhKsRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=rambus.com; dmarc=pass action=none header.from=rambus.com;
+ dkim=pass header.d=rambus.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rambus.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XlokhTNmQnMlSk/SvVWNKFln8Yvmnxi25KW4cKZf+0o=;
+ b=4paO3ghMNdGwTzp6i732ze+Kb5YZPqgdqSLD7Mi4ZG5BrEYgvLEf14FvHs++EZYxn62EAa5jg0mporcWv2j83XKrJpK5VyghvrScIvjhzjE4f2kCdqs7Uggi3Gg11uOuL0z7QUvM+d7mMkaL+1l9RlHdGU9coNyRZt80TVHKrDxGwo2JfUu/BQF+oBkdAxmYz3FS+PQUFBNV3/my8edm1uq4CpmKvdpibqClEpoVlcW8trNBN6L6Sq9ZRmup8AWkqeVBUkloMjbbcxNjJ/2SstvUn0G5yf6wYY+MU2ut7f0OEhQv1vUUvcntcWJMrajO8HZQEGpNikEkb42l6/bjNQ==
+Received: from SA3PR04MB9001.namprd04.prod.outlook.com (2603:10b6:806:398::17)
+ by MN6PR04MB9431.namprd04.prod.outlook.com (2603:10b6:208:4f6::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Mon, 13 Jul
+ 2026 23:17:23 +0000
+Received: from SA3PR04MB9001.namprd04.prod.outlook.com
+ ([fe80::3da3:45d7:8860:e196]) by SA3PR04MB9001.namprd04.prod.outlook.com
+ ([fe80::3da3:45d7:8860:e196%6]) with mapi id 15.21.0202.018; Mon, 13 Jul 2026
+ 23:17:22 +0000
+From: "Ousherovitch, Alex" <aousherovitch@rambus.com>
+To: Conor Dooley <conor@kernel.org>
+CC: Conor Dooley <conor.dooley@microchip.com>, "Krishnamoorthy,
+ Saravanakrishnan" <skrishnamoorthy@rambus.com>, Albert Ou
+	<aou@eecs.berkeley.edu>, Conor Dooley <conor+dt@kernel.org>, "David S.
+ Miller" <davem@davemloft.net>, Herbert Xu <herbert@gondor.apana.org.au>,
+	Jonathan Corbet <corbet@lwn.net>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, Rob
+ Herring <robh@kernel.org>, Shuah Khan <shuah@kernel.org>, Alexandre Ghiti
+	<alex@ghiti.fr>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"Wittenauer, Joel" <Joel.Wittenauer@cryptography.com>,
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
 	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Lukasz Luba <Lukasz.Luba@arm.com>,
-	"michal.simek@amd.com" <michal.simek@amd.com>,
-	"peng.fan@oss.nxp.com" <peng.fan@oss.nxp.com>,
-	Philip Radford <Philip.Radford@arm.com>,
-	"puranjay@kernel.org" <puranjay@kernel.org>,
-	Souvik Chakravarty <Souvik.Chakravarty@arm.com>,
-	"sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
-	"usama.arif@linux.dev" <usama.arif@linux.dev>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>
-Subject: Re: [PATCH v5 00/23] Introduce SCMI Telemetry support
-Message-ID: <alVsb7IxDAyJyxZe@pluto>
-References: <DB9PR08MB86516141C5970B23D7340510FFFE2@DB9PR08MB8651.eurprd08.prod.outlook.com>
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, Shuah
+ Khan <skhan@linuxfoundation.org>, "Nguyen, Thi" <thin@rambus.com>
+Subject: RE: [PATCH v2 01/19] dt-bindings: crypto: add Rambus CryptoManager
+ Hub
+Thread-Topic: [PATCH v2 01/19] dt-bindings: crypto: add Rambus CryptoManager
+ Hub
+Thread-Index: AQHdD+HshuImNmj2q0GDF9X/lpOPwbZmdM8AgADs7vCAAn+MAIACOkyA
+Date: Mon, 13 Jul 2026 23:17:22 +0000
+Message-ID:
+ <SA3PR04MB9001B1D246895B224C6EFD54D7FA2@SA3PR04MB9001.namprd04.prod.outlook.com>
+References: <20260709203037.1884436-1-skrishnamoorthy@rambus.com>
+ <20260709203037.1884436-2-skrishnamoorthy@rambus.com>
+ <20260710-siding-unmatched-5e066fbe4c01@wendy>
+ <SA3PR04MB9001E7DC9B2D4788EDCE2390D7FD2@SA3PR04MB9001.namprd04.prod.outlook.com>
+ <20260712-washable-clapping-5dfb79d1bdef@spud>
+In-Reply-To: <20260712-washable-clapping-5dfb79d1bdef@spud>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+dlp-product: dlpe-windows
+dlp-version: 11.11.2.117
+dlp-reaction: no-action
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=rambus.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA3PR04MB9001:EE_|MN6PR04MB9431:EE_
+x-ms-office365-filtering-correlation-id: f7d72489-590d-486e-23f8-08dee134e494
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|376014|23010399003|7416014|366016|38070700021|3023799007|5023799004|22082099003|6133799003|4143699003|56012099006|11063799006|18002099003;
+x-microsoft-antispam-message-info:
+ 1p5nyxPAOO5cqcwyZtpdemqAxdbMjfuU1CnYgQ8goM0Kx4roEXXMuaXWsJLpB4FnuLmIGo0OLIxWKd7brCugb8PgNBlP9D1ebPrNhFDk++dDtt6D75h2y1vQEcPPGmDSZqVqWvvuWrEVnSf+O3Gn52I4zMQJ6j/AUwXqwinPu+okdARJzkOZnD52S0jC1lyaWOPKGsK/ArngFLhUbI6uWWS0YAuo1zIfCPKqkYw3mh+lgaiBAwU3YJk2AgKtrBA+5j/dUGF2KSCIVcDHlAvOrul5ksO5WhchQeOneRvS6jfWqN6wFczUlvNas6pluoU4qzMqMbgU5+eO8OAADKpEvmgbmoIn+pqdpnU24NrLM2MsaaTSKzYrRpVaPlyQlcxpndZ2vf5kqfrw7nK2W0oWVt6vHZ+ivZdBlJ1E1RnIyubnJAn9xP+eIPejr9S8AkhsIYGXiUIpXd1XEhNbCbDg2Pe2orEXnwbI/SgD1SwS2YC1U7O69CozJhOG11ZU/x1uMuDLK43iJSwRqXbzd91ZbtnhUeWurnJCP9ZHa3ZxYjA+cJY/oojc6eNFmv8kP2fqppHJL43ZXn6a9MUVBJE/8gJAObN9mcA7L+kqU/kYQtEyMD9YlN1voxYlh4Yx2tdr6GatJlx3Kb1uVgivF/On8jyGCKd33yE6rUWI4BeFXz6rtlFetf78P9J2gWEVUrWu4cs9lPovgKQd6fxgs98rt5mosSd+3KpttxJMux2CW4w=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR04MB9001.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(7416014)(366016)(38070700021)(3023799007)(5023799004)(22082099003)(6133799003)(4143699003)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?Qp1/DADRpG65yC/3V0VJ2vIjTcOKaTb8U73vZgIVSNGxIqTbqiwshHCk6A+0?=
+ =?us-ascii?Q?qexc6u8mjCCKQSsWxNsF8d07lZht4gSHh3CN1cjCUOIJ5AmWQvKiPYErDDcs?=
+ =?us-ascii?Q?DQ/gL9tNdZXsy3PImXAqcTQu9cTPVgCRGtX6VUxT3nX2c8FcnyEesOwD+SFh?=
+ =?us-ascii?Q?kYCBpzR2zZogj24ya78PYOv3uhw1JkeDVK8jeaPAP4jSyVSYy0ZInPfSS420?=
+ =?us-ascii?Q?M5AFcIxRc4HfYHgu5mzsZ+iX6lNqrtVcF1sISDbReasUd8MaguwxeSYGuHYC?=
+ =?us-ascii?Q?9HKFDq+klHMVd0BG4aqTkqdJ1nM48O0/yF2n8kUD7J0Jfl1/qhnjBaIiMleN?=
+ =?us-ascii?Q?nXpEvEQ7ZpMTfiRcWBgjEpEaGgkSxh8q+gNbL8TBp+PxzpoPHbTmvXUvubdF?=
+ =?us-ascii?Q?wLMsC0HiCiOceKFm5zXyol/TjGoBKmOsUEC2PXxi6Kd/Kz4g3RYaAptRsn1q?=
+ =?us-ascii?Q?sfh5snwWPSW39HlUuQJpFwM5quJgKk3bPuEiMPvrGcp4Oc8NHaQgPKYbcXPU?=
+ =?us-ascii?Q?dGvukhYUmNoFnAOXy72bVbkTnz/kw648e2uhYXX0ui4rCK+65/UFSg0dDbwR?=
+ =?us-ascii?Q?vXcQSdX3nhWOSwJS3O/Uatgw4xeCGs4xC+k7HLXULlTF8stjbw29kKR/c/Iv?=
+ =?us-ascii?Q?TFZbGFuUZXm74VfDb34G5+6UpLdHz8UXNxj0kyVYFjYiA17JtFcpI/c1NCa4?=
+ =?us-ascii?Q?ioflrY9bynO0IBvg0LPEuFfqmTJDA2aMwi52qsCd0b+tHEKEPydZnN0S734C?=
+ =?us-ascii?Q?5cOENPwm0oEuxVKPKcl8n3I5fXH1mpKFzfc8t0x09e7YG8tcE5FEWRl7RvC9?=
+ =?us-ascii?Q?OdNBieNkH4AU5NIT8rA2Rj5s3r0Y5aGXQzEmK0o0qcm20+Jp1Q3g+pA5u69E?=
+ =?us-ascii?Q?pIV5JrG4s3qVLjoC7hZ83YJsW1u0hE5NMMGFycgt27Nn8zBHk/iBmjsw1Jib?=
+ =?us-ascii?Q?o/SEYT8wlYly/NtivJidHcdzG9WKco/f1ymXsji32iL6HEuiJp6xjxWhXsJD?=
+ =?us-ascii?Q?lH6ANa0tvJBmQcZgFMwyN/QGDHLQci2AtR+r3wtx0eSNHZng2M+uO5wQmnrg?=
+ =?us-ascii?Q?PF+gMnaSnOazymXHyUJs24GgXlowi2vJMkWv0JfBdc9F31mItKCItpjC5ntZ?=
+ =?us-ascii?Q?FeqLsNKUM8v4lAQBPhH3j65OgIgi+zl3cx9kFchP8lmfax0EObTHgIfTurCj?=
+ =?us-ascii?Q?AEoJ/H64TmOChShajn5GNYfUehkyzBzu2EMHiqDDSSDWId4Cyoq0fbZ9mrUI?=
+ =?us-ascii?Q?67nsr8vhkeG6yNygcrhmM8bAEzzNsl1yioXi0Z7iXK4X/Z9D3BLttHRQT6lz?=
+ =?us-ascii?Q?JlJfsuQNn7hrc4QVtSQRbZ50l1KTW/WWeuXp8/dCjH9mk21PZy9hVwql4Xfg?=
+ =?us-ascii?Q?S4UgYwixlK+F8UrTffzoPMD4GbWbP5H9aNd4f13NsV1H1PCUhtzXl5rLp1Iy?=
+ =?us-ascii?Q?WmNNoeJxTbKOh6XVid19DH4xsW6kFtMgj1r1zqY/+RvWjQXpGc/rB/gXg/Uz?=
+ =?us-ascii?Q?FdDxS1ddqvZate3n4jUoLTQD8msP/Us2RZb0ID4f0rx0s5/h7GSossQmIskh?=
+ =?us-ascii?Q?zRU7mG/aRYGeUZ/LgDZi8M/kmeSd+Emyx4pbbmGrw0QFd6q9eyCgH1E64TQl?=
+ =?us-ascii?Q?rPdOucVuQCTQOZ6/DevAe57T/hfe2lTHblH0yzJSg9QbWThZ4m/T6MrCU026?=
+ =?us-ascii?Q?Cpyh7d+LYPyYw156BzX7uX/CYkpOEWcFGKgk3gHTJFpetNBp1dLzgkTNvxpU?=
+ =?us-ascii?Q?G3TxSuGT9Q=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DB9PR08MB86516141C5970B23D7340510FFFE2@DB9PR08MB8651.eurprd08.prod.outlook.com>
+X-OriginatorOrg: rambus.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA3PR04MB9001.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7d72489-590d-486e-23f8-08dee134e494
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jul 2026 23:17:22.2524
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bd0ba799-c2b9-413c-9c56-5d1731c4827c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: sTE0WmePlUJ2pOQjM34m121XHF6DSEA4QwW1WEDnYdtaFguhbF8ztPDjELtfuxrcMslykacqWYKRDpB+rPIDMF9StK5t5ur9DFyR0o29K/0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR04MB9431
 
-On Thu, Jul 09, 2026 at 03:46:23AM +0100, Fayssal Benmlih wrote:
->    Overall, v5 is a good direction: dropping the filesystem ABI for a
->    chardev/ioctl ABI is simpler, easier to version, and more appropriate
->    for high-rate telemetry. The split between SCMI protocol support, UAPI,
+On Sun, Jul 12, 2026 at 06:16, Conor Dooley <conor@kernel.org> wrote:
+> Please fix your quoting, you need to retain context beyond what I said
+> so that people who get 100s of mails per day (me) remember what it was
+> in response to.
 
-Hi Fayçal,
+Apologies -- retained the context here, and I'll keep it in future
+replies.
 
-in fact this same IOCTLs based interface (even if more rough) was also present in
-the defunct FS approach, attached to the special 'control' files...nothing new
-really...but a lot of rework and testing needed for sure...
+Short version: v3 switches the vendor prefix to "rambus", makes each
+mailbox a subnode with its own reg (as agreed), adds a device-specific
+compatible, and adds clocks + an optional reset. One property (the VCQ
+ring geometry) I'd like to keep in DT -- reasoning below, happy to be
+overruled.
 
->    driver, docs, and test tool is also much cleaner. The main concern is
->    that there are several correctness and usability issues that should be
->    fixed before merge.
+> > > This company no longer exists, you should probably introduce a
+> > > rambus vendor prefix instead.
+> >
+> > Cryptography Research, Inc. does still exist -- it's now a
+> > wholly-owned subsidiary of Rambus (our co-maintainer is
+> > @cryptography.com). The prefix names the IP originator, which is
+> > consistent with existing subsidiary/acquired-vendor prefixes in the
+> > tree (e.g. al =3D Annapurna Labs under Amazon, mstar noted as acquired
+> > by MediaTek, fsl, cavium, xlnx). We'd prefer to keep "cri" on that
+> > basis, and can annotate the description as "Cryptography Research,
+> > Inc. (a Rambus company)" to make the ownership explicit. Happy to
+> > switch if you feel strongly.
+>
+> I'm not sure that these examples actually aid your cause. al has been
+> replaced by amazon, fsl is not used for new devices, new xlnx devices
+> use amd (only example for now is the riscv stuff I think), cavium has
+> had nothing added in donkey's years etc. mstar I don't see anything
+> new in years either.
 
-... of course, since this is the first ever posting with the IOCTLs being
-the main and only ABI, it was never meant to be straight away ready for merge,
-as I mentioned in the cover-letter there are a few TBD still pending and a
-lot of cleanups as reported by the LLM reviews too... Sashiko is one great
-example of existing LLM reviewing Kernel patches...
+Fair enough -- point taken. v3 uses a "rambus" vendor prefix (added to
+vendor-prefixes.yaml) and drops "cri". The description still credits
+Cryptography Research, Inc. as the IP originator.
 
-...some of these points are pretty much valid (also Sashiko has a few more
-complaints) and I will take care of those....but some other are compeletely
-OR slightly off, I will go through those in the following...
+> > > This whole subnode thing seems like it is only required because you
+> > > don't have device-specific compatibles [cores].
+> >
+> > Core presence is actually discoverable at runtime from the
+> > CORE_ENABLE register, so v3 will drop the per-core child nodes
+> > entirely and probe for enabled cores -- no per-variant compatible
+> > needed.
+>
+> No, per-variant compatibles (for the devices/socs that this IP is
+> integrated into) are a requirement. While it would have been handy for
+> detecting capabilities, it's a requirement for other reasons:
+> differences between integrations be that functional or enforcing the
+> correct constraints on properties, issues only present on select
+> devices, etc.
 
-> 
->    Must-Fix Issues
->      * scmi_tlm_to_uapi_base_info() uses out->flags |= ... on an
->        uninitialized local struct scmi_tlm_base_info base; this can leak
->        garbage flags. Use out->flags = ... or zero-initialize base.
->      * scmi_tlm_update_interval.exp is documented and used as signed, but
->        the UAPI declares it as __u32. It should be __s32, otherwise
->        examples like exp = -3 are ABI-broken.
->      * Group bounds checks use grp_id > num_groups; they should use grp_id
->        >= num_groups to avoid out-of-bounds access.
->      * Avoid casting UAPI integer fields to bool *, especially __u32
->        enable/t_enable in scmi_tlm_de_config. Use local bool enable =
->        !!tcfg.enable; variables and copy normalized values back explicitly
->        if needed.
->      * Array sizes from userspace need overflow and allocation hardening:
->        use array_size(), kvmalloc_array(), and clear max limits for
->        num_des, num_samples, num_grps, etc.
+Agreed, and done. Runtime CORE_ENABLE probing stays only for capability
+detection; it does not replace the compatible. v3 adds a device-specific
+compatible keyed to the IP revision:
 
-I really dont understand this, since the user allocates the buffers, that he
-then provides via a __u64 ptr, and such allocation happens based on the maximum
-number of items the platform has declared to exist (like num_des) so if the user
-itself had lied or mistakenly provided a smaller buffer then declared, that is a
-user problem that will trapped and result in a SIGSEGV (or a userspace malloc
-corruption)...here a specific reference to the actual code causing the supposed
-issue would have helped...
+    compatible =3D "rambus,cmh-v1030";
 
->      * SCMI_TLM_GET_SHMTI_LIST loops over the user-provided count after
->        only checking it is not too small; if it is too large it can read
->        beyond in->shmtis[]. Loop over the actual firmware count.
+with an SoC integration expected to list its own compatible first and
+fall back to the IP one:
 
-Yes I definitely loop mistakenly on the wrong variable, BUT the missing
-check on the too-large condition is an explicit design decision so that
-userspace can optionally use the same common big buffer as a scratch
-buffer to collect multiple kind of enumeration data...but of course the
-loop must happen on the what is available in system NOT on what the user
-has passed in...
+    compatible =3D "<vendor>,<soc>-cmh", "rambus,cmh-v1030";
 
->      * The mmap path needs tighter validation: reject oversized mappings,
->        handle mmap offsets deliberately, set appropriate VMA flags, and
->        document the lifetime/security model for exposed SHMTI memory.
+This follows the pattern already used for licensable security IP, e.g.
+inside-secure,safexcel-eip197b and arm,cryptocell-712-ree.
 
-Beside a bit of hardening, I think here the only missing part is documenting
-that you get direct RO access to an SCMI Telemetry area and that you are on
-your own in how to parse that...format and lifetime is as specified in SCMIv4.0
+> On that note, I see there's no clocks or resets properties added by
+> your patch. While the IP may not have a reset (although I suspect it
+> probably does) there's no way it functions without a clock.
 
-Cannot do any deliberate offset handling really...any neeed offset is
-dynamically discovered and communicated at runtime via SCMI_TLM_GET_SHMTI_LIST
-(offset is rarely different than 0, ONLY if FW has NOT exposed such areas as
-page aligned)
+Correct on both. v3 adds them:
 
-..probably worth security wise to check that FW shared areas are
-properly page aligned (to the max 64k) and that nothing crititical lays
-around when not aligned...so that I dont accidentally expose some other
-bits of FW...but I cannot really check so much here from kernel Point of
-view...mmm...maybe that the surrounding bytes are zeroed by FW ?
+- clocks: the hub has a main functional input clock (plus, on
+  side-channel-core configurations, a half-rate variant, and a
+  real-time-tick clock). The block gates its clocks internally, so the
+  host doesn't gate them -- the property just describes the input
+  pin(s). Where a secure power controller owns the clock and Linux has
+  no handle, it's absent, as drivers/crypto/xilinx/zynqmp-* do.
 
-> 
->    Design Feedback
->      * No ABI version/capability ioctl. GET_INFO gives protocol/platform
->        info, but userspace also needs driver ABI version and supported
->        ioctl feature bits.
->      * Enumeration is awkward. List ioctls should support a clear two-call
->        pattern: call with count 0 to get required count, allocate, call
->        again. Returning EINVAL for “buffer too small” is not very
->        ergonomic.
+- reset: the hub has two external, active-low reset inputs -- a power-on
+  reset and a hard reset. On an integration these are top-level wires
+  driven by a reset controller in the management domain, not by Linux.
+  Where the Linux host is the management host and one of those lines is
+  exposed to it as a GPIO, v3 describes it via reset-gpios; otherwise
+  it's absent and Linux doesn't reset the block.
 
-Well the only reason I have NOT implemented this idiom is that all of
-this enumeration data is basically static RO (at least within the same
-boot), so you can know very well in advance how many elements you have
-by calling upfront just one single time SCMI_TLM_GET_INFO, instead of
-having to issue twice each IOCTL to know how big the input buffer should
-be...but I can implement also this idiomatic form in v6 of course as an
-alternative mechanism if we want to support the standard/classic idiom...
-...it will be certainly less performant by duplicating all IOCTLs calls x 2...
+> > > This looks like it should be deducible from a device-specific
+> > > compatible. [slots/strides]
+> >
+> > These aren't fixed per silicon -- they're the per-mailbox layout of
+> > the VCQ rings in host DMA memory, chosen at platform integration and
+> > programmed by the driver into the mailbox QUEUE/SLOTS/STRIDE
+> > registers. They can differ per mailbox on the same silicon, so a
+> > compatible can't encode them. v3 will keep them as optional,
+> > defaulted properties on the per-mailbox subnodes.
+>
+> I'm not sure. Unless there's more than one instance, this definitely
+> sounds like something that you can determine from the compatible.
+> Generally these kinds of accelerators tend not to have multiple
+> instances though, so each platform will have a different compatible,
+> and the driver can store an array of mailbox configurations.
 
-I will probably rework SCMI_TLM_GET_INFO, to be the new SCMI_TLM_GET_ABI_INFO
-including version/capability/resource info IOCTLs...so that you can get the ABI
-version, lookup feature bits and get the numebr of resources (like it is
-now..to size the requests...)
+This is the one I'd like to keep in DT. The slot count and stride are
+the host-DMA ring geometry the driver programs into QUEUE_SLOTS /
+QUEUE_STRIDE at probe. They're fixed neither by the silicon nor by the
+integration: the same SoC (same compatible) ships to multiple customers
+who provision different amounts of host memory for the rings, and a
+customer may tune it further per board -- so two boards can share a
+compatible yet need different geometry. They're optional with defaults
+(6 / 9), so the common case sets nothing.
 
->      * No generation counter yet. Userspace needs to detect
->        config/resource changes between discovery and read. This should
->        probably land with the first ABI.
+The reason I reached for DT is that the alternatives are each worse for
+a per-board value that has to be known at probe: per-compatible
+match_data means a new compatible and a driver patch for every board
+that tunes it (two boards on the same SoC can't differ), and a module
+parameter is exactly the sort of global knob I'd expect you'd rather not
+add. DT lets the integrator set it without touching the driver. If you'd
+still prefer one of those, tell me which and I'll switch.
 
-Yes that is NOT in this version, but it is definitely planned for this
-series: there will be a way to read and more importantly some poll
-support based on eventfd.
+> > > this could probably be handled via reg-names? [affinity]
+> >
+> > Yes -- v3 will express affinity per mailbox (a "role" of a specific
+> > core type for a dedicated mailbox, or "generic" for the round-robin
+> > pool), which is the subnode analog of your reg-names idea. One
+> > caveat: this cleanly covers 1:1 core-to-mailbox dedication plus a
+> > shared pool; a mailbox dedicated to several specific cores would need
+> > multiple role tokens.
 
->      * Global config is dangerous. SET_CFG, SET_DE_CFG, and
->        SET_ALL_CFG mutate shared firmware state. Multiple users can race
->        or disrupt each other. Consider documenting ownership semantics,
->        adding locking/session model, or exposing read-only access
->        separately.
+Following up on my own reply: I kept an explicit core-ID affinity list
+on each mailbox node rather than roles/reg-names. As the caveat above
+hinted, roles get awkward once a mailbox serves several cores, and they
+can't distinguish separate instances of the same core type -- the core
+ID handles both, and the driver would map a role back to an ID anyway.
 
-Yes, this is the same as in the FS approach, multiple reader and writers
-can coexist BUT the Kernel does NOT mediate concurrent configuration
-attempts, last writer wins: kernel only guarantes serialization when
-multiple configs are written...but anyway last wins.
-
->      * SET_ALL_CFG is not atomic. If configuring all DEs fails midway,
->        userspace gets partial state. Either make that explicit, add
->        rollback/best-effort reporting, or prefer batched config with
->        per-item status.
-
-Mmm...if SET_ALL_CFG fails midway, an error is reported and the
-subsequent GET_ALL_CFG will return the current state of 'ALL':
-i.e. True if all enabled, False if any is disabled...
-
-You can anyway lookup each single DE state subsequently.
-
-I could implement an all or nothing with rollback but I am not sure the
-complication in code is worth: on the other side I was thinking too about
-the optional batched config as mentioned as a way to speed up multiple
-configs mostly...
-
->      * No event/poll model. For telemetry, userspace may want
->        poll()/blocking reads/notification-driven collection rather than
->        repeated synchronous ioctls.
-
-Yes that is the future plan and most of the internal support is already in
-place, I have not planned any dedicated IOCTL till now (similarly there was
-no dedicated special file in the old FS approach) since, for such streaming
-poll model to be feasible, SCMI Telemetry notifications are needed, but they
-are optional by the spec and currently NOT planned FW side AFAIK... so I
-lowered this in priority and delayed to a future extensions given the
-increasingly tight timeline that we have. (even though I can devel and
-plan against my emulation setup..)
-
-I would like anyway to add a generic event IOCTL that allows the user to
-register a custom eventfd for a specific event to be monitored....first
-event being the generation counter change AND second the update
-notification for event/poll telemetry ocnsumption....
-
->      * Timestamp usability is underspecified. Userspace needs clear
->        timestamp domain, rate conversion, wrap behavior, and correlation
->        to Linux clocks.
-
-All of the timestamps are originated by the platform and specified by
-the SCMI spec: Kernel does NOT mediate/correct/trim anything here.
-
-It will have to be documented better of course, but all you get is a 64
-bit tinestamp and the clock rate in KhZ that has been used to generate
-this specific timestamp for this DE..
-
->      * Raw SHMTI mmap is powerful but has risks. It needs very clear
->        lifetime, permissions, cacheability, offset/length, stale-data, and
->        security documentation.
-
->      * Batch APIs lack per-sample status. In BATCH_READ, one bad DE
->        currently appears to fail the whole request. For tools, per-entry
->        status is much better.
-
-Can add status.
-
->      * Text read() plus binary ioctls feels split-brain. Either document
->        read() as debug/convenience only, or remove it from the stable
->        interface and keep the ABI purely binary; no need for two different
->        user interfaces with different semantics.
-
-This was to try to supply some form of tool-independent human readable access
-...indeed I was also tempted to re-introduce a limited form of proper SysFs for
-global configs like update interval or global tlm_enable...(but not sure
-about this really...)
-
->      * Rename the generic #define SCMI 0xF1 to something scoped like
->        SCMI_TLM_IOCTL_MAGIC; exporting a broad SCMImacro in UAPI is
->        collision-prone.
->      * Add .compat_ioctl = compat_ptr_ioctl or equivalent, and document
->        that all structs are 32/64-bit compatible. The __u64user pointers
->        help, but compat behavior should be explicit.
->      * Clarify concurrency semantics: what happens when two processes
->        enable/disable DEs, change intervals, or read while config changes?
->        A generation counter/reset ioctl, already listed as TODO, should
->        probably be part of the first ABI version.
-
-No kernel mediation on this, ONLY a generation counter to spot unexpected
-changes.
-
->      * Define permissions. Configuration ioctls mutate global firmware
->        telemetry state, so access control/default device mode/udev
->        expectations should be documented.
-> 
-
-As of now, no policying, whoever is privileged enough to write to the
-device can configure the system, last writer wins.
-Being now all of this based on a bunch of single devices (one per instance),
-it could be more feasible to enable some sort of optional exclusive open mode
-for the first privileged user to get hold of the device...I'll reason about it.
-
->    Suggested additions before ABI freeze
->      * SCMI_TLM_GET_ABI_INFO
->      * SCMI_TLM_GET_GENERATION
->      * SCMI_TLM_RESET
->      * batched GET/SET_DE_CFG with per-entry status
->      * pollable notification/event support, if telemetry notifications are
->        meaningful to userspace
->      * optional read-only open mode or permission model for non-mutating
->        tools
-> 
->    Usability / Docs
->      * The docs need more precise examples for two-call enumeration, error
->        handling, batch reads, and mmap cleanup/close semantics.
-
-Yes that was minimal on purpose, given this was the first shot and a lot
-can still change...
-
->      * Fix typos before reposting: “Systemn”, “dwscriptors”, “istance”,
->        “udpated”, “andc”, “A IOCTL”.
->      * The sample tool should either be promoted into a real
->        selftest-style utility or clearly kept out of the upstreamable set
->        until it has robust argument parsing and error reporting.
-> 
-
-Well...the tool as of now if a draft thing for testing...it is indeed
-marked as RFC (and declared in a crappy state)...so it is clear NOT for
-upstream as it is: as I mentioned in the commit itself it is meant to be
-improved and used for testing in the future...not for upstream in this
-state of course...
-
-...BUT even in this state can be used to simply exercise most of the
-IOCTL quickly...so that was the reason I included it as  RFC.
-
-Thanks,
-Cristian
+Thanks for the review,
+Alex
