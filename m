@@ -1,176 +1,169 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF9225776
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 21:29:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551BDAD24;
+	Mon, 13 Jul 2026 21:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783978142; cv=none; b=ljNw+rwbNgcwUoSnha5ZGYJJD2rPxDMW8ihLfi+iIyEibwKpW4R09zAdmNSQAEz1jdDKU5yy3VLfUPF9Zdg/9UicDNMNeUTBmdZsMUCSjMdXsKeCylz+H+dwx307KxOWl5mZUYJOBZ2TQDINu3Gjn5JNZhpVqy8c6I6tz/0eVgk=
+	t=1783978359; cv=none; b=dC29zrjBWkFcd/0lnrRW5RNN5Nfj+gGhxQnWy7Xw5qB2DydPzyYU/pGJTWtv011HWGYiiCIOgnPhyrWolY4WxB+YzC6swi9aVZgY3/gm3LJlfjCOePcuYjB/WEgYu6S0VGxcUS1ak+t1pGFTGWi6Id4l9JMH8f2blxvAQ+xoTmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783978142; c=relaxed/simple;
-	bh=2ZrCZFXS5/VhTEv6Kj24OanhcNM15iH9nGjK/9R+4zY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=R8xsNDPgB3zMgjqDWg8D6EXlDja6HyBVPgV3UiY2rltUxSyFwEfUd71vIZIwn/K+Jg9CnrJmBJhZYV/LDKbhVcLWIYvVzMNuCnBQmFQ/gAEZnfDPzGSMyNOseBDZ1vxYDOSeZIBd24DIah8lJbiZwvDnbl9kLs5Dy48k4JPJZ2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hMd2YHlW; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783978359; c=relaxed/simple;
+	bh=Z0sMSCAgLgyNWSE7K/gg8WQciaf2vPqoggdSKX7+Z/4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=mUk6FbS6JQ/NMRwtIxkGU/fWlE7Svaujl/Mzm74hbAjS7xWVQO0cK0RucupuAJtTy6U0g/ycMu+A2ERr5N39Nelh/UW+cBsElqEgjY+rIgZA4hUEcx19uxjgmHsCSmwbhhCJwSP7hK6bJlQEPM4xs3BxV0BTirBKggnWMWeRqk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=FMjG4TN5 reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hMd2YHlW"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-493c5220cb7so2322285e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 14:29:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783978139; x=1784582939; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZQQoNjvYMy7swaXdt0/pPw+8PJHakFz/v63Sfote3Ss=;
-        b=hMd2YHlWWekTt6ZIgXH8Z070oDo8dTWxKvVcXEfpz7vXaRMbZheByABG3u8qlgVAcp
-         eENNLrDZey0Yi9v7qFCtdzsM/a39HTaJNGV/oqFLPdEbr6zMrSsfKRUUTRrjr/p7E7ev
-         LARsSEte3K89l+y9ypvqm5clcCxwFKJnxVlDfZZOjAVXkQ0/aZ50V+pkIi2HIG6MuL2S
-         LzIxNvf/k7WeSMYnbXPfwsVauqlFswQPwSsAoWWBSMuaw3UBLRyu24bxZtouiKukA9cR
-         fT8wlOPle1R6mADwnX/Z0NltXZDcWBpuqYRE4U00jQb+YCZl0YMpv9v7PfdNh26epBK3
-         eWtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783978139; x=1784582939;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ZQQoNjvYMy7swaXdt0/pPw+8PJHakFz/v63Sfote3Ss=;
-        b=V5HI9yZ9lNPvPxWrQryJNEIlpIpPChtHeKzgEy0gQI4IsFTRnAFZzb3w1YNqQ3LFeF
-         ARhYXGBnnT7YackqZXEgnY4+KME5xvTvhUHaZBOH1G6/jgaTlpMKL8hnAJZGKq7nSWRd
-         1sVVruQMl0qdxdoz71hkfsoqDUNzj3s7FLD/E5EXFT3+hILu11ofAxB36Y7KVDnLfQEN
-         ILHTYdIkdE05mRTx4FGj9/JigErYaCBCzCPuZLap1NT5zFV7Ss8GSXsWFLCxIA0i1WTP
-         1+guaNel06xKZMQKux2x7Nqa3uQsUs/bFmfSHV2KosDKnZcj2I0LyetoP6NYJEIH1Xsj
-         XMwA==
-X-Forwarded-Encrypted: i=1; AHgh+RoH/nBEkyyk7jROhAbvGYdgLvz8wlufCwVf9K5xeg+NZuPQngToWyz417xfD5jEXsFphu/r8aHNd3U=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzwv3qdfVCbBIgXLKoOET50uGhX6M2y/ZijkjP+1uejI5aZF45D
-	mOrp2o6YDc1aasVAJnu05TSXGVAoUHNyr+Jm74R6o4NHcrfiSwpyLDK4
-X-Gm-Gg: AfdE7cle9mo4sQ3ndLJjvol1eY6NrGZcT7F6Ew34r2YeIg1OVC46EuW/xASP6O2I9SW
-	jqfDBQ7L8yx7MYN904m4IVHZs+oNJovVXYiDIoPG/ef5QN325wD0DE5MqIJupBrUMQPuYDb0U2N
-	lkSMsnN8eGkNEC/y6M7M6RmOrLStH3SkJ51gbd8LjRNksWK5mSIbvsrDOjGvKnxD8bCsVp9gVyX
-	atq0B8sTNciMEFyEgtlmUACVWkb+sTsX8weJ6AJjVz14ATU5f4xbhXWJ1zr1tDPmFwFCF+TQlOI
-	pU6T9XSdFMC4hk9o2Ex9kCRvwaDWgpkwwRlf/qs/Wo5P8U5GJ+gS/6uxHELjWZvPzNwgwfuPpQs
-	DM4rp3Te17t/9SehNjH2/S8CvCkyUqVXStkeWYDpXFxMK37RjQcEORA05wVqmHlGGCMjdbLbnwg
-	dcFPLrqe/tiOwOt0t9qAOX+1m/etEC7VXR
-X-Received: by 2002:a05:600c:6989:b0:493:bfbf:1da4 with SMTP id 5b1f17b1804b1-493f881de65mr104977295e9.22.1783978138921;
-        Mon, 13 Jul 2026 14:28:58 -0700 (PDT)
-Received: from WindFlash.powerhub ([2a0a:ef40:f61:3b01:d08a:833b:756:8fce])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f4635ac2esm2503549f8f.13.2026.07.13.14.28.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 14:28:58 -0700 (PDT)
-From: Leonardo Bras <leobras.c@gmail.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Leonardo Bras <leobras.c@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Waiman Long <longman@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Brendan Jackman <jackmanb@google.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Harry Yoo <harry@kernel.org>,
-	Hao Li <hao.li@linux.dev>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Baoquan He <bhe@redhat.com>,
-	Barry Song <baohua@kernel.org>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>,
-	Wei Xu <weixugc@google.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Feng Tang <feng.tang@linux.alibaba.com>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>,
-	Kees Cook <kees@kernel.org>,
-	Marco Elver <elver@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Li RongQing <lirongqing@baidu.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Gary Guo <gary@garyguo.net>,
-	Christian Brauner <brauner@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Coiby Xu <coxu@redhat.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-rt-devel@lists.linux.dev,
-	Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH v4 3/4] swap: apply new pw_queue_on() interface
-Date: Mon, 13 Jul 2026 18:28:52 -0300
-Message-ID: <alVYlIPpCEUNBjeA@WindFlash>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260713073158.CHjwei-N@linutronix.de>
-References: <20260519012754.240804-1-leobras.c@gmail.com> <20260519012754.240804-4-leobras.c@gmail.com> <20260520150736.HZnlFkv7@linutronix.de> <alQKlBaKIOAxMzc2@WindFlash> <20260713073158.CHjwei-N@linutronix.de>
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="FMjG4TN5"
+Received: from [192.168.10.145] (p865013-ipoe.ipoe.ocn.ne.jp [153.242.222.12])
+	(authenticated bits=0)
+	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 66DLVGmU018090
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 14 Jul 2026 06:31:16 +0900 (JST)
+	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
+DKIM-Signature: a=rsa-sha256; bh=7vu1Cqv1kY9MENEn9rk5xVTv4OyzC50IlKtSKEl+6V4=;
+        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
+        h=From:Message-ID:To:Subject:Date;
+        s=rs20250326; t=1783978277; v=1;
+        b=FMjG4TN5ZC4Lzu6aXdhRf2FxBZecWOyitGLFQbs5P8rBoBKp/nTv9LnXYVx8oAxD
+         HioMIzBQr+XCM+O6fR/Pvg6nKp/eg6Ob+S2qp3XmTrIy8hywhIiaoHUcPKYfv4L1
+         tnJOgYvDpM6/vO3n6m3GEtGPLislK5pioqa1KHKC6Q0HGtPyPrQQPbRtYqbyqL/X
+         Rk/vz4oWXClhNVmeJpbg4C1yARqOa+eOIntlSDqXm/NIVdc9unvml6NsgkKFMRVm
+         gCD0Q0c/NpMtRSfDmGd1egtNS9hNUbih+ffwx9egfb+j+Dm1fBhkUBrr5KtBQr9w
+         PiCYTiHTQ1815xOjwOQfSQ==
+Message-ID: <3389f9d7-15cb-4bf8-804b-7dcaee2d252e@rsg.ci.i.u-tokyo.ac.jp>
+Date: Tue, 14 Jul 2026 06:31:16 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Subject: Re: [PATCH v8 01/11] KVM: arm64: Serialize userspace MDCR_EL2 access
+To: Oliver Upton <oupton@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu
+ <yuzenghui@huawei.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+References: <20260710-hybrid-v8-0-621409f3a592@rsg.ci.i.u-tokyo.ac.jp>
+ <20260710-hybrid-v8-1-621409f3a592@rsg.ci.i.u-tokyo.ac.jp>
+ <alSU0ZoIQ3sMLo0p@kernel.org>
+Content-Language: en-US
+In-Reply-To: <alSU0ZoIQ3sMLo0p@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 13, 2026 at 09:31:58AM +0200, Sebastian Andrzej Siewior wrote:
-> On 2026-07-12 18:43:48 [-0300], Leonardo Bras wrote:
-> > > I thought that this improved since commit
-> > >   ff042f4a9b050 ("mm: lru_cache_disable: replace work queue synchronization with synchronize_rcu")
-> > > 
-> > > Did it get worse or was it not entirely gone?
-> > > 
-> > 
-> > I worked in this patchset majorly after that commit date, and it was still 
-> > an issue up to last time Marcelo tested. Not sure of the impact of above 
-> > commit, but I suppose it may have brought some improvements without fully 
-> > fixing it.
+On 2026/07/13 16:33, Oliver Upton wrote:
+> Hi,
 > 
-> It would be good to know what is still missing and maybe it can be
-> addressed without introducing this remote locking.
+> On Fri, Jul 10, 2026 at 08:14:55PM +0900, Akihiko Odaki wrote:
+>> kvm_arm_set_nr_counters() updates MDCR_EL2.HPMN for every vCPU while
+>> holding kvm->arch.config_lock. However, KVM_SET_ONE_REG currently writes
+>> MDCR_EL2 through the generic sysreg path without taking the same lock.
+>> Concurrent PMU configuration and register restore can therefore race and
+>> lose updates to unrelated MDCR_EL2 bits.
 > 
+> Ugh, we should just stop updating MDCR_EL2.HPMN altogether. Since this
+> overwrites the previous value (rather than clamping it) we could discard
+> a legal value set by userspace.
+> 
+>  From the UAPI POV all we need to do is ensure the reset value is sane.
+> The documentation says that system registers are reset to their warm
+> reset values when KVM_ARM_VCPU_INIT is called. Which in this would mean
+> HPMN is reset to the number of implemented counters at the time of the
+> ioctl.
+> 
+> If userspace changes the number of counters afterwards, that's their
+> problem.
 
-I get the point, but the main idea is to make this as proof of concept of 
-the mechanism, that can use to solve the latency introduced by IPIs from 
-per-cpu workqueues.
+One wrinkle is that KVM_ARM_VCPU_PMU_V3_SET_PMU and 
+KVM_ARM_VCPU_PMU_V3_SET_NR_COUNTERS can only be used after 
+KVM_ARM_VCPU_INIT. Thus, either change necessarily occurs after the
+initial MDCR_EL2.HPMN reset value has been established. Userspace can 
+issue KVM_ARM_VCPU_INIT again to reset HPMN from the new counter count.
 
-I remember discussing all those examples with Marcelo in the past, and IIRC 
-to solve this we would either have to use per-cpu spinlocks, which is 
-undesired in terms of performance on !RT, or skip remote operations in 
-isolated cpus, which may have weird behaviors, or disable caches in 
-isolated cpus which is terrible for performance there.
+This is awkward, but reflects the ordering imposed by the current UAPI. 
+On real hardware, the counter count is fixed before the CPU is reset, 
+whereas the UAPI configures it after the initial vCPU reset. 
+Reinitializing the vCPU is at least consistent with the documented warm
+reset semantics.
 
-In any case, the main goal is to get something generic enough to deal with 
-most cases, not an individual solution.
+I'll update the next version to stop rewriting MDCR_EL2.HPMN after vCPU 
+initialization. This also removes the need to serialize userspace 
+MDCR_EL2 access or reject HPMN values.
 
-Thanks!
-Leo
+Regards,
+Akihiko Odaki
+
+> 
+>> Add explicit userspace accessors for MDCR_EL2. Serialize them with
+>> config_lock so whole-register userspace writes cannot race with HPMN
+>> rewrites, reject HPMN values above the configured PMU counter count, and
+>> request a PMU reload when HPME changes to match guest trap behavior.
+>>
+>> Fixes: c8823e51b534 ("KVM: arm64: Fix MDCR_EL2.HPMN reset value")
+>> Closes: https://sashiko.dev/#/patchset/20260706-hybrid-v8-0-de459617b59d%40rsg.ci.i.u-tokyo.ac.jp?part=6
+>> Assisted-by: Codex:gpt-5.5
+>> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+>> ---
+>>   arch/arm64/kvm/sys_regs.c | 39 ++++++++++++++++++++++++++++++++++++++-
+>>   1 file changed, 38 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+>> index d217530359ba..2b2ea33159e9 100644
+>> --- a/arch/arm64/kvm/sys_regs.c
+>> +++ b/arch/arm64/kvm/sys_regs.c
+>> @@ -2949,6 +2949,42 @@ static bool access_mdcr(struct kvm_vcpu *vcpu,
+>>   	return true;
+>>   }
+>>   
+>> +static int get_mdcr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
+>> +		    u64 *val)
+>> +{
+>> +	struct kvm *kvm = vcpu->kvm;
+>> +
+>> +	guard(mutex)(&kvm->arch.config_lock);
+> 
+> Hrm... I would strongly prefer that we *not* take the config_lock for
+> this register since there's no way for userspace to avoid lock
+> contention. ID registers are special and documented as VM-scoped, so an
+> aware VMM could potentially set these once (avoiding the lock).
+> 
+>> +	*val = __vcpu_sys_reg(vcpu, MDCR_EL2);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int set_mdcr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
+>> +		    u64 val)
+>> +{
+>> +	struct kvm *kvm = vcpu->kvm;
+>> +	u64 old, hpmn = FIELD_GET(MDCR_EL2_HPMN, val);
+>> +
+>> +	guard(mutex)(&kvm->arch.config_lock);
+>> +
+>> +	if (hpmn > vcpu->kvm->arch.nr_pmu_counters)
+>> +		return -EINVAL;
+> 
+> KVM allows userspace to write whatever it wants right now, we can't
+> start rejecting values that were previously valid. The architecture also
+> allows anything to be written to the field, just that unimplemented
+> values have UNKNOWN behavior.
+> 
+> Thanks,
+> Oliver
+
