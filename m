@@ -1,238 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AB7426EC1;
-	Mon, 13 Jul 2026 13:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783949402; cv=fail; b=TYhm0lqPDpi7dN4bCEWRFnp+yhrBQd1eCjQNvmN6iuSrukp7slkIJTyg9WrfN5HEl8Lzxa1xYgqft5s84sH92OR42Q3dl0DUCAF5rx+NGxztWCdxghYVTdy1jg6NoLWD4jdV6SvZoRGeCTbipvVT5cwLPFWpieO8GBcPincLKTI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783949402; c=relaxed/simple;
-	bh=b6Z9arZ6mjSs7WuunuLgBYTbvEmnnmdKzOgv3U4ItKo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=T3GrcbDFTkvo/zFS6skJZ1QiQNteGqBiXYWdFTxEVfSgld80gcrzD28I8Wn+40uPHZ14JAc8ZF8QLfVbDvFe6qfkYD2Y6dgetOEjYclx48Y3wlZyaqbWQFviHPdyvzEWN4iWU5lFsj5Y+hHYhE0dFm0KdKKcoyTBOpQJptwl9JU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kyqtnouj; arc=fail smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0725240F8C3;
+	Mon, 13 Jul 2026 13:30:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783949457; cv=none; b=VmiKKdBcdsx80BaFlhNeXsZwPCpTqPQwcypHz5iH57l4+q8AJ/0CTCAqzF7DfYEs5mXyh4dyd4IwVBlJFQp+biIc7Nql32NFuoqPwHn2T4f49wZXf2K5X1SDUMc7iKuaRyAfizEe942S36+ijzBONmeH387aYcxAVpzUQ6Mg2y8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783949457; c=relaxed/simple;
+	bh=ErzqW2O0g/i8zFRKK9AZyKTYfMW8W9zx1lacXJE/7U0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ku+huRiPaPVQHVakwtTgQymHAqCDHlgYp9sdsK+qOTe1alOxunTHkZ+AjrXbUCAmgaOIJoo7iAv3Aqz/9MIC1AOJLlkhazTabav/VQS8E4qEY8czlYGMbgClm/egC+WyYUJBd1uh1nG7jarfgVycf+3240k+SZHMDCEpkVx1AZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikTp/ZDJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kyqtnouj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783949400; x=1815485400;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=b6Z9arZ6mjSs7WuunuLgBYTbvEmnnmdKzOgv3U4ItKo=;
-  b=kyqtnouj7pXMYekbl/UoRX4RY8Jjz6q9ncKXGmAgj33Y+9a+QmqYUX6m
-   zmgmSyRBnR1juGN1xdyMyK0ROsFIO+f3V7DfPrI3IVJMOf9w4rHdWrLZM
-   DMXJR9/7QxHX3rlbXC6d9tY/6zF8UblzngRvvzCSQF67ZbFHVvVglHrxb
-   a1It/lGjjjf56bcT4Lwekr/1opXTHpOWIfcRSTXFdnBNYnQsFxZV8LFE3
-   y9RLTTVtn7VU8tMMnN9Hhc4l5sNHwLt2VdHWgoZ5h11jSmrsxj4ieRh1I
-   ds0GL8pMkJFOT1wnGadDKxh5rnzn3Th70V2B5pdLPgLjOPxyMSkfZCjxK
-   A==;
-X-CSE-ConnectionGUID: LvHH2ieZRPOtm6C8tjev3Q==
-X-CSE-MsgGUID: hnWLoYAZSoiQYRgeKhaRqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="95201003"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="95201003"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 06:30:00 -0700
-X-CSE-ConnectionGUID: XtFvy6HmTmm5Ph3MLBdCjw==
-X-CSE-MsgGUID: kwvIWE0tQvGVgRXyGiSp0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="251611803"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 06:29:59 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 13 Jul 2026 06:29:58 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Mon, 13 Jul 2026 06:29:58 -0700
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.64) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 13 Jul 2026 06:29:57 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GU7LliOtXyZ7OAZqo6jSgzVrNxtWv/OWaBffdb2iFIfGtcuYcqARI3g+AUvQoRIZuwMsHllmCV5OfVsKJnl1n/gRh7yxu+AtHgq7DrQzseyJrbHbuKwgEJ7FI76TCESPAov+bseDM6Uj7JkDTwS+mFNFKcplkIM0qF02mdaOfyoX+3mIC6GXReMTyM5mV9CCJE888omA9gUJu8Otwh/kNXG5uGIEWNc3IbaIyHxZLxuonPEeTsP+OJwlkoHSChy8CVcwZf8iIE6eYPghAoisa4nBzmRNW15gEndZpzcIpjiWfZP5gx1Rq/dJ7Tg4Qltz/sJVsi6NRObhf1l5iyAf8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LkWZ+kT0XIj0QLqnnXLX2NHQH4JUcPYzJs5lJWbYz9M=;
- b=R0raxgiTmb7/QTTdaQL5L8cdz1MI6cJg2cCQ7rR4C+QmMdga0xMoaN38aZMrxRzbE5xlo/R76BWxMCYPwoP/o4Huyp6qCELVxDE0tWKmXJ0zfE4+OuQHW/d7DLzqVwmgHboR5J2FuhICwB/tQO0Zo+84++ry+oHX7Tk9tDlRLfGBqTDe+/meJQfDAB5204lMGAGWSjsR2PLQvnlb6Rt4Qjy6Ua/tRStgIZrj+e+OZoCXtQssr9IQ0hxalgeBCt5DKPQy5EPjBVmtslFXvyostGfHYzfAxKqVC+s0SVLzE7U71t4nQJwsmZbYFDqPUrTn29vAuBtfyg9ZMq60n49V8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN2PR11MB3949.namprd11.prod.outlook.com (2603:10b6:208:138::31)
- by DSWPR11MB9954.namprd11.prod.outlook.com (2603:10b6:8:39d::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Mon, 13 Jul
- 2026 13:29:50 +0000
-Received: from MN2PR11MB3949.namprd11.prod.outlook.com
- ([fe80::dfbf:4563:6676:e23d]) by MN2PR11MB3949.namprd11.prod.outlook.com
- ([fe80::dfbf:4563:6676:e23d%7]) with mapi id 15.21.0181.019; Mon, 13 Jul 2026
- 13:29:50 +0000
-Date: Mon, 13 Jul 2026 15:29:39 +0200
-From: Larysa Zaremba <larysa.zaremba@intel.com>
-To: Tony Nguyen <anthony.l.nguyen@intel.com>
-CC: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<edumazet@google.com>, <andrew+netdev@lunn.ch>, <netdev@vger.kernel.org>,
-	<przemyslaw.kitszel@intel.com>, <aleksander.lobakin@intel.com>,
-	<sridhar.samudrala@intel.com>, <anjali.singhai@intel.com>,
-	<michal.swiatkowski@linux.intel.com>, <maciej.fijalkowski@intel.com>,
-	<emil.s.tantilov@intel.com>, <madhu.chittim@intel.com>,
-	<joshua.a.hay@intel.com>, <jacob.e.keller@intel.com>,
-	<jayaprakash.shanmugam@intel.com>, <jiri@resnulli.us>, <horms@kernel.org>,
-	<corbet@lwn.net>, <richardcochran@gmail.com>, <linux-doc@vger.kernel.org>,
-	Bharath R <Bharath.r@intel.com>
-Subject: Re: [PATCH net-next v4 15/15] ixd: add devlink support
-Message-ID: <alToQ05TGlcM9c2M@soc-5CG4396X81.clients.intel.com>
-References: <20260710215313.1475803-1-anthony.l.nguyen@intel.com>
- <20260710215313.1475803-16-anthony.l.nguyen@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260710215313.1475803-16-anthony.l.nguyen@intel.com>
-X-ClientProxiedBy: WA3PEPF00000522.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d8::66c) To MN2PR11MB3949.namprd11.prod.outlook.com
- (2603:10b6:208:138::31)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikTp/ZDJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 812431F00A3F;
+	Mon, 13 Jul 2026 13:30:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783949455;
+	bh=2PE3gaGsNLQ/wJ/jx4xmXlbU0Ll5weYz4ZF4wxRh4WY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ikTp/ZDJbKzZqXWQdgJFs4mxUmOx5W44no98j831xxLyCdzKqQoLZo0aubu7A6s4I
+	 pHh+efGT9meohmhUvaKUh/9NhBL49M6U1IfTZLuCDURT9zO31YfLr2SBN3ScUD26+W
+	 VkCFEJFSu9obPyRdJSJ72kzy/VLeOvMf10vfXZpbaCI3wSnfxgcpW76ZRvh3kS/ZHD
+	 Yv06UQBSZoTyN/qEb0fEQmSroyWlJiM4/+bIXwhSR1jQarFKw3ksg2oLI+HqyPRfF2
+	 CvzHlCEH2mrN/QQRWwvlsrczJMPg7BKTRAWndik19UrgS416WGQAAxpSqCM1/v4tJg
+	 yEau/1bCMbsqg==
+Date: Mon, 13 Jul 2026 14:30:47 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Fuad Tabba <fuad.tabba@linux.dev>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Ben Horgan <ben.horgan@arm.com>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v12 22/29] KVM: arm64: Context switch SME state for guests
+Message-ID: <8db1cdd1-5294-4166-99f4-340d124d72c0@sirena.org.uk>
+References: <20260709-kvm-arm64-sme-v12-0-d0301d79ef58@kernel.org>
+ <20260709-kvm-arm64-sme-v12-22-d0301d79ef58@kernel.org>
+ <CA+EHjTx6P_Wz8=+3fanry_Cs6sqyTD8Swz61WZah46u6-UXP5w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR11MB3949:EE_|DSWPR11MB9954:EE_
-X-MS-Office365-Filtering-Correlation-Id: edb72f83-57f8-408d-cb95-08dee0e2d094
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|1800799024|10070799003|376014|23010399003|18002099003|22082099003|5023799004|11063799006|56012099006|6133799003|4143699003;
-X-Microsoft-Antispam-Message-Info: 8RsF9UYBKkFRy3OPpMdcRSgZ1bP4bYWwCOdqX1RtSrl0U6xnQDrx0sLvQ1KYmhVx0gYk9TkX5faYGnb1xN05qeeJlKu4KwaVP4h0fD43t8ze4NcUa2xtrIiQrzKZ7sc/dgUNoTkbTfSp0vWfJOfGdtM3qZvAu58RbqB1RyQcrDaQ7KmEMn7jGaFiw5Qq3vuHKEEoEciOUiREM71akfxHfDjvm38ZZduWAaE2t+R5rxdgp2gQYvk+NOA1j44MK7bml2UNs2nVhu595DlTUjFzBq4O4T67TsPxdV+o/HOkg4fekcrSG7UN0SB7rfgY8fhNkiTQbof8hKm/n2Rsf7bcZXIF2tcGqz+TorbHqLSFjOs8KOshwktDaxNqCdQTVjkjJKTp7Fvb0azqN7qliJU21uR/bEcMJnIGef1viiyf944Ptgkq4R0ET2TqGC8ozko7VcsXTHZb/tLan/hGAo5pu/ZR+/LqlBeS7P/CtfRkqlbOXjkjhMGZFR82FXeVUTm8q+2/FbUCI4hdZHQR8HdxSySwLg056ORgy+kb3dAs40B85rpd/bekoBtpmylEFONdnoiNYcdaN+OY79EL8kyBuri5xzYlrsGRCvtQMo67WCUf8d6QHyXTFF/JLX5vWfRzv4AgXNeHUUR/eN6i+zjqHQHpC/gEA/xE/WANvLQ4Ikw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR11MB3949.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(10070799003)(376014)(23010399003)(18002099003)(22082099003)(5023799004)(11063799006)(56012099006)(6133799003)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AyRC0a3c0RrelcuARUbp37eCbYL0grKB73CXIoDqOa/Q6S8w5mO7yaFHTonl?=
- =?us-ascii?Q?aXYqB04RvwBZP0CqKJmmNIfWI6smnlV/WxgkUmu1V7pTHLLYXLasA9GLyzva?=
- =?us-ascii?Q?ShhjxbuzUHVR+UJAQFQmYwYXco+KNhkF3dB3GybI073c7lfRdto9BsUFhiOV?=
- =?us-ascii?Q?fBXZSsTODa+mSt7ztt/WGEvG3OmWt6bIlrYwufb2xpezDthr/XHQWZptMKTC?=
- =?us-ascii?Q?7oExj32LM02qul/nzECT0mTEE6+M/h9tOLvFeuXP5mS5NFS99M6L5p0mI1F7?=
- =?us-ascii?Q?qaR6a0lswXUGf7nJuqvZQdP1oOa9cre6N0VDCJXt+mv4xfZqjWm0Ljzop7A6?=
- =?us-ascii?Q?S6xmmP7Aiy2uTD3YrcGiq35YuhgKDkUKhXAfCulFLHCcQyN+UDxNLLOYjcpS?=
- =?us-ascii?Q?WsIwaNxpA/P1ST0/N8KtQMHRw5IqPOc53rDBpu7u2Xg66IH0pfCKAfvKidFq?=
- =?us-ascii?Q?9HOeVcxq65RV2/OvtF+uLj+6pRg/Rga+I0idpx+4jfJG/PQKjQQrAflU+Yj+?=
- =?us-ascii?Q?OTQZInXorRqH2HuSndgvJi+IDMkJl7DDDTAH2R7xhUKLHobY+Csw5SBg01T/?=
- =?us-ascii?Q?XfgulnBEFvft13RG+2MJD2wBR0CFRkgqGCIcXJVirhwnCCQ0M10yohu1D6hs?=
- =?us-ascii?Q?g6nlWNXkyFgs2HsKpZvx/37bD7WJJYUOvdI22vggbQ7R+Hyl5ggmRs9QuhNV?=
- =?us-ascii?Q?yyeRZcVm8AlAv5h0fZ44keKb8dwsXJ0Dr9OHxcTmda7S8sUNIWbbSm5Mqyvd?=
- =?us-ascii?Q?f94VrkpWfSB88g8L2nEqRhhdSbxsJWJ273nnOoRd81dL9S6PirN2eg68yKkS?=
- =?us-ascii?Q?qME1uwVkGD8DmurnFLU6yXgoVVv3zDJkkhFJGjaPwwlbYQCsOeLMeNcaWY8e?=
- =?us-ascii?Q?cU6412pdTSPhzo5YH69DsXFa5jcqDFWDurP+8rljVSZfUQVwl/bs5unVhfkU?=
- =?us-ascii?Q?MAd4QXgbMVleRp8QVQ2t778u8RJw3Uf0uKFBG6LZbRmHxuEjimoua2DGGu1Y?=
- =?us-ascii?Q?bvOeOZA9+or4YSaidE+UL9ytUixe+SvedCbtK0ZU9+WUec4Kz4TeArwyGKxK?=
- =?us-ascii?Q?Vzqc7W3Nn+KNievUA3QGF1P28slv7nDazq0MZXi340vIBnfZgh1pfPlhLWb5?=
- =?us-ascii?Q?6qGpu3cAIVOYrNPjEGbkepSrQqC1erWweVUUHVYxm7t+rC2xODe2p7FFUbD9?=
- =?us-ascii?Q?cF0+KmaUkvhbMoti1wJnIIaAGj0eYAiVWVpvZn1SJgwi74tycr+QDVhx5x4y?=
- =?us-ascii?Q?cvpYEvOevY+H/gymAg0tArVLUom8Zy4vJcSnV4oc90u0RLD910plTFdpiE8s?=
- =?us-ascii?Q?eBrWMn/0Vne7jmHcZV+ddZfOeggJfXIjMEqTSmdOBigEALygbtHTI6rrN/Ax?=
- =?us-ascii?Q?B4wuO2v8mLZfKpd4oJzBvV8rct0PNCZu5bDIq2rKLsZ0EIq5yjaewfaAfDQJ?=
- =?us-ascii?Q?DUXa0xXxr+ILyJvW3kKide6v3YUhDENvvLEjrhyRl2JnEjvl0fIdAsvNAnXO?=
- =?us-ascii?Q?efZ4viM5XV1YrhZ+oeiN0iea6cMo73c4Vl1PTdT+CM6xUXQWuBx1WtGZKQ/r?=
- =?us-ascii?Q?XNcm2e+130LqkaiOHbwn21KfpSxLYtxhtWjC1kV4zarziPU71H+8KyqXgwHe?=
- =?us-ascii?Q?uu2M4Y5Hsx4f9fkKOWVNqBhSmRgZ/vMlh0GxaI5Phoz7L28QYZatLegBP07b?=
- =?us-ascii?Q?AoIR8f+1R5hB0uU923qQiTJdvyrnHugFOy36ztAMZrk5UUQjTD30ZuAwFLBZ?=
- =?us-ascii?Q?P9VAp2RttiAJr4sEGBC1dw8NGvzKBKeBNsHkaqxxofxoxvS+1IoqGTlXaQLm?=
-X-MS-Exchange-AntiSpam-MessageData-1: lprlcwYKJIQTqbcvceSQSjGAcKteJp4oPRM=
-X-Exchange-RoutingPolicyChecked: L2kd9bLJ8WxtqOY3M/15yZSXo/jdMfASOKvgGPYZ9tGci+3b10cDRNPeVreL9908yCYO2v+Cm1fQstW/mIlsSwr7fdTIraBTVGW5RVHc8DHpo5jua5Ltbf2+/Nv2nYCCMns6TG7nibvQD6dj1Qs0cTds7ljc1JbGOGPtSs1tTfKDXyrXoc28z+X5KiyXuTP1MqjvE0+JT4oTc+wVFAndmRYiawNcgWF/efPcDmOjWhEaf3mb91lRbQ1f048A4EAL0ABK7SRCZgos95a7QVx7k8KCf4SCRKsJNYXRoQZmI6P4TYDpBqglXVv1DGguv33wH1MlGSe5CuWzw4T2FYUt+Q==
-X-MS-Exchange-CrossTenant-Network-Message-Id: edb72f83-57f8-408d-cb95-08dee0e2d094
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB3949.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2026 13:29:50.1877
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0614tE/PZwY81lzQuo9wnFnqioFL6jm2sUmRM+g3sHl5Uz4EFXXYi74RskhpxGSEiee+zzjRslDd/Ij6LRggUhdcIIjPUtacwV5h8wE0vaI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSWPR11MB9954
-X-OriginatorOrg: intel.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="v9CtVmyreETBkO2w"
+Content-Disposition: inline
+In-Reply-To: <CA+EHjTx6P_Wz8=+3fanry_Cs6sqyTD8Swz61WZah46u6-UXP5w@mail.gmail.com>
+X-Cookie: Courage is grace under pressure.
 
-Below is the answer to Sashiko feedback for this patch.
 
-Sashiko says:
-> commit d1a5268fa124e852cecef1e844a5c981bd3df46c
-> Author: Amritha Nambiar <amritha.nambiar@intel.com>
-> ixd: add devlink support
-> This patch adds initial devlink support to the ixd driver, allocating a
-> devlink instance per PCIe function and exposing serial number, device
-> type, and virtchnl version through the info_get callback. Registration
-> happens from the asynchronous init_task work item after virtchnl device
-> init succeeds.
-> > diff --git a/drivers/net/ethernet/intel/ixd/ixd.h b/drivers/net/ethernet/intel/ixd/ixd.h
-> > index 8e3cd5bc5a84..343c5053045f 100644
-> > --- a/drivers/net/ethernet/intel/ixd/ixd.h
-> > +++ b/drivers/net/ethernet/intel/ixd/ixd.h
-> > @@ -23,6 +23,7 @@ struct ixd_adapter {
-> >  		struct delayed_work init_work;
-> >  		u8 reset_retries;
-> >  		u8 vc_retries;
-> > +		bool success;
-> >  	} init_task;
-> Is encoding devlink registration state via this new success flag the
-> right approach?
-> The flag only exists to gate ixd_devlink_unregister():
->     static inline void ixd_devlink_unregister(struct ixd_adapter *adapter)
->     {
->         if (!adapter->init_task.success)
->             return;
->         devlink_unregister(priv_to_devlink(adapter));
->     }
-> Devlink core already tracks registration state (devl_is_registered(),
-> ASSERT_DEVLINK_NOT_REGISTERED). Any future code path that adds another
-> devlink_register()/devlink_unregister() call site (for example a reset
-> recovery or renegotiation flow) would have to remember to keep this
-> flag in sync, and 'init succeeded' and 'devlink registered' may
-> otherwise diverge over time.
-> Would relying on the devlink core's own registration tracking be
-> preferable here?
-> 
-devl_is_registered() is not accessible to drivers.
-The idea here is that init_task can stop working correctly at any stage.
-Once remove() cancels it, we should establish, what parts need to be undone.
-In the future, enum could be of use for the consecutive stage, but a binary flag in enough for now.
-> 
-> > diff --git a/drivers/net/ethernet/intel/ixd/ixd_lib.c b/drivers/net/ethernet/intel/ixd/ixd_lib.c
-> > index ce870aba143d..6f2b39cd985c 100644
-> > --- a/drivers/net/ethernet/intel/ixd/ixd_lib.c
-> > +++ b/drivers/net/ethernet/intel/ixd/ixd_lib.c
-> > @@ -154,6 +155,8 @@ void ixd_init_task(struct work_struct *work)
-> >  
-> >  	if (!ixd_vc_dev_init(adapter)) {
-> >  		adapter->init_task.vc_retries = 0;
-> > +		adapter->init_task.success = true;
-> > +		ixd_devlink_register(adapter);
-> >  		return;
-> >  	}
-> Should devlink registration really be deferred to this asynchronous work
-> callback and gated on virtchnl init success?
-> If the device fails initialization permanently (reset never completes
-> within 10 retries, or the virtchnl handshake fails after 5 retries in
-> ixd_init_task()), the PCI device remains bound to the driver but no
-> devlink instance is ever exposed. Users lose devlink dev show and
-> devlink dev info visibility precisely in the failure modes where such
-> diagnostics would be most useful.
-> Sibling Intel drivers such as i40e and ice register devlink
-> synchronously from probe() so the device is always visible.
-> ixd_fill_device_name() already handles the uninitialized case by
-> falling back to "UNKNOWN":
->     if (adapter->caps.device_type == cpu_to_le32(VIRTCHNL2_MEV_DEVICE))
->         snprintf(buf, buf_size, "%s", "MEV");
->     else
->         snprintf(buf, buf_size, "%s", "UNKNOWN");
-> Could ixd_devlink_register() be moved into ixd_probe() so failed
-> devices remain visible to devlink?
-> 
-We have nothing to expose, if have not yet initialized basic HW communication
-ixd and idpf utilize async initialization, because e.g. after power cycle,
-control plane can be unresponsive for some time
+--v9CtVmyreETBkO2w
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Jul 12, 2026 at 03:40:34PM +0100, Fuad Tabba wrote:
+
+> For a nested guest this folds in the LEN restriction from the guest
+> hypervisor's SMCR_EL2 just above, but not FA64/EZT0. vcpu_has_fa64()
+> and vcpu_has_sme2() are VM-level capabilities (kvm_has_fa64/sme2 on
+> vcpu->kvm), so an L1 that clears SMCR_EL2.FA64 or .EZT0 to deny them to
+> L2 is overridden here: the physical SMCR_EL2 gets the bits set from the
+> VM cap regardless.
+
+Doh, of course.  I've fixed this locally.
+
+> > @@ -128,7 +220,7 @@ static void flush_hyp_vcpu(struct pkvm_hyp_vcpu *hy=
+p_vcpu)
+> >  {
+> >         struct kvm_vcpu *host_vcpu =3D hyp_vcpu->host_vcpu;
+> >
+> > -       fpsimd_sve_flush();
+> > +       fpsimd_sve_flush(host_vcpu);
+>=20
+> sync_hyp_vcpu() runs fpsimd_sve_sync() on &hyp_vcpu->vcpu, but flush
+> passes host_vcpu, so the two sides operate on different vCPUs. That
+> asymmetry alone looks wrong: flush and sync should cover the same
+> state.
+>=20
+> Concretely it means kvm_sme_configure_traps() programs a protected
+> guest's SVCR/SMCR from host-owned values, so the host can e.g. set
+> SVCR.SM and fault the guest. Keying flush off &hyp_vcpu->vcpu like
+> sync fixes both.
+
+Thanks for spotting that, I've updated locally.
+
+BTW it'd be really helpful to delete unneeded context when replying
+
+--v9CtVmyreETBkO2w
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpU6IcACgkQJNaLcl1U
+h9AaOAf+KDIg9SieNgLHu8cIPChCdW1/JE5Q90xi5O9YT1F33j626OleMhM1VngO
+WHezCRNFf8cg4aTf93obOsz6F6jnWTTZaK82gt6bRu3udlizG+33O7jnsnLFd589
+SMe5MOi6iwIgvK0yl8Tf4GAxXgJxMNb/vzvY9hfmke/jCDLYT7BF31PeQMwfDTgq
+pKvDiG9o4dUBK4pNzzKuyqaOxHbKmRBlI2+oYON8XCsp7k6PvWSxwnQcPS2WqoyD
+h9pAC1jb/eUt/5pQtbQOv1a0O+9QPeVg2CywPMriMQhSZERveEm4vNP+n4EmfEfH
+aDQwImKDchI/GbVfMboiAWDd+dLhrw==
+=X8+a
+-----END PGP SIGNATURE-----
+
+--v9CtVmyreETBkO2w--
