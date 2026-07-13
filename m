@@ -1,284 +1,262 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011029.outbound.protection.outlook.com [40.93.194.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6203942E8EA
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 14:16:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783952173; cv=none; b=kVNB04pKhGAoE9BkL5P7/1PMwKiJLZ0qfmS3Rcgcq6LriPEYN90zv0ETXiwJ+xwJBwg89t4FI4zj30l9n9+VdAmqkMi3Xngj97GxxPwmwLM/vms9XaVJQrCN68XBg2VLTL727N+BEv4nn/EI/RYWoD0Pz+hEzrh1Gv7zEnH9ITg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783952173; c=relaxed/simple;
-	bh=rjRRwXeoSvQ2Yt2kDuIXsZVmldbbQ93lhgFEVsggEBI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EzbLyY0zzyLIcnwmApJ75RRX/uqLXprZiIXwj58O9EeN/f0l7h8XbCMBEtJhcUqIKTv4zvXyXPazmcwLsddtUexHG053htqbbV+cR/8pzLjkTYbO67202BUkJ2H+mhQeLc+Td+KVrJ+dAPqwc5cK2ACXBhR7tfr0+T/48kbqCy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=a89fZUTK; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=WdVI+wlZ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC1B439335;
+	Mon, 13 Jul 2026 14:54:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.29
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783954444; cv=fail; b=Z3dcmX61ZKl8u4N6S6eLVdguffmrvF1F7+GMGN9QdNOFe2Ul2FwE98y8u0AFhekidnLIUSB8EwcMQg3N66C8CRcUHiJuOFobXwc64t1PkqPfOaFC8nJGFJfr+rzyyvAcqzUR6tL8Ra2xkcJ8Cum4Rr/OXLNS/WJaelbdSju1v4I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783954444; c=relaxed/simple;
+	bh=MHHIocul/N+KhHQH1b8hjknuIBbQLltjo9WfyyAMn3k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=qiS3J6BDTub+Xj5vGjHlgFu/0UseMoAfD9k8RgJK4lDY7gMx1VyePHCUxA5KPbiPvv7G3Ibfusinz5fys0qdP+b7SANiLCJ2IYy3lIq/J9LUa06XgGklgPbZaTTpAaWzoIVyhGx3z4NIBH32WdhFWCsVBDBU7S9cGJ1+NHSa0aA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rwAX+S0J; arc=fail smtp.client-ip=40.93.194.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="a89fZUTK";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WdVI+wlZ"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66DCDv6W1428285
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 14:16:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	s9Td5s4NB4XQ8rznggNIITWnlk3IwS8MZDx5I4v8/zU=; b=a89fZUTKY0N0QfDn
-	ltmn0X2fEeXWAMOmkV1ChSPUa4LS39VVSoRq/MX4HbD3qqM/PSJhF8PpwLaXSCa8
-	o9nt5KCmu4pxH/m1eaEOoVi2fQ9Q9X2Kt7TTtdVbWz1ofkcMHyIdecFd/UW3j/Ak
-	qqd0pgE1cnesSMa/qX/22P+8OfLKvnaLqAoWZqi0XhbhmKzjeDMWUWDZGmAagz75
-	VlkBWRdyd5szxUzaEjlTba9l8CdVIuFjrbIYZS+ZbE2PXLX6aMTPY7RUq4ah5BSG
-	R/pzV6uYg9lieDTYDjXTzL8sUm2HcMJCYuuayVxWkymPCXXUxbWBpiJ5QYGHGwvQ
-	l4gJLA==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fcurn1fry-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 14:16:10 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-8484739a9cbso4167964b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 07:16:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783952169; x=1784556969; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=s9Td5s4NB4XQ8rznggNIITWnlk3IwS8MZDx5I4v8/zU=;
-        b=WdVI+wlZDmaK3lyYN35qalo7WpnokSscPrKHRzP2Ves/cO/rqLduxuHsz+CJkVPRBk
-         XTbZ+xsESfTpNnUSW3hw+eR3M1BPv+puC63J6/fcEFGypcDAU9zFVuBa29yy9zGi/gM9
-         j5qMGZwtpGKaE2EGhiNwvEzVkcepbflHYTYG/4I00wzPrcZp3fsvPYnM9nb7snrzmCcY
-         Zk/U/XoeVTsawBsNtMqm64PTaudMK6po4unWCtfYqU1bEVaL7RiLd5a1AwUWxrQbLZgO
-         YU+knTaKDGpTzar56PdaK7bt2Oqvy75gX2xedsm/mjh/tmwD4rVgFlmVL1RbJafhjLxi
-         QQwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783952169; x=1784556969;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=s9Td5s4NB4XQ8rznggNIITWnlk3IwS8MZDx5I4v8/zU=;
-        b=sBBVT2QaXwl3gX/4R5o61sRjH6Q+RmJqZ5M1uhZ/BWTFHzYbsuu8VISUl3g14KG5RU
-         yWp+i8JuckeAuDZGmqvYGhaxu265QBenPjNCl2/W7qfBf1VSJG9+uzccssWoCFZ/AXEA
-         c39raNNPGtEzXmuBFM8/9gWj4/VKpKYSXhoklPDWp7JSDjKCJZEfA5Yu9avNMIfbEbRc
-         ji9kzy2tNAmtj71ICWj2eVdRXLTvf2Bk3L+Oq2ipDaufEUJY0l8BzhE7/5y3qB6z44iK
-         Jp6yen4m6MrtJroOy+SLNJps2u+RcMe9q3bNBkEg3Ca6cGGDpvS+6p3J7tSHpUGaexJh
-         njRw==
-X-Forwarded-Encrypted: i=1; AHgh+RpGNuFPM9MU1mBfVdMwOPSa7FLBDnhfVRm5vjiCbXSQ6lwvZlkcDOAbyW+Dkid+MD/pZf9Wz4WTnQQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9NPTk+VNYsVOaTXc60fMZeIUFagc9SV46YioaugH1WUIMNYYt
-	pj15CVx9gP12IxoDxEhBNA7PGOmlc9yyFX2UFhj12d/6KgOxZYRBw7rEt7KeiishxOwuKodZmxW
-	jsNt1rl2j0JuZbO+gspyLVTPB7SgPrgrEAqk26m7ucvyDxGArTq+f8gxCTOskETkfigf2j8U=
-X-Gm-Gg: AfdE7cn3DT7llXlpsIIGmdv19UMMu3CZCf+0YhRmuH1cno8KTH4P+i+ix8bUCaGuPJq
-	NUI36ji2wTiwqD/iNZU3xq/yB7/h/3V5ebKrFaUntIPBQ45SOQ794rQFKYveHJo2dpLIrSmd/+f
-	i3qZHiiHxO1FqpB8wugXv0bEgow1Tn3wTrrsAb1KdvJ3TicZq/GvAO7m3nKLj4BRRqZuqJslJXD
-	32CNp6TT7MmRLWxFtmnY5dilcmWilveZy7NFLBMqMfACUeGKH/dVzRkqsi1VCpLeST5s8mZgXiP
-	qeeRzWmeygOENCyeirXO25Bjs96jTi8aLaNV1++TZycKYWlzozbwAVInJX1dssRRrVTultdc+e9
-	wuRrKGEacok0u9oDS2td/98ZkaW4wSw90je9JW5AD8GWI
-X-Received: by 2002:a05:6a00:1c99:b0:848:2ef5:50dd with SMTP id d2e1a72fcca58-8488ad09145mr7755448b3a.37.1783952169273;
-        Mon, 13 Jul 2026 07:16:09 -0700 (PDT)
-X-Received: by 2002:a05:6a00:1c99:b0:848:2ef5:50dd with SMTP id d2e1a72fcca58-8488ad09145mr7755409b3a.37.1783952168780;
-        Mon, 13 Jul 2026 07:16:08 -0700 (PDT)
-Received: from [192.168.0.215] ([49.205.244.213])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84a49591cbdsm452482b3a.40.2026.07.13.07.16.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jul 2026 07:16:07 -0700 (PDT)
-Message-ID: <21867efc-b5a8-4ed9-92b4-059a020731a6@oss.qualcomm.com>
-Date: Mon, 13 Jul 2026 19:46:02 +0530
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rwAX+S0J"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ksevZDyPr2BzDHbcQp7SQZu8iXpUdOVL8MFqStd+f5BcqaKJqSNRV12m2Ck/1cNyWp/HytrHg9aHiqAb1pglYEnn7uZiPDHvCgNN3fYmsoSET6zKwWsKVjq2WtNM0GVArP9ZIewjDx90FDQNYcAvwz2pyhZE79H5W+4i/dNkeV5Xs7Gm1CzAwgdYY0FjEPsbAOFFjcmlyJkeYo40lUOPbE0iwVuGc1gqdXMWAa9aOiXX41j7soURpQLNEQXTLSsQl4UETHGfrWNQgCByBX0hjHBIk1+uDNKb4byQd7t/D2lLZPgsdi8MnuqeJGwaY25EsX+JkB58s+2Mgs0uGe11pQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c5Rwd7Y6+jX9ZggMaYE0EQjrwuYL8DceUGBjRZaKO0I=;
+ b=vFE5hpZphRLErXevB+ZUwW62eJR2M7S2h9Dq20MrOBZWSJcjxicqKB0YwwC6uh895K8Io92GHI3xD6iu663yqkv2QMxxZ9moUdYe2DitJ3bIG9ZpmQ0rDh5/l1g+k2FcKmHx0Vh2gzBAJxv/kbfP0vlLRWUAzqGkG0Epc7ix8S09uWSxVjvChk8YHIqfb1XM4JQAOt1VnxIUlQNex6jXHKsR0AAxTGvHUMiuS6h+Ngtg4suZEMyuWdAKYvnMUKLriXLlGap6Gyge34AjZDidNWGLaSOR6Pk2IIXka4ZtzX74SQsbciPRI8EFbAWrv82yfwdbK+NROMHW/L2cEN1Mrg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c5Rwd7Y6+jX9ZggMaYE0EQjrwuYL8DceUGBjRZaKO0I=;
+ b=rwAX+S0JFMcdhBzowYUinqR3hjowgR6QdbxVGJHL5kOf7i2SJfwT2s3dIADTYQmySg7y4KHhX75E8p+aA/G7wfuA1yrH1W98thu1Ir9ESv7EWRW1UfkCR01chvN7TBY/MWSlEHOFbKez1HcKtRj3hPBAnYXYVevb3VgxOYr9GgE4msTCwy/9JqakbR9c1Gl82s5gCruIcwuFpwUfvFgQF1TLy4E8uxmRnexiBa3d025sj0+5ptibRnxKY1abG3zc59q1xqjljDjpjgF10EPtjvlTj6HG9mBglJNTMTKMS5h4dcBJUpC5cqbMrSseNwf+CfoDLcdrBzGbgn+OMM98zA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by CY5PR12MB6622.namprd12.prod.outlook.com (2603:10b6:930:42::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Mon, 13 Jul
+ 2026 14:53:57 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0202.014; Mon, 13 Jul 2026
+ 14:53:56 +0000
+Date: Mon, 13 Jul 2026 10:53:52 -0400
+From: Yury Norov <ynorov@nvidia.com>
+To: Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
+	corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
+	pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
+	huschle@linux.ibm.com, rostedt@goodmis.org,
+	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
+	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
+	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
+	christian.loehle@arm.com, tj@kernel.org,
+	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
+	rdunlap@infradead.org, kernellwp@gmail.com,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 02/12] cpumask: Introduce cpu_preferred_mask
+Message-ID: <alT78Nzt3xa-7G5Y@yury>
+References: <20260709215648.1246821-1-sshegde@linux.ibm.com>
+ <20260709215648.1246821-3-sshegde@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260709215648.1246821-3-sshegde@linux.ibm.com>
+X-ClientProxiedBy: BN0PR04CA0108.namprd04.prod.outlook.com
+ (2603:10b6:408:ec::23) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/7] bus: mhi: Add QDU100 Sahara variant and firmware
- fallback
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
-        Oded Gabbay <ogabbay@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, mhi@lists.linux.dev
-References: <20260701-sahara_protocol_new_v2-v6-0-3a78362c4741@oss.qualcomm.com>
- <20260701-sahara_protocol_new_v2-v6-4-3a78362c4741@oss.qualcomm.com>
- <n45ii7ekxeefuxw2ydwzsx7lqlfczbgg6obrzmzpytl2fin7j5@vbhmrptcjvcb>
-Content-Language: en-US
-From: Kishore Batta <kishore.batta@oss.qualcomm.com>
-In-Reply-To: <n45ii7ekxeefuxw2ydwzsx7lqlfczbgg6obrzmzpytl2fin7j5@vbhmrptcjvcb>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: AGttqinJySJKHFclURRZf8XDTMsFrUEL
-X-Authority-Analysis: v=2.4 cv=IcK3n2qa c=1 sm=1 tr=0 ts=6a54f32a cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=KtsNJ/6bKgz7QsArn2OSsQ==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=EUspDBNiAAAA:8 a=ggBkse9BzyKxnYN-cX8A:9 a=QEXdDO2ut3YA:10
- a=zc0IvFSfCIW2DFIPzwfm:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEzMDE0NyBTYWx0ZWRfX6W7BD6qB/OKc
- YzXABQuWo+vYL3Q6zDuTKm6J7PwXE8mTXiNoGFb74Er6tvaMeu8Kpiu+4tGtP/X8AuSu/1OSEc/
- B5KWZm5zNEFKtdYroc6q6Qli/rzHRRA=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEzMDE0NyBTYWx0ZWRfX2WRdwSrzxpe4
- 0J5JfVFqtYfmy62rpW3Uwi5RgZ6cgvNLJGjy7ZQjqvnZ8Lu7S83LZeqDORBZwIZ+NFTqYajPNX5
- e+wFmwtL1ayz50s4VGUvPKrxHXrKHdF/wuIKGTQW41DlvhuoVqBF4i1jkqGAIWeJIf6u95WO1gA
- /p64/iJRuCeS4nPl3881Ro4RB8NlYrJ9XWvxhcWGYL3ku0gV9vV6uAhdKa2AL30LjcW8qi/sQfa
- jplWuuDXEGZcCPIWIZIOuDV40MXg7ZFN6rJT8vapYeVFJVebkQfCIfJeINEP3lCBopiG83vAC0X
- Wi8HPg3t37JHcP7tKeu03VlbBLxD+KUg4YVw+khrz7EUTiMKCCxQQRSxOZWi2BQfjK1GtgMX0Gt
- qVqp8GrFrFFeL8quIkPPuUj4sSP4ApVbHSbB8S/lPiqrf64bj40MqcvxpuSIScctffFd91L4Pgf
- ouigBSjPelZRZOhm4eA==
-X-Proofpoint-GUID: AGttqinJySJKHFclURRZf8XDTMsFrUEL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-13_03,2026-07-10_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 lowpriorityscore=0 phishscore=0 bulkscore=0
- clxscore=1015 impostorscore=0 suspectscore=0 malwarescore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607130147
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|CY5PR12MB6622:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5222cd6d-9150-4cfc-efeb-08dee0ee907c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|7416014|376014|366016|1800799024|18002099003|22082099003|11063799006|4143699003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	X/l4vNNKTa5F/m1FX6ZVVbAYGF/uEOncFEukvkKSzD9L42IVuox9mVJeyfV/0McCH3IrcVYgjEgtcVNDDAco4x87KbsW6jHCt8VtBnuQRg4yyMQawkMXXv81N/2dOL6cVhWChktCtE4gYXh+8lShib8+rMPwpPpOFSztt5dmNQi+XFIoLTh2a6SclUalz/Wi/4pgtFOM6FL1L2jnEiywGVUnTjLPFmsM/FJeiYIuvF/aIFq80P2RngnU+L44Afj4//hQa90hdvOnZV/hUZv/X2sdRRgFOWvoa4gpBRKd4P5Ksdhx1xmru6jxHdH6Fit2wvJRT5PEHExGGjBxmoYexCkMrH1Onybl4JkJgDnCINv/h1N+yqqvw6301n0S9D2u0COSOHgoU6fwd+qW1kX3U4CBsdgCFSSEKlWEQuBJXsu27JtgxklcLUn7AUfCFW2n9XSRDsedkFbUB3Wal4Dx2XwkoNpbxvIbKxStjeRyLJtbigSjyJlTUBxWjjsdIJ6ZlEb6hsFw1NrhsLF7T0HaaJfwrWTm+OwZb1+SAx5pkXkJ+nlERt0vk/aCyTxDOUmtpHU8ev8/sG9HbvC47gEPDnMp9b0E6095mZC/QOgyShVvuOdMNhx+Rayk80irMbUn6dvkpTt6PRdW6taZeyL5vEnxCl+Y1qKIcYoUlvrUW1o=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(366016)(1800799024)(18002099003)(22082099003)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?K1ZaNnpQU0pGSUlxVllMOWVpc1gzc3YrcitZRkVjZ0Rmc2RGWGtsSEtZZ05w?=
+ =?utf-8?B?emZ6ak94Z1FiekRhUlo3ZjBRdVBaSU5jeW1sZkdxY2hjMXI5K3FDMVJaQnBL?=
+ =?utf-8?B?dFZZWkpxaFpNbitrNUlzVXo5OHpOeTJPZHNpMFZRUk1ZL3BLU3hKUHVQYmRt?=
+ =?utf-8?B?QnB6a0pGS1lmUTlLMnAxdDIzRkRsUVY4ZXhGM1M5dlV5RlRjY2p1Q0xhQlFk?=
+ =?utf-8?B?L28vSC9oVjJpU0lGanQxVFNBaTY2Qllrc3BzOXM3V0ZxdFZKNkg3WjFMTkpO?=
+ =?utf-8?B?SVV5SmpLdDFlbzUzcld6My9zM3FCN01hckVibjhtc0pmZTVrSWRab2VSRHVL?=
+ =?utf-8?B?ZXhIa01wOWFnU0J6SXg5S1UyQ3p5K3dlb0JQNlFLRzdyeE02SlU5L1FNQXNs?=
+ =?utf-8?B?L2d4eUhyRXZnRjdPdEJlblNVcXdEeW5xWHl1ZklBTDh0T2pEQnZLQnhnTnho?=
+ =?utf-8?B?Smo1ZHhmTjlYMWVCYm5WdCtkV1RRNmRqZTRjV21OZXZoT1N6d1dxakZJaVpR?=
+ =?utf-8?B?QmNBb3FSdncxZzRNTHhjalIzMGltcFdDY1dydmR2Tno5eEl4b3RSWmdXMEFr?=
+ =?utf-8?B?QzdkaURHNzhkc1VEVnNYNUx1MnVpSHJrRkNGK1VVNktMNlpVOVpGODlraUYr?=
+ =?utf-8?B?NWtWekk3ZVZNVEh4RmpLamg4Mzk3L0NkdW9QTnhvanJyWkF4aDBtZzllVUJi?=
+ =?utf-8?B?TVk5OElaemR4U3lPT2RzdldEb2Z0eVFCNWtYS2lmdTI3ei9BbW51dXhqYjZv?=
+ =?utf-8?B?cFFMdGZ4R1dZK3RUS084VnNZRlk5TFdoYk91UHFOaWpwK082TkNFRk1WeXN5?=
+ =?utf-8?B?OUozcG1iUGpyc1ZwWVMwVldoanRDT2VJZ3R2cCtQd0hUVnRuOTR3Q1Q5T09l?=
+ =?utf-8?B?bkJjMXJiOVROeC9jMnZuVlIxM2YxSnh6RS9qYTJJYTdVTGJFTzNITmFNRjAr?=
+ =?utf-8?B?akhWQ0RZWWJGVmdyNzJ3QU1yUjl6RTNNUWNuOHowOWYxR0wwOHIreUlCR0xF?=
+ =?utf-8?B?U1g2RUhnMHdneCtYcnVtcEE4WndMZnNDWmVubURUM0pVZkNGR1VaUFE4TEEr?=
+ =?utf-8?B?QmQ3N0NPRVpJUFl0c1U2OEhZK0JKcUZiOFYyWkhCaTk0dTRidytqMVFzZUxr?=
+ =?utf-8?B?WDU0cW5PRlpDeFJSRmtaaUpQbEtCLzkzNEpvMHRXdGRRY3JnUFEzQlRWY3Ja?=
+ =?utf-8?B?UUlyLzB3RUFhbGN5MDdxR20xNmZ1MU5WTGMrQmd2ekJRRmY0YXM1eVpJN0Ft?=
+ =?utf-8?B?NnJQeC9ianFickMyd3pzdEFrYU0rZTBqaDAyck1yWmYvcTlTdG5UMFN0V29o?=
+ =?utf-8?B?WEdONjgwQ0tMRTUzb3gvb0JGbytpNjdITmFTMStUWFRSVkNsbGlXM0FlaUg5?=
+ =?utf-8?B?ZWJBd3ZVZjVmOG10YWJVKzVpamlMQTNhRlFzNmNxMmxqSkhES0JDZVB0d052?=
+ =?utf-8?B?ejRYY3owV3dTRHBzdGJUbWw4cTBNQjRZUjQxUEdXbmowWFNQdmQzN3FSRXVF?=
+ =?utf-8?B?WmhOSi9kdkVXVmJxR2J2bDFEcFJKOEE4M21rOTFqejRGbmZ3N0Z2cmo2OVJr?=
+ =?utf-8?B?MGs4ckdjVDJEM0txMXNMSlFGSVg2SkdmZ2ZUa2gvSWQwckNhbVBvZEhSN1Jz?=
+ =?utf-8?B?RklDeTRMQTVOby8vejhaT0lvSE5uUDRHUmtwN0o1QVJSMitiVkZwczdaT01u?=
+ =?utf-8?B?dC9qa0JWN3dUbDRQWUtvSFU0a3B3N0JhTkgrMWFJYkg0MXVkcUl3WDNscmxy?=
+ =?utf-8?B?VjlaNzE1RTFJelpwUkUzaGxXVmpLZW55QWw2MUxUR21xRmNJYmcyOHRRY05D?=
+ =?utf-8?B?VEZLRXZTblpMUEJVVjlURDJGSUYxbGswNHFCdEQxL2oxWlJFNWQ4aDlEKzBq?=
+ =?utf-8?B?dSswRXdLajg2U29ncnZBaUVGZEZKTXl2UDcrTlEwSXlSZHVnd2xRQ3VBbGo0?=
+ =?utf-8?B?djhCTnJFeTlrTUQxYUtMd3lLQ0lCejg0NlFPb3Z1MFhSb3RBaHUwNWFaUm1n?=
+ =?utf-8?B?UDI4K3U4YnI3ZjdrSWdKRytuWnBRVTNEU29DR1c3bFNDNWpWNm4yZFdHckRD?=
+ =?utf-8?B?Y0lqcGN1NUJhUDhkMjE3QlFvVURzeHhjenhvbzZvVzZoNjFia3dlOTdpeDcv?=
+ =?utf-8?B?UmxwazFXOXFmbnQ0MVRUaS82NG9uM01ZWmhmbzlSWkNjRm1YRWVWcTJhaVVu?=
+ =?utf-8?B?dVd4TWVXWHNicWo4Rll0Q2o4TEJRWXlQODhzNzhVanV1ZWRSWWh6UitHZDlN?=
+ =?utf-8?B?THNEYklqZWlkZURYTzlFWWxCY29jNzhtM0ZpTmtVZkVFTmZSODNEM0xYeEpa?=
+ =?utf-8?Q?IYTgqt7l3E6yL16GXC?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5222cd6d-9150-4cfc-efeb-08dee0ee907c
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2026 14:53:56.7749
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Tkpd3ee7nMGpJy0d7G01r05WeL1XA9m64PEk7yc7OdhBfG9kbepW0//XYURqcBa1r+GksjL6OozFxWMJ5/imJg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6622
 
+On Fri, Jul 10, 2026 at 03:26:38AM +0530, Shrikanth Hegde wrote:
+> Provide cpu_preferred_mask infrastructure. Define get/set macros
+> which could be used to get/set CPU state as preferred.
+> 
+> PREFERRED_CPU config will be selected by the driver which handles
+> steal time values. It is going to set/clear preferred CPU state.
+> This driver will be called steal_monitor and it is introduced in
+> subsequent patches. It periodically samples the steal time and
+> decides on preferred CPU state.
+> 
+> A CPU is set to preferred when it becomes active. Later it may be
+> marked as non-preferred depending on steal time values with
+> steal_monitor being enabled.
+> 
+> Always maintain design construct of preferred is subset of active.
+> i.e. preferred ⊆ active ⊆ online ⊆ present ⊆ possible
+> 
+> With PREFERRED_CPU=n, ensure set_cpu_preferred is a nop and get
+> method returns the active state in that case.
+> 
+> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+> ---
+> v6->v7:
+> - removed CONFIG_PREFERRED_CPU as user option.
+> - Use do { } while (0) for nop 
+> 
+>  include/linux/cpumask.h | 24 ++++++++++++++++++++++++
+>  kernel/Kconfig.preempt  |  3 +++
+>  kernel/cpu.c            |  6 ++++++
+>  kernel/sched/core.c     |  5 +++++
+>  4 files changed, 38 insertions(+)
+> 
+> diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
+> index d3cda0544954..34d08a3d80e1 100644
+> --- a/include/linux/cpumask.h
+> +++ b/include/linux/cpumask.h
+> @@ -122,12 +122,20 @@ extern struct cpumask __cpu_enabled_mask;
+>  extern struct cpumask __cpu_present_mask;
+>  extern struct cpumask __cpu_active_mask;
+>  extern struct cpumask __cpu_dying_mask;
+> +
+> +#ifdef CONFIG_PREFERRED_CPU
+> +extern struct cpumask __cpu_preferred_mask;
+> +#else
+> +#define __cpu_preferred_mask __cpu_active_mask
+> +#endif
+> +
+>  #define cpu_possible_mask ((const struct cpumask *)&__cpu_possible_mask)
+>  #define cpu_online_mask   ((const struct cpumask *)&__cpu_online_mask)
+>  #define cpu_enabled_mask   ((const struct cpumask *)&__cpu_enabled_mask)
+>  #define cpu_present_mask  ((const struct cpumask *)&__cpu_present_mask)
+>  #define cpu_active_mask   ((const struct cpumask *)&__cpu_active_mask)
+>  #define cpu_dying_mask    ((const struct cpumask *)&__cpu_dying_mask)
+> +#define cpu_preferred_mask ((const struct cpumask *)&__cpu_preferred_mask)
+>  
+>  extern atomic_t __num_online_cpus;
+>  extern unsigned int __num_possible_cpus;
+> @@ -1164,6 +1172,12 @@ void init_cpu_possible(const struct cpumask *src);
+>  #define set_cpu_active(cpu, active)	assign_cpu((cpu), &__cpu_active_mask, (active))
+>  #define set_cpu_dying(cpu, dying)	assign_cpu((cpu), &__cpu_dying_mask, (dying))
+>  
+> +#ifdef CONFIG_PREFERRED_CPU
+> +#define set_cpu_preferred(cpu, preferred) assign_cpu((cpu), &__cpu_preferred_mask, (preferred))
+> +#else
+> +#define set_cpu_preferred(cpu, preferred) do { } while (0)
+> +#endif
+> +
+>  void set_cpu_online(unsigned int cpu, bool online);
+>  void set_cpu_possible(unsigned int cpu, bool possible);
+>  
+> @@ -1258,6 +1272,11 @@ static __always_inline bool cpu_dying(unsigned int cpu)
+>  	return cpumask_test_cpu(cpu, cpu_dying_mask);
+>  }
+>  
+> +static __always_inline bool cpu_preferred(unsigned int cpu)
+> +{
+> +	return cpumask_test_cpu(cpu, cpu_preferred_mask);
+> +}
+> +
+>  #else
+>  
+>  #define num_online_cpus()	1U
+> @@ -1296,6 +1315,11 @@ static __always_inline bool cpu_dying(unsigned int cpu)
+>  	return false;
+>  }
+>  
+> +static __always_inline bool cpu_preferred(unsigned int cpu)
+> +{
+> +	return cpu == 0;
+> +}
+> +
+>  #endif /* NR_CPUS > 1 */
+>  
+>  #define cpu_is_offline(cpu)	unlikely(!cpu_online(cpu))
+> diff --git a/kernel/Kconfig.preempt b/kernel/Kconfig.preempt
+> index 88c594c6d7fc..ed02e4431230 100644
+> --- a/kernel/Kconfig.preempt
+> +++ b/kernel/Kconfig.preempt
+> @@ -192,3 +192,6 @@ config SCHED_CLASS_EXT
+>  	  For more information:
+>  	    Documentation/scheduler/sched-ext.rst
+>  	    https://github.com/sched-ext/scx
+> +
+> +config PREFERRED_CPU
+> +	bool
 
-On 7/9/2026 11:49 AM, Manivannan Sadhasivam wrote:
-> On Wed, Jul 01, 2026 at 04:07:38PM +0530, Kishore Batta wrote:
->> The Sahara driver currently selects a firmware image table based on the
->> attached device, but it does not recognize QDU100 devices that expose the
->> protocol on the SAHARA MHI channel. As a result, the host cannot associate
->> QDU100 devices with the correct firmware namespace during image transfer.
->>
->> Extend the probe time variant selection to match the SAHARA MHI channel and
->> associate it with the QDU100 firmware folder. Add a firmware lookup
->> fallback for cases where an image does not have an explicit entry in the
->> device's firmware table. This allows required images to be provisioned by
->> the platform.
->>
->> This change only affects devices matched on the SAHARA MHI channel and
->> does not change behavior for existing AIC100 and AIC200 devices.
->>
->> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
->> ---
->>   drivers/bus/mhi/host/clients/sahara/sahara.c | 27 +++++++++++++++--
->>   drivers/bus/mhi/host/pci_generic.c           | 45 ++++++++++++++++++++++++++++
->>   2 files changed, 70 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/bus/mhi/host/clients/sahara/sahara.c b/drivers/bus/mhi/host/clients/sahara/sahara.c
->> index e339c67e236af271645ca81cc517efd9eead87e4..9adbd84859073d8024ba2a5fcfa33897439d6759 100644
->> --- a/drivers/bus/mhi/host/clients/sahara/sahara.c
->> +++ b/drivers/bus/mhi/host/clients/sahara/sahara.c
->> @@ -189,6 +189,7 @@ static bool is_streaming(struct sahara_context *context)
->>   
->>   static int sahara_find_image(struct sahara_context *context, u32 image_id)
->>   {
->> +	char *fw_path;
->>   	int ret;
->>   
->>   	if (image_id == context->active_image_id)
->> @@ -201,8 +202,28 @@ static int sahara_find_image(struct sahara_context *context, u32 image_id)
->>   	}
->>   
->>   	if (image_id >= context->table_size || !context->image_table[image_id]) {
->> -		dev_err(&context->mhi_dev->dev, "request for unknown image: %d\n", image_id);
->> -		return -EINVAL;
->> +		if (!context->fw_folder) {
->> +			dev_err(&context->mhi_dev->dev,
->> +				"Request for unknown image: %u (no fw folder)\n", image_id);
->> +			return -EINVAL;
->> +		}
->> +
->> +		fw_path = kasprintf(GFP_KERNEL, "qcom/%s/%u",
->> +				    context->fw_folder, image_id);
->> +		if (!fw_path)
->> +			return -ENOMEM;
->> +
->> +		ret = firmware_request_nowarn(&context->firmware,
->> +					      fw_path,
->> +					      &context->mhi_dev->dev);
->> +		kfree(fw_path);
->> +		if (ret) {
->> +			dev_err(&context->mhi_dev->dev,
->> +				"request for unknown image: %d\n", image_id);
->> +			return -EINVAL;
->> +		}
->> +		context->active_image_id = image_id;
->> +		return 0;
->>   	}
->>   
->>   	/*
->> @@ -870,8 +891,10 @@ static void sahara_mhi_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result
->>   
->>   static const struct mhi_device_id sahara_mhi_match_table[] = {
->>   	{ .chan = "QAIC_SAHARA", },
->> +	{ .chan = "SAHARA"},
->>   	{},
->>   };
->> +MODULE_DEVICE_TABLE(mhi, sahara_mhi_match_table);
->>   
-> This change should belong to a separate patch.
->
->>   static struct mhi_driver sahara_mhi_driver = {
->>   	.id_table = sahara_mhi_match_table,
->> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
->> index 391ab146f501c6ce1c81f6138f7c491a49c2f264..82e41632afc555a53dec3d8395558ae039b33bbd 100644
->> --- a/drivers/bus/mhi/host/pci_generic.c
->> +++ b/drivers/bus/mhi/host/pci_generic.c
->> @@ -300,6 +300,43 @@ static const struct mhi_pci_dev_info mhi_qcom_qdu100_info = {
->>   	.reset_on_remove = true,
->>   };
->>   
->> +static const char * const qdu100_image_table[] = {
->> +	[5] = "qcom/qdu100/uefi.elf",
->> +	[8] = "qcom/qdu100/qdsp6sw.mbn",
->> +	[16] = "qcom/qdu100/efs1.bin",
->> +	[17] = "qcom/qdu100/efs2.bin",
->> +	[20] = "qcom/qdu100/efs3.bin",
->> +	[23] = "qcom/qdu100/aop.mbn",
->> +	[25] = "qcom/qdu100/tz.mbn",
->> +	[29] = "qcom/qdu100/zeros_1sector.bin",
->> +	[33] = "qcom/qdu100/hypvm.mbn",
->> +	[34] = "qcom/qdu100/mdmddr.mbn",
->> +	[36] = "qcom/qdu100/multi_image_qti.mbn",
->> +	[37] = "qcom/qdu100/multi_image.mbn",
->> +	[38] = "qcom/qdu100/xbl_config.elf",
->> +	[39] = "qcom/qdu100/abl_userdebug.elf",
->> +	[40] = "qcom/qdu100/zeros_1sector.bin",
->> +	[41] = "qcom/qdu100/devcfg.mbn",
->> +	[42] = "qcom/qdu100/zeros_1sector.bin",
->> +	[45] = "qcom/qdu100/tools_l.elf",
->> +	[46] = "qcom/qdu100/Quantum.elf",
->> +	[47] = "qcom/qdu100/quest.elf",
->> +	[48] = "qcom/qdu100/xbl_ramdump.elf",
->> +	[49] = "qcom/qdu100/shrm.elf",
->> +	[50] = "qcom/qdu100/cpucp.elf",
->> +	[51] = "qcom/qdu100/aop_devcfg.mbn",
->> +	[52] = "qcom/qdu100/fw_csm_gsi_3.0.elf",
->> +	[53] = "qcom/qdu100/qdsp6sw_dtbs.elf",
->> +	[54] = "qcom/qdu100/qupv3fw.elf",
->> +};
->> +
->> +static const struct mhi_sahara_fw_table qdu100_sahara_fw = {
->> +	.image_table = qdu100_image_table,
->> +	.table_size = ARRAY_SIZE(qdu100_image_table),
->> +	.fw_folder = "qdu100",
->> +	.non_streaming = false,
->> +};
->> +
->>   static const struct mhi_channel_config mhi_qcom_sa8775p_channels[] = {
->>   	MHI_CHANNEL_CONFIG_UL(46, "IP_SW0", 2048, 1),
->>   	MHI_CHANNEL_CONFIG_DL(47, "IP_SW0", 2048, 2),
->> @@ -1399,6 +1436,14 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->>   
->>   	pci_set_drvdata(pdev, mhi_pdev);
->>   
->> +	/*
->> +	 * Provide Sahara firmware mapping. Sahara consumes it via
->> +	 * mhi_dev->mhi_cntrl->sahara_fw at probe time.
->> +	 */
->> +	if (info == &mhi_qcom_qdu100_info ||
->> +	    (info->name && !strcmp(info->name, "qcom-qdu100")))
->> +		mhi_cntrl->sahara_fw = &qdu100_sahara_fw;
->> +
-> Why are you adding QAIC MHI controller config in pci_generic driver? This driver
-> only handles Modem devices.
->
-> - Mani
+This still should depend on PARAVIRT and SMP. And maybe to enforce it
+even stronger, your driver should fail to build if PREFERRED_CPU is
+disabled. Imagine a scenario when someone makes PREFERRED_CPU
+depending on some other config, but doesn't modify your driver. That
+way you'll build the STEAL_MONITOR successfully, but because
+PREFERRED_CPU is off, you'll end up with non-working functionality at
+best, or corrupted cpu_active_mask at worst.
 
+Also, the name 'steal monitor' implies monitoring, while in fact
+you're actively affecting the scheduling process.
 
-Hi Mani, Above one is for QDU100 device. QAIC is not added in this file.
+Maybe 'steal governor'?
 
->
+Thanks,
+Yury
