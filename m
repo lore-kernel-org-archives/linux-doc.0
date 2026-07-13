@@ -1,227 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8F52E7BB6;
-	Mon, 13 Jul 2026 14:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783954565; cv=fail; b=XqXkghZ8Pd4vskbBCxrAb2Keg5LzODc6UDfH1nDzJesY42Huu2EZIzWpzVfdP0S2NkPWtU/vyp3OLoxk8z3nCmzTOULzsrouuhA1UGJUkt2lhOaKQET/U674LbB0adehQnNMtJ8nCcJfUyMSI5a37PTINu3UYf8oaad96jgMHzo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783954565; c=relaxed/simple;
-	bh=zxbCMH4p/OwgJJOvFa5lbBigFQ/I7Ge6riqVnI8kGdE=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Lymtnu4TeYRfmWSGDmKatlngnyzD7sfIgDh3oDGCRMiJi38Q4drf33pzkprZQfdsRE/KIB9SgsbyLCw0Fa2OXuFoiUUJCzr1E9+bdPZnMufrCwYO65tvAJFB5cWiM8r4zeJxip098ApGadHWfS3pbNy8JCBBoCEr3bwolFaAmyU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Spsu0Yhi; arc=fail smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B88230FC03
+	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 15:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783955203; cv=none; b=tYjspPsceOiPA/3i/4P0GTZ2lhhZgTlz7Qv8vs7GSA9JR+z++oDdeASpaIw64NDqKvc5eesJrWpZPCF9pjMUQVsXGA2GHQIWaeVGVNyglacy9/6PpltO3os2RXNrm/OQ7ecRjO9flDMJ8Ce9wkgcXXzPk0/AjwLbC3LzLusEujM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783955203; c=relaxed/simple;
+	bh=fKdRgGaEQ1DKjn+OgbOLKOAaVAQH9jINRbPsH9LIGzM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J6tS5BINdqbaTcEc+yee0OoVEtw2EDuNYDXMWzspFz7JW4FqNcKmWdmprj4Ou+TV3I+A3vnXtJrDmZ45hl+F6KKp9oDHpYBfql0EcJH/8lLI47+cb3DRHkLT6ao/q/780V+blm0kexwjjHfzT97JMc+OMG22ebhNl5I/4WNKMxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LQSprUib; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Spsu0Yhi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783954564; x=1815490564;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=zxbCMH4p/OwgJJOvFa5lbBigFQ/I7Ge6riqVnI8kGdE=;
-  b=Spsu0Yhid/VtDMEWKwtpM8g49JQHLOsXwPxqa0nYBUPHFE7x3LGwlFDR
-   SJ56c2xnr8jS2dfYhZmhVSoy8qtgbzdpuvX5wwfDXUteawuRrYy/RZB6U
-   hxmPZO6vdXmLoa//N2yLc4ewoOAiRKte7dDiMXTL1bBMi7bt/JjlEHZrZ
-   YEAIqNX2lNknhFTsS3Rqs3hIBMkWw0349j/y51Qxo233YAdrdasdcnAiv
-   bmCh3sfrJ+cRc4YX6EpBzn6Xfze9e2VCsDFeGwq419rLjTsjNIiiR361f
-   uySe/CiK1JZDz2uPOoGN/86xIIpBI87X5rTr2QI1Qcio0pFjlrDsMri8L
-   Q==;
-X-CSE-ConnectionGUID: ICjq6DrLRpCw5bbmMB7IKQ==
-X-CSE-MsgGUID: F1JdZk6ESOCG+ZlYqO4ZjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="72088726"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="72088726"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 07:56:03 -0700
-X-CSE-ConnectionGUID: 4CueoTcpR5uBn9yJRQywDw==
-X-CSE-MsgGUID: E9lY7KY9SLqCxL7lPH7PmA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="285655621"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 07:56:02 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 13 Jul 2026 07:56:02 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Mon, 13 Jul 2026 07:56:02 -0700
-Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.59) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 13 Jul 2026 07:56:01 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Z7P990L6y+pU5q03bC9Vgt7NqEjdqBy60PtoJDR5QOhMRt9G+3zAl1ykJnaUYfbfzYn+lN5c/HE7FqBAuTHvxl5kMy79EwpUX1+3hexirx1UCEcbq6TrkfEuBfojAYA6icfyx8tO3r4M+CcRNhyA7VUj8mJnmT83p8KZ2X3Opy3i9VR5DMxr/Q9C0xwJtCTJ29jM7g3Yeu6HaWNbKPf391DIBNGGomwcxGgyH7ZzxsF6wJE4JJtLsdpVrSgQ7WL9P8m6WwJVJpWDeB1Zs2ZM3BZE/c4J7efsm31D/XOi9N5m+fyusuFChFxbzOhyRgLdlr1SLZLuPcpr6Yzr87VdbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xMQEnP/ltpyx2QTR7i1Lh23v+ecPYknTnP2EIRfMczs=;
- b=RsENBQ+bhZZ8TzmXH6VvwVppaJo4TpkCWC0Kq7QrAYXL0UIWcSjcXVAnxq0cWC1dbZ6OM6kLnnuCaQwIExU2E7cXDNv0AZrw5VgKL1Dpmk1ogyJ/X+yUkzp4kVF2YWbbL6UZVVi97H1/gWVSse5fV1gG6ezATHOvSVECKpZSnjSOqW+eGPM0KzH1jwTYJdPRXeV+BEooPjQg1F1ptbghp0RpT5A0Nl9+kbaiIit1jaxd+Y+sFSCiCqfWKL2NjhD8CuAj+K80cMap3UrxCdSj0hOpdYhWALVLaGTqmHAPmsOzK4UgoNuIaE6i19WMIukWnQvVCqNR8kyMn7emKT5CmA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN2PR11MB3949.namprd11.prod.outlook.com (2603:10b6:208:138::31)
- by MN0PR11MB6206.namprd11.prod.outlook.com (2603:10b6:208:3c6::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Mon, 13 Jul
- 2026 14:55:58 +0000
-Received: from MN2PR11MB3949.namprd11.prod.outlook.com
- ([fe80::dfbf:4563:6676:e23d]) by MN2PR11MB3949.namprd11.prod.outlook.com
- ([fe80::dfbf:4563:6676:e23d%7]) with mapi id 15.21.0181.019; Mon, 13 Jul 2026
- 14:55:57 +0000
-Date: Mon, 13 Jul 2026 16:55:49 +0200
-From: Larysa Zaremba <larysa.zaremba@intel.com>
-To: Tony Nguyen <anthony.l.nguyen@intel.com>
-CC: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<edumazet@google.com>, <andrew+netdev@lunn.ch>, <netdev@vger.kernel.org>,
-	Phani R Burra <phani.r.burra@intel.com>, <przemyslaw.kitszel@intel.com>,
-	<aleksander.lobakin@intel.com>, <sridhar.samudrala@intel.com>,
-	<anjali.singhai@intel.com>, <michal.swiatkowski@linux.intel.com>,
-	<maciej.fijalkowski@intel.com>, <emil.s.tantilov@intel.com>,
-	<madhu.chittim@intel.com>, <joshua.a.hay@intel.com>,
-	<jacob.e.keller@intel.com>, <jayaprakash.shanmugam@intel.com>,
-	<jiri@resnulli.us>, <horms@kernel.org>, <corbet@lwn.net>,
-	<richardcochran@gmail.com>, <linux-doc@vger.kernel.org>, Bharath R
-	<bharath.r@intel.com>, Samuel Salin <Samuel.salin@intel.com>
-Subject: Re: [PATCH net-next v4 02/15] libie: add PCI device initialization
- helpers to libie
-Message-ID: <alT8dYPTxD3rhqht@soc-5CG4396X81.clients.intel.com>
-References: <20260710215313.1475803-1-anthony.l.nguyen@intel.com>
- <20260710215313.1475803-3-anthony.l.nguyen@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260710215313.1475803-3-anthony.l.nguyen@intel.com>
-X-ClientProxiedBy: WA0P291CA0019.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1::21) To MN2PR11MB3949.namprd11.prod.outlook.com
- (2603:10b6:208:138::31)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LQSprUib"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-84874b52eabso4318489b3a.0
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 08:06:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783955202; x=1784560002; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=U5TcpUNZnrt4SbuBdue6MfVxkNhuI2q7ex84bolmGuw=;
+        b=LQSprUibVAVKDSBwNSDzAxrAQfuDf9eVimsIL7sKxt/Ao4wxqf4OrchUxpln7BGodb
+         NpGMbVRFzqBjlpjPuOupoCuKNucqetba6JJG42B5uisVQjxxp5e1HPNtoQoviwrfH2wM
+         QaMyydIJZ07rz4kWhdoSoJYTm58WeFt0BtXRS/qudgm/vEEq/DJO0QX0M5HSuVXeGnbY
+         7MvXroyAi7XeJmk/Maey6qH4dwFjUrvWha1MxfCTwdybAhUMlnYgVkhC556fiaT9Lq1b
+         HRlPkAt/V6r7D8UdDRL5MryZPMNjyC9hR9ka8t/gm6DZJOWs5+jvSPxp6sIxe2hKMKth
+         W/bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783955202; x=1784560002;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=U5TcpUNZnrt4SbuBdue6MfVxkNhuI2q7ex84bolmGuw=;
+        b=cM9dJk8AKMB85v04uROSAPz8KGXzgo4H5FdDpm72qHKmegwWU/31mv77fQI8UfSlsl
+         gXUiPkPlXeMk+O9mwKtW5frh3wX7gCvN2+AidGjmCr7j6b5Prfla0ZuDQKNBYQLCghtn
+         4DxLBiTLgQNOcZZhev1J2B7qBFpNEF93NkA4gaJz05QXwCgI6ceEqifuUVbSsOaD1jxC
+         NJwMWee/ZUkiPkjVCcQWBTdH3QJNeY/TOlkBcU31aJnhi7rExSm0f5NSPTs4uG6d2moT
+         eVqcE6ysIo869eeFZu5DWw6Aqj59Dwji94EPP/FFZvv32ki6cPWOGtqnlR+BHlpVGE9i
+         66Ig==
+X-Forwarded-Encrypted: i=1; AHgh+RqWw1TPqW8hEnUlu8Q97rg1YNzUg9GoDw0wzif4hhdjlxEk/CwCt8zrkF8vBC8JND5H4O9In7HSfbU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxe9ORWF0L/Ac67wtEYCvPTLqlMq7JvaREhWIoUaa239/r5i4UK
+	yVcycFbJqhDQ8zqh8Vq35oe/XiyLDhD93Dhddeb4kto48xjkqZhxvbOX
+X-Gm-Gg: AfdE7clG1Jud88EQjNz6m9aoOx4NXq9n3y3sUcDBrFH1k8vbPjdUAXVLyorh6x1q04z
+	CSKT/EzRUU3yByeTVAAiJTgX7B38FUsTo8RX/xAC4z6/5/+Ai+G0wK9L7Lu1fJHOgaAsV5/G0sS
+	vgkDPVxJUQAZ3OTZwWaps5q49wXt50/YY68KUDle8b1ytK8/Zc2MYKIq8B5W86xrPe7krFSyZ7X
+	5QEBg5i2wXxCgtdYr33kxtwPmI2B4DkTRbmUwE00/fJWHKqRtmmBjCd4oPc2DwqPbwYrgUW9tvT
+	w51pH4t2/Ll8rWllQ/yY4ZDy+dGuSWhd0uWCFZy53TCHWPsVI/5mFYzOgStgiWpsDey6UjBbj9k
+	GhpVtduZN7fC5B9bQROOryP9Fc+PR/IUJNYIlJMKsO/Mv5lN5AlGZ8E5Eek1Xyw+w7sWYIprsAT
+	rxPX29nCcHXNNkC1eASX6aQMb6f/j4sD9TqYWVY9MWWRSdtO3qd3JiAKYfhGgUj+w=
+X-Received: by 2002:a05:6300:48:b0:3b4:7e2d:a3bc with SMTP id adf61e73a8af0-3c10fb5ffb2mr10496496637.0.1783955201727;
+        Mon, 13 Jul 2026 08:06:41 -0700 (PDT)
+Received: from utsav-Legion-5-Pro-16IAH7H.comp.nus.edu.sg ([2401:4900:8821:fbe9:7119:6066:921e:7077])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b9a67c217sm13578502c88.8.2026.07.13.08.06.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2026 08:06:41 -0700 (PDT)
+From: Utsav Shankar <utsaveshan0206@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Utsav Shankar <utsaveshan0206@gmail.com>
+Subject: [PATCH] Documentation: usb: remove dead link to external USB programming guide
+Date: Mon, 13 Jul 2026 23:05:44 +0800
+Message-ID: <20260713150544.20962-1-utsaveshan0206@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR11MB3949:EE_|MN0PR11MB6206:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab517849-49d5-451f-2eea-08dee0eed8a5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|10070799003|23010399003|7416014|376014|366016|1800799024|3023799007|6133799003|18002099003|22082099003|11063799006|4143699003|56012099006;
-X-Microsoft-Antispam-Message-Info: nAw92odaNURBp+6rL5oQ/f3O3HwIBbIKis9aWKmKyoDMtler1zRMfRuiTASbw/0zXrc3BRrRpuyUXuRJnXSRGrkz4OBO5xMwwExhoEZnj9MxM3os0D0Rap17B8pk8XwCP6OzETIcQwYI5hQA0A1AKXbI5F9Wu7KRpK0VWsrG36lbX6EWbUX2WqnsCUVzcGgns2dfPZ7UXJqbELT82Uray5Y1TfDsZbyRPc3maADaR5vfXM1Zn7/ZzmDs2HZX4HMHyf2wCsuHruqr4XgsQltS+btI/c6ZE4MHxE60dBVSrjFC8G+vdn8bvQ9Xp05adjBRCgrXg/LmjKGVHmK7tohVbbxNhC0PDsR2EMCuabbuUXQOZ+48ePqyTQhOMJaj9oDHBTTktLagd3AW/HDZbUhG9e2PQM3NIWcuX06vHwUdlfLcJFz0ylKY0nXDtzbO7UHvSinpOb2T8bE38MEwGGLw5x/cWyC2plWVSXKxZirrKezSZUPupJJ5pnpdMiZZ2T3koezksjDs2MTB16rqVkcbTiUqmbGE/vG3omtvguIMdKke6Xypqo4BcrL/0hIvwLbPPbR9jliHKrycd2Ex2Yh+zjGXOTEaO4T0V6kcUK1Ax+G0qQDYL67mOyTuvXk5EjNz3kJOJIMIGNIVVCjUPqTZ0jhKkcNkINjLlLICt/4y6Iw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR11MB3949.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(23010399003)(7416014)(376014)(366016)(1800799024)(3023799007)(6133799003)(18002099003)(22082099003)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nhpGnr1e+kvCYv/t7BlGPJhItaWSuL7QHrFrWfrHTQpyNQICR57s8cNLqKLy?=
- =?us-ascii?Q?3r1+gDRz0JQargJROMgYpwgWDh2eZmLq2cf8WISSYs29CL9Vnv99TurHU1o8?=
- =?us-ascii?Q?XlQIyb06HIdCepr8mv4tVrlQJLLX4WUwxL47SB4aaL6wVnvM2KL7M/xGF4Qh?=
- =?us-ascii?Q?2OZ/Ic9V4D9PrSfaA8gau2DzyK2LQcZG5fC8AnsqZWGQ28yr2ddVnx0tHIB9?=
- =?us-ascii?Q?kWh8ueP+zQprYh25R3bJXfO3bhUnBMmIDEmvLPJFUF+VRbo4HI3dfJGHTdX5?=
- =?us-ascii?Q?dNZV+RdE05+vgozxf8na5uuKNNsrsCiBIMCmYDPAhcnR6xOIEA2X0BZZDcQU?=
- =?us-ascii?Q?7rAJyTQkZotPGl/gKfSv5OdOBw3Ohlc2bPPLTpWkbD3WezqQ0BluBfKlJEk+?=
- =?us-ascii?Q?BStr+0NZvzchgOyBS98q/vSIXqDE+UGVNjZhZGLYbdU4RDXxP/rjmOYeAK+4?=
- =?us-ascii?Q?oXwgjIUGkilsFdw172V5eaW2Uczs+tSrSSVcFzSlhFe3RfhZ77C53FJ3uZDr?=
- =?us-ascii?Q?YYpH/znfB7Gt9py+Ru19XNCDE1rQvolSEzzN7wjnSJFEwLpjfMi3WJWkLT6k?=
- =?us-ascii?Q?q0n60WhL0rUfSQtzFUfnVbJxejGZWDYAJ5xGK3iHBqcyMDtYVwg1PEDjwNVO?=
- =?us-ascii?Q?EqMMYR9wLfsb256qhfcFShgBeMPTIJbPMTwOeIjrDfYorGb7LVhkJpG5iP7B?=
- =?us-ascii?Q?uANoF0NeQUyGOHflNrUACKmW9d93UKR9egLK8e9v7sUrCsHuXv435JNqc0tR?=
- =?us-ascii?Q?TYfBf1500njRIEU7xWUOFL9XJ6Vr2FKgWQS1gQ+EaK18uPaBb+G/vNilDU+/?=
- =?us-ascii?Q?CbqV/7HLX6zapOODTWQNqK6AiyszK2rgm5uHWM8GDcINQskqeyPzqhijy8pT?=
- =?us-ascii?Q?ECt8xsJVEz0RhQY9kvEgh5VKHmXHuNXnm35ruVOow1a8jr34yhl2yuQiOsQT?=
- =?us-ascii?Q?Zc1Y4keZZ0gZiN0O2gL5d07gIniHqMp6f21FM9sbrMjBcmNWIY8tfREmIeFu?=
- =?us-ascii?Q?r/KcMhkIrQfffjUOG3Gb28AmS3GKXaSghSTiThLAjchLUAk4rgcFld1FVuXM?=
- =?us-ascii?Q?KiI1zvf+KdCjsJfbCPRjo4xS9chU6ZQvzSK8fXSgutS3pe4UcaKJM5Tc8ci4?=
- =?us-ascii?Q?R+PMHdOQzt2JHN6XAS6oqhi/2XiOtoCMazFjG2OlPQHd/W8vC1WQ+nCcH3KV?=
- =?us-ascii?Q?Uq7Fwb+sLXEqKMN6af2EQHmL2cqZZIWFY6YidikBzlJizm3cCBQDxTSUTboq?=
- =?us-ascii?Q?dQP56IQgAHCU7L1XHRRxEQxR3y59I6Jl2Ez1QtIQDv/8o3mVXznWwdNSP/r/?=
- =?us-ascii?Q?LXftvWcZ2X3WcYy9BXt4cp7pFPosn9yhBZ4YiMJLdG7W0WZ+noyVbqLLXFkp?=
- =?us-ascii?Q?tbCOzhq1ygeJrjsDab24YvUPXM2PwmRh2lqLXC6iiPbbPJ2z0QmW/HuSVmo3?=
- =?us-ascii?Q?piai30RGBn3WmgaETqAvythLKb6/ELrLYk/8hTarWl05K5xbpOSh1AqjRSlx?=
- =?us-ascii?Q?BSD2SyGhi8dFuvPXPXkVjHjRPeIhD3nXqNa+RrJyLXb6Ua+5hAVsDe3L0Dn+?=
- =?us-ascii?Q?gg5n6vCSVM3kvMTnF8ZKHgf2giyaSqtcNTnPM9/km+2NmomNkkPmyS9i8ZW+?=
- =?us-ascii?Q?fUgasKzvBw0DZ4G+iTF9tnMD4fRo4dDdotjf51tbJWT7AX6NAQtq6NTGdsd9?=
- =?us-ascii?Q?xf5ea2JN4XLxFo++DSJiqS3D9dVuPttk99m4N9owSLJ0RsQ0EmrkalzWkIDt?=
- =?us-ascii?Q?bu4aEXEjIKE3lusapjNmQLvusgQN8g2Vq3GrqGbjuJWrvhy+c2ljIK1jGQbq?=
-X-MS-Exchange-AntiSpam-MessageData-1: c/0Nbwago79MnDaXPQTfkSB9jowuO2RGMV8=
-X-Exchange-RoutingPolicyChecked: bf9M+GGgvn+TQc/G36UMPs9kSKfeA/BzdNfHXl8QGGhPIJJMr1UNfuf8mNCKXpTSTD/W0rpkl8RRLLKbuONo9o1eeGMH3FaR2vMeQnrRwI97Er3CaMKR8G63LBjkqA+TcYhQDHmy5xuh15BiNcVW2/qt8TgCMrfl4kVlZylk65QtKpdOM0MzL95wrBrAS3kAykEjtP7siI23hTPqKptS4iMBhKryErfFOjzF76dgEKWlyPDK9Mffxm6paBrgPTGcrW/LZnKg5pHK97YW5eENpzzOye69sh+duO3VG4sNZrZp7o178GLPzgCBH0C5eWwxh7IJAa1uf94va1afkyRTxA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab517849-49d5-451f-2eea-08dee0eed8a5
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB3949.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2026 14:55:57.8213
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m+2EdFH3bij7MgkBv0+jKRlun83mbkVYXFMY0Xg796LRker3M3xqPwoQLvmRiNVv5yHqrNSSHogREdISoSajq5ip+6T16paXLm93rDdFNgM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6206
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-Sashiko has 1 concern about this patch, and I think it is not very relevant, as 
-this is a 32-bit issue on a 200G+ HW, which AI also mentions. Seems like 
-checking offsets under ifdefs would be unneccessarily defensive.
+The "Programming Guide for Linux USB Device Drivers" was last hosted
+at lmu.web.psi.ch and is no longer reachable. The original source
+(TUM, cs.tum.edu) is also defunct. Remove the dead reference rather
+than link to a third-party archive of a 20+ year old, outdated guide.
 
-Sashiko says:
-> commit 0540f7038f92c56e3d90344d11ab6f07b9f6b975
-> Author: Phani R Burra <phani.r.burra@intel.com>
-> libie: add PCI device initialization helpers to libie
-> This patch introduces libie helpers for PCI init, MMIO mapping bookkeeping
-> via a list of libie_pci_mmio_region entries, and a lookup helper to
-> translate offsets to virtual addresses. The public map/get APIs accept
-> resource_size_t offset and size arguments and are intended to be shared by
-> idpf and ixd.
-> > diff --git a/drivers/net/ethernet/intel/libie/pci.c b/drivers/net/ethernet/intel/libie/pci.c
-> > new file mode 100644
-> > index 000000000000..a0d3535d6529
-> > --- /dev/null
-> > +++ b/drivers/net/ethernet/intel/libie/pci.c
-> [ ... ]
-> > +bool __libie_pci_map_mmio_region(struct libie_mmio_info *mmio_info,
-> > +				 resource_size_t offset,
-> > +				 resource_size_t size, int num_args, ...)
-> > +{
-> > +	struct pci_dev *pdev = mmio_info->pdev;
-> > +	struct libie_pci_mmio_region *mr;
-> > +	resource_size_t end_offset;
-> > +	void __iomem *va;
-> > +	int bar_idx = 0;
-> > +	va_list args;
-> > +
-> > +	if (num_args) {
-> > +		va_start(args, num_args);
-> > +		bar_idx = va_arg(args, int);
-> > +		va_end(args);
-> > +	}
-> > +
-> > +	/* pci_iomap_range() would silently map less in such case */
-> > +	if (!size || check_add_overflow(offset, size, &end_offset) ||
-> > +	    end_offset > pci_resource_len(pdev, bar_idx))
-> > +		return false;
-> Can this API silently truncate the mapping on 32-bit PAE builds?
-> The parameters offset and size are resource_size_t, and the bounds check
-> above is performed in resource_size_t arithmetic against
-> pci_resource_len(), which is fine.
-> However, pci_iomap_range() is declared as:
->   void __iomem *pci_iomap_range(struct pci_dev *dev, int bar,
->                                 unsigned long offset,
->                                 unsigned long maxlen);
-> On 32-bit configs with CONFIG_PHYS_ADDR_T_64BIT (for example PAE),
-> resource_size_t is 64-bit while unsigned long is 32-bit.
-> > +	va = pci_iomap_range(mmio_info->pdev, bar_idx, offset, size);
-> If a caller passes an offset or size >= 4 GiB that legitimately fits
-> within a 64-bit BAR, the libie-level bounds check passes but the values
-> are silently truncated when handed to pci_iomap_range(), so the wrong
-> sub-range gets mapped and the mr->offset / mr->size stored in the list
-> no longer describe the memory actually returned by pci_iomap_range().
-> Would it make sense to either reject offset/size that exceed ULONG_MAX
-> here, or narrow the map API to unsigned long so the truncation is
-> visible at the type level? In-tree idpf and ixd likely never hit this
-> today, but the public signature invites the mismatch.
-> > +	if (!va) {
-> > +		pci_err(pdev, "Failed to map BAR%u region\n", bar_idx);
-> > +		return false;
-> > +	}
-> [ ... ]
+Signed-off-by: Utsav Shankar <utsaveshan0206@gmail.com>
+---
+ Documentation/driver-api/usb/writing_usb_driver.rst | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
+index 95c4f5d14..6f024e164 100644
+--- a/Documentation/driver-api/usb/writing_usb_driver.rst
++++ b/Documentation/driver-api/usb/writing_usb_driver.rst
+@@ -322,7 +322,4 @@ http://linux-hotplug.sourceforge.net/
+ linux-usb Mailing List Archives:
+ https://lore.kernel.org/linux-usb/
+ 
+-Programming Guide for Linux USB Device Drivers:
+-https://lmu.web.psi.ch/docu/manuals/software_manuals/linux_sl/usb_linux_programming_guide.pdf
+-
+ USB Home Page: https://www.usb.org
+-- 
+2.54.0
+
