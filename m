@@ -1,359 +1,286 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A0F3DC871
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 09:03:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783933408; cv=pass; b=QAOWiFuIiCG5xM8oFYzpruHO8WBYEeiEmy4X066/zvQubXCY1pdnTi3r+HMAUR/vIicYDM3nPwXEQzvnf4BuxAsTu6BoigvrDeUkI1A8eYVqD7aoRctcgxfwrjGQGJawFtQJUgasZwxjLKnInz2iMZt+HfYzfoDpPxAoni0ezy4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783933408; c=relaxed/simple;
-	bh=HkkiURfNnIpTqbnEHqelCe7LpKMrp8wbJa8JkOVeCOk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rWa3NySr8JBLcWBu52DpQ+WegUIUYCGnb1DlcTLv7vaTS+eKchzkBaFBeF/lNSRbPq6GGbPiDaGL6ruG08rzjly+6EMJwIbCqw1yWIxYi+2V7rLoHW0QH6R4pEouTij5Jj3M8ldKHs+r6ob9coARLuurGT7DkpXANjefY25cNhA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=izMRfUTQ; arc=pass smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196253DD531;
+	Mon, 13 Jul 2026 09:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783933818; cv=none; b=oLGsgENDPMbGUiID3PfTRRKV+/bAq8QkZSQLpC1mzvr1gg6SeCucfTpm7abUP2QCCfUu4+30J7Y6vdv/HhZMYAMyHyLADR+jocKMk/41FsWY/J/BkXie1ySJN0fl5v+OMLwYo8lkaHAkxvabc5YPJm29wv+Y0NKbQU7ZL6yFU5g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783933818; c=relaxed/simple;
+	bh=LeNsfnUKuC8/e2iaxWWiium6BaAeHkhL/+C8JuFik/E=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JsbNAn2gcFFWrtrQLo9S6D3lzM6Dw8woj+8dQfC0ke7UJfUVYlb2RxGpPy+JiTtNVZA9sE0eiWbgg8WFxveO7Budp0bnYHV4kdna/WizwjUjQzm/Xd6j4DVG/11wK1D0Dpoim9xSG8Z1rYD16JSCnOSCoyzE0rgPe6XduqBNh/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mssola.com; spf=fail smtp.mailfrom=mssola.com; dkim=pass (2048-bit key) header.d=mssola.com header.i=@mssola.com header.b=KFxospHa; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mssola.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=mssola.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="izMRfUTQ"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aeb36c46bbso361925e87.3
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 02:03:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783933405; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ocbMs3tZqyLAW1ODAfW7BDLuKt4+kq96xKS3uEL0Ogpj4FzlqzjOF21rEdTA7y682v
-         2xuz9rH19ZkYLzsazouGMT/jq0nZUIz3YbxBDBevwcenqT6AXB5CQ11kW0t1mcb30xZj
-         qKbc0Tcn+45+o6aiHRmmQAvV/thf1YBb/niZZ7yybbyViyp4Z1QpnVJY2yCelWcyJKeH
-         xNoxDoidCMBHrbJpa81fiUQNNDArbAHPltRS8edId/PEra+zffL1gbP2+byU+QrS3EDt
-         eEjuvNxltSex8obEAmUUU/OFkRaUPwoBLHn59yfGPGsFTllHRC7XpnDnW8iFPdhHtHw6
-         p1dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=+u5qiteQ/Ek+qbnSNw5opnC9ZpEZd0h6fYUONPqht0Y=;
-        fh=Kx93oR1/e7gOP6aNZtKqg+oxfkyEiBvI/710Do6UCNQ=;
-        b=CFgT9e79tGRnotCTWknHE+WfLlooLxqrakCWC35VsD3hLT8rVsDyTTf48xoL6+dJPp
-         HOuFbspFK0gUsplM+HgqIpc3/9h6Dynn6SYzJjYZ/iEBiIc4KNIKEHwIdwGCNHGd0B/i
-         0KxKyYHutPaSC4lckETLm9oR65DXV6UqFfNjoWFg/AmbfQuokGDrZGqYLoqoarMznh2I
-         eT0VReNzr9wcSr0UTtKKlxTjPaJS9E3LNu2H2eZVnt8KYVqH0SOcEI02MaBDI4Wg4NiF
-         wHpki3rEVNcbNFfeaIeIXn21p2+zu8TAoo6TafaHduIMTWLYydFqoppkaqD7DLXrTDtx
-         pWCQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783933405; x=1784538205; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+u5qiteQ/Ek+qbnSNw5opnC9ZpEZd0h6fYUONPqht0Y=;
-        b=izMRfUTQ0qvAOmmz6LlRhKs0a6HTfVMUogPYSqwwUo0Kn812GgptUFLqMpd0ENKYP4
-         UoxxKOtTODFYRaWU1YT5sntv7QKzJWWhEONvmk34mAowVcQvhErd2Bn0OaUrEamOHYcS
-         /gGzFo8qmTbCaft6mpkUBmeyppl6C0BwJfC1ki45DPVkmCxpAreglsS0iuBUXA2aYS34
-         rtWVCQDzzfZphYfHDTMaHhrn8iQUL/YqGEm/92OBul2m3QVzo462RVSDVhn9UEnPiL0h
-         ljRPcPABUvh+cO65PdAxRSIH3374jUp6e7ofKz2Q7mMnmQ4ZzB34sKG8pjdz+D34lJJQ
-         MF+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783933405; x=1784538205;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+u5qiteQ/Ek+qbnSNw5opnC9ZpEZd0h6fYUONPqht0Y=;
-        b=IpAmn43pci61U0RG8/W0vP54ABIYrWMo3ttqMoByl/JrIJyHpyt9XJkjciRBSWhxWI
-         yOUkctcCvM8ohZGRHroLQLpn8YGiQbjFoqvVQA7lC31RM2800UUFXckbddg1isrNGDsD
-         JgkM3b18JUrQGkhour1tkX6mP81CFIchwjBkDVh/lXgNelwOO2BfHK6chvLJyZxopqYY
-         jRVwPUXG8aa7vxNjdQLhWnd0j04hLCGAwg5veqC+zZjcrq4O1mVYh4yuQFhHdx7ETZho
-         4ZNvZnS8xxTuUByGEeTqZRtjaUCE/IAbA/+KDKykZQrXw5S8carCs6eV+livhuUj3S84
-         Adzw==
-X-Forwarded-Encrypted: i=1; AHgh+RpGyX7ljCxNaf/mtl6wfNp6WRopbeX0vVfce6XDBtynhNrDg5Fvte2GZGbE7DTr/4r9Ho07QEnalec=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbSaxwpws8/kMfV1maaZFzGeXiDsahtyIWoJlArdA/4W8MM2Ih
-	Og3IJrNFKb1ueUM4YxwPgdCV7MKJWp2K+rBUbVIeBSeoXuMfj4ceszPJp10c0GsDVqg0rEsKOpB
-	8r+a+X1UWdh95qEqV7HgdyJF/OKCW8/E=
-X-Gm-Gg: AfdE7ckRjsuQk220+pa2grPldhJSaiuihLgkfJhkNI06MJTybEUfKf8Ch53Xq8E8q8z
-	EceCcNRykr95WPWvcxWAxVIjCHsgFSBbXCA5dzNgyc4LHzQJbzU8BXHOgbbjSrTOGdXc3p8e8kp
-	lZHgx62Apx2BERS9yduApFxBe/hDLO6EQpjjMWuhFAUOzWIQbosn0wCXcwwGKflyc6u6c6sp55A
-	kGNIP1U/VP0KvIzF2loZHKWGQ8aYeo85us2XcucmR7pxd02+FAULkCrwIn7uJbm0Ekm1SQAeiA4
-	MKmaMWLujcsOpVt4neqqVmrZlW1eVLqMrlho8BYybKKPZJqwco+LM3s=
-X-Received: by 2002:a05:651c:b26:b0:396:8c78:3d53 with SMTP id
- 38308e7fff4ca-39caa88fa80mr8986231fa.8.1783933404339; Mon, 13 Jul 2026
- 02:03:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=mssola.com header.i=@mssola.com header.b="KFxospHa"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gzGqG2jl2zMlDW;
+	Mon, 13 Jul 2026 11:10:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mssola.com; s=MBO0001;
+	t=1783933802;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CW1QIlAxM8lyL/yJZcuBvFadkSDPUJo184tHnC67Ync=;
+	b=KFxospHaM+ss8tATB4K+FGoOMvraeIyXHaNJtS/g0+9y/CEif9rX8cUcMz0Nl3klPZ7qpV
+	SGOZAV7HuD2mXUFRn/vCbLx78hg5wJ3e2bYjUzTjAXyfr6bPU9eZiAWidnyZkBVEq9qXaG
+	Psw2IFRjqwWtBpujbxKSpxcJtVNknUgJM3X/SKmDOiXd3kAwaNgEKAa/Rdv1k5S+oKWL75
+	MAZgAGKt8pwKfVrki1HhWboXaz2qwJtBiKavQvCYWqKdoFN4Koez6/JsqKJUeZDpO1sslw
+	yQ3XTka3hzd+JA/FY9GE4jshzH5/czjG2CsaLisPPYU/Cs4hhMpnYCF9N2LXEQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=softfail (outgoing_mbo_mout: 2001:67c:2050:b231:465::2 is neither permitted nor denied by domain of mssola@mssola.com) smtp.mailfrom=mssola@mssola.com
+From: =?utf-8?Q?Miquel_Sabat=C3=A9_Sol=C3=A0?= <mssola@mssola.com>
+To: Paul Walmsley <pjw@kernel.org>
+Cc: linux-riscv@lists.infradead.org,  corbet@lwn.net,
+  skhan@linuxfoundation.org,  palmer@dabbelt.com,  alex@ghiti.fr,
+  linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND] riscv: enable HAVE_CMPXCHG_{DOUBLE,LOCAL}
+In-Reply-To: <87ldc12wo0.fsf@mssola.com> ("Miquel =?utf-8?Q?Sabat=C3=A9_So?=
+ =?utf-8?Q?l=C3=A0=22's?= message of
+	"Fri, 26 Jun 2026 16:39:27 +0200")
+References: <20260605141247.253315-1-mssola@mssola.com>
+	<f63eefc9-769d-409c-4099-274254432129@kernel.org>
+	<87ldc12wo0.fsf@mssola.com>
+Date: Mon, 13 Jul 2026 11:09:54 +0200
+Message-ID: <87bjcb2r31.fsf@>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKspUhJE-6NN7XnfG0iJAxEiV9PJx6pDbUEU5jgO__+qvuU5ug@mail.gmail.com>
- <alR4jP1-qlcQNma1@wyuan.org> <CAKspUhLGq_Hz-EM+Jc9ga=ih_0Ui7WzHZt+uKxMvuERsYB93Bg@mail.gmail.com>
-In-Reply-To: <CAKspUhLGq_Hz-EM+Jc9ga=ih_0Ui7WzHZt+uKxMvuERsYB93Bg@mail.gmail.com>
-From: =?UTF-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
-Date: Mon, 13 Jul 2026 17:03:12 +0800
-X-Gm-Features: AVVi8CfVD19v3n_RsxQHZhlsBpxJIJA5TwkL9uCKdVk4v6ykm2jp4BFVH7eTyIk
-Message-ID: <CAKspUhLaCuBOHy9L5DMYBUq4kk_8hgFXfGHzhGXjvS_9iqNFUg@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: zh_TW: process: localize terminologies and
- improve fluency in 8.Conclusion
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <seakeel@gmail.com>, 
-	Hu Haowen <2023002089@link.tyut.edu.cn>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Dongliang Mu <mudongliangabcd@gmail.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Yuchen Tian <cat@malon.dev>, Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
+X-Rspamd-Queue-Id: 4gzGqG2jl2zMlDW
+
+--=-=-=
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Here is the inventory I promised, from checktransupdate.py on mainline:
+Miquel Sabat=C3=A9 Sol=C3=A0 @ 2026-06-26 16:39 +02:
 
-  zh_TW:  51 translated files, all out of date
-          221 distinct English commits to catch up with
-
-    process/      14 files
-    admin-guide/  15
-    arch/         12
-    dev-tools/     5
-    filesystems/   3
-    cpu-freq/      1
-    index.rst      1
-
-For calibration I ran the same tool on zh_CN: 178 translated files,
-also all out of date, 639 distinct commits behind. So in terms of
-drift from the English originals, zh_TW is not in a categorically
-different state from zh_CN -- the real gap is coverage (51 vs 178
-files), not decay. That makes me more optimistic than the "two years
-of stagnation" framing suggests: many zh_TW files are only behind by
-a typo fix or two.
-
-(The ~3300 documents with no Chinese translation at all are out of
-scope for both locales, so I do not think that is the problem to
-solve first.)
-
-One thing I noticed while reading the script: checktransupdate.py
-tracks the base commit accurately only when the translation commit
-message contains "update to commit HASH" (or "Update the translation
-through commit HASH"); otherwise it falls back to guessing from author
-dates. Adopting that convention for zh_TW commits from now on would
-make the tool's numbers reliable, and it costs nothing. Perhaps that
-could be part of the "more reasonable workflow" Weijie mentioned.
-
-My suggestion for the first step is process/ (14 files): it is where
-new contributors land first, it is small enough to finish as one
-series, and it is where the terminology differences are most visible.
-I would fold the pending 8.Conclusion patch into that series and build
-the glossary from it.
-
-=E8=91=89=E5=AE=B8=E4=BD=91 <chenyou910331@gmail.com> =E6=96=BC 2026=E5=B9=
-=B47=E6=9C=8813=E6=97=A5=E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=882:35=E5=AF=AB=
-=E9=81=93=EF=BC=9A
+> Hello,
 >
-> Hi Dongliang, Weijie,
+> Miquel Sabat=C3=A9 Sol=C3=A0 @ 2026-06-07 22:38 +02:
 >
-> Thank you both -- this is more support than I expected, and I am glad
-> to do this together.
+>> Hi,
+>>
+>> Paul Walmsley @ 2026-06-06 18:50 -06:
+>>
+>>> Hi,
+>>>
+>>> On Fri, 5 Jun 2026, Miquel Sabat=C3=A9 Sol=C3=A0 wrote:
+>>>
+>>>> Support for atomic Compare-And-Swap instructions has been in the RISC-V
+>>>> port of the Linux kernel for a long time. That being said, we apparent=
+ly
+>>>> never bothered to set HAVE_CMPXCHG_DOUBLE and HAVE_CMPXCHG_LOCAL in the
+>>>> Kconfig, despite having all the framework to support them.
+>>>>
+>>>> Signed-off-by: Miquel Sabat=C3=A9 Sol=C3=A0 <mssola@mssola.com>
+>>>> ---
+>>>> This is a resend of [1], rebased on top of the latest commit from the
+>>>> for-next branch.
+>>>>
+>>>> I have built this patch with multiple configurations and ran it with K=
+VM
+>>>> (the VisionFive2 board that I have lacks the needed extensions). All s=
+eems
+>>>> to work, but I do wonder if we did not enable these for a reason or th=
+is
+>>>> just slipped through. So far in the code I believe everything is in pl=
+ace,
+>>>> and I haven't seen any commit in the git log stating otherwise.
+>>>>
+>>>> [1] https://lore.kernel.org/all/20260220074449.8526-1-mssola@mssola.co=
+m/
+>>>
+>>> Thanks for the patch.  Your comments above are why I've been hesitant to
+>>> merge it.  I'm not aware of any publicly available hardware that suppor=
+ts
+>>> Zacas/Zabha.  No one has stepped forward to provide any Tested-by:s on
+>>> hardware that hasn't been released yet.  You mention that you tested on
+>>> your VisionFive2 board, but it would not have exercised those code path=
+s.
+>>
+>> No, I mention that I ran it _only_ on KVM, as my VisionFive2 board lacks
+>> these extensions and hence I couldn't possible have tested this there :)
+>>
+>>>
+>>> Of course, we already have Zacas/Zabha support, merged back in 2024, in
+>>> cmpxchg.h.  I assume (?) that it was tested in QEMU, but I don't see any
+>>> comments about that in the patch series.  No one sent any Tested-by:s
+>>> then, either.
+>>>
+>>> It would be good if you (and ideally others) could put this patch throu=
+gh
+>>> some testing on QEMU with Zacas and Zabha enabled, before we merge it.
+>>> The affected code paths for HAVE_CMPXCHG_LOCAL seem to primarily involve
+>>> per-CPU counters and MM zone counters, so those would be the areas to
+>>> focus.  HAVE_CMPXCHG_DOUBLE seems to do nothing useful other than
+>>> preventing the AMD IOMMU driver from being selected if it's not present,
+>>> so that part of the patch seems fairly useless.  In fact I'd suggest
+>>> dropping that from the patch and just sending a separate patch to remove
+>>> HAVE_CMPXCHG_DOUBLE from the kernel completely.
+>>
+>> To be fair, on QEMU I only "tested" it by booting it, running a few
+>> things for some time and ensuring that nothing got totally broken in the
+>> process while taking a look at the kernel logs.
+>>
+>> In any case, let me double check with QEMU with these extensions enabled
+>> and I'll try to be more thorough about it. I'll do just that whenever I
+>> have some spare time during the following week :)
 >
-> > Chen-Yu, I would like to serve as co-maintainers to help maintain zh_TW=
-.
-> > [...]
-> > As discussed with Alex before, maybe zh_TW patches can first go to
-> > Alex's kernel tree and then push to Jon's tree. I am not sure if you ar=
-e
-> > familar with the maintainer workflow. If not, this solution may be
-> > better for you to learn maintainer workflow.
+> So much for "the following week" :) Sorry for being a bit late.
 >
-> To be honest: no, I am not familiar with the maintainer workflow yet --
-> so far I have only been on the contributor side. So routing zh_TW
-> patches through Alex's tree first sounds like the right arrangement to
-> me, both for reliability and so that I can learn the workflow properly
-> before taking on more. Alex, if you are fine with this, thank you in
-> advance.
+> I have finally taken a deeper look at this, and I have the following
+> comments that I hope you can further clarify so we can land a more
+> precise patch.
 >
-> > I suggest that we could try out the provisional plan for about one or
-> > two months (depends), and then make a formal change.
+> First of all, HAVE_CMPXCHG_LOCAL is fundamentally used in two places: in
+> mm/vmstat.c and in lib/percpu_counter.c. In the latter it is used in the
+> percpu_counter_add_batch() function, which is used tree-wide. Hence,
+> selecting this config option has a wide effect.
 >
-> Agreed. A trial period before touching MAINTAINERS is fair -- it lets
-> the work speak first. I will send the MAINTAINERS patch when you both
-> feel the arrangement has proven itself.
+> As far as I can tell, both HAVE_CMPXCHG_LOCAL and HAVE_CMPXCHG_DOUBLE
+> could have been added in this patch series [1] by Alexandre Ghiti, but
+> I've been unable to tell how it was actually tested (no mentions on that
+> on no Tested-by either). On my side, the board I have doesn't have
+> neither Zacas nor the Zabha extensions so, as I mentioned on my previous
+> email, I have to test everything via KVM.
 >
-> >   * Considering that English documents are changing so rapidly, and eve=
-n
-> >     simplified Chinese cannot keep up with them immediately. I suggest
-> >     we start working on catching up with simplified Chinese right now,
-> >     which seems like a good place to begin.
+> Having that into account, if I build the kernel with or without the
+> patch applied, functions like percpu_counter_add_batch() have a
+> different implementation, as expected (good ol' objdump -d vmlinux
+> --disassemble=3Dpercpu_counter_add_batch confirmed as much); and from a
+> general outlook, the given assembly code is what I'd expect. In order to
+> test it, I have to say that I've relied on checking that selftests and
+> similar continue to pass before/after the patch. In particular, I've run
+> the selftests from btrfs, and they seem just fine (and toggling a
+> breakpoint inside of percpu_counter_add_batch() confirms that it's being
+> constantly called, so we are definitely calling the "new" code).
 >
-> This matches what I had in mind, and it also answers Alex's concern:
-> zh_TW should track zh_CN in structure and coverage, and differ only in
-> terminology. I will start by running checktransupdate.py over zh_TW to
-> get a concrete inventory of what is stale and how far behind we are,
-> and share the result here so we can prioritize together.
+>>
+>> As for HAVE_CMPXCHG_DOUBLE, removing it makes sense. Let me just take
+>> another look and I will send a separate patch whenever I'm ready for it.
 >
-> > re-translation may be more efficient.
+> Here I'm a bit conflicted, because you mentioned that it's only used for =
+the AMD
+> IOMMU driver, but support on different architectures like 5284e1b4bc8a ("=
+arm64:
+> xchg: Implement cmpxchg_double") or f0e4b1b6e295 ("LoongArch: Add 128-bit=
+ atomic
+> cmpxchg support") hint into other places where this is needed. In fact, f=
+or
+> loongarch, it's apparently needed to fix multiple tests on sched_ext. Thu=
+s, I
+> believe that sending a patch to drop it from the kernel would be misguide=
+d.
 >
-> Agreed for the badly outdated files -- patching a two-year-old
-> translation line by line is likely more work than translating the
-> current text afresh. The inventory should tell us which files fall
-> into which category.
+> As for RISC-V, first of all I believe that my patch should've also includ=
+ed that
+> HAVE_CMPXCHG_DOUBLE can only be selected on CONFIG_64BIT. In fact, commit
+> f7bd2be7663c ("riscv: Implement arch_cmpxchg128() using Zacas"), which br=
+ings
+> support for this (again, from the same series [1]), also requires this
+> configuration option. That being said, this commit doesn't say how it was
+> tested, and there are not Tested-by either. On my end, so far I got no lu=
+ck
+> trying the sched_ext route mentioned in the loongarch support, which is a=
+ bit of
+> a hussle in KVM with cross-compilation and the library requirements.
 >
-> > https://zh.wikibooks.org/wiki/%E5%A4%A7%E9%99%86%E5%8F%B0%E6%B9%BE%E8%A=
-E%A1%E7%AE%97%E6%9C%BA%E6%9C%AF%E8%AF%AD%E5%AF%B9%E7%85%A7%E8%A1%A8
-> >
-> > Is it comprehensive? I don't know. Perhaps we could add some specific
-> > reference tables related to the Linux Kernel on top of it.
+> But as a final note, I have used hackbench on this. I have statically com=
+piled
+> hackbench from source [2] at commit e6fb0b2c8ad1 ("rt-tests: Add AGENTS.m=
+d guide
+> for AI coding assistants") (i.e. current master). This binary has been de=
+ployed
+> in three iterations where the kernel was built as:
 >
-> As a native speaker: it is a reasonable general reference, but it is
-> not kernel-specific, and some entries are dated or not what people
-> actually write in Taiwan today. I would rather build the glossary
-> bottom-up from the terms that actually appear in the kernel docs
-> (=E8=BB=9F=E9=AB=94/=E8=BB=9F=E4=BB=B6, =E4=BB=8B=E9=9D=A2/=E6=8E=A5=E5=
-=8F=A3, =E8=A8=98=E6=86=B6=E9=AB=94, =E8=A1=8C=E7=A8=8B, =E6=A0=B8=E5=BF=83=
-, =E4=BD=87=E5=88=97, ...), and use the
-> wikibooks table only as a cross-check. I will include the glossary as
-> part of the first terminology series so it can be reviewed like any
-> other patch.
+> 1. Before the patch.
+> 2. With the patch (both HAVE_CMPXCHG_LOCAL and HAVE_CMPXCHG_DOUBLE select=
+ed).
+> 3. With only HAVE_CMPXCHG_LOCAL selected.
 >
-> > Perhaps I can handle most of the operation and maintenance tasks of
-> > chore, giving Chen-yu more time and concentration to focus on the actua=
-l
-> > translation work.
+> Again, given that I can only test this on QEMU, this whole thing is teste=
+d on
+> virtualized environments, so take it with a grain of salt :)
 >
-> That would help a lot, thank you. It also sounds like a natural split:
-> you on process and monitoring, me on the translation and the zh_TW
-> terminology judgement.
+> In any case, I got the following results:
 >
-> One last thing about the patch that started all this: rather than
-> keeping the v2 for 8.Conclusion pending, I would suggest dropping it
-> and folding its changes into the terminology series, so the fixes
-> land in one consistent batch. Any objection?
+> |        | Mainline | Both selected | Only _LOCAL selected |
+> |--------+----------+---------------+----------------------|
+> | Mean   |  50.9966 |       54.2076 |              51.6488 |
+> | StdDev |   0.1508 |        0.1097 |               0.7051 |
+>
+> As you can see, the results on Mainline and "only _LOCAL selected" are mo=
+re or
+> less the same, but not so much whenever _DOUBLE is also selected. I figur=
+e that
+> that these instructions are not as fast as expected on my virtualized
+> environment.
+>
+> With all of this, I'm torned on whether we should include HAVE_CMPXCHG_DO=
+UBLE,
+> as code-wise is pretty much the same as HAVE_CMPXCHG_LOCAL, but I can als=
+o see
+> how it can be removed as I cannot properly test it. As a middle ground, m=
+aybe we
+> can leave a TODO in __arch_cmpxchg128() asking to introduce HAVE_CMPXCHG_=
+DOUBLE
+> whenever someone can actually test it and guarantee that there are no
+> performance penalties as I saw on my virtualized environment.
+>
+> And that's enough of my rumblings :) I'd appreciate any comments on this.
 >
 > Thanks,
-> Chen-Yu
+> Miquel
 >
-> Weijie Yuan <wy@wyuan.org> =E6=96=BC 2026=E5=B9=B47=E6=9C=8813=E6=97=A5=
-=E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=881:33=E5=AF=AB=E9=81=93=EF=BC=9A
-> >
-> > On Mon, Jul 13, 2026 at 10:44:12AM +0800, =E8=91=89=E5=AE=B8=E4=BD=91 w=
-rote:
-> > > Hi Weijie,
-> > >
-> > > > I suspect that some contributors would run the get_maintainers.pl s=
-cript
-> > > > or b4 prep --auto-to-cc, so they did not cc Alex, as they didn't kn=
-ow
-> > > > the current situation. Because I noticed that for both two versions=
-,
-> > > > Chen-yu didn't cc Alex or Dongliang or Yanteng. Am I right, @Chen-y=
-u? ;-)
-> > >
-> > > Yes, exactly. For both v1 and v2 I ran get_maintainer.pl, which only
-> > > lists Hu Haowen and the mailing lists for zh_TW files, so Alex and th=
-e
-> > > zh_CN team were never on cc.
-> >
-> > Right, let's note this situation down. We'll deal with it after we come
-> > up with the final solution.
-> >
-> > >
-> > > > Given that this document has not been maintained for ~2 years and t=
-hese
-> > > > patches to the terminology actually don't have much significance, i=
-t
-> > > > might be more appropriate to directly declare the status of Traditi=
-onal
-> > > > Chinese as "Orphan" provisionally for now, and remove it directly i=
-n the
-> > > > near future, until Hao Wen's return and opinion. Or maybe, waiting =
-for a
-> > > > new good soul to take over, which is unpredictable.
-> > >
-> > > Before it comes to that: I would like to step up and help carry zh_TW
-> > > forward. I am a native zh_TW speaker from Taiwan, and I understand
-> > > this means staying with it, not a one-off effort.
-> >
-> > Nice and thanks. Frankly speaking, At the very beginning, I did conside=
-r
-> > saying that I also wanted to take over, and I wished I could. However,
-> > considering that I was certainly not familiar with the traditional
-> > Chinese terms used in Taiwan (although I knew some, that was all), I
-> > finally chose to be speak more conservatively.
-> >
-> > > Dongliang, since you kindly offered to help review zh_TW patches:
-> > > would you be open to doing this together -- either as co-maintainers,
-> > > or with me listed as a reviewer (R:) first if that is a more
-> > > reasonable starting point for a newcomer?
-> >
-> > Since I was the one who shamelessly initiated this discussion, I
-> > definitely have the obligation to do something. See below...
-> >
-> > > > > To avoid scattering our efforts, I suggest we minimize fragmentat=
-ion
-> > > > > as much as possible. When it comes to technical documentation
-> > > > > translation, not literary translation, a straightforward, unadorn=
-ed,
-> > > > > and free from misunderstandings is the best translation and easy =
-to
-> > > > > maintain. Let's keep thing simple, unless sth is really necessary=
-.
-> > >
-> > > Alex, I think this concern is fair, and I have no intention of
-> > > forking the translation effort. The scope I have in mind is
-> > > deliberately narrow: keep zh_TW aligned with zh_CN in structure and
-> > > coverage, and localize only where terminology genuinely differs
-> > > (e.g. =E8=BB=9F=E9=AB=94 vs =E8=BD=AF=E4=BB=B6, =E4=BB=8B=E9=9D=A2 vs=
- =E6=8E=A5=E5=8F=A3) -- exactly the kind of differences
-> > > you mentioned. Plain, accurate technical translation, no literary
-> > > rewriting.
-> >
-> > Exactly, before sending my first email here, I had already thought abou=
-t
-> > the following approach, what do you think?
-> >
-> >   * Considering that English documents are changing so rapidly, and eve=
-n
-> >     simplified Chinese cannot keep up with them immediately. I suggest
-> >     we start working on catching up with simplified Chinese right now,
-> >     which seems like a good place to begin. (ok... seems exactly what y=
-ou said ;-)
-> >
-> > > Weijie, as a first concrete step I will prepare a terminology series
-> > > (rather than one-word-at-a-time patches, as you suggested) covering
-> > > the existing process/ documents, and use it to build a small glossary
-> > > that future patches and reviews can follow.
-> >
-> > I used to read this:
-> >
-> > https://zh.wikibooks.org/wiki/%E5%A4%A7%E9%99%86%E5%8F%B0%E6%B9%BE%E8%A=
-E%A1%E7%AE%97%E6%9C%BA%E6%9C%AF%E8%AF%AD%E5%AF%B9%E7%85%A7%E8%A1%A8
-> >
-> > Is it comprehensive? I don't know. Perhaps we could add some specific
-> > reference tables related to the Linux Kernel on top of it.
-> >
-> > On Mon, Jul 13, 2026 at 11:49:07AM +0800, Dongliang Mu wrote:
-> > > Chen-Yu,I would like to serve as co-maintainers to help maintain zh_T=
-W. The
-> > > script - tools/docs/checktransupdate.py can seamlessly work on zh_TW.=
- This
-> > > can help track the missing changes.
-> >
-> > I would also like to take a job ;-) while my current contributions are
-> > not sufficient. And wish soon.
-> >
-> > > As discussed with Alex before, maybe zh_TW patches can first go to Al=
-ex's
-> > > kernel tree and then push to Jon's tree. I am not sure if you are fam=
-ilar
-> > > with the maintainer workflow. If not, this solution may be better for=
- you to
-> > > learn maintainer workflow.
-> >
-> > I suggest that we could try out the provisional plan for about one or
-> > two months (depends), and then make a formal change.
-> >
-> > Before we make a formal change, I will monitor the list (CN & TW), If
-> > there is any situation like this patch which is not sent correctly, I
-> > will handle it promptly.
-> >
-> > OK, I consider myself quite familiar with the development process and
-> > the maintenance process, mainly from Git (seems more complicated).
-> > Perhaps I can handle most of the operation and maintenance tasks of
-> > chore, giving Chen-yu more time and concentration to focus on the actua=
-l
-> > translation work. But this can be further discussed.
-> >
-> > Thanks,
-> > Weijie
+> [1] https://lore.kernel.org/all/20241103145153.105097-1-alexghiti@rivosin=
+c.com/
+> [2] https://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git
+>
+>>
+>>>
+>>>
+>>> - Paul
+>>
+>> Thanks for your input!
+>> Miquel
+>>
+>> _______________________________________________
+>> linux-riscv mailing list
+>> linux-riscv@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-riscv
+
+Gently ping :)
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJiBAEBCgBMFiEEG6U8esk9yirP39qXlr6Mb9idZWUFAmpUq2MbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyEhxtc3NvbGFAbXNzb2xhLmNvbQAKCRCWvoxv2J1l
+ZYzqD/9ftCv3bnPdGUQ2avQ/0HPX7/S2ZgXC4clyq0Xt2DrLfRN+zMtMrOWKy0EB
+4f0NqQ6u5Uz48QWvdgmfbWBXZtBm5VCXXgevnbO26X3gF3wf5g3McamouaW3z9P5
+BeP1dTEGPGOseF/rzUDyrh9tbykKJbQgMXsOXTo2xpPz6VNkxledh6u7j4Z2nQDh
+Mkn5Kxxb9ZnvNoc0XVHIJ41EpFqdeNneB6nMMYvDUg6WB1MWZK4zi2c8/aS/qUFY
+LNDc69zQSfI6BTAo0ieLzJQN7Y+zrJ02GceL9OExvd2LWtD+JyQpkHi33B15cUGh
+Kd7M0xSlfKbfoVo7mWPgzNFZ4J0Yc08Q3M36Mif1YoReKyXPpTutg1h+MuzNfkv1
+goVRPlZZo7/+rsu1YOvaigRJSBn+y7yg5BQ2XU/eZwWN9dSoOQ1siOm5RCoylUXl
+wtgHFvM06EvZ8RJ6gvY6Ux3J0YpsqWPRHiL2OBzQb5jczgDUAQ5Zbz65uJVQEWuw
+j7ciGNCM0ahDZXF+s2CtqpFDxutZhHzVEwBWdK5Cwnkv9Igkj7PI8rlRfo5nP2lh
+jks6U2diXKSJb5L+8f7c1TAQmtUxaxn8GMlBkyOawqZJafQu/byOY7naHtcPfk5h
+agSodQhtMo2lPw6fYi1PSkZQKWRPWQ0Ot5oaLKRF1qUPxelCmw==
+=rjMP
+-----END PGP SIGNATURE-----
+--=-=-=--
