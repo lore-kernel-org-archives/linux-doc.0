@@ -1,132 +1,201 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CDA43090D9;
-	Mon, 13 Jul 2026 15:58:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B9133AD88;
+	Mon, 13 Jul 2026 16:19:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783958291; cv=none; b=tQJSGs5yUb8No5FJILYH923M/rOklnLg9Ml8z2FHbnPmTDeqW+KFcvUxx0cPasBlMCR/K26Fs6/g1hRZNVAMaMQvao/DC5N9dfAT25H28Q8HhOWIWUOxHcwcPqKPZukrOze9MonDl7hUviK863fesD+turA9iAEmwa1n1T/tijo=
+	t=1783959582; cv=none; b=fFYRzoLMUYuIvxV5/yJ7/wKrfETA1q0VLrN2dKUYMyOnMPTpqtY1X2Y/o34TEeT7wRM7oyetjpxwI1j63Gk3nxstKkT5VtrmdAbeJD+fgKA7YQ6MIIeqFExH56Gx8qJ8Dx6vkSuMUuLYvN09ND6oRRqkR1uGhqWkPbP+vqPt2sQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783958291; c=relaxed/simple;
-	bh=W7eem1hxKBhR+qpjzH9sJ9OjOv3VJKcUDquaXYlqrJc=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=M70R8XpYKphNeG1F/GU1YmXPdVjlnyy6wDsrr0PQUweb8ggn0ViY0D8xmFLizci+tHFhxTEhorMphyfdYqtysSvivOCqu+OCcwrp1ay+flX9NfLpax85RW1JxfDXuHL9uIOBMYNZpJL+LXSr6hJWJVfL6luJrh8FrnSWUt+Wfq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aeYsF86g; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783959582; c=relaxed/simple;
+	bh=UrU/itlOP+rit6cFnakMEDrwKFJ+4WWvWHfwH/2hf38=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XxbrRZkA17TUd1QyJdqQ+hnB1zpeNXq5SFoEazJzayVGv2/gq/FLsFLK6X/AbVfU4SnEkxySzPribS5Qj4wK6XiZwssXQjPZRGvr6IW0Gi3GFChEGooW1ts4LtsQhE+hepEWgbtM3yzit7ETvSx3mPjrx7XvM8HDxmcRyGCdQ9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YHZfWHGi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aeYsF86g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 405271F00ADB;
-	Mon, 13 Jul 2026 15:58:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YHZfWHGi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34D041F000E9;
+	Mon, 13 Jul 2026 16:19:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783958288;
-	bh=7wJM8DAMKw46GCCUOJ84lZ1VhKPOJwTAzm+VqeGupW8=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=aeYsF86gJr53IfRDB1RqxivdjUIvzEMc74CYICJbuuLw/2SubhKRONGhF10y02Lkp
-	 jV/9Z0boG1fR3xQa7N/s2ORvWWPb4F38nF1FYHaxG3OEY54gDKpBA0Kbnqq5ZGxpEB
-	 rq3CZfewRRceQekqpp32X4ATzDl7hSJV+2QXNfmYEJllA4wFpGB1jg1+ZrADZaUM6E
-	 gl83aR4yG7HhApOgNXIGTueLSOSZAxLobIak9OSxjZnfw6j2V/FKsNZHpnnFTV1ldm
-	 wQEPtaYIkX/zFlhR/nYE0HnCZM2Sz0/lrrlQaAGkatqlQ3iVOAhgYnp1ESE6pLZo5C
-	 pxFc0nAnBn5TA==
+	s=k20260515; t=1783959576;
+	bh=7sX79a8gzjULeBFsanRoK3h8jRzavZVqjAH+0r52JCY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YHZfWHGiNL7wt3TvUIYLlK4BfKSOHjHBwxYwk/zvwIf2rvEop5c3zO5SQWl1FNDl6
+	 sKfWPIc2QkyeFCdUdPj10w69oQF6AbH6ryEwN+hRgJCXVrUUzY99k6/LBPiN+znnZM
+	 9J7twPP/a1frJ3fk6piU7PPiQuWByd4KLbmCS2b3GmW3yHRO0QdqGOVbXC190beDxK
+	 TdfFAUTo/IrZtav5IcEsvwIBJEE6eRU+b+6AdHdjz/2b9Zgqv+nz9QtkKEZDcDLq4A
+	 80MGwLtfTpIUYFSktpkx25fvJnOqLvfRm4QC4fIXU0UHcxVfMU61tfSPdeZN4u9v+e
+	 hOXK/Z3egO6kg==
+Date: Mon, 13 Jul 2026 18:19:28 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Kishore Batta <kishore.batta@oss.qualcomm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+	Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	mhi@lists.linux.dev
+Subject: Re: [PATCH v6 4/7] bus: mhi: Add QDU100 Sahara variant and firmware
+ fallback
+Message-ID: <kwq7tajvlnm5sesmthseleenbah6d5kuj5d2msyspme7je6o2h@rx3dbqyqeywh>
+References: <20260701-sahara_protocol_new_v2-v6-0-3a78362c4741@oss.qualcomm.com>
+ <20260701-sahara_protocol_new_v2-v6-4-3a78362c4741@oss.qualcomm.com>
+ <n45ii7ekxeefuxw2ydwzsx7lqlfczbgg6obrzmzpytl2fin7j5@vbhmrptcjvcb>
+ <21867efc-b5a8-4ed9-92b4-059a020731a6@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2 0/5] binfmt_misc: bpf-backed binary type handlers
-From: Christian Brauner <brauner@kernel.org>
-To: Farid Zakaria <farid.m.zakaria@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Martin KaFai Lau <martin.lau@linux.dev>, Shuah Khan <shuah@kernel.org>, 
- Andrii Nakryiko <andrii@kernel.org>, Kees Cook <kees@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Jonathan Corbet <corbet@lwn.net>, Jann Horn <jannh@google.com>, 
- John Ericson <mail@johnericson.me>, linux-fsdevel@vger.kernel.org, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-In-Reply-To: <DJXJM0838IJN.3AJ9MMQ89SUUR@gmail.com>
-References: <20260711-binfmt-misc-bpf-v2-v2-0-d6591ceaf207@gmail.com>
- <20260712-abluft-brutkasten-aufladen-c8063a4a1a0a@brauner>
- <DJX4IFO55D9S.3IV3K5XICJAEV@gmail.com>
- <20260713-unerlaubt-luftkammer-kosmetik-46532d395f9b@brauner>
- <DJXJM0838IJN.3AJ9MMQ89SUUR@gmail.com>
-Date: Mon, 13 Jul 2026 17:57:53 +0200
-Message-Id: <20260713-gekreische-membran-samtpfoten-6e0eb34e2a41@brauner>
-X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3021; i=brauner@kernel.org;
- h=from:subject:message-id; bh=W7eem1hxKBhR+qpjzH9sJ9OjOv3VJKcUDquaXYlqrJc=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSFcrOc2nn2/tZvaXmvTeZkTFpuxnHv7D3Xa1O+fLnM9
- 2Z31HoV/Y5SFgYxLgZZMUUWh3aTcLnlPBWbjTI1YOawMoEMYeDiFICJdJszMvRu8XQ8odlSoLbg
- R9yru1zSvLEL93Lx9R6dMFfslWqImQgjw5weq6gb9nMM2Pe/CLVbr61ZMHVyiM+zwtQLyts3nrs
- rxwUA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <21867efc-b5a8-4ed9-92b4-059a020731a6@oss.qualcomm.com>
 
-On 2026-07-13 08:19 -0700, Farid Zakaria wrote:
-> On Mon Jul 13, 2026 at 1:20 AM PDT, Christian Brauner wrote:
-> >> > - The single sleepable load op is split into two ops:
-> >> >
-> >> >       struct binfmt_misc_ops {
-> >> >       	bool (*match)(struct linux_binprm *bprm);
-> >> >       	int (*load)(struct linux_binprm *bprm);
-> >> >       	char name[BINFMT_MISC_OPS_NAME_MAX];
-> >> >       };
-> >> >
-> >> >   The non-sleepable match program runs from the RCU entry lookup
-> >> >   walk itself, exactly like magic and extension matching: same
-> >> >   registration order, same first-match-wins semantics, and it can
-> >> >   only rely on the prefetched bprm->buf. It must be free of side
-> >> >   effects since the walk may be restarted.
-> >> >
-> >> 
-> >> Is relying on brpm->buf enough?
-> >> Right now that's only 256 bytes I think, which is not enough to read
-> >> segments we might care about. That worked fine when it was just a magic
-> >> number but the idea with the eBPF program is to make decisions based on
-> >> more data.
-> >> 
-> >> In the selftest I provided, the `PT_INTERP` segment is already at file
-> >> offset 0x318 (792). I was imaginging NixOS having to support
-> >> `PT_INTERP_NIX` in order for the produced binaries to be backwards
-> >> compatible with older kernels.
-> >> 
-> >> The other idea would be to make the `match()` broad and select
-> >> everything but then nearly all ELF64 binaries would match and then pay
-> >> the price to `load()` and ultimately `-ENOEXEC`. Seems like it would
-> >> make multiple BPF binfmt programs less useful.
-> >
-> > Ok, so your idea is to have multiple bpf programs that look for
-> > different interpreters. Yeah, then you have to be able to sleep because
-> > you need to be able to fault. It makes the code uglier but I can see how
-> > that's useful. I'll see how nice I can make that.
-> >
+On Mon, Jul 13, 2026 at 07:46:02PM +0530, Kishore Batta wrote:
 > 
-> I mean... I thought that's the intent to binfmt_misc, to have multiple
-> handlers -- with the expressiveness of eBPF vs. the limited
-
-I was thinking of having one bpf program per type (elf, python, etc) but
-I can see how it's useful to have multiple elf bpf handlers...
-
-> > Ah, fun. binfmt_misc wasn't able to express this at all. It's good to
-> > close that gap. This can just be done by adding
-> > bpf_binprm_set_interp_arg().
+> On 7/9/2026 11:49 AM, Manivannan Sadhasivam wrote:
+> > On Wed, Jul 01, 2026 at 04:07:38PM +0530, Kishore Batta wrote:
+> > > The Sahara driver currently selects a firmware image table based on the
+> > > attached device, but it does not recognize QDU100 devices that expose the
+> > > protocol on the SAHARA MHI channel. As a result, the host cannot associate
+> > > QDU100 devices with the correct firmware namespace during image transfer.
+> > > 
+> > > Extend the probe time variant selection to match the SAHARA MHI channel and
+> > > associate it with the QDU100 firmware folder. Add a firmware lookup
+> > > fallback for cases where an image does not have an explicit entry in the
+> > > device's firmware table. This allows required images to be provisioned by
+> > > the platform.
+> > > 
+> > > This change only affects devices matched on the SAHARA MHI channel and
+> > > does not change behavior for existing AIC100 and AIC200 devices.
+> > > 
+> > > Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
+> > > ---
+> > >   drivers/bus/mhi/host/clients/sahara/sahara.c | 27 +++++++++++++++--
+> > >   drivers/bus/mhi/host/pci_generic.c           | 45 ++++++++++++++++++++++++++++
+> > >   2 files changed, 70 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/bus/mhi/host/clients/sahara/sahara.c b/drivers/bus/mhi/host/clients/sahara/sahara.c
+> > > index e339c67e236af271645ca81cc517efd9eead87e4..9adbd84859073d8024ba2a5fcfa33897439d6759 100644
+> > > --- a/drivers/bus/mhi/host/clients/sahara/sahara.c
+> > > +++ b/drivers/bus/mhi/host/clients/sahara/sahara.c
+> > > @@ -189,6 +189,7 @@ static bool is_streaming(struct sahara_context *context)
+> > >   static int sahara_find_image(struct sahara_context *context, u32 image_id)
+> > >   {
+> > > +	char *fw_path;
+> > >   	int ret;
+> > >   	if (image_id == context->active_image_id)
+> > > @@ -201,8 +202,28 @@ static int sahara_find_image(struct sahara_context *context, u32 image_id)
+> > >   	}
+> > >   	if (image_id >= context->table_size || !context->image_table[image_id]) {
+> > > -		dev_err(&context->mhi_dev->dev, "request for unknown image: %d\n", image_id);
+> > > -		return -EINVAL;
+> > > +		if (!context->fw_folder) {
+> > > +			dev_err(&context->mhi_dev->dev,
+> > > +				"Request for unknown image: %u (no fw folder)\n", image_id);
+> > > +			return -EINVAL;
+> > > +		}
+> > > +
+> > > +		fw_path = kasprintf(GFP_KERNEL, "qcom/%s/%u",
+> > > +				    context->fw_folder, image_id);
+> > > +		if (!fw_path)
+> > > +			return -ENOMEM;
+> > > +
+> > > +		ret = firmware_request_nowarn(&context->firmware,
+> > > +					      fw_path,
+> > > +					      &context->mhi_dev->dev);
+> > > +		kfree(fw_path);
+> > > +		if (ret) {
+> > > +			dev_err(&context->mhi_dev->dev,
+> > > +				"request for unknown image: %d\n", image_id);
+> > > +			return -EINVAL;
+> > > +		}
+> > > +		context->active_image_id = image_id;
+> > > +		return 0;
+> > >   	}
+> > >   	/*
+> > > @@ -870,8 +891,10 @@ static void sahara_mhi_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result
+> > >   static const struct mhi_device_id sahara_mhi_match_table[] = {
+> > >   	{ .chan = "QAIC_SAHARA", },
+> > > +	{ .chan = "SAHARA"},
+> > >   	{},
+> > >   };
+> > > +MODULE_DEVICE_TABLE(mhi, sahara_mhi_match_table);
+> > This change should belong to a separate patch.
+> > 
+> > >   static struct mhi_driver sahara_mhi_driver = {
+> > >   	.id_table = sahara_mhi_match_table,
+> > > diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> > > index 391ab146f501c6ce1c81f6138f7c491a49c2f264..82e41632afc555a53dec3d8395558ae039b33bbd 100644
+> > > --- a/drivers/bus/mhi/host/pci_generic.c
+> > > +++ b/drivers/bus/mhi/host/pci_generic.c
+> > > @@ -300,6 +300,43 @@ static const struct mhi_pci_dev_info mhi_qcom_qdu100_info = {
+> > >   	.reset_on_remove = true,
+> > >   };
+> > > +static const char * const qdu100_image_table[] = {
+> > > +	[5] = "qcom/qdu100/uefi.elf",
+> > > +	[8] = "qcom/qdu100/qdsp6sw.mbn",
+> > > +	[16] = "qcom/qdu100/efs1.bin",
+> > > +	[17] = "qcom/qdu100/efs2.bin",
+> > > +	[20] = "qcom/qdu100/efs3.bin",
+> > > +	[23] = "qcom/qdu100/aop.mbn",
+> > > +	[25] = "qcom/qdu100/tz.mbn",
+> > > +	[29] = "qcom/qdu100/zeros_1sector.bin",
+> > > +	[33] = "qcom/qdu100/hypvm.mbn",
+> > > +	[34] = "qcom/qdu100/mdmddr.mbn",
+> > > +	[36] = "qcom/qdu100/multi_image_qti.mbn",
+> > > +	[37] = "qcom/qdu100/multi_image.mbn",
+> > > +	[38] = "qcom/qdu100/xbl_config.elf",
+> > > +	[39] = "qcom/qdu100/abl_userdebug.elf",
+> > > +	[40] = "qcom/qdu100/zeros_1sector.bin",
+> > > +	[41] = "qcom/qdu100/devcfg.mbn",
+> > > +	[42] = "qcom/qdu100/zeros_1sector.bin",
+> > > +	[45] = "qcom/qdu100/tools_l.elf",
+> > > +	[46] = "qcom/qdu100/Quantum.elf",
+> > > +	[47] = "qcom/qdu100/quest.elf",
+> > > +	[48] = "qcom/qdu100/xbl_ramdump.elf",
+> > > +	[49] = "qcom/qdu100/shrm.elf",
+> > > +	[50] = "qcom/qdu100/cpucp.elf",
+> > > +	[51] = "qcom/qdu100/aop_devcfg.mbn",
+> > > +	[52] = "qcom/qdu100/fw_csm_gsi_3.0.elf",
+> > > +	[53] = "qcom/qdu100/qdsp6sw_dtbs.elf",
+> > > +	[54] = "qcom/qdu100/qupv3fw.elf",
+> > > +};
+> > > +
+> > > +static const struct mhi_sahara_fw_table qdu100_sahara_fw = {
+> > > +	.image_table = qdu100_image_table,
+> > > +	.table_size = ARRAY_SIZE(qdu100_image_table),
+> > > +	.fw_folder = "qdu100",
+> > > +	.non_streaming = false,
+> > > +};
+> > > +
+> > >   static const struct mhi_channel_config mhi_qcom_sa8775p_channels[] = {
+> > >   	MHI_CHANNEL_CONFIG_UL(46, "IP_SW0", 2048, 1),
+> > >   	MHI_CHANNEL_CONFIG_DL(47, "IP_SW0", 2048, 2),
+> > > @@ -1399,6 +1436,14 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+> > >   	pci_set_drvdata(pdev, mhi_pdev);
+> > > +	/*
+> > > +	 * Provide Sahara firmware mapping. Sahara consumes it via
+> > > +	 * mhi_dev->mhi_cntrl->sahara_fw at probe time.
+> > > +	 */
+> > > +	if (info == &mhi_qcom_qdu100_info ||
+> > > +	    (info->name && !strcmp(info->name, "qcom-qdu100")))
+> > > +		mhi_cntrl->sahara_fw = &qdu100_sahara_fw;
+> > > +
+> > Why are you adding QAIC MHI controller config in pci_generic driver? This driver
+> > only handles Modem devices.
+> > 
+> > - Mani
 > 
-> What is "cool" about this is now it's also a net-new feature for shebags
-> which the "old" binfmt_misc didn't support. Anyways, I was thining ahead
-> about what I would need to support $ORIGIN fully and this was
-> a remaining gap. We also explored this idea in a patch pre-BPF [1] but
-> now that we've settled on this solution it seems much more natural.
 > 
+> Hi Mani, Above one is for QDU100 device. QAIC is not added in this file.
 > 
-> I was recently reached out by some Bazel people who are also interested
-> in this $ORIGIN support. Interestingly they let me know that
 
-Yeah, for build systemd it's very nice ofc.
+Sorry, my bad. But anyhow, you should provide this mapping table pointer via
+'struct mhi_pci_dev_info'.
 
-> IllumOS/Solaris had support for it as well.
+- Mani
 
-The whole $ORIGIN thing comes from Illumos/Solaris afair. So no big
-surprise.
-
+-- 
+மணிவண்ணன் சதாசிவம்
