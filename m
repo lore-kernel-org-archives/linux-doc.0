@@ -1,126 +1,244 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C4C30EF77;
-	Mon, 13 Jul 2026 15:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C863546EA
+	for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 15:19:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783955939; cv=none; b=R6YM64IAJkXDbh+ghGHlNL7VXazTk5PDZnGMIaf/9tXIgbtbwAQUTkw4pwnORzWdoPLzup1aVmzbh1K50wsJkKhnLmWjous8UyItTd3z1mp6LWMvg+Fvt2cM5d/tP0NMLXqyBAIgEKzoMbsUTiaU7VCj58ZrYySpksGpWmj44CE=
+	t=1783955969; cv=none; b=lmUeoaxon4q2UeOCIHm897oBQ3MeKRTR7lIOBDhAOIWGLXLXJpY0+2eGcZdyjwqJB4ihWITZunnUfg05QEzOa2V3wzaZByvIfwmogRPcXLBRPdWrS+KHTK6RR/KkQR1gJmbdMJj6Wy7r3AmAND6T2HsovfkDGjKLtttUDuiJPW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783955939; c=relaxed/simple;
-	bh=Q92+vm/2vUfD7BvMv6itjSyYoLq4GSIt9f0Z3LqR9/A=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IV3q1LSpEiCvMamMXZZzEPMZ71Zy5elVcnkEJ+Rkb+M8zqNMYJeaqwyRCjTDRu70cbAby/GsHy+97E7HMQ+SS4qWhVMIDcNJx+7wuJ0KsiPgJITorkMb+EdmruFfr5YdhJBlu+j36P3B1+WeCNDRF2XMIeE2GvDy7Qd5h1rBLz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DjkyuPnQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783955969; c=relaxed/simple;
+	bh=XgfMyReXk9WbmWlpqj5QpOsH9T7Axa67XF6W7nxC6hw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=V5JLHODvPtKZOQIqld3/BxIOnh/Op2z62FETm6y/9NsbS7ob2qCjFKaLferpvNT8Bx1sb8zrZsvklZZnbmScNykjd42nKOA3T1AmOUq7YIUg7zuexOWvKSzFpPGADR0n4uGgOrL6fk3LCF+H4pObeBzFhimCpxnalUr6Y7NoAcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IE9gFOzQ; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DjkyuPnQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52E321F000E9;
-	Mon, 13 Jul 2026 15:18:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783955938;
-	bh=ciq/I2+BL5j+uB+AABX0XLHmc/WSjoaA1RcZmJWFnaQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=DjkyuPnQfstUUzWkidFDDVxGMprS4Et5vhWSDhkPCeRuWSjmhG6Km5kARaCsw/Y+v
-	 EQqZ6DGLbRd3fKpYjPw1huYb83BENbYrx8bs2WT4QditMiCeAJo2ZKD8gwwtzEiO7l
-	 rw/TH4KEOVL10wu4/aeXCa3uRo4kqr0TKxyZb5wSjWCjv8yHaIhPTpEBN/fBC/dLO5
-	 VtkmH49gPUkWjn/EiCa5HfU4GAPRwuJHtQ/ohoCLpDXqvquhmP0ipQHZFCeHXmiMuV
-	 O4F7670dgEeQMnimChpI4eux+NbII+5b7Fa+BK9vRxEnMg7ufPCknKLIsoiAoYSTlr
-	 vD8xxud9rr3Lg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=lobster-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wjIQq-00000004Xo1-1iIy;
-	Mon, 13 Jul 2026 15:18:56 +0000
-Date: Mon, 13 Jul 2026 16:20:45 +0100
-Message-ID: <87fr1m6hma.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: linux-pci@vger.kernel.org,	kernel test robot <lkp@intel.com>,	Krzysztof
- =?UTF-8?B?V2lsY3p5xYRza2k=?= <kwilczynski@kernel.org>,	Bjorn Helgaas
- <bhelgaas@google.com>,	Catalin Marinas <catalin.marinas@arm.com>,	Conor
- Dooley <conor+dt@kernel.org>,	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,	Lorenzo Pieralisi
- <lpieralisi@kernel.org>,	Manivannan Sadhasivam <mani@kernel.org>,	Rob
- Herring <robh@kernel.org>,	Yoshihiro Shimoda
- <yoshihiro.shimoda.uh@renesas.com>,	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] PCI: rcar-gen4: Inline GIC_TRANSLATER offset macro
-In-Reply-To: <2cb03029-0957-4ed8-98bd-9b3e0e0bce2d@mailbox.org>
-References: <20260709201103.90162-1-marek.vasut+renesas@mailbox.org>
-	<87qzlb5jsl.wl-maz@kernel.org>
-	<2cb03029-0957-4ed8-98bd-9b3e0e0bce2d@mailbox.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IE9gFOzQ"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c9fe3c9bd5fso231a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 08:19:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783955967; x=1784560767; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Y+ujhi7qr+5PDvfWnrugr3cptYcf6a5ot8pqDt3RfQQ=;
+        b=IE9gFOzQxBDi0IVIrhm0xXbwtjhN28eJ/IpULeUzVkLrp4WItFQSjycxXQBT8F/RRf
+         ZZDKLuohqee4ndlVWfcJeRLAzaEOAxov7d3xU6on6CPD7dOtfB9dMJ+KpDdJQcax1rPO
+         /iHly/a+oJlxoRMoniQYQ0dRecTsxtPtRRXJ7eCTHymRpN2542pMfENTlXrM17TP0zZr
+         SH2hL9lc9jcxx5xbK9FU8/Rl4hZZGma36UhIX0MwY25wxVho40B2I/jLLdhXeIq4Zxqj
+         /fFquG9TDC48spLnFuf55vNQDeZpXvs1mPYRL/uru0NCAz7cFtsNQF4QoULbvbwe4jj/
+         r0Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783955967; x=1784560767;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Y+ujhi7qr+5PDvfWnrugr3cptYcf6a5ot8pqDt3RfQQ=;
+        b=OGakHw17Fgrrp9eBwxNRJ44BCwuZmYSDM2nqMVgLFhIZyv3nYcNblgGs68dYHlDWl1
+         IBFfsFEAFiQWg144Y/6SRIhD3GbDxHvtM+ezCiOGjWUbwqEYa7hZSp1CpVIE6pe8iT4p
+         Q74LVaYag9mvVQGPLTry6ZUL9iuqpfGf+C8iK9mez/XR+oJg761UKYFSylbbumaq1OrI
+         BM8EG5fm7AMARpu0b4wnGolyM8DN87Qm1nE1Mcd6zNRMsTt1mSa3LV1/azUCLvK/jBR1
+         eivgZk94fibIPQoPESVMeEP4/KVpoLjdIVULLReLSg1fOLMSQtFDxPQZx93heID5Hbcr
+         yylA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq2ptRU3tK5ZyYuV0NbybywmeHOivePzemcgpNcd2JiNivkMjeTa3vdvdYYT2yjZXUE+WUAR0um5lw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEFfCxCyt+zmoMiERB63RgrDT4eoc5uT2k6475gS47m2IGXFsz
+	3D8bxSXJLWOdx1JOfwk4HNQDL4+fqVsiKQlVuLtBRuyePf9JCXKTed/E
+X-Gm-Gg: AfdE7cmrlrzNoFu7H9nuYKXqUGFAQClpJzxA075nGoI4A46+luCv7qRLzyHChDEWQWR
+	V7uJQM5Qskc+pMypYF3uPVjNQzp23H8jIpnGqcjTKjyd/2JrV0JzPTcma3dMuSjDvmYPFocI5iY
+	XkQyqru7rIE0iRAb/i+rkcC6JuUtrJzleuLtREfYZGzErcY5jJG30jOUzxrTb7hXNa7fhC99Gou
+	DhdgfsdsMg/BnLpwkAxbprls6VpcKt1tblSBS3GCrwREG32rlzHRPInqdeghNRnkwhJfO7TczIG
+	GW272pMd4M8xa5Obwk/l+oExiGMPY2zPcRShDEdXUuKGCSBUdr85y3XuCM+V4P2IA3T8JMskq46
+	tMELBXvr/gammH7VQBAHEvEIgmkxv0rMoOK23ew1zrZD+rAZ27Wvh2fsCUFLBhkC1WT85I07bfw
+	3o0uBhHIvwUxXrcw==
+X-Received: by 2002:a05:6a20:244b:b0:3a0:c246:bb98 with SMTP id adf61e73a8af0-3c0f0b9158emr16049895637.29.1783955966577;
+        Mon, 13 Jul 2026 08:19:26 -0700 (PDT)
+Received: from localhost ([98.35.8.117])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b924258a2sm54513605c88.1.2026.07.13.08.19.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Jul 2026 08:19:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: marek.vasut@mailbox.org, linux-pci@vger.kernel.org, lkp@intel.com, kwilczynski@kernel.org, bhelgaas@google.com, catalin.marinas@arm.com, conor+dt@kernel.org, geert+renesas@glider.be, krzk+dt@kernel.org, lpieralisi@kernel.org, mani@kernel.org, robh@kernel.org, yoshihiro.shimoda.uh@renesas.com, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 13 Jul 2026 08:19:24 -0700
+Message-Id: <DJXJM0838IJN.3AJ9MMQ89SUUR@gmail.com>
+Cc: "Alexei Starovoitov" <ast@kernel.org>, "Daniel Borkmann"
+ <daniel@iogearbox.net>, "Martin KaFai Lau" <martin.lau@linux.dev>, "Shuah
+ Khan" <shuah@kernel.org>, "Andrii Nakryiko" <andrii@kernel.org>, "Kees
+ Cook" <kees@kernel.org>, "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan
+ Kara" <jack@suse.cz>, "Jonathan Corbet" <corbet@lwn.net>, "Jann Horn"
+ <jannh@google.com>, "John Ericson" <mail@johnericson.me>,
+ <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-kernel@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v2 0/5] binfmt_misc: bpf-backed binary type handlers
+From: "Farid Zakaria" <farid.m.zakaria@gmail.com>
+To: "Christian Brauner" <brauner@kernel.org>, "Farid Zakaria"
+ <farid.m.zakaria@gmail.com>
+X-Mailer: aerc 0.21.0
+References: <20260711-binfmt-misc-bpf-v2-v2-0-d6591ceaf207@gmail.com>
+ <20260712-abluft-brutkasten-aufladen-c8063a4a1a0a@brauner>
+ <DJX4IFO55D9S.3IV3K5XICJAEV@gmail.com>
+ <20260713-unerlaubt-luftkammer-kosmetik-46532d395f9b@brauner>
+In-Reply-To: <20260713-unerlaubt-luftkammer-kosmetik-46532d395f9b@brauner>
 
-On Fri, 10 Jul 2026 14:35:10 +0100,
-Marek Vasut <marek.vasut@mailbox.org> wrote:
->=20
-> On 7/10/26 10:30 AM, Marc Zyngier wrote:
-> > On Thu, 09 Jul 2026 21:10:03 +0100,
-> > Marek Vasut <marek.vasut+renesas@mailbox.org> wrote:
-> >>=20
-> >> Instead of pulling in the whole linux/irqchip/arm-gic-v3.h , copy the
-> >> one GITS_TRANSLATER register offset macro directly into the driver.
-> >> This repairs the ability to build the driver on non-ARM non-GIC targets
-> >> the way it was possible until now, which retains good build test cover=
-age.
-> >>=20
-> >> Reported-by: kernel test robot <lkp@intel.com>
-> >> Closes: https://lore.kernel.org/oe-kbuild-all/202607100310.iQw5m9Uo-lk=
-p@intel.com/
-> >> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> >> ---
-> >> Cc: "Krzysztof Wilczy=C5=84ski" <kwilczynski@kernel.org>
-> >> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> >> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> >> Cc: Conor Dooley <conor+dt@kernel.org>
-> >> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> >> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> >> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-> >> Cc: Manivannan Sadhasivam <mani@kernel.org>
-> >> Cc: Marc Zyngier <maz@kernel.org>
-> >> Cc: Rob Herring <robh@kernel.org>
-> >> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> >> Cc: devicetree@vger.kernel.org
-> >> Cc: linux-arm-kernel@lists.infradead.org
-> >> Cc: linux-doc@vger.kernel.org
-> >> Cc: linux-kernel@vger.kernel.org
-> >> Cc: linux-pci@vger.kernel.org
-> >> Cc: linux-renesas-soc@vger.kernel.org
-> >> ---
-> >> Note: The alternative I could think of would be ifdeffery which
-> >>        is not nice and thwarts the build coverage, or limit the
-> >>        driver to ARM/ARM64 in Kconfig which also thwarts the build
-> >>        coverage. I could also split off the register macros in
-> >>        linux/irqchip/arm-gic-v3.h into some separate header
-> >>        linux/irqchip/arm-gic-v3-regs.h and include that which
-> >>        might be OKish and avoids duplication. Thoughts ?
-> >=20
-> > No, I'm not hacking something that is purely architecture specific for
-> > the purpose of a bizarre integration quirk that should be handled by
-> > the boot firmware, and not Linux.
->=20
-> The PCIe controller is fully controlled by Linux.
+On Mon Jul 13, 2026 at 1:20 AM PDT, Christian Brauner wrote:
+>> > - The single sleepable load op is split into two ops:
+>> >
+>> >       struct binfmt_misc_ops {
+>> >       	bool (*match)(struct linux_binprm *bprm);
+>> >       	int (*load)(struct linux_binprm *bprm);
+>> >       	char name[BINFMT_MISC_OPS_NAME_MAX];
+>> >       };
+>> >
+>> >   The non-sleepable match program runs from the RCU entry lookup
+>> >   walk itself, exactly like magic and extension matching: same
+>> >   registration order, same first-match-wins semantics, and it can
+>> >   only rely on the prefetched bprm->buf. It must be free of side
+>> >   effects since the walk may be restarted.
+>> >
+>>=20
+>> Is relying on brpm->buf enough?
+>> Right now that's only 256 bytes I think, which is not enough to read
+>> segments we might care about. That worked fine when it was just a magic
+>> number but the idea with the eBPF program is to make decisions based on
+>> more data.
+>>=20
+>> In the selftest I provided, the `PT_INTERP` segment is already at file
+>> offset 0x318 (792). I was imaginging NixOS having to support
+>> `PT_INTERP_NIX` in order for the produced binaries to be backwards
+>> compatible with older kernels.
+>>=20
+>> The other idea would be to make the `match()` broad and select
+>> everything but then nearly all ELF64 binaries would match and then pay
+>> the price to `load()` and ultimately `-ENOEXEC`. Seems like it would
+>> make multiple BPF binfmt programs less useful.
+>
+> Ok, so your idea is to have multiple bpf programs that look for
+> different interpreters. Yeah, then you have to be able to sleep because
+> you need to be able to fault. It makes the code uglier but I can see how
+> that's useful. I'll see how nice I can make that.
+>
 
-And it shouldn't. Why can't your favourite boot-loader use it, like on
-any reasonable machine?
+I mean... I thought that's the intent to binfmt_misc, to have multiple
+handlers -- with the expressiveness of eBPF vs. the limited
+magic/extension, it seems like a natural extension to support multiple.
+Otherwise anyone on NixOS would be limited to our single handler for all
+binaries which seems not ideal?
 
-	M.
+I'm not knowledgeable enough to comment on the sleep/faulting aspect so
+I leave that to your expertise.
 
---=20
-Jazz isn't dead. It just smells funny.
+>> >   The sleepable load program runs once the walk has committed to the
+>> >   entry and does the file reading and the interpreter selection. Both
+>> >   ops are mandatory, the struct_ops plumbing enforces the sleepability
+>> >   of each, and since bpf_binprm_set_interp() is KF_SLEEPABLE a match
+>> >   program cannot select an interpreter by construction.
+>> >
+>> > - A match is a commitment. A failing load program fails the exec inste=
+ad
+>> >   of falling through to later entries. -ENOEXEC keeps its usual meanin=
+g
+>> >   and hands the binary to the remaining binary formats, for a handler
+>> >   that discovers it cannot serve the binary after all.
+>> >
+>> >   This kills the part of v1 I disliked the most: the skip cursor and t=
+he
+>> >   leave-and-rescan loop in load_misc_binary() are gone. The walk is
+>> >   never left and re-entered, and 'B' entries need no special semantics
+>> >   against concurrent (un)registration anymore.
+>> >
+>> >   Your v2 changelog note about keeping the bpf retry loop in the
+>> >   __free() style is moot as a consequence. The loop no longer exists.
+>> >
+>> > - The load return convention flipped: 0 now means success after the
+>> >   program called bpf_binprm_set_interp(). Returning 0 without having
+>> >   selected an interpreter or returning a positive value is treated as
+>> >   -ENOEXEC, other negative errnos fail the exec.
+>> >
+>> >   So the "return bpf_binprm_set_interp(...) ?: 1" idiom from the v1-er=
+a
+>> >   programs becomes plain "return bpf_binprm_set_interp(...)".
+>> >
+>> > - The handler name moved from the offset field to the interpreter fiel=
+d
+>> >   that field consistently names whoever supplies the interpreter, a pa=
+th
+>> >   for static entries, a handler for 'B' entries. Offset, magic, and ma=
+sk
+>> >   must be empty:
+>> >
+>> > 	echo ':nix-origin:B::::nix_origin:' > register
+>> >
+>> > - 'C' is allowed now, v1 rejected it. It behaves exactly as for a stat=
+ic
+>> >    entry. The setuid transition stays gated by vfsuid_has_mapping() in
+>> >    the caller's user namespace. Which makes 'B' handlers usable for a
+>> >    per-binary loader over setuid binaries. 'F' stays rejected as there
+>> >    is no fixed interpreter to pre-open (I have other ideas how we'll d=
+o
+>> >    something like it later.).
+>> >
+>> > Nothing changed in the exec patch, the fs kfuncs patch, the kfunc
+>> > itself, or the registry/namespacing model.
+>> >
+>> > I can send v3 in a bit if that's ok.
+>>=20
+>> I don't mind at all you sending v3 and in fact I've been enjoying your
+>> involvement. I didn't know what to expect when I offered this idea up to
+>> the community.=20
+>>=20
+>> I'm happy to keep co-developing this with you within a design you feel
+>> acceptable with. Please let me know how I can remain engaged and
+>> helpful.
+>>=20
+>> One last thing I was thinking about is that we will also need to support
+>> $ORIGIN in the shebang path, however I just tested it and this current b=
+road
+>> BPF solution can largely handle it [1], with a small wrinkle.
+>>=20
+>>   $ printf '#!$ORIGIN/interp\n' > /opt/app/greet
+>>   $ cp ./interp /opt/app/interp     # any interpreter/loader
+>>   $ chmod +x /opt/app/greet /opt/app/interp
+>>=20
+>>   # stock kernel: binfmt_script opens the literal "$ORIGIN/interp"
+>>   $ /opt/app/greet
+>>   bash: /opt/app/greet: $ORIGIN/interp: bad interpreter: No such file or=
+ directory
+>>=20
+>>   # with the handler registered, $ORIGIN resolves to the script's dir
+>>   $ bpftool struct_ops register shebang_origin.bpf.o /sys/fs/bpf
+>>   $ echo ':shebang-origin:B:shebang_origin::::' > /proc/sys/fs/binfmt_mi=
+sc/register
+>>   $ /opt/app/greet
+>>   <runs /opt/app/interp, the loader found next to the script>
+>>=20
+>> The wrinkle is that it can't express today is the single optional argume=
+nt.
+>> (i.e. `#!interp arg" -> argv[1]=3Darg`). We might ned a way to express
+>> that in the load.
+>
+> Ah, fun. binfmt_misc wasn't able to express this at all. It's good to
+> close that gap. This can just be done by adding
+> bpf_binprm_set_interp_arg().
+
+What is "cool" about this is now it's also a net-new feature for shebags
+which the "old" binfmt_misc didn't support. Anyways, I was thining ahead
+about what I would need to support $ORIGIN fully and this was
+a remaining gap. We also explored this idea in a patch pre-BPF [1] but
+now that we've settled on this solution it seems much more natural.
+
+
+I was recently reached out by some Bazel people who are also interested
+in this $ORIGIN support. Interestingly they let me know that
+IllumOS/Solaris had support for it as well.
+
+[1] https://github.com/alurm/relocatable-shebangs/blob/18db0da6cd69ce19bb02=
+73f2548a2d96bdaa82b1/relocatable-shebangs.patch
