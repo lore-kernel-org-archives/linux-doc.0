@@ -1,185 +1,149 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB321345CCD
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 22:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A54E3815D0
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 22:24:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784067714; cv=none; b=pOXYNft/st+ZGiUOxsZG3jTCwXeg9EQJcrIlxalpk3fAGLiSG1UAUkf21A1ndtoxOn7PbjIuzNarCYh1oqgnzgyCRoh2RHIXQsMALo9VAJDJwjzz36VyStuCKmWqPF6qMso7f1RHqcFAeCiiLNbc0w7wGNrz199pqUIhjjqOf2I=
+	t=1784067849; cv=none; b=P8t11R+SsAwpxMKZOWcnl4UtkxdXzJ1lJ1+nbWIs9S7jkgxM6v9GNIMTZ0f0dnDAatW0nU9mHppFXMkuOki/tJiSdnpxL/e0vVCCjBQQdbef4wJtRH/itERa1kKQPDteNIyrAFYm8l7ndxbMV8aRel3n9s2dvYLsqoYVnfkrAqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784067714; c=relaxed/simple;
-	bh=Q8uBbE9XdPRVXQaZ0ExTI42TK7zcMOJJhXBlrcrT8a4=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TVZzsm5AtdUeMZ/1lawPsNK70Mnb/kanVh/VBBDdu3XB6JhxOI24ZHpLsNfEqxCONsu1jgMKllf7BI1ZHzFsvwgdGOO47fhmOXv12d5XW5l5yk/eIBlnsetfqCR5QmgZXfNzC4JZxR71VihjvNSnxYRWQaH/1vmPl8JbMk5UVYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bCcqBd6p; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1784067849; c=relaxed/simple;
+	bh=ZVv51kkj/kj4OOd6RkTZiaJNMeC9JNbrUyE+EEEKqNg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YOnMmoNsa//5xVCk0vGRhcyvwczghTGwBcNE+UkqwrjpD9QcULezrnnEdQspMHjlWXFj/TsveSbfizhD6uDPv4dwXfHp6PeXx2PoLsIutbVPGYTlivYJ7RKzitJdh1U9xM0bNUwxnbHpEUw3rV1MaFTSspsT5uqq24DNkysDyIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ghPXn6lH; arc=none smtp.client-ip=74.125.224.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bCcqBd6p"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2c6b67d5fa1so81410455ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 15:21:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ghPXn6lH"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-66804667af2so1274937d50.0
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 15:24:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784067712; x=1784672512; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:user-agent
-         :references:in-reply-to:message-id:date:cc:to:from:subject:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=EUZJ2b06rpE59kyPt/lRc7T/ATHNB4Peeih6JEYSOE8=;
-        b=bCcqBd6pLM1VKsXErISfU78JfZjhPvwtrPLKWjhOTWaMKlw3MkCu6iNgjz3nvZ8Y5I
-         GP55kEVQPhUwQn4WehX6KPsxRiyraoW0q1ySXyPEWHL4NBQ23BAX6CsWVmdzcV2ZgAdp
-         aZCp/AvReu1EG1gm8RsE5U08mCNNsa5AfntU5TOVoTceDeRTv1Vo68SSKmIR7E6SKVHC
-         gZEQ3+1AMnpYRI3WXOpLobTzLIdIA51HznWH7crClBm2IiiKrRTBivXZ49MTwkrSb4Nw
-         KbG5UQd4WpH6FWp277B6k6OR8PfZ+mHEiUls7Et9WM8WyxgzSUSyJqkk2rLsf8BcTtH9
-         AOHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784067712; x=1784672512;
-        h=content-transfer-encoding:content-type:mime-version:user-agent
-         :references:in-reply-to:message-id:date:cc:to:from:subject:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1784067847; x=1784672647; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=EUZJ2b06rpE59kyPt/lRc7T/ATHNB4Peeih6JEYSOE8=;
-        b=VLT+0D5VQ8RnLrdWScd4aMFWdcxGYJWkXte4KQ8HCISvk3KUKashQfs8QYRd3XW91v
-         iLpwgNNsuVWMhbOh7UXRXcpoL8z5i6xEjs9TMc6IhqDwkeypzc9iZcmFF8Cp/NyFbCf+
-         69b73ufg5INt5oVQTMZIcLLM2/whIS/TJ4t5bP2CDn+6zLEvallren6H2/0jQ8V9ZLkX
-         LawIxf/3L8XtY9UbJla/8tB67efpZ/0VjqaX+HmmGdIKZV7e0PA6HzgQwVGMhYZu9g9A
-         9lDVCo/HeyriLKpVKQAwau25oK06HoSIZCvITSoG2gSUCIfgoG6OTWSqPgifXuPGpRgT
-         8QYQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro9L+4bsRSVvliITSC2W2zMukmRDXxolCrHDmKP0tjv9Pq0bzQLajYZUY2Kh9MTs9v2OVp1iNNoG8E=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0Rd8DqCNUDZNfXm8IZnetTElantBjUEInSJkzQBqjVl+qUq3m
-	Y36n6o0bGYGDqGTXdzmHuDWMzvED77lqZr0nNeChml/w8ziCFAwmT5jz
-X-Gm-Gg: AfdE7ckGemCkKoDPA2WfK8Z+ncTPJxntKGpaAgL37V6fSrwGprwj/CWBOeaJifpPMz+
-	WflU3CukVmnhqVjHcRQcclpQK1K+pZuOtqGnww/yh0WrA3TEZTCyheS5cWD6gVIVd4REwldJ+hz
-	b9dBsCAUWUR8QN8SM2y0frjzQjZIVVvFYOV7UvJS4X8G7DQUAGAw7yYyGpOSZXSTwjzbRBVRN8D
-	TdOoZtwdQEBK3QncK2bh9Cjx0JxMPjXARp1rRQ/HiE8wWv0JhZfJTBSD+cOkSS4WFEdATZ0k3oq
-	BCEHyNnrJas4Tpij/9OpD4OgvsIw0IZCCnFxCqzJfAmsMcNjLu5VeLAVyU1IQYi0DI+2V48UFAh
-	mLhEVS/ExtYpy4bVUEV0GpIiZgLuATIvUJEOfiS/CFwqzLzLeCf9XOGsw/Q+mQTpMO+fS6mkBwH
-	MnS3SauMram5l8Qt1MURUDEScN+H4KS1IvXXhHVh0lp/Y9M1vLQURm8Ki4DX8=
-X-Received: by 2002:a17:902:e751:b0:2cc:307c:51f2 with SMTP id d9443c01a7336-2cef143aec1mr42102315ad.22.1784067712200;
-        Tue, 14 Jul 2026 15:21:52 -0700 (PDT)
-Received: from [192.168.0.160] (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d1f030sm122554955ad.51.2026.07.14.15.21.50
+        bh=aGuAr8s27mzX9esIdo6fHj8sJEVhZQDcUCPRA7bKKZY=;
+        b=ghPXn6lH7xJpt8I9pycoYBDrnZ+jJfyUCmUqB6/lLY8yynS+oVYqmtek8e+vWO4Hlv
+         9nk9EyWQMzCXZ/A+FDc5a6iwSdTXdKsolWVdrY/TWLLYQ8u4fFOZLIKqS/Lkjclceyr9
+         Kh6f/yZ3HzA1EHDyJkxYevzu/rhAnJcGL/W4U708Or2sArDzXeMDi9qVO2gzuIACfhm2
+         qvpRseG9wdt8Jhm90cLDiqYCH8+It0ytwLebsfh1KWz3pVQk6UYwTZXQHM6Ojf3dl8g2
+         flkYYu5Qz1qxcotLWzozQ0eYkL9JCCUfBTZyhjkTO9DomP9Ict/mwLvalML9HsOGC1xx
+         SLhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784067847; x=1784672647;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=aGuAr8s27mzX9esIdo6fHj8sJEVhZQDcUCPRA7bKKZY=;
+        b=L3kHXEwSPx4MlzfefbzlOfzmv2kQMTzy+wHDQFoNf4kIksnNOYIgRlSj+AzrmtReIl
+         5tymnodgdJnEEOz2x0/BLbCMir06AX3GU3ksENen4LHp11xeDSqk1s9406lDWXyij+Tj
+         q6yeWu23+QkpTOj+I5WIHSlMctPoe3h0z63X11l+a20RRAs1rxxqRYjk1H+ImcrCLS7B
+         3PYyXnXcBGWvIz3a4bWn/XWeiaN4kEA1wAYnW6y3JptxY6apUrDnzKrTQp8qpx1OLZ+c
+         bMb5d9yhoCb2SNjcHWlvX/pLKw3D5Xjkz1oIJk4j2ecAxrwHQVeW9PkB2Fy5OmSZiBGR
+         eHuQ==
+X-Gm-Message-State: AOJu0Yw72ZiVsqFw39ZMk2KMwlB5+rJRODONGXCtsDTDeeDVWyju+pJs
+	ylkJHbuQOgpYUBmJyhJrXO8d/GVU7Bgf1bCmz5BZFVgURkrvbdyl+56E
+X-Gm-Gg: AfdE7ckD2AgHo5n+7sajr8bKsTqWlraHGgym45bcdSn/k3fw9PKl8oqm33RmPy8hvfz
+	s7/Ed+R3X/ZOVHevqvnb7JMjrqFUtvP/NRYgiUvsieAtl2tgDUPbfS6zkcVY7vJntoDX7/CMO+y
+	xhoa26U1YmJSqaYWuq6e86QKFPr9HnpfPjS8ukGQzS+y0wbxaWb2LxrGbXUcYOKtXo2c73SbZww
+	1LfSJZ1slL9rE6vyrevEOCopwa9bqGhSJx0B21cc5TH6aRhYBl7iNjXiP6EDduUo8Kg5pWXqVOg
+	LisvdF5Q34GwsatnvBuollsrnEpOTvqH2WhyBQBGG50v2/hgqtxvFnsS0bnnBR++EFbXptUBiY5
+	23jlHU7lpi2R85UEYRAK7o0Cj4ascXKbU4rUQEijCiXNhZdVvmYZgVZs1SwuTVV14+J5dNzruLu
+	k9/2+cVFhn+KA5Ug==
+X-Received: by 2002:a53:d058:0:20b0:667:ca27:479e with SMTP id 956f58d0204a3-667d7b0077amr8471140d50.8.1784067846998;
+        Tue, 14 Jul 2026 15:24:06 -0700 (PDT)
+Received: from ASUS.. ([187.65.135.28])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6be9834dsm154256137b3.9.2026.07.14.15.24.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 15:21:51 -0700 (PDT)
-Subject: [PATCH v2 4/4] fixup! drm/gpusvm: use
- hmm_range_fault_unlocked_timeout() for range faults
-From: Stanislav Kinsburskii <skinsburskii@gmail.com>
-To: airlied@gmail.com, akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org,
- corbet@lwn.net, dakr@kernel.org, david@kernel.org, jgg@ziepe.ca,
- kees@kernel.org, leon@kernel.org, liam@infradead.org, lizhi.hou@amd.com,
- ljs@kernel.org, lyude@redhat.com, maarten.lankhorst@linux.intel.com,
- mamin506@gmail.com, mhocko@suse.com, mripard@kernel.org,
- nouveau@lists.freedesktop.org, ogabbay@kernel.org, oleg@redhat.com,
- rppt@kernel.org, shuah@kernel.org, simona@ffwll.ch,
- skhan@linuxfoundation.org, skinsburskii@gmail.com, surenb@google.com,
- tzimmermann@suse.de, vbabka@kernel.org
-Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org
-Date: Tue, 14 Jul 2026 15:21:49 -0700
-Message-ID: <178406770964.1106335.10099816010446253543.stgit@skinsburskii>
-In-Reply-To: <178406760622.1106335.2379450382728057793.stgit@skinsburskii>
-References: <178406760622.1106335.2379450382728057793.stgit@skinsburskii>
-User-Agent: StGit/0.19
+        Tue, 14 Jul 2026 15:24:06 -0700 (PDT)
+From: Abel Philippe <le590616@gmail.com>
+To: danielmaraboo@gmail.com
+Cc: linux-doc@vger.kernel.org,
+	corbet@lwn.net,
+	Abel Philippe <le590616@gmail.com>
+Subject: [PATCH] docs: pt_BR: process: Translate programming-language
+Date: Tue, 14 Jul 2026 19:23:53 -0300
+Message-ID: <20260714222354.107462-1-le590616@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The timeout passed to hmm_range_fault_unlocked_timeout() is a relative
-retry budget for HMM's internal mmu-notifier retry loop. drm_gpusvm was
-still keeping an absolute deadline around the outer driver retry logic
-and passing the remaining time into HMM.
+Translate the programming language documentation into Brazilian Portuguese.
 
-Pass HMM_RANGE_DEFAULT_TIMEOUT directly to
-hmm_range_fault_unlocked_timeout() on each HMM fault attempt instead.
-If HMM succeeds but the later drm_gpusvm-side mmu_interval_read_retry()
-check observes an invalidation, retry with a fresh HMM retry budget.
-
-This keeps the timeout focused on repeated notifier retries inside HMM,
-while avoiding an outer deadline that also accounts unrelated driver-side
-work after HMM has made progress.
-
-Signed-off-by: Stanislav Kinsburskii <skinsburskii@gmail.com>
+Signed-off-by: Abel Philippe <le590616@gmail.com>
 ---
- drivers/gpu/drm/drm_gpusvm.c |   21 ++++++---------------
- 1 file changed, 6 insertions(+), 15 deletions(-)
+ pt_BR/process/programming-language.rst | 56 ++++++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
+ create mode 100644 pt_BR/process/programming-language.rst
 
-diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
-index b8f2dd9982f5..76e8a0028c7f 100644
---- a/drivers/gpu/drm/drm_gpusvm.c
-+++ b/drivers/gpu/drm/drm_gpusvm.c
-@@ -852,8 +852,7 @@ enum drm_gpusvm_scan_result drm_gpusvm_scan_mm(struct drm_gpusvm_range *range,
- 		.end = end,
- 		.dev_private_owner = dev_private_owner,
- 	};
--	unsigned long timeout =
--		jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
-+	unsigned long timeout = msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
- 	enum drm_gpusvm_scan_result state = DRM_GPUSVM_SCAN_UNPOPULATED, new_state;
- 	unsigned long *pfns;
- 	unsigned long npages = npages_in_range(start, end);
-@@ -867,8 +866,7 @@ enum drm_gpusvm_scan_result drm_gpusvm_scan_mm(struct drm_gpusvm_range *range,
- 	hmm_range.hmm_pfns = pfns;
- 
- retry:
--	err = hmm_range_fault_unlocked_timeout(&hmm_range,
--					       max(timeout - jiffies, 1L));
-+	err = hmm_range_fault_unlocked_timeout(&hmm_range, timeout);
- 	if (err)
- 		goto err_free;
- 
-@@ -1459,8 +1457,7 @@ int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
- 		.dev_private_owner = ctx->device_private_page_owner,
- 	};
- 	void *zdd;
--	unsigned long timeout =
--		jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
-+	unsigned long timeout = msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
- 	unsigned long i, j;
- 	unsigned long npages = npages_in_range(pages_start, pages_end);
- 	unsigned long num_dma_mapped;
-@@ -1478,9 +1475,6 @@ int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
- 		return -EINVAL;
- 
- retry:
--	if (time_after(jiffies, timeout))
--		return -EBUSY;
--
- 	hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
- 	if (drm_gpusvm_pages_valid_unlocked(gpusvm, svm_pages))
- 		goto set_seqno;
-@@ -1495,8 +1489,7 @@ int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
- 	}
- 
- 	hmm_range.hmm_pfns = pfns;
--	err = hmm_range_fault_unlocked_timeout(&hmm_range,
--				max_t(long, timeout - jiffies, 1));
-+	err = hmm_range_fault_unlocked_timeout(&hmm_range, timeout);
- 	mmput(mm);
- 	if (err)
- 		goto err_free;
-@@ -1718,8 +1711,7 @@ int drm_gpusvm_range_evict(struct drm_gpusvm *gpusvm,
- 		.end = drm_gpusvm_range_end(range),
- 		.dev_private_owner = NULL,
- 	};
--	unsigned long timeout =
--		jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
-+	unsigned long timeout = msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
- 	unsigned long *pfns;
- 	unsigned long npages = npages_in_range(drm_gpusvm_range_start(range),
- 					       drm_gpusvm_range_end(range));
-@@ -1734,8 +1726,7 @@ int drm_gpusvm_range_evict(struct drm_gpusvm *gpusvm,
- 		return -ENOMEM;
- 
- 	hmm_range.hmm_pfns = pfns;
--	err = hmm_range_fault_unlocked_timeout(&hmm_range,
--				max_t(long, timeout - jiffies, 1));
-+	err = hmm_range_fault_unlocked_timeout(&hmm_range, timeout);
- 
- 	kvfree(pfns);
- 	mmput(mm);
-
+diff --git a/pt_BR/process/programming-language.rst b/pt_BR/process/programming-language.rst
+new file mode 100644
+index 000000000000..740e03cddff2
+--- /dev/null
++++ b/pt_BR/process/programming-language.rst
+@@ -0,0 +1,56 @@
++Linguagem de programação 
++========================
++
++O kernel Linux é escrito na linguagem de programação C [c-language]_.
++Mais precisamente, ele é normalmente compilado com ``gcc`` [gcc]_
++sob ``-std=gnu11`` [gcc-c-dialect-options]_, o dialeto GNU da ISO C11.
++O compilador ``clang`` [clang]_ também é suportado; consulte a documentação em
++:ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
++
++Esse dialeto contém diversas extensões da linguagem [gnu-extensions]_,
++e muitas delas são utilizadas rotineiramente no kernel.
++
++Atributos
++---------
++
++Uma das extensões mais comuns utilizadas em todo o kernel são os atributos
++[gcc-attribute-syntax]_. Os atributos permitem introduzir
++semânticas definidas pela implementação em entidades da linguagem (como variáveis,
++funções ou tipos) sem a necessidade de realizar mudanças sintáticas
++significativas na linguagem (por exemplo, adicionando uma nova palavra-chave) [n2049]_.
++
++Em alguns casos, os atributos são opcionais (isto é, um compilador que não os
++suporte ainda deve produzir código correto, mesmo que ele seja mais lento ou
++não execute tantas verificações e diagnósticos durante a compilação).
++
++O kernel define pseudopalavras-chave (por exemplo, ``__pure``) em vez de usar
++diretamente a sintaxe de atributos do GNU (por exemplo, ``__attribute__((__pure__))``)
++para detectar quais deles podem ser utilizados e/ou para encurtar o código.
++
++Por favor, consulte ``include/linux/compiler_attributes.h`` para mais informações.
++
++Rust
++----
++
++O kernel tem suporte para a linguagem de programação Rust.
++[rust-language]_ sob ``CONFIG_RUST``. É compilado com o ``rustc`` [rustc]_ ``rustc`` [rustc]_
++sob ``--edition=2021`` [rust-editions]_. As edições são uma maneira de introduzir
++pequenas alterações na linguagem que não são retrocompatíveis.
++
++Além disso, alguns recursos instáveis ​​[rust-unstable-features]_ são utilizados no
++kernel. Recursos instáveis ​​podem sofrer alterações no futuro; portanto, é um
++objetivo importante chegar a um ponto em que apenas recursos estáveis ​​sejam utilizados.
++
++Consulte ``Documentation/rust/index.rst`` para obter mais informações.
++
++.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
++.. [gcc] https://gcc.gnu.org
++.. [clang] https://clang.llvm.org
++.. [gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
++.. [gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
++.. [gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
++.. [n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
++.. [rust-language] https://www.rust-lang.org
++.. [rustc] https://doc.rust-lang.org/rustc/
++.. [rust-editions] https://doc.rust-lang.org/edition-guide/editions/
++.. [rust-unstable-features] https://github.com/Rust-for-Linux/linux/issues/2
+-- 
+2.43.0
 
