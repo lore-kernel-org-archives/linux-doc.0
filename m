@@ -1,467 +1,218 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011066.outbound.protection.outlook.com [52.101.70.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A4926ED3C
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 21:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784062896; cv=none; b=QyJimpPyh2TOMkkaZ1MbVz664NAA8ytVgWTEznEd4uBwXcYeTfg2ueYbQawwp4H0gGiZIB592KsI6deYo/NniqqwJycFbKs0HSTrGcO1laF6rgSPwXKJ8Q775sEua9uMJXxVPZ6F2/GLpL0M0qb3Ma7PgRgaCJywiey/6K5sJhY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784062896; c=relaxed/simple;
-	bh=GyFZUr6gz2YMwWDpd1nVF1Dcm50jUHpXOPVDRPvlLO8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JJwtq7f7xRzJvJdvduxEvOox2mNswluxf+u0UTF0qVMnKjySsNdvQX0JIrY28lxyapdR6GAzgZkt8uhbfkpAHmfYzi7nOK5VIWJOEyOuAGW0SRoO91XmssJdHFpSmhQhQobWkbrm2ucYIiDKX1KJ7x7bHReR454L1nDB8dmsPQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H0iJ7MO1; arc=none smtp.client-ip=209.85.128.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E18C42BC5D;
+	Tue, 14 Jul 2026 21:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784063407; cv=fail; b=SB0giCC8xERzRDuXxJ0Xoze2Om8nB2MFirIS4DoNJ5NX+kCDlZxgsVP1z62W7J1kqJnCpKgmOZsv/HCF7QroZGnxiA859KHePCJjQeO5YQiE/IrNrAbpkSUxIJ1/n/7u/7IzgvSQkd1n3UU/0Ccmd3geu4tGeGWgbjT99CWA+Rg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784063407; c=relaxed/simple;
+	bh=QtovXHqQbrGvi//ZhiZyl/0ySolc75DjK3p7f3BYkgA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=QqIC2ynf/toWdHudw3h9Ug4NxOVhmw3Zo7ZYSnGbVyS7SXCEuftoenGmciw3MfErTPW/UzHb6ehDzGPu9txTeNU9LaIV7uj4HqY9nQ8z8umBw5RkkR2+vuFtQpAGTj2Q0iGmpEao/dKErWozXJyfxuIQ9xvE5bvMDfnkYGCwmpg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=dXUbsnTU; arc=fail smtp.client-ip=52.101.70.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H0iJ7MO1"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-7dbcb505578so15258347b3.3
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 14:01:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784062893; x=1784667693; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZwU4vQBi6IdbOQZsC8JRHL6wl+iHrcot48gHOhJ9ras=;
-        b=H0iJ7MO11rgaVt7q6ttnnDihO2DYWIx/s9/kKp4sliqFKmjZWUo7+CT81uheLMJ/OO
-         l94a0q0x7AIOK2ejs4yRpuZ7Y2guGSRGVUllbzogPA4gWxqNlWndqYWobvYlHBovoPfk
-         Xq/Ax4z6pQ7wBUVX+xcdkHadTfi6TfME1eTI/XiwWy1rl83kEIBUcje3Xi0eNne+poKL
-         wcKciau8Ew4hJ7ci0JKBe97LNzw/xWHjlTPGr53I7UgIUZQ4KMVEMG+98Rer7uxpXC3V
-         WeME/IPM728Rb950RXCwHAwJZ5wuItRnds1v6+Hv+iGNmcyBLReuxOZAkmBdeB8KerUu
-         TpRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784062893; x=1784667693;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZwU4vQBi6IdbOQZsC8JRHL6wl+iHrcot48gHOhJ9ras=;
-        b=bMgPMqhA97NnIFiKIuUsvmuA5Al7wJNQIuXgeJTjt7gLzS7WmAERQCOFRD3ZH86gCx
-         FaOVawCknY7paa3/2JCBX/+cQGTNmRcan7cUO6laqlEKiRfBn4EnJp2f9dw7JXmhY0Ag
-         RcuNKZiEWv7IpmN8gSMzpwu+7hk9Fp4IJBp3YzDytmDPeNkUYI8P1Q/iP+88xn9PIYJf
-         bPUzYqqqNJMq/ES4ycJbbhQ3mGoerSIlsKZ2pBEV0x2LbPripNLZFB/StliiBIiud6Iq
-         mF1hc30iZfIBySVg9eHyIAnyTMhrIXq1g/HstnRoNx3w6uqtCrDCJRqhZcpCVxObOkvm
-         mUCA==
-X-Gm-Message-State: AOJu0Ywhq40nExsc9rDj6OX2NmGr4HCD6/RdVuQVHwZb2ZTWSOzi8ATc
-	0BnkxhRuy30aZBR9d/JAK8V7s/qJiRcIGOK0XJrHZggZQsHxzx3/HZGn
-X-Gm-Gg: AfdE7cnEXQEBFGD0M4mzdySMcJQysMjIelO/OwCiSrWabx+esAQkD1nrfaxiydNQFVE
-	TOiV5WCiVpfovPTdxesAFimIy2j2gvojmrC3m/o3zqQa/BMo+URITUW8Pp/p9inBgjuOLprp59f
-	WGwGOcr6Q2NkOfMke4mfqOvUqw5hy9DpM5j3V8d8oIEz94LExYVrDkkTbtG+VwmU8dG9be83EI2
-	EivGRdSgneuS7CBIYEf312MgIjfiv72+3L7Xh6/DF+0+RAB18YKgqEXMj1gLNnyLBdKPfBPGIjE
-	6Q0nc/4Dv4HBn3iwLlkCTsPbfXNeLZkQ2gFo9f/+lBRlElGdSFPv4pjefkWto+vbdcK3VLe3tmy
-	0wBnPxK8PyjA47r+uXhXI0CyznE54j2p+6N1U8hkLomZYuhIVCkhoeOGG1CV5ENDgYK/o4LNAum
-	w2S2kMFB2Hih8hkHI=
-X-Received: by 2002:a05:690c:4b8b:b0:81e:ad1:bc74 with SMTP id 00721157ae682-81e901ac719mr110460827b3.61.1784062892594;
-        Tue, 14 Jul 2026 14:01:32 -0700 (PDT)
-Received: from cachyos ([2804:7f0:9f82:e918:cc27:6c4f:3f60:5e1d])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e7e575f7bsm124429887b3.45.2026.07.14.14.01.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 14:01:32 -0700 (PDT)
-From: Ygor Otavio <ygorotavio.sjc@gmail.com>
-To: danielmaraboo@gmail.com
-Cc: linux-doc@vger.kernel.org,
-	corbet@lwn.net,
-	Ygor Otavio <ygorotavio.sjc@gmail.com>
-Subject: [PATCH v2] docs: translations: pt_BR: process: email-clients: traduz para pt_BR
-Date: Tue, 14 Jul 2026 18:01:22 -0300
-Message-ID: <20260714210124.5364-1-ygorotavio.sjc@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="dXUbsnTU"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kykat1yjmTyqO2qR8dM3UZiNM0FJ6DNea0vI/7DOcfHWDB9vyzaQVPsoIkp7n9WQPdnSt4+SQCRyacRvC06ESIaBQGZZ/m49Ss3AR5pLLhpyxWakE1g8UnrCSwPtKDviewVn+R6nCmvhiKWA69p6N3/uykqtEePltdRnLKNVt1y69pCZEE2F/ZYPSEA5MaKowUhzZHeW3VRNZoYAW9CAh9wXC3c8F3YphCjOeIUbg2dPUeD/ynX89lW9omMVqmo2pZuaq1ccFdLgNeIluELR3A6KUWvl9wn8MqnJEAfKOYuJ5wgkE86+FCkozhJpxrOqvgdB1Sox8n8kcT2K0tRRVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=51hqpufEsGFCNBACr1uUKiNF0Xfv39s6lzkZW/FMhR8=;
+ b=tYKD0bP7pXPfdaQWmulWueUwpor8OZd3+P+puVYZOwrV7r92Z76Zd4zjDtWa/mKfWKgYsJ30Wid746DMteVTvCoih7pCKLF8E+DOvhCcA8PLnqnamyn4cFSuFE3dr1eKJ1x0clPMJGKT1Jy8bVSaHZOlH0OWAQiXVG2oDWYub+A5ztZ1lDJ+sdDoFSGxSkAKyUHV+10w5+Tdm3PWGRj+FUtoO5+Yz4dGubqgbBcc1y8ueUXrKTYOr6kO6AKhmu2kCOrtV0HjFMs0b1z5+BCBEaaZl6T+8vhnVPGMyYN/rbafDgtOv2IpThLFa8HiW75kjDVEM5AwlPuMlyT6nLEATg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=51hqpufEsGFCNBACr1uUKiNF0Xfv39s6lzkZW/FMhR8=;
+ b=dXUbsnTUlnDDCiYeBIj0M6IWdFbYVo4CEsorufj03DV7CDLnBMvqm6xTPOxMWhbcuYKJDp7O663s8UEV68PamG2QZ2ic+uxAR70HqTBWzvgmM8qdfxMqcnqZUBhlb9O/OMIst6htvhqftyXSvVY1NQexLbTxzsMWHO6AnpktAQYgjffOsj8UMWyzhnhM5TRjx6u1gfcU6YCaCJqnOtXw4KGc3qr3E2496guO4fmG5ZTs7e5Mf5etP/Cznk2Dliusg75HhoEnk+vTxACfnqTwWnRfPM1wots0KBTuRECTaGlpjovbeA3J5M2sXiBAXS5wkZmMltJEuvIxd8Lbsfjg5w==
+Received: from PAXPR04MB9185.eurprd04.prod.outlook.com (2603:10a6:102:231::11)
+ by GV4PR04MB11852.eurprd04.prod.outlook.com (2603:10a6:150:2dc::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Tue, 14 Jul
+ 2026 21:10:01 +0000
+Received: from PAXPR04MB9185.eurprd04.prod.outlook.com
+ ([fe80::b4c0:6119:2228:2ceb]) by PAXPR04MB9185.eurprd04.prod.outlook.com
+ ([fe80::b4c0:6119:2228:2ceb%5]) with mapi id 15.21.0181.016; Tue, 14 Jul 2026
+ 21:10:01 +0000
+From: "Shenwei Wang (OSS)" <shenwei.wang@oss.nxp.com>
+To: Andrew Lunn <andrew@lunn.ch>, "Shenwei Wang (OSS)"
+	<shenwei.wang@oss.nxp.com>
+CC: Mathieu Poirier <mathieu.poirier@linaro.org>, Linus Walleij
+	<linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson
+	<andersson@kernel.org>, Frank Li <frank.li@nxp.com>, Sascha Hauer
+	<s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+	Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>,
+	Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, "b-padhi@ti.com"
+	<b-padhi@ti.com>
+Subject: RE: [PATCH v14 1/5] docs: driver-api: gpio: rpmsg gpio driver over
+ rpmsg bus
+Thread-Topic: [PATCH v14 1/5] docs: driver-api: gpio: rpmsg gpio driver over
+ rpmsg bus
+Thread-Index: AQHdE9UiiwYvBWdefECeX5whBWF86A==
+Date: Tue, 14 Jul 2026 21:10:01 +0000
+Message-ID:
+ <PAXPR04MB91858B3C5D5E1B74B9291BE289F92@PAXPR04MB9185.eurprd04.prod.outlook.com>
+References: <20260625155432.815185-1-shenwei.wang@oss.nxp.com>
+ <20260625155432.815185-2-shenwei.wang@oss.nxp.com> <alUdg9iTysXCFUa5@p14s>
+ <PAXPR04MB918568AE7B2364EC9D16427689F92@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <68a9dd77-a07b-4ea5-ad66-9e2bda490d20@lunn.ch>
+In-Reply-To: <68a9dd77-a07b-4ea5-ad66-9e2bda490d20@lunn.ch>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAXPR04MB9185:EE_|GV4PR04MB11852:EE_
+x-ms-office365-filtering-correlation-id: 5625f509-5b81-47bf-a0b1-08dee1ec44ac
+x-ms-exchange-sharedmailbox-routingagent-processed: True
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|366016|1800799024|7416014|19092799006|23010399003|38070700021|22082099003|18002099003|6133799003|4143699003|11063799006|56012099006;
+x-microsoft-antispam-message-info:
+ HyEyYJT2HCUGLG9oJad44CdWnwv/ovj3rJYWzrRwHnOpyLP21JKAgPtJUKXQMTobA+FF6Nxxij0Q5s+SHV0rH+rwmhWDlY8BuNtA4fG4a7tS9Od4LGjwOPVQrfdY+mvCcJz2kUTN59Kjudb++RmX/TgrZB34fePAEVMWbiIkgDiHIqUTW4f6KsMLBsNxsjmxBbQ1jQqOW5WV1bbaTeWFPwjZoSWWBD6LNyDWlhvq2flUeRXp9+ShgDI4WsWa4hMq323uU8bHggMvQrv0KDL9pgnMY2j+al/DBm7SKADkUp0fUoKxT4mCanYw5L+4RX4vUhl4sOh6l3HvvRmSfAXRIS72eBB+cJ6odrPxfJiWIZRTCUdeq1h+wL1dtJIjT1wrAwSLrULfG7/1EUrrz8yIHBnppKnLZJAP0+HtBxQ3f2ZJ2UIRyAHkV7JIfJF6JOe8cf7LQ3mGmlrJn9DwqZOzt0fTY6j1F0s3cGkhzzjYLBBd58sMCm3YW6bL1+W4QGlmaxUjIxu8un1JvLyqTzNoi5ib940hndNy16oCw3AeFYN3lLfMhSLEYImMZ32I3519hcDIS2tteJVITqWSt7w6T9tJ86bkxPQF3uwHMslkGt1i7RQoHUEoLFNOEucRNwc8gWSurySJIOxMBzVjpHpGfU+NTvytHmkeIPrXz04T+l9Flpxq3nuzhqBgpNlIBt4nJv+kFwZhnOP/OLf5Kw2LnE3MjznHigDyrFyk5IegQks=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9185.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7416014)(19092799006)(23010399003)(38070700021)(22082099003)(18002099003)(6133799003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?O2OWYonb75sYzkswomCi/qX6vS9635/NvM/mlrGf5pYTHnYkmT331k4K+2zn?=
+ =?us-ascii?Q?AdyV+SfQHK8eJfT7sbfYt5fh76oO1tXkoLGCYf/cPKot5Pe9snr88lzOqmu6?=
+ =?us-ascii?Q?25Gm8cS6IUoiSZYyV00v7IRMRt5GGMPmOmRf2Cl7bRuNuR6WL9WKZzrP9OQP?=
+ =?us-ascii?Q?6pU+S+4rNe2Cl9rHe8aJirrdkR9cU8y+dVpq3R1hqrG98ysa6Ru5vMblYh3+?=
+ =?us-ascii?Q?KndB+X7mO7spN9OgWlu2dbJWSpPVKGyWSICbtsZh+KXc9PhFCzkyULXJk4Y6?=
+ =?us-ascii?Q?olGAuXpkr6FFWZu2rrqdNkQzarotkrUOCyNBbxwd124wPdPfIhx4zsQxxe6v?=
+ =?us-ascii?Q?wEbhfm2N5N3bKQYX3yR7vo4k9pnbSX2fvN7nBNdq65joEdVRu6y/cA+aQ3dM?=
+ =?us-ascii?Q?QtatY+pbYZCk70j2VUklcYejfAtPigvbR2KVGNwRH5TKnk4YXZAsfkkTytp3?=
+ =?us-ascii?Q?kODLlsWVT2W+T97a96zYkvJVQRS9iFkw8UMHGuW3m7+Bnv88yufT2serG+yh?=
+ =?us-ascii?Q?tAbom059Mpxg43+wsd88hT2lM7UCK93vQDL+2YNiA8bCKy7rLwoi0/IncOOl?=
+ =?us-ascii?Q?lfqwnLq1KycU9eS3ZkCf1QUVR5S76b+3+/eULA2VWnfjEX+/lyJEdKV+XPKv?=
+ =?us-ascii?Q?36iBIloUWZukYIIZemduUnYTQ6xzFOEsKmxFWBK/pnHmziJTaZihvtBJVwWl?=
+ =?us-ascii?Q?fHzBa4NIUmx1ktBvFeeEijhXJEyfQkM5NDxnZsI754DyYMxfJJvNh/2FSwAz?=
+ =?us-ascii?Q?KtGapeoAA4FN5faFy4A2b4UmEvouJ2BZ3KefeTYi/gRRXsZxC+MCLtJ54rL6?=
+ =?us-ascii?Q?KA1v8NETtS8On4d4jwVUwmiTuPVNm6FYqbhu3WeeSR2O6R2doiJDtzUbRQrF?=
+ =?us-ascii?Q?1YQMyiAlK59Q4yuVxi47Hs8/811KE9Uh7ZYNBRMyctcrBqFiEFRvfRaWnb6u?=
+ =?us-ascii?Q?0T2EFTlWOrILivxXBrOqpi1nSq/grNS1HD42LMcp/5NjydglupILWjMbFsnZ?=
+ =?us-ascii?Q?JvYt41hWvx05sy5mmM761V03cGwa93StZGYI3sci+BQ5rfTU32ZT+deloQSn?=
+ =?us-ascii?Q?6e2+NEORjAiZla8YFB4sxgQH/ODK7IyxpzJru6mTbLEb6YWFpWrMx8qiV152?=
+ =?us-ascii?Q?EalMrr7e5SN8gp8rtIlNUhfwFwJPGl/3vBor4DzfqwwDeWGl9bTW+xGtqH2o?=
+ =?us-ascii?Q?Oa6Cfe7GAt4KpQX4oVu8shjCXmcLFORyLa5uo9r4yHGd3UOmZX1iEwYOQLDj?=
+ =?us-ascii?Q?NuauJaEfZQoVS+othFje9E98jbGX62vxNRCuWnm+G34YzKZlDS0dvuVjAjz0?=
+ =?us-ascii?Q?cHkcLkpV6e0bjgLso6XhG/6barCf6tw4DVL2HVzoEoPJjgY6ehB+6LCwhRj0?=
+ =?us-ascii?Q?eoj0AbzCssCdk90dBnTHHvOkeMgRNVC2uCKc7l98fjPEP/GELWKGy9AEuhDb?=
+ =?us-ascii?Q?RI7gXbDcoHJ0kmN2hMVw/2X5bHjF52gL2BIoVEI24SPjGAnaczgQyGmRBCya?=
+ =?us-ascii?Q?CYYexjL8gqrZ6jCXdOfYnlNOvo2EKQGIYhEfI2gueqFN9QyVlINZsP7d/Ekd?=
+ =?us-ascii?Q?8pp28cwbGzHepdv8Vnvk4zBCdjwZqavVUubLegek9ecCK/m/bmW23jLWk55p?=
+ =?us-ascii?Q?Cq5HFkmxA6AGNlLfX65D0CA8zavyC+E9x+3SJdHCo/xg7zsTD3pMs1zYQTmm?=
+ =?us-ascii?Q?7hKrgK0L+aP12FYzFvkwq7+ilr74q7dkjW8J8kXmq2WxwnazTpNfrhRj5PBY?=
+ =?us-ascii?Q?VwHGdAfNbg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9185.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5625f509-5b81-47bf-a0b1-08dee1ec44ac
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jul 2026 21:10:01.3653
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: YUz5o5kT7JgCzZ+bjv8tSxWix1vDierJbo6ChIG2i8gcD/xTWsBHm1sRBCBJaqOPlpdP+JTxlY3e83LsQDL+Sw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV4PR04MB11852
 
-Translates the documentation regarding email clients info for Linux
-into Brazilian Portuguese, maintaining consistency with original
-formatting rules.
-For V2, the errors "bullet list ends without a blank line" and
-"inline interpreted text start-string without end-string" were fixed.
-The others errors that appeared after the submission of v2 were also
-fixed.
 
-Signed-off-by: Ygor Otavio <ygorotavio.sjc@gmail.com>
----
- .../pt_BR/process/email-clients.rst           | 368 ++++++++++++++++++
- 1 file changed, 368 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/email-clients.rst
 
-diff --git a/Documentation/translations/pt_BR/process/email-clients.rst b/Documentation/translations/pt_BR/process/email-clients.rst
-new file mode 100644
-index 000000000..407934c7c
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/email-clients.rst
-@@ -0,0 +1,368 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Informações sobre clientes de email para Linux
-+==============================================
-+
-+Git
-+---
-+
-+Hoje em dia a maioria dos desenvolvedores usa ``git send-email`` em vez de
-+clientes de email comuns. A página de manual desse comando é bem útil. No lado
-+de quem recebe, os mantenedores usam ``git am`` para aplicar os patches.
-+
-+Se você é novo no ``git``, envie seu primeiro patch para si mesmo. Salve-o
-+como texto bruto, incluindo todos os cabeçalhos. Execute ``git am raw_email.txt``
-+e então revise o changelog com ``git log``. Quando isso funcionar, envie o
-+patch para a(s) lista(s) de discussão apropriada(s).
-+
-+Preferências Gerais
-+-------------------
-+
-+Os patches para o kernel Linux são enviados por email, preferencialmente como
-+texto inline no corpo da mensagem. Alguns mantenedores aceitam anexos, mas,
-+nesse caso, os anexos devem ter o content-type ``text/plain``. Contudo, anexos
-+são, em geral, desaconselhados porque dificultam citar trechos do patch durante
-+o processo de revisão.
-+
-+Também é altamente recomendável que você use plain text no corpo do email, tanto
-+para patches quanto para outras mensagens. https://useplaintext.email pode ser
-+útil para obter informações sobre como configurar seu cliente de email preferido,
-+além de listar clientes de email recomendados caso você ainda não tenha preferência.
-+
-+Clientes de email usados para patches do kernel Linux devem enviar o texto do
-+patch sem alterações. Por exemplo, eles não devem modificar ou apagar tabs ou
-+espaços, mesmo no início ou no fim das linhas.
-+
-+Não envie patches com ``format=flowed``. Isso pode causar quebras de linha
-+inesperadas e indesejadas.
-+
-+Não deixe seu cliente de email fazer quebra automática de linha para você.
-+Isso também pode corromper seu patch.
-+
-+Clientes de email não devem modificar a codificação do conjunto de caracteres do
-+texto. Patches enviados por email devem usar apenas codificação ASCII ou UTF-8.
-+Se você configurar seu cliente de email para enviar mensagens com codificação
-+UTF-8, você evita alguns possíveis problemas de charset.
-+
-+Clientes de email devem gerar e manter "References:" ou "In-Reply-To:"
-+cabeçalhos para que o encadeamento de mensagens não seja quebrado.
-+
-+Copiar e colar (ou recortar e colar) geralmente não funciona para patches
-+porque tabs são convertidos em espaços. Usar xclipboard, xclip e/ou xcutsel
-+pode funcionar, mas é melhor testar isso você mesmo ou simplesmente evitar
-+copiar e colar.
-+
-+Não use assinaturas PGP/GPG em emails que contenham patches. Isso quebra muitos
-+scripts que leem e aplicam os patches.
-+(Isso deve ser corrigível.)
-+
-+É uma boa ideia enviar um patch para si mesmo, salvar a mensagem recebida e
-+aplicá-la com sucesso com o comando 'patch' antes de enviar patches para as
-+listas de discussão do Linux.
-+
-+Algumas dicas de clientes de email (MUA)
-+----------------------------------------
-+
-+Aqui estão algumas dicas específicas de configuração de MUA para editar e enviar
-+patches para o kernel Linux. Estas dicas não pretendem ser resumos completos da
-+configuração dos pacotes de software.
-+
-+Legenda:
-+
-+- TUI = Interface de Usuário Baseada em Texto
-+- GUI = Interface Gráfica de Usuário
-+
-+Alpine (TUI)
-+************
-+
-+Opções de configuração:
-+
-+Na seção :menuselection:`Preferências de Envio`:
-+
-+- :menuselection:`Não Envie Texto com Quebra de Linha Automática` deve estar ``habilitado``
-+- :menuselection:`Remover Espaços em Branco Antes de Enviar` deve estar ``desabilitado``
-+
-+Ao compor a mensagem, o cursor deve ser posicionado onde o patch deverá aparecer,
-+e então pressionar `CTRL-R` permite especificar o arquivo de patch a ser
-+inserido na mensagem.
-+
-+Claws Mail (GUI)
-+****************
-+
-+Funciona. Algumas pessoas usam isso com sucesso para patches.
-+
-+Para inserir um patch, use :menuselection:`Mensagem-->Inserir Arquivo`(`CTRL-I`)
-+ou um editor externo.
-+
-+Se o patch inserido precisar ser editado na janela de composição do
-+Claws, a opção "Quebra automática" em
-+:menuselection:`Configuração-->Preferências-->Escrever-->Quebra de linha`
-+deve estar desabilitada.
-+
-+Evolution (GUI)
-+***************
-+
-+Algumas pessoas usam isso com sucesso para patches.
-+
-+Ao compor o e-mail, selecione: Preformatado
-+  em :menuselection:`Formatar-->Estilo de Parágrafo-->Preformatado` (`CTRL-7`)
-+  ou na barra de ferramentas
-+
-+Depois use:
-+:menuselection:`Inserir-->Arquivo de Texto...` (`ALT-N x`)
-+para inserir o patch.
-+
-+Você também pode usar ``diff -Nru old.c new.c | xclip``, selecionar
-+:menuselection:`Preformatado`, depois colar com o botão do meio.
-+
-+Kmail (GUI)
-+***********
-+
-+Algumas pessoas usam o KMail com sucesso para patches.
-+
-+A configuração padrão de não compor em HTML é apropriada; não a habilite.
-+
-+Ao compor um email, em opções, desmarque “quebra de linha automática”. A única
-+desvantagem é que qualquer texto que você digitar no email não será quebrado
-+automaticamente, então você terá que quebrar manualmente o texto antes do patch.
-+A maneira mais fácil é compor o email com quebra de linha automática habilitado,
-+depois salvá-lo como rascunho. Depois de abri-lonovamente dos rascunhos, ele
-+estará com quebras de linha rígidas e você poderá desmarcar “quebra de linha
-+automática” sem perder a quebra existente.
-+
-+No final do seu email, coloque o delimitador de patch comumente usado antes de
-+inserir o patch: três hífens (``---``).
-+
-+Então, no menu :menuselection:`Mensagem`, selecione :menuselection:`inserir arquivo`
-+e escolha o seu patch. Como benefício adicional, você pode personalizar a barra
-+de ferramentas de criação de mensagens e colocar o ícone :menuselection:`inserir arquivo` lá.
-+
-+Deixe a janela do compositor larga o suficiente para que nenhuma linha seja
-+quebrada. A partir do KMail 1.13.5 (KDE 4.5.4), o KMail aplica quebra de linha
-+ao enviar o email se as linhas quebrarem na janela do compositor. Ter a quebrade
-+linha desativada no menu Opções não é suficiente. Por isso se o seu patch tiver
-+linhas muito longas, você deve deixar a janela do seu compositor bem larga antes
-+de enviar o email. Veja: https://bugs.kde.org/show_bug.cgi?id=174034
-+
-+Você pode assinar anexos com GPG com segurança, mas texto em linha é preferido
-+para patches, então não os assine com GPG. Assinar patches que foram inseridos
-+como texto em linha torna mais difícil extraí-los de sua codificação 7 bits.
-+
-+Se você absolutamente precisar enviar patches como anexos em vez de inseri-los
-+como texto, clique com o botão direito no anexo e selecione
-+:menuselection:`propriedades`, e destaque :menuselection:`Sugerir exibição automática`
-+para fazer o anexo ser exibido como texto inserido e ficar mais fácil de
-+visualizar.
-+
-+Ao salvar patches enviados como texto inserido, selecione o email que contém o
-+patch no painel da lista de mensagens, clique com o botão direito e selecione
-+:menuselection:`salvar como`. Você pode usar o email inteiro sem alterações como
-+patch se ele tiver sido composto corretamente. Emails são salvos como leitura e
-+gravação apenas para o usuário, então você terá que chmodá-los para torná-los
-+legíveis por grupo e por todos se copiá-los para outro lugar.
-+
-+Lotus Notes (GUI)
-+*****************
-+
-+Fuja dele.
-+
-+IBM Verse (Web GUI)
-+*******************
-+
-+Veja Lotus Notes.
-+
-+Mutt (TUI)
-+**********
-+
-+Muitos desenvolvedores Linux usam ``mutt``, então deve funcionar muito bem.
-+
-+O mutt não vem com editor, então qualquer editor que você use deve ser usado de
-+forma que não haja quebras de linha automáticas. A maioria dos editores tem uma
-+opção :menuselection:`Inserir Arquivo` que insere o conteúdo de um arquivo sem
-+alterações.
-+
-+Para usar ``vim`` com o mutt::
-+
-+  set editor="vi"
-+
-+Se estiver usando xclip, digite o comando::
-+
-+  :set paste
-+
-+antes do botão do meio ou shift-insert ou use::
-+
-+  :r filename
-+
-+se você quiser incluir o patch inline.
-+(a)ttach funciona bem sem ``set paste``.
-+
-+Você também pode gerar patches com ``git format-patch`` e depois usar o Mutt
-+para enviá-los::
-+
-+    $ mutt -H 0001-some-bug-fix.patch
-+
-+Opções de configuração:
-+
-+Deve funcionar com as configurações padrão. No entanto, é uma boa ideia definir
-+o ``send_charset`` como::
-+
-+  set send_charset="us-ascii:utf-8"
-+
-+O Mutt é altamente personalizável. Aqui está uma configuração mínima para
-+começar a usar o Mutt para enviar patches pelo Gmail::
-+
-+  # .muttrc
-+  # ================  IMAP  ====================
-+  set imap_user = 'seuusuario@gmail.com'
-+  set imap_pass = 'suasenha'
-+  set spoolfile = imaps://imap.gmail.com/INBOX
-+  set folder = imaps://imap.gmail.com/
-+  set record="imaps://imap.gmail.com/[Gmail]/Sent Mail"
-+  set postponed="imaps://imap.gmail.com/[Gmail]/Drafts"
-+  set mbox="imaps://imap.gmail.com/[Gmail]/All Mail"
-+
-+  # ================  SMTP  ====================
-+  set smtp_url = "smtp://usuario@smtp.gmail.com:587/"
-+  set smtp_pass = $imap_pass
-+  set ssl_force_tls = yes # Exige conexão criptografada
-+
-+  # ================  Composição  ====================
-+  set editor = `echo \$EDITOR`
-+  set edit_headers = yes  # Exibe os cabeçalhos ao editar
-+  set charset = UTF-8     # valor de $LANG; também usado como
-+                          # fallback para send_charset
-+  # Remetente, endereço de e-mail e linha de assinatura devem
-+  # corresponder
-+  unset use_domain        # porque joe@localhost é constrangedor
-+  set realname = "SEU NOME"
-+  set from = "usuario@gmail.com"
-+  set use_from = yes
-+
-+A documentação do Mutt tem muito mais informações:
-+
-+    https://gitlab.com/muttmua/mutt/-/wikis/UseCases/Gmail
-+
-+    http://www.mutt.org/doc/manual/
-+
-+Pine (TUI)
-+**********
-+
-+O Pine já teve alguns problemas de truncamento de espaços em branco no passado,
-+mas isso deve estar todo corrigido agora.
-+
-+Use o alpine (sucessor do pine) se possível.
-+
-+Opções de configuração:
-+
-+- ``quell-flowed-text`` é necessário para versões recentes
-+- a opção ``no-strip-whitespace-before-send`` é necessária
-+
-+
-+Sylpheed (GUI)
-+**************
-+
-+- Funciona bem para inserir texto inline (ou usando anexos).
-+- Permite o uso de um editor externo.
-+- É lento em pastas grandes.
-+- Não fará autenticação TLS SMTP sobre uma conexão não-SSL.
-+- Tem uma barra de régua útil na janela de composição.
-+- Adicionar endereços ao catálogo de endereços não reconhece corretamente o nome
-+  de exibição.
-+
-+Thunderbird (GUI)
-+*****************
-+
-+O Thunderbird é um clone do Outlook que gosta de bagunçar o texto, mas há formas
-+de convencê-lo a se comportar.
-+
-+Depois de fazer as modificações, incluindo a instalação das extensões, você
-+precisa reiniciar o Thunderbird.
-+
-+- Permitir o uso de um editor externo:
-+
-+  A forma mais fácil de trabalhar com patches no Thunderbird é usar extensões
-+  que abrem seu editor externo favorito.
-+
-+  Aqui estão alguns exemplos de extensões capazes de fazer isso.
-+
-+  - "Editor Externo Reativado"
-+
-+    https://github.com/Frederick888/external-editor-revived
-+
-+    https://addons.thunderbird.net/en-GB/thunderbird/addon/external-editor-revived/
-+
-+    É necessário instalar um "host de mensagens nativas".
-+    Leia a wiki, que pode ser encontrada aqui:
-+    https://github.com/Frederick888/external-editor-revived/wiki
-+
-+  - "Editor Externo"
-+
-+    https://github.com/exteditor/exteditor
-+
-+    Para isso, baixe e instale a extensão, depois abra a janela de
-+    :menuselection:`compor`, adicione um botão para ela usando
-+    :menuselection:`Visualizar-->Barras de Ferramentas-->Personalizar...`
-+    e então basta clicar no novo botão quando quiser usar o editor externo.
-+
-+    Observe que o "Editor Externo" exige que seu editor não faça fork, ou seja,
-+    o editor não deve retornar antes de fechar. Pode ser necessário passar flags
-+    adicionais ou alterar as configurações do seu editor. Principalmente se você
-+    estiver usando o gvim, deve passar a opção -f para o gvim colocando
-+    ``/usr/bin/gvim --nofork"`` (se o binário estiver em ``/usr/bin``) no campo
-+    de editor de texto nas configurações de :menuselection:`editor externo`. Se
-+    estiver usando outro editor, consulte seu manual para descobrir como fazer isso.
-+
-+Para colocar juízo no editor interno, faça o seguinte:
-+
-+- Edite as configurações do Thunderbird para que ele não use ``format=flowed``!
-+  Vá até a janela principal e encontre o botão do menu suspenso principal.
-+  :menuselection:`Menu Principal-->Preferências-->Geral-->Editor de Configurações...`
-+  para abrir o editor de registro do Thunderbird.
-+
-+  - Defina ``mailnews.send_plaintext_flowed`` como ``false``
-+
-+    - Altere ``mailnews.wraplength`` de ``72`` para ``0`` **ou** instale a
-+      extensão "Toggle Line Wrap"
-+
-+      https://github.com/jan-kiszka/togglelinewrap
-+
-+      https://addons.thunderbird.net/thunderbird/addon/toggle-line-wrap
-+
-+      para controlar esse registro dinamicamente.
-+
-+- Não escreva mensagens em HTML! Vá até a janela principal
-+  :menuselection:`Menu Principal-->Configurações da Conta-->suaconta@servidor.algo-->Composição e Endereçamento`!
-+  Lá você pode desabilitar a opção "Compor mensagens em formato HTML".
-+
-+- Abra mensagens apenas como texto simples! Vá até a janela principal
-+  :menuselection:`Menu Principal-->Visualizar-->Corpo da Mensagem Como-->Texto Simples`!
-+
-+TkRat (GUI)
-+***********
-+
-+Funciona. Use "Inserir arquivo..." ou um editor externo.
-+
-+Gmail (Web GUI)
-+***************
-+
-+Não funciona para enviar patches.
-+
-+O cliente web do Gmail converte tabulações em espaços automaticamente.
-+
-+Ao mesmo tempo, ele quebra linhas a cada 78 caracteres com quebras de linha no
-+estilo CRLF, embora o problema de tab para espaço possaser resolvido com um
-+editor externo.
-+
-+Outro problema é que o Gmail codifica em base64 qualquer mensagem que tenha um
-+caractere não-ASCII. Isso inclui coisas como nomes europeus.
-+
-+HacKerMaiL (TUI)
-+****************
-+
-+HacKerMaiL (hkml) é uma ferramenta simples de gerenciamento de e-mails baseada
-+em public-inbox que não exige inscrição em listas de discussão. É desenvolvida
-+e mantida pelo mantenedor do DAMON e visa oferecer suporte a fluxos de trabalho
-+de desenvolvimento simples para o DAMON e para subsistemas gerais do kernel.
-+Consulte o README (https://github.com/sjp38/hackermail/blob/master/README.md)
-+para mais detalhes.
-+
--- 
-2.55.0
+> -----Original Message-----
+> From: Andrew Lunn <andrew@lunn.ch>
+> Sent: Tuesday, July 14, 2026 3:23 PM
+> To: Shenwei Wang (OSS) <shenwei.wang@oss.nxp.com>
+> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>; Linus Walleij
+> <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>; Jonathan Corb=
+et
+> <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
+> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn Andersson
+> <andersson@kernel.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
+> <s.hauer@pengutronix.de>; Shuah Khan <skhan@linuxfoundation.org>; linux-
+> gpio@vger.kernel.org; linux-doc@vger.kernel.org; linux-kernel@vger.kernel=
+.org;
+> Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+> <festevam@gmail.com>; Shenwei Wang <shenwei.wang@nxp.com>; Peng Fan
+> <peng.fan@nxp.com>; devicetree@vger.kernel.org; linux-
+> remoteproc@vger.kernel.org; imx@lists.linux.dev; linux-arm-
+> kernel@lists.infradead.org; dl-linux-imx <linux-imx@nxp.com>; Arnaud
+> POULIQUEN <arnaud.pouliquen@foss.st.com>; b-padhi@ti.com
+> Subject: Re: [PATCH v14 1/5] docs: driver-api: gpio: rpmsg gpio driver ov=
+er rpmsg
+> bus
+>=20
+> > The two fields above are required for rpmsg-gpio, but not for virtio-gp=
+io.
+> >
+> > In the rpmsg-gpio case, interrupt detection and handling occur on the
+> > remote processor. The interrupt information (such as the GPIO line and
+> > trigger type) must therefore be sent to Linux through this notification=
+ message.
+> >
+> > In contrast, for virtio-gpio, interrupt handling is performed on the
+> > local processor. Since Linux already has all the necessary interrupt co=
+ntext, the
+> information is not needed.
+>=20
+> Are you sure about that?
+>=20
+> virtio_gpio_irq_set_type() sets:
+>=20
 
+Why are you bringing up virtio_gpio_irq_set_type() here? The command path i=
+s already=20
+fully aligned with the existing virtio-gpio implementation.
+
+The gap we are discussing is the interrupt notification message coming from=
+ the remote side.=20
+That is the topic under discussion.
+
+Shenwei
+
+>         irq_line->type =3D type;
+>         irq_line->update_pending =3D true;
+>=20
+> virtio_gpio_irq_bus_sync_unlock() looks at update_pending and does
+> virtio_gpio_req(), passing irq_line->type as type.
+>=20
+> This then gets filled into:
+>=20
+> /* Virtio GPIO Request / Response */
+> struct virtio_gpio_request {
+> 	__le16 type;
+> 	__le16 gpio;
+> 	__le32 value;
+> };
+>=20
+> which gets scatter/gathered over the virtqueue to the peer.
+>=20
+>       Andrew
