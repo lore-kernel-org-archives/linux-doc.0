@@ -1,317 +1,129 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8AA43FD09
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 09:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E5B43FD16
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 09:51:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784022573; cv=none; b=CwIWJhOT9NEI/MQNt5z6sn1VfqDcfXelgcImlCI/E6nozcwEibEGt+g8fXj/oYmWnQVlYS30qRc2XYMkgQJaZ/hzyZB0Q5iqF/7+SZ6b36iDN+NyBGR2uFS9Jj0dI+MIqIUlGNk3chRZHtAlzSqS446m6a1ilUSmRtrmSkpPHsA=
+	t=1784022723; cv=none; b=IlqWIM9e+ft+63Vlyl7vPE+E+OMjw6Ua4MgZLa+CxWai9nbBv6CwGrtEgKwaB0l7a4LY1DY91dmEkyOiWGnDQb1eY33EgpBL1vX7xJ0WiAX4cAM5Wpjq/WUdaxhUo+rn9cgaZxmI7JpSRJdRxnvkiEY3+C06fD4OwT18WQ4pxow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784022573; c=relaxed/simple;
-	bh=7+y1hZpjFQEJ95siQK4W2WWl4j+nNVYR7+F8Qz3d7yA=;
+	s=arc-20240116; t=1784022723; c=relaxed/simple;
+	bh=8zPxJvJyYu1lmEKTd2Dq6YXSeXICytyrcAa8pcW7rI8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FupxTigiPMCcgnd3rV3kOCfnRPIpGZ0dt0SrFvE1Ewi3/Gm3hUzp4QG7+onjiXoT8XR/Qb65EQfzNrmafkSrygFF+XnWUHEradoOsUgLbJgQ1HuVq8U7i+q8HssA2kC94ZLQcHluXEoBnxhTipuOIlSZe51y4qPeUp7bWnaS21g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=i+Rvh7z/; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=kgdTTczPsyWLx78zOuO0NZbSmsZHwrOYB10SxQ0YUznKMMgWLvaGfhl2QgtlJyOe12GcGUIp3EAYPdRtdixNexJdaTDamaoNLJ01Acc1KAn2hLOWUknfen2lw75MI9s9EKyQC6oydt2LXFJojYkGN3qHJda/jLSc1kOlwydnDko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=lqzrtaxZ; arc=none smtp.client-ip=95.215.58.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="i+Rvh7z/"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-476d8e647e9so4067134f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 02:49:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1784022566; x=1784627366; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=T1DYXIUQnIiN84/lMI+GWM+J+e6plcKuO3rAiK+mKgk=;
-        b=i+Rvh7z/u9ZyzpCeyqeUU6Z4bcET9h9mipVkIhhNVB+aiLKx/rtbKxgK1wrWqa3zVT
-         XZLyRebhWLuBb3qu7FasaLReRWuPR6qhrbykxE6/6wmNuStwTvZGp+gPpuIAfjSo5nXS
-         Q7RKS+n8/4iFJc50RKFcGHSEJIyWxmpfifPELRuwcL+ddpjQfUqU6DspUCoLgOhziHMz
-         ISsCJyFVU7BXcsqtFkQXL+0ZC5Nj5Gpi9usUMv44dWankfdQW82zErCPhLklz+eOsr9a
-         deNjiBiJ5/rY0WfqMnBehnNkz78iGC6Kru6veMO8POwZS8D6qkbheXvbhaYRjgjutxnS
-         MhAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784022566; x=1784627366;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=T1DYXIUQnIiN84/lMI+GWM+J+e6plcKuO3rAiK+mKgk=;
-        b=nHlVKMVbFFnhcs+iuXP56wpagUjYVaF4NhHhJtrP55cqIkPRDTYQ8DCISd4gqumMSs
-         nn4BXJvFqQ49FEB+BCoUcRkjNgUGIyy4UDqeZjVgp7juvAv3+Uk+b8ImOM6V5oMWMI2F
-         QBZC3oz3LOdD+pPGMUR7Kb5D8s3wAFMzR+FtUvjrdDUPUSx5nMeYtykBgPzNEjAdOV4S
-         dk7TY2uqHMrz1a6SkMkGjZY5i75lt4CqC1tcATpEmqBgdNLpK37taoqNT+epqY/v4ey5
-         9jnUoB128f+fqLrA0C1353NSVgj25x+xY4FJXgZ3P5k3xFE9cpzbn3AGcUfUIdC9qU+R
-         Bizg==
-X-Forwarded-Encrypted: i=1; AHgh+Rrqsti2KElrGxz5/HUVPoqjQWjCJV1zlreJTuLNoJtClC8liYMtw+ccWQLNYT9DofMTMxK5I4T4pac=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1mUPk1ftZ9/YiMRVeJC5FQx6aVb0D9wgh+/7yuOpK5yH2kH4V
-	ftqW4Ot2sBQS1OO3DMAuadMA08K+8d/RqoSZUBFuyYomjfbclbK4Ed2tc4N5dGB3pzo=
-X-Gm-Gg: AfdE7cnHaNl97lWWbI7eNzhou1L4/570bgngIrXJnuh+rcuXjmMIOjCZDmnBGOFBEoj
-	9VC4s6Ml3eopjCzFsMvg6PHZYv/+7Uox15Iv+CeklYELzIjNAXHXct/b7O2h2CL9h2so8FRJSsN
-	19VAUOhguJBF9IUu1MaslErO2qu+fORO5V6G15CcIwYJIpNz3O2/n1n0pCqMkDAw37qEXVFdu+E
-	Jj/ljulHXLATasCgV486V1FDfiffMA2ZeZZGfhDELHNNPFxqEfqmrd6Gw8Ic5+lSrI9mGhTRNDq
-	w7ZAH/TCTuZTPIVbAKExO3i3vwsTPnDO0AiNiZSzdx8dNL/91pa0pagkOoTbXIciouWJOGAhkaH
-	wQ6AfKT2SLVBOYVeFYDLaliGSuQHu27j7Q1dM9w3IH+yt24cFB3UPuDCN9rxo3PCZHW+/t5ixsi
-	hNDRjWXkaIAnKU1ldwp/Q+Vfrv
-X-Received: by 2002:a05:6000:4602:b0:47d:fb9e:c3f6 with SMTP id ffacd0b85a97d-47f488573eamr1707837f8f.20.1784022566424;
-        Tue, 14 Jul 2026 02:49:26 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff24:7210:6c30:6cbd:7b12:2745])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f464a9879sm7671449f8f.22.2026.07.14.02.49.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 02:49:25 -0700 (PDT)
-Date: Tue, 14 Jul 2026 11:49:14 +0200
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Thara Gopinath <thara.gopinath@gmail.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Udit Tiwari <quic_utiwari@quicinc.com>,
-	Md Sadre Alam <mdalam@qti.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
-	Andy Gross <agross@codeaurora.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	brgl@kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v21 06/14] dmaengine: qcom: bam_dma: add support for BAM
- locking
-Message-ID: <alYGGu7_3G6mJAzQ@linaro.org>
-References: <20260713-qcom-qce-cmd-descr-v21-0-bc2583e18475@oss.qualcomm.com>
- <20260713-qcom-qce-cmd-descr-v21-6-bc2583e18475@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="lqzrtaxZ"
+Date: Tue, 14 Jul 2026 17:51:50 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
+	t=1784022717;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2a7cYUDZuvrtkKdj1u4JXAC0Mtc2K9S7k2f9Rj7lKOU=;
+	b=lqzrtaxZcTbUQBVIoTCBt0kFf77CznMDJ5MR5wvFmrM3PECPZKh8oUm9AGcIZp3ACYS+ia
+	50BeDZ7xN09Q5KBXlo8flyJQ1cdoIs/m5Gxf6+HiP5ZlHns9S2EG8V7ltQr3htB2cqfwi/
+	b/ZZn4EJlgG72GHUfnCwiKJfjcWsjkBYr/4aX0ehUEzoAldxzVZdPld7zI2tiZimKQEF/v
+	PphXVQBw8fh19aDe57Z2C84Rd4y+Mb1OgQK8HIJKaUj+/5zBE4FcJ4XPwklM8BmvqdriZ2
+	xdTrm9tSTDgxZlvSfDTIoJVR3mMMEAIprhRVmVSqdcR4nZxVpRnBIgN69zPI8Q==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Weijie Yuan <wy@wyuan.org>
+To: Dongliang Mu <mudongliangabcd@gmail.com>
+Cc: linux-doc@vger.kernel.org, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+	Ben Guo <ben.guo@openatom.club>, Gary Guo <gary@garyguo.net>,
+	Yan Zhu <zhuyan2015@qq.com>, Doehyun Baek <doehyunbaek@gmail.com>,
+	Jiandong Qiu <qiujiandong1998@gmail.com>
+Subject: Re: What's cooking in zh_CN (Jul 2026)
+Message-ID: <alYGtkVxW_0N-VqE@wyuan.org>
+References: <alUXH8qRRjno2eZG@wyuan.org>
+ <CAD-N9QVXqYxtsn7YuUtCDWrwwk5+iFAkT2jcs26zbDUfwhAwsQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260713-qcom-qce-cmd-descr-v21-6-bc2583e18475@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD-N9QVXqYxtsn7YuUtCDWrwwk5+iFAkT2jcs26zbDUfwhAwsQ@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Jul 13, 2026 at 03:01:07PM +0200, Bartosz Golaszewski wrote:
-> Add support for BAM pipe locking. To that end: when starting DMA on an RX
-> channel - prepend the existing queue of issued descriptors with an
-> additional "dummy" command descriptor with the LOCK bit set. Once the
-> transaction is done (no more issued descriptors), issue one more dummy
-> descriptor with the UNLOCK bit.
+On Tue, Jul 14, 2026 at 05:32:12PM +0800, Dongliang Mu wrote:
+> On Tue, Jul 14, 2026 at 12:51 AM Weijie Yuan <wy@wyuan.org> wrote:
+> >
+> > Hi all,
+> >
+> > Since I made many noise these days on the list, which took up a lot of
+> > maintainers' time. This email summarizes the patches for zh_CN that are
+> > currently pending on the mailing list.
 > 
-> We *must* wait until the transaction is signalled as done because we
-> must not perform any writes into config registers while the engine is
-> busy.
+> This is awesome. Maybe we can establish a dashboard for the activities
+> in zh_CN/TW related patches of linux-doc.
 > 
-> The dummy writes must be issued into a scratchpad register of the client
-> so provide a mechanism to communicate the right address via descriptor
-> metadata.
+> I personally kept a knowledge base in the IMA (an app for storing
+> knowledge base in the cloud) in our club to monitor these activities.
+
+I remember kernel.org itself already provides this:
+
+  https://patchwork.kernel.org/
+
+Is this similar to your idea? But I haven't look deep into patchwork
+before.
+
+Of source, having our own thing is definitely okay.
+
+> > * Doehyun Baek (2026-07-08) 7 commits
+> >   [PATCH v6 0/7] docs/zh_CN: update DAMON translations
+> >   [PATCH v6 1/7] docs/zh_CN: update DAMON design translation
+> >   [PATCH v6 2/7] docs/zh_CN: add DAMON_STAT usage translation
+> >   [PATCH v6 3/7] docs/zh_CN: update DAMON index translation
+> >   [PATCH v6 4/7] docs/zh_CN: update DAMON start translation
+> >   [PATCH v6 5/7] docs/zh_CN: update DAMON usage translation
+> >   [PATCH v6 6/7] docs/zh_CN: update DAMON reclaim translation
+> >   [PATCH v6 7/7] docs/zh_CN: update DAMON LRU sort translation
 > 
-> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Maybe I can take a review tomorrow.
 
-Thanks for the fixes. The lock/unlock sequence looks good to me now,
-I commented on a couple of minor things below that would be good to fix
-(some of them are also reported by Sashiko).
+No rush of course ;-)
 
-> ---
->  drivers/dma/qcom/bam_dma.c       | 191 +++++++++++++++++++++++++++++++++++++--
->  include/linux/dma/qcom_bam_dma.h |  14 +++
->  2 files changed, 198 insertions(+), 7 deletions(-)
+> > Okay, I have checked the 200 most recent messages on the mailing list,
+> > going back to 15:09 UTC on February 25, 2026. If I have missed anything,
+> > or I made a mistake somewhere, please let me know.
+> >
+> > As you may have noticed, I borrowed (stole) this idea from Junio C
+> > Hamano. Sending this kind of message, somewhat like a weekly status
+> > report, not only helps maintainers keep track of outstanding work, but
+> > also lets contributors know the current status of their patches.
 > 
-> diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
-> index f3e713a5259c2c7c24cfdcec094814eb1202971a..f08549ee3872eece85884606d6ee9e540ee688ca 100644
-> --- a/drivers/dma/qcom/bam_dma.c
-> +++ b/drivers/dma/qcom/bam_dma.c
-> [...]
-> @@ -686,6 +702,35 @@ static int bam_slave_config(struct dma_chan *chan,
->  	return 0;
->  }
->  
-> +static int bam_metadata_attach(struct dma_async_tx_descriptor *desc, void *data, size_t len)
-> +{
-> +	struct bam_chan *bchan = to_bam_chan(desc->chan);
-> +	const struct bam_device_data *bdata = bchan->bdev->dev_data;
-> +	struct bam_desc_metadata *metadata = data;
-> +
-> +	if (!data)
+> As mentioned before, can we have a dashboard to see the status of
+> patches in zh_CN/TW? This is more useful in my mind.
+> 
+> >
+> > More importantly, it gives newcomers an overview of the current state of
+> > the project. New contributors can begin not only by submitting patches,
+> > but also by reviewing patches already posted to the mailing list,
+> > thereby learning how our workflow operates. This may also help reduce
+> > the review burden on our friendly maintainers.
+> >
+> > I would like to try this kind of periodic report as an experimental
+> > effort, with its frequency adjusted according to the size of the patch
+> > backlog and the level of activity on the mailing list. What do you
+> > think? Please feel free to make comments.
+> 
+> I think this is fine since linux-doc or narrowly zh_CN/TW do not have
+> many volumes of patches per day.
 
-Doesn't really matter much, but since the parameter exists you might as
-well add
+Exactly. I think Junio C Hamano has a script to do this automaticly, but
+I did this manually because our volumes is not that high as Git.
 
-	&& len == sizeof(*metadata)
+> > By the way, I borrowed the subject line directly from Git's "What's
+> > cooking in git.git". Does anyone have a better suggestion for the name? ;-)
+> 
+> fine with this title
 
-here to be sure.
-
-> +		return -EINVAL;
-> +
-> +	if (!bdata->pipe_lock_supported)
-> +		/*
-> +		 * The client wants to use locking but this BAM version doesn't
-> +		 * support it. Don't return an error here as this will stop the
-> +		 * client from using DMA at all for no reason.
-> +		 */
-> +		return 0;
-> +
-> +	guard(spinlock_irqsave)(&bchan->vc.lock);
-> +
-> +	bchan->scratchpad_addr = metadata->scratchpad_addr;
-> +	bchan->direction = metadata->direction;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dma_descriptor_metadata_ops bam_metadata_ops = {
-> +	.attach = bam_metadata_attach,
-> +};
-
-I'm not sure if we have discussed this before, but could we avoid
-re-programming the scratchpad_addr all the time by placing it into
-struct dma_slave_config -> peripheral_config? It still feels awkward to
-me to place a global constant configuration value into per-descriptor
-metadata.
-
-> +
->  /**
->   * bam_prep_slave_sg - Prep slave sg transaction
->   *
-> [...]
-> @@ -802,6 +851,7 @@ static int bam_dma_terminate_all(struct dma_chan *chan)
->  		}
->  
->  		vchan_get_all_descriptors(&bchan->vc, &head);
-> +		bchan->bam_locked = false;
-
-I wonder about the implications of this. If the LOCK descriptor was
-already processed, will we cause a deadlock if we never submit the
-UNLOCK descriptor? Or I guess bam_reset_channel() might reset the lock
-as well?
-
->  	}
->  
->  	vchan_dma_desc_free_list(&bchan->vc, &head);
-> [...]
-> @@ -870,6 +929,7 @@ static u32 process_channel_irqs(struct bam_device *bdev)
->  {
->  	u32 i, srcs, pipe_stts, offset, avail;
->  	struct bam_async_desc *async_desc, *tmp;
-> +	struct bam_desc_hw *hdesc;
->  
->  	srcs = readl_relaxed(bam_addr(bdev, 0, BAM_IRQ_SRCS_EE));
->  
-> @@ -919,13 +979,20 @@ static u32 process_channel_irqs(struct bam_device *bdev)
->  			 * push back to front of desc_issued so that
->  			 * it gets restarted by the work queue.
->  			 */
-> +
-> +			list_del(&async_desc->desc_node);
->  			if (!async_desc->num_desc) {
-> -				vchan_cookie_complete(&async_desc->vd);
-> +				hdesc = async_desc->desc;
-> +				u16 flags = le16_to_cpu(hdesc->flags);
-
-Is this unused? Also a bit odd to have hdesc declared outside of the
-loop and flags declared inside.
-
-> +
-> +				if (async_desc->is_lock_desc)
-> +					bam_dma_free_lock_desc(&async_desc->vd);
-> +				else
-> +					vchan_cookie_complete(&async_desc->vd);
->  			} else {
->  				list_add(&async_desc->vd.node,
->  					 &bchan->vc.desc_issued);
->  			}
-> -			list_del(&async_desc->desc_node);
->  		}
->  	}
->  
-> @@ -1046,13 +1113,102 @@ static void bam_apply_new_config(struct bam_chan *bchan,
->  	bchan->reconfigure = 0;
->  }
->  
-> +static struct bam_async_desc *
-> +bam_make_lock_desc(struct bam_chan *bchan, unsigned long flag)
-> +{
-> +	struct dma_chan *chan = &bchan->vc.chan;
-> +	struct bam_async_desc *async_desc;
-> +	struct bam_desc_hw *desc;
-> +	struct virt_dma_desc *vd;
-> +	struct virt_dma_chan *vc;
-> +	unsigned int mapped;
-> +
-> +	async_desc = kzalloc_flex(*async_desc, desc, 1, GFP_NOWAIT);
-> +	if (!async_desc) {
-> +		dev_err(bchan->bdev->dev, "failed to allocate the BAM lock descriptor\n");
-> +		return ERR_PTR(-ENOMEM);
-> +	}
-> +
-> +	sg_init_table(&async_desc->lock_sg, 1);
-> +
-> +	async_desc->num_desc = 1;
-> +	async_desc->curr_desc = async_desc->desc;
-> +	async_desc->dir = DMA_MEM_TO_DEV;
-> +	async_desc->is_lock_desc = true;
-> +
-> +	desc = async_desc->desc;
-> +
-> +	bam_prep_ce_le32(&async_desc->lock_ce, bchan->scratchpad_addr, BAM_WRITE_COMMAND, 0);
-> +	sg_set_buf(&async_desc->lock_sg, &async_desc->lock_ce, sizeof(async_desc->lock_ce));
-> +
-> +	mapped = dma_map_sg(chan->slave, &async_desc->lock_sg, 1, DMA_TO_DEVICE);
-
-I agree with Sashiko that mapping using the BAM device
-(bchan->bdev->dev) would be more precise, since the BAM will be reading
-the descriptor. (It doesn't matter in practice since both BAM and
-consumer usually have the same IOMMUs defined.)
-
-> +	if (!mapped) {
-> +		kfree(async_desc);
-> +		return ERR_PTR(-ENOMEM);
-> +	}
-> +
-> +	desc->flags |= cpu_to_le16(DESC_FLAG_CMD | flag);
-> +	desc->addr = sg_dma_address(&async_desc->lock_sg);
-
-cpu_to_le32()
-
-> +	desc->size = cpu_to_le16(sizeof(struct bam_cmd_element));
-> +
-> +	vc = &bchan->vc;
-> +	vd = &async_desc->vd;
-> +
-> +	dma_async_tx_descriptor_init(&vd->tx, &vc->chan);
-> +	vd->tx.flags = DMA_PREP_CMD;
-> +	vd->tx_result.result = DMA_TRANS_NOERROR;
-> +	vd->tx_result.residue = 0;
-> +
-> +	return async_desc;
-> +}
-> +
-> [...]
-> @@ -1072,6 +1229,18 @@ static void bam_start_dma(struct bam_chan *bchan)
->  		return;
->  
->  	while (vd && !IS_BUSY(bchan)) {
-> +		/*
-> +		 * Open a LOCK/UNLOCK bracket around each fresh sequence.
-> +		 * Sentinels inserted by bam_setup_pipe_lock() are skipped: they
-> +		 * already have bam_locked set and must not trigger a second pair.
-> +		 */
-> +		if (!bchan->bam_locked &&
-> +		    !container_of(vd, struct bam_async_desc, vd)->is_lock_desc) {
-
-Do we need the ->is_lock_desc check here? Looks redundant to me.
-
-> +			ret = bam_setup_pipe_lock(bchan);
-> +			if (ret == 0 && bchan->bam_locked)
-> +				vd = vchan_next_desc(&bchan->vc);
-
-Do we want some error handling here? If there is an error, this will
-silently continue queuing everything without any locking.
-
-Thanks,
-Stephan
+OK, let's keep it now.
