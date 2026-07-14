@@ -1,48 +1,74 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD183630AE
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 11:19:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156DB181334;
+	Tue, 14 Jul 2026 11:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784027989; cv=none; b=IPfX1d82CJ1nftNueZZr95uD2ahKDE+nDElLFQkViMn5q+dox2Kik8CY3SBFK0ChtVoqxKYRQ8gGyU7D2G8g6rjkYWUOKJvE13vLRIhDUDpwcBRMvtUicj21dHP7dVQ1eIY1K9VhuarydwHYm2O2w1NS+fFSomOqE/exHw5gGjI=
+	t=1784028702; cv=none; b=NdyCYvzwRg+w7gmrlAWrK7UW/KPGMfB3zhdhrKu0InMZnS1gilljdKUVbXCIbzYwHItccmRFbb0UgQ9xqeB+de5lBvA7TumUovcjoOHRXXRSirEhCYwlbdks/OhfKisiVyNe4rlHXix7tLpCr7/03WWFuWMDzKLtYfQB3D80HRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784027989; c=relaxed/simple;
-	bh=9hIfe0/tKGQr3wplwygaz9vy9nS1WvRxv2rlQTbTWoY=;
+	s=arc-20240116; t=1784028702; c=relaxed/simple;
+	bh=jcai0qjyo1b88jCQI1Se9jX27hbIxqqY8Uk5KZ+wrZg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gR7rT1bXgpjFnL22OM/rMenuL8aGDVAq0ReB/y9vhtH/eBZbvbqiSRswTo8R+kt4uKDA7RCdesp6imw5rXEwcM/iP/JcAfUsDb+Z6f2F1au2traiJl/7q3nyHPlvBX8JorwSNVGPw/dNoPmTc6mLnC6ywQ9CFwKt6o6khO4POmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=V/H6ycir; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=lYk98sASwOz3GeFeo6vV3x3xJ6sLi00ODgXSKAU9ejt37obG991sinL/W+D8rPM2ngdoCleyn+O/l/kHFYDt5/sWokhDwwsZ9sfkCozov4iCE7eps0s3SBeMkMJiK3PsEMmENQP/9iZOMR4alMtFfkU23nrP7jNmHwcu/q3Y4wE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lCt0WCbA; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="V/H6ycir"
-Date: Tue, 14 Jul 2026 13:19:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784027985;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Af73+vG2sOh1qiwJ+CI1BNZVy77wvK6uB50Y1nftWjc=;
-	b=V/H6ycir0SiBz9PquxIA0hWRKkKxSSvXXIh6Hhv/ylg7rJvX/86eUu501ubbJv7RpOzLg1
-	eR4b5DKszuGZE9+DJbNM9QQsAaJ8vtvaWELPiRZk9SJ0Vax04hicI3beGDjUgBXx1gpx5I
-	WZTpptYZ/Gjols4XkrFkunX/0zJZYs0=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lCt0WCbA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784028701; x=1815564701;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jcai0qjyo1b88jCQI1Se9jX27hbIxqqY8Uk5KZ+wrZg=;
+  b=lCt0WCbA18hKnAdoXyiKAhEcD7XpmGNfRd4ztpVgLGajNzsnVEWTGvH4
+   hBW8Idq+7E28XozXaPxNCN8I37MGNetNlwnMIL88HquS1Wedp8HQ7cuH/
+   ToTpltPvAFYCTXTFFhPEfQsa2Ztx9Hj6iQtOQdG8+xC1SRbS4RI10MWNt
+   /Xu/bdm3Z03RhTJt1JK0/SJpqQgyHZFlGhT9qCYFbRmPoFtXUHxT/2bEm
+   6UwkX8hkqTLttL6+mnYvJADIxSooVBnlVpzczI1S7QRGl3f30yBf1ygDi
+   6+qnCM9Dq6BTSG/Z/6EIYysG+/J4spRGpHUQ5ZnZecJvab5mvxOTwbyTc
+   Q==;
+X-CSE-ConnectionGUID: sqkoaSmWSMyOkzkjKDHx0Q==
+X-CSE-MsgGUID: OcMLykF0QV+t9LQDV4rQBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11846"; a="107440500"
+X-IronPort-AV: E=Sophos;i="6.25,163,1779174000"; 
+   d="scan'208";a="107440500"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 04:31:40 -0700
+X-CSE-ConnectionGUID: 7pJYioDUQyKfbeqL+3ROag==
+X-CSE-MsgGUID: 5HfEpHDXSleqBZxbte/6yA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,163,1779174000"; 
+   d="scan'208";a="254083358"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.189])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 04:31:36 -0700
+Date: Tue, 14 Jul 2026 14:31:33 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Janani Sunil <jananisunil.dev@gmail.com>
+Cc: Janani Sunil <janani.sunil@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, x86@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND 0/3] x86/vdso: Improve vdso=/vdso32= boot
- parameter validation
-Message-ID: <alYbRk7kaPGEveWS@linux.dev>
-References: <20260713233422.127348-5-thorsten.blum@linux.dev>
- <b03d7122-52a5-4539-817c-15735a774ef7@intel.com>
+	Shuah Khan <skhan@linuxfoundation.org>, linux@analog.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 5/6] gpio: ad7768: Add AD7768 GPIO auxiliary driver
+Message-ID: <alYeFXzm56mvfdzi@ashevche-desk.local>
+References: <20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com>
+ <20260709-ad7768-driver-v1-5-44e1194fd96a@analog.com>
+ <ak-AcfH-Igsa_ksV@ashevche-desk.local>
+ <1e353a66-3543-4a6f-91b6-d5e8524d9754@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,20 +77,41 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b03d7122-52a5-4539-817c-15735a774ef7@intel.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <1e353a66-3543-4a6f-91b6-d5e8524d9754@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Jul 13, 2026 at 04:40:55PM -0700, Dave Hansen wrote:
-> On 7/13/26 16:34, Thorsten Blum wrote:
-> > Replace the deprecated simple_strtoul() [1] with kstrtouint() when
-> > parsing the vDSO boot parameters. This provides strict input validation,
-> > rejects partial input, and warns when disabling vDSO for invalid values.
-> 
-> Hey Thorsten,
-> 
-> I'm curious what motivated this change. Were you trying to manipulate
-> the VDSO and ran into some difficulties? Or is it a larger effort to
-> audit and simple_strtoul() users?
+On Tue, Jul 14, 2026 at 01:03:40PM +0200, Janani Sunil wrote:
+> On 7/9/26 13:05, Andy Shevchenko wrote:
+> > On Thu, Jul 09, 2026 at 10:50:16AM +0200, Janani Sunil wrote:
 
-I just stumbled upon it while studying the code, and simple_strto*()
-calls are often an opportunity to improve input validation.
+...
+
+> > So, I briefly looked at the implementation and I don't understand why
+> > gpio-regmap can't be used. Do you need PM runtime there? It can be
+> > done for all (if absent).
+
+> gpio-regmap does not naturally model the AD7768's direction dependent
+> readback behavior.
+
+> On this device, GPIO Write data (0x0F) holds the latched output values and
+> the GPIO Read Data (0x10) reads the logic input level only when the pins are
+> configured as inputs. Using the generic gpio-regmap would always read 0x10
+> including output GPIOs.
+
+Will it? Even if you mark the corresponding registers volatile?
+So, the problem is that it always tries to read input state even
+for the output pins? I think this should be either configurable
+(a flag in the respective gpio regmap config) or be clever to know
+that the pin is in output and simply return what was latched.
+
+> The custom implementation preserves the device specific behavior.
+
+At bare minimum the summary of this should be mentioned in
+the cover letter / comment block.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
