@@ -1,63 +1,63 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00CDA3CF207
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 18:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169C73264FB
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 18:32:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784053941; cv=none; b=hpI/WKzWZM9mVspAII1+7b1u9wTmAPjoq4UjtmFnZZWDPZpn65g/0cpmvqUmsXF3dyAHtJQ7ntbGtq7DV2Tu03QHyV/b4TZmOCLn2qiMp9W/s76O0O8S2I12uI/j1HQlxNaYLGMIVUOFfuZlmBUjEa/KiuXMOTAORPLGbHylrZ0=
+	t=1784053967; cv=none; b=M6hy6bjZ7tHRVLXW52ltuaOgXqcolPPYHFpNmiJ6P9foR5lDg5l9Rch77nFtqohvd/h3S0Xb+bCzIu7EAYeJxAZ9pNBqblXVLIRE2ElAgYS0eKQGAuflfq6OeDMQ7i6SF78VoMn2CWsgKZY+2HOywlWxz9/iMim8p9kDQsDFQro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784053941; c=relaxed/simple;
-	bh=qwHJQSkHR9FiX9eLZJcFQ7+CaEXGbJDg7NFSWEISO8A=;
+	s=arc-20240116; t=1784053967; c=relaxed/simple;
+	bh=U8Z0nvRnaFFrw3lPHvPCl/wITya9sSFlUIbcZxe00bU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IwKFns1BQ1lGry2kxJ+ILHVh3i+FWnHIg8w5VzJqA5k2C+NNYzBO5Y4KbeHN0ahOWpL2FauVKgQ3/xjsSrKOW7mp1LMP13ll6aBl2kedweQPo3rkc78l4ZiZT7Jv2TwYPmnl7Cl9NWnqsKrl2nY0UFGd4liggg8u/HdpEafk03s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RnPa9xbu; arc=none smtp.client-ip=209.85.222.173
+	 MIME-Version; b=j/oEgSah6EdKtFTBHI6BPWiIYgJKoTtAV8sPeLK+NHHfelIJon5LNLlBO3XSx70rSOU9lukN6K2LTNDM6SmIn0/olU/amP3MqLVNxfdo9+zXn5WsegIyaBXfIUcWCND4BKNzowTpxzNR8Hw6yPFpSHCj3p0UqdUtI9e/JB57KpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l6FYtvg9; arc=none smtp.client-ip=209.85.222.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RnPa9xbu"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-92e67555e24so99904285a.3
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 11:32:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l6FYtvg9"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-920f33347f5so317191785a.3
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 11:32:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784053939; x=1784658739; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784053965; x=1784658765; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=2DejjWbYnVcQ4XXUkfoVFnqVdAcjxTlD3K8bB22eXeE=;
-        b=RnPa9xbuls1QpCNB8wPSIG46xMbL0IuXquMY5ZzlF7HORy8c1PfGbLBFvsGu+zo/p9
-         K8+Jmbl0GZXmY9Ktz0UM10FCgbIbF30Pmuu9ptlMau1PwUHFggO73fpGlsbrNDGou1hT
-         lVfWl9NmvRMKD/oCctu6onxWGAJ612i+A4GNd7OXoULIZ7Ow9VNudh4FcGSME4G2y0es
-         HgwwIdLZhL5fKw2qiwYbqnFVckKCYzczy177wAT/kxetJyaZVuo9pkrkJyOpcI6Dydq+
-         ep9KKkpSyWa3H1VktpFsNqmL+IE8uEgDnzx0i2/1XPWjUFg2qjjxrljEjXsGvOErEhQs
-         1+LQ==
+        bh=JG+YXpLaf6eTeKDHjsfPWQsS8e418Ifa944UVLgQD7U=;
+        b=l6FYtvg9K7qTr9PRUV9BLwvHtUGDx48DgF7q5vOQqGr0YH7Q14H5Kodm8HCyVugJl3
+         4e+LaK37kdjGNqYiLjxI8ECiu+ZUIFV0y0OP+KCadlKsdUD40QRV1F6EeGK71rxxB5HE
+         BUizXm9wvsLq+Wa50677s7e+fg3UlcEWyk8iJndeZjadc296WmkqBbR67JvWsrZXiGbb
+         gmzwKwE3hFBVJkXwLD1XCai9/+ias7Ge1D/ANkcEDMOqA5uF8Z1gDpqwcFrRU9E8HVnc
+         hRWSXYsBdAxnn0YTl1OxnKe7zoWHg5nc/piaWsjXS0dROWE2pruHRC+VwUdqGRfxA9gs
+         qokA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784053939; x=1784658739;
+        d=1e100.net; s=20251104; t=1784053965; x=1784658765;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2DejjWbYnVcQ4XXUkfoVFnqVdAcjxTlD3K8bB22eXeE=;
-        b=PQNsR8Mdqcy3WLlNo85td4gU7dTxGYoRQQE0ysFjLGGx9jod9y8rGrJ2VnaT1uWAFz
-         1g3YWikQO583mNCl/db7JEehmjzhhXbKPUDIbumpBnq1/V7dHv5boGy33+zILUzDiujV
-         VN2TX6PjuVjsf63vIurTMpEGw5jZj8ISOfaS8yOsvPbAhcoJP6CWuMOZDcLvM8kfpFgV
-         u0KKOp3V/jFqFyqUKf02UwV2AN19fOByOAuqbeTdd8w7Y2C/0VxEqJaf/iga6rFYBGZ0
-         XaRXobtVbJtOlV8anV2mEmjL5FzYdfdgEhN6/myr0WzBSlM0spIQSXzV2lInQIWY+Eac
-         HbkA==
-X-Forwarded-Encrypted: i=1; AHgh+RrMRUZ4aHCXUukOug6sEr6Z3jiUV9eCxCuBrhZ8L54T1zFE4ePnppyJdsaZFwp7Vo86NngHdyCJiiA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcTgWeuSaiiU7YvGE5e0GCbIRJsFxQ22SlXhCGdsznWonf6dUc
-	Q+6hWRZLExxrHdY1G9XuUadb4eQGaQyQImrbscorfbRiyB+tK04anv41
-X-Gm-Gg: AfdE7cnc/r5MFfCZ8zuS+VSRSWpnFO2/kkYF6JWTduHybIVd28/7N0ia9DyvmHJF0lE
-	oDoJ+r5VVsDtwtRwHY7QA5VXPFRkxJafP2Z5erPrL4C5BdT5jlFLRUE+j/wKuXf+fCaJNzbtRnP
-	A7xI4AmJADlFI1V1MkuxlkRMNTOe2AKQb7Efdp+AtRan6/pHSq0OzGYp3USbDm+hkwAgqTa/yYY
-	qR2SGfzUW+YT9TP8Szh/yO1FwZ54qp3iho/EWdkPU/YHjfqRLyGxzUGreJLM5PqBE2xsEkKjVgv
-	M05vQgg6OQ63VYE4WhFjhMcuCK8/sWFqRdoD+FuPAPlrBzcMmNF1jbBg1mnYemmX42hLkUsMIoE
-	2J6LWUb5+r1owyOGskQqZu8J/zqeU4PNCUlWWrJsa2UA67c7AeHqJVd15jJnQYmvJ4djgWKX/fS
-	WcaX4AlROLPA1D1E6eBqpaOlWvGlJJj10piFEHKrgUoc5q4kimISw=
-X-Received: by 2002:a05:620a:460c:b0:92e:6637:d98 with SMTP id af79cd13be357-92ef2b35181mr1396308185a.18.1784053938726;
-        Tue, 14 Jul 2026 11:32:18 -0700 (PDT)
+        bh=JG+YXpLaf6eTeKDHjsfPWQsS8e418Ifa944UVLgQD7U=;
+        b=jXK571OGmPs5T4/ReIGnrFa03ACfFx6BFZ1dwLue4kLfaVhiDUixH0Fnht9lsDEDOS
+         SGjboYpmn6LHWeeDgidFgvYHenkV1q+XfSgccgbQUBcESQMd3d0dez2qAAjU+pHYS1VP
+         z4m0N2EkaP1nuyKnfB6igCK0ysCnpNvoStowy1J6HDcx/KOx9juEn5c0efHXCRsH7zpQ
+         dS0huTKJKKYNK8bmbVdEBYxyD0oicdnJUpJ8FyURcKCHptT/OoDxW9YS0Xj+CyXm9xNZ
+         6TcoCDd+CDuz+T1b8Re/smapQWU53BlvfFLOZln7jG0QoLp9mAIexD4e49VdyOFF/AS3
+         WXNg==
+X-Forwarded-Encrypted: i=1; AHgh+RrSLl5sg1ptZjpLD4jl1OX7s7ApxiSXQ5vgwqxKGjy4tVHJR50KqhVCwm2rhH1TMMx6ks5VXlZq2eE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpqO6lZpHu7XWJhrye1NMEGvHvnull4R2CGgPXmFEfrJbXjXoN
+	buTGMK5Avu/tCTi58u3v3tU40HP2dXFZlBTofMobx1G/86rYJc0/YkKK
+X-Gm-Gg: AfdE7cl5PAhwy1Dqw8RChUW99KFCYDvJ3NCrEJz9bikZ0N3Gv2WxuLlFIhrIcL91WAa
+	+KTHiTQWgcEZr3fDNSu+NdASIQ6o0Pn8Trm77Oll2VbHv0+DG/5ZsD3Hqf7OJazSrouWIAedVcy
+	qE4b4b1+A+DDViJfOWTvVxj2S/59a7jYH2biheqz3QPI4Y6mz/INBobrWnTcZ4tVAgHGZC2BEqv
+	OhVlpTrCcbcElj25i7wVc1WaJWpAxNH/vWojhRQ5u4ivmdWOYMHnNlAZmOh6kHQ/c+/scnfW45+
+	/uzfmfsfJSnNlzTF04dunnPLBD94/pHp5uR7LPihfj5wLL95D9NAEcVtYV4vwyebOGPujaVco3m
+	L6UpwxS1J5vodxzA768t4FpCnepSdwFri38B7j5jTKoM9x0rk+Dmtqpvfez7ELvEl6DUxv8QazH
+	MPBzKKsjd4HKxJUpvJUw2xzLgyIGvCLU962BNEv71iL2aZcEDVpDE=
+X-Received: by 2002:a05:620a:4012:b0:92e:d63b:455b with SMTP id af79cd13be357-92ef2b12452mr1436818585a.6.1784053964792;
+        Tue, 14 Jul 2026 11:32:44 -0700 (PDT)
 Received: from localhost ([48.45.163.146])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5bab293sm1547341685a.18.2026.07.14.11.32.15
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5b88a38sm1484900685a.12.2026.07.14.11.32.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 11:32:17 -0700 (PDT)
+        Tue, 14 Jul 2026 11:32:44 -0700 (PDT)
 From: Jinchao Wang <wangjinchao600@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Peter Zijlstra <peterz@infradead.org>,
@@ -82,9 +82,9 @@ Cc: Ingo Molnar <mingo@redhat.com>,
 	linux-perf-users@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	Jinchao Wang <wangjinchao600@gmail.com>
-Subject: [RFC PATCH 08/13] mm/kwatch: add hardware breakpoint backend
-Date: Wed, 15 Jul 2026 02:32:06 +0800
-Message-ID: <20260714183206.12688-1-wangjinchao600@gmail.com>
+Subject: [RFC PATCH 09/13] mm/kwatch: add probe lifecycle runtime
+Date: Wed, 15 Jul 2026 02:32:26 +0800
+Message-ID: <20260714183226.12756-1-wangjinchao600@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260714182243.10687-1-wangjinchao600@gmail.com>
 References: <20260714182243.10687-1-wangjinchao600@gmail.com>
@@ -96,468 +96,307 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Manage a preallocated pool of wide (per-CPU) perf hardware
-breakpoints. All breakpoints are registered up front against a dummy
-address; arming a watchpoint only re-points an already-registered
-event, so the arm path can run from a kprobe handler.
+Open and close the watch window with a kretprobe on the target
+function: the entry handler tracks per-task nesting depth and, when
+the configured depth is reached, resolves the watch expression and
+arms a watchpoint; the exit handler disarms it. An optional kprobe
+at func_offset arms mid-function instead of at entry.
 
-- kwatch_hwbp_get()/put() claim and release pool entries with
-  per-slot cmpxchg, safe for concurrent consumers on any CPU.
-- kwatch_hwbp_arm() updates the local CPU synchronously via
-  modify_wide_hw_breakpoint_local() and broadcasts asynchronous IPIs
-  to the other CPUs. Arm-side IPIs are rate-limited per CPU; disarm
-  IPIs are refcounted so an entry is only recycled once every CPU
-  has dropped it.
-- Hits are reported through the kwatch:kwatch_hit tracepoint with a
-  short stack trace: the ftrace ring buffer is usable from NMI-like
-  context and survives a subsequent crash, unlike printk.
-- A CPU hotplug callback creates/destroys the per-CPU events as CPUs
-  come and go.
+Functions running in a real NMI(-like) context are rejected once, at
+function entry, by comparing the NMI nesting count against the one
+NMI-like layer that int3-based kprobe delivery itself adds; a
+companion kprobe with a post_handler pins the probe point so jump
+optimization cannot change the delivery mechanism after it is
+sampled. Rejections are counted and exposed to the control plane.
+
+A global epoch versioning scheme invalidates stale per-task state
+across reconfigurations, and a per-CPU mute flag keeps window
+management quiet while a CPU rewrites its own debug registers.
 
 Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
 ---
- include/trace/events/kwatch.h |  57 ++++++
- mm/kwatch/Makefile            |   2 +-
- mm/kwatch/hwbp.c              | 358 ++++++++++++++++++++++++++++++++++
- 3 files changed, 416 insertions(+), 1 deletion(-)
- create mode 100644 include/trace/events/kwatch.h
- create mode 100644 mm/kwatch/hwbp.c
+ mm/kwatch/Makefile |   2 +-
+ mm/kwatch/probe.c  | 263 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 264 insertions(+), 1 deletion(-)
+ create mode 100644 mm/kwatch/probe.c
 
-diff --git a/include/trace/events/kwatch.h b/include/trace/events/kwatch.h
-new file mode 100644
-index 000000000000..edb95405c386
---- /dev/null
-+++ b/include/trace/events/kwatch.h
-@@ -0,0 +1,57 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM kwatch
-+
-+#if !defined(_TRACE_KWATCH_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_KWATCH_H
-+
-+#include <linux/tracepoint.h>
-+#include <linux/ptrace.h>
-+
-+#define KWATCH_STACK_DEPTH 8
-+
-+struct trace_seq;
-+const char *kwatch_trace_print_stack(struct trace_seq *p,
-+				     const unsigned long *stack,
-+				     unsigned int nr);
-+
-+TRACE_EVENT(kwatch_hit,
-+	TP_PROTO(unsigned long ip, unsigned long sp, unsigned long addr,
-+		 u64 time_ns,
-+		 unsigned long *stack_entries, unsigned int stack_nr),
-+	TP_ARGS(ip, sp, addr, time_ns, stack_entries, stack_nr),
-+
-+	TP_STRUCT__entry(
-+		__field(unsigned long, ip)
-+		__field(unsigned long, sp)
-+		__field(unsigned long, addr)
-+		__field(u64, time_ns)
-+		__field(unsigned int, stack_nr)
-+		__array(unsigned long, stack, KWATCH_STACK_DEPTH)
-+	),
-+
-+	TP_fast_assign(
-+		unsigned int i;
-+
-+		__entry->ip = ip;
-+		__entry->sp = sp;
-+		__entry->addr = addr;
-+		__entry->time_ns = time_ns;
-+		__entry->stack_nr = min_t(unsigned int, stack_nr,
-+					  KWATCH_STACK_DEPTH);
-+		for (i = 0; i < __entry->stack_nr; i++)
-+			__entry->stack[i] = stack_entries[i];
-+	),
-+
-+	TP_printk("KWatch HIT: time=%llu.%06lu ip=%pS addr=0x%lx%s",
-+		  __entry->time_ns / 1000000000ULL,
-+		  (unsigned long)((__entry->time_ns / 1000ULL) % 1000000ULL),
-+		  (void *)__entry->ip, __entry->addr,
-+		  kwatch_trace_print_stack(p, __entry->stack,
-+					   __entry->stack_nr))
-+);
-+
-+#endif /* _TRACE_KWATCH_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
 diff --git a/mm/kwatch/Makefile b/mm/kwatch/Makefile
-index cc6574df0d68..b2bc3003c89b 100644
+index b2bc3003c89b..f04673cc5b1c 100644
 --- a/mm/kwatch/Makefile
 +++ b/mm/kwatch/Makefile
 @@ -1,3 +1,3 @@
  obj-$(CONFIG_KWATCH) += kwatch.o
  
--kwatch-y := deref.o task_ctx.o
-+kwatch-y := deref.o task_ctx.o hwbp.o
-diff --git a/mm/kwatch/hwbp.c b/mm/kwatch/hwbp.c
+-kwatch-y := deref.o task_ctx.o hwbp.o
++kwatch-y := deref.o task_ctx.o hwbp.o probe.o
+diff --git a/mm/kwatch/probe.c b/mm/kwatch/probe.c
 new file mode 100644
-index 000000000000..19498ba03826
+index 000000000000..af6e0af45c10
 --- /dev/null
-+++ b/mm/kwatch/hwbp.c
-@@ -0,0 +1,358 @@
++++ b/mm/kwatch/probe.c
+@@ -0,0 +1,263 @@
 +// SPDX-License-Identifier: GPL-2.0
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/cpuhotplug.h>
-+#include <linux/ftrace.h>
-+#include <linux/hw_breakpoint.h>
-+#include <linux/sched/clock.h>
-+#include <linux/irqflags.h>
++#include <linux/atomic.h>
++#include <linux/kprobes.h>
 +#include <linux/kallsyms.h>
-+#include <linux/mutex.h>
-+#include <linux/printk.h>
-+#include <linux/slab.h>
-+#include <linux/stacktrace.h>
-+#include <linux/trace_seq.h>
-+#include <linux/workqueue.h>
++#include <linux/percpu.h>
++#include <linux/preempt.h>
++#include <linux/sched.h>
 +
 +#include "kwatch.h"
++#define TRAMPOLINE_CHECK_DEPTH 16
++static DEFINE_PER_CPU(bool, kwatch_probe_cpu_muted);
 +
-+static LIST_HEAD(kwatch_all_wp_list);
-+static struct kwatch_watchpoint **kwatch_wp_slots;
-+static u16 kwatch_wp_nr;
-+static DEFINE_MUTEX(kwatch_all_wp_mutex);
-+static unsigned long kwatch_dummy_holder __aligned(8);
-+static int kwatch_hwbp_cpuhp_state = CPUHP_INVALID;
++struct kwatch_probe_ctx {
++	struct kprobe kp;
++	struct kretprobe rp;
++	struct kprobe pin_kp;
++	const struct kwatch_config *cfg;
++	bool rp_via_int3;
 +
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/kwatch.h>
++	u32 epoch;
++};
++
++static struct kwatch_probe_ctx kwatch_probe_ctx;
++static atomic_long_t kwatch_nmi_rejected;
++
++unsigned long kwatch_probe_nmi_rejected(void)
++{
++	return atomic_long_read(&kwatch_nmi_rejected);
++}
 +
 +/*
-+ * Render the saved stack like the ftrace built-in stacktrace / dump_stack()
-+ * style. Symbol resolution runs at trace read time, not in the hit path.
++ * True if the probed function itself runs in an NMI-like context.
++ * int3-based kprobe delivery adds one NMI-like layer of its own;
++ * delivery is pinned at registration so the subtraction stays exact.
 + */
-+const char *kwatch_trace_print_stack(struct trace_seq *p,
-+				     const unsigned long *stack,
-+				     unsigned int nr)
++static bool kwatch_probed_ctx_in_nmi(bool via_int3)
 +{
-+	const char *ret = trace_seq_buffer_ptr(p);
-+	unsigned int i;
-+
-+	for (i = 0; i < nr; i++)
-+		trace_seq_printf(p, "\n => %pS", (void *)stack[i]);
-+	trace_seq_putc(p, 0);
-+	return ret;
++	return (preempt_count() & NMI_MASK) > (via_int3 ? NMI_OFFSET : 0);
 +}
 +
-+static void kwatch_hwbp_handler(struct perf_event *bp,
-+				struct perf_sample_data *data,
-+				struct pt_regs *regs)
++static void kwatch_pin_post_handler(struct kprobe *p, struct pt_regs *regs,
++				    unsigned long flags)
 +{
-+	struct kwatch_watchpoint *wp = bp->overflow_handler_context;
-+	unsigned long stack_entries[KWATCH_STACK_DEPTH];
-+	unsigned int stack_nr;
-+
-+	if (!kwatch_probe_validate_hit(regs, wp->arm_tsk))
-+		return;
-+
-+	stack_nr = stack_trace_save_regs(regs, stack_entries, KWATCH_STACK_DEPTH, 2);
-+	trace_kwatch_hit(instruction_pointer(regs), kernel_stack_pointer(regs),
-+			 wp->attr.bp_addr, local_clock(),
-+			 stack_entries, stack_nr);
++	/* a post_handler pins the probepoint: no jump optimization */
 +}
 +
-+static void kwatch_hwbp_arm_local(void *info)
++bool kwatch_probe_validate_hit(struct pt_regs *regs,
++			       struct task_struct *arm_tsk)
 +{
-+	struct kwatch_watchpoint *wp = info;
-+	struct perf_event *bp;
-+	unsigned long flags;
-+	int cpu, err;
++	struct kwatch_tsk_ctx *ctx = kwatch_tsk_ctx_get(false);
 +
-+	local_irq_save(flags);
++	if (unlikely(!ctx))
++		return true;
 +
-+	cpu = smp_processor_id();
-+	bp = per_cpu(*wp->event, cpu);
++	if (arm_tsk != current ||
++	    ctx->depth != kwatch_probe_ctx.cfg->depth + 1)
++		return true;
 +
-+	if (unlikely(!bp))
-+		goto out;
-+
-+	kwatch_probe_mute(true);
-+	barrier();
-+
-+	err = modify_wide_hw_breakpoint_local(bp, &wp->attr);
-+	if (unlikely(err)) {
-+		WARN_ONCE(1,
-+			  "KWatch: HWBP reinstall failed on CPU%d (err=%d, addr=0x%llx, len=%llu)\n",
-+			  cpu, err, wp->attr.bp_addr, wp->attr.bp_len);
-+	}
-+
-+	barrier();
-+	kwatch_probe_mute(false);
-+
-+out:
-+	local_irq_restore(flags);
++	return false;
 +}
 +
-+static inline void kwatch_hwbp_try_recycle(struct kwatch_watchpoint *wp)
++void kwatch_probe_mute(bool mute)
 +{
-+	if (atomic_dec_and_test(&wp->pending_ipis)) {
-+		if (!READ_ONCE(wp->teardown))
-+			atomic_set_release(&wp->in_use, 0);
-+
-+		atomic_dec(&wp->refcount);
-+	}
++	__this_cpu_write(kwatch_probe_cpu_muted, mute);
 +}
 +
-+static void kwatch_hwbp_disarm_local(void *info)
++static inline bool kwatch_probe_is_muted(void)
 +{
-+	struct kwatch_watchpoint *wp = info;
-+
-+	kwatch_hwbp_arm_local(info);
-+	kwatch_hwbp_try_recycle(wp);
++	return __this_cpu_read(kwatch_probe_cpu_muted);
 +}
 +
-+static int kwatch_hwbp_cpu_online(unsigned int cpu)
-+{
-+	struct perf_event_attr attr;
-+	struct kwatch_watchpoint *wp;
-+	struct perf_event *bp;
++enum kwatch_probe_position {
++	KWATCH_PROBE_POSITION_ENTRY,
++	KWATCH_PROBE_POSITION_ACTIVE,
++	KWATCH_PROBE_POSITION_EXIT
++};
 +
-+	mutex_lock(&kwatch_all_wp_mutex);
-+	list_for_each_entry(wp, &kwatch_all_wp_list, list) {
-+		attr = wp->attr;
-+		attr.bp_addr = (unsigned long)&kwatch_dummy_holder;
-+		bp = perf_event_create_kernel_counter(&attr, cpu, NULL,
-+						      kwatch_hwbp_handler, wp);
-+		if (IS_ERR(bp)) {
-+			pr_warn("%s failed to create watch on CPU %d: %ld\n",
-+				__func__, cpu, PTR_ERR(bp));
-+			continue;
++static bool kwatch_tsk_ctx_check(enum kwatch_probe_position pos)
++{
++	struct kwatch_tsk_ctx *ctx = kwatch_tsk_ctx_get(true);
++	u32 epoch;
++
++	if (unlikely(!ctx))
++		return false;
++
++	/* Pairs with smp_store_release() in kwatch_probe_start/stop() */
++	epoch = smp_load_acquire(&kwatch_probe_ctx.epoch);
++
++	if (unlikely(ctx->epoch != epoch))
++		kwatch_tsk_ctx_reset(ctx, epoch);
++
++	if (unlikely(!epoch))
++		return false;
++
++	switch (pos) {
++	case KWATCH_PROBE_POSITION_ENTRY:
++		ctx->depth++;
++		return true;
++	case KWATCH_PROBE_POSITION_ACTIVE:
++		return true;
++	case KWATCH_PROBE_POSITION_EXIT:
++		if (unlikely(ctx->depth == 0)) {
++			kwatch_tsk_ctx_put();
++			return false;
 +		}
-+		per_cpu(*wp->event, cpu) = bp;
++
++		ctx->depth--;
++		if (ctx->depth == 0) {
++			kwatch_tsk_ctx_put();
++			return false;
++		}
++		return true;
 +	}
-+	mutex_unlock(&kwatch_all_wp_mutex);
++	return false;
++}
++
++static int kwatch_activate_handler(struct kprobe *p, struct pt_regs *regs)
++{
++	struct kwatch_tsk_ctx *ctx = kwatch_tsk_ctx_get(false);
++	unsigned long watch_addr;
++	u16 watch_len;
++
++	if (unlikely(!ctx))
++		return 0;
++
++	if (unlikely(kwatch_probe_is_muted()))
++		return 0;
++
++	if (unlikely(!kwatch_tsk_ctx_check(KWATCH_PROBE_POSITION_ACTIVE)))
++		return 0;
++
++	if (ctx->depth != kwatch_probe_ctx.cfg->depth + 1 || ctx->wp)
++		return 0;
++
++	if (kwatch_deref_resolve(kwatch_probe_ctx.cfg, regs, &watch_addr,
++				 &watch_len))
++		return 0;
++
++	if (kwatch_hwbp_get(&ctx->wp))
++		return 0;
++
++	kwatch_hwbp_arm(ctx->wp, watch_addr, watch_len);
 +	return 0;
 +}
 +
-+static int kwatch_hwbp_cpu_offline(unsigned int cpu)
++static int kwatch_lifecycle_entry(struct kretprobe_instance *ri,
++				  struct pt_regs *regs)
 +{
-+	struct kwatch_watchpoint *wp;
-+	struct perf_event *bp;
-+
-+	mutex_lock(&kwatch_all_wp_mutex);
-+	list_for_each_entry(wp, &kwatch_all_wp_list, list) {
-+		bp = per_cpu(*wp->event, cpu);
-+		if (bp) {
-+			unregister_hw_breakpoint(bp);
-+			per_cpu(*wp->event, cpu) = NULL;
-+		}
-+	}
-+	mutex_unlock(&kwatch_all_wp_mutex);
-+	return 0;
-+}
-+
-+int kwatch_hwbp_get(struct kwatch_watchpoint **out_wp)
-+{
-+	struct kwatch_watchpoint *wp;
-+	int i;
-+
 +	/*
-+	 * Per-slot cmpxchg claim: safe for concurrent consumers on any CPU,
-+	 * unlike llist_del_first() which requires a single consumer.
++	 * Single policy point: the target function's context is judged once
++	 * here. A rejected invocation never increments depth, so the offset
++	 * kprobe path inherits the verdict through the depth check.
 +	 */
-+	for (i = 0; i < kwatch_wp_nr; i++) {
-+		wp = kwatch_wp_slots[i];
-+		if (atomic_read(&wp->in_use))
-+			continue;
-+		if (atomic_cmpxchg(&wp->in_use, 0, 1) == 0) {
-+			atomic_inc(&wp->refcount);
-+			*out_wp = wp;
-+			return 0;
-+		}
++	if (unlikely(kwatch_probed_ctx_in_nmi(kwatch_probe_ctx.rp_via_int3))) {
++		atomic_long_inc(&kwatch_nmi_rejected);
++		return 1; /* NMI context is unsupported: no window, no return hook */
 +	}
-+	return -EBUSY;
-+}
 +
-+void kwatch_hwbp_arm(struct kwatch_watchpoint *wp, unsigned long addr, u16 len)
-+{
-+	static DEFINE_PER_CPU(u64, last_ipi_time);
-+	int cur_cpu;
-+	call_single_data_t *csd;
-+	int cpu;
-+	bool is_disarm = (addr == (unsigned long)&kwatch_dummy_holder);
++	if (!kwatch_tsk_ctx_check(KWATCH_PROBE_POSITION_ENTRY))
++		return 0;
 +
-+	wp->attr.bp_addr = addr;
-+	wp->attr.bp_len = len;
-+
-+	if (!is_disarm)
-+		wp->arm_tsk = current;
-+
-+	/* ensure attr update visible to other cpu before sending IPI */
-+	smp_wmb();
-+
-+	atomic_set(&wp->pending_ipis, 1);
-+	cur_cpu = get_cpu();
-+
-+	if (!is_disarm) {
-+		u64 now = local_clock();
-+		u64 last = this_cpu_read(last_ipi_time);
-+
-+		if (now - last < 1000000ULL) {
-+			put_cpu();
-+			return;
-+		}
-+		this_cpu_write(last_ipi_time, now);
-+	}
-+	for_each_online_cpu(cpu) {
-+		if (cpu == cur_cpu)
-+			continue;
-+
-+		if (is_disarm)
-+			atomic_inc(&wp->pending_ipis);
-+
-+		csd = per_cpu_ptr(is_disarm ? wp->csd_disarm : wp->csd_arm,
-+				  cpu);
-+		if (smp_call_function_single_async(cpu, csd) && is_disarm)
-+			kwatch_hwbp_try_recycle(wp);
-+	}
-+	put_cpu();
-+
-+	if (is_disarm)
-+		kwatch_hwbp_disarm_local(wp);
-+	else
-+		kwatch_hwbp_arm_local(wp);
-+}
-+
-+int kwatch_hwbp_put(struct kwatch_watchpoint *wp)
-+{
-+	kwatch_hwbp_arm(wp, (unsigned long)&kwatch_dummy_holder,
-+			sizeof(unsigned long));
++	if (kwatch_probe_ctx.cfg->func_offset == 0)
++		kwatch_activate_handler(NULL, regs);
 +
 +	return 0;
 +}
 +
-+void kwatch_hwbp_free(void)
++static int kwatch_lifecycle_exit(struct kretprobe_instance *ri,
++				 struct pt_regs *regs)
 +{
-+	struct kwatch_watchpoint *wp, *tmp;
++	struct kwatch_tsk_ctx *ctx = kwatch_tsk_ctx_get(false);
 +
-+	kwatch_wp_nr = 0;
-+	kfree(kwatch_wp_slots);
-+	kwatch_wp_slots = NULL;
++	if (unlikely(!ctx))
++		return 0;
 +
-+	if (kwatch_hwbp_cpuhp_state != CPUHP_INVALID) {
-+		cpuhp_remove_state_nocalls(kwatch_hwbp_cpuhp_state);
-+		kwatch_hwbp_cpuhp_state = CPUHP_INVALID;
++	if (!kwatch_tsk_ctx_check(KWATCH_PROBE_POSITION_EXIT))
++		return 0;
++
++	if (ctx->depth == kwatch_probe_ctx.cfg->depth) {
++		struct kwatch_watchpoint *wp = xchg(&ctx->wp, NULL);
++
++		if (wp)
++			kwatch_hwbp_put(wp);
 +	}
 +
-+	mutex_lock(&kwatch_all_wp_mutex);
-+	list_for_each_entry_safe(wp, tmp, &kwatch_all_wp_list, list) {
-+		list_del(&wp->list);
-+
-+		WRITE_ONCE(wp->teardown, true);
-+		atomic_dec(&wp->refcount);
-+
-+		/* Wait for all async IPIs to finish */
-+		while (atomic_read(&wp->refcount) > 0)
-+			cpu_relax();
-+
-+		unregister_wide_hw_breakpoint(wp->event);
-+		free_percpu(wp->csd_arm);
-+		free_percpu(wp->csd_disarm);
-+		kfree(wp);
-+	}
-+	mutex_unlock(&kwatch_all_wp_mutex);
++	return 0;
 +}
 +
-+int kwatch_hwbp_prealloc(u16 max_watch, enum kwatch_access_type access_type)
++int kwatch_probe_start(struct kwatch_config *cfg)
 +{
-+	struct kwatch_watchpoint *wp;
-+	int success = 0, cpu;
-+	u32 bp_type;
++	static u32 next_epoch;
++	u32 current_epoch;
 +	int ret;
 +
-+	switch (access_type) {
-+	case KWATCH_ACCESS_X:
-+		bp_type = HW_BREAKPOINT_X;
-+		break;
-+	case KWATCH_ACCESS_R:
-+		bp_type = HW_BREAKPOINT_R;
-+		break;
-+	case KWATCH_ACCESS_RW:
-+		bp_type = HW_BREAKPOINT_RW;
-+		break;
-+	case KWATCH_ACCESS_W:
-+	default:
-+		bp_type = HW_BREAKPOINT_W;
-+		break;
-+	}
-+
-+	while (!max_watch || success < max_watch) {
-+		wp = kzalloc_obj(*wp);
-+		if (!wp)
-+			break;
-+
-+		wp->csd_arm = alloc_percpu(call_single_data_t);
-+		wp->csd_disarm = alloc_percpu(call_single_data_t);
-+		if (!wp->csd_arm || !wp->csd_disarm) {
-+			free_percpu(wp->csd_arm);
-+			free_percpu(wp->csd_disarm);
-+			kfree(wp);
-+			break;
-+		}
-+
-+		for_each_possible_cpu(cpu) {
-+			INIT_CSD(per_cpu_ptr(wp->csd_arm, cpu),
-+				 kwatch_hwbp_arm_local, wp);
-+			INIT_CSD(per_cpu_ptr(wp->csd_disarm, cpu),
-+				 kwatch_hwbp_disarm_local, wp);
-+		}
-+
-+		wp->teardown = false;
-+
-+		hw_breakpoint_init(&wp->attr);
-+		wp->attr.bp_addr = (unsigned long)&kwatch_dummy_holder;
-+		wp->attr.bp_len = sizeof(unsigned long);
-+		wp->attr.bp_type = bp_type;
-+
-+		wp->event = register_wide_hw_breakpoint(&wp->attr,
-+							kwatch_hwbp_handler,
-+							wp);
-+		if (IS_ERR((void *)wp->event)) {
-+			free_percpu(wp->csd_arm);
-+			free_percpu(wp->csd_disarm);
-+			kfree(wp);
-+			break;
-+		}
-+
-+		atomic_set(&wp->refcount, 1);
-+
-+		mutex_lock(&kwatch_all_wp_mutex);
-+		list_add(&wp->list, &kwatch_all_wp_list);
-+		mutex_unlock(&kwatch_all_wp_mutex);
-+		success++;
-+	}
-+
-+	if (!success)
++	/*
++	 * Lockless check to prevent concurrent starts. Strictly serialized
++	 * by the control plane mutex, but serves as a sanity check.
++	 */
++	if (smp_load_acquire(&kwatch_probe_ctx.epoch) != 0)
 +		return -EBUSY;
 +
-+	kwatch_wp_slots = kcalloc(success, sizeof(*kwatch_wp_slots),
-+				  GFP_KERNEL);
-+	if (!kwatch_wp_slots) {
-+		kwatch_hwbp_free();
-+		return -ENOMEM;
-+	}
-+	mutex_lock(&kwatch_all_wp_mutex);
-+	list_for_each_entry(wp, &kwatch_all_wp_list, list)
-+		kwatch_wp_slots[kwatch_wp_nr++] = wp;
-+	mutex_unlock(&kwatch_all_wp_mutex);
++	memset(&kwatch_probe_ctx, 0, sizeof(kwatch_probe_ctx));
++	kwatch_probe_ctx.cfg = cfg;
 +
-+	ret = cpuhp_setup_state_nocalls(CPUHP_AP_ONLINE_DYN, "kwatch:online",
-+					kwatch_hwbp_cpu_online,
-+					kwatch_hwbp_cpu_offline);
++	/*
++	 * Pin the entry probepoint before the kretprobe registers, so its
++	 * delivery (int3 vs ftrace) can never change under jump optimization.
++	 * register_kretprobe() clears kp.post_handler, hence the companion.
++	 */
++	kwatch_probe_ctx.pin_kp.symbol_name = cfg->func_name;
++	kwatch_probe_ctx.pin_kp.post_handler = kwatch_pin_post_handler;
++	ret = register_kprobe(&kwatch_probe_ctx.pin_kp);
++	if (ret < 0)
++		return ret;
++
++	kwatch_probe_ctx.rp.entry_handler = kwatch_lifecycle_entry;
++	kwatch_probe_ctx.rp.handler = kwatch_lifecycle_exit;
++	kwatch_probe_ctx.rp.kp.symbol_name = cfg->func_name;
++
++	ret = register_kretprobe(&kwatch_probe_ctx.rp);
 +	if (ret < 0) {
-+		kwatch_hwbp_free();
++		unregister_kprobe(&kwatch_probe_ctx.pin_kp);
 +		return ret;
 +	}
++	kwatch_probe_ctx.rp_via_int3 = !kprobe_ftrace(&kwatch_probe_ctx.rp.kp);
 +
-+	kwatch_hwbp_cpuhp_state = ret;
++	if (cfg->func_offset) {
++		kwatch_probe_ctx.kp.symbol_name = cfg->func_name;
++		kwatch_probe_ctx.kp.offset = cfg->func_offset;
++		kwatch_probe_ctx.kp.pre_handler = kwatch_activate_handler;
++
++		ret = register_kprobe(&kwatch_probe_ctx.kp);
++		if (ret) {
++			unregister_kretprobe(&kwatch_probe_ctx.rp);
++			unregister_kprobe(&kwatch_probe_ctx.pin_kp);
++			return ret;
++		}
++	}
++
++	current_epoch = ++next_epoch;
++	if (unlikely(!current_epoch))
++		current_epoch = ++next_epoch;
++
++	/* Pairs with smp_load_acquire() in kwatch_tsk_ctx_check() */
++	smp_store_release(&kwatch_probe_ctx.epoch, current_epoch);
++
 +	return 0;
++}
++
++void kwatch_probe_stop(void)
++{
++	if (!kwatch_probe_ctx.epoch)
++		return;
++
++	/* Pairs with smp_load_acquire() in kwatch_tsk_ctx_check() */
++	smp_store_release(&kwatch_probe_ctx.epoch, 0);
++
++	if (kwatch_probe_ctx.cfg->func_offset > 0)
++		unregister_kprobe(&kwatch_probe_ctx.kp);
++
++	unregister_kretprobe(&kwatch_probe_ctx.rp);
++	unregister_kprobe(&kwatch_probe_ctx.pin_kp);
 +}
 -- 
 2.53.0
