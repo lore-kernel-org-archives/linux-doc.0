@@ -1,116 +1,259 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mta20.hihonor.com (mta20.honor.com [81.70.206.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 141FF35BDC7
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 12:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2AD53BED42;
+	Tue, 14 Jul 2026 12:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.206.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784030553; cv=none; b=kzmQ7JrtHSz3EAWeUOhs8VEQr7DtN4IaCf6nXyq5azPRIMxGNzOXhAl2E4Hfbb1B2Zl3fenMjPlL6ILMRSJFkgvYx2m28LS+d0s+L5t/ROI/eOjuBu6zydXzofT2roNsMNWEHrDsu58cuzNsx9KQSk31UExNewsdyPqJP29H0rA=
+	t=1784031343; cv=none; b=dZ47tgDSKHTdUA0MzOobAJ/vBlkVPFPj574mJXxDR/2EJ/mYDTC+Md/LpZMLilH4uDHXheJllryXZh0cAy5l+8KVAX+zW+ikb+qrKpkgnRtbN0bmahFIrf7GLwnqCROvI85ichzEFLq57P9s0f+KupQyGUNBimWIWRCvnqOirYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784030553; c=relaxed/simple;
-	bh=MxGbzJ1EXIdULAavSutQBPVkV2UhDVudqdZG1CWBmp8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q9rAdlyxlBy5BbRMLgUSRxLRpXy6DlZtHw2f1WUQWdf3L51Fu9Tg9vnkXLqpIlJ8hPxYFsRbaFqzKgYReeWwTD+YYcMpHZOsP7nXDuKdcyYL6YiK25kvsGdebmE9fpFVbRQGxxl7G4aIm0Ypjw7jwMTD86B97AjmFmKtdcQXOlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=xloPNrV3; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="xloPNrV3"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-493f75f7172so27833015e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 05:02:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1784030549; x=1784635349; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=MxGbzJ1EXIdULAavSutQBPVkV2UhDVudqdZG1CWBmp8=;
-        b=xloPNrV3q0dsouuiGc5bUzJJ6bnxilhSIXwGOplClvayzzm6Ah2r3bsykgU0U2Os+e
-         wOWh+yiGW8fcuU5rky5Evy6iXTIQKcCkSFXY8KZImeB1J8C08m2oKYln9lIIznjY1Zct
-         DJX0fzJ6KIV/CB93zTxcQbxy5cryxF3hXYiE/Li2nG8xF4M4cWevWZ1KIRG6WJpccxlI
-         wfj9ddFB7N8Z4YP/NXHbxO3jvLO2x3sFRT5C/kD7Gl/jWquGXSRwOWmBIekE8R82irLb
-         mvwtasVMxsK6/qlM5kwsHk9QiM+vbfmJsl5eDdtTO9E2m77O18rBN/wyfvOu+wigyu/q
-         3tlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784030549; x=1784635349;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MxGbzJ1EXIdULAavSutQBPVkV2UhDVudqdZG1CWBmp8=;
-        b=Ap0l/SFCFRks1HQvSjnb8ei7mUg4dAVkXMvUn78b6YSVb2s04LhgnNRLFh8XIAZR8N
-         CiMcCy9woNCHlPEWY7+lVthOVI17lWunJTb9Ft4NLrMuEPm/0qcrf5ueYkdqE0B7CPBj
-         ZUM5bz25tmqTU9rIpxfa7FqRpL2p4q6cqQIGDIAlCi73zIWBNzy11NuyTT2cTOZXY4ro
-         1fcX4Kh8ldwfgx6TjYsg1AeWFplvlJCC85EWyzSsNxvv8Ne9duYbj+wqXBkJ+iH7x8I4
-         aQKmt6D5b0gaZwLffK6inKGUJ/FlnsUpHZz8AYDaTi+2Jz8SKjlwWWuVmB+gWK33ziqU
-         1jWA==
-X-Forwarded-Encrypted: i=1; AHgh+RpXonuPiXdrroTB9ktxFMHVufOuxwRbRbAiRLuZWD0qGtDBbWcvv5o5QiECvbLimAvcmrvDbh+2KqQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTxpnbmBDT0hoBVoE9sX5N5KwWhkIXrYJxaO4t+kS2DrHu+/u0
-	q8DrJBjYq82rs9rxMJcOofMhrhp10+IWwf22zDMBDgL8AcN0lvDzYCOmq+NcEgj36ts=
-X-Gm-Gg: AfdE7cl/0YPgeGCT3s//wrMg9Z0nibHEISyLBoTbfoipGZMNB7yjKqebZw9ocm4Aaii
-	Qlb2LYycrWrPc4JNUB+1eGyeU0D5ieQGyBY0nM4J+NeWTMYCnhEQahtqfFQg8WmtnT9DDvMVEQB
-	Optuo+hmPlxhFTyRZokq8zK47EiuiiAxlz553+EVqzyBm7mnM21PAC4nWJ8pJzAjIQUt4yf+9+M
-	koFAzpKtDJi9l/WdY4St7A+iP0+Mpa/6PUU4YTSlxaI+M6HUAv0rVDPI4Disxpcd9rGFZNDmeFR
-	BUsw+TQnPFIExJtNhFMLBABbNq9FqSYft1NWdPsR2SwDcSkHfL1Hf4mUp5pLYWKNLctN/fWfKhc
-	3U4ZVSm9eOD5rD7PQGkmJ6zUPMbaFjsXqw5mQyCdiRwpt8R1zol+IMWrwa/erqwxDiSy0aGE4Hy
-	K5fX1I3SXpRXkIrsEal/rFGA==
-X-Received: by 2002:a05:600c:6b17:b0:492:4a56:690b with SMTP id 5b1f17b1804b1-493f8834e5emr94066915e9.35.1784030548728;
-        Tue, 14 Jul 2026 05:02:28 -0700 (PDT)
-Received: from localhost ([140.209.217.211])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f4635ac2esm7854172f8f.13.2026.07.14.05.02.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 05:02:28 -0700 (PDT)
-Date: Tue, 14 Jul 2026 14:02:24 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Mark Bloch <mbloch@nvidia.com>
-Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
-	Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next V6 4/4] devlink: Apply eswitch mode boot defaults
-Message-ID: <alYkm08MpcIXnFl9@FV6GYCPJ69>
-References: <20260714061731.531849-1-mbloch@nvidia.com>
- <20260714061731.531849-5-mbloch@nvidia.com>
+	s=arc-20240116; t=1784031343; c=relaxed/simple;
+	bh=K5trL+Ani1qoBuWhLNtvjSFzEzNw+uYS2pyP1NmYRrI=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pjSi4jXPtSfpw/F3rokhaWv80n6Qoj+qOrrNrWQWfDlO+pbrSDLgcN66jk8N3riVqJIF1SRPkLK04t9jX639J/FaWwGHdC+JyRpXiX2Hgf44Q1IY6voeyo6Dp5qMuws8prJ0rTqXqzRAJhXbac1OISNe+GGQUmAk87Ci2zGdSBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.206.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
+Received: from TW003.hihonor.com (unknown [10.77.199.161])
+	by mta20.hihonor.com (SkyGuard) with ESMTPS id 4gzytp3XY4zYlLgc;
+	Tue, 14 Jul 2026 20:15:30 +0800 (CST)
+Received: from TA012-1.hihonor.com (10.77.199.132) by TW003.hihonor.com
+ (10.77.199.161) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Tue, 14 Jul
+ 2026 20:15:28 +0800
+Received: from localhost.localdomain (10.144.5.36) by TA012-1.hihonor.com
+ (10.77.199.132) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 14 Jul
+ 2026 20:15:19 +0800
+From: Zicheng Wang <wangzicheng@honor.com>
+To: <akpm@linux-foundation.org>, <yuanchu@google.com>
+CC: <tj@kernel.org>, <hannes@cmpxchg.org>, <mkoutny@suse.com>,
+	<corbet@lwn.net>, <kasong@tencent.com>, <qi.zheng@linux.dev>,
+	<shakeel.butt@linux.dev>, <baohua@kernel.org>, <axelrasmussen@google.com>,
+	<weixugc@google.com>, <david@kernel.org>, <ljs@kernel.org>,
+	<liam@infradead.org>, <vbabka@kernel.org>, <rppt@kernel.org>,
+	<surenb@google.com>, <mhocko@suse.com>, <roman.gushchin@linux.dev>,
+	<muchun.song@linux.dev>, <cgroups@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<willy@infradead.org>, <denghaojie@honor.com>, <baoquan.he@linux.dev>,
+	<kaleshsingh@google.com>, <tjmercier@google.com>, <tao.wangtao@honor.com>,
+	<zhangji1@honor.com>, <wangzhen5@honor.com>, Zicheng Wang
+	<wangzicheng@honor.com>
+Subject: [RFC v2 1/3] mm/lru_gen: add AGING counter and proactive aging helper
+Date: Tue, 14 Jul 2026 20:15:27 +0800
+Message-ID: <20260714121529.2237261-2-wangzicheng@honor.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260714121529.2237261-1-wangzicheng@honor.com>
+References: <20260714121529.2237261-1-wangzicheng@honor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260714061731.531849-5-mbloch@nvidia.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TW004-1.hihonor.com (10.77.232.85) To TA012-1.hihonor.com
+ (10.77.199.132)
 
-Tue, Jul 14, 2026 at 08:17:30AM +0200, mbloch@nvidia.com wrote:
->Apply parsed devlink_eswitch_mode= defaults after devlink registration
->and after successful reload.
->
->Mark the default mode as pending when a devlink instance is allocated.
->Before devl_unlock() releases the instance lock, apply a pending default
->when the instance is registered.
->
->Clear the pending state before calling into the driver so the boot
->default remains a one-shot operation even if the mode change fails.
->
->For successful reloads that performed DRIVER_REINIT, devlink_reload()
->already holds the devlink instance lock and the driver has completed
->reload_up(). Clear the pending state and apply the default directly from
->the reload path.
->
->Treat an explicit user eswitch mode request as consuming the pending
->default mode.
->
+Add the two pieces the rest of the series builds on: an AGING node
+stat counter (the observation an aging policy pairs with
+workingset_refault to spot over-aging) and a reusable helper,
+lru_gen_age_memcg(), that ages a memcg by advancing max_seq without
+reclaim (the control primitive memory.aging wraps).
 
-Looks fine to me now. One nit below:
+The counter counts every pass in inc_max_seq(), regardless of caller.
+The helper mirrors lru_gen_seq_write()'s reclaim_state /
+memalloc_noreclaim / mm_walk setup; swappiness comes from
+get_swappiness() so anon is not rotated without swap, and a racing
+lruvec is skipped (-EAGAIN) without blocking other nodes.
 
+Gated by CONFIG_LRU_GEN.  No user-visible change yet.
 
-[..]
+Signed-off-by: Zicheng Wang <wangzicheng@honor.com>
+---
+ include/linux/mmzone.h |  3 ++
+ mm/internal.h          |  4 +++
+ mm/memcontrol.c        |  9 +++++
+ mm/vmscan.c            | 80 ++++++++++++++++++++++++++++++++++++++++++
+ mm/vmstat.c            |  3 ++
+ 5 files changed, 99 insertions(+)
 
->+void devlink_default_esw_mode_instance_init(struct devlink *devlink)
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index 9adb2ad21da5..ab5137c272ca 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -323,6 +323,9 @@ enum node_stat_item {
+ 	PGSCAN_ANON,
+ 	PGSCAN_FILE,
+ 	PGREFILL,
++#ifdef CONFIG_LRU_GEN
++	AGING,
++#endif
+ #ifdef CONFIG_HUGETLB_PAGE
+ 	NR_HUGETLB,
+ #endif
+diff --git a/mm/internal.h b/mm/internal.h
+index 5a2ddcf68e0b..96add6cd4627 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -634,6 +634,10 @@ extern void reclaim_throttle(pg_data_t *pgdat, enum vmscan_throttle_state reason
+ int user_proactive_reclaim(char *buf,
+ 			   struct mem_cgroup *memcg, pg_data_t *pgdat);
+ 
++#ifdef CONFIG_LRU_GEN
++int lru_gen_age_memcg(struct mem_cgroup *memcg, unsigned long nr_gens);
++#endif
++
+ /*
+  * in mm/rmap.c:
+  */
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index d978e18b9b2d..e42f97e004b6 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -420,6 +420,9 @@ static const unsigned int memcg_node_stat_items[] = {
+ 	PGSCAN_ANON,
+ 	PGSCAN_FILE,
+ 	PGREFILL,
++#ifdef CONFIG_LRU_GEN
++	AGING,
++#endif
+ #ifdef CONFIG_HUGETLB_PAGE
+ 	NR_HUGETLB,
+ #endif
+@@ -1606,6 +1609,9 @@ static const struct memory_stat memory_stats[] = {
+ #ifdef CONFIG_NUMA_BALANCING
+ 	{ "pgpromote_success",		PGPROMOTE_SUCCESS	},
+ #endif
++#ifdef CONFIG_LRU_GEN
++	{ "aging",		AGING	},
++#endif
+ };
+ 
+ /* The actual unit of the state item, not the same as the output unit */
+@@ -1655,6 +1661,9 @@ static int memcg_page_state_output_unit(int item)
+ 	case PGSCAN_KHUGEPAGED:
+ 	case PGSCAN_PROACTIVE:
+ 	case PGREFILL:
++#ifdef CONFIG_LRU_GEN
++	case AGING:
++#endif
+ #ifdef CONFIG_NUMA_BALANCING
+ 	case PGPROMOTE_SUCCESS:
+ #endif
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index b3e555561417..805e29c499c8 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -3987,6 +3987,9 @@ static bool inc_max_seq(struct lruvec *lruvec, unsigned long seq, int swappiness
+ 	WRITE_ONCE(lrugen->timestamps[next], jiffies);
+ 	/* make sure preceding modifications appear */
+ 	smp_store_release(&lrugen->max_seq, lrugen->max_seq + 1);
++
++	/* Count every aging pass for over-aging diagnosis. */
++	mod_lruvec_state(lruvec, AGING, 1);
+ unlock:
+ 	lruvec_unlock_irq(lruvec);
+ 
+@@ -5855,6 +5858,83 @@ static int __init init_lru_gen(void)
+ };
+ late_initcall(init_lru_gen);
+ 
++/**
++ * lru_gen_age_memcg - Proactively age a memcg by N generations
++ * @memcg: target memcg
++ * @nr_gens: number of generations to age (1..MAX_NR_GENS)
++ *
++ * Advances max_seq without page reclaim on all nodes of @memcg, using
++ * the same lock/walk protocol as lru_gen_seq_write().  Swappiness comes
++ * from get_swappiness() so anon rotation is skipped without swap.
++ * to the next node.
++ *
++ * Return: 0 on success, -EINVAL on bad input, -EAGAIN if a lruvec did
++ * not advance, -ENOMEM on mm_walk failure, -EINTR on signal.
++ */
++int lru_gen_age_memcg(struct mem_cgroup *memcg, unsigned long nr_gens)
++{
++	struct scan_control sc = {
++		.may_writepage = true,
++		.may_unmap = true,
++		.may_swap = true,
++		.reclaim_idx = MAX_NR_ZONES - 1,
++		.gfp_mask = GFP_KERNEL,
++		.proactive = true,
++	};
++	int nid, swappiness;
++	unsigned long i;
++	int ret = 0;
++	unsigned int flags;
++	struct blk_plug plug;
++	struct lruvec *lruvec;
++
++	if (!memcg)
++		return -EINVAL;
++
++	if (nr_gens == 0 || nr_gens > MAX_NR_GENS)
++		return -EINVAL;
++
++	set_task_reclaim_state(current, &sc.reclaim_state);
++	flags = memalloc_noreclaim_save();
++	blk_start_plug(&plug);
++	if (!set_mm_walk(NULL, true)) {
++		ret = -ENOMEM;
++		goto done;
++	}
++
++	for_each_node_state(nid, N_MEMORY) {
++		if (signal_pending(current)) {
++			ret = -EINTR;
++			goto done;
++		}
++
++		lruvec = get_lruvec(memcg, nid);
++		if (!lruvec)
++			continue;
++
++		swappiness = get_swappiness(lruvec, &sc);
++
++		for (i = 0; i < nr_gens; i++) {
++			DEFINE_MAX_SEQ(lruvec);
++
++			if (!try_to_inc_max_seq(lruvec, max_seq,
++						swappiness, false)) {
++				ret = -EAGAIN;
++				break;
++			}
++		}
++
++		cond_resched();
++	}
++
++done:
++	clear_mm_walk();
++	blk_finish_plug(&plug);
++	memalloc_noreclaim_restore(flags);
++	set_task_reclaim_state(current, NULL);
++	return ret;
++}
++
+ #else /* !CONFIG_LRU_GEN */
+ 
+ static void lru_gen_age_node(struct pglist_data *pgdat, struct scan_control *sc)
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index f534972f517d..78ea093428c7 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -1290,6 +1290,9 @@ const char * const vmstat_text[] = {
+ 	[I(PGSCAN_ANON)]			= "pgscan_anon",
+ 	[I(PGSCAN_FILE)]			= "pgscan_file",
+ 	[I(PGREFILL)]				= "pgrefill",
++#ifdef CONFIG_LRU_GEN
++	[I(AGING)]			= "aging",
++#endif
+ #ifdef CONFIG_HUGETLB_PAGE
+ 	[I(NR_HUGETLB)]				= "nr_hugetlb",
+ #endif
+-- 
+2.25.1
 
-
-Forgotten "instance" here. With this fixed, feel free to add my
-Reviewed-by: Jiri Pirko <jiri@nvidia.com>
-
-[..]
