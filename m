@@ -1,60 +1,25 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF133612DB;
-	Tue, 14 Jul 2026 13:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D57320FA81
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 13:15:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784034582; cv=none; b=EUWTUBVWr5a8pSZoSBNQw0FuQRgS6OSc9gcoTdQrxr5wIMQJg1OZQWGzpdE5WEqEfPcIlLtFmPxLAWx6JGaCLHZPwBvHBclVUa8wD8Q7KJloWLBNUH+ohmQND7+8jiYEAl2cw5rupL8dr1hzc+Yivue44yc9kZGuZvGK0lOnN/k=
+	t=1784034937; cv=none; b=fS2RKVR7rUngKg7+VO2Y9TQOcsqGQsC8mxTdFVV6hQQitMN1ezIPyBiYXhJ5fWEW+68mB35lsMNExWJIgU/7bPhhq7d3N6vuG5T/Jp5od9wRgz5IfJXuaqEOjZYFnzQXUfew1kWRAbfsQLl+Ygkd2dfLVEtZy0a83HxQIaGUjr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784034582; c=relaxed/simple;
-	bh=8w7Sfos4q/904A1DtDrr7QDWU14dgSNV5c0tPRd9u1U=;
+	s=arc-20240116; t=1784034937; c=relaxed/simple;
+	bh=UDUcWBLdkQJ0PrJglIQuf8xMgeDx13Tg1mFGrcLEd7w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=or3HMQajYqpA5DdWIajTUQO11JWAyupdsPTXAHWw7OVkcfEY9Boziq7nKMdr3jtB+TqCR7YDqdm9k6Jij2XvL1xSXSPstlLLNuMyeY4Fd+WIoISUC5ddFr1zslC7MFmM5XIZEUNiPWUhK9UP3cRiMDiN00GWHX//cLBcj3oPPUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Z9TaKktz; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Z9TaKktz"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66EBfZVs3511627;
-	Tue, 14 Jul 2026 13:09:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=4dlIaT
-	jPOUBup3xHtT1Ibk82juwraOujf9KtG1BRPy0=; b=Z9TaKktz86Zmw6NFj8lif6
-	xMC/PtMd0slmiDhVxVyRbkKHQ+3HM/I5d62VuE6aMhPACRV1zO3G+ddSgnQyTvQf
-	vKvdU1bQySnuxHlpnWJBzn2UQxdY13FEL4cXNxTVk6cK9El3J0c2qALwCnoN85Ee
-	bW1qZEezvt1tE8tcXrRMUbl5o5BjeIkiqNeW++osH7dhFuVBW5KON/SnYBbN5Vr5
-	en/iBhSydr8UKZgAZap7telj/glhC28Hbx9Xv46xST/YySIxkUlqli0quitzF8CQ
-	jsUDDmQN73WptB82Na1PjiKbYeVD80FRcD3eIG1iFBt/+hR5TTO4JahVjfYkDLvA
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fcv336t2f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Jul 2026 13:09:02 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66ED4g9L029015;
-	Tue, 14 Jul 2026 13:09:01 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fc2cgapff-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Jul 2026 13:09:01 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66ED8v9G30933406
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Jul 2026 13:08:57 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4F06F2004E;
-	Tue, 14 Jul 2026 13:08:57 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 09B292004F;
-	Tue, 14 Jul 2026 13:08:50 +0000 (GMT)
-Received: from [9.124.218.91] (unknown [9.124.218.91])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 14 Jul 2026 13:08:49 +0000 (GMT)
-Message-ID: <39fc9f4b-b93e-4c53-b1d4-4c868c18ac62@linux.ibm.com>
-Date: Tue, 14 Jul 2026 18:38:49 +0530
+	 In-Reply-To:Content-Type; b=ZlxguTiQLVhDsQVtvHTnI9ZLNOIJVTZJBudxzZT5ANZT1IHF2Qb1LX6zG+xbeQcVKjM5cMNdSoaJLsATGkTnlVRW9iUxiWJPt9qtcgJKX7xDZAdND6waO7iplCv5q9fn5Eykvv3CZ8lHBlielDcfBIUT3h+UvhKGKQWoPAVXdX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.21.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with SMTP id HwEQrAB3TTRBNlZqV0ZqAA--.64483S2;
+	Tue, 14 Jul 2026 21:14:41 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wAXks4+NlZqMIWIAA--.58678S2;
+	Tue, 14 Jul 2026 21:14:39 +0800 (CST)
+Message-ID: <53ffbf05-7b2e-4ffa-945d-2a415e843cff@hust.edu.cn>
+Date: Tue, 14 Jul 2026 21:14:38 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,109 +27,86 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 11/12] virt/steal_monitor: Act on steal time
- periodically and decide on preferred CPUs
-To: Yury Norov <ynorov@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-        corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
-        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
-        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
-        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
-        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
-        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
-        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
-        linux-doc@vger.kernel.org
-References: <20260709215648.1246821-1-sshegde@linux.ibm.com>
- <20260709215648.1246821-12-sshegde@linux.ibm.com> <alFX75dzgkMnDXAD@yury>
- <9da4fd45-0a0f-495d-8207-816ee88c5937@linux.ibm.com> <alYsGQhAyknF4X5b@yury>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <alYsGQhAyknF4X5b@yury>
+Subject: Re: What's cooking in zh_CN (Jul 2026)
+To: Weijie Yuan <wy@wyuan.org>, Alex Shi <seakeel@gmail.com>
+Cc: Dongliang Mu <mudongliangabcd@gmail.com>, linux-doc@vger.kernel.org,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Ben Guo <ben.guo@openatom.club>, Gary Guo <gary@garyguo.net>,
+ Yan Zhu <zhuyan2015@qq.com>, Doehyun Baek <doehyunbaek@gmail.com>,
+ Jiandong Qiu <qiujiandong1998@gmail.com>
+References: <alUXH8qRRjno2eZG@wyuan.org>
+ <CAD-N9QVXqYxtsn7YuUtCDWrwwk5+iFAkT2jcs26zbDUfwhAwsQ@mail.gmail.com>
+ <alYGtkVxW_0N-VqE@wyuan.org>
+ <cc922c1b-49a5-4c3a-855c-af8eb6539f62@hust.edu.cn>
+ <b664685e-6785-44ae-8005-443032508096@gmail.com> <alYomSIiGeUtQI1I@wyuan.org>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <alYomSIiGeUtQI1I@wyuan.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE0MDEzMiBTYWx0ZWRfX/JmcsyqC6q+r
- VPaiDsp1AqaDo6UYDTw8Sylfzzzeh1rpRqXT1+Ofdx+tOI5UWCXm38YiAM338UXUu41uwkkDDFr
- CJCHinv9RBEKFhV9sCy3g2c6MPBqFF0=
-X-Authority-Analysis: v=2.4 cv=Mp1iLWae c=1 sm=1 tr=0 ts=6a5634ee cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=3PJ_pY2KotYQqXn6dpYA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: Bf-fc0mQ7Qc0C-W4QUItlV-xXxnF28dK
-X-Proofpoint-ORIG-GUID: _dbRl5ysoEfH4FezUuHubov7NIv64A0K
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE0MDEzMiBTYWx0ZWRfXz3j65nZhYlFZ
- 7O5iYnRycDqN0WstymVfhT/ZCglOYgW0h05iuNKWLyZ0uLjACzKZ9aZIFS5VamxXazwwY2q+UV6
- P3Fdod2LXRKLHXtX2vI991pifLaoF3SKvhJ4QeNXJCjt7NXgVTX0GMcpV1grT2LIlObSpUNsEcP
- W+y77U1V12Gc31DAx/iVHtgrTXmYy/PVEFQqvbxyCRS+hdvbxZFyGuuqhfQNQi8LZysuTdDL/Dh
- UoaAmMoxZCjSDe0B4aqbCXCsZ4AAD4IVDo8amIFu3nGxNMxx47C/gvHx7FWgEGle/pFWBm2B6wS
- K2xW1Ot6jJwbKdxszmr6SS+vyKiQs6jY5jRbRAXciKGFiTrprjjB9xVS5uB+eQo0bS9Du4MDB8e
- oz9FkJHSymY1zJksksLWKU+EnYZ9IaefxZVoxwxu1NEmEjG96cewK00eSLWCYZpWNPoYIF78Ogo
- rmuW5ag+YSJEpO8bGJQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-14_03,2026-07-10_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 bulkscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0
- impostorscore=0 priorityscore=1501 suspectscore=0 clxscore=1015 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607140132
+X-CM-TRANSID:HwEQrAB3TTRBNlZqV0ZqAA--.64483S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZF1DWryfur47Jw1rZrWUJwb_yoW8Xry8pF
+	ZxKr15CrWUJF4fCws7G340qF95uwnayrW5J34rWrWDCr45Xr4vg395Gayj93srGw1rG3sF
+	qr4UZ3ykJayqyFJanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQ2b7Iv0xC_KF4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04
+	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
+	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
+	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUVl4iUUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Hi Yury.
 
-On 7/14/26 6:01 PM, Yury Norov wrote:
-> On Mon, Jul 13, 2026 at 11:18:59AM +0530, Shrikanth Hegde wrote:
-> 
-> ...
-> 
->>>> +requeue_work:
->>>> +	/* maintain design constructs always */
->>>> +	WARN_ON_ONCE(cpumask_empty(cpu_preferred_mask));
->>>> +	WARN_ON_ONCE(!cpumask_subset(cpu_preferred_mask, cpu_active_mask));
->>>
->>> cpu_read_lock here? And again, you should do something to restore
->>> integrity. WARN_ON is not enough. The simplest and safest thing you
->>> can do is to unload the driver. You definitely shouldn't schedule a
->>> new work against the broken cpu_preferred_mask.
->>
->> How about not requeue the work if it broken. Add a pr_err and return.
->> That makes driver pretty much nop until rmmod.
->>
->>          /* maintain design constructs always */
->>          if (cpumask_empty(cpu_preferred_mask)) {
->>                  pr_err("empty cpu_preferred_mask, stop steal_monitor work");
->>                  return;
->>          }
->>
->>          if (!cpumask_subset(cpu_preferred_mask, cpu_active_mask)) {
->>                  pr_err("preferred: %*pbl is not a subset of active: %*pbl, stop steal_monitor work\n",
->>                         pr_cpuamsk_args(cpu_preferred_mask), pr_cpuamsk_args(cpu_active_mask));
->> 		return;
->> 	}
->   
-> That would keep broken preferred cpumask working in the kernel.
-> 
-> Imagine, it becomes empty on Friday night. That severely hurts
-> the scheduling on the VMs. So, your approach requires the VM
-> admin to come and manually rmmod the driver. This is not how
-> he wanted to spend the evening, I guess. :)
-> 
-> So, ether unload the driver, or actively recover the invariant.
+On 7/14/26 8:16 PM, Weijie Yuan wrote:
+> I took a look about patchwork, it is basically like a mailing-list
+> version issue tracker / pull-request dashboard.
+>
+> It can manage patch backlog, assign patches, record CI results, and mark
+> patches as accepted, rejected, superseded, or under review. and record
+> trailers. Well, pretty much like a mini version of Gerrit or SourceHut.
+>
+> But I think it's a little complicated for our needs, as it offers many
+> features that we might not actually need, which involves learning costs
+> and maintenance costs.
+>
+> Just now, while going through patchwork of other lists a bit, I didn't
+> seem to find a way to filter out Chinese patches from the linux-doc
+> list, if we were to use it.
+>
+> Dongliang, is the dashboard you want exactly like the one I sent in this
+> email, which is read-only? Or perhaps wish there are other functions as
+> well. For example, you can mark the patch series you have reviewed.
 
-yes, i will restore it to the active mask and not requeue the work
-and add a pr_err.
 
-> 
+Actually I just need a list of patches which I need to review, which I 
+reviewed before and be resubmitted, and which is applied.
 
-Can we unload the driver after init completes?
 
-This is happening in work function after module is loaded.
-This invariant maybe broken after a few days driver was loaded.
+>
+> I can't find what IMA is btw.
 
-> Thanks,
-> Yury
+
+https://ima.qq.com/
+
+It is closed-source software from Tencent. This software cannot solve 
+our problem.
+
+I just put all the related linux-doc patches into the knowledge base, 
+and ask in NLP about the activities in the linux-doc mailing list
+
+
+Dongliang Mu
+
+
+>
+> [1] An exmaple of marking status of a patch in SourceHut
+>      https://lists.sr.ht/~sircmpwn/sr.ht-dev/patches/70509
 
