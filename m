@@ -1,101 +1,84 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8578746AF02
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 13:40:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC8F3F1659
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 14:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784036447; cv=none; b=NF+4DF/X2Wt6zNv5GLvvZbzqDLZIZSaz0WheKvaU7uXwu3bqGcAekt++Y78s2tWkNajQFkixWSPlAlmeIY8fm9HonSbEEPKGaTWIpwGgQjAzahHiW01zY9QV3MR1wPkWMbk053QA4BKwL504zw6yr1B3Pek1uVjSlnxNmrvFAAA=
+	t=1784037821; cv=none; b=PwHfjBXlBl2YO3hw85jbM/F5WDr7DtNUEJcdKbreYPG6puAizDtnM8HgGYT6gxb6bO3rk91twzBC+lm/YD3jOdZS0iSrf2EZVLx/fq/WOAuamJNmiQs7yy1Plu5OJyjCaQ8WqyvZyojQrFp+PO5Mf63OkiGwKwpbL+jEEeATWdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784036447; c=relaxed/simple;
-	bh=S2N+R2ZPYqvwrEIdTenCVeaMykrmGkS71FyRbCJJVSw=;
+	s=arc-20240116; t=1784037821; c=relaxed/simple;
+	bh=x7vkr5xuv03n5zI2/6X6/P9TOOIWoiQal4W8kv8GZCI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KXIHguP7mlKivJutP9brji4jhrI4hR7rJsSjeM8RJ4JKToGn/xACdKyJD1ld0Pk9XljwFxAl0jZZG7HAmg9urXYlele7R8NkhA5yv1u2lFZsAA7CeNt0Lg3Cp9kVBnNlc5dN4KD4WGkBQB/duly7v1aYFeOSSe2SMX0Hp2D8WQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aI9yHMUR; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=jcHD3CTE; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=T4+qq4LJJJVZVJWPlar0fpMQVdZJYr1g1RwYOj4ULNCkdqMarFe9eJKhFiCHV2/5TsGcT38Ip7g8Ys3UJBp48qfyd0XCK7oZL6VCE65/fAr/wkgZnEfXwPTMIF7mSZZpf8MXW6qabA6vrfTcuM6kP6B1bSnExrXrdNQEyAUglos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=LfD1dCie; arc=none smtp.client-ip=209.85.161.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aI9yHMUR";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="jcHD3CTE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784036444;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uB7Iz6raSrKbVqnnkYWkGTFkHYLV4QVTxPIDGgPv4jA=;
-	b=aI9yHMURKkMRgwcrHeyrT5dxnTU/Fm2434TdXPizMVs305g41goi3ZqItxLdCvmnwcgcN2
-	LaZH7CXwTDt5/4UQ1AlGRt6fCWsa1gR0hYaxpaA2DcTLV7CFAnszOpdAjx9qjQAEyi38zN
-	u+EdPOywWO3SxfJ7QnP7Q1p1y24l6f4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-442-5OouAhKTPL-Pn1XKj13NnQ-1; Tue, 14 Jul 2026 09:40:42 -0400
-X-MC-Unique: 5OouAhKTPL-Pn1XKj13NnQ-1
-X-Mimecast-MFC-AGG-ID: 5OouAhKTPL-Pn1XKj13NnQ_1784036442
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-493bd1716b4so23463765e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 06:40:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="LfD1dCie"
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-6a397db52c1so2234355eaf.2
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 07:03:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1784036441; x=1784641241; darn=vger.kernel.org;
+        d=ziepe.ca; s=google; t=1784037817; x=1784642617; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=uB7Iz6raSrKbVqnnkYWkGTFkHYLV4QVTxPIDGgPv4jA=;
-        b=jcHD3CTELDA56rV/Ie2DBhS9FNH7JJU/9aH2uzQsd3th+X46WPqIf9HqUwirem4noT
-         NPBrCVZ87WLjUsB3wY7pfxv26bgKmf6ICLxyE1Xh9hHJ4Cm6nd06EdoghTlNXzvSv1Qe
-         0PvBs9AxkK4lpTpzuX3WaOLRe3eOyOHTpFSYg8sjvt3q4wj/2h5l0r4Kb7VL1VGycaij
-         7Zbf82EQNKjE9Du8O4EPpJX1T3mWAx10hBFkm6GC+fSDxkIY37GrnF65u0xo/UHPa06P
-         Quz2mTh9UFl3RTOeWF14OttxYQERetiCqu96sSuM4kicRseDHDEDIyq4skNbnjUSjxon
-         NTYQ==
+        bh=lIWNtYbjtsZ0PQI9/iIL6fWurRq5Hy1V2922aR85kK4=;
+        b=LfD1dCiegdJE37ELt9oebGIyXbPcxFRMQ6YoHYmm/+LW0FfWf6YTFaO6D5uYvrZUdT
+         Qvj4EWYiBbvvRiD8dZ3CW/P2N0jcKObP5KbUyhx89LCwqznKgDT5K8bdFwWixULJ3PSw
+         H/F07f6MQ4il62sG/Tq/jVNGNjtxH0I+CFEg6MSgyDn03WtKo3p6MJ7cLxs7T3/Bvu09
+         8lUPSdIu5kDGGino2Ze6UhKQPH313+G35l34TaZcC6sVXd22Xj7XoBNRIp3NcqXt7Reo
+         TMY6zkEQksLU+aMVznW0UmtwmIc0QcTbJ0mdR9/rfBnwOvaDNLRQjszHbuoq09qrpH90
+         oqWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784036441; x=1784641241;
+        d=1e100.net; s=20251104; t=1784037817; x=1784642617;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=uB7Iz6raSrKbVqnnkYWkGTFkHYLV4QVTxPIDGgPv4jA=;
-        b=SyT0Qn0sJFBnWiAlReiHNMrYDnIZSVdBVGIW7q0wYxvYhAjnYWvL55/OernVcfIHm3
-         y4cKkAOus0QKfoVtrilOYQfzf+EX5wgoDDAJtBhABIdYcrjnV7gS+7S438tYmry8u1TR
-         tzU95LEHW+1v00iNaVY3ITf6rfWOyfqhdy33xrET+OVr74ROokNC5lhLdBKF4JrtuV0P
-         tRDKkSfIF9CBPAOWtacLw/Hy02bdQWIN+Qgfs1ZUpNK8BNfwzj56SmZpvNsVlr2zQt9o
-         8GECHKxhFG+HqdgNNBkVD8m3z38Ly//yH7N4GVvYM+O0ESFxbBIHHnNaeHeEjXB5LaEe
-         4iOw==
-X-Forwarded-Encrypted: i=1; AHgh+Rqiojn73YoUFhXDB/eY0Cdh5HAj1GHttiHD7v4Gvd2G+8zFC+a6KYNjga9W3sX2JQHokHmQVg57c8U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzahICiFDjkxw7mnQpfhc/kbbdNOUjjdFPTcAXEhwdyOwSv5M39
-	pv/NajVii4N5Ml9AIZkWX8su/mujzubcxT6qI2JLAkULKf8URm3c0KGfWaeJhs1rN8YRE4T9CDA
-	Y954Hm6oXllqX73iRg3D0QCSeM1nxS2lszL/Xc05Zltj5iNwpETvdZrg5F5THZw4cAL18sQ==
-X-Gm-Gg: AfdE7cmtyS4GEuSZk5OOal8/BzkA1hGrmIWwiWwiWlaKWZ7dgt4PWOdgr/TSjxTMlkK
-	e83d6xQvtoGHL+z5dxSauT53EQQTyN09kEO/xJ4km7xPI5HVS4V+WbcK19MpdVH9Vg2oGUZ8/1X
-	fU3T4/cPnEowtgIEnJfzhhmJofse/K0gvfmB07yNIrNOD1C86uIvE6spqONKL/qX81lpsViCKmh
-	Tf8s0iKYLHLhaBsegOfVgA2xN+O0iyeQDtGRZWcSWC2WDx40YQDyFdWBcA4XyBcJTYnkTsTInK7
-	+oJQtUivZCnajeqPqOMLbT7ydHmr2ovfa6LezUFsBbCaGTH7X8PppKg8tszaYSsFFDNwxgwi+iW
-	/MqzVa/Qn0z748O78kDjgpyXf4kvfwfn/Tf0=
-X-Received: by 2002:a05:600c:34c9:b0:493:f5bf:4dc6 with SMTP id 5b1f17b1804b1-493f87db53dmr137308595e9.7.1784036441275;
-        Tue, 14 Jul 2026 06:40:41 -0700 (PDT)
-X-Received: by 2002:a05:600c:34c9:b0:493:f5bf:4dc6 with SMTP id 5b1f17b1804b1-493f87db53dmr137308025e9.7.1784036440625;
-        Tue, 14 Jul 2026 06:40:40 -0700 (PDT)
-Received: from redhat.com (IGLD-80-230-24-117.inter.net.il. [80.230.24.117])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4950a2f635dsm80020815e9.12.2026.07.14.06.40.38
+        bh=lIWNtYbjtsZ0PQI9/iIL6fWurRq5Hy1V2922aR85kK4=;
+        b=a+0+j2QGNa9C+OsX4+OaCDVC6Yc2ODl1IHj9rzdfRISNAKnouNZtBeHK5XiJyNUVB/
+         MZDCs4a0sPX5XilxzftT+y/orrHYRVbZ7SjUvvG9TYKJWATlVUUx8HaP0qPc/wq/edMR
+         lYdhtmVRc2auHB+iEXKHrPKf4WQYhF9pqSizzoGm+sRRZbCvXUez1s6UEPnxwN1yvxt4
+         RZSfaDxk7Uhb5zJy/pAotX7EEuiNj13/lXcT3XfuNFywxDFnSFQQJCLpoTBWMj+MxfnV
+         BaZI+qH6p3PMyQViqnsbrGi0QZJCrYgMV0eFYr4bW2XFCe9HXUQfaBSZ6HDCcIPzGT+0
+         na3Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8OVzHDLrdhSf+snetzTMGVqFuKVFGawOeF5TdviEoJOzlUXu1qktuRiCopb/gRArajRJ/0bFXozZk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YybByYLM9/ldU6ge1QIOZm2rWWA6TJ5v+BrZexwR799MSZZqF+j
+	rvEjwmdrp0ZDy67OQvAoOPq3nXOZgvalGtsN583fNu4g/wPLaCx2vXq2s9IGyA0RGl4=
+X-Gm-Gg: AfdE7ck4PeVrmTmr1vdL1gOT4ZMH0mnnbb4yOx0qHJ/A+c9S9Kds3qk0jm+SfNTd5hh
+	tBHGLOa8Xdmt0RZuoKMVCFN+q5wjmM48A7C2E0wE4q8gWxvZe/wWceyc0TzvgN9D+Tf6NGSfVE1
+	GPwQT6QfSJPnLtauWukyWnEH59q8uxTJaygr9GWRfG2qocMDaGhfWUfl0oZSg6/6pljp2Iv4jyz
+	64tqLQfWNc8UGcRwIeZBc/GGO+57L55K55U1zRGpMiQrhJrTYWmHdp3eRFhfynVfVgNLIonxqZq
+	mdy84WHzCWtUffS0kGpERGMm2dEDCMIAa8rv5e+mJEoTVjUYiMcxBUHmYcQEq35lEX69zHt8Pan
+	Y76Ovr4J0vo1WRUTEv+ltgugU3BCT54/cCFh6DQ/96NwdlQ3LGY5UnrRRInOZAOpsrZl8EMM=
+X-Received: by 2002:a05:6820:1f12:b0:6a3:1dc5:3557 with SMTP id 006d021491bc7-6a39a5b34bbmr8055289eaf.16.1784037817485;
+        Tue, 14 Jul 2026 07:03:37 -0700 (PDT)
+Received: from ziepe.ca ([159.2.72.92])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5d6a77csm1521115685a.45.2026.07.14.07.03.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 06:40:39 -0700 (PDT)
-Date: Tue, 14 Jul 2026 09:40:36 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Simon Schippers <simon.schippers@tu-dortmund.de>
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Tim Gebauer <tim.gebauer@tu-dortmund.de>,
-	Brett Sheffield <brett@librecast.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v3] tun/tap & vhost-net: make qdisc backpressure
- opt-in via IFF_BACKPRESSURE
-Message-ID: <20260714092506-mutt-send-email-mst@kernel.org>
-References: <20260709095511.168235-1-simon.schippers@tu-dortmund.de>
+        Tue, 14 Jul 2026 07:03:36 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1wjdjU-0000000FeUS-19dr;
+	Tue, 14 Jul 2026 11:03:36 -0300
+Date: Tue, 14 Jul 2026 11:03:36 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+Cc: joro@8bytes.org, palmer@dabbelt.com, tony.luck@intel.com,
+	reinette.chatre@intel.com, tomasz.jeznach@linux.dev,
+	will@kernel.org, robin.murphy@arm.com, fustini@kernel.org,
+	pjw@kernel.org, aou@eecs.berkeley.edu, alex@ghiti.fr,
+	Dave.Martin@arm.com, james.morse@arm.com, babu.moger@amd.com,
+	corbet@lwn.net, shuah@kernel.org, kevin.tian@intel.com,
+	cuiyunhui@bytedance.com, yuanzhu@bytedance.com,
+	iommu@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, x86@kernel.org
+Subject: Re: [RFC PATCH 1/7] iommu: Add group lookup by ID
+Message-ID: <20260714140336.GA3716926@ziepe.ca>
+References: <20260714130657.46963-1-zhangzhanpeng.jasper@bytedance.com>
+ <20260714130657.46963-2-zhangzhanpeng.jasper@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -104,259 +87,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260709095511.168235-1-simon.schippers@tu-dortmund.de>
+In-Reply-To: <20260714130657.46963-2-zhangzhanpeng.jasper@bytedance.com>
 
-On Thu, Jul 09, 2026 at 11:55:11AM +0200, Simon Schippers wrote:
-> Commit 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop
-> when a qdisc is present") did not show a relevant performance regression
-> in my testing but on Brett Sheffield's librecast testbed it shows a
-> significant performance drop in a IPv6 multicast testcase. The regression
-> can be pinpointed when multiple iperf3 TCP threads are sending. For 8
-> threads the performance dropped from 13.5 Gbit/s to 9.13 Gbit/s. This is
-> the reason why this patch makes the qdisc backpressure behavior opt-in.
+On Tue, Jul 14, 2026 at 09:06:51PM +0800, Zhanpeng Zhang wrote:
+> Add iommu_group_get_by_id() so callers can resolve an IOMMU group from
+> the numeric ID used in /sys/kernel/iommu_groups.
 > 
-> One option to accomplish the opt-in would be to set the default qdisc to
-> noqueue at init. However this may also break userspace as users might
-> have chosen a custom qdisc even though most of the qdiscs did nothing
-> for tun/tap in the past due to missing backpressure...
+> An ID lookup must keep the group object alive without also keeping an
+> otherwise empty group active. Embed the devices kobject in struct
+> iommu_group so its address remains valid until the parent group is
+> released, and return a reference on the parent kobject to ID lookup
+> callers. Add iommu_group_put_by_id() to release that reference and
+> iommu_group_is_active() to detect when the devices kobject has become
+> inactive.
 > 
-> This is the reason why in this patch, the flag IFF_BACKPRESSURE is
-> introduced instead which is required to enable the backpressure logic.
-> This means the stopping logic in tun_net_xmit() and the waking logic in
-> __tun_wake_queue() are skipped if the flag is disabled. Setting
-> IFF_BACKPRESSURE makes an attached qdisc effective by stopping the queue
-> instead of tail-dropping when the internal ring is full.
+> Serialize lookup against group teardown with iommu_group_kset_mutex and
+> only return groups whose devices kobject still has a live reference.
+> This prevents a concurrent lookup from dereferencing a stale child
+> kobject while allowing external users to discard bindings to empty
+> groups.
 > 
-> To avoid a possible stall due to disabling IFF_BACKPRESSURE, the new
-> helper tun_force_wake_queue() is implemented. The helper safely wakes the
-> respective netdev queue and resets cons_cnt while the consumer_lock and
-> the producer_lock of the ring are held. The helper is run in tun_attach()
-> when a queue (re)attaches, in tun_set_iff() for attached tfiles, and
-> in tun_queue_resize().
-> 
-> The documentation in tuntap.rst is updated accordingly.
-> 
-> Fixes: 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop when a qdisc is present")
-> Reported-by: Brett Sheffield <brett@librecast.net>
-> Closes: https://lore.kernel.org/netdev/akVnoOYQOrt8k-Gu@karahi.librecast.net/T/#u
-> Signed-off-by: Simon Schippers <simon.schippers@tu-dortmund.de>
-
-
-The patch itself is fine:
-
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-What bothers me is the timing: we
-are past freeze and this new interface hasn't been tested
-much.
-
-We can either apply this, or revert the original patch for now
-and reapply with this for next.
-
+> Signed-off-by: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
 > ---
-> V2 -> V3:
-> - As suggested by MST: Clarify in tuntap.rst and the UAPI header what
->   enabling IFF_BACKPRESSURE opts into: an attached qdisc becomes effective
->   instead of the driver tail-dropping when the internal ring is full.
-> - Avoid lines over 75 characters.
-> - Update comment in tun_net_xmit() to include IFF_BACKPRESSURE.
-> - Brett: Update in commit message that the referenced tests were TCP.
+>  drivers/iommu/iommu.c | 107 +++++++++++++++++++++++++++++++++++++-----
+>  include/linux/iommu.h |  17 +++++++
+>  2 files changed, 113 insertions(+), 11 deletions(-)
 > 
-> V1 -> V2:
-> - Sashiko: Ensure detached queues are woken on re-attach by calling the
->   new tun_force_wake_queue() helper from tun_attach(), and reuse it
->   across the existing wake paths.
-> - Specify the failing test case in the commit message.
-> 
-> V1: https://lore.kernel.org/netdev/20260704112058.95421-1-simon.schippers@tu-dortmund.de/T/#u
-> V2: https://lore.kernel.org/netdev/20260706094242.115992-1-simon.schippers@tu-dortmund.de/T/#u
-> 
->  Documentation/networking/tuntap.rst | 22 +++++++++++++
->  drivers/net/tun.c                   | 51 ++++++++++++++++++++---------
->  include/uapi/linux/if_tun.h         |  4 +++
->  tools/include/uapi/linux/if_tun.h   |  1 +
->  4 files changed, 62 insertions(+), 16 deletions(-)
-> 
-> diff --git a/Documentation/networking/tuntap.rst b/Documentation/networking/tuntap.rst
-> index 4d7087f727be..5921a924c2ae 100644
-> --- a/Documentation/networking/tuntap.rst
-> +++ b/Documentation/networking/tuntap.rst
-> @@ -206,6 +206,28 @@ enable is true we enable it, otherwise we disable it::
->        return ioctl(fd, TUNSETQUEUE, (void *)&ifr);
->    }
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index e8f13dcebbde..da269d10f6bf 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -40,6 +40,7 @@
+>  #include "iommu-priv.h"
 >  
-> +3.4 qdisc backpressure
-> +----------------------
-> +
-> +Starting with Linux 7.2, IFF_BACKPRESSURE can be set to enable qdisc
-> +backpressure. Without it, TX drops occur when the internal ring buffer
-> +is full, so any attached qdisc is effectively bypassed and applications
-> +only learn about congestion through those drops.
-> +
-> +With it, the kernel stops instead, letting the qdisc hold and schedule
-> +packets, so its AQM, shaping and fairness actually apply. This helps
-> +protocols like TCP, which cut throughput in reaction to packet drops.
-> +With IFF_BACKPRESSURE, drops then only occur as a rare race. Backpressure
-> +requires a qdisc to be attached and has no effect with noqueue.
-> +
-> +The txqueuelen can be reduced alongside this flag to further shift
-> +buffering into the qdisc and reduce bufferbloat, but comes at possible
-> +performance cost.
-> +
-> +When running multiple network streams in parallel through a single
-> +TUN/TAP queue, the flag may reduce performance due to the extra overhead
-> +of the backpressure mechanism.
-> +
->  Universal TUN/TAP device driver Frequently Asked Question
->  =========================================================
->  
-> diff --git a/drivers/net/tun.c b/drivers/net/tun.c
-> index ffbe6f13fb1f..5941e8f302ea 100644
-> --- a/drivers/net/tun.c
-> +++ b/drivers/net/tun.c
-> @@ -98,7 +98,8 @@ static void tun_default_link_ksettings(struct net_device *dev,
->  #define TUN_FASYNC	IFF_ATTACH_QUEUE
->  
->  #define TUN_FEATURES (IFF_NO_PI | IFF_ONE_QUEUE | IFF_VNET_HDR | \
-> -		      IFF_MULTI_QUEUE | IFF_NAPI | IFF_NAPI_FRAGS)
-> +		      IFF_MULTI_QUEUE | IFF_NAPI | IFF_NAPI_FRAGS | \
-> +		      IFF_BACKPRESSURE)
->  
->  #define GOODCOPY_LEN 128
->  
-> @@ -694,6 +695,20 @@ static void tun_detach_all(struct net_device *dev)
->  		module_put(THIS_MODULE);
->  }
->  
-> +static void tun_force_wake_queue(struct tun_struct *tun,
-> +				 struct tun_file *tfile)
-> +{
-> +	/* Ensure that the producer can not stop the
-> +	 * queue concurrently by taking locks.
-> +	 */
-> +	spin_lock_bh(&tfile->tx_ring.consumer_lock);
-> +	spin_lock(&tfile->tx_ring.producer_lock);
-> +	netif_wake_subqueue(tun->dev, tfile->queue_index);
-> +	tfile->cons_cnt = 0;
-> +	spin_unlock(&tfile->tx_ring.producer_lock);
-> +	spin_unlock_bh(&tfile->tx_ring.consumer_lock);
-> +}
-> +
->  static int tun_attach(struct tun_struct *tun, struct file *file,
->  		      bool skip_filter, bool napi, bool napi_frags,
->  		      bool publish_tun)
-> @@ -737,11 +752,9 @@ static int tun_attach(struct tun_struct *tun, struct file *file,
->  		goto out;
->  	}
->  
-> -	spin_lock(&tfile->tx_ring.consumer_lock);
-> -	tfile->cons_cnt = 0;
-> -	spin_unlock(&tfile->tx_ring.consumer_lock);
->  	tfile->queue_index = tun->numqueues;
->  	tfile->socket.sk->sk_shutdown &= ~RCV_SHUTDOWN;
-> +	tun_force_wake_queue(tun, tfile);
->  
->  	if (tfile->detached) {
->  		/* Re-attach detached tfile, updating XDP queue_index */
-> @@ -1077,7 +1090,8 @@ static netdev_tx_t tun_net_xmit(struct sk_buff *skb, struct net_device *dev)
->  
->  	spin_lock(&tfile->tx_ring.producer_lock);
->  	ret = __ptr_ring_produce(&tfile->tx_ring, skb);
-> -	if (!qdisc_txq_has_no_queue(queue) &&
-> +	if ((tun->flags & IFF_BACKPRESSURE) &&
-> +	    !qdisc_txq_has_no_queue(queue) &&
->  	    __ptr_ring_check_produce(&tfile->tx_ring) == -ENOSPC) {
->  		netif_tx_stop_queue(queue);
->  		/* Paired with smp_mb() in __tun_wake_queue() */
-> @@ -1088,8 +1102,8 @@ static netdev_tx_t tun_net_xmit(struct sk_buff *skb, struct net_device *dev)
->  	spin_unlock(&tfile->tx_ring.producer_lock);
->  
->  	if (ret) {
-> -		/* This should be a rare case if a qdisc is present, but
-> -		 * can happen due to lltx.
-> +		/* This should be a rare case if IFF_BACKPRESSURE is enabled and
-> +		 * a qdisc is present, but can happen due to lltx.
->  		 * Since skb_tx_timestamp(), skb_orphan(),
->  		 * run_ebpf_filter() and pskb_trim() could have tinkered
->  		 * with the SKB, returning NETDEV_TX_BUSY is unsafe and
-> @@ -2151,8 +2165,12 @@ static ssize_t tun_put_user(struct tun_struct *tun,
->  static void __tun_wake_queue(struct tun_struct *tun,
->  			     struct tun_file *tfile, int consumed)
->  {
-> -	struct netdev_queue *txq = netdev_get_tx_queue(tun->dev,
-> -						tfile->queue_index);
-> +	struct netdev_queue *txq;
-> +
-> +	if (!(tun->flags & IFF_BACKPRESSURE))
-> +		return;
-> +
-> +	txq = netdev_get_tx_queue(tun->dev, tfile->queue_index);
->  
->  	/* Paired with smp_mb__after_atomic() in tun_net_xmit() */
->  	smp_mb();
-> @@ -2764,7 +2782,7 @@ static int tun_set_iff(struct net *net, struct file *file, struct ifreq *ifr)
->  	struct tun_struct *tun;
->  	struct tun_file *tfile = file->private_data;
->  	struct net_device *dev;
-> -	int err;
-> +	int err, i;
->  
->  	if (tfile->detached)
->  		return -EINVAL;
-> @@ -2893,8 +2911,12 @@ static int tun_set_iff(struct net *net, struct file *file, struct ifreq *ifr)
->  	/* Make sure persistent devices do not get stuck in
->  	 * xoff state.
->  	 */
-> -	if (netif_running(tun->dev))
-> -		netif_tx_wake_all_queues(tun->dev);
-> +	if (netif_running(tun->dev)) {
-> +		for (i = 0; i < tun->numqueues; i++) {
-> +			tfile = rtnl_dereference(tun->tfiles[i]);
-> +			tun_force_wake_queue(tun, tfile);
-> +		}
-> +	}
->  
->  	strscpy(ifr->ifr_name, tun->dev->name);
->  	return 0;
-> @@ -3693,10 +3715,7 @@ static int tun_queue_resize(struct tun_struct *tun)
->  	if (!ret) {
->  		for (i = 0; i < tun->numqueues; i++) {
->  			tfile = rtnl_dereference(tun->tfiles[i]);
-> -			spin_lock(&tfile->tx_ring.consumer_lock);
-> -			netif_wake_subqueue(tun->dev, tfile->queue_index);
-> -			tfile->cons_cnt = 0;
-> -			spin_unlock(&tfile->tx_ring.consumer_lock);
-> +			tun_force_wake_queue(tun, tfile);
->  		}
->  	}
->  
-> diff --git a/include/uapi/linux/if_tun.h b/include/uapi/linux/if_tun.h
-> index 79d53c7a1ebd..a0ddc50a7534 100644
-> --- a/include/uapi/linux/if_tun.h
-> +++ b/include/uapi/linux/if_tun.h
-> @@ -69,6 +69,10 @@
->  #define IFF_NAPI_FRAGS	0x0020
->  /* Used in TUNSETIFF to bring up tun/tap without carrier */
->  #define IFF_NO_CARRIER	0x0040
-> +/* Stop the queue instead of dropping when the internal ring is full, so an
-> + * attached qdisc applies backpressure instead of being bypassed.
-> + */
-> +#define IFF_BACKPRESSURE	0x0080
->  #define IFF_NO_PI	0x1000
->  /* This flag has no real effect */
->  #define IFF_ONE_QUEUE	0x2000
-> diff --git a/tools/include/uapi/linux/if_tun.h b/tools/include/uapi/linux/if_tun.h
-> index 2ec07de1d73b..97b670f5bc0a 100644
-> --- a/tools/include/uapi/linux/if_tun.h
-> +++ b/tools/include/uapi/linux/if_tun.h
-> @@ -67,6 +67,7 @@
->  #define IFF_TAP		0x0002
->  #define IFF_NAPI	0x0010
->  #define IFF_NAPI_FRAGS	0x0020
-> +#define IFF_BACKPRESSURE	0x0080
->  #define IFF_NO_PI	0x1000
->  /* This flag has no real effect */
->  #define IFF_ONE_QUEUE	0x2000
-> -- 
-> 2.43.0
+>  static struct kset *iommu_group_kset;
+> +static DEFINE_MUTEX(iommu_group_kset_mutex);
+>  static DEFINE_IDA(iommu_group_ida);
 
+I think it would be better to change the ida to an xarray than to use
+a string search on a kset..
+
+Jason
