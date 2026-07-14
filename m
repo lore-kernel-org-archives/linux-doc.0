@@ -1,25 +1,60 @@
-Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D57320FA81
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 13:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D58F196C7C;
+	Tue, 14 Jul 2026 13:16:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784034937; cv=none; b=fS2RKVR7rUngKg7+VO2Y9TQOcsqGQsC8mxTdFVV6hQQitMN1ezIPyBiYXhJ5fWEW+68mB35lsMNExWJIgU/7bPhhq7d3N6vuG5T/Jp5od9wRgz5IfJXuaqEOjZYFnzQXUfew1kWRAbfsQLl+Ygkd2dfLVEtZy0a83HxQIaGUjr0=
+	t=1784034970; cv=none; b=uK6sFk2U6+lorPNWuKDan26+aCxuH08isf7P1Pt3jz2FYAFap+SLBOuvcpIyTCrFcDfW+YGvkgjAYyB7JFv53sdcgKj/NW2ShTBTiumzbb9We2sWv1YRLfjNRORo9KDe3qIsigTOhxhkR88rS1nbShiUE1wRUfFqrpXwo2Tl99Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784034937; c=relaxed/simple;
-	bh=UDUcWBLdkQJ0PrJglIQuf8xMgeDx13Tg1mFGrcLEd7w=;
+	s=arc-20240116; t=1784034970; c=relaxed/simple;
+	bh=n3Ehot5SWY2HrPh/FyXLUCFgDyAYmrzgZ0VW/zW1F5I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZlxguTiQLVhDsQVtvHTnI9ZLNOIJVTZJBudxzZT5ANZT1IHF2Qb1LX6zG+xbeQcVKjM5cMNdSoaJLsATGkTnlVRW9iUxiWJPt9qtcgJKX7xDZAdND6waO7iplCv5q9fn5Eykvv3CZ8lHBlielDcfBIUT3h+UvhKGKQWoPAVXdX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.21.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with SMTP id HwEQrAB3TTRBNlZqV0ZqAA--.64483S2;
-	Tue, 14 Jul 2026 21:14:41 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wAXks4+NlZqMIWIAA--.58678S2;
-	Tue, 14 Jul 2026 21:14:39 +0800 (CST)
-Message-ID: <53ffbf05-7b2e-4ffa-945d-2a415e843cff@hust.edu.cn>
-Date: Tue, 14 Jul 2026 21:14:38 +0800
+	 In-Reply-To:Content-Type; b=ZrzD0SpGwhcGa+gQ/hFk2EFecdeyh3DacjRuy1pGUg3UbndDDdSBtIThce/ONUcLQ7FfZjZHUAEo6IQMHUBt/Ay4zn93mAYHK52vG2ZZctt0+1zpLmWJeXuiZoxd1xAhYwkJk/x15kl3hADy1RyNRRUTt8v5tcT/yp7Mpxtb7do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=YeXbLWc3; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="YeXbLWc3"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66EBg3wR1129452;
+	Tue, 14 Jul 2026 13:15:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=jCq37T
+	kL28U9G+N7fkSwvoQgEojd2HLJ/d6ek/xPrls=; b=YeXbLWc32yK1AHdWVbLLp0
+	qaPTqFoPDksJAjoVISj37bbuHXyhzgofvMWKX2Bs+mkxK0bdcvTgdbqyKSCkc2nh
+	zSxBZ1yZxwMmhqDpJhKyt4RSrUGma9yIgHxvVMB4WJkOIen+lqKZGyTIOwK/1mx1
+	A7Wc0DGby9upSmFZKalflPoJEGO2aIx4PsP3rRMKtY2araMwbCaC4seePI2DfGV7
+	x/yxTITGjnOwClFsI6xqoPhB4VTqle3hyzxMudZcu6BQQHqa6UMd4cQkWww36oZt
+	fyGHRfq8Xl3xby8noINqFAuyZIwYj0JZbbn0yDLU77Xq/ouQElEdiikf9lJatWRA
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fbexwns5g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Jul 2026 13:15:49 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66ED4dt2009155;
+	Tue, 14 Jul 2026 13:15:48 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fc2uy2maq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Jul 2026 13:15:48 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66EDFiS750987474
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 14 Jul 2026 13:15:45 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D40FC20043;
+	Tue, 14 Jul 2026 13:15:44 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8FBEE2004E;
+	Tue, 14 Jul 2026 13:15:37 +0000 (GMT)
+Received: from [9.124.218.91] (unknown [9.124.218.91])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 14 Jul 2026 13:15:37 +0000 (GMT)
+Message-ID: <70e1eac3-c0e6-41f9-9e61-083bc6e39bce@linux.ibm.com>
+Date: Tue, 14 Jul 2026 18:45:36 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,86 +62,148 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: What's cooking in zh_CN (Jul 2026)
-To: Weijie Yuan <wy@wyuan.org>, Alex Shi <seakeel@gmail.com>
-Cc: Dongliang Mu <mudongliangabcd@gmail.com>, linux-doc@vger.kernel.org,
- Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Ben Guo <ben.guo@openatom.club>, Gary Guo <gary@garyguo.net>,
- Yan Zhu <zhuyan2015@qq.com>, Doehyun Baek <doehyunbaek@gmail.com>,
- Jiandong Qiu <qiujiandong1998@gmail.com>
-References: <alUXH8qRRjno2eZG@wyuan.org>
- <CAD-N9QVXqYxtsn7YuUtCDWrwwk5+iFAkT2jcs26zbDUfwhAwsQ@mail.gmail.com>
- <alYGtkVxW_0N-VqE@wyuan.org>
- <cc922c1b-49a5-4c3a-855c-af8eb6539f62@hust.edu.cn>
- <b664685e-6785-44ae-8005-443032508096@gmail.com> <alYomSIiGeUtQI1I@wyuan.org>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <alYomSIiGeUtQI1I@wyuan.org>
+Subject: Re: [PATCH v7 10/12] virt/steal_monitor: Provide functions for
+ managing steal values
+To: Yury Norov <ynorov@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
+        corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
+        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
+        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
+        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
+        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
+        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
+        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
+        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
+        linux-doc@vger.kernel.org
+References: <20260709215648.1246821-1-sshegde@linux.ibm.com>
+ <20260709215648.1246821-11-sshegde@linux.ibm.com> <alFPb9lUKCGTN8Ky@yury>
+ <b4b7591c-8edd-4f45-9e03-37d7353ae5cf@linux.ibm.com> <alYv7QGbsdLaMPH3@yury>
+Content-Language: en-US
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+In-Reply-To: <alYv7QGbsdLaMPH3@yury>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:HwEQrAB3TTRBNlZqV0ZqAA--.64483S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZF1DWryfur47Jw1rZrWUJwb_yoW8Xry8pF
-	ZxKr15CrWUJF4fCws7G340qF95uwnayrW5J34rWrWDCr45Xr4vg395Gayj93srGw1rG3sF
-	qr4UZ3ykJayqyFJanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQ2b7Iv0xC_KF4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04
-	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
-	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
-	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUVl4iUUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: 36nQN3m9eCtOGStksdgmaqD3miqp3F1i
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE0MDEzNyBTYWx0ZWRfX1EWs2TdryaDJ
+ cN0IpOf9IXo2yRokRlj5uDodLJ8o5Jgun9hwthY8O7XUfgDn4esc37MgTdnFeNQd5iqPsbbpIiR
+ Pht9UzgAP3+TPg1yMp8FPhkN9C+Zn1z+dieVPMK5HX9MNVrC0JjDRwhoEVxeyVPU94vpLsYUe5b
+ Kk3YNjKYwLWsehGa2Wt8cH+Nz12l04o5bx+r0x444pAEYwt4XfRXqCyYvbSh+GMpaUKNmXX4dRX
+ x2uq6B7HpZ8GN0LvRTQXGwnxOutcMZkEa0MU2kbSutFqtHTX0CqYCWvQ59DwLGfQS6cbUa33V0s
+ FbU2BOyefWyF3b+/VKJBwvlPJszm6r4uFA8Zs87gO3DbbQj36Tt6dThOw6vSkd/li/i50uRS+98
+ qEMHBaNNPNjd1pfjftQ4wRJsLySoin66qM/utEewBUr62o2lfe1TXnYTfl879l62DnI7YV3x4CB
+ Bx4HAfknda5MIX0RfPw==
+X-Authority-Analysis: v=2.4 cv=XJoAjwhE c=1 sm=1 tr=0 ts=6a563686 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=kluOzof9-ue10X2vOBMA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: bIEr6mnVSX_744BbgYiP1h_lZGYC2Jsb
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE0MDEzNyBTYWx0ZWRfX844l89ZO2mMb
+ qxy4nRvaDx/+1n6C0u7imDHolcQD6nBwE9ZjMipeLt1l92QBxHZWmK6YqasLwyDpducB3/cUwP2
+ 2McWghScqeJv24PGgX8c4/ss7/9+9hw=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-14_03,2026-07-10_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 clxscore=1015 spamscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607140137
 
+Hi Yury.
 
-On 7/14/26 8:16 PM, Weijie Yuan wrote:
-> I took a look about patchwork, it is basically like a mailing-list
-> version issue tracker / pull-request dashboard.
->
-> It can manage patch backlog, assign patches, record CI results, and mark
-> patches as accepted, rejected, superseded, or under review. and record
-> trailers. Well, pretty much like a mini version of Gerrit or SourceHut.
->
-> But I think it's a little complicated for our needs, as it offers many
-> features that we might not actually need, which involves learning costs
-> and maintenance costs.
->
-> Just now, while going through patchwork of other lists a bit, I didn't
-> seem to find a way to filter out Chinese patches from the linux-doc
-> list, if we were to use it.
->
-> Dongliang, is the dashboard you want exactly like the one I sent in this
-> email, which is read-only? Or perhaps wish there are other functions as
-> well. For example, you can mark the patch series you have reviewed.
+On 7/14/26 6:17 PM, Yury Norov wrote:
+> On Mon, Jul 13, 2026 at 10:43:15AM +0530, Shrikanth Hegde wrote:
+>> Hi Yury,
+>>
+>> On 7/11/26 1:30 AM, Yury Norov wrote:
+> 
+> ...
+> 
+>>> I think it should return status: if the function can't disable CPUs
+>>> now, it would be a good hint for the caller that it would be useless
+>>> to call it again.
+>>>
+>>> You may keep status in struct steal_monitor like:
+>>>
+>>>           if (steal_ratio > sm_core_ctx.high_threshold)  {
+>>>                   if (sm_core_ctx->status | CANT_DECREASE) {
+>>>                           pr_something();
+>>>                   else
+>>>                           sm_core_ctx->status = decrease();
+>>>
+>>> It would be a good hint to user that he has the driver misconfigured,
+>>> and save the driver extra work. Same for increase().
+>>>
+>>
+>> I thought about the extra work in function, but doesn't happen too often IMO.
+> 
+> 10ms is the shortest possible interval, 100 times in a second.
 
+Even 10ms is too short i think. I am thinking to keep it 100ms. So
+some meaningful number in terms of steal time accumulates.
 
-Actually I just need a list of patches which I need to review, which I 
-reviewed before and be resubmitted, and which is applied.
+10ms means only 1 tick on HZ=100 (which is a valid config even today).
+100ms means at least 10 ticks.
 
+That also reduces overhead concerns a bit as well.
 
->
-> I can't find what IMA is btw.
+> 
+>> Also, it is specially not a misconfiguration for increase.
+>> So i have kept it stateless for the below reason.
+>>
+>> - Under typical operation of this driver, user will enable it once.
+>> - Once enabled, user will use their VM as usual.
+>> - Majority of the time the steal time will be less.
+>> - workload are bursty in nature.
+> 
+> Not necessarily.
+> 
+>> - Occasionally many VM will have high utilization and there will be steal time.
+>>    This lasts for sometime.
+>> - After workload completes, steal time goes low again.
+>> - Cycle could repeat after extended low steal time duration.
+>>
+>> So when the steal time is low, though driver is enabled, doesn't mean it
+>> is mis-configured. Just that there is contention and driver has nothing to
+>> do. So, adding print there could easily consume the console.
+>>
+>> Similarly, there could situations, where decrease cannot happen though there is
+>> high steal time, Though they are corner cases.
+> 
+> OK, that makes sense. If one needs to fine-tune the driver's
+> thresholds, he'd monitor the preferred cpumasks statistics.
+> 
+>> For example,
+>> - one small/few VMs have not enabled the driver. steal time could be high, but this
+>>    VM has already down to one core. It can't decrease any further.
+>> - Though all VMs have enabled the feature, but task running is not FAIR class. Though
+>>    steal time shows high.
+>>
+>> Hitting only one core or all cores isn't necessarily a misconfiguration.
+>> It is a possible behavior during severe contention or complete idle system.
+>>
+>> we need to continuously monitor steal time so that it can expand/contract the
+>> based on current situation. If we stop calling the functions, natural expand/contract
+>> will not happen. There is no interrupt which arrives due to high/low steal time where
+>> we can kick start the driver again. Also it is a difficult ask for user to keep enabling
+>> or disabling the driver.
+>>
+>> Since this can be called at minimal once in 10ms, I guess we can incur the additional
+>> overheads to keep the logic simple and stateless. What do you think?
+> 
+> OK, it's your design.
+> 
 
+Ok.
 
-https://ima.qq.com/
+I will keep it stateless for now.
+If the need arises, we can bring in more towards that.
 
-It is closed-source software from Tencent. This software cannot solve 
-our problem.
-
-I just put all the related linux-doc patches into the knowledge base, 
-and ask in NLP about the activities in the linux-doc mailing list
-
-
-Dongliang Mu
-
-
->
-> [1] An exmaple of marking status of a patch in SourceHut
->      https://lists.sr.ht/~sircmpwn/sr.ht-dev/patches/70509
+>> PS: I will remove that additional SM_DIR as you suggested in other reply. That keeps
+>> it all stateless.
 
