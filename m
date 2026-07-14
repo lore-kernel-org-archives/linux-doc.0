@@ -1,63 +1,63 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3128B46AF0F
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 13:07:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83A246AF0F
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 13:07:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784034447; cv=none; b=NIsCTqwWSvlkj6d68AY/loe/YgzmUBwxj/mUVO4KNQv1RtbenBqzkxBK7NwlocmUAhK9KS8Y5kJUip4JFguhL/+VgEyocE2V+mrpqYqUCUGs0inLLRDbvvG5vXNGy8Px/QsT/O/doI4+Tfh0L4llvnxTSIvqZjuE0BnJ8rs9hFY=
+	t=1784034458; cv=none; b=YRwa56amvbWLvo9SQGoE85N4ZRKhstmytaLZvObmBMbhSCQt30KNLLqx55mQvouJLy616LO30421igxuWkFpEJGstkQ0RLqGjhilHVHgeoG/JaBKYWrJbeTCaiROjYHQWwS+/MEH2AO81W6FlbHUIVQO5xCBFNSne/c2w8bNizA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784034447; c=relaxed/simple;
-	bh=K94VRwZaVExISaYH+2jjkBkd/38Sf/HsRBDFWlaligk=;
+	s=arc-20240116; t=1784034458; c=relaxed/simple;
+	bh=zWI3HgS6VNdfgTHEihXvnUhJkpLl5h08ZrZ1Oj9J3pg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=suBRcXKeOBaNiYLza4xyoET/z2cBRn2a8FBZcNzdGL5CMGSRusdem658yPaVpBYhUpkjJb1lW/uxFnt3X3BAhJnNPjUuy2io8C4+dbHhL4cVGISzCTNCj6ueROF9b8VPa9Z0bD+FlxfMdMVj2OISkILDolpN6sHmaJXCyNL10ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=dy4k85cS; arc=none smtp.client-ip=209.85.210.44
+	 MIME-Version; b=AdzpBomYOTCMs0iAkLCQCJudfiS+JRqahIKLVCh++bVfjHuEleTxh/ZAqWIO4fPJLy6I8xizh9mzb+SdULGVpB2vN/KshsRAoA+ynfuZvelKlNu6IO4VuhQcM/AS6MnoSbO1AFwHi3JVX29teuXqF+bXahBDkUY5y7MVlJEMgR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=CdQkj7xR; arc=none smtp.client-ip=209.85.210.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="dy4k85cS"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7eb42a2f5feso1732545a34.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 06:07:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="CdQkj7xR"
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7e9ecd7216cso502866a34.3
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 06:07:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1784034444; x=1784639244; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1784034455; x=1784639255; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=SD1E2b021BNT8K5FqPsuJFYVGZ1yPqvbXL/PhK3jvMg=;
-        b=dy4k85cSxEadN3g3y8QfUXYwo9Z5DurmYafCkhfw3XU+puRhRJxX28CztpSHM0cVcS
-         SgthW+M4ntmi06z1cSHm3BDpnyK6g9UX0GQE2H1VVsJ/G+yPYAzy4iunNYgaazY9UKqD
-         V2jnP3kbXvDWD3wigJGJVqo/Ctf5NIFvn8sJ1/zsfQgZ66qKzr3YxakfaEGxqv69FRO3
-         QJtn+CsZF2VaJDz0xOBuEgMEyA3Y1xS1E1zFC3sDq8RhjdyjR0RlLLRzkXL/V6XNmsnQ
-         VZqR5leG+NDUJegAkveAvzi6hwCimWSiPFjw1rjhJuDajqTSdLG+ILSIQomfwK6Y7w2/
-         o4aw==
+        bh=PgO28qqQ1xeK9Yvst4+iTUEqQXClh8oO6Jm7DHD/RdA=;
+        b=CdQkj7xR+h9LHTxhEbV6qfSS3zfzryn9x5BR/nNpAEZx5yMWJzohFhnZ/CUN3Bw7P9
+         3Xlp0QADCcYAyANDygVONbE0PyV83y5r0jQppN1N+h0yHUNdud4dcK1hWEGal0qQSmKI
+         IPnN6kNoWn978PIZvutNMwI+vO82gruj/jf2TwTbizC96PY+HPom7qKYDQEc97AZiNIs
+         jcT+9dKzI5XHrqcnNhAW27+cU2HWOf4av+ClxhduDhSDPOF/yJmfV55c1G3jaYEgEbqF
+         YoXvwWzE6VeIhloI8BtLX5IJstirWeSt74rPhtVls7A/Jv8pke37qZUPdDc2XhMvD/gB
+         WzJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784034444; x=1784639244;
+        d=1e100.net; s=20251104; t=1784034455; x=1784639255;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SD1E2b021BNT8K5FqPsuJFYVGZ1yPqvbXL/PhK3jvMg=;
-        b=UiJSc7e+zw/zynGySiMD83OVZ2tjKyc9ZDE3vs22QsupOKOLRw+aU27ysaFEroq29C
-         H6TMQ9E84D8bzHPr3HssM5p25F+FWMQkPJ0z1yZARl3RwCIl7dcy2u6FrDX/NM+0MSuZ
-         vOrfPj/DwwODOMLgaT2rCfEwV9aJc31adhkjqHTN/CEOcBj+/zvvRXiiK9d5gkZD2z1o
-         7t836Bxt2xPx8T8VQjL0/IFzrk43OQwN7VyBNODmAJQk72O57NztHAPah/YpVGRzQigM
-         uREYVO8M+RcagV/NaaEalV+X+NwNCv6PlI/ulD1dHWEvBhQL5jkEkfUaJ9lZhE8rbYwV
-         8IBA==
-X-Forwarded-Encrypted: i=1; AFNElJ8RpaUbrZUQu8FH9flVDVfnmjiLSyEqL40uCyV5VYLUIKUF6jx4UmdYKNtH/2PeQo4q7HspKBNy90c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFiLZ/mHreutHWXLCAVPCTBqiZbgdLn0UH0OYwSBQJiqoIt//o
-	SDm1sj9zeHTx9ST16r/a5haGpsdjnh/xAR8O1o9j1Xe3JaXchIi+J+T9fuzJeJSHGIM=
-X-Gm-Gg: AfdE7cn7lv+ynlKTfS27IrK1iz5u7tM9ef4kUmRsLn7Y0eTIAn0FZ0obsy4oChXxahn
-	lOYYstrGZ5CD1PXOx/XUbFUpfHSuxDk0TAOsjUF/6CLs9CMn6+pAF98HI9c2apWhU3tDcVJL4tN
-	FY38GlSftSj3C/9KUfl4Ww8s9B6RA9uHQ0buBy/mIGn4ai02yWVNLTMCyBmf9U1Quor6mqsyjZX
-	GQ1XSt8pQZZhKKMaNHgihqaB8X5x1nTJ7jWC5VmiOlX4R+D2MPgs+HnjlBJa+xDgkMKDmbadqx3
-	3negHVXZv+EkqND2xCein56mXLqm5BeKJdfcJpQWm9lLwZ0a7QWWoJYmzTGIqu4jPRKoQbtsp2d
-	wELJFN+sFSuarlJSeIul2Ucc694qdc7RcYYJHGUeKj4WeX1q3rVnBSMpW6OpRDKIm7uMvAeLaWI
-	wRU4yeWXXB+EM/qQzBQZIzCdLVlHUV5Ktpi9T0KM0GJWCF43AS9KWtsZXrEOF+cw==
-X-Received: by 2002:a05:6830:4182:b0:7e6:c9eb:535a with SMTP id 46e09a7af769-7ec4a768626mr991961a34.6.1784034443908;
-        Tue, 14 Jul 2026 06:07:23 -0700 (PDT)
+        bh=PgO28qqQ1xeK9Yvst4+iTUEqQXClh8oO6Jm7DHD/RdA=;
+        b=iSO6UJnPRifbQnjG2A8RlW+JTtVWEj++F5FEmWFtXgtG1rdAysl2rOHK/pkLqnGnth
+         /YGd4u7TLrqaFtz+F+It2uEJtw7WN3Uqad20lK9zDBYfyQBD3uFeprZwvSrzYSA6n6t0
+         EX0ZVvvTBzsqU6JGoNXY6Af2uupjFrv9TxBTftH+rQiL417RWjjpvHqYz6LxJRiBZ8WL
+         vYbP0Php/9CPi7JbHatTozHKZlE4GdakuF/jIjwfgevHJdsIfFZln2WMZ8aSFTn8HuZR
+         TWYb1vusz2+EbFjCE8HFcoo+AcDMQsACMtLfaMn/0mkD6nFUi4L2z9faillqWmujvcIJ
+         1+7g==
+X-Forwarded-Encrypted: i=1; AFNElJ9mxnpzPme7hK9LVEpjw3Luz4p/X7yPwLhv/dG6fbLhVrw4n25o0+OlYtzZRICZaig6D4+H/P/mJ3k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw826oq/8TMobjl43Cf7efn6OhO9iXZ4SBPwudUiKj2XEKUNskS
+	va6ujTy+65qLTLx2N6MSSH6dM342QsxyjjUbD0t5zd2cwga6FC/jb77Am71s2l+RLs8=
+X-Gm-Gg: AfdE7clpSNglklx0k76HS9tDQcTV4bXJyaPFPCCNNQ5xPX0uUwFPgJHRQ629SYfPzoU
+	w1uMnwCh7x88J8fKz3mqqkTnwPNsDV59RVXO3x5Nbs3AQFt/eAnNmAgr4XmZ7c2eYgmN5qLrf8d
+	gSIltyGhK14G5ObtUjbEUoqGi7OYUDNP8Y9DnLdKauqQNpdC3NoMlAbnWvzZZvqKovj+KaXluCS
+	6rfkdyuzWHwzJ8SFyQ6SJu6ozdIY3DTnTYiJklcHImaLcMEpu0vYm7DOailNwv1AnSI6Nv28HFX
+	x92G9vl/jvIcDBHlN0dz70KnR8+dMS8SFFC6Mee0qmaXdIsVAiovZjhKP+j0wdPppeaX7JeI6Pz
+	lZ/+fS0YGul5sKrUugxkb3WDoaaxi453e0sEwSiJv89tOTlHNy1Zk2F0J/yz8X5w9ojJ6At8taF
+	MqwnOrJ+xIQ3TpksYyl4+XUrxTvBG3JzIRTs09L0/C0aSqRxRdd3WQTTOtOmTtBw==
+X-Received: by 2002:a05:6830:f88:b0:7e9:fe5f:4406 with SMTP id 46e09a7af769-7ec0997528bmr8084846a34.30.1784034455345;
+        Tue, 14 Jul 2026 06:07:35 -0700 (PDT)
 Received: from FJ7FR2JRQ3.bytedance.net ([178.93.176.7])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ebcab8efc3sm14657738a34.0.2026.07.14.06.07.13
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ebcab8efc3sm14657738a34.0.2026.07.14.06.07.24
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 14 Jul 2026 06:07:23 -0700 (PDT)
+        Tue, 14 Jul 2026 06:07:34 -0700 (PDT)
 From: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
 To: joro@8bytes.org,
 	palmer@dabbelt.com,
@@ -85,9 +85,9 @@ Cc: will@kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	x86@kernel.org
-Subject: [RFC PATCH 1/7] iommu: Add group lookup by ID
-Date: Tue, 14 Jul 2026 21:06:51 +0800
-Message-ID: <20260714130657.46963-2-zhangzhanpeng.jasper@bytedance.com>
+Subject: [RFC PATCH 2/7] iommu: Add checked group device update helper
+Date: Tue, 14 Jul 2026 21:06:52 +0800
+Message-ID: <20260714130657.46963-3-zhangzhanpeng.jasper@bytedance.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260714130657.46963-1-zhangzhanpeng.jasper@bytedance.com>
 References: <20260714130657.46963-1-zhangzhanpeng.jasper@bytedance.com>
@@ -99,263 +99,96 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add iommu_group_get_by_id() so callers can resolve an IOMMU group from
-the numeric ID used in /sys/kernel/iommu_groups.
+Some group-wide operations must validate every member before changing
+any device. Separate iommu_group_for_each_dev() calls cannot provide
+that guarantee because group membership may change between traversals.
 
-An ID lookup must keep the group object alive without also keeping an
-otherwise empty group active. Embed the devices kobject in struct
-iommu_group so its address remains valid until the parent group is
-released, and return a reference on the parent kobject to ID lookup
-callers. Add iommu_group_put_by_id() to release that reference and
-iommu_group_is_active() to detect when the devices kobject has become
-inactive.
-
-Serialize lookup against group teardown with iommu_group_kset_mutex and
-only return groups whose devices kobject still has a live reference.
-This prevents a concurrent lookup from dereferencing a stale child
-kobject while allowing external users to discard bindings to empty
-groups.
+Add iommu_group_update_devices() to keep the group membership mutex held
+across a validation pass and a non-failing update pass. This provides
+all-or-none validation without exposing IOMMU group internals to
+callers.
 
 Signed-off-by: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
 ---
- drivers/iommu/iommu.c | 107 +++++++++++++++++++++++++++++++++++++-----
- include/linux/iommu.h |  17 +++++++
- 2 files changed, 113 insertions(+), 11 deletions(-)
+ drivers/iommu/iommu.c | 33 +++++++++++++++++++++++++++++++++
+ include/linux/iommu.h | 13 +++++++++++++
+ 2 files changed, 46 insertions(+)
 
 diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index e8f13dcebbde..da269d10f6bf 100644
+index da269d10f6bf..9a6c4a7e7df6 100644
 --- a/drivers/iommu/iommu.c
 +++ b/drivers/iommu/iommu.c
-@@ -40,6 +40,7 @@
- #include "iommu-priv.h"
- 
- static struct kset *iommu_group_kset;
-+static DEFINE_MUTEX(iommu_group_kset_mutex);
- static DEFINE_IDA(iommu_group_ida);
- static DEFINE_IDA(iommu_global_pasid_ida);
- 
-@@ -52,7 +53,8 @@ enum { IOMMU_PASID_ARRAY_DOMAIN = 0, IOMMU_PASID_ARRAY_HANDLE = 1 };
- 
- struct iommu_group {
- 	struct kobject kobj;
--	struct kobject *devices_kobj;
-+	/* Embedded so it remains addressable until the parent group is released. */
-+	struct kobject devices_kobj;
- 	struct list_head devices;
- 	struct xarray pasid_array;
- 	struct mutex mutex;
-@@ -729,7 +731,7 @@ static void __iommu_group_free_device(struct iommu_group *group,
- {
- 	struct device *dev = grp_dev->dev;
- 
--	sysfs_remove_link(group->devices_kobj, grp_dev->name);
-+	sysfs_remove_link(&group->devices_kobj, grp_dev->name);
- 	sysfs_remove_link(&dev->kobj, "iommu_group");
- 
- 	trace_remove_device_from_group(group->id, dev);
-@@ -1058,6 +1060,14 @@ static const struct kobj_type iommu_group_ktype = {
- 	.release = iommu_group_release,
- };
- 
-+static void iommu_group_devices_release(struct kobject *kobj)
-+{
-+}
-+
-+static const struct kobj_type iommu_group_devices_ktype = {
-+	.release = iommu_group_devices_release,
-+};
-+
- /**
-  * iommu_group_alloc - Allocate a new group
-  *
-@@ -1091,17 +1101,22 @@ struct iommu_group *iommu_group_alloc(void)
- 	}
- 	group->id = ret;
- 
-+	mutex_lock(&iommu_group_kset_mutex);
- 	ret = kobject_init_and_add(&group->kobj, &iommu_group_ktype,
- 				   NULL, "%d", group->id);
- 	if (ret) {
- 		kobject_put(&group->kobj);
-+		mutex_unlock(&iommu_group_kset_mutex);
- 		return ERR_PTR(ret);
- 	}
- 
--	group->devices_kobj = kobject_create_and_add("devices", &group->kobj);
--	if (!group->devices_kobj) {
-+	kobject_init(&group->devices_kobj, &iommu_group_devices_ktype);
-+	ret = kobject_add(&group->devices_kobj, &group->kobj, "devices");
-+	if (ret) {
-+		kobject_put(&group->devices_kobj);
- 		kobject_put(&group->kobj); /* triggers .release & free */
--		return ERR_PTR(-ENOMEM);
-+		mutex_unlock(&iommu_group_kset_mutex);
-+		return ERR_PTR(ret);
- 	}
- 
- 	/*
-@@ -1114,15 +1129,18 @@ struct iommu_group *iommu_group_alloc(void)
- 	ret = iommu_group_create_file(group,
- 				      &iommu_group_attr_reserved_regions);
- 	if (ret) {
--		kobject_put(group->devices_kobj);
-+		kobject_put(&group->devices_kobj);
-+		mutex_unlock(&iommu_group_kset_mutex);
- 		return ERR_PTR(ret);
- 	}
- 
- 	ret = iommu_group_create_file(group, &iommu_group_attr_type);
- 	if (ret) {
--		kobject_put(group->devices_kobj);
-+		kobject_put(&group->devices_kobj);
-+		mutex_unlock(&iommu_group_kset_mutex);
- 		return ERR_PTR(ret);
- 	}
-+	mutex_unlock(&iommu_group_kset_mutex);
- 
- 	pr_debug("Allocated group %d\n", group->id);
- 
-@@ -1286,7 +1304,7 @@ static struct group_device *iommu_group_alloc_device(struct iommu_group *group,
- 		goto err_remove_link;
- 	}
- 
--	ret = sysfs_create_link_nowarn(group->devices_kobj,
-+	ret = sysfs_create_link_nowarn(&group->devices_kobj,
- 				       &dev->kobj, device->name);
- 	if (ret) {
- 		if (ret == -EEXIST && i >= 0) {
-@@ -1431,7 +1449,7 @@ struct iommu_group *iommu_group_get(struct device *dev)
- 	struct iommu_group *group = dev->iommu_group;
- 
- 	if (group)
--		kobject_get(group->devices_kobj);
-+		kobject_get(&group->devices_kobj);
- 
- 	return group;
+@@ -1436,6 +1436,39 @@ int iommu_group_for_each_dev(struct iommu_group *group, void *data,
  }
-@@ -1446,7 +1464,7 @@ EXPORT_SYMBOL_GPL(iommu_group_get);
-  */
- struct iommu_group *iommu_group_ref_get(struct iommu_group *group)
- {
--	kobject_get(group->devices_kobj);
-+	kobject_get(&group->devices_kobj);
- 	return group;
- }
- EXPORT_SYMBOL_GPL(iommu_group_ref_get);
-@@ -1461,10 +1479,77 @@ EXPORT_SYMBOL_GPL(iommu_group_ref_get);
- void iommu_group_put(struct iommu_group *group)
- {
- 	if (group)
--		kobject_put(group->devices_kobj);
-+		kobject_put(&group->devices_kobj);
- }
- EXPORT_SYMBOL_GPL(iommu_group_put);
+ EXPORT_SYMBOL_GPL(iommu_group_for_each_dev);
  
 +/**
-+ * iommu_group_get_by_id - Lookup an IOMMU group by its sysfs ID
-+ * @id: group ID matching /sys/kernel/iommu_groups/<id>
++ * iommu_group_update_devices - Check and update every device in a group
++ * @group: the group
++ * @data: caller data passed to both callbacks
++ * @check: validates whether one device can be updated
++ * @update: updates one device after every check has succeeded
 + *
-+ * Return a group with a reference on its parent kobject, or NULL if no active
-+ * group exists for @id. The caller must release the returned group with
-+ * iommu_group_put_by_id(). Keeping this reference does not keep an empty
-+ * group's devices kobject active.
++ * Keep group membership stable while first checking every device and then
++ * applying an update which cannot fail. No device is updated if a check fails.
 + */
-+struct iommu_group *iommu_group_get_by_id(int id)
++int iommu_group_update_devices(struct iommu_group *group, void *data,
++			       int (*check)(struct device *, void *),
++			       void (*update)(struct device *, void *))
 +{
-+	struct kobject *group_kobj;
-+	struct iommu_group *group = NULL;
-+	char name[12];
++	struct group_device *device;
++	int ret = 0;
 +
-+	if (!iommu_group_kset || id < 0)
-+		return NULL;
-+
-+	snprintf(name, sizeof(name), "%d", id);
-+	mutex_lock(&iommu_group_kset_mutex);
-+	group_kobj = kset_find_obj(iommu_group_kset, name);
-+	if (!group_kobj)
-+		goto unlock;
-+
-+	group = container_of(group_kobj, struct iommu_group, kobj);
-+	if (!kobject_get_unless_zero(&group->devices_kobj)) {
-+		kobject_put(group_kobj);
-+		group = NULL;
-+		goto unlock;
++	mutex_lock(&group->mutex);
++	for_each_group_device(group, device) {
++		ret = check(device->dev, data);
++		if (ret)
++			goto unlock;
 +	}
 +
-+	kobject_put(&group->devices_kobj);
++	for_each_group_device(group, device)
++		update(device->dev, data);
++
 +unlock:
-+	mutex_unlock(&iommu_group_kset_mutex);
-+	return group;
++	mutex_unlock(&group->mutex);
++	return ret;
 +}
-+EXPORT_SYMBOL_GPL(iommu_group_get_by_id);
-+
-+/**
-+ * iommu_group_put_by_id - Release a group returned by ID lookup
-+ * @group: group returned by iommu_group_get_by_id()
-+ */
-+void iommu_group_put_by_id(struct iommu_group *group)
-+{
-+	if (group)
-+		kobject_put(&group->kobj);
-+}
-+EXPORT_SYMBOL_GPL(iommu_group_put_by_id);
-+
-+/**
-+ * iommu_group_is_active - Test whether a referenced group can accept devices
-+ * @group: referenced IOMMU group
-+ *
-+ * Return true while the devices kobject still has a live reference. Once the
-+ * group loses its last device and external device reference, it cannot become
-+ * active again.
-+ */
-+bool iommu_group_is_active(struct iommu_group *group)
-+{
-+	if (!group || !kobject_get_unless_zero(&group->devices_kobj))
-+		return false;
-+
-+	kobject_put(&group->devices_kobj);
-+	return true;
-+}
-+EXPORT_SYMBOL_GPL(iommu_group_is_active);
++EXPORT_SYMBOL_GPL(iommu_group_update_devices);
 +
  /**
-  * iommu_group_id - Return ID for a group
-  * @group: the group to ID
+  * iommu_group_get - Return the group for a device and increment reference
+  * @dev: get the group that this device belongs to
 diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index d20aa6f6863a..e771b4a92f5b 100644
+index e771b4a92f5b..befba0683e06 100644
 --- a/include/linux/iommu.h
 +++ b/include/linux/iommu.h
-@@ -989,6 +989,9 @@ extern void iommu_group_remove_device(struct device *dev);
+@@ -988,6 +988,9 @@ extern int iommu_group_add_device(struct iommu_group *group,
+ extern void iommu_group_remove_device(struct device *dev);
  extern int iommu_group_for_each_dev(struct iommu_group *group, void *data,
  				    int (*fn)(struct device *, void *));
++int iommu_group_update_devices(struct iommu_group *group, void *data,
++			       int (*check)(struct device *, void *),
++			       void (*update)(struct device *, void *));
  extern struct iommu_group *iommu_group_get(struct device *dev);
-+struct iommu_group *iommu_group_get_by_id(int id);
-+void iommu_group_put_by_id(struct iommu_group *group);
-+bool iommu_group_is_active(struct iommu_group *group);
- extern struct iommu_group *iommu_group_ref_get(struct iommu_group *group);
- extern void iommu_group_put(struct iommu_group *group);
- 
-@@ -1401,6 +1404,20 @@ static inline struct iommu_group *iommu_group_get(struct device *dev)
- 	return NULL;
+ struct iommu_group *iommu_group_get_by_id(int id);
+ void iommu_group_put_by_id(struct iommu_group *group);
+@@ -1399,6 +1402,16 @@ static inline int iommu_group_for_each_dev(struct iommu_group *group,
+ 	return -ENODEV;
  }
  
-+static inline struct iommu_group *iommu_group_get_by_id(int id)
++static inline int iommu_group_update_devices(struct iommu_group *group,
++					     void *data,
++					     int (*check)(struct device *,
++							  void *),
++					     void (*update)(struct device *,
++							    void *))
 +{
-+	return NULL;
++	return -ENODEV;
 +}
 +
-+static inline void iommu_group_put_by_id(struct iommu_group *group)
-+{
-+}
-+
-+static inline bool iommu_group_is_active(struct iommu_group *group)
-+{
-+	return false;
-+}
-+
- static inline void iommu_group_put(struct iommu_group *group)
+ static inline struct iommu_group *iommu_group_get(struct device *dev)
  {
- }
+ 	return NULL;
 -- 
 2.50.1 (Apple Git-155)
 
