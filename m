@@ -1,511 +1,343 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676E74D8DAF
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 16:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66BA74D90CC
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 16:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784046956; cv=none; b=KoxbK4IucSOnjJbEV+u5TbsyjRByZvV69Ttiki4tWE4CcT7lZ/SR0C6q0DtO6RrNARr88r4LARcpaqEYZeaZwf79BuyDE+nc4fmL5N145YaK/YsHRWg3m9oqn1QQHEJDQUmP/TkxwVWZqUKaGSQ+USeeQY2HhLD/p4Mkz97zmyo=
+	t=1784047956; cv=none; b=j+so/Rx8I7hzmUr79EuOMB9k/aEob9gJ+4RCVuox0M6Xuzl8VqvHhT68EgzFFFQxSL5pePqznR9C504Ytz2bZGLv4WUPPgI4fw8EVdTuHqUhf3AbhMYOBmz7m38Qdbh9sPJKBlKxc8Y/Hhn5hgmGYADDe4ofVzLmxaoR8tlsLYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784046956; c=relaxed/simple;
-	bh=6z8HsUuKgrLx2/y0WOD8TNbRYLVORNbEn2kqa03cmH8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YLhK5jXTVw/zSqr0vwDANwRVaix2mHklzNqYSYL1PVgpp9QUe8jnZ5Lkn3zbPv3stxdiALyXzxCknOcODtb0GyvkDHBe9djisN84gWtc0cZAT5wyqMD+r397J+ThFGvpIkBCFxjAzYL/oerNaKqGGWoNHdw0fpdaWLQupGaiij8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vSMk+Qbc; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1784047956; c=relaxed/simple;
+	bh=NqUKjeHmP2e5jPIlYwcL77DeZL8TDztFypI8FUZJxIk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Adrxs38rmW6nEptgeRlD/SHuo86Y3iNdZFjNvrgSYgrg59eFWVDC2xSVJMa7TJKBCQxxls/QHYyTC7SZ10QMZYsJo5Zk1+2xGeuoqBBV6ygo/rYb0fGJFe4kQGJjiEbt6htcE/hhSORM2NDo618HFhnG3fyWe0HCzxmS2WgkpzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SmIUNbMA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vSMk+Qbc"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c966b9ee9cbso2574932a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 09:35:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1784046954; x=1784651754; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=mDfqLI3RfxmSiaSDiydNo7YcWiprzsWXHzTIYi3ikUo=;
-        b=vSMk+Qbc3yvPgDFdE6nIolheCycR3uFJqJ16O7pDifdEgkNQWNLd4swS0Hiks75zPA
-         v6KJy+gmkUBfCBNlWm0I3PFzkEJTqU8AF2/0ptKqx3lZZ+UNNJ76FXyVmCb99j5mRgYK
-         qo4GeJ7heGYDXCMfBFj8OJDkBq0yeRJRRfKpkiAPikc/Hb2V8L8VQLiYhKRj+XJSC+qq
-         7/W9ppwyE67539RzM6EULzRQuUiPIjgUyq/rN3RW+Q2VeGZ7nNWVR/c92O2Go9jPjrKx
-         SrK+gZgFiWUJcCMMV+/eIq//2ebVGRIWM26aW1RskGMmYS3ueEGOeCUpNVXqw6SUhiNC
-         dggQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784046954; x=1784651754;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mDfqLI3RfxmSiaSDiydNo7YcWiprzsWXHzTIYi3ikUo=;
-        b=WmoSD8Vov3/jy6blXQAmRyCJbio1QrauVGZqV8eWmEiaCMST0gQpPD/ccXWsH4DCgi
-         0Gw51fSgItlIqsin92CPXd3qH+SlmYQVQ5loR1zR069HSE/zONpTfOMcgoJ9Kyh/60ir
-         /F4rX8RHjDGsfFeBIxpevs2qW5zyMfr5WBa3Xcqn+CrtEvTjoX+GY0jcJroWHWlWuY+d
-         vEDwgjV8lH+W20rVxZKFHfxrJgOxzkyaxwJ9Vv2aoVE3DTMmDAdIgh5nFUmSmacTPLOy
-         fDqfKW8B8ceRfdMKpTmrmZjSK7my+nqOoLDhyEB2urjWpte/Cp8GLHgceI6ZEim/4co+
-         nD5g==
-X-Forwarded-Encrypted: i=1; AHgh+Rq1TibN1KqOXlGKAVLmlGVJPO2VjJ7D6Td996DtsmEuyueXoQRB8lb2kHRXUZs2uo8BFp6lgpLHzRs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxkVETk+uI6WnBLVTV2qkhG5L/RQLkgbulB1dtjVigXUUJAzI00
-	iFxCTC+dUAMG0LqtHrAWs22SYQkY2rz4gywk4A69x8mwXwz96x7Iwub3woUaGOC4Y1k=
-X-Gm-Gg: AfdE7cnV5nCBBBVoHxk7B6QPldHTlUiLDD0Pi54ISOrVt72tca6rO9ZBT19hZxTic9C
-	gvAGAfTxtbgj40th7fFL+XRXlS77YFaJrZp8Xr5yCT1KKRSUPMcYM2SwtaFmq5PwYHFsPKbp4jR
-	H6ST+Icdw7/EQgCMILb9eZ5VBzOWK/wZKAxlzmMYwiSInT+fds1BMHM/+ues4hbI2aXeLzDGHIP
-	XR6vfflyYw7UJYfhFoziQq33Pz7xiz3Aig3BRKEgaAlflYFdSLw57W3xBkJ40KOrY0nDv+aQi2G
-	X/W86XHCVcE8BsIQg5ODBNhesWJBzHZ0txnwRK4ESwvchAC7bSZkQPYL2YCruBzLYSppJU3HUXy
-	IwHZ+mkQjXodce8qvxy6+sfp3UHvLJmilqGCbExbRRWeFUVzT3wAZt1w5E1CkNkRWDoMT1P/hbf
-	QLb3oNu1i0OGjKXXAi
-X-Received: by 2002:a05:6a00:124f:b0:846:7507:4e07 with SMTP id d2e1a72fcca58-8488975aac2mr12250820b3a.39.1784046953503;
-        Tue, 14 Jul 2026 09:35:53 -0700 (PDT)
-Received: from p14s ([2604:3d09:148c:c800:24cc:3af8:4244:12fe])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84a4f7dada6sm1772036b3a.42.2026.07.14.09.35.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 09:35:52 -0700 (PDT)
-Date: Tue, 14 Jul 2026 10:35:50 -0600
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: "Shenwei Wang (OSS)" <shenwei.wang@oss.nxp.com>
-Cc: Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>, Frank Li <frank.li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	dl-linux-imx <linux-imx@nxp.com>,
-	Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>,
-	"b-padhi@ti.com" <b-padhi@ti.com>, Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH v14 1/5] docs: driver-api: gpio: rpmsg gpio driver over
- rpmsg bus
-Message-ID: <alZlZvQQwq-g6VL3@p14s>
-References: <20260625155432.815185-1-shenwei.wang@oss.nxp.com>
- <20260625155432.815185-2-shenwei.wang@oss.nxp.com>
- <alUdg9iTysXCFUa5@p14s>
- <PAXPR04MB91852808D2C7491AEF98CF1589F92@PAXPR04MB9185.eurprd04.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SmIUNbMA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 352811F00A3D
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 16:52:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784047955;
+	bh=usA+eQuBbKhAqy88p0ZuKIybdHIRo+5vum9+Gy90cfg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=SmIUNbMAJzdBFOb3EWIgHmlPEA5j/tNmFEZ0gYzEaWiPJ5c4HC+/DpjnVJtlmNpDK
+	 oWrGY4/dJhMj3n2dYiExdG9KhJgwGt1e5yY+EMeUY/bcFPzOsZDvCylc5utcXkRgGM
+	 qHFLzGKkfE33hk9OE7a4UoB0R2VqTWD/kBusmtMI5hSzdrsBPtPdeUr2B39jAKPXjA
+	 0qawgP+ALUdqCL/leGVMfACUimr8Whfw5uU7W4ECJ+QYdQSzPuvMxMyt5WyuqjiyrX
+	 vZo2jiCLFyXtBLszYAl/7FuE7WmiaCmdPRiKh/JkgyoC2f1iyScAbnkSXhDkfjbv1V
+	 Dkq9aWbSFWfoA==
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c15b1da6b82so143198166b.1
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 09:52:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ85oDNgNP3zq3LTI1FdK0idsxgh/zeSiYg5bHT6YKKuMReL0vfangYkoCyhphbb5383uFoZOa5cwNU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxw/3tqMOvisO4nfCGW/HD40pkxBoMGN82PbP69lb8c95SRV24w
+	++qrYDUVOlHynczC88GeixejI+NVfZ8IY4nTHwKQLroh0QT9MbwI8ORdYrR7nlTDd3U011sUyMR
+	P5RmAxgyXbyW4AXlqO9WbMrbhYO66mTg=
+X-Received: by 2002:a17:907:c22:b0:c16:2d90:6878 with SMTP id
+ a640c23a62f3a-c162d908032mr596876966b.34.1784047953804; Tue, 14 Jul 2026
+ 09:52:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PAXPR04MB91852808D2C7491AEF98CF1589F92@PAXPR04MB9185.eurprd04.prod.outlook.com>
+References: <20260714081510.16895-1-jiahao.kernel@gmail.com> <20260714081510.16895-3-jiahao.kernel@gmail.com>
+In-Reply-To: <20260714081510.16895-3-jiahao.kernel@gmail.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Tue, 14 Jul 2026 09:52:22 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zNiT63LUHx8X5i_aboX1UWuGkcFf+p9ch-pekURUuDdXg@mail.gmail.com>
+X-Gm-Features: AUfX_myNiNK6fU_5CvtOxp6oCLEnI38Xv-YxdAfG34np1jpXrEds4Me9pLBjBDQ
+Message-ID: <CAO9r8zNiT63LUHx8X5i_aboX1UWuGkcFf+p9ch-pekURUuDdXg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] mm/zswap: Support batch writeback in shrink_memcg()
+To: Hao Jia <jiahao.kernel@gmail.com>
+Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
+	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, 
+	nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
+	roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 14, 2026 at 02:29:12PM +0000, Shenwei Wang (OSS) wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Mathieu Poirier <mathieu.poirier@linaro.org>
-> > Sent: Monday, July 13, 2026 12:17 PM
-> > To: Shenwei Wang (OSS) <shenwei.wang@oss.nxp.com>
-> > Cc: Linus Walleij <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>;
-> > Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof
-> > Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn
-> > Andersson <andersson@kernel.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
-> > <s.hauer@pengutronix.de>; Shuah Khan <skhan@linuxfoundation.org>; linux-
-> > gpio@vger.kernel.org; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
-> > Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
-> > <festevam@gmail.com>; Shenwei Wang <shenwei.wang@nxp.com>; Peng Fan
-> > <peng.fan@nxp.com>; devicetree@vger.kernel.org; linux-
-> > remoteproc@vger.kernel.org; imx@lists.linux.dev; linux-arm-
-> > kernel@lists.infradead.org; dl-linux-imx <linux-imx@nxp.com>; Arnaud
-> > POULIQUEN <arnaud.pouliquen@foss.st.com>; b-padhi@ti.com; Andrew Lunn
-> > <andrew@lunn.ch>
-> > Subject: Re: [PATCH v14 1/5] docs: driver-api: gpio: rpmsg gpio driver over rpmsg
-> > bus
-> > 
-> > On Thu, Jun 25, 2026 at 10:54:26AM -0500, Shenwei Wang wrote:
-> > > From: Shenwei Wang <shenwei.wang@nxp.com>
-> > >
-> > > Describes the gpio rpmsg transport protocol over the rpmsg bus between
-> > > the remote system and Linux.
-> > >
-> > > Signed-off-by: Shenwei Wang <shenwei.wang@nxp.com>
-> > > ---
-> > >  Documentation/driver-api/gpio/gpio-rpmsg.rst | 271 +++++++++++++++++++
-> > >  Documentation/driver-api/gpio/index.rst      |   1 +
-> > >  2 files changed, 272 insertions(+)
-> > >  create mode 100644 Documentation/driver-api/gpio/gpio-rpmsg.rst
-> > >
-> > > diff --git a/Documentation/driver-api/gpio/gpio-rpmsg.rst
-> > > b/Documentation/driver-api/gpio/gpio-rpmsg.rst
-> > > new file mode 100644
-> > > index 000000000000..7d351ff0adb0
-> > > --- /dev/null
-> > > +++ b/Documentation/driver-api/gpio/gpio-rpmsg.rst
-> > > @@ -0,0 +1,271 @@
-> > > +.. SPDX-License-Identifier: GPL-2.0-or-later
-> > > +
-> > > +GPIO RPMSG (Remote Processor Messaging) Protocol
-> > > +================================================
-> > > +
-> > > +The GPIO RPMSG transport protocol is used for communication and
-> > > +interaction with GPIO controllers on remote processors via the RPMSG bus.
-> > > +
-> > > +Message Format
-> > > +--------------
-> > > +
-> > > +The RPMSG message consists of a 8-byte packet with the following layout:
-> > > +
-> > > +.. code-block:: none
-> > > +
-> > > +   +------+------+------+------+------+------+------+------+
-> > > +   | 0x00 | 0x01 | 0x02 | 0x03 | 0x04 | 0x05 | 0x06 | 0x07 |
-> > > +   |     cmd     |    line     |           value           |
-> > > +   +------+------+------+------+------+------+------+------+
-> > > +
-> > > +- **cmd**: Command code, used for GPIO_RPMSG_SEND messages.
-> > > +
-> > > +- **line**: The GPIO line (pin) index of the port.
-> > 
-> > Here and throughout, please remove any mention of 'port'.  This is handled by the
-> > endpoint device, i.e one GPIO controller (port) per endpoint.
-> > 
-> > > +
-> > > +- **value**: See details in the command description below.
-> > > +
-> > > +
-> > > +GPIO Commands
-> > > +-------------
-> > > +
-> > > +Commands are specified in the **Cmd** field.
-> > > +
-> > > +The SEND message is always sent from Linux to the remote firmware.
-> > > +Each SEND corresponds to a single REPLY message. The GPIO driver
-> > > +should serialize messages and determine whether a REPLY message is
-> > > +required. If a REPLY message is expected but not received within the
-> > > +specified timeout period (currently 1 second in the Linux driver),
-> > > +the driver should return -ETIMEOUT.
-> > > +
-> > > +GET_DIRECTION (Cmd=2)
-> > > +~~~~~~~~~~~~~~~~~~~~~
-> > > +
-> > > +**Request:**
-> > > +
-> > > +.. code-block:: none
-> > > +
-> > > +   +------+------+------+------+------+------+------+------+
-> > > +   | 0x00 | 0x01 | 0x02 | 0x03 | 0x04 | 0x05 | 0x06 | 0x07 |
-> > > +   |      2      |    line     |             0             |
-> > > +   +------+------+------+------+------+------+------+------+
-> > > +
-> > > +**Reply:**
-> > > +
-> > > +.. code-block:: none
-> > > +
-> > > +   +------+--------+--------+
-> > > +   | 0x00 |  0x01  |  0x02  |
-> > > +   |   1  | status | value  |
-> > > +   +------+--------+--------+
-> > > +
-> > > +- **status**:
-> > > +
-> > > +  - 0: Ok
-> > > +  - 1: Error
-> > > +
-> > > +- **value**: Direction.
-> > > +
-> > > +  - 0: None
-> > > +  - 1: Output
-> > > +  - 2: Input
-> > > +
-> > > +
-> > > +SET_DIRECTION (Cmd=3)
-> > > +~~~~~~~~~~~~~~~~~~~~~
-> > > +
-> > > +**Request:**
-> > > +
-> > > +.. code-block:: none
-> > > +
-> > > +   +------+------+------+------+------+------+------+------+
-> > > +   | 0x00 | 0x01 | 0x02 | 0x03 | 0x04 | 0x05 | 0x06 | 0x07 |
-> > > +   |      3      |    line     |           value           |
-> > > +   +------+------+------+------+------+------+------+------+
-> > > +
-> > > +- **value**: Direction.
-> > > +
-> > > +  - 0: None
-> > > +  - 1: Output
-> > > +  - 2: Input
-> > > +
-> > > +**Reply:**
-> > > +
-> > > +.. code-block:: none
-> > > +
-> > > +   +------+--------+--------+
-> > > +   | 0x00 |  0x01  |  0x02  |
-> > > +   |   1  | status |    0   |
-> > > +   +------+--------+--------+
-> > > +
-> > > +- **status**:
-> > > +
-> > > +  - 0: Ok
-> > > +  - 1: Error
-> > > +
-> > > +
-> > > +GET_VALUE (Cmd=4)
-> > > +~~~~~~~~~~~~~~~~~
-> > > +
-> > > +**Request:**
-> > > +
-> > > +.. code-block:: none
-> > > +
-> > > +   +------+------+------+------+------+------+------+------+
-> > > +   | 0x00 | 0x01 | 0x02 | 0x03 | 0x04 | 0x05 | 0x06 | 0x07 |
-> > > +   |      4      |    line     |             0             |
-> > > +   +------+------+------+------+------+------+------+------+
-> > > +
-> > > +**Reply:**
-> > > +
-> > > +.. code-block:: none
-> > > +
-> > > +   +------+--------+--------+
-> > > +   | 0x00 |  0x01  |  0x02  |
-> > > +   |   1  | status | value  |
-> > > +   +------+--------+--------+
-> > > +
-> > > +- **status**:
-> > > +
-> > > +  - 0: Ok
-> > > +  - 1: Error
-> > > +
-> > > +- **value**: Level.
-> > > +
-> > > +  - 0: Low
-> > > +  - 1: High
-> > > +
-> > > +
-> > > +SET_VALUE (Cmd=5)
-> > > +~~~~~~~~~~~~~~~~~
-> > > +
-> > > +**Request:**
-> > > +
-> > > +.. code-block:: none
-> > > +
-> > > +   +------+------+------+------+------+------+------+------+
-> > > +   | 0x00 | 0x01 | 0x02 | 0x03 | 0x04 | 0x05 | 0x06 | 0x07 |
-> > > +   |      5      |    line     |           value           |
-> > > +   +------+------+------+------+------+------+------+------+
-> > > +
-> > > +- **value**: Output level.
-> > > +
-> > > +  - 0: Low
-> > > +  - 1: High
-> > > +
-> > > +**Reply:**
-> > > +
-> > > +.. code-block:: none
-> > > +
-> > > +   +------+--------+--------+
-> > > +   | 0x00 |  0x01  |  0x02  |
-> > > +   |   1  | status |    0   |
-> > > +   +------+--------+--------+
-> > > +
-> > > +- **status**:
-> > > +
-> > > +  - 0: Ok
-> > > +  - 1: Error
-> > > +
-> > > +
-> > > +SET_IRQ_TYPE (Cmd=6)
-> > > +~~~~~~~~~~~~~~~~~~~~
-> > > +
-> > > +**Request:**
-> > > +
-> > > +.. code-block:: none
-> > > +
-> > > +   +------+------+------+------+------+------+------+------+
-> > > +   | 0x00 | 0x01 | 0x02 | 0x03 | 0x04 | 0x05 | 0x06 | 0x07 |
-> > > +   |      6      |    line     |           value           |
-> > > +   +------+------+------+------+------+------+------+------+
-> > > +
-> > > +- **value**: IRQ types.
-> > > +
-> > > +  - 0: Interrupt disabled
-> > > +  - 1: Rising edge trigger
-> > > +  - 2: Falling edge trigger
-> > > +  - 3: Both edge trigger
-> > > +  - 4: High level trigger
-> > > +  - 8: Low level trigger
-> > 
-> > I'm in agreement with cmd 3, 4, 5 and 6.
-> > 
-> 
-> How about cmd 2?
+On Tue, Jul 14, 2026 at 1:15=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.com> w=
+rote:
+>
+> From: Hao Jia <jiahao1@lixiang.com>
+>
+> Currently, shrink_memcg() writes back at most one entry per-node during
+> its traversal. This makes shrink_worker() inefficient, as it must
+> repeatedly re-enter shrink_memcg() to make any substantial progress.
 
-Yes, I forgot cmd 2.  
+Please also mention the case about writeback being slow to keep up
+with refaults in some cases, leading to zswap store failures and pages
+skipping zswap and going directly to disk, which is an LRU inversion.
 
-> 
-> > > +
-> > > +**Reply:**
-> > > +
-> > > +.. code-block:: none
-> > > +
-> > > +   +------+--------+--------+
-> > > +   | 0x00 |  0x01  |  0x02  |
-> > > +   |   1  | status |    0   |
-> > > +   +------+--------+--------+
-> > > +
-> > > +- **status**:
-> > > +
-> > > +  - 0: Ok
-> > > +  - 1: Error
-> > > +
-> > > +SET_WAKEUP (Cmd=16)
-> > > +~~~~~~~~~~~~~~~~~~~
-> > 
-> > I already commented on messages that are not part of the virtio-gpio
-> > specification.
-> > 
-> 
-> I don't believe virtio-gpio needs a SET_WAKEUP command.
-> 
-> In the RPMSG case, SET_WAKEUP is required because it performs an operation on the 
-> remote processor, so the remote side must be explicitly notified.
+>
+> To address this, extend shrink_memcg() and rewrite its LRU iteration logi=
+c
+> to support batch writeback. Introduce the nr_to_scan parameter to bound h=
+ow
+> many pages are scanned per call. This enables batch writeback in the
+> shrink_worker() path, while maintaining a low scan budget in the
+> zswap_store() path.
+>
+> Additionally, to prepare for future proactive writeback, update the retur=
+n
+> value semantics of shrink_memcg(): a positive value now represents the
+> actual number of compressed bytes written back, 0 indicates that candidat=
+es
+> existed but no writeback succeeded, and a negative value represents an
+> error code.
 
-What operations would that be?
+This part should be dropped for now, and added with the proactive
+writeback, as it's currently unused AFAICT. Removing
+zswap_shrink_walk_arg will simplify the patch and make it focused on
+the batching part.
 
-> 
-> For virtio-gpio, however, everything is handled locally. The other side does not need to 
-> perform any action, so sending a SET_WAKEUP command appears unnecessary.
+>
+> Test Setup:
+> Total memory: 32 GB.
+> zswap settings: max_pool_percent=3D1, accept_threshold_percent=3D50,
+> shrinker_enabled=3DN.
+> Allocate 512MB of anonymous pages and fill them with random data (to avoi=
+d
+> compression), then use cgroup memory.reclaim to force a large amount of
+> anonymous pages into zswap. At an interval of 2ms, allocate a 4K anonymou=
+s
+> page where the first 4 bytes are random numbers and the rest are zeros, a=
+nd
+> then trigger a reclamation of this 4K anonymous page through cgroup
+> memory.reclaim. When the pool threshold is reached, shrink_memcg() will
+> be triggered.
+>
+> The test data after running for 120s is as follows:
+>                            Baseline         Patched
+> shrink_worker wakeups          5363             85
+> shrink_memcg calls       11,345,012        188,264
+> written_back                  40214          40275
+>
+> Conclusion:
+> Under the same workload and run duration, the patched kernel shows a
+> significant reduction in both shrink_worker wakeups and shrink_memcg call=
+s.
 
-What is "everything"?
+Please also include data from the case where zswap store failures are
+observed and pages go to disk, and compare before and after this
+patch. I think that part is also really important.
 
-> 
-> 
-> > > +
-> > > +**Request:**
-> > > +
-> > > +.. code-block:: none
-> > > +
-> > > +   +------+------+------+------+------+------+------+------+
-> > > +   | 0x00 | 0x01 | 0x02 | 0x03 | 0x04 | 0x05 | 0x06 | 0x07 |
-> > > +   |      1      |    line     |           value           |
-> > > +   +------+------+------+------+------+------+------+------+
-> > > +
-> > > +- **value**: Wakeup enable.
-> > > +
-> > > +  The remote system should always aim to stay in a power-efficient
-> > > + state by  shutting down or clock-gating the GPIO blocks that aren't
-> > > + in use. Since  the remoteproc driver is responsible for managing the
-> > > + power states of the  remote firmware, the GPIO driver does not
-> > > + require to know the firmware's  running states.
-> > > +
-> > > +  When the wakeup bit is set, the remote firmware should configure
-> > > + the line  as a wakeup source. The firmware should send the
-> > > + notification message to  Linux after it is woken from the GPIO line.
-> > > +
-> > > +  - 0: Disable wakeup from GPIO
-> > > +  - 1: Enable wakeup from GPIO
-> > > +
-> > > +**Reply:**
-> > > +
-> > > +.. code-block:: none
-> > > +
-> > > +   +------+--------+--------+
-> > > +   | 0x00 |  0x01  |  0x02  |
-> > > +   |   1  | status |    0   |
-> > > +   +------+--------+--------+
-> > > +
-> > > +- **status**:
-> > > +
-> > > +  - 0: Ok
-> > > +  - 1: Error
-> > > +
-> > > +Notification Message
-> > > +--------------------
-> > 
-> > "Interrupt Messages"
-> > 
-> > > +
-> > > +Notifications are sent by the remote core and they have
-> > > +**Type=2 (GPIO_RPMSG_NOTIFY)**:
-> > > +
-> > > +When a GPIO line asserts an interrupt on the remote processor, the
-> > > +firmware should immediately mask the corresponding interrupt source
-> > > +and send a notification message to the Linux. Upon completion of the
-> > > +interrupt handling on the Linux side, the driver should issue a
-> > > +command **SET_IRQ_TYPE** to the firmware to unmask the interrupt.
-> > > +
-> > > +A Notification message can arrive between a SEND and its REPLY
-> > > +message, and the driver is expected to handle this scenario.
-> > > +
-> > > +.. code-block:: none
-> > > +
-> > > +   +------+------+--------+
-> > > +   | 0x00 | 0x01 |  0x02  |
-> > > +   |   2  | line | trigger|
-> > > +   +------+------+--------+
-> > 
-> > 2 things here:
-> > 
-> > 1) You did not include messages that mask and unmask interrupts at the driver
-> > side.
-> 
-> Interrupt masking and unmasking are handled entirely on the local processor.
-> 
-> When an interrupt occurs, the remote system masks the interrupt and then sends a notification 
-> to Linux. After Linux processes the notification, it sends a SET_IRQ_TYPE message back to the 
-> remote system, which then unmasks the interrupt.
-
-This is the kind of information that should be part of this documentation.
-
-> 
-> Thanks,
-> Shenwei
-> 
-> > 
-> > 2) We are carrying virtio-gpio messages on top of RPMSG and as such, this whole
-> > protocol should be about thar:
-> > 
-> > +------+------+--------+--------
-> > | 0x00 |       payload         |
-> > |  Q   |                       |
-> > +------+------+--------+--------
-> > 
-> > Q = 0 requestq
-> > Q = 1 eventq
-> > 
-> > The "payload" part is simply the format of the messages as found in the virtio-
-> > gpio specification.  From there, the only thing left to mention is which messages
-> > are not supported, i.e get line names.
-> > 
-> > > +
-> > > +- **line**: The GPIO line (pin) index of the port.
-> > > +
-> > > +- **trigger**: Optional parameter to indicate the trigger event type.
-> > 
-> > Not part of the spec - remove.
-> > 
-> > Given the refactoring work that is still needed, I will not look at the
-> > implementation.
-> > 
-> > Thanks,
-> > Mathieu
-> > 
-> > > +
-> > > diff --git a/Documentation/driver-api/gpio/index.rst
-> > > b/Documentation/driver-api/gpio/index.rst
-> > > index bee58f709b9a..e5eb1f82f01f 100644
-> > > --- a/Documentation/driver-api/gpio/index.rst
-> > > +++ b/Documentation/driver-api/gpio/index.rst
-> > > @@ -16,6 +16,7 @@ Contents:
-> > >     drivers-on-gpio
-> > >     bt8xxgpio
-> > >     pca953x
-> > > +   gpio-rpmsg
-> > >
-> > >  Core
-> > >  ====
-> > > --
-> > > 2.43.0
-> > >
+>
+> Suggested-by: Yosry Ahmed <yosry@kernel.org>
+> Signed-off-by: Hao Jia <jiahao1@lixiang.com>
+> ---
+>  mm/zswap.c | 89 ++++++++++++++++++++++++++++++++++++++++++------------
+>  1 file changed, 69 insertions(+), 20 deletions(-)
+>
+> diff --git a/mm/zswap.c b/mm/zswap.c
+> index 3d697a1a5365..6d492762957a 100644
+> --- a/mm/zswap.c
+> +++ b/mm/zswap.c
+> @@ -160,6 +160,11 @@ struct zswap_pool {
+>         char tfm_name[CRYPTO_MAX_ALG_NAME];
+>  };
+>
+> +struct zswap_shrink_walk_arg {
+> +       unsigned long bytes_written;
+> +       bool encountered_page_in_swapcache;
+> +};
+> +
+>  /* Global LRU lists shared by all zswap pools. */
+>  static struct list_lru zswap_list_lru;
+>
+> @@ -1089,8 +1094,9 @@ static enum lru_status shrink_memcg_cb(struct list_=
+head *item, struct list_lru_o
+>                                        void *arg)
+>  {
+>         struct zswap_entry *entry =3D container_of(item, struct zswap_ent=
+ry, lru);
+> -       bool *encountered_page_in_swapcache =3D (bool *)arg;
+> +       struct zswap_shrink_walk_arg *walk_arg =3D arg;
+>         swp_entry_t swpentry;
+> +       unsigned int length;
+>         enum lru_status ret =3D LRU_REMOVED_RETRY;
+>         int writeback_result;
+>
+> @@ -1133,10 +1139,11 @@ static enum lru_status shrink_memcg_cb(struct lis=
+t_head *item, struct list_lru_o
+>
+>         /*
+>          * Once the lru lock is dropped, the entry might get freed. The
+> -        * swpentry is copied to the stack, and entry isn't deref'd again
+> -        * until the entry is verified to still be alive in the tree.
+> +        * needed fields are copied to the stack, and entry isn't deref'd
+> +        * again until it is verified to still be alive in the tree.
+>          */
+>         swpentry =3D entry->swpentry;
+> +       length =3D entry->length;
+>
+>         /*
+>          * It's safe to drop the lock here because we return either
+> @@ -1155,12 +1162,13 @@ static enum lru_status shrink_memcg_cb(struct lis=
+t_head *item, struct list_lru_o
+>                  * into the warmer region. We should terminate shrinking =
+(if we're in the dynamic
+>                  * shrinker context).
+>                  */
+> -               if (writeback_result =3D=3D -EEXIST && encountered_page_i=
+n_swapcache) {
+> +               if (writeback_result =3D=3D -EEXIST) {
+>                         ret =3D LRU_STOP;
+> -                       *encountered_page_in_swapcache =3D true;
+> +                       walk_arg->encountered_page_in_swapcache =3D true;
+>                 }
+>         } else {
+>                 zswap_written_back_pages++;
+> +               walk_arg->bytes_written +=3D length;
+>         }
+>
+>         return ret;
+> @@ -1169,8 +1177,11 @@ static enum lru_status shrink_memcg_cb(struct list=
+_head *item, struct list_lru_o
+>  static unsigned long zswap_shrinker_scan(struct shrinker *shrinker,
+>                 struct shrink_control *sc)
+>  {
+> +       struct zswap_shrink_walk_arg walk_arg =3D {
+> +               .bytes_written =3D 0,
+> +               .encountered_page_in_swapcache =3D false,
+> +       };
+>         unsigned long shrink_ret;
+> -       bool encountered_page_in_swapcache =3D false;
+>
+>         if (!zswap_shrinker_enabled ||
+>                         !mem_cgroup_zswap_writeback_enabled(sc->memcg)) {
+> @@ -1179,9 +1190,9 @@ static unsigned long zswap_shrinker_scan(struct shr=
+inker *shrinker,
+>         }
+>
+>         shrink_ret =3D list_lru_shrink_walk(&zswap_list_lru, sc, &shrink_=
+memcg_cb,
+> -               &encountered_page_in_swapcache);
+> +               &walk_arg);
+>
+> -       if (encountered_page_in_swapcache)
+> +       if (walk_arg.encountered_page_in_swapcache)
+>                 return SHRINK_STOP;
+>
+>         return shrink_ret ? shrink_ret : SHRINK_STOP;
+> @@ -1275,9 +1286,31 @@ static struct shrinker *zswap_alloc_shrinker(void)
+>         return shrinker;
+>  }
+>
+> -static int shrink_memcg(struct mem_cgroup *memcg)
+> +#define NR_ZSWAP_WB_BATCH      64UL
+> +
+> +/*
+> + * Scan up to @nr_to_scan pages across the per-node zswap LRUs of @memcg
+> + * and write back the reclaimable ones.
+> + *
+> + * Since the second-chance algorithm rotates referenced entries to the
+> + * LRU tail, the per-node scan is capped at the current LRU length so
+> + * each entry is scanned at most once per call. It is up to the caller
+> + * to handle retries, deciding whether to scan another memcg to complete
+> + * the full iteration, or to rescan the current memcg to drain its zswap
+> + * entries.
+> + *
+> + * Return: The number of compressed bytes written back (>=3D 0), or -ENO=
+ENT
+> + * if @memcg has writeback disabled, is a zombie cgroup, or has empty
+> + * zswap LRUs.
+> + */
+> +static long shrink_memcg(struct mem_cgroup *memcg, unsigned long nr_to_s=
+can)
+>  {
+> -       int nid, shrunk =3D 0, scanned =3D 0;
+> +       struct zswap_shrink_walk_arg walk_arg =3D {
+> +               .bytes_written =3D 0,
+> +               .encountered_page_in_swapcache =3D false,
+> +       };
+> +       unsigned long nr_remaining =3D nr_to_scan;
+> +       int nid;
+>
+>         if (!mem_cgroup_zswap_writeback_enabled(memcg))
+>                 return -ENOENT;
+> @@ -1290,24 +1323,40 @@ static int shrink_memcg(struct mem_cgroup *memcg)
+>                 return -ENOENT;
+>
+>         for_each_node_state(nid, N_NORMAL_MEMORY) {
+> -               unsigned long nr_to_walk =3D 1;
+> +               unsigned long nr_to_walk;
+>
+> -               shrunk +=3D list_lru_walk_one(&zswap_list_lru, nid, memcg=
+,
+> -                                           &shrink_memcg_cb, NULL, &nr_t=
+o_walk);
+> -               scanned +=3D 1 - nr_to_walk;
+> +               /*
+> +                * Cap the scan at per-node LRU length so each entry is s=
+canned
+> +                * at most once per call.
+> +                */
+> +               nr_to_walk =3D min(nr_remaining,
+> +                                list_lru_count_one(&zswap_list_lru, nid,=
+ memcg));
+> +               if (!nr_to_walk)
+> +                       continue;
+> +
+> +               nr_remaining -=3D nr_to_walk;
+> +               list_lru_walk_one(&zswap_list_lru, nid, memcg, &shrink_me=
+mcg_cb,
+> +                                 &walk_arg, &nr_to_walk);
+> +               /* Return the unused share of the budget to the pool. */
+> +               nr_remaining +=3D nr_to_walk;
+> +
+> +               if (!nr_remaining)
+> +                       break;
+>         }
+>
+> -       if (!scanned)
+> +       /* Nothing was scanned: every LRU under @memcg was empty. */
+> +       if (nr_remaining =3D=3D nr_to_scan)
+>                 return -ENOENT;
+>
+> -       return shrunk ? 0 : -EAGAIN;
+> +       return walk_arg.bytes_written;
+>  }
+>
+>  static void shrink_worker(struct work_struct *w)
+>  {
+>         struct mem_cgroup *memcg;
+> -       int ret, failures =3D 0, attempts =3D 0;
+> +       int failures =3D 0, attempts =3D 0;
+>         unsigned long thr;
+> +       long ret;
+>
+>         /* Reclaim down to the accept threshold */
+>         thr =3D zswap_accept_thr_pages();
+> @@ -1369,7 +1418,7 @@ static void shrink_worker(struct work_struct *w)
+>                         goto resched;
+>                 }
+>
+> -               ret =3D shrink_memcg(memcg);
+> +               ret =3D shrink_memcg(memcg, NR_ZSWAP_WB_BATCH);
+>                 /* drop the extra reference */
+>                 mem_cgroup_put(memcg);
+>
+> @@ -1383,7 +1432,7 @@ static void shrink_worker(struct work_struct *w)
+>                         continue;
+>                 ++attempts;
+>
+> -               if (ret && ++failures =3D=3D MAX_RECLAIM_RETRIES)
+> +               if (ret <=3D 0 && ++failures =3D=3D MAX_RECLAIM_RETRIES)
+>                         break;
+>  resched:
+>                 cond_resched();
+> @@ -1493,7 +1542,7 @@ bool zswap_store(struct folio *folio)
+>         objcg =3D get_obj_cgroup_from_folio(folio);
+>         if (objcg && !obj_cgroup_may_zswap(objcg)) {
+>                 memcg =3D get_mem_cgroup_from_objcg(objcg);
+> -               if (shrink_memcg(memcg)) {
+> +               if (shrink_memcg(memcg, 1) <=3D 0) {
+>                         mem_cgroup_put(memcg);
+>                         goto put_objcg;
+>                 }
+> --
+> 2.34.1
+>
