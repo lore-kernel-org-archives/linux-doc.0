@@ -1,48 +1,48 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012047.outbound.protection.outlook.com [52.101.53.47])
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012008.outbound.protection.outlook.com [40.107.200.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CFD446856;
-	Tue, 14 Jul 2026 12:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E976D3876B2;
+	Tue, 14 Jul 2026 12:47:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.8
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784032298; cv=fail; b=pWHCcv7WlgjakTTl1M7zwtHPl1glfr3l00tbBZw9/jHwhWUPfeiFTSbXgyLgqK7Fgki/cherGZnj4TFF37L80Vd7RlGayUeun7ujSiA6saPg4p5uSrff7V0woI5jpqDv5JuQxxkVbyFEyKYErXAaZe9H/Hnnb1lkGdKcWWqUHtQ=
+	t=1784033274; cv=fail; b=XxYVDKNYikX3O1ICvVAx/PiwLCPzDVET7LeeVia3Yj7Pu93gJqCfxICU/5PwIB8zcHl3jWnHZzH1nEvdnKovveSCu3woHUdgnBaJAowHMNDyAsI1gBM/rtnqhTassOBHftHqZNptzYdqWVzptcQ+6rdE4aUAhZiYz6dmNEvizVU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784032298; c=relaxed/simple;
-	bh=UWvs9H31jxaidsiCatjAX2qREfyTiyN/UtyS6Nms4AI=;
+	s=arc-20240116; t=1784033274; c=relaxed/simple;
+	bh=Ve3qxzuW7qnibf+EBsON18dNBMXlwIe67uOIKH2eoTs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=GgLVFPg29Ye6QOaH00vId8mK5YLek7MD0gb9kT5OOAnTRTQQeVdukEG5HgqEgB1l7VFINdPDs/IGbupitHBopF7TVHe7HhZKWWZv2Qg8PACQ5TnZBT7OFPCfyiWxtg14l0VX9YivFWJfBf3gflEob/T06Vdp+pH4M9SwSROMFik=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=HY0W6z95; arc=fail smtp.client-ip=52.101.53.47
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Am9m2xu0YCBl5d5aFWOso4Bbv6n0TuDukSoJuorLlxOrQndOUGQSaaPXrFTG1Uj8TaZYZ556deS7blrJ/hGTceDc+SRbbwHsuUTUW9YUpNcjcRIWV7Nu9LrWmZ2bMs25RAmV+kRiVhPJYJKORps4eK8y0q9uyY2KuEJjpmzm0mA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=AtKQ0KA/; arc=fail smtp.client-ip=40.107.200.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="HY0W6z95"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="AtKQ0KA/"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ww+Zi8aepxdNMw0zwPUlircy4bluEyPP3yF+Lm8Hl8fds5SmBIzLazl1OPe8vcmqvWdij9kUYBmOe25gy0DvUJ+bkVWQzCdSDrcglaknpYI9WePzT2YfJElKGxzpXxckYB3Z3ZoDsTmLkoBdcubDlRDrjy9c6RPz5XnwjkO+i6r2h9lZ2yECxotfJweAb8UwchYyI4VUcOM90RKKd/eLClnQzbMjiRgiL+KjCIxLFNIjcREujBHNvw7Gw5o87seSIvyagUpyWiUloTKqZm+wO08m1OYKfZ6ER1ZaSc1m+bjuQ7BUZSYHBur8H0QBtM1654NfT5+VZTXR7mXUS4X9+w==
+ b=Sh4iHFPuYGZRkPwOcO8Db+tlp+qxXVPwFQ0G2ZHapGFOpwXklZp560LtEDG/HMpl0y9xELS34Geu/zOm9/rfmgo5nox0cTDpLE+138MQ2cvuxsPA8wnR20DDfyREnZZU1YUM3jkjLgiO0tgW4cYC1mxZb+dP1SGSQ6q9zfLF53nCjnNEAPA5y4TPmDeYI6pRm822imdxx8eGG6gBsOv79BGbfDK8yWfLjtLhMgF9KWS7ctS4VfOay833heM2tzNwRcRQV0WmFFY5aKdCurD6IKIjns1+H2+R7aKQ+8d5P+DkosClbEze0qewpYu71Du/z/hSyUsCAfKMDnPLeA1Rsw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Zqnfb+xAFwxfedD0dGaeRIqB+3CCJ2QKWc5w2k5CWYM=;
- b=INuGXZMhZG5TRFoz7UspxIF+mqESHLGJqG8+pvTVdtQ9Tdn5zle1XJkN/TvX4BE3J5XoijaXl9Z0ywZsebpM9H0ByqzgUtHzUXJh88IrE9x6nDu7sJUs+5uw99NoBCNj+yBieGiFC/2q2C8VwVljCf4qyMW2g9uEBeE9hBfpSKs2o7Df6OY8IgZuBDmN0C3MsFbmtsKQAecXrcL8KTUwKwarleZJhadX/GLmJfvRZ/jWn84IhzcPBsSm8YdZiUKwhvbON/u/VywX9vmnoq2lKBcouI7qblN7ht7RN/yi2zXkYtPT5xN+wSBfNP9tlg8B7FjY8pMJMhJPGTjZQ0JCUg==
+ bh=gzVtRE3Mg1Fng9GQf7NlMrCzVNucvTyS3l1PDjTGs+0=;
+ b=vehEDyXSp4//EL9b/acnjWWRRWoWJYDsYTgl3Gw2p74PuUZ+Szg1j5i1b1GM1CM2tI/FEQCxLp08ZhshPIo/icblxpnOzvEnXLtVdFdILBTny6in/xshA70sUHIIbB/HogKmsCkzwPlioKQwoiidUsvPBt8D86O8Tjx2yG/c/4tUY0zVUgf38qg5Q5vI/07Fnh2x0QN3Vuxxtst78gNe7aI2YnqCWJ9sCUx5xomwxSFKxwaxAfkdk5f7TvnXs+/T9p3Q7W97jRo44bF2yhnjydpsrWftiNSbW3dObdD7kI8ZqYDQ192/FJh9lRN0XND+U/UwIDTEtmSQJwVZMkT0sg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zqnfb+xAFwxfedD0dGaeRIqB+3CCJ2QKWc5w2k5CWYM=;
- b=HY0W6z95YmTAst2ECcIkzLbtCOtrT8Y+ny1avGiJJ8SjGVP3kAkQyR2oQGhKfT1L+1Fw+8Hui72PsDIEbLQV5cmhlj3E8lRnZH/RO/FBo/mx6w0umxth02+EzpWm/z9UE4dAvwgRv7HXVpKbogfqTb3LR+hd+tvbSjHEF9YwvSkSVAOAtksgEuU5LdWDsRrD5lgVNchch4Cd74G/AUknoW6VD9aZEF4RzXW4W+vpsuGaKiTMbh/WZQNCuBIJ27DUFRK0sdX2pxdtfQVstkunfIxGwup4B616Sp1HWFtbW36TSDrz+9onfAj1lq6ZlM/VP4WIOWmO2vMklUKwyoe/UA==
+ bh=gzVtRE3Mg1Fng9GQf7NlMrCzVNucvTyS3l1PDjTGs+0=;
+ b=AtKQ0KA/qQBdlzVqoqaVnkDFsU+YP6Q9nFhI2XXPuRIPaCMVS/dUevovct36aXgk9SKe1ZSqgQniqhROEK0IV9AHS1dGPqSEGm9SB5/POQhPRzhB3GDbEXxMYGuXEAAaOXeVrA9eMJ9hTcurPX5FpkPN91NAf9k/rXHRjifhvRESw5Y3+DL4fHorVrA4fTUbvZgsjFYOU1bSHld/jjOrC3iI1NFoCD+mPgJbUbNU1ndjidvEIbEw2jgEkusdJJvT7OrV0uoCbkb6vfn1nccLX2wbmq/6McfKbxocUL9E+hIM7Y11WVLgA0H8B0FNITqjoQP3AsEEw6qvwePSAHLNPA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by SA1PR12MB6872.namprd12.prod.outlook.com (2603:10b6:806:24c::10) with
+ by PH7PR12MB6610.namprd12.prod.outlook.com (2603:10b6:510:212::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Tue, 14 Jul
- 2026 12:31:22 +0000
+ 2026 12:47:43 +0000
 Received: from LV3PR12MB9356.namprd12.prod.outlook.com
  ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
  ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0202.014; Tue, 14 Jul 2026
- 12:31:22 +0000
-Date: Tue, 14 Jul 2026 08:31:21 -0400
+ 12:47:43 +0000
+Date: Tue, 14 Jul 2026 08:47:41 -0400
 From: Yury Norov <ynorov@nvidia.com>
 To: Shrikanth Hegde <sshegde@linux.ibm.com>
 Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
@@ -58,18 +58,18 @@ Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
 	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
 	rdunlap@infradead.org, kernellwp@gmail.com,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 11/12] virt/steal_monitor: Act on steal time
- periodically and decide on preferred CPUs
-Message-ID: <alYsGQhAyknF4X5b@yury>
+Subject: Re: [PATCH v7 10/12] virt/steal_monitor: Provide functions for
+ managing steal values
+Message-ID: <alYv7QGbsdLaMPH3@yury>
 References: <20260709215648.1246821-1-sshegde@linux.ibm.com>
- <20260709215648.1246821-12-sshegde@linux.ibm.com>
- <alFX75dzgkMnDXAD@yury>
- <9da4fd45-0a0f-495d-8207-816ee88c5937@linux.ibm.com>
+ <20260709215648.1246821-11-sshegde@linux.ibm.com>
+ <alFPb9lUKCGTN8Ky@yury>
+ <b4b7591c-8edd-4f45-9e03-37d7353ae5cf@linux.ibm.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9da4fd45-0a0f-495d-8207-816ee88c5937@linux.ibm.com>
-X-ClientProxiedBy: BN9PR03CA0149.namprd03.prod.outlook.com
- (2603:10b6:408:fe::34) To LV3PR12MB9356.namprd12.prod.outlook.com
+In-Reply-To: <b4b7591c-8edd-4f45-9e03-37d7353ae5cf@linux.ibm.com>
+X-ClientProxiedBy: BN9PR03CA0152.namprd03.prod.outlook.com
+ (2603:10b6:408:f4::7) To LV3PR12MB9356.namprd12.prod.outlook.com
  (2603:10b6:408:20c::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -78,96 +78,131 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|SA1PR12MB6872:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9206a5f0-8554-4c24-96ff-08dee1a3d028
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|PH7PR12MB6610:EE_
+X-MS-Office365-Filtering-Correlation-Id: cdeeea99-d1b0-4c56-0767-08dee1a618e5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|7416014|18002099003|22082099003|56012099006|11063799006|4143699003;
+	BCL:0;ARA:13230040|23010399003|366016|7416014|376014|1800799024|6133799003|56012099006|4143699003|5023799004|11063799006|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	vbUbpa2ZLbdEsZR7JC+ExUqFnm+7NRSUvvM8PW/SKqk9yEM41twUQF21YIUaRJJ5ioSVHc+ee9q7s8YX/TDeHDs3bNsDoEMlewl0fEisULzQeybFCE63SYr0dXZ451h1nyvoweh2E2Q27URcppKSnJuwFq8+8XEJTGzrwSMwuWv6PH/KogvOspANuoAHKlmLn12TDSySKP8GlXpsgRafIdJfnS/BG/8IpUaRIftsPTiO6pgbY+BLb9urfccYqboChAzAGGL9j7DhdaFJ1atBo4EcGf/zh/Y+K3y5E5e+m2TAFlq/gyScOe7o7sDZWT2gS0FMNx6L0jCvOM1/r9JtdKe9FujaaV+o241l08QN5X0R7UW/w1jtXCR6PHxOV8QttdSDwuXiVk8/53cBkT8IpMtoNCIVQsS3yletca6H9DYKDCTguQvQJ099iNgGEgArVmlI3AHQAvhnCXBfIW7fUrSaQcxSLBNlM5G9g3J98WTzspZrHuh6OQzsBojsTX7NrWRQqSJjFgkzjUGKTuWHi4kjexBdj1iEoEXcRdiotoZ3l6UmO9e6bn38E1uym06QMaf5HdbCQ7Jr5iZenOA7CzQIDu9evetcu47DCM+Hgz9IzbIXMo7OuVndssj14f2Jhr393ImPzC9IzbhHypI7H+QRPedqKmJ7QlZ31hHQ4oA=
+	sr1F57Yj4T2RGA+gr1mDayDZkcbm/s6Faja8JOTm812GeFXWHX8fopak9azozgfRKECjAEs8cb5Km+SR1jFE2cqNMIvKB3nZyD7wOy8DqJWP86NIipQs0iIokV1SouJqm8/kZqFd2fip+ApFCOyjzJ+kf7KaZIQve8yHv8avuCEKgZK16AlT+ZDm0Pz4ZlQsuLSdxTSp9EeShABMNHNJC9YUYhY3E3oVkHL1Dk/pgjPMrFVcuOD0Hnve35qhrb4es4YTVgT6h8/Xv+/Rx8mmOXhKjeH4axvBFy4DMuP5DaBlMaWl6oLYnaw6SBercHep3IDCqmQWCciNGOu9uDao5ClpY7S572fyFjNGR+nZSAEb4wPSku+trcFWV4W1qVFmp2EdwXlJw+PZM3y1hvgFkabYhe+bhBxPt9n3ptRDwNC+WMyM45L4brC/TncqVE0P2f1OYVqj6ABB/z3L5PnxsBf6Repc7hSlYnSXPYN9snvg9tYi6CyuSOVvLVFnG8AKHoOwnDTp8NH+kOLpTSfJwHVCmTVnhtDpvu1l+i7kV5extgfAkW8HYbDUiZ0WDpYTmZt6+LTE3KP3O6nSIxQ06DoaQVvTaFu2mB2gYxBxOEddKCX/oH2E7+urSld8anWGpR22e1J16dtbf10H8Y1iuXaxPgwHIOZ36vlpMCmRNxc=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(7416014)(18002099003)(22082099003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(7416014)(376014)(1800799024)(6133799003)(56012099006)(4143699003)(5023799004)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?NnF3czClUvEA9he2aD7OePZC1k1gE1Wrvs7j+V8iDqscubEiFi5gesOxomv4?=
- =?us-ascii?Q?vC3sw0ctCvAPJO5Wlsy0w5T01re+x9Jy4TLp2pnGlyN9UmCOv2+0Ej1SU0WY?=
- =?us-ascii?Q?SjY8rPNXEF+1R0ahek2UMap0BOGMBWWqtKeDq6Uq4L6YAePxfCcuMdVov3+5?=
- =?us-ascii?Q?Lg3Z3+LVt9sS2v/L66Yd5lUkRRTUBxboaTNSA3KtXzp3QFHL7ziTy9yFECY0?=
- =?us-ascii?Q?vhDBYVVQJsUgZmVRE1x0pkPq0+mlzCeBugBctzTH875UUiqD2kKyKyjXMb+S?=
- =?us-ascii?Q?NrVuePcLEWLpSSnL4z5tnyE9GWto4JLeQ0JqnV1+PWyDtjzRba+ZiMnAaTZ9?=
- =?us-ascii?Q?d0Cjf3VYv6GfY9tujAZ09KwAStPUDBnJ/MRGZxWZTM1ehHZ58EihX84FAaF3?=
- =?us-ascii?Q?62GSNtGKmJL6wTW3cgJcxvjt9RtwzybXus33/Gv/TzIuSp4qzwmM8eWyvFZh?=
- =?us-ascii?Q?nYoQw9xKSRz5zjJyunvP8wPtg4K2RMFxSeZjNb16wKUvePAljszdWOoyw7Ww?=
- =?us-ascii?Q?9icHo7SD0G51ldZ8cfF6fM/eOlg575EO/ZkxHzkeCIaWHEjRgn1r8Hxl7BDy?=
- =?us-ascii?Q?fQ5Dh8cdyKxdI5nay93/MTqE9VF0dsRlRPyntTf00RJsfcWMeS6xeTbifkSv?=
- =?us-ascii?Q?ybdhsize3BIDkhQr0pI7ErbOMSHKIMJLLyMPjbLAv4lZ+4JWnBQIx4ZviatA?=
- =?us-ascii?Q?Uvb2B7sx/VhFAxuLzyxRAraBgRw/gaN2JAWAsJ2I9cVfIsKgLIxVf5BpMy+l?=
- =?us-ascii?Q?fbwipXc8YedRXck/RphQQY0pO8PKi7n/m+kNAIxQv9BiUNZBJwZNpKZuBOsZ?=
- =?us-ascii?Q?QzR0CA6CZUtopQfzUQQJJi3JM/T/RJruRu2F5XaRWq9NNTqja4riOVXPiMEF?=
- =?us-ascii?Q?ahlJ5Q1QSpdbBz5SwW3PXMBR/OVKwwzt3uk3aU8ndmBq8GF40e1IzB409CEq?=
- =?us-ascii?Q?SNaa6STz+r0476MtSVynPz2Hv937hhtUCZfkTLpo5DsuhISK2jB6/Uqqj8uW?=
- =?us-ascii?Q?1Sn2OFiRXFWM9hLzZQlIB/4r7qqjy1eKCvjrT+q5380EaATMscvmJoWYg6py?=
- =?us-ascii?Q?sjg6EZFunXEekWPYqRDFy25+l+DjiP9OeqCKCsXJrv5PM//pGhs44VbqOEUL?=
- =?us-ascii?Q?x9UphPVL33N6BiIIX4UK0s9RnOYOiuIEmfP/6S7hou7tzP/TvaFVYOi9uEp+?=
- =?us-ascii?Q?eHvIEr03unEDz/z+BMfELDARyNb4fb/Izp5jMX8JSwQX6HZ2DVwaZA+G4dHq?=
- =?us-ascii?Q?loCPskFb0Xp9QQX8i3fGzgvT38Fj4OtoM5xsMap4I1FABx6WD7W0zeMe6I47?=
- =?us-ascii?Q?S5Fhq2M84QDuYmH2EIAStZPMCGRXXRyHAr9hlsZKobPwbOteT9CXgKJ8ae7F?=
- =?us-ascii?Q?12KQ52z2/BqkxlxEz+CsO39qAYYwal2R2wJdsqe5nNlR6goAPleDHKyXmikP?=
- =?us-ascii?Q?bEqP8tA1ocNEo5laJ74arR7DBboapjy4SZvahmq9WjoqN9Gl9NiCOQDNaGP8?=
- =?us-ascii?Q?n7WPYDfd14Ugkpu/nNJ2ekwf/NrgGivCJnxlgwnY23sY13nrJrD5BgJicwNZ?=
- =?us-ascii?Q?8BOy7pa8ltBtMIKQoPZ97tt8xyUZGdtRTzFYAYdGg8hIGNjxpDYtcmGlsTfU?=
- =?us-ascii?Q?3Ob6GiE4vgEh9eWHDEE6htYvJgEpQ5Ngw9zJK/+e6ONNfOr/GytlBV1Lts1s?=
- =?us-ascii?Q?Ir296INQddEWnU9XXufcCT1UZxtScJ4KY0/gvgxoiH+YfXA+?=
+	=?us-ascii?Q?Nw2eJym8W5yNf91gC+Z/hIOBB8dQ1Y2L1B1kUhlBJj3ncC2TkNeOiVuXO1dI?=
+ =?us-ascii?Q?eHs3tRCF/YGaMAFHkioQSlliz1jdsAQCsL67MCmdjG9cyxJJ8IGCXOzJ/QEX?=
+ =?us-ascii?Q?ShQK46ps36scnyo9Yi74tR/nT+F+E9m9TH/utxBKYyjuh4ojy2ScH8aslZ/u?=
+ =?us-ascii?Q?RgVG1hlNFIT3uJHVuRkfWMwg2I98YiJ8pWpF9rEIeThrjVqJxmMz/59fNigJ?=
+ =?us-ascii?Q?rn7KiAkV79L4/AEHd6D07Gsrddn6SXyhAfV0FyDOGlDx/h4M1r4MRJrnghfD?=
+ =?us-ascii?Q?6fNBlg8/QXcuIcwl3e0DDOfFF7ICaigkYJel5MqFfrtzA7/bwTCA4Am6PCv1?=
+ =?us-ascii?Q?U0jAAtCWCUIdiiMkbdmsKvZC4yYM7AzCyZ8NE2nucpCX44wrNo4d2VxVXUzT?=
+ =?us-ascii?Q?k5Udo6InRDDSFz9T9NAyyW8m+etpYainclwIdq91xhAHWcYvZzv+PV/Wc6Ko?=
+ =?us-ascii?Q?wJ1sL9CzBda5u1oOefXpugVF2F2YfrtO/DtIO10TCfofl/k5wbwTdAVtn3pl?=
+ =?us-ascii?Q?71llzFdg5B+EQgOEbw4uXkTHezv9SGwLXWr7qsmhf1YqBiQDpB1u1Vqx0nRa?=
+ =?us-ascii?Q?674tLiR1afZgYC2+DxeGg5WY445EJCW/xe2bwHefIwrkHRvo4itKkEfj/U68?=
+ =?us-ascii?Q?ViY+uq8p9CFdTfaYv26Veb6Xh4pua6oQQkGeOfNqPdJ8IBH962AQ0kDA+sEj?=
+ =?us-ascii?Q?MKizi0ejYL2JbKYUiX7MuOm14ERVLZYFp1eU5mRthfVkXm1FI1S913X0T9PX?=
+ =?us-ascii?Q?7qRukIV5YiSI3GZ6WuB69JdT0zQvzYTDKRZiZ3D11BXPhjJ7W9jxouW0jUbh?=
+ =?us-ascii?Q?nB9TGLONXl8id5sfHywkboY4ksHoFT2P3ot9E0bT6LrXdJjmngLt/fw7IRyQ?=
+ =?us-ascii?Q?eaBwpRMZTiBJLy+j3R1g4rjYDupOTMRm1pGlRTci++RaG5ZQI3moeRz6rnPv?=
+ =?us-ascii?Q?BqmVVYbXtcm+B2EOdVWPDryAlQSZlwNXPp69iuYXtmHMrJHt2gXv/h3UNvSW?=
+ =?us-ascii?Q?Ov7AfKMOs935ojMGeIItxUtjQyJU90F8NynXEoK8x0t4rjlW+gPqIzBlBC8g?=
+ =?us-ascii?Q?EnBvc6O6PdKivGvxZ5qO1C65F+IQoBV4osqoVihin9b3Yzpq+QxzWjKOjI4h?=
+ =?us-ascii?Q?pi/AGh1zcacexo+JWy++fAkMFLJLWRF9cXYrPns7pVBxFylWPQbboiVwP4ij?=
+ =?us-ascii?Q?fCM1Q1n2PvOCOiXYruGPiZtK+rSHFbJao0A7LBtwcSJRC86CbNcAE0BNa/Hd?=
+ =?us-ascii?Q?qI9RUipWw52A7+APgUEGTofL58kgJuHS02Zz1aPtzZerbZHEcoyNWZ5cB8hJ?=
+ =?us-ascii?Q?ZLLKH0lFg4v2tbr303RVR0quLac54+RFo5t0MaekRBHFGRIXEBbD0EYKe/wI?=
+ =?us-ascii?Q?rFz/THIMY2OmKORPRkHGr5QS5HIfTVRrmgbJcFnUN8sEPJuufwyAOMYS2LXZ?=
+ =?us-ascii?Q?V2vakaLqXVPmkFRuem1NfFBBMigxbQRAle070md9fxPQv0es4K2WokbLk6ad?=
+ =?us-ascii?Q?NQvsrFVbB8gGr+IbPg8s78lX7ZnOxEDRyqeo1cNTFsOG9YY5gS47WjXx4DQD?=
+ =?us-ascii?Q?55FibucUe1ijlebDqFPcwlUVldIbKGOtg2qf5pSe3NhWNLJNRQaTbEXbp5J3?=
+ =?us-ascii?Q?wZCd51dXOE6MKU9vx9PxID45l0qDV3JYkF/QT6QUfFYN7XTU3NNPEnYv07oc?=
+ =?us-ascii?Q?biHh8Bl/3ebaBLR1W7zkNT3IlkSzhgbairLpm6Y5mMlhCpMheaZPnGLkqC7L?=
+ =?us-ascii?Q?nKc6O5paAA=3D=3D?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9206a5f0-8554-4c24-96ff-08dee1a3d028
+X-MS-Exchange-CrossTenant-Network-Message-Id: cdeeea99-d1b0-4c56-0767-08dee1a618e5
 X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2026 12:31:22.4503
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2026 12:47:43.4433
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xyAvtP1Q+2xnJGSzIvHgzfGckPx0yG5d6inJFXBr+5XoYZCXwyjIhSjAEkOgQ8mBlqFyO8dOTVm5bIGNRd+MYQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6872
+X-MS-Exchange-CrossTenant-UserPrincipalName: orv6mo1W0E7H+VFiTGtyyYjYwsCMP/28XqbLXsmuCwSq8jKo2FYE0lAynpBSTv+YFNBCO6ISJAo+9bcJ+Uslng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6610
 
-On Mon, Jul 13, 2026 at 11:18:59AM +0530, Shrikanth Hegde wrote:
+On Mon, Jul 13, 2026 at 10:43:15AM +0530, Shrikanth Hegde wrote:
+> Hi Yury,
+> 
+> On 7/11/26 1:30 AM, Yury Norov wrote:
 
-... 
+...
 
-> > > +requeue_work:
-> > > +	/* maintain design constructs always */
-> > > +	WARN_ON_ONCE(cpumask_empty(cpu_preferred_mask));
-> > > +	WARN_ON_ONCE(!cpumask_subset(cpu_preferred_mask, cpu_active_mask));
+> > I think it should return status: if the function can't disable CPUs
+> > now, it would be a good hint for the caller that it would be useless
+> > to call it again.
 > > 
-> > cpu_read_lock here? And again, you should do something to restore
-> > integrity. WARN_ON is not enough. The simplest and safest thing you
-> > can do is to unload the driver. You definitely shouldn't schedule a
-> > new work against the broken cpu_preferred_mask.
+> > You may keep status in struct steal_monitor like:
+> > 
+> >          if (steal_ratio > sm_core_ctx.high_threshold)  {
+> >                  if (sm_core_ctx->status | CANT_DECREASE) {
+> >                          pr_something();
+> >                  else
+> >                          sm_core_ctx->status = decrease();
+> > 
+> > It would be a good hint to user that he has the driver misconfigured,
+> > and save the driver extra work. Same for increase().
+> > 
 > 
-> How about not requeue the work if it broken. Add a pr_err and return.
-> That makes driver pretty much nop until rmmod.
+> I thought about the extra work in function, but doesn't happen too often IMO.
+
+10ms is the shortest possible interval, 100 times in a second.
+
+> Also, it is specially not a misconfiguration for increase.
+> So i have kept it stateless for the below reason.
 > 
->         /* maintain design constructs always */
->         if (cpumask_empty(cpu_preferred_mask)) {
->                 pr_err("empty cpu_preferred_mask, stop steal_monitor work");
->                 return;
->         }
+> - Under typical operation of this driver, user will enable it once.
+> - Once enabled, user will use their VM as usual.
+> - Majority of the time the steal time will be less.
+> - workload are bursty in nature.
+
+Not necessarily.
+
+> - Occasionally many VM will have high utilization and there will be steal time.
+>   This lasts for sometime.
+> - After workload completes, steal time goes low again.
+> - Cycle could repeat after extended low steal time duration.
 > 
->         if (!cpumask_subset(cpu_preferred_mask, cpu_active_mask)) {
->                 pr_err("preferred: %*pbl is not a subset of active: %*pbl, stop steal_monitor work\n",
->                        pr_cpuamsk_args(cpu_preferred_mask), pr_cpuamsk_args(cpu_active_mask));
-> 		return;
-> 	}
- 
-That would keep broken preferred cpumask working in the kernel.
+> So when the steal time is low, though driver is enabled, doesn't mean it
+> is mis-configured. Just that there is contention and driver has nothing to
+> do. So, adding print there could easily consume the console.
+> 
+> Similarly, there could situations, where decrease cannot happen though there is
+> high steal time, Though they are corner cases.
 
-Imagine, it becomes empty on Friday night. That severely hurts 
-the scheduling on the VMs. So, your approach requires the VM
-admin to come and manually rmmod the driver. This is not how
-he wanted to spend the evening, I guess. :)
+OK, that makes sense. If one needs to fine-tune the driver's
+thresholds, he'd monitor the preferred cpumasks statistics.
 
-So, ether unload the driver, or actively recover the invariant.
+> For example,
+> - one small/few VMs have not enabled the driver. steal time could be high, but this
+>   VM has already down to one core. It can't decrease any further.
+> - Though all VMs have enabled the feature, but task running is not FAIR class. Though
+>   steal time shows high.
+> 
+> Hitting only one core or all cores isn't necessarily a misconfiguration.
+> It is a possible behavior during severe contention or complete idle system.
+> 
+> we need to continuously monitor steal time so that it can expand/contract the
+> based on current situation. If we stop calling the functions, natural expand/contract
+> will not happen. There is no interrupt which arrives due to high/low steal time where
+> we can kick start the driver again. Also it is a difficult ask for user to keep enabling
+> or disabling the driver.
+> 
+> Since this can be called at minimal once in 10ms, I guess we can incur the additional
+> overheads to keep the logic simple and stateless. What do you think?
 
-Thanks,
-Yury
+OK, it's your design.
+
+> PS: I will remove that additional SM_DIR as you suggested in other reply. That keeps
+> it all stateless.
