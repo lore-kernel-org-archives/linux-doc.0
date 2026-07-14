@@ -1,123 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7932D2E8B9B;
-	Mon, 13 Jul 2026 23:40:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAFA36D4F1
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 01:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783986056; cv=none; b=FPSYP91bVQxqAEMFUMgJKeGO18KIt//193xlEP2oLGue1Qu6MmOB9ErIcCJ1Hv001iGmL4ZMgtxlgUTMVvVmQT/wsGaxxrWaQujTIbWCB9//toKcGLqf703+lHKA5mUKIIJ/KeyuzFJdJgTLZiP5/lU4rewElHKb13VjEalNTkk=
+	t=1783993429; cv=none; b=NSySUleUuBjhI7W52bHlNA1ELrL1/YsoQvpCpj8MffKOouA9YmqSXHdTyf7TrwCXpSShdXeWH47B+NjyXS3+gz74k4vXBU/KBFdxHbMNezYPia4aWttDQcmdueGwEDg+xMGtusQgUHo6iQkhkDVxJrTTXV54SQMULARDac7hpI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783986056; c=relaxed/simple;
-	bh=0NsG52ujgvHG9+TRQ5dWtOl0ctWKEYwuRb5e4iLxvU4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X6I9A45grfA9tp+u2Ei7KHEAc663GrfEcG6pkheTJmTS+QE2SFLqKUcC72aHxNfdLprqMCAKY4uELY3+VmkwtSyAYu76wUQy/NwqgGZbMFCGYAvzYMkUdVeNXAT9cLXxqScA/33fL4VIQfbRcv+v4KbdiX1pEAS/mvYhWa4H274=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MrKuK6P4; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783993429; c=relaxed/simple;
+	bh=dKZHmZi+xVQS5CbSi+LMf6D5ukNa65oK0aZqGSLgxrM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UlVOjm2f3zQbp4damHmlztVV3SgiZQy2+nX407q/fu8C9b0uTTv3n6wqFNDmt9f0xE8QmAymRFVNxLDq5t7YVhiGxtxD0jTtnmSF/au2B5R18JEZIpLmht/6RyysXdbtBwQH9A6I+2W0glJOTWU7Mlu7dIQeBlnpQsnRXY6PrT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=luRz8Es4; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MrKuK6P4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783986054; x=1815522054;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=0NsG52ujgvHG9+TRQ5dWtOl0ctWKEYwuRb5e4iLxvU4=;
-  b=MrKuK6P41JPadlA13nH3TxJtGFFq/dnPCjthwIS51DFQsT3SDBIlb6Cz
-   a1MfKDTN4IYlb7+cjPP5gnjOfgN31PO3SWMwim0XNbXgn7kKhCsgy0G3W
-   CXkfek49xMT1l+SHMVvazLlRX36pZNVXjTwaOoQbubJ+u6w497mcdo4Vq
-   2HJDvq0PvIEFE9PFFBt1hYh8DR4bSOV0qJbqj7towzPj1gfAuPGdzzWqW
-   8pnADfgOlCgrvAOdmO/KHSHX85jE21UxDz3XBPBD2xG0BWT6Zt1TU7thl
-   sd/vGxN92vvMVBqR7k6NmJJW2841JY9jztacwNEaHDozIO1aRo0XCemTO
-   g==;
-X-CSE-ConnectionGUID: N6LDwW6VTF+cXrNs8epPgA==
-X-CSE-MsgGUID: inBaQRWgSnGvimVKNVeEaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84480978"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="84480978"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 16:40:53 -0700
-X-CSE-ConnectionGUID: eHAC8Z0pS/GsH5SUN9wVlA==
-X-CSE-MsgGUID: 11/n+O3oRYeE5TObh612/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="251261395"
-Received: from smithj1-mobl2.amr.corp.intel.com (HELO [10.125.108.83]) ([10.125.108.83])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 16:40:53 -0700
-Message-ID: <b03d7122-52a5-4539-817c-15735a774ef7@intel.com>
-Date: Mon, 13 Jul 2026 16:40:55 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="luRz8Es4"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38deea72eebso1676765a91.1
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 18:43:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783993424; x=1784598224; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=gCQhDpUBQaP5eNAOavkcbS3PiRS94B5qHHxRvZHqb+U=;
+        b=luRz8Es4fOKbrp/4HFzYfKSnxm53ZrBxqtDxxKYmYtXXRQywvuJbL9cXxvcQKgrTFH
+         KtX/NF8TY8cQjqfs//DzIfNU4XDfHIm4XGxd6PfDLfOkGJbsw2CFfbypHwkC6gmS3Xv6
+         D64JsDeP9EtFZD9/ev87S1a7oCFyPOX/f4X8CHe9Usfo2MGNxoInQTXvpHlB1ZUsvOwS
+         rcVmGXlwl2+iDuKEzYa9MJlg5xqWQErU3aKfg+62YBsqMw8Va19hdKRwA9+9n3y3RfTg
+         0OWer+IiKB8n7b8PH9JVRBX6ee9XpvU5HpXV9VBhsW8B0aA+nGbeH/Q7ij4YMeV+JuXX
+         5G8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783993424; x=1784598224;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=gCQhDpUBQaP5eNAOavkcbS3PiRS94B5qHHxRvZHqb+U=;
+        b=I4w5NXHbWwF4ysNdNE1vGnT1XYsLfKLhhxnZk6B+uIm9PzisBsu4coV5ps3VODh+hw
+         jGgeVwZf8HqPfvrzf2SKuBR6w5BNC2DZoWHmFoDF4FSvuuBBGY8HW59x7OoU0yHp+DbP
+         ufi9eZUfMQvsSLORRbBH9Hl89gRg67nnEfAFrRpfbvxUGGAQkE0RL2jkQuIxgLR+CaeW
+         LSgOP/dHYJBzHDGj2pCX/7lFxMRza8PdwsQUtSOiqtRuODH32saui+U1EgchP27g2CER
+         rwWwpWTttbPG2rpX5sfN/nx1AUL7BD4/7JCFcK+KnuZakSMaqz6uaUVi7yRilw+O7LHe
+         9TpQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqFh9OgQJWnQWDW6qLniBCONwJ1kVZGVV9yMF+MpIDxGAxR2P+2k+iYC2sUZ9zhE+5rbtKK0gIcAiI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHbWFk0vDPy5MhMHunKfoJqTAJ74EL1Izp8jk6ULXFY+HDdKMA
+	AAqmZwuXRQ7YFaEe8lj7ayUWlgJK7xq9YQoQ3P1C4O8mxH2vsDHPBKx2
+X-Gm-Gg: AfdE7ckqp+khjZL1u+LJ4h1ICFWzUWgRjoG4FonutJ6ANyq1uZZwsMUGmufL48M0Bfl
+	jXVSNRioGgE0vW0rUIJb0axb15QX+0h+ypvjmorR0j2m2QZebP2IdvLeLWcw4TeTtDuioobCcR+
+	FbaknhUk6NH69AaKxIrFa1q0+n6TvtC9E3D4u2udBrlrInZpcnFXJtZzKSU5QkB73oPc4ZSDYjP
+	WjsRMm7FEhOScHbxBuXPWBSUzFKmNLSIA1YFk5o6mR3wWywt71bV8G+3e4GBhot3GpCVvZM16Pg
+	6bZVMA2K8IMV39vW6ZY/SNg8nVxTISbSj/Rd84GUOXSlTi9HYGiTo5NTNpLUi/tphnuKEW3+SBK
+	Ln2BrE13PiaQw6T4On4VE8rLtS9GdtDO+Ni3cTZtlj+QQOBnAQ7Bk7/5rYzUYoMmQ0ULI+U1di4
+	npgqdM0eowFg==
+X-Received: by 2002:a05:6a21:730c:b0:3c0:9c19:65b7 with SMTP id adf61e73a8af0-3c110a207ebmr13095048637.63.1783993424197;
+        Mon, 13 Jul 2026 18:43:44 -0700 (PDT)
+Received: from sleipnir ([2804:d45:3612:3b00:32a3:79f0:cdff:a04a])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b924258a2sm59675775c88.1.2026.07.13.18.43.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2026 18:43:43 -0700 (PDT)
+From: Lincoln Wallace <locnnil0@gmail.com>
+To: paul@paul-moore.com,
+	corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	penguin-kernel@I-love.SAKURA.ne.jp,
+	rdunlap@infradead.org,
+	Lincoln Wallace <locnnil0@gmail.com>
+Subject: [PATCH 0/2] doc: LSM: update usage document for current LSM stacking
+Date: Mon, 13 Jul 2026 22:38:30 -0300
+Message-ID: <20260714013832.977443-1-locnnil0@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 0/3] x86/vdso: Improve vdso=/vdso32= boot parameter
- validation
-To: Thorsten Blum <thorsten.blum@linux.dev>, Andy Lutomirski
- <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Cc: x86@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260713233422.127348-5-thorsten.blum@linux.dev>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20260713233422.127348-5-thorsten.blum@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 7/13/26 16:34, Thorsten Blum wrote:
-> Replace the deprecated simple_strtoul() [1] with kstrtouint() when
-> parsing the vDSO boot parameters. This provides strict input validation,
-> rejects partial input, and warns when disabling vDSO for invalid values.
+The LSM usage document (Documentation/admin-guide/LSM/index.rst) has
+not kept up with the LSM stacking infrastructure. It still describes
+CONFIG_DEFAULT_SECURITY, which no longer exists, and its description
+of the module ordering in /sys/kernel/security/lsm does not match
+what the framework actually does.
 
-Hey Thorsten,
+Patch 1 updates the selection mechanism description to CONFIG_LSM and
+the "lsm=" parameter, keeping "security=" documented as the deprecated
+legacy option. This revisits an earlier attempt by Randy Dunlap [1]
+that was rejected for treating the two parameters as equivalent; the
+new text keeps them distinct.
 
-I'm curious what motivated this change. Were you trying to manipulate
-the VDSO and ran into some difficulties? Or is it a larger effort to
-audit and simple_strtoul() users?
+Patch 2 fixes the ordering description: lockdown precedes capability
+when CONFIG_SECURITY_LOCKDOWN_LSM_EARLY is enabled, the integrity
+modules are always placed at the end of the list, and the remaining
+modules follow the order given by CONFIG_LSM or "lsm=".
+
+[1] https://lore.kernel.org/r/20250114225156.10458-1-rdunlap@infradead.org
+
+Lincoln Wallace (2):
+  doc: LSM: describe CONFIG_LSM and lsm= as the selection mechanism
+  doc: LSM: fix module ordering description for /sys/kernel/security/lsm
+
+ Documentation/admin-guide/LSM/index.rst | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
+
+-- 
+2.53.0
+
