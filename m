@@ -1,181 +1,100 @@
-Received: from pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.12.53.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BB23624B2;
-	Tue, 14 Jul 2026 02:04:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.12.53.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9D037B03C
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 02:17:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783994689; cv=none; b=rl8KTr/Gw8j5IXuS4YBosjWErnzhvsAKgpRSJu6k/rMEvTB2IDG/2lY35vnW8CXnSjln1pBk97xPMlMLuyUEtDHuuXkU/1npUTXmyKJj6riWzcubldyQfhN4VX09a9GNj0vR6/8B9CbfJq/06hW4fZGlxv5gc3z2sAmO/G7dda8=
+	t=1783995423; cv=none; b=BDRsn1z8fCpagGNxALMWkBTN6Db+fPeTM/xqsbKqgjHLm5Dh8YnAOTY9sZGceuRTmK4+B1g8Qt8zYlYb0DaDp6dHFdWPh6rs1yaejujQnzcOvzQK06ihWwOpWJGxahNuAFQJfiiqbI2qC4OkTgtHbtRPT/RB8UVsE5L7mQXRqsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783994689; c=relaxed/simple;
-	bh=57qGqSE9tP6lPRw/YAUHjWMVC1tvGg7x5fped7GmMnc=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hRh/Yfr8uMQ/Cu8UJxak0jIifm1UmUbrve3skrTzLOo66js1+sf2hUU8lnpz4rw0R3J0GvryDAlm09I/hT2T/pjDnpFzBqsX5heodmXhVlbwSQirSeeMTiVHRPYvaPdJLyLVOYShQjZN24/3drSyLsgxM9fJYqTp6knnHKhqe+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=LsHiFM15; arc=none smtp.client-ip=52.12.53.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1783995423; c=relaxed/simple;
+	bh=PwGUfTieG/50OjcsJpku7eifqwWute7gRHBd8d6gnw4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tmrEcd/axrzfv9NaHQVyC6sXQFSljog5pCY+uBQHMPEq3ye3v2X8rMzNllPIuYlMPZh09TDcNQ9qQbEsDR+3RdBTQyA+a1w9elhvtq+7E4mzv0ajca3Hv+tFWSf+FlK1yPfCcGBfmQu54AwfcF1EOWLBGZDgMiAHLsV8FOT8gGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QZmoRZbV; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="LsHiFM15"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QZmoRZbV"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c9aea40d799so207097a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2026 19:17:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1783994688; x=1815530688;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=7zkFcRd5mu9B02BIWtTtfZKps/G89UKhgagGL2Z3qRE=;
-  b=LsHiFM15McvgCm6z7Gz3Nsio2K7iZexrFFVFdEkpeCIoWrjnXeNc7Xo1
-   6v4YDeQ8PsHdTnMawUyqWX5mQ6GsR9ZX9wDq8rHfqVhTgYK8QYzc1Ehln
-   uKy+lGSUzb2Du/SW/KIUwB04rxVJ2e/UNe2ofLGbwfT8DkoyQcD7M/3/Q
-   b0d2c9nL+FZ66zCNbVYbUKS194rrxe+HlCh/dz02ApIJkq7jxEWzqDvQ8
-   wyoSKdIT1I6qzBg6E1hnmvTykreafzCeNsUjoCi3UC13IuWeJrq8ZdWp7
-   UYBPPMy86sK5QEdacHkxcDilLzpbIWUthTRzL/SMmPDrf9TFvBzYNQs5i
-   A==;
-X-CSE-ConnectionGUID: y7v2r35uTYu6w8WzA4mRKg==
-X-CSE-MsgGUID: 5sXAcwIOS5CtsvdHvYfpJw==
-X-IronPort-AV: E=Sophos;i="6.25,154,1779148800"; 
-   d="scan'208";a="23479313"
-Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
-  by internal-pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 02:04:46 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:30374]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.40.123:2525] with esmtp (Farcaster)
- id f6d831c8-97fc-40a5-b045-0777f5a74624; Tue, 14 Jul 2026 02:04:45 +0000 (UTC)
-X-Farcaster-Flow-ID: f6d831c8-97fc-40a5-b045-0777f5a74624
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
- Tue, 14 Jul 2026 02:04:45 +0000
-Received: from dev-dsk-akiyano-1c-2138b29d.eu-west-1.amazon.com (172.19.83.6)
- by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
- Tue, 14 Jul 2026 02:04:40 +0000
-From: Arthur Kiyanovski <akiyano@amazon.com>
-To: David Miller <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
-	<netdev@vger.kernel.org>
-CC: Arthur Kiyanovski <akiyano@amazon.com>, Richard Cochran
-	<richardcochran@gmail.com>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
-	<pabeni@redhat.com>, David Woodhouse <dwmw2@infradead.org>, Thomas Gleixner
-	<tglx@linutronix.de>, Miroslav Lichvar <mlichvar@redhat.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, Wen Gu <guwen@linux.alibaba.com>, Xuan Zhuo
-	<xuanzhuo@linux.alibaba.com>, David Woodhouse <dwmw@amazon.com>, "Yonatan
- Sarna" <ysarna@amazon.com>, Zorik Machulsky <zorik@amazon.com>, "Alexander
- Matushevsky" <matua@amazon.com>, Saeed Bshara <saeedb@amazon.com>, Matt
- Wilson <msw@amazon.com>, Anthony Liguori <aliguori@amazon.com>, Nafea Bshara
-	<nafea@amazon.com>, Evgeny Schmeilin <evgenys@amazon.com>, Netanel Belgazal
-	<netanel@amazon.com>, Ali Saidi <alisaidi@amazon.com>, Benjamin Herrenschmidt
-	<benh@amazon.com>, Noam Dagan <ndagan@amazon.com>, David Arinzon
-	<darinzon@amazon.com>, Evgeny Ostrovsky <evostrov@amazon.com>, Ofir Tabachnik
-	<ofirt@amazon.com>, Amit Bernstein <amitbern@amazon.com>,
-	<linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>,
-	<vadim.fedorenko@linux.dev>
-Subject: [PATCH v4 net-next 7/7] net: ena: Implement gettimexattrs64 callback for PTP attributes
-Date: Tue, 14 Jul 2026 02:03:08 +0000
-Message-ID: <20260714020340.25014-8-akiyano@amazon.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260714020340.25014-1-akiyano@amazon.com>
-References: <20260714020340.25014-1-akiyano@amazon.com>
+        d=gmail.com; s=20251104; t=1783995422; x=1784600222; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rrlmXbRSsvwvXnyIChusW3biT2HdiSPkf4UnhnPPa2g=;
+        b=QZmoRZbVWSDoAja0vMLUkFP4LUjYy6DZLYuBtuJ+Q9IlwDxEck5Jhjjw7DaxnzRmhY
+         NkOKKmaSPQxlmQu3iBpZok/SQxcVXT0oLYcPbHi2s057GvbzR6udVt1aJ0HsdIGhcppU
+         TkUp0r3oFTFuyqL04jCdiZzTCAT1pfUbW9G3YDuNI7om3F/z4SBa5CNs0GeVkTQyBtB+
+         I05DmDp5s0X18Q1XIInutIPA967twbl8z4KgWi4AP5npVMus2w8y6uJzp+4qZGdqf3Co
+         ev8xhJ64LvQGMuFBfWmtgc1NFUCWBy9F+ny8wJ3LDzGDb80E+13Xd3FcF5NBbF1LR7/e
+         OZ4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783995422; x=1784600222;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=rrlmXbRSsvwvXnyIChusW3biT2HdiSPkf4UnhnPPa2g=;
+        b=GFD4M/LLvfoVFn5vJrQWonU4BqTmA4rpDfG+V+3LmsJE+KAWmpVxxVY9g05tcDQCgB
+         dpsimhAq1KgogizQJg0CqdPLrTseSwFUGWDr7jQrWS27P6Mhf4JyBwf9eZkxA1fsTxyv
+         zrtVlkQTw9aOjVuI7BJ7CCaqvhGdhgmX8Nw7uIbp5pHFSDdc/hn6qdv1DuD2E8RP5svm
+         tx+XeRLoPA3FignVBC0fIGpNiPnRYDgm2X0bv1ZbsLwFT2DOYEm4J3IMANHGaCI4//ro
+         SuonozMbbNLWuzOqc6o5NqRE+/7Q2h1VHJbj7ak0C4Lml4Kks47XsQLB4SdiJ+kiCWy6
+         sMBQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpYXupL0OmGF+vmkwLrfLMXBKIY9fHWtQjOCF8PYK+Od/THSZLW1uQ37fql+rFkmg03Fh8kQD7rEvA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzF0FKPUQUw23ADj2FtDfU49hpeTE6F85jjJ2Ek86jtniEtnhIb
+	ypanJcIRra3HkgZUK4Fln4OJrPQQv8phC6Yp9Ov/7f29tF0XWmkdlA5l
+X-Gm-Gg: AfdE7cm49w7byn9CvKYEczOtChXksdiKDDY0keReWjMeVEfJoYcilZ0qrzNRYl3u11F
+	LOb+JPcb8FNViAJEgXOAfaWGKnCtwhOEHTluV9Uf1RBGXnrpyhMx5SfP3VmzLPdvThvVb61cBIb
+	U8EzdC8MfL87hfwe9R/MN71hlc6m6V9NADausV70NOUNQbH6Rxh/3AWMZbpjn/x6fNLFTrkyH30
+	DgHQiA5f9ZNKTsUSlH6Vv7H/sYx/kZdGbnmlFtDGokoeSujH1pLKM2zbsu5TIUndhoCd5ajnVFK
+	DdxJwmdq/mb7+49IEamGS9tLzwHViLf5hOcN5i7pv1ke5xW8yZjlogn+4b65kO4iXvd5hB+cJja
+	cuR6VnRv1eBgqWtuvtPh4l4B0cL2TrAC/iiuGNzQ7Q2+/dZ/5Qray0PCu1+69MIaCuX0QOqyvya
+	BdqofXQOHYy/LkEL/caBIdzz4xK+5CAK0Q4zs12HlFdkDq484vod9e5LDFr3z3NrDO
+X-Received: by 2002:a05:6a00:9298:b0:847:86d8:5937 with SMTP id d2e1a72fcca58-848897d3be6mr9715305b3a.50.1783995421730;
+        Mon, 13 Jul 2026 19:17:01 -0700 (PDT)
+Received: from ?IPV6:240e:38b:e68:3a01:ce86:5400:dbd7:7cc6? ([240e:38b:e68:3a01:ce86:5400:dbd7:7cc6])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84a4f7da400sm640395b3a.43.2026.07.13.19.16.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Jul 2026 19:17:01 -0700 (PDT)
+Message-ID: <690241c3-8aed-4690-8f03-0dee1adf073e@gmail.com>
+Date: Tue, 14 Jul 2026 10:16:56 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/zh_CN: fix KASAN SW_TAGS mode description
+To: Zenghui Yu <zenghui.yu@linux.dev>,
+ chengyaqiang <chengyaqiang@chengyaqiang.com>
+Cc: alexs@kernel.org, si.yanteng@linux.dev, dzm91@hust.edu.cn,
+ corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, chengyaqiang@tsinghua.edu.cn
+References: <20260522075735.2022734-1-chengyaqiang@chengyaqiang.com>
+ <05ee738e-37ea-4697-99de-4cec914066b4@linux.dev>
+From: Alex Shi <seakeel@gmail.com>
+Content-Language: en-US
+In-Reply-To: <05ee738e-37ea-4697-99de-4cec914066b4@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D032UWB001.ant.amazon.com (10.13.139.152) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-Implement the gettimexattrs64 callback in the ENA driver to support
-the PTP_SYS_OFFSET_EXTENDED_ATTRS ioctl.
 
-This enables applications to retrieve PHC timestamps with quality
-attributes through the standard PTP ioctl interface.
 
-The ENA device currently reports only error_bound (valid bit set).
-Other attributes are not reported (valid bits unset).
-
-Signed-off-by: Amit Bernstein <amitbern@amazon.com>
-Signed-off-by: Arthur Kiyanovski <akiyano@amazon.com>
----
- drivers/net/ethernet/amazon/ena/ena_phc.c | 58 +++++++++++++++++++----
- 1 file changed, 48 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/net/ethernet/amazon/ena/ena_phc.c b/drivers/net/ethernet/amazon/ena/ena_phc.c
-index 2bcb5af564e2..725c36fe3f6e 100644
---- a/drivers/net/ethernet/amazon/ena/ena_phc.c
-+++ b/drivers/net/ethernet/amazon/ena/ena_phc.c
-@@ -25,6 +25,43 @@ static int ena_phc_feature_enable(struct ptp_clock_info *clock_info,
- 	return -EOPNOTSUPP;
- }
- 
-+static int ena_phc_gettimexattrs64(struct ptp_clock_info *clock_info,
-+				   struct timespec64 *ts,
-+				   struct ptp_system_timestamp *sts,
-+				   struct ptp_clock_attrs *att)
-+{
-+	struct ena_phc_info *phc_info =
-+		container_of(clock_info, struct ena_phc_info, clock_info);
-+	u32 error_bound_nsec;
-+	unsigned long flags;
-+	u64 timestamp_nsec;
-+	int rc;
-+
-+	spin_lock_irqsave(&phc_info->lock, flags);
-+
-+	ptp_read_system_prets(sts);
-+
-+	rc = ena_com_phc_get_timestamp(phc_info->adapter->ena_dev,
-+				       &timestamp_nsec,
-+				       &error_bound_nsec);
-+
-+	ptp_read_system_postts(sts);
-+
-+	spin_unlock_irqrestore(&phc_info->lock, flags);
-+
-+	if (rc)
-+		return rc;
-+
-+	*ts = ns_to_timespec64(timestamp_nsec);
-+
-+	if (att) {
-+		att->error_bound = error_bound_nsec;
-+		att->valid |= PTP_ATTRS_VALID_ERROR_BOUND;
-+	}
-+
-+	return 0;
-+}
-+
- static int ena_phc_gettimex64(struct ptp_clock_info *clock_info,
- 			      struct timespec64 *ts,
- 			      struct ptp_system_timestamp *sts)
-@@ -62,16 +99,17 @@ static int ena_phc_settime64(struct ptp_clock_info *clock_info,
- }
- 
- static struct ptp_clock_info ena_ptp_clock_info = {
--	.owner		= THIS_MODULE,
--	.n_alarm	= 0,
--	.n_ext_ts	= 0,
--	.n_per_out	= 0,
--	.pps		= 0,
--	.adjtime	= ena_phc_adjtime,
--	.adjfine	= ena_phc_adjfine,
--	.gettimex64	= ena_phc_gettimex64,
--	.settime64	= ena_phc_settime64,
--	.enable		= ena_phc_feature_enable,
-+	.owner		   = THIS_MODULE,
-+	.n_alarm	   = 0,
-+	.n_ext_ts	   = 0,
-+	.n_per_out	   = 0,
-+	.pps		   = 0,
-+	.adjtime	   = ena_phc_adjtime,
-+	.adjfine	   = ena_phc_adjfine,
-+	.gettimexattrs64   = ena_phc_gettimexattrs64,
-+	.gettimex64	   = ena_phc_gettimex64,
-+	.settime64	   = ena_phc_settime64,
-+	.enable		   = ena_phc_feature_enable,
- };
- 
- /* Enable/Disable PHC by the kernel, affects on the next init flow */
--- 
-2.47.3
+On 2026/5/24 18:44, Zenghui Yu wrote:
+> On 5/22/26 3:57 PM, chengyaqiang wrote:
+>> From: chengyaqiang<chengyaqiang@tsinghua.edu.cn>
+>>
+>> CONFIG_KASAN_SW_TAGS enables Software Tag-Based KASAN mode, not Hardware
+>> Tag-Based mode. Fix the incorrect translation in the Chinese documentation.
+>>
+>> The original text incorrectly described both CONFIG_KASAN_SW_TAGS and
+>> CONFIG_KASAN_HW_TAGS as "基于硬件标签" (hardware tag-based).  Correct
+>> CONFIG_KASAN_SW_TAGS to "基于软件标签" (software tag-based).
+>>
+>> Signed-off-by: chengyaqiang<chengyaqiang@tsinghua.edu.cn>
+Applied, thanks!
 
