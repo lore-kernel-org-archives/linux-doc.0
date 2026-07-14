@@ -1,45 +1,39 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A7137E5D0;
-	Tue, 14 Jul 2026 21:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB123377A97;
+	Tue, 14 Jul 2026 21:53:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784065896; cv=none; b=pJ00ciVcQ7/gheGrQ1rFdAaBtRY14hDKMR1vxztcdLFZBywHuGzZv7MSmdeDsZ2dYcwCNHKVnTZKyvn6QKTO7cob0h/npthPpPJsqwBHJhAmfa5MUZVFb7ThAsmaSOcMzMO2HIVMKeaR8hpFzgCFt0NqpzqXtuqKcWePdlls9rg=
+	t=1784066037; cv=none; b=joPZZ0jPMRl6IN2KB6ZQttYHObl+txs9In7KpidwMuGZX8GOgPY38lr85/mIgj/J84M3kgvjoy2SzHLIwjvmTQJ5/faQg7rn3NCrgd77a5wIyx/eqCrXQzTZdLJbtsivg677gXNUzASpmSb+eoTIlVcGt4+7vOUpxKoCVlIfn6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784065896; c=relaxed/simple;
-	bh=bXaz2qZoLuJcWKSqSMD6L56EptgMfeC1fMDylZ7aMcs=;
+	s=arc-20240116; t=1784066037; c=relaxed/simple;
+	bh=x2Gh8QmklIM9C4aWufS1h0NEo7ZJy5Y4fu+SOBaQUzE=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y4gcTSQdlYLTGV7Y8X9yKGKDXTb4hQjxBOF/BKX+PbfdUs3i5fauYkPyaUvkxRCNP+3hDhvKmNzjL3fzbWp/NEL1NZHy+Hs5S9/QHFebE8rmrU5OB5EdCQvPBfoJPKWk1bcgcWuLTg+KeyCljuVl1nolGXqvONesh57UhM7JOh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
+	 MIME-Version:Content-Type; b=AByN9mLMf9AwHAYmtElo9siopRPsxRvVB5R9RP+f2GutLATG7GBjahPHlnNCuCmMW70vvs+ZwKRQ55FmVb/C0DVQwinATqDwnDODfVdEtcIWLJonN5iEeppO+mvf+nsoAwCBb+FAAoVFztgKOT+xUWZww8oJVYSBRK47LBR0GVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf01.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay09.hostedemail.com (Postfix) with ESMTP id 892F3804B0;
-	Tue, 14 Jul 2026 21:51:31 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf01.hostedemail.com (Postfix) with ESMTPA id A1A506000C;
-	Tue, 14 Jul 2026 21:51:27 +0000 (UTC)
-Date: Tue, 14 Jul 2026 17:51:31 -0400
+Received: from omf02.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay10.hostedemail.com (Postfix) with ESMTP id 22BA1C02B1;
+	Tue, 14 Jul 2026 21:53:54 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf02.hostedemail.com (Postfix) with ESMTPA id 50B3B8000E;
+	Tue, 14 Jul 2026 21:53:51 +0000 (UTC)
+Date: Tue, 14 Jul 2026 17:53:55 -0400
 From: Steven Rostedt <rostedt@goodmis.org>
-To: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Cc: Petr Mladek <pmladek@suse.com>, John Ogness <john.ogness@linutronix.de>,
- Sergey Senozhatsky <senozhatsky@chromium.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Russell King
- <linux@armlinux.org.uk>, Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, Scott
- Branden <sbranden@broadcom.com>, Andrew Morton <akpm@linux-foundation.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v3 6/6] Documentation/kernel-parameters: add/update
- printk_delay/boot_delay
-Message-ID: <20260714175131.1edfc880@gandalf.local.home>
-In-Reply-To: <20260712-printkcleanup-v3-6-574547b8f71b@thegoodpenguin.co.uk>
-References: <20260712-printkcleanup-v3-0-574547b8f71b@thegoodpenguin.co.uk>
-	<20260712-printkcleanup-v3-6-574547b8f71b@thegoodpenguin.co.uk>
+To: Li Pengfei <ljdlns1987@gmail.com>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Mark Rutland <mark.rutland@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ lipengfei28@xiaomi.com, zhangbo56@xiaomi.com
+Subject: Re: [RFC PATCH v4 2/3] trace: integrate stackmap into ftrace stack
+ recording path
+Message-ID: <20260714175355.1951b317@gandalf.local.home>
+In-Reply-To: <20260616064119.438063-3-lipengfei28@xiaomi.com>
+References: <20260616064119.438063-1-lipengfei28@xiaomi.com>
+	<20260616064119.438063-3-lipengfei28@xiaomi.com>
 X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -49,65 +43,139 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 7zy31kt8rbwtcxpe5riua91mpmyq316o
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: A1A506000C
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 50B3B8000E
+X-Stat-Signature: bw3tchexy4hy9p6wtxur8cyu9p5w985i
 X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18CNmWd2YhLXQvEn1XaHEtwP0wzcKYWfXE=
-X-HE-Tag: 1784065887-653010
-X-HE-Meta: U2FsdGVkX18t0ruRrD4DDDo0OZ1UA5N76Mf6Lk9oRwOylkSPIbsZWq73qoTz/bkApRB0oxXicLVMDXuK/ZC8dSH77knGTVCpJAZxUxtyvEH/UImu4r3aD8mxRcA5JsRDxTK2N0nO/Q3xgVVpTuV+t1StncIDm3pwv3kYfoeMs8Jg0EJem2UEWPdzi9oJndMRunIH/kS0lPHLDnjK39PoWXSlEiQYG7RJMAz69lnU0kl6Sb7Keuvboe2QUYC4iTAc0pSUneUfPyg9zXOkZ7TN5xPibPrdNOnPExVT/RiRYqicpYieJo2Af3W1FtfKy6YFNnYkT1kxOd8XliV8F5iK8P87+FxnmpA29LqdXki/3Q9gI9m/b6mxPiufh8MKnRsU
+X-Session-ID: U2FsdGVkX1/5R3tem202lJ/8uS3/VH8+Yl0L4TJiYuY=
+X-HE-Tag: 1784066031-212943
+X-HE-Meta: U2FsdGVkX1+y8UQMoheRgHjVtTaIzkHJqlOnFcEhwu8Xdu6uo3Z4DRZg53S996Q1b1m5Kcv5eHW8XL3iP6BwL1ne96U4hB4CDGtA6JotS0eSqCRUyfe8z+7rBH/ObcuaVvj+nxx1IDHwqvT2TFQsv9qW1LhnGSY6LvpfCceNDVq2rtlICWB2opAc6Qsp3ZKU5KG543vtzECxuOMo9hGj5f25k9n6w2zl11jpu+o/DqIhCdLvQY1AgTdRHx5vgoXe6NMNWWVyZIxygHaR+ctL2/0qmsMRFPQKAfM9cNZRJWGrd7l6HnfTIcIngsL+l37DOBL7zqMQNW/ajVY3rpOLN3LRhLJ5Uj2m
 
-On Sun, 12 Jul 2026 11:20:37 +0100
-Andrew Murray <amurray@thegoodpenguin.co.uk> wrote:
+On Tue, 16 Jun 2026 14:41:18 +0800
+Li Pengfei <ljdlns1987@gmail.com> wrote:
 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 2884103b93bca7b76cd3a93946276074cf62d0a1..1118feda87b1b04543b1da0bd52c090b1fddaeac 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -650,11 +650,19 @@ Kernel parameters
->  			See Documentation/block/cmdline-partition.rst
+>  int set_tracer_flag(struct trace_array *tr, u64 mask, int enabled)
+>  {
+>  	switch (mask) {
+> @@ -3993,6 +4091,33 @@ int set_tracer_flag(struct trace_array *tr, u64 mask, int enabled)
+>  	if (!!(tr->trace_flags & mask) == !!enabled)
+>  		return 0;
 >  
->  	boot_delay=	[KNL,EARLY]
-> -			Milliseconds to delay each printk during boot.
-> -			Only works if GENERIC_CALIBRATE_DELAY is enabled,
-> -			and you may also have to specify "lpj=".  Boot_delay
-> -			values larger than 10 seconds (10000) are assumed
-> -			erroneous and ignored.
-> +			Milliseconds to delay each printk during and post boot.
-> +			Boot time delays only work if GENERIC_CALIBRATE_DELAY
-> +			is enabled.
+> +#ifdef CONFIG_FTRACE_STACKMAP
+> +	/*
+> +	 * STACKMAP is intentionally global-instance-only: the dedup map,
+> +	 * its tracefs files (stack_map / stack_map_stat / stack_map_bin)
+> +	 * and the lifetime/reset semantics are tied to the global trace
+> +	 * array. options/stackmap is hidden on secondary instances via
+> +	 * TOP_LEVEL_TRACE_FLAGS, but writes still reach set_tracer_flag()
+> +	 * through the aggregate trace_options file. Reject the enable on
+> +	 * a secondary instance so it cannot be silently accepted and then
+> +	 * become a no-op in the hot path (where tr->stackmap is NULL and
+> +	 * the code falls back to a full stack trace).
+> +	 *
+> +	 * On the global instance, allow the enable while init is still
+> +	 * pending (boot-time trace_options=stackmap is applied before the
+> +	 * tracefs init work creates the map; the hot path falls back
+> +	 * until the map is published). Only reject once init has
+> +	 * permanently failed, so options/stackmap never reports an
+> +	 * enabled no-op. READ_ONCE() suffices: this only inspects the
+> +	 * init state, it does not dereference the map (the hot path uses
+> +	 * smp_load_acquire(&tr->stackmap) for that).
+> +	 */
+> +	if (mask == TRACE_ITER(STACKMAP) && enabled &&
+> +	    (tr != &global_trace ||
+> +	     READ_ONCE(stackmap_init_state) == STACKMAP_INIT_FAILED))
+> +		return -EINVAL;
+> +#endif
 > +
-> +			Once booted the delay can be removed or adjusted via
-> +			the printk_delay sysctl.
-> +
-> +			Please note that you may also have to specify "lpj=".
-> +			Boot_delay values larger than 10 seconds (10000) are
-> +			assumed erroneous and ignored.
-> +
-> +			This will soon be deprecated, please use printk_delay
-> +			instead.
->  			Format: integer
+>  	/* Give the tracer a chance to approve the change */
+>  	if (tr->current_trace->flag_changed)
+>  		if (tr->current_trace->flag_changed(tr, mask, !!enabled))
+> @@ -9222,6 +9347,91 @@ static __init void tracer_init_tracefs_work_func(struct work_struct *work)
+>  			NULL, &tracing_dyn_info_fops);
+>  #endif
 >  
->  	bootconfig	[KNL,EARLY]
-> @@ -5468,6 +5476,19 @@ Kernel parameters
->  	printk.time=	Show timing data prefixed to each printk message line
->  			Format: <bool>  (1/Y/y=enable, 0/N/n=disable)
->  
-> +	printk_delay=	[KNL,EARLY]
-> +			Milliseconds to delay each printk during and post boot.
-> +			Boot time delays only work if GENERIC_CALIBRATE_DELAY
-> +			is enabled.
+> +#ifdef CONFIG_FTRACE_STACKMAP
+> +	{
+> +		struct ftrace_stackmap *smap;
+> +		struct dentry *map_file;
 > +
-> +			Once booted the delay can be removed or adjusted via
-> +			the printk_delay sysctl.
-> +
-> +			Please note that you may also have to specify "lpj=".
-> +			printk_delay values larger than 10 seconds (10000) are
-> +			assumed erroneous and ignored.
-> +			Format: integer
-> +
+> +		smap = ftrace_stackmap_create(&global_trace);
+> +		if (!IS_ERR(smap)) {
+> +			/*
+> +			 * Failure-atomic init: stack_map is the single
+> +			 * required tracefs file (it doubles as the reset
+> +			 * interface and the human-readable resolver). If
+> +			 * we cannot create it, the hot path must not be
+> +			 * able to emit <stack_id N> events that no one can
+> +			 * resolve or clear, so refuse to publish the map
+> +			 * and tear it down.
+> +			 *
+> +			 * Create stack_map BEFORE smp_store_release() so an
+> +			 * observed non-NULL global_trace.stackmap implies
+> +			 * its resolver/reset file exists.
+> +			 */
+> +			map_file = trace_create_file("stack_map",
+> +						     TRACE_MODE_WRITE, NULL,
+> +						     smap,
+> +						     &ftrace_stackmap_fops);
+> +			if (!map_file) {
+> +				pr_warn("ftrace stackmap init: stack_map create failed, dedup disabled\n");
+> +				ftrace_stackmap_destroy(smap);
+> +				/*
+> +				 * Permanent failure. Record it and clear a
+> +				 * STACKMAP flag that a boot-time
+> +				 * trace_options=stackmap may have set, so
+> +				 * options/stackmap does not report an
+> +				 * enabled no-op and later userspace enables
+> +				 * return -EINVAL.
+> +				 */
+> +				WRITE_ONCE(stackmap_init_state,
+> +					   STACKMAP_INIT_FAILED);
+> +				global_trace.trace_flags &=
+> +					~TRACE_ITER(STACKMAP);
 
-The two parameters descriptions are identical. They should show something
-different. Is it just that the "boot_delay" name is getting deprecated?
+80 columns is no longer a hard requirement. 100 is more the default, so the
+above should be:
+
+				WRITE_ONCE(stackmap_init_state, STACKMAP_INIT_FAILED);
+				global_trace.trace_flags &= ~TRACE_ITER(STACKMAP);
+
+
+
+> +			} else {
+> +				/*
+> +				 * smp_store_release pairs with the
+> +				 * smp_load_acquire() in
+> +				 * __ftrace_trace_stack(). Publishing only
+> +				 * after the required file exists keeps
+> +				 * "smap visible" => "resolver/reset
+> +				 * available".
+> +				 */
+
+> +				smp_store_release(&global_trace.stackmap,
+> +						  smap);
+> +				WRITE_ONCE(stackmap_init_state,
+> +					   STACKMAP_INIT_DONE);
+
+Same with the above two.
+
+> +				/*
+> +				 * stat and bin are auxiliary observability
+> +				 * surfaces. If they fail to be created we
+> +				 * keep dedup enabled (the kernel side still
+> +				 * works, and stack_map alone is enough to
+> +				 * resolve and reset); trace_create_file()
+> +				 * already pr_warn()s on failure.
+> +				 */
+> +				trace_create_file("stack_map_stat",
+> +						  TRACE_MODE_READ, NULL,
+> +						  smap,
+> +						  &ftrace_stackmap_stat_fops);
+> +				trace_create_file("stack_map_bin",
+> +						  TRACE_MODE_READ, NULL,
+> +						  smap,
+> +						  &ftrace_stackmap_bin_fops);
+> +			}
 
 -- Steve
