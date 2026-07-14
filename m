@@ -1,473 +1,248 @@
-Received: from mail-pz2-f0.google.com (mail-pz2-f0.google.com [74.125.228.0])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012010.outbound.protection.outlook.com [40.107.200.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6640C1E5714
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 10:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.0
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784024883; cv=none; b=bhmhL9k/B2kb8NtB+npa4uIQVVM2u58nmmZib3x4fKHLs9Orjp7Yww7vB4f3YELZvwqlYHYh/OGq0U8b8/auMkGGhSbkiJkGoQrKnZEQzugrpSfT01R+gTITSclOT5pRgjj39ymV8YpJLBJXymeblmww2E+qys15UYqzORArGjg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784024883; c=relaxed/simple;
-	bh=nX1dasfADMUFXDtmv/kMMBbRlqZgy2bTt0HGn0xBwFw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=r1btamINab0GvGU7gWTVYMjTo/CgMeVklyC2pZsXzKB8QMA6sAEKl1KP1bL7G7OLiKZMDFpIs6XvYM4xBLFTm9W5Qb7KYyKNworT9cTTPHJpK23dWY66iw4nr75vrI/IhDXKhT+UaZ/48mORbkBS2fwWi8wLjHoLdXG+yobJgUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SpVf2tcX; arc=none smtp.client-ip=74.125.228.0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E14417A300;
+	Tue, 14 Jul 2026 10:42:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784025745; cv=fail; b=Qs/Vl6ePH1BcQFTf3hmIyoyuPIX2AP8JWGv9KnnVgUMOFa0CLuXWCy230SdAyxTZhklmr/Skjj892DF2Fm0zkBFu9ssbECtCVYmyLZnY9W0ElZLQNPn7TjPWq29xrYtKG+U3mhLvVRPQ8PrhyoP1UYFM8+e0YMGSePSlAlubTjc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784025745; c=relaxed/simple;
+	bh=tDSIAleWQkrx2k3jRA9G3sco6Hxom6NwC8B/9kc9HX4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dHMHHkLXV8TD4uC+OMYupmZNbpabpAqQL1GHjdrpCp5mB2u0fUBm05AlhdrX6OVqf1WSpepxB0QRcQgyUlNM8ycue2ALYWEY+G/GHHiNLEF12tcfp8sjHtdfH6Nq/DqMU2zmrqB/1OZboyKFMYV9PUn7QYjlTdpAoLJl2nZ8xsw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=sMMegLzS; arc=fail smtp.client-ip=40.107.200.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SpVf2tcX"
-Received: by mail-pz2-f0.google.com with SMTP id 41be03b00d2f7-ca24d39d8a4so2832826a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 03:28:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784024880; x=1784629680; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=I3uZJKOV8YeAsZnPRtkfSAsNKBXPzdQjBdP4hlRyp6Y=;
-        b=SpVf2tcXvPGEsynzUfq6G0mLIptT3q3ludZc7UW3t+f6mLuUINeOZKwvzeScSa09B6
-         ilXuXjTgyVN/BVvgW7u3HvIIW/L+SjbTro0F2YGqMPWnPMGA/oq7/foOE51P5euZZoCj
-         jtU7aVo0WEzrm8YRKNp4+MMepAByRasZh/GUoScGRGKbw9+8jXJyz5lMqdyl+89mI/Bp
-         4cN23lJ2pbgbLFe5HZE60sqzmEzLLRra5LxLp2M04lmz/biYm0iHgG+/E9gpy71GB8VR
-         HmNt9YFrBERJu73A2icS9QUTmVJUuJugkBH4fMcOqLcA/I39SI/zL6VCfyYmygBWKPun
-         /k0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784024880; x=1784629680;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=I3uZJKOV8YeAsZnPRtkfSAsNKBXPzdQjBdP4hlRyp6Y=;
-        b=ATGHRruXwGZDtd58kA8sGNim0nRFseCGJ6pCH1BbAbETEpBVGma/Jgr/0zKHuGtdT9
-         jVnDTK+XUS5ITnkVPX61QuUTf9vDurAJ2FIkyXkZwCwKdmf52e/peSIX+702N1OQ98vu
-         3H2N5z40cxi7JkOpZlx3X7w3iiF+G412yvIlwjNjoba3/l5psgHfEf8MD8zEi4Po4arM
-         /kQfpltquU8e2IIth8KjUvHDJrUVTyzMwBDe9Q6tLYJdltJqaYtMGQ4bW7c5HDGnH2dG
-         Tw8zC8jRk0jX7yHIkykIxuOPir+Bfi4vfD0o5hZakRhpZ8v8U5x23Owy6gSKEyRU/2DR
-         oN2g==
-X-Gm-Message-State: AOJu0YwaGWxZZzmxOukwBthTBNVyeuCnWq1XIr72ay92vT1hrHw8s98L
-	y6m2XOgZst4qNzn25R3Be6tB1fiVwbqpOBWd90QWUGq9jOdELUXcWB8Sc5Yd4NYKags=
-X-Gm-Gg: AfdE7cm4R3BxMExXvEvtE20KFzZgbdt0eJtVXtBcsZ5Nu2m/Ay/SUQiy+lOhANXLMVt
-	cl5Z8a3zlXmf+pKMJwzaxo3x+OiUo+jDvXyFvOy6ZbYJ6EJNqO39YTnv66JVstOJyZb5juqY2jc
-	HN8g6vJV/UhWljXrYu0uEZhIY3OGikp4GAg5Tf+XYEoyYf1srZU8jloRqsenwI034R/dGhpwQ5d
-	Vosap0yUspgEchEWBxKmBJt7piWZdSlEHh8035Q8Iu8Mk7zSTfYf9crWtADJngtP4Y9H0/4ZPdf
-	5Eb+X22q5XUkZs1giUpoW1FHKbpM2XtW06yt8wznaJ6jMrOPCxSMb0npr3bn6MbLI3qMk+omHIB
-	/C6yd9sKmrGWAaD7SRbgzkEslMTellwYz0ZumKUCjR0aaveKqvJ2i89JuyXq0HuF058msYMPp0B
-	hg8b299+7LN0+dCpJQTuJhcAv8mTna
-X-Received: by 2002:a05:6a21:a512:b0:3bf:c07b:a9ae with SMTP id adf61e73a8af0-3c1109f0faamr13707578637.58.1784024880195;
-        Tue, 14 Jul 2026 03:28:00 -0700 (PDT)
-Received: from workstation ([2804:29b8:50af:c5b9:eb28:d00f:5a29:a72a])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b659c865asm86687606c88.11.2026.07.14.03.27.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 03:27:59 -0700 (PDT)
-From: =?UTF-8?q?=C3=81lysson=20Gleyson=20da=20Silva?= <alyssongleyson.dev@gmail.com>
-To: danielmaraboo@gmail.com
-Cc: linux-doc@vger.kernel.org,
-	=?UTF-8?q?=C3=81lysson=20Gleyson=20da=20Silva?= <alyssongleyson.dev@gmail.com>
-Subject: [PATCH] docs: pt_BR: process: Translate the security-bugs.rst
-Date: Tue, 14 Jul 2026 07:26:32 -0300
-Message-ID: <20260714102632.25093-1-alyssongleyson.dev@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="sMMegLzS"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lLF6kWpYQhHFtKUsZx2/x8XqkhDjVomj+WhIiLLrH7b2bPgSqc931hmDyOLEDGkK8Amw6FkPcKxK9ry4H9TXD0y+s2/b05KIwxSqs7pyTy8N+GfQ8MR0VKwS/kxzSMiRPxjqkqGgSFRcP8TACFFsLNvubXOhmgjXx58T0bjOUH+6J350/ICo8UgI+BB1o6+b5pASLt8uTLOV/B06xQZj+2P6PKAKqQD5t+ehJ9MYrkK3QSEDMLFPqVd8vgeBLqM1e2MmbDSOYaemys/siY6rJOV5trED/vu0BVJaWhTA7rue22YwFF/vYwkLHk52xD9LNwtPyzHdmH8oW6f4MaZLdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6nFGjx2hP82JEkaFIq8Q3IgCQ/KznPSMk0LX8YWYitQ=;
+ b=pI2E29pApB/lRC/6bo25mbfgCGPuOJY2cG3n27DXurJ0RvHu1aLp0O5DXvpEF7FHbqPEqIGbb6wANHDL31djXIx+Z8PtrR6iAe8JbwNz/nQpaNQwpsfNr/e8FN47O9hGH0RLuR1mPJfbJQoD/ujx7jnlkiWCs+4J0NNYWHq3kuFCaNCZcdMuENdqhgVHoE5JZVidxcfxvlRZejV4fWMwxIhs0k0iYso/WvTv7+IgptQ5VOwWpjIxAaCQ6qdt9X2h/lEcpTkYlhzXMRchTi/SvqXRmbdxq1OFH7Cjb3RGh0QTmo2BTp5ok2rg0WrywFFW45qnshrGJrc/imxj+YweKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=arm.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6nFGjx2hP82JEkaFIq8Q3IgCQ/KznPSMk0LX8YWYitQ=;
+ b=sMMegLzSJiazTggjx0hQMPRPwnFh46TyiQ6pXyvcHx0y4RYapTC8WHgfM6lzf+RitS19+//p2AlW1JvgsbGTtHz1I2JZKTLmejDkz/jSrBMYPQdIyKdYDRnKbIQhGXnk5+kVf5zL4KbqdxTSs1yvhTb4OIyvyGbPMv+zEYhr4lSl+P9QzHxXftNbirLymYl7ojSW9+4GXsuYaze1jDFWQktLQsSHqP/VO9nX91QEzV64fi/l/gk7GiPO7EgLGsrAlkV5v9LgghLZsKcHka5ihwGnCcNJvonaq0uUt9WLHK3SC0kE1mnQFfqgQA7hVsxWHamNum9/QR2RuYc22l95zw==
+Received: from SJ0PR05CA0176.namprd05.prod.outlook.com (2603:10b6:a03:339::31)
+ by DS0PR12MB9275.namprd12.prod.outlook.com (2603:10b6:8:1be::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.19; Tue, 14 Jul
+ 2026 10:42:17 +0000
+Received: from SJ5PEPF000001D3.namprd05.prod.outlook.com
+ (2603:10b6:a03:339:cafe::ae) by SJ0PR05CA0176.outlook.office365.com
+ (2603:10b6:a03:339::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.223.9 via Frontend Transport; Tue, 14
+ Jul 2026 10:42:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ SJ5PEPF000001D3.mail.protection.outlook.com (10.167.242.55) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.223.9 via Frontend Transport; Tue, 14 Jul 2026 10:42:16 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 14 Jul
+ 2026 03:42:04 -0700
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Tue, 14 Jul 2026 03:42:04 -0700
+Received: from build-amhetre-focal-20250829.internal (10.127.8.12) by
+ mail.nvidia.com (10.126.190.181) with Microsoft SMTP Server id 15.2.2562.20
+ via Frontend Transport; Tue, 14 Jul 2026 03:42:04 -0700
+From: Ashish Mhetre <amhetre@nvidia.com>
+To: <catalin.marinas@arm.com>, <will@kernel.org>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <robin.murphy@arm.com>, <joro@8bytes.org>,
+	<nicolinc@nvidia.com>, <jgg@ziepe.ca>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
+	<linux-tegra@vger.kernel.org>, Ashish Mhetre <amhetre@nvidia.com>
+Subject: [PATCH v7 0/3] iommu/arm-smmu-v3: Tegra264 invalidation workaround
+Date: Tue, 14 Jul 2026 10:41:59 +0000
+Message-ID: <20260714104202.1664187-1-amhetre@nvidia.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-NVConfidentiality: public
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001D3:EE_|DS0PR12MB9275:EE_
+X-MS-Office365-Filtering-Correlation-Id: c22f5fd3-4acb-49b3-cf3a-08dee19492f0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|23010399003|7416014|376014|1800799024|82310400026|6133799003|56012099006|11063799006|18002099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	WqddxghuX3ND3gXF4jqCT07qKV+hS4XTG8LjATs/UvZ0SZNfLTkH/3FTyqrKs53mdxgk7EMe0NEcN4Exdevi9harH4btF/YzZ9Ht32C6dBhZwtIesneh++jjf/RG9/Zg7i9uNQIDY0CVb+VoIM3vctu4roKdlukE4J11g4ezNUTSUYEXq51bNxMy3ndDxiJPgBRn3t55OcQiJmtUryGQQB4hYKCX9tl3ZeGA1c0ij/j4pzp0/fF4R9hT76qOXze41xcHhI/pQYz9qNzc+PZKhAp6e3GwEC8ishqPCkTvnjA2lGRou+P2wKWid++zz8Ziz+BYA94F1t47eOr7HrTuG/U7/pgu2q2lilCo+SqzfPZx5+mHtbS+aOs37wFPkG3YGvcHEFteyel4O+Fo8dDNASdkEdVYgJ1fFJ1grUbfG+B9uEKdfFZQBw7xTKCmCuboAgTOt4a0AE5fCqWM13ujCw4aWXwX7naKxdOtRw6Mw1+1u+thViy0M4SlAGYtZ2TG7c22CTFtQXp2llvJq3qjf2cL7jBDMO0t6Qq+Xk8EBOswZuQkM9JFCTtfbEemGyiDFoM4kC4dFYUYiVFMNhrGCF8svyqGlXL93p0sWpsRRBUw0LxpR03UBmJ+4MBllnzQBl0YJT5R1fOU8hS6mrEM0EXJe5MgNBk+4M2eZeFuAAHMDDSXuVRaz5OZvlJenwFiE3xuseaA3ZVqgYHW26pymw==
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(7416014)(376014)(1800799024)(82310400026)(6133799003)(56012099006)(11063799006)(18002099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	IJ6d5PuvewapO8lLZyTqMKLfWtMeJ9xCLfbz27J7hzPhhZRhegB15D8PKmDtvWjT5LLday+t3YBWI4NVYrIOaWZckTq2JzcajO8g9IgVQYo5qWrfu3q/dcn3HaN6cVEMCsl4YC4JfIsyn4yDA/thaK4ZpulohusMbVwzxWvKoiZjFAXU+QEMrCHOs8ZnVNTnW+OymfVM7QOeHk+x9fZepmNdECt0r33zmLb7xCfi65JvGvhihPrJTA921G08jVoMlFknKGqlQBE0yyf/m9tLH2WvUU+F9xp6QFT8FriiBiy9r6Ba3oJIFgFUVg87xOmH0dEmvp9ZqjbPvDbRPeo+peZhFRhg+f1yS0XAJVdo+tQxAJU9EbNJ+tH7yInu94rEZPMNDnZGJoP6kEdPClUgLFzUWY9uJeQoFdp+0XKsPKbZFMFW+9QjQ2+FA2Lmazjr
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2026 10:42:16.9698
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c22f5fd3-4acb-49b3-cf3a-08dee19492f0
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ5PEPF000001D3.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9275
 
-Translate the documentation on security bugs into Brazilian Portuguese,
-maintaining consistency with the original formatting rules.
+Nvidia Tegra264 SMMUs are affected by an erratum where a TLB entry can
+survive an invalidation that races with concurrent traffic targeting
+the same entry. The hardware-recommended software workaround is to
+issue every CFGI/TLBI command (each followed by CMD_SYNC) twice.
+The second issue must execute only after the first issue's CMD_SYNC
+has completed, giving the sequence:
 
-Signed-off-by: Álysson Gleyson da Silva <alyssongleyson.dev@gmail.com>
----
- Documentation/translations/pt_BR/index.rst    |   1 +
- .../pt_BR/process/security-bugs.rst           | 370 ++++++++++++++++++
- 2 files changed, 371 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/security-bugs.rst
+    TLBI/CFGI ... CMD_SYNC TLBI/CFGI ... CMD_SYNC
 
-diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index 7a488f662..796fe9bca 100644
---- a/Documentation/translations/pt_BR/index.rst
-+++ b/Documentation/translations/pt_BR/index.rst
-@@ -78,3 +78,4 @@ kernel e sobre como ver seu trabalho integrado.
-    Processo do subsistema SoC <process/maintainer-soc>
-    Conformidade de DTS para SoC <process/maintainer-soc-clean-dts>
-    Processo do subsistema KVM x86 <process/maintainer-kvm-x86>
-+   Falhas de segurança <process/security-bugs>
-diff --git a/Documentation/translations/pt_BR/process/security-bugs.rst b/Documentation/translations/pt_BR/process/security-bugs.rst
-new file mode 100644
-index 000000000..a0c57219b
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/security-bugs.rst
-@@ -0,0 +1,370 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _securitybugs_pt_BR:
-+
-+Falhas de segurança
-+===================
-+
-+Os desenvolvedores do kernel Linux levam a segurança muito a sério. Como tal,
-+gostariamos de saber quando uma falha de segurança é encontrada para que ela
-+possa ser corrigida e divulgada o mais rápido possível.
-+
-+Preparando seu relatório
-+------------------------
-+
-+Como em qualquer relatório de bug, um relátorio de falha de segurança exige
-+muito trabalho de análise por parte dos desenvolvedores, portanto, quanto mais
-+informações você puder compartilhar sobre o problema, melhor. Por favor, revise
-+o procedimento descrito em Documentation/admin-guide/reporting-issues.rst se
-+você não tiver certeza sobre quais informações são úteis. As seguintes
-+informações são absolutamente necessárias em **qualquer** relatório de falha de
-+segurança:
-+
-+  * **versão do kernel afetada**: sem indicação de versão, seu relatório não
-+    será processado. Uma parte significativa dos relatórios é de bugs que já
-+    foram corrigidos, portanto, é extremamente importante que as
-+    vulnerabilidades sejam verificadas em versões recentes (árvore de
-+    desenvolvimento ou a versão estável mais recente), pelo menos verificando
-+    se o código não mudou desde a versão onde foi detectado.
-+
-+  * **descrição do problema**: uma descrição detalhada do problema, com rastros
-+    mostrando sua manifestação, e por que você considera o comportamento
-+    observado como um problema no Kernel, é necessaária.
-+
-+  * **reproduzir**: os desenvolvedores precisarão ser capazes de reproduzir o
-+    problema para considerar uma correção como eficaz. Isso inclui tanto uma
-+    maneira de acionar o problema quanto uma maneira de confirmar que ele
-+    ocorre. Será necessário um reprodutor com dependências de baixa
-+    complexidade (código-fonte, script de shell, seguência de instruções,
-+    imagem de sistema de arquivos, etc). Executáveis apenas binários não são
-+    aceitos. Exploits funcionais são extremamente úteis e não serão divulgados
-+    sem o consentimento do relator, a menos que já sejam públicos. Por
-+    definição, se um problema não pode ser reproduzido, ele não é explorável,
-+    portanto, não é um bug de segurança.
-+
-+  * **condições**: se o bug depender de certas opções de configuração, sysctls,
-+    permissões, temporização, modificações de código, etc., estas devem ser
-+    indicadas.
-+
-+Além disso, as seguintes informaçẽos são altamente desejáveis:
-+
-+  * **localização suspeita do bug**: os nomes dos arquivos e funções onde
-+    se suspeita que o bug esteja presente são muito importantes, pelo menos
-+    para ajudar a encaminhar o relatório aos mantenedores apropriados. Quando
-+    não for possível (por exemplo, "o sistema trava toda vez que executo este
-+    comando"), a equipe de segurança ajudará a identificar a origem do bug.
-+
-+  * **uma proposta de correção**: os relatores de bugs que analisaram a causa
-+    de uma falha no código-fonte quase sempre têm uma ideia precisa de como
-+    corrigi-lo, porque passaram muito tempo estudando o problema e suas
-+    implicações. Propor uma correção testada poupará muito tempo dos
-+    mantenedores, mesmo que a correção acabe não sendo a correta, pois ajuda a
-+    entender o bug. A propor uma correção testada, por favor, formate-a
-+    sempre de uma maneira que possa ser mesclada imediatamente (consulte
-+    Documentation/process/submitting-patches.rst). Isso evitará algumas trocas
-+    de mensagens caso ela seja aceita, e você receberá o crédito por
-+    encontrar e corrigir o problema. Observe que, neste caso, apenas uma tag
-+    ``Signed-off-by:`` é necessária, sem ``Reported-by:`` quando o relator e
-+    o autor forem a mesma pessoa.
-+
-+  * **mitigações**: com muita frequência, durante a análise de um bug,
-+    surgem algumas maneiras de mitigar o problema. È útil compartilhá-las,
-+    pois podem ser úteis para manter os usuários finais protegidos durante o
-+    tempo que levam para aplicar a correção.
-+
-+O que se qualifica como um bug de segurança
-+-------------------------------------------
-+
-+É importante que a maioria dos bugs seja tratada publicamente, de modo a
-+envolver o maior público possível e encontrar a melhor solução. Por natureza,
-+bugs que são tratados em discussões fechadas entre um pequeno conjunto de
-+participantes têm menos probabilidade de produzir a melhor correção possível
-+(por exemplo, risco de perder casos de uso válidos, capacidades de testes
-+limitadas).
-+
-+Acontece que a maioria dos bugs relatados por meio da equipe de segurança são
-+apenas bugs comuns que foram qualificados incorretamente como bugs de segurança
-+devido à falta de conhecimento do modelo de ameaças do kernel Linux, conforme
-+descrito em Documentation/process/threat-model.rst, e deveriam ter sido
-+enviados através dos canais normais descritos em
-+Documentation/admin-guide/reporting-issues.rst
-+
-+A lista de segurança existe para bugs urgentes que concedem a um atacante uma
-+capacidade que ele não deveria ter em um sistema de produção corretamente
-+configurado, e que podem ser facilmente explorados, representando uma ameaça
-+iminente para muitos usuários. Antes de relatar, considere se o problema
-+realmente ultrapassa um limite de confiança em tal sistema.
-+
-+**Se você recorreu a assistência de IA para identificar um bug, você deve
-+tratá-lo como público**. Embora você possa ter motivos válidos para acreditar
-+que não seja, a experiência da equipe de segurança mostra que os bugs
-+descobertos desta forma surgem sistematicamente e de forma simultânea entre
-+múltiplos pesquisadores, frequentemente no mesmo dia. Neste caso, não
-+compartilhe publicamente um reprodutor, pois isso poderia causar danos não
-+intencionais; apenas mencione que um está disponível e os mantenedores poderão
-+solicitá-lo privadamente se precisarem.
-+
-+Se você não tiver certeza se um problema se qualifica, opte por relatar de
-+forma privada: a equipe de segurança prefere triar um relatório limítrofe
-+a perder uma vulnerabilidade real. Relatar bugs comuns na lista de segurança,
-+no entanto, não faz com que eles andem mais rápido e consome a capacidade de
-+triagem de que outros relatórios precisam.
-+
-+Identificando contatos
-+----------------------
-+
-+A maneira mais eficaz de relatar um bug de segurança é enviá-lo diretamente
-+aos mantenedores do subsistema afetado e Cc: para a equipe de segurança do
-+kernel Linux. Não o envie para uma lista pública nesta fase, a menos que você
-+tenha bons motivos para considerar o problema como público ou trivial de ser
-+descoberto (por exemplo, resultado de uma ferramenta automatizada de varredura
-+de vulnerabilidades amplamente disponível que possa ser repetida por qualquer
-+pessoa, ou o uso de ferramentas baseadas em IA).
-+
-+Se você estiver enviando um relatório de problemas que afetam várias partes no
-+kernel, mesmo que sejam problemas bastante semelhantes, envie mensagens
-+individuais (pense que os mantenedores não trabalharão todos nos problemas ao
-+mesmo tempo). A única exceção é quando um problema diz respeito a partes
-+intimamente relacionadas, mantidas pelo exato mesmo subconjunto de
-+mantenedores, e espera-se que essas partes sejam todas corrigidas de uma só vez
-+pelo mesmo commit; então pode ser aceitável relatá-las de uma vez.
-+
-+Uma dificuldade para a maioria dos relatores de primeira viagem é descobrir a
-+lista certa de destinatários para enviar um relatório. No kernel Linux, todos
-+os mantenedores oficiais são confiáveis, portanto as consequências de incluir
-+acidentalmente o mantenedor errado são apenas um pequeno ruido para essa
-+pessoa, ou seja, nada dramático. Sendo assim, um método adequado para descobrir
-+a lista de mantenedores (o qual os oficiais de segurança do kernel usam) é
-+contar com o script get_maintainer.pl, ajustado para relatar apenas
-+mantenedores. Este script, quando recebe um nome de arquivo, procurará por seu
-+caminho no arquivo MAINTAINERS para deduzir uma lista hierárquica de
-+mantenedores relevantes. Chamá-lo pela primeira vez com o nível mais refinado
-+de filtragem retornará, na maioria das vezes, uma lista curta de mantenedores
-+deste arquivo específico::
-+
-+  $ ./scripts/get_maintainer.pl --no-l --no-r --pattern-depth 1 \
-+    drivers/example.c
-+  Developer One <dev1@example.com> (maintainer:example driver)
-+  Developer Two <dev2@example.org> (maintainer:example driver)
-+
-+Estes dois mantenedores devem então receber a mensagem. Se o comando não
-+retornar nada, isso significa que o arquivo afetado faz parte de um subsistema
-+mais amplo, portanto devemos ser menos específicos::
-+
-+  $ ./scripts/get_maintainer.pl --no-l --no-r drivers/example.c
-+  Developer One <dev1@example.com> (maintainer:example subsystem)
-+  Developer Two <dev2@example.org> (maintainer:example subsystem)
-+  Developer Three <dev3@example.com> (maintainer:example subsystem [GENERAL])
-+  Developer Four <dev4@example.org> (maintainer:example subsystem [GENERAL])
-+
-+Aqui, escolher os primeiros, mais específicos, é suficiente. Quando a lista for
-+longa, é possível produzir uma lista de endereços de e-mail delimitada por
-+vírgulas em uma única linha adequada para o uso no campo TO: de um cliente de
-+e-mail como este::
-+
-+  $ ./scripts/get_maintainer.pl --no-tree --no-l --no-r --no-n --m \
-+    --no-git-fallback --no-substatus --no-rolestats --no-multiline \
-+    --pattern-depth 1 drivers/example.c
-+  dev1@example.com, dev2@example.org
-+
-+ou este para a lista mais ampla::
-+
-+  $ ./scripts/get_maintainer.pl --no-tree --no-l --no-r --no-n --m \
-+    --no-git-fallback --no-substatus --no-rolestats --no-multiline \
-+    drivers/example.c
-+  dev1@example.com, dev2@example.org, dev3@example.com, dev4@example.org
-+
-+Se a esta altura você ainda estiver enfrentando dificuldades para identificar
-+os mantenedores corretos, e apenas neste caso, é possível enviar seu
-+relatório apenas para a equipe de segurança do kernel Linux. Sua mensagem
-+será triada e você receberá instruções sobre quem contatar, se necessário.
-+Sua mensagem poderá igualmente ser encaminhada como está para os mantenedores
-+relevantes.
-+
-+Uso responsável de IA para encontrar bugs
-+-----------------------------------------
-+
-+Uma fração significativa dos relatórios de bugs enviados à equipe de segurança
-+é, na verdade, o resultado de revisões de código assistidas por ferramentas de
-+IA. Embora isso possa ser um meio eficiente de encontrar bugs em áreas
-+raramente exploradas, causa uma sobrecarga nos mantenedores, que às vezes são
-+forçados a ignorar tais relatórios devido à sua má qualidade ou precisão. Sendo
-+assim, os relatores devem ter um cuidado especial com vários pontos que tendem
-+a tornar esses relatórios desnecessariamente difíceis de lidar:
-+
-+  * **Comprimento**: Os relatórios gerados por IA tendem a ser excessivamente
-+    longos, contendo várias seções e detalhes em excesso. Isso dificulta a
-+    identificação de informações importantes, como arquivos afetados, versões e
-+    impacto. Por favor, certifique-se de que um resumo claro do problema e
-+    todos os detalhes críticos sejam apresentados primeiro. Não exija que os
-+    engenheiros de triagem analisem várias páginas de texto. Configure suas
-+    ferramentas para produzir relatórios concisos e em estilo humano.
-+
-+  * **Formatação**: A maioria dos relatórios gerados por IA está repleta de
-+    tags Markdown. Essas decorações complicam a busca por informações
-+    importantes e não sobrevivem aos processos de citação envolvidos no
-+    encaminhamento ou nas respostas. Por favor, sempre converta seu relatório
-+    para texto simples sem quaisquer decorações de formatação antes de
-+    enviá-lo.
-+
-+  * **Avaliação de Impacto**: Muitos relatórios gerados por IA carecem de uma
-+    compreensão do modelo de ameaças do kernel (consulte
-+    Documentation/process/threat-model.rst) e fazem de tudo para inventar
-+    consequências teóricas. Isso adiciona ruído e complica a triagem. Por
-+    favor, limite-se a fatos verificáveis (por exemplo, "este bug permite que
-+    qualquer usuário obtenha CAP_NET_ADMIN") sem enumerar implicações
-+    especulativas. Faça com que sua ferramenta leia esta documentação como
-+    parte do processo de avaliação.
-+
-+  * **Reproduzidor**: As ferramentas baseadas em IA são frequentemente capazes
-+    de gerar reproduzidores. Por favor, certifique-se sempre de que sua
-+    ferramenta forneça um e teste-o exaustivamente. Se o reproduzidor não
-+    funcionar, ou se a ferramenta não puder produzir um, a validade do
-+    relatório deve ser seriamente questionada. Observe que, como o relatório
-+    será postado em uma lista pública, o reproduzidor só deve ser compartilhado
-+    mediante solicitação dos mantenedores.
-+
-+  * **Propor uma Correção:** muitas ferramentas de IA são na verdade melhores
-+    em escrever código do que em avaliá-lo. Por favor, peça à sua ferramenta
-+    para propor uma correção e teste-a antes de relatar o problema.
-+    Se a correção não puder ser testada porque depende de hardware raro ou de
-+    protocolos de rede quase extintos, é provável que o problema não seja um
-+    bug de segurança. Em qualquer caso, se uma correção for proposta, ela deve
-+    aderir a Documentation/process/submitting-patches.rst e incluir uma tag
-+    'Fixes:' designando o commit que introduziu o bug.
-+
-+A falha em considerar estes pontos expõe seu relatório ao risco de ser
-+ignorado.
-+
-+Use o bom senso ao avaliar o relatório. Se o arquivo afetado não tiver sido
-+alterado por mais de um ano e for mantido por um único indivíduo, é provável
-+que o uso tenha diminuído e os usuários expostos sejam virtualmente
-+inexistentes (por exemplo, drivers para hardware muito antigo, sistemas de
-+arquivos obsoletos). Nesses casos, não há necessidade de consumir o tempo de
-+um mantenedor com um relatório sem importância. Se o problema for claramente
-+trivial e publicamente detectável, você deve relatá-lo diretamente às listas
-+de discussão públicas.
-+
-+Enviando o relatório
-+--------------------
-+
-+Os relatórios devem ser enviados exclusivamente por e-mail. Por favor, use um
-+endereço de e-mail funcional, de preferência o mesmo que você deseja que
-+apareça nas tags ``Reported-by``, se houver. Se não tiver certeza, envie o seu
-+relatório para você mesmo primeiro.
-+
-+A equipe de segurança e os mantenedores quase sempre exigem informações
-+adicionais além das fornecidas inicialmente em um relatório e dependem de uma
-+colaboração ativa e eficiente com o relator para realizar testes adicionais
-+(por exemplo, verificar versões, opções de configuração, mitigações ou
-+patches). Antes de entrar em contato com a equipe de segurança, o relator deve
-+certificar-se de que está disponível para explicar suas descobertas, participar
-+de discussões e executar testes adicionais. Relatórios nos quais o relator não
-+responde prontamente ou não consegue discutir suas descobertas de forma eficaz
-+podem ser abandonados se a comunicação não melhorar rapidamente.
-+
-+O relatório deve ser enviado aos mantenedores. Se houver dois ou menos
-+destinatários em sua mensagem, você também deve sempre colocar em Cc: a equipe
-+de segurança do kernel Linux, que garantirá que a mensagem seja entregue às
-+pessoas corretas e poderá auxiliar pequenas equipes de mantenedores com
-+processos com os quais eles possam não estar familiarizados. Para equipes
-+maiores, coloque em Cc: a equipe de segurança do kernel Linux em seus primeiros
-+relatórios ou ao buscar ajuda específica, como ao reenviar uma mensagem que não
-+obteve resposta dentro de uma semana. Assim que você se sentir confortável com
-+o processo após alguns relatórios, não será mais necessário colocar a lista de
-+segurança em Cc: ao enviar para equipes grandes. A equipe de segurança do
-+kernel Linux pode ser contatada por e-mail em security@kernel.org. Esta é uma
-+lista privada de oficiais de segurança que ajudarão a verificar o relatório de
-+bug e auxiliarão os desenvolvedores que trabalham em uma correção. É possível
-+que a equipe de segurança traga ajuda extra de mantenedores da área para
-+entender e corrigir a vulnerabilidade de segurança.
-+
-+Por favor, envie e-mails em **texto simples** sem anexos, sempre que possível.
-+É muito mais difícil ter uma discussão com citações de contexto sobre um
-+problema complexo se todos os detalhes estiverem ocultos em anexos. Pense nisso
-+como uma :doc:`regular path submission <../process/submitting-patches>`
-+(mesmo que você ainda não tenha um patch): descreva o problema e o impacto,
-+liste as etapas de reprodução e siga com uma proposta de correção, tudo em
-+texto simples. Relatórios formatados em Markdown, HTML e RST são
-+particularmente malvistos, pois são bastante difíceis de ler por humanos e
-+incentivam o uso de visualizadores dedicados, às vezes online, o que por
-+definição não é aceitável para um relatório de segurança confidencial. Note
-+que alguns clientes de e-mail tendem a corromper a formatação de texto simples
-+por padrão; por favor, consulte Documentation/process/email-clients.rst para
-+mais informações.
-+
-+Divulgação e informações sob embargo
-+------------------------------------
-+
-+A lista de segurança não é um canal de divulgação. Para isso, veja Coordenação
-+abaixo.
-+
-+Assim que uma correção robusta for desenvolvida, o processo de lançamento é
-+iniciado. Correções para bugs publicamente conhecidos são lançadas
-+imediatamente.
-+
-+Embora nossa preferência seja lançar correções para bugs publicamente não
-+divulgados assim que estiverem disponíveis, isso pode ser adiado a pedido do
-+relator ou de uma parte afetada por até 7 dias corridos a partir do início do
-+processo de lançamento, com uma extensão excepcional para 14 dias corridos se
-+for acordado que a criticidade do bug exige mais tempo. O único motivo válido
-+para adiar a publicação de uma correção é acomodar a logística de QA e as
-+implantações em larga escala que exigem coordenação de lançamento.
-+
-+Embora as informações sob embargo possam ser compartilhadas com indivíduos de
-+confiança para o desenvolvimento de uma correção, tais informações não serão
-+publicadas juntamente com a correção ou em qualquer outro canal de divulgação
-+sem a permissão do relator. Isso inclui, mas não se limita ao relatório de bug
-+original e discussões de acompanhamento (se houver), exploits, informações de
-+CVE ou a identidade do relator.
-+
-+Em outras palavras, nosso único interesse é fazer com que os bugs sejam
-+corrigidos. Todas as outras informações enviadas à lista de segurança e
-+quaisquer discussões de acompanhamento do relatório são tratadas de forma
-+confidencial, mesmo após o término do embargo, perpetuamente.
-+
-+Coordenação com outros grupos
-+-----------------------------
-+
-+Embora a equipe de segurança do kernel se concentre exclusivamente em corrigir
-+bugs, outros grupos se concentram em corrigir problemas em distribuições e em
-+coordenar a divulgação entre fornecedores de sistemas operacionais. A
-+coordenação é geralmente tratada pela lista de discussão "linux-distros" e a
-+divulgação pela lista pública "oss-security", ambas intimamente relacionadas
-+e apresentadas na wiki da linux-distros:
-+https://oss-security.openwall.org/wiki/mailing-lists/distros
-+
-+Por favor, note que as respectivas políticas e regras são diferentes, já que as
-+3 listas buscam objetivos distintos. A coordenação entre a equipe de segurança
-+do kernel e outras equipes é difícil porque para a equipe de segurança do
-+kernel os embargos ocasionais (sujeitos a um número máximo de dias permitido)
-+começam a partir da disponibilidade de uma correção, enquanto para a
-+"linux-distros" eles começam a partir da postagem inicial na lista,
-+independentemente da disponibilidade de uma correção.
-+
-+Como tal, a equipe de segurança do kernel recomenda fortemente que, como
-+relator de um potencial problema de segurança, você NÃO contate a lista de
-+discussão "linux-distros" ATÉ que uma correção seja aceita pelos mantenedores
-+do código afetado e você tenha lido a página wiki das distribuições acima e
-+compreendido totalmente os requisitos que o contato com a "linux-distros"
-+imporá a você e à comunidade do kernel. Isso também significa que, em geral,
-+não faz sentido colocar ambas as listas em Cc: ao mesmo tempo, exceto talvez
-+para coordenação se e enquanto uma correção aceita ainda não tiver sido
-+mesclada. Em outras palavras, até que uma correção seja aceita, não coloque
-+em Cc: "linux-distros", e após ela ser mesclada, não coloque em Cc: a equipe
-+de segurança do kernel.
-+
-+Atribuição de CVE
-+-----------------
-+
-+A equipe de segurança não atribui CVEs, nem os exigimos para relatórios ou
-+correções, pois isso pode complicar desnecessariamente o processo e adiar o
-+tratamento do bug. Se um relator desejar que um identificador CVE seja
-+atribuído para um problema confirmado, ele pode entrar em contato com a
-+:doc:`kernel CVE assignment team<../process/cve>` para obter um.
-+
-+Acordo de não divulgação
-+------------------------
-+
-+A equipe de segurança do kernel Linux não é um òrgão formal e, portanto, é
-+incapaz de celebrar quaisquer acordos de não divulgação.
+ATC_INV is not affected and must not be doubled.
+
+The erratum is not flagged by any SMMUv3 IDR/IIDR register, so it
+cannot be detected from hardware ID. Tegra264 is device-tree-only
+(no ACPI/IORT support), so detection is purely by compatible string.
+
+This series is structured as a small refactor + infrastructure + enable
+sequence so that each step is reviewable in isolation:
+
+ 1/3 Pure refactor (no functional change): lift the existing
+     force-sync conditions out of arm_smmu_cmdq_batch_add_cmd_p()
+     into a new arm_smmu_cmdq_batch_force_sync() helper, so that
+     adding another condition (in patch 2) is a one-line addition.
+     Authored by Nicolin Chen.
+
+ 2/3 Add the workaround infrastructure without enabling it. Defines
+     the file-local arm_smmu_erratum_repeat_tlbi_cfgi_key static key
+     with an inline erratum description, the shared
+     arm_smmu_erratum_cmd_needs_repeating() predicate, the
+     arm_smmu_cmdq_issue_cmdlist() wrapper that can re-issue matching
+     cmdlists, the batch-helper force-sync condition, and the iommufd
+     batching split for mixed command classes.
+
+ 3/3 Enable the workaround for the existing "nvidia,tegra264-smmu"
+     compatible and document the erratum in silicon-errata.rst.
+
+The series applies cleanly on linux-next/master (base-commit below).
+
+Changes since v6:
+ - Add #include <linux/jump_label.h> now that the static key is
+   defined in arm-smmu-v3.c.
+ - Drop the unused smmu parameter from arm_vsmmu_can_batch_cmd().
+ - Expand the arm_smmu_cmdq_batch_force_sync() comment to note that
+   batches never mix CFGI/TLBI with other commands, so checking
+   cmds[0] alone is enough.
+ - Note in 3/3 that a guest kernel enabling CMDQV on Tegra264 must
+   also apply this workaround, since guest-level VCMDQs issue
+   commands directly to the hardware.
+ - Carry Reviewed-by: Nicolin Chen on 2/3 and 3/3.
+
+Changes since v5:
+ - Move arm_smmu_erratum_cmd_needs_repeating() into arm-smmu-v3.c
+   and leave a declaration-only stub in arm-smmu-v3.h. Make
+   arm_smmu_erratum_repeat_tlbi_cfgi_key file-local static.
+ - Add an inline erratum/workaround description at the static key,
+   referenced from arm_smmu_cmdq_batch_force_sync().
+ - Fix (rather than drop) the misleading !n comment above
+   arm_smmu_cmdq_issue_cmdlist(); keep the defensive !n guard.
+ - Remove the unused smmu parameter from the predicate.
+ - Tweak 2/3 commit-message wording ("commit" vs "patch").
+
+Changes since v4:
+ - Drop ARM_SMMU_OPT_REPEAT_TLBI_CFGI entirely: the option bit was
+   set and read on the exact same "nvidia,tegra264-smmu" compatible
+   as the static key, so it added no per-instance signal that the
+   static key did not already carry. The predicate now gates purely
+   on arm_smmu_erratum_repeat_tlbi_cfgi_key.
+ - Reorder the series so the compatible-string detection lands
+   last, once all the infrastructure exists:
+     1/3  factor out force_sync helper (unchanged)
+     2/3  add static key + WAR functions (no functional change)
+     3/3  enable the key on nvidia,tegra264-smmu + silicon-errata
+   Split the old v4 "Detect" and "Issue twice" patches accordingly.
+ - Update the /* See ARM_SMMU_OPT_REPEAT_TLBI_CFGI */ comment inside
+   arm_smmu_cmdq_batch_force_sync() to reference the static key
+   description instead.
+
+Changes since v3:
+ - Drop the cmds->num == 0 early-return so the refactor is
+   truly "no functional change".
+ - Rename ARM_SMMU_OPT_TLBI_TWICE -> ARM_SMMU_OPT_REPEAT_TLBI_CFGI
+   and rephrase its kdoc to be hardware-agnostic.
+ - Rename arm_smmu_cmd_needs_tlbi_twice() ->
+   arm_smmu_erratum_cmd_needs_repeating() and drop the kdoc
+   above it.
+ - Replace the explicit opcode switch with a single range check
+   opcode >= CMDQ_OP_CFGI_STE && opcode < CMDQ_OP_ATC_INV.
+ - Introduce arm_smmu_erratum_repeat_tlbi_cfgi_key static key:
+   the predicate gates on it first so unaffected kernels pay
+   only a single static_branch_unlikely() check.
+ - Drop the verbose Tegra264-specific comments above
+   arm_vsmmu_can_batch_cmd() and inside the batch helper.
+ - Document the erratum in
+   Documentation/arch/arm64/silicon-errata.rst.
+ - Guard the repeat path in arm_smmu_cmdq_issue_cmdlist() with
+   an n > 0 check so cmds[0] is never inspected on an empty
+   cmdlist.
+ - Drop the carried Reviewed-by tags now that the patch
+   shape has changed; re-review appreciated.
+
+Changes since v2:
+ - Split into a 3-patch series (refactor / detect / apply) to keep
+   each step small and bisectable.
+ - Move the classifier to arm-smmu-v3.h as static inline so the
+   iommufd file can share it.
+ - Add arm_vsmmu_can_batch_cmd() to split iommufd batches at
+   "needs repeating" transitions so the per-batch decision based
+   on the first command stays correct under mixed user input.
+ - Spell out in the commit message why detection is via DT and
+   not via IIDR/ACPI.
+
+Changes since v1:
+ - Detect the erratum from the existing "nvidia,tegra264-smmu"
+   compatible instead of adding a new property.
+ - Centralise the doubling at the CMDQ submission layer and only
+   apply it to CFGI/TLBI (not ATC_INV).
+ - Drop the binding/dtsi patches accordingly.
+
+Ashish Mhetre (2):
+  iommu/arm-smmu-v3: Introduce CFGI/TLBI-repeat workaround
+    infrastructure
+  iommu/arm-smmu-v3: Enable CFGI/TLBI-repeat workaround on Tegra264
+
+Nicolin Chen (1):
+  iommu/arm-smmu-v3: Factor out CMDQ batch force-sync conditions
+
+ Documentation/arch/arm64/silicon-errata.rst   |  2 +
+ .../arm/arm-smmu-v3/arm-smmu-v3-iommufd.c     | 14 +++-
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 84 ++++++++++++++++---
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |  1 +
+ 4 files changed, 89 insertions(+), 12 deletions(-)
+
+
+base-commit: bee763d5f341b99cf472afeb508d4988f62a6ca1
 -- 
-2.55.0
+2.50.1
 
