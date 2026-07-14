@@ -1,63 +1,63 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A0B4156F5
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 18:31:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF523CF207
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 18:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784053900; cv=none; b=RyOQt1L/zzkEJ0bA0bv8IG4PKmDlyGQHEMoxQbdpr4sKyKw6p3MFCzOsaygXi6Z9UUdpkUV5F8+0uVpL9rPyt/WfPSvI75UJtHENDJgTzOhrnokbh7che9OfaYVA3wEjxFvhrcF5RXRanip/yTqLbAyPblfoIwt2HlRK03QBGP8=
+	t=1784053921; cv=none; b=pr8w3XP9C9Oo+Kv1zfOI4jfZa2ziOqpKs8WRMfCw1Vp7PFbKWJD98mV3WNJujGwbpKefdfRO1LkXjiHToo9bbQs1HSlI1wKXFzHYVqHDWLDkJKE17w5vHtBVzgfwgjr3guXsUXu805KwDSjgxn5iRJ3hA2uG9+J0WNUYJpXaSaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784053900; c=relaxed/simple;
-	bh=OAAD1xnXyhFbGaKlMDMrY7iHeLmxhSqKZFy2RD64VyQ=;
+	s=arc-20240116; t=1784053921; c=relaxed/simple;
+	bh=VjO/40vwtlEqoqa0MWjtEwISafs1DuSDXBphWFAVeM8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cLnhjDSG7VTbzfZJd2zy+wYCkyLwfzhNMgX242tFAavNUx+tCxxTscg2vN5Ni29bE0TxOPyy6Hn8qOtuIjV5stubOvzbQLOBv6z/wKsOdjKtg25U0ADXiwON/zi6G4LfgHMdxHWHe+WyTsb4zrG9scKTLobAaVQ/2DKXvY1FDbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SqL6QUJM; arc=none smtp.client-ip=209.85.222.181
+	 MIME-Version; b=JXVlZaU8kzrEz7BcxNYuFbE3CcQ5CaToBLnAMr36+70GENqQ021cTXxx4fW79mLw5akcyvxdV1F1pvMZamg8hu1+hBiXiG1F3BSdFS6Zh33D8Ru2Ra5gsPHpH6WR65AEbbhr4FAayEE9Ralbsrw4bUoa+OCwNcmW1ES2takd5u8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MU2gdJms; arc=none smtp.client-ip=209.85.219.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SqL6QUJM"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-92f03daaa97so252848785a.2
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 11:31:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MU2gdJms"
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-8efef6533aaso13628296d6.0
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 11:31:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784053898; x=1784658698; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784053919; x=1784658719; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=gexNtD7XQMYc5ZpBXX88c2pnTg9Mi5LE1qEYRrtsHvs=;
-        b=SqL6QUJMJKTccqNHgRN9cLBKaFiqXeB0EegkLpkwwn9vAplf9GLFJSaxKR2YR1hHzj
-         oZSdhR4F4hCCPrUhUcSi4gj5VUcj1+RQK47VXVCvUtJycZCfMHqcI9rLoHMA1fKunS4E
-         RF+aAibmDQpVRwCSHN4VBzqVMBmm0E9s/Z+5NkPC7q+cZcAvBQ6A2AArW4e3lelA6O0m
-         SFzTIi/VIgqB6GuE/DX8S+KyARCnH0IooSluBovU//iS/ixot0A9sbXcgEQm/OyUuTEB
-         SaFt7bPBGIi3EycNJtYTpwsFZmG6NngWZ4eBg+K8B0Yqupse/wx/nU2tFuzoswAE30Q7
-         mgGw==
+        bh=KwQ36ycy2027O2OnXTT+jaKQ0lX0IY/IjFba+f+HbbQ=;
+        b=MU2gdJmsxzKlkum3NlI0Bt6u3MFh3Ge5SRJ6lQACJSbB9X94H807fYOy5FY9pHzcLk
+         FAPshpyZbymGqiTrfInEYL+xJM6h/oaOOpjzr1etSvudNc5wz42NKh2EA02P52g8NJ/X
+         Vz8ujfqLmPfBh3LaLE/6h9bj/JEwNDdrLPpoFVuoZiGB2o/izJeNX70lG6X6gJsBGKQG
+         oO+O2JmhN7hUbkx/eE6O3VuTqbwhj0OotnbPsIYddQnQu7cNIj+14bmB7zPHDYpY569J
+         aaDJHcM0taT1bB8QAmbad63CSfgofVa6PXb0YdjckVRWTbaSsv/euNsp6FtUFy6fywaj
+         dD+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784053898; x=1784658698;
+        d=1e100.net; s=20251104; t=1784053919; x=1784658719;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gexNtD7XQMYc5ZpBXX88c2pnTg9Mi5LE1qEYRrtsHvs=;
-        b=XHymAI+rxzao9EPC9fRkGHOupFHZLRzPh0zZqmDFoBftqs2JhIdmn6OGqAC1O0n1jA
-         CKf7oowgv8xZnJ0AOyaQHEXcVNREMOZLnSILL+5j66ds8SluVXoy2bCTcenLXyzfyMae
-         8g5PlPGYeevtvHc1Bvxa5fQ+XKdR6I9r3yKNhl1E/seB62XHJFaJ2IeVsiGaZpJhKDjm
-         RO7JrZnVKGfxmX8denw4EaQYESJTPQzS0DfUluM9UmiNxyVQfzWSW30BwE49DeqS01Jo
-         nw5raZfcqnaKtGDlhpBulbGADqkGW7o3pE+uH/e+qf4/GlUnFmENIkvXMMlIOaxj+THV
-         q+JQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrIXFuHMEODvfYRvkxEXydQxf+AbUW8mMSxkuCmRRpfmbH6b3h2ub4N1s2KJdOFs5qdBL6DlBBrlJk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgZ72xweH03JN6otUbe3v/WFez6xRtczqh7RZgOs1qjSaaMFWJ
-	ruOXoFVxa0yQ2x8HEyyo0XM0tEq4L0ZhlSDHtH18ll9EGRB0DuTskkO1
-X-Gm-Gg: AfdE7clJAoFGLfpW5WBbhkQMcCbaWSMFHdFMaHLDhHoSzwObaufh95fnJOqVtBdClh+
-	uUvP5Hms7kw/A/hjQIBKc3z0Mw7u60l9p8MgEUOadijTKtF8hNY/FQ0FNcWa9m77Vglb8diynqv
-	YARFo0xERSQrvbpf9EuyTu4KT9uFezL1/my4maaa57+Mh95Z5wuS9YOAQjDaEAjXjBOY6aZWc36
-	pTYE8hl4g6tPei4OPJgzk/PO++Mq3UF5wdabFk9+B49d3KN1vmeDYd8Wy8XZ/K8b1H1GE5cWlHC
-	ceQst5yDOzhUV3wrNoSVDNdGzUuYFAjcSIbw7VCHzkqBSMwY/Ck/dO3U0bZnUAPqiQPFT1O8VNE
-	LCRQEeJbRICuJDcwEizBiqR4AZw+Ok2q8CBbeSHqTUFXHInnKYp+khSaDmgxAAU+1IU7JOBP/Rv
-	7lJLrV/Cg2GnRW9TmAhaU2x3x+3GG9dmsdLpj5leElQoWHLxkxLMmETba4YUS1wQ==
-X-Received: by 2002:a05:620a:40d6:b0:930:927f:f81f with SMTP id af79cd13be357-930927ff9b4mr130636785a.91.1784053897781;
-        Tue, 14 Jul 2026 11:31:37 -0700 (PDT)
+        bh=KwQ36ycy2027O2OnXTT+jaKQ0lX0IY/IjFba+f+HbbQ=;
+        b=FvMKzIf1nPkudGRNrSOG9jvCXoedoRld9bouf6a67D1ES6jLZIuTBTSgemoMa471hg
+         U7pvjzUd9ooCwVOVRzwa4eVzWyrkfqrrh4VeBkxONy8Qz+YoV637fGB2UBaVepyvyIPH
+         U94CAdAI90xvbd1+zMV7Wc78E2SfS9PLEQe9O9SWIh0j6l8ozT782Hv00qml7rmfoNAR
+         q8muAdFMYNTCE1hgWeMpk2G6x/rfEgRlSudcfWr6CxzJnSttaeh/HezGOJvoD4Gu0phc
+         IMr7Iltupo4ddcTG03HSsUP0WF7ILvNeqzOpKycb2ISOv6aPhOOlhUiV5MUTSwED+ihQ
+         CvHA==
+X-Forwarded-Encrypted: i=1; AHgh+Rqt+r3m1gDTv3OYoN2d3jfUPRQ6h3ZxUnlXdNA6uKLsLRdv/zR+ZeGyB5BSfx/Novg3/sjn6b0CRDA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfPSUneXAph1rL7XDuKSFthAtZsLF4PrNBRj1Os8MkcY3ANduJ
+	Z5yr52MuVJQUonL9Kc7SebxldaOyoZzIrpOh36mnDcXKsihLLbxiRnxZ
+X-Gm-Gg: AfdE7ckkOcWllKJRdcG15sY5uztDONtE4wRuCPETLRHiri+EJgWYugAIZuPH7MRe/BP
+	TKGM/23Lri1Fb4L5jnxq/sg+v5Vn6untMzm7IsDp1o3hj262IYaFMBN635CVjz7tpeFh4glUqfp
+	3A+zEb7Ogk77LGAMRkTeXNtrFuv/AEYQF96Y/y8l5p9DgOklTKS6k3gxCYgUKTrcRDK42qbaXtx
+	Qe390LL2oRU/syAC0fzNdaD2vmqUjw78x8z4nqnLDJmkdMVDsArL75SUUAcjK3kwiFjOuZpoOlw
+	zcgnmITCvqq4/AFZ1Mhha9tdAfXVRnOXWjg22BKN0PETz3+9cPzvPIKD0S/H2VT2MRCDD2OXg1X
+	FRuqh2i+0NE1zubUPSNPT+GDnji/j12p9uAPuvHLzYG04yOsVqWL21wcZoijDE7SofhWm8LvUw8
+	En/DSSQl1NMBMCbuHT/iil3zWRehxDTRmgHeI5x0miVmZAlgM6SjqFB/NpZwrLkQ==
+X-Received: by 2002:a05:6214:3d0f:b0:8cc:ea7f:d3c8 with SMTP id 6a1803df08f44-90401578bbbmr161798496d6.30.1784053918640;
+        Tue, 14 Jul 2026 11:31:58 -0700 (PDT)
 Received: from localhost ([48.45.163.146])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5bb3542sm1473718285a.20.2026.07.14.11.31.36
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ffd87cacb8sm178386286d6.49.2026.07.14.11.31.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 11:31:37 -0700 (PDT)
+        Tue, 14 Jul 2026 11:31:58 -0700 (PDT)
 From: Jinchao Wang <wangjinchao600@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Peter Zijlstra <peterz@infradead.org>,
@@ -82,9 +82,9 @@ Cc: Ingo Molnar <mingo@redhat.com>,
 	linux-perf-users@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	Jinchao Wang <wangjinchao600@gmail.com>
-Subject: [RFC PATCH 06/13] mm/kwatch: add lockless per-task context pool
-Date: Wed, 15 Jul 2026 02:31:29 +0800
-Message-ID: <20260714183129.12542-1-wangjinchao600@gmail.com>
+Subject: [RFC PATCH 07/13] stacktrace: export stack_trace_save_regs()
+Date: Wed, 15 Jul 2026 02:31:46 +0800
+Message-ID: <20260714183146.12598-1-wangjinchao600@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260714182243.10687-1-wangjinchao600@gmail.com>
 References: <20260714182243.10687-1-wangjinchao600@gmail.com>
@@ -96,144 +96,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A task that enters the watched function needs somewhere to keep its
-window state (nesting depth, owned watchpoint, config epoch). The
-lookup runs in kprobe and NMI-like contexts, so it must not allocate
-or take locks.
-
-Use a preallocated open-addressing array hashed by task_struct
-pointer. Slots are claimed with cmpxchg() and released with
-smp_store_release(); lookup is a read-only probe sequence. The pool
-size (max_concurrency) bounds how many tasks can be inside watch
-windows concurrently; excess tasks are simply not tracked.
+The other stack_trace_save_*() flavours are exported, but the regs
+variant is not, so no module can capture a stack trace for a given
+pt_regs. KWatch, which may be built as a module, uses it to record
+who wrote to a watched address from the hardware breakpoint handler.
+Export it like its siblings.
 
 Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
 ---
- mm/kwatch/Makefile   |   2 +-
- mm/kwatch/task_ctx.c | 105 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 106 insertions(+), 1 deletion(-)
- create mode 100644 mm/kwatch/task_ctx.c
+ kernel/stacktrace.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/mm/kwatch/Makefile b/mm/kwatch/Makefile
-index 69c21ae62123..cc6574df0d68 100644
---- a/mm/kwatch/Makefile
-+++ b/mm/kwatch/Makefile
-@@ -1,3 +1,3 @@
- obj-$(CONFIG_KWATCH) += kwatch.o
+diff --git a/kernel/stacktrace.c b/kernel/stacktrace.c
+index afb3c116da91..d853c40f916b 100644
+--- a/kernel/stacktrace.c
++++ b/kernel/stacktrace.c
+@@ -175,6 +175,7 @@ unsigned int stack_trace_save_regs(struct pt_regs *regs, unsigned long *store,
+ 	arch_stack_walk(consume_entry, &c, current, regs);
+ 	return c.len;
+ }
++EXPORT_SYMBOL_GPL(stack_trace_save_regs);
  
--kwatch-y := deref.o
-+kwatch-y := deref.o task_ctx.o
-diff --git a/mm/kwatch/task_ctx.c b/mm/kwatch/task_ctx.c
-new file mode 100644
-index 000000000000..f8e582f0dcfe
---- /dev/null
-+++ b/mm/kwatch/task_ctx.c
-@@ -0,0 +1,105 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/slab.h>
-+#include <linux/hash.h>
-+#include <linux/sched.h>
-+#include <linux/log2.h>
-+#include "kwatch.h"
-+
-+static u16 kwatch_ctx_pool_size;
-+static u16 kwatch_ctx_pool_mask;
-+
-+static struct kwatch_tsk_ctx *kwatch_ctx_pool;
-+
-+int kwatch_tsk_ctx_prealloc(u16 max_concurrency)
-+{
-+	if (!max_concurrency)
-+		max_concurrency = 256;
-+
-+	kwatch_ctx_pool_size = roundup_pow_of_two(max_concurrency);
-+	kwatch_ctx_pool_mask = kwatch_ctx_pool_size - 1;
-+
-+	if (unlikely(!kwatch_ctx_pool)) {
-+		kwatch_ctx_pool = kcalloc(kwatch_ctx_pool_size,
-+					  sizeof(struct kwatch_tsk_ctx),
-+					  GFP_KERNEL);
-+		if (!kwatch_ctx_pool)
-+			return -ENOMEM;
-+	}
-+	return 0;
-+}
-+
-+struct kwatch_tsk_ctx *kwatch_tsk_ctx_get(bool can_alloc)
-+{
-+	int start_idx, i, idx;
-+	struct task_struct *t;
-+
-+	if (unlikely(!kwatch_ctx_pool))
-+		return NULL;
-+
-+	start_idx = hash_ptr(current, ilog2(kwatch_ctx_pool_size));
-+
-+	for (i = 0; i < kwatch_ctx_pool_size; i++) {
-+		idx = (start_idx + i) & kwatch_ctx_pool_mask;
-+		t = READ_ONCE(kwatch_ctx_pool[idx].task);
-+		if (t == current)
-+			return &kwatch_ctx_pool[idx];
-+	}
-+
-+	if (!can_alloc)
-+		return NULL;
-+
-+	for (i = 0; i < kwatch_ctx_pool_size; i++) {
-+		idx = (start_idx + i) & kwatch_ctx_pool_mask;
-+		t = READ_ONCE(kwatch_ctx_pool[idx].task);
-+		if (!t) {
-+			if (!cmpxchg(&kwatch_ctx_pool[idx].task, NULL, current))
-+				return &kwatch_ctx_pool[idx];
-+		}
-+	}
-+
-+	return NULL;
-+}
-+
-+void kwatch_tsk_ctx_reset(struct kwatch_tsk_ctx *ctx, u32 new_epoch)
-+{
-+	struct kwatch_watchpoint *wp = xchg(&ctx->wp, NULL);
-+
-+	if (wp)
-+		kwatch_hwbp_put(wp);
-+	ctx->depth = 0;
-+	ctx->epoch = new_epoch;
-+}
-+
-+void kwatch_tsk_ctx_put(void)
-+{
-+	struct kwatch_tsk_ctx *ctx = kwatch_tsk_ctx_get(false);
-+
-+	if (unlikely(!ctx))
-+		return;
-+
-+	kwatch_tsk_ctx_reset(ctx, 0);
-+
-+	/* Pairs with READ_ONCE() in kwatch_tsk_ctx_get() */
-+	smp_store_release(&ctx->task, NULL);
-+}
-+
-+void kwatch_tsk_ctx_release_wps(void)
-+{
-+	int i;
-+
-+	if (!kwatch_ctx_pool)
-+		return;
-+
-+	for (i = 0; i < kwatch_ctx_pool_size; i++) {
-+		struct kwatch_watchpoint *wp = xchg(&kwatch_ctx_pool[i].wp,
-+						    NULL);
-+		if (wp)
-+			kwatch_hwbp_put(wp);
-+	}
-+}
-+
-+void kwatch_tsk_ctx_free(void)
-+{
-+	kfree(kwatch_ctx_pool);
-+	kwatch_ctx_pool = NULL;
-+}
+ #ifdef CONFIG_HAVE_RELIABLE_STACKTRACE
+ /**
+@@ -325,6 +326,7 @@ unsigned int stack_trace_save_regs(struct pt_regs *regs, unsigned long *store,
+ 	save_stack_trace_regs(regs, &trace);
+ 	return trace.nr_entries;
+ }
++EXPORT_SYMBOL_GPL(stack_trace_save_regs);
+ 
+ #ifdef CONFIG_HAVE_RELIABLE_STACKTRACE
+ /**
 -- 
 2.53.0
 
