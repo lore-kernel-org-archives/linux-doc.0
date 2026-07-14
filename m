@@ -1,92 +1,131 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62933412BED;
-	Tue, 14 Jul 2026 20:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876D641D647
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 20:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784060013; cv=none; b=mBs3GiHpFQKCKLcuUvzHo7Wm4+capB8bU9YsqpYrSHNOiP1z4Gz6wPYcO5An0YyzhVHLyA1ZGx7WhS3JakrM384fbyDIGw5Gri1KkBJDaqa2FVShG5RbquPGQamrjtZc/A0Ta5Cw+upZBUZj9XuPRkGpbUD+DLLY9XNhbnsrewg=
+	t=1784060014; cv=none; b=g3fREjv6ofUff52ez7A8L38lnXJNelbQAVUVZkeKdpRdUMea7rSxPdsKBTR3ZeO2VdDUN6g9tgCgSo1bKT3yEnQK5KQ38hG3SWUBltSMHWy6agWQTSJSR9jzm4y+kAUOBK0diAjSytrWmAX44OIJ8xvvs2Oa/QzF75FcvQuOKTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784060013; c=relaxed/simple;
-	bh=u+5POPI/BtTyXAnp0z7wIeJABK6jmiOfa+id3WMDL+w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CX+HE/syb5PlRxWpyUpPeL9Z7a5ZYX6/vDz7rXWhHFhXXotxVeYvfdwHE0WqokBS4O7DNse2chAkYJGlk2yoGHLl5cJZgoIX4TCOOszWKMu/gDd3NaFl1CdlKrWhehd6wU22kV1Ppr3HrLL+IHzaNVSWMcNgRrMAiy3zt9KDcOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=pDJ4GOG2; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1784060014; c=relaxed/simple;
+	bh=bwr01/9WY7csMe3oixAvNcmOUvWfBdhgJjR3WJyG5E4=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nikurc1TEesaHQP26bYZmRLWtVBYh+AgYIZlcNNvYY5y+lx7QyRg52yasQwhKdlW+4Ea+y0fo8Dd/AVRQB4iZQFQMgWkvYcIBMjl5089bEqB1FOEvMJE2ekad0wsA/bM5Jq87I+M4ilNNBliBR4VqSGSQM0s3MWsU7zI0TwjjdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BqGVP3fr; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="pDJ4GOG2"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=GZnKgW+PTI85uwSvBTZx6tE/LVkjSY/LHRD2fDPNzO0=; b=pDJ4GOG290nNbD7p9pehUqbd6J
-	liRP7KZdmFIUYrnPXVRorJ+btZrptsNhTyOE6IcMio8Z7W0/PkmCvK/jiRDtGbzxLi5Rm1ihsYGcP
-	D6XqGXjWUEYD1ptZjY+ed8cKUhRvmUeZyVFvFrqTJk3NuFUrKT/o+vUrikzcxituPc94=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wjjVG-00CFLL-Bi; Tue, 14 Jul 2026 22:13:18 +0200
-Date: Tue, 14 Jul 2026 22:13:18 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: "Shenwei Wang (OSS)" <shenwei.wang@oss.nxp.com>
-Cc: Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>, Frank Li <frank.li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	dl-linux-imx <linux-imx@nxp.com>,
-	Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>,
-	"b-padhi@ti.com" <b-padhi@ti.com>
-Subject: Re: [PATCH v14 1/5] docs: driver-api: gpio: rpmsg gpio driver over
- rpmsg bus
-Message-ID: <680d0633-cdec-4545-9114-79bfd6eaac41@lunn.ch>
-References: <20260625155432.815185-1-shenwei.wang@oss.nxp.com>
- <20260625155432.815185-2-shenwei.wang@oss.nxp.com>
- <alUdg9iTysXCFUa5@p14s>
- <PAXPR04MB91852808D2C7491AEF98CF1589F92@PAXPR04MB9185.eurprd04.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BqGVP3fr"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-84536ecfc5bso1230662b3a.2
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 13:13:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784060013; x=1784664813; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:user-agent
+         :references:in-reply-to:message-id:date:cc:to:from:subject:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=Vc1a4EA+CKVDZWmxoam2W7gn+VW7+IE4FDUnuymM6t4=;
+        b=BqGVP3fr3VzcAYMgIEHBrBODNP8u+OiMZeEEj0Sup4UbdHg8E9p+JCzlVbb10OglAe
+         QVX7x/AgHKHFCnqyfJdqWvTtvMh61GMPtH1SBZZGBYzNZcv9Cm6cVhV61HGkkzjKceUg
+         4J2vlcXWIGc6/k+R/x1EB1wN9wX+rM/uJei10xMgDWeUKfr19ERBBirTSLiQJiHLgyZv
+         Jf4fRJNLJziqgmT4YnpaydBF1AOUxCMPhPBnfZVYKNvCWp8C15GhAScasNW3YgNFTl3v
+         upuHbaQi5XFirl31yUo9rbXHXSpIPu/SNW1wtiACNrw0SVlZWQdqD0JTJT3eFEkmZMBM
+         icuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784060013; x=1784664813;
+        h=content-transfer-encoding:content-type:mime-version:user-agent
+         :references:in-reply-to:message-id:date:cc:to:from:subject:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Vc1a4EA+CKVDZWmxoam2W7gn+VW7+IE4FDUnuymM6t4=;
+        b=YtmFxmf1agxlltD/cNLCmr0HTFhsGH3x3OvPd87CnJ4cFz4SSjuNxbYts8/iTmb2lD
+         4sWYi5B/M3ZfrW5R0zhwLmQnFEu3W5YOBuwlEgDEwScwYvliaQor3Sn83jmse28S0ZuD
+         P1zj1ocEM6oeHDwxJyElmQloGBgyWGjfdXoNgzdXJRcniezzVxtlyNkDFGZaytGUtJMJ
+         dRMckS6S/UKIgp84z8EHyY2svVsamWbA7ldnkRbxXqlgqJqRvIdAVCCLP9WRGTw+CDJT
+         p3oBOnZdG0ynt7kNQ6NYT4Q/hWTQhpp52kYyL7RYS0akhWvrsI2Gi4fxOG5Pw9UkUCNi
+         qZEg==
+X-Forwarded-Encrypted: i=1; AHgh+RrZvmGoMnd2PoncspO8jmTkgf3n9ebCVVoDqRXbWYb5F7yIb4j8FyfuPrnEDKmwMq3FWAxBilMSaWs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywwnid9/6TzauS1fgpSfgro6cAG+prn+e6xy2UXdp8803PpGvfw
+	6zk8mIKCwbI31RORY5qXu2EFEvJ0v+dts4QgVHXAOnYClQGfZiCvMCV1
+X-Gm-Gg: AfdE7cnFY620BUH9yr2piLwRkh6ituoFD0l5PgsxFeBwv0t9UUvOU42Dpf0hDtow2HW
+	m4TqpeFosfyU1xpYzcbTW5FHNeiXLabbpYd0cvQbXlWH0XZ1els5hBQyNde+FwcTjynovqaSAG2
+	dkzeLdkYcUE2ec/3Ii54tkzS38jN181W83zLxdzU1T6Cn82mF2Etd1sQcmb1pOq7AO2HNBmozW+
+	elssUlkKUTCFmCKM9YRFU6LC7JhWyv8LLtK0Larsyt5xGbJHAyzKde7OtRJwSO/dXKQmXS+6pSQ
+	3AlEIn091AX9l0jYtD8PTPu0x7wzo7spGr7CEWIQE0gYs3bP0S3tDtY7z53flyWolEIjiG1v64x
+	3l+oxSwsdftK98bncdT6hBWWdzEalIyOV/nymZtPQ8J4CxCOamLa1KtnPABunF7C/L264zpen8t
+	5tN4wI6R+zCE8O3MMy7MY4RUm5TTME5VnZBsXL74WlLIw/g7hplre/vF9aNRQ=
+X-Received: by 2002:a05:6a00:2341:b0:848:2f84:f429 with SMTP id d2e1a72fcca58-84a6738a72fmr16414b3a.66.1784060012852;
+        Tue, 14 Jul 2026 13:13:32 -0700 (PDT)
+Received: from [192.168.0.160] (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84a4f6bf5ecsm1974797b3a.29.2026.07.14.13.13.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jul 2026 13:13:32 -0700 (PDT)
+Subject: [PATCH 1/4] fixup! mm/hmm: add hmm_range_fault_unlocked_timeout() for
+ mmap lock-drop support
+From: Stanislav Kinsburskii <skinsburskii@gmail.com>
+To: airlied@gmail.com, akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org,
+ corbet@lwn.net, dakr@kernel.org, david@kernel.org, jgg@ziepe.ca,
+ kees@kernel.org, leon@kernel.org, liam@infradead.org, lizhi.hou@amd.com,
+ ljs@kernel.org, lyude@redhat.com, maarten.lankhorst@linux.intel.com,
+ mamin506@gmail.com, mhocko@suse.com, mripard@kernel.org,
+ nouveau@lists.freedesktop.org, ogabbay@kernel.org, oleg@redhat.com,
+ rppt@kernel.org, shuah@kernel.org, simona@ffwll.ch,
+ skhan@linuxfoundation.org, skinsburskii@gmail.com, surenb@google.com,
+ tzimmermann@suse.de, vbabka@kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org
+Date: Tue, 14 Jul 2026 13:13:31 -0700
+Message-ID: <178406001098.1082778.7615814555318834246.stgit@skinsburskii>
+In-Reply-To: <178405975214.1082778.5193079941156341151.stgit@skinsburskii>
+References: <178405975214.1082778.5193079941156341151.stgit@skinsburskii>
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PAXPR04MB91852808D2C7491AEF98CF1589F92@PAXPR04MB9185.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-> > 1) You did not include messages that mask and unmask interrupts at the driver
-> > side.
-> 
-> Interrupt masking and unmasking are handled entirely on the local processor.
-> 
-> When an interrupt occurs, the remote system masks the interrupt and then sends a notification 
-> to Linux. After Linux processes the notification, it sends a SET_IRQ_TYPE message back to the 
-> remote system, which then unmasks the interrupt.
+The hmm_range_fault_unlocked_timeout() example checks for a concurrent
+mmu_interval_notifier invalidation after the HMM fault has succeeded.
+The sequence number used for that check is stored in range->notifier_seq
+by hmm_range_fault_unlocked_timeout(), so the retry check should use the
+same notifier stored in range as well.
 
-Masking and unmasking an interrupt are orthogonal to the interrupt
-type.
+Update the example to pass range.notifier to mmu_interval_read_retry(),
+and spell out that the retry check uses the notifier and sequence number
+stored in range by the HMM fault helper. This makes the relationship
+between the HMM walk and the later invalidation check explicit.
 
-When the interrupt fires, the interrupt core calls the irq_mask()
-operation on the interrupt. That should mask the interrupt. Once the
-handler has finished, the interrupt core, will call irq_unmask() to
-unmask the interrupt.
+Signed-off-by: Stanislav Kinsburskii <skinsburskii@gmail.com>
+---
+ Documentation/mm/hmm.rst |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Edge, level, high, low, raising, falling has nothing to do with
-masking. Please don't mix concepts which Linux keeps separate.
+diff --git a/Documentation/mm/hmm.rst b/Documentation/mm/hmm.rst
+index 5c88d2cf0818..fc1b8dc19825 100644
+--- a/Documentation/mm/hmm.rst
++++ b/Documentation/mm/hmm.rst
+@@ -206,7 +206,7 @@ The usage pattern is::
+           goto out_put;
+ 
+       take_lock(driver->update);
+-      if (mmu_interval_read_retry(&interval_sub, range.notifier_seq)) {
++      if (mmu_interval_read_retry(range.notifier, range.notifier_seq)) {
+           release_lock(driver->update);
+           goto again;
+       }
+@@ -225,7 +225,8 @@ The usage pattern is::
+ The driver->update lock is the same lock that the driver takes inside its
+ invalidate() callback. That lock must be held before calling
+ mmu_interval_read_retry() to avoid any race with a concurrent CPU page table
+-update.
++update. The retry check must use the same notifier and sequence number stored
++in ``range`` by ``hmm_range_fault_unlocked_timeout()``.
+ 
+ Holding the mmap lock across HMM faults
+ =======================================
 
-	 Andrew
+
