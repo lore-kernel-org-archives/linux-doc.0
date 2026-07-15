@@ -1,67 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BDF78F2B;
-	Wed, 15 Jul 2026 00:45:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F2778F2B;
+	Wed, 15 Jul 2026 00:47:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784076361; cv=fail; b=D+oG6C63/L01OR20UVp+BwnMag5tV6GID5u3+DKD+UOUgEcLObzixOOaIk7nt70+NCKohgMcG1Xwp1hUcc/st6EdRC/Yo3Dj280KF5OOFZcPdU/ZfvhZd3KWp+5R2CkIncBBXL6pLFpygiLDdEUPnlj60N5MkQceZy3Dnvz8O4k=
+	t=1784076476; cv=fail; b=SWKk/GwXbw1QyU0gciPHTl6l/2fSSe6e0K4Z7vpNb219hcoPcuKeR9tCjtIGbelWFYqsB/hwpz6cuyFBUirwxGz7Nl2d1nJNrXrMWoxz75yHRqys3s+IBDoGFLifvyN0hSRIVmatxwy24wmWyPHotdx1QToQLYy6zVcgCpTdQWY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784076361; c=relaxed/simple;
-	bh=kNakuuaYywuMHJnx1x5POeyjMrAosi6KMCoSEkWOdtM=;
+	s=arc-20240116; t=1784076476; c=relaxed/simple;
+	bh=WP6ZFRb0R2eCrR1SPuxn7/zeIymdQQs3/0GZn/6MsNs=;
 	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Re8Rhmw3Tn1cpl4vGLqmgEVJZhN55WTnfynTsU1kgvWFvt0xuwtLZX1ujaf/jWWxfqDuKr4lnS46+iNHA5JCBNhF58KlJHbqIy9oe+eGEh18hDTQNGW0jhe/T0Ujmw3rfgO5F3we8I0Y14cpcmurIhoxdiMho5K5Fc2czxgl77w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jS2wNzj+; arc=fail smtp.client-ip=192.198.163.8
+	 Content-Type:MIME-Version; b=qG9xw9VUu0UDRjKdkun8oPSvEOxeQCji9B5BU95N3ws1D+W24ZXBnqLylWG9yjYTqzoBahwAN+PJNVMc90sU5CnMY/6Gm3q5opSTuulL5htljBAv1uCovxM5fku0vnQqSMjQkxLiUG1ZJVDmG9/oWWb+ewspI0u9AxDvizp4btM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SwWysUnl; arc=fail smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jS2wNzj+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SwWysUnl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784076355; x=1815612355;
+  t=1784076471; x=1815612471;
   h=message-id:date:subject:to:cc:references:from:
    in-reply-to:content-transfer-encoding:mime-version;
-  bh=kNakuuaYywuMHJnx1x5POeyjMrAosi6KMCoSEkWOdtM=;
-  b=jS2wNzj+VLYu40Xl6+j5AFVx/nTTYV5BDRjsV+qdAFWO5NiwtZF+L7og
-   CJPODiM6V1svOzreCW632xjNe7GdxoT9NlAT9SQ+RIYB9jHMv6o1ALvRh
-   WPVItZ8BCxC4YOw6sbopVysHnkIz/P27B3n5EAu7h81ePGA+SEnnrAbwM
-   CgtRnYxhQYDVSU+xAkt/kaAnkGbOAtotolx0yhH2pp+g7m4TDujNcO8xU
-   Zja95gQBDxZeYFqoZrNorivj6Ay0m21rM4OUIQLFrRvzhk0UgUpaJtKtG
-   vxjNfNEHP7dwnSPFf7h7pQ5ci6Q2XZwVKVHbbnNg7Y1Zi3DzAQPHRZ0Bs
-   A==;
-X-CSE-ConnectionGUID: 4jr8J2S5QXi1vUmqvin42A==
-X-CSE-MsgGUID: bLYltLr+RfedctnTMnWAjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="102260996"
+  bh=WP6ZFRb0R2eCrR1SPuxn7/zeIymdQQs3/0GZn/6MsNs=;
+  b=SwWysUnlhdW6EmeDRCr4UBDB4t0f501JW4qQSVJlgBUm3LL+9qYGHp3u
+   BllkUXwvhGkDUBUVOiOl+0vt5HX47hwcezt/uypMh1754LZFU9YkHRXne
+   SCC2/NK2dfLVG2jHPz89RPe+c2KsjqvsdeRQJG/MJS8jtei8bSBHuM/TB
+   tW2/o5bF1J2rS308ZMnyaMJRR10OSvfZw0VNUIgVi/6oj5ICIleokJse2
+   P77Zx3cmz86ebirDdifPqSrRxRzyGSDrlYXOj/yqCJsWtGJtwNw2ozzaa
+   hL10BaE72LPf3a6zS+aPycX4i/sYqMMSWrPsRwp6xFitZ8tw5cplSa6UQ
+   Q==;
+X-CSE-ConnectionGUID: NvqQSFiTReeVzugJv3+01g==
+X-CSE-MsgGUID: 0QkDpFAwTeqE3mxFt0B0iQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="110253984"
 X-IronPort-AV: E=Sophos;i="6.25,164,1779174000"; 
-   d="scan'208";a="102260996"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 17:45:51 -0700
-X-CSE-ConnectionGUID: USXQlLhyTQKxORIOA0yBEQ==
-X-CSE-MsgGUID: DOgWjazcTzSFhdot7noFuw==
+   d="scan'208";a="110253984"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 17:47:50 -0700
+X-CSE-ConnectionGUID: butiFfGhSxaWxvg3WfRIOw==
+X-CSE-MsgGUID: aG20E+blQgez9lF6KLAvjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,164,1779174000"; 
-   d="scan'208";a="255510715"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 17:45:47 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+   d="scan'208";a="280436232"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 17:47:50 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Tue, 14 Jul 2026 17:45:44 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.2.2562.43; Tue, 14 Jul 2026 17:47:49 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Tue, 14 Jul 2026 17:45:44 -0700
-Received: from BN1PR04CU002.outbound.protection.outlook.com (52.101.56.25) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ 15.2.2562.43 via Frontend Transport; Tue, 14 Jul 2026 17:47:49 -0700
+Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.51) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Tue, 14 Jul 2026 17:45:43 -0700
+ 15.2.2562.43; Tue, 14 Jul 2026 17:47:49 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=h3A1BTORIaln3lsRNhZntpOz0rYd2TmoG9Nk5s3in/VFiQ1bYfyGjO0ugNCCQ3X7fREOYgaW+dY3gF/lpARJriEZko1M4u6aa7nMvHWTlfS7GrZQXqkiB80AWBNvQCR+bNTYHb+Q6VGdDDnHXjCPmR7KlGdN0d2OSSO97j0pvA5KiFo3KtMntqBxW7iqCCsoOTy2ed1ygGpNIUot9R4NDjs5jjEvgjO4pcN+4RhyNt7zX912lbJ8J1Azgx2YcEidCUEe3176koVeFJNzwIT0drV5t+tiWJAMIM+7iI9aijMB4XDBhKBo7Uj7yTAaq/XXCxptPowtcJXOalJ/EJCjFQ==
+ b=yi287h79Si1WR4yRh35eJAIwznw0f8HZN79VwKSAUS89eeAFw17+4L+n4A/RqFqInUcbpvSwskuWXD/zFVWFD+bdfa6z9ax7NuTWgJv7q6uQ58g+trNIJTSyfgWAJx9G/BXnssxiooBp1Rh1P4ru270dhn3AiFfAKALPzy2Qx1WrqR9vDCxy0lTHa5EZ9vpN8tFzAL6EnonQ9qGXHV+nFDv6oecuSTVNEf2gUKzWY2TmErk3/cp3k5iS7/Ns2BRLuBFldJb3WyzZ+poRz1/bsnzm+G+etI52vdEy2U9cxm92AnPOrBcXbK7tYwpZByhaHH712LDWZUT3AQr7kP7VCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z238ez16ZLT2n+Adb3WPUAl+kwdL0uem9olI8GDUX0A=;
- b=ZSYxLtOS3EHce7jAjOIbBAkB5eCDLhWOKIlnr4a+xa1zZ9o/5ArWuWgWW7U0RcAuCVI+UWVl1DB0Z+TB/yJ4ItMHaXMIVyyFan6hQ3GmmcNFoUsQC/5lPkBgLUm3drGablufU7ps2gqzlgzbawzLnN65d+jIe3N6H5z50onraQgcR1jJ+akwEWuW4jCcFll3d+65zqgey8ezXtJ2A3MZZCB25IIjqlpfy+2x3kJpR7t9n3QMIanMUMrMPrj0HLdCArb7TZqn0OMA7jc8cQq2nLfmkB7YRJ/WoRDhpoK1WQiOLc9WarnvAmgD8v0Lsp6PcMhGr0CxJCXd0Fs2SUbydg==
+ bh=mwdDyOZpOBmPnpm25loBCMaX6nASRbLo32cIb59ze+8=;
+ b=k2erEXgm5rxOPJOXHkVjLi73J5nz6Zcfx00tvW1cRzTbni/SgPG8OP/KyvT0q1zrG9ra2tl3dAw1dRJGUugZd/Y2fWnkfOMynjZKmwHwzXPBPq3Eot7C/Gd6VsH5WsYmMOYCIZiI/QIfmUaICI9C1SsnIusXIfge3qh5MENxU8CpCfH4EjUn8Dbp+Nm+CJP665QnRA8v53YATYA1yfNrIvnMF5KTY7aNYIi1k+eUYmYBdAybvKMO4WxRaW3O/Vesuk4UnIiLCeEUUdxGyRHItWUH9Y9YOP775FMsiTyELi6GVLqpwxA9s+J3MXD6+8a5L+kQgj+SMA4JvqJk+SZv4Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -70,16 +70,16 @@ Authentication-Results: dkim=none (message not signed)
 Received: from DS0PR11MB7381.namprd11.prod.outlook.com (2603:10b6:8:134::14)
  by DM4PR11MB6504.namprd11.prod.outlook.com (2603:10b6:8:8d::5) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.202.19; Wed, 15 Jul 2026 00:45:38 +0000
+ 15.21.202.19; Wed, 15 Jul 2026 00:47:39 +0000
 Received: from DS0PR11MB7381.namprd11.prod.outlook.com
  ([fe80::4c39:dfe6:d6dc:6f58]) by DS0PR11MB7381.namprd11.prod.outlook.com
  ([fe80::4c39:dfe6:d6dc:6f58%6]) with mapi id 15.21.0223.008; Wed, 15 Jul 2026
- 00:45:38 +0000
-Message-ID: <e58af0ae-ad06-4f77-8ebd-f3678d6dde66@intel.com>
-Date: Tue, 14 Jul 2026 17:45:34 -0700
+ 00:47:39 +0000
+Message-ID: <f8974bb1-e27d-480c-8f88-6aea3ef41ad8@intel.com>
+Date: Tue, 14 Jul 2026 17:47:35 -0700
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 net-next 1/7] ptp: Add ioctls for PHC timestamps with
- quality attributes
+Subject: Re: [PATCH v4 net-next 7/7] net: ena: Implement gettimexattrs64
+ callback for PTP attributes
 To: Arthur Kiyanovski <akiyano@amazon.com>, David Miller
 	<davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
 	<netdev@vger.kernel.org>
@@ -101,14 +101,14 @@ CC: Richard Cochran <richardcochran@gmail.com>, Eric Dumazet
 	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Simon Horman
 	<horms@kernel.org>, <vadim.fedorenko@linux.dev>
 References: <20260714020340.25014-1-akiyano@amazon.com>
- <20260714020340.25014-2-akiyano@amazon.com>
+ <20260714020340.25014-8-akiyano@amazon.com>
 From: Jacob Keller <jacob.e.keller@intel.com>
 Content-Language: en-US
-In-Reply-To: <20260714020340.25014-2-akiyano@amazon.com>
+In-Reply-To: <20260714020340.25014-8-akiyano@amazon.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0187.namprd04.prod.outlook.com
- (2603:10b6:303:86::12) To DS0PR11MB7381.namprd11.prod.outlook.com
+X-ClientProxiedBy: MW4PR04CA0193.namprd04.prod.outlook.com
+ (2603:10b6:303:86::18) To DS0PR11MB7381.namprd11.prod.outlook.com
  (2603:10b6:8:134::14)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -118,295 +118,79 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS0PR11MB7381:EE_|DM4PR11MB6504:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9e4ba1a2-7fb2-4214-6ca0-08dee20a63c0
+X-MS-Office365-Filtering-Correlation-Id: 2e9bd03e-caf6-4137-9a8a-08dee20aabc1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|7416014|6133799003|56012099006|11063799006|4143699003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 42jYLriCwXuzAv8bXq7Xd/xPc1KSkqLK7JleuWpmAH4Ygjotx4C5s8EnQeG7vodAHT4VEbZiZb8Psa44dKTyk7CkssoeihdCOpr7hWbyzQmyNBORFSis0ddWxOEQNjRzAfeQDlxg0dfpWQYVwgtP9gIq5yak0KLc93uFeu7ovxmnDHP14+DYrtFtk/9Nf+6Q8zn7TmmAz8lGpjkkGYseCiGmFU3IjhhY0sDUeQNsX/tXKFKV1KcjN7lewO+bf4ypRVlZAfyhnxN1SkE8dAqxOPMoOT2bRaRhRbmcUNdqMZnks7n3UP0tRHu5KGDgVYt5zhGuuQ4bX/+GiWNhIJDDqEgpEXoxRsa2cr3pI9QHmE9lVPLkIW+fNzMPpxQuaZee2zo5Ll3TKLWpEJj4TeBHcdNtnWUU5nJerrANeyyQCKhT4aIJWs9eyoPrFspvh0IYjhgyWImG/4vVAVOtEzrMHEdoxYJ3JadPp7AfSM6+jE4ZQIfzMO65grLnT8YT+rxO8LGQwHva98wsZMz1l3TquNnFAvS8HaemBwURumeaszCv3Dzb1yhfvETUjkifCuOhzpFED2PozyN9OAytWWjqEu+uKnh0x1lYzg9Evx5L+NQyH1kM4k1k/sxT6uBK14RaFoue+af6TrlMuLi1hGdt27j0KetTJkCBIww9n3kZG74=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7381.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(7416014)(6133799003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|7416014|56012099006|11063799006|4143699003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: B9ThCVO0GN3Al3XOpcLVjyHJPdo1Owo3Fuo6h3s9VjjPxOfUVhzwSb59D5vVFFIE0n3djDPyVrdf27606U6d74DtPNxCdz34eRAg/j9GGh10Lom1fOGoMS+ywDD2Mm6bmmZtnGszKFLwCPDr9AuTG/+a0vEhRHnAA4XiFYG5hLjnndicFT5wwO+VSyxDYhS4qlsmQG2z22VCkIbIZ/CBHrJzpPxqQifwIVIQp8GMDF/X3CFq0Txj+0jfikqHUibOHngBxbROTkCFRr9tF0Zi/lerRlPasQ09oPC7NDrIZRmULwLWxamYb7fsXwLzNXGAHs5w2a+bJU0aSY6J3lxybFGRxPgwXbrfKEiq22TBYYF7rWQMnQ6Lh0wLOnsv+pagQQ0dhEaHNxL+GjBVKkp9eabux3DXY2LgA0pQCxydwIz1C4UPsb2aSoWrxpN7JONxzfzSCQhu4G6rAsVv20QhZquOaqi4qP/r80DgI+zkrBHLYx+7ybvlvpy42byuA7a2uf6VgbzbRp+AuPYX3+4wrhTWpXXvgcPz3i6DkM3xMPHzK6qn9MKYcbps/SPCACdfUKREhH1pINMtJaoTe+LY7IPPUJHunWzQNBAQTklMQvMBHTnKSw3NVuk11dljLqrC6Yqvx+P5D5j1cHbWg6Sls0aYxPBbIT34lF+Ce09Ah44=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7381.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(7416014)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?THI3bzNCY2lsOEx6eGZxLzNkanJ6bitMb2FFWGttRmFCVWh1bnppMzFZODBx?=
- =?utf-8?B?QzVqVm9BQ3RJZ3JSVlcwbVA3K3BwYjJZbHplaFA5cmgzbTNEaGVaTjloaXAx?=
- =?utf-8?B?SGxLRFpOaEZIQ1pyUFJkZ0ZPSDJ0VlNITWllUXJBaE42QnVoKzAwZDNsQzNq?=
- =?utf-8?B?aTkxTXF3dGpRV2JNSnIyeEx5Qi9RQTBJMnQ0aUFHYS9jc0pPVi8ycWd6VldS?=
- =?utf-8?B?ak5mTlA1aFFaSWd3ODZUb09iKzBwbk5rQlZSZ0VVYWFpQzJjcDdxWlQzNWxo?=
- =?utf-8?B?c1o5YzV5Z0k3RmtvdEtrOEtIV3hJY2c4aEorUTBBbDh4aUtsbGxDOVVEdmlG?=
- =?utf-8?B?cHVncVhBdEw3blJ2dGtSSnBSL2VpaEEwYzBnOUw4amNIRU1xSmtiQ2UyN09p?=
- =?utf-8?B?ei90ejFmMzYwdG45b1JoOGp3V3J1Qms1Wkt2bmljTWNYbWloRkxZQVRpZWgv?=
- =?utf-8?B?U2NxUklRbTk3YkxmaVlzaTd1VGowT2NxODNQc1lDdEo2RlFSZmdueU1ud08z?=
- =?utf-8?B?WVBmSXBZQmUvd0wyL0lPWVBkRUZ2aDNMY2VuTVdPT3Rja2p6QTJMcGJTb3Zs?=
- =?utf-8?B?REMvZE4rZy9kdEVna0w0bTVlVVVhWHZDdGc4ZXFoa2lEcVplaWVaYUZDOWFs?=
- =?utf-8?B?ZWx5Zm43WmFHUnNjQTZzdGIvSmVvR1VGUWhXZ1YwNzhTSXc0UGVKNVRpU29P?=
- =?utf-8?B?NklqZTJJcjdlWXRTMUJndm1td2QvRFY2UWZhcklyME5SdG02WW1QWmlYYkhm?=
- =?utf-8?B?eW56dGlpQXJaTUxad2JNUmRyRVZiZTRNdTJpUG9CRXN1MVh0QTBjdzNvUkFL?=
- =?utf-8?B?QnBXem1UWm00QTJyZ01DMkdPZEZMMU1JbldVa2wvOGVSTXFvb282ZkpoRVlr?=
- =?utf-8?B?bDdDUVJMWnZYTzBLbjFySTAwdU9zMzMxek1sa2tnQWRtM3kwNWU1VE45ZXRE?=
- =?utf-8?B?YzRZM0I3SnYyT0RLUXZNNTYyTWNkZFdOM1l2OWRUL2c0UUFwblg3Q0VkY1Rk?=
- =?utf-8?B?UVJoOXVrNVRzN2N3WkYvSUw1eHJEdTVYZ1lFSk9UTnF3MGV2bEc4K0N5Y1JD?=
- =?utf-8?B?MXd3MFE4eEFyZjVHWVN0aGkvbjJFNjh0YStLRlBISTF1enFZYUo3dUJnaXZE?=
- =?utf-8?B?RjhQSGZqVEcvRFVhclo1VU1tend6K1NYczlnNUFwVkhiYi9XYjMvUXpGaFRU?=
- =?utf-8?B?Z3BnNHIwZVh1K2F2MzhFRU5uMkY2NVJmY09VQkxQNDhQNVZackJkTWRDZU9t?=
- =?utf-8?B?S2dNMnVyUjZqUk5sQkdBSzZ3RXNZekMzNDRNN2tJQ1UrVnB3TTg5eUp2bm96?=
- =?utf-8?B?QStVMXJjQWhEbFpkKzFiTTBPU2ZyU0lSVC9WeFdyVXQ0Rk1nUW92aDEwZGxJ?=
- =?utf-8?B?OXFTYXU0SGFVLzI2clBXOFN5RE1hT1kyQUJUdjJnNmVRT2lwQVZtdlY0Umpr?=
- =?utf-8?B?TTVCejV1QmIvdjBXWjNrQ2FoM3pXT0dtRTV6OVdscE8xSmFRVXRjU2orSElL?=
- =?utf-8?B?VDBvY214eml5ZS8rKzhjMGV0Tko1eFNIU05OS20vVWs5czIzdjYyWTdiQTVI?=
- =?utf-8?B?R3ordjZ6NzRaZFRzYlpuNWdSRWtha0dnUk5BNDJXd3V0dUJKU2ZLb0thQlcx?=
- =?utf-8?B?WnRKdEFwbmlQUElvbklSVUZ6YzM3Nkl1M0NMQWljYm9pSUlkbnUzOWJXbzho?=
- =?utf-8?B?YTBlNkVyZVlqRDQvM0hRNlZ5ZmowMXBoUll0SEFxWm40YTF4S3RudlFFWHhB?=
- =?utf-8?B?WWNpYTZHeXFzTHdHaE9FUVpwdnorZ0ZPanFiVHplOFk1c3B2SHdSTFFNQndV?=
- =?utf-8?B?M05tMnZCenhSTzNSbmdJU2I2Y3NnaFM2SlNhbWZXK2lYbzV4VTAxYStSOFFp?=
- =?utf-8?B?WkptYy9MOG9wNzV4QkllRTE0MzUyS3NMSkYydU03TWxaOUJPVzN3S3VLNlp5?=
- =?utf-8?B?UytKNms2VzhxK001a1pNMy9zVVlUcjhYdXlQNXI1VlFCREFrNHJHUHBrK01D?=
- =?utf-8?B?NXNySE8vMXJTOWZFTlpONlcwQi9jOGxrMEVXN3ZqWFQ4WXBOdHp6c1BJUFkz?=
- =?utf-8?B?UnE0Z3FLN3dQamt6MHFlRnBlRFRLc3JHSlRxUVBENkZ1OUNxaXRYTW9VRE03?=
- =?utf-8?B?WUpKU1U5TU1BVTFFTjhyOWNqZmtMT2Jucm15aUpSRElaQXJQTVd2QkFkS1RD?=
- =?utf-8?B?a3ZLcjFTU0pQUWloZ2lrM1FqQnZ4eGNzcVI3cWY1MFdzNTRPSjJaclR6YzI4?=
- =?utf-8?B?Mk9GUDZSbzYzZWQ5emFKcjAwRG5xbmFYL0Z3SHB2MEhsOEU2eDFSRzYweFdk?=
- =?utf-8?B?NngyNmRmVkRlcDBMa3VENkwxNkZQeHpSMGlJMU9CM2hFYjJmd2Vldz09?=
-X-Exchange-RoutingPolicyChecked: P1t+AsbRzKFAs3540lv+CAFkbJlzhdxR4XnsFnmrvqefhUqqfctxmK2CbADBLFEPtHSwuRbkJutfAWm8/vDZwmnpYx1n35HhCLaXEwGUxmXnZ/epjYh31Oh1ABSv1mDZ/tCNe1R+fgf1OfO3GtrUj4OfApJ1T/LI9mQ0DsoBjhmL44M/vMBeZsy0PMteznOkbrCnTvFV9tkOO+NfuX66WFjb5WlbSigalL2HUFyuP9EtlSKNVamw5PULnSBE0js9Fn7akN6tZAq2yycE1CUfzIj+K6J7UbuEQ1CuhULohiEGW1RZCy+Qx9+E8Yx0n3JNst/kzcjL4C1jvd+r4OC+7g==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e4ba1a2-7fb2-4214-6ca0-08dee20a63c0
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aFNyTXROYkFqeUJ1aTZhbXh1N0xvZktQelZnNCtHdll3eEp3WEVFV25GZ3dN?=
+ =?utf-8?B?cmlYSlhwdUFHRlBXOXVYaitDQWpKZ2FQOU5kdStreTJQUzdMbWg1Sk1rc3M0?=
+ =?utf-8?B?Z3VxdWJrdG15amtzbGJHa1cyam1mTEdwS0JTak8xUXRReVBNNlVXRjhJMjAv?=
+ =?utf-8?B?YTN0bFZpTUZGckZXeFdPMFl5Vjhha2V0V3E3b1UrN1pvNWJNek4vNjRHVDl6?=
+ =?utf-8?B?OE5tb0RPU0NzeDQxK085NUVxdExRd3RiWmVidGdEZlVvbXpHVVVPTUQ0UFV6?=
+ =?utf-8?B?RVFvREJlbis5ZVAyWkNkQ2tGNXNGbk04clhOTm1lWWxWM284TEcvWjJpem4r?=
+ =?utf-8?B?a0poeWZ5V3hwZmtSVk9QRnVkWTJMbHdZamJuUjVwUllFWExWSnlLMkJaMm1k?=
+ =?utf-8?B?NTZDL1RDS0lobmlaR1FUenN0bVVKRFJYUmoxTXFUcjZQSHhlaUNhTU12WWk3?=
+ =?utf-8?B?N1lNQ1lWQjUrM0h3NDUwRXJVbTVTVkhPYkxHUEhCNmxXeTBwNWEwUVRGZzVQ?=
+ =?utf-8?B?b0FIWk5oVHJlU0l3SlNYRk51dXhlQ3pQb05YMEpoZndUUEFXQlBTL3lWcVVJ?=
+ =?utf-8?B?a2p1QkRlYXRRMFYzQ2E2OUdGS3hodGdIMnk3aGpWY0FSV1lIVTZmOW9ZNGFK?=
+ =?utf-8?B?dnN3NE02WTNqYUJMaElhelhjL1hGc0l5RmMwSDdmcFlvRk5yUXlzU0phSGpx?=
+ =?utf-8?B?empRdzBWeGFpOHdMYTQvWTc5Nm5DRjZYcGJwT2hELzVOeW52aWJpUS95eUlk?=
+ =?utf-8?B?elFKYUxtN3o5OWVjQ3dSQWJuWlBoZ1VGcU5tWUU5TkhrL1NTZjVmNVFVbDBZ?=
+ =?utf-8?B?VHE2bmpqOWdUeUtVSVNLL2g1WmIzOFVLWk1yVGY4RldsVmtWNlF2dUZCL1oy?=
+ =?utf-8?B?a3lVc056TjBxSUQ4SGorckV6ZllOR2NUeDRLTWJERmFISFlPMnNwZ1BpbDRz?=
+ =?utf-8?B?MWQ5Rkc0NEFyTFozclVndVJtUlBldmJlN3RWTktmRExVSXlEczg1bzlTYTAy?=
+ =?utf-8?B?VUxta2YvQkh2M3V6Nkh6b25sZU16N3hpZi9LUTZCdjBkWFhNdUdZc1RSUDhu?=
+ =?utf-8?B?N3hTNWhDaTNrKzlJd3V4WlpwMDJLMmNZb3ZhWW81cStybWR2NGFYV2ZINzV3?=
+ =?utf-8?B?eDBlTU0ydlZ2QUJaOVpaSEJzWTk1OCtEQVVmd0FzVkFWVEFZYWUxT3ZhL2R2?=
+ =?utf-8?B?RGNEWmg1WFA1dDV2R0NJR2ZJcGVjbGFZcU02bUlOaUEvZHFuSnBGRWppR21m?=
+ =?utf-8?B?Znd1Tkk3RHBHMktYY2VYU05UU0VvbHgzNzRPY0tTelM0d2JHSmNPWUxyTDAv?=
+ =?utf-8?B?Zzl0Tk8veDUwalcySHAzTnJZazM3aFhJdlp2bDRwaDc3USs1Qmg4YmU2V094?=
+ =?utf-8?B?YXpLR0FEUmFON0VHZE53UDlicXR1L1NIZzZ3K2xESmdPbVhML3pxMUh6d2x5?=
+ =?utf-8?B?dzZaWmdLbHBFRTBGV2ZUb0l5a1FaVEszZ2VkV2I4WXBwZ1dqTS9rOWkvZ0kr?=
+ =?utf-8?B?ZEhaYmZRcUpTOTRKMmFiVzkrZmJHZ0JIMTkzbmRCWXpWTy83RExadmlnNzF4?=
+ =?utf-8?B?M2RXNndRZlhKaVFKa1NWcEtmcVpLYUtBSzZ1OHMveVJzVEIvdVVJQVBqUmZa?=
+ =?utf-8?B?QjRTRUhUdEV3cUlzcVNWMVNQWERNcTdsbThURTRmZjZobyt4OFBxR0ZGb2hz?=
+ =?utf-8?B?MVc2ODN5cHRjd2lML3NRUnhCQWczaTJMVGNSNjR2VnZsaXVvWFpkMDVkeG0z?=
+ =?utf-8?B?eFlCNGdhSDFHTHV1cUhXdEQ4YU9HUGs2d3lWYVEraTJueWxSbHZhZkM0aEZU?=
+ =?utf-8?B?OG5XOEV3R0I1Y1I0enFPbm16N1hpdEJ2TWRobnNCeUo4T1lMTU43T2FLek9v?=
+ =?utf-8?B?VmMwZEMwZmtjZTZPL1FZYk9FaTltL092MnkxYmcxUDloVHJvd2I4OVdDL2JR?=
+ =?utf-8?B?ZHJUL2xvaUtSWGJUaERLRGNuQW11M2dBUm1uMmFEd2VoeVJTN21FeXYwSFoz?=
+ =?utf-8?B?RUR4WTI1WXhyVnRNWjZKZmNqUG1SL2NTcVVBYlNMaG84aVJwWU01OHg3bUlU?=
+ =?utf-8?B?TlVYN29mOVNKYzFjS2hLRkh2YzV3bnRIbEZPVGJXV1NXMGsrYVFubms2Y1Rq?=
+ =?utf-8?B?MnJtc2FSMmFIS1JnTUovanZXb2RjdkY3N1hscGhDRW0rSUxGWVhSWkhOZHg5?=
+ =?utf-8?B?MzhzV3JVa294MGFCMEVja1V2OElCU3lNM1ZFZFZxNVExNTdkODlhZ0ZxRVht?=
+ =?utf-8?B?RG1tWUZBZjJtekREdGhuUnQ2ZkM2bGV0by9xRGdsSXBKMDJ4VldBamltNnI4?=
+ =?utf-8?B?ajk5UG4wcTZLOGdBK3dveDJtN0VBVXd0MGs0U1NteWR6QW5NUFc5QT09?=
+X-Exchange-RoutingPolicyChecked: gjQoZryY1HXIDJWrp6n2QwgI4Hl7JRb9sOzpA2EbHcw0lk+12+B6AKPi/6TgLr8+/FM7uDHLTSKwAc3msNL8Yt7P6nG1E2Ns6v9w7DO+rDoZNaY1iDur7xYdr/SOWiYpgE2KwTcK9G7coFjC7NMQvm+Hkp/EiwTz64r/wmQdHpipvpm2PJgHl0QuJCwO+W0IcCg3c+35GcwhZIj0akc40dw8S41tkD91V7052bgcFzHk0CIq/eiJA6xm+hpa9UhLifjF4xwqZ+KwHCDFTTHDrFgGMQNfM2eiCEN9O3QXPXvAj15HanMC8VBZGQC9mR+l/UddigdX8Yo/ziY048656g==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e9bd03e-caf6-4137-9a8a-08dee20aabc1
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7381.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2026 00:45:38.5245
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2026 00:47:39.4006
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aHgOzRbWR5X7eL/ccout5nhFMbq0Bo1aQ9wntonpY0K8WKN8rUjeemJDBHUHcxhsazf8xQqQoujr56feDoZ8ihxFMHVqw/UiERbszfT+TL4=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Yk2/IP1mHqEkwQTNMLjE6VjgWRc2ih0elSJe2P61Z9e694SFmdy/tRMTqDg0X8c6Grf1sospv/lhpOIbBoUP6gbUlAy8KwitNQ5HuTvfzOo=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6504
 X-OriginatorOrg: intel.com
 
 On 7/13/2026 7:03 PM, Arthur Kiyanovski wrote:
-> Introduce two new ioctls that extend existing PTP timestamp interfaces
-> with clock quality information:
+> Implement the gettimexattrs64 callback in the ENA driver to support
+> the PTP_SYS_OFFSET_EXTENDED_ATTRS ioctl.
 > 
-> - PTP_SYS_OFFSET_EXTENDED_ATTRS: Extends PTP_SYS_OFFSET_EXTENDED
-> - PTP_SYS_OFFSET_PRECISE_ATTRS: Extends PTP_SYS_OFFSET_PRECISE
+> This enables applications to retrieve PHC timestamps with quality
+> attributes through the standard PTP ioctl interface.
 > 
-> These ioctls provide quality attributes alongside timestamps:
-> 
-> 1. error_bound: Maximum deviation from true time (nanoseconds), based
->    on device's internal clock state
-> 2. clock_status: Synchronization state (unknown, initializing,
->    synchronized, free-running, unreliable)
-> 3. timescale: Time reference (TAI, UTC, etc.)
-> 4. counter_value: Raw system counter (e.g. TSC ticks) captured by the
->    timekeeping core alongside each system timestamp
-> 5. counter_id: Identifies the counter source (e.g. TSC, ARM arch counter)
-> 
-> This supports three use cases:
-> 
-> 1. Managed PHC devices (e.g., ENA, vmclock) that maintain their own
->    synchronization and can report quality metrics directly to userspace
->    without requiring ptp4l
-> 
-> 2. Applications that need complete time quality information in a single
->    call, regardless of how the PHC is synchronized
-> 
-> 3. VMMs that need raw system counter values paired
->    with PTP timestamps for feed-forward clock calibration, avoiding the
->    feedback loop inherent in NTP-style synchronization
-> 
+> The ENA device currently reports only error_bound (valid bit set).
+> Other attributes are not reported (valid bits unset).
 
-I'm also wondering if this can expose device-known error bounds on
-timestamps even for devices which are operated as synchronized by ptp4l..
-
-> Timescale definitions use a Continuity/Discipline framework to describe
-> timeline properties and steering behavior consistently across all
-> entries.
-> 
-> This implementation is based on the original RFC and the UAPI design
-> discussion linked below.
-> 
-
-Not a dig against this patch set, nor a request that you work to
-implement anything else, but I am beginning to wonder if/when it would
-make sense to transition from ioctl-based implementation to genetlink or
-something. We did something similar for ethtool ioctls a few years ago.
-I know the maintainer for PTP has some distaste for netlink and prefers
-the simplicity of the ioctls.. but I think we're moving past where the
-ioctls are "simple". Now that we have ynl tools, it has gotten easier to
-implement properly. It makes extending the API much easier for the
-future vs the array of ioctls we now carry for legacy implementations.
-
-> 
-> diff --git a/include/uapi/linux/ptp_clock.h b/include/uapi/linux/ptp_clock.h
-> index 46d45f902486..88c2da6bc8c6 100644
-> --- a/include/uapi/linux/ptp_clock.h
-> +++ b/include/uapi/linux/ptp_clock.h
-> @@ -79,6 +79,137 @@
->   */
->  #define PTP_PEROUT_V1_VALID_FLAGS	(0)
->  
-> +/*
-> + * Clock status values for struct ptp_clock_attrs.status
-> + */
-> +enum ptp_clock_status {
-> +	/* Clock synchronization status cannot be reliably determined */
-> +	PTP_CLOCK_STATUS_UNKNOWN      = 0,
-> +
-> +	/* Clock is acquiring synchronization */
-> +	PTP_CLOCK_STATUS_INITIALIZING = 1,
-> +
-> +	/* Clock is synchronized and maintained accurately by the device */
-> +	PTP_CLOCK_STATUS_SYNCED       = 2,
-> +
-> +	/* Clock is drifting but remains within acceptable error bounds */
-> +	PTP_CLOCK_STATUS_HOLDOVER     = 3,
-> +
-> +	/* Clock is drifting without adjustments or synchronization */
-> +	PTP_CLOCK_STATUS_FREE_RUNNING = 4,
-> +
-> +	/* Clock is unreliable, the error_bound value cannot be trusted */
-> +	PTP_CLOCK_STATUS_UNRELIABLE   = 5
-> +};
-
-Do you have any thought on how ptp4l synchronizing the clock should
-impact the clock status here? Is this intended purely for device/drivers
-which have their own synchronization and not for ones which expose a
-clock that is synchronized by userspace? Would it make sense to have a
-mode that is something like "this clock has been modified by userspace"
-after any call to the .adjtime or .adjfreq is made?
-
-> +
-> +/*
-> + * Clock timescale values for struct ptp_clock_attrs.timescale.
-> + *
-> + * These definitions describe the mathematical properties and reference
-> + * epochs of the timescale provided by the PHC.
-> + *
-> + * Discipline: Describes the frequency/phase steering behavior.
-> + * Continuity: Describes whether the timeline is uninterrupted.
-> + */
-> +enum ptp_clock_timescale {
-> +	/* Unknown or unspecified timescale */
-> +	PTP_TIMESCALE_UNKNOWN = 0,
-> +
-> +	/********************* Absolute Atomic Timescales *********************
-> +	 * These timescales are continuous, monotonic standards based on atomic
-> +	 * physics. They do not experience phase jumps.
-> +	 **********************************************************************/
-> +
-> +	/**
-> +	 * International Atomic Time (TAI)
-> +	 * Epoch: 1958-01-01 00:00:00.
-> +	 * Continuity: Strictly monotonic and continuous; no leap seconds.
-> +	 * Discipline: Primary atomic reference; no phase jumps.
-> +	 */
-> +	PTP_TIMESCALE_TAI = 1,
-> +
-> +	/**
-> +	 * Terrestrial Time (TT)
-> +	 * Epoch: 1958-01-01 00:00:00.
-> +	 * Continuity: Strictly monotonic and continuous; no leap seconds.
-> +	 * Discipline: Defined as TAI + 32.184s constant offset.
-> +	 */
-> +	PTP_TIMESCALE_TT = 2,
-> +
-> +	/**
-> +	 * Global Positioning System (GPS) Time
-> +	 * Epoch: 1980-01-06 00:00:00.
-> +	 * Continuity: Strictly monotonic and continuous; no leap seconds.
-> +	 * Discipline: Defined by the GPS constellation; fixed offset from TAI.
-> +	 */
-> +	PTP_TIMESCALE_GPS = 3,
-> +
-> +	/****************** UTC-Based Timescales (Civil Time) *****************
-> +	 * These timescales are derived from TAI but adjusted to align with
-> +	 * the Earth's rotation, primarily through leap seconds.
-> +	 **********************************************************************/
-> +
-> +	/**
-> +	 * Coordinated Universal Time (UTC) - Wall-clock (CLOCK_REALTIME)
-> +	 * Epoch: 1970-01-01 00:00:00 (Unix epoch).
-> +	 * Continuity: Discontinuous; subject to 1-second leap second
-> +	 *             phase jumps.
-> +	 * Discipline: Frequency steered; incorporates leap second corrections.
-> +	 *
-> +	 * Note: Leap-smeared UTC MUST NOT be advertised as PTP_TIMESCALE_UTC.
-> +	 * Smear algorithms are not standardized and the resulting timescale
-> +	 * is ambiguous. Implementations using smeared UTC MUST advertise
-> +	 * PTP_TIMESCALE_UNKNOWN or PTP_TIMESCALE_PROPRIETARY instead.
-> +	 */
-> +	PTP_TIMESCALE_UTC = 4,
-> +
-> +	/**
-> +	 * POSIX Time (Unix Time)
-> +	 * Epoch: 1970-01-01 00:00:00.
-> +	 * Continuity: Discontinuous; leap seconds handled by
-> +	 *             repeating/skipping values.
-> +	 * Discipline: Follows UTC frequency steering and phase jumps.
-> +	 */
-> +	PTP_TIMESCALE_POSIX = 5,
-> +
-> +	/****************** System-Relative Monotonic Clocks ******************
-> +	 * These timescales are relative to a system event (like boot)
-> +	 * and are not synchronized to an external atomic standard.
-> +	 **********************************************************************/
-> +
-> +	/**
-> +	 * Monotonic System Clock (CLOCK_MONOTONIC)
-> +	 * Epoch: Arbitrary (System boot time).
-> +	 * Continuity: Strictly monotonic; no leap seconds.
-> +	 * Discipline: Frequency steered to match system reference;
-> +	 *             does not advance during suspend.
-> +	 */
-> +	PTP_TIMESCALE_MONOTONIC = 6,
-> +
-> +	/**
-> +	 * Raw Monotonic System Clock (CLOCK_MONOTONIC_RAW)
-> +	 * Epoch: Arbitrary (System boot time).
-> +	 * Continuity: Strictly monotonic; no leap seconds.
-> +	 * Discipline: Raw hardware oscillator; no frequency steering
-> +	 *             or discipline.
-> +	 */
-> +	PTP_TIMESCALE_MONOTONIC_RAW = 7,
-> +
-> +	/**
-> +	 * Boot Time System Clock (CLOCK_BOOTTIME)
-> +	 * Epoch: Arbitrary (System boot time).
-> +	 * Continuity: Strictly monotonic and continuous; no leap seconds.
-> +	 * Discipline: Frequency steered to match system reference;
-> +	 *             advances during suspend.
-> +	 */
-> +	PTP_TIMESCALE_BOOTTIME = 8,
-> +
-> +	/********************** Vendor-Specific Timescale *********************/
-> +
-> +	/* A proprietary or vendor-specific timescale with custom rules. */
-> +	PTP_TIMESCALE_PROPRIETARY = 9,
-> +};
-
-I appreciate the detailed explanations here as it helps to disambiguate
-the modes.
-
-> @@ -106,7 +350,11 @@ struct ptp_clock_caps {
->  	/* Whether the clock supports adjust phase */
->  	int adjust_phase;
->  	int max_phase_adj; /* Maximum phase adjustment in nanoseconds. */
-> -	int rsv[11];       /* Reserved for future use. */
-> +	/* Whether the clock supports extended timestamps with attributes */
-> +	int extended_attrs;
-> +	/* Whether the clock supports precise cross-timestamps with attributes */
-> +	int precise_attrs;
-> +	int rsv[9];       /* Reserved for future use. */
-
-I do kind of wish we had opted for bit flags here given the number of
-ints being used as booleans.. :( A lot of wasted reserved space.
-
->  };
->  
->  struct ptp_extts_request {
-> @@ -252,6 +500,10 @@ struct ptp_pin_desc {
->  	_IOWR(PTP_CLK_MAGIC, 21, struct ptp_sys_offset_precise)
->  #define PTP_SYS_OFFSET_EXTENDED_CYCLES \
->  	_IOWR(PTP_CLK_MAGIC, 22, struct ptp_sys_offset_extended)
-> +#define PTP_SYS_OFFSET_PRECISE_ATTRS \
-> +	_IOWR(PTP_CLK_MAGIC, 23, struct ptp_sys_offset_attrs)
-> +#define PTP_SYS_OFFSET_EXTENDED_ATTRS \
-> +	_IOWR(PTP_CLK_MAGIC, 24, struct ptp_sys_offset_attrs)
->  
->  struct ptp_extts_event {
->  	struct ptp_clock_time t; /* Time event occurred. */
-
+Typically it would be a policy not to introduce new attributes which are
+not yet used, and add the other attributes once a user appears. However,
+I think it makes sense to have the full set of desired attributes
+especially given the ioctl interface limitations which would otherwise
+require a lot of reserved space or new ioctl numbers. Especially given
+the uAPI here has been discussed and changed heavily from previous patch
+iterations.
