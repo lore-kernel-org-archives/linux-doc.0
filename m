@@ -1,284 +1,412 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C1726ED37;
-	Wed, 15 Jul 2026 00:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784075032; cv=none; b=nuI2ebw6rfgMEgNrB0Pk746OpFjlU1RELjfHAAKYgpPVT5L/lxYY/dOoyLCdA8usc1QskrBa4dk7zvWO0Nrjk4NASrqq6ZuB4KnFdWcyJxazbjjzIAjvCDTqhJKyLP+WjDxBaHVT4rbAzcpPtwz9WbYHIMliPdU8T/3nxLItkFo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784075032; c=relaxed/simple;
-	bh=IuLC0iI1JE4boCR8E2WNJfraxVFnrLG9v2VBehzb7NI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bPMJTGTXPkqysCEADuKd079F07KTZIqyfJYcUM7lI5pgEkdxakW5CmaSXgE15kVXQkP42z+vQIM0GQsaatHt/rx1w29+1y/J+/6YYgpI9vyLLCYDXf0Bc+Ws4ji58RgBgBAL3LjvYuKBRSCQfDvAOBTUfm6Imte7PHvGrq+NyEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fsB9GCI9; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BDF78F2B;
+	Wed, 15 Jul 2026 00:45:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784076361; cv=fail; b=D+oG6C63/L01OR20UVp+BwnMag5tV6GID5u3+DKD+UOUgEcLObzixOOaIk7nt70+NCKohgMcG1Xwp1hUcc/st6EdRC/Yo3Dj280KF5OOFZcPdU/ZfvhZd3KWp+5R2CkIncBBXL6pLFpygiLDdEUPnlj60N5MkQceZy3Dnvz8O4k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784076361; c=relaxed/simple;
+	bh=kNakuuaYywuMHJnx1x5POeyjMrAosi6KMCoSEkWOdtM=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Re8Rhmw3Tn1cpl4vGLqmgEVJZhN55WTnfynTsU1kgvWFvt0xuwtLZX1ujaf/jWWxfqDuKr4lnS46+iNHA5JCBNhF58KlJHbqIy9oe+eGEh18hDTQNGW0jhe/T0Ujmw3rfgO5F3we8I0Y14cpcmurIhoxdiMho5K5Fc2czxgl77w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jS2wNzj+; arc=fail smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fsB9GCI9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BCD41F01558;
-	Wed, 15 Jul 2026 00:23:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784075030;
-	bh=kdqzplXXwiJ0AjiFP9YJIbhw5Yk94RZ3AUHOtZZT3vA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=fsB9GCI9ZuOECCUPlSZwVlnWI/uhE8XqPi07aKuN/lOWiYGCos4TS7phqHY7z1kkR
-	 ZitXLBgDKOtYbO6VUu4kttiZyOD4NeC3F4QQttQuwcCYywq5oXbu+4e8sfisCMc4lQ
-	 QBkCjB4T45bh4M7eqHapBkvKfeYceJ3vmMaLz/2lP6CCxAh+NsvY6bRq8k0baGdX2O
-	 KIMq8lYjaNAVdZUXHm4yhpLAH6ppnapNrYy5XJvStIVmd7Bxg/oI0tbOTdXqnt5HNv
-	 ZbkU0iIViam0qpZ7GjeM6M4mIHbaWl9fInCybP687lS78OZmj/Pz88XXUY2WjVUYRq
-	 hdto+bqadiAow==
-From: Drew Fustini <fustini@kernel.org>
-Date: Tue, 14 Jul 2026 17:23:30 -0700
-Subject: [PATCH v5 8/8] riscv_cbqri: Add CBQRI capacity allocation platform
- driver
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jS2wNzj+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784076355; x=1815612355;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=kNakuuaYywuMHJnx1x5POeyjMrAosi6KMCoSEkWOdtM=;
+  b=jS2wNzj+VLYu40Xl6+j5AFVx/nTTYV5BDRjsV+qdAFWO5NiwtZF+L7og
+   CJPODiM6V1svOzreCW632xjNe7GdxoT9NlAT9SQ+RIYB9jHMv6o1ALvRh
+   WPVItZ8BCxC4YOw6sbopVysHnkIz/P27B3n5EAu7h81ePGA+SEnnrAbwM
+   CgtRnYxhQYDVSU+xAkt/kaAnkGbOAtotolx0yhH2pp+g7m4TDujNcO8xU
+   Zja95gQBDxZeYFqoZrNorivj6Ay0m21rM4OUIQLFrRvzhk0UgUpaJtKtG
+   vxjNfNEHP7dwnSPFf7h7pQ5ci6Q2XZwVKVHbbnNg7Y1Zi3DzAQPHRZ0Bs
+   A==;
+X-CSE-ConnectionGUID: 4jr8J2S5QXi1vUmqvin42A==
+X-CSE-MsgGUID: bLYltLr+RfedctnTMnWAjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="102260996"
+X-IronPort-AV: E=Sophos;i="6.25,164,1779174000"; 
+   d="scan'208";a="102260996"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 17:45:51 -0700
+X-CSE-ConnectionGUID: USXQlLhyTQKxORIOA0yBEQ==
+X-CSE-MsgGUID: DOgWjazcTzSFhdot7noFuw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,164,1779174000"; 
+   d="scan'208";a="255510715"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 17:45:47 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Tue, 14 Jul 2026 17:45:44 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43 via Frontend Transport; Tue, 14 Jul 2026 17:45:44 -0700
+Received: from BN1PR04CU002.outbound.protection.outlook.com (52.101.56.25) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Tue, 14 Jul 2026 17:45:43 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=h3A1BTORIaln3lsRNhZntpOz0rYd2TmoG9Nk5s3in/VFiQ1bYfyGjO0ugNCCQ3X7fREOYgaW+dY3gF/lpARJriEZko1M4u6aa7nMvHWTlfS7GrZQXqkiB80AWBNvQCR+bNTYHb+Q6VGdDDnHXjCPmR7KlGdN0d2OSSO97j0pvA5KiFo3KtMntqBxW7iqCCsoOTy2ed1ygGpNIUot9R4NDjs5jjEvgjO4pcN+4RhyNt7zX912lbJ8J1Azgx2YcEidCUEe3176koVeFJNzwIT0drV5t+tiWJAMIM+7iI9aijMB4XDBhKBo7Uj7yTAaq/XXCxptPowtcJXOalJ/EJCjFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z238ez16ZLT2n+Adb3WPUAl+kwdL0uem9olI8GDUX0A=;
+ b=ZSYxLtOS3EHce7jAjOIbBAkB5eCDLhWOKIlnr4a+xa1zZ9o/5ArWuWgWW7U0RcAuCVI+UWVl1DB0Z+TB/yJ4ItMHaXMIVyyFan6hQ3GmmcNFoUsQC/5lPkBgLUm3drGablufU7ps2gqzlgzbawzLnN65d+jIe3N6H5z50onraQgcR1jJ+akwEWuW4jCcFll3d+65zqgey8ezXtJ2A3MZZCB25IIjqlpfy+2x3kJpR7t9n3QMIanMUMrMPrj0HLdCArb7TZqn0OMA7jc8cQq2nLfmkB7YRJ/WoRDhpoK1WQiOLc9WarnvAmgD8v0Lsp6PcMhGr0CxJCXd0Fs2SUbydg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB7381.namprd11.prod.outlook.com (2603:10b6:8:134::14)
+ by DM4PR11MB6504.namprd11.prod.outlook.com (2603:10b6:8:8d::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.202.19; Wed, 15 Jul 2026 00:45:38 +0000
+Received: from DS0PR11MB7381.namprd11.prod.outlook.com
+ ([fe80::4c39:dfe6:d6dc:6f58]) by DS0PR11MB7381.namprd11.prod.outlook.com
+ ([fe80::4c39:dfe6:d6dc:6f58%6]) with mapi id 15.21.0223.008; Wed, 15 Jul 2026
+ 00:45:38 +0000
+Message-ID: <e58af0ae-ad06-4f77-8ebd-f3678d6dde66@intel.com>
+Date: Tue, 14 Jul 2026 17:45:34 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 net-next 1/7] ptp: Add ioctls for PHC timestamps with
+ quality attributes
+To: Arthur Kiyanovski <akiyano@amazon.com>, David Miller
+	<davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+	<netdev@vger.kernel.org>
+CC: Richard Cochran <richardcochran@gmail.com>, Eric Dumazet
+	<edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, David Woodhouse
+	<dwmw2@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, Miroslav Lichvar
+	<mlichvar@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Wen Gu
+	<guwen@linux.alibaba.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, "David
+ Woodhouse" <dwmw@amazon.com>, Yonatan Sarna <ysarna@amazon.com>, "Zorik
+ Machulsky" <zorik@amazon.com>, Alexander Matushevsky <matua@amazon.com>,
+	"Saeed Bshara" <saeedb@amazon.com>, Matt Wilson <msw@amazon.com>, Anthony
+ Liguori <aliguori@amazon.com>, Nafea Bshara <nafea@amazon.com>, Evgeny
+ Schmeilin <evgenys@amazon.com>, Netanel Belgazal <netanel@amazon.com>, Ali
+ Saidi <alisaidi@amazon.com>, Benjamin Herrenschmidt <benh@amazon.com>, Noam
+ Dagan <ndagan@amazon.com>, David Arinzon <darinzon@amazon.com>, Evgeny
+ Ostrovsky <evostrov@amazon.com>, Ofir Tabachnik <ofirt@amazon.com>, Amit
+ Bernstein <amitbern@amazon.com>, <linux-kselftest@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <shuah@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Simon Horman
+	<horms@kernel.org>, <vadim.fedorenko@linux.dev>
+References: <20260714020340.25014-1-akiyano@amazon.com>
+ <20260714020340.25014-2-akiyano@amazon.com>
+From: Jacob Keller <jacob.e.keller@intel.com>
+Content-Language: en-US
+In-Reply-To: <20260714020340.25014-2-akiyano@amazon.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0187.namprd04.prod.outlook.com
+ (2603:10b6:303:86::12) To DS0PR11MB7381.namprd11.prod.outlook.com
+ (2603:10b6:8:134::14)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260714-dfustini-atl-sc-cbqri-dt-v5-8-b0ae7e9c932e@kernel.org>
-References: <20260714-dfustini-atl-sc-cbqri-dt-v5-0-b0ae7e9c932e@kernel.org>
-In-Reply-To: <20260714-dfustini-atl-sc-cbqri-dt-v5-0-b0ae7e9c932e@kernel.org>
-To: Adrien Ricciardi <aricciardi@baylibre.com>, 
- Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra <atishp@rivosinc.com>, 
- Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, 
- Ben Horgan <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>, 
- Chen Pei <cp0613@linux.alibaba.com>, 
- Conor Dooley <conor.dooley@microchip.com>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Dave Hansen <dave.hansen@linux.intel.com>, 
- Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>, 
- Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai <gsh517@gmail.com>, 
- guo.wenjia23@zte.com.cn, James Morse <james.morse@arm.com>, 
- =?utf-8?q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn, 
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
- Peter Newman <peternewman@google.com>, 
- =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>, 
- Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, 
- Samuel Holland <samuel.holland@sifive.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Tony Luck <tony.luck@intel.com>, Vasudevan Srinivasan <vasu@rivosinc.com>, 
- Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>, 
- yunhui cui <cuiyunhui@bytedance.com>, 
- Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>, 
- Drew Fustini <fustini@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
- linux-doc@vger.kernel.org
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6796; i=fustini@kernel.org;
- h=from:subject:message-id; bh=IuLC0iI1JE4boCR8E2WNJfraxVFnrLG9v2VBehzb7NI=;
- b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWSFXRb8UTzv/aPOA1mN1hM8Nmz/oFQYfHfjZQvb8893v
- hb6LXvRuaOUhUGMi0FWTJFl04e8C0u8Qr8umP9iG8wcViaQIQxcnAIwkfeKjAzzsx+uTIt7VtWy
- wUp+iXdTbqvATU3JzJJABz0btg1bWSwZGW6eWX3AYZGbnBZbw8dD9WfyFKc0SrZzPwmYrrM26fT
- BRFYA
-X-Developer-Key: i=fustini@kernel.org; a=openpgp;
- fpr=1B6F948213EA489734F3997035D5CD577C1E6010
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7381:EE_|DM4PR11MB6504:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9e4ba1a2-7fb2-4214-6ca0-08dee20a63c0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|7416014|6133799003|56012099006|11063799006|4143699003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: 42jYLriCwXuzAv8bXq7Xd/xPc1KSkqLK7JleuWpmAH4Ygjotx4C5s8EnQeG7vodAHT4VEbZiZb8Psa44dKTyk7CkssoeihdCOpr7hWbyzQmyNBORFSis0ddWxOEQNjRzAfeQDlxg0dfpWQYVwgtP9gIq5yak0KLc93uFeu7ovxmnDHP14+DYrtFtk/9Nf+6Q8zn7TmmAz8lGpjkkGYseCiGmFU3IjhhY0sDUeQNsX/tXKFKV1KcjN7lewO+bf4ypRVlZAfyhnxN1SkE8dAqxOPMoOT2bRaRhRbmcUNdqMZnks7n3UP0tRHu5KGDgVYt5zhGuuQ4bX/+GiWNhIJDDqEgpEXoxRsa2cr3pI9QHmE9lVPLkIW+fNzMPpxQuaZee2zo5Ll3TKLWpEJj4TeBHcdNtnWUU5nJerrANeyyQCKhT4aIJWs9eyoPrFspvh0IYjhgyWImG/4vVAVOtEzrMHEdoxYJ3JadPp7AfSM6+jE4ZQIfzMO65grLnT8YT+rxO8LGQwHva98wsZMz1l3TquNnFAvS8HaemBwURumeaszCv3Dzb1yhfvETUjkifCuOhzpFED2PozyN9OAytWWjqEu+uKnh0x1lYzg9Evx5L+NQyH1kM4k1k/sxT6uBK14RaFoue+af6TrlMuLi1hGdt27j0KetTJkCBIww9n3kZG74=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7381.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(7416014)(6133799003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?THI3bzNCY2lsOEx6eGZxLzNkanJ6bitMb2FFWGttRmFCVWh1bnppMzFZODBx?=
+ =?utf-8?B?QzVqVm9BQ3RJZ3JSVlcwbVA3K3BwYjJZbHplaFA5cmgzbTNEaGVaTjloaXAx?=
+ =?utf-8?B?SGxLRFpOaEZIQ1pyUFJkZ0ZPSDJ0VlNITWllUXJBaE42QnVoKzAwZDNsQzNq?=
+ =?utf-8?B?aTkxTXF3dGpRV2JNSnIyeEx5Qi9RQTBJMnQ0aUFHYS9jc0pPVi8ycWd6VldS?=
+ =?utf-8?B?ak5mTlA1aFFaSWd3ODZUb09iKzBwbk5rQlZSZ0VVYWFpQzJjcDdxWlQzNWxo?=
+ =?utf-8?B?c1o5YzV5Z0k3RmtvdEtrOEtIV3hJY2c4aEorUTBBbDh4aUtsbGxDOVVEdmlG?=
+ =?utf-8?B?cHVncVhBdEw3blJ2dGtSSnBSL2VpaEEwYzBnOUw4amNIRU1xSmtiQ2UyN09p?=
+ =?utf-8?B?ei90ejFmMzYwdG45b1JoOGp3V3J1Qms1Wkt2bmljTWNYbWloRkxZQVRpZWgv?=
+ =?utf-8?B?U2NxUklRbTk3YkxmaVlzaTd1VGowT2NxODNQc1lDdEo2RlFSZmdueU1ud08z?=
+ =?utf-8?B?WVBmSXBZQmUvd0wyL0lPWVBkRUZ2aDNMY2VuTVdPT3Rja2p6QTJMcGJTb3Zs?=
+ =?utf-8?B?REMvZE4rZy9kdEVna0w0bTVlVVVhWHZDdGc4ZXFoa2lEcVplaWVaYUZDOWFs?=
+ =?utf-8?B?ZWx5Zm43WmFHUnNjQTZzdGIvSmVvR1VGUWhXZ1YwNzhTSXc0UGVKNVRpU29P?=
+ =?utf-8?B?NklqZTJJcjdlWXRTMUJndm1td2QvRFY2UWZhcklyME5SdG02WW1QWmlYYkhm?=
+ =?utf-8?B?eW56dGlpQXJaTUxad2JNUmRyRVZiZTRNdTJpUG9CRXN1MVh0QTBjdzNvUkFL?=
+ =?utf-8?B?QnBXem1UWm00QTJyZ01DMkdPZEZMMU1JbldVa2wvOGVSTXFvb282ZkpoRVlr?=
+ =?utf-8?B?bDdDUVJMWnZYTzBLbjFySTAwdU9zMzMxek1sa2tnQWRtM3kwNWU1VE45ZXRE?=
+ =?utf-8?B?YzRZM0I3SnYyT0RLUXZNNTYyTWNkZFdOM1l2OWRUL2c0UUFwblg3Q0VkY1Rk?=
+ =?utf-8?B?UVJoOXVrNVRzN2N3WkYvSUw1eHJEdTVYZ1lFSk9UTnF3MGV2bEc4K0N5Y1JD?=
+ =?utf-8?B?MXd3MFE4eEFyZjVHWVN0aGkvbjJFNjh0YStLRlBISTF1enFZYUo3dUJnaXZE?=
+ =?utf-8?B?RjhQSGZqVEcvRFVhclo1VU1tend6K1NYczlnNUFwVkhiYi9XYjMvUXpGaFRU?=
+ =?utf-8?B?Z3BnNHIwZVh1K2F2MzhFRU5uMkY2NVJmY09VQkxQNDhQNVZackJkTWRDZU9t?=
+ =?utf-8?B?S2dNMnVyUjZqUk5sQkdBSzZ3RXNZekMzNDRNN2tJQ1UrVnB3TTg5eUp2bm96?=
+ =?utf-8?B?QStVMXJjQWhEbFpkKzFiTTBPU2ZyU0lSVC9WeFdyVXQ0Rk1nUW92aDEwZGxJ?=
+ =?utf-8?B?OXFTYXU0SGFVLzI2clBXOFN5RE1hT1kyQUJUdjJnNmVRT2lwQVZtdlY0Umpr?=
+ =?utf-8?B?TTVCejV1QmIvdjBXWjNrQ2FoM3pXT0dtRTV6OVdscE8xSmFRVXRjU2orSElL?=
+ =?utf-8?B?VDBvY214eml5ZS8rKzhjMGV0Tko1eFNIU05OS20vVWs5czIzdjYyWTdiQTVI?=
+ =?utf-8?B?R3ordjZ6NzRaZFRzYlpuNWdSRWtha0dnUk5BNDJXd3V0dUJKU2ZLb0thQlcx?=
+ =?utf-8?B?WnRKdEFwbmlQUElvbklSVUZ6YzM3Nkl1M0NMQWljYm9pSUlkbnUzOWJXbzho?=
+ =?utf-8?B?YTBlNkVyZVlqRDQvM0hRNlZ5ZmowMXBoUll0SEFxWm40YTF4S3RudlFFWHhB?=
+ =?utf-8?B?WWNpYTZHeXFzTHdHaE9FUVpwdnorZ0ZPanFiVHplOFk1c3B2SHdSTFFNQndV?=
+ =?utf-8?B?M05tMnZCenhSTzNSbmdJU2I2Y3NnaFM2SlNhbWZXK2lYbzV4VTAxYStSOFFp?=
+ =?utf-8?B?WkptYy9MOG9wNzV4QkllRTE0MzUyS3NMSkYydU03TWxaOUJPVzN3S3VLNlp5?=
+ =?utf-8?B?UytKNms2VzhxK001a1pNMy9zVVlUcjhYdXlQNXI1VlFCREFrNHJHUHBrK01D?=
+ =?utf-8?B?NXNySE8vMXJTOWZFTlpONlcwQi9jOGxrMEVXN3ZqWFQ4WXBOdHp6c1BJUFkz?=
+ =?utf-8?B?UnE0Z3FLN3dQamt6MHFlRnBlRFRLc3JHSlRxUVBENkZ1OUNxaXRYTW9VRE03?=
+ =?utf-8?B?WUpKU1U5TU1BVTFFTjhyOWNqZmtMT2Jucm15aUpSRElaQXJQTVd2QkFkS1RD?=
+ =?utf-8?B?a3ZLcjFTU0pQUWloZ2lrM1FqQnZ4eGNzcVI3cWY1MFdzNTRPSjJaclR6YzI4?=
+ =?utf-8?B?Mk9GUDZSbzYzZWQ5emFKcjAwRG5xbmFYL0Z3SHB2MEhsOEU2eDFSRzYweFdk?=
+ =?utf-8?B?NngyNmRmVkRlcDBMa3VENkwxNkZQeHpSMGlJMU9CM2hFYjJmd2Vldz09?=
+X-Exchange-RoutingPolicyChecked: P1t+AsbRzKFAs3540lv+CAFkbJlzhdxR4XnsFnmrvqefhUqqfctxmK2CbADBLFEPtHSwuRbkJutfAWm8/vDZwmnpYx1n35HhCLaXEwGUxmXnZ/epjYh31Oh1ABSv1mDZ/tCNe1R+fgf1OfO3GtrUj4OfApJ1T/LI9mQ0DsoBjhmL44M/vMBeZsy0PMteznOkbrCnTvFV9tkOO+NfuX66WFjb5WlbSigalL2HUFyuP9EtlSKNVamw5PULnSBE0js9Fn7akN6tZAq2yycE1CUfzIj+K6J7UbuEQ1CuhULohiEGW1RZCy+Qx9+E8Yx0n3JNst/kzcjL4C1jvd+r4OC+7g==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e4ba1a2-7fb2-4214-6ca0-08dee20a63c0
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7381.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2026 00:45:38.5245
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aHgOzRbWR5X7eL/ccout5nhFMbq0Bo1aQ9wntonpY0K8WKN8rUjeemJDBHUHcxhsazf8xQqQoujr56feDoZ8ihxFMHVqw/UiERbszfT+TL4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6504
+X-OriginatorOrg: intel.com
 
-Add a device-tree platform driver, bound to the generic
-riscv,cbqri-capacity-controller compatible, that registers a CBQRI
-capacity controller as the resctrl cache-allocation resource for the
-cache it governs.
+On 7/13/2026 7:03 PM, Arthur Kiyanovski wrote:
+> Introduce two new ioctls that extend existing PTP timestamp interfaces
+> with clock quality information:
+> 
+> - PTP_SYS_OFFSET_EXTENDED_ATTRS: Extends PTP_SYS_OFFSET_EXTENDED
+> - PTP_SYS_OFFSET_PRECISE_ATTRS: Extends PTP_SYS_OFFSET_PRECISE
+> 
+> These ioctls provide quality attributes alongside timestamps:
+> 
+> 1. error_bound: Maximum deviation from true time (nanoseconds), based
+>    on device's internal clock state
+> 2. clock_status: Synchronization state (unknown, initializing,
+>    synchronized, free-running, unreliable)
+> 3. timescale: Time reference (TAI, UTC, etc.)
+> 4. counter_value: Raw system counter (e.g. TSC ticks) captured by the
+>    timekeeping core alongside each system timestamp
+> 5. counter_id: Identifies the counter source (e.g. TSC, ARM arch counter)
+> 
+> This supports three use cases:
+> 
+> 1. Managed PHC devices (e.g., ENA, vmclock) that maintain their own
+>    synchronization and can report quality metrics directly to userspace
+>    without requiring ptp4l
+> 
+> 2. Applications that need complete time quality information in a single
+>    call, regardless of how the PHC is synchronized
+> 
+> 3. VMMs that need raw system counter values paired
+>    with PTP timestamps for feed-forward clock calibration, avoiding the
+>    feedback loop inherent in NTP-style synchronization
+> 
 
-The driver follows the node's riscv,cbqri-cache phandle to that cache,
-reads its level, and matches it against cacheinfo to get the resctrl
-domain id. It then hands the controller to riscv_cbqri_register_cc_dt()
-with the riscv,cbqri-rcid count from the node.
+I'm also wondering if this can expose device-known error bounds on
+timestamps even for devices which are operated as synchronized by ptp4l..
 
-Nothing is vendor-specific, and the DT "reg" is the CBQRI register block
-itself, so any SoC that describes a CBQRI capacity controller in device
-tree can reuse the driver unchanged.
+> Timescale definitions use a Continuity/Discipline framework to describe
+> timeline properties and steering behavior consistently across all
+> entries.
+> 
+> This implementation is based on the original RFC and the UAPI design
+> discussion linked below.
+> 
 
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: Drew Fustini <fustini@kernel.org>
----
- MAINTAINERS                      |   1 +
- drivers/resctrl/Kconfig          |  11 ++++
- drivers/resctrl/Makefile         |   1 +
- drivers/resctrl/cbqri_capacity.c | 127 +++++++++++++++++++++++++++++++++++++++
- 4 files changed, 140 insertions(+)
+Not a dig against this patch set, nor a request that you work to
+implement anything else, but I am beginning to wonder if/when it would
+make sense to transition from ioctl-based implementation to genetlink or
+something. We did something similar for ethtool ioctls a few years ago.
+I know the maintainer for PTP has some distaste for netlink and prefers
+the simplicity of the ioctls.. but I think we're moving past where the
+ioctls are "simple". Now that we have ynl tools, it has gotten easier to
+implement properly. It makes extending the API much easier for the
+future vs the array of ioctls we now carry for legacy implementations.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7acdab42e9c5..5c4be59b2670 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -23367,6 +23367,7 @@ F:	Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
- F:	arch/riscv/include/asm/qos.h
- F:	arch/riscv/include/asm/resctrl.h
- F:	arch/riscv/kernel/qos.c
-+F:	drivers/resctrl/cbqri_capacity.c
- F:	drivers/resctrl/cbqri_devices.c
- F:	drivers/resctrl/cbqri_internal.h
- F:	drivers/resctrl/cbqri_resctrl.c
-diff --git a/drivers/resctrl/Kconfig b/drivers/resctrl/Kconfig
-index 68b4124df396..689a91873d7b 100644
---- a/drivers/resctrl/Kconfig
-+++ b/drivers/resctrl/Kconfig
-@@ -43,6 +43,17 @@ menuconfig RISCV_CBQRI
- 
- if RISCV_CBQRI
- 
-+config RISCV_CBQRI_CAPACITY
-+	bool "RISC-V CBQRI cache capacity-allocation controller"
-+	depends on OF
-+	help
-+	  Enable driver for a RISC-V CBQRI capacity controller that
-+	  governs a CPU cache, matching the "riscv,cbqri-capacity-controller"
-+	  compatible. The controller's cache phandle gives the cache level and
-+	  id, which the driver registers as a resctrl cache-allocation resource.
-+
-+	  Say N unless your device tree describes a CBQRI capacity controller.
-+
- endif
- 
- config RISCV_CBQRI_RESCTRL_FS
-diff --git a/drivers/resctrl/Makefile b/drivers/resctrl/Makefile
-index a7631712dba9..c8339113ef1f 100644
---- a/drivers/resctrl/Makefile
-+++ b/drivers/resctrl/Makefile
-@@ -7,3 +7,4 @@ ccflags-$(CONFIG_ARM64_MPAM_DRIVER_DEBUG)	+= -DDEBUG
- obj-$(CONFIG_RISCV_CBQRI)			+= cbqri.o
- cbqri-y						+= cbqri_devices.o
- cbqri-$(CONFIG_RISCV_CBQRI_RESCTRL_FS)		+= cbqri_resctrl.o
-+cbqri-$(CONFIG_RISCV_CBQRI_CAPACITY)		+= cbqri_capacity.o
-diff --git a/drivers/resctrl/cbqri_capacity.c b/drivers/resctrl/cbqri_capacity.c
-new file mode 100644
-index 000000000000..0670a676bdb1
---- /dev/null
-+++ b/drivers/resctrl/cbqri_capacity.c
-@@ -0,0 +1,127 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Platform driver for a RISC-V CBQRI capacity controller that backs a CPU
-+ * cache. The controller is described in device tree by the generic
-+ * "riscv,cbqri-capacity-controller" compatible together with a phandle to the
-+ * cache node it governs. The driver hands it to the CBQRI core, which probes
-+ * the capabilities register and exposes a controller that supports allocation
-+ * as the resctrl cache allocation resource for that cache.
-+ */
-+
-+#define pr_fmt(fmt) "cbqri-capacity: " fmt
-+
-+#include <linux/cacheinfo.h>
-+#include <linux/cpu.h>
-+#include <linux/device-id/of.h>
-+#include <linux/ioport.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/printk.h>
-+#include <linux/riscv_cbqri.h>
-+#include <linux/types.h>
-+
-+static int cbqri_capacity_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct cbqri_controller_info info = {};
-+	struct device_node *cache_np;
-+	struct resource *res;
-+	u32 rcid_count, cache_level;
-+	int cache_id, cpu, ret;
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res)
-+		return -EINVAL;
-+
-+	ret = of_property_read_u32(dev->of_node, "riscv,cbqri-rcid", &rcid_count);
-+	if (ret) {
-+		dev_err(dev, "missing riscv,cbqri-rcid\n");
-+		return ret;
-+	}
-+
-+	cache_np = of_parse_phandle(dev->of_node, "riscv,cbqri-cache", 0);
-+	if (!cache_np) {
-+		dev_err(dev, "missing riscv,cbqri-cache phandle\n");
-+		return -EINVAL;
-+	}
-+
-+	ret = of_property_read_u32(cache_np, "cache-level", &cache_level);
-+	if (ret) {
-+		dev_err(dev, "%pOF: missing cache-level\n", cache_np);
-+		goto out_put;
-+	}
-+
-+	/*
-+	 * Associate the controller with its cache instance via cacheinfo.
-+	 * The matching cache provides the cache id used as the resctrl
-+	 * domain id.
-+	 *
-+	 * Taking the first leaf at the level is sufficient, because fw_token
-+	 * is keyed on the DT cache node, so sibling leaves of a split cache
-+	 * share it, and riscv,cbqri-cache must reference a unified shared
-+	 * cache (cache-unified), not a split private L1.
-+	 */
-+	cache_id = -1;
-+	cpus_read_lock();
-+	for_each_online_cpu(cpu) {
-+		struct cacheinfo *ci = get_cpu_cacheinfo_level(cpu, cache_level);
-+
-+		if (ci && ci->fw_token == cache_np) {
-+			cache_id = ci->id;
-+			break;
-+		}
-+	}
-+	cpus_read_unlock();
-+
-+	if (cache_id < 0) {
-+		dev_err(dev, "%pOF: no online hart reports an L%u cache for this node\n",
-+			cache_np, cache_level);
-+		ret = -ENODEV;
-+		goto out_put;
-+	}
-+
-+	info.type = CBQRI_CONTROLLER_TYPE_CAPACITY;
-+	info.addr = res->start;
-+	info.size = resource_size(res);
-+	info.rcid_count = rcid_count;
-+	info.cache_id = cache_id;
-+
-+	ret = riscv_cbqri_register_cc_dt(&info, cache_level);
-+	if (ret) {
-+		dev_err(dev, "failed to register capacity controller: %d\n", ret);
-+		goto out_put;
-+	}
-+
-+	dev_info(dev, "registered L%u capacity controller at %pa (cache_id=%d, rcid=%u)\n",
-+		 cache_level, &info.addr, cache_id, rcid_count);
-+
-+out_put:
-+	of_node_put(cache_np);
-+	return ret;
-+}
-+
-+static const struct of_device_id cbqri_capacity_of_match[] = {
-+	{ .compatible = "riscv,cbqri-capacity-controller" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, cbqri_capacity_of_match);
-+
-+static struct platform_driver cbqri_capacity_driver = {
-+	.probe	= cbqri_capacity_probe,
-+	.driver = {
-+		.name		= "cbqri-capacity",
-+		.of_match_table	= cbqri_capacity_of_match,
-+		/*
-+		 * The controller is registered permanently into the
-+		 * CBQRI core for the life of the system. Block unbind
-+		 * so userspace cannot leave a dangling controller.
-+		 */
-+		.suppress_bind_attrs = true,
-+	},
-+};
-+
-+/*
-+ * Register at device_initcall so probe runs before the CBQRI core's
-+ * late_initcall which walks the cbqri_controllers list.
-+ */
-+builtin_platform_driver(cbqri_capacity_driver);
+> 
+> diff --git a/include/uapi/linux/ptp_clock.h b/include/uapi/linux/ptp_clock.h
+> index 46d45f902486..88c2da6bc8c6 100644
+> --- a/include/uapi/linux/ptp_clock.h
+> +++ b/include/uapi/linux/ptp_clock.h
+> @@ -79,6 +79,137 @@
+>   */
+>  #define PTP_PEROUT_V1_VALID_FLAGS	(0)
+>  
+> +/*
+> + * Clock status values for struct ptp_clock_attrs.status
+> + */
+> +enum ptp_clock_status {
+> +	/* Clock synchronization status cannot be reliably determined */
+> +	PTP_CLOCK_STATUS_UNKNOWN      = 0,
+> +
+> +	/* Clock is acquiring synchronization */
+> +	PTP_CLOCK_STATUS_INITIALIZING = 1,
+> +
+> +	/* Clock is synchronized and maintained accurately by the device */
+> +	PTP_CLOCK_STATUS_SYNCED       = 2,
+> +
+> +	/* Clock is drifting but remains within acceptable error bounds */
+> +	PTP_CLOCK_STATUS_HOLDOVER     = 3,
+> +
+> +	/* Clock is drifting without adjustments or synchronization */
+> +	PTP_CLOCK_STATUS_FREE_RUNNING = 4,
+> +
+> +	/* Clock is unreliable, the error_bound value cannot be trusted */
+> +	PTP_CLOCK_STATUS_UNRELIABLE   = 5
+> +};
 
--- 
-2.43.0
+Do you have any thought on how ptp4l synchronizing the clock should
+impact the clock status here? Is this intended purely for device/drivers
+which have their own synchronization and not for ones which expose a
+clock that is synchronized by userspace? Would it make sense to have a
+mode that is something like "this clock has been modified by userspace"
+after any call to the .adjtime or .adjfreq is made?
+
+> +
+> +/*
+> + * Clock timescale values for struct ptp_clock_attrs.timescale.
+> + *
+> + * These definitions describe the mathematical properties and reference
+> + * epochs of the timescale provided by the PHC.
+> + *
+> + * Discipline: Describes the frequency/phase steering behavior.
+> + * Continuity: Describes whether the timeline is uninterrupted.
+> + */
+> +enum ptp_clock_timescale {
+> +	/* Unknown or unspecified timescale */
+> +	PTP_TIMESCALE_UNKNOWN = 0,
+> +
+> +	/********************* Absolute Atomic Timescales *********************
+> +	 * These timescales are continuous, monotonic standards based on atomic
+> +	 * physics. They do not experience phase jumps.
+> +	 **********************************************************************/
+> +
+> +	/**
+> +	 * International Atomic Time (TAI)
+> +	 * Epoch: 1958-01-01 00:00:00.
+> +	 * Continuity: Strictly monotonic and continuous; no leap seconds.
+> +	 * Discipline: Primary atomic reference; no phase jumps.
+> +	 */
+> +	PTP_TIMESCALE_TAI = 1,
+> +
+> +	/**
+> +	 * Terrestrial Time (TT)
+> +	 * Epoch: 1958-01-01 00:00:00.
+> +	 * Continuity: Strictly monotonic and continuous; no leap seconds.
+> +	 * Discipline: Defined as TAI + 32.184s constant offset.
+> +	 */
+> +	PTP_TIMESCALE_TT = 2,
+> +
+> +	/**
+> +	 * Global Positioning System (GPS) Time
+> +	 * Epoch: 1980-01-06 00:00:00.
+> +	 * Continuity: Strictly monotonic and continuous; no leap seconds.
+> +	 * Discipline: Defined by the GPS constellation; fixed offset from TAI.
+> +	 */
+> +	PTP_TIMESCALE_GPS = 3,
+> +
+> +	/****************** UTC-Based Timescales (Civil Time) *****************
+> +	 * These timescales are derived from TAI but adjusted to align with
+> +	 * the Earth's rotation, primarily through leap seconds.
+> +	 **********************************************************************/
+> +
+> +	/**
+> +	 * Coordinated Universal Time (UTC) - Wall-clock (CLOCK_REALTIME)
+> +	 * Epoch: 1970-01-01 00:00:00 (Unix epoch).
+> +	 * Continuity: Discontinuous; subject to 1-second leap second
+> +	 *             phase jumps.
+> +	 * Discipline: Frequency steered; incorporates leap second corrections.
+> +	 *
+> +	 * Note: Leap-smeared UTC MUST NOT be advertised as PTP_TIMESCALE_UTC.
+> +	 * Smear algorithms are not standardized and the resulting timescale
+> +	 * is ambiguous. Implementations using smeared UTC MUST advertise
+> +	 * PTP_TIMESCALE_UNKNOWN or PTP_TIMESCALE_PROPRIETARY instead.
+> +	 */
+> +	PTP_TIMESCALE_UTC = 4,
+> +
+> +	/**
+> +	 * POSIX Time (Unix Time)
+> +	 * Epoch: 1970-01-01 00:00:00.
+> +	 * Continuity: Discontinuous; leap seconds handled by
+> +	 *             repeating/skipping values.
+> +	 * Discipline: Follows UTC frequency steering and phase jumps.
+> +	 */
+> +	PTP_TIMESCALE_POSIX = 5,
+> +
+> +	/****************** System-Relative Monotonic Clocks ******************
+> +	 * These timescales are relative to a system event (like boot)
+> +	 * and are not synchronized to an external atomic standard.
+> +	 **********************************************************************/
+> +
+> +	/**
+> +	 * Monotonic System Clock (CLOCK_MONOTONIC)
+> +	 * Epoch: Arbitrary (System boot time).
+> +	 * Continuity: Strictly monotonic; no leap seconds.
+> +	 * Discipline: Frequency steered to match system reference;
+> +	 *             does not advance during suspend.
+> +	 */
+> +	PTP_TIMESCALE_MONOTONIC = 6,
+> +
+> +	/**
+> +	 * Raw Monotonic System Clock (CLOCK_MONOTONIC_RAW)
+> +	 * Epoch: Arbitrary (System boot time).
+> +	 * Continuity: Strictly monotonic; no leap seconds.
+> +	 * Discipline: Raw hardware oscillator; no frequency steering
+> +	 *             or discipline.
+> +	 */
+> +	PTP_TIMESCALE_MONOTONIC_RAW = 7,
+> +
+> +	/**
+> +	 * Boot Time System Clock (CLOCK_BOOTTIME)
+> +	 * Epoch: Arbitrary (System boot time).
+> +	 * Continuity: Strictly monotonic and continuous; no leap seconds.
+> +	 * Discipline: Frequency steered to match system reference;
+> +	 *             advances during suspend.
+> +	 */
+> +	PTP_TIMESCALE_BOOTTIME = 8,
+> +
+> +	/********************** Vendor-Specific Timescale *********************/
+> +
+> +	/* A proprietary or vendor-specific timescale with custom rules. */
+> +	PTP_TIMESCALE_PROPRIETARY = 9,
+> +};
+
+I appreciate the detailed explanations here as it helps to disambiguate
+the modes.
+
+> @@ -106,7 +350,11 @@ struct ptp_clock_caps {
+>  	/* Whether the clock supports adjust phase */
+>  	int adjust_phase;
+>  	int max_phase_adj; /* Maximum phase adjustment in nanoseconds. */
+> -	int rsv[11];       /* Reserved for future use. */
+> +	/* Whether the clock supports extended timestamps with attributes */
+> +	int extended_attrs;
+> +	/* Whether the clock supports precise cross-timestamps with attributes */
+> +	int precise_attrs;
+> +	int rsv[9];       /* Reserved for future use. */
+
+I do kind of wish we had opted for bit flags here given the number of
+ints being used as booleans.. :( A lot of wasted reserved space.
+
+>  };
+>  
+>  struct ptp_extts_request {
+> @@ -252,6 +500,10 @@ struct ptp_pin_desc {
+>  	_IOWR(PTP_CLK_MAGIC, 21, struct ptp_sys_offset_precise)
+>  #define PTP_SYS_OFFSET_EXTENDED_CYCLES \
+>  	_IOWR(PTP_CLK_MAGIC, 22, struct ptp_sys_offset_extended)
+> +#define PTP_SYS_OFFSET_PRECISE_ATTRS \
+> +	_IOWR(PTP_CLK_MAGIC, 23, struct ptp_sys_offset_attrs)
+> +#define PTP_SYS_OFFSET_EXTENDED_ATTRS \
+> +	_IOWR(PTP_CLK_MAGIC, 24, struct ptp_sys_offset_attrs)
+>  
+>  struct ptp_extts_event {
+>  	struct ptp_clock_time t; /* Time event occurred. */
 
