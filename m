@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58008417D80;
-	Wed, 15 Jul 2026 18:51:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A66400990;
+	Wed, 15 Jul 2026 18:51:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784141489; cv=none; b=KZYrjHaU07mB5uAbhqSPVYzsn/uu+k/+Ye+Ln1EEgUDv366eyK+2qtkhC0DOQz2L2yoTWuC/rozqxpuDqimpbacpsqypTuqIxeSGgvigbXiAeQPXndy0bBI8fdgm8/SDvLzSixqMjdGUv8AyngVBA/1k5J5VwX8YXcUaVniZuG4=
+	t=1784141491; cv=none; b=NHcJXvCJAge6YWA4rtC2JeJu7V80id4SnM3e6HHE5QqFfRyepP2sNWI/5GFg2iT6mXiU//Gy8vw/kRvOKSZgW1n9BrG0f81lYvr4+4CzqHbJ5Qcd8txhpq07nZvq9gAr/qi70Ln+dXtIvbnREY1CbWdyiokgUsm5QseyBh4+iCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784141489; c=relaxed/simple;
-	bh=3RT0bvr0YlMj/g53DZqvYLkN+FeBp21Hqe9FY6G7j0c=;
+	s=arc-20240116; t=1784141491; c=relaxed/simple;
+	bh=c6hpNb2JXzDFRlDVnT3j7w6ZUzrfVzvezdxIsX1aXGo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sPmR2TjFnPV3eQCQVWYFPyRwrvFkdrWQ6GAIYGACuBUA7k+1wLM04zjVWsQWFQSbXfAG0tWFc1f1mhsuGPtnntRGcwJTUoux8/PAhkVUtwyWKesHIsbQmY65NGpxnyQJsRAMphrhQ+dtaai5NB63UTkE7UWZJj2xsBMiCWeHz5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IdLNl6Ne; arc=none smtp.client-ip=198.175.65.12
+	 MIME-Version; b=edQqYbHEcoP8V4rkzTHNrPtyTRVcKtrUaD0roJzPoYEW2bzoxC77NWhR9oSAKI3OqTh7WfCSaQIq+pHKZPosM9UpVo2yDgIH75fAiiSivLWd/SMyuyRq2VA8pbYTbbynIgqUXz5l8tNXzw7NyTFZteAhcchIoLwwFXmfV6qVAmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cTWaAcwc; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IdLNl6Ne"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cTWaAcwc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784141487; x=1815677487;
+  t=1784141488; x=1815677488;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=3RT0bvr0YlMj/g53DZqvYLkN+FeBp21Hqe9FY6G7j0c=;
-  b=IdLNl6Nepy5ODheEFnsreTNDTIeYWvHrJozdgmiGiIiy6wEveldW1zAE
-   8TJLn3caJrlBoiDi1GMzMkGG6pumhoQdTwgw9GUVuhReaMSf3Krq+DQla
-   SN6WclOoUOV1wFuir5sOGj+jQ1Nhi17lLE1hwrngpZlurzV3YTyOSu3el
-   x+WQaJbm+jnBxWpbxqrD1Bnt/FOwRK8ruUBG9SF7vVDuTlwNT/YEawuNl
-   C7Q7AYwEFDgU6cWlZFn34oZInlwwsMhu6xLntJX5fvC2iWkj/PIisVlG5
-   E6iESC6MDn52B9dIzc8ZNkxepNmyn5b096Vba7eW7hkz+DBCpcJ//p+Px
-   w==;
-X-CSE-ConnectionGUID: 0DXV2q8NQ1qx6aagGKw8tw==
-X-CSE-MsgGUID: J6If2aOyT1W3mv15VTLxzg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="96308574"
+  bh=c6hpNb2JXzDFRlDVnT3j7w6ZUzrfVzvezdxIsX1aXGo=;
+  b=cTWaAcwc07qqDXBshm5F546ngnFEDILpKmwLiri1zoOy6PTo8Vva8vjf
+   8ZUoAiWV4y1UPrLcgCx2NFwGvmYYOlCh3jBeXHE0GsC7kU6undS15tZ+/
+   YHDUc5+9LJqyXHoQ9iiaD5iMaOkplz6w60gbVf2VF2VcvFR4+KFtMnrXy
+   ReGU+wkbuHA38P1Kp7KIbnHq0d0Tw53s+hJdp0Hcigh8sGycfflFpyylc
+   wHQoYBa0s9tl3vBuUIcxv3yk8bMj2vBDVz7KlKfXu2QCjL8Gv7AFJC5dY
+   qKvJrshl5N+2zRLp/W7bxKgLKfi+DoRHJb/8doQDeb1w0wbJQN34LJANo
+   g==;
+X-CSE-ConnectionGUID: 78bUg6S4RfO6eT+/Z4n4pw==
+X-CSE-MsgGUID: EseFElmiTfm9+SwwYaVLfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="96308587"
 X-IronPort-AV: E=Sophos;i="6.25,166,1779174000"; 
-   d="scan'208";a="96308574"
+   d="scan'208";a="96308587"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 11:51:25 -0700
-X-CSE-ConnectionGUID: lMLnisCeQDm4TCWmtpr1gw==
-X-CSE-MsgGUID: IPOQ6sDsQcmUjgaIpa0bmQ==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 11:51:26 -0700
+X-CSE-ConnectionGUID: IBaGDHu7QKeuyExlv8l9Uw==
+X-CSE-MsgGUID: 9Rn3eEowS7mtmEOv0en++Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,166,1779174000"; 
-   d="scan'208";a="294491680"
+   d="scan'208";a="294491681"
 Received: from black.igk.intel.com ([10.91.253.5])
   by orviesa001.jf.intel.com with ESMTP; 15 Jul 2026 11:51:21 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 0C37BA1; Wed, 15 Jul 2026 20:51:16 +0200 (CEST)
+	id 1125CA2; Wed, 15 Jul 2026 20:51:16 +0200 (CEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Bradford Love <brad@nextdimension.cc>,
@@ -66,9 +66,9 @@ Cc: Linus Walleij <linusw@kernel.org>,
 	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>,
 	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v1 6/7] MIPS: BCM63XX: Open code gpio_request_one()
-Date: Wed, 15 Jul 2026 20:46:46 +0200
-Message-ID: <20260715185112.1323510-7-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 7/7] gpiolib: Get rid of not used anymore gpio_request_one()
+Date: Wed, 15 Jul 2026 20:46:47 +0200
+Message-ID: <20260715185112.1323510-8-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260715185112.1323510-1-andriy.shevchenko@linux.intel.com>
 References: <20260715185112.1323510-1-andriy.shevchenko@linux.intel.com>
@@ -80,32 +80,96 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Open code the gpio_request_one() call to be able to kill that API
-in the follow changes.
+No more users.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- arch/mips/bcm63xx/boards/board_bcm963xx.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ Documentation/driver-api/gpio/consumer.rst |  2 +-
+ drivers/gpio/gpiolib-legacy.c              | 31 ----------------------
+ include/linux/gpio/legacy.h                |  8 ------
+ 3 files changed, 1 insertion(+), 40 deletions(-)
 
-diff --git a/arch/mips/bcm63xx/boards/board_bcm963xx.c b/arch/mips/bcm63xx/boards/board_bcm963xx.c
-index 57e916c06792..993341604439 100644
---- a/arch/mips/bcm63xx/boards/board_bcm963xx.c
-+++ b/arch/mips/bcm63xx/boards/board_bcm963xx.c
-@@ -903,8 +903,11 @@ int __init board_register_devices(void)
+diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
+index bb3366047fad..03edd9472f07 100644
+--- a/Documentation/driver-api/gpio/consumer.rst
++++ b/Documentation/driver-api/gpio/consumer.rst
+@@ -463,7 +463,7 @@ and vice-versa::
+ The GPIO number returned by desc_to_gpio() can safely be used as a parameter of
+ the gpio\_*() functions for as long as the GPIO descriptor `desc` is not freed.
+ All the same, a GPIO number passed to gpio_to_desc() must first be properly
+-acquired using e.g. gpio_request_one(), and the returned GPIO descriptor is only
++acquired using e.g. gpio_request(), and the returned GPIO descriptor is only
+ considered valid until that GPIO number is released using gpio_free().
  
- 	platform_device_register(&bcm63xx_gpio_leds);
- 
--	if (board.ephy_reset_gpio)
--		gpio_request_one(board.ephy_reset_gpio, GPIOF_OUT_INIT_HIGH, "ephy-reset");
-+	if (board.ephy_reset_gpio) {
-+		gpio_request(board.ephy_reset_gpio, "ephy-reset");
-+		gpio_direction_output(board.ephy_reset_gpio, 1);
-+		gpio_free(board.ephy_reset_gpio);
-+	}
- 
- 	return 0;
+ Freeing a GPIO obtained by one API with the other API is forbidden and an
+diff --git a/drivers/gpio/gpiolib-legacy.c b/drivers/gpio/gpiolib-legacy.c
+index ef3f2ef30cf2..c2b04605b203 100644
+--- a/drivers/gpio/gpiolib-legacy.c
++++ b/drivers/gpio/gpiolib-legacy.c
+@@ -21,37 +21,6 @@ void gpio_free(unsigned gpio)
  }
+ EXPORT_SYMBOL_GPL(gpio_free);
+ 
+-/**
+- * gpio_request_one - request a single GPIO with initial configuration
+- * @gpio:	the GPIO number
+- * @flags:	GPIO configuration as specified by GPIOF_*
+- * @label:	a literal description string of this GPIO
+- *
+- * **DEPRECATED** This function is deprecated and must not be used in new code.
+- *
+- * Returns:
+- * 0 on success, or negative errno on failure.
+- */
+-int gpio_request_one(unsigned gpio, unsigned long flags, const char *label)
+-{
+-	int err;
+-
+-	err = gpio_request(gpio, label);
+-	if (err)
+-		return err;
+-
+-	if (flags & GPIOF_IN)
+-		err = gpio_direction_input(gpio);
+-	else
+-		err = gpio_direction_output(gpio, !!(flags & GPIOF_OUT_INIT_HIGH));
+-
+-	if (err)
+-		gpio_free(gpio);
+-
+-	return err;
+-}
+-EXPORT_SYMBOL_GPL(gpio_request_one);
+-
+ /*
+  * **DEPRECATED** This function is deprecated and must not be used in new code.
+  */
+diff --git a/include/linux/gpio/legacy.h b/include/linux/gpio/legacy.h
+index 557ef635935e..d4273162ed13 100644
+--- a/include/linux/gpio/legacy.h
++++ b/include/linux/gpio/legacy.h
+@@ -82,8 +82,6 @@ static inline int gpio_to_irq(unsigned gpio)
+ 	return gpiod_to_irq(gpio_to_desc(gpio));
+ }
+ 
+-int gpio_request_one(unsigned gpio, unsigned long flags, const char *label);
+-
+ int devm_gpio_request_one(struct device *dev, unsigned gpio,
+ 			  unsigned long flags, const char *label);
+ 
+@@ -104,12 +102,6 @@ static inline int gpio_request(unsigned gpio, const char *label)
+ 	return -ENOSYS;
+ }
+ 
+-static inline int gpio_request_one(unsigned gpio,
+-					unsigned long flags, const char *label)
+-{
+-	return -ENOSYS;
+-}
+-
+ static inline void gpio_free(unsigned gpio)
+ {
+ 	might_sleep();
 -- 
 2.50.1
 
