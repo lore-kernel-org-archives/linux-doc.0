@@ -1,277 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682D73D7D80;
-	Wed, 15 Jul 2026 21:41:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272172F12AB
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 22:02:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784151680; cv=none; b=MQlP2mcHocLehNs4RAwu/R8ED/S6btYEtPcb8p/AbJZ41f//iZcmBijqhK1vKzoP5uhrgViIWxzdpnoy6TQgZKhMDjptM09QDLjzI/LkEO7IKpUspzr/yNufLQExeWGvhXe2f2fKy/eL4CazUpc0RFD+9mMhWwnbC4srHwNo0SI=
+	t=1784152931; cv=none; b=R8bXVc9alRMu7yqjPNCYhO0Kzo8kMaPjBcyTNY1cSg8yQW2wOe5A+f3yPwAOTy054+8bEgT5TQ1kS2cbDrpKW74SsEw1l980KQrKPhuvvpoHHJvfQ6ie8gJApdP1TKHChZwmiXLpaROvqcF0sy88CfOQ32NoJg40oBKuWWK5H54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784151680; c=relaxed/simple;
-	bh=neS5AS18/sfcMbhT99NMUdh7T8GCYo+XoAZjD9Yetog=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KLUW6Cc7Df3IA9PPMZ6tqzbmHs5MKQoI6ODI+R8QqkNaWKifdPmiVESVDDG2hlD9xXgYNzyNdfKK/6pUBGd5qjgerDHYvgpMnenn8EtjJlDM6VONLCJhc1l80B2N1ui4ucMeku5+Kfed57WVFSKQUFiBBADHcDzw3SqQ5nJVxrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DzVEo2Ha; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784152931; c=relaxed/simple;
+	bh=hXccJTGkDogFq9xNnd2HhyQ0ZplziOGnAqlX+J2y+Xc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WDh/ir0vXQO8Cty6XIck5dX/afFaDcYnbOheTYmnxFicpIoOB0m3fqv1mFgEZdvoK397RN7RZS/i5auDupc8zfroutiSO890wbv3FVoaM95ToYrNZHemXfMGz7qGXRAVW1iW9q4NwIorD9K+yqnx0BwhKRPB1GurWFrZXIyyjFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S77IXi1b; arc=none smtp.client-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DzVEo2Ha"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 623011F000E9;
-	Wed, 15 Jul 2026 21:41:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784151679;
-	bh=dY7tXzrgldwISRDtQQktlci+sJJoVRVgS4ffcg7CQpU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=DzVEo2HaAwPs323HYaYE7y9mK5Ln7kJAocT/WeZwyMwpGvvt6lCZxFRMoAKNX5Jl6
-	 6QeqrfyY4vnEyJiLqIIN5gQY1oMjxCiMDly6HdHvsb3QfEgapU+VGvqnpjEcnCRRjJ
-	 zmgTO5LqVglNG+9Odm+bl98FiaSt7autfoxJFIvnaLhPQbJTrJoefgTU+mLDTptqbv
-	 a9BN8eWpUlNKwLctaZI/EURs76OveTmeRjLFRxhNkHzLo2teiMJdnJ8mhmwk8wM3pe
-	 hHjzm63MZQEiAzXD2SqSPZu1Q4TUUZXHFmSb9A8c7Q2S6BT9a5uumoSh0KY8Pq1NGV
-	 XsJlgiGSjUNMg==
-From: Lorenzo Bianconi <lorenzo@kernel.org>
-Date: Wed, 15 Jul 2026 23:39:48 +0200
-Subject: [PATCH bpf-next v5 8/8] selftests: net: add test for XDP_PASS skb
- checksum invalidation
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S77IXi1b"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-9217d13c276so413427785a.1
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 15:02:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784152929; x=1784757729; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NvWacIrRt+twzRaS74wAVnv31KXtCgTOGubOP/O81X8=;
+        b=S77IXi1bAVI6aX9OILWUPteCXYJNFgbfOpgd7Ck25143wN3Tg9JBA4t7a/My3B6RWD
+         SncurGkXjMHLJiCpJAFznMiiR+EtdapvxRHN7d8Nn9DagbsEL0Z2k9eAua81vIj7ns95
+         dkLQRn88xEWTEgqXrE/xDYg0UuhC5LBXF1kaMMPEhxY6Uq2LM40wgAWKxeN/k9hkQ/8V
+         Tz60Oq9D1McCUVAA+5nhR40SHrAR2qK9bsbA4Yyw00DSn0iVJYtH+bgty/EY+sQq31q1
+         Y+bYkVEsG2hwxFJTrhzF2YbAw/pyxInJpviZB5Vrfj+QXWFy120YMjPoYukce2GGk/Dn
+         dyYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784152929; x=1784757729;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=NvWacIrRt+twzRaS74wAVnv31KXtCgTOGubOP/O81X8=;
+        b=i9OZAc0LDdz6JRPLD9IbC2m1HavxKelngabG010mYKUi6n9VZWuCgr3g/igF9ZZfgh
+         BcdtbDnudrJ3Wp+YP1zw/NxMqSxOm1M6FjO/kETbVJ/lt6A4VYnamS/9apdVz4hDW3Nr
+         b6eX/KbSWPZqJlGRh/Mf8P+QWnjlFhgcb1P7jBVDaWPQemhd3gle84dTBT5dShtaEsar
+         g/JHjVjXuR9Vkf6Knhhm8WkjOcbeEaCSIwlXwQ5SaBv3MGrrlSzq3Rg4bg5XBcCT9MNI
+         cU1NfsQLrrn4vQbI+ggsqyPOnWKWuBaLK4po5RWexJw9P15ghP1K4lb/z4xvohRwdC+5
+         U2LQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoSLgXkkw28sKXImSD8XLRr15x1BpFt5k36w/sIYyue34ih+eFJIWgIW0H4Rel5fwt3J8upCazYahU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywOgI4Gqj6BnTvvGS6Mdiq3WHu3SFCjLgQ6dP/VtY/CJqaUrd+
+	QHvp6F2XBFCN1n4BCBYPaLRIpYUq65Aq8RWzd3PAG7NK8Sw/Aak5RxcB
+X-Gm-Gg: AfdE7cnnHeRUi/YTOW8EFHg5TYOAUuWz2avOGxCn4bCUQkjVLrOt9QGg2M9FPEZgToI
+	DuTFJ5EsAOPn8Y0HHjm5dybYi9L6eCITTutQhC9JG7TyoC96lN+N+959Ulcey52t2xcQ2cf6kOG
+	ThjxDXQmW7i/mG+CrEOmoJvDGtrhIdx9gXkCQ/brPmAIzsgMwCih33dqBYTrdJBM0T9c8/UTeqD
+	x0hEMs8jv8RSJBSnLzpGKOPywXXnIIi7lRjnibPxOLDckQwlYNBRkPOnq5vYobDOcb/na1aSz0u
+	h528D/4Yg3l9etQ69o93fWNNQSuPHKWF081ulBt5+FZXzrsTAqsTRKFEmzPZ73afQMeVjEIDdKk
+	ZBSJI7WgMvx9Z/rtcKqZkpPC4x1sq+/vzCHrrgNm7ewOkI4u9oD7K4v59JQdnRXEluAE2VT+dZH
+	WVvqja5Zj5H8lqXZTt8GqY79fDbmb9Ljr5L26MlQra8g==
+X-Received: by 2002:a05:620a:459f:b0:930:a50a:4b39 with SMTP id af79cd13be357-930a50a4d12mr31029485a.75.1784152928660;
+        Wed, 15 Jul 2026 15:02:08 -0700 (PDT)
+Received: from nixos-office ([2607:fb91:1cc6:ee9:3c58:cb8d:fd13:5294])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5d34f76sm1860910685a.35.2026.07.15.15.02.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jul 2026 15:02:08 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+From: Julian Braha <julianbraha@gmail.com>
+To: nathan@kernel.org,
+	nsc@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org
+Cc: arnd@arndb.de,
+	stefan.hengelein@fau.de,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	nico@fluxnic.net,
+	officialnaumansabir@gmail.com,
+	rdunlap@infradead.org,
+	vegard.nossum@oracle.com,
+	kees@kernel.org,
+	tj@kernel.org,
+	Julian Braha <julianbraha@gmail.com>
+Subject: [PATCH] Documentation: warn users not to use select on choice options in Kconfig
+Date: Wed, 15 Jul 2026 23:01:49 +0100
+Message-ID: <20260715220149.48700-1-julianbraha@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260715-bpf-xdp-meta-rxcksum-v5-8-623d5c0d0ab7@kernel.org>
-References: <20260715-bpf-xdp-meta-rxcksum-v5-0-623d5c0d0ab7@kernel.org>
-In-Reply-To: <20260715-bpf-xdp-meta-rxcksum-v5-0-623d5c0d0ab7@kernel.org>
-To: Donald Hunter <donald.hunter@gmail.com>, 
- Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- Jesper Dangaard Brouer <hawk@kernel.org>, 
- John Fastabend <john.fastabend@gmail.com>, 
- Stanislav Fomichev <sdf@fomichev.me>, Andrew Lunn <andrew+netdev@lunn.ch>, 
- Tony Nguyen <anthony.l.nguyen@intel.com>, 
- Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
- Alexander Lobakin <aleksander.lobakin@intel.com>, 
- Andrii Nakryiko <andrii@kernel.org>, 
- Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
- Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
- Shuah Khan <shuah@kernel.org>, 
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
- Emil Tsalapatis <emil@etsalapatis.com>
-Cc: Vladimir Vdovin <deliran@verdict.gg>, 
- Jakub Sitnicki <jakub@cloudflare.com>, netdev@vger.kernel.org, 
- bpf@vger.kernel.org, intel-wired-lan@lists.osuosl.org, 
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
- Lorenzo Bianconi <lorenzo@kernel.org>
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
 
-Add a test that verifies skb->ip_summed is set to CHECKSUM_NONE
-when a device running in XDP mode creates an skb from a xdp_buff
-if the attached ebpf program returns an XDP_PASS.
-The test attaches an XDP program returning XDP_PASS, and a TC
-ingress program that runs the bpf_skb_rx_checksum() kfunc to
-inspect the resulting skb. After XDP_PASS the driver must invalidate
-any previously computed hardware RX checksum since XDP may have
-modified the packet data.
-The BPF program counts packets per checksum type in a map, and the
-test runner verifies that after sending traffic the CHECKSUM_NONE
-counter is non-zero while CHECKSUM_UNNECESSARY and CHECKSUM_COMPLETE
-counters are zero.
+Hengelein's master thesis about Kconfig from 2015 wrote that 'select'
+does not work on member options inside of a 'choice'.
 
-Signed-off-by: Lorenzo Bianconi <lorenzo@kernel.org>
+So I've re-implemented his check as part of kconfirm:
+https://github.com/julianbraha/kconfirm
+
+and discovered several instances of these dead selects in use, and
+fixing them is not always trivial. For example, see:
+https://lore.kernel.org/all/a3b7a752-8cc4-492a-bb62-43121b852c41@app.fastmail.com/
+
+Let's add a warning to the documentation (a place where developers
+are more likely to see it than a master's thesis...)
+
+Signed-off-by: Julian Braha <julianbraha@gmail.com>
 ---
- Documentation/networking/xdp-rx-metadata.rst       |  5 ++
- .../selftests/drivers/net/hw/xdp_metadata.py       | 55 +++++++++++++++-
- .../selftests/net/lib/skb_metadata_csum.bpf.c      | 73 ++++++++++++++++++++++
- 3 files changed, 132 insertions(+), 1 deletion(-)
+ Documentation/kbuild/kconfig-language.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/networking/xdp-rx-metadata.rst b/Documentation/networking/xdp-rx-metadata.rst
-index 93918b3769a3..7434ac98242a 100644
---- a/Documentation/networking/xdp-rx-metadata.rst
-+++ b/Documentation/networking/xdp-rx-metadata.rst
-@@ -90,6 +90,11 @@ conversion, and the XDP metadata is not used by the kernel when building
- ``skbs``. However, TC-BPF programs can access the XDP metadata area using
- the ``data_meta`` pointer.
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index d9338407c1c6..ab2822d7ca1c 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -164,6 +164,11 @@ applicable everywhere (see syntax).
+ 	That will limit the usefulness but on the other hand avoid
+ 	the illegal configurations all over.
  
-+If a driver is running in XDP mode, any existing hardware RX checksum
-+(``CHECKSUM_UNNECESSARY`` or ``CHECKSUM_COMPLETE``) must be invalidated
-+by setting ``skb->ip_summed`` to ``CHECKSUM_NONE`` before passing the
-+skb to the kernel, since XDP may have modified the packet data.
++	select should also not be used on the member options of a choice.
++	Selecting a choice option will do nothing (dead code). Instead,
++	consider making these a dependency, or using the defaults of the
++	choice to enable the member option when it's needed.
 +
- In the future, we'd like to support a case where an XDP program
- can override some of the metadata used for building ``skbs``.
- 
-diff --git a/tools/testing/selftests/drivers/net/hw/xdp_metadata.py b/tools/testing/selftests/drivers/net/hw/xdp_metadata.py
-old mode 100644
-new mode 100755
-index 33a1985356d9..8ccd34b776b4
---- a/tools/testing/selftests/drivers/net/hw/xdp_metadata.py
-+++ b/tools/testing/selftests/drivers/net/hw/xdp_metadata.py
-@@ -8,12 +8,13 @@ These tests load device-bound XDP programs from xdp_metadata.bpf.o
- that call metadata kfuncs, send traffic, and verify the extracted
- metadata via BPF maps.
- """
-+import json
- from lib.py import ksft_run, ksft_eq, ksft_exit, ksft_ge, ksft_ne, ksft_pr
- from lib.py import KsftNamedVariant, ksft_variants
- from lib.py import CmdExitFailure, KsftSkipEx, NetDrvEpEnv
- from lib.py import NetdevFamily
- from lib.py import bkg, cmd, rand_port, wait_port_listen
--from lib.py import ip, bpftool, defer
-+from lib.py import ip, bpftool, defer, ethtool
- from lib.py import bpf_map_set, bpf_map_dump, bpf_prog_map_ids
- 
- 
-@@ -130,6 +131,57 @@ def test_xdp_rss_hash(cfg, proto):
-             f"RSS hash type should include L4 for {proto.upper()} traffic")
- 
- 
-+def test_xdp_pass_rx_csum(cfg):
-+    """Test xdp_pass sets CHECKSUM_NONE on the resulting skb.
-+
-+    Attaches an XDP program that returns XDP_PASS and a TC ingress
-+    program that checks skb->ip_summed via bpf_skb_rx_checksum().
-+    Verifies the value is CHECKSUM_NONE.
-+    """
-+
-+    bpf_obj = cfg.net_lib_dir / "skb_metadata_csum.bpf.o"
-+    xdp_obj = cfg.net_lib_dir / "xdp_dummy.bpf.o"
-+
-+    # GRO may overwrite skb->ip_summed after the driver sets it,
-+    # so disable it to preserve the checksum set by the driver.
-+    ethtool(f"-K {cfg.ifname} gro off")
-+    defer(ethtool, f"-K {cfg.ifname} gro on")
-+    ip(f"link set dev {cfg.ifname} xdp obj {xdp_obj} sec xdp")
-+    defer(ip, f"link set dev {cfg.ifname} xdp off")
-+
-+    qdiscs = json.loads(cmd(f"tc -j qdisc show dev {cfg.ifname}").stdout)
-+    if not any(q['kind'] == 'clsact' for q in qdiscs):
-+        cmd(f"tc qdisc add dev {cfg.ifname} clsact")
-+        defer(cmd, f"tc qdisc del dev {cfg.ifname} clsact")
-+    cmd(f"tc filter add dev {cfg.ifname} ingress bpf da obj {bpf_obj} sec tc")
-+
-+    progs = bpftool("prog list", json=True)
-+    tc_prog_id = None
-+    for p in progs:
-+        if p.get("name") == "tc_check_csum":
-+            tc_prog_id = p["id"]
-+            break
-+
-+    if tc_prog_id is None:
-+        raise KsftSkipEx("Could not find tc_check_csum BPF program")
-+
-+    maps = bpf_prog_map_ids(tc_prog_id)
-+    csum_map_id = maps.get("map_csum_result")
-+    if csum_map_id is None:
-+        raise KsftSkipEx("Could not find map_csum_result map")
-+
-+    for _ in range(10):
-+        _send_probe(cfg, 12345, proto="udp")
-+
-+    result = bpf_map_dump(csum_map_id)
-+    csum_none = result.get(0, 0)
-+    csum_unnecessary = result.get(1, 0)
-+    csum_complete = result.get(2, 0)
-+    ksft_ge(csum_none, 1, "skb->ip_summed should be CHECKSUM_NONE after XDP_PASS")
-+    ksft_eq(csum_unnecessary, 0, "CHECKSUM_UNNECESSARY should not be set")
-+    ksft_eq(csum_complete, 0, "CHECKSUM_COMPLETE should not be set")
-+
-+
- def main():
-     """Run XDP metadata kfunc tests against a real device."""
-     with NetDrvEpEnv(__file__) as cfg:
-@@ -137,6 +189,7 @@ def main():
-         ksft_run(
-             [
-                 test_xdp_rss_hash,
-+                test_xdp_pass_rx_csum,
-             ],
-             args=(cfg,))
-     ksft_exit()
-diff --git a/tools/testing/selftests/net/lib/skb_metadata_csum.bpf.c b/tools/testing/selftests/net/lib/skb_metadata_csum.bpf.c
-new file mode 100644
-index 000000000000..6a953c4acfe7
---- /dev/null
-+++ b/tools/testing/selftests/net/lib/skb_metadata_csum.bpf.c
-@@ -0,0 +1,73 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/bpf.h>
-+#include <linux/if_ether.h>
-+#include <linux/in.h>
-+#include <linux/ipv6.h>
-+#include <linux/pkt_cls.h>
-+#include <linux/udp.h>
-+#include <bpf/bpf_helpers.h>
-+#include <bpf/bpf_endian.h>
-+
-+#define UDP_PORT 12345
-+
-+enum skb_csum {
-+	SKB_CSUM_NONE		= 0,
-+	SKB_CSUM_UNNECESSARY	= 1,
-+	SKB_CSUM_COMPLETE	= 2,
-+	SKB_CSUM_PARTIAL	= 3,
-+};
-+
-+struct {
-+	__uint(type, BPF_MAP_TYPE_ARRAY);
-+	__uint(max_entries, SKB_CSUM_PARTIAL);
-+	__type(key, __u32);
-+	__type(value, __u64);
-+} map_csum_result SEC(".maps");
-+
-+extern int bpf_skb_rx_checksum(struct __sk_buff *skb, __u32 *ip_summed,
-+				__u32 *csum_meta) __ksym;
-+
-+SEC("tc")
-+int tc_check_csum(struct __sk_buff *skb)
-+{
-+	void *data_end = (void *)(long)skb->data_end;
-+	void *data = (void *)(long)skb->data;
-+	__u32 ip_summed, csum_meta;
-+	struct ethhdr *eth = data;
-+	struct ipv6hdr *ip6;
-+	struct udphdr *udp;
-+
-+	if ((void *)(eth + 1) > data_end)
-+		return TC_ACT_OK;
-+
-+	if (eth->h_proto != bpf_htons(ETH_P_IPV6))
-+		return TC_ACT_OK;
-+
-+	ip6 = (void *)(eth + 1);
-+	if ((void *)(ip6 + 1) > data_end)
-+		return TC_ACT_OK;
-+
-+	if (ip6->nexthdr != IPPROTO_UDP)
-+		return TC_ACT_OK;
-+
-+	udp = (void *)(ip6 + 1);
-+	if ((void *)(udp + 1) > data_end)
-+		return TC_ACT_OK;
-+
-+	if (udp->dest != bpf_htons(UDP_PORT))
-+		return TC_ACT_OK;
-+
-+	bpf_skb_rx_checksum(skb, &ip_summed, &csum_meta);
-+	if (ip_summed < SKB_CSUM_PARTIAL) {
-+		__u64 *cnt;
-+
-+		cnt = bpf_map_lookup_elem(&map_csum_result, &ip_summed);
-+		if (cnt)
-+			__sync_fetch_and_add(cnt, 1);
-+	}
-+
-+	return TC_ACT_OK;
-+}
-+
-+char _license[] SEC("license") = "GPL";
-
+ 	If "select" <symbol> is followed by "if" <expr>, <symbol> will be
+ 	selected by the logical AND of the value of the current menu symbol
+ 	and <expr>. This means, the lower limit can be downgraded due to the
 -- 
-2.55.0
+2.54.0
 
