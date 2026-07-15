@@ -1,88 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258572441B8;
-	Wed, 15 Jul 2026 02:31:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784082692; cv=none; b=a9l3ENEW8vRtQDwq4nSXqB4ZMZ5j1Vmc4mCqDsOwE9oAOM5rIBj6L8PCwQL2CI35DW9VhXRNNey2wRHxzFGZYXEO6YycWQWFjBDts5bxjr+KAOeVm32QFlWC0YfW8udxZrNzLCS7S+N/lK07OM6F7BS1J/P3A79HncDitE1tOsw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784082692; c=relaxed/simple;
-	bh=N8wNqY82D3MGDP04hcCK6O5FzSajaVrEh+o+Jhgts5U=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=BMbPp4Mn8mcTo3ugek3uycFQsFktpG9yuiOHxrDeGl0iw32YLmVAE33dkG0CksFPH8pf88JrMPYMIZN4Ixj0EKWCFfwgzbOAUV0anNIXsG4re3npEj3Hh4lYZZOz5tv0RTy0bJ83AxIPLc6TWeqLMQrF2qphKFA7K7iSkMpJhos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=gmDU5hMl; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C183A9628
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 02:54:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784084101; cv=pass; b=JhHd+HO0Y5EPEeWSwCbqNMspU2lK7Ll6O/aEOA77OPwSQuQAZv63mJZqIO5jGCsBWHVbL/bcIV7AC8zIV+vaWkNz6OEv4uTOCd4DTDYSNOEV7OEDWnnF09ryUxDrPmQrfpOAX7pxEUGaBZCJGziEENqjS3O5fH+c32jsW16Apuw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784084101; c=relaxed/simple;
+	bh=6eBwj4et6Kll0SOF/dlQ0iXDfU2skh9D1bcyDgpLDWQ=;
+	h=From:References:Mime-Version:In-Reply-To:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RsZB/envTJxy6G6XxaQNkm81ysx11FCbtAsIa5f5GxYiyJsJtEaxkAZSoCkrcArAtdsggA988AQaZgUrvZn4EOJhhKmDPiXvivOK6glSRB2yqAFpA6te1BsR8Ir86ZvsPImEteqNptaMw3cMpj7mtIJCg8Bk6Vfg/eqTRuigqrk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=eBi6MxUg; arc=pass smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="gmDU5hMl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A1161F000E9;
-	Wed, 15 Jul 2026 02:31:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="eBi6MxUg"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5aeb5e85378so5235968e87.1
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 19:54:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784084097; cv=none;
+        d=google.com; s=arc-20260327;
+        b=aXI6ee7gAMoc8Rrzl4yLK/qP++Zy4q9hk1T+96d3yXZ8TxMfkYE76v4PmzsF1JL/+c
+         Ked1ytks2VHpIUKChjJwFJ8Rhh3esMe+3lBywQotJkDSirWadQefx/BmXj8X2h6EcDJJ
+         R+uH+ndRBUidS041QUaa8hIJiF8Fy+OPFLCv3ULIzYCrCuFiuiT4ZTZrhssxvMN/lHNq
+         XRcTbQ/VsQDgVogO4In3VC1KH3gOVOIMWZiJgosQTZ4WWDhC40cAduRufUJ9kW/6RuKZ
+         Mgy1tuUZWEvA2fgtf8uuwOeDgxiCTi5Iq+sHhzUSiGd/jlxhJUadr/JmbfHBP/C8cnVt
+         Mt0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:user-agent:in-reply-to:mime-version
+         :references:from:dkim-signature;
+        bh=onc8LBGsosWpMb6oO+llEi3YzErTQezwilYi6725L7E=;
+        fh=PYQh/HMmnGcFpjNBZnRzDMGjkH3DD+cj9A4bfwQf0LQ=;
+        b=UXG41ecV2g1rcHGONNi1O2qqdPvUtAG92GvmKGlsQu4GCdC+78p60cQ87crn5QdvDd
+         D0A+i8xpH+jPIfKjkZ5mkKUTKr1z+uNbCgJRy2GMc+vtUS/kLWiibimW9sP5/djdJpVB
+         Ni1u9X3PgtqLImkTsYr/LMrUBhv/uF2OFGsCeTFQTqzBccvCAqmon9I4SJ5eK90XWZaT
+         OBrCH8a268O+tAn6/8C5iq/U6mNBazFaHPA0SF648kXA1lB2wHzDqoj9zyZye2e5+mL+
+         /Z0jUVS/Nmft/MhuNxwb1hepgmmhRaENl5+t2kL7kN+SgIJMZkCgTXTE0LCKVfIGQff/
+         pwNA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1784082690;
-	bh=PETTDer1Lz0zU/rZ0npgKBBCQhBtVIsuhyXSioi/2do=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=gmDU5hMllGW2Vs9zJT6ACfKxhTPgVM312oSQWjAaeSuMAu11MFBxD2dBVKEr/ZvS0
-	 mBcnXHoIKVG5cZxnxxtz7zPZDw2ljoxQAvS2/d4zucxgKRoklEZHeMU4HO5XlaSyZZ
-	 0qqN60qj59XccC9LcCGAx0O7ZpsA+Nl65N/zGeiU=
-Date: Tue, 14 Jul 2026 19:31:29 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Hao Jia <jiahao.kernel@gmail.com>, tj@kernel.org, hannes@cmpxchg.org,
- shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com,
- nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev,
- roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>,
- stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] mm/zswap: Fix global shrinker when memory cgroup is
- disabled
-Message-Id: <20260714193129.f81711f516504b659d544741@linux-foundation.org>
-In-Reply-To: <CAO9r8zM5nzDqNcx5UoDgGexvR6jf8MmJV9SomM4AS7n-rZ2o5Q@mail.gmail.com>
-References: <20260714081510.16895-1-jiahao.kernel@gmail.com>
-	<20260714081510.16895-2-jiahao.kernel@gmail.com>
-	<CAO9r8zM5nzDqNcx5UoDgGexvR6jf8MmJV9SomM4AS7n-rZ2o5Q@mail.gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=bytedance.com; s=google; t=1784084097; x=1784688897; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:user-agent:in-reply-to
+         :mime-version:references:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=onc8LBGsosWpMb6oO+llEi3YzErTQezwilYi6725L7E=;
+        b=eBi6MxUgUP9e/EZR5wL2qUDKLVco0neXKf65JxbQc5VwsbvWdzteYKmWNrD+aWT1lX
+         trrBk1/P8A+zA8UynCqcpuZcT6dRBxTfNrTvKXmDMB2oQrXiW2Zs6hT6GwtICes1iQIj
+         nAYWWYTnmFvIZt+bf0be2vhlHHQ4S42KaTtm/zHB8oWFl0Zco6IxHh0570j4YcpazqJY
+         TpFntrc/euy/6OEF95+QUJ0paheutqyE9kgizjbQQGCJsMbZUpFYy6JedMPe8/TqsK1j
+         bIUEvch2yIIJEx1uCyTqoJkI+YIQEcPpmWl/LssgTmKopxCT2aGLYlip+6jX2mGiN1gk
+         d9wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784084097; x=1784688897;
+        h=content-type:cc:to:subject:message-id:date:user-agent:in-reply-to
+         :mime-version:references:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=onc8LBGsosWpMb6oO+llEi3YzErTQezwilYi6725L7E=;
+        b=HNBau2+jnEkEBb4zjeS4T/ri16NXC/zDsGx09m6jzAVYqrHpxygLKnN2RUZxzQgx31
+         P+T3m4a4Bt4gYeqmiKHkcqplsTGgXVdcJEglw/84PMo1mCkMA3KRDIJgqsUYlHJIvIjy
+         6+VOvvNubFOCm9b6TBY+RzNUEAPfKrtQJ+/bNAjDyxx3zQZJevDd42FDlluH80r380J2
+         G4Frux+gBBDNwsIDvzSNlxHTibZJaQ4uNA05NaRIdn7nPl6SIhkMhxhs0kBioLfhbAlM
+         hEdaaTxppKSRfHfFVN2u3F9flH/TlbNoMS45iDcEweB5mUfaYxAL1OuUJHgVbLWT7xgF
+         ODQA==
+X-Forwarded-Encrypted: i=1; AHgh+RrtCi2BnYK0l+Hc8dkgCFafaG37OughFirUEUOj7g4nxkwbIOXSAh/v6DeFBPgAD5eCT6xZ8t8cWPU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAEOCTJKplEGA78BZwWbBdHS1JB5RNpMYZknrX4Xej72Luhvgq
+	GpMH6Gy1H/v5LGonwhjJzvBGBPbmYzARWQqAZgK6SuYt7SyyxQY7PxVbg6W2OhHJAo0Novp8aSC
+	py94wMTLAvN70RdSw0/YY+BB4MifOB6UVzokQ6iFNgA==
+X-Gm-Gg: AfdE7ckWMsFr8ifOC2DXbIaoUfLcm4d/mR5WJWwk1lIEhVAIj7uYQCPay96L9nrpucB
+	qQChr/CEiBh8ZnDCh1F7AUZrAgxGe53GRS3beDqHSRG/StBY60cXHVd8XGk+gVPoD4LoUNK4g27
+	jARbVrXO0BbJCQ31AAd5TL3mfliXfNNrXuUvCkCWRKg7yUZxJd4F6wuWBaGhmXSryJjRvIN/tYf
+	ABJEsik0+cOcWWgJ5j22B9qKA+jjJAnHVIOpa3ojyKwEcbJwGVEY35zDRX/sj2KLEeMFq1NTMwJ
+	K9ho0hej
+X-Received: by 2002:a05:6512:3f12:b0:5ae:b7d4:7ddb with SMTP id
+ 2adb3069b0e04-5b159b6fda3mr1064835e87.26.1784084097163; Tue, 14 Jul 2026
+ 19:54:57 -0700 (PDT)
+Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST;
+ Wed, 15 Jul 2026 02:54:54 +0000
+Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST;
+ Wed, 15 Jul 2026 02:54:54 +0000
+From: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+References: <20260714130657.46963-1-zhangzhanpeng.jasper@bytedance.com>
+ <20260714130657.46963-2-zhangzhanpeng.jasper@bytedance.com> <20260714140336.GA3716926@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Original-From: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+In-Reply-To: <20260714140336.GA3716926@ziepe.ca>
+User-Agent: Mozilla Thunderbird
+Date: Wed, 15 Jul 2026 02:54:54 +0000
+X-Gm-Features: AUfX_mzaekcsCjyK9vwKSYgr-sn1iFmjDQZenkFE6MLRADlmaaPOOGhkJ3gRioM
+Message-ID: <CACnXVncfth5=ctoS6YqY8n1u_8JvZb-BpVgdniRqqjzxgNzdXQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/7] iommu: Add group lookup by ID
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: joro@8bytes.org, palmer@dabbelt.com, tony.luck@intel.com, 
+	reinette.chatre@intel.com, tomasz.jeznach@linux.dev, will@kernel.org, 
+	robin.murphy@arm.com, fustini@kernel.org, pjw@kernel.org, 
+	aou@eecs.berkeley.edu, alex@ghiti.fr, Dave.Martin@arm.com, 
+	james.morse@arm.com, babu.moger@amd.com, corbet@lwn.net, shuah@kernel.org, 
+	kevin.tian@intel.com, cuiyunhui@bytedance.com, yuanzhu@bytedance.com, 
+	iommu@lists.linux.dev, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 14 Jul 2026 09:52:59 -0700 Yosry Ahmed <yosry@kernel.org> wrote:
+Hi Jason,
 
-> > When memory cgroup is disabled, mem_cgroup_iter() always returns NULL.
-> > Therefore, the global shrinker shrink_worker() always takes the !memcg
-> > branch. After MAX_RECLAIM_RETRIES empty walks, the worker simply gives up,
-> > so it fails to write back anything.
-> >
-> > Therefore, when memory cgroup is disabled, fall through with the !memcg
-> > branch and shrink the root memcg directly.
-> >
-> > With memcg disabled, shrink_memcg() only returns -ENOENT when the root
-> > LRU is empty, which means the total pages are already below thr. The
-> > loop then safely bails out via the zswap_total_pages() <= thr check.
-> > For any other return value from shrink_memcg(), the loop is guaranteed
-> > to terminate, either after MAX_RECLAIM_RETRIES failures or once the
-> > threshold is met.
-> >
-> > Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
-> > Cc: stable@vger.kernel.org
-> > Suggested-by: Nhat Pham <nphamcs@gmail.com>
-> > Acked-by: Nhat Pham <nphamcs@gmail.com>
-> > Acked-by: Yosry Ahmed <yosry@kernel.org>
-> > Reported-by: Yosry Ahmed <yosry@kernel.org>
-> > Closes: https://lore.kernel.org/all/CAO9r8zPVzMKFbCixxD-qgtRrkFxWVrHiZZeLc=eyTPKPVQgX4g@mail.gmail.com
-> > Signed-off-by: Hao Jia <jiahao1@lixiang.com>
-> 
-> Patch 2 doesn't really depend on this one, right?
-> 
-> If that's the case I think this can (and should be) picked up
-> separately as a hotfix. Andrew, WDYT?
+On 7/14/26 10:03 PM, Jason Gunthorpe wrote:
+> On Tue, Jul 14, 2026 at 09:06:51PM +0800, Zhanpeng Zhang wrote:
+>> Add iommu_group_get_by_id() so callers can resolve an IOMMU group from
+>> the numeric ID used in /sys/kernel/iommu_groups.
+>>
+>> An ID lookup must keep the group object alive without also keeping an
+>> otherwise empty group active. Embed the devices kobject in struct
+>> iommu_group so its address remains valid until the parent group is
+>> released, and return a reference on the parent kobject to ID lookup
+>> callers. Add iommu_group_put_by_id() to release that reference and
+>> iommu_group_is_active() to detect when the devices kobject has become
+>> inactive.
+>>
+>> Serialize lookup against group teardown with iommu_group_kset_mutex and
+>> only return groups whose devices kobject still has a live reference.
+>> This prevents a concurrent lookup from dereferencing a stale child
+>> kobject while allowing external users to discard bindings to empty
+>> groups.
+>>
+>> Signed-off-by: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+>> ---
+>>   drivers/iommu/iommu.c | 107 +++++++++++++++++++++++++++++++++++++-----
+>>   include/linux/iommu.h |  17 +++++++
+>>   2 files changed, 113 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+>> index e8f13dcebbde..da269d10f6bf 100644
+>> --- a/drivers/iommu/iommu.c
+>> +++ b/drivers/iommu/iommu.c
+>> @@ -40,6 +40,7 @@
+>>   #include "iommu-priv.h"
+>>
+>>   static struct kset *iommu_group_kset;
+>> +static DEFINE_MUTEX(iommu_group_kset_mutex);
+>>   static DEFINE_IDA(iommu_group_ida);
+>
+> I think it would be better to change the ida to an xarray than to use
+> a string search on a kset..
+>
+> Jason
 
-Please update the changelog to clearly describe the userspace-visible
-effects of the bug, thanks.
+Agreed. Using an XArray as both the ID allocator and the group lookup
+table avoids the string-based kset lookup and the additional mutex.
 
-Also, AI review has flagged several possible issues, all appear to be
-serious:
-	https://sashiko.dev/#/patchset/20260714081510.16895-1-jiahao.kernel@gmail.com
+I will refactor it in the next revision.
+
+Thanks,
+Zhanpeng
