@@ -1,154 +1,320 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7A0399D0B
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 14:42:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBBE387566
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 14:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784126574; cv=none; b=rNZ4PYwBz4/GfClUY2UaQpxmfAALmCxLFQ45tudi33MObcb5ftpxtGQo7ev2iqOgl0oZsDXXGR4jdr93YG/wQ0Biakq4iiMm4gsL9N0Td3QOmmaSAqBGoSc2eSFDSNldYA8Ntm59LjeX3+TjhsxC9gASlOZa6z2HSWdwk4lWAh0=
+	t=1784126606; cv=none; b=EWc7Ew2hoAJv6nqQDPb7viTk/8KCX4zRgIJO2tNvcP+9D14Lt3Yttn8wEzGrkAOij6QG0yILV4Tlrq0ry15AUBwgHljNnaZA3MJbvM5VA6j7O6Ic/8CrzLD2fhlvbO+7JOWH5a/gXFbbvi304MWA92tkKVAfI1LGINlHMr2hFWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784126574; c=relaxed/simple;
-	bh=yasRtJyu7Ov53Xca8IMDdwCAT0wNHf1OQgxn2u0jL/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z0GAOGS0t97c4cpY1JSMSpERA5O47rdobFackljDFPZ430IS3xkhEgHS4lqUahTKnBWWThmxRbz/JCtPQMXyzDeEAQzwqSKeMCMe/lihDeP1/M14LNh/VZEbG2/qwbulpM9PXxf9wS717IVa+9tem3ASuSpaQwSNwYdfXfOXCp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z2+m/uyy; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784126606; c=relaxed/simple;
+	bh=X68c1nYcCWv51v8mSTJWPYgBW9OqZPEcLkd+ji0RP3s=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ol2O2o8GTMGvyTyZS67DyAffU4q0UZSIduxZ1PF7SIybknBIEq/rLOvmGFUuG1f3Ki37bIpuQ4wBJqa5pTDuSnEamvYWb/LITBUJEdIvFlT0+K76EW6ygoQzvkzzLQkk1sQ9HRV349DbE8yIRt/HXsLBY6ALgCyMW/Sc4lHEptY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZDOeV5yc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z2+m/uyy"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38dc69c74b8so3753376a91.0
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 07:42:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784126572; x=1784731372; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YFdvFy4JZmcJMIT1d11E7kO8Wgq6KQpSjvMclrKV/Fk=;
-        b=Z2+m/uyywK2oDuVHkcU90yKGSxi4PXe4S4gs03x26bD8X6BCvYPSoHsOWUVQ68zjJn
-         u6uXHrMw7ZOXrVq1VdS5td7IyQ8sA4W9utSQPJhP1guDgcl0ujJZcIpCa5VN8nU6vfqI
-         0SA4lI3rEt//wtQ4pl5ZPWM6gBnQ/ZbF2ZewA6cyBkndA493VtdpkfdXXUP30SNDAPBX
-         /swURmiOE/86c7y/VAeW2J+frU6dAPvJXLzAshMyHOUW04knMYbnlJu58naekN8vnH/K
-         8Zc/IntpugtEnt6H6gF/61oGVerRQGzJNkpteI4rGiGR7H+bWyTsX8bH9Ce+qMETEA66
-         HYdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784126572; x=1784731372;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=YFdvFy4JZmcJMIT1d11E7kO8Wgq6KQpSjvMclrKV/Fk=;
-        b=fPk0AIdgG8gQ0tkMFmsOidISHCEkxbbYFlsfGExE0fQh4oZee8wNeoP29abmpICIvY
-         VlnH9OlRhm3RUjuDpMNx3CVsNcEJF/wgclXmd0c5mXWjUppek413BpIF/c9r9XJ2UyAz
-         0GSahkvnci4NDjiXGVDLw6kjPQGdduLG9DXWZ0NC6a6vxj1vYcyDt1u/dUoKshUlvVZo
-         DFfofGQ08Uq2YpcSKWhht3jjhS8W6Kl1erBTxwdh+VhmhzY8HgTw5oiLQBACrohHYaK3
-         z8ZSxErcqqPnKb0VjtGhgAwFK4khAT1hNq96TysxxvM2zcz0KesW6K1oTJGpOjil6JXI
-         GCJg==
-X-Forwarded-Encrypted: i=1; AHgh+RreMdUvAO0QpMXuulvNgC5mFdb3zVmXEiT7F6pDi5NWGnZlm19tQXWWjU7Z6JFfQd7juoFEDYtKLgY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9A3GExYis+yrd1xndKBPphGk54CO01gGqWmoJEeYU+3su0bD2
-	HvIwOfP/0WFkIirInN0Hq8SaWXgMYhi24apdZudq6ZtWBZq7aTabrhFl
-X-Gm-Gg: AfdE7ckkvkCfcCwabPJ4mlq6guL2X9V5m4mFUd+cjO/f5ykOEuNXmgRn4iXxaYBcjcO
-	swo/2LuTAF3O0rbZoX1tMCgO0PWpsJOBEjBfAQip4yLhQDF7Iro4hs/HCBbYKyAmTUXiPxTB+nh
-	W8vhhIyPMbzEFCoBgf0viCADu4Dcx5P7z9rzHrF/DK2kRaSKDfSMfHqpZYEDkGebu1dHvxaTA8o
-	pKWgaUjhuonRRzG4klNf0aYnwMj1pVGYhopaYjmdNeDq1JrOg5aMi28a33fYjXbGxq8PXSY220T
-	mURdyxSpt/qYTfxRZbkG2DYBKHDb001Qz4Ty/4TceRKaxq2OfywJ0xS0fEYMjomY+wW42s6qKe+
-	SzdlrF7hnYfLqhbH7+pEVr9S/0JLDd255k3CNtxnGNtc5eqB8YAMaiI67Q6oeNZgJIbEH88q0d/
-	iHFr7UO4sHz5FTh3ydWu9z2UsSUg5VQWaWJ/NV9NdFgXUDM7kYw7uMgRE=
-X-Received: by 2002:a17:90b:2890:b0:37d:f983:7b5 with SMTP id 98e67ed59e1d1-38e29ff97b1mr2563808a91.9.1784126571549;
-        Wed, 15 Jul 2026 07:42:51 -0700 (PDT)
-Received: from skinsburskii (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e172b6da2sm3320825a91.4.2026.07.15.07.42.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 07:42:51 -0700 (PDT)
-Date: Wed, 15 Jul 2026 07:42:48 -0700
-From: Stanislav Kinsburskii <skinsburskii@gmail.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: airlied@gmail.com, akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org,
-	corbet@lwn.net, dakr@kernel.org, jgg@ziepe.ca, kees@kernel.org,
-	leon@kernel.org, liam@infradead.org, lizhi.hou@amd.com,
-	ljs@kernel.org, lyude@redhat.com, maarten.lankhorst@linux.intel.com,
-	mamin506@gmail.com, mhocko@suse.com, mripard@kernel.org,
-	nouveau@lists.freedesktop.org, ogabbay@kernel.org, oleg@redhat.com,
-	rppt@kernel.org, shuah@kernel.org, simona@ffwll.ch,
-	skhan@linuxfoundation.org, surenb@google.com, tzimmermann@suse.de,
-	vbabka@kernel.org, dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] mm/hmm: Clarify notifier retry state and scope
- HMM timeouts
-Message-ID: <alecaJ1FUso39D9k@skinsburskii>
-References: <178406760622.1106335.2379450382728057793.stgit@skinsburskii>
- <4300f09b-8f93-4605-b072-7c09a82cb16e@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZDOeV5yc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 070AD1F00A3D
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 14:43:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784126605;
+	bh=mexSkd/L7M+JcqMlYSpV/uW631x4GMkwLLLY8A/EWBA=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=ZDOeV5ycp3foMgCcNX9Z+3ELyYPAxIObDsdGg1YjY8Hl2ZHIYqvb/fWhlioqKp1dC
+	 hbHqECScHSZ9M/uAiofWtjItzDAgIFZWSuebPrEqQqqIcXvi3VHoxCF/P4QcZlDP+n
+	 oNUkLOXKxyporwe966ny5RtpqPJN9MdIZ0XFhACGRqA2m2J9sGUk8AyLb3H/xcMW8o
+	 7mEAVa2SRpwrt+ryieuM4FZg0SgdI9iIW/4+dgAM9TYUVHRjecJV+9GFiQhP2Pps8F
+	 8Hw1gHVgjXGNY5yLic7rx0PGd7mDfCqX2lVo4pCG3KoCS7fMvg7j21BHIg9If8zpR2
+	 RXyUpImiQlMxA==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5b00d083818so693684e87.1
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 07:43:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoueAoetS56GnVVlfhoclbexzMZIuBB+iuCJFz7xmyGXgiFnKkE5bl+PMoiI7cq0S3jNSM642+gVdw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNSsyiyJ+5mZnH3NMrZStwvf4qJjVTssh5gNOsXvXdE73By39L
+	M//5KhUv/1Q4QgclRVj7Imiq+/GMQ2PzODBTZn3PwOBq3mAw7pB/aaZCsmbZPvMF9TEt0p9ZHU8
+	fbiPgRMWxlUJsmhywy0pdGExAHEbKtSoowzjc9zfdWA==
+X-Received: by 2002:a05:6512:230e:b0:5b0:1186:fdf with SMTP id
+ 2adb3069b0e04-5b023d119b6mr4054246e87.11.1784126603717; Wed, 15 Jul 2026
+ 07:43:23 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 15 Jul 2026 14:43:21 +0000
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 15 Jul 2026 14:43:21 +0000
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <alYGGu7_3G6mJAzQ@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4300f09b-8f93-4605-b072-7c09a82cb16e@kernel.org>
+References: <20260713-qcom-qce-cmd-descr-v21-0-bc2583e18475@oss.qualcomm.com>
+ <20260713-qcom-qce-cmd-descr-v21-6-bc2583e18475@oss.qualcomm.com> <alYGGu7_3G6mJAzQ@linaro.org>
+Date: Wed, 15 Jul 2026 14:43:21 +0000
+X-Gmail-Original-Message-ID: <CAMRc=MevqXga1u-XC8LYc3hnjjzmdESntsSGYP25XECeeySfJA@mail.gmail.com>
+X-Gm-Features: AUfX_mz84E27Q1EUpA_PNW8nZwsEDXDnWfdcPZvHlIEcElHMR4d25WVPlOXxIfA
+Message-ID: <CAMRc=MevqXga1u-XC8LYc3hnjjzmdESntsSGYP25XECeeySfJA@mail.gmail.com>
+Subject: Re: [PATCH v21 06/14] dmaengine: qcom: bam_dma: add support for BAM locking
+To: Stephan Gerhold <stephan.gerhold@linaro.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
+	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>, Michal Simek <michal.simek@amd.com>, 
+	Frank Li <Frank.Li@kernel.org>, Andy Gross <agross@codeaurora.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, dmaengine@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, brgl@kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jul 15, 2026 at 02:41:43PM +0200, David Hildenbrand (Arm) wrote:
-> On 7/15/26 00:21, Stanislav Kinsburskii wrote:
-> > This small fixup series applies on top of:
-> > 
-> >   [PATCH v8 0/8] mm/hmm: Add mmap lock-drop support for userfaultfd-backed mappings
-> > 
-> > The first patch updates the HMM documentation example to make the
-> > mmu_interval_read_retry() state explicit: callers should use the notifier and
-> > notifier_seq stored in the same hmm_range that was passed to
-> > hmm_range_fault_unlocked_timeout().
-> > 
-> > The remaining patches adjust nouveau, amdxdna, and drm_gpusvm users so the
-> > timeout passed to hmm_range_fault_unlocked_timeout() is treated as a relative
-> > HMM retry budget. These callers no longer keep an absolute deadline around
-> > their outer driver retry loops or pass a computed remaining time into HMM.
-> > 
-> > This keeps the timeout scoped to HMM's internal mmu-notifier retry handling. If
-> > HMM succeeds and the driver later observes an invalidation through
-> > mmu_interval_read_retry(), the driver retries the operation with a fresh HMM
-> > retry budget.
-> > 
-> > Changes in v2:
-> >   - Kept the nouveau outer absolute timeout around the
-> >     mmu_interval_read_retry() loop. hmm_range_fault_unlocked_timeout() only
-> >     bounds HMM’s internal retries, while nouveau faults are handled from a GPU
-> >     fault worker, so userspace fatal signals cannot break an endless stream of
-> >     invalidations there.
-> >   - Updated nouveau to use time_after_eq() before calling HMM, so the remaining
-> >     timeout passed to hmm_range_fault_unlocked_timeout() is always positive and
-> >     never 0, which would mean retry indefinitely.
-> >   - Updated the nouveau fixup commit message to explain the worker-thread
-> >     timeout issue and the time_after_eq() boundary behavior.
-> >   - Fixed the amdxdna fixup commit message. It now describes
-> >     aie2_populate_range() correctly instead of carrying stale nouveau prose,
-> >     and notes that command submission still keeps its broader timeout while HMM
-> >     gets a fresh relative retry budget.
-> > 
-> > 
-> > ---
-> > 
-> > Stanislav Kinsburskii (4):
-> >       fixup! mm/hmm: add hmm_range_fault_unlocked_timeout() for mmap lock-drop support
-> >       fixup! drm/nouveau: use hmm_range_fault_unlocked_timeout() for SVM faults
-> >       fixup! accel/amdxdna: use hmm_range_fault_unlocked_timeout() for range population
-> >       fixup! drm/gpusvm: use hmm_range_fault_unlocked_timeout() for range faults
-> 
-> Why a fixup series instead of properly resending the full thing?
-> 
+On Tue, 14 Jul 2026 11:49:14 +0200, Stephan Gerhold
+<stephan.gerhold@linaro.org> said:
+> On Mon, Jul 13, 2026 at 03:01:07PM +0200, Bartosz Golaszewski wrote:
+>> Add support for BAM pipe locking. To that end: when starting DMA on an RX
+>> channel - prepend the existing queue of issued descriptors with an
+>> additional "dummy" command descriptor with the LOCK bit set. Once the
+>> transaction is done (no more issued descriptors), issue one more dummy
+>> descriptor with the UNLOCK bit.
+>>
+>> We *must* wait until the transaction is signalled as done because we
+>> must not perform any writes into config registers while the engine is
+>> busy.
+>>
+>> The dummy writes must be issued into a scratchpad register of the client
+>> so provide a mechanism to communicate the right address via descriptor
+>> metadata.
+>>
+>> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+>> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+>
+> Thanks for the fixes. The lock/unlock sequence looks good to me now,
+> I commented on a couple of minor things below that would be good to fix
+> (some of them are also reported by Sashiko).
+>
 
-The goal was to get a Sashiko review, and v8 has already been applied to
-both `mm-new` and `linux-next`.
+Thanks.
 
-You can find more details here:
+>> ---
+>>  drivers/dma/qcom/bam_dma.c       | 191 +++++++++++++++++++++++++++++++++++++--
+>>  include/linux/dma/qcom_bam_dma.h |  14 +++
+>>  2 files changed, 198 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
+>> index f3e713a5259c2c7c24cfdcec094814eb1202971a..f08549ee3872eece85884606d6ee9e540ee688ca 100644
+>> --- a/drivers/dma/qcom/bam_dma.c
+>> +++ b/drivers/dma/qcom/bam_dma.c
+>> [...]
+>> @@ -686,6 +702,35 @@ static int bam_slave_config(struct dma_chan *chan,
+>>  	return 0;
+>>  }
+>>
+>> +static int bam_metadata_attach(struct dma_async_tx_descriptor *desc, void *data, size_t len)
+>> +{
+>> +	struct bam_chan *bchan = to_bam_chan(desc->chan);
+>> +	const struct bam_device_data *bdata = bchan->bdev->dev_data;
+>> +	struct bam_desc_metadata *metadata = data;
+>> +
+>> +	if (!data)
+>
+> Doesn't really matter much, but since the parameter exists you might as
+> well add
+>
+> 	&& len == sizeof(*metadata)
+>
+> here to be sure.
+>
 
-  https://sashiko.dev/#/message/alaWmUEeIBeSkmO0%40skinsburskii
+Ok.
 
-Thanks, Stanislav
+>> +		return -EINVAL;
+>> +
+>> +	if (!bdata->pipe_lock_supported)
+>> +		/*
+>> +		 * The client wants to use locking but this BAM version doesn't
+>> +		 * support it. Don't return an error here as this will stop the
+>> +		 * client from using DMA at all for no reason.
+>> +		 */
+>> +		return 0;
+>> +
+>> +	guard(spinlock_irqsave)(&bchan->vc.lock);
+>> +
+>> +	bchan->scratchpad_addr = metadata->scratchpad_addr;
+>> +	bchan->direction = metadata->direction;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static const struct dma_descriptor_metadata_ops bam_metadata_ops = {
+>> +	.attach = bam_metadata_attach,
+>> +};
+>
+> I'm not sure if we have discussed this before, but could we avoid
+> re-programming the scratchpad_addr all the time by placing it into
+> struct dma_slave_config -> peripheral_config? It still feels awkward to
+> me to place a global constant configuration value into per-descriptor
+> metadata.
+>
 
-> -- 
-> Cheers,
-> 
-> David
+Yes, this was discussed several versions ago. I went with using
+dmaengine_slave_config() until v11. I think Vinod or Dmitry requested we change
+it to the metadata.
+
+>> +
+>>  /**
+>>   * bam_prep_slave_sg - Prep slave sg transaction
+>>   *
+>> [...]
+>> @@ -802,6 +851,7 @@ static int bam_dma_terminate_all(struct dma_chan *chan)
+>>  		}
+>>
+>>  		vchan_get_all_descriptors(&bchan->vc, &head);
+>> +		bchan->bam_locked = false;
+>
+> I wonder about the implications of this. If the LOCK descriptor was
+> already processed, will we cause a deadlock if we never submit the
+> UNLOCK descriptor? Or I guess bam_reset_channel() might reset the lock
+> as well?
+>
+
+I'll look into it.
+
+>>  	}
+>>
+>>  	vchan_dma_desc_free_list(&bchan->vc, &head);
+>> [...]
+>> @@ -870,6 +929,7 @@ static u32 process_channel_irqs(struct bam_device *bdev)
+>>  {
+>>  	u32 i, srcs, pipe_stts, offset, avail;
+>>  	struct bam_async_desc *async_desc, *tmp;
+>> +	struct bam_desc_hw *hdesc;
+>>
+>>  	srcs = readl_relaxed(bam_addr(bdev, 0, BAM_IRQ_SRCS_EE));
+>>
+>> @@ -919,13 +979,20 @@ static u32 process_channel_irqs(struct bam_device *bdev)
+>>  			 * push back to front of desc_issued so that
+>>  			 * it gets restarted by the work queue.
+>>  			 */
+>> +
+>> +			list_del(&async_desc->desc_node);
+>>  			if (!async_desc->num_desc) {
+>> -				vchan_cookie_complete(&async_desc->vd);
+>> +				hdesc = async_desc->desc;
+>> +				u16 flags = le16_to_cpu(hdesc->flags);
+>
+> Is this unused? Also a bit odd to have hdesc declared outside of the
+> loop and flags declared inside.
+>
+>> +
+>> +				if (async_desc->is_lock_desc)
+>> +					bam_dma_free_lock_desc(&async_desc->vd);
+>> +				else
+>> +					vchan_cookie_complete(&async_desc->vd);
+>>  			} else {
+>>  				list_add(&async_desc->vd.node,
+>>  					 &bchan->vc.desc_issued);
+>>  			}
+>> -			list_del(&async_desc->desc_node);
+>>  		}
+>>  	}
+>>
+>> @@ -1046,13 +1113,102 @@ static void bam_apply_new_config(struct bam_chan *bchan,
+>>  	bchan->reconfigure = 0;
+>>  }
+>>
+>> +static struct bam_async_desc *
+>> +bam_make_lock_desc(struct bam_chan *bchan, unsigned long flag)
+>> +{
+>> +	struct dma_chan *chan = &bchan->vc.chan;
+>> +	struct bam_async_desc *async_desc;
+>> +	struct bam_desc_hw *desc;
+>> +	struct virt_dma_desc *vd;
+>> +	struct virt_dma_chan *vc;
+>> +	unsigned int mapped;
+>> +
+>> +	async_desc = kzalloc_flex(*async_desc, desc, 1, GFP_NOWAIT);
+>> +	if (!async_desc) {
+>> +		dev_err(bchan->bdev->dev, "failed to allocate the BAM lock descriptor\n");
+>> +		return ERR_PTR(-ENOMEM);
+>> +	}
+>> +
+>> +	sg_init_table(&async_desc->lock_sg, 1);
+>> +
+>> +	async_desc->num_desc = 1;
+>> +	async_desc->curr_desc = async_desc->desc;
+>> +	async_desc->dir = DMA_MEM_TO_DEV;
+>> +	async_desc->is_lock_desc = true;
+>> +
+>> +	desc = async_desc->desc;
+>> +
+>> +	bam_prep_ce_le32(&async_desc->lock_ce, bchan->scratchpad_addr, BAM_WRITE_COMMAND, 0);
+>> +	sg_set_buf(&async_desc->lock_sg, &async_desc->lock_ce, sizeof(async_desc->lock_ce));
+>> +
+>> +	mapped = dma_map_sg(chan->slave, &async_desc->lock_sg, 1, DMA_TO_DEVICE);
+>
+> I agree with Sashiko that mapping using the BAM device
+> (bchan->bdev->dev) would be more precise, since the BAM will be reading
+> the descriptor. (It doesn't matter in practice since both BAM and
+> consumer usually have the same IOMMUs defined.)
+>
+
+Ok
+
+>> +	if (!mapped) {
+>> +		kfree(async_desc);
+>> +		return ERR_PTR(-ENOMEM);
+>> +	}
+>> +
+>> +	desc->flags |= cpu_to_le16(DESC_FLAG_CMD | flag);
+>> +	desc->addr = sg_dma_address(&async_desc->lock_sg);
+>
+> cpu_to_le32()
+>
+
+Right.
+
+>> +	desc->size = cpu_to_le16(sizeof(struct bam_cmd_element));
+>> +
+>> +	vc = &bchan->vc;
+>> +	vd = &async_desc->vd;
+>> +
+>> +	dma_async_tx_descriptor_init(&vd->tx, &vc->chan);
+>> +	vd->tx.flags = DMA_PREP_CMD;
+>> +	vd->tx_result.result = DMA_TRANS_NOERROR;
+>> +	vd->tx_result.residue = 0;
+>> +
+>> +	return async_desc;
+>> +}
+>> +
+>> [...]
+>> @@ -1072,6 +1229,18 @@ static void bam_start_dma(struct bam_chan *bchan)
+>>  		return;
+>>
+>>  	while (vd && !IS_BUSY(bchan)) {
+>> +		/*
+>> +		 * Open a LOCK/UNLOCK bracket around each fresh sequence.
+>> +		 * Sentinels inserted by bam_setup_pipe_lock() are skipped: they
+>> +		 * already have bam_locked set and must not trigger a second pair.
+>> +		 */
+>> +		if (!bchan->bam_locked &&
+>> +		    !container_of(vd, struct bam_async_desc, vd)->is_lock_desc) {
+>
+> Do we need the ->is_lock_desc check here? Looks redundant to me.
+>
+
+I don't remember anymore but I think I did it on purpose for some reason. I'll
+double check.
+
+>> +			ret = bam_setup_pipe_lock(bchan);
+>> +			if (ret == 0 && bchan->bam_locked)
+>> +				vd = vchan_next_desc(&bchan->vc);
+>
+> Do we want some error handling here? If there is an error, this will
+> silently continue queuing everything without any locking.
+>
+
+Ok, makes sense.
+
+Bart
