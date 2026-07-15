@@ -1,181 +1,118 @@
-Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB3A43A7F2;
-	Wed, 15 Jul 2026 13:24:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8732A472791
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 13:29:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784121854; cv=none; b=Q0UuLTXqoB3DMyssZGZ+/TY4iigP0FiE2afx/wCrCQjBtMw8HwQd4kFKCPNa0xO43XciZBn1aDFIus+HgbmF+zkjLXGT8jyKbroSmBQ8/L0Wop3lBZO817ni2J8ktyOZ+U+wOIIhOepnhv3R0rUoMo3RtqGhtPddm53h0u1HM70=
+	t=1784122183; cv=none; b=rfYoU9Wn0woFYBXI8m11h60d7CKBOsuGJFzfoVQ8GT+PssoFGNc630bmwNAEeu195Joy705OuUVJEiLsbmFWiF9ZN24OompBycCjRp1qqAX1Frdf3lLYNrYtfnYh/nGfXFQXdy4WfJi6m5d4/BdrMxw654XKuVyvJFtV1ABkpLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784121854; c=relaxed/simple;
-	bh=9LuLo1r4EGXavj9GZxF94FvTb7ysZCS5Smh3r8I+AnQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FOX4bZKMQpYxIZKmnc5pd0HgiFlSChtr/OFcPKX4UL9Lh9uxctqQnIoiDwz8TjQ+xlf7o8zI1bQT6/yIDck2H+pg8+xftpDJn10gJPSlvrO42AGt+ZynUiK6+wWJyEXNAdhHA6RSEeVwydJvZCNpmtPO4Nao6EVK7o7CtkmgbPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=xmQnBRqZ; arc=none smtp.client-ip=195.39.247.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
+	s=arc-20240116; t=1784122183; c=relaxed/simple;
+	bh=zRo/gK16oMS7vWD/0v0ZdzYrGb0S0hZPcGmBlokvCc4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EDsgxeOtkS0GVVbHZpvDSL/V8kZxBWA00Iwi2u0DUV595e4CMSGjdm9esit9Qvj5h7ANQfAKHGmIDPhJG7kkX2p7ZzstUZKA/p3/PVGXCkPVIy3FBAQjC6RtKOvJ4pnlqv915EitPjIo2K+M8tu1eQufuqhamv373oiLmFOoPVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hPR1zZy4; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="xmQnBRqZ"
-Message-ID: <5f1af8d0-ed73-4dac-9bd3-30f8e82d4b26@cyberchaos.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1784121845;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pVIqYzBCwkSvrOo9fjsOyZRo3pGQHK7MTvgyv28ckXs=;
-	b=xmQnBRqZk/0smY8Van6lM/3KQO2IP67/8UEp8x39A7YN4mEtT/2xL+L9Wn19C974/2iXy2
-	ovgUTGAPqPyxCmFTeN2U9QpbasQczWGE4FU9wx4SZIIrqIZKetr0OwVPqFjgRhonnC0UKV
-	iRYwy0FfWTgT5+044ze3nZpIp6+2CIg=
-Date: Wed, 15 Jul 2026 15:24:03 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hPR1zZy4"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-493b27c7451so8442385e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 06:29:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784122176; x=1784726976; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fC/uQJ/wM6LfyAr0O1pyfwfICQNJXf2TkvnQK+M76HI=;
+        b=hPR1zZy4M3LuHP21XWihI6AeAL8VIXcmNwNUtnN4SUCZjQncROFRPqgAzQvhlEoYeQ
+         lP9tlVKpieD9v9jHgPk8VuthTpRQvi5qMu1PdT689AOe4zbBdog/hcs/uQRaAnhnuzeb
+         JUW5pxBz3pabKUBzx/fdiAFrY+RVOJsL2XfBugyy92sFye9UvotJXkUHFL4UQ0J1fzkd
+         nUjJQVY52tDwbCQiKo43QMWPch0IxZp75S9PgxnbHV+M/qY55UQ9OJMnVYZzANry0fIX
+         o3wLCNF5QULucWjeTj63b6tCYbqx9FC0PUMJhVAwqBJJuNrnK3Hfl1rFxdHtNLcughx2
+         oM1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784122176; x=1784726976;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=fC/uQJ/wM6LfyAr0O1pyfwfICQNJXf2TkvnQK+M76HI=;
+        b=Rtn5pwOpYot5fQn37svGgjwXeINNhzsb5N8KO4zBxNDH19YZHt3YPx0+reN0OwFUko
+         CsR13yZ8v9+h/PPMn4Y+IC8priQtlHe6lOqOJ35K/MpKKzQy/KwdqsGouJDRPaGW/n3D
+         jTtDwcadPQA246biyky8xUAsyuexSRJtiO1FujIwXvHLzNDliFl2rPcxYMEK8j0+t0yI
+         6sB1RP5QcI76AHJXUBXRrsJfwNvtW+3xDTCcORMah4Twm6GRQZLI5O/GAWDHzAV5yMJu
+         Oj1NZ8713fRfXPPYxsunFXeoq4lQDOX+siihHZo/LBdpH4Z3qESMh/eatlkNSbFShi42
+         wv/w==
+X-Forwarded-Encrypted: i=1; AHgh+Rp3NeL8PqksT8SkAGtmhFPUPLHyQkIOLgQV9okLHubJsXSBei1drXVLIc2mEEYTbCCONORUP4Dgtak=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywb2ikR8vBxheMIiBK7jQgBQ6kQ8rMMNHUB9RluOQhcCfg4hSUf
+	92CbBq5ag1+3gvzM7WI6tVkC2ZRtwy6W2+3r5hVHST+VtCsoMx7lT2mq
+X-Gm-Gg: AfdE7cmspv+3D+zfbno/YARWF40fhL/tA9RT0Gc4nRwOcVpRcCLSxctSNxjF2CGJUAC
+	tOG2j1BkKmbotzdRmFVBXGh3J2HdZihQyCRHlTA+9uPoS0TI6NaOuyUAif8buMaS8okso6H7ihi
+	FCHRLBX7tD8hXG7Q19mxL1NR4FXsExXk9iWRaFkjfPYpetQIhEQaRGBry5HF5CBX5rsLvdiGcQA
+	d7OIkXw1e0Ut31S+LKBSJ93vBc1JHu49hod2lD+sgT6yqo0jjUdvVMVKRolHhyXttu+Hz+30hKt
+	iVOOv2hEXliufYLTMBjmw9b3lzAa5DSiqrQ4sLdcfRscOrm6SZXrif3E7V8oDuXaDERaxM6c+oW
+	/eRPYzbBPOuJzB3bdbnFz1iuipbOrqlzuVugrd5q+3AyNpj3vbzFavOBCLTMTdTOTLQZ8RbPqKX
+	WZyupYXiCUZyg2eYTdhStEwAKV/3E=
+X-Received: by 2002:a05:600c:4e16:b0:492:714d:8c4 with SMTP id 5b1f17b1804b1-49400818cd7mr135805335e9.11.1784122176062;
+        Wed, 15 Jul 2026 06:29:36 -0700 (PDT)
+Received: from NSA-L02.ad.analog.com ([137.71.226.102])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495087366c0sm274958745e9.7.2026.07.15.06.29.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jul 2026 06:29:35 -0700 (PDT)
+Date: Wed, 15 Jul 2026 15:29:32 +0200
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Janani Sunil <janani.sunil@analog.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Marius Cristea <marius.cristea@microchip.com>, 
+	Marcus Folkesson <marcus.folkesson@gmail.com>, Kent Gustavsson <kent@minoris.se>, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Janani Sunil <jan.sun97@gmail.com>, linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>
+Subject: Re: [PATCH v6 1/5] spi: dt-bindings: Add spi-device-addr peripheral
+ property
+Message-ID: <lpbqk3wv6emhdtxhnczrgufzzxprcfpfgenfepnmzhzfj3b3ci@rdphuko7ikti>
+References: <20260715-ad5529r-driver-v6-0-cfdf8b9f5ee3@analog.com>
+ <20260715-ad5529r-driver-v6-1-cfdf8b9f5ee3@analog.com>
+ <1c4af9b1-9937-4cbb-b57f-52ac575b8b89@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] arch: arm64: add early_param idle=<wfi|yield|nop>
-To: Sudeep Holla <sudeep.holla@kernel.org>,
- Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20260711-arm64-idle-param-v2-1-0ab67652a435@cyberchaos.dev>
- <20260713-bulky-thistle-leopard-c66a18@sudeepholla>
-Content-Language: en-US
-From: Yureka Lilian <yureka@cyberchaos.dev>
-In-Reply-To: <20260713-bulky-thistle-leopard-c66a18@sudeepholla>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <1c4af9b1-9937-4cbb-b57f-52ac575b8b89@sirena.org.uk>
 
-On 7/13/26 11:57, Sudeep Holla wrote:
-> On Sat, Jul 11, 2026 at 09:35:25AM +0200, Yureka Lilian wrote:
->> Overriding the idle mechanism might be useful for debugging and performance
->> testing. Add a cmdline parameter for it, similar to the existing idle=
->> parameter already present for the x86 and ppc architectures.
->>
->> It is also useful on platforms where the WFI instruction misbehaves,
->> such as Apple Silicon SoCs. Generally, a misbehaving instruction should
->> be treated as an erratum and patched using the alternatives framework.
->> However, in the Apple Silicon case we need more flexibility because it is
->> difficult to detect whether the erratum applies. For example, Linux VMs
->> inside macOS have the same MIDR and may even seem like they're running
->> in EL2 in the case of NV, but should continue using WFI (it's trapped and
->> handled correctly by the hypervisor there). Thus, we prefer to
->> let the m1n1 bootloader add the idle=nop parameter[1].
->>
->> Link[1]: https://lore.kernel.org/all/99b69262-e54b-424e-baa2-96ef7013b87a@kernel.org/
->> Suggested-by: Will Deacon <will@kernel.org>
->> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
->> ---
->> Changes in v2:
->> - Applied suggestions by Anshuman Khandual (Thanks!)
->> - Link to v1: https://patch.msgid.link/20260705-arm64-idle-param-v1-1-7454249f473f@cyberchaos.dev
->> ---
->>   Documentation/admin-guide/kernel-parameters.txt | 23 +++++++++++++++++++
->>   arch/arm64/kernel/idle.c                        | 30 +++++++++++++++++++++++--
->>   arch/arm64/kernel/idle.h                        | 13 +++++++++++
->>   arch/arm64/lib/delay.c                          |  5 ++++-
->>   4 files changed, 68 insertions(+), 3 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index b2d7d3540ded..d7f5471edf8f 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -2239,6 +2239,29 @@ Kernel parameters
->>   
->>   			idle=nomwait: Disable mwait for CPU C-states
->>   
->> +			[ARM64,EARLY]
->> +			Format: idle=wfi, idle=yield, idle=nop
->> +
->> +			idle=wfi: Use the WFI (Wait For Interrupt) hint
->> +			instruction in the idle loop. This is the default and
->> +			allows the CPU to enter a low-power state until an
->> +			interrupt arrives.
-> Just curious as when and why one would need to use idle=wfi if that is the
-> default behaviour. I am missing the need to have it.
->
->> +
->> +			idle=yield: Use the YIELD hint instruction instead of
->> +			WFI. CPUs supporting simultaneous multi-threading (SMT),
->> +			can continue executing another thread when the current
->> +			thread reaches the idle loop. This will make the CPUs
->> +			eat more power, but may be useful to get slightly better
->> +			performance in some applications, since the CPUs will
->> +			not enter a low-power state.
->> +
->> +			idle=nop: Do not execute any idle instruction in the
->> +			idle loop. This is useful on platforms where WFI
->> +			misbehaves, leading to system instability or loss of CPU
->> +			state. This will make the CPUs eat more power, but may
->> +			give slightly better performance in some applications,
->> +			since the CPUs will not enter a low-power state.
->> +
->>   	idxd.sva=	[HW]
->>   			Format: <bool>
->>   			Allow force disabling of Shared Virtual Memory (SVA)
->> diff --git a/arch/arm64/kernel/idle.c b/arch/arm64/kernel/idle.c
->> index 05cfb347ec26..f161711a9954 100644
->> --- a/arch/arm64/kernel/idle.c
->> +++ b/arch/arm64/kernel/idle.c
->> @@ -11,6 +11,27 @@
->>   #include <asm/cpufeature.h>
->>   #include <asm/sysreg.h>
->>   
->> +#include "idle.h"
->> +
->> +enum arm64_idle_mode idle = ARM64_IDLE_WFI;
->> +
->> +static int __init setup_idle(char *arg)
->> +{
->> +	if (!arg)
->> +		return -1;
->> +	else if (!strcmp(arg, "wfi"))
->> +		idle = ARM64_IDLE_WFI;
->> +	else if (!strcmp(arg, "yield"))
->> +		idle = ARM64_IDLE_YIELD;
->> +	else if (!strcmp(arg, "nop"))
->> +		idle = ARM64_IDLE_NOP;
->> +	else
->> +		return -1;
->> +
->> +	return 0;
->> +}
->> +early_param("idle", setup_idle);
->> +
->>   /*
->>    *	cpu_do_idle()
->>    *
->> @@ -26,8 +47,13 @@ void __cpuidle cpu_do_idle(void)
->>   
->>   	arm_cpuidle_save_irq_context(&context);
->>   
->> -	dsb(sy);
->> -	wfi();
->> +	if (likely(idle == ARM64_IDLE_WFI)) {
->> +		dsb(sy);
->> +		wfi();
->> +	} else if (idle == ARM64_IDLE_YIELD) {
->> +		dsb(sy);
->> +		asm volatile("yield" ::: "memory");
->> +	}
->>   
->>   	arm_cpuidle_restore_irq_context(&context);
->
-> If WFI is replaced by NOP or YIELD, do we really need to save/restore
-> IRQ context used for pseudo-NMIs which may add some overhead ?
+On Wed, Jul 15, 2026 at 02:09:19PM +0100, Mark Brown wrote:
+> On Wed, Jul 15, 2026 at 01:41:04PM +0200, Janani Sunil wrote:
+> > Some SPI devices support sharing a single chip select across multiple
+> > physical chips by encoding a device address in the SPI frame itself.
+> > Add the generic spi-device-addr property for describing these hardware
+> > addresses. The property is placed on the SPI peripheral node and may
+> > contain multiple addresses.
+> 
+> This really isn't a generic SPI thing, if nothing else you need *far*
+> more information in there about how exactly this would be put onto the
+> bus.  If it belongs anywhere outside of the specific device's binding it
+> feels like it might be regmap.
 
-There are optimizations, even in the ARM64_IDLE_WFI case, which could be 
-done here, such as checking that an interrupt actually occurred before 
-continuing (and repeating the wfi/yield/nop until this is the case). I 
-would prefer not to do these optimizations in this patch series, and 
-leave it as future work, because I don't understand all the implications 
-at this point. Is this acceptable for you?
+Just for some context,
 
+For the analog chip, it can share the same CS line with another 3
+identical chips. It has two pins that depending on how they are set act
+as the device address (so only one replies to a given transfer -
+naturally the peripheral driver needs to setup the correct transfer
+and that depends on these pins setup and hence dt property). 
 
-Thanks,
+This property reflects that. Apparently some microchip chips are doing something
+very similar so Conor proposed a generic property given that we would have at
+least 3 users of it.
 
-— Yureka
+- Nuno Sá
 
