@@ -1,98 +1,217 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8746A420488;
-	Wed, 15 Jul 2026 13:09:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABEF3E7151
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 13:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784120967; cv=none; b=L5c3Fyk9USNDqxzqdUCI4wsohIugdHU+hDQfpzCFXiP2lvPa4L6aXEAvsLY9LQBagrKtZ4Sg0E3xSReyMkxAda7XbphUNxekT6OEeg0F9hmJxWqlN2e1i+YUi7rhBKLlxGqsdoMrgphDpvScYx9E9yNttu03aH7Rt40v8KZqxps=
+	t=1784121216; cv=none; b=SJAP+bU+OXjzSO9bR06kFD24eni6kWj1Xn3ikar83F2Dxs3L3G2XxlLsLbUQIPySKAFsG8oxg4lrEB/EsVhnFkWQ1R6pyV5jMRt5bkD6ztSVEmhHt0+tcubcfuly0yzuaJ9qcYBnsqtR6uR+TYvH4MrTRtvg4eHaR/zmXSiJr00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784120967; c=relaxed/simple;
-	bh=SUMb3zBausmevnB9x4UBudVXKBEKviMAQn5Mu6iQJHI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IVudPTGIz9dALiKIumvlQnXezQ+Jagaa9Jv85DKEwWRPoFVZWVuRcMrvzXEaFHrRVQYRL7LEMZYlAEUlc54bby+9oCKD9NU53jZIVw1mL3Rf4lgYDlWGc4jTf6YfTPMGQB4Z46DYsQn9fH06M+0m+ECJ+VxrvetwQpCk3lVroJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JtslR5ur; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784121216; c=relaxed/simple;
+	bh=lDcbmwoRu9S/j7rBsEdp1Bd+b6pc3dlLwDyEgPJwuPw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iJvYfhRARwtaIjiep6Z4v3ntXx83V0dyD8a3ZMs/2wkV5X1mtbBRcr4+EFYf3DqOVugJ8m+XlKiTAvt/oZU0s4BfWxAue3MqzEZxs31Joz8Xl9ygI1xdXJKDIdAUU0FhHcYP8S+pXq352BhOsFkwuXYbhk//3fXuGg7gJusxWcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QA80ny0f; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JtslR5ur"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA4571F000E9;
-	Wed, 15 Jul 2026 13:09:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784120966;
-	bh=wsxT5Nei/pXNtplqSgGgPoBP3RgXHfqBbo9yCD3QM0Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JtslR5urgE8vRtnO1BH1g02FkzXrLeKcugJNT7sTtuf8PzfknP/FcA4mHau0guwP+
-	 3nsEo8dd/9WCqSrq+f+jU5AyYtqh5jqm9ox0u2tnswWTN8xg9yO+x6Iv/VPTbG3fyX
-	 +qk53BgvB1EKmygznECPhz+JOK21NoWJH4blxU/y89Qwe5CSiWE11uBmM0ro/kSjSS
-	 X5ldXZrHuMfAXVpIXCF99+Tl3hoPqvSOeBQxowYbQqkmgPl7o1LkgxXcFuu7CUiArA
-	 7JD6W3GP2fxspXU1M7F9w6kbhd8m9/LoebxtxZzLnP3X9P1GY+tENpqLmcX9e09gYv
-	 W4g1x9Dvwqa4Q==
-Date: Wed, 15 Jul 2026 14:09:19 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QA80ny0f"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784121210;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=4WBE3M/nI/ozpD58c8KdJqhsFEjd9mM2a+4L8TirpAc=;
+	b=QA80ny0foxBzYr02oXTnT7KL8JDbwj1CGFV5k5kcasnKKjxzsZmuFpySC1fJ29WlP6bhuQ
+	h1VMgFU13pTUefpXTiEQ5Z8UBuzAcMQlPqu6gPxNu62D7dYKgMCoIZnYoZh1tkzvG5jcbm
+	PlibFk3jAHIqspoJF0qfZj//bk/9PDY=
+From: Leon Hwang <leon.hwang@linux.dev>
+To: linux-mm@kvack.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Marius Cristea <marius.cristea@microchip.com>,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	Kent Gustavsson <kent@minoris.se>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>,
-	linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>
-Subject: Re: [PATCH v6 1/5] spi: dt-bindings: Add spi-device-addr peripheral
- property
-Message-ID: <1c4af9b1-9937-4cbb-b57f-52ac575b8b89@sirena.org.uk>
-References: <20260715-ad5529r-driver-v6-0-cfdf8b9f5ee3@analog.com>
- <20260715-ad5529r-driver-v6-1-cfdf8b9f5ee3@analog.com>
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Lance Yang <lance.yang@linux.dev>,
+	Leon Hwang <leon.hwang@linux.dev>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Gary Guo <gary@garyguo.net>,
+	Anand Moon <linux.amoon@gmail.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] mm/mseal: fix mseal documentation for 32-bit kernels
+Date: Wed, 15 Jul 2026 21:12:58 +0800
+Message-ID: <20260715131258.55499-1-leon.hwang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="IzXuoKuv/ubtdJzE"
-Content-Disposition: inline
-In-Reply-To: <20260715-ad5529r-driver-v6-1-cfdf8b9f5ee3@analog.com>
-X-Cookie: "Speed is subsittute fo accurancy."
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
+mseal.o is built only for 64-bit kernels, so 32-bit kernels fall back
+to sys_ni_syscall() and return -ENOSYS rather than -EPERM.
 
---IzXuoKuv/ubtdJzE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Drop architecture description in mseal.rst, since the arch feature
+doc has the latest state of mseal for each architecture.
 
-On Wed, Jul 15, 2026 at 01:41:04PM +0200, Janani Sunil wrote:
-> Some SPI devices support sharing a single chip select across multiple
-> physical chips by encoding a device address in the SPI frame itself.
-> Add the generic spi-device-addr property for describing these hardware
-> addresses. The property is placed on the SPI peripheral node and may
-> contain multiple addresses.
+Fix the CONFIG_MSEAL_SYSTEM_MAPPINGS typo in init/Kconfig.
 
-This really isn't a generic SPI thing, if nothing else you need *far*
-more information in there about how exactly this would be put onto the
-bus.  If it belongs anywhere outside of the specific device's binding it
-feels like it might be regmap.
+Drop the whole comment of do_mseal() to avoid stale info in the
+comment, as we have the doc in mseal.rst.
 
---IzXuoKuv/ubtdJzE
-Content-Type: application/pgp-signature; name="signature.asc"
+Acked-by: Lance Yang <lance.yang@linux.dev>
+Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
+---
+v1 -> v2:
+* Drop -EINTR description in mseal.rst. (per Mathew)
+* Drop VM_SEALED_SYSMAP change in mseal.rst. (per Pedro)
+* Drop architecture description in mseal.rst. (per Pedro)
+* Drop the whole comment of do_mseal(). (per Pedro)
+* v1: https://lore.kernel.org/linux-mm/20260703022507.187457-1-leon.hwang@linux.dev/
+---
+ Documentation/userspace-api/mseal.rst | 14 ++++----
+ init/Kconfig                          |  2 +-
+ mm/mseal.c                            | 52 ---------------------------
+ 3 files changed, 7 insertions(+), 61 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/Documentation/userspace-api/mseal.rst b/Documentation/userspace-api/mseal.rst
+index ea9b11a0bd89..c039d782f9f5 100644
+--- a/Documentation/userspace-api/mseal.rst
++++ b/Documentation/userspace-api/mseal.rst
+@@ -50,8 +50,8 @@ mseal syscall signature
+          * The start address (``addr``) is not allocated.
+          * The end address (``addr`` + ``len``) is not allocated.
+          * A gap (unallocated memory) between start and end address.
+-      - **-EPERM**:
+-         * sealing is supported only on 64-bit CPUs, 32-bit is not supported.
++      - **-ENOSYS**:
++         * The kernel does not implement ``mseal()``.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpXhn4ACgkQJNaLcl1U
-h9BFywf9GLhvPMx/zAqARTHV92Ikz3iIvmqmLKbDbwynI8niYLhI1ulnhUTHaxfw
-Jvy+H+ofBMkjIBeveoiRHtBiDTEnAh9cHA9NNVnBi43qj+cbPRXc03veBrBftD9X
-vH/cSYWZ98Mj5dhlroXb6gXBYBrTifANkv9ivpOwE2j/EvL+bC51rGzhqc+T+8tt
-gesKevaEmBXvRr7OSivPlAbgQfbm3kcBZJo5CYu9cD/aUkoSlISgTXt5nQN2/RZB
-RftQ3HVKiji4b6iC7RSH1PhJh94fTMK7j+zlyNEBHhdjUlI+dRqZR2t1Zt5MbpLA
-qiYYA6j6lEuJK09nt1WazNul6jP95Q==
-=zhQI
------END PGP SIGNATURE-----
+    **Note about error return**:
+       - For above error cases, users can expect the given memory range is
+@@ -62,7 +62,8 @@ mseal syscall signature
+         memory range could happen. However, those cases should be rare.
 
---IzXuoKuv/ubtdJzE--
+    **Architecture support**:
+-      mseal only works on 64-bit CPUs, not 32-bit CPUs.
++      mseal is built only for 64-bit kernels. 32-bit kernels return
++      ``-ENOSYS``.
+
+    **Idempotent**:
+       users can call mseal multiple times. mseal on an already sealed memory
+@@ -131,11 +132,11 @@ Use cases
+ - Chrome browser: protect some security sensitive data structures.
+
+ - System mappings:
+-  The system mappings are created by the kernel and includes vdso, vvar,
++  The system mappings are created by the kernel and include vdso, vvar,
+   vvar_vclock, vectors (arm compat-mode), sigpage (arm compat-mode), uprobes.
+
+   Those system mappings are readonly only or execute only, memory sealing can
+-  protect them from ever changing to writable or unmmap/remapped as different
++  protect them from ever changing to writable or unmapped/remapped as different
+   attributes. This is useful to mitigate memory corruption issues where a
+   corrupted pointer is passed to a memory management system.
+
+@@ -143,9 +144,6 @@ Use cases
+   the CONFIG_MSEAL_SYSTEM_MAPPINGS seals all system mappings of this
+   architecture.
+
+-  The following architectures currently support this feature: x86-64, arm64,
+-  loongarch and s390.
+-
+   WARNING: This feature breaks programs which rely on relocating
+   or unmapping system mappings. Known broken software at the time
+   of writing includes CHECKPOINT_RESTORE, UML, gVisor, rr. Therefore
+diff --git a/init/Kconfig b/init/Kconfig
+index 9d91074c5d0a..a1402bd82026 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -2120,7 +2120,7 @@ config ARCH_SUPPORTS_MSEAL_SYSTEM_MAPPINGS
+ 	  from a kernel perspective.
+
+ 	  After the architecture enables this, a distribution can set
+-	  CONFIG_MSEAL_SYSTEM_MAPPING to manage access to the feature.
++	  CONFIG_MSEAL_SYSTEM_MAPPINGS to manage access to the feature.
+
+ 	  For complete descriptions of memory sealing, please see
+ 	  Documentation/userspace-api/mseal.rst
+diff --git a/mm/mseal.c b/mm/mseal.c
+index 9781647483d1..69a53207ab57 100644
+--- a/mm/mseal.c
++++ b/mm/mseal.c
+@@ -88,58 +88,6 @@ static int mseal_apply(struct mm_struct *mm,
+ 	return 0;
+ }
+
+-/*
+- * mseal(2) seals the VM's meta data from
+- * selected syscalls.
+- *
+- * addr/len: VM address range.
+- *
+- *  The address range by addr/len must meet:
+- *   start (addr) must be in a valid VMA.
+- *   end (addr + len) must be in a valid VMA.
+- *   no gap (unallocated memory) between start and end.
+- *   start (addr) must be page aligned.
+- *
+- *  len: len will be page aligned implicitly.
+- *
+- *   Below VMA operations are blocked after sealing.
+- *   1> Unmapping, moving to another location, and shrinking
+- *	the size, via munmap() and mremap(), can leave an empty
+- *	space, therefore can be replaced with a VMA with a new
+- *	set of attributes.
+- *   2> Moving or expanding a different vma into the current location,
+- *	via mremap().
+- *   3> Modifying a VMA via mmap(MAP_FIXED).
+- *   4> Size expansion, via mremap(), does not appear to pose any
+- *	specific risks to sealed VMAs. It is included anyway because
+- *	the use case is unclear. In any case, users can rely on
+- *	merging to expand a sealed VMA.
+- *   5> mprotect and pkey_mprotect.
+- *   6> Some destructive madvice() behavior (e.g. MADV_DONTNEED)
+- *      for anonymous memory, when users don't have write permission to the
+- *	memory. Those behaviors can alter region contents by discarding pages,
+- *	effectively a memset(0) for anonymous memory.
+- *
+- *  flags: reserved.
+- *
+- * return values:
+- *  zero: success.
+- *  -EINVAL:
+- *   invalid input flags.
+- *   start address is not page aligned.
+- *   Address range (start + len) overflow.
+- *  -ENOMEM:
+- *   addr is not a valid address (not allocated).
+- *   end (start + len) is not a valid address.
+- *   a gap (unallocated memory) between start and end.
+- *  -EPERM:
+- *  - In 32 bit architecture, sealing is not supported.
+- * Note:
+- *  user can call mseal(2) multiple times, adding a seal on an
+- *  already sealed memory is a no-action (no error).
+- *
+- *  unseal() is not supported.
+- */
+ int do_mseal(unsigned long start, size_t len_in, unsigned long flags)
+ {
+ 	size_t len;
+--
+2.55.0
