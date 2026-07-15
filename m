@@ -1,134 +1,292 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [4.193.249.245])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDA5B18872A
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 01:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.193.249.245
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A47196C7C;
+	Wed, 15 Jul 2026 01:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784079914; cv=none; b=iHuJsElUmHXR2Jqbx29lR9xYnOx16Z3OVyzogLXZGd+n/fwQNYirMWTTOFt5a4uSDx9zPQa+bG3hqN+R3B32iNKtXDT8nIFOD+4dSBrCvot7B+SJ9WzsG1euQfvklOwuuL/yJrsADafub/mYEpxbY6bw4YgmHF66t3uYOLeQOoE=
+	t=1784079917; cv=none; b=MG0N4CMgmfshISVGWZdSToNRETA3TLB1h/gW834evJho5TTG6h1B4u3WWPBF9bkW7RK2isbKP6l3v0DHwrRrd6IxBWUXwl/bF6hAstVelIVKpUNxP2OF0JgBnDZl8JAFHEYdCyhAoizuabu9nMWxd8h+lgMv0ClOyy26KJt/MyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784079914; c=relaxed/simple;
-	bh=sI+tcKRdsQ7VT1k0mUR7wnLMSNPH9oU1FXsEc64e1bk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HCSvTYlieIVfIRJCm7zdGsDSpEw2U+kj1Cz7ygAeHPKiOnlLrXrGMh7GepFudEp7Km8G+X5Tk4/OKK4cblKxlX/m1T1bk+vRHnr2WflJhCIL7lTNeQZKmXwm+/k0wgfHqCArI/La9hx4HL548MVnxi6NppPi5UoPciGCG4E0u8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=4.193.249.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app1 (Coremail) with SMTP id HgEQrADH7KHl5VZqZd0FAg--.8358S2;
-	Wed, 15 Jul 2026 09:44:05 +0800 (CST)
-Received: from [192.168.1.31] (unknown [183.94.132.115])
-	by gateway (Coremail) with SMTP id _____wAXEMTb5VZqTXWLAA--.10837S2;
-	Wed, 15 Jul 2026 09:43:57 +0800 (CST)
-Message-ID: <52d302fc-ed86-4d5e-8b68-b8a99226bf98@hust.edu.cn>
-Date: Wed, 15 Jul 2026 09:43:55 +0800
+	s=arc-20240116; t=1784079917; c=relaxed/simple;
+	bh=JEU4WBIYuuT37OeBiwFms6X98mwAE00m7G+jZVkf2xE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Q6lMuT0vPnE9FDADFEUDJFchiOU3do1TcOYrsOLvdQTtXZt3+CQrj8pDZRfNAe5JwnpxwzV2GNKLeergUS2nWTR6fiQgxA/LXzyqqwd/+A92TlaXswL+Ip2n4Xxw/2ynWIlbV8R9I5Q1yFZCEzY6yPpO0zyLvoRSkGf/d9JeLJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X9TJAE9x; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X9TJAE9x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E60D41F000E9;
+	Wed, 15 Jul 2026 01:45:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784079914;
+	bh=lgDecu5q22CGPHO5P7dGfi6qI3hJSJOzKQO06G6GUlE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=X9TJAE9xTnoV1HMPMmrasFckGFMN+rXjaNKWcifAhfoBxPw4sIvtzqgt+bjI+ZSov
+	 Yyho/Y3rw0XCsHqK/36JDF3g4mHUpBNjbtXZ+U9mOjAoExzel46PFBHuHG1GbbzqXW
+	 sR4mxCjwh9TUaLwxLvM8utLtgjyPqE9LbPxSpnS9KU2B+5IopAjpdJxxnFrV7dJ3af
+	 8X8Nzir+ieyGC0HALuPqSGt2OG0FiaQLuvkQjeGlXXoumXOc3sOEGmoK8ZJQXTRGcA
+	 vpLD9DH0nQ2cU21DwIOiSgP6OD4lLDay1SR2RBOr/uTANPtRApebGZtQsrkhGXyIdt
+	 qgJX0oe+cNo8Q==
+From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	x86@kernel.org
+Cc: Jinchao Wang <wangjinchao600@gmail.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Ian Rogers <irogers@google.com>,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-perf-users@vger.kernel.org
+Subject: [PATCH v7 06/10] x86/hw_breakpoint: Unify breakpoint install/uninstall
+Date: Wed, 15 Jul 2026 10:45:08 +0900
+Message-ID: <178407990855.95826.6451473316040346375.stgit@devnote2>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <178407983818.95826.12714571928538799781.stgit@devnote2>
+References: <178407983818.95826.12714571928538799781.stgit@devnote2>
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: What's cooking in zh_CN (Jul 2026, #02)
-To: Doehyun Baek <doehyunbaek@gmail.com>, Weijie Yuan <wy@wyuan.org>
-Cc: linux-doc@vger.kernel.org, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Ben Guo <ben.guo@openatom.club>,
- Gary Guo <gary@garyguo.net>, Yan Zhu <zhuyan2015@qq.com>,
- Jiandong Qiu <qiujiandong1998@gmail.com>,
- chengyaqiang <chengyaqiang@tsinghua.edu.cn>,
- Haoyang Liu <tttturtleruss@gmail.com>
-References: <alZK0i0HvxOvSKwj@wyuan.org> <alZP_6nAXNy_HfZi@wyuan.org>
- <CAN-j9UoUHQ2i4H+9G-XK_mOfKKyE9K9-mwUgPc+4yOVfiizgmA@mail.gmail.com>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <CAN-j9UoUHQ2i4H+9G-XK_mOfKKyE9K9-mwUgPc+4yOVfiizgmA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrADH7KHl5VZqZd0FAg--.8358S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7WFy8GF1DCFWfXw1UAF4rGrg_yoW8trW8pF
-	WrGrn3tF4rXr48Jws7Ka109a1UWa4Fya4agwn8Jw15JF9IqF1SqF109r4a9r1qv34rCrZ3
-	tF45Zw1vg34DZrJanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUHab7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04
-	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
-	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYY7kG6IIYr7AKxVW8JVW5JwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
-	Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU3fOzUU
-	UUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
+From: Jinchao Wang <wangjinchao600@gmail.com>
 
-On 7/15/26 1:05 AM, Doehyun Baek wrote:
-> Hi Weijie,
->
-> Thanks for putting together the “What’s cooking” reports!
-> I "cooked" up a small website this evening that attempts to automate them:
->
-> https://doehyunbaek.github.io/cook-linux-zhcn/
-> <https://doehyunbaek.github.io/cook-linux-zhcn/>
+Consolidate breakpoint management to reduce code duplication.
+The diffstat was misleading, so the stripped code size is compared instead.
+After refactoring, it is reduced from 11976 bytes to 11448 bytes on my
+x86_64 system built with clang.
 
+This also makes it easier to introduce arch_reinstall_hw_breakpoint().
 
-This is what I want. From this webpage, I can quickly locate patches 
-which needs review and start working.
+In addition, including linux/types.h to fix a missing build dependency.
 
+Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
+Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+---
+ arch/x86/include/asm/hw_breakpoint.h |    6 +
+ arch/x86/kernel/hw_breakpoint.c      |  141 +++++++++++++++++++---------------
+ 2 files changed, 84 insertions(+), 63 deletions(-)
 
->
-> Every hour, a GitHub Actions workflow scans recent `docs/zh_CN` 
-> patches on the linux-doc mailing list, groups rerolls, and compares 
-> their subjects with Alex’s `docs-next` tree to determine whether they 
-> have been applied. Pending series with no update for more than 30 days 
-> are classified as “Cold.”
->
-> This is still an experimental prototype, and its heuristics may have 
-> bugs, particularly when threads or patch subjects change. The source 
-> is available here:
->
-> https://github.com/doehyunbaek/cook-linux-zhcn
-> <https://github.com/doehyunbaek/cook-linux-zhcn>
-
-
-Let me take a look and think what I can help contribute.
-
-
->
-> Issues, suggestions, and pull requests are welcome!
->
-> Thanks,
-> Doehyun
->
-> On Tue, Jul 14, 2026 at 5:04 PM Weijie Yuan <wy@wyuan.org> wrote:
->
->     On Tue, Jul 14, 2026 at 10:42:34PM +0800, Weijie Yuan wrote:
->     > Here are the topics that have been cooking in Alex's tree.
->
->     This statement is incorrect. I will correct it next time.
->
->     Sorry for the noise.
->
->     > Copies of the source code to Chinese documentation development
->     tree live
->     > in here:
->     >
->     >   
->      git://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
->     <https://mail.hust.edu.cn:8443/linkserver?dest=http%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Falexs%2Flinux.git&tid=_____wAnVXVDblZqsIeJAA--.51119S3&rcpt=dzm91@hust.edu.cn&ifnotice=1&rindex=0>
->     > https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
->     >
->     https://kernel.googlesource.com/pub/scm/linux/kernel/git/alexs/linux.git
->     >
->     > Mirrors:
->     >
->     > https://mirrors.hust.edu.cn/git/kernel-doc-zh.git
->     > https://mirror.nju.edu.cn/git/kernel-doc-zh.git (experimental)
->
->
->
-> -- 
-> Doehyun Baek
+diff --git a/arch/x86/include/asm/hw_breakpoint.h b/arch/x86/include/asm/hw_breakpoint.h
+index 0bc931cd0698..aa6adac6c3a2 100644
+--- a/arch/x86/include/asm/hw_breakpoint.h
++++ b/arch/x86/include/asm/hw_breakpoint.h
+@@ -5,6 +5,7 @@
+ #include <uapi/asm/hw_breakpoint.h>
+ 
+ #define	__ARCH_HW_BREAKPOINT_H
++#include <linux/types.h>
+ 
+ /*
+  * The name should probably be something dealt in
+@@ -18,6 +19,11 @@ struct arch_hw_breakpoint {
+ 	u8		type;
+ };
+ 
++enum bp_slot_action {
++	BP_SLOT_ACTION_INSTALL,
++	BP_SLOT_ACTION_UNINSTALL,
++};
++
+ #include <linux/kdebug.h>
+ #include <linux/percpu.h>
+ #include <linux/list.h>
+diff --git a/arch/x86/kernel/hw_breakpoint.c b/arch/x86/kernel/hw_breakpoint.c
+index f846c15f21ca..877509539300 100644
+--- a/arch/x86/kernel/hw_breakpoint.c
++++ b/arch/x86/kernel/hw_breakpoint.c
+@@ -49,7 +49,6 @@ static DEFINE_PER_CPU(unsigned long, cpu_debugreg[HBP_NUM]);
+  */
+ static DEFINE_PER_CPU(struct perf_event *, bp_per_reg[HBP_NUM]);
+ 
+-
+ static inline unsigned long
+ __encode_dr7(int drnum, unsigned int len, unsigned int type)
+ {
+@@ -86,96 +85,112 @@ int decode_dr7(unsigned long dr7, int bpnum, unsigned *len, unsigned *type)
+ }
+ 
+ /*
+- * Install a perf counter breakpoint.
+- *
+- * We seek a free debug address register and use it for this
+- * breakpoint. Eventually we enable it in the debug control register.
+- *
+- * Atomic: we hold the counter->ctx->lock and we only handle variables
+- * and registers local to this cpu.
++ * We seek a slot and change it or keep it based on the action.
++ * Returns slot number on success, negative error on failure.
++ * Must be called with IRQs disabled.
+  */
+-int arch_install_hw_breakpoint(struct perf_event *bp)
++static int manage_bp_slot(struct perf_event *bp, enum bp_slot_action action)
+ {
+-	struct arch_hw_breakpoint *info = counter_arch_bp(bp);
+-	unsigned long *dr7;
+-	int i;
+-
+-	lockdep_assert_irqs_disabled();
++	struct perf_event *old_bp;
++	struct perf_event *new_bp;
++	int slot;
++
++	switch (action) {
++	case BP_SLOT_ACTION_INSTALL:
++		old_bp = NULL;
++		new_bp = bp;
++		break;
++	case BP_SLOT_ACTION_UNINSTALL:
++		old_bp = bp;
++		new_bp = NULL;
++		break;
++	default:
++		return -EINVAL;
++	}
+ 
+-	for (i = 0; i < HBP_NUM; i++) {
+-		struct perf_event **slot = this_cpu_ptr(&bp_per_reg[i]);
++	for (slot = 0; slot < HBP_NUM; slot++) {
++		struct perf_event **curr = this_cpu_ptr(&bp_per_reg[slot]);
+ 
+-		if (!*slot) {
+-			*slot = bp;
+-			break;
++		if (*curr == old_bp) {
++			*curr = new_bp;
++			return slot;
+ 		}
+ 	}
+ 
+-	if (WARN_ONCE(i == HBP_NUM, "Can't find any breakpoint slot"))
+-		return -EBUSY;
++	if (old_bp) {
++		WARN_ONCE(1, "Can't find matching breakpoint slot");
++		return -EINVAL;
++	}
++
++	WARN_ONCE(1, "No free breakpoint slots");
++	return -EBUSY;
++}
++
++static void setup_hwbp(struct arch_hw_breakpoint *info, int slot, bool enable)
++{
++	unsigned long dr7;
+ 
+-	set_debugreg(info->address, i);
+-	__this_cpu_write(cpu_debugreg[i], info->address);
++	set_debugreg(info->address, slot);
++	__this_cpu_write(cpu_debugreg[slot], info->address);
+ 
+-	dr7 = this_cpu_ptr(&cpu_dr7);
+-	*dr7 |= encode_dr7(i, info->len, info->type);
++	dr7 = this_cpu_read(cpu_dr7);
++	if (enable)
++		dr7 |= encode_dr7(slot, info->len, info->type);
++	else
++		dr7 &= ~__encode_dr7(slot, info->len, info->type);
+ 
+ 	/*
+-	 * Ensure we first write cpu_dr7 before we set the DR7 register.
+-	 * This ensures an NMI never see cpu_dr7 0 when DR7 is not.
++	 * Enabling:
++	 *   Ensure we first write cpu_dr7 before we set the DR7 register.
++	 *   This ensures an NMI never see cpu_dr7 0 when DR7 is not.
+ 	 */
++	if (enable)
++		this_cpu_write(cpu_dr7, dr7);
++
+ 	barrier();
+ 
+-	set_debugreg(*dr7, 7);
++	set_debugreg(dr7, 7);
++
+ 	if (info->mask)
+-		amd_set_dr_addr_mask(info->mask, i);
++		amd_set_dr_addr_mask(enable ? info->mask : 0, slot);
+ 
+-	return 0;
++	/*
++	 * Disabling:
++	 *   Ensure the write to cpu_dr7 is after we've set the DR7 register.
++	 *   This ensures an NMI never see cpu_dr7 0 when DR7 is not.
++	 */
++	if (!enable)
++		this_cpu_write(cpu_dr7, dr7);
+ }
+ 
+ /*
+- * Uninstall the breakpoint contained in the given counter.
+- *
+- * First we search the debug address register it uses and then we disable
+- * it.
+- *
+- * Atomic: we hold the counter->ctx->lock and we only handle variables
+- * and registers local to this cpu.
++ * find suitable breakpoint slot and set it up based on the action
+  */
+-void arch_uninstall_hw_breakpoint(struct perf_event *bp)
++static int arch_manage_bp(struct perf_event *bp, enum bp_slot_action action)
+ {
+-	struct arch_hw_breakpoint *info = counter_arch_bp(bp);
+-	unsigned long dr7;
+-	int i;
++	struct arch_hw_breakpoint *info;
++	int slot;
+ 
+ 	lockdep_assert_irqs_disabled();
+ 
+-	for (i = 0; i < HBP_NUM; i++) {
+-		struct perf_event **slot = this_cpu_ptr(&bp_per_reg[i]);
+-
+-		if (*slot == bp) {
+-			*slot = NULL;
+-			break;
+-		}
+-	}
+-
+-	if (WARN_ONCE(i == HBP_NUM, "Can't find any breakpoint slot"))
+-		return;
++	slot = manage_bp_slot(bp, action);
++	if (slot < 0)
++		return slot;
+ 
+-	dr7 = this_cpu_read(cpu_dr7);
+-	dr7 &= ~__encode_dr7(i, info->len, info->type);
++	info = counter_arch_bp(bp);
++	setup_hwbp(info, slot, action != BP_SLOT_ACTION_UNINSTALL);
+ 
+-	set_debugreg(dr7, 7);
+-	if (info->mask)
+-		amd_set_dr_addr_mask(0, i);
++	return 0;
++}
+ 
+-	/*
+-	 * Ensure the write to cpu_dr7 is after we've set the DR7 register.
+-	 * This ensures an NMI never see cpu_dr7 0 when DR7 is not.
+-	 */
+-	barrier();
++int arch_install_hw_breakpoint(struct perf_event *bp)
++{
++	return arch_manage_bp(bp, BP_SLOT_ACTION_INSTALL);
++}
+ 
+-	this_cpu_write(cpu_dr7, dr7);
++void arch_uninstall_hw_breakpoint(struct perf_event *bp)
++{
++	arch_manage_bp(bp, BP_SLOT_ACTION_UNINSTALL);
+ }
+ 
+ static int arch_bp_generic_len(int x86_len)
 
