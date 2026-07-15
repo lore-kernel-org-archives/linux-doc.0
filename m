@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0CBA3ED12B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C2D3EDAC6;
 	Wed, 15 Jul 2026 09:09:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784106561; cv=none; b=oAShU8jZrBiYO6D7CQ5eeYHibrWNNkGYYXm29AzZPIUH8ZzDqbQq022ojtXtaWAZYNKgeoZZh3HmunH/dul2zjpjubGy1YxhtMI19T4CwPQ57YztksVjMESfwVkkMOC26yFgpPfO/FlV9jqoYrd8yqvKue0uipUh9cbpdGVwLSA=
+	t=1784106561; cv=none; b=ZZoQzU7fuVNd/8BgbVlN+MCV8a7DKgNp5GDeZReMMiJrmxKCK0sizotHitMkgub/jgV4u1CE3AN/KrlJpLNwACmSgHYjxGyu+W81BWeRzBOeP2VSxp0KvTiz/w/IFHEMrVoVkN46FM2mMsnCejGaCWgXIohB1loyBw5/1aBfmEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784106561; c=relaxed/simple;
-	bh=vC3o2yDg4cPfi+aCF/o5s/JFel3QNjfYZLOecDVvGmY=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=eTmiX8AMiM5HbITMYIZ+Muv+WbbNWKZBaHpZcO1fZvDjXRoztLwHMYME8KBs8w0MPFIN7szKtUZgBL0oe49XbOIg40fXtLiXRKJdORpgY069SH9dqacT9NIeaE1gQC9/1xJRtW0r7Cqpd5WTKnaGHzwBQMDpUykLHPw3g8poXeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=izir0+MK; arc=none smtp.client-ip=10.30.226.201
+	bh=awbzImwgwevD5B+WPMxw/mtoevlgiKoZ2ZmXSNjFfjM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=VdrRfJHcyr8tTjHzARaKgnUSwukyB3XU7kJpvBx7cNaxwMtrldN06xz6Hfhbo1TihDuSD54cwE6E3lNNTMVNaxSVv2HnmSVXHd4akzws4HV9HzeIzsTC/KJAxJ2cQIV+5niHZlhhnShxGUWPizyOnG4qPQ6uUL+ikjYACX2mrxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YZLNForR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="izir0+MK"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3944BC2BCB9;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YZLNForR"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 67E27C2BCF4;
 	Wed, 15 Jul 2026 09:09:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1784106561;
-	bh=vC3o2yDg4cPfi+aCF/o5s/JFel3QNjfYZLOecDVvGmY=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=izir0+MKBhk7cdc+yvowepsEnazWTlM13Dbh2L9tDG5/rNyybBnxFV7bn1scSL/UO
-	 k44chRYWCCkGkuNPwJnt7l+Q+qQBpoGqqbZOVLThLKQAS7xX28dDSkgOtRK/SSeYjf
-	 kIxuaRipmU+By1IsRP6TU0fHa9YuyF/phCAxZ0dSn5f6f7Idu5gliO7gnnulUKkMSy
-	 xpaOpwApdkqmkOMgvQ9HdNquLUiylL7N01kHpFVf/Jix5fszjS+UdYgm7TFwZ16Man
-	 lUI/Y0zSYVkAVOFoU0z0G1eOLigS+f0MGUj+LRY93dGZpmpQjDWWCMkeXykLW69zev
-	 IruXOQNU/ur7w==
+	bh=awbzImwgwevD5B+WPMxw/mtoevlgiKoZ2ZmXSNjFfjM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=YZLNForRYghznbLzoSPit0GhzIHNB7t0RP2+a7QdR2EdFHHKDRa0mQI7UdwSJYrnw
+	 XksxyXWo8mqHTVRrxehXVHLGpRJT9BkieTT8F9MXCqCWLCBvFNN1oZCGVjopeValyr
+	 MXOSf7yrY4GiNerw1/TeuXll416lZsrio0JXU2LidkJk2k6v4bt+8SKjnHZI90T9/P
+	 CNymgcioON4SaBCf8uvmtYMGxml0NPVgMqRK7wtzmN8UcmFpLaQyZ5eZ7z95Q03EFy
+	 n1vhUzpkDt21eTCjx1sJu2t/MAELYPlId6gR5Sz1nQ9Bk/gYWe7B5XHHiKfBEOfTbZ
+	 ug7stbWaK3jyA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25EECC44508;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C1C7C4450E;
 	Wed, 15 Jul 2026 09:09:21 +0000 (UTC)
 From: Andy Chung via B4 Relay <devnull+Andy.Chung.amd.com@kernel.org>
-Subject: [PATCH v2 0/4] hwmon: Add Kandou KB9002 PCIe retimer driver
-Date: Wed, 15 Jul 2026 17:08:34 +0800
-Message-Id: <20260715-kb9002-upstream-v2-0-2fd390383da5@amd.com>
+Date: Wed, 15 Jul 2026 17:08:36 +0800
+Subject: [PATCH v2 2/4] dt-bindings: hwmon: Add Kandou KB9002
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,11 +40,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIABJOV2oC/2WNyw6CMBBFf4XM2pppq6Wy8j8MC2gHqYZHWmg0h
- H+XYly5PMm55y4QyDsKUGQLeIouuKHfQBwyMG3V34k5uzEIFApzLtmzviAKNo9h8lR1DJVRWpH
- MtZSwrUZPjXvtxVv55TDXDzJTyiSjdWEa/Hu/jDx5v/rprx45Q6YbKxqsuTxbfa06ezRDB+W6r
- h9s2LZcvgAAAA==
-X-Change-ID: 20260713-kb9002-upstream-06c686e37833
+Message-Id: <20260715-kb9002-upstream-v2-2-2fd390383da5@amd.com>
+References: <20260715-kb9002-upstream-v2-0-2fd390383da5@amd.com>
+In-Reply-To: <20260715-kb9002-upstream-v2-0-2fd390383da5@amd.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Andy Chung <andy.chung@amd.com>, 
  Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
@@ -53,11 +51,11 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
  Andy Chung <Andy.Chung@amd.com>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784106525; l=2142;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784106525; l=1681;
  i=Andy.Chung@amd.com; s=20260327; h=from:subject:message-id;
- bh=vC3o2yDg4cPfi+aCF/o5s/JFel3QNjfYZLOecDVvGmY=;
- b=bNmQvG+9i9OnCw94zCgThjTPu/vZW6Nl5GOCTN0j1YUeLcJ7GWgZjf+8QLM5sq57IAeGs5cxi
- 1Dbvqzi5eA3DlkeJfEMo2vyvodULTlY6Dwnb3sa7mjqluuGiyWYVRmg
+ bh=sULzoCWER8/kQnyowJD1BDPPGQySh69msij2k9XFp+Q=;
+ b=Bq/6LtMPuUuBWcupg02cmjvvO5QpsiKlwza1DPF/RD1+D0o2yfVBa6kXPydO406zXd37+CFfL
+ OIEFahyfGSLBZRc/xhvT1KVaLnu1rKXtvEedzbRn34httP8QzeFmA29
 X-Developer-Key: i=Andy.Chung@amd.com; a=ed25519;
  pk=X2gaHRnhU2q5hvMjkC6xmIcC03vKNvHY9CQRdsj9ecM=
 X-Endpoint-Received: by B4 Relay for Andy.Chung@amd.com/20260327 with
@@ -65,55 +63,69 @@ X-Endpoint-Received: by B4 Relay for Andy.Chung@amd.com/20260327 with
 X-Original-From: Andy Chung <Andy.Chung@amd.com>
 Reply-To: Andy.Chung@amd.com
 
-The Kandou KB9002 is an 8-lane PCIe 5.0 retimer with an integrated
-microcontroller that exposes an SMBus 3.0 target (with mandatory PEC)
-on its sideband interface. Its firmware aggregates per-lane die
-temperatures and publishes the maximum through a register window.
+From: Andy Chung <Andy.Chung@amd.com>
 
-This series adds a hwmon driver for it. The driver reports the
-aggregated maximum die temperature as temp1_input, and exposes the
-running firmware version and boot status under debugfs.
-
-The series is organised as:
-
-  1/4  add the "kandou" vendor prefix
-  2/4  device tree binding for the retimer
-  3/4  the driver, Kconfig/Makefile and MAINTAINERS entry
-  4/4  hwmon documentation
+Add device tree bindings for the Kandou KB9002 PCIe 5.0 retimer, an
+SMBus target that exposes an aggregated die temperature.
 
 Signed-off-by: Andy Chung <Andy.Chung@amd.com>
 ---
-Changes in v2:
-- Drop the unconditional I2C_FUNC_I2C requirement at probe; require raw
-  I2C only in the host-interface switch path, so the driver loads on
-  SMBus-only adapters when the chip is already strapped to SMBus.
-- kb9002_read_revid(): return immediately on a hard I2C read error
-  instead of retrying the FIFO drain, avoiding needless bus traffic when
-  the device is absent.
-- Link to v1: https://lore.kernel.org/all/20260714-kb9002-upstream-v1-0-8fd2f0b135d8@amd.com
+ .../devicetree/bindings/hwmon/kandou,kb9002.yaml   | 45 ++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
----
-Andy Chung (4):
-      dt-bindings: Add vendor prefix for Kandou
-      dt-bindings: hwmon: Add Kandou KB9002
-      hwmon: (kb9002) Add driver for Kandou KB9002 retimer
-      hwmon: (kb9002) Add documentation
+diff --git a/Documentation/devicetree/bindings/hwmon/kandou,kb9002.yaml b/Documentation/devicetree/bindings/hwmon/kandou,kb9002.yaml
+new file mode 100644
+index 000000000000..67859e9d63c2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/kandou,kb9002.yaml
+@@ -0,0 +1,45 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/kandou,kb9002.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Kandou KB9002 PCIe 5.0 retimer
++
++maintainers:
++  - Andy Chung <andy.chung@amd.com>
++
++description: |
++  The Kandou KB9002 is an 8-lane PCIe 5.0 retimer that exposes a
++  firmware-controlled SMBus 3.0 target on its sideband interface.
++  The host can query the aggregated maximum die temperature and the
++  running firmware version through that target.
++
++  The 7-bit SMBus address is selected by three SMB_ADDR straps and
++  ranges from 0x20 to 0x27.
++
++properties:
++  compatible:
++    const: kandou,kb9002
++
++  reg:
++    minimum: 0x20
++    maximum: 0x27
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        retimer@20 {
++            compatible = "kandou,kb9002";
++            reg = <0x20>;
++        };
++    };
 
- .../devicetree/bindings/hwmon/kandou,kb9002.yaml   |  45 ++
- .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
- Documentation/hwmon/index.rst                      |   1 +
- Documentation/hwmon/kb9002.rst                     |  65 +++
- MAINTAINERS                                        |   8 +
- drivers/hwmon/Kconfig                              |  11 +
- drivers/hwmon/Makefile                             |   1 +
- drivers/hwmon/kb9002.c                             | 479 +++++++++++++++++++++
- 8 files changed, 612 insertions(+)
----
-base-commit: ca078d004cf58137bcf8cb24a8b271397431ba58
-change-id: 20260713-kb9002-upstream-06c686e37833
-
-Best regards,
---  
-Andy Chung <Andy.Chung@amd.com>
+-- 
+2.34.1
 
 
