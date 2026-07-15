@@ -1,134 +1,170 @@
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CBC4534AD
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 15:26:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2774E480327;
+	Wed, 15 Jul 2026 15:29:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784129180; cv=none; b=qkBJXdJg22Chw8CEPbMDRAtWXXeA9I69eoKV6jHP+C6n0KKt3V+gvUkDvBa759BwJIMmiP1lXCATuStXjKNSQmFry7VKdUj7XzDrJEEWKVPpaHrdCZWdiHFPI2aeSk40btoors/D50MKNmRguntnHDT2aGsyzh8cRYlQ9RixF6A=
+	t=1784129375; cv=none; b=nToYdZ89wHWur21LQszajE3bdj7yioTIqC7stKQbmyMJiIFiJx5/spcj4QLTIXUCfWkvbLkqn1UJUfIH6FYfzmpK8DQtHj/79KhWSOvaDb0frlgfxqvCLMN2ZzdE/OLupOICyq3so3eLhGaq915lN3Jzcegfquo1iSIYxYNo4mM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784129180; c=relaxed/simple;
-	bh=xdP0ArL5gj/ZOhu33xZ5Z3/r/9Z5XjyCI4qrp+oXj+8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gnP4idXI41yhoOYbanBjyeZZ2YwZ783Jjf0LpSDc7jQ+ilaXtCp3r13OJeMmOTEBCeaLrpcv1AEKVVybKOldipvzF4yw/kpO5lGNZ+Gv13OUOHjga4jSKnALaZkBVm10MYZ2K7Vmqtwdo8U6vU/4B5n0ogyLaMVa/x82iNNdcc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Cz8q7zpC; arc=none smtp.client-ip=91.218.175.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1784129375; c=relaxed/simple;
+	bh=0DoSozkuyO2Bq2KoLc6X2figCfBt0AFxngHQNyo5a8I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZcuV1bKmOKhp6z05U33KxTz8Q9vM1siX/zzSiOPqQT6ZheZ56p8UAiXsH3usjYcRPrMvDWoUzPTyV+u9rN+b/0HAIu0/9qpYrRDLsQXsJiYOPlppTRxvToD7KyT6gtfD4tQrtylvJ/kL+oh9va2YAri9oAAG90yka+3rPWaw3BU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=GcM4Kd8m; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Cz8q7zpC"
-Message-ID: <2dc3d52b-ce4a-411d-9c30-934318ee98b0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784129174;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JP3A/Omv4EUP9yEwVlgSrlWoXSIU6lWPXQB91//sneg=;
-	b=Cz8q7zpC2CodYaOysieqVFvzXPcAnNxIfrGexxAdrsqa96M6OI0KYGFogVk0n2UOiCk/vy
-	RLYyw/zscwXB1QYUyY7IJbP0aBg7FRxoktlQog/ppxlyOnWX+XEYfiZ4NkL3faM1OUk/E4
-	74MSrG88CZ1fN4SbRLZlk/fhpdcoTLA=
-Date: Wed, 15 Jul 2026 23:25:51 +0800
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="GcM4Kd8m"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1A3541477;
+	Wed, 15 Jul 2026 08:29:28 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 02E283F905;
+	Wed, 15 Jul 2026 08:29:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1784129372; bh=0DoSozkuyO2Bq2KoLc6X2figCfBt0AFxngHQNyo5a8I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GcM4Kd8mPE2PHx0j8T7wYpzwAYmG3jhNzy5V9WsoxZTxxFklzQE5IxDCsCMlFKZMx
+	 FUFiFuLqfl76lvBqT9+e8c0rTtPPQONE32TmfBbf+GHj8RJDA3m4mFZrldPQt9Ajo6
+	 Uoo+py9hIrBcwNZLNgyDrfXnRwBtxekcn1gUn7/I=
+Date: Wed, 15 Jul 2026 16:29:15 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Subrahmanya Lingappa <subrahmanya.lingappa@oss.qualcomm.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, sudeep.holla@kernel.org,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, etienne.carriere@st.com,
+	peng.fan@oss.nxp.com, michal.simek@amd.com, d-gole@ti.com,
+	jic23@kernel.org, elif.topuz@arm.com, lukasz.luba@arm.com,
+	philip.radford@arm.com, brauner@kernel.org, david@kernel.org,
+	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v5 00/23] Introduce SCMI Telemetry support
+Message-ID: <alenP8e_2SFtgWw4@pluto>
+References: <20260703123601.381275-1-cristian.marussi@arm.com>
+ <20260707063137.3222972-1-subrahmanya.lingappa@oss.qualcomm.com>
+ <alCuJsOgh1ioFHAL@pluto>
+ <CAPxK-6cE7QAnMxO843T_MhipsVed=q7M6yQG6q5mAknY+T91kw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [RFC PATCH net-next v2 1/2] tcp: Add
- net.ipv4.tcp_purge_receive_queue sysctl
-To: Eric Dumazet <edumazet@google.com>
-Cc: netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Neal Cardwell
- <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>,
- Ido Schimmel <idosch@nvidia.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
- <ij@kernel.org>, Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>,
- Yung Chih Su <yuuchihsu@gmail.com>, Wyatt Feng
- <bronzed_45_vested@icloud.com>, Jason Xing <kerneljasonxing@gmail.com>,
- Lance Yang <lance.yang@linux.dev>, Jiayuan Chen <jiayuan.chen@linux.dev>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-References: <20260715145328.54597-1-leon.hwang@linux.dev>
- <20260715145328.54597-2-leon.hwang@linux.dev>
- <CANn89iLyeAPNV2VHTM3w0-zpzjZNFy3aJDsVUERYyniLN4ub7A@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Leon Hwang <leon.hwang@linux.dev>
-Content-Language: en-US
-In-Reply-To: <CANn89iLyeAPNV2VHTM3w0-zpzjZNFy3aJDsVUERYyniLN4ub7A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <CAPxK-6cE7QAnMxO843T_MhipsVed=q7M6yQG6q5mAknY+T91kw@mail.gmail.com>
 
-On 2026/7/15 23:15, Eric Dumazet wrote:
-> On Wed, Jul 15, 2026 at 4:54 PM Leon Hwang <leon.hwang@linux.dev> wrote:
-
-[...]
-
->> diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
->> index 61045a8886e4..4f1027173e95 100644
->> --- a/net/ipv4/tcp_input.c
->> +++ b/net/ipv4/tcp_input.c
->> @@ -4853,6 +4853,7 @@ void tcp_done_with_error(struct sock *sk, int err)
->>  /* When we get a reset we do this. */
->>  void tcp_reset(struct sock *sk, struct sk_buff *skb)
->>  {
->> +       const struct net *net = sock_net(sk);
->>         int err;
->>
->>         trace_tcp_receive_reset(sk);
->> @@ -4869,6 +4870,27 @@ void tcp_reset(struct sock *sk, struct sk_buff *skb)
->>                 err = ECONNREFUSED;
->>                 break;
->>         case TCP_CLOSE_WAIT:
->> +               /* RFC9293 3.10.7.4. Other States
->> +                *   Second, check the RST bit:
->> +                *     CLOSE-WAIT STATE
->> +                *
->> +                * If the RST bit is set, then any outstanding RECEIVEs and
->> +                * SEND should receive "reset" responses.  All segment queues
->> +                * should be flushed.  Users should also receive an unsolicited
->> +                * general "connection reset" signal.  Enter the CLOSED state,
->> +                * delete the TCB, and return.
->> +                *
->> +                * If net.ipv4.tcp_purge_receive_queue is enabled,
->> +                * sk_receive_queue will be flushed too.
->> +                */
->> +               if (unlikely(READ_ONCE(net->ipv4.sysctl_tcp_purge_receive_queue))) {
->> +                       struct tcp_sock *tp = tcp_sk(sk);
->> +
->> +                       skb_queue_purge(&sk->sk_receive_queue);
->> +                       WRITE_ONCE(tp->copied_seq, tp->rcv_nxt);
->> +                       WRITE_ONCE(tp->urg_data, 0);
->> +                       sk_set_peek_off(sk, -1);
->> +               }
->>                 err = EPIPE;
->>                 break;
->>         case TCP_CLOSE:
->> --
->> 2.55.0
->>
+On Wed, Jul 15, 2026 at 07:15:10PM +0530, Subrahmanya Lingappa wrote:
+>  Hi David, Cristian,
 > 
-> My thoughts are:
+>  Thanks, both. Fair points.
 > 
-> out_of_order_queue has been forgotten. skbs could be there and still
-> 'block devmem'
+
+Hi Subrahmanya,
+
+> On Fri, Jul 10, 2026 at 2:02 PM Cristian Marussi
+> <cristian.marussi@arm.com> wrote:
+> >
+> > On Tue, Jul 07, 2026 at 12:01:37PM +0530, Subrahmanya Lingappa wrote:
+> > > Hi Cristian,
+> >
+
+[snip]
+
 > 
-> WRITE_ONCE(tp->copied_seq, tp->rcv_nxt) is certainly wrong, because
-> read() will return 0, instead of -1 (errno = EPIPE or ECONNRESET)
-> So the application will not know a RST was received :/
+>  I agree that asking this series to grow a generic telemetry subsystem now is
+>  too much. With only SCMI in-tree, it would be easy to create a "generic"
+>  interface that is really just SCMI with different names. I also agree that raw
+>  SHMTI is not just a debug path if the expected users are high-rate tooling.
 > 
-> I think that BSD and linux implementations have historically retained
-> acknowledged,
-> buffered receive data upon RST to allow applications to drain data
-> already ACKed prior to the reset.
+>  So let me narrow the ask.
 > 
-> Adding a narrow sysctl specifically for CLOSE_WAIT creates
-> inconsistent behavior across TCP states.
+>  I am not asking for `drivers/telemetry/` in v6. I am asking that the SCMI
+>  chardev/UAPI not be tied too closely to the current SCMI core storage layout.
+>  In particular, I think v6 should try to:
+> 
+>    - copy descriptor/config/sample data through fixed and extensible UAPI
+>      structs, not structs mirroring SCMI internal objects;
 
+If you mean by this adding a bit more of pad/reserved space scattered
+here and there, it is not a problem; also, one thing that is still missing
+and planned to be added is some ABI Versioning and related IOCTL,
+should not this be enough to address future possible UAPI expansions ?
 
-Got it. I won't pursue this sysctl approach in the future. Thanks for
-the review.
+Regarding avoiding mapping internal SCMI object in the UAPI, I think I
+am already NOT blindly sharing internal structures but instead I copy
+explicitly internal representations into the UAPI fields....I think the
+only exception to this is the sample (scmi_tlm_de_sample) that I take
+care to keep aligned with the internals to avoid the overhead of the
+double copy...but it seems one of the few pretty much general concept
+that I felt confident to abstract no ?
 
-Leon
+...but of course this UAPI abstraction into which I copy the results
+is mapped into SCMI inspired concepts/abstractions...for the reasons
+we said....
 
+>    - treat DE IDs, group IDs and SHMTI IDs as protocol identifiers, not as
+>      implicit indexes into kernel arrays;
+
+Not sure what you mean here... a shim layer used to acces info data
+indirectly instead of the SCMI data structures ?
+
+or some sort of layer/abstraction to be able to remap references
+internally ? again it is not easy to imagine an abstraction without any
+other example than SCMI...or you mean naming issue in the UAPI ?
+
+>    - keep the TDCF/SHMTI parsing and SCMI command handling behind small
+>      internal ops used by the chardev side;
+
+well..if you refer to the telemetry_ops, this is an SCMI driver so it
+has the structure of an SCMI driver, the Telemetry Operations exposed by
+the core SCMI stack are the internal ops themselves that you ask for in
+my opinion...I mean this is pretty much internal stuff that has nothing
+to do with the UAPI itself and I imagine that when some future protocol
+of yours, like the XXMI you mentioned, will appear you will write a new
+driver on your own subsystem that will implement the UAPI itself for
+your protocols (if you want to share that)...any possible future internal
+reworking due to possible common abstractions on our side can be carried
+out in the future...
+
+>    - document the config model explicitly: per SCMI instance, last writer wins,
+>      generation changes tell userspace that state changed;
+>    - document the mmap contract: length, offsets, cache attributes, lifetime,
+>      and reset/reconfiguration behaviour.
+
+Completely agreed on this...Documentation is still lacking, including
+extensive examples...I should have marked docs as RFC too...
+
+> 
+>  That keeps the ABI explicitly SCMI-specific and does not make SHMTI second
+>  class. It just avoids baking too much of today's SCMI implementation shape into
+>  the userspace contract.
+> 
+>  Cristian's point about policy being enforced by the SCMI server also makes
+>  sense to me. I am not suggesting Linux should second-guess that partitioning.
+>  Documenting the Linux-visible semantics is enough: what is shared per SCMI
+>  instance, what userspace may race with, and how generation/poll reports that.
+
+Yes it will be documented too...in one of the future series.
+
+> 
+>  So I would reduce my earlier suggestion to: no generic framework required now,
+>  but please keep a clean provider/backend boundary inside the driver and leave
+>  some UAPI growth room. That should make a later common layer possible, if a
+>  second provider or an in-kernel user ever justifies it, without forcing this
+>  series to solve that problem today.
+
+No problem for UAPI growth and possible compatibility visa reserved
+space and ABI versioning, but I dont see how a very susbsystem specific
+driver like this SCMI Telemetry driver can be made more generic in terms of
+provider/backend...the provider here is indeed already separated by the usage
+of the SCMI telemetry protocol operations exposed by the core SCMI stack...
+
+I think in order to have multiple backend providers pluggable/interchangeable
+at will without the need to write a new driver for ecah one would mean, again,
+having some sort common framework...thing that seems premature, as agreed.
+
+Thanks,
+Cristian
