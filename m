@@ -1,333 +1,134 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89219481235
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 15:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CBC4534AD
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 15:26:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784129160; cv=none; b=T5fXwgMZfgK/QKMEQI8FH7liOVvNFOTIF033vr5TzrSTEKYdCmFzQ5SdIZW7H67ZjyNQ2snX0vAzqHhuoEgI4jLLD/s0Mq+HI69j2wZh/2AXNATEM2qZz2BKClbaxjeKOz7RnGigJO3UXJNGlNzQHi62U7OHGblSnLztbj/96hk=
+	t=1784129180; cv=none; b=qkBJXdJg22Chw8CEPbMDRAtWXXeA9I69eoKV6jHP+C6n0KKt3V+gvUkDvBa759BwJIMmiP1lXCATuStXjKNSQmFry7VKdUj7XzDrJEEWKVPpaHrdCZWdiHFPI2aeSk40btoors/D50MKNmRguntnHDT2aGsyzh8cRYlQ9RixF6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784129160; c=relaxed/simple;
-	bh=8IfDTW8a3b3sS/iPv7vB1ZiuTNxkT5DDhwcjj8R2JRs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=olstnocsvTpsLdCGiiuSeMQ7F+0SMcx6Yo4o9lC/90Y150M+XfrGtjCc4vMaDL+DVMISBHYd5RsRRVxMCXlZXgcWRz7KFTA8Dz0EccFwxL/gGh3N/8tImFelf86QSi2GAA6kHc7D27fNgOWZNOxRjx5SXIISMtN+megUpWY99Hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vr4JN4/a; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1784129180; c=relaxed/simple;
+	bh=xdP0ArL5gj/ZOhu33xZ5Z3/r/9Z5XjyCI4qrp+oXj+8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gnP4idXI41yhoOYbanBjyeZZ2YwZ783Jjf0LpSDc7jQ+ilaXtCp3r13OJeMmOTEBCeaLrpcv1AEKVVybKOldipvzF4yw/kpO5lGNZ+Gv13OUOHjga4jSKnALaZkBVm10MYZ2K7Vmqtwdo8U6vU/4B5n0ogyLaMVa/x82iNNdcc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Cz8q7zpC; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vr4JN4/a"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ccdb73f0e1so22417265ad.3
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 08:25:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1784129158; x=1784733958; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2kgwyk0OObBT++oiW1zqAAqUnSr/tbzGEYYjYm7Tx6U=;
-        b=vr4JN4/aw/QYNhmQOV0ZnlVY5dKDn3e7X95fQ89WDWofYJKR+v3BI/DUWFO+eh+1Rd
-         OVyR/TN17p0tIeF9lIbaNl2D5Cr2QR5roDiU5O6vzPX75TUZTmnWU5quxf3N/vKDmhqc
-         kZVYd5U9gEZ15MY+jj8kf641j8V+U21+hegrWPeAKaefNxFhd28GyJvsCqMR3VgaEvHv
-         7Fz6QpKquKfnsli/YMICBB2ZfAVERQG6sq2uDTyYXM8uwr9LniIZdlnJDvju34YhrF2C
-         ZswQfpDaQj3msWkGru5R6JNulpUGf83CcCptWwVEZeC+aTgigESMzibOd3efi2rz0m16
-         QSZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784129158; x=1784733958;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2kgwyk0OObBT++oiW1zqAAqUnSr/tbzGEYYjYm7Tx6U=;
-        b=EcYncbDv9U6Bw9B89iaAmfN4/86WIH6eCg7hOYFN0tM4Orw7Q08N3JCK3a3u4ub7NF
-         IJjdQLZVq47UB3WlhvJ1m090Gxvn6G6MjaxDBx7FPTuEYYZML2dbY3yxGl23PnJBhyiG
-         IWswOBrLc500Pp5VtR+Pzw4rTf4soYHZ5EmSZ52VhabhCQQQMtf6gy6aDTpgadX9Z1OW
-         oIc+ZOyuh5VTrKdInC+ZJ3M1773FOytSKU5zbo2wAgQA4++GnAkIC2xA0A8GtiDvv15z
-         tlLDU1pM0j7iBpo6NYt7M4sej0x60VhAqukurASHzwURZHbAyitZblriouUu7EZKNGqZ
-         LvHg==
-X-Forwarded-Encrypted: i=1; AHgh+Rr8/AF5iFWbBHcRse0oMQ31CpBl2u32r1KHQuZlYgEFMyaFA+1U3hS2UiW9m62V5hr90rpMMFbALC0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9OXZvLul9aMxyIMuIE0aKeytXw8+jUj8qHIDod3KW1CJO2MfX
-	6o/Pxq+elE0jSzlDF6JyLN39F4QyMKU+gWnBc8OUSBWpVc0WoxGQ4N/GN/sVm/c6C3Q=
-X-Gm-Gg: AfdE7cke+tHFLbJBOh9/pMKezjYZ/QFpFlvyWU+VC8FObsyTfu1OeLViNVcOgInZGzV
-	7WuD0H0XID63ZlhFcUg2hOr9B6nOus/r6cckmPJktsVABY3kQAuxZzkk+c3O3SCx8IRyWZolK5k
-	Fhsj4ZE3EPt/BEvMMlq7pqjCT3Gqgb4KhCS6GbauEO5dFjZJAv6xYb5ewlS3i++/E+jCtgb/8mq
-	i35LAUSXHGPCO1IZxQIaph+eHi7RL87BFqJJdDO+6WDOgQmfrTE++gFZmZ79w+J9B+FzJvU+GHW
-	rRtUairpmN+5FSaUgFMyGOn/isaIC2qpp3CE4ORk7Q7JxwAfmuGBbYGAaCj01Wm7AwL8h4A43EU
-	MBDpw0Z7wppmdm+82THYTSxcG570apJT85Ut1idFSufSXMuXdXSxDX+9bvJud4xmae45qnycqG+
-	18QXElzgo4LK6NQ50h
-X-Received: by 2002:a17:902:f787:b0:2ce:d957:59c4 with SMTP id d9443c01a7336-2ced9575addmr115795235ad.6.1784129157763;
-        Wed, 15 Jul 2026 08:25:57 -0700 (PDT)
-Received: from p14s ([2604:3d09:148c:c800:4f38:9a5e:fd18:7a9b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf10156d29sm4394455ad.30.2026.07.15.08.25.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 08:25:57 -0700 (PDT)
-Date: Wed, 15 Jul 2026 09:25:53 -0600
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: "Shenwei Wang (OSS)" <shenwei.wang@oss.nxp.com>
-Cc: Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>, Frank Li <frank.li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	dl-linux-imx <linux-imx@nxp.com>,
-	Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>,
-	"b-padhi@ti.com" <b-padhi@ti.com>, Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH v14 1/5] docs: driver-api: gpio: rpmsg gpio driver over
- rpmsg bus
-Message-ID: <alemgbM2ktRLE9wT@p14s>
-References: <20260625155432.815185-1-shenwei.wang@oss.nxp.com>
- <20260625155432.815185-2-shenwei.wang@oss.nxp.com>
- <alUdg9iTysXCFUa5@p14s>
- <PAXPR04MB91852808D2C7491AEF98CF1589F92@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <alZlZvQQwq-g6VL3@p14s>
- <PAXPR04MB9185B1A3F16D82E8C0C76EE689F92@PAXPR04MB9185.eurprd04.prod.outlook.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Cz8q7zpC"
+Message-ID: <2dc3d52b-ce4a-411d-9c30-934318ee98b0@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784129174;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JP3A/Omv4EUP9yEwVlgSrlWoXSIU6lWPXQB91//sneg=;
+	b=Cz8q7zpC2CodYaOysieqVFvzXPcAnNxIfrGexxAdrsqa96M6OI0KYGFogVk0n2UOiCk/vy
+	RLYyw/zscwXB1QYUyY7IJbP0aBg7FRxoktlQog/ppxlyOnWX+XEYfiZ4NkL3faM1OUk/E4
+	74MSrG88CZ1fN4SbRLZlk/fhpdcoTLA=
+Date: Wed, 15 Jul 2026 23:25:51 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PAXPR04MB9185B1A3F16D82E8C0C76EE689F92@PAXPR04MB9185.eurprd04.prod.outlook.com>
+Subject: Re: [RFC PATCH net-next v2 1/2] tcp: Add
+ net.ipv4.tcp_purge_receive_queue sysctl
+To: Eric Dumazet <edumazet@google.com>
+Cc: netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Neal Cardwell
+ <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>,
+ Ido Schimmel <idosch@nvidia.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
+ <ij@kernel.org>, Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>,
+ Yung Chih Su <yuuchihsu@gmail.com>, Wyatt Feng
+ <bronzed_45_vested@icloud.com>, Jason Xing <kerneljasonxing@gmail.com>,
+ Lance Yang <lance.yang@linux.dev>, Jiayuan Chen <jiayuan.chen@linux.dev>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20260715145328.54597-1-leon.hwang@linux.dev>
+ <20260715145328.54597-2-leon.hwang@linux.dev>
+ <CANn89iLyeAPNV2VHTM3w0-zpzjZNFy3aJDsVUERYyniLN4ub7A@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Leon Hwang <leon.hwang@linux.dev>
+Content-Language: en-US
+In-Reply-To: <CANn89iLyeAPNV2VHTM3w0-zpzjZNFy3aJDsVUERYyniLN4ub7A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Jul 14, 2026 at 06:43:30PM +0000, Shenwei Wang (OSS) wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Mathieu Poirier <mathieu.poirier@linaro.org>
-> > Sent: Tuesday, July 14, 2026 11:36 AM
-> > To: Shenwei Wang (OSS) <shenwei.wang@oss.nxp.com>
-> > Cc: Linus Walleij <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>;
-> > Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof
-> > Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn
-> > Andersson <andersson@kernel.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
-> > <s.hauer@pengutronix.de>; Shuah Khan <skhan@linuxfoundation.org>; linux-
-> > gpio@vger.kernel.org; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
-> > Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
-> > <festevam@gmail.com>; Shenwei Wang <shenwei.wang@nxp.com>; Peng Fan
-> > <peng.fan@nxp.com>; devicetree@vger.kernel.org; linux-
-> > remoteproc@vger.kernel.org; imx@lists.linux.dev; linux-arm-
-> > kernel@lists.infradead.org; dl-linux-imx <linux-imx@nxp.com>; Arnaud
-> > POULIQUEN <arnaud.pouliquen@foss.st.com>; b-padhi@ti.com; Andrew Lunn
-> > <andrew@lunn.ch>
-> > Subject: Re: [PATCH v14 1/5] docs: driver-api: gpio: rpmsg gpio driver over rpmsg
-> > bus
-> > 
-> > On Tue, Jul 14, 2026 at 02:29:12PM +0000, Shenwei Wang (OSS) wrote:
-> d
-> > > > > +  - 3: Both edge trigger
-> > > > > +  - 4: High level trigger
-> > > > > +  - 8: Low level trigger
-> > > >
-> > > > I'm in agreement with cmd 3, 4, 5 and 6.
-> > > >
-> > >
-> > > How about cmd 2?
-> > 
-> > Yes, I forgot cmd 2.
-> > 
-> > >
-> > > > > +
-> > > > > +**Reply:**
-> > > > > +
-> > > > > +.. code-block:: none
-> > > > > +
-> > > > > +   +------+--------+--------+
-> > > > > +   | 0x00 |  0x01  |  0x02  |
-> > > > > +   |   1  | status |    0   |
-> > > > > +   +------+--------+--------+
-> > > > > +
-> > > > > +- **status**:
-> > > > > +
-> > > > > +  - 0: Ok
-> > > > > +  - 1: Error
-> > > > > +
-> > > > > +SET_WAKEUP (Cmd=16)
-> > > > > +~~~~~~~~~~~~~~~~~~~
-> > > >
-> > > > I already commented on messages that are not part of the virtio-gpio
-> > > > specification.
-> > > >
-> > >
-> > > I don't believe virtio-gpio needs a SET_WAKEUP command.
-> > >
-> > > In the RPMSG case, SET_WAKEUP is required because it performs an
-> > > operation on the remote processor, so the remote side must be explicitly
-> > notified.
-> > 
-> > What operations would that be?
-> > 
-> 
-> The operation is enabling the line as a wakeup source. In practice, this involves configuring 
-> hardware-specific wakeup settings (e.g., register bits) on the remote processor, so the remote 
-> side must be explicitly notified through SET_WAKEUP.
->
+On 2026/7/15 23:15, Eric Dumazet wrote:
+> On Wed, Jul 15, 2026 at 4:54 PM Leon Hwang <leon.hwang@linux.dev> wrote:
 
-As I said before, we are not enhancing the virtio-gpio specification.  If the
-functionality is not part of the specification, it is not part of this protocol.
- 
-> 
-> > >
-> > > For virtio-gpio, however, everything is handled locally. The other
-> > > side does not need to perform any action, so sending a SET_WAKEUP command
-> > appears unnecessary.
-> > 
-> > What is "everything"?
-> > 
-> 
-> I mean masking, unmasking, and marking the interrupt as a wakeup source. All of 
-> these operations are handled on local processor.
+[...]
 
-There may be enough capability in your remote processor to do all that, but we
-can't assume the same applies to all implementations.  rpmsg-gpio is not about
-inventing a new protocol or delegating actions to the remote processor.  It is
-about carrying virtio-gpio packets on top of RPMSG.  It needs to operate
-_exactly_ the same way as virtio-gpio.
+>> diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
+>> index 61045a8886e4..4f1027173e95 100644
+>> --- a/net/ipv4/tcp_input.c
+>> +++ b/net/ipv4/tcp_input.c
+>> @@ -4853,6 +4853,7 @@ void tcp_done_with_error(struct sock *sk, int err)
+>>  /* When we get a reset we do this. */
+>>  void tcp_reset(struct sock *sk, struct sk_buff *skb)
+>>  {
+>> +       const struct net *net = sock_net(sk);
+>>         int err;
+>>
+>>         trace_tcp_receive_reset(sk);
+>> @@ -4869,6 +4870,27 @@ void tcp_reset(struct sock *sk, struct sk_buff *skb)
+>>                 err = ECONNREFUSED;
+>>                 break;
+>>         case TCP_CLOSE_WAIT:
+>> +               /* RFC9293 3.10.7.4. Other States
+>> +                *   Second, check the RST bit:
+>> +                *     CLOSE-WAIT STATE
+>> +                *
+>> +                * If the RST bit is set, then any outstanding RECEIVEs and
+>> +                * SEND should receive "reset" responses.  All segment queues
+>> +                * should be flushed.  Users should also receive an unsolicited
+>> +                * general "connection reset" signal.  Enter the CLOSED state,
+>> +                * delete the TCB, and return.
+>> +                *
+>> +                * If net.ipv4.tcp_purge_receive_queue is enabled,
+>> +                * sk_receive_queue will be flushed too.
+>> +                */
+>> +               if (unlikely(READ_ONCE(net->ipv4.sysctl_tcp_purge_receive_queue))) {
+>> +                       struct tcp_sock *tp = tcp_sk(sk);
+>> +
+>> +                       skb_queue_purge(&sk->sk_receive_queue);
+>> +                       WRITE_ONCE(tp->copied_seq, tp->rcv_nxt);
+>> +                       WRITE_ONCE(tp->urg_data, 0);
+>> +                       sk_set_peek_off(sk, -1);
+>> +               }
+>>                 err = EPIPE;
+>>                 break;
+>>         case TCP_CLOSE:
+>> --
+>> 2.55.0
+>>
+> 
+> My thoughts are:
+> 
+> out_of_order_queue has been forgotten. skbs could be there and still
+> 'block devmem'
+> 
+> WRITE_ONCE(tp->copied_seq, tp->rcv_nxt) is certainly wrong, because
+> read() will return 0, instead of -1 (errno = EPIPE or ECONNRESET)
+> So the application will not know a RST was received :/
+> 
+> I think that BSD and linux implementations have historically retained
+> acknowledged,
+> buffered receive data upon RST to allow applications to drain data
+> already ACKed prior to the reset.
+> 
+> Adding a narrow sysctl specifically for CLOSE_WAIT creates
+> inconsistent behavior across TCP states.
 
-> 
-> Shenwei
-> 
-> > >
-> > >
-> > > > > +
-> > > > > +**Request:**
-> > > > > +
-> > > > > +.. code-block:: none
-> > > > > +
-> > > > > +   +------+------+------+------+------+------+------+------+
-> > > > > +   | 0x00 | 0x01 | 0x02 | 0x03 | 0x04 | 0x05 | 0x06 | 0x07 |
-> > > > > +   |      1      |    line     |           value           |
-> > > > > +   +------+------+------+------+------+------+------+------+
-> > > > > +
-> > > > > +- **value**: Wakeup enable.
-> > > > > +
-> > > > > +  The remote system should always aim to stay in a
-> > > > > + power-efficient state by  shutting down or clock-gating the GPIO
-> > > > > + blocks that aren't in use. Since  the remoteproc driver is
-> > > > > + responsible for managing the power states of the  remote
-> > > > > + firmware, the GPIO driver does not require to know the firmware's
-> > running states.
-> > > > > +
-> > > > > +  When the wakeup bit is set, the remote firmware should
-> > > > > + configure the line  as a wakeup source. The firmware should send
-> > > > > + the notification message to  Linux after it is woken from the GPIO line.
-> > > > > +
-> > > > > +  - 0: Disable wakeup from GPIO
-> > > > > +  - 1: Enable wakeup from GPIO
-> > > > > +
-> > > > > +**Reply:**
-> > > > > +
-> > > > > +.. code-block:: none
-> > > > > +
-> > > > > +   +------+--------+--------+
-> > > > > +   | 0x00 |  0x01  |  0x02  |
-> > > > > +   |   1  | status |    0   |
-> > > > > +   +------+--------+--------+
-> > > > > +
-> > > > > +- **status**:
-> > > > > +
-> > > > > +  - 0: Ok
-> > > > > +  - 1: Error
-> > > > > +
-> > > > > +Notification Message
-> > > > > +--------------------
-> > > >
-> > > > "Interrupt Messages"
-> > > >
-> > > > > +
-> > > > > +Notifications are sent by the remote core and they have
-> > > > > +**Type=2 (GPIO_RPMSG_NOTIFY)**:
-> > > > > +
-> > > > > +When a GPIO line asserts an interrupt on the remote processor,
-> > > > > +the firmware should immediately mask the corresponding interrupt
-> > > > > +source and send a notification message to the Linux. Upon
-> > > > > +completion of the interrupt handling on the Linux side, the
-> > > > > +driver should issue a command **SET_IRQ_TYPE** to the firmware to
-> > unmask the interrupt.
-> > > > > +
-> > > > > +A Notification message can arrive between a SEND and its REPLY
-> > > > > +message, and the driver is expected to handle this scenario.
-> > > > > +
-> > > > > +.. code-block:: none
-> > > > > +
-> > > > > +   +------+------+--------+
-> > > > > +   | 0x00 | 0x01 |  0x02  |
-> > > > > +   |   2  | line | trigger|
-> > > > > +   +------+------+--------+
-> > > >
-> > > > 2 things here:
-> > > >
-> > > > 1) You did not include messages that mask and unmask interrupts at
-> > > > the driver side.
-> > >
-> > > Interrupt masking and unmasking are handled entirely on the local processor.
-> > >
-> > > When an interrupt occurs, the remote system masks the interrupt and
-> > > then sends a notification to Linux. After Linux processes the
-> > > notification, it sends a SET_IRQ_TYPE message back to the remote system,
-> > which then unmasks the interrupt.
-> > 
-> > This is the kind of information that should be part of this documentation.
-> > 
-> > >
-> > > Thanks,
-> > > Shenwei
-> > >
-> > > >
-> > > > 2) We are carrying virtio-gpio messages on top of RPMSG and as such,
-> > > > this whole protocol should be about thar:
-> > > >
-> > > > +------+------+--------+--------
-> > > > | 0x00 |       payload         |
-> > > > |  Q   |                       |
-> > > > +------+------+--------+--------
-> > > >
-> > > > Q = 0 requestq
-> > > > Q = 1 eventq
-> > > >
-> > > > The "payload" part is simply the format of the messages as found in
-> > > > the virtio- gpio specification.  From there, the only thing left to
-> > > > mention is which messages are not supported, i.e get line names.
-> > > >
-> > > > > +
-> > > > > +- **line**: The GPIO line (pin) index of the port.
-> > > > > +
-> > > > > +- **trigger**: Optional parameter to indicate the trigger event type.
-> > > >
-> > > > Not part of the spec - remove.
-> > > >
-> > > > Given the refactoring work that is still needed, I will not look at
-> > > > the implementation.
-> > > >
-> > > > Thanks,
-> > > > Mathieu
-> > > >
-> > > > > +
-> > > > > diff --git a/Documentation/driver-api/gpio/index.rst
-> > > > > b/Documentation/driver-api/gpio/index.rst
-> > > > > index bee58f709b9a..e5eb1f82f01f 100644
-> > > > > --- a/Documentation/driver-api/gpio/index.rst
-> > > > > +++ b/Documentation/driver-api/gpio/index.rst
-> > > > > @@ -16,6 +16,7 @@ Contents:
-> > > > >     drivers-on-gpio
-> > > > >     bt8xxgpio
-> > > > >     pca953x
-> > > > > +   gpio-rpmsg
-> > > > >
-> > > > >  Core
-> > > > >  ====
-> > > > > --
-> > > > > 2.43.0
-> > > > >
+
+Got it. I won't pursue this sysctl approach in the future. Thanks for
+the review.
+
+Leon
+
