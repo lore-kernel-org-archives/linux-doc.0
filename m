@@ -1,124 +1,316 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16AC2FDC57
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 17:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784138172; cv=pass; b=ENV4oSEsmk8zuEoE77/UelTg3Sr7hUN6lD6Mh3rWFUhykIFgbh0aQ/G5LBOlFz0Vjno/5IQ1GWHix1nbTYYYHFaCGxq//B96+aujEa8eGLclbFh1POC0n1antVnY5F3EuPrjdjVkvBru8VpZz2GIsywKgVQxkRby+DqT9CJEc5I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784138172; c=relaxed/simple;
-	bh=u+3FAslbVlj96800WiAMAGOylgc0ssLAYc5uCqETipo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qO0L1rm+mUnWSsEguGQMnT6pw7KtmOOTCFm0OohacC36ZTtSctI12KdnW/l8Yx4DqskfL3vma0yXKUKfBDeDY4pSh2m2zj8Wr7ivpj3hBJevOEvrYP71MlrMvTSSmBbjc2YOQyx4mN3y7W3TvSH4+tgU+LFtd3LBaqd073kcjRg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=A4hgAjv+; arc=pass smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C3C4F7972;
+	Wed, 15 Jul 2026 18:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784138460; cv=none; b=JZWaAkF0o7zQZIRG0Hf93ib8C2HV44If+gjYN/Vf/qN4klfKJo4jWd9KHzTwALTE4TSir7WOXmryMy1EnuR++adnFMcgTNg5Y72cesuOr4V7XPn3wT10JNfYFnBO90SRmaALQSieL1+D+i/byVUx8tImDGaq5CxnJhhtm67pZUc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784138460; c=relaxed/simple;
+	bh=P5tZ1fGPw2tGzho72R9BFfsJugxGi4kh7+mMEUY16KM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iUnkaqLrVfBSs/wRaNEpfYoJYxKjaC9HgBuFguiVHbqIVgfW6If9+mOocCseLABIg2wy+MJXvT1O/XtIJ8ftkg/qGmkXS3DEszsfaBx787rUYZiMyS/sLA8684+zyBObrJmR91CGxMhzlI1nmx5eWuwQUXh9mQmYtbOwo5bCPGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LhWcjrZ9; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="A4hgAjv+"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493c556ada3so5525e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 10:56:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784138169; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gU2hLrUqjBWPlVwH1kixFlf5FXw9BzjSrXCfULEIEiMk1PayQeepOwMnFVijFx7R04
-         W9jXZcbmK4M8l3OhZouQ990v8wptFpZxotOXRP3YiyKqfGmJpqsW5WxOIZUjBMSinEux
-         e+VUxHwyMcbvzEM/poZC150qqhC3xVfqrKqPyW3mmLxum8hDiuDWlENnwxdXPBxWHOYw
-         xj3KWmA92TxZejALIqbiNt/wNkCBP3S0K/j7pLpCemTC6ARpZ5FwNC+WLbhs4SXXwTFb
-         Ng54Fnyr1tYqkRxHoHJS1uIeutU90HwIX+dbfLkinpMTbFTTqVKoZqyosxMJ5/438A6o
-         0naw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RuBIyMRxxSG5xOKfBj9RRTURzzjnDkJEBKCLyFmN4sQ=;
-        fh=sUb8bQS9BFKnvbV4hehKqRiyw+Dt/B2SVrpbXqAocKM=;
-        b=bizD4FEhahCv0HS/DvEP9kADVLeMXVEZXQpB+lY3Tu/5zUjRxOEyQlF4mZNTML8PRe
-         kK6C0iKohTk7DzxWZwJOM0/sjKVghAf1vWTq86gAxrqQbMpEn6l4/7+4GhfurWKL1wV+
-         bkRdZMz5D5za71+OL4hiOhHMPcXec6FBVaiN93hC8iyKOjXjPk5QgLtKXXQEe84XZC78
-         cdnpHxEE1tlysNzLfZL7owZfpse8PsfcCunwBcwJI/ZU3szP3TrlCzQglnH3TXqW9i+F
-         uSxuJklXumqmVsIX+0VlhXgj162Pfbn1dXl9uG3Ks3pwms0bDSIR4cixWhXzTjxJkxXm
-         2VIg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784138169; x=1784742969; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=RuBIyMRxxSG5xOKfBj9RRTURzzjnDkJEBKCLyFmN4sQ=;
-        b=A4hgAjv+cRMPs1OEpvkfeZIySozAnIHRuQUe/3yE/Xk5dftlFG3toVQSh54TcUDa9L
-         Oj0tQ4KRMpYlTiRTcOCT7kjC2lsuBSGe12L7u2aNzp2l0BsfcVZclyE1ZOOv+MCEYUvI
-         4aj/+ak8C0mEO3owGJyjU85qe7UnvTkmPhjvsshpylZx50InZMHYIH2Daw3+HuGw0pcc
-         8tjLT7N8Mgi/eRumssERQwz90Jt/6COlHuFMjYMXZ7SxF+bGjKzKsoD9beSROq7sewYT
-         0SerjmRzmjo4kDWOp+NF15rkocmlO3w64W6v0wpzjkSA211XUGNffeuqujyrT9U14XNt
-         hfzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784138169; x=1784742969;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RuBIyMRxxSG5xOKfBj9RRTURzzjnDkJEBKCLyFmN4sQ=;
-        b=O1jHqTlubGuKIcA4fuZ53FyMIaoscIhtEMN63vUZGMFgy7x7sfPE28nOh40SPMdIDa
-         2+0UuQO3TMSgmS3t514N/vGflDLuHlgUtPuJImer58h8pJiOV+ntN0OtXXHghtLUL+Qi
-         OJU4sYZxAjjArNkAbhMUmehrHeV+RT5HAxMNehyjiQIXJ0DR5Hd8Gb4+CYfIw9maBU6h
-         tQlM5/MU0sbPW4DRVjHLxjhyyxMNs4h69vgBJG7ATncmKek4vanBtrOkN9DZLN0Gk+Lh
-         FM9sKJaqnS8dCZvGk6O2smnONiO5cntGXEmei30lOMCInyow5AulneYhxMOor6+j6/++
-         e+PQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqj2vcEW/vMnQBBJsYuxyTYy2gjsgAvCRLQgpRvlL77fTqJEzDtVmVc7DrFvGqOwAIzF/iqgu0Y5qY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywa/1Jcgl/0NPgREQkIj0e3ip/0l+VfbXHT4FfVHKZEBlPWRSno
-	eeyxwC8C+cLQg3jpKdWZUw+p6zNs/DEv6f5YvyLiOJMIaywPFDduzst3LEBYdFsU6LyT4gMQC/t
-	6FE8rw4v9bfXixrP6jiEHPBHYo4fPfBYIYCvplBCQ
-X-Gm-Gg: AfdE7cmvUIJoqCjcDoJaucDHjwmg+V1suiBS0ckk1OR9vX74des0Js8OBJI645f6ptj
-	WKMoHgY/JcDhWpPR3Ym8II5GjIxP4f7FSIAU/mKmXQonlsipuKsZimTvBK3MKq3/Nj8Ct7ccI8W
-	CJ3prCiU04tbE31D4/ozNKIDTd/tuZopYQkcSatDbwRPwMMaMi0mFqKUDeJLaqA+S6jVyCR/85X
-	5zEcRBfqy9hCpvFQVJiBTimqtFQsRX6YAYRLN19etI9vCMPD6aHLnDw31vixRCLWaTFjBEo+8oo
-	tkJRofc1OS7gxzUghwgsy0dy7WLmfR1LIFHdAVYmp7eWHf4DI1BFaWTYuocyq6vidOfEeQ==
-X-Received: by 2002:a05:600c:4ec6:b0:495:4069:b0de with SMTP id
- 5b1f17b1804b1-495414230f0mr128295e9.9.1784138168394; Wed, 15 Jul 2026
- 10:56:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LhWcjrZ9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784138455; x=1815674455;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=P5tZ1fGPw2tGzho72R9BFfsJugxGi4kh7+mMEUY16KM=;
+  b=LhWcjrZ9pcfxd25aOeHW6XNTuP5hzgj+DRRc1AJ79ecsPJH0hEfxB41r
+   PW4JBkeXyKD9rGWLpQevgvZJmC0AsFgyUY5Fi4EhhhEXkSFvPyc73O9Rr
+   oLWmUgpdKH7o6gx7b2ySmkwoqczHKu3jlU1OO2ceBhDj8jS6cqgOUOPXs
+   jh5R3pU4ai7Qm6I1VOG8tcqrIQhtYjj4gEOvBlIfy9dkhDOX9CvSnJX7n
+   fX1JlTvK2kODONSnOqT48XjFwt++elKGK45oei0ay4yMpR+pH1/57iA+B
+   mpFs6mjBgo7ksE0zKcYSUA9z0zwI/enZZCUOuHNmlKz6JXySbRqpemFe7
+   Q==;
+X-CSE-ConnectionGUID: KvO/DMA1TzmYT84TyuA+eQ==
+X-CSE-MsgGUID: y1h7H9tzQh6c+AcP/5DbAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="110336654"
+X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
+   d="scan'208";a="110336654"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 11:00:48 -0700
+X-CSE-ConnectionGUID: MSJ7xb7VSiaFhPOy3h5Opg==
+X-CSE-MsgGUID: ac86bFCsQ76eCRn34kD9Qw==
+X-ExtLoop1: 1
+Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
+  by fmviesa003.fm.intel.com with ESMTP; 15 Jul 2026 11:00:47 -0700
+From: Tony Nguyen <anthony.l.nguyen@intel.com>
+To: davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	andrew+netdev@lunn.ch,
+	netdev@vger.kernel.org
+Cc: Tony Nguyen <anthony.l.nguyen@intel.com>,
+	larysa.zaremba@intel.com,
+	przemyslaw.kitszel@intel.com,
+	aleksander.lobakin@intel.com,
+	sridhar.samudrala@intel.com,
+	michal.swiatkowski@linux.intel.com,
+	maciej.fijalkowski@intel.com,
+	emil.s.tantilov@intel.com,
+	madhu.chittim@intel.com,
+	joshua.a.hay@intel.com,
+	jacob.e.keller@intel.com,
+	jayaprakash.shanmugam@intel.com,
+	jiri@resnulli.us,
+	horms@kernel.org,
+	corbet@lwn.net,
+	richardcochran@gmail.com,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next v5 00/15][pull request] Introduce iXD driver
+Date: Wed, 15 Jul 2026 11:00:25 -0700
+Message-ID: <20260715180042.1972010-1-anthony.l.nguyen@intel.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260714121529.2237261-1-wangzicheng@honor.com>
-In-Reply-To: <20260714121529.2237261-1-wangzicheng@honor.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 15 Jul 2026 10:55:56 -0700
-X-Gm-Features: AUfX_mzAYIm26JZUendtoZyWaKS-eWpz07CFW-u1bis9rmp-d5YT8fcNAcUgKUM
-Message-ID: <CABdmKX3y841t4Oqg3RRHTGXWP-LMMSi_exDuxAc4jR9v9ChD2g@mail.gmail.com>
-Subject: Re: [RFC v2 0/3] mm/mglru: proactive aging via memory.aging
-To: Zicheng Wang <wangzicheng@honor.com>
-Cc: akpm@linux-foundation.org, yuanchu@google.com, tj@kernel.org, 
-	hannes@cmpxchg.org, mkoutny@suse.com, corbet@lwn.net, kasong@tencent.com, 
-	qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, weixugc@google.com, david@kernel.org, 
-	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, 
-	surenb@google.com, mhocko@suse.com, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, willy@infradead.org, 
-	denghaojie@honor.com, baoquan.he@linux.dev, kaleshsingh@google.com, 
-	tao.wangtao@honor.com, zhangji1@honor.com, wangzhen5@honor.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 14, 2026 at 5:15=E2=80=AFAM Zicheng Wang <wangzicheng@honor.com=
-> wrote:
-> The benefit is workload-dependent: file-cache-bound servers gain from
-> aging, anon-bound servers do not, so no kernel default is correct for
-> all.  The kernel also cannot know when to age: on Android the right
-> moment is the foreground-to-background transition, when the app's pages
-> are cold but their PTE accessed bits are still accurate from foreground
-> execution, a framework concept.
+Larysa Zaremba says:
 
-When an app transitions and becomes cached, we attempt to reclaim its
-entire workingset. We basically cat memory.current > memory.reclaim
-and freeze the cgroup.
-https://cs.android.com/android/platform/superproject/+/android-latest-relea=
-se:system/core/libprocessgroup/task_profiles.cpp;drc=3D65bd7ab941a709bf0498=
-71406981022b988e1721;l=3D706
+This patch series adds the iXD driver, which supports the Intel(R)
+Control Plane PCI Function on Intel E2100 and later IPUs and FNICs.
+It facilitates a centralized control over multiple IDPF PFs/VFs/SFs
+exposed by the same card. The reason for the separation is to be able
+to offload the control plane to the host different from where the data
+plane is running.
 
-File / anon balance vs hotness and generational placement doesn't
-matter in that scenario because we want to get rid of all of it. So I
-don't really understand how you'd want to use an aging knob.
+This is the first phase in the release of this driver where we implement the
+initialization of the core PCI driver. Subsequent phases will implement
+advanced features like usage of idpf ethernet aux device, link management,
+NVM update via devlink, switchdev port representors, data and exception path,
+flow rule programming, etc.
+
+The first phase entails the following aspects:
+
+1. Additional libie functionalities:
+Patches 1-5 introduce additional common library API for drivers to
+communicate with the control plane through mailbox communication.
+A control queue is a hardware interface which is used by the driver
+to interact with other subsystems (like firmware). The library APIs
+allow the driver to setup and configure the control queues to send and
+receive virtchnl messages. The library has an internal bookkeeping
+(XN API) mechanism to keep track of the send messages. It supports both
+synchronous as well as asynchronous way of handling the messages. The
+library also handles the timeout internally for synchronous messages
+using events. This reduces the driver's overhead in handling the timeout
+error cases.
+
+The current patch series supports only APIs that are needed for device
+initialization. These include APIs in the libie_pci module:
+* Allocating/freeing the DMA memory and mapping the MMIO regions for
+  BAR0, read/write APIs for drivers to access the MMIO memory
+
+and libie_cp module:
+* Control queue initialization and configuration
+* Transport initialization for bookkeeping
+* Blocking and asynchronous mailbox transactions
+
+Once the mailbox is initialized, the drivers can send and receive virtchnl
+messages to/from the control plane.
+
+The modules above are not supposed to be linked with the main libie library,
+but do share the folder with it.
+
+2. idpf:
+Patches 6-11 refactor the idpf driver to use the libie APIs for control
+queue configuration, virtchnl transaction, device initialization
+and reset and adjust related code accordingly.
+
+3. ixd:
+Patches 12-15 add the ixd driver and implement multiple pieces of the
+initialization flow as follows:
+* Add the ability to load
+* A reset is issued to ensure a clean device state, followed by
+  initialization of the mailbox
+* Device capabilities:
+  As part of initialization, the driver has to determine what the device is
+  capable of (ex. max queues, vports, etc). This information is obtained from
+  the firmware and stored by the driver.
+* Enable initial support for the devlink interface
+---
+v5:
+* Add length validation to libie_ctlq_add()
+* Add memory barrier before writing tail in libie_ctlq_send()
+* Reduce larger then needed size allocation in libie_ctlq_xn_init_dma()
+* Clarify error message on dev init failure in idpf_probe()
+* Nullify adapter->asq and adapter->arq on failure in idpf_init_dflt_mbx()
+* Correct virtchnl version compatibility checks in ixd_handle_vc_ver()
+* Misc documentation fixes
+
+v4: https://lore.kernel.org/netdev/0a3ceda1-a29b-4784-975b-d8c89f145d10@intel.com/
+* use check_add_overflow() for MMIO offset+size bounds check in libie_pci
+* replace iounmap() with pci_iounmap() for MMIO regions in libie_pci
+* fix missing rx_buf->offset when constructing ctlq Rx message address
+* always zero Rx descriptor before reallocation
+* do not call complete() inside spinlock, theoretical use-after-free
+* reset async xn state to IDLE before freeing in libie_ctlq_xn_shutdown()
+* zero control queue Tx descriptor before freeing memory
+* remove unused ctx field from struct libie_ctlq_xn_clean_params
+* roll back merging of idpf_deinit_dflt_mbx() and xnm shutdown,
+  those calls are separate again (so idpf refactoring becomes more trivial)
+* introduce idpf_send_vf_reset_msg() for one-way VF reset message bypassing
+  XN manager, which is shut down by now
+* guard libie_ctlq_xn_shutdown() against NULL xnm in idpf_vc_event_task(),
+  this is needed if reset fails and reschedules
+* validate response sizes in idpf more
+* fix MAINTAINERS glob pattern for include/linux/net/intel/
+* roll back linux/{net/intel -> intel}/* change (1st patch)
+* use pci_iomap_range() to map regions in libie_pci
+* improve libie_pci commit message
+* remove broken dead code for getting RSS from idpf (new patch!)
+* use maximum alignment for control queue stack buffer in ixd
+* fix ixd_ctlq_clean_sq() usage
+* do not register ixd devlink prematurely
+* improve receive buffer size validation in idpf
+
+v3: https://lore.kernel.org/netdev/20260515224443.2772147-1-anthony.l.nguyen@intel.com/
+- lock libie ctlq transaction earlier on Rx path
+- improve ctlq Rx buffer size validation both in idpf and libie
+- fix RSS LUT buf size (will also go to stable separately)
+- improve xnm shutdown handling
+- skip zero-sized BAR regions instread of returning error in idpf
+- unify treatment of initialized and uninitialized ctlq messages
+
+v2: https://lore.kernel.org/netdev/20260403194938.3577011-1-anthony.l.nguyen@intel.com/
+- improved failure handling and input validation
+- removed cp version from devlink in ixd
+
+v1: https://lore.kernel.org/netdev/20260317230905.847744-1-anthony.l.nguyen@intel.com/
+
+The following are changes since commit f6f3b36c15ed44de1fbb44e645e4fae8c4a4453e:
+  net: ethernet: qualcomm: remove unneeded 'fast_io' parameter in regmap_config
+and are available in the git repository at:
+  git://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue 200GbE
+
+Amritha Nambiar (1):
+  ixd: add devlink support
+
+Larysa Zaremba (6):
+  idpf: remove unused code for getting RSS info from device
+  idpf: make mbx_task queueing and cancelling more consistent
+  idpf: print a debug message and bail in case of non-event ctlq message
+  ixd: add basic driver framework for Intel(R) Control Plane Function
+  ixd: add reset checks and initialize the mailbox
+  ixd: add the core initialization
+
+Pavan Kumar Linga (4):
+  libeth: allow to create fill queues without NAPI
+  idpf: remove 'vport_params_reqd' field
+  idpf: refactor idpf to use libie_pci APIs
+  idpf: refactor idpf to use libie control queues
+
+Phani R Burra (3):
+  libie: add PCI device initialization helpers to libie
+  libie: add control queue support
+  libie: add bookkeeping support for control queue messages
+
+Victor Raj (1):
+  virtchnl: move virtchnl and virtchnl2 headers to
+    'include/linux/net/intel'
+
+ .../device_drivers/ethernet/index.rst         |    1 +
+ .../device_drivers/ethernet/intel/ixd.rst     |   39 +
+ Documentation/networking/devlink/index.rst    |    1 +
+ Documentation/networking/devlink/ixd.rst      |   30 +
+ MAINTAINERS                                   |    3 +-
+ drivers/net/ethernet/intel/Kconfig            |    2 +
+ drivers/net/ethernet/intel/Makefile           |    1 +
+ drivers/net/ethernet/intel/i40e/i40e.h        |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_common.c |    2 +-
+ .../net/ethernet/intel/i40e/i40e_prototype.h  |    2 +-
+ .../ethernet/intel/i40e/i40e_virtchnl_pf.h    |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf.h        |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_common.c |    2 +-
+ .../net/ethernet/intel/iavf/iavf_prototype.h  |    3 +-
+ drivers/net/ethernet/intel/iavf/iavf_types.h  |    4 +-
+ drivers/net/ethernet/intel/ice/ice.h          |    2 +-
+ drivers/net/ethernet/intel/ice/ice_common.h   |    2 +-
+ drivers/net/ethernet/intel/ice/ice_vf_lib.h   |    2 +-
+ .../net/ethernet/intel/ice/virt/virtchnl.h    |    2 +-
+ drivers/net/ethernet/intel/idpf/Kconfig       |    1 +
+ drivers/net/ethernet/intel/idpf/Makefile      |    2 -
+ drivers/net/ethernet/intel/idpf/idpf.h        |   99 +-
+ .../net/ethernet/intel/idpf/idpf_controlq.c   |  621 ------
+ .../net/ethernet/intel/idpf/idpf_controlq.h   |  144 --
+ .../ethernet/intel/idpf/idpf_controlq_api.h   |  177 --
+ .../ethernet/intel/idpf/idpf_controlq_setup.c |  169 --
+ drivers/net/ethernet/intel/idpf/idpf_dev.c    |  101 +-
+ .../net/ethernet/intel/idpf/idpf_ethtool.c    |   28 +-
+ drivers/net/ethernet/intel/idpf/idpf_idc.c    |   38 +-
+ drivers/net/ethernet/intel/idpf/idpf_lib.c    |   69 +-
+ drivers/net/ethernet/intel/idpf/idpf_main.c   |  115 +-
+ drivers/net/ethernet/intel/idpf/idpf_mem.h    |   20 -
+ drivers/net/ethernet/intel/idpf/idpf_txrx.c   |    4 +-
+ drivers/net/ethernet/intel/idpf/idpf_txrx.h   |    4 +-
+ drivers/net/ethernet/intel/idpf/idpf_vf_dev.c |   96 +-
+ .../net/ethernet/intel/idpf/idpf_virtchnl.c   | 1883 +++++++----------
+ .../net/ethernet/intel/idpf/idpf_virtchnl.h   |  107 +-
+ .../ethernet/intel/idpf/idpf_virtchnl_ptp.c   |  312 +--
+ drivers/net/ethernet/intel/ixd/Kconfig        |   15 +
+ drivers/net/ethernet/intel/ixd/Makefile       |   13 +
+ drivers/net/ethernet/intel/ixd/ixd.h          |   59 +
+ drivers/net/ethernet/intel/ixd/ixd_ctlq.c     |  146 ++
+ drivers/net/ethernet/intel/ixd/ixd_ctlq.h     |   34 +
+ drivers/net/ethernet/intel/ixd/ixd_dev.c      |   89 +
+ drivers/net/ethernet/intel/ixd/ixd_devlink.c  |   97 +
+ drivers/net/ethernet/intel/ixd/ixd_devlink.h  |   50 +
+ drivers/net/ethernet/intel/ixd/ixd_lan_regs.h |   68 +
+ drivers/net/ethernet/intel/ixd/ixd_lib.c      |  174 ++
+ drivers/net/ethernet/intel/ixd/ixd_main.c     |  147 ++
+ drivers/net/ethernet/intel/ixd/ixd_virtchnl.c |  190 ++
+ drivers/net/ethernet/intel/ixd/ixd_virtchnl.h |   12 +
+ drivers/net/ethernet/intel/libeth/rx.c        |   12 +-
+ drivers/net/ethernet/intel/libie/Kconfig      |   14 +
+ drivers/net/ethernet/intel/libie/Makefile     |    8 +
+ drivers/net/ethernet/intel/libie/controlq.c   | 1223 +++++++++++
+ drivers/net/ethernet/intel/libie/pci.c        |  209 ++
+ include/linux/net/intel/libie/controlq.h      |  424 ++++
+ include/linux/net/intel/libie/pci.h           |   56 +
+ include/linux/{avf => net/intel}/virtchnl.h   |    0
+ .../linux/net/intel}/virtchnl2.h              |    0
+ .../linux/net/intel}/virtchnl2_lan_desc.h     |    0
+ include/net/libeth/rx.h                       |    4 +-
+ 62 files changed, 4241 insertions(+), 2897 deletions(-)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/intel/ixd.rst
+ create mode 100644 Documentation/networking/devlink/ixd.rst
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.c
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.h
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_api.h
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_setup.c
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_mem.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/Kconfig
+ create mode 100644 drivers/net/ethernet/intel/ixd/Makefile
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_ctlq.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_ctlq.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_dev.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_lan_regs.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_lib.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_main.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_virtchnl.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_virtchnl.h
+ create mode 100644 drivers/net/ethernet/intel/libie/controlq.c
+ create mode 100644 drivers/net/ethernet/intel/libie/pci.c
+ create mode 100644 include/linux/net/intel/libie/controlq.h
+ create mode 100644 include/linux/net/intel/libie/pci.h
+ rename include/linux/{avf => net/intel}/virtchnl.h (100%)
+ rename {drivers/net/ethernet/intel/idpf => include/linux/net/intel}/virtchnl2.h (100%)
+ rename {drivers/net/ethernet/intel/idpf => include/linux/net/intel}/virtchnl2_lan_desc.h (100%)
+
+-- 
+2.47.1
+
