@@ -1,398 +1,124 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A3D4A2E0E
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 17:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16AC2FDC57
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 17:56:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784138148; cv=pass; b=fJ61TpbbeLmBeIhOZJXO2+Kw8BOow8ND+Q+GtivNd9Cv+3axsDCWW5fzGoDiD1GalWjZfuaAHb2U+VtyADV1aoHpREwovu9GEnr57hgmg9o5JyN7xu737rlR2BBOgDOCHSXo+pvojg7cnNr/M/hd60d+eKMwW3EkWxpjwtxcdvs=
+	t=1784138172; cv=pass; b=ENV4oSEsmk8zuEoE77/UelTg3Sr7hUN6lD6Mh3rWFUhykIFgbh0aQ/G5LBOlFz0Vjno/5IQ1GWHix1nbTYYYHFaCGxq//B96+aujEa8eGLclbFh1POC0n1antVnY5F3EuPrjdjVkvBru8VpZz2GIsywKgVQxkRby+DqT9CJEc5I=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784138148; c=relaxed/simple;
-	bh=t0NQOLYqHWDz9VsRSjuVoji+SI41r96ungAAD1Kanl0=;
+	s=arc-20240116; t=1784138172; c=relaxed/simple;
+	bh=u+3FAslbVlj96800WiAMAGOylgc0ssLAYc5uCqETipo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cUgUwJN3IgoMqRzKQzMfson2mgmog3rIYN+MQyY3Dm7y1qaPleltu1HQ/zveGGcdIPUejUhlMPh7sIjVnvsjJz7WzRjE957ybZZmVM5h0QmJ/zgi8kTximwYPYLKCTY00t4xA/6nvAehSOjZnk1aUOQD/odD4xRkT2LtMOL6APc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lgKv2/1A; arc=pass smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 To:Cc:Content-Type; b=qO0L1rm+mUnWSsEguGQMnT6pw7KtmOOTCFm0OohacC36ZTtSctI12KdnW/l8Yx4DqskfL3vma0yXKUKfBDeDY4pSh2m2zj8Wr7ivpj3hBJevOEvrYP71MlrMvTSSmBbjc2YOQyx4mN3y7W3TvSH4+tgU+LFtd3LBaqd073kcjRg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=A4hgAjv+; arc=pass smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lgKv2/1A"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6983f20a8bfso8825840a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 10:55:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784138143; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="A4hgAjv+"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493c556ada3so5525e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 10:56:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784138169; cv=none;
         d=google.com; s=arc-20260327;
-        b=hMeBRRLX2z+f/GEMDol705V7d8c/Lbf5rzVO/fcMwtMMa6Jnx9anz0+xMR3GmVo3u2
-         H12h4Xe3tbKeuCoyivTPH0h/pIWBMupkkIDzL3+fp3wpMnNbuswbITZRSyaRg/5s+/W3
-         +mN88y0C94EY3VY4pyJRP0rGoKk3xgcr++0o4fYsL9VG5haKj36VtajbYS7+VcCZZqYI
-         Wpx8O1Vo8GNaOkhvzRlTMm8AYvYfXd3KEU1N/rJZbeIEsHmClqA75FRFhJFtnjom3axm
-         Z0O8uOfkkDg3joZUxs5N+IqXl5kdrvNHfYtMvDiV5Jt3FbMssdOsmA9tC4xECdZHkABR
-         YlNg==
+        b=gU2hLrUqjBWPlVwH1kixFlf5FXw9BzjSrXCfULEIEiMk1PayQeepOwMnFVijFx7R04
+         W9jXZcbmK4M8l3OhZouQ990v8wptFpZxotOXRP3YiyKqfGmJpqsW5WxOIZUjBMSinEux
+         e+VUxHwyMcbvzEM/poZC150qqhC3xVfqrKqPyW3mmLxum8hDiuDWlENnwxdXPBxWHOYw
+         xj3KWmA92TxZejALIqbiNt/wNkCBP3S0K/j7pLpCemTC6ARpZ5FwNC+WLbhs4SXXwTFb
+         Ng54Fnyr1tYqkRxHoHJS1uIeutU90HwIX+dbfLkinpMTbFTTqVKoZqyosxMJ5/438A6o
+         0naw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=B1fLH5vkVlaT9TAQEnaHfQcEDTexVsSO83pCVpu+qHI=;
-        fh=3bMzLsEND/yvQNVEPv0v0fH8ttwRMslUkLkl7516BJY=;
-        b=fjFe6/24BZFf0T5uHDQuzkUllpf+3Uu7kJ+vTVs9nxPxZjcIjzF1vKesXghAvGpaSt
-         WdgZCiCEvs+d2gFeLiuPUodkPZhf47YLkpaMIzf5huY/DMLPrg0bFjrWQqfMTMjaVdma
-         0HAzlBC9f1s6KeQvqQrq0Ez66iemjdFwAPjpd0va0SMdpWlkI9DiKIX7mgdEiYP4EQYN
-         sONNSbM66V+VaebmAkf//wvtjxCzPRDWI9vEvlJzl+XKnzDLprIiV9g2M846DH8Rq4Xr
-         /bc8DKZ4SvEKG2faIx6PFgSF8XV9ThzlVLGJL8nTJnF9l/UAYYrQ1K8CDzVqb05UwrVp
-         42wg==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=RuBIyMRxxSG5xOKfBj9RRTURzzjnDkJEBKCLyFmN4sQ=;
+        fh=sUb8bQS9BFKnvbV4hehKqRiyw+Dt/B2SVrpbXqAocKM=;
+        b=bizD4FEhahCv0HS/DvEP9kADVLeMXVEZXQpB+lY3Tu/5zUjRxOEyQlF4mZNTML8PRe
+         kK6C0iKohTk7DzxWZwJOM0/sjKVghAf1vWTq86gAxrqQbMpEn6l4/7+4GhfurWKL1wV+
+         bkRdZMz5D5za71+OL4hiOhHMPcXec6FBVaiN93hC8iyKOjXjPk5QgLtKXXQEe84XZC78
+         cdnpHxEE1tlysNzLfZL7owZfpse8PsfcCunwBcwJI/ZU3szP3TrlCzQglnH3TXqW9i+F
+         uSxuJklXumqmVsIX+0VlhXgj162Pfbn1dXl9uG3Ks3pwms0bDSIR4cixWhXzTjxJkxXm
+         2VIg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1784138143; x=1784742943; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=B1fLH5vkVlaT9TAQEnaHfQcEDTexVsSO83pCVpu+qHI=;
-        b=lgKv2/1A3Qpu3dh33l55DhDZ2WtOfRur9GvjsEMwzA9HDB+dUvz/FuSaGvWaOvO5+j
-         FlXO74Majb2FoMEPFvHMYKxiHP4LXOJLt/kFFOt/dzDbaWvKWhQ+yah0PJkEJBLiyUoB
-         /QeLjS2mnBxfuV4BC/qkivLafCM65Tg33yAbx724+nWPUeTnZs9gi9ewYNNHUHpve9QS
-         sbrVAAdE9muwlAs73JW2WhIewcVXhmWzqO715dlQfju5fvQtRozsJnjzSPbHDzdy5AHl
-         Osxv5MGrJz8w9EH97sSBZHzBkGx38AiKZKD4xFyQcMP9i76iF8GzqzP0c+RxH7midKxc
-         9Ubw==
+        d=google.com; s=20251104; t=1784138169; x=1784742969; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=RuBIyMRxxSG5xOKfBj9RRTURzzjnDkJEBKCLyFmN4sQ=;
+        b=A4hgAjv+cRMPs1OEpvkfeZIySozAnIHRuQUe/3yE/Xk5dftlFG3toVQSh54TcUDa9L
+         Oj0tQ4KRMpYlTiRTcOCT7kjC2lsuBSGe12L7u2aNzp2l0BsfcVZclyE1ZOOv+MCEYUvI
+         4aj/+ak8C0mEO3owGJyjU85qe7UnvTkmPhjvsshpylZx50InZMHYIH2Daw3+HuGw0pcc
+         8tjLT7N8Mgi/eRumssERQwz90Jt/6COlHuFMjYMXZ7SxF+bGjKzKsoD9beSROq7sewYT
+         0SerjmRzmjo4kDWOp+NF15rkocmlO3w64W6v0wpzjkSA211XUGNffeuqujyrT9U14XNt
+         hfzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784138143; x=1784742943;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=B1fLH5vkVlaT9TAQEnaHfQcEDTexVsSO83pCVpu+qHI=;
-        b=Bw4tcJXAQF3tq8kTzevkeDIo0mWFcVjHXrRgIUeowCQVzbHeEvkCuy5BIuKDm0p7Xg
-         oZFMwoYw21siGW9Y4L5JftuuO5cTvNYrraBvizZ0iSFRDd+sEkVA1j2D6SkoY7+wgmnU
-         SivDT+FipV2a/3+Mg/qoou9BdEvguVVHN+5e3bOBRKoWrnDFJgrKmhadi+s4vu7tfoRi
-         F2y2mUVLVhta515vYVVbHDbriJMRlRBbzfe8jv2eygHZ5tLm9yHA9JB4KMzyy303MH90
-         cOWzS2nzYaydBZNHNTfBvndV0UxMwryG29OWI+XLKHuXMhKFeaxgojfz/jtwxWUltijQ
-         wtFg==
-X-Forwarded-Encrypted: i=1; AHgh+Rr/tXT0RYI55AhE3gESciLuD6hLnnZTaq/c/iyoUHnud/LqOomYdi90HrQfK97hpEIW/D9W3wa3mJw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxi69bbUhsHbkrQdTEUkjWM8ttKEyDANjm/DKnOc3+cu+Tb641U
-	NWquWfwHT+RYvA2l5DoKIqNIo5/lKZV1FhXP0+DNCXW6aU0YW0ML5npzrQ2z2XqR0PL18TqHxDm
-	RJkaG7XOk3Q2+nNoD60PLUD5EIzUJkChxGEOdZYFIAg==
-X-Gm-Gg: AfdE7cl9/CAQdFgteMJYO03b8luN17JjG0JF5Dxdheu4/6fNs6iaRdSDCAZD1XNI8Ax
-	en5rfv5Qtu+GRuuDr8MdPlRr/yf95NK/VHVja+kYWtCbXURimL2g6NS5ZXMIX+9UwEJ6ag3GHdb
-	ePcj1VrIfn58yA6BwINXEcWJ603sJmT0i+XFtwUa+Ck4/7yk/K4pC64G/sghFyeaWgStqe2pY1u
-	W6m/OnZUhi4FqN7nEkSboEwRD3SaoTZRrwj0mrdasHWftfWvn+FLDl3WPrfIqIMpCYhO7PhsoLQ
-	5Bo0Q+oawM2yLIfieEKIqlme85hIF8k=
-X-Received: by 2002:a05:6402:1588:b0:69c:7567:cf5c with SMTP id
- 4fb4d7f45d1cf-69cd6ddfb91mr4781134a12.41.1784138143408; Wed, 15 Jul 2026
- 10:55:43 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784138169; x=1784742969;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RuBIyMRxxSG5xOKfBj9RRTURzzjnDkJEBKCLyFmN4sQ=;
+        b=O1jHqTlubGuKIcA4fuZ53FyMIaoscIhtEMN63vUZGMFgy7x7sfPE28nOh40SPMdIDa
+         2+0UuQO3TMSgmS3t514N/vGflDLuHlgUtPuJImer58h8pJiOV+ntN0OtXXHghtLUL+Qi
+         OJU4sYZxAjjArNkAbhMUmehrHeV+RT5HAxMNehyjiQIXJ0DR5Hd8Gb4+CYfIw9maBU6h
+         tQlM5/MU0sbPW4DRVjHLxjhyyxMNs4h69vgBJG7ATncmKek4vanBtrOkN9DZLN0Gk+Lh
+         FM9sKJaqnS8dCZvGk6O2smnONiO5cntGXEmei30lOMCInyow5AulneYhxMOor6+j6/++
+         e+PQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rqj2vcEW/vMnQBBJsYuxyTYy2gjsgAvCRLQgpRvlL77fTqJEzDtVmVc7DrFvGqOwAIzF/iqgu0Y5qY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywa/1Jcgl/0NPgREQkIj0e3ip/0l+VfbXHT4FfVHKZEBlPWRSno
+	eeyxwC8C+cLQg3jpKdWZUw+p6zNs/DEv6f5YvyLiOJMIaywPFDduzst3LEBYdFsU6LyT4gMQC/t
+	6FE8rw4v9bfXixrP6jiEHPBHYo4fPfBYIYCvplBCQ
+X-Gm-Gg: AfdE7cmvUIJoqCjcDoJaucDHjwmg+V1suiBS0ckk1OR9vX74des0Js8OBJI645f6ptj
+	WKMoHgY/JcDhWpPR3Ym8II5GjIxP4f7FSIAU/mKmXQonlsipuKsZimTvBK3MKq3/Nj8Ct7ccI8W
+	CJ3prCiU04tbE31D4/ozNKIDTd/tuZopYQkcSatDbwRPwMMaMi0mFqKUDeJLaqA+S6jVyCR/85X
+	5zEcRBfqy9hCpvFQVJiBTimqtFQsRX6YAYRLN19etI9vCMPD6aHLnDw31vixRCLWaTFjBEo+8oo
+	tkJRofc1OS7gxzUghwgsy0dy7WLmfR1LIFHdAVYmp7eWHf4DI1BFaWTYuocyq6vidOfEeQ==
+X-Received: by 2002:a05:600c:4ec6:b0:495:4069:b0de with SMTP id
+ 5b1f17b1804b1-495414230f0mr128295e9.9.1784138168394; Wed, 15 Jul 2026
+ 10:56:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260625155432.815185-1-shenwei.wang@oss.nxp.com>
- <20260625155432.815185-2-shenwei.wang@oss.nxp.com> <alUdg9iTysXCFUa5@p14s>
- <PAXPR04MB91852808D2C7491AEF98CF1589F92@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <alZlZvQQwq-g6VL3@p14s> <PAXPR04MB9185B1A3F16D82E8C0C76EE689F92@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <alemgbM2ktRLE9wT@p14s> <PAXPR04MB9185DC31980327326D289C4C89F82@PAXPR04MB9185.eurprd04.prod.outlook.com>
-In-Reply-To: <PAXPR04MB9185DC31980327326D289C4C89F82@PAXPR04MB9185.eurprd04.prod.outlook.com>
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-Date: Wed, 15 Jul 2026 11:55:32 -0600
-X-Gm-Features: AUfX_mzC-pSYEjUJ9BYRTa4GlO7TcNO2B0DY7O1_KieZEYL7x6Ya_ZTaPmF0Y3w
-Message-ID: <CANLsYkww_2d_eFGCTrTvoSavdkfOh41joKHypDnW-z0XUonR1Q@mail.gmail.com>
-Subject: Re: [PATCH v14 1/5] docs: driver-api: gpio: rpmsg gpio driver over
- rpmsg bus
-To: "Shenwei Wang (OSS)" <shenwei.wang@oss.nxp.com>
-Cc: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Frank Li <frank.li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>, 
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>, 
-	"imx@lists.linux.dev" <imx@lists.linux.dev>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>, 
-	Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, "b-padhi@ti.com" <b-padhi@ti.com>, 
-	Andrew Lunn <andrew@lunn.ch>
+References: <20260714121529.2237261-1-wangzicheng@honor.com>
+In-Reply-To: <20260714121529.2237261-1-wangzicheng@honor.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Wed, 15 Jul 2026 10:55:56 -0700
+X-Gm-Features: AUfX_mzAYIm26JZUendtoZyWaKS-eWpz07CFW-u1bis9rmp-d5YT8fcNAcUgKUM
+Message-ID: <CABdmKX3y841t4Oqg3RRHTGXWP-LMMSi_exDuxAc4jR9v9ChD2g@mail.gmail.com>
+Subject: Re: [RFC v2 0/3] mm/mglru: proactive aging via memory.aging
+To: Zicheng Wang <wangzicheng@honor.com>
+Cc: akpm@linux-foundation.org, yuanchu@google.com, tj@kernel.org, 
+	hannes@cmpxchg.org, mkoutny@suse.com, corbet@lwn.net, kasong@tencent.com, 
+	qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, weixugc@google.com, david@kernel.org, 
+	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, 
+	surenb@google.com, mhocko@suse.com, roman.gushchin@linux.dev, 
+	muchun.song@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, willy@infradead.org, 
+	denghaojie@honor.com, baoquan.he@linux.dev, kaleshsingh@google.com, 
+	tao.wangtao@honor.com, zhangji1@honor.com, wangzhen5@honor.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 15 Jul 2026 at 09:55, Shenwei Wang (OSS)
-<shenwei.wang@oss.nxp.com> wrote:
->
->
->
-> > -----Original Message-----
-> > From: Mathieu Poirier <mathieu.poirier@linaro.org>
-> > Sent: Wednesday, July 15, 2026 10:26 AM
-> > To: Shenwei Wang (OSS) <shenwei.wang@oss.nxp.com>
-> > Cc: Linus Walleij <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>;
-> > Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof
-> > Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn
-> > Andersson <andersson@kernel.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
-> > <s.hauer@pengutronix.de>; Shuah Khan <skhan@linuxfoundation.org>; linux-
-> > gpio@vger.kernel.org; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
-> > Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
-> > <festevam@gmail.com>; Shenwei Wang <shenwei.wang@nxp.com>; Peng Fan
-> > <peng.fan@nxp.com>; devicetree@vger.kernel.org; linux-
-> > remoteproc@vger.kernel.org; imx@lists.linux.dev; linux-arm-
-> > kernel@lists.infradead.org; dl-linux-imx <linux-imx@nxp.com>; Arnaud
-> > POULIQUEN <arnaud.pouliquen@foss.st.com>; b-padhi@ti.com; Andrew Lunn
-> > <andrew@lunn.ch>
-> > Subject: Re: [PATCH v14 1/5] docs: driver-api: gpio: rpmsg gpio driver over rpmsg
-> > bus
-> >
-> > On Tue, Jul 14, 2026 at 06:43:30PM +0000, Shenwei Wang (OSS) wrote:
-> > >
-> > >
-> > > > -----Original Message-----
-> > > > From: Mathieu Poirier <mathieu.poirier@linaro.org>
-> > > > Sent: Tuesday, July 14, 2026 11:36 AM
-> > > > To: Shenwei Wang (OSS) <shenwei.wang@oss.nxp.com>
-> > > > Cc: Linus Walleij <linusw@kernel.org>; Bartosz Golaszewski
-> > > > <brgl@kernel.org>; Jonathan Corbet <corbet@lwn.net>; Rob Herring
-> > > > <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor
-> > > > Dooley <conor+dt@kernel.org>; Bjorn Andersson
-> > > > <andersson@kernel.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
-> > > > <s.hauer@pengutronix.de>; Shuah Khan <skhan@linuxfoundation.org>;
-> > > > linux- gpio@vger.kernel.org; linux-doc@vger.kernel.org;
-> > > > linux-kernel@vger.kernel.org; Pengutronix Kernel Team
-> > > > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Shenwei
-> > > > Wang <shenwei.wang@nxp.com>; Peng Fan <peng.fan@nxp.com>;
-> > > > devicetree@vger.kernel.org; linux- remoteproc@vger.kernel.org;
-> > > > imx@lists.linux.dev; linux-arm- kernel@lists.infradead.org;
-> > > > dl-linux-imx <linux-imx@nxp.com>; Arnaud POULIQUEN
-> > > > <arnaud.pouliquen@foss.st.com>; b-padhi@ti.com; Andrew Lunn
-> > > > <andrew@lunn.ch>
-> > > > Subject: Re: [PATCH v14 1/5] docs: driver-api: gpio: rpmsg gpio
-> > > > driver over rpmsg bus
-> > > >
-> > > > On Tue, Jul 14, 2026 at 02:29:12PM +0000, Shenwei Wang (OSS) wrote:
-> > > d
-> > > > > > > +  - 3: Both edge trigger
-> > > > > > > +  - 4: High level trigger
-> > > > > > > +  - 8: Low level trigger
-> > > > > >
-> > > > > > I'm in agreement with cmd 3, 4, 5 and 6.
-> > > > > >
-> > > > >
-> > > > > How about cmd 2?
-> > > >
-> > > > Yes, I forgot cmd 2.
-> > > >
-> > > > >
-> > > > > > > +
-> > > > > > > +**Reply:**
-> > > > > > > +
-> > > > > > > +.. code-block:: none
-> > > > > > > +
-> > > > > > > +   +------+--------+--------+
-> > > > > > > +   | 0x00 |  0x01  |  0x02  |
-> > > > > > > +   |   1  | status |    0   |
-> > > > > > > +   +------+--------+--------+
-> > > > > > > +
-> > > > > > > +- **status**:
-> > > > > > > +
-> > > > > > > +  - 0: Ok
-> > > > > > > +  - 1: Error
-> > > > > > > +
-> > > > > > > +SET_WAKEUP (Cmd=16)
-> > > > > > > +~~~~~~~~~~~~~~~~~~~
-> > > > > >
-> > > > > > I already commented on messages that are not part of the
-> > > > > > virtio-gpio specification.
-> > > > > >
-> > > > >
-> > > > > I don't believe virtio-gpio needs a SET_WAKEUP command.
-> > > > >
-> > > > > In the RPMSG case, SET_WAKEUP is required because it performs an
-> > > > > operation on the remote processor, so the remote side must be
-> > > > > explicitly
-> > > > notified.
-> > > >
-> > > > What operations would that be?
-> > > >
-> > >
-> > > The operation is enabling the line as a wakeup source. In practice,
-> > > this involves configuring hardware-specific wakeup settings (e.g.,
-> > > register bits) on the remote processor, so the remote side must be explicitly
-> > notified through SET_WAKEUP.
-> > >
-> >
-> > As I said before, we are not enhancing the virtio-gpio specification.  If the
-> > functionality is not part of the specification, it is not part of this protocol.
-> >
->
-> It's about the functionality, not the specification.
->
+On Tue, Jul 14, 2026 at 5:15=E2=80=AFAM Zicheng Wang <wangzicheng@honor.com=
+> wrote:
+> The benefit is workload-dependent: file-cache-bound servers gain from
+> aging, anon-bound servers do not, so no kernel default is correct for
+> all.  The kernel also cannot know when to age: on Android the right
+> moment is the foreground-to-background transition, when the app's pages
+> are cold but their PTE accessed bits are still accurate from foreground
+> execution, a framework concept.
 
-No, it's about the specification.
+When an app transitions and becomes cached, we attempt to reclaim its
+entire workingset. We basically cat memory.current > memory.reclaim
+and freeze the cgroup.
+https://cs.android.com/android/platform/superproject/+/android-latest-relea=
+se:system/core/libprocessgroup/task_profiles.cpp;drc=3D65bd7ab941a709bf0498=
+71406981022b988e1721;l=3D706
 
-> Without SET_WAKEUP, a virtio-GPIO line can still be used as a wakeup source, but
-> an RPMSG implementation cannot because the remote processor is never notified
-> to configure its wakeup settings.
->
-> So both implementations may follow the same virtio-gpio specification, but they do
-> not provide the same wakeup functionality.
->
-
-No.  The kernel treats rpmsg-gpio the same way as virtio-gpio - they
-need to provide exactly the same functionality.
-
-> Anyway, if you want to drop the function, the command can be removed.
->
-> Shenwei
->
-> > >
-> > > > >
-> > > > > For virtio-gpio, however, everything is handled locally. The other
-> > > > > side does not need to perform any action, so sending a SET_WAKEUP
-> > > > > command
-> > > > appears unnecessary.
-> > > >
-> > > > What is "everything"?
-> > > >
-> > >
-> > > I mean masking, unmasking, and marking the interrupt as a wakeup
-> > > source. All of these operations are handled on local processor.
-> >
-> > There may be enough capability in your remote processor to do all that, but we
-> > can't assume the same applies to all implementations.  rpmsg-gpio is not about
-> > inventing a new protocol or delegating actions to the remote processor.  It is
-> > about carrying virtio-gpio packets on top of RPMSG.  It needs to operate
-> > _exactly_ the same way as virtio-gpio.
-> >
-> > >
-> > > Shenwei
-> > >
-> > > > >
-> > > > >
-> > > > > > > +
-> > > > > > > +**Request:**
-> > > > > > > +
-> > > > > > > +.. code-block:: none
-> > > > > > > +
-> > > > > > > +   +------+------+------+------+------+------+------+------+
-> > > > > > > +   | 0x00 | 0x01 | 0x02 | 0x03 | 0x04 | 0x05 | 0x06 | 0x07 |
-> > > > > > > +   |      1      |    line     |           value           |
-> > > > > > > +   +------+------+------+------+------+------+------+------+
-> > > > > > > +
-> > > > > > > +- **value**: Wakeup enable.
-> > > > > > > +
-> > > > > > > +  The remote system should always aim to stay in a
-> > > > > > > + power-efficient state by  shutting down or clock-gating the
-> > > > > > > + GPIO blocks that aren't in use. Since  the remoteproc driver
-> > > > > > > + is responsible for managing the power states of the  remote
-> > > > > > > + firmware, the GPIO driver does not require to know the
-> > > > > > > + firmware's
-> > > > running states.
-> > > > > > > +
-> > > > > > > +  When the wakeup bit is set, the remote firmware should
-> > > > > > > + configure the line  as a wakeup source. The firmware should
-> > > > > > > + send the notification message to  Linux after it is woken from the GPIO
-> > line.
-> > > > > > > +
-> > > > > > > +  - 0: Disable wakeup from GPIO
-> > > > > > > +  - 1: Enable wakeup from GPIO
-> > > > > > > +
-> > > > > > > +**Reply:**
-> > > > > > > +
-> > > > > > > +.. code-block:: none
-> > > > > > > +
-> > > > > > > +   +------+--------+--------+
-> > > > > > > +   | 0x00 |  0x01  |  0x02  |
-> > > > > > > +   |   1  | status |    0   |
-> > > > > > > +   +------+--------+--------+
-> > > > > > > +
-> > > > > > > +- **status**:
-> > > > > > > +
-> > > > > > > +  - 0: Ok
-> > > > > > > +  - 1: Error
-> > > > > > > +
-> > > > > > > +Notification Message
-> > > > > > > +--------------------
-> > > > > >
-> > > > > > "Interrupt Messages"
-> > > > > >
-> > > > > > > +
-> > > > > > > +Notifications are sent by the remote core and they have
-> > > > > > > +**Type=2 (GPIO_RPMSG_NOTIFY)**:
-> > > > > > > +
-> > > > > > > +When a GPIO line asserts an interrupt on the remote
-> > > > > > > +processor, the firmware should immediately mask the
-> > > > > > > +corresponding interrupt source and send a notification
-> > > > > > > +message to the Linux. Upon completion of the interrupt
-> > > > > > > +handling on the Linux side, the driver should issue a command
-> > > > > > > +**SET_IRQ_TYPE** to the firmware to
-> > > > unmask the interrupt.
-> > > > > > > +
-> > > > > > > +A Notification message can arrive between a SEND and its
-> > > > > > > +REPLY message, and the driver is expected to handle this scenario.
-> > > > > > > +
-> > > > > > > +.. code-block:: none
-> > > > > > > +
-> > > > > > > +   +------+------+--------+
-> > > > > > > +   | 0x00 | 0x01 |  0x02  |
-> > > > > > > +   |   2  | line | trigger|
-> > > > > > > +   +------+------+--------+
-> > > > > >
-> > > > > > 2 things here:
-> > > > > >
-> > > > > > 1) You did not include messages that mask and unmask interrupts
-> > > > > > at the driver side.
-> > > > >
-> > > > > Interrupt masking and unmasking are handled entirely on the local
-> > processor.
-> > > > >
-> > > > > When an interrupt occurs, the remote system masks the interrupt
-> > > > > and then sends a notification to Linux. After Linux processes the
-> > > > > notification, it sends a SET_IRQ_TYPE message back to the remote
-> > > > > system,
-> > > > which then unmasks the interrupt.
-> > > >
-> > > > This is the kind of information that should be part of this documentation.
-> > > >
-> > > > >
-> > > > > Thanks,
-> > > > > Shenwei
-> > > > >
-> > > > > >
-> > > > > > 2) We are carrying virtio-gpio messages on top of RPMSG and as
-> > > > > > such, this whole protocol should be about thar:
-> > > > > >
-> > > > > > +------+------+--------+--------
-> > > > > > | 0x00 |       payload         |
-> > > > > > |  Q   |                       |
-> > > > > > +------+------+--------+--------
-> > > > > >
-> > > > > > Q = 0 requestq
-> > > > > > Q = 1 eventq
-> > > > > >
-> > > > > > The "payload" part is simply the format of the messages as found
-> > > > > > in the virtio- gpio specification.  From there, the only thing
-> > > > > > left to mention is which messages are not supported, i.e get line names.
-> > > > > >
-> > > > > > > +
-> > > > > > > +- **line**: The GPIO line (pin) index of the port.
-> > > > > > > +
-> > > > > > > +- **trigger**: Optional parameter to indicate the trigger event type.
-> > > > > >
-> > > > > > Not part of the spec - remove.
-> > > > > >
-> > > > > > Given the refactoring work that is still needed, I will not look
-> > > > > > at the implementation.
-> > > > > >
-> > > > > > Thanks,
-> > > > > > Mathieu
-> > > > > >
-> > > > > > > +
-> > > > > > > diff --git a/Documentation/driver-api/gpio/index.rst
-> > > > > > > b/Documentation/driver-api/gpio/index.rst
-> > > > > > > index bee58f709b9a..e5eb1f82f01f 100644
-> > > > > > > --- a/Documentation/driver-api/gpio/index.rst
-> > > > > > > +++ b/Documentation/driver-api/gpio/index.rst
-> > > > > > > @@ -16,6 +16,7 @@ Contents:
-> > > > > > >     drivers-on-gpio
-> > > > > > >     bt8xxgpio
-> > > > > > >     pca953x
-> > > > > > > +   gpio-rpmsg
-> > > > > > >
-> > > > > > >  Core
-> > > > > > >  ====
-> > > > > > > --
-> > > > > > > 2.43.0
-> > > > > > >
+File / anon balance vs hotness and generational placement doesn't
+matter in that scenario because we want to get rid of all of it. So I
+don't really understand how you'd want to use an aging knob.
