@@ -1,158 +1,135 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36CD53AA51E
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 02:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784084121; cv=pass; b=dzjJbHzHZXFA/aoRymyFC0slNCZT08cr/zn+nq/EljEzcapASK8Lb81oWi+Mi2LcTjmKDF6YkOjrbwiidPjFCmqzvEyw1kHiqWf9XP193N+MPSXzx0+C0iiZAC6PtrmCxosAb0yBix8GVjdC985oZyLQ/Gz6269Y/Sd13gceNw4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784084121; c=relaxed/simple;
-	bh=6eBwj4et6Kll0SOF/dlQ0iXDfU2skh9D1bcyDgpLDWQ=;
-	h=Mime-Version:References:From:In-Reply-To:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KPT11PTXRFe/hqosmz/Jt40/7k8lkgcGmpycbgGVjgBTZWz0ZtD1nDwB/Lb2dOlGVEYxgxk3fiA+LEcmZ85gCjbjF16kajBys1dM6XGJVA9LYD9y6JRw/AlGdOSEGsjX/fL+ts6wAMg4tQ4D6rmAnFJtmAdwMzR7XRic//6eSWI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=az0I9Lqs; arc=pass smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C1E2DCF4C
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 03:00:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784084411; cv=none; b=I437ywvhmfNw2MoWhiysNGvEY+FKqRMlQkSy2yG0orM8rJIJNG/BrKOcMrM8j0zpBx3zKGD44IP5IvUS59FkTcceOs9s6Q7BPfIBlisDcbOTULgriBJBgeijMCeXqqgJ2fs4sPImidMKgcQej7EnXbor3vwmYCNojtTkHVmntjo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784084411; c=relaxed/simple;
+	bh=Hzk/ZU1vWUyy5aOXuHKbZgHWOg1dNw6qdk7PKy3gP30=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qPnMvUcPj0T90mb29j2SvBgGL44j4sllKNeKU7kPj6pD0xyNCuar2u9p0Ky2fWMgPvah0Qko9QSCyNTeVInm5WTV96B9u3cmaF8hnYNgGv3zoNLPK2/bzFYS/vrvgj0rYP8ugLCVTB+yBo20WiabZlbWx8Y9FHbs4FwnH+QJkdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BeGXwmmc; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="az0I9Lqs"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2cabc0a1ab6so59633475ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jul 2026 19:55:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784084119; cv=none;
-        d=google.com; s=arc-20260327;
-        b=scWcAsey1IKOnye/DYmhD1FTVB6uwvhDOOF6QDgxJffYPcN7M0R64FKmEUt2umHzBs
-         TRI4tDvCbZwhf0pKQXQ5QRz2YnLsIptMOltKlvrZc6DaIyZGx9qfOlXwZoFU7eIr6Q2Y
-         AeCIwlfhtNYmRc775cNcBFUISK4PANHq6i8U7epp9IcoFdyDjxWtWFAY3nwABdvbqSPq
-         PGDC2Osy7Skko9IhL/3ZDLzqjprwN2f/OFWwmkqMSzQFBtoHmfFsYXGC+exV96MUR67j
-         oYxSsXrynLhIKFq3mUd9sck5R4LgtjCmOf3vbhG2zm/EDPEmqcIviUoja5ao9q67Zrvq
-         sxOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:in-reply-to:from:references
-         :user-agent:mime-version:dkim-signature;
-        bh=onc8LBGsosWpMb6oO+llEi3YzErTQezwilYi6725L7E=;
-        fh=Lr9w6jvZvB5sUK0vuujHhxtZUUV9jif26GuRGuk74gE=;
-        b=CpO+Uecj638O/DX+3zTalyvBvpvzNnHp4TdVamSAhXw7qlyjr+E5vwHRh9fOqHl8jW
-         fHzPmaBY6cv+8gbRVE8cF1auKbxVyRU3w0B/ExC7yjQhL+URvIYnj37dGCJ+S57v7Bad
-         NU1l6/Lig4N2GLtCl3dAnc4ybNE2D56lqV82I9ZaFY79RxXD8FUL+tFrNk1gI3qCJ2A0
-         oO5NeLAvWlPe6xKYnXSzBeA2Un4LBKqNQCbGBLmYS3OjPraWsYw0ECrKQAlAWnWPAscu
-         y+8l2tJZ8X58TyO99z7lSM9iQ4aYhb/zKjvVqPO8A+BSD4Z2juG+QacXi6frxjdILAo+
-         YQzQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1784084119; x=1784688919; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:in-reply-to:from
-         :references:user-agent:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=onc8LBGsosWpMb6oO+llEi3YzErTQezwilYi6725L7E=;
-        b=az0I9Lqspl/LdgQk34qBFiPFA6yu2QxQ7uKkiwljXC8OEpXwvoYolQ3+YN24c298Hw
-         yL1joghLV8soIWNV+0gPqIN/SMxlejZSSFN9lC3RpNfjfJiNWwMErvhruByUI5L8ygJ5
-         TgsRpLX8rnNsfcPW/wAoSgUa/RKZ8C0zZy7XTzUMP1byZtYnhiwLenztbf73ozM4W9Ri
-         tH53lqVndfnhBXSNizzOCxqzGss+ADo5qK9IHIPGnhesvevGvZk7GlmZ7NDhTEtk7Wqq
-         UmQXogeOZFANqBx18YcrI0XLFUT8pnPg2zirtGjs8/1isc8HwIb1HSkgTOzgkUkhZ/FU
-         VsfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784084119; x=1784688919;
-        h=content-type:cc:to:subject:message-id:date:in-reply-to:from
-         :references:user-agent:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=onc8LBGsosWpMb6oO+llEi3YzErTQezwilYi6725L7E=;
-        b=gl4UqQRfBoj/i9NC5rucDRTIHRHPaDP6MrajEPgEjOZ5SEL/v0/8T5nz1cXj2caI4S
-         j4mHxWdouuUGl1I0UX3nz6Ujb51FQvupzCa1UFkRgIXaf66PTt4O4hBokXRhI6sXZOmm
-         ayLGzr0Aq/4jk06C3uEZ2z4pA7Tjq17v5gPVY7Hf/gw8atsqqcdETn7nX0TwLw8PSvLr
-         m4D7es8hEkGwjK9bxQp8nIK8vAx2hE9wGJ7xoqcatFWXAl7/xhnJzBNfEknkmq5n/JdP
-         vKV3RXFU2RhmHnzjYgIMqWP597iGtv6q3T+s1XMsm28QhzxJW5VSw3gecxRU5BLyigN0
-         gD1g==
-X-Forwarded-Encrypted: i=1; AHgh+Ro6Or2zxWM9QO419gVWVyzDjhSvvhh2VZrVLVEjA28XLq0vbyuifFZTZv0Ezw/HJtvsNg8AUtAV6Dc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbTasZxYO0y6sl2Yd6sVoLX9ztN/UVBb1C9F6RfGga+MdU3bzl
-	oEDHmPcnp5EHwudimQ6e1U/eHF0qs0xuvYB09dbH8BTWUjeL4l3LbXxXqyKFjEuOonfLyu4ANIz
-	COECCsQYJ0KOVez10wD4H+uJG8OsEe0Yjm0h3PoEiZA==
-X-Gm-Gg: AfdE7clPaUetYSQKZzS/KhCI8M/GU/cyIu4XQIQw60njkYgwXhwxZ3bXYgYZP845ga5
-	u+Ala5Ai8wPO89NUIAYclj4bxfZFDkQrA4/mjWSW+38fQizHki00QIKBtMFO9Bm0YqfTR7Ah9xW
-	7E1+8VqT18xXplT7ZYki17+bgIqsncEtPhoUsDgArJTj99EZPfjPbOUOgFCNzR/CSWw6b0QmciM
-	qFCei6P5qpPE1IN/697sWzKWHWZW1xcb333YG8ZPRYdyWZ6KPcmWCOfDNo7Rxp/GcHvn7c=
-X-Received: by 2002:a17:902:f64d:b0:2ca:5d24:720b with SMTP id
- d9443c01a7336-2cee9b82e93mr60194075ad.39.1784084119427; Tue, 14 Jul 2026
- 19:55:19 -0700 (PDT)
-Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST;
- Tue, 14 Jul 2026 21:55:16 -0500
-Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST;
- Tue, 14 Jul 2026 21:55:16 -0500
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BeGXwmmc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784084408;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xm5WBsv9zplLnVKOn6KyW6wbP0F9XLs9d5K3XcjD3NQ=;
+	b=BeGXwmmcGhBQvzgMRfn0zgwJyUyPwWqrMWJ48ts4lvgKSP/QRW50uAv4PH2fBjAzBIRlqW
+	dVJ7hZfPeG7TF0UFTH1eewkD/W82EzNExDm+1pHsnmqfoTiA+XY/kOa3XR6DGW22gessWK
+	v+Rp44yTo8mzvAUvNdvFilPmUN3IaxY=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-387-eE6C1Xc-M6iPLWuGZ7uBig-1; Tue,
+ 14 Jul 2026 23:00:04 -0400
+X-MC-Unique: eE6C1Xc-M6iPLWuGZ7uBig-1
+X-Mimecast-MFC-AGG-ID: eE6C1Xc-M6iPLWuGZ7uBig_1784084401
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 16F561800D9A;
+	Wed, 15 Jul 2026 03:00:00 +0000 (UTC)
+Received: from p1.redhat.com (unknown [10.22.76.5])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A15B0180028B;
+	Wed, 15 Jul 2026 02:59:46 +0000 (UTC)
+From: Nico Pache <npache@redhat.com>
+To: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Cc: Nico Pache <npache@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH v2 0/7] mm/khugepaged: several cleanups
+Date: Tue, 14 Jul 2026 20:59:29 -0600
+Message-ID: <20260715025941.1571316-1-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-User-Agent: Mozilla Thunderbird
-References: <20260714130657.46963-1-zhangzhanpeng.jasper@bytedance.com>
- <20260714130657.46963-2-zhangzhanpeng.jasper@bytedance.com> <20260714140336.GA3716926@ziepe.ca>
-From: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-X-Original-From: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-In-Reply-To: <20260714140336.GA3716926@ziepe.ca>
-Date: Tue, 14 Jul 2026 21:55:16 -0500
-X-Gm-Features: AUfX_mwCsBOf_hgb5yUzS2yT7xbSqsn1sQG_-ZF1ldFSOzP_jx_ehBg3xh3TSj4
-Message-ID: <CACnXVnc4T40uUJKViZH0dzp8=RBjgC08KG6Pjz8btjPJ+aiG8Q@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/7] iommu: Add group lookup by ID
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: joro@8bytes.org, palmer@dabbelt.com, tony.luck@intel.com, 
-	reinette.chatre@intel.com, tomasz.jeznach@linux.dev, will@kernel.org, 
-	robin.murphy@arm.com, fustini@kernel.org, pjw@kernel.org, 
-	aou@eecs.berkeley.edu, alex@ghiti.fr, Dave.Martin@arm.com, 
-	james.morse@arm.com, babu.moger@amd.com, corbet@lwn.net, shuah@kernel.org, 
-	kevin.tian@intel.com, cuiyunhui@bytedance.com, yuanzhu@bytedance.com, 
-	iommu@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Hi Jason,
+The following changes stem from a number of reviews during my khugepaged
+mTHP support series [1]. Some of these are minor code cleanups, issues or
+reviews that we decided to deferred to a followup series, or in the case
+of the more major patch of the series, changes [2] Lance Yang attempted
+while my series was in-flight and we decided to wait till later to try.
 
-On 7/14/26 10:03 PM, Jason Gunthorpe wrote:
-> On Tue, Jul 14, 2026 at 09:06:51PM +0800, Zhanpeng Zhang wrote:
->> Add iommu_group_get_by_id() so callers can resolve an IOMMU group from
->> the numeric ID used in /sys/kernel/iommu_groups.
->>
->> An ID lookup must keep the group object alive without also keeping an
->> otherwise empty group active. Embed the devices kobject in struct
->> iommu_group so its address remains valid until the parent group is
->> released, and return a reference on the parent kobject to ID lookup
->> callers. Add iommu_group_put_by_id() to release that reference and
->> iommu_group_is_active() to detect when the devices kobject has become
->> inactive.
->>
->> Serialize lookup against group teardown with iommu_group_kset_mutex and
->> only return groups whose devices kobject still has a live reference.
->> This prevents a concurrent lookup from dereferencing a stale child
->> kobject while allowing external users to discard bindings to empty
->> groups.
->>
->> Signed-off-by: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
->> ---
->>   drivers/iommu/iommu.c | 107 +++++++++++++++++++++++++++++++++++++-----
->>   include/linux/iommu.h |  17 +++++++
->>   2 files changed, 113 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
->> index e8f13dcebbde..da269d10f6bf 100644
->> --- a/drivers/iommu/iommu.c
->> +++ b/drivers/iommu/iommu.c
->> @@ -40,6 +40,7 @@
->>   #include "iommu-priv.h"
->>
->>   static struct kset *iommu_group_kset;
->> +static DEFINE_MUTEX(iommu_group_kset_mutex);
->>   static DEFINE_IDA(iommu_group_ida);
->
-> I think it would be better to change the ida to an xarray than to use
-> a string search on a kset..
->
-> Jason
+The first 3 patches introduce helper functions to increase code reuse and
+readability. This includes a per-scan state clearing function, extracting
+the young page check into a helper, and a count_collapse_event() function
+to reduce a repetative pattern used across mTHP collapse.
 
-Agreed. Using an XArray as both the ID allocator and the group lookup
-table avoids the string-based kset lookup and the additional mutex.
+The 4th patch was the byproduct of me throwing Claude at all the
+comments in khugepaged verifying and looking for any outdated info.
 
-I will refactor it in the next revision.
+The 5th patch is based on Lance Yang's commit series [2] trying to extract
+the PTE state checking into a helper function. This required a bit of
+rewriting due to differences after mTHP collapse was introduced. I also
+took into account the changes requested during his patches review cycle.
 
-Thanks,
-Zhanpeng
+The remaining 2 patches were review points during my mTHP series that we
+agreed can be deferred to a later series.
+
+Thank you to those whos reviews and work I leveraged to achieve these
+cleanups.
+
+V2 Changes:
+ - Add Acks/RB tags
+ - rename collapse_is_young() to collapse_is_referenced()
+ - delete unncessary comment for collapse_control_init_scan()
+ - merge fixup from V1 (fixes stale folio reference) into patch 5
+ - keep original ordering for checks in patch 5
+ - merge patch 7 into patch 4
+ - conflict resolution from uffd_rwp changes 
+
+V1: https://lore.kernel.org/all/20260706154500.39178-1-npache@redhat.com/
+
+[1] - https://lore.kernel.org/all/20260605161422.213817-1-npache@redhat.com/
+[2] - https://lore.kernel.org/all/20251008043748.45554-1-lance.yang@linux.dev/
+
+Nico Pache (7):
+  mm/khugepaged: refactor per-scan state clearing into
+    collapse_control_init_scan()
+  mm/khugepaged: extract young page check into collapse_is_referenced()
+    helper
+  mm/khugepaged: introduce a count_collapse_event() helper
+  mm/khugepaged: fix outdated comments
+  mm/khugepaged: Refactor the PTE state checks into a helper
+  mm/khugepaged: unmap pte before releasing vma write lock
+  mm: Documentation: clarify where the mTHP stats live
+
+ Documentation/admin-guide/mm/transhuge.rst |   6 +-
+ mm/khugepaged.c                            | 399 +++++++++++----------
+ 2 files changed, 214 insertions(+), 191 deletions(-)
+
+
+base-commit: bdc38bfc1262e3d1432afadd2aa2ffd83d139dbb
+-- 
+2.54.0
+
