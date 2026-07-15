@@ -1,103 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30865477983;
-	Wed, 15 Jul 2026 12:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784119371; cv=none; b=f3vhv04O0rWz2/xGrSaktwa186r6nG5WzkJJx1oUsj98PhrGFr1XdxCc/foKQFUefq3PM6kgq98ktci/JrIIkRzMbt/3rU7cVLemz2Z7i12iM8vVUWuHKbZWZSs09STl6GU3W4gcknyHTeKj278WcWrhwqqv2n86bknjmH7yX2U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784119371; c=relaxed/simple;
-	bh=qJhL1q5jnBY0JJ7OF4KHAFeu0Z4Xa5QDB6YUVpWbpb8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=J0WoNTNh9lNMono4IPApIaXyjTkPIrrcoE7z9zkT230CkrIEk/hd2w/3jKFwjTF+s9AKcZ6Feuccpg1AsW0Hd+I1t2zU8zEmPeXOQSIvfaISPUMsfusjWMqjmTQdS1I4gWoSq6XQBU1jR3Y8ILqxR/j15KX4kO8MJINCeNdL8H4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nfaemjg6; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332ED42046E
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 13:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784120921; cv=pass; b=MUREwvg1dEcRsEq3EmQu7iQ/NRItScQ8u4XVr5dMmFOM6RN6ntUiwPEFPLmDNfRBPu+B2bi3m+mRAWXa11ezkULsk77gRQWC39+ltQODwlPIM86nEOV6uY2OdZz6ikgMlDrtw4rAKMABrh/0JkWkNYX+jR+A+b4fI5Q9gpPU6VY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784120921; c=relaxed/simple;
+	bh=mjI03qd2w+xvrv7nyqiaE+Rf0Rqhr+/L9iZXLRDOHaI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Xk/nPNvP5RCMmNJY0URQqHTQ9MS5TaQ/FYCBFQxKyG7cGXhASNWHUd4UplH6EpaL+XTAvCGjv71mxpt31SREK/HTPg7sPNDm6w1OGC70dFjCu5nxhzZb91zL0VlMlMigqg3GMBN4Z4q2xzt+04x6Yi1aMXTx6qYfdCzt3pvhMUQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q/MZbeW6; arc=pass smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nfaemjg6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F07AB1F000E9;
-	Wed, 15 Jul 2026 12:42:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784119367;
-	bh=cu6L77LE5KKihHgixtsouBZm1/r4ptLw2MR+eA4KN6w=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=nfaemjg6sZ+w2lUl33YsBotOLUOmSM7V4p2/LB+Z+0pCkwXb0bjHUWCDT7Ij5OZzo
-	 o1ag9r9c1fAGG1/rCxXPFPSDWvM3IuZveu9T8trRmM7DXOmx/j1G4j1aSFgPVxWAI8
-	 rGa8eIr+81jAe+YkBk6NR+e1IE3Sq5IAo+/RA29l6LyuRzMjMRXNnydESDH2+hhUNB
-	 tQ91ECmEFZnU9Mdp3ZA45eORanLh0E941P9UtT44yrx/cCjwyIw9CQ9snnz9DlrKPe
-	 WeY+bUPd4+qds2h8R43kXWnsdowh5ccg26X6WsWvE0iC4rJOyOc61OTF0kEfG4VVv3
-	 Dz404dnK248Mg==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.4)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1wjywm-00000005xHe-3LUQ;
-	Wed, 15 Jul 2026 14:42:44 +0200
-Date: Wed, 15 Jul 2026 14:42:43 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Ryszard Knop <ryszard.knop@intel.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- Shuicheng Lin <shuicheng.lin@intel.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, linux-kernel@vger.kernel.org,
- intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v2] scripts/kernel-doc: Suggest possible names for
- excess descriptions
-Message-ID: <20260715144243.60686000@localhost>
-In-Reply-To: <20260715111726.394565-1-ryszard.knop@intel.com>
-References: <20260714111208.323108-1-ryszard.knop@intel.com>
-	<20260715111726.394565-1-ryszard.knop@intel.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q/MZbeW6"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8e5be46f663so14635016d6.0
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 06:08:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784120919; cv=none;
+        d=google.com; s=arc-20260327;
+        b=OR7GwPjYT5xSeH+GC2DvFMilK2L0FjW52ZfdZimOlYGw2z36ThaJDSl+/RTAXYcx4z
+         LfgBg78iEigvSfxawWmAw+ZLkEFrs1eoPsfRao15e6UFFR5Ilfbg0R3OaSYfkbuq0+br
+         Dk8WO+U2EROSlit9eRMYeKpnbBS55tlPY2/be/cZXTZ3BvtIt/WWXiPLEqearInlR3OT
+         DdYnBxLvSaZOMe0s9/HIrORhpPiIYhQB3COXjdgx3pOZfGnxDNouY389UKXsGlIaFtKb
+         OF0uktbeSTXINjxK8DMxzioUYv7DLgqqeYK2lha4UD79CHQ3SiZMSGl+jTtj9cSMg5/M
+         jaag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=E9AvNYy2SRR2r8F0yQsxBV7HXUmw83DfY+1fzv5gD5c=;
+        fh=vxXzX62FjKW718TzrSabJCCP3ZgZ3nHbgs6BKJNAh20=;
+        b=OpbhxJ6WslTebW+zkK5c9JMneGowk2mT9sWlifhhuQIKl1y8+CKY9X1q4hR64+siic
+         XHx1QwVZXZC4KUyb4lfIDys+3ETBoywA0BTHIY6fZbYYUcG4s7PgjQ4E528sVU+WROAg
+         86pJuoyms5iB55DX0StyBfOaUKmHiIADNVjk/axWAHllxkMWuZBUHaZQ9z7pOtjQ577t
+         4GQUxG5g5YOldowdiTP/0QuNRTaQE3wxvvrL+rnp+3Vvo7YWgf306/w7hDMVMJvlRn1M
+         WMu/5qU7tRjkajJCsTDhV+Jn/ijQp8qbt9E8SW2RKvZhbbq/Hs/Vsbzcz2HT5IF5Z1z3
+         pgww==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784120919; x=1784725719; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=E9AvNYy2SRR2r8F0yQsxBV7HXUmw83DfY+1fzv5gD5c=;
+        b=Q/MZbeW6FaoL9HNI3nl5BcV4W5Gyw9VR88onOq1tYNStoBdYLIz/35Bxx9hapczvNQ
+         M/3WMajSouDOjFXwrsTWZXrw6jS+AwOsGNtrRtxczwKg0/7On2/YlVtunpPmVUfcAy7t
+         PS32dxJ5kU2eqyUZJJ/ru/mDrfuxCWD7Qosu33bSNcjeg8bW+CfqWpVOODyQgQpmdG61
+         MtuXqyPoOHLb9WNiXi7bUCBXT/YMiAnpmriKoH35hMEeAEE0YfVL0qMRTm2i6zAY8Y0O
+         qudAFDVflpPp7YgyNUXzxLnGlVQJ7Jhgrkqn+Jqaj1q6SIFvJXxJhEco04u3FXtRa/B1
+         YpMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784120919; x=1784725719;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=E9AvNYy2SRR2r8F0yQsxBV7HXUmw83DfY+1fzv5gD5c=;
+        b=QJ2CsONOxFbGCeO3juDNSVNtKYCmV1Exo9Ct+D/OLD3qwXfVFyZTD6rPkbYrRq2LmW
+         9nDSqpO89u98G0Bl3vejDAHc41vogMjwIgZIpRsySJR9AGY9Ay0sOfVyLClHdotTIj6i
+         lfVhjYC+Pbx3cs/jDuwVlufxQSXaiUWqa+jsRGmTmYwXakX8t+CgjsULQN8RO0shFTxQ
+         STiU3ZST5vMikdfaVAd4275bAI3NqUXLLSulUfWCWwyOI+f/sKbm0WkKcUX2AHnjPmR2
+         eFfOBvrhJC9glwiwXZw1zbP+LIm+R8bOabcNUIziV98C3PU9McLZGip3gUTEw2wLs9Z4
+         eVvg==
+X-Gm-Message-State: AOJu0YyLrPyd8Ir/fFNdmjh/z3rlwuIGQgqHhZpoSZf7CrEpjIiOwloW
+	jjylNCVwB7gy8ki3scSL9u+Xg6JKFd80i8j+rMhO9dUmTCrawjF5eMg/isGK13JS8quN+irAwHl
+	8BG9YkDI2Xp9NGWRto+TyEO/H7PNmRhEFlUfutk8=
+X-Gm-Gg: AfdE7cm6rhJSkg0kRsGWlioK4eaacr7EecDsExuqMEP495akQnkG0GalNg6uOOk291r
+	iJYY+PftMMY9NgI0cHGKAClegDV0OR4kIexUiaLWWJWkCFvfnix1Xk52l/V37sytrfRnw/+/WZT
+	seYiZgNFcaM6AtjzwenAnnmrcCTtI/u71rthBFzmz+bQJ1DlCFf+gmu6YWDwd9sIUcVLwu3pK09
+	R40yR0H4Id2C8zKkuIc3/pBLYFnu7qlIgEEsMArTJnuvz/xuQlWFLVDkTv58glaxNZwWun8HiYN
+	G0eWAwY/LkqFF7toI1HCKCGj+N//KtEpfXKkzZ/MlGxMiAmZyFNpSwhRG/KsX+cbhYPGqJrFbpN
+	Liohm+C8sDuU=
+X-Received: by 2002:a05:6214:31a1:b0:8d1:d1e1:8360 with SMTP id
+ 6a1803df08f44-90400b7f3e1mr183242766d6.39.1784120918900; Wed, 15 Jul 2026
+ 06:08:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260714210124.5364-1-ygorotavio.sjc@gmail.com>
+In-Reply-To: <20260714210124.5364-1-ygorotavio.sjc@gmail.com>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Wed, 15 Jul 2026 10:08:26 -0300
+X-Gm-Features: AUfX_mzxQyesbKL3bQ15nI8G2g1DeaR2fVLNNZbDc7JvRgWysfePayhmsGPSdes
+Message-ID: <CAMAsx6cwxED0nBxPGvV7EgbAbWMr2jx1biKsK3u=4enj4vegYw@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: translations: pt_BR: process: email-clients:
+ traduz para pt_BR
+To: Ygor Otavio <ygorotavio.sjc@gmail.com>
+Cc: linux-doc@vger.kernel.org, corbet@lwn.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 15 Jul 2026 13:17:26 +0200
-Ryszard Knop <ryszard.knop@intel.com> wrote:
-
-> Since check_sections() now warns if a documentation tag member name is
-> the same as defined in the struct, we can suggest names the checker
-> knows, so that it's more obvious how to deal with the warning.
-> 
-> v2 (rdunlap):
-> - Strip whitespace from warnings, nicer when the hint is empty
-> 
-> Signed-off-by: Ryszard Knop <ryszard.knop@intel.com>
+Em ter., 14 de jul. de 2026 =C3=A0s 18:01, Ygor Otavio
+<ygorotavio.sjc@gmail.com> escreveu:
+>
+> Translates the documentation regarding email clients info for Linux
+> into Brazilian Portuguese, maintaining consistency with original
+> formatting rules.
+> For V2, the errors "bullet list ends without a blank line" and
+> "inline interpreted text start-string without end-string" were fixed.
+> The others errors that appeared after the submission of v2 were also
+> fixed.
+>
+> Signed-off-by: Ygor Otavio <ygorotavio.sjc@gmail.com>
 > ---
->  tools/lib/python/kdoc/kdoc_parser.py | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-> index 2dedda215c22..a22c3e3182f0 100644
-> --- a/tools/lib/python/kdoc/kdoc_parser.py
-> +++ b/tools/lib/python/kdoc/kdoc_parser.py
-> @@ -558,6 +558,13 @@ class KernelDoc:
->                          self.push_parameter(ln, decl_type, param, dtype,
->                                              arg, declaration_name)
->  
-> +    def get_suggestions_hint(self, decl_name, possible_names):
-> +        suggestions = set(name for name in possible_names if decl_name in name)
-> +        if not suggestions:
-> +            return ""
-> +
-> +        return f"(did you mean one of: '{"', '".join(suggestions)}')"
-> +
+>  .../pt_BR/process/email-clients.rst           | 368 ++++++++++++++++++
+>  1 file changed, 368 insertions(+)
+>  create mode 100644 Documentation/translations/pt_BR/process/email-client=
+s.rst
 
-There is a better way to propose suggestions. See:
-	Documentation/sphinx/kernel_include.py
+Also, the new document was not added to index.rst.
 
-E.g. use something like:
+> +depois salv=C3=A1-lo como rascunho. Depois de abri-lonovamente dos rascu=
+nhos, ele
+> +estar=C3=A1 com quebras de linha r=C3=ADgidas e voc=C3=AA poder=C3=A1 de=
+smarcar =E2=80=9Cquebra de linha
+> +autom=C3=A1tica=E2=80=9D sem perder a quebra existente.
 
-	from difflib import get_close_matches
+Hi, this word 'abri-lonovamente' should be 'Abri-lo novamente', correct?
 
-	matches = get_close_matches(decl_name, possible_names)
+> +Ao salvar patches enviados como texto inserido, selecione o email que co=
+nt=C3=A9m o
+> +patch no painel da lista de mensagens, clique com o bot=C3=A3o direito e=
+ selecione
+> +:menuselection:`salvar como`. Voc=C3=AA pode usar o email inteiro sem al=
+tera=C3=A7=C3=B5es como
+> +patch se ele tiver sido composto corretamente. Emails s=C3=A3o salvos co=
+mo leitura e
+> +grava=C3=A7=C3=A3o apenas para o usu=C3=A1rio, ent=C3=A3o voc=C3=AA ter=
+=C3=A1 que chmod=C3=A1-los para torn=C3=A1-los
 
-See: https://docs.python.org/3/library/difflib.html#difflib.get_close_matches
+I believe 'leitura e escrita' sounds more natural than 'leitura e
+grava=C3=A7=C3=A3o'. Also, the word
+ 'chmod=C3=A1-los' sounds very weird in Portuguese; a better and more
+standard technical translation
+would be 'alterar as permiss=C3=B5es' (to change the permissions)
 
-If the problem is due to a typo, this will likely return the
-right name.
+> +Ao mesmo tempo, ele quebra linhas a cada 78 caracteres com quebras de li=
+nha no
+> +estilo CRLF, embora o problema de tab para espa=C3=A7o possaser resolvid=
+o com um
+> +editor externo.
 
-Regards,
-Mauro
+We have the same issue here: 'possaser' should be 'possa ser'
