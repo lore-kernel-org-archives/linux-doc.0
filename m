@@ -1,140 +1,110 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367DA3C10BB
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 22:22:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D1C3043C8;
+	Wed, 15 Jul 2026 22:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784154150; cv=none; b=uH7TdVf4D4BrVyAThFsOqx4HvlsLLFp7twYlS4KPUE78pLq1HZXgwxMLGsvaSzQklGLRRCpmeITk7stHrNyxYyUwzGRL3mS2iiXUcet9mEMO3yx9BTn5vcFwKxhG0c6LS1D8pw9pmR3uM8t39A1HZyYElupEqFqC/vt7EhpLd2Y=
+	t=1784154301; cv=none; b=BQMHPNRlymh54x2QhVQ9E+8vXUSBdScrBlsd9lkIJL8S88BLwt9R/WbaVsBX8ottJuaF5BpHSXKRXeFaY3BLL/PmjXT+KFcnbWR72VHZCUfg8SIfLC1ZjQBC80Zp9ejO1HadSkKTkmnzJfElkxEuNo8UJ94CXxGFym7niL7Vz3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784154150; c=relaxed/simple;
-	bh=eGItwZhXhjcCNzydKc7M4IOfg6/7bc3EJbzam0oesV0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AKaoeA/cMZ/QcaBRK+0Fhe/IDZdmcN02EnqcEb52y+idEj1X7BmBDFKH9dizhGmBpl9niADbAWIJPF3sDJCTYe4L339wEo+QaLJ1oovs/OMwgDKmJ7GPJXwrTWZ/PiJgNR9KnUm2w93pGI7l6B87i5vfQ1R6OH3DLkY9u6XNCjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=eqTEQ29N; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1784154301; c=relaxed/simple;
+	bh=mslhgdUt2Ww20foGxEh4FU3Id5Y8x3oEvizlFZd2i5c=;
+	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
+	 Subject:From:To:Cc:Date; b=K9Bk6UYM9mfutVDs96lkOLGEJJhn2kgJIshuNtrMOl0u7TbpgoBb9F/5GA/yC4KAMy3C9NQpgSgGEbUNjIm1qpKO/YqR4WtAvhQ/xpnmFH0bwYtuRUCq5C78LJK6WgJMgCfUfR2yqKu7Ab68lTxjBPPfHa1fEMlGwXU3i8rdm5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DqgWX7BX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="eqTEQ29N"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-493bf73ec2aso40498025e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 15:22:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1784154147; x=1784758947; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=eGItwZhXhjcCNzydKc7M4IOfg6/7bc3EJbzam0oesV0=;
-        b=eqTEQ29N1NF52BAPZ+DLQLG5hsZXPjuOb0wfMKF+jdxQ6VNb3Unu/Q6mTNoxui9M06
-         M2urGLHhoJbVZ5fbkUMJtHEeYZqhBYcbNpigtyq7S6IcgmK1XICl9JnQVOOENvsasVaQ
-         jrmoaYtASVJsaw25WKzG96LmzoFedYYTovj+4A+QWW7hqT7ZgU/sgKrdDxk1JrvvcJxa
-         zCIAXuUIt9IYgCguLXXJJYV9/uqNdTTfCjdKdaXf1kFjINftyiMaTsTb/hxyHMf8OSsw
-         UBA3EKnpr5Y0rCFuLL38xBN2C8odMWzxs54kpMEzXAi0rgoeOYI0j5cGvu3nrjbY/fu9
-         vD+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784154147; x=1784758947;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eGItwZhXhjcCNzydKc7M4IOfg6/7bc3EJbzam0oesV0=;
-        b=ZwRcIJdz+khWNPn9ZGdRTEPZ/F7u0OcTTKLQJ7Kiacl7ohsktOBHHCnClCbG6hVfLt
-         ffrmlw5fT7CVStvBd46GB/6ZBq88h9kIT1W11LF0EKHZYgRDMDh+z0IEAHPcu8UkRvoX
-         55Jacsg0w5IGUG1EECdZLe9zrtYf1CvjLylrKxKR+9M/QEO0/yLephLdPghh+1j6Kouu
-         NVKQkKDObawzr9HACormws/QsF22VV16ehPt5KyIVoCLIzCzQsG0gnlP308oToza29S0
-         bKCFGpTyD4VCM3nhBjAcvI96l1hQRBSFBupi94frOYNVRkQXNfgKDIQlJO6HEJG61nyU
-         DT1w==
-X-Forwarded-Encrypted: i=1; AHgh+RpQ354E1MVtCjwaN6OwGANZVkveEBXaOg60HOHty0z88wWlwZXx0Gx5vUHKQ5VXacHrr5wudnt3GX8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlALdD5iiL6ZFJJKW7MarMRdY+cn6gwsyYR8NtkIqDtK0NJDlE
-	aSvdOnv7kmNWdASUsVUnYXPbs3pIanglL51R4NwoOab7ruDr9dvYO4pReQf5Ba2qEpU=
-X-Gm-Gg: AfdE7clGPWRI8mPyH1rSkqi+Ufc4PTcU5QYkR+AEXFc+CTkSp/EFX8o+fTvNKyT6xEA
-	b9yj2P81U5m3WXySw9sWODHiAAUVtg0n1KyviJPf68xkG3wHT2n4In3KsYDPjMjx73bicpazkOr
-	Q8qeclLR101cjaNgp8Z1tab4tx3SSwKHDUZgI4ZJC3pcemM9ucel+D1RV6iPJLTUXcYN2wbeuOZ
-	js8B9wgFQ53YzW8qk1sZqfPfQcuwVGBFS9VmR9dHuSkkES/V/coFdVWL/fP6ICnX29jBoKxebzU
-	Dj64LyUzVJgImywYVKmqNXTcrvuOCdmRaN3kxldQpno4y+zrsS7S4CmTKnBr1+ROpV/5M/juJzW
-	4cK2uXODD0jqDllrvB84ZpQmg/sZIdnYUB/BjEP4k51rnyvcJ+AR8SqRnvnqtShNUDBI+ND30Zv
-	BXD40S7KU=
-X-Received: by 2002:a05:600c:58d6:b0:493:f262:b8 with SMTP id 5b1f17b1804b1-4953c147474mr41635105e9.1.1784154146840;
-        Wed, 15 Jul 2026 15:22:26 -0700 (PDT)
-Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4953c59b810sm88924315e9.0.2026.07.15.15.22.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 15:22:26 -0700 (PDT)
-Date: Thu, 16 Jul 2026 00:22:24 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Mark Brown <broonie@kernel.org>, 
-	Marius Cristea <marius.cristea@microchip.com>, Marcus Folkesson <marcus.folkesson@gmail.com>, 
-	Kent Gustavsson <kent@minoris.se>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>, 
-	linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>
-Subject: Re: [PATCH v6 5/5] iio: dac: Add AD5529R DAC driver support
-Message-ID: <algHt_w841FltSnL@monoceros>
-References: <20260715-ad5529r-driver-v6-0-cfdf8b9f5ee3@analog.com>
- <20260715-ad5529r-driver-v6-5-cfdf8b9f5ee3@analog.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DqgWX7BX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BAE31F000E9;
+	Wed, 15 Jul 2026 22:24:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784154299;
+	bh=K68CSxTCGAzi7nRLVNdLS1+FYuDfWJYdurucXyw0L8E=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date;
+	b=DqgWX7BX4lPLnk3/5P4HRDPA6l6kqseUgXn6bX2/GO5ELsXAl4U6AfeG/rucAGeow
+	 F7umQJs5FgmDgACEU1t60gedLSKlDVQZgEK6cNuLXQOzUDQeT5kgu/mmfp3hIpGZHF
+	 jlT0VeybqnVLvzGV9LfMNa/bNqoTbxM390yT5KzcsziYQr4NuMxaW6kRBenUt3g3Gw
+	 DrQ2Zn62D4AftaH4dOL6Kb/oB6YvZFnXRJpMr7Yygw5KiSWD8VA7LYoMRrWToMYOWp
+	 9jQUvTJH9aYQgWfZQbzXpug16PENWyvtXDJC91AtiqbJJhWVAQ+OTTTAf/yZC5Wkod
+	 Y4LcHIvrBRecg==
+Content-Type: multipart/mixed; boundary="===============0392436415614422320=="
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="z552sxv3apml2j3g"
-Content-Disposition: inline
-In-Reply-To: <20260715-ad5529r-driver-v6-5-cfdf8b9f5ee3@analog.com>
+Message-Id: <53cafe8dbb89d70b7aa626bd4819f513026da6764d8e00e0346ef6e2225a60b5@mail.kernel.org>
+In-Reply-To: <20260715-bpf-xdp-meta-rxcksum-v5-1-623d5c0d0ab7@kernel.org>
+References: <20260715-bpf-xdp-meta-rxcksum-v5-1-623d5c0d0ab7@kernel.org>
+Subject: Re: [PATCH bpf-next v5 1/8] netlink: specs: add XDP RX checksum capability to XDP metadata specs
+From: bot+bpf-ci@kernel.org
+To: lorenzo@kernel.org,donald.hunter@gmail.com,kuba@kernel.org,davem@davemloft.net,edumazet@google.com,pabeni@redhat.com,horms@kernel.org,ast@kernel.org,daniel@iogearbox.net,hawk@kernel.org,john.fastabend@gmail.com,sdf@fomichev.me,andrew+netdev@lunn.ch,anthony.l.nguyen@intel.com,przemyslaw.kitszel@intel.com,aleksander.lobakin@intel.com,andrii@kernel.org,martin.lau@linux.dev,eddyz87@gmail.com,song@kernel.org,yonghong.song@linux.dev,kpsingh@kernel.org,haoluo@google.com,jolsa@kernel.org,shuah@kernel.org,maciej.fijalkowski@intel.com,corbet@lwn.net,skhan@linuxfoundation.org,memxor@gmail.com,emil@etsalapatis.com
+Cc: deliran@verdict.gg,jakub@cloudflare.com,netdev@vger.kernel.org,bpf@vger.kernel.org,intel-wired-lan@lists.osuosl.org,linux-kselftest@vger.kernel.org,linux-doc@vger.kernel.org,aleksandr.loktionov@intel.com,lorenzo@kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
+Date: Wed, 15 Jul 2026 22:24:59 +0000 (UTC)
 
-
---z552sxv3apml2j3g
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH v6 5/5] iio: dac: Add AD5529R DAC driver support
+--===============0392436415614422320==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Hello,
+> diff --git a/net/core/xdp.c b/net/core/xdp.c
+> index 9890a30584ba..9bcaa423ad17 100644
+> --- a/net/core/xdp.c
+> +++ b/net/core/xdp.c
+> @@ -961,6 +961,38 @@ __bpf_kfunc int bpf_xdp_metadata_rx_vlan_tag(const struct xdp_md *ctx,
+>  	return -EOPNOTSUPP;
+>  }
+>
+> +/**
+> + * bpf_xdp_metadata_rx_checksum - Read XDP frame RX checksum.
+> + * @ctx: XDP context pointer.
+> + * @ip_summed: Return value pointer to a bitmask indicating available checksums.
+> + * @cksum: Return value pointer indicating the hw checksum value.
+> + * @cksum_level: Return value pointer indicating the checksum level result.
+> + *
+> + * In case of success, ``ip_summed`` is set to the RX checksum result. Possible
+> + * values are:
+> + * ``XDP_CHECKSUM_NONE``
+> + * ``XDP_CHECKSUM_UNNECESSARY``
+> + * ``XDP_CHECKSUM_COMPLETE``
+> + * ``XDP_CHECKSUM_COMPLETE`` | ``XDP_CHECKSUM_UNNECESSARY``
+> + *
+> + * In case of success, ``cksum`` contains the checksum value calculated by the
+> + * NIC. ``cksum`` is valid only if ``XDP_CHECKSUM_COMPLETE`` is set in
+> + * ``ip_summed``. ``cksum_level`` contains the checksum level reported by the
+> + * hw. ``cksum_level`` can be considered valid only if
+> + * ``XDP_CHECKSUM_UNNECESSARY`` is set in ``ip_summed``.
 
-On Wed, Jul 15, 2026 at 01:41:08PM +0200, Janani Sunil wrote:
-> +#include <linux/array_size.h>
-> +#include <linux/bits.h>
-> +#include <linux/delay.h>
-> +#include <linux/dev_printk.h>
-> +#include <linux/err.h>
-> +#include <linux/errno.h>
-> +#include <linux/iio/iio.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/property.h>
-> +#include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/reset.h>
-> +#include <linux/spi/spi.h>
-> +#include <linux/types.h>
-> +#include <linux/units.h>
+Earlier review of this series raised the case where the NIC reports
+COMPLETE or UNNECESSARY, the XDP program then modifies the packet and
+returns XDP_PASS.  In that situation the reported checksum is stale.
 
-Please don't add new usages of <linux/mod_devicetable.h>, both
-of_device_id and spi_device_id are provided by <linux/spi/spi.h>, so the
-#include for <linux/mod_devicetable.h> can just be dropped.
+It was noted on the list that drivers today do not invalidate the
+checksum in this case, they only stop reporting COMPLETE while an XDP
+program is attached.
 
-Best regards
-Uwe
+Would it help to document that expected driver behavior here (how it
+works today versus what is expected), and possibly add a kselftest that
+checks it?  If this is handled in a later patch of the series, please
+disregard.
 
---z552sxv3apml2j3g
-Content-Type: application/pgp-signature; name="signature.asc"
+> + *
+> + * Return:
+> + * * Returns 0 on success or ``-errno`` on error.
+> + * * ``-EOPNOTSUPP`` : means device driver does not implement kfunc
+> + * * ``-ENODATA``    : means no RX-checksum available for this frame
+> + */
+> +__bpf_kfunc int bpf_xdp_metadata_rx_checksum(const struct xdp_md *ctx,
+> +					     enum xdp_checksum *ip_summed,
+> +					     u32 *cksum, u8 *cksum_level)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpYCB4ACgkQj4D7WH0S
-/k61Bwf/XWRg8XAN3lHoIJhsnA8+g3296Hm+E93+U777lyf9jyFKLx7iYqDKHWA9
-kU2LMnREIemDelxgrlmVQ04lxzLBNI4KzBLvD3fyJHVaq/vL+TMQSTyfV1kb+g4t
-w0HZrHT+ETT7mkD8rUtLLXsOyg2cBqauEU+s4Zte8QWbZliDqQ+dVrn+/yugVccG
-F8Cv0+sAEkOhY+7Rp6BJTfsMJWgw8FnCDBWL7tB7OPsiUc0WIrKMq4x6Hpo/x1Jt
-FH3wCIlAxKaE3x1GqiGec5q3WKFej3wvlwRiBZf+yKkobCQkFE8Wc79+SWFm6kDg
-R06LdtSuCgAuTVHAXqMvde5Pysc4zw==
-=f3f3
------END PGP SIGNATURE-----
+---
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
 
---z552sxv3apml2j3g--
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/29453967825
+--===============0392436415614422320==--
