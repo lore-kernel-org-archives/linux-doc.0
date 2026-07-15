@@ -1,81 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 063493B42EB;
-	Wed, 15 Jul 2026 04:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0AF1352009;
+	Wed, 15 Jul 2026 04:47:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784090484; cv=none; b=iWnxjPOIVhQ1ijOIMPuoKrRTcQPPwJLrCe5s/AdwL4W77ACnwU0DsMlmilxI4KrFKtBVX3Pw4zcMFqmYsCtbiQnNoOBqFHEXF4MDDJkVpVjPVLgNf1H0G4F5/NUYeqUmU7fnb0foFPo1+iO2WqLTvMwWG9L3ZITtQBkME2on4p0=
+	t=1784090876; cv=none; b=W0A6bY3RxysdgLOVF8HgTtfaebVheIwMNg1OqW/VpS/IWZzQIi0sepkbUDRW+o1YIWiMz5AOhv6j8a2dIxuSGhNZluxht5W7RJWY7m0CT6yLYGP2wChz/aaFkvckYWhyjOADaTXVSOg5YvLfsABbfGvJU0qtoBMAIEMURw/A7oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784090484; c=relaxed/simple;
-	bh=c84O1i+DMJAEkO1hCNo5FEK6WcGpoxdtxC6E0RCnP0I=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=PUXDDy0iRd9Sc2XgDj5dGYzThhKzBOOp64aH8egKieYQhEAlB3iFg9X3VmCwzWi4fa4eXFdnvMEzsuYzW+Msrj13FOSzO7YQxXSzTOeUEpyBJ8gA4EF8CTuy5KAoNoJB1uTEtMGhZAkNyY0h9Fw00qT8Iqzd0sC9tXkm7KFtky4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=W2reuqY6; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="W2reuqY6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B6DD1F000E9;
-	Wed, 15 Jul 2026 04:41:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1784090482;
-	bh=VXT4Aj8D0nBxWmP7AWbFJoCX0BgnTx7n4mqxGFSGxfY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=W2reuqY69WB9XdpPaCi4jiKfr5TQa2U+kzxJO7K9J0f3qhx7/IjmjTrR6e5qJyFE8
-	 rm7HTdJqCChCdcMmL5cSFb+G6XX9EssXM6dN8TNTHvIdwczwXpEatn9/1Nlwr7siTF
-	 mNm3eenCcrMwaXPZvYdLTxgsfQk1ibJvQh/DbA9A=
-Date: Tue, 14 Jul 2026 21:41:21 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Nico Pache <npache@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, David Hildenbrand <david@kernel.org>, Lorenzo Stoakes
- <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <liam@infradead.org>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry
- Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
- <usama.arif@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
- <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v2 0/7] mm/khugepaged: several cleanups
-Message-Id: <20260714214121.090238f5f0f318f8d82cbaa2@linux-foundation.org>
-In-Reply-To: <20260715025941.1571316-1-npache@redhat.com>
-References: <20260715025941.1571316-1-npache@redhat.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1784090876; c=relaxed/simple;
+	bh=/mJ/L1nC8Anu3GtDjHiV8GRZA7nBQOxhMaVnH8zkw88=;
+	h=Message-ID:Date:Mime-Version:From:To:Cc:Subject:Content-Type; b=kF1ITsRMNroIpIxH5ZtEJX0ZgmDI/EsXlhCQVxZW6OeIt1/19+PrP2p55ZRbmt+mODP0+YuuG6RfhIicQiINloEdBVdSNxyIRf9RM4M8fTWx+FwXaAxYhI7EzzjUdIS14Itc24bvROASaSlJRoVAX5vHDzAp4A67n5VQLsC13Zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4h0Nvf39BXz52SFw;
+	Wed, 15 Jul 2026 12:47:42 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl1.zte.com.cn with SMTP id 66F4ldX9039071;
+	Wed, 15 Jul 2026 12:47:39 +0800 (+08)
+	(envelope-from wang.yaxin@zte.com.cn)
+Received: from mapi (xaxapp02[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Wed, 15 Jul 2026 12:47:40 +0800 (CST)
+X-Zmail-TransId: 2afa6a5710ec650-0f8a8
+X-Mailer: Zmail v1.0
+Message-ID: <20260715124740929HC7tDDb2SK3kRxbuPruHd@zte.com.cn>
+Date: Wed, 15 Jul 2026 12:47:40 +0800 (CST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+From: <wang.yaxin@zte.com.cn>
+To: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>,
+        <yang.yang29@zte.com.cn>
+Cc: <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <xu.xin16@zte.com.cn>,
+        <wang.yaxin@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIHYyIDAvM10gdG9vbHMvYWNjb3VudGluZzogcmVmYWN0b3IgZGVsYXkgZmllbGRzIGFuZCBzaGFyZSBmb3JtYXRfdGltZXNwZWMoKQ==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 66F4ldX9039071
+X-TLS: YES
+X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
+X-SOURCE-IP: 10.5.228.132 unknown Wed, 15 Jul 2026 12:47:42 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6A5710EE.001/4h0Nvf39BXz52SFw
 
-On Tue, 14 Jul 2026 20:59:29 -0600 Nico Pache <npache@redhat.com> wrote:
+From: Wang Yaxin <wang.yaxin@zte.com.cn>
 
-> The following changes stem from a number of reviews during my khugepaged
-> mTHP support series [1]. Some of these are minor code cleanups, issues or
-> reviews that we decided to deferred to a followup series, or in the case
-> of the more major patch of the series, changes [2] Lance Yang attempted
-> while my series was in-flight and we decided to wait till later to try.
-> 
-> The first 3 patches introduce helper functions to increase code reuse and
-> readability. This includes a per-scan state clearing function, extracting
-> the young page check into a helper, and a count_collapse_event() function
-> to reduce a repetative pattern used across mTHP collapse.
-> 
-> The 4th patch was the byproduct of me throwing Claude at all the
-> comments in khugepaged verifying and looking for any outdated info.
-> 
-> The 5th patch is based on Lance Yang's commit series [2] trying to extract
-> the PTE state checking into a helper function. This required a bit of
-> rewriting due to differences after mTHP collapse was introduced. I also
-> took into account the changes requested during his patches review cycle.
-> 
-> The remaining 2 patches were review points during my mTHP series that we
-> agreed can be deferred to a later series.
-> 
-> Thank you to those whos reviews and work I leveraged to achieve these
-> cleanups.
+- Convert per-field delay members in struct task_info to an array indexed
+  by enum delay_type, eliminating offsetof() pointer arithmetic.
 
-Sashiko seems to have a good point about [5/7]:
-	https://sashiko.dev/#/patchset/20260715025941.1571316-1-npache@redhat.com
+- Factor out a common format_timespec() implementation shared by getdelays
+  and delaytop, using strftime for cleaner timestamp formatting.
+
+- Replace the complex sizeof/ULL/shift Y2038 guard with a direct narrowing
+  truncation check ((long long)time_sec != ts->tv_sec).
+
+Change Log
+==========
+v1->v2:
+Only update patch 2/3 according to the suggestion:
+https://sashiko.dev/#/patchset/20260711173112482SCQEM08VED2PT1pxUYOXk@zte.com.cn
+
+1. tools/include/uapi/linux/time_types.h: expand stub to full set of
+  6 structs from kernel UAPI to avoid shadowing system header
+2. tools/accounting/Makefile: add $(LDFLAGS), $(LDLIBS), $(CPPFLAGS)
+  to restore compatibility with standard build variables
+
+Wang Yaxin (3):
+  delaytop: refactor repetitive delay fields into array with enum
+  tools/accounting: factor out shared format_timespec() implementation
+  tools/accounting: simplify 32-bit time_t overflow check in
+    format_timespec()
+
+ tools/accounting/Makefile             |  12 +-
+ tools/accounting/delaytop.c           | 261 +++++++++-----------------
+ tools/accounting/format_timespec.c    |  37 ++++
+ tools/accounting/format_timespec.h    |   9 +
+ tools/accounting/getdelays.c          |  32 +---
+ tools/include/uapi/linux/time_types.h |  46 +++++
+ 6 files changed, 197 insertions(+), 200 deletions(-)
+ create mode 100644 tools/accounting/format_timespec.c
+ create mode 100644 tools/accounting/format_timespec.h
+ create mode 100644 tools/include/uapi/linux/time_types.h
+
+-- 
+2.27.0
