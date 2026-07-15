@@ -1,149 +1,98 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332ED42046E
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 13:08:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784120921; cv=pass; b=MUREwvg1dEcRsEq3EmQu7iQ/NRItScQ8u4XVr5dMmFOM6RN6ntUiwPEFPLmDNfRBPu+B2bi3m+mRAWXa11ezkULsk77gRQWC39+ltQODwlPIM86nEOV6uY2OdZz6ikgMlDrtw4rAKMABrh/0JkWkNYX+jR+A+b4fI5Q9gpPU6VY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784120921; c=relaxed/simple;
-	bh=mjI03qd2w+xvrv7nyqiaE+Rf0Rqhr+/L9iZXLRDOHaI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xk/nPNvP5RCMmNJY0URQqHTQ9MS5TaQ/FYCBFQxKyG7cGXhASNWHUd4UplH6EpaL+XTAvCGjv71mxpt31SREK/HTPg7sPNDm6w1OGC70dFjCu5nxhzZb91zL0VlMlMigqg3GMBN4Z4q2xzt+04x6Yi1aMXTx6qYfdCzt3pvhMUQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q/MZbeW6; arc=pass smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8746A420488;
+	Wed, 15 Jul 2026 13:09:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784120967; cv=none; b=L5c3Fyk9USNDqxzqdUCI4wsohIugdHU+hDQfpzCFXiP2lvPa4L6aXEAvsLY9LQBagrKtZ4Sg0E3xSReyMkxAda7XbphUNxekT6OEeg0F9hmJxWqlN2e1i+YUi7rhBKLlxGqsdoMrgphDpvScYx9E9yNttu03aH7Rt40v8KZqxps=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784120967; c=relaxed/simple;
+	bh=SUMb3zBausmevnB9x4UBudVXKBEKviMAQn5Mu6iQJHI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IVudPTGIz9dALiKIumvlQnXezQ+Jagaa9Jv85DKEwWRPoFVZWVuRcMrvzXEaFHrRVQYRL7LEMZYlAEUlc54bby+9oCKD9NU53jZIVw1mL3Rf4lgYDlWGc4jTf6YfTPMGQB4Z46DYsQn9fH06M+0m+ECJ+VxrvetwQpCk3lVroJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JtslR5ur; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q/MZbeW6"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8e5be46f663so14635016d6.0
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 06:08:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784120919; cv=none;
-        d=google.com; s=arc-20260327;
-        b=OR7GwPjYT5xSeH+GC2DvFMilK2L0FjW52ZfdZimOlYGw2z36ThaJDSl+/RTAXYcx4z
-         LfgBg78iEigvSfxawWmAw+ZLkEFrs1eoPsfRao15e6UFFR5Ilfbg0R3OaSYfkbuq0+br
-         Dk8WO+U2EROSlit9eRMYeKpnbBS55tlPY2/be/cZXTZ3BvtIt/WWXiPLEqearInlR3OT
-         DdYnBxLvSaZOMe0s9/HIrORhpPiIYhQB3COXjdgx3pOZfGnxDNouY389UKXsGlIaFtKb
-         OF0uktbeSTXINjxK8DMxzioUYv7DLgqqeYK2lha4UD79CHQ3SiZMSGl+jTtj9cSMg5/M
-         jaag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=E9AvNYy2SRR2r8F0yQsxBV7HXUmw83DfY+1fzv5gD5c=;
-        fh=vxXzX62FjKW718TzrSabJCCP3ZgZ3nHbgs6BKJNAh20=;
-        b=OpbhxJ6WslTebW+zkK5c9JMneGowk2mT9sWlifhhuQIKl1y8+CKY9X1q4hR64+siic
-         XHx1QwVZXZC4KUyb4lfIDys+3ETBoywA0BTHIY6fZbYYUcG4s7PgjQ4E528sVU+WROAg
-         86pJuoyms5iB55DX0StyBfOaUKmHiIADNVjk/axWAHllxkMWuZBUHaZQ9z7pOtjQ577t
-         4GQUxG5g5YOldowdiTP/0QuNRTaQE3wxvvrL+rnp+3Vvo7YWgf306/w7hDMVMJvlRn1M
-         WMu/5qU7tRjkajJCsTDhV+Jn/ijQp8qbt9E8SW2RKvZhbbq/Hs/Vsbzcz2HT5IF5Z1z3
-         pgww==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784120919; x=1784725719; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=E9AvNYy2SRR2r8F0yQsxBV7HXUmw83DfY+1fzv5gD5c=;
-        b=Q/MZbeW6FaoL9HNI3nl5BcV4W5Gyw9VR88onOq1tYNStoBdYLIz/35Bxx9hapczvNQ
-         M/3WMajSouDOjFXwrsTWZXrw6jS+AwOsGNtrRtxczwKg0/7On2/YlVtunpPmVUfcAy7t
-         PS32dxJ5kU2eqyUZJJ/ru/mDrfuxCWD7Qosu33bSNcjeg8bW+CfqWpVOODyQgQpmdG61
-         MtuXqyPoOHLb9WNiXi7bUCBXT/YMiAnpmriKoH35hMEeAEE0YfVL0qMRTm2i6zAY8Y0O
-         qudAFDVflpPp7YgyNUXzxLnGlVQJ7Jhgrkqn+Jqaj1q6SIFvJXxJhEco04u3FXtRa/B1
-         YpMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784120919; x=1784725719;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=E9AvNYy2SRR2r8F0yQsxBV7HXUmw83DfY+1fzv5gD5c=;
-        b=QJ2CsONOxFbGCeO3juDNSVNtKYCmV1Exo9Ct+D/OLD3qwXfVFyZTD6rPkbYrRq2LmW
-         9nDSqpO89u98G0Bl3vejDAHc41vogMjwIgZIpRsySJR9AGY9Ay0sOfVyLClHdotTIj6i
-         lfVhjYC+Pbx3cs/jDuwVlufxQSXaiUWqa+jsRGmTmYwXakX8t+CgjsULQN8RO0shFTxQ
-         STiU3ZST5vMikdfaVAd4275bAI3NqUXLLSulUfWCWwyOI+f/sKbm0WkKcUX2AHnjPmR2
-         eFfOBvrhJC9glwiwXZw1zbP+LIm+R8bOabcNUIziV98C3PU9McLZGip3gUTEw2wLs9Z4
-         eVvg==
-X-Gm-Message-State: AOJu0YyLrPyd8Ir/fFNdmjh/z3rlwuIGQgqHhZpoSZf7CrEpjIiOwloW
-	jjylNCVwB7gy8ki3scSL9u+Xg6JKFd80i8j+rMhO9dUmTCrawjF5eMg/isGK13JS8quN+irAwHl
-	8BG9YkDI2Xp9NGWRto+TyEO/H7PNmRhEFlUfutk8=
-X-Gm-Gg: AfdE7cm6rhJSkg0kRsGWlioK4eaacr7EecDsExuqMEP495akQnkG0GalNg6uOOk291r
-	iJYY+PftMMY9NgI0cHGKAClegDV0OR4kIexUiaLWWJWkCFvfnix1Xk52l/V37sytrfRnw/+/WZT
-	seYiZgNFcaM6AtjzwenAnnmrcCTtI/u71rthBFzmz+bQJ1DlCFf+gmu6YWDwd9sIUcVLwu3pK09
-	R40yR0H4Id2C8zKkuIc3/pBLYFnu7qlIgEEsMArTJnuvz/xuQlWFLVDkTv58glaxNZwWun8HiYN
-	G0eWAwY/LkqFF7toI1HCKCGj+N//KtEpfXKkzZ/MlGxMiAmZyFNpSwhRG/KsX+cbhYPGqJrFbpN
-	Liohm+C8sDuU=
-X-Received: by 2002:a05:6214:31a1:b0:8d1:d1e1:8360 with SMTP id
- 6a1803df08f44-90400b7f3e1mr183242766d6.39.1784120918900; Wed, 15 Jul 2026
- 06:08:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JtslR5ur"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA4571F000E9;
+	Wed, 15 Jul 2026 13:09:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784120966;
+	bh=wsxT5Nei/pXNtplqSgGgPoBP3RgXHfqBbo9yCD3QM0Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JtslR5urgE8vRtnO1BH1g02FkzXrLeKcugJNT7sTtuf8PzfknP/FcA4mHau0guwP+
+	 3nsEo8dd/9WCqSrq+f+jU5AyYtqh5jqm9ox0u2tnswWTN8xg9yO+x6Iv/VPTbG3fyX
+	 +qk53BgvB1EKmygznECPhz+JOK21NoWJH4blxU/y89Qwe5CSiWE11uBmM0ro/kSjSS
+	 X5ldXZrHuMfAXVpIXCF99+Tl3hoPqvSOeBQxowYbQqkmgPl7o1LkgxXcFuu7CUiArA
+	 7JD6W3GP2fxspXU1M7F9w6kbhd8m9/LoebxtxZzLnP3X9P1GY+tENpqLmcX9e09gYv
+	 W4g1x9Dvwqa4Q==
+Date: Wed, 15 Jul 2026 14:09:19 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Marius Cristea <marius.cristea@microchip.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Kent Gustavsson <kent@minoris.se>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>,
+	linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>
+Subject: Re: [PATCH v6 1/5] spi: dt-bindings: Add spi-device-addr peripheral
+ property
+Message-ID: <1c4af9b1-9937-4cbb-b57f-52ac575b8b89@sirena.org.uk>
+References: <20260715-ad5529r-driver-v6-0-cfdf8b9f5ee3@analog.com>
+ <20260715-ad5529r-driver-v6-1-cfdf8b9f5ee3@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260714210124.5364-1-ygorotavio.sjc@gmail.com>
-In-Reply-To: <20260714210124.5364-1-ygorotavio.sjc@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Wed, 15 Jul 2026 10:08:26 -0300
-X-Gm-Features: AUfX_mzxQyesbKL3bQ15nI8G2g1DeaR2fVLNNZbDc7JvRgWysfePayhmsGPSdes
-Message-ID: <CAMAsx6cwxED0nBxPGvV7EgbAbWMr2jx1biKsK3u=4enj4vegYw@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: translations: pt_BR: process: email-clients:
- traduz para pt_BR
-To: Ygor Otavio <ygorotavio.sjc@gmail.com>
-Cc: linux-doc@vger.kernel.org, corbet@lwn.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="IzXuoKuv/ubtdJzE"
+Content-Disposition: inline
+In-Reply-To: <20260715-ad5529r-driver-v6-1-cfdf8b9f5ee3@analog.com>
+X-Cookie: "Speed is subsittute fo accurancy."
 
-Em ter., 14 de jul. de 2026 =C3=A0s 18:01, Ygor Otavio
-<ygorotavio.sjc@gmail.com> escreveu:
->
-> Translates the documentation regarding email clients info for Linux
-> into Brazilian Portuguese, maintaining consistency with original
-> formatting rules.
-> For V2, the errors "bullet list ends without a blank line" and
-> "inline interpreted text start-string without end-string" were fixed.
-> The others errors that appeared after the submission of v2 were also
-> fixed.
->
-> Signed-off-by: Ygor Otavio <ygorotavio.sjc@gmail.com>
-> ---
->  .../pt_BR/process/email-clients.rst           | 368 ++++++++++++++++++
->  1 file changed, 368 insertions(+)
->  create mode 100644 Documentation/translations/pt_BR/process/email-client=
-s.rst
 
-Also, the new document was not added to index.rst.
+--IzXuoKuv/ubtdJzE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> +depois salv=C3=A1-lo como rascunho. Depois de abri-lonovamente dos rascu=
-nhos, ele
-> +estar=C3=A1 com quebras de linha r=C3=ADgidas e voc=C3=AA poder=C3=A1 de=
-smarcar =E2=80=9Cquebra de linha
-> +autom=C3=A1tica=E2=80=9D sem perder a quebra existente.
+On Wed, Jul 15, 2026 at 01:41:04PM +0200, Janani Sunil wrote:
+> Some SPI devices support sharing a single chip select across multiple
+> physical chips by encoding a device address in the SPI frame itself.
+> Add the generic spi-device-addr property for describing these hardware
+> addresses. The property is placed on the SPI peripheral node and may
+> contain multiple addresses.
 
-Hi, this word 'abri-lonovamente' should be 'Abri-lo novamente', correct?
+This really isn't a generic SPI thing, if nothing else you need *far*
+more information in there about how exactly this would be put onto the
+bus.  If it belongs anywhere outside of the specific device's binding it
+feels like it might be regmap.
 
-> +Ao salvar patches enviados como texto inserido, selecione o email que co=
-nt=C3=A9m o
-> +patch no painel da lista de mensagens, clique com o bot=C3=A3o direito e=
- selecione
-> +:menuselection:`salvar como`. Voc=C3=AA pode usar o email inteiro sem al=
-tera=C3=A7=C3=B5es como
-> +patch se ele tiver sido composto corretamente. Emails s=C3=A3o salvos co=
-mo leitura e
-> +grava=C3=A7=C3=A3o apenas para o usu=C3=A1rio, ent=C3=A3o voc=C3=AA ter=
-=C3=A1 que chmod=C3=A1-los para torn=C3=A1-los
+--IzXuoKuv/ubtdJzE
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I believe 'leitura e escrita' sounds more natural than 'leitura e
-grava=C3=A7=C3=A3o'. Also, the word
- 'chmod=C3=A1-los' sounds very weird in Portuguese; a better and more
-standard technical translation
-would be 'alterar as permiss=C3=B5es' (to change the permissions)
+-----BEGIN PGP SIGNATURE-----
 
-> +Ao mesmo tempo, ele quebra linhas a cada 78 caracteres com quebras de li=
-nha no
-> +estilo CRLF, embora o problema de tab para espa=C3=A7o possaser resolvid=
-o com um
-> +editor externo.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpXhn4ACgkQJNaLcl1U
+h9BFywf9GLhvPMx/zAqARTHV92Ikz3iIvmqmLKbDbwynI8niYLhI1ulnhUTHaxfw
+Jvy+H+ofBMkjIBeveoiRHtBiDTEnAh9cHA9NNVnBi43qj+cbPRXc03veBrBftD9X
+vH/cSYWZ98Mj5dhlroXb6gXBYBrTifANkv9ivpOwE2j/EvL+bC51rGzhqc+T+8tt
+gesKevaEmBXvRr7OSivPlAbgQfbm3kcBZJo5CYu9cD/aUkoSlISgTXt5nQN2/RZB
+RftQ3HVKiji4b6iC7RSH1PhJh94fTMK7j+zlyNEBHhdjUlI+dRqZR2t1Zt5MbpLA
+qiYYA6j6lEuJK09nt1WazNul6jP95Q==
+=zhQI
+-----END PGP SIGNATURE-----
 
-We have the same issue here: 'possaser' should be 'possa ser'
+--IzXuoKuv/ubtdJzE--
