@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540C23AFB13
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 16:13:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22533B19A3
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 16:14:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784132017; cv=none; b=i2+AltkLkGgu2TThpGcUAGHntKK3YKP2iY1z9BN7kgedfi58TQGvRSdU1MrBMFGZs8uoQkcL7KafAIPJSWYaQATHaDJCNA6fEJhsgMkBLXA0zhRQVRWedsI7ff56ZedWLsHy5ZFu7LiKuhOh6FF24JWXY5T1Uf3hlQvvW6N7GKA=
+	t=1784132104; cv=none; b=ldewkUZnaN4t9lkIts/WmPZNL9Wk2OWA84KOMDOI6DwW/jqgCpJo0xKBk8NbofbwSrFV8LN4SjjQuDGEgTq0gk4ATydROriD+x0bBNINcS8iQGBFYnUS6BlhhuiRsWG9KzYwHdpoLDtl2b0uwyuhMcRCRo+OAuThrh8WDUFlCDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784132017; c=relaxed/simple;
-	bh=ojjtyyGeHoV9PKmc8XRvi9voDAm0az6gJPZeCHzJU1k=;
+	s=arc-20240116; t=1784132104; c=relaxed/simple;
+	bh=R5f9j3AATL+z7e7A0vPkCbF3rmalAtfzXiT6uxIySqE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=avgDSt60Il5iVB3OmuEmno2bJ3ngpj6/z27/6GpaLX6x9IyKqO2Yuw26hmMhjAhhu/uTPYVNQE7/QUWmU1GsA3VcbTbKZbMzpPYDQoVGddWqC5jDUF3DqiEeSOrhvf6U+asqVTNTSG6WFLSnuHZixbVc/9ju4iVdDch+tG5j5xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=olxKOGZg; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=Q3Wma1SRo3MSifhee5pE1kSWHTqwarhaMuwSOHFR2g1+6XR/dpW+XQdRZDGACuEgFKI7ULeTXmvyFS8911U8Ew7snj0s5oC+PmlxHviD62LgVBG8nzfpkONYlAHVvznkBri4S68a5kP+L+FL8laDrL+ERPAX1F2ALTxX4ZkP7pM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gpxzo/IO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="olxKOGZg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4BF41F00A3D
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 16:13:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gpxzo/IO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 282131F00ACF
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 16:14:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784132010;
-	bh=lu5Q8dLhMuRIjKNUUM4Rh5PJ281PWU4rUxfHtkQFTB0=;
+	s=k20260515; t=1784132093;
+	bh=pVMjnd6ptKwYPB8UkY6qqtALdKO+zAj3uPclax6r34I=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=olxKOGZgyCmb6FPVTij4JCmNrk2owXUCIAWnWPKNseikRFdnhIYMoBd3d6tJHPyFz
-	 SRHG3hcV2rKsXoZGdBNVz/z2NDcQX8SCg4BSWs0zoUAGzJWVFjMcdHFMAdWuiPInZC
-	 R9M2DBPGzqaYEw2HholgDD81jEc2C7O5Zg4mRwOvv0BooWlAbj6Erj/oqa6jVb9m9S
-	 6AC5O0S5o5XOPfB0G1ckSckYS1uNT3LaqE/ruy2iM1Nmk/ROA7DGkC/KkBTUHtBF1U
-	 gT8iRpg13v/8l0K6YTJ6rPH7eQAGqsEMm3Ka6HX2o/WR+Oyx4KAXxR/B5sb5D+jPzw
-	 hRqF3dNupGZ/w==
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c15d3cd51b2so664178266b.3
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 09:13:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpkmDYtL0OLolmNZDG3wwyr4Xn122ABzzGHXG63jnP2sz4XS5yKTsJGF3lhQw9LdtRrgDAqSsoBMZg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyYJTKGxKUILzKUuYO1Xxxcasa/x3awdWPvuITkoe2Z8H680ro
-	Voy5KpZ2JjQ3lvOIHbXjCsCMzkLGKkzB9gfGiY4bZ058BGQMuQG7QussHMKv9xQ3OCz0ujL4mfW
-	1bTdi+Na+EwHvpx18s+fipvkEccneESE=
-X-Received: by 2002:a17:907:6d04:b0:c12:8c41:3beb with SMTP id
- a640c23a62f3a-c16794a90e1mr255601966b.50.1784132009676; Wed, 15 Jul 2026
- 09:13:29 -0700 (PDT)
+	b=gpxzo/IOyN6nBAAjNwp0eeIhsQVbbB+pyG3jrWjPDxNprat4lNwb6YhaOYUN7H4le
+	 DH+PlzUORIIWRz7zFOGZVIjyaml/nnyzd+I5OiKahwAo4zeGDrE5GPLv3a9LO2v17e
+	 Ros/tdazLIaOFRLC/ItN9lQVRHMuCpkaYJEd4cWo01OTFipblcl87meAd1Nxgm/aIP
+	 JglqeMG+IBQnMjmW1kmf3l1K2klehtxH1wXEbHmJFIs9cRTud8wnFstp5r6ifDq9CX
+	 FGHoTY9iSbVFBM/C5sYxNx7Zk6eiW36eKH2H0fB+DtCBBuqntMjb/btugH0W5dj9Ww
+	 owc/BsjqPglqw==
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c167bda216fso151920766b.2
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 09:14:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoHHkaqqTMOZy+j8Z13MZbJH6SlCdCZYLYMsIwO3ZHG5ms9dqe1cUb5K1MpQIqGOOPYoRwGOv2z1O8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznxDdFfXgRie9qr9hGa1h8M4l3qqv5N7jEcKhoCA/8++/nTYwM
+	esKkhNnc2Nc7wVlzL0yoNgIpqjXALwcB4d7vj/+Yuu5UE80Byf6LjIXVhNirCH2sKqIYOjZawVT
+	Hx8yW9JqCWooxbbxYuNz31TUhMWpvMaw=
+X-Received: by 2002:a17:907:3e8a:b0:c12:a469:c with SMTP id
+ a640c23a62f3a-c161e90a00dmr872937266b.9.1784132092086; Wed, 15 Jul 2026
+ 09:14:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,102 +42,71 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260714081510.16895-1-jiahao.kernel@gmail.com>
- <20260714081510.16895-2-jiahao.kernel@gmail.com> <CAO9r8zM5nzDqNcx5UoDgGexvR6jf8MmJV9SomM4AS7n-rZ2o5Q@mail.gmail.com>
- <20260714193129.f81711f516504b659d544741@linux-foundation.org> <7a1fe347-7ca6-4768-9308-420bf1251f54@gmail.com>
-In-Reply-To: <7a1fe347-7ca6-4768-9308-420bf1251f54@gmail.com>
+ <20260714081510.16895-3-jiahao.kernel@gmail.com> <CAO9r8zNiT63LUHx8X5i_aboX1UWuGkcFf+p9ch-pekURUuDdXg@mail.gmail.com>
+ <2bc8e4f6-46a0-5b74-6eaa-59e7aef9227e@gmail.com>
+In-Reply-To: <2bc8e4f6-46a0-5b74-6eaa-59e7aef9227e@gmail.com>
 From: Yosry Ahmed <yosry@kernel.org>
-Date: Wed, 15 Jul 2026 09:13:17 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zMDndmoxi_XvQv3rkkhCfb+aW3=8JdE3gAv2YOKiyiFSA@mail.gmail.com>
-X-Gm-Features: AUfX_mwya7L56YQEsogBNZLgTsBSd6kz9fOgJ7y2xnvr3Ptih0l9NoLzTiD9lJs
-Message-ID: <CAO9r8zMDndmoxi_XvQv3rkkhCfb+aW3=8JdE3gAv2YOKiyiFSA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] mm/zswap: Fix global shrinker when memory cgroup is disabled
+Date: Wed, 15 Jul 2026 09:14:39 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zOFg_mnNGbFFd_h8FAwRCbQ9vXk47EF5f1CLg1cDVGB5Q@mail.gmail.com>
+X-Gm-Features: AUfX_mxckocOMDNAXcaDIksTHkGKMb-YRMUFBn4leFJP1SyAw0X7_5cXmfzU820
+Message-ID: <CAO9r8zOFg_mnNGbFFd_h8FAwRCbQ9vXk47EF5f1CLg1cDVGB5Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] mm/zswap: Support batch writeback in shrink_memcg()
 To: Hao Jia <jiahao.kernel@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, nphamcs@gmail.com, tj@kernel.org, 
-	hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org, 
-	mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
+Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
+	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, 
+	nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
 	roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>, stable@vger.kernel.org
+	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 15, 2026 at 5:31=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.com> w=
-rote:
->
->
->
-> On 2026/7/15 10:31, Andrew Morton wrote:
-> > On Tue, 14 Jul 2026 09:52:59 -0700 Yosry Ahmed <yosry@kernel.org> wrote=
-:
-> >
-> >>> When memory cgroup is disabled, mem_cgroup_iter() always returns NULL=
-.
-> >>> Therefore, the global shrinker shrink_worker() always takes the !memc=
-g
-> >>> branch. After MAX_RECLAIM_RETRIES empty walks, the worker simply give=
-s up,
-> >>> so it fails to write back anything.
-> >>>
-> >>> Therefore, when memory cgroup is disabled, fall through with the !mem=
-cg
-> >>> branch and shrink the root memcg directly.
-> >>>
-> >>> With memcg disabled, shrink_memcg() only returns -ENOENT when the roo=
-t
-> >>> LRU is empty, which means the total pages are already below thr. The
-> >>> loop then safely bails out via the zswap_total_pages() <=3D thr check=
-.
-> >>> For any other return value from shrink_memcg(), the loop is guarantee=
-d
-> >>> to terminate, either after MAX_RECLAIM_RETRIES failures or once the
-> >>> threshold is met.
-> >>>
-> >>> Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
-> >>> Cc: stable@vger.kernel.org
-> >>> Suggested-by: Nhat Pham <nphamcs@gmail.com>
-> >>> Acked-by: Nhat Pham <nphamcs@gmail.com>
-> >>> Acked-by: Yosry Ahmed <yosry@kernel.org>
-> >>> Reported-by: Yosry Ahmed <yosry@kernel.org>
-> >>> Closes: https://lore.kernel.org/all/CAO9r8zPVzMKFbCixxD-qgtRrkFxWVrHi=
-ZZeLc=3DeyTPKPVQgX4g@mail.gmail.com
-> >>> Signed-off-by: Hao Jia <jiahao1@lixiang.com>
+> >> Test Setup:
+> >> Total memory: 32 GB.
+> >> zswap settings: max_pool_percent=1, accept_threshold_percent=50,
+> >> shrinker_enabled=N.
+> >> Allocate 512MB of anonymous pages and fill them with random data (to avoid
+> >> compression), then use cgroup memory.reclaim to force a large amount of
+> >> anonymous pages into zswap. At an interval of 2ms, allocate a 4K anonymous
+> >> page where the first 4 bytes are random numbers and the rest are zeros, and
+> >> then trigger a reclamation of this 4K anonymous page through cgroup
+> >> memory.reclaim. When the pool threshold is reached, shrink_memcg() will
+> >> be triggered.
 > >>
-> >> Patch 2 doesn't really depend on this one, right?
+> >> The test data after running for 120s is as follows:
+> >>                             Baseline         Patched
+> >> shrink_worker wakeups          5363             85
+> >> shrink_memcg calls       11,345,012        188,264
+> >> written_back                  40214          40275
 > >>
-> >> If that's the case I think this can (and should be) picked up
-> >> separately as a hotfix. Andrew, WDYT?
+> >> Conclusion:
+> >> Under the same workload and run duration, the patched kernel shows a
+> >> significant reduction in both shrink_worker wakeups and shrink_memcg calls.
 > >
-> > Please update the changelog to clearly describe the userspace-visible
-> > effects of the bug, thanks.
+> > Please also include data from the case where zswap store failures are
+> > observed and pages go to disk, and compare before and after this
+> > patch. I think that part is also really important.
 >
-> I am not entirely sure if my understanding is correct here, but maybe I
-> should add something like this to the commit message?
->
-> When cgroup_disable=3Dmemory is used (or with CONFIG_MEMCG=3Dn), the glob=
-al
-> shrinker fails to write back any pages. Consequently, the zswap pool
-> fills up to its limit and rejects further storage, preventing memory
-> pressure from being offloaded to the backing swap device.
+> I retested and added some collected information. Perhaps
+> `pool_limit_hit` and `pswpout` can explain that batch shrinking of zswap
+> can reduce the number of pages that fail to be stored due to the pool
+> limit, allowing zswap to skip zswap and go directly to disk.
 
-I think you can simply write that zswap writeback when the limit is
-hit is broken when memcg is disabled.
+Oh I meant the other test case with high memory pressure where we saw
+a lot more writeback with this patch. Do you have similar data from
+that test case?
 
 >
-> > Also, AI review has flagged several possible issues, all appear to be
-> > serious:
-> >       https://sashiko.dev/#/patchset/20260714081510.16895-1-jiahao.kern=
-el@gmail.com
+>                                Baseline      Patched
+> shrink_worker wakeups         5,363            85
+> shrink_memcg calls       11,373,201      180,928
+> written_back pages            40,212       40,236
+> zswap_store calls            161,190      168,741
+>    store succeeded (ret=1)    102,743      127,644
+>    store rejected (ret=0)      58,447       41,097
+>    store reject rate            ~36%         ~24%
+> pool_limit_hit delta          55,826       14,062
+> pswpout                       98,659       81,333
+> pswpin                            2            1
 >
-> For AI review comments on this patch:
-> I suspect this scenario might only exist in theory. For zswap LRU to be
-> empty while zswap_total_pages() > thr holds true, it would require a
-> prolonged state where there are always more than thr zswap entries on
-> the zswap LRU whenever zswap_total_pages() > thr is evaluated, yet the
-> zswap LRU happens to be empty during shrink_memcg(root_memcg).
 >
-> If we want to fix this, perhaps we could do something like this?
->
-> Yosry, Nhat, what are your thoughts on this?
-
-Do we need to do this? The last paragraph in your changelog explains
-why this can't happen because zswap_total_pages() should be 0 in this
-case. Did I miss something?
+> Thanks,
+> Hao
