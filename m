@@ -1,179 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D318392831;
-	Wed, 15 Jul 2026 16:02:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784131336; cv=fail; b=dGj4t93vrCS2jtJDxndHGF8aSyRy00GundH1Bh61OdHFuOXB+8xXpYJlq+r09RlrjXvuLFfEStQt8sqPt6jqLVh3nbFlxOxNv5u5MnATCeSzOkEJPBC6wgGTskPsLrMbIegZPjhD1jVuxgaWjR6NK68mUdP8QkXLgyJsaXx6p6c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784131336; c=relaxed/simple;
-	bh=/lMPtaVm7zWbpnXOxNx6SKG5/MPfYTWU2oUdESTd4Ek=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=WL/hr6rOhP1XVfGqOCkXphVxYzRr8lRh5lX5kfKR/G/VYqIVZN4agfRaOvu7dvONQKXNmKIHz2++NL2KJBIFjMA8jeU/bpj+/Z/DtZZo67kuB8VxGXSlgerrTI22bW5DZgGZOm+O3jZOtrx/sM+p1PU0vy4A5Q3Q8VCNwycub00=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G+cjdt4x; arc=fail smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69ECA3ACF02;
+	Wed, 15 Jul 2026 16:03:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784131399; cv=none; b=BURRQS8jyX7peWOnogYrLIc4mnE1NXGM4J48j2iPq1UJGl/wqlkLBeoMpY44siDCROP9r0VpZvE75cRgCND8qPh69Sl69yrpoT7RVXej5XzANShOtk45j7NuY/Dk9DUXpjWBhRZ4ii0J+OitzMDUBEIsSvOkdF77qpCdgtDhalY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784131399; c=relaxed/simple;
+	bh=j66ycXNqmfL9ElgeVy3WnEOOmbqq6eqLlP83Cj5txIc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D62+2ZNsRC5qYNLToHzxCNqg9X5i8BdvidEnqZ6Iwcb+8yRdtH2JwiEjqu9nDL+y708/H0JDTv3vNjMCNZbuSswHmOWBQNOVv8lmZUIz2lRFzm/TVuUGObkB4261tkS/z05qRqOepRrDdmWBkIcjBu9Mi7C9Eu+mUzVM6XcD2Y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BTe0PVEt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G+cjdt4x"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784131335; x=1815667335;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=/lMPtaVm7zWbpnXOxNx6SKG5/MPfYTWU2oUdESTd4Ek=;
-  b=G+cjdt4xT2wm+WEei7MWsQPEt1qQQXPhMmKQuCl0pMLAaU0U4hcW9pxL
-   8Zg8/m17VNOiptR8PAYAThFcjdIt+e/PUwHG6Krnmvqlhmz+zIsS6D0DD
-   uyxC8PoDqmq7WU3DgoRFdO/TIWz7pxgnKJ9FRoB1jJIKWZ1JsZnzGMFc8
-   dMky5SksxSPS2EomrnytK5eFZrw3/8cNy0yV/XY8i/uzl5gJkGRHofJVY
-   jKWxoly+WasSDXZt7/Tne1+blaZQuwCpcjfy7cJhUo08iUzIQw7bx7Yyv
-   xzGIqeTRftPED1W5XgLXWrDzcZ0kZ9Jv+TFdquRkgJeBmuGHKiXVklOKz
-   w==;
-X-CSE-ConnectionGUID: mIahvBbgSqWBnzSy/rTxxw==
-X-CSE-MsgGUID: M677F6GsRsadz35VdmcstA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="95916647"
-X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
-   d="scan'208";a="95916647"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 09:02:13 -0700
-X-CSE-ConnectionGUID: 3mkGBLJWSd68hjmkIV3L+g==
-X-CSE-MsgGUID: Fi13rbvmS3uJLabIJbyp0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
-   d="scan'208";a="255101255"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 09:02:13 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Wed, 15 Jul 2026 09:02:12 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Wed, 15 Jul 2026 09:02:12 -0700
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.68) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Wed, 15 Jul 2026 09:02:12 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SDgHqvB/MXivfupQ2Q6xRkAccjX8juXgXtYV0QyitOGKkJ6N3tR9/A9OwQ7GWNiRv3/lsK8ZqwITBO7MCoHwV+WcXvRVnHeWMRGeZzxuC5x1B/uqYEQavSy5dqmc5/oQfAxOc6c66mWujkDPy/J0Nz5x9cExn+ATAVww69A91Sh2T2Myb+9SBwyGncytjg7ELXxr6B/gwFLg3uJWVf8famPp0Y5I+s5on1gCUYgiT9fzITljxXBRmTDN2hd038OKx4sz7C+Vp4OKq+pc/QvbC54og3ff+VLrCpGpfyQTSb67cMKYqZRfWt5GMj6htIEHO1nxc17HwpVATUWUfUPppA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=77yvbFWNTrH2MGCIlXeId2iFYPBkll3lIsfU09JVDMs=;
- b=YH9NBigxM2PD45Ubm9CnxhBzzIXBTrkSh+SdTcO/gt0so/+4NHY8jKptyjmeXM8/nExD+pLWHXdDFPRjW/i+n6NRvqj5jhRDItqb12PT1eqlEtN047W+JMiE40xL8NagEBsm1SLgXvB6pjE+g2C0Fhl4xaPUchCTIRKOk/ngKkffxAR75+Dxfn/IjbvO2PET7TF4EuSovwk5iolf0mp1zJDzB/gQo9CKYqXlDYfIc6ZTcKB59EArtYlPFgBYDN4+bZOyumPkhZGM55+FJG3GiGW7h1uSWQ9eRwHyfTboJ0hMPBtG57zlGMeD3fWmNpafd7oBQ135ihduZV2IEhaGGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
- by CO1PR11MB4995.namprd11.prod.outlook.com (2603:10b6:303:9f::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Wed, 15 Jul
- 2026 16:02:09 +0000
-Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
- ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
- ([fe80::b6cf:ce77:3cdf:7cc%5]) with mapi id 15.21.0202.014; Wed, 15 Jul 2026
- 16:02:09 +0000
-Message-ID: <570b8f08-33b9-457d-b101-8579eb73e4bf@intel.com>
-Date: Wed, 15 Jul 2026 09:02:06 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/3] x86,fs/resctrl,arm_mpam: Factor MBA parse-time
- conversion to be per-arch
-To: Gavin Shan <gshan@redhat.com>, Ben Horgan <ben.horgan@arm.com>
-CC: <james.morse@arm.com>, <fenghuay@nvidia.com>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <hpa@zytor.com>, <corbet@lwn.net>,
-	<x86@kernel.org>, <linux-doc@vger.kernel.org>, <dave.martin@arm.com>
-References: <20260709093111.367851-1-ben.horgan@arm.com>
- <9892de2f-9e29-41ff-997b-a6a2e7c98585@redhat.com>
-Content-Language: en-US
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <9892de2f-9e29-41ff-997b-a6a2e7c98585@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0254.namprd04.prod.outlook.com
- (2603:10b6:303:88::19) To SJ2PR11MB8370.namprd11.prod.outlook.com
- (2603:10b6:a03:540::20)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BTe0PVEt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45DD31F00AC4;
+	Wed, 15 Jul 2026 16:03:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784131398;
+	bh=f4C6n0w9mDrtHRCnStTGRTvpeLhmwUbbHGkqcxBvTik=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=BTe0PVEtIUgNNd0HJimWRQQVEEPMbL5+bzLWuypuzi9NIZDNIO6kUqirtSxlAWLFk
+	 PrBLqf5Yq1l3QU6VH4iviptT0e9bRWpUM/uEXAasgR77pKC9z+vQd3N/ZT12gq+TOA
+	 iSjdO6i4rRi3jSv2zcy+p4iHl9QURtzFzqcQgPTQEhJK2/xGqbUIZZT2Vi6+Rct4P3
+	 d+GhP1nj6V3srM5djsFI26cexSh0CwKsIKZqFVpU6Sr6h376esJkNnOtKiwg2jmpGj
+	 k+k3ZxxMJZcOYT4zJ80nQ91avqazBAS8yWXPX8UPGPMQCt3fqQNPTCHC8TVxaX0t6I
+	 khlJo9zamFdrw==
+Date: Wed, 15 Jul 2026 17:02:59 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Stanislav Kinsburskii <skinsburskii@gmail.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, airlied@gmail.com, 
+	akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org, corbet@lwn.net, dakr@kernel.org, 
+	jgg@ziepe.ca, kees@kernel.org, leon@kernel.org, liam@infradead.org, 
+	lizhi.hou@amd.com, lyude@redhat.com, maarten.lankhorst@linux.intel.com, 
+	mamin506@gmail.com, mhocko@suse.com, mripard@kernel.org, 
+	nouveau@lists.freedesktop.org, ogabbay@kernel.org, oleg@redhat.com, rppt@kernel.org, 
+	shuah@kernel.org, simona@ffwll.ch, skhan@linuxfoundation.org, surenb@google.com, 
+	tzimmermann@suse.de, vbabka@kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] mm/hmm: Clarify notifier retry state and scope
+ HMM timeouts
+Message-ID: <alet21wLwM6P_Km2@lucifer>
+References: <178406760622.1106335.2379450382728057793.stgit@skinsburskii>
+ <4300f09b-8f93-4605-b072-7c09a82cb16e@kernel.org>
+ <alecaJ1FUso39D9k@skinsburskii>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|CO1PR11MB4995:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe1a0727-9158-411f-10b4-08dee28a6cad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|23010399003|18002099003|22082099003|4143699003|10067099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info: Bvarhtn490+msr6heLrEnTJe5Gfk/7r+aBoQHBdmR4/e/dSoM1d70yEJt2B55xPu/d4sNK1F8LUFlB0LEEWx5TmRKr+U7sokHGeRiK/VcUT90XNlJEq90qyYT7eKn7ZJ1Je5trly1d+PPfU+W4OcTvEJGByRBiF/mMuHWR9CfHquBqV7VthKqsrUgMdzyeSAN4ZMiklth3enKFMao5d+x6zvkVjKmJl+OjPRoJo0xmJ81VYV60gAO+Xf0UGje20wUEeJmJlAgQgIR4z294r9CWOSAT4rq57UOxoE7Nygg+ZhJudehtWI7oU6WKlW4dDcPeLXQqRUrr5w0lP+AbDXmUBhJe0LLpoQTCh50X2NS83nZSTRZ9CovfmC/a9IaxQpnaFzL5kOhPNLXDiwkltKBgYDJrEi0ZN4zgiDzEuXjN287kPyY4Hy3c7eZLW8DMxxiDsLyFAeJdOjmjWEyZt9ZzTjTJ3CD/dr2cXrfVBxZTntbaSZN+RFZgCl3Rw+zJtHNstEAg5JzbvGjJTRaIo9Vki2Ue8phasiupXzabSqIabj3XF3cFoV4oSsGDPZsmpWSoPrXErowtepl9UAGVZ6T2RBcMHIS0rjNjBXzpKH9iOQKa/idzGxvkNF7d5wiK3vnBsyVlfRLZF1U52gYkzpkDNP+UUosFion6ZUo198pls=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(23010399003)(18002099003)(22082099003)(4143699003)(10067099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VlBBOUNKQ2cvN3V4Q1pMZ3FwamRvdDV4b1FubEtsRFltVE5PRmY4ZFRuUkdO?=
- =?utf-8?B?b2xpcm5ZUXdGMk9lbVdMQzhLVW5qTnBkdjYwbVpVRS8ydE5taXVQVHUxbU9E?=
- =?utf-8?B?T1pRZ2dpZVFRc2lYSERibHZpWDdta1diaW1CQ3FMNlE5L085YVRvMi9oK0Iv?=
- =?utf-8?B?QVNpNzhvUTk5UVdmU3B0NDRhWGJESUVVZDRCNzZRQ09kM3lBRmVNKzlXV2Fo?=
- =?utf-8?B?WHRnY1d1anIvb09qb0M5WG5CdTQyeW9nNlFubkRGZHV0QTRGc3BtUURCZGVG?=
- =?utf-8?B?VTFPV3BUdXhNTlppRGR2eGdCdnc4Z3graUFTSVZCWUNxeEdaSnNPMXBnZXV4?=
- =?utf-8?B?QXFZTzY5dHZjOS9vdFZ2aFNDbkxsUVZITGpqb0JhZUNTcTZCdEZpblgxaXFh?=
- =?utf-8?B?cnVuV2JueHZyb0JIUUlZdFp1TkRReW1FK0svY1kvMXNMMkxrOU83NXovUUpv?=
- =?utf-8?B?QmNHL3poa3krNktWQldDd3NWYzBsOUJ6UGNYaXYxNHRCS1FvNmwvNVU5NjBZ?=
- =?utf-8?B?Ni9HLzA0UllFQTF0ZjZFQWRGbTZlUzVSRE52QzkxYkpIQWZibEY3cVRRR0JB?=
- =?utf-8?B?K2wwK2hVWXc2VGEvZXZyNEdQaElWdmNSTFU1eDJScmZlNWY5MUtNdkZGMFZz?=
- =?utf-8?B?bDBwM0ltRWxEbnNlVmNjRnUveXFLaWUrOXhoYm1LNjRyM0U1T0N2SU1BQTNk?=
- =?utf-8?B?alpzOGxqY0pMQUdpdGZwY0xPbWxOaUI2a3JsSW1MVDQ4eDhRTlE1VVdlbTVT?=
- =?utf-8?B?am5vNlJiaWVRZXY3dEhwd3NoTVVUcnoxazkxK2sxanVyYUdETVdmNDhvNDNi?=
- =?utf-8?B?dHRFSDREbnBSY3h1YVBmRkt6STdPV04rR1hmRGE2eWc4YTdsZFRDQVZqRGNy?=
- =?utf-8?B?SlZqcW94WVVHaGYwSmtvSnlEMDliRmF4dUlvRkw3UXVHb1ZYYURUeG5DZXFU?=
- =?utf-8?B?aUptOGNuYzcyYzU1dXBmd05od050SnNFSXZaNnZndm1YR21CR09GZzVZMDJK?=
- =?utf-8?B?R2l1dk9peFhXcHVXMklOVFdOY2pNaEVpNjNsWHBkM0xtWkVkNGJ0WWRUV3Nk?=
- =?utf-8?B?RzM2ZzJKNzl0YXJYcWJzWlZxN01EdU5mVk5ZS1JyWW9uZjlveWF4amVQcGtB?=
- =?utf-8?B?UVYzekVDeGtneXd6SWpBQ3hHZi9OT1M2bWpSaVpISFFockxVTXdsaVR1NUVi?=
- =?utf-8?B?dmJEbUdiaWc3NHBOSmhPODN1U1BHYkdITVFJcnhlWDJLVGdjeHkrOWFpU3Fv?=
- =?utf-8?B?RE1oZWtaQ1pUck1JN2NSR254dlAwZWNPU2xqNXg1SEFtTGNMQmE5Nnl6Nm5v?=
- =?utf-8?B?cmJoMGFSczU3QmJ1bjBCbEJKbmlTZWNyV1VvQnY4bG1ndkZXK3poRlMwZGRu?=
- =?utf-8?B?ZWhuVk43elppdjh2aGlXeVlzVWs2SG0yM0o1QTdETktZRkVnY0I0MjdTSGta?=
- =?utf-8?B?enhDZzhNY3E2b1hyMFo2K2RSZVFMNXdjN3ZocVFIUG14QTRXVTZYM0ZZN05z?=
- =?utf-8?B?SEdaVTNXYlpjbDZZQThlT0dQdjZrR05uSFJjSVAvREI4MUF0Z0hUV2VyNEtB?=
- =?utf-8?B?TnpZQjNyMDBUUlozZmVhd00zSTdBb28rOElnaGRnRVNtVFJUb2JYdEFodG55?=
- =?utf-8?B?TDdUaG91VEJjY0NRT1FkRklOcDhqOEdCZ2g4eWhZSEx4ak9VekNHbVhOdjYz?=
- =?utf-8?B?cUdHdE45a0JUNDRob09BYmtDMFd4NDhIeGk1eGZ2NDZ0a0lWT21ETUVoZU53?=
- =?utf-8?B?ZTBoNjdlVjgwQ2xJUXhCQzZ5eDNXbTY4S2pjVG9aSjFPUzB0bUJDZGNQczJL?=
- =?utf-8?B?cDFteG1CQ1kwVkJ1Um1zUThTN2QwcXdpZVJyQ0lkWElWVTBBalZOZUcxbGxk?=
- =?utf-8?B?L29rNzViOUN4bjhUamdRWUhtZmNUN0VrMGJFQ2gxZ0VMTTA4eE9xTXROTHNt?=
- =?utf-8?B?eUxqN2pSN0x6MGIzcE1tNHJLbWxLb0c2RTNCRCt3T3pVY1JvUzJGKy9rdTFq?=
- =?utf-8?B?OS90MVB4bERhWURYKzdiOEVMVndvckZJNXBCVnQxcDZ4QkdNb3JvZXdIc0JP?=
- =?utf-8?B?b0NtTVY2a0xMZS9DQmZaOVB6MzNGcDBrdVZSeURiYVhqSkZBeHRGaDBSeU52?=
- =?utf-8?B?TVh6c2JFZS9RV2xDeEQ4TlVweHlkV3RKS2ZpS0NseDNtNHRrK2NWdUdIMU9L?=
- =?utf-8?B?SUZSRXMwSktCOUtTZCtkM0EvMjZMV0o0TVdIODhScFVIUjNLaTJYakh2Y0M5?=
- =?utf-8?B?N2xZaFlEbmovMFhtUWE3Nys5K2hFdkdER0I3STcrUHl2WmZLV1pBN25ZS0Nl?=
- =?utf-8?B?STZYQTVOR09zYUJVL0ZJS21MQUJNenBHdkJ5ZDl5QnJhek5LbVNSUElZYTN2?=
- =?utf-8?Q?sul2N4eOWzacZTpE=3D?=
-X-Exchange-RoutingPolicyChecked: aajSkT/ICcS6JsitVrXxB1lQa1Bv1nP70KC4kozo07HoFAQVdtHXzSU3b9t8QzFmZ1pY3vXPhFd22PuO+9P3yU1FE+X4inzShUCSfEBPNk6n71ymGKtKXJ2YdRars3ULY1QSDRyBu/Ajo8WmMyTmRjDiu0IIjTyUcbrEeb3+OG3Fu+K3iA/t9w9++hJ5N4zYYUbExGt1EdTVWC1/7s7FcGmIuuOKIW4KCMt7tWMSXxJkUnFfyIUTIataY2k2ZgyhzSgxuNcEGTcFLZm7a5yCaE2RpQpE6lTfkaQMJT3yAsY/HP4vn5vM8d4DHiya5v8RHe1jaEmgiY1EkyAJURh26g==
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe1a0727-9158-411f-10b4-08dee28a6cad
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2026 16:02:09.1267
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ohdnz0C8zD5vsJJvs5bP22L7eMllZaxrSqhrSlFojB4DeI6B3rSRejIwhWOPa6y53mAsQ/VBKrDF+/8/1m+NpsyPTFBEdUEcAaVVX1FkI3I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4995
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <alecaJ1FUso39D9k@skinsburskii>
 
+To avoid confusion: obviously please don't merge this series Andrew.
 
+On Wed, Jul 15, 2026 at 07:42:48AM -0700, Stanislav Kinsburskii wrote:
+> On Wed, Jul 15, 2026 at 02:41:43PM +0200, David Hildenbrand (Arm) wrote:
+> > On 7/15/26 00:21, Stanislav Kinsburskii wrote:
+> > > This small fixup series applies on top of:
+> > >
+> > >   [PATCH v8 0/8] mm/hmm: Add mmap lock-drop support for userfaultfd-backed mappings
+> > >
+> > > The first patch updates the HMM documentation example to make the
+> > > mmu_interval_read_retry() state explicit: callers should use the notifier and
+> > > notifier_seq stored in the same hmm_range that was passed to
+> > > hmm_range_fault_unlocked_timeout().
+> > >
+> > > The remaining patches adjust nouveau, amdxdna, and drm_gpusvm users so the
+> > > timeout passed to hmm_range_fault_unlocked_timeout() is treated as a relative
+> > > HMM retry budget. These callers no longer keep an absolute deadline around
+> > > their outer driver retry loops or pass a computed remaining time into HMM.
+> > >
+> > > This keeps the timeout scoped to HMM's internal mmu-notifier retry handling. If
+> > > HMM succeeds and the driver later observes an invalidation through
+> > > mmu_interval_read_retry(), the driver retries the operation with a fresh HMM
+> > > retry budget.
+> > >
+> > > Changes in v2:
+> > >   - Kept the nouveau outer absolute timeout around the
+> > >     mmu_interval_read_retry() loop. hmm_range_fault_unlocked_timeout() only
+> > >     bounds HMM’s internal retries, while nouveau faults are handled from a GPU
+> > >     fault worker, so userspace fatal signals cannot break an endless stream of
+> > >     invalidations there.
+> > >   - Updated nouveau to use time_after_eq() before calling HMM, so the remaining
+> > >     timeout passed to hmm_range_fault_unlocked_timeout() is always positive and
+> > >     never 0, which would mean retry indefinitely.
+> > >   - Updated the nouveau fixup commit message to explain the worker-thread
+> > >     timeout issue and the time_after_eq() boundary behavior.
+> > >   - Fixed the amdxdna fixup commit message. It now describes
+> > >     aie2_populate_range() correctly instead of carrying stale nouveau prose,
+> > >     and notes that command submission still keeps its broader timeout while HMM
+> > >     gets a fresh relative retry budget.
+> > >
+> > >
+> > > ---
+> > >
+> > > Stanislav Kinsburskii (4):
+> > >       fixup! mm/hmm: add hmm_range_fault_unlocked_timeout() for mmap lock-drop support
+> > >       fixup! drm/nouveau: use hmm_range_fault_unlocked_timeout() for SVM faults
+> > >       fixup! accel/amdxdna: use hmm_range_fault_unlocked_timeout() for range population
+> > >       fixup! drm/gpusvm: use hmm_range_fault_unlocked_timeout() for range faults
+> >
+> > Why a fixup series instead of properly resending the full thing?
+> >
+>
+> The goal was to get a Sashiko review, and v8 has already been applied to
+> both `mm-new` and `linux-next`.
 
-On 7/14/26 5:13 PM, Gavin Shan wrote:
-> Looks good in my tests on NVidia's grace-hopper machine. No errors found
-> from the kunit-tests and the MBW limiting works with more precise granularity.
-> The code changes look good to me either.
-> 
-> Tested-by: Gavin Shan <gshan@redhat.com>
-> Reviewed-by: Gavin Shan <gshan@redhat.com>
-Thank you very much Gavin.
+Please don't do this, this is completely impossible to track for review :)
 
-Reinette
+mm review is currently very difficult based on volumes, it'll become impossible
+to manage if people sound fragments of series.
+
+Please just resend the whole thing at this point.
+
+>
+> You can find more details here:
+>
+>   https://sashiko.dev/#/message/alaWmUEeIBeSkmO0%40skinsburskii
+>
+> Thanks, Stanislav
+>
+> > --
+> > Cheers,
+> >
+> > David
+
+Thanks, Lorenzo
