@@ -1,147 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44578265621;
-	Wed, 15 Jul 2026 01:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAB5D26FD97
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 01:46:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.237.72.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784079962; cv=none; b=q/JqeYGUzFz8GdaoX0ZApN70K/u0DhI0fYicLTXWAiOGBZL9JMigPwBJwMxau5dr6Vp1Rzph1I7tLJrmj0jC3zybQ5Z9JnKR/e1PlQjSJoBGrD2yPY7SUGvvHNbzgaEJVXKpJ3fc+rjL447UF2yOYGBA0QG0lA9/cKvchRKOIfE=
+	t=1784080004; cv=none; b=WAVGrO9cmM8ERhIlCnnpW4C0hl17xS4V6ClzSzOeebicZzIbo0iE33ir9KcP99SzqJOdSVrKWssXheQ6Z54Pi55gODi0pFVBh0eYunMDjIIN/chB8Grmd0RwoQbwdoUsi+Lp4T4YsfayEytntqIn6q13sOanDJjYT+wUaqps1rA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784079962; c=relaxed/simple;
-	bh=rVJjGKr3S17TbNUAdbL+4V5+FKj6xNfm6cz6+ooptS8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ff64+Bbcxt/k/eOqTi5ZP7009Uy+sS26971BBLQFtFFTG9l9SXW5PXBV45nrR17zLFvIkPN4LHUuRqfTon6e6O8dhvxFkfEeTENI640L5KOahB+rdsJ8FH6XftIQd6kaz/Zz5NFlNOVidb3K9huwnF+cOMwqTKeyHBE4ExR3Bt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cmwpOsy4; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cmwpOsy4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C54D1F000E9;
-	Wed, 15 Jul 2026 01:45:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784079961;
-	bh=O7i/gpCoexgVrVsCcRbivjoHnZ4LRYbdacut/L4Lst4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=cmwpOsy44aG3Yj3AQwXEKwkYlCzcvBxaWAAnWnkKWhDpMpWLfKZG1OE/PBUMcNgGS
-	 /AzaPSPmdgls84UvQvv6P260IGZZkS6j6m3vuhzB8Pggv6juQwdgU8iwxQfaDwL+uP
-	 Y90yZ8v1NtYwYuU2RhFE0ImJ6HylpEjT8V9cgPaF/cT4oHAwWStPUdqNiKlFJV3paW
-	 98Dk5iQq7vjbLMF6B3RVRWrgTXXHnvubaiyPIica7/1HR3sHPK3HHOrEDBf4+/JvSC
-	 lfozewtPkfvVh2cTvWxAdzG6zn7zTCcDhEsZWSUsPYl5iCWvPbzHDd8U5ymkeZ7trw
-	 YddTrXQMaQkYg==
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	x86@kernel.org
-Cc: Jinchao Wang <wangjinchao600@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ian Rogers <irogers@google.com>,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-perf-users@vger.kernel.org
-Subject: [PATCH v7 10/10] selftests: ftrace: Add wprobe trigger testcase
-Date: Wed, 15 Jul 2026 10:45:55 +0900
-Message-ID: <178407995495.95826.11582585035165074036.stgit@devnote2>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <178407983818.95826.12714571928538799781.stgit@devnote2>
-References: <178407983818.95826.12714571928538799781.stgit@devnote2>
-User-Agent: StGit/0.19
+	s=arc-20240116; t=1784080004; c=relaxed/simple;
+	bh=vCSrvrkYwx28hq+AFT33m/jxT655qwkbgRv/3T9/2Ic=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i82rZKismB+Y/fdhmDmf0NRiKCPTW5zs6LOCCw1pH1MXxAAHRK2zAsnJIy1tEjkEFkx81rm7+dO3MJBDhX+6QQ3OnVzKrrgbb1Cbj3tdcE4r5C1a1mXClbLXljNIO8xMdYpXPFPRIcOs+8Y2ecY+4CsQACPibDjj1Ufvep3lGcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.237.72.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with SMTP id HwEQrABnSQ505lZqn2lrAA--.65524S2;
+	Wed, 15 Jul 2026 09:46:28 +0800 (CST)
+Received: from [192.168.1.31] (unknown [183.94.132.115])
+	by gateway (Coremail) with SMTP id _____wCHj8dy5lZqLXqLAA--.57379S2;
+	Wed, 15 Jul 2026 09:46:27 +0800 (CST)
+Message-ID: <d9e57996-f71a-4cda-b1c4-ac375429c180@hust.edu.cn>
+Date: Wed, 15 Jul 2026 09:46:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: What's cooking in zh_CN (Jul 2026, #02)
+To: Weijie Yuan <wy@wyuan.org>, Doehyun Baek <doehyunbaek@gmail.com>
+Cc: linux-doc@vger.kernel.org, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Ben Guo <ben.guo@openatom.club>,
+ Gary Guo <gary@garyguo.net>, Yan Zhu <zhuyan2015@qq.com>,
+ Jiandong Qiu <qiujiandong1998@gmail.com>,
+ chengyaqiang <chengyaqiang@tsinghua.edu.cn>,
+ Haoyang Liu <tttturtleruss@gmail.com>
+References: <alZK0i0HvxOvSKwj@wyuan.org> <alZP_6nAXNy_HfZi@wyuan.org>
+ <CAN-j9UoUHQ2i4H+9G-XK_mOfKKyE9K9-mwUgPc+4yOVfiizgmA@mail.gmail.com>
+ <alZ1AzLX8LrB-JFK@wyuan.org>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <alZ1AzLX8LrB-JFK@wyuan.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HwEQrABnSQ505lZqn2lrAA--.65524S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW7CFWDGw4xWw18WF17AFyDAwb_yoW8Ww4rpF
+	ZxKayFka1rGrs3Aa1xtayrGF1Yqw1FkFZxX3W5X3WUA3Waqr1xtr18Krya9r98Arn5G39I
+	vrW5A34DGa45ZFDanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQ2b7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04
+	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
+	Jr0_Gr1l4IxYO2xFxVAFwI0_Jw0_GFylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
+	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUVk9NDUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 
-Add a testcase for checking wprobe trigger. This sets set_wprobe and
-clear_wprobe triggers on fprobe events to watch dentry access.
-So this depends on both wprobe and fprobe.
+On 7/15/26 1:42 AM, Weijie Yuan wrote:
+> On Tue, Jul 14, 2026 at 07:05:28PM +0200, Doehyun Baek wrote:
+>> I "cooked" up a small website this evening that attempts to automate them:
+>>
+>> https://doehyunbaek.github.io/cook-linux-zhcn/
+>>
+>> Every hour, a GitHub Actions workflow scans recent `docs/zh_CN` patches on
+>> the linux-doc mailing list, groups rerolls, and compares their subjects
+>> with Alex´s `docs-next` tree to determine whether they have been applied.
+>> Pending series with no update for more than 30 days are classified as
+>> "Cold."
+>>
+>> This is still an experimental prototype, and its heuristics may have bugs,
+>> particularly when threads or patch subjects change. The source is available
+>> here:
+>>
+>> https://github.com/doehyunbaek/cook-linux-zhcn
+>>
+>> Issues, suggestions, and pull requests are welcome!
+> Hi Doehyun,
+>
+> Wow, at first glance, it seemed quite good, as a prototype.
+>
+> I feel like your UI is kind of similar to sashiko? I'm fine with it.
+>
+> I guess this might be the thing that Dongliang had in mind. Let's
+> wait for the comments from those in the UTC+8 time zone after they
+> wake up ;-)
+Yes, really awesome.
+>
+> Btw, for example, my patch (Weijie Yuan · docs/zh_CN: add docs-next
+> checkout workaround) is actually directly discarded after we reached
+> a consensus during our communication (with Dongliang). But it's
+> obvious that we didn't say it explicitly. So your website can't
+> recognize it automaticly right now. Perhaps we can think about how
+> to deal with this situation later.
 
-Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
----
- Changes in v7:
-  - Add a newline at the end of file.(style fix)
-  - Use dentry_kill instead of __dentry_kill.
- Changes in v5:
-  - Enable CONFIG_WPROBE_TRIGGERS in the config for ftrace test.
- Changes in v3:
-  - Newly added.
----
- tools/testing/selftests/ftrace/config              |    1 
- .../ftrace/test.d/trigger/trigger-wprobe.tc        |   48 ++++++++++++++++++++
- 2 files changed, 49 insertions(+)
- create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc
+We can set a terminal instruction like "Applied, thanks" to automate the 
+end of patches.
 
-diff --git a/tools/testing/selftests/ftrace/config b/tools/testing/selftests/ftrace/config
-index d2f503722020..ecdee77f360f 100644
---- a/tools/testing/selftests/ftrace/config
-+++ b/tools/testing/selftests/ftrace/config
-@@ -28,3 +28,4 @@ CONFIG_TRACER_SNAPSHOT=y
- CONFIG_UPROBES=y
- CONFIG_UPROBE_EVENTS=y
- CONFIG_WPROBE_EVENTS=y
-+CONFIG_WPROBE_TRIGGERS=y
-diff --git a/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc b/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc
-new file mode 100644
-index 000000000000..cc7a0532d7ff
---- /dev/null
-+++ b/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc
-@@ -0,0 +1,48 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# description: event trigger - test wprobe trigger
-+# requires: dynamic_events "w[:[<group>/][<event>]] [r|w|rw]@<addr>[:<len>]":README events/sched/sched_process_fork/trigger
-+
-+echo 0 > tracing_on
-+
-+:;: "Add a wprobe event used by trigger" ;:
-+echo 'w:watch rw@0:8 address=$addr value=+0($addr)' > dynamic_events
-+
-+:;: "Add events for triggering wprobe" ;:
-+echo 'f:truncate do_truncate dentry=$arg2' >> dynamic_events
-+echo 'f:dentry_kill dentry_kill dentry=$arg1' >> dynamic_events
-+
-+:;: "Add wprobe triggers" ;:
-+echo 'set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
-+echo 'clear_wprobe:watch:dentry' >> events/fprobes/dentry_kill/trigger
-+cat events/fprobes/truncate/trigger | grep ^set_wprobe
-+cat events/fprobes/dentry_kill/trigger | grep ^clear_wprobe
-+
-+:;: "Ensure wprobe is still disabled" ;:
-+cat events/wprobes/watch/enable | grep 0
-+
-+:;: "Enable events for triggers" ;:
-+echo 1 >> events/fprobes/truncate/enable
-+echo 1 >> events/fprobes/dentry_kill/enable
-+
-+:;: "Start test workload" ;:
-+echo 1 >> tracing_on
-+
-+echo aaa > /tmp/hoge
-+echo bbb > /tmp/hoge
-+echo ccc > /tmp/hoge
-+rm /tmp/hoge
-+
-+:;: "Check trace results" ;:
-+cat trace | grep watch
-+
-+:;: "Ensure wprobe becomes disabled again" ;:
-+cat events/wprobes/watch/enable | grep 0
-+
-+:;: "Remove wprobe triggers" ;:
-+echo '!set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
-+echo '!clear_wprobe:watch' >> events/fprobes/dentry_kill/trigger
-+! grep ^set_wprobe events/fprobes/truncate/trigger
-+! grep ^clear_wprobe events/fprobes/dentry_kill/trigger
-+
-+exit 0
+Dongliang Mu
+
+>
+> Thanks for your effort,
+> Weijie
+>
 
