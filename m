@@ -1,89 +1,95 @@
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945FB4534A5
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 15:02:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF0047CC6D
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 15:10:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784127737; cv=none; b=jtKwXzRvUzPBEIYlyeGdzikUQK/wMgP23L1EMwClfx0I955V79BGDyTcQXHFF7N0Dcps8XOEARriIOrOAKsPRTbsB4tH/UL1DZxMlsv2KdpcOoLwiD7CpYKn0fEpkgKQg4F+cP0QhQ7i17loPL4bszxy5DxZIw1kM8VYw4Ol7P8=
+	t=1784128255; cv=none; b=miQVB7Q0/Lw3xXjFh+Hxgyex81fAOivbNV59inSyHi8pAkUDm64Ol4x60SxOBCexXM0jSMkKzGKGA/bbfS49J7ypHKkvYtFTNbTs/ACjKqo/Lcvg7FJMX9w7emQRZjSfqTE6Tasfk6dtGyPVHL/D9m/txbbRhYi3gEQuwFVtGfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784127737; c=relaxed/simple;
-	bh=QBcmHHIDpPZ2zSYqCsJ07Zn7cTcc/wqKwrbcJo89maY=;
+	s=arc-20240116; t=1784128255; c=relaxed/simple;
+	bh=cUtM9nCXCjAw/x4a+bjTLJgqufLVfuAa653qViepFAQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bOOc63TLQaAtL2+21NkxqCk2YhEJLft+v0LsBLQvd2ukF0QMuofq5TccBBxSszG8E7kUQBa7E/WtOibswGq8EoYRE4PvkGNkTSV3HOL/lt/ZpPbr8/51GnvBfookO/XBimPv+KAhPcSi2U0u7woecV1xc2JBbnv96pcGD4eSjHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=DE2WqHhT; arc=none smtp.client-ip=209.85.217.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=eWWfJbSvdVz+5UAxoVhUNYgu8frTriOphz76InU9BYRbbSevy3efsl7P/Xgc7vLX3WyR66E8YPvQ83Eossv3lzNobZ9HQrFYj9wcCT4R/FQZJIOByElZTC1v35vNHYWAQE12aYnP8gPOlwl6izSawQpbxDXIjcVCmohVqA0mK/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=O1HKQw9f; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="DE2WqHhT"
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-737de52625cso2581967137.3
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 08:02:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O1HKQw9f"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2cea3004256so59970675ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 08:10:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1784127733; x=1784732533; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1784128253; x=1784733053; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=nGecurzBYdjUfiEExv0oL4FVVbYZSUEIMh9OhYH+0R0=;
-        b=DE2WqHhTKM3qWnPPNIomeJRudvuTvXFYZNsYdA++akthGHjRltuFiX2iUsmeHcvuah
-         11wmhmJHWQUCtSD/AlL6FzZabxDIkrvNpJ7dCRvviHJ3OETCfkXIPvrg8LFuppfR3I6U
-         vr0IqCCj8SBxmsK46CKoUnqdCVSSlD79b5FSkmkPIlxgKt4HWWbahu2hKBqCyq6cl208
-         Wrv5rBFFHPOrPGRvZLdAlFL4tltc0DxhseNJAD2LzDZEU+TRQA4zleDET+SFvuwktmxS
-         1G27sEZSxUCyjA+AA8cZPpVK4+T3CJKxupJJhoeFIBBBsBuURQ7sfJW0yzAiKGu5XeXy
-         vyoA==
+        bh=0f1V+XLP/pNL55h1xnCAtGPJkQJwQhVW+vGDr0a9svY=;
+        b=O1HKQw9fEgpdfYOoz8qtNNfuoqq3VjHjMVlXTBIiJpbDpxJc/yrdlbr0zIph+DZvFw
+         RVnzX4o26YKYYCg6lYyEAfFUXGiApYSLbnIj+qlojX8iNsB4BkLC+CMLgT3KF8N2pdfa
+         C7+EAMkF8ogIZuSz+QG65wPG2MTRQ5DTrsqCZzWfle5Z+hXoflzA5UwphE+2UThjQOpd
+         OBbdWpM+lmH4JAX54XmoSNi5aQJcDhJZfZhL+P2izgdWnlV7xsBzFZpDrtNL+mM2LB2M
+         MjCudTCPm56wKAOnvRsw36sJb4K9E1nGFWcgdQ4U7GpQN3dBlorHH/BnFnpSm2ukapat
+         TOlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784127733; x=1784732533;
+        d=1e100.net; s=20251104; t=1784128253; x=1784733053;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=nGecurzBYdjUfiEExv0oL4FVVbYZSUEIMh9OhYH+0R0=;
-        b=MLpE0gWe6uA3Ban7fCZvHXdu+IoG0ILkLtp8Q46UJtMu/BRvtolhtf5YJKWWbVqLbr
-         UAXcZxDef90YEvv5g3Zzd4AXV6s0Y4+XY5Por4ruaahqSpLISVxgrMgNenYSw/OACQO8
-         5DDKjWLjBFxcV/Wph/c0uF7dPRMigadDm1COrintftuC5hF7T2qOzALvidBM/HA5bMp3
-         gDf3P00sMpRyle38RpwijqTDn1yxioNwnj10zatNzQx2qhCaepSVE2AZc590hm8eTyTH
-         NM/wuIdNM8TzrxOTDpvatsVp4lhFg0nEbmt+KIOA/JIUgjjDfOH+ZMdVBlm2+J2cfKMR
-         A6MA==
-X-Forwarded-Encrypted: i=1; AHgh+RrixFl7EVynD32vplnlnoyRPI4FLlpGvBrNOSCwNdlk7avTL8Z9O/cvyEY7EC0KUmM8w0A4Od10gsg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyV4IpXKtMMprqR1QuiVt5tdHGN54QqwfgpAwRewkZ/Ce8TxpxZ
-	SnwmwFYx2KLE1JeuSPja3UXm3OrWBDakMHftiq/ooQXDYHKV5/4B8ngD4zesqnUYY2c=
-X-Gm-Gg: AfdE7clhz02YZjozJjDxZ9vEkq6Y06hql+z3HBhzqrnUXOnJ3YFusNGn5oujNhWD2Jh
-	vVmAa2c2Gd9tg6iyDiffrKAG4VL4wQWYiDXGcQszA0+oMmgnzDHfeMSOuba0uTZ6X435HNxHR8a
-	SQ67lxPud9s+Fu3VoROHMPgMvXifk98LcwyjqRAm/gWQ+K81uUnsAwjZND0gxyLrkEJGvjDeSIO
-	uPxr7YxhT0/7Je2iV6VxD0OENzBddmk3WiYcYpzV/iJmq4EHRfby7NxiCN0XHr8AB/sKzfTzkPQ
-	DvQluKwO6eLUqz6Naf+LYqcEQW7L2mivI6tbMtX64WsMhDJYrGStlV6oVxVx8HhCshxp0WzdFHQ
-	xnEyDJr1o0bV8zxbOQ5yI3nFr7En0sdSjslK3t7KUQ9M8Wmnq01qAgCjVUq2j
-X-Received: by 2002:a05:6102:d87:b0:737:9edc:36f6 with SMTP id ada2fe7eead31-7458757b204mr4167130137.26.1784127732764;
-        Wed, 15 Jul 2026 08:02:12 -0700 (PDT)
-Received: from ziepe.ca ([159.2.72.92])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ffd50e0811sm196100666d6.3.2026.07.15.08.02.11
+        bh=0f1V+XLP/pNL55h1xnCAtGPJkQJwQhVW+vGDr0a9svY=;
+        b=rngWv4rVV+JgsS9irk3ugCFppwHOl0rQ6vTwcKSH10w79vU9GJFA+L68NxtfIobPYq
+         huAfHETinPGUl1dRvFlPPRUvLobqckX+9YhR8frA8LpWQpUdH/fbUuBcbh3q4d4W8Txs
+         kEw1J4Vs59FVknQaTxzOBgW/SSFAphyu13ZAUsksyu7AmGTXfMGoR3qo33ANq+wGZApQ
+         cPd34KdZqx+WMX3cmE10xmcTQMeqd6Lx4BnYQBSUO1jSIOqarmXEHIklFPZxXtP43wcC
+         ZKcFfZkH3b+kgWyyX2Ki2iy/sO5YqTcGJ89030G4dgfHNYdSRwgedRQDJFEV5rGbwNX8
+         SHMg==
+X-Forwarded-Encrypted: i=1; AHgh+RqgaHFFzMCoUbiCLeOm1hlh8d/Ir5Tyo3guveAS63Y6ISnnzH0GDzqVP8wd8BWXRCMXHJX6Yv/v8h4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVY8zUZHoPvRzHTHt0KcEv+iaKFC65XGdJdRD/56u50pPKcW9l
+	qAH3h14y2Hv5Mpjk8X4YhJDZRV7FcfMD1gN3NQ5siYJ1bhz/uv4PACGJ6ed5eP9QTZE=
+X-Gm-Gg: AfdE7cmZXBj0fp+OpNzrIIl1v1bCf/bKA3PcHZ6YW9ZJ1xnTYPsxGjOfmDZzUJ2QFCv
+	9MOLEHg7TzTSCc0TX+bqJQj94GJo3oyOESaJMquTtUNJYGnvmCrG0zFpRMJt/rCtulVbAQzhprC
+	/p/8cJAPXMQHOQu7+CelQOTM1aKz6vVFioY/9jjbjANWhgW6wBsSmZFYkrAT/PySx5kFEy93LFt
+	bzDAsuAuS3gsmK1f1qCaBmSNcBvCCMETH4XyaHgAIL9eAoVWP1NttAJBTcjtEWTfMjv9NT0sV0u
+	1iIbmGFp59ul0y1jz10VNgCnwDA6Sad0f2Xxk4cMeeWJwwnDOncm9+KwOrIfywxaXpkBtVuGG9Z
+	hi7+tLMo13OtWyA9nm2ZZ4fTLsAIwshw3aa7kFtoPW5wBuoOCDrT+0OMyV+cIa/CODvW/uNKOq5
+	ZRaIwN5KPeifVgCOalG3u2g37mtRU=
+X-Received: by 2002:a17:903:1a2e:b0:2cc:eec6:558 with SMTP id d9443c01a7336-2cef14ad047mr75726665ad.39.1784128252771;
+        Wed, 15 Jul 2026 08:10:52 -0700 (PDT)
+Received: from p14s ([2604:3d09:148c:c800:4f38:9a5e:fd18:7a9b])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf0fdb3a0asm4417715ad.0.2026.07.15.08.10.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 08:02:11 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1wk17i-00000000TXQ-3Nvp;
-	Wed, 15 Jul 2026 12:02:10 -0300
-Date: Wed, 15 Jul 2026 12:02:10 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Stanislav Kinsburskii <skinsburskii@gmail.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, airlied@gmail.com,
-	akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org, corbet@lwn.net,
-	dakr@kernel.org, kees@kernel.org, leon@kernel.org,
-	liam@infradead.org, lizhi.hou@amd.com, ljs@kernel.org,
-	lyude@redhat.com, maarten.lankhorst@linux.intel.com,
-	mamin506@gmail.com, mhocko@suse.com, mripard@kernel.org,
-	nouveau@lists.freedesktop.org, ogabbay@kernel.org, oleg@redhat.com,
-	rppt@kernel.org, shuah@kernel.org, simona@ffwll.ch,
-	skhan@linuxfoundation.org, surenb@google.com, tzimmermann@suse.de,
-	vbabka@kernel.org, dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] mm/hmm: Clarify notifier retry state and scope
- HMM timeouts
-Message-ID: <20260715150210.GA3846105@ziepe.ca>
-References: <178406760622.1106335.2379450382728057793.stgit@skinsburskii>
- <4300f09b-8f93-4605-b072-7c09a82cb16e@kernel.org>
- <alecaJ1FUso39D9k@skinsburskii>
+        Wed, 15 Jul 2026 08:10:52 -0700 (PDT)
+Date: Wed, 15 Jul 2026 09:10:49 -0600
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: "Shenwei Wang (OSS)" <shenwei.wang@oss.nxp.com>
+Cc: Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>, Frank Li <frank.li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	dl-linux-imx <linux-imx@nxp.com>,
+	Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>,
+	"b-padhi@ti.com" <b-padhi@ti.com>, Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH v14 1/5] docs: driver-api: gpio: rpmsg gpio driver over
+ rpmsg bus
+Message-ID: <alei-dNIXo7Z7uT1@p14s>
+References: <20260625155432.815185-1-shenwei.wang@oss.nxp.com>
+ <20260625155432.815185-2-shenwei.wang@oss.nxp.com>
+ <alUdg9iTysXCFUa5@p14s>
+ <PAXPR04MB918568AE7B2364EC9D16427689F92@PAXPR04MB9185.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -92,23 +98,107 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alecaJ1FUso39D9k@skinsburskii>
+In-Reply-To: <PAXPR04MB918568AE7B2364EC9D16427689F92@PAXPR04MB9185.eurprd04.prod.outlook.com>
 
-On Wed, Jul 15, 2026 at 07:42:48AM -0700, Stanislav Kinsburskii wrote:
-
-> > > Stanislav Kinsburskii (4):
-> > >       fixup! mm/hmm: add hmm_range_fault_unlocked_timeout() for mmap lock-drop support
-> > >       fixup! drm/nouveau: use hmm_range_fault_unlocked_timeout() for SVM faults
-> > >       fixup! accel/amdxdna: use hmm_range_fault_unlocked_timeout() for range population
-> > >       fixup! drm/gpusvm: use hmm_range_fault_unlocked_timeout() for range faults
+On Tue, Jul 14, 2026 at 07:04:08PM +0000, Shenwei Wang (OSS) wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Mathieu Poirier <mathieu.poirier@linaro.org>
+> > Sent: Monday, July 13, 2026 12:17 PM
+> > To: Shenwei Wang (OSS) <shenwei.wang@oss.nxp.com>
+> > Cc: Linus Walleij <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>;
+> > Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof
+> > Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn
+> > Andersson <andersson@kernel.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
+> > <s.hauer@pengutronix.de>; Shuah Khan <skhan@linuxfoundation.org>; linux-
+> > gpio@vger.kernel.org; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
+> > Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+> > <festevam@gmail.com>; Shenwei Wang <shenwei.wang@nxp.com>; Peng Fan
+> > <peng.fan@nxp.com>; devicetree@vger.kernel.org; linux-
+> > remoteproc@vger.kernel.org; imx@lists.linux.dev; linux-arm-
+> > kernel@lists.infradead.org; dl-linux-imx <linux-imx@nxp.com>; Arnaud
+> > POULIQUEN <arnaud.pouliquen@foss.st.com>; b-padhi@ti.com; Andrew Lunn
+> > <andrew@lunn.ch>
+> > Subject: Re: [PATCH v14 1/5] docs: driver-api: gpio: rpmsg gpio driver over rpmsg
+> > bus
 > > 
-> > Why a fixup series instead of properly resending the full thing?
+> > > +
+> > > +The RPMSG message consists of a 8-byte packet with the following layout:
+> > > +
+> > > +.. code-block:: none
+> > > +.. code-block:: none
+> > > +
+> > > +   +------+------+--------+
+> > > +   | 0x00 | 0x01 |  0x02  |
+> > > +   |   2  | line | trigger|
+> > > +   +------+------+--------+
+> > 
+> > 2 things here:
+> > 
+> > 1) You did not include messages that mask and unmask interrupts at the driver
+> > side.
+> > 
+> > 2) We are carrying virtio-gpio messages on top of RPMSG and as such, this whole
+> > protocol should be about thar:
+> > 
+> > +------+------+--------+--------
+> > | 0x00 |       payload         |
+> > |  Q   |                       |
+> > +------+------+--------+--------
+> > 
+> > Q = 0 requestq
+> > Q = 1 eventq
+> > 
+> > The "payload" part is simply the format of the messages as found in the virtio-
+> > gpio specification.  From there, the only thing left to mention is which messages
+> > are not supported, i.e get line names.
+> > 
+> > > +
+> > > +- **line**: The GPIO line (pin) index of the port.
+> > > +
+> > > +- **trigger**: Optional parameter to indicate the trigger event type.
+> > 
+> > Not part of the spec - remove.
 > > 
 > 
-> The goal was to get a Sashiko review, and v8 has already been applied to
-> both `mm-new` and `linux-next`.
+> The two fields above are required for rpmsg-gpio, but not for virtio-gpio.
 
-I think if you send the whole thing with a base-commit tag that
-specifies a real base commit in linux-next sashiko should work
+I agree that the line is required but not the trigger.  The driver (using the
+same terminology as the specification) knows what trigger the pin has been
+configured for.  Adding the trigger information to the interrupt notification is
+redundant.
 
-Jason
+> 
+> In the rpmsg-gpio case, interrupt detection and handling occur on the remote processor. The 
+> interrupt information (such as the GPIO line and trigger type) must therefore be sent to Linux 
+> through this notification message.
+> 
+> In contrast, for virtio-gpio, interrupt handling is performed on the local processor. Since Linux already 
+> has all the necessary interrupt context, the information is not needed.
+> 
+> Shenwei
+> 
+> > Given the refactoring work that is still needed, I will not look at the
+> > implementation.
+> > 
+> > Thanks,
+> > Mathieu
+> > 
+> > > +
+> > > diff --git a/Documentation/driver-api/gpio/index.rst
+> > > b/Documentation/driver-api/gpio/index.rst
+> > > index bee58f709b9a..e5eb1f82f01f 100644
+> > > --- a/Documentation/driver-api/gpio/index.rst
+> > > +++ b/Documentation/driver-api/gpio/index.rst
+> > > @@ -16,6 +16,7 @@ Contents:
+> > >     drivers-on-gpio
+> > >     bt8xxgpio
+> > >     pca953x
+> > > +   gpio-rpmsg
+> > >
+> > >  Core
+> > >  ====
+> > > --
+> > > 2.43.0
+> > >
