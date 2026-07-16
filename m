@@ -1,97 +1,112 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5158226ED3D
-	for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 06:04:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595A421CC44;
+	Thu, 16 Jul 2026 06:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784181882; cv=none; b=lgeTMx6tGxPyIXI0Gy2U8Wo9xiSZvf6RFuQt8HddJH0t2me7veXudqKF6oaZjwhuX5bjjmqzDftMD1Df8Rm7XSmf9HT86gyijybNzuCQvVgGNv0+KPGlllJMzvgQQou82dq+nbl4FizRhVDfDtANQY+8nxF97uSxJJrag7/E1Fk=
+	t=1784183010; cv=none; b=rExeNecQ96TY7ORp7/7KdjsM3DydPawX9dXMZSgbRoO+F2/zB2NYJZXW0VAXRmGqykAC9YDhKp5hZ8lIoSocm3WP0Axphy/0XghdQ1XRoLEKaE0NwAME/Y1q0dvNaCqN75rUJCa30ikFmDFgEEq4fsC/uHtn0NkvG5igpKLRpG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784181882; c=relaxed/simple;
-	bh=klKIgWivsTCeKC53xwG7zHFtKvNJmDXHDfW4hAl1X8c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pJNaqiclDpXJDXDM/iDju+HByfRBHFKdrug+Yw9hATqyM3AIiZPed/TDp3nF4vF9GTfyLajWq8QOHP6Cm8qQXPr+QL9W7xliGlbOBYQz4rOy1zV+VBNsPzJLE5WElMpQI/MBN+PMISB89Yy1P3KG9sn2nU8PaAZg+I3kS3wXw60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IppDfIcV; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784183010; c=relaxed/simple;
+	bh=25P0ufuSyK+RM4ZqA3Wd2rjHIIeBUwbwQBVw4Q5qytU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YoIUUgyJfCaZ3nuQF1brm5fe7WFtHT0rPmnihisJ3AbsJxcQ2jyBcku0fAmunfs3T+uLjlwyuJ21AlKek/XRhFWyUdsho8RdCSYIsycbuOG9AkS+cQjHBGb8mxm/5xP0lsvQx/yi4g7YGN4MWr7Zn+Ny8gd6ZiCNiAYjHt0F+f4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=svNjZKuv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IppDfIcV"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-81e9f7491ffso75618547b3.0
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 23:04:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784181880; x=1784786680; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=klKIgWivsTCeKC53xwG7zHFtKvNJmDXHDfW4hAl1X8c=;
-        b=IppDfIcVo2VMV969yqpwBWLLL0OJ6kRtVTMWkM04XzwNtMW0yYiOnwC9uqRvS/W2Pm
-         fh58YkR7DCm+9Fl1FYSeysVvPnwMYz0ijcICw7YwJriiPHY3gvigXhrca7S3f06/pGUH
-         kwyTJ/QplB7Jw5qydZsBqANWnbAzsUlIZVLYFaR4h8RCjyIEzeiXOh+av/lUixuoQMVx
-         agtHwYu9ajv1mkGNN1ZyWr3pxsf7iKkunhVbMFxq1xeog7xvuxAACzpY42Ic2mjYwTyw
-         XLTEacTzMNJKHyIEgnIHvazI/4vwmV87tcMkU5ECnuqHaYkY5lfyHUJdKfzPfGJbPDA+
-         /yhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784181880; x=1784786680;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=klKIgWivsTCeKC53xwG7zHFtKvNJmDXHDfW4hAl1X8c=;
-        b=EvOEhJ6jRn6VMbctZ1y7Uloy2NZkcwNImtdJdvtZ1wuFscDLEn91FUXwHDdefbYIv5
-         YCLwCVkhbPxqaUv6zVdL9FLML0Lyacoj45kBvYbw/iSPhJ3y6sWgaC8v6yAvACriko+r
-         zcWPiJ4QxkZ+eLhK3l2D509KyYHrGllbxJ/5+IURTbO2buQ3AXxNQZzSvJ2akQ8cpK9l
-         b6m+QMgjigGZwl3+ajJpsveIH4tKgmh72cx20aRWTVroN4CByrgqERc/chAsyjcd9mdt
-         enUDvLrGHUgnWRUyQNDfnPEJNpKJBgqtkQlQB6+wrpCiuet010j/HuI56GzvXzqoaxga
-         QTDA==
-X-Forwarded-Encrypted: i=1; AHgh+Ro9tNbFdNJBT7JczokwnoA0Vvd//648COIsQToGEjtBdc0jp+ZftVlsGcpwiBZccoX6zERzUj4/qvM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQevyd7AYkoBo6PctNJNDsziIqoBgbHbtkRoSoffFzBBy3RPSN
-	mGQFaf9ouHCAQyKrk/bVLXb3ztAtL7jZc9yLiTOljZmpB+KZ/NmzO82k
-X-Gm-Gg: AfdE7cnlcHtC9lAM25AryuGqIzztnkDgP8H6vTSP5twIN2HieGn90FG3lWhzjj9HitK
-	J4zR0rjalPyiI9/5oULdvGNbLCKaulT7NkkQkKGylKzOsg0uPNNHxdgjRmOQOGOWAPzgrDe2KbT
-	8b+CikOvCu6u+Zi92vyBx5xYvuNKmxTsjPbDgks6O8WTyR80FGGHkJrPKJcfOtfyGTRze2pkIB4
-	9zQw4bniN8KnbBO4+Ztt3KLBHnNthlz9Ks54apU4/SmByWoR3vw01ms31rT7j3YFSQ22i6L+jPB
-	U3dDwWYc4viiqpm3rwlMnu4XTijymMPcn4wK2yvq8dfzJv24i716Bj8FVu3rnlAWzxkO/4ZETfp
-	HJSnwKRQ7FSE2mYH4dHPZmAi316JOsxEwga2YP4HuPrRdzvVkwcpirFOH/+kqi5p0gmboDCchtt
-	lONbTxcsugK/rxZ2RfxzLb2q5elv5QQU+++UGmxmMyO80HUnvtBaVe7ogslewcmO3SNSXXhfZo9
-	mdotryFq6UeaG0=
-X-Received: by 2002:a05:690c:6905:b0:81e:97c9:bcf7 with SMTP id 00721157ae682-81ec0167c80mr68242497b3.71.1784181880199;
-        Wed, 15 Jul 2026 23:04:40 -0700 (PDT)
-Received: from ?IPV6:2600:1700:566e:ba00:6d29:5fc7:266a:e62a? ([2600:1700:566e:ba00:6d29:5fc7:266a:e62a])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6bf58f85sm187966347b3.18.2026.07.15.23.04.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jul 2026 23:04:39 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <a4d8cb79-a696-4016-8c8a-a56b14992309@gmail.com>
-Date: Thu, 16 Jul 2026 07:04:37 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="svNjZKuv"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E8F78C19425;
+	Thu, 16 Jul 2026 06:23:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784183009;
+	bh=25P0ufuSyK+RM4ZqA3Wd2rjHIIeBUwbwQBVw4Q5qytU=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=svNjZKuvQmMunG5HQPJnk9jog4EpludshER4O5I4bO1M67KEbHc7ophyfe8GiEc9N
+	 dNvlTe9Csk5W5fDvKUtw84obQzF6VsPdPNFnNA9fStpfvv6D7P3wl/8R/IAEYe4tl+
+	 AQy+0xlKuCw3AkhyXvaUYry2peD08sET8OOnIyXcjVd0tbJol6arTj80ZoWNLbuNeG
+	 6HvnrsmIsKCrtFMH7YvMf0foM/Q2BlhYxSBLGrQQxTR40NwDNGd7wfaoBoKAsxcnWD
+	 7dl1GLCxFJxyM1gkWVPb82ZNrXHoHHvxoXWScY1TKqOhUC62uDjJHHa6IGUz4KtkMS
+	 y/Z/ryC5/f/gw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD343C44512;
+	Thu, 16 Jul 2026 06:23:29 +0000 (UTC)
+From: Jesse Van Gavere via B4 Relay <devnull+jesse.vangavere.teledyne.com@kernel.org>
+Date: Thu, 16 Jul 2026 08:23:24 +0200
+Subject: [PATCH v2] overlayfs.rst: remove mention of workdir needing to be
+ empty
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: warn users not to use select on choice
- options in Kconfig
-To: Kees Cook <kees@kernel.org>
-Cc: nathan@kernel.org, nsc@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, arnd@arndb.de, stefan.hengelein@fau.de,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, nico@fluxnic.net, officialnaumansabir@gmail.com,
- rdunlap@infradead.org, vegard.nossum@oracle.com, tj@kernel.org
-References: <20260715220149.48700-1-julianbraha@gmail.com>
- <202607152119.BF8E377B@keescook>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <202607152119.BF8E377B@keescook>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20260716-overlayfs-rst-update-v2-1-ba25393ea7a3@teledyne.com>
+X-B4-Tracking: v=1; b=H4sIANt4WGoC/4WNQQ6CMBBFr2Jm7Zi2SSm48h6GRaWD1CAlndJIC
+ HcX8AAuX/L++wswRU8M19MCkbJnH4YN1PkETWeHJ6F3G4MSqhBGagyZYm/nljFywml0NhEaLZw
+ uTaVaU8E2HSO1/nNk7/WPeXq8qEl7azc6zynE+fjNcvf+XGSJEo0olLaFKUtBt0Q9uXmgSxPeU
+ K/r+gWyHr0/zQAAAA==
+X-Change-ID: 20260715-overlayfs-rst-update-750d58792f79
+To: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Jesse Van Gavere <jesse.vangavere@teledyne.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784183009; l=1682;
+ i=jesse.vangavere@teledyne.com; s=20260715; h=from:subject:message-id;
+ bh=cFSfchcWu1ZV/AY69ZArDpiRNyf4mv59SjB1KVkBfnQ=;
+ b=TnPAganZkbhxTg0lEDSqsIwbKPHsjAkH9xslf2RsaYF6CRC2TaOznye2mzsaG458syCvjzVbN
+ JdC+GOhyuKlB8VCVbz95A6xytbaAy1grE3Er8l4tKOoQiq8j1c/YdDo
+X-Developer-Key: i=jesse.vangavere@teledyne.com; a=ed25519;
+ pk=OyVy9LsOylefyENuukx/lDTq8X3QaHrhQKS3M67FQic=
+X-Endpoint-Received: by B4 Relay for jesse.vangavere@teledyne.com/20260715
+ with auth_id=874
+X-Original-From: Jesse Van Gavere <jesse.vangavere@teledyne.com>
+Reply-To: jesse.vangavere@teledyne.com
 
-Hi Kees,
+From: Jesse Van Gavere <jesse.vangavere@teledyne.com>
 
-On 7/16/26 05:19, Kees Cook wrote:
-> Yeah, it'd be good to add a checkpatch or even build-time check too.
+This requirement has not been true since v4.8 when automatic cleanup was
+added in commit eea2fb4851e9 ("ovl: proper cleanup of workdir")
 
-I'll look into adding a check for this into the kconfig interpreter.
+Signed-off-by: Jesse Van Gavere <jesse.vangavere@teledyne.com>
+---
+Changes in v2:
+- Handle remark from Amir Goldstein to drop workdir cleanup reference
+- Link to v1: https://patch.msgid.link/20260715-overlayfs-rst-update-v1-1-70625a67880e@teledyne.com
 
-- Julian Braha
+To: Miklos Szeredi <miklos@szeredi.hu>
+To: Amir Goldstein <amir73il@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-unionfs@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ Documentation/filesystems/overlayfs.rst | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/filesystems/overlayfs.rst
+index eb846518e6ac..ba41c0694e62 100644
+--- a/Documentation/filesystems/overlayfs.rst
++++ b/Documentation/filesystems/overlayfs.rst
+@@ -123,8 +123,7 @@ At mount time, the two directories given as mount options "lowerdir" and
+   mount -t overlay overlay -olowerdir=/lower,upperdir=/upper,\
+   workdir=/work /merged
+ 
+-The "workdir" needs to be an empty directory on the same filesystem
+-as upperdir.
++The "workdir" needs to be a directory on the same filesystem as upperdir.
+ 
+ Then whenever a lookup is requested in such a merged directory, the
+ lookup is performed in each actual directory and the combined result
+
+---
+base-commit: 58717b2a1365d06c8c64b72aa948541b53fe31eb
+change-id: 20260715-overlayfs-rst-update-750d58792f79
+
+Best regards,
+--  
+Jesse Van Gavere <jesse.vangavere@teledyne.com>
+
+
