@@ -1,360 +1,259 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010031.outbound.protection.outlook.com [52.101.193.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647103DD87B;
-	Thu, 16 Jul 2026 08:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784190511; cv=none; b=aZcM6E0FlcB/VtwRlpsDNYEk58OUy1Sil+DTu6y1Kt9ozTN3HzoXyl0QSfunJFkT1xI3XrfQBFAVXNzzMz1IXjqxATO9C94viQMXfVKmWhGRxT78J2ozvlPnFv8Oe8sjwmCENbvjH9ClYLtVmovzfRZyCGLr76oSAe5XdJFOtRI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784190511; c=relaxed/simple;
-	bh=YYroPmPhigropaIcXlJ9oT8zHGTRVhe8f1Q2bhgTFG4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=ZQardeRFMuWepp5VUXcWiM9kPHm8lfadu9oBCDcLM2QIZdFoG1ilWBcpOT5Yqxolt6vgpgr4sNsKMryxxQbyQCm0ky/M1jcVz6i1qqbY+LHuiYVD4mZPPJQoImoJMvOvYVIi1rVg6RYEf/Chd/JWflnGZgAy9l084cJwDlHKeVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=ncf0hJ5R; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E832EC54C;
+	Thu, 16 Jul 2026 08:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.31
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784191777; cv=fail; b=LIrjAUdYmzAhZ4rD46eu1zzTCqaF2HZQENG+V754FjhSVvRv1kUqhR/AAGnvYDx6BcqmsbChZXwB6r3+pb5hfaVgFc0VB6J5sSfyWtyw2JHA8s5QMgi7wZs8F/ldVxq/nOjDEQNv+DRalIGgBjiAy2PgosBaLY1lDm3a149wboQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784191777; c=relaxed/simple;
+	bh=+JB5Qr3QgkF1ZA+XwmyMehgPa7kaYaHSnt46FkMHXjI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VassVfDXbKAykGonWi12GKE+jNFWcE3dbAz+VWaOThL3dO67iIQMAF/PDC+Mrtnv7gP9e1w+2sqC5qASzyJ2juPmrDrP1ywaOoUix9r/iVzbTEEfy8CHYTDNm/CX6yWPLx3fjCDJ+XObFCsV0NleUNdFiMS9wQa/E/sMBbM7Wig=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=aYVl9Udd; arc=fail smtp.client-ip=52.101.193.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="ncf0hJ5R"
-Received: from pps.filterd (m0516787.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66G7IOrr3064270;
-	Thu, 16 Jul 2026 04:28:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=bsNcA
-	ABQ0ceVlVZOnCRk1auIaes7JtXS3ZCxrACcozA=; b=ncf0hJ5RvDVJiT2XrcHYQ
-	pCStEn/LevOIwLrtG03xpERxHWmsjz6+H4TEUbf1Xo/m/u5rnU+83/OCvi0iE1ag
-	yjZimiJq0ca91xCcos8H+DxOC/+3k3SA9nUy9FtorAnd3o095r4kjHB8r90+jYH6
-	EcWVIqg1MwlzgYQypL8teFndwfxmQ0tg1ud0Edx/Hxyg3eZ9FXS6oveuDJgS8Om/
-	GxTfMAi5RL11M73LsVYyJz2KilIRizsC7Ewfyt61r+gOe4PHgylFjQrmvE2fgFCL
-	WCiZFrxu+VdljWA+8l2bZKG3Xr4J8bqbUp2RBDIa4YkYmvRoGiTs1X9jbHdmr7Qc
-	A==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4fe85wva6s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 Jul 2026 04:28:16 -0400 (EDT)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 66G8SFeI061558
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 16 Jul 2026 04:28:15 -0400
-Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
- ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="aYVl9Udd"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PDS62scX2piLzLZ2t9yhSGru1c9ia489k1wJaSWgSRTrEdWgkqF/OmkWdOW90Lef+RpQaKL1qbDYLfiDPLsIBSO4/conFveZpO0DBqxJBLDQKtzuyheYTRRqnHZUtddbe/7n0NJDtz++Fh75RNeG5h+YWWMRunLJXyiFvXXuXPM1xYoV46awUYTXXU9ijXPY2jU7/rfYxpa0VpwwWZQrknUWCP8w9q1Q/T2HKWImDsG/ipEmsxAFVwzF2q89+AWB5ArzsmnN2uv7eKZ7OGj+kReVmZpDwXHpml84axOS9gcLZLvKSR+GBWmtiWgeFvsjFfa4Gr57n/SRxccVdO5syw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ObWxo8yNDID3QqO+0uIlX6pfxAOL9uSO/3LkXGR3rks=;
+ b=Y/aND48ivFYdKBVrrySaSyotZFNx+5gqOLVhLrHVCo1wT+xp1bJND9dFCXs63HjlEjfbj2Sl3R1dR9u3ydi4ekj4JYCxHydowyXZRstGhkXHpPzAqVvRyu3SRigwzxS6p1FT0xkcRZRMR9czPIpaLA+G8VkJ84Q8lOtJbQPt3q3XeT7h2hksZN3S7rRvAR3wLIKncVN3pNxBw+eigsWxbhnyHp+CNjOT/szhFCM8EVkMsQfQAf8oQM1MDJNt/qEcG6T8rtew3vPHD0ioTcZBJQAExa4RA/u3UQDjrRMM5BeaOCOB3JDZ/IdJ4yMmhVzR53bcquxlV+zGm7mVj/X0QQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=resnulli.us smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ObWxo8yNDID3QqO+0uIlX6pfxAOL9uSO/3LkXGR3rks=;
+ b=aYVl9Udd6MQsKJ07Qgll/am+FJm0T+UWN/hby8hglzyUaGYi/iHGgcR9c8vVx3VSpJBiZ61gZXAWsfmSc53xxz4371/SZIxINnVWqgnCeglVxUaR/HvoTcifJPSJ5Ar3Qoqb/sSlBTY4JZ+mtLy5gi8i25Vr7PA9SHvaFOTvkYIp4AZk/UwVXkDJeMlnC1vQfB+ZG+8uDDRa4kWAiRAWmPc7SYEMajUMyCANmMTdf51XlL9iLVBuN9g9t7/grGjTngTaU/eAexgw06G7IclioK5DuNX9Hdty1UUmYOlzA8Ep10mth37DEi50BKptC5SacXlolipxz83ikHxDD1ocOA==
+Received: from SJ0PR05CA0157.namprd05.prod.outlook.com (2603:10b6:a03:339::12)
+ by MN0PR12MB5715.namprd12.prod.outlook.com (2603:10b6:208:372::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Thu, 16 Jul
+ 2026 08:49:16 +0000
+Received: from CO1PEPF000075F1.namprd03.prod.outlook.com
+ (2603:10b6:a03:339:cafe::6) by SJ0PR05CA0157.outlook.office365.com
+ (2603:10b6:a03:339::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.4 via Frontend Transport; Thu, 16
+ Jul 2026 08:49:16 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ CO1PEPF000075F1.mail.protection.outlook.com (10.167.249.40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.223.9 via Frontend Transport; Thu, 16 Jul 2026 08:49:15 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 16 Jul
+ 2026 01:49:00 -0700
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Thu, 16 Jul 2026 04:28:15 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
- ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Thu, 16 Jul 2026 04:28:14 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Thu, 16 Jul 2026 04:28:14 -0400
-Received: from ATORRENO-L02.ad.analog.com ([10.66.6.190])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 66G8PdUU014492;
-	Thu, 16 Jul 2026 04:25:58 -0400
-From: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-Date: Thu, 16 Jul 2026 16:25:13 +0800
-Subject: [PATCH 3/3] hwmon: (pmbus/max34440): Add support for MAX34452
+ 15.2.2562.20; Thu, 16 Jul 2026 01:48:59 -0700
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.126.190.181) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Thu, 16 Jul 2026 01:48:56 -0700
+From: Mark Bloch <mbloch@nvidia.com>
+To: Jiri Pirko <jiri@resnulli.us>, Eric Dumazet <edumazet@google.com>, "Jakub
+ Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>
+CC: Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+	Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	<netdev@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, Mark Bloch <mbloch@nvidia.com>
+Subject: [PATCH net-next V7 0/4] devlink: Add boot-time eswitch mode defaults
+Date: Thu, 16 Jul 2026 11:48:48 +0300
+Message-ID: <20260716084852.549909-1-mbloch@nvidia.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260716-max34451_fixes-v1-3-a941b27eaecb@analog.com>
-References: <20260716-max34451_fixes-v1-0-a941b27eaecb@analog.com>
-In-Reply-To: <20260716-max34451_fixes-v1-0-a941b27eaecb@analog.com>
-To: Guenter Roeck <linux@roeck-us.net>, Kun Yi <kunyi@google.com>,
-        =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
-        Jonathan Corbet
-	<corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>
-CC: <linux-hwmon@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>,
-        Alexis Czezar Torreno
-	<alexisczezar.torreno@analog.com>,
-        Carlos Jones Jr
-	<carlosjr.jones@analog.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784190339; l=10442;
- i=alexisczezar.torreno@analog.com; s=20250213; h=from:subject:message-id;
- bh=08dvX5FKLJ3kgN2YX5NlsQT3Xj9RzW5ILyJG1YTV+0k=;
- b=1iFnTkpXy4Qn8tb7oFYus+Cc0SxrGAMSpyhmz/CUgvzFQSmE4LK8Vmy4nnWMRBbcXRJ5vZLDR
- mctZCTnWsDoCm+oyhfmiWC+/4w08He2arSNNvgT/VesRK9TJ5wyOu1P
-X-Developer-Key: i=alexisczezar.torreno@analog.com; a=ed25519;
- pk=XpXmJnRjnsKdDil6YpOlj9+44S+XYXVFnxvkbmaZ+10=
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Authority-Analysis: v=2.4 cv=aLnAb79m c=1 sm=1 tr=0 ts=6a589620 cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=0sLvza09kfJOxVLZPwjg:22 a=OmVn7CZJonkx5R5zMQLL:22 a=gAnH3GRIAAAA:8
- a=3tLlcj6tGBIsK1U58g0A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE2MDA4NiBTYWx0ZWRfX9iEg6DjWk0nx
- bPB5pgU/66yXvt4YubRWmaTA45Y1yGdxzwzeuLx7wxdXLqzOg66RiD01B9/TgxuuDEK4flkC4+u
- Nvy8alvV0SEK3GI0SVOLFmjSG/Cq/fDqVT29R7G/H9r2nVBJMxby+xJ3PgE49OH3S+t2g34UIoB
- 4YBuCLWWR0pofaCmb4rwkR9qimQi46LYUrKLqF/fw9JHCD+NVAAa0Y8FF0uuMXXrARbpryJxNHS
- yRBDsSwg60IrOJqMvkUzTENqiFPTOVLI4akTo0mqTbw8Mvvqbe0vh4hcHNFtTwNJgho6i+PnrzJ
- a18fR5bZG8hKl5mzju03qnaidO5HLygTZ+CtJYddedlyLzJJ2EIfCRWrd7WomP3SDglepAUsEpY
- 5lrxTZ4l/nhG2raNZALkOnX76sWUs5u2wzsR9LCXK33ft5u1tDzqmdijKFKuHomz6HWU25Rz3NK
- U7PgFWG9H4pLIuoTdaQ==
-X-Proofpoint-GUID: l2XHmBPhrthwCsNgs5AR8XMM6cePxO--
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE2MDA4NiBTYWx0ZWRfX626rpcLMrpJQ
- VjpwfTckYVQUyCGYUKcOYKLU+IXJ0WZxCXjJ4kUdJEv3pSoO/URW8zCsp3Y1L905wuwkRDCIo0y
- YYkcwcaTgZ8WWfYaA+f53tgO8ygWf7S1yWVNEDB5+EH2VFrIWfTQ
-X-Proofpoint-ORIG-GUID: l2XHmBPhrthwCsNgs5AR8XMM6cePxO--
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-16_03,2026-07-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 lowpriorityscore=0 suspectscore=0 spamscore=0 impostorscore=0
- bulkscore=0 adultscore=0 priorityscore=1501 malwarescore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607160086
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000075F1:EE_|MN0PR12MB5715:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1302fdf9-a885-4258-9aaf-08dee3171dda
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|36860700016|82310400026|376014|7416014|13003099007|3023799007|6133799003|10067099003|56012099006|18002099003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	7CDHgmmjI8k7ALigRZ1pAdCxI3BBzeVWdust9n+mDcs+iZWFAXHvYTXyRKcuxAuIAJ/JyxRqE9OKYLf/44qo3nznc/axcvJfjx1xQp084wj0Nju3VxrKyV78ysXDo8GMTpWOB/PQkO3ii7IV7mZ/4ehcWSW7sYC0WMYZU4+myNq0v7GQk1sbtdwoIVJn6yX312XIxU4u3eQUIL0YZOVOYq43iKV9hRBeaX99ZZ1hn6l2CF98lrLoGi188rGLkGPsOqVGfxu5muP59VCUlzcIKVZ1KEM+SeYyNcoGr61A3nuQWdV/XwYFXulWL6GyVZyxIzEMl5+5n641wFwr/gciQOOM/wwGWKzEU3Jnw7Z0stquCBQCflqnhC+Od1VpeMVkj89kJP8zH8/GL3zRytv/LAiXUW1YMMbNXvJoOVxKFTdUf6H3opn5t6MM43jyY67UbbPWG3fTfrySj2OICSPAKrhT9l8LadnUc/tOB6vQdrh2K09uVgvTA8Pb3/tnKq8DjXNllou2pgUCwfyNpzlssO54tdTmdFZAu5Xu7fVR6bPShPTy+lRCy2Zx4aXb4cRdajyDGyO+dNgBNkPHYujzcnQL1Pr+8xeyhsduZut4ciCMDM6HtH+VSUiJ7M7HvBCp0QtMsemeDY1LKRXJCcfjrpH6j6XcZamE9ENa3sOlkp/Sgdd3NOpGDtqvq45qsksmESfWWFSOF7fv1E6Ms9XrUA==
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(36860700016)(82310400026)(376014)(7416014)(13003099007)(3023799007)(6133799003)(10067099003)(56012099006)(18002099003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	wzAA10hU6/qs0xwML4iSlKddRa9Ojet5S8dlEu3jBohdZBIMGyr8+MRls9izhteSZx7qRp5xA8ImGgc5pkqIfAZL75UMEZ5NNctDmmRxSJpSNyO6vs8OnUieOx0fPCCFDx8E9hL9uenygcSXiNCAHMHWT4FKwEtEn3WhYBCv6SXTMogqow7zHbeUd9EMrTE/ZuTdPBb5G4DStJEgtyJiuqBQMGAmjXnZhoe1u8mZ988g2PvuNz/E38hTZZxh4hnCq0+4VG9d65YH0OO2ybTYi5WVY2tJViL5ypKt72PFDQmCsEzsmovaU9tRKdafL/2R3cCuvaz2edG6AwhbG+nooGigZMiWSLUKpIWDngkhqGcX+D27190l0sE1IKPudlL4q4mDuksDWngmQ3EIPvpnqP8gMVKxNPWI81uUDkzRSIvKmGqAbPHpEOK572daBvtP
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 08:49:15.6613
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1302fdf9-a885-4258-9aaf-08dee3171dda
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000075F1.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5715
 
-From: Carlos Jones Jr <carlosjr.jones@analog.com>
+This series adds a devlink_eswitch_mode= kernel command line parameter
+for setting a default devlink eswitch mode during boot.
 
-Add support for Maxim MAX34452 PMBus 16-Channel V/I Monitor and
-12-Channel Sequencer/Marginer. The device is similar to MAX34451
-and shares the same configuration function.
+Following the discussion with Jakub[1] and the feedback on the RFC
+postings, this version keeps the scope limited to a boot-time devlink
+eswitch mode default only.
 
-The MAX34452 supports:
-- 16 configurable voltage/current monitoring channels
-- 5 temperature sensors (pages 16-20)
-- Dynamic channel configuration via MFR_CHANNEL_CONFIG
-- IOUT average monitoring
+The option selects either all devlink handles or an explicit
+comma-separated handle list:
 
-Signed-off-by: Carlos Jones Jr <carlosjr.jones@analog.com>
-Co-Developed by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
----
- Documentation/hwmon/max34440.rst | 26 +++++++++++------
- drivers/hwmon/pmbus/Kconfig      |  5 ++--
- drivers/hwmon/pmbus/max34440.c   | 61 ++++++++++++++++++++++++++++++++--------
- 3 files changed, 71 insertions(+), 21 deletions(-)
+devlink_eswitch_mode=*=switchdev
+devlink_eswitch_mode=pci/0000:08:00.0,pci/0000:09:00.1=switchdev_inactive
 
-diff --git a/Documentation/hwmon/max34440.rst b/Documentation/hwmon/max34440.rst
-index e7421f4dbf38fc1436bbaeba71d4461a00f8cefb..866f22b88e9b360ff54aa52807484bb3e859e56e 100644
---- a/Documentation/hwmon/max34440.rst
-+++ b/Documentation/hwmon/max34440.rst
-@@ -65,6 +65,16 @@ Supported chips:
- 
-     Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/max34451.pdf
- 
-+  * Maxim MAX34452
-+
-+    PMBus 16-Channel V/I Monitor and 12-Channel Sequencer/Marginer
-+
-+    Prefixes: 'max34452'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: -
-+
-   * Maxim MAX34460
- 
-     PMBus 12-Channel Voltage Monitor & Sequencer
-@@ -94,11 +104,11 @@ Description
- This driver supports multiple devices: hardware monitoring for Maxim MAX34440
- PMBus 6-Channel Power-Supply Manager, MAX34441 PMBus 5-Channel Power-Supply
- Manager and Intelligent Fan Controller, and MAX34446 PMBus Power-Supply Data
--Logger; PMBus Voltage Monitor and Sequencers for MAX34451, MAX34460, and
--MAX34461; PMBus DC/DC Power Module ADPM12160, ADPM12200, and ADPM12250. The
--MAX34451 supports monitoring voltage or current of 12 channels based on GIN
--pins. The MAX34460 supports 12 voltage channels, and the MAX34461 supports 16
--voltage channels. The ADPM12160, ADPM12200, and ADPM12250 also monitors both
-+Logger; PMBus Voltage Monitor and Sequencers for MAX34451, MAX34452, MAX34460,
-+and MAX34461; PMBus DC/DC Power Module ADPM12160, ADPM12200, and ADPM12250. The
-+MAX34451 and MAX34452 support monitoring voltage or current of 16 channels based
-+on GIN pins. The MAX34460 supports 12 voltage channels, and the MAX34461 supports
-+16 voltage channels. The ADPM12160, ADPM12200, and ADPM12250 also monitor both
- input and output of voltage and current.
- 
- The driver is a client driver to the core PMBus driver. Please see
-@@ -171,7 +181,7 @@ curr[1-6]_crit		Critical maximum current. From IOUT_OC_FAULT_LIMIT
- 			register.
- curr[1-6]_max_alarm	Current high alarm. From IOUT_OC_WARNING status.
- curr[1-6]_crit_alarm	Current critical high alarm. From IOUT_OC_FAULT status.
--curr[1-4]_average	Historical average current (MAX34446/34451 only).
-+curr[1-4]_average	Historical average current (MAX34446/34451/34452 only).
- curr[1-6]_highest	Historical maximum current.
- curr[1-6]_reset_history	Write any value to reset history.
- ======================= ========================================================
-@@ -223,7 +233,7 @@ temp[1-8]_reset_history	Write any value to reset history.
- 
- .. note::
- 
--   - MAX34451 supports attribute groups in[1-16] (or curr[1-16] based on
--     input pins) and temp[1-5].
-+   - MAX34451 and MAX34452 support attribute groups in[1-16] (or curr[1-16]
-+     based on input pins) and temp[1-5].
-    - MAX34460 supports attribute groups in[1-12] and temp[1-5].
-    - MAX34461 supports attribute groups in[1-16] and temp[1-5].
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index ae003a6eac30a7b0a022c5f7f467d8f81736c3f7..91fa1c19e87c9f2de789f2908e59ac00c228eb76 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -434,8 +434,9 @@ config SENSORS_MAX34440
- 	tristate "Maxim MAX34440 and compatibles"
- 	help
- 	  If you say yes here you get hardware monitoring support for Maxim
--	  MAX34440, MAX34441, MAX34446, MAX34451, MAX34460, and MAX34461.
--	  Other compatible are ADPM12160, and ADPM12200.
-+	  MAX34440, MAX34441, MAX34446, MAX34451, MAX34452, MAX34460, and
-+	  MAX34461. Other compatible devices are ADPM12160, ADPM12200, and
-+	  ADPM12250.
- 
- 	  This driver can also be built as a module. If so, the module will
- 	  be called max34440.
-diff --git a/drivers/hwmon/pmbus/max34440.c b/drivers/hwmon/pmbus/max34440.c
-index 024109df26db568a4c230c9dbc45d69ba531dd8d..2e57af09f47809b0a0bddab27fc47cadfe35e0ef 100644
---- a/drivers/hwmon/pmbus/max34440.c
-+++ b/drivers/hwmon/pmbus/max34440.c
-@@ -23,6 +23,7 @@ enum chips {
- 	max34441,
- 	max34446,
- 	max34451,
-+	max34452,
- 	max34460,
- 	max34461,
- };
-@@ -116,6 +117,10 @@ static int max34440_read_word_data(struct i2c_client *client, int page,
- 			return -ENXIO;
- 		ret = -ENODATA;
- 		break;
-+	case PMBUS_VOUT_OV_WARN_LIMIT:
-+		if (data->id == max34452)
-+			return -ENXIO;
-+		return -ENODATA;
- 	case PMBUS_VIRT_READ_VOUT_MIN:
- 		ret = pmbus_read_word_data(client, page, phase,
- 					   MAX34440_MFR_VOUT_MIN);
-@@ -126,8 +131,8 @@ static int max34440_read_word_data(struct i2c_client *client, int page,
- 		break;
- 	case PMBUS_VIRT_READ_IOUT_AVG:
- 		if (data->id != max34446 && data->id != max34451 &&
--		    data->id != adpm12160 && data->id != adpm12200 &&
--		    data->id != adpm12250)
-+		    data->id != max34452 && data->id != adpm12160 &&
-+		    data->id != adpm12200 && data->id != adpm12250)
- 			return -ENXIO;
- 		ret = pmbus_read_word_data(client, page, phase,
- 					   MAX34446_MFR_IOUT_AVG);
-@@ -192,6 +197,10 @@ static int max34440_write_word_data(struct i2c_client *client, int page,
- 		ret = pmbus_write_word_data(client, page, data->iout_oc_warn_limit,
- 					    word);
- 		break;
-+	case PMBUS_VOUT_OV_WARN_LIMIT:
-+		if (data->id == max34452)
-+			return -ENXIO;
-+		return -ENODATA;
- 	case PMBUS_VIRT_RESET_POUT_HISTORY:
- 		ret = pmbus_write_word_data(client, page,
- 					    MAX34446_MFR_POUT_PEAK, 0);
-@@ -212,8 +221,8 @@ static int max34440_write_word_data(struct i2c_client *client, int page,
- 		ret = pmbus_write_word_data(client, page,
- 					    MAX34440_MFR_IOUT_PEAK, 0);
- 		if (!ret && (data->id == max34446 || data->id == max34451 ||
--			     data->id == adpm12160 || data->id == adpm12200 ||
--			     data->id == adpm12250))
-+			     data->id == max34452 || data->id == adpm12160 ||
-+			     data->id == adpm12200 || data->id == adpm12250))
- 			ret = pmbus_write_word_data(client, page,
- 					MAX34446_MFR_IOUT_AVG, 0);
- 
-@@ -281,12 +290,13 @@ static int max34451_read_byte_data(struct i2c_client *client, int page, int reg)
- 	case PMBUS_STATUS_BYTE:
- 	case PMBUS_STATUS_OTHER:
- 		/*
--		 * MAX34451/ADPM family do not support STATUS_BYTE or
-+		 * MAX34451/MAX34452/ADPM family do not support STATUS_BYTE or
- 		 * STATUS_OTHER registers. Accessing them triggers CML
- 		 * error and asserts ALERT.
- 		 */
--		if (data->id == max34451 || data->id == adpm12160 ||
--		    data->id == adpm12200 || data->id == adpm12250)
-+		if (data->id == max34451 || data->id == max34452 ||
-+		    data->id == adpm12160 || data->id == adpm12200 ||
-+		    data->id == adpm12250)
- 			return -ENXIO;
- 		return -ENODATA;
- 	default:
-@@ -304,12 +314,13 @@ static int max34451_write_byte_data(struct i2c_client *client, int page,
- 	case PMBUS_STATUS_BYTE:
- 	case PMBUS_STATUS_OTHER:
- 		/*
--		 * MAX34451/ADPM family do not support STATUS_BYTE or
-+		 * MAX34451/MAX34452/ADPM family do not support STATUS_BYTE or
- 		 * STATUS_OTHER registers. Writing to them triggers CML
- 		 * error and asserts ALERT.
- 		 */
--		if (data->id == max34451 || data->id == adpm12160 ||
--		    data->id == adpm12200 || data->id == adpm12250)
-+		if (data->id == max34451 || data->id == max34452 ||
-+		    data->id == adpm12160 || data->id == adpm12200 ||
-+		    data->id == adpm12250)
- 			return -ENXIO;
- 		return -ENODATA;
- 	default:
-@@ -340,6 +351,7 @@ static int max34451_set_supported_funcs(struct i2c_client *client,
- 	if (rv < 0)
- 		return rv;
- 
-+	/* MAX34452's latest MFR_REV is only at 0x0004, will skip this part */
- 	if (rv >= MAX34451ETNA6_MFR_REV) {
- 		max34451_na6 = true;
- 		data->info.format[PSC_VOLTAGE_IN] = direct;
-@@ -678,6 +690,32 @@ static struct pmbus_driver_info max34440_info[] = {
- 		.write_word_data = max34440_write_word_data,
- 		.page_change_delay = MAX34440_PAGE_CHANGE_DELAY,
- 	},
-+	[max34452] = {
-+		.pages = 21,
-+		.format[PSC_VOLTAGE_OUT] = direct,
-+		.format[PSC_TEMPERATURE] = direct,
-+		.format[PSC_CURRENT_OUT] = direct,
-+		.m[PSC_VOLTAGE_OUT] = 1,
-+		.b[PSC_VOLTAGE_OUT] = 0,
-+		.R[PSC_VOLTAGE_OUT] = 3,
-+		.m[PSC_CURRENT_OUT] = 1,
-+		.b[PSC_CURRENT_OUT] = 0,
-+		.R[PSC_CURRENT_OUT] = 2,
-+		.m[PSC_TEMPERATURE] = 1,
-+		.b[PSC_TEMPERATURE] = 0,
-+		.R[PSC_TEMPERATURE] = 2,
-+		/* func 0-15 is set dynamically before probing */
-+		.func[16] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-+		.func[17] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-+		.func[18] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-+		.func[19] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-+		.func[20] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-+		.read_byte_data = max34451_read_byte_data,
-+		.read_word_data = max34440_read_word_data,
-+		.write_byte_data = max34451_write_byte_data,
-+		.write_word_data = max34440_write_word_data,
-+		.page_change_delay = MAX34440_PAGE_CHANGE_DELAY,
-+	},
- 	[max34460] = {
- 		.pages = 18,
- 		.format[PSC_VOLTAGE_OUT] = direct,
-@@ -761,7 +799,7 @@ static int max34440_probe(struct i2c_client *client)
- 	data->iout_oc_fault_limit = MAX34440_IOUT_OC_FAULT_LIMIT;
- 	data->iout_oc_warn_limit = MAX34440_IOUT_OC_WARN_LIMIT;
- 
--	if (data->id == max34451) {
-+	if (data->id == max34451 || data->id == max34452) {
- 		rv = max34451_set_supported_funcs(client, data);
- 		if (rv)
- 			return rv;
-@@ -782,6 +820,7 @@ static const struct i2c_device_id max34440_id[] = {
- 	{ .name = "max34441", .driver_data = max34441 },
- 	{ .name = "max34446", .driver_data = max34446 },
- 	{ .name = "max34451", .driver_data = max34451 },
-+	{ .name = "max34452", .driver_data = max34452 },
- 	{ .name = "max34460", .driver_data = max34460 },
- 	{ .name = "max34461", .driver_data = max34461 },
- 	{ }
+The supported modes are legacy, switchdev and switchdev_inactive. The
+selected mode is applied through the existing eswitch_mode_set() devlink
+operation, the same operation used by the devlink eswitch mode command.
 
+Registration may happen while a driver holds the devlink lock and
+continues device initialization. Devlink core marks the default as
+pending and applies it from devl_unlock() once the instance is
+registered, before releasing the lock. This prevents userspace from
+racing with the boot default.
+
+After a successful reload that performed DRIVER_REINIT, devlink core
+already holds the devlink instance lock and the driver completed
+reload_up(), so the default is applied directly from the reload path.
+
+Patch 1 clears the mlx5 FW reset-in-progress bit before reload.
+
+Patch 2 factors the common eswitch mode set validation into a helper.
+
+Patch 3 adds the devlink_eswitch_mode= parser and documentation.
+
+Patch 4 applies parsed defaults from devlink core.
+
+Changelog:
+
+v6 -> v7:
+
+- Added Reviewed-by tags from Jiri Pirko.
+
+- Renamed the default eswitch mode functions to spell out eswitch instead
+  of esw.
+
+- Renamed the per-devlink initialization helper to
+  devlink_default_eswitch_mode_init(), dropping instance from its name.
+
+v5 -> v6:
+
+- Dropped regular work and applied a pending default directly from
+  devl_unlock() while the devlink instance lock is still held.
+
+- Dropped the driver API and mlx5-specific default application patches.
+
+v4 -> v5:
+
+- Moved the default eswitch mode code into a separate file, per Jiri's
+  comment.
+
+- Dropped the delayed workqueue and switched to regular work triggered
+  via devl_unlock(), per Jiri's comment.
+
+- Renamed some functions to better align with devlink code.
+
+v3 -> v4:
+
+- Rework registration time apply to use per devlink work queued from
+  devl_unlock(), instead of calling eswitch_mode_set() directly from
+  devl_register().
+
+- Apply the default directly after successful DRIVER_REINIT devlink reload,
+  where the devlink lock is already held and reload_up() has completed.
+
+- Add devl_apply_default_esw_mode() for drivers that know their exact ready
+  point.
+
+- Drop the driver registration-ordering preparation patches that are no
+  longer needed with the async registration apply path.
+
+v2 -> v3:
+
+- Change the devlink_eswitch_mode= API syntax to use <selector>=<mode>
+  instead of [<selector>]:<mode>, following a comment from Randy Dunlap.
+
+v1 -> v2:
+
+- Move default eswitch mode application into devlink core. The default is
+  now applied during devlink registration and after a successful devlink
+  reload that performed DRIVER_REINIT.
+
+- Remove the exported devl_apply_default_esw_mode() driver API and the mlx5
+  driver-side call to it.
+
+- Skip devlink health recovery notifications while the devlink instance is
+  not registered, so drivers can move registration later without early
+  health work hitting registration assertions.
+
+- Move mlx5 devlink registration after device initialization, including the
+  lightweight init path, so the core can apply the default through the
+  normal registration flow.
+
+- Move the matching netdevsim and mlx5 unregister paths before object
+  teardown, so unregister notifications come from devl_unregister() and the
+  later object teardown paths run while the devlink instance is no longer
+  registered.
+
+- Add registration-ordering preparation patches for netdevsim and octeontx2
+  AF/PF, so their eswitch state is ready before registration-time defaults
+  may call eswitch_mode_set().
+
+[1] lore.kernel.org/r/20260502184153.4fd8d06f@kernel.org/
+RFC v1: lore.kernel.org/r/20260506123739.1959770-1-mbloch@nvidia.com/
+RFC v2: lore.kernel.org/r/20260510185424.2041415-1-mbloch@nvidia.com/
+v1: lore.kernel.org/r/20260521072434.362624-1-tariqt@nvidia.com/
+v2: lore.kernel.org/all/20260603193259.3412464-1-mbloch@nvidia.com/
+v3: lore.kernel.org/all/20260605181030.3486619-1-mbloch@nvidia.com/
+v4: lore.kernel.org/all/20260629182102.245150-1-mbloch@nvidia.com/
+v5: lore.kernel.org/all/20260707174527.425134-1-mbloch@nvidia.com/
+v6: lore.kernel.org/all/20260714061731.531849-1-mbloch@nvidia.com/
+
+Signed-off-by: Mark Bloch <mbloch@nvidia.com>
+
+Mark Bloch (4):
+  net/mlx5: Clear FW reset-in-progress bit before reload
+  devlink: Factor out eswitch mode setting
+  devlink: Parse eswitch mode boot defaults
+  devlink: Apply eswitch mode boot defaults
+
+ .../admin-guide/kernel-parameters.txt         |  25 ++
+ .../networking/devlink/devlink-defaults.rst   |  78 +++++
+ Documentation/networking/devlink/index.rst    |   1 +
+ .../ethernet/mellanox/mlx5/core/fw_reset.c    |  28 +-
+ net/devlink/Makefile                          |   2 +-
+ net/devlink/core.c                            |  10 +
+ net/devlink/default.c                         | 303 ++++++++++++++++++
+ net/devlink/dev.c                             |  33 +-
+ net/devlink/devl_internal.h                   |  10 +
+ 9 files changed, 471 insertions(+), 19 deletions(-)
+ create mode 100644 Documentation/networking/devlink/devlink-defaults.rst
+ create mode 100644 net/devlink/default.c
+
+
+base-commit: f6f3b36c15ed44de1fbb44e645e4fae8c4a4453e
 -- 
-2.34.1
+2.43.0
 
