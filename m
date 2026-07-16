@@ -1,160 +1,139 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444783C417F
-	for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 09:54:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784195653; cv=pass; b=Hs8lwZZ7I6PqXKZbsEMizAv/QetsLR5nhYZj0+7DwKJIAGuKoLCntN7qTUMEstxX3NxFzBM0VktzlOlpq+nAaLWALy3S+VPblzDS+he7f0y9Xh5pkCelN0b/blvOJOtirTgITNQ06G0AUW31JcOO2kyoOGq7/ltpGljkZiiwD4I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784195653; c=relaxed/simple;
-	bh=7L8oIlIG3rf4WDazhnd/H7jHQ5h7vpxRD/uz7HCetnA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uWvgzorbLL0w7Jw/5eaL4uYv7HULdSyRnyaZk3dDKUTE75Xgih0L/7WSrvc0iaGhifCp0+Ex4Wua4wQWdELt/DcUpu518qvg3d15uH/2fvVnZqbX6yXxnnGHDcXELDWftB+CZOtJ9jfGug97bmirLCooFZyQMnk7BYiGFtK5h8k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GaYHEdTh; arc=pass smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41724071D1
+	for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 10:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784198688; cv=none; b=uDQDitmaDtbUXkPKtuZfkrLd0uB3b73tCkeYlDlAkSD1ARb3EItO/vcfH2O1ws62dXc2RsTYqvAghSFX9MtpEMYHUQQhfKYAk5xb7aK/OpdJkIUa72wSH/oxT5IFLe/t47WKSLi4cmoKiWE6I1UUsnlW7gLSjgkYGrSI9IAu53w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784198688; c=relaxed/simple;
+	bh=QfvC1FGivIYwMNcU81A7ydKOruNfuDO836KrBsFCpag=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EL4GIWWRWCmoVoh5nlZTVzlJ5/uqeeiOXLjQH2KE1C6PF1F6TdmuQ8d9Qaknanc+HdfwaH692ix38KAmhNLnYJENIZt/+ITOhdjbn+OkAldMMOzqNG1Xmu8Mi6tdsZfkIlr8tzkeSqtQmmr6QOBm+02fqYDdzfl64X+uk/GMv80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SqXxYypC; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GaYHEdTh"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6976b0c5adbso13376364a12.2
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 02:54:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784195650; cv=none;
-        d=google.com; s=arc-20260327;
-        b=DgLyifR0/+sUsXU8Y5fy4IbHzf9WO535947HzQyKAMfDW2qIbHbfz0h67nOI3w1rZS
-         r/MnW6AdnuKhFulDNLvh8BMm2AsDKqIPknw/77WosG0Judp9VEXorOCrmF1JCRIoZYAA
-         xJQf10tBC+eFVXWl9j++0C9AEGcrLgZiLJUcK8fWnzorrv0cuCHfuxdA1EgooYn+b9WM
-         3d1uHKu3IXF+uOFc6xRv2dEqKK0dSALOywgO/H4QoZTYIoI5q57+m9hy9AdMQYvB0MnP
-         MM7Fb9jBDIFvO8U/x17mMqOOU/KNFyMDUJRReAezFb1A9Htrimgv3afaFPBHgbWpaGvG
-         PBTQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Dja3c4miyO18wybLh+8+ev1hbutgDwS8v/XSKA2LxPU=;
-        fh=KeESwabIRlzyTCnUFUDztV+YM0Y0i9JW+D95eocjSG8=;
-        b=j9PKA/YuSxZ+cH9XlXqDLw4BQKuMIzqz+wMhwb3+9sZZ5nh5SXM7XFBxaYNaXnU+Ma
-         fT1nTkaXgSCI0GToYJxp+Hd8OenLRmegwCk4U/ZjEKFPe6rTYGVn7ZN3acipvIryV/DJ
-         rBWclMagwI2jtYjnmtViB0e1OO2EUWpqqcQH9bMHKN4xE2Ppco6REwXReFCeF6I7ag89
-         ZxPqRmbgQFal+vA7aSSFblqGFhE42cMKkVKcrQ5KSmp0IHFx15Vy6PhFP//758F880kT
-         Xx9Pbu+dIPK/dLl8xcsxtOwOHieoan08WqkcB429cAbR4TH942gFHP2xnBMEIhTFarOh
-         cBSw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SqXxYypC"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47defd0c1c5so2421190f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 03:44:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784195650; x=1784800450; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=linaro.org; s=google; t=1784198685; x=1784803485; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Dja3c4miyO18wybLh+8+ev1hbutgDwS8v/XSKA2LxPU=;
-        b=GaYHEdThr2KjAjOdDyuhg5Ng6XA6XPhZRexc96lxiVyOzcULHIsDMR8PKEmC0+4AEq
-         Ljw8iAuTpomaCSzTG62lVBRK3M2KVzTRWt9CctJxiGtfi8r3RkyoUQku99jDJfbRVE0E
-         37qvqjlU3eB4jCLYqqk6zfhGZC1+D9qoSjv1JHrPnVXPaBvjTcDvarRWhtTFlA40q6OB
-         W2JdJZZk/7FXKcJk9VGrv0bIDbwwFo/+JwnBV+Mp/r2lxCsEKU5LWDc0yC7IThCx5CII
-         RzirKWuE601P3ORG9wvBBpRajH5EOUbhsnnvz2nXSE485ufEg/ej60zARfh81LIx6cTW
-         cBKg==
+        bh=bG7DiFK2AkiQJxlm6ywiTGbJgNucHDn6Zq82S4v139g=;
+        b=SqXxYypCpqoUaKnL+1ZBREuJm+K0EsRLoUl/CwRpnYe/yXcrJOnNa+nDUTo/NFoOWp
+         lncl0kx7gvH0G6f4I3aRSayMztXMUMoY9/i64H4YAarlczoILYjEZ2JYs8ZjYXzBzmqW
+         H5R/EI05tkHFOWiqbWsaJP8/4N7vvZl0KIAhtLaE+STBCqJQK1g45GsRS4kjcbH2Ed1b
+         b4H1mkgX+FsKk09gnEfNTsh/VrPfQP1dTp13Y+unoOOrUovq90z4h11PLdgjunYbgQlo
+         zsBtGRZ0HW4cmVI7ZV8GmyxxJVnCEbqcLBQJ4tkPlLcIqn3p6dZT1KlInfwoIiLQyM3G
+         f5TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784195650; x=1784800450;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1784198685; x=1784803485;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Dja3c4miyO18wybLh+8+ev1hbutgDwS8v/XSKA2LxPU=;
-        b=o3AXnbU15juPDKv1WhLCvT0hr4U2rMI9FJ/Um759YJguTbDlWSe/CPUqRDH0vDIEp4
-         SimD8JozQQp1qRLUNHF+n1VU6KdXQWIIy4Ojld1kSgIIRVv0X9dhq8uVI9dmNoqnp+g6
-         u9e10KOxVa2W30NiX3easN7ihQR1u6GQUCINm8/8OECRGeRDVLeJhrMlBBDs6jmkPlcB
-         XT5X4FPvnPS/3p2cVbaVd1petu5nFVzGEi0sVPgnC4ksizVpBVIUrvsPJEv5joAtdD+t
-         LkfVUhnNi+aWEs2s9hLpuIe0cqeFD2jXnnl7KLMTfP38NiX5NpbZ4rzt7ecSGOj17omv
-         lacw==
-X-Forwarded-Encrypted: i=1; AHgh+RrFNjGrUvAtkJovR+gQfBKn6Oa/Eq7L+cBxgmUTYfyVVyJWp7BoxoT/71PuzSXMGlvZ0Vkmb+VhCKE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzo3U037rtjbzowvr14FwqVPtuvGY8cJnmH/l+B47NbcP8l4h5+
-	c3slw16QYV6D6Nha70LU7fFnUh+GmAEPxXfeU1BJJ0rqCHcEm/q2guzR5jlRYnGlRvBApyOyCIb
-	gc9qOKAb4WVRCxuQZtgdZr3vavwX8O7KJMEw35WhLjQ==
-X-Gm-Gg: AfdE7cmosLtDoVs2hAMwmb3+nIHY+yxHpDmyimCAZWOhW+YDYR3mIZnyWXDccIaU3Cl
-	A9uSPx3Gz3rxLg1HvupflzK39Jdi1Ka8f6XPgbpE5UvtI7Rfsic6YTZPONOxhJVc6I/4CQjSB5d
-	dVweemP/Q8h8VgJ4KPRMJAi2IcOFtj1bgh51DKi5uS9PLAwnGEcZecOhFJBfxeuE8qxK/+SXBXo
-	ADxioCDMKt2sMuHtaBPn65yZBBcAiI285LwwTx1khSWd1yAqf9DpsRheGqRP90E3R4ZTNisMQ==
-X-Received: by 2002:a05:6402:524a:b0:698:b60b:aac2 with SMTP id
- 4fb4d7f45d1cf-69cd6c5e68amr5803177a12.4.1784195649954; Thu, 16 Jul 2026
- 02:54:09 -0700 (PDT)
+        bh=bG7DiFK2AkiQJxlm6ywiTGbJgNucHDn6Zq82S4v139g=;
+        b=dIICMHILmpjKQdqAHJxViOkYgLZsCEuNuk3UcZi89awXEs08BxICsWKcjEgxzMzSnu
+         DPpsCAtFEMMvYSWlN0q5s9t2Bcm/JuuMKncHZODDdxey2+YAh4GHctgsLsw6VijtRO5+
+         KkekJqWKy/BkCN1yMaSEzfYepJajbTweQIrDZDtd7pOmm26AiK5vYXzFoxfMWCgfOO7y
+         81OVjBU5f7F0eAHzRym8CxDOdHSWNTR5iMCEon+xzsHKqP5rDm76hOHMNZ5w27/oQKX9
+         GY91jszAlKWVkYvKLh5baxG8Q8+3h8wGeLEHWIz/R8v6MLJmdorWkX/KD92SO6ls647k
+         6bGQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrGLhfTqmeojaeEJyjmKjaEVJDHRTA6Zzh9ZRqJudPmnjupkBwW1naHwpLnlK4oj3foYqz02eUx478=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxK4I0ZwOCvspc0lOiYYLYsl4OKKN7gAL/JGZx1eELRaqlFG4vt
+	xHdvjITEdM9owNESSA5ai3xswSK4anHKABIqQ+TJexffqC2LdTyfaxnYMA41bd0xNgE=
+X-Gm-Gg: AfdE7ckV9su7l8esNtT04DqOc67Euj/oJ5rg0EaDnlG0RpQT98P9Wn/z84dLa/OQXqb
+	4BDj+AmAQPhDl19sSzMzNYUS4NWQq2nBdEjnw05MiUO3/z47bgwrJ+1aJJ+fcIdfeU6QN+y9Z2w
+	19V/ZEsBQ3KDXDuV/5oNMo6Pep6BQi/ciwVTfVzdLoqnCETCKmMy51bynqVp/ERdahUlDSa9T/b
+	ZY6NlokoNKoQCf6YReVEIXB/kPDttdqkIJ28wdcDYFeaxidxW2PPwXuTn0hIkeXMpFLMJNxqaOJ
+	X0wxYnLySV8Gs7KhyH2y1uq9bijoD6ygMbDhrIgiWTa0YxsTg5sPtHz8J57l/GclBtRccLmHDy3
+	+4G4VbqAgqJLCH0qSKgwpLyL6QZuxubJuG34VzIzLNirr5LPkKCr4J0bznXprg2nLSk0WT/+FEX
+	bSziLjHjLfX5OVjw==
+X-Received: by 2002:a05:6000:310d:b0:477:6da:1b6f with SMTP id ffacd0b85a97d-47f2dc9c5b1mr23909548f8f.23.1784198684979;
+        Thu, 16 Jul 2026 03:44:44 -0700 (PDT)
+Received: from linaro.org ([2a02:2454:ff24:7210:a01c:aecf:c14b:e17e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f464c1f84sm23851143f8f.29.2026.07.16.03.44.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2026 03:44:44 -0700 (PDT)
+Date: Thu, 16 Jul 2026 12:44:39 +0200
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Udit Tiwari <quic_utiwari@quicinc.com>,
+	Md Sadre Alam <mdalam@qti.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
+	Andy Gross <agross@codeaurora.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH v21 06/14] dmaengine: qcom: bam_dma: add support for BAM
+ locking
+Message-ID: <ali2F4dDuLRWJsfi@linaro.org>
+References: <20260713-qcom-qce-cmd-descr-v21-0-bc2583e18475@oss.qualcomm.com>
+ <20260713-qcom-qce-cmd-descr-v21-6-bc2583e18475@oss.qualcomm.com>
+ <alYGGu7_3G6mJAzQ@linaro.org>
+ <CAMRc=MevqXga1u-XC8LYc3hnjjzmdESntsSGYP25XECeeySfJA@mail.gmail.com>
+ <alepDnRJmRLbFGRQ@vaman>
+ <alewA9ubkYKHpnuj@linaro.org>
+ <CAMRc=McZK1=S2SFgpCjtHSRecY0SiQWbBqsUxGX1w4229s2yKg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260716-overlayfs-rst-update-v2-1-ba25393ea7a3@teledyne.com>
-In-Reply-To: <20260716-overlayfs-rst-update-v2-1-ba25393ea7a3@teledyne.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 16 Jul 2026 11:53:57 +0200
-X-Gm-Features: AUfX_mxljFG1PQ75khiigBYEM4d9sOeUExffSBXjeTfV6o_GpeesgVl0GqmqzLA
-Message-ID: <CAOQ4uxj66enKg9jK9gZtqTCxLOSHD1i1Yj8b0Fs+jv+SN4UApw@mail.gmail.com>
-Subject: Re: [PATCH v2] overlayfs.rst: remove mention of workdir needing to be empty
-To: jesse.vangavere@teledyne.com, Jonathan Corbet <corbet@lwn.net>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Shuah Khan <skhan@linuxfoundation.org>, 
-	linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMRc=McZK1=S2SFgpCjtHSRecY0SiQWbBqsUxGX1w4229s2yKg@mail.gmail.com>
 
-On Thu, Jul 16, 2026 at 8:23=E2=80=AFAM Jesse Van Gavere via B4 Relay
-<devnull+jesse.vangavere.teledyne.com@kernel.org> wrote:
->
-> From: Jesse Van Gavere <jesse.vangavere@teledyne.com>
->
-> This requirement has not been true since v4.8 when automatic cleanup was
-> added in commit eea2fb4851e9 ("ovl: proper cleanup of workdir")
->
-> Signed-off-by: Jesse Van Gavere <jesse.vangavere@teledyne.com>
+On Thu, Jul 16, 2026 at 12:43:04AM -0700, Bartosz Golaszewski wrote:
+> On Wed, 15 Jul 2026 18:06:27 +0200, Stephan Gerhold
+> <stephan.gerhold@linaro.org> said:
+> > On Wed, Jul 15, 2026 at 09:06:46PM +0530, Vinod Koul wrote:
+> >> On 15-07-26, 14:43, Bartosz Golaszewski wrote:
+> >> > On Tue, 14 Jul 2026 11:49:14 +0200, Stephan Gerhold
+> >
+> 
+> ...
+> 
+> > I would avoid using struct dma_slave_config->dst_addr (like in v11) [1]
+> > though, since it's more a "address to dummy register" now than the
+> > actual dst_addr of the peripheral. That's why I suggested
+> > struct dma_slave_config->peripheral_config.
+> 
+> As in:
+> 
+> struct bam_dma_peripheral_config {
+> 	phys_addr_t scratchpad_addr;
+> };
+> 
+> struct dma_slave_config cfg = { .peripheral_config = &scratchpad_addr };
+> 
+> ?
+> 
 
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+I think you have the same thought in mind, but there are a little bit
+too many odd typos in your example to give you a simple "yes". :-)
+(Why assign &scratchpad_addr to .peripheral_config and not the struct?)
 
-Jon,
-
-Can you please pick this one?
+While at it, perhaps we could rename scratchpad_addr to have something
+with "lock" in the name, to make it clearer what it is used for?
+(lock_scratchpad_addr? lock_dummy_register? lock_scratch_register?)
 
 Thanks,
-Amir.
-
-> ---
-> Changes in v2:
-> - Handle remark from Amir Goldstein to drop workdir cleanup reference
-> - Link to v1: https://patch.msgid.link/20260715-overlayfs-rst-update-v1-1=
--70625a67880e@teledyne.com
->
-> To: Miklos Szeredi <miklos@szeredi.hu>
-> To: Amir Goldstein <amir73il@gmail.com>
-> To: Jonathan Corbet <corbet@lwn.net>
-> To: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: linux-unionfs@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> ---
->  Documentation/filesystems/overlayfs.rst | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/file=
-systems/overlayfs.rst
-> index eb846518e6ac..ba41c0694e62 100644
-> --- a/Documentation/filesystems/overlayfs.rst
-> +++ b/Documentation/filesystems/overlayfs.rst
-> @@ -123,8 +123,7 @@ At mount time, the two directories given as mount opt=
-ions "lowerdir" and
->    mount -t overlay overlay -olowerdir=3D/lower,upperdir=3D/upper,\
->    workdir=3D/work /merged
->
-> -The "workdir" needs to be an empty directory on the same filesystem
-> -as upperdir.
-> +The "workdir" needs to be a directory on the same filesystem as upperdir=
-.
->
->  Then whenever a lookup is requested in such a merged directory, the
->  lookup is performed in each actual directory and the combined result
->
-> ---
-> base-commit: 58717b2a1365d06c8c64b72aa948541b53fe31eb
-> change-id: 20260715-overlayfs-rst-update-750d58792f79
->
-> Best regards,
-> --
-> Jesse Van Gavere <jesse.vangavere@teledyne.com>
->
->
+Stephan
