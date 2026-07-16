@@ -1,203 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB5B392C39;
-	Thu, 16 Jul 2026 09:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784194493; cv=none; b=j71ZDjYQ66N262+g+dxQgJE1KLOwxcfN2BXBcnviVRuvml9nKADEKNaOvjE4jAOipu1uuCb67e+JkiaYQzY8dtxi5ypFQigQTmEneIg+jDv2k0+kddM7OCzJCWyUS8oxNN4uw5prX2u4QUG8WXb5jlE8b6pLsL9rl4gjfxt/Chs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784194493; c=relaxed/simple;
-	bh=piGvS9odsFqceYHmKyj89Egg30SAmpFDNbFAimmJCfo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T+caOhfxIm/ff4+Zt20WIq/sKo9GHJ9n0yzamndotWiZik6IX8u7CAovudW1szmNapTBydKPbWUPksudkb/EWLOx2y0Ie9c2tRA42jHUEXYMaG8F8xH0eeFo9p+ACsZUgZhBkYw3tNYq81ll6LId74BT3PqBNsCTFngs6FHk3ZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=btzwrW2W; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444783C417F
+	for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 09:54:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784195653; cv=pass; b=Hs8lwZZ7I6PqXKZbsEMizAv/QetsLR5nhYZj0+7DwKJIAGuKoLCntN7qTUMEstxX3NxFzBM0VktzlOlpq+nAaLWALy3S+VPblzDS+he7f0y9Xh5pkCelN0b/blvOJOtirTgITNQ06G0AUW31JcOO2kyoOGq7/ltpGljkZiiwD4I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784195653; c=relaxed/simple;
+	bh=7L8oIlIG3rf4WDazhnd/H7jHQ5h7vpxRD/uz7HCetnA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uWvgzorbLL0w7Jw/5eaL4uYv7HULdSyRnyaZk3dDKUTE75Xgih0L/7WSrvc0iaGhifCp0+Ex4Wua4wQWdELt/DcUpu518qvg3d15uH/2fvVnZqbX6yXxnnGHDcXELDWftB+CZOtJ9jfGug97bmirLCooFZyQMnk7BYiGFtK5h8k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GaYHEdTh; arc=pass smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="btzwrW2W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 599081F00A3A;
-	Thu, 16 Jul 2026 09:34:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784194476;
-	bh=6TV8tl8agqKwLpgfHtmJHvY+8PG3WpGYxYzrYv+Oy+A=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=btzwrW2WHUhoHzOAas/Q8lx/bETANDijmUL3bYGTX3QlggJmQiTq8Tk5IhZ83nOcs
-	 D5Qn5Ceu5eXEJHDnkLCHMibfsdWy8aJd3Ki1cNSeRXW/seJUuwo6hg8Os2ZKVekRQf
-	 oqjT95fcO3utuaeudnh9VMPxS+YI08GfB6tSPKdQ3OoDuNqjUBYVwRiq5zJf5r37tD
-	 0mh0xgYvlFN8ZYF83ji6FXT9yQTcnEH4DzXWrgwIKXMxs8DcO7W1ipm7jBFbIcuosl
-	 isV3SQQCeZCjuGx5Ym1JZoDvn/j1VX82kRK7LJQF1U15+nqDnWZRX7DQu2IHPAb7eV
-	 QmzRuHJiia5lQ==
-From: Simon Horman <horms@kernel.org>
-To: jackbb_wu@compal.com
-Cc: Simon Horman <horms@kernel.org>,
-	loic.poulain@oss.qualcomm.com,
-	ryazanov.s.a@gmail.com,
-	johannes@sipsolutions.net,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	wen-zhi.huang@mediatek.com,
-	shi-wei.yeh@mediatek.com,
-	Minano.tseng@mediatek.com,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 6/7] net: wwan: t9xx: Add AT & MBIM WWAN ports
-Date: Thu, 16 Jul 2026 10:34:29 +0100
-Message-ID: <20260716093429.231132-1-horms@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260709-t9xx_driver_v1-v4-6-a8c009d509c5@compal.com>
-References: <20260709-t9xx_driver_v1-v4-6-a8c009d509c5@compal.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GaYHEdTh"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6976b0c5adbso13376364a12.2
+        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 02:54:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784195650; cv=none;
+        d=google.com; s=arc-20260327;
+        b=DgLyifR0/+sUsXU8Y5fy4IbHzf9WO535947HzQyKAMfDW2qIbHbfz0h67nOI3w1rZS
+         r/MnW6AdnuKhFulDNLvh8BMm2AsDKqIPknw/77WosG0Judp9VEXorOCrmF1JCRIoZYAA
+         xJQf10tBC+eFVXWl9j++0C9AEGcrLgZiLJUcK8fWnzorrv0cuCHfuxdA1EgooYn+b9WM
+         3d1uHKu3IXF+uOFc6xRv2dEqKK0dSALOywgO/H4QoZTYIoI5q57+m9hy9AdMQYvB0MnP
+         MM7Fb9jBDIFvO8U/x17mMqOOU/KNFyMDUJRReAezFb1A9Htrimgv3afaFPBHgbWpaGvG
+         PBTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Dja3c4miyO18wybLh+8+ev1hbutgDwS8v/XSKA2LxPU=;
+        fh=KeESwabIRlzyTCnUFUDztV+YM0Y0i9JW+D95eocjSG8=;
+        b=j9PKA/YuSxZ+cH9XlXqDLw4BQKuMIzqz+wMhwb3+9sZZ5nh5SXM7XFBxaYNaXnU+Ma
+         fT1nTkaXgSCI0GToYJxp+Hd8OenLRmegwCk4U/ZjEKFPe6rTYGVn7ZN3acipvIryV/DJ
+         rBWclMagwI2jtYjnmtViB0e1OO2EUWpqqcQH9bMHKN4xE2Ppco6REwXReFCeF6I7ag89
+         ZxPqRmbgQFal+vA7aSSFblqGFhE42cMKkVKcrQ5KSmp0IHFx15Vy6PhFP//758F880kT
+         Xx9Pbu+dIPK/dLl8xcsxtOwOHieoan08WqkcB429cAbR4TH942gFHP2xnBMEIhTFarOh
+         cBSw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784195650; x=1784800450; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Dja3c4miyO18wybLh+8+ev1hbutgDwS8v/XSKA2LxPU=;
+        b=GaYHEdThr2KjAjOdDyuhg5Ng6XA6XPhZRexc96lxiVyOzcULHIsDMR8PKEmC0+4AEq
+         Ljw8iAuTpomaCSzTG62lVBRK3M2KVzTRWt9CctJxiGtfi8r3RkyoUQku99jDJfbRVE0E
+         37qvqjlU3eB4jCLYqqk6zfhGZC1+D9qoSjv1JHrPnVXPaBvjTcDvarRWhtTFlA40q6OB
+         W2JdJZZk/7FXKcJk9VGrv0bIDbwwFo/+JwnBV+Mp/r2lxCsEKU5LWDc0yC7IThCx5CII
+         RzirKWuE601P3ORG9wvBBpRajH5EOUbhsnnvz2nXSE485ufEg/ej60zARfh81LIx6cTW
+         cBKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784195650; x=1784800450;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Dja3c4miyO18wybLh+8+ev1hbutgDwS8v/XSKA2LxPU=;
+        b=o3AXnbU15juPDKv1WhLCvT0hr4U2rMI9FJ/Um759YJguTbDlWSe/CPUqRDH0vDIEp4
+         SimD8JozQQp1qRLUNHF+n1VU6KdXQWIIy4Ojld1kSgIIRVv0X9dhq8uVI9dmNoqnp+g6
+         u9e10KOxVa2W30NiX3easN7ihQR1u6GQUCINm8/8OECRGeRDVLeJhrMlBBDs6jmkPlcB
+         XT5X4FPvnPS/3p2cVbaVd1petu5nFVzGEi0sVPgnC4ksizVpBVIUrvsPJEv5joAtdD+t
+         LkfVUhnNi+aWEs2s9hLpuIe0cqeFD2jXnnl7KLMTfP38NiX5NpbZ4rzt7ecSGOj17omv
+         lacw==
+X-Forwarded-Encrypted: i=1; AHgh+RrFNjGrUvAtkJovR+gQfBKn6Oa/Eq7L+cBxgmUTYfyVVyJWp7BoxoT/71PuzSXMGlvZ0Vkmb+VhCKE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzo3U037rtjbzowvr14FwqVPtuvGY8cJnmH/l+B47NbcP8l4h5+
+	c3slw16QYV6D6Nha70LU7fFnUh+GmAEPxXfeU1BJJ0rqCHcEm/q2guzR5jlRYnGlRvBApyOyCIb
+	gc9qOKAb4WVRCxuQZtgdZr3vavwX8O7KJMEw35WhLjQ==
+X-Gm-Gg: AfdE7cmosLtDoVs2hAMwmb3+nIHY+yxHpDmyimCAZWOhW+YDYR3mIZnyWXDccIaU3Cl
+	A9uSPx3Gz3rxLg1HvupflzK39Jdi1Ka8f6XPgbpE5UvtI7Rfsic6YTZPONOxhJVc6I/4CQjSB5d
+	dVweemP/Q8h8VgJ4KPRMJAi2IcOFtj1bgh51DKi5uS9PLAwnGEcZecOhFJBfxeuE8qxK/+SXBXo
+	ADxioCDMKt2sMuHtaBPn65yZBBcAiI285LwwTx1khSWd1yAqf9DpsRheGqRP90E3R4ZTNisMQ==
+X-Received: by 2002:a05:6402:524a:b0:698:b60b:aac2 with SMTP id
+ 4fb4d7f45d1cf-69cd6c5e68amr5803177a12.4.1784195649954; Thu, 16 Jul 2026
+ 02:54:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260716-overlayfs-rst-update-v2-1-ba25393ea7a3@teledyne.com>
+In-Reply-To: <20260716-overlayfs-rst-update-v2-1-ba25393ea7a3@teledyne.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 16 Jul 2026 11:53:57 +0200
+X-Gm-Features: AUfX_mxljFG1PQ75khiigBYEM4d9sOeUExffSBXjeTfV6o_GpeesgVl0GqmqzLA
+Message-ID: <CAOQ4uxj66enKg9jK9gZtqTCxLOSHD1i1Yj8b0Fs+jv+SN4UApw@mail.gmail.com>
+Subject: Re: [PATCH v2] overlayfs.rst: remove mention of workdir needing to be empty
+To: jesse.vangavere@teledyne.com, Jonathan Corbet <corbet@lwn.net>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
-Full review at: https://sashiko.dev
----
---- Patch [6]: [PATCH v4 6/7] net: wwan: t9xx: Add AT & MBIM WWAN ports ---
-commit 1739a55610bf7a44ce24874819e01c07236d9442
-Author: Jack Wu <jackbb_wu@compal.com>
+On Thu, Jul 16, 2026 at 8:23=E2=80=AFAM Jesse Van Gavere via B4 Relay
+<devnull+jesse.vangavere.teledyne.com@kernel.org> wrote:
+>
+> From: Jesse Van Gavere <jesse.vangavere@teledyne.com>
+>
+> This requirement has not been true since v4.8 when automatic cleanup was
+> added in commit eea2fb4851e9 ("ovl: proper cleanup of workdir")
+>
+> Signed-off-by: Jesse Van Gavere <jesse.vangavere@teledyne.com>
 
-net: wwan: t9xx: Add AT & MBIM WWAN ports
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 
-Add AT & MBIM ports to the port infrastructure.
-The WWAN initialization method is responsible for creating the
-corresponding ports using the WWAN framework infrastructure. The
-implemented WWAN port operations are start, stop, tx, tx_blocking
-and tx_poll.
+Jon,
 
-> diff --git a/drivers/net/wwan/t9xx/mtk_port_io.c b/drivers/net/wwan/t9xx/mtk_port_io.c
-> index e3a2de6d2f297..882254b74026f 100644
-> --- a/drivers/net/wwan/t9xx/mtk_port_io.c
-> +++ b/drivers/net/wwan/t9xx/mtk_port_io.c
+Can you please pick this one?
 
-[ ... ]
+Thanks,
+Amir.
 
-> @@ -234,6 +376,198 @@ static const struct port_ops port_internal_ops = {
->  	.recv = mtk_port_internal_recv,
->  };
->  
-> +static int mtk_port_wwan_open(struct wwan_port *w_port)
-
-[ ... ]
-
-> +static int mtk_port_wwan_write(struct wwan_port *w_port, struct sk_buff *skb)
-> +{
-> +	struct mtk_port *port = wwan_port_get_drvdata(w_port);
-> +	union user_buf user_buf;
-> +	int ret;
-> +
-> +	if (unlikely(!skb->len)) {
-> +		consume_skb(skb);
-> +		return 0;
-> +	}
-> +
-> +	port->info.flags &= ~PORT_F_BLOCKING;
-> +	user_buf.kbuf = (void *)skb->data;
-> +	ret = mtk_port_common_write(port, user_buf, skb->len, false);
-> +	if (ret < 0)
-> +		return ret;
-
-[Severity: High]
-If mtk_port_common_write() successfully sends the first few fragments but
-fails on subsequent ones, returning a positive partial write count, does
-this code silently drop the remaining data?
-
-The condition ret < 0 is false for partial writes, so the SKB is consumed
-and 0 is returned to the caller, falsely reporting complete success to the
-WWAN core.
-
-> +
-> +	consume_skb(skb);
-> +	return 0;
-> +}
-> +
-> +static int mtk_port_wwan_write_blocking(struct wwan_port *w_port, struct sk_buff *skb)
-> +{
-> +	struct mtk_port *port = wwan_port_get_drvdata(w_port);
-> +	union user_buf user_buf;
-> +	int ret;
-> +
-> +	if (unlikely(!skb->len)) {
-> +		consume_skb(skb);
-> +		return 0;
-> +	}
-> +
-> +	port->info.flags |= PORT_F_BLOCKING;
-> +	user_buf.kbuf = (void *)skb->data;
-> +	ret = mtk_port_common_write(port, user_buf, skb->len, false);
-> +	if (ret < 0)
-> +		return ret;
-
-[Severity: High]
-Can the same silent drop of partially written SKBs happen here?
-
-> +
-> +	consume_skb(skb);
-> +	return 0;
-> +}
-
-[ ... ]
-
-> +static void mtk_port_wwan_enable(struct mtk_port *port)
-> +{
-> +	struct mtk_port_mngr *port_mngr;
-> +	int ret;
-> +
-> +	port_mngr = port->port_mngr;
-> +
-> +	if (test_bit(PORT_S_ENABLE, &port->status))
-> +		return;
-> +
-> +	ret = mtk_port_ch_enable(port);
-> +	if (ret && ret != -EBUSY)
-> +		return;
-> +
-> +	port->w_priv.w_port = wwan_create_port(port_mngr->ctrl_blk->mdev->dev,
-> +					       port->w_priv.w_type,
-> +					       &wwan_ops, NULL, port);
-> +	if (IS_ERR(port->w_priv.w_port)) {
-
-[Severity: High]
-Can a race condition occur here if wwan_create_port() fails and returns an
-error pointer?
-
-Once mtk_port_ch_enable() completes, hardware RX can start. If
-wwan_create_port() fails, an ERR_PTR is stored in port->w_priv.w_port
-without holding w_lock. Concurrently, the RX interrupt handler could call
-mtk_port_wwan_recv():
-
-	mutex_lock(&port->w_priv.w_lock);
-	if (!port->w_priv.w_port) {
-		mutex_unlock(&port->w_priv.w_lock);
-		return -ENXIO;
-	}
-	wwan_port_rx(port->w_priv.w_port, skb);
-
-Because an ERR_PTR is not NULL, mtk_port_wwan_recv() will pass it to
-wwan_port_rx(), which will then dereference the error pointer.
-
-> +		dev_warn(port_mngr->ctrl_blk->mdev->dev,
-> +			 "Failed to create wwan port for (%s)\n", port->info.name);
-> +		port->w_priv.w_port = NULL;
-> +		mtk_port_ch_disable(port);
-> +		return;
-> +	}
-> +
-> +	set_bit(PORT_S_WR, &port->status);
-> +	set_bit(PORT_S_ENABLE, &port->status);
-> +}
-> +
+> ---
+> Changes in v2:
+> - Handle remark from Amir Goldstein to drop workdir cleanup reference
+> - Link to v1: https://patch.msgid.link/20260715-overlayfs-rst-update-v1-1=
+-70625a67880e@teledyne.com
+>
+> To: Miklos Szeredi <miklos@szeredi.hu>
+> To: Amir Goldstein <amir73il@gmail.com>
+> To: Jonathan Corbet <corbet@lwn.net>
+> To: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: linux-unionfs@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> ---
+>  Documentation/filesystems/overlayfs.rst | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/file=
+systems/overlayfs.rst
+> index eb846518e6ac..ba41c0694e62 100644
+> --- a/Documentation/filesystems/overlayfs.rst
+> +++ b/Documentation/filesystems/overlayfs.rst
+> @@ -123,8 +123,7 @@ At mount time, the two directories given as mount opt=
+ions "lowerdir" and
+>    mount -t overlay overlay -olowerdir=3D/lower,upperdir=3D/upper,\
+>    workdir=3D/work /merged
+>
+> -The "workdir" needs to be an empty directory on the same filesystem
+> -as upperdir.
+> +The "workdir" needs to be a directory on the same filesystem as upperdir=
+.
+>
+>  Then whenever a lookup is requested in such a merged directory, the
+>  lookup is performed in each actual directory and the combined result
+>
+> ---
+> base-commit: 58717b2a1365d06c8c64b72aa948541b53fe31eb
+> change-id: 20260715-overlayfs-rst-update-750d58792f79
+>
+> Best regards,
+> --
+> Jesse Van Gavere <jesse.vangavere@teledyne.com>
+>
+>
