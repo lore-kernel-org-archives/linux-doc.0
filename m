@@ -1,96 +1,52 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41724071D1
-	for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 10:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCACA38D402;
+	Thu, 16 Jul 2026 10:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784198688; cv=none; b=uDQDitmaDtbUXkPKtuZfkrLd0uB3b73tCkeYlDlAkSD1ARb3EItO/vcfH2O1ws62dXc2RsTYqvAghSFX9MtpEMYHUQQhfKYAk5xb7aK/OpdJkIUa72wSH/oxT5IFLe/t47WKSLi4cmoKiWE6I1UUsnlW7gLSjgkYGrSI9IAu53w=
+	t=1784199170; cv=none; b=mh3vU80XRAX4ePrwiavIGysfDJ9DRYteLnf+6Pu/S+wFJ9LbFVLaaRChKHbdU8wvJ15gKny52HiSGNUdAclKFduoQXwv1hZD7Fr1WJvH4hmVzcuXSwgOycVYaO/WdArRSv4CWC1H6JMucDl0rPhYng8rvc+wIi/Y4JuzOi0PD10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784198688; c=relaxed/simple;
-	bh=QfvC1FGivIYwMNcU81A7ydKOruNfuDO836KrBsFCpag=;
+	s=arc-20240116; t=1784199170; c=relaxed/simple;
+	bh=TAfcUCm/FJRtFHstBcSY6HRJHtBTxuvxYMJlg5wYuG4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EL4GIWWRWCmoVoh5nlZTVzlJ5/uqeeiOXLjQH2KE1C6PF1F6TdmuQ8d9Qaknanc+HdfwaH692ix38KAmhNLnYJENIZt/+ITOhdjbn+OkAldMMOzqNG1Xmu8Mi6tdsZfkIlr8tzkeSqtQmmr6QOBm+02fqYDdzfl64X+uk/GMv80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SqXxYypC; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=YAFMYe7x9CGkzd49gWoKI/YZ7jW7eRUI+YEoyElawDlthidvnURCuLfiP00pMsOHxHT22Yo3QviKSDXSoicQatF0Gm33R6W/4W4kqezhxcGplMc9rWI+pCFu/+oVbXZOczB4T5WFtYee0W4PkpoFgdke8fxrbDxukj4/nvATgSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Z0TP9OOw; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SqXxYypC"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47defd0c1c5so2421190f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 03:44:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1784198685; x=1784803485; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bG7DiFK2AkiQJxlm6ywiTGbJgNucHDn6Zq82S4v139g=;
-        b=SqXxYypCpqoUaKnL+1ZBREuJm+K0EsRLoUl/CwRpnYe/yXcrJOnNa+nDUTo/NFoOWp
-         lncl0kx7gvH0G6f4I3aRSayMztXMUMoY9/i64H4YAarlczoILYjEZ2JYs8ZjYXzBzmqW
-         H5R/EI05tkHFOWiqbWsaJP8/4N7vvZl0KIAhtLaE+STBCqJQK1g45GsRS4kjcbH2Ed1b
-         b4H1mkgX+FsKk09gnEfNTsh/VrPfQP1dTp13Y+unoOOrUovq90z4h11PLdgjunYbgQlo
-         zsBtGRZ0HW4cmVI7ZV8GmyxxJVnCEbqcLBQJ4tkPlLcIqn3p6dZT1KlInfwoIiLQyM3G
-         f5TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784198685; x=1784803485;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bG7DiFK2AkiQJxlm6ywiTGbJgNucHDn6Zq82S4v139g=;
-        b=dIICMHILmpjKQdqAHJxViOkYgLZsCEuNuk3UcZi89awXEs08BxICsWKcjEgxzMzSnu
-         DPpsCAtFEMMvYSWlN0q5s9t2Bcm/JuuMKncHZODDdxey2+YAh4GHctgsLsw6VijtRO5+
-         KkekJqWKy/BkCN1yMaSEzfYepJajbTweQIrDZDtd7pOmm26AiK5vYXzFoxfMWCgfOO7y
-         81OVjBU5f7F0eAHzRym8CxDOdHSWNTR5iMCEon+xzsHKqP5rDm76hOHMNZ5w27/oQKX9
-         GY91jszAlKWVkYvKLh5baxG8Q8+3h8wGeLEHWIz/R8v6MLJmdorWkX/KD92SO6ls647k
-         6bGQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrGLhfTqmeojaeEJyjmKjaEVJDHRTA6Zzh9ZRqJudPmnjupkBwW1naHwpLnlK4oj3foYqz02eUx478=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxK4I0ZwOCvspc0lOiYYLYsl4OKKN7gAL/JGZx1eELRaqlFG4vt
-	xHdvjITEdM9owNESSA5ai3xswSK4anHKABIqQ+TJexffqC2LdTyfaxnYMA41bd0xNgE=
-X-Gm-Gg: AfdE7ckV9su7l8esNtT04DqOc67Euj/oJ5rg0EaDnlG0RpQT98P9Wn/z84dLa/OQXqb
-	4BDj+AmAQPhDl19sSzMzNYUS4NWQq2nBdEjnw05MiUO3/z47bgwrJ+1aJJ+fcIdfeU6QN+y9Z2w
-	19V/ZEsBQ3KDXDuV/5oNMo6Pep6BQi/ciwVTfVzdLoqnCETCKmMy51bynqVp/ERdahUlDSa9T/b
-	ZY6NlokoNKoQCf6YReVEIXB/kPDttdqkIJ28wdcDYFeaxidxW2PPwXuTn0hIkeXMpFLMJNxqaOJ
-	X0wxYnLySV8Gs7KhyH2y1uq9bijoD6ygMbDhrIgiWTa0YxsTg5sPtHz8J57l/GclBtRccLmHDy3
-	+4G4VbqAgqJLCH0qSKgwpLyL6QZuxubJuG34VzIzLNirr5LPkKCr4J0bznXprg2nLSk0WT/+FEX
-	bSziLjHjLfX5OVjw==
-X-Received: by 2002:a05:6000:310d:b0:477:6da:1b6f with SMTP id ffacd0b85a97d-47f2dc9c5b1mr23909548f8f.23.1784198684979;
-        Thu, 16 Jul 2026 03:44:44 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff24:7210:a01c:aecf:c14b:e17e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f464c1f84sm23851143f8f.29.2026.07.16.03.44.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2026 03:44:44 -0700 (PDT)
-Date: Thu, 16 Jul 2026 12:44:39 +0200
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Thara Gopinath <thara.gopinath@gmail.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Udit Tiwari <quic_utiwari@quicinc.com>,
-	Md Sadre Alam <mdalam@qti.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
-	Andy Gross <agross@codeaurora.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH v21 06/14] dmaengine: qcom: bam_dma: add support for BAM
- locking
-Message-ID: <ali2F4dDuLRWJsfi@linaro.org>
-References: <20260713-qcom-qce-cmd-descr-v21-0-bc2583e18475@oss.qualcomm.com>
- <20260713-qcom-qce-cmd-descr-v21-6-bc2583e18475@oss.qualcomm.com>
- <alYGGu7_3G6mJAzQ@linaro.org>
- <CAMRc=MevqXga1u-XC8LYc3hnjjzmdESntsSGYP25XECeeySfJA@mail.gmail.com>
- <alepDnRJmRLbFGRQ@vaman>
- <alewA9ubkYKHpnuj@linaro.org>
- <CAMRc=McZK1=S2SFgpCjtHSRecY0SiQWbBqsUxGX1w4229s2yKg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Z0TP9OOw"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B7611339;
+	Thu, 16 Jul 2026 03:52:43 -0700 (PDT)
+Received: from J2N7QTR9R3.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F40A03F7B4;
+	Thu, 16 Jul 2026 03:52:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1784199167; bh=TAfcUCm/FJRtFHstBcSY6HRJHtBTxuvxYMJlg5wYuG4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Z0TP9OOwkIMvZ272QpmYDzD1w0Nl8JaKp06EN5WyxC32thIqsC52Kl6jN+Xgz/J/u
+	 x5JXf7MEvPzmEYmCDg0XNLboWyUvHAHHLOFySWD3jodc56mMpJwDcjMjBNVUGaqunj
+	 vHEmwagoZtmUJTKjAsCiKdQDKtR6gAgaZBZt6bwA=
+Date: Thu, 16 Jul 2026 11:52:36 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
+	Fuad Tabba <tabba@google.com>, Ben Horgan <ben.horgan@arm.com>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v12 02/29] arm64/fpsimd: Update FA64 and ZT0 enables when
+ loading SME state
+Message-ID: <ali39DG6qie7XTuD@J2N7QTR9R3.cambridge.arm.com>
+References: <20260709-kvm-arm64-sme-v12-0-d0301d79ef58@kernel.org>
+ <20260709-kvm-arm64-sme-v12-2-d0301d79ef58@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -99,41 +55,124 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMRc=McZK1=S2SFgpCjtHSRecY0SiQWbBqsUxGX1w4229s2yKg@mail.gmail.com>
+In-Reply-To: <20260709-kvm-arm64-sme-v12-2-d0301d79ef58@kernel.org>
 
-On Thu, Jul 16, 2026 at 12:43:04AM -0700, Bartosz Golaszewski wrote:
-> On Wed, 15 Jul 2026 18:06:27 +0200, Stephan Gerhold
-> <stephan.gerhold@linaro.org> said:
-> > On Wed, Jul 15, 2026 at 09:06:46PM +0530, Vinod Koul wrote:
-> >> On 15-07-26, 14:43, Bartosz Golaszewski wrote:
-> >> > On Tue, 14 Jul 2026 11:49:14 +0200, Stephan Gerhold
-> >
-> 
-> ...
-> 
-> > I would avoid using struct dma_slave_config->dst_addr (like in v11) [1]
-> > though, since it's more a "address to dummy register" now than the
-> > actual dst_addr of the peripheral. That's why I suggested
-> > struct dma_slave_config->peripheral_config.
-> 
-> As in:
-> 
-> struct bam_dma_peripheral_config {
-> 	phys_addr_t scratchpad_addr;
-> };
-> 
-> struct dma_slave_config cfg = { .peripheral_config = &scratchpad_addr };
-> 
-> ?
-> 
+Hi Mark,
 
-I think you have the same thought in mind, but there are a little bit
-too many odd typos in your example to give you a simple "yes". :-)
-(Why assign &scratchpad_addr to .peripheral_config and not the struct?)
+This generally looks good, but I have a few thoughts below. The key
+things are:
 
-While at it, perhaps we could rename scratchpad_addr to have something
-with "lock" in the name, to make it clearer what it is used for?
-(lock_scratchpad_addr? lock_dummy_register? lock_scratch_register?)
+(1) I think the commit message could be clearer. I've provided some
+    suggested wording below.
 
-Thanks,
-Stephan
+(2) There are a couple of trivial bits to change in the code, commented
+    below.
+
+(3) AFAICT there's a latent bug where ZCR_ELx[63:4] aren't always reset
+    before returning to userspace when we have a return from idle. We
+    get away with that because those bits haven't been allocated yet,
+    but given that they're RES0, we should reset them to avoid
+    unexpected behaviour once they are allocated a meaning in future.
+    
+    This patch happens to fix that, but for the sake of stable I think
+    we should have a preparatory patch to reset ZCR_ELx when returning
+    from idle. For example, rename sme_suspend_exit() to
+    fpsimd_suspend_exit(), and add the appropriate logic there.
+
+On Thu, Jul 09, 2026 at 07:27:23PM +0100, Mark Brown wrote:
+> Currently we enable EL0 and EL1 access to FA64 and ZT0 at boot and leave
+> them enabled throughout the runtime of the system. When we add KVM support
+> we will need to make this configuration dynamic, these features may be
+> disabled for some KVM guests. Since the host kernel saves the floating
+> point state for non-protected guests and we wish to avoid KVM having to
+> reload the floating point state needlessly on guest reentry let's move the
+> configuration of these enables to the floating point state reload.
+
+This description is hard to follow.
+
+How about:
+
+| arm64/fpsimd: Configure all ZCR/SMCR bits when loading task state
+|
+| Currently, when loading a task's SVE and/or SME state, we configure
+| ZCR_ELx.LEN and/or SMCR_ELx.LEN with read-modify-write sequences,
+| preserving all other bits of the registers (e.g. SMCR_ELx.{FA64,ZT0}).
+| This relies on all the other bits already holding the expected value
+| for the task.
+|
+| It would be simpler and more robust to configure all the bits without
+| a read-modify-write sequence:
+|
+| * Doing so will remove the need to configure these registers during
+|   feature detection and when returning from idle, simplifying the code
+|   and removing some redundant writes to the registers.
+|
+| * Doing so will permit KVM to clobber other bits of the registers when
+|   no task state is bound. Along with other changes (e.g. when saving
+|   state), this will make it possible for KVM to expose a different
+|   configuration to guests (e.g. disabling ZT0 for vCPUs, even if ZT0
+|   is exposed to userspace).
+|
+| When SVE and/or SME is not exposed to userspace (and userspace access
+| it prevented by CPACR_ELx.{ZEN,SMEN}), the values of ZCR_ELx and
+| SMCR_ELx are immaterial, as all functionality affected by those
+| registers will be trapped. Thus there is no need to reset those
+| registers to ensure correct behaviour when SVE and/or SME is not used
+| by a task.
+
+I've deliberately avoided detail on how KVM saves or relaods state,
+because there are a large number of interacting pieces there, and I
+don't think it's material beyond "this change is a step towards allowing
+KVM to expose a different configuration to vCPUs".
+
+> Provide a helper task_smcr() which generates the value of SMCR_EL1 to
+> use based on the task struct and use it when we set the vector length
+> SMCR_EL1, currently while handling SME access traps or FP state load.
+> 
+> For consistency handle ZCR_EL1 the same way, currently the only field it
+> has is the LEN so the change is less meaningful there.
+
+I think we can drop this part of the description.
+
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/include/asm/fpsimd.h |  2 --
+>  arch/arm64/kernel/cpufeature.c  |  2 --
+>  arch/arm64/kernel/fpsimd.c      | 72 ++++++++++++++++++-----------------------
+>  3 files changed, 31 insertions(+), 45 deletions(-)
+
+[...]
+
+> @@ -402,12 +421,13 @@ static void task_fpsimd_load(void)
+>  
+>  	/* Restore SME, override SVE register configuration if needed */
+>  	if (system_supports_sme()) {
+> -		unsigned long sme_vl = task_get_sme_vl(current);
+> -
+> -		/* Ensure VL is set up for restoring data */
+> +		/*
+> +		 * Ensure VL is set up for restoring data.  KVM might
+> +		 * disable subfeatures so we reset them each time.
+> +		 */
+
+Let's delete the comment.
+
+The existing principle that we must restore the length before the data
+also applies to ZCR_ELx (which has no similar comment), and the general
+principle that KVM might clobber the register is common to all the
+FPSIMD/SVE/SME registers.
+
+>  		if (test_thread_flag(TIF_SME)) {
+> -			unsigned long vq = sve_vq_from_vl(sme_vl);
+> -			sysreg_clear_set_s(SYS_SMCR_EL1, SMCR_ELx_LEN, vq - 1);
+> +			sysreg_cond_update_s(SYS_SMCR_EL1, task_smcr(current));
+> +			isb();
+>  		}
+
+What's the ISB for? That mysteriously appeared in v11 without
+explanation. It wasn't in the original code, prior versions of the
+series, or my suggested rework with the task_smcr() helper.
+
+I don't believe it's necessary to add an ISB here.
+
+Mark.
