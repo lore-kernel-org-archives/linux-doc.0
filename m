@@ -1,28 +1,28 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011002.outbound.protection.outlook.com [40.93.194.2])
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010039.outbound.protection.outlook.com [52.101.201.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B4F37F8A5;
-	Thu, 16 Jul 2026 08:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711FA3F4DC5;
+	Thu, 16 Jul 2026 08:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.39
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784191780; cv=fail; b=c5Qa5P03+kIIfoBiRzFZ7sRdhc/3BTgPDv87tddejlF904QOhdkp+3FqjGhXRCrINEcmbYqPlzkdgs8Kmi4oz2dtqGPppDI+kfFhGDgV/AN3RT18byy5EQG/s4dygkoFemaLoQJRAT09PLS5uT78g1Pb939qU72Yc6DZO6YqNUg=
+	t=1784191786; cv=fail; b=rKPEEYakxkT0B6QPkJt1IHGK9m97oCrtNalB0RVGwm3LNXgr8cdqEQwqcaFutgvZTKFXumVbzdi9ULCtGr6EDpVWqTRoEeViTO9WQ4CEhWqrKO44ogNaoWR7C7jLk6hkdFYxZ6yad/2vgxc3HRUpshGbkYMyva83DOM9YBPymZc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784191780; c=relaxed/simple;
-	bh=RoW1xLNqkr6WVJSgd7G78abNw+yVpijwdETVHxNBDkw=;
+	s=arc-20240116; t=1784191786; c=relaxed/simple;
+	bh=VDZwevIGyxcqVv5LfG6ngzjHQrHMj4jQqSj+WWNT0o8=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cq0CuFDG7y0Ju+FrBH4yjmtxtbcWoiPqdiNeSCt9KO4jX94VTRn4zwoFrxgL+oKkpHyv/ZigEvQt2qCGbXXjHiZzVNMPYTUnfEhmYkK0I0arR1ffaNpLHw6YgdV4PpHSJjUm5ID+0Cq3TxXmiGKDxbh2eMuv48ctFwFIQ12uTIQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=VZ5w52Oh; arc=fail smtp.client-ip=40.93.194.2
+	 MIME-Version:Content-Type; b=qRHJCEsUBr4wwWGkDfPcNt2f0xQ/a0jPrJaXZPh3x0vjZnvJBskDDOJJqSYUqI3RvgdX0IxpdWfbVThU6vnsY/ExVMZEZ8+qkiRiplRbK9OEwVYnjfouA2QLGj8kHPxxvAM+/dgxebez4BGk2AjH/yQgKF6MYhrOKmr2JM/UWpA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Vz7bSCuK; arc=fail smtp.client-ip=52.101.201.39
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="VZ5w52Oh"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Vz7bSCuK"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=az19UvTueNAlQSeOfRZ9/47w24tOgsBamJn3zI/5Vkr6w+c3Z1d7uvk8Mi4zLki5GHV9XrZvD8lMjCGYj8AMPgtMje4x9N8EkP2jS5Bv407mM1Z6UNvXSuFM8W2/b37hM4jS2mvDcVqPVbfzMBI0LJDLkpRMghRaBGdjrqSHoeDUrdQ/03/gxf6oWE1U0uUbTRmMOVNrv2b/80NzJGmSIBVG8hFU9GzF0fWs/I8N/rpp3YqlND8YECcOtVeNIJuzvT8SFJK3AcWeH0au4IfWl0Rt98zlKmmiPj3dtsPd4vWMVNw/L/pEfTJf2qIAxDuDhymivWVm6n9N+sU29uGVig==
+ b=B4CqN7LujXMZQE8/dSoUfkAQ34GPv+oJfVWcyLAl0kTPTexbAXnaEG563OZtcizvDmv8aWBis78JThQq/j2F8K/MIN6dgbNz76LOq1P7ipluBqQIEm3BoMkh8FnoAR5mRRylJSjiDwQ5PjrFg6YgT6wHCV3Unk03P8YjI0Fqu6NzP+CvMt9LyB/yXDvfc+bLBSHJVwXp5mLCdHF91pzBmBx5/T5Jbt1h4lLm1QKCtYA1x1Q7KFGmLohiutW9PvNJVS1+D0//YHhCWSS6GOuqbMZ53D6AsmW87YCkGJBDbxoYX9hSYoxSDLAfCdf22Vksr25iBSGtvl9puVbeOf/xTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2rQj2u02+BlzS7ShDyNMjWS9LBoOsUoIsCoVRGDz84o=;
- b=BRnYiorbn/kSxHm23jvG8qulWEKfjk9EBDzEtDIkCi4xYCSbDYvdw7ATv9Zf6iF1EZOF4+hUU1NSO+ySLBYpOpBLifYWQu12VHYttWSwgN8xsb2FVUdSQtZDZcuigJs69QKEaDMvrskkb26z3qGnqkvrXSw8FKmTP8162mJxoRmI80lWNLOUgPEdXeuplMyvLzvIzI0zLkvtpNCkhbHMQdpdP58F4eW+UQ0uZViQG3UpUO6VWcWes4yGsJ/toIr+RfLZqgOGjLBDqMfQiE43YQoPWP2xm7RQj8ggQeAbsrh/Ca584+S2Rb/hafVfcjSELMUP8Uo8BlkbZlu/YzDlzA==
+ bh=7xpk7XunyHf8LwjQM12vNWvMtbCdxpmSoDfd47nPtW4=;
+ b=l+hQHS6HQEBE3CUHgeCXwe3314Il/vkKMS+zZPsdqMiX+gmsuZaudJbObX1GYBGLEm75catHC3w+Nn7/r7Qh1/zPgPK3m0s0d4CzPQqksNq93gYwjjrOB94zULmKQ3f82eUYaqYT+mIdpuL8hxm3R8iwRqETm3L2UHDskmAlZ+7kWjDzMRhLVrP1wDZ8Uev2IQDt+uFwb8EmmBQNQtv4Kwpo49vC/Y9pVjrZ0JrzvyVDLnQAejV43sDT3QOPcprj+/KgUaizP3WEs4AP4nK72k+WrwJT1ojSm9fAhb05y56gV9opak5OO5fBpMeebZDNLKtuTJE+A+z+c8iAW/vmEw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.118.232) smtp.rcpttodomain=resnulli.us smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
@@ -30,18 +30,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2rQj2u02+BlzS7ShDyNMjWS9LBoOsUoIsCoVRGDz84o=;
- b=VZ5w52OhkiVNLpzngM+CIxOvVvKAkqIEajtf2sfup/8DPE3KDTKxQVsWd93JN78aORofUyvNRShcQTxYCWS+GmYYQvlusjnKpts77wgeK7BCN5fw7WCJbWnDyK/NmQs+wwlmmiGH1R79RwWkLKRwbH7RwbCR9GdbFIJyofCyg95AtSSAShkzJn1wsFuecyexuBOv5RE/yRwHOPVV1JOxXiUftkVwG9GvNFQBOFzDqi1jCmL7yUr0O6hoTp0G3Pm0vE5vekSdtHOmRAX7d9aCvDjTowM2gUCUjzgrM0sXMkFa0T+pxOGlafipd7AhFYA9tMStYUNr6SA40h+NVzpBhQ==
-Received: from MW3PR05CA0003.namprd05.prod.outlook.com (2603:10b6:303:2b::8)
- by SA1PR12MB6821.namprd12.prod.outlook.com (2603:10b6:806:25c::22) with
+ bh=7xpk7XunyHf8LwjQM12vNWvMtbCdxpmSoDfd47nPtW4=;
+ b=Vz7bSCuKTonOFNHlspCQ+3n6hjXZM1XsmhMuXoO7R3IweHx8ObuxHTMMVggtmKQALyOGH3rFiB6bl/lQigVccbrW2W+Akv/6dy+I40O36AslqZ5nWgYLVA0IV/YC3xP73Mk5QXTsVTqP3CGGWGSPzpc69mEI7gvq/5/0Wityohbb7L5QaIkGKVN7UtwqX/9H4rEP9gO9DtAARoCEnBVVqSrFsE44BCAQ/tH0/787ZpyoqpXVxu9LQaRgGPMD5U/ZELD1duBJvNmF3epdgKM8eq4i71YyPcZILVHL4QRBnCZAlKLtrKnzJdSR8zJIblwFgflvu/orwQDF+eX/NZXxdA==
+Received: from BY5PR04CA0011.namprd04.prod.outlook.com (2603:10b6:a03:1d0::21)
+ by BN3PR12MB9596.namprd12.prod.outlook.com (2603:10b6:408:2cb::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Thu, 16 Jul
- 2026 08:49:20 +0000
-Received: from MWH0EPF000A6735.namprd04.prod.outlook.com
- (2603:10b6:303:2b:cafe::a0) by MW3PR05CA0003.outlook.office365.com
- (2603:10b6:303:2b::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.5 via Frontend Transport; Thu, 16
- Jul 2026 08:49:20 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.10; Thu, 16 Jul
+ 2026 08:49:25 +0000
+Received: from MWH0EPF000A6730.namprd04.prod.outlook.com
+ (2603:10b6:a03:1d0:cafe::a4) by BY5PR04CA0011.outlook.office365.com
+ (2603:10b6:a03:1d0::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.223.12 via Frontend Transport; Thu,
+ 16 Jul 2026 08:49:24 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
@@ -49,20 +49,20 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.118.232 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
 Received: from mail.nvidia.com (216.228.118.232) by
- MWH0EPF000A6735.mail.protection.outlook.com (10.167.249.27) with Microsoft
+ MWH0EPF000A6730.mail.protection.outlook.com (10.167.249.22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.245.5 via Frontend Transport; Thu, 16 Jul 2026 08:49:19 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ 15.21.245.5 via Frontend Transport; Thu, 16 Jul 2026 08:49:24 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
  (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Thu, 16 Jul
- 2026 01:49:04 -0700
+ 2026 01:49:08 -0700
 Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Thu, 16 Jul 2026 01:49:04 -0700
+ 15.2.2562.20; Thu, 16 Jul 2026 01:49:08 -0700
 Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com
  (10.126.190.181) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Thu, 16 Jul 2026 01:49:00 -0700
+ Transport; Thu, 16 Jul 2026 01:49:04 -0700
 From: Mark Bloch <mbloch@nvidia.com>
 To: Jiri Pirko <jiri@resnulli.us>, Eric Dumazet <edumazet@google.com>, "Jakub
  Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
@@ -71,11 +71,11 @@ CC: Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
 	Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
 	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
 	<netdev@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, Mark Bloch <mbloch@nvidia.com>, Shay Drori
-	<shayd@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>
-Subject: [PATCH net-next V7 1/4] net/mlx5: Clear FW reset-in-progress bit before reload
-Date: Thu, 16 Jul 2026 11:48:49 +0300
-Message-ID: <20260716084852.549909-2-mbloch@nvidia.com>
+	<linux-doc@vger.kernel.org>, Mark Bloch <mbloch@nvidia.com>, Jiri Pirko
+	<jiri@nvidia.com>
+Subject: [PATCH net-next V7 2/4] devlink: Factor out eswitch mode setting
+Date: Thu, 16 Jul 2026 11:48:50 +0300
+Message-ID: <20260716084852.549909-3-mbloch@nvidia.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260716084852.549909-1-mbloch@nvidia.com>
 References: <20260716084852.549909-1-mbloch@nvidia.com>
@@ -90,96 +90,102 @@ Content-Type: text/plain
 X-NV-OnPremToCloud: ExternallySecured
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000A6735:EE_|SA1PR12MB6821:EE_
-X-MS-Office365-Filtering-Correlation-Id: 850634e5-aaa9-4458-97f1-08dee3172055
+X-MS-TrafficTypeDiagnostic: MWH0EPF000A6730:EE_|BN3PR12MB9596:EE_
+X-MS-Office365-Filtering-Correlation-Id: fcaf9319-781a-44f6-97a5-08dee31722df
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|23010399003|376014|7416014|36860700016|1800799024|10067099003|56012099006|18002099003|22082099003|11063799006;
+	BCL:0;ARA:13230040|1800799024|36860700016|23010399003|376014|7416014|82310400026|22082099003|18002099003|11063799006|56012099006|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	7wBtXMm7SI1whARalnp3vPHskanVQaiPg+//ds0jgEIBRz/At2iPynpymLxuRf0QV08S1W1ED5Tm2nDHT65L7J8FjsQM7WAa6wa8HK+jpTj3OvfuRyb+mfd1LR/X3PRwtrp/S+XErMffsT6uWSOu3ALhnGdJssdhIcwSa+AQrOWIB69FCEueeCbv27lyD2GlM87WI1QGJr+RAdqG9hC1LqNiDpfC70LhwD8EgfjnJjSFc7/h2NkRWs+E2x2JQg3jrhrg3uMesWEi5KJlxj4ZBGLZV+VDXqsg7LJIVP3OekjQOB/89uhTouXxVHmoZAYo3/OZBIScv6vsemBVZj+oZvqLFH8oaxbI9SaiK2V1PFITZ21NPAiz7raQZy/0nlu3DRtNtJsL7XKI5r0uzey+3NHrvkaUGJCRaCH33MqCToe7N2S9FlXuxCDK46IkwVolcWm1W/arP7p1BIHFkIzf6V+fy1M8ba1jr6UHoud3+/CZxU17eJa1HybLgbZx3GzHUDgmwtlOB4dTQHUBRzRmBtlQlFLRf9ngvF3ip/v4fljBgPuXScdN0GA521CdDTUsCCpANz0/xapEiVzMJqKls4lzZLhcDlvReuhkY/4GD2638DjX0xvJpWxFLi55RFOcBiZCGXr3NoP3j/nNHXmTtFCrW3Sxi+f5MjGF3PYSuY+L5qEiWhrohUX043gsacHs
+	FOAG14MG2sLooyZycIOAezpkyQRP5NtwgCxsOm9wSyK6YUrRxldekFuF/UMcdWJSSbdYo/i7hbfeIXyQWf6GZmFNBz1ewkO4rueXrxSXBoJmfHEdSQO8y1lCFNA4cPxViLE555GGxKeXhdh0L4C1ukIteV0vx0ZJOyFTYETH2xIn8P89jv1gQTx+Y89aVZeMEOhm5/7PV5ns32LUlSVv2mV1trBgc2pH7sVYE1jsM8l46xnQeRPUMBUMma9Ri5IwpmlQsl2uW5dVQTNUSYxyQN5sepL3xrXnwMzhOD49NrImpWqEpbgrTFEKJ6aoARw/2obKe+Fj20fnvgyi9jt3cYLxOCB7xHRPtdijBdZimufWiS3lQ06D2ng8AH8GEO65tEKxpz3f0Ceyote/zKLBMW4SxHUuH78xxx/7ci1moOf0Q+U9lOJOl60hPk4LlPN0nENSsT0G9MVdkA3DRPIDe+c6kHNlAJBsbXzWdDolC2PcH1hZcnMiPlD6OZ5uAy2dCBhVZhzVkVXzuAvedlG9rQEpyPR/9N9MpKWziyLFSQ6a8np2XZga1P4vckkwEJTB3J/H3CuUCAOnVbWhSRywhDwEWB3lXA8uKmPv99MhmIU619skS9CMn2fi4l+hqF4Xe8lnxrdhVyxOoB0G50CCzpfabUu8d7nraKe5bCzzh/6Si87enJkBIiPEyHQlpEeN
 X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(23010399003)(376014)(7416014)(36860700016)(1800799024)(10067099003)(56012099006)(18002099003)(22082099003)(11063799006);DIR:OUT;SFP:1101;
+	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(23010399003)(376014)(7416014)(82310400026)(22082099003)(18002099003)(11063799006)(56012099006)(10067099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	9dem8+YhAn5FDf2jl4sP/uZHZabv4ewSKpBmh2l8bj56+XxkuXW8D+xO9RNET2Ponnmv7nbpYhvIQKW/7YxmT8sIbnp+DT/+aF87Kpg+YUCGtwjz4rKAOE53lpqfNkjS7P6KCA8ULEgajx3xmYsKjpUgVMBXgRmXIWkxvKV8Lix14FXeFWVEC6/4DhKFL3J57UepH7W7kj9L3Yi0H+LDkNvPEtq4hIqfNf1v38e7j99TpQA8KQfaSV52odmwbU/sM+PApQLqyMxjn0DNjSgpeGnPaL4JTOcGxB2NAFUY7KwBI07QgbhPmPcfcL30WLP0hkPk8a1+SJ3KmZKHErYTdGDilQlsdMw3OMpRJTOum04BJrrKnW7nsvkac2cQMAsruMNOScI0qnvqk1M+Q8QxRKcx5MXSxVrKQZvM1Dxv3T//vZvAYkrsd1XUFty8UMdM
+	kCQWhADhUWtxmEMPGvpzXrt4ssqoGXtYGOeHQJ4hFL66bCiQUPminQ5rKd/EqBUdjE8pJubllvKd0maTghgQFleeo6QXS8j1zACc+Fxu3JIBoiV4S0KchS5oz5/MLOmXdIK0sY2Hjlg3UoG52nK2x7ueQdnOgscSpaQ6x4Oj/VzUvN72P9YAdoxQoW+v8Oc1ymkTVZFS7mx2wRkupDW89wasM7g+iZESljhSOcrB5QAKp9TcRdvICPMMRAyLqGJmseI26Z+rXYnABJBwdwvSstYbuIsfzDhXwpz9F+BNInu0h/bCF/K+hSnS5Nj2KxP7AXZXuy/OiQhJXgOiteCmSTrQHD66KxIq4stX1HkE7VKA/C1ccSIL2jaM+pkKpuI4qCTuRKjO1N32PDkmM7pOXU7iR84FKJmhP620LmDa0K5Y2KlYK31D3lb727K8f6dl
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 08:49:19.8397
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 08:49:24.1029
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 850634e5-aaa9-4458-97f1-08dee3172055
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcaf9319-781a-44f6-97a5-08dee31722df
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	MWH0EPF000A6735.namprd04.prod.outlook.com
+	MWH0EPF000A6730.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6821
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR12MB9596
 
-mlx5 sets MLX5_FW_RESET_FLAGS_RESET_IN_PROGRESS when acknowledging a sync
-reset request. This bit blocks devlink reload and other devlink operations
-while the firmware reset is running, but it was kept set until after the
-driver reload finished.
+Move the common eswitch mode set checks into a small helper and use it
+from the netlink eswitch set command. This makes the same validation
+available to the devlink core path that applies eswitch mode defaults.
 
-Clear the reset-in-progress bit once the reset unload flow is done and PCI
-access is back, before reloading the device. For a reset initiated through
-devlink, clear it before completing the reload waiter. For a reset reported
-through an asynchronous firmware event, keep the unload flow outside
-devl_lock, then take devl_lock before clearing the bit and reloading
-through the devl-locked load helper.
-
-Reviewed-by: Shay Drori <shayd@nvidia.com>
-Reviewed-by: Moshe Shemesh <moshe@nvidia.com>
+Reviewed-by: Jiri Pirko <jiri@nvidia.com>
 Signed-off-by: Mark Bloch <mbloch@nvidia.com>
 ---
- .../ethernet/mellanox/mlx5/core/fw_reset.c    | 28 +++++++++++--------
- 1 file changed, 17 insertions(+), 11 deletions(-)
+ net/devlink/dev.c           | 27 ++++++++++++++++++++-------
+ net/devlink/devl_internal.h |  3 +++
+ 2 files changed, 23 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/fw_reset.c b/drivers/net/ethernet/mellanox/mlx5/core/fw_reset.c
-index 07440c58713a..7283e5b49eed 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/fw_reset.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/fw_reset.c
-@@ -238,24 +238,30 @@ static void mlx5_fw_reset_complete_reload(struct mlx5_core_dev *dev)
- {
- 	struct mlx5_fw_reset *fw_reset = dev->priv.fw_reset;
- 	struct devlink *devlink = priv_to_devlink(dev);
-+	int err;
- 
- 	/* if this is the driver that initiated the fw reset, devlink completed the reload */
- 	if (test_bit(MLX5_FW_RESET_FLAGS_PENDING_COMP, &fw_reset->reset_flags)) {
-+		clear_bit(MLX5_FW_RESET_FLAGS_RESET_IN_PROGRESS,
-+			  &fw_reset->reset_flags);
- 		complete(&fw_reset->done);
--	} else {
--		mlx5_sync_reset_unload_flow(dev, false);
--		if (mlx5_health_wait_pci_up(dev))
--			mlx5_core_err(dev, "reset reload flow aborted, PCI reads still not working\n");
--		else
--			mlx5_load_one(dev, true);
--		devl_lock(devlink);
--		devlink_remote_reload_actions_performed(devlink, 0,
--							BIT(DEVLINK_RELOAD_ACTION_DRIVER_REINIT) |
--							BIT(DEVLINK_RELOAD_ACTION_FW_ACTIVATE));
--		devl_unlock(devlink);
-+		return;
- 	}
- 
-+	mlx5_sync_reset_unload_flow(dev, false);
-+	err = mlx5_health_wait_pci_up(dev);
-+
-+	devl_lock(devlink);
- 	clear_bit(MLX5_FW_RESET_FLAGS_RESET_IN_PROGRESS, &fw_reset->reset_flags);
-+	if (err)
-+		mlx5_core_err(dev, "reset reload flow aborted, PCI reads still not working\n");
-+	else
-+		mlx5_load_one_devl_locked(dev, true);
-+
-+	devlink_remote_reload_actions_performed(devlink, 0,
-+						BIT(DEVLINK_RELOAD_ACTION_DRIVER_REINIT) |
-+						BIT(DEVLINK_RELOAD_ACTION_FW_ACTIVATE));
-+	devl_unlock(devlink);
+diff --git a/net/devlink/dev.c b/net/devlink/dev.c
+index bcf001554e84..119ef105d0a7 100644
+--- a/net/devlink/dev.c
++++ b/net/devlink/dev.c
+@@ -702,6 +702,25 @@ int devlink_nl_eswitch_get_doit(struct sk_buff *skb, struct genl_info *info)
+ 	return genlmsg_reply(msg, info);
  }
  
- static void mlx5_stop_sync_reset_poll(struct mlx5_core_dev *dev)
++int devlink_eswitch_mode_set(struct devlink *devlink,
++			     enum devlink_eswitch_mode mode,
++			     struct netlink_ext_ack *extack)
++{
++	const struct devlink_ops *ops = devlink->ops;
++	int err;
++
++	devl_assert_locked(devlink);
++
++	if (!ops->eswitch_mode_set)
++		return -EOPNOTSUPP;
++
++	err = devlink_rates_check(devlink, devlink_rate_is_node, extack);
++	if (err)
++		return err;
++
++	return ops->eswitch_mode_set(devlink, mode, extack);
++}
++
+ int devlink_nl_eswitch_set_doit(struct sk_buff *skb, struct genl_info *info)
+ {
+ 	struct devlink *devlink = devlink_nl_ctx(info)->devlink;
+@@ -712,14 +731,8 @@ int devlink_nl_eswitch_set_doit(struct sk_buff *skb, struct genl_info *info)
+ 	u16 mode;
+ 
+ 	if (info->attrs[DEVLINK_ATTR_ESWITCH_MODE]) {
+-		if (!ops->eswitch_mode_set)
+-			return -EOPNOTSUPP;
+-		err = devlink_rates_check(devlink, devlink_rate_is_node,
+-					  info->extack);
+-		if (err)
+-			return err;
+ 		mode = nla_get_u16(info->attrs[DEVLINK_ATTR_ESWITCH_MODE]);
+-		err = ops->eswitch_mode_set(devlink, mode, info->extack);
++		err = devlink_eswitch_mode_set(devlink, mode, info->extack);
+ 		if (err)
+ 			return err;
+ 	}
+diff --git a/net/devlink/devl_internal.h b/net/devlink/devl_internal.h
+index cdf894ba5a9d..af43b7163f78 100644
+--- a/net/devlink/devl_internal.h
++++ b/net/devlink/devl_internal.h
+@@ -348,6 +348,9 @@ bool devlink_rate_is_node(const struct devlink_rate *devlink_rate);
+ int devlink_rates_check(struct devlink *devlink,
+ 			bool (*rate_filter)(const struct devlink_rate *),
+ 			struct netlink_ext_ack *extack);
++int devlink_eswitch_mode_set(struct devlink *devlink,
++			     enum devlink_eswitch_mode mode,
++			     struct netlink_ext_ack *extack);
+ 
+ /* Linecards */
+ unsigned int devlink_linecard_index(struct devlink_linecard *linecard);
 -- 
 2.43.0
 
