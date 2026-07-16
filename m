@@ -1,537 +1,181 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F152299A84
-	for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 02:11:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D7831F992
+	for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 02:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784167869; cv=none; b=fe0LfTrUtMu1vtEqOpKPb6AtOVerKS5MIKmsj+/lTvYjolPeDdqBg5wcsuQo9haly59Qm+FdhV8cX79tZBaBMqLKC06WVa2H/dPO9JUeJCMkc3zuYMBA/xidVDHx+Er9KgCVA7hSDcR/R1ma1UTwuddFeqKk5CNyv+eBKBaZEkk=
+	t=1784168494; cv=none; b=TX12s6z7YYjtG70m8pOainE6l3LQmZcWeQew/Qc917hy9EEfPTGPwFsMgexL5HIiWjIpkqeQ2HQfxzPc2+yqDAFAWx32SEiKltMaqxxRNYEY0iGyxDw55Wr2wO70AxHG+0TA1+xtGLoUvnsnnNXWWuK5QjQTj8AxvSkarPT/N5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784167869; c=relaxed/simple;
-	bh=nD6pyuHrdw9jxlIXj5TFY3agQVhBIfrJ4Y3pm7ciWAQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A6hJDh3RLOgguvFtEWoWTEstwkhiAwJnVQr/Nmp2G2fuUtiWgfx83Cgsv2lKVPqC5Q4O90eH5aO3ba7Uh2VS0Cnw9s3GrFFEBZIoAJmqpLMUFvhc3LWC3tiaVhC+raBSx4SaTD39QykbwFZnMCQ692QONLMByFLgnMn36MCoWBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rQOGfGlp; arc=none smtp.client-ip=209.85.215.169
+	s=arc-20240116; t=1784168494; c=relaxed/simple;
+	bh=4xnAas/mNVP8Dx0YmUY95pU1rpf60kqOtiatCadZ/LY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sH/1gLn75ZmkQ/4JhJeHq9j2LaMyBF3urxvn57pZTyfGoYLuYuU1A0AkYLJ0mZ2lo9/Lr+HCH/80eWCHyXk9hfbceIo4HiHYsybsOSO7aeHVnE1WaDTixN+hnHqmT90tnKFDa39BX04oHFWbJQ6tl3wtQjw97HxLqVEkEeIjMCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mUlOuah+; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rQOGfGlp"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-ca80d708489so70723a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 19:11:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mUlOuah+"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-381ed661712so6521700a91.2
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 19:21:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784167867; x=1784772667; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=u5y6VGFbM+caqLWfhd1pmJToWZ+jF5fNUg6udSdeK3U=;
-        b=rQOGfGlpXp7/1maR0jAhpcLYWgRWX/cfUrPQkubdeJmDQzSGIR0wPCgofHXBU45S56
-         va1vyRUkGjk+Xn6AEuQBWgkc8gBLVlIHiVkE5OQfuPxPSjBaw193fBv3YY+d7HJ+Cl2a
-         5GukqCMPsGcMvErBs98RfRojf58Yi4IQ9IbANm+nkwxlbNGG2W3DTMB4qhfeUNYN6Kjn
-         b5tanhhB3W2QvMqSegMdlUVok4F65mb8O2PDvEImqDXYXB9x6gu+RdBwffR3TyMtEEnf
-         tL12LEnK1sCpBaDiHuksZQqyQjhDndf2E9EbC0nG8bExQhS+X3lZTgCG4lU1K1tZa194
-         Ea/Q==
+        d=gmail.com; s=20251104; t=1784168492; x=1784773292; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=hEDMeStux/KKDKh9A+CKQwEHTpzd0skTIZYkeBHU1Ew=;
+        b=mUlOuah+9/NZ8kbceCHa04FhwXAqj6h7+OMKY9WX9ix1XarDnIvxYe9eO8O6da4F1c
+         itnaPJu3N0qHo/Pk3Cb5jmI+GBZW+PSackISqMw0iWccViXjd1bITFnK/k+pA3EA8arN
+         B1xjMOs+6iR4qqyD8ASBqI7wTig0q3IYRP3rKRrIS2QFtzzXQHoKGzaqBU2zBhqdFkTK
+         vZWiYdGC/q1+ElQvrw1ONbA0tzVh4x6H0oUPlHSU/LRuCM36dVJgyAJNYnSbBETG8Rzq
+         GRvGif8I7g9Syx1dRoUEnJGuKia1RAB4dVi7LsCuqvwHssgobIPg5UD7brUlZhgmo4fU
+         LDBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784167867; x=1784772667;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20251104; t=1784168492; x=1784773292;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=u5y6VGFbM+caqLWfhd1pmJToWZ+jF5fNUg6udSdeK3U=;
-        b=pksZMv9ulzDUqUDaSRdAE7Bu4UteezHNLLnANN/OgYi21Vfj2Fifm2naQj1pnMJhNE
-         J8XnTC+T2g0kwhcxPVFbiiG7YVQ9YC24cjCaBvzSqHdVrBdadPyJZTveZE93PpuFdeR1
-         agYLY/KZI+w38VcVtHAROVTqEMnZH5/SKFRp/C+Rb3weCZcyhV1v2yYODA9+eIeFNtka
-         RHg2i8W/24AVoyp4A6JItUKahbCFNci3oldnaEj0/m378f3LGClrF/1QIxfzugbODk1O
-         rKlZ/I/7rUpM0e57WOLmGscunAQvFJemEnGgZTJ7/3y829FW9km6bik0v++4PCzhVjrv
-         VcsA==
-X-Gm-Message-State: AOJu0YzLxxm1qAGvNQIqmPC4XZVuD58I8xNFgT7XGm+YCzn0DFBLXb+Y
-	FXFDKTlUigQ60tZBlUWgQxXf1CGtxNKAKy83/Jw1N7Q2r0iS5Wu17k+v
-X-Gm-Gg: AfdE7clxxTomE/8zA+c/3ykgcLeIqzWYmKTVKvLm37ctTMf75Oa4DeGPH5MF5yLakva
-	Wvm8jj9TQCxt1Z4q279fp6glI163pILXt7Fp3esXI9NRnGhE5u3Dhgi7WoBa3pClKcgjhkJoZ86
-	KsioWHyMBN36Osi7FNFtReJ514NpiKuq4zG7byxZ0pMuzEOAuvbyEDNDMi40VCuw931zev1Bfnx
-	NRuuAj73YJjdboP/KbIDhvW66EWao67KIe8m2A7mxzZ6/GzrbYPD2Hgy+ZLZP+rVY0F6TxzaZg5
-	sWQhaaryz7fR18tISFaY2arfCjgZmViZXj1PUWY0FsY3EwcEhwT80ZAL2uQW+Hh+2f54c7TzUUQ
-	8V8FMkWc+MCy9S6Ej0nzx18wxecHYr4c5oWcFWLqZNCjKkZrYprgIauzibFVhRiXh/GhcVo9iUG
-	i9zPtAFBcGFH5ZV/294JCXM1hBNHgIcBzuQXjheWJRWV4TAp7EDma9un94V01QzHQmukvIv5Srm
-	g6S1W+6ZzjPSsm94Z0+nHMs5rzslg==
-X-Received: by 2002:a05:6a20:816:b0:3c3:75c5:48d5 with SMTP id adf61e73a8af0-3c38d8cf132mr517241637.4.1784167866399;
-        Wed, 15 Jul 2026 19:11:06 -0700 (PDT)
-Received: from parrot.bbrouter ([200.218.229.14])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13cd429cee1sm6979209c88.6.2026.07.15.19.11.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 19:11:05 -0700 (PDT)
-From: Daniel Pereira <danielmaraboo@gmail.com>
-To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: [PATCH 4/4] docs: pt_BR: Translate deprecated interfaces guide to Portuguese
-Date: Wed, 15 Jul 2026 23:10:12 -0300
-Message-ID: <20260716021013.48025-5-danielmaraboo@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260716021013.48025-1-danielmaraboo@gmail.com>
-References: <20260716021013.48025-1-danielmaraboo@gmail.com>
+        bh=hEDMeStux/KKDKh9A+CKQwEHTpzd0skTIZYkeBHU1Ew=;
+        b=DvUlzmfR72/QniGzb+blN5jYqLL9zDPdlchnFX496MGuKwfkzwRAFRSpVoQe8DXs1z
+         gRutkhrcgfyjL7G64gNQi5M03XGbP2V9YUA8IYmTsfzyDOYfEI9QQtWqYGJ/eHyVfIUy
+         hqi7g+S5764MiKGJgz6lvgkkIvJeHHphcgnOcqoiSPIN4cu6IW/hD2NgsTvB4uGLxpLf
+         Wq5HlLqCZ5HuvRuEy9TcNkgLiT+OfNsdMGV2w3Lt+hzU8Y+g1U8OK0pWvoM1tMH3lVDt
+         p8YNDhmocs8czuzS4bckQ80dmLAiKdDrStC1SRNn230fV/Ixz3pZ/eZ3/MIIzDGWSZbT
+         8R/A==
+X-Forwarded-Encrypted: i=1; AHgh+RrTxcjmjXWd/2SObxIzfOmhV3pFL4x7KNBSAwfpLyNsyyMWWAlEOhFSrx2y2rQCy2/+1XwAFH8ir1Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxV7TeyWDMLNwdHeR1RPmPmGA5LQMrWXuI7Bj7twWidzvwSx16A
+	i+u/fHZwYtcaSX5Jmt2riTlc4CpWayUnYwZrOaXc3Qhx4Xg60w9QxnbM
+X-Gm-Gg: AfdE7cmzT3JrN9wlZ/HQjTe/XReV/UKlIIqkMXLFIjj8kPHsBmaUuzmPRR9LcCgXYZZ
+	tue/8VgRvJDVxcYRmlWgahJ1FwG1iqXs8aWpqiPrsM9OxYrvN5WRNh3XYdIUC8ZpTp8q4bF8WLl
+	YBZXT4PTAM7qQU8UC51ZF8BJlSK6D61NwlwOpzN+Lxp79BeqKuyHfZYgVKnPyzU5h9544TGI/KY
+	mEmPYEJDIbqk4lpm4FShMTjE7MVkyJI7jNxew5OVjC50I+IQLJg8FfNFMx/nbi2/D/WWtucZCb+
+	SHchSWT6ffvCwTkDkgKm5Lae5JWFwmr8pt2NoqIuA/JlAFuzvJOMhTODHz53uO0O5qcxlHwMBrw
+	grEn+h4i4NrR75aEwYHDKCkXdv5xiZd3q9iW2PXuh6ZsYwUK871rS5GhcJq0BK7x3C0LGwPeFxE
+	oKqjU1BTblv0EiunjKKrbuMJr+TC0to/bK+g==
+X-Received: by 2002:a17:90b:3c43:b0:38d:f94d:4c6e with SMTP id 98e67ed59e1d1-38e1ae56689mr8553199a91.17.1784168491732;
+        Wed, 15 Jul 2026 19:21:31 -0700 (PDT)
+Received: from [10.125.192.114] ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e3a100753sm459147a91.13.2026.07.15.19.21.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jul 2026 19:21:31 -0700 (PDT)
+Message-ID: <7b35fd4e-7662-10ae-159b-303350e4e59c@gmail.com>
+Date: Thu, 16 Jul 2026 10:21:10 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.0
+Subject: Re: [PATCH 1/2] mm/zswap: Fix global shrinker when memory cgroup is
+ disabled
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, nphamcs@gmail.com,
+ tj@kernel.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
+ mhocko@kernel.org, mkoutny@suse.com, chengming.zhou@linux.dev,
+ muchun.song@linux.dev, roman.gushchin@linux.dev, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Hao Jia <jiahao1@lixiang.com>, stable@vger.kernel.org
+References: <20260714081510.16895-1-jiahao.kernel@gmail.com>
+ <20260714081510.16895-2-jiahao.kernel@gmail.com>
+ <CAO9r8zM5nzDqNcx5UoDgGexvR6jf8MmJV9SomM4AS7n-rZ2o5Q@mail.gmail.com>
+ <20260714193129.f81711f516504b659d544741@linux-foundation.org>
+ <7a1fe347-7ca6-4768-9308-420bf1251f54@gmail.com>
+ <CAO9r8zMDndmoxi_XvQv3rkkhCfb+aW3=8JdE3gAv2YOKiyiFSA@mail.gmail.com>
+From: Hao Jia <jiahao.kernel@gmail.com>
+In-Reply-To: <CAO9r8zMDndmoxi_XvQv3rkkhCfb+aW3=8JdE3gAv2YOKiyiFSA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Translate the deprecated interfaces, language features, attributes, and
-conventions document (deprecated.rst) to Portuguese (pt_BR).
 
-This ensures Portuguese-speaking developers have access to local guidelines
-on deprecated APIs (like BUG(), strcpy(), and VLAs), correct usage of
-safe alternatives (like WARN(), strscpy(), and flexible array members),
-and modern object allocator macros (kmalloc_obj).
 
-Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
----
- Documentation/translations/pt_BR/index.rst    |   2 +-
- .../translations/pt_BR/process/deprecated.rst | 422 ++++++++++++++++++
- 2 files changed, 423 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/pt_BR/process/deprecated.rst
+On 2026/7/16 00:13, Yosry Ahmed wrote:
+> On Wed, Jul 15, 2026 at 5:31 AM Hao Jia <jiahao.kernel@gmail.com> wrote:
+>>
+>>
+>>
+>> On 2026/7/15 10:31, Andrew Morton wrote:
+>>> On Tue, 14 Jul 2026 09:52:59 -0700 Yosry Ahmed <yosry@kernel.org> wrote:
+>>>
+>>>>> When memory cgroup is disabled, mem_cgroup_iter() always returns NULL.
+>>>>> Therefore, the global shrinker shrink_worker() always takes the !memcg
+>>>>> branch. After MAX_RECLAIM_RETRIES empty walks, the worker simply gives up,
+>>>>> so it fails to write back anything.
+>>>>>
+>>>>> Therefore, when memory cgroup is disabled, fall through with the !memcg
+>>>>> branch and shrink the root memcg directly.
+>>>>>
+>>>>> With memcg disabled, shrink_memcg() only returns -ENOENT when the root
+>>>>> LRU is empty, which means the total pages are already below thr. The
+>>>>> loop then safely bails out via the zswap_total_pages() <= thr check.
+>>>>> For any other return value from shrink_memcg(), the loop is guaranteed
+>>>>> to terminate, either after MAX_RECLAIM_RETRIES failures or once the
+>>>>> threshold is met.
+>>>>>
+>>>>> Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
+>>>>> Cc: stable@vger.kernel.org
+>>>>> Suggested-by: Nhat Pham <nphamcs@gmail.com>
+>>>>> Acked-by: Nhat Pham <nphamcs@gmail.com>
+>>>>> Acked-by: Yosry Ahmed <yosry@kernel.org>
+>>>>> Reported-by: Yosry Ahmed <yosry@kernel.org>
+>>>>> Closes: https://lore.kernel.org/all/CAO9r8zPVzMKFbCixxD-qgtRrkFxWVrHiZZeLc=eyTPKPVQgX4g@mail.gmail.com
+>>>>> Signed-off-by: Hao Jia <jiahao1@lixiang.com>
+>>>>
+>>>> Patch 2 doesn't really depend on this one, right?
+>>>>
+>>>> If that's the case I think this can (and should be) picked up
+>>>> separately as a hotfix. Andrew, WDYT?
+>>>
+>>> Please update the changelog to clearly describe the userspace-visible
+>>> effects of the bug, thanks.
+>>
+>> I am not entirely sure if my understanding is correct here, but maybe I
+>> should add something like this to the commit message?
+>>
+>> When cgroup_disable=memory is used (or with CONFIG_MEMCG=n), the global
+>> shrinker fails to write back any pages. Consequently, the zswap pool
+>> fills up to its limit and rejects further storage, preventing memory
+>> pressure from being offloaded to the backing swap device.
+> 
+> I think you can simply write that zswap writeback when the limit is
+> hit is broken when memcg is disabled.
+Will do. Thanks!
 
-diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index 5911442f6..d2a75f5de 100644
---- a/Documentation/translations/pt_BR/index.rst
-+++ b/Documentation/translations/pt_BR/index.rst
-@@ -86,5 +86,5 @@ kernel e sobre como ver seu trabalho integrado.
-    Lista de verificação para submissão de patches do kernel Linux <process/submit-checklist>
-    Interpretação do Código de Conduta do Kernel Linux <process/code-of-conduct-interpretation>
-    Código de Conduta de Compromisso do Colaborador <process/code-of-conduct>
--
-+   Interfaces, recursos de linguagem, atributos e convenções obsoletos <process/deprecated>
- 
-diff --git a/Documentation/translations/pt_BR/process/deprecated.rst b/Documentation/translations/pt_BR/process/deprecated.rst
-new file mode 100644
-index 000000000..2793a1fc9
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/deprecated.rst
-@@ -0,0 +1,422 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================================================================
-+Interfaces, recursos de linguagem, atributos e convenções obsoletos
-+========================================================================
-+
-+Em um mundo perfeito, seria possível converter todas as instâncias de alguma
-+API obsoleta para a nova API e remover completamente a API antiga em um único
-+ciclo de desenvolvimento. No entanto, devido ao tamanho do kernel, à hierarquia
-+de manutenção e ao cronograma, nem sempre é viável realizar esse tipo de
-+conversão de uma só vez. Isso significa que novas instâncias podem acabar
-+entrando no kernel enquanto as antigas estão sendo removidas, apenas aumentando
-+o volume de trabalho para remover a API. A fim de instruir os desenvolvedores
-+sobre o que se tornou obsoleto e o porquê, esta lista foi criada para servir de
-+referência quando o uso de elementos obsoletos for proposto para inclusão no
-+kernel.
-+
-+__deprecated
-+------------
-+Embora este atributo marque visualmente uma interface como obsoleta, ele `não
-+gera mais avisos durante as compilações
-+<https://git.kernel.org/linus/771c035372a036f83353eef46dbb829780330234>`_ porque
-+um dos objetivos permanentes do kernel é compilar sem avisos (*warnings*), e
-+ninguém estava de fato agindo para remover essas interfaces obsoletas. Embora o
-+uso de `__deprecated` seja útil para sinalizar uma API antiga em um arquivo de
-+cabeçalho (*header file*), não é a solução completa. Tais interfaces devem ser
-+totalmente removidas do kernel ou adicionadas a este arquivo para desestimular
-+outros desenvolvedores de usá-las no futuro.
-+
-+BBUG() e BUG_ON()
-+-----------------
-+Em vez disso, use WARN() e WARN_ON() e trate a condição de erro "impossível"
-+da forma mais amigável possível. Embora a família de APIs BUG() tenha sido
-+originalmente projetada para agir como uma asserção de "situação impossível" e
-+eliminar uma thread do kernel de forma "segura", ela se mostrou arriscada
-+demais. (Por exemplo: "Em que ordem os bloqueios precisam ser liberados? Os
-+diversos estados foram restaurados?") Muito frequentemente, o uso de BUG() vai
-+desestabilizar o sistema ou travá-lo por completo, o que torna impossível
-+depurar ou até mesmo obter relatórios de travamento (*crash reports*) viáveis.
-+Linus tem opiniões `muito fortes
-+<https://lore.kernel.org/lkml/CA+55aFy6jNLsywVYdGp83AMrXBo_P-pkjkphPGrO=82SPKCpLQ@mail.gmail.com/>`_
-+`sobre isso
-+<https://lore.kernel.org/lkml/CAHk-=whDHsbK3HTOpTF=ue_o04onRwTEaK_ZoJp_fjbqq4+=Jw@mail.gmail.com/>`_.
-+
-+Note que a família WARN() só deve ser usada para situações que "espera-se que
-+sejam inacessíveis". Se você quiser alertar sobre situações que são
-+"acessíveis, mas indesejáveis", use a família de funções pr_warn(). Os
-+administradores do sistema podem ter configurado o sysctl *panic_on_warn* para
-+garantir que seus sistemas não continuem executando diante de condições
-+"inacessíveis". (Para exemplos, veja commits como `este aqui
-+<https://git.kernel.org/linus/d4689846881d160a4d12a514e991a740bcb5d65a>`_.)
-+
-+Aritmética explícita em argumentos do alocador
-+----------------------------------------------
-+Cálculos dinâmicos de tamanho (especialmente multiplicação) não devem ser
-+realizados em argumentos de funções de alocação de memória (ou similares)
-+devido ao risco de estouro de capacidade (*overflow*). Isso poderia fazer com
-+que os valores dessem a volta (*wrap around*), resultando em uma alocação menor
-+do que o esperado pelo chamador. O uso dessas alocações pode levar a estouros
-+lineares na memória heap e a outros comportamentos incorretos. (Uma exceção a
-+isso são valores literais onde o compilador pode emitir um aviso se houver
-+risco de estouro. No entanto, a maneira preferível nesses casos é refatorar o
-+código conforme sugerido abaixo para evitar a aritmética explícita.)
-+
-+Por exemplo, não use ``count * size`` como argumento, como em::
-+
-+        foo = kmalloc(count * size, GFP_KERNEL);
-+
-+Em vez disso, a forma de dois fatores do alocador deve ser utilizada::
-+
-+        foo = kmalloc_array(count, size, GFP_KERNEL);
-+
-+Especificamente, kmalloc() pode ser substituído por kmalloc_array(), e
-+kzalloc() pode ser substituído por kcalloc().
-+
-+Se nenhuma forma de dois fatores estiver disponível, os auxiliares de
-+saturação em estouro (*saturate-on-overflow*) devem ser usados::
-+
-+        bar = dma_alloc_coherent(dev, array_size(count, size), &dma, GFP_KERNEL);
-+
-+Outro caso comum a ser evitado é calcular o tamanho de uma estrutura com uma
-+matriz final de outras estruturas, como em::
-+
-+        header = kzalloc(sizeof(*header) + count * sizeof(*header->item),
-+                         GFP_KERNEL);
-+
-+Em vez disso, use o auxiliar::
-+
-+        header = kzalloc(struct_size(header, item, count), GFP_KERNEL);
-+
-+.. note:: Se você estiver usando struct_size() em uma estrutura que contém uma
-+        matriz de comprimento zero ou de um único elemento como membro final,
-+        refatore o uso dessa matriz e mude para um `membro de matriz flexível
-+        <#zero-length-and-one-element-arrays>`_ em seu lugar.
-+
-+Para outros cálculos, faça a composição usando os auxiliares size_mul(),
-+size_add() e size_sub(). Por exemplo, no caso de::
-+
-+        foo = krealloc(current_size + chunk_size * (count - 3), GFP_KERNEL);
-+
-+Em vez disso, use os auxiliares::
-+
-+        foo = krealloc(size_add(current_size,
-+                                size_mul(chunk_size,
-+                                         size_sub(count, 3))), GFP_KERNEL);
-+
-+Para mais detalhes, veja também array3_size() e flex_array_size(), bem como as
-+funções relacionadas das famílias check_mul_overflow(), check_add_overflow(),
-+check_sub_overflow() e check_shl_overflow().\
-+
-+simple_strtol(), simple_strtoll(), simple_strtoul(), simple_strtoull()
-+----------------------------------------------------------------------
-+As funções simple_strtol(), simple_strtoll(), simple_strtoul() e
-+simple_strtoull() ignoram explicitamente estouros de capacidade (*overflows*),
-+o que pode levar a resultados inesperados nos chamadores. As respectivas
-+funções kstrtol(), kstrtoll(), kstrtoul() e kstrtoull() tendem a ser as
-+substitutas corretas, embora se deva notar que estas exigem que a string seja
-+terminada em NUL ou em nova linha (*newline*).
-+
-+strcpy()
-+--------
-+A função strcpy() não realiza verificação de limites no buffer de destino.
-+Isso pode resultar em estouros lineares além do final do buffer, levando a todo
-+tipo de comportamentos incorretos. Embora ``CONFIG_FORTIFY_SOURCE=y`` e várias
-+opções do compilador ajudem a reduzir o risco de usar esta função, não há uma
-+boa razão para adicionar novos usos dela. A substituta segura é strscpy(),
-+embora se deva ter cuidado nos casos em que o valor de retorno de strcpy() era
-+utilizado, já que strscpy() não retorna um ponteiro para o destino, mas sim a
-+quantidade de bytes não-NUL copiados (ou um código de erro errno negativo quando
-+ocorre truncamento).
-+
-+strncpy()
-+---------
-+A função strncpy() foi removida do kernel. Todos os chamadores antigos foram
-+migrados para alternativas mais seguras.
-+
-+A função strncpy() não garantia a terminação em NUL do buffer de destino,
-+levando a estouros de leitura linear e outros comportamentos incorretos. Ela
-+também preenchia incondicionalmente o destino com NUL, o que representava uma
-+penalidade de desempenho desnecessária para chamadores que usavam apenas
-+strings terminadas em NUL. Devido aos seus diversos comportamentos, ela era uma
-+API ambígua para determinar qual era a real intenção do autor ao realizar a
-+cópia.
-+
-+As substitutas para strncpy() são:
-+
-+- strscpy() quando o destino deve ser terminado em NUL.
-+- strscpy_pad() quando o destino deve ser terminado em NUL e preenchido com
-+  zeros (por exemplo, estruturas que cruzam fronteiras de privilégio).
-+- memtostr() para destinos terminados em NUL a partir de origens de largura
-+  fixa não terminadas em NUL (com o atributo ``__nonstring`` na origem).
-+- memtostr_pad() para o mesmo caso anterior, mas com preenchimento de zeros.
-+- strtomem() para destinos de largura fixa não terminados em NUL, com o
-+  atributo ``__nonstring`` no destino.
-+- strtomem_pad() para destinos não terminados em NUL que também precisam de
-+  preenchimento com zeros.
-+- memcpy_and_pad() para cópias limitadas a partir de origens potencialmente não
-+  terminadas, onde o tamanho do destino é um valor definido em tempo de
-+  execução (*runtime*).
-+
-+strlcpy()
-+---------
-+A função strlcpy() lê primeiro todo o buffer de origem (já que o valor de
-+retorno deve corresponder ao de strlen()). Essa leitura pode exceder o limite
-+de tamanho do destino. Isso é ineficiente e pode levar a estouros de leitura
-+linear se a string de origem não for terminada em NUL. A substituta segura é
-+strscpy(), embora se deva ter cuidado nos casos em que o valor de retorno de
-+strlcpy() é utilizado, já que strscpy() retornará valores negativos de errno
-+quando houver truncamento.
-+
-+Especificador de formato %p
-+----------------------------
-+Tradicionalmente, o uso de "%p" em strings de formatação causava falhas de
-+exposição de endereços reais no dmesg, proc, sysfs, etc. Em vez de deixar esses
-+endereços expostos a explorações, todos os usos de "%p" no kernel agora são
-+exibidos como um valor hash, tornando-os inúteis para fins de endereçamento.
-+Novos usos de "%p" não devem ser adicionados ao kernel. Para endereços de texto,
-+usar "%pS" costuma ser melhor, pois exibe o nome do símbolo, que é muito mais
-+útil. Para quase todo o restante, simplesmente não adicione "%p" de forma
-+alguma.
-+
-+Parafraseando as diretrizes atuais do Linus `guidance
-+<https://lore.kernel.org/lkml/CA+55aFwQEd_d40g4mUCSsVRZzrFPUJt74vc6PPpb675hYNXcKw@mail.gmail.com/>`_:
-+
-+- Se o valor hash de "%p" é inútil, pergunte a si mesmo se o ponteiro em si é
-+  importante. Talvez ele deva ser removido por completo?
-+- Se você realmente acredita que o valor real do ponteiro é importante, por que
-+  algum estado do sistema ou nível de privilégio do usuário seria considerado
-+  "especial"? Se você acha que pode justificar isso (em comentários e no log de
-+  commit) de forma sólida o suficiente para resistir ao escrutínio do Linus,
-+  talvez possa usar "%px", certificando-se de aplicar permissões adequadas.
-+
-+Se você estiver depurando algo em que a geração de hash de "%p" esteja causando
-+problemas, é possível inicializar o sistema temporariamente com a opção de
-+depuração "`no_hash_pointers
-+<https://git.kernel.org/linus/5ead723a20e0447bc7db33dc3070b420e5f80aa6>`_".
-+
-+Matrizes de Tamanho Variável (VLAs)
-+-----------------------------------
-+O uso de VLAs (Variable Length Arrays) na pilha de execução gera um código de
-+máquina muito pior do que matrizes de tamanho estático na pilha. Embora esses
-+problemas significativos de `desempenho
-+<https://git.kernel.org/linus/02361bc77888>`_ sejam motivo suficiente para
-+eliminar as VLAs, elas também representam um risco de segurança. O crescimento
-+dinâmico de uma matriz na pilha pode exceder a memória restante no segmento da
-+pilha. Isso pode levar a um travamento, à possível sobrescrita de dados
-+sensíveis no final da pilha (quando compilado sem ``CONFIG_THREAD_INFO_IN_TASK=y``)
-+ou à sobrescrita de posições de memória adjacentes à pilha (quando compilado sem
-+``CONFIG_VMAP_STACK=y``).
-+
-+Passagem direta implícita no switch case (fall-through)
-+-------------------------------------------------------
-+A linguagem C permite que o fluxo de execução de um bloco switch passe
-+diretamente para o próximo caso (fall-through) quando uma instrução "break"
-+está ausente ao final de um caso. No entanto, isso introduz ambiguidade no
-+código, pois nem sempre fica claro se o "break" ausente é intencional ou um bug.
-+Por exemplo, não é óbvio apenas olhando para o código se o ``STATE_ONE`` foi
-+intencionalmente projetado para passar diretamente para o ``STATE_TWO``::
-+
-+        switch (value) {
-+        case STATE_ONE:
-+                do_something();
-+        case STATE_TWO:
-+                do_other();
-+                break;
-+        default:
-+                WARN("unknown state");
-+        }
-+
-+Como há uma longa lista de falhas `causadas pela ausência de instruções "break"
-+<https://cwe.mitre.org/data/definitions/484.html>`_, não permitimos mais a
-+passagem direta implícita. Para identificar os casos de passagem direta
-+intencionais, adotamos a macro pseudo-palavra-chave "fallthrough", que se
-+expande para a extensão do gcc `__attribute__((__fallthrough__))
-+<https://gcc.gnu.org/onlinedocs/gcc/Statement-Attributes.html>`_. (Quando a
-+sintaxe ``[[fallthrough]]`` do C17/C18 for suportada de forma mais ampla por
-+compiladores C, analisadores estáticos e IDEs, poderemos mudar para o uso dessa
-+sintaxe para a pseudo-palavra-chave da macro.)
-+
-+Todos os blocos de switch/case devem terminar com um dos seguintes elementos:
-+
-+* break;
-+* fallthrough;
-+* continue;
-+* goto <rótulo>;
-+* return [expressão];
-+
-+Matrizes de comprimento zero e de um único elemento
-+----------------------------------------------------
-+Há uma necessidade frequente no kernel de fornecer uma maneira de declarar uma
-+estrutura com um conjunto de elementos finais de tamanho dinâmico. O código do
-+kernel deve sempre usar `"membros de matriz flexível"
-+<https://en.wikipedia.org/wiki/Flexible_array_member>`_ para esses casos. O
-+estilo antigo de matrizes de um único elemento ou de comprimento zero não deve
-+mais ser utilizado.
-+
-+No código C mais antigo, elementos finais de tamanho dinâmico eram declarados
-+especificando uma matriz de um elemento ao final de uma estrutura::
-+
-+        struct something {
-+                size_t count;
-+                struct foo items[1];
-+        };
-+
-+Isso levava a cálculos de tamanho frágeis via sizeof() (que exigiam a subtração
-+do tamanho do elemento final único para obter o tamanho correto do "cabeçalho").
-+Uma `extensão GNU C <https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_ foi
-+introduzida para permitir matrizes de comprimento zero, a fim de evitar esses
-+problemas de cálculo de tamanho::
-+
-+        struct something {
-+                size_t count;
-+                struct foo items[0];
-+        };
-+
-+No entanto, isso trouxe outros problemas e não resolveu algumas limitações de
-+ambos os estilos, como a incapacidade de detectar quando tal matriz é usada
-+acidentalmente *fora* do final de uma estrutura (o que poderia ocorrer
-+diretamente, ou quando tal estrutura estava contida em unions, estruturas de
-+estruturas, etc.).
-+
-+O padrão C99 introduziu os "membros de matriz flexível", nos quais a declaração
-+da matriz simplesmente não possui um tamanho numérico::
-+
-+        struct something {
-+                size_t count;
-+                struct foo items[];
-+        };
-+
-+Esta é a maneira como o kernel espera que elementos finais de tamanho dinâmico
-+sejam declarados. Isso permite que o compilador gere erros quando a matriz
-+flexível não for o último elemento da estrutura, o que ajuda a evitar que bugs
-+de `comportamento indefinido
-+<https://git.kernel.org/linus/76497732932f15e7323dc805e8ea8dc11bb587cf>`_ sejam
-+introduzidos inadvertidamente na base de código. Também permite que o
-+compilador analise corretamente os tamanhos das matrizes (via sizeof(),
-+``CONFIG_FORTIFY_SOURCE`` e ``CONFIG_UBSAN_BOUNDS``). Por exemplo, não existe um
-+mecanismo que nos alerte de que a seguinte aplicação do operador sizeof() a uma
-+matriz de comprimento zero sempre resulta em zero::
-+
-+        struct something {
-+                size_t count;
-+                struct foo items[0];
-+        };
-+
-+        struct something *instance;
-+
-+        instance = kmalloc(struct_size(instance, items, count), GFP_KERNEL);
-+        instance->count = count;
-+
-+        size = sizeof(instance->items) * instance->count;
-+        memcpy(instance->items, source, size);
-+
-+Na última linha do código acima, ``size`` acaba sendo ``zero``, quando se
-+poderia pensar que ele representaria o tamanho total em bytes da memória
-+dinâmica recentemente alocada para a matriz final ``items``. Aqui estão alguns
-+exemplos deste problema: `link 1
-+<https://git.kernel.org/linus/f2cd32a443da694ac4e28fbf4ac6f9d5cc63a539>`_,
-+`link 2
-+<https://git.kernel.org/linus/ab91c2a89f86be2898cee208d492816ec238b2cf>`_.
-+Em vez disso, `membros de matriz flexível têm tipo incompleto e, portanto, o
-+operador sizeof() não pode ser aplicado
-+<https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_, de modo que qualquer
-+uso incorreto de tais operadores será imediatamente percebido em tempo de
-+compilação.
-+
-+Em relação às matrizes de um único elemento, é preciso estar muito ciente de que
-+`tais matrizes ocupam pelo menos o mesmo espaço que um único objeto daquele tipo
-+<https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_ e, portanto, contribuem
-+para o tamanho da estrutura que as contém. Isso é propício a erros sempre que se
-+deseja calcular o tamanho total da memória dinâmica a ser alocada para uma
-+estrutura que contém uma matriz desse tipo como membro::
-+
-+        struct something {
-+                size_t count;
-+                struct foo items[1];
-+        };
-+
-+        struct something *instance;
-+
-+        instance = kmalloc(struct_size(instance, items, count - 1), GFP_KERNEL);
-+        instance->count = count;
-+
-+        size = sizeof(instance->items) * instance->count;
-+        memcpy(instance->items, source, size);
-+
-+No exemplo acima, foi necessário lembrar de calcular ``count - 1`` ao usar o
-+auxiliar struct_size(); caso contrário, teríamos alocado memória --de forma não
-+intencional-- para um objeto ``items`` a mais. A maneira mais limpa e menos
-+sujeita a erros de implementar isso é através do uso de um `membro de matriz
-+flexível`, em conjunto com os auxiliares struct_size() e flex_array_size()::
-+
-+        struct something {
-+                size_t count;
-+                struct foo items[];
-+        };
-+
-+        struct something *instance;
-+
-+        instance = kmalloc(struct_size(instance, items, count), GFP_KERNEL);
-+        instance->count = count;
-+
-+        memcpy(instance->items, source, flex_array_size(instance, items, instance->count));
-+
-+Existem dois casos especiais de substituição nos quais o auxiliar
-+DECLARE_FLEX_ARRAY() precisa ser utilizado. (Note que ele é nomeado
-+__DECLARE_FLEX_ARRAY() para uso em cabeçalhos de UAPI.) Esses casos ocorrem
-+quando a matriz flexível está sozinha em uma estrutura ou faz parte de uma
-+union. Isso não é permitido pela especificação C99, mas sem justificativa
-+técnica (como pode ser visto tanto pelo uso existente de tais matrizes nesses
-+locais quanto pela solução alternativa que DECLARE_FLEX_ARRAY() adota). Por
-+exemplo, para converter isto::
-+
-+        struct something {
-+                ...
-+                union {
-+                        struct type1 one[0];
-+                        struct type2 two[0];
-+                };
-+        };
-+
-+O auxiliar deve ser utilizado::
-+
-+        struct something {
-+                ...
-+                union {
-+                        DECLARE_FLEX_ARRAY(struct type1, one);
-+                        DECLARE_FLEX_ARRAY(struct type2, two);
-+                };
-+        };
-+
-+Atribuições diretas de kmalloc para objetos struct
-+--------------------------------------------------
-+Realizar atribuições diretas (*open-coded*) de alocações da família kmalloc()
-+impede que o kernel (e o compilador) consigam examinar o tipo da variável que
-+está recebendo a atribuição, o que limita qualquer introspecção relacionada que
-+possa ajudar com alinhamento, estouros de capacidade (*wrap-around*) ou
-+proteções adicionais (*hardening*). A família de macros kmalloc_obj() fornece
-+essa introspecção, que pode ser usada para os padrões de código comuns de
-+alocações de objetos únicos, de matrizes ou de objetos flexíveis. Por exemplo,
-+estas atribuições diretas::
-+
-+        ptr = kmalloc(sizeof(*ptr), gfp);
-+        ptr = kzalloc(sizeof(*ptr), gfp);
-+        ptr = kmalloc_array(count, sizeof(*ptr), gfp);
-+        ptr = kcalloc(count, sizeof(*ptr), gfp);
-+        ptr = kmalloc(struct_size(ptr, flex_member, count), gfp);
-+        ptr = kmalloc(sizeof(struct foo), gfp);
-+
-+tornam-se, respectivamente::
-+
-+        ptr = kmalloc_obj(*ptr [, gfp] );
-+        ptr = kzalloc_obj(*ptr [, gfp] );
-+        ptr = kmalloc_objs(*ptr, count [, gfp] );
-+        ptr = kzalloc_objs(*ptr, count [, gfp] );
-+        ptr = kmalloc_flex(*ptr, flex_member, count [, gfp] );
-+        __auto_type ptr = kmalloc_obj(struct foo [, gfp] );
-+
-+O argumento gfp é opcional, sendo o valor padrão GFP_KERNEL. Se
-+``ptr->flex_member`` estiver anotado com __counted_by(), a alocação falhará
-+automaticamente caso ``count`` seja maior do que o valor máximo representável
-+que pode ser armazenado no membro contador associado a ``flex_member``.
--- 
-2.47.3
+> 
+>>
+>>> Also, AI review has flagged several possible issues, all appear to be
+>>> serious:
+>>>        https://sashiko.dev/#/patchset/20260714081510.16895-1-jiahao.kernel@gmail.com
+>>
+>> For AI review comments on this patch:
+>> I suspect this scenario might only exist in theory. For zswap LRU to be
+>> empty while zswap_total_pages() > thr holds true, it would require a
+>> prolonged state where there are always more than thr zswap entries on
+>> the zswap LRU whenever zswap_total_pages() > thr is evaluated, yet the
+>> zswap LRU happens to be empty during shrink_memcg(root_memcg).
+>>
+>> If we want to fix this, perhaps we could do something like this?
+>>
+>> Yosry, Nhat, what are your thoughts on this?
+> 
+> Do we need to do this? The last paragraph in your changelog explains
+> why this can't happen because zswap_total_pages() should be 0 in this
+> case. Did I miss something?
 
+The loop would require the following sequence to repeat indefinitely:
+
+1、zswap_total_pages() > thr evaluates to true.
+2、During shrink_memcg(root_memcg), the zswap LRU is concurrently drained 
+to empty.
+3、Before zswap_total_pages() > thr is evaluated again, the zswap LRU is 
+heavily refilled such that zswap_total_pages() > thr holds true once more.
+
+For our case to manifest, it would require zswap_total_pages() and the 
+zswap LRU state to repeatedly hit this exact window with perfect 
+alignment over a **prolonged period**. Therefore, I suspect this 
+scenario might only exist in theory.
+
+Thanks,
+Hao
