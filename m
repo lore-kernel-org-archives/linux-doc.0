@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0FFC27466A;
-	Thu, 16 Jul 2026 09:00:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87557371880;
+	Thu, 16 Jul 2026 09:06:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784192413; cv=none; b=TN8DzW3EI5Avx7FVoYSnDien59rn99Bwhh7Fkbqs5v4Afv8vNZj8L8409N8F/nSWXU2NPz4gjspqxsZ4MF5L29woc0Hxkj71B9KilFSMFYzE9PsDqMf38r2ZdQZa8GYQAv2npKrWYPoiH9Z7ma2cbCTQp4w6VmoTsLGjOrfZclU=
+	t=1784192774; cv=none; b=lPJFwIVv0DrniibYhy/WaudlxGSExMJMyPQk6pmry7oBSRJHYlVMJu/MpKDegkN5iD1N6YVviNIghJ3fJOqVsw8jc7Y4tchipjgCTzvxA8LQYDNzfvOwQ4JPYXFRiEgrTdUaSTOzqz2yi37Q87XtK0b6OaoyVBGgbO7tVTYoCbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784192413; c=relaxed/simple;
-	bh=aSOOjW/rFEvw1oVsH7EgMeSubz3ybnWNUppGaldt90U=;
+	s=arc-20240116; t=1784192774; c=relaxed/simple;
+	bh=4HSfg7PJQJqK1+b2TF0A6imQkpDH1p0R6P5nWaY1rBA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Llse7DxRanUF6POxEBoGU8HgaInJLWefiZEm9T2S+XvHDgSPNx5NyBaqJXHub7/lV5EfNaustMDk5LIjhBCIWc8eS1R2FCRwiJmK5XueVxCKocDbuTdmXuz8b79oV4juBsjHrjVVTS9XuJBs7tqmqzsutS+L86AS6EBquBJ1MrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BR0mxTtD; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=AMSeaKjyzJ2uxszq5o1c/C25XHldChXpZUhd+I4KFPtuNw73wkZvKdRrZc7FXXB3GLeBXZeIFnBEibuAwRzfWlgUOzFytu1RCeUJ4zstl8yV0fZgo4nOxcKg4OORIcUZJlSRErZyFF0yy0suHIXXVF2L3TyZbR4xT+CVI9ogNzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hknLmDoB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BR0mxTtD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A5911F000E9;
-	Thu, 16 Jul 2026 08:59:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hknLmDoB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2825A1F000E9;
+	Thu, 16 Jul 2026 09:06:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784192403;
-	bh=UsgiVynJofsGDlgChmil9QB3MnfHOcPC6h+vljGQO5M=;
+	s=k20260515; t=1784192773;
+	bh=cFhc3A2Gj3VLhoCuEB6Vfl4jXl6a5OTrf/QYp31N2CU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=BR0mxTtD79NyM+E7to+Sg+kX0qOHpx7E2BfnMcUEgZ2EyoSZ4EGL5B5ukIsVymHoR
-	 pCzKYCbbOrGCNBCjegopfL1jWmB+lo+DQ6BQv712JV9GZQMb721rP6QTcsT1/IWmDF
-	 R8n8SNFOTBWltXWgup1cNXAS3qDeIvsr5jdqX7YgpPjuXTKnd/YAzHNWTCl/cl8E9u
-	 xRF0jYlSTEiXiU1SIet3tnEi4zUjw9TGA0o96WU8Ujw5BmO7r0sgKfwFP3xcChq06P
-	 VIDMLW3oQJeL6Vj0BL/n6sJkDDH6tziqu2psR+Dxcc7ft0jX7OlZbED/yEUw1qXzMw
-	 BIS4+0y3fbPgA==
-Message-ID: <e9d0ade4-cf87-4e8d-90ec-50ddb5249b24@kernel.org>
-Date: Thu, 16 Jul 2026 10:59:56 +0200
+	b=hknLmDoBW7ss9oL9YXcTCa2ZVl5Qn1Sv0jr3LP05pkNUX7XAOWheD0SyJrBdPxpPl
+	 0u4o8X0y8lZwD2OakLJeUhHClG+rbUQjMc2V7pYUP4m+u5IbKk4AZCB/PzgAmKFCmY
+	 poNYp/l2QImOFWL0Ne8SQTvf2AByHJ3133i7V37duv1bkX4vI7qwu3XbJNsXxjFNIq
+	 NQ5YEHEWDXhbJmRdQ6YimHU0Fu6kSq5KXyEvesntxjPtt04oUlreNEeFtAvYFhcQoV
+	 b8QsDw/BwJOUxXsRYSNHKSbSic25UqDo4n7qFxBIR4vb461zsdNhEKrA0fT32YZeyG
+	 oX2i0JBvcAp9g==
+Message-ID: <01c47287-0168-4416-8116-dc25a48fb05c@kernel.org>
+Date: Thu, 16 Jul 2026 11:06:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,25 +35,22 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/4] mm/hmm: Clarify notifier retry state and scope HMM
- timeouts
-To: Andrew Morton <akpm@linux-foundation.org>,
- Stanislav Kinsburskii <skinsburskii@gmail.com>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, airlied@gmail.com,
- akhilesh@ee.iitb.ac.in, corbet@lwn.net, dakr@kernel.org, jgg@ziepe.ca,
- kees@kernel.org, leon@kernel.org, liam@infradead.org, lizhi.hou@amd.com,
- lyude@redhat.com, maarten.lankhorst@linux.intel.com, mamin506@gmail.com,
- mhocko@suse.com, mripard@kernel.org, nouveau@lists.freedesktop.org,
- ogabbay@kernel.org, oleg@redhat.com, rppt@kernel.org, shuah@kernel.org,
- simona@ffwll.ch, skhan@linuxfoundation.org, surenb@google.com,
- tzimmermann@suse.de, vbabka@kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org
-References: <178406760622.1106335.2379450382728057793.stgit@skinsburskii>
- <4300f09b-8f93-4605-b072-7c09a82cb16e@kernel.org>
- <alecaJ1FUso39D9k@skinsburskii> <alet21wLwM6P_Km2@lucifer>
- <ale3ydkx1xt6ruuP@skinsburskii>
- <20260715101432.99957d2d33203fafe4af2e1c@linux-foundation.org>
+Subject: Re: [PATCH v5 00/23] Introduce SCMI Telemetry support
+To: Cristian Marussi <cristian.marussi@arm.com>,
+ Subrahmanya Lingappa <subrahmanya.lingappa@oss.qualcomm.com>
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ sudeep.holla@kernel.org, james.quinlan@broadcom.com, f.fainelli@gmail.com,
+ vincent.guittot@linaro.org, etienne.carriere@st.com, peng.fan@oss.nxp.com,
+ michal.simek@amd.com, d-gole@ti.com, jic23@kernel.org, elif.topuz@arm.com,
+ lukasz.luba@arm.com, philip.radford@arm.com, brauner@kernel.org,
+ souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+ puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
+References: <20260703123601.381275-1-cristian.marussi@arm.com>
+ <20260707063137.3222972-1-subrahmanya.lingappa@oss.qualcomm.com>
+ <alCuJsOgh1ioFHAL@pluto>
+ <CAPxK-6cE7QAnMxO843T_MhipsVed=q7M6yQG6q5mAknY+T91kw@mail.gmail.com>
+ <alenP8e_2SFtgWw4@pluto>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -100,37 +97,103 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260715101432.99957d2d33203fafe4af2e1c@linux-foundation.org>
+In-Reply-To: <alenP8e_2SFtgWw4@pluto>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/15/26 19:14, Andrew Morton wrote:
-> On Wed, 15 Jul 2026 09:39:37 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
-> 
->>>
->>> Please don't do this, this is completely impossible to track for review :)
->>>
->>> mm review is currently very difficult based on volumes, it'll become impossible
->>> to manage if people sound fragments of series.
->>>
->>> Please just resend the whole thing at this point.
->>>
->>
->> Well, I followed the guidance provided by Andrew, and I believe he
->> applied all of the changes, including these, to the `mm` tree.
->>
->> Do you still want me to send v9 under these circumstances?
-> 
-> Sure, if that's what reviewers prefer.
-> 
-> This is a bit unfriendly to people who have already reviewed the code. 
-> Which is one of the reasons why I respond to a new version with a
-> single diff showing reviewers (and the author, and myself) what changed
-> since the previous version.
+Hi,
 
-As much as I dislike fixup patches, I tolerate them in reply to the existing series.
+thanks for looking into this again, Subrahmanya,
 
-But having some random fixup series is just crazy, really.
+Let me add some additional points to Cristian's reply.
+
+> 
+>>
+>>  I agree that asking this series to grow a generic telemetry subsystem now is
+>>  too much. With only SCMI in-tree, it would be easy to create a "generic"
+>>  interface that is really just SCMI with different names. I also agree that raw
+>>  SHMTI is not just a debug path if the expected users are high-rate tooling.
+>>
+>>  So let me narrow the ask.
+>>
+>>  I am not asking for `drivers/telemetry/` in v6. I am asking that the SCMI
+>>  chardev/UAPI not be tied too closely to the current SCMI core storage layout.
+>>  In particular, I think v6 should try to:
+>>
+>>    - copy descriptor/config/sample data through fixed and extensible UAPI
+>>      structs, not structs mirroring SCMI internal objects;
+> 
+> If you mean by this adding a bit more of pad/reserved space scattered
+> here and there, it is not a problem; also, one thing that is still missing
+> and planned to be added is some ABI Versioning and related IOCTL,
+> should not this be enough to address future possible UAPI expansions ?
+> 
+> Regarding avoiding mapping internal SCMI object in the UAPI, I think I
+> am already NOT blindly sharing internal structures but instead I copy
+> explicitly internal representations into the UAPI fields....I think the
+> only exception to this is the sample (scmi_tlm_de_sample) that I take
+> care to keep aligned with the internals to avoid the overhead of the
+> double copy...but it seems one of the few pretty much general concept
+> that I felt confident to abstract no ?
+> 
+> ...but of course this UAPI abstraction into which I copy the results
+> is mapped into SCMI inspired concepts/abstractions...for the reasons
+> we said....
+
+Getting the UAPI right and future-proof is certainly the most critical thing.
+Adding some more padding to keep it extensible is certainly doable.
+
+I remember plans for having an ABI versioning though, would that still be
+required (or could it even be deferred) if we add some more padding to the structs?
+
+Or would ABI versioning just avoid that for now?
+
+> 
+>>    - treat DE IDs, group IDs and SHMTI IDs as protocol identifiers, not as
+>>      implicit indexes into kernel arrays;
+> 
+> Not sure what you mean here... a shim layer used to acces info data
+> indirectly instead of the SCMI data structures ?
+> 
+> or some sort of layer/abstraction to be able to remap references
+> internally ? again it is not easy to imagine an abstraction without any
+> other example than SCMI...or you mean naming issue in the UAPI ?
+
+I'm also having a hard time understanding this.
+
+Subrahmanya, can you share an example of before vs. after to clarify? Thanks
+
+> 
+>>    - keep the TDCF/SHMTI parsing and SCMI command handling behind small
+>>      internal ops used by the chardev side;
+> 
+> well..if you refer to the telemetry_ops, this is an SCMI driver so it
+> has the structure of an SCMI driver, the Telemetry Operations exposed by
+> the core SCMI stack are the internal ops themselves that you ask for in
+> my opinion...I mean this is pretty much internal stuff that has nothing
+> to do with the UAPI itself and I imagine that when some future protocol
+> of yours, like the XXMI you mentioned, will appear you will write a new
+> driver on your own subsystem that will implement the UAPI itself for
+> your protocols (if you want to share that)...any possible future internal
+> reworking due to possible common abstractions on our side can be carried
+> out in the future...
+
+Any internal refactorings should be had once required, not prematurely.
+
+At this point it's not even clear when/how/if any internal user would want to
+reuse some pieces.
+
+
+> 
+>>    - document the config model explicitly: per SCMI instance, last writer wins,
+>>      generation changes tell userspace that state changed;
+>>    - document the mmap contract: length, offsets, cache attributes, lifetime,
+>>      and reset/reconfiguration behaviour.
+> 
+> Completely agreed on this...Documentation is still lacking, including
+> extensive examples...I should have marked docs as RFC too...
+
++1
 
 -- 
 Cheers,
