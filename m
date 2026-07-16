@@ -1,150 +1,108 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mta21.hihonor.com (mta21.hihonor.com [81.70.160.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9942F7EE3
-	for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 03:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24752343885;
+	Thu, 16 Jul 2026 03:35:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784171846; cv=none; b=uWo1Oot2BmGZNk7zPQFkApGo2DYiHisVj2rPNrHJkPMDkQXjNRIeIRcSlCt5UlW0f4CkS86GRH7GFK4An/fyutB+1FftG+fJj8WiQkqmPqgcmSc7vnB6EJRuKxPHetCr1uUNU6sbTFDB2Vwy+kQgOHnYq0Q/0Pyk5i7k8Y+Bsv8=
+	t=1784172904; cv=none; b=T+XACGlRFPVAT5MPDH4thG6+SiqIqMXzvWKxIOaaGG9eRZA5CgYshdo/QFYxnTGpn82+Ph1N7mxYBZ2PYKswFxnBNRwdu1PBFEy8iS/5NDKX/NUsXkexPv2gMATg3QqIZ4qOVM/T2Q0jARdVoSamUMJqAMR+pc7NMdoY5wqqSV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784171846; c=relaxed/simple;
-	bh=yuYwAH1tqzXEU/m24ASSlYCOnQ18iZEfWhEC5GQ6Ok8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sJanCE1YH3orrmrZQ5wuFwVa1TTnEKE8Gl1P/omAO784QRU7mDhn5NBUeQVoJnKZ+fCX0+bhCKwd10faqwLVxdtb11TeDZg9tT9FMlI/7/9Mg7YN5c/esY9BuAIDmt+PLOlH1AuIc+v4HqlU4CiT21xEcrAEfapidfhcHlepJaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YvcerRdS; arc=none smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YvcerRdS"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-6679d88abdcso3191842d50.2
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 20:17:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784171844; x=1784776644; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dzbU2hAgrKRKlrG+Kt61lW0Jt2FPCINA7SJ3nQaxWcA=;
-        b=YvcerRdS2Fr/d2LLyPS/7Xu/N9F6ksMWCziePSXa3mDOTNP6KP/jJMHTNDboOKbGGI
-         X1gdZI19G9f9MPLNzZXuFU2OaJI9Hrk2jXs7jVFMT9VOAIWqp+VIJ4TShZFFXUpl5rav
-         30257tS0m9502Z2H8Ne5Dm5WgRyUn0Vh/TuphCQIrhj/EWNRRQ8mqM9ncCsmRsbAC87Q
-         Hs7G1Zpz9irjsQ95GePUR/4atQ/792J3YNktc7k6YTdvK9CZQkpKJlnQWnw6FaIU6VnO
-         BQJLoTt59h6ItzEJorCc4ZK3olBkVibvt3NkcXEHLfeDIXBZMP1L+BbGaeSNnDyONFlH
-         x+tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784171844; x=1784776644;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=dzbU2hAgrKRKlrG+Kt61lW0Jt2FPCINA7SJ3nQaxWcA=;
-        b=JfQHEfogNKK7a4jHzSbp1/pfuPtfJ5R8MZfM4ouUGRu1dTCnPwhacwLsS9oFXedMOA
-         V7dX3SXz8odjeuoOlCwaFozSNDDgtJO173rLMQVtGgCfJtfMd+tXtJCw+CLGE813dGk+
-         I3D6hyCk+WG81TopN577mWxn85BbBNIRc6HrPiv3VYgAl+vPDfNXY/noVKvljdwq1XJR
-         bboZL8Ee92Q+cgZ6Dh+KWyLc09wxP6xraXq0JRuFuexD3idYjqvVtFJ8oazJ+gzLqXTO
-         R4US03GqoGcacmFz3C8TXj8w/CqHSK8Os/5O26F5MjGR5bMWx+Kwk+sDH+XEcbfmGUZO
-         5V4w==
-X-Gm-Message-State: AOJu0YyL4wFv50HicGeB7nK2dpUbpTOrSGm/X387zYq27UbRw2em1RbB
-	R1rmnNsGMEOPgOntX9NZdD8QRRvXF391Jjb1/k5rBm2S159rT3pfzb97R+eJSmTDNTQ=
-X-Gm-Gg: AfdE7cmV4Qsi6S585NbOytknIfg5L/uSCnvbDZvqVpVamsHFosHRlT3p/LKs7ZwlkdW
-	22KegWkLJSpARbB8qyjKt2amRNs9hOZPxi6nfRWxVkZdAZ8U34mpEi0oN+GMgPZNrcgkf6PiVEZ
-	hEq3Fdedx34gocPXImuybhXGRI6P2ZOZQrFnTEgPQTXf/1AllRqg+uONxGYQddHHKxgwC701QQC
-	xJ1OVsiIH+J4Pm76cK/VKQfmiL+22fgwEAuCSTCEk/DfXVsNY+h/z5KGJdztnSrTqVgSu/XL1Gc
-	8QGgdSpGnpy1hlmjdzsQdtEGz50hKw51RidFJeHMpQcan9N71tWAn6HqwX1oWaFqgsXRFWX73Yp
-	zuxUoi5YD1lSEmc11vU3wvDR4FdC7+caHiDYJ4ogXK+d0u5Ba9khULpcmOvxcBgcFcuuC
-X-Received: by 2002:a05:690e:1595:20b0:667:83ad:b3e0 with SMTP id 956f58d0204a3-667d7bde59bmr10962322d50.65.1784171843863;
-        Wed, 15 Jul 2026 20:17:23 -0700 (PDT)
-Received: from ASUS.. ([187.65.135.28])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6681fe46cd8sm2263876d50.15.2026.07.15.20.17.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 20:17:23 -0700 (PDT)
-From: Abel Philippe <le590616@gmail.com>
-To: danielmaraboo@gmail.com
-Cc: linux-doc@vger.kernel.org,
-	corbet@lwn.net,
-	Abel Philippe <le590616@gmail.com>
-Subject: [PATCH] docs: pt_BR: process: Translate programming-language
-Date: Thu, 16 Jul 2026 00:17:11 -0300
-Message-ID: <20260716031712.497037-1-le590616@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1784172904; c=relaxed/simple;
+	bh=5+8+NbPuaGLWx5/PBVIMntj2fE0TmHgC7SasPUv0ypc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ZV43QCx1+1/rHQG9JKlUR2csTLoHB7ihhv2ljNOLmPN2AtpLGW46WYUpnK9wMFe3HFQ60szfyWuEUp6+Tau2t845Up2UAeutOY21OW0qCEIbSDDnAqsVGPS0y9GlDBWRm4hRvgsxStnNwNQ6H0gfHBcBYlzgYBGtugIIAx5Caxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.160.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
+Received: from TW002-1.hihonor.com (unknown [10.72.0.137])
+	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4h0zFB0cGPzYlKMk;
+	Thu, 16 Jul 2026 11:34:54 +0800 (CST)
+Received: from TA009-1.hihonor.com (10.77.226.44) by TW002-1.hihonor.com
+ (10.72.0.137) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Thu, 16 Jul
+ 2026 11:34:53 +0800
+Received: from TA012-1.hihonor.com (10.77.199.132) by TA009-1.hihonor.com
+ (10.77.226.44) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 16 Jul
+ 2026 11:34:53 +0800
+Received: from TA012-1.hihonor.com ([fe80::6668:8cd2:ec5c:99b2]) by
+ TA012-1.hihonor.com ([fe80::6668:8cd2:ec5c:99b2%13]) with mapi id
+ 15.02.2562.017; Thu, 16 Jul 2026 11:34:43 +0800
+From: wangzicheng <wangzicheng@honor.com>
+To: "T.J. Mercier" <tjmercier@google.com>
+CC: "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"yuanchu@google.com" <yuanchu@google.com>, "tj@kernel.org" <tj@kernel.org>,
+	"hannes@cmpxchg.org" <hannes@cmpxchg.org>, "mkoutny@suse.com"
+	<mkoutny@suse.com>, "corbet@lwn.net" <corbet@lwn.net>, "kasong@tencent.com"
+	<kasong@tencent.com>, "qi.zheng@linux.dev" <qi.zheng@linux.dev>,
+	"shakeel.butt@linux.dev" <shakeel.butt@linux.dev>, "baohua@kernel.org"
+	<baohua@kernel.org>, "axelrasmussen@google.com" <axelrasmussen@google.com>,
+	"weixugc@google.com" <weixugc@google.com>, "david@kernel.org"
+	<david@kernel.org>, "ljs@kernel.org" <ljs@kernel.org>, "liam@infradead.org"
+	<liam@infradead.org>, "vbabka@kernel.org" <vbabka@kernel.org>,
+	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>,
+	"mhocko@suse.com" <mhocko@suse.com>, "roman.gushchin@linux.dev"
+	<roman.gushchin@linux.dev>, "muchun.song@linux.dev" <muchun.song@linux.dev>,
+	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>, "linux-mm@kvack.org"
+	<linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "willy@infradead.org" <willy@infradead.org>,
+	denghaojie <denghaojie@honor.com>, "baoquan.he@linux.dev"
+	<baoquan.he@linux.dev>, "kaleshsingh@google.com" <kaleshsingh@google.com>,
+	wangtao <tao.wangtao@honor.com>, zhangji <zhangji1@honor.com>, wangzhen
+	<wangzhen5@honor.com>
+Subject: RE: [RFC v2 0/3] mm/mglru: proactive aging via memory.aging
+Thread-Topic: [RFC v2 0/3] mm/mglru: proactive aging via memory.aging
+Thread-Index: AQHdE4pwfI2vhxgx7kyzLikejPZWhrZuWS0AgAEfKFA=
+Date: Thu, 16 Jul 2026 03:34:42 +0000
+Message-ID: <75116e612e8142f4ada1dfcc834ceb09@honor.com>
+References: <20260714121529.2237261-1-wangzicheng@honor.com>
+ <CABdmKX3y841t4Oqg3RRHTGXWP-LMMSi_exDuxAc4jR9v9ChD2g@mail.gmail.com>
+In-Reply-To: <CABdmKX3y841t4Oqg3RRHTGXWP-LMMSi_exDuxAc4jR9v9ChD2g@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Translate the programming language documentation into Brazilian Portuguese.
-
-Signed-off-by: Abel Philippe <le590616@gmail.com>
----
- pt_BR/process/programming-language.rst | 58 ++++++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
- create mode 100644 pt_BR/process/programming-language.rst
-
-diff --git a/pt_BR/process/programming-language.rst b/pt_BR/process/programming-language.rst
-new file mode 100644
-index 000000000000..1fc0a6be7f65
---- /dev/null
-+++ b/pt_BR/process/programming-language.rst
-@@ -0,0 +1,58 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Linguagem de programação 
-+========================
-+
-+O kernel Linux é escrito na linguagem de programação C [c-language]_.
-+Mais precisamente, ele é normalmente compilado com ``gcc`` [gcc]_
-+sob ``-std=gnu11`` [gcc-c-dialect-options]_, o dialeto GNU da ISO C11.
-+O compilador ``clang`` [clang]_ também é suportado; consulte a documentação em
-+:ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
-+
-+Esse dialeto contém diversas extensões da linguagem [gnu-extensions]_,
-+e muitas delas são utilizadas rotineiramente no kernel.
-+
-+Atributos
-+---------
-+
-+Uma das extensões mais comuns utilizadas em todo o kernel são os atributos
-+[gcc-attribute-syntax]_. Os atributos permitem introduzir
-+semânticas definidas pela implementação em entidades da linguagem (como variáveis,
-+funções ou tipos) sem a necessidade de realizar mudanças sintáticas
-+significativas na linguagem (por exemplo, adicionando uma nova palavra-chave) [n2049]_.
-+
-+Em alguns casos, os atributos são opcionais (isto é, um compilador que não os
-+suporte ainda deve produzir código correto, mesmo que ele seja mais lento ou
-+não execute tantas verificações e diagnósticos durante a compilação).
-+
-+O kernel define pseudopalavras-chave (por exemplo, ``__pure``) em vez de usar
-+diretamente a sintaxe de atributos do GNU (por exemplo, ``__attribute__((__pure__))``)
-+para detectar quais deles podem ser utilizados e/ou para encurtar o código.
-+
-+Por favor, consulte ``include/linux/compiler_attributes.h`` para mais informações.
-+
-+Rust
-+----
-+
-+O kernel tem suporte para a linguagem de programação Rust.
-+[rust-language]_ sob ``CONFIG_RUST``. É compilado com o ``rustc`` [rustc]_ ``rustc`` [rustc]_
-+sob ``--edition=2021`` [rust-editions]_. As edições são uma maneira de introduzir
-+pequenas alterações na linguagem que não são retrocompatíveis.
-+
-+Além disso, alguns recursos instáveis ​​[rust-unstable-features]_ são utilizados no
-+kernel. Recursos instáveis ​​podem sofrer alterações no futuro; portanto, é um
-+objetivo importante chegar a um ponto em que apenas recursos estáveis ​​sejam utilizados.
-+
-+Consulte ``Documentation/rust/index.rst`` para obter mais informações.
-+
-+.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
-+.. [gcc] https://gcc.gnu.org
-+.. [clang] https://clang.llvm.org
-+.. [gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
-+.. [gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
-+.. [gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
-+.. [n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
-+.. [rust-language] https://www.rust-lang.org
-+.. [rustc] https://doc.rust-lang.org/rustc/
-+.. [rust-editions] https://doc.rust-lang.org/edition-guide/editions/
-+.. [rust-unstable-features] https://github.com/Rust-for-Linux/linux/issues/2
--- 
-2.43.0
-
+PiBPbiBUdWUsIEp1bCAxNCwgMjAyNiBhdCA1OjE14oCvQU0gWmljaGVuZyBXYW5nIDx3YW5nemlj
+aGVuZ0Bob25vci5jb20+DQo+IHdyb3RlOg0KPiA+IFRoZSBiZW5lZml0IGlzIHdvcmtsb2FkLWRl
+cGVuZGVudDogZmlsZS1jYWNoZS1ib3VuZCBzZXJ2ZXJzIGdhaW4gZnJvbQ0KPiA+IGFnaW5nLCBh
+bm9uLWJvdW5kIHNlcnZlcnMgZG8gbm90LCBzbyBubyBrZXJuZWwgZGVmYXVsdCBpcyBjb3JyZWN0
+IGZvcg0KPiA+IGFsbC4gIFRoZSBrZXJuZWwgYWxzbyBjYW5ub3Qga25vdyB3aGVuIHRvIGFnZTog
+b24gQW5kcm9pZCB0aGUgcmlnaHQNCj4gPiBtb21lbnQgaXMgdGhlIGZvcmVncm91bmQtdG8tYmFj
+a2dyb3VuZCB0cmFuc2l0aW9uLCB3aGVuIHRoZSBhcHAncyBwYWdlcw0KPiA+IGFyZSBjb2xkIGJ1
+dCB0aGVpciBQVEUgYWNjZXNzZWQgYml0cyBhcmUgc3RpbGwgYWNjdXJhdGUgZnJvbSBmb3JlZ3Jv
+dW5kDQo+ID4gZXhlY3V0aW9uLCBhIGZyYW1ld29yayBjb25jZXB0Lg0KPiANCj4gV2hlbiBhbiBh
+cHAgdHJhbnNpdGlvbnMgYW5kIGJlY29tZXMgY2FjaGVkLCB3ZSBhdHRlbXB0IHRvIHJlY2xhaW0g
+aXRzDQo+IGVudGlyZSB3b3JraW5nc2V0LiBXZSBiYXNpY2FsbHkgY2F0IG1lbW9yeS5jdXJyZW50
+ID4gbWVtb3J5LnJlY2xhaW0NCj4gYW5kIGZyZWV6ZSB0aGUgY2dyb3VwLg0KPiBodHRwczovL2Nz
+LmFuZHJvaWQuY29tL2FuZHJvaWQvcGxhdGZvcm0vc3VwZXJwcm9qZWN0LysvYW5kcm9pZC1sYXRl
+c3QtDQo+IHJlbGVhc2U6c3lzdGVtL2NvcmUvbGlicHJvY2Vzc2dyb3VwL3Rhc2tfcHJvZmlsZXMu
+Y3BwO2RyYz02NWJkN2FiOTQxYTcwDQo+IDliZjA0OTg3MTQwNjk4MTAyMmI5ODhlMTcyMTtsPTcw
+Ng0KPiANCj4gRmlsZSAvIGFub24gYmFsYW5jZSB2cyBob3RuZXNzIGFuZCBnZW5lcmF0aW9uYWwg
+cGxhY2VtZW50IGRvZXNuJ3QNCj4gbWF0dGVyIGluIHRoYXQgc2NlbmFyaW8gYmVjYXVzZSB3ZSB3
+YW50IHRvIGdldCByaWQgb2YgYWxsIG9mIGl0LiBTbyBJDQo+IGRvbid0IHJlYWxseSB1bmRlcnN0
+YW5kIGhvdyB5b3UnZCB3YW50IHRvIHVzZSBhbiBhZ2luZyBrbm9iLg0KDQpIaSBULkouLA0KDQpU
+aGFua3MgZm9yIHRoZSByZWZlcmVuY2UuDQoNCldlIGtub3cgQW5kcm9pZCByZWNsYWltcyB0aGUg
+ZW50aXJlIHdvcmtpbmdzZXQgYW5kIGZyZWV6ZXMgdGhlIGNncm91cA0Kb24gYmFja2dyb3VuZGlu
+ZyAod2UgZGlzY3Vzc2VkIHRoaXMgYXQgTFNGL01NL0JQRiAyMDI2LCBpZiBJIHJlY2FsbCkuDQpX
+ZSBhcmUgY29uY2VybmVkIGFib3V0IHBlcmZvcm1hbmNlOiB0aGF0IG1lYW5zIGEgc3Vic2VxdWVu
+dCBob3Qgc3RhcnQNCmhhcyB0byByZS1mYXVsdCB0aGUgd2hvbGUgc2V0LCB3aGljaCBtYXkgaW5j
+cmVhc2UgSU8sIENQVSwgYW5kIHBvd2VyDQpjb3N0LiBXZSB3b3VsZCBwcmVmZXIgYSByZWNsYWlt
+IHJhdGlvIHR1bmVkIHBlciBTb0MsIHRyYWRpbmcgbWVtb3J5DQpoZWFkcm9vbSBhZ2FpbnN0IGhv
+dC1zdGFydCBsYXRlbmN5Lg0KDQpQcm9hY3RpdmUgYWdpbmcgaXMgd2hhdCBtYWtlcyB0aGF0IHdv
+cmthYmxlOiBhZ2UgZmlyc3Qgc28gYW5vbnltb3VzDQpwYWdlcyBiZWNvbWUgcmVjbGFpbWFibGUs
+IHRoZW4gcmVjbGFpbSB0aGVtIHdoaWxlIHJldGFpbmluZyB0aGUgZmlsZQ0KY2FjaGUuDQoNCmZn
+LT5iZyBpcyBhIHNpbXBsZSBhbmQgZWZmZWN0aXZlIGhldXJpc3RpYy4gUHJvYWN0aXZlIGFnaW5n
+IGlzIHVzZWZ1bA0KYmV5b25kIGl0OiBvbiBmaWxlLWNhY2hlLWJvdW5kIHNlcnZlcnMgKGZpbyBy
+YW5kb20tcmVhZCArMzEuOCUgaW4gb3VyDQptZWFzdXJlbWVudHMpLCBhbmQgbGlrZWx5IGluIG90
+aGVyIEFuZHJvaWQgc2NlbmFyaW9zIHdlIGhhdmUgbm90IHlldA0KZXhwbG9yZWQuDQogIA0KQmVz
+dCwNClppY2hlbmcNCg==
