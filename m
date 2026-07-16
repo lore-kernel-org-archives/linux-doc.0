@@ -1,71 +1,71 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2BC3FFD
-	for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 02:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F152299A84
+	for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 02:11:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784167866; cv=none; b=PXNL4JkxMk1HuyEzj9tM3o+hPjU+XFRnNWKOkxnvmYI/+LeTQ/SXavW9TJz8FyI1x/560B78siCqpahpBAwJEpbf9JDpV/WQjC5BWQlY1YdJvV0ZAD6P+oo/ZEO93pkIF9vX3OS9UvAaFZtOnFKYszqGu3q2K5NAxo5MWLKCq7Q=
+	t=1784167869; cv=none; b=fe0LfTrUtMu1vtEqOpKPb6AtOVerKS5MIKmsj+/lTvYjolPeDdqBg5wcsuQo9haly59Qm+FdhV8cX79tZBaBMqLKC06WVa2H/dPO9JUeJCMkc3zuYMBA/xidVDHx+Er9KgCVA7hSDcR/R1ma1UTwuddFeqKk5CNyv+eBKBaZEkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784167866; c=relaxed/simple;
-	bh=JAnAa7N/w8u3TKRL7ZOG/mFjVmSUOSDvub85w3LJ3xQ=;
+	s=arc-20240116; t=1784167869; c=relaxed/simple;
+	bh=nD6pyuHrdw9jxlIXj5TFY3agQVhBIfrJ4Y3pm7ciWAQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LdGfigQdYp66VM/OclTsqxBERbv5hQUt0/eYQggqT8he51dZLfQ7rpXwQMDitxMgt2hBLVOnvuCL8SjJGfxD95xqa6sYWOdLOPOg7fOgEhARY6HsxR5P1DQMs+Rof19g4NVpdC6Gg+g3jqGDf1IyziCiDEg1wtElTMkA4bjMpXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DUPmEMoR; arc=none smtp.client-ip=209.85.215.172
+	 MIME-Version:Content-Type; b=A6hJDh3RLOgguvFtEWoWTEstwkhiAwJnVQr/Nmp2G2fuUtiWgfx83Cgsv2lKVPqC5Q4O90eH5aO3ba7Uh2VS0Cnw9s3GrFFEBZIoAJmqpLMUFvhc3LWC3tiaVhC+raBSx4SaTD39QykbwFZnMCQ692QONLMByFLgnMn36MCoWBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rQOGfGlp; arc=none smtp.client-ip=209.85.215.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DUPmEMoR"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-ca97d139d5fso4400782a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 19:11:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rQOGfGlp"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-ca80d708489so70723a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 19:11:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784167864; x=1784772664; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784167867; x=1784772667; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=r+4pQFumQXGgug/WBzV3esz5K7cf+rNU7AFF21zZKRk=;
-        b=DUPmEMoRM3aPGy3J2rd8uYj8KJxJ1L3qMLY7Bgw0j35edj50HyyLPeP/CYqFp2SdA9
-         35WLJLunlEU3siXpTs+rBKX1KI+KNFKd9j4hcwneKEOe80AS/XxKrsJG6ts67n925gR/
-         U48Bn8KWGSG2d+Br65Od2Q5e0K7NtNzelnWJ/CM8zZHv2VkSEMnyC1CkQhpaoOBE9VwU
-         TV1smDfKD/z262+4OWlddsBP/i0nPKHtr/KCEZRG+Pc+2m0xwVBo0zuOGFlvVRXsXfXa
-         X5S1hUXEFYYDVwdAzxHvoRE6FI3as4nrRAb20uxg+HfsdeAkAyaJwzzlWuj5rvA3rdzp
-         mrqw==
+        bh=u5y6VGFbM+caqLWfhd1pmJToWZ+jF5fNUg6udSdeK3U=;
+        b=rQOGfGlpXp7/1maR0jAhpcLYWgRWX/cfUrPQkubdeJmDQzSGIR0wPCgofHXBU45S56
+         va1vyRUkGjk+Xn6AEuQBWgkc8gBLVlIHiVkE5OQfuPxPSjBaw193fBv3YY+d7HJ+Cl2a
+         5GukqCMPsGcMvErBs98RfRojf58Yi4IQ9IbANm+nkwxlbNGG2W3DTMB4qhfeUNYN6Kjn
+         b5tanhhB3W2QvMqSegMdlUVok4F65mb8O2PDvEImqDXYXB9x6gu+RdBwffR3TyMtEEnf
+         tL12LEnK1sCpBaDiHuksZQqyQjhDndf2E9EbC0nG8bExQhS+X3lZTgCG4lU1K1tZa194
+         Ea/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784167864; x=1784772664;
+        d=1e100.net; s=20251104; t=1784167867; x=1784772667;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=r+4pQFumQXGgug/WBzV3esz5K7cf+rNU7AFF21zZKRk=;
-        b=BDUx1zWoVmDLK6Cwv7HJvmbo54rBh7wC16bBr99OHKQMHf51InMXzrpUbsUsKc4HHQ
-         eIjtRLNT+GMn+cuBGbxIph0S/J1rh+iAj2hEt++MbxvWVsO2SCjJNjJe4urhk6jX9xsY
-         toTYNiy27DXiWcIWqsjXABr2lgENy2h0MPkrmYC6xSOCggwWyzkgZx67RFftGwdiwzHv
-         xktAamUIe7jw8l8YXcRxr/gpIKdep/+HDEPQn1jLjWYfwoQvx1Gx7iprCK2G8eBp2PvW
-         lH8fbE2c9RalwOUtmbpGvaL40isZU1txnxh2LMA7RjlybKyAGNl8eEFPO+/PlY56MSr5
-         NjvQ==
-X-Gm-Message-State: AOJu0Yx6KxIxHvi7GlxDRTGX5ttKV7c3902UixG2o1aGU3z36G6M0m2P
-	HiD/JNNNLIPpnLSkQSMS8FMzk3W1YAuAuGsaANKyGtY0K+fi+mNDmCt3
-X-Gm-Gg: AfdE7cn4Fwz+iw0k2Wdw7iKIxFd6AF85E4peCxakbFg1qrwrunbGrmAi0C2ryhE0UtE
-	dzL6Y2Pp/bP4fqvR8oMnhMhlSxogOR96JO3JbuHELEH9lG4m3kbKac525F+30LdjISCM2Jnsmb0
-	v7syHNOmIz+uYiY/gsgqS/S4Zu+qnlSFteDIrhLko0eFyv72/XzqvSLgwTDP5/w/O4tksMiKI2x
-	0qyir4kf1gU1oyMKbl7HT1IcEIc7wPWdJWlmJ02+iYwXpZKKYj78JrOJwIP2JopyppBc2sQ1CGX
-	A9K2aw6K+T0xuSriNOrIbIoGHzqCYwSxppmKWnkDWN8MhY97ldKMh25gEAtp1RgJem/c10BxxSX
-	DEMLOrsacWMsKiTPmjaj9FXuz6xVfG1JGIc15+Q4E4/l1pKbSC3g60J7F2hb39KUaKrTrYWDjYL
-	99VsFB+WnONweJQ2N4xEqk7w5754YK7g0FvqhlzGtVhv8bSE+v1CMcyxNZqsJjEg9fRGoxvDZqh
-	LejaOlMYMkL43bCKKrMt7wJ2YUAww==
-X-Received: by 2002:a05:6a20:da1a:b0:3bf:7110:9949 with SMTP id adf61e73a8af0-3c35731bc6emr10277391637.6.1784167863691;
-        Wed, 15 Jul 2026 19:11:03 -0700 (PDT)
+        bh=u5y6VGFbM+caqLWfhd1pmJToWZ+jF5fNUg6udSdeK3U=;
+        b=pksZMv9ulzDUqUDaSRdAE7Bu4UteezHNLLnANN/OgYi21Vfj2Fifm2naQj1pnMJhNE
+         J8XnTC+T2g0kwhcxPVFbiiG7YVQ9YC24cjCaBvzSqHdVrBdadPyJZTveZE93PpuFdeR1
+         agYLY/KZI+w38VcVtHAROVTqEMnZH5/SKFRp/C+Rb3weCZcyhV1v2yYODA9+eIeFNtka
+         RHg2i8W/24AVoyp4A6JItUKahbCFNci3oldnaEj0/m378f3LGClrF/1QIxfzugbODk1O
+         rKlZ/I/7rUpM0e57WOLmGscunAQvFJemEnGgZTJ7/3y829FW9km6bik0v++4PCzhVjrv
+         VcsA==
+X-Gm-Message-State: AOJu0YzLxxm1qAGvNQIqmPC4XZVuD58I8xNFgT7XGm+YCzn0DFBLXb+Y
+	FXFDKTlUigQ60tZBlUWgQxXf1CGtxNKAKy83/Jw1N7Q2r0iS5Wu17k+v
+X-Gm-Gg: AfdE7clxxTomE/8zA+c/3ykgcLeIqzWYmKTVKvLm37ctTMf75Oa4DeGPH5MF5yLakva
+	Wvm8jj9TQCxt1Z4q279fp6glI163pILXt7Fp3esXI9NRnGhE5u3Dhgi7WoBa3pClKcgjhkJoZ86
+	KsioWHyMBN36Osi7FNFtReJ514NpiKuq4zG7byxZ0pMuzEOAuvbyEDNDMi40VCuw931zev1Bfnx
+	NRuuAj73YJjdboP/KbIDhvW66EWao67KIe8m2A7mxzZ6/GzrbYPD2Hgy+ZLZP+rVY0F6TxzaZg5
+	sWQhaaryz7fR18tISFaY2arfCjgZmViZXj1PUWY0FsY3EwcEhwT80ZAL2uQW+Hh+2f54c7TzUUQ
+	8V8FMkWc+MCy9S6Ej0nzx18wxecHYr4c5oWcFWLqZNCjKkZrYprgIauzibFVhRiXh/GhcVo9iUG
+	i9zPtAFBcGFH5ZV/294JCXM1hBNHgIcBzuQXjheWJRWV4TAp7EDma9un94V01QzHQmukvIv5Srm
+	g6S1W+6ZzjPSsm94Z0+nHMs5rzslg==
+X-Received: by 2002:a05:6a20:816:b0:3c3:75c5:48d5 with SMTP id adf61e73a8af0-3c38d8cf132mr517241637.4.1784167866399;
+        Wed, 15 Jul 2026 19:11:06 -0700 (PDT)
 Received: from parrot.bbrouter ([200.218.229.14])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13cd429cee1sm6979209c88.6.2026.07.15.19.11.01
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13cd429cee1sm6979209c88.6.2026.07.15.19.11.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 19:11:03 -0700 (PDT)
+        Wed, 15 Jul 2026 19:11:05 -0700 (PDT)
 From: Daniel Pereira <danielmaraboo@gmail.com>
 To: corbet@lwn.net
 Cc: linux-doc@vger.kernel.org,
 	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: [PATCH 3/4] docs: pt_BR: Translate Code of Conduct to Portuguese
-Date: Wed, 15 Jul 2026 23:10:11 -0300
-Message-ID: <20260716021013.48025-4-danielmaraboo@gmail.com>
+Subject: [PATCH 4/4] docs: pt_BR: Translate deprecated interfaces guide to Portuguese
+Date: Wed, 15 Jul 2026 23:10:12 -0300
+Message-ID: <20260716021013.48025-5-danielmaraboo@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260716021013.48025-1-danielmaraboo@gmail.com>
 References: <20260716021013.48025-1-danielmaraboo@gmail.com>
@@ -78,127 +78,460 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 
-Translate the Contributor Covenant Code of Conduct document from
-Documentation/process/code-of-conduct.rst to Portuguese (pt_BR)
-to ensure the community guidelines are accessible in the local
-language.
+Translate the deprecated interfaces, language features, attributes, and
+conventions document (deprecated.rst) to Portuguese (pt_BR).
 
-Also, add the newly translated file to the main index in the pt_BR
-translation directory to ensure it compiles correctly within the
-Sphinx build.
+This ensures Portuguese-speaking developers have access to local guidelines
+on deprecated APIs (like BUG(), strcpy(), and VLAs), correct usage of
+safe alternatives (like WARN(), strscpy(), and flexible array members),
+and modern object allocator macros (kmalloc_obj).
 
 Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
 ---
- Documentation/translations/pt_BR/index.rst    |  3 +
- .../pt_BR/process/code-of-conduct.rst         | 88 +++++++++++++++++++
- 2 files changed, 91 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/code-of-conduct.rst
+ Documentation/translations/pt_BR/index.rst    |   2 +-
+ .../translations/pt_BR/process/deprecated.rst | 422 ++++++++++++++++++
+ 2 files changed, 423 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/pt_BR/process/deprecated.rst
 
 diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index d9276a8dc..5911442f6 100644
+index 5911442f6..d2a75f5de 100644
 --- a/Documentation/translations/pt_BR/index.rst
 +++ b/Documentation/translations/pt_BR/index.rst
-@@ -85,3 +85,6 @@ kernel e sobre como ver seu trabalho integrado.
-    Adicionando uma nova chamada de Sistema <process/adding-syscalls>
+@@ -86,5 +86,5 @@ kernel e sobre como ver seu trabalho integrado.
     Lista de verificação para submissão de patches do kernel Linux <process/submit-checklist>
     Interpretação do Código de Conduta do Kernel Linux <process/code-of-conduct-interpretation>
-+   Código de Conduta de Compromisso do Colaborador <process/code-of-conduct>
-+
-+
-diff --git a/Documentation/translations/pt_BR/process/code-of-conduct.rst b/Documentation/translations/pt_BR/process/code-of-conduct.rst
+    Código de Conduta de Compromisso do Colaborador <process/code-of-conduct>
+-
++   Interfaces, recursos de linguagem, atributos e convenções obsoletos <process/deprecated>
+ 
+diff --git a/Documentation/translations/pt_BR/process/deprecated.rst b/Documentation/translations/pt_BR/process/deprecated.rst
 new file mode 100644
-index 000000000..1ab171bf2
+index 000000000..2793a1fc9
 --- /dev/null
-+++ b/Documentation/translations/pt_BR/process/code-of-conduct.rst
-@@ -0,0 +1,88 @@
++++ b/Documentation/translations/pt_BR/process/deprecated.rst
+@@ -0,0 +1,422 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+.. _pt_BR_code_of_conduct:
++========================================================================
++Interfaces, recursos de linguagem, atributos e convenções obsoletos
++========================================================================
 +
-+Código de Conduta de Compromisso do Colaborador
-++++++++++++++++++++++++++++++++++++++++++++++++
++Em um mundo perfeito, seria possível converter todas as instâncias de alguma
++API obsoleta para a nova API e remover completamente a API antiga em um único
++ciclo de desenvolvimento. No entanto, devido ao tamanho do kernel, à hierarquia
++de manutenção e ao cronograma, nem sempre é viável realizar esse tipo de
++conversão de uma só vez. Isso significa que novas instâncias podem acabar
++entrando no kernel enquanto as antigas estão sendo removidas, apenas aumentando
++o volume de trabalho para remover a API. A fim de instruir os desenvolvedores
++sobre o que se tornou obsoleto e o porquê, esta lista foi criada para servir de
++referência quando o uso de elementos obsoletos for proposto para inclusão no
++kernel.
 +
-+Nosso Compromisso
-+=================
++__deprecated
++------------
++Embora este atributo marque visualmente uma interface como obsoleta, ele `não
++gera mais avisos durante as compilações
++<https://git.kernel.org/linus/771c035372a036f83353eef46dbb829780330234>`_ porque
++um dos objetivos permanentes do kernel é compilar sem avisos (*warnings*), e
++ninguém estava de fato agindo para remover essas interfaces obsoletas. Embora o
++uso de `__deprecated` seja útil para sinalizar uma API antiga em um arquivo de
++cabeçalho (*header file*), não é a solução completa. Tais interfaces devem ser
++totalmente removidas do kernel ou adicionadas a este arquivo para desestimular
++outros desenvolvedores de usá-las no futuro.
 +
-+No interesse de promover um ambiente aberto e acolhedor, nós, como colaboradores
-+e mantenedores, nos comprometemos a tornar a participação em nosso projeto e em
-+nossa comunidade uma experiência livre de assédio para todos, independentemente
-+da idade, tamanho corporal, deficiência, etnia, características sexuais,
-+identidade e expressão de gênero, nível de experiência, educação, status
-+socioeconômico, nacionalidade, aparência pessoal, raça, religião ou identidade
-+e orientação sexual.
++BBUG() e BUG_ON()
++-----------------
++Em vez disso, use WARN() e WARN_ON() e trate a condição de erro "impossível"
++da forma mais amigável possível. Embora a família de APIs BUG() tenha sido
++originalmente projetada para agir como uma asserção de "situação impossível" e
++eliminar uma thread do kernel de forma "segura", ela se mostrou arriscada
++demais. (Por exemplo: "Em que ordem os bloqueios precisam ser liberados? Os
++diversos estados foram restaurados?") Muito frequentemente, o uso de BUG() vai
++desestabilizar o sistema ou travá-lo por completo, o que torna impossível
++depurar ou até mesmo obter relatórios de travamento (*crash reports*) viáveis.
++Linus tem opiniões `muito fortes
++<https://lore.kernel.org/lkml/CA+55aFy6jNLsywVYdGp83AMrXBo_P-pkjkphPGrO=82SPKCpLQ@mail.gmail.com/>`_
++`sobre isso
++<https://lore.kernel.org/lkml/CAHk-=whDHsbK3HTOpTF=ue_o04onRwTEaK_ZoJp_fjbqq4+=Jw@mail.gmail.com/>`_.
 +
-+Nossos Padrões
-+==============
++Note que a família WARN() só deve ser usada para situações que "espera-se que
++sejam inacessíveis". Se você quiser alertar sobre situações que são
++"acessíveis, mas indesejáveis", use a família de funções pr_warn(). Os
++administradores do sistema podem ter configurado o sysctl *panic_on_warn* para
++garantir que seus sistemas não continuem executando diante de condições
++"inacessíveis". (Para exemplos, veja commits como `este aqui
++<https://git.kernel.org/linus/d4689846881d160a4d12a514e991a740bcb5d65a>`_.)
 +
-+Exemplos de comportamentos que contribuem para a criação de um ambiente positivo
-+incluem:
++Aritmética explícita em argumentos do alocador
++----------------------------------------------
++Cálculos dinâmicos de tamanho (especialmente multiplicação) não devem ser
++realizados em argumentos de funções de alocação de memória (ou similares)
++devido ao risco de estouro de capacidade (*overflow*). Isso poderia fazer com
++que os valores dessem a volta (*wrap around*), resultando em uma alocação menor
++do que o esperado pelo chamador. O uso dessas alocações pode levar a estouros
++lineares na memória heap e a outros comportamentos incorretos. (Uma exceção a
++isso são valores literais onde o compilador pode emitir um aviso se houver
++risco de estouro. No entanto, a maneira preferível nesses casos é refatorar o
++código conforme sugerido abaixo para evitar a aritmética explícita.)
 +
-+* Utilizar linguagem acolhedora e inclusiva
-+* Respeitar pontos de vista e experiências divergentes
-+* Aceitar críticas construtivas de forma cortês
-+* Focar no que é melhor para a comunidade
-+* Demonstrar empatia para com outros membros da comunidade
++Por exemplo, não use ``count * size`` como argumento, como em::
 +
-+Exemplos de comportamentos inaceitáveis por parte dos participantes incluem:
++        foo = kmalloc(count * size, GFP_KERNEL);
 +
-+* O uso de linguagem ou imagens de teor sexual, bem como atenção ou avanços
-+  sexuais indesejados
-+* Provocações (*trolling*), comentários insultuosos/depreciativos e ataques
-+  pessoais ou políticos
-+* Assédio público ou privado
-+* Publicar informações privadas de terceiros, como endereço físico ou eletrônico,
-+  sem permissão explícita
-+* Qualquer outra conduta que possa ser razoavelmente considerada inadequada em um
-+  ambiente profissional
++Em vez disso, a forma de dois fatores do alocador deve ser utilizada::
 +
-+Nossas Responsabilidades
-+========================
++        foo = kmalloc_array(count, size, GFP_KERNEL);
 +
-+Os mantenedores são responsáveis por esclarecer os padrões de comportamento
-+aceitável e devem tomar medidas corretivas apropriadas e justas em resposta a
-+quaisquer casos de comportamento inaceitável.
++Especificamente, kmalloc() pode ser substituído por kmalloc_array(), e
++kzalloc() pode ser substituído por kcalloc().
 +
-+Os mantenedores têm o direito e a responsabilidade de remover, editar ou rejeitar
-+comentários, commits, código, edições em wiki, issues e outras contribuições que
-+não estejam alinhadas a este Código de Conduta, ou de banir temporária ou
-+permanentemente qualquer colaborador por outros comportamentos que considerem
-+inadequados, ameaçadores, ofensivos ou prejudiciais.
++Se nenhuma forma de dois fatores estiver disponível, os auxiliares de
++saturação em estouro (*saturate-on-overflow*) devem ser usados::
 +
-+Escopo
-+======
++        bar = dma_alloc_coherent(dev, array_size(count, size), &dma, GFP_KERNEL);
 +
-+Este Código de Conduta se aplica tanto dentro dos espaços do projeto quanto em
-+espaços públicos quando um indivíduo estiver representando o projeto ou sua
-+comunidade. Exemplos de representação do projeto ou comunidade incluem o uso de um
-+endereço de e-mail oficial do projeto, publicações por meio de uma conta oficial
-+em redes sociais ou atuar como um representante nomeado em um evento online ou
-+presencial. A representação de um projeto pode ser detalhada e esclarecida de forma
-+adicional pelos mantenedores do projeto.
++Outro caso comum a ser evitado é calcular o tamanho de uma estrutura com uma
++matriz final de outras estruturas, como em::
 +
-+Aplicação
-+=========
++        header = kzalloc(sizeof(*header) + count * sizeof(*header->item),
++                         GFP_KERNEL);
 +
-+Casos de comportamento abusivo, de assédio ou inaceitável sob qualquer outro aspecto
-+podem ser relatados entrando em contato com o Comitê do Código de Conduta pelo e-mail
-+<conduct@kernel.org>. Todas as reclamações serão revisadas e investigadas, resultando
-+em uma resposta considerada necessária e adequada às circunstâncias. O Comitê do
-+Código de Conduta é obrigado a manter a confidencialidade em relação ao denunciante
-+de um incidente. Detalhes adicionais sobre políticas de aplicação específicas podem
-+ser publicados separadamente.
++Em vez disso, use o auxiliar::
 +
-+Atribuição
-+==========
++        header = kzalloc(struct_size(header, item, count), GFP_KERNEL);
 +
-+Este Código de Conduta foi adaptado do Contributor Covenant, versão 1.4,
-+disponível em https://www.contributor-covenant.org/version/1/4/code-of-conduct.html
++.. note:: Se você estiver usando struct_size() em uma estrutura que contém uma
++        matriz de comprimento zero ou de um único elemento como membro final,
++        refatore o uso dessa matriz e mude para um `membro de matriz flexível
++        <#zero-length-and-one-element-arrays>`_ em seu lugar.
 +
-+Interpretação
-+=============
++Para outros cálculos, faça a composição usando os auxiliares size_mul(),
++size_add() e size_sub(). Por exemplo, no caso de::
 +
-+Consulte o documento :ref:`code_of_conduct_interpretation` para entender como a
-+comunidade do kernel Linux interpretará este documento.
++        foo = krealloc(current_size + chunk_size * (count - 3), GFP_KERNEL);
++
++Em vez disso, use os auxiliares::
++
++        foo = krealloc(size_add(current_size,
++                                size_mul(chunk_size,
++                                         size_sub(count, 3))), GFP_KERNEL);
++
++Para mais detalhes, veja também array3_size() e flex_array_size(), bem como as
++funções relacionadas das famílias check_mul_overflow(), check_add_overflow(),
++check_sub_overflow() e check_shl_overflow().\
++
++simple_strtol(), simple_strtoll(), simple_strtoul(), simple_strtoull()
++----------------------------------------------------------------------
++As funções simple_strtol(), simple_strtoll(), simple_strtoul() e
++simple_strtoull() ignoram explicitamente estouros de capacidade (*overflows*),
++o que pode levar a resultados inesperados nos chamadores. As respectivas
++funções kstrtol(), kstrtoll(), kstrtoul() e kstrtoull() tendem a ser as
++substitutas corretas, embora se deva notar que estas exigem que a string seja
++terminada em NUL ou em nova linha (*newline*).
++
++strcpy()
++--------
++A função strcpy() não realiza verificação de limites no buffer de destino.
++Isso pode resultar em estouros lineares além do final do buffer, levando a todo
++tipo de comportamentos incorretos. Embora ``CONFIG_FORTIFY_SOURCE=y`` e várias
++opções do compilador ajudem a reduzir o risco de usar esta função, não há uma
++boa razão para adicionar novos usos dela. A substituta segura é strscpy(),
++embora se deva ter cuidado nos casos em que o valor de retorno de strcpy() era
++utilizado, já que strscpy() não retorna um ponteiro para o destino, mas sim a
++quantidade de bytes não-NUL copiados (ou um código de erro errno negativo quando
++ocorre truncamento).
++
++strncpy()
++---------
++A função strncpy() foi removida do kernel. Todos os chamadores antigos foram
++migrados para alternativas mais seguras.
++
++A função strncpy() não garantia a terminação em NUL do buffer de destino,
++levando a estouros de leitura linear e outros comportamentos incorretos. Ela
++também preenchia incondicionalmente o destino com NUL, o que representava uma
++penalidade de desempenho desnecessária para chamadores que usavam apenas
++strings terminadas em NUL. Devido aos seus diversos comportamentos, ela era uma
++API ambígua para determinar qual era a real intenção do autor ao realizar a
++cópia.
++
++As substitutas para strncpy() são:
++
++- strscpy() quando o destino deve ser terminado em NUL.
++- strscpy_pad() quando o destino deve ser terminado em NUL e preenchido com
++  zeros (por exemplo, estruturas que cruzam fronteiras de privilégio).
++- memtostr() para destinos terminados em NUL a partir de origens de largura
++  fixa não terminadas em NUL (com o atributo ``__nonstring`` na origem).
++- memtostr_pad() para o mesmo caso anterior, mas com preenchimento de zeros.
++- strtomem() para destinos de largura fixa não terminados em NUL, com o
++  atributo ``__nonstring`` no destino.
++- strtomem_pad() para destinos não terminados em NUL que também precisam de
++  preenchimento com zeros.
++- memcpy_and_pad() para cópias limitadas a partir de origens potencialmente não
++  terminadas, onde o tamanho do destino é um valor definido em tempo de
++  execução (*runtime*).
++
++strlcpy()
++---------
++A função strlcpy() lê primeiro todo o buffer de origem (já que o valor de
++retorno deve corresponder ao de strlen()). Essa leitura pode exceder o limite
++de tamanho do destino. Isso é ineficiente e pode levar a estouros de leitura
++linear se a string de origem não for terminada em NUL. A substituta segura é
++strscpy(), embora se deva ter cuidado nos casos em que o valor de retorno de
++strlcpy() é utilizado, já que strscpy() retornará valores negativos de errno
++quando houver truncamento.
++
++Especificador de formato %p
++----------------------------
++Tradicionalmente, o uso de "%p" em strings de formatação causava falhas de
++exposição de endereços reais no dmesg, proc, sysfs, etc. Em vez de deixar esses
++endereços expostos a explorações, todos os usos de "%p" no kernel agora são
++exibidos como um valor hash, tornando-os inúteis para fins de endereçamento.
++Novos usos de "%p" não devem ser adicionados ao kernel. Para endereços de texto,
++usar "%pS" costuma ser melhor, pois exibe o nome do símbolo, que é muito mais
++útil. Para quase todo o restante, simplesmente não adicione "%p" de forma
++alguma.
++
++Parafraseando as diretrizes atuais do Linus `guidance
++<https://lore.kernel.org/lkml/CA+55aFwQEd_d40g4mUCSsVRZzrFPUJt74vc6PPpb675hYNXcKw@mail.gmail.com/>`_:
++
++- Se o valor hash de "%p" é inútil, pergunte a si mesmo se o ponteiro em si é
++  importante. Talvez ele deva ser removido por completo?
++- Se você realmente acredita que o valor real do ponteiro é importante, por que
++  algum estado do sistema ou nível de privilégio do usuário seria considerado
++  "especial"? Se você acha que pode justificar isso (em comentários e no log de
++  commit) de forma sólida o suficiente para resistir ao escrutínio do Linus,
++  talvez possa usar "%px", certificando-se de aplicar permissões adequadas.
++
++Se você estiver depurando algo em que a geração de hash de "%p" esteja causando
++problemas, é possível inicializar o sistema temporariamente com a opção de
++depuração "`no_hash_pointers
++<https://git.kernel.org/linus/5ead723a20e0447bc7db33dc3070b420e5f80aa6>`_".
++
++Matrizes de Tamanho Variável (VLAs)
++-----------------------------------
++O uso de VLAs (Variable Length Arrays) na pilha de execução gera um código de
++máquina muito pior do que matrizes de tamanho estático na pilha. Embora esses
++problemas significativos de `desempenho
++<https://git.kernel.org/linus/02361bc77888>`_ sejam motivo suficiente para
++eliminar as VLAs, elas também representam um risco de segurança. O crescimento
++dinâmico de uma matriz na pilha pode exceder a memória restante no segmento da
++pilha. Isso pode levar a um travamento, à possível sobrescrita de dados
++sensíveis no final da pilha (quando compilado sem ``CONFIG_THREAD_INFO_IN_TASK=y``)
++ou à sobrescrita de posições de memória adjacentes à pilha (quando compilado sem
++``CONFIG_VMAP_STACK=y``).
++
++Passagem direta implícita no switch case (fall-through)
++-------------------------------------------------------
++A linguagem C permite que o fluxo de execução de um bloco switch passe
++diretamente para o próximo caso (fall-through) quando uma instrução "break"
++está ausente ao final de um caso. No entanto, isso introduz ambiguidade no
++código, pois nem sempre fica claro se o "break" ausente é intencional ou um bug.
++Por exemplo, não é óbvio apenas olhando para o código se o ``STATE_ONE`` foi
++intencionalmente projetado para passar diretamente para o ``STATE_TWO``::
++
++        switch (value) {
++        case STATE_ONE:
++                do_something();
++        case STATE_TWO:
++                do_other();
++                break;
++        default:
++                WARN("unknown state");
++        }
++
++Como há uma longa lista de falhas `causadas pela ausência de instruções "break"
++<https://cwe.mitre.org/data/definitions/484.html>`_, não permitimos mais a
++passagem direta implícita. Para identificar os casos de passagem direta
++intencionais, adotamos a macro pseudo-palavra-chave "fallthrough", que se
++expande para a extensão do gcc `__attribute__((__fallthrough__))
++<https://gcc.gnu.org/onlinedocs/gcc/Statement-Attributes.html>`_. (Quando a
++sintaxe ``[[fallthrough]]`` do C17/C18 for suportada de forma mais ampla por
++compiladores C, analisadores estáticos e IDEs, poderemos mudar para o uso dessa
++sintaxe para a pseudo-palavra-chave da macro.)
++
++Todos os blocos de switch/case devem terminar com um dos seguintes elementos:
++
++* break;
++* fallthrough;
++* continue;
++* goto <rótulo>;
++* return [expressão];
++
++Matrizes de comprimento zero e de um único elemento
++----------------------------------------------------
++Há uma necessidade frequente no kernel de fornecer uma maneira de declarar uma
++estrutura com um conjunto de elementos finais de tamanho dinâmico. O código do
++kernel deve sempre usar `"membros de matriz flexível"
++<https://en.wikipedia.org/wiki/Flexible_array_member>`_ para esses casos. O
++estilo antigo de matrizes de um único elemento ou de comprimento zero não deve
++mais ser utilizado.
++
++No código C mais antigo, elementos finais de tamanho dinâmico eram declarados
++especificando uma matriz de um elemento ao final de uma estrutura::
++
++        struct something {
++                size_t count;
++                struct foo items[1];
++        };
++
++Isso levava a cálculos de tamanho frágeis via sizeof() (que exigiam a subtração
++do tamanho do elemento final único para obter o tamanho correto do "cabeçalho").
++Uma `extensão GNU C <https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_ foi
++introduzida para permitir matrizes de comprimento zero, a fim de evitar esses
++problemas de cálculo de tamanho::
++
++        struct something {
++                size_t count;
++                struct foo items[0];
++        };
++
++No entanto, isso trouxe outros problemas e não resolveu algumas limitações de
++ambos os estilos, como a incapacidade de detectar quando tal matriz é usada
++acidentalmente *fora* do final de uma estrutura (o que poderia ocorrer
++diretamente, ou quando tal estrutura estava contida em unions, estruturas de
++estruturas, etc.).
++
++O padrão C99 introduziu os "membros de matriz flexível", nos quais a declaração
++da matriz simplesmente não possui um tamanho numérico::
++
++        struct something {
++                size_t count;
++                struct foo items[];
++        };
++
++Esta é a maneira como o kernel espera que elementos finais de tamanho dinâmico
++sejam declarados. Isso permite que o compilador gere erros quando a matriz
++flexível não for o último elemento da estrutura, o que ajuda a evitar que bugs
++de `comportamento indefinido
++<https://git.kernel.org/linus/76497732932f15e7323dc805e8ea8dc11bb587cf>`_ sejam
++introduzidos inadvertidamente na base de código. Também permite que o
++compilador analise corretamente os tamanhos das matrizes (via sizeof(),
++``CONFIG_FORTIFY_SOURCE`` e ``CONFIG_UBSAN_BOUNDS``). Por exemplo, não existe um
++mecanismo que nos alerte de que a seguinte aplicação do operador sizeof() a uma
++matriz de comprimento zero sempre resulta em zero::
++
++        struct something {
++                size_t count;
++                struct foo items[0];
++        };
++
++        struct something *instance;
++
++        instance = kmalloc(struct_size(instance, items, count), GFP_KERNEL);
++        instance->count = count;
++
++        size = sizeof(instance->items) * instance->count;
++        memcpy(instance->items, source, size);
++
++Na última linha do código acima, ``size`` acaba sendo ``zero``, quando se
++poderia pensar que ele representaria o tamanho total em bytes da memória
++dinâmica recentemente alocada para a matriz final ``items``. Aqui estão alguns
++exemplos deste problema: `link 1
++<https://git.kernel.org/linus/f2cd32a443da694ac4e28fbf4ac6f9d5cc63a539>`_,
++`link 2
++<https://git.kernel.org/linus/ab91c2a89f86be2898cee208d492816ec238b2cf>`_.
++Em vez disso, `membros de matriz flexível têm tipo incompleto e, portanto, o
++operador sizeof() não pode ser aplicado
++<https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_, de modo que qualquer
++uso incorreto de tais operadores será imediatamente percebido em tempo de
++compilação.
++
++Em relação às matrizes de um único elemento, é preciso estar muito ciente de que
++`tais matrizes ocupam pelo menos o mesmo espaço que um único objeto daquele tipo
++<https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_ e, portanto, contribuem
++para o tamanho da estrutura que as contém. Isso é propício a erros sempre que se
++deseja calcular o tamanho total da memória dinâmica a ser alocada para uma
++estrutura que contém uma matriz desse tipo como membro::
++
++        struct something {
++                size_t count;
++                struct foo items[1];
++        };
++
++        struct something *instance;
++
++        instance = kmalloc(struct_size(instance, items, count - 1), GFP_KERNEL);
++        instance->count = count;
++
++        size = sizeof(instance->items) * instance->count;
++        memcpy(instance->items, source, size);
++
++No exemplo acima, foi necessário lembrar de calcular ``count - 1`` ao usar o
++auxiliar struct_size(); caso contrário, teríamos alocado memória --de forma não
++intencional-- para um objeto ``items`` a mais. A maneira mais limpa e menos
++sujeita a erros de implementar isso é através do uso de um `membro de matriz
++flexível`, em conjunto com os auxiliares struct_size() e flex_array_size()::
++
++        struct something {
++                size_t count;
++                struct foo items[];
++        };
++
++        struct something *instance;
++
++        instance = kmalloc(struct_size(instance, items, count), GFP_KERNEL);
++        instance->count = count;
++
++        memcpy(instance->items, source, flex_array_size(instance, items, instance->count));
++
++Existem dois casos especiais de substituição nos quais o auxiliar
++DECLARE_FLEX_ARRAY() precisa ser utilizado. (Note que ele é nomeado
++__DECLARE_FLEX_ARRAY() para uso em cabeçalhos de UAPI.) Esses casos ocorrem
++quando a matriz flexível está sozinha em uma estrutura ou faz parte de uma
++union. Isso não é permitido pela especificação C99, mas sem justificativa
++técnica (como pode ser visto tanto pelo uso existente de tais matrizes nesses
++locais quanto pela solução alternativa que DECLARE_FLEX_ARRAY() adota). Por
++exemplo, para converter isto::
++
++        struct something {
++                ...
++                union {
++                        struct type1 one[0];
++                        struct type2 two[0];
++                };
++        };
++
++O auxiliar deve ser utilizado::
++
++        struct something {
++                ...
++                union {
++                        DECLARE_FLEX_ARRAY(struct type1, one);
++                        DECLARE_FLEX_ARRAY(struct type2, two);
++                };
++        };
++
++Atribuições diretas de kmalloc para objetos struct
++--------------------------------------------------
++Realizar atribuições diretas (*open-coded*) de alocações da família kmalloc()
++impede que o kernel (e o compilador) consigam examinar o tipo da variável que
++está recebendo a atribuição, o que limita qualquer introspecção relacionada que
++possa ajudar com alinhamento, estouros de capacidade (*wrap-around*) ou
++proteções adicionais (*hardening*). A família de macros kmalloc_obj() fornece
++essa introspecção, que pode ser usada para os padrões de código comuns de
++alocações de objetos únicos, de matrizes ou de objetos flexíveis. Por exemplo,
++estas atribuições diretas::
++
++        ptr = kmalloc(sizeof(*ptr), gfp);
++        ptr = kzalloc(sizeof(*ptr), gfp);
++        ptr = kmalloc_array(count, sizeof(*ptr), gfp);
++        ptr = kcalloc(count, sizeof(*ptr), gfp);
++        ptr = kmalloc(struct_size(ptr, flex_member, count), gfp);
++        ptr = kmalloc(sizeof(struct foo), gfp);
++
++tornam-se, respectivamente::
++
++        ptr = kmalloc_obj(*ptr [, gfp] );
++        ptr = kzalloc_obj(*ptr [, gfp] );
++        ptr = kmalloc_objs(*ptr, count [, gfp] );
++        ptr = kzalloc_objs(*ptr, count [, gfp] );
++        ptr = kmalloc_flex(*ptr, flex_member, count [, gfp] );
++        __auto_type ptr = kmalloc_obj(struct foo [, gfp] );
++
++O argumento gfp é opcional, sendo o valor padrão GFP_KERNEL. Se
++``ptr->flex_member`` estiver anotado com __counted_by(), a alocação falhará
++automaticamente caso ``count`` seja maior do que o valor máximo representável
++que pode ser armazenado no membro contador associado a ``flex_member``.
 -- 
 2.47.3
 
