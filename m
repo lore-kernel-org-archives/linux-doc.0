@@ -1,129 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DD933B6CC;
-	Thu, 16 Jul 2026 17:06:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784221581; cv=none; b=cvzYUlQYwen3ltwBfXuZ8IDTB3a+NNY46bDd3sfN6VGGmv+qqbhyOXr6cRfXvUlZteWlubCwtQ50Ze9zQDTD7KvRPf0bg3vzTN9khc4YHQuVvsGEyENaflQ+fRtyVbUUIYcjuWW9Z2r+vLtaPVbGMD2rBjHweRcStc+RcFfg0Ac=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784221581; c=relaxed/simple;
-	bh=ZiaXKH6KIv2mthdbKUHPydWyz6b+urR23vEvGyuEE7Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UeLl5WYIiM3Sx6iC3y1lVA4+tXWu0vO1AQkGFsQGzi9E1BIEC45krmKoxmxTq+oGmnNHCD01CaFhuuZz6s95WfAyQyG97f/1iuidkMFevV1qQJscMIOJi2zrVGn1kn+pzuurrfzrY98UqARHW78ElwEQEFMe8xXrhG3Y+EBJf54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vd9SDzdl; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D84942A78D
+	for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 17:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784222409; cv=pass; b=m5ugB9OVrzxBqnsAOQ6jw+TKseEoCFqzno6YoIRCHimM7HaB2fHj9Ie/k7hyqmso3o5HA4tU7AqYlhy3VFAejpsn6TZkMmCeIImI+TzfBQEd+7f5JklqK/7ZxQoLRwZeMJwhOR9kSJzKKot0MobcBqx4UA7d53fKUufeldTVpbU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784222409; c=relaxed/simple;
+	bh=WgNPTyzJP6h+/loXvXxBK9obj+cvdvHP8r+IDx+BJ1I=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Q+DZ3NBVnh4ctuQa2TLWPDqqatMh52zoQDO2M8tNX/iTK/wVa7m8s8RkEN8+DFqSMB4iXhRsS+oiYbrlAIE9hI9ApeJQOxAqy3X372KPdvuqipEntgqQ1inNRC3U5XoIDDtr5cUwx421zoT+OXjtMQMvYh5x+GwQrrsUhPdUz6s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=V5FFJtkQ; arc=pass smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vd9SDzdl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76D6C1F000E9;
-	Thu, 16 Jul 2026 17:06:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784221579;
-	bh=vJ/iingNaWhl/fNmEqqQNxJ9xHGV9HBu1LVDtl0lzDo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Vd9SDzdlRYLy+ecStpBG8rSMhRXcYfscRrcuIhk1B43lRHLPjDQ1bhdTxxgfWUh5a
-	 vV8copUpTYRTtvVFuPmxqFVMqWYE32uVUHGyplazR7We08PsAIhPNCCJaVaSrpqpbT
-	 8qaa+Ju4g9cpwBKHMwjkRUKazrBggsEhRtXmFvgl8GFT0/YNSfipuMEyACGM0cU+Tz
-	 gDBf/FLs6ALqZ2UlIxYsvsP+pmRMF9+Ieg6Z0PsQ42bECD9k6hb9dftPXd51TNXmsl
-	 SsysBM4OELSHNmnLA4VLpvVqlKuJrdz2Gqlqg8ogEUt0/IFGbE9nsuBuqWl17GLHd0
-	 +e93xQ9ezsqdA==
-Date: Thu, 16 Jul 2026 18:06:13 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Janani Sunil <janani.sunil@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Marius Cristea <marius.cristea@microchip.com>,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	Kent Gustavsson <kent@minoris.se>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>,
-	linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>
-Subject: Re: [PATCH v6 1/5] spi: dt-bindings: Add spi-device-addr peripheral
- property
-Message-ID: <20260716-stole-copious-7cdaacb6cef6@spud>
-References: <20260715-ad5529r-driver-v6-0-cfdf8b9f5ee3@analog.com>
- <20260715-ad5529r-driver-v6-1-cfdf8b9f5ee3@analog.com>
- <1c4af9b1-9937-4cbb-b57f-52ac575b8b89@sirena.org.uk>
- <lpbqk3wv6emhdtxhnczrgufzzxprcfpfgenfepnmzhzfj3b3ci@rdphuko7ikti>
- <157154d1-3995-454b-9e08-1527f1c5d409@sirena.org.uk>
- <jsximyohkijphqrtgat6cjtcvtirjsdtbgn3lb6npw6yhgmcth@tq64dotfowss>
- <0e3e45fe-4c34-45d0-b985-0938f60b5914@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="V5FFJtkQ"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ccf2360620so31439435ad.3
+        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 10:20:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784222407; cv=none;
+        d=google.com; s=arc-20260327;
+        b=IRtB8Kx9ZkHYxNCXvQ+WxU6XEeQzSRxt4afKesX2S1YnIyNl2NW8aTo4Fz3WkFGRh5
+         N0kP02jMHLt6Bo9ShQcnvtctP1C7QTIdPfSamTsPi29wroHCZ3LqtCFkSxbN8vF6ci5Y
+         qtjL7C7Rl4kGmpbAAq+C9uP45+GXV+TM1WnBeuT6pWJEgjpjBri01OpU4J60OvCT7H2Y
+         13UAKNF0AYJsauei0YhRGWAd4N+m5uS1m69pn0jgJEZLppQTlnJTw8pm232zW8RS3mtu
+         nskp0Ia81ISdvW9e+g3wGExg7BtaXGR3uRRkPryslx+X4+GF1hJxUdZ5J3bC8vMbEA6F
+         57rA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=hDpH4vLaInenlGkSSwc32ERdxUXfDeJnyW2zrivGsV0=;
+        fh=aCBDWsh5MY8XEMAPdGvoc86Z3Jn5xKBXTfmBXaDeuEs=;
+        b=dGY72hzLe6QdaQ4+/WIpH59FAQyEpbvuH/qyc48gkQZmZG2aiwddrZ1qB9nW1/5g8b
+         irb8N2WqQTdzBitdLBmcgxeC9y6goURdEThLQFFHOERQdThRm9Rn2KSppjujI1+ZEBRk
+         1J+kMogiMurWH59BjNTlSD9JC3ERl+ujZdB+DQyMu557PQWooUzqdhfJgoKAG3WWhwWF
+         JqWKvRxxjrrDCt3cWCiCheXZnSLd6XEhf7MDDMzc4LHiehSt4yDr+Cb8iLoFFh965zXS
+         IiYkighz90h17PJqJflxKlSZKEZNTBIzpf64d/rKwTaQ20iTdF0IcSurYetVAUgYI/CS
+         SmZw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1784222407; x=1784827207; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hDpH4vLaInenlGkSSwc32ERdxUXfDeJnyW2zrivGsV0=;
+        b=V5FFJtkQtJ5Of38LJ1sNYFN6lEt2zSeQlQhqKa7Eztd4arzlzvQYtO5vQms52mDfqW
+         stQkSkmY79dewsm9D6RGU0g7NN2THOzuBAMSs0vUHPIpW/kDULG4x8kTaZLXeKjahtET
+         hSmaCIzO/vzFMdUWrz9M44vrBs0Fv0XSLP8aSVWYsW+kxT7FnW9bu1b3++B73yUKKlEc
+         IZWP4d8IXEcY8zl9qrszxW4PholUJthVAOkvtSrTXrwE/Am8Uxbsjau7q4gh199mfvg5
+         PyD+eYQT890r3GNeGACnTDNovfBDuQrxrAcBNcpGGdx/yeSkTWLApNwfql7QSPVYJYfB
+         7/cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784222407; x=1784827207;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hDpH4vLaInenlGkSSwc32ERdxUXfDeJnyW2zrivGsV0=;
+        b=nguZuhilNVWsbYk1EIJpkLJB1fAWWUcV1/B/nf3qkSmRCr/fXxbogunuS7a+VnrCSg
+         1byAch/9ZpaEuGwi0vaGIXqV0xJHi4mUmYAWSw65Y0q1CYJKYb+/xryD5/tRJMuX1O+5
+         lADgvERnyDbclkMXOQu+9S/LgQQ7YFjACpzH+a8Roiizl44+4rMWiVlsEHyXi5wAYLuq
+         7YjPH1t5GlwNcCb45y0V7VS6rIfbSi/IzRVlZKOHss5XjQB7QMwMcbfrdWp556Hne7h7
+         dS0o63OP9pJfEF0Gt6ygAPxvy7Ah+DCBi7eH23I+SmSsF7FoRqO/4HIXRk1gq9THUTmz
+         T3XQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rol7JMhbKwHimy80ytI6gwKhfyeTlQICkofF9/aC7WvGQ552BaPtd3yjpppeSZQzJ95wuqXVSy45pY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmiWIKWIjK087HU2AOpCqOOkW4Ezx9P9CBRfh6JHzFeDR5ALpg
+	W7oUdAUpHyKmGdWl4kORGksZhNQSrTRJTflGxVvDN8wYcY8sZpfUdlHi30Fq74xGPUeiv4Dgw44
+	SavNLyLCTxXgamK9VsRc8Y7mxev2CK/ll6i5BzhCA
+X-Gm-Gg: AfdE7clxWEx3W51ADg6+xLeBW9b/+2mgsSc9ZFE/evX+Q0uye3o+TjhAkhoBWyx5q5A
+	LssA5rq2IEFbcLbEMQZ4TcM8FGMlITQwpo7eAEebMiRpZN/40YXrW2cvAIoFNKBtEiMQOZKKCAO
+	zU/q3wPdmS07/8/n7FQGckjp0cDv5XuNFxRqeUCsOV6VycXfWUug0ZOJ+5NORH0SvcmtLT7Hgel
+	zRELUy+9mQtjFlT3wyF/088/JY/w3JfSnnLI2yhB0pT3rXy49Us8oS8v65k3r6FWaGWTa4b7PdW
+	Vwfn/Um7NNoUM+T8efBpLPLFro3Bnw5UAdQdtqhvADITfc14
+X-Received: by 2002:a05:6a21:7482:b0:3bf:6c08:2b2d with SMTP id
+ adf61e73a8af0-3c3a5e7a4fdmr21247637.53.1784222406715; Thu, 16 Jul 2026
+ 10:20:06 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 16 Jul 2026 10:20:05 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 16 Jul 2026 10:20:05 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <1b59fec2-a464-4429-8532-880394912af5@linux.intel.com>
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
+ <20260618-gmem-inplace-conversion-v8-9-9d2959357853@google.com> <1b59fec2-a464-4429-8532-880394912af5@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="D9mj2wtSmfOJ2N2F"
-Content-Disposition: inline
-In-Reply-To: <0e3e45fe-4c34-45d0-b985-0938f60b5914@sirena.org.uk>
+Date: Thu, 16 Jul 2026 10:20:05 -0700
+X-Gm-Features: AUfX_mxBIq-fm92f37AIysrX2Jjvm6RrlF5jRh7Q3ctlrGsM_3yjDZToekOalgI
+Message-ID: <CAEvNRgEjPA5pi1RqpQWgp_hH2HmSnGhWaNiXtVBJb_VVdKD7qg@mail.gmail.com>
+Subject: Re: [PATCH v8 09/46] KVM: guest_memfd: Introduce function to check
+ GFN private/shared status
+To: Binbin Wu <binbin.wu@linux.intel.com>
+Cc: aik@amd.com, andrew.jones@linux.dev, brauner@kernel.org, 
+	chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com, 
+	jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org, 
+	pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com, 
+	rientjes@google.com, shivankg@amd.com, steven.price@arm.com, tabba@google.com, 
+	willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com, 
+	forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com, 
+	aneesh.kumar@kernel.org, liam@infradead.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
---D9mj2wtSmfOJ2N2F
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Binbin Wu <binbin.wu@linux.intel.com> writes:
 
-On Thu, Jul 16, 2026 at 01:28:15PM +0100, Mark Brown wrote:
-> On Thu, Jul 16, 2026 at 11:22:19AM +0200, Nuno S=E1 wrote:
-> > On Wed, Jul 15, 2026 at 02:37:12PM +0100, Mark Brown wrote:
->=20
-> > > You still need to work out how the ID appears in the byte stream that
-> > > gets sent to/from the device, that's way more information than just a
-> > > number and not something the byte stream SPI offers is going to cope
-> > > well with.
->=20
-> > Not sure if I'm following you. Those ID pins just become something you
-> > need to set on the spi_xfer. Or in Janani case, she's using regmap
-> > reg_base in order to set the right thing depending on the address. I
-> > would image this is always something that peripherals need to address in
-> > terms of how the message/stream needs to be set. So my understanding is
-> > that this should be pretty much transparent for the spi core.
->=20
-> Oh, isn't that just multi-pin chip selects then:
->=20
->    https://patch.msgid.link/cover.1783729282.git.Jonathan.Santos@analog.c=
-om
+> On 6/19/2026 8:31 AM, Ackerley Tng via B4 Relay wrote:
+>> From: Ackerley Tng <ackerleytng@google.com>
+>>
+>> Introduce function for KVM to check the private/shared status of guest
+>            ^
+> Nit:       a
+>  > memory at a given GFN.
+>>
 
-No, I think that's something different.
+For v9, I added the "a" in the commit messsage body but retained
+"Introduce function" in the header (save characters, and make it sound
+like a headline).
 
-In this case, there is one chip select that all instances of the device
-share. Both the ADI and Microchip devices then use the upper bits of the
-first/address byte during reads and write to access individual devices.
-In the microchip case that I'm familiar with, what upper bits the device
-responds to are set by fuses in the factory. They also share the same MOSI
-and MISO.
-
-https://ww1.microchip.com/downloads/aemDocuments/documents/MSLD/ProductDocu=
-ments/DataSheets/MCP3911-3.3V-Two-Channel-Analog-Front-End-DS20002286D.pdf
-(See Figure 6-1 and section 6.2 on page 43)
-
-The SPI core already supports two of these devices from Microchip, since
-it just modifies the contents of tx_buf in a spi_transfer.
-
-What Jonathan is working on seems to be a setup where they have multiple
-instances of a device with their own chip selects and their own MISO, but
-a shared SCLK and MOSI.
-
---D9mj2wtSmfOJ2N2F
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCalkPgQAKCRB4tDGHoIJi
-0vmNAP9AkFNaxjEZSyTfEKFzZq2olZuk05YicHSqI3nmOxgqQwEA3iKLTEWhphUP
-dek7aiJwi3r5q+ztZoJbo1JS1yjU2AA=
-=s62h
------END PGP SIGNATURE-----
-
---D9mj2wtSmfOJ2N2F--
+>>
+>> [...snip...]
+>>
