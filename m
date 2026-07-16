@@ -1,71 +1,71 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232873FFD
-	for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 02:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD352EE262
+	for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 02:11:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784167860; cv=none; b=I1YUQgU1dAUuwUGwb9vYSIu1j6lhEYZrQW9imO6eYfLpturR3BCae47Pbx9Hu0eRqnZ4WEliB962l51jBvRfFmlj6gH1dZoztHZsosLXaCU5sRbggG7CbW5PUeyMrMMxJMBQIn20SyMHWwpgqpZjcubAI617FvnoedU80ViEFKk=
+	t=1784167863; cv=none; b=qvvxl81+vu0tMivG13d3oUhmu5nqJt67/A44vgS2p5oE3BOfO9BviLNbo37r9wKTknS3d4y/u2aaqe2+SLaqwxwmovx5CDvOgNwTsWndK1yJdkPA4U3kILYF1o/AgoZOH8BxCtZmkbB8mZjDImVed1r6FFslMWx/xcoTLM8oha4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784167860; c=relaxed/simple;
-	bh=KTmHtLdTF5Er/qtt0TdIusj8YTpVTILVnxyg2mOiw9Q=;
+	s=arc-20240116; t=1784167863; c=relaxed/simple;
+	bh=AjtVXxh1M99EOtHz3MM/BTbv0ulmmiPZiKlATlU8J+0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VizvPgyo3JgqvvJKLP7VldGb181Xs51aogX7v+wIPklq2h4UV0Ar/NyuYOevwD8fTjqzNWuTIQGwITg/iV9fJJJvcNVhBay5iv0OocSUWEGTBJJYJXyMGi84vzmzURVCMaXBvSMz03JtOTiW/PtV/MM/eGMT7EBo83BhV+Zxb7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a04bv1P5; arc=none smtp.client-ip=209.85.215.180
+	 MIME-Version:Content-Type; b=qqQQWcQXUJS8E/ZLLtOcd9nnFD63KB0ZDR+nfk54ga3YaPbABRUG9dbxFDhdiSypna04QFqg0YGewJ/iiyzy7pARkDEdxww9WF3uM1hIW+LtQWcDeSiG33SBbvnWdyGur0udXKVGFT8iqwEgAj/0gICuNnEOocfPcyRXKOLY45o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y25xZDJN; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a04bv1P5"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c9d1fff21edso3927445a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 19:10:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y25xZDJN"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c96c92c0980so1764403a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2026 19:11:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784167858; x=1784772658; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784167861; x=1784772661; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=opwq0HQJ06j4bR98toK/R4Gtqfeqpug30iEE7785aDg=;
-        b=a04bv1P5Wy40mjuspkl9VgbBppEGeyGrKFd3QsWTudfYJ1De/grxE4ZgpKLoxRyzFt
-         6erZDHEXlkVMj5jF5dO1fIOtBIZSnw/SP5A0ONndriYYEhGFLObpniaG9vlL6FD7S3xa
-         2xTDHtXf5YqlUKAEshGR82YgLmOnUrMTCTdVoCmCVnPuxwtoDDRpWQu5EXeR8wjQGVMs
-         qrpxtKeBYYXOvN0wGVFOtKRiYrtKlTXKufgpy/AdZWIE2fHFwzK0ObH0t3MYRn6C5Jy/
-         8IA98LrQ3j7me2ZpJ7CmSglCTlcXli6uhwQLNcrm2AXqxf0ENexOMlOpf4+6PnB3VtA5
-         EhbQ==
+        bh=PYFdPuI0jVcdAS+eU7F0cOfCRZmeFnLq/1LPxobDpQQ=;
+        b=Y25xZDJN/ri4sygNibcE8IP9SORF+kNb9O8sFaeQoRXtX9q8Qk7Rl7fWr5o+w4d0tX
+         ifhjx1Ue0kLxDJ2r/YAP82BE4OpCgQ2l/zLEuJhqV7hFz6H77Rxa5lqLOJaHblSK0rUJ
+         XEShlebdRn2/Sbs89VIDOpJGpLnxYzZiRpFUhwFQEI8RjAdp4DJ1dgVoS5WZlAZYx8R7
+         sSxCJc1ToN13bFB3Zv9OU8PvwUK6Fy2jlPK0j8EnmleXwwwVQ/zgd7PXhAAZ2MKtItCM
+         oQG2v16RAtQShAOuDh+pDcdwMhas3i0W8veiLKerhRMCUTDDsiyEnrc4eylUGCGfk6ZH
+         lARQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784167858; x=1784772658;
+        d=1e100.net; s=20251104; t=1784167861; x=1784772661;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=opwq0HQJ06j4bR98toK/R4Gtqfeqpug30iEE7785aDg=;
-        b=R/Fd9aJxHTUD/uXwdF+Bi64vhf+R52rxAoi0GGteXHKOlsRK38vscrxRA9qiNvZun7
-         jiXcHc4wDhLsvi9BA348WjKB9QRC2DLLOLSeM9qtRNHR2c8CbP5RnKnjVDtPl8bAqIU9
-         kwXeKOzjF10AmKhA5AGv5eSHsT3Kq8yCqrXzhm0nTTEgYM4g7NPb5yGlzD0jrTVO6F6s
-         dAaJZ7Ikb4kA6lGHr93UxU1bhqWoehUwP630dx4EVA6ugGlhmK9jnZx+Dlj9UND2etGS
-         l7K1G3WVA69yObxcjT+bjPfHCBHptmmIZrt6Yd4iwZvJMQkfaNj42Hyez2Y58cLyCrwy
-         zqZg==
-X-Gm-Message-State: AOJu0YxB1xKDLuSv0h5vPu1vG+TkbaajQA5BElgTAu24Qbwm6R5X0WTI
-	Dv8AVg4ZG9eRg0NHdZM1z10WeSGH2VQuOgCTchH2U7nRwmlRNfzdYZGU
-X-Gm-Gg: AfdE7ckgGLMRLhDJt0i377x2I9V0bLQoGYCxEUMVtiVN+A0BQ62fTIiIeYjDffT86U/
-	qxUHAZqEYFortT1tnItjrzGstjkagHz2Kxujx1UKgacFzy+n41AjsZrTDTsbaOz3UYBIxMUPNLf
-	0Wz1Xj2/7nOz2J0jpMiTMPHzpsnmuozaGSxeYw6k2pTaQtOMsDDiUWTh37h4uvLs8qjt6Mhpc0c
-	geCQje50sKpZ2V9LE0s9XlayKnu5NJ3gvx56l6XSPop5S3rZa9eepxc0oAkYae63Lf7mNU5f0fm
-	Alda1R5oajyF2IOx7P4WYH76pMBpu3KY6g4j4MUpz1vHX2Ke4dXI0mquOW37E9vK5p7TrZLhJ2S
-	y4yr+B8NW/zsDpr2E/mzYWz4wUUoD0YgqlHivLv4gdynuoj6zghx4WoPXPTSmUJkhyL9HQImVVB
-	+sNikRSrZmDHZTjM97tKN75fOTAE2Vqye28v0rFT2xIKM61uYpEg3TNhPQQ79Fo6En3f6xNkmWF
-	faZGaS8JMmo/RRgs2v5EU1oxlNMTg==
-X-Received: by 2002:a05:6a21:3297:b0:3bf:bfd0:2a11 with SMTP id adf61e73a8af0-3c34d719d16mr11655556637.43.1784167858023;
-        Wed, 15 Jul 2026 19:10:58 -0700 (PDT)
+        bh=PYFdPuI0jVcdAS+eU7F0cOfCRZmeFnLq/1LPxobDpQQ=;
+        b=a5t0PbvqtHR3PV+FK8ooxh4hscGStkb04QxFU7bRpv0y/E42iC2H8QlsvjvdNTplGJ
+         PLoImZZXm/pLOzxlGLIyxRljAcShAbsSlm+oklOQqlo1lOjgd0oFV4TRlMoHH9v0yj8c
+         GfIivdmy5JheVkJOAr9ohKWAlHvGmuIYJvTJZAHBKumUWmwqJUsH40S6yjToE4zy2ZVJ
+         zzhDwpf0OJ+sIlt1502v4JpyPOb/tgk6uWrNG3snUYRIct2t/Llet4ieilZLXovgVpFW
+         2ziGXABLRCS1iBAlpcImM5Gj5/dOhhQwa0fa+vibKK/0T8kLK/GsschXde/Jfzx32LHV
+         L50A==
+X-Gm-Message-State: AOJu0YylB5SO2dl2ipi0xIWWf0sJW2FBzHt5ATdJ57rpqpFaHPOlWulx
+	/CH+dL2ZmiMbrBfWY9teeDnqotAIDSi9+5KW0UHJDlGob9ImBdP5S2AIB/odo3Rc
+X-Gm-Gg: AfdE7cm2gofrmKcNne+iwbSWsY1hVHrMLeegZSsgYoXa3t/WuY06cmQ9IhBuPHum7Se
+	kxn4CRU96WboXufm1J4fZGuln9zf6py9iCSBsXx7ZM+axufTZ/MSeJuquzKSct+Gk1NCMln7WhE
+	+U5PEB1VJK84CkKAcLORunE9HTJzrJKakbgpCsv0lgM9ZBJgs2gXdyEUhPUd3owOVKSSdlnkxlu
+	bpXF4nGJpfDNEzS1HO4wtjLrKNbqWmoJWyCDIl+LTZAupOG4SLilpZzGHVH1XW8Xm2iY9t28twP
+	UXlrZcNi+iRlnir5NxH5ZtGa+pEtp4EPtqJa8cr4YpFTm3x3XvNtCxXqBc25RgEyD7iLvgWenmz
+	jInfPjsbf4RARWmNzYMM5tuPiECEweD7xvNYHF0uizcWRTubXb0DXfgLTlmpswdWPWvY7k0j/nF
+	Ah8t37z2bg1mPRBkRS45EZWWHLGMDosYkVLskbXRppE00ZodCReiNIz0c3LEPxziakNOxcwASrX
+	wyQPemqOL7UxWTMJHs4r2vCwi2XUKF928q1Ij0u
+X-Received: by 2002:a05:6a21:32a2:b0:3bf:6237:4d4a with SMTP id adf61e73a8af0-3c1108c0ad0mr22821012637.24.1784167861002;
+        Wed, 15 Jul 2026 19:11:01 -0700 (PDT)
 Received: from parrot.bbrouter ([200.218.229.14])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13cd429cee1sm6979209c88.6.2026.07.15.19.10.55
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13cd429cee1sm6979209c88.6.2026.07.15.19.10.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 19:10:57 -0700 (PDT)
+        Wed, 15 Jul 2026 19:11:00 -0700 (PDT)
 From: Daniel Pereira <danielmaraboo@gmail.com>
 To: corbet@lwn.net
 Cc: linux-doc@vger.kernel.org,
 	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: [PATCH 1/4] docs: pt_BR: Translate submit-checklist to Portuguese
-Date: Wed, 15 Jul 2026 23:10:09 -0300
-Message-ID: <20260716021013.48025-2-danielmaraboo@gmail.com>
+Subject: [PATCH 2/4] docs: pt_BR: Translate code-of-conduct-interpretation to Portuguese
+Date: Wed, 15 Jul 2026 23:10:10 -0300
+Message-ID: <20260716021013.48025-3-danielmaraboo@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260716021013.48025-1-danielmaraboo@gmail.com>
 References: <20260716021013.48025-1-danielmaraboo@gmail.com>
@@ -78,181 +78,291 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 
-Translate the submit-checklist document from Documentation/process/
-to Portuguese (pt_BR) to make the kernel contribution guidelines
-more accessible to Portuguese-speaking developers.
-
-Also, add the newly translated file to the main index in the pt_BR
-translation directory to ensure it compiles and links correctly
-within the Sphinx build.
+Translate the code-of-conduct-interpretation.rst document from
+Documentation/process/ to Portuguese (pt_BR) to make the kernel
+guidelines on community standards and enforcement more accessible
+to Portuguese-speaking developers.
 
 Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
 ---
  Documentation/translations/pt_BR/index.rst    |   1 +
- .../pt_BR/process/submit-checklist.rst        | 145 ++++++++++++++++++
- 2 files changed, 146 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/submit-checklist.rst
+ .../code-of-conduct-interpretation.rst        | 257 ++++++++++++++++++
+ 2 files changed, 258 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/code-of-conduct-interpretation.rst
 
 diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index 2ab14c5d6..841b49657 100644
+index 841b49657..d9276a8dc 100644
 --- a/Documentation/translations/pt_BR/index.rst
 +++ b/Documentation/translations/pt_BR/index.rst
-@@ -83,3 +83,4 @@ kernel e sobre como ver seu trabalho integrado.
-    Conformidade de DTS para SoC <process/maintainer-soc-clean-dts>
+@@ -84,3 +84,4 @@ kernel e sobre como ver seu trabalho integrado.
     Processo do subsistema KVM x86 <process/maintainer-kvm-x86>
     Adicionando uma nova chamada de Sistema <process/adding-syscalls>
-+   Lista de verificação para submissão de patches do kernel Linux <process/submit-checklist>
-diff --git a/Documentation/translations/pt_BR/process/submit-checklist.rst b/Documentation/translations/pt_BR/process/submit-checklist.rst
+    Lista de verificação para submissão de patches do kernel Linux <process/submit-checklist>
++   Interpretação do Código de Conduta do Kernel Linux <process/code-of-conduct-interpretation>
+diff --git a/Documentation/translations/pt_BR/process/code-of-conduct-interpretation.rst b/Documentation/translations/pt_BR/process/code-of-conduct-interpretation.rst
 new file mode 100644
-index 000000000..003fc9568
+index 000000000..866c9f7e7
 --- /dev/null
-+++ b/Documentation/translations/pt_BR/process/submit-checklist.rst
-@@ -0,0 +1,145 @@
++++ b/Documentation/translations/pt_BR/process/code-of-conduct-interpretation.rst
+@@ -0,0 +1,257 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+==============================================================
-+Lista de verificação para submissão de patches do kernel Linux
-+==============================================================
++Interpretação do Código de Conduta do Kernel Linux
++==================================================
 +
-+Aqui estão algumas coisas básicas que os desenvolvedores devem fazer se
-+quiserem ver suas submissões de patches de kernel aceitas mais rapidamente.
++O :ref:`pt_BR_code_of_conduct` é um documento geral que tem como objetivo
++fornecer um conjunto de regras para quase todas as comunidades de código
++aberto. Toda comunidade de código aberto é única e o kernel Linux não é
++exceção. Por causa disso, este documento descreve como nós, na comunidade
++do kernel Linux, o interpretaremos. Nós também não esperamos que esta
++interpretação seja estática ao longo do tempo, e a ajustaremos conforme
++necessário.
 +
-+Estas diretrizes vão além da documentação fornecida em
-+:ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
-+e em outros locais sobre o envio de patches para o kernel Linux.
++O esforço de desenvolvimento do kernel Linux é um processo muito pessoal
++em comparação com as formas "tradicionais" de desenvolvimento de software.
++Suas contribuições e as ideias por trás delas serão cuidadosamente
++revisadas, frequentemente resultando em críticas e apontamentos. A
++revisão quase sempre exigirá melhorias antes que o material possa ser
++incluído no kernel. Saiba que isso acontece porque todos os envolvidos
++querem ver a melhor solução possível para o sucesso geral do Linux. Este
++processo de desenvolvimento provou criar o kernel de sistema operacional
++mais robusto de todos os tempos, e nós não queremos fazer nada que cause
++a diminuição da qualidade do envio e do resultado final.
 +
-+Revise seu código
-+=================
++Mantenedores
++------------
 +
-+1) Se você usar um recurso, faça o #include do arquivo que define/declara
-+   esse recurso. Não dependa de outros arquivos de cabeçalho que incluam
-+   os que você usa de forma indireta.
++O Código de Conduta usa o termo "mantenedores" várias vezes. Na
++comunidade do kernel, um "mantenedor" é qualquer pessoa responsável por
++um subsistema, driver ou arquivo, e que esteja listada no arquivo
++MAINTAINERS na árvore de código-fonte do kernel.
 +
-+2) Verifique o estilo geral do seu patch conforme detalhado em
-+   :ref:`Documentation//process/coding-style.rst <codingstyle>`.
++Responsabilidades
++-----------------
 +
-+3) Todas as barreiras de memória {por exemplo, ``barrier()``, ``rmb()``,
-+   ``wmb()``} precisam de um comentário no código-fonte que explique a
-+   lógica do que estão fazendo e o porquê.
++O Código de Conduta menciona direitos e responsabilidades para os
++mantenedores, e isso precisa de alguns esclarecimentos adicionais.
 +
-+Revise as alterações do Kconfig
-+===============================
++Em primeiro lugar e acima de tudo, é uma expectativa razoável que os
++mantenedores liderem pelo exemplo.
 +
-+1) Quaisquer novas ou modificadas opções de ``CONFIG`` não bagunçam o
-+   menu de configuração e têm 'desativado' (off) como padrão, a menos que
-+   atendam aos critérios de exceção documentados em
-+   ``Documentation/kbuild/kconfig-language.rst``, atributos de menu: valor
-+   padrão.
++Dito isto, nossa comunidade é vasta e ampla, e não há um novo requisito
++para que os mantenedores lidem unilateralmente com o comportamento de
++outras pessoas nas partes da comunidade onde atuam. Essa responsabilidade
++é de todos nós e, em última análise, o Código de Conduta documenta os
++caminhos finais de escalonamento em caso de preocupações não resolvidas
++em relação a questões de conduta.
 +
-+2) Todas as novas opções de ``Kconfig`` possuem texto de ajuda.
++Os mantenedores devem estar dispostos a ajudar quando ocorrerem problemas
++e trabalhar com outras pessoas na comunidade quando necessário. Não tenha
++medo de entrar em contato com o Conselho Consultivo Técnico (TAB) ou
++outros mantenedores se não tiver certeza de como lidar com as situações
++que surgirem. Isso não será considerado um relato de violação, a menos
++que você queira que seja. Se não tiver certeza sobre como abordar o TAB
++ou quaisquer outros mantenedores, entre em contato com nossa mediadora
++de conflitos, Joanna Lee <jlee@linuxfoundation.org>.
 +
-+3) Foram cuidadosamente revisadas com relação às combinações relevantes de
-+   ``Kconfig``. Isso é muito difícil de acertar apenas com testes --- exige
-+   capacidade de raciocínio.
-+   pays off here.
++No final, "sejam gentis uns com os outros" é realmente o objetivo final
++para todos. Sabemos que todos são humanos e que todos falhamos às vezes,
++mas o objetivo principal para todos nós deve ser trabalhar em direção a
++resoluções amigáveis dos problemas. A aplicação do código de conduta será
++apenas uma opção de último recurso.
 +
-+Forneça documentação
-+====================
++Nosso objetivo de criar um sistema operacional robusto e tecnicamente
++avançado e a complexidade técnica envolvida exigem naturalmente
++conhecimento técnico e tomada de decisões.
 +
-+1) Inclua :ref:`kernel-doc <kernel_doc>` para documentar as APIs globais
-+   do kernel. (Não é obrigatório para funções estáticas, mas também é
-+   aceitável nelas.)
++O conhecimento técnico exigido varia dependendo da área de contribuição.
++Ele é determinado principalmente pelo contexto e pela complexidade técnica
++e apenas secundariamente pelas expectativas de contribuidores e
++mantenedores.
 +
-+2) Todas as novas entradas em ``/proc`` devem ser documentadas sob
-+   ``Documentation/``.
++Tanto as expectativas de conhecimento técnico quanto a tomada de decisões
++estão sujeitas a discussão, mas no final das contas há uma necessidade
++básica de sermos capazes de tomar decisões para progredir. Esta
++prerrogativa está nas mãos dos mantenedores e da liderança do projeto e
++espera-se que seja usada de boa fé.
 +
-+3) Todos os novos parâmetros de inicialização (boot) do kernel devem ser
-+   documentados em ``Documentation/admin-guide/kernel-parameters.rst``.
++Como consequência, definir expectativas de conhecimento técnico, tomar
++decisões e rejeitar contribuições inadequadas não são vistos como uma
++violação do Código de Conduta.
 +
-+4) Todos os novos parâmetros de módulo devem ser documentados com
-+   ``MODULE_PARM_DESC()``.
++Embora os mantenedores sejam em geral receptivos aos novatos, sua
++capacidade de ajudar os contribuidores a superar os obstáculos de entrada
++é limitada, portanto, eles devem definir prioridades. Isso, também, não
++deve ser visto como uma violação do Código de Conduta. A comunidade do
++kernel está ciente disso e fornece programas de nível de entrada de
++várias formas, como o kernelnewbies.org.
 +
-+5) Todas as novas interfaces com o espaço de usuário (userspace) devem ser
-+   documentadas em ``Documentation/ABI/``. Consulte
-+   ``Documentation/admin-guide/abi.rst`` (ou ``Documentation/ABI/README``)
-+   para obter mais informações. Patches que alteram interfaces de espaço
-+   de usuário devem incluir em cópia (CC) linux-api@vger.kernel.org.
++Escopo
++------
 +
-+6) Se quaisquer ioctls forem adicionados pelo patch, atualize também
-+   ``Documentation/userspace-api/ioctl/ioctl-number.rst``.
++A comunidade do kernel Linux interage primariamente em um conjunto de listas
++de e-mail públicas distribuídas por vários servidores diferentes controlados
++por várias empresas ou indivíduos diferentes. Todas essas listas estão
++definidas no arquivo MAINTAINERS na árvore de código-fonte do kernel.
++Quaisquer e-mails enviados para essas listas de e-mail são considerados
++cobertos pelo Código de Conduta.
 +
-+Verifique seu código com ferramentas
-+====================================
++Desenvolvedores que usam o bugzilla do kernel.org e outras ferramentas de
++rastreamento de bugs ou bugzilla de subsistemas devem seguir as diretrizes
++do Código de Conduta. A comunidade do kernel Linux não possui um endereço
++de e-mail de projeto "oficial" ou endereço "oficial" de mídia social.
++Qualquer atividade realizada usando uma conta de e-mail do kernel.org deve
++seguir o Código de Conduta conforme publicado para o kernel.org, assim como
++qualquer indivíduo usando uma conta de e-mail corporativa deve seguir as
++regras específicas daquela corporação.
 +
-+1) Verifique se há violações triviais com o verificador de estilo de patch
-+   antes do envio (``scripts/checkpatch.pl``). Você deve ser capaz de
-+   justificar todas as violações que permanecerem no seu patch.
++O Código de Conduta não proíbe que se continue a incluir nomes, endereços de
++e-mail e comentários associados em mensagens de listas de discussão,
++mensagens de log de alterações (changelog) do kernel ou comentários no
++código.
 +
-+2) Faça uma verificação limpa com o sparse.
++A interação em outros fóruns é coberta pelas regras que se aplicam a tais
++fóruns e, em geral, não é coberta pelo Código de Conduta. Exceções podem
++ser consideradas para circunstâncias extremas.
 +
-+3) Use ``make checkstack`` e corrija quaisquer problemas encontrados por ele.
-+   Observe que o ``checkstack`` não aponta problemas explicitamente, mas
-+   qualquer função individual que utilize mais de 512 bytes na pilha é uma
-+   candidata a alteração.
++As contribuições enviadas para o kernel devem usar linguagem apropriada.
++O conteúdo já existente que precede o Código de Conduta não será tratado
++agora como uma violação. No entanto, a linguagem inapropriada pode ser vista
++como um bug; tais bugs serão corrigidos mais rapidamente se quaisquer partes
++interessadas enviarem patches com esse propósito. Expressões que atualmente
++fazem parte da API de usuário/kernel, ou que refletem a terminologia usada
++em padrões ou especificações publicadas, não são consideradas bugs.
 +
-+Compile seu código
-+==================
++Aplicação
++---------
 +
-+1) Compila de forma limpa:
++O endereço listado no Código de Conduta vai para o Comitê do Código de
++Conduta. Os membros exatos que recebem esses e-mails a qualquer momento
++estão listados em https://kernel.org/code-of-conduct.html. Os membros não
++podem acessar relatos feitos antes de se juntarem ou após terem deixado o
++comitê.
 +
-+  a) com as opções de ``CONFIG`` aplicáveis ou modificadas definidas como
-+     ``=y``, ``=m`` e ``=n``. Sem avisos/erros do ``gcc``, sem avisos/erros do
-+     vinculador (linker).
++O Comitê do Código de Conduta consiste em membros voluntários da comunidade
++nomeados pelo TAB, bem como um mediador profissional agindo como um terceiro
++neutro. Os processos que o comitê do Código de Conduta usará para lidar com
++os relatos variam e dependerão das circunstâncias individuais; no entanto,
++este arquivo serve como documentação para o processo geral utilizado.
 +
-+  b) Passa em ``allnoconfig``, ``allmodconfig``
++Qualquer membro do comitê, incluindo o mediador, pode ser contatado
++diretamente se o relator não desejar incluir todo o comitê em uma
++reclamação ou preocupação.
 +
-+  c) Compila com sucesso ao usar ``O=builddir``
++O Comitê do Código de Conduta revisa os casos de acordo com os processos
++(veja acima) e consulta o TAB conforme a necessidade e a conveniência,
++por exemplo, para solicitar e receber informações sobre a comunidade do
++kernel.
 +
-+  d) Quaisquer alterações em Documentation/ compilam com sucesso sem novos
-+     avisos/erros. Use ``make htmldocs`` ou ``make pdfdocs`` para verificar
-+     a compilação e corrigir quaisquer problemas.
++Quaisquer decisões a respeito de recomendações de aplicação (enforcement)
++serão levadas ao TAB para implementação junto aos mantenedores relevantes,
++se necessário. Uma vez que o TAB aprove uma ou mais das medidas descritas
++no escopo do banimento pelo voto de dois terços dos membros, o Comitê do
++Código de Conduta aplicará as medidas aprovadas pelo TAB. Quaisquer membros
++do Comitê do Código de Conduta que sirvam no TAB não votarão nas medidas.
 +
-+2) Compila em múltiplas arquiteturas de CPU usando ferramentas locais de
-+   compilação cruzada (cross-compile) ou alguma outra fazenda de compilação
-+   (build farm).
-+   Observe que testar em arquiteturas de diferentes tamanhos de palavra
-+   (32 e 64 bits) e diferentes endianness (big- e little-endian) é eficaz
-+   para capturar vários problemas de portabilidade decorrentes de falsas
-+   suposições sobre o intervalo de quantidade representável, alinhamento
-+   de dados ou endianness, entre outros.
++Em intervalos trimestrais, o Comitê do Código de Conduta e o TAB fornecerão
++um relatório resumindo os relatos anonimizados que o comitê do Código de
++Conduta recebeu e o status deles, bem como os detalhes de quaisquer
++decisões aprovadas pelo TAB, incluindo dados completos e identificáveis da
++votação.
 +
-+3) O novo código adicionado foi compilado com ``gcc -W`` (use
-+   ``make KCFLAGS=-W``). Isso gerará muito ruído, mas é bom para encontrar
-+   bugs como "warning: comparison between signed and unsigned".
++Como a maneira pela qual interpretamos e aplicamos o Código de Conduta
++evoluirá com o tempo, este documento será atualizado quando necessário para
++refletir quaisquer mudanças.
 +
-+4) Se o seu código-fonte modificado depender ou usar quaisquer APIs ou
-+   recursos do kernel relacionados aos seguintes símbolos do ``Kconfig``,
-+   teste múltiplas compilações com os símbolos relacionados do ``Kconfig``
-+   desativados e/ou definidos como ``=m`` (se essa opção estiver disponível)
-+   [não todos ao mesmo tempo, apenas combinações variadas/aleatórias deles]:
++Aplicação para Violações de Comportamento Inaceitável do Código de Conduta
++----------------------------------------------------------------------------
 +
-+   ``CONFIG_SMP``, ``CONFIG_SYSFS``, ``CONFIG_PROC_FS``, ``CONFIG_INPUT``,
-+   ``CONFIG_PCI``, ``CONFIG_BLOCK``, ``CONFIG_PM``, ``CONFIG_MAGIC_SYSRQ``,
-+   ``CONFIG_NET``, ``CONFIG_INET=n`` (mas este último com ``CONFIG_NET=y``).
++O comitê do Código de Conduta trabalha para garantir que nossa comunidade
++continue a ser inclusiva e promova discussões e pontos de vista diversos, e
++trabalha para melhorar essas características ao longo do tempo. A maioria
++dos relatos que o Comitê do Código de Conduta recebe decorre da
++compreensão incorreta sobre o processo de desenvolvimento e os papéis,
++responsabilidades e o direito dos mantenedores de tomar decisões sobre a
++aceitação de código. Estes são resolvidos através do esclarecimento do
++processo de desenvolvimento e do escopo do Código de Conduta.
 +
-+Teste seu código
-+================
++Comportamentos inaceitáveis podem interromper a colaboração respeitosa por um
++curto período de tempo e impactar negativamente a saúde da comunidade a longo
++prazo. Comportamentos inaceitáveis frequentemente são resolvidos quando os
++indivíduos reconhecem seu comportamento e se retratam por ele no ambiente em
++que a violação ocorreu.
 +
-+1) Foi testado com ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
-+   ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``,
-+   ``CONFIG_DEBUG_MUTEXES``, ``CONFIG_DEBUG_SPINLOCK``,
-+   ``CONFIG_DEBUG_ATOMIC_SLEEP``, ``CONFIG_PROVE_RCU`` e
-+   ``CONFIG_DEBUG_OBJECTS_RCU_HEAD`` todos habilitados simultaneamente.
++O Comitê do Código de Conduta recebe relatos sobre comportamentos
++inaceitáveis quando eles não são resolvidos através de discussões na
++comunidade. O comitê do Código de Conduta toma medidas para restaurar a
++colaboração produtiva e respeitosa quando um comportamento inaceitável
++impactou negativamente esse relacionamento.
 +
-+2) Foi testado em tempo de compilação e de execução com e sem ``CONFIG_SMP``
-+   e ``CONFIG_PREEMPT``.
++O Comitê do Código de Conduta tem a obrigação de manter os relatos e as
++informações dos relatores em sigilo. Os relatos podem vir de partes lesadas
++e membros da comunidade que são observadores de comportamentos
++inaceitáveis. O Comitê do Código de Conduta tem a responsabilidade de
++investigar e resolver esses relatos, trabalhando com todas as partes
++envolvidas.
 +
-+3) Todos os caminhos de código foram executados com todos os recursos de
-+   lockdep ativados.
++O Comitê do Código de Conduta trabalha com o indivíduo para promover uma
++mudança em sua compreensão sobre a importância de reparar os danos causados
++por seu comportamento à parte lesada e o impacto negativo a longo prazo na
++comunidade.
 +
-+4) Foi verificado com a injeção de falhas de pelo menos slab e alocação de
-+   páginas. Consulte ``Documentation/fault-injection/``.
-+   Se o novo código for substancial, a adição de injeção de falhas específica
-+   do subsistema pode ser apropriada.
++O objetivo é alcançar uma resolução que seja aceitável para todas as partes.
++Se trabalhar com o indivíduo não trouxer o resultado desejado, o Comitê do
++Código de Conduta avaliará outras medidas, como buscar um pedido de
++desculpas público para reparar o dano.
 +
-+5) Testado com a tag mais recente do linux-next para garantir que ele ainda
-+   funcione com todos os outros patches enfileirados e com várias alterações
-+   na VM, VFS e outros subsistemas.
++Buscar retratação pública pela violação
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++O Comitê do Código de Conduta chama a atenção publicamente para o comportamento
++no ambiente em que a violação ocorreu, buscando uma retratação pública
++pela violação.
++
++Uma retratação pública pela violação é o primeiro passo para reconstruir a
++confiança. A confiança é essencial para o sucesso contínuo e a saúde da
++comunidade, que opera com base na confiança e no respeito.
++
++Medidas corretivas se não houver uma retratação pública pela violação
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++O Comitê do Código de Conduta determina o próximo curso de ação para restaurar
++a colaboração saudável, recomendando medida(s) corretiva(s) ao TAB para
++aprovação.
++
++- Banir o infrator de participar do processo de desenvolvimento do kernel por
++  um período de até um ciclo completo de desenvolvimento do kernel. O Comitê
++  do Código de Conduta pode exigir uma retratação pública como condição
++  para suspender o banimento.
++
++O escopo do banimento por um período de tempo pode incluir:
++
++    a. negar contribuições de patch e pull requests
++    b. pausar a colaboração com o infrator ignorando suas contribuições e/ou
++       bloqueando sua(s) conta(s) de e-mail
++    c. restringir sua capacidade de se comunicar pelas plataformas kernel.org,
++       como listas de discussão e sites de mídia social
++
++Uma vez que o TAB aprove uma ou mais das medidas descritas no escopo do
++banimento por dois terços dos membros votando a favor das medidas, o Comitê do
++Código de Conduta aplicará a(s) medida(s) aprovada(s) pelo TAB em colaboração
++com a comunidade, mantenedores, submantenedores e administradores do
++kernel.org. Quaisquer membros do Comitê do Código de Conduta atuando no TAB
++não votarão nas medidas.
++
++O Comitê do Código de Conduta está ciente do impacto negativo que buscar uma
++retratação pública e instituir um banimento pode ter sobre os indivíduos.
++Também está ciente dos danos a longo prazo para a comunidade que podem resultar
++da falta de ação quando tais violações públicas graves ocorrem.
++
++A eficácia da(s) medida(s) corretiva(s) aprovada(s) pelo TAB depende da
++confiança e cooperação da comunidade, mantenedores, submantenedores e
++administradores do kernel.org na sua aplicação.
++
++O Comitê do Código de Conduta espera sinceramente que comportamentos
++inaceitáveis que exijam a busca de retratações públicas continuem a ser
++ocorrências extremamente raras no futuro.
+\ No newline at end of file
 -- 
 2.47.3
 
