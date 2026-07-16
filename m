@@ -1,187 +1,213 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FAF842F717
-	for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 18:04:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642872571C7;
+	Thu, 16 Jul 2026 18:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784225057; cv=pass; b=qmFoUXCKp2o7KzCimV9TTlidTVNoXjwm2JAk2za+4m1eMbYbyZvZmreoIhxbH5qTCVQZGh+9OdyIobPfsYZ1BJ3RXZ3m+CvMojHE8ScIsDUmXZp60ZoMPpR7dtF3oS8XEvvla9U1fioNUkmXVSZ+H38gpsN4v1WEFZqmGcfIa4k=
+	t=1784225242; cv=fail; b=fAZ4WuroqgiSfRG+IY8nXSmhDJrLt3njubH1Hg/BYB2ftHVwbAudoN1arTS5a3oi+INh9rFjijS3Shuu6qSGmCbC9bH1xLpXesy7F2TTuapfZ6Dfawqd5Yy72bGDwbbkoxOpi7OEVxJ96skpHcxKskfZHNIwZjNMLsKGRwxIkLA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784225057; c=relaxed/simple;
-	bh=Zmoyb7iXwpJBR3UnGDQR+QLF+DCnKn0O+JfFtMYLpaw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DRN2jXW49y7H1YUQNTctqXC194L7ChK+cFeNUFvw+xj2s39e0FWvsxVnS0ZxDvtknfkuI00TgGa1+vZjsjVc3N4UZ7GzyKMbBoLtkusVSpJGvet/WJMy9Yh0LZ0+fA9olGguVulWmQTv+F4eXEqbezt9+3M9mmPNMxfGtKoBXw4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r6nj4a0u; arc=pass smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784225242; c=relaxed/simple;
+	bh=znWS1rXk0cbvgGPOR3Tr8ACGTxJzAnLRdm0P60aszCo=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=qSDsESycd4wv3kK2EIGecHKgrT4X1FcR4vpu5hsThRmvuKJASjeAVTQ+kOgciznFvS9HlZoAcgVDg496yx3Ql078xGV4/dUXHwf4qOTrHpHe3VVlzavUgvF7oGkYwx4ZHVVHMKSWVEFtE8uw53FWFI+AT7/3KvvZJu/JlYHnFdE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gXdP+GwR; arc=fail smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r6nj4a0u"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4953de5be0aso11971235e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 11:04:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784225054; cv=none;
-        d=google.com; s=arc-20260327;
-        b=E/R1KShS+Zk02NEdKZhPGusVN+DQ8lKyCAfU7swR/e90QoTkJN1QzA9KPWHExJXN/n
-         IIusnqkZmf3U4NN+ifOdmg/YcFjuHxV2FdT4T5uCa4bBbHxsfsv+TZSj/Iudg1GchN1z
-         +1TJtLAX/Qk2jHJomO4ctLINmZGcFStCjxK01aOAYlnNiZqIOKJdvNraSYRXeA/5yHPa
-         32LXr+g9PDCMd1xXnW4eSpT0Ej1uniZwVg74JH6vniDpZkoxtdVuek04/QfgmW8KgSDz
-         XoCPix2VXZ8pdbICkaK0LhEXSV72IHbyjSxuz+3uVX05Zvk8HnC2HQsEGh/yNyKYk8kq
-         vIGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=77tHDlt+8tJnQcJXrmrz9A2sC4mcOMXwb04I269B9Ww=;
-        fh=NtpIj6tcNXn2jyeqmnH+ItGuo1mLFrkj9y7BKQ85AFo=;
-        b=CcOY7T47+lGTGQq6jL6jYQFnQGypc7PKM66jcZ/2q7HKpuo+2x5f15lJBYWdTOzjYo
-         61GTmrAzD3C06YE0U8p8aEL4kQWqWxtSnHh9f5+Srz51Gd4OCfg4HWQBbIMx5UynE8DU
-         QQK6GhZOC3bfYojs44PSz71g0lOIPV9Mv2+ujzrnxiw17bmqunj9yx5zaDtzQg5sEgMk
-         TzbFqYOVA0mgztf2VOefIvwTB8JQHQYE8/SEG1SOL9b9zw1JThtD6ZEt5TU+pWg7Xz3N
-         mY+pmb9y50DDAWvovoBE0L4OFNYINRDwNKaV81AZ7H6QFvXFr96e0jEqTNzIEN5wmzbL
-         I7VA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784225054; x=1784829854; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=77tHDlt+8tJnQcJXrmrz9A2sC4mcOMXwb04I269B9Ww=;
-        b=r6nj4a0uC7EH3Ktgm3FLUDXQFZSBuSQryWvAprj3udlZYqzJokEeglQba+KhUBQKmT
-         nT4XrQrw1Ly4YQTsrt1ChgA319R5Melna2atiFmPFgcnrQfNZw/xQNopw8s4slr/05fb
-         0cJiZeWgJCsT60rIfzIKj6ikRirwbeTcon+TeuQrTy9R8hVDrWglneBpv0Qq2BI/+h7V
-         DHBUHqsZQrb4KXBblSz0Xl6UdhoY2aX7tFFKEgqCU3uufNTR2vSXMDVE2/zoFae0Zm6N
-         PPiS3mVsRjLusv7saVDdhQipm6/HiDLGbDqIztAF2rQEXX/HZHX2ZhVap2B6e10E90Mm
-         sonw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784225054; x=1784829854;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=77tHDlt+8tJnQcJXrmrz9A2sC4mcOMXwb04I269B9Ww=;
-        b=AaQUU/NTzlR+GGlv9/tdwqZhLxVsit6gxDJ1nlbJkoZ9xHSpl+y49glnQqs3xj6i3d
-         D9QMztF2VrrRAOYIOSNU1VE3tXugmpLH7bnc00L8ECRhVrq15yNja6vJnVVFM0ZS4V8f
-         aftgzv9p3GHIHIrrgkLJR0ZZD52kJIZh9RZjIy81gVHbqchHBipJJ7tp06dsSIlp5Mok
-         rdWRojJbEiuRMb7p5Z58VLAOXe3BeSizlxG67zy+I3sBiDvFpA8+6f1pHLqcDcey2hR1
-         1DqObfGsUGw8jpeU882GqHgQREcYLj7jcJlUSXcdb+JNZovsXSQbuyVcxeBX78UYbGaz
-         /NmA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq8hb8+TxrxAmXUgx2DZ0UaoqYtGJU9WTIDVetbaKKDhFRE4Igwrbu7g++246Jx6qwkTO4lL9u0ADQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yynng0ikQW68VlLKGlbO7ZABHy/+Zsb7luTuPQS2Y1A5zX8I2js
-	ZYGXB7zU/1s6ky0X+0cZmvhpqN95Ky2hVQnoszMnNsj8eM14TXke0QMBmeWzxF0bH1YkZRagr5+
-	p2YuImH6rbYEvDUHrLSZ1JdTS3FZRElc=
-X-Gm-Gg: AfdE7cnr/qKMUY0lhmcWqDTI3QU0V8JtIMH6+XdryuqFQjESJ4zLvE92ewOKVyBuopY
-	Lk0EsbjtoMEJCirTA5APDTsPRX1kQpeOKyvkQQgWHTUVslJRL2xD0l4O7cI7Qvc/Tqgz72MYUBG
-	ht6uW6VYk9LrO/8o8O1JAObv76M53hILSR/eJKveU6a91ooZiH16ulpnWtMeiMrTlhrDEpZK1TH
-	kOZACdNpVy73s+n+VcXp+OGZX5gu7F03Gpq8RCVCRdgbSUN7Gl6iPJuoPZXDVHJZv1BCkZPoIwn
-	ltC0XzVmOcow8j01LMBnmIppwExk/bdvEQ==
-X-Received: by 2002:a7b:c042:0:b0:493:df5d:6ca6 with SMTP id
- 5b1f17b1804b1-495483be428mr3111725e9.25.1784225054291; Thu, 16 Jul 2026
- 11:04:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gXdP+GwR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784225242; x=1815761242;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=znWS1rXk0cbvgGPOR3Tr8ACGTxJzAnLRdm0P60aszCo=;
+  b=gXdP+GwRFj3cs5rJcg4932zPTDJZDGsVbbzyX0Kg29sMFeHjCFwERt+Y
+   H6d1htfYKNR+wgfMuE62fyu24ax5zrVgPaP3/6/xJShzmP4Q6uSBOM14O
+   XTVnFSHQT8krX1PLdOVZyCfDq2BQK1MISmewlwf9t485wjSwndJmGXlee
+   1eKe7DOttKMSXU9mX/NmooaNYo8PT2l3Hjf1Rjvl6AIcAh4N0WM7pYq4p
+   aiTTMjGMaV0wcyPu4EvgmN6a3gz4eP63GmAqdcQYCj91UgBJdiZ3AqZAT
+   UNgdpcSWKKeSJiVRMgLzXOqpaSKg3Hyz+AuxtOwHlyeTjhOwJUCyhPNRj
+   A==;
+X-CSE-ConnectionGUID: rcXUpuWIShGRp0wCRVM69A==
+X-CSE-MsgGUID: Qnsl82oZTOOSkDRQIrXSKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="88570929"
+X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
+   d="scan'208";a="88570929"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 11:07:21 -0700
+X-CSE-ConnectionGUID: 9pO8n9yOR02QWqDBoiKzJw==
+X-CSE-MsgGUID: tMI4MnyGTA28mtFHYSJcRg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
+   d="scan'208";a="260857207"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 11:07:20 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Thu, 16 Jul 2026 11:07:20 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43 via Frontend Transport; Thu, 16 Jul 2026 11:07:20 -0700
+Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.16) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Thu, 16 Jul 2026 11:07:19 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=emfKDKPWYQ17dDu6Q7eg7smDIlTT6b7TQJ/INEoTTcSjnq2NA1V9tG0INT891M5cZY9MkE77l5QJ7gLD6Mj96OzhhbhDDIcr7AhTOMXx/nDzaCky9vc8BzVQv43plYDi1B+Jcp5u/tzqhvN/Fhe1XAHUbyNpXHDhMI5C/5tRqH8/JSJO5NeRAT3JyPpan7w81DAaEgrdsh/hc6ojklbvUam0H+6HyZobJiDiRMDcJOGX2FkiLgWn04S23kdjNIFkmvZ8kifFXEXV8e5CoACtwB4qnKfGIqDvu9wfxCeiPLjRWIETEOy7OlgISwy9aX3wlXVyl63XgFruueTI7cSMlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wh3nMmHa31piB/bI65UhfyP3/DD1U8dravdotFD8fXw=;
+ b=c1b4NsrxtPMpQXH3TJxAtuj4d2TPA5t2dGWfRGioS1QJ8EWMjEHg/sgLsQdUM2NimRkr1TmX8AVfXS+vWV+Cv+3xMHGwggIE4W4IPwWXNuBlh/9HBoSInkR3x47H7dHIrHg5Toq7YExmakEMNfBnCS1D1ixOZSCm5+3lLnH+5dZI0gjQ8FybpY8kYchs3L7tJ5ygmZt4dm0awnDK38mtoKyWWChsPWxgwrTCJcM++/8UH0lxfA+UDKV590UeUrTLMKRcRDW6wAEGtQRGrfhqX56T6HWCJTceKN4N4SOd11vhyixsolaWNc/EAdckEEfb3N7oF3E4By+eCKtkIrVX7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB7381.namprd11.prod.outlook.com (2603:10b6:8:134::14)
+ by DS4PPF2D9C959A2.namprd11.prod.outlook.com (2603:10b6:f:fc02::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Thu, 16 Jul
+ 2026 18:07:17 +0000
+Received: from DS0PR11MB7381.namprd11.prod.outlook.com
+ ([fe80::4c39:dfe6:d6dc:6f58]) by DS0PR11MB7381.namprd11.prod.outlook.com
+ ([fe80::4c39:dfe6:d6dc:6f58%6]) with mapi id 15.21.0223.011; Thu, 16 Jul 2026
+ 18:07:17 +0000
+Message-ID: <1867c1c2-9a78-4519-9446-c675c418a57e@intel.com>
+Date: Thu, 16 Jul 2026 11:07:12 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 net-next 7/7] net: ena: Implement gettimexattrs64
+ callback for PTP attributes
+To: Arthur Kiyanovski <akiyano@amazon.com>
+CC: David Miller <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+	<netdev@vger.kernel.org>, Richard Cochran <richardcochran@gmail.com>, "Eric
+ Dumazet" <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, "David
+ Woodhouse" <dwmw2@infradead.org>, Thomas Gleixner <tglx@linutronix.de>,
+	Miroslav Lichvar <mlichvar@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Wen Gu <guwen@linux.alibaba.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	David Woodhouse <dwmw@amazon.com>, Yonatan Sarna <ysarna@amazon.com>, "Zorik
+ Machulsky" <zorik@amazon.com>, Alexander Matushevsky <matua@amazon.com>,
+	"Saeed Bshara" <saeedb@amazon.com>, Matt Wilson <msw@amazon.com>, Anthony
+ Liguori <aliguori@amazon.com>, Nafea Bshara <nafea@amazon.com>, Evgeny
+ Schmeilin <evgenys@amazon.com>, Netanel Belgazal <netanel@amazon.com>, Ali
+ Saidi <alisaidi@amazon.com>, Benjamin Herrenschmidt <benh@amazon.com>, Noam
+ Dagan <ndagan@amazon.com>, David Arinzon <darinzon@amazon.com>, Evgeny
+ Ostrovsky <evostrov@amazon.com>, Ofir Tabachnik <ofirt@amazon.com>, Amit
+ Bernstein <amitbern@amazon.com>, <linux-kselftest@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <shuah@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Simon Horman
+	<horms@kernel.org>, <vadim.fedorenko@linux.dev>
+References: <20260714020340.25014-1-akiyano@amazon.com>
+ <20260714020340.25014-8-akiyano@amazon.com>
+ <f8974bb1-e27d-480c-8f88-6aea3ef41ad8@intel.com>
+ <178418947570.25423.8298339939975321346.b4-reply@b4>
+From: Jacob Keller <jacob.e.keller@intel.com>
+Content-Language: en-US
+In-Reply-To: <178418947570.25423.8298339939975321346.b4-reply@b4>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4P220CA0012.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:303:115::17) To DS0PR11MB7381.namprd11.prod.outlook.com
+ (2603:10b6:8:134::14)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260714081510.16895-1-jiahao.kernel@gmail.com>
- <20260714081510.16895-3-jiahao.kernel@gmail.com> <CAO9r8zNiT63LUHx8X5i_aboX1UWuGkcFf+p9ch-pekURUuDdXg@mail.gmail.com>
- <2bc8e4f6-46a0-5b74-6eaa-59e7aef9227e@gmail.com> <CAO9r8zOFg_mnNGbFFd_h8FAwRCbQ9vXk47EF5f1CLg1cDVGB5Q@mail.gmail.com>
- <b910e870-9583-a2f5-b681-e69edb9af290@gmail.com>
-In-Reply-To: <b910e870-9583-a2f5-b681-e69edb9af290@gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Thu, 16 Jul 2026 11:04:02 -0700
-X-Gm-Features: AUfX_mzsZSO0qoILpPdSsgOGYm9EmmbkyLHIWDWjIDJN1Fs37o-23mqOd14RmEM
-Message-ID: <CAKEwX=Mdi5au5aXWdx3C7d1N4_3o2uiJh2sZ=sf6kpKAdtD1zQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] mm/zswap: Support batch writeback in shrink_memcg()
-To: Hao Jia <jiahao.kernel@gmail.com>
-Cc: Yosry Ahmed <yosry@kernel.org>, akpm@linux-foundation.org, tj@kernel.org, 
-	hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org, 
-	mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
-	roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7381:EE_|DS4PPF2D9C959A2:EE_
+X-MS-Office365-Filtering-Correlation-Id: c0e34b3a-993b-4f5b-4e54-08dee365126e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|23010399003|1800799024|11063799006|3023799007|10067099003|18002099003|22082099003|4143699003|56012099006;
+X-Microsoft-Antispam-Message-Info: SPoZ+v03JlV54hp43Gq/xvngtdoESODRKz1CxPb+MSyJQAqYNO/pF+NVcpL5vjHxIYhR8yoGLYEpO31Xe+qlZYUNXLXGY0m6RQEEWWIwefmAU2Upt74Tv1BVKAnxahpZeIT2eCwjsPncJWJG65SgJSmCNuAAUxqCDVatpKoEETyyUnC4+75gYY2wMs+h4obzbi9KZnZlzEJj+K47wAugBJKm5NFyCebfyDkhnb0iT2zaeam+I8OFQwpm+isyN/8roQFQYSViGe3kJD15lvkd18TWqMf4sLVv9DmwXG3mWB9VQZiABwyJZy4FJOrW5YEdkrnlb7qatecJEPsRay8asNulen4LlIGxdOfSoHp0ZrPUpsI0OIVMbnJ8ijv0dTH4nscAt/DV2ml4isXqG4roM7Zjs/atCIqszEKXoEHmSXnlRF/zrpIl6cCmCkHEuI/iW7sJW2O73kCTIWEl+motYY59Wvf+CCiH0sT/EquuDlzYMF6BPVY4rMGY6QY1ONACM9+Oix0Tp6jQ++0kYpe9Xzx/QUC9F8TIPczaGF2l9bEDR0dqt0+T3HrRkHFq7SEaP1hdHsDzkG7T8KLZ+XWU/+JfR/geivxUadaQAXxzI4P1BsMxeN7rClIrIuP+ra6nhsNeNQ/XXlADHYL4qfX+8hGJel1X9lbIopcw7KDpQt4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7381.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(23010399003)(1800799024)(11063799006)(3023799007)(10067099003)(18002099003)(22082099003)(4143699003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NC9YcENXZ0dZbXNkWk9ROXFza1M4TEpEeGMzRm5hNy9SZTZuYzhPbjVEZmJt?=
+ =?utf-8?B?VWdlRWVWTXFwb0RZb3kzRVE3NFF5SFBZVnl1NmFoMTdIWEt4dGxxcHdTUkpY?=
+ =?utf-8?B?R0dJQTJMU3dQYW1qOFAwUXlnYXFpd1FCenhuZG5BaVQ3WVM3aTRYalF2eVFC?=
+ =?utf-8?B?NVdtcHZSVUpJSTY0SFF3YVBsQzFlSm9yL3R5dDA3R090L1dkMFVZbVU0WEdL?=
+ =?utf-8?B?eTJEOG14eVNEQWNJeDdCYi9kR2p3SjZjeUlLOWRlSmpvcERUSHdIMjViaU9M?=
+ =?utf-8?B?dFBIN1F3bldiU2dmWnFlK1VoVVN0VFZKSTZXaWFVUW5lUHBmREZDdlNaeVJH?=
+ =?utf-8?B?SUtYa0pxRENIa0k4b1ZDSEZuL1NEMnJ4bkF3NkUvYkxad3U5S0ZDUVErc2Fu?=
+ =?utf-8?B?dk9rTzNNNytsZXdtdnNXQjJiWE1mNldCQitieVNlcGJEbDRLRUhNRHM2OUh3?=
+ =?utf-8?B?WGtTbXNjcEtCKzZISG1ZaWpOSjVKVEZRenFWOWhqRVNhR2duZ1lqelBZaVAz?=
+ =?utf-8?B?MEdaQjhBWUs3bVI2MDdvcXljNzJEcEJtT040eXhjMk9QR1d0emIyVFRleWcr?=
+ =?utf-8?B?ODNqdUZMVWZOTFA2V2NUVU5sL2RQaHpVNUxkdnNPTjNJWGdkVmRKWGNiQ3Q2?=
+ =?utf-8?B?WWFaSkZ4U2NMSFJNNUhoUWZwN0g5UGlLRjJRVkdaSW50eTc4MXFyR1FpNGtx?=
+ =?utf-8?B?Wi9vK1RVRWpITHFqaTFZMWhiRmhwZ2pwQ3hOcFdaOXhzVVZxcVRGeW9XYkxm?=
+ =?utf-8?B?emZOeHNIQldLVFdlTHQvOUc1VGRGYWl0eTNkaDdlYVgyVmJ4aXEwamc4Umhr?=
+ =?utf-8?B?cU14SUkxS2dudytOV2c5eTllK21COWFEVllzRFJTbGxacHlzWUhweWRXVHdn?=
+ =?utf-8?B?cUFtYnNmYzk3bzVmRDNRMisrLzFKc2o3MEp2TFV6MVhCWFhJaXRjVW01SFZL?=
+ =?utf-8?B?UTgvdDZzemwxV1hOWVEwcDNXZHN5cWpHODVzU3NZTW40VWtNc2JXVmFwdk1u?=
+ =?utf-8?B?cDZHekF6WHgySHdPSGlxWEVlZHljSFZMOVFiUXpuYmhTUC9URzJmbm5Teld0?=
+ =?utf-8?B?cjZoampxK2VXZXFRN212NXdoNjJjQzhzTDVJeHNxRUd4aVp5VmcyWUQ2cjc0?=
+ =?utf-8?B?dmRkY3hpOTZGWHB6dExjSlVkY012Q0Q0SlN6ZFlTTnJrQmpRbDBRSnFiUm40?=
+ =?utf-8?B?M29za2d3dENRaGx6VVhOaUN5NlNnSnZXWmJhRlpjUkdjbDlONGRSSkRKWi8r?=
+ =?utf-8?B?NGZ4ZVlka3JNeUlZVW9LWlJndm9EU0NpZ29EdzdrcDVUd3Btc1FDaXk0ZGNE?=
+ =?utf-8?B?QjhMM2xnUmNnY3pnQ2tmdUJVM1kvZlNVRCtYUUtQYWwwc0FQRzRYdnlOSGtt?=
+ =?utf-8?B?R2ZSdjNCUE1PVG1HUTltMEV1bndUOG5yZ3Awa1YwV2JnajFCMmFkc3NIemVs?=
+ =?utf-8?B?VXVvY0JmK2N5eTJpa3lqL0RBYlpJMGg3ZklkZW00OE9hTjJSL3E3ZUx5ZDdo?=
+ =?utf-8?B?QWJxejFBMm40ZnE2YUovQ1g1K1JlaGpxaEMwYzE0UzlLdW90WU5RaThhMG1w?=
+ =?utf-8?B?U0diaUhVM1M4V3VYNHY5TGl0QjNMU1U4bEpsT3cxR2VzbWdlODAxb05KamNZ?=
+ =?utf-8?B?a3o3SktiTkR2K2pzUnBqS2FmYjcwY2RncUh6amV1NkNFT3c4cGNERnc0UDRj?=
+ =?utf-8?B?Yk91cGdUOE9wcEdVbW5kMk5tUXFoZmZuRlVicXpCVVgxOWlyZHVCZ0ZhUlVu?=
+ =?utf-8?B?WVdsdFFRbnRtMWI3Z1k5VElkRGlFQVlqY2k0M1dEUjZCaHk3L29odnFyVWw0?=
+ =?utf-8?B?SDJ5dU9EWXZWS29EWmhiSlJpQUtxVUVJc0ZVZm43SkltRlRhbkU5czUxZncw?=
+ =?utf-8?B?R2kvblQxSGVLV3J2aGJ5SUtETHpvZ0tvMzJTZlV0VVdkeHhpa0RqSTZ4alRy?=
+ =?utf-8?B?aTJkQjR6alBQYVpaUkw4UjNEMkV0bDFFZlRUT2ppbnVTTjlJZ2cxTXJUaEZG?=
+ =?utf-8?B?djdVb1lmWGdHM05iTTZzRE54ektlVzdld0VRc2xnMEdMS0NpTXpTRDc1TGlE?=
+ =?utf-8?B?WnUxZ25UUzE2NnYvaGQ1UXZiV2FXeXllN2dhNXpMckNMQjdHUDdzb2tyT2x0?=
+ =?utf-8?B?bXltL0N5TUFjQW50ZHNkWkpLUldMSEZobHEvbmZ6c3l6eXVkQ0ltQ0JYckZn?=
+ =?utf-8?B?bzV2SjFrSVlRS241T2JGMStDOWpxaXNsU1ZwWUlPOEdxcVMvb3czc1lMV0sv?=
+ =?utf-8?B?UnFjT3IwVFZxRmJscnRudXUzbVptdXJpYUw2NFUvT1BwamptMDRlL2NBYVI4?=
+ =?utf-8?B?RStYbEtraml0Q1JYb0ZjSXdIUUFNSCszUlpvL1dHVU5EUGJBZ3J1Y1RKc3FM?=
+ =?utf-8?Q?WWYLNamziUui3WP8=3D?=
+X-Exchange-RoutingPolicyChecked: fQYVAKRnhL59rW0VWHeiAXqGJpI0HVyfAsaUrDEGpdDn9e4PrrZzaJRxQ5lxV+Ca22v/LDAIoejAlSCTNNhGvYo2tMbNgVTolWGB3amcIQe0bcpnT1dDPbXvFwv2CQ5rUkk6oI+UJTz5mrYNJttPlU+IqVKJBEfLTokNGjTxgFCzxIfuiaWfOotnA0Rzhqt1lKbBNRYX6JSua6qfRazroCJW3NyydIUfuTYSJZ54fPyq3SKTQIdA8haqj4EpI0JoJbApUYDiSbGlRh7bPXP+AUarESbvpfRb/y/o1XlJCQp12MApDKDxm4QmRjz9gHBSAbctb59KiduH0+tganQuZQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0e34b3a-993b-4f5b-4e54-08dee365126e
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7381.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 18:07:17.5504
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: h8Ot8jFZTf/iwneeAXt9qVQBHUGaHGjRPy6NAtSixlXF5pjU9Zxdw7kM4wsOpaWRvBb4s1tGrLr9lNcmaI5Pl+hbnBamdX1JiWCfPLFELKI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF2D9C959A2
+X-OriginatorOrg: intel.com
 
-On Wed, Jul 15, 2026 at 7:54=E2=80=AFPM Hao Jia <jiahao.kernel@gmail.com> w=
-rote:
->
->
->
-> On 2026/7/16 00:14, Yosry Ahmed wrote:
-> >>>> Test Setup:
-> >>>> Total memory: 32 GB.
-> >>>> zswap settings: max_pool_percent=3D1, accept_threshold_percent=3D50,
-> >>>> shrinker_enabled=3DN.
-> >>>> Allocate 512MB of anonymous pages and fill them with random data (to=
- avoid
-> >>>> compression), then use cgroup memory.reclaim to force a large amount=
- of
-> >>>> anonymous pages into zswap. At an interval of 2ms, allocate a 4K ano=
-nymous
-> >>>> page where the first 4 bytes are random numbers and the rest are zer=
-os, and
-> >>>> then trigger a reclamation of this 4K anonymous page through cgroup
-> >>>> memory.reclaim. When the pool threshold is reached, shrink_memcg() w=
-ill
-> >>>> be triggered.
-> >>>>
-> >>>> The test data after running for 120s is as follows:
-> >>>>                              Baseline         Patched
-> >>>> shrink_worker wakeups          5363             85
-> >>>> shrink_memcg calls       11,345,012        188,264
-> >>>> written_back                  40214          40275
-> >>>>
-> >>>> Conclusion:
-> >>>> Under the same workload and run duration, the patched kernel shows a
-> >>>> significant reduction in both shrink_worker wakeups and shrink_memcg=
- calls.
-> >>>
-> >>> Please also include data from the case where zswap store failures are
-> >>> observed and pages go to disk, and compare before and after this
-> >>> patch. I think that part is also really important.
-> >>
-> >> I retested and added some collected information. Perhaps
-> >> `pool_limit_hit` and `pswpout` can explain that batch shrinking of zsw=
-ap
-> >> can reduce the number of pages that fail to be stored due to the pool
-> >> limit, allowing zswap to skip zswap and go directly to disk.
-> >
-> > Oh I meant the other test case with high memory pressure where we saw
-> > a lot more writeback with this patch. Do you have similar data from
-> > that test case?
-> >
->
-> Below are the results from stress-ng (high memory pressure case), which
-> lead to a similar conclusion:
->
->                                Baseline      Patched
-> shrink_worker wakeups         5,640           987
-> shrink_memcg calls        8,481,500     2,504,818
-> written_back pages               260       768,576
-> zswap_store calls           2,742,756     2,301,414
->    store succeeded (ret=3D1)     934,640     1,308,686
->    store rejected (ret=3D0)    1,808,116       992,728 <-
->    store reject rate            ~65%           ~43%
-> pool_limit_hit delta        1,181,310       101,593 <-
-> pswpout                     1,808,376     1,761,304
-> pswpin                      4,288,497     3,902,658
->
->
-> pswpout =3D store rejected + written_back pages
-> Note that pswpout comprises two parts: the store rejected count (where
-> we skip zswap and go directly to disk) and the number of pages written
-> back by shrink_memcg().
->
-> Therefore, we can directly leverage store rejected to evaluate the
-> scenario where zswap is skipped and pages bypass it to disk. This
-> provides a much clearer picture than looking at pswpout alone.
->
-> Do we need to include both sets of test results along with the
-> comparison data in the final commit message?
+On 7/16/2026 1:11 AM, Arthur Kiyanovski wrote:
+> On 2026-07-14 17:47:35-07:00, Jacob Keller wrote:
+>> On 7/13/2026 7:03 PM, Arthur Kiyanovski wrote:
+>>
+>>> Implement the gettimexattrs64 callback in the ENA driver to support
+>>> the PTP_SYS_OFFSET_EXTENDED_ATTRS ioctl.
+>>>
+>>> This enables applications to retrieve PHC timestamps with quality
+>>> attributes through the standard PTP ioctl interface.
+>>>
+>>> The ENA device currently reports only error_bound (valid bit set).
+>>> Other attributes are not reported (valid bits unset).
+>>
+>> Typically it would be a policy not to introduce new attributes which are
+>> not yet used, and add the other attributes once a user appears. However,
+>> I think it makes sense to have the full set of desired attributes
+>> especially given the ioctl interface limitations which would otherwise
+>> require a lot of reserved space or new ioctl numbers. Especially given
+>> the uAPI here has been discussed and changed heavily from previous patch
+>> iterations.
+> 
+> Thanks — that matches the reasoning. We defined the full
+> attribute set up front because of the ioctl interface
+> constraints you describe. The valid bitmask ensures that
+> userspace only consumes attributes that a driver explicitly
+> reports, while still allowing additional attributes to
+> become available in future drivers without further UAPI
+> changes.
+> 
 
-I mean, it helps your case no? :)
-
-But nicely done. My understanding is, this batching of the global
-shrinker reduces overall disk swap fallback, correct?
-
-Other than Yosry's comment, the rest LGTM FWIW :) Thanks for fixing this, H=
-ao!
+Yea, I think that makes a lot of sense.
