@@ -1,104 +1,95 @@
-Received: from mta20.hihonor.com (mta20.honor.com [81.70.206.69])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA2A5477E;
-	Thu, 16 Jul 2026 06:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.206.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C857386575
+	for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 07:04:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784183898; cv=none; b=UAB2zTdAnCf/3TkpGmLh6iUMPGKqdFZlxqqs8nkFQzuR2lksDYqAGbpdZIm9ecGNxC/TS4BFQ6iLciLvNdophA70dTkRgerXRfxTkdgPGQCH96dwMCZSvhjkeG5YXiTKUIfG23Srj+q/46VGbnpldky8lS3e4yCZenI9d+e/6Yw=
+	t=1784185469; cv=none; b=QhNMWFK6IN3EmveIfqX/q4eiEmEx2bXaqoCfK1oZcu/k+WhlJvTW0U1I0b2jZ0ZatqI6qaXtRMHwZ68lPF8UDTyx0+qDUvfXaLLa6B4WlK9JV3jlu1YHMSEptD/bV1j2M0UTOjZgehrDimwc7JvNE/s4+qf3Hnyv7+vimNuMmKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784183898; c=relaxed/simple;
-	bh=VN2l4+L3cGzSMhgeLm2beoEljEgiLAJEQyRe6n/nqWg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=tfyNeIOC4vHnECZyhKuf/vwvzNtvwQXyDG1nt402xREAqHey7WkRxg+sBKPzkflRkxRdso+/WZVe7YFxc/rtX7KubxGVGq/eu/zPJXrgdVth6p0LRV1uWZlEjISv2DWP6ZoP33SE3J8B0Voc8IVrZiTZdFQviW/QHL/6uj72iDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.206.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
-Received: from TW001.hihonor.com (unknown [10.77.229.151])
-	by mta20.hihonor.com (SkyGuard) with ESMTPS id 4h13Jb3SLDzYxkj2;
-	Thu, 16 Jul 2026 14:38:07 +0800 (CST)
-Received: from TA009-1.hihonor.com (10.77.226.44) by TW001.hihonor.com
- (10.77.229.151) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Thu, 16 Jul
- 2026 14:38:07 +0800
-Received: from TA012-1.hihonor.com (10.77.199.132) by TA009-1.hihonor.com
- (10.77.226.44) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 16 Jul
- 2026 14:38:01 +0800
-Received: from TA012-1.hihonor.com ([fe80::6668:8cd2:ec5c:99b2]) by
- TA012-1.hihonor.com ([fe80::6668:8cd2:ec5c:99b2%13]) with mapi id
- 15.02.2562.017; Thu, 16 Jul 2026 14:37:50 +0800
-From: wangzicheng <wangzicheng@honor.com>
-To: Johannes Weiner <hannes@cmpxchg.org>
-CC: "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"yuanchu@google.com" <yuanchu@google.com>, "tj@kernel.org" <tj@kernel.org>,
-	"mkoutny@suse.com" <mkoutny@suse.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"kasong@tencent.com" <kasong@tencent.com>, "qi.zheng@linux.dev"
-	<qi.zheng@linux.dev>, "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>,
-	"baohua@kernel.org" <baohua@kernel.org>, "axelrasmussen@google.com"
-	<axelrasmussen@google.com>, "weixugc@google.com" <weixugc@google.com>,
-	"david@kernel.org" <david@kernel.org>, "ljs@kernel.org" <ljs@kernel.org>,
-	"liam@infradead.org" <liam@infradead.org>, "vbabka@kernel.org"
-	<vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com"
-	<surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
-	"roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
-	"muchun.song@linux.dev" <muchun.song@linux.dev>, "cgroups@vger.kernel.org"
-	<cgroups@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"willy@infradead.org" <willy@infradead.org>, denghaojie
-	<denghaojie@honor.com>, "baoquan.he@linux.dev" <baoquan.he@linux.dev>,
-	"kaleshsingh@google.com" <kaleshsingh@google.com>, "tjmercier@google.com"
-	<tjmercier@google.com>, wangtao <tao.wangtao@honor.com>, zhangji
-	<zhangji1@honor.com>, wangzhen <wangzhen5@honor.com>
-Subject: RE: [RFC v2 0/3] mm/mglru: proactive aging via memory.aging
-Thread-Topic: [RFC v2 0/3] mm/mglru: proactive aging via memory.aging
-Thread-Index: AQHdE4pwfI2vhxgx7kyzLikejPZWhrZuF3kAgAGbAtA=
-Date: Thu, 16 Jul 2026 06:37:50 +0000
-Message-ID: <0a218053083e41c8bc7aacc552c7f38c@honor.com>
-References: <20260714121529.2237261-1-wangzicheng@honor.com>
- <20260715140046.GO276793@cmpxchg.org>
-In-Reply-To: <20260715140046.GO276793@cmpxchg.org>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1784185469; c=relaxed/simple;
+	bh=o2nvfTB5ks8yBSN8AtUn4vGS/Ay1sW0cVn4ykxZG5So=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=so9eKmVd5tpX7UXcEKlwCZugn/6XCnqe6xxCQG03j1Y9qVm24BXAD6KDhtJTZZXIFyrQj3+XvFL5VwbXf+m88e0iJW7KyioLbtdkRKWeZ00r3ppn37PXKxN1z8SXwl4ervbkbq7J488bKFfbJLD0/NqTtkKwPG3lRbYtGY3SNXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B1np8OUl; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B1np8OUl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784185467; x=1815721467;
+  h=date:from:to:cc:subject:message-id;
+  bh=o2nvfTB5ks8yBSN8AtUn4vGS/Ay1sW0cVn4ykxZG5So=;
+  b=B1np8OUl+O78jRWgs3oR2YzYJpNr7a4dFttUWvY2ObJJm/rHKfFJ3JBi
+   DWajgJXHeXpuy20hSaMTgOOzy0Z1pnjZpgJGgF47cSz86MlFGIgmP7hYo
+   eK89OMoGF8Q8Pcb7SljeuoEBEu88OkD2rhDkyEEeJMhA74Tk1+PF2WFdP
+   GTJAYsNEdROztsveunlwDd+Mc2y/9U1ZesmE6oDkN3oC5Ip0woO6rVCeh
+   G18Mb8bgpA4CGSO1CTKsQlgA2y2nbRxD2Z1AR33WiL2q5xJFHbt/NIyhN
+   tY1ewaJP7kS7nmWkXdQlVAJvinHVxeEzl8UAezlaXgWTi41g3B9K+OPqe
+   A==;
+X-CSE-ConnectionGUID: 1iic1uL/SrWgXoypnlAG9g==
+X-CSE-MsgGUID: vM3GqjyNQgKFw6+mOR4Cng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="102386862"
+X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
+   d="scan'208";a="102386862"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 00:04:26 -0700
+X-CSE-ConnectionGUID: kFNpk3QtTtu0lHlSiJX2yQ==
+X-CSE-MsgGUID: jtVKZdUjQ3qodKrZ+eyzMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
+   d="scan'208";a="294646578"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 16 Jul 2026 00:04:25 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wkG8s-000000004VF-3lWc;
+	Thu, 16 Jul 2026 07:04:22 +0000
+Date: Thu, 16 Jul 2026 09:04:03 +0200
+From: kernel test robot <lkp@intel.com>
+To: Dave Seddon <dave.seddon.ca@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/admin-guide/sysctl/net.rst:464:
+ WARNING: Title underline too short.
+Message-ID: <202607160858.yHDU0SH2-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
 
-> Subject: Re: [RFC v2 0/3] mm/mglru: proactive aging via memory.aging
->=20
-> On Tue, Jul 14, 2026 at 08:15:26PM +0800, Zicheng Wang wrote:
-> > MGLRU inverts the reclaim order when anonymous memory is faulted in
-> > bulk: anonymous pages sit in the young generations while file pages
-> > sit in the oldest two, so reclaim evicts hot file pages before cold
-> > anonymous pages.
->=20
-> An aging inversion in the reclaim algorithm seems like an exceedingly
-> poor justification for a userspace interface to work around them.
+tree:   https://github.com/intel-lab-lkp/linux/commits/Dave-Seddon/net-flow_dissector-gate-BPF-program-lookup-behind-a-static-key/20260716-084819
+head:   f64b3df6ea030dea756aeec684e912b5be756369
+commit: f1976833abb3facab59bb7c1155abbd1e466dcd0 net: flow_dissector: opt-in fast-path for eth + IPv{4,6} + {TCP,UDP}
+date:   6 hours ago
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260716/202607160858.yHDU0SH2-lkp@intel.com/reproduce)
 
-Hi Johannes,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607160858.yHDU0SH2-lkp@intel.com/
 
-Thanks for the reply.
+All warnings (new ones prefixed by >>):
 
-I agree the aging inversion is a real defect, and I have no good fix
-for it. But aging is not a workaround for it. Aging is a `MGLRU feature':
-rebalancing the generations lets MGLRU's swappiness work as designed,
-and we measure gains on both Android and file-cache-bound server
-workloads.
+   ============  ===========================================
+   1             automatic adjustment of input current limit
+   0             no adjustment of input current limit. This
+   helps for more unusual power sources like
+   solar modules. [docutils]
+>> Documentation/admin-guide/sysctl/net.rst:464: WARNING: Title underline too short.
 
-The capability already exists in debugfs (the lru_gen "+" command), but
-production systems like Android cannot mount debugfs. memory.aging is a
-feasible path to that existing primitive. We ship it as a GKI module
-across kernels 6.6, 6.12 and 6.18 (Qcom and MTK), with stable
-gains on both Android and server workloads. Having it in-tree would be
-very helpful.
 
-Best,
-Zicheng
+vim +464 Documentation/admin-guide/sysctl/net.rst
+
+   462	
+   463	2. /proc/sys/net/flow_dissector - Flow dissector fast-path per-shape sysctls
+ > 464	---------------------------------------------------------------------------
+   465	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
