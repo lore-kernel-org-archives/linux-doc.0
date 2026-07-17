@@ -1,81 +1,104 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDD03F889E
-	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 12:08:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF7C3D8128;
+	Fri, 17 Jul 2026 12:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784290120; cv=none; b=eh0gk37xhGpDK8R9y/zAX4jK9pg5vSfXEh3ruDj6UZGQhkroydlP2gwA9OXaQIQ89eLfHUxc7eASq6/jsX6dGgImc7ZkbgRhp/Ap4EMO2JQ6MVgMvYlIt/XFOmhjERODyFjvZwIjGzKFa0hThMfGrjyJF6E5vBljGGe18/GFGbE=
+	t=1784290149; cv=none; b=NpHpR5jX/qGPe1go67gr9tr2DWr247+EPMN3EaCOlA0JPpvk0NNmFjaYuvsElYFcBg8YpZ0pim3zVwGu7jdIc+qlVbSmsVvPGzeCcFGyqtMcuryoGq0Jt0gRrCsQiwBOeUWyHs52HChUZrLvhs/t0KM4F4Uc9rV1VytMQEuy9G0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784290120; c=relaxed/simple;
-	bh=Vm4NvJ/sKpmrauoARhUk9d84cYGnQ02K6E83JIeIjsU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hpVDaDj/rnZT1jaO/JuTkTifhOBNpOidVkqtLh1DlVkFkYAnYXoD/wesvijhXZ5PNQCUR6uAzKwUrnlU3fbGfyta3/1J+ElE69v19E7lrx4fbEvhCu36XT+VdRLHFH7V77jw+zdH5YmmTeRQ+1mp0ZsYSTfEigH2gAVubCBBcwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=POGhtBXm; arc=none smtp.client-ip=95.215.58.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1784290149; c=relaxed/simple;
+	bh=iNEqYuOjm7uIPttT8oUjfw6gEZ4rjmmSb7FLemK1JME=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CLs4ofHVkTxg8bynXiaQwzRKTtrfySTXEbX+IMRXcnC7WvgHZ3T90c0Il6FVjIUF5XmTyPPt9ZvGY+x9cuzoWm6oGnzEOOGauznr5dMmp7zKe+oE2XLcvUmMZ1ND7mmjZ40e5zp10yjN1NVIbbPMhK/UExIus1a/zZH4Dsb2ARE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mhRPrpJM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="POGhtBXm"
-Date: Fri, 17 Jul 2026 20:08:08 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1784290117;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s9Dizcnrmj+U6AESaBkaCRqEC1D24Lzftd6/vInKDHo=;
-	b=POGhtBXmPcm6We+63rOAeeUOnyQGEZnz8Yl7TFaCfOf3+e1YgZf2KqKN0VcYZPcxXtk16E
-	wYXfUY8aZOS6zJxhhgLLZxuGUj5gX44pbKj8jlX7j7dzt2wZvkIbe0MR3DiSBJx1KfU7o8
-	1Mo2ACFWCJwx78PTNRWTmwcjhIaoteQEqDbY0qejgGDjXHmdyM5enImjoXW3atNnYLsukl
-	FasB/iIoabaWcpTFAXXzzpFAu17OnO7nW7WIMmkigwBUPNEpCnMzA0O8QNmFgRFqyf+glV
-	373JlNPHYXeYd3DJDLnV8WR/JwUYCkuiHOXoHbnLWqquxTzW7OU2EOmNUHKoAg==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] docs/zh_CN: add applying-patches to process index
-Message-ID: <ad6e02c970b2c4ccae43ee41bc367aeb4131da8e.1784289654.git.wy@wyuan.org>
-References: <cover.1784289654.git.wy@wyuan.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mhRPrpJM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE9D71F000E9;
+	Fri, 17 Jul 2026 12:09:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784290148;
+	bh=4rm4TVNxeMX719ukVGcBp97E106HiBaS44S5d6OARlw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=mhRPrpJMmd8MkXxWkYZ7k1BdtqFNLcNPQp69RvvRo881MOXC8CzN2rv7LpigjWzzY
+	 YvUv5KKqeO1j29IBde6wJeRh0cYohfv00EAkkfURCrVVQJAdmOckFdxVD6cR7aC9Ya
+	 PdanYlh7AAJmOmT7MtTKsyczNU0Se4FSGkwyZfUo2sHp+u3EmFpLm5fbiUpj1TP8EK
+	 hZ3RNkpAOkBaRUgL2uT2tmVmpwPVL/T2aAFF2sK3ueRS9o/BBF5dl/GYo7r2yUiJGv
+	 WAhl/i/LWMJMS2+cu/7WTVLmdu/cp8If/P5tZfGQ0kE3cCOR8RkTYg0+5UOh0k+xCc
+	 PLTwvxx/0Uu0w==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=lobster-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1wkhNJ-0000000644A-3sQ5;
+	Fri, 17 Jul 2026 12:09:06 +0000
+Date: Fri, 17 Jul 2026 13:09:04 +0100
+Message-ID: <87ech1rf6n.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Ryan Roberts <ryan.roberts@arm.com>, Will Deacon <will@kernel.org>
+Cc: 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	oupton@kernel.org,
+	hch@infradead.org,
+	jgg@nvidia.com
+Subject: Re: [RFC PATCH v1 0/8] Arm Core Local Accelerator Driver
+In-Reply-To: <aloS_T3LQvpHeZUV@willie-the-truck>
+References: <20260717104759.123203-1-ryan.roberts@arm.com>
+	<aloS_T3LQvpHeZUV@willie-the-truck>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1784289654.git.wy@wyuan.org>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: ryan.roberts@arm.com, will@kernel.org, gregkh@linuxfoundation.org, arnd@arndb.de, catalin.marinas@arm.com, mark.rutland@arm.com, jpb@kernel.org, ogabbay@kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, oupton@kernel.org, hch@infradead.org, jgg@nvidia.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-Now that applying-patches.rst has been translated into Chinese,
-add it to the toctree of the zh_CN process index and remove it
-from the TODOLIST.
+Thanks Will for roping me in.
 
-Signed-off-by: Weijie Yuan <wy@wyuan.org>
----
- Documentation/translations/zh_CN/process/index.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, 17 Jul 2026 12:33:17 +0100,
+Will Deacon <will@kernel.org> wrote:
+> 
+> > I'm deliberately constraining the scope to bare-metal support for now.
+> > Virtualization is something we are considering (and have prototyped), but plan
+> > to post a separate RFC for that as follow-up, once we have agreement on
+> > direction for the bare-metal driver.
+> 
+> I'd actually like to see what the virtualisation part looks like first
+> because doing it as a bolt-on later feels like the wrong approach. The
+> structure you have at the moment is remarkably clean, given the
+> architectural/CPU interactions (this thing even apparently builds as a
+> module, nice!), but I'm unsure how far you can push the separation once
+> you need to start hacking at KVM. Maybe the MMU notifiers are enough,
+> but I can't tell.
 
-diff --git a/Documentation/translations/zh_CN/process/index.rst b/Documentation/translations/zh_CN/process/index.rst
-index 3bcb3bdaf533..3a36ca7d9333 100644
---- a/Documentation/translations/zh_CN/process/index.rst
-+++ b/Documentation/translations/zh_CN/process/index.rst
-@@ -82,13 +82,13 @@ TODOLIST:
-    :maxdepth: 1
- 
-    magic-number
-+   applying-patches
-    volatile-considered-harmful
-    ../arch/riscv/patch-acceptance
-    ../core-api/unaligned-memory-access
- 
- TODOLIST:
- 
--* applying-patches
- * backporting
- * adding-syscalls
- * botching-up-ioctls
++1.
+
+Virtualisation cannot be a "bolt on the side" exercise. It is an
+integral part of the arm64 tree, particularly for memory management
+and scheduling, all of which have a direct impact on KVM.
+
+I don't think we can really evaluate anything here without looking at
+the full picture.
+
+Thanks,
+
+	M.
+
 -- 
-2.55.0.369.ge3c30fcd466f
-
+Jazz isn't dead. It just smells funny.
