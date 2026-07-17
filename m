@@ -1,64 +1,64 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FB4175A69
-	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 23:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADCF3B4EB5
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 23:39:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784331141; cv=none; b=liEkX1y50sNwRRiBK45r4nX3kFaz47LoZXrKy+uwrFgPL7C/aSc9nY/UmIUIbVmLq/V2PKsioUDxoTOvHDEIcksF7tRsKV7C/yClr/i8RfTgXsrOqRkroYdsqzflCmRLKpmDw1sAHQcKq1IIoUGlyePNmY2H47fIP0nuq9+qaXA=
+	t=1784331550; cv=none; b=b3fNRwmTY10dNkGiF4R0b5wZVSWXG7rEB1h+D1ObJKnsXpCDKkIvOpfC03LEKHOG3iQteoda6YgCUUvlljWNFLkvHenI/9C3dkWoqKctcneVGYaWrtxHnBXiH/GIRfQ8XE8IFNZIew4X31v0HMNIdzaI97Iaq9Wt9p+xPosgWTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784331141; c=relaxed/simple;
-	bh=s0LMm+OcoPpmqRB57FW8WPIACTHAgSpt/ofOePUvqwk=;
+	s=arc-20240116; t=1784331550; c=relaxed/simple;
+	bh=vSoFj0hBTT5p/CFJP12khF+A/hWJ+rXJdU4yKcto9Gs=;
 	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=rAy6/UyLvbT5QVTYVm8BMcbS83GLODgaN0JXO9nMfrrw9MYZjLyCSTfAGT2M9h0ukgBMbczqfaCmvVP/F5Pr5KtknJiyCxqbhjARBs/EWZfFLrjUY1MFH2Lw4J8crXDhQ2e/oGyp6KtlD+H+xas/j5BX2Xey0qfbQojanjE/Xkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=OEtm2LN3; arc=none smtp.client-ip=209.85.222.181
+	 References:Date:Message-Id; b=EqBxvp8RJwRK2bnCOKB6MIN8aDOLLhgiRg2PLb4NFh0rBeS//2hqOJr72/0Mz4kbBihRvROd+de36cHBCxIN3yF/dRPyVfdPvjjkHc4+OhDpqpWf8r3/HuO21xiZOkxxx28jYQA5ReUzx5g2OM/6cem8DBXzRb1ZeKJXjCn9GJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=UVmMpKhP; arc=none smtp.client-ip=209.85.219.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="OEtm2LN3"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-92e85499ffbso399108685a.0
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 16:32:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="UVmMpKhP"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8f186025973so90723396d6.0
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 16:39:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1784331139; x=1784935939; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1784331540; x=1784936340; darn=vger.kernel.org;
         h=message-id:date:references:in-reply-to:cc:to:from:subject
          :content-transfer-encoding:content-type:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=R+DUQOwOw2uIV4ajc2HeXFDWOg42tRR4f3JX3Z/V06A=;
-        b=OEtm2LN3Dsz9hqIcPhUOPubE2FmzPc0aKumLQKhlUBnK7oTCcRu35TWCVq44o5685B
-         rBcgA3oTit8bE+bOLRCfh7GTrMo+xqlHe2tqlKFUaTeHD0vey8o6/FLCPtu0mFqcqXip
-         6Q7siChD40hvvjgVDEHL27pjkOxjkNUKdLhtOw0Cujogo16+eGSDS45daVjlE8IYNbom
-         3WDU/fCVyi+iXNW0fgOehju2M1RFqAWc7vVxa9gTAGJgzldQkAH7I6lli9ouPALUjbjI
-         JSnex+GZDzffLjDcery1Qu3loDCtnoZ5ZL2w1QZQbWfGdD/tBXquIwxZRZnnCdsZV5tZ
-         QVfQ==
+        bh=jOQMW/VMMZhI1OvT3xpmRY3tlZwPV7fJgB6bntOIi38=;
+        b=UVmMpKhPE7+0eIuWONcVoDM/c3k0TXLDTIkx41vcl9j0vEr6oGAGOnYuXQBHvylm4V
+         qp+h8891y/otRXPPak4AXYWJuiK4L66+jdLgTFYeClWLQ+EUxUjssD5lYaISkb9EaMnP
+         y2AZfeHgJBSuwLuBxxWJuOpuUpk3rTHwe7p+sEFV6elGRKbCskCH0bUWhZYp9TQRjXjW
+         yQA4rN+LNbQ70I0WReDDNWJz5d8ruAxQl9X2wFPfdD1aZbHW6ltWMLPbCZ60xwV/3RLC
+         YdfdwnIwN8mntNrDIOUveLsAdFAovG69mAVqogREHjZVsauugOx8FOgJ2PVjeylLwKhJ
+         D+Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784331139; x=1784935939;
+        d=1e100.net; s=20251104; t=1784331540; x=1784936340;
         h=message-id:date:references:in-reply-to:cc:to:from:subject
          :content-transfer-encoding:content-type:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=R+DUQOwOw2uIV4ajc2HeXFDWOg42tRR4f3JX3Z/V06A=;
-        b=aN5es0kyzvocMyhuID+8vWR28ViPAVkXuVp4U1b0ALK8ph1Atbv0qiL0YfbOGLVJCO
-         BqOPhvkfnVhaZrEbzBKsqXYdeQp6zc7VzXxi4F87iHTTWgmUrQqSTfDa3T4QiKSmmYhc
-         i0X/mryZmt6F46ZiIKaiotwe165Fp5I1O+A8fbPeQRqV27jYb3nRE4UOa5AEJ6oDB8jD
-         OpP8JOniCjcqJbyMzSg42Gk5Sfu1sVYEkALPA7HjfgBxhRaIilcr1426P7lgmm6iyfqB
-         4aPK46eIur6WeyddW2NHlTlHsfhR8HKfqaeaUUVmWhpYTJi/Vx51MuwjFMk1XGosE3Lm
-         ++Sw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr93pWhsF1k9XplHhDhPeHiUKhaitxAKqI8xI/aT4dcPaZiBaMlXSM8NQqB/L15WFfi+AWxBwa3RSo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9j9cLRz5l7CMwCq5QEsASDiRa6uG1hpHP/ngSMG6JmTboOG0g
-	JoJCauwZNcAKUVdUN6VWFxNV81+pKjaN3vRzR2O9Oweypx1K88WSf5j3m15AgY25Geg=
-X-Gm-Gg: AfdE7ckeKctKWRfDwlJKAYHxozeCPjXFR4osR8a/0fJZXGpNdtvPyigcVBueY8EM8Bx
-	9MQ0LbLAXahM30YLdFSAoisQutqzej9xJ9yKbuOrPsa7folflTGCEJeXQYWMA7D9MY1WLzt5EfC
-	D+ndYrWp7q26IJ07QE8H94yLfHQS1lJuc0ghlI79kuiZuOYUa5FZHxW5tE1Cpo+jkniv79sKDET
-	zLb7WSPrsLeIBvelhw09coxvxWBsAGW5Zk++uhkhfqD01eYjjDFZkh3RamM/7NVNeFzQEEz/RHt
-	67QHkehNEYj7fkTKEFFN3/PcxuX34Z9zEPFUnbuULSllE6oiMsI7XuijtNBHVl/8mQLqX/9Hk03
-	KO9Di+Zs1Zcm0f783JXRnP8Tq+SWt2u/algdVohfUbdXsukOI/uukEy1qlcZZ92MWk5CE+O800x
-	mwc6J4v9ytVk8i5KD2ieN5OxsAGRygwBlIyXiwdFg=
-X-Received: by 2002:a05:620a:472b:b0:92e:f3ca:2ecd with SMTP id af79cd13be357-930b41a0733mr524243585a.60.1784331138856;
-        Fri, 17 Jul 2026 16:32:18 -0700 (PDT)
+        bh=jOQMW/VMMZhI1OvT3xpmRY3tlZwPV7fJgB6bntOIi38=;
+        b=iCWZRNBSqR2replzQRm6NT+MSPjgOuSx6DCvnW7/DJajJf4axdfhJv26LY25A5rFa+
+         7+nvB1yeabwVK119XL2H1bTw3vTMKEw++0VfnF7LDufDFqfKdakaj24iuFVtZfy0Ml0D
+         ajmP+z491EgXmkZlN6OegZDmJInWJy9V7zvpNXA4zqtkImQ5H9a8qExZKPP1YxGnLUvF
+         c4ConS/zOdD12w4Z6vsjafVbJo89LUKQQ/gopGzUlU0BUI06k6DcJiz6qn3/iI94WfA7
+         zP6VXFFZtXbDKUNZZ9wEH5gr/F8jFAXuFlOXKYC+EAqFvPlqK2GNtn72owVSIfdUJi3j
+         5V7A==
+X-Forwarded-Encrypted: i=1; AHgh+RrbZ0aZLLs0oiFLQ9vjVnMOC2/tB1gMq9scUDX7Ovk4XY5TC4oMGaSxpSIV8TISYZBn1i2nzNCK7nE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAcNojq0HrgDNTxtSRAToS7jvm0Q4Oo9KABBycWSL1Lkg1W0xH
+	o+OpMFV7xI8QkeqnqmdYohS1JRbGJTAiPVKtCIL6XCjBY/2g4TJ592Xq6Fb+r2DMvHg=
+X-Gm-Gg: AfdE7cnvkvgnDIeqmQwKP30eJyX4pMJetZH41LVTf2x4yQSGiu6xpjQ2R48uFbqpYer
+	ogK1KhX0RhrftAXXzvuLeXcG3t9iq/VSu0mIZVUebjKpdRTdEpT/2/v80Vpt9h7M0xU8ZiA2nMN
+	tulhWkfmEq7vGUkGAA2h8ptN+B/RZt3ygr2HVq02GGn6avOebXuen6nWvCaSZai5UsPyn+3sqOw
+	LX+aLrgiBXx+7ppZ7rALSuOOYTMSrr0Z3LG+nURuZMiKhDdEnckra1+6mWMWlgyMUbmWKeWImSL
+	aNWYD79vTp/qwonowz8a5oLsEh+UDiBgdQjhVv/STLCtJUw0v/U39BIUH8fr0YyVht+JQZry3Ri
+	qqq0mG4bmRLBqkxrOeHVORio1QeTpPsgHI1uQ/kpGWpHb/IIujKAp6ADVmTxrCl3FN3Gw2F+TEJ
+	CH8k4344ZcVXyjszAQzx5UHiqmV/MAXsb2E21uZY0=
+X-Received: by 2002:a05:6214:5d08:b0:8f2:df9c:3322 with SMTP id 6a1803df08f44-9077832dd0emr59277606d6.14.1784331540051;
+        Fri, 17 Jul 2026 16:39:00 -0700 (PDT)
 Received: from [127.0.1.1] ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b545e47bsm279957485a.35.2026.07.17.16.32.17
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907786f79e1sm28353026d6.38.2026.07.17.16.38.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 16:32:18 -0700 (PDT)
+        Fri, 17 Jul 2026 16:38:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,8 +67,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v7 11/12] PCI: liveupdate: Do not disable bus mastering
- on preserved devices during kexec
+Subject: Re: [PATCH v7 12/12] Documentation: PCI: Add documentation for
+ Live Update
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: David Matlack <dmatlack@google.com>
 Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
@@ -87,42 +87,62 @@ Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
  Samiullah Khawaja <skhawaja@google.com>, 
  Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
  William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
-In-Reply-To: <20260710212616.1351130-12-dmatlack@google.com>
+In-Reply-To: <20260710212616.1351130-13-dmatlack@google.com>
 References: <20260710212616.1351130-1-dmatlack@google.com>
- <20260710212616.1351130-12-dmatlack@google.com>
-Date: Fri, 17 Jul 2026 23:32:15 +0000
-Message-Id: <178433113516.189683.9930130364443329744.b4-review@b4>
+ <20260710212616.1351130-13-dmatlack@google.com>
+Date: Fri, 17 Jul 2026 23:38:56 +0000
+Message-Id: <178433153669.189683.2878214157071313722.b4-review@b4>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=563;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=873;
  i=pasha.tatashin@soleen.com; h=from:subject:message-id;
- bh=s0LMm+OcoPpmqRB57FW8WPIACTHAgSpt/ofOePUvqwk=;
- b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBqWruB0abwGG0XPrEN8HQE9RCrgd8/buD859gp2
- KaKebSgf3WJAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCalq7gQAKCRC7dyhM23N6
- 3mj7EAC6bErgn8QbHlK63bz1p0Z8+rEQtPpeKYfyZoG2uWv9cDi5gkXPAA2cyXTEg8FWk+3dxwk
- y6gytV5WrSayDd6GSc5dQIvNqT/DfySvbzgAES3hjQEYplR6GGXtAvSOJrQm3brDRl3OO/+Jyt/
- RWwegnDu0EtMTwd45jI8iO64zYNbU6iXPDmoo6XX85I5an+0rvaOq2+751osnajpvrUctCRX6co
- rct8df07a7hqEr30tX3CdeA6FpiPhXcSZdcc7Y/mdkIvSPqDsKQWLerNa66FSM/YWQRJyQz75aK
- eh1RdPuqTNnMgn57asyEoYg5pPIxn2wSy1R2+6bmZnsj7Bfhs8kivkdPulT2cq/+tDvb/i1R8cg
- JRhN3kONqgHydgwy6TrTDZQzDKLE1v70UqFkEmihAIJqaxEBEeMylAu3uuCt/3Xf/N8ePqlq4p4
- Zl1+UFEzR12poe688gj93wg/k5DYz12wvCyUaVd1ftxDmqLc5IbkfD19MjDTMA2VHhZ2dygKp+5
- jBzpCI2Ct6WYvMfudLSRjaT4vueHL50oW8vh8gE2xIOaoOwkDXSTmru1jcXLEpWZBDxDnjbHWx2
- A8HHgGX6czH1+b8pT3wyIyMQzrFYbow7ruhbDMctEsSZ9cOZE5vkRTllxa+Bfy5AWxoJFldiSFq
- vnDsQy6niCySu6A==
+ bh=vSoFj0hBTT5p/CFJP12khF+A/hWJ+rXJdU4yKcto9Gs=;
+ b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBqWr0SpjC+L15xuM1whuQrxtevTro4lUduG+wQx
+ gZjJKCgnxeJAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCalq9EgAKCRC7dyhM23N6
+ 3hr1D/9oIctf3jZFaNFf/Pf9J2Q7CfddVWZ2nNZ2arIAM0OUwhaxiAs+LtuvHStvp4Lzy79OaPC
+ MNsK4RZArZ79NaLPOR9S5E6dP8SihdNKm23FpYWS8kmNKUvlpnvUn96H2Bo1thrOScdtHk8KXo2
+ 7hSeP/+8USMLy/ZHr2ShtiB+g1UAd176dG+ifwhSmAAgPmd16B83riVzBB/kFOwP0PXrnOHWCVg
+ NoyCSnhFa7Oj1iHgWlBLPNUv1deka5wHUy7CtHqHc73wIsD+RDeq2t9Dnauotw051GQYm18pWKa
+ Ro4mNfaV4/bgXOl+EindmOYLeL4vmRfgF/9ZiKkyjLjZcj7FGt7HsIhCwwbT/u2+A8OkOyGoZYi
+ r1Iwow+abKmLmqHeqRIFjne6kQTJb22jxEEb/ezTHqlg26zjd2K/Z1L1frMnEuyd/6lmTpda2my
+ KRnfdxmtZtL9QDtYOyUNtLuaOuwzNTTdod6HZcSVYGSUrQl+jbcegXb4vAnwsS3vURMyxjiGKME
+ rn/hi18xZaZXcMv99T6EuayIMn8QHlfKaxv/XQG2mzCxdePpLOJp5QQlK322veGWDifJAyrkoRP
+ XWQu7Llfgoiq2whZiWSbBSEkh55X60dfTNM06+VWWl86F4nrUoLaQGJti/70J124jfGNFISbW/A
+ zR5q4Zf8lKCRE6g==
 X-Developer-Key: i=pasha.tatashin@soleen.com; a=openpgp;
  fpr=CAAAB722DD22A081F0D49F35633A6A993D43B569
 
-On Fri, 10 Jul 2026 21:26:14 +0000, David Matlack <dmatlack@google.com> wrote:
-> Do not disable bus mastering on outgoing preserved devices during
-> pci_device_shutdown() for kexec.
-> 
-> Preserved devices must be allowed to perform memory transactions during
-> a Live Update to ensure continuous operation.  Clearing the bus
-> mastering bit would prevent these devices from issuing any memory
-> requests while the new kernel boots.
-> 
-> [...]
+On Fri, 10 Jul 2026 21:26:15 +0000, David Matlack <dmatlack@google.com> wrote:
+> diff --git a/Documentation/PCI/liveupdate.rst b/Documentation/PCI/liveupdate.rst
+> new file mode 100644
+> index 000000000000..eba55f8a92ae
+> --- /dev/null
+> +++ b/Documentation/PCI/liveupdate.rst
+> @@ -0,0 +1,29 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +===========================
+> +PCI Support for Live Update
+> +===========================
+> +
+> +.. kernel-doc:: drivers/pci/liveupdate.c
+> +   :doc: PCI Live Update
+> +
+> +Driver API
+> +==========
+> +
+> +.. kernel-doc:: drivers/pci/liveupdate.c
+> +   :export:
 
-Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+I think you need:
+
++Internal API
++============
++
++.. kernel-doc:: drivers/pci/liveupdate.c
++   :internal:
++
+
+In order to include docs for structs such as pci_flb_outgoing, etc.
 
 -- 
 Pasha Tatashin <pasha.tatashin@soleen.com>
