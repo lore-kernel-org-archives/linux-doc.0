@@ -1,229 +1,132 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C32DF422532;
-	Fri, 17 Jul 2026 14:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FA83DFC8C
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 14:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784298930; cv=none; b=X20DAiQU1OhrWLpxYl2/hGIDSyKpAp7blQ5mCTAu7jzPrC/CYYGiw43wvBr87aG1U7hFzHnBO3a+wTsKX1gMaMU7l/iw4nHqHeM8S1AEOSscKgpqgVJ68hUEypISPe+gzoHkvgiDLsaHcEqPK7M1nt7TcH71b/2go65k5Z47w9E=
+	t=1784299726; cv=none; b=Yyhp6eF48kI1eHGkr1higbzvJXOj7H8hmvLMqi9/BvnCRx/Up9yIIZEHsz5apv7cjwtxdPzokcBXjxIH+Kt2NMSFb4aLAAx9o1xdE2e3+kwLWK8i6dgurxM64dMnW9p8brcm4CIYuivCN//6PSPcJtIK8d4QRqwAnAYwhuVuYwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784298930; c=relaxed/simple;
-	bh=04h1xL9bVQhcWyqK0UDPWaUwr2jn0aX6jLQn+ZTNHmw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Co3F2wHtzFyQk2wG5BFfQuXxWvl232RnMRfrxk0ezvjZWT0rqYE2u1NdAHvbcjGFBacQp+e+La3UP2yaXprmPJvXu0MunL3QfaKoDaEHv826sQtojE1kX8xjkNb9oXJJrKlkoaZT7qnsyqgnTfolVLgX9AOKNmQoF+oHavVBWBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=FJbsSHAo; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1784299726; c=relaxed/simple;
+	bh=mRjlo0h7XqajHkCi0tOJU+estaZg0reyf7n06FlL9no=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VYAsbMVg9gC4BDx5YFsME866GTUMLDA22fUkPsPlQ9a+wAq0QYY0dXxzFho+8P6yULIWHKh/s4BL92EzWu+wNBMKlCY0IPfbBBa1EbuDS8Uqgxg1MezK1i+TCHOsh3k7LuCtWO4AbKlctAv8qn5LWBwLTuUAtZBIbdP9LFXa7EE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=QZV5B4fA; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="FJbsSHAo"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DAF601476;
-	Fri, 17 Jul 2026 07:35:23 -0700 (PDT)
-Received: from [10.57.84.220] (unknown [10.57.84.220])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 181A03F7B4;
-	Fri, 17 Jul 2026 07:35:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1784298928; bh=04h1xL9bVQhcWyqK0UDPWaUwr2jn0aX6jLQn+ZTNHmw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FJbsSHAoWobppT89ACo5EWn2LTm0G5snGwt2P7C8OT9u5cemEKtdWX4NvAyHrqkMx
-	 mmfy/NeA1yWTyLl8PseeJ7Tq2QUS511amuYPQcBw9Xv6ZC8Vvofwh+753Oc7IfWUPt
-	 +vHyGLZbI4QAuIJfituO9CjDFwv/xNzg7DPwJ6eQ=
-Message-ID: <5012970d-a0f0-461c-b0b6-61823e0aab2d@arm.com>
-Date: Fri, 17 Jul 2026 15:35:24 +0100
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="QZV5B4fA"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c15f020a223so1049869466b.1
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 07:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1784299723; x=1784904523; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=xuE8UsHFqi/drBf67Pe9stpmyquoxdJrOltp395q5AQ=;
+        b=QZV5B4fAuJ+EIhH+HVQldJVqNGZvlMXOeWPFJolvm7jmv/7T/Puhob0g1vQMlINS9K
+         EYTja3uA4/abAn1g120m5JykLnYxJyyQtm1rz1T9rG7+UEDuTShrmbsOQdvHh+m9+L+O
+         mmgblntVR670K35+XOQu4KIberAhhDwPWxfJnzEkwL/GAKACYmhhGHjo5ADLzXeaBAW6
+         AUyFxpUtVynN1CcmVyHfQSg7Cwz9oWtpcrypxWszv/lD3IdQNmkyaGfjzY0o5U+l0yeE
+         68xmqZWuQEEJPNRpXUn0T87DOvsPp46wYnAD87piXjm5XECX++N282LHQKdAusPxYsRF
+         h7TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784299723; x=1784904523;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xuE8UsHFqi/drBf67Pe9stpmyquoxdJrOltp395q5AQ=;
+        b=ASO+sEwDThSRlnn2Kb767GTtzdf2y77cMg3IvccLJALkbXrN2mW/GXg2H4jftH3jKu
+         XLjyjKruvjERDCAVQ/JtwupDxpAThxFNRwvZaOUC6K6jj9Qa9XENCq7U/+MujBOWY7rs
+         w4i2vYI7X+DRDRsfLKzCitoZc7Y5rSoeVfgtlyOVyBPuoKxSOn9jIgVecBgtHbgh3iib
+         YfeEUOkIHEGAKVRqMcOQX1x8pI+9nSFCZKNXaJZQLiflDY2TdZo8QVu1SQJ39E8JzaJi
+         4zqlGWTQ/gPpYG7znezcZUbUwH1Up1u0Fnq5fSEqTKiZpEFw3u/P6uy6sjjaXxMD62Kk
+         YyIQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpQa6m+74gvOEmadoqZRrzAH9XQ0LlhvZcIwZDHs94AP50eW8K8+XraWg0czPpWFSYSRvy9y8Rw190=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWf7g8FTvhDIJU81zbL75IBZtgkCRo/eWaFPcXOQjNCmYXY/mM
+	nX9AJGq62eJtv2Ehq+pwUoi+ZCQFa1gMoKVngvMZweSDE71zY4MogHSw+j0ieTw1ok8=
+X-Gm-Gg: AfdE7cmuxR4Oqpred5Z1fghPlTDo5+vWilYNpRS0yg6YFiQt6gDWV77Zjwk++OWVAAG
+	vR9JKOprM9WeJky3O7e6UM3v0H06RpZxDs5XTkOvkLVhAwqUww56an0WlmK2XXFnSo0jHlMLq9A
+	ulAZcanO8P2bT99ntqfV/LL8Px5sKbVehTK22h0V9R0G9OssdI6KyrrXXro9UU8VIknBgixiPXE
+	6TagVHY4g9BH8ajLLGJT2ZGnBriRwijVc9cZUBeBO26Qyfi/ahEDMOz8KqptQ0I4Vy4IaC2CiSJ
+	7uHoeYBHC1y08VYHI8o+pAOT90bnukt+1i+tdjKkQ3Ezq/bPNPebP5tjCVWNlhnnLudvLG0aEFL
+	1HQuE8ldyme8kQ7XEt576KfpTyj4uEdtnovC8j3a9tLSCGHjRezGrU18tXpPvtoZzNtxTg6Ssf9
+	dtvPcW7A==
+X-Received: by 2002:a17:906:fd82:b0:c15:e8c8:340 with SMTP id a640c23a62f3a-c16b46f5139mr134693366b.23.1784299723240;
+        Fri, 17 Jul 2026 07:48:43 -0700 (PDT)
+Received: from localhost.localdomain ([2001:af0:8000:1409:193:86:92:181])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1705a08476sm90682266b.17.2026.07.17.07.48.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 07:48:42 -0700 (PDT)
+Date: Fri, 17 Jul 2026 16:48:40 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Tao Cui <cui.tao@linux.dev>
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Josef Bacik <josef@toxicpanda.com>, Jens Axboe <axboe@kernel.dk>, 
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, cuitao@kylinos.cn
+Subject: Re: [PATCH v2 1/2] Docs/admin-guide/cgroup-v2: document io.latency
+ rotational vs non-rotational behavior
+Message-ID: <alpADmJBLHpHAS_G@localhost.localdomain>
+References: <20260717060225.2019764-1-cui.tao@linux.dev>
+ <20260717060225.2019764-2-cui.tao@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 8/8] misc/arm-cla: Add userspace interface
-Content-Language: en-GB
-To: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Jean-Philippe Brucker <jpb@kernel.org>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-References: <20260717104759.123203-1-ryan.roberts@arm.com>
- <20260717104759.123203-9-ryan.roberts@arm.com>
- <404d2c6d-4a18-40c2-9da9-fb030c39536f@app.fastmail.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <404d2c6d-4a18-40c2-9da9-fb030c39536f@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 17/07/2026 13:54, Arnd Bergmann wrote:
-> On Fri, Jul 17, 2026, at 12:47, Ryan Roberts wrote:
->> Expose CLA devices through a character device so userspace can enumerate
->> the available hardware and map accelerator register frames.
->>
->> Define version 1 of the CLA UAPI with a GET_PARAM ioctl. Report device
->> topology, CPU affinity, domain membership, mmap offsets, architecture
->> version and attached accelerator masks, together with the IIDR, DEVARCH
->> and REVIDR of each accelerator.
->>
->> CLA registers can only be read from the CPU local to the device, while
->> enumeration may occur on any CPU. Validate the supported CLA
->> architecture version during device setup and cache the CLA and
->> accelerator identification registers for later ioctl queries.
-> 
-> This interface looks very raw at the moment, I expect this will have
-> one or more larger redesigns.
-
-Are you referring to the overall UABI or specifically to the ioctl interface
-here? I could imagine the ioctl interface evolving before we get this merged
-(although it is based on similar patterns used by some DRM and accel drivers -
-it's intended to be easily extensible while existing params remain stable).
-
-The aspect where the CLA MMIO is directly mapped into user space is an aspect we
-are keen to keep though since it has significant performance implications if we
-need to redirect through the kernel.
-
-> 
-> Most importantly, a single character device to expose an arbitrary
-> number of underlying hardware features is an inherently flawed security
-> model. If any specific accelerator is ever found to have a
-> major vulnerability, that would mean administrators will have to
-> disable all of them by default.
-
-Note that we are exposing MMIO per CLA, not per accelerator. So preventing
-access to a single CLA would prevent access to all accelerators attached to it.
-There is a per-accelerator availability masking control that the kernel can use
-to disable access to selected accelerators though, which might help with the
-vulnerability example.
-
-The rationale for choosing a single device file was driven by performance: At
-domain reassignment time, we need to unmap and invalidate the TLB entries for
-all the devices in the domain from the out-going process's address space. By
-having all the devices in a single file and all devices within the same domain
-adjacent, they can all be mapped to a single VMA, meaning the driver can use a
-single call to the existing zap_special_vma_range(), which will result in a
-single TLBI-by-range instruction, which is faster than a TLBI-by-va for every
-device.
-
-If you think it is important for security to have each CLA exposed by an
-independent device file, I'll take another look.
-
-> 
->> Support shared read-write mmap of one or more CLA register pages. Create
->> a context for every domain covered by the mapping and resolve faults
->> only while that context owns the domain. Queue unassigned contexts with
->> the domain scheduler, drop mmap_lock while waiting for assignment and
->> retry the fault after the context is woken.
-> 
-> I still need some time to better understand what this means.
-
-I can probably do a better job of explaining this: The kernel keeps a cla_ctx
-object which represents a single {file description, mm_struct} context that
-wants to use the cla_domain (collection of 1 or more cla_dev). Initially the VMA
-is not populated so when user space tries to access, it will fault to the
-driver. If the cla_domain is assigned to a different cla_ctx, the faulting
-thread is put to sleep until the driver determines that it's the turn of that
-cla_ctx to be assigned the domain. At that point the waiting thread(s) are woken
-and map the devices from the domain to the VMA and return to user space. The
-out-going cla_ctx had it's mappings removed during the reassignment process so
-any user space access will now fault and sleep waiting for assignment.
-
-> Does a CPU have multiple concurrently running contexts? 
-
-The HW only has a single HW context, hence the timesliced assignment approach
-described above (assuming there is more than 1 concurrent user).
-
-> Is a
-> user process able to starve the allocation of other processes
-> by just requesting a lot of them?
-
-In the current code, a process can theoretically create the same number of
-cla_ctx as the number of file descriptors it can open(). It would then need to
-mmap and access to get into the queue to be assigned the domain. I see it as
-similar to threads; if process A creates 10 threads and process B creates 1
-thread, then in the long run (ignoring cgroups et al) you'd expect A to get
-10/11th of the CPU time (IIUC?).
-
-Do you think this consitutes a DoS?
-
-> 
->> +static long cla_ioctl_get_param(unsigned long arg)
->> +{
->> +	struct arm_cla_param __user *uparam = (void __user *)arg;
->> +	struct arm_cla_param param;
->> +	int accel_id;
->> +	int dev_id;
->> +	int ret;
->> +
->> +	if (copy_from_user(&param, uparam, sizeof(param)))
->> +		return -EFAULT;
->> +
->> +	ret = cla_ioctl_validate_param(&param);
->> +	if (ret)
->> +		return ret;
->> +
->> +	dev_id = dev_nospec(ARM_CLA_PARAM_INDEX_DEV(param.index));
->> +	accel_id = accel_nospec(ARM_CLA_PARAM_INDEX_ACCEL(param.index));
-> 
-> Why is the dev_id/accel_id not a property of the device node itself?
-
-As per above, I can go look again at having a device node per CLA device (i.e.
-one for each CPU that has a CLA). But it doesn't make sense to have a device
-node per accelerator (a CLA can have up to 8 connected accelerators); there is
-only a single HW interface.
-
-> 
->> +	switch (param.param) {
->> +	case ARM_CLA_PARAM_UABI_VERSION:
->> +		param.value = ARM_CLA_UABI_VERSION;
->> +		break;
-> 
-> UABI definitions are not versioned, you have to stay compatible
-> indefinitely. If you need something else, add a new command.
-
-Yes agreed; my mistake - this is used for the internal development versions
-where the interface has been changing and I forgot to remove it for the RFC.
-
-> 
->> +	wait_event_interruptible(ctx->waitq,
->> +				 READ_ONCE(domain->assigned_ctx) == ctx ||
->> +				 cla_ctx_is_dying(ctx) ||
->> +				 READ_ONCE(domain->broken));
-> 
-> If you call wait_event_interruptible(), you have to check the return
-> code and deal with it being interrupted.
-
-I believe this is already correct - I'm reeturning VM_FAULT_RETRY
-unconditionally at this point, which is also the correct return code if we get
-interrupted. This unwinds to arm64's do_page_fault() which then notices and
-handles the fault:
-
-	/* Quick path to respond to signals */
-	if (fault_signal_pending(fault, regs)) {
-		if (!user_mode(regs))
-			goto no_context;
-		return 0;
-	}
-
-I believe GUP and other handle_mm_fault() callers have similar logic.
-
-I'll add a comment to make that clear.
-
-> 
->> +static const struct file_operations cla_fops = {
->> +	.owner = THIS_MODULE,
->> +	.mmap = cla_file_mmap,
->> +	.unlocked_ioctl = cla_file_ioctl,
->> +#ifdef CONFIG_COMPAT
->> +	.compat_ioctl = cla_file_ioctl,
->> +#endif
-> 
-> No need for the #ifdef here. Technically setting .compat_ioctl=compat_ptr_ioctl
-> is the correct way here, though that may change in the future now that
-> s390 compat mode is gone.
-
-ACK, I'll fix this.
-
-Thanks,
-Ryan
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ephr2qisqe6yuncj"
+Content-Disposition: inline
+In-Reply-To: <20260717060225.2019764-2-cui.tao@linux.dev>
 
 
-> 
->       Arnd
+--ephr2qisqe6yuncj
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 1/2] Docs/admin-guide/cgroup-v2: document io.latency
+ rotational vs non-rotational behavior
+MIME-Version: 1.0
 
+Hi.
+
+On Fri, Jul 17, 2026 at 02:02:24PM +0800, Tao Cui <cui.tao@linux.dev> wrote:
+> -		The sampling window size in milliseconds.  This is the minimum
+> -		duration of time between evaluation events.  Windows only elapse
+> -		with IO activity.  Idle periods extend the most recent window.
+> +		(Rotational devices only.)  The sampling window size in
+> +		milliseconds.  This is the minimum duration of time between
+> +		evaluation events.  Windows only elapse with IO activity.  Idle
+> +		periods extend the most recent window.
+> +
+> +	  missed
+> +		(Non-rotational devices only.)  The number of IOs in the
+> +		current window whose latency exceeded the target.
+
+		A group is considered to be missing its target once
+		missed reaches certain ratio of total.
+
+I would not bind to the exact value in the docs and put the explanation
+to the "missed" stanza.
+
+Thanks for documenting missed (pun intended) fields.
+
+Besides that
+Acked-by: Michal Koutn=FD <mkoutny@suse.com>
+
+--ephr2qisqe6yuncj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCalpAwxsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+AiRZgD/bio1yk4KiA4j0+myiFeL
+qPwIOp6V3p27lhF4qdBRVG4BAKC8MSZvi8+DOi/IuzdUE6EZRv3f7G9bIN6msiE4
+JWQP
+=tTpT
+-----END PGP SIGNATURE-----
+
+--ephr2qisqe6yuncj--
