@@ -1,195 +1,171 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012017.outbound.protection.outlook.com [52.101.43.17])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010063.outbound.protection.outlook.com [52.101.56.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7B03A9DA3;
-	Fri, 17 Jul 2026 21:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684653BB48;
+	Fri, 17 Jul 2026 21:17:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.63
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784322860; cv=fail; b=LXLa/FSKSblJxZIakB0bxYdoZ+suvB9DpzYR/5vq8hGZyInalXav7meRdGrSPx1VpCSiUb0qjLfjngqjOoTVZDLo4cFWMO45atQncPurcKtnNJHmUaFYlBXBap3FKod97DbitoIJkLy5Oy/ZUOre8kVDEynU+GFetES/J1hb6E8=
+	t=1784323032; cv=fail; b=jtdJJyCdxthm0JUTtQPNtjSCFjvuB2UWkY9LON9sU5IqcNuSM3fsbSMIqMTGdLIW+PJmnvnoxxcR4wap6gLtst1rIG9DGSc9MZ5YodBIt/xtbsUTyRZZ0erGBAPiSkPXLYaYWvlp+E+qbS0WuPP7wrN7Up0uv2UPVaQMuhpZITY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784322860; c=relaxed/simple;
-	bh=J+yuMNnqOoKc4nMF6K0k6BniVY89UrFm9x577XQCR+A=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dctrZFkt7w7WuDISnRtjDrnb1DQlI47UT3/PkQohaY1cng3KjXnceGyWrSs83qlkTrZ288UHwbPeXXwJqhujmR4cz6/2nMgFk62aQY3Kt80aUjia+yFeoJE7jxO3bJf/t0zMEDOTCZGK0gQCqGmhYtfgRKclp4etP5WCBx2I0OI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=iJK9nchS; arc=fail smtp.client-ip=52.101.43.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1784323032; c=relaxed/simple;
+	bh=2ToBXVtMisecpw40zoPSHu+bqDSS8wh5ZXYFXOnVFwQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YgNUZRASHXKzMrO/PGcIHdp8XYBQ8vHOpsMvCuNTP3yUt0fzdARPtMCgjJN9lAykGuFmE1jj8YAtOfTBmfB+q5ZpCWB9weyUy9wcKqO4nk1PE+VP/IYHbOyxvPfL4Z8pOQkXwRoP6pp5OADEKHgg9BwB71DLQu71nq8idoiqPZw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=VjJyuEgt; arc=fail smtp.client-ip=52.101.56.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="iJK9nchS"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="VjJyuEgt"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oiAZRouSFPHFi+5QyzTslUAqqbPD08CAgM3OvhSq15q8T3gq+GxCsq4p0y7WAw7MbKwvQyjs/yLBwQkhTT7GFEy1M8XBzyYoTbViAxLy1y7MCQFzGFqRgp9RsgxaUol/NJ8zKL+cv+wAeRe0aoK0oBaEBSlIDix+v6qz9ni7BER87dvKIrz5Qn6/sh8SHVc4nTFdClJJQOtImYCi4btP7mP9O6WMBRU0KA6YbImR78oQXEpDw+051jYpupuPDBNc4U8LQ1mvk++JyQ4FAGAQeh3/9a+898QTwdSiCQqU0TFbT7Hux2mvsDJrPO1Tyg2hD3g+l/tO1uxKwp5RavAnZQ==
+ b=T6IyvfebBC2/VfVbiaPMUIwhNOLnm33zrVNgnc/GYJx+huzkbm3VX+eM8OjHXC6qpDBIrpQuMXuj7+Z2MoRbyeXg4owOraQMG5o6o+ZqRBwRSeS18V4/OlU859j9uawYAm5+EhqJkyvSrtQkg/9AVXZ+Xd4aF74pROSrNIImdVqzstQ3oRmC/uxBPVCLwij47MYTgPxrH4QPsSHQpwtofdJGx2iSnnReEQua4VLDKTKxrS3QaTR4ZPXJo1hxZVkSdFLfT3LnpRrtRIwpidKIcRpwr629ArQP9rb06qUj18Zg8bKFDHwPicPgJ54eveo/tWDJoaLpdqyqa1WaL0VqqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jITz6iZhx5MajKuSPgllddeSp4/HvP3KXT4grjVCozg=;
- b=a6Y47LMl1B/EwkvVM18ijNPc1xxqkUd9fLmtlKNmnwsqcIC8YVOqXggI692pCrp3txfRpH87OMLBD6iJ3AKVKHmmdW3pnFJkmo92n3497hbuCmLOQtgEJJAEdY+zGRwOpyaBD9xx4IOchr+aLrYOMk5SY7N5Rg7yWRwbA2id0foU2frpgOwWadMjuwVxy5I5S1MuLpqhqfxq1a98DWGU2YM56fOLEdbs38ZPyMEkX3V8gI3CN8EhOydQ+9iQhrR+mr+qeWroLmracAdPtCzHQxlPSEsP1bCPUMvSbBePsIC99XVppmyb6ygFrHLtU/lobKAWgQYYwFWsmIkwjamh5A==
+ bh=1CT0EbR6A+J8pw2YOPlSdewjShPvq9O9oTH0IwGZ6kg=;
+ b=IpElM/hnTO0pzXc9Js9r28Yingl/kHK4mRCfpj5IVosloJIB9AMwzAQH04BUwHwgQ54Zxe6V0PXoFTESqRtMwSKmNiLLqCFdQ4hh68DWpiYeYCr8MK9dZMp/MkXmUrpKraxKaTRXLvZ8CP/IHIV/8c1insmnIpkBkv2EdEBUMxBkfjIM8aOB461Q2QbX0/wE+w0POc3c4FfBu6rGqBPqXPGhpHJpFBArJelLIvP1N6rUbmUs4j/sY5z7F8IrSwIV0zSBN76UCyt+ctZE9RwZnm12PN0DMDqEoyvlmMWLh0v63BHgOe24d2RDX3ln8iMwOjpmJL9wtkr9dwPT2w3/uQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ 216.228.118.232) smtp.rcpttodomain=ziepe.ca smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jITz6iZhx5MajKuSPgllddeSp4/HvP3KXT4grjVCozg=;
- b=iJK9nchSoDszmdvKTIha882bIH09cXSSHtzzZFrXFKy5SRLtP1eoxkf9vCQm0QyWwoXQpJ2i9T4hylhAv6MbqrOpmOzqVo5+oJfZiFfa4edSCOIAZOSwPknlXRGPq08jpTpoAOx9ZGZCuF3s2uNaehECmuZcygEw0jmu9D1jS88=
-Received: from BY3PR10CA0029.namprd10.prod.outlook.com (2603:10b6:a03:255::34)
- by DS0PR12MB6607.namprd12.prod.outlook.com (2603:10b6:8:d1::13) with
+ bh=1CT0EbR6A+J8pw2YOPlSdewjShPvq9O9oTH0IwGZ6kg=;
+ b=VjJyuEgt5BJS5a6zepbkZSd/Fsjs11Jt558lQg+QeBI2O4eF7AH0P5nW7afk183yHvY1j6/fbdVKLwM7LP/tHXFVOGQe1Pq/uXCLdyrPVrxI4fcMcDApULE3M3W3ZBiJTW0/sN7ppPkUt8LH08uy1NyiFM2veVBq1XQ2y3S4rPW5b24GcbARbq7kGGmwt43wqgeNa1G+qncXY/jmgcPKHT1L0G1WK61z79Oy6urFnO6Fz1DMZ3jP0TrBkS57XIyXN3uPFrqOZUTjz4WRIKIY9A8xIOezcKSGpSWKLEPOp6yfByPXuxc4xecBpZ1CGINj2LmI4lvChctk6j+csiG9VQ==
+Received: from CH0P223CA0008.NAMP223.PROD.OUTLOOK.COM (2603:10b6:610:116::19)
+ by BN7PPF0D942FA9A.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6c7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Fri, 17 Jul
- 2026 21:14:11 +0000
-Received: from MWH0EPF000C6185.namprd02.prod.outlook.com
- (2603:10b6:a03:255:cafe::90) by BY3PR10CA0029.outlook.office365.com
- (2603:10b6:a03:255::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.13; Fri, 17 Jul
+ 2026 21:17:07 +0000
+Received: from CH2PEPF0000009F.namprd02.prod.outlook.com
+ (2603:10b6:610:116:cafe::5c) by CH0P223CA0008.outlook.office365.com
+ (2603:10b6:610:116::19) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.223.13 via Frontend Transport; Fri,
- 17 Jul 2026 21:14:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- MWH0EPF000C6185.mail.protection.outlook.com (10.167.249.117) with Microsoft
+ 17 Jul 2026 21:17:06 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ CH2PEPF0000009F.mail.protection.outlook.com (10.167.244.21) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.245.5 via Frontend Transport; Fri, 17 Jul 2026 21:14:10 +0000
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Fri, 17 Jul
- 2026 16:14:09 -0500
-From: Babu Moger <babu.moger@amd.com>
-To: <babu.moger@amd.com>, <tony.luck@intel.com>, <reinette.chatre@intel.com>,
-	<bp@alien8.de>
-CC: <x86@kernel.org>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
-	<corbet@lwn.net>, <skhan@linuxfoundation.org>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <dave.hansen@linux.intel.com>, <hpa@zytor.com>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<eranian@google.com>, <peternewman@google.com>
-Subject: [PATCH 2/2] x86/resctrl: Fix ABMC counter programming for extended counter ranges
-Date: Fri, 17 Jul 2026 16:13:56 -0500
-Message-ID: <980f39d3a0e0d9f73925e362f835aeef070a1bc5.1784322818.git.babu.moger@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <8cb66e18e32e4087a9712c1e68ee6da614efe244.1784322818.git.babu.moger@amd.com>
-References: <8cb66e18e32e4087a9712c1e68ee6da614efe244.1784322818.git.babu.moger@amd.com>
+ 15.21.245.5 via Frontend Transport; Fri, 17 Jul 2026 21:17:06 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Fri, 17 Jul
+ 2026 14:16:58 -0700
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Fri, 17 Jul 2026 14:16:57 -0700
+Received: from nvidia.com (10.127.8.12) by mail.nvidia.com (10.126.190.180)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Fri, 17 Jul 2026 14:16:55 -0700
+Date: Fri, 17 Jul 2026 14:16:53 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+CC: Ashish Mhetre <amhetre@nvidia.com>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+	<robin.murphy@arm.com>, <joro@8bytes.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
+	<linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH v7 2/3] iommu/arm-smmu-v3: Introduce CFGI/TLBI-repeat
+ workaround infrastructure
+Message-ID: <alqbxaKVYFX1BZR5@nvidia.com>
+References: <20260714104202.1664187-1-amhetre@nvidia.com>
+ <20260714104202.1664187-3-amhetre@nvidia.com>
+ <20260717201841.GC701389@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260717201841.GC701389@ziepe.ca>
+X-NV-OnPremToCloud: ExternallySecured
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000C6185:EE_|DS0PR12MB6607:EE_
-X-MS-Office365-Filtering-Correlation-Id: 26630fd5-9c1e-427a-35c0-08dee44858b1
+X-MS-TrafficTypeDiagnostic: CH2PEPF0000009F:EE_|BN7PPF0D942FA9A:EE_
+X-MS-Office365-Filtering-Correlation-Id: 442c223d-dea6-4aac-a97e-08dee448c178
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|1800799024|376014|7416014|23010399003|82310400026|3023799007|11063799006|6133799003|10067099003|56012099006|22082099003|13003099007|18002099003;
+	BCL:0;ARA:13230040|36860700016|82310400026|1800799024|7416014|376014|23010399003|6133799003|3023799007|5023799004|4143699003|11063799006|56012099006|10067099003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	sdw3sLKdnPNBgd4HwlLIhf3+b/ElKvh57HYVNLEMhSC2pVtyH7fR/q4DlOcQGO0Azbd+17i1rFIhMvnsisO+iY2yxWTL6U/tJcp8IxVphtg1E9XuAmU1XnLPWv5M5waIm4Jpk5Y5cxKl6wCgEj3pXOBt5mvPz4etV8J1C4PIEAOKdXyGG2NEgRB6rj17eCJzWc5hR/Jx+9w/guRr8qygJX/pcFJEl/DrMjLSKy7S7/KQ9k7AB8xOJwIb+njxsYKH1ng+E/bwo7YQJD02I/BOKHzD4UFzSJI3jMtmzJkWkfLA7U4kjTbq4UFP5bNRIxhnU6bZ9x7/+Md+m9DQN2R8j2mRyA9VTpqdnDVIy4QIn5CK3yxKtr3MBtZ/nEjRuGhDiRGg8wzYvawQ0f9pxi5pdBKJHThWF+9FJGd8CEu0jKO19rQigaEf+n+cSWXW98Sf5AqPdx38VG7qrrTf0t/5URstu3D3loVnOW7CIl7523NE24ZxmbMpU2cL8YRvHV+jf2R3Vdt0n+UFrT/J+xI2YutqlruXhDPqYLJ1mdl5R+BBdep6i0ImHdC8PN7sx2JG7FpEnxwMCYN5GFXnjMNXBi5u6R7B7yyuWZCL8xH4Tj21VL56mXzb2J0ghmjF3ggi/OM9YNZdo/aw+3v+x2N+eU6yYmiUU1fIn1MD418dUhlpb/kNQwTd7nZpdXiFhr+jGeP559jD8dJzYFL0WPkg7w==
+	j1KL3XNOyAPaS9KtfVJCeR8lJ7NbrNuDBqsp9PSTBAxS3fNLp+xdhQQpiIzOaW0jWH2bxSsgRJTMDnvIkXYz+KXSWMicUM9MfIWORTf+DuaBkh/NutyRkhJq6zJLjwBjBjPJvy8v3JyVkrmiO8GmGZc+O26YbtdKX5Z2iVgDjfu0FU+tDmhYOVK9SfzqPIO0lrYpvEd0N8R1WBvJM4BjmrLH5UfV+OC/6bxBTKo6b077MmMNwdr9M5J7rO/6/3ZWisdHN4GtFPWhf7/PjJ6VKLr6t1HP0oOWlSOSFxyn16dbDkGFSwCTv6JSGq4U8NsR5DxcXZqFev+AgRxb0RjS5RD1twxM10Z7d0bp/ufT1LZXrYsYDvHGpxoosB7oqNt+mdqpMjhc8g3Zqt0Arxq9G6opXIuhS8ubnchccJm/yZeUCouzY6W9/xDEqGKXbhAcDNDvzChNVzHexSouye8UxBlbrjvvZk0PGjgEZMcb4j719LL3PNeoqkSfoRud8UaWRNBHYQlNZPvbnvyMYhFRbehkadOrnDIIUuLrZ9zLsQsTeRccjYPBiG6szteKktQGB08HiFsYm1nhV0hVOqhU6VgWlf55W0lwzlNOiL2DCMBGbPdfm5EXfJ4SYTN6L5FLaJjHuw4xdMHzGftdfyy+Y3P4DBsQ4CervfHN0LVusMAwSSzP1pDFoA1J7w+17wLqkJ0jwwl982JxFDH1/AN7vQ==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(376014)(7416014)(23010399003)(82310400026)(3023799007)(11063799006)(6133799003)(10067099003)(56012099006)(22082099003)(13003099007)(18002099003);DIR:OUT;SFP:1101;
+	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(1800799024)(7416014)(376014)(23010399003)(6133799003)(3023799007)(5023799004)(4143699003)(11063799006)(56012099006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	GjcLjP9hpQC5nJAKZeKgLfar+wjJxWh2hBk4Bdfm2GDtlhSkHO7BzpmSpJQ7iQByW3JgS7TcthxIg4nDbrQzYCwCSH7azqLOu71JHHySnMzdJPzgPrqJcT45X0TOkbG7MLD51JawuKt7Cxync1sbhmBZXHcYTTAV7iPkbMcT+AA4y0iv1mnMuAV/UHf8lYMXegneTMyr8Atj/JAdlP25bKMxzDz0641fcsrjFB/gYZU3M5lB96bEM/JZ/Ieg1iHp5O6TWhK+kg2K3dFUbR06PfRZfKAdplIGKvvkES3Yvfl5sG0F1QQ4e1Nb3fJUKsg8dy5uWAceu2hfrVzi/X9pZE4UIkRCK6xHmB7c+naqjiP7p2kDxW/6n5RJjXZaRRBk9ejiwhp9ezBZrKGtSwULtlyPckWiNp7A1gMPTa1+GfZ/yO2/TEnZFRjdX0Lij4ov
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2026 21:14:10.8634
+	WF+oZbWQYg/Q+tdWeeC/9EYKxMlsbs2T2ZIlxl8PrzIrZsOpjAIfK9xyzUaZ3yzFn77yeF96Y18VIv5yjxGcL1QZOblssUXXAqmLev01PFy0dPKahEkTFcOgdBGJxfNt0sGGkE/pZ6hFj2PXL/Q7vbHuLhdDBT7JbpE6cYprk5Q+ktUOKVYFE89jMtY6kQYiwBQd3SWIY9Pi80RdFi8UUdqcJoiJk+svZTA9pOPkTK/7NlkuWURnxIQGMzEtXT8z93JQl3ARwcGKqc4E0FGhdZUBjLfHdTbirv0nUhGKwAgD4P+uSJ7aRGQNIZ3kD/DbFXF1oPUnSIsutXXGnBm4FJTHCXF5vnfvqP2vTHj3e/PskxDQLs9zhpA7ypIQ6upO/FoYOxRPQXg/7xCBCjvfJ4QHVzVFSCTGJurrOaHqocDlbdB6ZY460zlxtFi0D5XO
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2026 21:17:06.6581
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26630fd5-9c1e-427a-35c0-08dee44858b1
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-Network-Message-Id: 442c223d-dea6-4aac-a97e-08dee448c178
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	MWH0EPF000C6185.namprd02.prod.outlook.com
+	CH2PEPF0000009F.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6607
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF0D942FA9A
 
-Memory Bandwidth Monitoring (MBM) can report incorrect values when ABMC is
-enabled on systems supporting more than 32 ABMC counters. As the number of
-active monitoring groups increases beyond the range supported by the
-existing counter ID encoding, programming an ABMC counter may inadvertently
-affect a different counter, resulting in unexpected counter resets and
-abnormally large MBM readings.
+On Fri, Jul 17, 2026 at 05:18:41PM -0300, Jason Gunthorpe wrote:
+> On Tue, Jul 14, 2026 at 10:42:01AM +0000, Ashish Mhetre wrote:
+> Because the VM has access to VCMDQ/etc it can issue commands directly
+> (maybe not on this chip, but as a general comment), thus invalidation
+> errata need to be made visible to the VM and we need to expect the VM
+> will generate invalidations to properly deal with any errata.
+> 
+> Ie I'd expect the VM to see a "nvidia,tegra264-smmu" compatible string
+> to activate the errata fix.
+> 
+> If so then we will already get duplicated invalidations here and then
+> we will duplicate them again. That's not great.
 
-The issue originates from the ABMC counter programming interface in the
-L3_QOS_ABMC_CFG MSR. The counter ID field is currently defined as 5 bits,
-which limits the addressable counter range to 32 counters. On systems
-implementing more than 32 ABMC counters, counter IDs above 31 cannot be
-encoded correctly. Consequently, programming a counter ID beyond the
-supported range may target an unintended counter and reset bandwidth
-statistics associated with another monitoring group.
+Oh, that's a good point.
 
-While updating this logic, it was also observed that the bw_src field,
-which encodes the RMID, is currently at its 12-bit limit with support for
-4096 RMIDs. This field also needs to be updated for future expansion.
+> On the other hand if you want to emulate a generic and actually
+> functional SMMU device that has nothing like VCMDQ/etc then you must
+> do something like this in this patch.
 
-Also found one more pre-existing issue. This union structure can truncate
-data on 32-bit x86 systems when unsigned long is used.
+Tegra264 has virtualization use case. And It's built with VCMDQ,
+which should be the default case than the generic vSMMU case.
 
-Fix the issues with the following changes:
+> I was imagining a general direction that we would expose the errata
+> information to the guest and the guest would have to deal with it.
+> 
+> Given this is the opposite I wonder if we want to do it. It does make
+> sense for a chip that probably doesn't have vCMDQ and I don't think
+> qemu can even create a DT description to trigger the errata anyhow.
 
-1. Update the cntr_id field handling to support the full hardware ABMC
-counter range and ensure that counter programming does not interfere with
-unrelated counters.
+I don't have the source code of the VMM used on Tegra264, but I
+believe the guest kernel can be the same copy of kernel as the
+host. So, its VMM is likely to use the "nvidia,tegra264-smmu" DT
+compatible string, to trigger the errata at the guest level.
 
-2. Expand the bw_src field to 15 bits.
+> But it starts to become confusing down the road if we decide other
+> invalidation errata (like the CONT must be RIL thing) must be delt
+> with by the guest.
+>
+> So.. Maybe add a comment why this one is different, or maybe just
+> disable FEAT_NESTING if there isn't a use case?
 
-3. Change "unsigned long" to u64 to fix truncation on 32-bit x86.
+Given the use cases on Tegra264, instead of patching the iommufd
+path as this patch does, perhaps we should simply spit a WARN in
+arm_vsmmu_init():
 
-The AMD64 Architecture Programmer's Manual [1] available at [2] will be
-updated accordingly in a future revision to document the expanded cntr_id
-and bw_src field definitions.
+	if (static_branch_unlikely(&arm_smmu_erratum_repeat_tlbi_cfgi_key))
+		dev_warn(smmu->dev,
+			 "guest must WAR the repeat_tlbi_cfgi erratum\n");
 
-[1] AMD64 Architecture Programmer's Manual Volume 2: System Programming,
-    Publication #24593, Revision 3.41, Section 19.3.3.3 "Assignable
-    Bandwidth Monitoring (ABMC)"
+?
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
-Fixes: 84ecefb76674 ("x86/resctrl: Add data structures and definitions for ABMC assignment")
-Signed-off-by: Babu Moger <babu.moger@amd.com>
----
- arch/x86/kernel/cpu/resctrl/internal.h | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
-
-diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index e3cfa0c10e92..b3d780eda8a7 100644
---- a/arch/x86/kernel/cpu/resctrl/internal.h
-+++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -192,7 +192,6 @@ union cpuid_0x10_x_edx {
-  * @bw_type		: Event configuration that represents the memory
-  *			  transactions being tracked by the @cntr_id.
-  * @bw_src		: Bandwidth source (RMID or CLOSID).
-- * @reserved1		: Reserved.
-  * @is_clos		: @bw_src field is a CLOSID (not an RMID).
-  * @cntr_id		: Counter identifier.
-  * @reserved		: Reserved.
-@@ -210,16 +209,15 @@ union cpuid_0x10_x_edx {
-  */
- union l3_qos_abmc_cfg {
- 	struct {
--		unsigned long bw_type  :32,
--			      bw_src   :12,
--			      reserved1: 3,
--			      is_clos  : 1,
--			      cntr_id  : 5,
--			      reserved : 9,
--			      cntr_en  : 1,
--			      cfg_en   : 1;
-+		u64	bw_type  :32,
-+			bw_src   :15,
-+			is_clos  : 1,
-+			cntr_id  :12,
-+			reserved : 2,
-+			cntr_en  : 1,
-+			cfg_en   : 1;
- 	} split;
--	unsigned long full;
-+	u64	full;
- };
- 
- void rdt_ctrl_update(void *arg);
--- 
-2.43.0
-
+Thanks
+Nicolin
