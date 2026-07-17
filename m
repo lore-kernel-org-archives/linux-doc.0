@@ -1,111 +1,175 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFC6331A48
-	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 19:59:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E04390618;
+	Fri, 17 Jul 2026 20:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784318364; cv=none; b=JcxkhB0/Qrgd4KqPVKq6DN+cvNOANE1Tm6CQOjVGGoT4qE73g1NdVfMhfFN0rzqNyS58+8SH2OCjw6BPBPvNkYF25dE8yo94NKcajgwib/9sal3O/2B4OP7P8+9w7uSXxHPegFMbmrlZ7alqTudPeM2TmVivQv8G5QnNsMOtjwk=
+	t=1784319112; cv=none; b=g9uwbCvDDCi1p505Udc+EPhasWTBPM+rtUz0lWSmiBX4N6Gyf4qoGPD9FWmaQ6ZgCkEwknhkJNLx0gTZgbTdcfOriNFPiL9wQAXTSF9iqBe6u4ly3//RV+objlUfUCur9K6xzbk74L/6FHPnkjcf62zyZzBq1noNLppvHd9sIDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784318364; c=relaxed/simple;
-	bh=LMQ7fUo3sorzck80ZDANF3wgbQwKbSE7cQhncLMM+/0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mM7MfR9aySj7FuJNJ+7aKZITx56n+J5oCiSCBK/IlyPtvIGI6E0KlZj4OdhXxggCx0aiBn7pGakvaPy7J2U84gA2RObPeo48nOqTyNk2ElgiU4F/RLYQmHy3u7yRVHtRkDXXTrYzW+9Xstl/myhax6k6YCkKMyrBP43ZOXJXhPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=a3W7GYED; arc=none smtp.client-ip=209.85.219.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1784319112; c=relaxed/simple;
+	bh=Jv5vAyK99Fqrg/I3lDmXNLdcrt+UDqKo46PV0JJcCkQ=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Tc67ZADKVBgOGb0ARzUWdaGi5sFP7lty1jtOiwTTc0Vm+DRiJssC8lN8R0RplnXmGjReZ2bp73oDvobQqXoXSM7UmvrtFo2ndOmu/c6hoYezkYm7SoNEIuLWZdTWNFnzs/VHdbtNgvOrjaS3LYb54Ag0DWzhUmwBfjo8y1mCN1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=rDl+AgGE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ks9ZOEGG; arc=none smtp.client-ip=202.12.124.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="a3W7GYED"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-8efef6533aaso47828116d6.0
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 12:59:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1784318361; x=1784923161; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Qm69cNliseHLFEUcKlQjXlWgyg1L1lRsxj6GO+Nid2k=;
-        b=a3W7GYEDEbV2fvImRDO1KYv+kg1MGa2nWGHCxwBO/w09J79inNMC3B3Yy3W0mZ4zsE
-         26Egd6NORzeFDSPogz4DDN02zb90CELgJERppeHgzmPCZ8qMMdHYslk8Z2HzpfqCox+s
-         ludYiZLfVsKxjDYAKjVgwxGjFpdghilv7hgKtnKJyMXW/vXGMoHWg9J1hex8US3Kpswd
-         IZrsmbkfCWYtc5d8tAozo1P30kLhrrgbA2aw6Ahmu6aqyn29+lQjNKQEtgscPpP9H3VA
-         JXOhzb5gVFuOttuFakbPz+N9fnJA/P7hlWfKNIyQx+JykbvlQCBO6HjywCFwEtE46UbL
-         k6dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784318361; x=1784923161;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Qm69cNliseHLFEUcKlQjXlWgyg1L1lRsxj6GO+Nid2k=;
-        b=Emvz1VCofQOE/ZtT3LEUnKNpq3D4lJiG81N26OarQ4EEUxvJ15KPmWygDgDqC+2BYf
-         di/aDzX3fFRYtIQ0yBDi0zXHU/uTyDYSulZ5cxla8LAThNz7rfXjH592UTaWwBTsMX/m
-         9d1xkMkywBUKUlrZOxMsw/qNvFuhLdK/ioaugXe4OTvhCV0YZvorTHjyUjb3RLE0FcyE
-         KdZF4Qg95DZr7g+H6mxlpgMsnWJOfjXI/a0ufdnin8AkFc7KI54qFx/J9fPZOZ/Ir1M6
-         pKwjJCmLdjo/MKhVJQtyI55S8pv6HmSzZaxu3MwAVW4tLZc5OpfnIRyc7fAGrMaGMAmY
-         ysqg==
-X-Forwarded-Encrypted: i=1; AHgh+RrgKwatmajFKLUAzBk860zH/83g7VR6dAwvHWKEo04P/vHvvrK8XerCv4ryG0BeoWXUOSmpH73PhfY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8spmFmRtRjccesKqgSWXoQqniGiIRPc/FV6GkOp5MkBCNidkj
-	OIsR3XhqERziMtIh0QrG+HDTXwdrjOq63Eo4MJ2GEJE/N5MW0pCOUwLg5aU301BN9Bs=
-X-Gm-Gg: AfdE7cnuGN3eZ5GsIppnH1MjS9t17gpbmP78bB9u7kBJt/od+caHMKQbhUmEbSfcRxi
-	EwDKeC+YbajLDoxCfp6Mhq5/PCkkNyE+VPPydVZgfJQRZYBEBjbLQNZFSaeZWB1oyf4jNo88aFR
-	taYp9mRYNu1R84LbT23iuIrpgUytBKwuK4ii92k1Y1yKZu+JiF19tNc5hLK0JvZcMVAQ0kU2yp6
-	6COlDIRpAT2OhLfOE4aGaxeg3BQKMhb3cQZJ6BDYKsw3uvTdwrAZMFkeUUsgim55mc8ZwS5nE/S
-	Jx/VwrP2QoAfmayZqcHCgzKy1WUJI64veb9r2Ys4/kbY00Rr+jp8Ffy837ivIpr2MYxsBtuz2TC
-	KMFNY3AAwIBargoUMTVaEAG0x/hSHP6UHJjl6FhMDsNZEuy4cl5HQJD1GSqtg
-X-Received: by 2002:ac8:5f87:0:b0:51c:1291:e68c with SMTP id d75a77b69052e-5213b148393mr36523971cf.30.1784318360897;
-        Fri, 17 Jul 2026 12:59:20 -0700 (PDT)
-Received: from ziepe.ca ([159.2.72.92])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5214ffcb2c6sm19444171cf.27.2026.07.17.12.59.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 12:59:20 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1wkoiN-000000051Gu-1TIS;
-	Fri, 17 Jul 2026 16:59:19 -0300
-Date: Fri, 17 Jul 2026 16:59:19 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Ashish Mhetre <amhetre@nvidia.com>
-Cc: catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
-	skhan@linuxfoundation.org, robin.murphy@arm.com, joro@8bytes.org,
-	nicolinc@nvidia.com, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v7 1/3] iommu/arm-smmu-v3: Factor out CMDQ batch
- force-sync conditions
-Message-ID: <20260717195919.GB701389@ziepe.ca>
-References: <20260714104202.1664187-1-amhetre@nvidia.com>
- <20260714104202.1664187-2-amhetre@nvidia.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="rDl+AgGE";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ks9ZOEGG"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 365231D00095;
+	Fri, 17 Jul 2026 16:11:48 -0400 (EDT)
+Received: from phl-imap-05 ([10.202.2.95])
+  by phl-compute-04.internal (MEProxy); Fri, 17 Jul 2026 16:11:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1784319108;
+	 x=1784405508; bh=ydQkNQkbLghnjQ+CoNENuXsh07pMi97RHJvnyYdLqGw=; b=
+	rDl+AgGEJ6BEl+sFJ+RUza/q5rTT3vvIaDNUsrNSpKEAnRqs9VJZe1i1cg7unyo3
+	Y9UWRywAainYZqu7n0j+Jppd5xCv9dQDxXrI40LuLfjjac51E62Zqv0tVav6JLs6
+	rtQZLxoeW/s8MQNkc2Hd73M1+plteTARVzfJ9E0/avZGge62Gxh9aKwTh+3QRyiu
+	m4r1G6zJ1P+/6vPHTqiBfxHJ9QUApK0DsK9ohi0XsS+fibq4VkypkuTt5IvhHvpk
+	ty8Ov7A76o/cQd5tGtOEH/NMkXgbwEiOxisFaCQPnUbPU69XxILc77LYZp3W7ASf
+	cswfaiPcp6MEIul138qvhQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784319108; x=
+	1784405508; bh=ydQkNQkbLghnjQ+CoNENuXsh07pMi97RHJvnyYdLqGw=; b=k
+	s9ZOEGGZvdTxh3Mwc5+q8cRMcs+Ti3r7oXlBbjzHX0QP+4WlJOoLd7+9t0J2/22+
+	pWnmkLuVJjOHsWJMtJ9ZdQDYFbEZNhntrZtPns1zaKqtzSTEGQg5xVpLoYxVoLdZ
+	3TLdG/s+QgQBTkf21E5PsuaeI9utu3K+7J0rJ+0bz2KQ9YV/O0733jV2kSPWh/Hu
+	KNuZCTxpyDZowaxznfZUfYaWRoA+amEMKxR8z1dSwfKASQSx98RBazjVxw+NafbJ
+	jqv143QU+lMtWTaVYHrPoe8c+Rq+dmpivSUfOiGAH/olL6jvyYfzQT6+l5p6tipW
+	vOOS8fKG+N6ZSh+gPjQpg==
+X-ME-Sender: <xms:goxaalcLSKnPQXp2erAK6Qdhf5T-5X4sX4Xn1hjI6Ju7AUWNIe5Twg>
+    <xme:goxaauDRn49aKnXQwjgkDhOn5amO1O4MQ7eO4RHWDodYS_RfQZj0TIiAb2ghlzqch
+    ftqdg3ONU4o5hOsHlaBuC6umtKxpVDnUwgEQd0q9fRwZHQlEC7n5J4>
+X-ME-Proxy-Cause: dmFkZTEkkRtwDmS2wcRL7jqjr8WYoEYc++28KP+/ApojjVqEPpfh5dNOYFyH6gCi1rBylU
+    ol2y10M6UFHU48XhNtuowVb0l1+USBYJyuZq/GonjewqwGFcNUeDj67IjgCrdFdslfAMIz
+    Pvz5CJDTEe9qnoKI8lYPm3iuGiJA5bwRjkBzHwRll2HpYL2flauHQvXj5ibELyz9us0S2y
+    JwB93S/kYlKHuaVlQDPhuYfpGa9cgaPOnNzk4BL1lqE/GcKFTVWbeF4qoXz119FaT6NOik
+    wChm+MJJlA5lR0Fb7vZbbvohgblESeVeAeTVMUK1TjaTLcUbaoI85PVFobpVFDuntXbrQd
+    tyV/pB/v9T3W49cS3OguqY8g2FZ+5gm6LZDArnO9j8RwjLw4hVyRiNsXKuFVLVWyb6SDep
+    1fT1QzGnTyqnuo9ta6ED5Rf2Va8nXB5BVTbbeKEyl3CDG5OpDnJ5v2nevsrT8NbQfQy3ZU
+    M8WXtpePd7Fmhohf9z5ZVC/SmWkpktel2na0jYCBR+AseHKqURg1j1LWEinxHlyHYuWfDy
+    17BeXrUNMslvyqoi1cGilBWiMweHiE62V5EEmzJx6AFpgSiv4LdlENhJxOc9/uC47ujZwd
+    fW34Jqr44MoN824RLGYB9JOB111Y0N8z2Ts4LRQ0SbOHkeInFnaPvNQsqYPw
+X-ME-Proxy: <xmx:goxaakMefkJW3F5b8XrtexWQ5SZDoZmkvAH40ASyaMqy-x7mus2Vrg>
+    <xmx:goxaahe0FASVLa8REND-pFtMfzYyyZZg9nMlF7_QCY7MOp1H0fxmbQ>
+    <xmx:goxaapRiu-Y77xLOE1QQfisvPkVYY55YdOQP6H-TNi-7tp6_0ASrXQ>
+    <xmx:goxaavc8dN7xYPn73winWFLr-Wr4i7UXAjvNflZum3cpLulWN8pgbA>
+    <xmx:hIxaaphjNDgldvzSGiNHh7Hm0A7QkjPclCExPhkJ_AhG2xodkXMyCfmF>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B0A54182007E; Fri, 17 Jul 2026 16:11:46 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260714104202.1664187-2-amhetre@nvidia.com>
+X-ThreadId: AVTSZ6OHPQ6F
+Date: Fri, 17 Jul 2026 22:11:26 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Ryan Roberts" <ryan.roberts@arm.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Catalin Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>,
+ "Mark Rutland" <mark.rutland@arm.com>,
+ "Jean-Philippe Brucker" <jpb@kernel.org>, "Oded Gabbay" <ogabbay@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Message-Id: <ec998612-c527-4294-837b-5aa375b81cc1@app.fastmail.com>
+In-Reply-To: <2a69d96e-d37e-4e3d-8eaa-3ea31caf3893@arm.com>
+References: <20260717104759.123203-1-ryan.roberts@arm.com>
+ <20260717104759.123203-9-ryan.roberts@arm.com>
+ <404d2c6d-4a18-40c2-9da9-fb030c39536f@app.fastmail.com>
+ <5012970d-a0f0-461c-b0b6-61823e0aab2d@arm.com>
+ <59d0c4d5-af53-410d-9bf8-8dd2ba17f697@app.fastmail.com>
+ <2a69d96e-d37e-4e3d-8eaa-3ea31caf3893@arm.com>
+Subject: Re: [RFC PATCH v1 8/8] misc/arm-cla: Add userspace interface
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 14, 2026 at 10:42:00AM +0000, Ashish Mhetre wrote:
-> From: Nicolin Chen <nicolinc@nvidia.com>
-> 
-> arm_smmu_cmdq_batch_add_cmd_p() carries two distinct reasons for
-> flushing the current batch with a CMD_SYNC before appending the
-> new command:
-> 
->   - The batch's pre-assigned cmdq does not support the new command.
->   - The Arm erratum 2812531 workaround (ARM_SMMU_OPT_CMDQ_FORCE_SYNC)
->     forces a SYNC at one entry before the batch is full.
-> 
-> Lift those checks into a new arm_smmu_cmdq_batch_force_sync() helper
-> so that adding another force-sync condition becomes a one-line
-> addition. No functional change.
-> 
-> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
-> Signed-off-by: Ashish Mhetre <amhetre@nvidia.com>
-> ---
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 23 +++++++++++++++------
->  1 file changed, 17 insertions(+), 6 deletions(-)
+On Fri, Jul 17, 2026, at 18:21, Ryan Roberts wrote:
+> On 17/07/2026 16:31, Arnd Bergmann wrote:
+>> 
+>> Without concrete implementation examples, I find it hard to imagine
+>> how granular the CLA and accelerator blocks are. What I'm interested
+>> in is separating things into special character devices when they
+>> refer to units that you want to manage separately in userspace.
+>> 
+>> If you have e.g. one accelerator for tensor operations and one for
+>> handling gzip, I would very much want to see those have a separate
+>> chardev nodes so a local administrator can give permissions to each
+>> one separately, and have device names that are sensible to the
+>> functionality underneath.
+>
+> Unfortunately this doesn't map well to the HW: the MMIO is for the
+> CLA interface (each CPU has 1 CLA).
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+I'm sure you mentioned it in the documentation, but I missed that
+there are never multiple CLA instances.
 
-Jason
+If the CLA is defined only in terms of its MMIO/DMA interface
+and listening to TLB broadcast operations, is having a single
+instance actually required by the design, or just an implementation
+choice?
+
+> Once you have access to that interface, you can
+> communicate with all of the accelerators that are connected to the CLA. We could
+> potentially use the availability masking control to only expose a single
+> accelerator for a given context (which would be chosen based on which file you
+> opened), but it wouldn't be possible for (e.g.) 2 different processes to access
+> the different accelerators concurrently - they would have to be subject to the
+> time slice model.
+
+Right, that sounds a bit awkward. It sounds like this would also get
+simpler with a model that ensures the current CLA ttbr0 matches the
+CPU ttbr0 and the iotlb_mm setting, since you would never have concurrent
+uses of a single CLA from multipel tasks. On the other hand, that
+model would make it harder to use multiple accelerators from a
+single task, if they have to go through multiple file descriptors
+but could be accessed on a single mapping.
+
+>> If you have separate accelerators for AES encryption and decryption,
+>> or a large set of identical accelerators that can run concurrently,
+>> those would of course get managed as a single device file.
+>> 
+>> Most importantly, I don't think a global /dev/cla device node
+>> is a sensible interface from a management perspective as that
+>> would give unprivileged userspace direct control to something
+>> that is essentially arbitrary (or buggy) vendor firmware
+>> with DMA permissions.
+>
+> OK I see your point.
+>
+> While the interface supports up to 8 connected accelerators, we anticpate there
+> only being a single compute accelerator in practice. We decided to keep the
+> driver interface generic given the CLA spec, but perhaps it would be more
+> straightforward to limit the driver implementation to only permitting a single
+> accelerator?
+
+Probably, yes. From a kernel perspective, I think we're a bit better
+off with an abstraction like
+
+- One CLA MMIO range per /type/ of accelerator on a given CPU
+- One firmware node per CLA, possibly spanning multiple CPUs
+  if the accelerators behind them are shared.
+- One character device per firmware node, named according to the
+  type of CLA
+- Possibly multiple CLA nodes on a given CPU if multiple
+  unrelated accelerators are present
+- optionally multiple related accelerators on the eight ports of
+  a CLA, if that makes sense for that device type
+
+Not sure how far that is off from what you currently have in
+the hardware design.
+
+       Arnd
