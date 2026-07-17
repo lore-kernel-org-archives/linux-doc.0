@@ -1,216 +1,139 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0EC430E835;
-	Fri, 17 Jul 2026 13:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA47230D41D
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 13:52:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784296217; cv=none; b=HMleGhQ0swmyhmh6w4tNl035cghkpNXnrIMx3jEbBzWshpG/IpB8WAj5qOBmIgo43Qr+nZSos1K9onpFwTXN9JCCjlmJE5c/mzHBmlKNfgLM4UrhZHLTlFUE9ziwhKd8XYFlMq5m960APRUhwJ+croygWLisZHafSdo1zJJHRdo=
+	t=1784296349; cv=none; b=QpuHIDA55uK1TBDXpTpvi9Z8FMCZAin38hY121llqQsghXUssLhTRdJfZ3+bAgU6YjJiAZzNUSMPjKPDgi6Zp9NtP4ctKiYSGiqwA50157W7SLMbxWd7XO9jE+FmmgrcsqFfH8kXgJg2bq38LrD+Ty24wj+RCHp1tLxiV0oje/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784296217; c=relaxed/simple;
-	bh=K64FcRpsGk81KlpjZckmH5jhWqXQhZ7mKdWZ3+JwcYc=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=K+iAxxhfAj3xdjYTuLXE4/FA4MIPlQH/Hck1O8a2Zr8hBRtCrEOgWhDYtdoBoViW2XIGzngmxmn+3tdkZRQDs1koIZQsnlPwoR+CISK0fqRfKGWQqRBHtY5BXbRmC7YAqzmFyY6CbwNuWbKK2KG/cntNekf7BxlMNUQjFIHOT3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=r/um21kc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DoydIq9w; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1784296349; c=relaxed/simple;
+	bh=YNdudccxgF0GNeZMVRI+WGS9EJ7qAu7VHHOEJlJmZlk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fubN2lzvxlEBYjFTmoIvbWmx005TI3flnQwdtkjgoz21HVd6S3C23ZPOe5zb9NRXSUY57AsQ/ZVVc1T3PUvkk1JdIn3/jtRTnIv+hvJGnVd8LgQ/gfQnZysrYm/3k/98nOxc+AzQn1LbJDY5mMp8flMvxYwANMGdVoIHXTn6j24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UHCTH/ci; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="r/um21kc";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DoydIq9w"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id D5EFA140007F;
-	Fri, 17 Jul 2026 09:50:14 -0400 (EDT)
-Received: from phl-imap-05 ([10.202.2.95])
-  by phl-compute-04.internal (MEProxy); Fri, 17 Jul 2026 09:50:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1784296214;
-	 x=1784382614; bh=scOaW8T/6xUJRRlim9gHWFq1a9XkSY2vJK+xeZy0trI=; b=
-	r/um21kch8ow3J1TlPz7DsYLRS5x/5p+ifQZVJb9KcCwMZG++e09REtPBx2lRI6m
-	oOrXnn2WlvAo6FcDCI2/ZtofNF17kTP0ybWPeU8tdFKyKhsSGQI1CHd5yZDU+8QO
-	lxDxYmfSW/TUSq5IRHRfkcvYvkoFSNUFyTZ4N5TbNlgrl8pQfRVU9xLuhvqrIN7D
-	xrQs044u2cqEat4+gOkhxLlZc86nzfaXxrKDHStBjFsqCzrZLKhppLnAn6l18YUM
-	YGSHZHBocWfiEtJrMyIRhfAuNCF2aYXce8CtE9TaNwgbIU9ggWE/JWYCquIFCL0/
-	Qhu/y+hnfzNu+mws1iiLTA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784296214; x=
-	1784382614; bh=scOaW8T/6xUJRRlim9gHWFq1a9XkSY2vJK+xeZy0trI=; b=D
-	oydIq9wkbVOPVWiKqSHMiUUJ4G+ySIrB2H2FYAMoYIXXo5c61sliw/TTlXDy1EFP
-	GvrlyvK+EJ1stS99PkkysyqQWkhucJMiP3Bx/0NSOLTiB0YKE0c+P04aOwh4vocF
-	TynxJVlqje3pzToEJSuSTgC8FPoNYjyeEpOT29JKkx8sTweRQmXB5oy6QpbBOLqg
-	vTKKg+tPJtnlLjvlIyjo1eR16WwPFEjCg0t4pAQ0zJz1NC7VZuqgtZveMZVbPXly
-	uIEPbrL4DD0e2sXqG0bfuXFAWVKXtBOW5akDfINzNJ5Xwff6FVmB++l09vA/rylF
-	tkc0iUtiKZUxaweCjyH1w==
-X-ME-Sender: <xms:FjNaalM_FGYe6x43Rb5xf9-Xv3B4lGttCwUJST8D3LJlIzQQzGVOvw>
-    <xme:FjNaaixclt27LGU_DnpycOWrK19gJpv-lQLWtTT-XdkmlEnbWize9SlvB3PDFbRLT
-    K8AqG3Ny4WDczSKHXYVsCFG8Fftk0omkVmOxBBPoqenZApd0S06kXA>
-X-ME-Proxy-Cause: dmFkZTERJCEXhIMrlS3slC0kmihwzJcFh0B4FXxdorq9T1Q0T0Mxl29TLDsJr5PeZzGWpe
-    UbsORXZHVsIFCXvn0fDDgnTxiwceDhvaxWSAKiGO3RO78ePsJ557lq0IMb4ArG7EdMLnrj
-    ZL3WEQ+Qp24tDiqurw4OiSagfB4DUNROb0h59g66fvn2eDLm/mX/B6tFPaqc1vG8cGEMPm
-    b4w+u8YJHg/gWEczMsrNlQavLyVKsZ/mLrIZFqlZ2MMLunTExVR0vGBTjO9qpVxP+JpJG4
-    W8SaW5cmC9Ohkhw1t691Tt+5oN2Hp1oDsnEsLpo68Hcdm7NBmWzO6m44nEjLuchtJA34EB
-    Tfhl9ZZbodA7mkTtwZdAEls37TCYJrc3EWJHEBBdA9G+XO1BPyHnDBko//x9eCv+MsjKla
-    EU5Eu/77IejqxFtmojaZ6Tc4RwGf/02oejE3Fn27NwJH36Tla5N/GrPl9Q1XC3hh2bENT3
-    kaoNT+A1/rbt0EyikRLkoxiIOuXXEs5yeglbceonlVkgQ9qxZEQYvofR1zAqRoGjMpsAue
-    at3qpm34p43g3dgSDNyOAaAgUyv+fl4EczPjEHSWLg7tra71EzXDh3UWeY2b7TgtQC1Ul+
-    3sATV7/B7x7GKIGuBSK/Ss7vgZLdrAuzj/c46hkU6rRrkjXuhk2P3jDbE19A
-X-ME-Proxy: <xmx:FjNaap9TJUaoTtgF3nBlyvC724B9DzcZU-H5ngyHTB8sc5zzrUom6w>
-    <xmx:FjNaakMUB8W__6BUCuLsbEQ1MxFgaC5U5iR47kpOH50DYLzV07PRXQ>
-    <xmx:FjNaalDd5aAdEW4FEffL78C5yzp5pFGOkfAl8GloX0rQpYauNMLHzA>
-    <xmx:FjNaagNnH3rgajyUv8Wo41Nt42gfB-JH_xMvZa03p659IFbO6xhgUA>
-    <xmx:FjNaaiSqUESq2TOdRHcQNoLt08u6EyXWR9qPDMzWvqCKc9KFYoO5drv5>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 653CB1820086; Fri, 17 Jul 2026 09:50:14 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UHCTH/ci"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-493f45e20cdso46087695e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 06:52:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784296346; x=1784901146; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=aL2gd+WxGuY6Bl16wWSEIS9/aMLXAhdRbeLUUN3ab9g=;
+        b=UHCTH/cicWaaigvH5YGRT1CK7H/et6c/VQGalUXh9iJVTrNl+t8YMOcDpkaLy9RhjH
+         G94yF2PHO1ZTDEzqTD//sXtQglgiWGCN3/yBClXm/gDBCVhOoS+agY4dnfGvyLZKz/YJ
+         JYdDzJ9HIJDjAgWykhIfqbbt5FR6/WbapDO/tGmf66U68VNdC8Xnw9PFac69yg++gXOy
+         +P57ytzFhNE/YP9jP21a4R0q5M731q2eublSMJa52qIYT1zc85+WR959IGHGiVmK7WP4
+         7KKrDmUWVkZ5wRgm6yLyvlES0deodwpjayUVNqqaXS10VM1i845RBJDwAN2o7iNpkte8
+         tgUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784296346; x=1784901146;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=aL2gd+WxGuY6Bl16wWSEIS9/aMLXAhdRbeLUUN3ab9g=;
+        b=sQtdI/vZ35dhcfFzLGHleXbmCbjaj3Lar1KgFOaQtkEZtw8wgWDT91EFrKOEUaL1Lm
+         PPUcc4Gonhu3NL14LcO+0j9xaX+EQgsogD4h6nYXgeFEChXcAVHQi22ll1VgKvGH1wtE
+         pC77MV3ZqHwZAxk2Bn/kbxDVOCzorIktay2i+nJqU3hTQOMxTs8iutfKgRPUOljKCsNq
+         dU2JKeb8AVb0kaIRacFR2vD83jprdHWxEgRAqqW+5AQQYxx29rat6K257whPOf89jqeV
+         awV3tLofVC+2G8UsAVYJknSaiuWiM1Pd/0wcyZ0JIyBMKJqlgVCV8Q8/+O6hTz3rQgMl
+         yOvg==
+X-Forwarded-Encrypted: i=1; AHgh+RpIl5Ls5OIcTPgD4xfGnZq6oUObFTEZARa1T35mHOFifdwR0/aEBsXRtY1K7f16/v+xibpTWpKuFKg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywgw9C9jFfBLAoCU21uvLIPBwsTyrSJc8ec1E3tXkI0qWyAPhv5
+	m4hY88uIhh86dxha3ROaLrbLrjX55m488TyzP0nUSs2SuAjFfdN+As7z
+X-Gm-Gg: AfdE7cmPTijEY8BrXFrM0v9hOckkYNoyz+IYbvr3ZN7nYktQF9Ae/jZbPj0aMqfo02b
+	ARUFvmBjhV2tdfoqfo5iHSfI/ujoZxnIlSqFl6upy38qVkpanN3uG+bczGs5WLmh08CTmmP7l1C
+	d7Ohn3yFx79JX+TrI9WHlw2YzQSvX0gUOIVI7fNihtT/075aTo5b+kEoftqDcsI6bt7Yp5NmeHQ
+	taPYCvKtnQBgBasW1RpTMdAmRXgfWobTyPRkP7ElReLubwAINiemW0koMYE1DiY1FHyYTYrpbz1
+	7jQ1CTs82xWTMnUzyPcLDzNb425RYbLHknV3cZWOC7KzFHq8Ymst95ZZwThBLhVwT3mu/UYtRln
+	i+f/8JyGo5bHQAyZEs0CBSKJXPc+k2oLQ/SOunCmyLmFk0hCg0jxflFyAybhMLKRSZgsfI5MK1L
+	ULSbjdn0NNhgXD65wy15pF7bNITK8=
+X-Received: by 2002:a05:600c:304a:b0:493:af56:8e64 with SMTP id 5b1f17b1804b1-4954a40ff61mr24483915e9.32.1784296345884;
+        Fri, 17 Jul 2026 06:52:25 -0700 (PDT)
+Received: from NSA-L02.ad.analog.com ([137.71.226.102])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63e52673sm4424709f8f.15.2026.07.17.06.52.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 06:52:25 -0700 (PDT)
+Date: Fri, 17 Jul 2026 15:52:01 +0200
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Conor Dooley <conor@kernel.org>, 
+	Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Marius Cristea <marius.cristea@microchip.com>, 
+	Marcus Folkesson <marcus.folkesson@gmail.com>, Kent Gustavsson <kent@minoris.se>, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Janani Sunil <jan.sun97@gmail.com>, linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>
+Subject: Re: [PATCH v6 1/5] spi: dt-bindings: Add spi-device-addr peripheral
+ property
+Message-ID: <zeooo2jqsp7rkovhdxtra6qjlzjsppyppe3nqojrskcv2sc2x3@2npaf56m66p7>
+References: <20260715-ad5529r-driver-v6-0-cfdf8b9f5ee3@analog.com>
+ <20260715-ad5529r-driver-v6-1-cfdf8b9f5ee3@analog.com>
+ <1c4af9b1-9937-4cbb-b57f-52ac575b8b89@sirena.org.uk>
+ <lpbqk3wv6emhdtxhnczrgufzzxprcfpfgenfepnmzhzfj3b3ci@rdphuko7ikti>
+ <157154d1-3995-454b-9e08-1527f1c5d409@sirena.org.uk>
+ <jsximyohkijphqrtgat6cjtcvtirjsdtbgn3lb6npw6yhgmcth@tq64dotfowss>
+ <0e3e45fe-4c34-45d0-b985-0938f60b5914@sirena.org.uk>
+ <20260716-stole-copious-7cdaacb6cef6@spud>
+ <27746e91-ab2b-40a0-822b-6d3a8997cefc@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AIcAXbcH1-lN
-Date: Fri, 17 Jul 2026 15:49:54 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Ryan Roberts" <ryan.roberts@arm.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Catalin Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>,
- "Mark Rutland" <mark.rutland@arm.com>,
- "Jean-Philippe Brucker" <jpb@kernel.org>, "Oded Gabbay" <ogabbay@kernel.org>,
- "Jonathan Corbet" <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Message-Id: <1e561b1a-2c87-4a23-b4da-126b333de8ba@app.fastmail.com>
-In-Reply-To: <20260717104759.123203-2-ryan.roberts@arm.com>
-References: <20260717104759.123203-1-ryan.roberts@arm.com>
- <20260717104759.123203-2-ryan.roberts@arm.com>
-Subject: Re: [RFC PATCH v1 1/8] misc/arm-cla: Add driver skeleton and documentation
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <27746e91-ab2b-40a0-822b-6d3a8997cefc@sirena.org.uk>
 
-On Fri, Jul 17, 2026, at 12:47, Ryan Roberts wrote:
-> From: Jean-Philippe Brucker <jpb@kernel.org>
->
-> Add the initial Kconfig and build-system plumbing for the Arm Core Local
-> Accelerator driver.
->
-> Introduce the common driver header and register definitions used by
-> later CLA support. The definitions cover the CLA MMIO frame, launch
-> response and status fields, standard accelerator registers, launch
-> opcodes, error codes and memory translation context state.
->
-> Add documentation describing the CLA programming model, its CPU-local
-> MMIO access rules, userspace assignment model, domain grouping and
-> expected boot state.
+On Fri, Jul 17, 2026 at 12:51:53PM +0100, Mark Brown wrote:
+> On Thu, Jul 16, 2026 at 06:06:13PM +0100, Conor Dooley wrote:
+> > On Thu, Jul 16, 2026 at 01:28:15PM +0100, Mark Brown wrote:
+> 
+> > > Oh, isn't that just multi-pin chip selects then:
+> 
+> > >    https://patch.msgid.link/cover.1783729282.git.Jonathan.Santos@analog.com
+> 
+> > No, I think that's something different.
+> 
+> > In this case, there is one chip select that all instances of the device
+> > share. Both the ADI and Microchip devices then use the upper bits of the
+> > first/address byte during reads and write to access individual devices.
+> > In the microchip case that I'm familiar with, what upper bits the device
+> > responds to are set by fuses in the factory. They also share the same MOSI
+> > and MISO.
+> 
+> I'm struggling to identify a way in which this is functionally different
+> to a multi-pin chip select.
+> 
+> > The SPI core already supports two of these devices from Microchip, since
+> > it just modifies the contents of tx_buf in a spi_transfer.
+> 
+> When I said we'd have to modify the bitstream I was told that wasn't the
+> case and this was just asserting more pins along with the "chip select".
 
-I have a few more questions here. Most of the description and
-the design decisions make perfect sense to me, but there are
-a few things I don't understand from your current document.
+Oh sorry,
 
-> +The CLA supports up to 8 attached accelerators, which are accessed by
-> +programming the CLA's MMIO registers. Operations are launched to an 
-> accelerator
-> +and are polled for completion. CLA does not raise interrupts.
-> +
-> +            CPU                     CLA              Accel
-> +             |--- write DATA[7:0] -->|                 |
-> +             |--- write LAUNCH ----->|---- launch ---->|
-> +             |<--- poll LRESP -------|                 |
-> +             |                       |                 |
-> +             |<--- poll STATUS ------|<--- complete ---|
-> +
-> +Each operation can take a 512-bit payload in the DATA registers. After handling
-> +a LAUNCH write, CLA indicates the launch status in the LRESP register. A further
-> +operation can only be launched after LRESP indicates completion of the previous
-> +launch.
+Likely I was not clear. The part as some ID pins which are just
+configuration! So they are two pins and depending on how they are set
+(low/high) each chip can have four possible addresses! Now all of the chips
+(to a max of 4) are connected to same CS of the controller so just one CS get's
+asserted.
 
-This sounds a lot like st64bv or st64bv0, passing an 8-word payload and returning
-a single word per accelerator operation with shared addressing.
+Of course the above will assert on all devices on that same CS but only
+the one where the ID pins combo match the spi xfer high bits (part of
+the address) will reply.
 
-Why are there now two interfaces to do the same thing?
+Hopefully the above makes it clear.
 
-Can a user process use st64bv to do the four steps in a
-single instruction?
-
-> +Some operations continue to run asynchronously on the accelerator after launch
-> +completion. In this case progress is tracked by polling the STATUS register.
-> +When the CLA updates the STATUS register, it also raises an event which will
-> +wake an in-progress WFE (wait for event) instruction on the local CPU.
-
-The asynchronous interface seems very confusing.
-
-How are page faults from the SVA master resolved during an
-asynchronous operation?
-
-Can a CPU start multiple asynchronous operations concurrently?
-
-Do these continue to run if the starting process is scheduled out
-and another process also tries to use CLA?
-
-> +Faults during address translation are reported by the accelerator in its
-> +registers and in STATUS. While polling for work completion, software fixes up
-> +the faults and notifies the accelerator with RESOLVE operations.
-
-I would like to understand the faulting part better. Which instruction
-specifically causes the fault, is that the poll STATUS read?
-
-> +Inter-Accelerator Communication
-> +-------------------------------
-> +
-> +On some platforms, multiple accelerators, each attached to a separate CLA within
-> +a cluster, are also directly connected to each other via a shared bus to
-> +accelerate cooperation between accelerators. The accelerators sharing a bus
-> +cannot be isolated from each other. When collaborative operations are launched
-> +on each of the participating accelerators, they synchronize over the bus,
-> +stalling until all are ready.
-
-Could you give an example what this model might be good for?
-
-Does this mean a user may have to start one operation on each CPU
-from a thread of the same process in order to get a result efficiently
-across a shared accelerator?
-
-I assume this will become clearer once you can show an example userspace
-application that uses this type of accelerator.
-
-> +Intended SW Usage Model
-> +=======================
-> +
-> +CLA is designed for its PL0 MMIO frame to be mapped into user space  and for user
-> +space to directly launch accelerator operations and poll for completion. It has
-> +been observed that for some use cases, the operation execution time is small and
-> +a trip through the kernel would consume a significant amount of the CPU budget
-> +for preparing the next operation leading to a significant reduction in bandwidth
-> +through the accelerator.
-
-Do you have any plans for in-kernel usage of the accelerators?
-I would assume that for things like cryptographic features, these
-make sense to be exposed to the kernel itself.
-
-> +User space software is expected to create a thread to drive each CLA it is
-> +using, and for each thread to be pinned to the CLA's local CPU.
-
-What happens if multiple processes have the same chardev open and
-each mmap() that, e.g. after a fork()? Does each process see its
-own virtual instance of the accelerator and interact with it through
-the same physical MMIO register range but its own process address space,
-or do you have to rely on the registers being mapped only into a
-single mm_struct to prevent a process from messing with another process
-data?
-
-> +Saving and restoring the internal state of the accelerator is an optional
-> +feature. Current platforms only support it when the accelerator is idle, so
-> +preempting an accelerator causes work cancellation. Software must carefully
-> +consider how to balance forward-progress guarantees with preemption 
-> latency.
-
-I'm not sure I understand this point. Do you mean any async operation
-that was started on an accelerator may fail due to preemption, so user
-space must be able to restart it?
-
-     Arnd
+- Nuno Sá
