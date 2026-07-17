@@ -1,146 +1,153 @@
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0987033D4E9
-	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 02:41:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AFC937B00E
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 04:29:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784256114; cv=none; b=hPboL3QjZPlvUdkv9Kgrtbb8qBRya4RKPd20JdtdiUW0/Ufy/e9MmCKecD4/xFPW1LptiPGekerF9LysWlH6J0xofSnoReeyjep4Rd3IiNfAEiMDQOE7JxuoFw+aKjW2q+pguBgHUCTFWCqqHlCOBq7cU+PDc91vI0MI8QB0iF4=
+	t=1784262553; cv=none; b=EjQntNbOTClpsZaiekaUouDaoXwBrn9C2Kn6H0DowGhPW9DJGuK9p2WtdCCENlWqgOKZK4XkMWVMyTXUYePtCEOUBEU4cTj+pza6WtQBXsbItdOLcVfz9FeITgKyE5Z4o0sftvFGt21sh49ScOcxP7xis+nF+dzzVPuuaKz+Th0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784256114; c=relaxed/simple;
-	bh=tzn/iEqTad6dQhUjU9RzDdcmlVaMSOCPaaD5tYvzKjM=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=N9A2Z+tZmpact5w5JH+QneDo4hFMkRpgEQwnvueGL82WGEbU2QvERF2kgXO6R16iPy2pyCHSMnobIUds2FkfcCUHNFa9guu4wAZKXGyNITYxUij5dNjMGCWnMrM5RWG6DHMbnvNOKmIwOmjFcz/d/vjh82uZku8yNQbXxfqzjPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GRqA6RIE; arc=none smtp.client-ip=209.85.208.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
+	s=arc-20240116; t=1784262553; c=relaxed/simple;
+	bh=wQi/SMTVdefiMqu2PxD/sLKpm4cCjxK0NTsWiOHILnU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kOwy8eE7KFmMO2m5/z4jCrtWr+r9RYJqIsq5Z3gt9EAOsYMjrOIGVWmhQUz3N//X/NQ71Wzkz9MYsIZcahXiCa98LWcTiqNj3D88BZaJVd8eKFLDzwsFZjvgPUz8alaR/Z3E4dPtikXFQtTdwaN4FnqisEcjDDhXIVNeSw45UYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=V2tuN53e; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GRqA6RIE"
-Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-69c2f98aa9fso2972140a12.2
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 19:41:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784256110; x=1784860910; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hJfRBT3Ki0wq3tOrZx9x5Dfjc24sd8ItMQ1cbR5ZfR8=;
-        b=GRqA6RIEtpo0UeJaKQcIICezzadIEn6yz99Ovs0SeinsFju8niM+huD/Ql+fVjl/hu
-         ytMzk16cNIESuopiLH0SW9NydPEFZzZxeYlofCvnURlgshUuUnRMocpqgg7FlDur8f1H
-         S1ElLhZe+4R0ZO9bi2mzg9QwXpldrmqKrVviwoyqsS5scM7lhWE+RBXgIavnowpmqkzp
-         5GJF3LqmSr8EbMa1lq881LIFxb04GGkMKbFaW+KRVBKeymM9KWZyIvcDlBGpb49JkS0O
-         2ZNshLtvQeYRfau3sz9PO+64I1kk1zLfFB2dIlhx9ZCgrn4rGL3HIQaJRMnL6r4JDxuo
-         +JGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784256110; x=1784860910;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hJfRBT3Ki0wq3tOrZx9x5Dfjc24sd8ItMQ1cbR5ZfR8=;
-        b=iMOliBUy0QC0kO9ND/ZexbQk0rfOEF/BbY0Yjx02gw7rXUB0128Wg/yFW8b0Osra8A
-         fd+oyjyCLQ9WUIB6qTIdW2QyN1Rde7HxVUtPLBGLyL1Uhh+zFCjPJ9NMVPTs2ZidyWrL
-         9AQl01u+mouQDw5oacbjhuteme2wVTFYyskn7mlXa4euZki1Fn5Yg4WnD/YV+++GsUem
-         n2UZXsc3yGKqWycVtLikZPSCA5nqgei8cJqKt6hFXVhGbuhJrWq42hD+gy5FEY8rPq03
-         rVVkRVP9oHh2H/aCAGl71ECKql/dZlflyQidX9zVg6BRfonIgfcd62kwQ6DY9ev3kmgB
-         IKDw==
-X-Forwarded-Encrypted: i=1; AHgh+RpzXER2x9heAFu1R0EjQCQAJ8R0yKcJ4FHweH410WOtybGr6FKG14l6Jqs6Kj4VlG7g6n3n2IwxsVo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOAHKnLQzePlQbRfqEuKBCEIMvJO6oQSnrMb5SlITRYcJQBboS
-	PnweX4vaRUOOHLOGNelCU56N4GWTV+725e7c3HLaifZpLRm4U3eS2/VuUPKd7dtZxi3yL13AoUf
-	Qad1HPv3626Wi75nHGQ==
-X-Received: from edvu22.prod.google.com ([2002:a05:6402:1116:b0:69a:9bdd:206f])
- (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:11c8:b0:698:3b7c:be65 with SMTP id 4fb4d7f45d1cf-69e652c5662mr148592a12.33.1784256109719;
- Thu, 16 Jul 2026 19:41:49 -0700 (PDT)
-Date: Thu, 16 Jul 2026 23:04:11 +0000
-In-Reply-To: <20260716230411.2767394-1-tarunsahu@google.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="V2tuN53e"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784262548;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qeAimfuoN51h/ppgVeCctCXr7ldsL6uIsocF+GoKyVY=;
+	b=V2tuN53e9ti/v1nPfd99pyN3KpS5g1U98e/QbfayqnGSnapYNKfXSCaNGmv8V26j/d3FhG
+	DMmoIr53uyTRzJ77FQosdqgHYu568Sxl1U20cwTfd18Wl0QOktrKpoCUw0RFtU+pF5Fp7D
+	N1NVv6TjS/qtdtdilG+r6mUTDp+XN+U=
+From: Tao Cui <cui.tao@linux.dev>
+To: Tejun Heo <tj@kernel.org>
+Cc: Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tao Cui <cuitao@kylinos.cn>
+Subject: [PATCH 1/2] Docs/admin-guide/cgroup-v2: document io.latency rotational vs non-rotational behavior
+Date: Fri, 17 Jul 2026 12:28:16 +0800
+Message-ID: <20260717042817.2001826-2-cui.tao@linux.dev>
+In-Reply-To: <20260717042817.2001826-1-cui.tao@linux.dev>
+References: <20260717042817.2001826-1-cui.tao@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260716230411.2767394-1-tarunsahu@google.com>
-X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
-Message-ID: <20260716230411.2767394-8-tarunsahu@google.com>
-Subject: [PATCH v19 7/7] scsi: Enable async shutdown support
-From: Tarun Sahu <tarunsahu@google.com>
-To: Shuah Khan <skhan@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, 
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Jonathan Corbet <corbet@lwn.net>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>
-Cc: bvanassche@acm.org, john.g.garry@oracle.com, mlombard@redhat.com, 
-	loberman@redhat.com, mclapinski@google.com, dmatlack@google.com, 
-	driver-core@lists.linux.dev, linux-pci@vger.kernel.org, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, jordanrichards@google.com, souravsgl@google.com, 
-	stuart.w.hayes@gmail.com, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, emilne@redhat.com, jmeneghi@redhat.com, 
-	linux-scsi@vger.kernel.org, David Jeffery <djeffery@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-From: David Jeffery <djeffery@redhat.com>
+From: Tao Cui <cuitao@kylinos.cn>
 
-Like scsi's async suspend support, allow scsi devices to be shut down
-asynchronously to reduce system shutdown time.
+io.latency is documented only in terms of average latency and the avg_lat
+stat, which matches rotational devices.  On non-rotational devices a group
+misses its target when 10% or more of the IOs in the window individually
+exceed it, and io.stat reports missed/total rather than avg_lat/win.
 
-Signed-off-by: David Jeffery <djeffery@redhat.com>
-Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-Tested-by: Laurence Oberman <loberman@redhat.com>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Reviewed-by: John Garry <john.g.garry@oracle.com>
+Describe both cases: how a miss is detected, note that the avg_lat tuning
+guidance is rotational-only, and update the io.stat field list (mark
+avg_lat/win as rotational-only, document missed/total).
+
+Signed-off-by: Tao Cui <cuitao@kylinos.cn>
 ---
- drivers/scsi/hosts.c      | 2 ++
- drivers/scsi/scsi_sysfs.c | 3 +++
- 2 files changed, 5 insertions(+)
+ Documentation/admin-guide/cgroup-v2.rst | 47 +++++++++++++++++--------
+ 1 file changed, 33 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/scsi/hosts.c b/drivers/scsi/hosts.c
-index e047747d4ecf..bf691acc7a67 100644
---- a/drivers/scsi/hosts.c
-+++ b/drivers/scsi/hosts.c
-@@ -273,6 +273,7 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
- 	pm_runtime_set_active(&shost->shost_gendev);
- 	pm_runtime_enable(&shost->shost_gendev);
- 	device_enable_async_suspend(&shost->shost_gendev);
-+	dev_set_async_shutdown(&shost->shost_gendev);
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 0df15a672cf3..eec99813d82d 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2260,9 +2260,12 @@ IO Latency
+ ~~~~~~~~~~
  
- 	error = device_add(&shost->shost_gendev);
- 	if (error)
-@@ -282,6 +283,7 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
- 	get_device(shost->shost_gendev.parent);
+ This is a cgroup v2 controller for IO workload protection.  You provide a group
+-with a latency target, and if the average latency exceeds that target the
+-controller will throttle any peers that have a lower latency target than the
+-protected workload.
++with a latency target, and if the group misses its target the controller will
++throttle any peers that have a lower latency target than the protected
++workload.  How a miss is detected depends on the device: on rotational devices
++the average latency over the window must exceed the target, while on
++non-rotational devices a miss is counted when 10% or more of the IOs in the
++window individually exceed the target.
  
- 	device_enable_async_suspend(&shost->shost_dev);
-+	dev_set_async_shutdown(&shost->shost_dev);
+ The limits are only applied at the peer level in the hierarchy.  This means that
+ in the diagram below, only groups A, B, and C will influence each other, and
+@@ -2279,10 +2282,11 @@ So the ideal way to configure this is to set io.latency in groups A, B, and C.
+ Generally you do not want to set a value lower than the latency your device
+ supports.  Experiment to find the value that works best for your workload.
+ Start at higher than the expected latency for your device and, with
+-blkcg_debug_stats enabled, watch the avg_lat value in io.stat for your
+-workload group to get an idea of the latency you see during normal operation.
+-Use the avg_lat value as a basis for your real setting, setting at 10-15%
+-higher than the value in io.stat.
++blkcg_debug_stats enabled, observe io.stat for your workload group to get an
++idea of the latency you see during normal operation.  On rotational devices,
++use the avg_lat value as a basis for your real setting, setting it 10-15%
++higher.  On non-rotational devices avg_lat is not reported; watch the
++missed/total ratio instead.
  
- 	get_device(&shost->shost_gendev);
- 	error = device_add(&shost->shost_dev);
-diff --git a/drivers/scsi/scsi_sysfs.c b/drivers/scsi/scsi_sysfs.c
-index dfc3559e7e04..8fd317aef37b 100644
---- a/drivers/scsi/scsi_sysfs.c
-+++ b/drivers/scsi/scsi_sysfs.c
-@@ -1386,6 +1386,7 @@ static int scsi_target_add(struct scsi_target *starget)
- 	pm_runtime_set_active(&starget->dev);
- 	pm_runtime_enable(&starget->dev);
- 	device_enable_async_suspend(&starget->dev);
-+	dev_set_async_shutdown(&starget->dev);
+ How IO Latency Throttling Works
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@@ -2324,19 +2328,34 @@ IO Latency Interface Files
+ 	the blkcg_debug_stats module parameter is enabled (it is disabled by
+ 	default).
  
- 	return 0;
- }
-@@ -1412,6 +1413,7 @@ int scsi_sysfs_add_sdev(struct scsi_device *sdev)
- 	transport_configure_device(&starget->dev);
++	The reported latency fields depend on the device.  Rotational devices
++	report avg_lat and win; non-rotational devices report missed and total
++	instead.
++
+ 	  depth
+ 		This is the current queue depth for the group.
  
- 	device_enable_async_suspend(&sdev->sdev_gendev);
-+	dev_set_async_shutdown(&sdev->sdev_gendev);
- 	scsi_autopm_get_target(starget);
- 	pm_runtime_set_active(&sdev->sdev_gendev);
- 	if (!sdev->rpm_autosuspend)
-@@ -1431,6 +1433,7 @@ int scsi_sysfs_add_sdev(struct scsi_device *sdev)
- 	}
+ 	  avg_lat
+-		This is an exponential moving average with a decay rate of 1/exp
+-		bound by the sampling interval.  The decay rate interval can be
+-		calculated by multiplying the win value in io.stat by the
+-		corresponding number of samples based on the win value.
++		(Rotational devices only.)  This is an exponential moving
++		average with a decay rate of 1/exp bound by the sampling
++		interval.  The decay rate interval can be calculated by
++		multiplying the win value in io.stat by the corresponding number
++		of samples based on the win value.
  
- 	device_enable_async_suspend(&sdev->sdev_dev);
-+	dev_set_async_shutdown(&sdev->sdev_dev);
- 	error = device_add(&sdev->sdev_dev);
- 	if (error) {
- 		sdev_printk(KERN_INFO, sdev,
+ 	  win
+-		The sampling window size in milliseconds.  This is the minimum
+-		duration of time between evaluation events.  Windows only elapse
+-		with IO activity.  Idle periods extend the most recent window.
++		(Rotational devices only.)  The sampling window size in
++		milliseconds.  This is the minimum duration of time between
++		evaluation events.  Windows only elapse with IO activity.  Idle
++		periods extend the most recent window.
++
++	  missed
++		(Non-rotational devices only.)  The number of IOs in the last
++		window whose latency exceeded the target.
++
++	  total
++		(Non-rotational devices only.)  The total number of IOs
++		accounted in the last window.  A group is considered to be
++		missing its target once missed reaches 10% of total.
+ 
+ IO Priority
+ ~~~~~~~~~~~
 -- 
-2.55.0.229.g6434b31f56-goog
+2.43.0
 
