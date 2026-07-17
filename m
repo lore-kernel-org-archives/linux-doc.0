@@ -1,92 +1,179 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9F333D3D11
-	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 12:11:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9CF32C0274;
+	Fri, 17 Jul 2026 12:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784290273; cv=none; b=iCMNKu4d9sIZEPzsGP/Uj2xtSeL/2ZurxBCPEXg69iKukMXzS3wIaKQHn8z2fnbkGDSbFJR/jGGWYx3AMncSORCKZ1hel6UbJQtKrsAvCoTpxBRaonLS7NV6Tz4fgghKLF2PYqfhYVNldoL9pYMzv5tlylqcTguPdOkwl4BoloM=
+	t=1784290641; cv=none; b=F67iYRqXpOpbRge8X6k/M6O9WGJ9zmY9f5c9RDH/VxgFF1WXGgWJWul+VIGW3IB1xT3Bq1ZDTWZNqEb5iSwOFELTkc5y0oKAMkwmaq8TL4ia5gJsGNLQVf8t26jKTI6gabdlCMaBxwZvlPY/W2tf9Xi7IU9Lc6pg1Z/lFtAWdsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784290273; c=relaxed/simple;
-	bh=/r5s7G3vuwyLidTrhc8irQTxnG0563iE5QfpAexpAm0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W00qIQ+35wFJaUmNyUMggo0Kge4lHFxg51C6uraY2yHGYcRE5Ca3vm+MoV1tKXsBIC8up2nBX2tNDH7ojaVA2jqziPJrHNXnmLfIJkKI+n3QQyWj4BpmNWcBqCRUXIsVit8cDNB/e3yjuMLQx4rNEcnpin0OFO3Rfr1uDg4Kvq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=gsGkCmGe; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1784290641; c=relaxed/simple;
+	bh=Vvv5CNnFF0t8Df7gFIZX0e5ZQ27toXVBUsq5+8Pifl8=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=QOFAFNTKvOJF89MN0tPeOUjOrZnOH/hxuvcHGYXWLsvwcdhy6W+J8VeEP0DOG+BNdaqkIjqQkXK+FnxraZtvAWWLT2YLB7GiOoeLJBMXfbmfZHyeLu8WD9y4MbrQJ36jDV6+oIY9jTwVG7XgFlq8NwvZJfcSiHePZ/ce9v9LGMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=CkEEHK7/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gA8I+JsX; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="gsGkCmGe"
-Date: Fri, 17 Jul 2026 20:10:11 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1784290269;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IGp9gJsbG6pTWIy9c6NOKNXHCS5/u07uvcQAQAccsVw=;
-	b=gsGkCmGe4+5pv80rzUsEGUqW2BqPBRMlymRIKGZtIbhP8e8YGJSTAj8Uye6tQlutiVAIT5
-	w8BDhIozw622eRgKiNU4wSsDbEN/ektBUPun2tR8tkC0v0HJvS8roXu23E3NPqP67pHTyH
-	HtKa2s+PS9n2ox24GKVWjFokkry03vH9/iOT9clfWGuRFl02HrLeIjYB43+1TX/D+h3aAc
-	qMSO7KC/phmns66c+YevCvL6N47V+qJM+GWkNTTewbR9JsHO9gNWmS2TiFuiyleolqAI/s
-	vFucOL7Y2g1F78DqiKa2UDr5TLb9TMpfvNbZ16NeEtzy3G5jmIyJbokzBTxKMQ==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] docs/zh_CN: link to Chinese applying-patches translation
-Message-ID: <a6a2b03c95371293bc16eda7cfc99470e910e2ea.1784289654.git.wy@wyuan.org>
-References: <cover.1784289654.git.wy@wyuan.org>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="CkEEHK7/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gA8I+JsX"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id 6CA04EC016D;
+	Fri, 17 Jul 2026 08:17:17 -0400 (EDT)
+Received: from phl-imap-05 ([10.202.2.95])
+  by phl-compute-04.internal (MEProxy); Fri, 17 Jul 2026 08:17:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1784290637;
+	 x=1784377037; bh=qwffd+MK4v483+LcaFb6T74cP0UlMdAs+/sPit+FeJg=; b=
+	CkEEHK7/KRIW2r3ZYNZx/CS6/X4GxmPFA90cPBJlDvb01bHYpjCQ0QQ/SF04lBjM
+	DpkRhrBWzdn0GVP/59Xgh5KiCYLTj/adksJ9D+YublAzHiXKqydCVz5F2MHqKTNm
+	Y/YntNbmSaGOmZ3UkAnmfRsriVVl2J4fITYyxB1P64Zzl8ePe1y0yB+BKAY2vECW
+	G2rGhhxqGojiCrZhX6m+DVR9mSgUziAKdnAqcux7UAjdEeDpHqWCrFJf1o/bVhPZ
+	372S8VOtD3WgdEs4HsknmguJpIldB1BbwbSh95UwqTRs02qPWeTw0TMVSwkY+B+u
+	YStt008MHHpRPc1nbKJUeQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784290637; x=
+	1784377037; bh=qwffd+MK4v483+LcaFb6T74cP0UlMdAs+/sPit+FeJg=; b=g
+	A8I+JsXLlJE2XJgz7nfW9MKgN0RxDW4HvBL7TGLlPlGGUfezGjRybepzB76bIS4d
+	DRuCzT/MqP3+xpyB/CChnqq/1s8JUm0c+G5eCU13gjrH0UD9d/EpXOdQSJZctV+/
+	FppK5GPt1P4TualkrLJ4h+Au/V9TVM88hepfDpjHixayMVRqyiihITGJPW9Kso43
+	+ou0iubCJGTbMN2Fd58B0tdblpOs/oc666GDCZz0Y0Q+sAJqUFcNIlPsp1DG+jj0
+	o2XcFj7wEJa6JkHW9Z7FcIKeOJVBJ95AxTH/4SlfFvEftl0tCFTLAUoKkRZbcmP7
+	fFcDEIftqfBlBbA03yZfg==
+X-ME-Sender: <xms:TR1aalFvKlcaERW_GkQ2wUMN0F-g3FI1VTPgyBywRwrv0iWIOaElcg>
+    <xme:TR1aalL_TvVM5jxQiK6hwr08OO4jSvjr3YoEx4j2yUbUqjrovtrnfdDZQ2Z8FgJsV
+    _qxfZ2USH15vwhxl7WKCVwXy_4DfNMsI7UQTkmj2pH6GtYfRzyD_f0>
+X-ME-Proxy-Cause: dmFkZTGZYN2MueblxAGDt1BtTf+5AWiWQBKayHhh9hPnnR/CTpcYP+VyeqU8xamWs0xUUr
+    30icLZzf2xcnlPupU1aMcgK2oeMMOTE4d1oeXnPTwKPy9zzFlUNOp1tXHHsxoPEKK8gt3i
+    i9FRqHqG0ujD2olFXKmdrxJTMtz/v0vw+rpCxVhYh6UODdqiXNzJKA+4Pc89XKa+17dlqp
+    VVELzkDE+1J4X0oH55DuIUetvVVor+TYOQLdqXOwHXJJEBQgf7TSWMpIlMfAYyQDyzkYq5
+    gNpdHIo/34zpBHodGZ+sjVmxNclc6JzUlWFCjwpJWsrbnF7xuD6ktqe142QTVOwOpSqEgX
+    Bzs6bICjk+sETAZAF3+rxL66tuRwu/VAUSxbqOISOsdg+gKEY1tBuUQsPpdiEzcKZzPKA7
+    ZRNymw2DVCcQHTQ/Uv9IJNexYbDRL7JDcZ2PlvzRtX0Q1uKVhl1u7hP2iXtjE85t9vmAc6
+    ykgIoFpn5bthGxWnVMvnh6g7Hx1B+zciNgH76MZFoC7bp0l+wCzcdMfbjaog58TjRZD63x
+    jow6AIWiJgSjwW2FXeiE1lCiB8p6zDxy738KB19JScpQe5GA47THc0PpIY+2BvQI9GOJ5Z
+    vpVmczjbzp22d1kpMveky64WroJfQgN7wq1A5w4M06EZ9lKkQdrg/c7pcn7g
+X-ME-Proxy: <xmx:TR1aak10URcDeLFeSlwiCSJBHJb62rJqKaejbt6DxFWnfdzxJPLfgQ>
+    <xmx:TR1aallSlX6lpRbAQuxuH8sUjj-l7Pw5deup2c-s2tLiqPpq1fX2DQ>
+    <xmx:TR1aaq4Qhr6WMG5ZCZ2vc1pslCLthllJ_Yok_GZge9ch4YrkRnCdjg>
+    <xmx:TR1aagm6I-Rg2J4sXytv2WLfrAvCTKTzd0CzW3tEhYG6grVgRW2uHA>
+    <xmx:TR1aamrLsFxz-9CqXGjPUdxEWWSkcul0RF7PnPtM69e5hRKmkP3MIkZe>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 1D22B182007E; Fri, 17 Jul 2026 08:17:17 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-ThreadId: A5D9awIj4ZLo
+Date: Fri, 17 Jul 2026 14:16:36 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Ryan Roberts" <ryan.roberts@arm.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Catalin Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>,
+ "Mark Rutland" <mark.rutland@arm.com>,
+ "Jean-Philippe Brucker" <jpb@kernel.org>, "Oded Gabbay" <ogabbay@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Message-Id: <5049af19-47c4-4ab5-bb4d-6b3cd54ad75c@app.fastmail.com>
+In-Reply-To: <20260717104759.123203-3-ryan.roberts@arm.com>
+References: <20260717104759.123203-1-ryan.roberts@arm.com>
+ <20260717104759.123203-3-ryan.roberts@arm.com>
+Subject: Re: [RFC PATCH v1 2/8] misc/arm-cla: Add launch operation helpers
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1784289654.git.wy@wyuan.org>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: quoted-printable
 
-Now that process/applying-patches.rst has been translated into
-Chinese, update the references in zh_CN howto.rst and
-admin-guide/README.rst to point to the Chinese translation instead
-of the English original.
+On Fri, Jul 17, 2026, at 12:47, Ryan Roberts wrote:
+> From: Jean-Philippe Brucker <jpb@kernel.org>
+>
+> CLA commands are issued by writing optional payload registers,
+> programming the LAUNCH register and polling LRESP until the hardware
+> accepts or rejects the operation.
+>
+> Add a common launch helper that performs this sequence on the CLA's
+> local CPU, waits for LRESP completion and translates launch response
+> codes into Linux errors.
+>
+> Build accelerator reset and register read and write support on top of
+> it. The register read and write helpers split larger accesses into
+> multiple launch operations when an access crosses an eight-register
+> window.
 
-Signed-off-by: Weijie Yuan <wy@wyuan.org>
----
- Documentation/translations/zh_CN/admin-guide/README.rst | 2 +-
- Documentation/translations/zh_CN/process/howto.rst      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+I'm a bit confused by the MMIO register access ordering, if this is
+not a normal AXI attached device with a DMA master, I think it
+would make sense to better document what it is.
 
-diff --git a/Documentation/translations/zh_CN/admin-guide/README.rst b/Documentation/translations/zh_CN/admin-guide/README.rst
-index 7c2ffe7e87c7..0549c79ba1a4 100644
---- a/Documentation/translations/zh_CN/admin-guide/README.rst
-+++ b/Documentation/translations/zh_CN/admin-guide/README.rst
-@@ -83,7 +83,7 @@ Linux内核6.x版本 <http://kernel.org/>
-    补丁，则不应先应用6.0.1和6.0.2的补丁。类似地，如果您运行的是6.0.2内核，
-    并且希望跳转到6.0.3，那么在应用6.0.3补丁之前，必须首先撤销6.0.2补丁
-    （即patch -R）。更多关于这方面的内容，请阅读
--   :ref:`Documentation/process/applying-patches.rst <applying_patches>` 。
-+   :ref:`Documentation/translations/zh_CN/process/applying-patches.rst <cn_applying_patches>` 。
- 
-    或者，脚本 patch-kernel 可以用来自动化这个过程。它能确定当前内核版本并
-    应用找到的所有补丁::
-diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
-index cc47be356dd3..2e39ad557dd4 100644
---- a/Documentation/translations/zh_CN/process/howto.rst
-+++ b/Documentation/translations/zh_CN/process/howto.rst
-@@ -142,7 +142,7 @@ Linux内核代码中包含有大量的文档。这些文档对于学习如何与
-     有助于内核开发的外部文档列表。如果你在内核自带的文档中没有找到你想找
-     的内容，可以查看这些文档。
- 
--  :ref:`Documentation/process/applying-patches.rst <applying_patches>`
-+  :ref:`Documentation/translations/zh_CN/process/applying-patches.rst <cn_applying_patches>`
-     关于补丁是什么以及如何将它打在不同内核开发分支上的好介绍
- 
- 内核还拥有大量从代码自动生成或者从 ReStructuredText(ReST) 标记生成的文档，
--- 
-2.55.0.369.ge3c30fcd466f
+> +static inline u64 cla_reg_read(struct cla_dev *dev, off_t reg)
+> +{
+> +	return readq_relaxed(dev->regs + reg);
+> +}
+> +
+> +static inline void cla_reg_write(struct cla_dev *dev, off_t reg, u64=20
+> val)
+> +{
+> +	return writeq_relaxed(val, dev->regs + reg);
+> +}
 
+For regular devices that have a DMA master, you cannot use
+the relaxed operations by default since they do not serialize
+against DMA transfers.
+
+To do this properly, you'd have to define separate cla_reg_read()
+and cla_reg_read_relaxed() helpers and then use them as needed,
+ideally with a comment for each relaxed instance to explain why
+that one is both performance critical and safe.
+
+If for some reason this accelerator is not a DMA master (e.g.
+because it is implemented through CPU microcode and accesses
+the memory through the CPU's own load/store unit), that should
+be documented here to explain that you are relying on
+implementation defined behavior outside of the normal driver
+and memory model.
+
+> +	/*
+> +	 * No barrier needed because accesses use Device-nGnRE, within the=20
+> same
+> +	 * memory-mapped peripheral, so accesses arrive at the endpoint in
+> +	 * program order.
+> +	 */
+
+This comment in turn looks completely useless, as that is true
+for any MMIO device. The only barriers that you'd normally need
+here on sane architectures (not Alpha) are to serialize MMIO
+against DMA.
+
+> +
+> +	if (launch->data_mode =3D=3D CLA_DATA_OUT)
+> +		for (i =3D 0; i < launch->ndata_m1 + 1; i++)
+> +			launch->data[i] =3D cla_reg_read(dev, CLA_REG_DATA(i));
+
+Instead of the open-coded loop, maybe this can be built
+on top of __iowrite32_copy()
+
+> +/**
+> + * cla_op_wait_lresp - Wait for any LAUNCH op to complete.
+> +int cla_op_wait_lresp(struct cla_dev *dev, u64 *lresp)
+> +{
+> +	return readq_relaxed_poll_timeout_atomic(dev->regs + CLA_REG_LRESP,
+> +			*lresp, FIELD_GET(CLA_LRESP_PENDING, *lresp) =3D=3D 0,
+> +			CLA_LRESP_DELAY_US, CLA_LRESP_TIMEOUT_US);
+
+Similarly, the readq_relaxed_poll_timeout_atomic() specifically
+does not wait for DMA, so you may need separate helpers for
+devices that can do DMA and readq_poll_timeout_atomic() vs devices
+that never access memory and can use the relaxed version.
+
+You may also need a non-atomic version, as blocking the CPU
+for 100=C2=B5s is not great for realtime workloads.
+
+    Arnd
