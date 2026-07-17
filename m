@@ -1,128 +1,196 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BA83C5849
-	for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 23:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784244342; cv=pass; b=c7hyuRNwtgwdvPdvA5SkaTXJIX3niRdYX25Po3+1o8z3LcsWdPM6gJpDvJ3qvGor5gf6FdZRSJwDH9Zi8EjUWK35f7GMotjIMXfMrTl0tZq/xMMNor/IokVHAnJ25QfOJrshEexRRVk/hPYuT38wspFd68G48YNoh9kVJv/EEnc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784244342; c=relaxed/simple;
-	bh=4h7xhtMJGdpGVsSu0kS4HBwr3mEevW2o4UeSWPChcp4=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422DBBA3D
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 00:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784246918; cv=none; b=f3twSSVuKN1+qxRrl+LIhxajs+JWZDURIyIFqBfqfwvVLzaeJQThvJ8tPfn7JRXEnB46ldJyNdCU0/VM72as8g4vG+VxBXphbLrwRUpmU7jrWmw2HmmkPCLoA5/hPBJ/dkIOSBENKqznld9rLJ8Seo9gZ6OgymewiwMH73qbJs4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784246918; c=relaxed/simple;
+	bh=LnSf1ORs3iWpIN1we4xa/uvhWkh/NN2waYRc2HqRVUE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JJh5kdsC93RTZi7hMuDqY/uaBHaWSvFEyacTTK1AxMj+TevLGh+kxoqo/26uCLfKKoFwloxc7wOGvyHzmlestIaa7lHoh9mE0JaGaajIu6JS8Rz9mAqE3ZnV7UoMeMHN+td4qtAGNqHPbo+UAtBHKUEUE38olK9AG0rHiO3id7I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L1GUPfw5; arc=pass smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=nzl8sa4tO3X7lK6CM/O4qjwgADp/8dXPKTpcRACFF/XUxquQfCDTB6XaKjJq7BiT3yHrpsWX2vA9W8QGlOYJSa9G4A0nzG4poYFvjUBSIGePSqzZfdmLT7lX3ZD6i5p8cWzTPPPP+35gQfaZ8aNVjyXF/Ke7bOMmc4fCm2ynbTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XtxZEJ2r; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L1GUPfw5"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-8f0d6853360so50874986d6.0
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 16:25:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784244340; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ijE1lGf3Kla3Skbn51rQRxYdCwsEq+MwMlMf5Wqe3DEHKx7QdN9yHpY0J54zCv53wP
-         efkJY/6GeZ7WeaX8Tq38O8Ig7YSH+OWOPtG9Z60LcOgrqIVVxsMHQgxkQnbWixp1rPbR
-         2QRvKNTNiHYEt6jyhypIHPFjubmCF7FiDGUur5X30MwDm2lt4xD2BCeYg4e+jKDdn355
-         8qyUPQY3fTYDZKjfgD/XikTMMym7L6ktsXdHbfCJ5ihkq9s8iMhrOcpydIVDO21CSrWG
-         HIxHS7tNVchaHPMRbyoqRG2RnwZd3mC6jewToAFFyLnyU/5HxC8LBaJ34k41PINm2kcj
-         ulLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=yndt/cVTHld9O2iHVB49sNJNZBoyax6h5L1SZnhazsU=;
-        fh=CvAoNJxu24rG0D2SJaE2994iI9FE2xtVN6/18KyIvjo=;
-        b=EQawNNcYFZFkaMlR+NJA+g5x2jTlPQU6KvrAaWAzLm5HOtNm2yDJpfYowphsSwJI6e
-         F07PMKJe4tifVc2ZA/XCr8zFrAEGayDy1BzmcJZFkmmLGQLYczrnc1Z5GBHcm6Q6KLlx
-         CmRclbwugDxeGWxiu+h7UJonkUUUcxZVFE5ocqp84leXsTUEhYrtXfxdoItgurt0rKod
-         JSqD1Z9TNQ6PI1UQ18pH59v+E+4z7bQudMuVqg8YywyYRiv/izGoDlSYdUDp75s1uex0
-         cox3k6GEi8mwgl5UJurms48Jdw5VxvkmxewN04Z/Lzt2hw4QsDxd4kUN+GwahSgCbGLT
-         xlVw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784244340; x=1784849140; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=yndt/cVTHld9O2iHVB49sNJNZBoyax6h5L1SZnhazsU=;
-        b=L1GUPfw5hcyyQ/FwDEJkFe6gYoFaLUP+U21kEmnBn7NbxIRqJnLXitWBbOenOFNI6e
-         oltS5do7O72NK30s9uA8mvLxQKsUEBPFl2IYYYDR9PAqOnDHhWqxEeimf8ganMmzwzLv
-         XoATRKWa2N80xqTCbG1TYxl3EWmjcyXCK2VAQtLgZ7SOl5NKPtLwP8aUKgZaI4EpJP0L
-         yc4/gpZpDtwqlu4JrNaIiIQpL6H4mMABqHjxESI2ppDZQ9ltWrXJLoXh/ZUvSxlVuQLQ
-         sXEMhGN7/+/Q0y9pdMGbGbc+XgoJ79rp0hzbfOlthDNgE6OswnDEuTf8m1bwuTNsaP5z
-         876Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784244340; x=1784849140;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yndt/cVTHld9O2iHVB49sNJNZBoyax6h5L1SZnhazsU=;
-        b=Lq5BI3FobEAJ8N34dN8/I5hEt5bstp1bL+b8XD0HXTerMJ3ImmuQDZ26MxrHjHarq4
-         PI6CjUAWExHJhKPaNXOSK4hrpN6VaURV298NmmG6wxEkAuPRPvIOL+tDp1HzEIFeEh8X
-         K1UicKaHI9l7C5Oo22b72ni7Y2CcxDuouS3qRQM6qzydxdy+UjEbaZE0+qQv4Ny5Jjkv
-         Zny8ChUJP39B6zr0QrSpKzjYIQzFmtRiTj1qbUkbh5wGDeqgWrEOUDzEeW7exBhD1Ox0
-         ctOghjBKMLbb2awWa1+FUpuWB7JFZTdrtrZsLs+WJ8m08rYoQ5GLjkiZ7MnGrET6SLoD
-         VoWA==
-X-Gm-Message-State: AOJu0YzADuD7H/8z+OoDKZClomTE7HEmQis9E+pN2S2B9uepzZpgiVuj
-	FbiOsBimEjPl8ceReY2huh90QCJDezp9hD2IgtwUavgUUQEk/yv1RswHSCcBtsmz0q3N6DqdZuY
-	3sArC5RcRdxd03Dd5Y8ZDGzSM9LWlT/frQmwoI2A=
-X-Gm-Gg: AfdE7cko3ufUWFU9uMx6Nmg3fv290V16r+pUpGZI6/LEBHvVbrTOBtaf2XOdO74y75j
-	3SZA51eznOlohn/ym/n0VHIsCpN+3pnj+kkooz57CqzPerRyeNKfiniLGrEol0F/0ZFxCQoLJLi
-	8Yn88lPG3XOU0G9xBcgX6at/mEVXVB+shPehUQx52D1UnukFj5jW0586uKqHf9xzIlSpGsDEL1H
-	RqHmKekl2YGRcMwWrlArg7iia5w+RApfF2GBSmD7GYsR9456YWF2P5THMWQOMDRzOLg/kvoc1VL
-	4dl5evX6yescTH8JxwuPL4cdxefa2LFFHBnm/dp4rBAqLFj/GBdFx1p7sEfR8GjPC2dCcZ/Yxnc
-	r
-X-Received: by 2002:a05:6214:5c07:b0:8be:1620:a95a with SMTP id
- 6a1803df08f44-90778375c9fmr3331916d6.27.1784244339596; Thu, 16 Jul 2026
- 16:25:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XtxZEJ2r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE8AC1F00A3A
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 00:08:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784246917;
+	bh=uq8utKGOuKj3StoMy9xF5Px9hk95MjGuUSdIPctg7Ds=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=XtxZEJ2rbkANbpw2gTBA6fUTgyuZMyjKrcgA3/t/qYtquXZbCqPS+MPXJEWbofm27
+	 ZD9bMO7H8/fywdSCWuAtn4IG5NrZz06gLRcycpD61VcaioM0WXNWNqypRd+rIWmOYZ
+	 ciDYPSbClvVj8dMsweoKbG6D0YJPGw2/7zdXI4B+vWm4kPyg1hL/f1Gf+zDZaAA4xw
+	 iTl1xw3Nrj6t8CKGY0PgsYjB8WyATvaMVpDLNgEq+/De5ziu6gBAV9jNJzuOInwnXD
+	 pPLjwBYC9RjC1U0gknhDSNo1MOsDlFeTvBYTz52vjan2zGdazi1yRKVavAUOlzkXKX
+	 0QKmDvA09VAog==
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c1677c91969so312935266b.1
+        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 17:08:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrsWeg12FDBMtlt/Os1JI6XA+ndx+ySz8j9iHTCmOBPbkXDXRUtyL6JZhV6WFTtN27ZZwE1FACBKOQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywvlxivoos++/pauJl8Olz2jDKb51/tH1xBuYvjC0vc/TUMi8SL
+	cvbvjRkdFes6n0CJe1ril4FXiUXhS2hoTWQ9pL6Vy9hZxoSuuGnKNJ3DWkcYBoTP9ZePUQZsq17
+	Lyfi6WC2Sm7/VYDJzDig8QqHFOeXF+nY=
+X-Received: by 2002:a17:907:9613:b0:c16:2f5d:614f with SMTP id
+ a640c23a62f3a-c16b48075damr5109366b.50.1784246915847; Thu, 16 Jul 2026
+ 17:08:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260716021013.48025-1-danielmaraboo@gmail.com> <87ldba5z1u.fsf@trenco.lwn.net>
-In-Reply-To: <87ldba5z1u.fsf@trenco.lwn.net>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Thu, 16 Jul 2026 20:25:25 -0300
-X-Gm-Features: AUfX_mxgmw7OTCtL9A4mZcaPR91Ocsj08hFbz77nyG9trizmpshlqNvoJk-47Ec
-Message-ID: <CAMAsx6cO588DcqAT9c=-7aXWLwzAbjrAp=jJ9Ya9dC7draaPZA@mail.gmail.com>
-Subject: Re:
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
+References: <20260714081510.16895-1-jiahao.kernel@gmail.com>
+ <20260714081510.16895-2-jiahao.kernel@gmail.com> <CAO9r8zM5nzDqNcx5UoDgGexvR6jf8MmJV9SomM4AS7n-rZ2o5Q@mail.gmail.com>
+ <20260714193129.f81711f516504b659d544741@linux-foundation.org>
+ <7a1fe347-7ca6-4768-9308-420bf1251f54@gmail.com> <CAO9r8zMDndmoxi_XvQv3rkkhCfb+aW3=8JdE3gAv2YOKiyiFSA@mail.gmail.com>
+ <7b35fd4e-7662-10ae-159b-303350e4e59c@gmail.com> <CAKEwX=Ob9shetuJK4y=NZods3KkT=U_3W4S_ALzxX3EDLomWEA@mail.gmail.com>
+In-Reply-To: <CAKEwX=Ob9shetuJK4y=NZods3KkT=U_3W4S_ALzxX3EDLomWEA@mail.gmail.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Thu, 16 Jul 2026 17:08:24 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zMy3C=tTLsyv_WkAS8Fd_Z3uSCmX4cekPLo8KkNb9bkCA@mail.gmail.com>
+X-Gm-Features: AUfX_myGgssWMZxis9Xq0G95Yc2oVqpD1w4OyvXk9Wv0dDSPaEEVeWWsaCcrVLc
+Message-ID: <CAO9r8zMy3C=tTLsyv_WkAS8Fd_Z3uSCmX4cekPLo8KkNb9bkCA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] mm/zswap: Fix global shrinker when memory cgroup is disabled
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Hao Jia <jiahao.kernel@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org, 
+	hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org, 
+	mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
+	roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Em qui., 16 de jul. de 2026 =C3=A0s 19:50, Jonathan Corbet <corbet@lwn.net>=
- escreveu:
+On Thu, Jul 16, 2026 at 11:19=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
+e:
 >
-> I've applied the series, thanks.
+> On Wed, Jul 15, 2026 at 7:21=E2=80=AFPM Hao Jia <jiahao.kernel@gmail.com>=
+ wrote:
+> >
+> >
+> >
+> > On 2026/7/16 00:13, Yosry Ahmed wrote:
+> > > On Wed, Jul 15, 2026 at 5:31=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.=
+com> wrote:
+> > >>
+> > >>
+> > >>
+> > >> On 2026/7/15 10:31, Andrew Morton wrote:
+> > >>> On Tue, 14 Jul 2026 09:52:59 -0700 Yosry Ahmed <yosry@kernel.org> w=
+rote:
+> > >>>
+> > >>>>> When memory cgroup is disabled, mem_cgroup_iter() always returns =
+NULL.
+> > >>>>> Therefore, the global shrinker shrink_worker() always takes the !=
+memcg
+> > >>>>> branch. After MAX_RECLAIM_RETRIES empty walks, the worker simply =
+gives up,
+> > >>>>> so it fails to write back anything.
+> > >>>>>
+> > >>>>> Therefore, when memory cgroup is disabled, fall through with the =
+!memcg
+> > >>>>> branch and shrink the root memcg directly.
+> > >>>>>
+> > >>>>> With memcg disabled, shrink_memcg() only returns -ENOENT when the=
+ root
+> > >>>>> LRU is empty, which means the total pages are already below thr. =
+The
+> > >>>>> loop then safely bails out via the zswap_total_pages() <=3D thr c=
+heck.
+> > >>>>> For any other return value from shrink_memcg(), the loop is guara=
+nteed
+> > >>>>> to terminate, either after MAX_RECLAIM_RETRIES failures or once t=
+he
+> > >>>>> threshold is met.
+> > >>>>>
+> > >>>>> Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
+> > >>>>> Cc: stable@vger.kernel.org
+> > >>>>> Suggested-by: Nhat Pham <nphamcs@gmail.com>
+> > >>>>> Acked-by: Nhat Pham <nphamcs@gmail.com>
+> > >>>>> Acked-by: Yosry Ahmed <yosry@kernel.org>
+> > >>>>> Reported-by: Yosry Ahmed <yosry@kernel.org>
+> > >>>>> Closes: https://lore.kernel.org/all/CAO9r8zPVzMKFbCixxD-qgtRrkFxW=
+VrHiZZeLc=3DeyTPKPVQgX4g@mail.gmail.com
+> > >>>>> Signed-off-by: Hao Jia <jiahao1@lixiang.com>
+> > >>>>
+> > >>>> Patch 2 doesn't really depend on this one, right?
+> > >>>>
+> > >>>> If that's the case I think this can (and should be) picked up
+> > >>>> separately as a hotfix. Andrew, WDYT?
+> > >>>
+> > >>> Please update the changelog to clearly describe the userspace-visib=
+le
+> > >>> effects of the bug, thanks.
+> > >>
+> > >> I am not entirely sure if my understanding is correct here, but mayb=
+e I
+> > >> should add something like this to the commit message?
+> > >>
+> > >> When cgroup_disable=3Dmemory is used (or with CONFIG_MEMCG=3Dn), the=
+ global
+> > >> shrinker fails to write back any pages. Consequently, the zswap pool
+> > >> fills up to its limit and rejects further storage, preventing memory
+> > >> pressure from being offloaded to the backing swap device.
+> > >
+> > > I think you can simply write that zswap writeback when the limit is
+> > > hit is broken when memcg is disabled.
+> > Will do. Thanks!
+> >
+> > >
+> > >>
+> > >>> Also, AI review has flagged several possible issues, all appear to =
+be
+> > >>> serious:
+> > >>>        https://sashiko.dev/#/patchset/20260714081510.16895-1-jiahao=
+.kernel@gmail.com
+> > >>
+> > >> For AI review comments on this patch:
+> > >> I suspect this scenario might only exist in theory. For zswap LRU to=
+ be
+> > >> empty while zswap_total_pages() > thr holds true, it would require a
+> > >> prolonged state where there are always more than thr zswap entries o=
+n
+> > >> the zswap LRU whenever zswap_total_pages() > thr is evaluated, yet t=
+he
+> > >> zswap LRU happens to be empty during shrink_memcg(root_memcg).
+> > >>
+> > >> If we want to fix this, perhaps we could do something like this?
+> > >>
+> > >> Yosry, Nhat, what are your thoughts on this?
+> > >
+> > > Do we need to do this? The last paragraph in your changelog explains
+> > > why this can't happen because zswap_total_pages() should be 0 in this
+> > > case. Did I miss something?
+> >
+> > The loop would require the following sequence to repeat indefinitely:
+> >
+> > 1=E3=80=81zswap_total_pages() > thr evaluates to true.
+> > 2=E3=80=81During shrink_memcg(root_memcg), the zswap LRU is concurrentl=
+y drained
+> > to empty.
+> > 3=E3=80=81Before zswap_total_pages() > thr is evaluated again, the zswa=
+p LRU is
+> > heavily refilled such that zswap_total_pages() > thr holds true once mo=
+re.
+> >
+> > For our case to manifest, it would require zswap_total_pages() and the
+> > zswap LRU state to repeatedly hit this exact window with perfect
+> > alignment over a **prolonged period**. Therefore, I suspect this
+> > scenario might only exist in theory.
 >
-> For future reference, a lot of the Portuguese translation patches are
-> giving me conflicts on Documentation/translations/pt_BR/index.rst.  That
-> happens when you have a big file that everybody just appends to.  Might
-> I request that you start managing the index.rst structure in the same
-> way as the English docs so that these additions are spread out and don't
-> conflict?  That would also yield a more readable result for the
-> translation.
+> Yeah seems very artificial indeed.
 >
-> Thanks,
->
-> jon
+> If we want to be extra careful here, maybe we can put a cond_resched()
+> there or replace the continue with goto resched or sth?
 
-Hi Jon,
+I think it's also possible with the current code with memcg enabled.
+It's still possible that the shrinker puts usage under the acceptance
+threshold and then a new zswap stores puts it back above the
+threshold, and so on.
 
-Thank you for the guidance on managing the index.rst structure.
+Perhaps as Nhat said, just goto resched instead of continue if we're
+really worried, but I think even that is not really necessary.
 
-Regarding the conflict issue, I would be happy to take on the
-responsibility of organizing these patches to help save you time.
-Would you prefer if I acted as a point of contact for these
-translations? I could collect submissions from contributors, merge
-them into the structure correctly, and then send them to you as a
-single, cleaned-up set of patches.
-
-Please let me know if this workflow would be helpful or if you have a
-different preference for how I should handle these conflicts.
-
-Best regards,
+I think we generally want to clean up and simplify the shrinking loop
+in zswap_shrinker(), but I don't have any great ideas.
