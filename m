@@ -1,192 +1,343 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C673FD147;
-	Fri, 17 Jul 2026 13:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784293645; cv=fail; b=PO/5Owpk3sv1cwUtk/BZlaWENKOt4ANOlUu86IxZCTRC/rK369B2jiqHv4858fcurdr3uBnqGmg4M7nKQT3/2wfT+Zpb6YxldzpMrrGCe1hxiDHJaz13sVPXxW6ovFqzDHO8avAvNyqN63kuQYYEs9VBitrci/OmvQJGHq/NXa4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784293645; c=relaxed/simple;
-	bh=7TY2L0F4joWcr+usGxy7t4zejMZKCQau4tks2s//sZk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=dT+xJhbyU0CeVEbR9ICzXcjLnp+HzEWXCXDO+Y/E2eiqvfbb7UFYrtBdiOyrQ+gJiQFhMQJ85nmyozukQOdiwc4nARrJdm/ILNBm4r7lMkspL9osUtBjpDwwjXzfbMYd+9IddxT/nR25REAP6LAmdz47gNUX6bNb5Vp4Mlu8vN0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J30hWc6u; arc=fail smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647113FD123
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 13:07:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784293667; cv=none; b=VPUMxkdrBIVM6VoIOLUD8A0j1oOD6xOa90VKLuBxKxE9oZJOpoyQv3PaLQE4aavO4Khp50ReUtqVaw1yNVCNQc09OfLzQSGDZuIFwEJ2NWxkpG/tTbQdZHE4Yi3wFxN/oQkeCJwUp+hYi/GlP1cKAFTA1pwqaHbnXo8wIpVLjE8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784293667; c=relaxed/simple;
+	bh=PBhnT9R86+Lgrugmh2xVUA0skBZMR4Bzkwn46FP4ujY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lgBxJJ1eTtzCSIk3XFgp0IIABe3s6jldVWXU1YMr4+IpaO2SoX9I10YWYw6YDqfiFENqlh+P0nFfq51BdN45SxFisX83aDk77Dm6nZAPPzyO26Ay6+cEage36xIqS5Hb1Dq7Wh8hDSIYxG01EtKLM7hicePMacexmuxtJGe/4P8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ojrEWIK6; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J30hWc6u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784293645; x=1815829645;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=7TY2L0F4joWcr+usGxy7t4zejMZKCQau4tks2s//sZk=;
-  b=J30hWc6uL0xjDUqrOg27Agzkdo96B00ORFIX0fpucFbm5Aq/d9l7MNbr
-   +EuYqEP8mmZAP9mMJ/ZSWowP0L7qQv8cvbUrT+q+l8snwUK0kj+q91Q7v
-   DUBkV3WT/60B8OMWngHKuQbAcdYlHHfSexkTts53LCv+hoENAFHXiAiD7
-   6ZslyYs2FpL5W4wb+8grykX5/+Tj9E5Z2kkvAWbbsX3sErfb4RT3zXbV1
-   xWfLEIpFkCWJlcwCPTSNUBUNNUUnFAFfTzpOFgvl7JYJhffB0c668H10F
-   LmRsPySi8rgQVpYLKmYUuhz6hxfi5Z2zG3fjh8AeCPH7pXdWCfPuE+glP
-   g==;
-X-CSE-ConnectionGUID: Mun8gQl1QQOfBh7ksWgIxg==
-X-CSE-MsgGUID: SP6N1G8ERs2j2+c31WG/jA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="84741566"
-X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="84741566"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 06:07:24 -0700
-X-CSE-ConnectionGUID: eL29+wEBRlyovGsnp5RBdg==
-X-CSE-MsgGUID: 9pE5Ku4NSdaZtB+v11NMFg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="255022978"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 06:07:23 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Fri, 17 Jul 2026 06:07:23 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Fri, 17 Jul 2026 06:07:23 -0700
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.53)
- by edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Fri, 17 Jul 2026 06:07:23 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xZxV3O0OpgYxYMYm0qKkBcXZMr/5xmFnALVemJ4pn7iJSw8n15vvwzFvpU3IqE5tdY+ERByVtjQxXu+EedACJB2I/5ltl7tGmiqtv4f4xaG++V/hyRTNrmBlxhpb5PWNBy2Lwn3LYyv0tfLBiygjICRVKY2koyYqAIEVk3wDiPAIZ276ilKnWSw/hXDwxxTaWhvdRllMglXuvBp40t6q3JMmSISDaZEbC1AKUKw5rquJI0dmfOmkATLfqJI8/ONHPAHfND8Zohytwvulq948VdwXJ4Wgs14FjgvT/R0B2UHFRvalRr8Uw4QUrA91QEbKM1puSxCw4u03nexQ9cOoKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7TY2L0F4joWcr+usGxy7t4zejMZKCQau4tks2s//sZk=;
- b=wFt/kUITZBfgvD12DjrSJbcU7hyHUF5+dsKrVBm4EDF0wS725R4RVBx/u+sm115rnrFWWicFDV/7NBydH09RHLV+/7yJTAdkZUvzh40wdI8152N7pxVkvwcUhusQHUisT47eryB+MjRGVycRMnN3Wa+ymg5HGhmq63b/j+1APdJE8Xqwx+QnRwbX+5wvj1hZ/MCa+mP2ngNlsI+vcpzrGd4JE2FS+4HDhL5RL/GIa/y6x2tl4vIELIYNIYpUkDC67jBMhPLhTl1gOa92APNTvT4j8/KephGjIrie5SoX33HXVav4R4wd+NjzeK0SqKLDIOXsqgu4L7KAM8Mo4SWMBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ0PR11MB5663.namprd11.prod.outlook.com (2603:10b6:a03:3bc::9)
- by LV2PR11MB6048.namprd11.prod.outlook.com (2603:10b6:408:178::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.13; Fri, 17 Jul
- 2026 13:07:18 +0000
-Received: from SJ0PR11MB5663.namprd11.prod.outlook.com
- ([fe80::e4cb:d003:6475:26bd]) by SJ0PR11MB5663.namprd11.prod.outlook.com
- ([fe80::e4cb:d003:6475:26bd%5]) with mapi id 15.21.0223.012; Fri, 17 Jul 2026
- 13:07:17 +0000
-From: "Knop, Ryszard" <ryszard.knop@intel.com>
-To: "corbet@lwn.net" <corbet@lwn.net>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>
-CC: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Lin,
- Shuicheng" <shuicheng.lin@intel.com>, "rdunlap@infradead.org"
-	<rdunlap@infradead.org>, "jani.nikula@linux.intel.com"
-	<jani.nikula@linux.intel.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] scripts/kernel-doc: Suggest possible names for excess
- descriptions
-Thread-Topic: [PATCH] scripts/kernel-doc: Suggest possible names for excess
- descriptions
-Thread-Index: AQHdFXQJuF+WY4cC5E+1bbvL8qTBCbZxr3iA
-Date: Fri, 17 Jul 2026 13:07:17 +0000
-Message-ID: <bc201789fb00c339971fee35c046e9f0b59dcb6d.camel@intel.com>
-References: <20260714111208.323108-1-ryszard.knop@intel.com>
-	 <87tspy5zjy.fsf@trenco.lwn.net>
-In-Reply-To: <87tspy5zjy.fsf@trenco.lwn.net>
-Accept-Language: en-US, pl-PL
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR11MB5663:EE_|LV2PR11MB6048:EE_
-x-ms-office365-filtering-correlation-id: 81a5faa8-c601-48d6-4f9d-08dee4045425
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|38070700021|6133799003|56012099006|10067099003|11063799006|4143699003|18002099003|22082099003;
-x-microsoft-antispam-message-info: DKMdAYqLFn6YxvL5FrsE+ME3i8FfNCqZPfN/1Cd+zwB1cafL6ydr1eQjduJtIDhcdFEXVgub2RakucsLONtm+boUxep5Jfv7JQXomAm9bmnDRnv2AA8uXbyWniFN9gk/X/2Ga84iwXenaAVa59xeMMbEh72HCnE9X7+pjY9Q/+RNNkWrbappI2HkvceyZTNru5jFwVTSutLe5F7IudGyqpKFglp6V7SLTwww/uJh/lSQFjDDeHgltLWcUVnJK6fJrxJWrIShGbG3ZnQmKwBx/VuVGj9SP5UYNpOVN+XjAa/p8ksmYl6Gb892rcx3CvovCV/jTKUhTICrxBLDOXFUkwzu01Jg8hIY/MSI5FlY6ciaz8A6IJyMqYQA0CPPjBzHLkou9WNiG44+cKhjoOHe/vWblvtg9V2eNyzqittB3nQyVh+5yozBsjg09qjvp/8KxTGmoB65Bw6zTA8Of6ulLKyWpwJRsrM/B2eQTBzKxHg7d3ZwK95EFptnK44Wb5WqJPcL3NU67ew2wSTUE5Iet92jxa6dP9/ra4LUKJ8ki3T83+A2x04EIK6hdaRxjfmvPqer6fC7c0+mMGtMQB+3H2/875tubo9esm6oBgIpxM6+5gQVV9EP893ZYhiGx/HgQ2G3WcDzyBMxWnNctRnF7X+rtnB3+RQn86gy7alaOfiBSPy15e00Q24GZa4HDIpKHYQxwxbJem/dkFESLJjN8JO0QmAdGnzU0U2z9eR9cIo=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5663.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(38070700021)(6133799003)(56012099006)(10067099003)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ekFrMDdDcjhXTnA4US9qMjhDRnNLQWdpbWpzVk5RMXhqVS9QbzkxbGlyWlNQ?=
- =?utf-8?B?VFhVR0puK2JPUU9aUS9EL1ZRSWJYWEl3cGpIQXd2cmZwNE1EaXEwM3BlSGJS?=
- =?utf-8?B?WTdySEVDd2R5TEQzVTZPR3h6bk5IMldxaU12SWE0ZWVIZEZ0RHpPbE82Smly?=
- =?utf-8?B?QTZSRDA2Z1NqS2pwZmVsdVlqanZmYWlOVEhyTFQxN2JKYmtLUGNCMjBRQU9x?=
- =?utf-8?B?a3UzTXh2MktJcE8vU0svTGtSZ0JVdnYwNmpIczlrOGlDR2UwSjlaRHlYM2h4?=
- =?utf-8?B?SVlyVldOMFd5d2VuRUkvMHdleGNnazFwSXJJY0JkcWZydzJTRGR0QTUwVExw?=
- =?utf-8?B?WnA4eWFjQ0NYaTRUM1VuekltWnFlNEVpUmw5Y3g0QkdBdjVRa0dlcVBrTnM0?=
- =?utf-8?B?MXJYR0YxWkNLTHZhbEtPbW5ZYUdXZCtYcVR0eVVabDlvYmFQbE5oWjhMMnNT?=
- =?utf-8?B?c2dCOWZocU9IWGc2N1UxQW1EblB4S0lPSXBPYjdYZ2hEY01pS1M0WURSUGU4?=
- =?utf-8?B?SksrNGJVN0pkSnpGNXRMbnVUZDVkWUI5RnRNaHRCcHgvUGpNK1h0UHRlOHVH?=
- =?utf-8?B?a090dC9iYkNzYjMyWjZGbFovL09EeXZSOG5ZbFJUMmg5blRQNEtjUm5MR0dt?=
- =?utf-8?B?Qi9zNUtvNmtKWTF6VTRmelR3alZGdm5zMlpOSTB2VUxzOHpHMUE1aXBuZFFJ?=
- =?utf-8?B?WXZNWmZEeXA5UmlLb2NLaHUxRkx5OERzYUQ4dXRiV1R5S2d1K2lxQklmWXB2?=
- =?utf-8?B?eHBhUVVQbVc5Z0wrSkhITDMrc2xuZWVTQWNUMDRSdXBocUtDOHFWUHp1NWVZ?=
- =?utf-8?B?bEpmZTJoa1kvMmMwZXM3Uk9RT25vUGZnZVRFK0pFeGJTV08wUVR2dWFWSnpY?=
- =?utf-8?B?K05xSWh1TE5lTXdOMEs0VXpmd1NTRCtrL2xiWm9PUStROERDaWhTV3draWpK?=
- =?utf-8?B?aUZzRjBvSmFvNU1GRXFsMFNROExrbGczZnhNdzJvMGxQaFBnNk44SG5POSsx?=
- =?utf-8?B?TnR4aW05cURybWRiSGZJU0ZiY2s0bzhZWS9sbi9TUWZwYzhMbE4wTlFHWEMy?=
- =?utf-8?B?bDF3azZ1K2FFUzMwVFhidjIxc2Q1WVRIaktVcmtYL0JSdThYTzdFVmE3Nmph?=
- =?utf-8?B?bDNoM09jNHBkWEUxNnkrc2dhNW9vRHd6Z0hoQWltQTFhalhNZ0VuL0pTY3Bo?=
- =?utf-8?B?c1pjRTRHWU1ZL0xWN29DMUthWU8rWDA1S1dBZ1NmaDV1R0F6RjhPN0JhN04x?=
- =?utf-8?B?VGZpSjZwbzRlcW56YTlsMjFYOFI2bjBXVDhCNmVHbDQ3MGd4cXd2Zit6RWR2?=
- =?utf-8?B?NlcrUFJSTnFtclQ1Vy9SUjdLQWxBZ24yRndscWZJQjNjOUczdkRVcnRZekhN?=
- =?utf-8?B?MDI2WEgrZmhsNzBnMVZJaXRGRVh4QzFaOEdyWE5qV09oVmpLY2NzSTRaZFVw?=
- =?utf-8?B?Ri9NSFBDM3pjWWZESGdZQ0p1RFVsZkdkMlZ0R3FjZ3piWGduTTFZdkdHOGVz?=
- =?utf-8?B?alBnOWNYSHNoZTJlUGhLbjFRc3VQZXQrdVlYZE5qZmNWRi91eVovY2huTWtk?=
- =?utf-8?B?a1Z3V3N4M3hrSTUxWFR5QTVsbzIwTU5DOHZGanBwTmtyVVhjeUNpcklqS3Av?=
- =?utf-8?B?NlhhNUtDL3E3cWR4ZDFFd0RKN0dQU2h4SlQyS3U2aXdGdXAvN0tQcmFmeUlP?=
- =?utf-8?B?Z2hDUVk4cmgvQjhEb1hyQTQxQTdjK1lGRDVVY2pmeTRTMUlrS1k4SE1yL1Ew?=
- =?utf-8?B?bHJNYzF1aVVkVzlRMHVrMTk0Nm9jRmlBVytzSDJJT29tNmErR1JaKzJaaGVu?=
- =?utf-8?B?MVpCRkw0a0FIZ0djMG1EWVVxZ0RUYmk0Z1ZZWDdjci9KenEvUUwwbDg5TmdX?=
- =?utf-8?B?cWhONkUxQkhzUzZZeFdIeVppZFZnRjhONWZqQm43MFU3elpDOHV6ZzdQZVlU?=
- =?utf-8?B?aDlvV3RmclFYeG9wcmRSa3JPK3JTOUhIZGswbzVta2VZaGh2cUpxRFJ3Zm9m?=
- =?utf-8?B?YnNCSGk1azJ3aytpdWFZVEtRL1pYaVBFc2ZnTDJwaHFIay9udjlyUEpwM0JH?=
- =?utf-8?B?alZTbE5PUkR5U2N2VGF2RWxxcGtmNmpPeTdKUjVJdHNYN2JDWCtRc1R0cy9F?=
- =?utf-8?B?UjJ4enpIbHRkNWxIZjh2Y3ZncGpoSlljaDFheDNDK2YxM2hQVXdiYVJtTW5L?=
- =?utf-8?B?VzNPMVpONlVZSzM4aWJPRVZMU1RYVDY3ZDhnaThvUkw2Ty9HYlZUYjhqSHh0?=
- =?utf-8?B?Y0lKenczeXBvTXVGaUdaNys2NWhGdnNrd2tkUCtLRXhWVisxV0FyUnB1Q29z?=
- =?utf-8?B?SUFjYzkwYVNoNWN6dXR5bHZwM2wyc3AzT2d5bW5hdmRIQzVBcXpJdUd2NjFo?=
- =?utf-8?Q?2xggAdr7L9Cyh9RA=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7A163D7F0EA1E448ABE707A4085000B6@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ojrEWIK6"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-383adaa461fso3194539a91.3
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 06:07:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784293664; x=1784898464; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YAVyRkTkPaWk8kIYvBYAepg/O4FB7G2KaVbrN0SgkUc=;
+        b=ojrEWIK6hQwJGiq4eK8Dloh1pfU5NKHC6nc1v/8eWlLpuQueOENXZIwDFAeTH6tkbb
+         TlCbFCAZLea17qbN9TyF1JSEcj7unHzZIgBIJZlMX4Yp5B/+Z0+Tuc2WxJDPFb6S07Fv
+         /jv2K2G9OR7lRkdBW7bqTsrBjJgaQ5wdmvqdoI2EEMGACOgqdaLmNItumKF7d/gSbDPq
+         Ch/PNjYpqzPGFMiZWlSkO5RwUQAA6XR5Y+hKKbIGjkbfkoJLFzxtmuKXWJWwKMu+3NRQ
+         J+ndyPXHmuivQTGwdaeZZAnDn3O1hY790VWF3IGUqZ9prcaT/s54dSr4Pbz7DGgQCeYr
+         S/Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784293664; x=1784898464;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=YAVyRkTkPaWk8kIYvBYAepg/O4FB7G2KaVbrN0SgkUc=;
+        b=DH/svJwycIatSyYnk5vs+35zcKBzTxkR1NxhqYMxVQ0rPuUSTdx3XRJvCZ5KA4yhaB
+         hIr3da5cG97McViTM//eFNoZJsqqFzC8yRgpdcur8UEaCKDdWIPb9yDzIZ5FI0TYcckV
+         MA7jJubnpf5V095DEsDtDb8Kx1NbjZvCU99L84hIgj7ra9xRtlqGGeHxnPr7VrVTz8Ak
+         R79qL++etwieC0O4u3fDTbDa4wwsu5Rj89ATO7AG+VYE4+gG5P3pDaJtdfV4K3yOwlcS
+         32C8Ixo/bCx2pE0qjx7iC1zagisHd+LqYNWat6cFCTMHBDpP1MPlXRpL5HgApAGdVCU9
+         0gAg==
+X-Forwarded-Encrypted: i=1; AHgh+RoIzm8eNeQEE2KJxbFthGmXpLQ70bRS0iEh++qjKn1hRFURTbgCmStjx2RwNH/azv4qS1VTsnGEufQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJ6UaDNNHUo9HA3DgXGcGZ5inq4ocvSTIb7N8hvPpnmiJYG8VO
+	10zm9WHMj0Fqt5kkAoAydKDm8XMM8Gxy0a6IzvmCKlVgJaF4uPIzisae
+X-Gm-Gg: AfdE7cnNX4rOj++Dzylp/5JqEYHJmRdc8EBrnUdrOtP2IM3J1Oj2Zp6PF8CwgZ0pC6p
+	kzvjeA6CI64E6vkTtpuGaNe8rdzEZ/yfYYikPRoCgFb0N8SOdhhaRLyc5PN7Zf/nPd2JzB5IGLm
+	CM5v6Nuhfvl4KJTuyTI+Vvp6Om/jGXWmjYNzqOJuuYNKPejVxp+5rA3+XeVDpcV72KsjPnDSaLE
+	VuH1t7FQpAdBkD6HvbKwcST5N/G2pgWrBLcewLtjAkxygRW8FnSbzd52g812Etu/D9skw094EjA
+	43+LzJVf/n5MHFxazEO/iYkIwQuwfC5Ttn/+MkhseYdEo6sl9VmsEnixRUagxNZV2kQda55P+jU
+	ca51ZLHJGX/FbrHykjYkXEQZo07KVnEfUR7MWsTFLgD5Y4XEaLeHlpAAsIjAKebhHM+Luyuvj81
+	ZFXifmcgGKkmSa
+X-Received: by 2002:a17:90b:3904:b0:387:e0db:bc34 with SMTP id 98e67ed59e1d1-38e4b5793d2mr2622266a91.42.1784293663521;
+        Fri, 17 Jul 2026 06:07:43 -0700 (PDT)
+Received: from localhost ([144.24.58.22])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13ce29e340esm5521158c88.5.2026.07.17.06.07.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 06:07:42 -0700 (PDT)
+From: Jinchao Wang <wangjinchao600@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	x86@kernel.org,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Matthew Wilcox <willy@infradead.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Jinchao Wang <wangjinchao600@gmail.com>
+Subject: [RFC PATCH v2 13/13] Documentation/dev-tools: document KWatch
+Date: Fri, 17 Jul 2026 09:07:26 -0400
+Message-ID: <20260717130726.1904101-1-wangjinchao600@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260717125023.1895892-1-wangjinchao600@gmail.com>
+References: <20260717125023.1895892-1-wangjinchao600@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: lphMMw+WtQqphS53kerk/pUpmWeR+9meRH2foofcXhaqzYRoEdzpj2zK5kUODUFD7vFS+cmS77hTaPzG3R605IFxP+B1Hf5ldgp0NbgiUrUzJVWRVSakwslAA3jZ+5WzNFFFPupAW0/OKKHith23cP+4YyY6h5un/BuEZsv3CwgiF9vT4mch+ZhN9/nkToMX6IbipGHD9L0e4ilTUwqM/sTyEDWtKL6z07dPelMSlHlNkZ8p1I0eFwdnfVTM8eeJoX30PMTViquio4RyYD87lSgDSPCSbRkJKWc3ZVdevK7djLTfezUyt0sHDrMoQn4z37vaXN+FLfAvyVipDokKcQ==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5663.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 81a5faa8-c601-48d6-4f9d-08dee4045425
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2026 13:07:17.5724
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OZ1NJUNexhGCoWHU9FD0XfGmrepuOViNbOTec9Ogm9747wiQRoQfkeKeXOr582iVw7j8pDlikr7QMffa27yGkw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR11MB6048
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-T24gVGh1LCAyMDI2LTA3LTE2IGF0IDE2OjQwIC0wNjAwLCBKb25hdGhhbiBDb3JiZXQgd3JvdGU6
-DQo+IFJ5c3phcmQgS25vcCA8cnlzemFyZC5rbm9wQGludGVsLmNvbT4gd3JpdGVzOg0KPiANCj4g
-PiBTaW5jZSBjaGVja19zZWN0aW9ucygpIG5vdyB3YXJucyBpZiBhIGRvY3VtZW50YXRpb24gdGFn
-IG1lbWJlciBuYW1lIGlzDQo+ID4gdGhlIHNhbWUgYXMgZGVmaW5lZCBpbiB0aGUgc3RydWN0LCB3
-ZSBjYW4gc3VnZ2VzdCBuYW1lcyB0aGUgY2hlY2tlcg0KPiA+IGtub3dzLCBzbyB0aGF0IGl0J3Mg
-bW9yZSBvYnZpb3VzIGhvdyB0byBkZWFsIHdpdGggdGhlIHdhcm5pbmcuDQo+ID4gDQo+ID4gU2ln
-bmVkLW9mZi1ieTogUnlzemFyZCBLbm9wIDxyeXN6YXJkLmtub3BAaW50ZWwuY29tPg0KPiA+IC0t
-LQ0KPiA+ICB0b29scy9saWIvcHl0aG9uL2tkb2Mva2RvY19wYXJzZXIucHkgfCAxMyArKysrKysr
-KysrKy0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9u
-cygtKQ0KPiANCj4gU28gSSBhbG1vc3QgYXBwbGllZCB0aGlzIHZlcnNpb24gb2YgdGhpcyBwYXRj
-aC4gIEZvciBmdXR1cmUgcmVmZXJlbmNlLA0KPiBwbGVhc2U6DQo+IA0KPiAtIFBvc3QgbmV3IHZl
-cnNpb25zIHN0YW5kYWxvbmUsIG5vdCBhcyBhIHJlcGx5DQo+IA0KPiAtIERvIG5vdCBpbmNsdWRl
-IHZlcnNpb24gaW5mb3JtYXRpb24gaW4gdGhlIGNoYW5nZWxvZyAocHV0IGl0IGJlbG93IHRoZQ0K
-PiAgICItLS0iIGxpbmUpDQo+IA0KPiAtIFByb3ZpZGUgYSBtb3JlIGNvaGVyZW50IGNoYW5nZWxv
-ZzsgdGhlIG9uZSBhYm92ZSBkb2VzIG5vdCBzYXkgd2hhdCBpcw0KPiAgIGFjdHVhbGx5IGdvaW5n
-IG9uIGhlcmUuDQo+IA0KPiAtIENDIHRoZSBtYWludGFpbmVyIChtZSkuDQoNClN1Ym1pdHRlZCBh
-IHYzIHdpdGggY2hhbmdlcyBNYXVybyByZXF1ZXN0ZWQsIGZpeGVkIGNoYW5nZWxvZyBhbmQgQ0Mn
-ZCwNCmJ1dCBhY2NpZGVudGFsbHkgc2VudCBpdCBhZ2FpbiB3aXRoIEluLVJlcGx5LVRvIHdoaWNo
-IEkgaGFkIGluIHRoZQ0KY29tbWFuZCBsYXN0IHRpbWUsIHNvcnJ5IDovDQoNCj4gDQo+IFRoYW5r
-cywNCj4gDQo+IGpvbg0KDQpUaGFua3MsIFJ5c3phcmQNCg==
+Describe what KWatch is for, how it compares with KASAN and KFENCE,
+the debugfs configuration interface, the watch expression syntax,
+how to read hits from the trace buffer (including after a crash),
+and the current limitations.
+
+Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
+---
+ Documentation/dev-tools/index.rst  |   1 +
+ Documentation/dev-tools/kwatch.rst | 207 +++++++++++++++++++++++++++++
+ 2 files changed, 208 insertions(+)
+ create mode 100644 Documentation/dev-tools/kwatch.rst
+
+diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
+index 59cbb77b33ff..f4c748da63db 100644
+--- a/Documentation/dev-tools/index.rst
++++ b/Documentation/dev-tools/index.rst
+@@ -30,6 +30,7 @@ Documentation/process/debugging/index.rst
+    ubsan
+    kmemleak
+    kcsan
++   kwatch
+    lkmm/index
+    kfence
+    kselftest
+diff --git a/Documentation/dev-tools/kwatch.rst b/Documentation/dev-tools/kwatch.rst
+new file mode 100644
+index 000000000000..e58f3185ebbd
+--- /dev/null
++++ b/Documentation/dev-tools/kwatch.rst
+@@ -0,0 +1,207 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++======================================
++KWatch - Kernel Memory Watchpoint Tool
++======================================
++
++Overview
++========
++
++KWatch is a runtime-configurable debugging tool for locating kernel memory
++corruption. It arms hardware breakpoints (watchpoints) on a target address
++while a chosen function is executing, and reports the exact instruction that
++touches the watched memory, together with a stack trace, through a
++tracepoint.
++
++Unlike shadow-memory sanitizers, KWatch does not detect invalid accesses in
++general; it answers a narrower but common question during corruption hunts:
++"who writes to this address?". This includes in-bounds logical overwrites
++that KASAN cannot see, because the rogue writer modifies valid memory
++through a valid pointer, just at the wrong time or with the wrong data.
++
++Comparison with other tools:
++
++* KASAN detects out-of-bounds and use-after-free accesses, but reports the
++  symptom (the invalid access), not the writer that corrupted the data
++  earlier. It requires a rebuild and has significant CPU and memory
++  overhead, and its redzones perturb memory layout, which can hide
++  timing-sensitive bugs.
++* KFENCE is a low-overhead sampling detector for slab objects; it cannot be
++  pointed at one specific address.
++* Hardware breakpoints via kgdb or perf can watch an address, but only a
++  fixed one, system-wide, for the whole run. KWatch resolves the address
++  dynamically at function entry (for example "argument 2 of this function,
++  plus offset 8, dereferenced once") and disarms it again at function exit,
++  so short-lived and per-invocation objects can be watched too.
++
++KWatch has near-zero overhead while armed: the watched function pays for
++one kprobe/kretprobe pair plus programming of the debug registers; the rest
++of the system runs at full speed.
++
++Requirements
++============
++
++* ``CONFIG_KWATCH=y`` or ``m``. The Kconfig symbol depends on
++  ``CONFIG_PERF_EVENTS``, ``CONFIG_DEBUG_FS`` and an architecture that
++  provides ``HAVE_REINSTALL_HW_BREAKPOINT`` (currently x86 only).
++* Resolving symbol names in watch expressions requires ``CONFIG_KWATCH=y``
++  (built-in); a module can only watch absolute hexadecimal addresses.
++
++Usage
++=====
++
++KWatch is configured through a single debugfs file::
++
++    /sys/kernel/debug/kwatch/config
++
++Writing a configuration string starts a watch session (stopping any previous
++one); reading the file shows the active configuration and hit-rejection
++counters. The configuration is a whitespace-separated list of ``key=value``
++tokens:
++
++=================== ==========================================================
++Key                 Meaning
++=================== ==========================================================
++``func_name``       Function whose execution opens the watch window.
++``func_offset``     Instruction offset inside ``func_name`` at which the
++                    watchpoint is armed (default 0 = function entry).
++``watch_expr``      Expression describing the address to watch (see below).
++``watch_len``       Watched length in bytes: 1, 2, 4 or 8 (default 8).
++``depth``           Recursion depth at which the window opens (default 0).
++``max_watch``       Number of hardware watchpoints to preallocate
++                    (default 4).
++``max_concurrency`` Maximum number of tasks concurrently inside the watch
++                    window (default 256).
++``duration``        For global watches: seconds until automatic stop.
++=================== ==========================================================
++
++Watch expressions
++-----------------
++
++The address to watch is computed at function entry from::
++
++    watch_expr={base}[+-offset][->[+-]offset]...
++
++* ``base`` is one of:
++
++  - ``arg1`` ... ``arg6``: a function argument (register calling
++    convention). These are only meaningful at function entry, i.e. with
++    ``func_offset`` unset; combining ``argN`` with ``func_offset`` reads
++    the argument registers mid-function, where they no longer hold the
++    original arguments,
++  - ``stack``: the kernel stack pointer at the probe point,
++  - an absolute hexadecimal address, e.g. ``0xffffffff81234567``,
++  - a global symbol name (built-in KWatch only).
++
++* ``+offset`` / ``-offset`` adjusts the current address.
++* ``->offset`` loads the pointer stored at the current address (via
++  ``get_kernel_nofault()``) and then applies the offset. Up to four chain
++  elements are supported; offsets must be explicit (``->`` alone is
++  rejected).
++
++Given::
++
++    struct some_struct {
++        struct some_struct *ptr;    /* offset 0 */
++        int num;                    /* offset 8 */
++    };
++
++    void target_function(struct some_struct *arg1);
++
++typical expressions are:
++
++=========================== ==============================================
++Expression                  Watches
++=========================== ==============================================
++``watch_expr=arg1``         ``&arg1->ptr`` (the pointer field itself)
++``watch_expr=arg1+8``       ``&arg1->num``
++``watch_expr=arg1->0``      ``&arg1->ptr->ptr`` (one dereference)
++``watch_expr=arg1->8``      ``&arg1->ptr->num``
++``watch_expr=0xffff...+8``  absolute address plus 8
++=========================== ==============================================
++
++Example: catch whoever overwrites ``arg1->num`` of a function while that
++function runs::
++
++    echo "func_name=target_function watch_expr=arg1+8 watch_len=4" \
++        > /sys/kernel/debug/kwatch/config
++
++Watching global variables
++-------------------------
++
++A global variable has no natural function window. When ``duration`` is
++given without ``func_name``, KWatch starts an internal anchor kernel thread
++that sleeps inside a dummy function, and uses that function as the window::
++
++    echo "watch_expr=jiffies_wobble duration=60 watch_len=8" \
++        > /sys/kernel/debug/kwatch/config
++
++The session tears itself down when the duration expires.
++
++Reading hits
++------------
++
++Hits are emitted as the ``kwatch:kwatch_hit`` tracepoint, which is safe in
++NMI-like contexts where printk is not. Each event carries the timestamp,
++the instruction pointer, the watched address and a short stack trace::
++
++    echo 1 > /sys/kernel/debug/tracing/events/kwatch/kwatch_hit/enable
++    cat /sys/kernel/debug/tracing/trace_pipe
++
++If the corruption crashes the machine, the ring buffer can still be
++recovered:
++
++* ``echo 1 > /proc/sys/kernel/ftrace_dump_on_oops`` (or the
++  ``ftrace_dump_on_oops`` boot parameter) dumps the buffer to the console
++  on an oops.
++* With kdump, the buffer is present in the vmcore and can be read with
++  ``crash> trace``.
++* ``CONFIG_PSTORE_FTRACE`` persists it across reboots on supported
++  platforms.
++
++Limitations
++===========
++
++* Functions that run in a genuine NMI(-like) context are rejected at
++  function entry; rejected invocations never open a watch window and are
++  counted in the ``nmi_rejected`` field of the config file. Watching
++  functions reachable from NMI handlers is out of scope.
++* The number of concurrent watchpoints is bounded by the CPU's debug
++  registers (typically 4).
++* Cross-CPU re-arming of a watchpoint is rate-limited per CPU: the local
++  CPU is always re-pointed, but the broadcast to other CPUs is throttled
++  so a very hot watched function cannot storm the system with IPIs. While
++  a broadcast is suppressed the other CPUs keep watching the previous
++  address, so a writer that runs on another CPU during that window can be
++  missed; the number of suppressed broadcasts is reported in the
++  ``arm_ipi_suppressed`` field of the config file. KWatch therefore
++  targets functions that are entered at a moderate rate.
++* If the target address cannot be resolved at arming time (for example a
++  ``get_kernel_nofault()`` failure on a swapped or unmapped page), the
++  watchpoint is not armed for that invocation.
++* Offsets in watch expressions are static; dynamic indexing such as
++  ``arg1->ptr[arg2]`` is not supported.
++* If a task is torn down while still inside the watched function without
++  the function returning (an oops or BUG in the window, which abandons the
++  stack), its watch window is not closed until the session stops. This is
++  the same best-effort cleanup that applies to every resource a task holds
++  when it dies abnormally. Do not target the task-exit path itself.
++* arm64 is not yet supported: stepping over a hit that has a custom
++  overflow handler needs a generic mechanism in the arch code, which is
++  planned as a follow-up series.
++
++Implementation notes
++====================
++
++The implementation lives in ``mm/kwatch/`` and is split into a control
++plane (``core.c``, the debugfs interface), an execution plane (``probe.c``
++and ``deref.c``: kprobe/kretprobe window management and address
++resolution), and a resource plane (``hwbp.c`` and ``task_ctx.c``).
++
++Hardware watchpoints are preallocated as perf events on every CPU and
++re-pointed at hit time with ``modify_wide_hw_breakpoint_local()``, a new
++hw_breakpoint API that updates the breakpoint on the local CPU without
++releasing its slot; other CPUs are updated by asynchronous IPIs. Per-task
++window state is kept in a fixed-size, lockless open-addressing array
++claimed with ``cmpxchg()``, so the hit path performs no allocation and
++takes no locks, which keeps it safe in atomic and NMI-like contexts.
+-- 
+2.53.0
+
