@@ -1,196 +1,228 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422DBBA3D
-	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 00:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698E71EE7B7
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 00:27:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784246918; cv=none; b=f3twSSVuKN1+qxRrl+LIhxajs+JWZDURIyIFqBfqfwvVLzaeJQThvJ8tPfn7JRXEnB46ldJyNdCU0/VM72as8g4vG+VxBXphbLrwRUpmU7jrWmw2HmmkPCLoA5/hPBJ/dkIOSBENKqznld9rLJ8Seo9gZ6OgymewiwMH73qbJs4=
+	t=1784248068; cv=none; b=KgqikkAN4ZejnTWotf5K6swylZt66cbvINtHM7ifphhc5TYQZj7CUnAqk78QJTfW+71Wd5Mv6U1y97L8u/8AGe1gdt3LhYbd1co0AIzCYJEzT3VZUW8iM6GIvl3VB/Dcogw4z8ER/Q9COEn0/RhUOD36BQp6ViwAHqMf7VhbVXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784246918; c=relaxed/simple;
-	bh=LnSf1ORs3iWpIN1we4xa/uvhWkh/NN2waYRc2HqRVUE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nzl8sa4tO3X7lK6CM/O4qjwgADp/8dXPKTpcRACFF/XUxquQfCDTB6XaKjJq7BiT3yHrpsWX2vA9W8QGlOYJSa9G4A0nzG4poYFvjUBSIGePSqzZfdmLT7lX3ZD6i5p8cWzTPPPP+35gQfaZ8aNVjyXF/Ke7bOMmc4fCm2ynbTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XtxZEJ2r; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784248068; c=relaxed/simple;
+	bh=WuxboMC8gwuYa9IvYfTHmmVyytT8FQoSrk7u1Q1bNM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tHutuZHSYNTi7x7YM+BovJb979iCrq5UUdgGc1OPT+MO6WE4iJQO3Xh+Scm7PLNedDUMnrc6KNtvtGdyXVCaH6em3VxfmhoEbsq1V/3JLkS3j3r7il8fhYM7BdNHNmEH9PIRNMoeh3bmmg0EXO5HmWGKjGM/zh/UYmqhZivucwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=amcTjttH; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=J5N12laW; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XtxZEJ2r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE8AC1F00A3A
-	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 00:08:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784246917;
-	bh=uq8utKGOuKj3StoMy9xF5Px9hk95MjGuUSdIPctg7Ds=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=XtxZEJ2rbkANbpw2gTBA6fUTgyuZMyjKrcgA3/t/qYtquXZbCqPS+MPXJEWbofm27
-	 ZD9bMO7H8/fywdSCWuAtn4IG5NrZz06gLRcycpD61VcaioM0WXNWNqypRd+rIWmOYZ
-	 ciDYPSbClvVj8dMsweoKbG6D0YJPGw2/7zdXI4B+vWm4kPyg1hL/f1Gf+zDZaAA4xw
-	 iTl1xw3Nrj6t8CKGY0PgsYjB8WyATvaMVpDLNgEq+/De5ziu6gBAV9jNJzuOInwnXD
-	 pPLjwBYC9RjC1U0gknhDSNo1MOsDlFeTvBYTz52vjan2zGdazi1yRKVavAUOlzkXKX
-	 0QKmDvA09VAog==
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c1677c91969so312935266b.1
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 17:08:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrsWeg12FDBMtlt/Os1JI6XA+ndx+ySz8j9iHTCmOBPbkXDXRUtyL6JZhV6WFTtN27ZZwE1FACBKOQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywvlxivoos++/pauJl8Olz2jDKb51/tH1xBuYvjC0vc/TUMi8SL
-	cvbvjRkdFes6n0CJe1ril4FXiUXhS2hoTWQ9pL6Vy9hZxoSuuGnKNJ3DWkcYBoTP9ZePUQZsq17
-	Lyfi6WC2Sm7/VYDJzDig8QqHFOeXF+nY=
-X-Received: by 2002:a17:907:9613:b0:c16:2f5d:614f with SMTP id
- a640c23a62f3a-c16b48075damr5109366b.50.1784246915847; Thu, 16 Jul 2026
- 17:08:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="amcTjttH";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="J5N12laW"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66GNIh5k010543
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 00:27:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	CXMtlO1SDpulkCJC4RwfiN8jyZ4jMbi7pNzjkUsjMVw=; b=amcTjttHrWtguKC5
+	n++lHJEs5cWDSbrwXvydXhhqunjR7ll8/C0DW8kN9C+hSMohgftQUZLG6krSoG2q
+	AJaR4wmVw3hM2uJI7ByZYhtiKDm5bQUMjaJkqH3cS21J95WK6WmCRyd9ExGRW6L7
+	v7ZZ4Y/fdnneG7aPBMTFocabwVSjpLBtqbNeehXf9C7Ew8yX5ev2PXS1PkPWDS6Q
+	m7KgVk3VEuAjSIw9fmtKPQdCtx4+GpYw35ECCXAvPyYfvFWwOVQBeOn7Gybpgoe4
+	ogzAXGzGIzJzBd9v90ay8F8xZt6aghIG/HTOoddLcJ9sN4W7yNDRoO+6EhZV4WzU
+	JZvh+g==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4feuex3vnj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 00:27:45 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c9d5a5b63c5so10972155a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2026 17:27:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1784248065; x=1784852865; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=CXMtlO1SDpulkCJC4RwfiN8jyZ4jMbi7pNzjkUsjMVw=;
+        b=J5N12laWJ4tlObv15JycFnYxrI3ljqf+5xWw8JwbTnjpAoQtQgS0KBhIIo7uKjALmQ
+         wXLDr6jGpwQqOXMOJwTaOBecd4c8VkkEuQANqm2tVM54oBJExXPLfK2x1pVLK6tTG5DX
+         KCTfhpdZh09tnt9fi9+7OtgX0a060KUWjIpGU6B4UzS0f03LoouEun3NhcQ/G8BX/pLk
+         MWgLoZiMRf1KCBNhzEZFVPRqXUuPtZmGobPMEP/sph0YjpqQjNmAiM0G3Fa35qZiE2V2
+         Eg4csrNvrLniC5E4Ixj3Pu8jOK3el3iL5dbbTPX/kmDZCQ4AcDMOFqbhIDwqRWpC50KT
+         hsVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784248065; x=1784852865;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CXMtlO1SDpulkCJC4RwfiN8jyZ4jMbi7pNzjkUsjMVw=;
+        b=gu90PO10uqx4d1e3GC9U4NOuzCAzEo7E6aXnZ0rOGv9Fe78f22u7NtAYq45XeCou/e
+         osl/NH1KYlQCTLAreJJQ1F0wbV1OlYHkJ86KfvX7gXTldqnXV3fDG46RHP9njezyMtWG
+         /Tz8ogN6kW0QM9j2iWK8wDX+j6CTMELXWJIaWrPhhsEloRHBlKSwvbPwFrBI9BE89I/g
+         YbjAz2eYW3R2et1/mwwc8sIoKLPUQviJ6T/iHEvwDt5MA0cthSnI/KDbGTW7RyLrHnS9
+         AztaAHY9Lapi6v+PB2BKwmAI7IUNMKECzeccWItD9EyVfH4q4jGlrA5YPsead//ZWRLi
+         G0Xg==
+X-Forwarded-Encrypted: i=1; AHgh+RougMP2zjtnBPmJiUJWXvaGHs28DoDPFARt7+yG2CP1dRRPXdxi0ejSnSvIk5O3c1RAoL1IXnxwUFA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjFh7e9iIzYeXe8vWT5FQMAXMz0lRvfo2XBIrd/aoEP/7CuhOW
+	1104gLKWUSFHYg7bbe2+ZXgJD82jajg+iPkh+/cEBlA/fQ89LHlcL19A6O+7TIpytMmQpWKqHMh
+	/EjzoosPzDGvmzGAhAMuJk8OtKfhyovBNKP3dNFDrbVe2bl9FSSu8TgnYSKf5WpU=
+X-Gm-Gg: AfdE7cncnb6gMNIwYmGp8VJp2UQqnEoe9FsTrTL4L7phA92RD8EZsZUa60RHrkDCTF1
+	A6XhTeMhZT6w3KsoUHQoXbIDDHPNyzSUFsJ3TPraMRBI2Fy4DugwFIOS3MuzxHy36tcJZ5CrmPv
+	KTjrB1MzMS0O9waf1x7ZGrGFXd5Olk/APftopFzRHg2R/SoMYMgO3mKEdZk+DdpAduXRteXPYcN
+	Xl/s4g1ZRGMxQV2Cd0FqZlRR+7cpC+oSb0Zy5vqhYj8lt7wINq5bpRBzbsLSPxtpbe2ee0dRbYz
+	2sbtM5KNlA0Hm0d77yxHh5d+KPy8wTzLF0/xFoTbgwlKGjed0OgWo5WLyDsLCevS8LDtkM0M26v
+	nuIGb+qa4zheSzwnFnwtwt2IBLw==
+X-Received: by 2002:a05:6a21:a8b:b0:3c0:9c18:d5a3 with SMTP id adf61e73a8af0-3c3ad97361bmr219849637.64.1784248064721;
+        Thu, 16 Jul 2026 17:27:44 -0700 (PDT)
+X-Received: by 2002:a05:6a21:a8b:b0:3c0:9c18:d5a3 with SMTP id adf61e73a8af0-3c3ad97361bmr219804637.64.1784248064246;
+        Thu, 16 Jul 2026 17:27:44 -0700 (PDT)
+Received: from localhost ([50.35.46.84])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3142a20c158sm523718eec.29.2026.07.16.17.27.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2026 17:27:44 -0700 (PDT)
+Date: Thu, 16 Jul 2026 17:27:40 -0700
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>,
+        Jonathan Cameron
+ <jic23@kernel.org>,
+        Rodrigo Alencar via B4 Relay
+ <devnull+rodrigo.alencar.analog.com@kernel.org>,
+        linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hardening@vger.kernel.org, Lars-Peter
+ Clausen <lars@metafoo.de>,
+        Michael Hennerich
+ <Michael.Hennerich@analog.com>,
+        David Lechner <dlechner@baylibre.com>,
+        Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof
+ Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp
+ Zabel <p.zabel@pengutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah
+ Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>,
+        "Gustavo A.
+ R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH v7 07/17] iio: test: add kunit tests for channel prefix
+ naming generation
+Message-ID: <20260716172740.00002b37@oss.qualcomm.com>
+In-Reply-To: <alcpb-7GVSfk6jFB@ashevche-desk.local>
+References: <20260707-ad9910-iio-driver-v7-0-a4ec30f63700@analog.com>
+	<20260707-ad9910-iio-driver-v7-7-a4ec30f63700@analog.com>
+	<20260712020928.2c8d1667@jic23-huawei>
+	<egyms7ulkxsgu4pvfkoruelec3sf6ca4bndcuqkvxljrdluqwu@edlqne7oy3xs>
+	<20260714180812.000070c4@oss.qualcomm.com>
+	<alcpb-7GVSfk6jFB@ashevche-desk.local>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260714081510.16895-1-jiahao.kernel@gmail.com>
- <20260714081510.16895-2-jiahao.kernel@gmail.com> <CAO9r8zM5nzDqNcx5UoDgGexvR6jf8MmJV9SomM4AS7n-rZ2o5Q@mail.gmail.com>
- <20260714193129.f81711f516504b659d544741@linux-foundation.org>
- <7a1fe347-7ca6-4768-9308-420bf1251f54@gmail.com> <CAO9r8zMDndmoxi_XvQv3rkkhCfb+aW3=8JdE3gAv2YOKiyiFSA@mail.gmail.com>
- <7b35fd4e-7662-10ae-159b-303350e4e59c@gmail.com> <CAKEwX=Ob9shetuJK4y=NZods3KkT=U_3W4S_ALzxX3EDLomWEA@mail.gmail.com>
-In-Reply-To: <CAKEwX=Ob9shetuJK4y=NZods3KkT=U_3W4S_ALzxX3EDLomWEA@mail.gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Thu, 16 Jul 2026 17:08:24 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zMy3C=tTLsyv_WkAS8Fd_Z3uSCmX4cekPLo8KkNb9bkCA@mail.gmail.com>
-X-Gm-Features: AUfX_myGgssWMZxis9Xq0G95Yc2oVqpD1w4OyvXk9Wv0dDSPaEEVeWWsaCcrVLc
-Message-ID: <CAO9r8zMy3C=tTLsyv_WkAS8Fd_Z3uSCmX4cekPLo8KkNb9bkCA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] mm/zswap: Fix global shrinker when memory cgroup is disabled
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Hao Jia <jiahao.kernel@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org, 
-	hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org, 
-	mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
-	roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=JeeMa0KV c=1 sm=1 tr=0 ts=6a597701 cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=qC1CW/w66vtJz1P9yTJxNA==:17
+ a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=QyXUC8HyAAAA:8 a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8 a=xcsdVRPUYcZtn2NnLoAA:9
+ a=CjuIK1q_8ugA:10 a=bFCP_H2QrGi7Okbo017w:22
+X-Proofpoint-ORIG-GUID: GbGTYqF5fpuM9DXf64T7FL_t99DusBh7
+X-Proofpoint-GUID: GbGTYqF5fpuM9DXf64T7FL_t99DusBh7
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE3MDAwMyBTYWx0ZWRfX64JCnl2Ce7P2
+ CBliUtrX9Npw6+H2EoNwNFXJ82cq6wIz1cXR1VMN5tYEuohud8AOQg26IEFthD1H91FlRqdv9eX
+ KgQNginGw56cTfJR4Dab6H9ywMaXjUE=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE3MDAwMyBTYWx0ZWRfX8yTUTVonJs7a
+ 4mjnMX3BfGUecp7wisPFrDMsq+ZC0ZtUaiFPRV1fDaZLk+jsuRqw+eZVnnp5KaagBFJdFMClvtG
+ K0rgCxxDzdUvvh/5ql3y+43R5iOin9lh2NuxP5WHieVhHRzXbpjGeY7eyLWffh1kseTf7c8hKs0
+ 83szR/F+kaAqDEesHtjXdInOu6/61Dr8TgRmGOrlabjSEoai3ghdZGuXmcDtB0hx+rij1ScWAMW
+ sIFYcipNCeEZldbOgXd8bTH/+6pa+k7810ZOW+S8INOLDfShkfw0HXd3x/FngQMWZ8SuIHYivwO
+ TylQ6BrPYFsebjnZFrPBPhGn8A7MvW1wt/ole52AvG9Denm6dvHXJC9SOXdS69IvzmDOkeTyQ6n
+ j4fehCHQOa1dAmQOYpCPQUHOAf7AVGh2ocqibA0kCsj1qwsknnOaaDjBvbPooQOyTzuP5wBsNPB
+ whpccz2eUv30MFET87w==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-16_08,2026-07-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 phishscore=0 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607170003
 
-On Thu, Jul 16, 2026 at 11:19=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
-e:
->
-> On Wed, Jul 15, 2026 at 7:21=E2=80=AFPM Hao Jia <jiahao.kernel@gmail.com>=
- wrote:
-> >
-> >
-> >
-> > On 2026/7/16 00:13, Yosry Ahmed wrote:
-> > > On Wed, Jul 15, 2026 at 5:31=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.=
-com> wrote:
-> > >>
-> > >>
-> > >>
-> > >> On 2026/7/15 10:31, Andrew Morton wrote:
-> > >>> On Tue, 14 Jul 2026 09:52:59 -0700 Yosry Ahmed <yosry@kernel.org> w=
-rote:
-> > >>>
-> > >>>>> When memory cgroup is disabled, mem_cgroup_iter() always returns =
-NULL.
-> > >>>>> Therefore, the global shrinker shrink_worker() always takes the !=
-memcg
-> > >>>>> branch. After MAX_RECLAIM_RETRIES empty walks, the worker simply =
-gives up,
-> > >>>>> so it fails to write back anything.
-> > >>>>>
-> > >>>>> Therefore, when memory cgroup is disabled, fall through with the =
-!memcg
-> > >>>>> branch and shrink the root memcg directly.
-> > >>>>>
-> > >>>>> With memcg disabled, shrink_memcg() only returns -ENOENT when the=
- root
-> > >>>>> LRU is empty, which means the total pages are already below thr. =
-The
-> > >>>>> loop then safely bails out via the zswap_total_pages() <=3D thr c=
-heck.
-> > >>>>> For any other return value from shrink_memcg(), the loop is guara=
-nteed
-> > >>>>> to terminate, either after MAX_RECLAIM_RETRIES failures or once t=
-he
-> > >>>>> threshold is met.
-> > >>>>>
-> > >>>>> Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
-> > >>>>> Cc: stable@vger.kernel.org
-> > >>>>> Suggested-by: Nhat Pham <nphamcs@gmail.com>
-> > >>>>> Acked-by: Nhat Pham <nphamcs@gmail.com>
-> > >>>>> Acked-by: Yosry Ahmed <yosry@kernel.org>
-> > >>>>> Reported-by: Yosry Ahmed <yosry@kernel.org>
-> > >>>>> Closes: https://lore.kernel.org/all/CAO9r8zPVzMKFbCixxD-qgtRrkFxW=
-VrHiZZeLc=3DeyTPKPVQgX4g@mail.gmail.com
-> > >>>>> Signed-off-by: Hao Jia <jiahao1@lixiang.com>
-> > >>>>
-> > >>>> Patch 2 doesn't really depend on this one, right?
-> > >>>>
-> > >>>> If that's the case I think this can (and should be) picked up
-> > >>>> separately as a hotfix. Andrew, WDYT?
-> > >>>
-> > >>> Please update the changelog to clearly describe the userspace-visib=
-le
-> > >>> effects of the bug, thanks.
-> > >>
-> > >> I am not entirely sure if my understanding is correct here, but mayb=
-e I
-> > >> should add something like this to the commit message?
-> > >>
-> > >> When cgroup_disable=3Dmemory is used (or with CONFIG_MEMCG=3Dn), the=
- global
-> > >> shrinker fails to write back any pages. Consequently, the zswap pool
-> > >> fills up to its limit and rejects further storage, preventing memory
-> > >> pressure from being offloaded to the backing swap device.
-> > >
-> > > I think you can simply write that zswap writeback when the limit is
-> > > hit is broken when memcg is disabled.
-> > Will do. Thanks!
-> >
-> > >
-> > >>
-> > >>> Also, AI review has flagged several possible issues, all appear to =
-be
-> > >>> serious:
-> > >>>        https://sashiko.dev/#/patchset/20260714081510.16895-1-jiahao=
-.kernel@gmail.com
-> > >>
-> > >> For AI review comments on this patch:
-> > >> I suspect this scenario might only exist in theory. For zswap LRU to=
- be
-> > >> empty while zswap_total_pages() > thr holds true, it would require a
-> > >> prolonged state where there are always more than thr zswap entries o=
-n
-> > >> the zswap LRU whenever zswap_total_pages() > thr is evaluated, yet t=
-he
-> > >> zswap LRU happens to be empty during shrink_memcg(root_memcg).
-> > >>
-> > >> If we want to fix this, perhaps we could do something like this?
-> > >>
-> > >> Yosry, Nhat, what are your thoughts on this?
-> > >
-> > > Do we need to do this? The last paragraph in your changelog explains
-> > > why this can't happen because zswap_total_pages() should be 0 in this
-> > > case. Did I miss something?
-> >
-> > The loop would require the following sequence to repeat indefinitely:
-> >
-> > 1=E3=80=81zswap_total_pages() > thr evaluates to true.
-> > 2=E3=80=81During shrink_memcg(root_memcg), the zswap LRU is concurrentl=
-y drained
-> > to empty.
-> > 3=E3=80=81Before zswap_total_pages() > thr is evaluated again, the zswa=
-p LRU is
-> > heavily refilled such that zswap_total_pages() > thr holds true once mo=
-re.
-> >
-> > For our case to manifest, it would require zswap_total_pages() and the
-> > zswap LRU state to repeatedly hit this exact window with perfect
-> > alignment over a **prolonged period**. Therefore, I suspect this
-> > scenario might only exist in theory.
->
-> Yeah seems very artificial indeed.
->
-> If we want to be extra careful here, maybe we can put a cond_resched()
-> there or replace the continue with goto resched or sth?
+On Wed, 15 Jul 2026 09:32:15 +0300
+Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
 
-I think it's also possible with the current code with memcg enabled.
-It's still possible that the shrinker puts usage under the acceptance
-threshold and then a new zswap stores puts it back above the
-threshold, and so on.
+> On Tue, Jul 14, 2026 at 06:08:12PM -0700, Jonathan Cameron wrote:
+> > On Mon, 13 Jul 2026 10:52:56 +0100
+> > Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:  
+> > > On 12/07/26 02:09, Jonathan Cameron wrote:  
+> > > > On Tue, 07 Jul 2026 15:04:28 +0100
+> > > > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:  
+> 
+> ...
+> 
+> > > > > Because __iio_chan_prefix_emit() is static, the test translation unit
+> > > > > is pulled into industrialio-core.c.    
+> 
+> KUnit also has static/non-static automation via a macro (defined in the
+> kunit/visibility.h) and I see that's used in the below example.
+> 
+> > > > Isn't there some magic route cases like this that makes it non static
+> > > > only when self tests are enabled? 
+> > > > Claude tells me to look at include/kunit/visibility.h    
+> > > 
+> > > There is, Although I think that using
+> > > 
+> > > 	#if IS_ENABLED(CONFIG_IIO_CHANNEL_PREFIX_KUNIT_TEST)
+> > > 		#include "test/iio-test-channel-prefix.c"
+> > > 	#endif
+> > > 
+> > > was more straight forward, less invasive and easier to change than..  
+> 
+> Maybe, but thanks to this thread, I fixed other modules that use their own
+> approach to use the standard KUnit infra for this (as below).
+> 
+> > > 	/* In "drivers/iio/industrialio-core.c" */
+> > > 
+> > > 	#include <kunit/visibility.h>
+> > > 	...
+> > > 	VISIBLE_IF_KUNIT ssize_t __iio_chan_prefix_emit(...)
+> > > 	{
+> > > 	...
+> > > 	}
+> > > 	EXPORT_SYMBOL_IF_KUNIT(__iio_chan_prefix_emit);
+> > > 
+> > > 	/* In "iio_core.h" */
+> > > 
+> > > 	#if IS_ENABLED(CONFIG_KUNIT)
+> > > 		ssize_t __iio_chan_prefix_emit(...);
+> > > 	#endif
+> > > 
+> > > 	/* In "drivers/iio/test/iio-test-channel-prefix.c" */
+> > > 
+> > > 	#include <kunit/visibility.h>
+> > > 	#include <iio_core.h>
+> > > 	...
+> > > 	MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
+> > > 	...
+> > > 	// Use __iio_chan_prefix_emit() in tests  
+> > 
+> > I'd rather this wasn't built into the core module.  So prefer you jump
+> > though those hoops.  
+> 
+> Hmm... The above (while being verbose) is the standard way of how we export
+> symbols for KUnit tests. Do you have a better alternative that everyone can
+> use? (Not only IIO subsystem.)
 
-Perhaps as Nhat said, just goto resched instead of continue if we're
-really worried, but I think even that is not really necessary.
+Ah. I put that comment in an unhelpful place. I meant the include above not this bit.
+Absolutely fine with the exports being there.
 
-I think we generally want to clean up and simplify the shrinking loop
-in zswap_shrinker(), but I don't have any great ideas.
+Jonathan
+
+> 
+
