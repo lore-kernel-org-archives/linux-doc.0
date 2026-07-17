@@ -1,86 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F334F3C5523
-	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 10:19:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F6A23C4175;
+	Fri, 17 Jul 2026 10:48:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784283591; cv=none; b=hmSn/e6NEqVAtOLJGe4tBWQeJuq3BOHREsDNTOk/BOP4O1YWg+SMm/Powxi3iO8udz5KuKqH6QjzHL52b3mzgKR7l2jrnsHqH3gYETh9/MNRST0BMU58+H8Ha3YQfm9eh3gVpaAcRt8CcjbtbhA+O9lraBv3Xjir3ptKes3h+1A=
+	t=1784285301; cv=none; b=F2uWWBBKfxPIlLpoNNpCqAm29OfDZTJhTTvIZaOu62xA010F1AnL4uxEbp0/P2Uu+Spo6YCIaGaz4mAXwREkVO5tyXJ2cPxexiQNkfcwSOdMQXewdHeF5DSH88+kOpDeBu5XOM8FnnzmXYOuAeJqnPkvgWQW2bq/ILyJiKvGWrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784283591; c=relaxed/simple;
-	bh=WTBwSCzfzNapDzay6Q5+0rXMJUYMPG+K6f0SRNU7t/4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kkzCAhQyP+Xw/p8XYnhnTAI9r6lJdlXZPtfTuIfSd966+ht+QarBjBRiXlEXEob2DLhXAqgK3We0a413lLFkbt6UkG8moeRq8310LPRZeU6709BWQSMTN9A/UvxmoZbceNgtqPaXdfcF3MB6dZEP5syIoBlzIi9ErxH0Mgs4ELM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gL2TFDv0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784285301; c=relaxed/simple;
+	bh=0bo60OYleFw4VVrqObP8ApRUIOYI6RLqGrqNR2tMODE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=reJyWdlWA9No087YyZUXhj8jJgTvbNprXVtThgJIa2oql5h9M6HA/5R4Kdi2WG5O6rIrY9cvomlUxb8ftzhYNC5vCXAbSBzoCbajdjHHOo73wT3f7FUnUGrufUm24AQkKGp7wbJfPfx/GBq/cO2KCpAgEkEwJLAtACpJiUHyDQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=mYi+SYJT; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gL2TFDv0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D702A1F00AC4
-	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 10:19:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784283589;
-	bh=+ZIdzU3OYn1ULV/wr6fGut2Wd0qY1oQ8EGtU5Nudldc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=gL2TFDv0f58lGRGZhcw3kYkIw+ImddH0aGGSKaooWOWjpZSpl0XXCHeGhHCZBpxRW
-	 ApTgV4/XIFwHkR/rJRk68nO7w4M6Xdg5MzYUJ7eh57Ltys+R2z2w1weMV6uUFHYVL9
-	 ESPTQ6JW1mzM4QeJMU5GCbd1zA+QP2Y/Dkq8vcAoLDTcwEddYy6MkuJKE1ILiQVUrc
-	 aQZ/BhzR8pzmC9E7bSM/CxdTZhr9N17YWTQiUgVMvSW2MUq3ZjFj5nTwM6SCz7FHz9
-	 sJquD9GDXpaW7vDAiri8Pb0OAUwISV1Zdn8kE7fYkZ6o/Oa1e/e1YIl6OaiOOTNK5K
-	 fREuDh8GAw2PQ==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5b0117dda13so3995107e87.0
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 03:19:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpeJCKSNToCuiKa4YgIOXz0B7CzJ5w3b1jKKAvewbJYYaL7/ghSCNiGUg6OZm2wiL9YE2+nHE2ShJI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWTxTag5NKhEKJtF9ZQ1yEhLbVizNpSqp7gLma7nsB3gpbU5xw
-	B6lwO3duKaYI8Q/QjuO3FeUu/l7lp9zMMmmJS/OHaOZYqqXbi60J6cqBtaE3rik4etGuBvb3jwV
-	zuCpcUVuwjNhalDse70dFxTNEp9VwmCo=
-X-Received: by 2002:ac2:5688:0:b0:5b0:6aea:cd87 with SMTP id
- 2adb3069b0e04-5b28f85de5bmr447583e87.18.1784283588298; Fri, 17 Jul 2026
- 03:19:48 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="mYi+SYJT"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3AB851476;
+	Fri, 17 Jul 2026 03:48:15 -0700 (PDT)
+Received: from e125769.cambridge.arm.com (e125769.cambridge.arm.com [10.2.198.107])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9B3893F7D8;
+	Fri, 17 Jul 2026 03:48:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1784285299; bh=0bo60OYleFw4VVrqObP8ApRUIOYI6RLqGrqNR2tMODE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=mYi+SYJTdBEMMnkc3FtM0+BHldq32tyWavXaEQUxQs3O4tpZfaOLtaQBru5O+7ceD
+	 rStsHlQ6Jj30YrQrIVjSsiwzQ1mAjhT/e2UKXEt6LsITLXOBuv6/AzcSKloDp8dndC
+	 vCjWtLTZjUicPg9qJdirqwRHbb3EiXRvY8S26Xz8=
+From: Ryan Roberts <ryan.roberts@arm.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Ryan Roberts <ryan.roberts@arm.com>,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org
+Subject: [RFC PATCH v1 0/8] Arm Core Local Accelerator Driver
+Date: Fri, 17 Jul 2026 11:47:44 +0100
+Message-ID: <20260717104759.123203-1-ryan.roberts@arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260609145117.1355753-2-u.kleine-koenig@baylibre.com> <aloAhMQE2mWwwzpY@monoceros>
-In-Reply-To: <aloAhMQE2mWwwzpY@monoceros>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Fri, 17 Jul 2026 12:19:34 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gGjdj1NiCsAPFvG_z9nseXe=Ome_NcWVJCMcFFiDxsrA@mail.gmail.com>
-X-Gm-Features: AUfX_mxroqsS1TA510O_1prW4COGMZRu9Ejs9OF4ul4lDzWK0evJAPrhk6Iwb5I
-Message-ID: <CAJZ5v0gGjdj1NiCsAPFvG_z9nseXe=Ome_NcWVJCMcFFiDxsrA@mail.gmail.com>
-Subject: Re: [PATCH v1] pnp: Documentation improvements
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 17, 2026 at 12:16=E2=80=AFPM Uwe Kleine-K=C3=B6nig (The Capable=
- Hub)
-<u.kleine-koenig@baylibre.com> wrote:
->
-> Hello,
->
-> On Tue, Jun 09, 2026 at 04:51:17PM +0200, Uwe Kleine-K=C3=B6nig (The Capa=
-ble Hub) wrote:
-> >  - Consistently use named initializers and simplify sentinel
-> >  - Skip assignment to .driver_data if all are 0
-> >  - Use consistent spacing to match Linux coding style
-> >  - Fix prototype of probe function
-> >  - s/pnp_id/pnp_device_id/
-> >  - Drop non-existing .card_id_table
-> >
-> > Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig=
-@baylibre.com>
->
-> Who is supposed to pick up this patch? Is this still in someone's queue
-> that I can expect to get some feedback for it? Silent application would
-> also be fine to me.
->
-> Having said that, the patch still applies fine to next-20260716.
+Hi All,
 
-I'll pick it up, but please send it to linux-acpi@vger.kernel.org for
-easier processing.
+This RFC introduces a driver for the Arm Core Local Accelerator (CLA), a
+CPU-local interface for programming attached accelerators. While the interface
+is agnostic to the accelerator type, the initial (and currently only) target is
+a compute engine.
 
-Thanks!
+The RFC aims to engage the community and get feedback on some key aspects. This
+will help plan our approach for eventual upstreaming. The patches implement a
+bare bones driver to aid discussion. Arm plans to publish the CLA spec in
+future, but for now I hope the documentation included with patch 1 suffices.
+Note that the CLA is not part of the Arm Architecture.
+
+Patch 1 documents the hardware and driver design, and adds a driver skeleton.
+Patches 2-4 initialize and probe the device. Patches 5-8 add context management
+for switching the device between different users.
+
+Aspects I'm seeking feedback for:
+
+* The general structure of the driver: The current shape addresses the
+  performance requirements we have for the use cases, and is therefore our
+  preferred approach. But there are some unusual aspects due to the HW design.
+
+* Driver interaction with architectural support: I've opted to treat the CLA as
+  a device rather than a CPU extension, so it's implemented as a (mostly)
+  self-contained driver. It has some unavoidable coupling to the arch code since
+  it needs to share page tables and ASIDs (arm64_mm_context_[put|get]()).
+
+* The location of the driver: although most accelerators will likely be compute
+  ones, CLA is a generic MMIO interface that could handle any kind of
+  accelerator. It's currently implemented as a misc driver. accel is another
+  potential option, but given the current SVA approach, we would not use any of
+  the services (memory-management or otherwise) that accel provides.
+
+* User space availability: The kernel driver exposes the capabilities of the
+  hardware to user space. Arm plans to open source a user space driver, but does
+  not yet have any committed date. I'd like to understand if the availability of
+  this component will be a prerequisite for upstream acceptance of the kernel
+  driver; either way, I'm hoping we can at least progress with some discussion
+  in its absence.
+
+I'm deliberately constraining the scope to bare-metal support for now.
+Virtualization is something we are considering (and have prototyped), but plan
+to post a separate RFC for that as follow-up, once we have agreement on
+direction for the bare-metal driver.
+
+Source, along with some tests, is available at [1]. Patches based on v7.2-rc3.
+
+[1] https://gitlab.arm.com/linux-arm/linux-rr/-/tree/features/cla-driver-v1-rfc-tests
+
+Thanks,
+Ryan
+
+
+Jean-Philippe Brucker (5):
+  misc/arm-cla: Add driver skeleton and documentation
+  misc/arm-cla: Add launch operation helpers
+  misc/arm-cla: Probe firmware-described devices
+  misc/arm-cla: Initialize devices on CPU bringup
+  misc/arm-cla: Accelerator context save and restore
+
+Ryan Roberts (3):
+  misc/arm-cla: Set up memory translation context
+  misc/arm-cla: Manage domain contexts
+  misc/arm-cla: Add userspace interface
+
+ Documentation/misc-devices/arm-cla.rst | 206 ++++++++++
+ drivers/misc/Kconfig                   |   1 +
+ drivers/misc/Makefile                  |   1 +
+ drivers/misc/arm-cla/Kconfig           |  10 +
+ drivers/misc/arm-cla/Makefile          |  13 +
+ drivers/misc/arm-cla/arm-cla-regs.h    | 179 +++++++++
+ drivers/misc/arm-cla/arm-cla.h         | 296 +++++++++++++++
+ drivers/misc/arm-cla/cla-ctx.c         | 142 +++++++
+ drivers/misc/arm-cla/cla-init.c        | 503 +++++++++++++++++++++++++
+ drivers/misc/arm-cla/cla-mtc.c         | 139 +++++++
+ drivers/misc/arm-cla/cla-ops.c         | 342 +++++++++++++++++
+ drivers/misc/arm-cla/cla-regs.c        | 263 +++++++++++++
+ drivers/misc/arm-cla/cla-sched.c       | 474 +++++++++++++++++++++++
+ drivers/misc/arm-cla/cla-topology.c    | 187 +++++++++
+ drivers/misc/arm-cla/cla-user.c        | 351 +++++++++++++++++
+ include/uapi/linux/arm-cla.h           | 207 ++++++++++
+ 16 files changed, 3314 insertions(+)
+ create mode 100644 Documentation/misc-devices/arm-cla.rst
+ create mode 100644 drivers/misc/arm-cla/Kconfig
+ create mode 100644 drivers/misc/arm-cla/Makefile
+ create mode 100644 drivers/misc/arm-cla/arm-cla-regs.h
+ create mode 100644 drivers/misc/arm-cla/arm-cla.h
+ create mode 100644 drivers/misc/arm-cla/cla-ctx.c
+ create mode 100644 drivers/misc/arm-cla/cla-init.c
+ create mode 100644 drivers/misc/arm-cla/cla-mtc.c
+ create mode 100644 drivers/misc/arm-cla/cla-ops.c
+ create mode 100644 drivers/misc/arm-cla/cla-regs.c
+ create mode 100644 drivers/misc/arm-cla/cla-sched.c
+ create mode 100644 drivers/misc/arm-cla/cla-topology.c
+ create mode 100644 drivers/misc/arm-cla/cla-user.c
+ create mode 100644 include/uapi/linux/arm-cla.h
+
+--
+2.43.0
+
