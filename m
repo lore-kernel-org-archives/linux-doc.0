@@ -1,165 +1,111 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368803921E9
-	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 19:54:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFC6331A48
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 19:59:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784318056; cv=none; b=jVwhYLLe1GOeL/nfBnz7+1iDdJrfGWDsB3V3tPO3JP4rtiUQIdKtNrv0nIkmazNS0/apByinge9ogZI1sqJXD1d3gMdKvfOypc/4Bsi/gj+xE1b0VAvShoiKhyOZI6gyJccwBKIGYRhaQ1+zlNRlbRBWCT59RvKN/+rQtrl256s=
+	t=1784318364; cv=none; b=JcxkhB0/Qrgd4KqPVKq6DN+cvNOANE1Tm6CQOjVGGoT4qE73g1NdVfMhfFN0rzqNyS58+8SH2OCjw6BPBPvNkYF25dE8yo94NKcajgwib/9sal3O/2B4OP7P8+9w7uSXxHPegFMbmrlZ7alqTudPeM2TmVivQv8G5QnNsMOtjwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784318056; c=relaxed/simple;
-	bh=OovEX5j8oO9dt0RWb+VLsO7EVU4CwpJSCIQyuF/rK64=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=n/PhWEgqee5hoWgOi8MVXZJfLRg0lwkszpZ7IMWWyWBHBY5f5gHUpSf0B2LO1OM8U4zF+380jUcztgUmCeTyfMYtLMcRRGDrn8YRqH5d3eENBGkL1GEFtAiU5LxvvCPeJxjy4yhde2HCFiM0Muz6A3DD+XyjF6FpPUkSkBPh8PM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j42IAOvK; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784318364; c=relaxed/simple;
+	bh=LMQ7fUo3sorzck80ZDANF3wgbQwKbSE7cQhncLMM+/0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mM7MfR9aySj7FuJNJ+7aKZITx56n+J5oCiSCBK/IlyPtvIGI6E0KlZj4OdhXxggCx0aiBn7pGakvaPy7J2U84gA2RObPeo48nOqTyNk2ElgiU4F/RLYQmHy3u7yRVHtRkDXXTrYzW+9Xstl/myhax6k6YCkKMyrBP43ZOXJXhPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=a3W7GYED; arc=none smtp.client-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j42IAOvK"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2ca64c3ce5fso92625625ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 12:54:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="a3W7GYED"
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-8efef6533aaso47828116d6.0
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 12:59:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784318054; x=1784922854; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=V/QRLXFyC7iudgBp/aY0Qb4ATVQXu8Baj1/SfCLrVxo=;
-        b=j42IAOvKxqnZj3n5K8PPiEyEA0/rceoW371CuW5G9lu3f/qPSxND06blwGg7s4FZbS
-         EQaV2I4h1lKfnlVTC6EbUpi1Ktie8lvo7X2FmTAzBXdyfA0Yq6vrAZFVja0Hh6BKWx7P
-         5S663aYfl0Gn90Nurqh0STxP6pjYiRs1MRAytFPo6mNSe4IH5YqZ5csFbO9YVZ3JkAfo
-         D9h74oJehVUcMpmtW6/rqIB7zqcHridhd/4OnUGN1C4fpknbS59mMjhFwhIOhMRH7Pei
-         k8stnFdnz47EhWaZnCPZ8+eaZT0rvXkJ4ZxAFsbDdCQv6MxPB3N9tS6Af1mHQZ4XU9wW
-         IhJg==
+        d=ziepe.ca; s=google; t=1784318361; x=1784923161; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Qm69cNliseHLFEUcKlQjXlWgyg1L1lRsxj6GO+Nid2k=;
+        b=a3W7GYEDEbV2fvImRDO1KYv+kg1MGa2nWGHCxwBO/w09J79inNMC3B3Yy3W0mZ4zsE
+         26Egd6NORzeFDSPogz4DDN02zb90CELgJERppeHgzmPCZ8qMMdHYslk8Z2HzpfqCox+s
+         ludYiZLfVsKxjDYAKjVgwxGjFpdghilv7hgKtnKJyMXW/vXGMoHWg9J1hex8US3Kpswd
+         IZrsmbkfCWYtc5d8tAozo1P30kLhrrgbA2aw6Ahmu6aqyn29+lQjNKQEtgscPpP9H3VA
+         JXOhzb5gVFuOttuFakbPz+N9fnJA/P7hlWfKNIyQx+JykbvlQCBO6HjywCFwEtE46UbL
+         k6dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784318054; x=1784922854;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=V/QRLXFyC7iudgBp/aY0Qb4ATVQXu8Baj1/SfCLrVxo=;
-        b=K3WaCvPwveAP/K3JAx9YZidx/H8IdMcuAVKFm2j2Us0Jkg6aiYRQqKM5dgiLkXJDq6
-         moUidNuCbNowor9BdymlL0qon1RdgKyJ5TNje+TmMSlL9TAgeF268hBcDBibEwNKx7Xl
-         EuUNvKj3OkDj43bttLt6MsZlqRSV8WsIQWjiF0aV9bO6TwKfnY1qbjT7S7AMg0yAuDTn
-         27jw4tFHROEq//LQo7t/SOvQ2y4aMPTTvBj9IiXOjoJDg3caJhO+wcn0xnE4Wvr7p78S
-         ler9v4lRtODr3iyTj9QnlhDuT0XXyCBVr+UYACKQMa1qkT+1G03t4BrsHNX0EgGOZrYK
-         OhXQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp/YsxuMxDD92jx6hwfjB5DBfD/wn7hLUbWEM0M9FTvrGtFWlpa3a1CZ7lpm+3tA8i9EBmn/yMnBwk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFdCT6p6N1SycL/OymF80oovtpB4+IBv8DlrktxC2npWnw1SUs
-	xe3+RrmpTVfVMeuVcXc4d+Oyo150WtW88dg4vSmxZMO99mKOo1PJBC0vLGmarRMz
-X-Gm-Gg: AfdE7cm84lIuQPcJNSqiX7dm3L9P0w0L4hzlws9kJ/rwrT9BTuQ5DUUeJXVGrdCGFWI
-	36aYCGBu0oox06N5aHO4awWrrbInuNyoj2jDtw5Cdu9etNG7kOwsiBY7p+btVYqQ1JkxKnp+ioE
-	tVU5081pHEWtIEBpmChyT3JFA2bkGMNP+6MGjZxM8EGHs7xxbcgecpcfhn7UbM5Clsc3OeyLXZE
-	/x0OLb+IlndVMntGPvH8+A2iICeLAFiQOiS9o2vHDnPmBRPw0uDm3IlWtjkGKzhGQSIE92YpKEx
-	cpr9SifQhGZzFwM5NhIDMvJ/cC0m4BEdL3Ydwco7doVxCZ5xiJ84PWIl0IylbgzNi12GJaLYmb5
-	DoF/yRrLTGkRZ4P9a5gGaqVFbwSNbIjX17YE04ssSivgpEuunCinhS7lzrPYWygO3m262GE6Nma
-	35V3ns60SLLa5scb32QZmSDbIO924cmoJu7hvNX6GP1aDkbIJSJmDD8a6bVl4VKar5Zcsf+vHFX
-	Y+y
-X-Received: by 2002:a17:903:3d0f:b0:2cf:477d:8a87 with SMTP id d9443c01a7336-2cf477d8f76mr5826235ad.10.1784318054611;
-        Fri, 17 Jul 2026 12:54:14 -0700 (PDT)
-Received: from ghost.localdomain ([103.170.252.7])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13ce29c2dcdsm7103119c88.1.2026.07.17.12.54.10
+        d=1e100.net; s=20251104; t=1784318361; x=1784923161;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Qm69cNliseHLFEUcKlQjXlWgyg1L1lRsxj6GO+Nid2k=;
+        b=Emvz1VCofQOE/ZtT3LEUnKNpq3D4lJiG81N26OarQ4EEUxvJ15KPmWygDgDqC+2BYf
+         di/aDzX3fFRYtIQ0yBDi0zXHU/uTyDYSulZ5cxla8LAThNz7rfXjH592UTaWwBTsMX/m
+         9d1xkMkywBUKUlrZOxMsw/qNvFuhLdK/ioaugXe4OTvhCV0YZvorTHjyUjb3RLE0FcyE
+         KdZF4Qg95DZr7g+H6mxlpgMsnWJOfjXI/a0ufdnin8AkFc7KI54qFx/J9fPZOZ/Ir1M6
+         pKwjJCmLdjo/MKhVJQtyI55S8pv6HmSzZaxu3MwAVW4tLZc5OpfnIRyc7fAGrMaGMAmY
+         ysqg==
+X-Forwarded-Encrypted: i=1; AHgh+RrgKwatmajFKLUAzBk860zH/83g7VR6dAwvHWKEo04P/vHvvrK8XerCv4ryG0BeoWXUOSmpH73PhfY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8spmFmRtRjccesKqgSWXoQqniGiIRPc/FV6GkOp5MkBCNidkj
+	OIsR3XhqERziMtIh0QrG+HDTXwdrjOq63Eo4MJ2GEJE/N5MW0pCOUwLg5aU301BN9Bs=
+X-Gm-Gg: AfdE7cnuGN3eZ5GsIppnH1MjS9t17gpbmP78bB9u7kBJt/od+caHMKQbhUmEbSfcRxi
+	EwDKeC+YbajLDoxCfp6Mhq5/PCkkNyE+VPPydVZgfJQRZYBEBjbLQNZFSaeZWB1oyf4jNo88aFR
+	taYp9mRYNu1R84LbT23iuIrpgUytBKwuK4ii92k1Y1yKZu+JiF19tNc5hLK0JvZcMVAQ0kU2yp6
+	6COlDIRpAT2OhLfOE4aGaxeg3BQKMhb3cQZJ6BDYKsw3uvTdwrAZMFkeUUsgim55mc8ZwS5nE/S
+	Jx/VwrP2QoAfmayZqcHCgzKy1WUJI64veb9r2Ys4/kbY00Rr+jp8Ffy837ivIpr2MYxsBtuz2TC
+	KMFNY3AAwIBargoUMTVaEAG0x/hSHP6UHJjl6FhMDsNZEuy4cl5HQJD1GSqtg
+X-Received: by 2002:ac8:5f87:0:b0:51c:1291:e68c with SMTP id d75a77b69052e-5213b148393mr36523971cf.30.1784318360897;
+        Fri, 17 Jul 2026 12:59:20 -0700 (PDT)
+Received: from ziepe.ca ([159.2.72.92])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5214ffcb2c6sm19444171cf.27.2026.07.17.12.59.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 12:54:14 -0700 (PDT)
-Received: from ghost.localdomain (ip6-localhost [::1])
-	by ghost.localdomain (OpenSMTPD) with ESMTP id be1d25cf;
-	Fri, 17 Jul 2026 19:54:03 +0000 (UTC)
-From: Nikhil Solanke <nikhilsolanke5@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	stern@rowland.harvard.edu,
-	michal.pecio@gmail.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	stable@vger.kernel.org,
-	Nikhil Solanke <nikhilsolanke5@gmail.com>
-Subject: [PATCH 2/2] USB: hub: Split announce_device() to log device identity before enumeration
-Date: Sat, 18 Jul 2026 01:23:36 +0530
-Message-ID: <20260717195336.98500-3-nikhilsolanke5@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260717195336.98500-1-nikhilsolanke5@gmail.com>
-References: <20260717195336.98500-1-nikhilsolanke5@gmail.com>
+        Fri, 17 Jul 2026 12:59:20 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1wkoiN-000000051Gu-1TIS;
+	Fri, 17 Jul 2026 16:59:19 -0300
+Date: Fri, 17 Jul 2026 16:59:19 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Ashish Mhetre <amhetre@nvidia.com>
+Cc: catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
+	skhan@linuxfoundation.org, robin.murphy@arm.com, joro@8bytes.org,
+	nicolinc@nvidia.com, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v7 1/3] iommu/arm-smmu-v3: Factor out CMDQ batch
+ force-sync conditions
+Message-ID: <20260717195919.GB701389@ziepe.ca>
+References: <20260714104202.1664187-1-amhetre@nvidia.com>
+ <20260714104202.1664187-2-amhetre@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260714104202.1664187-2-amhetre@nvidia.com>
 
-announce_device() currently logs the device VID:PID and string
-descriptors only after successful enumeration. This means that if
-enumeration fails, no identifying information about the device appears
-in the kernel log, making it difficult to diagnose failures.
+On Tue, Jul 14, 2026 at 10:42:00AM +0000, Ashish Mhetre wrote:
+> From: Nicolin Chen <nicolinc@nvidia.com>
+> 
+> arm_smmu_cmdq_batch_add_cmd_p() carries two distinct reasons for
+> flushing the current batch with a CMD_SYNC before appending the
+> new command:
+> 
+>   - The batch's pre-assigned cmdq does not support the new command.
+>   - The Arm erratum 2812531 workaround (ARM_SMMU_OPT_CMDQ_FORCE_SYNC)
+>     forces a SYNC at one entry before the batch is full.
+> 
+> Lift those checks into a new arm_smmu_cmdq_batch_force_sync() helper
+> so that adding another force-sync condition becomes a one-line
+> addition. No functional change.
+> 
+> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+> Signed-off-by: Ashish Mhetre <amhetre@nvidia.com>
+> ---
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 23 +++++++++++++++------
+>  1 file changed, 17 insertions(+), 6 deletions(-)
 
-Split announce_device() into announce_device_ids(), which logs the
-VID:PID and bcdDevice immediately after the device descriptor is read,
-and announce_device_strings(), which logs the product, manufacturer,
-and serial number strings after successful enumeration. This ensures
-that a device's identity is always visible in the log regardless of
-whether enumeration succeeds or fails.
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
-Suggested-by: Michal Pecio <michal.pecio@gmail.com>
-Signed-off-by: Nikhil Solanke <nikhilsolanke5@gmail.com>
----
- drivers/usb/core/hub.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 5262e11c12cd..d92bf887739d 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -2401,7 +2401,7 @@ static void show_string(struct usb_device *udev, char *id, char *string)
- 	dev_info(&udev->dev, "%s: %s\n", id, string);
- }
- 
--static void announce_device(struct usb_device *udev)
-+static void announce_device_ids(struct usb_device *udev)
- {
- 	u16 bcdDevice = le16_to_cpu(udev->descriptor.bcdDevice);
- 
-@@ -2410,6 +2410,10 @@ static void announce_device(struct usb_device *udev)
- 		le16_to_cpu(udev->descriptor.idVendor),
- 		le16_to_cpu(udev->descriptor.idProduct),
- 		bcdDevice >> 8, bcdDevice & 0xff);
-+}
-+
-+static void announce_device_strings(struct usb_device *udev)
-+{
- 	dev_info(&udev->dev,
- 		"New USB device strings: Mfr=%d, Product=%d, SerialNumber=%d\n",
- 		udev->descriptor.iManufacturer,
-@@ -2420,7 +2424,8 @@ static void announce_device(struct usb_device *udev)
- 	show_string(udev, "SerialNumber", udev->serial);
- }
- #else
--static inline void announce_device(struct usb_device *udev) { }
-+static inline void announce_device_ids(struct usb_device *udev) { }
-+static inline void announce_device_strings(struct usb_device *udev) { }
- #endif
- 
- 
-@@ -2651,6 +2656,9 @@ int usb_new_device(struct usb_device *udev)
- 		device_init_wakeup(&udev->dev, 0);
- 	}
- 
-+	/* Announce the device identity */
-+	announce_device_ids(udev);
-+
- 	/* Tell the runtime-PM framework the device is active */
- 	pm_runtime_set_active(&udev->dev);
- 	pm_runtime_get_noresume(&udev->dev);
-@@ -2672,8 +2680,8 @@ int usb_new_device(struct usb_device *udev)
- 	udev->dev.devt = MKDEV(USB_DEVICE_MAJOR,
- 			(((udev->bus->busnum-1) * 128) + (udev->devnum-1)));
- 
--	/* Tell the world! */
--	announce_device(udev);
-+	/* Announce the device's product, manufacturer and serial number */
-+	announce_device_strings(udev);
- 
- 	if (udev->serial)
- 		add_device_randomness(udev->serial, strlen(udev->serial));
--- 
-2.55.0
-
+Jason
