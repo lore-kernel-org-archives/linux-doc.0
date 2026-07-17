@@ -1,133 +1,191 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893303803DC
-	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 18:54:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784314498; cv=pass; b=B82lQeHwkv6Yx6gI5OhfWGqfbDRDQ94JaRgxALXqMa8s7DBCRJbVPw+EkKzHdD+nnqlk6lcw0fu0n90Ud2EJ0eBKE9ve9CuwGNkrs2j//IOzRxkZcRPhcFJurbKHlJ5HCJt/8gX82eLZVdzCzSIDBA3A7KkdxzmQFcQH++rBTAc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784314498; c=relaxed/simple;
-	bh=hzPKdzAkDuPInWzAG/qXgMK4TTpDSE3vfiw+jA4V4Oo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tpccCQlXM0E1c+7YtfBJcS8NUJkrwN+GtFUbXEDP8HqkxbkItKhIz107A+EzNFCmicuLV2KX6gx0O2vRavTiR/KBWtZG73KNVByKqT8voxow/fzZWvFyy19A2do4DEMFL5G9kLD99iuNohrjHbojjfOnWo+jetAudUVc1Hlr/YA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ntLq9MGr; arc=pass smtp.client-ip=209.85.219.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732FE38228A
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 19:28:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784316533; cv=none; b=rl/ypfXZZExY98cfrcxkeHbqTp+9+W13hwS+PSeh+ZIufBa05fizmUw6a3TRlKqVowPpVcwCa6wf5HBDQlwrxxkoJNIob9HyTdAJt9+ajc0vj9CbAj4WChx3ZwJblDatHVvGBsN1hKz7spAgO0dSCBzATfHOELFXJMw9ltCuOUo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784316533; c=relaxed/simple;
+	bh=WaZbN29Yb7QirGLZ6z5SCIc8GS0Y/8CnVePacwfjgX4=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=fhLCVlRmb33taHTa9M49ntbiVFpW2wGgSttSI2jQvDOWqUxCEG8M3klkWVa+FbwM9i5dTcozeHtCdAk0D9VqTOeorkWqKATS2IvaC6rsqpJkOdk75UDzXHVK1AtaH5bIxnMH6JZXIf2XN66D/7DIqRy65Ow3dGDhc+XRfozPu6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=dMCtzI8v; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ntLq9MGr"
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-8efb708b1a0so73520266d6.3
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 11:54:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784314496; cv=none;
-        d=google.com; s=arc-20260327;
-        b=daVDwKHkqIzGrL9xn+TCk/sIEha8k1ULkfG18ShePd1elFv5oxoX4Lk+pvqoRhTwxr
-         1zoeX/G2EWHMWHmtgRAy+3HHNpKJX2tpWjwC8wv4g+BeWhoXF2gtJb9yRfZn2KIlfebm
-         cFG/SJXG1fj9RA8FXCTo+wMOdJl2iTCSyzv5k/XIMvIUiGXfQaklqrZT+ehV9SRIeeA/
-         Jzo+DmOmvSPpgSYUqCqV9SE3uieLfD5WYNex4sF7tPgVJE/sdWcOVfeoyEhe7db19Zhg
-         IOWKwfxHpLHBqKQTmq2lQ6jQqNAdl96SgQ/FrZ4WrWWGqNHI8M8jgVc+bEbseZatT4ub
-         Qmrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=DngZ5CQ7ucnFVXCIsRSJeAkU/yQlFSOK73yKmtouDOM=;
-        fh=MwM/ibIM5CqoA0CYmYNey+nKQGz3x85+tcO5XyP/Ie8=;
-        b=mTeG0ROFgOS8ZTeTjyYL31PHxP5g0TQjuPFYjoptLXEv8/axuPf/o6g9FpNZKs9rOB
-         f1Hklb9dpcu3RELxxSlbtxnqSfvwZKLwRSIZQ8xLUb6on9ksVkhHQES2biwWaSDqjW3y
-         oi+AE6HbT6vUIUs5DpyWBI2YwxP+fymaDO/rp+iSdZCaNJMqDlSBnjNkyAM2QyYsEZEO
-         K4l0bLd99Z1HxP53gdvtEyWc3/vRLCLziRbj5dTfRubvG29ED2Pq88H7XebypU4mQOzq
-         STiQXAZhD8nNKHvDaUn9jPMQxXfBueB+FzfZDSft3iGvlO/4GRW35c9sxSuMi9I/iVt/
-         +IKA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="dMCtzI8v"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-92e5c9211d2so674312685a.1
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 12:28:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784314496; x=1784919296; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DngZ5CQ7ucnFVXCIsRSJeAkU/yQlFSOK73yKmtouDOM=;
-        b=ntLq9MGr6RBhonfgxqIGFc9f0VrYwT6oofBkVM+Ihg+UhE2H8+AHnHIW37z5YA8qGB
-         7vncesQ9QR0hVK35WZnKD6fO3R+YR+4qHSk5UnwgiZ79Rx3gvgtP5cHqJbtysk7UKbDZ
-         tc2FL+uPtD7Qx/HUU/01kudfkDlJrr21pzH3i9v2aNzM7ED4RCwbOwnrld6KqlnjkrSq
-         pYzO/4FdKkWRjlhMXEeauLxMi4CiQ34A0K1W/igPEtCDLuw5RG6RAjTquxZsOd7DpgxM
-         8Xo+apgXVv5KoIFnJsG7RMKBoynaCVC2I5Vok6GFyolpyQd3GdewOnDnhHvG/KtCm5Km
-         ak7g==
+        d=soleen.com; s=google; t=1784316530; x=1784921330; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Jiuq4RrEPSqzc2CjSOsVE6XMKzyT/WebTRpubajhs2o=;
+        b=dMCtzI8vBh0g31ngasHI4LRqmEEC52H7TPlvjEe3mZFI32hqRihBrTLmYdmKX3gTxt
+         60v0hj/wY1fFI2Lx+6p7qkCD+9OwlngxhoV8OnCdVFrNKJ2tYQG/HUx7ZYQ/oaYTD78k
+         7ASrUqpfQhf83uTcUWeD8zLtSVIKllk9PdX3JiCO254iDYqVT7AZqNRLXkPnKBXnUbdg
+         rLqgdQo2wReJC5YfWYkLk2qsed7lcE1tNdAc/UjKgvMuPXgB8/wyOJAE786W4+xxXKup
+         aLETAgnoaIlhjOsbvGZ1eqFqhBnjpaPqOYHOyWvA/UWfgTpYwLIryJI8GJVovXyAXGQr
+         VxUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784314496; x=1784919296;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1784316530; x=1784921330;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=DngZ5CQ7ucnFVXCIsRSJeAkU/yQlFSOK73yKmtouDOM=;
-        b=Pbo4KbeZGdgqYnOgRETyAzOBvZaIVw6SeRdLBpjTZdMOQMgctu0leN+oF1KS1EcFci
-         PuBUr53g/cWeW7SaazuwLoIQTTdzGAsEw8ip3HaZnYYhAmqnZy3i/LK+Gja3HPtMhnDn
-         O9//JCePdIquV5nCEz6GWz2wyiTEkRnukDzV0luwv1RtpEiRhcVrjTkeW32vjte5Eunl
-         F2stmPBEXOYTFNuk88e6AwnhJMexvRhmcPuzm3w6XsTsJy6u4L2ep3Hb2I7cKi5YGHQs
-         bqGgG0VGFFLMRB6dGovNXdkHvHuJi/Drs90YBitwkwotxlXjK1oU+XRmn5UVHbUyjb0h
-         jM9g==
-X-Gm-Message-State: AOJu0YwcQ3TjUIcjmwh66IgAw01VQ5ZRwTYTY4MyUncNdQ5QomUOmrRM
-	t0qFJ9GMYvI4d2He3x8QVigq1Gl/tCFdDNI98UJRiAHdJHrDp6M00he+yj65n4o2drGEXgV2un/
-	Kt4c6jEGk8jlf7oS+5rLOifqNcSm2k2nfPQm6h54=
-X-Gm-Gg: AfdE7cme1jh1F1Yl1sez+7YHPszy4Beys3hDufuBAf86h0hD0/F4dmf1+23MnbAiJ9r
-	hY1wk7IXSnK3Q41ZKSHJ+bm85J1QhwA+x+H8M8bcRosF6JkTlNIS3Gd9c3FURIrVK1Y/zaQIbJ2
-	y77CPLdhUuuurmJD/ElYuzc2x0RgbE9NosT934JmNhGC3Jq6H5RXsX60XEJ8W5+OmotXPfx4J6R
-	pn64KD7SgHy9Q5PG7jMfpzoIBRZOdqBCMJmAIe2ZmMboZAD8tC9VJF13Pfl2J/K5kGs+PPb9W3Z
-	GkfHyZzm9Gq38AiRgh84Yb7UOaVS3Q9HQZLRk9eLqWtgVoYJGVn6E/4zf0eiZeZn5CMr/4hRWC4
-	ZfBIkiHWs1w==
-X-Received: by 2002:a05:6214:5709:b0:8cc:d29:9f73 with SMTP id
- 6a1803df08f44-9077835b0c3mr46172726d6.21.1784314496026; Fri, 17 Jul 2026
- 11:54:56 -0700 (PDT)
+        bh=Jiuq4RrEPSqzc2CjSOsVE6XMKzyT/WebTRpubajhs2o=;
+        b=klPdDMjX97e2Q3YHvAuHMfvTi6M0IVtwvl2mMJqb8+k5BJiLQHRrRTqV5z9gyRpv5M
+         cL3f8SBFQYXu+Bl/dGAvhPogIqpmS13aF0BfUeGY7rJkoPu/UsAIc8GP/CZDQRMVNKgq
+         9y6aUEpLJ3tTxKWqedT8ob/qBkoMU0FwBwo57e0EcQ2MFJV1TPAfDXs4CxO5AMEPSCGM
+         WY9miu4F6K8tb6kVuY5mC6DEipOuMlw11GlRoPKTZi8vB7G1JpTpQowTD9W/lZuyhzii
+         eaAjUtjM8NNe9371MtrWEJep1sP/LEPr5IPQN1lBCjxKMIcqUd3cr+tzCayCPCyGCABH
+         5kYg==
+X-Forwarded-Encrypted: i=1; AHgh+Rpr0hTl5nrohVSTSqkT/MLf9+PLzX5Idball+U79Gzo/OJhwUoeq7bhfVkoqtj5hTJIQRtecV1AlPo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPQEj/Wg8t4oNUNqjVgjAtuRoizmz4RqUajVOTz+qAKdDCFlb+
+	V2A7d7dcRkqudsW6op/N/Xt32UBsMy4GcMhFfTXtlVsKYGaECqTrTlIt7Oo4Jpinw2U=
+X-Gm-Gg: AfdE7clpjtBMOs+mvK7BtON4uAqLC3mVUVYhB0VRVThLl3tUtKVS31Oaw3u++Rika6l
+	Mz9qizkzGgnJboRFfPzc97fuVT0+Hyw3aAXCx5AojfxX1Dy06eWw7SRNRSoUjPe022JMyNZVUeT
+	B0Ca+o3oPkSTpZUAfg1lLDj08S0qi0PHeTVue7kUYdDM9i8Pdyj0oiBRh4YYCZPzYIdw9STmq3Z
+	XrG3WHSd6vDHYeXwf+Koh7dE89EuHtsfKpAB3/yU60xhzplYfvV1GFrP5+JizBDBn6K8orQq/Xw
+	fQEHUTu7ljUcuyXrhIxAAlnaRo0SOsKUsUeQVJj38mE6k0JcWsco1qnTHLusxJYWLeycrE3OaWJ
+	6+ohVRONadjTW8zDb2LLAgPjKGRw8/D/eFNb18K1qFQVuamOFD1dt1Wty7wmCZMvouNkV+BJPHs
+	luvsK4sr1UmZ48a88NAEohbBmvMs7oAZnxkLZQB8o=
+X-Received: by 2002:a05:620a:4014:b0:930:b7f3:6c6a with SMTP id af79cd13be357-930b7f36ef3mr332805385a.66.1784316530109;
+        Fri, 17 Jul 2026 12:28:50 -0700 (PDT)
+Received: from [127.0.1.1] ([71.181.43.54])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b5304a99sm231909285a.20.2026.07.17.12.28.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 12:28:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260717165908.1040053-1-le590616@gmail.com>
-In-Reply-To: <20260717165908.1040053-1-le590616@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Fri, 17 Jul 2026 15:54:45 -0300
-X-Gm-Features: AUfX_mxdnIr6czVut2iUrL4BNnIzbWxXuxT9EPy2iEbv8eueQWxeqkfu5pyXsh8
-Message-ID: <CAMAsx6dWuHdYGGTOWZzP-Oy8DXRGh+J_QdpCzaZs4dLLLt+jbA@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: pt_BR: process: Translate programming-language
-To: Abel Philippe <le590616@gmail.com>
-Cc: linux-doc@vger.kernel.org, corbet@lwn.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v7 01/12] PCI: liveupdate: Set up FLB handler for the
+ PCI core
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
+ Adithya Jayachandran <ajayachandra@nvidia.com>, 
+ Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+ David Rientjes <rientjes@google.com>, 
+ Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+ Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, 
+ Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+ Pasha Tatashin <pasha.tatashin@soleen.com>, 
+ Pranjal Shrivastava <praan@google.com>, 
+ Pratyush Yadav <pratyush@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, 
+ Samiullah Khawaja <skhawaja@google.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
+ William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+In-Reply-To: <20260710212616.1351130-2-dmatlack@google.com>
+References: <20260710212616.1351130-1-dmatlack@google.com>
+ <20260710212616.1351130-2-dmatlack@google.com>
+Date: Fri, 17 Jul 2026 19:28:44 +0000
+Message-Id: <178431652443.189683.17611165218179620081.b4-review@b4>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2399;
+ i=pasha.tatashin@soleen.com; h=from:subject:message-id;
+ bh=WaZbN29Yb7QirGLZ6z5SCIc8GS0Y/8CnVePacwfjgX4=;
+ b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBqWoJwXimoKQnR5L+cGvO5hfmCHnc7/6Y+V/lnr
+ /tiYHeaRyWJAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCalqCcAAKCRC7dyhM23N6
+ 3mp/D/9E7WlpCbODIzubvEP77KqJASqif+QIFU1RjVar0csfnfO/87C1moo0vCfIbC5Wp4vev5R
+ Weg8hCZ2vLXDJz3lZXkA4+MsTgUcAAUyQQEjh6Qz8ByxS+sRPt3KLMkTEMLvpv/RizG0xuuOxQF
+ 1MhV3yaBpkv3AqJR2aNw5bVIXcWGqdcGm4dwrzJQd1+mhwmw2ysi1ar4aCa91WcVxiPR5258FjR
+ L6P9gv/F6g1QxuiohNcx/CYF+1WBiVYD5ElowzhhrrkWAlpbEyNU2WuMtDxB4Mk0UNqfL5d/HjP
+ yvC16iyfwmfYtymywIPSxd+6EO5awcN1kN8GBHAgvqYdjGl/++zbvsYOhHeK0VSWNJ4r8ab03Yz
+ saoGD2xsKkdhxtABu4cG0lWbRyKgCMc2jyvt4vYFCisgxPbIEVHpOE3ZdL5O9w0f6p9wglb0bd8
+ o8lDkvrrVGsHSDlOgeiZel+Pah/XGVOb89wPQ5PnIhdyocdX/blr6+4xbeExmuVdcik4GWX3RC/
+ OVRyYBeSlTJ+dIQxC/gyYJ6o7wcY28JEIbr/6z7yE0M2mJ7ZmuGjBoeX8sYSTxiFjR6Z0tfA9x/
+ 0Br6X1vRHcwO1p/zpTdETR3bzl5yaXnL/fAKnCWt7OlQVnA6hyKsV7ro9T3/H8PswPl2AIfElFc
+ 2EkAQsTiIeXe94g==
+X-Developer-Key: i=pasha.tatashin@soleen.com; a=openpgp;
+ fpr=CAAAB722DD22A081F0D49F35633A6A993D43B569
 
-Em sex., 17 de jul. de 2026 =C3=A0s 13:59, Abel Philippe
-<le590616@gmail.com> escreveu:
+On Fri, 10 Jul 2026 21:26:04 +0000, David Matlack <dmatlack@google.com> wrote:
+> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+> new file mode 100644
+> index 000000000000..899758883dd5
+> --- /dev/null
+> +++ b/drivers/pci/liveupdate.c
+> @@ -0,0 +1,155 @@
+> [ ... skip 50 lines ... ]
+> +#include <linux/slab.h>
+> +
+> +/**
+> + * struct pci_flb_outgoing - Outgoing PCI FLB object
+> + * @ser: Pointer to the preserved struct pci_ser.
+> + * @block_set: The KHO block set holding the outgoing devices.
+
+AFAIK, these should be aligned after column:
+@ser:       Pointer to ...
+@block_set: The KHO block ...
+
+> [ ... skip 26 lines ... ]
+> +	ser->devices = 0;
+> +
+> +	outgoing->ser = ser;
+> +	kho_block_set_init(&outgoing->block_set, sizeof(struct pci_dev_ser));
+> +
+> +	args->obj = outgoing;
+
+Nit:
+You could re-write the above:
+
+args->obj = no_free_ptr(outgoing);
+
+And declare outgoing like this:
+struct pci_flb_outgoing *outgoing __free(kfree) = kzalloc_obj(*outgoing);
+
+Also, remove kfree(outgoing) call.
+
 >
-> Translate the programming language documentation into Brazilian Portugues=
-e.
->
-> Signed-off-by: Abel Philippe <le590616@gmail.com>
-> ---
->  pt_BR/index.rst                        |  2 +-
->  pt_BR/process/programming-language.rst | 58 ++++++++++++++++++++++++++
->  2 files changed, 59 insertions(+), 1 deletion(-)
->  create mode 100644 pt_BR/process/programming-language.rst
->
-> diff --git a/pt_BR/index.rst b/pt_BR/index.rst
-> index 5b8b60cf930f..0b9748e8b986 100644
-> --- a/pt_BR/index.rst
-> +++ b/pt_BR/index.rst
-> @@ -83,4 +83,4 @@ kernel e sobre como ver seu trabalho integrado.
->     Conformidade de DTS para SoC <process/maintainer-soc-clean-dts>
->     Processo do subsistema KVM x86 <process/maintainer-kvm-x86>
->     Adicionando uma Nova Chamada de Sistema <process/adding-syscalls>
-> -
-> +   Linguagem de progama=C3=A7=C3=A3o <process/programming-language>
+> diff --git a/include/linux/kho/abi/pci.h b/include/linux/kho/abi/pci.h
+> new file mode 100644
+> index 000000000000..de549016807a
+> --- /dev/null
+> +++ b/include/linux/kho/abi/pci.h
+> @@ -0,0 +1,58 @@
+> [ ... skip 30 lines ... ]
+> + * @domain: The device's PCI domain number (segment).
+> + * @bdf: The device's PCI bus, device, and function number.
+> + * @refcount: Reference count used by the PCI core to keep track of whether it
+> + *            is done using a device's struct pci_dev_ser. The value of the
+> + *            refcount is equal to 1 when the struct pci_dev_ser is in use, and
+> + *            0 otherwise.
 
-Hi Abel,
+I believe descriptions must be aligned.
 
-I noticed a small typo in pt_BR/index.rst: it should be 'programa=C3=A7=C3=
-=A3o'
-instead of 'progama=C3=A7=C3=A3o'.
-Additionally, could you please include a description of the changes
-from version 1 to version 2? Providing a changelog makes it much
-easier to track what was modified.
+> + */
+> +struct pci_dev_ser {
+> +	u32 domain;
+> +	u16 bdf;
+> +	u16 refcount;
+> +} __packed;
+> +
+> +/**
+> + * struct pci_ser - PCI Subsystem Live Update State
+> + *
+> + * This struct tracks state about all devices that are being preserved across
+> + * a Live Update for the next kernel.
+> + *
+> + * @nr_devices: The number of devices that were preserved.
+> + * @devices: Physical address of the first KHO block containing pci_dev_ser.
 
+I believe descriptions must be aligned.
 
-Best regards,
+Nit: Please order the included headers alphabetically.
 
-Daniel
+Nit: Please order the included headers alphabetically.
+
+-- 
+Pasha Tatashin <pasha.tatashin@soleen.com>
