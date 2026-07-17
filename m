@@ -1,176 +1,463 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDED35838F
-	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 08:30:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA75357CEB
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 08:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784277015; cv=none; b=H95eUwT5vaGMdI6MH3kb3M+17SC6AHcGbmTSHMNOBheL5Co3NfjNg1h3AY9LPP3hxONUQ7DhJNx5VdZzqHNox3uYNeQ303dEwaLJVsWQxzVAXcjt771OEuO0tDNqnZVh0bx0b2v9OIWuk6N5Y6P0uFkMZQHEflZniNB4RCvgY8w=
+	t=1784277417; cv=none; b=MlyJRgd7ewicCQ32s6QD3rWbNMAuqGel2ptG43mhGsA9oijtn9BIpK4fJcbBS5GY8kZB7Q/Tsa5nfTBQevnX1/hgWQr+d9J0H22C2jQ9uaLVhWbZxj/ihVApSaHmULxU2c28bZWY+usTH1dRU+aOaa9HvSy5696OlZ0lzW0iC2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784277015; c=relaxed/simple;
-	bh=EHIYGO77P6cxsv069zJ+X8UpWTfJDAOiA6/SwLbfBp8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pXcJc2MxWTdXZdaH1uTAAnresY7cmrWMLbX6bmagoM25LxSfqF4Ha6h7DJC6+nvttI9/wtM5uljvujWba0klajdM+dzqn4pacfz1rsi4RBgYWDCBbEAzW9Ylzi678nSeB5CWVEAtvwzhrFVxJzLVFcgOZFrFE96PdY3IYo+KE04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lKpV5l5R; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784277417; c=relaxed/simple;
+	bh=4rg48NDemzg51/IQMQpCHk0IqY4umKmggiXS39T6YYE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=rvAGmBrV4NQOg5T2O12MuQVNN4SNw2fXaDyX+QYkIxo67dQ+RzrMveFRdKRO+j9d3VjnPsrPjcgcsXyPHRZo7/Ot13VJie3rEtqTzY8DlM4B4NOJmn7OmozXMBRRBFNq+1Wk8P2BsdafITL2fOF1qjBnYq21edQn04dTrMRoZYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RXdBJP/u; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=GG2Tp0UB; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lKpV5l5R"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8487b7b3fc8so7440384b3a.3
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 01:30:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RXdBJP/u";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GG2Tp0UB"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66H6cjhW662005
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 08:36:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=Ulbk7SUBqC4271pDNAelJS
+	LWuvYZmid0i2ru9VU0c4I=; b=RXdBJP/uthxsyzVrzvaoT4WyK/dJpgCMw/QaP4
+	iEe/N+EevFv4EnxfRM9kyqBj+c2HWTM5UfhbH/AGWZ+L2CU5Q90MxGUu528/mgTq
+	BsWu8HPUVW8fJANo9bKxY6/Wfh3udUhpKKLgx+FRMX25yWJ+I9806vG3OUTpWxNI
+	qC3S+QD9zwAfb9dGpuoaC1QNlrjrLTWjnEcePd5RbQNeSohDENSXRQsrxc++mnZ+
+	mfJcAUuZACP6Ue0Av+MqKkc0rVlKDjUZu2EO5gE9LNnIb1CTE+0qjUcnVpOltcaj
+	w4D6jplDR0c/qlYNJP7oRCHriFYgQi44WWi630kBNk9YtNOw==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ff1m9kgwh-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 08:36:53 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-8e934385db1so152265596d6.0
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 01:36:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784277013; x=1784881813; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Mfv8aCL6wb4m5PfnNNuufn2E5xtA362p0KwvX+fUtVA=;
-        b=lKpV5l5RivOaGSfn319hGhzBJM0H/UDTDBFaN4wyryptkNxCWrAl81EckWbllbEnkg
-         0vwzCMAElD4oBgCYcFr5ZcwmI7y7PnYSvCN2DGtdCnL1D8u66/E8QasCFtZCh9kkQeQ6
-         SX2OAkMW/WhRSoLEuizsOCvPM37BUDU1FV8mAWzS/VY8xxYWkWx8+cZAdS8n8w6Vxu/d
-         1n6qxZjTfIgtL9y7zA0gEHEdGlIBhad86EXG3Q+3XiU4NlOFbADV8NFvv3OtjIje3F3A
-         igOklvdNsqwb1BRE08+YxTDb0ktIT6L667rtrfbWuqYUljYitBpNzWhY8Pbw7RF1g8sm
-         7pSw==
+        d=oss.qualcomm.com; s=google; t=1784277412; x=1784882212; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Ulbk7SUBqC4271pDNAelJSLWuvYZmid0i2ru9VU0c4I=;
+        b=GG2Tp0UB2sovozsHB0JKaIWuP8XFOXG4v5UnUEmN9ZzHiXpB5nzZL6CqWRbWnVKe80
+         8fDv+c6QvjsByCwvlG58nWCjMOjA650YW4UZ2zqePSnX+n6Dex4QhxLmUWjopu/DJ6YC
+         m1lWZnz6z/fhAoWc50pi4t5jQchctXM+odm5nuCTR2CsNzA9rFEyMLBAa2tzUiR1sTA1
+         1lSv7ReMeh6Cfz2ZRwAciiL6RFQhF+MqU7JXwmv9EcH/w6rU3+hZfMY9K0Ag0VkhTAUw
+         luyVG0B4KysbIDXt6Sy/pN+2cxu+rwdhDergghfUMfrHkL8oSRtlrQ9SUGiv8FQnTxuf
+         y4uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784277013; x=1784881813;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Mfv8aCL6wb4m5PfnNNuufn2E5xtA362p0KwvX+fUtVA=;
-        b=OsGtJkzFWZ/rhEKCJQvlMoMAZXrA/aClRkgFNGi6G8IuTrM55b2PabGTWbbH3xz+N3
-         XyIWMZUAPMhU2WSZhDNPbzYI69bAU7eSGcDtsSqKpaCdKwldtY2vz0OV1aqx6BV5FeaE
-         c65hfULDuutHAYqkmVABCbRAimR0c6fdTC8xVrlPLwhlcF6UTO4pobkE9SKYVQiE5unn
-         sjnT3KQMlJzzVsn5Ke/xsUmATuqteG1ZXU/ALABYiFfEfNvCo9cEqykmZTjWzQXPpgcc
-         3wifwgLVuW79A8fAAbgX5hs1tyE25Y7MZ540jbkaSh6yXR6qWQib64JxSFIynmoqsEIi
-         j6Jw==
-X-Forwarded-Encrypted: i=1; AHgh+Rp52x3Z1HQ/AKZonBJhq6BRTND6THNCGXEdjwL8Jv2jrFpHrBKQyTl7IDrnmzismOP+teZlfNEDjJs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9tpXDunYHJEEZQCQMr4uLror1yfl30Yj/cBUjn0fv2W2kxFBr
-	iaYHE/WzEwUnq8KFBwBfTLBFQInaZcW1tgK1Ue3p+C9UR2sR35mz/LGl
-X-Gm-Gg: AfdE7cnshGcGV0z68XUHW126Jt6BM65jGt7fJlPCFNS1tk5kswIcHCS29tLeNI8pFat
-	XFwJOA/W75+9Z3l7SPBys8KKPfasuZcANsTsLFMH+0X3k+D0+X0uZZEK/77vOIAV86eqVilhNOM
-	XqKasJIyUuCeX/eOzgxi34NVM7dGBchsJ0RWiFyvTe4rRZFRFe0ldxXOwh2r1tAzpnMJoEn5SmR
-	6wm3NJK40GJIsLi2kpT48s0KsOpIDaG5ip7I057/ZvpHw8xnNxWlJ5GzX/sKZQtwmQjxdqaSfZ4
-	y/EDGpsk/jZX2AsXbvQfLa6fw5K+1B0RF84RHW0wv5/ISy7UjnTXLJkX7WyG0GBBE+UQd6zTGXf
-	v+teunbSPToeTpMotAmck+OHJSaRZRDuM/lo9pb5sgvKDyYcvcqKNsn9wbq2yH6po9jCG1/IUkh
-	s2kI+M91gIlVLjiJF/sIWDBes=
-X-Received: by 2002:a05:6a00:4fcd:b0:848:695f:eefd with SMTP id d2e1a72fcca58-84c292d1e22mr1495628b3a.6.1784277012966;
-        Fri, 17 Jul 2026 01:30:12 -0700 (PDT)
-Received: from [10.125.192.114] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84c2afae3afsm587264b3a.60.2026.07.17.01.30.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Jul 2026 01:30:12 -0700 (PDT)
-Message-ID: <eaf6a7dc-f0b5-a137-5c54-c15a9f632c09@gmail.com>
-Date: Fri, 17 Jul 2026 16:29:49 +0800
+        d=1e100.net; s=20251104; t=1784277412; x=1784882212;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Ulbk7SUBqC4271pDNAelJSLWuvYZmid0i2ru9VU0c4I=;
+        b=q4xpjOyAd9iSH//rRnuTw0w45yZc6uV1qIm5b7Jh7ToxifNhzblhEqK9JU1phCn5hX
+         PiZN6ikROfQ1j8f6IO2nAs8BSZ3D+sVBtuRxs5n51rZ2mlR8FlxxvJtPmkz6Xz50b4wj
+         XZ+z0l2tIJHnXqkRv4FY3ET33TF18X1er9eDNbjBTHNrZZ14WLWOb+HXVt6tvp1PYCC9
+         un0W3rcw7i8/slRloJG+T4D0afYZEoGgK3zzYizlX66GQCddqvFIRaSeWL8zCwn1o9A/
+         RmPqP74K87/B/qbTAQuYrDVcMjD4bzuUGOBLZ1l+UIvArJ8jz6VBZCKYTrKCax4cR7OC
+         rWOQ==
+X-Forwarded-Encrypted: i=1; AHgh+RotTl8JDrtWjXOU0+JAkpTdGF+fLj1dC3OPqWBtDWlz1JEabbqKD6A+bKLYqIMS/RGHj8sL6nZ7qOU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwooWEA6xqdtY28i89EBNx2D27hqbjGVubbOW+kb8qWVObhcvn5
+	sOsjaJUehexPFnlfLeESp3Uft6tkdM2DOjxFutsz84a87avebEekSIwcZaU712FVtZAXycO0y63
+	LLNaYbeA0im2G35rE2OPBb1hQOwqg62ifUjTy1pkSnqbYF1p99WUvxCVyI2c3LyM=
+X-Gm-Gg: AfdE7ck/Pj5w7n3X9mEK5z6J6uJGgeDVyewe/E/PmUBjaxTHpY7F5l+4I448hel05cu
+	hZGV6plGWeMqr8ETQATHm/GColrV0cG68ehX/SuB0SM1Foeih0JS7KhQjS68CdDj0xI4ZH1SHox
+	a3BA/OiVBlaTVD4k9TZjIcngDLI6nrI36Tq/qeL7DfJ5pxTmpQWvQHhMSd4mlRVapvrNIBmPhEt
+	zLK+zuMKENYU6jK7Ib7vsHn7mbUkEPR9Nz1CAg9yc8PBW1WWM30x7chXgMrqfbuwh8ozY+9SZlt
+	Wcr8XAVJH/Oe1Qzb+eh6qbMXAm3ZAc8xY1vYlNWP2ExG8jrluz+SKGtMVY5UkK9YAKF88saAzf3
+	5ms3qSKiHraLujotsppti9sUFhY6YCg==
+X-Received: by 2002:a05:622a:2596:b0:517:71d2:37d2 with SMTP id d75a77b69052e-52138ec1feemr12569911cf.0.1784277412331;
+        Fri, 17 Jul 2026 01:36:52 -0700 (PDT)
+X-Received: by 2002:a05:622a:2596:b0:517:71d2:37d2 with SMTP id d75a77b69052e-52138ec1feemr12569591cf.0.1784277411713;
+        Fri, 17 Jul 2026 01:36:51 -0700 (PDT)
+Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:dc44:5b1b:5396:79d6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2b893dsm31268205e9.8.2026.07.17.01.36.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 01:36:50 -0700 (PDT)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH v22 00/14] crypto/dmaengine: qce: introduce BAM locking and
+ use DMA for register I/O
+Date: Fri, 17 Jul 2026 10:36:26 +0200
+Message-Id: <20260717-qcom-qce-cmd-descr-v22-0-ff0d18b27246@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH 2/2] mm/zswap: Support batch writeback in shrink_memcg()
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Yosry Ahmed <yosry@kernel.org>, akpm@linux-foundation.org, tj@kernel.org,
- hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org,
- mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev,
- roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
-References: <20260714081510.16895-1-jiahao.kernel@gmail.com>
- <20260714081510.16895-3-jiahao.kernel@gmail.com>
- <CAO9r8zNiT63LUHx8X5i_aboX1UWuGkcFf+p9ch-pekURUuDdXg@mail.gmail.com>
- <2bc8e4f6-46a0-5b74-6eaa-59e7aef9227e@gmail.com>
- <CAO9r8zOFg_mnNGbFFd_h8FAwRCbQ9vXk47EF5f1CLg1cDVGB5Q@mail.gmail.com>
- <b910e870-9583-a2f5-b681-e69edb9af290@gmail.com>
- <CAKEwX=Mdi5au5aXWdx3C7d1N4_3o2uiJh2sZ=sf6kpKAdtD1zQ@mail.gmail.com>
-From: Hao Jia <jiahao.kernel@gmail.com>
-In-Reply-To: <CAKEwX=Mdi5au5aXWdx3C7d1N4_3o2uiJh2sZ=sf6kpKAdtD1zQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIvpWWoC/3XTS27DIBAG4KtEXtcRDO+uco+qC16TWErixm6tV
+ lHu3iFqFEuFhZHA9gcMP9duztOQ5+51c+2mvAzzMJ6pA/Cy6eLBn/e5HxINdMBAcc5Ef4njiZr
+ cx1PqU57j1EeVXeAcs2auox8/pozD9119e6f+YZg/x+nnPsliy+iD0zVusT3rc0wpehD06N1xO
+ Ptp3I7Tvive4lYG2KrhyHBeoYFgnQH4Z3D2RIC7KsIZKYgmy4Am+SR34zxvL1/+SB+fttT8Wfx
+ haSYY1C1OFjkcVQrSMmhZsLJoAVULyBLOojAIOiNrWWJtmbolyGJO2xwk2iibllxZIOqWLPWit
+ x4lnYxp1ks9LdmqlyonaIMSmtMJJNOy9MqCxh51saTCxKPHEGLLMk9LtTJhyFLCK6ckl8G4lmV
+ XFjT2WJLuHF0rBzp4bK7Lra36peEl8cxKA5hiQOkbFrCnpaG+Ryi5Vxo1hd7KyFTLWuXe8Homo
+ OQ+RFBWZE7Lq1m32+0XxfQVWYoEAAA=
+X-Change-ID: 20251103-qcom-qce-cmd-descr-c5e9b11fe609
+To: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Thara Gopinath <thara.gopinath@gmail.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Udit Tiwari <quic_utiwari@quicinc.com>,
+        Md Sadre Alam <mdalam@qti.qualcomm.com>,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Stephan Gerhold <stephan.gerhold@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
+        Andy Gross <agross@codeaurora.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>
+Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        brgl@kernel.org, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+        Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13771;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=4rg48NDemzg51/IQMQpCHk0IqY4umKmggiXS39T6YYE=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBqWemQ9FBskN+TOPZmT76gO+3ReVMfoNKGoNnSu
+ pVXVKvuRfWJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCalnpkAAKCRAFnS7L/zaE
+ w5roEACKj4b8V68O6GAJF1vv+DfYnqeDSo7QkZEMBhLevvk4/jIbiwGwFcwpcaoU1PSzNh9vHc5
+ F3zzf5EW7bcKcfzsT+5wgLVik8XZef+kuLbtODkOhWLDPgTby748Tw2qmFCQ6q/HTZOIq9EeXkd
+ 4fEdj4zLVqYWLkB+PTuMnEFd7aKeg0tFlj723XNKLYH4kKBgp+X4QQu94HnJAsuulfsrm8Jhi3+
+ UO4k4tdFeWt6v56NwjkWz6p+srQiNIJNxB+dvpHjlO3HDudb3pz88Yc1RkkMTmnuZK2k1roE/gl
+ yXSsi05l01wJYmWqaR61sJIw9tLIaN+dD5Hv8/dxcRrDkV+3ya526z1pT8l4xA4XNw7DLEgEJKs
+ nHvv8yxBIthFtApSaJDlfV+kcLKeHzZXkUFZAn2gWacSct5hlrDQ5XeX7Uu82D5s390uCSlnx5u
+ uuJnBSeLowzcFykDthfvnr7RdIK32EwlYvpGVioZw1BUoy6B5i6By5nMMLzJ3k9btgXVmgGS5Ay
+ DbaTOr48GyRy0QhZ2CkU0GOO3XZ1i15HIOYfPfb/DNMGc5mbpAQL6F787oa5Nc698zAhxzYMl+N
+ tDigqS+zxL0XZdSRxgkvJlTcFVXSpeefSe2mN++raS/tg1hzUvM/s+8tCVkC5MBmnEv0IPXtUaf
+ Els6Xxq7lovm7ew==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Authority-Analysis: v=2.4 cv=IMIyzAvG c=1 sm=1 tr=0 ts=6a59e9a5 cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=bC-a23v3AAAA:8
+ a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8
+ a=nO133AHVhrog2Mm9YB4A:9 a=3Q6GwuwGmGBF1VFe:21 a=QEXdDO2ut3YA:10
+ a=pJ04lnu7RYOZP9TFuWaZ:22 a=FO4_E8m0qiDe52t0p3_H:22 a=cvBusfyB2V15izCimMoJ:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE3MDA4NCBTYWx0ZWRfXzi8Ka1lf39jf
+ YaaRyEZVeRd9DJOb3HCyyK73MXQhAo8iZwIdfXTtRDJkT/SgyDhZZRSRUKzVR77gNk0cnQLhE0m
+ ip+g2++VMpXpXBHpxRvVMHjL3KuVQVj6nUw1u5dTCyG4/l6YdyfFzxsQQ6H7Bl+VLisKZCi0vAQ
+ 2TY4iJqgyeVKzH5/j7iB5tM2Ll3H5O5BRaz69nViiHom1Jnkvu3xjL3QtLZsM+1xqD42EJPIcFU
+ toBqAeS3FZzQiJrOCc2WqwoMqhvffv0cHAh46G9lJjQv8rUnwL8uht0uZF3xoWyRpTHFaG/Rb+o
+ C0Tw9ReXJGhAfelCsQQ4x7ydwSU3QiYWb1ANE/1T2L7ExbBcn3Y6Apf1+XQfi7rXA3AhBcdce29
+ 5gzhVC3ab9WOGPUHwOEMa1FwY5ZNfFcR7WXeZZjB5wpzmBkyraU29iS9gZowDzK6552+8mqRyfv
+ u7OOlDS2rYUON9yUHdw==
+X-Proofpoint-GUID: 7pKKMQM5DKVcYL3z6WRWH8YOLfu3xuoC
+X-Proofpoint-ORIG-GUID: 7pKKMQM5DKVcYL3z6WRWH8YOLfu3xuoC
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE3MDA4NCBTYWx0ZWRfX9H6gaBmBMSao
+ nzyqAZHnCq/q4mgnhjkcyfKt31QrIYSgvGZuO6X4ZVnLZiCOOMWhfBO2GIRREUctageKyYZbul2
+ CKqjE0nTZbSxpYzxd/X4/+BDXnRRbeM=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-17_02,2026-07-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 suspectscore=0 priorityscore=1501
+ impostorscore=0 bulkscore=0 adultscore=0 phishscore=0 malwarescore=0
+ clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607170084
 
+Another round of issues pointed out by Stephan and Sashiko. Stephan: if
+you consider this iteration satisfactory, I would appreciate any
+Tested-by and Reviewed/Acked-by you could provide in order to help move
+this forward.
 
+Merging strategy: there are build-time dependencies between the crypto
+and DMA patches so the best approach is for Vinod to create an immutable
+branch with the DMA part pulled in by the crypto tree.
 
-On 2026/7/17 02:04, Nhat Pham wrote:
-> On Wed, Jul 15, 2026 at 7:54 PM Hao Jia <jiahao.kernel@gmail.com> wrote:
->>
->>
->>
->> On 2026/7/16 00:14, Yosry Ahmed wrote:
->>>>>> Test Setup:
->>>>>> Total memory: 32 GB.
->>>>>> zswap settings: max_pool_percent=1, accept_threshold_percent=50,
->>>>>> shrinker_enabled=N.
->>>>>> Allocate 512MB of anonymous pages and fill them with random data (to avoid
->>>>>> compression), then use cgroup memory.reclaim to force a large amount of
->>>>>> anonymous pages into zswap. At an interval of 2ms, allocate a 4K anonymous
->>>>>> page where the first 4 bytes are random numbers and the rest are zeros, and
->>>>>> then trigger a reclamation of this 4K anonymous page through cgroup
->>>>>> memory.reclaim. When the pool threshold is reached, shrink_memcg() will
->>>>>> be triggered.
->>>>>>
->>>>>> The test data after running for 120s is as follows:
->>>>>>                               Baseline         Patched
->>>>>> shrink_worker wakeups          5363             85
->>>>>> shrink_memcg calls       11,345,012        188,264
->>>>>> written_back                  40214          40275
->>>>>>
->>>>>> Conclusion:
->>>>>> Under the same workload and run duration, the patched kernel shows a
->>>>>> significant reduction in both shrink_worker wakeups and shrink_memcg calls.
->>>>>
->>>>> Please also include data from the case where zswap store failures are
->>>>> observed and pages go to disk, and compare before and after this
->>>>> patch. I think that part is also really important.
->>>>
->>>> I retested and added some collected information. Perhaps
->>>> `pool_limit_hit` and `pswpout` can explain that batch shrinking of zswap
->>>> can reduce the number of pages that fail to be stored due to the pool
->>>> limit, allowing zswap to skip zswap and go directly to disk.
->>>
->>> Oh I meant the other test case with high memory pressure where we saw
->>> a lot more writeback with this patch. Do you have similar data from
->>> that test case?
->>>
->>
->> Below are the results from stress-ng (high memory pressure case), which
->> lead to a similar conclusion:
->>
->>                                 Baseline      Patched
->> shrink_worker wakeups         5,640           987
->> shrink_memcg calls        8,481,500     2,504,818
->> written_back pages               260       768,576
->> zswap_store calls           2,742,756     2,301,414
->>     store succeeded (ret=1)     934,640     1,308,686
->>     store rejected (ret=0)    1,808,116       992,728 <-
->>     store reject rate            ~65%           ~43%
->> pool_limit_hit delta        1,181,310       101,593 <-
->> pswpout                     1,808,376     1,761,304
->> pswpin                      4,288,497     3,902,658
->>
->>
->> pswpout = store rejected + written_back pages
->> Note that pswpout comprises two parts: the store rejected count (where
->> we skip zswap and go directly to disk) and the number of pages written
->> back by shrink_memcg().
->>
->> Therefore, we can directly leverage store rejected to evaluate the
->> scenario where zswap is skipped and pages bypass it to disk. This
->> provides a much clearer picture than looking at pswpout alone.
->>
->> Do we need to include both sets of test results along with the
->> comparison data in the final commit message?
-> 
-> I mean, it helps your case no? :)
+Currently the QCE crypto driver accesses the crypto engine registers
+directly via CPU. Trust Zone may perform crypto operations simultaneously
+resulting in a race condition. To remedy that, let's introduce support
+for BAM locking/unlocking to the driver. The BAM driver will now wrap
+any existing issued descriptor chains with additional descriptors
+performing the locking when the client starts the transaction
+(dmaengine_issue_pending()). The client wanting to profit from locking
+needs to switch to performing register I/O over DMA and communicate the
+address to which to perform the dummy writes via a call to
+dmaengine_desc_attach_metadata().
 
-Yes, I will add both sets of test results to the commit message in the 
-next version.
-> 
-> But nicely done. My understanding is, this batching of the global
-> shrinker reduces overall disk swap fallback, correct?
-> 
-> Other than Yosry's comment, the rest LGTM FWIW :) Thanks for fixing this, Hao!
+In the specific case of the BAM DMA this translates to sending command
+descriptors performing dummy writes with the relevant flags set. The BAM
+will then lock all other pipes not related to the current pipe group, and
+keep handling the current pipe only until it sees the the unlock bit.
 
-Thanks for the review, Nhat!
+In order for the locking to work correctly, we also need to switch to
+using DMA for all register I/O.
 
-Thanks,
-Hao
+On top of this, the series contains some additional tweaks and
+refactoring.
+
+The goal of this is not to improve the performance but to prepare the
+driver for supporting decryption into secure buffers in the future.
+
+Tested with tcrypt.ko, kcapi and cryptsetup.
+
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+Changes in v22:
+- Switch back to passing the QCE scratchpad register address to the BAM
+  DMA driver using the slave config structure but this time provide a
+  dedicated peripheral config structure
+- Rename the scratchpad_addr field to lock_scratchpad_addr
+- Remove leftover local variables
+- Use the BAM struct device for DMA mapping instead of the QCE device
+- Use cpu_to_le32() where needed
+- Don't silently queue data if setting up the locks failed, defer
+  transfer and emit an error message
+- Remove redundant is_lock_desc check in bam_start_dma()
+- Link to v21: https://patch.msgid.link/20260713-qcom-qce-cmd-descr-v21-0-bc2583e18475@oss.qualcomm.com
+
+Changes in v21:
+- Fix a potential race with new descriptors submitted while hardware is
+  processing a locked sequence by clearing the bam_locked state right
+  after queueing the UNLOCK descriptor
+- Link to v20: https://patch.msgid.link/20260629-qcom-qce-cmd-descr-v20-0-56f67da84c05@oss.qualcomm.com
+
+Changes in v20:
+- Don't use DMA cookies for LOCK/UNLOCK descriptors as this leads to
+  dmaengine state corruption
+- Handle re-scheduling of a DMA transaction on full FIFO
+- Fix DMA descriptor leak in qce_submit_cmd_desc()
+- Link to v19: https://patch.msgid.link/20260526-qcom-qce-cmd-descr-v19-0-08472fdcbf4a@oss.qualcomm.com
+
+Changes in v19:
+- Fix more potential issues in remove path (sashiko)
+- Remove unneeded return value check for vchan_tx_prep() as it can never
+  fail
+- Link to v18: https://patch.msgid.link/20260522-qcom-qce-cmd-descr-v18-0-99103926bafc@oss.qualcomm.com
+
+Changes in v18:
+- Free the BAM interrupt before disabling the clock in remove() path too
+- convert the size assigned to command descriptors to little endian
+- don't pass DMA mapping attributes to dma_map_sg() in bam_dma when
+  setting up command descriptors
+- Cancel the QCE workqueue *after* any outstanding DMA transfer
+  completes
+- When mapping the scatterlist for command descriptors: use the actual
+  number of mapped segments for dmaengine_prep_slave_sg()
+- Drop the leftover read_buf field from struct qce_device
+- Unmap command descriptors only after terminating the RX transfer
+- Pass the actual size of the metadata struct to
+  dmaengine_desc_attach_metadata(), this is not really required for our
+  use-case but let's do this for correctness and make sashiko happy
+- Drop double assignment of bam_ce_idx in qce_clear_bam_transaction()
+- Remove unused QCE_MAX_REG_READ
+- Link to v17: https://patch.msgid.link/20260519-qcom-qce-cmd-descr-v17-0-53a595414b79@oss.qualcomm.com
+
+Changes in v17:
+- New patch: free the interrupt before disabling the clock in error path
+  in probe()
+- New patch: cancel the QCE work on device detach
+- Hold the channel lock when attaching the metadata
+- Reorder the operations in devm_qce_dma_request() to avoid freeing
+  memory that may still be used by the DMA channel
+- Register algorithms as the last step in QCE's probe() to avoid making
+  the resources available to the system before the DMA is fully set up
+- Fix error paths in algo request handlers
+- Don't pass dmaengine attributes to map_sg_attrs() as it expects
+  dma-mapping attribute flags
+- Fix a dma mapping leak for command descriptors
+- Rebase on top of v7.1-rc4
+- Link to v16: https://patch.msgid.link/20260427-qcom-qce-cmd-descr-v16-0-945fd1cafbbc@oss.qualcomm.com
+
+Changes in v16:
+- Fix a reported race between dma_map_sg() called with spinlock taken
+  and the corresponding dma_unmap_sg() called without it by moving the
+  descriptor locking data into the descriptor struct
+- Also queue the TX data descriptors before the command descriptors to
+  match what downstream is doing
+- Tweak commit messages
+- Rebase on top of v7.1-rc1
+- Link to v15: https://patch.msgid.link/20260402-qcom-qce-cmd-descr-v15-0-98b5361f7ed7@oss.qualcomm.com
+
+Changes in v15:
+- Extend the descriptor metadata struct to also carry the channel's
+  transfer direction and stop using dmaengine_slave_config() for that
+- Link to v14: https://patch.msgid.link/20260323-qcom-qce-cmd-descr-v14-0-f323af411274@oss.qualcomm.com
+
+Changes in v14:
+- Don't return an error to a client which wants to use locking on BAM
+  that doesn't support it
+- Add a comment describing the DMA descriptor metadata structure
+- Fix memory leaks
+- Remove leftovers from previous iterations
+- Propagate errors from dma_cookie_assign() when setting up lock
+  descriptors
+- Link to v13: https://patch.msgid.link/20260317-qcom-qce-cmd-descr-v13-0-0968eb4f8c40@oss.qualcomm.com
+
+Changes in v13:
+- As part of the DMA changes in the QCE driver: reverse the order of
+  queueing the descriptors in the QCE driver: queue command descriptors
+  with all the register writes first, followed by all the data descriptors,
+  this is in line with the recommandations from the BAM HPG
+- Set the NWD (notify-when-done) bit (DMA_PREP_FENCE in dmaengine
+  parlance) on the data descriptors to ensure that the UNLOCK descriptor
+  will not be processed until after they have been processed by the
+  engine. While technically the NWD bit is only needed on the final data
+  descriptor, it's hard to tell which one *will* be the last from the
+  driver's point-of-view and both the downstream driver as well as
+  the Qualcomm TZ against which we want to synchronize sets NWD on every
+  data descriptor,
+- Revert to creating the LOCK/UNLOCK command descriptor pair in one
+  place now that the NWD bit is in place,
+- Link to v12: https://patch.msgid.link/20260310-qcom-qce-cmd-descr-v12-0-398f37f26ef0@oss.qualcomm.com
+
+Changes in v12:
+- Wait until the transaction is done before queueing the UNLOCK command
+  descriptor
+- Use descriptor metadata for communicating the scratchpad address to
+  the BAM driver
+- To that end: reverse the order of the series (first BAM, then QCE) to
+  maintain bisectability
+- Unmap buffers used for dummy writes after the transaction
+- Link to v11: https://patch.msgid.link/20260302-qcom-qce-cmd-descr-v11-0-4bf1f5db4802@oss.qualcomm.com
+
+Changes in v11:
+- Use new approach, not requiring the client to be involved in locking.
+- Add a patch constifying dma_descriptor_metadata_ops
+- Rebase on top of v7.0-rc1
+- Link to v10: https://lore.kernel.org/r/20251219-qcom-qce-cmd-descr-v10-0-ff7e4bf7dad4@oss.qualcomm.com
+
+Changes in v10:
+- Move DESC_FLAG_(UN)LOCK BIT definitions from patch 2 to 3
+- Add a patch constifying the dma engine metadata as the first in the
+  series
+- Use the VERSION register for dummy lock/unlock writes
+- Link to v9: https://lore.kernel.org/r/20251128-qcom-qce-cmd-descr-v9-0-9a5f72b89722@linaro.org
+
+Changes in v9:
+- Drop the global, generic LOCK/UNLOCK flags and instead use DMA
+  descriptor metadata ops to pass BAM-specific information from the QCE
+  to the DMA engine
+- Link to v8: https://lore.kernel.org/r/20251106-qcom-qce-cmd-descr-v8-0-ecddca23ca26@linaro.org
+
+Changes in v8:
+- Rework the command descriptor logic and drop a lot of unneeded code
+- Use the physical address for BAM command descriptor access, not the
+  mapped DMA address
+- Fix the problems with iommu faults on newer platforms
+- Generalize the LOCK/UNLOCK flags in dmaengine and reword the docs and
+  commit messages
+- Make the BAM locking logic stricter in the DMA engine driver
+- Add some additional minor QCE driver refactoring changes to the series
+- Lots of small reworks and tweaks to rebase on current mainline and fix
+  previous issues
+- Link to v7: https://lore.kernel.org/all/20250311-qce-cmd-descr-v7-0-db613f5d9c9f@linaro.org/
+
+Changes in v7:
+- remove unused code: writing to multiple registers was not used in v6,
+  neither were the functions for reading registers over BAM DMA-
+- remove
+- don't read the SW_VERSION register needlessly in the BAM driver,
+  instead: encode the information on whether the IP supports BAM locking
+  in device match data
+- shrink code where possible with logic modifications (for instance:
+  change the implementation of qce_write() instead of replacing it
+  everywhere with a new symbol)
+- remove duplicated error messages
+- rework commit messages
+- a lot of shuffling code around for easier review and a more
+  streamlined series
+- Link to v6: https://lore.kernel.org/all/20250115103004.3350561-1-quic_mdalam@quicinc.com/
+
+Changes in v6:
+- change "BAM" to "DMA"
+- Ensured this series is compilable with the current Linux-next tip of
+  the tree (TOT).
+
+Changes in v5:
+- Added DMA_PREP_LOCK and DMA_PREP_UNLOCK flag support in separate patch
+- Removed DMA_PREP_LOCK & DMA_PREP_UNLOCK flag
+- Added FIELD_GET and GENMASK macro to extract major and minor version
+
+Changes in v4:
+- Added feature description and test hardware
+  with test command
+- Fixed patch version numbering
+- Dropped dt-binding patch
+- Dropped device tree changes
+- Added BAM_SW_VERSION register read
+- Handled the error path for the api dma_map_resource()
+  in probe
+- updated the commit messages for batter redability
+- Squash the change where qce_bam_acquire_lock() and
+  qce_bam_release_lock() api got introduce to the change where
+  the lock/unlock flag get introced
+- changed cover letter subject heading to
+  "dmaengine: qcom: bam_dma: add cmd descriptor support"
+- Added the very initial post for BAM lock/unlock patch link
+  as v1 to track this feature
+
+Changes in v3:
+- https://lore.kernel.org/lkml/183d4f5e-e00a-8ef6-a589-f5704bc83d4a@quicinc.com/
+- Addressed all the comments from v2
+- Added the dt-binding
+- Fix alignment issue
+- Removed type casting from qce_write_reg_dma()
+  and qce_read_reg_dma()
+- Removed qce_bam_txn = dma->qce_bam_txn; line from
+  qce_alloc_bam_txn() api and directly returning
+  dma->qce_bam_txn
+
+Changes in v2:
+- https://lore.kernel.org/lkml/20231214114239.2635325-1-quic_mdalam@quicinc.com/
+- Initial set of patches for cmd descriptor support
+- Add client driver to use BAM lock/unlock feature
+- Added register read/write via BAM in QCE Crypto driver
+  to use BAM lock/unlock feature
+
+---
+Bartosz Golaszewski (14):
+      dmaengine: constify struct dma_descriptor_metadata_ops
+      dmaengine: qcom: bam_dma: free interrupt before the clock in error path
+      dmaengine: qcom: bam_dma: convert tasklet to a BH workqueue
+      dmaengine: qcom: bam_dma: Extend the driver's device match data
+      dmaengine: qcom: bam_dma: Add pipe_lock_supported flag support
+      dmaengine: qcom: bam_dma: add support for BAM locking
+      crypto: qce - Cancel work on device detach
+      crypto: qce - Include algapi.h in the core.h header
+      crypto: qce - Remove unused ignore_buf
+      crypto: qce - Simplify arguments of devm_qce_dma_request()
+      crypto: qce - Use existing devres APIs in devm_qce_dma_request()
+      crypto: qce - Map crypto memory for DMA
+      crypto: qce - Add BAM DMA support for crypto register I/O
+      crypto: qce - Communicate the base physical address to the dmaengine
+
+ drivers/crypto/qce/aead.c        |  10 +-
+ drivers/crypto/qce/common.c      |  20 ++--
+ drivers/crypto/qce/core.c        |  41 ++++++-
+ drivers/crypto/qce/core.h        |   7 ++
+ drivers/crypto/qce/dma.c         | 175 ++++++++++++++++++++++-----
+ drivers/crypto/qce/dma.h         |  11 +-
+ drivers/crypto/qce/sha.c         |  10 +-
+ drivers/crypto/qce/skcipher.c    |  10 +-
+ drivers/dma/qcom/bam_dma.c       | 250 +++++++++++++++++++++++++++++++++------
+ drivers/dma/ti/k3-udma.c         |   2 +-
+ drivers/dma/xilinx/xilinx_dma.c  |   2 +-
+ include/linux/dma/qcom_bam_dma.h |  13 ++
+ include/linux/dmaengine.h        |   2 +-
+ 13 files changed, 453 insertions(+), 100 deletions(-)
+---
+base-commit: 9c2d57db8bee1d5603f98c1a5a510c2114fb0d26
+change-id: 20251103-qcom-qce-cmd-descr-c5e9b11fe609
+
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+
