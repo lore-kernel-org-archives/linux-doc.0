@@ -1,171 +1,142 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010063.outbound.protection.outlook.com [52.101.56.63])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684653BB48;
-	Fri, 17 Jul 2026 21:17:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784323032; cv=fail; b=jtdJJyCdxthm0JUTtQPNtjSCFjvuB2UWkY9LON9sU5IqcNuSM3fsbSMIqMTGdLIW+PJmnvnoxxcR4wap6gLtst1rIG9DGSc9MZ5YodBIt/xtbsUTyRZZ0erGBAPiSkPXLYaYWvlp+E+qbS0WuPP7wrN7Up0uv2UPVaQMuhpZITY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784323032; c=relaxed/simple;
-	bh=2ToBXVtMisecpw40zoPSHu+bqDSS8wh5ZXYFXOnVFwQ=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YgNUZRASHXKzMrO/PGcIHdp8XYBQ8vHOpsMvCuNTP3yUt0fzdARPtMCgjJN9lAykGuFmE1jj8YAtOfTBmfB+q5ZpCWB9weyUy9wcKqO4nk1PE+VP/IYHbOyxvPfL4Z8pOQkXwRoP6pp5OADEKHgg9BwB71DLQu71nq8idoiqPZw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=VjJyuEgt; arc=fail smtp.client-ip=52.101.56.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC5418FDDE
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 21:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784324823; cv=none; b=UD9SmJU8OeYbW1n93tUgMaAF71k/x88maePLvBLCR5j8hkpGpebaq++07pWSCa4ROovrwCuUEnMOm17ZawaZRNjUI5TZ6gEd8dKYyObnzMgU5FoEbyULn99PqMCS1Zzk4OC8qMem/ChSd74lSFyiDFGmRlSfC81yfPS5BWfQZ/c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784324823; c=relaxed/simple;
+	bh=ahWVhQAgslIBwnfpmx5X48jHe/0a44QV3IQwRfGz+iU=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=NaVDUFOLcuOqx3/1Ixybkp6xMuSgYrnyaQwYqNJIDXlCH/MU4hupZh5kYek/fx8z60r2B1u1r2P3RowrFCvEKSrkZVtASlPL/VVB304nvR0spYM2K1Wzy9U8Uk6K3frIXo0LjMYT4Ro/wHFaZTBxztYDgCUYhdOkQXplyzfoqRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=MNUHQ6uX; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="VjJyuEgt"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=T6IyvfebBC2/VfVbiaPMUIwhNOLnm33zrVNgnc/GYJx+huzkbm3VX+eM8OjHXC6qpDBIrpQuMXuj7+Z2MoRbyeXg4owOraQMG5o6o+ZqRBwRSeS18V4/OlU859j9uawYAm5+EhqJkyvSrtQkg/9AVXZ+Xd4aF74pROSrNIImdVqzstQ3oRmC/uxBPVCLwij47MYTgPxrH4QPsSHQpwtofdJGx2iSnnReEQua4VLDKTKxrS3QaTR4ZPXJo1hxZVkSdFLfT3LnpRrtRIwpidKIcRpwr629ArQP9rb06qUj18Zg8bKFDHwPicPgJ54eveo/tWDJoaLpdqyqa1WaL0VqqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1CT0EbR6A+J8pw2YOPlSdewjShPvq9O9oTH0IwGZ6kg=;
- b=IpElM/hnTO0pzXc9Js9r28Yingl/kHK4mRCfpj5IVosloJIB9AMwzAQH04BUwHwgQ54Zxe6V0PXoFTESqRtMwSKmNiLLqCFdQ4hh68DWpiYeYCr8MK9dZMp/MkXmUrpKraxKaTRXLvZ8CP/IHIV/8c1insmnIpkBkv2EdEBUMxBkfjIM8aOB461Q2QbX0/wE+w0POc3c4FfBu6rGqBPqXPGhpHJpFBArJelLIvP1N6rUbmUs4j/sY5z7F8IrSwIV0zSBN76UCyt+ctZE9RwZnm12PN0DMDqEoyvlmMWLh0v63BHgOe24d2RDX3ln8iMwOjpmJL9wtkr9dwPT2w3/uQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=ziepe.ca smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1CT0EbR6A+J8pw2YOPlSdewjShPvq9O9oTH0IwGZ6kg=;
- b=VjJyuEgt5BJS5a6zepbkZSd/Fsjs11Jt558lQg+QeBI2O4eF7AH0P5nW7afk183yHvY1j6/fbdVKLwM7LP/tHXFVOGQe1Pq/uXCLdyrPVrxI4fcMcDApULE3M3W3ZBiJTW0/sN7ppPkUt8LH08uy1NyiFM2veVBq1XQ2y3S4rPW5b24GcbARbq7kGGmwt43wqgeNa1G+qncXY/jmgcPKHT1L0G1WK61z79Oy6urFnO6Fz1DMZ3jP0TrBkS57XIyXN3uPFrqOZUTjz4WRIKIY9A8xIOezcKSGpSWKLEPOp6yfByPXuxc4xecBpZ1CGINj2LmI4lvChctk6j+csiG9VQ==
-Received: from CH0P223CA0008.NAMP223.PROD.OUTLOOK.COM (2603:10b6:610:116::19)
- by BN7PPF0D942FA9A.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6c7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.13; Fri, 17 Jul
- 2026 21:17:07 +0000
-Received: from CH2PEPF0000009F.namprd02.prod.outlook.com
- (2603:10b6:610:116:cafe::5c) by CH0P223CA0008.outlook.office365.com
- (2603:10b6:610:116::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.223.13 via Frontend Transport; Fri,
- 17 Jul 2026 21:17:06 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- CH2PEPF0000009F.mail.protection.outlook.com (10.167.244.21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.245.5 via Frontend Transport; Fri, 17 Jul 2026 21:17:06 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Fri, 17 Jul
- 2026 14:16:58 -0700
-Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Fri, 17 Jul 2026 14:16:57 -0700
-Received: from nvidia.com (10.127.8.12) by mail.nvidia.com (10.126.190.180)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 17 Jul 2026 14:16:55 -0700
-Date: Fri, 17 Jul 2026 14:16:53 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-CC: Ashish Mhetre <amhetre@nvidia.com>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-	<robin.murphy@arm.com>, <joro@8bytes.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
-	<linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH v7 2/3] iommu/arm-smmu-v3: Introduce CFGI/TLBI-repeat
- workaround infrastructure
-Message-ID: <alqbxaKVYFX1BZR5@nvidia.com>
-References: <20260714104202.1664187-1-amhetre@nvidia.com>
- <20260714104202.1664187-3-amhetre@nvidia.com>
- <20260717201841.GC701389@ziepe.ca>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="MNUHQ6uX"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-51c2149571dso40671801cf.3
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 14:47:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1784324819; x=1784929619; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=AgfKPfkfc4jyNoAXQ924zrK3vmVWU/VwnFCFChfwVj0=;
+        b=MNUHQ6uXyAu/5hZqvQhxUjA9gAsaSUkDLtHs9SBhoYzax+b/lnpiChdpccm77YPmzt
+         SZU33e6UkkvQEGU05ml5CmnTkmOJwh2gnKlx0wFVW2iMpyK1NK5QeMYAabd9ZPCoDBKW
+         8gpfW8ER8ijvXWGJ4QFLhibpVg5MwTq9Yz3Z1o2sjYg2UlYS+6XvEoHgFj7T1k1TRv7d
+         QgKWG0Ug4w+QR4yshnq2scoE9AA8YNNY9Fe1h4L4o3XRuU/Z6HkZ1yL6vq2GBbhtZs1u
+         /hYEHAERta3W3rEeP+o5Zy6koITetobWCKi3WyBZewYuBqrCgnhZKNDIQQOhUo+caNjE
+         yfKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784324819; x=1784929619;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AgfKPfkfc4jyNoAXQ924zrK3vmVWU/VwnFCFChfwVj0=;
+        b=NwNUTc5xPkWICGgbXDCzabmncLSave4V4Dbd1o5c3/XEBz0MGIWpDpcvTp6f0YyXPi
+         B+X92Udt/xsmYN0ZXOfTPvYjW01NPEms+mz5H5vUeepADF88iJ3jbz7EhOQls3tyQ3+l
+         KGFCZJW7V5c9ogvdmnMb5/Yz5qI/CxCJIlRYq1Sm/8458l+bm3xmoDRqBcnLlOfsgijq
+         VWWZY5ePMWUDUR/P60oxTXrjEgaeLL6TAmiC739ap1qdHCDf6hgYbrOBoYGlSpvmHqxH
+         5sdaRbMieJZWlVgSiPjaf8veqHluA5yHSSdqiQC4VVRM754sz3hQhIXgVHkGDfZTAgoI
+         LuXw==
+X-Forwarded-Encrypted: i=1; AHgh+RptMSzPZ2hDFFnDrZD16+AZYbeqUw+7LVNU4LIj+3acoOOcU/6+uq6Z1PJyKG9X83uLluogtNyBcaU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YycI1kDCSdMqV7OKq2/m5qD1uK7u1wbUCCM+C6HVFFK+dfppJtl
+	E+nga+x7HzawgaVOlHlrZ/TVTLc8ZPu1TkSJFyCuYaU4/MntJVXbsF7p/NGchhaJtwU=
+X-Gm-Gg: AfdE7clG4nsAXImFd+euX1jUzI+610MfsFFIiHwL3fQ+9YwqsdjLUbENgpfEFn061Xe
+	/lgUXsSVrY+wE76zuWC3mwUiMiaBXIoV1LJfv2QqkHUNeUIKos01QILls38ieRXznq8cHIwGzcs
+	EjuWdp4YPr5oWDubohTXNKDp+PGVaqOgyo4YOqUe+ufjMlDKgrwh89AnzFFJjAwsC0k+C0XSj3e
+	+2ZXkOci7GK7wkLyUUCfKFM4G2pbnyJ/6biDntiuqkX+YuYoMCgkK2XGHMqAJoQ1iFwJSDME3cf
+	G4w8imyRGIP2cELwTfS8hQj3TEJ/NPmMR2HN5YjpCrZ5+gos0nvQr4U3Nx57AiQBjE2/jnAPze7
+	Sm5YJ3Bx0/Or197sUExDELfPxd2zYvjVLWQLDKxgHcQHFHPIRWNakm8GXhM8QipbK1vDgFzg6dG
+	WXWA27WW4Y5mCMn94DvoC6eYpkA00xgCn2JvkRzJ4yLoRLeyROQQ==
+X-Received: by 2002:ac8:5acc:0:b0:51a:8c97:fb93 with SMTP id d75a77b69052e-5213fc54d44mr43814441cf.60.1784324819586;
+        Fri, 17 Jul 2026 14:46:59 -0700 (PDT)
+Received: from [127.0.1.1] ([71.181.43.54])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5214c5cc8d5sm21955091cf.6.2026.07.17.14.46.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 14:46:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260717201841.GC701389@ziepe.ca>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF0000009F:EE_|BN7PPF0D942FA9A:EE_
-X-MS-Office365-Filtering-Correlation-Id: 442c223d-dea6-4aac-a97e-08dee448c178
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|82310400026|1800799024|7416014|376014|23010399003|6133799003|3023799007|5023799004|4143699003|11063799006|56012099006|10067099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	j1KL3XNOyAPaS9KtfVJCeR8lJ7NbrNuDBqsp9PSTBAxS3fNLp+xdhQQpiIzOaW0jWH2bxSsgRJTMDnvIkXYz+KXSWMicUM9MfIWORTf+DuaBkh/NutyRkhJq6zJLjwBjBjPJvy8v3JyVkrmiO8GmGZc+O26YbtdKX5Z2iVgDjfu0FU+tDmhYOVK9SfzqPIO0lrYpvEd0N8R1WBvJM4BjmrLH5UfV+OC/6bxBTKo6b077MmMNwdr9M5J7rO/6/3ZWisdHN4GtFPWhf7/PjJ6VKLr6t1HP0oOWlSOSFxyn16dbDkGFSwCTv6JSGq4U8NsR5DxcXZqFev+AgRxb0RjS5RD1twxM10Z7d0bp/ufT1LZXrYsYDvHGpxoosB7oqNt+mdqpMjhc8g3Zqt0Arxq9G6opXIuhS8ubnchccJm/yZeUCouzY6W9/xDEqGKXbhAcDNDvzChNVzHexSouye8UxBlbrjvvZk0PGjgEZMcb4j719LL3PNeoqkSfoRud8UaWRNBHYQlNZPvbnvyMYhFRbehkadOrnDIIUuLrZ9zLsQsTeRccjYPBiG6szteKktQGB08HiFsYm1nhV0hVOqhU6VgWlf55W0lwzlNOiL2DCMBGbPdfm5EXfJ4SYTN6L5FLaJjHuw4xdMHzGftdfyy+Y3P4DBsQ4CervfHN0LVusMAwSSzP1pDFoA1J7w+17wLqkJ0jwwl982JxFDH1/AN7vQ==
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(1800799024)(7416014)(376014)(23010399003)(6133799003)(3023799007)(5023799004)(4143699003)(11063799006)(56012099006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	WF+oZbWQYg/Q+tdWeeC/9EYKxMlsbs2T2ZIlxl8PrzIrZsOpjAIfK9xyzUaZ3yzFn77yeF96Y18VIv5yjxGcL1QZOblssUXXAqmLev01PFy0dPKahEkTFcOgdBGJxfNt0sGGkE/pZ6hFj2PXL/Q7vbHuLhdDBT7JbpE6cYprk5Q+ktUOKVYFE89jMtY6kQYiwBQd3SWIY9Pi80RdFi8UUdqcJoiJk+svZTA9pOPkTK/7NlkuWURnxIQGMzEtXT8z93JQl3ARwcGKqc4E0FGhdZUBjLfHdTbirv0nUhGKwAgD4P+uSJ7aRGQNIZ3kD/DbFXF1oPUnSIsutXXGnBm4FJTHCXF5vnfvqP2vTHj3e/PskxDQLs9zhpA7ypIQ6upO/FoYOxRPQXg/7xCBCjvfJ4QHVzVFSCTGJurrOaHqocDlbdB6ZY460zlxtFi0D5XO
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2026 21:17:06.6581
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 442c223d-dea6-4aac-a97e-08dee448c178
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH2PEPF0000009F.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF0D942FA9A
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v7 03/12] PCI: liveupdate: Track incoming preserved PCI
+ devices
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
+ Adithya Jayachandran <ajayachandra@nvidia.com>, 
+ Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+ David Rientjes <rientjes@google.com>, 
+ Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+ Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, 
+ Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+ Pasha Tatashin <pasha.tatashin@soleen.com>, 
+ Pranjal Shrivastava <praan@google.com>, 
+ Pratyush Yadav <pratyush@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, 
+ Samiullah Khawaja <skhawaja@google.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
+ William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+In-Reply-To: <20260710212616.1351130-4-dmatlack@google.com>
+References: <20260710212616.1351130-1-dmatlack@google.com>
+ <20260710212616.1351130-4-dmatlack@google.com>
+Date: Fri, 17 Jul 2026 21:46:52 +0000
+Message-Id: <178432481253.189683.3297727348836286619.b4-review@b4>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1380;
+ i=pasha.tatashin@soleen.com; h=from:subject:message-id;
+ bh=ahWVhQAgslIBwnfpmx5X48jHe/0a44QV3IQwRfGz+iU=;
+ b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBqWqLRRsSwqC6u4RSv76ETLMmVCyhdUsVHiqEBy
+ IzSCQuBMK+JAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCalqi0QAKCRC7dyhM23N6
+ 3vK4D/4oivNUuZbxrdZZJAOMVjLNn7oaWYDk2Y4dxn2IVLciov4pX+4V8SBAYA4KhEpyZKQ2mzg
+ B03dHNIKdFOpoPbLkuTRk9ZGugmK2ChP6tAHjBDG3RkOkva5OLSR6JBKmrLBG2GEATEY/EOLIZ6
+ eY/PqU+3F+O6j7iFegvOLxHq4AGPuXSVacvDtCjafit/axJj9LIZ8kF409sq6qgcKO5JKSa8Jea
+ R0CHNLN/rrFF9+PoaDcZ3B9yBydtITA6U5LOFg19G95jV2FYfsILSxxBbZrxUBXAadtzCS2F9wc
+ ojlbkyeQfKGhVsMnUf0jafSZJy8tlQ5ygLO7zUxGMxHU0yDSH9+T6zwkWpBoVu1DzV6CaJNE61t
+ UznWIUm+HsrUwRRGxWKvQ4wAZb7dT86JZoYl//i+SFOHLjV+15QOw7niAqqrMwWfQasB4V2Hxwt
+ eXCZu13O9+xov9pJgVNEtvYTQmPpi6xZlCFh5C0RT0QzDoNbZ/WnJZuT0M8/c8BHxvB3E/domK/
+ fmKpXprZCKUC0ZMdFx+RiHls3kZs/ypakbVXPUHyzfXsnIT6DxIFfXMfg5kTylkBxQPg2GwLoaZ
+ CRH5LGmNRRTuTgY1EFBAo8as9+ZfD4j3ydB1vBG6faS20lFZ3r8fycLqRoy2hUgcnWVKGbkEtVC
+ YOLWzX1kCSM2bCw==
+X-Developer-Key: i=pasha.tatashin@soleen.com; a=openpgp;
+ fpr=CAAAB722DD22A081F0D49F35633A6A993D43B569
 
-On Fri, Jul 17, 2026 at 05:18:41PM -0300, Jason Gunthorpe wrote:
-> On Tue, Jul 14, 2026 at 10:42:01AM +0000, Ashish Mhetre wrote:
-> Because the VM has access to VCMDQ/etc it can issue commands directly
-> (maybe not on this chip, but as a general comment), thus invalidation
-> errata need to be made visible to the VM and we need to expect the VM
-> will generate invalidations to properly deal with any errata.
-> 
-> Ie I'd expect the VM to see a "nvidia,tegra264-smmu" compatible string
-> to activate the errata fix.
-> 
-> If so then we will already get duplicated invalidations here and then
-> we will duplicate them again. That's not great.
+On Fri, 10 Jul 2026 21:26:06 +0000, David Matlack <dmatlack@google.com> wrote:
+> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+> index 03075ce06ac9..df6a02240aa4 100644
+> --- a/drivers/pci/liveupdate.c
+> +++ b/drivers/pci/liveupdate.c
+> @@ -298,6 +377,87 @@ void pci_liveupdate_unpreserve(struct pci_dev *dev)
+> [ ... skip 76 lines ... ]
+> +	/*
+> +	 * Hold the ref on the incoming FLB until pci_liveupdate_finish() so
+> +	 * that dev->liveupdate.incoming cannot get freed while the PCI core
+> +	 * has a pointer to it. It's better to leak the incoming FLB than do a
+> +	 * use-after-free if driver does not call pci_liveupdate_finish().
+> +	 */
 
-Oh, that's a good point.
+I am confused by this. Each preserved PCI device must have an associated 
+FD preserved with it via LUO. I.e., vfiofd would need to be preserved. If 
+the vfiofd was not reclaimed, and finish is not possible, that vfiofd 
+would still be owned by LUO, and therefore PCI FLB refcount would stay 
+positive.
 
-> On the other hand if you want to emulate a generic and actually
-> functional SMMU device that has nothing like VCMDQ/etc then you must
-> do something like this in this patch.
+However, if finish is possible, and this is the last vfiofd that is 
+finished, FLB will be freed as soon as the reference count reaches zero, 
+which I would think is the expected behavior.
 
-Tegra264 has virtualization use case. And It's built with VCMDQ,
-which should be the default case than the generic vSMMU case.
+What is the point of holding a reference here, instead of only for the 
+duration of FLB access, i.e. to make sure we are accessing a valid data?
 
-> I was imagining a general direction that we would expose the errata
-> information to the guest and the guest would have to deal with it.
-> 
-> Given this is the opposite I wonder if we want to do it. It does make
-> sense for a chip that probably doesn't have vCMDQ and I don't think
-> qemu can even create a DT description to trigger the errata anyhow.
-
-I don't have the source code of the VMM used on Tegra264, but I
-believe the guest kernel can be the same copy of kernel as the
-host. So, its VMM is likely to use the "nvidia,tegra264-smmu" DT
-compatible string, to trigger the errata at the guest level.
-
-> But it starts to become confusing down the road if we decide other
-> invalidation errata (like the CONT must be RIL thing) must be delt
-> with by the guest.
->
-> So.. Maybe add a comment why this one is different, or maybe just
-> disable FEAT_NESTING if there isn't a use case?
-
-Given the use cases on Tegra264, instead of patching the iommufd
-path as this patch does, perhaps we should simply spit a WARN in
-arm_vsmmu_init():
-
-	if (static_branch_unlikely(&arm_smmu_erratum_repeat_tlbi_cfgi_key))
-		dev_warn(smmu->dev,
-			 "guest must WAR the repeat_tlbi_cfgi erratum\n");
-
-?
-
-Thanks
-Nicolin
+-- 
+Pasha Tatashin <pasha.tatashin@soleen.com>
