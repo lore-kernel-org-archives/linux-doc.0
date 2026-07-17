@@ -1,798 +1,230 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69A323EB108;
-	Fri, 17 Jul 2026 10:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from tpecef22.compal.com (exmail3.compal.com [59.120.207.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44604346E44;
+	Fri, 17 Jul 2026 10:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=59.120.207.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784285320; cv=none; b=N2dJWeYTESUfQtS4xlKie2wN/Ab9TfNObx6NPRON3JlHQA/qhALjurE0ZnlPyzlQZCDWZkpbfYsTw/j1mfOUKQGMnBCthARBhvHPhpsl9FOFkGuh/4ddAdndLP+q44+CueFZEPuJgqtdNbJGA1x6gpcZlxwsGXTKgeGHwoPmLV0=
+	t=1784285491; cv=none; b=RbUcsUGUJcC4RPusU2xmuQrKTWiFfAmADW1A+XmL/kiBLwhY3Nb2xbpJk7eLz7OISr/urNwQtZuLhmWDZxusfZSGlwUCDjVLQWzLQyna6Hp6RcE7Qw0fmkgvOvd7ki8889kgDrDX3JI82NCb/8GAB0vbX6iENT2/QHK3rqDFDMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784285320; c=relaxed/simple;
-	bh=wqXkAtcd1JkcLZE+TF60/UvHHNNYyFX6YQhnrddF4eA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p2gdQq7ksvbzjKf2FFFe5izSizzuOpgNTmRpQBDM25s0rIVsdr0SgzV7lTVE6E32poGN+ySXyoJSOEUnYQ5LF+g53Tg0vSw7GmJodAG9bgPmGR4f9+YpW/3YYwSzKvI3JE0b+Vzh6ESi4hIHhYvS4eM+HuCEFdrZtpHPuzfMCXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=rTbxGfMD; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="rTbxGfMD"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E217916A3;
-	Fri, 17 Jul 2026 03:48:31 -0700 (PDT)
-Received: from e125769.cambridge.arm.com (e125769.cambridge.arm.com [10.2.198.107])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 504B73F7D8;
-	Fri, 17 Jul 2026 03:48:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1784285316; bh=wqXkAtcd1JkcLZE+TF60/UvHHNNYyFX6YQhnrddF4eA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rTbxGfMDL/rlkadUaC3iwvE7T5tcrxAET84ATpQlHdqxJQ4fYxk3qdUMTLXbvVOw7
-	 I78h5jxDf3H6V7trXu6GBCd/Aj5coetUxV9K9cyIdOkr9cKw0Fz3/ucJYvX2ZKsyof
-	 QL4We9oSHBl0epIPno/MH3B7vSMk/UMGHbsqVIM0=
-From: Ryan Roberts <ryan.roberts@arm.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Jean-Philippe Brucker <jpb@kernel.org>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Ryan Roberts <ryan.roberts@arm.com>,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org
-Subject: [RFC PATCH v1 8/8] misc/arm-cla: Add userspace interface
-Date: Fri, 17 Jul 2026 11:47:52 +0100
-Message-ID: <20260717104759.123203-9-ryan.roberts@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260717104759.123203-1-ryan.roberts@arm.com>
-References: <20260717104759.123203-1-ryan.roberts@arm.com>
+	s=arc-20240116; t=1784285491; c=relaxed/simple;
+	bh=uU5bHw6QdL+gqAzHXNuS6lDwtifMyZRUAEbKOKEfFCs=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=bPUKo1IOCDw4J6daPxvstVhY5lSrl46J6MkwJnZFYZ4nAoiRdRWU2+ghCrZ8dnQxfhQamG04Mi6LeiREPeGqLG6/aZtTT0XWcyRyw+dVrmuU8fEU6jM0kxle8zskH4TzjZTpuL92vEjcsxGpWm667tJ5pOH34oprR6erjL7YMYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com; spf=pass smtp.mailfrom=compal.com; arc=none smtp.client-ip=59.120.207.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.com
+X-UUID: 7442b64681cd11f1a87c2323a98e90a4-20260717
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.17,REQID:5efaa556-7392-42a5-af63-ac72da932180,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:d497b38,CLOUDID:3e34613f-46cf-453a-bd84-ad9fc7cb0e8c,B
+	ulkID:nil,BulkQuantity:0,SF:80|81|82|83|102|110|111|836|865|888|898,TC:-5,
+	Content:0|15|50|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:n
+	il,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 7442b64681cd11f1a87c2323a98e90a4-20260717
+Received: from sdmg12.sdbg.compal.com [(10.113.168.10)] by tpecef22.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 730774869; Fri, 17 Jul 2026 18:51:24 +0800
+X-UUID: 70399bdc81cd11f1a9f9c99e036204b4-20260717
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.15,REQID:c5d01180-36c7-402a-a1d5-1d3a56b88a94,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e276073,CLOUDID:0134613f-46cf-453a-bd84-ad9fc7cb0e8c,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|865|888|
+	898,TC:-5,Content:0|15|50|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS
+	:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,A
+	RC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 70399bdc81cd11f1a9f9c99e036204b4-20260717
+Received: from sdbmbx13.tpe.compalcomm.com [(10.113.2.137)] by sdmg12.sdbg.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Compal Mail Service with TLSv1.2 ECDHE-RSA-AES128-SHA 128/128)
+	with ESMTP id 1832406038; Fri, 17 Jul 2026 18:51:17 +0800
+Received: from SDBMBX13.tpe.compalcomm.com (10.113.2.137) by
+ SDBMBX13.tpe.compalcomm.com (10.113.2.137) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
+ Fri, 17 Jul 2026 18:51:16 +0800
+Received: from SDBMBX13.tpe.compalcomm.com ([fe80::2b98:6c2c:37df:2a86]) by
+ SDBMBX13.tpe.compalcomm.com ([fe80::2b98:6c2c:37df:2a86%11]) with mapi id
+ 15.02.2562.043; Fri, 17 Jul 2026 18:51:16 +0800
+From: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
+To: Simon Horman <horms@kernel.org>
+CC: "loic.poulain@oss.qualcomm.com" <loic.poulain@oss.qualcomm.com>,
+	"ryazanov.s.a@gmail.com" <ryazanov.s.a@gmail.com>,
+	"johannes@sipsolutions.net" <johannes@sipsolutions.net>,
+	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "davem@davemloft.net"
+	<davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>,
+	"kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
+	"wen-zhi.huang@mediatek.com" <wen-zhi.huang@mediatek.com>,
+	"shi-wei.yeh@mediatek.com" <shi-wei.yeh@mediatek.com>,
+	"Minano.tseng@mediatek.com" <Minano.tseng@mediatek.com>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	"angelogioacchino.delregno@collabora.com"
+	<angelogioacchino.delregno@collabora.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>
+Subject: RE: [External Mail] Re: [PATCH v4 1/7] net: wwan: t9xx: Add PCIe core
+Thread-Topic: [External Mail] Re: [PATCH v4 1/7] net: wwan: t9xx: Add PCIe
+ core
+Thread-Index: AQHdFQZFiPEX/zmaIUK+niZ3qrcX0rZxPs9agABKi5Y=
+Date: Fri, 17 Jul 2026 10:51:16 +0000
+Message-ID: <cfff2fb84dc645d484fe1e60f620cba1@compal.com>
+References: <20260709-t9xx_driver_v1-v4-1-a8c009d509c5@compal.com>,<20260716093324.230974-1-horms@kernel.org>,<93775de437ca4e25bb59b58a3d083dd0@compal.com>
+In-Reply-To: <93775de437ca4e25bb59b58a3d083dd0@compal.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-30074.006
+x-tm-as-result: No-10--32.868500-8.000000
+x-tmase-matchedrid: g1iLnnvgj1Muv++HU7VXryRFbfQbCufdN0X64jGy2dZJTOxleK2tZnw0
+	UcwaiWo2Fz8NwhmlWx4y7EpJodRIQMz74oElhNRBJfg23t68rFkZ9gzqlDBbLx2wDr7yFIghft2
+	1pHZe72NBzOy8r156du8SnEHMQUBzoERNn+xy3FlFg2HO5lmNEODG2avXAfuSZeeyuXQ0wFsLxS
+	p/W8v+ZqZC1AUZ/p0YQuAEsf+cTKENiwAwig29knEayD3+TWEcjdkfepRWNj6QEjOZZEyhAvAG4
+	01+G+Byuo/gd8czTBCHXkRdBMJ00NMAWA9zBiGN+DE5zr5ahdxcEdBuvobtsHgIpajNPS8ZlUGw
+	+UAYZYL0t3wCfeCs89b4MLpnHLxlk/n2htFGWJEKZkLGOW3RZpFEzshsEChHihqn73ZjfGhAJ5F
+	gCyzy2iV1whql5+e+GWzxXV20iChzyiI4SZ13uiNpyjdKcD8BdXI+BffqLuQqAWUqxFNxWszGj/
+	9t0VYSVBRmJ799oNOMSEHOmpApIiJfg4RijSM8BI7jI1gEwtXWRI6+saz/4V2TMSYoqccgw2moE
+	h8ZH/5cAf2s/XIiJ6GFdDiYKYUfIK31UONauatxgLQYav+vFxnz+kO152KHANrl9L1tferEHD2i
+	bhLPiGaB4VbTxx2vy422Wgpcw9F6o88ieDyhPTt2PQRPfn+RZb3M9XEdU7dYf8LrTKM9HISQlso
+	VbaKro769/SpqAaFDgg0QCJCAhciKZuEdWAD//S/FwffMjBp4n1vSdHLUzhIIN3MAx5f9TvOSXK
+	E9MP1gjJAzgl+daSVNJxt7aXvgmwjor1Nh6wuaFLMxELUb2Q==
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--32.868500-8.000000
+x-tmase-version: SMEX-14.0.0.3239-9.1.2019-30074.006
+x-tm-snts-smtp: C15F31829C1DFE4CA2BFFA25A984B42BBC34BCEC38B2BCCA6D66F842A4F057B92000:8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Expose CLA devices through a character device so userspace can enumerate
-the available hardware and map accelerator register frames.
-
-Define version 1 of the CLA UAPI with a GET_PARAM ioctl. Report device
-topology, CPU affinity, domain membership, mmap offsets, architecture
-version and attached accelerator masks, together with the IIDR, DEVARCH
-and REVIDR of each accelerator.
-
-CLA registers can only be read from the CPU local to the device, while
-enumeration may occur on any CPU. Validate the supported CLA
-architecture version during device setup and cache the CLA and
-accelerator identification registers for later ioctl queries.
-
-Support shared read-write mmap of one or more CLA register pages. Create
-a context for every domain covered by the mapping and resolve faults
-only while that context owns the domain. Queue unassigned contexts with
-the domain scheduler, drop mmap_lock while waiting for assignment and
-retry the fault after the context is woken.
-
-Co-developed-by: Jean-Philippe Brucker <jpb@kernel.org>
-Signed-off-by: Jean-Philippe Brucker <jpb@kernel.org>
-Signed-off-by: Ryan Roberts <ryan.roberts@arm.com>
----
- drivers/misc/arm-cla/Makefile       |   3 +-
- drivers/misc/arm-cla/arm-cla-regs.h |   2 +
- drivers/misc/arm-cla/arm-cla.h      |  13 ++
- drivers/misc/arm-cla/cla-init.c     |  26 +++
- drivers/misc/arm-cla/cla-user.c     | 351 ++++++++++++++++++++++++++++
- include/uapi/linux/arm-cla.h        | 207 ++++++++++++++++
- 6 files changed, 601 insertions(+), 1 deletion(-)
- create mode 100644 drivers/misc/arm-cla/cla-user.c
- create mode 100644 include/uapi/linux/arm-cla.h
-
-diff --git a/drivers/misc/arm-cla/Makefile b/drivers/misc/arm-cla/Makefile
-index a92c3594e5c9..f848c608e8f1 100644
---- a/drivers/misc/arm-cla/Makefile
-+++ b/drivers/misc/arm-cla/Makefile
-@@ -7,6 +7,7 @@ arm-cla-y := \
- 	cla-ops.o \
- 	cla-regs.o \
- 	cla-sched.o \
--	cla-topology.o
-+	cla-topology.o \
-+	cla-user.o
- 
- obj-$(CONFIG_ARM_CLA) += arm-cla.o
-diff --git a/drivers/misc/arm-cla/arm-cla-regs.h b/drivers/misc/arm-cla/arm-cla-regs.h
-index fcd187ecb777..338b9e78b465 100644
---- a/drivers/misc/arm-cla/arm-cla-regs.h
-+++ b/drivers/misc/arm-cla/arm-cla-regs.h
-@@ -63,6 +63,8 @@
- 					 CLA_STATUS_EXCEPT | \
- 					 CLA_STATUS_SRMODE)
- 
-+#define CLA_AAIDR_1_0			(1ULL << 8)
-+
- /* Standard accelerator registers */
- #define CLA_REG_IIDR			0x0000
- #define CLA_REG_DEVARCH			0x0001
-diff --git a/drivers/misc/arm-cla/arm-cla.h b/drivers/misc/arm-cla/arm-cla.h
-index 041d4a8d7e91..3dd783d0b1cc 100644
---- a/drivers/misc/arm-cla/arm-cla.h
-+++ b/drivers/misc/arm-cla/arm-cla.h
-@@ -45,6 +45,12 @@ struct cla_call_on_cpu {
- 	struct kthread_work switch_ctx;
- };
- 
-+struct cla_accel_desc {
-+	u64 iidr;
-+	u64 devarch;
-+	u64 revidr;
-+};
-+
- /**
-  * struct cla_dev - CLA device
-  *
-@@ -57,6 +63,8 @@ struct cla_call_on_cpu {
-  * @pg_offset:		Mmap offset of this device.
-  * @iassizes:		Combined regstate of all accels.
-  * @domain:		The domain this CLA belongs to.
-+ * @aidr:		CLA Architecture ID.
-+ * @accel_descs:	Accelerator ID registers.
-  *
-  * Mutable, only accessed under @lock:
-  * @lock:		Protects the following members.
-@@ -74,6 +82,8 @@ struct cla_dev {
- 	unsigned long pg_offset;
- 	unsigned long iassizes;
- 	struct cla_domain *domain;
-+	u64 aidr;
-+	struct cla_accel_desc accel_descs[CLA_NUM_ACC];
- 
- 	struct mutex lock;
- 	bool broken;
-@@ -280,4 +290,7 @@ int cla_mtc_clear(struct cla_dev *dev);
- int cla_mtc_install(struct cla_dev *dev, pgd_t *pgd, unsigned long asid);
- int cla_mtc_uninstall(struct cla_dev *dev);
- 
-+int cla_user_init(void);
-+void cla_user_exit(void);
-+
- #endif /* _ARM_CLA_H_ */
-diff --git a/drivers/misc/arm-cla/cla-init.c b/drivers/misc/arm-cla/cla-init.c
-index 5335c55568ad..090efc6cc9b4 100644
---- a/drivers/misc/arm-cla/cla-init.c
-+++ b/drivers/misc/arm-cla/cla-init.c
-@@ -80,6 +80,7 @@ static int cla_reset_pmu(struct cla_dev *dev, unsigned int accid)
-  */
- static int cla_dev_setup_accel(struct cla_dev *dev, unsigned int accid)
- {
-+	struct cla_accel_desc *desc = &dev->accel_descs[accid];
- 	u64 status;
- 	u64 iassize;
- 	u64 acap;
-@@ -122,6 +123,20 @@ static int cla_dev_setup_accel(struct cla_dev *dev, unsigned int accid)
- 		return 1;
- 	}
- 
-+	/*
-+	 * Cache some standard accelerator registers that user space may query
-+	 * via ioctl from a remote CPU.
-+	 */
-+	ret = cla_op_regread(dev, accid, CLA_REG_IIDR, 1, &desc->iidr);
-+	if (ret)
-+		return ret;
-+	ret = cla_op_regread(dev, accid, CLA_REG_DEVARCH, 1, &desc->devarch);
-+	if (ret)
-+		return ret;
-+	ret = cla_op_regread(dev, accid, CLA_REG_REVIDR, 1, &desc->revidr);
-+	if (ret)
-+		return ret;
-+
- 	ret = cla_op_regread(dev, accid, CLA_REG_IASSIZE, 1, &iassize);
- 	if (ret)
- 		return ret;
-@@ -234,6 +249,10 @@ static int cla_dev_setup(unsigned int cpu)
- 	if (WARN_ON(smp_processor_id() != cpu || dev->cpu != cpu))
- 		return -EINVAL;
- 
-+	dev->aidr = cla_reg_read(dev, CLA_REG_CLAAIDR);
-+	if (dev->aidr != CLA_AAIDR_1_0)
-+		return -EPROTONOSUPPORT;
-+
- 	/* Clear DATA and LRESP_DATANZ */
- 	for (i = 0; i < CLA_NUM_DATA_REGS; i++)
- 		cla_reg_write(dev, CLA_REG_DATA(i), 0);
-@@ -453,8 +472,14 @@ static int __init cla_module_init(void)
- 	}
- 	cla_cpuhp_state = ret;
- 
-+	ret = cla_user_init();
-+	if (ret)
-+		goto err_cpuhp_remove;
-+
- 	return 0;
- 
-+err_cpuhp_remove:
-+	cpuhp_remove_state(cla_cpuhp_state);
- err_driver_unregister:
- 	platform_driver_unregister(&cla_driver);
- err_domains_free:
-@@ -464,6 +489,7 @@ static int __init cla_module_init(void)
- 
- static void __exit cla_module_exit(void)
- {
-+	cla_user_exit();
- 	cpuhp_remove_state(cla_cpuhp_state);
- 	platform_driver_unregister(&cla_driver);
- 	cla_domains_free();
-diff --git a/drivers/misc/arm-cla/cla-user.c b/drivers/misc/arm-cla/cla-user.c
-new file mode 100644
-index 000000000000..415328a653b7
---- /dev/null
-+++ b/drivers/misc/arm-cla/cla-user.c
-@@ -0,0 +1,351 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Arm CLA driver - userspace interface
-+ *
-+ * Copyright 2026 Arm Limited.
-+ */
-+
-+#include <linux/cdev.h>
-+#include <linux/cpu.h>
-+#include <linux/device.h>
-+#include <linux/fs.h>
-+#include <linux/kernel.h>
-+#include <linux/mm.h>
-+#include <linux/module.h>
-+#include <linux/slab.h>
-+#include <linux/uaccess.h>
-+
-+#include "arm-cla.h"
-+#include <uapi/linux/arm-cla.h>
-+
-+static struct class *cla_class;
-+static dev_t cla_devt;
-+
-+#define dev_nospec(idx) array_index_nospec(idx, cla_nr_devs)
-+#define accel_nospec(idx) array_index_nospec(idx, CLA_NUM_ACC)
-+
-+#define cla_for_each_mapped_domain(_vma, _domain)			\
-+	for (unsigned long __pg = (_vma)->vm_pgoff;			\
-+	     __pg < (_vma)->vm_pgoff + vma_pages(_vma) &&		\
-+	     ((_domain) = cla_lut_pg[dev_nospec(__pg)]->domain);	\
-+	     __pg = (_domain)->pg_offset + (_domain)->nr_devs)
-+
-+static long cla_ioctl_validate_param(struct arm_cla_param *param)
-+{
-+	int accel_id;
-+	int dev_id;
-+
-+	switch (param->param) {
-+	case ARM_CLA_PARAM_UABI_VERSION:
-+	case ARM_CLA_PARAM_DEV_NR:
-+		if (param->index != 0)
-+			return -EINVAL;
-+		break;
-+	case ARM_CLA_PARAM_DEV_CPU_ID:
-+	case ARM_CLA_PARAM_DEV_DOMAIN_ID:
-+	case ARM_CLA_PARAM_DEV_PGOFF:
-+	case ARM_CLA_PARAM_DEV_AIDR:
-+	case ARM_CLA_PARAM_DEV_ACCELS:
-+		if (param->index >= cla_nr_devs)
-+			return -EINVAL;
-+		break;
-+	case ARM_CLA_PARAM_ACCEL_IIDR:
-+	case ARM_CLA_PARAM_ACCEL_DEVARCH:
-+	case ARM_CLA_PARAM_ACCEL_REVIDR:
-+		dev_id = ARM_CLA_PARAM_INDEX_DEV(param->index);
-+		accel_id = ARM_CLA_PARAM_INDEX_ACCEL(param->index);
-+		if (dev_id >= cla_nr_devs || accel_id >= CLA_NUM_ACC)
-+			return -EINVAL;
-+		dev_id = dev_nospec(dev_id);
-+		if ((cla_lut_pg[dev_id]->accelerators & BIT(accel_id)) == 0)
-+			return -ENODEV;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static long cla_ioctl_get_param(unsigned long arg)
-+{
-+	struct arm_cla_param __user *uparam = (void __user *)arg;
-+	struct arm_cla_param param;
-+	int accel_id;
-+	int dev_id;
-+	int ret;
-+
-+	if (copy_from_user(&param, uparam, sizeof(param)))
-+		return -EFAULT;
-+
-+	ret = cla_ioctl_validate_param(&param);
-+	if (ret)
-+		return ret;
-+
-+	dev_id = dev_nospec(ARM_CLA_PARAM_INDEX_DEV(param.index));
-+	accel_id = accel_nospec(ARM_CLA_PARAM_INDEX_ACCEL(param.index));
-+
-+	switch (param.param) {
-+	case ARM_CLA_PARAM_UABI_VERSION:
-+		param.value = ARM_CLA_UABI_VERSION;
-+		break;
-+	case ARM_CLA_PARAM_DEV_NR:
-+		param.value = cla_nr_devs;
-+		break;
-+	case ARM_CLA_PARAM_DEV_CPU_ID:
-+		param.value = cla_lut_pg[dev_id]->cpu;
-+		break;
-+	case ARM_CLA_PARAM_DEV_DOMAIN_ID:
-+		param.value = cla_lut_pg[dev_id]->domain->id;
-+		break;
-+	case ARM_CLA_PARAM_DEV_PGOFF:
-+		param.value = cla_lut_pg[dev_id]->pg_offset;
-+		break;
-+	case ARM_CLA_PARAM_DEV_AIDR:
-+		param.value = cla_lut_pg[dev_id]->aidr;
-+		break;
-+	case ARM_CLA_PARAM_DEV_ACCELS:
-+		param.value = cla_lut_pg[dev_id]->accelerators;
-+		break;
-+	case ARM_CLA_PARAM_ACCEL_IIDR:
-+		param.value = cla_lut_pg[dev_id]->accel_descs[accel_id].iidr;
-+		break;
-+	case ARM_CLA_PARAM_ACCEL_DEVARCH:
-+		param.value = cla_lut_pg[dev_id]->accel_descs[accel_id].devarch;
-+		break;
-+	case ARM_CLA_PARAM_ACCEL_REVIDR:
-+		param.value = cla_lut_pg[dev_id]->accel_descs[accel_id].revidr;
-+		break;
-+	}
-+
-+	if (copy_to_user(uparam, &param, sizeof(param)))
-+		return -EFAULT;
-+
-+	return 0;
-+}
-+
-+static void cla_vma_open(struct vm_area_struct *vma)
-+{
-+	/*
-+	 * A vma previously created with cla_file_mmap() has been duplicated
-+	 * within the same mm (most likely due to mremap). While this could also
-+	 * be called for duplication into a new mm (via fork), we set
-+	 * VM_DONTCOPY on the original mmap, so this will never happen. So the
-+	 * contexts covered by this new vma already exist.
-+	 */
-+	struct cla_domain *domain;
-+
-+	cla_for_each_mapped_domain(vma, domain)
-+		cla_ctx_map(domain, vma->vm_mm, vma->vm_file);
-+}
-+
-+static void cla_vma_close(struct vm_area_struct *vma)
-+{
-+	struct cla_domain *domain;
-+
-+	/* On munmap() or exit_mmap(), kill the context. */
-+	cla_for_each_mapped_domain(vma, domain)
-+		cla_ctx_unmap(domain, vma->vm_mm, vma->vm_file);
-+}
-+
-+static vm_fault_t cla_vma_fault(struct vm_fault *vmf)
-+{
-+	struct vm_area_struct *vma = vmf->vma;
-+	struct cla_domain *domain;
-+	struct cla_dev *dev;
-+	struct cla_ctx *ctx;
-+	unsigned long pg;
-+
-+	/*
-+	 * Reassignment needs mmap_lock, so we cannot wait while holding it.
-+	 * Luckily, this flag is only missing in some exotic cases which do not
-+	 * apply for this VM_IO | VM_PFNMAP vma. i.e. GUP without
-+	 * FOLL_UNLOCKABLE or FOLL_NOWAIT or fixup_user_fault(unlocked=NULL),
-+	 * used by futex fault-in path.
-+	 */
-+	if (WARN_ON(!(vmf->flags & FAULT_FLAG_ALLOW_RETRY)))
-+		return VM_FAULT_SIGBUS;
-+
-+	pg = vma->vm_pgoff + ((vmf->address - vma->vm_start) >> PAGE_SHIFT);
-+	dev = cla_lut_pg[pg];
-+	domain = dev->domain;
-+
-+	mutex_lock(&domain->lock);
-+	ctx = cla_domain_lookup_ctx(domain, vma->vm_mm, vma->vm_file);
-+	if (WARN_ON(!ctx) || cla_ctx_is_dying(ctx) || domain->broken) {
-+		mutex_unlock(&domain->lock);
-+		return domain->broken ? VM_FAULT_SIGBUS : VM_FAULT_SIGSEGV;
-+	}
-+
-+	/* If our ctx is the assigned one, map the device into memory. */
-+	if (domain->assigned_ctx == ctx) {
-+		vm_fault_t ret;
-+
-+		ret = vmf_insert_pfn(vma, vmf->address, dev->pfn);
-+		mutex_unlock(&domain->lock);
-+		return ret;
-+	}
-+
-+	/* Enqueue if not already, starting current assignee's time slice. */
-+	if (list_empty(&ctx->queue_node)) {
-+		bool was_empty = list_empty(&domain->queued_ctxs);
-+		unsigned long delay;
-+
-+		list_add_tail(&ctx->queue_node, &domain->queued_ctxs);
-+		if (was_empty) {
-+			delay = domain->assigned_ctx ? CLA_SLICE_MS : 0;
-+			cla_domain_schedule_reassignment(domain, delay);
-+		}
-+	}
-+
-+	mutex_unlock(&domain->lock);
-+
-+	/* If waiting is not permitted, return indicating we need to retry. */
-+	if (vmf->flags & FAULT_FLAG_RETRY_NOWAIT)
-+		return VM_FAULT_RETRY;
-+
-+	/*
-+	 * Drop the fault lock prior to sleeping and return VM_FAULT_RETRY when
-+	 * we wake up to rerun the fault. We must get the ctx while sleeping to
-+	 * prevent it from being freed while we are asleep on the contained wait
-+	 * queue.
-+	 */
-+	cla_ctx_get(ctx);
-+	release_fault_lock(vmf);
-+	wait_event_interruptible(ctx->waitq,
-+				 READ_ONCE(domain->assigned_ctx) == ctx ||
-+				 cla_ctx_is_dying(ctx) ||
-+				 READ_ONCE(domain->broken));
-+	cla_ctx_put(ctx);
-+	return VM_FAULT_RETRY;
-+}
-+
-+static int cla_vma_may_split(struct vm_area_struct *vma, unsigned long addr)
-+{
-+	/*
-+	 * Forbid splitting cla mappings to prevent refcount leaks.
-+	 * cla_file_mmap()/cla_vma_open() track a context per domain mapped by
-+	 * the vma. If there were fewer domains mapped by the vma at
-+	 * cla_vma_close() then contexts would get leaked.
-+	 */
-+	return -EINVAL;
-+}
-+
-+static const struct vm_operations_struct cla_vma_ops = {
-+	.open = cla_vma_open,
-+	.close = cla_vma_close,
-+	.fault = cla_vma_fault,
-+	.may_split = cla_vma_may_split,
-+};
-+
-+static int cla_file_mmap(struct file *file, struct vm_area_struct *vma)
-+{
-+	unsigned long nr_pages = vma_pages(vma);
-+	struct cla_domain *rollback;
-+	struct cla_domain *domain;
-+	struct cla_ctx *ctx;
-+
-+	/* Ensure the requested mapping is within range. */
-+	if (!nr_pages)
-+		return -EINVAL;
-+	if (vma->vm_pgoff >= cla_nr_devs)
-+		return -EINVAL;
-+	if (nr_pages > cla_nr_devs - vma->vm_pgoff)
-+		return -EINVAL;
-+
-+	/* Only allow shared RW mappings. Nothing else makes sense for CLA. */
-+	if (!(vma->vm_flags & VM_SHARED))
-+		return -EINVAL;
-+	if (!(vma->vm_flags & VM_READ))
-+		return -EINVAL;
-+	if (!(vma->vm_flags & VM_WRITE))
-+		return -EINVAL;
-+	if (vma->vm_flags & VM_EXEC)
-+		return -EINVAL;
-+
-+	/*
-+	 * Iterate over each domain covered by the vma and get-or-alloc its
-+	 * context. If any fails, we need to rollback with a put.
-+	 */
-+	cla_for_each_mapped_domain(vma, domain) {
-+		ctx = cla_ctx_map(domain, vma->vm_mm, vma->vm_file);
-+		if (IS_ERR(ctx)) {
-+			cla_for_each_mapped_domain(vma, rollback) {
-+				if (rollback == domain)
-+					return PTR_ERR(ctx);
-+				cla_ctx_unmap(rollback, vma->vm_mm,
-+					      vma->vm_file);
-+			}
-+		}
-+	}
-+
-+	vm_flags_mod(vma, VM_DONTCOPY | VM_DONTDUMP | VM_DONTEXPAND |
-+			  VM_IO | VM_PFNMAP, VM_MAYEXEC);
-+	vma->vm_page_prot = pgprot_device(vma->vm_page_prot);
-+	vma->vm_ops = &cla_vma_ops;
-+
-+	return 0;
-+}
-+
-+static long cla_file_ioctl(struct file *file, unsigned int cmd,
-+			   unsigned long arg)
-+{
-+	switch (cmd) {
-+	case ARM_CLA_IOCTL_GET_PARAM:
-+		return cla_ioctl_get_param(arg);
-+	default:
-+		return -ENOTTY;
-+	}
-+}
-+
-+static const struct file_operations cla_fops = {
-+	.owner = THIS_MODULE,
-+	.mmap = cla_file_mmap,
-+	.unlocked_ioctl = cla_file_ioctl,
-+#ifdef CONFIG_COMPAT
-+	.compat_ioctl = cla_file_ioctl,
-+#endif
-+};
-+
-+static char *cla_devnode(const struct device *dev, umode_t *mode)
-+{
-+	if (mode)
-+		*mode = 0666;
-+	return NULL;
-+}
-+
-+int __init cla_user_init(void)
-+{
-+	int ret;
-+
-+	cla_class = class_create("arm-cla");
-+	if (IS_ERR(cla_class))
-+		return PTR_ERR(cla_class);
-+	cla_class->devnode = cla_devnode;
-+
-+	ret = register_chrdev(0, KBUILD_MODNAME, &cla_fops);
-+	if (ret < 0)
-+		goto err_class_destroy;
-+
-+	cla_devt = MKDEV(ret, 0);
-+
-+	if (IS_ERR(device_create(cla_class, NULL, cla_devt, NULL, "cla"))) {
-+		ret = -ENODEV;
-+		goto err_unregister_chrdev;
-+	}
-+
-+	return 0;
-+
-+err_unregister_chrdev:
-+	unregister_chrdev(MAJOR(cla_devt), KBUILD_MODNAME);
-+err_class_destroy:
-+	class_destroy(cla_class);
-+	return ret;
-+}
-+
-+void __exit cla_user_exit(void)
-+{
-+	device_destroy(cla_class, cla_devt);
-+	unregister_chrdev(MAJOR(cla_devt), KBUILD_MODNAME);
-+	class_destroy(cla_class);
-+}
-diff --git a/include/uapi/linux/arm-cla.h b/include/uapi/linux/arm-cla.h
-new file mode 100644
-index 000000000000..6357fdb9df8a
---- /dev/null
-+++ b/include/uapi/linux/arm-cla.h
-@@ -0,0 +1,207 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+/*
-+ * UAPI definitions for the CLA character device.
-+ */
-+
-+#ifndef _UAPI_LINUX_CLA_H
-+#define _UAPI_LINUX_CLA_H
-+
-+#include <linux/ioctl.h>
-+#include <linux/types.h>
-+
-+#define ARM_CLA_UABI_VERSION	1
-+#define ARM_CLA_IOC_MAGIC	'C'
-+
-+/**
-+ * define ARM_CLA_IOCTL_GET_PARAM - Get the value of a parameter.
-+ *
-+ * ioctl command whose argument is a pointer to &struct arm_cla_param.
-+ * &arm_cla_param->param and &arm_cla_param->index are input parameters.
-+ * &arm_cla_param->value is an output parameter.
-+ *
-+ * Return:
-+ * * %0 - OK
-+ * * %-EINVAL - Unrecognised param or param does not support GET
-+ * * Return code as defined for param
-+ */
-+#define ARM_CLA_IOCTL_GET_PARAM	\
-+	_IOWR(ARM_CLA_IOC_MAGIC, 0x00, struct arm_cla_param)
-+
-+/**
-+ * define ARM_CLA_PARAM_UABI_VERSION - CLA driver UABI version (RO).
-+ *
-+ * &arm_cla_param->index must be 0.
-+ *
-+ * Return:
-+ * * %0 - OK
-+ * * %-EINVAL - index not 0
-+ */
-+#define ARM_CLA_PARAM_UABI_VERSION	0
-+
-+/**
-+ * define ARM_CLA_PARAM_DEV_NR - Number of attached CLA devices (RO).
-+ *
-+ * &arm_cla_param->index must be 0.
-+ *
-+ * Return:
-+ * * %0 - OK
-+ * * %-EINVAL - index not 0
-+ */
-+#define ARM_CLA_PARAM_DEV_NR		1
-+
-+/**
-+ * define ARM_CLA_PARAM_DEV_CPU_ID - CPU to which the CLA is attached (RO).
-+ *
-+ * &arm_cla_param->index is the dev_id in range (0, DEV_NR - 1).
-+ *
-+ * Return:
-+ * * %0 - OK
-+ * * %-EINVAL - dev_id (index) not in range
-+ */
-+#define ARM_CLA_PARAM_DEV_CPU_ID	2
-+
-+/**
-+ * define ARM_CLA_PARAM_DEV_DOMAIN_ID - Domain to which the CLA belongs (RO).
-+ *
-+ * &arm_cla_param->index is the dev_id in range (0, DEV_NR - 1).
-+ *
-+ * A CLA domain contains a set of CLA devices whose accelerators can communicate
-+ * with each other. All CLA devices within a CLA domain are atomically assigned
-+ * to a single context at a time.
-+ *
-+ * Return:
-+ * * %0 - OK
-+ * * %-EINVAL - dev_id (index) not in range
-+ */
-+#define ARM_CLA_PARAM_DEV_DOMAIN_ID	3
-+
-+/**
-+ * define ARM_CLA_PARAM_DEV_PGOFF - CLA's ``mmap()`` page offset (RO).
-+ *
-+ * &arm_cla_param->index is the dev_id in range (0, DEV_NR - 1).
-+ *
-+ * The page offset at which the selected CLA device's register page is exposed
-+ * through ``mmap()``.
-+ *
-+ * Return:
-+ * * %0 - OK
-+ * * %-EINVAL - dev_id (index) not in range
-+ */
-+#define ARM_CLA_PARAM_DEV_PGOFF		4
-+
-+/**
-+ * define ARM_CLA_PARAM_DEV_AIDR - CLA Architecture Identification Register
-+ * (RO).
-+ *
-+ * &arm_cla_param->index is the dev_id in range (0, DEV_NR - 1).
-+ *
-+ * The CLA Architecture Identification Register is used to obtain version
-+ * information of the CLA Programming model.
-+ *
-+ * Return:
-+ * * %0 - OK
-+ * * %-EINVAL - dev_id (index) not in range
-+ */
-+#define ARM_CLA_PARAM_DEV_AIDR		5
-+
-+/**
-+ * define ARM_CLA_PARAM_DEV_ACCELS - Mask of CLA's attached accelerators (RO).
-+ *
-+ * &arm_cla_param->index is the dev_id in range (0, DEV_NR - 1).
-+ *
-+ * A bitmask describing which accelerator slots are attached on the selected CLA
-+ * device. A CLA may have up to 8 attached accelerators, each with an accel_id
-+ * in the range (0, 7), each with a corresponding bit in the bitmask.
-+ *
-+ * Return:
-+ * * %0 - OK
-+ * * %-EINVAL - dev_id (index) not in range
-+ */
-+#define ARM_CLA_PARAM_DEV_ACCELS	6
-+
-+/**
-+ * define ARM_CLA_PARAM_ACCEL_IIDR - Accelerator IIDR register (RO).
-+ *
-+ * &arm_cla_param->index is ARM_CLA_PARAM_ACCEL_INDEX(accel_id, dev_id).
-+ *
-+ * Return:
-+ * * %0 - OK
-+ * * %-EINVAL - dev_id not in range
-+ * * %-EINVAL - accel_id not in range
-+ * * %-ENODEV - accel_id not attached to CLA
-+ */
-+#define ARM_CLA_PARAM_ACCEL_IIDR	7
-+
-+/**
-+ * define ARM_CLA_PARAM_ACCEL_DEVARCH - Accelerator DEVARCH register (RO).
-+ *
-+ * &arm_cla_param->index is ARM_CLA_PARAM_ACCEL_INDEX(accel_id, dev_id).
-+ *
-+ * Return:
-+ * * %0 - OK
-+ * * %-EINVAL - dev_id not in range
-+ * * %-EINVAL - accel_id not in range
-+ * * %-ENODEV - accel_id not attached to CLA
-+ */
-+#define ARM_CLA_PARAM_ACCEL_DEVARCH	8
-+
-+/**
-+ * define ARM_CLA_PARAM_ACCEL_REVIDR - Accelerator REVIDR register (RO).
-+ *
-+ * &arm_cla_param->index is ARM_CLA_PARAM_ACCEL_INDEX(accel_id, dev_id).
-+ *
-+ * Return:
-+ * * %0 - OK
-+ * * %-EINVAL - dev_id not in range
-+ * * %-EINVAL - accel_id not in range
-+ * * %-ENODEV - accel_id not attached to CLA
-+ */
-+#define ARM_CLA_PARAM_ACCEL_REVIDR	9
-+
-+/**
-+ * ARM_CLA_PARAM_ACCEL_INDEX() - encode index for specific accelerator.
-+ * @accel_id:	accelerator id in the range (0, 7).
-+ * @dev_id:	CLA device id in the range (0, DEV_NR - 1).
-+ *
-+ * Return: encoded index for use in &arm_cla_param->index.
-+ */
-+#define ARM_CLA_PARAM_ACCEL_INDEX(accel_id, dev_id) \
-+	(((accel_id) << 24) | (dev_id))
-+
-+/**
-+ * ARM_CLA_PARAM_INDEX_ACCEL() - extract accel_id from index.
-+ * @index:	Encoded index as returned by ARM_CLA_PARAM_ACCEL_INDEX()
-+ *
-+ * Return: extracted accel_id.
-+ */
-+#define ARM_CLA_PARAM_INDEX_ACCEL(index) (((index) >> 24) & 0xff)
-+
-+/**
-+ * ARM_CLA_PARAM_INDEX_DEV() - extract dev_id from index.
-+ * @index:	Encoded index as returned by ARM_CLA_PARAM_ACCEL_INDEX()
-+ *
-+ * Return: extracted dev_id.
-+ */
-+#define ARM_CLA_PARAM_INDEX_DEV(index) ((index) & 0xffffff)
-+
-+/**
-+ * struct arm_cla_param - Get/Set CLA parameters.
-+ */
-+struct arm_cla_param {
-+	/**
-+	 * @param: Param selector - One of the ARM_CLA_PARAM_* values.
-+	 */
-+	__u64 param;
-+
-+	/**
-+	 * @index: Index for params that have multiple instances.
-+	 */
-+	__u64 index;
-+
-+	/**
-+	 * @value: Param value.
-+	 */
-+	__u64 value;
-+};
-+
-+#endif /* _UAPI_LINUX_CLA_H */
--- 
-2.43.0
-
+SGkgU2ltb24sDQoNCkFmdGVyIGZ1cnRoZXIgaW50ZXJuYWwgcmV2aWV3LCB3ZSBhZ3JlZSB0aGlz
+IG5lZWRzIHRvIGJlIGZpeGVkLg0KDQpPbiBKYWNrIFd1IHdyb3RlOg0KDQo+PiBbU2V2ZXJpdHk6
+IE1lZGl1bV0NCj4+IFdpbGwgdGhpcyBicmVhayBjaGFubmVsIGluZGV4IGNhbGN1bGF0aW9uIG9u
+IGJpZy1lbmRpYW4gc3lzdGVtcz8NCj4gVGhpcyBkcml2ZXIgdGFyZ2V0cyBNZWRpYVRlayBUOXh4
+IFBDSWUgV1dBTiBtb2RlbXMgb24geDg2L0FSTTY0LUxFDQo+IHBsYXRmb3JtcyBvbmx5LiBPbiBs
+aXR0bGUtZW5kaWFuLCBjcHVfdG9fbGUzMigpIGlzIGEgbm8tb3AgYW5kDQo+IExFMzJfVE9fVTMy
+KCkgaXMgYSBzaW1wbGUgY2FzdCDigJQgbm8gYnl0ZS1zd2FwIG9jY3Vycy4gVGhlIEtjb25maWcN
+Cj4gZW5mb3JjZXMgZGVwZW5kcyBvbiBQQ0kgJiYgQUNQSSwgZWZmZWN0aXZlbHkgcmVzdHJpY3Rp
+bmcgdG8gTEUNCj4gcGxhdGZvcm1zIHdoZXJlIHRoaXMgaGFyZHdhcmUgZXhpc3RzLg0KDQpJbiB2
+NSB3ZSB3aWxsOg0KLSBSZW1vdmUgTEUzMl9UT19VMzIoY3B1X3RvX2xlMzIoLi4uKSkgYW5kIHJl
+dHVybiBod19iaXRzDQogIGRpcmVjdGx5IGluIGJvdGggbXRrX3BjaV9leHRfZDJoX2V2dF9od19i
+aXRzKCkgYW5kDQogIG10a19wY2lfZXh0X2gyZF9ldnRfaHdfYml0cygpDQotIFJlbW92ZSB0aGUg
+Y3VzdG9tIExFMzJfVE9fVTMyIG1hY3JvDQoNClRoYW5rcy4NCg0KDQrlr4Tku7bogIU6IFd1LiBK
+YWNrQkIgKEdTTSkNCuWvhOS7tuaXpeacnzogMjAyNuW5tDfmnIgxN+aXpSDkuIvljYggMDI6MjUN
+CuaUtuS7tuiAhTogU2ltb24gSG9ybWFuDQrlia/mnKw6IGxvaWMucG91bGFpbkBvc3MucXVhbGNv
+bW0uY29tOyByeWF6YW5vdi5zLmFAZ21haWwuY29tOyBqb2hhbm5lc0BzaXBzb2x1dGlvbnMubmV0
+OyBhbmRyZXcrbmV0ZGV2QGx1bm4uY2g7IGRhdmVtQGRhdmVtbG9mdC5uZXQ7IGVkdW1hemV0QGdv
+b2dsZS5jb207IGt1YmFAa2VybmVsLm9yZzsgcGFiZW5pQHJlZGhhdC5jb207IHdlbi16aGkuaHVh
+bmdAbWVkaWF0ZWsuY29tOyBzaGktd2VpLnllaEBtZWRpYXRlay5jb207IE1pbmFuby50c2VuZ0Bt
+ZWRpYXRlay5jb207ICBtYXR0aGlhcy5iZ2dAZ21haWwuY29tOyBhbmdlbG9naW9hY2NoaW5vLmRl
+bHJlZ25vQGNvbGxhYm9yYS5jb207IGNvcmJldEBsd24ubmV0OyBza2hhbkBsaW51eGZvdW5kYXRp
+b24ub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBuZXRkZXZAdmdlci5rZXJuZWwu
+b3JnOyBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmc7IGxpbnV4LW1lZGlhdGVr
+QGxpc3RzLmluZnJhZGVhZC5vcmc7IGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmcNCuS4u+aXqDog
+UkU6IFtFeHRlcm5hbCBNYWlsXSBSZTogW1BBVENIIHY0IDEvN10gbmV0OiB3d2FuOiB0OXh4OiBB
+ZGQgUENJZSBjb3JlDQrCoCAgIA0KSGkgU2ltb24sDQoNCj4gPiArc3RhdGljIGlycXJldHVybl90
+IG10a19wY2lfaXJxX21zaXgoaW50IGlycSwgdm9pZCAqZGF0YSkNCj4gPiArew0KPiA+ICvCoMKg
+IGlmICh1bmxpa2VseSghaXJxX3N0YXRlKSB8fA0KPiA+ICvCoMKgwqDCoMKgwqAgdW5saWtlbHko
+ISgoaXJxX3N0YXRlICYgR0VOTUFTSyhwcml2LT5pcnFfY250IC0gMSwgMCkpICYNCj4gPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaXJxX2Rlc2MtPm1zaXhfYml0cykpKQ0KPiA+
+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gSVJRX05PTkU7DQo+DQo+IFtTZXZlcml0eTog
+SGlnaF0NCj4gRG9lcyB0aGlzIGxvZ2ljIHNpbGVudGx5IGRyb3AgaGFyZHdhcmUgaW50ZXJydXB0
+cyB3aGVuIGZld2VyIHRoYW4gMzINCj4gdmVjdG9ycyBhcmUgYWxsb2NhdGVkPw0KDQpObyBpbnRl
+cnJ1cHRzIGFyZSBkcm9wcGVkLiBUaGlzIGlzIHRoZSBNU0ktWCBtZXJnZWQgbW9kZSBkZXNpZ24u
+DQpXaGVuIGZld2VyIHZlY3RvcnMgYXJlIGFsbG9jYXRlZCwgbXRrX3BjaV9zZXRfbXNpeF9tZXJn
+ZWQoKSBjb25maWd1cmVzDQp0aGUgaGFyZHdhcmUgdG8gbWVyZ2UgYWxsIGludGVycnVwdCBzb3Vy
+Y2VzIGludG8gdGhlIGF2YWlsYWJsZSB2ZWN0b3JzLg0KDQpGb3IgZXhhbXBsZSwgd2l0aCBpcnFf
+Y250PTEsIHRoZSBoYXJkd2FyZSBtYXBzIEFMTCBzb3VyY2VzIChpbmNsdWRpbmcNCk1IQ0NJRiBh
+dCBoYXJkd2FyZSBiaXQgMjgpIHRvIHZlY3RvciAwLiBUaGUgTVNJLVggc3RhdHVzIHJlZ2lzdGVy
+DQpzaG93cyBCSVQoMCksIG5vdCBCSVQoMjgpLiBTbyBpcnFfZGVzY1swXS5tc2l4X2JpdHMgPSBC
+SVQoMCksIGFuZA0KR0VOTUFTSygwLDApICYgQklUKDApICYgQklUKDApID0gMSDigJQgdGhlIGNo
+ZWNrIHBhc3NlcyBjb3JyZWN0bHkuDQoNClRoZSBHRU5NQVNLIGZpbHRlcnMgdG8gYWxsb2NhdGVk
+IHZlY3RvciBiaXRzIG9ubHksIHRoZW4gY2hlY2tzIGlmIHRoZQ0KY3VycmVudCBoYW5kbGVyJ3Mg
+dmVjdG9yIGlzIHNldC4gVGhpcyB3b3JrcyBmb3IgYm90aCBmdWxsIGFsbG9jYXRpb24NCigzMiB2
+ZWN0b3JzLCAxOjEgbWFwcGluZykgYW5kIG1lcmdlZCBtb2RlIChmZXdlciB2ZWN0b3JzLCBOOjEg
+bWFwcGluZykuDQoNCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0ID0gcGNpX3JlcXVlc3Rf
+aXJxKHBkZXYsIGksIG10a19wY2lfaXJxX21zaXgsIE5VTEwsDQo+ID4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJmlycV9k
+ZXNjW2ldLCBpcnFfZGVzY1tpXS5uYW1lKTsNCj4NCj4gW1NldmVyaXR5OiBNZWRpdW1dDQo+IENv
+dWxkIHRoaXMgdHJpZ2dlciBhIC1XZm9ybWF0LXNlY3VyaXR5IGNvbXBpbGVyIHdhcm5pbmc/DQoN
+CldlIHdpbGwgY2hhbmdlIHRvIHBjaV9yZXF1ZXN0X2lycSguLi4sICIlcyIsDQppcnFfZGVzY1tp
+XS5uYW1lKSB0byBhdm9pZCBmb3JtYXQgc3RyaW5nIGlzc3Vlcy4NCg0KPiA+ICvCoMKgIGh3X2Jp
+dHMgPSBtdGtfcGNpX2V4dF9oMmRfZXZ0X2h3X2JpdHMoY2gpOw0KPiA+ICvCoMKgIG10a19wY2lf
+d3JpdGUzMihtZGV2LCByY19iYXNlICsgTUhDQ0lGX1JDMkVQX1NXX1RDSE5VTSwNCj4gPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZmcyhod19iaXRzKSAtIDEpOw0KPg0K
+PiBbU2V2ZXJpdHk6IE1lZGl1bV0NCj4gV2lsbCB0aGlzIGJyZWFrIGNoYW5uZWwgaW5kZXggY2Fs
+Y3VsYXRpb24gb24gYmlnLWVuZGlhbiBzeXN0ZW1zPw0KDQpUaGlzIGRyaXZlciB0YXJnZXRzIE1l
+ZGlhVGVrIFQ5eHggUENJZSBXV0FOIG1vZGVtcyBvbiB4ODYvQVJNNjQtTEUNCnBsYXRmb3JtcyBv
+bmx5LiBPbiBsaXR0bGUtZW5kaWFuLCBjcHVfdG9fbGUzMigpIGlzIGEgbm8tb3AgYW5kDQpMRTMy
+X1RPX1UzMigpIGlzIGEgc2ltcGxlIGNhc3Qg4oCUIG5vIGJ5dGUtc3dhcCBvY2N1cnMuIFRoZSBL
+Y29uZmlnDQplbmZvcmNlcyBkZXBlbmRzIG9uIFBDSSAmJiBBQ1BJLCBlZmZlY3RpdmVseSByZXN0
+cmljdGluZyB0byBMRQ0KcGxhdGZvcm1zIHdoZXJlIHRoaXMgaGFyZHdhcmUgZXhpc3RzLg0KDQo+
+IFtTZXZlcml0eTogTWVkaXVtXQ0KPiBXaGF0IGhhcHBlbnMgaWYgdGhlIGRyaXZlciBhdHRlbXB0
+cyB0byBzZW5kIGFuIHVubWFwcGVkIGNoYW5uZWw/DQoNCkFsbCBjYWxsZXJzIG9mIG10a19wY2lf
+c2VuZF9leHRfZXZ0KCkgcGFzcyBrbm93bi12YWxpZCBjaGFubmVsIHZhbHVlcw0KdGhhdCBhcmUg
+bWFwcGVkIGluIFNFVF9IV19CSVRTLiBUaGUgaXNfcG93ZXJfb2ZfMihjaCkgY2hlY2sgYXQgdGhl
+DQp0b3Agb2YgdGhlIGZ1bmN0aW9uIHJlamVjdHMgaW52YWxpZCBpbnB1dC4gVGhlIEZTTSBzaW5n
+bGUtdGhyZWFkDQpkZXNpZ24gZW5zdXJlcyBhbGwgZXh0X2V2dCBzZW5kcyBnbyB0aHJvdWdoIGEg
+Y29udHJvbGxlZCBwYXRoLCBzbw0KYW4gdW5tYXBwZWQgY2hhbm5lbCBjYW5ub3QgcmVhY2ggZmZz
+KCkuDQoNCj4gPiArwqDCoCBwcml2LT5leHRfcmVnX2Jhc2UgPSBwcml2LT5iYXIyM19hZGRyIC0g
+QVRSX1BDSUVfUkVHX1RSU0xfQUREUjsNCj4NCj4gW1NldmVyaXR5OiBNZWRpdW1dDQo+IElzIGl0
+IHNhZmUgdG8gc3RvcmUgYW4gb3V0LW9mLWJvdW5kcyBwb2ludGVyPw0KDQpUaGlzIGlzIGEgc3Rh
+bmRhcmQgcGF0dGVybiBpbiBQQ0llIE1NSU8gZHJpdmVycyB1c2luZyBBZGRyZXNzDQpUcmFuc2xh
+dGlvbiBSZWdpc3RlcnMgKEFUUikuIFRoZSBtb2RlbSdzIGludGVybmFsIHJlZ2lzdGVyIHNwYWNl
+DQpzdGFydHMgYXQgYWRkcmVzcyAweDAgaW4gaXRzIG93biB2aWV3LCBidXQgdGhlIGhvc3QgYWNj
+ZXNzZXMgaXQNCnRocm91Z2ggQkFSMi8zIG1hcHBlZCBhdCBvZmZzZXQgQVRSX1BDSUVfUkVHX1RS
+U0xfQUREUiAoMHgxMDAwMDAwMCkuDQoNClByZS1jb21wdXRpbmcgZXh0X3JlZ19iYXNlID0gYmFy
+MjNfYWRkciAtIDB4MTAwMDAwMDAgYWxsb3dzIHVzaW5nDQptb2RlbSByZWdpc3RlciBhZGRyZXNz
+ZXMgZGlyZWN0bHk6IGlvcmVhZDMyKGV4dF9yZWdfYmFzZSArIHJlZ19hZGRyKS4NCmV4dF9yZWdf
+YmFzZSBpcyB0eXBlZCBhcyB2b2lkIF9faW9tZW0gKiwgYW4gb3BhcXVlIGNvb2tpZSBmb3IgTU1J
+Tw0KYWNjZXNzIOKAlCBuZXZlciBkZXJlZmVyZW5jZWQgYXMgYSByZWd1bGFyIHBvaW50ZXIuIFRo
+ZSBpb3JlYWQzMi8NCmlvd3JpdGUzMiBmdW5jdGlvbnMgcGVyZm9ybSBwbGF0Zm9ybS1zcGVjaWZp
+YyBNTUlPIGFjY2VzcyBvbiBpdC4NClVCU0FOIGRvZXMgbm90IGZsYWcgX19pb21lbSBhcml0aG1l
+dGljLiBUaGlzIHNhbWUgcGF0dGVybiBpcyB1c2VkDQpieSBvdGhlciBrZXJuZWwgUENJZSBkcml2
+ZXJzIChlLmcuLCBtdGtfdDd4eCkuDQoNCj4gPiArc3RhdGljIHZvaWQgbXRrX3BjaV9yZW1vdmUo
+c3RydWN0IHBjaV9kZXYgKnBkZXYpDQo+ID4gK3sNCj4gPiArwqDCoCBpZiAobXRrX3BjaV9wbGRy
+KG1kZXYpKSB7IC4uLiB9DQo+ID4gK8KgwqAgcGNpX2NsZWFyX21hc3RlcihwZGV2KTsNCj4gPiAr
+wqDCoCBtdGtfcGNpX2ZyZWVfaXJxKG1kZXYpOw0KPiA+ICvCoMKgIG10a19taGNjaWZfZXhpdCht
+ZGV2KTsNCj4NCj4gW1NldmVyaXR5OiBIaWdoXQ0KPiBEb2VzIHRoaXMgc2VxdWVuY2UgcmVzdWx0
+IGluIHRoZSBkZXZpY2UgYmVpbmcgcG93ZXJlZCBvZmYgYmVmb3JlDQo+IHRoZSBPUyBpbnRlcnJ1
+cHQgaGFuZGxlcnMgYW5kIHdvcmtxdWV1ZXMgYXJlIHN5bmNocm9uaXplZD8NCg0KVGhlIGRldmlj
+ZSBpcyBub3QgbGVmdCBwb3dlcmVkIG9mZi4gbXRrX3BjaV9wbGRyKCkgY2FsbHMgQUNQSQ0KUFhQ
+Ll9PRkYgdGhlbiBQWFAuX09OIOKAlCB0aGUgX09OIGNhbGwgcmVzdG9yZXMgcG93ZXIgYW5kIGJy
+aW5ncw0KdGhlIFBDSWUgbGluayBiYWNrIHVwLiBBZnRlciBfT04gcmV0dXJucywgdGhlIGRldmlj
+ZSBpcyBwb3dlcmVkDQpvbiBhbmQgQkFScyBhcmUgYWNjZXNzaWJsZS4NCg0KVGhlIFBMRFIgc2Vx
+dWVuY2UgaXM6ICgxKSBfT0ZGOiBwb3dlci1jeWNsZSBtb2RlbSBmaXJtd2FyZSwNCigyKSBtc2xl
+ZXAgZm9yIHBvd2VyIGRyYWluLCAoMykgX09OOiByZXN0b3JlIHBvd2VyIGFuZCBsaW5rLg0KQWZ0
+ZXIgc3RlcCAzLCB0aGUgZGV2aWNlIGlzIGxpdmUgd2l0aCBhIGZyZXNoIGZpcm13YXJlIHN0YXRl
+Lg0KDQpBZGRpdGlvbmFsbHksIGJlZm9yZSBQTERSLCBtdGtfcGNpX21hc2tfaXJxKCkgZGlzYWJs
+ZXMgdGhlIE1IQ0NJRg0KaW50ZXJydXB0IGF0IGhhcmR3YXJlIGxldmVsLCBwcmV2ZW50aW5nIG5l
+dyBpbnRlcnJ1cHRzLiBCZXR3ZWVuDQpwY2lfY2xlYXJfbWFzdGVyIGFuZCBtdGtfcGNpX2ZyZWVf
+aXJxLCBtdGtfcGNpX2Rldl9leGl0KCkgdGVhcnMNCmRvd24gRlNNIGFuZCB0cmFuc19jdHJsLCBl
+bnN1cmluZyBubyB3b3JrcXVldWVzIHJlbWFpbiBzY2hlZHVsZWQuDQoNCj4gPiArwqDCoCAvKiBS
+ZXF1ZXN0IGEgc2xvdCByZXNldC4gKi8NCj4gPiArwqDCoCByZXR1cm4gUENJX0VSU19SRVNVTFRf
+Q0FOX1JFQ09WRVI7DQo+DQo+IFtTZXZlcml0eTogTWVkaXVtXQ0KPiBXaWxsIHJldHVybmluZyBQ
+Q0lfRVJTX1JFU1VMVF9DQU5fUkVDT1ZFUiBhY3R1YWxseSBhYm9ydCB0aGUgc2xvdA0KPiByZXNl
+dD8NCg0KV2Ugd2lsbCBjaGFuZ2UgdG8gUENJX0VSU19SRVNVTFRfRElTQ09OTkVDVCBhbmQgdXBk
+YXRlDQp0aGUgY29tbWVudCwgc2luY2UgdGhlIGRyaXZlciBkb2VzIG5vdCBjdXJyZW50bHkgc3Vw
+cG9ydCBBRVINCnJlY292ZXJ5Lg0KDQpUaGFua3MuDQoNCkphY2sgV3UNCsKgwqDCoCAgICAg
