@@ -1,33 +1,64 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A08123F8ECC;
-	Fri, 17 Jul 2026 12:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4DC388E7A
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 12:43:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784291797; cv=none; b=JMOAAN0xTBaOHu7e+OICSoXpolyFjeXLOsUtBh7lnT0UTF6ZE/B8xmRCPOASfkPTGGoOujpLQ8PwVG3UhMsEvG6/hThx2Rq6KyO3zdbmBq801g0OQ60/vAlUAeunbAv6WbhX9e9TTdAWGMTcvzBLzRPrF0IuM0o/G1dhNjkqZ4A=
+	t=1784292234; cv=none; b=tzQA75s59gE2ViQWiodn26XNf4CPwy7v7kZtKFaiUV7Ek3ztGeduB8j5aLGDCiBn5V7XxPudGDvf1luXUbjwj612q/Edm8Bp1Rkgu0GDflO4P9a7JunPSNYq5RhpHTYLXmKlMo/sCP6cpkgduGfM+B1y1zmK1l3nJfysvKusVXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784291797; c=relaxed/simple;
-	bh=cK5CyITB0AQ4m/M1LPMHQsYqVGfmWCfGzBB/iAt08Fo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AbhqQ0NX51ZNSZFYA8fmz4jHlxjqKXncJASgl2Dm7OBnwzGdkLrRdNqANzKPoJpk8XknUiAoI1Z5MqvwOCPlpNYyvGM57Q5K3NYU1tucq+iAdpX0qWhgI9ICOE0CqqTYCOi+4kJ5X2yXAf5xK7Dev+9uLRu+6waPALCeIlvhJm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=SWY4iwE3; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1784292234; c=relaxed/simple;
+	bh=VRzGrBNUQ/GmV6KfYEOQkZAk0XqPQbyryIz1FCEcIuQ=;
+	h=Message-ID:Date:MIME-Version:From:To:Cc:Subject:Content-Type; b=Va3oUWw8M36VKd5DTb4WVnyz7e4hRRhkroFu15b/Ssen2uyhfR1C7KVCv98Sq30gy0HvaWqV10xw9KDj6rrW+3fddCdqdT27oBgwjQ96BKrVRxP0M058Jnhd7WAba1TVv4R8urUViVZYflyC8VOm6qKCZm82V+1ztu4kX4HlJGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zp3zV+OO; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="SWY4iwE3"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2BA161476;
-	Fri, 17 Jul 2026 05:36:30 -0700 (PDT)
-Received: from [10.57.84.220] (unknown [10.57.84.220])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4DB2D3F7B4;
-	Fri, 17 Jul 2026 05:36:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1784291794; bh=cK5CyITB0AQ4m/M1LPMHQsYqVGfmWCfGzBB/iAt08Fo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SWY4iwE32bOwuSxhu1Kr1LYKKKXPrBMFSFsib240wu2IB7V33T92lfoCNtCvAXPRu
-	 tDR54r1ifr8tF0pN1OPK5iKnW7W6gAVayDho5Y4frWx7ELROJHnFijd5hlJvaDQoFe
-	 ZLPPTRk6SWeGqDpwVM6hbKtrmRZgFqBqIDuSl3bM=
-Message-ID: <c000fe3e-2c10-4b2e-9f3c-852e38be5eb8@arm.com>
-Date: Fri, 17 Jul 2026 13:36:30 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zp3zV+OO"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-38deea72eebso5545589a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 05:43:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784292233; x=1784897033; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:subject:cc:to
+         :content-language:from:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=V7NYPQNo11NzLk2Hb4ahE/Xkp2/B+70Gn4JhbG33Us0=;
+        b=Zp3zV+OOXMVopWWX11INhEM1tVTRJWGmLwFW8omNaMs3ycvYZXjziBUwYjEnYq06wB
+         p7o67N8OIHni7l9rJU9w8qI9qWfQeapMZMIXo3z0DDaNdYwnlJBasO1RhbDbO2MdXNiw
+         Ei+ZUqfsgHT68aFXHlt3j9P0/hSIqPP5YJI5wb3w949JF4Dsq0xVUrX2It08YNbakzIO
+         hFWb0zt8zQxKn/6oRXJyMG1ZLYIipfn4rHFEc0xbclvpTJ9juY9Wxf2OfFuF1Vegmrfs
+         lo8XKaRn1mq5cbMHvwziBb6b4AWIbXXSit/KqpiThH1lmYOeal6ox7hKNip1R2X8YdLb
+         GsUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784292233; x=1784897033;
+        h=content-transfer-encoding:content-type:subject:cc:to
+         :content-language:from:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=V7NYPQNo11NzLk2Hb4ahE/Xkp2/B+70Gn4JhbG33Us0=;
+        b=JtZxOloHexHP/D/XJJypI8T+Y+xqSGbJS6eGdqgJnxdcfVCpB2NNccx1wne91/a4C8
+         AZ6EJ/Vg06vAyE54omM3pydXEze9oMYGphVH8F0XNZabjTZGmz6SXf0JPWsjRpoqFZT1
+         8c0lA0x1PZ7e8ADULm7BFzc7924sJCDKgA+WxZ/inlvLBmeovno6vpMXAwZSKLyeXG4G
+         VexyocDevp4y/UVRrcb50YpxQxKvEC+sEjZn40OYLEb1Htq2WsCedeAmT6BVkT6x1hVM
+         h7Y0uirwTynm0jcQraXaxTrwwDwy41Xbn0hLbS2AfOx+YLBQ9Cpy0hEzpZFTEYnVjx+V
+         ugDQ==
+X-Gm-Message-State: AOJu0Ywd4mviRgD3pDDnpdU1PN4dWj4ZjVhIPtEtRFw00LFY6xApL1aq
+	J1zZ0V7wYHvVrreso8xMZCiGqcQLo3Q9wNpACDRv082na7aqQvcQKapfDsBc9Z2cxgA=
+X-Gm-Gg: AfdE7cnm9oB5d7qPs9PANGggpOZJs6JzEo1noCwOcxmrrjRwnMZ02m4ypj4h9v04+sU
+	HLLXpIC/m28uv1Whpbvg9WvxeLBw0qrYDGoMvypm6FkLzzij6Vr1rI9qnMEuQ6AdyxRr6qEBuen
+	HcriS7fBFqSZpiu7o6zPxpUad/0EdA+v4MA/qnKwnKtzPToVEn7Tk0BmK2W9C9Jl/vbZFc3Ez35
+	FRBXXY4HF5LIwFA+79jkBw3JidXg4elzv2VObQtbszpvhXKqQwDrMNG5HMgpwoX69z3cAGRpmA6
+	gTZ/Q1vchSE8aQDJOMqG1/mYxJyTX7zYSimfUKw/gDA/eAKcHZQqHvJEYVJNeRA1UZ5PMfwqSys
+	v/oZAy08YNYmE+W3Y/ICROE/qCUoIKJURrByEzQcAxpLzleVVcctV4u28ydCZQrvqxyRgvqpMOc
+	R0wMNiRthD0kOELnzSHcfQrNAbHaLHPzXYWdnT/v5bRow=
+X-Received: by 2002:a17:90b:4c48:b0:38e:3314:8aab with SMTP id 98e67ed59e1d1-38e4b58615fmr2382460a91.38.1784292232850;
+        Fri, 17 Jul 2026 05:43:52 -0700 (PDT)
+Received: from ?IPV6:240e:38b:e68:3a00:545b:e814:5318:3125? ([240e:38b:e68:3a00:545b:e814:5318:3125])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e39deab2dsm2882983a91.1.2026.07.17.05.43.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Jul 2026 05:43:52 -0700 (PDT)
+Message-ID: <84cd6621-50b1-4b96-8e70-9685ba8c7af6@gmail.com>
+Date: Fri, 17 Jul 2026 20:43:46 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,42 +66,85 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 3/8] misc/arm-cla: Probe firmware-described devices
-Content-Language: en-GB
-To: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Jean-Philippe Brucker <jpb@kernel.org>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-References: <20260717104759.123203-1-ryan.roberts@arm.com>
- <20260717104759.123203-4-ryan.roberts@arm.com>
- <7927c483-57ed-4253-a7df-40104ff2b192@app.fastmail.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <7927c483-57ed-4253-a7df-40104ff2b192@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Alex Shi <seakeel@gmail.com>
+Content-Language: en-US
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
+ Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>
+Subject: [GIT PULL] Chinese-docs changes for v7.3
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 17/07/2026 13:25, Arnd Bergmann wrote:
-> On Fri, Jul 17, 2026, at 12:47, Ryan Roberts wrote:
->> +
->> +static const struct of_device_id cla_of_match[] = {
->> +	{.compatible = "arm,cla",},
->> +	{},
->> +};
->> +MODULE_DEVICE_TABLE(of, cla_of_match);
-> 
-> This is missing a device tree binding, and probably needs to versioned
-> in some form.
+The following changes since commit be828e6819ed139b699bf7feb00a546cb7806266:
 
-Given the aims of the RFC, I didn't think this would be a blocker for now - of
-course it's on the list for if/when we get further along the road.
+   docs: pt_BR: Translate deprecated interfaces guide to Portuguese 
+(2026-07-16 16:48:43 -0600)
 
-Thanks,
-Ryan
+are available in the Git repository at:
 
+   git@gitolite.kernel.org:pub/scm/linux/kernel/git/alexs/linux.git 
+tags/Chinese-docs-7.3
 
-> 
->       Arnd
+for you to fetch changes up to 8492d4e6bb7b9b1e78f2d17c4dda5272f25ec118:
 
+   docs/zh_CN: Update rust/testing.rst translation (2026-07-17 20:24:09 
++0800)
+
+----------------------------------------------------------------
+Chinese translation docs for 7.3
+
+This is the Chinese translation subtree for 7.3. It includes
+the following changes:
+         - Add the some rust, module-signing docs translation
+         - Fix/update couples Chinese translation
+
+Above patches are tested by 'make htmldocs'
+
+Signed-off-by: Alex Shi <alexs@kernel.org>
+
+----------------------------------------------------------------
+Ben Guo (5):
+       docs/zh_CN: add --no-merges to git log example in how-to.rst
+       docs/zh_CN: Update rust/quick-start.rst translation
+       docs/zh_CN: Update rust/general-information.rst translation
+       docs/zh_CN: Update rust/arch-support.rst translation
+       docs/zh_CN: Update rust/testing.rst translation
+
+Dongliang Mu (2):
+       docs/zh_CN: polish how-to.rst
+       docs/zh_CN: restructure how-to.rst patch submission workflow
+
+Ethan Nelson-Moore (2):
+       docs/zh_CN: fix CONFIG_CGROUP typo for CONFIG_CGROUPS
+       docs/zh_CN: fix CONFIG_CONPAT typo for CONFIG_COMPAT
+
+Yan Zhu (2):
+       docs/zh_CN: add module-signing Chinese translation
+       docs/zh_CN: update admin-guide/index.rst translation
+
+chengyaqiang (1):
+       docs/zh_CN: fix KASAN SW_TAGS mode description
+
+panzhipop (1):
+       docs/zh_TW: replace 接口 with 介面 in stable-api-nonsense.rst
+
+  Documentation/translations/zh_CN/accounting/psi.rst              |   2 +-
+  Documentation/translations/zh_CN/admin-guide/index.rst           | 202 
+++++++++++++++++++++-------
+  Documentation/translations/zh_CN/admin-guide/module-signing.rst  | 250 
+++++++++++++++++++++++++++++++++++
+  Documentation/translations/zh_CN/dev-tools/kasan.rst             |   2 +-
+  Documentation/translations/zh_CN/how-to.rst                      | 149 
++++++++++++++-------
+  Documentation/translations/zh_CN/rust/arch-support.rst           |   1 +
+  Documentation/translations/zh_CN/rust/general-information.rst    |  82 
+++++++++++-
+  Documentation/translations/zh_CN/rust/quick-start.rst            |  48 
++++----
+  Documentation/translations/zh_CN/rust/testing.rst                |   4 +
+  Documentation/translations/zh_CN/security/self-protection.rst    |   2 +-
+  Documentation/translations/zh_TW/process/stable-api-nonsense.rst |  62 
+++++-----
+  11 files changed, 639 insertions(+), 165 deletions(-)
+  create mode 100644 
+Documentation/translations/zh_CN/admin-guide/module-signing.rst
