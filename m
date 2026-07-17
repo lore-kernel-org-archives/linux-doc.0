@@ -1,176 +1,110 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC1037DE87
-	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 19:42:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B00A83914FD
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 19:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784317362; cv=none; b=J+XRFM0ICCG6Qcnt50zz2PGe3Be12ecWmLnixfTT6RXDLlswrRKhRak8wYTg10mowqW5BhrgTr8Ews8yH/NQ0NimHPMndWtbkO6UCjRTaOqJYSGUm+rN2X7tHMwijlakqhvVSdVtnvGVr81kDX/m2uw8uxxaTl+F+P/rhL6Q9RU=
+	t=1784318047; cv=none; b=BcxmSqy/bHju0tVaMqM2QyO0401nFYsFDN4t5Gmc83VQq6IW8PYMLXZ9ULAfMWfjQoAZgczQMaDAUnaB+2z7plYwZLR0xokhigg/IQI9phUt6uIZPoX3TTb3xJpM2ciujmtGL2BLLclGwqrO2Cl7QUNaf417+29M0SHth15HBKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784317362; c=relaxed/simple;
-	bh=06eki5QMsXCiN4ojqSTErc49FfqPbYMbzVUiMtQToSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OYte9d0Li4pBzdF21ieID03uPq325i7SZeN5Lv90LZ+hCXk/tbKP2qkK3UXR6ezyMZWgrCi2m1Jy59MFFPmiP9Mm0WMV90zXPMpU3+Gjn5iTs9WI+HnagCdZYNkKZXSLTKCNjSBaJqFHrO50xiCuSgie6IddqOb/qHVGar1U33E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=ZQDdR4Dw; arc=none smtp.client-ip=209.85.222.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1784318047; c=relaxed/simple;
+	bh=qDEL+NdYHAMBArrfQo7xo37wngGQUozp4Fd2l50ofPs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tp0Z/tqATE91d7nbDhmE4Pa0duD/6U+y8qLiXK33dHqBNKTx+EIpMntXFCQUv1GWoq2aHa30Wsen0wmmhEj4xdHep6Dtz94ioKobmsJm0z/e4gCLH0oTsz+iJtCuCaemu5EkM7soBdsXnisvWAsnd+2iukVypkWpfFZVyEH26BY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L+uxy9AU; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="ZQDdR4Dw"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-92f03daaa97so595368585a.2
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 12:42:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L+uxy9AU"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c96c92c0980so3245515a12.3
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 12:54:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1784317360; x=1784922160; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=XwmOrmcqXQWfj6rtFo+8pLNSVXYkj7WYHrCbKkDrWe8=;
-        b=ZQDdR4Dw5XwL9NdJyrpOlKYzNpS/obcsaXmYmzaFyLJ2uLH15sWpx9M0DZvFONtorD
-         m7qDCshy1fQLyjvF9zU2qJRlKZr0WvPfOBwCpxGl3fAW/FCrGAAXYVA08DQVRhzndP2n
-         epvLTMr7rIAUtfIsHy58bL7cy2cFd/mWMzPjwt+4gmAzWjWAxcCpigSs2xce8V890QAd
-         rtxPsp8XVD1OjeD2LzFqVfEAa7gKTc16o7ugRqElJphGYSAAN3BndNAzEGbkSDg5P2Xs
-         gdCQltzI5JsyY+JKBSEH3jaVxWMMEFdwPhVj6FMEwXtLmEd44Di1PbTCKbqK67TgvROk
-         JDpA==
+        d=gmail.com; s=20251104; t=1784318045; x=1784922845; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OErWzxQXSQHPfYViK6AsSVvyH9H9J8o7igncn0U/Abc=;
+        b=L+uxy9AUZC3kEidm+53y3EJTc7PQo7VYY36st+YyDjSGKiA59gU1ARKuXr93lIvTuS
+         9LoCifD3NuTzEWYiY3B2v7f09wUfe9SLBRbhv0xAeC1DUPKMJ/HIRYweobUd6rx5a6JW
+         i0vk/u+gGJoGWkd7/iaPFH5UPX8+4hezyzMjGfVCuZRzEMLU9HZKJQK/A9a1qBnUmccy
+         ARbITB2d8E4nPPl5432QId6U59i0Op45A3C0thrkNKoRDaua+3ks/LJE2yjXqwe/KDbO
+         l9H9zKCFV9BCMRVSIuZmI4tHrFFXRwqLDh/4PcuHaIxwfUUgniRL3L1bLx2H67gagbTo
+         wGeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784317360; x=1784922160;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XwmOrmcqXQWfj6rtFo+8pLNSVXYkj7WYHrCbKkDrWe8=;
-        b=pmnyABcpk7Xtz/EDWVEvsGUm4AKOu6I9XgZp3b+6npy5K8x/FV8qJniI1tKJ/5gugf
-         tHe+xdzgXRlnFjZgFuqHjgkRZSorV+bVqkiV0VH0RNrYCbtQ9nEpNzLSRlaGCl22VvlE
-         pP7XxZd0ghBYwJlCsmOtuwTKK0JD4x3Jh3wwDW7E7jTWZAVTPuPNZhTu02QPQsXkv6hr
-         +b1MyyPJxa+91vDo3GtQyctLI1vqBXtN+ryB3hfjYQccy6QxXBvgK0dT2oV2LoR8VG6o
-         LIAeSrKwgiFIq0esFMOx82mxV+vaDQVf9jV3nqmQaWamc+gMQUGtNMvUL4VRrA3aCBWv
-         WcJA==
-X-Forwarded-Encrypted: i=1; AHgh+RrW4Y44jQNK9QlFZBQnBqP7/VEZJ0NWJv2cd/p+OG81UukBRl8NA3SQCowcEm3/85NX/F9kNy6PEfo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjIQxi3MiSLxtxNNU222t9EYqv2R0HSunXByLW4g9Q4Ta0AG8R
-	kY6Ufyggo/YHF49jUAHXzU4sGB5U/m92jr7bQG49hlRg4QOUDtckX7QHbgObKco1M+s=
-X-Gm-Gg: AfdE7cmZfvW80ahbiUqomjhAQb9kxvNz0hCxEu1wSsEU/t+c2ScE3I/PQIw3+rw0wzV
-	UixmWXLnsplFG0aHBFtrXsnzMsdJ1SYjC+aZREw8ZF4Ck/gZqXQyvlQ3w0+EhVIl+uHZ2vQq/Y5
-	RkI+j13jGQD2/uNX/c8NVfulPuVQbvCFualrUGXTyWN7+Rcjtg05VWsSfWW75PC0OlYZ1+NzN1u
-	3cQeD9AeVu3rDzrUEk8OCj/7gJ0D2CSFofgce3FjrEHP7lkdgUrWeM28sXkT403g/M5RatEA59y
-	R7hZdkGbTxxGO92VXop6Xi439d0UbcR0FQvofXl7rJth7MO4xlTNUTxViLDK/O//rrKQyMn+bKL
-	09X2lqkPBsTa28Wv84rJZe4qGe9asbOFh1eXluXEBQFcyiGJnN6bgId5g/HLrgNpjaElgIrJCUg
-	uMr1icYYgq/GApDyFHcCmQkkQpC2JwPg==
-X-Received: by 2002:a05:620a:4691:b0:92e:e125:55bb with SMTP id af79cd13be357-930b3e9c541mr429942685a.4.1784317359852;
-        Fri, 17 Jul 2026 12:42:39 -0700 (PDT)
-Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b52dd3easm225279585a.3.2026.07.17.12.42.38
+        d=1e100.net; s=20251104; t=1784318045; x=1784922845;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OErWzxQXSQHPfYViK6AsSVvyH9H9J8o7igncn0U/Abc=;
+        b=qSBYVAKb9/g3HOBOvIz9wP7V8FDf2brwbFCcfuV1B2sFh9SQrkZk4uck4D8IRFwZkM
+         nmbZZxxfiIHJfqHmIWKk9CgPGVUcmrsjDWG2azqYsJbHUZxBLFWmwOFOoUijVneKPnJn
+         IinupNpyiF/fUGCChBzdg6eL6VM+PEuiVytMq3p3Oh0jJW1GVqGKNhIni4UpNzXta9O4
+         L+VfTCUBihL3+QljOvHUTE9E+gizUU30iPBjvSQ3KeytdqlORwnBZhcTQTgZHYvwdbE+
+         jqb41VHmfZgZk+sFpU6z7KfBYKhH2GP2vrqWjyNILcsM5YAmE2oR1bwseZphS9NMb5AZ
+         kDNw==
+X-Forwarded-Encrypted: i=1; AHgh+RowbujfUBNve6QFCruF/rWEMT+OPxgW21/T79h8A8lBFGBW7QltMwfqrntYMeJaPmTiDEok55QFDkk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/r5GbbpOK7zgJG40Oj5cgmAU02ugH/aUh1lfi6qQ6GWeeXt8G
+	jkKzW45ASSrQGpBlnsRu1gWyqadVToeg9K2DIpIzk33e0vafHIZZBGYh5y8DlBQz
+X-Gm-Gg: AfdE7cmmthNrT/q8uYhw9rg92p79lfxkuXhQEwqTPh0Q+AnZ0SAQ71uRFiSxIV02jy7
+	jNLyrfWtVvLPOKx7vXLbaIPkuBoxdW535nEXyykU6+qeyhinCiDLdMcmtADyH2k33IjTa6JcKRs
+	rRvERQNamQA0F5HRdf2NdfkOmiV4kG+rjD4brY67kNqZAfJzSDV8F0iHVAfvS+4bta/c2wGmAUw
+	SiTd9TSi5+/tWH6LmC/dN3JJUcB87yfA0IdvmbSvIc03aQzfe22YxVkbHgDucHEWcJiKJjdSt6K
+	vt4OwkP1oExjXnR8RQg1qbfj0GdMRVs3CepvkdbwQaiY0D28xluwb5W94HBjz84F1x6DZmjeAUY
+	6i3D2KjqqdkE2NBxccwM8DaB1shVM/adRqGkfLo6V0gfH1HwgR7bfCBw4+vYMWr3FihOnUYxRcE
+	Hr3/NseqtTJ1eIT/908IGwVkJNI/4P2AogeUo11413nLm83xG9hRGyj8S6uLKzvuFfQbBkyI4kO
+	Wav
+X-Received: by 2002:a05:6a21:6813:b0:3c0:9c19:b27d with SMTP id adf61e73a8af0-3c3adb1f025mr4919860637.75.1784318045058;
+        Fri, 17 Jul 2026 12:54:05 -0700 (PDT)
+Received: from ghost.localdomain ([103.170.252.7])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13ce29c2dcdsm7103119c88.1.2026.07.17.12.53.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 12:42:39 -0700 (PDT)
-Date: Fri, 17 Jul 2026 19:42:37 +0000
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
-	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
-	Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
-	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, 
-	Parav Pandit <parav@nvidia.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Pranjal Shrivastava <praan@google.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>, 
-	Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v7 01/12] PCI: liveupdate: Set up FLB handler for the PCI
- core
-Message-ID: <alqFcmDsFdjzNZQJ@plex>
-References: <20260710212616.1351130-1-dmatlack@google.com>
- <20260710212616.1351130-2-dmatlack@google.com>
- <178431652443.189683.17611165218179620081.b4-review@b4>
+        Fri, 17 Jul 2026 12:54:04 -0700 (PDT)
+Received: from ghost.localdomain (ip6-localhost [::1])
+	by ghost.localdomain (OpenSMTPD) with ESMTP id 7fc67677;
+	Fri, 17 Jul 2026 19:53:56 +0000 (UTC)
+From: Nikhil Solanke <nikhilsolanke5@gmail.com>
+To: linux-usb@vger.kernel.org
+Cc: gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	stern@rowland.harvard.edu,
+	michal.pecio@gmail.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	stable@vger.kernel.org,
+	Nikhil Solanke <nikhilsolanke5@gmail.com>
+Subject: [PATCH 0/2] usbcore: Add quirk for 255-byte initial config read
+Date: Sat, 18 Jul 2026 01:23:34 +0530
+Message-ID: <20260717195336.98500-1-nikhilsolanke5@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <178431652443.189683.17611165218179620081.b4-review@b4>
+Content-Transfer-Encoding: 8bit
 
-On 07-17 19:28, Pasha Tatashin wrote:
-> On Fri, 10 Jul 2026 21:26:04 +0000, David Matlack <dmatlack@google.com> wrote:
-> > diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
-> > new file mode 100644
-> > index 000000000000..899758883dd5
-> > --- /dev/null
-> > +++ b/drivers/pci/liveupdate.c
-> > @@ -0,0 +1,155 @@
-> > [ ... skip 50 lines ... ]
-> > +#include <linux/slab.h>
-> > +
-> > +/**
-> > + * struct pci_flb_outgoing - Outgoing PCI FLB object
-> > + * @ser: Pointer to the preserved struct pci_ser.
-> > + * @block_set: The KHO block set holding the outgoing devices.
-> 
-> AFAIK, these should be aligned after column:
-> @ser:       Pointer to ...
-> @block_set: The KHO block ...
-> 
-> > [ ... skip 26 lines ... ]
-> > +	ser->devices = 0;
-> > +
-> > +	outgoing->ser = ser;
-> > +	kho_block_set_init(&outgoing->block_set, sizeof(struct pci_dev_ser));
-> > +
-> > +	args->obj = outgoing;
-> 
-> Nit:
-> You could re-write the above:
-> 
-> args->obj = no_free_ptr(outgoing);
-> 
-> And declare outgoing like this:
-> struct pci_flb_outgoing *outgoing __free(kfree) = kzalloc_obj(*outgoing);
-> 
-> Also, remove kfree(outgoing) call.
-> 
-> >
-> > diff --git a/include/linux/kho/abi/pci.h b/include/linux/kho/abi/pci.h
-> > new file mode 100644
-> > index 000000000000..de549016807a
-> > --- /dev/null
-> > +++ b/include/linux/kho/abi/pci.h
-> > @@ -0,0 +1,58 @@
-> > [ ... skip 30 lines ... ]
-> > + * @domain: The device's PCI domain number (segment).
-> > + * @bdf: The device's PCI bus, device, and function number.
-> > + * @refcount: Reference count used by the PCI core to keep track of whether it
-> > + *            is done using a device's struct pci_dev_ser. The value of the
-> > + *            refcount is equal to 1 when the struct pci_dev_ser is in use, and
-> > + *            0 otherwise.
-> 
-> I believe descriptions must be aligned.
-> 
-> > + */
-> > +struct pci_dev_ser {
-> > +	u32 domain;
-> > +	u16 bdf;
-> > +	u16 refcount;
-> > +} __packed;
-> > +
-> > +/**
-> > + * struct pci_ser - PCI Subsystem Live Update State
-> > + *
-> > + * This struct tracks state about all devices that are being preserved across
-> > + * a Live Update for the next kernel.
-> > + *
-> > + * @nr_devices: The number of devices that were preserved.
-> > + * @devices: Physical address of the first KHO block containing pci_dev_ser.
-> 
-> I believe descriptions must be aligned.
-> 
-> Nit: Please order the included headers alphabetically.
-> 
-> Nit: Please order the included headers alphabetically.
+This series adds a quirk for USB devices that fail enumeration when
+the initial GET_DESCRIPTOR(CONFIGURATION) request uses wLength=9.
 
-The above was supposed to be right after #include, but b4 had a mind 
-of its own.
+Patch 1 adds USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE which causes
+usb_get_configuration() to use wLength=255 for the initial config
+descriptor request, mirroring long-standing Windows behavior.
 
-> 
-> -- 
-> Pasha Tatashin <pasha.tatashin@soleen.com>
+Patch 2 splits announce_device() to log device identity before
+enumeration, improving failure diagnosis.
+
+Nikhil Solanke (2):
+  usbcore: Add quirk for 255-bytes initial config read
+  USB: hub: Split announce_device() to log device identity before
+    enumeration
+
+ .../admin-guide/kernel-parameters.txt         | 10 +++++
+ drivers/usb/core/config.c                     | 39 +++++++++++++++----
+ drivers/usb/core/hub.c                        | 16 ++++++--
+ drivers/usb/core/quirks.c                     |  4 ++
+ include/linux/usb/quirks.h                    |  3 ++
+ 5 files changed, 61 insertions(+), 11 deletions(-)
+
+-- 
+2.55.0
+
