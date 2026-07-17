@@ -1,186 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C213F9F37;
-	Fri, 17 Jul 2026 12:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8693FBB7E
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 13:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784293097; cv=none; b=a8x7+zninMRCjdD4eWg1kytVotbJEBLN97LolJB30bR0IxwhZY09xDgEJ6qKJvbb92tXLhgH2Fgn0ZrpeDXSMpexVKIb1Y3uVZUrpV6LhKqUw9hQaXPYVM7NwEknTaOpKlnuEfm+h010gno2VFvo88AmrRZPRnl6CJfFz4+p5gg=
+	t=1784293366; cv=none; b=uplF6ZEJasOSSE6v1zNUT9q7557K4lx+Ox2SVT2C4dX969t4HZQ27QwenCqT4cQk6G6f2oq8zqoZQupY6+Fb2keKFUcuzkgl1PHM5cTtGqOLZmWBUVdrF99ab2POfQrn0Eg5Z9N5/0W41oHp5JKgB91NMk7eqZcZM8+otId9Y8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784293097; c=relaxed/simple;
-	bh=0n68iQPMse6euvc6lP1PVaTWnw7HtnIFVctriMGqVS8=;
+	s=arc-20240116; t=1784293366; c=relaxed/simple;
+	bh=PlLf3uatOB4V7qqPGolTM2wzfx6QOLYYVgfstlgW/F4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IlT7TbHhy8c1nM7Nr2U96bc/9nvQDLjm5NWVU5CZQhpqb1KnZWUbXpmhptZR/QpMngzUuXoWFQBGl6pUN6Vcp99V4R3p/1E+OsRJEJatb4OHKvhT/ekkE8r+g66jqGEST5jvu7mYxumMuC9AOg9G4xkiVPNjAmaKOJ9X8apxz5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UOsMnp2d; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 MIME-Version; b=YsPkKygnphyQeou5YWi1+oo/bN6OrT8ZnAbByd6Mj2F9XIkVV/y9dIe3IJPfh7uTQQmpfyabvM1JskbJpszsUzxeKKH+/LMb1YvtETZX+WP3D7mujmMPTUJQc02O2UzkRq1KzlSBbGP6Q0y5ibbslDTWZUk3KSMThxWEffSwCL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pV8RY9KL; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UOsMnp2d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784293095; x=1815829095;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=0n68iQPMse6euvc6lP1PVaTWnw7HtnIFVctriMGqVS8=;
-  b=UOsMnp2d+SHcFNCbJM82dthyrs55YJOhgwRCJTN7Hd3AkIpH0xNtrpaH
-   DhnM1JWfKUS1L8cpbre7M8PvIkBHtwu+NpQTHzxatFeikn58L+LpG2xo8
-   NYOwybBL4nPV7OBthbGbKupJxb93B2yvgEHu+bMl5SSriGCUR3r5MMyAG
-   6VBjSJ/PQM3WCTzqAOq70MbP1qe6YW7ArUOBWewxR9izmQ5UYe5kPkKqj
-   5P1sa9Cr3EQUG4NVUHUfaR7T8KSnuxmJ/CxBLGsJUobUMmzRJEciENzSV
-   xvE+Qf1bvtAoRSh92tsLtlRRyK54Pq0b4dMrcOB9r7l6PjO71mg72Q3j/
-   A==;
-X-CSE-ConnectionGUID: A7y3W8NsQ5yB7DwZEdIwOA==
-X-CSE-MsgGUID: WSR1N9AeSvahzIYe/s5cgw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="88639686"
-X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="88639686"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 05:58:15 -0700
-X-CSE-ConnectionGUID: gfXYjAMQTE+EF1QnWeHjdg==
-X-CSE-MsgGUID: v2e7Jn6LQhyONuVJT8rCYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="253370105"
-Received: from rknop-desk.igk.intel.com (HELO rknop-desk.ger.corp.intel.com) ([172.28.178.99])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 05:58:13 -0700
-From: Ryszard Knop <ryszard.knop@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuicheng Lin <shuicheng.lin@intel.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pV8RY9KL"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2cc61541f8cso15831965ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2026 06:02:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784293365; x=1784898165; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/HcjDBHsn65ZCZzOohF40VNQnTu2vZZX71z4vh7Fe7A=;
+        b=pV8RY9KL5NRyhBdnkl8IhflMe9EB9vB18xcJdNOZOzs5/28McoDBlIreED8PiraNl3
+         icWwx+gQYviKkZd21TqwHoP+bSrbsb3vuXqR1qssn/T5DfmSHm5V5LOQl4SFRj4SxuoU
+         88+KfXf//S88mNSOGQW462CKES+QGc4kBiWNjLBpUhVZk5oRs8NBGAmFyQJvqoUF7puR
+         J298s1Xg/px1lAHTjezol7Blq9gng0HEFsxox/x+m6ptq/OAY0sfEWcFLJ3kLEjDrEtU
+         QJVV8m1mKlUwuOVD7RGoQ7dJC7ruqNXR9Da+eOjHvH4nCvffbaiacf5LCdEc8v4CTNhP
+         GMPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784293365; x=1784898165;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/HcjDBHsn65ZCZzOohF40VNQnTu2vZZX71z4vh7Fe7A=;
+        b=UcgOgq9KKFQ1WTu2AnwLdzCZ46dLS9DjrMlcE1pAwuxmk/ZReWUZBBcpESC2mX1VmM
+         Zi5UJ9xmlsuj6YUIiA7X0q7qzZDQQa8KsLP0/351OIW+RHILCELG6veHM9+iv0nF6UWb
+         soVX12ksrWf5eejsGo2hE9+63sRwEnRLsDAFdlPJXzDBZRPi4V0t11YeGFYPio7Ca5YS
+         Z0pMfnlEeJvF/gGOq87atRyRKL5iNK5kntnNN2o01sjV1fSffw5KkxMt3MQggu8dqcOH
+         wD2jvcyMqxlOy7OYuXFBfsP3LnFRAZBAbFqfZZ4BBLK0q5jPHDILzp0CmyHdDdfYqPuB
+         O0Eg==
+X-Forwarded-Encrypted: i=1; AHgh+Rqd9N4J/Y9WryL9waq1GYCtSB7dOGLJuXWeqe7HP1BTMYq5Im+J642FYNYd124JxNFrpB+/eFkfASM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgeCtc2I1C7rcGp5/xLof7fPea7auw5FTkkTvyh7pFCPz/0pKI
+	PbETOASGs4J0aWIRNJna4nwZI2imn1J00DexpnVr8D1c6JWnJdCL4VtVhKiL7Xh55+otkw==
+X-Gm-Gg: AfdE7clsXuc9ldIUTOIa5ujriNIVozTQLcl+VkmUDwGtzQ/JYNy11X+HBf1gSdV/Jaz
+	z3kvlVYiLrC3+nBslWusDGC/ewLA/gPJBQ6HjNuogk4LgWSryepNns3p5OjxB3gEeX8AKBfets7
+	AAgC8sXSv5Wbgg4SDrPNm7i0nkWIbhE+y5d/t3wdNtAMIawtE/5zBFz2QOg441YbTsTsTjkewLj
+	iSZchi7Uzu2Dm8SEp1IOyzl8R4VspodzknChtJyOsaz65qZFvRU3ZNsAUIehnBSZ1v1ruZeWmoJ
+	k5c+VWq5nSJ48RTuphjuDy8Ea5ykHLIoJYApoZtwIBg3+SgdH47mbaDTh7oy1hp7FPvAj7Y10cU
+	tZHw10+qQP4685la/AyoT4mgb3XKmpzcWQw+pvvGXdO0DNUG3Psrrwgh5ocgwos1uYS9bLopM4N
+	Nc3A==
+X-Received: by 2002:a17:90b:4e85:b0:380:86d8:8162 with SMTP id 98e67ed59e1d1-38e3d299be4mr7567812a91.18.1784293364383;
+        Fri, 17 Jul 2026 06:02:44 -0700 (PDT)
+Received: from localhost ([144.24.58.22])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3142a1de301sm7390369eec.24.2026.07.17.06.02.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 06:02:42 -0700 (PDT)
+From: Jinchao Wang <wangjinchao600@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	x86@kernel.org,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Matthew Wilcox <willy@infradead.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>,
+	Mike Rapoport <rppt@kernel.org>,
 	linux-kernel@vger.kernel.org,
-	intel-xe@lists.freedesktop.org
-Subject: [PATCH v3] scripts/kernel-doc: Suggest possible names for excess descriptions
-Date: Fri, 17 Jul 2026 14:57:53 +0200
-Message-ID: <20260717125753.634550-1-ryszard.knop@intel.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260714111208.323108-1-ryszard.knop@intel.com>
-References: <20260714111208.323108-1-ryszard.knop@intel.com>
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Jinchao Wang <wangjinchao600@gmail.com>
+Subject: [RFC PATCH v2 01/13] arch: add HAVE_REINSTALL_HW_BREAKPOINT
+Date: Fri, 17 Jul 2026 09:02:27 -0400
+Message-ID: <20260717130227.1901488-1-wangjinchao600@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260717125023.1895892-1-wangjinchao600@gmail.com>
+References: <20260717125023.1895892-1-wangjinchao600@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
 Content-Transfer-Encoding: 8bit
 
-Recent check_sections() change added a warning if a documentation tag
-member name does not match the detected struct/union member names. Since
-the checker knows all possible names, we can suggest known names, so
-that it's more obvious how to deal with the warning.
+Some architectures can update the address, length or type of an
+installed hardware breakpoint in place, without releasing and
+re-reserving its slot. Add an opt-in Kconfig symbol so generic code
+can offer such an operation on architectures that implement
+arch_reinstall_hw_breakpoint().
 
-Signed-off-by: Ryszard Knop <ryszard.knop@intel.com>
+This is a prerequisite for KWatch, which re-points preallocated
+per-CPU breakpoints from atomic context, where the register/release
+path (which may sleep and rebalances slot constraints) cannot be
+used.
+
+Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
 ---
-Changes in v1:
-- Added the suggestion hint in the warning, with basic name substring checks
-- Link: https://lore.kernel.org/linux-doc/20260714111208.323108-1-ryszard.knop@intel.com/
+ arch/Kconfig | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Changes in v2:
-- Strip trailing whitespace from the warning when the generated hint is empty
-- Link: https://lore.kernel.org/linux-doc/20260715111726.394565-1-ryszard.knop@intel.com/
-
-v3:
-- Use difflib to generate suggestions even if the tag member is mistyped
-- Suggest names based on the nested struct members too
----
- tools/lib/python/kdoc/kdoc_parser.py | 51 ++++++++++++++++++++++++++--
- 1 file changed, 49 insertions(+), 2 deletions(-)
-
-diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-index 2dedda215c22..884f42584667 100644
---- a/tools/lib/python/kdoc/kdoc_parser.py
-+++ b/tools/lib/python/kdoc/kdoc_parser.py
-@@ -11,6 +11,7 @@ and extract embedded documentation comments from it.
+diff --git a/arch/Kconfig b/arch/Kconfig
+index fa7507ac8e13..41b3784e0ddd 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -457,6 +457,16 @@ config HAVE_MIXED_BREAKPOINTS_REGS
+ 	  Select this option if your arch implements breakpoints under the
+ 	  latter fashion.
  
- import sys
- import re
-+import difflib
- from pprint import pformat
++config HAVE_REINSTALL_HW_BREAKPOINT
++	bool
++	depends on HAVE_HW_BREAKPOINT
++	help
++	  Depending on the arch implementation of hardware breakpoints,
++	  some of them are able to update the breakpoint configuration
++	  without release and reserve the hardware breakpoint register.
++	  What configuration is able to update depends on hardware and
++	  software implementation.
++
+ config HAVE_USER_RETURN_NOTIFIER
+ 	bool
  
- from kdoc.c_lex import CTokenizer, tokenizer_set_log
-@@ -558,6 +559,50 @@ class KernelDoc:
-                         self.push_parameter(ln, decl_type, param, dtype,
-                                             arg, declaration_name)
- 
-+    def get_suggestions_hint(self, decl_name, possible_names):
-+        # For decl name 'flags' or 'flgas', suggests 'substruct.flags'
-+        submember_exact = []
-+        submember_substrings = []
-+        submember_suggestions = []
-+        for possible_name in possible_names:
-+            parts = possible_name.strip().split('.')
-+            if len(parts) < 2:
-+                continue
-+
-+            final_part = parts[-1]
-+            if decl_name == final_part:
-+                submember_exact.append(possible_name)
-+            elif decl_name in final_part:
-+                submember_substrings.append(possible_name)
-+            elif difflib.get_close_matches(decl_name, [final_part]):
-+                submember_suggestions.append(possible_name)
-+
-+        # For decl name 'flgas', suggests 'flags'
-+        full_suggestions = difflib.get_close_matches(decl_name, possible_names)
-+
-+        # For decl name 'member', suggests 'longer_member'
-+        full_substrings = [name for name in possible_names if decl_name in name]
-+
-+        ordered_lists = [
-+            submember_exact,
-+            submember_substrings,
-+            submember_suggestions,
-+            full_suggestions,
-+            full_substrings,
-+        ]
-+
-+        # Deduplicate but maintain order from most to least likely:
-+        unique_suggestions = {}
-+        for suggestion_list in ordered_lists:
-+            for suggestion in suggestion_list:
-+                unique_suggestions[suggestion] = None
-+
-+        suggestions = list(unique_suggestions.keys())
-+        if not suggestions:
-+            return ""
-+
-+        return f"(did you mean one of: '{"', '".join(suggestions)}')"
-+
-     def check_sections(self, ln, decl_name, decl_type):
-         """
-         Check for errors inside sections, emitting warnings if not found
-@@ -566,12 +611,13 @@ class KernelDoc:
-         for section in self.entry.sections:
-             if section not in self.entry.parameterlist and \
-                not known_sections.search(section):
-+                hint = self.get_suggestions_hint(section, self.entry.parameterlist)
-                 if decl_type == 'function':
-                     dname = f"{decl_type} parameter"
-                 else:
-                     dname = f"{decl_type} member"
-                 self.emit_msg(ln,
--                              f"Excess {dname} '{section}' description in '{decl_name}'")
-+                              f"Excess {dname} '{section}' description in '{decl_name}' {hint}".strip())
- 
-         #
-         # Check that documented parameter names (from doc comments, including
-@@ -591,12 +637,13 @@ class KernelDoc:
-             if param_name in self.entry.parameterlist:
-                 continue
- 
-+            hint = self.get_suggestions_hint(param_name, self.entry.parameterlist)
-             if decl_type == 'function':
-                 dname = f"{decl_type} parameter"
-             else:
-                 dname = f"{decl_type} member"
-             self.emit_msg(ln,
--                          f"Excess {dname} '{param_name}' description in '{decl_name}'")
-+                          f"Excess {dname} '{param_name}' description in '{decl_name}' {hint}".strip())
- 
-     def check_return_section(self, ln, declaration_name, return_type):
-         """
 -- 
-2.55.0
+2.53.0
 
