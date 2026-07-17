@@ -1,50 +1,33 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C2E3BFAE8;
-	Fri, 17 Jul 2026 13:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11A72311C15;
+	Fri, 17 Jul 2026 13:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784295715; cv=none; b=Dn9YdjZouRDkc7tw4LyOFhiz+EqU8I+LrLvsbxerYMIzYHurqi7eb4lAY29psI5amRDqmw1bz2lE5VICLPC8nrrgktGeKzN3PQhCPJKtdR3YHDBLUx/DgAR8r2z9KXSn3rvBtvvqg5geMMxdGjsybgHicqo6EOtOV13vfE1Y9VI=
+	t=1784295766; cv=none; b=cBXf6KnnpcJVWvUYLAm5dP8W3y8HMbOJDbdkFrPu9szYQXdQcVvr5T9tkvWdrB8d7AQNTqpac+IuzM/sjom+2nKLuHs+PL83E/hF2VPi6Voxf+G6uAPPU/4b7VURUVIqMgyoz3CZJKL/sA5DdLpWXUp2X4CEhG5jpflroLTI9jA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784295715; c=relaxed/simple;
-	bh=fvevDhSjCFC8kOKsqBUeK57DQVf+jkuNY18oFfhjsC0=;
+	s=arc-20240116; t=1784295766; c=relaxed/simple;
+	bh=lD/C55RPTNkAoWBALB4tsbeKSWOx57U5ia61Pk1caS4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fjcyDJAfrOMaoA848Fpep70yE7soQVUNLhP+93WL5gl3mIlsEV1YOAgSsHqK9EEmCCpnSZYty3DliB/597VfC+qB9qCe35+9yj6g1oA/u6kMzgejWfG+qKVq/4bxyciYO7cAzyBjKiRrRpyfU9/bBOhkKzo44Vssh8Fymnopa80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H3aKC7Ag; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 In-Reply-To:Content-Type; b=uEMbYMyIxSkECnhJYZ1iHqh9fcE1CJIWOPes7bIxZYChYK6GJAv7sZhaEFtmXkBw2nw0F6p+CU1Z+Hjq+BqGz6VlFVJRZNhBe0uOPav/alFtU3RLDYoTydg1y2GDnK1rfVw3p8o5C7VNC+L1RpQl+vjhMua0TbDzdscbfSFAN/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=O8IdS8G3; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H3aKC7Ag"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784295713; x=1815831713;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=fvevDhSjCFC8kOKsqBUeK57DQVf+jkuNY18oFfhjsC0=;
-  b=H3aKC7AgxeKX8aZMcSKUGe/9/ojmKywxPTQBFnI8wblqDf94gfDHtlWN
-   qtC6mrRX93DwNZ/54TXKEiGGARJpE1pIUYDeW7VGN22I+ZcvxR/fjuOZR
-   ZkFgbNjyZmaKxfaSmkgjbNNfLbuf4ji2TBtgVFCD8eGl4ZppSFitYTj1Z
-   IfjGzSLkLdHkcd+oP98tuuYe3fgwI50ylyqCkITG1YXHyp7U8j7EHcErN
-   Oa3Dzt2HYaDTBD16yTDrQgnFWMlISTpcpIYnLO7JvPPsodQmKZ843j/vH
-   X+0DBe36aSD2YvRbGpbyCKxUnaRe3WovqXEw/BKI/RYj+7Gz8lJjqIefZ
-   w==;
-X-CSE-ConnectionGUID: vw49ux4DRia7JiT/CRDqgw==
-X-CSE-MsgGUID: amg/arRuR4q7s+KRdA1CIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="96331102"
-X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="96331102"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 06:41:51 -0700
-X-CSE-ConnectionGUID: zmsr/XXlSMiHB3gpsQltYA==
-X-CSE-MsgGUID: uZivZiVFRHejmuDfy07QKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="260602622"
-Received: from gabaabhi-mobl2.amr.corp.intel.com (HELO [10.125.109.66]) ([10.125.109.66])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 06:41:51 -0700
-Message-ID: <91f3486b-3b85-4b43-b099-0a5325643352@intel.com>
-Date: Fri, 17 Jul 2026 06:41:49 -0700
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="O8IdS8G3"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E9D111477;
+	Fri, 17 Jul 2026 06:42:37 -0700 (PDT)
+Received: from [10.57.84.220] (unknown [10.57.84.220])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5B4AD3F7D8;
+	Fri, 17 Jul 2026 06:42:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1784295762; bh=lD/C55RPTNkAoWBALB4tsbeKSWOx57U5ia61Pk1caS4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=O8IdS8G3CnKuMNburYce3PCdi61FDsSRFopmQca85h5hKz29/iSlxtdvby8rVIIAj
+	 LtCuH1paFHjRXytQB5McfRZ0LM8i/XXM0l90zvuDgyK1HUw8k4i1yZJMQslVOOtuQG
+	 sg/V2vf8ELp7Z+iC2v+3/ef855u9qt/W5t28YTtk=
+Message-ID: <753239d6-af3b-48f1-b4bc-229ef9b6ed49@arm.com>
+Date: Fri, 17 Jul 2026 14:42:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,82 +35,55 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 00/13] mm/kwatch: dynamic hardware watchpoints for
- hunting memory corruption
-To: Jinchao Wang <wangjinchao600@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
- <hpa@zytor.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- David Hildenbrand <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Matthew Wilcox <willy@infradead.org>, Alan Stern
- <stern@rowland.harvard.edu>, Randy Dunlap <rdunlap@infradead.org>,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260717125023.1895892-1-wangjinchao600@gmail.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
- oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
- 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
- ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
- VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
- iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
- c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
- pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
- ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
- QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzUVEYXZpZCBDaHJp
- c3RvcGhlciBIYW5zZW4gKEludGVsIFdvcmsgQWRkcmVzcykgPGRhdmUuaGFuc2VuQGludGVs
- LmNvbT7CwXgEEwECACIFAlQ+9J0CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEGg1
- lTBwyZKwLZUP/0dnbhDc229u2u6WtK1s1cSd9WsflGXGagkR6liJ4um3XCfYWDHvIdkHYC1t
- MNcVHFBwmQkawxsYvgO8kXT3SaFZe4ISfB4K4CL2qp4JO+nJdlFUbZI7cz/Td9z8nHjMcWYF
- IQuTsWOLs/LBMTs+ANumibtw6UkiGVD3dfHJAOPNApjVr+M0P/lVmTeP8w0uVcd2syiaU5jB
- aht9CYATn+ytFGWZnBEEQFnqcibIaOrmoBLu2b3fKJEd8Jp7NHDSIdrvrMjYynmc6sZKUqH2
- I1qOevaa8jUg7wlLJAWGfIqnu85kkqrVOkbNbk4TPub7VOqA6qG5GCNEIv6ZY7HLYd/vAkVY
- E8Plzq/NwLAuOWxvGrOl7OPuwVeR4hBDfcrNb990MFPpjGgACzAZyjdmYoMu8j3/MAEW4P0z
- F5+EYJAOZ+z212y1pchNNauehORXgjrNKsZwxwKpPY9qb84E3O9KYpwfATsqOoQ6tTgr+1BR
- CCwP712H+E9U5HJ0iibN/CDZFVPL1bRerHziuwuQuvE0qWg0+0SChFe9oq0KAwEkVs6ZDMB2
- P16MieEEQ6StQRlvy2YBv80L1TMl3T90Bo1UUn6ARXEpcbFE0/aORH/jEXcRteb+vuik5UGY
- 5TsyLYdPur3TXm7XDBdmmyQVJjnJKYK9AQxj95KlXLVO38lczsFNBFRjzmoBEACyAxbvUEhd
- GDGNg0JhDdezyTdN8C9BFsdxyTLnSH31NRiyp1QtuxvcqGZjb2trDVuCbIzRrgMZLVgo3upr
- MIOx1CXEgmn23Zhh0EpdVHM8IKx9Z7V0r+rrpRWFE8/wQZngKYVi49PGoZj50ZEifEJ5qn/H
- Nsp2+Y+bTUjDdgWMATg9DiFMyv8fvoqgNsNyrrZTnSgoLzdxr89FGHZCoSoAK8gfgFHuO54B
- lI8QOfPDG9WDPJ66HCodjTlBEr/Cwq6GruxS5i2Y33YVqxvFvDa1tUtl+iJ2SWKS9kCai2DR
- 3BwVONJEYSDQaven/EHMlY1q8Vln3lGPsS11vSUK3QcNJjmrgYxH5KsVsf6PNRj9mp8Z1kIG
- qjRx08+nnyStWC0gZH6NrYyS9rpqH3j+hA2WcI7De51L4Rv9pFwzp161mvtc6eC/GxaiUGuH
- BNAVP0PY0fqvIC68p3rLIAW3f97uv4ce2RSQ7LbsPsimOeCo/5vgS6YQsj83E+AipPr09Caj
- 0hloj+hFoqiticNpmsxdWKoOsV0PftcQvBCCYuhKbZV9s5hjt9qn8CE86A5g5KqDf83Fxqm/
- vXKgHNFHE5zgXGZnrmaf6resQzbvJHO0Fb0CcIohzrpPaL3YepcLDoCCgElGMGQjdCcSQ+Ci
- FCRl0Bvyj1YZUql+ZkptgGjikQARAQABwsFfBBgBAgAJBQJUY85qAhsMAAoJEGg1lTBwyZKw
- l4IQAIKHs/9po4spZDFyfDjunimEhVHqlUt7ggR1Hsl/tkvTSze8pI1P6dGp2XW6AnH1iayn
- yRcoyT0ZJ+Zmm4xAH1zqKjWplzqdb/dO28qk0bPso8+1oPO8oDhLm1+tY+cOvufXkBTm+whm
- +AyNTjaCRt6aSMnA/QHVGSJ8grrTJCoACVNhnXg/R0g90g8iV8Q+IBZyDkG0tBThaDdw1B2l
- asInUTeb9EiVfL/Zjdg5VWiF9LL7iS+9hTeVdR09vThQ/DhVbCNxVk+DtyBHsjOKifrVsYep
- WpRGBIAu3bK8eXtyvrw1igWTNs2wazJ71+0z2jMzbclKAyRHKU9JdN6Hkkgr2nPb561yjcB8
- sIq1pFXKyO+nKy6SZYxOvHxCcjk2fkw6UmPU6/j/nQlj2lfOAgNVKuDLothIxzi8pndB8Jju
- KktE5HJqUUMXePkAYIxEQ0mMc8Po7tuXdejgPMwgP7x65xtfEqI0RuzbUioFltsp1jUaRwQZ
- MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
- hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
- vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-In-Reply-To: <20260717125023.1895892-1-wangjinchao600@gmail.com>
+Subject: Re: [RFC PATCH v1 0/8] Arm Core Local Accelerator Driver
+Content-Language: en-GB
+To: Jason Gunthorpe <jgg@nvidia.com>, Will Deacon <will@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>,
+ Mark Rutland <mark.rutland@arm.com>, Jean-Philippe Brucker <jpb@kernel.org>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, maz@kernel.org,
+ oupton@kernel.org, hch@infradead.org
+References: <20260717104759.123203-1-ryan.roberts@arm.com>
+ <aloS_T3LQvpHeZUV@willie-the-truck> <20260717133200.GB699082@nvidia.com>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <20260717133200.GB699082@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/17/26 05:50, Jinchao Wang wrote:
->  24 files changed, 2115 insertions(+), 63 deletions(-)
-Reading this, I wonder how many kernel debugging features we need. I
-don't even think we have a centralized list of them. They all just live
-in their own silos.
+On 17/07/2026 14:32, Jason Gunthorpe wrote:
+> On Fri, Jul 17, 2026 at 12:33:17PM +0100, Will Deacon wrote:
+> 
+>> first. So, at the moment, this just looks like a burden to me, especially
+>> as it appears to create a brand new, device-specific UAPI for what is
+>> ostensibly a form of SVA - something which the community is actively
+>> working on already.
+> 
+> Yeah, I think it was a mistake to hardwire the invalidation to the
+> CPU. It would fit much better into Linux if the invalidation was
+> separate and independently controllable with an option to follow the
+> CPU.
 
-This one really seems like a super specialized tool. It has to be
-enabled at compile time and specifically aimed at a specific function.
+Well I'm certainly not going to disagree, but the HW is somewhat fixed at this
+point :-|
 
-Maybe this should live off on the side for a while. If folks end up
-actually needing it, they can point their friendly LLM over to its tree.
+> 
+> Then you could use a normal S2 page table through iommufd and not mess
+> with kvm. (though the VMID sharing with KVM for a BTM-like scheme was
+> never solved upstream)
+> 
+> I also wouldn't expect you to use vfio-mdev, if the devices are
+> discovered and known at boot then it should be a normal vfio driver.
+
+OK good feedback - I'm not going to claim to be a VFIO expert (especially not in
+front of an actual VFIO expert) - We'll look closer at this and come back if we
+have questions (although unlikely over the summer holiday).
+
+Thanks,
+Ryan
+
+
+> 
+> Jason
+
