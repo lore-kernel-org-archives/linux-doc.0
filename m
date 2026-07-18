@@ -1,222 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F302D33EB0E;
-	Sat, 18 Jul 2026 07:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8722DC76F
+	for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 08:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784361181; cv=none; b=gKiEf5HRL0DcgUqjGfVuk1HSWXb+myCdV6Ct1SofwpevKeA9WQfvSymzh3Y9lhe8s+cLyWc/gwSNfTdOxw8/Ro1pT04FA4+F4oLvfi95kh/aO/OZ48wUrbkVmJzN1pHKTMINByFTiP1PrROfQSwBsYTFAxdsbhQLtKLedEDx07o=
+	t=1784361701; cv=none; b=PYayt26Ar14PpqTOqNCyj8jakzXc4uC9ch4ffFAvzCPo5HKCPvVJyXOLkcnFdcpcBuQD9TXvLB47OIhbjJF5zznQZoEleAErA2ihXSwW5xITRONmtBPHYL91+eLYNyssejMnJ6I+sE2tdX9vvWAsQayrAm3Lzl2DTi1X5ja3Cps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784361181; c=relaxed/simple;
-	bh=usp4xS76WrIMBZsPgWMPfQLaX/5OcCg0dIj3qNtrdlU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eO9M7R/3NQ/FzSSgYN1/9Ii7xGuXCD9e3eZvL8Yv9Yr92x5d5Tc+rpmTW8q6scMuECcW3Dh8c6VXqioCQQndHMaS9eSqWc5XCpcX/qvIZ6q0K969v92XUQk9whgqp2xuBqTqnWHrgs6aoAEoAqzP1+5eZE65QCEGZ10QMv3SUYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K3jq8Ke9; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1784361701; c=relaxed/simple;
+	bh=d68Ya7HiAP0xYkYqHSHW6R4ffOfeNxcGo31YGd1lqso=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TbxD8PCq01wc1NOYUrXJZjP0gmgLZUvUfRat2RP9kAwoVbRiAkrd3f4hN9nQ1vkdENgikko4SSG7kGFTh9d3AuJq50e9VS4pA7eltVNkdtwsJXjEgQM1sWRj8BuRJIq/GP+IO0WkEnwtpkXJSoEJjNzOzJMXdvSKjVQdntya33Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MJWcde2C; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K3jq8Ke9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784361179; x=1815897179;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=usp4xS76WrIMBZsPgWMPfQLaX/5OcCg0dIj3qNtrdlU=;
-  b=K3jq8Ke9wHRJAa3EmorMXBhqFG3ZS5CRjKnOBHX8NEml40TyDJigYo0m
-   F4rWcJvknQTohR818ngV4ax71GG+uxOS7AfdhCrNqTjibkDmtKcsJGqbQ
-   3oDhGDCOWjnawCk/fPjCHIUmMWebyNqRe6GbAGGX2SuAxL2rl/OD3Lndw
-   AgoY0asTqi4wqHgHULMHaQSbOWve+VB+k3/E+pQylkFtRyngT0qjMAiey
-   zj+UzVmZuhuSD5jBACKiLTAbAKQsFs08LaeYiQN6Tq9G2c0yo5IlBW2ym
-   /YO8eBnvqtGEWHfXHUQtAxmvmkXT98nDUoGBivkdBxKCXK0lF2EQnKzuY
-   A==;
-X-CSE-ConnectionGUID: pNeMs1Q+TnGgH9dFUQBJew==
-X-CSE-MsgGUID: 6oYgLqxLT6WNRx7SHhKxIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="84004318"
-X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="84004318"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2026 00:52:12 -0700
-X-CSE-ConnectionGUID: q3MvSoYmSUS3UFc1e5d6Zg==
-X-CSE-MsgGUID: Mcy5IvL5R7mdhJgb5RSr7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="261948990"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 18 Jul 2026 00:52:09 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wkzqB-000000005kH-33kf;
-	Sat, 18 Jul 2026 07:52:07 +0000
-Date: Sat, 18 Jul 2026 09:51:48 +0200
-From: kernel test robot <lkp@intel.com>
-To: Yonggil Song <yonggil.song@samsung.com>,
-	"jaegeuk@kernel.org" <jaegeuk@kernel.org>,
-	"chao@kernel.org" <chao@kernel.org>,
-	"corbet@lwn.net" <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, Yonggil Song <yonggil.song@samsung.com>,
-	"linux-f2fs-devel@lists.sourceforge.net" <linux-f2fs-devel@lists.sourceforge.net>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Dongjin Kim <dongjin_.kim@samsung.com>,
-	Seokhwan Kim <sukka.kim@samsung.com>,
-	Daejun Park <daejun7.park@samsung.com>
-Subject: Re: [PATCH] f2fs: introduce gcless mount option to avoid foreground
- GC
-Message-ID: <202607180917.doNNtTXN-lkp@intel.com>
-References: <20260706062043epcms2p16928216befdca1242bc2d3cd7cb34afe@epcms2p1>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MJWcde2C"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784361687;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=LRgkyVrEclmb/HHrcMCdcgRj0fn8xYZkl46DaljsFwU=;
+	b=MJWcde2Cnzq3/7Bohf79Y8T286gaqbKl4pR3SaUopATVDYAbo+UpTXbU4Z/uXfW2q12cTP
+	xUxBGXraJ716lCpBbW2vTHL7UOcgQ28+6CIyCSoq+14z0RpHCqfUyi7dQi1/6lhNckraIf
+	ylIVZFtD3gebAsVP8/GtBYW70k4h9Og=
+From: Tao Cui <cui.tao@linux.dev>
+To: cgroups@vger.kernel.org,
+	Tejun Heo <tj@kernel.org>
+Cc: Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	cuitao@kylinos.cn,
+	cui.tao@linux.dev
+Subject: [PATCH] cgroup/cpu: document cpu.stat nice_usec and core_sched.force_idle_usec
+Date: Sat, 18 Jul 2026 16:01:00 +0800
+Message-ID: <20260718080100.2334415-1-cui.tao@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260706062043epcms2p16928216befdca1242bc2d3cd7cb34afe@epcms2p1>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Yonggil,
+From: Tao Cui <cuitao@kylinos.cn>
 
-kernel test robot noticed the following build warnings:
+cgroup_base_stat_cputime_show() unconditionally prints a fourth base
+stat, nice_usec, in addition to usage_usec/user_usec/system_usec, and
+also prints core_sched.force_idle_usec when CONFIG_SCHED_CORE is enabled.
+Neither field is currently described in the cpu.stat section of
+cgroup-v2.rst, which still states it "always reports the following three
+stats".
 
-[auto build test WARNING on cb8ff3ead9a3fc43727980be58c7099506f65261]
+nice_usec was added by commit aefa398d93d5 ("cgroup/rstat: Tracking
+cgroup-level niced CPU time") and core_sched.force_idle_usec by commit
+1fcf54deb767 ("sched/core: add forced idle accounting for cgroups"); the
+documentation was not updated in either case.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yonggil-Song/f2fs-introduce-gcless-mount-option-to-avoid-foreground-GC/20260706-154229
-base:   cb8ff3ead9a3fc43727980be58c7099506f65261
-patch link:    https://lore.kernel.org/r/20260706062043epcms2p16928216befdca1242bc2d3cd7cb34afe%40epcms2p1
-patch subject: [PATCH] f2fs: introduce gcless mount option to avoid foreground GC
-config: i386-randconfig-2006-20250825 (https://download.01.org/0day-ci/archive/20260718/202607180917.doNNtTXN-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260718/202607180917.doNNtTXN-lkp@intel.com/reproduce)
+Update the cpu.stat description to list both fields and fix the count.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607180917.doNNtTXN-lkp@intel.com/
+Signed-off-by: Tao Cui <cuitao@kylinos.cn>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-All warnings (new ones prefixed by >>):
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 0df15a672cf3..778b759dd892 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1144,12 +1144,18 @@ will be referred to. All time durations are in microseconds.
+ 	A read-only flat-keyed file.
+ 	This file exists whether the controller is enabled or not.
+ 
+-	It always reports the following three stats, which account for all the
++	It always reports the following four stats, which account for all the
+ 	processes in the cgroup (including those in descendant cgroups):
+ 
+ 	- usage_usec
+ 	- user_usec
+ 	- system_usec
++	- nice_usec
++
++	When core scheduling (CONFIG_SCHED_CORE) is enabled, an additional
++	stat is reported:
++
++	- core_sched.force_idle_usec
+ 
+ 	and the following five when the controller is enabled, which account for
+ 	only the processes under the fair-class scheduler:
+-- 
+2.43.0
 
-   In file included from include/linux/bits.h:5,
-                    from include/linux/bitops.h:6,
-                    from include/linux/log2.h:12,
-                    from arch/x86/include/asm/div64.h:8,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/fs_dirent.h:5,
-                    from include/linux/fs/super_types.h:5,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5,
-                    from fs/f2fs/dir.c:9:
-   fs/f2fs/f2fs.h: In function 'inc_valid_node_count':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
-     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
-         |                                 ^~~
-   fs/f2fs/f2fs.h:2945:25: note: in expansion of macro 'test_opt'
-    2945 |                         test_opt(sbi, RESERVE_NODE));
-         |                         ^~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
-     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
-         |                                 ^~~
-   fs/f2fs/f2fs.h:2953:13: note: in expansion of macro 'test_opt'
-    2953 |         if (test_opt(sbi, RESERVE_NODE) &&
-         |             ^~~~~~~~
---
-   In file included from include/linux/bits.h:5,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/printk.h:9,
-                    from include/asm-generic/bug.h:31,
-                    from arch/x86/include/asm/bug.h:193,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/linux/list.h:11,
-                    from include/linux/module.h:12,
-                    from fs/f2fs/super.c:8:
-   fs/f2fs/f2fs.h: In function 'inc_valid_node_count':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
-     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
-         |                                 ^~~
-   fs/f2fs/f2fs.h:2945:25: note: in expansion of macro 'test_opt'
-    2945 |                         test_opt(sbi, RESERVE_NODE));
-         |                         ^~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
-     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
-         |                                 ^~~
-   fs/f2fs/f2fs.h:2953:13: note: in expansion of macro 'test_opt'
-    2953 |         if (test_opt(sbi, RESERVE_NODE) &&
-         |             ^~~~~~~~
-   fs/f2fs/super.c: In function 'limit_reserve_root':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
-     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
-         |                                 ^~~
-   fs/f2fs/super.c:520:13: note: in expansion of macro 'test_opt'
-     520 |         if (test_opt(sbi, RESERVE_NODE) &&
-         |             ^~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
-     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
-         |                                 ^~~
-   fs/f2fs/super.c:526:46: note: in expansion of macro 'test_opt'
-     526 |         if (!test_opt(sbi, RESERVE_ROOT) && !test_opt(sbi, RESERVE_NODE) &&
-         |                                              ^~~~~~~~
-   fs/f2fs/super.c: In function 'f2fs_check_opt_consistency':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
-     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
-         |                                 ^~~
-   fs/f2fs/super.c:1528:13: note: in expansion of macro 'test_opt'
-    1528 |         if (test_opt(sbi, RESERVE_NODE) &&
-         |             ^~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/super.c:1529:42: note: in expansion of macro 'BIT'
-    1529 |                         (ctx->opt_mask & BIT(F2FS_MOUNT_RESERVE_NODE)) &&
-         |                                          ^~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/super.c:1534:35: note: in expansion of macro 'BIT'
-    1534 |                 ctx->opt_mask &= ~BIT(F2FS_MOUNT_RESERVE_NODE);
-         |                                   ^~~
-   fs/f2fs/super.c: In function 'f2fs_show_options':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
-     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
-         |                                 ^~~
-   fs/f2fs/super.c:2475:44: note: in expansion of macro 'test_opt'
-    2475 |         if (test_opt(sbi, RESERVE_ROOT) || test_opt(sbi, RESERVE_NODE))
-         |                                            ^~~~~~~~
-
-
-vim +7 include/vdso/bits.h
-
-3945ff37d2f48d Vincenzo Frascino 2020-03-20  6  
-3945ff37d2f48d Vincenzo Frascino 2020-03-20 @7  #define BIT(nr)			(UL(1) << (nr))
-cbdb1f163af2bb Andy Shevchenko   2022-11-28  8  #define BIT_ULL(nr)		(ULL(1) << (nr))
-3945ff37d2f48d Vincenzo Frascino 2020-03-20  9  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
