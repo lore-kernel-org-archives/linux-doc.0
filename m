@@ -1,159 +1,90 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
+Received: from mailout1.hostsharing.net (mailout1.hostsharing.net [83.223.95.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3F7233921;
-	Sat, 18 Jul 2026 05:38:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991EA2264B0;
+	Sat, 18 Jul 2026 07:02:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.95.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784353109; cv=none; b=Nz0UqEP71Quty5qJbOhfdaVAjTm4oPLKzYJyEdmPrxUyUmpTyY4E+FAmv66fi2dvvTuQ+98bYCwcutTgaBFyNOWhYSV6jd7MIGmT2/LQmz1phxMX7Y19PJ1XaNJ1V0eP8kpbdoPoIfAHDLIG/fQbem3A+/A1v1jrhnLXiFP3bEQ=
+	t=1784358143; cv=none; b=SokvBIlCY4jnODTXAixgCMPKN6zTP13LzgSOI09hkbTyko8F5z8f1LLNP3FGuY0havq5Cz9RDCQ94Xrg3uyI9U0Kpk9OXy1ymNRgtG0XvFC3EHgp7WbdOTXBIerUDb9cxfeANiNKXXiySoa0ip7IQffQmNiwmDsYK1vfD8fmAbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784353109; c=relaxed/simple;
-	bh=M4WM4xR4pmsWXbSit/WzMArAvW3mdfyeecso9XY+cIs=;
-	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=LvWSnObFjWjr9n2LPBpKW60eIgGEZt8U5mtOlc/Jk0v2em+2OlgeeSkzeZ35otwtKYDECjE7kFGi7cbp7UOFiX3ogQjCLE0Bd2YVG5UaqCQC1QUw3aaCp3tiyfCZ/VRwi0tZgMO0HqkbFNHVoLCBUIpMzrrwBUzoGLPzIJ4NAwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	s=arc-20240116; t=1784358143; c=relaxed/simple;
+	bh=B2fgP4J5oWNRfT3014dYB6jAcg+N25xq0O5Js7k4How=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DxiO2Fa2mDAMrAyrRlMngDwl3+mhKiKxgoJFMR3YWj/8EuwTqjICLwgqikg8qlAanLnVIH/+grGpFRg+tB2+a5IBKwIGSRZDEGiOJgVWtjxfiUNkuHFYCILDwXQYdPAhkqBFdWNe8IajiflMqEMqG4AcRwuWKQiv2DMPSaMZ2vo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=83.223.95.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4h2Ftm6TQ9z5B12g;
-	Sat, 18 Jul 2026 13:38:24 +0800 (CST)
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl1.zte.com.cn with SMTP id 66I5cKh5081579;
-	Sat, 18 Jul 2026 13:38:20 +0800 (+08)
-	(envelope-from wang.yaxin@zte.com.cn)
-Received: from mapi (xaxapp01[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Sat, 18 Jul 2026 13:38:22 +0800 (CST)
-X-Zmail-TransId: 2af96a5b114eb0d-e08a7
-X-Mailer: Zmail v1.0
-Message-ID: <20260718133822444iLo8o-zXcS91NMNEg17Gv@zte.com.cn>
-In-Reply-To: <20260718133420538UvsJFurowueTqxAaZ1cRP@zte.com.cn>
-References: 20260718133420538UvsJFurowueTqxAaZ1cRP@zte.com.cn
-Date: Sat, 18 Jul 2026 13:38:22 +0800 (CST)
+	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
+	 client-signature ECDSA (secp384r1) client-digest SHA384)
+	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
+	by mailout1.hostsharing.net (Postfix) with ESMTPS id B53A5378;
+	Sat, 18 Jul 2026 09:02:15 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id A23CC603E05C; Sat, 18 Jul 2026 09:02:15 +0200 (CEST)
+Date: Sat, 18 Jul 2026 09:02:15 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: Terry Bowman <terry.bowman@amd.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <djbw@kernel.org>,
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <iweiny@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>, Len Brown <lenb@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Robert Richter <rrichter@amd.com>, linux-acpi@vger.kernel.org,
+	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, Alejandro Lucero <alucerop@amd.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Ankit Agrawal <ankita@nvidia.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Ben Cheatham <Benjamin.Cheatham@amd.com>,
+	Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	"Fabio M . De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+	Gregory Price <gourry@gourry.net>,
+	Hanjun Guo <guohanjun@huawei.com>, Jonathan Corbet <corbet@lwn.net>,
+	Kees Cook <kees@kernel.org>,
+	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
+	Li Ming <ming.li@zohomail.com>,
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Oliver O'Halloran <oohall@gmail.com>,
+	Shiju Jose <shiju.jose@huawei.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Shuai Xue <xueshuai@linux.alibaba.com>,
+	Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
+	Tony Luck <tony.luck@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>
+Subject: Re: [PATCH v18 11/13] PCI: Cache PCI DSN into pci_dev->dsn during
+ probe
+Message-ID: <alsk97jVqw9jbRdQ@wunner.de>
+References: <20260717222706.3540281-1-terry.bowman@amd.com>
+ <20260717222706.3540281-12-terry.bowman@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <wang.yaxin@zte.com.cn>
-To: <wang.yaxin@zte.com.cn>
-Cc: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>,
-        <yang.yang29@zte.com.cn>, <corbet@lwn.net>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <xu.xin16@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIDMvM10gdG9vbHMvYWNjb3VudGluZzogc2ltcGxpZnkgMzItYml0IHRpbWVfdCBvdmVyZmxvdyBjaGVjayBpbiBmb3JtYXRfdGltZXNwZWMoKQ==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 66I5cKh5081579
-X-TLS: YES
-X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Sat, 18 Jul 2026 13:38:24 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6A5B1150.001/4h2Ftm6TQ9z5B12g
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260717222706.3540281-12-terry.bowman@amd.com>
 
-From: Wang Yaxin <wang.yaxin@zte.com.cn>
+On Fri, Jul 17, 2026 at 05:27:04PM -0500, Terry Bowman wrote:
+> Add a u64 dsn field to struct pci_dev and populate it from pci_get_dsn()
+> during pci_init_capabilities() at probe time via pci_dsn_init(). Only
+> write dev->dsn when the read succeeds. The zero initial value from
+> pci_dev allocation already represents 'no DSN available.'
 
-Replace the Y2038 overflow guard in format_timespec() with a direct
-narrowing truncation check ((long long)time_sec != ts->tv_sec), which
-is both simpler and more robust across platforms. Also move the
-time_sec assignment earlier to avoid duplication.
+The DSN is already cached on (natively handled) PCIe hotplug ports
+to detect device replacement during system sleep, see struct controller
+in drivers/pci/hotplug/pciehp.h.
 
-While at it, fix a minor alignment issue in delaytop.c by adding a
-leading space to the output format string.
+Please remove that member from struct controller, remove the two
+assignments to the member in pciehp_configure_device() and pcie_init()
+and change the comparison in pciehp_device_replaced() to use the new
+member in struct pci_dev.  You can do this either as part of this patch
+or in a separate patch.
 
-Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
----
- tools/accounting/delaytop.c        |  6 +++++-
- tools/accounting/format_timespec.c | 12 +++++-------
- tools/accounting/getdelays.c       |  4 ++++
- 3 files changed, 14 insertions(+), 8 deletions(-)
+Thanks,
 
-diff --git a/tools/accounting/delaytop.c b/tools/accounting/delaytop.c
-index 1144ca325447..d32aedbfa07d 100644
---- a/tools/accounting/delaytop.c
-+++ b/tools/accounting/delaytop.c
-@@ -728,10 +728,14 @@ static void fetch_and_fill_task_info(int pid, const char *comm)
- 	nl_len = GENLMSG_PAYLOAD(&resp.n);
- 	na = (struct nlattr *) GENLMSG_DATA(&resp);
- 	while (nl_len > 0) {
-+		if (na->nla_len < NLA_HDRLEN)
-+			break;
- 		if (na->nla_type == TASKSTATS_TYPE_AGGR_PID) {
- 			nested = (struct nlattr *) NLA_DATA(na);
- 			nested_len = NLA_PAYLOAD(na->nla_len);
- 			while (nested_len > 0) {
-+				if (nested->nla_len < NLA_HDRLEN)
-+					break;
- 				if (nested->nla_type == TASKSTATS_TYPE_STATS) {
- 					size_t payload_len = NLA_PAYLOAD(nested->nla_len);
-
-@@ -1099,7 +1103,7 @@ static void display_results(int psi_ret)
- 			get_field_delay_values(&tasks[i], cfg.type_field, &avg_ms,
- 					&max_ms, &max_ts);
-
--			suc &= BOOL_FPRINT(out, "%12.2f %12.2f %20s\n",
-+			suc &= BOOL_FPRINT(out, " %12.2f %12.2f %20s\n",
- 				avg_ms, max_ms, format_timespec(&max_ts));
- 		} else if (cfg.display_mode == MODE_MEMVERBOSE) {
- 			suc &= BOOL_FPRINT(out, DELAY_FMT_MEMVERBOSE,
-diff --git a/tools/accounting/format_timespec.c b/tools/accounting/format_timespec.c
-index 1dba50cac895..d7bfd307c00b 100644
---- a/tools/accounting/format_timespec.c
-+++ b/tools/accounting/format_timespec.c
-@@ -14,22 +14,20 @@ const char *format_timespec(const struct __kernel_timespec *ts)
- {
- 	static char buffer[32];
- 	struct tm tm_info;
--	time_t time_sec;
-+	time_t time_sec = ts->tv_sec;
-
- 	if (ts->tv_sec == 0 && ts->tv_nsec == 0)
- 		return "N/A";
-
- 	/*
- 	 * On 32-bit platforms time_t is 32-bit and cannot represent
--	 * dates beyond Y2038.  The kernel timestamp is always 64-bit,
--	 * so reject values that would overflow.
-+	 * timestamps outside [INT32_MIN, INT32_MAX].  A 64-bit kernel
-+	 * timestamp that does not survive the narrowing truncation is
-+	 * rejected to avoid silent data corruption.
- 	 */
--	if (sizeof(time_t) < sizeof(ts->tv_sec) &&
--	    ts->tv_sec > (__u64)((1ULL << (sizeof(time_t) * 8 - 1)) - 1))
-+	if ((long long)time_sec != ts->tv_sec)
- 		return "N/A";
-
--	time_sec = ts->tv_sec;
--
- 	if (!localtime_r(&time_sec, &tm_info))
- 		return "N/A";
-
-diff --git a/tools/accounting/getdelays.c b/tools/accounting/getdelays.c
-index d3193f670d89..f47b9d008352 100644
---- a/tools/accounting/getdelays.c
-+++ b/tools/accounting/getdelays.c
-@@ -659,6 +659,8 @@ int main(int argc, char *argv[])
- 		na = (struct nlattr *) GENLMSG_DATA(&msg);
- 		len = 0;
- 		while (len < rep_len) {
-+			if (na->nla_len < NLA_HDRLEN)
-+				break;
- 			len += NLA_ALIGN(na->nla_len);
- 			switch (na->nla_type) {
- 			case TASKSTATS_TYPE_AGGR_TGID:
-@@ -669,6 +671,8 @@ int main(int argc, char *argv[])
- 				/* For nested attributes, na follows */
- 				na = (struct nlattr *) NLA_DATA(na);
- 				while (len2 < aggr_len) {
-+					if (na->nla_len < NLA_HDRLEN)
-+						break;
- 					switch (na->nla_type) {
- 					case TASKSTATS_TYPE_PID:
- 						rtid = *(int *) NLA_DATA(na);
--- 
-2.27.0
+Lukas
