@@ -1,94 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4FF377A95;
-	Sat, 18 Jul 2026 21:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683981E98EF
+	for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 23:16:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784411350; cv=none; b=KObP770UTThKPyFdNkLMSh7WxCJEC4qA/wI33gXrIojHN7Q7IIkyuPCON1UQjaonV/6mArKyNokpQqZFFR4BlNYDCysAikIt29xHe1vT/Ruwlq5DGp3T01S0n1aRcD82bCNM3y1tp41WzVp3p0wsGOGG2Pox5qh8casmdASZ7ew=
+	t=1784416568; cv=none; b=sXPWVKBgR2w8j6Z8CZL85WcYR1XWbE+DSPSyQ99/EoaWppvSijCvZI+3Yt9aFsa6katxJiYBfr/aOH5/UJcT0Q2nWO4Gzhm3yssvcVchbnatowv1SwQEk2QkQtmVyrdFCHw9tv6nQEbeU6Q1CfOyiI17iAPZZmOPVm315gTwSUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784411350; c=relaxed/simple;
-	bh=UzN3AUg3yPouyeJusVqRGKrfZ7Pf/B3sUo/npKtT4aA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fGrABM8rMqr3PvuYZauSnFj0SEoExx2bmhqs4TcRVtmVpLs6+Ssm7ZRHptIRBDmGqAT18gQGm6wYD51Q2YegQSPltRiROlJdQA/P4gu2WGpoOGLLQuGDVQMc1+9Od8r8cRs0g3P9p7Xu8Pssxp1+BOQTw75nRdzr0qYN6x1Mo9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BVtd71J2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784416568; c=relaxed/simple;
+	bh=YziOsZAuz5FyhRvti4+0bqRF5BJSUN2tM+fuVXppn10=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z1zILrxC6U1p4LLgxlWQEjOE9uj9Fr+qX27v0bGYdha5ixwSXQJhIFFXlJPwlMKuDn+Q2fqPgY70SYQ3soCcGd8ZRpvxeyOk585+/UHhNQ6ko9K2iQ+1MpV0NIW6gRcMvt2Yaerx0k/oQDio4fEJoKNcrw5YdSqo/eziOzwgI0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=K4D68k/8; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BVtd71J2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A2561F00A3E;
-	Sat, 18 Jul 2026 21:49:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784411349;
-	bh=0gESiSJCAMF2nF6DvOYmrqypPXEEEvUEZD60a26iDS0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=BVtd71J2kLUxAd0N5bHGPILTOS3c1+n6T1M5mOBwIW6SdWiPcRncWpFHIx0b436s+
-	 pSQNwCQrgd9ZG0ciFXM4utybbl07BJ4GLQjeOOSS1eBd74D45gp0axnzoAfb3wAKPc
-	 zDNIc79Tlk7IyLdWa5bWxx7zuMVYpJxA3Rk3D1z/hlULVJo9zAMqhnk8uZyw0yy4/X
-	 uXp134DHz9C/K4J0nOX8y0K9ibwBK6ZhKtJmpe4b3IXpwumfKo/+hWj8E67c0Ocx4l
-	 xGbFXbJC4y9rV6M5r3EBnOsa/nzikQqdQFT2258BX5ZX4KwTLnk1fps4lV/Chj9wB3
-	 QH86kpdwUOFMQ==
-From: Eric Biggers <ebiggers@kernel.org>
-To: linux-fscrypt@vger.kernel.org
-Cc: linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-doc@vger.kernel.org,
-	Eric Biggers <ebiggers@kernel.org>
-Subject: [PATCH 6/6] blk-crypto: Update docs for blk-crypto-fallback motivation
-Date: Sat, 18 Jul 2026 14:46:55 -0700
-Message-ID: <20260718214655.63186-7-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260718214655.63186-1-ebiggers@kernel.org>
-References: <20260718214655.63186-1-ebiggers@kernel.org>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="K4D68k/8"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8f186025973so100141126d6.0
+        for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 16:16:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1784416565; x=1785021365; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=YziOsZAuz5FyhRvti4+0bqRF5BJSUN2tM+fuVXppn10=;
+        b=K4D68k/8SxVenT4xZI1ts70pz89i3H2IqaEK+ww5XO8dYYYJCOyetLAKKd32xDrxSV
+         o6O8RRAd5k3Xci4A3HnOXkifv6CX3vFjQ1ByAYCYQLpm8pV8pM0YUdDIEnqwAPWnvvuz
+         K6GsUBBtuOKBaqoIE+mEh0+zjijD7Z+sGbtfRKuWr0w6zJP0qGD8o4paoSo15dSgxP/s
+         wjxZv5bJBwnjsXdaD3ejToiB+A9xNkJvj+Im2AreAhT3OInnrmbzd9rbiIlmlvNJ6+xO
+         JZJLeRqWvX2DRqMOernngAkFVH0Tawo9NEyNyHqppcBMMw4Hi/593PvtG9hviM07LkhS
+         AGeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784416565; x=1785021365;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YziOsZAuz5FyhRvti4+0bqRF5BJSUN2tM+fuVXppn10=;
+        b=aJrIMZF+w1WMBWZ4JPSUFy8m4HOsR0elVKWNmY073IhHM83JcSIomTMUAYn5szJPik
+         nKGYgk4iWQlApsmriRlA0L5s2wCWnvP0fq3vc4RQ9CclW/x3RQ3VRzd9EC20NZ6itWsN
+         dn+SPVTJLhRGZBWf8lQQfQ1XEJOyZlvu30m2EaN48OIBKQ9FSDkpKLWIu1zAWvkLV7MV
+         nywrAcXz5r/xioK/NZxVr0h1ADtXsPi5FAXaNMA1t9d8oEN8FoJAhiKumyATCKrIPfyn
+         NhS42S5TdpAV5s6m8igeN0GtS8bMIa+BNK/onKFAT6DasPIqzL3QO8+N39OnwNwz3Fi+
+         jf3w==
+X-Forwarded-Encrypted: i=1; AHgh+RrCxEYIiwCZKvVs0DHiO7cSh52Gpehz89LkP+zVmMBI5g0fFzCxazA2ZXGKeDSb0LkOn4f41mQxEjY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9Aox4W0j9nFiSMxcKtc6zmYjz2nNsJEq73j7NHAEpCErPsrUN
+	n65yuxlijygwWADeLDpMJzKtPwYM49b8fdSxNr1zr7yvEcn8mWUL9uWCCzMpEvNMah8=
+X-Gm-Gg: AfdE7cluo8VrtjTzLgwPUvrc+g/3GfpwgYcLT/VBg77TeelICnMjjjrThsHs0WAT/8E
+	lDp3sRN1PAkIx3o4TVGpANts74L9J+N8XuQONJvnUcbC4yYUgcZrYz5IUERDanocmhfpJHcpkb8
+	S1Z0in7xZu9a0Jeswc4VYVoWgCQ8pOA9UPx8QZanJ6aYD19gOudJrmOO0J2fJIRJ4yqKJCzt8XR
+	k0mzpeEwR5bEMTDkok+oL80x2Tf8NTpsW4zpTE5GZbNHxhIMqVSlDjfVLyvQWO2KwupIZmmG5OZ
+	qsKs9m0HJrIVbPOumnGXnmpnIMu2JZBnuNsFQCS3dHBOIncHGZ/nKcVJMSI4NVTIL66fhnUU2q/
+	evMyXDoVTEn5tFVL1O14S56aMnrG76CEiJsMv2Lb+sdOciwr0D5lXo5bryBA5
+X-Received: by 2002:ac8:59c6:0:b0:51c:18e4:38ab with SMTP id d75a77b69052e-5213ee7eda4mr74584161cf.66.1784416565170;
+        Sat, 18 Jul 2026 16:16:05 -0700 (PDT)
+Received: from ziepe.ca ([159.2.72.92])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5214fae3268sm40901021cf.24.2026.07.18.16.16.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Jul 2026 16:16:03 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1wl8Ae-00000006ef0-0ssw;
+	Sat, 18 Jul 2026 13:45:48 -0300
+Date: Sat, 18 Jul 2026 13:45:48 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: Ashish Mhetre <amhetre@nvidia.com>, catalin.marinas@arm.com,
+	will@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+	robin.murphy@arm.com, joro@8bytes.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v7 2/3] iommu/arm-smmu-v3: Introduce CFGI/TLBI-repeat
+ workaround infrastructure
+Message-ID: <20260718164548.GI701389@ziepe.ca>
+References: <20260714104202.1664187-1-amhetre@nvidia.com>
+ <20260714104202.1664187-3-amhetre@nvidia.com>
+ <20260717201841.GC701389@ziepe.ca>
+ <alqbxaKVYFX1BZR5@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alqbxaKVYFX1BZR5@nvidia.com>
 
-The "Objective" section of inline-encryption.rst suggests that
-blk-crypto-fallback is just for testing.  That's no longer accurate, so
-update it accordingly.  Also fix a typo later in the document.
+On Fri, Jul 17, 2026 at 02:16:53PM -0700, Nicolin Chen wrote:
+> Given the use cases on Tegra264, instead of patching the iommufd
+> path as this patch does, perhaps we should simply spit a WARN in
+> arm_vsmmu_init():
 
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
----
- Documentation/block/inline-encryption.rst | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+Nope, in this case you need to make the errata discoverable through
+the viommu info so the VMM can validate the right DT is used, or apply
+the WAR itself before submitting commands to the kernel.
 
-diff --git a/Documentation/block/inline-encryption.rst b/Documentation/block/inline-encryption.rst
-index 0052c7011b48..0df964507f76 100644
---- a/Documentation/block/inline-encryption.rst
-+++ b/Documentation/block/inline-encryption.rst
-@@ -37,12 +37,12 @@ initialization vector for each sector, and can be tested for correctness.
- Objective
- =========
- 
--We want to support inline encryption in the kernel.  To make testing easier, we
--also want support for falling back to the kernel crypto API when actual inline
--encryption hardware is absent.  We also want inline encryption to work with
--layered devices like device-mapper and loopback (i.e. we want to be able to use
--the inline encryption hardware of the underlying devices if present, or else
--fall back to crypto API en/decryption).
-+We want to support inline encryption hardware in the kernel.  The API for using
-+such hardware should also support a fallback to the CPU, so that users only need
-+to use a single API and more of the code can be tested without actual hardware.
-+We also want inline encryption to work with layered devices like device-mapper
-+and loopback (i.e. we want to be able to use the inline encryption hardware of
-+the underlying devices if present, or else fall back to the CPU).
- 
- Constraints and notes
- =====================
-@@ -295,7 +295,7 @@ hardware implementations might not implement both features together correctly,
- and disallow the combination for now. Whenever a device supports integrity, the
- kernel will pretend that the device does not support hardware inline encryption
- (by setting the blk_crypto_profile in the request_queue of the device to NULL).
--When the crypto API fallback is enabled, this means that all bios with and
-+When the crypto API fallback is enabled, this means that all bios with an
- encryption context will use the fallback, and IO will complete as usual.  When
- the fallback is disabled, a bio with an encryption context will be failed.
- 
--- 
-2.55.0
+Some kind of new flag in the viommu struct I guess
 
+Jason
