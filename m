@@ -1,102 +1,178 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683981E98EF
-	for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 23:16:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCDB314B9D
+	for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 23:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784416568; cv=none; b=sXPWVKBgR2w8j6Z8CZL85WcYR1XWbE+DSPSyQ99/EoaWppvSijCvZI+3Yt9aFsa6katxJiYBfr/aOH5/UJcT0Q2nWO4Gzhm3yssvcVchbnatowv1SwQEk2QkQtmVyrdFCHw9tv6nQEbeU6Q1CfOyiI17iAPZZmOPVm315gTwSUU=
+	t=1784417761; cv=none; b=DrZepLl4oTt5cn+PRqgp031s5TcrsOtZmvXxq83GH3xearAGQh22KbLAyLrR9cEZnVYB4obaE/YeDUL6H1mw/wRhWzlUFuwvV4sPa1eZ31UiCTV1QuPsCdtexqqCYV9DokZseZOcftuJ0UGmQE7O/EpW4S7sKkSyt6on/A+hL48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784416568; c=relaxed/simple;
-	bh=YziOsZAuz5FyhRvti4+0bqRF5BJSUN2tM+fuVXppn10=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z1zILrxC6U1p4LLgxlWQEjOE9uj9Fr+qX27v0bGYdha5ixwSXQJhIFFXlJPwlMKuDn+Q2fqPgY70SYQ3soCcGd8ZRpvxeyOk585+/UHhNQ6ko9K2iQ+1MpV0NIW6gRcMvt2Yaerx0k/oQDio4fEJoKNcrw5YdSqo/eziOzwgI0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=K4D68k/8; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1784417761; c=relaxed/simple;
+	bh=4VckNmYkZcMe07k6xO/fIqj/JsCM+9ZJGLo0Ai8FnTM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kbl/C0UTVI7blxTCQ2fczT0IRzBYqJj470bhOITab68sK3+r4cKhEg3GPZUGs7U2EDksVZYCHpuCU2mFojUDE1Vb1hE6/ZFO2PMrhQOBQK/cg7/Ux6pm2yFezr7imnV9OML4s0n75ywNhShiqOAmzcygojuZa9fstBh4bEqeDVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pCJxmMwW; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="K4D68k/8"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8f186025973so100141126d6.0
-        for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 16:16:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pCJxmMwW"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4954c0833b4so9389475e9.1
+        for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 16:35:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1784416565; x=1785021365; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=YziOsZAuz5FyhRvti4+0bqRF5BJSUN2tM+fuVXppn10=;
-        b=K4D68k/8SxVenT4xZI1ts70pz89i3H2IqaEK+ww5XO8dYYYJCOyetLAKKd32xDrxSV
-         o6O8RRAd5k3Xci4A3HnOXkifv6CX3vFjQ1ByAYCYQLpm8pV8pM0YUdDIEnqwAPWnvvuz
-         K6GsUBBtuOKBaqoIE+mEh0+zjijD7Z+sGbtfRKuWr0w6zJP0qGD8o4paoSo15dSgxP/s
-         wjxZv5bJBwnjsXdaD3ejToiB+A9xNkJvj+Im2AreAhT3OInnrmbzd9rbiIlmlvNJ6+xO
-         JZJLeRqWvX2DRqMOernngAkFVH0Tawo9NEyNyHqppcBMMw4Hi/593PvtG9hviM07LkhS
-         AGeQ==
+        d=gmail.com; s=20251104; t=1784417758; x=1785022558; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=fbveywkXEOoKA5l+wqrU0DqqoG4NoX/G8iLvkPe8hb4=;
+        b=pCJxmMwWGfj7gh4cUN//Il3BcF2e7Ea+NvvRUgjk8G+IzWYYPC8u21T3mrUim5PY6P
+         jH3ha3kPWIPTaM6MZCZLnG5YBeQZKUAKLiBY38jvYzX6MBq7m3iCsZmSFXh2ubazy0kP
+         35+4IEbg+PZ0YVoqctysP2dgbwOZ0MpfOjneQhrQj7bBxQrFK/dt0nNcmOTZ5V4AmrYD
+         J1q1BAK9meA61De8sBSkUH0oH6g8gxb2OWWs5/uwfIlv9DpO6COfEToFSaRGF9A89cJb
+         Cse9UG4L2GH8ZafGhZqCgUg7Az6W9KyFEJ/RMVyp9rT9PZYJ6QkBNVzHTBWNidu+ryue
+         s7Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784416565; x=1785021365;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YziOsZAuz5FyhRvti4+0bqRF5BJSUN2tM+fuVXppn10=;
-        b=aJrIMZF+w1WMBWZ4JPSUFy8m4HOsR0elVKWNmY073IhHM83JcSIomTMUAYn5szJPik
-         nKGYgk4iWQlApsmriRlA0L5s2wCWnvP0fq3vc4RQ9CclW/x3RQ3VRzd9EC20NZ6itWsN
-         dn+SPVTJLhRGZBWf8lQQfQ1XEJOyZlvu30m2EaN48OIBKQ9FSDkpKLWIu1zAWvkLV7MV
-         nywrAcXz5r/xioK/NZxVr0h1ADtXsPi5FAXaNMA1t9d8oEN8FoJAhiKumyATCKrIPfyn
-         NhS42S5TdpAV5s6m8igeN0GtS8bMIa+BNK/onKFAT6DasPIqzL3QO8+N39OnwNwz3Fi+
-         jf3w==
-X-Forwarded-Encrypted: i=1; AHgh+RrCxEYIiwCZKvVs0DHiO7cSh52Gpehz89LkP+zVmMBI5g0fFzCxazA2ZXGKeDSb0LkOn4f41mQxEjY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9Aox4W0j9nFiSMxcKtc6zmYjz2nNsJEq73j7NHAEpCErPsrUN
-	n65yuxlijygwWADeLDpMJzKtPwYM49b8fdSxNr1zr7yvEcn8mWUL9uWCCzMpEvNMah8=
-X-Gm-Gg: AfdE7cluo8VrtjTzLgwPUvrc+g/3GfpwgYcLT/VBg77TeelICnMjjjrThsHs0WAT/8E
-	lDp3sRN1PAkIx3o4TVGpANts74L9J+N8XuQONJvnUcbC4yYUgcZrYz5IUERDanocmhfpJHcpkb8
-	S1Z0in7xZu9a0Jeswc4VYVoWgCQ8pOA9UPx8QZanJ6aYD19gOudJrmOO0J2fJIRJ4yqKJCzt8XR
-	k0mzpeEwR5bEMTDkok+oL80x2Tf8NTpsW4zpTE5GZbNHxhIMqVSlDjfVLyvQWO2KwupIZmmG5OZ
-	qsKs9m0HJrIVbPOumnGXnmpnIMu2JZBnuNsFQCS3dHBOIncHGZ/nKcVJMSI4NVTIL66fhnUU2q/
-	evMyXDoVTEn5tFVL1O14S56aMnrG76CEiJsMv2Lb+sdOciwr0D5lXo5bryBA5
-X-Received: by 2002:ac8:59c6:0:b0:51c:18e4:38ab with SMTP id d75a77b69052e-5213ee7eda4mr74584161cf.66.1784416565170;
-        Sat, 18 Jul 2026 16:16:05 -0700 (PDT)
-Received: from ziepe.ca ([159.2.72.92])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5214fae3268sm40901021cf.24.2026.07.18.16.16.03
+        d=1e100.net; s=20251104; t=1784417758; x=1785022558;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=fbveywkXEOoKA5l+wqrU0DqqoG4NoX/G8iLvkPe8hb4=;
+        b=NFgti0kdzi/RpYyODHp//MKSN1/XNf6xdQ+UcdnHIut2wF3QIdckriZAO2kQcqelo8
+         sUOraJ6u6PSUh3ERNKZYPk5+3ZArEFETCqzqwPEalP1hjc3cpJZhCGZYOcDa7lpn5P/V
+         4f2I4xTUom02t/pZJ9X2YCrh3ldaqy4Q964tcTQwQlBQ+tk/sfjfGaef+gHEh8Cw9OP6
+         cy5dNnOdT8r/bV8+xIWjcltqvIvQZp6fJZhyVGqWHztBsnIc3JAMcmmfodJBumnYURyl
+         jBJiqY84ZQOpf2xH4odvxXLpQqmfReogqCweZiGDdgOQ3bTo085gi60DdsXsgcOnxChr
+         tkvA==
+X-Forwarded-Encrypted: i=1; AHgh+Rrt0cuDTFmIHQsbqQcURCRfEodjvKM5Y/p0md6dIwad5WtsR5/ShGNZKQkhREn6kwePEO2eewccDgg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5MlZMaxCUKkqrs5kGpuW2jw4kL+haLqu1FUZ79dlAFg0v0TdS
+	0j3xbkJT+RoBWEhFemSUAoru25J84uPgKIzGUi2xgqJWUWQBEePyTkrq
+X-Gm-Gg: AfdE7ckzkU8qn6a6tc2iVUnIqvX5NsShDGFeKYN5YUBuroEiHNZRhdSx7pVQmM0M7Go
+	lR1eF/tYYaZoYcaiQVGC5uFhZHRDc6YjwQVmhzadFRk2QF+WgSp+znZwqu10SEdZPY6PbX8be+H
+	PiMBskqrdqUrj+51+WWKHxgUhVFkZsRBsPFXo3aDdf87axHpT1l3pFo441mHwEQgDzTUhpCvRaa
+	83Y7f5N506jyEQsCjBIhLyDU/dIfI4BXtyfnvYbOI2kMwsHNV2/bHnzF/sZ9Mg3xp70JZB1ojRA
+	ovfMmXv5ubO0EwhZd821ft3bND58j9Q7vWbPWZaX3uozJpaNeDsc+vfdTDiAzJ/WGu3oZ5CFwRp
+	SIywQYUGANtvsuW0uYKRiDw480Y/iD9K6bJejHlqfdaC9NmSw3soEujpbMNDUXSSpsdOa4s2lzQ
+	Fp6My7fKXUYw==
+X-Received: by 2002:a05:600c:1989:b0:495:699:84ca with SMTP id 5b1f17b1804b1-4954a798f17mr83663665e9.28.1784417757432;
+        Sat, 18 Jul 2026 16:35:57 -0700 (PDT)
+Received: from [127.0.0.2] ([2a01:14:111:ccf0:645b:9e5c:7fe3:c09f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2a24b6sm160964675e9.3.2026.07.18.16.35.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 16:16:03 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1wl8Ae-00000006ef0-0ssw;
-	Sat, 18 Jul 2026 13:45:48 -0300
-Date: Sat, 18 Jul 2026 13:45:48 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: Ashish Mhetre <amhetre@nvidia.com>, catalin.marinas@arm.com,
-	will@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
-	robin.murphy@arm.com, joro@8bytes.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v7 2/3] iommu/arm-smmu-v3: Introduce CFGI/TLBI-repeat
- workaround infrastructure
-Message-ID: <20260718164548.GI701389@ziepe.ca>
-References: <20260714104202.1664187-1-amhetre@nvidia.com>
- <20260714104202.1664187-3-amhetre@nvidia.com>
- <20260717201841.GC701389@ziepe.ca>
- <alqbxaKVYFX1BZR5@nvidia.com>
+        Sat, 18 Jul 2026 16:35:56 -0700 (PDT)
+From: Diogo Silva <diogompaissilva@gmail.com>
+Subject: [PATCH 00/15] drm/drm_simple: remove drm_simple_encoder_init
+Date: Sun, 19 Jul 2026 01:35:31 +0200
+Message-Id: <20260719-drm_simple_encoder_init-v1-0-a78c509e3062@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alqbxaKVYFX1BZR5@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMQNXGoC/yXM0QqCQBBG4VeRuW5hlVDrVSIWnf2tiVxlRiMQ3
+ 72tLr+LczYyqMDoXGykeInJlDLKQ0F879INTmI2Vb6qfVO2LuoYTMb5iYDEU4QGSbK46OtTd2R
+ uhranXM+KQd6/8+X6t639A7x8d7TvHyUPD1h7AAAA
+X-Change-ID: 20260718-drm_simple_encoder_init-d069a4cc7f8b
+To: Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Peter Griffin <peter.griffin@linaro.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Michal Simek <michal.simek@amd.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Stefan Agner <stefan@agner.ch>, 
+ Alison Wang <alison.wang@nxp.com>, 
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+ David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
+ Gurchetan Singh <gurchetansingh@chromium.org>, 
+ Chia-I Wu <olvaffe@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>, 
+ Liu Ying <victor.liu@nxp.com>, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Xinliang Liu <xinliang.liu@linaro.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
+ Liviu Dudau <liviu.dudau@arm.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
+ imx@lists.linux.dev, linux-mediatek@lists.infradead.org, 
+ linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+ linux-doc@vger.kernel.org, Diogo Silva <diogompaissilva@gmail.com>
+X-Mailer: b4 0.15.2
 
-On Fri, Jul 17, 2026 at 02:16:53PM -0700, Nicolin Chen wrote:
-> Given the use cases on Tegra264, instead of patching the iommufd
-> path as this patch does, perhaps we should simply spit a WARN in
-> arm_vsmmu_init():
+The simple KMS helpers are deprecated because they only add an
+intermediate layer between drivers and atomic modesetting.
 
-Nope, in this case you need to make the errata discoverable through
-the viommu info so the VMM can validate the right DT is used, or apply
-the WAR itself before submitting commands to the kernel.
+This series open-codes all remaining drm_simple_encoder_init() users by
+calling drm_encoder_init() directly and providing driver-local
+drm_encoder_funcs where needed. After the driver conversions, the helper
+is removed and the completed DRM todo item is dropped.
 
-Some kind of new flag in the viommu struct I guess
+Signed-off-by: Diogo Silva <diogompaissilva@gmail.com>
+---
+Diogo Silva (15):
+      drm/exynos: remove dependency on DRM simple helpers
+      drm/xlnx/zynqmp_dpsub: remove dependency on DRM simple helpers
+      drm/tegra: remove dependency on DRM simple helpers
+      drm/fsl-dcu: remove dependency on DRM simple helpers
+      drm/kmb: remove dependency on DRM simple helpers
+      drm/virtio: remove dependency on DRM simple helpers
+      drm/tidss: remove dependency on DRM simple helpers
+      drm/imx: remove dependency on DRM simple helpers
+      drm/mediatek: remove dependency on DRM simple helpers
+      drm/renesas/shmobile: remove dependency on DRM simple helpers
+      drm/hisilicon/kirin: remove dependency on DRM simple helpers
+      drm/arm/komeda: remove dependency on DRM simple helpers
+      drm/meson: remove dependency on DRM simple helpers
+      drm/drm_simple: remove deprecated drm_simple_encoder_init function
+      Documentation/gpu: remove completed drm_simple_encoder_init() todo
 
-Jason
+ Documentation/gpu/todo.rst                        | 15 ---------------
+ drivers/gpu/drm/arm/display/komeda/komeda_crtc.c  |  9 +++++++--
+ drivers/gpu/drm/drm_simple_kms_helper.c           | 13 ++-----------
+ drivers/gpu/drm/exynos/exynos_dp.c                | 13 +++++++++++--
+ drivers/gpu/drm/exynos/exynos_drm_dpi.c           | 14 ++++++++++++--
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c           | 11 +++++++++--
+ drivers/gpu/drm/exynos/exynos_drm_vidi.c          | 14 ++++++++++++--
+ drivers/gpu/drm/exynos/exynos_hdmi.c              | 15 +++++++++++++--
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c         | 10 +++++++---
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c      |  9 +++++++--
+ drivers/gpu/drm/imx/dc/dc-kms.c                   |  8 ++++++--
+ drivers/gpu/drm/kmb/kmb_dsi.c                     |  9 +++++++--
+ drivers/gpu/drm/mediatek/mtk_dsi.c                | 10 +++++++---
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c        | 11 ++++++++---
+ drivers/gpu/drm/meson/meson_encoder_dsi.c         | 11 ++++++++---
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c        | 11 ++++++++---
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 10 +++++++---
+ drivers/gpu/drm/tegra/dsi.c                       | 17 ++++++++++++++---
+ drivers/gpu/drm/tegra/rgb.c                       | 14 ++++++++++++--
+ drivers/gpu/drm/tidss/tidss_encoder.c             | 10 +++++++---
+ drivers/gpu/drm/virtio/virtgpu_display.c          | 12 ++++++++++--
+ drivers/gpu/drm/xlnx/zynqmp_kms.c                 | 13 +++++++++++--
+ include/drm/drm_simple_kms_helper.h               |  4 ----
+ 23 files changed, 185 insertions(+), 78 deletions(-)
+---
+base-commit: e55c6b9a3522aaf1441a0662d534c1c7bfa9b860
+change-id: 20260718-drm_simple_encoder_init-d069a4cc7f8b
+
+Best regards,
+--  
+Diogo Silva <diogompaissilva@gmail.com>
+
