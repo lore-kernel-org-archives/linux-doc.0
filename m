@@ -1,67 +1,67 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FE9379979
-	for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 23:36:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF1937A485
+	for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 23:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784417779; cv=none; b=dMSgVG57yzX7PsB4QRVqiatWmt7JDnT4w/v7HekyzeIewqPM0mScPFGCbxtU6quFvhSKZkzJ1yp2x4B4eiWxO6rWmkckexkuAnwygNGCkfUalDlglZliW8r3vm9EaxayiONilZZ9P4xMx2CF4GsS+VBfw2i1tI62ZVIhn7atTFg=
+	t=1784417783; cv=none; b=HGmoJSNIupC7AX5+KfiJi2H8ttm6npE533TZlZZ3LlC4OQqWSUUDLx8ETzTDS6XDnxklaEyJmaRzgrvTwi/oDvL9udGJgC5PwUmYrOEMIvmVa7I2z4mMgXGSdG7cFKARIhMJJX9lHsQAQyZ53wlrXCjOw/V8zwn7ATaMW0f1qd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784417779; c=relaxed/simple;
-	bh=FzaaA8oyQ+zKZNM1VMh3E01ofgfkWOkBgZAPrI0ucuw=;
+	s=arc-20240116; t=1784417783; c=relaxed/simple;
+	bh=uAbddcMyRgpLPl1Ml7UGFgQr7U5XL5NUVGp3YEItfuo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cLfEa/7D2gYfyhOqKgGaxQQyqQg5tQneAmCFuM/7JV4ThhcbNQSJ1rjF2Risy6t2Gu55fCmK1nIjRb2t5Dp2gVA8s2xv56iLt5oTfABznVj9MrA92sZNnQre0P2Z+xHjPJ1Ut9+2jSaw+s5kAbX8HSTA+XBDRHoEz7m9a2F8roU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c1Z5N5GP; arc=none smtp.client-ip=209.85.128.52
+	 In-Reply-To:To:Cc; b=FtM+xWtMBjbtqiX9fkzxHKrs3uLnATP0n7CAoTGxkI+l8g8ursV/qxDot3JHZynT8oj/lFoEs8COYyMBsrrJ9g3SxkdQNSobkaQSfv29HHzRQIQFTcx8NQRCHMPjhXrML2YEyCXkalgSCAWtD+USRaQ4sbWX+XmBOloszxyQdU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KtlCcNee; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c1Z5N5GP"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4954df200ddso7181735e9.0
-        for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 16:36:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KtlCcNee"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4953ddae026so28559895e9.3
+        for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 16:36:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784417776; x=1785022576; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784417779; x=1785022579; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Vjd+2BbZ6IkIhW8JUSKZxdlN+XT2WH08r3urmJQpGFU=;
-        b=c1Z5N5GPwun56tkXeaL69vJvD2b0x05WOcKURcROA3KHGHT/xyQk+VoloT6W86mdOp
-         ECshGY+sQWRylsCjUwj/EbO5t0IocpxeDG77ucNsxHH5JdaBN/tJciTHKBORCpgtxdKW
-         WFtSKIOuccB7AhCjBt/8yMdzlKIC0utd0iBQr3Vn+jZGedpFKezZIWUFPF/WFiadVWwP
-         ofKqKXhV52gyQ4BldIzLHRjWl4lXCdmoRUuvniKbh62UU2G8WC8HhgPQ8VoRSor0/FUu
-         5peDvlv0mCT6e3OMca8J7OO+fD6kdaMc/6ZkzIVN5oUlAMjWztUpVkS6O8F4a2qe4K89
-         rNAw==
+        bh=/m2It/8MnIxoX8xbOWjx4p2UhJgFTMfhBAqsULip3yI=;
+        b=KtlCcNeegq5ZtXkQLi3SgIe2cScOLVwBgT2+Mp00KKdDJ/F5VTJjghruZIuV0GJyg5
+         +2gWRbYwjabq1qIqz3RRIODN7mUTQIw9j7iPfySmd5ctxFzqMs1zJJzmG35jAj6SvR1C
+         qcZcE25uATYX+EL5Gmf4QiAmw2Y8Dkmhso26VCB23c6vCAPSgJCF3NgeYsZmZLTXdw5/
+         5O/zlSq1enFEEvR71n5feczUq+q/iS98MDItUQ7JQBE5L26NPE19MlYIbV0rZnAwglXJ
+         kSfRFeU/Xdc9K/tS6UJNNzzXcwHzeNCmukY1RflNsG9AP9JeKyczPGRymtzq06o1GAwv
+         986g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784417776; x=1785022576;
+        d=1e100.net; s=20251104; t=1784417779; x=1785022579;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Vjd+2BbZ6IkIhW8JUSKZxdlN+XT2WH08r3urmJQpGFU=;
-        b=s9UV8tuFmb/psvlKrFDHOuY0CtIW4eREvU8XP2ljQ8g1pWNdnbtydHRuA7Du/05mqv
-         nlw2eewKVRU8nsx5oImy6Za0U9tT1HUvQ+PXfUQpe0O8J4WrjPWa/1+w9T0jHSlL1/z9
-         I2+l7Db5xtilOvHFxcVAx5zGTUg2mPU/liK7F4qUgxt20B+FJ0w/8CCA2wZLT5En3VH6
-         QAgq1LHhxoZemz53Pi2Bq9rTzqFHn07/N10jwAdQJFfzTsYgFn00TOx94GoXnRmLogyj
-         RP4B4jCsGsTrRjhyoTkog8JE05ZbRaD+Vjhrt7JoYaZymSvc5jG1nYIAyK/FARqJ1scu
-         6UaA==
-X-Forwarded-Encrypted: i=1; AHgh+RpUWH8HQFqhlc4bRXPfB6KtDBVBDiKV3bubMQ1N5T0gy2HXKQtf6GgKmd9x0hW/hbvuF5kQzqZBCTk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YydeLrYWWraPlumMrpc+0A+VIR5NF5Vpk78hBkJ4W0QUx0D8ZDa
-	b0mPRFcEPuLF5w10x9MN4HcMk0VMkwEIYZy4SpMggW8sHxDMNsVZFTSJ
-X-Gm-Gg: AfdE7cnBaEj2c0RnLDKnCsPJoy8keTH4KD1c/bPi7vj6aYw8C+W3thLHJu6P845OFp0
-	zzviq9ZWJPsQqsW3B+Qe5IV1j6lBcfLNHyFoYQnVxOyt+nImWrhZQ6q/xS+mBVkyaKkuHQ3C1II
-	zcGq41agaLeaFabpeOGIRlJTZaOZ50aYl51qJLFboQ6BW4FxIdpJQ6SoVv+xhLrwFAulHbPqE8M
-	VQBiwEAaaheK8vzUyGpM1wAvb/LI7n7QZ+iYfZhNERQDU3BUyyrWnDs9WnFMalIbpIalUP4S4KK
-	dU0xQN9pPfY7ErlGKuV0y02mhMsNRRWdJ5IsGLzAZZTlaaTFQNyNetkbX9FVpLGSBzrFSifuAkt
-	WupptuINElltgSmhq0Db8dzMVxau4WwBlFeH85hXk/AhChSIjNehw0SUCRI7Gp8095AaGG2Yjbn
-	pHmxnOGiozhg==
-X-Received: by 2002:a05:600c:4585:b0:495:3eb2:b763 with SMTP id 5b1f17b1804b1-4954a50c51bmr85840985e9.21.1784417775709;
-        Sat, 18 Jul 2026 16:36:15 -0700 (PDT)
+        bh=/m2It/8MnIxoX8xbOWjx4p2UhJgFTMfhBAqsULip3yI=;
+        b=VXFgCJWoPxENHoCdPXcdyWUTlNO+i9EE+mVjQTecwkZ8oLfHK3cVlJ8xNT4T0yfqo6
+         D19HZgMwgFu1anWOU33KhzUy9UrFvv7eOyoHEsXIIkCkenS+Mk6m8ny9uk2E851EAvq2
+         zMFsRE8xr9KOJ6CeO7YOpmEjrYNSQH8j1n3A6N4tZE7gQ0QttVuqBYBJirOPnthLOgog
+         WbYiWfYx6tU2GRxjtnr6jAptyQe4RgnvhSWnjPLmvjSy7DDMt4ShT8JVFIvDEGxpW7Yy
+         +cKpsUUO7374vMSXtZUrWeyPlYSBdejtg2xUKBj8+jJ7tQrp3fXuyhK/p1UnsfB9+sMq
+         MiQA==
+X-Forwarded-Encrypted: i=1; AHgh+RrM73V1vKEc2EXb3QtNI8LPOhbQT7kHjsVrAIDjpLjEIIOTpX/lGmIC7nB1FEaR/HioO+EKQCc6VIQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6VNeyEJZLFq/JOui9S3P18IT/v4XF3lrAVveDOVRfco2UqkHk
+	48Lhj4Fogbx/Tv/ttV/VGjk+jDFbVsKJ0xpaWjSsGHg8wnnfwXB5apC5
+X-Gm-Gg: AfdE7ck+r5zLXkGZmHIwocxdlz/9SK6WCXKjWuz/GJb/hmm829y3kuxyKSbA2AeTK1+
+	NFAOTD3B/Ov4POPxEwNfjANzJrnjj/o2bx7wDjc7AwF+XUCL9TPZBMyAUqjqOEnJajK7B8XCl9U
+	7VNW4BDjG00fnl0TrlPwYZvY9cyakHOnfk26cwlZ2cSx7l41HJpwTlHvZmytllRPWTSiE4JEIKa
+	AfIJkAnDMqqwcqJc30g7Zq1R1bFC1ghcXMgj5mSfMYBu2T6imMko9RotOJrSsvKn6W56uZDsjQk
+	acGUdeyVPSF5pw/7yz+J33j1+HwEkua9NM3Ly5hI0oLrQepe0JOcM9ex62J+XBnGXAKHEWlxAgM
+	E9QoBRckXxo/+tHyuPMeH11Zm5Sybrqp1SA4Oh5Sq8WZyMpgjMMy4XU4nCFnn+HjhNreEoPr7z9
+	mr8su7qdCysWx7A1zfiKh8
+X-Received: by 2002:a7b:ca50:0:b0:495:3fe1:4ce4 with SMTP id 5b1f17b1804b1-4954a40c110mr70449165e9.26.1784417779234;
+        Sat, 18 Jul 2026 16:36:19 -0700 (PDT)
 Received: from [127.0.0.2] ([2a01:14:111:ccf0:645b:9e5c:7fe3:c09f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2a24b6sm160964675e9.3.2026.07.18.16.36.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2a24b6sm160964675e9.3.2026.07.18.16.36.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 16:36:15 -0700 (PDT)
+        Sat, 18 Jul 2026 16:36:18 -0700 (PDT)
 From: Diogo Silva <diogompaissilva@gmail.com>
-Date: Sun, 19 Jul 2026 01:35:36 +0200
-Subject: [PATCH 05/15] drm/kmb: remove dependency on DRM simple helpers
+Date: Sun, 19 Jul 2026 01:35:37 +0200
+Subject: [PATCH 06/15] drm/virtio: remove dependency on DRM simple helpers
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260719-drm_simple_encoder_init-v1-5-a78c509e3062@gmail.com>
+Message-Id: <20260719-drm_simple_encoder_init-v1-6-a78c509e3062@gmail.com>
 References: <20260719-drm_simple_encoder_init-v1-0-a78c509e3062@gmail.com>
 In-Reply-To: <20260719-drm_simple_encoder_init-v1-0-a78c509e3062@gmail.com>
 To: Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>, 
@@ -122,47 +122,55 @@ intermediate layer between drivers and atomic modesetting.
 
 Open-code drm_simple_encoder_init() by calling drm_encoder_init()
 directly and providing driver-local drm_encoder_funcs.
+Also check the return value from drm_encoder_init() to avoid silent
+failures.
 
 Signed-off-by: Diogo Silva <diogompaissilva@gmail.com>
 ---
- drivers/gpu/drm/kmb/kmb_dsi.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_display.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
-index 59d0e856392f..13adba96bc78 100644
---- a/drivers/gpu/drm/kmb/kmb_dsi.c
-+++ b/drivers/gpu/drm/kmb/kmb_dsi.c
-@@ -14,8 +14,8 @@
+diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+index 44ffffec550f..67023d91d40b 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_display.c
++++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+@@ -28,11 +28,11 @@
  #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_bridge_connector.h>
+ #include <drm/drm_damage_helper.h>
+ #include <drm/drm_edid.h>
 +#include <drm/drm_encoder.h>
- #include <drm/drm_mipi_dsi.h>
--#include <drm/drm_simple_kms_helper.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
  #include <drm/drm_print.h>
  #include <drm/drm_probe_helper.h>
+-#include <drm/drm_simple_kms_helper.h>
+ #include <drm/drm_vblank.h>
+ #include <drm/drm_vblank_helper.h>
  
-@@ -1427,6 +1427,10 @@ struct kmb_dsi *kmb_dsi_init(struct platform_device *pdev)
- 	return kmb_dsi;
+@@ -232,6 +232,10 @@ static enum drm_mode_status virtio_gpu_conn_mode_valid(struct drm_connector *con
+ 	return MODE_BAD;
  }
  
-+static const struct drm_encoder_funcs kmb_dsi_encoder_funcs = {
++static const struct drm_encoder_funcs virtio_gpu_enc_funcs = {
 +	.destroy = drm_encoder_cleanup,
 +};
 +
- int kmb_dsi_encoder_init(struct drm_device *dev, struct kmb_dsi *kmb_dsi)
- {
- 	struct drm_encoder *encoder;
-@@ -1437,7 +1441,8 @@ int kmb_dsi_encoder_init(struct drm_device *dev, struct kmb_dsi *kmb_dsi)
- 	encoder->possible_crtcs = 1;
- 	encoder->possible_clones = 0;
+ static const struct drm_encoder_helper_funcs virtio_gpu_enc_helper_funcs = {
+ 	.mode_set   = virtio_gpu_enc_mode_set,
+ 	.enable     = virtio_gpu_enc_enable,
+@@ -306,7 +310,11 @@ static int vgdev_output_init(struct virtio_gpu_device *vgdev, int index)
+ 	if (vgdev->has_edid)
+ 		drm_connector_attach_edid_property(connector);
  
--	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DSI);
-+	ret = drm_encoder_init(dev, encoder, &kmb_dsi_encoder_funcs,
-+			       DRM_MODE_ENCODER_DSI, NULL);
- 	if (ret) {
- 		dev_err(kmb_dsi->dev, "Failed to init encoder %d\n", ret);
- 		return ret;
+-	drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_VIRTUAL);
++	ret = drm_encoder_init(dev, encoder, &virtio_gpu_enc_funcs,
++			       DRM_MODE_ENCODER_VIRTUAL, NULL);
++	if (ret)
++		return ret;
++
+ 	drm_encoder_helper_add(encoder, &virtio_gpu_enc_helper_funcs);
+ 	encoder->possible_crtcs = 1 << index;
+ 
 
 -- 
 2.54.0
