@@ -1,41 +1,38 @@
 Received: from tbjjbihbhdcb.turbo-smtp.net (tbjjbihbhdcb.turbo-smtp.net [199.187.173.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A6F3DDB11
-	for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 16:56:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302843E073E
+	for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 16:56:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.187.173.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784393798; cv=none; b=M2Io+ywVwYLExGt/mYO5HHaIk+5oMzS5tNBe/+g8Cg6X7umf3ly5l542X4vtde2HggPktb4ynKV/jEnWAY0BabmEF3+XzxIH96eR4Db2Egy/wxR9TQwycIZ3aSkYg4n/NChGvGLjHcPXae5ru4d3i9JYtJWDvQWJISb/ByclOG8=
+	t=1784393808; cv=none; b=lp6ZysHpKw5ORfjDJ61Lzq6WbaWUtqeb5185QlXbMBa+uuSa+CvSlaKMgZHOoYwQepXFTeOhWFEqoTU5d8VzF4se8RMiPzQ9DDcE25W1dAiIIPWizJsYIC516k2GJzKMjIn3kIF7ioeu6mMs54AJJn24I8aulH6W8cKr0LQd+fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784393798; c=relaxed/simple;
-	bh=MolHESwn2IeR/FBN25HA/j1UYaLYlgKqZzc16tI9Lqc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cJxtNYuFcAUQbiJiuHPhjU7JXDs91asDl+0yw0P/Qa3FE5lieCO8qesgYXUvjVRZthVdQkg6Pj9AOvV+54LSbpufs3EXG8AD9nJGoSRXNb5wixS3oFxChhdnljcgqMSOYG/qxgFCXdd2c8aZ/JBF6IIVjAY7a1bdEsSNraA436w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yahyatoubali.me; spf=pass smtp.mailfrom=yahyatoubali.me; dkim=pass (1024-bit key) header.d=yahyatoubali.me header.i=@yahyatoubali.me header.b=sBQMPFgm; arc=none smtp.client-ip=199.187.173.21
+	s=arc-20240116; t=1784393808; c=relaxed/simple;
+	bh=iM88tWt5WKufCgF977oOf/D22IrsHiqklP+4R605YtE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o4XZJ5dHY4gHLqLspqnJr+PxgfE1ACzgNXSQD2Q9AZGZBV+MUyXPCJwhtj/1Fo1f4CaDnqAdEgAEyHz/sjbGCWV63CONPzJab6Kcl5qXXvua6rAatzUUhpake4KapYgx+ZgKQT3XNP78Cpm+clkcgo2WC1F7iZZYt1TmwYIZEDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yahyatoubali.me; spf=pass smtp.mailfrom=yahyatoubali.me; dkim=pass (1024-bit key) header.d=yahyatoubali.me header.i=@yahyatoubali.me header.b=gc9wial1; arc=none smtp.client-ip=199.187.173.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yahyatoubali.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahyatoubali.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yahyatoubali.me header.i=@yahyatoubali.me header.b="sBQMPFgm"
+	dkim=pass (1024-bit key) header.d=yahyatoubali.me header.i=@yahyatoubali.me header.b="gc9wial1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=yahyatoubali.me; s=turbo-smtp; x=1784998597; h=Received:
-	Received:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
-	References:MIME-Version:Content-Transfer-Encoding:Feedback-Id;
-	bh=+VO4Q4LecmD2tihX70KIBFMSfRojfHXpihLnDpoElzM=; b=sBQMPFgm7QJHD
-	in8OHwEALSYLjhsyOkNLTryGPjXx4TM3Jt53yf6ZaN3EX2nFre19Y6QF/LFjzhIQ
-	TdfpiimmPoj0ksMEBHkH9Pnqkk4yMQKnb/bP2DMZFWZAXSbLu8w31jijczvGWRfg
-	tBC7YvPyf2QrbV1kgxs+iammzz5G4M=
-Received: (qmail 2894013 invoked from network); 18 Jul 2026 16:56:35 -0000
-Received: from 197.145.178.94  by turbo-smtp.com with SMTP; 18 Jul 2026 16:56:34 -0000
-X-TurboSMTP-Tracking: 64-018cfb16-00001e63be832602e006-006-4288bd4b
+	d=yahyatoubali.me; s=turbo-smtp; x=1784998601; h=Received:
+	Received:From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	Content-Transfer-Encoding:Feedback-Id; bh=IoGdJqX+eyv5BUw7WFgBfg
+	bDkCfrrF1dsoSODV4EZYk=; b=gc9wial1k6xZerovQ9CvoquwscvmpKT6lb/y8X
+	wR7Bctl6v3XIB9hOZxYnpOCOAYAXX53BXSB0AnesQWU1YCskOpqD2P6Wi40cCXA+
+	/RhzaC+mYKo8dKZZa4mC+ypFNDbrRU2yfCWVewUZehODLOvy4wpguMhuKq6N0pJc
+	xkkSs=
+Received: (qmail 2894547 invoked from network); 18 Jul 2026 16:56:40 -0000
+Received: from 197.145.178.94  by turbo-smtp.com with SMTP; 18 Jul 2026 16:56:38 -0000
+X-TurboSMTP-Tracking: 64-018cfb16-00001e63be875782e008-008-4288bd4b
 From: Yahya Toubali <yahya@yahyatoubali.me>
-To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org (open list:CONTROL GROUP (CGROUP)), linux-doc@vger.kernel.org (open list:DOCUMENTATION), linux-kernel@vger.kernel.org (open list)
-Cc: Weijie Yuan <wy@wyuan.org>, Randy Dunlap <rdunlap@infradead.org>, Yahya Toubali <yahya@yahyatoubali.me>
-Subject: [PATCH v3] Documentation: admin-guide: fix trailing whitespace in cgroup-v2.rst
-Date: Sat, 18 Jul 2026 17:56:14 +0100
-Message-ID: <20260718165614.1923568-1-yahya@yahyatoubali.me>
+To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, cgroups@vger.kernel.org (open list:CONTROL GROUP (CGROUP)), linux-doc@vger.kernel.org (open list:DOCUMENTATION), linux-kernel@vger.kernel.org (open list), workflows@vger.kernel.org (open list:DOCUMENTATION PROCESS), linux-sound@vger.kernel.org (open list:SOUND)
+Cc: Yahya Toubali <yahya@yahyatoubali.me>
+Subject: [PATCH v3] Documentation: add SPDX license identifiers to RST files
+Date: Sat, 18 Jul 2026 17:56:16 +0100
+Message-ID: <20260718165618.1923627-1-yahya@yahyatoubali.me>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <alumXzlDApA_iMbY@wyuan.org>
-References: <alumXzlDApA_iMbY@wyuan.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,39 +42,97 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Feedback-Id: 26016534
 
-Remove trailing whitespace flagged by checkpatch.pl in the cgroup
-memory and writeback sections.
+Add SPDX-License-Identifier: GPL-2.0 to RST documentation files
+that were missing it. This aligns with kernel documentation
+conventions.
 
 Signed-off-by: Yahya Toubali <yahya@yahyatoubali.me>
 ---
- Documentation/admin-guide/cgroup-v2.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/cgroup-v2.rst      | 1 +
+ Documentation/core-api/housekeeping.rst      | 2 ++
+ Documentation/core-api/memory-allocation.rst | 1 +
+ Documentation/doc-guide/sphinx.rst           | 1 +
+ Documentation/process/5.Posting.rst          | 1 +
+ Documentation/process/howto.rst              | 1 +
+ Documentation/sound/designs/index.rst        | 2 ++
+ 7 files changed, 9 insertions(+)
 
 diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 14b8c571c0d1..481658cfef40 100644
+index 481658cfef40..f15a613fed6a 100644
 --- a/Documentation/admin-guide/cgroup-v2.rst
 +++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1332,7 +1332,7 @@ PAGE_SIZE multiple when read back.
- 	cgroup is within its effective low boundary, the cgroup's
- 	memory won't be reclaimed unless there is no reclaimable
- 	memory available in unprotected cgroups.
--	Above the effective low	boundary (or 
-+	Above the effective low	boundary (or
- 	effective min boundary if it is higher), pages are reclaimed
- 	proportionally to the overage, reducing reclaim pressure for
- 	smaller overages.
-@@ -2194,7 +2194,7 @@ of the two is enforced.
+@@ -1,4 +1,5 @@
+ .. _cgroup-v2:
++.. SPDX-License-Identifier: GPL-2.0
  
- cgroup writeback requires explicit support from the underlying
- filesystem.  Currently, cgroup writeback is implemented on ext2, ext4,
--btrfs, f2fs, and xfs.  On other filesystems, all writeback IOs are 
-+btrfs, f2fs, and xfs.  On other filesystems, all writeback IOs are
- attributed to the root cgroup.
+ ================
+ Control Group v2
+diff --git a/Documentation/core-api/housekeeping.rst b/Documentation/core-api/housekeeping.rst
+index 71ba5d86f249..f4dc5f9337b1 100644
+--- a/Documentation/core-api/housekeeping.rst
++++ b/Documentation/core-api/housekeeping.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ======================================
+ Housekeeping
+ ======================================
+diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
+index 0f19dd524323..370f5a0c4238 100644
+--- a/Documentation/core-api/memory-allocation.rst
++++ b/Documentation/core-api/memory-allocation.rst
+@@ -1,4 +1,5 @@
+ .. _memory_allocation:
++.. SPDX-License-Identifier: GPL-2.0
  
- There are inherent differences in memory and writeback management
+ =======================
+ Memory Allocation Guide
+diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
+index 51c370260f3b..74a3425e81c9 100644
+--- a/Documentation/doc-guide/sphinx.rst
++++ b/Documentation/doc-guide/sphinx.rst
+@@ -1,4 +1,5 @@
+ .. _sphinxdoc:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ =====================================
+ Using Sphinx for kernel documentation
+diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+index 07d7dbed13ec..510abeea8977 100644
+--- a/Documentation/process/5.Posting.rst
++++ b/Documentation/process/5.Posting.rst
+@@ -1,4 +1,5 @@
+ .. _development_posting:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ Posting patches
+ ===============
+diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+index 9438e03d6f50..9001024e44cf 100644
+--- a/Documentation/process/howto.rst
++++ b/Documentation/process/howto.rst
+@@ -1,4 +1,5 @@
+ .. _process_howto:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ HOWTO do Linux kernel development
+ =================================
+diff --git a/Documentation/sound/designs/index.rst b/Documentation/sound/designs/index.rst
+index 6b825c5617fc..4ba4038187b5 100644
+--- a/Documentation/sound/designs/index.rst
++++ b/Documentation/sound/designs/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ Designs and Implementations
+ ===========================
+ 
 
 base-commit: 1229e2e57a5c2980ccd457b9b53ea0eed5a22ab3
 prerequisite-patch-id: c8aee5eb39e3cd6f2b2f28c82163565665288d2a
+prerequisite-patch-id: 60ad32e9f0e74902635d7886b97c4225ac8dc5ce
+prerequisite-patch-id: 76849a9365b2ef77eae25f4ee42c11f124b1ea0d
+prerequisite-patch-id: 7d40674803d67642dd3326a8f4061acbcfb72998
 -- 
 2.55.0
 
