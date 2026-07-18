@@ -1,158 +1,96 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465F835972
-	for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 02:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA3725A354;
+	Sat, 18 Jul 2026 03:19:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784340510; cv=none; b=kFz/FgqMNBQNkaGLJDGtIpQ7XXeXfrLHWp8B5z5a7EPUU17sgazs+K7NAsyXqrFtknvYZMPra0YFw7AgzZlaoYK40dxdAyvBmmjr24kEAbJMeaEDk5lQFk4wg/w5onCi7XQXX8Rr6EX9m5eMY5unfdq5B2asWnPXBvR0X2Aj09I=
+	t=1784344791; cv=none; b=cO+CF9mG5WvGVbaiVmWjkiQBZQ1M7WrRyG2XrAGefLhbH88vYI8BNKOcncol+RW4Ndq7JvnFO3gGPaBeukMTFtcUOxD0V0AVpI/7wpBByamxkcRj1zP6ZQbGg9uxUP1x99kC53ie+M974UtmY3+giix0xpdwax3wagJznhywxxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784340510; c=relaxed/simple;
-	bh=3pE+tgkIuY/Ca2sAWUVuP1GVOj7xZBUFMFASsPfnp+w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gZDg10fAFAJBGpLPIZIXVLhkkP/DAEZonPqyRZVvOWY7kLZYR+2+GShDNKADrB+W9wsBqpdAYa/cx5egJ7FQWC+IUrgTGc/ZCxG1BlR6PJksYHNUtctxBdWZL0GJGQ/FqgjmG6hH+IEc1vPcaW26KeT1RhUPQ4GF2Ilb1w3nV8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PG3CCQWs; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1784344791; c=relaxed/simple;
+	bh=fMT/LjMCvJayK4qO3ZazMFCTeIoDQLQz+2dxdinStNc=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=M4K2v7MzS1qdyJ3YadFEP9did5mYmqpVBmNQtvRWeZ29b52j8z51vPjQtOl8n4ee7uwZyraMfuTOfoYRJpafNpMLEwApcRNP4bGqRw4pMn7CUMEUxB1PN4RmlLnlhdOROllWk/v/+D143yGIGsgAr0QBF0I0Jy08v0zvsrOh2Gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=dKQGOsHw; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PG3CCQWs"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784340496;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=mLvjICcbMIr0f9MhrwqmeB/yUQgqe7bvFBAED3Mii2g=;
-	b=PG3CCQWsOwLAcKNSB25/5bWHPXOe6iqKEmfpxiq9nBc7GkyH10RFSmkqeZyCECCwFDb908
-	u9hbmcs9tfgDQ5JgQw6+8sADm0gLa/qy+mvAyO3yZ9mr0T2MzDCFa60ExduMrWi6ibPMRq
-	RYzu0r7oCZtt6WNcEPO7je/9apCzp1E=
-From: Tao Cui <cui.tao@linux.dev>
-To: Tejun Heo <tj@kernel.org>
-Cc: =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	cui.tao@linux.dev,
-	cuitao@kylinos.cn
-Subject: [PATCH v3] Docs/admin-guide/cgroup-v2: document io.latency rotational vs non-rotational behavior
-Date: Sat, 18 Jul 2026 10:07:59 +0800
-Message-ID: <20260718020759.2272551-1-cui.tao@linux.dev>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="dKQGOsHw"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 05A9240E02B0;
+	Sat, 18 Jul 2026 03:19:45 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id WgF-xEK_hTFV; Sat, 18 Jul 2026 03:19:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1784344774; bh=fMT/LjMCvJayK4qO3ZazMFCTeIoDQLQz+2dxdinStNc=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=dKQGOsHwPy4QXE1v3glznCWHJx6ke1lQiw0EfBGSgD6zbzQdW8Lsqr2tRsIj82oC3
+	 oKWyqSmQl8nuOFFdHZ4FfJhc5tvx8bC4Limt7LXG4mmA3ZNCnlVeNF8hNrGQrSfGIZ
+	 k0U3tfltTDEGaA1W509xu7RSdoVtqm7q8axg1ABpxTZbnCOi+dvy5T/eeQsO9JsytT
+	 fZJqRv0q/R7mJ+j4dwpHTsWEJV4HLsStEXdL83WPDyUUCpjhhGEigFD54Hsw9g+MYb
+	 Gea6GgiODKDSjPaJqBONifqQT7r06OatQVseJYSf0SfoGIFpeIRCtOflNjqiXWNHS+
+	 wHBtQopBol/0xGIqUyMZSkHndwZgTx6halScg5Kt2tVXTch0VsT1Lyk3e6zy9sYd/A
+	 7kJq6DfnjxNTLynZzYtAJObB0KT2/FqXO10X+QtOjk4CEBfB2MeYB//SZluGzDncqt
+	 WHKTKL2mngtfxrUvSQDWEsW2OxdETt7qDQnTl+W9f9/2rgpZ8jhSlTaqNdWQpUxfpB
+	 oj53ATtddu9z4yc0kTUsD8IWA24cqhksaP1Y6j5GmJ7Cbuj2xIAfbakVxfV2KMxc6F
+	 GLk3waBdGdgEdUTb3E0wGqeLJJvCL84Z0HyDhWlNCJU7rlgRPCjj9sTquiwGHlZNiA
+	 prMN44APIBlsxti+A9Ak86S8=
+Received: from ehlo.thunderbird.net (unknown [12.110.208.163])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5CE7540E0031;
+	Sat, 18 Jul 2026 03:19:17 +0000 (UTC)
+Date: Sat, 18 Jul 2026 02:51:46 +0000
+From: Borislav Petkov <bp@alien8.de>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+CC: Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@kernel.org>, x86@kernel.org,
+ Jinchao Wang <wangjinchao600@gmail.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v9 00/10] tracing: wprobe: x86: Add wprobe for watchpoint
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20260718084741.c2ae6e41f2a1510ffa06d12e@kernel.org>
+References: <178429796992.157981.3393977217853767915.stgit@devnote2> <20260717162857.GAalpYSaZ_emTMUEEW@fat_crate.local> <20260718084741.c2ae6e41f2a1510ffa06d12e@kernel.org>
+Message-ID: <644AE756-0203-44F0-ABF1-9C35B9707492@alien8.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Tao Cui <cuitao@kylinos.cn>
+On July 17, 2026 11:47:41 PM UTC, Masami Hiramatsu <mhiramat@kernel=2Eorg> =
+wrote:
+>On Fri, 17 Jul 2026 09:28:57 -0700
+>Borislav Petkov <bp@alien8=2Ede> wrote:
+>
+>> Hi,
+>>=20
+>> On Fri, Jul 17, 2026 at 11:19:30PM +0900, Masami Hiramatsu (Google) wro=
+te:
+>> > Here is the 9th version of the series for adding new wprobe (watch pr=
+obe)
+>>=20
+>> any chance you won't blast out your patchset every day?
+>
+>Ah, sorry about that=2E I'll rate limit myself this weekend on this serie=
+s=2E
 
-io.latency is documented only in terms of average latency and the avg_lat
-stat, which matches rotational devices.  On non-rotational devices a group
-misses its target when 10% or more of the IOs in the window individually
-exceed it, and io.stat reports missed/total rather than avg_lat/win.
+Once a week is perfectly fine=2E=20
 
-Describe both cases: how a miss is detected, note that the avg_lat tuning
-guidance is rotational-only, and update the io.stat field list (mark
-avg_lat/win as rotational-only, document missed/total).
-
-Acked-by: Michal Koutný <mkoutny@suse.com>
-Signed-off-by: Tao Cui <cuitao@kylinos.cn>
----
-
-Changes in v3:
-- Move the missing-target note to the missed field and avoid naming the
-  exact threshold there (Michal Koutný).
-- Add Acked-by from Michal Koutný.
-
----
- Documentation/admin-guide/cgroup-v2.rst | 50 ++++++++++++++++++-------
- 1 file changed, 36 insertions(+), 14 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 0df15a672cf3..d60c2361feb5 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2260,9 +2260,12 @@ IO Latency
- ~~~~~~~~~~
- 
- This is a cgroup v2 controller for IO workload protection.  You provide a group
--with a latency target, and if the average latency exceeds that target the
--controller will throttle any peers that have a lower latency target than the
--protected workload.
-+with a latency target, and if the group misses its target the controller will
-+throttle any peers that have a lower latency target than the protected
-+workload.  How a miss is detected depends on the device: on rotational devices
-+the average latency over the window must exceed the target, while on
-+non-rotational devices a miss is counted when 10% or more of the IOs in the
-+window individually exceed the target.
- 
- The limits are only applied at the peer level in the hierarchy.  This means that
- in the diagram below, only groups A, B, and C will influence each other, and
-@@ -2279,10 +2282,12 @@ So the ideal way to configure this is to set io.latency in groups A, B, and C.
- Generally you do not want to set a value lower than the latency your device
- supports.  Experiment to find the value that works best for your workload.
- Start at higher than the expected latency for your device and, with
--blkcg_debug_stats enabled, watch the avg_lat value in io.stat for your
--workload group to get an idea of the latency you see during normal operation.
--Use the avg_lat value as a basis for your real setting, setting at 10-15%
--higher than the value in io.stat.
-+blkcg_debug_stats enabled, observe io.stat for your workload group to get an
-+idea of the latency you see during normal operation.  On rotational devices,
-+use the avg_lat value as a basis for your real setting, setting it 10-15%
-+higher.  On non-rotational devices io.stat reports no average latency; set
-+the target based on your device and use the missed/total fields to verify it
-+is being met.
- 
- How IO Latency Throttling Works
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-@@ -2324,19 +2329,36 @@ IO Latency Interface Files
- 	the blkcg_debug_stats module parameter is enabled (it is disabled by
- 	default).
- 
-+	The reported latency fields depend on the device.  Rotational devices
-+	report avg_lat and win; non-rotational devices report missed and total
-+	instead.  missed and total are live counters for the current window and
-+	may change between reads.
-+
- 	  depth
- 		This is the current queue depth for the group.
- 
- 	  avg_lat
--		This is an exponential moving average with a decay rate of 1/exp
--		bound by the sampling interval.  The decay rate interval can be
--		calculated by multiplying the win value in io.stat by the
--		corresponding number of samples based on the win value.
-+		(Rotational devices only.)  This is an exponential moving
-+		average with a decay rate of 1/exp bound by the sampling
-+		interval.  The decay rate interval can be calculated by
-+		multiplying the win value in io.stat by the corresponding number
-+		of samples based on the win value.
- 
- 	  win
--		The sampling window size in milliseconds.  This is the minimum
--		duration of time between evaluation events.  Windows only elapse
--		with IO activity.  Idle periods extend the most recent window.
-+		(Rotational devices only.)  The sampling window size in
-+		milliseconds.  This is the minimum duration of time between
-+		evaluation events.  Windows only elapse with IO activity.  Idle
-+		periods extend the most recent window.
-+
-+	  missed
-+		(Non-rotational devices only.)  The number of IOs in the
-+		current window whose latency exceeded the target.  A group is
-+		considered to be missing its target once missed reaches a
-+		certain ratio of total.
-+
-+	  total
-+		(Non-rotational devices only.)  The total number of IOs
-+		accounted in the current window.
- 
- IO Priority
- ~~~~~~~~~~~
--- 
-2.43.0
-
+--=20
+Small device=2E Typos and formatting crap
