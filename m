@@ -1,110 +1,79 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFA729C33F
-	for <linux-doc@vger.kernel.org>; Sun, 19 Jul 2026 15:18:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B182D73B5;
+	Sun, 19 Jul 2026 16:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784474286; cv=none; b=ZF23gfGGssnHPRH4CXHNUefbLH+MKwNqwedTRH3tn+2PYtJt02Iq0kj1eMNKZ5gioFAib5GmrwiDMS1mblDr4VQMqQCSlgfNbSdaqB9Xy+BIFl7RQM2u/OIOvd0YaLXHoXhMud0XeoQyFDE2Jeh1EhQ8zFcCzzhYj76H5QFA4ak=
+	t=1784479501; cv=none; b=eZhyPpMstf/G/n7Tez7wSxU7XeqMaqtScgLLxmFmGmr63yan/6j/jmuI6uvb+qhI3zFUDzNhbyTwr4h6yl3SGRebfhoxgSarat6guTSq6L9ADgi5wr3REa/4VNxLQ4rn34nJ2XvtN3PjGsSq37TcHKBtZbcd5LqO0Zsmu6zM3Zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784474286; c=relaxed/simple;
-	bh=sUR3oendVhhPXyDA0z7RF0lCgvgE1pC0vEjiKRP9KFk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TdW4sKdoQHlTcvvFyqD1YhoWVoqJxpEZn/jchxu/k1PMWfhS1+CacFwSam9JVJQ3BA8Ejfey5DWo+rLdvCqy91sQgcV7KBMTzHMdSOQhZvnvEHh0uOa4EU54b2I0Ijp1G98pQjTicHoCAU6hQ+ogB2PJ5djVv8bbouvRz0Ds4o8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qiQKzxwn; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784479501; c=relaxed/simple;
+	bh=wc50sP0AmGWbixR3GzVVok7tAs+ZYWZkMJdv27f7gws=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Zt5XdhspvtNYaVm8aVloWFMng5AHaoE7W7ZFSc62I0VVEisaP2qGSnm79pl4SniK/wM8yGjH8eCiMBx/FX9yBfuJVRVZKbW+3uQ+52yCS2CbrR9mfpzbhSp09a97bK+dbORlfjAKbHa/e3TvRFMpmGUvZPlTyypctmUMEL9DoHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ARUYvNwj; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qiQKzxwn"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ceae1ed204so70318925ad.0
-        for <linux-doc@vger.kernel.org>; Sun, 19 Jul 2026 08:18:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784474284; x=1785079084; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pwHm8ifmILtpCgeZhnaMfC9JFTdRpExWbxkxrdMS+t4=;
-        b=qiQKzxwnMpkfhpa8oqBtR+idPfpZbhcYRLYpjVcMGd87A3CsZjDFR5o/jLRuWyTkCR
-         k6USYjV1n4ktc7k4kfBmuDN+lcfU2EB3v6bIJNPYUBDxqHFEP/QaLm++u+2VuewZVqpS
-         V3TZTUWzcteKhpWYkDMq2aQ0OJhNLGnOW3GV5gcS43bqOk7YtNh6MGbUzdPfrLrBZWAU
-         r2H3W5rBEQdyrdNGo42sTkrvcpuepzKI3zDAEpYw9glNZGWwAhtthb4Rb+cYJfajcpf1
-         5T2F3PQLWdLXXVwNyWnf3GpRs8ZOVmDc/7EjsqCVgjRe8GqiShyadCiWlpc/8WkEL3Xe
-         RVjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784474284; x=1785079084;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pwHm8ifmILtpCgeZhnaMfC9JFTdRpExWbxkxrdMS+t4=;
-        b=JgzWUmC9tke8a68+Oq+NC3VyC6QVHkoGGhlWlPzqPXoY4GQ2CoeZY2DDQ67Z6PrbzA
-         1s9oY3aXG6l8eo3SiorVDJrfYDiAQbRL3IMvfcf9AsH1Vtb9YG6YqkFA1GkUMqGTv0GN
-         2YqnbXUwaPvmibDWVrGckQzydBh2gEMRNyLxmH54njhN5IGRBqzr3R7X75ASul0/XfmG
-         v72YI8OtFm8iSpKMSrAGzJRp9py3ePoF7F4J6jvSWJX3u9+8h7ruY6EaRNxo8bsgdaXr
-         iQ+rX0roY4X3l5974lh2yp5TfIaptoD8r16vJlrLobIxfz1VF1spG30DJ8fFMjoCHIqs
-         jVwA==
-X-Forwarded-Encrypted: i=1; AHgh+RrA4l0kNmOHRI5ImVHVqTn7YLq/Lg5hrXpWsUZw6nTcKWc+s8L02WCx2c0PnfkorNPFqfQCqdoUJok=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1uUD6JILAKInXJwjFgx1hGzBr9miD6sJvwO5Hd3k2A9/BXMOC
-	v9tI9s9irDZLiiJjwrB2UlZdV+2tqROxKvtD5NoNNDAmpWo+7xUQm2SJ
-X-Gm-Gg: AfdE7cntWP/npAzBsgSQNnAMj6gEm/pI6EEHnvEnWg2NBrgraOyXvmsgL9LEh3CoEXi
-	OJkwQE+PUN+A879ErFjhNwKf5MvWaZjApSfre3Qmsa7iLrnn6uDTmxyNcj4ixAqJNJ47fsxCfJG
-	ftxLs8lEgD/YJnhasrr+NluGNnA41xhrP7ci8XKcd0Zf+hM0hk0aTSC5wHJBBs/57mUI8OuA1zK
-	LQn+hEs6XTSx2lNE4OR73gQS9ugmgy5g3P4qRYcp2FqZbMN//sM+8oW8pNYndMDCXf3sey1yttr
-	aIJszclMpp8bGWsqyc1jFpri1NqjflwYlnCh6QV5o6auyb+VDWUiBOs/uvRD162id2WjStWjBWA
-	qf+X6ZBesnJuIyQCNZNDWXA8JaozKzpKfL8y8I4uYuk23EHKjOZjY+pYu4GbGdR8tvSqR0+pZRd
-	r40zp1Hwm3CdFTZFT3pWZ4quVnMXS/qt15CCGCdvkeyGfqbcI=
-X-Received: by 2002:a17:903:4b4c:b0:2cb:2b84:f431 with SMTP id d9443c01a7336-2cf34a4974fmr117192665ad.47.1784474284038;
-        Sun, 19 Jul 2026 08:18:04 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf34490361sm42044975ad.17.2026.07.19.08.18.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Jul 2026 08:18:03 -0700 (PDT)
-Message-ID: <b24cbc00-73ab-4989-a0fa-f77cbd8e184c@gmail.com>
-Date: Mon, 20 Jul 2026 00:18:04 +0900
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ARUYvNwj"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4C73140430
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1784479493; bh=Jbnl6b3SUNwv4XwJjBQ66TGVnrSTzvNb7MNjAp2yYV0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=ARUYvNwjeH4HiVE1/LZYT3S28dqyRDEQF/7igk/wAG2Y8THBJRX6yKzW9nLFJSy3r
+	 pqE8SbtRimyRijpQtNHlyr5CzLcdlb1335o5H/immzdQXDk44u1dlCws9MyybhJF0i
+	 +PDplyf/0qcgbWxXryq94DPatFP4axamnnF+vd/82FqQwoitNJB11OjJKesuh0VjVX
+	 yp0wsGzIeVxu9JIQa1XvmQzbIqARzKb+RvT8JpBEwxbstUCq2Wr/4GxO1SQ0EatpmD
+	 sSKmXrVOIvL+OdNLKqX6mcPfhLjQ/PHeCCp/wEr+Im/JyC4K7NcElRt5gQMXK5v7mC
+	 L2i4NIMatG+vQ==
+Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4C73140430;
+	Sun, 19 Jul 2026 16:44:53 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Weijie Yuan <wy@wyuan.org>, Yahya Toubali <yahya@yahyatoubali.me>
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, Michal
+ =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, "open
+ list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>, "open
+ list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/5] Documentation: admin-guide: fix trailing whitespace
+ in cgroup-v2.rst
+In-Reply-To: <alumXzlDApA_iMbY@wyuan.org>
+References: <20260718151913.1892547-1-yahya@yahyatoubali.me>
+ <20260718151913.1892547-2-yahya@yahyatoubali.me>
+ <alumXzlDApA_iMbY@wyuan.org>
+Date: Sun, 19 Jul 2026 10:44:52 -0600
+Message-ID: <87zezn3p4r.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] docs/ja_JP: translate submitting-patches.rst
- (sign-off)
-To: Akiyoshi Kurita <weibu@redadmin.org>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, corbet@lwn.net,
- Akira Yokosawa <akiyks@gmail.com>
-References: <20260719142002.182921-1-weibu@redadmin.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20260719142002.182921-1-weibu@redadmin.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Sun, 19 Jul 2026 23:20:02 +0900, Akiyoshi Kurita wrote:
-> Translate the "Include PATCH in the subject" and "Sign your work -
-> the Developer's Certificate of Origin" sections into Japanese.
-> 
-> Keep the DCO text in English as the original certificate text, and add
-> a Japanese note that the sign-off refers to the English DCO text.
-> 
-> Use a reStructuredText note directive to make it clear that the note is
-> specific to the Japanese translation.
-> 
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
-> 
-> ---
+Weijie Yuan <wy@wyuan.org> writes:
 
-Extra blank line under your SoB ...
-Please remove.
+> On Sat, Jul 18, 2026 at 04:19:08PM +0100, Yahya Toubali wrote:
+>> Remove trailing spaces on lines 1335 and 2197.
+>> 
+>> Signed-off-by: Yahya Toubali <yahya@yahyatoubali.me>
+>
+> Hmmm, for a file that might be modified, I wonder if it makes sense to
+> include fixed line numbers in the commit message. i.e. When the line
+> number changes, your commit message will become meaningless.
+>
+> I'd love to hear others' comments.
 
-> Changes in v4:
-> 
->   - Use a reStructuredText note directive to clarify that the explanation
->     is specific to the Japanese translation.
-> 
+Honestly, I question the value of churning the files for a couple of
+trailing blanks in the first place.  There are *so many* ways in which
+our documentation can be improved, and this doesn't approach any of
+them.
 
-This patch doesn't apply cleanly on docs-next.  Please rebase.
+Thanks,
 
-Thanks, Akira
-
+jon
