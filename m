@@ -1,158 +1,146 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8504B3806DC
-	for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 23:36:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C2318B0F;
+	Sun, 19 Jul 2026 02:00:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784417813; cv=none; b=aPN//p8qx1QBa9qGdT6Hn8hVdHyY1et1rRzaEAp1tIApeKsBF26l8hrJIu+C4ChGXvoTOCKY64E+hEqIWJQoEuRfvnrW+Kc3CngT+Gi7czh1A4DQ59PhE0fILUXxSv/dXx0NXOx+QpGefrCenGeAKoxfj3ymsHkB+vZIgNuQrhI=
+	t=1784426458; cv=none; b=GlAQxbF5U8atgdB1Jerj2TTN57pPAmjhk3pTLkSIwBv+phEhyKRx8sgZPVaOaIw990sLMkIQbapaqtOutmcbQyr1JJNhNV+l3qc3wzyUK+Qz8UJtEFTayFq3Ia9LZQI0my9fGWss5TSK6T5txpaLqExnvTVPVJriMQLoexlXByY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784417813; c=relaxed/simple;
-	bh=EhmF3j+M4AduWGCg7EqLVWPIxAwmTTCxT2Gz0yXqaxA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Zse90nhvlfAMYXB3BnCewbegGIXzpWLETFP1sBEMvw+PyuSKl4jiO7Y9//pgY64/iGDMrq6JDB1CUSFB4TFhtoZDLBNIaqxdWehJUmgZLL19tB4kSeBS9kWafp4aByXWndNDVIO205uKHwFulE+J9mKN051h9J/VQKoCSCsLSZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DSRNm0Un; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784426458; c=relaxed/simple;
+	bh=+cgMAv4pJyqbln0Y/efgT40IJmrPzO3cjpskLGagsFo=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=sXlMaEUuSsIxCRiz5+E8Kf+KAoxgEb0hfc65MIe3llbxPdP6d6XIT3kQpC24pUh/pphsFT+/kBvR6wn1K7BOmnhViixjDUXeT9juupbvFFlWMke4A1HqXti8x9RxdPxRbfKoz5exJW6yv2AXjxOHoadqFEw3tO64mNScvLpeP6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=OecwdOX9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Ie9riLAf; arc=none smtp.client-ip=202.12.124.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DSRNm0Un"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-493c19bad03so66212715e9.2
-        for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 16:36:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784417810; x=1785022610; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=77r3PWO7yo5+W5LQS9FlqiYUpbSGXMMaR8d5GZmSOF4=;
-        b=DSRNm0UnpdKO1pbpdDw4uOVfg/zYafz0PCJCpAnsnhVZITB8v6XSABQodNL+sehwWy
-         YLnDiSclQhajkd7cGIEz41d8cmCMOu1+XPZhPADxLvCewJWh6NRGgpSn967iPOlAbulh
-         dJMpzyjwGN897E34nWoHX/cTyXRaYfWkj76tCsOCZpi5R3FhX5L7+eLgDW+R7ZgMgI8G
-         B/efzJOhW0C81oH4Fl/FognDifTF6peZQKNbCyC8lEXl2mOCBQKTZQREnwjlyUDehHka
-         QzJMGfdCePgjfR6ihNZVZMqbu0LYoT7IVTvOSvGrN4NVZCuQjRYCTU0VtNuAJtzGMUJf
-         3rrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784417810; x=1785022610;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=77r3PWO7yo5+W5LQS9FlqiYUpbSGXMMaR8d5GZmSOF4=;
-        b=iZzi6j0ZLVCE3nS00tWMX0MwzwJEfGqySLdOfh3fito2Hcs7RQahm2Vhm2P0GOMIG5
-         Bh6wEtu1AotLE18v5iapf6sEJVuihXMtyxB2BE7xAVwo3/gmaWIgALNx7764wdcp/DAf
-         nbglEehxlW0QiWcSVU7VzD/2HsArveVrUtz1VQpc9kyMnWfockWDctIUzLV4qUD/ts8/
-         YYT6S1ZHSCM8LvndUNs1zU4bSqauCrd+AAd2LW7BOy4FJzMHzCbhp/v0dOX2G3aTpZM0
-         9X1Z+N1AfwCv4UvbH8+a0DC/MGiI1SxBPFiaGDGe0u0GrvF+pG71OqthiEN64hoAP39v
-         Ee1Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rq9UhttgzojyXDxJnmqnGbnjanqVK8P6v20xm/6dA46SxPnm3Hes8bqVRtAb/Sp1hE7xwsjg/5PSms=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx37Sh7SyPFv3NnpKXl73zGM4hvCT18k7jmg/HLDkIG4nT9p7BK
-	/tfnEoxp+qjRw4dESSBZTc/+DjnK9f5I8hh5aKwkTMXfypG/nJtq9V+N
-X-Gm-Gg: AfdE7cnuW9CcfxRxrBKSmNOUmUptdovJzUx5CsmyfmzP8JXmUM/9+ahvnnAtgDxNK0k
-	JGfh0jHMdRiRgoZebWnofz/CeaE1d3Mqyf8JaG/fFLm5xN7NS8pDL5Pt06Sn9734qyTlGF7egS7
-	3fMhGjJozMk52R+ryr/eNuLPF4JNV8GD1QlhYFqjanLpKqDcl4OITNFJkHz69Wb5jVnQCYvLAZk
-	eU7G/sIIE7SIr9f+4OpXtJ4BvyNtrLZ33086LxukN39oKnlsPSccGOw25d8tvFB+goZxlsAqyvu
-	pbCmus2ewHZC3F8iii1zRAaicafYapnQk4gdvZDkuxNIHGkC9Yao8qiqkvzzVcZKN9Rr+2ETfvI
-	ZPKUfHHvWiGdBlzMd4XiXcqE2dwyQ+UszNoFpTZkiFaP3cfzS/fCVfPi/WoT0+hP9gA3eQI1l63
-	sm3bOlAitghQ==
-X-Received: by 2002:a05:600c:3b28:b0:493:a623:d090 with SMTP id 5b1f17b1804b1-4954a3f36b6mr89247115e9.10.1784417809642;
-        Sat, 18 Jul 2026 16:36:49 -0700 (PDT)
-Received: from [127.0.0.2] ([2a01:14:111:ccf0:645b:9e5c:7fe3:c09f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2a24b6sm160964675e9.3.2026.07.18.16.36.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 16:36:49 -0700 (PDT)
-From: Diogo Silva <diogompaissilva@gmail.com>
-Date: Sun, 19 Jul 2026 01:35:46 +0200
-Subject: [PATCH 15/15] Documentation/gpu: remove completed
- drm_simple_encoder_init() todo
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="OecwdOX9";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Ie9riLAf"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id EC0D81D0006B;
+	Sat, 18 Jul 2026 22:00:54 -0400 (EDT)
+Received: from phl-imap-08 ([10.202.2.84])
+  by phl-compute-02.internal (MEProxy); Sat, 18 Jul 2026 22:00:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1784426454;
+	 x=1784512854; bh=PwCc6i1bdvaCErer9U+IdqXPKfIw2O2VAvEWFgbGNJo=; b=
+	OecwdOX9UarT0sFGwTsVuYtjhjg7A/dJvv9ZZkJPkTaEFM7ALrfXVmhijtAtdmVY
+	2RR1vrJLPRQxPcOC8ltcAyLeZ0J2CGKYmrE65DTEdfwsNgGH1TaAcZTbZq728I61
+	GulgY+6U+kRSUzaSlX8C9Tk7nPy9cgNXtzWOfbG7WvfYTOdUHo/eUAJhCLyKHtvA
+	iAZl/Pjiz8Bw0aQ9wxx7e/x+4kM6Xl/SniYVssRfpPLgHBhlmMnaqTUAdYgLPqwD
+	4Mgm2HrqwIhNf1quALwPmBJ+HrbLO0GHuteMWfr+ozpxqJMoZ6LVUkDHiDIlbK4C
+	g/R1/QegoVt1NfyZAHOgEQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784426454; x=
+	1784512854; bh=PwCc6i1bdvaCErer9U+IdqXPKfIw2O2VAvEWFgbGNJo=; b=I
+	e9riLAficzcpsZR8UTxMOH8N3tr13iV7XbmNWt/6cOysPeYZeJ1KEnLZVz6sxsOR
+	G9VccuAxlSnOKkI0pRquqBbDRMX1UKc3xWoby5F+7AU2vGhnDsAYaEdDwZ0y/15x
+	k3BcxHDIuZ2j8+JfGDk8UnUzyg/TLN5A2e8Qh+WVlG5GpC9zYD6rAK1mj52qTlGM
+	p+GJZocrhWdq+m+i4et+dviouvLCLfX7BU0Nz9/VdpEY0dwB7j0wLpRzlJWE/x8z
+	mgn4K0XYewZYsYQFS1zluP8lz91oZIwxPpZytqhWe79Oj9jQN2+SolwqA2t/wTVR
+	SGFyWFAo6bqOwxJdR0Lxw==
+X-ME-Sender: <xms:1i9cajvfTFUZjZ_AR6kAcXh7gzJ_rvOFubvhx3rZaJSvRWMAH50QfQ>
+    <xme:1i9cavThPDLP6LO1IC47tiLp7WRR9ixS-GxBBPDxRgJlbn8sf3H9odXxHgb3RBrtw
+    PfVcc2PRzTYPtrIAlwubmCQSRZX7T2RWE_oH8iAgqh8hTLkQggu4cU>
+X-ME-Proxy-Cause: dmFkZTG0vqR8McJKPCl0CA1MVajPKZrNDkWDx/u/kAlZr/YgQ6lGJdXkT/PcKKrMSHRJmf
+    BnqWYLAfc1sWSOcXCk81eRJ4ImxwDygIYGewD0YrCQqhMQABpZuY4hd86eI70IGqfsVFNr
+    yI8yPQbcqLpIayl/9VkmbfybP8/2sShfV9h1BHOTYVhSc6Vevw9Kqy0qVdb+o9YSFdu1RQ
+    y204lUYzIMXAM7aUkccfp72gxyVwPqgl4RaXjBkGsWY0bKFefZQXX04VIRSPyNbozjVfj5
+    LETaW34cJGVSrhExiHes3AF7ZlH4RNELifoCBCBfq/sIW8stawhlqE2CUSw1owQ4aSZGZq
+    YNAmOPifesBetdKgV2egAbPU5O7yar7aWPIM0CmddmmLTZxpZ2j3NU5CnDRpDx+HAteWNm
+    EfYWnjKlzpzYn04xCQi6vDjoYEtvanIpjAvJBMco4P3fYGbTwBqQ561iXHGAmvemYA9NhW
+    3EU02mT+wqWxjTv9wbQRfZxtE0Ws2gYCCo40JZhrWSd/IIWbq759b/kPX0XzYgGYEfpej6
+    rPvtSPz/G8oPMeYCRim3UX1SFiJn8pAaTe0G5mao51vZzX9SZJ7DTXcRmWZYisF4BxzyYT
+    5erXpG4mvglNXyABx7gMmpDLKnaLvfrmemdM7Ts18x4n4Y9338w64cgCy6cw
+X-ME-Proxy: <xmx:1i9canvS9YnduKkJSo5kzOy_-NBQx_k2YF421s0LbToWRrZyORfu5w>
+    <xmx:1i9calAH9cP2iRF5JFkmnxPVFMqV2YsUUfZO0dZGgj4YK0YdJ5CZ-Q>
+    <xmx:1i9cavM1TCU449XgLgPZLf9PhcGgvgZ_Ls1qacc6AiktdQICjUaHzQ>
+    <xmx:1i9catBLZAChd_xq7yPI2GgrkmJHBxpeRZGacagXV6tNS5fDDxAPBw>
+    <xmx:1i9caploQAhVqZAf1BgLU_C9SuP0tymoA-0daqTV_EnupXG-dXoBEFdG>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 453062CE03C0; Sat, 18 Jul 2026 22:00:54 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-ThreadId: A2E4tekp3ChN
+Date: Sat, 18 Jul 2026 22:00:34 -0400
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: "Yahya Toubali" <yahya@yahyatoubali.me>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Derek J . Clark" <derekjohn.clark@gmail.com>, "Armin Wolf" <W_Armin@gmx.de>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ "open list" <linux-kernel@vger.kernel.org>,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
+Cc: "Weijie Yuan" <wy@wyuan.org>
+Message-Id: <b078b8d4-a15d-410b-ae74-39d09d39762d@app.fastmail.com>
+In-Reply-To: <20260718165616.1923610-1-yahya@yahyatoubali.me>
+References: <alukuB0r73qfc1PG@wyuan.org>
+ <20260718165616.1923610-1-yahya@yahyatoubali.me>
+Subject: Re: [PATCH v3] Documentation: fix spelling typos
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260719-drm_simple_encoder_init-v1-15-a78c509e3062@gmail.com>
-References: <20260719-drm_simple_encoder_init-v1-0-a78c509e3062@gmail.com>
-In-Reply-To: <20260719-drm_simple_encoder_init-v1-0-a78c509e3062@gmail.com>
-To: Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski <krzk@kernel.org>, 
- Peter Griffin <peter.griffin@linaro.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Michal Simek <michal.simek@amd.com>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Stefan Agner <stefan@agner.ch>, 
- Alison Wang <alison.wang@nxp.com>, 
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
- Gurchetan Singh <gurchetansingh@chromium.org>, 
- Chia-I Wu <olvaffe@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>, 
- Liu Ying <victor.liu@nxp.com>, Frank Li <Frank.Li@nxp.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Xinliang Liu <xinliang.liu@linaro.org>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
- Liviu Dudau <liviu.dudau@arm.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
- imx@lists.linux.dev, linux-mediatek@lists.infradead.org, 
- linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
- linux-doc@vger.kernel.org, Diogo Silva <diogompaissilva@gmail.com>
-X-Mailer: b4 0.15.2
 
-All drm_simple_encoder_init() users have been removed, so drop the
-completed todo item.
+On Sat, Jul 18, 2026, at 12:56 PM, Yahya Toubali wrote:
+> Fix 'Minumum' -> 'Minimum' in lenovo-wmi-other.rst and
+> 'maintainance' -> 'maintenance' in housekeeping.rst.
+> These were flagged by checkpatch.
+>
+> Signed-off-by: Yahya Toubali <yahya@yahyatoubali.me>
+> ---
+>  Documentation/core-api/housekeeping.rst        | 2 +-
+>  Documentation/wmi/devices/lenovo-wmi-other.rst | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/core-api/housekeeping.rst 
+> b/Documentation/core-api/housekeeping.rst
+> index ccb0a88b9cb3..71ba5d86f249 100644
+> --- a/Documentation/core-api/housekeeping.rst
+> +++ b/Documentation/core-api/housekeeping.rst
+> @@ -9,7 +9,7 @@ extreme workloads can't stand, such as in some DPDK 
+> usecases.
+> 
+>  The kernel work moved away by CPU isolation is commonly described as
+>  "housekeeping" because it includes ground work that performs cleanups,
+> -statistics maintainance and actions relying on them, memory release,
+> +statistics maintenance and actions relying on them, memory release,
+>  various deferrals etc...
+> 
+>  Sometimes housekeeping is just some unbound work (unbound workqueues,
+> diff --git a/Documentation/wmi/devices/lenovo-wmi-other.rst 
+> b/Documentation/wmi/devices/lenovo-wmi-other.rst
+> index 011054d64eac..65cb78ef285a 100644
+> --- a/Documentation/wmi/devices/lenovo-wmi-other.rst
+> +++ b/Documentation/wmi/devices/lenovo-wmi-other.rst
+> @@ -163,5 +163,5 @@ data using the `bmfdec 
+> <https://github.com/pali/bmfdec>`_ utility:
+>      [WmiDataId(1), read, Description("Mode.")] uint32 NumOfFans;
+>      [WmiDataId(2), read, Description("Fan ID."), 
+> WmiSizeIs("NumOfFans")] uint32 FanId[];
+>      [WmiDataId(3), read, Description("Maximum Fan Speed."), 
+> WmiSizeIs("NumOfFans")] uint32 FanMaxSpeed[];
+> -    [WmiDataId(4), read, Description("Minumum Fan Speed."), 
+> WmiSizeIs("NumOfFans")] uint32 FanMinSpeed[];
+> +    [WmiDataId(4), read, Description("Minimum Fan Speed."), 
+> WmiSizeIs("NumOfFans")] uint32 FanMinSpeed[];
+>    };
 
-Signed-off-by: Diogo Silva <diogompaissilva@gmail.com>
----
- Documentation/gpu/todo.rst | 15 ---------------
- 1 file changed, 15 deletions(-)
+The minumum fix has been proposed a few times already. It's a miss-spell that comes from the BIOS, so is deliberately wrong.
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 14cf37590fc7..b7351467dc74 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -29,21 +29,6 @@ refactorings already and are an expert in the specific area
- Subsystem-wide refactorings
- ===========================
- 
--Open-code drm_simple_encoder_init()
-------------------------------------
--
--The helper drm_simple_encoder_init() was supposed to simplify encoder
--initialization. Instead it only added an intermediate layer between atomic
--modesetting and the DRM driver.
--
--The task here is to remove drm_simple_encoder_init(). Search for a driver
--that calls drm_simple_encoder_init() and inline the helper. The driver will
--also need its own instance of drm_encoder_funcs.
--
--Contact: Thomas Zimmermann, respective driver maintainer
--
--Level: Easy
--
- Replace struct drm_simple_display_pipe with regular atomic helpers
- ------------------------------------------------------------------
- 
+That being said - I vote we correct it so that we stop getting patches that want to fix it.
+In the interests of not seeing it again:
 
--- 
-2.54.0
+Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 
+Mark
