@@ -1,74 +1,85 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB583238166
-	for <linux-doc@vger.kernel.org>; Sun, 19 Jul 2026 17:41:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB1014ABE;
+	Sun, 19 Jul 2026 17:44:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784482872; cv=none; b=djHzSD92nKk97IzMZLL8afILjX+eOE3io6gOHei22vg8xh3V9Rm85MiQTQDv8kcS2G+ZeUZf0xb26DvIUCjqnvUpiG7c1oHqKtfFv8KP/BOpSsGEqJCV9K0TKLYTCV3zqHTL2jY4+ItFCaMGJ0LOlLdLZ1Z70owDtSCCeyqhMJY=
+	t=1784483056; cv=none; b=kcEyic7yw0nMwUFT66SmIjMz/wUCS+RPjJLzb2G8xOThc9fsIC12bS5AJO1SWwthVXhaDMVM8+9bmKbp+QahQbjonbfA57YH7i8GDehEB2cbwywdz1r4XR3HWScw145bE3l/rTxWistD/fyNeh3By5aYU8Yvqh9PtXeYL8i9QOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784482872; c=relaxed/simple;
-	bh=K2ByV6O1b2SrNy8gl2EfKHRlMsn+AoiK7CB2Z1SwQKA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fkju+qnDVsEoJ/PR8OZrBsxQCpBy8JHfnNyndKXLO+T/tl5LO1EMiZii1KV2aVzcklic8gFcXS4ipyGFxSKjzMOjiOFuyIkGq8YDakNnsA745Vije7fVHI3slGBsBii8SwQIg30WWsNwQ0NmwXqRZiMSgzvkCeZNZ+6bkVTpDqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=UUSNUPYV; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1784483056; c=relaxed/simple;
+	bh=oqIlF13FYtToWfCw0PAO56C3stUXhka2Ur5vpR0phmQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=PJSPDT5EPypEENiwQhNF17vmmzUlhnsb/9vYI+m+NifxkuqQTSGeQ4T1i7YavuB4uP2HPE0jxd8lINy8MxshGZWUaNhwf/NlYM7SLjU9ClgUywx4zffo1shvgp0hy2vEiQ9GGf20+gzG81phhobgmPkn+cK9NZjdVqPmVHMfM2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gO0RogPC; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="UUSNUPYV"
-Date: Mon, 20 Jul 2026 01:40:48 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1784482858;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qKOnIvxDylOX45F21owzPtxIo+7RWfs3eqBU9NQ5pF8=;
-	b=UUSNUPYVAf+8rxhaEZustoOJs3/FEsx26PEZ9YtrOaowKl7U4l3D5fneL94EYu0ca0aVL+
-	YVxhm8OjFk+4jyxjub6W8xYwyMOJ1weSHKWJ3CydMamFLyQpwCAW5lmBOnUzjoPffgJyAO
-	cKXHfzvlW2GgYkGhcPTqkB2DW5c9A0+g2PsIAufFVEFcLyjGVaIfFC0/LMbk6ktaKqtUls
-	9rqN7DfcLtpMGj0YNZI4JBAaI/jsC9gu+712/tYxxawPuUrPNK7WTbq89OOUUHsrdsOZJv
-	LZobFb5nGkcsiIzyXLxKgG2dRU0xP88EzY2MNI/6u5JL4+snR1q8A+ls7LEo6A==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Akiyoshi Kurita <weibu@redadmin.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, corbet@lwn.net
-Subject: Re: [PATCH v4] docs/ja_JP: translate submitting-patches.rst
- (sign-off)
-Message-ID: <al0L04hFQgQoCqAE@wyuan.org>
-References: <20260719142002.182921-1-weibu@redadmin.org>
- <b24cbc00-73ab-4989-a0fa-f77cbd8e184c@gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gO0RogPC"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C1015408BC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1784483053; bh=iDopaxRzPF/gKPxBxgw6/irDLrGKGrxe1sfKCY3bUHk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=gO0RogPCjtIdk9SXtQ2XnczV87OSCi3Jj9oU6DfrMO/sniXf91DVRwqef90zD08C/
+	 mOAFN6hJtTAwegey3N+7dOjaOp1ki2ePjALl9hm7U2Rk4djqt/ZDHYBibZpnfLc9Qd
+	 xdsGRxL0b44pz03LU95KURVbkox95vbYaxab8q+/FxQ+i7BaXxnv5HM7tEwrkVu8M0
+	 5VAb+i2s6+NyRoTg2Wg/xbT8lbLXrtv8uT3hdTsSO6hzPbKoiMAaZiQOIk76q1139N
+	 4J4xXlos4/7rHcTqW/RmNDJluuNxWyjdpxmHMVBn+J+tgDqK9LSpf72vgjrTx2LvJF
+	 krsCh21hSVaoA==
+Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id C1015408BC;
+	Sun, 19 Jul 2026 17:44:13 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Yahya Toubali <yahya@yahyatoubali.me>, mpearson-lenovo@squebb.ca
+Cc: linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-kernel@vger.kernel.org, yahya@yahyatoubali.me
+Subject: Re: [PATCH] Documentation: wmi: lenovo-wmi-other: Document
+ intentional BIOS misspelling
+In-Reply-To: <20260719173710.2367930-1-yahya@yahyatoubali.me>
+References: <87v7ab3p2p.fsf@trenco.lwn.net>
+ <20260719173710.2367930-1-yahya@yahyatoubali.me>
+Date: Sun, 19 Jul 2026 11:44:13 -0600
+Message-ID: <87o6g250ya.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b24cbc00-73ab-4989-a0fa-f77cbd8e184c@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain
 
-On Mon, Jul 20, 2026 at 12:18:04AM +0900, Akira Yokosawa wrote:
-> On Sun, 19 Jul 2026 23:20:02 +0900, Akiyoshi Kurita wrote:
-> > Translate the "Include PATCH in the subject" and "Sign your work -
-> > the Developer's Certificate of Origin" sections into Japanese.
-> > 
-> > Keep the DCO text in English as the original certificate text, and add
-> > a Japanese note that the sign-off refers to the English DCO text.
-> > 
-> > Use a reStructuredText note directive to make it clear that the note is
-> > specific to the Japanese translation.
-> > 
-> > Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
-> > 
-> > ---
-> 
-> Extra blank line under your SoB ...
-> Please remove.
+Yahya Toubali <yahya@yahyatoubali.me> writes:
 
-I remember that 'git am' would remove the blank lines between SoB and
-'---' automaticly. But that said, it is better to do it well in advance.
+> The spelling "Minumum" in the FanMinSpeed entry is intentionally kept
+> as-is because it reflects the actual string returned by the system BIOS.
+> Add an explanatory note to prevent future redundant spelling-fix submissions.
+>
+> Suggested-by: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Yahya Toubali <yahya@yahyatoubali.me>
+>
+> Thanks Mark and Jon for the context.
+>
+> That makes total sense. I dropped the housekeeping typo fix for now to avoid
+> unnecessary churn, and this v4 keeps the BIOS spelling but adds the explicit
+> note documenting the firmware quirk as suggested.
+
+For future reference, text like this does not belong in the changelog.
+You can put it below this line:
+
+> ---
+
+...and the maintainer won't have to strip it out when the patch is
+applied.
+
+>  Documentation/wmi/devices/lenovo-wmi-other.rst | 4 ++++
+>  1 file changed, 4 insertions(+)
+
+One other question: are you writing these patches yourself, or using
+some sort of LLM to create them?
 
 Thanks,
-Weijie
+
+jon
