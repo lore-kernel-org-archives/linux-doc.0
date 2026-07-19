@@ -1,109 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4125F22B594;
-	Sun, 19 Jul 2026 12:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048CA25B095
+	for <linux-doc@vger.kernel.org>; Sun, 19 Jul 2026 13:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784465973; cv=none; b=eN4YYGVG1W0T2k5lwrA8uGFTtBbFMykKnlZD4zf9iOXhJ1zJ0WCA5oWlojjCtTp7qjcifXGijNB2VzXypiKPeZAGwzg5A+B/0UKyUvUE7Ra2fA8vzlevZF6eYoYzHW/fZsx6TTioCIFRXpafyYwgXUCUbaqAlGMdwctCgmW/rOs=
+	t=1784469200; cv=none; b=TVIYLG8nPU4TssPrVOwPRiMOI2pkD2lHmUD/HDRUZx7KhVY1cCMJDza1qb3he1n7Um+/e+ZlRxilp7GyEF7aJNuf3DXBgIp2wS3GL17bF+VB0bpzqnpKZfqXX1HSOfAu7Xd6UcC4DzkVQqDKehmopJujF6uHJHGHAG9Cfdjj3o0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784465973; c=relaxed/simple;
-	bh=tNtYGC2EJFlGi7TRbEJqSxVtjzAJPz/PG74LELuNwZw=;
+	s=arc-20240116; t=1784469200; c=relaxed/simple;
+	bh=K+P5R6wAclwOFM86ZUqkNFpSNByvTQ8SFaF2Kx/AkcA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DBOwjFkYMHiexh+QB/8Q92PMpL3tA0fuwZZqU5XP5goFoT+mxIU/VhtOij83qgloGwdYdl66sttzgT4HBxF3HTiUHzw4cdrUr8G+wJx/1fzPGHITYLX0LWnSpeJM1RTD643msKonPahDRXc2YUz7mYnS9DP12HD6NQliiQi3ClE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RMvdkFlp; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=MQ47AV3tWaIV4sxpKdtWD/CaFRi70sYhpTS7uysH0p5rT+FsgaDhAR0C5TBYqU55QwPwCxpCEUKYc2tIhxJf+cTAY/k1O89PKOYuY8akYFkfOqBg5StgUi4YTQ2Gn9ZIoXsPsDcXSfYXxOEByF1Yz1ohrvgyheC09S4vIMYBpLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nxHtsd1i; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RMvdkFlp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABBBB1F000E9;
-	Sun, 19 Jul 2026 12:59:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784465971;
-	bh=dz6nstKPpdzr3m3YV5N5XtGEglEWs9DHWHKhwuF1feU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RMvdkFlpGDTGUknV5qMv7bvE17VSPmAKTlGBUF0dGAFTJIm5YEMiHRqDBCQodxSTY
-	 Ge9fz3IG2p0LxJTSK4uvO9VLO6lxN9I70ZNr31wO8qXETMT7OK6O8mjwj7gxC5H5Aa
-	 ewZJvnjGNPAZL9onmVrfy8cENJCMslHIdl+eM6QVFGhkQSwKCyZSTlY25S4ltfuh0P
-	 Kv+mAVZazCnspK3pbXmA3iCAqR8+wEd0HAJlUkfnPPYL3D6hA8HBRc0oR91uWmdD+Q
-	 n2D0/dLV9W+Ualim3Ug8bC9mPBH3yO+XeTq+BG9fS7qDxo6NwPxPQ+6bf2ob3AI5YZ
-	 FHoaByhPLJAMQ==
-Date: Sun, 19 Jul 2026 13:59:25 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Marc Zyngier <maz@kernel.org>
-Cc: Fuad Tabba <fuad.tabba@linux.dev>, Mark Rutland <mark.rutland@arm.com>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-	Ben Horgan <ben.horgan@arm.com>,
-	Jean-Philippe Brucker <jpb@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v12 02/29] arm64/fpsimd: Update FA64 and ZT0 enables when
- loading SME state
-Message-ID: <df08b81a-13b6-4273-88e7-0627063d4e9c@sirena.org.uk>
-References: <20260709-kvm-arm64-sme-v12-0-d0301d79ef58@kernel.org>
- <20260709-kvm-arm64-sme-v12-2-d0301d79ef58@kernel.org>
- <ali39DG6qie7XTuD@J2N7QTR9R3.cambridge.arm.com>
- <15a9ae14-395d-472a-a5be-9e46524fb493@sirena.org.uk>
- <3c76650f-ddda-47ae-a676-86016d8e39a6@sirena.org.uk>
- <CA+EHjTw9rGvQyev-4i7zkO5bPPZKGYn858485dCs8iHmCi0t3w@mail.gmail.com>
- <43f21c65-c5ba-44a3-9741-548390df369b@sirena.org.uk>
- <87a4rnqsuu.wl-maz@kernel.org>
- <18229974-b26d-4eed-82f7-7af7e1c26634@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nxHtsd1i"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cab973140bso114257815ad.3
+        for <linux-doc@vger.kernel.org>; Sun, 19 Jul 2026 06:53:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784469198; x=1785073998; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=1nuOr72UPwe1KUQeAbUU34Et7h55j9VwtvONRGN6oj8=;
+        b=nxHtsd1i1Lyu2/RmhPm5UqhFXLIyhTpd0jtIbFyOQPJCzMXCuuavktphQx/uXtv39I
+         +cBOb/FVNRGiKn6Aml543rf4Dd00xleRkX1HPQirz57W/Ju8mTF3xOU+3DDy5/Aa9Y9U
+         F/JpGszeEmDyGMk/zJx9cUSKlTYAI6YJv2TK3MTdTg+Xz5jYnEySPp8DY+PpIw1nza2l
+         mJ70iLcWK98V1pVg7mrP9peLRydQ7SLBnkY0kmu4NPy8IrMOiFzPXq4K5bbsB5Q3gz86
+         IMOfu+uZrH4OMwJPQoYfopAmKRRzHjoq2shPca3a+R1Gs54p5v/RUslkkxo6oEmcHtJN
+         M/CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784469198; x=1785073998;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1nuOr72UPwe1KUQeAbUU34Et7h55j9VwtvONRGN6oj8=;
+        b=Ba3C52D1x8ScFpLCTMoXNP+uo0MxttahmKwqdCGWGdFk2bhOx9+vSnf5/HE1d4dbSR
+         CkIoLOMAm0xweBXfHHywJV9blU4p6ZbCE4Rc5lshUK31Pa8Gb3VxF8AmODtyH+OYgs9k
+         qjN7BoMoB8JFWw8woso8gM2c5QHMtEsNvROZuDNYpbjpDSHQyzI9obRVa41udvRil9Dk
+         CkiNhEDADQ9M/BXyMtJolcA7C0xJqUnBCL/s1UJhz1m3ybQ0AZgjoKE9Jq4LeN+V1+00
+         9ZmVSCMjqShrkq/OWYTD8KNyHK5FvRyBUtVLCJpMKPNx+Qwu0mVNpfIFpwP1nrHs/grd
+         1utA==
+X-Forwarded-Encrypted: i=1; AHgh+Ro+l1z8sTCLGaWW/3MC1qzNZjJkenzeG1GQLC/7sUXYzzm4JXoRa7JlHKox5F52plQn+ZZyubH706w=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7dFKtInLd/Hejsl11MywFZDx6gPNoIgRgRXGWBYDxv6ovw3/H
+	y7Jx7vksXt3Gso/06woU09IHzatWUw82yMtu0q6WjY3H+4EPozXywQc9
+X-Gm-Gg: AfdE7cmV0powjCcV2CYfiDVprXoURhIJ3m17yxwp+kDXLx2785/7mv4D959i7dnH/Z/
+	utH3qX+ihB6kBhb5ma8NBY9my8NBbtagqHiswyRSByxDWrap7twq8HS707nlwSgeKwbfZTQQdfT
+	kV5QuCunEHO7LUvATWFF2Ri6JTAGgeUSmr0HTUg3YoQt7qvUpLaaAkiJaQHaUmBKm+3zUr2zHCH
+	0yLC/8acJHS3DlaVUxPH7hZ4SvF57wjdAqQsrd17coWii0FhqQ1LxdHSjrP5AmCoYH30NF24rmA
+	AJbVGbSL0rO9Aa4V3nmc65WPcjCr6eKfr4ovhtCTLq427HL9TYJfZale+cGmlkDA7IqDDOkYWf3
+	dOLoqJuxxQD+jSyGyR36aZHnIpJNrIySKyJnnjN7VqoURbR2X4ScQ5lOMuOdJrRCuuei6M45EQg
+	RvPAgGxylMd5FRu+A=
+X-Received: by 2002:a17:903:b8b:b0:2c9:cf5d:d9b8 with SMTP id d9443c01a7336-2cf349a4e71mr120661285ad.33.1784469198194;
+        Sun, 19 Jul 2026 06:53:18 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf344cf96bsm41125915ad.28.2026.07.19.06.53.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Jul 2026 06:53:17 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sun, 19 Jul 2026 06:53:16 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+Cc: Kun Yi <kunyi@google.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] hwmon: (pmbus/max34440): block unsupported VIN and
+ IIN limit registers
+Message-ID: <aec1b7d5-2416-4ef1-a25a-946226f5c2cc@roeck-us.net>
+References: <20260716-max34451_fixes-v1-0-a941b27eaecb@analog.com>
+ <20260716-max34451_fixes-v1-1-a941b27eaecb@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cL9XJNQtGuI5OnYK"
-Content-Disposition: inline
-In-Reply-To: <18229974-b26d-4eed-82f7-7af7e1c26634@sirena.org.uk>
-X-Cookie: Courage is grace under pressure.
-
-
---cL9XJNQtGuI5OnYK
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260716-max34451_fixes-v1-1-a941b27eaecb@analog.com>
 
-On Sun, Jul 19, 2026 at 01:40:28PM +0100, Mark Brown wrote:
-> On Sun, Jul 19, 2026 at 09:35:53AM +0100, Marc Zyngier wrote:
+On Thu, Jul 16, 2026 at 04:25:11PM +0800, Alexis Czezar Torreno wrote:
+> MAX34451 and ADPM chips do not support standard PMBus VIN/IIN limit
+> registers, manufacturer specific min/max registers, or undercurrent
+> or undertemperature fault limits. STATUS_BYTE and STATUS_OTHER are also
+> not available. Accessing these non-existent registers during driver
+> initialization triggers a CML error and asserts ALERT. Handled by
+> blocking these functions during read/write.
+> 
+> Fixes: 7a001dbab4ad ("hwmon: (pmbus/max34440) Add support for MAX34451.")
+> Fixes: 629cf8f6c23a ("hwmon: (pmbus/max34440) Add support for ADPM12160")
+> Fixes: 2e0b52f1ae88 ("hwmon: (pmbus/max34440): add support adpm12200")
+> Fixes: 479bfeba2eb6 ("hwmon: (pmbus/max34440): add support adpm12250")
+> Tested-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
 
-> > So leave this is a straight ISB, no optimisation. Once you come back
-> > with actual data showing that this is a terrible bottleneck affecting
-> > real workloads on real HW, we'll look at it. But until then, please
-> > keep it as stupid as possible.
+That is implied. Please only use Tested-by: tags if someone else tested
+the patch.
 
-> I've already left the KVM hypervisor code like that - I only updated the
-> code here in the main kernel since that keeps the end effect for
-> existing systems and workloads the same.  I am aware that there has been
-> a great deal of attention paid to the barriers we have in the context
-> switch path so I am concerned that other people might have a different
-> view on adding one.
+> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
 
-It does also look odd do a conditional update of SMCR_EL1 and then
-unconditionally add a barrier after it, even if the conditional
-update suppressed the write.
+Applied.
 
---cL9XJNQtGuI5OnYK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpcyiwACgkQJNaLcl1U
-h9BpXwf+JYCe7VHaj7TfzZjCVUNf+N0uc2PbXDf9kiTps6TxEHMS/Lt7w8P5oqs3
-RDVLBZIPc43UyiYr27EH+NxHBS/jOGSdzNHCjkN4TN6hg+IEE08yL7RbnSH85hzX
-+iXiGHYKj6uzU0VxOCmw48BLoe1wkh4iToQT+ffGDaAd1yxraMDKWk1gom8j6Eaa
-Br6L+q2EfnbvuqtpZWEQ1WPGuRrcrcnTyrkEz2eQbNNAyMD1boHr9LHNeCRFoJSn
-2nDxtRYj6T2Vocmt59QX4JajZwM9fbfsZOR5NszhGW7Tm1EqgxbVg439ieY+ryMw
-AXrrkxhculDDRGWss27Ds2c+Cu+6ww==
-=CtjM
------END PGP SIGNATURE-----
-
---cL9XJNQtGuI5OnYK--
+Thanks,
+Guenter
