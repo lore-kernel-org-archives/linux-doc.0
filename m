@@ -1,62 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D14643F09D;
-	Sun, 19 Jul 2026 07:46:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E554E1A0728;
+	Sun, 19 Jul 2026 08:35:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784447182; cv=none; b=SWsW32CR8s154ChDD44RqimSI0Qw1oIKng+MysUjH8QohO9yS8gs+uXESc3Z89kzyfAYP2U2cJYIocOKPls/vA4TdJdhSTKfLtHVSpTCh6KI3E8UIiZF/hYHIU6Omzkrq2piWIakIfLskUZg9hFp97rNfKvfHbzluZsRJHjU4Rg=
+	t=1784450115; cv=none; b=ASFgAAV0yix672OQP1uw6OXghvUrMrFby0b2LPQ/W7Rg7FzUliqygIMoSWqOwDMlRNd3UJXk09LpLM+6mKiTcamAlkEp8k0jFyDCV8GeD4blJ7iGGCsVAVPSrJwvI8G1MxFjMB3eJQN5uOGstQLSDrvNgtkbBSZD3eKgD7vtsyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784447182; c=relaxed/simple;
-	bh=k1JfSQI6va+lt8rkvZB/oLZYRUtIjuSj9IVTZHDIVbI=;
+	s=arc-20240116; t=1784450115; c=relaxed/simple;
+	bh=++1xcTGHzRamMm9gYq8TFuxHfhI5SXEO7GUQIeZIbks=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WGvlikvaMKbfdaBtU91t9tIp+p1YOqOyFgO1KL16Hfa99N5DM5jKjlsEYUn7zkgvwgYn27iZFWCuFhAikmV9TGJ6COIggx2/GgEZRMCfvKCX/NzuEZBzkC3vmELgufJkvqVTNsGd3YQL0gAucjNHFgjg+sviFz9ueCJhZI5sflw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GuWBrNRr; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=MWeF1C9iRYy7NRgWYmcuAIhqK4iIljBjm5qIvYP0RyKnQuA9rJXW8We8NKvUZaoXvVNTfwUmg7wmK+g0M+Xdyb9OuckSr5QVJDLQW5CZ+glDeqPZ7mbBd0rd4drQ0+8G9nfRsoLhGF4KtU2dy9p0gGLf6+8MbEb0HRa8dfq/W1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iEk2T7Hr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GuWBrNRr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 342541F000E9;
-	Sun, 19 Jul 2026 07:46:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iEk2T7Hr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 707151F000E9;
+	Sun, 19 Jul 2026 08:35:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784447181;
-	bh=S1Ztug/hfotaAOzcToVjMag11Az12xDJIwMCXI6McX8=;
+	s=k20260515; t=1784450114;
+	bh=GBwZMiX5oIYlk5aa74UGNPjR193c08SmkpdkMUXCqZE=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=GuWBrNRrQENVyxjd8hS1kVBBntKInLCvACRxZG08EFz8DgOkujHquL27KfBv5/EpW
-	 RuudHFFd88UnROH05Ujg1XKDWpHcT9zkh2ZIZNK7ga7XXuyi9cFLz2zNyjauJePy5f
-	 SYGGJQ1H3/2Q6BbBNHcqDKTpT1Nei3kbwl7PeSBwD3SYMsBG7jdwc0lhnD+Ix5fuUx
-	 ALDb1vAFY+TRH3UuI666shXS62o+LIPvf2LihofVayv8eaZjvL0B+yCpOxPHuyEOYj
-	 EVKP63JDUTj43ZGpBG5J1h5VXD9XLmT1B7a97HQP/Sg8hdIjRMElkgyq3n786R93Wy
-	 FHMlLo+PvjYNQ==
+	b=iEk2T7HrKtirZzLD1t5B57msFHz2BeJ4KF7iZm499Q0mfLE8rt1qNvnJmcCIMwZlb
+	 50yOtsMS6D88gCk3nGLHUTaMhDiOVxjcAzTc//053cqsd97/S4jL9EqoL52IXcblfc
+	 4MKUydIB6lzbWeL9sruw8ikrBfwaGGmapqaz863u4WJDDBY5JFzgCxuVwBOvw9kJAF
+	 qB5yW042IiY+1mW8Cgybiku7uwBWqY0VpWB+GxvW/CWcpFFuCx6djveFX+onPTsYHJ
+	 W2zqynbLTkQiT/SV3OttAf+cbfVAdTJEAQsiFwnl4t4uf6noPk2XaVrk4yvjrN69Ps
+	 mXHdN47EPCcIw==
 Received: from sofa.misterjones.org ([185.219.108.64] helo=lobster-girl.misterjones.org)
 	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.98.2)
 	(envelope-from <maz@kernel.org>)
-	id 1wlME6-00000006SN9-31cC;
-	Sun, 19 Jul 2026 07:46:18 +0000
-Date: Sun, 19 Jul 2026 08:47:00 +0100
-Message-ID: <87bjc3qv4b.wl-maz@kernel.org>
+	id 1wlMzQ-00000006Slk-1UO2;
+	Sun, 19 Jul 2026 08:35:12 +0000
+Date: Sun, 19 Jul 2026 09:35:53 +0100
+Message-ID: <87a4rnqsuu.wl-maz@kernel.org>
 From: Marc Zyngier <maz@kernel.org>
-To: Ryan Roberts <ryan.roberts@arm.com>
-Cc: Will Deacon <will@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
+To: Mark Brown <broonie@kernel.org>
+Cc: Fuad Tabba <fuad.tabba@linux.dev>,
 	Mark Rutland <mark.rutland@arm.com>,
-	Jean-Philippe Brucker <jpb@kernel.org>,
-	Oded Gabbay <ogabbay@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	linux-kernel@vger.kernel.org,
+	Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>,
+	Dave Martin <Dave.Martin@arm.com>,
+	Ben Horgan <ben.horgan@arm.com>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
-	dri-devel@lists.freedesktop.org,
+	kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	oupton@kernel.org,
-	hch@infradead.org,
-	jgg@nvidia.com
-Subject: Re: [RFC PATCH v1 0/8] Arm Core Local Accelerator Driver
-In-Reply-To: <a39b2bef-8fb5-444d-8ab8-3882224a3311@arm.com>
-References: <20260717104759.123203-1-ryan.roberts@arm.com>
-	<aloS_T3LQvpHeZUV@willie-the-truck>
-	<87ech1rf6n.wl-maz@kernel.org>
-	<a39b2bef-8fb5-444d-8ab8-3882224a3311@arm.com>
+	linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v12 02/29] arm64/fpsimd: Update FA64 and ZT0 enables when loading SME state
+In-Reply-To: <43f21c65-c5ba-44a3-9741-548390df369b@sirena.org.uk>
+References: <20260709-kvm-arm64-sme-v12-0-d0301d79ef58@kernel.org>
+	<20260709-kvm-arm64-sme-v12-2-d0301d79ef58@kernel.org>
+	<ali39DG6qie7XTuD@J2N7QTR9R3.cambridge.arm.com>
+	<15a9ae14-395d-472a-a5be-9e46524fb493@sirena.org.uk>
+	<3c76650f-ddda-47ae-a676-86016d8e39a6@sirena.org.uk>
+	<CA+EHjTw9rGvQyev-4i7zkO5bPPZKGYn858485dCs8iHmCi0t3w@mail.gmail.com>
+	<43f21c65-c5ba-44a3-9741-548390df369b@sirena.org.uk>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
  (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -68,39 +77,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: ryan.roberts@arm.com, will@kernel.org, gregkh@linuxfoundation.org, arnd@arndb.de, catalin.marinas@arm.com, mark.rutland@arm.com, jpb@kernel.org, ogabbay@kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, oupton@kernel.org, hch@infradead.org, jgg@nvidia.com
+X-SA-Exim-Rcpt-To: broonie@kernel.org, fuad.tabba@linux.dev, mark.rutland@arm.com, joey.gouly@arm.com, catalin.marinas@arm.com, suzuki.poulose@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, oupton@kernel.org, Dave.Martin@arm.com, ben.horgan@arm.com, jpb@kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, peter.maydell@linaro.org, eric.auger@redhat.com
 X-SA-Exim-Mail-From: maz@kernel.org
 X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Fri, 17 Jul 2026 13:33:07 +0100,
-Ryan Roberts <ryan.roberts@arm.com> wrote:
+On Sat, 18 Jul 2026 15:24:20 +0100,
+Mark Brown <broonie@kernel.org> wrote:
 > 
-> On 17/07/2026 13:09, Marc Zyngier wrote:
-> > Thanks Will for roping me in.
+> [1  <text/plain; us-ascii (7bit)>]
+> On Sat, Jul 18, 2026 at 02:30:04PM +0100, Fuad Tabba wrote:
+> > On Sat, 18 Jul 2026 at 01:35, Mark Brown <broonie@kernel.org> wrote:
 > 
-> Sorry - I intentionally didn't include you because last time we spoke you said
-> you were only really interested in discussions on the virt side of things and I
-> didn't want to spam your inbox. Perhaps the wrong decision...
+> > > Actually I remembered: while SCMR_EL1.LEN is self synchronising the
+> > > "without the need for explict synchronization" wording is not present
+> > > for SMCR_EL1.{FA64,EZT0} and this is no longer explicitly just an update
+> > > of LEN.  It's possible I'm being overly paranoid here, I'll leave the
+> > > isb() and add a comment for the next version.
+> 
+> > I went through the ARM ARM (DDI 0487 M.c) on this and I don't think
+> > you're being overly paranoid, I believe the isb() is needed here.
+> 
+> Thanks for double checking so thoroughly.
+> 
+> > And task_fpsimd_load() does make indirect reads of both fields before
+> > the next context synchronization event: sme_load_state() executes LDR
+> > ZT0, whose execution at EL1 is trapped when SMCR_EL1.EZT0 is 0, and
+> > when PSTATE.SM is set sve_load_state() executes WRFFR, which is
+> > "illegal when executed in Streaming SVE mode, unless FEAT_SME_FA64 is
+> > implemented and enabled" (from the WRFFR description). The MSR SVCR in
+> > between doesn't provide the synchronization, since SVCR's
+> > self-synchronisation wording covers reads of its own SM and ZA fields
+> > only.
+> 
+> Yeah.  We should be able to optimise this:
+> 
+>  - If there is no change we don't need the isb().
+>  - If only EZT0 changes and we load state where ZA is disabled then we
+>    won't try to access ZT0.
+>  - If only FA64 changes and we load state where streaming mode is
+>    disabled then we won't try to access streaming mode FFR.
+> 
+> I've gone and implemented the first which will suppress the isb() for
+> current host kernel SME usage, the second two are starting to get more
+> fiddly than seems sensible to do right now.
 
-I'm indeed mostly interested in the impacts on the KVM side. However,
-a lot of the decisions that you make on the non-virt side of the
-kernel have a two-pronged effect:
+I really wish you didn't optimise anything at all at this stage.
 
-- both memory management and scheduling changes have a direct impact
-  on KVM because of the intricate weaving of KVM's own MM with the
-  kernel's.
+"Optimisation" is exactly what got us into so much trouble over the
+past two years, and I really don't want SME in KVM to follow the same
+trajectory.
 
-- most of the requirements that you define for bare-metal will have to
-  be enforced by KVM, because it is not conceivable that you'd have a
-  different behaviour between host and guest.
-
-For these reasons, I think it is necessary to involve KVM reviewers
-from the beginning, rather than after everything has already been set
-in stone. Unless you say upfront that virtualisation of CLA will never
-be supported. And even then, you'd have to look into the effects of a
-CLA user also being a VMM...
-
-And please don't worry about my Inbox ;-).
+So leave this is a straight ISB, no optimisation. Once you come back
+with actual data showing that this is a terrible bottleneck affecting
+real workloads on real HW, we'll look at it. But until then, please
+keep it as stupid as possible.
 
 Thanks,
 
