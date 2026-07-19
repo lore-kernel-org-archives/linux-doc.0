@@ -1,101 +1,83 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
+Received: from tbjjbihbhdcb.turbo-smtp.net (tbjjbihbhdcb.turbo-smtp.net [199.187.173.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6E61C84BB
-	for <linux-doc@vger.kernel.org>; Sun, 19 Jul 2026 17:22:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D1034F24A
+	for <linux-doc@vger.kernel.org>; Sun, 19 Jul 2026 17:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.187.173.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784481723; cv=none; b=pV05koIVDB3cLQk7SQ8W8qdQtYrCZxIz9YDIf5emL6xxSuGixD2lDL9Tfyg9cXGQ2y5ZImpr5sEuTN3NKGKMLdqLOPTmSlzYTJb43LvK0bClozVEah06XlJ+nxsp5/LYlB+guOpiMk/NTjz2XbWbyDeGpvm/iWde2r2ZTrQgVrA=
+	t=1784482660; cv=none; b=jqsNxBIwEdT3S7hIaAliRW2OPsWPXiW6uKQd+Zu6kiDOw9A/SaTYz0QpgotkrG8N1Q/8sW3QwHmnsHdck0VKotnoIrYqdGZKLHiu2QmiLHOZG2V/vCr6Ay+mKhnRKplhw2g1kck4EZSN33seGv/xufWkh/SAqZPQM+nbwMJy/AQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784481723; c=relaxed/simple;
-	bh=Qh65/P+drbvzizLTnz4BI5xiHwxDiApTgpDECHy00jQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YmaYYkf68GvBh8CAhXK93Iian6KjuvvCehRuQdcexmwy0W9byeuuuCl/lTQjRT6TgpfHm/a/RmSBPSO0JURDYa6dyrUg1ItxH53dO65JpC+4wG9MRNSlHisdNQ12jYLqQpAjoIEV3/X5O0OW2Rok/7/Qaka9CDzCSpXrAhQ6zn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=riTtRL75; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1784482660; c=relaxed/simple;
+	bh=nJZwVCxqbkHts6zj0Ud6xkhvo2+8qpTec7hN7/2JIm8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sAo/2JrO/kJLZwzJCSqs7cRmaGC8qONgfrfTmBD0XxxryNymrbD8png+J282bobHksB6lp50bmswNfy9ghuRSFI56Ux5m1+OydnIJnw1xqbnj2FxbMqYzsOJWV5QS20PnsKJEbRnFmjS9sQFPXXitKrFQQG50WpaSAaVi9rLUcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yahyatoubali.me; spf=pass smtp.mailfrom=yahyatoubali.me; dkim=pass (1024-bit key) header.d=yahyatoubali.me header.i=@yahyatoubali.me header.b=spzfh3Tp; arc=none smtp.client-ip=199.187.173.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yahyatoubali.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahyatoubali.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="riTtRL75"
-Date: Mon, 20 Jul 2026 01:21:31 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1784481717;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3/aEcHJy+vhFwCKQgce71i46wVlKKtSMPyNlSml70Is=;
-	b=riTtRL75sh9OVLetYtHSpnbzRZv4kvk1rGKhcfxLshZhEjInnqbgAXp47VRJ3psII+AzNS
-	lZZkeEXVW5KU3YmvsgXNtFy0nUxIB/Vrlc3zwYSCCeY6gbzPb1/z+9b7Txy77Rz/kX6UsN
-	coyZXXqnwp/ugnWKIU1EyKthFPiOhL5YHec9d4NLTsPyKpWNXwmxllUHTFM+koefpAQhKM
-	igNn11eWkkv25mfTh2wzmcKloP9sNIcLYggItZAFqJzqMafw8NXjLrMhs+yJRZzuR2/Gwc
-	Ib9v0aWDl+lTsp2nlOqDEBoVu1QLJWrqfb9LARkKG2XiLGkRtiaaEK5611wSBw==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Yahya Toubali <yahya@yahyatoubali.me>, Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/5] Documentation: admin-guide: fix trailing whitespace
- in cgroup-v2.rst
-Message-ID: <al0Hm-K2qj5KsOWS@wyuan.org>
-References: <20260718151913.1892547-1-yahya@yahyatoubali.me>
- <20260718151913.1892547-2-yahya@yahyatoubali.me>
- <alumXzlDApA_iMbY@wyuan.org>
- <87zezn3p4r.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=yahyatoubali.me header.i=@yahyatoubali.me header.b="spzfh3Tp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=yahyatoubali.me; s=turbo-smtp; x=1785087458; h=Received:
+	Received:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
+	References:MIME-Version:Content-Transfer-Encoding:Feedback-Id;
+	bh=XFKzPGmEJ3BPxQewhHFUIelVcZFAAKsxrifnQBu0zL8=; b=spzfh3Tp7sJ0c
+	1ew/hOdWzIX6M4mA2FM5gJRj9GPM+LP1Fx2cFcm35ehiigUth6++2r8aIQTmN/C/
+	PkgFcpNi/9awMO7RW8wq5GtkarHtCEb5SpOY9At3SN/6rAksYh0v8RL9TZpyLG+Y
+	OxlMsrX1a0zcFsg3NHXkVyGQUd4a7M=
+Received: (qmail 4055498 invoked from network); 19 Jul 2026 17:37:31 -0000
+Received: from 197.145.178.94  by turbo-smtp.com with SMTP; 19 Jul 2026 17:37:30 -0000
+X-TurboSMTP-Tracking: 64-018cfb16-00001e6511786d82c002-002-4288bd4b
+From: Yahya Toubali <yahya@yahyatoubali.me>
+To: corbet@lwn.net, mpearson-lenovo@squebb.ca
+Cc: linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org, yahya@yahyatoubali.me
+Subject: [PATCH] Documentation: wmi: lenovo-wmi-other: Document intentional BIOS misspelling
+Date: Sun, 19 Jul 2026 18:37:10 +0100
+Message-ID: <20260719173710.2367930-1-yahya@yahyatoubali.me>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <87v7ab3p2p.fsf@trenco.lwn.net>
+References: <87v7ab3p2p.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87zezn3p4r.fsf@trenco.lwn.net>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+Feedback-Id: 26016534
 
-On Sun, Jul 19, 2026 at 10:44:52AM -0600, Jonathan Corbet wrote:
-> Weijie Yuan <wy@wyuan.org> writes:
-> 
-> > On Sat, Jul 18, 2026 at 04:19:08PM +0100, Yahya Toubali wrote:
-> >> Remove trailing spaces on lines 1335 and 2197.
-> >> 
-> >> Signed-off-by: Yahya Toubali <yahya@yahyatoubali.me>
-> >
-> > Hmmm, for a file that might be modified, I wonder if it makes sense to
-> > include fixed line numbers in the commit message. i.e. When the line
-> > number changes, your commit message will become meaningless.
-> >
-> > I'd love to hear others' comments.
-> 
-> Honestly, I question the value of churning the files for a couple of
-> trailing blanks in the first place.  There are *so many* ways in which
-> our documentation can be improved, and this doesn't approach any of
-> them.
+The spelling "Minumum" in the FanMinSpeed entry is intentionally kept
+as-is because it reflects the actual string returned by the system BIOS.
+Add an explanatory note to prevent future redundant spelling-fix submissions.
 
-Yeah, exactly. I even spent some time comparing letter by letter to
-figure out exactly where the changes were made, because I didn't
-initially read the commit message. ;-)
+Suggested-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Yahya Toubali <yahya@yahyatoubali.me>
 
-But I recalled Greg KH's classic email as I've checked this is Yahya's
-first contribution known on the list.
+Thanks Mark and Jon for the context.
 
-  https://lwn.net/Articles/658231/
+That makes total sense. I dropped the housekeeping typo fix for now to avoid
+unnecessary churn, and this v4 keeps the BIOS spelling but adds the explicit
+note documenting the firmware quirk as suggested.
 
-So I was like, okay, first time, let's understand and be inclusive. And
-apparently he (or any other pronouns if you prefer) was trying to figure
-out how to send his patches out correctly. (I noticed that before this,
-his first version of the patches did not even form a series.)
+---
+ Documentation/wmi/devices/lenovo-wmi-other.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-So hopefully Yahya could get familiar with the process soon and start to
-make more useful contributions as Jon expected.
+diff --git a/Documentation/wmi/devices/lenovo-wmi-other.rst b/Documentation/wmi/devices/lenovo-wmi-other.rst
+index 01d471156738..f6760f0a6260 100644
+--- a/Documentation/wmi/devices/lenovo-wmi-other.rst
++++ b/Documentation/wmi/devices/lenovo-wmi-other.rst
+@@ -90,6 +90,10 @@ WMI interface description
+ The WMI interface description can be decoded from the embedded binary MOF (bmof)
+ data using the `bmfdec <https://github.com/pali/bmfdec>`_ utility:
+ 
++.. note::
++   The misspelling of "Minumum" in the FanMinSpeed entry below is deliberate
++   and reflects the actual string embedded within the system BIOS.
++
+ ::
+ 
+   [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("LENOVO_OTHER_METHOD class"), guid("{dc2a8805-3a8c-41ba-a6f7-092e0089cd3b}")]
+-- 
+2.55.0
 
-But as for whether to accept this or not, I'm afraid I have no answers
-or suggestions. (Naturally, there is no authority either.) While
-objectively speaking, this patch is indeed rather embarrassing. It's up
-to you Jon ;-)
 
-Thanks,
-Weijie
