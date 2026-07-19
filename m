@@ -1,53 +1,52 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B182D73B5;
-	Sun, 19 Jul 2026 16:45:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B253711CBA;
+	Sun, 19 Jul 2026 16:46:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784479501; cv=none; b=eZhyPpMstf/G/n7Tez7wSxU7XeqMaqtScgLLxmFmGmr63yan/6j/jmuI6uvb+qhI3zFUDzNhbyTwr4h6yl3SGRebfhoxgSarat6guTSq6L9ADgi5wr3REa/4VNxLQ4rn34nJ2XvtN3PjGsSq37TcHKBtZbcd5LqO0Zsmu6zM3Zs=
+	t=1784479570; cv=none; b=p7EU0bnSmgNFpqQSeaxir6KIzhNAuXLmkE6yVWZVz1DGvyQw2mSXRR22xep0CZ34Dv80HpG4x13n3qFaGdT/DML0UMdeOkNpn+6w0li3bLW2LeGWacaJ47pimQVgMWDhKGyrlz1yaH/aPG5ohLNAdIUvuRyXLwim67P4crjqxFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784479501; c=relaxed/simple;
-	bh=wc50sP0AmGWbixR3GzVVok7tAs+ZYWZkMJdv27f7gws=;
+	s=arc-20240116; t=1784479570; c=relaxed/simple;
+	bh=0GrleKdYkLCOtZlvJdViPijgv9WfYFrhmgtw8u/42Nc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Zt5XdhspvtNYaVm8aVloWFMng5AHaoE7W7ZFSc62I0VVEisaP2qGSnm79pl4SniK/wM8yGjH8eCiMBx/FX9yBfuJVRVZKbW+3uQ+52yCS2CbrR9mfpzbhSp09a97bK+dbORlfjAKbHa/e3TvRFMpmGUvZPlTyypctmUMEL9DoHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ARUYvNwj; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=SftlR6tvOT1xzel/JzoU/WhFviGUJk+pWkabY8E7qNCmNueoDJHMoexqCYPxryvpE2E9aIPmV/7S7qJChwf9vgyTgiMcN5aNTeSYKcrHzdwQE7NSjYvIxZP02FC7ghJT+2roo+vPkfKZsPeglcT4wj/kQRufpWVcAML7FPVVF4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=r82y9hIe; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ARUYvNwj"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4C73140430
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="r82y9hIe"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 968A140430
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1784479493; bh=Jbnl6b3SUNwv4XwJjBQ66TGVnrSTzvNb7MNjAp2yYV0=;
+	t=1784479567; bh=6UrEboEtHbQuciKeEEnaNVeWtSLgxWDqlD/f/4AmGRk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ARUYvNwjeH4HiVE1/LZYT3S28dqyRDEQF/7igk/wAG2Y8THBJRX6yKzW9nLFJSy3r
-	 pqE8SbtRimyRijpQtNHlyr5CzLcdlb1335o5H/immzdQXDk44u1dlCws9MyybhJF0i
-	 +PDplyf/0qcgbWxXryq94DPatFP4axamnnF+vd/82FqQwoitNJB11OjJKesuh0VjVX
-	 yp0wsGzIeVxu9JIQa1XvmQzbIqARzKb+RvT8JpBEwxbstUCq2Wr/4GxO1SQ0EatpmD
-	 sSKmXrVOIvL+OdNLKqX6mcPfhLjQ/PHeCCp/wEr+Im/JyC4K7NcElRt5gQMXK5v7mC
-	 L2i4NIMatG+vQ==
+	b=r82y9hIeIZ+khgTP7H3fSmrKjHc8MGhjSnE6CAbm/8inY24jseX1/hqgyMPliFL6P
+	 Ne/Zwtrpr8huUmVEt9zlPdhOEQJHiFhykBsp4QTXw8A3VHZW9bFXIINANnzzL3j2hu
+	 1wdpCVzy6mE9Lv/79YkOXtzpAzXHi6laYkfZNJkE70KYMjHiVNtPsAE4ijYOpEDXpI
+	 6eeJVdqAjogkLcrNDGMg3TIzcRfkBf02ZqS5MqFtOSZ3P04N8FrpGD7uo6h67Y2P/J
+	 hc0X0nkNn8voXQ0MuOzf7PCCJuc3u5uyd6e7WJ4/GtlKn3VyPRXSlGRR+DobSC/Snr
+	 cypwU9EiHM4Ig==
 Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 4C73140430;
-	Sun, 19 Jul 2026 16:44:53 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 968A140430;
+	Sun, 19 Jul 2026 16:46:07 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Weijie Yuan <wy@wyuan.org>, Yahya Toubali <yahya@yahyatoubali.me>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, Michal
- =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Shuah Khan
- <skhan@linuxfoundation.org>, "open
- list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>, "open
+To: Mark Pearson <mpearson-lenovo@squebb.ca>, Yahya Toubali
+ <yahya@yahyatoubali.me>, Shuah Khan <skhan@linuxfoundation.org>, "Derek J
+ . Clark" <derekjohn.clark@gmail.com>, Armin Wolf <W_Armin@gmx.de>, "open
  list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/5] Documentation: admin-guide: fix trailing whitespace
- in cgroup-v2.rst
-In-Reply-To: <alumXzlDApA_iMbY@wyuan.org>
-References: <20260718151913.1892547-1-yahya@yahyatoubali.me>
- <20260718151913.1892547-2-yahya@yahyatoubali.me>
- <alumXzlDApA_iMbY@wyuan.org>
-Date: Sun, 19 Jul 2026 10:44:52 -0600
-Message-ID: <87zezn3p4r.fsf@trenco.lwn.net>
+ <linux-kernel@vger.kernel.org>, "platform-driver-x86@vger.kernel.org"
+ <platform-driver-x86@vger.kernel.org>
+Cc: Weijie Yuan <wy@wyuan.org>
+Subject: Re: [PATCH v3] Documentation: fix spelling typos
+In-Reply-To: <b078b8d4-a15d-410b-ae74-39d09d39762d@app.fastmail.com>
+References: <alukuB0r73qfc1PG@wyuan.org>
+ <20260718165616.1923610-1-yahya@yahyatoubali.me>
+ <b078b8d4-a15d-410b-ae74-39d09d39762d@app.fastmail.com>
+Date: Sun, 19 Jul 2026 10:46:06 -0600
+Message-ID: <87v7ab3p2p.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,23 +55,59 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Weijie Yuan <wy@wyuan.org> writes:
+"Mark Pearson" <mpearson-lenovo@squebb.ca> writes:
 
-> On Sat, Jul 18, 2026 at 04:19:08PM +0100, Yahya Toubali wrote:
->> Remove trailing spaces on lines 1335 and 2197.
->> 
+> On Sat, Jul 18, 2026, at 12:56 PM, Yahya Toubali wrote:
+>> Fix 'Minumum' -> 'Minimum' in lenovo-wmi-other.rst and
+>> 'maintainance' -> 'maintenance' in housekeeping.rst.
+>> These were flagged by checkpatch.
+>>
 >> Signed-off-by: Yahya Toubali <yahya@yahyatoubali.me>
+>> ---
+>>  Documentation/core-api/housekeeping.rst        | 2 +-
+>>  Documentation/wmi/devices/lenovo-wmi-other.rst | 2 +-
+>>  2 files changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/core-api/housekeeping.rst 
+>> b/Documentation/core-api/housekeeping.rst
+>> index ccb0a88b9cb3..71ba5d86f249 100644
+>> --- a/Documentation/core-api/housekeeping.rst
+>> +++ b/Documentation/core-api/housekeeping.rst
+>> @@ -9,7 +9,7 @@ extreme workloads can't stand, such as in some DPDK 
+>> usecases.
+>> 
+>>  The kernel work moved away by CPU isolation is commonly described as
+>>  "housekeeping" because it includes ground work that performs cleanups,
+>> -statistics maintainance and actions relying on them, memory release,
+>> +statistics maintenance and actions relying on them, memory release,
+>>  various deferrals etc...
+>> 
+>>  Sometimes housekeeping is just some unbound work (unbound workqueues,
+>> diff --git a/Documentation/wmi/devices/lenovo-wmi-other.rst 
+>> b/Documentation/wmi/devices/lenovo-wmi-other.rst
+>> index 011054d64eac..65cb78ef285a 100644
+>> --- a/Documentation/wmi/devices/lenovo-wmi-other.rst
+>> +++ b/Documentation/wmi/devices/lenovo-wmi-other.rst
+>> @@ -163,5 +163,5 @@ data using the `bmfdec 
+>> <https://github.com/pali/bmfdec>`_ utility:
+>>      [WmiDataId(1), read, Description("Mode.")] uint32 NumOfFans;
+>>      [WmiDataId(2), read, Description("Fan ID."), 
+>> WmiSizeIs("NumOfFans")] uint32 FanId[];
+>>      [WmiDataId(3), read, Description("Maximum Fan Speed."), 
+>> WmiSizeIs("NumOfFans")] uint32 FanMaxSpeed[];
+>> -    [WmiDataId(4), read, Description("Minumum Fan Speed."), 
+>> WmiSizeIs("NumOfFans")] uint32 FanMinSpeed[];
+>> +    [WmiDataId(4), read, Description("Minimum Fan Speed."), 
+>> WmiSizeIs("NumOfFans")] uint32 FanMinSpeed[];
+>>    };
 >
-> Hmmm, for a file that might be modified, I wonder if it makes sense to
-> include fixed line numbers in the commit message. i.e. When the line
-> number changes, your commit message will become meaningless.
+> The minumum fix has been proposed a few times already. It's a miss-spell that comes from the BIOS, so is deliberately wrong.
 >
-> I'd love to hear others' comments.
+> That being said - I vote we correct it so that we stop getting patches that want to fix it.
+> In the interests of not seeing it again:
 
-Honestly, I question the value of churning the files for a couple of
-trailing blanks in the first place.  There are *so many* ways in which
-our documentation can be improved, and this doesn't approach any of
-them.
+Instead, why not add a line to the file saying that the BIOS actually
+behaves that way?
 
 Thanks,
 
