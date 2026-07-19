@@ -1,146 +1,218 @@
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C2318B0F;
-	Sun, 19 Jul 2026 02:00:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24BD5472B
+	for <linux-doc@vger.kernel.org>; Sun, 19 Jul 2026 02:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784426458; cv=none; b=GlAQxbF5U8atgdB1Jerj2TTN57pPAmjhk3pTLkSIwBv+phEhyKRx8sgZPVaOaIw990sLMkIQbapaqtOutmcbQyr1JJNhNV+l3qc3wzyUK+Qz8UJtEFTayFq3Ia9LZQI0my9fGWss5TSK6T5txpaLqExnvTVPVJriMQLoexlXByY=
+	t=1784426859; cv=none; b=AZz2EfqJaGIClnszYlEt8bF2+CVKrRsD6LJ8+S7sCkwIgLsjnKcjdQBrf1ziIXkrBpwwgb5U5VBU9MODzCrZV28/UBESUb687I9vXS/b9WG3F4rD2PNdBYg4zNvTZ/nX0swdAwt4dgYv/Lhf4Mn5LOomHrkFlUc6pyT/ioEsufU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784426458; c=relaxed/simple;
-	bh=+cgMAv4pJyqbln0Y/efgT40IJmrPzO3cjpskLGagsFo=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=sXlMaEUuSsIxCRiz5+E8Kf+KAoxgEb0hfc65MIe3llbxPdP6d6XIT3kQpC24pUh/pphsFT+/kBvR6wn1K7BOmnhViixjDUXeT9juupbvFFlWMke4A1HqXti8x9RxdPxRbfKoz5exJW6yv2AXjxOHoadqFEw3tO64mNScvLpeP6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=OecwdOX9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Ie9riLAf; arc=none smtp.client-ip=202.12.124.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+	s=arc-20240116; t=1784426859; c=relaxed/simple;
+	bh=0U5P265APA9y42OE48PXJRVs+DVukO5q8VN35MNnDus=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UZmNjegjqpTaOAEGfDH1lPGbIaBslrk/u5i6fIBYoH2Gdj6ahVOcgJHWYfQ58ZtLnE3lLxIRjDnMo95MNGpn751ChppgPXevsrrZx2IeW7XN96ZFhSm6CXRQDiRtYk43Z3zoIgxLfkWWIRRsVH20Q7Y9U5zz2HFcLh2wEvtc+tQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=inbb7BZ9; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=WOXuJk3Q; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="OecwdOX9";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Ie9riLAf"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.stl.internal (Postfix) with ESMTP id EC0D81D0006B;
-	Sat, 18 Jul 2026 22:00:54 -0400 (EDT)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-02.internal (MEProxy); Sat, 18 Jul 2026 22:00:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1784426454;
-	 x=1784512854; bh=PwCc6i1bdvaCErer9U+IdqXPKfIw2O2VAvEWFgbGNJo=; b=
-	OecwdOX9UarT0sFGwTsVuYtjhjg7A/dJvv9ZZkJPkTaEFM7ALrfXVmhijtAtdmVY
-	2RR1vrJLPRQxPcOC8ltcAyLeZ0J2CGKYmrE65DTEdfwsNgGH1TaAcZTbZq728I61
-	GulgY+6U+kRSUzaSlX8C9Tk7nPy9cgNXtzWOfbG7WvfYTOdUHo/eUAJhCLyKHtvA
-	iAZl/Pjiz8Bw0aQ9wxx7e/x+4kM6Xl/SniYVssRfpPLgHBhlmMnaqTUAdYgLPqwD
-	4Mgm2HrqwIhNf1quALwPmBJ+HrbLO0GHuteMWfr+ozpxqJMoZ6LVUkDHiDIlbK4C
-	g/R1/QegoVt1NfyZAHOgEQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784426454; x=
-	1784512854; bh=PwCc6i1bdvaCErer9U+IdqXPKfIw2O2VAvEWFgbGNJo=; b=I
-	e9riLAficzcpsZR8UTxMOH8N3tr13iV7XbmNWt/6cOysPeYZeJ1KEnLZVz6sxsOR
-	G9VccuAxlSnOKkI0pRquqBbDRMX1UKc3xWoby5F+7AU2vGhnDsAYaEdDwZ0y/15x
-	k3BcxHDIuZ2j8+JfGDk8UnUzyg/TLN5A2e8Qh+WVlG5GpC9zYD6rAK1mj52qTlGM
-	p+GJZocrhWdq+m+i4et+dviouvLCLfX7BU0Nz9/VdpEY0dwB7j0wLpRzlJWE/x8z
-	mgn4K0XYewZYsYQFS1zluP8lz91oZIwxPpZytqhWe79Oj9jQN2+SolwqA2t/wTVR
-	SGFyWFAo6bqOwxJdR0Lxw==
-X-ME-Sender: <xms:1i9cajvfTFUZjZ_AR6kAcXh7gzJ_rvOFubvhx3rZaJSvRWMAH50QfQ>
-    <xme:1i9cavThPDLP6LO1IC47tiLp7WRR9ixS-GxBBPDxRgJlbn8sf3H9odXxHgb3RBrtw
-    PfVcc2PRzTYPtrIAlwubmCQSRZX7T2RWE_oH8iAgqh8hTLkQggu4cU>
-X-ME-Proxy-Cause: dmFkZTG0vqR8McJKPCl0CA1MVajPKZrNDkWDx/u/kAlZr/YgQ6lGJdXkT/PcKKrMSHRJmf
-    BnqWYLAfc1sWSOcXCk81eRJ4ImxwDygIYGewD0YrCQqhMQABpZuY4hd86eI70IGqfsVFNr
-    yI8yPQbcqLpIayl/9VkmbfybP8/2sShfV9h1BHOTYVhSc6Vevw9Kqy0qVdb+o9YSFdu1RQ
-    y204lUYzIMXAM7aUkccfp72gxyVwPqgl4RaXjBkGsWY0bKFefZQXX04VIRSPyNbozjVfj5
-    LETaW34cJGVSrhExiHes3AF7ZlH4RNELifoCBCBfq/sIW8stawhlqE2CUSw1owQ4aSZGZq
-    YNAmOPifesBetdKgV2egAbPU5O7yar7aWPIM0CmddmmLTZxpZ2j3NU5CnDRpDx+HAteWNm
-    EfYWnjKlzpzYn04xCQi6vDjoYEtvanIpjAvJBMco4P3fYGbTwBqQ561iXHGAmvemYA9NhW
-    3EU02mT+wqWxjTv9wbQRfZxtE0Ws2gYCCo40JZhrWSd/IIWbq759b/kPX0XzYgGYEfpej6
-    rPvtSPz/G8oPMeYCRim3UX1SFiJn8pAaTe0G5mao51vZzX9SZJ7DTXcRmWZYisF4BxzyYT
-    5erXpG4mvglNXyABx7gMmpDLKnaLvfrmemdM7Ts18x4n4Y9338w64cgCy6cw
-X-ME-Proxy: <xmx:1i9canvS9YnduKkJSo5kzOy_-NBQx_k2YF421s0LbToWRrZyORfu5w>
-    <xmx:1i9calAH9cP2iRF5JFkmnxPVFMqV2YsUUfZO0dZGgj4YK0YdJ5CZ-Q>
-    <xmx:1i9cavM1TCU449XgLgPZLf9PhcGgvgZ_Ls1qacc6AiktdQICjUaHzQ>
-    <xmx:1i9catBLZAChd_xq7yPI2GgrkmJHBxpeRZGacagXV6tNS5fDDxAPBw>
-    <xmx:1i9caploQAhVqZAf1BgLU_C9SuP0tymoA-0daqTV_EnupXG-dXoBEFdG>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 453062CE03C0; Sat, 18 Jul 2026 22:00:54 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="inbb7BZ9";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WOXuJk3Q"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66J22LU72310204
+	for <linux-doc@vger.kernel.org>; Sun, 19 Jul 2026 02:07:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	bij0tRK5KgUgPL1VneMcyKdlpgkQ1t1V4gnjIpr3G9s=; b=inbb7BZ94Y8yja+z
+	5N4QJkhLH4yo/P2TXNa0Hz8VPLBE/0RaFG8qa4X/0rB9RUlglayZJmrQEstzsswY
+	/b305XSVWcwVwKwwHzaMPz+9Djf27r7i95ToKjFSRphNqYrWOfQWYxUredWUn9Q+
+	Gt+K3rwXIBrt1/pYo98Nhw2kopSrIikHPCAqBTfEW0j85rYj+UzDg81oUksOv1c9
+	FtXL0J2cJsXtkF4Gncm1gny+Y6wKWnGIaQvlWYMsBcwN1mpCbIiuWUyrtBohYBEq
+	NF0YblUiPGlvR89hSLYhTQa0XaHk1oJs5N91KMUqvqOA7OpGd/iwQ/Q878pZ8ld3
+	m7fr9Q==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fgd04rvdd-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Sun, 19 Jul 2026 02:07:36 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-84885a4fcabso6654786b3a.3
+        for <linux-doc@vger.kernel.org>; Sat, 18 Jul 2026 19:07:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1784426856; x=1785031656; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bij0tRK5KgUgPL1VneMcyKdlpgkQ1t1V4gnjIpr3G9s=;
+        b=WOXuJk3QkrPHYVC3Fm+rWBwF747FBG2Qvas5v1G5iP4lPR58FfBPbHCuX4yLx8R0gp
+         wUJTHD37Eq1rFQ7qot9+DPgPxKUt2VtjR+BfOdWhc4MtGhHI1jBnU55nvfMaGuVlvIUP
+         Dt2cX8t6ZStCOwfrnN6MUmiYlRp2OJy2eA+u/koN4J1n0WSITGFFl0J+9BvCPpKHJXoR
+         WxZ9smHPnUgRcYz51oC7nUQEFs5t3Spe8OtLqoBJx1WYgPt4WSY9JhQaKm2dO6HU/kmA
+         CfrG7nr9CdaeLvX1Il1zdcjOTDklxJHsOOPGh5u/MRWUc1kvSKSVBcn8yJdOff7r0EME
+         wGhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784426856; x=1785031656;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bij0tRK5KgUgPL1VneMcyKdlpgkQ1t1V4gnjIpr3G9s=;
+        b=XwcRsgpLVasPfMQX2klriJ/DLP6ibkQU0eloSPQh42dC0gZq1thjzH5YTWx79Q4aMr
+         wIJ3Kh0t4+W66Figcr22Ph61PXuXyjRvE8J5TXcQM2sGTQRi2t9MKmyB9tnQpih387Uo
+         AGOJos+5wVyUM4M4B0xFp99A8iB457/aWA5M3jL8hjlsBqGZu4qfuVobdBwS8pDbWe0Q
+         +hUDFXf9azb8rcxl1siFSaSxlXHSyD61LRRuxrKs/weTSSr7UXN9akft4mx5Kcr+Fx0I
+         gwPwZNrXC8mPPfy5i0u2d9D5aHEyuKCEFoaJQVuLD5jyL6RFOuePWHdqoJm7H5TJObO+
+         dPbA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr7FBHKTwcaWrhXJsc3Ylm5NMXZaPs6uF+nVHgy/x++7ivrj4qZQuosLK+5XYwEWrUkyWELkdYe6UQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlCbinYnXvS5VZp1b1lA9+kgxgfh6Isov/H25I2EQURmve5R9L
+	IeP+mV8el2vosFHryDbLC4tLi86QbTZhB1+iDapltvDbpv8A1qoIqtn2u+WZPtE3FAE3ArW1yW8
+	3KAf3ffTmz4DuTDm1EMuzpmlb1YMRw9jGJV7im0CmQJB2nT5uc9j7h23+KZi/u6k=
+X-Gm-Gg: AfdE7clirUekl4afVomclNl2uSElmLQspl+AqtpJZ304BN3mNKTAAL4TLFIHuenCS6A
+	41qEAX3kwaje1+WsgMC3rftt7jUGXIlSck1zvgSSztoLlLxLDNBHDiQ9IWY6u0gHbowsX7NRQxa
+	TrAMtMqHFzswW9hT5LDNnztp4PYkU78b/P9Qtq2vEi6v6pKLlMiVujw9wtw78zuVCGynpW3AiKC
+	99xSomIPoZM3QgNx42nUVhHNU0JaJsKagGpxYimlHmfF3vYCzt/nAsso9SY9mNdqNQAv53i50xE
+	MBE3bVCUCIAEFWiaxyZsn8vJOkYcEr4r0WlXFLxBnHXElqSLEpHCsVarsdekyNitCadqyz833TY
+	FizLA32j29d/eHX3T
+X-Received: by 2002:a05:6a00:228e:b0:848:47db:a0ac with SMTP id d2e1a72fcca58-84c292ab554mr8722157b3a.27.1784426855545;
+        Sat, 18 Jul 2026 19:07:35 -0700 (PDT)
+X-Received: by 2002:a05:6a00:228e:b0:848:47db:a0ac with SMTP id d2e1a72fcca58-84c292ab554mr8722131b3a.27.1784426855066;
+        Sat, 18 Jul 2026 19:07:35 -0700 (PDT)
+Received: from jic23-huawei ([50.35.46.84])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84c30fb62fesm2946475b3a.29.2026.07.18.19.07.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Jul 2026 19:07:34 -0700 (PDT)
+Date: Sun, 19 Jul 2026 03:07:29 +0100
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich
+ <Michael.Hennerich@analog.com>,
+        "David Lechner" <dlechner@baylibre.com>,
+        Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+        Andy Shevchenko
+ <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+ <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel
+ <p.zabel@pengutronix.de>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Shuah Khan
+ <skhan@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>,
+        Marius
+ Cristea <marius.cristea@microchip.com>,
+        "Marcus Folkesson"
+ <marcus.folkesson@gmail.com>,
+        Kent Gustavsson <kent@minoris.se>, <linux-iio@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, Janani Sunil
+ <jan.sun97@gmail.com>,
+        <linux-spi@vger.kernel.org>, Kent Gustavsson
+ <nedo80@gmail.com>
+Subject: Re: [PATCH v6 2/5] dt-bindings: iio: adc: microchip,mcp3564: Add
+ spi-device-addr
+Message-ID: <20260719030717.3ec27870@jic23-huawei>
+In-Reply-To: <20260715-ad5529r-driver-v6-2-cfdf8b9f5ee3@analog.com>
+References: <20260715-ad5529r-driver-v6-0-cfdf8b9f5ee3@analog.com>
+	<20260715-ad5529r-driver-v6-2-cfdf8b9f5ee3@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: A2E4tekp3ChN
-Date: Sat, 18 Jul 2026 22:00:34 -0400
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "Yahya Toubali" <yahya@yahyatoubali.me>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
- "Derek J . Clark" <derekjohn.clark@gmail.com>, "Armin Wolf" <W_Armin@gmx.de>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- "open list" <linux-kernel@vger.kernel.org>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
-Cc: "Weijie Yuan" <wy@wyuan.org>
-Message-Id: <b078b8d4-a15d-410b-ae74-39d09d39762d@app.fastmail.com>
-In-Reply-To: <20260718165616.1923610-1-yahya@yahyatoubali.me>
-References: <alukuB0r73qfc1PG@wyuan.org>
- <20260718165616.1923610-1-yahya@yahyatoubali.me>
-Subject: Re: [PATCH v3] Documentation: fix spelling typos
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=POs/P/qC c=1 sm=1 tr=0 ts=6a5c3168 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=qC1CW/w66vtJz1P9yTJxNA==:17
+ a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=gAnH3GRIAAAA:8 a=WutwVF5OcC7bkNhAIqMA:9 a=CjuIK1q_8ugA:10
+ a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE5MDAxNyBTYWx0ZWRfXy1bY2fdKjgIf
+ VXz4OhRz6Cew6WdV70ybvwFceKhnhMBVqHX1yL2GrP65MSgepe7btQY4G0DgStGKCzSzcCSy+Qb
+ prPGB/R9KxyE3MqHTGyV7guXi4G4gxdTPUqH/0bLIK86gRSUdoRZsbuwur0PSrOSOrQJXaCmbix
+ oR+HOA4s/TBpPE9fbdF1VQZxUhs4FAubQERFG4sFoR6uAj5wTgm3ft6/biX3Y3IM8rMuk7cPj6x
+ TUY8rAv7h82Jd7tTmXUdWA/lBuC0wQSXlpJueCxfVYIAQsVo0NIzoceX76c1S0KY3P51V230cXP
+ DP26G2dq3+Q8KmLH4dN0hdQDfc9iXuUWLCb3MdxL2JDQNtotl4niBKnHpabbtSUSrpRoJZt8O+D
+ xRuxFXhmWnwTaNb/ib4CZA9wf7QU4nyc0xR+drNDZoiS/y6jiWPI3a7Ph+TL2z+jdMpQoQjBsox
+ 2MmyJZaUpst6Rka55wA==
+X-Proofpoint-ORIG-GUID: kiF2CuD1FWyDhIsw0aLHGF4FICjAMkfk
+X-Proofpoint-GUID: kiF2CuD1FWyDhIsw0aLHGF4FICjAMkfk
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE5MDAxNyBTYWx0ZWRfX/sTM/s3c0Rx2
+ uE0tfcHS9PslxwwJ+4FWg2hF0dfHivPQVcsR2lg/DSBnwQt/aWTt1ayWUX89z/6/Z5FeijZ0XKv
+ kv/gk16nr19MiuQGPJVJIIxYgK6dJTM=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-19_01,2026-07-17_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1015 suspectscore=0
+ priorityscore=1501 malwarescore=0 impostorscore=0 phishscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607190017
 
-On Sat, Jul 18, 2026, at 12:56 PM, Yahya Toubali wrote:
-> Fix 'Minumum' -> 'Minimum' in lenovo-wmi-other.rst and
-> 'maintainance' -> 'maintenance' in housekeeping.rst.
-> These were flagged by checkpatch.
->
-> Signed-off-by: Yahya Toubali <yahya@yahyatoubali.me>
+On Wed, 15 Jul 2026 13:41:05 +0200
+Janani Sunil <janani.sunil@analog.com> wrote:
+
+> Add the generic spi-device-addr property to the binding and deprecate
+> the existing vendor specific microchip,hw-device-address property.
+> 
+> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+
+Maybe I'm reading the situation wrong but I was expecting to see
+driver patches as well. Or is the now deprecated binding element
+not actually used?
+
+One other thing below.
+
+Jonathan
+
 > ---
->  Documentation/core-api/housekeeping.rst        | 2 +-
->  Documentation/wmi/devices/lenovo-wmi-other.rst | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/core-api/housekeeping.rst 
-> b/Documentation/core-api/housekeeping.rst
-> index ccb0a88b9cb3..71ba5d86f249 100644
-> --- a/Documentation/core-api/housekeeping.rst
-> +++ b/Documentation/core-api/housekeeping.rst
-> @@ -9,7 +9,7 @@ extreme workloads can't stand, such as in some DPDK 
-> usecases.
+>  Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 > 
->  The kernel work moved away by CPU isolation is commonly described as
->  "housekeeping" because it includes ground work that performs cleanups,
-> -statistics maintainance and actions relying on them, memory release,
-> +statistics maintenance and actions relying on them, memory release,
->  various deferrals etc...
+> diff --git a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
+> index 675319276197..02bb198e9fa7 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
+> @@ -80,6 +80,7 @@ properties:
+>      $ref: /schemas/types.yaml#/definitions/uint32
+>      minimum: 0
+>      maximum: 3
+> +    deprecated: true
+>      description:
+>        The address is set on a per-device basis by fuses in the factory,
+>        configured on request. If not requested, the fuses are set for 0x1.
+> @@ -91,6 +92,11 @@ properties:
+>        clocking of the device address (BITS[7:6] - top two bits of COMMAND BYTE
+>        which is first one on the wire).
+>  
+> +  spi-device-addr:
+> +    maxItems: 1
+> +    items:
+> +      enum: [0, 1, 2, 3]
+No default here, yet not required, so how do we know what the value is
+if this property isn't there?
+> +
+>    "#io-channel-cells":
+>      const: 1
+>  
+> @@ -123,7 +129,6 @@ dependencies:
+>  required:
+>    - compatible
+>    - reg
+> -  - microchip,hw-device-address
+>    - spi-max-frequency
+>  
+>  allOf:
+> @@ -159,7 +164,7 @@ examples:
+>              spi-cpha;
+>              spi-cpol;
+>              spi-max-frequency = <10000000>;
+> -            microchip,hw-device-address = <1>;
+> +            spi-device-addr = <1>;
+>  
+>              #address-cells = <1>;
+>              #size-cells = <0>;
 > 
->  Sometimes housekeeping is just some unbound work (unbound workqueues,
-> diff --git a/Documentation/wmi/devices/lenovo-wmi-other.rst 
-> b/Documentation/wmi/devices/lenovo-wmi-other.rst
-> index 011054d64eac..65cb78ef285a 100644
-> --- a/Documentation/wmi/devices/lenovo-wmi-other.rst
-> +++ b/Documentation/wmi/devices/lenovo-wmi-other.rst
-> @@ -163,5 +163,5 @@ data using the `bmfdec 
-> <https://github.com/pali/bmfdec>`_ utility:
->      [WmiDataId(1), read, Description("Mode.")] uint32 NumOfFans;
->      [WmiDataId(2), read, Description("Fan ID."), 
-> WmiSizeIs("NumOfFans")] uint32 FanId[];
->      [WmiDataId(3), read, Description("Maximum Fan Speed."), 
-> WmiSizeIs("NumOfFans")] uint32 FanMaxSpeed[];
-> -    [WmiDataId(4), read, Description("Minumum Fan Speed."), 
-> WmiSizeIs("NumOfFans")] uint32 FanMinSpeed[];
-> +    [WmiDataId(4), read, Description("Minimum Fan Speed."), 
-> WmiSizeIs("NumOfFans")] uint32 FanMinSpeed[];
->    };
 
-The minumum fix has been proposed a few times already. It's a miss-spell that comes from the BIOS, so is deliberately wrong.
-
-That being said - I vote we correct it so that we stop getting patches that want to fix it.
-In the interests of not seeing it again:
-
-Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-
-Mark
