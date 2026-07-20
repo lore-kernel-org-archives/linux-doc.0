@@ -1,228 +1,265 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702C938B7D2;
-	Mon, 20 Jul 2026 03:15:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2C639FD4
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 03:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784517338; cv=none; b=qLPr963KAYO7XTp3wjSS2NLONmPpiXBJjcXzVTYFJgrvwwWu8OGnjJg9dnvRV4dJIowGNHxYcWB9jPVsD8MBJJGRNFsDI/FWm8zaLh0HYv+uL+KSP3aJ+WAOP9aGXbKUTEZ2NjNRQOeAV5UFmdNQGHmgBka5SvwbBOWhh2p1cf4=
+	t=1784517356; cv=none; b=tRDMosEO4CFWdq/7p6GhN4CrQtMctlWgCzOJw1Rt/GaTl2uXOM7P/RqqyP5AFpJNQmWuck3RBnKsn+sdPczP5Ca0e58u2gpdVrJYAE0SPLkHoy+RrdyEENM58+Lule+Zq3yj0nnrt1pc4Gbk/kpv8llPDPtETTt8lU2s9H9S/Rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784517338; c=relaxed/simple;
-	bh=kjaX/N0J4k0Qbohi7pWb4Cr7bmClXL3maWg6hpb687s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=LZL+zpnZh/9WjGTsMqN5PuImWPF8ayYB2+9UXxCSE3YKii1eehtuUHRryyz8TVYZxt5lp4dJG3n8zeqv4dLbd8vBYiUcKyEWWQQpp+AtTulbKKiIsgMVUKEfumXrEIJG7k/3XfAVhnK/mq1ny+pL4fY8crtV+kVnYVjo8OJYEOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=CMGuRU9e; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1784517356; c=relaxed/simple;
+	bh=xJld+Kqr3E9aGmWW8fwZIGmVJLiOCEscp9QOcRU/Cuo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uKdNQdgzvZFYawQYM2pSBOeVQBWZVJKO0HybZruXl3rss1hK0wnBPsE2lYF5daIbQkrirUv9nq01C4gmgqyHHExPyg+SRsrzPM1iOA3VZ2MPyTco/Yu8toc+t09bIqxJiszA9smDB3a8bTqw1etw0pKmwksz8YmsBp5/peffqq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cyaOUQmJ; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="CMGuRU9e"
-Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66JNuXt1585674;
-	Sun, 19 Jul 2026 23:15:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=4O+b1
-	VwYUV1PO6NJvto3kojMjTuzIsGRocbBXHVeaQU=; b=CMGuRU9eF13D2wszJIFa9
-	6TQTdbPjL9/GFxJhp+Zg6UOhzIUuOeZ0lzE/7jJPSih0n83Yj4KhVPsHmDUYWyDN
-	6tY3bj7QP7lNUDtB/VoOUxlAZIFiBD5IjBVvr1pkIhMHhkSrJcIT5D7h83x68Aqd
-	kZ1xphnqkDbDWcc4y17zn6Mm912g7YBXydyrSWxMMWa6vik0apGaxy/XDwpAapd2
-	B8SmVX9jeGaEupAYQlhOFiSaIhshm8XZTdPwnCaZYerj49xOBQv267inn93+rG8J
-	tM5gLQetjMTx7ZOD6hB4oVNOzju9ATrozX7prMQgXxUZPma5W/frU1/y8IUOcZQz
-	w==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4fg3axw2jn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 19 Jul 2026 23:15:23 -0400 (EDT)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 66K3FMDE054399
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sun, 19 Jul 2026 23:15:22 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Sun, 19 Jul
- 2026 23:15:21 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Sun, 19 Jul 2026 23:15:21 -0400
-Received: from ATORRENO-L02.ad.analog.com ([10.66.6.192])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 66K3EoFW021622;
-	Sun, 19 Jul 2026 23:15:15 -0400
-From: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-Date: Mon, 20 Jul 2026 11:14:45 +0800
-Subject: [PATCH v3 4/4] hwmon: (pmbus/max20830): add support for max20830c
- and max20840c
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cyaOUQmJ"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-ca913a601fbso6522159a12.3
+        for <linux-doc@vger.kernel.org>; Sun, 19 Jul 2026 20:15:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784517354; x=1785122154; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rAn+ZjzZCIWy9NwWys+0erxDJuyw8kVHNqaC7VdPjaI=;
+        b=cyaOUQmJHnHaA1dMclmbP4VYvNYZdU2I/OPx9s39F8jirMeATMbw2bJLuUdEQht8p6
+         Psi2xOWctW3FVhd2kqhH0OTie45YNTW7P4ftEYP3gpW5eSJKkxDGxweTxQVXF+lU85IU
+         OZNG6TQv7S2EVFb2ssh+nhPOr5olXXLSKqExmRa6kiMDwgc9txXQGZYZBgRL6XwoKkCt
+         qIjvfksGY5v78gQVcL2ZYSz8zO2KhPnwfIl2uSBDSHc4dPRU1CrNoYZPquCpl+eGD1S0
+         d9EWfMcU6nXjB2Pj5w2UpA0t9ik5ytVGgPe/fU4SY8YdwpvNK3y/djP+lCTRlwkF0n5o
+         Fl+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784517354; x=1785122154;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=rAn+ZjzZCIWy9NwWys+0erxDJuyw8kVHNqaC7VdPjaI=;
+        b=eS+IK9baRMA5r5NkhPM1LjMsE3Puv8a27jfk2+xZ7B2dvkqAX7Ck4NQpku/yXWqRGX
+         VOVeUimCASvR7rMWvcNpox1jsZKjVC/OaeyX6fE7oAANUJZFwM7FJOUWlfR6BLv5LMaX
+         XB5fEQiQhA8mRnrX6uR7efWLFLZiQ+r13zYvFMe9wyqeyOLBTno6742tCCCs/loZm/8O
+         bfIHJuPzBaBLn3bXtLdeC2U7sWZrsjwIrKNUcD60367S6FRS+BtaN7h6bP9yRSlb1hJZ
+         QdmKrqdoorQ3z/qoBOdqluBbI0uk3HRV/nHxbDEt4jibJJi3KfqmeSNFtWyjE19oPG5O
+         c5ag==
+X-Forwarded-Encrypted: i=1; AHgh+Ro4TdMTuWv59gB91Ay6NMgtp2Gf/Wldd7jdf32IWyVOmGdx/dgIKL8QZPO0GrVokXhy7yCP6cR5Jew=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxuqyFTsqz1Lq5I0i4g3AqDxgWCGndqMn62jYrtO8PCEK/FiUkT
+	29BhIuGnJVHTVqu/hp9Z1vdPBhNyw1EXnp7QHjbSJ0FPYIEbpogzvLGq
+X-Gm-Gg: AfdE7clPlC/U/8GeR2wJXbOA9UCyYPCoq5hhLv3VAH/e7oazhWvDhi2CzjOYxWXKk/d
+	KaMDPG7SE1E8FLBYd8nv+uvnlzR+f5Dv6mA7AVT8RYjUkhwwhHsW+G+2dIqvZ2GMUqh9NMKVdq0
+	HaIoIco8YRs3EdRLRHRoN569rRDLpZoOojxBrjPUQgLdVRysUBJYH0XU+MAsyEL+Ag7dbSGC1mg
+	j75ZANKJEFJV8ihDEPyE8jmhvmGqxdnhJcRncFIuoU2v03fomEc4ucBiKE5ZvtBBd0m9ceRkFuO
+	zWXIH36Sfi6mjNE64AKxTaYSEwaEcHeiReKgO1khIvObdQYeYmlC2vmGWrhaRNMn1aLRIi3gPrg
+	5x8gniKcoFjKNrWr7L0UYkkZqcR3Duo2+H3+227DIKAkGQJqmzk8OTyCV4Fxy+eLCoqlLFpwGVz
+	Q/AGYbzzloHqmPOdyr75UyVS1C3HxpMjaVr50RZGaOS94oEGtHqLfrL7A=
+X-Received: by 2002:a05:6a21:7111:b0:3c0:9c19:6586 with SMTP id adf61e73a8af0-3c3ad9a2938mr13291174637.64.1784517354212;
+        Sun, 19 Jul 2026 20:15:54 -0700 (PDT)
+Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31429fdbd45sm30822694eec.12.2026.07.19.20.15.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Jul 2026 20:15:52 -0700 (PDT)
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+	Denis Benato <denis.benato@linux.dev>,
+	Zhouwang Huang <honjow311@gmail.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v13 0/4] Add MSI Claw HID Configuration Driver
+Date: Mon, 20 Jul 2026 03:15:45 +0000
+Message-ID: <20260720031549.2272658-1-derekjohn.clark@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260720-dev-max20830c-v3-4-9d06d27d6da3@analog.com>
-References: <20260720-dev-max20830c-v3-0-9d06d27d6da3@analog.com>
-In-Reply-To: <20260720-dev-max20830c-v3-0-9d06d27d6da3@analog.com>
-To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>
-CC: <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Alexis Czezar
- Torreno <alexisczezar.torreno@analog.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784517290; l=4454;
- i=alexisczezar.torreno@analog.com; s=20250213; h=from:subject:message-id;
- bh=kjaX/N0J4k0Qbohi7pWb4Cr7bmClXL3maWg6hpb687s=;
- b=O9fz88Q8aKFOA7jeYbYWr2pQd8cH86BnLZg0lQAJui5Q1m8CofY2DqzXhTxCfKEM3dlA01MEX
- n0kh38oOXfBC6fHFji5elpskY3lN7tgK1agTe9d+qqVrxVHJUmk3i3Q
-X-Developer-Key: i=alexisczezar.torreno@analog.com; a=ed25519;
- pk=XpXmJnRjnsKdDil6YpOlj9+44S+XYXVFnxvkbmaZ+10=
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIwMDAzMyBTYWx0ZWRfX1P6FbUcglEcg
- ve2/YzBw+UviMtJKqUy3gd3xLfabV7W4ql6utwxZGgCbyXlLURmGaUCwKztqssnDTeX3OOAy9oD
- LnogWisvPcNr0clFt6aVyazFT2Tm0K+iYNmgsMhpm0yxvWZrm40AT5eekW6TrUMsROhY/rH4uTT
- ubfeGm7UHGESoYww5Wqsxv9Gs0Lhkw1V5D0IJnDUyNpuE074bRFEdlEMLCTNv3F2o3tDzvK0br7
- vJ3N8niqAzEjCltwwoFoYzYwjlfGNCtDDhe8HfI962v2hOejVbwrvaOBvIB1p4vEwGadThgdVDS
- JXd8IQuc6a39Tkwh5QLvhZdhd5EgcC2nYYignNtD4SVzKR+UfuTCFqRyTefUdo4Xxe3bYWGDn7Y
- tfM7s8TmLV+jjozT0zF9sb3Z5ZfBYsoSmjd6D3pto5SeBzfoxD5ABXbFJ7kPrMZl5m5PZAadMyf
- VuvL6UTsOsFIDLBlRTQ==
-X-Authority-Analysis: v=2.4 cv=evjvCIpX c=1 sm=1 tr=0 ts=6a5d92cb cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=0sLvza09kfJOxVLZPwjg:22 a=uXIjobp8t2wMuQ0fPvqm:22 a=gAnH3GRIAAAA:8
- a=v52DSUhV1VzBc46Xrp8A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: MJ3Azoo2mojZv7tJ_xVVBN1kWd9GsQUH
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIwMDAzMyBTYWx0ZWRfX35H8/J9DaN7h
- Hqx733w7ULYaTC7TtkDv+RA78ymYYdMVZLVNSCCXp8hzY/ZRLF0D+EdPC5w4Qu+mSiAZ9cccJae
- AMg51uFpE6j3hTcNfp/57NqAmlVZlHCNwyVBkXG91Ughoo2qZL8q
-X-Proofpoint-ORIG-GUID: MJ3Azoo2mojZv7tJ_xVVBN1kWd9GsQUH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-19_08,2026-07-17_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 suspectscore=0 clxscore=1015 malwarescore=0
- adultscore=0 priorityscore=1501 bulkscore=0 spamscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607200033
+Content-Transfer-Encoding: 8bit
 
-Add support for MAX20830C and MAX20840 step-down DC-DC switching
-regulator with PMBus interface. MAX20830C is a different packaging
-for MAX20830, and MAX20840C supports 40A regulation compared to
-MAX20830 that is only 30A.
+This series adds an HID Configuration driver for the MSI Claw line of
+Handheld Gaming PC's. The MSI Claw HID interface provides multiple
+features, such as the ability to switch between xinput, dinput, and a
+desktop mode, RGB control, rumble intensity, and mapping of the rear "M"
+keys. There are additional gamepad modes that are not included in this
+driver as they appear to be used in assembly line testing or are
+incomplete in the firmware. During my testing I found them to be unstable.
 
-Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+The initial version of this driver was written by Denis Benato, which
+contained the initial reverse-engineering and implementation for the
+gamepad mode switching. This work was later expanded by Zhouwang Huang
+to include more gamepad modes and additional features. Finally, I
+refactored the entire driver, fixed multiple bugs, and refined the overall
+format to conform to kernel driver best practices and style guide.
+
+Claude was used initially by Zhouwang Huang to quickly parse HID captures
+during the reverse-engineering of some of the features. Since Claude had
+already been used, as a test of its capabilities I had it implement the
+rumble intensity attribute after I had already rewritten most of the
+driver, which I then manually edited to fix some mistakes. I also used
+Claude to review the driver and these patches for any mistakes and bugs.
+
+Assisted-by: Claude:claude-sonnet-4-6
+Co-developed-by: Denis Benato <denis.benato@linux.dev>
+Signed-off-by: Denis Benato <denis.benato@linux.dev>
+Co-developed-by: Zhouwang Huang <honjow311@gmail.com>
+Signed-off-by: Zhouwang Huang <honjow311@gmail.com>
+Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 ---
- Documentation/hwmon/max20830.rst | 27 ++++++++++++++++++++++-----
- drivers/hwmon/pmbus/max20830.c   | 27 ++++++++++++++-------------
- 2 files changed, 36 insertions(+), 18 deletions(-)
+v13:
+ - Add pm_ptr() to driver resume pointer.
+ - Refactor handling of pending acks with no timeout, avoids collisions
+   by arming a completion to wait on the next command, allowing the URB
+   to be dropped (so the ACK will fire) while forcing serial events.
+v12: https://lore.kernel.org/linux-input/20260714102640.18075-1-derekjohn.clark@gmail.com/
+  - Fix race condition with mode events. Makes claw_hw_output_report() a
+    wrapper that holds cfg_mutex and adds __claw_hw_output_report(),
+    which has the old functionality but uses lockdep_assert_held(), and
+    claw_switch_mode(), which handles cfg_mutex holding and spinlock
+    holding for all mode functions, preventing the multiple callers issue.
+  - Remove goto based cleanup in __claw_hw_output_report(), adds some
+    duplicated code but avoids anti-pattern for cleanup.
+  - Use spinlock_irqsave for raw_event-reachable locks since completion
+    context isn't guaranteed softirq-only across all HCDs.
+  - Add bool to track if the driver is waiting on a sync ack with no
+    timeout to prevent those acks from clearing timeout acks.
+  - On address mismatch, assume stale message return and keep waiting for
+    correct message.
+  - On remove, cancel the rgb_queue last to avoid a re-arming, and in
+    rgb_queue_fn check rgb_registered to avoid running after the sysfs
+    group has been removed.
+  - Add note to led_cdev.name to (hopefully) silence sashiko-bot about
+    an impossible double device collision.
+  - Explicitly check if the current address is less than the rgb_address
+    to avoid invalid overflow math.
+v11: https://lore.kernel.org/linux-input/20260529072111.7565-1-derekjohn.clark@gmail.com/#r
+  - Restore dropped changes from v10.
+v10: https://lore.kernel.org/linux-input/20260527222122.10620-1-derekjohn.clark@gmail.com/
+  - Remove additional gamepad_registered variable left over after rename
+    to gp_registered.
+v9: https://lore.kernel.org/linux-input/20260525020543.519082-1-derekjohn.clark@gmail.com/
+  - Don't use devm_* functions in cfg_setup_fn, do manual adding
+    and cleanup to prevent possible use after free.
+  - Use scoped_guard instead of guard in claw_remove.
+  - Rename gamepad_registered to gp_registered for brevity.
+  - Check for drvdata in rgb_queue_fn to avoid use after free during
+    teardown.
+  - Ensure rgb_queue work is canceled during suspend.
+  - Limit guard usage in cfg_setup_fn to avoid holding a lock during
+    registration and add group events.
+v8: https://lore.kernel.org/linux-input/20260522015518.1111290-1-derekjohn.clark@gmail.com/
+  - Use spinlock when accessing gamepad_registered.
+  - Clear state machine on all errors in claw_hw_output_report.
+  - Wrap all branches under single cmd_lock guard in claw_raw_event.
+  - Reject generic ACK in claw_raw_event if waiting_cmd is for another
+    branch.
+  - Wrap all branches under single cmd_lock guard in claw_raw_event.
+  - Reject generic ACK in claw_raw_event if waiting_cmd is for another
+    branch.
+  - Don't close hid devices that couldn't have been opened.
+  - Ensure led_classdev is unregistered if adding attribute group fails.
+  - Reorder remove actions to ensure no use-after free or rearming cleared
+    flags.
+v7: https://lore.kernel.org/linux-input/20260520013158.3633277-1-derekjohn.clark@gmail.com/
+  - Use smp_[store_release|load_acquire] pattern for checking
+    gamepad_registered and rgb_registered to avoid possible races during
+    teardown.
+  - Reorder reinit_completion in claw_hw_output_report to avoid race
+    with possible incoming ACKs.
+  - Reorder cancel_delayed_work_sync to ensure setup can't be re-armed
+    after cancel.
+  - Reset command state machine if hw_output_report has an error.
+  - Add comments to (hopefully) silence sashinko-bot warnings about the
+    use of endpoint matching and the impossible scenario of switching to
+    the alternate endpoint from userspace while the driver is bound.
+  - Don't use spinlock_irqsave when already in irq context.
+  - Add profile_lock for read/write profile_pending.
+  - Use struct for mkey reports and rumble reports, following the
+    pattern established by rgb reports previously.
+  - Add gating to cfg_setup_fn, allowing either gamepad settings or rgb
+    settings to populate if the other fails for any reason.
+  - Match on write address for rumble and mkey reports to prevent late
+    ACK from causing synchronization errors.
 
-diff --git a/Documentation/hwmon/max20830.rst b/Documentation/hwmon/max20830.rst
-index 936e409dcc5c0898dde27d782308d4a7e1357e73..b850f3b6e40d1f1d0cec944be40af02265aced59 100644
---- a/Documentation/hwmon/max20830.rst
-+++ b/Documentation/hwmon/max20830.rst
-@@ -13,6 +13,22 @@ Supported chips:
- 
-     Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/max20830.pdf
- 
-+  * Analog Devices MAX20830C
-+
-+    Prefix: 'max20830c'
-+
-+    Addresses scanned: -
-+
-+    Datasheet:
-+
-+  * Analog Devices MAX20840C
-+
-+    Prefix: 'max20840c'
-+
-+    Addresses scanned: -
-+
-+    Datasheet:
-+
- Author:
- 
-   - Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-@@ -21,12 +37,13 @@ Author:
- Description
- -----------
- 
--This driver supports hardware monitoring for Analog Devices MAX20830
--Step-Down Switching Regulator with PMBus Interface.
-+This driver supports hardware monitoring for Analog Devices MAX20830, MAX20830C
-+and MAX20840C. These are Step-Down Switching Regulator with PMBus Interface.
- 
--The MAX20830 is a 2.7V to 16V, 30A fully integrated step-down DC-DC switching
--regulator. Through the PMBus interface, the device can monitor input/output
--voltages, output current and temperature.
-+MAX20830, and MAX20830C are 2.7V to 16V, 30A fully integrated step-down DC-DC
-+switching regulators. MAX20840C is similar but can reach 40A. Through the PMBus
-+interface, these devices can monitor input/output voltages, output current and
-+temperature.
- 
- The driver is a client driver to the core PMBus driver. Please see
- Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
-diff --git a/drivers/hwmon/pmbus/max20830.c b/drivers/hwmon/pmbus/max20830.c
-index 7a5e67bd33c0a8b84511d138ac5f5f48334a0a45..73fe59685cf157cc27c1011ad9cc045486bbeab0 100644
---- a/drivers/hwmon/pmbus/max20830.c
-+++ b/drivers/hwmon/pmbus/max20830.c
-@@ -98,13 +98,12 @@ static int max20830_probe(struct i2c_client *client)
- 	 * which do not support SMBus block reads.
- 	 */
- 	if (i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_READ_BLOCK_DATA)) {
--		/* Reads 9 Data bytes from MAX20830 */
- 		ret = i2c_smbus_read_block_data(client, PMBUS_IC_DEVICE_ID, buf);
- 		if (ret < 0)
- 			return dev_err_probe(&client->dev, ret,
- 					     "Failed to read IC_DEVICE_ID\n");
- 	} else {
--		/* Reads 1 length byte + 9 Data bytes from MAX20830 */
-+		/* Reads 1 length byte + data bytes */
- 		ret = i2c_smbus_read_i2c_block_data(client, PMBUS_IC_DEVICE_ID,
- 						    MAX20830_IC_DEVICE_ID_LENGTH + 1,
- 						    buf);
-@@ -120,26 +119,28 @@ static int max20830_probe(struct i2c_client *client)
- 		ret = ret - 1;
- 	}
- 
--	/*
--	 * MAX20830 IC_DEVICE_ID sends string data "MAX20830\0".
--	 * Return value should at least be 9 bytes of data.
--	 */
-+	/* Verify we read the expected number of bytes */
- 	if (ret < MAX20830_IC_DEVICE_ID_LENGTH)
- 		return dev_err_probe(&client->dev, -ENODEV,
--				     "IC_DEVICE_ID too short: expected at least 9 bytes, got %d\n",
--				     ret);
-+				     "IC_DEVICE_ID too short: expected %d bytes, got %d\n",
-+				     MAX20830_IC_DEVICE_ID_LENGTH, ret);
-+
-+	/* Null-terminate the string */
-+	buf[ret] = '\0';
- 
--	/* 9 bytes of data, buf[0]-buf[7] = "MAX20830", buf[8] = '\0' */
--	buf[MAX20830_IC_DEVICE_ID_LENGTH - 1] = '\0';
--	if (strncmp(buf, "MAX20830", MAX20830_IC_DEVICE_ID_LENGTH - 1))
-+	/* Verify the device ID matches what we expect */
-+	if ((strcmp(buf, "MAX20830") && strcmp(buf, "MAX20830C") &&
-+	    strcmp(buf, "MAX20840C")))
- 		return dev_err_probe(&client->dev, -ENODEV,
--				     "Unsupported device: '%s'\n", buf);
-+				     "Unsupported device: '%*pE'\n", ret, buf);
- 
- 	return pmbus_do_probe(client, &data->info);
- }
- 
- static const struct i2c_device_id max20830_id[] = {
--	{"max20830"},
-+	{ "max20830" },
-+	{ "max20830c" },
-+	{ "max20840c" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, max20830_id);
+v6: https://lore.kernel.org/linux-input/20260518222935.1802071-1-derekjohn.clark@gmail.com/
+  - Add send/ack pattern to ensure synchronous acks.
+  - Use spinlock_irqsave instead of mutex for read/write MODE event
+    data.
+  - add select NEW_LEDS to kconfig.
+  - Make all timeouts 25ms to ensure at least 2 jiffies in a 100Hz
+    config.
+  - Gate all attribute show/store functions with gamepad_registered or
+    rgb_registered, enabling use of devm_device_add_group and ending
+    the need to hold a mutex during remove.
+  - Don't set gamepad_mode on resume, MCU preserves state.
+  - Ensure all count variables are checked for > 0 characters before
+    setting buf - 1 to \n.
+  - Re-arm cfg_setup in resume if it was canceled in an early suspend.
+  - Remove duplicated argv_free macro.
+  - Add spinlock_irqsave vice mutex for read/write access on attribute
+    variables.
+v5: https://lore.kernel.org/linux-input/20260517013925.3120314-1-derekjohn.clark@gmail.com/
+  - Swap disabled & combination mkeys_function enum values.
+  - Fix bug introduced in v5 where claw_buttons_store would return
+    -EINVAL on all valid key entries.
+  - Ensure mode_mutex is properly init.
+  - Ensure claw_remove is calling hid_hw_close and not hid_hw_stop for
+    all paths.
+  - Ensure adding "DISABLED" key to valid entries is done in the correct
+    patch.
+  - Re-enable sending an empty string to clear button mappings in
+    addition to setting DISABLED.
+  - Move adding the RGB device into cfg_setup to prevent led core
+    attributes from being written to prior to setup completing.
+  - Ensure frame_lock is properly init.
+  - Change variable names in RGB functions from frame and zone to f and
+    z respectively to fit all scoped_guard actions in 100 columns.
+v4: https://lore.kernel.org/linux-input/20260516042841.500299-1-derekjohn.clark@gmail.com/
+  - Add msi_suspend/claw_suspend.
+  - Reorder claw_remove to cancel all work before removing sysfs.
+  - Add mutex lock for removing sysfs attributes.
+  - Add mutex lock for MODE command data read/write.
+  - Change dev_warn to dev_dbg in claw_profile_event.
+  - use __free with DEFINE_FREE macro for argv instead of manually
+    running argv_free, cleaining up scoped_guard goto.
+  - Fix frame_calc validity check to use >=.
+  - Use spinlock instead of mutex in raw_event and related attribute
+    _store function.
+  - Ensure delayed work is canceled in suspend & canceled before sysfs
+    attribute removal.
+v3: https://lore.kernel.org/linux-input/20260515033622.2095277-1-derekjohn.clark@gmail.com/
+  - Add mutex for read/write if rgb frame data.
+  - Ensure claw_hw_output_report is properly guarded.
+  - Remove setting rgb_frame_count when reading rgb profiles as it always
+    returns garbage data.
+  - Ensure rgb_speed is getting drvdata from a valid lookup (not hdev).
+  - Use scoped_guard where necessary.
+  - Reoder claw_probe to ensure all mutex, completion, and variable
+    assignments are in place prior to setting drvdata.
+  - Ensure gamepad_mode is set to a valid enum value in claw_probe.
+v2: https://lore.kernel.org/linux-input/20260513231445.3213501-1-derekjohn.clark@gmail.com/
+  - Use mutexes to guard SYNC_TO_ROM calls and pending_profile calls.
+  - Rename driver to hid-msi and add generic entrypoints for
+    probe/resume/remove that call claw specific functions in order to
+    future proof the driver for other MSI HID interfaces.
+  - Fix various bugs and formatting issues.
+v1: https://lore.kernel.org/linux-input/20260510043510.442807-1-derekjohn.clark@gmail.com/
+
+Derek J. Clark (4):
+  HID: hid-msi: Add MSI Claw configuration driver
+  HID: hid-msi: Add M-key mapping attributes
+  HID: hid-msi: Add RGB control interface
+  HID: hid-msi: Add Rumble Intensity Attributes
+
+ MAINTAINERS           |    6 +
+ drivers/hid/Kconfig   |   13 +
+ drivers/hid/Makefile  |    1 +
+ drivers/hid/hid-ids.h |    5 +
+ drivers/hid/hid-msi.c | 2054 +++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 2079 insertions(+)
+ create mode 100644 drivers/hid/hid-msi.c
 
 -- 
-2.34.1
+2.54.0
 
