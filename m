@@ -1,143 +1,112 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9028E25228C
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 14:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F2842B311;
+	Mon, 20 Jul 2026 14:24:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784556033; cv=none; b=h3r0IL8e+NC5HATcef895GM705Oh4DPrrOP/UThhWs1WiYDoO6WEdtYUMR7NgsUWYJaap2kbBh5dwNY9A45a7TLK4Cn2M9CKwpcvlxb0xRzT5g1hI/zToNW5ULpEVbDFLzCuCX1vC2xjvHUsCRl0Ii8nDq2FqZxJ1fW31i1WZ8k=
+	t=1784557493; cv=none; b=Lo0jOvNtZq4iTYzYb6rdWmJm/B5NGWdMK1+7p8YpXkrFjpk47p8yluxMHJ9zPCf6wzEzHA0MSeSLfLSnW4MiHcs3L+fQKyd1mek51g1GAv8TLefhScuKB7b33axUdFZ7TflCHkBMiwRYYQwFuhop9Fvm2IGrdayC58QDx3jRfPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784556033; c=relaxed/simple;
-	bh=ibO8HrzFGnu/FbI+Jv85vcjMmuwSEhYP9jqINubWEak=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=l1pWsRotKFZZYzLzMtK07uNBYjpRaXOkucU99jUtYXbjxWo9JnXYktvJCZecEp33jXRCcHx33qVKbnTbqg32p/9WWkmz924fmO6vKaDpjgKEOSqip3iKi044QGbL5sg9p1/f4hv7Gt8WP54Z1C+qvGa9FirqQXGXZenI69NBTGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NN4xQ3Ez; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784557493; c=relaxed/simple;
+	bh=nJHwqodpka2gGhMWW0JBRL/YXJ6Yzeqj2mf9Le3yEYY=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=LneOMYgXgciO2h2/WB2bnOGUYSBqY98dyJvb3exYwAII4MMHkkQiEqGay7hXQp9ErgueqN4Mc/C1rIcdJXpczcfJi+UDcqEc3yUbtsv6zmyAM8D2N6n2z5ShOT+3alkL4W4jtTuhyBHtJFTr8MBHpIX598FFAjNxLbk4qBJSWis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MsSNjfz8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NN4xQ3Ez"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c166f1bbeaeso976823966b.0
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 07:00:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784556030; x=1785160830; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7XWyfB00Rok/PjZ5UHAUkTiQrGyYkPnkRtIuDzoxupg=;
-        b=NN4xQ3EzJUcEDIBjZYig4zs/xtggJJFuRxCFip4KzMpyhYCtOwL+BbH7hYqM5mKTHE
-         s7yLQzp6MzAWSL5bKPu2137t+KeLT6kwBKqMLlo+TWRpk/L7zCrrkILwJAGeZrSza1gV
-         wBelRJ9HhOaNnE6kxWgMpumc/gvwynV1VIWj7qjoJPzrohfP7/56hL/uJsiTIbkJedHo
-         ELJ4l11ffh4SVZgTfXm1Ni+0g4pKSfWMENy3drnty1eJeYgGi1aAfzHo4+i1/bg+oH8r
-         lqoxXb7Z2tFmH8BgUGjEY3lQ1k+1lZLBTX9vqzxroyjwsrVi0XOtmTP4hQ2HvKuVTW8i
-         ulhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784556030; x=1785160830;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7XWyfB00Rok/PjZ5UHAUkTiQrGyYkPnkRtIuDzoxupg=;
-        b=nqs2rF5qz+3jVeEUduZfqoXoQINrLZoSiY3S6tVgVjkAorMlsPHaJ+2GNZu5ofA6d3
-         gEqks5QIBXpIqyDe0+EonIUWSscCELzjOqXXGznr+iWfvKr9WiznFpHw+or5Y5i3V513
-         uqq1KI+kgkasZrE95Y8BngekpUo/4mR7vp0HaRcPAsHk084PCVGp2cvw/mECjdXrpMKE
-         9Y/sl9GAVgGey6VHrIgxuOZskxUCjrt+LYQVExNGBZ1IcPwxaVwvoscpfYV+yZO0Zyx3
-         TbryS7RXAqQznNz1TJ0J5sgnS/xlqKXWJbr8e/7EmDbVNsQ/j1HsA0SU67783Va1vaNg
-         kpwg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro+L+qOPmT7sPK+dDpeDI1s8G/6FvAsLVGrNOsmY6SRMDL8qOZwgFXNM0Ywv2Muot/Hx3RRrshegNQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YziRwRW1lnfcsllCLdplJ7Bb55qr1hLWBL9vEqkdXXirIPzgY8V
-	5aH1cMdYJV1VlGiq0ISjr6vT3FdkAgUxA8+s5uoIv20mInqxsZSwul3MZQBeSm3g
-X-Gm-Gg: AfdE7cknrIX0MaB8KcCyuPIfzPXNLE+6Wa8innNxCvdWa/stDLBkHDXz4vYa2mqGCFm
-	1yjmAw6NTagZmP1RUz0mzeQ6kKVOyAb9/5B3IaGOV3ID8EksUBD8hCjrkI7QB4JAT48lbectnVV
-	HOuF25De7jND3/JQ+3j0PJf7nuO3EDGha0sIW4Zpef+YMNsZc2UNJ0mOXFIQqxSKYHYkcwrv0O4
-	Aq86rSLJ9ejFcnV08iXT/zcicHeKVB6jNuVavJIJz7pXw01PJggCpBANEbU8xvUfUmR6oQ6TkOP
-	/M6k30VADI8Gte956R5pJoMhYbCEy+MCoHNhSaHougbOS99vZc5XZNPxwb8zkdclqUKOjb/ZhRu
-	oIWGE8T/3n/DpB9RjhyCJVK05dTS0yCVwCZvPxWBXWa7DTwTH8Z9u3hJtoNKAciFEGCOfG+S4cL
-	h634HM/LDofxM00bN32NTRZOgRz7ua0HJyijZs46xUoO9/PXdmh3Fx3K2rP1nbsdJdZ+N0Fug=
-X-Received: by 2002:a17:907:3e98:b0:c12:4cb8:a826 with SMTP id a640c23a62f3a-c16b457b1abmr614064366b.6.1784556029502;
-        Mon, 20 Jul 2026 07:00:29 -0700 (PDT)
-Received: from [172.24.138.145] (dynamic-176-002-111-253.176.2.pool.telefonica.de. [176.2.111.253])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c17009ae00asm464388366b.7.2026.07.20.07.00.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Jul 2026 07:00:28 -0700 (PDT)
-Message-ID: <9dd16bb5-7a30-4024-88a7-4a4bf47c35e8@gmail.com>
-Date: Mon, 20 Jul 2026 16:00:26 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MsSNjfz8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02E511F000E9;
+	Mon, 20 Jul 2026 14:24:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784557491;
+	bh=+lLIgvF7isoDrIHYELuREN+HQBBazSvKwi4llieRlTQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=MsSNjfz8CPauPsBrPPnzqyS1VH+0A9UWJqD7L1iF6tyvhzIb/jz0baKBESIVJBGAD
+	 yptYErPNFkTEiv0NdMvO6OcIg7IJ8kzHiPKuGQMRkehMENptSLMNpYMTmpBCkRuAXZ
+	 9ASr0FigbTdA1CfMWNObYA/kf94fLgIzufv+lYB0EoAGQKwtXGbEXBCn0ugYp2Nt7G
+	 kukqroRNQPge15mi5ncw1pgZeRWzNZ04jQrEQlAVNxKM5niBfG/6oLIFIJXZSEoSyI
+	 KlNCqryhTp0XO/qH+/ZRt50xw0Lo9EBzpFREwzl+X+lRolgr8XacgXrs+csUvxZvUh
+	 pwiNxH60a3Q8w==
+Date: Mon, 20 Jul 2026 23:24:42 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Borislav Petkov <bp@alien8.de>, Jinchao Wang <wangjinchao600@gmail.com>
+Cc: Dave Hansen <dave.hansen@intel.com>, Jinchao Wang
+ <wangjinchao600@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Ingo Molnar <mingo@redhat.com>, Dave Hansen
+ <dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>,
+ x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim
+ <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, David Hildenbrand
+ <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox
+ <willy@infradead.org>, Alan Stern <stern@rowland.harvard.edu>, Randy Dunlap
+ <rdunlap@infradead.org>, Alexander Potapenko <glider@google.com>, Marco
+ Elver <elver@google.com>, Mike Rapoport <rppt@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH v2 00/13] mm/kwatch: dynamic hardware watchpoints
+ for hunting memory corruption
+Message-Id: <20260720232442.3e6b0e70c6939541b8362e05@kernel.org>
+In-Reply-To: <20260717181004.GBalpv_MOaAflgFxgh@fat_crate.local>
+References: <20260717125023.1895892-1-wangjinchao600@gmail.com>
+	<91f3486b-3b85-4b43-b099-0a5325643352@intel.com>
+	<20260717181004.GBalpv_MOaAflgFxgh@fat_crate.local>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Janani Sunil <jananisunil.dev@gmail.com>
-Subject: Re: [PATCH 1/6] dt-bindings: iio: adc: Add AD7768
-To: David Lechner <dlechner@baylibre.com>,
- Janani Sunil <janani.sunil@analog.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Olivier Moysan <olivier.moysan@foss.st.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux@analog.com, linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com>
- <20260709-ad7768-driver-v1-1-44e1194fd96a@analog.com>
- <36df7c4f-82ea-4ed5-a4f9-3a29c75dc99a@baylibre.com>
-Content-Language: en-US
-In-Reply-To: <36df7c4f-82ea-4ed5-a4f9-3a29c75dc99a@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Fri, 17 Jul 2026 11:10:04 -0700
+Borislav Petkov <bp@alien8.de> wrote:
 
-On 7/9/26 17:43, David Lechner wrote:
-> On 7/9/26 3:50 AM, Janani Sunil wrote:
->> Devicetree Bindings for AD7768-4 (4 channel) and AD7768 (8 channel)
->> simultaneous sampling ADC
->>
->> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
->> ---
->>   
->>
->> +
->> +  adi,power-mode:
->> +    $ref: /schemas/types.yaml#/definitions/string
->> +    enum:
->> +      - low
->> +      - median
->> +      - fast
->> +    description:
->> +      Power mode selection.
-> Unless there are pins that control this, it seems like it should be
-> left up to the driver to decide how to set this.
->
-> In this case, it looks like the power mode also influences sample rate
-> which is normally something controlled at runtime.
+> On Fri, Jul 17, 2026 at 06:41:49AM -0700, Dave Hansen wrote:
+> > On 7/17/26 05:50, Jinchao Wang wrote:
+> > >  24 files changed, 2115 insertions(+), 63 deletions(-)
+> > Reading this, I wonder how many kernel debugging features we need. I
+> > don't even think we have a centralized list of them. They all just live
+> > in their own silos.
+> > 
+> > This one really seems like a super specialized tool. It has to be
+> > enabled at compile time and specifically aimed at a specific function.
+> > 
+> > Maybe this should live off on the side for a while. If folks end up
+> > actually needing it, they can point their friendly LLM over to its tree.
+> 
+> Right, and in my mbox right under this mail thread there's a
+> 
+> https://lore.kernel.org/all/178429796992.157981.3393977217853767915.stgit@devnote2/
+> 
+> which Masami has been blasting almost every day this week which contains two
+> of the patches from this set here...
 
-Hi David,
+Sorry about that. I tried to fix the reviewed comment from Sashiko,
+but I should wait for someone's comment.
 
-The reason we'd like to retain power mode control is that certain ODRs 
-are supported across all three power modes (low/median/fast), and the 
-RMS noise and power consumption differ significantly between them at the 
-same ODR.
+> 
+> Looks to me like folks need to sit down and agree on strategy first.
 
-The higher the power mode, the better the noise performance, but power 
-consumption nearly doubles for every ~3 dB improvement in dynamic range. 
-Silently selecting one power mode in the driver would remove a 
-meaningful hardware tradeoff from the user.
+Yeah, I need to talk with Jinchao.
 
-We'd like to propose the following instead:
-- Remove adi,power-mode from the DT as suggested.
-- Expose power mode as a per-device sysfs attribute.
-- in_voltage<N>_sampling_frequency_available dynamically reflects only 
-the ODRs valid for the currently selected power mode.
+Like kprobe, wprobe itself integrates watchpoint functionality into
+the tracing subsystem. Jinchao, I would like to ask you to redesign
+the kwatch tool based on fprobe and wprobe events in user space?
+I think that could reduce redundant efforts on the similar feature.
 
-This keeps the DT clean while still giving the user explicit control 
-over the noise versus power trade off. Would this approach be acceptable?
+Using fprobe entry and exit event trigger, we can make a Function-
+scoped watch window. Also, since fprobe and wprobe are having BTF
+typecast support, you can access to the members of data structures
+more naturally.
 
-Thanks,
-Jan
+If you are interested, I would be open to having you handle the
+development of the necessary features for wprobe.
 
+Thank you,
 
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
