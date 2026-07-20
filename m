@@ -1,64 +1,63 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0780242980C
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 19:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664B24C8FFF
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 19:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784576155; cv=none; b=ScJyhFj3xYU1R5MMlZy4oqSLOwQvKQeUUfe6a4MQbUBJr3OwFLvEXjA7hnMvUqYnpSDOqfHxZF5sSvYDKiOWGLxcVlkrm5xIeiLPlzp1KhH54mGWn4RqiZr0rjXlpM/APkVCafc9O0oaJRU+jiS6N9Dro3UTJy3bZ8Ga6uPAyGs=
+	t=1784576158; cv=none; b=TxEvkT3AueGSzgcuhy9tExSLptoDuSzcgDI1YtOR51TS6vHeasm18yZP8uHTPgjyDwgJFrt5hL/sPaBEey/X16v/CDpYKx1LC0NjOPapccHAunqh6GKSn/t2+SjLKz2TGOcgm7lb4j3+uI8gumdA4bXwzwvXPrR4Wp8Nw+h7F5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784576155; c=relaxed/simple;
-	bh=j5xH/AGqxlMnI4LwfdkAwqF7ClZEvvqOMrstQsxVkTE=;
+	s=arc-20240116; t=1784576158; c=relaxed/simple;
+	bh=d6pCHtBqoNKDq4P4c/ZFNHldTuhwFRB86ulVg/xnwxw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p1WcIueMmA/VMRAuknYNqyKMEoTp6Ehrpw+mPs3T49CWFEylkOHj/vFU6o9xyAI3c618+JhPBTPqKH0Ow+Ikznkquw3pMIqJcdcT1kwEDbmUyQkCfaA/IX6kJz0Uc2DowhIzuxqNJ5jjZpL4ECDNpAZ5F75lEZ3VG7I2YBuWlfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=pUDJmXiG; arc=none smtp.client-ip=209.85.219.51
+	 MIME-Version; b=kmJBxrkpH8Nxu3rdCVc7rZr7ugWjNo1RAo0FTRXCJHotf5GRDR9IaQOwDLOo2SJ7jVMKYKsgbryVe5jXI0Zng4QhKXh+5A2r9/y9GRt+L08EaqDM1nbFcvGW4eXYcP2jlxDG/5839UGjqkBEvCKwwRjujynM1eYZbgKTAMTCtos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=BvUhT0LH; arc=none smtp.client-ip=209.85.222.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="pUDJmXiG"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8f23e851626so113039176d6.3
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 12:35:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="BvUhT0LH"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-92ed3993c1eso439442485a.1
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 12:35:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1784576150; x=1785180950; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1784576151; x=1785180951; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=yASRzDv+z671P8+NV2oI5hgA8GSxr/9xexPSIm4ZBgI=;
-        b=pUDJmXiGcZglG+PQQgY2WTTdzCioMrSBDKFA7BaxwSbie0+oMuviMxiEMQpVipZYml
-         bjvzJVGu4fanYxduxENijj4aA90FNkrDeFDbfWVz5Eau7v9Rv7N2YIKmm+tseBk8cXhi
-         dR7l0LifhowRDeB6DahvrHELBcxWozePsqCnz+JCAC68QtAUrv9kuQe9bbs3uxsKWj5h
-         7eu+5IdVbF2gwsz22XuVUNsZLHwyZE9RnxoMdvfOsPteQ3tqoSKUxxGqwI/JZigug7lZ
-         P0jqTyFi8vrVlVd/EVeyvuz+z4iy6hP+7fLvyh9V+4vtH4ByQHd5rblmxjr0hZffAAnq
-         /ifw==
+        bh=hwwcrXiYs5LXY1nHNJcH4eGwqAhaBzqBMJWfc0nxcvk=;
+        b=BvUhT0LHNhsRPWnUMUwz2x55Y7zCk2BfbVV3gZazgMXOzoErhwvUDcD86ro9ww56Jv
+         H43WS6r7fgNWOFM0WWEGUT13UJFCXrRO2swbm6a1VYJmUh0kwTq2AKx7GZiUWXSq1lEx
+         xkfcrSmUoGeuaYkhRV81eMwXAllvf81tWtJDQb4LbvHD8wUngoMWzdlQwwenoR9+rKPe
+         rDpyN3ySUZH6a3h+0cVkN+5gBRFnYM0SY0L0MMDkevTj5PscSYmasWQLyLAPk/P2YNpW
+         ygVWqNdu6MJ+7+wmn4UrI7khRA+xPN59FKtbvOLNodbmHlYmEJdMajOZAmY+Q5Xgry8B
+         13bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784576150; x=1785180950;
+        d=1e100.net; s=20251104; t=1784576151; x=1785180951;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yASRzDv+z671P8+NV2oI5hgA8GSxr/9xexPSIm4ZBgI=;
-        b=e1fSDg3gkiY8PraRbq+A8eh7Bhy48JIM6yamYF3cP2QAznAZ9Dii4EEngOL1/Ajp7D
-         r9cqM5wnpJ+L/XWsbSXgq+4zQYW1i+Az/lMu7UkL/1XUA2K7xqyx32LvKA9xc0ntnBmJ
-         Ohy26wdg9HQxqZFGj3fy7o0oIYdTPSmWl08dEgkVpc/2DfN3S7w4mIRt/EqNMJRLwPe7
-         pSBBQE5HNuVCJRa+k1lOdWcOtOsElxMuf2bme85+MEFJd5alewLN+QXzJk43tS+mhute
-         Ep3/KEMFmK9LaT/31W+Tsvn940IQ6IR0SsK7EUtsKwD9BYY4B0QfcLrfyjPRT3en9+8X
-         SjZQ==
-X-Forwarded-Encrypted: i=1; AHgh+RreK2kG2qeDhe+6tR0C1qLmtiWC9xtdMZim7Cm6mzDHVRonqQWGtOAMjbRKuvZd3B9uWjy0wGY0gMg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSNRdZE/plprgrs0R50dG1DQKrON4c1CWWS1v15AzQUrdx/8iv
-	9DIJmXaURqCLGTTBAQmiTGNFw2xGljC7P0Iml5k6nV5LiCLE0W09PtaCLTHwaJeYHWI=
-X-Gm-Gg: AfdE7cknyHWjBqxsUrBgSe+Ss5g2YdxKMrJ1kaenlNZ0Y5EPxTiJOxQRlgEKHkHgmUY
-	xPiz20lc/ySa1MOOa3nIaZMHWa2I63rFg6gMqrrempkHFd2uUOx62mgXgf+1Dm+g/xwEqYr31aG
-	+6dOejmqs6P4MYsPHNm1gSmrfczcHGhFbPm9k2D39efeMo18ihO3P+FSGKhLaqEYXBfSXT8Vh0k
-	1I6IZfKcq43h6hn7OmDpxqmhcPMPPJWHWLYfTSkZ9Oo6pkGEo8H/qUMwD1pKjxPJrqhQf08qrDZ
-	86J4APc4hYzqx/FSdr6qYqU/0BJryF3OMslpb5V0ZwkpTnsEleYKaRaH0ukIV3jv2b3zrT0Hzpc
-	0GCHDSLdm9RYA2CBVCJgsNMGdcP9iV4GmM3Yw0yRxY8o2J6Lm5oucyiwf3+QCdSjMytzxentWez
-	wz4bTAu7RDd2+YbdlSOiSwMRz/8EA+4yW+y9/JONEECoLXRYJLhwGt7d6m+5aoMObX39fHhzRWh
-	Q==
-X-Received: by 2002:a05:620a:711a:b0:92e:c118:18e3 with SMTP id af79cd13be357-930b437fd89mr1528072985a.90.1784576148847;
-        Mon, 20 Jul 2026 12:35:48 -0700 (PDT)
+        bh=hwwcrXiYs5LXY1nHNJcH4eGwqAhaBzqBMJWfc0nxcvk=;
+        b=P6Iu0SCDyOI5dzkDTC6liyhZ2F3QbUdZNhu7h87l81g3cuECZXlj3slL46g1b09xcj
+         Sr8TD3WsUev+qpcQ9HitWkrtt+aJZlo1ZX8lKbceXjidYnM4uFW1COfnvkWNhaRor4Id
+         ZZegUW4WKeHcY+puLhi/ydyNWBNN/37wXzDhPYX3ZBAwEeJPoibac6IiZQbwz01WH8sX
+         sm5ON2peYNYCOg2ydPkQ88+rLRehAmcxBmNGsrOVbYla7d+GBGvy3JdV3Xwm6Wvh8cjd
+         w8Nmj21fSbIf35FdPelAuhgPHBtdxh39bWR0rf87Wjnyrb8xDXistugRLoGjQ11HaGtU
+         poLg==
+X-Forwarded-Encrypted: i=1; AHgh+RoVsQ2me9IXCS2nKqeocIC9m87UWaxZ/aJ5yRSlCWLDhvOE0JRXwEjy/YAHWfzkDt+XwbH3Y4md/fI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJkyqAv075rLa8k8prbir5zTvdWLPZQPe7N80K6HtTnYzkVAu7
+	xRhItGxGabxQznZy20Zv/AaQ+N/if0Ea0aUL1OY+beqiTFq3Eo/ta/W1CL+jTzpp8N4=
+X-Gm-Gg: AfdE7cmmdeRlUtV1DmfJ3iJm4QbRUSi1aH1slRrpQoKUXu+u/BjictgvtQ65z+m8AOd
+	Rw8wCVGc18q583f4mIhUcs4Pnkwkyt+lrV5pDw7XR5qdOoM3vR3jC8AyxbT9Zl6xPXRBa0kCisr
+	flaYIU7qfbcZI//18YxCLliEH6WI24LcrmaIBvc+SLH+DVr/TU2tldN3K6oKj3DZcdrDViYXI+e
+	WHHsM/8Vj9vLRAiOyQFUxkYCxBkESluhlxu1uRRNf7xLYWL4j45CIZ7omCCUHCWcTWSINPccHyN
+	21Y4A3pJ1Ck8HYMJPrHfk70aPrl37cscZUYZ5UlCcgzt4SIUn0FURrNT2oKHmTFoxmznpuhcx2+
+	hRnGN67oCTdw3iV28yXxj3/Lmo7asBo/K/1c7cyFNrUHlLB7wQ/E+yp6UYCUZbzD3p6SeW9fCD8
+	Ao/Hm7YU/vwXI+D7IO3oapV1lKOFA8tUGBOCpiz0ZBjDTsRURj6F9tefxAqUYMNUg=
+X-Received: by 2002:a05:620a:370e:b0:930:9a84:d90b with SMTP id af79cd13be357-930b416db01mr1583254785a.50.1784576151483;
+        Mon, 20 Jul 2026 12:35:51 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b545e47bsm957792285a.35.2026.07.20.12.35.47
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b545e47bsm957792285a.35.2026.07.20.12.35.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 12:35:48 -0700 (PDT)
+        Mon, 20 Jul 2026 12:35:51 -0700 (PDT)
 From: Gregory Price <gourry@gourry.net>
 To: linux-mm@kvack.org
 Cc: Zhigang.Luo@amd.com,
@@ -138,9 +137,9 @@ Cc: Zhigang.Luo@amd.com,
 	damon@lists.linux.dev,
 	linux-kselftest@vger.kernel.org,
 	kernel-team@meta.com
-Subject: [PATCH v5 27/36] mm: add NODE_PRIVATE_CAP_USER_NUMA for userland numa controls
-Date: Mon, 20 Jul 2026 15:34:21 -0400
-Message-ID: <20260720193431.3841992-28-gourry@gourry.net>
+Subject: [PATCH v5 28/36] mm: add NODE_PRIVATE_CAP_HOTUNPLUG for opted-in private nodes
+Date: Mon, 20 Jul 2026 15:34:22 -0400
+Message-ID: <20260720193431.3841992-29-gourry@gourry.net>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260720193431.3841992-1-gourry@gourry.net>
 References: <20260720193431.3841992-1-gourry@gourry.net>
@@ -152,90 +151,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Provide a mechanism to opt private nodes into userland numa management.
+Add CAP_HOTUNPLUG, which allows memory_hotplug to migrate a private
+node's folios for the purpose of hotunplugging memory.
 
-Add node_allows_user_numa() to encapsulate whether a node supports
-userland NUMA controls (always true for normal nodes).
+Without this, hotunplug fails if any folio on the node is allocated.
 
-Placement - setting mempolicy via:
-  - mbind()
-  - set_mempolicy()
-  - set_mempolicy_home_node()
-
-  For mempolicy, enforcement lives in one place: mpol_set_nodemask()
-
-  Private nodes are not N_MEMORY, so they are trimmed from a nodemask
-  like a cpuset-trimmed node.  All-private nodemasks without a valid
-  node collapse to empty and the mempolicy fails.
-
-  home_node is not special-cased - it is only a preferred-nid hint, and
-  placement is governed by the bind nodemask, so a home node pointed at
-  an invalid node simply falls back via the normal fallback zonelists.
-
-  (All the same behavior as a node/mask not intersecting cpuset.mems).
-
-Migration - relocation of pages to/from a private node:
-  - mbind(MPOL_MF_MOVE)
-  - move_pages()
-  - migrate_pages()
-
-  mbind(MPOL_MF_MOVE) is a migration, so mempolicy and migration share
-  a single opt-in control.
-
-  The migration interfaces all check node eligibility and use
-  ALLOC_ZONELIST_PRIVATE to allow eligible migration requests to
-  move a folio to a private node..
-
-  alloc_migration_target() carries mtc->zlsel into the allocator
-  via __folio_alloc_zonelist().
+Add node_allows_hotunplug() - which returns true for any normal node
+and private nodes with CAP_HOTUNPLUG.
 
 Signed-off-by: Gregory Price <gourry@gourry.net>
 ---
- include/linux/node_private.h | 33 +++++++++++++++++++++++++++++++++
- mm/internal.h                |  1 +
- mm/mempolicy.c               | 27 ++++++++++++++++++++-------
- mm/migrate.c                 | 19 ++++++++++++++-----
- 4 files changed, 68 insertions(+), 12 deletions(-)
+ include/linux/node_private.h | 26 ++++++++++++++++++++++++++
+ mm/memory_hotplug.c          |  4 ++--
+ 2 files changed, 28 insertions(+), 2 deletions(-)
 
 diff --git a/include/linux/node_private.h b/include/linux/node_private.h
-index f7cbae1309904..655fe9ec5cb61 100644
+index 655fe9ec5cb61..7b617b1fa9c28 100644
 --- a/include/linux/node_private.h
 +++ b/include/linux/node_private.h
-@@ -13,6 +13,7 @@ struct page;
-  * to let specific services operate on its node.
+@@ -14,6 +14,7 @@ struct page;
   */
  #define NODE_PRIVATE_CAP_RECLAIM	(1UL << 0)	/* allow mm reclaim */
-+#define NODE_PRIVATE_CAP_USER_NUMA	(1UL << 1)	/* allow mempolicy */
+ #define NODE_PRIVATE_CAP_USER_NUMA	(1UL << 1)	/* allow mempolicy */
++#define NODE_PRIVATE_CAP_HOTUNPLUG	(1UL << 2)	/* allow hot-unplug */
  
  /**
   * struct node_private - Per-node container for N_MEMORY_PRIVATE nodes
-@@ -69,6 +70,33 @@ static inline bool node_allows_reclaim(int nid)
+@@ -97,6 +98,26 @@ static inline bool node_allows_user_numa(int nid)
  	return ret;
  }
  
 +/**
-+ * node_allows_user_numa - may userspace place or migrate memory here?
++ * node_allows_hotunplug - may hot-unplug migrate this node's folios?
 + * @nid: the node to test
 + *
-+ * Gate all userspace-directed memory operations on a private node.
-+ *   - mbind()/set_mempolicy()
-+ *   - move_pages()/migrate_pages()
-+ *
-+ * return: true for N_MEMORY and N_MEMORY_PRIVATE with CAP_USER_NUMA.
-+ *         false for memoryless or opted-out private node.
++ * True for normal nodes and private nodes opted into CAP_HOTUNPLUG.
 + */
-+static inline bool node_allows_user_numa(int nid)
++static inline bool node_allows_hotunplug(int nid)
 +{
 +	struct node_private *np;
 +	bool ret;
 +
-+	if (node_state(nid, N_MEMORY))
-+		return true;
 +	if (!node_state(nid, N_MEMORY_PRIVATE))
-+		return false;
++		return true;
 +	rcu_read_lock();
 +	np = rcu_dereference(NODE_DATA(nid)->node_private);
-+	ret = np && (np->caps & NODE_PRIVATE_CAP_USER_NUMA);
++	ret = np && (np->caps & NODE_PRIVATE_CAP_HOTUNPLUG);
 +	rcu_read_unlock();
 +	return ret;
 +}
@@ -243,11 +204,11 @@ index f7cbae1309904..655fe9ec5cb61 100644
  #else /* !CONFIG_NUMA */
  
  static inline bool folio_is_private_node(struct folio *folio)
-@@ -91,6 +119,11 @@ static inline bool node_allows_reclaim(int nid)
+@@ -124,6 +145,11 @@ static inline bool node_allows_user_numa(int nid)
  	return true;
  }
  
-+static inline bool node_allows_user_numa(int nid)
++static inline bool node_allows_hotunplug(int nid)
 +{
 +	return true;
 +}
@@ -255,173 +216,21 @@ index f7cbae1309904..655fe9ec5cb61 100644
  #endif /* CONFIG_NUMA */
  
  #if defined(CONFIG_NUMA) && defined(CONFIG_MEMORY_HOTPLUG)
-diff --git a/mm/internal.h b/mm/internal.h
-index 8329034ae561f..62e68acae08a3 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -1250,6 +1250,7 @@ struct migration_target_control {
- 	nodemask_t *nmask;
- 	gfp_t gfp_mask;
- 	enum migrate_reason reason;
-+	unsigned int alloc_flags;
- };
- 
- /*
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index a3ffb09897489..fe42a510590a2 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -434,13 +434,14 @@ static int mpol_set_nodemask(struct mempolicy *pol,
- 
- 	/*
- 	 * Private nodes are not in cpuset.mems, so they're always stripped.
--	 * Driver-allocated policies will already have MPOL_F_PRIVATE set,
--	 * if that's the case, add back in the requested set of private nodes.
-+	 * Driver-allocated policies (MPOL_F_PRIVATE) and CAP_USER_NUMA private
-+	 * nodes should be added back into the nodemask.
- 	 */
- 	for_each_node_mask(nid, *nodes) {
- 		if (!node_is_private(nid))
- 			continue;
--		if (pol->flags & MPOL_F_PRIVATE)
-+		if ((pol->flags & MPOL_F_PRIVATE) ||
-+		    node_allows_user_numa(nid))
- 			node_set(nid, nsc->mask2);
- 	}
- 
-@@ -696,7 +697,7 @@ static void queue_folios_pmd(pmd_t *pmd, struct mm_walk *walk)
- 	}
- 	if (!queue_folio_required(folio, qp))
- 		return;
--	if (folio_is_private_node(folio))
-+	if (!node_allows_user_numa(folio_nid(folio)))
- 		return;
- 	if (!(qp->flags & (MPOL_MF_MOVE | MPOL_MF_MOVE_ALL)) ||
- 	    !vma_migratable(walk->vma) ||
-@@ -752,7 +753,8 @@ static int queue_folios_pte_range(pmd_t *pmd, unsigned long addr,
- 			continue;
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index 1f42ed303366c..e9573f90e0dcd 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -1943,8 +1943,8 @@ static int do_migrate_range(unsigned long start_pfn, unsigned long end_pfn)
+ 			goto put_folio;
  		}
- 		folio = vm_normal_folio(vma, addr, ptent);
--		if (!folio || folio_is_private_managed(folio))
-+		if (!folio || folio_is_zone_device(folio) ||
-+		    !node_allows_user_numa(folio_nid(folio)))
- 			continue;
- 		if (folio_test_large(folio) && max_nr != 1)
- 			nr = folio_pte_batch(folio, pte, ptent, max_nr);
-@@ -827,7 +829,7 @@ static int queue_folios_hugetlb(pte_t *pte, unsigned long hmask,
- 	folio = pfn_folio(pte_pfn(ptep));
- 	if (!queue_folio_required(folio, qp))
- 		goto unlock;
--	if (folio_is_private_node(folio))
-+	if (!node_allows_user_numa(folio_nid(folio)))
- 		goto unlock;
- 	if (!(flags & (MPOL_MF_MOVE | MPOL_MF_MOVE_ALL)) ||
- 	    !vma_migratable(walk->vma)) {
-@@ -1412,6 +1414,8 @@ static long migrate_to_node(struct mm_struct *mm, int source, int dest,
- 		.nid = dest,
- 		.gfp_mask = GFP_HIGHUSER_MOVABLE | __GFP_THISNODE,
- 		.reason = MR_SYSCALL,
-+		.alloc_flags = node_is_private(dest) ?
-+			 ALLOC_ZONELIST_PRIVATE : ALLOC_DEFAULT,
- 	};
  
- 	nodes_clear(nmask);
-@@ -1985,9 +1989,10 @@ static int kernel_migrate_pages(pid_t pid, unsigned long maxnode,
- 	struct mm_struct *mm = NULL;
- 	struct task_struct *task;
- 	nodemask_t task_nodes;
--	int err;
-+	nodemask_t priv_ok;
- 	nodemask_t *old;
- 	nodemask_t *new;
-+	int err, nid;
- 	NODEMASK_SCRATCH(scratch);
- 
- 	if (!scratch)
-@@ -2027,7 +2032,14 @@ static int kernel_migrate_pages(pid_t pid, unsigned long maxnode,
- 	}
- 	rcu_read_unlock();
- 
-+	/* Private nodes are stripped by cpuset checks. Allow eligible ones. */
-+	nodes_clear(priv_ok);
-+	for_each_node_mask(nid, *new)
-+		if (node_is_private(nid) && node_allows_user_numa(nid))
-+			node_set(nid, priv_ok);
-+
- 	task_nodes = cpuset_mems_allowed(task);
-+	nodes_or(task_nodes, task_nodes, priv_ok);
- 	/* Is the user allowed to access the target nodes? */
- 	if (!nodes_subset(*new, task_nodes) && !capable(CAP_SYS_NICE)) {
- 		err = -EPERM;
-@@ -2035,6 +2047,7 @@ static int kernel_migrate_pages(pid_t pid, unsigned long maxnode,
- 	}
- 
- 	task_nodes = cpuset_mems_allowed(current);
-+	nodes_or(task_nodes, task_nodes, priv_ok);
- 	if (!nodes_and(*new, *new, task_nodes))
- 		goto out_put;
- 
-diff --git a/mm/migrate.c b/mm/migrate.c
-index d20674c07b947..b548d79352a38 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -2231,7 +2231,8 @@ struct folio *alloc_migration_target(struct folio *src, unsigned long private)
- 	if (is_highmem_idx(zidx) || zidx == ZONE_MOVABLE)
- 		gfp_mask |= __GFP_HIGHMEM;
- 
--	return __folio_alloc(gfp_mask, order, nid, mtc->nmask, ALLOC_DEFAULT);
-+	return __folio_alloc(gfp_mask, order, nid, mtc->nmask,
-+			     mtc->alloc_flags);
- }
- 
- #ifdef CONFIG_NUMA_MIGRATION
-@@ -2253,6 +2254,8 @@ static int do_move_pages_to_node(struct list_head *pagelist, int node)
- 		.nid = node,
- 		.gfp_mask = GFP_HIGHUSER_MOVABLE | __GFP_THISNODE,
- 		.reason = MR_SYSCALL,
-+		.alloc_flags = node_is_private(node) ?
-+			 ALLOC_ZONELIST_PRIVATE : ALLOC_DEFAULT,
- 	};
- 
- 	err = migrate_pages(pagelist, alloc_migration_target, NULL,
-@@ -2268,7 +2271,8 @@ static int __add_folio_for_migration(struct folio *folio, int node,
- 	if (is_zero_folio(folio) || is_huge_zero_folio(folio))
- 		return -EFAULT;
- 
--	if (folio_is_private_managed(folio))
-+	if (folio_is_zone_device(folio) ||
-+	    !node_allows_user_numa(folio_nid(folio)))
- 		return -ENOENT;
- 
- 	if (folio_nid(folio) == node)
-@@ -2392,11 +2396,14 @@ static int do_pages_move(struct mm_struct *mm, nodemask_t task_nodes,
- 		err = -ENODEV;
- 		if (node < 0 || node >= MAX_NUMNODES)
- 			goto out_flush;
--		if (!node_state(node, N_MEMORY))
-+
-+		if (!node_allows_user_numa(node))
- 			goto out_flush;
- 
- 		err = -EACCES;
--		if (!node_isset(node, task_nodes))
-+		/* Private nodes are not partitioned by cpuset.mem */
-+		if (!node_is_private(node) &&
-+		    !node_isset(node, task_nodes))
- 			goto out_flush;
- 
- 		if (current_node == NUMA_NO_NODE) {
-@@ -2477,7 +2484,9 @@ static void do_pages_stat_array(struct mm_struct *mm, unsigned long nr_pages,
- 		if (folio) {
- 			if (is_zero_folio(folio) || is_huge_zero_folio(folio))
- 				err = -EFAULT;
--			else if (folio_is_private_managed(folio))
-+			else if (folio_is_zone_device(folio) ||
-+				 (folio_is_private_node(folio) &&
-+				  !node_allows_user_numa(folio_nid(folio))))
- 				err = -ENOENT;
- 			else
- 				err = folio_nid(folio);
+-		/* Private node folios cannot migrate, fail outright */
+-		if (folio_is_private_node(folio)) {
++		/* Fail outright on private nodes w/o hotunplug support */
++		if (!node_allows_hotunplug(folio_nid(folio))) {
+ 			pr_info_ratelimited("memory offline refused: node %d pfn %lx\n",
+ 					    folio_nid(folio), pfn);
+ 			folio_put(folio);
 -- 
 2.53.0-Meta
 
