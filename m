@@ -1,144 +1,121 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+Received: from mail-wm2-f10.google.com (mail-wm2-f10.google.com [74.125.225.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222D2432BEB
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 15:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85CB433BAC
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 15:07:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784559753; cv=none; b=uuuiJGHeNWDPnnjTaIIDLXdU0HvbeE0q2IN5ZnZUJghwag78qMd1/3S+ce4uBghRWcmBrlRj7qj9fnz5hfq21bD57OqhiRm28hZbUv5cZxitKiKxa5/eXt7/tOeyEGvyBLrwPHYdmvrYuHwQLY370R6VRvuPiFMsC4UoarSyI2Y=
+	t=1784560066; cv=none; b=FLXt/CcpZO0cBEhiiJbY2uzYAyyDmC1TQD2CDKu1Vy8vRyAlYt5xoxv1+oCN5j7aniZeOas0/ureekJCitPODPvK8NZnoJB6vQexdoin68XUakhglSMM+AsWbPg0lBcWBWtH3qDFo74NNmkpClWI7LvDSLyAysqCcjLhGj+TBHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784559753; c=relaxed/simple;
-	bh=Tq16sg4xa8nWWXzuYioMyhtg6n7YUHfctiTiYuI6iLk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SQxTJMTQSNpN08RPGyOmOIR4ADJ7vYnvgi4qnnjtcVlCrbubAYLp5IEb9xlW+U5UPW264GedJwtg1pUXIPGYPzi/DB/z6UH8SaP0rWJDEjn2u5l2CB7dmfIKTBHADRAydmWFbQb/6Q5DI4JB0VLnjwWoGeErECIJrGk8oQKXhGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D4RJMZHk; arc=none smtp.client-ip=209.85.167.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784560066; c=relaxed/simple;
+	bh=kZekYJjdgA9jTrzaGEtUfryy0E1YgJzlFnQXBMIRaKc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AUcbA40wpHqkOc/TbuMGfqEgI9wmfEjTLFYzB/cwdzEyuxhRgt/gkwqDxLKTs+nC8uDroJjFl8EY3oJlhj+uhbn+VjId0Y1joQJPtIq906GJ0n4M3XDQX/MxMdFYAd/wPUnyBmisihix1nGseFpjLAnp04+cPwo5QbUnzIWhMr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Nq46wl7g; arc=none smtp.client-ip=74.125.225.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D4RJMZHk"
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-4896ae35be9so4177401b6e.0
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 08:02:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Nq46wl7g"
+Received: by mail-wm2-f10.google.com with SMTP id 5b1f17b1804b1-495501e57beso6864505e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 08:07:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784559751; x=1785164551; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JcXGf7/frUgo9pt1iwmRdB5om1Q2CFstWLKuaK2u478=;
-        b=D4RJMZHkb4Jki1BTHSmtXiNe/WboPqgSUui63YhsMNSzkLRgg/BO8VNOfXX99bekWO
-         kj7INzv0eOx6kldy7x7DJ7VDp4h+N09oJd9KovEXi5T1Yke0v4lIH3urQHzUFcbmk8LD
-         XDAOkQXTFHz2Nm9zG9K0TkG1w33VnDmVQyxthVXTVcORhWjxNSLuKNXiLqIew+uWlJEZ
-         ITY9Cfl33uhOmo2bSN3QBG6KLnBZFqphMiZS/JzcZQawTVVXhmVahFy05KY6YAJE3sxx
-         IyKmy2dR86BNJUHkH7bJKY4zo1tVedqaZNGWAgAVBCzV5ZkcSl75p5667A4Ytt5YDDR9
-         QcEQ==
+        d=suse.com; s=google; t=1784560063; x=1785164863; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kZekYJjdgA9jTrzaGEtUfryy0E1YgJzlFnQXBMIRaKc=;
+        b=Nq46wl7gxlR152+ZG41X3BSQ0vuIxUtf8Y08Yo8zunhwOLIlMma879FXWFJn5PLcRR
+         555sM50uVPLk5ZknHfz4KTc1aIrrbzY3f5MuxUHFFGZpHQLhAwTZqU508wEFPLpjZXAD
+         MiJPbXs2orBAJpiCAZSKM08t3sPBTTuZmn/BkGPWUNSM0dnF+rhHdHnfAxSprSlLzoM7
+         95MUkD9xlykP4wrNzpxJ+zEI5gur21dkt3qdjNWJIdtEY8iyUXKiJF8uCtqfq9YdhBAH
+         nJRFz+2Zv6LCOpxk+gGspY55H/i/J46UcIg3Pga2z68xGhIYUqrlfB5s8VtIQWOnmZuB
+         Zszg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784559751; x=1785164551;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JcXGf7/frUgo9pt1iwmRdB5om1Q2CFstWLKuaK2u478=;
-        b=CdsC3M7iX4j62baih3kQX2pDevVQ1j5+Fw5/1qxjUhzm0kIq5Bv3m5QdEAjo+VZhhX
-         BUC/jXgYOPwA+4mnXakTDm2qGN0VvPtS7xu5Kw2YXjA4Sv2xqhJiYeZ/jyXbmqizgaBG
-         LdQsALbT4RGVUo/kNapQg+mLoklyUFHzThpaNxHF7Jiu7OO1RLUBLALwuRwIy8FSkzKj
-         HDP3gYOQI7o1NGPC7bQKpAhXz2iwEYRnVvDPFpkyKtrxvEGHfcXVPOqmFFdCINGErQoA
-         DURtuxgvYR2FPrG+6xsxRb/fsQB+GkRSeV+FH41eHZnJwxcr79MYGgUN8g3VhqQF+SEm
-         0hDQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpITmnWlrdSz4xfJ1eDyFQb+3A6vsDIpfMBW4E0tgK+ZWMA2TiQ9y13SfC0gTDDm8SwV1FjsbYGBt0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAX+zfobOBrK1EE7wsrV4g+J2P/crlD9tXtvwBg49jflTeN5Kf
-	1/uxjeGhY0M2yjti6JTPEtX72BAB5Deg7BTIbZ6wl1x5N1b7iQb9STSa
-X-Gm-Gg: AfdE7cnA59sBUI+ya0qlv8ha5EqFId5T7oicpD8C02a9VsAqlAeDR3tsBtRRzaaZyj4
-	VCaYolhwLISkmDPntM0BJq83kQ+Q7DbSmM2xQSyp4R9qZxHPr2gJV1D8cVS8MuqPs9KiJgTIi4K
-	eO/K3R9JtRzqNBqMQKUciPjbVPlWaHvwbGCCFSRPyiSKRCrBayegfXp8u0shwKep/ZOFWZjHXr9
-	1jBMjvsD4N9RNoeT4phnxUjzUGdQnXeCG2O3rjscCxvcYttNw9s7wSYVipmz/xGd/rbbolJLv9n
-	4Hy10LV0NydGnd6T9UqKhxZdxZjyTsXXLwXpi3lKwfdezmzYWnI7pmghirmBA6GaKXnDySIGIH/
-	aSxs37aJbgTd6GiQ6UDdEc4cq9YbPnkfA8oim+12XExIGIKhFj9QQVAEb3qjCamFzuIUAsN/80W
-	bfE/6wa0F/+f1/6CPNlremC1l06qkjFHnX
-X-Received: by 2002:a05:6808:2227:b0:495:db8f:ded8 with SMTP id 5614622812f47-4a4d0346c90mr9145232b6e.9.1784559750787;
-        Mon, 20 Jul 2026 08:02:30 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:46::])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4a4d3aa81b4sm7518774b6e.5.2026.07.20.08.02.28
+        d=1e100.net; s=20251104; t=1784560063; x=1785164863;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kZekYJjdgA9jTrzaGEtUfryy0E1YgJzlFnQXBMIRaKc=;
+        b=jqN4NBbtROUoR6CGscWG/qVYVLFwZvETXKmAFsrKakdaalx6cQBbcZCAlDl78rWCuv
+         V10tQQutP8lmGY9eEYsI6W8wbljK57daQOuKT+2U+01IV+uKukd0kSk/gqCd7c43j90Z
+         fvBy/6SXJxlaL/qXj4WAbrhoEe30Mfk07sekwCRd4qzAj1OGlvQT/F1CIpgWT3rNBzNX
+         KiaxgJUOPEdOiBVs90zuC5mDq/LO7xiVWMqz8hCh/hfp+vXJjmOPbKF1SsVbd2CwZLQT
+         cDLkU9tW2CQZ6+PthyZzpAtZT4kvNkb+f8k/fEwPJ8jgYsVc4Byvc05vxLBxQu7MxU7F
+         asHg==
+X-Forwarded-Encrypted: i=1; AHgh+RrMxQB4VhQXQiN8IFFkrgGPt2TuSfber3kaA0u1DgdutRhLVtvcefSTMApMNtMUzWc3PxoNnhRqf/s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxy4F5dcP/qPlSnfH0v2kWBJl6F0c5qbxLvsOkRzncHxHScXcpK
+	YNFqdtvxaeVkwDtAn7Q45zXMcWAohh/+39l3iSI5BQ+HuV17gFp9Ri/8nO+Nn8gP2mk=
+X-Gm-Gg: AfdE7cmURkpBarcQh8RN1eHBtVEvu13vaPNBZpRGpC0mjaScQ6pqIvMUR+TQtsEACdI
+	AiHD+gAAJHyyDf1N19/5EdS6hc8xoki9M9Pe8bl1SUuVlL0WdgVTNMHMPboxFgOjFkdq1/ZlmOi
+	7EriZk+qNEXnotGfe3HdIXAxawbCILCO3vHtARdHCHFemtNMUsZ3zv5TG9+tLIWu4F0WdsIXsTg
+	FaaWIcE09wufauYxDK3OMrPoCDKTwo7speQMpYUQUumAIzUpLAqmtDOSig4zOq/I7Y+l+gfrHCF
+	W83ZTI1i2EIM4NxY/lPAmuJ1Zj7xOhA1ewdO40SbK36qtk81o0B2oLxFeoBcyxcIP4hvtKDRy+r
+	KP3KcU6PGHZqpgEQoQdMBBSm0oDLhJNmUtMIxphUsq6w3Pc/AOy5mJzwICTGbZiRQOcYMfScAoZ
+	8UfqpNHw==
+X-Received: by 2002:a05:600c:1986:b0:495:64a8:c35c with SMTP id 5b1f17b1804b1-49564a8c364mr5779205e9.24.1784560059737;
+        Mon, 20 Jul 2026 08:07:39 -0700 (PDT)
+Received: from localhost.localdomain ([2001:af0:8000:1409:193:86:92:181])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2aa698sm264192565e9.4.2026.07.20.08.07.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 08:02:28 -0700 (PDT)
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-To: Tao Cui <cui.tao@linux.dev>
-Cc: cgroups@vger.kernel.org,
-	Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	cuitao@kylinos.cn
-Subject: Re: [PATCH] cgroup/cpu: document cpu.stat nice_usec and core_sched.force_idle_usec
-Date: Mon, 20 Jul 2026 08:02:26 -0700
-Message-ID: <20260720150226.926730-1-joshua.hahnjy@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260718080100.2334415-1-cui.tao@linux.dev>
-References: 
+        Mon, 20 Jul 2026 08:07:39 -0700 (PDT)
+Date: Mon, 20 Jul 2026 17:07:37 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Joshua Hahn <joshua.hahnjy@gmail.com>
+Cc: Tao Cui <cui.tao@linux.dev>, cgroups@vger.kernel.org, 
+	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, cuitao@kylinos.cn
+Subject: Re: [PATCH] cgroup/cpu: document cpu.stat nice_usec and
+ core_sched.force_idle_usec
+Message-ID: <al45RUAYKgGt5IYS@localhost.localdomain>
+References: <20260718080100.2334415-1-cui.tao@linux.dev>
+ <20260720150226.926730-1-joshua.hahnjy@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6epftcfwmdm62r3v"
+Content-Disposition: inline
+In-Reply-To: <20260720150226.926730-1-joshua.hahnjy@gmail.com>
 
-> From: Tao Cui <cuitao@kylinos.cn>
-> 
-> cgroup_base_stat_cputime_show() unconditionally prints a fourth base
-> stat, nice_usec, in addition to usage_usec/user_usec/system_usec, and
-> also prints core_sched.force_idle_usec when CONFIG_SCHED_CORE is enabled.
-> Neither field is currently described in the cpu.stat section of
-> cgroup-v2.rst, which still states it "always reports the following three
-> stats".
-> 
-> nice_usec was added by commit aefa398d93d5 ("cgroup/rstat: Tracking
-> cgroup-level niced CPU time") and core_sched.force_idle_usec by commit
-> 1fcf54deb767 ("sched/core: add forced idle accounting for cgroups"); the
-> documentation was not updated in either case.
-> 
-> Update the cpu.stat description to list both fields and fix the count.
-> 
-> Signed-off-by: Tao Cui <cuitao@kylinos.cn>
 
-Hello Tao, thank you for the patch! I should have updated this when
-I added the nice stats. Thank you for finding this and updating it.
+--6epftcfwmdm62r3v
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] cgroup/cpu: document cpu.stat nice_usec and
+ core_sched.force_idle_usec
+MIME-Version: 1.0
 
-> ---
->  Documentation/admin-guide/cgroup-v2.rst | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 0df15a672cf3..778b759dd892 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -1144,12 +1144,18 @@ will be referred to. All time durations are in microseconds.
->  	A read-only flat-keyed file.
->  	This file exists whether the controller is enabled or not.
->  
-> -	It always reports the following three stats, which account for all the
-> +	It always reports the following four stats, which account for all the
->  	processes in the cgroup (including those in descendant cgroups):
+On Mon, Jul 20, 2026 at 08:02:26AM -0700, Joshua Hahn <joshua.hahnjy@gmail.=
+com> wrote:
+> I have to ask, which tree is this based on? I can't seem to find a single
+> tree that contains the "(including those in descendant cgroups)" section
+> anywhere.=20
 
-I have to ask, which tree is this based on? I can't seem to find a single
-tree that contains the "(including those in descendant cgroups)" section
-anywhere. 
+It is most likely linux-next which contains a nearby modification from
+[1] (or it was based on that regardless).
 
->  	- usage_usec
->  	- user_usec
->  	- system_usec
-> +	- nice_usec
-> +
-> +	When core scheduling (CONFIG_SCHED_CORE) is enabled, an additional
-> +	stat is reported:
-> +
-> +	- core_sched.force_idle_usec
->  
->  	and the following five when the controller is enabled, which account for
->  	only the processes under the fair-class scheduler:
-> -- 
-> 2.43.0
+HTH,
+Michal
 
-Otherwise, the change looks good. I just wanted to know what it was based
-on, in case I'm missing something. Thanks, have a great day!
-Joshua
+[1] https://lore.kernel.org/lkml/20260629060636.200118-1-sunshaojie@kylinos=
+=2Ecn/
+
+--6epftcfwmdm62r3v
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCal45tRsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+AjM6gD9Fm0pi8Et/bcFqnkqiw4H
+49e+XSsvzEjwawApGizXmPIBAJkcQKWuepD6r2fr/W5aFr5Y6UcGdVKXnZjLgnh+
+XH0N
+=qiy3
+-----END PGP SIGNATURE-----
+
+--6epftcfwmdm62r3v--
