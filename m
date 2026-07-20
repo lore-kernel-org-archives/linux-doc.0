@@ -1,128 +1,138 @@
-Received: from mail-wm2-f2.google.com (mail-wm2-f2.google.com [74.125.225.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E37B420E75
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 13:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0381B424679
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 13:22:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784553394; cv=none; b=j4Rub4MvR0tIhKPC9vUOBHxZPiy0rnurnLgUKH9txdGEh2ka0Rsbh4TsnF8E75BEsXxBtD+UPn3cbWwj/kr4exk7f1ifa4cBqsx+/hANEZX9oy5Z3oW8gjbozDMR78S7ZHE9IbiaJAYIiYtzAiBFNP16ULq3+TntH16TR23UgVY=
+	t=1784553734; cv=none; b=fgWahUsoEnaqIMdi/W0ROYaQ2axxbM3JWgIZk4NSdYFxO2Opoh4ATSc7UVvpZF1lKS99/cEmVWkf/A4FKExybiPrb8ZInze8MEwRj5CWye4iEWRUTSxCQQgtT2lwHf4hQyPblm7PaNeUevkygxBC5zqOS5+WKoMxCll5kqJOJMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784553394; c=relaxed/simple;
-	bh=vax+aFL0WSjB4okz2i0tD/egGJ5gksI/+/yOw6Xy4rk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oz/F45xkxX+4y/d/WkaaN8nvh4ewMHrPIZp6+3ONS++lDJuja/5WvDUdRujmOUBj8XFJNkvemhcRPT2Wl46EExGDUvpSA8MEENWJw9i77YJzEW2+O8nv60s5VOOHg5H9swU6zLYOlGUJKXf0v072c6jap5Q1h8h2rp+MD6Nw7Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=MIlc38GD; arc=none smtp.client-ip=74.125.225.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1784553734; c=relaxed/simple;
+	bh=yche3ppa4pUDYlcuwbbwlPu7poTfxVtiqgbyTMwmvOI=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=XZM/fPzAGGnabVB9O1TEktE5ldj/OEii/qQvZiUD3v9Ou/mLf+s33/Sgnoasoy0Hz2fI/FlYy1hEZ5QaXGZov45DHBX0CuqKEZ/1qohTUryT5B5u1Hyy4kdEuvoNx6JjQxuenzb40+sebf6K66XvS8KRTJT3idRV9+Bs4JwHbls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g1RpniOi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="MIlc38GD"
-Received: by mail-wm2-f2.google.com with SMTP id 5b1f17b1804b1-493b9643ab5so19597925e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 06:16:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1784553391; x=1785158191; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vax+aFL0WSjB4okz2i0tD/egGJ5gksI/+/yOw6Xy4rk=;
-        b=MIlc38GDy7Z7bOsk5sgyBd8P5hGX51du7hIkpzk4RgHJc864dqgo6hgYqSEjSJQdNH
-         un9dJgEUvtFSEti3ctJxKJZZNXY/fQpzOsSQqcS2ZJv4OfByyQ52vTJU6XQODj8YbjoC
-         Qq3nFCCuxhSRgrUwTDF4o7F4i9i1YbNnZ1NkEH51LB6mTxm+T9RiN84R1ZEGlWxIUAfk
-         xN2xhAvCDfxvzC5FGyRLdZkAgIHFkkeucq7fGCrLzRSJQgaiIJHCS6k3RdSVQaNjWisg
-         95IIVvyn9zNuvTRay7lCCPIaOjxcVVPff47w6lvXqodeC4V7IWOMV7c7dBNve3VltgGB
-         ZWwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784553391; x=1785158191;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vax+aFL0WSjB4okz2i0tD/egGJ5gksI/+/yOw6Xy4rk=;
-        b=qH6H65WiTmUtOTbXbTGbB4y1xvzfrRLBNQMaGZuQGyQcDp+sAMyZMrju4KZZU6FauF
-         SIpqCmvnNL6oVYRsusXoFa7FnFvWqWGjep3rnx+gwWnWrCWS3bfWHU/59C5W6E2SJ1Vw
-         ipPsDK7f6hsC6tw8bKlbQmS7I2QfgCot1P1DAKTMlB1ybUs5/S9mpX1YVXn2KEpT6dlO
-         1lW4Wbw5pn9dY9OHUX4R/bUdLEGXkNqsYj7uabIN51JeG+f7WYjv2mKNBGpz/8lt+gyv
-         ZSsQSJ7URcRuZD2CEgeTI0+S+w6m/eh9Oi96/xrcGN2fhzeDUwPRSb3KKfVt1X9uFl3J
-         EwZw==
-X-Forwarded-Encrypted: i=1; AHgh+RoiaEw2lfU9K5aDek0O6lW7uB/El1GOTUtvkqAxw65QZgzxocL9/eL6wshm9BZaPpfnIEJkgkhdjGI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJpvOz2e6ryKljRlUoZh8KeFU1MeWXPsFG6ALTNDyR2n9dTHpr
-	L2kYCK+/I7y+ND9IZfL1zbzIzj3yBX1Y6uHGuC+1IOubkofnrinFVOJI9UrUMZl1BBs=
-X-Gm-Gg: AfdE7cnL7wbLWmYEMLttt9fxC2pMe8HjwJ7SyiswqBlrSf5gaiEMrZJ4Ucl/tnIvB3P
-	HBCdJio4zfBqhLkeb7zyPuIDvgbzjJNCyxBZG7KPSEZBQ+13A36jCBNiyOgzybXqI7/E8MaTe5R
-	ZrRPObcMfFtuLG8qgCEMn0tkO3GoMW6+jfqclbkR0KigbVxFOYi9CfLWAnmwV3kt16whQupVPtI
-	DAcGE23YBMhfe3ums6f4VVmGJgFCEjOSk17pdo4oFvBlXSu7wqIaqoNZiB5y+6vbLwCe3Ocd6OH
-	Fw6pNt9qEySpKgmC3IRTy55hjlTbTD93EgTBrM8pQBeXi8t4y5pz3qBlt8rszPn8E7kiOBdseSp
-	valSAVW5XdZm9ES2pltXg/SSeGrrmm+TppmtbjeUB80BtF34Aeqpg7qhq9c6UPbEgi8RCkbHImo
-	rjM2MAEw==
-X-Received: by 2002:a05:600c:3ba5:b0:495:4b42:8677 with SMTP id 5b1f17b1804b1-4954b42873emr163787355e9.18.1784553390578;
-        Mon, 20 Jul 2026 06:16:30 -0700 (PDT)
-Received: from localhost.localdomain ([2001:af0:8000:1409:193:86:92:181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49564011868sm11989295e9.3.2026.07.20.06.16.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 06:16:30 -0700 (PDT)
-Date: Mon, 20 Jul 2026 15:16:28 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Shaojie Sun <sunshaojie@kylinos.cn>
-Cc: tj@kernel.org, cgroups@vger.kernel.org, corbet@lwn.net, 
-	cui.tao@linux.dev, hannes@cmpxchg.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-Subject: Re: PING [PATCH v3] cgroup/cpu: document cpu.stat.local and clarify
- cpu.stat behavior
-Message-ID: <al4fAmim8rdPCKlB@localhost.localdomain>
-References: <20260629060636.200118-1-sunshaojie@kylinos.cn>
- <20260720100941.230825-1-sunshaojie@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g1RpniOi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CB7C1F000E9;
+	Mon, 20 Jul 2026 13:22:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784553732;
+	bh=kbAR87gObYj06eRbvrp7FEuuEMmLYmXEI/kdpCLyIBg=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=g1RpniOi1YY3ZDhf7IYPY4ecPmUg3IWhfDdcys2+cJWKkCkObmMYIxg3TS/pX15Kf
+	 goCMC2N5tuKbTBrvCHw0H2wyJ8iqc1uwRQ7bNF3sxbV3t7Xtej+6tuyf4Iefq+7+HT
+	 0HKQW0FbHpvE25M0xBE8fJZOhb0AbV24T+FXJA0IEqyqIZQyWnz7+46i8+++dXpFTs
+	 00EX4I8XDcs3dTOwQelQFcdmODR76Y+ejQ1dOg+/llkdyj9O/FaNxGu02Cwwte+K06
+	 vRKpRoHW0LSAPqFEM5ZC6ChQglDeIBX7tBYIJBNThyOiTlaYkEQIn/Q7Aqj1V526Q3
+	 puHE495kJDmQg==
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 825EBF40072;
+	Mon, 20 Jul 2026 09:22:11 -0400 (EDT)
+Received: from phl-imap-05 ([10.202.2.95])
+  by phl-compute-01.internal (MEProxy); Mon, 20 Jul 2026 09:22:11 -0400
+X-ME-Sender: <xms:AyFeatJGsi_yrB86WVxH6uxXeWqlpSa3rUHuf0tC64cwjtxd0iyMGg>
+    <xme:AyFeaj-nr7tKNHNrdR_eVUW0QDBXA71XdqGEgq9tIRLdZVG-L8uwK772DYrazw2Mo
+    R9kZZN-8Q8wbR9CgyE0fhbTlQeXi6tDfrMwWCjCmkaqSJYlGmeGKMez>
+X-ME-Proxy-Cause: dmFkZTEoX8KU91uxhYGA/5jN8vcn2m5yb4/OXt/3mAOjLEEMQqFoEa2hDDnxDXHRG4DXkB
+    2idfMHpDWuyaQX6YpZA/2lESAiKg6bkyV6uPlfEu6B1sH414Ib3b4GVKWAjLnN4K1RRTfO
+    3nlMgiKqgMnh8XjWVAebvkgSVQEbYAtvkTdIIiqRF2Ga7m5yGvUaBvQU52vbxWxA+CsS2E
+    sajEL2xZfaP/50aYLhvcHhLP2olQqTHfWbRQLJrHA2Hk9yvu3obO6+GJURH+7mN8M0Iw66
+    CLGVvr7b74PkvW5Z+avKZZqskthyeEgt5QInLHyp2BFpJt9gU3Zu3CNkqys5RXWfHONHbw
+    9Ev1kRVme+xaT4wYtMR+2FjtPxk218dFKiKLiVnoxuKTGzwAAYBpsfa0rZh7aGugP4oVDo
+    Amj5Cxb3FZGPymBm4UR0VkFxBc2+3tXJGTs51BdEbQQy8ClgJoDCRbny0/JkEJDr3mOBOt
+    9ofXlaQ1VlG27vASIV5kndLNK5zr4kD3qAvQ/zhLiAVgHanEU4yY7oU1nh1ItRu4fcXlcO
+    NhFSQGLcGGB9jZ48m24ib+SA9yoewrpHxm/G9DlJEiqUR+oL2dlNwhOGtB3oUhF1y/Rj6d
+    gA33fCLGvfXmZflRnMhM0yU7MjMe+4k54ss9VEu7SHG/57v27mMbfyaEmEjg
+X-ME-Proxy: <xmx:AyFeaugdArhsMvqWHfuiVqCLc14pJXU_dRPx2FBatgjrrx-TyTxjxQ>
+    <xmx:AyFeaj4Dd34CtK7_LykLhWdMjUo8gb2un9dlut8O6i9PLJobs975bQ>
+    <xmx:AyFeaupdCrr88b5roR6x3PNAcpiPOVxNuuV0T-rT2pSLdTdbeS-cKg>
+    <xmx:AyFeaoiHheIJPRhzqUt0sFh2b476wTR9B3eNlwlLJnRjdLR5WcpRmA>
+    <xmx:AyFeauvLElU-xWdirbAaBtpJSB_2tzLAXbMhoVu9oCgTm5t7oO1PHgPx>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 4F9CB1820086; Mon, 20 Jul 2026 09:22:11 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ybx5ijmegvcly32d"
-Content-Disposition: inline
-In-Reply-To: <20260720100941.230825-1-sunshaojie@kylinos.cn>
+Date: Mon, 20 Jul 2026 15:21:50 +0200
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Koki Iwata" <iwata.koki@fujitsu.com>, "Jonathan Corbet" <corbet@lwn.net>
+Cc: "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Matthew Garrett" <matthew.garrett@nebula.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Borislav Petkov" <bp@alien8.de>, "Randy Dunlap" <rdunlap@infradead.org>,
+ "Thomas Gleixner" <tglx@kernel.org>,
+ "Feng Tang" <feng.tang@linux.alibaba.com>,
+ "Dapeng Mi" <dapeng1.mi@linux.intel.com>, "Marco Elver" <elver@google.com>,
+ "Jakub Kicinski" <kuba@kernel.org>, "Eric Biggers" <ebiggers@kernel.org>,
+ lirongqing <lirongqing@baidu.com>, "Paul E . McKenney" <paulmck@kernel.org>,
+ "Matt Fleming" <mfleming@cloudflare.com>, linux-doc@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-Id: <ba44c9ad-6cff-4e7e-bcb7-c46196db25e2@app.fastmail.com>
+In-Reply-To: <20260710062306.1204206-1-iwata.koki@fujitsu.com>
+References: <20260710062306.1204206-1-iwata.koki@fujitsu.com>
+Subject: Re: [PATCH RESEND] Documentation: admin-guide: fix a doc for
+ efi_no_storage_paranoia the "5KB" instead of the "50%"
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
 
---ybx5ijmegvcly32d
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: PING [PATCH v3] cgroup/cpu: document cpu.stat.local and clarify
- cpu.stat behavior
-MIME-Version: 1.0
 
-Hi.
+On Fri, 10 Jul 2026, at 08:22, Koki Iwata wrote:
+> From: Iwata Koki <iwata.koki@fujitsu.com>
+>
+> The documentation for 'efi_no_storage_paranoia' incorrectly states
+> the kernel cannot use "more than 50%" of the EFI variable storage.
+>
+> This percentage-based explanation has been outdated since commit
+> f8b8404337de ("Modify UEFI anti-bricking code") introduced a fixed 5KB
+> minimum reserve threshold (EFI_MIN_RESERVE) in
+> arch/x86/platform/efi/quirks.c. At that time, the documentation was not
+> updated to reflect this change.
+>
+> Update the documentation to reflect the "5KB" instead of the "50%".
+>
+> Fixes: f8b8404337de ("Modify UEFI anti-bricking code")
+> Signed-off-by: Koki Iwata <iwata.koki@fujitsu.com>
 
-On Mon, Jul 20, 2026 at 06:09:41PM +0800, Shaojie Sun <sunshaojie@kylinos.c=
-n> wrote:
-> Just a gentle ping on this documentation patch. It received an
-> Acked-by from Michal about three weeks ago. Any chance this could be
-> picked up for the next merge window, or is there anything else needed
-> from my side?
->=20
-> The commit in linux-next is: 171569f8ee6724a4113a0100fea6ff83d9b70c6a
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
 
-That's how linux-next works [1]:
 
-| The linux-next tree is, by design, a snapshot of what the mainline is
-| expected to look like after the next merge window closes.
-
-So that patch is currently heading for-7.3.
-
-HTH,
-Michal
-
-[1] https://www.kernel.org/doc/html/latest/process/2.Process.html#next-trees
-
---ybx5ijmegvcly32d
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCal4fpxsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+Ag+OQEA7QVOo55uPncb1q3RxLA6
-eZ0HKmyB8oJPcD/lvV3W6k8BAOZtkzovQVeFXHW5v1X+aKubte1+Wyok4BcrQUdH
-M70G
-=Rl3J
------END PGP SIGNATURE-----
-
---ybx5ijmegvcly32d--
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt 
+> b/Documentation/admin-guide/kernel-parameters.txt
+> index b5493a7f8f22..3f75969a679b 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1614,10 +1614,17 @@ Kernel parameters
+>  			on all PCI bridges while in the EFI boot stub
+> 
+>  	efi_no_storage_paranoia [EFI,X86,EARLY]
+> -			Using this parameter you can use more than 50% of
+> -			your efi variable storage. Use this parameter only if
+> -			you are really sure that your UEFI does sane gc and
+> -			fulfills the spec otherwise your board may brick.
+> +			The kernel reserves 5KB of EFI variable storage for
+> +			safety, because some UEFI implementation may fail to
+> +			boot if there's insufficient space in the EFI variable
+> +			storage.
+> +
+> +			Using this parameter, you can use the 5KB reservation
+> +			in the EFI variable storage.
+> +
+> +			However, Use this parameter only if you are really
+> +			sure that your UEFI does sane gc and fulfills the spec
+> +			otherwise your board may brick.
+> 
+>  	efivar_ssdt=	[EFI; X86] Name of an EFI variable that contains an SSDT
+>  			that is to be dynamically loaded by Linux. If there are
+> -- 
+> 2.52.0
