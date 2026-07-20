@@ -1,117 +1,128 @@
-Received: from smtp-190b.mail.infomaniak.ch (smtp-190b.mail.infomaniak.ch [185.125.25.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f2.google.com (mail-wm2-f2.google.com [74.125.225.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F8041DE0E
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 12:59:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E37B420E75
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 13:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784552394; cv=none; b=Pz8oTu1JhvYgn/gXpQHiSzqB+Aaqm40s1+ytoE6bWp3Ca8rMveBD0Vf36jEvlmJnJ0QZVnxJourwIXoVNQP04BiR1BETtxQUWJx/kLjcbpYSQp61vsZdnLzvfYJSfcwdZlB0d8DjfqRvXtIwPMjhQ11bW923aQuNEfItfyOaR34=
+	t=1784553394; cv=none; b=j4Rub4MvR0tIhKPC9vUOBHxZPiy0rnurnLgUKH9txdGEh2ka0Rsbh4TsnF8E75BEsXxBtD+UPn3cbWwj/kr4exk7f1ifa4cBqsx+/hANEZX9oy5Z3oW8gjbozDMR78S7ZHE9IbiaJAYIiYtzAiBFNP16ULq3+TntH16TR23UgVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784552394; c=relaxed/simple;
-	bh=yoczCrZLH3m6/Piugp4sSlD0UbvSuhUnAIOk+aELQJI=;
+	s=arc-20240116; t=1784553394; c=relaxed/simple;
+	bh=vax+aFL0WSjB4okz2i0tD/egGJ5gksI/+/yOw6Xy4rk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XNLnLqW8ZgpZSfFwfhXF9prDg6WHazUt9mIulobx3slpbvxnRZWNHuGOl8eW9AGxlhCRVF5fE8b8YmdCi4tHUG336fZMpcl8ShwAtzsjJtcRwGfPMpl1UfcS6v6sIU0jbAT9zhs5eZbLtHp0eLk0TG/JDolCS3N69mUEiUtBVkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=QJl1Mhuh; arc=none smtp.client-ip=185.125.25.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oz/F45xkxX+4y/d/WkaaN8nvh4ewMHrPIZp6+3ONS++lDJuja/5WvDUdRujmOUBj8XFJNkvemhcRPT2Wl46EExGDUvpSA8MEENWJw9i77YJzEW2+O8nv60s5VOOHg5H9swU6zLYOlGUJKXf0v072c6jap5Q1h8h2rp+MD6Nw7Vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=MIlc38GD; arc=none smtp.client-ip=74.125.225.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="QJl1Mhuh"
-Received: from smtp-4-0001.mail.infomaniak.ch (smtp-4-0001.mail.infomaniak.ch [10.7.10.108])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4h3gb52rCLz1G5;
-	Mon, 20 Jul 2026 14:59:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1784552385;
-	bh=Nz5gOh3J4r65petlwUyj+D42IUdV73zSCFDjsTRAO3M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QJl1MhuhRt4M4pmWO8GyS/npYUnZ8hgvtyl0LUZp7Z44s44tU3QMMTzOivCfUaIVj
-	 yoFeGjQD+CYCk8MmwJqt45DHmbUw9+nXIFsn5QvvAL24CjmFS0db68yABLvNvY8eTw
-	 hANMfxAnnkCoXv+d5XmMHuRxmaWaaHOSw8fyXrNc=
-Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4h3gb129xdz2Wk;
-	Mon, 20 Jul 2026 14:59:41 +0200 (CEST)
-Date: Mon, 20 Jul 2026 14:59:37 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Jann Horn <jannh@google.com>
-Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
-	Bryam Vargas <hexlabsecurity@proton.me>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, 
-	Justin Suess <utilityemal77@gmail.com>, Konstantin Meskhidze <konstantin.meskhidze@huawei.com>, 
-	Leon Romanovsky <leon@kernel.org>, Matthieu Buffet <matthieu@buffet.re>, 
-	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
-	Paul Moore <paul@paul-moore.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Tingmao Wang <m@maowtm.org>, Ubisectech Sirius <bugreport@ubisectech.com>, 
-	Willy Tarreau <w@1wt.eu>, Yuxian Mao <maoyuxian@cqsoftware.com.cn>, 
-	kernel-team@cloudflare.com, landlock@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	Kees Cook <kees@kernel.org>
-Subject: Re: [PATCH v1] landlock: Document the threat model
-Message-ID: <20260720.veefeidoh5Ee@digikod.net>
-References: <20260707210336.2060040-1-mic@digikod.net>
- <CAG48ez3ywK8FZ-TZFzp1GwiW6Wb+DeO3OFt3Ys4QAeGTS0jv6g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="MIlc38GD"
+Received: by mail-wm2-f2.google.com with SMTP id 5b1f17b1804b1-493b9643ab5so19597925e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 06:16:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1784553391; x=1785158191; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=vax+aFL0WSjB4okz2i0tD/egGJ5gksI/+/yOw6Xy4rk=;
+        b=MIlc38GDy7Z7bOsk5sgyBd8P5hGX51du7hIkpzk4RgHJc864dqgo6hgYqSEjSJQdNH
+         un9dJgEUvtFSEti3ctJxKJZZNXY/fQpzOsSQqcS2ZJv4OfByyQ52vTJU6XQODj8YbjoC
+         Qq3nFCCuxhSRgrUwTDF4o7F4i9i1YbNnZ1NkEH51LB6mTxm+T9RiN84R1ZEGlWxIUAfk
+         xN2xhAvCDfxvzC5FGyRLdZkAgIHFkkeucq7fGCrLzRSJQgaiIJHCS6k3RdSVQaNjWisg
+         95IIVvyn9zNuvTRay7lCCPIaOjxcVVPff47w6lvXqodeC4V7IWOMV7c7dBNve3VltgGB
+         ZWwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784553391; x=1785158191;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vax+aFL0WSjB4okz2i0tD/egGJ5gksI/+/yOw6Xy4rk=;
+        b=qH6H65WiTmUtOTbXbTGbB4y1xvzfrRLBNQMaGZuQGyQcDp+sAMyZMrju4KZZU6FauF
+         SIpqCmvnNL6oVYRsusXoFa7FnFvWqWGjep3rnx+gwWnWrCWS3bfWHU/59C5W6E2SJ1Vw
+         ipPsDK7f6hsC6tw8bKlbQmS7I2QfgCot1P1DAKTMlB1ybUs5/S9mpX1YVXn2KEpT6dlO
+         1lW4Wbw5pn9dY9OHUX4R/bUdLEGXkNqsYj7uabIN51JeG+f7WYjv2mKNBGpz/8lt+gyv
+         ZSsQSJ7URcRuZD2CEgeTI0+S+w6m/eh9Oi96/xrcGN2fhzeDUwPRSb3KKfVt1X9uFl3J
+         EwZw==
+X-Forwarded-Encrypted: i=1; AHgh+RoiaEw2lfU9K5aDek0O6lW7uB/El1GOTUtvkqAxw65QZgzxocL9/eL6wshm9BZaPpfnIEJkgkhdjGI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJpvOz2e6ryKljRlUoZh8KeFU1MeWXPsFG6ALTNDyR2n9dTHpr
+	L2kYCK+/I7y+ND9IZfL1zbzIzj3yBX1Y6uHGuC+1IOubkofnrinFVOJI9UrUMZl1BBs=
+X-Gm-Gg: AfdE7cnL7wbLWmYEMLttt9fxC2pMe8HjwJ7SyiswqBlrSf5gaiEMrZJ4Ucl/tnIvB3P
+	HBCdJio4zfBqhLkeb7zyPuIDvgbzjJNCyxBZG7KPSEZBQ+13A36jCBNiyOgzybXqI7/E8MaTe5R
+	ZrRPObcMfFtuLG8qgCEMn0tkO3GoMW6+jfqclbkR0KigbVxFOYi9CfLWAnmwV3kt16whQupVPtI
+	DAcGE23YBMhfe3ums6f4VVmGJgFCEjOSk17pdo4oFvBlXSu7wqIaqoNZiB5y+6vbLwCe3Ocd6OH
+	Fw6pNt9qEySpKgmC3IRTy55hjlTbTD93EgTBrM8pQBeXi8t4y5pz3qBlt8rszPn8E7kiOBdseSp
+	valSAVW5XdZm9ES2pltXg/SSeGrrmm+TppmtbjeUB80BtF34Aeqpg7qhq9c6UPbEgi8RCkbHImo
+	rjM2MAEw==
+X-Received: by 2002:a05:600c:3ba5:b0:495:4b42:8677 with SMTP id 5b1f17b1804b1-4954b42873emr163787355e9.18.1784553390578;
+        Mon, 20 Jul 2026 06:16:30 -0700 (PDT)
+Received: from localhost.localdomain ([2001:af0:8000:1409:193:86:92:181])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49564011868sm11989295e9.3.2026.07.20.06.16.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2026 06:16:30 -0700 (PDT)
+Date: Mon, 20 Jul 2026 15:16:28 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Shaojie Sun <sunshaojie@kylinos.cn>
+Cc: tj@kernel.org, cgroups@vger.kernel.org, corbet@lwn.net, 
+	cui.tao@linux.dev, hannes@cmpxchg.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
+Subject: Re: PING [PATCH v3] cgroup/cpu: document cpu.stat.local and clarify
+ cpu.stat behavior
+Message-ID: <al4fAmim8rdPCKlB@localhost.localdomain>
+References: <20260629060636.200118-1-sunshaojie@kylinos.cn>
+ <20260720100941.230825-1-sunshaojie@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ybx5ijmegvcly32d"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAG48ez3ywK8FZ-TZFzp1GwiW6Wb+DeO3OFt3Ys4QAeGTS0jv6g@mail.gmail.com>
-X-Infomaniak-Routing: alpha
+In-Reply-To: <20260720100941.230825-1-sunshaojie@kylinos.cn>
 
-On Wed, Jul 08, 2026 at 11:48:09PM +0200, Jann Horn wrote:
-> On Tue, Jul 7, 2026 at 11:03 PM Mickaël Salaün <mic@digikod.net> wrote:
-> > +Sandboxing is layered
-> > +---------------------
-> > +
-> > +Landlock is the access-control layer of a sandbox, not the whole sandbox.  A
-> > +robust sandbox also needs steps that are the program's responsibility: switching
-> > +to an unprivileged user, dropping capabilities, setting ``PR_SET_NO_NEW_PRIVS``,
-> > +and confining all threads of the process with the same domain.  A
-> > +single-threaded process gets the latter for free; a multithreaded one can
-> > +enforce a ruleset atomically on all its threads, or must otherwise synchronize
-> > +them before any untrusted work.  Landlock is typically applied last, to tighten
-> > +access and make the domain identifiable and auditable.
-> > +
-> > +Stronger isolation can come from combining Landlock with other mechanisms in a
-> > +defense-in-depth approach, notably seccomp-bpf (see
-> > +Documentation/userspace-api/seccomp_filter.rst) for what Landlock does not yet
-> > +cover.  A long-term goal of Landlock is to control access to any kind of kernel
-> > +resource in a way suited to sandboxing.
-> 
-> I think this part is something that should go near the top of the
-> document, and should have a title like "How to securely use landlock"
-> - most of the document is focused on telling kernel developers or
-> security researchers what the boundaries of the threat model are, but
 
-This patch is really about the threat model, to make it clear to
-kernel developers, security researchers, and especially to AI agents
-(not sure it will work but at least we can point to a specific doc),
-what is not a Landlock security bug and why.
+--ybx5ijmegvcly32d
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: PING [PATCH v3] cgroup/cpu: document cpu.stat.local and clarify
+ cpu.stat behavior
+MIME-Version: 1.0
 
-> I think it is also important (and maybe even more important) to
-> present this from the perspective of "if I want to design a sandbox
-> using landlock, what do I need to pay attention to".
+Hi.
 
-I agree that it's more important, but the correct doc for that would be
-the userspace API doc, which already describes how to use Landlock.
-That would be an independent patch though.
+On Mon, Jul 20, 2026 at 06:09:41PM +0800, Shaojie Sun <sunshaojie@kylinos.c=
+n> wrote:
+> Just a gentle ping on this documentation patch. It received an
+> Acked-by from Michal about three weeks ago. Any chance this could be
+> picked up for the next merge window, or is there anything else needed
+> from my side?
+>=20
+> The commit in linux-next is: 171569f8ee6724a4113a0100fea6ff83d9b70c6a
 
-> 
-> I think it would also make sense to give more specific guidance on
-> which sets of syscalls, with what argument restrictions, can be
-> permitted in a seccomp policy because landlock covers any accesses
-> that these syscalls can perform to objects to which the process
-> doesn't already hold file descriptors or such.
-> I think it would be helpful to have instructions like "you can safely
-> allow socket operations if you ensure that socket creation (socket())
-> only works for AF_UNIX, and that the process has no existing socket
-> file descriptors for non-covered socket types, and you have fs_access
-> rules, and the kernel is sufficiently recent".
+That's how linux-next works [1]:
 
-I'm wondering how we could have such a doc without gaps, make it simple
-to read, and keep it up-to-date for all kernel versions and
-architectures.  Another challenge would also be to map these syscalls
-and arguments to the evolving set of Landlock access rights.  I think
-the most pragmatic approach would be to rely on a dedicated library, but
-maintaining it with a complete test coverage looks like a nightmare.
+| The linux-next tree is, by design, a snapshot of what the mainline is
+| expected to look like after the next merge window closes.
+
+So that patch is currently heading for-7.3.
+
+HTH,
+Michal
+
+[1] https://www.kernel.org/doc/html/latest/process/2.Process.html#next-trees
+
+--ybx5ijmegvcly32d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCal4fpxsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+Ag+OQEA7QVOo55uPncb1q3RxLA6
+eZ0HKmyB8oJPcD/lvV3W6k8BAOZtkzovQVeFXHW5v1X+aKubte1+Wyok4BcrQUdH
+M70G
+=Rl3J
+-----END PGP SIGNATURE-----
+
+--ybx5ijmegvcly32d--
