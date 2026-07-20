@@ -1,150 +1,183 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D8843031E
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 14:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53B042F706
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 14:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784558460; cv=none; b=UjGhIDYwjiKA/GEJVMjbUM49AHIpoWeGsenNkYU3vhzGV66XRnFwbTlsK8l0Ty+KZeN3e0wE76fKkZu4f0J+hTA0b3BMnWc6pksjZ/Y+NbJ8Povgz4yR7/hvF3a5F+Rmt1zZMxsJPe2bsGB4UZ+8FnEt2eSs3kCvqu/DlPRDZuM=
+	t=1784558611; cv=none; b=r7ueCEae6oi3fB5QE51hM+7XFsiPSF/yts6MG/v4DUSjk9jEDrUr0Nzqx91A//uVArVf3qwyhXvHkjMs8C2iGCU8MR5+4oeF7+XrrwVcsUl+izBCeTf2dxcyTgcKQ+x805ORZg+wqlDo0PqF/nunkae0xAymgwGnqs66vvh5Rg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784558460; c=relaxed/simple;
-	bh=X+l4s5oACxDuUjszfwq3bjz2V3p8Vmp5HNSG3+GMkjw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X076qGe20mh5dCHkgqUP5igW+JIyLHTRShn4WgLuCHeHQnIP8kM/leaXZn4kxaloTY18gX/1ROqBfmrZCAWfd7P9lT2qAGNElDxftGF9D6YUZl7m3cSFXFh7RdzWQVxb4kvA55MQfPd6TPqSD3ekHLqbiYL0JIP5wLvIyOLi7+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Pqo2xgJ5; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1784558611; c=relaxed/simple;
+	bh=z4xNGYkf4fETdRDY/WXmkgQmHnFeScnUkN9aeJpb0+8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LjVJzmykW/wsQkj/oPphx35oy1BDS1CkXBjGVC7wS1MuKR8+kNc+V2ArYXzu+qfrnRlA1ztO/NEwqJxQLRNomaLdJyBESfJ03s7LtXF1WJ9UKgMO5pE1BPmzozsK6WURLMpgZKlxUjsOJ+uMjfk8JKHY4sXTHnG+4yBx+rwBR0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ylz9mDKR; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Pqo2xgJ5"
-Date: Mon, 20 Jul 2026 22:40:43 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784558454;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Z4gSt9cswUv2DtOGtLXPRqtGUR2VcGmgfvQCElRP9mg=;
-	b=Pqo2xgJ5RDdj6NXs/jgeISfkdIg7i7qMUGkyZrTO/p1VM+BbXJW/RIUSk3umeDw8GfcuOR
-	BQyPX9vHf6jSgJDsYezil7V5AOtFS0ol0tf8WF9flnT6iDNrezuc4gIkTJvqvd/XeVKzlm
-	rjkJqxcCecDN47qIrUxa/KE9LXp2OPA=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Baoquan He <baoquan.he@linux.dev>
-To: Mike Rapoport <rppt@kernel.org>, Pnina Feder <pnina.feder@mobileye.com>
-Cc: Simon Horman <horms@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Dave Young <ruirui.yang@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, Alexandre Ghiti <alex@ghiti.fr>,
-	kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/4] vmcore-tasks: export per-task metadata to vmcoreinfo
-Message-ID: <al4yeHrkDHFoo6A0@MiWiFi-R3L-srv>
-References: <20260622211430.4008899-1-pnina.feder@mobileye.com>
- <akybBoCAm-kJbfHL@kernel.org>
- <20260720091927.GA1736709@horms.kernel.org>
- <al4X300UObXawEIJ@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ylz9mDKR"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c96bfabc8d4so4053406a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 07:43:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784558609; x=1785163409; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YRPQsRwj+n1ng0H+WDG2QV9LkRG40/jMmpAbf3NOmNY=;
+        b=Ylz9mDKRMe6O4vjS+eQwOXJiakIAaEobGKbnFVNCh0Wek9nIDGMhVCXE0joTv1/Sgh
+         txhsTjkpV2mveGVg5L57b7HM6BUD6LsYgvckzclc1Hlmh3hY8/fv+rR5YqUNnS6F2juW
+         Nu0U4rggrOgtrxaiX8c31rkeT2cCIozh764BKKipQaNlFOdgPl/p+7mEOfbGAjSW+W2V
+         6cMoXsz4vh+ZaAbN+ZFyra1VqkImhvfjbyvJZAfm32cLpiauPZEjvWp2JCCz+cFalAVR
+         7vFBqZ7jKAlbUiFbf3LTLgdSHfGLvQuoPyFKnRdl190kQBr8DIDWb9ktMwguCnCGOvPB
+         tTNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784558609; x=1785163409;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=YRPQsRwj+n1ng0H+WDG2QV9LkRG40/jMmpAbf3NOmNY=;
+        b=PiTHt82tIQwF1GAnayYhgUbiKKyX8MVrpXVSlDlD5n5ytpqrO1M3iUXrjaj8GETd98
+         AyvkULkyT7UBhSIgFIBtHiYqTUdk8F/bMAbPEutD/8PjAQBSK6K+TkCX5xP8y4hUI0b8
+         QehcRabOyw0MmCvMjkPEctUzBu1DgOKgiK4bqKwxDq4bWJFyanWOZtxr9rYkJXLExlTx
+         lzRRpPOK/qWCS+j2yZI2NtAjDmlBbJqqq+C2Fn5slobldoDIyryay1YBvT2mW45TlXC1
+         2QexoPiubSLDOebFPOZ94iBSQIY4S4iCFV9Rp9ycM4CDuE50yB3V8asKcly2OJ5NTIdk
+         eg3w==
+X-Forwarded-Encrypted: i=1; AHgh+Rq0O5wFxtOwyA1uoQlMZPIzfTcDR/cVa8Rr0S967Fdnm3FNS3i+L9w0uGqZRQwv2at0kFxn8x66HIs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0ae2E3IDxGcm6k3BRra3Re1iREen8lCLhNiAjlKTocmyfJb7+
+	SRoSwPGS7qZPId3oRGxATJ8Pr9kp+p8eKx/RKXaCa/bUyQpIG2fkTjJd
+X-Gm-Gg: AfdE7ckizJFJD9mykCL+d5lUuBzP599wC4INQKHmii/m/MDstcwUgkD7ekNtjyNBOhc
+	gYQqE4zpiaWNGxrXM4iY1GzB7lKME7c4bXFB5H/WM/XHI8a4U2Y6J7A9DfQIzn7ia3+wcNUdemf
+	y460Bu4uPgjzMmh4o7znLCql/5gF1JwoTrAjPWUkIomuVQup1c/z72NzxBOOm0eWviCkj9/VlqJ
+	O24io/61bCsLp/TQ/UJtc2p9Qs/Tmz3NCovcyDzbR4QxF4ay3Tk9zTLLbyLE4NI6WZUArpcL3Po
+	AaKVt3KNTfDzihmPgUcpclrQecKtmELO1kRmD6b4LnlQRPyxTv/M6Fl4K++LyGxul34++mB8yV7
+	WIQI0J2ZydHRYbf1GTDAN2HQqTukvobNoX5eS/Q8o3A5msqZsIO4wlLhx+rEyGrPIER2WBcJwEb
+	bONyBjVSkG90n+6lA+gzewYiXG0FVxN+nMpuv7uR3f/KVGPqBto3Q=
+X-Received: by 2002:a05:6a21:3981:b0:3c0:adec:b3bd with SMTP id adf61e73a8af0-3c3ad9646afmr16051848637.49.1784558608970;
+        Mon, 20 Jul 2026 07:43:28 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31429f9bb62sm35894013eec.2.2026.07.20.07.43.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jul 2026 07:43:28 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <612e3496-2917-4d4c-8794-69c3b5b27c5c@roeck-us.net>
+Date: Mon, 20 Jul 2026 07:43:25 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] firmware: scmi: Make SCMI arch independent
+To: Ulf Hansson <ulf.hansson@oss.qualcomm.com>,
+ Cristian Marussi <cristian.marussi@arm.com>
+Cc: Michal Simek <michal.simek@amd.com>, linux-kernel@vger.kernel.org,
+ monstr@monstr.eu, git@amd.com, vincent.guittot@linaro.org,
+ Souvik.Chakravarty@arm.com, Alex Shi <alexs@kernel.org>,
+ Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
+ Brian Masney <bmasney@redhat.com>, David Lechner <dlechner@baylibre.com>,
+ Dongliang Mu <dzm91@hust.edu.cn>, Fabio Estevam <festevam@gmail.com>,
+ Frank Li <Frank.Li@nxp.com>, Jonathan Cameron <jic23@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linusw@kernel.org>,
+ Lukasz Luba <lukasz.luba@arm.com>, Mark Brown <broonie@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Pavel Machek <pavel@kernel.org>,
+ Peng Fan <peng.fan@nxp.com>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan
+ <skhan@linuxfoundation.org>, Stephen Boyd <sboyd@kernel.org>,
+ Sudeep Holla <sudeep.holla@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Yanteng Si <si.yanteng@linux.dev>,
+ arm-scmi@vger.kernel.org,
+ "open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>,
+ linux-arm-kernel@lists.infradead.org,
+ "open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
+ "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
+ "open list:ENERGY MODEL" <linux-pm@vger.kernel.org>
+References: <d7f7e8c9589d937b60e43168845ab4fda15037a3.1783603600.git.michal.simek@amd.com>
+ <ak_Eu_eQKalPMwo-@pluto>
+ <CAPx+jO9KMcxnmt-wT5jaApj9p7s11B6eSG6K08Jt9J=-vXxjhA@mail.gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <CAPx+jO9KMcxnmt-wT5jaApj9p7s11B6eSG6K08Jt9J=-vXxjhA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <al4X300UObXawEIJ@kernel.org>
-X-Migadu-Flow: FLOW_OUT
 
-On 07/20/26 at 03:43pm, Mike Rapoport wrote:
-> Hi Simon,
+On 7/14/26 06:16, Ulf Hansson wrote:
+> On Thu, Jul 9, 2026 at 5:56 PM Cristian Marussi
+> <cristian.marussi@arm.com> wrote:
+>>
+>> On Thu, Jul 09, 2026 at 03:27:00PM +0200, Michal Simek wrote:
+>>> On heterogenious systems like AMD/Xilinx FPGA there is a need to talk to
+>>> SCMI server from different architectures than ARM that's why remove
+>>> ARM/ARM64 Kconfig dependency with also remove ARM from description and
+>>> rename folder to reflect it.
+>>
+>> While I understand dropping the dependency on ARM (I always wanted to do
+>> that and test if it worked at all on some otehr archs with QEMU), I am
+>> not sure about the whole renaming party ? why is needed just for
+>> cosmetic reasons ? it is at the end an arm originated protocol so I dont
+>> see it as a being wrong to be named as such even though used by other
+>> archs...I have not really strong opinion on this...
 > 
-> On Mon, Jul 20, 2026 at 10:19:27AM +0100, Simon Horman wrote:
-> > On Tue, Jul 07, 2026 at 09:21:58AM +0300, Mike Rapoport wrote:
-> > > On Tue, Jun 23, 2026 at 12:14:26AM +0300, Pnina Feder wrote:
-> > > > This series extends vmcoreinfo with struct offsets and sizes needed by
-> > > > the vmcore-tasks userspace tool to extract per-task state from a vmcore
-> > > > dump without requiring kernel debug symbols (DWARF/BTF).
-> > > > 
-> > > > The vmcore-tasks tool reads /proc/vmcore (or a saved vmcore file) and
-> > > > reconstructs, for each task:
-> > > >   - task name, pid, state, flags
-> > > >   - VMA list (start, end, flags, backing file)
-> > > >   - user register state (saved on the kernel stack at kernel entry)
-> > > >   - user-space backtrace with VMA/filename mapping
-> > > >   - kernel dmesg buffer
-> > > > 
-> > > > This provides a lightweight post-mortem crash analysis capability for
-> > > > production environments where full debug info (DWARF/BTF) is not
-> > > > available.
-> > > > 
-> > > > The companion userspace tool is submitted to kexec-tools:
-> > > >   https://lore.kernel.org/all/20260622205550.1087163-1-pnina.feder@mobileye.com/
-> > > 
-> > > Sorry for the delay, this fell between the cracks somehow.
-> > > 
-> > > The kernel side looks fine overall, but to merge it there should be an
-> > > agreement from the userspace side maintainers that vmcore-tasks is
-> > > something they are wishing to accept.
-> > 
-> > Hi Mike, all,
-> > 
-> > Sorry for the extended delay.
-> > 
-> > I will send some minor feedback to the user-space tool patchset
-> > but overall, yes, this is something I would be happy to accept.
-> > 
-> > I don't want to create a chicken-and-egg type problem here.
-> > But it's probably worth mentioning that usually features
-> > hit the kernel before the corresponding code is accepted
-> > into kexec-tools.
+> This is certainly not my call to make, but I have to admit that I
+> fully agree with the above.
 > 
-> Sorry if I wasn't clear. 
+> Usually we don't rename files that indicate a legacy platform name,
+> just because a new company/platform wants to make use of it.
 > 
-> I didn't mean that the feature should be merged into kexec-tools before
-> merging the kernel bits. I just wanted to make sure there's no fundamental
-> issue from kexec-tools perspective.
-> 
-> > Let me know how you would like to proceed.
-> 
-> I'm going to wait for Baoquan's review and once that's done I'll pick up
-> the kernel bits.
 
-Oh, sorry, I just noticed this series, but a quick look give me a hint
-of 'No, I don't like it.' We have had Crash utility, Drgn, now a new one
-comes up. I have some concerns to Pnina:
+I agree.
 
-1. Exporting maple tree internals (maple_node, maple_range_64,
-   maple_arange_64, maple_metadata) as vmcoreinfo ABI is problematic.
-   These are private implementation details, not stable structures like
-   task_struct. Any refactoring of the maple tree will silently break
-   the userspace tool. 
-
-2. Without DWARF/BTF, the debugging scope is inherently limited — no
-   kernel stack backtrace, no symbol resolution, no variable access.
-   That's essentially "ps + /proc/PID/maps" from a vmcore. Have you
-   considered enabling CONFIG_DEBUG_INFO_BTF on your platforms instead?
-   BTF is compact (typically < 1 MB) and would give drgn full access
-   without needing vmlinux debug packages. That seems like a better
-   return-on-investment than maintaining ~40 new vmcoreinfo exports.
-
-3. Beyond the technical concerns, I wonder about adoption. vmcore-tasks
-   targets a fairly narrow use case — platforms without DWARF/BTF, where
-   you still have vmcore but can't ship vmlinux. Is Mobileye currently
-   the only consumer? Are you guys already using it widely and fully?
-   If this lands but doesn't see broader uptake, the ~40 exports risk
-   becoming dead weight in vmcoreinfo — nobody actively uses them, but
-   kernel changes still need to keep them consistent, or they silently
-   rot and give users wrong results. 
-
-Regards,
-Baoquan
-
-
-
-
+Guenter
 
