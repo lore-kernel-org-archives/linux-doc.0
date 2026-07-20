@@ -1,234 +1,107 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE54E30CDAB
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 15:27:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD27311C38
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 15:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784561260; cv=none; b=aINgmGvQnQ5ytB6tPPK8HUcSk8mCx02wCbPrUphRUcTeoNliTzhJoyCYBHepVpwe5jKnCMiATB0KyzvN6AF3SSC9zwWg+6D8DnddMibRZ+CGbajhg7XAC4uofMydlMxElZOjrwDuEBI6iHgYEdtUKUQxAr0gQHYk6Z8Ctt5Yqrk=
+	t=1784561267; cv=none; b=akEpA0vZPVOMADz2hLxJzm3nsMxMpxCCGROB7xeA8RJqqmKndOy9N/awIGmGiJ29HQdkLNwZzk02ZHd5sXxIjDnjHREkVsDiuEWPHDGTno6QgDl2TKvKOubkbCEq9MUIMagFLum9uBRiuXw6lofN1NP9PS5NIfP6FuMl+5koHUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784561260; c=relaxed/simple;
-	bh=SZnPsEZ4Oc/rmge1omndByJn26hKDSDG/xKh1Ckq+tI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BSm+mbX7J/3C9yrubBFDO0XXX8mw0xOQppVx1FioRwjvXqikhpW9WbQy8LOd1kwLHj60bzoEIiLWurIERDmmpZIm8IpytSXF9gBbZM5ME0CYzEM7tolyyXxxxmRcM/lscDVRwKW1jITKdrmkf9G2AKjni3LySgfMNkvWs8aorTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rSvtzNjt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s8wRfVdc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FZxXkRq3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Y8b71xct; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1784561267; c=relaxed/simple;
+	bh=jYD4X/IrsAEK+5o07FPNmQBo3eSfFnC1skMmyy2L3Kc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=swcfXtFqQWHfA3KlKrTOYgr5alew88Hbry0CEx7Bn7itY46OsxlGCoxAWe1m6y0P1/wUDdpfcZOm/05zSnSXPLetkihxEjLhPiO+cB1QSdgw/8CQBzzrNNCqji5xrL/J1R48feVzJkxZZWqBTFfhnOR8hJ0OE9UYx5y3K684ryQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j8K5AavC; arc=none smtp.client-ip=209.85.167.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rSvtzNjt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s8wRfVdc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FZxXkRq3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Y8b71xct"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DA8813E29;
-	Mon, 20 Jul 2026 15:27:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784561257; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=kTyehpI+Frpde8vx4Y/usVDlefaVXjVPd9jl0F472DA=;
-	b=rSvtzNjtQIY+oL+pZb9Z7HxTl+ceaV1jIAfd90ZAviR/KUdRbN4YOiCjyazpvR/PA8g13I
-	ip5sL7rxrk6wVoZAmzi5W+OJ21reUcDlrXqBqAlP21vQD/uy2TKtSNu0eD5pqwlCf2Cqco
-	gOhOjJhe8gZ/bQnsuYOvQXir2Yofj1o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784561257;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=kTyehpI+Frpde8vx4Y/usVDlefaVXjVPd9jl0F472DA=;
-	b=s8wRfVdc+ajxxOiSm5qAIaGfAxpSWN8FFiWUMl5Yc+Ptht+dAYpKm8TNx1SLbM9xPYbOfS
-	Cf52o18/LCbbAECQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=FZxXkRq3;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Y8b71xct
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784561256; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=kTyehpI+Frpde8vx4Y/usVDlefaVXjVPd9jl0F472DA=;
-	b=FZxXkRq3+XPfr7HNKL1iVxiYCbadfG59H8SS/f9s+AF23Ta/lCVqEMyoohir+bgO3Ke9Vd
-	JSl0eAlwz5EfzTdCiIMUWLNn646doRy/KWZdlfAumSJ/cFlSztw6LK3sQBX/brF7xhaspw
-	tXlSGTPQrGIB6//gEfBWfCy/G5kYSZ8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784561256;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=kTyehpI+Frpde8vx4Y/usVDlefaVXjVPd9jl0F472DA=;
-	b=Y8b71xctD+F7nWJ+3Jr4a4km6bsocJJhhQYVVlZpixDP72DjWw0E/dHkBsnpIKueaP1lzm
-	Ns4Kbl11JgHIHvAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4F75C779AA;
-	Mon, 20 Jul 2026 15:27:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BHEDEmc+XmrzCgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Mon, 20 Jul 2026 15:27:35 +0000
-Message-ID: <bde20e63-ec55-4ad4-872e-a7a983424100@suse.de>
-Date: Mon, 20 Jul 2026 17:27:34 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j8K5AavC"
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-4a451915d8aso4730588b6e.2
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 08:27:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784561265; x=1785166065; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=aJk23rYw9MlC3iHPJIfHt0WgssN79WwPx4RPlijn9kg=;
+        b=j8K5AavC6I44diIfapvexdoHkP4f/22kWNLAMc8yyyIfzfuG9t0q6G0KanA8ARxazx
+         NLjGsjbar8Z31z8lSRMdULpUmr8b3zJPxauHKWpTmvSv2SAt9AGMhSh9Ylc3jlL6jGyf
+         7oPuu35n0F3IETkWlzDIa6waFvFqgLP3d7o9sD9bhaO+OhwOgzlRcXKI5Zj3Ydzw7fwZ
+         uAI7sS0/AwfY1N7QeYJYw5f8YhUHkEHDNt+uQGrJ8YftyfXwnYoGOU9qL96tKsXLQTCy
+         2h3hYTwNhYu8rgtJrBVT4Ba8Wvaj5hYCpFpg5coNIMDCoIqtS9KuhsLoVdFmPrjzOGRH
+         FsZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784561265; x=1785166065;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=aJk23rYw9MlC3iHPJIfHt0WgssN79WwPx4RPlijn9kg=;
+        b=LVgLkalsRBIFJTlRYSjFAoU5f6YvYiLa0QP7YKtF2iv/pv24rkG6az5+KEzbW8EvV+
+         al5AzxlDlJH1Ifwy6SEgpt0u8siLo9j/vsx0Z8cqqilIIZ/lelcR107WauwR1VB1hvwR
+         HqSWhLXrtQuSkbDvs3fQwCPuq6Mr7OWX99mBoj0r58zhMsnm1uKztvZ4XuYRButzKvkL
+         53a4Se5YPCA3DyFWZVGvIxWU5NsO67Pv1r1DqGDj2KDjOqo+6nBPD3zc1+ziboxgHhsN
+         rkY3S/xnTpNYUSlO0YWOPLxGE7WqIs+ww2OolsdkvX9vzUmh6IQhVFiQo8Cq61Y3veuF
+         dADA==
+X-Forwarded-Encrypted: i=1; AHgh+RpdjDNce6XS0ecTzBwqer/a5jn6tUfb70aWtsRrP3R8AzMv1d2yOxbRdcoDLGFIIH2gyCQ3s948jO0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywdds9c9B97lkfi5odDbDBqldUDeqJzHTT/UpKHtf2X6XmZGufj
+	kSVlBDQJ0/hKxH+5owvu4qs60Y9qFhVgS/yoJ7ck1VUplaNsKQZLm7Mt
+X-Gm-Gg: AfdE7cn9LdcDJtXZ6kGgxXzRpT/GtjPA4TdyHPYbQXbKV8fmeKNQ3fomvlDqjvJGWMG
+	fx7VkcDNxTaGE+wbj3u/XnU2yHTawXgjSGdUozk32xV6/bgJAReUieQ6MnPJkTxSnJfnOAOiALy
+	apvKnM7VfDsr8DFbiE+YjIPOKn/Axzqfg3CWQvCvvyS5x5GAv0PxD9IynDeXsHrmQzOdZnK81JZ
+	5hFD5YqveMJU0woV5hYuu/JZ3KczcQidfMEPovnLfbhyEgOCpvrCMLOcULZpZYs7K4JDJGXOb5c
+	KDsYhuEd8HRApwPOv4NxoHpfnhexAUQtg8ITgsnEFZVJ4yJ4qDtp0x40uNMVynfy4B3UKGqymXd
+	KEGi9g4t9ykJgxyUyQvg421PCzxgtMNjeFhqPqu2G/XCUbKeCLwscC4Gdyqa1Lqcf+7I2vUHic0
+	eceOrlomZCIAp4yNdYZMpbE8r4HJsSa6SI
+X-Received: by 2002:a05:6808:180a:b0:495:f79d:8bd0 with SMTP id 5614622812f47-4a4d052058fmr8052656b6e.25.1784561265039;
+        Mon, 20 Jul 2026 08:27:45 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:73::])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4a4d3aade16sm7517236b6e.7.2026.07.20.08.27.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2026 08:27:42 -0700 (PDT)
+From: Joshua Hahn <joshua.hahnjy@gmail.com>
+To: =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>
+Cc: Tao Cui <cui.tao@linux.dev>,
+	cgroups@vger.kernel.org,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	cuitao@kylinos.cn
+Subject: Re: [PATCH] cgroup/cpu: document cpu.stat nice_usec and core_sched.force_idle_usec
+Date: Mon, 20 Jul 2026 08:27:40 -0700
+Message-ID: <20260720152741.1226695-1-joshua.hahnjy@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <al45RUAYKgGt5IYS@localhost.localdomain>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/15] drm/exynos: remove dependency on DRM simple helpers
-To: Diogo Silva <diogompaissilva@gmail.com>
-Cc: Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski <krzk@kernel.org>,
- Peter Griffin <peter.griffin@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Thierry Reding <thierry.reding@kernel.org>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Stefan Agner <stefan@agner.ch>,
- Alison Wang <alison.wang@nxp.com>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Liu Ying <victor.liu@nxp.com>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Xinliang Liu <xinliang.liu@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu
- <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-tegra@vger.kernel.org, virtualization@lists.linux.dev,
- imx@lists.linux.dev, linux-mediatek@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-doc@vger.kernel.org
-References: <20260719-drm_simple_encoder_init-v1-0-a78c509e3062@gmail.com>
- <20260719-drm_simple_encoder_init-v1-1-a78c509e3062@gmail.com>
- <4af254a4-beb7-4f77-830f-42d5bacb10a4@suse.de>
- <CAJpoHp73S2_cavgV3aVwC5PS8H1GRqTdDV-Xu8n6nXavBnV2=g@mail.gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAJpoHp73S2_cavgV3aVwC5PS8H1GRqTdDV-Xu8n6nXavBnV2=g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: DA8813E29
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[renesas];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,samsung.com,ffwll.ch,kernel.org,linaro.org,ideasonboard.com,linux.intel.com,amd.com,nvidia.com,agner.ch,nxp.com,intel.com,redhat.com,collabora.com,chromium.org,iki.fi,pengutronix.de,glider.be,google.com,arm.com,baylibre.com,googlemail.com,lwn.net,linuxfoundation.org,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim,suse.com:url];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[59];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-Hi
+> On Mon, Jul 20, 2026 at 08:02:26AM -0700, Joshua Hahn <joshua.hahnjy@gmail.com> wrote:
+> > I have to ask, which tree is this based on? I can't seem to find a single
+> > tree that contains the "(including those in descendant cgroups)" section
+> > anywhere. 
+> 
+> It is most likely linux-next which contains a nearby modification from
+> [1] (or it was based on that regardless).
 
-Am 20.07.26 um 17:15 schrieb Diogo Silva:
-> Hey,
->
->> Again, you rather want drm_err() with drm_dev here.
->>
->> I've briefly looked over the series and many patches seem affected.
->> Please prefer drm_ logging functions and DRM devices over the plain
->> device equivalents.
-> Thanks. I will submit a v2 with consistent usage of drm_err().
+Hello Michal,
 
-Thanks
+Thank you, I must have missed linux-next in my searching... that makes
+a lot of sense! With that, Tao, please feel free to add my review tag:
 
->
-> Also, is there any ongoing task or would it be useful to submit patches
-> changing the usage of DRM_DEV_* functions with drm_* equivalents?
-> Or from dev_* to drm_* when possible ?
+Reviewed-by: Joshua Hahn <joshua.hahnjy@gmail.com>
 
-Possibly. DRM_DEV_ logging is supposed to be replaced with drm_ logging 
-helpers. That would be a simple follow-up series.  Whether to prefer 
-drm_ over dev_ logging depends on the context and the driver maintainer.
+Thanks, have a great day!
+Joshua
 
-Best regards
-Thomas
-
-
->
-> BR,
-> Diogo
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, (HRB 36809, AG Nürnberg)
-
-
+> HTH,
+> Michal
+> 
+> [1] https://lore.kernel.org/lkml/20260629060636.200118-1-sunshaojie@kylinos.cn/
