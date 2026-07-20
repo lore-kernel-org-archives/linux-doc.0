@@ -1,141 +1,149 @@
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F1A2D738A
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 15:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE82A307492
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 15:26:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784560530; cv=pass; b=p/ddzGaHY3cSRl1T9zH0L/UCkPXc9y1C76zuxQAMBSOfu/LAPN1sa/KBvYV8ZO4DiWXWRneZ3qcD05ACmnNqL0KwXf74qM3cWZQkyGLJ//Q7os7g4eJ3s8pbDtlZyKAydKKuBwa8wovalxY4Cdvh3cwVLMbQ74AqRdENwuG3vi4=
+	t=1784561204; cv=pass; b=jP6qdW7WkJUMrdCSP8U3hCMkMyqsgnCPru9s+g7sv0saXnn0mgXYKCnHVSaiG90jUN57UGqWQytEXWe65w86l7jmjjJ2Jl6k0aYhE2SmwF7cktFZ/RytuM5fli//39MerC1FK8zW66Dw1Aof9+anHwVLGUxS270TX8uIvi984eM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784560530; c=relaxed/simple;
-	bh=6GA5/FZ0UEBjIo3jsFJRPrVNv7cnVsaH+IUEN70k1s4=;
+	s=arc-20240116; t=1784561204; c=relaxed/simple;
+	bh=wIOvE9E0izI9cWeOHA+3iIQfg+0GMdGrx8Op9HFx2UE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K+cF+Pxux/mzlrTu3EDEws1M8dopwGd8bR58Cy4VphtVTEDp/N2udVgJ3y/KNqJO24RSwylH/BAb7qdWXWTy8ywZ7W5jB/7HunwozD/ryjBfweqczJemmFdHxmay4D2pXqLzgFqwHdTv2qxgBwU9ujcEStD5bvUDx6f9KFEreY8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qa0titk7; arc=pass smtp.client-ip=209.85.160.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=WLNHgLkmBYhaWh4CGIDzFQe/EzA9Cr2SAvAO2nK7bYM1xpCWV8oZznvWclJv9Bk7mMF0prlDGhBZqG1W3rjD+lHOcfZqMSpaubARrxF3j3vn1jkTg3JAOIBEWwD0JLcZYhw8jchpTDTH4qU098lJKZ7I6+Hfs6+CNv6zxsmBTz4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pjBlBD/9; arc=pass smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qa0titk7"
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-44aeefa1c00so5149062fac.0
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 08:15:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784560527; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pjBlBD/9"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-38511175ad3so8404364a91.2
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 08:26:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784561202; cv=none;
         d=google.com; s=arc-20260327;
-        b=Ol7jfIdhr4eO3aUxoYPepW2hQi3cZKMozUXOa4SG3s1rQLs9I2XUsWmrR+lZTkPNHN
-         fEDzJZosn+6FY6AdOrQcsxdq8MJzB4zzO1NtTnsOu5wEDLMDyS9K1WMNunrncgO25bJ1
-         6G5HjV7BTVxDdo4cQI5JCPYcn4jAUWFRJ7mUgFPlDV/83RCRwa/e8UoSVVc07KkYhPPy
-         txknS84/1io2OKnbJIljRPz5zatJsT6wHTf7+35uDAn2kA2C/P++SUtkx1U+zq2vwcZy
-         mxLrp22TDedzCbL1zUxuMnyfa41ganYHT8pxEdX5XJS08G6Wa3heRCX9rK/qYEy9AaDN
-         yqJA==
+        b=gcRoUSrhhTpctGDSqmiRwSB1oVhFLZTuppBVY121oZ+oWZD3xOugbohXNf9aKqTdOu
+         fsSQjYhFyuQ8tsEL6WosTzZgqIuQDeL9ZoL2SOv02nk+de61G+T5uRiuXMn3TwhDbIre
+         F+cGq89NPgP6OrsuwiBBg2m4ecVfE+YU+QDk7SqiNf6F54LcTPzGUfiMVZnwSXC0yW18
+         Wfh2+RPLI0xIkzyCBhiYOy/5+uqN6k4Pur4Op4hIT/UodugoO36bvSJIqW6cDikolNax
+         CIcRH0wLitaJpohu9Pjcbu1+UQon5r+fKMk9Leh8GBWxZNDAH7ozV2/m/Leqv1F5PDUL
+         GV6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=6GA5/FZ0UEBjIo3jsFJRPrVNv7cnVsaH+IUEN70k1s4=;
-        fh=mvJ2jm7quWyEXPZaJ8+VXrZHzLAO7Up8pKftsz1ehAk=;
-        b=RTkgYkxzghAU55glG1hUHgLrVR1lcCF6q1jmlyRioS3dH1teAQeJjUq2MPl0BsThMc
-         59Iq/41OewdejlxSfngk9izEv8thQFoh2OmJCKzeV3HBY/3Gw84Q6qiAh6I4uPSgg6qB
-         cHDmNkw5sd7EJMS6YOFSnqba9GcJ7etWNhzjrcnW6y4CFbZ/5Ni7f36bdf6bl5Yd/NLU
-         MPYP02Us1hfOi5b75a5eBsd3THQwTv6GTQfOxwNIN8L6YKtLkekTCvR8hnHfh0rxm8W8
-         wkrMkXC1EC4Fe7YjD3Wh7UfvLUJxpBUXGiiofpKJpBBo0+trBV0wU/J7IbBlFASQ2Q7d
-         kRqA==;
+        bh=ppRDMOFJLBPX6KQmdpRBZE7SlCyjKiRE9PJURFV6vac=;
+        fh=NEDLHP/ZoPvYuJlmHdEgN5xRBVjukK2wkjRqhvVzBIM=;
+        b=jMnwE4yuJokr6RPUFxxIjE+dpagDXbeEzY6xRfL2tPnOxDk3bj3+KNTuUViaVSYiOM
+         gCwruohjG/NsDD2rhqhP51SR6JcjGw9JjHePVpmL/0l8+W3QW4GaBwZPm5HZNZS4UW7G
+         XrIaP5fM8DIctXquE0gpiQ2fugRtQlcZ9byH4c7OXMX0y3SWySLo8x6DiJi3e30tcdSK
+         bk+VgkiUl4yxP4EWYv6Yx5BrCD0k2t2EJgMt1IRu3GVMXxkDjCvmexzEyTfl3dy1qcH0
+         09gEeZnNqJ2VSQViOjBXvKKn2RMdcVCcakuPLPjDltCkvnj8afti/gZD4u9Mlk1rcUC/
+         291Q==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784560527; x=1785165327; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1784561202; x=1785166002; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=6GA5/FZ0UEBjIo3jsFJRPrVNv7cnVsaH+IUEN70k1s4=;
-        b=Qa0titk7cfg9viilFM7aeV6rGktWqe7x27okTN8DPh4jDXARUYMWgxFqxEmt8YHFW+
-         +Dy3mi/GxA2kDbvpK4sXRTXDMIx5qZMoh1bmYVVQnnXM7jzGCCq237bpKk0kli6zUIwC
-         RgrZZlqITt9lVBKOzUieGKvb1HV/BfWBY/b/Rd9Rz1cAQ7x8FjzLslZp0N2vNpZmfJ4M
-         kEbCbg6fooOpLtFBl7cVMWXd6yY/4Hm7nVfgRd7zX22de0JrbPTmGMj/gm0BRTPniOZP
-         xv/19X3ArFMOQLOzuBwpydTPmof4NiCVAQjsRUDqg9jUJNUcr08+k2jKVpsfpLEJpR35
-         selA==
+        bh=ppRDMOFJLBPX6KQmdpRBZE7SlCyjKiRE9PJURFV6vac=;
+        b=pjBlBD/9arU+fFVTL3uXCLUiUtm2Gf96GNDBlpDGTgBZ0UWJ1CyBL1REjj9NaZkpjb
+         1b78ZzfvQfufYjmrErNCXsjFY5T9GNph0nJ9wLxtvVEtgKaEQ71bUbe3XO+7skYGI4Kt
+         yQOb54RNTpOkmyJ5R23vfR2r+IHnVyp1Z9K8lW/DHXrMiVOVa8u1EiZ1lSLpakif/LOl
+         9Ko3dMzotjFR1JGFCrN2sVCKLPrn548ySQOTMPD6tQiPxcpz11VtweYc4TMqx/3WNCsY
+         IYOjtk+siLYIRUmJzjcLlUYbMZ3maEMQf0C6vV9vNkEjpcMggN2kL6yHWnOpE+hFSIkK
+         UnYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784560527; x=1785165327;
+        d=1e100.net; s=20251104; t=1784561202; x=1785166002;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=6GA5/FZ0UEBjIo3jsFJRPrVNv7cnVsaH+IUEN70k1s4=;
-        b=Tp4X2V68+AT3VbAA/ZMeV3f7ggAlV0HMZlD7GjpBORHve7I/W7WKPRDM/qV186XR1c
-         qeSuaeUs+jXyTvwN/1SbBPjCpws36ZD0ASDQeAFl0w4Ef4rCnmo1hyz0Fk4kI8uD+vu2
-         ONfTt5RdBJUvJp/er+3RXyBu7z26i+UOe9/VPkAHfCqivMf7cg5cewDg3e/4cQAp1Gem
-         s6BBBLCNz4/2i5snqIzEw0ua0wEN7FT4E8WW8upPiwSwu6oehld/Z/PM8Y2owcegcqra
-         fzq3Er6Z81DSwNaVeyf2GDy+7ttA7i1cENSX8KaqF/sMiiflxRvbm1x0Mr/yVjIUbxYu
-         fYOA==
-X-Forwarded-Encrypted: i=1; AHgh+RoWG4xWcmlNsRj750Uw2g1g//wGNK4JAcBH88H7aCT1ZfFOeRuuPJgz/8qw1tMdHBDasRW2+Ui8gCY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YysrrcD4KxfPoW/EactYp2cVlD0vPZ5TsRQaDBs94tDPjEio3lJ
-	aRVZMiN2lP78/rNbfRSvGtuv1r8q3dWh0M7XP6wro2MZRHfRwSmj3Lw+iJQToMV8KGdiP5JycP5
-	vKa3PVwg605cwIpV07/LgmW6QVJFHwj0=
-X-Gm-Gg: AfdE7cm836fKyfzeeJOKMCdbPeC8HBOFPF3Tf1uNtIUq/kMrukQkcSQ/r473JVUEUW0
-	ShLQIP6NP3ojf1kKCrrN4uEjQybNgn7S7eCXJklLxvxEXFXpIRiM+PUR0h9CNm6V/X52zfDq6K/
-	gEofzeCYI9yn7oHcwnnzy2BxsyuV1M5gZCTnhZjTLuOpdnd5BvUSU2kMIYLjzhmsITVeU1itPRd
-	Iw5qMRyIXDxfM7m1DszZ1IkJZxRXPygfEtmUZi0p6CcIvQHY1GfL+Lb7+XE5HWtDwSNAvu7dVD+
-	LPX0L4x0L62LAUO+hH8bkYbsVVo=
-X-Received: by 2002:a05:687c:260d:b0:435:bfb7:695d with SMTP id
- 586e51a60fabf-45661144d55mr7411947fac.27.1784560527422; Mon, 20 Jul 2026
- 08:15:27 -0700 (PDT)
+        bh=ppRDMOFJLBPX6KQmdpRBZE7SlCyjKiRE9PJURFV6vac=;
+        b=jd+A7YpFyVUauxrLoKkNqvTkAbRR01gRb1yvJCwDmF2L00RRGcGJAoii3Z8qPNJ9l3
+         Aq5GH8FX4sM7xGf740JH84/pvU0ZXXgqu4mqTysYkIwFHycY3d9saeYsezsWbtk5iZcU
+         Pc5iRBm0rXUu/uprMhrdVl2AfkGwcAsB8NsDiDUQ77peUNmWB3ZMR1sBpygHOnvM61+t
+         G1pccqSzcnL5ahxlfurfSe74bUmcWrLzXdK4hSznZJPuhSXXY910/5r+mGUx1w396bMG
+         /r2SUD2axy057Pwd1bBJJZ3Gvx1NzIO1GpeUbvPcuOPjQ/jlrG6eNz/yJUg+Lv/yKuiI
+         t6xA==
+X-Forwarded-Encrypted: i=1; AHgh+Ro7puqh93oFFAwe5RKX5LYZW8LpINAQMtGhN44bRjCIl/7eSqi41bkS1HSaKTtY6CbHoOp4KEgoJGE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyyttvQ//5rlAJRzc7ifdydP0Ybh15BrGZYa6RxiDijM8oFmmNd
+	qy3BS50DYQ48Pk0/Cho8jDKxdQufPYC+Z0WZ4xd7S4mOTLq0iBMRoKLFyxI2wDfMOzkjWX4iQ4f
+	eW4DhbfG3l/e1jotriW0kCtNJrYLg9yQNNwz5LhFK
+X-Gm-Gg: AR+sD13hewpH+LP6yYhlrnIsEvrHZmK6dAAOohI26zyArfzxUpGV0IpHK8Qs4CMcTv4
+	xqiVYuDdLBG4isEKn97s2zN8piaWI5LR7t99PxfhvjSpS8F6xme/j+UdmmmEl/wluZV9TGP4/Wr
+	/K8l1kkbpQ/a35K49owVosRfNBALFeq9vkMNwRyKbF8lc08h9M+YtiE67PXsNnGDy3HnpHx5M9F
+	gc9JsP+mCLY2aBteshea4DsqqEoNdCiHycgKkZrWuWTvpkHHFKDvA6LmcNllOPNAZPXWy5p61Pl
+	yeKJdbJaFMdVTZfib4Mxry3JIw==
+X-Received: by 2002:a17:90b:580c:b0:38e:2524:724f with SMTP id
+ 98e67ed59e1d1-38e4b410109mr15364918a91.12.1784561197991; Mon, 20 Jul 2026
+ 08:26:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260719-drm_simple_encoder_init-v1-0-a78c509e3062@gmail.com>
- <20260719-drm_simple_encoder_init-v1-1-a78c509e3062@gmail.com> <4af254a4-beb7-4f77-830f-42d5bacb10a4@suse.de>
-In-Reply-To: <4af254a4-beb7-4f77-830f-42d5bacb10a4@suse.de>
-From: Diogo Silva <diogompaissilva@gmail.com>
-Date: Mon, 20 Jul 2026 17:15:13 +0200
-X-Gm-Features: AUfX_mw73hUQoweWxVmRQ0kaDeRwypjcxis2alI1xmtq6INWQD6CfuNjqz3kn5o
-Message-ID: <CAJpoHp73S2_cavgV3aVwC5PS8H1GRqTdDV-Xu8n6nXavBnV2=g@mail.gmail.com>
-Subject: Re: [PATCH 01/15] drm/exynos: remove dependency on DRM simple helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>, 
-	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin <peter.griffin@linaro.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Michal Simek <michal.simek@amd.com>, Thierry Reding <thierry.reding@kernel.org>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
-	Anitha Chrisanthus <anitha.chrisanthus@intel.com>, David Airlie <airlied@redhat.com>, 
-	Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
-	Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
-	Jyri Sarha <jyri.sarha@iki.fi>, Liu Ying <victor.liu@nxp.com>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Xinliang Liu <xinliang.liu@linaro.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
-	John Stultz <jstultz@google.com>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	virtualization@lists.linux.dev, imx@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, linux-doc@vger.kernel.org
+References: <20260717125023.1895892-1-wangjinchao600@gmail.com>
+In-Reply-To: <20260717125023.1895892-1-wangjinchao600@gmail.com>
+From: Marco Elver <elver@google.com>
+Date: Mon, 20 Jul 2026 17:26:00 +0200
+X-Gm-Features: AUfX_mytGrClEjUL35sTA01mL-vDpdcepD52IC2sE_eAPBJUPR35g0y1m7pBRLg
+Message-ID: <CANpmjNMpKXxk2KsZORakwwdOpDG=pRbtJKi7doBt7QmQwUKdgw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 00/13] mm/kwatch: dynamic hardware watchpoints for
+ hunting memory corruption
+To: Jinchao Wang <wangjinchao600@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	David Hildenbrand <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>, 
+	Alan Stern <stern@rowland.harvard.edu>, Randy Dunlap <rdunlap@infradead.org>, 
+	Alexander Potapenko <glider@google.com>, Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hey,
-
-> Again, you rather want drm_err() with drm_dev here.
+On Fri, 17 Jul 2026 at 14:50, Jinchao Wang <wangjinchao600@gmail.com> wrote:
 >
-> I've briefly looked over the series and many patches seem affected.
-> Please prefer drm_ logging functions and DRM devices over the plain
-> device equivalents.
+> Motivation
+> ==========
+>
+> The hardest memory corruption bugs are the silent ones: a rogue writer
+> scribbles over a live object through a stale pointer or a race, and
 
-Thanks. I will submit a v2 with consistent usage of drm_err().
+The stale/dangling pointer (use-after-free) case is the main one you're after?
 
-Also, is there any ongoing task or would it be useful to submit patches
-changing the usage of DRM_DEV_* functions with drm_* equivalents?
-Or from dev_* to drm_* when possible ?
+> the victim crashes in a code path far away from the culprit. Any
+> single developer hits such a bug rarely, but across the kernel's code
+> base and install base they keep arriving, and each one is
+> disproportionately expensive to localize. The question to answer is
+> "who wrote to this object, and from where?", and it is hard to get at
+> with the existing tools:
+>
+>  - The kernel's own reports - an oops on a clobbered pointer, a
+>    BUG_ON, a list-corruption warning - fire at the victim's access,
+>    not at the corrupting write.
+>  - KASAN/KFENCE catch memory-safety violations: out-of-bounds
+>    accesses and use-after-free. But they have a blind spot: a
+>    corrupting write can be fully memory-safe - a *valid* pointer, in
 
-BR,
-Diogo
+Language-semantically speaking, a use-after-free write to recycled
+memory (be it in heap or stack) is NOT memory-safe. The detectors may
+not always catch these (KASAN relies on quarantine for that to
+increase the chances, but yeah, not guaranteed..).
+
+>    bounds, to a live object, written just at the wrong time or to the
+>    wrong place - and then they stay silent by design. And even for
+>    the bugs they can catch, KASAN's rebuild, overhead and redzones
+>    change timing and layout enough that racy corruption often no
+>    longer reproduces.
+
+There's also tag-based KASAN (KASAN_SW_TAGS or KASAN_HW_TAGS), of
+which KASAN_SW_TAGS has an x86 version based on LAM (not yet merged
+though? see https://lwn.net/ml/all/cover.1773164688.git.m.wieczorretman@pm.me/).
+
+One property of tag-based schemes (and any other lock+key detection
+scheme) is that upon recycling some memory, the tag (or key) to that
+location changes, and any previous pointer that still has the old tag
+will fault. The caveat with current pointer-tagging schemes is that
+entropy is relatively low (4 bit tags).
