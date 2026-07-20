@@ -1,51 +1,67 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91E3330B07;
-	Mon, 20 Jul 2026 19:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41F62FD69E;
+	Mon, 20 Jul 2026 19:21:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784575197; cv=none; b=KrmJCbQoonGzrKwqqwxabTrZllx+edyecd0WBj4zGkgSUz1mO0u514Hvgqw0mYt21NQyoAbCFhqYFLv/OT/26ODmohklaQzAMDwAmyhkADMNqGHoSV4VXywLboK1Eg3B3Px2+d5/lztDHxfGB8DEk2uO5GuQokWVYpcye5XINxg=
+	t=1784575271; cv=none; b=XbMCTqgDla/IG1c0w9gd+sICX07wyjqwWgCh3fZ1a6+u0NBdpC4YhiqqvXBjdpHbwzUNARL/sC0VcOrHXMorlsQBWN4+Gavm0E8S1mfG1kCSVVfaXNADqR1NDXmpzoInO+CR+iNqongpltSoz1saPLV5T3M6A7iBPBxUv45hoXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784575197; c=relaxed/simple;
-	bh=hmwmkX1BX0HruXFZTSS7lSbcdC8sE9JdgleAqBRCUvw=;
+	s=arc-20240116; t=1784575271; c=relaxed/simple;
+	bh=H/vKTqmynWJ9xGLYIa8zO75nqGaobj6R+UxbFnLBdNk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=TfTAAXBEQL4RBekoyXEohiEhSNkO4ly5hc3XFXRhGpeghcoHP4STvSSIIQGU/IDWFObbhOHYUTbD1waXZKLqnUyhdhsaBu4k31EVaCASt/ssmsL3ZdmD5MT69B9ExCWWsrd75movWzzpOhavcDGVPCTldCElNvL54w0fkB4eRkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Lwj43FOG; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	 MIME-Version:Content-Type; b=Ns/WBYXQtUdD3S2Cjb/A8hRI1LyhSq8EmQ9ue/mUebmcagp5v8VmfeZZWvfJKWm8zoTrt9aTo9Xaums8xR+3rdjmeuXeknojAl1/Xh2zJTc0Xy5RdbXktX/MgoEweD4OtLRh9bdPqzsA9FzVYhdC+JWUb+4ZQwYzjknQO1fnOJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Spav0GWz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Lwj43FOG"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 56A57408B2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1784575189; bh=YzdW24YFvFqCwtOIz7jJb5ImayKcIdNLt/DSNV4KBpo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Lwj43FOGj2OdKbczXN3aCSu0f4YcI2RuWSSaDxkZVLNKm7xWyjht+MsTPEqcgq6g8
-	 phrQceNbGXtI7hXsb5PJIdvkql6oYdB6KxFc9lCnNopMTifiIH73IBIlrC7a77A7pa
-	 3fuI40wKXaw5t+5Q3DvZ8gl6ws3w94dxwViQRjs3W2Gw57IGr+Fq+2CHYHyJm0lMRG
-	 f6jA667/c9ZEO77vboMnpF/R0S92X6giOBh5B2et9ZBwcA1wLri1qo73mi0u1nuB6B
-	 QnY0ujvBIFTUH/RA58W2zD2cXaSYybemlIWKLVO8g+VIiJFcMe63TolENTIRL5ug3Z
-	 VlCAH4XUUumfQ==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 56A57408B2;
-	Mon, 20 Jul 2026 19:19:49 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
- devicetree@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, Saravana
- Kannan <saravanak@kernel.org>
-Subject: Re: [PATCH v3] docs: dt: maintainer: Add Devicetree and OF
- maintainer profile document
-In-Reply-To: <20260720184040.9870-2-krzysztof.kozlowski@oss.qualcomm.com>
-References: <20260720184040.9870-2-krzysztof.kozlowski@oss.qualcomm.com>
-Date: Mon, 20 Jul 2026 13:19:48 -0600
-Message-ID: <87y0f531uz.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Spav0GWz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC12B1F000E9;
+	Mon, 20 Jul 2026 19:21:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784575270;
+	bh=y4vTZRCmYUoacTgRQeb9iD10u8BLXmQ5njXvIgguyco=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=Spav0GWz3rWmeiOvTkSHmoLaFmA0dsmghrTMMUGIy7BsnbqtE0r1vEIJpGCtqeWB+
+	 BpTJQ6xzB/KOaDAAkoTPfDvyF002TmAYBtSyKK5uExFq/Cj1mLr43Z33qJ2sRMi9Nf
+	 nJuZqLg2J7TvcdvdFpFOL3PuoTONb0yf3DbORivGivTO7zCY0H72Bu+OkktKpqh03L
+	 Vksh67h0wy7gmPYEI4mwGb9sleMrzw8Jsb1sLuHLmScVy2tv/f+VR08LYTxzvzqe4C
+	 b/ZkM/7+AGeKxhezpkSh009TVoxiBEuZvcET+KD3PE+3fxGAVYAS/3R9Y8DzfgWlkp
+	 U2Lg+Wsg/dkOQ==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Magnus Lindholm <linmag7@gmail.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>, Shrikanth
+ Hegde <sshegde@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Kees Cook
+ <kees@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt
+ <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, Sven Schnelle
+ <svens@linux.ibm.com>, linux-s390@vger.kernel.org, x86@kernel.org, Mark
+ Rutland <mark.rutland@arm.com>, Jinjie Ruan <ruanjinjie@huawei.com>, Andy
+ Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Richard
+ Henderson <richard.henderson@linaro.org>, Russell King
+ <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Guo
+ Ren <guoren@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, Helge Deller <deller@gmx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Richard Weinberger
+ <richard@nod.at>, Chris Zankel <chris@zankel.net>,
+ linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
+ linux-csky@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-um@lists.infradead.org, Arnd Bergmann
+ <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>, Will Deacon
+ <will@kernel.org>, Brian Cain <bcain@kernel.org>, Michal Simek
+ <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, "David S. Miller"
+ <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
+ linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
+ linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-arch@vger.kernel.org, Michal =?utf-8?Q?Such=C3=A1nek?=
+ <msuchanek@suse.de>, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [patch 00/18] entry: Consolidate and rework syscall entry handling
+In-Reply-To: <CA+=Fv5TDNH8+JAojV9_W36kUkEE68uiA00FQ7i0vJunebqs1sA@mail.gmail.com>
+References: <20260707181957.433213175@kernel.org>
+ <CA+=Fv5TDNH8+JAojV9_W36kUkEE68uiA00FQ7i0vJunebqs1sA@mail.gmail.com>
+Date: Mon, 20 Jul 2026 21:21:07 +0200
+Message-ID: <87wluplb6k.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,43 +70,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com> writes:
+Magnus!
 
-> Document how Devicetree and Open Firmware maintainers handle their
-> subsystem, especially focusing on two caveats:
->
-> Devicetree subsystem handles patches with a minor difference comparing
-> to other subsystems: while DT maintainers pick up OF code, they only
-> provide review of DT bindings without applying these.
->
-> All three DT bindings maintainers rely currently on Patchwork and due to
-> enormous amount of emails per day, regardless how much DT maintainers
-> try, they cannot read all the emails.
->
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Saravana Kannan <saravanak@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
->
-> ---
->
-> I expect patch to be picked up by Rob, after review.
->
-> Changes in v3:
-> 1. Add also F: entry
->
-> Changes in v2:
-> 1. Correct typos and trailing white spaces.
-> 2. Fix order of P: after C: in maintainers.
-> ---
->  .../process/maintainer-devicetree.rst         | 70 +++++++++++++++++++
->  MAINTAINERS                                   |  3 +
->  2 files changed, 73 insertions(+)
->  create mode 100644 Documentation/process/maintainer-devicetree.rst
+On Sun, Jul 19 2026 at 13:25, Magnus Lindholm wrote:
+> One Alpha-specific wrinkle I hit while rebasing the GENERIC_ENTRY patch is
+> that Alpha cannot unconditionally pre-seed the normal -ENOSYS return state
+> before calling into the generic entry code: syscall_set_return_value() also
+> updates r19/a3, which is still syscall argument 4 on the normal entry path.
+> Doing that too early broke early userspace mmap() during boot.
 
-You'll need to add this new file to index.rst as well.
+Similar to what Peter and me suggested in the related discussion
+vs. s390 which has a similar issue, you can just have a dedicated
+syscall_return member in your pt_regs struct, which is preset to -ENOSYS
+and operate on that. You have an unused padding entry there which means
+it won't even change the size.
+
+> Are you planning to send a v2 with the seccomp recheck fix and any other
+> review fixups folded in? Is the intention to route this upstream
+> during the next merge window?
+
+You were on CC for the V2, no?
+
+The whole pile including Jinjie's seccomp bypass fix is in
+
+    git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git core/entry
+
+and is targeted for the 7.3 merge window.
+
+If you want to base your stuff on that for 7.3, I can add a tag which
+makes it immutable so it can be pulled into the alpha tree.
 
 Thanks,
 
-jon
+        tglx
+
