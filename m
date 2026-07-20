@@ -1,88 +1,106 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010028.outbound.protection.outlook.com [40.93.198.28])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B4F434E26;
-	Mon, 20 Jul 2026 15:48:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA310409101;
+	Mon, 20 Jul 2026 16:08:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784562500; cv=fail; b=f8X52WpsvgFnFyx84hRB7I1pvWKJ89Pom86S9Oyn0zSQ3B/gl8+Onyh7Z8MfTUrfgS8Zrf8tMLhl8HYVSz6Y7hHChiVM6iu697W/un9px654z8nUKgGa/+TV5Ne4VFUoEivFhVGcvgfutWxChi8V+o5vHRxLLKU0G0k3QV38AGc=
+	t=1784563685; cv=fail; b=OfW3HwLb2qMYIvIMC2Dy6mxCi2z+z4N0Fw62BHDaEA4eD2+5I7JEfeWSFOd+L2YRfibfT6ZWuwvkt6XsvIbC0DMMoPGSgYFesyO0JHHozRd7Q2z2goIpy4lfhyRhVnvBP1lz5nt0Hum1IYv0suiTCJIDcErWxF9IvCSTU37qwh0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784562500; c=relaxed/simple;
-	bh=DAGYPgV2J9OxE3QoNJXFqhWrGQoSlhkvwSAGmWQy6x0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Oie1fZevm93E+hxA4ia6DezE6Eoc6VZCDx3Ba3Zd5X/91Kan2mtxu8Bg6k0HAjDZzmhbmDzgrji5RlAPtGuGN5CT11SDSHES5lFhnF3gPzNR83aacF73pvYIb+5hrehCfFv7ciiOw6swl7dotXhzXt0MiR8fVpfViC4nSTjC2iY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=SxbxOW3R; arc=fail smtp.client-ip=40.93.198.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1784563685; c=relaxed/simple;
+	bh=M9YeS57Ov2qsksTe2gdLv9Qlx2Pv5Xct75DSukJSpbk=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=KBbV3HnSWL9AAwJqTb0uoICxh8fwtaEAEkLS6QD8UTvHhxMvptRcr/0ZmTP11DOw4cT9dWIdk9pBgPW4yTxneATaY04n6iRj/C96HR87O+N4RAZhwM3XXRu2fzeAdjJ4zA5KtwknBovgpq8goiHoZgw6ckX1IGPn4gaCWzFzINY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KBuR0Pem; arc=fail smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="SxbxOW3R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KBuR0Pem"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784563684; x=1816099684;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=M9YeS57Ov2qsksTe2gdLv9Qlx2Pv5Xct75DSukJSpbk=;
+  b=KBuR0PemKZoKc3XiZTKkj3fDLnM0qTDFqbRy7O1yCXPsrjWVha8zPcl5
+   7g5yE7ARQHzvPptqCODEcEiY4yVvkzm+M2UFRWW/n13P5cbqR84DZc6Ce
+   c43ccORdZUR8ecqWurIduiPTLDq5b86b9JcDpWJaJWPQcAJmmiMkWkf/q
+   j3oPvRt3AokyMDP3hLk3N7voEeCWuO1Hsy/v66uvPZu6zGC6yDgypo4yv
+   cXXWMysqTGRUn80nJcRdPPr1BI7bsffV40LWvqXmUjUJKwX5S0wjuNpKR
+   ClnLOETIy9TcnAr6ykf1mQBs93JZAZehjLhfceOhQFAmVsZGXn/n0JmAF
+   A==;
+X-CSE-ConnectionGUID: v9fMLkRBS5+kQRT4Hel4bw==
+X-CSE-MsgGUID: QrzWQF7LSAWzplVyjT0MWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11852"; a="96283247"
+X-IronPort-AV: E=Sophos;i="6.25,175,1779174000"; 
+   d="scan'208";a="96283247"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2026 09:08:03 -0700
+X-CSE-ConnectionGUID: YT+ZG6/gSEOcW0c5zkBY8g==
+X-CSE-MsgGUID: mUZLkAgZTJ+Owr+IVWlS0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,175,1779174000"; 
+   d="scan'208";a="287553931"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2026 09:08:02 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Mon, 20 Jul 2026 09:08:01 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43 via Frontend Transport; Mon, 20 Jul 2026 09:08:01 -0700
+Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.26) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Mon, 20 Jul 2026 09:08:00 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lEXToT3eArbzXSWDbyGTlBi5knZpGAhbyJyYISmULjI/g4MvECSEiWBqZ1pr6UfFHh8l8CQQwrmwytvChySGjBaAVbd1ar7t7oFSbqRE7MlMySFkPKXj7i7a6YceyWjUW0XBFclzn+A90a5Kq7B8Cx/qpMD3P0NldHvrrRkpW8hw99vD3e+x8X0rcmCwNg0XRbhMxA4hFnio6e5xXBCzHZYesHiPbkk875LNyaGCBr6m7POWhX7V8r16ivDRwm98BgUwPHm20W0+P+1D90wihsrPaxwK7EeQCjHieHnEwvdo30Y9mfIBs/q2MJDR5z5Fq7vQFBwubjf3pn1eddzCFg==
+ b=dGz/PHv3y6tcWbCdW4cy6D6HFOfyomF8FaOic5ejk5GyhMokPdgOeowwt0XDaUlQWerFwTr7EgsdiLml3g6le8FnWunjfNo693vkm9HqY9ao7SGq2F5Vi9FIQtJF1y2g+m24SXBdb6NfqZRdpBGfcnyLueL4B9URSqBMQCDX5EyCHIoCGmscvZy4W2PZycj286Ku3KikUxVsaeJijAHzGlRgbj4qIUWnsRs8zy24Bo5FmTmIi1B8bedtXgeuJD+vPxnAe97TTPC77xyMscx/FU2YCMX2/8EGDFxjmuPcwwebefD2XEcA2Eb33zqqQm9lI/Bxjn/hdOQD2/po148zGg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NXWQix8BioKNcotXXZv2fggd5bCWR9Hd+L4YgaXaE+Y=;
- b=MeyjbqGEAuMQ/Ii2tEgGv3OqdSAfOiHB1V22kChkqENY/6o2rQ+2KKk5GBvQ1C45OvI3TY84EmodEleG3UmYtqzlB108Xg/SAjSLGr/6ASGy/Ga0sPJtea1t58cMDQdIqlFSdCjloUJLV1brAEHdoikMbbj8CkCgCxNkDZhH3sfUjk4ZMdl+Csb1nW0k3hGaMiB5xfcd8fx4WFMFkz5i0wXiJpwwnLXG21rQCDW7ErSc6yeQZRy3t5VxncXN4OOwtiW44gx0Q3Pclct3X+Tya+EKdlrAoDSob67329azNV5wwmhcqnP7nBnwyMdRyaboYSAHBtMhHupPiHSWlX+EJg==
+ bh=u0m6Md+1RGhyTzYJNf3qXvtv5WWGwZSWPktAKWyUSkE=;
+ b=rdlFjK1YtO7EcKXHQAHaf6AkSUtEhZMJYubXc2n7vdBN4eYl5hNvebrCs2a33AAtc4Y+7FUz9O3Chvhu3GGZyyah4i94sOIEfvG9AMJa9ThByc1SXePT+atRevfXK3ZYvruWlobA4c7dVizoI6v6nJ/tYBTk5omR5GztvLM+8zkqjTQ5xKG7Q5w4PeQBuSSRlQcsCtnj6HjOwbskzTw72JwrF9yORfHsfpzeD/Mf5y/7rEcyJuBUD7iMrKzlTLvWN3FReTpyi3N7ln+FgyC49Fk5x2tjuRn/yQyr9BZeo/y5taso+tdipXzLsji5grYuwHxEpYhUW48hgaPaMP8T/Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NXWQix8BioKNcotXXZv2fggd5bCWR9Hd+L4YgaXaE+Y=;
- b=SxbxOW3RqyqjveRwx1h8u9U1cAPyM4zD+RhyfQr9DstQS5riWflDOerFJWhrdqzkN69q/D85RKPyEO1dIoqP6+J4Ar3K2jQlHOuAvDmrtD4uVWtnV+wntSgzNmDdGfXManBuZrWsUZfqV0bnXZlZtrT1YO/NuzaZlR1t0hTSP4U=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH8PR12MB9766.namprd12.prod.outlook.com (2603:10b6:610:2b6::10)
- by SN7PR12MB8791.namprd12.prod.outlook.com (2603:10b6:806:32a::12) with
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN2PR11MB3949.namprd11.prod.outlook.com (2603:10b6:208:138::31)
+ by MW3PR11MB4556.namprd11.prod.outlook.com (2603:10b6:303:5b::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Mon, 20 Jul
- 2026 15:48:12 +0000
-Received: from CH8PR12MB9766.namprd12.prod.outlook.com
- ([fe80::be0f:431f:5f27:96d9]) by CH8PR12MB9766.namprd12.prod.outlook.com
- ([fe80::be0f:431f:5f27:96d9%3]) with mapi id 15.21.0223.017; Mon, 20 Jul 2026
- 15:48:12 +0000
-Message-ID: <91e35807-9483-45f5-b4a8-0388aa48ff6f@amd.com>
-Date: Mon, 20 Jul 2026 10:48:06 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v18 11/13] PCI: Cache PCI DSN into pci_dev->dsn during
- probe
-To: Lukas Wunner <lukas@wunner.de>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <djbw@kernel.org>,
- Dave Jiang <dave.jiang@intel.com>, Ira Weiny <iweiny@kernel.org>,
- Jonathan Cameron <jic23@kernel.org>, Len Brown <lenb@kernel.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Robert Richter <rrichter@amd.com>,
- linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- Alejandro Lucero <alucerop@amd.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Ankit Agrawal <ankita@nvidia.com>, Ard Biesheuvel <ardb@kernel.org>,
- Ben Cheatham <Benjamin.Cheatham@amd.com>, Borislav Petkov <bp@alien8.de>,
- Breno Leitao <leitao@debian.org>, Davidlohr Bueso <dave@stgolabs.net>,
- "Fabio M . De Francesco" <fabio.m.de.francesco@linux.intel.com>,
- Gregory Price <gourry@gourry.net>, Hanjun Guo <guohanjun@huawei.com>,
- Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
- Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
- Li Ming <ming.li@zohomail.com>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Oliver O'Halloran <oohall@gmail.com>, Shiju Jose <shiju.jose@huawei.com>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Shuai Xue <xueshuai@linux.alibaba.com>,
- Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
- Tony Luck <tony.luck@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20260717222706.3540281-1-terry.bowman@amd.com>
- <20260717222706.3540281-12-terry.bowman@amd.com> <alsk97jVqw9jbRdQ@wunner.de>
-Content-Language: en-US
-From: "Bowman, Terry" <terry.bowman@amd.com>
-In-Reply-To: <alsk97jVqw9jbRdQ@wunner.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR03CA0075.namprd03.prod.outlook.com
- (2603:10b6:610:cc::20) To CH8PR12MB9766.namprd12.prod.outlook.com
- (2603:10b6:610:2b6::10)
+ 2026 16:07:58 +0000
+Received: from MN2PR11MB3949.namprd11.prod.outlook.com
+ ([fe80::dfbf:4563:6676:e23d]) by MN2PR11MB3949.namprd11.prod.outlook.com
+ ([fe80::dfbf:4563:6676:e23d%6]) with mapi id 15.21.0223.015; Mon, 20 Jul 2026
+ 16:07:57 +0000
+Date: Mon, 20 Jul 2026 18:07:48 +0200
+From: Larysa Zaremba <larysa.zaremba@intel.com>
+To: Tony Nguyen <anthony.l.nguyen@intel.com>
+CC: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<edumazet@google.com>, <andrew+netdev@lunn.ch>, <netdev@vger.kernel.org>,
+	Phani R Burra <phani.r.burra@intel.com>, <przemyslaw.kitszel@intel.com>,
+	<aleksander.lobakin@intel.com>, <sridhar.samudrala@intel.com>,
+	<michal.swiatkowski@linux.intel.com>, <maciej.fijalkowski@intel.com>,
+	<emil.s.tantilov@intel.com>, <madhu.chittim@intel.com>,
+	<joshua.a.hay@intel.com>, <jacob.e.keller@intel.com>,
+	<jayaprakash.shanmugam@intel.com>, <jiri@resnulli.us>, <horms@kernel.org>,
+	<corbet@lwn.net>, <richardcochran@gmail.com>, <skhan@linuxfoundation.org>,
+	<linux-doc@vger.kernel.org>, Bharath R <bharath.r@intel.com>, Samuel Salin
+	<Samuel.salin@intel.com>
+Subject: Re: [PATCH net-next v5 05/15] libie: add bookkeeping support for
+ control queue messages
+Message-ID: <al5H1GWW_lUgPcTN@soc-5CG4396X81.clients.intel.com>
+References: <20260715180042.1972010-1-anthony.l.nguyen@intel.com>
+ <20260715180042.1972010-6-anthony.l.nguyen@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260715180042.1972010-6-anthony.l.nguyen@intel.com>
+X-ClientProxiedBy: AS4PR09CA0018.eurprd09.prod.outlook.com
+ (2603:10a6:20b:5d4::6) To MN2PR11MB3949.namprd11.prod.outlook.com
+ (2603:10b6:208:138::31)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -90,139 +108,166 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH8PR12MB9766:EE_|SN7PR12MB8791:EE_
-X-MS-Office365-Filtering-Correlation-Id: b0b00824-e49d-4fb4-22f7-08dee6764e42
+X-MS-TrafficTypeDiagnostic: MN2PR11MB3949:EE_|MW3PR11MB4556:EE_
+X-MS-Office365-Filtering-Correlation-Id: ca59f7f2-ddbb-47d9-8aca-08dee679105e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|7416014|376014|18002099003|22082099003|4143699003|10067099003|56012099006|11063799006|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	lOVDjwBGDwZham9wojp0oiSyMGBkKFFf7Qn0S3rNOPHTKdfzEOoHWuvKNgPe4YCY3xk22jFr/albX9jGMy18x5hYHXNv43Pw9toYzXZYC/Cnj+k0aWm0ilmLq4+dKVDfsnDvIgEHs+oC+03JUc7EAzWIcBypmMqSUx1iyuQ3T1e6d51PKkN1x7Ckxx1s3c/j9OPc0g7KlL1yFRZLxlt3rjiKUxBEM5Sw7CmelhaxkiYmINQTl1zhR6tDECEQJLpCNyQKq+dH88i0rievYkwxbQNXMZA15xA9hCB1N/tPaxvav6NV1HizP/3fya7RE5HUri/g6B520f3UsHjaDvKhIOHUV+xvyr7tHNURUgT1h9K2ttLw85hWYK4fPR5/qNPUgDJsUztBnQlc9FkpKOkD6stkb16pDLrcUipXIY21yQCTBa3FaNCQbaGT2+Q5F+qmjlq7irDQ+BBclG61ItjTdEtLz5pI19TmF4KoXiK9w7bMpFcb+DQgMGz7hvSTqdXYqbjJJHjDn1QnNKkaacxIiJHS0MkHob6njx/083CPtyUOgHhyhaabiqRgfr9QGmKY0wPzaoO92HjCzlqG2jRi3bdWGlmNTEAx6rcpEAETP+UHPgV2EKfZ8aY8izXXjK9yEc6T0vVVmb4SvlLRsGZH9OzPI28kvmPOR6dOnIA0FNk=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH8PR12MB9766.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(7416014)(376014)(18002099003)(22082099003)(4143699003)(10067099003)(56012099006)(11063799006)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aks4VGo3S1E0T0RMMzhqTFpST0RFb1JVZjNZSGxJeGR1VzU0Rk9jdTlXRURO?=
- =?utf-8?B?L2NzWUYrSmJtdzFzR0RCSjFUVzYwQm14azJEd1FZekpkZFd3SG8zNzBqVkpu?=
- =?utf-8?B?dnVSbEp4QW1na0VjYXY4bVBHL28rY2M0NTRLTU5WS2FmcmhQOTVZUDVmQ3pX?=
- =?utf-8?B?MEFaWnRzZzlDSm1MazdDN3lwRzdJaVQzWmxYSzlmU3VpTEtwNVdsRWw1RFZO?=
- =?utf-8?B?NmlGUG5IV2Fnak5OUXpXZ1JnUmFQUDRFRE5HTzY2d05TRzZ2UnExdjZXK2Uy?=
- =?utf-8?B?T2dLUGhYOVkyZmhqazFCTlBESW1GcjRLWnJ2ekdzTjZtSmh3dDRqZU5seXJP?=
- =?utf-8?B?bnpXQmJzZVdjQ0pjdVpBejBJWStXRjlUVFMxT1FTS3JQRmp1V0FxbXZQelc0?=
- =?utf-8?B?T2t4TDQxY0pMY3VmUG5GTWtxUTE5dDQzcHcraW1VTlhIUzVSM2JGZzdKYVp5?=
- =?utf-8?B?aTRnTWI4eG1NVmFRQlNUbGF6ekVpdGU3cmQ1aU1uZUNndG9pSVppZng4LzlL?=
- =?utf-8?B?N2lnMTl6Z29VelNFMzZDMlZUUWlmRGpJZFhYb2xuTkEwMEpuRm1sMHdzL1g5?=
- =?utf-8?B?OGR2Q1hrZE40aWd0RGVFdllrYnZlSWY3QmkySnZ0UU9PZnNZMzdWZFR5dngz?=
- =?utf-8?B?MmYwWmppRHh3NTc4YjB0a0hXdkZnRnNWZWtUY01xeGVYWndJVEZhaE5RQzNy?=
- =?utf-8?B?em5pT0JHRExFci9HbjdBaTdpb1pkbGZaUm1QZWhXVXNPOG1wcXRXeXhhTjJS?=
- =?utf-8?B?L0taQUZKZHo0Z3ZyZWxhRWEyS0hZVkpDaUYwWlQ1ejMzUGJMOHIxR2kyWTAv?=
- =?utf-8?B?TmtDU2l1MDVwYzc3SzJDdWFwR3RvZWgxMGJEazc1SkpqQUUwQmtXWk5hblpZ?=
- =?utf-8?B?T0g5bmR1UmhCTTRrL3VpSUpZQnpnTUx2M3YrNzZUbzgydFhRK1NSdHZyMDVL?=
- =?utf-8?B?aTlvZ0FiMWk2M1RSdmZlSDNJSzV1RDVlQVMvMFo3TFQvVUkzUTRLK2JZREN3?=
- =?utf-8?B?SE5neHJOZGdDQlBNWEdhUUxwQ2YvREpZTjFRVjlSaDBUMFNwWGdMc3ZZUy9N?=
- =?utf-8?B?M2ZlYStNUlkyV1ZaMmlzSHRleFFUeUw5MHFMK1h2cjJQMkF1ZVNEblIxMHg3?=
- =?utf-8?B?Z05aMFFZb1JwMkFzcER3bHFML2tuRlZ0MklEU3dXcjhFV0duVWdtdEVYM2Y3?=
- =?utf-8?B?OEpFdEpZaU1TdEZwR29SQ01OREpkajE1d1pORnFpN25oTzJWM0lGMm9yOFd2?=
- =?utf-8?B?TSszcWs4Z0hpU29lZk5OcDV3RENSdHA4cG01bXlEUytqUGQ5aFJmZkpmaDVz?=
- =?utf-8?B?cktpZFJzWFRORHZIMlB0YkhQdFRXRnBiV2FneWZWQ3FyWVBhNGVDVHJsdW4y?=
- =?utf-8?B?OFhZTDRpLzZoY0JwM0VIenIwMktaTm8rdzI0WDNmOXhDeS96blRXSVB4ZTh1?=
- =?utf-8?B?RUtObjRSME90NitZdi8xa1hpTGNWRm1MSmdXKzBYZlVDWVJVRVlscUFpclIz?=
- =?utf-8?B?VUIwQi9qdlkzbXhiWnloQTFFRm5XOE43WStuRW5tTm80T2FhTk5pdGdFODBh?=
- =?utf-8?B?VGFBN0xtN2VtMmEyUGY1K3dpR1dyc3lTaWFQYUljV21KVEdGZDJEczRicVpw?=
- =?utf-8?B?ZnY4OTU3SmpidTFvSnNaaGdjNE1xRms4QkJIcndRWUFsUmgrS0lkVlZVKy81?=
- =?utf-8?B?OE1uQnR1YlpETjNXWHJmbVoxRk9HdzBLMXhqVHZscmlLS3ZKOXcwQVMvWFBW?=
- =?utf-8?B?N3p0NktLV0NKeTNmMFY1RlFlc1pIQ0FoQlEvM0lCcFk2WEp1Q2ZkaGxkbkIz?=
- =?utf-8?B?ck5nTTFEdDkyQ1VYcDc0WTNlNFd4dXdRWk13Uzk2L1RYRndwNmdUWGc0cGoz?=
- =?utf-8?B?VXVJeTExdyt5MnVMRkZXZDk1WUV1VitibFA1ZXEwV2RYM1A1V0g3bU5NMmxo?=
- =?utf-8?B?Y0hERzdPUTRLellWRGRiY25MVkZNdytVWFdHaGZMaUpubUpDb2ZKOGN4dS8y?=
- =?utf-8?B?QWhNbnRlRnhOdlQ1Y1BhZUtJamZ1a0kyTmhROGRobHBZM0d0cU1Wd2dTNWpX?=
- =?utf-8?B?SFhoc0lqSGl1UWdyenZmQkl6Sm1WSlBhRjBzby95bk1WOS80cEFjMS91THUz?=
- =?utf-8?B?Vm5yMUQxM0xHVzh1b2xnanNtcGdGQSs4OUVhRDJvRG1CN1pBbUZGeG5Bb2Z4?=
- =?utf-8?B?UFgrR2dsRjhITU4vMjlpSUM3Y05oTkNjNVV0TEZ6WTRNS3ZSWHkyblBYUXBF?=
- =?utf-8?B?TXFiWWxEY3hHOE0wcDVReDJyY0IvYnprZysycFp4TFFHeHc1S2NVZEtkWnFP?=
- =?utf-8?Q?9dIZNGo9iBn8QehQ7d?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0b00824-e49d-4fb4-22f7-08dee6764e42
-X-MS-Exchange-CrossTenant-AuthSource: CH8PR12MB9766.namprd12.prod.outlook.com
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|23010399003|10070799003|376014|7416014|6133799003|56012099006|5023799004|11063799006|4143699003|10067099003|22082099003|18002099003|3023799007;
+X-Microsoft-Antispam-Message-Info: 6tON4mmOjbYYicgM00jvSwXwiz+ZIFFkDJmZ8vCzqg03IiUPFTHVdVf6ByymqNqa3bIINjEUkV/4KqFAkhYecHBbXz+8YmoT0xDXDDiCXjIXlN0mVi3GevDqnbiPf33pyk011aSM/thUtyBjWQpccq2gvTOWpiXkui3mGyErEo3Kw3VCVA6oVVPD37AeeOrEB4W5MUkkVt8ZlS/JJ0WVF1++6ed0UHJ6pQEKWRJTQqwDf1rIgoq4M90LGPU3Sc4SXqq9TGsat5e+cu/fjLYb+W0BNkXPmt7JA2JKFh0N8HDQUnygOfqJ4UEtLLF6K618CAQAuaws9VKY0gkDENxBSY2dwAZ6w0R0V4WG/RVGeZp6uvncBJZ7D1kmES671ACz7LsFRXFkSpY+kyaKMECTtPsiCPs2quzi0qw2JJKYEzQYcQI/zXayyLf0f/0cR72neoG902qGejbW2IPGjYQzuOHFVhxsf8i5jgPB8znRooM31VsUH31vws/z3YHHQ6SDRa4QCAJ+PqALB/On4byT2SMvJyGCW/5pEVcAw9bHiuY5F85UVhSxbkKBCZBT+ecuXO+ZJ6cC0OGLFU1h5Wgj5Ps5A6wq5o1YOwrLARCWhKad39od1buKPpjFCNPkvaDC2gh0rWCIPpudqqCl4BlGO8G0GG236bY2OtuF+IqxhEc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR11MB3949.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(10070799003)(376014)(7416014)(6133799003)(56012099006)(5023799004)(11063799006)(4143699003)(10067099003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JcFqkEV8L9sX6a65dAiTmDQ9P5yrylYgXDBb/hectFZUyUuNL58LbItFE3BA?=
+ =?us-ascii?Q?HSvlD6Dg3XRErNwmxSnY4zKXrc0xrEND5+MHarAOcDI/nfav7fnl8Ks8swOp?=
+ =?us-ascii?Q?7QJBZj5EM0EpjHoIOFafyDW0C5ldsitVRNdnFbMNhJe0/xCL8IaKIHFd34TJ?=
+ =?us-ascii?Q?UOqquo1deZSzO5wdvczVdFLTwh3hCJUE3Uyc5hvxvSS8bFrhPuCw630kYc9a?=
+ =?us-ascii?Q?5GdzRtGUQSTI0liIetU2fzgBMLopCsH9hqyRv3Di3FwJspE2lKuH121jmX44?=
+ =?us-ascii?Q?wNapHdIHMYSbBgodnbOWiZ+WrgrwPzBg0fHIiFJ8xqnCb4d1lqMsTeUMuj/i?=
+ =?us-ascii?Q?3YJdcja+aELa/+chPA3hNhw3JAKG9IjhDRwf9ZJavEweMXQEob+Fps9u+syr?=
+ =?us-ascii?Q?+3I8G0jB/kihPa6cWu29rmCDONr+zCu77K6+p5IHotlynJBTvPtsatAI1H3W?=
+ =?us-ascii?Q?inWi7JxnQX3BHgBOXd4LwCAmeXun+Ibpwv1VckHmUUrGozk+SLDeNA1YRisS?=
+ =?us-ascii?Q?dI+Cpy8quv4vRSqPu98oyEusBe1eXPHhLNSwATr7CXWkvtJYDKDQ+Ed8dqAH?=
+ =?us-ascii?Q?e3WSkrqOTtJnSOFh2ApuILLwyky0tZNpBJGIT084WqF4n5WuY13OxKdStAGd?=
+ =?us-ascii?Q?AZC/Yz3NnADIhzDNK+ejPXkWmWCM5CBr5+X1/mXdBZc9wW0jyNxE+iMXWwEz?=
+ =?us-ascii?Q?bDJeqkNOEJqibeDwWICNBKi+vHd3eaC82+grOpf0trRqOjf5L4ppOQZ83Uzr?=
+ =?us-ascii?Q?V/VkUMKMWzVGJlb9ttpfGEKQp1woAPhcHmB/jJpOvNCITjn81RBRtJLjBLlW?=
+ =?us-ascii?Q?H8Q0hlPiRGLRkhN6rYOETO6dxsGltstmSUh8mcSJpMZjcnW9ii5A0NsapBNH?=
+ =?us-ascii?Q?p6b6gA391uhDTxTMF6kIy91gqLKW9q0jApIJ7eEyB6LnED4wc2MJgpxxb+UF?=
+ =?us-ascii?Q?2j/D2zuqj2QpKmSGo9aCSdtUmYU03DetRfGJNH92G9hiBpGBZOzuXxZXHWVb?=
+ =?us-ascii?Q?hN6EcaZ3BW5micNFAFqDdrPGdiXrqAtb9iLtbfhY/KZdceLExucbcfYl7YmL?=
+ =?us-ascii?Q?+dxt6BqXZpmKoZfEJ5zELUEZjXBgGGRpwtHH1JcWOg3rt8mrGAa+CdBX8IEq?=
+ =?us-ascii?Q?nusfg4sTqDaoIOY0sqNZdjHur8+I91yZ10eVkIUnZ9Amw+1JzrD1Gnrq0oYd?=
+ =?us-ascii?Q?kDKpYs/4PmpHN5MM2znxPofWjlZzZSYxuE/8C0m9oA+vMSh5SYn63KKMxpdA?=
+ =?us-ascii?Q?0oTf4rTPTMGWaWiv94djdQxZsbJhHrwf2868GMyod1TD5qrZMHne8XsbIYUU?=
+ =?us-ascii?Q?rUGJE1SmAvNXZS019csGTechwnb2Rsv6NQSn8psBpPsp9s75AUU43AUe7mgg?=
+ =?us-ascii?Q?Pnn7lYTcnmQL5FMFy+ZOkCyQDwRyCgZCWhs75JxEs2/pKFLYzN5+yJcg91mU?=
+ =?us-ascii?Q?lG3QXdEWFqoSiLXJca3mMca1+qzJKWZKEZJqy8s2A4DtWAYiHtL9PiCkd6HJ?=
+ =?us-ascii?Q?G5oLltaaV+KZyDQq4N6F8wSeJxiBf/4KA1+ZRRX+ws20bQRIgI5Uzy+z0clk?=
+ =?us-ascii?Q?mEQXKj0xmGrqSqN/WM3NnDWbdiWcw6ndOXTN795EoE4J6PKCD8dwaRWRc9jC?=
+ =?us-ascii?Q?UdQ+czsWrt5Z92y3dEa5Je//qe54NN+YzJ3ZhT3vtu0la89rkhu4p2QHZ2n3?=
+ =?us-ascii?Q?JU5fCMhMUJazuFNp+/qfO0c2W3Ck1uqWxgqZGcZfO++iN2BLaOaL4UN9ZqqD?=
+ =?us-ascii?Q?uVps+KrlrUZE1wmtiB8sJlPGz4vT7MjlYHh8cY3m9/mDBCzTOR0Qn8NCgyWJ?=
+X-MS-Exchange-AntiSpam-MessageData-1: ihwyZIWpnQ6b7kcTu9h9bsoZJnQcXO3+g7Y=
+X-Exchange-RoutingPolicyChecked: OVOAhIGpF3oFSuisSXEbpLPJvwrEOvJUfgCKWt9EM1byrKr9OVsEW1mVGecvetwR5gzaBDIWJq8OXTtpqd9vygtZoAJ5aybSFMHWibr9Wz1c91/GCHE5i3LcycIHECkQbhSPAYUZMuQM8GlZ00NBeoVXRguBOxKZMs1dYX6frm21OJfJWXmeHQDhQPpZmr/AuKYqS1efIMxmlpUw4t9b6Q5f74GfSiVBqOmFxvwsv+0ynwP2jcOUVtAxopy/EssmrIsaUz7SmowT4f8pcwCrNvF11m9kOgzIeBt76tNQLQqZqfDi0k9aQQRIHCt/7dhkZ+sw8/mdppIQkc0wT7RAQg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca59f7f2-ddbb-47d9-8aca-08dee679105e
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB3949.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 15:48:12.7950
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 16:07:57.7702
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: D+F7hXuoAQiT4qMyatV3I5daHvvQDK5bXF97E7ZH4ZriMaULL/hNQelM16mirfaczsz0O615dwaFYuoGu3Jdqw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8791
+X-MS-Exchange-CrossTenant-UserPrincipalName: mNa0WdlmAam4cra/ZIaKVWH0JkY12tY7ahLIhYG8xYR3AdQJKSso2M6WB/L+9vclT442k/dqEYszx8etiqBi0V5f1HJbsnVDP/juDDUH62I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4556
+X-OriginatorOrg: intel.com
 
-On 7/18/2026 2:02 AM, Lukas Wunner wrote:
-> On Fri, Jul 17, 2026 at 05:27:04PM -0500, Terry Bowman wrote:
->> Add a u64 dsn field to struct pci_dev and populate it from pci_get_dsn()
->> during pci_init_capabilities() at probe time via pci_dsn_init(). Only
->> write dev->dsn when the read succeeds. The zero initial value from
->> pci_dev allocation already represents 'no DSN available.'
+Sashiko says:
+> > +	wait_for_completion_timeout(&xn->cmd_completion_event,
+> > +				    msecs_to_jiffies(params->timeout_ms));
+> > +
+> > +	spin_lock(&xn->xn_lock);
+> > +	switch (xn->state) {
+> > +	case LIBIE_CTLQ_XN_WAITING:
+> > +		ret = -ETIMEDOUT;
+> > +		break;
+> > +	case LIBIE_CTLQ_XN_COMPLETED_SUCCESS:
+> > +		params->recv_mem = xn->recv_mem;
+> > +		break;
+> > +	default:
+> > +		ret = -EBADMSG;
+> > +		break;
+> > +	}
+> > +
+> > +	/* Free the receive buffer in case of failure. On timeout, receive
+> > +	 * buffer is not allocated.
+> > +	 */
+> > +	if (ret && ret != -ETIMEDOUT)
+> > +		libie_ctlq_release_rx_buf(&xn->recv_mem);
+> Can this cause a double free on a stale receive buffer if the transaction was
+> aborted? When a transaction is returned to the free pool, xn->recv_mem is not
+> cleared. If it is reallocated and enters the WAITING state, it still contains
+> the recv_mem pointer from its last successful use. If libie_ctlq_xn_shutdown()
+> aborts this transaction, its state changes to SHUTDOWN. This switch falls through
+> to the default case setting ret = -EBADMSG, and this cleanup logic will call
+> libie_ctlq_release_rx_buf() on the stale recv_mem pointer.
+
+LIBIE_CTLQ_XN_WAITING can only occur in the previous critical sections,
+since it's only applicable to idle transactions.
+
+[...]
+
 > 
-> The DSN is already cached on (natively handled) PCIe hotplug ports
-> to detect device replacement during system sleep, see struct controller
-> in drivers/pci/hotplug/pciehp.h.
+> > +	wait_for_completion_timeout(&xn->cmd_completion_event,
+> > +				    msecs_to_jiffies(params->timeout_ms));
+> params->timeout_ms is declared u64 in struct libie_ctlq_xn_send_params
+> (and stored to xn->timeout_ms which is also u64), but msecs_to_jiffies()
+> takes const unsigned int. On 64-bit builds, values above UINT_MAX get
+> silently truncated to 32 bits before conversion, and the MAX_JIFFY_OFFSET
+> clamp inside _msecs_to_jiffies() only fires against a value that already
+> fits in int, so it can't rescue the truncation.
+> The async path uses ktime_ms_delta against a u64 correctly, so the sync
+> and async paths would disagree for the same input.
+> Should timeout_ms be u32 in both structures (matching msecs_to_jiffies()),
+> or should the value be clamped before conversion here?
 > 
-> Please remove that member from struct controller, remove the two
-> assignments to the member in pciehp_configure_device() and pcie_init()
-> and change the comparison in pciehp_device_replaced() to use the new
-> member in struct pci_dev.  You can do this either as part of this patch
-> or in a separate patch.
+> > +		if (!libie_cp_can_send_onstack(msg->data_len)) {
+> > +			libie_cp_unmap_dma_mem(dev, &msg->send_mem);
+> > +			params->rel_tx_buf(msg->send_mem.va);
+
+> [Medium, Medium]
+> Two questions about locking context here.
+> First, params->rel_tx_buf() is being called while ctlq->lock (a plain
+> spin_lock) is held. In libie_ctlq_xn_send() the same callback is invoked
+> at the free_buf label with no locks held, so the two libie call sites
+> impose different atomic-context constraints on the same driver-supplied
+> callback. Should rel_tx_buf either be moved outside the critical section
+> or explicitly documented as required to be non-sleeping?
+
+I see no reason to do this currently
+
+> Second, xnm->free_xns_bm_lock, xn->xn_lock, and ctlq->lock are all
+> acquired with plain spin_lock() throughout the new code. If a future
+> consumer drives libie_ctlq_xn_recv() from softirq (NAPI-like, which the
+> budget parameter and page_pool usage suggest) while libie_ctlq_xn_send()
+> runs from process context on the same CPU, wouldn't the softirq deadlock
+> against the process-context lock holder? Would spin_lock_bh() variants,
+> or an explicit documented callable-context contract, be preferable?
+
+No softirqs
+
+[...]
+
 > 
-> Thanks,
-> 
-> Lukas
+> > +/**
+> > + * libie_ctlq_xn_deinit - deallocate and free the transaction manager resources
+> > + * @xnm: pointer to the transaction manager
+> > + * @ctx: controlq context structure
+> > + *
+> > + * All Rx processing must be stopped beforehand.
+> > + */
+> > +void libie_ctlq_xn_deinit(struct libie_ctlq_xn_manager *xnm,
+> > +			  struct libie_ctlq_ctx *ctx)
+> > +{
+> > +	libie_ctlq_xn_shutdown(xnm);
+> > +	libie_ctlq_xn_deinit_dma(&ctx->mmio_info.pdev->dev, xnm,
+> > +				 LIBIE_CTLQ_MAX_XN_ENTRIES);
+> > +	kfree(xnm);
+> > +	libie_ctlq_deinit(ctx);
+> > +}
+> > +EXPORT_SYMBOL_NS_GPL(libie_ctlq_xn_deinit, "LIBIE_CP");
+> [High, Medium]
+> Two concerns about this deinit path.
+> First, do large in-flight sends leak DMA mappings and TX buffers?
+> libie_ctlq_xn_shutdown() only manages xn slot state and does not touch
+> the TX descriptor ring. libie_ctlq_xn_deinit_dma() only walks
+> xn->dma_mem (the copybreak buffers), not ctlq_msg->send_mem for larger
+> sends. libie_ctlq_deinit() eventually reaches libie_ctlq_free_tx_msgs()
+> which does only kfree(ctlq->tx_msg[i]).
+> Nothing on this path calls libie_cp_unmap_dma_mem() on msg->send_mem or
+> invokes rel_tx_buf() for a msg->send_mem.va that a caller supplied via
+> kmalloc. Wouldn't every posted-but-not-yet-completion-cleaned large send
+> leak its DMA mapping and buffer? The kerneldoc only requires "All Rx
+> processing must be stopped beforehand" and doesn't warn that
+> libie_ctlq_xn_send_clean(force=true) must be called first.
 
-Hi Lukas,
-
-Thanks for reviewing. Is this the changes you want?
-
-diff --git a/drivers/pci/hotplug/pciehp.h b/drivers/pci/hotplug/pciehp.h
-index debc79b0adfb2..12ec050d8a0fb 100644
---- a/drivers/pci/hotplug/pciehp.h
-+++ b/drivers/pci/hotplug/pciehp.h
-@@ -90,7 +90,6 @@ extern int pciehp_poll_time;
-  */
- struct controller {
-        struct pcie_device *pcie;
--       u64 dsn;
- 
-        u32 slot_cap;                           /* capabilities and quirks */
-        unsigned int inband_presence_disabled:1;
-diff --git a/drivers/pci/hotplug/pciehp_hpc.c b/drivers/pci/hotplug/pciehp_hpc.c
-index 4c62140a3cb44..c07957e0b37a8 100644
---- a/drivers/pci/hotplug/pciehp_hpc.c
-+++ b/drivers/pci/hotplug/pciehp_hpc.c
-@@ -587,7 +587,7 @@ bool pciehp_device_replaced(struct controller *ctrl)
-             reg != (pdev->subsystem_vendor | (pdev->subsystem_device << 16))))
-                return true;
- 
--       if (pci_get_dsn(pdev) != ctrl->dsn)
-+       if (pci_get_dsn(pdev) != pdev->dsn)
-                return true;
- 
-        return false;
-@@ -1086,8 +1086,6 @@ struct controller *pcie_init(struct pcie_device *dev)
-        }
- 
-        pdev = pci_get_slot(subordinate, PCI_DEVFN(0, 0));
--       if (pdev)
--               ctrl->dsn = pci_get_dsn(pdev);
-        pci_dev_put(pdev);
- 
-        return ctrl;
-diff --git a/drivers/pci/hotplug/pciehp_pci.c b/drivers/pci/hotplug/pciehp_pci.c
-index 65e50bee1a8c0..065e1f7c9a7bd 100644
---- a/drivers/pci/hotplug/pciehp_pci.c
-+++ b/drivers/pci/hotplug/pciehp_pci.c
-@@ -73,7 +73,6 @@ int pciehp_configure_device(struct controller *ctrl)
-        down_read_nested(&ctrl->reset_lock, ctrl->depth);
- 
-        dev = pci_get_slot(parent, PCI_DEVFN(0, 0));
--       ctrl->dsn = pci_get_dsn(dev);
-        pci_dev_put(dev);
- 
-  out:
-
--Terry
+Could be phrased better, but idpf and ixd use the API correctly, so no 
+real consequences.
