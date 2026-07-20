@@ -1,63 +1,63 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63373D45F4
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 19:35:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D6E48B39D
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 19:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784576134; cv=none; b=Q7R2XCtIdaa7572vArPL/Y8d+QPsHWst3XpIAJC7g0giac8GEVZ7BATr1CR0jiBdW/TBKTt8EfZd2xuss7ZmsBNz0ctIbz32SqLbPeWJOH5DjKKYipLEv28ZBTF5NgKzObiYsBcPYdQnhrCp/s1DnQ/PMXDqJoTFSUW+Aj2829I=
+	t=1784576135; cv=none; b=CCH5nQdEUfxOHRFLa/MEHa55ItH7KMFB3KpLzeqL3YQhLaeP4ChFMxRZ80NwWsPLeJRasUfBddzFWxvBJru2PD3RytGhcsbN45KAOfHLa5NfSN/g8/QP/cSPygU2G9+PXO+kwN1wEzoKseUeKgQ1bqcO9JVKvhLY+7uvvZYdoJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784576134; c=relaxed/simple;
-	bh=ifqNq225nfRuO77jzr3XXyC27iYCrW1SGYAlShFLthM=;
+	s=arc-20240116; t=1784576135; c=relaxed/simple;
+	bh=6wvL9kFs+/iObzzTHi4ROLnjN3QU20HiRZxAvTAZnCY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Gf22k6MpUeWCvoixrHK3fFaEKL6IU+f2BSRngXCCer5WtXkciAlttB45/pOdIJCHBVfGRAPngJZJlIGNoebZFFGHpbXkVkh4urLA13kwy9k/0fddyTMZObj/n+JkISOZrMntLASLp7kp0d23BHAedUSVGh56Mz2dmIvZ8Q1Zd+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=E/tVcDgT; arc=none smtp.client-ip=209.85.222.171
+	 MIME-Version; b=K7VaOsoE8LibdmimKyBs79s0KTCG2pOF3Gj6f/40T/LV3CbykLBP/sIb2bNowUU0bwpIxMrLQqgtCML4iNOrWsjBzSy9uXA8JInpz/R2WUIegg6zFJ7iiIBcIvcFq95Rk4VAWoKxsceZ7RNyFQt4+vxPWQrRtybr7nm1s3Mob8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=PiWabS+g; arc=none smtp.client-ip=209.85.222.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="E/tVcDgT"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-92e85499ffbso577754285a.0
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 12:35:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="PiWabS+g"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-92e50a650a0so622247685a.1
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 12:35:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1784576128; x=1785180928; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1784576131; x=1785180931; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KU1C1BFWfSEqKvrRpWFHlkg4mZCsJC5WSVAsWkbzWmY=;
-        b=E/tVcDgT7y3NoVzZT7KLiwOlpQ4lPhdrtRWlcd6UazdA1KnoL0/AcgEJde/VKvVnvR
-         9a27bQ6CG2k0BynXRV1oZJm+gbcC3PRfMyPuDPNeQKNNxSBl+8QNLpd5N7tenhHUZAQW
-         uKlTpoew9Z9c68rFnaKLd42GcnY1Mw/5obLt5lMUycLHXXUawWA+Mt6imP5jTJ7St4ou
-         Pe7F+HZ6xgxH0aI2vQZSjH1/u7YoNxL1+yPxwNFR6dGAsOnJ9iDQi0Uc0p7uI+e2AqVc
-         hURqDn72udUMRAxtkt6hLGro63G54FuIhq78FKTxdPqGU38Wan2INfREa70twQnfUTsS
-         LmPQ==
+        bh=5vrQuTcVEPlse/fTzTDhuMYNi8KtlAM6dYGGAEP65OU=;
+        b=PiWabS+gsx9dHJpE7uvcLEyysiFd2d140aPwAGx1VV+eSZjIDrHa0FvlRoBNucUzCM
+         vx///xfnA1mPT9ZTvmjfXPbTU7xqC+TtwUkjq7N+kTcSgzxTHJjwr1KIQiYBFRsOMbj7
+         XcNON8hU79suSjkLn5YWqzt1tEqkE8meiN1llh41eZ4L+g5k1JKebRCZ4H6kUla9oa1N
+         qRSzldcMYTkLEs8Zb+YT7quiSOgREcEutU6bHvlTrlcnHs6Ac4OLFKKoTLba0v8MLBKS
+         aEDbr+6vSGBwEfuiytlBW1bmIcGmyJNn60Yk7Hg6yu2sv1ADLfTV2PrhSLiBYjrXmT+M
+         je8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784576128; x=1785180928;
+        d=1e100.net; s=20251104; t=1784576131; x=1785180931;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KU1C1BFWfSEqKvrRpWFHlkg4mZCsJC5WSVAsWkbzWmY=;
-        b=LTiu574Ns0FdwCKU5bTeGepXwef71cLF2FQeWHClHFjP8R0QAREtIeZN8UX+X5uioJ
-         OayGiEdaA9fKAf8aklrjfZpunR8g1kYaKFzBdghSNbwXN2BaQ4SvFpJZ9CReEQelPp0x
-         +r5FzZAmUu/5/r4HQZDFwLBotNWncOePB8i7atFXsqW3j2xMWoTjjSskLH03+N0UJg8g
-         QJu3k6Gz26qL0B7CoWRgw7qFzY7fYvTNHRuD3Dt0gPp9fq33gZsYsHagJMb8BiWepaKM
-         u84OZ4aEdXimcl7qyiChpcORV0lBbp5YTpjp/+lh5MeRBYn9KXdCT4mle9pqbZuqmHCH
-         Afeg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq2OLMAgH/Sbo6S/LmkRGDAVprBJqX1Qh4N0pccsPQ0cGvRVPfqlDcnEzq5k0dlghIWD6TaUXMWxdM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSvYbFUFBIFFhc6it12oajJpAImZYNAoRM1due5mGTS9gUFtVa
-	40ky1UgwVsjTxzPcOE5cRkHUzhrf5azRSNpUz+dZ0kQznLjHC4BltMhdR51lE4FBbp4=
-X-Gm-Gg: AfdE7cnYRl9UrEYaZQHUQeGyGruLv76N6zpVlsQPVh6HBXMVHxQVo2FZ4/dRXbuOeVP
-	lecpB6V5p9NfoF+Yda4ENpIioKMXFQcMSbF4/iFeWAY8Zcg2IxhXIIxXdrEyTPXXgKDDlUvOcSq
-	MmNEdM+a4z5mR8jgyXR5IRSXscJq+Rn1kY4SGGUq9EbKXr98zQu91JZoXZQZvr1rTbCQI6vOEbs
-	1Q6lclAbjab8Kw3N7TmtaLosTEQ0RQbYzbYHLu6jE9cGSqgC5EPy6Rlm8zPlGnopHmutUxumolK
-	7yb3aMkiaLG4PHg6lG0FyVZ8HyxUY3PhYQggldK9HzduUvRoV3gQGQlcjN61H4ftCwhSYlvZqGv
-	sUHdwTsrM4McVCc5HazSMp6jPr3IrECrojLBoZwnqjOkbhQv5vPenghDZ1ZpYusUnsm+eOJNXnB
-	oCmPyss0EATiOHe00rwyi0JLYv+7uWV225E1UWd9bjCQflJth/JO4pafA3wJdcY1w=
-X-Received: by 2002:a05:620a:4588:b0:92e:4e88:f453 with SMTP id af79cd13be357-930b41a0726mr1469051085a.52.1784576127960;
-        Mon, 20 Jul 2026 12:35:27 -0700 (PDT)
+        bh=5vrQuTcVEPlse/fTzTDhuMYNi8KtlAM6dYGGAEP65OU=;
+        b=r4CLDSkIYys21E2TmENglFE+ZAjkETQF8ncath6Y9BdWFvt8yG4FErPNgViEUQaxbh
+         csIBnOnvfyGht+w93ITLQVnxgfKyh7QUQ2136sS+JW4kNPq+bexJVVpl6GAdHQR00DVk
+         OtWR6MO1xoToy8B2TT4aKAKJuMRqFcNrGXe98FfPPYvRd6P81/svl+GX56PfxE363rkQ
+         nXgHt7yBL4cFfHQ6Oo37kE7V9BGaFoj0vrlzarhP6CKneDbadu6vCWFvYV3sXmDT/Rj3
+         jKIwDFUmcnXPLCWOaFYSAhTf+31xjgaPzibBTAL60Vjzi+YWzJcUoxGG7x4vyduNZTnS
+         oLcA==
+X-Forwarded-Encrypted: i=1; AHgh+RoLsAz6zQgTQCsXQq+qGQmjqqvolg8cVvYlMpIkEBAuGW36TOhEIGoVQ+DPsLTbgQGDh8D+XAQvTBM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCTxj/D/eWEWFLLJOMZhORWJg0aoih495KemsOmX/aiSazqQBt
+	nGnLHhugWYpGGjbe0/+omG34eE7iElDAUJ0ewall9aHDj9hGoxLhjqNT0P8dHlz8S3E=
+X-Gm-Gg: AfdE7cmVWZOtgqy6+nbDKnzupj6RXxOgUILZ7ZJkHDG2aHS8LCpUZ9FqjDZ9/vTFTV8
+	w+CQCgZ2qDrb+ln18/oaz/wAhDjUyyHct99iwgUaEd1IqtzPII1D+nBwvRwm75Zv6CL0js3ZHSA
+	OqLEkZ2x6TJBBmj2ke4FnUrQHKX9AxoOARymrta3I/9I5Q2gAKAAWKpctaanwHd46WVTgjl2o6A
+	9spVVQA/sQre5CaHN8YFOc1x96nd9biyOVxH6jK6luzH7eu+cuXo4NHvj+xlj7bVJ9ruEeRaFZR
+	5nGLrIvuYZR6E87MTOtdYVcUr43E+nLaDyy1ePh+imoCyKmseiIj4xdrGvbyVKWjnPRe6Dei8pP
+	zUA0aEVftb+uVVCxuaGsDmpBecjsMuSqUtnvwhKlZMuhUjbG9qgKLuBVR38O0dJ8aE+cmzudMe4
+	uKAOIfQp1tsIeh5H3CgU+HgHRxGJu+3x0jQqPZu/9Jyu+L1x97h9BnuEMNs8fDtDc=
+X-Received: by 2002:a05:620a:4606:b0:92e:c117:5ecb with SMTP id af79cd13be357-930b430a072mr1502942385a.75.1784576130602;
+        Mon, 20 Jul 2026 12:35:30 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b545e47bsm957792285a.35.2026.07.20.12.35.26
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b545e47bsm957792285a.35.2026.07.20.12.35.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 12:35:27 -0700 (PDT)
+        Mon, 20 Jul 2026 12:35:30 -0700 (PDT)
 From: Gregory Price <gourry@gourry.net>
 To: linux-mm@kvack.org
 Cc: Zhigang.Luo@amd.com,
@@ -137,9 +137,9 @@ Cc: Zhigang.Luo@amd.com,
 	damon@lists.linux.dev,
 	linux-kselftest@vger.kernel.org,
 	kernel-team@meta.com
-Subject: [PATCH v5 19/36] proc: include N_MEMORY_PRIVATE nodes in numa_maps output
-Date: Mon, 20 Jul 2026 15:34:13 -0400
-Message-ID: <20260720193431.3841992-20-gourry@gourry.net>
+Subject: [PATCH v5 20/36] mm/memcontrol: account private-node memory in per-node stats
+Date: Mon, 20 Jul 2026 15:34:14 -0400
+Message-ID: <20260720193431.3841992-21-gourry@gourry.net>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260720193431.3841992-1-gourry@gourry.net>
 References: <20260720193431.3841992-1-gourry@gourry.net>
@@ -151,53 +151,113 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-numa_maps collects per-node page counts in the page-table walkers
-and emits them in show_numa_map.  All three filtered by N_MEMORY,
-so pages on N_MEMORY_PRIVATE nodes were never gathered/printed.
+Private nodes folios are charged like any other - the node's per-cpu
+lruvec counters are increment even for N_MEMORY_PRIVATE.
 
-Accept N_MEMORY_PRIVATE pages in both walkers and emit private nodes
-in show_numa_map, so private-node mappings are visible in numa_maps.
+The memcg-level totals in memory.stat therefore include this memory,
+but the per-node views do not:
+
+  - mem_cgroup_css_rstat_flush() folds the per-node percpu deltas into the
+    aggregate only for N_MEMORY nodes, so a private node's lruvec aggregate
+    is never refreshed.
+
+  - memory.numa_stat (v2) and the v1 numa_stat skip private nodes, so they
+    never emit an Nx= field for one.
+
+So memory.numa_stat does not sum to memory.stat once a cgroup has memory
+on a private node.
+
+Include N_MEMORY_PRIVATE in the flush/display process so private-node
+memory is folded in and reported per node.
+
+This is pure accounting of memory that already exists and is already
+charged, so it is unconditional - regardless of future capabilities.
 
 Signed-off-by: Gregory Price <gourry@gourry.net>
 ---
- fs/proc/task_mmu.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ mm/memcontrol-v1.c |  8 ++++++--
+ mm/memcontrol.c    | 11 +++++++++--
+ 2 files changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index 817e3e0f91943..e116cd5f157b9 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -3389,7 +3389,8 @@ static struct page *can_gather_numa_stats(pte_t pte, struct vm_area_struct *vma,
- 		return NULL;
+diff --git a/mm/memcontrol-v1.c b/mm/memcontrol-v1.c
+index 2dc599484d006..5e464e52dfb9a 100644
+--- a/mm/memcontrol-v1.c
++++ b/mm/memcontrol-v1.c
+@@ -2132,14 +2132,18 @@ static int memcg_numa_stat_show(struct seq_file *m, void *v)
+ 	const struct numa_stat *stat;
+ 	int nid;
+ 	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
++	nodemask_t reportable;
  
- 	nid = page_to_nid(page);
--	if (!node_isset(nid, node_states[N_MEMORY]))
-+	if (!node_isset(nid, node_states[N_MEMORY]) &&
-+	    !node_isset(nid, node_states[N_MEMORY_PRIVATE]))
- 		return NULL;
+ 	mem_cgroup_flush_stats(memcg);
  
- 	return page;
-@@ -3414,7 +3415,8 @@ static struct page *can_gather_numa_stats_pmd(pmd_t pmd,
- 		return NULL;
- 
- 	nid = page_to_nid(page);
--	if (!node_isset(nid, node_states[N_MEMORY]))
-+	if (!node_isset(nid, node_states[N_MEMORY]) &&
-+	    !node_isset(nid, node_states[N_MEMORY_PRIVATE]))
- 		return NULL;
- 
- 	return page;
-@@ -3602,6 +3604,10 @@ static int show_numa_map(struct seq_file *m, void *v)
- 		if (md->node[nid])
- 			seq_printf(m, " N%d=%lu", nid, md->node[nid]);
- 
-+	for_each_node_state(nid, N_MEMORY_PRIVATE)
-+		if (md->node[nid])
-+			seq_printf(m, " N%d=%lu", nid, md->node[nid]);
++	/* Private nodes hold cgroup memory too, report them. */
++	nodes_or(reportable, node_states[N_MEMORY], node_states[N_MEMORY_PRIVATE]);
 +
- 	seq_printf(m, " kernelpagesize_kB=%lu", vma_kernel_pagesize(vma) >> 10);
- out:
- 	seq_putc(m, '\n');
+ 	for (stat = stats; stat < ARRAY_END(stats); stat++) {
+ 		seq_printf(m, "%s=%lu", stat->name,
+ 			   mem_cgroup_nr_lru_pages(memcg, stat->lru_mask,
+ 						   false));
+-		for_each_node_state(nid, N_MEMORY)
++		for_each_node_mask(nid, reportable)
+ 			seq_printf(m, " N%d=%lu", nid,
+ 				   mem_cgroup_node_nr_lru_pages(memcg, nid,
+ 							stat->lru_mask, false));
+@@ -2151,7 +2155,7 @@ static int memcg_numa_stat_show(struct seq_file *m, void *v)
+ 		seq_printf(m, "hierarchical_%s=%lu", stat->name,
+ 			   mem_cgroup_nr_lru_pages(memcg, stat->lru_mask,
+ 						   true));
+-		for_each_node_state(nid, N_MEMORY)
++		for_each_node_mask(nid, reportable)
+ 			seq_printf(m, " N%d=%lu", nid,
+ 				   mem_cgroup_node_nr_lru_pages(memcg, nid,
+ 							stat->lru_mask, true));
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index f0dde52dc9e0e..4d79e238bc57d 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -4496,6 +4496,7 @@ static void mem_cgroup_css_rstat_flush(struct cgroup_subsys_state *css, int cpu)
+ 	struct mem_cgroup *parent = parent_mem_cgroup(memcg);
+ 	struct memcg_vmstats_percpu *statc;
+ 	struct aggregate_control ac;
++	nodemask_t reportable;
+ 	int nid;
+ 
+ 	flush_nmi_stats(memcg, parent);
+@@ -4524,7 +4525,9 @@ static void mem_cgroup_css_rstat_flush(struct cgroup_subsys_state *css, int cpu)
+ 	};
+ 	mem_cgroup_stat_aggregate(&ac);
+ 
+-	for_each_node_state(nid, N_MEMORY) {
++	/* Private nodes must also be accounted or numa_stat is misleading */
++	nodes_or(reportable, node_states[N_MEMORY], node_states[N_MEMORY_PRIVATE]);
++	for_each_node_mask(nid, reportable) {
+ 		struct mem_cgroup_per_node *pn = memcg->nodeinfo[nid];
+ 		struct lruvec_stats *lstats = pn->lruvec_stats;
+ 		struct lruvec_stats *plstats = NULL;
+@@ -4947,9 +4950,13 @@ static int memory_numa_stat_show(struct seq_file *m, void *v)
+ {
+ 	int i;
+ 	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
++	nodemask_t reportable;
+ 
+ 	mem_cgroup_flush_stats(memcg);
+ 
++	/* Private nodes hold cgroup memory too, report them. */
++	nodes_or(reportable, node_states[N_MEMORY], node_states[N_MEMORY_PRIVATE]);
++
+ 	for (i = 0; i < ARRAY_SIZE(memory_stats); i++) {
+ 		int nid;
+ 
+@@ -4957,7 +4964,7 @@ static int memory_numa_stat_show(struct seq_file *m, void *v)
+ 			continue;
+ 
+ 		seq_printf(m, "%s", memory_stats[i].name);
+-		for_each_node_state(nid, N_MEMORY) {
++		for_each_node_mask(nid, reportable) {
+ 			u64 size;
+ 			struct lruvec *lruvec;
+ 
 -- 
 2.53.0-Meta
 
