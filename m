@@ -1,208 +1,277 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35C33C988F;
-	Mon, 20 Jul 2026 22:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6486842DA35;
+	Mon, 20 Jul 2026 22:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784585336; cv=none; b=WcMMXr6pXg1qtp6fahKO59vhDQH4PnVakv6uo9ThpG9VYhoWv2eIFJ7sHSqBNqwKfmHX5YLc2wbxwDtU+zReXkbYw8g6Kel1++u8zF/wsrNI9ykwuyU4TsJN33E+RCtUeQwu49zLm+nuThzQhhJcwG9gTiJtKltae0UhiGmncFk=
+	t=1784585882; cv=none; b=LgZy9fZqzrLe+dGe1ZmHPhGlku85DzfnLw3G2WokBzKk+LS4XMQKZ9K2bQ6AXfEJ4+MfcayGJQOi+N6HloYrK8yGosyz2kbhJqevIlmLxhdOzs7b3leJD8DmcSWUjs0unKOuVrgrJS67ZOIZ+j2RnHN5UAVibPFQtoxkSpIzqbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784585336; c=relaxed/simple;
-	bh=6ZcSLCTlpeIECEMaTVZOgkzcpZtJ4JqCSc2WOUljvDI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fsDOuR+DoKugxeMm3C3RzA3zGR+y+lgtKNqoRinDAWrhex9D+0ef3pAR84JB95cRq8M9L9fOkTHv8LLhzr4IiA7fVzMKtvxWB4tUWfiRtzJOYGOXjnzQGZyyLeWa+IV7fcYMOV4dMbQIyVq4TryYe2bLLYw0bN2o7Rqle1AuzYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mT6UbtmY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784585882; c=relaxed/simple;
+	bh=piJCye+663SJPdUrzyC56NPwu7ZHIhzz+UfLbBqyqUc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=USPxj/fPu+2Npmixvi3eAjvtP7vPLjJgZ+djcRuZ34FrgTC3KJex+x1ug22pNeWYW5+1CS85QAn/OsrXB8CrgqDfeiIDErl5vEw0O6AcbVCWr0Ruarhl4CJIftF33OCxnk7EWzuJghFXozA15ExmhIQ5Gpd3H8aZHIWwkSXzbl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UmGxGRZg; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mT6UbtmY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2966B1F000E9;
-	Mon, 20 Jul 2026 22:08:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784585334;
-	bh=z11ITbQvt4NP+i0GjTjmCBTKhf0Lxqrhu6WfRIGhnpQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mT6UbtmYOcXsiFK7elvuKwRHp7wkmlw03MJRL5gqKdAITLpvWFTnN92LZxOKLVAcj
-	 fXA1y3IrVJq/qALoBLutVthJWs6NmYVJ7RPOJ5wSk1RXGByldWP4//t2HWuNmCjQp2
-	 ciykP2LyK2iACclGNuy2mMgN6gNl/30oqyv1T0gJxiQsFY6T0XgT7hzt1y7vIUTWpR
-	 MBW156AzU1Ad82gIWGpqXDhgVPauUlTW0kFkWxhGT58S3tExitlwiz9EUbtRT6lsg4
-	 dsY+rQPSG72eOv4NPr7XthzSTlx8UwILF0pPjRcVGHOAcGXE+InVWtBRsAAx8sfR9b
-	 yFes13reBTApQ==
-Date: Tue, 21 Jul 2026 00:08:52 +0200
-From: Lorenzo Bianconi <lorenzo@kernel.org>
-To: Stanislav Fomichev <sdf.kernel@gmail.com>
-Cc: Donald Hunter <donald.hunter@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	KP Singh <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Vladimir Vdovin <deliran@verdict.gg>,
-	Jakub Sitnicki <jakub@cloudflare.com>, netdev@vger.kernel.org,
-	bpf@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH bpf-next v5 8/8] selftests: net: add test for XDP_PASS
- skb checksum invalidation
-Message-ID: <al6cdHMBpd1SqZyl@lore-desk>
-References: <20260715-bpf-xdp-meta-rxcksum-v5-0-623d5c0d0ab7@kernel.org>
- <20260715-bpf-xdp-meta-rxcksum-v5-8-623d5c0d0ab7@kernel.org>
- <aljNR2sf8qJVKFgb@devvm7509.cco0.facebook.com>
- <alkBnI3XcH0XGjEo@lore-desk>
- <al53WS9FMTnu7tBI@devvm7509.cco0.facebook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UmGxGRZg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784585880; x=1816121880;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=piJCye+663SJPdUrzyC56NPwu7ZHIhzz+UfLbBqyqUc=;
+  b=UmGxGRZgYfe0MLf9lMzk4AWdsOPE0jF1EBkJyFzqX5K89p865tOg6lVO
+   DMqSIRVxrtONzjZ0xh4AYBDp1tIMKg0OOsSehfBGr4CQ9+SC0OpLwy5fm
+   MqjNf088KFBGEWJ0HdNGlAmbz7L6BM+276EG8msR90SaFQnyR0F2vGoat
+   PW+KmjmzUfHHPxqcR8EWuGszmLoAaz4T+QJdNUgc9P6Y7+rTcNswjrICC
+   OH6VkGjuXeBGbOoIOzbxzgG8t4kxr1Vd3eVIHwAjEM6ZI6t7g3jFSQBLK
+   y+lgx9HKMAleiDLP6xDViI4XGfqBA9HA1X88J7mAjy93COpmcq0I7lAG+
+   g==;
+X-CSE-ConnectionGUID: C+puY+SWTOyQoDU4+WaXxQ==
+X-CSE-MsgGUID: 8dFBOlQAS5+YY+l8klPiww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11852"; a="95829463"
+X-IronPort-AV: E=Sophos;i="6.25,175,1779174000"; 
+   d="scan'208";a="95829463"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2026 15:15:12 -0700
+X-CSE-ConnectionGUID: IPJQR+ENQPWu7HFmV6oHlQ==
+X-CSE-MsgGUID: DQS5BRxVSWS9nTZJ/HpaJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,175,1779174000"; 
+   d="scan'208";a="255799392"
+Received: from cooperst-gp83.amr.corp.intel.com (HELO [10.125.109.176]) ([10.125.109.176])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2026 15:15:10 -0700
+Message-ID: <bf7e8105-9c0b-4e80-a8b1-5df7873754c5@intel.com>
+Date: Mon, 20 Jul 2026 15:15:09 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Poik8L3QQ7fei6lR"
-Content-Disposition: inline
-In-Reply-To: <al53WS9FMTnu7tBI@devvm7509.cco0.facebook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v18 08/13] cxl/pci: Thread port and dport through RAS
+ handling helpers
+To: Terry Bowman <terry.bowman@amd.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Dan Williams <djbw@kernel.org>, Ira Weiny <iweiny@kernel.org>,
+ Jonathan Cameron <jic23@kernel.org>, Len Brown <lenb@kernel.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Robert Richter <rrichter@amd.com>
+Cc: linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ Alejandro Lucero <alucerop@amd.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Ankit Agrawal <ankita@nvidia.com>, Ard Biesheuvel <ardb@kernel.org>,
+ Ben Cheatham <Benjamin.Cheatham@amd.com>, Borislav Petkov <bp@alien8.de>,
+ Breno Leitao <leitao@debian.org>, Davidlohr Bueso <dave@stgolabs.net>,
+ "Fabio M . De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+ Gregory Price <gourry@gourry.net>, Hanjun Guo <guohanjun@huawei.com>,
+ Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
+ Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ Li Ming <ming.li@zohomail.com>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Oliver O'Halloran <oohall@gmail.com>, Shiju Jose <shiju.jose@huawei.com>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Shuai Xue <xueshuai@linux.alibaba.com>,
+ Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
+ Tony Luck <tony.luck@intel.com>, Vishal Verma <vishal.l.verma@intel.com>
+References: <20260717222706.3540281-1-terry.bowman@amd.com>
+ <20260717222706.3540281-9-terry.bowman@amd.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20260717222706.3540281-9-terry.bowman@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---Poik8L3QQ7fei6lR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-> On 07/16, Lorenzo Bianconi wrote:
-> > On Jul 16, Stanislav Fomichev wrote:
-> > > On 07/15, Lorenzo Bianconi wrote:
-> > > > Add a test that verifies skb->ip_summed is set to CHECKSUM_NONE
-> > > > when a device running in XDP mode creates an skb from a xdp_buff
-> > > > if the attached ebpf program returns an XDP_PASS.
-> > > > The test attaches an XDP program returning XDP_PASS, and a TC
-> > > > ingress program that runs the bpf_skb_rx_checksum() kfunc to
-> > > > inspect the resulting skb. After XDP_PASS the driver must invalidate
-> > > > any previously computed hardware RX checksum since XDP may have
-> > > > modified the packet data.
-> > > > The BPF program counts packets per checksum type in a map, and the
-> > > > test runner verifies that after sending traffic the CHECKSUM_NONE
-> > > > counter is non-zero while CHECKSUM_UNNECESSARY and CHECKSUM_COMPLETE
-> > > > counters are zero.
-> > > >=20
-> > > > Signed-off-by: Lorenzo Bianconi <lorenzo@kernel.org>
-> > > > ---
-> > > >  Documentation/networking/xdp-rx-metadata.rst       |  5 ++
-> > > >  .../selftests/drivers/net/hw/xdp_metadata.py       | 55 ++++++++++=
-+++++-
-> > > >  .../selftests/net/lib/skb_metadata_csum.bpf.c      | 73 ++++++++++=
-++++++++++++
-> > > >  3 files changed, 132 insertions(+), 1 deletion(-)
-> > > >=20
-> > > > diff --git a/Documentation/networking/xdp-rx-metadata.rst b/Documen=
-tation/networking/xdp-rx-metadata.rst
-> > > > index 93918b3769a3..7434ac98242a 100644
-> > > > --- a/Documentation/networking/xdp-rx-metadata.rst
-> > > > +++ b/Documentation/networking/xdp-rx-metadata.rst
-> > > > @@ -90,6 +90,11 @@ conversion, and the XDP metadata is not used by =
-the kernel when building
-> > > >  ``skbs``. However, TC-BPF programs can access the XDP metadata are=
-a using
-> > > >  the ``data_meta`` pointer.
-> > >=20
-> > > [..]
-> > >=20
-> > > > +If a driver is running in XDP mode, any existing hardware RX check=
-sum
-> > > > +(``CHECKSUM_UNNECESSARY`` or ``CHECKSUM_COMPLETE``) must be invali=
-dated
-> > > > +by setting ``skb->ip_summed`` to ``CHECKSUM_NONE`` before passing =
-the
-> > > > +skb to the kernel, since XDP may have modified the packet data.
-> > > > +
-> > > >  In the future, we'd like to support a case where an XDP program
-> > > >  can override some of the metadata used for building ``skbs``.
-> > >=20
-> > > Sorry for keeping nitpicking on this, but I'm still not convinced that
-> > > it is what we currently do. From my previous reply:
-> >=20
-> > no worries :)
-> > My current take-away from the previous discussion is we just need to do=
-cument
-> > what would be the driver expected behaviour adding a kselftest for it (=
-without
-> > modifying any driver).
-> >=20
-> > >=20
-> > > > > Looking at a few drivers:
-> > > > > - bnxt (bnxt_rx_pkt) does UNNECESSARY - ok
-> > > > > - mlx5 (mlx5e_handle_csum) does UNNECESSARY and skips COMPLETE if=
- there is
-> > > > >   bpf prog attached
-> > > > > - fbnic (fbnic_rx_csum) - can do COMPLETE even with xdp attached?
-> > > > > - gve (gve_rx) - can do COMPLETE even with xdp attached?
-> > >=20
-> > > (although for gve I might be wrong, there is also gve_rx_skb_csum tha=
-t only
-> > > does UNNECESSARY).
-> > >=20
-> > > I'd wait for Jakub to chime in, but it feels like we should just docu=
-ment
-> > > what we currently do as a recommended approach: for the drivers
-> > > that support COMPLETE, do not report it when the bpf program is attac=
-hed.
-> > > Both NONE and UNNECESSARY are ok.
-> >=20
-> > I am not completely sure the UNNECESSARY case is different from the COM=
-PLETE
-> > one. What are we supposed to do if the driver reports UNNECESSARY and t=
-he ebpf
-> > program modifies some fields covered by the rx-checksum?
->=20
-> For unnecessary, I think the safe expectation is that the bpf program
-> will update the value of the checksum in the packet if it touches the dat=
-a?
 
-I do not have a strong opinion on it.
-@Jakub: any input on it?
+On 7/17/26 3:27 PM, Terry Bowman wrote:
+> From: Dan Williams <djbw@kernel.org>
+> 
+> The callers of cxl_handle_ras() and cxl_handle_cor_ras() already hold
+> a struct cxl_port * and struct cxl_dport * for the device being
+> handled. Passing a generic struct device * requires is_cxl_memdev()
+> to distinguish Endpoints from ports at trace emission time. Threading
+> port and dport directly enables is_cxl_endpoint(port) and explicit
+> dport/port branching for cleaner trace dispatch.
+> 
+> Refactor cxl_handle_ras() and cxl_handle_cor_ras() to accept struct
+> cxl_port * and struct cxl_dport * directly. The CXL RAS trace event
+> emission logic is split into three branches: Endpoint events are
+> identified via is_cxl_endpoint(port) and emit with the memdev, dport
+> events emit with dport->dport_dev, and Upstream Port events fall back
+> to port->uport_dev.
+> 
+> Update cxl_handle_rdport_errors() in ras_rch.c and
+> cxl_handle_proto_error() in ras.c to pass port and dport to the
+> refactored functions.
+> 
+> RCH Downstream Port correctable trace events now report the dport
+> device (dport->dport_dev) as a consequence of threading port and dport
+> through the RAS helpers. The following trace event rework ("cxl: Add
+> port and dport identifiers to CXL AER trace events") adds explicit
+> memdev, port, dport, and host fields that provide full context for
+> all device types.
+> 
+> Co-developed-by: Terry Bowman <terry.bowman@amd.com>
+> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
+> Signed-off-by: Dan Williams <djbw@kernel.org>
 
->=20
-> > > Also, did you run this test on real HW? NIPA now has HW tests, maybe =
-it
-> > > makes sense to route this series via net-next to get the real coverag=
-e?
-> >=20
-> > What about splitting this series and have two different series:
-> > - bpf-next: add xdp rx kfunc and related selftest
-> > - net-next: add kselftest for the driver expected behaviour.
-> >=20
-> > What do you think?
->=20
-> I'd post everything to net-next to get the HW coverage. Once you get all
-> the acks we can ask the maintainers' guidance.
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>
 
-ack, I am fine with that.
 
-Regards,
-Lorenzo
+> 
+> ---
+> 
+> Changes in v17 -> v18:
+> - New patch.
+> ---
+>  drivers/cxl/core/core.h    | 12 ++++++++----
+>  drivers/cxl/core/ras.c     | 29 +++++++++++++++--------------
+>  drivers/cxl/core/ras_rch.c |  2 +-
+>  3 files changed, 24 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/cxl/core/core.h b/drivers/cxl/core/core.h
+> index 272634ff2615b..5ca1275fd8f35 100644
+> --- a/drivers/cxl/core/core.h
+> +++ b/drivers/cxl/core/core.h
+> @@ -185,10 +185,12 @@ static inline struct device *dport_to_host(struct cxl_dport *dport)
+>  #ifdef CONFIG_CXL_RAS
+>  void cxl_ras_init(void);
+>  void cxl_ras_exit(void);
+> -bool cxl_handle_ras(struct device *dev, void __iomem *ras_base);
+> +bool cxl_handle_ras(struct cxl_port *port, struct cxl_dport *dport,
+> +		    void __iomem *ras_base);
+>  void cxl_do_recovery(struct pci_dev *pdev, struct cxl_port *port,
+>  		     struct cxl_dport *dport);
+> -void cxl_handle_cor_ras(struct device *dev, void __iomem *ras_base);
+> +void cxl_handle_cor_ras(struct cxl_port *port, struct cxl_dport *dport,
+> +			void __iomem *ras_base);
+>  void cxl_dport_map_rch_aer(struct cxl_dport *dport);
+>  void cxl_disable_rch_root_ints(struct cxl_dport *dport);
+>  void cxl_handle_rdport_errors(struct pci_dev *pdev);
+> @@ -197,13 +199,15 @@ void devm_cxl_dport_ras_setup(struct cxl_dport *dport);
+>  #else
+>  static inline void cxl_ras_init(void) { }
+>  static inline void cxl_ras_exit(void) { }
+> -static inline bool cxl_handle_ras(struct device *dev, void __iomem *ras_base)
+> +static inline bool cxl_handle_ras(struct cxl_port *port, struct cxl_dport *dport,
+> +				  void __iomem *ras_base)
+>  {
+>  	return false;
+>  }
+>  static inline void cxl_do_recovery(struct pci_dev *pdev, struct cxl_port *port,
+>  				   struct cxl_dport *dport) { }
+> -static inline void cxl_handle_cor_ras(struct device *dev, void __iomem *ras_base) { }
+> +static inline void cxl_handle_cor_ras(struct cxl_port *port, struct cxl_dport *dport,
+> +				      void __iomem *ras_base) { }
+>  static inline void cxl_dport_map_rch_aer(struct cxl_dport *dport) { }
+>  static inline void cxl_disable_rch_root_ints(struct cxl_dport *dport) { }
+>  static inline void cxl_handle_rdport_errors(struct pci_dev *pdev) { }
+> diff --git a/drivers/cxl/core/ras.c b/drivers/cxl/core/ras.c
+> index 9a142abcf4f8b..6f4a3c1b0bb85 100644
+> --- a/drivers/cxl/core/ras.c
+> +++ b/drivers/cxl/core/ras.c
+> @@ -232,7 +232,6 @@ void __iomem *to_ras_base(struct cxl_port *port, struct cxl_dport *dport)
+>  
+>  void cxl_do_recovery(struct pci_dev *pdev, struct cxl_port *port, struct cxl_dport *dport)
+>  {
+> -	struct device *dev = dport ? dport->dport_dev : port->uport_dev;
+>  	void __iomem *ras_base = to_ras_base(port, dport);
+>  
+>  	if (!ras_base) {
+> @@ -241,14 +240,14 @@ void cxl_do_recovery(struct pci_dev *pdev, struct cxl_port *port, struct cxl_dpo
+>  		return;
+>  	}
+>  
+> -	if (cxl_handle_ras(dev, ras_base))
+> +	if (cxl_handle_ras(port, dport, ras_base))
+>  		panic("CXL cachemem error");
+>  
+>  	dev_dbg(&pdev->dev,
+>  		"CXL UCE signaled but no CXL RAS status bits set\n");
+>  }
+>  
+> -void cxl_handle_cor_ras(struct device *dev, void __iomem *ras_base)
+> +void cxl_handle_cor_ras(struct cxl_port *port, struct cxl_dport *dport, void __iomem *ras_base)
+>  {
+>  	u32 status;
+>  	void __iomem *addr;
+> @@ -260,10 +259,12 @@ void cxl_handle_cor_ras(struct device *dev, void __iomem *ras_base)
+>  	status = readl(addr);
+>  	if (status & CXL_RAS_CORRECTABLE_STATUS_MASK) {
+>  		writel(status & CXL_RAS_CORRECTABLE_STATUS_MASK, addr);
+> -		if (is_cxl_memdev(dev))
+> -			trace_cxl_aer_correctable_error(to_cxl_memdev(dev), status);
+> +		if (is_cxl_endpoint(port))
+> +			trace_cxl_aer_correctable_error(to_cxl_memdev(port->uport_dev), status);
+> +		else if (dport)
+> +			trace_cxl_port_aer_correctable_error(dport->dport_dev, status);
+>  		else
+> -			trace_cxl_port_aer_correctable_error(dev, status);
+> +			trace_cxl_port_aer_correctable_error(port->uport_dev, status);
+>  	}
+>  }
+>  
+> @@ -288,7 +289,7 @@ static void header_log_copy(void __iomem *ras_base, u32 *log)
+>   * Log the state of the RAS status registers and prepare them to log the
+>   * next error status. Return 1 if reset needed.
+>   */
+> -bool cxl_handle_ras(struct device *dev, void __iomem *ras_base)
+> +bool cxl_handle_ras(struct cxl_port *port, struct cxl_dport *dport, void __iomem *ras_base)
+>  {
+>  	u32 hl[CXL_HEADERLOG_TRACE_SIZE_U32] = {};
+>  	void __iomem *addr;
+> @@ -315,10 +316,12 @@ bool cxl_handle_ras(struct device *dev, void __iomem *ras_base)
+>  	}
+>  
+>  	header_log_copy(ras_base, hl);
+> -	if (is_cxl_memdev(dev))
+> -		trace_cxl_aer_uncorrectable_error(to_cxl_memdev(dev), status, fe, hl);
+> +	if (is_cxl_endpoint(port))
+> +		trace_cxl_aer_uncorrectable_error(to_cxl_memdev(port->uport_dev), status, fe, hl);
+> +	else if (dport)
+> +		trace_cxl_port_aer_uncorrectable_error(dport->dport_dev, status, fe, hl);
+>  	else
+> -		trace_cxl_port_aer_uncorrectable_error(dev, status, fe, hl);
+> +		trace_cxl_port_aer_uncorrectable_error(port->uport_dev, status, fe, hl);
+>  
+>  	writel(status & CXL_RAS_UNCORRECTABLE_STATUS_MASK, addr);
+>  
+> @@ -351,7 +354,7 @@ pci_ers_result_t cxl_error_detected(struct pci_dev *pdev,
+>  		 * chance the situation is recoverable dump the status of the RAS
+>  		 * capability registers and bounce the active state of the memdev.
+>  		 */
+> -		ue = cxl_handle_ras(port->uport_dev, to_ras_base(port, NULL));
+> +		ue = cxl_handle_ras(port, NULL, to_ras_base(port, NULL));
+>  	}
+>  
+>  	/*
+> @@ -382,10 +385,8 @@ EXPORT_SYMBOL_NS_GPL(cxl_error_detected, "CXL");
+>  static void cxl_handle_proto_error(struct pci_dev *pdev, struct cxl_port *port,
+>  				   struct cxl_dport *dport, int severity)
+>  {
+> -	struct device *dev = dport ? dport->dport_dev : port->uport_dev;
+> -
+>  	if (severity == AER_CORRECTABLE)
+> -		cxl_handle_cor_ras(dev, to_ras_base(port, dport));
+> +		cxl_handle_cor_ras(port, dport, to_ras_base(port, dport));
+>  	else
+>  		cxl_do_recovery(pdev, port, dport);
+>  }
+> diff --git a/drivers/cxl/core/ras_rch.c b/drivers/cxl/core/ras_rch.c
+> index f2d2fb83758b9..f4b98f2c11a1c 100644
+> --- a/drivers/cxl/core/ras_rch.c
+> +++ b/drivers/cxl/core/ras_rch.c
+> @@ -118,7 +118,7 @@ void cxl_handle_rdport_errors(struct pci_dev *pdev)
+>  
+>  	pci_print_aer(pdev, severity, &aer_regs);
+>  	if (severity == AER_CORRECTABLE)
+> -		cxl_handle_cor_ras(&pdev->dev, to_ras_base(port, dport));
+> +		cxl_handle_cor_ras(dport->port, dport, to_ras_base(port, dport));
+>  	else
+>  		cxl_do_recovery(pdev, dport->port, dport);
+>  }
 
---Poik8L3QQ7fei6lR
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTquNwa3Txd3rGGn7Y6cBh0uS2trAUCal6cdAAKCRA6cBh0uS2t
-rBbAAQDuKu2WNBvm2CcO6No6R6S427G1mLi7hdfmjTMduKOLYwEA9/j6hFjjCn7s
-9OGAW6D4Pk31PHVDpSIYW7xQEkUWTwU=
-=j1RN
------END PGP SIGNATURE-----
-
---Poik8L3QQ7fei6lR--
