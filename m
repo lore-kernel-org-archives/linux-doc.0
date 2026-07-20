@@ -1,112 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F2842B311;
-	Mon, 20 Jul 2026 14:24:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D8843031E
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 14:40:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784557493; cv=none; b=Lo0jOvNtZq4iTYzYb6rdWmJm/B5NGWdMK1+7p8YpXkrFjpk47p8yluxMHJ9zPCf6wzEzHA0MSeSLfLSnW4MiHcs3L+fQKyd1mek51g1GAv8TLefhScuKB7b33axUdFZ7TflCHkBMiwRYYQwFuhop9Fvm2IGrdayC58QDx3jRfPk=
+	t=1784558460; cv=none; b=UjGhIDYwjiKA/GEJVMjbUM49AHIpoWeGsenNkYU3vhzGV66XRnFwbTlsK8l0Ty+KZeN3e0wE76fKkZu4f0J+hTA0b3BMnWc6pksjZ/Y+NbJ8Povgz4yR7/hvF3a5F+Rmt1zZMxsJPe2bsGB4UZ+8FnEt2eSs3kCvqu/DlPRDZuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784557493; c=relaxed/simple;
-	bh=nJHwqodpka2gGhMWW0JBRL/YXJ6Yzeqj2mf9Le3yEYY=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=LneOMYgXgciO2h2/WB2bnOGUYSBqY98dyJvb3exYwAII4MMHkkQiEqGay7hXQp9ErgueqN4Mc/C1rIcdJXpczcfJi+UDcqEc3yUbtsv6zmyAM8D2N6n2z5ShOT+3alkL4W4jtTuhyBHtJFTr8MBHpIX598FFAjNxLbk4qBJSWis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MsSNjfz8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784558460; c=relaxed/simple;
+	bh=X+l4s5oACxDuUjszfwq3bjz2V3p8Vmp5HNSG3+GMkjw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X076qGe20mh5dCHkgqUP5igW+JIyLHTRShn4WgLuCHeHQnIP8kM/leaXZn4kxaloTY18gX/1ROqBfmrZCAWfd7P9lT2qAGNElDxftGF9D6YUZl7m3cSFXFh7RdzWQVxb4kvA55MQfPd6TPqSD3ekHLqbiYL0JIP5wLvIyOLi7+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Pqo2xgJ5; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MsSNjfz8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02E511F000E9;
-	Mon, 20 Jul 2026 14:24:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784557491;
-	bh=+lLIgvF7isoDrIHYELuREN+HQBBazSvKwi4llieRlTQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=MsSNjfz8CPauPsBrPPnzqyS1VH+0A9UWJqD7L1iF6tyvhzIb/jz0baKBESIVJBGAD
-	 yptYErPNFkTEiv0NdMvO6OcIg7IJ8kzHiPKuGQMRkehMENptSLMNpYMTmpBCkRuAXZ
-	 9ASr0FigbTdA1CfMWNObYA/kf94fLgIzufv+lYB0EoAGQKwtXGbEXBCn0ugYp2Nt7G
-	 kukqroRNQPge15mi5ncw1pgZeRWzNZ04jQrEQlAVNxKM5niBfG/6oLIFIJXZSEoSyI
-	 KlNCqryhTp0XO/qH+/ZRt50xw0Lo9EBzpFREwzl+X+lRolgr8XacgXrs+csUvxZvUh
-	 pwiNxH60a3Q8w==
-Date: Mon, 20 Jul 2026 23:24:42 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Borislav Petkov <bp@alien8.de>, Jinchao Wang <wangjinchao600@gmail.com>
-Cc: Dave Hansen <dave.hansen@intel.com>, Jinchao Wang
- <wangjinchao600@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
- Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Ingo Molnar <mingo@redhat.com>, Dave Hansen
- <dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>,
- x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim
- <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>, David Hildenbrand
- <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox
- <willy@infradead.org>, Alan Stern <stern@rowland.harvard.edu>, Randy Dunlap
- <rdunlap@infradead.org>, Alexander Potapenko <glider@google.com>, Marco
- Elver <elver@google.com>, Mike Rapoport <rppt@kernel.org>,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH v2 00/13] mm/kwatch: dynamic hardware watchpoints
- for hunting memory corruption
-Message-Id: <20260720232442.3e6b0e70c6939541b8362e05@kernel.org>
-In-Reply-To: <20260717181004.GBalpv_MOaAflgFxgh@fat_crate.local>
-References: <20260717125023.1895892-1-wangjinchao600@gmail.com>
-	<91f3486b-3b85-4b43-b099-0a5325643352@intel.com>
-	<20260717181004.GBalpv_MOaAflgFxgh@fat_crate.local>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Pqo2xgJ5"
+Date: Mon, 20 Jul 2026 22:40:43 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784558454;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Z4gSt9cswUv2DtOGtLXPRqtGUR2VcGmgfvQCElRP9mg=;
+	b=Pqo2xgJ5RDdj6NXs/jgeISfkdIg7i7qMUGkyZrTO/p1VM+BbXJW/RIUSk3umeDw8GfcuOR
+	BQyPX9vHf6jSgJDsYezil7V5AOtFS0ol0tf8WF9flnT6iDNrezuc4gIkTJvqvd/XeVKzlm
+	rjkJqxcCecDN47qIrUxa/KE9LXp2OPA=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Baoquan He <baoquan.he@linux.dev>
+To: Mike Rapoport <rppt@kernel.org>, Pnina Feder <pnina.feder@mobileye.com>
+Cc: Simon Horman <horms@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Dave Young <ruirui.yang@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>, Alexandre Ghiti <alex@ghiti.fr>,
+	kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/4] vmcore-tasks: export per-task metadata to vmcoreinfo
+Message-ID: <al4yeHrkDHFoo6A0@MiWiFi-R3L-srv>
+References: <20260622211430.4008899-1-pnina.feder@mobileye.com>
+ <akybBoCAm-kJbfHL@kernel.org>
+ <20260720091927.GA1736709@horms.kernel.org>
+ <al4X300UObXawEIJ@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <al4X300UObXawEIJ@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, 17 Jul 2026 11:10:04 -0700
-Borislav Petkov <bp@alien8.de> wrote:
-
-> On Fri, Jul 17, 2026 at 06:41:49AM -0700, Dave Hansen wrote:
-> > On 7/17/26 05:50, Jinchao Wang wrote:
-> > >  24 files changed, 2115 insertions(+), 63 deletions(-)
-> > Reading this, I wonder how many kernel debugging features we need. I
-> > don't even think we have a centralized list of them. They all just live
-> > in their own silos.
+On 07/20/26 at 03:43pm, Mike Rapoport wrote:
+> Hi Simon,
+> 
+> On Mon, Jul 20, 2026 at 10:19:27AM +0100, Simon Horman wrote:
+> > On Tue, Jul 07, 2026 at 09:21:58AM +0300, Mike Rapoport wrote:
+> > > On Tue, Jun 23, 2026 at 12:14:26AM +0300, Pnina Feder wrote:
+> > > > This series extends vmcoreinfo with struct offsets and sizes needed by
+> > > > the vmcore-tasks userspace tool to extract per-task state from a vmcore
+> > > > dump without requiring kernel debug symbols (DWARF/BTF).
+> > > > 
+> > > > The vmcore-tasks tool reads /proc/vmcore (or a saved vmcore file) and
+> > > > reconstructs, for each task:
+> > > >   - task name, pid, state, flags
+> > > >   - VMA list (start, end, flags, backing file)
+> > > >   - user register state (saved on the kernel stack at kernel entry)
+> > > >   - user-space backtrace with VMA/filename mapping
+> > > >   - kernel dmesg buffer
+> > > > 
+> > > > This provides a lightweight post-mortem crash analysis capability for
+> > > > production environments where full debug info (DWARF/BTF) is not
+> > > > available.
+> > > > 
+> > > > The companion userspace tool is submitted to kexec-tools:
+> > > >   https://lore.kernel.org/all/20260622205550.1087163-1-pnina.feder@mobileye.com/
+> > > 
+> > > Sorry for the delay, this fell between the cracks somehow.
+> > > 
+> > > The kernel side looks fine overall, but to merge it there should be an
+> > > agreement from the userspace side maintainers that vmcore-tasks is
+> > > something they are wishing to accept.
 > > 
-> > This one really seems like a super specialized tool. It has to be
-> > enabled at compile time and specifically aimed at a specific function.
+> > Hi Mike, all,
 > > 
-> > Maybe this should live off on the side for a while. If folks end up
-> > actually needing it, they can point their friendly LLM over to its tree.
+> > Sorry for the extended delay.
+> > 
+> > I will send some minor feedback to the user-space tool patchset
+> > but overall, yes, this is something I would be happy to accept.
+> > 
+> > I don't want to create a chicken-and-egg type problem here.
+> > But it's probably worth mentioning that usually features
+> > hit the kernel before the corresponding code is accepted
+> > into kexec-tools.
 > 
-> Right, and in my mbox right under this mail thread there's a
+> Sorry if I wasn't clear. 
 > 
-> https://lore.kernel.org/all/178429796992.157981.3393977217853767915.stgit@devnote2/
+> I didn't mean that the feature should be merged into kexec-tools before
+> merging the kernel bits. I just wanted to make sure there's no fundamental
+> issue from kexec-tools perspective.
 > 
-> which Masami has been blasting almost every day this week which contains two
-> of the patches from this set here...
-
-Sorry about that. I tried to fix the reviewed comment from Sashiko,
-but I should wait for someone's comment.
-
+> > Let me know how you would like to proceed.
 > 
-> Looks to me like folks need to sit down and agree on strategy first.
+> I'm going to wait for Baoquan's review and once that's done I'll pick up
+> the kernel bits.
 
-Yeah, I need to talk with Jinchao.
+Oh, sorry, I just noticed this series, but a quick look give me a hint
+of 'No, I don't like it.' We have had Crash utility, Drgn, now a new one
+comes up. I have some concerns to Pnina:
 
-Like kprobe, wprobe itself integrates watchpoint functionality into
-the tracing subsystem. Jinchao, I would like to ask you to redesign
-the kwatch tool based on fprobe and wprobe events in user space?
-I think that could reduce redundant efforts on the similar feature.
+1. Exporting maple tree internals (maple_node, maple_range_64,
+   maple_arange_64, maple_metadata) as vmcoreinfo ABI is problematic.
+   These are private implementation details, not stable structures like
+   task_struct. Any refactoring of the maple tree will silently break
+   the userspace tool. 
 
-Using fprobe entry and exit event trigger, we can make a Function-
-scoped watch window. Also, since fprobe and wprobe are having BTF
-typecast support, you can access to the members of data structures
-more naturally.
+2. Without DWARF/BTF, the debugging scope is inherently limited — no
+   kernel stack backtrace, no symbol resolution, no variable access.
+   That's essentially "ps + /proc/PID/maps" from a vmcore. Have you
+   considered enabling CONFIG_DEBUG_INFO_BTF on your platforms instead?
+   BTF is compact (typically < 1 MB) and would give drgn full access
+   without needing vmlinux debug packages. That seems like a better
+   return-on-investment than maintaining ~40 new vmcoreinfo exports.
 
-If you are interested, I would be open to having you handle the
-development of the necessary features for wprobe.
+3. Beyond the technical concerns, I wonder about adoption. vmcore-tasks
+   targets a fairly narrow use case — platforms without DWARF/BTF, where
+   you still have vmcore but can't ship vmlinux. Is Mobileye currently
+   the only consumer? Are you guys already using it widely and fully?
+   If this lands but doesn't see broader uptake, the ~40 exports risk
+   becoming dead weight in vmcoreinfo — nobody actively uses them, but
+   kernel changes still need to keep them consistent, or they silently
+   rot and give users wrong results. 
 
-Thank you,
+Regards,
+Baoquan
 
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+
+
+
+
