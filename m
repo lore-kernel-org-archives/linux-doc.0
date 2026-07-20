@@ -1,143 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9846A3803DC;
-	Sun, 19 Jul 2026 23:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F9C1DA23
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 01:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784502737; cv=none; b=iHgOhOVYpT1GuE8ERInDNbRgZpI7I0hKKdoRDpr63lVgUZnyTQzlDKO160n4wusg1vwLNO0BOpwBlRXcitsGXWCNE2OXv9DwzIIvsnGSpMtVddR5yxksHhAEcwPCdKTmFJiEDD9hDj1xPvuoA2pvtsMOXwklsWyp7c6CLxGKPhI=
+	t=1784510823; cv=none; b=THl8yUef6j5c7ThNYjfkYXX+GJxu+28DliIdFte71UenERo1DJ7NNqAPkvaMbMoqgGMMGaJILu9/lu0OxdCkx1Hj8Ga7QEeVtcA8I8Gk0V1frs9GlCWa4QKwLfD5J9lODwUG7JX2LdPfc9z/K3sJLnQSjPVxtCWi5PXMr9osOkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784502737; c=relaxed/simple;
-	bh=q7gRFDO7XUzOJdjKk7dinZEmMYgpMJThzBI3Uxs/+tg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nPquszOeJ7EOXImaCFtxlqKl6bbSFUsLydY3Sxr2V4LA12P82kRkMCtjmVVcLT5lSTDuTnOgSv1TnAZ66bXyDXSDRUevXAggDB0+DCP5W/7NoiMNUvofA85spDSAiHLuPV3CNayXFdgpnA5iy5K6dyIAlospGoaQtxtKpTo7C4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TGc7RTRm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784510823; c=relaxed/simple;
+	bh=HGYuSPtjGaJQmKS1H4EHNovCQZ/qJMDtrtwwlCqhRsg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VbwdedkuZG0myrR3nyzYqo9cWhgUUi88PeAtFOwOjvS+So78bjqKC/yhc9PX51Co3ge6sEWBYm1a2ngocma/hfn/RKxhYP5jEjFb1NCPC7T9EJa7IbFw8uLlkzkyKm80CwCH05kFPog0iePD9tP0Zd70bv24f3dfiekaYsI6CW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QgIa23Vb; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TGc7RTRm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4993D1F000E9;
-	Sun, 19 Jul 2026 23:12:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784502736;
-	bh=XECF9ZZpHN11rgO/zTL5kqZIcvgfBhcTmPU6H51lc1c=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=TGc7RTRmFm6L7ZZkyZWskOec514SOobW5z7Se9S1hJWQjXZzHq9K+WCBoWz1SHIGO
-	 c60uphJG67brwIYAOF77JF2/zSMcMzqARbTw9Vy40BYU+7NBWUXBjcvUPUmylcTz2G
-	 YI5B4zwzf/03dZvRIRl0+2c5Ajvvch1kpJXyggXA4vAbCpnqup+CSuShLz0GZezcpD
-	 HuGwqnijDJgR9WElWjL95BWbFoz6NRBo/Qf+vMfxnnjSx15oT6E+6nOUsUktE4FzaB
-	 SUi2aP/JOFcP3fresAcVLj+dI7W1NHgf0ORx4zMVfYC4QTc7EBn1Px6mXqr4/UEi28
-	 M1KWXxC6byH4Q==
-From: Mark Brown <broonie@kernel.org>
-Date: Mon, 20 Jul 2026 00:07:59 +0100
-Subject: [PATCH v13 32/32] KVM: arm64: selftests: Add SME to set_id_regs
- test
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QgIa23Vb"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2ceb096e675so92589155ad.0
+        for <linux-doc@vger.kernel.org>; Sun, 19 Jul 2026 18:27:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784510822; x=1785115622; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=BFiv0hXx9c1wz+9oCFT2VYuHi8ADjSyN7c0ptHnERB4=;
+        b=QgIa23VbE8E8Hx9hJngW6nyLoC4C4gCVAeloWndSOJUW+yRmWzgqyeArDWv7Cb5bE6
+         DJHi/S7Ito4dKn/PvhVsV2ergid+bKZIODPukG04ErXPHrihEnJbS00Q3OTZZNfh6ysB
+         lX7T7tpvG0UdUs6JHIXjTPVcBCZ1he6UEoxPOk9XM/wPTyzUrRbHIjjdmpt6//uvNzvA
+         qZPLu8q9tKlIE7dTuOuttFT+gkY8M8+b9TtRpfyNU+gsYsiaHfMVBjB199IsmwUc59ZM
+         Q63GUejT4iqHknx3P3sMdwQcJiJa9bpUK+M93J7Of+whFkSftierVnWcpkF+o1THXeF3
+         irOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784510822; x=1785115622;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BFiv0hXx9c1wz+9oCFT2VYuHi8ADjSyN7c0ptHnERB4=;
+        b=dRvQQK2vAriIjmnj4xP7SibR/zZ2I0A8Y9K//5ECBefpoOj3KUMqzV6QdRiX6+rlWM
+         ma4kznd0CE3go3sDBER/MbLbOZTZ+5pEyhbePnq2bHklC127aecd6/KEXJ/X6vih1G1v
+         RkktfTUIoHLzf7ryYmWi2/bj2V3/iah4GMFuAmZrVrQ8d9ZrDIglt8s1BrCgYs6fOYwy
+         vxa+7rwg7GLRpkp+vIkFYMmtpaaiAlJLsTfVnbRb5gc27k5Q/MbLbjDkrs59JHJDGUvW
+         Qm/qw9M6v/dhzun7B0JR3yMmyY9d3Jqs3/J1fr3zODf5/Zzl0xJPnUSADP38/vLLZO83
+         qcTQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqcOZj4fBEUUT+KQ7dTBwq5XssxCSmBy5nCUxwL+3TGA5m8iMx05gy4nUmZLa5829ihnPm3JOUOtzU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKlioelpcCv+XklJo3ZnYIY6CMF6gBqaGQ8i4Uz+KngpwcP/g/
+	rd7Lvn7U7Hz0DNXGtTiWYH6QMo4l6DOHs+eUf3pKmiq175NLAkKRvGMu
+X-Gm-Gg: AfdE7clKbuaxKUqnYLZ6vjL0vQyrp3pR/1SnrsTPGgUxXlk7vo4D7mGPc18yDiRIlNl
+	Lk/wU3tdOJsDlAVO7Yp8/ALpeCUZiHGpSIKQwLz3lq+Ff5YPH0GybTi8AGEO7xDyFxvhzPvXvz+
+	3bnZuRNsR/LgNW+GuM1H+GdOOvP/oePblAfeBoUiH6DMz7C5EmqagcZaY5MyrDSlkzDkhovqXce
+	sIzKRDE1RSzojlaoN6eDWdxbH1k/kV+sbYnXnoT2CmlcXrD3ykvGr337QptWyqm16YsVbzv0rhb
+	4/Y/a9eEuFuk4MzZCm6OhSdj2S1UvBaGVFJyMFL34M7agToVxStf/MmjqGTcdhNGxBOlgvjZnqM
+	ti6q7Wn8ox1ZjlG3hqE1w8HMu5uxdJzs/84DkXTwH8rLNYcul3okh+Fu9EHgFPhsflwDMRZCbMQ
+	g6ZsSuz34QFgot7lO0pPb6vUUG+mZnGs6BYqtr5Eej7LA=
+X-Received: by 2002:a17:903:2ec5:b0:2cc:77f3:a927 with SMTP id d9443c01a7336-2cf34961e63mr155206525ad.26.1784510821982;
+        Sun, 19 Jul 2026 18:27:01 -0700 (PDT)
+Received: from [10.125.192.64] ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf347554a2sm48005765ad.73.2026.07.19.18.26.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 19 Jul 2026 18:27:01 -0700 (PDT)
+Message-ID: <7dbde343-fbbf-6a1d-1785-ebf9f5a04f6b@gmail.com>
+Date: Mon, 20 Jul 2026 09:26:50 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.0
+Subject: Re: [PATCH v2 0/2] mm/zswap: Fixes and improves the zswap global
+ shrinker
+To: Andrew Morton <akpm@linux-foundation.org>, Yosry Ahmed <yosry@kernel.org>
+Cc: tj@kernel.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
+ mhocko@kernel.org, mkoutny@suse.com, nphamcs@gmail.com,
+ chengming.zhou@linux.dev, muchun.song@linux.dev, roman.gushchin@linux.dev,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Hao Jia <jiahao1@lixiang.com>
+References: <20260717085151.22822-1-jiahao.kernel@gmail.com>
+ <20260717181839.c94d0335ccef0084707d3d85@linux-foundation.org>
+ <CAO9r8zOrXqsEaCEJUUAxbAhhN_OQb8ejogeUa6k8hX_JV8hxxw@mail.gmail.com>
+ <20260717214031.8b22e9a37ea3b0c564b466f0@linux-foundation.org>
+From: Hao Jia <jiahao.kernel@gmail.com>
+In-Reply-To: <20260717214031.8b22e9a37ea3b0c564b466f0@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260720-kvm-arm64-sme-v13-32-d9abd3ffa245@kernel.org>
-References: <20260720-kvm-arm64-sme-v13-0-d9abd3ffa245@kernel.org>
-In-Reply-To: <20260720-kvm-arm64-sme-v13-0-d9abd3ffa245@kernel.org>
-To: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, Will Deacon <will@kernel.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>
-Cc: Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>, 
- Mark Rutland <mark.rutland@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
- Jean-Philippe Brucker <jpb@kernel.org>, 
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
- linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Peter Maydell <peter.maydell@linaro.org>, 
- Eric Auger <eric.auger@redhat.com>, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3538; i=broonie@kernel.org;
- h=from:subject:message-id; bh=q7gRFDO7XUzOJdjKk7dinZEmMYgpMJThzBI3Uxs/+tg=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqXVlAU1/Dwy5C+mmI5SgTi15+8XjLgHbk8SqV6
- ShOKnvTPJqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCal1ZQAAKCRAk1otyXVSH
- 0JuZB/4kseTKPVKXThQDY2bEISdVlTmhZqswc0T/a6N3EXUE7O+LA/5T8xG/qaDINMEH/2JfdAV
- 7N/vRWuM7qp5aTXe1qUswh7YC8OFixPgivU8A70LQ5sOv/OtPN9b603WoW0aM0v3sG5Rw5VQquu
- 7UCWgSftrnasfBvqCDFnOVe1Z+BJXwPH+gaWD1E4hB3jk1a/Fj/KcCtqRrcjIJlF/iLG971uLk8
- GF5PadJUrDWm8XdmMP6w73Px2LLPQ1Dm244nq4P8GTEyNJe8He0k8uXSG3Y96EbtdsbB5PmLYnx
- a8ckTP2dqHjpyQ09xqATpHMkOmsCyPb3dQ6wtSHy7wGJS8gB
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Add coverage of the SME ID registers to set_id_regs, ID_AA64PFR1_EL1.SME
-becomes writable and we add ID_AA64SMFR0_EL1 and it's subfields.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- tools/testing/selftests/kvm/arm64/set_id_regs.c | 30 +++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
 
-diff --git a/tools/testing/selftests/kvm/arm64/set_id_regs.c b/tools/testing/selftests/kvm/arm64/set_id_regs.c
-index da9349bf31ab..26db507f6e73 100644
---- a/tools/testing/selftests/kvm/arm64/set_id_regs.c
-+++ b/tools/testing/selftests/kvm/arm64/set_id_regs.c
-@@ -155,6 +155,7 @@ static const struct reg_ftr_bits ftr_id_aa64pfr0_el1[] = {
- static const struct reg_ftr_bits ftr_id_aa64pfr1_el1[] = {
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64PFR1_EL1, DF2, 0),
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64PFR1_EL1, CSV2_frac, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64PFR1_EL1, SME, 0),
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64PFR1_EL1, SSBS, ID_AA64PFR1_EL1_SSBS_NI),
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64PFR1_EL1, BT, 0),
- 	REG_FTR_END,
-@@ -212,6 +213,33 @@ static const struct reg_ftr_bits ftr_id_aa64mmfr3_el1[] = {
- 	REG_FTR_END,
- };
- 
-+static const struct reg_ftr_bits ftr_id_aa64smfr0_el1[] = {
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, FA64, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, LUTv2, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SMEver, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, I16I64, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F64F64, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, I16I32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, B16B16, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F16F16, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F8F16, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F8F32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, I8I32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F16F32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, B16F32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, BI32I32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F32F32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SF8FMA, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SF8DP4, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SF8DP2, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SBitPerm, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, AES, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SFEXPA, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, STMOP, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SMOP4, 0),
-+	REG_FTR_END,
-+};
-+
- static const struct reg_ftr_bits ftr_id_aa64zfr0_el1[] = {
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64ZFR0_EL1, F64MM, 0),
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64ZFR0_EL1, F32MM, 0),
-@@ -244,6 +272,7 @@ static struct test_feature_reg test_regs[] = {
- 	TEST_REG(SYS_ID_AA64MMFR1_EL1, ftr_id_aa64mmfr1_el1),
- 	TEST_REG(SYS_ID_AA64MMFR2_EL1, ftr_id_aa64mmfr2_el1),
- 	TEST_REG(SYS_ID_AA64MMFR3_EL1, ftr_id_aa64mmfr3_el1),
-+	TEST_REG(SYS_ID_AA64SMFR0_EL1, ftr_id_aa64smfr0_el1),
- 	TEST_REG(SYS_ID_AA64ZFR0_EL1, ftr_id_aa64zfr0_el1),
- };
- 
-@@ -263,6 +292,7 @@ static void guest_code(void)
- 	GUEST_REG_SYNC(SYS_ID_AA64MMFR1_EL1);
- 	GUEST_REG_SYNC(SYS_ID_AA64MMFR2_EL1);
- 	GUEST_REG_SYNC(SYS_ID_AA64MMFR3_EL1);
-+	GUEST_REG_SYNC(SYS_ID_AA64SMFR0_EL1);
- 	GUEST_REG_SYNC(SYS_ID_AA64ZFR0_EL1);
- 	GUEST_REG_SYNC(SYS_MPIDR_EL1);
- 	GUEST_REG_SYNC(SYS_CLIDR_EL1);
+On 2026/7/18 12:40, Andrew Morton wrote:
+> On Fri, 17 Jul 2026 18:28:04 -0700 Yosry Ahmed <yosry@kernel.org> wrote:
+> 
+>>>
+>>> The [1/2] changelog lacks a description of how the flaw impacts users.
+>>> Please describe this fully and maintain that info within the
+>>> changelogging.  This info helps -stable maintainers and others
+>>> understand why we're proposing a backport and helps myself and others
+>>> with timing decisions.
+>>
+>> The first line in the changelog should be sufficient imo: "Zswap
+>> writeback on hitting the pool limit is broken when memory cgroup is
+>> disabled"
+> 
+> "broken"?  Perhaps this means "fails to occur".
+> 
+> But what is the userspace-visible impact?  IOW, why are we proposing a
+> backport?
+> 
 
--- 
-2.47.3
+Perhaps the first paragraph of the commit1 message could be modified as 
+follows? I have added a description of the issues that occur without 
+this patch.
 
+Zswap writeback on hitting the pool limit fails to occur when memory 
+cgroup is disabled, because mem_cgroup_iter() always returns NULL. 
+Therefore, the global shrinker shrink_worker() always takes the !memcg 
+branch. After MAX_RECLAIM_RETRIES empty walks, the worker simply gives 
+up, so it fails to write back anything. As a result, once the pool 
+reaches the zswap limit, every subsequent zswap shrink work run is a 
+no-op. This leads to zswap store failures, forcing pages to bypass zswap 
+and be written directly to the backing swap device, which can trigger 
+issues such as LRU inversion.
+
+
+Thanks,
+Hao
