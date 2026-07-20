@@ -1,200 +1,171 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69DE8426ED5
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 22:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2176E43C04D
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 22:01:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784584851; cv=pass; b=Cl8xBoHh8bc/f1WXBCPEGOuG8FkGMT0USxfp1jtbinha3Z4h0A+YuURBBjLgLABcg9F9pkHNLdrMnawMfnYB757CIxKK0a9kmzJJcn8UzdgYaBsK38gAsAvPRdmi1piFmFews1ujGtu85Mwpufz1R3Yj4TeCmwTIs62YkhBqLsc=
+	t=1784584880; cv=pass; b=pHygxdQZdopnDomigoVOfcv+rIPjZfyZbrnHU+UB8bfVl2kR7wIGgcPfloM9zMNZLYlJk2dldSawNAJWmdfPacXf3NU0tHhBb90Dmzv2myHYWF9kMjbMKnK0hmwzikYMGh/GjFdqJEWjqA78CIViikpiyO6QyhQq/wDy31WUzbk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784584851; c=relaxed/simple;
-	bh=qeXXYXXoXBC9W4dpH975rfhTdv1IzKjF3KbKsLbRmhY=;
+	s=arc-20240116; t=1784584880; c=relaxed/simple;
+	bh=j/7Pu0goIzrDPISYd7UGXNeACZWMCvQbsT7AmxUh2RI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jqWZtzMjvlZWGz1/IIDz9bcEnWQp/3e/h33zX/ror2mFsltYj8fnhKeeUqXesS8zFk/He1n5Q7xmdt4TJlGdp3am09/48bDcjGhDZ/JCc/dHEq0Vp/yvxJvmPqGxC2f86gB5ScC0L2e09Jezx6V5AYsIy9pJgoqfdYbdywisW60=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Q3bgXtky; arc=pass smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=oFxs8P8tMrMlyZx51d4n9ujOGKE1x5uCI1bP9AEbPfLVH7rJGdSog/FdGE6tmi04OJOVooMsHAeoIe8SZZQHC1MRzobImHO5K9mpnlEWBXwlghPmQSsK2XnTuzIz7cMHHW3jRTcxrE8cZOkMcXIX6OLChV4Bmil69bCKHxIzViM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZMey3lva; arc=pass smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Q3bgXtky"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-383b4a3755fso6826396a91.3
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 15:00:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784584849; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZMey3lva"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-698a9f11776so12016605a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 15:01:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784584875; cv=none;
         d=google.com; s=arc-20260327;
-        b=BUSvZgK1sjAGi2Y64D/t18CQb9rjC52yuNtEbgFAPu/IhtqQHAf1EH7Rek1LThdQn6
-         hteZcrxlvFIFpghnXfIgB/utHzY+TCTcTBN/JHRf4V62GCll7/GWkC14I63k4P+HeBfe
-         877gkzNQrBagN/7Ags5aD3B1vF56K9Y19M8ZbLGkTdHjhhQlRSlHbIWCxH5EiWLQzOJs
-         /rqQTpGruBPfCfwZO0KYpf+/8GT3r5n5aCDVjMAqT4MkClongggk3UubK4qOjeEsocBf
-         vLB7EkBYMHkF6d67CZ+6aKEqdTmvTfAFs22qRyWvD9QDaTEJkjGC13PMNRFMyHAxql30
-         CBbQ==
+        b=Kd+WsWDWZ/JcFtBkS1dtLKI4m49yP/KhhGiBWyLbJFDDi5GkS/OhIRGbDL7TY91wwZ
+         FprnTRK4VyWqCFMunGmynFCkSUKx8X9r4QU6ItKCbYYwXcFJ/q5LGo/tAQxhhxh+2x3C
+         g3hQcwenWifd98E1S+MzLDqu9yPlwx/OjE5sDYAYHAd6RawqCptt1ziXbHopnkwbxwQj
+         6a/KCXiMHhmB0aF1cAKGmuvyd2pWhghvqShZy2T9QVeEJY8sb2H+Fivri1Bh3dxzmV15
+         MY/hPT65n+5rBVcwrI7m5lc5HHT7UjxKJrHx+KZR/7IrIquOTRvtditELDUyv+pS4KX1
+         pAiw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=gj82UvWIC9kB06K4+/XSzH6MrQ6ehsQ00zZOFqHM1MQ=;
-        fh=Y3FFmmyn+YFBNpqJUoyQ5d+geQzPPW6sj769IfBG1vg=;
-        b=bBst2FgY7rh48st8bsLpmTDi9W3ePpubDwt+6uPfgfF+nQyyOPw7mndKbgQM7KE9YY
-         JMRe+iDCZU2Fd3LIcVGOaqgiuqUf8R4mkbVcxdWDIhyXQeAz61ksGqXfeaK3HO/fVQX3
-         FVx2DxaEa18x+pua/mV063Lqvo8gb87iAtESL9Y0RVvBrxt0nlu8CFcSYNF8pYhqkANr
-         kFRaRCVZq4Nwi2GP3KCeGWoo18rE7unh3hdDm5xaGJN96AU3NAtNDTNn3si2ApLSB1wV
-         mqkqq44FliH7s3Q76v+DHwum/PkHbi9emM2w9n9avoMGO/JGOPtB9cZpf3dod8WWmOs9
-         dwCw==;
+        bh=OFKHaLiuiIMT2s5Bf3SZwWbn7++lylaBZHxfNpeM7Fk=;
+        fh=GX7JmCSOJE88s7CRlv9Wqa2gXUQOgbtf0JVklZItvHo=;
+        b=Bz90O3Js42bleVnzDvnV+fsYNYbT15AnsTwBpPTjgy25LKimR763qdevlHlCJN9AJJ
+         u0SQ3euq3OPp6PsdFqZ6OSCahIaX/LhEC22bqP8HT9W2PBy4KQuMVkpuLlbjFDrJkWyb
+         sxUQ31yKqrYN7cctylGLAP97J1aM032EGWnQ0MDw09T58bCzC1sh5R1BP6orxZK61YVx
+         R6Uj0DBUWFPDinnv6XE7nkCZ9PLuITLFxqXNslX5EADoH4g2jO4kS6pSPeCI+nRli2EA
+         CNZM68+PEbEZpGGBmiq+CuMscdyeStJE+87cHtx/Q8nfMmuT3lFpbshS9PmHU4ZAGUKZ
+         hcVA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784584849; x=1785189649; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784584875; x=1785189675; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=gj82UvWIC9kB06K4+/XSzH6MrQ6ehsQ00zZOFqHM1MQ=;
-        b=Q3bgXtkyzflaUSwFiUtY6GhqD8Pgb9NCzdLPnbs6mdWr7CPzFcNFwi0rTnvbn6PGLy
-         sMuhWZoxHQEuBRAQfYe2+Ba6J2lcwlSDIZUDY6SJwako+hSXlC5Umcpwj3bJkaSstKIo
-         HOgQNnxXcj0sp73aSCT43pxrvcNybpKVGVs80gzosfwyyWGFLhAf+uvKEkdhNGR+iJSb
-         aRFKRavFsdZCrk8gMc5WXlhZJksddF/Lbwu9ZB6v8ERwar/WevMtbOddQav1bAtxx0cG
-         Xps0R+7o5qi3UKpq4IWG0Cgu+3o+KejGI8typMDidiK8XCpy/YnYp9YqD1zqMyPtjfXs
-         UJlw==
+        bh=OFKHaLiuiIMT2s5Bf3SZwWbn7++lylaBZHxfNpeM7Fk=;
+        b=ZMey3lvahqP+YPW9LamnWQzczRxQiZ4wg9gw2Nu7P3y1v17JUAuMM/AR3JTiQFFKU8
+         d9noasqw2G++q5S+mCeWeywDA5kpg8MuVxJjECyua9/y3jlOjzMIOYlRYZqO13STHgxR
+         WQ87V1/rMYJN18KwPy7Kt1f4oO1hp7OTlSg/lmBFsB1gkADDpu+GAYd81uYxtDWFgDYj
+         g7E/fCVHIhWUawA3wQ30Wot0eYDovRLDP5gkADBspVyzhS4siR8fFKxsvW3/xg6aPXXq
+         4tTUNL4YjCh2lps4QkQgZ6MAQbSDaAHnlH759VBDRh1kPBksK3QYu64fJW2a6dhpi8jy
+         qpww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784584849; x=1785189649;
+        d=1e100.net; s=20251104; t=1784584875; x=1785189675;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=gj82UvWIC9kB06K4+/XSzH6MrQ6ehsQ00zZOFqHM1MQ=;
-        b=PkZMdkR8xArnNfJRu4x5sGs9ot/xFn0A+3nnYs9VO5+4H4DyMLvEOVLXX10Qz+ZKYe
-         V/2z1OlkhryUMevR48N0jw78PzOzuLdapDN18Nfyxk20UYTiapE28IZgoMwHbRGUKxHy
-         IB2VA0bZLfPdIyeRmJ0csUKIvzy4sCmjnvR1VED0jK78AGQX+dgTR9Lz7C6E26e/NODR
-         7h+0rBV9tPLruA2H68+kuxG3iuKmVEFd60L8Bj0ygNVTS/0DkWgA35+um7RwlAheTalQ
-         kOJeZY/Z0LumnKk3d5uQBcJRmkK2mymovn5//blUe5BI7xOcygQfd0Upc6net7ALH5lc
-         pLaw==
-X-Forwarded-Encrypted: i=1; AHgh+Rpd1ss6rZdn/copUB9viHVhw597ZLk4IcnrBkM+EmdZqShYsfHDdyrjFVky9B9QqSaqBvV9BEzQSTw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxz/EK+yHOScDJhGI3yfznZJTC4KqjQCPV+GyF6YfrE+w/0gwdq
-	3GMZd1Hy9x69UzwxNNaLieTVbIa1mpDuES2eNWtzBSiQZ/5SFAtE47cYfTwH/7cQIRN/+3SXI9X
-	JNN2sABe65Gi/8iGBrKBSNucV+3VobUQw3iSFPIHu
-X-Gm-Gg: AR+sD10MNx65Z2rPFWJyzXzCpkbvfHMgnCmyyi5R+//XMH3y/csD2XTlVOyHnkJh56c
-	agYmgzozmS+W6n1mDiFNqpZE13/E+n2N904mdcR3EK0iyoWcV35oZ2t3zSw8AeCsc10pRiiVVLY
-	62xw/RuWfcA/v8UnCyKP9F8tOh0exnoien2LUD8ARnC02zUyeuI1nV+tVE1f1I4BUsOC/OLE9gy
-	P5sDjPE2WDoF98X89yJ0P9dFjyZvtqX3tNxzxSTQdmB3OkprMGZEPoJ3pxOEA==
-X-Received: by 2002:a17:90b:1dca:b0:38d:ef48:b04 with SMTP id
- 98e67ed59e1d1-38e4b454d1cmr17323817a91.10.1784584848356; Mon, 20 Jul 2026
- 15:00:48 -0700 (PDT)
+        bh=OFKHaLiuiIMT2s5Bf3SZwWbn7++lylaBZHxfNpeM7Fk=;
+        b=BR2B9xwOi8bYQeMAQ1Y01ARwJr4PWnkv2RJNTpey+lNXsj70gwXD+meJLjIu0TxVb2
+         qdHpsopbf2jPiPhOlphWnsVKWZsPtlLw3L5LKIF6SfTD3g/FumQWxfVpoWO8gp7C1rf0
+         OM/YsIOH6sQL7rru2qPwtsEUcI8wMopkqG6PkmsqSXe9N4Idn7bDtTDTp2UqzB8i61OY
+         nbPXSlfkYcwXbd8UsML+ztCmMVAy/h6LGllcwZlJlpVmEPxn4geHCO7dJC5YLqeekY53
+         Co2w8pZD98G6Zd3QMs7FqcvN160gxzgu/t8ZFngrmGDs1dUtg6ea6VEBIfoujou31ukA
+         aP3g==
+X-Forwarded-Encrypted: i=1; AHgh+Rq9UmeKMLcGsPfUlHewqc0rGQSPoz6mU3WZ+8YFVT1ePt07RjPFfVm5y1MELFmuF4S6TZ/gQxvtL1A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRCGA9j16PFd7H/oFToeX2ORKErIfXMwl4jKu0tY2R1huyvKhU
+	Iv/xDd9P2Bt6qwa976AdnKeDMHemImimtaNF4aivQkWqig0pmqR6jzGiHz+cDH+CDXoLfbWkINc
+	cKhavjr+Fp+E+gmE1YLENB3Ug5vFcM60=
+X-Gm-Gg: AR+sD11LvPZb/OblFM15HUgSJkqt5C9xI9fV5ZZvwRbs+0/zQbpNVnGNODNEvtrv973
+	QWXswG6ATqMXJNbBPG0QNHlGOVyLT2np8J/jsmJUJN/A3Nm3V2fDVsKDe7WTnkLmKTsUxtXbseh
+	v0YG2OxQeSbnq9rH32PI8pDJV8k52JZhldtQzVpbmvUt4UfIQrrXME+ryG4BtCz5agyT3XIqqlv
+	lGlto7B8ZCfkPEt/nlwdauF9GbBohMSLsKbTr1lLLgpxsYk7j6waKKDlKY0XAnLoT3+BAJez4no
+	GY35D/qd6aT/Rgix0kATl6gBalgMIw0=
+X-Received: by 2002:a05:6402:2356:b0:674:5b2c:d42c with SMTP id
+ 4fb4d7f45d1cf-69e6525c770mr6536246a12.3.1784584875096; Mon, 20 Jul 2026
+ 15:01:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260710212616.1351130-1-dmatlack@google.com> <20260710212616.1351130-4-dmatlack@google.com>
- <20260717163820.6bc8c13b@shazbot.org>
-In-Reply-To: <20260717163820.6bc8c13b@shazbot.org>
-From: David Matlack <dmatlack@google.com>
-Date: Mon, 20 Jul 2026 15:00:21 -0700
-X-Gm-Features: AUfX_mzNR0w-MD4Mb6dfdU632NpNdotxFCmghB3mJDm5NOOEi_E54XencSYW9rk
-Message-ID: <CALzav=eQ-0rbxh6Eekbt4zUoNGNZc_THmSCvVWVwE3om1BPtdw@mail.gmail.com>
-Subject: Re: [PATCH v7 03/12] PCI: liveupdate: Track incoming preserved PCI devices
-To: Alex Williamson <alex@shazbot.org>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
-	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
-	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
-	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, 
-	Parav Pandit <parav@nvidia.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Pranjal Shrivastava <praan@google.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
-	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+References: <20260707181957.433213175@kernel.org> <CA+=Fv5TDNH8+JAojV9_W36kUkEE68uiA00FQ7i0vJunebqs1sA@mail.gmail.com>
+ <87wluplb6k.ffs@fw13>
+In-Reply-To: <87wluplb6k.ffs@fw13>
+From: Magnus Lindholm <linmag7@gmail.com>
+Date: Tue, 21 Jul 2026 00:01:03 +0200
+X-Gm-Features: AUfX_mw5696pn_wiz_LjCaJHiFU9IchwhNNUbBWmuIdhtqSFIK3TJnj9-atYCBw
+Message-ID: <CA+=Fv5Sd5+-K3-MOiEc2N8z_5CoLQPVPUwjiugSj3u8cBWJXXQ@mail.gmail.com>
+Subject: Re: [patch 00/18] entry: Consolidate and rework syscall entry handling
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Shrikanth Hegde <sshegde@linux.ibm.com>, 
+	linuxppc-dev@lists.ozlabs.org, Kees Cook <kees@kernel.org>, 
+	Huacai Chen <chenhuacai@kernel.org>, loongarch@lists.linux.dev, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, 
+	Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org, x86@kernel.org, 
+	Mark Rutland <mark.rutland@arm.com>, Jinjie Ruan <ruanjinjie@huawei.com>, 
+	Andy Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Richard Henderson <richard.henderson@linaro.org>, Russell King <linux@armlinux.org.uk>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Guo Ren <guoren@kernel.org>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Helge Deller <deller@gmx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	Richard Weinberger <richard@nod.at>, Chris Zankel <chris@zankel.net>, linux-arm-kernel@lists.infradead.org, 
+	linux-alpha@vger.kernel.org, linux-csky@vger.kernel.org, 
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org, 
+	linux-um@lists.infradead.org, Arnd Bergmann <arnd@arndb.de>, 
+	Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>, 
+	Michal Simek <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
+	linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org, 
+	linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-arch@vger.kernel.org, =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 17, 2026 at 3:38=E2=80=AFPM Alex Williamson <alex@shazbot.org> =
-wrote:
->
-> On Fri, 10 Jul 2026 21:26:06 +0000
-> David Matlack <dmatlack@google.com> wrote:
->
-> > @@ -298,6 +377,87 @@ void pci_liveupdate_unpreserve(struct pci_dev *dev=
-)
-> >  }
-> >  EXPORT_SYMBOL_GPL(pci_liveupdate_unpreserve);
-> >
-> > +static struct pci_flb_incoming *pci_liveupdate_flb_get_incoming(void)
-> > +{
-> > +     struct pci_flb_incoming *incoming =3D NULL;
-> > +     int ret;
-> > +
-> > +     ret =3D liveupdate_flb_get_incoming(&pci_liveupdate_flb, (void **=
-)&incoming);
-> > +
-> > +     /* Live Update is not enabled. */
-> > +     if (ret =3D=3D -EOPNOTSUPP)
-> > +             return NULL;
-> > +
-> > +     /* Live Update is enabled, but there is no incoming FLB data. */
-> > +     if (ret =3D=3D -ENODATA)
-> > +             return NULL;
-> > +
-> > +     /*
-> > +      * Live Update is enabled and there is incoming FLB data, but non=
-e of it
-> > +      * matches pci_liveupdate_flb.compatible.
-> > +      *
-> > +      * This could mean that no PCI FLB data was passed by the previou=
-s
-> > +      * kernel, but it could also mean the previous kernel used a diff=
-erent
-> > +      * compatibility string (i.e. a different ABI).
-> > +      */
-> > +     if (ret =3D=3D -ENOENT) {
-> > +             pr_info_once("No incoming FLB matched %s\n", pci_liveupda=
-te_flb.compatible);
-> > +             return NULL;
-> > +     }
-> > +
-> > +     /*
-> > +      * There is incoming FLB data that matches pci_liveupdate_flb.com=
-patible
-> > +      * but it cannot be retrieved.
-> > +      */
-> > +     if (ret)
-> > +             panic("Failed to retrieve incoming FLB data (%d)\n", ret)=
-;
-> > +
-> > +     return incoming;
-> > +}
->
-> I'm having trouble following the error escalation here.  What's
-> fundamentally the difference between FLB data being provided and not
-> compatible (subtle log message) versus FLB data being provided and
-> compatible but we cannot access it (panic!)?
+Thomas,
 
-There is no fundamental difference IMO and I think we should handle
-them the same way (panic). The problem is the PCI core cannot actually
-distinguish between "PCI FLB provided and not compatible" (should
-panic) and "no PCI FLB provided" (should log). I would like to propose
-changes to LUO so that the FLB handlers can detect the former
-situation but that requires some non-trivial work that I didn't want
-to block on.
+On Mon, Jul 20, 2026 at 9:21=E2=80=AFPM Thomas Gleixner <tglx@kernel.org> w=
+rote:
+>
+>
+> Similar to what Peter and me suggested in the related discussion
+> vs. s390 which has a similar issue, you can just have a dedicated
+> syscall_return member in your pt_regs struct, which is preset to -ENOSYS
+> and operate on that. You have an unused padding entry there which means
+> it won't even change the size.
+>
 
-For now, I guess you could say it is up to the user to not perform
-Live Update between incompatible versions. I can update the
-documentation.
+Thanks, that makes sense in principle.
+
+One complication is that my Alpha GENERIC_ENTRY branch already reuses that
+former pt_regs padding slot, while keeping the pt_regs size and stack
+alignment unchanged. The extra syscall-entry bookkeeping I needed so far li=
+ves
+in thread_info rather than adding more fields to pt_regs.
+
+So the padding slot is not free in my current branch. I can still look at
+whether a dedicated syscall_return scratch value would be cleaner, but the
+tested version currently handles this by setting the default -ENOSYS result
+only on the no-dispatch path, after generic entry processing, and only if
+ptrace/seccomp/BPF did not already provide a return value.
 
 >
-> Don't both suggest devices are running but we can't get their FLB data
-> to continue letting them run?
+> You were on CC for the V2, no?
 >
-> The errno interpretation is also slightly different than the comment
-> above liveupdate_flb_get_incoming():
->
->  * Return: 0 on success, or a negative errno on failure. -ENODATA means n=
-o
->  * incoming FLB data, -ENOENT means specific flb not found in the incomin=
-g
->  * data, -ENODEV if the FLB's module is unloading, and -EOPNOTSUPP when
->  * live update is disabled or not configured.
 
-I think the only disagreement is the lack of specific -ENODEV
-handling. Is that what you are referring to?
+Sorry, I must have missed that.
 
+> The whole pile including Jinjie's seccomp bypass fix is in
 >
-> Thanks,
-> Alex
+>     git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git core/entry
+>
+> and is targeted for the 7.3 merge window.
+>
+
+Great!
+
+> If you want to base your stuff on that for 7.3, I can add a tag which
+> makes it immutable so it can be pulled into the alpha tree.
+>
+
+Yes, please. There is still some ongoing testing/review of my Alpha
+GENERIC_ENTRY series, but assuming it is ready in time for the 7.3 merge
+window, an immutable tag would be very helpful.
+
+Magnus
