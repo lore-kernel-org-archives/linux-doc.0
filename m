@@ -1,518 +1,227 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011052.outbound.protection.outlook.com [52.101.70.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C773C3F6C;
-	Mon, 20 Jul 2026 20:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784579386; cv=none; b=AhnRREnoownfktjbMOrSZgEyKYR99ljfqdVE4q6xtotaoF8t9sphrwtg3URP8eJOjA1KxhWaFUSQn96Yr/t7RM4SzbnNqkLyJLV9iwTK5un8NuCgZuJLbTU+DUe5xW3z1ZUvW1jJtv/Cj2/vnQaApXucR0XEKR4WjFpkOGgh9zI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784579386; c=relaxed/simple;
-	bh=GkYPR6w/ANLIRXxF0gi8rrHaU1IBipm+HzJ7CEJrOBU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ltQRKs3X7FeX0m0RjUcmdUkRZ9bJggjgoFQurIurT2HbnG42DTXg4QhthFKAXMM1P57Y52tlxwPF2mfQS9hEWv3at/vOEvJmJFeOhttlznM165bD9ruFGEv8Fq+z4PUDSTnpC5URei4UTZF+hB4Lr3Q1SfRcTkNGKdCym32wDYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hp0vduoZ; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9903E38B7B4;
+	Mon, 20 Jul 2026 20:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784579716; cv=fail; b=lEnTRxKeIdFM+x9Y6ioQkLhB0WShELRo6BGTgTsBvqWVXo4Lre3DU+lyyQ9oXuSe0vcycUPiFYCNS6SGXeNHUj3AihZDLsVuBl5OL49smrBe5eplpm8ZYxmoJTmhDSuq8Z3d4LZU5KJPBpunMOBk0704WPBWcDLqYKMBsIihJGE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784579716; c=relaxed/simple;
+	bh=o9TfIuDS64pYJGYnYXotDenwsMFeZzihvrURWcWt1jM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=JWXYlnJePOHM5o3skijF+GtptZBauc/00b0hCcQ9w2kyQVD7qVJJH8fyLfhse6+pPf3TyxwKe8ltZuFhV4IrDuQLFEbLSt4zcHo9zn3WNi4tHVYnTh7Z73NYkrhe9qON8bLDk7xxdYQ4Ij+pgg0j5sEf6XppsVbFystSoNHmbrg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=XemNNSuP; arc=fail smtp.client-ip=52.101.70.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hp0vduoZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784579383; x=1816115383;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=GkYPR6w/ANLIRXxF0gi8rrHaU1IBipm+HzJ7CEJrOBU=;
-  b=Hp0vduoZ9Qs0EZvUZCVjPc0feHsjWxotofb1oc+NmG99S8p18oH4ruTx
-   1YBhhk9uyDJo0//V1nL3sRru5pGVZDMbC9MlQvse+WH/Z4CP3qvffH6cV
-   l/jLI/8VjcQjCO/4fpIVbCNYGiYMa4BuG9qDprTMiCQ3rDXkBA1RTB06/
-   CvjB2J96SjVAIeDd67kM/DIOWM+uJmej+sNdDQSW7GYrjAvfwyAsmt/Ih
-   EeFcWITVK8DQM0X4Y2uRihdGtHp1XeQKWUy8ttm6yzvWFCffWmlioYrSA
-   0bSfs7myp+bs7Qp2xSNxXo8VXRThm2TGpqu2LoxrqU7TrP0uSoa/SXuX/
-   A==;
-X-CSE-ConnectionGUID: uH27L9UETJCM50DRTnB7Tw==
-X-CSE-MsgGUID: B91rYkphQkWO+OaKnNL+Bg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11852"; a="84299672"
-X-IronPort-AV: E=Sophos;i="6.25,175,1779174000"; 
-   d="scan'208";a="84299672"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2026 13:29:42 -0700
-X-CSE-ConnectionGUID: Xg/nzcFwQzKO8KiUo76fZg==
-X-CSE-MsgGUID: h/QTwgL9RBaM7G2f1Du82g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,175,1779174000"; 
-   d="scan'208";a="258197552"
-Received: from cooperst-gp83.amr.corp.intel.com (HELO [10.125.109.176]) ([10.125.109.176])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2026 13:29:40 -0700
-Message-ID: <d1d37be6-6c0b-4e96-89b3-bebcea012e66@intel.com>
-Date: Mon, 20 Jul 2026 13:29:38 -0700
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="XemNNSuP"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wMjLIcpJEq1Nomt5h0UgjbYQB9io6Hn3SPXzBLpNOYQfOzUkkokI6uhDZBMAgBvPwIyy21tThLlPxyhOmjVTjqfsx28X+OEHH6Z3GzUSxyCqEgQanz0uOfkfMmJ9UUqJ7hZwpXvlNhGvMLBKp9XPFJ4pZH74Kz79fJK5V+3oKwcHgqtq9w3O7u49rIDrTsFISl1Jd3n2sn01FAk7cLWP5HHcNBHxljbclUiTeWoW0U0Rb1JDJ7Ucj5FUcdqvfQHzHoFJtcK4qxNGBheVXNP1KKP5LbXNnkRT0YoAiBZcMjldEA5R5YCuKWoksho12k+iNpT1+GmJd8LNE/PcAaDDPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6qGgdFchJwTMApCE6hZLTrzpSFCNvEhZRXX736of/Zk=;
+ b=MwD9AOQ7KMuKTVRnsDSTnZWxPrwzH6Kqm39PtCqftAGzFFX/lif8Yl74dAiOmQOtUn11k3zeEsM/ek59wIU17ofaqy/RfTKRDPJ3CLgT0W8QABlgVaevCLgMIiUCov1g1lWaT0fGIQK9M0A9VS8zlpXObWCmL+sFdbpB2kV31pI6/qNIjWa5BDCQjNn83g7fUyKP8JbP59sbhzowYaKnEUpYy66x6tUkBFjInlmwV+cEdH7ri2R/Tfho8Xv6JlUYjt/056VQTowS0PoUM8JiHqB8o1KBezVU1qu0HTwWLJC5q3iZlodTnv0UhinryB4QAnTVTWFPCiEjxm/smSbJFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6qGgdFchJwTMApCE6hZLTrzpSFCNvEhZRXX736of/Zk=;
+ b=XemNNSuPuCfcUUO40OFyKKvrze97+VCnE0rmiNhT+TNWuQDg6xxlSoSXmuz7yuDrlIo5S7rRUuye146PxBZdanA6/KDKX6aumwlG6WkCtm79m3RikzxK4uFyUVOKoJwcxZBmD4sllreILWwQHlTgoqGd9Gr/RJ1uAgnjxzxUG3UhNayha6BLS8w6vOGZfSa87hrr8gJ3GKJ8TLVStiFzd3PdIcj0HHU/bj8ssb/eMEO1x0XReCgPk/xdT3CT/1jtnie7qS+hLf68x+yvc68CmLBvgpRYGIp3NSUcyogpOYI68UgJiuX+2i0tamjw48IX48SSqef8oDcjgDaunGAfKA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by GV1PR04MB10153.eurprd04.prod.outlook.com (2603:10a6:150:1a4::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Mon, 20 Jul
+ 2026 20:35:08 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0223.017; Mon, 20 Jul 2026
+ 20:35:08 +0000
+Date: Mon, 20 Jul 2026 16:34:59 -0400
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Saravana Kannan <saravanak@kernel.org>
+Subject: Re: [PATCH v3] docs: dt: maintainer: Add Devicetree and OF
+ maintainer profile document
+Message-ID: <al6Gc8b2j-I6g3sP@lizhi-Precision-Tower-5810>
+References: <20260720184040.9870-2-krzysztof.kozlowski@oss.qualcomm.com>
+ <CAL_JsqKkxVTVE=o-uar=JEVvqw9NhBAQcBrJ0ukf+RBXCwFZJA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAL_JsqKkxVTVE=o-uar=JEVvqw9NhBAQcBrJ0ukf+RBXCwFZJA@mail.gmail.com>
+X-ClientProxiedBy: PH7PR17CA0053.namprd17.prod.outlook.com
+ (2603:10b6:510:325::8) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v18 05/13] PCI/AER: Introduce AER-CXL protocol error kfifo
-To: Terry Bowman <terry.bowman@amd.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Dan Williams <djbw@kernel.org>, Ira Weiny <iweiny@kernel.org>,
- Jonathan Cameron <jic23@kernel.org>, Len Brown <lenb@kernel.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Robert Richter <rrichter@amd.com>
-Cc: linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- Alejandro Lucero <alucerop@amd.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Ankit Agrawal <ankita@nvidia.com>, Ard Biesheuvel <ardb@kernel.org>,
- Ben Cheatham <Benjamin.Cheatham@amd.com>, Borislav Petkov <bp@alien8.de>,
- Breno Leitao <leitao@debian.org>, Davidlohr Bueso <dave@stgolabs.net>,
- "Fabio M . De Francesco" <fabio.m.de.francesco@linux.intel.com>,
- Gregory Price <gourry@gourry.net>, Hanjun Guo <guohanjun@huawei.com>,
- Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
- Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
- Li Ming <ming.li@zohomail.com>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Oliver O'Halloran <oohall@gmail.com>, Shiju Jose <shiju.jose@huawei.com>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Shuai Xue <xueshuai@linux.alibaba.com>,
- Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
- Tony Luck <tony.luck@intel.com>, Vishal Verma <vishal.l.verma@intel.com>
-References: <20260717222706.3540281-1-terry.bowman@amd.com>
- <20260717222706.3540281-6-terry.bowman@amd.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20260717222706.3540281-6-terry.bowman@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|GV1PR04MB10153:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2bb27e21-44d2-4dd9-5bff-08dee69e636b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|1800799024|23010399003|376014|7416014|366016|22082099003|18002099003|3023799007|56012099006|11063799006|4143699003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	xdjv9j+tRIsP92izJuiYZvinGXzbbITI+RirmSbdv/GfMwhJ4VppI5vi9WZFzrdfKcbJ3hReL9m+BIKsqsKpQVCYZnT9/kG/QsNYMOqxzCpNBsMDG1wazP78oEMAANoS6RPP0rsVPXf/htweYqQ0HJsB8UvMcLY2UBrPnBy4hkpvZF0g4d9OgLDEQ744AceTfLJmGbn2qN5JpDcnRTXeLvxbtMDgrVlukEM+XGHdjT01dnH6wamGirHBIPDIjKzau3RsoQ6QrN4MZ8pDnQYLYF6+9OoG9bU2wsZiDyHZgIUw8+D/jkfoSjlDd7ktc98AaJPwUDa5V+u4CcNvDelZdaMdlYH1ApdOIwQ8EgnnPUTeAw9BlsSwFFz6wbnpIyHlWkkWB9F6T3xBFtplU0DH3ODewTCgVgz7GaoLsE+5Un4PS7xN37E5wdTgy8LuBiEgPEy+hYNM+t6+H24ZxjyTUYB3qJ2X6sCu1eeMR6rws4hFR8ATU1rJ/iJeKe/0w310Ytaw873PxS8r5KSbJlwwUoTDBkCjeIJxhG9UyFkquWtjG9c6k9UnmdW1WnRrjfDUeczkMfP+TKaVWQefgiPIAB6BBaMay3U8SFexoso11wLgxnx+T/Vya0M6BuKlfRviCOfMFCWYZb7na2ug6FiHwgisl27bTyBo6J3oegL03Ds=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(23010399003)(376014)(7416014)(366016)(22082099003)(18002099003)(3023799007)(56012099006)(11063799006)(4143699003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cGxPSUlld0pCL01mZFJiaFJnK0lFVjVpTnlEa3ZranRSUGpMMEtTWkgwTDdT?=
+ =?utf-8?B?YnVFelFrNmlDTFNTYzN1QXB6ZGlQcWczY1d3dUdCQ09IMUcwMUQrN25WOWFs?=
+ =?utf-8?B?OTd2UkVsYXFwOVNVbHFiWUk5Yk9RRHQ0VnZXWGNGQm1OVUNkRUdCN00rZmRz?=
+ =?utf-8?B?RjRRK2JYTjdMQjJtQzZLTUwxZ3hmNVJOa2pIVWVUbHRpRDc2OGZzN3JZeVhI?=
+ =?utf-8?B?T2hiQnNZb29Zalp1YkRMMjZQUFM4VDZNSEJkbnhMbTYrdzYrTjhTN041WGhq?=
+ =?utf-8?B?N2ZCdWNlOGoraldUeWJkb1pqczl4VEdGTHB1VEkxSDViUllPK3FBOXlacFNX?=
+ =?utf-8?B?SnhWbUo2bld1SFVMbWhScHk5dllnZGxlRDRYVnZxU21nNXAyMVk0VG5BTHd2?=
+ =?utf-8?B?MVIxSTBrclBJSTRybVBnM0tvQ3d2bEt5bk4yZHprWHVXNU1nL0pHMTJWN25s?=
+ =?utf-8?B?cnp0RFYwYUFneE55dGdDVFhKWlY2SnZ4MjhYUkRSLzZGMlh5aFo1cUUxeFp1?=
+ =?utf-8?B?bXhkR1VtUW5TRDRsZWxLZ1BqRlAyVHNDaWFrVkhETHNvOUUvRVB1VStSSGVX?=
+ =?utf-8?B?TEhkUHBVUERVbXdwUkFBSGdDR0FXWjU4L3JtRjJrYWVnR1h6UXFhNjZYSitE?=
+ =?utf-8?B?TmJXbFdsMi9TV3BuVWl1SGlxcVBHWXBRbTQ1QjU3K0VzZ1FmMGFPUzIrTVln?=
+ =?utf-8?B?Mm8zQUovemsvYktzMDZGSDhyR1M2amd5L0c5T3lPcGtqQnpWQ3BDZGdpSkJV?=
+ =?utf-8?B?TzRtRnVENml2aFI0YkR5SXFYVFFyTUM3RStiRGQyMTMxN2hLSFV1T014a3l4?=
+ =?utf-8?B?YUtYd0poakFIYXZxNDBiU0o0NzR6Ui9XU3Z6WGFVWHVpdFhNb21RZkFoZW4y?=
+ =?utf-8?B?bFArc0Naa3VCd1Z0K0N3K2JDYjZ0Wm1vMG90Q0VvYURONU5XZ2lNRnlqV3M2?=
+ =?utf-8?B?NmluOGNOYnZUdkRzOFJiNjJiRXQvYStFMVRubmpLQ2gyNy9mYmhBZkhIRkI2?=
+ =?utf-8?B?d25VN0Z3VkdwYUlQZm5OblV2ZWt2R3R4NllsNmwwdTBpN1JFUW5SdjYveVRI?=
+ =?utf-8?B?UFNjdUM2WTRjcW5qMzJEd1grWHZPeWtYa21nV2ZjKzZvQ2h0ZWZaK2lIZVpZ?=
+ =?utf-8?B?Q0xXMTg5VzFHdGsvZUVxZDRwN2pZaTA0dy8yY04zRmxLVXpWd3hmb0l6YXBO?=
+ =?utf-8?B?R2s2TGdDcjR1THpyWHowR0RYNHZRZnNDdUM4UHJOVGVPOW5UcmhFR0c0VThK?=
+ =?utf-8?B?VmQ3Q3FEcUh5QUNuOGhvaXVvQXVrcGNYbXl0QnFXcGhnaUQvSG5RQTU2dVRX?=
+ =?utf-8?B?bURPQk1OWmQvMzNkUXBWSTlCZ3JVSmxXNlU1VHhCZlVHbGtra2l4ZDFzZ1Bo?=
+ =?utf-8?B?M0xoZFNMUEgxVWJrdG1Ha1JqNHBtbmx1Wnhta01TUEZmRGcyTkgrMWdqV3Fh?=
+ =?utf-8?B?S3h1WCtSeGdWZXNJZlRBbVY3cnJYRDhISlEwcEZieGtTZHh0WFk0WmxYNzVu?=
+ =?utf-8?B?V3ByL29ZVDRqWk1sMHZuOFZySEpZeEdQazJPeERUZk9MSXhzSStNdzdCQUht?=
+ =?utf-8?B?cENqWjZjMDI4ZjY2R2xOMUFnKzdQU3VKWXpGOXlsQlRHMmgwZnA5S2U3MW40?=
+ =?utf-8?B?eno1WnB4REYxKzgzVm1CMEI5NkRRbFdrU05na1FXTDBrY0ZvMVA0WmNXTXFl?=
+ =?utf-8?B?QkN4ZW5zQm51Q1FRSjl4QTRVU3EwT0s2dUh2V0sxTHFERTBtY1J1QkFGT3FN?=
+ =?utf-8?B?MG5VQldMYUtsV3BIZlRRdGgvdTJndWV0NVpLR3FRcFpIQ1lzQjJSZG5sQzFj?=
+ =?utf-8?B?ZlpVdXl0TTk5dys4MVQ1MmpYZWdjWTRIcWN1ZmwxY1lyMnpUNDJXdk1WcVA3?=
+ =?utf-8?B?ZEE3aDQ0bENLdG9jbjE1U09ReDRTWlJzWllzZUFCeWJYdWEwdFVWdlJVc3dR?=
+ =?utf-8?B?NmtaY09McVJQWFNxbjU2TTBQelBFUUNZTXBpN0V2cDNnWVZIVzJMYUh2UlhT?=
+ =?utf-8?B?dXlsQ0ZtTGxtb05JN0RUb01ySS91ZXp2a2YzQVVMcEJYcnZkQmZMbi9LaDFS?=
+ =?utf-8?B?NjdWdFh1cmEzTkc3SVYzbTVDNlp3M3p1a2hyNmtKREJWaFRvY0ltb2lvdC9j?=
+ =?utf-8?B?eWNQYkJXb210cVVER3lFUFNSa0g3YXJQM0IwbGt1OEtIb0FrdWZUcFViWFBU?=
+ =?utf-8?B?U1lMenp3Y2lKd2M0YlVqeGxlREhQTVR2amNqM2w1c2NyYVBkTndodGhZVXRK?=
+ =?utf-8?B?b0wzb0UyUzRUQU1BazRPemVybklvK1NKQUxLcGR6U2VYU21kRGRGYWR4OHp0?=
+ =?utf-8?B?a1pSR2hnNzJhQVVacGhOOGIzTnBPZCtnK1RSdEE1SWQycFhpdW1vR2RzWGpr?=
+ =?utf-8?Q?7MoTy9XSCcjKuQLijDU3gFFLql8byRelfFD84?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2bb27e21-44d2-4dd9-5bff-08dee69e636b
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 20:35:08.3093
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ksavMhpnZKowQkeDKFRGo3LRncvuZ/4idsUtrh49fgcs6tRQHQwd7kWr4FEqgcUMJJaPaVmrxWGZBSvnsEbOZgQLfeJkfc38ol4iAznLXSqqGA02Od2fpfE92SDqB0Jp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10153
 
+On Mon, Jul 20, 2026 at 03:12:17PM -0500, Rob Herring wrote:
+> On Mon, Jul 20, 2026 at 1:40 PM Krzysztof Kozlowski
+> <krzysztof.kozlowski@oss.qualcomm.com> wrote:
+> >
+> > Document how Devicetree and Open Firmware maintainers handle their
+> > subsystem, especially focusing on two caveats:
+> >
+> > Devicetree subsystem handles patches with a minor difference comparing
+> > to other subsystems: while DT maintainers pick up OF code, they only
+> > provide review of DT bindings without applying these.
+> >
+> > All three DT bindings maintainers rely currently on Patchwork and due to
+> > enormous amount of emails per day, regardless how much DT maintainers
+> > try, they cannot read all the emails.
+> >
+> > Cc: Rob Herring <robh@kernel.org>
+> > Cc: Conor Dooley <conor+dt@kernel.org>
+> > Cc: Saravana Kannan <saravanak@kernel.org>
+> > Cc: devicetree@vger.kernel.org
+> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> >
+> > ---
+> >
+> > I expect patch to be picked up by Rob, after review.
+> >
+> > Changes in v3:
+> > 1. Add also F: entry
+> >
+> > Changes in v2:
+> > 1. Correct typos and trailing white spaces.
+> > 2. Fix order of P: after C: in maintainers.
+> > ---
+> >  .../process/maintainer-devicetree.rst         | 70 +++++++++++++++++++
+> >  MAINTAINERS                                   |  3 +
+> >  2 files changed, 73 insertions(+)
+> >  create mode 100644 Documentation/process/maintainer-devicetree.rst
+> >
+> > diff --git a/Documentation/process/maintainer-devicetree.rst b/Documentation/process/maintainer-devicetree.rst
+> > new file mode 100644
+> > index 000000000000..d8ffe752bf5d
+> > --- /dev/null
+> > +++ b/Documentation/process/maintainer-devicetree.rst
+> > @@ -0,0 +1,70 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +======================================
+> > +Devicetree and Open Firmware Subsystem
+> > +======================================
+> > +
+> > +Other Process Documents
+> > +-----------------------
+> > +
+> > +Please see the documents in Documentation/devicetree/bindings/ for information
+> > +on how to write proper Devicetree bindings and how to submit patches.
+> > +
+> > +Patch Review and Handling
+> > +-------------------------
+> > +
+> > +Patches handled by Devicetree maintainers are processed differently depending
+> > +on the patch type:
+> > +
+> > +1. Core OF driver code, e.g. drivers/of/:
+> > +   patches are reviewed and applied by DT maintainers.
+> > +
+> > +2. Devicetree bindings:
+> > +   patches are reviewed by DT maintainers but, except in certain cases, should
+> > +   be applied by subsystem maintainers.  See also *For kernel maintainers* in
+> > +   Documentation/devicetree/bindings/submitting-patches.rst.
+>
+> I would reword:
+>
+> patches are reviewed by DT maintainers, but should be applied by
+> subsystem maintainers except in certain cases.
 
+It would be wonderful if provide a few sample *certain* cases.
 
-On 7/17/26 3:26 PM, Terry Bowman wrote:
-> CXL VH RAS handling requires a path for the AER driver to hand off
-> CXL protocol errors to cxl_core for logging and recovery before PCIe
-> AER recovery tears down the device. Add
-> drivers/pci/pcie/aer_cxl_vh.c to implement this handoff via a kfifo-backed
-> work item.
-> 
-> Introduce is_aer_internal_error() to identify CXL protocol errors
-> from AER internal error status bits across both correctable and
-> uncorrectable severities.
-> 
-> Introduce is_cxl_error() to gate the VH kfifo path.
-> 
-> Introduce struct cxl_proto_err_work_data to carry the error source
-> PCI device and severity through the kfifo. Encapsulate the kfifo,
-> per-producer spinlock, registration rwsem, and work pointer in struct
-> cxl_proto_err_kfifo. Initialize the embedded kfifo via INIT_KFIFO()
-> from a subsys_initcall so its metadata is populated before any
-> producer or consumer runs.
-> 
-> Introduce cxl_forward_error() to enqueue a CXL protocol error. A
-> reference is taken on the PCI device; the consumer releases it via
-> for_each_cxl_proto_err(). On enqueue failure the reference is
-> released immediately, the error is dropped, and the consumer is
-> scheduled to drain existing entries. A subsequent patch wires
-> cxl_forward_error() into handle_error_source() where correctable and
-> uncorrectable status clearing is left to pci_aer_handle_error().
-> 
-> Introduce cxl_proto_err_flush() to synchronously wait for the
-> consumer worker to drain the kfifo. A subsequent patch wires this
-> into handle_error_source() for UCE events so the CXL plane completes
-> error handling and panic policy before pci_aer_handle_error() drives
-> PCIe recovery.
-> 
-> Introduce cxl_register_proto_err_work() and
-> cxl_unregister_proto_err_work() for cxl_core to register and
-> deregister its work handler. On unregistration, pending kfifo entries
-> are drained and their pdev references released before
-> cancel_work_sync() runs. Export these and for_each_cxl_proto_err()
-> via EXPORT_SYMBOL_FOR_MODULES restricted to cxl_core.
-> 
-> Protect the work pointer with a rwsem to correctly serialize
-> registration, deregistration, enqueue, and dequeue against concurrent
-> AER IRQ threads. Serialize concurrent kfifo writers with a spinlock.
-> 
-> Add MAINTAINERS entries for aer_cxl_vh.c and aer_cxl_rch.c under
-> the CXL entry so CXL maintainers are CC'd on changes to the AER-CXL
-> bridging code.
-> 
-> Co-developed-by: Dan Williams <djbw@kernel.org>
-> Signed-off-by: Dan Williams <djbw@kernel.org>
-> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
+Anyways, nice document.
 
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-
-> 
-> ---
-> 
-> Changes in v17->v18:
-> - Remove correctable status clear from cxl_forward_error(); the AER core
->   clears all status bits via pci_aer_handle_error() info->status writeback
-> - Schedule consumer on kfifo overflow so existing entries can be drained
-> 
-> Changes in v16->v17:
-> - Reword "kfifo semaphore" to "kfifo spinlock" to match fifo_lock.
-> - Defer the handle_error_source() is_cxl_error() switch to the patch that
->   registers the kfifo consumer to keep each commit bisect-safe.
-> - Rename rwsema to rwsem
-> - Change CPER exports to use EXPORT_SYMBOL_FOR_MODULES.
-> - Add work cancel function.
-> - Replace kfifo_put() with kfifo_in_spinlocked() for multiple producers
-> - Add fifo_lock spinlock for concurrent producer serialisation
-> - Initialize the embedded kfifo with INIT_KFIFO() in a subsys_initcall so
->   kfifo->mask, ->esize and ->data are set before first use.
-> - Clear PCI_ERR_COR_STATUS in cxl_forward_error() after enqueue so the
->   device is acked for correctable events even when the consumer drops the
->   event. Uncorrectable status is left for cxl_do_recovery() to clear after
->   recovery completes, mirroring the AER core convention.
-> - WARN on double-registration in cxl_register_proto_err_work() to make an
->   unintended second consumer visible at runtime.
-> - Add direct rwsem.h, cleanup.h and workqueue.h includes for symbols used
->   in aer_cxl_vh.c
-> - Add MAINTAINERS entries for drivers/pci/pcie/aer_cxl_*.c
-> - Update message
-> ---
->  MAINTAINERS                   |   2 +
->  drivers/pci/pcie/Makefile     |   1 +
->  drivers/pci/pcie/aer.c        |  10 --
->  drivers/pci/pcie/aer_cxl_vh.c | 221 ++++++++++++++++++++++++++++++++++
->  drivers/pci/pcie/portdrv.h    |   6 +
->  include/linux/aer.h           |  24 ++++
->  6 files changed, 254 insertions(+), 10 deletions(-)
->  create mode 100644 drivers/pci/pcie/aer_cxl_vh.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 806bd2d80d153..39007aa90b20f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6526,6 +6526,8 @@ S:	Maintained
->  F:	Documentation/driver-api/cxl
->  F:	Documentation/userspace-api/fwctl/fwctl-cxl.rst
->  F:	drivers/cxl/
-> +F:	drivers/pci/pcie/aer_cxl_rch.c
-> +F:	drivers/pci/pcie/aer_cxl_vh.c
->  F:	include/cxl/
->  F:	include/uapi/linux/cxl_mem.h
->  F:	tools/testing/cxl/
-> diff --git a/drivers/pci/pcie/Makefile b/drivers/pci/pcie/Makefile
-> index b0b43a18c304b..62d3d3c69a5df 100644
-> --- a/drivers/pci/pcie/Makefile
-> +++ b/drivers/pci/pcie/Makefile
-> @@ -9,6 +9,7 @@ obj-$(CONFIG_PCIEPORTBUS)	+= pcieportdrv.o bwctrl.o
->  obj-y				+= aspm.o
->  obj-$(CONFIG_PCIEAER)		+= aer.o err.o tlp.o
->  obj-$(CONFIG_CXL_RAS)		+= aer_cxl_rch.o
-> +obj-$(CONFIG_CXL_RAS)		+= aer_cxl_vh.o
->  obj-$(CONFIG_PCIEAER_INJECT)	+= aer_inject.o
->  obj-$(CONFIG_PCIE_PME)		+= pme.o
->  obj-$(CONFIG_PCIE_DPC)		+= dpc.o
-> diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
-> index c4fd9c0b2a548..c5bce25df51cb 100644
-> --- a/drivers/pci/pcie/aer.c
-> +++ b/drivers/pci/pcie/aer.c
-> @@ -1150,16 +1150,6 @@ void pci_aer_unmask_internal_errors(struct pci_dev *dev)
->   */
->  EXPORT_SYMBOL_FOR_MODULES(pci_aer_unmask_internal_errors, "cxl_core");
->  
-> -#ifdef CONFIG_CXL_RAS
-> -bool is_aer_internal_error(struct aer_err_info *info)
-> -{
-> -	if (info->severity == AER_CORRECTABLE)
-> -		return info->status & PCI_ERR_COR_INTERNAL;
-> -
-> -	return info->status & PCI_ERR_UNC_INTN;
-> -}
-> -#endif
-> -
->  /**
->   * pci_aer_handle_error - handle logging error into an event log
->   * @dev: pointer to pci_dev data structure of error source device
-> diff --git a/drivers/pci/pcie/aer_cxl_vh.c b/drivers/pci/pcie/aer_cxl_vh.c
-> new file mode 100644
-> index 0000000000000..93bed07936100
-> --- /dev/null
-> +++ b/drivers/pci/pcie/aer_cxl_vh.c
-> @@ -0,0 +1,221 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright(c) 2026 AMD Corporation. All rights reserved. */
-> +
-> +#include <linux/aer.h>
-> +#include <linux/atomic.h>
-> +#include <linux/cleanup.h>
-> +#include <linux/init.h>
-> +#include <linux/kfifo.h>
-> +#include <linux/rwsem.h>
-> +#include <linux/wait_bit.h>
-> +#include <linux/workqueue.h>
-> +#include "../pci.h"
-> +#include "portdrv.h"
-> +
-> +#define CXL_ERROR_SOURCES_MAX          128
-> +
-> +struct cxl_proto_err_kfifo {
-> +	struct work_struct *work;
-> +	void (*flush)(void);
-> +	struct rw_semaphore rwsem;
-> +	spinlock_t fifo_lock;
-> +	atomic_t flush_inflight;
-> +	DECLARE_KFIFO(fifo, struct cxl_proto_err_work_data,
-> +		      CXL_ERROR_SOURCES_MAX);
-> +};
-> +
-> +static struct cxl_proto_err_kfifo cxl_proto_err_kfifo = {
-> +	.rwsem = __RWSEM_INITIALIZER(cxl_proto_err_kfifo.rwsem),
-> +	.fifo_lock = __SPIN_LOCK_UNLOCKED(cxl_proto_err_kfifo.fifo_lock),
-> +};
-> +
-> +static int __init cxl_proto_err_kfifo_init(void)
-> +{
-> +	INIT_KFIFO(cxl_proto_err_kfifo.fifo);
-> +	return 0;
-> +}
-> +subsys_initcall(cxl_proto_err_kfifo_init);
-> +
-> +bool is_aer_internal_error(struct aer_err_info *info)
-> +{
-> +	if (info->severity == AER_CORRECTABLE)
-> +		return info->status & PCI_ERR_COR_INTERNAL;
-> +
-> +	return info->status & PCI_ERR_UNC_INTN;
-> +}
-> +
-> +bool is_cxl_error(struct pci_dev *pdev, struct aer_err_info *info)
-> +{
-> +	if (!info || !info->is_cxl)
-> +		return false;
-> +
-> +	if (pci_pcie_type(pdev) != PCI_EXP_TYPE_ENDPOINT)
-> +		return false;
-> +
-> +	return is_aer_internal_error(info);
-> +}
-> +
-> +/**
-> + * cxl_forward_error - Forward a CXL protocol error to the CXL subsystem via kfifo
-> + * @pdev: PCI device that reported the AER error
-> + * @info: AER error info containing severity and status
-> + *
-> + * Producer side of the AER-CXL kfifo. Enqueues a CXL protocol error work
-> + * item and schedules the consumer workqueue. Takes a reference on @pdev
-> + * that the consumer releases after handling.
-> + *
-> + * Return: true if the caller must flush the kfifo before AER recovery,
-> + * false if no CXL error handling was initiated due to early return on
-> + * error.
-> + */
-> +bool cxl_forward_error(struct pci_dev *pdev, struct aer_err_info *info)
-> +{
-> +	struct cxl_proto_err_work_data wd = {
-> +		.severity = info->severity,
-> +		.pdev = pdev,
-> +	};
-> +
-> +	guard(rwsem_read)(&cxl_proto_err_kfifo.rwsem);
-> +
-> +	if (!cxl_proto_err_kfifo.work) {
-> +		dev_err_ratelimited(&pdev->dev, "AER-CXL kfifo reader not registered\n");
-> +		return false;
-> +	}
-> +
-> +	/*
-> +	 * Reference discipline: the AER caller (handle_error_source())
-> +	 * holds a ref on @pdev for the duration of this call and releases
-> +	 * it on return. Take a fresh ref here so the pdev stays live while
-> +	 * queued in the kfifo; the consumer (for_each_cxl_proto_err())
-> +	 * drops that ref after handling. On enqueue failure below, drop
-> +	 * the ref we just took to avoid a leak.
-> +	 */
-> +	pci_dev_get(pdev);
-> +
-> +	/* Serialize concurrent kfifo writers: multiple AER threaded IRQs */
-> +	if (!kfifo_in_spinlocked(&cxl_proto_err_kfifo.fifo, &wd, 1,
-> +				 &cxl_proto_err_kfifo.fifo_lock)) {
-> +		/* Dropped; no panic - UCE unconfirmed without RAS read */
-> +		dev_err_ratelimited(&pdev->dev, "AER-CXL kfifo add failed\n");
-> +		pci_dev_put(pdev);
-> +		schedule_work(cxl_proto_err_kfifo.work);
-> +		return true;
-> +	}
-> +
-> +	schedule_work(cxl_proto_err_kfifo.work);
-> +	return true;
-> +}
-> +
-> +void cxl_register_proto_err_work(struct work_struct *work,
-> +				void (*flush)(void))
-> +{
-> +	guard(rwsem_write)(&cxl_proto_err_kfifo.rwsem);
-> +
-> +	/*
-> +	 * Warn on double-registration to surface driver bugs (e.g. missing
-> +	 * cxl_unregister_proto_err_work() on module exit)
-> +	 */
-> +	if (WARN(cxl_proto_err_kfifo.work,
-> +		 "AER-CXL kfifo consumer already registered\n"))
-> +		return;
-> +	cxl_proto_err_kfifo.work = work;
-> +	cxl_proto_err_kfifo.flush = flush;
-> +}
-> +EXPORT_SYMBOL_FOR_MODULES(cxl_register_proto_err_work, "cxl_core");
-> +
-> +static struct work_struct *cancel_cxl_proto_err(void)
-> +{
-> +	struct work_struct *work;
-> +	struct cxl_proto_err_work_data wd;
-> +
-> +	guard(rwsem_write)(&cxl_proto_err_kfifo.rwsem);
-> +	work = cxl_proto_err_kfifo.work;
-> +	cxl_proto_err_kfifo.work = NULL;
-> +	cxl_proto_err_kfifo.flush = NULL;
-> +
-> +	/* rwsem_write excludes all producers; fifo_lock not needed */
-> +	while (kfifo_get(&cxl_proto_err_kfifo.fifo, &wd)) {
-> +		dev_err_ratelimited(&wd.pdev->dev,
-> +				    "AER-CXL error report canceled\n");
-> +		pci_dev_put(wd.pdev);
-> +	}
-> +	return work;
-> +}
-> +
-> +void cxl_unregister_proto_err_work(void)
-> +{
-> +	struct work_struct *work;
-> +
-> +	lockdep_assert_not_held(&cxl_proto_err_kfifo.rwsem);
-> +
-> +	work = cancel_cxl_proto_err();
-> +
-> +	/* Wait for any in-flight cxl_proto_err_flush() calls to complete */
-> +	wait_var_event(&cxl_proto_err_kfifo.flush_inflight,
-> +		       atomic_read(&cxl_proto_err_kfifo.flush_inflight) == 0);
-> +
-> +	if (work)
-> +		cancel_work_sync(work);
-> +}
-> +EXPORT_SYMBOL_FOR_MODULES(cxl_unregister_proto_err_work, "cxl_core");
-> +
-> +/**
-> + * for_each_cxl_proto_err - Call a function for each kfifo work item
-> + *
-> + * Single-consumer invariant: this function is only called from
-> + * cxl_proto_err_work_fn() via a single DECLARE_WORK.
-> + *
-> + * Holds rwsem_read internally; fn() must not call cxl_register_proto_err_work()
-> + * or cxl_unregister_proto_err_work().
-> + */
-> +void for_each_cxl_proto_err(struct cxl_proto_err_work_data *wd,
-> +			    cxl_proto_err_fn_t fn)
-> +{
-> +	guard(rwsem_read)(&cxl_proto_err_kfifo.rwsem);
-> +	while (kfifo_get(&cxl_proto_err_kfifo.fifo, wd)) {
-> +		fn(wd);
-> +		pci_dev_put(wd->pdev);
-> +	}
-> +}
-> +EXPORT_SYMBOL_FOR_MODULES(for_each_cxl_proto_err, "cxl_core");
-> +
-> +/**
-> + * cxl_proto_err_flush - drain pending AER-CXL kfifo work synchronously
-> + *
-> + * Wait for the consumer worker to finish processing all entries
-> + * currently in the kfifo. Used by handle_error_source() for UCE so
-> + * the CXL plane can read CXL RAS, apply panic policy, and clear CXL
-> + * state before pci_aer_handle_error() drives PCIe recovery.
-> + *
-> + * Snapshots the flush callback under rwsem_read and releases the rwsem
-> + * before calling it.  This avoids holding rwsem_read across flush_work(),
-> + * which would deadlock via the rwsem HANDOFF mechanism when a concurrent
-> + * rwsem_write waiter (cxl_unregister_proto_err_work) blocks new readers
-> + * including the worker's for_each_cxl_proto_err() rwsem_read acquisition.
-> + *
-> + * The flush_inflight counter prevents cxl_core module unload while a
-> + * flush is in progress outside the rwsem. The counter is incremented
-> + * under rwsem_read (mutually exclusive with the rwsem_write in
-> + * cancel_cxl_proto_err() that NULLs the flush pointer) and decremented
-> + * after the flush completes. cxl_unregister_proto_err_work() waits for
-> + * the counter to reach zero before proceeding with cancel_work_sync().
-> + *
-> + * For correctable events the consumer can run asynchronously; AER
-> + * does not need to call this helper for AER_CORRECTABLE.
-> + */
-> +void cxl_proto_err_flush(void)
-> +{
-> +	void (*flush)(void);
-> +
-> +	scoped_guard(rwsem_read, &cxl_proto_err_kfifo.rwsem) {
-> +		flush = cxl_proto_err_kfifo.flush;
-> +		if (flush)
-> +			atomic_inc(&cxl_proto_err_kfifo.flush_inflight);
-> +	}
-> +
-> +	if (flush) {
-> +		flush();
-> +		if (atomic_dec_and_test(&cxl_proto_err_kfifo.flush_inflight))
-> +			wake_up_var(&cxl_proto_err_kfifo.flush_inflight);
-> +	}
-> +}
-> diff --git a/drivers/pci/pcie/portdrv.h b/drivers/pci/pcie/portdrv.h
-> index cc58bf2f2c844..fd203010877bf 100644
-> --- a/drivers/pci/pcie/portdrv.h
-> +++ b/drivers/pci/pcie/portdrv.h
-> @@ -130,9 +130,15 @@ struct aer_err_info;
->  bool is_aer_internal_error(struct aer_err_info *info);
->  void cxl_rch_handle_error(struct pci_dev *dev, struct aer_err_info *info);
->  void cxl_rch_enable_rcec(struct pci_dev *rcec);
-> +bool is_cxl_error(struct pci_dev *pdev, struct aer_err_info *info);
-> +bool cxl_forward_error(struct pci_dev *pdev, struct aer_err_info *info);
-> +void cxl_proto_err_flush(void);
->  #else
->  static inline bool is_aer_internal_error(struct aer_err_info *info) { return false; }
->  static inline void cxl_rch_handle_error(struct pci_dev *dev, struct aer_err_info *info) { }
->  static inline void cxl_rch_enable_rcec(struct pci_dev *rcec) { }
-> +static inline bool is_cxl_error(struct pci_dev *pdev, struct aer_err_info *info) { return false; }
-> +static inline bool cxl_forward_error(struct pci_dev *pdev, struct aer_err_info *info) { return false; }
-> +static inline void cxl_proto_err_flush(void) { }
->  #endif /* CONFIG_CXL_RAS */
->  #endif /* _PORTDRV_H_ */
-> diff --git a/include/linux/aer.h b/include/linux/aer.h
-> index df0f5c382286f..8eba3192e2d15 100644
-> --- a/include/linux/aer.h
-> +++ b/include/linux/aer.h
-> @@ -25,6 +25,7 @@
->  #define PCIE_STD_MAX_TLP_HEADERLOG	(PCIE_STD_NUM_TLP_HEADERLOG + 10)
->  
->  struct pci_dev;
-> +struct work_struct;
->  
->  struct pcie_tlp_log {
->  	union {
-> @@ -66,6 +67,29 @@ static inline int pcie_aer_is_native(struct pci_dev *dev) { return 0; }
->  static inline void pci_aer_unmask_internal_errors(struct pci_dev *dev) { }
->  #endif
->  
-> +#ifdef CONFIG_CXL_RAS
-> +/**
-> + * struct cxl_proto_err_work_data - Error information used in CXL error handling
-> + * @pdev: PCI device detecting the error
-> + * @severity: AER severity
-> + */
-> +struct cxl_proto_err_work_data {
-> +	struct pci_dev *pdev;
-> +	int severity;
-> +};
-> +
-> +/**
-> + * Callback for processing a CXL protocol error from the AER-CXL kfifo.
-> + */
-> +typedef void (*cxl_proto_err_fn_t)(struct cxl_proto_err_work_data *wd);
-> +
-> +void cxl_register_proto_err_work(struct work_struct *work,
-> +				void (*flush)(void));
-> +void for_each_cxl_proto_err(struct cxl_proto_err_work_data *wd,
-> +			    cxl_proto_err_fn_t fn);
-> +void cxl_unregister_proto_err_work(void);
-> +#endif
-> +
->  void pci_print_aer(struct pci_dev *dev, int aer_severity,
->  		    struct aer_capability_regs *aer);
->  int cper_severity_to_aer(int cper_severity);
-
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+>
+> > +
+> > +3. DTS and drivers:
+> > +   DT maintainers might provide comments, but review is generally not expected.
+>
+> For DTS, we expect to pass schema checks or at least not add new warnings.
+>
+> I can address these 2 when applying.
+>
+> Rob
