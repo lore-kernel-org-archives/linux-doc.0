@@ -1,89 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1DF823DD;
-	Mon, 20 Jul 2026 04:38:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700683A874B;
+	Mon, 20 Jul 2026 05:39:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784522283; cv=none; b=cSMg4lpqMl7On6SUPGwlyJHqvijv9gl3BE6YQXiDhto4dNlAC0Kl/74r6PuBU6X896EFxM1Ja+ppr2t7Kf1UzNVUTu2nE/S2qw794e4FlE9pk93JYCpEuD3zd7uj0fe2CTUrruv0OqZU6niD7c6pOOVytChNm5bpKWR10eBvuks=
+	t=1784525970; cv=none; b=XRaN3d3JKCwuDzh6PwLxecZ2TE5TYUiRn3WZH6ggPJETJoYltWA3IL6rtbIM+x/hcNlRLXZVZ5YjyPUKCEfxNTxxckNkM4PrILEi8u6HR8A+jrSaK4ZlVi43lrcXOWex8LtRakWPHC4GKt7y5e7ipBYM3AKrezRIiE2lKnZSzT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784522283; c=relaxed/simple;
-	bh=vTqLWWVhWFGfa3a6zMteLMGvVEDnCf82GqjXk/IWIv0=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=jKwk4aoxAh1H3WyuhYL92r9E+n2f2o6VaM/FSP5NHNOnFmLJ5REmjNQgSMFN58XONIlYTJiV/RuMeDBibsXxJcJnqCIETZQOqb9egFoBd2jYFG3ecgCEE2AvDMr6x8HrN4LOhzwJYJa0eNegZ9UIKloqx1XwN1HZiZgIR70xFRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MCqpOZ8g; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784525970; c=relaxed/simple;
+	bh=s242nEr/47FPc5ZwVePZZQB+vYSDHKir8Bpuzgyr/Yg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Fi75IzIlGwd4SyTS6jW6w4FY4fWHs2m1waFSCi5eFRT1bJmRE90a4/sR4jZN5w9Vccm3Q8e4Ru55BoiRP1tG3ipqSeLCxnoJNx9Akl22w+kcD60b/EqKXoS7nL8VpOdJS03E29A2IDzFyb5rKi5yE1dvNPCiyPnZOqPcDWqg1Dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=D6b/WSqH reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MCqpOZ8g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 162591F00A3A;
-	Mon, 20 Jul 2026 04:38:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784522282;
-	bh=1/RVtsH14Lla7LTnwEuXTRDHP7iYsekMa7L97hM/fu0=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject;
-	b=MCqpOZ8gmBykNz4bu6tJqJoM7shJbD4qKF48d4ECoTyUnGxkdvr6F8yIAuuPhQNXY
-	 J9ujJXC3iOPLhYXNyxvZEyiLQ9XnBTmZ0kii/VI2x66RvhrQnEaJxtY9OSaxv2suXC
-	 yK+tw2UbcuqN80NFHX/D06lO1Iq17Th3TiPNyLLaAZrc+WZ//6mPFl7bnFdCJHF7IO
-	 LZCbpzqAOQd/sn/akyZ9cUTqDC/KVikQpN0ly8mSOxGjFoYglTI9iVvxIxjDDyp9sB
-	 jAnG4IfNDgwOwHow5y44zaD0rQBBlcMhkDzAUuCRbKNk8h18Yj77PoHfW9mrEt5BzX
-	 n4HJ7V3z/LGwg==
-Date: Sun, 19 Jul 2026 23:38:01 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="D6b/WSqH"
+Received: from h183.csg.ci.i.u-tokyo.ac.jp (h183.csg.ci.i.u-tokyo.ac.jp [133.11.54.183])
+	(authenticated bits=0)
+	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 66K5c7on075973
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Mon, 20 Jul 2026 14:38:26 +0900 (JST)
+	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
+DKIM-Signature: a=rsa-sha256; bh=mUQHRYBlGhx5jURjlXWULskvPAxw9G3BCiuXa0uo3a8=;
+        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
+        h=From:Message-Id:To:Subject:Date;
+        s=rs20250326; t=1784525906; v=1;
+        b=D6b/WSqHVovJK4Q19o97DKJGiP5FZ3aAp1jwFdZSVC1NUzq6XL6sV+0VPW3PRyTE
+         BP7g5aVoJWrq2AnqRWPNEw9QVi97Wyub8d3dgYwntZGD9ePfu7E73HdgytX2jSQB
+         U01UJcWXDFO8NO32aEJtd3S5MBM5U7rJR2yXZBwI0uwgncWUN/u7GxehqDWAPvxZ
+         6qayUI9WJKUGzvOekrn7d66lM3/QlfFBsxhL4Gjp01YwJqda5ZfYGKWjSeJ8gbbB
+         GOU9L9dWXvpA799uD1CubWPGFL9waYBe1xmVUmJ9ObKtMb/+aYnkSqMJC/oKA/qg
+         asjkra+9gF9PHWDfqoJscQ==
+From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Date: Mon, 20 Jul 2026 14:37:59 +0900
+Subject: [PATCH v9 05/16] KVM: arm64: PMU: Keep implemented counter mask
+ EL-independent
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
- linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
- devicetree@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- linux-doc@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>
-To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-In-Reply-To: <20260720-dev-max20830c-v3-3-9d06d27d6da3@analog.com>
-References: <20260720-dev-max20830c-v3-0-9d06d27d6da3@analog.com>
- <20260720-dev-max20830c-v3-3-9d06d27d6da3@analog.com>
-Message-Id: <178452228056.633061.10207793991910713290.robh@kernel.org>
-Subject: Re: [PATCH v3 3/4] dt-bindings: hwmon: (pmbus/max20830): add
- max20830c and max20840c support
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260720-hybrid-v9-5-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
+References: <20260720-hybrid-v9-0-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
+In-Reply-To: <20260720-hybrid-v9-0-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
+To: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+        Joey Gouly <joey.gouly@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Steffen Eiden <seiden@linux.ibm.com>
+Cc: linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+X-Mailer: b4 0.16-dev-925f5
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1527;
+ i=odaki@rsg.ci.i.u-tokyo.ac.jp; h=from:subject:message-id;
+ bh=s242nEr/47FPc5ZwVePZZQB+vYSDHKir8Bpuzgyr/Yg=;
+ b=owGbwMvMwCWmMbc20y1CyJDxtFoSQ1bsFrep77uTlWZPWFb33eD2WsXbO9RNPbrL2q7OffNCu
+ rNizkH1jlIWBjEuBlkxRZaUot3cGtG1nwoT4ltg5rAygQxh4OIUgIlc3s/I0CH5ybX8QPeuRves
+ iL69hQtmyl2x1lD4fN4898qsq3MmKTL8U4qd6bfF+Umxr6uMs+OFianbt+Wp35W9uWl2e95Fzjg
+ +ZgA=
+X-Developer-Key: i=odaki@rsg.ci.i.u-tokyo.ac.jp; a=openpgp;
+ fpr=AEDC03C9AF734F2EC26A7BFFA4BAEAA73536753C
 
+kvm_pmu_implemented_counter_mask() derives the counter count from
+kvm_vcpu_read_pmcr(). For a nested vCPU outside EL2, PMCR_EL0.N reflects
+MDCR_EL2.HPMN instead of the VM-wide counter count.
 
-On Mon, 20 Jul 2026 11:14:44 +0800, Alexis Czezar Torreno wrote:
-> Add compatible strings for variants of MAX20830 which are MAX20830C
-> and MAX20840C. These devices have the same register functionality with
-> MAX20830 but with a longer IC_DEVICE_ID.
-> 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-> ---
->  Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
+Consequently, processing a PMU reload while the saved context is L2 can
+clear and fail to recreate state for counters reserved for EL2.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Build the implemented counter mask from nr_pmu_counters instead. Keep
+the EL-dependent HPMN restriction in
+kvm_pmu_accessible_counter_mask(), where it controls guest access.
 
-yamllint warnings/errors:
+Fixes: 600f6fa5c90c ("KVM: arm64: Let kvm_vcpu_read_pmcr() return an EL-dependent value for PMCR_EL0.N")
+Assisted-by: Codex:gpt-5.6-sol
+Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+---
+ arch/arm64/kvm/pmu-emul.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-dtschema/dtc warnings/errors:
+diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
+index b4b877f31097..5281d37634a0 100644
+--- a/arch/arm64/kvm/pmu-emul.c
++++ b/arch/arm64/kvm/pmu-emul.c
+@@ -317,12 +317,12 @@ u64 kvm_pmu_accessible_counter_mask(struct kvm_vcpu *vcpu)
+ 
+ u64 kvm_pmu_implemented_counter_mask(struct kvm_vcpu *vcpu)
+ {
+-	u64 val = FIELD_GET(ARMV8_PMU_PMCR_N, kvm_vcpu_read_pmcr(vcpu));
++	u64 n = vcpu->kvm->arch.nr_pmu_counters;
+ 
+-	if (val == 0)
++	if (n == 0)
+ 		return BIT(ARMV8_PMU_CYCLE_IDX);
+ 	else
+-		return GENMASK(val - 1, 0) | BIT(ARMV8_PMU_CYCLE_IDX);
++		return GENMASK(n - 1, 0) | BIT(ARMV8_PMU_CYCLE_IDX);
+ }
+ 
+ static void kvm_pmc_enable_perf_event(struct kvm_pmc *pmc)
 
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.kernel.org/project/devicetree/patch/20260720-dev-max20830c-v3-3-9d06d27d6da3@analog.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+-- 
+2.55.0
 
