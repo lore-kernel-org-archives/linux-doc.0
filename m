@@ -1,127 +1,345 @@
-Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B708A3B8412;
-	Mon, 20 Jul 2026 07:23:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AB63C3795
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 07:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784532195; cv=none; b=jCNPWAbc7OUISm86bUCGHqqwr2tSVRk4eTAzI4Cmc2jBUOZdjNngkHOlrnjFBHvCbwwxEZDKNOzvsnTDJQJduiR408EApCdY+GITXJFOCVI9DuwPF6pEV5S4yiVCo0GflWxWzm4bt9iFkLSAdSr1LEpA350x1LwHr5evIh/q6EA=
+	t=1784532811; cv=none; b=GwORdOgQ0sIiRz8ELA3/JnViSd/8eaqjkiZxG6jj+BvkGcK2DCXdPNZRCm0M4uJTD5Vj6YnOM2L4ix86t5j97JdLVRS/55lS1G573t0Pi5AUAcExWz+vI/oCKC1U0iUQ2eAps6iM7UYKnemcgAEG0nmfMQvwfI/Gw1rlmtskWes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784532195; c=relaxed/simple;
-	bh=0SiPbcO8RTxkJ2sgrJEH8OIt4uYhOTDri5NzPEOlVGc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=n0w9kO3QeQQqRvBtE0qmkkhu08lQoeAxTKSHOvdadIz8MTZYJrcODNgBiqVkEO7JHKBp4JFclBQkWmxzz63i+eCSZlHJkPg6f9Z/mkt2EpvO3JDmwYFhCKdq38GF9txCxgUbstjY5H3QUb0qVKp4EqsjbsOTJt+cfUK3zsToQyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=MqoGSEa+; arc=none smtp.client-ip=77.81.229.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
+	s=arc-20240116; t=1784532811; c=relaxed/simple;
+	bh=EtFr7SpaBZPqMsLgiZiW+YfjFccwIhevLWBpka1ep4M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dNpSoiW93VXVdO6l+O8E2ofno282PsL/7Se3zVAeD4yWHLAx6RDqDgmor3oistQ+EIAEP/DsekVTCAOdh2STI+iPbVuo5qpzf9bAiUvccXANX+jcW43zKuin1Okj5cbpyhbotC4MbyUW/wdEReGdQPIvNmxnZLjanKEozd5BG4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aK6gTxh9; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="MqoGSEa+"
-Received: by chaosmail.tech (Postfix) id 402701C8676;
-	Mon, 20 Jul 2026 07:13:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1784531603;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=iTrVRI86i7nzPnQemQQuLNohM7hyMo7ba924tYiRDQ0=;
-	b=MqoGSEa+4Uecz5+qucuydSbUqys02V0KKL8MfECSXaSo6/pUbe43RkQ4phOhLEfIZfQTan
-	BpYRRMCwETxq7yZMOJ8I1U5qKvisx5+3FYFe226Rdu7T7An6PvpsfKQ/Wdx1rCP7XiuV1w
-	V8+p9ER2gE/8eQJDeYnmSpePE10hQ50=
-From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Mon, 20 Jul 2026 09:13:20 +0200
-Subject: [PATCH RESEND v3] Fail the build on RUST=y and RUST_IS_AVAILABLE=n
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aK6gTxh9"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-47f7444576cso546079f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 00:33:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1784532805; x=1785137605; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9dlR1VSEOP+P+zQGfaFMhFwH/x1vDY3bfx6C3cbYWvs=;
+        b=aK6gTxh9a6bwPyR5IoXM5p2yzpsL0MGd2qmPTXcf0OTvEsIE6H+oAGQEEKZ+dJqKw/
+         fqxQsTMytDAZJEmcwsCIkknOE4smFdH0l7ODB0JWFyepkpyiU8z6xjXaDF/4LgiNlV5z
+         yJ1HpaC1MBQYCDJ2cFsViKuiADpvpkHxLu5tT2F1+5DCd51Ti5MJGT2/8xwcozpuJBSE
+         SXRTzbDZ6dx4PBZQG2/Ss6uSS0o6IpbenG2q3KWhZrZj7ePlNEA3ONpgUgDAX+85dmzt
+         EnxX4LyBYQGpVPcz626IO62wRLCY83vIiX11PxvvbZIy/xFoTRuX22AJgH63XiX4AT7K
+         wHMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784532805; x=1785137605;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9dlR1VSEOP+P+zQGfaFMhFwH/x1vDY3bfx6C3cbYWvs=;
+        b=dSOOxPoKFdE6dJhmdB5OOY4ago68csBbmpPwM6U72orKbApDSjT4HorVglKrpVPtbA
+         WozQ1tKquVZbzWTTVSsm38FbRYteVrSkJyvsMdzDektcu980nL+qblkR7l525/GXo/cR
+         kYq/rYPnHWqkbkYiamQ8btZJs7S9dzaM1Ml51UcBe5fmdAIw60o70vZ7v0v4q4RuldOe
+         UT5Cao+aQ6ThJFRPK6sE15JyiYrs6Qg229Tx2kEOt92BiYioPHrpglA4Oj0kMn/3kFNF
+         h0K8BngB3EpBIfpzaaLOZCI72+QnoLxKxnIKtMK24RguTmLeN/Z6ifT5GFx1Cu0ZiMcE
+         5KnA==
+X-Forwarded-Encrypted: i=1; AHgh+Rof8BN1yqfC12ItRO8Alp0dE1mtLu7K2Xr8awUcbm8L0/3bdpse2v7iLxmiDnBlA8C1FNfaKmA0n6U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6JoCza+yYEa1e8XmXmNSzjjcbd/wVEhD3qfLnC+5MH0/FCuu7
+	uW5LCTRJEqIwBtv3uY6+Ti+sSjovCyjQ2Vwmqmze2QBqJXAMW/1TQiitlfaO5HYacgw=
+X-Gm-Gg: AfdE7cmncAeirv9doc/UDNN862QCReZBn3S5CC6C39ZWgK4WSZpZsWuRbAYg/jZRcuO
+	jyu4i/jYh4LrXhfrQDvB1NSlyuFm3B7ZG/56TFfzFuaFA0ZnIIGyxEEnDhHo/kJHVuBL7G6Xtvn
+	cDjaoVg1EoKQFEIFq3IsrJHuIMs7EDt8yc6YsoC6BHbwgZdWC2sfbBRMORkXBOzlRpEWCJir2Fl
+	PGjU2Ev+Q7WVD9KaWdSdfXescs1RjTIsWKVi69kkv2+J5nFOWT5c8544cxUs15w5f4ESUzc4AY+
+	OtpiyaaG2JLRmmEb7yjJ7GwT9gkP5HQ1ij6+kWEaNcaiLhDSGR5sC0N/JaT/kLQSj002MyJK+y4
+	eQYt7olXf40sGZY0NRi1PPYpnWqrvxaKcYImyULQwrbBoJcXYbtOVVNxDwqbe5LZg8icmjXSGF9
+	pNz07IAgMdTOohrg==
+X-Received: by 2002:a05:6000:491c:b0:47f:73d3:bfc3 with SMTP id ffacd0b85a97d-47f73d3c0fcmr5580169f8f.61.1784532805224;
+        Mon, 20 Jul 2026 00:33:25 -0700 (PDT)
+Received: from linaro.org ([2a02:2454:ff24:7210:b6d9:bb37:a20c:1c55])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63edd7d3sm26586179f8f.25.2026.07.20.00.33.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2026 00:33:24 -0700 (PDT)
+Date: Mon, 20 Jul 2026 09:33:13 +0200
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Udit Tiwari <quic_utiwari@quicinc.com>,
+	Md Sadre Alam <mdalam@qti.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Vignesh Raghavendra <vigneshr@ti.com>, dmaengine@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, brgl@kernel.org,
+	sashiko-reviews@lists.linux.dev
+Subject: Re: [PATCH v22 06/14] dmaengine: qcom: bam_dma: add support for BAM
+ locking
+Message-ID: <al3POSAJKHkLYVgW@linaro.org>
+References: <20260717-qcom-qce-cmd-descr-v22-0-ff0d18b27246@oss.qualcomm.com>
+ <20260717-qcom-qce-cmd-descr-v22-6-ff0d18b27246@oss.qualcomm.com>
+ <20260717085136.E0FBC1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260720-evolve-to-crab-v3-1-3f60344f4f6e@chaosmail.tech>
-To: Alice Ryhl <aliceryhl@google.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Benno Lossin <lossin@kernel.org>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Boqun Feng <boqun@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Gary Guo <gary@garyguo.net>, Jonathan Corbet <corbet@lwn.net>, 
- Miguel Ojeda <ojeda@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
- Trevor Gross <tmgross@umich.edu>
-Cc: Neal Gompa <neal@gompa.dev>, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- Sasha Finkelstein <k@chaosmail.tech>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784531602; l=2582;
- i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=0SiPbcO8RTxkJ2sgrJEH8OIt4uYhOTDri5NzPEOlVGc=;
- b=P5bt+u1s7Zyu1jTMrcUuloWRyxOJh2TyJ+SUc9Jh4tcdagA+Fy9zD4wGvlXBuU58stQ2e3BGk
- xmU6S/WfVxKACf6NxnD4lduo0LTQaZnSaKVN6jHfLPfNfKHwvAdht6F
-X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260717085136.E0FBC1F000E9@smtp.kernel.org>
 
-The current approach of silently disabling all rust drivers if the
-toolchain is missing results in users that try to compile their own
-kernels getting a "successful" build and then being confused about where
-did their drivers go. In comparison, missing openssl results in a build
-failure, not a disappearance of everything that depends on it.
+On Fri, Jul 17, 2026 at 08:51:36AM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 6 potential issue(s) to consider:
+> - [High] DMA API violation due to mismatched device pointers in dma_map_sg and dma_unmap_sg.
+> - [High] The client-provided physical address for the lock scratchpad is silently truncated to 24 bits.
+> - [Medium] Transient allocation failure for lock descriptors causes a permanent channel stall.
+> - [Medium] Pipe locking is restricted to TX channels instead of RX channels, contradicting intended design.
+> - [Medium] The dummy lock descriptor clears the `reconfigure` flag using a hardcoded TX direction, potentially misconfiguring the channel.
+> - [Low] Missing integer argument for `%d` in `dev_err_ratelimited` call.
+> --
+> 
+> --- Patch [6]: [PATCH v22 06/14] dmaengine: qcom: bam_dma: add support for BAM locking ---
+> commit c786d3c51276cef4b55a461357b399c32982316b
+> Author: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Subject: dmaengine: qcom: bam_dma: add support for BAM locking
+> 
+> This commit adds support for BAM pipe locking by prepending and appending
+> dummy command descriptors with LOCK and UNLOCK bits set. It aims to prevent
+> writes into config registers while the engine is busy.
+> 
 
-This also means that allyesconfig will depend on rust, but since the
-rust experiment concluded with "rust is here to stay", i believe that
-allyesconfig should be building rust drivers too.
+Thanks for all the changes! It looks good to me for the most part, so
+I'll just comment on the remaining Sashiko comments below.
 
-Reviewed-by: Gary Guo <gary@garyguo.net>
-Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
----
-Changes in v3:
-- Collect r-b tags
-- Rebase on 7.2
-- Link to v2: https://patch.msgid.link/20260521-evolve-to-crab-v2-1-c18e0e98fc54@chaosmail.tech
+> > Add support for BAM pipe locking. To that end: when starting DMA on an RX
+> > channel - prepend the existing queue of issued descriptors with an
+> 
+> [Severity: Medium]
+> Is this intended to be restricted to TX channels? The commit message mentions
+> starting DMA on an RX channel, but the implementation in bam_setup_pipe_lock()
+> aborts the lock setup if the direction is not DMA_MEM_TO_DEV.
+> 
 
-Changes in v2:
-- No longer a RFC, let's make it happen.
-- Update the docs.
-- Link to v1: https://patch.msgid.link/20260510-evolve-to-crab-v1-1-208df84e67be@chaosmail.tech
----
- Documentation/rust/quick-start.rst | 6 +++---
- init/Kconfig                       | 1 -
- 2 files changed, 3 insertions(+), 4 deletions(-)
+Is this a typo in your commit message? I guess RX vs TX depends on the
+perspective (kernel or peripheral), but I think "TX channel" would be
+clearer here (or even just put DMA_MEM_TO_DEV).
 
-diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
-index a6ec3fa94d33..764c81d0dd59 100644
---- a/Documentation/rust/quick-start.rst
-+++ b/Documentation/rust/quick-start.rst
-@@ -321,9 +321,9 @@ Configuration
- -------------
- 
- ``Rust support`` (``CONFIG_RUST``) needs to be enabled in the ``General setup``
--menu. The option is only shown if a suitable Rust toolchain is found (see
--above), as long as the other requirements are met. In turn, this will make
--visible the rest of options that depend on Rust.
-+menu. In turn, this will make visible the rest of options that depend on Rust.
-+You can check the value of ``RUST_IS_AVAILABLE`` to determine if your toolchain
-+is configured correctly.
- 
- Afterwards, go to::
- 
-diff --git a/init/Kconfig b/init/Kconfig
-index 5230d4879b1c..0eca3dfd9349 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -2207,7 +2207,6 @@ config PROFILING
- config RUST
- 	bool "Rust support"
- 	depends on HAVE_RUST
--	depends on RUST_IS_AVAILABLE
- 	select EXTENDED_MODVERSIONS if MODVERSIONS
- 	depends on !MODVERSIONS || GENDWARFKSYMS
- 	depends on !GCC_PLUGIN_RANDSTRUCT
+> > diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
+> > index f3e713a5259c2..edaa694eb9df0 100644
+> > --- a/drivers/dma/qcom/bam_dma.c
+> > +++ b/drivers/dma/qcom/bam_dma.c
+> 
+> [ ... ]
+> 
+> > @@ -859,6 +887,15 @@ static int bam_resume(struct dma_chan *chan)
+> >  	return 0;
+> >  }
+> >  
+> > +static void bam_dma_free_lock_desc(struct virt_dma_desc *vd)
+> > +{
+> > +	struct bam_async_desc *async_desc = container_of(vd, struct bam_async_desc, vd);
+> > +	struct dma_chan *chan = vd->tx.chan;
+> > +
+> > +	dma_unmap_sg(chan->slave, &async_desc->lock_sg, 1, DMA_TO_DEVICE);
+> 
+> [Severity: High]
+> Will this cause a DMA API violation? 
+> 
+> The scatterlist is unmapped here using the client device (chan->slave), but it
+> is mapped in bam_make_lock_desc() using the DMA controller device 
+> (bchan->bdev->dev).
+> 
 
----
-base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-change-id: 20260510-evolve-to-crab-8cba1768dcd5
+Yep, we need to change all those DMA calls to bchan->bdev->dev.
 
-Best regards,
---
-Sasha Finkelstein <k@chaosmail.tech>
--- 
-Sasha Finkelstein <k@chaosmail.tech>
+> > +	kfree(async_desc);
+> > +}
+> 
+> [ ... ]
+> 
+> > @@ -1046,13 +1090,101 @@ static void bam_apply_new_config(struct bam_chan *bchan,
+> >  	bchan->reconfigure = 0;
+> >  }
+> >  
+> > +static struct bam_async_desc *
+> > +bam_make_lock_desc(struct bam_chan *bchan, unsigned long flag)
+> > +{
+> > +	struct bam_async_desc *async_desc;
+> 
+> [ ... ]
+> 
+> > +	bam_prep_ce_le32(&async_desc->lock_ce, bchan->lock_scratchpad_addr, BAM_WRITE_COMMAND, 0);
+> 
+> [Severity: High]
+> Can this truncate the physical address and cause memory corruption?
+> 
+> The client-provided lock_scratchpad_addr is a 64-bit phys_addr_t, but
+> bam_prep_ce_le32() masks the address to 24 bits:
+> 
+> bam_ce->cmd_and_addr = cpu_to_le32((addr & 0xffffff) | ((cmd & 0xff) << 24));
+> 
+> If the physical address is above 16MB, the BAM engine will perform its dummy
+> write to an arbitrary truncated address.
+> 
 
+This looks correct as well. It seems the address in a BAM command
+descriptor is more like a "address within the peripheral" than an actual
+physical address, so the same applies to the lock_scratchpad_addr. Can
+you clarify this inside the struct bam_config documentation comment?
+
+This also means there is no point to accept a phys_addr_t in
+lock_scratchpad_addr, u32 is sufficient.
+
+> > +	sg_set_buf(&async_desc->lock_sg, &async_desc->lock_ce, sizeof(async_desc->lock_ce));
+> > +
+> > +	mapped = dma_map_sg(bchan->bdev->dev, &async_desc->lock_sg, 1, DMA_TO_DEVICE);
+> 
+> [ ... ]
+> 
+> > +static int bam_setup_pipe_lock(struct bam_chan *bchan)
+> > +{
+> > +	const struct bam_device_data *bdata = bchan->bdev->dev_data;
+> > +	struct bam_async_desc *lock_desc, *unlock_desc;
+> > +
+> > +	lockdep_assert_held(&bchan->vc.lock);
+> > +
+> > +	if (!bdata->pipe_lock_supported || !bchan->lock_scratchpad_addr ||
+> > +	    bchan->direction != DMA_MEM_TO_DEV)
+> > +		return 0;
+> 
+> [Severity: Medium]
+> Does this restriction conflict with the commit message? 
+> 
+> The condition limits pipe locking to DMA_MEM_TO_DEV (TX), making this feature
+> dead code for RX channels (DMA_DEV_TO_MEM).
+> 
+
+Clarifying the commit message should fix this comment as well.
+
+> > +
+> > +	/*
+> 
+> [ ... ]
+> 
+> > @@ -1072,6 +1205,22 @@ static void bam_start_dma(struct bam_chan *bchan)
+> >  		return;
+> >  
+> >  	while (vd && !IS_BUSY(bchan)) {
+> > +		/*
+> > +		 * Open a LOCK/UNLOCK bracket around each fresh sequence.
+> > +		 * Sentinels inserted by bam_setup_pipe_lock() are skipped: they
+> > +		 * already have bam_locked set and must not trigger a second pair.
+> > +		 */
+> > +		if (!bchan->bam_locked) {
+> > +			ret = bam_setup_pipe_lock(bchan);
+> > +			if (ret) {
+> > +				dev_err_ratelimited(bdev->dev,
+> > +					"failed to setup the pipe lock, deferring transfer: %d\n");
+> 
+> [Severity: Low]
+> Is this missing the integer argument for the %d format specifier?
+> 
+
+Yep.
+
+> [Severity: Medium]
+> Will this cause a permanent channel stall on memory pressure? 
+> 
+> If bam_setup_pipe_lock() fails due to a GFP_NOWAIT allocation failure, the
+> loop breaks and leaves the descriptors on the desc_issued list, but no
+> mechanism appears to schedule a retry.
+> 
+> > +				break;
+
+Could be true, if we break out of the loop here, where will this
+deferral happen? Will anything call bam_start_dma() again?
+
+Perhaps we should have queue_work() here?
+
+> > +			}
+> > +			if (bchan->bam_locked)
+> > +				vd = vchan_next_desc(&bchan->vc);
+> > +		}
+> > +
+> >  		list_del(&vd->node);
+> >  
+> >  		async_desc = container_of(vd, struct bam_async_desc, vd);
+> 
+> [ ... ]
+> 
+> >  		/* on first use, initialize the channel hardware */
+> >  		if (!bchan->initialized)
+> >  			bam_chan_init_hw(bchan, async_desc->dir);
+> >  
+> >  		/* apply new slave config changes, if necessary */
+> >  		if (bchan->reconfigure)
+> >  			bam_apply_new_config(bchan, async_desc->dir);
+> 
+> [Severity: Medium]
+> Could the dummy lock descriptor clear the reconfigure flag with the wrong
+> direction?
+> 
+> The lock descriptor is created with async_desc->dir hardcoded to
+> DMA_MEM_TO_DEV. If pipeline locking is ever enabled for RX channels,
+> bam_apply_new_config() will configure the BAM engine using dst_maxburst
+> instead of src_maxburst, and clear the bchan->reconfigure flag before the
+> real data descriptor is processed.
+> 
+
+Err, what? I think we can ignore this one, since I don't think there is
+a use case for locking on the RX channel.
+
+Although, looking a bit more at your changes, I think you should make
+sure the direction is correct already in bam_slave_config():
+
++	/*
++	 * This is required to setup the pipe locking and must be done even
++	 * before the first call to bam_start_dma().
++	 */
++	if (bdata->pipe_lock_supported && peripheral_cfg) {
++		bchan->lock_scratchpad_addr = peripheral_cfg->lock_scratchpad_addr;
++		bchan->direction = cfg->direction;
++	}
++
+
+I don't think there is much point to store the direction at all if we
+just support DMA_MEM_TO_DEV in bam_setup_pipe_lock(). I would just check
+the direction inside this if statement and return -EINVAL if some user
+tries to setup pipe locking on a TX channel. Then you don't need to
+store bchan->direction at all.
+
+> >  
+> 
+> [ ... ]
+> 
+> > @@ -1191,8 +1344,11 @@ static void bam_issue_pending(struct dma_chan *chan)
+> >   */
+> >  static void bam_dma_free_desc(struct virt_dma_desc *vd)
+> >  {
+> > -	struct bam_async_desc *async_desc = container_of(vd,
+> > -			struct bam_async_desc, vd);
+> > +	struct bam_async_desc *async_desc = container_of(vd, struct bam_async_desc, vd);
+> > +	struct dma_chan *chan = vd->tx.chan;
+> > +
+> > +	if (async_desc->is_lock_desc)
+> > +		dma_unmap_sg(chan->slave, &async_desc->lock_sg, 1, DMA_TO_DEVICE);
+> 
+> [Severity: High]
+> Does this share the same DMA API violation mentioned earlier? 
+> 
+> The abort/cleanup path also unmaps using the client device instead of the
+> DMA controller device.
+> 
+
+Same thing here as above, yeah. Should be bchan->bdev->dev.
+
+Thanks,
+Stephan
