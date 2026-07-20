@@ -1,98 +1,50 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5144F388E6E
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 03:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B812D94BA;
+	Mon, 20 Jul 2026 03:08:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784516644; cv=none; b=qq/Cayqz8GLd82FwZx/LOmqTaQpAcwfdMdWSDa9nG/xA+RxGsKXUBrMri2V/5pG2YKhZGvS1+wPsbyyqdyF29r+7zXWNOeAjAikEM4pEQd3R/bmQfeCMp69THo12JzRs/mI5PwGocR5CkB6ndgo1/ooy6/qmwLT7FpEiz5FXZ/Q=
+	t=1784516915; cv=none; b=cHUgvj30baTY3SYNbL7V5tfQZeErUCNcxohOl1VErlusX+lCuqn4mg6+IBQiy3esjp4GxXD1VxeFj3/aOTtDlQq2P4P2xW2Qs1OyTotWuZtlvML2nHjyL4p64/AnqaVN/xFtJCL+HgA61VS07dwHz75437mjQPsD0/8cxIJIkN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784516644; c=relaxed/simple;
-	bh=YLKc+POCNITKfz5Zq68JdFxIzpDDqljeDs2WwwuKzhM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ITOqTlAHtO6qfmfY9PIQXUKZhqWUScU9Wen41IfrXgbVItUbnkfQbZWwyDSVVTk4WTDuh1FI+sI1SsDkUB/08FlVzDfGycyUMDak3ZQAo49H8+EFyer71Dap05DhMizo2CMPhTLiIy9uF+C2bbZtcMv+u56FNaECtrpfeMYCro8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HrLK/q8P; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784516915; c=relaxed/simple;
+	bh=ZHbYeQh8M/lo+c/Yp9za3JsjfdxW5rWgVBkcpS9k7lw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=moD8qdFnx/cnex9+NIgIN5egITdU8gjVrKvMc7P6z0nUwDJsN0YFkXuAu5jPLnpM059EHr9yn6qSEXexY0wPQFDeLF/ARb4vCkF6j0AuRahgd3eX+Or+Usz3iIf2epamQKC7ErzzpeF19a25YlHp2h42DPtaK21i0cR1jOQ3gA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dgSTsChn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HrLK/q8P"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cad4170e8eso129901605ad.3
-        for <linux-doc@vger.kernel.org>; Sun, 19 Jul 2026 20:04:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784516641; x=1785121441; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Zbv8c6XPjklVCkXRSa81M3HIzY/Ff3msBnn5ibeFm/4=;
-        b=HrLK/q8PRfkyVvzkhP3WYDphKKdTqg+kPAESMle/XLoss56Fq/z/JhH8oip4g7opsW
-         X17Va7UNupTcCsqjhvGTvSa8ZQR0XKfTOCJmMOPxpX9jU+vSrAJqgejtGvA+Dgl6DAaC
-         j9RN4JM2H2MboYy6bONjPodBLX7O2QEpSDY4DqzC+3Zl0hD2ERoNZNjJQ3+9GnbP+ZM4
-         UzOQ3JTfdySNdnp5Z0fuecsMGVkA8aQCKlASegbbmEoGashAEEeN/BSLTB4V1HPQpxA0
-         Dap/tGMKdb/qlhpOaypm6ADn8pGxx/aDeMH85CqSaDqJCWUY1gi2/mlMAnrBdPT+CsWn
-         sbeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784516641; x=1785121441;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Zbv8c6XPjklVCkXRSa81M3HIzY/Ff3msBnn5ibeFm/4=;
-        b=V3WrsLLR1sL5UtFS5sdISV1TmoEn5gnmnrG1mJrg9GmxqzC2LZPhsxQLazhHZ/IFsB
-         n16TSyFs/JMuvvJLn0ss3pzPuCWyDEox5qwwprPjS+Igdx69tQ0uAjQF9vu0U5uSl0vV
-         ETbYHfjvscR+vkB5HbvXkWVIUsR/7qCNi/Vi9XEOC/jKuliQPZkz0H+rbJTq97tF8Pb9
-         m7vKAtuTPAs17Es/yLj23Ix+c9RsDG6u1FDK1FU/EK1YNgVLUyHfgUcrXr+KPKMi28hw
-         LDnI3NjDIGPrzn/n4ZwAs/h+sNVjjLWK/nwtGQCPymu5oR5dXOU+aYeFgxwXA94uHy0S
-         3vyA==
-X-Forwarded-Encrypted: i=1; AHgh+RpBYnIsjredVRxONN7zdq06H712Buv501jW8smngf8Qg4fnZsGdX02Rb+5lVGWzeQnLefXPfNxoiyc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy16nk2+zpOMLnamN9w4xIUgetqk06F3L0V5xAkIf/Ru1irXIvr
-	T5NFm6uWj+mRd2qMxGvelJyhAfHy49lNnbog1nl9kIhGfEFkG7KC7ZM1
-X-Gm-Gg: AfdE7ckSkHlDeVRIbYzKV2YOw46FrBvO0eqz0F8/qnoa7GTR7VUf/lTkVSqC4LtM7tz
-	jzajyR1mMRo89IdXzDDdc5i6z3X5i2CSmRV+jwa3xCbcIQ+zncwT43yQqGOgP83119MeL5xQVdP
-	GVySvLKV7ouxFE3/ra7yW8w2Jd3/0fe40SgHM+XHxFOdxLw8pQ9iHs3siMXmNffj1tQUGN7IAXQ
-	a4bitCnCZo3lPo3CA1LGIYnYbHV60dlmRS/kAIUR+RiTy7wc4hpk/x82oLJVa6Vb7geQLoUA6ql
-	ltlYQl7+gpgtuJbA4BdnmZndCFpJp1mAXdVQMW8Zgvj68jZfmgXjkpdhro7X/XotkNKqjjrg/Lt
-	NPghegvpEl8vyUECmiA/e0e7rbykwFcuUFUuwwJRNIOaq6ccUawFnI/lgSeQoUfjDy5yWFPpjxj
-	Wx8UmObdKFs40ze1DNY6ZSUrotUe8=
-X-Received: by 2002:a17:902:d4cc:b0:2c9:e9db:8167 with SMTP id d9443c01a7336-2cf348193f5mr133308615ad.7.1784516641437;
-        Sun, 19 Jul 2026 20:04:01 -0700 (PDT)
-Received: from localhost.localdomain ([112.65.87.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf344d80e6sm47783065ad.29.2026.07.19.20.03.54
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 19 Jul 2026 20:04:01 -0700 (PDT)
-From: Lian Wang <lianux.mm@gmail.com>
-To: damon@lists.linux.dev,
-	linux-mm@kvack.org
-Cc: sj@kernel.org,
-	akpm@linux-foundation.org,
-	linux-kernel@vger.kernel.org,
-	david@kernel.org,
-	ljs@kernel.org,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	npache@redhat.com,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com,
-	ryan.roberts@arm.com,
-	daichaobing@sangfor.com.cn,
-	wangkefeng.wang@huawei.com,
-	gutierrez.asier@huawei-partners.com,
-	zengheng4@huawei.com,
-	kasong@tencent.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dgSTsChn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FAB91F000E9;
+	Mon, 20 Jul 2026 03:08:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784516914;
+	bh=xqkCUUSg3VKT7BIAgeA9qVYw7W4y8B+uGXFbFwcpUns=;
+	h=From:To:Cc:Subject:Date;
+	b=dgSTsChnJccxX2g7CRYTyqPAoj0AC4CcZVDdIjfRknfCBmOg0Cn6ECdIMfXFMjgFT
+	 kou3HqjooY7YJFEWXeZv64E0+rlzklKl/5A6cm0hsI5jj4yh5xCn2z9RW77GJrCB6O
+	 yNSapfonoWs1uX2BngT2rKgNj2C2GWPU8msGWu7behE1EqXMEJFzaw8lzhQT99y3Xt
+	 Qk87hdzv0d3ZBlGSsNnt/N/lfA28FlQA7GazTrBd8e+eBfU2YAY2OAsKJMQX78RBhS
+	 AOVsYlgWKzxOEa4Usm0hrd7i0GMrDrNmih9GyWgnXmnRa47TPlIPa4RoZXV0ROcx4s
+	 56Yf5cJTDbp3A==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	tzungbi@kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	lianux.mm@gmail.com,
-	lianux.wang@processmission.com,
-	kunwu.chan@linux.dev
-Subject: [RFC PATCH v3 3/3] selftests/damon: add functional test for DAMOS_SPLIT
-Date: Mon, 20 Jul 2026 11:03:27 +0800
-Message-ID: <20260720030327.80153-4-lianux.mm@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260720030327.80153-1-lianux.mm@gmail.com>
-References: <20260720030327.80153-1-lianux.mm@gmail.com>
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	tfiga@chromium.org,
+	senozhatsky@chromium.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH RESEND v6 0/2] PM: dpm_watchdog: Improve DPM watchdog configurability
+Date: Mon, 20 Jul 2026 03:08:19 +0000
+Message-ID: <20260720030821.2780257-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -101,207 +53,67 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add damos_split.py, which allocates a MADV_HUGEPAGE-backed region in a
-child process and runs a DAMON/DAMOS scheme with action 'split' and
-target_order 0 against it, then verifies the huge pages are split into
-base pages (the child's AnonHugePages drops).
+This series improves the configurability of the DPM watchdog.
 
-Extend the _damon_sysfs.py Damos helper with the target_order parameter
-so a scheme's split target can be expressed.
+Currently, the DPM watchdog is always enabled if compiled in.  Also, the
+module parameters defined in drivers/base/power/main.c use the generic
+and non-descriptive "main" prefix.
 
+This series addresses these limitations.
 
+Patch 1 renames the module parameter prefix for
+drivers/base/power/main.c from "main" to "pm".
 
-Co-developed-by: Kunwu Chan <kunwu.chan@linux.dev>
-Signed-off-by: Kunwu Chan <kunwu.chan@linux.dev>
-Signed-off-by: Lian Wang (Processmission) <lianux.mm@gmail.com>
+Patch 2 introduces the "dpm_watchdog_enabled" module parameter to allow
+enabling/disabling the watchdog at boot time and runtime.  It also adds
+CONFIG_DPM_WATCHDOG_ENABLED to set the default value of the module
+parameter at compile time.
+
+The primary motivation for this configurability revolves around Android
+GKI (Generic Kernel Image).  We want to enable CONFIG_DPM_WATCHDOG in
+the GKI so the feature is available.  However, because the GKI is shared
+across many different devices, we don't want to inadvertently affect
+devices that are unaware of this feature.  This provides a way to
+compile it in, but keep it disabled by default for those devices via the
+kernel command line or module parameters.
+
+To maintain backward compatibility, CONFIG_DPM_WATCHDOG_ENABLED relies
+on `default y`.  Previously, the DPM watchdog was always active if
+CONFIG_DPM_WATCHDOG was set.  Defaulting this new option to 'y' ensures
+that the behavior remains unchanged for existing users and defconfigs
+when they upgrade.
 ---
- tools/testing/selftests/damon/Makefile        |   1 +
- tools/testing/selftests/damon/_damon_sysfs.py |   9 +-
- tools/testing/selftests/damon/damos_split.py  | 125 ++++++++++++++++++
- 3 files changed, 134 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/damon/damos_split.py
+Since there was no further feedback on v5, I'm sending out v6.
+Any feedback would be appreciated.
+---
+v6:
+- Change the prefix "pm_sleep" -> "pm".
 
-diff --git a/tools/testing/selftests/damon/Makefile b/tools/testing/selftests/damon/Makefile
-index ece244e5c5b9..a623c271355f 100644
---- a/tools/testing/selftests/damon/Makefile
-+++ b/tools/testing/selftests/damon/Makefile
-@@ -12,6 +12,7 @@ TEST_PROGS += sysfs.sh
- TEST_PROGS += sysfs.py
- TEST_PROGS += sysfs_update_schemes_tried_regions_wss_estimation.py
- TEST_PROGS += damos_quota.py damos_quota_goal.py damos_apply_interval.py
-+TEST_PROGS += damos_split.py
- TEST_PROGS += damos_tried_regions.py damon_nr_regions.py
- TEST_PROGS += sysfs_refresh.py
- TEST_PROGS += reclaim.sh lru_sort.sh
-diff --git a/tools/testing/selftests/damon/_damon_sysfs.py b/tools/testing/selftests/damon/_damon_sysfs.py
-index e6a2265d721e..5a01f31ad9f2 100644
---- a/tools/testing/selftests/damon/_damon_sysfs.py
-+++ b/tools/testing/selftests/damon/_damon_sysfs.py
-@@ -419,6 +419,7 @@ class Damos:
-     filters = None
-     apply_interval_us = None
-     target_nid = None
-+    target_order = None
-     dests = None
-     idx = None
-     context = None
-@@ -429,7 +430,7 @@ class Damos:
-     def __init__(self, action='stat', access_pattern=DamosAccessPattern(),
-                  quota=DamosQuota(), watermarks=DamosWatermarks(),
-                  core_filters=[], ops_filters=[], filters=[], target_nid=0,
--                 dests=DamosDests(), apply_interval_us=0):
-+                 target_order=0, dests=DamosDests(), apply_interval_us=0):
-         self.action = action
-         self.access_pattern = access_pattern
-         self.access_pattern.scheme = self
-@@ -448,6 +449,7 @@ class Damos:
-         self.filters.scheme = self
- 
-         self.target_nid = target_nid
-+        self.target_order = target_order
-         self.dests = dests
-         self.dests.scheme = self
- 
-@@ -492,6 +494,11 @@ class Damos:
-         if err is not None:
-             return err
- 
-+        err = write_file(os.path.join(self.sysfs_dir(), 'target_order'), '%d' %
-+                         self.target_order)
-+        if err is not None:
-+            return err
-+
-         err = self.dests.stage()
-         if err is not None:
-             return err
-diff --git a/tools/testing/selftests/damon/damos_split.py b/tools/testing/selftests/damon/damos_split.py
-new file mode 100644
-index 000000000000..089fbe0f0d4d
---- /dev/null
-+++ b/tools/testing/selftests/damon/damos_split.py
-@@ -0,0 +1,125 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Functional test for the DAMOS_SPLIT action.
-+#
-+# A child process allocates a MADV_HUGEPAGE-backed anonymous region and
-+# faults it in so that it is backed by (m)THPs.  The parent then runs a
-+# DAMON/DAMOS scheme with action 'split' and target_order 0 against the
-+# child and checks that the huge pages are split into base pages, i.e. the
-+# child's AnonHugePages (as reported by /proc/<pid>/smaps) drops.
-+
-+import ctypes
-+import os
-+import signal
-+import sys
-+import time
-+
-+import _damon_sysfs
-+
-+PMD_SIZE = 2 * 1024 * 1024
-+MADV_HUGEPAGE = 14
-+PROT_READ_WRITE = 0x1 | 0x2
-+MAP_PRIVATE_ANON = 0x2 | 0x20
-+REGION_SIZE = 32 * PMD_SIZE
-+
-+def child_workload():
-+    '''Allocate a PMD-aligned, THP-backed region, fault it in, then idle.'''
-+    libc = ctypes.CDLL('libc.so.6', use_errno=True)
-+    libc.mmap.restype = ctypes.c_void_p
-+    libc.mmap.argtypes = [ctypes.c_void_p, ctypes.c_size_t, ctypes.c_int,
-+                          ctypes.c_int, ctypes.c_int, ctypes.c_long]
-+    libc.madvise.argtypes = [ctypes.c_void_p, ctypes.c_size_t, ctypes.c_int]
-+
-+    # Over-allocate so that a PMD-aligned window is available.
-+    raw = libc.mmap(None, REGION_SIZE + PMD_SIZE, PROT_READ_WRITE,
-+                    MAP_PRIVATE_ANON, -1, 0)
-+    if raw is None or raw == ctypes.c_void_p(-1).value:
-+        os._exit(2)
-+    base = (raw + PMD_SIZE - 1) & ~(PMD_SIZE - 1)
-+    libc.madvise(ctypes.c_void_p(base), REGION_SIZE, MADV_HUGEPAGE)
-+
-+    buf = (ctypes.c_char * REGION_SIZE).from_address(base)
-+    for off in range(0, REGION_SIZE, 4096):
-+        buf[off] = 1
-+
-+    # Ready; idle until the parent tears us down.
-+    signal.pause()
-+
-+def anon_huge_kb(pid):
-+    total = 0
-+    try:
-+        with open('/proc/%d/smaps' % pid) as f:
-+            for line in f:
-+                if line.startswith('AnonHugePages:'):
-+                    total += int(line.split()[1])
-+    except FileNotFoundError:
-+        return -1
-+    return total
-+
-+def main():
-+    if not os.path.exists('/sys/kernel/mm/transparent_hugepage/enabled'):
-+        print('SKIP: transparent hugepage is not available')
-+        exit(0)
-+
-+    pid = os.fork()
-+    if pid == 0:
-+        child_workload()
-+        os._exit(0)
-+
-+    try:
-+        # Give the child time to fault in its huge pages.
-+        time.sleep(2)
-+        before = anon_huge_kb(pid)
-+        if before <= 0:
-+            print('SKIP: workload did not get any THP (AnonHugePages=%d)'
-+                  % before)
-+            os.kill(pid, signal.SIGKILL)
-+            exit(0)
-+
-+        # Split every large folio in the target down to order-0 base pages.
-+        kdamonds = _damon_sysfs.Kdamonds([_damon_sysfs.Kdamond(
-+            contexts=[_damon_sysfs.DamonCtx(
-+                ops='vaddr',
-+                targets=[_damon_sysfs.DamonTarget(pid=pid)],
-+                schemes=[_damon_sysfs.Damos(
-+                    action='split',
-+                    target_order=0,
-+                    # match every region regardless of access/age/size, so
-+                    # the ARM64 stale-TLB blind spot cannot mask the target
-+                    access_pattern=_damon_sysfs.DamosAccessPattern(
-+                        size=[0, 2**64 - 1],
-+                        nr_accesses=[0, 2**64 - 1],
-+                        age=[0, 2**64 - 1]),
-+                    apply_interval_us=0)])])])
-+        err = kdamonds.start()
-+        if err is not None:
-+            print('kdamonds start failed: %s' % err)
-+            os.kill(pid, signal.SIGKILL)
-+            exit(1)
-+
-+        # Let the scheme find and split the regions.
-+        after = before
-+        for _ in range(50):
-+            time.sleep(0.2)
-+            after = anon_huge_kb(pid)
-+            if after == 0:
-+                break
-+
-+        kdamonds.stop()
-+        os.kill(pid, signal.SIGKILL)
-+
-+        if after >= before:
-+            print('FAIL: AnonHugePages did not shrink: before=%d KiB '
-+                  'after=%d KiB' % (before, after))
-+            exit(1)
-+        print('PASS: AnonHugePages %d KiB -> %d KiB after DAMOS_SPLIT'
-+              % (before, after))
-+    finally:
-+        try:
-+            os.kill(pid, signal.SIGKILL)
-+        except ProcessLookupError:
-+            pass
-+
-+if __name__ == '__main__':
-+    main()
+v5: https://lore.kernel.org/all/20260701045640.3130090-1-tzungbi@kernel.org
+- Rebase to v7.2-rc1.
+- Fix Signed-off-by lines.
+
+v4: https://lore.kernel.org/all/20260611021219.2093476-1-tzungbi@kernel.org
+- Address review comments.
+- Patch 3 in v3 has applied separately.
+
+v3: https://lore.kernel.org/all/20260608021526.1023248-1-tzungbi@kernel.org
+- Address review comments on patch 2.
+
+v2: https://lore.kernel.org/all/20260604090756.2884671-1-tzungbi@kernel.org
+- Form a new series.
+
+v1: Doesn't exist.
+
+Tzung-Bi Shih (2):
+  PM: sleep: Rename module parameters prefix to "pm"
+  PM: dpm_watchdog: Allow disabling DPM watchdog by default
+
+ Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
+ drivers/base/power/main.c                       | 14 ++++++++++++++
+ kernel/power/Kconfig                            | 10 ++++++++++
+ 3 files changed, 31 insertions(+)
+
+-- 
+2.55.0.795.g602f6c329a-goog
+
