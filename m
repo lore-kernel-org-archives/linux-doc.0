@@ -1,138 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0381B424679
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 13:22:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9028E25228C
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 14:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784553734; cv=none; b=fgWahUsoEnaqIMdi/W0ROYaQ2axxbM3JWgIZk4NSdYFxO2Opoh4ATSc7UVvpZF1lKS99/cEmVWkf/A4FKExybiPrb8ZInze8MEwRj5CWye4iEWRUTSxCQQgtT2lwHf4hQyPblm7PaNeUevkygxBC5zqOS5+WKoMxCll5kqJOJMQ=
+	t=1784556033; cv=none; b=h3r0IL8e+NC5HATcef895GM705Oh4DPrrOP/UThhWs1WiYDoO6WEdtYUMR7NgsUWYJaap2kbBh5dwNY9A45a7TLK4Cn2M9CKwpcvlxb0xRzT5g1hI/zToNW5ULpEVbDFLzCuCX1vC2xjvHUsCRl0Ii8nDq2FqZxJ1fW31i1WZ8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784553734; c=relaxed/simple;
-	bh=yche3ppa4pUDYlcuwbbwlPu7poTfxVtiqgbyTMwmvOI=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=XZM/fPzAGGnabVB9O1TEktE5ldj/OEii/qQvZiUD3v9Ou/mLf+s33/Sgnoasoy0Hz2fI/FlYy1hEZ5QaXGZov45DHBX0CuqKEZ/1qohTUryT5B5u1Hyy4kdEuvoNx6JjQxuenzb40+sebf6K66XvS8KRTJT3idRV9+Bs4JwHbls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g1RpniOi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784556033; c=relaxed/simple;
+	bh=ibO8HrzFGnu/FbI+Jv85vcjMmuwSEhYP9jqINubWEak=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=l1pWsRotKFZZYzLzMtK07uNBYjpRaXOkucU99jUtYXbjxWo9JnXYktvJCZecEp33jXRCcHx33qVKbnTbqg32p/9WWkmz924fmO6vKaDpjgKEOSqip3iKi044QGbL5sg9p1/f4hv7Gt8WP54Z1C+qvGa9FirqQXGXZenI69NBTGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NN4xQ3Ez; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g1RpniOi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CB7C1F000E9;
-	Mon, 20 Jul 2026 13:22:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784553732;
-	bh=kbAR87gObYj06eRbvrp7FEuuEMmLYmXEI/kdpCLyIBg=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=g1RpniOi1YY3ZDhf7IYPY4ecPmUg3IWhfDdcys2+cJWKkCkObmMYIxg3TS/pX15Kf
-	 goCMC2N5tuKbTBrvCHw0H2wyJ8iqc1uwRQ7bNF3sxbV3t7Xtej+6tuyf4Iefq+7+HT
-	 0HKQW0FbHpvE25M0xBE8fJZOhb0AbV24T+FXJA0IEqyqIZQyWnz7+46i8+++dXpFTs
-	 00EX4I8XDcs3dTOwQelQFcdmODR76Y+ejQ1dOg+/llkdyj9O/FaNxGu02Cwwte+K06
-	 vRKpRoHW0LSAPqFEM5ZC6ChQglDeIBX7tBYIJBNThyOiTlaYkEQIn/Q7Aqj1V526Q3
-	 puHE495kJDmQg==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 825EBF40072;
-	Mon, 20 Jul 2026 09:22:11 -0400 (EDT)
-Received: from phl-imap-05 ([10.202.2.95])
-  by phl-compute-01.internal (MEProxy); Mon, 20 Jul 2026 09:22:11 -0400
-X-ME-Sender: <xms:AyFeatJGsi_yrB86WVxH6uxXeWqlpSa3rUHuf0tC64cwjtxd0iyMGg>
-    <xme:AyFeaj-nr7tKNHNrdR_eVUW0QDBXA71XdqGEgq9tIRLdZVG-L8uwK772DYrazw2Mo
-    R9kZZN-8Q8wbR9CgyE0fhbTlQeXi6tDfrMwWCjCmkaqSJYlGmeGKMez>
-X-ME-Proxy-Cause: dmFkZTEoX8KU91uxhYGA/5jN8vcn2m5yb4/OXt/3mAOjLEEMQqFoEa2hDDnxDXHRG4DXkB
-    2idfMHpDWuyaQX6YpZA/2lESAiKg6bkyV6uPlfEu6B1sH414Ib3b4GVKWAjLnN4K1RRTfO
-    3nlMgiKqgMnh8XjWVAebvkgSVQEbYAtvkTdIIiqRF2Ga7m5yGvUaBvQU52vbxWxA+CsS2E
-    sajEL2xZfaP/50aYLhvcHhLP2olQqTHfWbRQLJrHA2Hk9yvu3obO6+GJURH+7mN8M0Iw66
-    CLGVvr7b74PkvW5Z+avKZZqskthyeEgt5QInLHyp2BFpJt9gU3Zu3CNkqys5RXWfHONHbw
-    9Ev1kRVme+xaT4wYtMR+2FjtPxk218dFKiKLiVnoxuKTGzwAAYBpsfa0rZh7aGugP4oVDo
-    Amj5Cxb3FZGPymBm4UR0VkFxBc2+3tXJGTs51BdEbQQy8ClgJoDCRbny0/JkEJDr3mOBOt
-    9ofXlaQ1VlG27vASIV5kndLNK5zr4kD3qAvQ/zhLiAVgHanEU4yY7oU1nh1ItRu4fcXlcO
-    NhFSQGLcGGB9jZ48m24ib+SA9yoewrpHxm/G9DlJEiqUR+oL2dlNwhOGtB3oUhF1y/Rj6d
-    gA33fCLGvfXmZflRnMhM0yU7MjMe+4k54ss9VEu7SHG/57v27mMbfyaEmEjg
-X-ME-Proxy: <xmx:AyFeaugdArhsMvqWHfuiVqCLc14pJXU_dRPx2FBatgjrrx-TyTxjxQ>
-    <xmx:AyFeaj4Dd34CtK7_LykLhWdMjUo8gb2un9dlut8O6i9PLJobs975bQ>
-    <xmx:AyFeaupdCrr88b5roR6x3PNAcpiPOVxNuuV0T-rT2pSLdTdbeS-cKg>
-    <xmx:AyFeaoiHheIJPRhzqUt0sFh2b476wTR9B3eNlwlLJnRjdLR5WcpRmA>
-    <xmx:AyFeauvLElU-xWdirbAaBtpJSB_2tzLAXbMhoVu9oCgTm5t7oO1PHgPx>
-Feedback-ID: ice86485a:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 4F9CB1820086; Mon, 20 Jul 2026 09:22:11 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NN4xQ3Ez"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c166f1bbeaeso976823966b.0
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 07:00:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784556030; x=1785160830; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:subject:from:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7XWyfB00Rok/PjZ5UHAUkTiQrGyYkPnkRtIuDzoxupg=;
+        b=NN4xQ3EzJUcEDIBjZYig4zs/xtggJJFuRxCFip4KzMpyhYCtOwL+BbH7hYqM5mKTHE
+         s7yLQzp6MzAWSL5bKPu2137t+KeLT6kwBKqMLlo+TWRpk/L7zCrrkILwJAGeZrSza1gV
+         wBelRJ9HhOaNnE6kxWgMpumc/gvwynV1VIWj7qjoJPzrohfP7/56hL/uJsiTIbkJedHo
+         ELJ4l11ffh4SVZgTfXm1Ni+0g4pKSfWMENy3drnty1eJeYgGi1aAfzHo4+i1/bg+oH8r
+         lqoxXb7Z2tFmH8BgUGjEY3lQ1k+1lZLBTX9vqzxroyjwsrVi0XOtmTP4hQ2HvKuVTW8i
+         ulhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784556030; x=1785160830;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:subject:from:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7XWyfB00Rok/PjZ5UHAUkTiQrGyYkPnkRtIuDzoxupg=;
+        b=nqs2rF5qz+3jVeEUduZfqoXoQINrLZoSiY3S6tVgVjkAorMlsPHaJ+2GNZu5ofA6d3
+         gEqks5QIBXpIqyDe0+EonIUWSscCELzjOqXXGznr+iWfvKr9WiznFpHw+or5Y5i3V513
+         uqq1KI+kgkasZrE95Y8BngekpUo/4mR7vp0HaRcPAsHk084PCVGp2cvw/mECjdXrpMKE
+         9Y/sl9GAVgGey6VHrIgxuOZskxUCjrt+LYQVExNGBZ1IcPwxaVwvoscpfYV+yZO0Zyx3
+         TbryS7RXAqQznNz1TJ0J5sgnS/xlqKXWJbr8e/7EmDbVNsQ/j1HsA0SU67783Va1vaNg
+         kpwg==
+X-Forwarded-Encrypted: i=1; AHgh+Ro+L+qOPmT7sPK+dDpeDI1s8G/6FvAsLVGrNOsmY6SRMDL8qOZwgFXNM0Ywv2Muot/Hx3RRrshegNQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YziRwRW1lnfcsllCLdplJ7Bb55qr1hLWBL9vEqkdXXirIPzgY8V
+	5aH1cMdYJV1VlGiq0ISjr6vT3FdkAgUxA8+s5uoIv20mInqxsZSwul3MZQBeSm3g
+X-Gm-Gg: AfdE7cknrIX0MaB8KcCyuPIfzPXNLE+6Wa8innNxCvdWa/stDLBkHDXz4vYa2mqGCFm
+	1yjmAw6NTagZmP1RUz0mzeQ6kKVOyAb9/5B3IaGOV3ID8EksUBD8hCjrkI7QB4JAT48lbectnVV
+	HOuF25De7jND3/JQ+3j0PJf7nuO3EDGha0sIW4Zpef+YMNsZc2UNJ0mOXFIQqxSKYHYkcwrv0O4
+	Aq86rSLJ9ejFcnV08iXT/zcicHeKVB6jNuVavJIJz7pXw01PJggCpBANEbU8xvUfUmR6oQ6TkOP
+	/M6k30VADI8Gte956R5pJoMhYbCEy+MCoHNhSaHougbOS99vZc5XZNPxwb8zkdclqUKOjb/ZhRu
+	oIWGE8T/3n/DpB9RjhyCJVK05dTS0yCVwCZvPxWBXWa7DTwTH8Z9u3hJtoNKAciFEGCOfG+S4cL
+	h634HM/LDofxM00bN32NTRZOgRz7ua0HJyijZs46xUoO9/PXdmh3Fx3K2rP1nbsdJdZ+N0Fug=
+X-Received: by 2002:a17:907:3e98:b0:c12:4cb8:a826 with SMTP id a640c23a62f3a-c16b457b1abmr614064366b.6.1784556029502;
+        Mon, 20 Jul 2026 07:00:29 -0700 (PDT)
+Received: from [172.24.138.145] (dynamic-176-002-111-253.176.2.pool.telefonica.de. [176.2.111.253])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c17009ae00asm464388366b.7.2026.07.20.07.00.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jul 2026 07:00:28 -0700 (PDT)
+Message-ID: <9dd16bb5-7a30-4024-88a7-4a4bf47c35e8@gmail.com>
+Date: Mon, 20 Jul 2026 16:00:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 20 Jul 2026 15:21:50 +0200
-From: "Ard Biesheuvel" <ardb@kernel.org>
-To: "Koki Iwata" <iwata.koki@fujitsu.com>, "Jonathan Corbet" <corbet@lwn.net>
-Cc: "Shuah Khan" <skhan@linuxfoundation.org>,
- "Matthew Garrett" <matthew.garrett@nebula.com>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Borislav Petkov" <bp@alien8.de>, "Randy Dunlap" <rdunlap@infradead.org>,
- "Thomas Gleixner" <tglx@kernel.org>,
- "Feng Tang" <feng.tang@linux.alibaba.com>,
- "Dapeng Mi" <dapeng1.mi@linux.intel.com>, "Marco Elver" <elver@google.com>,
- "Jakub Kicinski" <kuba@kernel.org>, "Eric Biggers" <ebiggers@kernel.org>,
- lirongqing <lirongqing@baidu.com>, "Paul E . McKenney" <paulmck@kernel.org>,
- "Matt Fleming" <mfleming@cloudflare.com>, linux-doc@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-Id: <ba44c9ad-6cff-4e7e-bcb7-c46196db25e2@app.fastmail.com>
-In-Reply-To: <20260710062306.1204206-1-iwata.koki@fujitsu.com>
-References: <20260710062306.1204206-1-iwata.koki@fujitsu.com>
-Subject: Re: [PATCH RESEND] Documentation: admin-guide: fix a doc for
- efi_no_storage_paranoia the "5KB" instead of the "50%"
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+From: Janani Sunil <jananisunil.dev@gmail.com>
+Subject: Re: [PATCH 1/6] dt-bindings: iio: adc: Add AD7768
+To: David Lechner <dlechner@baylibre.com>,
+ Janani Sunil <janani.sunil@analog.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux@analog.com, linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com>
+ <20260709-ad7768-driver-v1-1-44e1194fd96a@analog.com>
+ <36df7c4f-82ea-4ed5-a4f9-3a29c75dc99a@baylibre.com>
+Content-Language: en-US
+In-Reply-To: <36df7c4f-82ea-4ed5-a4f9-3a29c75dc99a@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
+On 7/9/26 17:43, David Lechner wrote:
+> On 7/9/26 3:50 AM, Janani Sunil wrote:
+>> Devicetree Bindings for AD7768-4 (4 channel) and AD7768 (8 channel)
+>> simultaneous sampling ADC
+>>
+>> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+>> ---
+>>   
+>>
+>> +
+>> +  adi,power-mode:
+>> +    $ref: /schemas/types.yaml#/definitions/string
+>> +    enum:
+>> +      - low
+>> +      - median
+>> +      - fast
+>> +    description:
+>> +      Power mode selection.
+> Unless there are pins that control this, it seems like it should be
+> left up to the driver to decide how to set this.
+>
+> In this case, it looks like the power mode also influences sample rate
+> which is normally something controlled at runtime.
 
-On Fri, 10 Jul 2026, at 08:22, Koki Iwata wrote:
-> From: Iwata Koki <iwata.koki@fujitsu.com>
->
-> The documentation for 'efi_no_storage_paranoia' incorrectly states
-> the kernel cannot use "more than 50%" of the EFI variable storage.
->
-> This percentage-based explanation has been outdated since commit
-> f8b8404337de ("Modify UEFI anti-bricking code") introduced a fixed 5KB
-> minimum reserve threshold (EFI_MIN_RESERVE) in
-> arch/x86/platform/efi/quirks.c. At that time, the documentation was not
-> updated to reflect this change.
->
-> Update the documentation to reflect the "5KB" instead of the "50%".
->
-> Fixes: f8b8404337de ("Modify UEFI anti-bricking code")
-> Signed-off-by: Koki Iwata <iwata.koki@fujitsu.com>
+Hi David,
 
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
+The reason we'd like to retain power mode control is that certain ODRs 
+are supported across all three power modes (low/median/fast), and the 
+RMS noise and power consumption differ significantly between them at the 
+same ODR.
+
+The higher the power mode, the better the noise performance, but power 
+consumption nearly doubles for every ~3 dB improvement in dynamic range. 
+Silently selecting one power mode in the driver would remove a 
+meaningful hardware tradeoff from the user.
+
+We'd like to propose the following instead:
+- Remove adi,power-mode from the DT as suggested.
+- Expose power mode as a per-device sysfs attribute.
+- in_voltage<N>_sampling_frequency_available dynamically reflects only 
+the ODRs valid for the currently selected power mode.
+
+This keeps the DT clean while still giving the user explicit control 
+over the noise versus power trade off. Would this approach be acceptable?
+
+Thanks,
+Jan
 
 
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt 
-> b/Documentation/admin-guide/kernel-parameters.txt
-> index b5493a7f8f22..3f75969a679b 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1614,10 +1614,17 @@ Kernel parameters
->  			on all PCI bridges while in the EFI boot stub
-> 
->  	efi_no_storage_paranoia [EFI,X86,EARLY]
-> -			Using this parameter you can use more than 50% of
-> -			your efi variable storage. Use this parameter only if
-> -			you are really sure that your UEFI does sane gc and
-> -			fulfills the spec otherwise your board may brick.
-> +			The kernel reserves 5KB of EFI variable storage for
-> +			safety, because some UEFI implementation may fail to
-> +			boot if there's insufficient space in the EFI variable
-> +			storage.
-> +
-> +			Using this parameter, you can use the 5KB reservation
-> +			in the EFI variable storage.
-> +
-> +			However, Use this parameter only if you are really
-> +			sure that your UEFI does sane gc and fulfills the spec
-> +			otherwise your board may brick.
-> 
->  	efivar_ssdt=	[EFI; X86] Name of an EFI variable that contains an SSDT
->  			that is to be dynamically loaded by Linux. If there are
-> -- 
-> 2.52.0
