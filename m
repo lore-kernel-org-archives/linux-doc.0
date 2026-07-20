@@ -1,124 +1,144 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEBA43C5546
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 14:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784559574; cv=pass; b=GMk4kXeGpELyAZbOKRiVv/ju06uLwAdETIWc87Iu7dMesYIhK8LH5yixAHOoeMv8u07okaK5egCMiHvYL7QET5PDyDt5uOj5aahBDWqMq2WcezaeYn47s+rjZpxJGRLRCCf4Mx+wXo3AxdGK9AFQ8GQL5qYbaxGO89y6pgEyG34=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784559574; c=relaxed/simple;
-	bh=13b2KLhyKKVXh3fNdbiwFzXmnR8SR+ll44DcW3Ni0CI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Pzl3/Zcz8gyOy0PtrskgEh8UWovmOLi0w3+dzJ629+evD2dVmfwb1O9je030Cv313mSObUHne5n6n+hQOszf/B5am+aQT2xhIX4mckOMX1LnRRI0SXlc3JlCZkXje2EnvFNe6Ykmv2gklp9Yyzo4/PETpoc4uh/9KHJJNf8dsuM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pR+Ba/ZN; arc=pass smtp.client-ip=209.85.219.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222D2432BEB
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 15:02:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784559753; cv=none; b=uuuiJGHeNWDPnnjTaIIDLXdU0HvbeE0q2IN5ZnZUJghwag78qMd1/3S+ce4uBghRWcmBrlRj7qj9fnz5hfq21bD57OqhiRm28hZbUv5cZxitKiKxa5/eXt7/tOeyEGvyBLrwPHYdmvrYuHwQLY370R6VRvuPiFMsC4UoarSyI2Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784559753; c=relaxed/simple;
+	bh=Tq16sg4xa8nWWXzuYioMyhtg6n7YUHfctiTiYuI6iLk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=SQxTJMTQSNpN08RPGyOmOIR4ADJ7vYnvgi4qnnjtcVlCrbubAYLp5IEb9xlW+U5UPW264GedJwtg1pUXIPGYPzi/DB/z6UH8SaP0rWJDEjn2u5l2CB7dmfIKTBHADRAydmWFbQb/6Q5DI4JB0VLnjwWoGeErECIJrGk8oQKXhGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D4RJMZHk; arc=none smtp.client-ip=209.85.167.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pR+Ba/ZN"
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8ee43b3e5abso98833166d6.3
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 07:59:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784559572; cv=none;
-        d=google.com; s=arc-20260327;
-        b=e2mAVKbAlcT8KkRZkOYEz4LuwShQvcMC/hmuEleSV4brXy/ZaHdIshUp1nX+1mLFsg
-         GkqnB8kO7/W+DrHxfLdm7fwfSquR6OZxq0aQ1QYaxJc/4+FYh2tnxhIfoIngR6DubE1w
-         0JEpuooT9E3IG+59LPJJrgDRdy2GIQ46xc5DEMCDKTvrKhVToNko+KM3X/X8pCo1WvT5
-         noeRgYmP1t4mqru3ZKOf1jMLSRTmAZXlhMZrhueCfYe5aQnrgJMv+W3aKe6YwXdDbdFP
-         2Qt4EcMV+uPfSh1feqX41rVLRiaGMePLeyULJArfoyh3h4hVkXZFMTW8p5jiqR42RmrP
-         NF0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=eSKzU+GtopN10+nb98knYPoeCifXhgk+W6iQPjPXl5M=;
-        fh=CvAoNJxu24rG0D2SJaE2994iI9FE2xtVN6/18KyIvjo=;
-        b=phf7g3+PD5ftobukh3HgkUj13thKfVlhMq+NPoMQ5aRGT4Mh+WkyqySLcN5n55mNGI
-         qgL8zdnDIQKJCFGwG+zx/sCw0rlIa2GErIfDezdx5P2kPH9Y05/Xl87W0XXDW59vZAjz
-         8eQrbpE4XPZ/vFKpAbxpDATrO8c6Z1XKRtKYSVqhMpXrHYsaXfcREA6GF8sFQ3W8ENLm
-         8SSCkQpWNqeZ8nfxksdIzMdETD9Fz1aNvVhTyUb2qKzb6xCBBY8Wl/J4eo0MTs9j5dlX
-         zYzJsDInSbOFF31J+xqDt78EMc9iyvdhWhp5FR1pUOko+gR5GXXJoy/0OASEnUV3x9p6
-         Ghpw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D4RJMZHk"
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-4896ae35be9so4177401b6e.0
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 08:02:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784559572; x=1785164372; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=eSKzU+GtopN10+nb98knYPoeCifXhgk+W6iQPjPXl5M=;
-        b=pR+Ba/ZNlWfKT/huDvBBiKKn7+o9BqY1ynwB0L1DkBl0kw+zEuhExB4eBzFAulNcWh
-         kPINy5Zjd5ShHUt57h05k5SVpYFiVa5UtAMMtJXAtyYWMKdm8uVi/CE7i8VVKRY/3UmO
-         w8AyQFjTYTNOwS2J9FTzumnW792vX6sACh/+PC0/j633/TdfcfmBj8rvofXUdu4LAXVh
-         RHv+ND1fJ5tdbP3A0MdzNQefzHRqsJCr6L5pqYptJ9wZbSeLCqL0z4Z5y2f/ciK5qHFp
-         3RVHCv/ZPJRcwr3skKkGo2lmWIMtsCbMM8pCIu1+G+V7FRITuPE5Ew7m6fsVu87X8D6f
-         NbzQ==
+        d=gmail.com; s=20251104; t=1784559751; x=1785164551; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JcXGf7/frUgo9pt1iwmRdB5om1Q2CFstWLKuaK2u478=;
+        b=D4RJMZHkb4Jki1BTHSmtXiNe/WboPqgSUui63YhsMNSzkLRgg/BO8VNOfXX99bekWO
+         kj7INzv0eOx6kldy7x7DJ7VDp4h+N09oJd9KovEXi5T1Yke0v4lIH3urQHzUFcbmk8LD
+         XDAOkQXTFHz2Nm9zG9K0TkG1w33VnDmVQyxthVXTVcORhWjxNSLuKNXiLqIew+uWlJEZ
+         ITY9Cfl33uhOmo2bSN3QBG6KLnBZFqphMiZS/JzcZQawTVVXhmVahFy05KY6YAJE3sxx
+         IyKmy2dR86BNJUHkH7bJKY4zo1tVedqaZNGWAgAVBCzV5ZkcSl75p5667A4Ytt5YDDR9
+         QcEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784559572; x=1785164372;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eSKzU+GtopN10+nb98knYPoeCifXhgk+W6iQPjPXl5M=;
-        b=YtdRoIndj5w+BHlbXa0LonIveLk4esgybQmbtvb0O40Y1n/pwWFZmbjRYC5smm352c
-         nDNW+TCBky4SgSdaS3ubJ5lmu8Xfmd0OpHptqY1VLiuzcTNZIhhlrBXOKfZJo2ZjRv+8
-         b+8psxH+EFqG0zyfgJZXQmHq/SMuA0q6Z4KcWzjQVPsfqkLa0fKkglsMD7iXnQBScWp/
-         HKb/muOBezVuzXEo3vpWDTYwbYWP+CPbeW4e5n28ApSiCmDpArFc2bc+aFCWwxXEzRYZ
-         zmF5y7hD7Ci1LhprbZaYxvzDti3sHPnxuj8IyupyQhOEyFhpUeddQkMvSqhfSsLed1TZ
-         dZUw==
-X-Gm-Message-State: AOJu0YyTwVhmd0lNqrT+prCsWOhxmbQNzn2KGvA6YuJi5SEfJnlns8Pn
-	x5DJWjzY2N7EVwGTBbGaL75QbrPf8OSY5lNtujdosg8BMGqFXVJbHrimlbG6gidpyhFCaEUycUL
-	/N0vMLrr20DHKHCWDc5YkLXSJQVf3DJc=
-X-Gm-Gg: AR+sD106ffw+u3o40O9F30Z30Pe4d9yni2BtHye1qxRfB5u4bYEXMb9aYXa1uIfiQL/
-	aE+Su6zzgdB7IdNlbDVZgGAcNbECWEYAx1BS36CpNEvjqmPt/coXuD66/EK/oNsqfBG/MRbCAhB
-	Pi+UySLkPLNLb213coYW3Fbi5pxUr3DrizfgxYXJfTgRb8nbWWvZRTtCpydzdP9Kh55sRDZZBa7
-	9idefbi8Y1r0xLtNvaCWR+QtFMKrhPhjHGO6lUGi8j15rSWQk0JNt0lMe0r+X5pff3vDTuVMlV+
-	+nI3V5PnWHpaT5plNlO67Al2xMAhHqmtPk1V5d2bvVM4Yq8nLt3QR0zuB/K95A2ttghQFsskK+U
-	=
-X-Received: by 2002:a05:6214:4285:b0:901:7300:c82 with SMTP id
- 6a1803df08f44-90778386eb6mr161955646d6.25.1784559572265; Mon, 20 Jul 2026
- 07:59:32 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784559751; x=1785164551;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JcXGf7/frUgo9pt1iwmRdB5om1Q2CFstWLKuaK2u478=;
+        b=CdsC3M7iX4j62baih3kQX2pDevVQ1j5+Fw5/1qxjUhzm0kIq5Bv3m5QdEAjo+VZhhX
+         BUC/jXgYOPwA+4mnXakTDm2qGN0VvPtS7xu5Kw2YXjA4Sv2xqhJiYeZ/jyXbmqizgaBG
+         LdQsALbT4RGVUo/kNapQg+mLoklyUFHzThpaNxHF7Jiu7OO1RLUBLALwuRwIy8FSkzKj
+         HDP3gYOQI7o1NGPC7bQKpAhXz2iwEYRnVvDPFpkyKtrxvEGHfcXVPOqmFFdCINGErQoA
+         DURtuxgvYR2FPrG+6xsxRb/fsQB+GkRSeV+FH41eHZnJwxcr79MYGgUN8g3VhqQF+SEm
+         0hDQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpITmnWlrdSz4xfJ1eDyFQb+3A6vsDIpfMBW4E0tgK+ZWMA2TiQ9y13SfC0gTDDm8SwV1FjsbYGBt0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAX+zfobOBrK1EE7wsrV4g+J2P/crlD9tXtvwBg49jflTeN5Kf
+	1/uxjeGhY0M2yjti6JTPEtX72BAB5Deg7BTIbZ6wl1x5N1b7iQb9STSa
+X-Gm-Gg: AfdE7cnA59sBUI+ya0qlv8ha5EqFId5T7oicpD8C02a9VsAqlAeDR3tsBtRRzaaZyj4
+	VCaYolhwLISkmDPntM0BJq83kQ+Q7DbSmM2xQSyp4R9qZxHPr2gJV1D8cVS8MuqPs9KiJgTIi4K
+	eO/K3R9JtRzqNBqMQKUciPjbVPlWaHvwbGCCFSRPyiSKRCrBayegfXp8u0shwKep/ZOFWZjHXr9
+	1jBMjvsD4N9RNoeT4phnxUjzUGdQnXeCG2O3rjscCxvcYttNw9s7wSYVipmz/xGd/rbbolJLv9n
+	4Hy10LV0NydGnd6T9UqKhxZdxZjyTsXXLwXpi3lKwfdezmzYWnI7pmghirmBA6GaKXnDySIGIH/
+	aSxs37aJbgTd6GiQ6UDdEc4cq9YbPnkfA8oim+12XExIGIKhFj9QQVAEb3qjCamFzuIUAsN/80W
+	bfE/6wa0F/+f1/6CPNlremC1l06qkjFHnX
+X-Received: by 2002:a05:6808:2227:b0:495:db8f:ded8 with SMTP id 5614622812f47-4a4d0346c90mr9145232b6e.9.1784559750787;
+        Mon, 20 Jul 2026 08:02:30 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:46::])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4a4d3aa81b4sm7518774b6e.5.2026.07.20.08.02.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2026 08:02:28 -0700 (PDT)
+From: Joshua Hahn <joshua.hahnjy@gmail.com>
+To: Tao Cui <cui.tao@linux.dev>
+Cc: cgroups@vger.kernel.org,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	cuitao@kylinos.cn
+Subject: Re: [PATCH] cgroup/cpu: document cpu.stat nice_usec and core_sched.force_idle_usec
+Date: Mon, 20 Jul 2026 08:02:26 -0700
+Message-ID: <20260720150226.926730-1-joshua.hahnjy@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260718080100.2334415-1-cui.tao@linux.dev>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260716021013.48025-1-danielmaraboo@gmail.com>
- <87ldba5z1u.fsf@trenco.lwn.net> <CAMAsx6cO588DcqAT9c=-7aXWLwzAbjrAp=jJ9Ya9dC7draaPZA@mail.gmail.com>
- <87h5lx69wl.fsf@trenco.lwn.net>
-In-Reply-To: <87h5lx69wl.fsf@trenco.lwn.net>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Mon, 20 Jul 2026 11:59:21 -0300
-X-Gm-Features: AUfX_mxQr1J5YaY80zbJcIZ1_TuipU1EoabaGkm2FLC0UdRYg3Cal32LDPJEArE
-Message-ID: <CAMAsx6e11Vsc5K0s--bzqr1fd=mr-2BFYsLUNs5Frz--TBiUTQ@mail.gmail.com>
-Subject: Re:
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Em sex., 17 de jul. de 2026 =C3=A0s 10:08, Jonathan Corbet <corbet@lwn.net>=
- escreveu:
->
-> I think that if you organize the index.rst files as I suggested
-> (i.e. roughly along the lines of the English versions) most of the
-> conflicts will go away, and the result will better generally.  That's
-> the best place to start, I think.
->
-> Thanks,
->
-> jon
+> From: Tao Cui <cuitao@kylinos.cn>
+> 
+> cgroup_base_stat_cputime_show() unconditionally prints a fourth base
+> stat, nice_usec, in addition to usage_usec/user_usec/system_usec, and
+> also prints core_sched.force_idle_usec when CONFIG_SCHED_CORE is enabled.
+> Neither field is currently described in the cpu.stat section of
+> cgroup-v2.rst, which still states it "always reports the following three
+> stats".
+> 
+> nice_usec was added by commit aefa398d93d5 ("cgroup/rstat: Tracking
+> cgroup-level niced CPU time") and core_sched.force_idle_usec by commit
+> 1fcf54deb767 ("sched/core: add forced idle accounting for cgroups"); the
+> documentation was not updated in either case.
+> 
+> Update the cpu.stat description to list both fields and fix the count.
+> 
+> Signed-off-by: Tao Cui <cuitao@kylinos.cn>
 
-Hi Jon,
+Hello Tao, thank you for the patch! I should have updated this when
+I added the nice stats. Thank you for finding this and updating it.
 
-I=E2=80=99ve noticed a large volume of new contributions for the pt_BR
-translations recently.
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 0df15a672cf3..778b759dd892 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1144,12 +1144,18 @@ will be referred to. All time durations are in microseconds.
+>  	A read-only flat-keyed file.
+>  	This file exists whether the controller is enabled or not.
+>  
+> -	It always reports the following three stats, which account for all the
+> +	It always reports the following four stats, which account for all the
+>  	processes in the cgroup (including those in descendant cgroups):
 
-To avoid conflicts during this integration period, could I keep the
-index.rst as it is until these recent patches are applied? Once
-everything is processed, I will make the adjustments to the structure
-to follow the organization of the English documentation as you
-suggested.
+I have to ask, which tree is this based on? I can't seem to find a single
+tree that contains the "(including those in descendant cgroups)" section
+anywhere. 
 
-Thanks,
+>  	- usage_usec
+>  	- user_usec
+>  	- system_usec
+> +	- nice_usec
+> +
+> +	When core scheduling (CONFIG_SCHED_CORE) is enabled, an additional
+> +	stat is reported:
+> +
+> +	- core_sched.force_idle_usec
+>  
+>  	and the following five when the controller is enabled, which account for
+>  	only the processes under the fair-class scheduler:
+> -- 
+> 2.43.0
 
-Daniel
+Otherwise, the change looks good. I just wanted to know what it was based
+on, in case I'm missing something. Thanks, have a great day!
+Joshua
