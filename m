@@ -1,228 +1,129 @@
-Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B674E3ABDA5;
-	Mon, 20 Jul 2026 05:44:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB06B3B7770
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 07:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784526257; cv=none; b=rADTnnJwPcTK8gdpRxSDb61xeYfPD+SIfG+9/12E5nUumtR/VwdhHiWSWjqi+Wxzbtx7JF6ECmh8gd5MRl2GI2zBOzhW2f37YOVcfeYfUZJwmFs0ezo+fEHRrYGzWWLiI3/zvcemg6LGCPQA6NEmKp/E5x4PfVQpfyf2/EF74vA=
+	t=1784532025; cv=none; b=r53hBjWdh8d3TGPU4T1w4geTJXFLXkhy6J1w1vPxjREnelYG8uGO5juuhH0iIWgrkywbXUfCTiI4gSR0A9PeCiRRAwN8xVQVh8dVcYJYuToujN00hhUfGyhJIA2AQA4E2oKlhUqCUfl2d+Mlcykk3c6A43AAfEpOqaICncqEnTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784526257; c=relaxed/simple;
-	bh=zDiEZfUb4Wk9v0QAFrUyM8SDCUY7xwuAT+HVrDy+8eQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IcZEWyL+Yr04YSJTiJqc6MAqV+P5EYIFCvKpokSKZ8v+yRw3eAslu3Wb3x2HTRti3G0gw/yvE4EHEJnIEsdKghWK8YAKFq4E8EZ8acmp1kesOkv2kLMhSOQEjzpSEQe5/ugLmNt48bcUyFOg7aUllOFLCZUDIjzulCFoYps6Qnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=Z4LPlSJP reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
+	s=arc-20240116; t=1784532025; c=relaxed/simple;
+	bh=mqEx7oRNyrZRZsp/7nkKHtueRW+D3pmFpC3nj0tooyY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PyoX26fIaz2NkDHJ1EynRF1eDRqokelQo5hu6T1x2IszBDRGEKvLDuCOikz9B98JxXYYBLqIaz/zOXM4jLhmVOsnz/VReqCrO/IUyz6BlSCSJjfySDq7tNJv3Q1buDAsi36jZtgT2V30aj86Wq/8s0wEezB0BfEDJOKJeWmKXVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TbRPg8Ga; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="Z4LPlSJP"
-Received: from h183.csg.ci.i.u-tokyo.ac.jp (h183.csg.ci.i.u-tokyo.ac.jp [133.11.54.183])
-	(authenticated bits=0)
-	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 66K5c7oq075973
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 20 Jul 2026 14:38:27 +0900 (JST)
-	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
-DKIM-Signature: a=rsa-sha256; bh=vDCWnGaiEP2ySay81C7I99nmBfHqK6DuGU0r4029XQA=;
-        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
-        h=From:Message-Id:To:Subject:Date;
-        s=rs20250326; t=1784525907; v=1;
-        b=Z4LPlSJPiZFjec0somQKs9subJfYB8f8vDQ2wRAuv9VRcw/0/waK8bHL4sqsFU0u
-         ubAFP8JQ+bswnSZmDhFZGXMdKlh3Up0atPHRXe3N/BjLAOINxs2DxYVf0dDySS1G
-         iqOKQqj/jrTl1vZFuo0YWUZqjo4Bhrod47H3cgsRQ/346lockebeaCMiu8T4v22i
-         URwOqihDgxL+bYpIcshzW+5gJHpux58/afedAIDIThI9s5NDlsHmGoa11lyn8ePk
-         bUEHBZMOhhum+Kb9+qFrPthvw0zZcRdRvMAyBEiOT4TIgDF/azzQzid0L2XmdxOg
-         oo4LKJQB/DBt7SqSVzWDlw==
-From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-Date: Mon, 20 Jul 2026 14:38:02 +0900
-Subject: [PATCH v9 08/16] KVM: arm64: selftests: Cover PMU state in
- MDCR_EL2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TbRPg8Ga"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ced3386430so61435715ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 00:20:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784532020; x=1785136820; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Bw+iKl8YXR5Qsp5BR0pFliTzdMNbs5r8LsRJ0p++3gQ=;
+        b=TbRPg8GamiTNqKaVNjcCMj0tnIkNhJezChEMW4KlGQe+RZKca3z5T5K+YUiih3Uye+
+         6zEj1G3hU/CkSDaiGIAfAY+YMSIcUl34PbBomyHfYoaNV3V2YTDigFT86yV7plD9Hdpd
+         p5m23E52LXbqwFXdBPCV6OjUIej4LuCGOPlgX3T6NjBXSF4aELHOVHzVLJJMySXqasJW
+         2fAmDnxZfjY6Izf22JZyfCPNYyFiN0IqjpG/2cweorGA8cZ6IGbU7OiLgmXyRf9jRgBg
+         q4dzcuHmVaYouKnEhF2FJFZDxJU+YvweTdCHkMM9B4Zyi5syx2mwykvXBV3wBTCgQXcD
+         G4Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784532020; x=1785136820;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Bw+iKl8YXR5Qsp5BR0pFliTzdMNbs5r8LsRJ0p++3gQ=;
+        b=aiXWUDtDPkRML9AsVVya/NV6fQkN1T0pxzFy1f4gSzbN/vuPOn+E602gPOEOkjoM4R
+         9THs2t3DUzGb7TCIm2sGYWkAXZUVIR6B9OAcQtIFwIGMMDaGpbshnWTF3iW+nEm6nPgT
+         MnA0iHlh5VevvWlltlWuAx+mbXh6GNoFF17BmAOeUh3QW8mgJXxzRgYR0+p5HbS82KKq
+         i1Pb5Yl3iAsiJZmPIEN4KgcNfn+cC8ctshrGuxUkZ10mIP8loEaAne1OflIJpwKZeX/m
+         qQ7eIt9qUq3tNgDQn2+FZFYcowFST29YkglnmyW4sGvQnJgSKOaiO3TI3o8yWyaAzWQt
+         P8Vg==
+X-Forwarded-Encrypted: i=1; AHgh+RqksmGQJzTY3jjtSlDtsbWSBYbo8BM0ZFFuAT9R/xWKd3yUxPeVcQAV3K1l4qvgzo1nGaFrmdJ0XwY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqUbINfpmk+B/UkICLYk2Y9NFvBx5ylrBpIdRmXeUJVyIJMFfh
+	xkdmfUADnhOfaLh/YXC9HFjxkK9jHPczPzYtRYiZdvq4tRaLhX3g/eLG2vnBpA==
+X-Gm-Gg: AfdE7ckIUdda+hZTSK75pG5tZUuaSNDvt+SrBLMJGF9q7dB7hLdAjn51uyklx8SU1Mk
+	6JscfOxbWl5zO+WWp028YTjM//wJSRg3vRYnJoB0eNrWKnmER7HfjW9CqnGCWOB2U+pZ2qarMdO
+	+YSDJepEnqeiol3LFwBXSk+bExE5WTlS/dd3H3aAZH3YENPpdhOYXFHlrLFudAPRvfTVEnc94q6
+	WWeRMD7tpjebloUa7YXmcgNbai/libYB8AB8BeOhGypNWD0DpoDobJkhi4XKlSxP5KCGKQpg+EF
+	knOdl2IgGM32qEL0xBFUyO923gdl/1zy/kdxBzLYPL1Kwh5RhWABJy5WYLFgaJ79TvcW0bo3ESt
+	nxbtD5myOkDJmtnJRx8W/otSnnH2MxvsAy19hDO+sk1QHvyWdP25bq5Ez0MxeucsqWwt7LZtXJ8
+	KYHTXbQBaJajuzakYFR9qYAtp+4kHLsvzFXKXvclwICSHOqaU=
+X-Received: by 2002:a17:903:1b4d:b0:2cc:aa36:c046 with SMTP id d9443c01a7336-2cf34844139mr145035215ad.14.1784532020403;
+        Mon, 20 Jul 2026 00:20:20 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf344b1f04sm52540625ad.22.2026.07.20.00.20.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jul 2026 00:20:19 -0700 (PDT)
+Message-ID: <7384a9ff-64cd-4772-990b-92aa5306751d@gmail.com>
+Date: Mon, 20 Jul 2026 16:20:21 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260720-hybrid-v9-8-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
-References: <20260720-hybrid-v9-0-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
-In-Reply-To: <20260720-hybrid-v9-0-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
-To: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
-        Joey Gouly <joey.gouly@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
-        Yury Norov <yury.norov@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Steffen Eiden <seiden@linux.ibm.com>
-Cc: linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-X-Mailer: b4 0.16-dev-925f5
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5002;
- i=odaki@rsg.ci.i.u-tokyo.ac.jp; h=from:subject:message-id;
- bh=zDiEZfUb4Wk9v0QAFrUyM8SDCUY7xwuAT+HVrDy+8eQ=;
- b=owGbwMvMwCWmMbc20y1CyJDxtFoSQ1bsFo/ku37tRz+cOa3JH+rr4vz4xopp1V0rZ9Y88/zUG
- PLmhMmpjlIWBjEuBlkxRZaUot3cGtG1nwoT4ltg5rAygQxh4OIUgIns1GVkmNxr63ie+VXKl5or
- 5wJPnf/8T//Y7juHX0QbnlHKMZl1KJzhn3riAlMt/S0sz3yvR5yXvHDj22Sfk4d1GWIl62Iv35L
- l5AAA
-X-Developer-Key: i=odaki@rsg.ci.i.u-tokyo.ac.jp; a=openpgp;
- fpr=AEDC03C9AF734F2EC26A7BFFA4BAEAA73536753C
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] docs/ja_JP: translate submitting-patches.rst
+ (sign-off)
+To: Akiyoshi Kurita <weibu@redadmin.org>, linux-doc@vger.kernel.org
+Cc: corbet@lwn.net, Akira Yokosawa <akiyks@gmail.com>
+References: <20260719181934.213142-1-weibu@redadmin.org>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20260719181934.213142-1-weibu@redadmin.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Add MDCR_EL2 coverage to vpmu_counter_access when EL2 is available.
+On Mon, 20 Jul 2026 03:19:34 +0900, Akiyoshi Kurita wrote:
+> Translate the "Include PATCH in the subject" and "Sign your work -
+> the Developer's Certificate of Origin" sections into Japanese.
+> 
+> Keep the DCO text in English as the original certificate text, and add
+> a Japanese note that the sign-off refers to the English DCO text.
+> 
+> Use a reStructuredText note directive to make it clear that the note is
+> specific to the Japanese translation.
+> 
+> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+> ---
+> Changes in v5:
+> 
+> Rebase on docs-next.
+> Remove an extra blank line under the Signed-off-by line.
 
-For each configured PMCR_EL0.N value, verify that an arbitrary HPMN
-value, including one above the configured counter count, round-trips
-through KVM_SET_ONE_REG and survives SET_NR_COUNTERS. Also verify that
-HPME can be toggled without disturbing HPMN and that KVM_ARM_VCPU_INIT
-resets HPMN from the configured count.
+In the rebase, you have introduced this warning in "git am <this patch>":
 
-Assisted-by: Codex:gpt-5.5
-Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
----
- .../selftests/kvm/arm64/vpmu_counter_access.c      | 90 ++++++++++++++++++++--
- 1 file changed, 85 insertions(+), 5 deletions(-)
+    .git/rebase-apply/patch:117: new blank line at EOF.
+    +
+    warning: 1 line adds whitespace errors.
 
-diff --git a/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c b/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
-index 3b5bb421f401..73f04e4c6ca3 100644
---- a/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
-+++ b/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
-@@ -25,6 +25,14 @@
- /* The cycle counter bit position that's common among the PMU registers */
- #define ARMV8_PMU_CYCLE_IDX		31
- 
-+#ifndef MDCR_EL2_HPMN
-+#define MDCR_EL2_HPMN			GENMASK_ULL(4, 0)
-+#endif
-+
-+#ifndef MDCR_EL2_HPME
-+#define MDCR_EL2_HPME			BIT_ULL(7)
-+#endif
-+
- struct vpmu_vm {
- 	struct kvm_vm *vm;
- 	struct kvm_vcpu *vcpu;
-@@ -466,15 +474,12 @@ static void guest_code_done(void)
- 	GUEST_DONE();
- }
- 
--static void test_create_vpmu_vm_with_nr_counters(unsigned int nr_counters, bool expect_fail)
-+static void set_nr_counters(struct kvm_vcpu *vcpu,
-+			    unsigned int nr_counters, bool expect_fail)
- {
--	struct kvm_vcpu *vcpu;
- 	unsigned int prev;
- 	int ret;
- 
--	create_vpmu_vm(guest_code);
--	vcpu = vpmu_vm.vcpu;
--
- 	prev = get_pmcr_n(vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_PMCR_EL0)));
- 
- 	ret = __vcpu_device_attr_set(vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-@@ -486,6 +491,17 @@ static void test_create_vpmu_vm_with_nr_counters(unsigned int nr_counters, bool
- 			    nr_counters, prev);
- 	else
- 		TEST_ASSERT(!ret, KVM_IOCTL_ERROR(KVM_SET_DEVICE_ATTR, ret));
-+}
-+
-+static void test_create_vpmu_vm_with_nr_counters(unsigned int nr_counters,
-+						 bool expect_fail)
-+{
-+	struct kvm_vcpu *vcpu;
-+
-+	create_vpmu_vm(guest_code);
-+	vcpu = vpmu_vm.vcpu;
-+
-+	set_nr_counters(vcpu, nr_counters, expect_fail);
- 
- 	vcpu_device_attr_set(vcpu, KVM_ARM_VCPU_PMU_V3_CTRL, KVM_ARM_VCPU_PMU_V3_INIT, NULL);
- }
-@@ -588,6 +604,69 @@ static void run_pmregs_validity_test(u64 pmcr_n)
- 	destroy_vpmu_vm();
- }
- 
-+static void run_mdcr_el2_validity_test(u64 pmcr_n)
-+{
-+	struct kvm_vcpu_init init;
-+	struct kvm_vcpu *vcpu;
-+	u64 expected_mdcr, mdcr;
-+
-+	pr_debug("MDCR_EL2 test with pmcr_n %lu\n", pmcr_n);
-+
-+	create_vpmu_vm(guest_code);
-+	if (!vm_supports_el2(vpmu_vm.vm)) {
-+		destroy_vpmu_vm();
-+		return;
-+	}
-+
-+	vcpu = vpmu_vm.vcpu;
-+
-+	mdcr = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2));
-+	expected_mdcr = u64_replace_bits(mdcr, FIELD_MAX(MDCR_EL2_HPMN),
-+					 MDCR_EL2_HPMN);
-+	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2),
-+		     expected_mdcr);
-+
-+	mdcr = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2));
-+	TEST_ASSERT(mdcr == expected_mdcr,
-+		    "MDCR_EL2 was not properly updated after HPMN write (expected 0x%lx, got 0x%lx)",
-+		    expected_mdcr, mdcr);
-+
-+	set_nr_counters(vcpu, pmcr_n, false);
-+
-+	mdcr = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2));
-+	TEST_ASSERT(mdcr == expected_mdcr,
-+		    "MDCR_EL2 changed after PMU_V3_SET_NR_COUNTERS (expected 0x%lx, got 0x%lx)",
-+		    expected_mdcr, mdcr);
-+
-+	vcpu_device_attr_set(vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-+			     KVM_ARM_VCPU_PMU_V3_INIT, NULL);
-+
-+	mdcr = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2));
-+	TEST_ASSERT(mdcr == expected_mdcr,
-+		    "MDCR_EL2 changed after PMU_V3_INIT (expected 0x%lx, got 0x%lx)",
-+		    expected_mdcr, mdcr);
-+
-+	expected_mdcr = mdcr ^ MDCR_EL2_HPME;
-+	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2),
-+		     expected_mdcr);
-+
-+	mdcr = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2));
-+	TEST_ASSERT(mdcr == expected_mdcr,
-+		    "MDCR_EL2 was not properly updated after HPME write (expected 0x%lx, got 0x%lx)",
-+		    expected_mdcr, mdcr);
-+
-+	kvm_get_default_vcpu_target(vpmu_vm.vm, &init);
-+	init.features[0] |= (1 << KVM_ARM_VCPU_PMU_V3);
-+	aarch64_vcpu_setup(vcpu, &init);
-+
-+	mdcr = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2));
-+	TEST_ASSERT(FIELD_GET(MDCR_EL2_HPMN, mdcr) == pmcr_n,
-+		    "MDCR_EL2.HPMN is not reset after INIT (expected %lu, got %lu)",
-+		    pmcr_n, FIELD_GET(MDCR_EL2_HPMN, mdcr));
-+
-+	destroy_vpmu_vm();
-+}
-+
- /*
-  * Create a guest with one vCPU, and attempt to set the PMCR_EL0.N for
-  * the vCPU to @pmcr_n, which is larger than the host value.
-@@ -672,6 +751,7 @@ int main(void)
- 	for (i = 0; i <= pmcr_n; i++) {
- 		run_access_test(i);
- 		run_pmregs_validity_test(i);
-+		run_mdcr_el2_validity_test(i);
- 	}
- 
- 	for (i = pmcr_n + 1; i < ARMV8_PMU_MAX_COUNTERS; i++)
+See below.
 
--- 
-2.55.0
+> 
+> Changes in v4:
+> 
+> Use a reStructuredText note directive to clarify that the explanation
+> is specific to the Japanese translation.
+
+[...]
+
+> +作者の SoB に続く追加の SoB（``Signed-off-by:``）は、パッチの開発には
+> +関与せず、その取り扱いや転送を行った人によるものです。SoB の連鎖は、
+> +パッチがメンテナーを経て最終的に Linus へ届いた実際の経路を反映する
+> +必要があります。最初の SoB は、単独の主要作者であることを示します。
+> +
+   ^^^ Here is the "new blank line at EOF".
+
+> -- 
+> 2.52.0
+
+Please fix.  You don't need to hurry.
+
+Thanks, Akira
 
