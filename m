@@ -1,247 +1,276 @@
-Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC283BD63B;
-	Mon, 20 Jul 2026 18:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784572804; cv=pass; b=Un5T37ZXKWsjjWC6ASsh4oCXSEmNUf3dQf5IH/GsSK9M9GnjqWaAsOIHoDBq0RZtZQCwsfUEv4rgN1RRxbJK7t9hWZAKLyrnQDY5CAGPAx7J7XBHfXT5EeSV0fImj8If+fTquAri+98VKb6Q4laqKw4TNzdryZSbEkmrEUapxKw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784572804; c=relaxed/simple;
-	bh=eXbTc3VgPltAbeLC9B4nVCob7/M1HGp/H6H9uX6m+hg=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=RE9JMx6P4+DQP6wVt6lpa92RNVI3o3FlWDdOPfxA0rkx/s6PBA5a1BBhw4rStt0nvFUnWNPWeHyvO1hDGVbuNnpoYHJqoG10qYlJSF6fo1YUCmwncoGxnJ/kMUA/zn1pUpo5H2+7u0/SpPGQTWBjl9rEPUI7fda/1tCXusvWqeU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=adi.sharma@zohomail.in header.b=OzPsWnZa; arc=pass smtp.client-ip=103.117.158.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF7D446052
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 18:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784572852; cv=none; b=Yvp6h6JfgEYATH3oaXD38QfDD+n+7JZOW8Y5gqC1m8t8PfVrF58O858YHBu68y1M8IvWLg2enXb/oFuIduo4skRJOENSuQWeMXWfaDSlqH9cs3xjAcVXWJJtkU69TPwE0La8Kn2PcBLkDWgE0hObTwmTgBp9MOMTvpvj+sJtP2I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784572852; c=relaxed/simple;
+	bh=jb5f5jGGSKMqZNTu9/xrudl4febEVpxMAwYOHW3ZDHc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rCdOKOp7UDeyqkdMfxzdEaZHpM9QbIGBO1ITyxmwKQW7d+EiiNEQTkAsmFhpn5bt+3ZiJ/rUvl7wGvlgcnXdLaKkuLVpSIdh9n991HmlzEmqaJnPIMrd9G55xjHtf9tAwIQDpJqy0z3xps1THZnpEA2ZtVJyQ01/HqztcyhV9AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mPHqJK7Z; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=iGVtiCk2; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.in header.i=adi.sharma@zohomail.in header.b="OzPsWnZa"
-ARC-Seal: i=1; a=rsa-sha256; t=1784572726; cv=none; 
-	d=zohomail.in; s=zohoarc; 
-	b=U2EgM9/PGsGpsyyKeNNu6jaQm9AzraiBZ/qzEN7iX/ESZa71d0KhTONzaf9D+qNC1sVXALdndY1BIoC2apXDmGASMt9NZW6pjufNqIkXS+5CcqFv+G2HYWf3qb/Z7+X/h/X8X+K3HpYHTigQwVUyn5EQy3M7793DYx0pDR7gA3E=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
-	t=1784572726; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=21jF7uNT/UmoujGO3hllhCYF5UQ/NYJ1eORppVbnz3U=; 
-	b=a39cNvHHF6/npwftmelrS7iHwHh7849NCClNN9lnGlDR+Y3ZTMroVa3NuU3wkEP3KpaeVMvN3dCrgOZI/ZjKQefipdxsHNuaesCKFrz1A1HucDs09yObReTgCKWwQsnOZiYE+WdS00RJyxfXHAtGkIB4KA8EylgdhYW9zx8XXoY=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
-	dkim=pass  header.i=zohomail.in;
-	spf=pass  smtp.mailfrom=adi.sharma@zohomail.in;
-	dmarc=pass header.from=<adi.sharma@zohomail.in>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784572726;
-	s=zoho; d=zohomail.in; i=adi.sharma@zohomail.in;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=21jF7uNT/UmoujGO3hllhCYF5UQ/NYJ1eORppVbnz3U=;
-	b=OzPsWnZaTFinUg8fqmdvc4CoGzw2y4Q1rmzG7ffv6R/AiDxxENsZ4eYQ9hCEPsKH
-	u7BRdu92RM9ztWderErMLNTYgQvdZCfJFAGIbXF7QBw5l1zF8Qyui0wpa278PWMpAef
-	5X7mfHqjOg92+A5ZAFdLw7BjK1Msxzxm7eqebHS8=
-Received: from mail.zoho.in by mx.zoho.in
-	with SMTP id 1784572726154850.5205242083554; Tue, 21 Jul 2026 00:08:46 +0530 (IST)
-Received: from  [14.139.128.24] by mail.zoho.in
-	with HTTP;Tue, 21 Jul 2026 00:08:46 +0530 (IST)
-Date: Tue, 21 Jul 2026 00:08:46 +0530
-From: Aditya Sharma <adi.sharma@zohomail.in>
-To: "Liam R . Howlett" <liam@infradead.org>
-Cc: "Andrew Morton" <akpm@linux-foundation.org>,
-	"David Hildenbrand" <david@kernel.org>,
-	"Lorenzo Stoakes" <ljs@kernel.org>,
-	"Vlastimil Babka" <vbabka@kernel.org>,
-	"Mike Rapoport" <rppt@kernel.org>,
-	"Suren Baghdasaryan" <surenb@google.com>,
-	"Michal Hocko" <mhocko@suse.com>,
-	"David Rientjes" <rientjes@google.com>,
-	"Shakeel Butt" <shakeel.butt@linux.dev>,
-	"Jonathan Corbet" <corbet@lwn.net>,
-	"Shuah Khan" <skhan@linuxfoundation.org>,
-	"Steven Rostedt" <rostedt@goodmis.org>,
-	"Masami Hiramatsu" <mhiramat@kernel.org>,
-	"Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
-	"Kees Cook" <kees@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
-	"Peter Zijlstra" <peterz@infradead.org>,
-	"Juri Lelli" <juri.lelli@redhat.com>,
-	"Vincent Guittot" <vincent.guittot@linaro.org>,
-	"Dietmar Eggemann" <dietmar.eggemann@arm.com>,
-	"Ben Segall" <bsegall@google.com>, "Mel Gorman" <mgorman@suse.de>,
-	"Valentin Schneider" <vschneid@redhat.com>,
-	"K Prateek Nayak" <kprateek.nayak@amd.com>,
-	"linux-mm" <linux-mm@kvack.org>,
-	"linux-doc" <linux-doc@vger.kernel.org>,
-	"linux-trace-kernel" <linux-trace-kernel@vger.kernel.org>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>,
-	"imbrenda" <imbrenda@linux.ibm.com>
-Message-ID: <19f80d2cb7e.2efd096643510.6776299399502503493@zohomail.in>
-In-Reply-To: <ljr2jkxomq4ccgzq2ip3c66mjdryomhl2gxkswv4wzry5ye2ax@xaehxzjkkk3m>
-References: <20260719185409.409685-1-adi.sharma@zohomail.in> <ljr2jkxomq4ccgzq2ip3c66mjdryomhl2gxkswv4wzry5ye2ax@xaehxzjkkk3m>
-Subject: Re: [RFC PATCH 0/7] mm: defer address-space teardown of large
- exiting processes to a kthread
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mPHqJK7Z";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="iGVtiCk2"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66KH6bRB2785392
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 18:40:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=LzzBPLy7PTw92eX+6/W1Mc
+	dpFsBt8ydH/z1Z/cN0fks=; b=mPHqJK7Zs8uwrcVrWtU58qDlj8ZtC4+yxQC/Qy
+	+m9+xoBByQC/3wYSblMAx8ztUQIQe4uy2B+OjNJhKuKZ622xAIWmVaAkuizY/80U
+	b6e2jLuggrom+S7e9gpFhsVk7R7Ht/JrkYhBZR9Kwx6XGPNp0Jeo+GaATw3A+/9J
+	Ms32tU5mCJQ9SXnH7+rmkAH6DOA3Yp/VXjnollt6GGvF3QrWKV9KIFG8a7wnK0L9
+	/ZnmFViokMpr0iHV8KC9VQK7a5TXcVcwyHV76BlXTO2Ay05G6ruwTsDK2vSL13/a
+	abZnshf6LW/CyovjBrZQBzVk3d4fO4KSb3k9gAqn2If9y1aw==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fhgs52j5j-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 18:40:49 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-51c1d137a68so279216191cf.3
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 11:40:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1784572849; x=1785177649; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LzzBPLy7PTw92eX+6/W1McdpFsBt8ydH/z1Z/cN0fks=;
+        b=iGVtiCk2qdK8z9LNyBNvYyZdya04ESKTrwL7SywN+da92o3y5Db08sg9LN+XkewnUf
+         JfExwl9P2M6o2q08UATMmf5yGoq9dip/5AhX16Ks5rU2mvXhXsl6lhUc2Pq1xTMQL3EN
+         xNTe3sPguC9sGxQqBmZHfTWcKC5IkCrLvHXWdRJh/2hL5PwOxgSX2zIMTRnPRg9kVP5a
+         6RpRq9YfGhCPa5wrkobQosU/u8EIy8bg1ww8amWTb0R0lV6OrPsU4ai/72yziBPSc+zb
+         cRzUWkMupxw0lrMZ39MtcSCQaBmCKuPS4iIfrqIo3ZyDyal0gU9Oq7rqZvkipqMxCeHm
+         ktbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784572849; x=1785177649;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=LzzBPLy7PTw92eX+6/W1McdpFsBt8ydH/z1Z/cN0fks=;
+        b=AVRykPNoqH77r7QPuB1vWeZadRFlq30/0Mf3ZiN8rcVea+kctyAlRSPsN2G/iJIH9P
+         aej4USyuBPneI8bhkXNzpm4S44kVio4Htg1tPxNhE2mVVoZv1Ae8YtxeV6TSmVgSozud
+         8lBRusuF2PZCjpc5dBTZPZKwR+rQPdO97isBCiJgOpjFkzJp1590yo/lYz0vU6rC8bs5
+         o90/wO/wgDER89pMIKWB/1FDhQDujTFRqHc0muQv4xvOGXDXjBKLX1sLElvBHJAj21Qa
+         dT/B/VLYRM0UVcAWJ5GVaPiTeD+T5G4fp+WXto3oPvH0WZMLMU1wuXcaLqD14xonGore
+         qMAQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr+LClwEi3HtMCjPTkb1cBtkNcPB1tKEAaFw7BiBiRefU2IaVu4Ztm7U53PCXgARhxEH40aDY3N0MA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTvZO4dTLFCHLIskH982WDJvKCogrSgHfAterBoKBSXAFDX/wm
+	NpM7AQUOg+5rCGyCHXgSR9wAk6+kcdI9+Tvq1hbg5ETvjdqlIUL2pg/oHZ93EEUWPyv5sfgikjJ
+	aNvX4HzBesyw1H6PxkVtAm9gqJ8fKbdzmB6Io4+/TmodJCFzwfP0OS/I/l7x1ehM=
+X-Gm-Gg: AfdE7ckCzlTYqNRzo+s/e1OvQXTAcusWwd7Zx/+mkex3zWopsVPd05eWS0JoHfT+QPB
+	jkhyk4PUJXr/1+e+OBK0kuBW3YrjXrAql6wsLVQeIgZhB+EQZI9dYdp12Su9rjnLxJzMasWnbW6
+	yL6kAwWChXp0u6QItqcjNwL5kwjpkkEKC+RJDRiywyGXw+C6e2xmudnBbxpECCCHiHQTAQFWz09
+	DJ6RojrGdOxDaFv/JvJaVSFYS9IAh1yWd86Gq14k5yadlxdTlnzCUos+ik7v96hkSvDhn+34A9l
+	cubI5Yj8C+3MkYUYLbqD0vro5OFJPcmXnE236hiUOdw/hWQQ3Kz4CdbVMhNUD6vWTi05hgIqD/B
+	qHna2ZYxXxitXNGRz
+X-Received: by 2002:a05:622a:2c8:b0:517:9570:c1bd with SMTP id d75a77b69052e-5213cec8dd6mr145534801cf.25.1784572848880;
+        Mon, 20 Jul 2026 11:40:48 -0700 (PDT)
+X-Received: by 2002:a05:622a:2c8:b0:517:9570:c1bd with SMTP id d75a77b69052e-5213cec8dd6mr145534481cf.25.1784572848311;
+        Mon, 20 Jul 2026 11:40:48 -0700 (PDT)
+Received: from quoll ([178.197.223.174])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49565473f76sm6568755e9.6.2026.07.20.11.40.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2026 11:40:47 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        Saravana Kannan <saravanak@kernel.org>
+Subject: [PATCH v3] docs: dt: maintainer: Add Devicetree and OF maintainer profile document
+Date: Mon, 20 Jul 2026 20:40:40 +0200
+Message-ID: <20260720184040.9870-2-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5178; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=jb5f5jGGSKMqZNTu9/xrudl4febEVpxMAwYOHW3ZDHc=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBqXmupqunCAGybzLowi9lhzcUVHoEwG50WyYtNa
+ TccW3QRjmqJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCal5rqQAKCRDBN2bmhouD
+ 1zJyD/4oRGmKMjWEHoIeJl1hksX+ibwVYBZ76qnZoBAy106rkcj3/m/7GpXH3HXOKVpWfTCJYBq
+ GWZLMFrGfU43MiDqamrAG5K8Ew3ihSaekliBFeZ8SgJuws5JUC8wNc8Z12ozvEAZADXFZ/Bep45
+ gSUzB6eLQDWS6gQNCImkJDf8pAKMB+nRqbvAHj7v2TmMrU3gCySb9hVLMhsZB2hBwEuB+wFXurH
+ DaMzjJJx23S1Bj0wJcHlTo+VV+3SW4v7mxH4JGAIjjctSUUIxaL1O5sQfMigFy5qxxqbJXweXKj
+ y77Z6Zwlqm71lOukxsyOvs4/khMZWG3sOehkcGviNv/IMrvGESyavtxRq+2hC5jHbGKLW1MuGy0
+ teyIa+a5DugrZ7gM30Ieul6nLIcTeuElholaQgITYnrxfxNKERcCN0QZINU6jhkQvM9DuMyQohS
+ uvY63NQBnWpW2OtA/wP+Uj6CiD65DDGtt6LDDN27mWp4SjQ2uPgmIHwWDdwf38KjIztK48/VN/6
+ 9fr/u+n2F3ii6roKgFUeLpIKWVKjbOHnPo/DCgcif4Qpj34l4+Z0rJWA4XaiO5/nXPuIs5TxAMR
+ Pf97e4lE+/S3TP5utFlHAsUibwBcBX8aVss6pfv75Yx0vp9ekQsK1Ll7kAsG9WZ6RfTeTMq3iln 2Ni7+0BXc5aZcdA==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIwMDIwMyBTYWx0ZWRfX/Q7o2c8vAmS4
+ ZjYtN1NoJqN3HRmi2Syd1yAqzpouZtmFU1lmLfBy/XsxUy48+Sa0Zn7OIZUwk8AMt/uPOB4TeoR
+ UqeUsUy7uZgz14fuFAkeFgdUjySknLo=
+X-Proofpoint-GUID: R05s8xWS8cqOguyoiE6pzGWpI8uA4FhQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIwMDIwMyBTYWx0ZWRfX5EdlTH0Ay6Lf
+ SSl91Z//dKcXpo08sNan7DY+rHwoe9wHSghtggCBMBSAxEtxBJQ9czEelwxK8qwQU2xX0CuaeSp
+ EoiHlg4U7qvQRiFpcyfRAbzrTaqwZZp9JqYgIQiDYLF6YPHIKIl6Gl/MF6pwhyk+SeJ9jxbyidm
+ CowIsMVctlQYqYiLrmEgArIev5J8uYda75mbGNipc3vVx2CYEmP3zM6XixbWz9LG11EuZ2DD5zf
+ vZYtE8yUWOceIU/uAJzcSFVLTGWyrM4nB3n/XIJLrM4sZajjxHvQDYrT06tC6q3kWtVZ88OfuS3
+ jqmjtkOGqYDT/v9HhYHQLVtUkyMpnDsWnTqvsslB1yFVaU5rmMNAAqsFhOwMFq8Ym2BWff+1G4E
+ 8ZYGdXEElqwaD656UbRHKs5w8D0/jqweAuvDuoT5OutU618G6srkndlUs7GHPHtUIkG0uyz2GIc
+ ujC3p6x7d5IdwasQDMw==
+X-Authority-Analysis: v=2.4 cv=CpiPtH4D c=1 sm=1 tr=0 ts=6a5e6bb2 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=N6niishs+lR9UBL1FN3Qrw==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=VwQbUJbxAAAA:8 a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8 a=sLr6tAuWVrO0SpXXj6sA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
+ a=sptkURWiP4Gy88Gu7hUp:22
+X-Proofpoint-ORIG-GUID: R05s8xWS8cqOguyoiE6pzGWpI8uA4FhQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-20_04,2026-07-20_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 priorityscore=1501 phishscore=0 spamscore=0 clxscore=1015
+ suspectscore=0 lowpriorityscore=0 impostorscore=0 adultscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607200203
 
+Document how Devicetree and Open Firmware maintainers handle their
+subsystem, especially focusing on two caveats:
 
+Devicetree subsystem handles patches with a minor difference comparing
+to other subsystems: while DT maintainers pick up OF code, they only
+provide review of DT bindings without applying these.
 
-Sent using Zoho Mail
+All three DT bindings maintainers rely currently on Patchwork and due to
+enormous amount of emails per day, regardless how much DT maintainers
+try, they cannot read all the emails.
 
+Cc: Rob Herring <robh@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Saravana Kannan <saravanak@kernel.org>
+Cc: devicetree@vger.kernel.org
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-From: Liam R . Howlett <liam@infradead.org>
-To: "Aditya Sharma"<adi.sharma@zohomail.in>
-Cc: "Andrew Morton"<akpm@linux-foundation.org>, "David Hildenbrand"<david@k=
-ernel.org>, "Lorenzo Stoakes"<ljs@kernel.org>, "Vlastimil Babka"<vbabka@ker=
-nel.org>, "Mike Rapoport"<rppt@kernel.org>, "Suren Baghdasaryan"<surenb@goo=
-gle.com>, "Michal Hocko"<mhocko@suse.com>, "David Rientjes"<rientjes@google=
-.com>, "Shakeel Butt"<shakeel.butt@linux.dev>, "Jonathan Corbet"<corbet@lwn=
-.net>, "Shuah Khan"<skhan@linuxfoundation.org>, "Steven Rostedt"<rostedt@go=
-odmis.org>, "Masami Hiramatsu"<mhiramat@kernel.org>, "Mathieu Desnoyers"<ma=
-thieu.desnoyers@efficios.com>, "Kees Cook"<kees@kernel.org>, "Ingo Molnar"<=
-mingo@redhat.com>, "Peter Zijlstra"<peterz@infradead.org>, "Juri Lelli"<jur=
-i.lelli@redhat.com>, "Vincent Guittot"<vincent.guittot@linaro.org>, "Dietma=
-r Eggemann"<dietmar.eggemann@arm.com>, "Ben Segall"<bsegall@google.com>, "M=
-el Gorman"<mgorman@suse.de>, "Valentin Schneider"<vschneid@redhat.com>, "K =
-Prateek Nayak"<kprateek.nayak@amd.com>, <linux-mm@kvack.org>, <linux-doc@vg=
-er.kernel.org>, <linux-trace-kernel@vger.kernel.org>, <linux-kernel@vger.ke=
-rnel.org>, <imbrenda@linux.ibm.com>
-Date: Mon, 20 Jul 2026 03:58:47 +0530
-Subject: Re: [RFC PATCH 0/7] mm: defer address-space teardown of large exit=
-ing processes to a kthread
+---
 
+I expect patch to be picked up by Rob, after review.
 
- > This reads like it was written by an AI, but there is no assisted-by
- > tags.  Which AI did you use to generate these patches and/or cover
- > letter?
+Changes in v3:
+1. Add also F: entry
 
-I used claude opus 4.8 to refine commit messages (the design is mine,=20
-the model was used to convey the intentions concretely). Further, I used
-claude fable 5 for drafting the cover letter and reviewing the series, wher=
-e
-it flagged issues (I fixed some of those by hand and some were fixed by fab=
-le itself,
-which I then reviewed). It also assisted in writing the benchmark harness
-behind the numbers and did the litmus test the cover letter mentions. Every=
- numbers
-was measured by me, on my hardware. I take full responsibily of the entire=
-=20
-series.
+Changes in v2:
+1. Correct typos and trailing white spaces.
+2. Fix order of P: after C: in maintainers.
+---
+ .../process/maintainer-devicetree.rst         | 70 +++++++++++++++++++
+ MAINTAINERS                                   |  3 +
+ 2 files changed, 73 insertions(+)
+ create mode 100644 Documentation/process/maintainer-devicetree.rst
 
-My bad that I did not add an assisted-by tag. Should have added it to v1
-v2 will add it to the patches
+diff --git a/Documentation/process/maintainer-devicetree.rst b/Documentation/process/maintainer-devicetree.rst
+new file mode 100644
+index 000000000000..d8ffe752bf5d
+--- /dev/null
++++ b/Documentation/process/maintainer-devicetree.rst
+@@ -0,0 +1,70 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++======================================
++Devicetree and Open Firmware Subsystem
++======================================
++
++Other Process Documents
++-----------------------
++
++Please see the documents in Documentation/devicetree/bindings/ for information
++on how to write proper Devicetree bindings and how to submit patches.
++
++Patch Review and Handling
++-------------------------
++
++Patches handled by Devicetree maintainers are processed differently depending
++on the patch type:
++
++1. Core OF driver code, e.g. drivers/of/:
++   patches are reviewed and applied by DT maintainers.
++
++2. Devicetree bindings:
++   patches are reviewed by DT maintainers but, except in certain cases, should
++   be applied by subsystem maintainers.  See also *For kernel maintainers* in
++   Documentation/devicetree/bindings/submitting-patches.rst.
++
++3. DTS and drivers:
++   DT maintainers might provide comments, but review is generally not expected.
++
++Patchwork
++~~~~~~~~~
++
++Devicetree maintainers review patches using Patchwork, so the current status of
++a patch can be checked there. For typical driver submissions, Patchwork
++receives the entire patch set, but only a few patches are usually Devicetree
++bindings that are reviewed by DT maintainers.
++
++Explanation of Patchwork statuses:
++
++ - **New**: Not yet processed by the automation toolset.
++ - **Needs ACK**: Waiting for review by DT maintainers.
++ - **Handled Elsewhere**: Non-DT patch; not being reviewed here.
++ - **RFC**: Patch was likely ignored because it was an incomplete RFC.
++ - **Changes Requested**: Patch was reviewed and DT maintainers expect changes.
++ - **Accepted**: Patch was reviewed and applied by DT maintainers to their tree.
++ - **Not Applicable**: Patch was reviewed and is likely in good shape, with a
++   *Reviewed-by* or *Acked-by* tag provided, but DT maintainers expect someone
++   else to apply it.
++
++Patch Re-review and Pinging
++~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Due to the high volume of email traffic, Devicetree maintainers do not read
++every email they receive and instead rely on Patchwork during the review
++process. They also often skip patches that have already been reviewed.
++
++As a result, maintainers might miss:
++
++1. Questions about already reviewed patches.
++2. Pings, for example when a patch has been reviewed by DT maintainers but has
++   not been picked up by subsystem maintainers.
++
++Such cases can be addressed by:
++
++1. Pinging DT maintainers on the IRC channel.
++2. Dropping the DT maintainer’s *Acked-by* or *Reviewed-by* tag when sending a new
++   version of the patch set, together with an explanation in the patch
++   changelog describing why the tag was removed and what is expected from DT
++   maintainers.
++
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0b6b9e6b3900..be6aa5d174c5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20285,6 +20285,7 @@ S:	Maintained
+ Q:	http://patchwork.kernel.org/project/devicetree/list/
+ W:	http://www.devicetree.org/
+ C:	irc://irc.libera.chat/devicetree
++P:	Documentation/process/maintainer-devicetree.rst
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+ F:	Documentation/ABI/testing/sysfs-firmware-ofw
+ F:	drivers/of/
+@@ -20306,8 +20307,10 @@ L:	devicetree@vger.kernel.org
+ S:	Maintained
+ Q:	http://patchwork.kernel.org/project/devicetree/list/
+ C:	irc://irc.libera.chat/devicetree
++P:	Documentation/process/maintainer-devicetree.rst
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+ F:	Documentation/devicetree/
++F:	Documentation/process/maintainer-devicetree.rst
+ F:	arch/*/boot/dts/
+ F:	include/dt-bindings/
+ 
+-- 
+2.53.0
 
- > I do not see a benefit to running the task cleanup 'off the side'.  In
- > modern computers, that may mean switching core types that run at
- > different speeds.
-
-That's why the reaper's affinity is a preference, not a bind (patch 2).
-It uses kthread_affine_preferred() with housekeeping mask, so it can be
-re-affined. kthread_bind_mask() would have taken that away. On a hybrid cpu=
-,
-it can be affined(by the (super)user) to whichever cores are appropriate.=
-=20
-
-I do not have numbers for P core and E core teardown costs. Will measure an=
-d
-send them.
-
- > Regardless of speed, the CPU that will be doing the work is remote to
- > the workload by design, (or may be, depending on the scheduling?).  That
- > is, you are tasking another CPU to do cleanup of local CPU-aware
- > information.. The ideal CPU to do a task exit is the one that's doing it
- > already.
-
-Yes, it does cost something. Five consecutive 4GB inline teardowns in my te=
-sting
-costed 372ms in exit path, while 440 ms in the case of kthread drain for th=
-e same
-(five teardowns on another cpu). This cost became 1.18x. For multi gb mms,
-the memory to be reaped would be much larger than the cpu cache can hold.
-For small mms (< 64 MB, configurable by sysctl), the teardowns happen inlin=
-e.=20
-
-The oom_reaper already reaps the victim's address space from a remote conte=
-xt,
-as returning memory matters more than locality of teardown.
-
- > There are hidden costs to your approach and I don't really understand
- > how this could possibly speed things up - even parallelized tasks will
- > take more CPU time in total, even if locking issues are avoided.
-
-This is not meant to speed up teardown. Rather the latency for someone wait=
-ing
-on death is reduced. Killing a 16 GB redis cost 292.97ms before returning t=
-o
-waitpid(). It costs 0.24 with async teardown. The memory itself was returne=
-d
-in about 300ms.
-
-"parallelized" - This series does not parallelize the teardown. The design =
-is serial.
-N procesess exiting together today would tear down concurrently today. The =
-reaper here,
-uses one thread (nice 19, affined to housekeeping mask).
-
-The numbers in cover letter support that this work is memory bound rather t=
-han CPU bound.
-In sync case: teardown is around 56 GB/s on my machine (1GB in 18.01 ms and=
- 16GB in 282.16ms).
-Thirty two concurrent 0.5GB exits reap in 157.42ms (around 101 GB/s). So, a=
- concurrency
-of 32 gets about 1.8x. The single reaper thread takes 650ms to clear the sa=
-me (about 25 GB/s).
-Thus, this serialization took 4x the drain time, but takes peak concurrency=
- down to
-one cpu. Memory actully comes back later. Whether that's a good tradeoff, d=
-epends on=20
-what else we wish to run on the box (open questions #1 in cover letter)
-
- > Sure, the task waiting for cleanup to complete may think it's done and
- > continue to do the Next Thing - but if it really needs the cleanup to be
- > completed
-
-It is off by default and opt in (sysctl), so anything that depends on the
-current semantics, continues to work exactly the same by doing nothing.
-
-Also, mmput_async() already defers the teardown to a workqueue. So, in the =
-current
-kernel, there already exists a way where continuing to the next thing
-does not necessarily mean that the memory is reclaimed.
-
- > completed then you've just made it impossible to know when it has
- > happened.
-
-There are three vmstat counters and two tracepoint (patch 6).
-Someone who opts in to the mechanism, and does need to make sure that the
-cleanup is completed, can use the counters and tracepoints.
-
- > Also, you've just made this extremely hard to debug if something is
- > missed.
-
-There are reap tracepoints that carry the pid, so we can get per pid comple=
-tion status.
-
-However, there is no number indicating the current depth of the queue. The =
-series addds queued,
-sync and rejected counters. Will add a reaped counter in v2 so that current=
- queue depth
-can be estimated. Please mention what else tracability can be added to this=
-,
-and what senairo do you have in mind that these counters and tracepoints mi=
-ght not
-cover. I can add those to v2 as well.
-
- > The work that is done in teardown is necessary.  Your time (and tokens?)
- > would be better spent trying to improve what we have to do instead of
- > shifting the work around.
-
-This does not compete with with current teardown path. it goes through the
-same exit_mm(). Any future improvements there, also improve the reaper's dr=
-ain
-times.
-
-Thanks
-
-Aditya
