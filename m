@@ -1,256 +1,378 @@
-Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC3D3822A5;
-	Mon, 20 Jul 2026 22:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=222.228.43.154
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784586872; cv=pass; b=iAEK/g2zfWgbaAvUblsHIL8YJFWatvcMJi9/IzBjTBI/1uIsgGVPvbpBlKlBb50M8BDdBe4JM11tJT74KDrjT3cUiRts2/kIgqg9rOXN+J8UNDOFleVdwFodpgG5KHFfs/uZYI9zk9Eaemtdnz3HEbdLzON1UsO5PthC/9I/NBU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784586872; c=relaxed/simple;
-	bh=i+8iP6TqvcE/Fwsg3chLexyR7rglhtQJDkM0lDIBRUw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cy0NHKH+EwGaAWpQBNCftr9JP5rf7qiRQIN2JbE9iqiF34kZWyLmGZvkf7aAh63Jmjz+ghTQnbES9FDztbZjjrhxWk4ivk46RGi0KlxkCV1ieJvSH2GWHp+7FIof0VP2apZRQVAusakcmKQNOIFdnt8usEm7FPAGUKKYiumF2wo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=ulNCAZMP; arc=pass smtp.client-ip=222.228.43.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6501843B3D0;
+	Mon, 20 Jul 2026 22:41:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784587276; cv=none; b=ngA4U8o3eMl6Y61fVqCj/KT2/wTZuje0mGrCR+9dpj487uxdD9x3ViYlY/VJXs+JwMnZBPXbuNUOYLP1Q08cZMntaWs4j5Tmf3en6EFqgHOeO1gc0Zih0RFYxe+8ivrbuPgdI2dnJ6V0tRJyR/+in9NuEvKYdDQ1SZkWqq8s4gw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784587276; c=relaxed/simple;
+	bh=HdLiaSUr5CZ95+pJOJVTPuGcUHpIKsVthb5FBj4xx2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fqbB5j6iXAiGU6Y8BHfprVZla7M0wHXTxeWlXcJY+ysGfgG+T7z1D4rzJHRWch5MrLq79Lydo1ik+cAyAoNTEA4EWYRkBfLC3QbdB1jdGUrbM7vJUL+Pu2XZT3w9m4HDEu0IKhPHqkW+KGQ/ScgRQ6oTQeuYgilq4kmm/GZAlFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=omJg84Lt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="ulNCAZMP"
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 48812109EBDF9;
-	Tue, 21 Jul 2026 07:34:17 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id QTxq_byMZNKy; Tue, 21 Jul 2026 07:34:13 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256; cv=none;
-	t=1784586853;
-	b=JIYIPZfEjlURN4ZkVEQ68vhu0FMY3a8U4R08fBFOHoZSWUpr23ODGlOCQcrhkzzxHBpx
-	 cumsW63vZCX9PCvQEiFNlfjqE4+Ha5YNa05ihEVQ8Wh4Qo6U2kbCymOBl1Q63wfMRuSTs
-	 UvSvFbdGhqzMEzNTYTvJeC+Uzi6FgEk/14=
-ARC-Message-Signature: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256;
-	c=relaxed/relaxed; t=1784586853;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=8f6cJV5k02j/+gzqFC3ZYN9KAj3p0Mk6s+ZCRMZxRIQ=;
-	b=Vd0uxwmF10ZAn6d6wPDCuyVvFZeIy4DKwqFbVUe2TEsui4WBlXrHej+7WOPFzOEYXjYn
-	 CBDip8e58R1zIxUvv7bObGIK6mdI7771oidjwrdqRK2PZo4Q9fZdSxO3hlR9H8IGqonkl
-	 cnGAOuygnkf03JcZ2Zf/ByZj29kmy8JTkY=
-ARC-Authentication-Results: i=1; www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 3484E109EFAF6; Tue, 21 Jul 2026 07:34:13 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 3484E109EFAF6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1784586853;
-	bh=8f6cJV5k02j/+gzqFC3ZYN9KAj3p0Mk6s+ZCRMZxRIQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ulNCAZMPZLX3qYqc9s03AY4dFUcEqjqnLRPJoG1J0GqThbmeLvfjCI6UV+/1fKblM
-	 Hm3k4JUkzdS1LptiZGrlJHhZ35ryFWsh4zE2U61Ci14eQ4mMU+AOBc25KTmhKvwrjs
-	 evgK8h+TAENorElDKExVZenV1Rwxf/f++JKBjTd8=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	akiyks@gmail.com,
-	weibu@redadmin.org
-Subject: [PATCH v6] docs/ja_JP: translate submitting-patches.rst (sign-off)
-Date: Tue, 21 Jul 2026 07:34:10 +0900
-Message-ID: <20260720223410.421262-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="omJg84Lt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE93D1F00A3A;
+	Mon, 20 Jul 2026 22:41:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784587275;
+	bh=ZFz9wEVRQePTYfBVsfFD+D6XtCHD2/34dR9ImbWwSAI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=omJg84LteEruXoXoWLvViggbQtcqeubCRluxMkTfRvcIBqvQLDeKRQZPWfdEW1dEj
+	 yCdJYh2KUUepV8x2hj/wigM6ialRArbzQL5rZwzs+1BfuhkhkqJ9torN7nfFGOo4vg
+	 VMqicqrG/VY+PFOooCBq+qHbqTVfqThyGCMdu0iCh66rNHx84rfo39FQWc5LvBmB5P
+	 lakdsJWdO4JEuP80NGQd2Vvck8L7sOziv0NwskqVz1rWGceUQnFPy0Stso6qC95wem
+	 r6zhUNNEoSa5bsP1/NwJaeujxSHgqjeVEs1+mjPVz1TkWjQUFjgZ/Bz+hkqfTbGVm1
+	 9ikG/P4idd1IA==
+Date: Mon, 20 Jul 2026 23:41:06 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Terry Bowman <terry.bowman@amd.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <djbw@kernel.org>,
+ "Dave Jiang" <dave.jiang@intel.com>, Ira Weiny <iweiny@kernel.org>, Len
+ Brown <lenb@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Robert
+ Richter <rrichter@amd.com>, <linux-acpi@vger.kernel.org>,
+ <linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <linuxppc-dev@lists.ozlabs.org>, "Alejandro Lucero" <alucerop@amd.com>,
+ Alison Schofield <alison.schofield@intel.com>, Ankit Agrawal
+ <ankita@nvidia.com>, Ard Biesheuvel <ardb@kernel.org>, "Ben Cheatham"
+ <Benjamin.Cheatham@amd.com>, Borislav Petkov <bp@alien8.de>, "Breno Leitao"
+ <leitao@debian.org>, Davidlohr Bueso <dave@stgolabs.net>, "Fabio M . De
+ Francesco" <fabio.m.de.francesco@linux.intel.com>, Gregory Price
+ <gourry@gourry.net>, Hanjun Guo <guohanjun@huawei.com>, Jonathan Corbet
+ <corbet@lwn.net>, Kees Cook <kees@kernel.org>, Kuppuswamy Sathyanarayanan
+ <sathyanarayanan.kuppuswamy@linux.intel.com>, Li Ming
+ <ming.li@zohomail.com>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Oliver O'Halloran <oohall@gmail.com>,
+ Shiju Jose <shiju.jose@huawei.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ Shuai Xue <xueshuai@linux.alibaba.com>, Smita Koralahalli
+ <Smita.KoralahalliChannabasappa@amd.com>, Tony Luck <tony.luck@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ashok Raj
+ <ashok.raj@oss.qualcomm.com>
+Subject: Re: [PATCH v18 05/13] PCI/AER: Introduce AER-CXL protocol error
+ kfifo
+Message-ID: <20260720234106.27e7857d@jic23-huawei>
+In-Reply-To: <20260717222706.3540281-6-terry.bowman@amd.com>
+References: <20260717222706.3540281-1-terry.bowman@amd.com>
+	<20260717222706.3540281-6-terry.bowman@amd.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Translate the "Include PATCH in the subject" and "Sign your work -
-the Developer's Certificate of Origin" sections into Japanese.
+On Fri, 17 Jul 2026 17:26:58 -0500
+Terry Bowman <terry.bowman@amd.com> wrote:
 
-Keep the DCO text in English as the original certificate text, and add
-a Japanese note that the sign-off refers to the English DCO text.
+Hi Terry.
 
-Use a reStructuredText note directive to make it clear that the note is
-specific to the Japanese translation.
+This is a rather length patch description.  Might be worth
+a parse to see if key details can be covered in something that folk
+are more likely to read!
 
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
----
-Changes in v6:
+> CXL VH RAS handling requires a path for the AER driver to hand off
+> CXL protocol errors to cxl_core for logging and recovery before PCIe
+> AER recovery tears down the device. Add
+> drivers/pci/pcie/aer_cxl_vh.c to implement this handoff via a kfifo-backed
+> work item.
+> 
+> Introduce is_aer_internal_error() to identify CXL protocol errors
+> from AER internal error status bits across both correctable and
+> uncorrectable severities.
 
-Remove the extra blank line at EOF introduced during the rebase.
+Already existed. Just in a different location. 
 
- .../ja_JP/process/submitting-patches.rst      | 77 +++++++++++++++++++
- 1 file changed, 77 insertions(+)
+> 
+> Introduce is_cxl_error() to gate the VH kfifo path.
 
-diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rs=
-t b/Documentation/translations/ja_JP/process/submitting-patches.rst
-index d8ee82ba790b..22d54b663051 100644
---- a/Documentation/translations/ja_JP/process/submitting-patches.rst
-+++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
-@@ -402,3 +402,80 @@ ping =E3=81=97=E3=81=9F=E3=82=8A=E3=81=99=E3=82=8B=E5=
-=89=8D=E3=81=AB=E3=80=81=E5=B0=91=E3=81=AA=E3=81=8F=E3=81=A8=E3=82=82 1 =E9=
-=80=B1=E9=96=93=E3=81=AF=E5=BE=85=E3=81=A3=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=
-=95=E3=81=84=E3=80=82
- =E3=82=92=E8=BF=BD=E5=8A=A0=E3=81=97=E3=81=AA=E3=81=84=E3=81=A7=E3=81=8F=
-=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
- "RESEND" =E3=81=AF=E3=80=81=E5=89=8D=E5=9B=9E=E3=81=AE=E6=8A=95=E7=A8=BF=
-=E3=81=8B=E3=82=89=E4=B8=80=E5=88=87=E5=A4=89=E6=9B=B4=E3=81=AE=E3=81=AA=E3=
-=81=84=E3=83=91=E3=83=83=E3=83=81=E3=81=BE=E3=81=9F=E3=81=AF=E3=83=91=E3=83=
-=83=E3=83=81=E3=82=B7=E3=83=AA=E3=83=BC=E3=82=BA=E3=81=AE
- =E5=86=8D=E9=80=81=E3=81=A0=E3=81=91=E3=81=AB=E5=BD=93=E3=81=A6=E3=81=AF=
-=E3=81=BE=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82
-+
-+
-+=E4=BB=B6=E5=90=8D=E3=81=AB PATCH =E3=82=92=E5=90=AB=E3=82=81=E3=82=8B
-+---------------------
-+
-+Linus =E3=81=A8 linux-kernel =E3=83=A1=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=
-=E3=83=AA=E3=82=B9=E3=83=88=E3=81=AB=E3=81=AF=E5=A4=A7=E9=87=8F=E3=81=AE=E3=
-=83=A1=E3=83=BC=E3=83=AB=E3=81=8C=E5=B1=8A=E3=81=8F=E3=81=9F=E3=82=81=E3=80=
-=81
-+=E4=BB=B6=E5=90=8D=E3=81=AE=E5=85=88=E9=A0=AD=E3=81=AB ``[PATCH]`` =E3=82=
-=92=E4=BB=98=E3=81=91=E3=82=8B=E3=81=93=E3=81=A8=E3=81=8C=E4=B8=80=E8=88=AC=
-=E7=9A=84=E3=81=AA=E6=85=A3=E4=BE=8B=E3=81=A8=E3=81=AA=E3=81=A3=E3=81=A6=E3=
-=81=84=E3=81=BE=E3=81=99=E3=80=82
-+=E3=81=93=E3=82=8C=E3=81=AB=E3=82=88=E3=82=8A=E3=80=81Linus =E3=82=84=E4=
-=BB=96=E3=81=AE=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E9=96=8B=E7=99=BA=E8=80=
-=85=E3=81=AF=E3=80=81=E3=83=91=E3=83=83=E3=83=81=E3=81=A8=E3=81=9D=E3=81=AE=
-=E4=BB=96=E3=81=AE=E8=AD=B0=E8=AB=96=E3=82=92
-+=E5=AE=B9=E6=98=93=E3=81=AB=E5=8C=BA=E5=88=A5=E3=81=A7=E3=81=8D=E3=81=BE=
-=E3=81=99=E3=80=82
-+
-+``git send-email`` =E3=81=AF=E3=80=81=E3=81=93=E3=81=AE=E6=8C=87=E5=AE=9A=
-=E3=82=92=E8=87=AA=E5=8B=95=E7=9A=84=E3=81=AB=E8=A1=8C=E3=81=84=E3=81=BE=E3=
-=81=99=E3=80=82
-+
-+
-+=E4=BD=9C=E6=A5=AD=E3=81=B8=E3=81=AE=E7=BD=B2=E5=90=8D - Developer's Certi=
-ficate of Origin
-+--------------------------------------------------
-+
-+=E8=AA=B0=E3=81=8C=E4=BD=95=E3=82=92=E8=A1=8C=E3=81=A3=E3=81=9F=E3=81=AE=
-=E3=81=8B=E3=82=92=E8=BF=BD=E8=B7=A1=E3=81=97=E3=82=84=E3=81=99=E3=81=8F=E3=
-=81=99=E3=82=8B=E3=81=9F=E3=82=81=E3=80=81=E7=89=B9=E3=81=AB=E3=83=91=E3=83=
-=83=E3=83=81=E3=81=8C=E8=A4=87=E6=95=B0=E9=9A=8E=E5=B1=A4=E3=81=AE
-+=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=83=BC=E3=82=92=E7=B5=8C=E7=94=B1=
-=E3=81=97=E3=81=A6=E6=9C=80=E7=B5=82=E7=9A=84=E3=81=AB=E3=82=AB=E3=83=BC=E3=
-=83=8D=E3=83=AB=E3=81=B8=E5=8F=96=E3=82=8A=E8=BE=BC=E3=81=BE=E3=82=8C=E3=82=
-=8B=E5=A0=B4=E5=90=88=E3=81=AB=E5=82=99=E3=81=88=E3=81=A6=E3=80=81
-+=E3=83=A1=E3=83=BC=E3=83=AB=E3=81=A7=E3=82=84=E3=82=8A=E5=8F=96=E3=82=8A=
-=E3=81=95=E3=82=8C=E3=82=8B=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E3=81=AF si=
-gn-off =E3=81=AE=E6=89=8B=E7=B6=9A=E3=81=8D=E3=81=8C=E5=B0=8E=E5=85=A5=E3=
-=81=95=E3=82=8C=E3=81=A6=E3=81=84=E3=81=BE=E3=81=99=E3=80=82
-+
-+sign-off =E3=81=AF=E3=80=81=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E8=AA=AC=
-=E6=98=8E=E3=81=AE=E6=9C=AB=E5=B0=BE=E3=81=AB=E8=BF=BD=E5=8A=A0=E3=81=99=E3=
-=82=8B=E5=8D=98=E7=B4=94=E3=81=AA=E4=B8=80=E8=A1=8C=E3=81=A7=E3=81=99=E3=80=
-=82=E3=81=93=E3=82=8C=E3=81=AF=E3=80=81
-+=E3=81=9D=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=82=92=E8=87=AA=E5=88=86=
-=E3=81=A7=E4=BD=9C=E6=88=90=E3=81=97=E3=81=9F=E3=81=8B=E3=80=81=E3=82=AA=E3=
-=83=BC=E3=83=97=E3=83=B3=E3=82=BD=E3=83=BC=E3=82=B9=E3=81=AE=E3=83=91=E3=83=
-=83=E3=83=81=E3=81=A8=E3=81=97=E3=81=A6=E6=8F=90=E5=87=BA=E3=81=99=E3=82=8B
-+=E6=A8=A9=E5=88=A9=E3=82=92=E6=8C=81=E3=81=A3=E3=81=A6=E3=81=84=E3=82=8B=
-=E3=81=93=E3=81=A8=E3=82=92=E8=A8=BC=E6=98=8E=E3=81=97=E3=81=BE=E3=81=99=E3=
-=80=82
-+
-+.. note:: =E3=80=90=E8=A8=B3=E8=A8=BB=E3=80=91
-+
-+   ``Signed-off-by`` =E3=81=AB=E3=82=88=E3=81=A3=E3=81=A6=E5=90=8C=E6=84=
-=8F=E3=81=99=E3=82=8B=E5=AF=BE=E8=B1=A1=E3=81=AF=E3=80=81=E7=BF=BB=E8=A8=B3=
-=E6=96=87=E3=81=A7=E3=81=AF=E3=81=AA=E3=81=8F=E3=80=81
-+   =E4=BB=A5=E4=B8=8B=E3=81=AB=E7=A4=BA=E3=81=99=E8=8B=B1=E8=AA=9E=E5=8E=
-=9F=E6=96=87=E3=81=AE Developer's Certificate of Origin 1.1 =E3=81=A7=E3=81=
-=99=E3=80=82
-+   DCO =E3=81=AF=E6=B3=95=E7=9A=84=E3=81=AA=E6=80=A7=E8=B3=AA=E3=82=92=E6=
-=8C=81=E3=81=A4=E6=96=87=E6=9B=B8=E3=81=A7=E3=81=82=E3=82=8B=E3=81=9F=E3=82=
-=81=E3=80=81=E6=9C=AC=E6=96=87=E3=81=AF=E7=BF=BB=E8=A8=B3=E3=81=9B=E3=81=9A=
-=E3=80=81=E5=8E=9F=E6=96=87=E3=81=AE=E3=81=BE=E3=81=BE
-+   =E6=8E=B2=E8=BC=89=E3=81=97=E3=81=BE=E3=81=99=E3=80=82=E5=86=85=E5=AE=
-=B9=E3=82=92=E7=A2=BA=E8=AA=8D=E3=81=99=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=AF=
-=E3=80=81=E5=BF=85=E3=81=9A=E8=8B=B1=E8=AA=9E=E5=8E=9F=E6=96=87=E3=82=92=E5=
-=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=
-=82
-+
-+=E8=A6=8F=E5=89=87=E3=81=AF=E5=8D=98=E7=B4=94=E3=81=A7=E3=80=81=E4=BB=A5=
-=E4=B8=8B=E3=82=92=E8=A8=BC=E6=98=8E=E3=81=A7=E3=81=8D=E3=82=8B=E5=A0=B4=E5=
-=90=88=E3=81=A7=E3=81=99::
-+
-+        Developer's Certificate of Origin 1.1
-+
-+        By making a contribution to this project, I certify that:
-+
-+        (a) The contribution was created in whole or in part by me and I
-+            have the right to submit it under the open source license
-+            indicated in the file; or
-+
-+        (b) The contribution is based upon previous work that, to the best
-+            of my knowledge, is covered under an appropriate open source
-+            license and I have the right under that license to submit that
-+            work with modifications, whether created in whole or in part
-+            by me, under the same open source license (unless I am
-+            permitted to submit under a different license), as indicated
-+            in the file; or
-+
-+        (c) The contribution was provided directly to me by some other
-+            person who certified (a), (b) or (c) and I have not modified
-+            it.
-+
-+        (d) I understand and agree that this project and the contribution
-+            are public and that a record of the contribution (including all
-+            personal information I submit with it, including my sign-off) =
-is
-+            maintained indefinitely and may be redistributed consistent wi=
-th
-+            this project or the open source license(s) involved.
-+
-+=E4=B8=8A=E8=A8=98=E3=82=92=E8=A8=BC=E6=98=8E=E3=81=A7=E3=81=8D=E3=82=8B=
-=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81=E6=AC=A1=E3=81=AE=E3=82=88=E3=81=86=E3=
-=81=AA=E8=A1=8C=E3=82=92=E8=BF=BD=E5=8A=A0=E3=81=97=E3=81=BE=E3=81=99::
-+
-+        Signed-off-by: Random J Developer <random@developer.example.org>
-+
-+=E6=97=A2=E7=9F=A5=E3=81=AE=E8=BA=AB=E5=85=83=E3=82=92=E4=BD=BF=E7=94=A8=
-=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E5=8C=BF=E5=
-=90=8D=E3=81=A7=E3=81=AE=E8=B2=A2=E7=8C=AE=E3=81=AF=E8=AA=8D=E3=82=81=E3=82=
-=89=E3=82=8C=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
-+``git commit -s`` =E3=82=92=E4=BD=BF=E7=94=A8=E3=81=99=E3=82=8B=E3=81=A8=
-=E3=80=81=E3=81=93=E3=81=AE=E8=A1=8C=E3=82=92=E8=87=AA=E5=8B=95=E7=9A=84=E3=
-=81=AB=E8=BF=BD=E5=8A=A0=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82
-+
-+revert =E3=81=AB=E3=82=82 ``Signed-off-by:`` =E3=82=92=E5=90=AB=E3=82=81=
-=E3=82=8B=E5=BF=85=E8=A6=81=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=
-=80=82
-+``git revert -s`` =E3=82=92=E4=BD=BF=E7=94=A8=E3=81=99=E3=82=8B=E3=81=A8=
-=E3=80=81=E8=87=AA=E5=8B=95=E7=9A=84=E3=81=AB=E8=BF=BD=E5=8A=A0=E3=81=A7=E3=
-=81=8D=E3=81=BE=E3=81=99=E3=80=82
-+
-+=E6=9C=AB=E5=B0=BE=E3=81=AB=E8=BF=BD=E5=8A=A0=E3=81=AE=E3=82=BF=E3=82=B0=
-=E3=82=92=E4=BB=98=E3=81=91=E3=82=8B=E4=BA=BA=E3=82=82=E3=81=84=E3=81=BE=E3=
-=81=99=E3=80=82=E7=8F=BE=E6=99=82=E7=82=B9=E3=81=A7=E3=81=AF=E7=84=A1=E8=A6=
-=96=E3=81=95=E3=82=8C=E3=81=BE=E3=81=99=E3=81=8C=E3=80=81
-+=E7=A4=BE=E5=86=85=E6=89=8B=E7=B6=9A=E3=81=8D=E3=82=92=E7=A4=BA=E3=81=97=
-=E3=81=9F=E3=82=8A=E3=80=81sign-off =E3=81=AB=E9=96=A2=E3=81=99=E3=82=8B=E7=
-=89=B9=E8=A8=98=E4=BA=8B=E9=A0=85=E3=82=92=E8=A8=98=E9=8C=B2=E3=81=97=E3=81=
-=9F=E3=82=8A=E3=81=99=E3=82=8B=E3=81=9F=E3=82=81=E3=81=AB
-+=E4=BD=BF=E7=94=A8=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82
-+
-+=E4=BD=9C=E8=80=85=E3=81=AE SoB =E3=81=AB=E7=B6=9A=E3=81=8F=E8=BF=BD=E5=8A=
-=A0=E3=81=AE SoB=EF=BC=88``Signed-off-by:``=EF=BC=89=E3=81=AF=E3=80=81=E3=
-=83=91=E3=83=83=E3=83=81=E3=81=AE=E9=96=8B=E7=99=BA=E3=81=AB=E3=81=AF
-+=E9=96=A2=E4=B8=8E=E3=81=9B=E3=81=9A=E3=80=81=E3=81=9D=E3=81=AE=E5=8F=96=
-=E3=82=8A=E6=89=B1=E3=81=84=E3=82=84=E8=BB=A2=E9=80=81=E3=82=92=E8=A1=8C=E3=
-=81=A3=E3=81=9F=E4=BA=BA=E3=81=AB=E3=82=88=E3=82=8B=E3=82=82=E3=81=AE=E3=81=
-=A7=E3=81=99=E3=80=82SoB =E3=81=AE=E9=80=A3=E9=8E=96=E3=81=AF=E3=80=81
-+=E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=
-=E3=83=BC=E3=82=92=E7=B5=8C=E3=81=A6=E6=9C=80=E7=B5=82=E7=9A=84=E3=81=AB Li=
-nus =E3=81=B8=E5=B1=8A=E3=81=84=E3=81=9F=E5=AE=9F=E9=9A=9B=E3=81=AE=E7=B5=
-=8C=E8=B7=AF=E3=82=92=E5=8F=8D=E6=98=A0=E3=81=99=E3=82=8B
-+=E5=BF=85=E8=A6=81=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=
-=E6=9C=80=E5=88=9D=E3=81=AE SoB =E3=81=AF=E3=80=81=E5=8D=98=E7=8B=AC=E3=81=
-=AE=E4=B8=BB=E8=A6=81=E4=BD=9C=E8=80=85=E3=81=A7=E3=81=82=E3=82=8B=E3=81=93=
-=E3=81=A8=E3=82=92=E7=A4=BA=E3=81=97=E3=81=BE=E3=81=99=E3=80=82
---=20
-2.52.0
+Feels like to much detail to me given not really anything to say
+about it other than the obvious.
+
+> 
+> Introduce struct cxl_proto_err_work_data to carry the error source
+> PCI device and severity through the kfifo. Encapsulate the kfifo,
+> per-producer spinlock, registration rwsem, and work pointer in struct
+> cxl_proto_err_kfifo. Initialize the embedded kfifo via INIT_KFIFO()
+
+Can we cut this down a little where we don't use useful info. e.g.
+"Initialize the kfifo from a subsys_initcall() to it is ready before
+any producer or consumer runs."
+
+> from a subsys_initcall so its metadata is populated before any
+> producer or consumer runs.
+> 
+
+> Introduce cxl_forward_error() to enqueue a CXL protocol error. A
+> reference is taken on the PCI device; the consumer releases it via
+> for_each_cxl_proto_err(). On enqueue failure the reference is
+> released immediately, the error is dropped, and the consumer is
+> scheduled to drain existing entries.
+
+We don't need to cover error paths in the patch description unless
+they are really complex and need explanation. Even then probably belongs
+more in comments.
+
+Anyhow you get the idea..
+
+> A subsequent patch wires
+> cxl_forward_error() into handle_error_source() where correctable and
+> uncorrectable status clearing is left to pci_aer_handle_error().
+> 
+> Introduce cxl_proto_err_flush() to synchronously wait for the
+> consumer worker to drain the kfifo. A subsequent patch wires this
+> into handle_error_source() for UCE events so the CXL plane completes
+> error handling and panic policy before pci_aer_handle_error() drives
+> PCIe recovery.
+> 
+> Introduce cxl_register_proto_err_work() and
+> cxl_unregister_proto_err_work() for cxl_core to register and
+> deregister its work handler. On unregistration, pending kfifo entries
+> are drained and their pdev references released before
+> cancel_work_sync() runs. Export these and for_each_cxl_proto_err()
+> via EXPORT_SYMBOL_FOR_MODULES restricted to cxl_core.
+> 
+> Protect the work pointer with a rwsem to correctly serialize
+> registration, deregistration, enqueue, and dequeue against concurrent
+> AER IRQ threads. Serialize concurrent kfifo writers with a spinlock.
+> 
+> Add MAINTAINERS entries for aer_cxl_vh.c and aer_cxl_rch.c under
+> the CXL entry so CXL maintainers are CC'd on changes to the AER-CXL
+> bridging code.
+
+Various things inline.  The one potential thing I'd like to highlight is
+the loss of tracking assume panic isn't appropriate.  My paranoid hat
+says always go the other way.  If we don't know we didn't lose an
+uncorrectable error panic.  Maybe it's worth us considering when this
+might happen in a real system?
+
+> 
+> Co-developed-by: Dan Williams <djbw@kernel.org>
+> Signed-off-by: Dan Williams <djbw@kernel.org>
+> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
+> 
+> ---
+> 
+> Changes in v17->v18:
+> - Remove correctable status clear from cxl_forward_error(); the AER core
+>   clears all status bits via pci_aer_handle_error() info->status writeback
+> - Schedule consumer on kfifo overflow so existing entries can be drained
+> 
+> Changes in v16->v17:
+> - Reword "kfifo semaphore" to "kfifo spinlock" to match fifo_lock.
+> - Defer the handle_error_source() is_cxl_error() switch to the patch that
+>   registers the kfifo consumer to keep each commit bisect-safe.
+> - Rename rwsema to rwsem
+> - Change CPER exports to use EXPORT_SYMBOL_FOR_MODULES.
+> - Add work cancel function.
+> - Replace kfifo_put() with kfifo_in_spinlocked() for multiple producers
+> - Add fifo_lock spinlock for concurrent producer serialisation
+> - Initialize the embedded kfifo with INIT_KFIFO() in a subsys_initcall so
+>   kfifo->mask, ->esize and ->data are set before first use.
+> - Clear PCI_ERR_COR_STATUS in cxl_forward_error() after enqueue so the
+>   device is acked for correctable events even when the consumer drops the
+>   event. Uncorrectable status is left for cxl_do_recovery() to clear after
+>   recovery completes, mirroring the AER core convention.
+> - WARN on double-registration in cxl_register_proto_err_work() to make an
+>   unintended second consumer visible at runtime.
+> - Add direct rwsem.h, cleanup.h and workqueue.h includes for symbols used
+>   in aer_cxl_vh.c
+> - Add MAINTAINERS entries for drivers/pci/pcie/aer_cxl_*.c
+> - Update message
+> ---
+>  MAINTAINERS                   |   2 +
+>  drivers/pci/pcie/Makefile     |   1 +
+>  drivers/pci/pcie/aer.c        |  10 --
+>  drivers/pci/pcie/aer_cxl_vh.c | 221 ++++++++++++++++++++++++++++++++++
+>  drivers/pci/pcie/portdrv.h    |   6 +
+>  include/linux/aer.h           |  24 ++++
+>  6 files changed, 254 insertions(+), 10 deletions(-)
+>  create mode 100644 drivers/pci/pcie/aer_cxl_vh.c
+> 
+
+
+> diff --git a/drivers/pci/pcie/aer_cxl_vh.c b/drivers/pci/pcie/aer_cxl_vh.c
+> new file mode 100644
+> index 0000000000000..93bed07936100
+> --- /dev/null
+> +++ b/drivers/pci/pcie/aer_cxl_vh.c
+> @@ -0,0 +1,221 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/* Copyright(c) 2026 AMD Corporation. All rights reserved. */
+> +
+> +#include <linux/aer.h>
+> +#include <linux/atomic.h>
+> +#include <linux/cleanup.h>
+> +#include <linux/init.h>
+> +#include <linux/kfifo.h>
+> +#include <linux/rwsem.h>
+
+Check these.  I'd expect at least spinlock.h to meet the rough include what
+you use aim.
+
+> +#include <linux/wait_bit.h>
+> +#include <linux/workqueue.h>
+> +#include "../pci.h"
+> +#include "portdrv.h"
+> +
+> +#define CXL_ERROR_SOURCES_MAX          128
+> +
+> +struct cxl_proto_err_kfifo {
+> +	struct work_struct *work;
+> +	void (*flush)(void);
+> +	struct rw_semaphore rwsem;
+> +	spinlock_t fifo_lock;
+
+Ideally add a quick comment to every lock to say what data it covers.
+Kind of obvious for this one but in general it is good practice and
+reduces chance of later scope confusion.
+
+> +	atomic_t flush_inflight;
+> +	DECLARE_KFIFO(fifo, struct cxl_proto_err_work_data,
+> +		      CXL_ERROR_SOURCES_MAX);
+> +};
+
+> +/**
+> + * cxl_forward_error - Forward a CXL protocol error to the CXL subsystem via kfifo
+> + * @pdev: PCI device that reported the AER error
+> + * @info: AER error info containing severity and status
+> + *
+> + * Producer side of the AER-CXL kfifo. Enqueues a CXL protocol error work
+> + * item and schedules the consumer workqueue. Takes a reference on @pdev
+> + * that the consumer releases after handling.
+> + *
+> + * Return: true if the caller must flush the kfifo before AER recovery,
+> + * false if no CXL error handling was initiated due to early return on
+> + * error.
+> + */
+> +bool cxl_forward_error(struct pci_dev *pdev, struct aer_err_info *info)
+> +{
+> +	struct cxl_proto_err_work_data wd = {
+> +		.severity = info->severity,
+> +		.pdev = pdev,
+> +	};
+> +
+> +	guard(rwsem_read)(&cxl_proto_err_kfifo.rwsem);
+> +
+> +	if (!cxl_proto_err_kfifo.work) {
+> +		dev_err_ratelimited(&pdev->dev, "AER-CXL kfifo reader not registered\n");
+> +		return false;
+> +	}
+> +
+> +	/*
+> +	 * Reference discipline: the AER caller (handle_error_source())
+> +	 * holds a ref on @pdev for the duration of this call and releases
+> +	 * it on return. Take a fresh ref here so the pdev stays live while
+> +	 * queued in the kfifo; the consumer (for_each_cxl_proto_err())
+> +	 * drops that ref after handling. On enqueue failure below, drop
+> +	 * the ref we just took to avoid a leak.
+
+Most of this is useful. The what we do in error handling (given so local)
+probably not.
+
+> +	 */
+> +	pci_dev_get(pdev);
+> +
+> +	/* Serialize concurrent kfifo writers: multiple AER threaded IRQs */
+> +	if (!kfifo_in_spinlocked(&cxl_proto_err_kfifo.fifo, &wd, 1,
+> +				 &cxl_proto_err_kfifo.fifo_lock)) {
+> +		/* Dropped; no panic - UCE unconfirmed without RAS read */
+
+Hmm. That's interesting.  To me it fails the normal ras thing of assume
+the worst if we lost track. I'd panic. But I'm open to other views on this!
+
+> +		dev_err_ratelimited(&pdev->dev, "AER-CXL kfifo add failed\n");
+> +		pci_dev_put(pdev);
+> +		schedule_work(cxl_proto_err_kfifo.work);
+
+Shared with below. Maybe just drop out of the if unless this gets more
+complex in later patches.
+
+> +		return true;
+> +	}
+> +
+> +	schedule_work(cxl_proto_err_kfifo.work);
+> +	return true;
+> +}
+
+
+> +/**
+> + * for_each_cxl_proto_err - Call a function for each kfifo work item
+> + *
+> + * Single-consumer invariant: this function is only called from
+> + * cxl_proto_err_work_fn() via a single DECLARE_WORK.
+> + *
+> + * Holds rwsem_read internally; fn() must not call cxl_register_proto_err_work()
+> + * or cxl_unregister_proto_err_work().
+> + */
+> +void for_each_cxl_proto_err(struct cxl_proto_err_work_data *wd,
+> +			    cxl_proto_err_fn_t fn)
+> +{
+> +	guard(rwsem_read)(&cxl_proto_err_kfifo.rwsem);
+> +	while (kfifo_get(&cxl_proto_err_kfifo.fifo, wd)) {
+> +		fn(wd);
+
+Like the earlier case I razed, I'd like a comment here to say where
+the reference we re releasing was taken.
+
+> +		pci_dev_put(wd->pdev);
+> +	}
+> +}
+> +EXPORT_SYMBOL_FOR_MODULES(for_each_cxl_proto_err, "cxl_core");
+> +
+> +/**
+> + * cxl_proto_err_flush - drain pending AER-CXL kfifo work synchronously
+> + *
+> + * Wait for the consumer worker to finish processing all entries
+> + * currently in the kfifo. Used by handle_error_source() for UCE so
+> + * the CXL plane can read CXL RAS, apply panic policy, and clear CXL
+> + * state before pci_aer_handle_error() drives PCIe recovery.
+> + *
+> + * Snapshots the flush callback under rwsem_read and releases the rwsem
+> + * before calling it.  This avoids holding rwsem_read across flush_work(),
+> + * which would deadlock via the rwsem HANDOFF mechanism when a concurrent
+> + * rwsem_write waiter (cxl_unregister_proto_err_work) blocks new readers
+> + * including the worker's for_each_cxl_proto_err() rwsem_read acquisition.
+> + *
+> + * The flush_inflight counter prevents cxl_core module unload while a
+> + * flush is in progress outside the rwsem. The counter is incremented
+> + * under rwsem_read (mutually exclusive with the rwsem_write in
+> + * cancel_cxl_proto_err() that NULLs the flush pointer) and decremented
+> + * after the flush completes. cxl_unregister_proto_err_work() waits for
+> + * the counter to reach zero before proceeding with cancel_work_sync().
+
+I can't see it from just this patch so it might be useful to say if the
+counter is ever not equal to 1 or 0.  If it isn't can we make that explicit
+in the code?
+
+> + *
+> + * For correctable events the consumer can run asynchronously; AER
+> + * does not need to call this helper for AER_CORRECTABLE.
+
+For me this is both too much and likely to rot over time. Some stuff
+feels like it belongs with the flags it is talking about rather than here.
+
+> + */
+> +void cxl_proto_err_flush(void)
+> +{
+> +	void (*flush)(void);
+> +
+> +	scoped_guard(rwsem_read, &cxl_proto_err_kfifo.rwsem) {
+> +		flush = cxl_proto_err_kfifo.flush;
+> +		if (flush)
+> +			atomic_inc(&cxl_proto_err_kfifo.flush_inflight);
+> +	}
+> +
+> +	if (flush) {
+> +		flush();
+> +		if (atomic_dec_and_test(&cxl_proto_err_kfifo.flush_inflight))
+> +			wake_up_var(&cxl_proto_err_kfifo.flush_inflight);
+> +	}
+> +}
+
 
