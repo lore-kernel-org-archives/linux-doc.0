@@ -1,57 +1,57 @@
 Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE7A446824;
-	Mon, 20 Jul 2026 17:24:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567A0445AEA;
+	Mon, 20 Jul 2026 17:25:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784568295; cv=none; b=Dr/uuCx8InDuNWlCjhutyJOdaf8GMEJv1uFVdDNFHQbUNGaE3b77ss6y2qLFkPIFOJ12HgynsXHqq0P0nb2jDR2/lU5D6O/nQxO6duKT00fBl80j09SwP3itl+pCZDz+QL4dUK1jnFQDLUU1wIBi8EH2P+BTJB3LVbKcuPCjG5Y=
+	t=1784568310; cv=none; b=eWUwiprOT1UOHcWh63jaqRoMLIyQguwM/vWsWcc9ArmbzIX77RlR+rzAxClXenACVTPGjCd11hd01CZVDOwpQidUJczSEpRn+y4NnrjDDS87svFaBV6hP+pTqteLeq5QOfyp4xRAm4gkMs76n3QSlJCbEeTif/h1D+ss0z8aD2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784568295; c=relaxed/simple;
-	bh=GKJDo8AI7wWFoFr67ephXxtE17uqG5Sitcmc2r3sofM=;
+	s=arc-20240116; t=1784568310; c=relaxed/simple;
+	bh=gAgQBybyeInWqS/Jps2UHI8s2sjg0LrS7abTgHBRJiA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CIVbl3fBKjALodykizB4OwLCi38llUTPb8AlhSHYlwbRRv77cbyD3mbYHDAAYjBNz0vNQY/JWkGDi+SbRmoIbbNNxgRqbEdS+m5g2gmK+ZYpNIG96kN2lnPG04TnBc6pIfErv/hAyRmcBtiyTd/+Ln3btXyu6YqAIYZVHRWvpBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=D3YdqaBM; arc=none smtp.client-ip=148.163.156.1
+	 MIME-Version; b=N6Bk5q0PJKVxVK9fu7zYT16+hyoY3iL8AmizqcLcHw8z2dPFOpQxEkfh6Q4y5HiGxOZYimnGoAdWAPxNtujfamjaeRUNC3KbKigUscjTBaEnb2gG6TUiXmoNpBbP1xLPSMYuz7DflLRQlbW/VOU+9mRb1mNOSD/IhjkOke8Y0Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Wo6tvO3g; arc=none smtp.client-ip=148.163.156.1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="D3YdqaBM"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Wo6tvO3g"
 Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66KHBg022815868;
-	Mon, 20 Jul 2026 17:24:15 GMT
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66KHBg042815868;
+	Mon, 20 Jul 2026 17:24:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=b2ibZAPLvpNMWrXYA
-	z/XxHR3KuVpRAIfxZuRDDmAorg=; b=D3YdqaBMw+nl/y/+iGJVl/9bomMFZqMY5
-	/E2Syj31tXCBaMekNqq1chXTGeOpxTEB0HwyQURp6bulKLc4LO+t8RIZezctgtl3
-	i474vBaCzBZYWG623rPBoAkB4ljzghJ+xWbW+NZ0uQFW3M3gk+v1xRpVAZq13KNw
-	u5D98gTTadi9eaYfDPKFccXj8qpjbTySpiV0ufY4uDEEMYaiVUOFS8oqhFcAF+9p
-	IEV6zBMaREGn5PLpzJlZH4UkFN76oPhpG9i2MxcSMfD1DNuc9r3kKYsA7LAT+/kE
-	TiM0RYLEb2rXS5VlXvO2xVNkWbNYhYV/rfiFvIQs7G8ZLCDfUyAyQ==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fg790rq8e-1
+	:mime-version:references:subject:to; s=pp1; bh=/Uj2IdE8ZFuqxyd6v
+	V9cb+p/drkSgSrLxKK/Nlw5wpg=; b=Wo6tvO3g4eeqLOEzJ1EwlPiqWmEDKPPRH
+	plSFbh2Jd6Mt0ViCZYHW1ZdUHu69Ra8qTEpH08jtw5410m/JbVSx45AKmMIn8mXh
+	+oJ1soevZm/YWwnA/87/EZajJFqiaa+X3BacE5XIz1E6QoLHAWizhXKwv/9LJSe/
+	wmXWhVSAilwRW8iC2oSDMTyUnGjjhUB43hR3HiGj0sK8O+rGbv3YRleG6kugWTTS
+	3AQODz8xHZy/EJKkBMYe4hnFN3cSVN0rpfbdklpp6t8RPsUO5xMWzAt8ip8C+A2L
+	1CZlaaoa7INTL6Bfew2DggdH/jlxvyhg+WcKD9cedR2EP/1N0cOtA==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fg790rq9q-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 20 Jul 2026 17:24:14 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66KHK0JB002260;
-	Mon, 20 Jul 2026 17:24:13 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fgnagxjry-1
+	Mon, 20 Jul 2026 17:24:31 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66KHKAut023843;
+	Mon, 20 Jul 2026 17:24:30 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fgm6vxr37-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 20 Jul 2026 17:24:13 +0000 (GMT)
+	Mon, 20 Jul 2026 17:24:30 +0000 (GMT)
 Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66KHO90n10420638
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66KHOQxM24379874
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 20 Jul 2026 17:24:09 GMT
+	Mon, 20 Jul 2026 17:24:26 GMT
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3D0CE2004D;
-	Mon, 20 Jul 2026 17:24:09 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 4BBB22004D;
+	Mon, 20 Jul 2026 17:24:26 +0000 (GMT)
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C982020040;
-	Mon, 20 Jul 2026 17:24:00 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 341C520040;
+	Mon, 20 Jul 2026 17:24:18 +0000 (GMT)
 Received: from li-7bb28a4c-2dab-11b2-a85c-887b5c60d769.ibm.com.com (unknown [9.39.17.130])
 	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 20 Jul 2026 17:24:00 +0000 (GMT)
+	Mon, 20 Jul 2026 17:24:17 +0000 (GMT)
 From: Shrikanth Hegde <sshegde@linux.ibm.com>
 To: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
         juri.lelli@redhat.com, vincent.guittot@linaro.org,
@@ -67,9 +67,9 @@ Cc: sshegde@linux.ibm.com, tglx@kernel.org, gregkh@linuxfoundation.org,
         rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
         linux-doc@vger.kernel.org, jgross@suse.com,
         virtualization@lists.linux.dev
-Subject: [PATCH v8 07/11] sched/debug: Add migration stats due to non preferred CPUs
-Date: Mon, 20 Jul 2026 22:52:46 +0530
-Message-ID: <20260720172250.2257582-8-sshegde@linux.ibm.com>
+Subject: [PATCH v8 09/11] virt/steal_governor: Add control knobs for handling steal values
+Date: Mon, 20 Jul 2026 22:52:48 +0530
+Message-ID: <20260720172250.2257582-10-sshegde@linux.ibm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260720172250.2257582-1-sshegde@linux.ibm.com>
 References: <20260720172250.2257582-1-sshegde@linux.ibm.com>
@@ -82,23 +82,23 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: CMhb9ormIitGwgLRG95x5bje4v0tFU1M
-X-Authority-Analysis: v=2.4 cv=V6RNF+ni c=1 sm=1 tr=0 ts=6a5e59bf cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+X-Proofpoint-ORIG-GUID: r4LOzhnb7KqmwLwZjchrAhyzvQ9fVluJ
+X-Authority-Analysis: v=2.4 cv=V6RNF+ni c=1 sm=1 tr=0 ts=6a5e59d0 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
  a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=U7nrCbtTmkRpXpFmAIza:22 a=VnNF1IyMAAAA:8 a=-i9lZGrASMRMKgkbeRgA:9
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIwMDE5MSBTYWx0ZWRfX506iJGzgXXEr
- aK7ET/FUtmk4MhC33L7r5p7pibd8nqoinJVe0+tCJa7NTqCw9fxjTdxLtZBQ51aeh3KKwt82H+Q
- oL2uFuJsQCSs356r72IHMV9m6z5uWWw=
-X-Proofpoint-GUID: cOxhTDn8N0RCtGLI09-FVkanVKPWrtWP
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIwMDE5MSBTYWx0ZWRfXwtXiluePDxeK
- FDkresOJVJdl8KacuQNa01bPuC8A2Ii4L1IGs3RxhndXdhqrRElcpYCAZKIKkTf2qTynokGKRKA
- Zlz8e4hGizEhW4NXhzzBaLVNzLtrSCsVQ2lTrIdZkuwviPzpY/1mBVorx0iprIRnzZZBEMpA2hW
- fTlOJHGOReEfVrErGP87G6GTP5PvK8JFFsOTsvWywOt2815uMXHVnKtiZ97nY9B2p/4R0TFMtmz
- N+C+cfNuH4LtN2idzjxCez3b5EWJ/G5+/2ciAH1ErKwCS5+5P0COIDaFzh/i7lPAs+RjrfjglGy
- 2DMIs1DwoiwNNjct6LMmT+27GTHkHdqJTOlWclAipbGxKlAeTlYJUGsU3T1zQ3tykUsbFrCF5jX
- GAxEt1fkVhh0hI1lOrWpMitVZD4cmUus0k0J8hqYZUh5hHshMqaqg7ERMM1XaOFK+298TUQl8jQ
- W/PSSSA2HSaWSfnHpKQ==
+ a=U7nrCbtTmkRpXpFmAIza:22 a=VnNF1IyMAAAA:8 a=XC_GqrfF-lTPz34eE_0A:9
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIwMDE5MSBTYWx0ZWRfX0pdrYH5Y1JNp
+ aU2E2NMZ+oCni7hZMOcymDkr8YgSoiA2S27PjawBBTOCtdT9yrPfDsxtL3v9ctWSAnmvbutcCuG
+ s1OiDST1tnf3OWsn0jNRwlxZOqtamw4=
+X-Proofpoint-GUID: T7ABc4SPSa_R-RuoWeFJCyd8vwtNmYkQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIwMDE5MSBTYWx0ZWRfX9Tk1OD2K+a6J
+ d5HKEg3LVMFMWv3MLpqc56MP3IxDUQ+My5uCoI5c4ZIMuBO+5Qp6kueOQuz8vCxsUUlMADcr5yd
+ 98rplo2Ngn8vnS9fptSinOlUHkKRySYgC+X890wYfUHP6eGWYDfv+1OWNe3e/tDzjoL984yYSqo
+ sTtd6cPNVxYnemus/PbuJ+Kq17PnaC0RYNTdnfKJGX7uXu21fnm5lU/2ZQEjLGqmlfYzutAcF7y
+ Vt046zNkaK9e5ls/ZIf826/OK45ru5XJ29Rftib6I7VerPAPzRR6fj1QKMJT3WEEtFWorRNFT5/
+ jcCUUmzCRZcmFcx+IRoNJtLRQQG8qxqz9ZRfq0GRMHkiurA5IWRKDXd9tntfvsZmRz7EU8mfCWd
+ 2rLZNFtGzS/T0RQlYnt1hrpYFZDA8OFxgE0kil15k57I0gg59J2OzTZV+8f6Pa+mYZZPBNKJ7Jo
+ XucmX2eoNXOK9A6RLqw==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-20_04,2026-07-20_03,2025-10-01_01
@@ -108,61 +108,139 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607200191
 
-Add a new stat,
-- nr_migrations_cpu_non_preferred: number of migrations happened since
-  a CPU was marked as non preferred due to high steal time.
+These are the knobs to control the steal_governor.
+
+interval_ms:
+How often steal governor checks for steal time.
+(Default: 1000 i.e 1 second)
+This controls how fast steal governor driver reacts to changes to
+the contention of physical CPUs.
+Can be set between 100 to 100000. i.e. 100ms to 100seconds.
+100ms is kept as minimum to ensure few meaningful steal values
+accumulate even with HZ=100.
+
+low_threshold:
+lower threshold value in percentage * 100.
+(Default: 200, i.e 2% steal is considered as low threshold)
+This determines what values should be considered as nil/no steal values.
+When steal governor see steal time is below or equal to this value, it
+will increase the preferred CPUs by 1 core. Having value as zero
+might cause oscillations
+
+high_threshold:
+higher threshold value in percentage * 100
+(Default: 500, i.e 5% steal is considered as high threshold)
+This determines what values should be considered as high steal values.
+When steal governor sees steal time is higher than this value, it will
+reduce the preferred CPUs by 1 core.
+
+module_param_cb methods are used to do the validation checks.
+This helps to ensure one configures sane values.
+Since low and high are dependent, that check is done at module init.
+
+Parameters values can't be changed at runtime. One has to unload
+the module and change it. Hence recommended to build it as module.
+
+Also available at: Documentation/driver-api/steal-governor.rst
 
 Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
 ---
- include/linux/sched.h | 1 +
- kernel/sched/core.c   | 9 +++++++--
- kernel/sched/debug.c  | 1 +
- 3 files changed, 9 insertions(+), 2 deletions(-)
+ drivers/virt/steal_governor/core.c | 73 +++++++++++++++++++++++++++++-
+ 1 file changed, 71 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 968b18a7f470..37849d2f1dbd 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -554,6 +554,7 @@ struct sched_statistics {
- 	u64				nr_failed_migrations_running;
- 	u64				nr_failed_migrations_hot;
- 	u64				nr_forced_migrations;
-+	u64				nr_migrations_cpu_non_preferred;
+diff --git a/drivers/virt/steal_governor/core.c b/drivers/virt/steal_governor/core.c
+index 055f155d2045..1cb766a8ce28 100644
+--- a/drivers/virt/steal_governor/core.c
++++ b/drivers/virt/steal_governor/core.c
+@@ -17,7 +17,11 @@
+ #error "Steal Governor requires CONFIG_PREFERRED_CPU"
+ #endif
  
- 	u64				nr_wakeups;
- 	u64				nr_wakeups_sync;
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 704043531b24..f0d9bcfd35e3 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -11324,8 +11324,13 @@ static int sched_non_preferred_cpu_push_stop(void *arg)
- 	context_unsafe_alias(rq);
+-static struct steal_governor sg_core_ctx;
++static struct steal_governor sg_core_ctx = {
++	.interval_ms	=	1000,	/* 1 second */
++	.high_threshold =	500,	/* 5% */
++	.low_threshold	=	200,	/* 2% */
++};
  
- 	if (task_rq(p) == rq && task_on_rq_queued(p) &&
--	    !is_migration_disabled(p))
--		rq = __migrate_task(rq, &rf, p, cpu);
-+	    !is_migration_disabled(p)) {
-+		struct rq *dest_rq = __migrate_task(rq, &rf, p, cpu);
+ static void restore_preferred_to_active(void)
+ {
+@@ -28,9 +32,74 @@ static void restore_preferred_to_active(void)
+ 		set_cpu_preferred(cpu, true);
+ }
+ 
++static int param_set_interval_ms(const char *val, const struct kernel_param *kp)
++{
++	unsigned int interval;
++	int ret;
 +
-+		if (rq != dest_rq)
-+			schedstat_inc(p->stats.nr_migrations_cpu_non_preferred);
-+		rq = dest_rq;
++	ret = kstrtouint(val, 0, &interval);
++	if (ret)
++		return ret;
++
++	if (interval < 100 || interval > 100000) {
++		pr_err("steal_governor: interval_ms must be between 100 and 100000\n");
++		return -EINVAL;
 +	}
++
++	return param_set_uint(val, kp);
++}
++
++static const struct kernel_param_ops interval_ms_ops = {
++	.set = param_set_interval_ms,
++	.get = param_get_uint,
++};
++
++module_param_cb(interval_ms, &interval_ms_ops, &sg_core_ctx.interval_ms, 0444);
++MODULE_PARM_DESC(interval_ms,
++		 "Sampling frequency in milliseconds. default: 1000");
++
++static int param_set_high_threshold(const char *val, const struct kernel_param *kp)
++{
++	unsigned int threshold;
++	int ret;
++
++	ret = kstrtouint(val, 0, &threshold);
++	if (ret)
++		return ret;
++
++	if (threshold >= 100 * 100) {
++		pr_err("steal_governor: high_threshold (%u) can't be more than 99.99%%\n",
++		       threshold);
++		return -EINVAL;
++	}
++
++	return param_set_uint(val, kp);
++}
++
++static const struct kernel_param_ops high_threshold_ops = {
++	.set = param_set_high_threshold,
++	.get = param_get_uint,
++};
++
++module_param_cb(high_threshold, &high_threshold_ops, &sg_core_ctx.high_threshold, 0444);
++MODULE_PARM_DESC(high_threshold,
++		 "High steal threshold. default: 500 i.e 5%. Must be > low_threshold");
++
++module_param_named(low_threshold, sg_core_ctx.low_threshold, uint, 0444);
++MODULE_PARM_DESC(low_threshold,
++		 "Low steal threshold. default: 200 i.e 2%. Must be < high_threshold");
++
+ static int __init steal_governor_init(void)
+ {
+-	pr_info("steal_governor is enabled\n");
++	if (sg_core_ctx.low_threshold >= sg_core_ctx.high_threshold) {
++		pr_err("steal_governor: low_threshold (%u) must be less than high_threshold (%u)\n",
++		       sg_core_ctx.low_threshold, sg_core_ctx.high_threshold);
++		return -EINVAL;
++	}
++
++	pr_info("steal_governor is enabled. interval: %ums, high_threshold: %u, low_threshold: %u\n",
++		sg_core_ctx.interval_ms, sg_core_ctx.high_threshold, sg_core_ctx.low_threshold);
++
+ 	return 0;
+ }
  
- 	rq_unlock(rq, &rf);
- 	raw_spin_unlock_irq(&p->pi_lock);
-diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
-index 72236db67983..5ebb2055e6d5 100644
---- a/kernel/sched/debug.c
-+++ b/kernel/sched/debug.c
-@@ -1446,6 +1446,7 @@ void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
- 		P_SCHEDSTAT(nr_failed_migrations_running);
- 		P_SCHEDSTAT(nr_failed_migrations_hot);
- 		P_SCHEDSTAT(nr_forced_migrations);
-+		P_SCHEDSTAT(nr_migrations_cpu_non_preferred);
- 		P_SCHEDSTAT(nr_wakeups);
- 		P_SCHEDSTAT(nr_wakeups_sync);
- 		P_SCHEDSTAT(nr_wakeups_migrate);
 -- 
 2.47.3
 
