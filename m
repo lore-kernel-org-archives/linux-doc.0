@@ -1,163 +1,143 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AEA442980C
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 17:08:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCB0625;
+	Mon, 20 Jul 2026 17:10:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784567321; cv=none; b=t6EBUBhP6TZ7J7Wwp6oeBJIfe8xmFJ4zERdoQLj6eAvP6rVUjADBgWdudObdObWzM+1bvBqZvRIkwKtzAimqc4OncERZNSMdJz1SUXpfka2ZTqhSyFqWEMWTbwT71by6TUuJeFFD5iaejnGDl0C2nHR6wtr54JMzRcFPDAHdKJg=
+	t=1784567416; cv=none; b=igiQNnv7o5Fd/Ha8WhPVF27/X4CifQgvymWclPKNf0c6Yw+jisvNPQUt0YdaWloSkBnreJ/HbPCNBbkXGgCSm1VGKlfwd8QCEyL+JfeZh3vcoeaqgK01myxCw3WghlTyx/vX+4r3Di372ta4MVt31J01q/nVTl4B6sjHIEzhIbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784567321; c=relaxed/simple;
-	bh=U9MnGi+teUz7QJ5nQYDOvghfRANHOcAD8m+6/fWVDPk=;
+	s=arc-20240116; t=1784567416; c=relaxed/simple;
+	bh=y78gdP4Mhf4DF9a087GDBf+ZMhh7EhPFI++5A5Fodco=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ogB6DIidITvhfTpyF3gImERw4UjfkmVGX+SvinUWESO4g0WIfnUvxGabWXkqT1i1mwE5UkqG2bK9XjlPGE1rEZjgaznzEu1PSHg6I8Zz8GdTESPU3jInX6/WFaD3dzvH+WOylCuRWQlmmANAty0cWQOF3g53MqBOT6rSsHQRBFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vhfazm1w; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=D9U1J4sEk+vrDcw1aD8nQm2bIZBhaDZIwrhpfY7KaNTsR3apRN1uHaSxJblhJwMrBgXOz3yxYxYHBULDfHt7zP+xckydCy1pSjbj8kuA+slJnjc5dClgEpLLTcSzyn4I9xVFmOHk/lSfG242FlbZXcrLWCVL3TyV1WiQNE7SbuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=itoK4Mdj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vhfazm1w"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2cede6375caso345665ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 10:08:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784567320; x=1785172120; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=aiMphJN0hEb752W3IjRxFzmLe0gtZmSXKy+eltAZsyI=;
-        b=vhfazm1w8riXPetHdeW9F+f/ifuz/Op9m9lpNmWVVzbS7+k9JnIHZORTp19cCpP4gO
-         LBMVS8j4qFInNdxb9jW0xpG3rGFj4QQppPyJ2iK26HffPgFewSNe9Cp+bPw7CNnL2RY6
-         /y8r//deduXpw1/1PD5Dvoq88CO+jnbuMTzptx6mvYlmLwc1gSgpj57wqT0fVtMuflQv
-         FdW7oqIyxmJSR3WMP/wtLq4O1tyb4XD+7uj/PGatN78p9t6xRWbq/ECmXGiFNPBUkySJ
-         zVkNJqzAPl7IOuTHQLvDlKSsst7vCjrliAb8XErTXBbaSk04FHpb6Zb2kFIqzCpwL9Ec
-         WA0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784567320; x=1785172120;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=aiMphJN0hEb752W3IjRxFzmLe0gtZmSXKy+eltAZsyI=;
-        b=XE3b0a6qUKjrf3cpyXdXDF0tbevsvwVXfNX1FwCQqfJbvluFIf1rDMfw0BoM90Ezkp
-         vhHbesXI8n204p0Ih37OPHzyn2syDlP5PtdDdnAwxcIXUDsyHzbi22iQSmEJ4UyZxbZ4
-         qScG1VEUUUtakxEu3jiYhvvrImgFKbJBd1idL94D+w+qqTWyxM4x4gqSx2uJ/laG+/ZB
-         aNdF4ndVxuTrfovTcBtA1Vkcr30kR2pWvWj3RlvdlA8cOS5bSlMTsKaw/kCfItYIMBJC
-         +lLIel4f9jF5YR0f9DecPrPGKzQiozVrnLXBgr18gZWR0J0KnUPAuOBilvIZixnNY5t1
-         yTuw==
-X-Forwarded-Encrypted: i=1; AHgh+Ro1tSptpx6AoUboZdD7Krl0YCANFGSV7IR/wDfQb68Tljwz16+0HUtSx+qjNMWeA99XrjWIP0zECIE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YygSb+l4sM9vs5jJuLEAbnKOT3OZfLEBO/0B2tVDvwfppvnDiMR
-	K4rGrvqt75P2/tHOeiXJwg81wfudrJiNmnhbUw66FwLaP2sZ6vf2jwMx0mSea8ju7g==
-X-Gm-Gg: AR+sD135FYeMpcCWHPQcQ7TrZXBOpFsYLF45TreTzhrUi6n5RsIw7G85YebwyjlMj7l
-	RBQwKomLXbK3W79TKi1Rop3KNZYxKxy1EQukFvTS6m7+7mTvgdbTS14K7NSFwu9rX4o+/DMMjjW
-	noHJgQFVo/UDBbghoc0R8dYHsVE8Qo9kbWCCfFeWAlAKvPXfCEcdLmWpUok6ib28NUSezTgvWaS
-	czAcm8Bxyk6jh4JnqWSNeZQOc8sjV5ynnAP4qrFzqcQJtQ7kgBConcVdi9BAHUvxTKax4QqLs+V
-	YimwjMFI0B6IzPYRXfRt1pRfxW0rz/q3qX907aHrzyMQj6jpqcomRdmrTydegfomWlxml51ToOh
-	lSr94R/PAPFMCfsuxhqUccpIW/O4rY8qL10bHnK98kWEBdvbqEuZ6Hosz0P2xvyqnQbPc9Aj+G4
-	C7tz6uoASPhtK/yXheA75oQxPYEliq7FHP+VTi
-X-Received: by 2002:a17:903:4084:b0:2cf:4353:f117 with SMTP id d9443c01a7336-2cf7b35e690mr923005ad.0.1784567319236;
-        Mon, 20 Jul 2026 10:08:39 -0700 (PDT)
-Received: from google.com (60.89.247.35.bc.googleusercontent.com. [35.247.89.60])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e92091875sm91751a91.7.2026.07.20.10.08.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 10:08:38 -0700 (PDT)
-Date: Mon, 20 Jul 2026 10:08:33 -0700
-From: Vipin Sharma <vipinsh@google.com>
-To: "Yanjun.Zhu" <yanjun.zhu@linux.dev>
-Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org, ajayachandra@nvidia.com, alex@shazbot.org, amastro@fb.com, 
-	ankita@nvidia.com, apopple@nvidia.com, bhelgaas@google.com, chrisl@kernel.org, 
-	christian.koenig@amd.com, corbet@lwn.net, dmatlack@google.com, graf@amazon.com, 
-	jacob.pan@linux.microsoft.com, jgg@nvidia.com, jgg@ziepe.ca, jrhilke@google.com, 
-	julianr@linux.ibm.com, kees@kernel.org, kevin.tian@intel.com, leon@kernel.org, 
-	leonro@nvidia.com, lukas@wunner.de, mattev@meta.com, michal.winiarski@intel.com, 
-	parav@nvidia.com, pasha.tatashin@soleen.com, praan@google.com, pratyush@kernel.org, 
-	rananta@google.com, rientjes@google.com, rodrigo.vivi@intel.com, rppt@kernel.org, 
-	saeedm@nvidia.com, schnelle@linux.ibm.com, skhan@linuxfoundation.org, 
-	skhawaja@google.com, vivek.kasireddy@intel.com, witu@nvidia.com, yi.l.liu@intel.com
-Subject: Re: [PATCH v5 00/20] vfio/pci: Base Live Update support for VFIO
-Message-ID: <20260720163452.GC1191959.vipinsh@google.com>
-References: <20260714151505.3466855-1-vipinsh@google.com>
- <2c03ac97-60a6-4352-a942-27dcebae8d22@linux.dev>
- <8fd94fad-e457-4839-9e41-ae257a138bee@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="itoK4Mdj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A03961F000E9;
+	Mon, 20 Jul 2026 17:10:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784567407;
+	bh=BjfOV+NKNZXLs5UViExwi4UTvSENVwLsFID1r6Q/kEw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=itoK4Mdjj5ii0LNFWHvWvZeKb1bM5ZWQY2SLjLXjkfO1feztT6Gn6G8NiVOat+KPg
+	 0D/NB12mkVZe0Qu8dpRL0oONt2wA5dLQq2HFtDJt5+6MzcZEUaN8ebT6E6dQey+8Bv
+	 U67NhgIIVjM0yZ2RgwCjpyBriixC3kOUjNzXDQkdhvIe5nvIncSc+M1s1QCf4Glnzw
+	 79N0nsDl390dkbxedNNurbefhulS5jWgAZhH6RiSFZ8JtYiyqnIGyKYLSKviEh1SQL
+	 11vzxbZo4cCDnI1BgewLbszrJZvcJRudTbDKrMrm+59/LFG+1WpbrwjdfmaUCqah49
+	 bbOMVK1BbfpDw==
+Date: Mon, 20 Jul 2026 10:10:05 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: yunhui cui <cuiyunhui@bytedance.com>
+Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Atish Kumar Patra <atishp@rivosinc.com>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
+	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	x86@kernel.org, devicetree@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [External] [PATCH v5 4/8] riscv_cbqri: Add capacity controller
+ probe and allocation device ops
+Message-ID: <al5WbTyTVYye70LW@thelio>
+References: <20260714-dfustini-atl-sc-cbqri-dt-v5-0-b0ae7e9c932e@kernel.org>
+ <20260714-dfustini-atl-sc-cbqri-dt-v5-4-b0ae7e9c932e@kernel.org>
+ <CAEEQ3w=kVgMnQ8mu=X+d3xYbANT6dNfv7w71BUwmYxP6qcUhgg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8fd94fad-e457-4839-9e41-ae257a138bee@linux.dev>
+In-Reply-To: <CAEEQ3w=kVgMnQ8mu=X+d3xYbANT6dNfv7w71BUwmYxP6qcUhgg@mail.gmail.com>
 
-On Thu, Jul 16, 2026 at 06:22:07PM -0700, Yanjun.Zhu wrote:
+On Mon, Jul 20, 2026 at 05:56:29PM +0800, yunhui cui wrote:
+> Hi Drew,
 > 
-> On 7/16/26 4:24 PM, Yanjun.Zhu wrote:
-> > 
-> > 
-> > On 7/14/26 8:14 AM, Vipin Sharma wrote:
-> > > Testing
-> > > -------
-> > > 
-> > > Tested using VFIO Live Update selftests in both QEMU and bare-metal
-> > > environment (Intel DSA PCIe device).
-> > 
-> > I want to make tests VFIO Live Update selftests in QEMU. But how to
-> > select a PCIe device?
-> > 
-> > what device do the PCI ID 0000:00:04.0 and 0000:6a:01.0 mean in the
-> > following testcase?
-
-Sorry, this was my copy-paste mistake when combining things from both
-qemu and baremetal. You only need one device not two separate ones.
-
-For testing using QEMU, you can use QEMU PCI test device.
-
-  -device pci-testdev
-
-In VM, use `lspci` command to find the BDF of the PCI device. It will show
-output like:
-
-  00:04.0 Unclassified device [00ff]: Red Hat, Inc. QEMU PCI Test Device
-
-Then prefix the domain (generally, 0000) to the BDF and use the testing
-commands.
-
-`0000:6a:01.0` was the BDF of the Intel DSA device on my host. I
-incorrectly mixed two devices during my copy-paste.
-
-Limitation of qemu pci-testdev is that it does not have the DMA
-capability. I used physical host with Intel DSA to verify that the
-device performing DMA during live update gets reset.
-
-> > 
-> In my qemu,
+> On Wed, Jul 15, 2026 at 8:24â€¯AM Drew Fustini <fustini@kernel.org> wrote:
+> >
+> > Add support for the RISC-V CBQRI capacity controller. A platform driver
+> > passes a cbqri_controller_info descriptor together with the cache level
+> > to riscv_cbqri_register_cc_dt(), which probes the controller and adds it
+> > to the controller list.
+> >
+> > Assisted-by: Claude:claude-opus-4-8
+> > Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> > Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> > Signed-off-by: Drew Fustini <fustini@kernel.org>
+> > ---
+> >  MAINTAINERS                      |   3 +
+> >  drivers/resctrl/Kconfig          |  13 +
+> >  drivers/resctrl/Makefile         |   3 +
+> >  drivers/resctrl/cbqri_devices.c  | 563 +++++++++++++++++++++++++++++++++++++++
+> >  drivers/resctrl/cbqri_internal.h | 122 +++++++++
+> >  include/linux/riscv_cbqri.h      |  45 ++++
+> >  6 files changed, 749 insertions(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index a0a4b41f02c5..064a6ae2823e 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -23365,6 +23365,9 @@ L:      linux-riscv@lists.infradead.org
+> >  S:     Supported
+> >  F:     arch/riscv/include/asm/qos.h
+> >  F:     arch/riscv/kernel/qos.c
+> > +F:     drivers/resctrl/cbqri_devices.c
+> > +F:     drivers/resctrl/cbqri_internal.h
+> > +F:     include/linux/riscv_cbqri.h
+> >
+> >  RISC-V RPMI AND MPXY DRIVERS
+> >  M:     Rahul Pathak <rahul@summations.net>
+> > diff --git a/drivers/resctrl/Kconfig b/drivers/resctrl/Kconfig
+> > index 672abea3b03c..92b9c82cf9f3 100644
+> > --- a/drivers/resctrl/Kconfig
+> > +++ b/drivers/resctrl/Kconfig
+> > @@ -29,3 +29,16 @@ config ARM64_MPAM_RESCTRL_FS
+> >         default y if ARM64_MPAM_DRIVER && RESCTRL_FS
+> >         select RESCTRL_RMID_DEPENDS_ON_CLOSID
+> >         select RESCTRL_ASSIGN_FIXED
+> > +
+> > +menuconfig RISCV_CBQRI
+> > +       bool "RISC-V CBQRI support"
+> > +       depends on RISCV && RISCV_ISA_SSQOSID
+> > +       help
+> > +         Capacity and Bandwidth QoS Register Interface (CBQRI) support for
+> > +         RISC-V cache QoS resources. CBQRI exposes cache capacity
+> > +         allocation through the resctrl filesystem at /sys/fs/resctrl when
+> > +         RESCTRL_FS is also enabled.
+> > +
+> > +if RISCV_CBQRI
+> > +
+> > +endif
 > 
-> 00:04.0 System peripheral: InnoTek Systemberatung GmbH VirtualBox Guest
-> Service
->     Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr-
-> Stepping- SERR- FastB2B- DisINTx-
->     Status: Cap- 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort-
-> <MAbort- >SERR- <PERR- INTx-
->     Interrupt: pin A routed to IRQ 20
->     Region 0: I/O ports at d040 [size=32]
->     Region 1: Memory at f0400000 (32-bit, non-prefetchable) [size=4M]
->     Region 2: Memory at f0800000 (32-bit, prefetchable) [size=16K]
->     Kernel driver in use: vboxguest
->     Kernel modules: vboxguest
-> 
-> I am wondering if the above pci device can work well with this patch set or
-> not.
+> Should this empty if/endif block go in patch [8/8] instead?
 
-I think you should be able to test Live Update with any PCI device which
-can be attached vfio-pci driver. 
+Good point. I'll move it to patch 8.
 
-`vfio_pci_liveupdate_kexec_test` will initiate DMA if the VFIO selftest
-framework has the driver for the passed device (Intel DSA) otherwise it
-will just skip over the DMA flow and do the remaining things.
-
-Let me know if you still face some issue in running Live Update, I will
-be happy to provide more details.
-
-Thanks
-Vipin
+Thanks,
+Drew
