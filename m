@@ -1,134 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CACD25B0B7;
-	Mon, 20 Jul 2026 20:09:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03819305667
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 20:12:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784578156; cv=none; b=JnNUIfECObB2zQjXawb5G4ybYfyQYM6Kk007HUNDq3k54f3+rWBwRPZ273OhH8OHmHmwm27bpDKJdKaNMTL1jNemqU+cPC647VO3l74JIclj+xrAouKl8RNcvesvfuTFRjQD1YIktVUFeVBG7hpezeyQcSw9kPGLorTHv/LsjKI=
+	t=1784578356; cv=none; b=lngICJxwsw24ooqn9nuX+InHrI2jFAd+0DhA2MUGXVZ90r6OQfl8Mz+80Oroh/LABbXRdmvGNv26c7ZZHItvT3/X6V1hicfqsHPjDxHkM3DVuNLgvsxpMRoPgXFkV5tvwFyX/p2Xx98gPWjE/vnDMbJk1Y7W/68tPA+ISHmca6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784578156; c=relaxed/simple;
-	bh=sFOpv2kA+FwJCaEso+qENIiQ1hBBWw24vR/Se27HPGs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iS3YmaX9o7HD+Ctt8qGOY/3fzK+Ik42QCzggcs62oO1B74AKE6v93tsokD/JwGhxbOChvt3xl6kvGDP9YEZqnFjz8m/Xhk8s4vWLHck2tiFmr6+8Uh0+EDjnI6j/41QRb7Gb5Bk1SL29/IlZcU8t7+CRTYJlseShSIr4kP6J7N8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z5n7Yifc; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1784578356; c=relaxed/simple;
+	bh=oT+qyKGguvYTXbU2o3MxwZ9h8G7lSXD9PAN6Vz3yPhw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LjRUPxweVD3+oHXtHuHJQpaY+bM2VAM3M8UwQ/wT/QzhKxBfBxTU+KLXseZZWOvdM6CgLonCV12FIwZNCzmHR+WrIOVl3wT+OknkPLck+HaYx8Wu/dU/H/Pp5aTaFeXNwyJcVEDFd6uyhIKEKiDA9o9paBbGLzuBCpqkniHW/1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OSn4fjg6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z5n7Yifc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784578154; x=1816114154;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=sFOpv2kA+FwJCaEso+qENIiQ1hBBWw24vR/Se27HPGs=;
-  b=Z5n7Yifc9MRSJfCaf4KJFBbPnSpcSJVx9Sm4jON3xqXHfXLddvpIHyzl
-   zaPLy4s3Sa95PzpFzfBn1I0Lle/VQKsvVyA4Hnv7yXWo1MZGG1cgbCh0M
-   wxbIt2VSLev3LHuD9eTDNHDJ9R5NTr3v/2uBbSEVubvDvOhf61bkP5vAd
-   3gc6z1gHJgiRz31BRVrODHPWXF1C7lsCHanM6SRRSw+/pcm2NCW78EwtT
-   oIcfB+xAUqUAXBonjMsW8Ebalb9YubnTTxvbOco6HA/ly9btrn1xE+q7Z
-   aBmO850bYORJxJ3GM0jo5oRXqRz1lHfb7e7llQsItkmi2ukZdu7R5GinV
-   w==;
-X-CSE-ConnectionGUID: WlBnzJB5SF6IcrzSWwILgg==
-X-CSE-MsgGUID: xVhOcZtiSdqafzyXiHFYFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11852"; a="84298313"
-X-IronPort-AV: E=Sophos;i="6.25,175,1779174000"; 
-   d="scan'208";a="84298313"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2026 13:09:13 -0700
-X-CSE-ConnectionGUID: H4x5cj83RbqFt5QQqpUxGA==
-X-CSE-MsgGUID: pA3maaPWTcelrKWA5o3qPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,175,1779174000"; 
-   d="scan'208";a="256365696"
-Received: from cooperst-gp83.amr.corp.intel.com (HELO [10.125.109.176]) ([10.125.109.176])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2026 13:09:10 -0700
-Message-ID: <9c371c59-c871-4988-83d7-2aa780d8e6c4@intel.com>
-Date: Mon, 20 Jul 2026 13:09:09 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OSn4fjg6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF5CC1F00ADE
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 20:12:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784578350;
+	bh=W/4OZVYAEidoIzb/vZk4OlyR1a69x3STJrX0+eOpz+g=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=OSn4fjg6OWV3UNqvAqTdoJ7TLyB4FGH+1Z2wB2JEh9Yd8oc/5Ii6P4A7m+BnBg0tG
+	 YBVKsaQ0qb+RElkwoEJIRf00uCVoaktY9T/QP9qW6VRBTnoBdEEcnT+/zywru/UCxz
+	 xhOYUoJC0SDhvE9v9IJQMQY6n9S8wxY/sZX4eU1Ny1ARlvdbdXhCmKuwY7RyfSYpjP
+	 Vwz3OaGbN6rOywbAMoSFBGsKBXVcQHoWp8XSsayEDSPWvPrDrYm81WLv40KET77dLm
+	 OLSvRKv70ZTx68293Eod4p6xBeEtb4x6dmiD0RRXzfyFdC3pPag9qEEghIn9wo8RTw
+	 VU3E2bx1jjc8Q==
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c197f968b3cso172481566b.2
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 13:12:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RpKBxCecELL/baTkAKpMRU76Fl5tIult+DQHM9woKGz60xDBlA16FM3cazgLEdTCcrzkBmLiHB4Q/g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMhsLZEbSUzBPQEwUVqMtcexOS59gYr6AS8+fW7g9uw5XCQ0LG
+	tmc/yxiTWD+tszvzXNByEncL+GSYwNAffl1u5tKGyEhvRw1igxwB1iPupDx9ijMVSL3RoXe23lz
+	xsyWZWtVJ0WQ/C2eZaJaa9ELamigl2w==
+X-Received: by 2002:a17:907:9623:b0:c15:f65a:43a8 with SMTP id
+ a640c23a62f3a-c16b4571a28mr675113466b.12.1784578348579; Mon, 20 Jul 2026
+ 13:12:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v18 01/13] cxl/ras: Fix cxl_rch_get_aer_severity() wrong
- severity register
-To: Terry Bowman <terry.bowman@amd.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Dan Williams <djbw@kernel.org>, Ira Weiny <iweiny@kernel.org>,
- Jonathan Cameron <jic23@kernel.org>, Len Brown <lenb@kernel.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Robert Richter <rrichter@amd.com>
-Cc: linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- Alejandro Lucero <alucerop@amd.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Ankit Agrawal <ankita@nvidia.com>, Ard Biesheuvel <ardb@kernel.org>,
- Ben Cheatham <Benjamin.Cheatham@amd.com>, Borislav Petkov <bp@alien8.de>,
- Breno Leitao <leitao@debian.org>, Davidlohr Bueso <dave@stgolabs.net>,
- "Fabio M . De Francesco" <fabio.m.de.francesco@linux.intel.com>,
- Gregory Price <gourry@gourry.net>, Hanjun Guo <guohanjun@huawei.com>,
- Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
- Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
- Li Ming <ming.li@zohomail.com>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Oliver O'Halloran <oohall@gmail.com>, Shiju Jose <shiju.jose@huawei.com>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Shuai Xue <xueshuai@linux.alibaba.com>,
- Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
- Tony Luck <tony.luck@intel.com>, Vishal Verma <vishal.l.verma@intel.com>
-References: <20260717222706.3540281-1-terry.bowman@amd.com>
- <20260717222706.3540281-2-terry.bowman@amd.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20260717222706.3540281-2-terry.bowman@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260720184040.9870-2-krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260720184040.9870-2-krzysztof.kozlowski@oss.qualcomm.com>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 20 Jul 2026 15:12:17 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKkxVTVE=o-uar=JEVvqw9NhBAQcBrJ0ukf+RBXCwFZJA@mail.gmail.com>
+X-Gm-Features: AUfX_mwgZbPYorhmNWUblQ-rJjYQoMokZ0OMEFyO8O_QkQHXpRAwW7QY0ciSWZE
+Message-ID: <CAL_JsqKkxVTVE=o-uar=JEVvqw9NhBAQcBrJ0ukf+RBXCwFZJA@mail.gmail.com>
+Subject: Re: [PATCH v3] docs: dt: maintainer: Add Devicetree and OF maintainer
+ profile document
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Saravana Kannan <saravanak@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 7/17/26 3:26 PM, Terry Bowman wrote:
-> cxl_rch_get_aer_severity() classifies RCH Downstream Port uncorrectable
-> errors as fatal or non-fatal by ANDing uncorrectable status with
-> PCI_ERR_ROOT_FATAL_RCV. This is wrong because PCI_ERR_ROOT_FATAL_RCV is a
-> Root Error Status register bit (bit 6), not a severity bit. ANDing it
-> against uncorrectable status tests a reserved bit and produces incorrect
-> severity classification.
-> 
-> Fix by ANDing the unmasked uncor_status against uncor_severity. Per
-> PCIe Base Spec r6.0 Section 7.8.4.4, each bit in the Uncorrectable
-> Error Severity register indicates whether the corresponding error is
-> fatal (1) or non-fatal (0).
-> 
-> Fixes: 6ac07883dbb5 ("cxl/pci: Add RCH downstream port error logging")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
-
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-
-This can be picked up ahead looks like?
-
-> 
+On Mon, Jul 20, 2026 at 1:40=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@oss.qualcomm.com> wrote:
+>
+> Document how Devicetree and Open Firmware maintainers handle their
+> subsystem, especially focusing on two caveats:
+>
+> Devicetree subsystem handles patches with a minor difference comparing
+> to other subsystems: while DT maintainers pick up OF code, they only
+> provide review of DT bindings without applying these.
+>
+> All three DT bindings maintainers rely currently on Patchwork and due to
+> enormous amount of emails per day, regardless how much DT maintainers
+> try, they cannot read all the emails.
+>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Saravana Kannan <saravanak@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+>
 > ---
-> 
-> Changes in v17 -> v18:
-> - New patch.
+>
+> I expect patch to be picked up by Rob, after review.
+>
+> Changes in v3:
+> 1. Add also F: entry
+>
+> Changes in v2:
+> 1. Correct typos and trailing white spaces.
+> 2. Fix order of P: after C: in maintainers.
 > ---
->  drivers/cxl/core/ras_rch.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/cxl/core/ras_rch.c b/drivers/cxl/core/ras_rch.c
-> index 0a8b3b9b63884..44b335d560708 100644
-> --- a/drivers/cxl/core/ras_rch.c
-> +++ b/drivers/cxl/core/ras_rch.c
-> @@ -80,7 +80,8 @@ static bool cxl_rch_get_aer_severity(struct aer_capability_regs *aer_regs,
->  				     int *severity)
->  {
->  	if (aer_regs->uncor_status & ~aer_regs->uncor_mask) {
-> -		if (aer_regs->uncor_status & PCI_ERR_ROOT_FATAL_RCV)
-> +		if ((aer_regs->uncor_status & ~aer_regs->uncor_mask) &
-> +		    aer_regs->uncor_severity)
->  			*severity = AER_FATAL;
->  		else
->  			*severity = AER_NONFATAL;
+>  .../process/maintainer-devicetree.rst         | 70 +++++++++++++++++++
+>  MAINTAINERS                                   |  3 +
+>  2 files changed, 73 insertions(+)
+>  create mode 100644 Documentation/process/maintainer-devicetree.rst
+>
+> diff --git a/Documentation/process/maintainer-devicetree.rst b/Documentat=
+ion/process/maintainer-devicetree.rst
+> new file mode 100644
+> index 000000000000..d8ffe752bf5d
+> --- /dev/null
+> +++ b/Documentation/process/maintainer-devicetree.rst
+> @@ -0,0 +1,70 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Devicetree and Open Firmware Subsystem
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Other Process Documents
+> +-----------------------
+> +
+> +Please see the documents in Documentation/devicetree/bindings/ for infor=
+mation
+> +on how to write proper Devicetree bindings and how to submit patches.
+> +
+> +Patch Review and Handling
+> +-------------------------
+> +
+> +Patches handled by Devicetree maintainers are processed differently depe=
+nding
+> +on the patch type:
+> +
+> +1. Core OF driver code, e.g. drivers/of/:
+> +   patches are reviewed and applied by DT maintainers.
+> +
+> +2. Devicetree bindings:
+> +   patches are reviewed by DT maintainers but, except in certain cases, =
+should
+> +   be applied by subsystem maintainers.  See also *For kernel maintainer=
+s* in
+> +   Documentation/devicetree/bindings/submitting-patches.rst.
 
+I would reword:
+
+patches are reviewed by DT maintainers, but should be applied by
+subsystem maintainers except in certain cases.
+
+> +
+> +3. DTS and drivers:
+> +   DT maintainers might provide comments, but review is generally not ex=
+pected.
+
+For DTS, we expect to pass schema checks or at least not add new warnings.
+
+I can address these 2 when applying.
+
+Rob
