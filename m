@@ -1,183 +1,124 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53B042F706
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 14:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784558611; cv=none; b=r7ueCEae6oi3fB5QE51hM+7XFsiPSF/yts6MG/v4DUSjk9jEDrUr0Nzqx91A//uVArVf3qwyhXvHkjMs8C2iGCU8MR5+4oeF7+XrrwVcsUl+izBCeTf2dxcyTgcKQ+x805ORZg+wqlDo0PqF/nunkae0xAymgwGnqs66vvh5Rg4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784558611; c=relaxed/simple;
-	bh=z4xNGYkf4fETdRDY/WXmkgQmHnFeScnUkN9aeJpb0+8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LjVJzmykW/wsQkj/oPphx35oy1BDS1CkXBjGVC7wS1MuKR8+kNc+V2ArYXzu+qfrnRlA1ztO/NEwqJxQLRNomaLdJyBESfJ03s7LtXF1WJ9UKgMO5pE1BPmzozsK6WURLMpgZKlxUjsOJ+uMjfk8JKHY4sXTHnG+4yBx+rwBR0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ylz9mDKR; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEBA43C5546
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 14:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784559574; cv=pass; b=GMk4kXeGpELyAZbOKRiVv/ju06uLwAdETIWc87Iu7dMesYIhK8LH5yixAHOoeMv8u07okaK5egCMiHvYL7QET5PDyDt5uOj5aahBDWqMq2WcezaeYn47s+rjZpxJGRLRCCf4Mx+wXo3AxdGK9AFQ8GQL5qYbaxGO89y6pgEyG34=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784559574; c=relaxed/simple;
+	bh=13b2KLhyKKVXh3fNdbiwFzXmnR8SR+ll44DcW3Ni0CI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Pzl3/Zcz8gyOy0PtrskgEh8UWovmOLi0w3+dzJ629+evD2dVmfwb1O9je030Cv313mSObUHne5n6n+hQOszf/B5am+aQT2xhIX4mckOMX1LnRRI0SXlc3JlCZkXje2EnvFNe6Ykmv2gklp9Yyzo4/PETpoc4uh/9KHJJNf8dsuM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pR+Ba/ZN; arc=pass smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ylz9mDKR"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c96bfabc8d4so4053406a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 07:43:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pR+Ba/ZN"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8ee43b3e5abso98833166d6.3
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 07:59:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784559572; cv=none;
+        d=google.com; s=arc-20260327;
+        b=e2mAVKbAlcT8KkRZkOYEz4LuwShQvcMC/hmuEleSV4brXy/ZaHdIshUp1nX+1mLFsg
+         GkqnB8kO7/W+DrHxfLdm7fwfSquR6OZxq0aQ1QYaxJc/4+FYh2tnxhIfoIngR6DubE1w
+         0JEpuooT9E3IG+59LPJJrgDRdy2GIQ46xc5DEMCDKTvrKhVToNko+KM3X/X8pCo1WvT5
+         noeRgYmP1t4mqru3ZKOf1jMLSRTmAZXlhMZrhueCfYe5aQnrgJMv+W3aKe6YwXdDbdFP
+         2Qt4EcMV+uPfSh1feqX41rVLRiaGMePLeyULJArfoyh3h4hVkXZFMTW8p5jiqR42RmrP
+         NF0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=eSKzU+GtopN10+nb98knYPoeCifXhgk+W6iQPjPXl5M=;
+        fh=CvAoNJxu24rG0D2SJaE2994iI9FE2xtVN6/18KyIvjo=;
+        b=phf7g3+PD5ftobukh3HgkUj13thKfVlhMq+NPoMQ5aRGT4Mh+WkyqySLcN5n55mNGI
+         qgL8zdnDIQKJCFGwG+zx/sCw0rlIa2GErIfDezdx5P2kPH9Y05/Xl87W0XXDW59vZAjz
+         8eQrbpE4XPZ/vFKpAbxpDATrO8c6Z1XKRtKYSVqhMpXrHYsaXfcREA6GF8sFQ3W8ENLm
+         8SSCkQpWNqeZ8nfxksdIzMdETD9Fz1aNvVhTyUb2qKzb6xCBBY8Wl/J4eo0MTs9j5dlX
+         zYzJsDInSbOFF31J+xqDt78EMc9iyvdhWhp5FR1pUOko+gR5GXXJoy/0OASEnUV3x9p6
+         Ghpw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784558609; x=1785163409; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YRPQsRwj+n1ng0H+WDG2QV9LkRG40/jMmpAbf3NOmNY=;
-        b=Ylz9mDKRMe6O4vjS+eQwOXJiakIAaEobGKbnFVNCh0Wek9nIDGMhVCXE0joTv1/Sgh
-         txhsTjkpV2mveGVg5L57b7HM6BUD6LsYgvckzclc1Hlmh3hY8/fv+rR5YqUNnS6F2juW
-         Nu0U4rggrOgtrxaiX8c31rkeT2cCIozh764BKKipQaNlFOdgPl/p+7mEOfbGAjSW+W2V
-         6cMoXsz4vh+ZaAbN+ZFyra1VqkImhvfjbyvJZAfm32cLpiauPZEjvWp2JCCz+cFalAVR
-         7vFBqZ7jKAlbUiFbf3LTLgdSHfGLvQuoPyFKnRdl190kQBr8DIDWb9ktMwguCnCGOvPB
-         tTNg==
+        d=gmail.com; s=20251104; t=1784559572; x=1785164372; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=eSKzU+GtopN10+nb98knYPoeCifXhgk+W6iQPjPXl5M=;
+        b=pR+Ba/ZNlWfKT/huDvBBiKKn7+o9BqY1ynwB0L1DkBl0kw+zEuhExB4eBzFAulNcWh
+         kPINy5Zjd5ShHUt57h05k5SVpYFiVa5UtAMMtJXAtyYWMKdm8uVi/CE7i8VVKRY/3UmO
+         w8AyQFjTYTNOwS2J9FTzumnW792vX6sACh/+PC0/j633/TdfcfmBj8rvofXUdu4LAXVh
+         RHv+ND1fJ5tdbP3A0MdzNQefzHRqsJCr6L5pqYptJ9wZbSeLCqL0z4Z5y2f/ciK5qHFp
+         3RVHCv/ZPJRcwr3skKkGo2lmWIMtsCbMM8pCIu1+G+V7FRITuPE5Ew7m6fsVu87X8D6f
+         NbzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784558609; x=1785163409;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=YRPQsRwj+n1ng0H+WDG2QV9LkRG40/jMmpAbf3NOmNY=;
-        b=PiTHt82tIQwF1GAnayYhgUbiKKyX8MVrpXVSlDlD5n5ytpqrO1M3iUXrjaj8GETd98
-         AyvkULkyT7UBhSIgFIBtHiYqTUdk8F/bMAbPEutD/8PjAQBSK6K+TkCX5xP8y4hUI0b8
-         QehcRabOyw0MmCvMjkPEctUzBu1DgOKgiK4bqKwxDq4bWJFyanWOZtxr9rYkJXLExlTx
-         lzRRpPOK/qWCS+j2yZI2NtAjDmlBbJqqq+C2Fn5slobldoDIyryay1YBvT2mW45TlXC1
-         2QexoPiubSLDOebFPOZ94iBSQIY4S4iCFV9Rp9ycM4CDuE50yB3V8asKcly2OJ5NTIdk
-         eg3w==
-X-Forwarded-Encrypted: i=1; AHgh+Rq0O5wFxtOwyA1uoQlMZPIzfTcDR/cVa8Rr0S967Fdnm3FNS3i+L9w0uGqZRQwv2at0kFxn8x66HIs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0ae2E3IDxGcm6k3BRra3Re1iREen8lCLhNiAjlKTocmyfJb7+
-	SRoSwPGS7qZPId3oRGxATJ8Pr9kp+p8eKx/RKXaCa/bUyQpIG2fkTjJd
-X-Gm-Gg: AfdE7ckizJFJD9mykCL+d5lUuBzP599wC4INQKHmii/m/MDstcwUgkD7ekNtjyNBOhc
-	gYQqE4zpiaWNGxrXM4iY1GzB7lKME7c4bXFB5H/WM/XHI8a4U2Y6J7A9DfQIzn7ia3+wcNUdemf
-	y460Bu4uPgjzMmh4o7znLCql/5gF1JwoTrAjPWUkIomuVQup1c/z72NzxBOOm0eWviCkj9/VlqJ
-	O24io/61bCsLp/TQ/UJtc2p9Qs/Tmz3NCovcyDzbR4QxF4ay3Tk9zTLLbyLE4NI6WZUArpcL3Po
-	AaKVt3KNTfDzihmPgUcpclrQecKtmELO1kRmD6b4LnlQRPyxTv/M6Fl4K++LyGxul34++mB8yV7
-	WIQI0J2ZydHRYbf1GTDAN2HQqTukvobNoX5eS/Q8o3A5msqZsIO4wlLhx+rEyGrPIER2WBcJwEb
-	bONyBjVSkG90n+6lA+gzewYiXG0FVxN+nMpuv7uR3f/KVGPqBto3Q=
-X-Received: by 2002:a05:6a21:3981:b0:3c0:adec:b3bd with SMTP id adf61e73a8af0-3c3ad9646afmr16051848637.49.1784558608970;
-        Mon, 20 Jul 2026 07:43:28 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31429f9bb62sm35894013eec.2.2026.07.20.07.43.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Jul 2026 07:43:28 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <612e3496-2917-4d4c-8794-69c3b5b27c5c@roeck-us.net>
-Date: Mon, 20 Jul 2026 07:43:25 -0700
+        d=1e100.net; s=20251104; t=1784559572; x=1785164372;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eSKzU+GtopN10+nb98knYPoeCifXhgk+W6iQPjPXl5M=;
+        b=YtdRoIndj5w+BHlbXa0LonIveLk4esgybQmbtvb0O40Y1n/pwWFZmbjRYC5smm352c
+         nDNW+TCBky4SgSdaS3ubJ5lmu8Xfmd0OpHptqY1VLiuzcTNZIhhlrBXOKfZJo2ZjRv+8
+         b+8psxH+EFqG0zyfgJZXQmHq/SMuA0q6Z4KcWzjQVPsfqkLa0fKkglsMD7iXnQBScWp/
+         HKb/muOBezVuzXEo3vpWDTYwbYWP+CPbeW4e5n28ApSiCmDpArFc2bc+aFCWwxXEzRYZ
+         zmF5y7hD7Ci1LhprbZaYxvzDti3sHPnxuj8IyupyQhOEyFhpUeddQkMvSqhfSsLed1TZ
+         dZUw==
+X-Gm-Message-State: AOJu0YyTwVhmd0lNqrT+prCsWOhxmbQNzn2KGvA6YuJi5SEfJnlns8Pn
+	x5DJWjzY2N7EVwGTBbGaL75QbrPf8OSY5lNtujdosg8BMGqFXVJbHrimlbG6gidpyhFCaEUycUL
+	/N0vMLrr20DHKHCWDc5YkLXSJQVf3DJc=
+X-Gm-Gg: AR+sD106ffw+u3o40O9F30Z30Pe4d9yni2BtHye1qxRfB5u4bYEXMb9aYXa1uIfiQL/
+	aE+Su6zzgdB7IdNlbDVZgGAcNbECWEYAx1BS36CpNEvjqmPt/coXuD66/EK/oNsqfBG/MRbCAhB
+	Pi+UySLkPLNLb213coYW3Fbi5pxUr3DrizfgxYXJfTgRb8nbWWvZRTtCpydzdP9Kh55sRDZZBa7
+	9idefbi8Y1r0xLtNvaCWR+QtFMKrhPhjHGO6lUGi8j15rSWQk0JNt0lMe0r+X5pff3vDTuVMlV+
+	+nI3V5PnWHpaT5plNlO67Al2xMAhHqmtPk1V5d2bvVM4Yq8nLt3QR0zuB/K95A2ttghQFsskK+U
+	=
+X-Received: by 2002:a05:6214:4285:b0:901:7300:c82 with SMTP id
+ 6a1803df08f44-90778386eb6mr161955646d6.25.1784559572265; Mon, 20 Jul 2026
+ 07:59:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] firmware: scmi: Make SCMI arch independent
-To: Ulf Hansson <ulf.hansson@oss.qualcomm.com>,
- Cristian Marussi <cristian.marussi@arm.com>
-Cc: Michal Simek <michal.simek@amd.com>, linux-kernel@vger.kernel.org,
- monstr@monstr.eu, git@amd.com, vincent.guittot@linaro.org,
- Souvik.Chakravarty@arm.com, Alex Shi <alexs@kernel.org>,
- Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
- Brian Masney <bmasney@redhat.com>, David Lechner <dlechner@baylibre.com>,
- Dongliang Mu <dzm91@hust.edu.cn>, Fabio Estevam <festevam@gmail.com>,
- Frank Li <Frank.Li@nxp.com>, Jonathan Cameron <jic23@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linusw@kernel.org>,
- Lukasz Luba <lukasz.luba@arm.com>, Mark Brown <broonie@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Pavel Machek <pavel@kernel.org>,
- Peng Fan <peng.fan@nxp.com>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan
- <skhan@linuxfoundation.org>, Stephen Boyd <sboyd@kernel.org>,
- Sudeep Holla <sudeep.holla@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Yanteng Si <si.yanteng@linux.dev>,
- arm-scmi@vger.kernel.org,
- "open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>,
- linux-arm-kernel@lists.infradead.org,
- "open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
- "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
- "open list:ENERGY MODEL" <linux-pm@vger.kernel.org>
-References: <d7f7e8c9589d937b60e43168845ab4fda15037a3.1783603600.git.michal.simek@amd.com>
- <ak_Eu_eQKalPMwo-@pluto>
- <CAPx+jO9KMcxnmt-wT5jaApj9p7s11B6eSG6K08Jt9J=-vXxjhA@mail.gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <CAPx+jO9KMcxnmt-wT5jaApj9p7s11B6eSG6K08Jt9J=-vXxjhA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260716021013.48025-1-danielmaraboo@gmail.com>
+ <87ldba5z1u.fsf@trenco.lwn.net> <CAMAsx6cO588DcqAT9c=-7aXWLwzAbjrAp=jJ9Ya9dC7draaPZA@mail.gmail.com>
+ <87h5lx69wl.fsf@trenco.lwn.net>
+In-Reply-To: <87h5lx69wl.fsf@trenco.lwn.net>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Mon, 20 Jul 2026 11:59:21 -0300
+X-Gm-Features: AUfX_mxQr1J5YaY80zbJcIZ1_TuipU1EoabaGkm2FLC0UdRYg3Cal32LDPJEArE
+Message-ID: <CAMAsx6e11Vsc5K0s--bzqr1fd=mr-2BFYsLUNs5Frz--TBiUTQ@mail.gmail.com>
+Subject: Re:
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/14/26 06:16, Ulf Hansson wrote:
-> On Thu, Jul 9, 2026 at 5:56 PM Cristian Marussi
-> <cristian.marussi@arm.com> wrote:
->>
->> On Thu, Jul 09, 2026 at 03:27:00PM +0200, Michal Simek wrote:
->>> On heterogenious systems like AMD/Xilinx FPGA there is a need to talk to
->>> SCMI server from different architectures than ARM that's why remove
->>> ARM/ARM64 Kconfig dependency with also remove ARM from description and
->>> rename folder to reflect it.
->>
->> While I understand dropping the dependency on ARM (I always wanted to do
->> that and test if it worked at all on some otehr archs with QEMU), I am
->> not sure about the whole renaming party ? why is needed just for
->> cosmetic reasons ? it is at the end an arm originated protocol so I dont
->> see it as a being wrong to be named as such even though used by other
->> archs...I have not really strong opinion on this...
-> 
-> This is certainly not my call to make, but I have to admit that I
-> fully agree with the above.
-> 
-> Usually we don't rename files that indicate a legacy platform name,
-> just because a new company/platform wants to make use of it.
-> 
+Em sex., 17 de jul. de 2026 =C3=A0s 10:08, Jonathan Corbet <corbet@lwn.net>=
+ escreveu:
+>
+> I think that if you organize the index.rst files as I suggested
+> (i.e. roughly along the lines of the English versions) most of the
+> conflicts will go away, and the result will better generally.  That's
+> the best place to start, I think.
+>
+> Thanks,
+>
+> jon
 
-I agree.
+Hi Jon,
 
-Guenter
+I=E2=80=99ve noticed a large volume of new contributions for the pt_BR
+translations recently.
 
+To avoid conflicts during this integration period, could I keep the
+index.rst as it is until these recent patches are applied? Once
+everything is processed, I will make the adjustments to the structure
+to follow the organization of the English documentation as you
+suggested.
+
+Thanks,
+
+Daniel
