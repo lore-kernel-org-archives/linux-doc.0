@@ -1,72 +1,69 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011057.outbound.protection.outlook.com [40.107.208.57])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013030.outbound.protection.outlook.com [40.93.196.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F5D392822;
-	Mon, 20 Jul 2026 19:12:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03BB31B83B;
+	Mon, 20 Jul 2026 19:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.30
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784574778; cv=fail; b=RpcCpVHYo3Tl66+iMXPPNgLBJFKksuPP+XOPXv0PIKhiLFj3YOw0n8VZggGsRmnTl66LMww0qAk5szkLvYEk3jpwAkX1lcL+G2JEeM/UIRXuiEwXMDLf1Ac3Osoi3aUbDgXhCcLi9js0/RGI0AvxCm+8z/7/zbMJt70bWFw1kKM=
+	t=1784574963; cv=fail; b=pXnDsPXJ0bov0zTN+yUbXCkuz1rih8vxXpaLtYoDc1h465fjD7yOUhFgZpMr7kMTAHVhZZfB+O8pS+1XKyrJ2cN9Rz2epfmNjHEzCOtA42jwBvGpDaYfZzWz7sW2e7nWvgLOLEQJo8DaYBiZH9J2mdE+5h7KQ+jdMurOMjCGH88=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784574778; c=relaxed/simple;
-	bh=kVReo1wxsKBLDu1OlThAekTw7KcI2ER5dM9aO6SrPa4=;
-	h=Content-Type:Date:Message-Id:Cc:To:From:Subject:References:
-	 In-Reply-To:MIME-Version; b=MOuHmd9SQhDfjo1wX/rDhoH8KDBOx/t60WSW+eqldUXxaKEaZD1UVnipQFzUUFOInCrEAzKM/XH9Cvtqgg23MjQrWwnRWgb+MIO4QbcqUjpV5uzF3AUsECuiruI3elhcFcgX+23oJp8vPijk/KYEraIYyHHwYg8z1Bg62accd7A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=GjJldHT6; arc=fail smtp.client-ip=40.107.208.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1784574963; c=relaxed/simple;
+	bh=oKHOOjYHl5l5MHIpvGZ8G0fn635exWhSNtmUam76X2I=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=LxEjJ8tmkEC2L/AxXzggidMHfgRw7mpg3ZWPzszgJUXq/frGyHfKoiBSWoz4/cpSSsqvbOZslyhVa+Qd+ksVnr6NZEHSi+MNg//g04NaWnFipKQe/uYQsFFc4kGo+0sbwbuYMeyOBiaB8xDYcVEpVFt+HZj6RARyZyaOsVSu1o0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Lr/5xe+f; arc=fail smtp.client-ip=40.93.196.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="GjJldHT6"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Lr/5xe+f"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=N8IxTKxKhoY4aYEeefo2ildqncoWJKR3cFvjyNx0W77zb4/Hyu83Z49xkLwjbbu0nWqUzOa4tnIH3GYGdPpxLCRxIM1impjgKNZ6B0Dgp9TZUP1Z5f9MhSnF+X+khxjPPxzaYI7vu0v+WtaCISMLmtdKIClG+AJ+Omlje4QZg0BCr4DBUEhjLVXZKIqvBa8KU/e5lHhruunfYx7n6DPlsLKOrj2pxlt03duOeeQHXg1ecUwlQLMo1uHv3/c4Q6MX2TsA8a7dmBSP3KZGWtOZfkvMV/rRY/kGV34JJt1H1ya7evcH/Mseh8P9L2ErMrL5gGL8D3b7YZppLF0BaQVocA==
+ b=gQjOyD/dgkQJ+luGqN1j/vUAgnVu9PKrhC6NeijN8tsQLt0eZWEZM0CnuYU3IeqR7uNyhOz1i2soyUAQs60pYZCp85bNxTlSrBneQ1LQevZxsXPJNgSkUA4k7esFP7cOG9ozT3HfTyvciI0W2Si6LoyBGAc/zaipBfRNKNhfJZqUesoRllzbPU1eQYLmTO+0D36ykAE+9XiO2jZFF09yU9m7DJhbfwXpJHzV+NWmIuMLzDWL7YKP/oRttlzX85kEZfYnsRtnDF6gFLiByUMXvLNvhHxO/6mWf5hffq4MauBpMkxkNNYSVl+rtdOhyMnJEZpWtbl4nAMyQbcT8JFCHw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GtDhRePc/d/7+vpcQuPWsUKy02vWVLss2qe86idKv9Q=;
- b=GKQgJJRngEbpqmWsoBk2+gE7WcI7UlKjoAfYWxgQSxQT2zrWPlFlSXp/1BzSPcAFMBky0SyP9oBIwWDUPwJ6bPMcR46htWvZ3Gx1xDBLowBOdUTKPBQWARvZqLoQw+5tNgBRLHe0cAwQ3ahMpKJm4jSZr18PXHvGQdkU5edFOGdh7kKaZbuUlWbHQdYBOgY5BuRrK091RAWKbn4BwpEeenjgbneXfFX1mjGA/n7Jae8UlHBIWG+eBbCFlVI0oj9aSkMXki6aaWWT3SaaZ5tANLvSokjvT8vZhLaxJMMWp3YW4Cq27hBGDjL6GmNwJTD2njiawYjahtOFbuJzW0zSDQ==
+ bh=Qe9n/xDfsAFf6+Su155reWpIoJZFRxq2TWZQQJvvePw=;
+ b=IHDWXc2O9/8Swod3SqeQyb37ClOB/IL9dh0c5Bdq8dvvluKfFox4OBtR42jl9CbufRYCu+18YW9TdwUD3Fp3cnhaV1ey/Ws8hZjaMW3SYdsLUlLmsuFC/FjW5t1QscdaTTWVOdV0ZVkKd/jN9hC0W0LX/74Stz+IuxPrbs7l9MyG9EVEl+VQ0so1Ll93ZMo8YauY+giS/oN2oFoiYWTKYYrxpPAlrltX5LVepTz+ZTWeef2/3WboYwGLhaI99nRWUqLMWNXTFQizagmWIKC0DH9hjqmqR2XVSBy4qcpa45WJOq7N5WlOKTKgNVwQVm5dGOxa/RERCv6y0+Zaq1WA+w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GtDhRePc/d/7+vpcQuPWsUKy02vWVLss2qe86idKv9Q=;
- b=GjJldHT6/om6SSY7e22P0CFfglVCWidi7jkHIGPS+FgGakQY8Sp0eZe715bnjsM+7tj3YInrvYve0i4cEy/NmIuQpJmyy+VkGVnJzAR9fwO1W1uBLOKBGvQVFjqWXtrQezoCdcZKKICL1CgmE8Cc6Cy+W5SCXIbspATg9zjozlSrNsbKn36+TnGnaW8Bh8LJKtNxSrLi18fqRZwNBP5Jp6DrWrxntDzUSmhfObyXp+XmY1xOGoOtYg/QKgWDPSX4xwBnJvBUPkn0V4FVfAk9vgk0hLZ8LR93jDNP5RgqsZV2d+0tSEjhY7hNXw72kPOQvjTV7D5TMYawIPjqpx/lkg==
+ bh=Qe9n/xDfsAFf6+Su155reWpIoJZFRxq2TWZQQJvvePw=;
+ b=Lr/5xe+fe4/hlnDxU8YmkWFN91PvopUbwR4V98V9/Du1PaKqWxpHvQNnUwhhVczKDcpIoxvtIbqch4GNUwKjfcYxL3b5VMlZRyqYIeR0kgt0I/Gp6oYb96JOKmdvPebvorD4Aw0LXlPCbRc2fvcXkrLYr6YXPJlQ4TTxzXtJHKA=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by SJ2PR12MB8980.namprd12.prod.outlook.com (2603:10b6:a03:542::18) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
+ by DM4PR12MB5961.namprd12.prod.outlook.com (2603:10b6:8:68::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Mon, 20 Jul
- 2026 19:12:51 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0223.017; Mon, 20 Jul 2026
- 19:12:51 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 20 Jul 2026 15:12:50 -0400
-Message-Id: <DK3MYJN8KSZ5.1U0STUJGETSJH@nvidia.com>
-Cc: <damon@lists.linux.dev>, <linux-mm@kvack.org>, <sj@kernel.org>,
- <akpm@linux-foundation.org>, <linux-kernel@vger.kernel.org>,
- <ljs@kernel.org>, <liam@infradead.org>, <vbabka@kernel.org>,
- <rppt@kernel.org>, <surenb@google.com>, <mhocko@suse.com>,
- <npache@redhat.com>, <baolin.wang@linux.alibaba.com>,
- <ryan.roberts@arm.com>, <daichaobing@sangfor.com.cn>,
- <wangkefeng.wang@huawei.com>, <gutierrez.asier@huawei-partners.com>,
- <zengheng4@huawei.com>, <kasong@tencent.com>, <corbet@lwn.net>,
- <skhan@linuxfoundation.org>, <linux-doc@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <lianux.wang@processmission.com>,
- <kunwu.chan@linux.dev>
-To: "Lian Wang" <lianux.mm@gmail.com>, <david@kernel.org>
-From: "Zi Yan" <ziy@nvidia.com>
-Subject: Re: [RFC PATCH v3 0/3] mm/damon: introduce DAMOS_SPLIT action
-X-Mailer: aerc 0.21.0
-References: <59292ba2-e0cc-4e50-bb26-be9c15843a41@kernel.org>
- <20260720095633.32281-1-lianux.mm@gmail.com>
-In-Reply-To: <20260720095633.32281-1-lianux.mm@gmail.com>
-X-ClientProxiedBy: MN0PR03CA0026.namprd03.prod.outlook.com
- (2603:10b6:208:52f::23) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+ 2026 19:15:58 +0000
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0223.017; Mon, 20 Jul 2026
+ 19:15:58 +0000
+Message-ID: <78996219-a8de-4dc3-90ee-db4c19e0d66a@amd.com>
+Date: Mon, 20 Jul 2026 14:15:56 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] x86/resctrl, Documentation: Keep mbm_assign_mode
+ "default" on boot
+To: Reinette Chatre <reinette.chatre@intel.com>, tony.luck@intel.com,
+ bp@alien8.de
+Cc: x86@kernel.org, Dave.Martin@arm.com, james.morse@arm.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, tglx@kernel.org, mingo@redhat.com,
+ dave.hansen@linux.intel.com, hpa@zytor.com, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, eranian@google.com, peternewman@google.com
+References: <8cb66e18e32e4087a9712c1e68ee6da614efe244.1784322818.git.babu.moger@amd.com>
+ <d337915a-ef4c-43b2-a915-e97381b7dca0@intel.com>
+ <b0dc49dc-ac35-457b-90c6-842a3cfcf8e1@amd.com>
+ <f3fd774d-0662-4094-90b6-f0c5a4bc5d26@intel.com>
+Content-Language: en-US
+From: Babu Moger <babu.moger@amd.com>
+In-Reply-To: <f3fd774d-0662-4094-90b6-f0c5a4bc5d26@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CH0PR03CA0216.namprd03.prod.outlook.com
+ (2603:10b6:610:e7::11) To BL1PR12MB5320.namprd12.prod.outlook.com
+ (2603:10b6:208:314::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,149 +71,203 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|SJ2PR12MB8980:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7b500aee-05e3-42b1-cf9a-08dee692e4c1
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|DM4PR12MB5961:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5a445f01-ae87-4d9d-07ed-08dee693546d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|376014|1800799024|366016|10063799003|56012099006|11063799006|10067099003|4143699003|22082099003|18002099003|3023799007;
+	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|23010399003|56012099006|5023799004|11063799006|10067099003|4143699003|6133799003|18002099003|22082099003|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	rgvhRRLa9ZolsUp5r0voHcWRpkQSXLBNM4WIygbUtvEUfWBrGkWqnrsQYZWqUrxM/ECeoNJDeOgpHWCANUozIoAHapIViHF2FJziyRUXaEcAS/ZlXruTRjGAApSXDhHm4hUK04mvdHxRSuBKmSld3wGBMW6UftgipruGQ5rleVbd5UeIwmfv9Tx2W2nILi7aU/myJ7vHwHxL5HzRkWlZY/QDdUO2wpNUmwhypKBS6kNghYKNb9DARK6Bd72f9VnknFV0Qzb+lTzTme99n3d0SStQ16gXqI9j1CQoKfbfmZwj68ws6JWe+Gsjn3uslAe1vF6iRFPqAMQ8AAeWDK27q9yFNbXeW5kjegLSaWgbQMWdeN7d3+DaEIXl1yYK1xuWSP2ORB/DIE3wG0SMfjFKwFGvpFondyZS/FfrZfhT+63KeNuWYK55kkAEXkB4uPY8rCWnWzihV83L4Ry2f8kUGMiXfLiVc4O77PxFynlUBzmQRCBFeJOnPmqyrJSjYybF4UZfB0VE3CAIOVyRXeSIhRfhLg5sfeFp4REBvXeNYBsnJ4JLm7xDCoPR3JPFZM2rARD9tFwys0gIhSWKlWEtnIdYMVVmQi67gvqQYIfpmt765M8hGqMTre0fxe68Yvg/INRr87Df3VZt3aMH7mbokop86Gv6FyAuEYUYuUwXwn4=
+	YuJU/uEryYOwMW8GB8QP+OtvJ4q1/NBfPRu1wtx/2mjP2YC5PoNUMXjXIFo2AsOjQjNXpS0Na8Xo8aa2vXe0UBpRX8nYXOc129nxjnMCLJ7LTnXQFN6qfjB49X6854wgTeZBB+8ExOPm9RSzJzpqBKvKHhJPsXfQATzC/L7FWeo4j8G4fUyP7XMjNz4b8RtIHUgWANiJe6Q1FYC2cc0Y1dhL2A0VNW98ugLp2Do3MOgj8vZANYYqzafD0Vx9sQpbEHxwLQc5WnmK6s1zJB4V1GM8wKf5LY0+bTXZX8m05DYHEhZTArhDrzrAQRATbAUyrW78gLpUnQdHKAa8dJMrsGE9GajFVol8YG7YHab3vBjkE7ZjlaklT/TnvEFzNhcSEpOCakPpFtvI9WTsfb5QFshhgpmaPt92qd/SGgICixp5uEt5VPp0HX5JDh4ZOQioPnDzVqFfXGnAhGcWrMn0Zllzv1ZYjQNQu8Yz/DskZeFFpnV1YaxSdv/bhrLsYOkBx6K3JXzeLV6719wZ01dzbnu89FPZV+1+d3SnA7hugmgbcH/cebKFIofytgw2G7ZAraeMuUWELhO5MfjKEzTGNCDF1Ykg2EdgqP+6CeT5MIALAetQTDbKrUNEgNw5m02uy3krWEqwSTWGi3ybBR85/IMXPZBKPObAHPP/i/L9dcE=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(1800799024)(366016)(10063799003)(56012099006)(11063799006)(10067099003)(4143699003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(23010399003)(56012099006)(5023799004)(11063799006)(10067099003)(4143699003)(6133799003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WS9JTGFQYXR5SG5qK2JNTTNZeEZEK1ZFb2RtalR2UldHZ0NWUkhkOVdSREJh?=
- =?utf-8?B?Sm04Rk9oYU95dWVlWEVCZFVzRGN0RGUwQXlObjNPcCtkeTNGanBNVTMrdWww?=
- =?utf-8?B?czNrSE9UTnJkV24yNk5ZenZFdnR4Qzg1U3JWa0RsVTZ0ZHpHYXBHRk11NzZE?=
- =?utf-8?B?U0ZTUDhrVlJzLzM2cGhDYXpEQkZSdS9YTHpib1grVk5pSk03b1YvckhGekJD?=
- =?utf-8?B?QnBhZUtGY1NiR25QaENrTERkcVR3b3p4RjZlQXdqblZqMWVEYjVZQlB6eWxM?=
- =?utf-8?B?c29ka2wxODJWQzhsQ2RPdTdlOHNGYXBnTlZEZWJWNGxuVmV0cnhtOHBlMXdp?=
- =?utf-8?B?VVZNa1R1TU1qRFdRTUdROXJ6NmxzZkdEU3Vkdi9jMnBxQk1Za0RiWStxWmxB?=
- =?utf-8?B?MjVPbVBEbzU1MU1naDFyYU5NT2FCVXNZNUVwYmtKR0JKcUhZZDB1MUR6ckh4?=
- =?utf-8?B?WWNHNXpDeUVKSkxWVUhPS2lSa2NwVURGSXEwQXYzclJUaVdHQkRDTHZVdVdU?=
- =?utf-8?B?QTkwV2tPTFBUY2ZNQ21saXJ1YThyYlh1YjdqdnFtU0dsQk1sQWJmU1hZQUIv?=
- =?utf-8?B?ZGM5ZFM3cXlqeFl6Vy9xdFVwS3RrbWI3TlZGT0NBT1NWeUc3NEd3MmluRHJP?=
- =?utf-8?B?djUxUWI2TkJ5NlI4VXRteHpKQlVBbTJ1QktYY1NiSUoyd3BPWWNiRDZrMDVp?=
- =?utf-8?B?WmZyUElMaHF3eVJTTTZOT1J0V2taZU9tSDhYNWJJVHREdzJpUlFMMnh3Z3Jp?=
- =?utf-8?B?ODZET29oYlpxS04xZzdjVCs2N05xWU80V0tiN1ovU1JWQ2hUMm9ja1BPQkM3?=
- =?utf-8?B?RTFLU1FEeUxYUEN4bVM5RnBLZGczZ2hlcmlqNzlXQmNqZ1dPRnJoR1l0UmdT?=
- =?utf-8?B?NHpLYUM4b250SVR4SFZITFg5TDMxLzZ1RUtSWGxFTjJwN0RGRWh1a29TUTlX?=
- =?utf-8?B?bmVXS3BMZDBLVzdBMXQrWCtyWXBoN2xxaWMwaVNMVU5yODByNi9lay9XOWVK?=
- =?utf-8?B?eFV0bGNqMm91dFMydjMzK0ZwMXVoN3FiajY2cWdBbENab2FObThqVnAwamRV?=
- =?utf-8?B?Mjh0bTArYVBKZzZ0T2ltSmpWMXRDWXBoMWg5ZVFOVXZSNUxBbDdnNEt0L1dS?=
- =?utf-8?B?VnJWQTVnNGtoMnpNb1FsNnhFb253UTRlYytoVWQwb2RLdUpqd3duRnhrcVEr?=
- =?utf-8?B?Q2J3dUdJemx4eUdMb0s2aC9SQXJ6WXR4SUVONy9OckpvbnAwVFFkdkJLK0NO?=
- =?utf-8?B?LzBaSjhtRWZCeStnSVBWVFpwME82TEpMaUd4VGpyMkQ5Tmd2ejFKaExhUy9Z?=
- =?utf-8?B?MGZBU3JjRjAwQWgrcWhrQzBoamdIVDdJd3pSWHBhYnZ0YWEyUXVBUUxHYmxu?=
- =?utf-8?B?VVlYbW9Xak40Mms2SStmZFo0UzhxcUhxWlFZNm51RUxucmtnczFQWVAvNC92?=
- =?utf-8?B?YUZscjdqYkt1N3hWL0ZaRURzbzgwMGswNmN4NkNKS3lubzV0aXM3dzdUNnRn?=
- =?utf-8?B?ZDZEY2tESjBvbitNSUxuUzF1VlFzS0tFWUJzR0VmQkcwT3dpanE1THVCWHNL?=
- =?utf-8?B?QUl6YWExdklxSFZVRnhPc2lhYWlrTVZIZDBpb1BiK3pWZHhBWWhGc0x0ZGJD?=
- =?utf-8?B?aFY5aVBVQURxbFVjanQ1RUtTZmVmWXBnTDJ4eUtpWWdnV2J2R3A5dUhWbUR3?=
- =?utf-8?B?MUJqL2JPQXVXZk9na1ZwSjd4VlBMWURQemk0R3ViQitCZ0hGeTA5eXplTzZK?=
- =?utf-8?B?OVRqRTNHeld3NldsMmVOUVNDMHB0ME0wdWY5T25Ob2JVRjlURFdQTkpreUhi?=
- =?utf-8?B?RTczWkw5UlluczBoY0x1RWNhcGhVVDEwQ1ZMUzFoY2lPN1pyVTlyblcvT3hT?=
- =?utf-8?B?MmdFVUlhZXpsTTJ4TzJPVXpRc3VQdVh2SzltNE9OWmh1V3UxYkVQa2lQWGlL?=
- =?utf-8?B?V0Y1a0lnSDA3N2o0RkpWbXZrK0R6M3hjdlFqN0ZBZ05veDRpclhYdit4RWxB?=
- =?utf-8?B?Q202bUxDTEY3b3VNeUtjb1MxRGJzSDExZ3pGU1VOdWZrK1RnN1lPWEU1ZW5S?=
- =?utf-8?B?aGhpTXZlNEo3SUdaVVU3M3E5andvZHM1Y3VtbGRxWEFtbXpVeDZubmUwd1pJ?=
- =?utf-8?B?YW82cnIxbHNrOVRTenlkUC9IZXV6a3FqVU0vV3VqUno2Qm1DUVBFZDUwWlJv?=
- =?utf-8?B?SG45OFJ0Qno5M0hmMUYwa1AxbWw1WVk1YmVLSVhsd25YNUNDb2FCV2hyMUMz?=
- =?utf-8?B?V3V6L2c2NVRPcGplNTB0VUJWVDZNM21DcTRmNVhkc1NqbWNsL2Q3TWtEYkh3?=
- =?utf-8?Q?tEsp/VB8u2yhGb25HO?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7b500aee-05e3-42b1-cf9a-08dee692e4c1
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+	=?utf-8?B?V2dYb0ZKVmJyN0dSa2UzMUpxK3dsTmtxQjhMWmZwYW9rU3lzRkc1cnUybDFO?=
+ =?utf-8?B?cmlXWlVMQnpyemZqSE9EU3djVFgrSDlmalRsL1A3cjFnalA1VnVYQmlYbkE4?=
+ =?utf-8?B?VHdDOGk4bHJBYXorMzRQMjgyc2FpOG0ySGJtNEttbC8xVHF6WlZDNVM2K2xY?=
+ =?utf-8?B?N2xaYWQwZlYxVFozRlZFSGNkdlFnRi9YcXEvZWFFZGxmaVlrNGZTR3A4MW5J?=
+ =?utf-8?B?OWY2NmN0dkNwRjFucFErZWVGL3A4dWZmUG9UYTAwSTk1Q3ZyaXY5OW5tendI?=
+ =?utf-8?B?TkVBZU9aQ2pvTWFhODdzOGk1VW5ZcGtHOW1MdHBTazU3YkplZExyNEZQbDJS?=
+ =?utf-8?B?a0V0OTZTMmNXRmx5NjJTdmxFQ0N6UUxRNk05RFR3ZnZZWSt2S241V0E2Q2FG?=
+ =?utf-8?B?eDU1WVRZUitIZHdUdDJmbU5ZTVBVMU1pcjVxLzg3ZWlFSTlnNUUzdTR4QkVi?=
+ =?utf-8?B?a0E5ZUZZTHRjaENJRys3U2xhcTVZVElUcXdtRE1CVnVYNXJEaWRHU3gxOXhi?=
+ =?utf-8?B?Q2dGQkJ4N1BLeWpBNC9xVkFidk5HVUh4bnR6eVM2eUpXZHdwR3MvRDNSS01m?=
+ =?utf-8?B?YmcxRFcwSW1seHUrRjNoU1Z3UkFzZW5XWjJKRTJPNmdTQ0VtZzJlYU1USS9U?=
+ =?utf-8?B?a3p6enRIZ2x4RmN1VXFEMjl1cTdOa0l0aWxWSnZFOHVUY3pmSmxIWmVpWVJV?=
+ =?utf-8?B?cTI4RFp3Um9rdzY3Vkp0Y3JQV0ZUM2d4cnhqdjl4d3FpMlhHdWFjSDkxb1FV?=
+ =?utf-8?B?TlZyRGh5QjhGSzVFZ014bmtUQ21pcW55YTlaaCt5MVJ3bTkwVEhBbjljUXQz?=
+ =?utf-8?B?SFNjbmxQVldrekp3d1B2WS91ZDJ1eVd2ajJmSVdrbUJjRC81SmxvRU5jV1lv?=
+ =?utf-8?B?clY0N0laZ1ZYLzk5NG5rczE0Zm1MSEl5VnF4RGdXWGpuUGxHc3RlNGRISFF1?=
+ =?utf-8?B?OWVkWmhGaFVnYUU1Mmlpc25VcHY4RUhiWmdnVmd3WW1hbHpOYXFPYVdQTS8r?=
+ =?utf-8?B?WGRKb2x0TmsveDJsakRpL2d3eFJBcFpKWHdRWnI2OFBaTVc1NmxRanhlVDFE?=
+ =?utf-8?B?ZXFLODlvaStjTWYwMENDZ1o3bmxnZ3NPMktMNjhsbEZrRnJYS2NjRFVzTmth?=
+ =?utf-8?B?L3lMMzhLOUxPSGE4bVNVVFplc080M1AxV1VobnZaVFVjc0dsQnVRTTF3c2pi?=
+ =?utf-8?B?NEtKVXAzVW02ekxKM1dHOGhWb09pYWJLZWs4YUxCTEhEK09OSk5PUVJHdGY5?=
+ =?utf-8?B?OFgvK3lOZnlFS2xkTE9iYjdKYXlEQm5EZ2NsQXVGR2xNend1dzBJSFVFYUp2?=
+ =?utf-8?B?djlZV2ZUUDN6dFU4MWFlWW0vaHlYUUcrdm9HeXZJZ0U0TW05NlU0aVB1cUlB?=
+ =?utf-8?B?K2xFWmtVeVhONm1Sd2xPWk5mSEk4dXFtTmFnQzNma1FGWDBUdXVDSmMreFBV?=
+ =?utf-8?B?UXNUSHBKRFJwWmo4bnN5R2ZCQnJWb3FxQXcwM1JYQjEwOERvR29IVm9qTnhs?=
+ =?utf-8?B?Wm03UnFaWGpWQTlvbDZvd0FvdnNpaEIrTVlGWGZRbTBkQW1UdW02amljUWNh?=
+ =?utf-8?B?V2MxUHVJQWFkZFpZK0pRTUdQU2lQSEkrNlEyZ3lNRFB5ZVB5cVNuWTl5RUVV?=
+ =?utf-8?B?bXc2SU5VNjM0Y2c2RWxmWnF6RjNnRUVmSmpKN25UcTRNbTRXM2ZTT3FnQzY4?=
+ =?utf-8?B?SmRlZ0cyeG5TVzlTNmpIenB2c1hhdUdIMU82L0xmRXk2QWY0YUgzZUxocysr?=
+ =?utf-8?B?N29nOG5JUmN6ZVY4dmtjc28wYUxLQWlUZXB6ZXZxb0JLR0l3aGljSTRod1FT?=
+ =?utf-8?B?SHhvQlNiZkgybm1ZUFlrN3NtQTVkYm5hMHB4WmdScWNaTmozVFc2Rnp5OFlP?=
+ =?utf-8?B?MWw1ekowcUtlZGVScWVSTjlVdnlpUGxIaS82eDRiZDAvK3QwOU10VGZSWVpU?=
+ =?utf-8?B?RHd4Ui90SmRHUVVrRGVnWU9FUnp2dS9ma0szVklnSDEwTmx6WFdFZEZObU50?=
+ =?utf-8?B?ZlFma0Z0RXgvSGtnMElLU1hCWW1pVlBQa21BcWk0RllpN1A2WHlrMkhra3pZ?=
+ =?utf-8?B?RTRFODNtMGwyeWhJQVJpSkU0TWpybFdJOWJMNTI3b3hqM1c1N1VOb0lFUlRI?=
+ =?utf-8?B?dVArbkR1S3A1dkp3Mk9CVFFPQllsYVRKWE5HMkpYcUZsTUZVeWMwcCtFaldW?=
+ =?utf-8?B?REhSeTFQVUdCcDRoTDRLd0tWZ1pJOG0xVXp1UDJOSkNNZ2creDNQaGdEOVJz?=
+ =?utf-8?B?aDZmRW1NNWRDS0xXbDloblZQOXVIMHJqdHFrUEFVOUszVEhkZEwvejFiMTZx?=
+ =?utf-8?Q?5s09LSocWapV6CJMjZ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a445f01-ae87-4d9d-07ed-08dee693546d
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 19:12:51.1813
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 19:15:58.5517
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xVf4l0tWD/JojKbbsQlQZAFygabG9hlQIKUxQtA2golQKVCDQgSpR3wer/2+RkpF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8980
+X-MS-Exchange-CrossTenant-UserPrincipalName: gFp4Mpe15nQE9nJmbR4imIbcfKmKHLsC94ACM37Uc96fU3cMcfFMv8nD03UVdsKZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5961
 
-On Mon Jul 20, 2026 at 5:56 AM EDT, Lian Wang wrote:
-> Hi David,
->
-> On 7/20/2026 10:44 AM, David Hildenbrand (Arm) wrote:
->> you give no real motivation and evaluation why this is required or
->> why this gives the user any benefit.
->> A SPLIT with an explicit order is not really want we want and it
->> does not fit the existing primitives.
->
-> Thank you for the direct feedback.  Let me explain where this came
-> from -- the cover letter should have included this context.
->
-> This started from a real problem at Sangfor.  The scenario is:
->
->   KVM-QEMU virtualization on Kunpeng 920, with KVM guest memory
->   backed by tmpfs shared mappings (THP=3Dalways on the host).  An
->   Oracle database runs inside the VM.  DAMON monitors the KVM
->   process on the host to measure the hot-memory ratio.
->
->   The KVM process allocates and uses a large amount of memory.
->   Under the same workload, DAMON reports a significantly higher
->   hot-memory ratio with THP enabled versus THP disabled.  Direct
->   tmpfs write tests inside the VM -- touching at 4K and 2M
->   strides -- show a clear gap between the two cases.
->
->   DAMON parameters used:
->
->     operations=3Dvaddr
->     monitoring_attrs/nr_regions/min=3D500
->     monitoring_attrs/nr_regions/max=3D2000
->     monitoring_attrs/intervals/sample_us=3D500000
->     monitoring_attrs/intervals/aggr_us=3D20000000
->     monitoring_attrs/intervals/update_us=3D60000000
->     schemes/0/action=3Dstat
->     schemes/0/access_pattern/nr_accesses/min=3D1
->     schemes/0/access_pattern/nr_accesses/max=3Dmax
->
-> The underlying issue is that under PMD-mapped THP, DAMON's monitoring
-> granularity is coarser than the actual working set -- a single
-> Accessed bit covers 512 base pages.  Before SJ's probe infrastructure
-> arrives, there is a gap: DAMON cannot distinguish hot sub-pages from
-> cold ones within a single THP.
->
-> Split is one possible mechanism to bridge that gap -- by dismantling
-> the PMD mapping, each base page gets its own PTE Accessed bit and
-> DAMON recovers fine-grain monitoring.  It is not intended to be a
-> permanent API, and certainly not "the opposite of collapse".
-
-If you just want PTE level access bit information, why not split PMD
-mapping instead of the THP itself?
-
-In addition, the issue is about access monitoring granularity in DAMON,
-why should user care and know about THP split operations? I would expect
-DAMON detects the inability of getting fine grain access information and
-split the PMD mapping itself instead of a user initiated DAMON_SPLIT. If
-that is not possible with DAMON, an alternative is to provide something
-more generic like DAMON_SAMPLE, which does the split under the hood,
-instead of exposing MM internal operations.
-
->
-> I did not write this scenario into the cover letter because our test
-> results do not yet show a clear quantitative benefit worth claiming,
-> and I did not want to oversell.  Without the context, I understand it
-> looks like I randomly proposed a new primitive -- that was not the
-> intention.
->
-> SJ acknowledged [1] that the monitoring problem under THP is real.
-> My RFC is a concrete proposal to start the discussion.  If split with
-> an explicit order is not the right primitive, I would appreciate your
-> thoughts on what the correct DAMOS abstraction for this should be.
->
-> [1] https://lore.kernel.org/20260620203915.82947-1-sj@kernel.org/
->
-> Thanks,
-> Lian Wang
+Hi Reinette,
 
 
+On 7/20/26 13:27, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 7/20/26 10:00 AM, Babu Moger wrote:
+>> Hi Reinette,
+>>
+>> Thanks for quick response.
+>>
+>> On 7/17/26 17:56, Reinette Chatre wrote:
+>>> Hi Babu,
+>>>
+>>> On 7/17/26 2:13 PM, Babu Moger wrote:
+>>>> The kernel currently enables the ABMC-based "mbm_event" mode by default on
+>>>> hardware that supports it. However, this can cause bandwidth monitoring
+>>>> failures with existing userspace tools such as pqos.
+>>>>
+>>>> The pqos tool mounts the resctrl filesystem and creates 16 or more resctrl
+>>>> groups by default. On systems with 32 or fewer ABMC counters, this default
+>>>> configuration can consume all available counters, since each group requires
+>>>> one counter for local MBM and another for total MBM. If additional
+>>>> monitoring groups are created, counter resources are exhausted and pqos
+>>>> tool reports memory bandwidth counters as zero for those groups.
+>>>
+>>> It is not obvious to me that this is a problem. If I understand correctly
+>>> there are two scenarios possible with this pqos behavior:
+>>>
+>>> - ABMC is not in use ("mbm_assign_mode" is set to "default")
+>>>     - pqos can create 16 or more monitor groups
+>>>     - hardware still supports a limited number of counters with consequence that
+>>>       underlying counters reset at any time as the different monitoring groups
+>>>       need to be tracked.
+>>>     - pqos can read monitoring data of all 16 monitor groups, sometimes reading the
+>>>       events would return "Unavailable", sometimes reading the events return data.
+>>>     - *None* of the monitoring numbers returned are guaranteed to be accurate.
+>>>
+>>> - ABMC is in use ("mbm_assign_mode" is set to "mbm_event"):
+>>>     - pqos can create 16 or more monitor groups
+>>>     - only a subset of monitoring groups have counters assigned and these counters
+>>>       are guaranteed to only track the monitor groups/events they are assigned to
+>>>     - pqos can read monitoring data of all 16 monitor groups with two possibilities:
+>>>       - monitor group/event has counter assigned: monitoring numbers are guaranteed to be accurate
+>>>       - monitor group/event does not have counter assigned: monitoring numbers return 0
+>>>
+>>> If my understanding is correct then the preference is to rather have wrong data than
+>>> see 0? This does not sound right. What am I missing?
+>>
+>>
+>> This hardware can monitor up to 64 RMIDs without any counter resets.
+> 
+> How many RMIDs does the hardware claim to support via CPUID that ends up being shown to user
+> space via "num_rmids"?
 
+#cat /sys/fs/resctrl/info/L3_MON/num_rmids
+4096
 
---=20
-Best Regards,
-Yan, Zi
+> 
+> I understood from original ABMC enabling that the underlying hardware counters of "default"
+> and "mbm_event" mode on AMD are the same. That is, in "default" mode the hardware does a
+> "best effort" assignment of hardware counters to events while "mbm_event" mode lets the user
+> control the assignment. It instead sounds like this is not the case and there are actually
+> two distinct underlying hardware counter mechanisms?
 
+That is correct. They are two different counters.
+
+> 
+> 
+>> As you know, the pqos tool creates COS1 through COS15 regardless of
+>> the command-line options used, resulting in a total of 16 groups
+>> including the default group. With ABMC enabled, this consumes all
+>> available ABMC counters(32 counters, 2 counters for each group).
+> 
+>>
+>> When pqos is invoked with the -m option, it creates additional monitoring groups. For example:
+>>
+>> pqos -m all:0     -> creates 1 monitoring group
+>> pqos -m all:0,1   -> creates 2 monitoring groups
+>>
+>>
+>> Since all ABMC counters have already been allocated to the default
+>> set of groups, no counters remain for these additional monitoring
+>> groups. As a result, the monitoring commands report zero values,
+>> effectively making monitoring unusable.
+>>
+>> In contrast, the default monitoring mode can still support up to 48
+>> additional monitoring groups (64 total RMIDs minus the 16 default
+>> groups created by pqos).
+>>
+>> For this reason, I still believe keeping the default monitoring mode as the default is the better option.
+> 
+> It is not clear to me where the "64" number comes from. Even if resctrl sets the "default"
+
+The count of 64 is known from internal information. It can also be 
+determined by allocating monitoring counters in a loop until the 
+hardware starts returning an "unavailable" response, which occurs after 
+all 64 counters have been assigned. This information is not documented.
+
+> mode as default, what will happen to the scenario you describe and 49, instead of 48,
+> additional groups are created? From what I understand the moment the 65th group is created user will
+> transition from "accurate per monitor group monitoring data for all 64 monitoring groups" to "inaccurate
+> per monitor group monitoring data for all 65 monitoring groups" with no indication that this is happening?
+
+Yes. That is correct.
+
+> 
+> I believe AMD supports more than 64 RMIDs and in this case there seems to be three ranges:
+> [supported by ABMC, depends on events but lets say RMID 0 to 16] < [RMID 17 to 64] < [RMID 65 to total number of RMIDs supported]
+> 
+> Current default "mbm_event" mode uses ABMC so as you state this always results in:
+> - accurate counts for 16 monitor groups
+> - zero for all other monitor groups up to total number of RMIDs supported
+
+That is correct. With ABMC, there are 32 available counters, allowing up 
+to 32 monitoring events to be tracked simultaneously. Since each 
+monitoring group requires two counters—one for local MBM and one for 
+total MBM—the system can support only 16 monitoring groups at a time.
+
+> 
+> As I see it switching to the "default" mode would result in:
+> Scenario 1, 64 or fewer monitor groups are created:
+> - accurate counts for all monitor groups
+> Scenario 2, 65 or more monitor groups are created:
+> - inaccurate counts for all monitor groups
+
+That is true.
+
+> 
+> I do not believe there is any way for user space to know when or if system switches from "scenario 1" to
+> "scenario 2" on these systems and this unpredictable behavior that results in wrong data does not
+> sound ideal to me.
+  I agree, it's not an ideal situation, but that's how it has always 
+worked. At the moment, I'm not sure about a better alternative.
+
+Thanks,
+Babu
