@@ -1,447 +1,137 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89BC3F12DF
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 11:05:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549113F1ADF;
+	Mon, 20 Jul 2026 11:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784545513; cv=none; b=GeLoNCH/9MCCo23dN7fpdaYlb3aQxJlmjFCIQ8hJs34In/lv2kFLgPtNJk2RwmOSrcGW1IAKWNfalUKX1m+AZwN6Ip3YIPCkmySnCJF5NadYr7/uPjcDh+2/sFhAlv3UjdYtfDo4K6F5aOguCrbVayVzRtKsY94CL8zNQ3opDF4=
+	t=1784545722; cv=none; b=YHomvfS959AyPyY3EsP1nnS2G74/Q2p9ByrLvyiIlxJbwre3OBaaysTM55gDesoBDoLaGyxKqU4JCfc6rC/xGmc2Pe/1eKhSAYMGzbk7nL+QzGzeVLT8vrtxxcXeBuSpJU7k53sdjX8R1iFHiukz7RM5iU4B+QcDVtRgjeYcGy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784545513; c=relaxed/simple;
-	bh=Cr0D8IrXdc7M3cfjxvsuMeRGNkhVfxYYqCumwIz6RgQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eDirOVI2VFNtBZrOD1G0N9M00x4WFFUN96g+pEeuV9HSvZk/PB0DrgbgrKmDrJ5uaUwNP1SR62uHTh2zL6vaG761uHe2P1D+Al4V8yOlkcgIFVJCZjCiNqTxrwqdG5Mri5ehIezwDtDURFTRA/f2nP/XQKcu52/b0yQLs2Um9GA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=y2FwkocI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SF9cBLWT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=y2FwkocI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SF9cBLWT; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1784545722; c=relaxed/simple;
+	bh=vrqaP6fj5vmKB+3e0Gw8kXl2gFxCwhcPrcNjPvkrmho=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nFcUuutxUQdU9wlsrIV7rRkjQmPKQB/f3MTwFYJ1cuob0ibqPVD2RAOw4RoTQGum3gEWswpION+ag62bdMM56dmEwzG3Is1ONQFCnXO32JPd2JJx/v18SDsevxisJTttMsjkYpiycF2X/UK5+Rw49lg/UDpqRR3wwiK2cjCFg4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=h5+fums+; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y2FwkocI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SF9cBLWT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y2FwkocI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SF9cBLWT"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 314C579EF8;
-	Mon, 20 Jul 2026 11:05:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784545507; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=jy7YQBE9HAIVBFE0VOkSBBzLYevZIQzBSEslKdqseyw=;
-	b=y2FwkocI3YQIQJFXqrW9ZKICtrgU7bGVS3vz/2uDjZt14w7zVOXlNMnQ4XTNJUK34rzpem
-	JLpUktCdpsjMGideeJkQRJwuSLFJDvapFsfvDgZzS0FCBSnObDwNE5QRv++UUjkN1mcj24
-	5ZICafeK/+n3gCHZyy4tZSyWy5JZ2yo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784545507;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=jy7YQBE9HAIVBFE0VOkSBBzLYevZIQzBSEslKdqseyw=;
-	b=SF9cBLWTd+GoNKIEYOgPttCZT+F5hmFW/zHjyXOkatbqIxXJH/pnUErjpIGt+RTdjV8E6n
-	kYPGn/y9Fv7Ta9Bg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=y2FwkocI;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SF9cBLWT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784545507; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=jy7YQBE9HAIVBFE0VOkSBBzLYevZIQzBSEslKdqseyw=;
-	b=y2FwkocI3YQIQJFXqrW9ZKICtrgU7bGVS3vz/2uDjZt14w7zVOXlNMnQ4XTNJUK34rzpem
-	JLpUktCdpsjMGideeJkQRJwuSLFJDvapFsfvDgZzS0FCBSnObDwNE5QRv++UUjkN1mcj24
-	5ZICafeK/+n3gCHZyy4tZSyWy5JZ2yo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784545507;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=jy7YQBE9HAIVBFE0VOkSBBzLYevZIQzBSEslKdqseyw=;
-	b=SF9cBLWTd+GoNKIEYOgPttCZT+F5hmFW/zHjyXOkatbqIxXJH/pnUErjpIGt+RTdjV8E6n
-	kYPGn/y9Fv7Ta9Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BEE11779AA;
-	Mon, 20 Jul 2026 11:05:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id cqwbLeEAXmpUBAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Mon, 20 Jul 2026 11:05:05 +0000
-Message-ID: <4af254a4-beb7-4f77-830f-42d5bacb10a4@suse.de>
-Date: Mon, 20 Jul 2026 13:05:03 +0200
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="h5+fums+"
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66KAx9pN1485542;
+	Mon, 20 Jul 2026 07:08:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=FhOuaz6VkoaSNa+bmwnStalmSCJ
+	u+QOLYx3oX4MSYgs=; b=h5+fums+UOk7vrHC7YNdc6MCUwzlcPTULIfoGf564sa
+	qejYkPli/318gll+FZIrZEr4KjRVgyjgsL6ny0j0FfcLQdS1m+8W8Nj8HUD+2Zad
+	INJ/ykn+TNwjAlu6IIY4sFGCLD/ZttamXOaoksqwGnRXMB0VLSZ2P4JD0D8qqP15
+	lk7eCEq7o9+CgYz3rJcKdoYyyL8rBbNgDmLh7+UkJ/GICSyDap1gZCACXh8J70ll
+	5CQUZyfQbnSAPJiS2aS4dkRy0tw6KUQXO7afU6PE7PmxMXDUrKLZbr/7/CYpWttO
+	F8vDmlOd4Q3SHjsUovtA3/A8XXHmExIy2Ko3GJ3TBaQ==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4fgqte42t8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 20 Jul 2026 07:08:35 -0400 (EDT)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 66KB8Y0f062891
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 20 Jul 2026 07:08:34 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Mon, 20 Jul
+ 2026 07:08:33 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Mon, 20 Jul 2026 07:08:33 -0400
+Received: from HYB-b1tGeUj4GP1.ad.analog.com (HYB-b1tGeUj4GP1.ad.analog.com [10.48.65.186])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 66KB8HRH024360;
+	Mon, 20 Jul 2026 07:08:20 -0400
+From: Antoniu Miclaus <antoniu.miclaus@analog.com>
+To: Antoniu Miclaus <antoniu.miclaus@analog.com>,
+        =?UTF-8?q?Nuno=20S=C3=A1?=
+	<nuno.sa@analog.com>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        David Lechner <dlechner@baylibre.com>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah
+ Khan <skhan@linuxfoundation.org>,
+        Marcelo Schmitt
+	<marcelo.schmitt@analog.com>,
+        Radu Sabau <radu.sabau@analog.com>,
+        Jorge
+ Marques <jorge.marques@analog.com>,
+        Matti Vaittinen
+	<mazziesaccount@gmail.com>,
+        Jonathan Santos <Jonathan.Santos@analog.com>,
+        Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>,
+        <linux-iio@vger.kernel.org>, <linux@analog.com>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: [PATCH 0/4] iio: adc: ade9000: add support for ADE9078
+Date: Mon, 20 Jul 2026 14:07:43 +0300
+Message-ID: <20260720110754.7674-1-antoniu.miclaus@analog.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/15] drm/exynos: remove dependency on DRM simple helpers
-To: Diogo Silva <diogompaissilva@gmail.com>, Jingoo Han
- <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski <krzk@kernel.org>,
- Peter Griffin <peter.griffin@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Thierry Reding <thierry.reding@kernel.org>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Stefan Agner <stefan@agner.ch>,
- Alison Wang <alison.wang@nxp.com>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Liu Ying <victor.liu@nxp.com>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Xinliang Liu <xinliang.liu@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu
- <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-tegra@vger.kernel.org, virtualization@lists.linux.dev,
- imx@lists.linux.dev, linux-mediatek@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-doc@vger.kernel.org
-References: <20260719-drm_simple_encoder_init-v1-0-a78c509e3062@gmail.com>
- <20260719-drm_simple_encoder_init-v1-1-a78c509e3062@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260719-drm_simple_encoder_init-v1-1-a78c509e3062@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com,samsung.com,ffwll.ch,kernel.org,linaro.org,ideasonboard.com,linux.intel.com,amd.com,nvidia.com,agner.ch,nxp.com,intel.com,redhat.com,collabora.com,chromium.org,iki.fi,pengutronix.de,glider.be,google.com,arm.com,baylibre.com,googlemail.com,lwn.net,linuxfoundation.org];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[59];
-	TAGGED_RCPT(0.00)[renesas];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.com:url]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 314C579EF8
-X-Spam-Score: -3.01
+Content-Type: text/plain
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIwMDEyNCBTYWx0ZWRfX2fSejIDziPB0
+ ebi+I74+FGLhYOeoO/yfQI8cxoAuYRk4RIdWNVjzcO2gfGpjtH+EsIRnQANXsiYaTLtSrdHLTWW
+ xvl+mjEm6HIi5nEIUb5kFr3jKKd3U4vgz7vAR1XNHzQtabrBIV7YDQsXuHo+Q/v9TjMjiGWoeil
+ awteBzdPVlZ9+ASK8U48UilVgJ3C5F/4CBEbirrNUd49lW1eCofLRbXjnwOLSSlfP2kzArzFN7J
+ nCwTZnhQpCrOQ1Zvr8BRlprLFgrZE7Dgcv/f7KuOcwm0Uhpd8LtTxuUSB53qIXePoJiMxi22ZOd
+ ZyBRORe1jU4J5foyIzL5TAXcx+1EJb+5AIxyz23trXZ21DFySuiNEEH9wCbHyV6A6V0N8fo+Hj1
+ GoX7sdDabr2c75Imf4mgDvsQhfNaEtbiBJGIDKJYYpVeGfnyU2AcmoraTYDEhDXeqRlIkt9GpLA
+ 65MX40bxKVdJOCEJixg==
+X-Proofpoint-GUID: FilM7l3nCfvgjeSAft0pa1Fd8n74HXIf
+X-Authority-Analysis: v=2.4 cv=Ed/4hvmC c=1 sm=1 tr=0 ts=6a5e01b3 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22
+ a=N--XFCr6TIEc_64PeIT2:22 a=zsVk_H6PqY_VlGaDqAMA:9
+X-Proofpoint-ORIG-GUID: FilM7l3nCfvgjeSAft0pa1Fd8n74HXIf
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIwMDEyNCBTYWx0ZWRfXzPZ8qWsOyiT3
+ bml/edlQVKheJ/bxnyj8uxPvT73QH+sx64345m7F0BCNGMvl0nBPMhPh5u+BddqMK1JTcjC32vf
+ 8uSNBDovRB+usnIaXCGoTw5JrKn9kpQvcMNHiHC3VQkAK0qheW9/
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-20_02,2026-07-20_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
+ phishscore=0 clxscore=1011 spamscore=0 bulkscore=0 suspectscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607200124
 
-Hi
+The ADE9078 is a polyphase energy metering device from the same family as
+the ADE9000 and is register compatible with it. The main differences
+relevant to the driver are the absence of the on-chip dip/swell detection,
+a lower maximum SPI clock (10 MHz), and slightly different full-scale ADC
+codes.
 
-Am 19.07.26 um 01:35 schrieb Diogo Silva:
-> The simple KMS helpers are deprecated because they only add an
-> intermediate layer between drivers and atomic modesetting.
->
-> Open-code drm_simple_encoder_init() by calling drm_encoder_init()
-> directly and providing driver-local drm_encoder_funcs.
-> Also check the return value from drm_encoder_init() to avoid silent
-> failures.
->
-> Signed-off-by: Diogo Silva <diogompaissilva@gmail.com>
-> ---
->   drivers/gpu/drm/exynos/exynos_dp.c       | 13 +++++++++++--
->   drivers/gpu/drm/exynos/exynos_drm_dpi.c  | 14 ++++++++++++--
->   drivers/gpu/drm/exynos/exynos_drm_dsi.c  | 11 +++++++++--
->   drivers/gpu/drm/exynos/exynos_drm_vidi.c | 14 ++++++++++++--
->   drivers/gpu/drm/exynos/exynos_hdmi.c     | 15 +++++++++++++--
->   5 files changed, 57 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/exynos/exynos_dp.c b/drivers/gpu/drm/exynos/exynos_dp.c
-> index b80540328150..1598892c602b 100644
-> --- a/drivers/gpu/drm/exynos/exynos_dp.c
-> +++ b/drivers/gpu/drm/exynos/exynos_dp.c
-> @@ -24,11 +24,11 @@
->   #include <drm/drm_bridge.h>
->   #include <drm/drm_bridge_connector.h>
->   #include <drm/drm_crtc.h>
-> +#include <drm/drm_encoder.h>
->   #include <drm/drm_of.h>
->   #include <drm/drm_panel.h>
->   #include <drm/drm_print.h>
->   #include <drm/drm_probe_helper.h>
-> -#include <drm/drm_simple_kms_helper.h>
->   #include <drm/exynos_drm.h>
->   
->   #include "exynos_drm_crtc.h"
-> @@ -79,6 +79,10 @@ static void exynos_dp_nop(struct drm_encoder *encoder)
->   	/* do nothing */
->   }
->   
-> +static const struct drm_encoder_funcs exynos_dp_encoder_funcs = {
-> +	.destroy = drm_encoder_cleanup,
-> +};
-> +
->   static const struct drm_encoder_helper_funcs exynos_dp_encoder_helper_funcs = {
->   	.mode_set = exynos_dp_mode_set,
->   	.enable = exynos_dp_nop,
-> @@ -95,7 +99,12 @@ static int exynos_dp_bind(struct device *dev, struct device *master, void *data)
->   
->   	dp->drm_dev = drm_dev;
->   
-> -	drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_TMDS);
-> +	ret = drm_encoder_init(drm_dev, encoder, &exynos_dp_encoder_funcs,
-> +			       DRM_MODE_ENCODER_TMDS, NULL);
-> +	if (ret) {
-> +		dev_err(dp->dev, "Failed to initialize encoder\n");
+This series adds support for the ADE9078 to the existing ade9000 driver.
+It first refactors the driver to move the part-specific values (device
+name, channel table, and full-scale codes) into a chip_info structure
+retrieved via device match data, then adds the new device tree compatible
+and the ADE9078 support itself, and finally updates the documentation.
 
-Preferably use drm_err and drm_dev.
+Antoniu Miclaus (4):
+  iio: adc: ade9000: introduce chip_info structure
+  dt-bindings: iio: adc: adi,ade9000: add adi,ade9078 compatible
+  iio: adc: ade9000: add support for ADE9078
+  docs: iio: ade9000: document ADE9078 support
 
-> +		return ret;
-> +	}
->   
->   	drm_encoder_helper_add(encoder, &exynos_dp_encoder_helper_funcs);
->   
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dpi.c b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-> index 0dc36df6ada3..4e42a1da81d1 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-> @@ -12,10 +12,10 @@
->   #include <linux/regulator/consumer.h>
->   
->   #include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_encoder.h>
->   #include <drm/drm_panel.h>
->   #include <drm/drm_print.h>
->   #include <drm/drm_probe_helper.h>
-> -#include <drm/drm_simple_kms_helper.h>
->   
->   #include <video/of_videomode.h>
->   #include <video/videomode.h>
-> @@ -140,6 +140,10 @@ static void exynos_dpi_disable(struct drm_encoder *encoder)
->   	}
->   }
->   
-> +static const struct drm_encoder_funcs exynos_dpi_encoder_funcs = {
-> +	.destroy = drm_encoder_cleanup,
-> +};
-> +
->   static const struct drm_encoder_helper_funcs exynos_dpi_encoder_helper_funcs = {
->   	.mode_set = exynos_dpi_mode_set,
->   	.enable = exynos_dpi_enable,
-> @@ -194,7 +198,13 @@ int exynos_dpi_bind(struct drm_device *dev, struct drm_encoder *encoder)
->   {
->   	int ret;
->   
-> -	drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_TMDS);
-> +	ret = drm_encoder_init(dev, encoder, &exynos_dpi_encoder_funcs,
-> +			       DRM_MODE_ENCODER_TMDS, NULL);
-> +	if (ret) {
-> +		DRM_DEV_ERROR(encoder_to_dpi(encoder)->dev,
-
-It just failed to init the encoder, so better not use it here. The 
-device should be the same as passed to the function via 'dev'.
-
-> +			      "failed to create encoder ret = %d\n", ret);
-> +		return ret;
-> +	}
->   
->   	drm_encoder_helper_add(encoder, &exynos_dpi_encoder_helper_funcs);
->   
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> index c4d098ab7863..6b7561ac9bb0 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> @@ -13,7 +13,7 @@
->   
->   #include <drm/bridge/samsung-dsim.h>
->   #include <drm/drm_probe_helper.h>
-> -#include <drm/drm_simple_kms_helper.h>
-> +#include <drm/drm_encoder.h>
->   
->   #include "exynos_drm_crtc.h"
->   #include "exynos_drm_drv.h"
-> @@ -22,6 +22,10 @@ struct exynos_dsi {
->   	struct drm_encoder encoder;
->   };
->   
-> +static const struct drm_encoder_funcs exynos_drm_dsi_encoder_funcs = {
-> +	.destroy = drm_encoder_cleanup,
-> +};
-> +
->   static irqreturn_t exynos_dsi_te_irq_handler(struct samsung_dsim *dsim)
->   {
->   	struct exynos_dsi *dsi = dsim->priv;
-> @@ -79,7 +83,10 @@ static int exynos_dsi_bind(struct device *dev, struct device *master, void *data
->   	struct drm_device *drm_dev = data;
->   	int ret;
->   
-> -	drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_TMDS);
-> +	ret = drm_encoder_init(drm_dev, encoder, &exynos_drm_dsi_encoder_funcs,
-> +			       DRM_MODE_ENCODER_TMDS, NULL);
-> +	if (ret)
-> +		return ret;
->   
->   	ret = exynos_drm_set_possible_crtcs(encoder, EXYNOS_DISPLAY_TYPE_LCD);
->   	if (ret < 0)
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-> index 67bbf9b8bc0e..59dea853d364 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-> @@ -13,10 +13,10 @@
->   
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_edid.h>
-> +#include <drm/drm_encoder.h>
->   #include <drm/drm_framebuffer.h>
->   #include <drm/drm_print.h>
->   #include <drm/drm_probe_helper.h>
-> -#include <drm/drm_simple_kms_helper.h>
->   #include <drm/drm_vblank.h>
->   #include <drm/exynos_drm.h>
->   
-> @@ -403,6 +403,10 @@ static void exynos_vidi_disable(struct drm_encoder *encoder)
->   {
->   }
->   
-> +static const struct drm_encoder_funcs exynos_vidi_encoder_funcs = {
-> +	.destroy = drm_encoder_cleanup,
-> +};
-> +
->   static const struct drm_encoder_helper_funcs exynos_vidi_encoder_helper_funcs = {
->   	.mode_set = exynos_vidi_mode_set,
->   	.enable = exynos_vidi_enable,
-> @@ -445,7 +449,13 @@ static int vidi_bind(struct device *dev, struct device *master, void *data)
->   		return PTR_ERR(ctx->crtc);
->   	}
->   
-> -	drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_TMDS);
-> +	ret = drm_encoder_init(drm_dev, encoder, &exynos_vidi_encoder_funcs,
-> +			       DRM_MODE_ENCODER_TMDS, NULL);
-> +	if (ret) {
-> +		DRM_DEV_ERROR(dev, "failed to initialize encoder ret = %d\n",
-> +			      ret);
-
-Again, you rather want drm_err() with drm_dev here.
-
-I've briefly looked over the series and many patches seem affected. 
-Please prefer drm_ logging functions and DRM devices over the plain 
-device equivalents.
-
-Best regards
-Thomas
-
-
-> +		return ret;
-> +	}
->   
->   	drm_encoder_helper_add(encoder, &exynos_vidi_encoder_helper_funcs);
->   
-> diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
-> index 09b2cabb236f..f44586ce0fdf 100644
-> --- a/drivers/gpu/drm/exynos/exynos_hdmi.c
-> +++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
-> @@ -36,9 +36,9 @@
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_bridge.h>
->   #include <drm/drm_edid.h>
-> +#include <drm/drm_encoder.h>
->   #include <drm/drm_print.h>
->   #include <drm/drm_probe_helper.h>
-> -#include <drm/drm_simple_kms_helper.h>
->   
->   #include "exynos_drm_crtc.h"
->   #include "regs-hdmi.h"
-> @@ -1575,6 +1575,11 @@ static void hdmi_disable(struct drm_encoder *encoder)
->   	mutex_unlock(&hdata->mutex);
->   }
->   
-> +static const struct drm_encoder_funcs exynos_hdmi_encoder_funcs = {
-> +	.destroy = drm_encoder_cleanup,
-> +};
-> +
-> +
->   static const struct drm_encoder_helper_funcs exynos_hdmi_encoder_helper_funcs = {
->   	.mode_fixup	= hdmi_mode_fixup,
->   	.enable		= hdmi_enable,
-> @@ -1862,7 +1867,13 @@ static int hdmi_bind(struct device *dev, struct device *master, void *data)
->   
->   	hdata->phy_clk.enable = hdmiphy_clk_enable;
->   
-> -	drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_TMDS);
-> +	ret = drm_encoder_init(drm_dev, encoder, &exynos_hdmi_encoder_funcs,
-> +			       DRM_MODE_ENCODER_TMDS, NULL);
-> +	if (ret) {
-> +		DRM_DEV_ERROR(dev, "failed to initialize encoder ret = %d\n",
-> +			      ret);
-> +		return ret;
-> +	}
->   
->   	drm_encoder_helper_add(encoder, &exynos_hdmi_encoder_helper_funcs);
->   
->
+ .../bindings/iio/adc/adi,ade9000.yaml         |  30 ++-
+ Documentation/iio/ade9000.rst                 |  28 +--
+ drivers/iio/adc/Kconfig                       |  14 +-
+ drivers/iio/adc/ade9000.c                     | 178 ++++++++++++------
+ 4 files changed, 169 insertions(+), 81 deletions(-)
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, (HRB 36809, AG Nürnberg)
-
+2.43.0
 
