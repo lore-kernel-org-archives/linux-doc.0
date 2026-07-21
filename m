@@ -1,168 +1,90 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D0538E100
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 14:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604AA3B4E98;
+	Tue, 21 Jul 2026 14:31:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784643692; cv=none; b=C6sWmNtStsjVw9KSWncSU2iGjLnjH66Ar2f+QZnonNKjSB3zDOBbF5A/N9dpgUbH+wQwnI0UtIuaLtlmu+iVKbZRZprR7uZzFyifvYcvl0zfStH190/sjOiXrazRFlFEA6OEhXiR8HqIx+C976QXdEvhyrGpmX3LKrUMxSyUN44=
+	t=1784644273; cv=none; b=HEiWtgvoav/6XwI0yFy3Tb5Kcio2Zl9Z7AsJSU6cDFxbsbZjDg8n9GzNOEcY0U7GNvsDVTC5nohqLJ8x5bS72cc5iW+78jE+4seXYZi+XZsPvhYfm9Le1F+xfkp02FrxZ2VrSmL0TefpNSzJi7qvTkvb/5HGsr8aQdbrgoIvOP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784643692; c=relaxed/simple;
-	bh=296BtLOLTbroEaj4NUdcvOSUi1U0idxKGbvQ4//hU5k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mWbMOSQqCW+NKHVCCg8jXzDwPculXgABaNCYd6Po2V7BWZVaNYybiNfl20mXwuZkfiFtRs0iw2KbEhKrmqm7OaHRsUyVM5taNtMUd3Y0x88+MLQ2ZC7HAb9ynH/X/g/TWcHXZR1UWFAl9HpQtWArFZ9qzpDGPKE2fWDj8iv5zEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GkUgc4my; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784644273; c=relaxed/simple;
+	bh=pjGtvZqDJgQRwJWmHuyxyl7+6o8nwY9GIFn31394HM4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=NSY3lyt606jMgBy2EhEwReh4ttbmeAmqKP0NJJ2qXxdCXyGnG7Gc4UOniOfC3jXsFU8vZoTLtfBUav+HlGZ54k1OhC6GS1FqA3X+gEHKwmfDdz6zVhbuZRb6J91Yg9+vUM6+Jvpagq4Qk3SXNZKqKR0KwSiypqslHwgy5Kw0LuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hNgRS9hZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GkUgc4my"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c9d1fff21edso7468833a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 07:21:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784643690; x=1785248490; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VqwynvKtmc20/YbYA1Ms6kyZdYO0+BmWn3JxmKfFb2I=;
-        b=GkUgc4my5xOXEv4d/hycmp2xnpZ553K/81NxYjJ0sPNUtvQNnbRBcvdMQNAOpx5uBQ
-         OXIyj1ex8nedVDF/WyiMxMsIWCXW7OYg3ix7Be1X6w48OvzGqxbry4Gk/u+KRZvsVcfU
-         be64rJJCbb8YAH+85iDX7yYdoWVeVPDJ51dE6SFedK1BkBulySLq3T4XGZLV4xMWLJ3/
-         Xi0jsqJ7lQvChR6F1pNi5oNhw0lBV5iM5EXmWjRYZGcRVAyWgSIrP6/jMpdProCciJ8c
-         QZPRsLDT2QPaba9IjWL60MB74pz7tRmWE9zk7yThY1o2ZdkdWFByL3UzQ9K+mlOq8Pd1
-         uFdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784643690; x=1785248490;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=VqwynvKtmc20/YbYA1Ms6kyZdYO0+BmWn3JxmKfFb2I=;
-        b=Xpispi6atrY+lgsAFyGjMamsJn8J2C9Id6agiOxg1YJpDeePX6vWfJs4Zi6IPjmROd
-         MxT53VVdMbE1Q8efazpAl3fZDLqWgUtmqvG1005KZic21R+e1P4UZ/K6L8LoDkJcxtly
-         TzMG30vAH/PhMfvy8+90g0QHyAInZlzWnV73yheRxCrS714TZCEekAI+WtNG+LMG+ypd
-         9P+iYIoU3YKo8/lJUlYSR6k2FteNIx8RXnRYaSxrrgMyC9Byh7yaQS+J3MhqwFL/Qc1G
-         RsiW81AWS9DBrowscfEvdN4sWq5Dpt3mE92QuQf6Wj46PEVGHYdggbEf75lsjZjZiEYI
-         S8ig==
-X-Forwarded-Encrypted: i=1; AHgh+RpmGrn5mXqidtcj0U1KOy0x4ZumW3kQK+oqVCJylYybW3fqiCzztN2F9Vk/1QqS7bN1nwWR3OT7CaQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxODb2YqQnhFAVUHuje00NVVDs4ucM8hUbCRBq/LCsthLVcnlyU
-	6DvYMM3Z/yvz95Kopi5TG/v2ZHZckcLke4H6V5wsIEFoce3xe9BKWf7R
-X-Gm-Gg: AfdE7cm7xZtG1VH4SMt2oTsMHXzCUHiMZaOddIRIxQbhlVTaclYA3tuFmMAKSJgjf5J
-	imkF/RCkT9iN/MLQnNVcr7nGcibzdFd5HqNW9LrCgcsBUcY8KQ2tSM4sGcWuQB/gqWuMMXeh6DP
-	dg5tWI2j5gAxL/WGPfGZXMTdZlgn966Du9c4RW/A73OTl5a9RorZZxhKLUPcMrQUSyBJpb+nW7F
-	Hpho1XQXoMjyncCM+lF7R9aoT0VgONRy2Dsep0YBIGNpMNrvL7kU+cJYPKlkayk3TEWJ9Yt3ps+
-	VRQNeB8oYlNf+Q7vh3xcG5CG+YIGl9zfAGDmzirRYEoq8Fd+j2p+MDHYnNjcFOfe21xvDu++zMs
-	Rr8VSuN7TIssUwybh+2WuiMRPsRQCINu2USUGPAnf9v1BCJBWVwfDcEJLw6TWjiXVyH3qV7bvuH
-	q7DSF1SETsc5DCpEfY45+VCYqkUeJL3QEWMUfzhq0dNIXDtuQNX04pJpH/8N/YMg==
-X-Received: by 2002:a05:6a21:7111:b0:3c3:7cfe:b32a with SMTP id adf61e73a8af0-3c3ad7a4367mr20368132637.27.1784643689558;
-        Tue, 21 Jul 2026 07:21:29 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31429fdcb09sm53997239eec.9.2026.07.21.07.21.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jul 2026 07:21:28 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <e19d41ed-1109-4c0e-9cdd-53d72523a68a@roeck-us.net>
-Date: Tue, 21 Jul 2026 07:21:26 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hNgRS9hZ"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 869F81F000E9;
+	Tue, 21 Jul 2026 14:31:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784644272;
+	bh=mO0Vt3bPhGVEGHIRZHRwhGECRXSL7Hu0md+6vJzaYWc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=hNgRS9hZSNzl3Izuq1xBU0FGbe6kWiVRbonjNBLWZM4jn/LVyrQuFdy42ZClwTk/0
+	 nf+KVHEyB1zUt9KULpEKJe4JGyywY1f5xRlbtDqgXoG2+ZxWeU3vRjYiqEx67BJa2m
+	 ctyjNRI2tFcZibzib2HtGSsSYx+GuuKjNpeSOtppl2mODBFflkc7RxOs9Lg1Ufu8uC
+	 51W5BgdfxXdVsX7YlfH8CAgY335wYncTiUIKtI0xie1Gsv39ImG9DOnS3GtK1ZQ31H
+	 qTzeflKZiF1jS0iB7T7nZlXhjqKwt1d8A5SSKMi/agi1mpDAuHGZWvI3l3qYd5RbuV
+	 njkcwutFOgpjQ==
+From: Nicolas Schier <nsc@kernel.org>
+To: nathan@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
+ Julian Braha <julianbraha@gmail.com>
+Cc: arnd@arndb.de, stefan.hengelein@fau.de, linux-kbuild@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, nico@fluxnic.net, 
+ officialnaumansabir@gmail.com, rdunlap@infradead.org, 
+ vegard.nossum@oracle.com, kees@kernel.org, tj@kernel.org
+In-Reply-To: <20260715220149.48700-1-julianbraha@gmail.com>
+References: <20260715220149.48700-1-julianbraha@gmail.com>
+Subject: Re: [PATCH] Documentation: warn users not to use select on choice
+ options in Kconfig
+Message-Id: <178463155540.1439086.8303526519325878284.b4-ty@b4>
+Date: Tue, 21 Jul 2026 12:59:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] dt-bindings: Add vendor prefix for Kandou
-To: Krzysztof Kozlowski <krzk@kernel.org>, Andy Chung <Andy.Chung@amd.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260715-kb9002-upstream-v2-0-2fd390383da5@amd.com>
- <20260715-kb9002-upstream-v2-1-2fd390383da5@amd.com>
- <20260721-sweet-bulldog-of-perspective-bd0bcd@quoll>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260721-sweet-bulldog-of-perspective-bd0bcd@quoll>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=762; i=nsc@kernel.org;
+ s=20250924; h=from:subject:message-id;
+ bh=pjGtvZqDJgQRwJWmHuyxyl7+6o8nwY9GIFn31394HM4=;
+ b=owEBbQKS/ZANAwAKAQdSCnAWJhJpAcsmYgBqX1EGyuBJ7S7pstmwCy2rjt81jjLU9qiGYpK2m
+ d0AwGkjbEaJAjMEAAEKAB0WIQSHQTenhzckp4G+wsYHUgpwFiYSaQUCal9RBgAKCRAHUgpwFiYS
+ aT2LEADLtbD91Wccch0+fByTi9ZRHxCXj0F2oo5UFc6EDf1NNbxkRHO63iId+gUWOo0j6H4+CsC
+ P0gXFib37EutYftd5PmdS+UHmLFRd5zE3MnYg5yClgl6M0YLasHFd2jV8z2WRLa25Rt0K8BTccS
+ mDbmoxtsq8DBo416aqx9qRhV1sCftfTOef1JyexfIeKiAaetLg5ZqhJ32OcErsuTPJEGJ2VBS/s
+ j+it8jE2fEjxbaEGfOiL/z74uv1MV/GUz/iX4/gkHzpfbulFzxWXswaM3c7ynfeHP2NjruMh2/9
+ a5tfj0eg4kMiHBLcfm3teNiWAU3BnDauNgvXvyBjME8b7knkZZCcm8niZYu4VARRmQ/kHkQlUEe
+ BNxiYNtchvZH55B8vaWcdqFf76X+m6204BojCfJh5pxcfqY/yQN706svf1Ou0qw5+A1wwsNCLDV
+ zwXyC/tiXHnmJXQlB2hOqrGo/50PXfQ4FdrBJ9vntxmIkpnO5bELGiuijcnmTyjmwrFaFetc+xl
+ XLFYLfw7wZxHT3v1bdjT4DZnlAMuXHz7hghIERdnMV/7NRWCDmBUIQ/TxM/ithZOlI/+FOCFV1B
+ WDsQ/aUKqJcVvQMXWieZ/wLxuBMLTUKlkELbk2xrPtXe35xXMwbU9kMaEGbQl4HIjQ6N6IaHrcI
+ M8FzyZwizyXmYHQ==
+X-Developer-Key: i=nsc@kernel.org; a=openpgp;
+ fpr=18ED52DBE34F860EE9FBC82B7D97093255A0CE7F
 
-On 7/21/26 01:24, Krzysztof Kozlowski wrote:
-> On Wed, Jul 15, 2026 at 05:08:35PM +0800, Andy Chung wrote:
->> Kandou Bus, S.A. is the vendor of the KB9002 PCIe retimer.
->>
->> Signed-off-by: Andy Chung <Andy.Chung@amd.com>
->> ---
->>   Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->>   1 file changed, 2 insertions(+)
-> 
-> What's the domain or ticker name? I find only Kandou AI, so not the
-> "bus" variant...
-> 
+On Wed, 15 Jul 2026 23:01:49 +0100, Julian Braha wrote:
+> Documentation: warn users not to use select on choice options in Kconfig
 
-Good catch.
+Applied to kbuild/linux.git (kbuild-next-unstable), thanks!
 
-AI Overview:
+[1/1] Documentation: warn users not to use select on choice options in Kconfig
+      https://git.kernel.org/kbuild/c/d10cfe72
 
-Kandou Bus S.A. (often operating as Kandou AI) is a fabless semiconductor company
-that specializes in high-speed, energy-efficient chip-to-chip links and
-connectivity solutions.
+Please look out for regression or issue reports or other follow up
+comments, as they may result in the patch/series getting dropped,
+reverted or modified (e.g. trailers).
 
- From some chip news:
+Patches applied to the kbuild-next-unstable branch are accepted pending
+wider testing in linux-next and any post-commit review; they will
+generally be moved to the kbuild-next branch in about a week if no
+issues are found.
 
-Started in 2011 at EPFL as Kandou Bus, Kandou AI is a semiconductor design
-company dedicated to advancing high-speed, longer reach, low power connectivity
-solutions.
+Best regards,
+-- 
+Nicolas
 
-On their Linkedin page:
-
-Kandou is becoming Kandou AI. Our new strategy is focused exclusively on our
-goal of democratizing artificial intelligence – making it readily available and
-affordable.
-
-Looks like they renamed themselves about a year ago.
-
-Guenter
 
