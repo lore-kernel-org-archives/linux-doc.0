@@ -1,575 +1,787 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80AD446D08F
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 18:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A522D5436;
+	Tue, 21 Jul 2026 18:08:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784657272; cv=none; b=aXRMjw2N0VvrMx0uPy451mooEZvne/+8zuR+YXBl2LgU5RiJsYGyx0YVAXiWz3gKT8uvJC5B823R0CX4fSewjEGFGZdui16QKvN0PFDklAWb+MTaQwtmY5B0NCwBvvge4Z4zoqgc/W/rUohbwCzCa/W/WODFy2RmrOlA43RqwnI=
+	t=1784657282; cv=none; b=bsqAbzE2Mo8S7aW4VJAF5afI/Sxa9ezuzVbuVCRu47MIUFrO68HBDvq/O4npZxCS7rUblkDpXOUtAJUqn/LSVUWsn1HxwZRMqpIgXypPiEjkPxAjAjn9Li3xs3e7JkRuPwpMyiYUBqwk9/D9qcX77wd8AQtgR93/Dg86yG+wEd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784657272; c=relaxed/simple;
-	bh=WvACp2/z+3E8tw5TZyl7hpOGrNEaHdxpjmDXB5q7X/g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hy+Q393I1p03DZqHqh57uxLuW5J2E3y73jzaY4x+fPkPlhwp+z3yMJQpRD0D2Ex/0arEewh1pyb+UXPIRwZWEyEPkINWPDz/Xqb/DDLIAY0ChACrkYnESbGs6/97BGC8sLnEg34sqfYo7b52c4ObqN6MAf0fvtAgDqde8Xf7qfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jtsJzLj4; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784657282; c=relaxed/simple;
+	bh=i1PXtsa6EyIN4z/n4yt4JELL9NN5DttBaSlUs/Kc1/g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Sc3Mn4DnMKov9bRn4FhX/cKWS5ySQdIVhVidTUKUz5MoJ//hxAwQMyxsCpAjKWUdDUniTIXmWwX1POOgRuyUosdogGnzeWXNfPOPTeGW1EhhnjcBTujSa0KHOVim5Lwye6BcPah6Wn4e69C69F3FcAQUlsC8bPrPMYHlolgJFgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=B+RVrs5Y; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jtsJzLj4"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2ceed7018c8so55155465ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 11:07:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784657270; x=1785262070; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=c40NBo1W9yHmbmPu6DBj/iUhGmv3QX59r4twZJLz7lo=;
-        b=jtsJzLj4UAV43zgQzD43nM1JHvdky2engASx/NtBLSUafUr/ehXChXtFM3eRIVEUyu
-         kqCvHaqXUt6DWT3n2u2iqkVneCmncbRrWzrFtXIdAsZzByOFqhgSvbNbAZeEHD1jUzdD
-         vZzzbztGNVpP0yuYD1R1NLvx2p4esaG50P6zxsd36It4Tzb69KEEObzXatc2mbVvurCV
-         OKy8ateT11+Fa1kniee8y9X7iut7mT4T/9zl65CnQSzmG+KsSzdk8qA5cQ3LuIaApzVf
-         +kKw5vyURTKbjDsqS8Z0qZ8YvVJuPVaSs+YG41/o0YFyEaEGl7We1+QwiZQpAG8/IFZv
-         BtSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784657270; x=1785262070;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=c40NBo1W9yHmbmPu6DBj/iUhGmv3QX59r4twZJLz7lo=;
-        b=cs030GtFWjWQK/DNzEQztvgj/dx83/cqYDMLWTAwS/eOD3BNoYdeCGGKVEtBR+cSnS
-         jeLHRxPuCCo/7THDy6Vh5zeVM40Ve1j1xSuMV+/VtgVATHEnd/U/OCdenFQOIYENlWZ7
-         gq0YCa2x/sAOt1Crhf6IwQnB2UMkM6j19ucj+EVK05e+TvZRSG+icl/B72ZC3XApOcUQ
-         XGm7H54gWd2dQt+ByMWkYaE0EdIhhxK1+/298q0gz/m0nPiY5Pr5vnYxJAlrJWBo38U/
-         vZHYI8L1dVoM9pJJYTtQopoKYYiTvgr/FaJMQfQmrnG7YpTMsczizpDGaHG6tvUfdqyI
-         dE8w==
-X-Forwarded-Encrypted: i=1; AHgh+RqO1DBX80tVMEp2+GBw7KFiIhhChPWxuE0SWHacWfA0pPn0W9+PaZY1cKIotdVWb7gKxmm6VyrLflI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwV8tCV6ln/5aGt3eiNpcCL8YnW+TbGhck8P+cHFRe/+hzT7umj
-	A/gqyWqz5hDYPuGkET7m4I9qLEuZh50POrmQ5KWS5pMSafnN92LtMy8w
-X-Gm-Gg: AR+sD11dA0ejHpGKmdR1Xc0TOfrD+79ti5mrEUVACppQKoFhBXHeFLtuaIqBUdE+DRA
-	dezLHYXL3es88tO4iua+yk8UJhcnOhOIU46QOnb7YPxJLTs2AgZ80/QC1LZ4+iWzpvXheuBLTpA
-	Djg3V/Oic/sgcxDI8Po35ly/Wmq3GWaWRNfsfQQ/S507FCLz5env9ckTLXLSPWQmf2RvoEHI0Kx
-	Gv9VDx7PwuogFyp4Jf9p5Yuz/oydk774tZsq4sP6TARdWWHnZ41g6972PaDj665gOd0zJBeZsOw
-	My27Z6LP06VJFnB+xMeJRgXHKXTVBVosStPk9WGRBWYjidVB6srT8pnOfMy5n3/giAO04e43x9l
-	sH3NPq/cqzaIn5PJ73g7M2xdGyVoUtjglufiwdBJaTZ7HDgkHupOc/PEJM7JXG3UX885uhtYud6
-	fMO/QrQWwcnZ+7QYfc0vjo8QmSMhpX+Dfo0JyDvflWHzCWdN3i
-X-Received: by 2002:a17:903:946:b0:2cf:6f7f:55d8 with SMTP id d9443c01a7336-2cf6f7f6a7cmr88695745ad.37.1784657269494;
-        Tue, 21 Jul 2026 11:07:49 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1151:15:c56:221b:35d5:85f? ([2620:10d:c090:500::2:246a])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147e07000fsm2187984eec.21.2026.07.21.11.07.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jul 2026 11:07:49 -0700 (PDT)
-Message-ID: <c4473a79-567a-430b-b463-f45d4ef3ea28@gmail.com>
-Date: Tue, 21 Jul 2026 11:07:47 -0700
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="B+RVrs5Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 453271F000E9;
+	Tue, 21 Jul 2026 18:07:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1784657280;
+	bh=Tpmk8LwMbR7047AOnopXzQIxYjjrLKTtC58kSeLm5Cc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=B+RVrs5YpmG6eTU2cQCWUJvaZ+qPt8FdQUNHiq4JQCtzO7SLxZ1ZMlcGEHgNgrn2z
+	 WnBjDflvFphZ68fDAgbFqwRfwzzZMqxXb/DxMggmDnZ7yr4IuVbRmjuDH3N7GK1sV/
+	 GLXyZJs9UsIwe/MDGk5ZZyQQJncXQw5EEwrxIaWg=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	Amir Ayupov <aaupov@meta.com>,
+	Leo Yan <leo.yan@arm.com>,
+	Ian Rogers <irogers@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Mike Leach <mike.leach@arm.com>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Paschalis Mpeis <Paschalis.Mpeis@arm.com>,
+	Robert Walker <robert.walker@arm.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suzuki Poulouse <suzuki.poulose@arm.com>,
+	James Clark <james.clark@linaro.org>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.18 0706/1611] perf cs-etm: Queue context packets for frontend
+Date: Tue, 21 Jul 2026 17:13:42 +0200
+Message-ID: <20260721152531.260124879@linuxfoundation.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260721152514.750365251@linuxfoundation.org>
+References: <20260721152514.750365251@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v11 1/5] hinic3: Add ethtool queue ops
-To: Fan Gong <gongfan1@huawei.com>, Wu Di <wudi234@huawei.com>,
- Teng Peisen <tengpeisen@huawei.com>, netdev@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Ioana Ciornei <ioana.ciornei@nxp.com>,
- Dimitri Daskalakis <dimitri.daskalakis1@gmail.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- luosifu <luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>,
- Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
- Shi Jing <shijing34@huawei.com>, Zheng Jiezhen
- <zhengjiezhen@h-partners.com>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>
-References: <cover.1784538912.git.root@localhost.localdomain>
- <9c55508017d53dd642f1a9c864ad8dfd1e3fd500.1784538912.git.root@localhost.localdomain>
-Content-Language: en-US
-From: Mohsin Bashir <mohsin.bashr@gmail.com>
-In-Reply-To: <9c55508017d53dd642f1a9c864ad8dfd1e3fd500.1784538912.git.root@localhost.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+
+6.18-stable review patch.  If anyone has any objections, please let me know.
+
+------------------
+
+From: James Clark <james.clark@linaro.org>
+
+[ Upstream commit 68ca50bc0fa64841cd73b8a1538df1d7f7eb4108 ]
+
+PE_CONTEXT elements update the context ID and exception level, but the
+decoder may still have prior packets cached for frontend processing.
+Updating the context immediately in the decoder backend can make those
+cached packets get consumed with the wrong thread or EL state.
+
+Add a CS_ETM_CONTEXT packet carrying the TID and EL to the frontend,
+this keeps context changes ordered with the rest of the packet stream
+and avoids mismatches when synthesizing samples from cached packets.
+
+Separate the memory access function into one for the frontend and one
+for decoding. The frontend also needs memory access to attach the
+instruction to samples. Because the frontend does memory access for
+both previous and current packets, change all the frontend memory access
+function signatures to take both a tidq and packet. But backend always
+uses the current backend EL and thread from the tidq.
+
+Treat context packets as a boundary for branch sample generation and
+remove tidq->prev_packet_thread because it's not possible to branch to a
+different thread, so only tracking the current thread is required for
+sample generation.
+
+Fixes: e573e978fb12e160 ("perf cs-etm: Inject capabilitity for CoreSight traces")
+Reported-by: Amir Ayupov <aaupov@meta.com>
+Closes: https://lore.kernel.org/linux-perf-users/20260515021135.1729028-1-aaupov@meta.com/
+Co-authored-by: James Clark <james.clark@linaro.org>
+Signed-off-by: Leo Yan <leo.yan@arm.com>
+Cc: Ian Rogers <irogers@google.com>
+Cc: Jiri Olsa <jolsa@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Mike Leach <mike.leach@arm.com>
+Cc: Namhyung Kim <namhyung@kernel.org>
+Cc: Paschalis Mpeis <Paschalis.Mpeis@arm.com>
+Cc: Robert Walker <robert.walker@arm.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Suzuki Poulouse <suzuki.poulose@arm.com>
+Signed-off-by: James Clark <james.clark@linaro.org>
+Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../perf/util/cs-etm-decoder/cs-etm-decoder.c |  21 +-
+ tools/perf/util/cs-etm.c                      | 236 +++++++++++-------
+ tools/perf/util/cs-etm.h                      |   8 +-
+ 3 files changed, 163 insertions(+), 102 deletions(-)
+
+diff --git a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
+index 43ac711a4e2ae7..4f66ff9fe7f615 100644
+--- a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
++++ b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
+@@ -399,6 +399,8 @@ cs_etm_decoder__buffer_packet(struct cs_etm_queue *etmq,
+ 	packet_queue->packet_buffer[et].flags = 0;
+ 	packet_queue->packet_buffer[et].exception_number = UINT32_MAX;
+ 	packet_queue->packet_buffer[et].trace_chan_id = trace_chan_id;
++	packet_queue->packet_buffer[et].el = ocsd_EL_unknown;
++	packet_queue->packet_buffer[et].tid = -1;
+ 
+ 	if (packet_queue->packet_count == CS_ETM_PACKET_MAX_BUFFER - 1)
+ 		return OCSD_RESP_WAIT;
+@@ -446,6 +448,7 @@ cs_etm_decoder__buffer_range(struct cs_etm_queue *etmq,
+ 	packet->last_instr_type = elem->last_i_type;
+ 	packet->last_instr_subtype = elem->last_i_subtype;
+ 	packet->last_instr_cond = elem->last_instr_cond;
++	packet->el = elem->context.exception_level;
+ 
+ 	if (elem->last_i_type == OCSD_INSTR_BR || elem->last_i_type == OCSD_INSTR_BR_INDIRECT)
+ 		packet->last_instr_taken_branch = elem->last_instr_exec;
+@@ -522,7 +525,9 @@ cs_etm_decoder__set_tid(struct cs_etm_queue *etmq,
+ 			const ocsd_generic_trace_elem *elem,
+ 			const uint8_t trace_chan_id)
+ {
++	struct cs_etm_packet *packet;
+ 	pid_t tid = -1;
++	int ret;
+ 
+ 	/*
+ 	 * Process the PE_CONTEXT packets if we have a valid contextID or VMID.
+@@ -543,12 +548,18 @@ cs_etm_decoder__set_tid(struct cs_etm_queue *etmq,
+ 		break;
+ 	}
+ 
+-	if (cs_etm__etmq_set_tid_el(etmq, tid, trace_chan_id,
+-				    elem->context.exception_level))
++	if (cs_etm__etmq_update_decode_context(etmq, trace_chan_id,
++				elem->context.exception_level, tid))
+ 		return OCSD_RESP_FATAL_SYS_ERR;
+ 
+-	if (tid == -1)
+-		return OCSD_RESP_CONT;
++	ret = cs_etm_decoder__buffer_packet(etmq, packet_queue, trace_chan_id,
++					    CS_ETM_CONTEXT);
++	if (ret != OCSD_RESP_CONT && ret != OCSD_RESP_WAIT)
++		return ret;
++
++	packet = &packet_queue->packet_buffer[packet_queue->tail];
++	packet->tid = tid;
++	packet->el = elem->context.exception_level;
+ 
+ 	/*
+ 	 * A timestamp is generated after a PE_CONTEXT element so make sure
+@@ -556,7 +567,7 @@ cs_etm_decoder__set_tid(struct cs_etm_queue *etmq,
+ 	 */
+ 	cs_etm_decoder__reset_timestamp(packet_queue);
+ 
+-	return OCSD_RESP_CONT;
++	return ret;
+ }
+ 
+ static ocsd_datapath_resp_t cs_etm_decoder__gen_trace_elem_printer(
+diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
+index 0d4c510a33febe..0e30d67ec18464 100644
+--- a/tools/perf/util/cs-etm.c
++++ b/tools/perf/util/cs-etm.c
+@@ -86,15 +86,22 @@ struct cs_etm_traceid_queue {
+ 	u64 period_instructions;
+ 	size_t last_branch_pos;
+ 	union perf_event *event_buf;
+-	struct thread *thread;
+-	struct thread *prev_packet_thread;
+-	ocsd_ex_level prev_packet_el;
+-	ocsd_ex_level el;
+ 	struct branch_stack *last_branch;
+ 	struct branch_stack *last_branch_rb;
+ 	struct cs_etm_packet *prev_packet;
+ 	struct cs_etm_packet *packet;
+ 	struct cs_etm_packet_queue packet_queue;
++
++	struct thread *decode_thread;
++	ocsd_ex_level decode_el;
++
++	/*
++	 * The frontend accesses the EL from '[prev_]packet' because it needs
++	 * previous EL for branch and current EL for instruction samples. It's
++	 * not possible to change thread in a single branch sample so no need to
++	 * store or access the thread through the packet.
++	 */
++	struct thread *frontend_thread;
+ };
+ 
+ enum cs_etm_format {
+@@ -615,10 +622,11 @@ static int cs_etm__init_traceid_queue(struct cs_etm_queue *etmq,
+ 
+ 	queue = &etmq->etm->queues.queue_array[etmq->queue_nr];
+ 	tidq->trace_chan_id = trace_chan_id;
+-	tidq->el = tidq->prev_packet_el = ocsd_EL_unknown;
+-	tidq->thread = machine__findnew_thread(&etm->session->machines.host, -1,
++	tidq->decode_el = ocsd_EL_unknown;
++	tidq->frontend_thread = machine__findnew_thread(&etm->session->machines.host, -1,
++					       queue->tid);
++	tidq->decode_thread = machine__findnew_thread(&etm->session->machines.host, -1,
+ 					       queue->tid);
+-	tidq->prev_packet_thread = machine__idle_thread(&etm->session->machines.host);
+ 
+ 	tidq->packet = zalloc(sizeof(struct cs_etm_packet));
+ 	if (!tidq->packet)
+@@ -751,21 +759,10 @@ static void cs_etm__packet_swap(struct cs_etm_auxtrace *etm,
+ 		/*
+ 		 * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
+ 		 * the next incoming packet.
+-		 *
+-		 * Threads and exception levels are also tracked for both the
+-		 * previous and current packets. This is because the previous
+-		 * packet is used for the 'from' IP for branch samples, so the
+-		 * thread at that time must also be assigned to that sample.
+-		 * Across discontinuity packets the thread can change, so by
+-		 * tracking the thread for the previous packet the branch sample
+-		 * will have the correct info.
+ 		 */
+ 		tmp = tidq->packet;
+ 		tidq->packet = tidq->prev_packet;
+ 		tidq->prev_packet = tmp;
+-		tidq->prev_packet_el = tidq->el;
+-		thread__put(tidq->prev_packet_thread);
+-		tidq->prev_packet_thread = thread__get(tidq->thread);
+ 	}
+ }
+ 
+@@ -938,8 +935,8 @@ static void cs_etm__free_traceid_queues(struct cs_etm_queue *etmq)
+ 
+ 		/* Free this traceid_queue from the array */
+ 		tidq = etmq->traceid_queues[idx];
+-		thread__zput(tidq->thread);
+-		thread__zput(tidq->prev_packet_thread);
++		thread__zput(tidq->frontend_thread);
++		thread__zput(tidq->decode_thread);
+ 		zfree(&tidq->event_buf);
+ 		zfree(&tidq->last_branch);
+ 		zfree(&tidq->last_branch_rb);
+@@ -1084,47 +1081,43 @@ static u8 cs_etm__cpu_mode(struct cs_etm_queue *etmq, u64 address,
+ 	}
+ }
+ 
+-static u32 cs_etm__mem_access(struct cs_etm_queue *etmq, u8 trace_chan_id,
+-			      u64 address, size_t size, u8 *buffer,
+-			      const ocsd_mem_space_acc_t mem_space)
++static u32 __cs_etm__mem_access(struct cs_etm_queue *etmq,
++				u64 address, size_t size, u8 *buffer,
++				const ocsd_mem_space_acc_t mem_space,
++				ocsd_ex_level el, struct thread *thread)
+ {
+ 	u8  cpumode;
+ 	u64 offset;
+ 	int len;
+ 	struct addr_location al;
+ 	struct dso *dso;
+-	struct cs_etm_traceid_queue *tidq;
+ 	int ret = 0;
+ 
+ 	if (!etmq)
+ 		return 0;
+ 
+ 	addr_location__init(&al);
+-	tidq = cs_etm__etmq_get_traceid_queue(etmq, trace_chan_id);
+-	if (!tidq)
+-		goto out;
+ 
+ 	/*
+-	 * We've already tracked EL along side the PID in cs_etm__set_thread()
+-	 * so double check that it matches what OpenCSD thinks as well. It
+-	 * doesn't distinguish between EL0 and EL1 for this mem access callback
+-	 * so we had to do the extra tracking. Skip validation if it's any of
+-	 * the 'any' values.
++	 * We track EL for the frontend and the backend when receiving context
++	 * and range packets. OpenCSD doesn't distinguish between EL0 and EL1
++	 * for this mem access callback so we had to do the extra tracking. Skip
++	 * validation if it's any of the 'any' values.
+ 	 */
+ 	if (!(mem_space == OCSD_MEM_SPACE_ANY ||
+ 	      mem_space == OCSD_MEM_SPACE_N || mem_space == OCSD_MEM_SPACE_S)) {
+ 		if (mem_space & OCSD_MEM_SPACE_EL1N) {
+ 			/* Includes both non secure EL1 and EL0 */
+-			assert(tidq->el == ocsd_EL1 || tidq->el == ocsd_EL0);
++			assert(el == ocsd_EL1 || el == ocsd_EL0);
+ 		} else if (mem_space & OCSD_MEM_SPACE_EL2)
+-			assert(tidq->el == ocsd_EL2);
++			assert(el == ocsd_EL2);
+ 		else if (mem_space & OCSD_MEM_SPACE_EL3)
+-			assert(tidq->el == ocsd_EL3);
++			assert(el == ocsd_EL3);
+ 	}
+ 
+-	cpumode = cs_etm__cpu_mode(etmq, address, tidq->el);
++	cpumode = cs_etm__cpu_mode(etmq, address, el);
+ 
+-	if (!thread__find_map(tidq->thread, cpumode, address, &al))
++	if (!thread__find_map(thread, cpumode, address, &al))
+ 		goto out;
+ 
+ 	dso = map__dso(al.map);
+@@ -1139,7 +1132,7 @@ static u32 cs_etm__mem_access(struct cs_etm_queue *etmq, u8 trace_chan_id,
+ 
+ 	map__load(al.map);
+ 
+-	len = dso__data_read_offset(dso, maps__machine(thread__maps(tidq->thread)),
++	len = dso__data_read_offset(dso, maps__machine(thread__maps(thread)),
+ 				    offset, buffer, size);
+ 
+ 	if (len <= 0) {
+@@ -1159,6 +1152,30 @@ static u32 cs_etm__mem_access(struct cs_etm_queue *etmq, u8 trace_chan_id,
+ 	return ret;
+ }
+ 
++static u32 cs_etm__frontend_mem_access(struct cs_etm_queue *etmq,
++				       struct cs_etm_traceid_queue *tidq,
++				       struct cs_etm_packet *packet,
++				       u64 address, size_t size, u8 *buffer)
++{
++	return __cs_etm__mem_access(etmq, address, size, buffer, 0, packet->el,
++				    tidq->frontend_thread);
++}
++
++static u32 cs_etm__decoder_mem_access(struct cs_etm_queue *etmq, u8 trace_chan_id,
++				      u64 address, size_t size, u8 *buffer,
++				      const ocsd_mem_space_acc_t mem_space)
++{
++	struct cs_etm_traceid_queue *tidq;
++
++	tidq = cs_etm__etmq_get_traceid_queue(etmq, trace_chan_id);
++	if (!tidq)
++		return 0;
++
++	return __cs_etm__mem_access(etmq, address, size, buffer,
++				    mem_space, tidq->decode_el,
++				    tidq->decode_thread);
++}
++
+ static struct cs_etm_queue *cs_etm__alloc_queue(void)
+ {
+ 	struct cs_etm_queue *etmq = zalloc(sizeof(*etmq));
+@@ -1334,12 +1351,13 @@ void cs_etm__reset_last_branch_rb(struct cs_etm_traceid_queue *tidq)
+ }
+ 
+ static inline int cs_etm__t32_instr_size(struct cs_etm_queue *etmq,
+-					 u8 trace_chan_id, u64 addr)
++					 struct cs_etm_traceid_queue *tidq,
++					 struct cs_etm_packet *packet, u64 addr)
+ {
+ 	u8 instrBytes[2];
+ 
+-	cs_etm__mem_access(etmq, trace_chan_id, addr, ARRAY_SIZE(instrBytes),
+-			   instrBytes, 0);
++	cs_etm__frontend_mem_access(etmq, tidq, packet, addr,
++				    ARRAY_SIZE(instrBytes), instrBytes);
+ 	/*
+ 	 * T32 instruction size is indicated by bits[15:11] of the first
+ 	 * 16-bit word of the instruction: 0b11101, 0b11110 and 0b11111
+@@ -1372,16 +1390,16 @@ u64 cs_etm__last_executed_instr(const struct cs_etm_packet *packet)
+ }
+ 
+ static inline u64 cs_etm__instr_addr(struct cs_etm_queue *etmq,
+-				     u64 trace_chan_id,
+-				     const struct cs_etm_packet *packet,
++				     struct cs_etm_traceid_queue *tidq,
++				     struct cs_etm_packet *packet,
+ 				     u64 offset)
+ {
+ 	if (packet->isa == CS_ETM_ISA_T32) {
+ 		u64 addr = packet->start_addr;
+ 
+ 		while (offset) {
+-			addr += cs_etm__t32_instr_size(etmq,
+-						       trace_chan_id, addr);
++			addr += cs_etm__t32_instr_size(etmq, tidq, packet,
++						       addr);
+ 			offset--;
+ 		}
+ 		return addr;
+@@ -1491,34 +1509,51 @@ cs_etm__get_trace(struct cs_etm_queue *etmq)
+ 	return etmq->buf_len;
+ }
+ 
+-static void cs_etm__set_thread(struct cs_etm_queue *etmq,
+-			       struct cs_etm_traceid_queue *tidq, pid_t tid,
+-			       ocsd_ex_level el)
++/*
++ * Convert a raw thread number to a thread struct and assign it to **thread.
++ */
++static int cs_etm__etmq_update_thread(struct cs_etm_queue *etmq,
++				      ocsd_ex_level el, pid_t tid,
++				      struct thread **thread)
+ {
+ 	struct machine *machine = cs_etm__get_machine(etmq, el);
+ 
++	if (!machine || !*thread)
++		return -EINVAL;
++
+ 	if (tid != -1) {
+-		thread__zput(tidq->thread);
+-		tidq->thread = machine__find_thread(machine, -1, tid);
++		thread__zput(*thread);
++		*thread = machine__find_thread(machine, -1, tid);
+ 	}
+ 
+ 	/* Couldn't find a known thread */
+-	if (!tidq->thread)
+-		tidq->thread = machine__idle_thread(machine);
++	if (!*thread)
++		*thread = machine__idle_thread(machine);
+ 
+-	tidq->el = el;
++	return 0;
+ }
+ 
+-int cs_etm__etmq_set_tid_el(struct cs_etm_queue *etmq, pid_t tid,
+-			    u8 trace_chan_id, ocsd_ex_level el)
++/*
++ * Set the thread and EL of the decode context which is ahead in time of the
++ * frontend context.
++ */
++int cs_etm__etmq_update_decode_context(struct cs_etm_queue *etmq,
++				       u8 trace_chan_id,
++				       ocsd_ex_level el, pid_t tid)
+ {
+ 	struct cs_etm_traceid_queue *tidq;
++	int ret;
+ 
+ 	tidq = cs_etm__etmq_get_traceid_queue(etmq, trace_chan_id);
+ 	if (!tidq)
+ 		return -EINVAL;
+ 
+-	cs_etm__set_thread(etmq, tidq, tid, el);
++	ret = cs_etm__etmq_update_thread(etmq, el, tid,
++					 &tidq->decode_thread);
++	if (ret)
++		return ret;
++
++	tidq->decode_el = el;
+ 	return 0;
+ }
+ 
+@@ -1528,8 +1563,8 @@ bool cs_etm__etmq_is_timeless(struct cs_etm_queue *etmq)
+ }
+ 
+ static void cs_etm__copy_insn(struct cs_etm_queue *etmq,
+-			      u64 trace_chan_id,
+-			      const struct cs_etm_packet *packet,
++			      struct cs_etm_traceid_queue *tidq,
++			      struct cs_etm_packet *packet,
+ 			      struct perf_sample *sample)
+ {
+ 	/*
+@@ -1546,14 +1581,14 @@ static void cs_etm__copy_insn(struct cs_etm_queue *etmq,
+ 	 * cs_etm__t32_instr_size().
+ 	 */
+ 	if (packet->isa == CS_ETM_ISA_T32)
+-		sample->insn_len = cs_etm__t32_instr_size(etmq, trace_chan_id,
++		sample->insn_len = cs_etm__t32_instr_size(etmq, tidq, packet,
+ 							  sample->ip);
+ 	/* Otherwise, A64 and A32 instruction size are always 32-bit. */
+ 	else
+ 		sample->insn_len = 4;
+ 
+-	cs_etm__mem_access(etmq, trace_chan_id, sample->ip, sample->insn_len,
+-			   (void *)sample->insn, 0);
++	cs_etm__frontend_mem_access(etmq, tidq, packet, sample->ip,
++				    sample->insn_len, (void *)sample->insn);
+ }
+ 
+ u64 cs_etm__convert_sample_time(struct cs_etm_queue *etmq, u64 cs_timestamp)
+@@ -1580,6 +1615,7 @@ static inline u64 cs_etm__resolve_sample_time(struct cs_etm_queue *etmq,
+ 
+ static int cs_etm__synth_instruction_sample(struct cs_etm_queue *etmq,
+ 					    struct cs_etm_traceid_queue *tidq,
++					    struct cs_etm_packet *packet,
+ 					    u64 addr, u64 period)
+ {
+ 	int ret = 0;
+@@ -1589,23 +1625,23 @@ static int cs_etm__synth_instruction_sample(struct cs_etm_queue *etmq,
+ 
+ 	perf_sample__init(&sample, /*all=*/true);
+ 	event->sample.header.type = PERF_RECORD_SAMPLE;
+-	event->sample.header.misc = cs_etm__cpu_mode(etmq, addr, tidq->el);
++	event->sample.header.misc = cs_etm__cpu_mode(etmq, addr, packet->el);
+ 	event->sample.header.size = sizeof(struct perf_event_header);
+ 
+ 	/* Set time field based on etm auxtrace config. */
+ 	sample.time = cs_etm__resolve_sample_time(etmq, tidq);
+ 
+ 	sample.ip = addr;
+-	sample.pid = thread__pid(tidq->thread);
+-	sample.tid = thread__tid(tidq->thread);
++	sample.pid = thread__pid(tidq->frontend_thread);
++	sample.tid = thread__tid(tidq->frontend_thread);
+ 	sample.id = etmq->etm->instructions_id;
+ 	sample.stream_id = etmq->etm->instructions_id;
+ 	sample.period = period;
+-	sample.cpu = tidq->packet->cpu;
++	sample.cpu = packet->cpu;
+ 	sample.flags = tidq->prev_packet->flags;
+ 	sample.cpumode = event->sample.header.misc;
+ 
+-	cs_etm__copy_insn(etmq, tidq->trace_chan_id, tidq->packet, &sample);
++	cs_etm__copy_insn(etmq, tidq, packet, &sample);
+ 
+ 	if (etm->synth_opts.last_branch)
+ 		sample.branch_stack = tidq->last_branch;
+@@ -1650,15 +1686,15 @@ static int cs_etm__synth_branch_sample(struct cs_etm_queue *etmq,
+ 
+ 	event->sample.header.type = PERF_RECORD_SAMPLE;
+ 	event->sample.header.misc = cs_etm__cpu_mode(etmq, ip,
+-						     tidq->prev_packet_el);
++						     tidq->prev_packet->el);
+ 	event->sample.header.size = sizeof(struct perf_event_header);
+ 
+ 	/* Set time field based on etm auxtrace config. */
+ 	sample.time = cs_etm__resolve_sample_time(etmq, tidq);
+ 
+ 	sample.ip = ip;
+-	sample.pid = thread__pid(tidq->prev_packet_thread);
+-	sample.tid = thread__tid(tidq->prev_packet_thread);
++	sample.pid = thread__pid(tidq->frontend_thread);
++	sample.tid = thread__tid(tidq->frontend_thread);
+ 	sample.addr = cs_etm__first_executed_instr(tidq->packet);
+ 	sample.id = etmq->etm->branches_id;
+ 	sample.stream_id = etmq->etm->branches_id;
+@@ -1667,8 +1703,7 @@ static int cs_etm__synth_branch_sample(struct cs_etm_queue *etmq,
+ 	sample.flags = tidq->prev_packet->flags;
+ 	sample.cpumode = event->sample.header.misc;
+ 
+-	cs_etm__copy_insn(etmq, tidq->trace_chan_id, tidq->prev_packet,
+-			  &sample);
++	cs_etm__copy_insn(etmq, tidq, tidq->prev_packet, &sample);
+ 
+ 	/*
+ 	 * perf report cannot handle events without a branch stack
+@@ -1792,7 +1827,6 @@ static int cs_etm__sample(struct cs_etm_queue *etmq,
+ {
+ 	struct cs_etm_auxtrace *etm = etmq->etm;
+ 	int ret;
+-	u8 trace_chan_id = tidq->trace_chan_id;
+ 	u64 instrs_prev;
+ 
+ 	/* Get instructions remainder from previous packet */
+@@ -1878,10 +1912,10 @@ static int cs_etm__sample(struct cs_etm_queue *etmq,
+ 			 * been executed, but PC has not advanced to next
+ 			 * instruction)
+ 			 */
+-			addr = cs_etm__instr_addr(etmq, trace_chan_id,
+-						  tidq->packet, offset - 1);
++			addr = cs_etm__instr_addr(etmq, tidq, tidq->packet,
++						  offset - 1);
+ 			ret = cs_etm__synth_instruction_sample(
+-				etmq, tidq, addr,
++				etmq, tidq, tidq->packet, addr,
+ 				etm->instructions_sample_period);
+ 			if (ret)
+ 				return ret;
+@@ -1963,7 +1997,7 @@ static int cs_etm__flush(struct cs_etm_queue *etmq,
+ 		addr = cs_etm__last_executed_instr(tidq->prev_packet);
+ 
+ 		err = cs_etm__synth_instruction_sample(
+-			etmq, tidq, addr,
++			etmq, tidq, tidq->prev_packet, addr,
+ 			tidq->period_instructions);
+ 		if (err)
+ 			return err;
+@@ -2018,7 +2052,7 @@ static int cs_etm__end_block(struct cs_etm_queue *etmq,
+ 		addr = cs_etm__last_executed_instr(tidq->prev_packet);
+ 
+ 		err = cs_etm__synth_instruction_sample(
+-			etmq, tidq, addr,
++			etmq, tidq, tidq->prev_packet, addr,
+ 			tidq->period_instructions);
+ 		if (err)
+ 			return err;
+@@ -2055,9 +2089,9 @@ static int cs_etm__get_data_block(struct cs_etm_queue *etmq)
+ 	return etmq->buf_len;
+ }
+ 
+-static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq, u8 trace_chan_id,
+-				 struct cs_etm_packet *packet,
+-				 u64 end_addr)
++static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq,
++				 struct cs_etm_traceid_queue *tidq,
++				 struct cs_etm_packet *packet, u64 end_addr)
+ {
+ 	/* Initialise to keep compiler happy */
+ 	u16 instr16 = 0;
+@@ -2079,8 +2113,8 @@ static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq, u8 trace_chan_id,
+ 		 * so below only read 2 bytes as instruction size for T32.
+ 		 */
+ 		addr = end_addr - 2;
+-		cs_etm__mem_access(etmq, trace_chan_id, addr, sizeof(instr16),
+-				   (u8 *)&instr16, 0);
++		cs_etm__frontend_mem_access(etmq, tidq, packet, addr,
++					    sizeof(instr16), (u8 *)&instr16);
+ 		if ((instr16 & 0xFF00) == 0xDF00)
+ 			return true;
+ 
+@@ -2095,8 +2129,8 @@ static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq, u8 trace_chan_id,
+ 		 * +---------+---------+-------------------------+
+ 		 */
+ 		addr = end_addr - 4;
+-		cs_etm__mem_access(etmq, trace_chan_id, addr, sizeof(instr32),
+-				   (u8 *)&instr32, 0);
++		cs_etm__frontend_mem_access(etmq, tidq, packet, addr,
++					    sizeof(instr32), (u8 *)&instr32);
+ 		if ((instr32 & 0x0F000000) == 0x0F000000 &&
+ 		    (instr32 & 0xF0000000) != 0xF0000000)
+ 			return true;
+@@ -2112,8 +2146,8 @@ static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq, u8 trace_chan_id,
+ 		 * +-----------------------+---------+-----------+
+ 		 */
+ 		addr = end_addr - 4;
+-		cs_etm__mem_access(etmq, trace_chan_id, addr, sizeof(instr32),
+-				   (u8 *)&instr32, 0);
++		cs_etm__frontend_mem_access(etmq, tidq, packet, addr,
++					    sizeof(instr32), (u8 *)&instr32);
+ 		if ((instr32 & 0xFFE0001F) == 0xd4000001)
+ 			return true;
+ 
+@@ -2129,7 +2163,6 @@ static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq, u8 trace_chan_id,
+ static bool cs_etm__is_syscall(struct cs_etm_queue *etmq,
+ 			       struct cs_etm_traceid_queue *tidq, u64 magic)
+ {
+-	u8 trace_chan_id = tidq->trace_chan_id;
+ 	struct cs_etm_packet *packet = tidq->packet;
+ 	struct cs_etm_packet *prev_packet = tidq->prev_packet;
+ 
+@@ -2144,7 +2177,7 @@ static bool cs_etm__is_syscall(struct cs_etm_queue *etmq,
+ 	 */
+ 	if (magic == __perf_cs_etmv4_magic) {
+ 		if (packet->exception_number == CS_ETMV4_EXC_CALL &&
+-		    cs_etm__is_svc_instr(etmq, trace_chan_id, prev_packet,
++		    cs_etm__is_svc_instr(etmq, tidq, prev_packet,
+ 					 prev_packet->end_addr))
+ 			return true;
+ 	}
+@@ -2182,7 +2215,6 @@ static bool cs_etm__is_sync_exception(struct cs_etm_queue *etmq,
+ 				      struct cs_etm_traceid_queue *tidq,
+ 				      u64 magic)
+ {
+-	u8 trace_chan_id = tidq->trace_chan_id;
+ 	struct cs_etm_packet *packet = tidq->packet;
+ 	struct cs_etm_packet *prev_packet = tidq->prev_packet;
+ 
+@@ -2208,7 +2240,7 @@ static bool cs_etm__is_sync_exception(struct cs_etm_queue *etmq,
+ 		 * (SMC, HVC) are taken as sync exceptions.
+ 		 */
+ 		if (packet->exception_number == CS_ETMV4_EXC_CALL &&
+-		    !cs_etm__is_svc_instr(etmq, trace_chan_id, prev_packet,
++		    !cs_etm__is_svc_instr(etmq, tidq, prev_packet,
+ 					  prev_packet->end_addr))
+ 			return true;
+ 
+@@ -2232,7 +2264,6 @@ static int cs_etm__set_sample_flags(struct cs_etm_queue *etmq,
+ {
+ 	struct cs_etm_packet *packet = tidq->packet;
+ 	struct cs_etm_packet *prev_packet = tidq->prev_packet;
+-	u8 trace_chan_id = tidq->trace_chan_id;
+ 	u64 magic;
+ 	int ret;
+ 
+@@ -2313,11 +2344,11 @@ static int cs_etm__set_sample_flags(struct cs_etm_queue *etmq,
+ 		if (prev_packet->flags == (PERF_IP_FLAG_BRANCH |
+ 					   PERF_IP_FLAG_RETURN |
+ 					   PERF_IP_FLAG_INTERRUPT) &&
+-		    cs_etm__is_svc_instr(etmq, trace_chan_id,
+-					 packet, packet->start_addr))
++		    cs_etm__is_svc_instr(etmq, tidq, packet, packet->start_addr)) {
+ 			prev_packet->flags = PERF_IP_FLAG_BRANCH |
+ 					     PERF_IP_FLAG_RETURN |
+ 					     PERF_IP_FLAG_SYSCALLRET;
++		}
+ 		break;
+ 	case CS_ETM_DISCONTINUITY:
+ 		/*
+@@ -2398,6 +2429,7 @@ static int cs_etm__set_sample_flags(struct cs_etm_queue *etmq,
+ 					     PERF_IP_FLAG_RETURN |
+ 					     PERF_IP_FLAG_INTERRUPT;
+ 		break;
++	case CS_ETM_CONTEXT:
+ 	case CS_ETM_EMPTY:
+ 	default:
+ 		break;
+@@ -2473,6 +2505,19 @@ static int cs_etm__process_traceid_queue(struct cs_etm_queue *etmq,
+ 			 */
+ 			cs_etm__sample(etmq, tidq);
+ 			break;
++		case CS_ETM_CONTEXT:
++			/*
++			 * Update context but don't swap packet. Keep the
++			 * previous one for branch source address info, if
++			 * tracing the kernel the context packet will be emitted
++			 * between two ranges.
++			 */
++			ret = cs_etm__etmq_update_thread(etmq, tidq->packet->el,
++							 tidq->packet->tid,
++							 &tidq->frontend_thread);
++			if (ret)
++				goto out;
++			break;
+ 		case CS_ETM_EXCEPTION:
+ 		case CS_ETM_EXCEPTION_RET:
+ 			/*
+@@ -2501,6 +2546,7 @@ static int cs_etm__process_traceid_queue(struct cs_etm_queue *etmq,
+ 		}
+ 	}
+ 
++out:
+ 	return ret;
+ }
+ 
+@@ -2624,7 +2670,7 @@ static int cs_etm__process_timeless_queues(struct cs_etm_auxtrace *etm,
+ 			if (!tidq)
+ 				continue;
+ 
+-			if (tid == -1 || thread__tid(tidq->thread) == tid)
++			if (tid == -1 || thread__tid(tidq->frontend_thread) == tid)
+ 				cs_etm__run_per_thread_timeless_decoder(etmq);
+ 		} else
+ 			cs_etm__run_per_cpu_timeless_decoder(etmq);
+@@ -3340,7 +3386,7 @@ static int cs_etm__create_queue_decoders(struct cs_etm_queue *etmq)
+ 	 */
+ 	if (cs_etm_decoder__add_mem_access_cb(etmq->decoder,
+ 					      0x0L, ((u64) -1L),
+-					      cs_etm__mem_access))
++					      cs_etm__decoder_mem_access))
+ 		goto out_free_decoder;
+ 
+ 	zfree(&t_params);
+diff --git a/tools/perf/util/cs-etm.h b/tools/perf/util/cs-etm.h
+index a8caeea720aa17..dfc9aeacfd0b62 100644
+--- a/tools/perf/util/cs-etm.h
++++ b/tools/perf/util/cs-etm.h
+@@ -158,6 +158,7 @@ enum cs_etm_sample_type {
+ 	CS_ETM_DISCONTINUITY,
+ 	CS_ETM_EXCEPTION,
+ 	CS_ETM_EXCEPTION_RET,
++	CS_ETM_CONTEXT,
+ };
+ 
+ enum cs_etm_isa {
+@@ -184,6 +185,8 @@ struct cs_etm_packet {
+ 	u8 last_instr_size;
+ 	u8 trace_chan_id;
+ 	int cpu;
++	int el;
++	pid_t tid;
+ };
+ 
+ #define CS_ETM_PACKET_MAX_BUFFER 1024
+@@ -244,8 +247,9 @@ enum cs_etm_pid_fmt {
+ #include <opencsd/ocsd_if_types.h>
+ int cs_etm__get_cpu(struct cs_etm_queue *etmq, u8 trace_chan_id, int *cpu);
+ enum cs_etm_pid_fmt cs_etm__get_pid_fmt(struct cs_etm_queue *etmq);
+-int cs_etm__etmq_set_tid_el(struct cs_etm_queue *etmq, pid_t tid,
+-			    u8 trace_chan_id, ocsd_ex_level el);
++int cs_etm__etmq_update_decode_context(struct cs_etm_queue *etmq,
++				       u8 trace_chan_id, ocsd_ex_level el,
++				       pid_t tid);
+ bool cs_etm__etmq_is_timeless(struct cs_etm_queue *etmq);
+ void cs_etm__etmq_set_traceid_queue_timestamp(struct cs_etm_queue *etmq,
+ 					      u8 trace_chan_id);
+-- 
+2.53.0
 
 
-
-On 7/20/26 5:53 AM, Fan Gong wrote:
->    Implement following ethtool callback function:
-> .get_ringparam
-> .set_ringparam
-> 
->    These callbacks allow users to utilize ethtool for detailed
-> queue depth configuration and monitoring.
-> 
->    Change port_state_mutex to state_lock as a unified mutex lock
-> in hinic3_nic_dev.
-> 
->    Tightens the success criterion for hinic3_rx_fill_buffers() in
-> hinic3_configure_rxqs().
-> 
->    Changes hinic3_tx_csum()/hinic3_tx_offload() to propagate
-> skb_checksum_help() failures into a TX drop.
-> 
->    Renames hinic3_uninit_qps() to hinic3_get_cur_qps().
-> 
->    Splits hinic3_open_channel() into hinic3_prepare_channel() and
-> hinic3_open_channel().
-> 
-
-It may just be me, but I feel like there is a lot going in this single 
-patch. Ideally, a patch should carry one logical change. This patch is 
-doing 3 things: refactor, new code, bug-fixing in the hinic3_close() path.
-
-> Co-developed-by: Wu Di <wudi234@huawei.com>
-> Signed-off-by: Wu Di <wudi234@huawei.com>
-> Co-developed-by: Teng Peisen <tengpeisen@huawei.com>
-> Signed-off-by: Teng Peisen <tengpeisen@huawei.com>
-> Signed-off-by: Fan Gong <gongfan1@huawei.com>
-> ---
->   .../ethernet/huawei/hinic3/hinic3_ethtool.c   |  91 +++++++++++++++
->   .../net/ethernet/huawei/hinic3/hinic3_main.c  |   4 +-
->   .../huawei/hinic3/hinic3_netdev_ops.c         | 106 ++++++++++++++++--
->   .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |  11 +-
->   .../ethernet/huawei/hinic3/hinic3_nic_io.c    |   4 +-
->   .../ethernet/huawei/hinic3/hinic3_nic_io.h    |   8 +-
->   .../net/ethernet/huawei/hinic3/hinic3_rx.c    |   2 +-
->   .../net/ethernet/huawei/hinic3/hinic3_tx.c    |   7 +-
->   8 files changed, 216 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-> index 90fc16288de9..e6dff46a0d00 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-> @@ -9,6 +9,7 @@
->   #include <linux/errno.h>
->   #include <linux/etherdevice.h>
->   #include <linux/netdevice.h>
-> +#include <linux/netlink.h>
->   #include <linux/ethtool.h>
->   
->   #include "hinic3_lld.h"
-> @@ -409,6 +410,94 @@ hinic3_get_link_ksettings(struct net_device *netdev,
->   	return 0;
->   }
->   
-> +static void hinic3_get_ringparam(struct net_device *netdev,
-> +				 struct ethtool_ringparam *ring,
-> +				 struct kernel_ethtool_ringparam *kernel_ring,
-> +				 struct netlink_ext_ack *extack)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +
-> +	ring->rx_max_pending = HINIC3_MAX_RX_QUEUE_DEPTH;
-> +	ring->tx_max_pending = HINIC3_MAX_TX_QUEUE_DEPTH;
-> +	ring->rx_pending = nic_dev->q_params.rq_depth;
-> +	ring->tx_pending = nic_dev->q_params.sq_depth;
-> +}
-> +
-> +static void hinic3_update_qp_depth(struct net_device *netdev,
-> +				   u32 sq_depth, u32 rq_depth)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	u16 i;
-> +
-> +	nic_dev->q_params.sq_depth = sq_depth;
-> +	nic_dev->q_params.rq_depth = rq_depth;
-> +	for (i = 0; i < nic_dev->max_qps; i++) {
-> +		nic_dev->txqs[i].q_depth = sq_depth;
-> +		nic_dev->txqs[i].q_mask = sq_depth - 1;
-> +		nic_dev->rxqs[i].q_depth = rq_depth;
-> +		nic_dev->rxqs[i].q_mask = rq_depth - 1;
-> +	}
-> +}
-> +
-> +static int hinic3_check_ringparam_valid(struct net_device *netdev,
-> +					const struct ethtool_ringparam *ring,
-> +					struct netlink_ext_ack *extack)
-> +{
-> +	if (ring->tx_pending < HINIC3_MIN_QUEUE_DEPTH ||
-> +	    ring->rx_pending < HINIC3_MIN_QUEUE_DEPTH) {
-> +		NL_SET_ERR_MSG_FMT_MOD(extack,
-> +				       "Queue depth underflow[%d]: tx[%d], rx[%d]",
-> +				       HINIC3_MIN_QUEUE_DEPTH,
-> +				       ring->tx_pending, ring->rx_pending);
-> +
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int hinic3_set_ringparam(struct net_device *netdev,
-> +				struct ethtool_ringparam *ring,
-> +				struct kernel_ethtool_ringparam *kernel_ring,
-> +				struct netlink_ext_ack *extack)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct hinic3_dyna_txrxq_params q_params = {};
-> +	u32 new_sq_depth, new_rq_depth;
-> +	int err;
-> +
-> +	err = hinic3_check_ringparam_valid(netdev, ring, extack);
-> +	if (err)
-> +		return err;
-> +
-> +	new_sq_depth = rounddown_pow_of_two(ring->tx_pending);
-> +	new_rq_depth = rounddown_pow_of_two(ring->rx_pending);
-> +	if (new_sq_depth == nic_dev->q_params.sq_depth &&
-> +	    new_rq_depth == nic_dev->q_params.rq_depth)
-> +		return 0;
-> +
-> +	if (new_sq_depth != ring->tx_pending ||
-> +	    new_rq_depth != ring->rx_pending)
-> +		NL_SET_ERR_MSG_FMT_MOD(extack,
-> +				       "Requested Tx/Rx ring depth %u/%u trimmed to %u/%u",
-> +				       ring->tx_pending, ring->rx_pending,
-> +				       new_sq_depth, new_rq_depth);
-> +
-> +	if (!netif_running(netdev)) {
-> +		hinic3_update_qp_depth(netdev, new_sq_depth, new_rq_depth);
-> +	} else {
-> +		q_params = nic_dev->q_params;
-> +		q_params.sq_depth = new_sq_depth;
-> +		q_params.rq_depth = new_rq_depth;
-> +
-> +		err = hinic3_change_channel_settings(netdev, &q_params);
-> +		if (err)
-> +			return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->   static const struct ethtool_ops hinic3_ethtool_ops = {
->   	.supported_coalesce_params      = ETHTOOL_COALESCE_USECS |
->   					  ETHTOOL_COALESCE_PKT_RATE_RX_USECS,
-> @@ -417,6 +506,8 @@ static const struct ethtool_ops hinic3_ethtool_ops = {
->   	.get_msglevel                   = hinic3_get_msglevel,
->   	.set_msglevel                   = hinic3_set_msglevel,
->   	.get_link                       = ethtool_op_get_link,
-> +	.get_ringparam                  = hinic3_get_ringparam,
-> +	.set_ringparam                  = hinic3_set_ringparam,
->   };
->   
->   void hinic3_set_ethtool_ops(struct net_device *netdev)
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_main.c b/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
-> index 0a888fe4c975..1e7ac3f330d7 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
-> @@ -178,7 +178,7 @@ static int hinic3_sw_init(struct net_device *netdev)
->   	u8 mac_addr[ETH_ALEN];
->   	int err;
->   
-> -	mutex_init(&nic_dev->port_state_mutex);
-> +	mutex_init(&nic_dev->state_lock);
->   
->   	nic_dev->q_params.sq_depth = HINIC3_SQ_DEPTH;
->   	nic_dev->q_params.rq_depth = HINIC3_RQ_DEPTH;
-> @@ -330,6 +330,8 @@ static void hinic3_link_status_change(struct net_device *netdev,
->   		netif_carrier_off(netdev);
->   		netdev_dbg(netdev, "Link is down\n");
->   	}
-> +
-> +	return;
-
-Unrelated?
-
->   }
->   
->   static void hinic3_port_module_event_handler(struct net_device *netdev,
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
-> index da73811641a9..7f304d7ac47b 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
-> @@ -288,7 +288,8 @@ static void hinic3_free_channel_resources(struct net_device *netdev,
->   	hinic3_free_qps(nic_dev, qp_params);
->   }
->   
-> -static int hinic3_open_channel(struct net_device *netdev)
-> +static int hinic3_prepare_channel(struct net_device *netdev,
-> +				  struct hinic3_dyna_txrxq_params *qp_params)
->   {
->   	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
->   	int err;
-> @@ -299,12 +300,25 @@ static int hinic3_open_channel(struct net_device *netdev)
->   		return err;
->   	}
->   
-> -	err = hinic3_configure_txrxqs(netdev, &nic_dev->q_params);
-> +	err = hinic3_configure_txrxqs(netdev, qp_params);
->   	if (err) {
->   		netdev_err(netdev, "Failed to configure txrxqs\n");
->   		goto err_free_qp_ctxts;
->   	}
->   
-> +	return 0;
-> +
-> +err_free_qp_ctxts:
-> +	hinic3_free_qp_ctxts(nic_dev);
-> +
-> +	return err;
-> +}
-> +
-> +static int hinic3_open_channel(struct net_device *netdev)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	int err;
-> +
->   	err = hinic3_qps_irq_init(netdev);
->   	if (err) {
->   		netdev_err(netdev, "Failed to init txrxq irq\n");
-> @@ -321,6 +335,7 @@ static int hinic3_open_channel(struct net_device *netdev)
->   
->   err_uninit_qps_irq:
->   	hinic3_qps_irq_uninit(netdev);
-> +
->   err_free_qp_ctxts:
->   	hinic3_free_qp_ctxts(nic_dev);
->   
-> @@ -341,9 +356,7 @@ static int hinic3_maybe_set_port_state(struct net_device *netdev, bool enable)
->   	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
->   	int err;
->   
-> -	mutex_lock(&nic_dev->port_state_mutex);
->   	err = hinic3_set_port_enable(nic_dev->hwdev, enable);
-> -	mutex_unlock(&nic_dev->port_state_mutex);
->   
->   	return err;
->   }
-> @@ -428,6 +441,76 @@ static void hinic3_vport_down(struct net_device *netdev)
->   	}
->   }
->   
-> +int
-> +hinic3_change_channel_settings(struct net_device *netdev,
-> +			       struct hinic3_dyna_txrxq_params *trxq_params)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct hinic3_dyna_txrxq_params cur_trxq_params = {};
-> +	struct hinic3_dyna_qp_params new_qp_params = {};
-> +	struct hinic3_dyna_qp_params cur_qp_params = {};
-> +	int err;
-> +
-> +	mutex_lock(&nic_dev->state_lock);
-> +	cur_trxq_params = nic_dev->q_params;
-> +
-> +	hinic3_config_num_qps(netdev, trxq_params);
-> +
-> +	err = hinic3_alloc_channel_resources(netdev, &new_qp_params,
-> +					     trxq_params);
-> +	if (err) {
-> +		netdev_err(netdev, "Failed to alloc channel resources\n");
-> +		hinic3_config_num_qps(netdev, &cur_trxq_params);
-> +		mutex_unlock(&nic_dev->state_lock);
-> +		return err;
-> +	}
-> +
-> +	hinic3_vport_down(netdev);
-> +	hinic3_close_channel(netdev);
-> +	hinic3_get_cur_qps(nic_dev, &cur_qp_params);
-> +
-> +	hinic3_init_qps(nic_dev, &new_qp_params);
-> +
-> +	err = hinic3_prepare_channel(netdev, trxq_params);
-> +	if (err)
-> +		goto err_uninit_qps;
-> +
-> +	if (nic_dev->num_qp_irq > trxq_params->num_qps)
-> +		hinic3_qp_irq_change(netdev, trxq_params->num_qps);
-> +
-> +	nic_dev->q_params = *trxq_params;
-> +
-> +	err = hinic3_open_channel(netdev);
-> +	if (err)
-> +		goto err_qp_irq_reset;
-> +
-> +	err = hinic3_vport_up(netdev);
-> +	if (err)
-> +		goto err_close_channel;
-> +
-> +	hinic3_free_channel_resources(netdev, &cur_qp_params, &cur_trxq_params);
-> +
-> +	mutex_unlock(&nic_dev->state_lock);
-> +
-> +	return 0;
-> +
-> +err_close_channel:
-> +	hinic3_close_channel(netdev);
-> +err_qp_irq_reset:
-> +	nic_dev->q_params = cur_trxq_params;
-> +
-> +	if (trxq_params->num_qps > cur_trxq_params.num_qps)
-> +		hinic3_qp_irq_change(netdev, cur_trxq_params.num_qps);
-> +err_uninit_qps:
-> +	hinic3_get_cur_qps(nic_dev, &new_qp_params);
-> +	hinic3_config_num_qps(netdev, &cur_trxq_params);
-> +	hinic3_init_qps(nic_dev, &cur_qp_params);
-> +	hinic3_free_channel_resources(netdev, &new_qp_params, trxq_params);
-> +	mutex_unlock(&nic_dev->state_lock);
-> +
-> +	return err;
-> +}
-> +
->   static int hinic3_open(struct net_device *netdev)
->   {
->   	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> @@ -458,6 +541,10 @@ static int hinic3_open(struct net_device *netdev)
->   
->   	hinic3_init_qps(nic_dev, &qp_params);
->   
-> +	err = hinic3_prepare_channel(netdev, &nic_dev->q_params);
-> +	if (err)
-> +		goto err_uninit_qps;
-> +
->   	err = hinic3_open_channel(netdev);
->   	if (err)
->   		goto err_uninit_qps;
-> @@ -473,7 +560,7 @@ static int hinic3_open(struct net_device *netdev)
->   err_close_channel:
->   	hinic3_close_channel(netdev);
->   err_uninit_qps:
-> -	hinic3_uninit_qps(nic_dev, &qp_params);
-> +	hinic3_get_cur_qps(nic_dev, &qp_params);
->   	hinic3_free_channel_resources(netdev, &qp_params, &nic_dev->q_params);
->   err_destroy_num_qps:
->   	hinic3_destroy_num_qps(netdev);
-> @@ -493,10 +580,15 @@ static int hinic3_close(struct net_device *netdev)
->   		return 0;
->   	}
->   
-> +	mutex_lock(&nic_dev->state_lock);
->   	hinic3_vport_down(netdev);
->   	hinic3_close_channel(netdev);
-> -	hinic3_uninit_qps(nic_dev, &qp_params);
-> -	hinic3_free_channel_resources(netdev, &qp_params, &nic_dev->q_params);
-> +	hinic3_get_cur_qps(nic_dev, &qp_params);
-> +	hinic3_free_channel_resources(netdev, &qp_params,
-> +				      &nic_dev->q_params);
-> +	hinic3_free_nicio_res(nic_dev);
-> +	hinic3_destroy_num_qps(netdev);
-
-free_nicio_res(), and destroy_num_qps() looks like fixes to me on the 
-clean-up path. Should these go to the net tree?
-
-
-> +	mutex_unlock(&nic_dev->state_lock);
->   
->   	return 0;
->   }
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-> index 9502293ff710..ccef82d57fdd 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-> @@ -10,6 +10,9 @@
->   #include "hinic3_hw_cfg.h"
->   #include "hinic3_hwdev.h"
->   #include "hinic3_mgmt_interface.h"
-> +#include "hinic3_nic_io.h"
-> +#include "hinic3_tx.h"
-> +#include "hinic3_rx.h"
->   
->   #define HINIC3_VLAN_BITMAP_BYTE_SIZE(nic_dev)  (sizeof(*(nic_dev)->vlan_bitmap))
->   #define HINIC3_VLAN_BITMAP_SIZE(nic_dev)  \
-> @@ -127,8 +130,8 @@ struct hinic3_nic_dev {
->   	struct workqueue_struct         *workq;
->   	struct delayed_work             periodic_work;
->   	struct work_struct              rx_mode_work;
-> -	/* lock for enable/disable port */
-> -	struct mutex                    port_state_mutex;
-> +	/* Protects Interface state */
-> +	struct mutex                    state_lock;
->   
->   	struct list_head                uc_filter_list;
->   	struct list_head                mc_filter_list;
-> @@ -143,6 +146,10 @@ struct hinic3_nic_dev {
->   
->   void hinic3_set_netdev_ops(struct net_device *netdev);
->   int hinic3_set_hw_features(struct net_device *netdev);
-> +int
-> +hinic3_change_channel_settings(struct net_device *netdev,
-> +			       struct hinic3_dyna_txrxq_params *trxq_params);
-> +
->   int hinic3_qps_irq_init(struct net_device *netdev);
->   void hinic3_qps_irq_uninit(struct net_device *netdev);
->   
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c
-> index 87e736adba02..0e7a0ccfba98 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c
-> @@ -484,8 +484,8 @@ void hinic3_init_qps(struct hinic3_nic_dev *nic_dev,
->   	}
->   }
->   
-> -void hinic3_uninit_qps(struct hinic3_nic_dev *nic_dev,
-> -		       struct hinic3_dyna_qp_params *qp_params)
-> +void hinic3_get_cur_qps(struct hinic3_nic_dev *nic_dev,
-> +			struct hinic3_dyna_qp_params *qp_params)
->   {
->   	struct hinic3_nic_io *nic_io = nic_dev->nic_io;
->   
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.h b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.h
-> index 12eefabcf1db..571b34d63950 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.h
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.h
-> @@ -14,6 +14,10 @@ struct hinic3_nic_dev;
->   #define HINIC3_RQ_WQEBB_SHIFT      3
->   #define HINIC3_SQ_WQEBB_SIZE       BIT(HINIC3_SQ_WQEBB_SHIFT)
->   
-> +#define HINIC3_MAX_TX_QUEUE_DEPTH  65536
-> +#define HINIC3_MAX_RX_QUEUE_DEPTH  16384
-> +#define HINIC3_MIN_QUEUE_DEPTH     128
-> +
->   /* ******************** RQ_CTRL ******************** */
->   enum hinic3_rq_wqe_type {
->   	HINIC3_NORMAL_RQ_WQE = 1,
-> @@ -136,8 +140,8 @@ void hinic3_free_qps(struct hinic3_nic_dev *nic_dev,
->   		     struct hinic3_dyna_qp_params *qp_params);
->   void hinic3_init_qps(struct hinic3_nic_dev *nic_dev,
->   		     struct hinic3_dyna_qp_params *qp_params);
-> -void hinic3_uninit_qps(struct hinic3_nic_dev *nic_dev,
-> -		       struct hinic3_dyna_qp_params *qp_params);
-> +void hinic3_get_cur_qps(struct hinic3_nic_dev *nic_dev,
-> +			struct hinic3_dyna_qp_params *qp_params);
->   
->   int hinic3_init_qp_ctxts(struct hinic3_nic_dev *nic_dev);
->   void hinic3_free_qp_ctxts(struct hinic3_nic_dev *nic_dev);
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
-> index 309ab5901379..389b1c2158be 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
-> @@ -541,7 +541,7 @@ int hinic3_configure_rxqs(struct net_device *netdev, u16 num_rq,
->   		rq_associate_cqes(rxq);
->   
->   		pkts = hinic3_rx_fill_buffers(rxq);
-> -		if (!pkts) {
-> +		if (pkts < rxq->q_mask) {
->   			netdev_err(netdev, "Failed to fill Rx buffer\n");
->   			return -ENOMEM;
->   		}
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-> index 9306bf0020ca..53c065194136 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-> @@ -261,8 +261,7 @@ static int hinic3_tx_csum(struct hinic3_txq *txq, struct hinic3_sq_task *task,
->   		    ((struct udphdr *)skb_transport_header(skb))->dest !=
->   		    VXLAN_OFFLOAD_PORT_LE) {
->   			/* Unsupported tunnel packet, disable csum offload */
-> -			skb_checksum_help(skb);
-> -			return 0;
-> +			return skb_checksum_help(skb);
->   		}
->   	}
->   
-> @@ -412,6 +411,10 @@ static u32 hinic3_tx_offload(struct sk_buff *skb, struct hinic3_sq_task *task,
->   		offload |= HINIC3_TX_OFFLOAD_TSO;
->   	} else {
->   		tso_cs_en = hinic3_tx_csum(txq, task, skb);
-> +		if (tso_cs_en < 0) {
-> +			offload = HINIC3_TX_OFFLOAD_INVALID;
-> +			return offload;
-> +		}
->   		if (tso_cs_en)
->   			offload |= HINIC3_TX_OFFLOAD_CSUM;
->   	}
 
