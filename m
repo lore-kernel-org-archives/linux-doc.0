@@ -1,164 +1,193 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474DA40D59C;
-	Tue, 21 Jul 2026 06:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E0A3C9ED6;
+	Tue, 21 Jul 2026 07:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784615540; cv=none; b=A9Ho8Cb/C7KwI09HURDyoKzsTl0bw1XMgmtYBP73h+lk5UFV0eXnCxYd7D19TXtgCHFQ0Sm8Jd4Mwn8JASkPwySi82rVdj3ClXPrdinj3j3+yqXfrqVoias/5TxL9WeWfWuL1dS52ASTn7+cjjJIYgZhDjj0e6TFc9sJRuxpejI=
+	t=1784619154; cv=none; b=tyWoeZIwzhmvf1fBca9s/hnDF20NI4fWweVGNQoTErMA1UyAyRBpGKmie4e6uwbq+Y3vd/4D8ZxYI+ZV4N92pwvwwcepEHS4u4kPF3//cDQ94wzeA5wT4n9GjCruBuQ5gqWasevr0jE2oKQBDwJeuqOCFI929KLpA8YdCiUczrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784615540; c=relaxed/simple;
-	bh=12v4kLfM0t53W8e1jIm92V7bHObkh5Z/3ph0XkzStPQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pZzZbVCO0dKX1HeO9d3QBaRaVFYnf44sRRqaWiprF3rWkwiyvmVp4/J4p3bNLUxoeIuN9J0UzrY54jUH0QkrNVz4Wexm/gjMRunP1O28f2onLMo6TpGgOIvBZ34gVm3gMMXFZEK6NUBW/0EYzX0nXKZVU/OiaXQ4rI9gMao1K2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t7nR6CcA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1784619154; c=relaxed/simple;
+	bh=nJC9W96cIng6d4/8XxXoyrkckU7fAQ2FstxZtvGoats=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ovwQabgsqfO2PUuuRToNlv5JOC7zhpQEjnDDuxt6XqT1c0+I0mvGbBhq2jBS+C2YUAE47DoZ0dJGOreQpz0MZfER3RXGUQrCWsm0x1xyypwhFKLe96jH+yUnE4A59GJJv84juKCIL+9l2D81ng0D84rYNTeGL1EPSu3nnCQ4za4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OtkzShjK; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t7nR6CcA"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1FB3DC2BCF6;
-	Tue, 21 Jul 2026 06:32:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784615540;
-	bh=12v4kLfM0t53W8e1jIm92V7bHObkh5Z/3ph0XkzStPQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=t7nR6CcABguEn/mo2SKJ9P0HMz+reCn0luUZbnLNTDrKgw9UEdT034Pwi6UZnuZqr
-	 iH7A1aaS6lVxyKUdurwiTN2hmOrpFHnrWRpJQ9zZp9TOXAPfowUzBZ9wARdXsiJH12
-	 C4d6AzQWDDXqyiUGNjEDw5J9+yyo5CixVl02SuDoIuNpn4/FgJX4CwDzKqdgDLOBde
-	 gdGwnbVxXqRPomD56tZG3GANE9TsZaPBLrtDPkXsyOxGCFiDeZMvfYLnnugrgP3azJ
-	 HLw91TTM/y7UrRejlp0pJ6O4yGLeFaN7b/kBZEiHzgBDmvrsyThflMIjh7+tfCFdJs
-	 iDpvmlY5rFXXg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05055C4451C;
-	Tue, 21 Jul 2026 06:32:20 +0000 (UTC)
-From: Andy Chung via B4 Relay <devnull+Andy.Chung.amd.com@kernel.org>
-Date: Tue, 21 Jul 2026 14:31:35 +0800
-Subject: [PATCH v3 4/4] hwmon: (kb9002) Add documentation
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OtkzShjK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=nJC9W96cIng6d4/8XxXoyrkckU7fAQ2FstxZtvGoats=; b=OtkzShjKq4txjd6aYTHi1YBVOy
+	iSscSmjPVlrpas/bSQik+yQSxOySBjMyecD3pL1TDmMOod/bKb0NhB8GNBawbWvrEm3NvLFiHOGCB
+	o9MsfkaFnQLewtx+Vgo3GjAzSVJi4Qmn8hVlfvPXsqHzmJRxcJVghGUJ6Th6/3tn/7Os+KysPEf+T
+	nqyVwhMhvVSBTnSEJC5p9ACTutmerF/Qt8fFj0fkSOvMJ8tHzEKA1zdZ6+OmiT+6CsdGB3VBOfOtu
+	6JkxZmFPDyh/1esuScM8g412aSyDngmHRKM98DCE2EjJBXylSDziNWKHGYcnh+UnSHTK4s7j6nR7E
+	pTC0e5qw==;
+Received: from [2001:8b0:10b:5:20bb:46f3:73c2:f4b2] (helo=u09cd745991455d.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wm4xm-0000000ChaP-2EPz;
+	Tue, 21 Jul 2026 07:32:26 +0000
+Message-ID: <f5552576fc749b4b453514f52921332cc104c6a6.camel@infradead.org>
+Subject: Re: [RFC PATCH 0/2] KVM: x86/pmu: Let userspace disable SW
+ accounting of emulated instructions
+From: David Woodhouse <dwmw2@infradead.org>
+To: Luka Absandze <absandze@amazon.de>, Sean Christopherson
+ <seanjc@google.com>,  Paolo Bonzini <pbonzini@redhat.com>,
+ kvm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Alexander Graf
+	 <graf@amazon.com>
+Date: Tue, 21 Jul 2026 08:32:22 +0100
+In-Reply-To: <20260720192221.72912-1-absandze@amazon.de>
+References: <20260720192221.72912-1-absandze@amazon.de>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-ErpfhURk4jDUnERs1Y/K"
+User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260721-kb9002-upstream-v3-4-70563922be8d@amd.com>
-References: <20260721-kb9002-upstream-v3-0-70563922be8d@amd.com>
-In-Reply-To: <20260721-kb9002-upstream-v3-0-70563922be8d@amd.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Andy Chung <andy.chung@amd.com>, 
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
- Andy Chung <Andy.Chung@amd.com>
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784615506; l=3142;
- i=Andy.Chung@amd.com; s=20260327; h=from:subject:message-id;
- bh=N49+QrvixV76oNVim+qejmy5UhGOUcqywymzDOcJACo=;
- b=1Dj1xNwHpAcp8U5UVGZqMXmFPbyiqkW9jO+2TeXGHiYOnhsr0b2ApGYW6FBTtjceONUz8fR01
- EEUvPoYQHmACn98EwNBuDZwHiO4Bi/4HVj1ux/aivrwC+KGqq6h3meT
-X-Developer-Key: i=Andy.Chung@amd.com; a=ed25519;
- pk=X2gaHRnhU2q5hvMjkC6xmIcC03vKNvHY9CQRdsj9ecM=
-X-Endpoint-Received: by B4 Relay for Andy.Chung@amd.com/20260327 with
- auth_id=696
-X-Original-From: Andy Chung <Andy.Chung@amd.com>
-Reply-To: Andy.Chung@amd.com
-
-From: Andy Chung <Andy.Chung@amd.com>
-
-Document the sysfs and debugfs interfaces of the Kandou KB9002 hwmon
-driver.
-
-Signed-off-by: Andy Chung <Andy.Chung@amd.com>
----
- Documentation/hwmon/index.rst  |  1 +
- Documentation/hwmon/kb9002.rst | 65 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 66 insertions(+)
-
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 226789376217..9dc796d087dc 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -112,6 +112,7 @@ Hardware Monitoring Kernel Drivers
-    jc42
-    k10temp
-    k8temp
-+   kb9002
-    kbatt
-    kfan
-    lan966x
-diff --git a/Documentation/hwmon/kb9002.rst b/Documentation/hwmon/kb9002.rst
-new file mode 100644
-index 000000000000..e6d8d9c78923
---- /dev/null
-+++ b/Documentation/hwmon/kb9002.rst
-@@ -0,0 +1,65 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver kb9002
-+====================
-+
-+Supported chips:
-+
-+  * Kandou KB9002
-+
-+    Prefix: 'kb9002'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: KA-015171-PD (available from Kandou under NDA)
-+
-+Author: Andy Chung <andy.chung@amd.com>
-+
-+Description
-+-----------
-+
-+The Kandou KB9002 is an 8-lane PCIe 5.0 retimer with an integrated
-+microcontroller. It exposes an SMBus 3.0 target (with mandatory PEC)
-+on its sideband interface. The internal firmware aggregates per-lane
-+die temperatures and publishes the maximum value through a 16-bit
-+addressed register window.
-+
-+This driver reports that aggregated maximum as the only hwmon
-+temperature channel. The running firmware version and the firmware
-+boot status are exposed under debugfs.
-+
-+sysfs interface
-+---------------
-+
-+==================  ===============================================
-+temp1_input         Aggregated maximum die temperature across all
-+                    active lanes (millidegrees Celsius).
-+temp1_label         Always "kb9002".
-+==================  ===============================================
-+
-+debugfs interface
-+-----------------
-+
-+Files live in the per-client debugfs directory created by the I2C
-+core: ``/sys/kernel/debug/i2c/i2c-<bus>/<bus>-<addr>/``.
-+
-+==================  ===============================================
-+fw_ver              Running firmware version in
-+                    "major.minor.patch.suffix" format. Read-only.
-+fw_load_status      Firmware boot status: "normal" once firmware has
-+                    finished initialising, "abnormal" otherwise.
-+                    Read-only.
-+==================  ===============================================
-+
-+Notes
-+-----
-+
-+The driver requires ``I2C_FUNC_SMBUS_BLOCK_DATA``,
-+``I2C_FUNC_SMBUS_PEC`` and ``I2C_FUNC_I2C`` from the host adapter. The
-+last is needed only during probe for the host-interface mode switch;
-+runtime accesses use SMBus block transactions exclusively.
-+
-+The retimer's SMBus address is configurable on three strap pins and
-+ranges from 0x20 to 0x27. The address is selected through device tree
-+(or i2c board info) the same way as any other I2C device; the driver
-+does not auto-detect.
-
--- 
-2.34.1
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 
+--=-ErpfhURk4jDUnERs1Y/K
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, 2026-07-20 at 19:22 +0000, Luka Absandze wrote:
+> On hosts that run guests with an *emulated* vPMU -- guest PMU MSR
+> accesses trap into KVM and each guest counter is backed by a host
+> perf_event -- the per-emulated-instruction PMU accounting added by commit
+> 9cd803d496e7 ("KVM: x86: Update vPMCs when retiring instructions") is
+> pathologically expensive.
+
+Given that the guest PMU MSR accesses are trapped... is there a reason
+we can't fold a *separate* count of emulated instructions into the
+value we return to the guest?
+
+I guess the overflow would come late... but isn't that tolerable? And
+we could probably impose a limit on how large the addend could be =E2=80=94
+even if we only reprogram the PMU once every 100 times, that's still a
+win?
+
+--=-ErpfhURk4jDUnERs1Y/K
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
+ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
+AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
+BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
+MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
+AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
+DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
+q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
+S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
+Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
+72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
+CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
+mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
+h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
+CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
+GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
+AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
+v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
+CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
+b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
+Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
+A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
+vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
+0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
+jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
+FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
+HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
+IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
+MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
+MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
+sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
+tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
+EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
+6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
+ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
+bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
+Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
+02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
+sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
+ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
+JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
+LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
+BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
+LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
+hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
+SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
+c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
+RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
+AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
+EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
+ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
++3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
++icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
+McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
+LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
+nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
+gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
+Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
+CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
+QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
+Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
+SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
+YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
+kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
+pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
+v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
+vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
+PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
+REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
+lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
+aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
+D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
+bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
+MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
+oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
+TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
+bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
+BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
+MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
+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
+tFxCbyrjmOJfKln3g8D5yG4AAAAAAAA=
+
+
+--=-ErpfhURk4jDUnERs1Y/K--
