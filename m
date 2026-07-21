@@ -1,221 +1,205 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE21C374E6C
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 17:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89AC446D56D
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 17:56:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784656535; cv=none; b=UTHr5j3H5yvKUYaIGluxV1ezsqoDG0D1SkS8fBepjBop9yruzivlOZov0HeBZuwWQKKggFadaq9Lnl7L0ldo23Q9vzMK7Iir2AOZatckB1nzD/fg+f5UAFnFkfY3Y5Nur4oR1Cb8dOMduHwTQiE6toW0i5TN/LBua8+Hct0v7E8=
+	t=1784656601; cv=none; b=P5TkKtVtpnQXRCqO0PyV7YD1/x7olpwI17ezjgQjv4IGHQUNi+X9d987sM1+ZT52wwP/SWcAq7T+cHEUqBhix6BCdIfSDlvcBTdFR/K2+Xk0FD382oxK3gh4lWA+xqI2EZBR7UIgGFsUoS/TWV6aRW+cEPzJ3Yv6LgKs1L/wKVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784656535; c=relaxed/simple;
-	bh=fzgF3V5HF54yEqsnjagon7PnrwUxx4c7CuxO/Uie8BY=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=m8W2n48GOB6RumEVvC41mfqeATt9BKm6XalU7YU8K0b1sntkCsQG3sDG2ktgXEpl0cxdGSIZIiN1XLuAO7rHZYEL+qtrG0alTAjLwcyA0ZI959FIbYLn12+RnBVmfXDGQg9qfQemtTgT+sBTn4hbzeEuqlOJWxQvE4vy70jaV3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Fv/GQVrQ; arc=none smtp.client-ip=209.85.219.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1784656601; c=relaxed/simple;
+	bh=swtbcGBx+Z+G69KWlolz+miL/y+ERWs5cFjryaMB2Uk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uL1r0qBaDgJS7RNPK/soRPj9EcScPk8kinac+Yagtu+/2zvSvAwvirbptVID+/DCxNXmPuUHK/IdBfZw9UBWLCjNQbN6AkuGoXmViX9bU7S7kGDIi0h7MfTW4FBdEqyc0LRA8kFrj/Zq7L4YQXqmq7KQQ8TKl8sU18JQRMvn+qM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FXNrTPi7; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Fv/GQVrQ"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-8eeadbc5e21so54488766d6.3
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 10:55:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FXNrTPi7"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ceae1ed204so96912235ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 10:56:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1784656533; x=1785261333; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ea/F6w9Zt+Er+ldXlrQTi7dDqHaImBI68nyXrbPqNKM=;
-        b=Fv/GQVrQ7RL3cqdVi7mEB+YpDgdLpQDSSGffsD5OMcz/fXT1L5NpVPdZ0ccTm+Mm/0
-         2KGNP5Ux7sttdWB02OjSvltxROI95icearWQaw4aSEaRT7sTXR6da7L2sFqbuIrLVdCg
-         RLB2Bs3ICcN8EM/ek+L/9NljM5RhWQ2dLnFe5sqhgufZryNqzQBBuhv5WzNfzTjsi2Vk
-         5nADXoYHEKmMo960DaU9sI3IxCU6i0+CYHZmaKOhC4sP3shwDUcfOCUKsssZ2ZIX6lM6
-         /tOF/1P1FMa6TfaEp2ohrVz0KY8AntDHsodGs9y7BTtiKbQPaOJ8YFLZHmYJDE6ovJt9
-         xL0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784656533; x=1785261333;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1784656599; x=1785261399; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ea/F6w9Zt+Er+ldXlrQTi7dDqHaImBI68nyXrbPqNKM=;
-        b=Ta6kA65ojHMcrpkETqmG04pt+HaPX6Fr8lNw91qRA0H3Lm49bZdXF8vcO+xc0XNOxA
-         WJwJkqVZIok50SOgt5muOTLjee7RalMBJ/Jruri9uP/rmAEa7QlRIBwDbmq8DuM593nF
-         sRZMfnEJ5WFJbtbvOWT+NcOBFOEW2UCWbDJRJ2RfTuhqntcduuy+ddTaozA2W3Ory11t
-         PxgD0ngLWwQNP6ewbB+qWu3vzNuRi/+w4df+E4FBzc3OhBoOnafieDoOudbo3huj+X1Q
-         uHXhlbNSa34+kL5lF6JuPUvzHhY01ZX3sbO3wJhHuLpXpUInPDIg383dT2BN6ktjEc12
-         yxfQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoCd+IK1Yu+ucCuQuN1XgNhu4ecQVMa3tziJr+9mhVYhZ14psFC4KslmsyxcgMo1fy+p15aAoTFSbo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwyxkC4ys+4j41b90Sew39paFz+D1k7WSIf6G0y+aKALpcZ4zpn
-	rv53W0/bLzdVsy/HGjH1dHa8w89EVozfdM6D4rVQwaZ54Sk9Hn1gI6PljNVbAdPzQaw=
-X-Gm-Gg: AR+sD10mJQ+s2niPilH8xL/rWzEkIn3G+eKRN/9/2AVAeBra23Q6Vb+Bz3BVDbWlCnv
-	j5bzPkfw8mMc/pIQb48+amJhubvqR2YHa36S2FCQtFNH3uUTyo/UL3i9mhbi2//mZltDlSOxyKZ
-	CTDryiUi18wXgVSQRVlxdcQb1KB34uUoyEwJcsXC8w5KZGBnFJ6gfe7YTG5/sfs44SCHOeBgvCU
-	KvZxHTksAwTc/qz0XqWlT7wY/5fx27pjadYLpVOKYNG+SJUpQ0kzxXJd9KOLuIt5DrI16dBk9xY
-	zeXNGN9e3rKUMm1Eb9huLQzpPFghS97W34vZN/g8ntJlSMeW2bx3bcnzLOGAswYDMb+PtdUsVZq
-	3o3E63ZT7TAq7G4ar8RNt5ESooGFuPIXckF5+E2UoaRlLx97D1No+6q+4E8QE+WG5HApzXtSEIg
-	h2umZOILsLvVhSHT25yisi5LYvUjgSnwYNzHfuhM0=
-X-Received: by 2002:a05:6214:2269:b0:8f1:8937:5dc7 with SMTP id 6a1803df08f44-907784ddf91mr239817166d6.56.1784656532475;
-        Tue, 21 Jul 2026 10:55:32 -0700 (PDT)
-Received: from [127.0.1.1] ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907ba8df5d0sm1663826d6.18.2026.07.21.10.55.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 10:55:31 -0700 (PDT)
+        bh=EibvRmzRwEGHkazysuYtnr7BudsAqWjL7jIqkEVJ+pw=;
+        b=FXNrTPi7YkEFm6cw4CWrdRH1G1qNIxVVsYiDX4FATg6cXrAXNMTt10HfrTk3CRH3xI
+         pZINymbtBnkB7+otQ9sIJHJ8Jjn1JsJH3vbJzgrESuhaeEjEFvYz8uA5H8QJWdns/WOf
+         P+mI3gQPPPNc6H291kk94zQbt7Cwo+plJcjAteY/55PNbHm1xvI3ksGjwbJGZwd5UgT/
+         AmSORVtPa9saP4RmHeDyW8FF+qDteM43zrABpHzhsNcFFd1wHaYm4mMcZZlN2zSNDBnt
+         xDuSJ+AIJI833RPRysiVSG8kr2OxaE07FE2+48in46wBBW2pO3Fn9lVJ28rY7byL9xE2
+         /g6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784656599; x=1785261399;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=EibvRmzRwEGHkazysuYtnr7BudsAqWjL7jIqkEVJ+pw=;
+        b=nC5xRK6ycFdKpR042Y7rLJn0vA1pPqRfyI89skt8ov6uNwNWxgb649sh52HY14L+FH
+         c4b1I5XeLxumbKGjLfiJvoRB05xHwBDBjpIY8aFrjjbk1HNBGwHVUZ8EjuyrkwLqEauH
+         59K+2sdZEfPPCfq2KPcStGN/Ro3+B6hlp+sGPnTG4MVZqH8rjI3C55ixRpgI/dc7WsGU
+         D5vuZVhcTHm/OfOqfPI5Z+uHCuwkGqczW5K4uimdMy6PBJGZsO1G8RLBJZQ/9fUCSXpX
+         eqPjhaUtUOFjV8gqjaoPHca3J9fO4umwAU7PpUOm1Jxjt4GL1xqAPNzUP2aqmkrW6Rw7
+         UIng==
+X-Forwarded-Encrypted: i=1; AHgh+Rq+iNSXPsX6qXsqPFnBPwsAMYEwVqEa2D2W1nOMZ8Q3/iCT2zngwILW3opdKHgrPq/H2+V3DnL6e9w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdoSYWA0sIDYWffdZtO9OU5d9NXMzunsj3kdFX0sHcNEgQs8Kg
+	gb7nuOWAHvnsWQDVCRpB1hpsoPDj39FLzOnfNn2Kl+xbBoZ0n3PMXu5b
+X-Gm-Gg: AR+sD110fUl4PsGq1ni+serm7MTrw53l6snRDixF7m2t8NweevazlKxvHZ2/1j1zrSv
+	Mu4Rio6briTCemzrNs/spX6aMf/bZz5Ac+TUpj0EFXcxHDVRIcDQftHZYZG4Q8OIEJBB/IsAiyD
+	4XKuyh0hKpGZY+hnIAV7Xdnp6jrKTtVMjifasStYfuSYCBj7EeansM3KiLDcKLd5Kc6/EyGbEqQ
+	8SjypD9JmlQ26PtyljhAqb5fxPFJWVwqU8P/AqFIl5qMjZXVce3naA4v3fY/zEpvZcEDcZF3yms
+	96eHjYk7DL4+sp8mMznwJVvcmcb/h8Y2A0TyqVVbkfvMs10x/M1c03v4ChKhNict/RcsEXqI2C4
+	K8RBYcOUUmhx63YJQ3qA4q7lfRG3qz8wSWZzIbapp8bwbyTSOONz5pQsj+T1cimL4YRICjoDnB3
+	edL+twr9NmTwT26lYFypDu2UrujxS7QqkIb/TZZgi4x5L61fuDSXn9QNS1K/W6Pw==
+X-Received: by 2002:a17:902:d486:b0:2c8:2808:3ec9 with SMTP id d9443c01a7336-2cf3487e320mr208898165ad.12.1784656598500;
+        Tue, 21 Jul 2026 10:56:38 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8f362e00sm828255ad.71.2026.07.21.10.56.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jul 2026 10:56:37 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <673be23a-2a84-43b7-9be7-a661cf0e7935@roeck-us.net>
+Date: Tue, 21 Jul 2026 10:56:36 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/6] dt-bindings: vendor-prefixes: Add Sensylink
+To: Conor Dooley <conor@kernel.org>, Troy Mitchell <troy.mitchell@linux.dev>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Yixun Lan <dlan@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-riscv@lists.infradead.org,
+ spacemit@lists.linux.dev, linux-doc@vger.kernel.org
+References: <20260721-ctl2301-v2-0-ef5fb342872a@linux.dev>
+ <20260721-ctl2301-v2-1-ef5fb342872a@linux.dev>
+ <20260721-dill-dab-df15585090d2@spud>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260721-dill-dab-df15585090d2@spud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v7 03/12] PCI: liveupdate: Track incoming preserved PCI
- devices
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: David Matlack <dmatlack@google.com>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, kexec@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>, 
- Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
- David Rientjes <rientjes@google.com>, 
- Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
- Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
- Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, 
- Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
- Pranjal Shrivastava <praan@google.com>, 
- Pratyush Yadav <pratyush@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, 
- Samiullah Khawaja <skhawaja@google.com>, 
- Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
- William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
-In-Reply-To: <CALzav=fjTOnyg2++GFFe5B17rHqNCWW=afjsD0A=EEjycPW7Sg@mail.gmail.com>
-References: <20260710212616.1351130-1-dmatlack@google.com>
- <20260710212616.1351130-4-dmatlack@google.com>
- <178432481253.189683.3297727348836286619.b4-review@b4>
- <CALzav=e1Gcu-9TD7F--41cYqKBrStKOE4VqQ4K3PKdNuYnNmcQ@mail.gmail.com>
- <178458744511.332171.13770778781241262180.b4-reply@b4>
- <CALzav=fjTOnyg2++GFFe5B17rHqNCWW=afjsD0A=EEjycPW7Sg@mail.gmail.com>
-Date: Tue, 21 Jul 2026 17:55:29 +0000
-Message-Id: <178465652971.412167.17838319728990505256.b4-reply@b4>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3765;
- i=pasha.tatashin@soleen.com; h=from:subject:message-id;
- bh=fzgF3V5HF54yEqsnjagon7PnrwUxx4c7CuxO/Uie8BY=;
- b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBqX7KSG2dHPEQ6Mkut+xegrodYi1A9KSpnUO3pn
- xL+SSaK1qOJAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCal+ykgAKCRC7dyhM23N6
- 3sbLD/9VJw+QusBVAbX9+6asMemVQiDftMc/hr+I22YGh5yCipWq3pZjfM7mP8bljemHy6oIbj+
- eg+gEXv7pWzzQ+8GV3PpuOBYxkjLRkI0gemShPjl4DIrRF1i5QKtbirG+j8HJShkbA0MUFQYF4w
- etoSvEkZ5OowXog4ZxpFFJrtp949gwoLonQntZS2YEdepjeuQ6O5+29aDjXTwrqt8dr3iq97QY7
- PEegM9HW0HVvWmt7PoJ0dx0EEaKZJ0GqMpr9O8W2GdxDoZXl+Sk9BxKiwyOX4J5Jz7rdQAn/o7I
- Ns4QUk/VtBQL/1irI528G9H+z0gGxw4nCxP8fANN7VQW2Y68d+e7tNZOgJEXmtgQe6lh2ihna3W
- AJSXMdazYky84+h1aAgVPom/cLGQhgzwHgZSps6nDG9qMSTLZGGAP5VPvHpjCAt1MsLtajskJ9m
- Pzp1qdozYbecunkANckh7aN32FTvRvmPFrVjU4a/bjB1bsG9O6ocEd2lvY5VLJoI/7EpNjFQENT
- gzqd9ygy3xIcDV9ifvMhU0XWWUteFUjC96g3UGsi04IcPbR5Oe4Fe0S0UiiqqUxgncTyddsTlmF
- IyJ5BW5Xc76J0oYVAhS14CIxQNY+9LXWUbBAgmqx4XEDE427j+I0Ic4eKf2seStQEq8rQZ1xQbi
- o4SPKFvgFZN6Jyg==
-X-Developer-Key: i=pasha.tatashin@soleen.com; a=openpgp;
- fpr=CAAAB722DD22A081F0D49F35633A6A993D43B569
 
-On 2026-07-20 16:07:47-07:00, David Matlack wrote:
-> On Mon, Jul 20, 2026 at 3:44 PM Pasha Tatashin
-> <pasha.tatashin@soleen.com> wrote:
+On 7/21/26 08:49, Conor Dooley wrote:
+> On Tue, Jul 21, 2026 at 02:48:27AM -0700, Troy Mitchell wrote:
+>> Add the vendor prefix for Sensylink Microelectronics.
+>>
+>> Signed-off-by: Troy Mitchell <troy.mitchell@linux.dev>
+>> ---
+>>   Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>> index 396044f368e7..22d0d26f1bbd 100644
+>> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>> @@ -1467,6 +1467,8 @@ patternProperties:
+>>       description: Sensirion AG
+>>     "^sensortek,.*":
+>>       description: Sensortek Technology Corporation
+>> +  "^sensylink,.*":
+>> +    description: Sensylink Microelectronics Technology Co., Ltd.
 > 
-> > On 2026-07-20 14:54:51-07:00, David Matlack wrote:
-> >
-> > Thanks for the explanation. As I understand, the most straightforward
-> > way to avoid holding the permanent reference is indeed to delete
-> > dev->liveupdate.incoming entirely and perform an xarray lookup on every
-> > access, like this:
-> >
-> > bool pci_liveupdate_is_incoming(struct pci_dev *dev)
-> > {
-> >         ...
-> >         incoming = pci_liveupdate_flb_get_incoming();
-> >         ...
-> >         dev_ser = xa_load(&incoming->xa, key);
-> >         ...
-> >         pci_liveupdate_flb_put_incoming();
-> >         return dev_ser && dev_ser->refcount > 0;
-> > }
-> >
-> > However, as you note, this is inefficient because it affects every
-> > single device and adds lookup overhead to every access (not sure about
-> > the actual cost though, xarray access is pretty fast!).
-> >
-> > We can, however, still avoid tinkering with the lifecycle of the FLB,
-> > and instead treat dev->liveupdate.incoming as a "hint" that we validate
-> > on access with a fast, liveness check:
+> Googling the company to see what their website is, I seem to see a
+> different name for the company: Shanghai Sensylink Microelectronics Inc.
+> Their website has that with the Shanghai dropped.
 > 
-> Can you tell me more about your concern about FLB lifetime?
+> Also, probably the commit message should contain
+> Link: https://en.sensylink.com/
 > 
-> The lifetime of the FLB will not be affected by this reference unless
-> there is a bug in the driver where it fails to call
-> pci_liveupdate_finish() during it's file handler finish callback.
 
-From a design perspective, liveupdate_flb_get/put_incoming() is a 
-logical read-lock/unlock pair on the FLB data. We use a refcount for 
-optimization and sharing, but holding a get over a long asynchronous gap 
-(from boot-time device setup to driver probe) is essentially holding an 
-unbound lock.
+Asking Google search: "Why the two names ? Did they rename themselves at some point ?"
 
-Unbound locks make it difficult to trace refcount leaks or debug 
-lifecycle issues.
+Response:
 
-> 
-> > 1. At Setup: In pci_liveupdate_setup_device(), we do the xarray lookup
-> > once, cache the pointer in dev->liveupdate.incoming, and immediately
-> > call pci_liveupdate_flb_put_incoming(). We do not hold a permanent
-> > reference.
-> >
-> > 2. On Access: When an accessor runs, instead of doing a full xarray
-> > lookup, it just validates the cached pointer's liveness by temporarily
-> > securing the FLB:
-> >
-> > static struct pci_flb_incoming *pci_liveupdate_get_incoming(struct pci_dev *dev)
-> > {
-> >         struct pci_flb_incoming *incoming;
-> >
-> >         incoming = pci_liveupdate_flb_get_incoming();
-> >         if (!incoming)
-> >                 return NULL;
-> >
-> >         if (dev->liveupdate.incoming)
-> >                 return incoming;
-> >
-> >         pci_liveupdate_flb_put_incoming();
-> >         return NULL;
-> > }
-> >
-> > * If get_incoming() returns NULL (the FLB has already finished/freed),
-> >   the hint is invalid and the device is no longer incoming.
-> 
-> This avoids the xarray lookup but still requires taking the incoming
-> FLB mutex twice (once for get and once for put) on every access. And
-> if there's no incoming PCI FLB, the LUO will iterate over all incoming
-> FLBs under the mutex to find it.
+Understanding the Name Structure
 
-Can we do a fast-path check first?
+1. English Legal Name vs. Marketing Abbreviation
 
-static struct pci_flb_incoming *pci_liveupdate_get_incoming(struct pci_dev *dev)
-{
-	struct pci_flb_incoming *incoming;
+Sensylink Microelectronics Technology Co., Ltd.:
+This is the literal translation of their full, formal registered corporate name
+used for international trade, customs, and legal documentation.
 
-	/* Fast-path to avoid unnecessary FLB querying */
-	if (!dev->liveupdate.incoming)
-		return NULL;
+Sensylink Microelectronics Inc.:
+This is a simplified, Westernized abbreviation used on their official
+English website and marketing materials for cleaner global branding.
 
-	incoming = pci_liveupdate_flb_get_incoming();
-	if (!incoming)
-		return NULL;
+2. The Native Chinese Name
 
-	/* Check again, now that FLB is acquired */
-	if (dev->liveupdate.incoming)
-		return incoming;
+上海申矽凌微电子科技股份有限公司 (Shanghai Shenxiling Microelectronics Technology
+Co., Ltd.): This is the company's sole, official legal name registered with
+the Chinese government.
 
-	pci_liveupdate_flb_put_incoming();
-	return NULL;
-}
+"Sensylink" is a portmanteau created specifically for international markets,
+blending "Sensing" (their core technology) and "Link" (their interface and
+connectivity products).
 
-This seems to gives us the best of both worlds: robust refcount hygiene 
-and a sane fast path.
+Prodding further, asking if the previous response was complete, it tells
+me that there was a name change:
 
-What do you think?
+According to Chinese corporate registry data (via Tianyancha and Qcc),
+they did change their official Chinese legal name:
+
+Old Name: 上海申矽凌微电子科技有限公司 (Shanghai Sensylink Microelectronics Technology
+Co., Ltd.)
+
+New Name: 上海申矽凌微电子科技股份有限公司 (Shanghai Sensylink Microelectronics Technology
+Co., Ltd. by Shares / Joint-Stock Company)
+
+I don't know if Linux has a policy about Legal vs. Marketing names. Personally
+I don't have an opinion. Your call, really.
+
+Guenter
 
