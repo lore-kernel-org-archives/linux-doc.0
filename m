@@ -1,205 +1,120 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89AC446D56D
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 17:56:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF4E46D57B
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 18:02:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784656601; cv=none; b=P5TkKtVtpnQXRCqO0PyV7YD1/x7olpwI17ezjgQjv4IGHQUNi+X9d987sM1+ZT52wwP/SWcAq7T+cHEUqBhix6BCdIfSDlvcBTdFR/K2+Xk0FD382oxK3gh4lWA+xqI2EZBR7UIgGFsUoS/TWV6aRW+cEPzJ3Yv6LgKs1L/wKVI=
+	t=1784656956; cv=none; b=UxUgjHT84KWrcYiNqM4FrBOfw2a8n7fBk5gSP0HRq+AGW+AjpH3Y5f4/nialDYRZ3SUsCNru3vfClYMJy6PFb7YS8mASKA/CjpbvruJUIT8nirkq53Ie3P6QnioigwS3J9kLcLdeHNrTWTBMTBebsUEpuOs4Bq1zOC2LdAHHuTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784656601; c=relaxed/simple;
-	bh=swtbcGBx+Z+G69KWlolz+miL/y+ERWs5cFjryaMB2Uk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uL1r0qBaDgJS7RNPK/soRPj9EcScPk8kinac+Yagtu+/2zvSvAwvirbptVID+/DCxNXmPuUHK/IdBfZw9UBWLCjNQbN6AkuGoXmViX9bU7S7kGDIi0h7MfTW4FBdEqyc0LRA8kFrj/Zq7L4YQXqmq7KQQ8TKl8sU18JQRMvn+qM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FXNrTPi7; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1784656956; c=relaxed/simple;
+	bh=HKH0+HbokDXh/rn5p2SK+C0zJmVZ73sN1daWgM6y5QA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i+QUpPF6vKrGencvDemni+n8zj5kQzBWNxfIcaThzH+k50oDl6NEMnZTbxNy+ElsLX/G0/zrxRuAS6gXH0xkm9R3HCc28LOPRgTDq9Aop2jNU7yzR2GSJmZ9bsT2xSoNfG205kyqya9Yi48EQfo7QOUcJ8lRf/XHYH3xl/Mym3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oG7yqNu6; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FXNrTPi7"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ceae1ed204so96912235ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 10:56:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oG7yqNu6"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c9fe3c9bd5fso3397387a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 11:02:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784656599; x=1785261399; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EibvRmzRwEGHkazysuYtnr7BudsAqWjL7jIqkEVJ+pw=;
-        b=FXNrTPi7YkEFm6cw4CWrdRH1G1qNIxVVsYiDX4FATg6cXrAXNMTt10HfrTk3CRH3xI
-         pZINymbtBnkB7+otQ9sIJHJ8Jjn1JsJH3vbJzgrESuhaeEjEFvYz8uA5H8QJWdns/WOf
-         P+mI3gQPPPNc6H291kk94zQbt7Cwo+plJcjAteY/55PNbHm1xvI3ksGjwbJGZwd5UgT/
-         AmSORVtPa9saP4RmHeDyW8FF+qDteM43zrABpHzhsNcFFd1wHaYm4mMcZZlN2zSNDBnt
-         xDuSJ+AIJI833RPRysiVSG8kr2OxaE07FE2+48in46wBBW2pO3Fn9lVJ28rY7byL9xE2
-         /g6A==
+        d=gmail.com; s=20251104; t=1784656953; x=1785261753; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ToKjxxyfW8IKJFoIuUe/iSEPgjioSXrKsuhUrkem51E=;
+        b=oG7yqNu69K3tLhKYigDMCIpO8Nwc7TX8dlAzrUEWlyawyuOvkwx4U2OuQV2bIMtDqy
+         48XLsr1ywQ1VZ2SCVlUC9tf4Hv24x0GVzE/9ei+SVeVxa1wnH+6jLfNTSPgwpgAYOLaU
+         /gSr4Ibl8mZyd0COUgV9Cznghbq7v3ABMQ871aMDEOjFrytcXiZPbkrRNdcCyivlCI+S
+         Qilo7+W2+myC7C5XPiSHhynb6rFmG8+MewjKUQnIxV4/XlqtzQXkn79RlH7RQKn2VzWO
+         q6d+O50AP3bs8Aiqeef2anCr7iC94D+ctN7/47pi36OZd8T0iZr9KEzXoYxqfDr/0qa/
+         IH3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784656599; x=1785261399;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=EibvRmzRwEGHkazysuYtnr7BudsAqWjL7jIqkEVJ+pw=;
-        b=nC5xRK6ycFdKpR042Y7rLJn0vA1pPqRfyI89skt8ov6uNwNWxgb649sh52HY14L+FH
-         c4b1I5XeLxumbKGjLfiJvoRB05xHwBDBjpIY8aFrjjbk1HNBGwHVUZ8EjuyrkwLqEauH
-         59K+2sdZEfPPCfq2KPcStGN/Ro3+B6hlp+sGPnTG4MVZqH8rjI3C55ixRpgI/dc7WsGU
-         D5vuZVhcTHm/OfOqfPI5Z+uHCuwkGqczW5K4uimdMy6PBJGZsO1G8RLBJZQ/9fUCSXpX
-         eqPjhaUtUOFjV8gqjaoPHca3J9fO4umwAU7PpUOm1Jxjt4GL1xqAPNzUP2aqmkrW6Rw7
-         UIng==
-X-Forwarded-Encrypted: i=1; AHgh+Rq+iNSXPsX6qXsqPFnBPwsAMYEwVqEa2D2W1nOMZ8Q3/iCT2zngwILW3opdKHgrPq/H2+V3DnL6e9w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdoSYWA0sIDYWffdZtO9OU5d9NXMzunsj3kdFX0sHcNEgQs8Kg
-	gb7nuOWAHvnsWQDVCRpB1hpsoPDj39FLzOnfNn2Kl+xbBoZ0n3PMXu5b
-X-Gm-Gg: AR+sD110fUl4PsGq1ni+serm7MTrw53l6snRDixF7m2t8NweevazlKxvHZ2/1j1zrSv
-	Mu4Rio6briTCemzrNs/spX6aMf/bZz5Ac+TUpj0EFXcxHDVRIcDQftHZYZG4Q8OIEJBB/IsAiyD
-	4XKuyh0hKpGZY+hnIAV7Xdnp6jrKTtVMjifasStYfuSYCBj7EeansM3KiLDcKLd5Kc6/EyGbEqQ
-	8SjypD9JmlQ26PtyljhAqb5fxPFJWVwqU8P/AqFIl5qMjZXVce3naA4v3fY/zEpvZcEDcZF3yms
-	96eHjYk7DL4+sp8mMznwJVvcmcb/h8Y2A0TyqVVbkfvMs10x/M1c03v4ChKhNict/RcsEXqI2C4
-	K8RBYcOUUmhx63YJQ3qA4q7lfRG3qz8wSWZzIbapp8bwbyTSOONz5pQsj+T1cimL4YRICjoDnB3
-	edL+twr9NmTwT26lYFypDu2UrujxS7QqkIb/TZZgi4x5L61fuDSXn9QNS1K/W6Pw==
-X-Received: by 2002:a17:902:d486:b0:2c8:2808:3ec9 with SMTP id d9443c01a7336-2cf3487e320mr208898165ad.12.1784656598500;
-        Tue, 21 Jul 2026 10:56:38 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8f362e00sm828255ad.71.2026.07.21.10.56.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jul 2026 10:56:37 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <673be23a-2a84-43b7-9be7-a661cf0e7935@roeck-us.net>
-Date: Tue, 21 Jul 2026 10:56:36 -0700
+        d=1e100.net; s=20251104; t=1784656953; x=1785261753;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ToKjxxyfW8IKJFoIuUe/iSEPgjioSXrKsuhUrkem51E=;
+        b=Gs2Bmwqych0wACGcPpG/Zu3lhrJAEcsCtsv85E2T2S8kCYlYHZagI9/GaofRULItT6
+         271pD0C3/uQmRMGI6/p07tUnvyRDDAstpuh09lWHZAsaz0dtIH2NGb1Hus5b58iBzH/d
+         DROaprb6kcW5u71UyNe6KBWD5c7eMuatsaKFzEj1VypVvD4LKjWr81Y9AdvqWUayLdNn
+         eXBBfHdvomvGI60bCvBTdMS+WosYhotLHTp/TWG1MpzSHK277bSjhov/63J7+6xAHJmF
+         VDUOXDH1qv39u9uZzmqm00Do7ORLGpHydzOOZ/Y+wvrYmprFktuD+KZNjin061KS8UrK
+         Ph8A==
+X-Forwarded-Encrypted: i=1; AHgh+RrqxgG2nZHeepkj+658bdGNu11v2horhA+VbwQDaPLwRVcTYTm6gF4SjSKACW5rZ3nHyyDHvQHzs8M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywhvj/fcuCskAbyEWCnIH/ZPylADYb0wZNggfMrEDXMRrnnFCOr
+	rdL4Bnc+Uer1cgZ/GV98Mr8QP2ZLbr8u65Nv7tJLguZv1ouEx5zxlVlV
+X-Gm-Gg: AfdE7cm+3dStCNeuiMhvqGN+BialEdJqVuYMisTEDf8Ct4sx8VAYhumvZ4U4Gbafh0r
+	GYa4SjxkkCHSE2AwuT4c75/YFTopJsd5ZaYcR0r7QXVUkgzd4WNB3kD61nSRoLEy0vWr5Rity3L
+	HzoeEEbSyinUp8sgEUnZJaKV7OwP+kj8eAf9pnIWv0FFltIyeSwAiSBwp/rJ10MIRsDPeBSXUb1
+	Il9qlEfLEhAARC2T8ytm/ZV497/KIDx4rEFTmLIsDhQZSnPUHU8KUj++eXtjYQPPutj4czNliAG
+	ok6Egv/TSUDuS+ukJ1tD25H8uBsDqGtun3/REu5SssyT3GztGDXgTMKnipWZL5ZAIQ9onnMC3XF
+	6bg8eKy0kvD82feuP3Me+hssZfwSbtu+uId015fkARMGH+9u33Sb1Xz/MZq1j8qqyI0jk+HKmmW
+	7gOgeaYqD6JuTHYOHLoZec3N65kyIh4TtaNmuXFinW93XQCEQE38oyfA==
+X-Received: by 2002:a05:6a20:748a:b0:3bf:b625:5bd0 with SMTP id adf61e73a8af0-3c42929ef6dmr608881637.9.1784656952671;
+        Tue, 21 Jul 2026 11:02:32 -0700 (PDT)
+Received: from colten.. (61-227-26-231.dynamic-ip.hinet.net. [61.227.26.231])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147e07000fsm2097316eec.21.2026.07.21.11.02.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2026 11:02:31 -0700 (PDT)
+From: Jyun-An Chen <jun930436@gmail.com>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: Jyun-An Chen <jun930436@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org (open list:MIN HEAP),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Subject: [PATCH v2] Documentation/core-api: min_heap: remove undocumented min_heap_empty()
+Date: Tue, 21 Jul 2026 18:01:26 +0000
+Message-ID: <20260721180127.132730-1-jun930436@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/6] dt-bindings: vendor-prefixes: Add Sensylink
-To: Conor Dooley <conor@kernel.org>, Troy Mitchell <troy.mitchell@linux.dev>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Yixun Lan <dlan@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-riscv@lists.infradead.org,
- spacemit@lists.linux.dev, linux-doc@vger.kernel.org
-References: <20260721-ctl2301-v2-0-ef5fb342872a@linux.dev>
- <20260721-ctl2301-v2-1-ef5fb342872a@linux.dev>
- <20260721-dill-dab-df15585090d2@spud>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260721-dill-dab-df15585090d2@spud>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 7/21/26 08:49, Conor Dooley wrote:
-> On Tue, Jul 21, 2026 at 02:48:27AM -0700, Troy Mitchell wrote:
->> Add the vendor prefix for Sensylink Microelectronics.
->>
->> Signed-off-by: Troy Mitchell <troy.mitchell@linux.dev>
->> ---
->>   Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
->> index 396044f368e7..22d0d26f1bbd 100644
->> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
->> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
->> @@ -1467,6 +1467,8 @@ patternProperties:
->>       description: Sensirion AG
->>     "^sensortek,.*":
->>       description: Sensortek Technology Corporation
->> +  "^sensylink,.*":
->> +    description: Sensylink Microelectronics Technology Co., Ltd.
-> 
-> Googling the company to see what their website is, I seem to see a
-> different name for the company: Shanghai Sensylink Microelectronics Inc.
-> Their website has that with the Shanghai dropped.
-> 
-> Also, probably the commit message should contain
-> Link: https://en.sensylink.com/
-> 
+min_heap_empty()/min_heap_empty_inline() are documented as part of
+the Min Heap API, but no such functions or macros exist in
+include/linux/min_heap.h or lib/min_heap.c. Remove the stale
+description instead of adding unused API surface.
 
-Asking Google search: "Why the two names ? Did they rename themselves at some point ?"
+Signed-off-by: Jyun-An Chen <jun930436@gmail.com>
+---
+Changes since v1:
+- Per Kuan-Wei's review, dropped the min_heap_empty()/min_heap_empty_inline()
+  implementation (unused API with no in-tree callers) and instead just
+  removed the stale documentation for it.
+- Signed-off-by now uses real name instead of GitHub handle.
 
-Response:
+ Documentation/core-api/min_heap.rst | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-Understanding the Name Structure
-
-1. English Legal Name vs. Marketing Abbreviation
-
-Sensylink Microelectronics Technology Co., Ltd.:
-This is the literal translation of their full, formal registered corporate name
-used for international trade, customs, and legal documentation.
-
-Sensylink Microelectronics Inc.:
-This is a simplified, Westernized abbreviation used on their official
-English website and marketing materials for cleaner global branding.
-
-2. The Native Chinese Name
-
-上海申矽凌微电子科技股份有限公司 (Shanghai Shenxiling Microelectronics Technology
-Co., Ltd.): This is the company's sole, official legal name registered with
-the Chinese government.
-
-"Sensylink" is a portmanteau created specifically for international markets,
-blending "Sensing" (their core technology) and "Link" (their interface and
-connectivity products).
-
-Prodding further, asking if the previous response was complete, it tells
-me that there was a name change:
-
-According to Chinese corporate registry data (via Tianyancha and Qcc),
-they did change their official Chinese legal name:
-
-Old Name: 上海申矽凌微电子科技有限公司 (Shanghai Sensylink Microelectronics Technology
-Co., Ltd.)
-
-New Name: 上海申矽凌微电子科技股份有限公司 (Shanghai Sensylink Microelectronics Technology
-Co., Ltd. by Shares / Joint-Stock Company)
-
-I don't know if Linux has a policy about Legal vs. Marketing names. Personally
-I don't have an opinion. Your call, really.
-
-Guenter
+diff --git a/Documentation/core-api/min_heap.rst b/Documentation/core-api/min_heap.rst
+index 9f57766581df..919dcf1bdec7 100644
+--- a/Documentation/core-api/min_heap.rst
++++ b/Documentation/core-api/min_heap.rst
+@@ -240,19 +240,6 @@ This macro returns `true` if the heap is full, otherwise `false`.
+ 
+ **Inline Version:** min_heap_full_inline(heap)
+ 
+-- **min_heap_empty(heap)**: Checks whether the heap is empty.
+-  Complexity: **O(1)**.
+-
+-.. code-block:: c
+-
+-    bool empty = min_heap_empty(heap);
+-
+-- `heap`: A pointer to the min-heap to check.
+-
+-This macro returns `true` if the heap is empty, otherwise `false`.
+-
+-**Inline Version:** min_heap_empty_inline(heap)
+-
+ Example Usage
+ =============
+ 
+-- 
+2.43.0
 
