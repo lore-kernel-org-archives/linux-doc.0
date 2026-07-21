@@ -1,63 +1,65 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8447542DFEC
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 21:55:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C486542DFEC
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 21:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784670953; cv=none; b=uF4uXsoui3zOtuD+PdSCy9TDlpyGE8pfgp0mvGVLojiGl5HJQDzA0RtS3kyHVRETONcQ0XMZPFcDQC+bVbeUqwkkxlNW2B+ZrsN4KoHurK7Mh33Luz0oZPwBiP2VcLj3gBvWStgyhzD9i5f0VVSnZu5Uw/wDwykngCLSeeyxN9U=
+	t=1784670963; cv=none; b=oBMaDiwQuQ9lG/ph0HZsGO3B6XGY/CDU2e3di4DVDAbtzczhwdpeI/kTorMhhTBTn/uzfydQe9zg/99RERtH1vVoJraKbEkAVsxHDoF81PwhvfA/KJh2H0eyZes3W0axkxsBYr2jtQq2USnSsll55oVPtcL03bub9lb9PKLHwjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784670953; c=relaxed/simple;
-	bh=7IX6sTZ9uoh4JcyuiFFUm1/R83+MwsqcFFX21YeSkPk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WfJN3i7FTa5uY5XNnLAHXBAbUJVXBJIOYmyQyVuQW1y/TdKx7D7yy88mZW3Y/PEtF1274FPXY137dlYJMag1AQ0glCs5UtsS/MTFM05CJUOAfHVMDQ43OdNeQJH5rYO5mc8qnAHo8sMbdGFDNwRx55vfkzpZHQm3WMhq4wezWs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SZ2g2fQ8; arc=none smtp.client-ip=209.85.214.172
+	s=arc-20240116; t=1784670963; c=relaxed/simple;
+	bh=FP57zuuYoojF2afO463H/0Py138lVm/RihFyDqps09s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dKOOf0gTOA83wz8mCnFul1zpAilJnGJJrMZ2tBYOuCfuZnDSVveNEjXoMSk5lKHR8lOQsEzqm+mJ8CmQ3YHPiiLPc0Mc3lmns9l3yX+slcG2wCdqUt6GZvIngW5Zug+xsROX4DKDpqoCGpuddPUK52ywApt05zK+/WSLJCh45t4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RymgWZAq; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SZ2g2fQ8"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cad68425a7so16948555ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 14:55:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RymgWZAq"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2cf420670bbso5693025ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 14:55:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784670951; x=1785275751; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KR2ZmokLIKjMAWHhrn+iBhwYSMA4SMI4rjPnpQ304Ks=;
-        b=SZ2g2fQ8IHTe0qCnmkiFNqMKUYqFxLvvvxIrNs/8so9J5HVwMvfJfBHpiG/xBtEkQp
-         dPpD/iOnvaNa+iNAduWXMywSRTJYhqEJRDsPotK70tfPz9JEki2vgq71YU9RiiETzHaA
-         lSmzZa0svA+Xz34dE+3++969z3uiidcmrvmqb1fOpAsc04LMiIqz+tnUSLJ2t4UalvIW
-         igvLF72aGKaB7cFXLqRegCLudQHgNDrgj8GFc6CUlRfH6PEu5s194zn9C01FeCF15D/4
-         DVtJ4yAP45mIJkhue6EIfEVW6tHMhujXrOXddgj8aCPCkm72cNG0ASslHc3AOqijGmtp
-         c5jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784670951; x=1785275751;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1784670959; x=1785275759; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=KR2ZmokLIKjMAWHhrn+iBhwYSMA4SMI4rjPnpQ304Ks=;
-        b=Tok3tORNwpHbzIz8L9ETuiagGc9SWvWyzoEb8iE0/byg+fpHXaeuAOoeptgylmHc5j
-         hoCl+E22bSoNwVHR+HXZVwDIXEnaQ+632edc5cEthEo76THfR14KXXBfjpPQwXh5V+2T
-         DiL+r5RcVSQzzn8aqsgQOz/aVEkk8fgHdBpg8nrjl6BuhH2ammAagBMLO/Kw19l8YSkL
-         KPhM9t+SzYId446Z8bGzlQjOz1s7uQ9nydDX1heImhy/bOvV0H3eF/WoapNOvALjXrPj
-         cRF8DBcB08uBNWazgNFjq/WyLzBIMJ12XIOrVAX28TGC1EAeWKsOZlLJb+DISJVOVDzu
-         jF+g==
-X-Forwarded-Encrypted: i=1; AHgh+Rps4PcSDs6x9Cw5C5cK5Shlq+V0d3d9CITHgWAAMhOxq+I2L9GPFTihTAQEc27OlbZomS0j8lr+N0k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNyWFGPqk6fsvuiJcBN71PoCwtfw/8561Jxdm8V8Qd0PC4JBQb
-	ho8GExF8TF2t/WCUvQA9+ZR9Nz0Py0FANzJx8lZNy2uYSkTYVtPMoHIX
-X-Gm-Gg: AR+sD12bfvcwNVJ4a6ppcZnsLvRY+v4snqVdk1FWbnF5J6dhSRTrQdWvss+dK3y3jji
-	1p2bR/SV0+oolYL0oGiAL/C2qJQZjv5nd9JqaaoROdDh8SZ82/LXDOCexsL8syWyy7nRG2ZMp63
-	PbMYzZhdtYEmpdN/vKbZSJc7OrKPkrh+jK5n+oF9bssCI0Uiix3Rf4OanbcJMDNlap3LrltEgKb
-	zTLKWv3GfDh2gBDsgOjbIv+M3J2/hq6VCPgsyymFMDq5LvruXaUAyT+QXywpnxzhsg4Jq1k1jNT
-	N3AkjpdXRCv+Ov9f0jLukXGUv45IoeeNQa/6gpBQ0gtsEcnnCSXZ/APj6AAVQiCn1jb/pCpT6V1
-	JpSChrBK0LztOezE9yHyQQkEhM+7CwUz69VeUQ691JaYdkIa1aekCL4S+59OBl/ZzMATmoLdw7b
-	zn2yBIJgJNDHnuVCmLw8Ef4annmd2Afnoomxl6G3o082rYz19sVOHK1oSoCkESRsIDBQ3MgrQUX
-	KKdieha78TMwvCHPFGhQd4rKrFabPtL6M4FxRGN
-X-Received: by 2002:a17:902:d48c:b0:2cc:7d4a:3f59 with SMTP id d9443c01a7336-2cf805b00d7mr40517485ad.6.1784670951452;
-        Tue, 21 Jul 2026 14:55:51 -0700 (PDT)
+        bh=Z09zkmeNh5BN+YnzA3XXR/UerIxe7k5moeJVXRDO//g=;
+        b=RymgWZAqXyZprlgmBY3q4zkjRWFHZHsa4zShQyxYEMOofXyhE344+KUdxaUrHf6Ltu
+         Eoc4A6ixygJm6ji2wnJ+f1ECNqP5s9k9XPe6uhUyPNGcydfFLY9TbRHrQA7VuOXW64rW
+         oR9A5BmCxhMwLbhQtOpaHN85bV0LM0CbbXpcMbw1p/JsBrHI0PMH5aPY9eKNZQLex0vS
+         6iPxiX4kCbVaRVj4dOiyio8gscewVLuVuNGSPUF92U98+1q2LGg+bcCla+ycUJ50AQzN
+         LJuS+gbSTHBpEm6Ti3IPeOSpiVQ0vLPntz7BnWO/BdEH36ZR58Ke2IJJz4UQ36AudTAs
+         P8vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784670959; x=1785275759;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Z09zkmeNh5BN+YnzA3XXR/UerIxe7k5moeJVXRDO//g=;
+        b=shVET0J80D66y5DORzeJ7F24tqjziE3kQO1ycqQGXsECdnmvg8NMqgUjVrQdOkh4Y9
+         HtjQVrfEVYlE/FY2CekMPEo83Ge0cItj9M1QiLNuD4i/e3L8M8ULjYvtn833OoA5y/if
+         HApG0rqF/amEAxZZcCJfMgt0UC9hYUclk7lDh0S3IVwhR15iW8b+KqeLj8w2t74pTq2r
+         KoMiJeGwZobmqBZ7hC5iJGwYDX1w3ZOFauhv+F5S5C4zABFTsBQMneMpRwYqXKzrwf45
+         25izYTJDj1Z6AWGoLlyZablthHHFSgD0k2RXn2VZvVum9dEIE5RYPsit7qQVmVVeKPF3
+         8QDg==
+X-Forwarded-Encrypted: i=1; AHgh+RrEAUae8qPOEQ5KGCaewnlZx9MQ3YCo37jnbTJxJJqq0UW+W/8tVv92wvnY5R5Zb3ePqJ0qVhJIaVQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKt2D/FJ0uUq80Xgpx9ohqgw46UGPwT4YGczIQeNviFElw+1P4
+	hl6WpRQY2qarPRuHGMTQmNWTC1MiIhDE/zAB++zOZUP3aMONYkw9/84l
+X-Gm-Gg: AR+sD11SM78fXSizKCBv9HEYKq4RV8k1uojjx8XO6xjqQ0sWyyoMaz4ZXuHNl5kHj5b
+	v3wcJA6aDQkJ7gGsRbsnP9+LJzS+43DBpXbLGA0ole5UAzbzLjGFYx2OUq7KGEPJSJl088Cf+KP
+	rFN0Ej1vtiaEcTASclEtgdRv5j8Kg/4eJcXCzywS3W8Muszkvenxjjs79/w9W8IX4BKMEXS/+17
+	TroxxI1Bt5loGglwIZlabMbICLoJfTgqFGGmEmAh2XXG2nxgFhWcWF59JRZNG69C7jAIiO0hGVH
+	kIEiX2eaScAeaEGrACdDMVzNckC1JpbrghrREh4oT2t9gEL3seYNC1X9X+9Lp8vixuoD2FbQDcj
+	UjxY1Cq5CHpL3CJ73ptpSEbTSG64OK5neOT0pMIIX6Dy3FSlCz/kK46Nl/Mq9utJwDjgv/D/G1r
+	mNXgBtCTSgOWfBnrpCFJyQOePGSAbH0YoM6/xNHrAIu4jSCICpOCFNkExmlvpIi8WKkicG/gPMT
+	WgyUIuG79Dd4O7Jw1cZRU3AncKe1PeNT0Ra+j/Y
+X-Received: by 2002:a17:902:e745:b0:2ca:6885:8a06 with SMTP id d9443c01a7336-2cf80474dbamr40954875ad.5.1784670958600;
+        Tue, 21 Jul 2026 14:55:58 -0700 (PDT)
 Received: from chenyou.R15NEW (112-104-169-66.adsl.dynamic.seed.net.tw. [112.104.169.66])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8edea703sm3697115ad.0.2026.07.21.14.55.48
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8edea703sm3697115ad.0.2026.07.21.14.55.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 14:55:50 -0700 (PDT)
+        Tue, 21 Jul 2026 14:55:57 -0700 (PDT)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Alex Shi <alexs@kernel.org>
@@ -68,10 +70,12 @@ Cc: Dongliang Mu <dzm91@hust.edu.cn>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH 00/16] docs/zh_TW: localize terminology and sync process/ documents
-Date: Wed, 22 Jul 2026 05:55:26 +0800
-Message-ID: <20260721215542.98435-1-chenyou910331@gmail.com>
+Subject: [PATCH 01/16] docs/zh_TW: process: localize terminology in 7.AdvancedTopics.rst
+Date: Wed, 22 Jul 2026 05:55:27 +0800
+Message-ID: <20260721215542.98435-2-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260721215542.98435-1-chenyou910331@gmail.com>
+References: <20260721215542.98435-1-chenyou910331@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,96 +85,200 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The zh_TW (Traditional Chinese) translations were originally converted
-from the zh_CN tree, so they still use mainland Chinese terminology
-(e.g. 內核, 軟件, 接口) that reads unnatural to Taiwanese readers, and
-most of the process/ documents have fallen behind their English
-originals.
+Localize mainland terms to Taiwanese Mandarin (內核→核心, 軟件→軟體,
+高級→進階, 項目→專案, 用戶→使用者, ...) and sync with the English
+original (Github → GitHub).
 
-This series localizes the terminology of the existing zh_TW process/
-documents to Taiwanese Mandarin and, in the same pass, syncs each
-document with its current English original, so that the "update to
-commit" markers stay honest for tools/docs/checktransupdate.py.
+update to commit 5ce70894f6ca ("Doc: correct spelling and wording mistakes")
 
-Each patch covers one document and does both the terminology
-localization and the content sync for it. Notable content syncs
-include:
+Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+---
+ .../zh_TW/process/7.AdvancedTopics.rst        | 103 +++++++++---------
+ 1 file changed, 52 insertions(+), 51 deletions(-)
 
-  - code-of-conduct-interpretation: new "Enforcement for Unacceptable
-    Behavior" section and updated TAB voting language
-  - stable-kernel-rules: retranslated from the heavily restructured
-    English text (three submission options, stable tag variants)
-  - submitting-patches: interleaved-reply etiquette, reworked Acked-by
-    semantics, tagging-people permission rules, Assisted-by:, canonical
-    patch format subsections and the b4 tooling section
-  - embargoed-hardware-issues: "Early access" section and the current
-    ambassadors list
-  - index: mirrors the reworked English process index layout
-  - programming-language: Rust is no longer experimental
-
-The final patch adds Documentation/translations/zh_TW/glossary.rst,
-which documents the terminology mapping used across the series (with
-zh_CN equivalents for cross-reference) so that reviewers can check the
-replacements against a single reference, and future translations can
-stay consistent.
-
-A short summary of the main mappings (English / zh_TW / old zh_CN-style):
-
-  kernel      核心   (內核)      software    軟體   (軟件)
-  interface   介面   (接口)      memory      記憶體 (內存)
-  process     行程   (進程)      queue       佇列   (隊列)
-  network     網路   (網絡)      server      伺服器 (服務器)
-  default     預設   (默認)      user        使用者 (用戶)
-  code        程式碼 (代碼)      file        檔案   (文件)
-  community   社群   (社區)      documentation 文件 (文檔)
-
-  - 8.Conclusion: carries a Reviewed-by from an earlier standalone
-    review; see the note under --- in that patch for what changed since.
-
-The zh_TW documents were built with "make SPHINXDIRS=translations
-htmldocs" without new warnings, and tools/docs/checktransupdate.py -l
-zh_TW now reports the series' documents as up to date.
-
-Chen-Yu Yeh (16):
-  docs/zh_TW: process: localize terminology in 7.AdvancedTopics.rst
-  docs/zh_TW: process: localize terminology in 1.Intro.rst
-  docs/zh_TW: process: localize terminology in
-    code-of-conduct-interpretation.rst
-  docs/zh_TW: process: localize terminology in license-rules.rst
-  docs/zh_TW: process: localize terminology in email-clients.rst
-  docs/zh_TW: process: localize terminology in programming-language.rst
-  docs/zh_TW: process: localize terminology in coding-style.rst
-  docs/zh_TW: process: localize terminology in stable-kernel-rules.rst
-  docs/zh_TW: process: localize terminology in 5.Posting.rst
-  docs/zh_TW: process: localize terminology in 2.Process.rst
-  docs/zh_TW: process: localize terminology in howto.rst
-  docs/zh_TW: process: localize terminology in
-    embargoed-hardware-issues.rst
-  docs/zh_TW: process: localize terminology in submitting-patches.rst
-  docs/zh_TW: process: localize terminology in 8.Conclusion.rst
-  docs/zh_TW: process: localize terminology in index.rst
-  docs/zh_TW: Add a glossary for Traditional Chinese translations
-
- Documentation/translations/zh_TW/glossary.rst | 145 +++++
- Documentation/translations/zh_TW/index.rst    |   5 +-
- .../translations/zh_TW/process/1.Intro.rst    | 211 +++----
- .../translations/zh_TW/process/2.Process.rst  | 304 +++++----
- .../translations/zh_TW/process/5.Posting.rst  | 226 ++++---
- .../zh_TW/process/7.AdvancedTopics.rst        | 103 ++--
- .../zh_TW/process/8.Conclusion.rst            |  51 +-
- .../code-of-conduct-interpretation.rst        | 162 +++--
- .../zh_TW/process/coding-style.rst            | 580 +++++++++---------
- .../zh_TW/process/email-clients.rst           | 184 +++---
- .../process/embargoed-hardware-issues.rst     | 194 +++---
- .../translations/zh_TW/process/howto.rst      | 343 +++++------
- .../translations/zh_TW/process/index.rst      |  99 ++-
- .../zh_TW/process/license-rules.rst           | 200 +++---
- .../zh_TW/process/programming-language.rst    |  94 ++-
- .../zh_TW/process/stable-kernel-rules.rst     | 256 ++++++--
- .../zh_TW/process/submitting-patches.rst      | 503 ++++++++-------
- 17 files changed, 2125 insertions(+), 1535 deletions(-)
- create mode 100644 Documentation/translations/zh_TW/glossary.rst
-
+diff --git a/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst b/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
+index b449d67e3ad9..92e08473a7cb 100644
+--- a/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
++++ b/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
+@@ -12,28 +12,29 @@
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+  胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 葉宸佑 Chen-Yu Yeh <chenyou910331@gmail.com>
+ 
+ .. _tw_development_advancedtopics:
+ 
+-高級主題
++進階主題
+ ========
+ 
+ 現在，希望您能夠掌握開發流程的工作方式。然而，還有更多的東西要學！本節將介紹
+-一些主題，這些主題對希望成爲Linux內核開發過程常規部分的開發人員有幫助。
++一些主題，這些主題對希望成為Linux核心開發過程常規部分的開發人員有幫助。
+ 
+ 使用Git管理補丁
+ ---------------
+ 
+-內核使用分佈式版本控制始於2002年初，當時Linus首次開始使用專有的Bitkeeper應用
+-程序。雖然BitKeeper存在爭議，但它所體現的軟件版本管理方法卻肯定不是。分佈式
+-版本控制可以立即加速內核開發項目。現在有好幾種免費的BitKeeper替代品。
+-但無論好壞，內核項目都已經選擇了Git作爲其工具。
++核心使用分散式版本控制始於2002年初，當時Linus首次開始使用專有的Bitkeeper應用
++程式。雖然BitKeeper存在爭議，但它所體現的軟體版本管理方法卻肯定不是。分散式
++版本控制可以立即加速核心開發專案。現在有好幾種免費的BitKeeper替代品。
++但無論好壞，核心專案都已經選擇了Git作為其工具。
+ 
+-使用Git管理補丁可以使開發人員的生活更加輕鬆，尤其是隨着補丁數量的增長。Git也
++使用Git管理補丁可以使開發人員的生活更加輕鬆，尤其是隨著補丁數量的增長。Git也
+ 有其粗糙的邊角和一定的危險性，它是一個年輕和強大的工具，仍然在其開發人員完善
+-中。本文檔不會試圖教會讀者如何使用git；這會是個巨長的文檔。相反，這裏的重點
+-將是Git如何特別適合內核開發過程。想要加快用Git速度的開發人員可以在以下網站上
+-找到更多信息：
++中。本文件不會試圖教會讀者如何使用git；這會是個巨長的文件。相反，這裡的重點
++將是Git如何特別適合核心開發過程。想要加快用Git速度的開發人員可以在以下網站上
++找到更多資訊：
+ 
+ 	https://git-scm.com/
+ 
+@@ -41,44 +42,44 @@
+ 
+ 同時網上也能找到各種各樣的教程。
+ 
+-在嘗試使用它生成補丁供他人使用之前，第一要務是閱讀上述網頁，對Git的工作方式
+-有一個紮實的瞭解。使用Git的開發人員應能進行拉取主線存儲庫的副本，查詢修訂
++在嘗試使用它產生補丁供他人使用之前，第一要務是閱讀上述網頁，對Git的工作方式
++有一個紮實的瞭解。使用Git的開發人員應能進行拉取主線儲存庫的副本，查詢修訂
+ 歷史，提交對樹的更改，使用分支等操作。瞭解Git用於重寫歷史的工具（如rebase）
+-也很有用。Git有自己的術語和概念；Git的新用戶應該瞭解引用、遠程分支、索引、
+-快進合併、推拉、遊離頭等。一開始可能有點嚇人，但這些概念不難通過一點學習來
++也很有用。Git有自己的術語和概念；Git的新使用者應該瞭解引用、遠端分支、索引、
++快進合併、推拉、遊離頭等。一開始可能有點嚇人，但這些概念不難透過一點學習來
+ 理解。
+ 
+-使用git生成通過電子郵件提交的補丁是提高速度的一個很好的練習。
++使用git產生透過電子郵件提交的補丁是提高速度的一個很好的練習。
+ 
+-當您準備好開始建立Git樹供其他人查看時，無疑需要一個可以從中拉取的服務器。
+-如果您有一個可以訪問因特網的系統，那麼使用git-daemon設置這樣的服務器相對
+-簡單。同時，免費的公共託管網站（例如github）也開始出現在網絡上。成熟的開發
+-人員可以在kernel.org上獲得一個帳戶，但這些帳戶並不容易得到；更多有關信息，
++當您準備好開始建立Git樹供其他人查看時，無疑需要一個可以從中拉取的伺服器。
++如果您有一個可以連上網際網路的系統，那麼使用git-daemon設定這樣的伺服器相對
++簡單。同時，免費的公共託管網站（例如GitHub）也開始出現在網路上。成熟的開發
++人員可以在kernel.org上獲得一個帳戶，但這些帳戶並不容易得到；更多有關資訊，
+ 請參閱 https://kernel.org/faq/ 。
+ 
+-正常的Git工作流程涉及到許多分支的使用。每一條開發線都可以分爲單獨的“主題
++正常的Git工作流程涉及到許多分支的使用。每一條開發線都可以分為單獨的“主題
+ 分支”，並獨立維護。Git的分支很容易使用，沒有理由不使用它們。而且，在任何
+ 情況下，您都不應該在任何您打算讓其他人從中拉取的分支中進行開發。應該小心地
+-創建公開可用的分支；當開發分支處於完整狀態並已準備好時(而不是之前）才合併
++建立公開可用的分支；當開發分支處於完整狀態並已準備好時(而不是之前）才合併
+ 開發分支的補丁。
+ 
+ Git提供了一些強大的工具，可以讓您重寫開發歷史。一個不方便的補丁（比如說，
+ 一個打破二分法的補丁，或者有其他一些明顯的缺陷）可以在適當的位置修復，或者
+ 完全從歷史中消失。一個補丁系列可以被重寫，就好像它是在今天的主線上寫的一樣，
+ 即使你已經花了幾個月的時間在寫它。可以透明地將更改從一個分支轉移到另一個
+-分支。等等。明智地使用git修改歷史的能力可以幫助創建問題更少的乾淨補丁集。
++分支。等等。明智地使用git修改歷史的能力可以幫助建立問題更少的乾淨補丁集。
+ 
+-然而，過度使用這種功能可能會導致其他問題，而不僅僅是對創建完美項目歷史的
+-簡單癡迷。重寫歷史將重寫該歷史中包含的更改，將經過測試（希望如此）的內核樹
+-變爲未經測試的內核樹。除此之外，如果開發人員沒有共享項目歷史，他們就無法
+-輕鬆地協作；如果您重寫了其他開發人員拉入他們存儲庫的歷史，您將使這些開發
+-人員的生活更加困難。因此，這裏有一個簡單的經驗法則：被導出到其他地方的歷史
+-在此後通常被認爲是不可變的。
++然而，過度使用這種功能可能會導致其他問題，而不僅僅是對建立完美專案歷史的
++簡單癡迷。重寫歷史將重寫該歷史中包含的更改，將經過測試（希望如此）的核心樹
++變為未經測試的核心樹。除此之外，如果開發人員沒有共享專案歷史，他們就無法
++輕鬆地協作；如果您重寫了其他開發人員拉入他們儲存庫的歷史，您將使這些開發
++人員的生活更加困難。因此，這裡有一個簡單的經驗法則：被導出到其他地方的歷史
++在此後通常被認為是不可變的。
+ 
+-因此，一旦將一組更改推送到公開可用的服務器上，就不應該重寫這些更改。如果您
++因此，一旦將一組更改推送到公開可用的伺服器上，就不應該重寫這些更改。如果您
+ 嘗試強制進行無法快進合併的更改（即不共享同一歷史記錄的更改），Git將嘗試強制
+ 執行此規則。這可能覆蓋檢查，有時甚至需要重寫導出的樹。在樹之間移動變更集以
+-避免linux-next中的衝突就是一個例子。但這種行爲應該是罕見的。這就是爲什麼
++避免linux-next中的衝突就是一個例子。但這種行為應該是罕見的。這就是為什麼
+ 開發應該在私有分支中進行（必要時可以重寫）並且只有在公共分支處於合理的較新
+ 狀態時才轉移到公共分支中的原因之一。
+ 
+@@ -86,52 +87,52 @@ Git提供了一些強大的工具，可以讓您重寫開發歷史。一個不
+ 對於一個私有的分支，rebasing 可能是一個很容易跟上另一棵樹的方法，但是一旦
+ 一棵樹被導出到外界，rebasing就不可取了。一旦發生這種情況，就必須進行完全
+ 合併（merge）。合併有時是很有意義的，但是過於頻繁的合併會不必要地擾亂歷史。
+-在這種情況下建議的做法是不要頻繁合併，通常只在特定的發佈點（如主線-rc發佈）
++在這種情況下建議的做法是不要頻繁合併，通常只在特定的發布點（如主線-rc發布）
+ 合併。如果您對特定的更改感到緊張，則可以始終在私有分支中執行測試合併。在
+ 這種情況下，git“rerere”工具很有用；它能記住合併衝突是如何解決的，這樣您
+ 就不必重複相同的工作。
+ 
+-關於Git這樣的工具的一個最大的反覆抱怨是：補丁從一個存儲庫到另一個存儲庫的
++關於Git這樣的工具的一個最大的反覆抱怨是：補丁從一個儲存庫到另一個儲存庫的
+ 大量移動使得很容易陷入錯誤建議的變更中，這些變更避開審查雷達進入主線。當內
+ 核開發人員看到這種情況發生時，他們往往會感到不高興；在Git樹上放置未審閱或
+ 主題外的補丁可能會影響您將來讓樹被拉取的能力。引用Linus的話:
+ 
+ ::
+ 
+-   你可以給我發補丁，但當我從你那裏拉取一個Git補丁時，我需要知道你清楚
++   你可以給我發補丁，但當我從你那裡拉取一個Git補丁時，我需要知道你清楚
+    自己在做什麼，我需要能夠相信事情而 *無需* 手動檢查每個單獨的更改。
+ 
+ （http://lwn.net/Articles/224135/）。
+ 
+-爲了避免這種情況，請確保給定分支中的所有補丁都與相關主題緊密相關；“驅動程序
+-修復”分支不應更改核心內存管理代碼。而且，最重要的是，不要使用Git樹來繞過
+-審查過程。不時的將樹的摘要發佈到相關的列表中，在合適時候請求linux-next中
++為了避免這種情況，請確保給定分支中的所有補丁都與相關主題緊密相關；“驅動程式
++修復”分支不應更改核心記憶體管理程式碼。而且，最重要的是，不要使用Git樹來繞過
++審查過程。不時的將樹的摘要發布到相關的列表中，在合適時候請求linux-next中
+ 包含該樹。
+ 
+ 如果其他人開始發送補丁以包含到您的樹中，不要忘記審閱它們。還要確保您維護正確
+-的作者信息； git “am”工具在這方面做得最好，但是如果補丁通過第三方轉發給您，
++的作者資訊； git “am”工具在這方面做得最好，但是如果補丁透過第三方轉發給您，
+ 您可能需要在補丁中添加“From:”行。
+ 
+-請求拉取時，請務必提供所有相關信息：樹的位置、要拉取的分支以及拉取將導致的
++請求拉取時，請務必提供所有相關資訊：樹的位置、要拉取的分支以及拉取將導致的
+ 更改。在這方面 git request-pull 命令非常有用；它將按照其他開發人員所期望的
+-格式化請求，並檢查以確保您已記得將這些更改推送到公共服務器。
++格式化請求，並檢查以確保您已記得將這些更改推送到公共伺服器。
+ 
+ 審閱補丁
+ --------
+ 
+-一些讀者顯然會反對將本節與“高級主題”放在一起，因爲即使是剛開始的內核開發人員
+-也應該審閱補丁。當然，沒有比查看其他人發佈的代碼更好的方法來學習如何在內核環境
+-中編程了。此外，審閱者永遠供不應求；通過審閱代碼，您可以對整個流程做出重大貢獻。
++一些讀者顯然會反對將本節與“進階主題”放在一起，因為即使是剛開始的核心開發人員
++也應該審閱補丁。當然，沒有比查看其他人發布的程式碼更好的方法來學習如何在核心環境
++中撰寫程式了。此外，審閱者永遠供不應求；透過審閱程式碼，您可以對整個流程做出重大貢獻。
+ 
+-審查代碼可能是一副令人生畏的圖景，特別是對一個新的內核開發人員來說，他們
+-可能會對公開詢問代碼感到緊張，而這些代碼是由那些有更多經驗的人發佈的。不過，
+-即使是最有經驗的開發人員編寫的代碼也可以得到改進。也許對（所有）審閱者最好
++審查程式碼可能是一副令人生畏的圖景，特別是對一個新的核心開發人員來說，他們
++可能會對公開詢問程式碼感到緊張，而這些程式碼是由那些有更多經驗的人發布的。不過，
++即使是最有經驗的開發人員編寫的程式碼也可以得到改進。也許對（所有）審閱者最好
+ 的建議是：把審閱評論當成問題而不是批評。詢問“在這條路徑中如何釋放鎖？”
+-總是比說“這裏的鎖是錯誤的”更好。
++總是比說“這裡的鎖是錯誤的”更好。
+ 
+-不同的開發人員將從不同的角度審查代碼。部分人會主要關注代碼風格以及代碼行是
+-否有尾隨空格。其他人會主要關注補丁作爲一個整體實現的變更是否對內核有好處。
+-同時也有人會檢查是否存在鎖問題、堆棧使用過度、可能的安全問題、在其他地方
+-發現的代碼重複、足夠的文檔、對性能的不利影響、用戶空間ABI更改等。所有類型
+-的檢查，只要它們能引導更好的代碼進入內核，都是受歡迎和值得的。
++不同的開發人員將從不同的角度審查程式碼。部分人會主要關注程式碼風格以及程式碼行是
++否有尾隨空格。其他人會主要關注補丁作為一個整體實作的變更是否對核心有好處。
++同時也有人會檢查是否存在鎖問題、堆疊使用過度、可能的安全問題、在其他地方
++發現的程式碼重複、足夠的文件、對效能的不利影響、使用者空間ABI更改等。所有類型
++的檢查，只要它們能引導更好的程式碼進入核心，都是受歡迎和值得的。
+ 
 -- 
 2.43.0
 
