@@ -1,204 +1,163 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E2542F6FA;
-	Tue, 21 Jul 2026 07:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AADD435A8F
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 08:03:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784619239; cv=none; b=rhptKvhiAyNbzc3GXQQRPfmDV2w8YlBA4/yazKkHciyQePHJ5l4pj1PDOZYD9XxGJtgdGw/+GSGXzCfjadwXdehpHfSLeHDPRMKoRN0tZU+jEbXQw4UPRDI5lz9KTEhWio5Y4XwiQh5ZoLRMczw/OdUxZC0KwComV7J3lgT083w=
+	t=1784621011; cv=none; b=LttvpIVTQmN0zTQyXVdI1/Aib3TwrQXnfi4+cz3oI6PmDJI9kKPyQgJgR4M+rDhWc7XCvzxG4vnbhn924Dkce/XPDPcqQOLHavknCIU7mCPM+5m3C2P2l0sxlfUc0k1BgLDhQaT4o169cQBfYrTsFK+tnDlcHr4ZlwFdUQD6DWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784619239; c=relaxed/simple;
-	bh=PznmX3DboxmkJhIzVCWhwNnJClpaG7ou4S1MIoF7Or4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=G4BHX2AFF0PDjEYAtqcbfwC2EROBJESUXAP8X84FFJyj3tjxVFHNRpHcuy2p3frgSKucmiInYnIceMUbDd0jCv50chrx+uUNlJ7eSZTanOsg+H5Zy9sGNIbOBmW1YxbsVQZ0yQJ/KCUm3CJlGiYGpXmpyDj/RoOQ4ALrC75XRn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iRdpS1+y; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	s=arc-20240116; t=1784621011; c=relaxed/simple;
+	bh=0Cbw2gXFjpOIEPOY/4kVuvN9KhzVSRPu/bEgNQbmbnU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ui+uT77PNF3avq8zfPkKNB9hltsm2fuif6BiuAGEz80dLGwItDVuJNGUszrkhNbHWKPa8oXyNW59kl0OLd7aEehn7AHAT1kRAyqF4a8w0TgTNUaGOulc3PQgIc+wgVVt3e2TmbWErEsaEJs+SUmGmDTjuPNzTBsB/J/Et8maTbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JgLCOL/n; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iRdpS1+y"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=PznmX3DboxmkJhIzVCWhwNnJClpaG7ou4S1MIoF7Or4=; b=iRdpS1+yMd6Dr51BhFrpuWTgr0
-	DTq8AHuyqRKnBUIhV7UZb9gYTDwfWXYhxTMmm851C+Zk0/N4EZgMOqDv4AGgHoySzpJzosx+guhO2
-	F37BWloTrXaK40RlAbCNqs4kR8eDxqDUhG+cA29JqAw43BnHJntNayj5HKX+Wf0lt3U0SZSuhXOZz
-	3yyQ18NFNzygyQiimXJV/2vZy8Vv8GYfYbTLwRUPOBjWHnXJu5agvcPZMGAl/DNPcHZjsfOIHZAJm
-	+o5FSzjjeKoGo9+/TEUwVekYUlr2TB4d/pPN/AV1MeMlUtmK1/BA8+61qXHsF/tho3o/fYICnf2EG
-	vkXX7tYQ==;
-Received: from [2001:8b0:10b:5:20bb:46f3:73c2:f4b2] (helo=u09cd745991455d.ant.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wm4zA-0000000Chh8-2ERj;
-	Tue, 21 Jul 2026 07:33:53 +0000
-Message-ID: <d538bd8eba1058d52f8d32e311c12bf216ff4118.camel@infradead.org>
-Subject: Re: [RFC PATCH 1/2] KVM: x86/pmu: Add CAP to disable SW accounting
- of emulated instructions
-From: David Woodhouse <dwmw2@infradead.org>
-To: Sean Christopherson <seanjc@google.com>, Luka Absandze
- <absandze@amazon.de>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Alexander Graf
-	 <graf@amazon.com>
-Date: Tue, 21 Jul 2026 08:33:46 +0100
-In-Reply-To: <al6g4VA4l-ZIAr9Q@google.com>
-References: <20260720192221.72912-1-absandze@amazon.de>
-	 <20260720192221.72912-2-absandze@amazon.de> <al6g4VA4l-ZIAr9Q@google.com>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-MXsei1UVd9EYmV+W0ON0"
-User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JgLCOL/n"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-47362928f65so9914915f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 01:03:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784621008; x=1785225808; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FQW9nOmQRNCmAQpN47AcJCe9kdEEIZC5I+8m11r1HjA=;
+        b=JgLCOL/nXI26OSR7/+twJ6V9h3yG7vvwqbLYx3My9qGzF51G+2RJAmJ8pVT3vDgB8T
+         jqiiLMPPiWcC/CyMpV7I3ES9+7OaG7b7KdHYBeoz9KI7/mHQyXthek5bHzjRFbAzzujV
+         dg9WXtd7D5pSh1rRFHycGozTs24CC2C/CxqcDMxVdzzBD530SNXZqsMF4axEf6XRaTp4
+         nNHwJEz+TeaclqflbaDM0YWyS0QGydkH/CH3uCwN2oeqQ9K/uf/A+VShlJJ0zouwQtHQ
+         SutVVUA/4wWzlnbvXl9PcI1Lo5IUXVgxGb13yyIUAIx5Iys6fEyBeFyW9zhAAEGS1aA2
+         zdyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784621008; x=1785225808;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FQW9nOmQRNCmAQpN47AcJCe9kdEEIZC5I+8m11r1HjA=;
+        b=dJsfDHk2nQ3wRrlvZqaiB7QAyMh7ht27RzT+P65OHS1CI1AFHO5nEiQFbquDPbV/tt
+         cPSq+TpkqACt4518AWdt2/0RTTi6tg6n/H0JKSF+djxuCCovIXyClF5Q0xewQTqTl3sa
+         eo3GPrNnmuT2/0nvzdWoUiC6AFeLqFjdgnbO/RN3BucdWESXOGzNJvH0U1Eq3G9BCRgy
+         iOFMPL3VmwTYSeu3vwqX7CJxRyXUaX2wWDRB7wZDVCENvB9e7zQ0tD48a4LCNrlB0XSe
+         n1qnYIuFVMzj5Nz2bvbqkSDLa6J51CNjahLDmwz/yV1m59unVLdObgE66CpfqwlJNxIf
+         vL0A==
+X-Forwarded-Encrypted: i=1; AHgh+RrXmXmbRrpKNrU4oFwZNdUuNxHjECA2TlI/0jyVevTDMQbuNbY+Z6HdaALMWEqtFqQBhSH12Lrc6Wk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVOqLBI2a0tcWF6mrKjNtAjNwFqu29ehZs+wwSJkRu69zbL+Pq
+	2nEtj6IrwQRL0j8OENPR4TJCIO7sThEas/ywc0IyircKN+bkV0swb2rw
+X-Gm-Gg: AR+sD12DxD5D11zEFIWq/LxsiBUoDH88xV12dwSw70tE4ebN0hDm1gI6hNB38fqFt6y
+	LRtS7PsmQTQ+zNhE4d3VYUE7KS4tkTJDIgRgMxR67+7IfLyJNWJrSK7ibyY6igtmlK2lwHQFdgK
+	fRCT94xPcJVbgp9eMtRz9KCZgKWXKTp2phCjVj8+uYIxzvBEUH4xTyYoEiCTmpYuTpNY6607Qh7
+	zWT0vFegrR+OEiKtuNgu0JNVtJDuknu6r+ChWWJOMGunucOEwWNF/aFtkKaq9wRKi7s2U+mD4L9
+	Lkorp0xelXyuhR28F2cjvYEovfuuzSf94WtyTNcdReB2cGcss4SYVXJqgCfsdBUxB/W6JojBnWl
+	j3sRfGl5Ti6H7v18ZUwEGhnDpUZ5N9aGT11Sr/JAofR6jvmpqPEcK67uem76zUXZmIw0DdmDmVu
+	T5kd2uPMz2w+qlmE6IT9UpoFfYLO9wcm2C+s9o+vF2w8hwzihCCySXm96HSncPKrDqjEbxUiBI6
+	7GvSvVJpe/NkanhZGc=
+X-Received: by 2002:adf:e195:0:b0:475:a4ae:e630 with SMTP id ffacd0b85a97d-47f623364bfmr20547113f8f.37.1784621008290;
+        Tue, 21 Jul 2026 01:03:28 -0700 (PDT)
+Received: from [172.24.138.145] (ipservice-092-208-246-161.092.208.pools.vodafone-ip.de. [92.208.246.161])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63eeece9sm35822439f8f.37.2026.07.21.01.03.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jul 2026 01:03:27 -0700 (PDT)
+Message-ID: <d159cae0-b11e-49e9-a546-023ed61b900e@gmail.com>
+Date: Tue, 21 Jul 2026 10:03:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] dt-bindings: iio: adc: Add AD7768
+To: David Lechner <dlechner@baylibre.com>,
+ Janani Sunil <janani.sunil@analog.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux@analog.com, linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com>
+ <20260709-ad7768-driver-v1-1-44e1194fd96a@analog.com>
+ <36df7c4f-82ea-4ed5-a4f9-3a29c75dc99a@baylibre.com>
+ <9dd16bb5-7a30-4024-88a7-4a4bf47c35e8@gmail.com>
+ <e791f4f9-63dd-40f5-aec4-5b540bcee5ff@baylibre.com>
+Content-Language: en-US
+From: Janani Sunil <jananisunil.dev@gmail.com>
+In-Reply-To: <e791f4f9-63dd-40f5-aec4-5b540bcee5ff@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
---=-MXsei1UVd9EYmV+W0ON0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 7/21/26 03:39, David Lechner wrote:
+> On 7/20/26 9:00 AM, Janani Sunil wrote:
+>> On 7/9/26 17:43, David Lechner wrote:
+>>> On 7/9/26 3:50 AM, Janani Sunil wrote:
+>>>> Devicetree Bindings for AD7768-4 (4 channel) and AD7768 (8 channel)
+>>>> simultaneous sampling ADC
+>>>>
+>>>> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+>>>> ---
+>>>>   
+>>>> +
+>>>> +  adi,power-mode:
+>>>> +    $ref: /schemas/types.yaml#/definitions/string
+>>>> +    enum:
+>>>> +      - low
+>>>> +      - median
+>>>> +      - fast
+>>>> +    description:
+>>>> +      Power mode selection.
+>>> Unless there are pins that control this, it seems like it should be
+>>> left up to the driver to decide how to set this.
+>>>
+>>> In this case, it looks like the power mode also influences sample rate
+>>> which is normally something controlled at runtime.
+> Looking at this again, there is also an MCLK divider that influences
+> sample rate, so sampling_frequency to power mode is not straight-forward
+> anyway.
+>
+>> Hi David,
+>>
+>> The reason we'd like to retain power mode control is that certain ODRs are supported across all three power modes (low/median/fast), and the RMS noise and power consumption differ significantly between them at the same ODR.
+>>
+>> The higher the power mode, the better the noise performance, but power consumption nearly doubles for every ~3 dB improvement in dynamic range. Silently selecting one power mode in the driver would remove a meaningful hardware tradeoff from the user.
+>>
+>> We'd like to propose the following instead:
+>> - Remove adi,power-mode from the DT as suggested.
+>> - Expose power mode as a per-device sysfs attribute.
+>> - in_voltage<N>_sampling_frequency_available dynamically reflects only the ODRs valid for the currently selected power mode.
+>>
+>> This keeps the DT clean while still giving the user explicit control over the noise versus power trade off. Would this approach be acceptable?
+>>
+>> Thanks,
+>> Jan
+>>
+>>
+> Jonathan usually pushes back against userspace power controls. We do have
+> this for accelerometers, but not ADCs currently.
+>
+> If we can't think of anything better, maybe we could use this. It only
+> has low_noise and low_power options though, so the driver would still
+> need to chose the best power mode of the 3 based on the other requested
+> parameters. E.g. always make all sampling_frequency available  and just
+> pick the highest power or lowest power mode that can provide that rate
+> based on the power_mode attribute.
+>
+> I wanted to suggest maybe adding some kind of noise attribute instead,
+> but I'm not sure how we could do that in a way using SI units since the
+> value would depend on so many things (at least V_REF voltage, filter type,
+> temperature and even the physical input).
 
-On Mon, 2026-07-20 at 15:27 -0700, Sean Christopherson wrote:
-> On Mon, Jul 20, 2026, Luka Absandze wrote:
-> > The only functional change for an opted-in VM is reduced accuracy: a
-> > guest counting instructions-retired or branches-retired undercounts by
-> > the instructions KVM emulates in host context, i.e. the behavior that
-> > predates the accounting cited above. Hardware-executed guest
-> > instructions continue to be counted by the backing perf_event, and its
-> > overflow/PMI path is unchanged.
->=20
-> Do you *need* per-VM control, or would a module param (or a magic value f=
-or
-> enable_pmu) suffice?=C2=A0 While I mostly buy the "it used to work this w=
-ay" argument
-> (just "mostly", because that commit landed 4.5 years ago), I'm not exactl=
-y keen
-> on adding uAPI that is effectively "re-introduce a bug to workaround fund=
-amental
-> design issues in KVM's emulated PMU implementation".
+We considered the low_power/balanced/low_noise approach, but the customers typically use the datasheet alongside the driver and the datasheet explicitly uses the terms "low power", "median" and "fast" for the three modes. Abstracting them with different names in the sysfs attribute would create a confusion- the users would have to mentally translate between the two naming conventions.
+The noise attribute would not actually configure anything on a register level- it would purely be informational. Furthermore, noise performance is not solely determined by the power mode. There are other parameters (eg. filter mode) that has a significant impact. A power_mode attribute directly configures the hardware register and has a deterministic effect on the device.
 
-Which is the bug? Some would argue that timer interrupts running 50
-times slower is also a bug. We just get to choose *which* bug we want
-the guest to experience :)
+Jonathan, could we keep the power_mode as an attribute in this case?
 
-And I think that is a per-guest choice, if we can't find a way to do it
-with *sufficient* correctness *and* efficiency (qv).
-
---=-MXsei1UVd9EYmV+W0ON0
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
-ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
-MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
-AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
-DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
-q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
-S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
-Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
-72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
-CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
-mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
-h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
-CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
-GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
-AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
-v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
-CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
-b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
-Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
-A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
-vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
-0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
-jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
-FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
-HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
-IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
-MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
-MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
-sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
-tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
-EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
-6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
-ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
-bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
-Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
-02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
-sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
-ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
-JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
-LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
-BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
-LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
-hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
-SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
-c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
-RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
-AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
-EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
-ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
-+3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
-+icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
-McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
-LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
-nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
-gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
-Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
-CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
-QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
-Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
-SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
-YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
-kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
-pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
-v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
-vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
-PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
-REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
-lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
-aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
-D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
-bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
-MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
-oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
-TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
-bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
-BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
-MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
-NDA5NlNIQTM4NDIwMjRDQTEuY3J0MA0GCSqGSIb3DQEBCwUAA4ICAQChxpuuHVw93mze9jmueUFV
-BJNzvOzZlazrt0AiW1H7TlYQutgKVXPNSEyz8s4k+WsRSjjlQMOiZerfwPEV6lo9336I0uNd+ffc
-Rf8gbjiPTiVT+gX9GD1V5AguRgtsJn/H3A6M0dlzhI3J1jsOG9/+xPloHPzy7sPn5rNkntB/VTnv
-Bix4IfUy3ScOu2vnLX0gnwP3EknfdEUvq9+kdkEEBDz7dGqQo3EuhXZoW9CHF2GM0sOpO/cuNQh2
-JzA+to3smTES7sJXYuRrt5GomCRYvtIrRiYGMalFp+z6Jw/843lEIIpNNvpWVfx5Mbawkl+wWG8k
-0IK3rF7FtbNa0it8/s288G/AEHvfsDIQYFmRLlo2LNMxxREkZO/1Qq8GHUsX/602Fi0u88I3uh5w
-bOEIeG32NzBKTKBOjdjpiUrdCA676dyaIFt967CUtnUvFti8bqGA2pe/u7pjIANthqMBAlcnY5B6
-ff2mbdD8BBLItgb4HyUOCVawzy1hc+UR2tglySwYroWeohfoG6afjesGigsl2JmnhaZ9Z0vanF74
-vFEOOmuaq7VamuLEPFQtJM4olmipOW6CzrLcFz6J/6yAecEG3P1ZDoy08eSHvM40MAUgpwGa/w6o
-9ALHQXda/c4TJvAylfHQ6wqArzAuV1pfWldwy7IOBMtKqzQBXQ4dSDGCBCAwggQcAgEBMHYwYjEL
-MAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMTowOAYDVQQDEzFEaWdpQ2VydCBB
-c3N1cmVkIEcyIFNNSU1FIFJTQTQwOTYgU0hBMzg0IDIwMjQgQ0ExAhADNSi2uzJskfEdOMo4hV0g
-MA0GCWCGSAFlAwQCAQUAoIIBezAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yNjA3MjEwNzMzNDZaMC8GCSqGSIb3DQEJBDEiBCAIraG31AkriB7B9mhfAGLYE7i0zm3k
-EVElCp4Fn8Wi2zCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
-aUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBT
-SEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAwgYcGCyqGSIb3DQEJEAILMXigdjBiMQsw
-CQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFz
-c3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAw
-DQYJKoZIhvcNAQEBBQAEggIAIOZVYUTCdg9jCNr0mNhfZgpBQGe9ZGxsJyPT6RQFu1uS87vHSFYr
-GDDuPcZ+PnH5OGT07qGAZldpdSrmTXCjs/EqrGAW8kA9KyKvGbbcXeu3kWBcpEe/yDjazbMAhMtK
-87s0V15XuWgNEXERT9zFEGCLvJK/ev8NNYWKxqb9qKPdNkzQ+qEb62MMZ9lEzc7GkJx6oGAPniy1
-COrWOL2lQgvBCn6pLAsf8L4Lbd9T3DmaXU+F6SlnA4Ui5ukKnjRNWk3Okw8nIt3MSB/QYIBR5QtV
-MtbQ8Mn0I/nTkYZ+a0dSqbUuiD18HPFwH1c1ghkP7h8lFcje2o20ocn2O50KxT9aLyMAbUPdbikb
-ZlpqMn/jTPk9U99/Hawj82fFYIt1mWHG/A0jQcqowhNKZ8NFVyoTjYLCdKksDUkA8Oy2FBHyEUo1
-GTDQ9LJNQsnd/egsS4GYinNG/5IX2vGtBHolbMXZS/gZo6JJncUCqUr+qMIQtTfOUsuEYUBRdtmS
-0Q21APmdXy1nf+E+RZDoh32OeH9DJ7uS2GCDdcxFHg02tuK1lp/wGFuL2ALAt8HIXHJJIx75e5WZ
-nSfDVkVIpmrV6wfizmTgZNnprPSW3oIo4cz1ByJr1aV5PA/a+0P9NIrSAmTlp8eCRxXIQeH/Q8UO
-47scHsJAc+6RJj61KzapMR8AAAAAAAA=
-
-
---=-MXsei1UVd9EYmV+W0ON0--
