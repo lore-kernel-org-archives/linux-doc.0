@@ -1,93 +1,60 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from eidolon.nox.tf (eidolon.nox.tf [185.142.180.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891EB3E51D3;
-	Tue, 21 Jul 2026 14:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C895539DBF9;
+	Tue, 21 Jul 2026 14:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784644576; cv=none; b=D58THMWG5jbpmW2XB3DIWPE6SpAwAUGeCfxSB0s1P8Nw+tBO4u6zVgoxURoaEBuJg3g0VsoksDpwPyIOlEQheVUu/l0l0F0KamF+QnKs5Ci1m+7Gf1th7vnv4v7Oq82Mg8/sOz49HR+Q5ts20Guf8XZIrSBuOlechY+JncbvUbU=
+	t=1784644688; cv=none; b=sDkQoVAVgFJ/9jkcSoXeq12nXoQoIRGgTAE61l1wgX3rf2qO05Klene+8sKQE2fPKy8huglnhHSSaq6gDXoCnjlvJe4aDv//jFZ5mMjGxj01W26sdhCmrg3QQuSelVtTqCbQ13+q3/QWKW3VCG0yp53QFibaVtrjlQ6ERnr/VVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784644576; c=relaxed/simple;
-	bh=FjfckGRDhoL0MdRPE3rlXhTjyPT2Pff9Ji0JeV50BUM=;
+	s=arc-20240116; t=1784644688; c=relaxed/simple;
+	bh=WE54N0XttuHohF9S3o2EIxAbsPRA/FIuF3w+w9TiVxY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FrVXNelnQ7iuvLJsQZHt3jdCRIJzG5uH+Eqeik4zq6g0ISCJ61myHfOL1JKdxq2hba523AyIAGUWZxqtiySXwA9+D7s2y5ngfAIN3XgkspuMvGjRagIlJ6xz+Sr33+lg8PK4zzTB3iLKlNUWn7m0H5Wo+kTOvR3aFOdYVUza0bQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=WT7FL0fH; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XErFh56i; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WT7FL0fH";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XErFh56i"
-Date: Tue, 21 Jul 2026 16:36:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1784644568;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y73VMo44vVc17s0kwvEBNmYMDLr9glAxebOJvz8TECg=;
-	b=WT7FL0fH4esB+FYB+d9WSR+/MzGOjCbT8XrSoI9Vvnah1q7IejVEI3xxb0/HFgg+PuGBiU
-	gdlHuekCqdGvNrAKV9VqqngmqDuA1Jgrk3DBJksWjY4kwMaGaN7zi0/7NTnk3NcGllBsaI
-	LoQ5lJ4nozhSA2j0MsNeVfr5in7FJykeMeWO7hzgq+2QJDlxLrJv0LnQ9j9geFWo0/BOi4
-	j5+SrsWsDpbHx0mtMYmNMS9at2g4+NQUR7snOKuZNkoaCRfT/Xl4xMEsyuUSfY0dM8SbxZ
-	q55AYDZQvcLKHqdEHlNBKBVxrzQcc9T/PpE/I7TaqKMbuORYp7kG/ipviP37hg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1784644568;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y73VMo44vVc17s0kwvEBNmYMDLr9glAxebOJvz8TECg=;
-	b=XErFh56iWcVhEBhqEbll09MnIQYmcyhJxuR2GGh52rGAzXfHJa5QMkdvzewpz3feGKGRky
-	8o60rjbviAM5MvAg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: John Ogness <john.ogness@linutronix.de>
-Cc: "Ahmed S. Darwish" <darwi@linutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev,
-	Matthew Wilcox <willy@infradead.org>,
-	Derek Barbosa <debarbos@redhat.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/1] Documentation: real-time: Add kernel
- configuration guide
-Message-ID: <20260721143606.NqT15H0p@linutronix.de>
-References: <20260716195716.256025-1-darwi@linutronix.de>
- <20260716195716.256025-2-darwi@linutronix.de>
- <20260721130248.ndwsFtHE@linutronix.de>
- <874ihs5s4d.fsf@jogness.linutronix.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=oier+ao6RLefFm3fO2kmReI5ss2Tch4w4nqnBEWLRjmOGMxKTmdT1VLoRtZ3Hs7Xhmon/TdeTWI0YJ00NkLzs0KRTcPy6bcX7WzPA/CNOI9ygQ+TzKiPQCoOrW2plEMCYxFAz/KJIMPxKYCXtQup7PRifPqKVWFxLNuiVtsl1nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=diac24.net; spf=pass smtp.mailfrom=diac24.net; arc=none smtp.client-ip=185.142.180.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=diac24.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=diac24.net
+Received: from equinox by eidolon.nox.tf with local (Exim 4.98.2)
+	(envelope-from <equinox@diac24.net>)
+	id 1wmBbQ-00000002JYT-3inB;
+	Tue, 21 Jul 2026 16:37:48 +0200
+Date: Tue, 21 Jul 2026 16:37:48 +0200
+From: David 'equinox' Lamparter <equinox@diac24.net>
+To: Simon Horman <horms@kernel.org>
+Cc: equinox@diac24.net, pabeni@redhat.com, kuba@kernel.org,
+	idosch@nvidia.com, dsahern@kernel.org, davem@davemloft.net,
+	edumazet@google.com, corbet@lwn.net, skhan@linuxfoundation.org,
+	fmancera@suse.de, lorenzo@google.com, maze@google.com,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, furry13@gmail.com
+Subject: Re: [PATCH net-next 7/9] net/ipv6: support RFC6724 rule 5.5 via
+ subtrees
+Message-ID: <al-EPInqzpka3zi6@eidolon.nox.tf>
+References: <20260714094030.136317-8-equinox@diac24.net>
+ <20260721135013.387122-2-horms@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <874ihs5s4d.fsf@jogness.linutronix.de>
+In-Reply-To: <20260721135013.387122-2-horms@kernel.org>
 
-On 2026-07-21 16:40:10 [+0206], John Ogness wrote:
-> On 2026-07-21, Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
-> >> +``CONFIG_DEBUG_FS``
-> >> +^^^^^^^^^^^^^^^^^^^
-> >> +
-> >> +This is safe to include in real-time kernels, *provided that debugfs is
-> >> +not accessed during production runtime*.
-> >
-> > It is safe to have as long as you don't use it.
-> >
-> > I would drop it. That filesystem is not dangerous on its own. It depends
-> > on the options you change and how this affect the system.
-> > We used to have it always enabled because you needed it for tracing.
-> > This is no longer the case as it has its own tracefs which has its own
-> > live outside of debugfs. So I don't think it is needed to mention it.
-> 
-> Unfortunately, debugfs is needed to configure the fair deadline server:
-> 
->     /sys/kernel/debug/sched/fair_server/cpu*/runtime
+Hi Simon,
 
-So drop the reference to it. It is not "bad" to have it enabled. It is
-just an interface to other things. Same as sysfs except that debugfs has
-no stable ABI unlike sysfs.
 
-> John Ogness
+On Tue, Jul 21, 2026 at 02:50:14PM +0100, Simon Horman wrote:
+> This is an AI-generated review of your patch. The human sending this
+> email has considered the AI review valid, or at least plausible.
+> https://sashiko.dev/#/patchset/20260714094030.136317-2-equinox@diac24.net?part=7
 
-Sebastian
+Thanks for forwarding the Sashiko reports, I was already aware of them & am almost done addressing them.  The external nexthop stuff is "inapplicable" since the kernel refuses subtree routes with nexthop objects, but I've made that more explicit.  Other than that it's relatively simple oversights on my end.
+
+I just need to make it pretty & hit send, I'll hopefully get to it tomorrow.
+
+Cheers,
+
+
+-equi
