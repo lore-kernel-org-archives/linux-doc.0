@@ -1,87 +1,67 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E0F46A5FA
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 18:07:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80AD446D08F
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 18:07:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784657254; cv=none; b=YY+wZRvch3H1tZZNvAPOGsU0H4/MxL5AAvQ8f6qEBh3eJCaRckFO5cyJI9lvPU6TPM1MstByX2wkqwDi5DMejdy2ZLoshD1cCrOmQqWgSkZ67AdEIrjyPsQ+Xu41o89vcENGRMQ1Tktrnun/LI9EKuQXB5SOIU6VdCfwGiYGf9U=
+	t=1784657272; cv=none; b=aXRMjw2N0VvrMx0uPy451mooEZvne/+8zuR+YXBl2LgU5RiJsYGyx0YVAXiWz3gKT8uvJC5B823R0CX4fSewjEGFGZdui16QKvN0PFDklAWb+MTaQwtmY5B0NCwBvvge4Z4zoqgc/W/rUohbwCzCa/W/WODFy2RmrOlA43RqwnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784657254; c=relaxed/simple;
-	bh=x7ZJS3f0xRb8AdncArsAbjSOaFWnv6AX4C01srI9uQY=;
+	s=arc-20240116; t=1784657272; c=relaxed/simple;
+	bh=WvACp2/z+3E8tw5TZyl7hpOGrNEaHdxpjmDXB5q7X/g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Opj/ZMu4iJKf2Oee6eIYMO+Spu5wTpbHc2jgxgxwfhcBHcUHclPkMRB/XzqoIxKtT7FoadGzngS9RVeGMo129j390OO7M9sonKECru+b/z32+BJkhL9eQ1xSHDr7mM8+kDnMOmX+VY1fmq6dOFF/oW6WIne1jtWkqXWJuHD+C2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=dfw0BPiD; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BtkWQwaE; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=hy+Q393I1p03DZqHqh57uxLuW5J2E3y73jzaY4x+fPkPlhwp+z3yMJQpRD0D2Ex/0arEewh1pyb+UXPIRwZWEyEPkINWPDz/Xqb/DDLIAY0ChACrkYnESbGs6/97BGC8sLnEg34sqfYo7b52c4ObqN6MAf0fvtAgDqde8Xf7qfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jtsJzLj4; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="dfw0BPiD";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BtkWQwaE"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66LH2UUd2548680
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 18:07:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	pvgrk0JD8puxwL9uCDMq26QW3QE0+BHmqpodlHbEJE8=; b=dfw0BPiDNUu0Gi6Z
-	bWZ3/fyFqObxL29UiXVFnI/KCl+2rr8TGeyYQZjQabD4ckCreCjBTPgx3egEwyvQ
-	HUp4GxBfAysNYgFdVArI/zJeIyAdHryaFXC8PAme6e1CRNA66zQpra3j5T1atC2R
-	XGhGKcIygx4OeLyJotMKrlXoGD39Q7HauokoDHMitgaIrkIUgRoD0rjmoHrU6YK3
-	P2VxMU7kRFR8UHIS0q7ENORA3m824sbBGu612WYq+Ngq7Zstai+EPm4heyT0vE/o
-	LYKby0qSnfBmvUvqIe0zUmESvWxtOXYo7y/zQFIPpkWWOVGXF5oyhHDYDrzwTmAv
-	MI7oIA==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fj6r3j9wv-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 18:07:32 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cbb6433e9d4so1711583a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 11:07:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jtsJzLj4"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2ceed7018c8so55155465ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 11:07:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784657252; x=1785262052; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784657270; x=1785262070; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=pvgrk0JD8puxwL9uCDMq26QW3QE0+BHmqpodlHbEJE8=;
-        b=BtkWQwaEuVZ43hW9tLmB31J4XV3xQ61dN8Gs6rLOCwWt9yrSi1peqcOB3+PLOEw6Qi
-         jGGCD09VeAQFakEPoSspipLAHF702ZSx2DC8I/NFW6J4V+zDK5Wau2JSoAEdEcmZp4C2
-         Mz2yP0MUfvTVv4LvE/bUNBzk/bS4pNkbcksHjZCE7bGm5m5s6n6b1sI+eVrbru5EFuAi
-         y32477uR1jtw5bqB5VOFfD1h4KQz8coZ63AdUDTAiaT65YRYe0PlF+TsAHyaYVKOwEiB
-         9/uV2vWW1YvMCdzSJWZMVNAcv+r1DIvQm1zSrrnwtEFbJlSrSCt6pq/s7AWixt96expc
-         aikw==
+        bh=c40NBo1W9yHmbmPu6DBj/iUhGmv3QX59r4twZJLz7lo=;
+        b=jtsJzLj4UAV43zgQzD43nM1JHvdky2engASx/NtBLSUafUr/ehXChXtFM3eRIVEUyu
+         kqCvHaqXUt6DWT3n2u2iqkVneCmncbRrWzrFtXIdAsZzByOFqhgSvbNbAZeEHD1jUzdD
+         vZzzbztGNVpP0yuYD1R1NLvx2p4esaG50P6zxsd36It4Tzb69KEEObzXatc2mbVvurCV
+         OKy8ateT11+Fa1kniee8y9X7iut7mT4T/9zl65CnQSzmG+KsSzdk8qA5cQ3LuIaApzVf
+         +kKw5vyURTKbjDsqS8Z0qZ8YvVJuPVaSs+YG41/o0YFyEaEGl7We1+QwiZQpAG8/IFZv
+         BtSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784657252; x=1785262052;
+        d=1e100.net; s=20251104; t=1784657270; x=1785262070;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=pvgrk0JD8puxwL9uCDMq26QW3QE0+BHmqpodlHbEJE8=;
-        b=GGuuvf9GJb6imLef2CXM6Re9HXSM2Srm98Lz2cNx5LEhRM7twX3ROy4k2urGH5ZIEz
-         oatcz4O/SJiG4Mp6Qoh1MSb5mwMPa3O/fcWIuKc+zx5R/N/w/PaX3pnrFofKW8LQ1dmt
-         RmeBoaKTAdelmmSKDuOyudF3EhHrgtuk6ITbCSnQ6ANuLIuGCpWAlSAib01x4uBFOj6U
-         TlDZrkHevSzqbpIOU2PA9zqES8yOkpgt3CRzrFbqKCK8WBSd/X0oHzxyl6Aiydb7kawR
-         OQyE4SJZgrqzaxBZkoe9iY4ANc7zaslAth2JLCAHLa0LPPUzWXfChG30X4dwLRjAKXn+
-         zmZA==
-X-Forwarded-Encrypted: i=1; AHgh+Rob4Q9W+P4Hp4BWGweuQAPcnR6B1wnpJUdJJu6Yfo1SJG3cPyW5jp8clXz7LZ8YDkIRyDx7J0JNgoI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzIkg9LO1zvBNKCXZ/mvtOAchSQuvC734KWzR1Hy+jI5CZthyR
-	HNoJqnmu35p/EucQag6G34++D1sVC1ot+ptb0ovAOkHCZTR1u8WeB74CGXdoG8Rt8z+Ug3BQK9b
-	KmZ2+RHydj2DY7TkKEozHxy6zcPr+PYLU4GIesrt5uwmRS8bGmWWn82FvAxqe7lXrIw2apPo=
-X-Gm-Gg: AR+sD11ImDcdD6riC6fANNxbhgAJXfn00oCRRu0iwOETEZ+U0ZhNf/nlg18U5tFz3QU
-	sSpkNiIknWXFUMYjl/P0sAnHDTDMXz/7DD8w6DvK31ERY8l+NTDZotsu28ZSdNgR6zjZ9jVYoH+
-	ZxnhqQLWN95bybsK/qjH7Q45TslyTrfqeRlzrcwDk0x7LPj3klPy/pSN3WAjd196rnB+9l+8O7n
-	yURyCd9MvNw5QF20NvsiGucoMANIFhRlxAhAAQGuEJyQ6yIUswXLwcAdclH7zijim3jhrZcmIYv
-	dXQWOvH0zuh/Thwc6UQWMFN9B+jszXTmFdTnNNdi1rXcbzl4jM0Rtnggl2ibfyQUckB4ibS/bni
-	bXjkM+V0lf+pPjmaBQZ+2Xoe6czoQ6dJj0yI=
-X-Received: by 2002:a05:6a20:6a0a:b0:3c3:8041:89f5 with SMTP id adf61e73a8af0-3c3ad9e597fmr23899565637.66.1784657251636;
-        Tue, 21 Jul 2026 11:07:31 -0700 (PDT)
-X-Received: by 2002:a05:6a20:6a0a:b0:3c3:8041:89f5 with SMTP id adf61e73a8af0-3c3ad9e597fmr23899525637.66.1784657251224;
-        Tue, 21 Jul 2026 11:07:31 -0700 (PDT)
-Received: from [192.168.1.8] ([106.222.235.145])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147e088d3fsm908106eec.25.2026.07.21.11.07.22
+        bh=c40NBo1W9yHmbmPu6DBj/iUhGmv3QX59r4twZJLz7lo=;
+        b=cs030GtFWjWQK/DNzEQztvgj/dx83/cqYDMLWTAwS/eOD3BNoYdeCGGKVEtBR+cSnS
+         jeLHRxPuCCo/7THDy6Vh5zeVM40Ve1j1xSuMV+/VtgVATHEnd/U/OCdenFQOIYENlWZ7
+         gq0YCa2x/sAOt1Crhf6IwQnB2UMkM6j19ucj+EVK05e+TvZRSG+icl/B72ZC3XApOcUQ
+         XGm7H54gWd2dQt+ByMWkYaE0EdIhhxK1+/298q0gz/m0nPiY5Pr5vnYxJAlrJWBo38U/
+         vZHYI8L1dVoM9pJJYTtQopoKYYiTvgr/FaJMQfQmrnG7YpTMsczizpDGaHG6tvUfdqyI
+         dE8w==
+X-Forwarded-Encrypted: i=1; AHgh+RqO1DBX80tVMEp2+GBw7KFiIhhChPWxuE0SWHacWfA0pPn0W9+PaZY1cKIotdVWb7gKxmm6VyrLflI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwV8tCV6ln/5aGt3eiNpcCL8YnW+TbGhck8P+cHFRe/+hzT7umj
+	A/gqyWqz5hDYPuGkET7m4I9qLEuZh50POrmQ5KWS5pMSafnN92LtMy8w
+X-Gm-Gg: AR+sD11dA0ejHpGKmdR1Xc0TOfrD+79ti5mrEUVACppQKoFhBXHeFLtuaIqBUdE+DRA
+	dezLHYXL3es88tO4iua+yk8UJhcnOhOIU46QOnb7YPxJLTs2AgZ80/QC1LZ4+iWzpvXheuBLTpA
+	Djg3V/Oic/sgcxDI8Po35ly/Wmq3GWaWRNfsfQQ/S507FCLz5env9ckTLXLSPWQmf2RvoEHI0Kx
+	Gv9VDx7PwuogFyp4Jf9p5Yuz/oydk774tZsq4sP6TARdWWHnZ41g6972PaDj665gOd0zJBeZsOw
+	My27Z6LP06VJFnB+xMeJRgXHKXTVBVosStPk9WGRBWYjidVB6srT8pnOfMy5n3/giAO04e43x9l
+	sH3NPq/cqzaIn5PJ73g7M2xdGyVoUtjglufiwdBJaTZ7HDgkHupOc/PEJM7JXG3UX885uhtYud6
+	fMO/QrQWwcnZ+7QYfc0vjo8QmSMhpX+Dfo0JyDvflWHzCWdN3i
+X-Received: by 2002:a17:903:946:b0:2cf:6f7f:55d8 with SMTP id d9443c01a7336-2cf6f7f6a7cmr88695745ad.37.1784657269494;
+        Tue, 21 Jul 2026 11:07:49 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1151:15:c56:221b:35d5:85f? ([2620:10d:c090:500::2:246a])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147e07000fsm2187984eec.21.2026.07.21.11.07.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jul 2026 11:07:30 -0700 (PDT)
-Message-ID: <bc7854a8-1dd4-4e0a-83bd-a8c9dd95645d@oss.qualcomm.com>
-Date: Tue, 21 Jul 2026 23:37:21 +0530
+        Tue, 21 Jul 2026 11:07:49 -0700 (PDT)
+Message-ID: <c4473a79-567a-430b-b463-f45d4ef3ea28@gmail.com>
+Date: Tue, 21 Jul 2026 11:07:47 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,152 +69,507 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v23 06/14] dmaengine: qcom: bam_dma: add support for BAM
- locking
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-        Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Thara Gopinath <thara.gopinath@gmail.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Udit Tiwari <quic_utiwari@quicinc.com>,
-        Md Sadre Alam <mdalam@qti.qualcomm.com>,
-        Dmitry Baryshkov
- <lumag@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Stephan Gerhold <stephan.gerhold@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
-        Andy Gross <agross@codeaurora.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>
-Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        brgl@kernel.org, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-References: <20260721-qcom-qce-cmd-descr-v23-0-1be02deffda9@oss.qualcomm.com>
- <20260721-qcom-qce-cmd-descr-v23-6-1be02deffda9@oss.qualcomm.com>
+Subject: Re: [PATCH net-next v11 1/5] hinic3: Add ethtool queue ops
+To: Fan Gong <gongfan1@huawei.com>, Wu Di <wudi234@huawei.com>,
+ Teng Peisen <tengpeisen@huawei.com>, netdev@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Ioana Ciornei <ioana.ciornei@nxp.com>,
+ Dimitri Daskalakis <dimitri.daskalakis1@gmail.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ luosifu <luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>,
+ Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+ Shi Jing <shijing34@huawei.com>, Zheng Jiezhen
+ <zhengjiezhen@h-partners.com>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>
+References: <cover.1784538912.git.root@localhost.localdomain>
+ <9c55508017d53dd642f1a9c864ad8dfd1e3fd500.1784538912.git.root@localhost.localdomain>
 Content-Language: en-US
-From: Mukesh Savaliya <mukesh.savaliya@oss.qualcomm.com>
-In-Reply-To: <20260721-qcom-qce-cmd-descr-v23-6-1be02deffda9@oss.qualcomm.com>
+From: Mohsin Bashir <mohsin.bashr@gmail.com>
+In-Reply-To: <9c55508017d53dd642f1a9c864ad8dfd1e3fd500.1784538912.git.root@localhost.localdomain>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIxMDE5MSBTYWx0ZWRfX9ZOWA3O6nfcr
- FSZ9DXnPwi4lYzByHnE2n3R0YPvX2ICSL/IFKDc7ZYINxyr6i8bENE5oaIrKkZLDY62NJzmzRnC
- a3Lto5VkF2UHiuq+9jacRD0htr7XgUJO8YSuE2d7gamjuWwQhOi3PBZidUxhieQ14YSC/XQ1Lqp
- YPRdTO9T5y1PuVByWDDKUYhkoesyp4qhWcCQd099UWJR9sLgBMdcjpsfQGyiGr2Xw+16zBiubi2
- 2Ep4FmTQ3DFeiuJt182NgPR0C8xGkG1XakdVKJ5aY3PY3nzoXPTk2Um9kJxao+Vqy3UaIBRS3Jk
- xcnyYV6DUDuqpXVs98/H3FzM3xToqM/8DwyCC68OVc7aO93BVP8vHxrJlhaQcp1sDI50Ipyjp+S
- JsiCViJsFTxbE2Cdck3qPoC+ORkedzTvATw5wW1Rh5pBOKckW5cisJ7hClNOS7n6xKOrjv67Ok8
- Wprix0BjmYxeVsIZizA==
-X-Proofpoint-ORIG-GUID: hsVPcptLSU44F6EUpxeyLp7pmGOwTjrE
-X-Proofpoint-GUID: hsVPcptLSU44F6EUpxeyLp7pmGOwTjrE
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIxMDE5MSBTYWx0ZWRfX0L81Rer2eiZK
- mrTNDNv2EBUEDcWhyNCZvTHmCh8+0wAxOUd9rFhrrcwMa1NLtBqUCS/vA/hOYS0olUjEC5DdFao
- JRId2Jnv1x7ScWp5lrEERX98O7T7JOA=
-X-Authority-Analysis: v=2.4 cv=SIRykuvH c=1 sm=1 tr=0 ts=6a5fb564 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=nYgDJefOb7ZtON2RxEtQrg==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=5tee5T0z8aEC-XiIPRgA:9 a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-21_03,2026-07-21_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 spamscore=0 phishscore=0 clxscore=1011
- suspectscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607210191
 
-Hi Bartosz,
 
-On 7/21/2026 7:03 PM, Bartosz Golaszewski wrote:
-[...]
 
-> @@ -676,13 +691,26 @@ static void bam_free_chan(struct dma_chan *chan)
->   static int bam_slave_config(struct dma_chan *chan,
->   			    struct dma_slave_config *cfg)
->   {
-> +	struct bam_config *peripheral_cfg = cfg->peripheral_config;
->   	struct bam_chan *bchan = to_bam_chan(chan);
-> +	const struct bam_device_data *bdata = bchan->bdev->dev_data;
+On 7/20/26 5:53 AM, Fan Gong wrote:
+>    Implement following ethtool callback function:
+> .get_ringparam
+> .set_ringparam
+> 
+>    These callbacks allow users to utilize ethtool for detailed
+> queue depth configuration and monitoring.
+> 
+>    Change port_state_mutex to state_lock as a unified mutex lock
+> in hinic3_nic_dev.
+> 
+>    Tightens the success criterion for hinic3_rx_fill_buffers() in
+> hinic3_configure_rxqs().
+> 
+>    Changes hinic3_tx_csum()/hinic3_tx_offload() to propagate
+> skb_checksum_help() failures into a TX drop.
+> 
+>    Renames hinic3_uninit_qps() to hinic3_get_cur_qps().
+> 
+>    Splits hinic3_open_channel() into hinic3_prepare_channel() and
+> hinic3_open_channel().
+> 
+
+It may just be me, but I feel like there is a lot going in this single 
+patch. Ideally, a patch should carry one logical change. This patch is 
+doing 3 things: refactor, new code, bug-fixing in the hinic3_close() path.
+
+> Co-developed-by: Wu Di <wudi234@huawei.com>
+> Signed-off-by: Wu Di <wudi234@huawei.com>
+> Co-developed-by: Teng Peisen <tengpeisen@huawei.com>
+> Signed-off-by: Teng Peisen <tengpeisen@huawei.com>
+> Signed-off-by: Fan Gong <gongfan1@huawei.com>
+> ---
+>   .../ethernet/huawei/hinic3/hinic3_ethtool.c   |  91 +++++++++++++++
+>   .../net/ethernet/huawei/hinic3/hinic3_main.c  |   4 +-
+>   .../huawei/hinic3/hinic3_netdev_ops.c         | 106 ++++++++++++++++--
+>   .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |  11 +-
+>   .../ethernet/huawei/hinic3/hinic3_nic_io.c    |   4 +-
+>   .../ethernet/huawei/hinic3/hinic3_nic_io.h    |   8 +-
+>   .../net/ethernet/huawei/hinic3/hinic3_rx.c    |   2 +-
+>   .../net/ethernet/huawei/hinic3/hinic3_tx.c    |   7 +-
+>   8 files changed, 216 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
+> index 90fc16288de9..e6dff46a0d00 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
+> @@ -9,6 +9,7 @@
+>   #include <linux/errno.h>
+>   #include <linux/etherdevice.h>
+>   #include <linux/netdevice.h>
+> +#include <linux/netlink.h>
+>   #include <linux/ethtool.h>
 >   
->   	guard(spinlock_irqsave)(&bchan->vc.lock);
->   
->   	memcpy(&bchan->slave, cfg, sizeof(*cfg));
->   	bchan->reconfigure = 1;
->   
-> +	/*
-> +	 * This is required to setup the pipe locking and must be done even
-> +	 * before the first call to bam_start_dma().
-> +	 */
-> +	if (bdata->pipe_lock_supported && peripheral_cfg) {
-> +		if (cfg->direction != DMA_MEM_TO_DEV)
-> +			return -EINVAL;
-> +
-> +		bchan->lock_scratchpad_addr = peripheral_cfg->lock_scratchpad_addr;
-IIUC, peripheral_cfg will be filled by the client driver of BAM right ? 
-if not, who actually passes it ?
-> +	}
-> +
+>   #include "hinic3_lld.h"
+> @@ -409,6 +410,94 @@ hinic3_get_link_ksettings(struct net_device *netdev,
 >   	return 0;
 >   }
 >   
-> @@ -802,6 +830,7 @@ static int bam_dma_terminate_all(struct dma_chan *chan)
->   		}
+> +static void hinic3_get_ringparam(struct net_device *netdev,
+> +				 struct ethtool_ringparam *ring,
+> +				 struct kernel_ethtool_ringparam *kernel_ring,
+> +				 struct netlink_ext_ack *extack)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +
+> +	ring->rx_max_pending = HINIC3_MAX_RX_QUEUE_DEPTH;
+> +	ring->tx_max_pending = HINIC3_MAX_TX_QUEUE_DEPTH;
+> +	ring->rx_pending = nic_dev->q_params.rq_depth;
+> +	ring->tx_pending = nic_dev->q_params.sq_depth;
+> +}
+> +
+> +static void hinic3_update_qp_depth(struct net_device *netdev,
+> +				   u32 sq_depth, u32 rq_depth)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +	u16 i;
+> +
+> +	nic_dev->q_params.sq_depth = sq_depth;
+> +	nic_dev->q_params.rq_depth = rq_depth;
+> +	for (i = 0; i < nic_dev->max_qps; i++) {
+> +		nic_dev->txqs[i].q_depth = sq_depth;
+> +		nic_dev->txqs[i].q_mask = sq_depth - 1;
+> +		nic_dev->rxqs[i].q_depth = rq_depth;
+> +		nic_dev->rxqs[i].q_mask = rq_depth - 1;
+> +	}
+> +}
+> +
+> +static int hinic3_check_ringparam_valid(struct net_device *netdev,
+> +					const struct ethtool_ringparam *ring,
+> +					struct netlink_ext_ack *extack)
+> +{
+> +	if (ring->tx_pending < HINIC3_MIN_QUEUE_DEPTH ||
+> +	    ring->rx_pending < HINIC3_MIN_QUEUE_DEPTH) {
+> +		NL_SET_ERR_MSG_FMT_MOD(extack,
+> +				       "Queue depth underflow[%d]: tx[%d], rx[%d]",
+> +				       HINIC3_MIN_QUEUE_DEPTH,
+> +				       ring->tx_pending, ring->rx_pending);
+> +
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int hinic3_set_ringparam(struct net_device *netdev,
+> +				struct ethtool_ringparam *ring,
+> +				struct kernel_ethtool_ringparam *kernel_ring,
+> +				struct netlink_ext_ack *extack)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +	struct hinic3_dyna_txrxq_params q_params = {};
+> +	u32 new_sq_depth, new_rq_depth;
+> +	int err;
+> +
+> +	err = hinic3_check_ringparam_valid(netdev, ring, extack);
+> +	if (err)
+> +		return err;
+> +
+> +	new_sq_depth = rounddown_pow_of_two(ring->tx_pending);
+> +	new_rq_depth = rounddown_pow_of_two(ring->rx_pending);
+> +	if (new_sq_depth == nic_dev->q_params.sq_depth &&
+> +	    new_rq_depth == nic_dev->q_params.rq_depth)
+> +		return 0;
+> +
+> +	if (new_sq_depth != ring->tx_pending ||
+> +	    new_rq_depth != ring->rx_pending)
+> +		NL_SET_ERR_MSG_FMT_MOD(extack,
+> +				       "Requested Tx/Rx ring depth %u/%u trimmed to %u/%u",
+> +				       ring->tx_pending, ring->rx_pending,
+> +				       new_sq_depth, new_rq_depth);
+> +
+> +	if (!netif_running(netdev)) {
+> +		hinic3_update_qp_depth(netdev, new_sq_depth, new_rq_depth);
+> +	} else {
+> +		q_params = nic_dev->q_params;
+> +		q_params.sq_depth = new_sq_depth;
+> +		q_params.rq_depth = new_rq_depth;
+> +
+> +		err = hinic3_change_channel_settings(netdev, &q_params);
+> +		if (err)
+> +			return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   static const struct ethtool_ops hinic3_ethtool_ops = {
+>   	.supported_coalesce_params      = ETHTOOL_COALESCE_USECS |
+>   					  ETHTOOL_COALESCE_PKT_RATE_RX_USECS,
+> @@ -417,6 +506,8 @@ static const struct ethtool_ops hinic3_ethtool_ops = {
+>   	.get_msglevel                   = hinic3_get_msglevel,
+>   	.set_msglevel                   = hinic3_set_msglevel,
+>   	.get_link                       = ethtool_op_get_link,
+> +	.get_ringparam                  = hinic3_get_ringparam,
+> +	.set_ringparam                  = hinic3_set_ringparam,
+>   };
+>   
+>   void hinic3_set_ethtool_ops(struct net_device *netdev)
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_main.c b/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
+> index 0a888fe4c975..1e7ac3f330d7 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
+> @@ -178,7 +178,7 @@ static int hinic3_sw_init(struct net_device *netdev)
+>   	u8 mac_addr[ETH_ALEN];
+>   	int err;
+>   
+> -	mutex_init(&nic_dev->port_state_mutex);
+> +	mutex_init(&nic_dev->state_lock);
+>   
+>   	nic_dev->q_params.sq_depth = HINIC3_SQ_DEPTH;
+>   	nic_dev->q_params.rq_depth = HINIC3_RQ_DEPTH;
+> @@ -330,6 +330,8 @@ static void hinic3_link_status_change(struct net_device *netdev,
+>   		netif_carrier_off(netdev);
+>   		netdev_dbg(netdev, "Link is down\n");
+>   	}
+> +
+> +	return;
 
-[...]
+Unrelated?
 
->   static void bam_start_dma(struct bam_chan *bchan)
+>   }
+>   
+>   static void hinic3_port_module_event_handler(struct net_device *netdev,
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
+> index da73811641a9..7f304d7ac47b 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
+> @@ -288,7 +288,8 @@ static void hinic3_free_channel_resources(struct net_device *netdev,
+>   	hinic3_free_qps(nic_dev, qp_params);
+>   }
+>   
+> -static int hinic3_open_channel(struct net_device *netdev)
+> +static int hinic3_prepare_channel(struct net_device *netdev,
+> +				  struct hinic3_dyna_txrxq_params *qp_params)
 >   {
-> -	struct virt_dma_desc *vd = vchan_next_desc(&bchan->vc);
-> +	struct virt_dma_desc *vd;
->   	struct bam_device *bdev = bchan->bdev;
->   	struct bam_async_desc *async_desc = NULL;
->   	struct bam_desc_hw *desc;
-> @@ -1064,6 +1197,7 @@ static void bam_start_dma(struct bam_chan *bchan)
->   
->   	lockdep_assert_held(&bchan->vc.lock);
->   
-> +	vd = vchan_next_desc(&bchan->vc);
->   	if (!vd)
->   		return;
->   
-> @@ -1072,6 +1206,24 @@ static void bam_start_dma(struct bam_chan *bchan)
->   		return;
->   
->   	while (vd && !IS_BUSY(bchan)) {
-> +		/*
-> +		 * Open a LOCK/UNLOCK bracket around each fresh sequence.
-> +		 * Sentinels inserted by bam_setup_pipe_lock() are skipped: they
-> +		 * already have bam_locked set and must not trigger a second pair.
-> +		 */
-> +		if (!bchan->bam_locked) {
-> +			ret = bam_setup_pipe_lock(bchan);
-Hence, overall you meant to lock bam pipe once during the starting of 
-the bam dma engine ? is it ?
-> +			if (ret) {
-> +				dev_err_ratelimited(bdev->dev,
-> +					"failed to setup the pipe lock, deferring transfer: %d\n",
-> +					ret);
-> +				queue_work(system_bh_highpri_wq, &bdev->work);
-> +				break;
-> +			}
-> +			if (bchan->bam_locked)
-> +				vd = vchan_next_desc(&bchan->vc);
-> +		}
-> +
->   		list_del(&vd->node);
->   
->   		async_desc = container_of(vd, struct bam_async_desc, vd);
-> @@ -1133,6 +1285,10 @@ static void bam_start_dma(struct bam_chan *bchan)
->   		bchan->tail += async_desc->xfer_len;
->   		bchan->tail %= MAX_DESCRIPTORS;
->   		list_add_tail(&async_desc->desc_node, &bchan->desc_list);
-> +
-> +		if (async_desc->is_lock_desc &&
-> +		    (le16_to_cpu(async_desc->desc->flags) & DESC_FLAG_UNLOCK))
-> +			bchan->bam_locked = false;
+>   	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+>   	int err;
+> @@ -299,12 +300,25 @@ static int hinic3_open_channel(struct net_device *netdev)
+>   		return err;
 >   	}
 >   
-[...]
+> -	err = hinic3_configure_txrxqs(netdev, &nic_dev->q_params);
+> +	err = hinic3_configure_txrxqs(netdev, qp_params);
+>   	if (err) {
+>   		netdev_err(netdev, "Failed to configure txrxqs\n");
+>   		goto err_free_qp_ctxts;
+>   	}
+>   
+> +	return 0;
+> +
+> +err_free_qp_ctxts:
+> +	hinic3_free_qp_ctxts(nic_dev);
+> +
+> +	return err;
+> +}
+> +
+> +static int hinic3_open_channel(struct net_device *netdev)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +	int err;
+> +
+>   	err = hinic3_qps_irq_init(netdev);
+>   	if (err) {
+>   		netdev_err(netdev, "Failed to init txrxq irq\n");
+> @@ -321,6 +335,7 @@ static int hinic3_open_channel(struct net_device *netdev)
+>   
+>   err_uninit_qps_irq:
+>   	hinic3_qps_irq_uninit(netdev);
+> +
+>   err_free_qp_ctxts:
+>   	hinic3_free_qp_ctxts(nic_dev);
+>   
+> @@ -341,9 +356,7 @@ static int hinic3_maybe_set_port_state(struct net_device *netdev, bool enable)
+>   	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+>   	int err;
+>   
+> -	mutex_lock(&nic_dev->port_state_mutex);
+>   	err = hinic3_set_port_enable(nic_dev->hwdev, enable);
+> -	mutex_unlock(&nic_dev->port_state_mutex);
+>   
+>   	return err;
+>   }
+> @@ -428,6 +441,76 @@ static void hinic3_vport_down(struct net_device *netdev)
+>   	}
+>   }
+>   
+> +int
+> +hinic3_change_channel_settings(struct net_device *netdev,
+> +			       struct hinic3_dyna_txrxq_params *trxq_params)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +	struct hinic3_dyna_txrxq_params cur_trxq_params = {};
+> +	struct hinic3_dyna_qp_params new_qp_params = {};
+> +	struct hinic3_dyna_qp_params cur_qp_params = {};
+> +	int err;
+> +
+> +	mutex_lock(&nic_dev->state_lock);
+> +	cur_trxq_params = nic_dev->q_params;
+> +
+> +	hinic3_config_num_qps(netdev, trxq_params);
+> +
+> +	err = hinic3_alloc_channel_resources(netdev, &new_qp_params,
+> +					     trxq_params);
+> +	if (err) {
+> +		netdev_err(netdev, "Failed to alloc channel resources\n");
+> +		hinic3_config_num_qps(netdev, &cur_trxq_params);
+> +		mutex_unlock(&nic_dev->state_lock);
+> +		return err;
+> +	}
+> +
+> +	hinic3_vport_down(netdev);
+> +	hinic3_close_channel(netdev);
+> +	hinic3_get_cur_qps(nic_dev, &cur_qp_params);
+> +
+> +	hinic3_init_qps(nic_dev, &new_qp_params);
+> +
+> +	err = hinic3_prepare_channel(netdev, trxq_params);
+> +	if (err)
+> +		goto err_uninit_qps;
+> +
+> +	if (nic_dev->num_qp_irq > trxq_params->num_qps)
+> +		hinic3_qp_irq_change(netdev, trxq_params->num_qps);
+> +
+> +	nic_dev->q_params = *trxq_params;
+> +
+> +	err = hinic3_open_channel(netdev);
+> +	if (err)
+> +		goto err_qp_irq_reset;
+> +
+> +	err = hinic3_vport_up(netdev);
+> +	if (err)
+> +		goto err_close_channel;
+> +
+> +	hinic3_free_channel_resources(netdev, &cur_qp_params, &cur_trxq_params);
+> +
+> +	mutex_unlock(&nic_dev->state_lock);
+> +
+> +	return 0;
+> +
+> +err_close_channel:
+> +	hinic3_close_channel(netdev);
+> +err_qp_irq_reset:
+> +	nic_dev->q_params = cur_trxq_params;
+> +
+> +	if (trxq_params->num_qps > cur_trxq_params.num_qps)
+> +		hinic3_qp_irq_change(netdev, cur_trxq_params.num_qps);
+> +err_uninit_qps:
+> +	hinic3_get_cur_qps(nic_dev, &new_qp_params);
+> +	hinic3_config_num_qps(netdev, &cur_trxq_params);
+> +	hinic3_init_qps(nic_dev, &cur_qp_params);
+> +	hinic3_free_channel_resources(netdev, &new_qp_params, trxq_params);
+> +	mutex_unlock(&nic_dev->state_lock);
+> +
+> +	return err;
+> +}
+> +
+>   static int hinic3_open(struct net_device *netdev)
+>   {
+>   	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> @@ -458,6 +541,10 @@ static int hinic3_open(struct net_device *netdev)
+>   
+>   	hinic3_init_qps(nic_dev, &qp_params);
+>   
+> +	err = hinic3_prepare_channel(netdev, &nic_dev->q_params);
+> +	if (err)
+> +		goto err_uninit_qps;
+> +
+>   	err = hinic3_open_channel(netdev);
+>   	if (err)
+>   		goto err_uninit_qps;
+> @@ -473,7 +560,7 @@ static int hinic3_open(struct net_device *netdev)
+>   err_close_channel:
+>   	hinic3_close_channel(netdev);
+>   err_uninit_qps:
+> -	hinic3_uninit_qps(nic_dev, &qp_params);
+> +	hinic3_get_cur_qps(nic_dev, &qp_params);
+>   	hinic3_free_channel_resources(netdev, &qp_params, &nic_dev->q_params);
+>   err_destroy_num_qps:
+>   	hinic3_destroy_num_qps(netdev);
+> @@ -493,10 +580,15 @@ static int hinic3_close(struct net_device *netdev)
+>   		return 0;
+>   	}
+>   
+> +	mutex_lock(&nic_dev->state_lock);
+>   	hinic3_vport_down(netdev);
+>   	hinic3_close_channel(netdev);
+> -	hinic3_uninit_qps(nic_dev, &qp_params);
+> -	hinic3_free_channel_resources(netdev, &qp_params, &nic_dev->q_params);
+> +	hinic3_get_cur_qps(nic_dev, &qp_params);
+> +	hinic3_free_channel_resources(netdev, &qp_params,
+> +				      &nic_dev->q_params);
+> +	hinic3_free_nicio_res(nic_dev);
+> +	hinic3_destroy_num_qps(netdev);
+
+free_nicio_res(), and destroy_num_qps() looks like fixes to me on the 
+clean-up path. Should these go to the net tree?
+
+
+> +	mutex_unlock(&nic_dev->state_lock);
+>   
+>   	return 0;
+>   }
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
+> index 9502293ff710..ccef82d57fdd 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
+> @@ -10,6 +10,9 @@
+>   #include "hinic3_hw_cfg.h"
+>   #include "hinic3_hwdev.h"
+>   #include "hinic3_mgmt_interface.h"
+> +#include "hinic3_nic_io.h"
+> +#include "hinic3_tx.h"
+> +#include "hinic3_rx.h"
+>   
+>   #define HINIC3_VLAN_BITMAP_BYTE_SIZE(nic_dev)  (sizeof(*(nic_dev)->vlan_bitmap))
+>   #define HINIC3_VLAN_BITMAP_SIZE(nic_dev)  \
+> @@ -127,8 +130,8 @@ struct hinic3_nic_dev {
+>   	struct workqueue_struct         *workq;
+>   	struct delayed_work             periodic_work;
+>   	struct work_struct              rx_mode_work;
+> -	/* lock for enable/disable port */
+> -	struct mutex                    port_state_mutex;
+> +	/* Protects Interface state */
+> +	struct mutex                    state_lock;
+>   
+>   	struct list_head                uc_filter_list;
+>   	struct list_head                mc_filter_list;
+> @@ -143,6 +146,10 @@ struct hinic3_nic_dev {
+>   
+>   void hinic3_set_netdev_ops(struct net_device *netdev);
+>   int hinic3_set_hw_features(struct net_device *netdev);
+> +int
+> +hinic3_change_channel_settings(struct net_device *netdev,
+> +			       struct hinic3_dyna_txrxq_params *trxq_params);
+> +
+>   int hinic3_qps_irq_init(struct net_device *netdev);
+>   void hinic3_qps_irq_uninit(struct net_device *netdev);
+>   
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c
+> index 87e736adba02..0e7a0ccfba98 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c
+> @@ -484,8 +484,8 @@ void hinic3_init_qps(struct hinic3_nic_dev *nic_dev,
+>   	}
+>   }
+>   
+> -void hinic3_uninit_qps(struct hinic3_nic_dev *nic_dev,
+> -		       struct hinic3_dyna_qp_params *qp_params)
+> +void hinic3_get_cur_qps(struct hinic3_nic_dev *nic_dev,
+> +			struct hinic3_dyna_qp_params *qp_params)
+>   {
+>   	struct hinic3_nic_io *nic_io = nic_dev->nic_io;
+>   
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.h b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.h
+> index 12eefabcf1db..571b34d63950 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.h
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.h
+> @@ -14,6 +14,10 @@ struct hinic3_nic_dev;
+>   #define HINIC3_RQ_WQEBB_SHIFT      3
+>   #define HINIC3_SQ_WQEBB_SIZE       BIT(HINIC3_SQ_WQEBB_SHIFT)
+>   
+> +#define HINIC3_MAX_TX_QUEUE_DEPTH  65536
+> +#define HINIC3_MAX_RX_QUEUE_DEPTH  16384
+> +#define HINIC3_MIN_QUEUE_DEPTH     128
+> +
+>   /* ******************** RQ_CTRL ******************** */
+>   enum hinic3_rq_wqe_type {
+>   	HINIC3_NORMAL_RQ_WQE = 1,
+> @@ -136,8 +140,8 @@ void hinic3_free_qps(struct hinic3_nic_dev *nic_dev,
+>   		     struct hinic3_dyna_qp_params *qp_params);
+>   void hinic3_init_qps(struct hinic3_nic_dev *nic_dev,
+>   		     struct hinic3_dyna_qp_params *qp_params);
+> -void hinic3_uninit_qps(struct hinic3_nic_dev *nic_dev,
+> -		       struct hinic3_dyna_qp_params *qp_params);
+> +void hinic3_get_cur_qps(struct hinic3_nic_dev *nic_dev,
+> +			struct hinic3_dyna_qp_params *qp_params);
+>   
+>   int hinic3_init_qp_ctxts(struct hinic3_nic_dev *nic_dev);
+>   void hinic3_free_qp_ctxts(struct hinic3_nic_dev *nic_dev);
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
+> index 309ab5901379..389b1c2158be 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
+> @@ -541,7 +541,7 @@ int hinic3_configure_rxqs(struct net_device *netdev, u16 num_rq,
+>   		rq_associate_cqes(rxq);
+>   
+>   		pkts = hinic3_rx_fill_buffers(rxq);
+> -		if (!pkts) {
+> +		if (pkts < rxq->q_mask) {
+>   			netdev_err(netdev, "Failed to fill Rx buffer\n");
+>   			return -ENOMEM;
+>   		}
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
+> index 9306bf0020ca..53c065194136 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
+> @@ -261,8 +261,7 @@ static int hinic3_tx_csum(struct hinic3_txq *txq, struct hinic3_sq_task *task,
+>   		    ((struct udphdr *)skb_transport_header(skb))->dest !=
+>   		    VXLAN_OFFLOAD_PORT_LE) {
+>   			/* Unsupported tunnel packet, disable csum offload */
+> -			skb_checksum_help(skb);
+> -			return 0;
+> +			return skb_checksum_help(skb);
+>   		}
+>   	}
+>   
+> @@ -412,6 +411,10 @@ static u32 hinic3_tx_offload(struct sk_buff *skb, struct hinic3_sq_task *task,
+>   		offload |= HINIC3_TX_OFFLOAD_TSO;
+>   	} else {
+>   		tso_cs_en = hinic3_tx_csum(txq, task, skb);
+> +		if (tso_cs_en < 0) {
+> +			offload = HINIC3_TX_OFFLOAD_INVALID;
+> +			return offload;
+> +		}
+>   		if (tso_cs_en)
+>   			offload |= HINIC3_TX_OFFLOAD_CSUM;
+>   	}
+
