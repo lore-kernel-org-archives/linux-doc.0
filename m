@@ -1,153 +1,169 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC09415F2C
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 18:16:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F9C471253
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 18:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784657790; cv=none; b=su1pQP6Wa4Zyuvou7H1v/5NqYEAfkRN6+sr5+G77kNoSJW2Xe/ppHl+ShjL/UfHeHZq0y51YFIeeK9pWemGSFpTughSNv0ka/ei5cEVPF9b+qYKsBYIExvjyDdi+obKMxSUenJNLexYRIPmxXhyA6cTXK/pLiM8hIZlE10cCi9c=
+	t=1784657797; cv=none; b=Rex07J49r3b/8XmqNcGN8KLtYAIOCqBJ/ovS+cUg5DESXmKAhqK1RE1zQdP02hZCUD0CIW8rSaw14BWLggkJXWyvIl1Ly7qmr1zIsQn89j/tz1oNIl6tGQ3bxaha31T80HRSRVVf2JDG2vCu2Z4m+4AYI26ePXNdXreXDs6nF4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784657790; c=relaxed/simple;
-	bh=oFlvw3giOtGQsSkXQn6VVdx6osu4tro2T3RPW7SBhU0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YQCtezcZ/SOWCOq3rg05b7r80aRDbuJoTY/k4CY2PFHherfWHbvo/nDbEbzQi8zRjnFlT3Hgi5oFhj114l48bmBpNy9Z8RZEnLG7KrQoVO2HWMeyMmdpEftvwv/d7GeDYoi2GvFc98Mi6kHVT8cD6wJSnNn2ZScGmh7tZI8ssmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=lWiMqNe1; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1784657797; c=relaxed/simple;
+	bh=MmlXlxhp9jw6V64J1P8Fgez6/QyKKCBLRfu34RXe5Ek=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZXEdzBkjM9HOG3DKsyXnfqlZkvswMnLMiyUgkRXoDU8NL0Br5tP3/igSmN6eTBeYKMQORzkAb8VVQyP7WWwGdZw/XPFfCPpvEjzxA/mvhkNIzWbjZQRgFxCvWJ8r6LU1cdeVVLYAHc0yUbU97lpMEtmMvsjgp/GctzYRn9LXQhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=H1suFNFx; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fk19x53h; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="lWiMqNe1"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51c15bf5000so79310581cf.3
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 11:16:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="H1suFNFx";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fk19x53h"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66LH2dVx2280235
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 18:16:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	pxHJZKOUJ+mwEArxOGlqaPjUgMrI0m93hIaUp+NfhUE=; b=H1suFNFxOBwIeGth
+	OA8vRhizIXFBG4CAe1KjeDlL7ay/+2XMOOc0F7TEF8C7Eqma16aRP5EBvZPitNxZ
+	sNBI0PXkyhhpB94gUV+lE2bcEUeW4KzGPQqqUbuho5CiMErC7770aACl9taRh0I6
+	X/JqfsjO7i3eUeghy84mlZ9nazJmN82A1rfMAtbxriyh5tYvYgMyBUNxE+VfaOjI
+	j5IfcThdptWyZaxM5I92+8KGknTHRfOmp0L5mHc3K5W0ksIzFNa1kHCOn/KpBDrH
+	WbV1xrc2wcb8xzURaa+SWghP23Msj57Twv3SPSd7k+FMMuLz699o1p5VyZls/Hex
+	bHK3mQ==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fj6paabkr-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 18:16:34 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cc5faecf01so229268055ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 11:16:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1784657788; x=1785262588; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=tK6CpaworNApxpcs4ZRJbHY7w08bgOkmP8ipHWd1tq8=;
-        b=lWiMqNe1aGdlndmF0DEIX11ekT+kppi6ZCsdKP+nARwmUcbPRB2RiqFp9CcVZlrCMe
-         a7iQJIUlHGgwrTlgeBPrEB9RYw65vbDnpQS/W6FXlBeixFMzdS/zMQMhcf9prwyKh9Tg
-         zZM1P1+WyYLol3M86HhbDS8lLf0qvp8NnbVepemntzhrmA+vdbVuvJTjusRGwuudCrDN
-         IJnhW0U1qCJ9qu+q+c/HoRATkAolbkeQ7YmmUklTRfiHMdfAYBd7KPK3bsHOQiTqkD7y
-         nQk7+E507U93KpaB3JodhTTR0dnlAPaEgPrkM70sUwYbhPsJOnuOLMGTZLlANx5BWdjy
-         4gWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784657788; x=1785262588;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1784657793; x=1785262593; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=tK6CpaworNApxpcs4ZRJbHY7w08bgOkmP8ipHWd1tq8=;
-        b=qH70p59PVMpPGklvwHNObIK+scOn7DSitqRHVUPVttWX6qEOTA+DUWmyqSS+zeat6q
-         dnxBwrGl//fqn1gkeXxeIe6A9vUDu8UP+6De0GUHIph0+OgLAsvf/ygGUVz+qyuiXyNS
-         OctbKCRoC8MtihacMBPQcqJ/5YTrHPRzdsOWoDUDYaHAROjOsKQhk1jp5GPPFRPxTWKF
-         eYDxaTKrt6YS4CxWJsCAkvPz8cWyN8h0osvcau+UvaoQrVFTPADFcga9/qha5qr9bGPM
-         qEXFP3Xqkl+S81+0ZKmKUCumh2zwNvT8KlEmZRi7tyFgAzqzjaf/CjP3lu6PDY7JFu1n
-         XQ4g==
-X-Forwarded-Encrypted: i=1; AHgh+RoyFjUz8oKB88npGJ27G6tjTRXtMa9dO4ufXvhkstVty+lohruHAmiskv6SKArTya2Uh3+1mwWgwu8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpiTfyPl285OoPGGzU157ZrPfSt52GMbidATlwu5cQ3p8zZvae
-	rFDuCmeim8n1BIG8EChd4JQXCfBr2gq/MV5/h4JLx3eILbSZOvbw8UAqnhLBr19BWfQ=
-X-Gm-Gg: AfdE7ckCtc9V7brkHmYH5UGlkAEc4qX4HOC+vi7ikreNmsZLYIdOyGRf/eSQhZztT48
-	sGt31Y8lr2fvS2TPCLlZWnSTOzKHDQK1TUJVqYrA1FfA9RDXq+HyeE4pJwky8pty7VPBfBNkPOl
-	1Xu2beW9OX4D1p6kJgH7a3HGjcsGfKed/etcq8dRZXojc7bfhhfzm8r7pcIDIlL3JvSR6NKFr7g
-	AN+kecRZPqpFQo1zSrS6jtN8/0AnUR5tn40Nc3B7i3UelwZrD7iYZyFaBX+vD81LwglcZgaEmbB
-	YSQbBiwp9NWJIpFNxYMxPQNkaIH6rTVSbVyVp8fvu72aAeskedv09i/fnbLpmqcP+oPw3FZ1a20
-	xpVFXHPSG7D80LfkEtDIhChVZbRrey/8yTUrKEd17/LiKM3AZ222Bpbds8dwtIwUc5PZcABUFvt
-	uTH1uJE5iWC1z1kJ5KyAKFut2NxTOBaR+hnJHUPWIPEyXKynm9FWaNRtpR4rbWheza+BBL
-X-Received: by 2002:ac8:5845:0:b0:51c:7b12:600a with SMTP id d75a77b69052e-5213e881e44mr171868611cf.86.1784657787636;
-        Tue, 21 Jul 2026 11:16:27 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-527d066fa6asm463921cf.6.2026.07.21.11.16.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 11:16:27 -0700 (PDT)
-Date: Tue, 21 Jul 2026 14:16:21 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Balbir Singh <balbirs@nvidia.com>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
-	brendan.jackman@linux.dev, yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, 
-	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, 
-	vishal.l.verma@intel.com, dave.jiang@intel.com, alison.schofield@intel.com, 
-	osandov@osandov.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com, 
-	hannes@cmpxchg.org, ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
-	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
-	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
-	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
-Message-ID: <al-2D_7NcwMxqmsM@gourry-fedora-PF4VCD3F>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <6a7aaac3-e70d-4063-9c84-e643db1488e0@nvidia.com>
+        bh=pxHJZKOUJ+mwEArxOGlqaPjUgMrI0m93hIaUp+NfhUE=;
+        b=fk19x53hOa3r4MaWBiK3/lBFNJUPrpuXnQPefXGqQn+8hz83IIMZK/MRz7lf0uJQYY
+         sU4C0LySNOeTgYpeV4ONkm+Z4dJpPFAqJO1mkWgp/H4+l39U6JJFo6uGPjdur5BBYbyu
+         0yxg/myTSlsWJqIlJH1FesohF3l4523lujFtTQT0njzBxBACux+g1zvanZ2TzwPM6R3d
+         3puH6t7YMbnkxdIPbk46ayoxIYKdQ6SCO9k0bB44OVRcvZTb5qmOCluM0HxbOyBSWyIe
+         lLHd0Tp/b0eF+XT6cVVXylbHptOd7GBnnvh8R3KWc9+1zP68nVLVeZj4jP3+f19S4zvV
+         MRdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784657793; x=1785262593;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pxHJZKOUJ+mwEArxOGlqaPjUgMrI0m93hIaUp+NfhUE=;
+        b=nyiCWOxv/KG9gUknTn/AyTZHntorg2qV2OoMk9+sUIrEq7igZDd0ZbZcJj3lIYf7y3
+         BhOznjuKG0WYH8Q9q3USMPAOSBG6RKhg5no9Rxw+/uYD2q929WEKjZT/R/DxVKjj6SmX
+         XosT3L41TMMEJ6xSMGAjZ/eQNfovldgFyudxNSsWPiwNG+OnMI1mqwGSqVktdqCQRMVN
+         xnZzDhleZbdnQnS8jsIWAMBPStvyy9dBna297qMy1bpJJvPPzv2ImBBvh7VWwM3YeGsj
+         2aJ4JXz19ZOl9/wyf9cFvzL1XYCJOeErwkGAaQzrkoPXKzuvIM0OOWNRb2YZDoOQ8z1e
+         Hr9A==
+X-Forwarded-Encrypted: i=1; AHgh+Ro1gD2YgL+o2C3xEbM5/7J0Y3HYrxXc+uBq/4xi1Q5d0DB+DE86GQF+KMHVhmOcp0twOyR5joRl0h0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEi7IFT3ImqIazUTrhuyXk7ZhrSVq0Bli51zhwTSnfsPaUEnqR
+	HiazzAhYiVw1XvtOiLUcdgJiLzfdIKBoCr6++86oGzCaZ+H+9eTsk0JbQOSqg9aU0pav1/DLkbJ
+	EqM0eNq9F0581OZLxfpGT2TAXHizd86YBYKRrTXOJjEMMGn0g7KfDk3f70Y0/1Uk=
+X-Gm-Gg: AR+sD10cQfuM0//IHSmPaZiv6KpNO746Fd56/B6TR4ijpbtZQB3xUTytHwFdwL63jG8
+	z2Sa9nu6PJ4mu6BKGZQngCjxMfRU68Dw4MrsZ64A/2kAM7GoqF+jSdR7DhcMP2xwK+g2hGvAaTm
+	k/XVJ4fiYbWKii0QaNxK4WeH63NbY2lEndRjE7nGVJVXyMmbPDqPmVNJZmNOGnG8iNryTp4nrQs
+	nhwwcbEz1Hyer4kuZZKoIjykeAqAGv7xtEuDp+QYPgLBAhtUPeZrFF1hQO/3cPf//rA7b15YMoX
+	yBKY1W1di0F0Wtr8jLwGngX+I0lEKXyInlkYbyvjMzgT6zfJ6NB+oYtaXAWqpHJbQCrL9QzFLxP
+	K7vokBVw1on0PW54C2/PiOXYUS5GnWRfOW/I=
+X-Received: by 2002:a05:6a21:a382:b0:3bf:96c6:78a9 with SMTP id adf61e73a8af0-3c3ad665b3fmr20298006637.2.1784657792876;
+        Tue, 21 Jul 2026 11:16:32 -0700 (PDT)
+X-Received: by 2002:a05:6a21:a382:b0:3bf:96c6:78a9 with SMTP id adf61e73a8af0-3c3ad665b3fmr20297943637.2.1784657792331;
+        Tue, 21 Jul 2026 11:16:32 -0700 (PDT)
+Received: from [192.168.1.8] ([106.222.235.145])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147e081985sm1059348eec.23.2026.07.21.11.16.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jul 2026 11:16:31 -0700 (PDT)
+Message-ID: <ebf99b7a-8da5-4974-ab7f-fe26e331b982@oss.qualcomm.com>
+Date: Tue, 21 Jul 2026 23:46:22 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a7aaac3-e70d-4063-9c84-e643db1488e0@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v23 11/14] crypto: qce - Use existing devres APIs in
+ devm_qce_dma_request()
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+        Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Thara Gopinath <thara.gopinath@gmail.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Udit Tiwari <quic_utiwari@quicinc.com>,
+        Md Sadre Alam <mdalam@qti.qualcomm.com>,
+        Dmitry Baryshkov
+ <lumag@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Stephan Gerhold <stephan.gerhold@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
+        Andy Gross <agross@codeaurora.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>
+Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        brgl@kernel.org, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+References: <20260721-qcom-qce-cmd-descr-v23-0-1be02deffda9@oss.qualcomm.com>
+ <20260721-qcom-qce-cmd-descr-v23-11-1be02deffda9@oss.qualcomm.com>
+Content-Language: en-US
+From: Mukesh Savaliya <mukesh.savaliya@oss.qualcomm.com>
+In-Reply-To: <20260721-qcom-qce-cmd-descr-v23-11-1be02deffda9@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: fzUH3H4JUEB0aj3PiW-_yn1CVBnIS_MB
+X-Proofpoint-ORIG-GUID: fzUH3H4JUEB0aj3PiW-_yn1CVBnIS_MB
+X-Authority-Analysis: v=2.4 cv=eYYNubEH c=1 sm=1 tr=0 ts=6a5fb782 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=nYgDJefOb7ZtON2RxEtQrg==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=Kkr9414Gf28UH8S5ubQA:9
+ a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIxMDE5MSBTYWx0ZWRfX98d7ZeLu3DpX
+ oWjLcqmZvWkw5hXw3BGJYsAJzzResn4re87sLAadEKO62UyPGlcPDjWC21yJIbONscDoVRHZcDv
+ 2gTn/8kl1yWF1weRq1ub0eXKVCyZ4RtX6tRo5qSD3+iIA5mclkZI65HkVH1Cz7et9wn6va7lOWj
+ tDHU2gne7EcBGsu7RVut6xglYYpyZ6IVcZQ2hJ/DgRMvhp4b+DCWx7rkkyk6eU5Wf7Uv8KGfUx/
+ yx0M/hg0g8VnvVaj+SHcqisjaaDOh76JXLVfHyRBFzbLmAkmiobLqyiWG9STy2ab9UPbB97Uf/I
+ U0wfdO9eENbLehaxtMQsIQ4qtL6jC/x3LGG8TaTZQJFrDwI76MCJmIiF/PQkCg7HCuVMiiEty3/
+ oYeHHXAkkvUwE2BEnmXATVGEMsHowTHGu6WVvt1ATmFLM2PAuPfRhKEVJ0MvcPKJlkxjZHrUmsw
+ 9ZJYGqDiOGwpUpDvkGQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIxMDE5MSBTYWx0ZWRfXzuMMdzEclIX8
+ 1eqharMXHp7uHhZp71DbXDb8LPm41BQY1TN14OGkaqIseP/xronTwlDsQ8rBm8jspzQq7/j1wld
+ E0/vfTBoiMs77OGcVgbPKgQi/Rh/FJw=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-21_03,2026-07-21_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ spamscore=0 bulkscore=0 impostorscore=0 phishscore=0 adultscore=0
+ clxscore=1011 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607210191
 
-On Tue, Jul 21, 2026 at 01:46:01PM +1000, Balbir Singh wrote:
-> On 7/21/26 5:33 AM, Gregory Price wrote:
-> > 
-> > Patch Layout
-> > ============
-> > The series is broken into two sections:
-> > 
-> > 1) N_MEMORY_PRIVATE Introduction.
-> >    Introduce the node state.
-> >    Opt those nodes out of mm/ services.
-> > 
-> > 2) NODE_PRIVATE_CAP_* features
-> >    A set of mm/ service opt-in flags that augment private
-> >    nodes to make them more useful (i.e. reclaim = overcommit).
-> > 
-> >    NODE_PRIVATE_CAP_LTPIN for private node folio pinning
-> >    NODE_PRIVATE_CAP_NUMA_BALANCING for private-node NUMA balancing
-> >    NODE_PRIVATE_CAP_DEMOTION for private-node tiering demotion
-> >    NODE_PRIVATE_CAP_HOTUNPLUG for opted-in private nodes
-> >    NODE_PRIVATE_CAP_USER_NUMA for userland numa controls
-> >    NODE_PRIVATE_CAP_RECLAIM for opted-in private node reclaim
-> > 
+
+
+On 7/21/2026 7:03 PM, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 > 
-> Looks reasonable, I wonder why USER_NUMA/HOTUNPUG is an opt-in?
+> Switch to devm_kmalloc() and devm_dma_alloc_chan() in
+> devm_qce_dma_request(). This allows us to drop two labels and shrink the
+> function.
 > 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
 
-Ideologically: Private nodes default to fully isolated, why should any
-given feature be special?
+Acked-by: Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>
 
-Concretely: 
-
-User-numa
-
-   Some devices don't want the user to have control over placement.
-   I have been working on compressed memory, for example, which only
-   ever wants to be used as a reclaim-demotion target.
-   
-   (The reasoning for this is another thread, i plan on publishing
-    my research on this this year)
-
-Hot-unplug:
-
-   Some devices can't necessarily handle unexpected migration, and
-   hot-unplug is fundamentally a migration.  So the HOTUNPLUG cap
-   actually means "hot-unplug can execute migrations".
-
-   If the entire device has pre-drained the memory (all memory is free)
-   then unplug works - it's just not very hot (no migrations) :]
-
-   Maybe a naming issue?
-
-~Gregory
 
