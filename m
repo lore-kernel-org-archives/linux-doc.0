@@ -1,180 +1,204 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D70367F21
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 15:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94EB64C9008;
+	Tue, 21 Jul 2026 15:19:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784646004; cv=none; b=WT/HLBu7tNksN+p3+MhrTYVaQ+XfDwNGa0REwviZcVE9tRJ08aOpus+VwtmQxhKkCWi5l0Dg6sgRo8QGLL8QHAWKGCPcfiWCx2fb0OImH9QssgHJm4Z2pVsaudVFunNraA/T7AnC8Yji51UypSUzPJBfRlHMeYb9kZtymX9m7dE=
+	t=1784647158; cv=none; b=TEI02G9mofeSm601nVpQOajoFPLvGBudJnvFUnaOFpbo7HT3IZI4H79hG6naBUqmfiqwMFRGE22sbdSqr4GnoCvAW1MQXt3uBRXDkrnCiCUbTa8kx5dEQ+Do4OxDu7Qmv5JO6a+r+UDYKVo7Cd/wGMrGoJ+QSYLa17MR1AQ1exo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784646004; c=relaxed/simple;
-	bh=TcK76ifJ0Z4VlXfYbMDVybg1ZGOuiCooobYCZs60pk4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KnJ23L17wcT3eCxR0xqfUcuiWm9ple1b/PDEfs2SB3iVsmx1HQiYwbAhnI8l7cAfkfZvHu+Md1J8UhqmYJ4s/i9cTTHA8nZ88UPvEv9wE7G+3r9j/7j/4XBA0pqE5uKi10NsXl2q7f/86omMh9W4AaY2DK9sNS3OmEc7PnBgiV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DNEl0G6e; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=mdMiUoyH; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1784647158; c=relaxed/simple;
+	bh=wjC3lpVT1QaaL0NrZNtArfsHErB55bBsIUkruZREnbA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=racGFosZpFSrmBHbVIM1jUawMZ7j7YFRZLaAre2r7PKgSP/giipG9WxzZfhPYyPkgnyZBNrkQmsHEQ8/LhSNItYbkEQ1X2TyswLHxv8noL3afPPFQt/T4rQu3s0KtWWEfjBStaUOHfhWXLTrrauBOjks5zCtSnscpQTIkPogTGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cxXu/Jgl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DNEl0G6e";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="mdMiUoyH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784646001;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ceRTbadFpgJqwcQ9MpntM7cuc9uc43skQEIpoL+u/ro=;
-	b=DNEl0G6eSM3yIwZN95zYIVsnzXYigDeHaE5UTtcCyU2KnxtnnYywK1CjYdw5UR2OzslGk7
-	YRtqKrDm/ugUAE69iJyb1PuF49Q4XAc24kj5rvfvi6p0UiXcWU8joeXAucI6IPqdcsE3ah
-	xqlVtWoeUdp2ZHReJMYtdYQ4yULGKec=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-605-U9Xy4GjFOTKIjrd4VVcYzQ-1; Tue, 21 Jul 2026 10:59:58 -0400
-X-MC-Unique: U9Xy4GjFOTKIjrd4VVcYzQ-1
-X-Mimecast-MFC-AGG-ID: U9Xy4GjFOTKIjrd4VVcYzQ_1784645997
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-490a767b782so59897995e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 07:59:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1784645997; x=1785250797; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ceRTbadFpgJqwcQ9MpntM7cuc9uc43skQEIpoL+u/ro=;
-        b=mdMiUoyHxPNdwYohE3tulXfHfpt/p74civKcTrj+B35cQ5D+C2QTA6d4yAIoQTzQd8
-         C+cWGuEGSYFJG3obBt1CM3TSCChascDQuV2ma2hapjMcqzNvnr5YsChVMy1WnpjtJQNm
-         Azf/t+pMkYYDH3MsOcYDFYUK+Q05pPZASgPeb4whQ2gEtHcFcd5Y01hMl5iLLt8Cb1bZ
-         I/+S1PsE7DIMyxQqDFM7UySNN0pf92B6enM93Tuz4ltzez+mRk+aPGNjFDXUnRTkWcxb
-         x+rjMDLeRIhm6m4ulOmc13k5GLKFNyLbJgJny2YsqxhCPoPj4hKz2lltaW4AAjhZ26AA
-         2UbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784645997; x=1785250797;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ceRTbadFpgJqwcQ9MpntM7cuc9uc43skQEIpoL+u/ro=;
-        b=QEzaBGgwpw38aF23TYd4cxP34anJDeL9yM8DyJxysqfOpYIJthgUAwCLslJea0BnB2
-         XHxRhqDaFWxgONS4TcAUsGio7cs3gI+jD4LVR2sM0r+6vR3wMar4YDrpBpBsyh/zow+6
-         Xd7QY84bpYsVrSdbn9QfbN5rc4kwoH+XKlUWNLx6E/MEjLpS6of3Sl0TJGGtb8qUCAT1
-         HjB7NGs4ak4k+i1k2j1vckqFv4BKwUfij6DoaruVqdhoKEvs385tzaST8V/y38Jm7mis
-         9ukF6v+16UilQU7YGJtYSAsvAAND1FN/jP0sUh5UarvKA3phtNZ1DArYFch5DN4/YQol
-         +0WA==
-X-Forwarded-Encrypted: i=1; AHgh+RrvYMM3Vrqs+2+F9awZSjJ1Yn8g0nPLMOcrqIH2qZOmRmYrl/YcRP3bkKP9fExIuQA4XJkCgWhYLrQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzH4PwvTog+uyeU2i0ABraaPN9FGfBciZcFINPF2ECyTYTAZZGt
-	ckHku9OA2nc/1xXATng689aieVRuIR4PRAcBY3o+WtkSooqfLbFdDyHDeHuJrYJR1X9kiSHBlcf
-	G+foPXjsAJrQwoSoAQrZLRHGk9BQM1MebHhaiWT+12pFySCF7M2lUYsPb4QmC3A==
-X-Gm-Gg: AfdE7ckJ0NreclX8f0GSeI+O0xyS7Ym8x9O3MN2SNzmOYE/bWsrHYCW5K5+6rCDX0bH
-	xHtS69jZOqKHxj2RK1jx217ywPvgqVTxgWPupJJ0pwLCv1bNBYZ/AcVokG94Uhe2d3wR/iKWG71
-	dOfpxRTr8U4kwClf2cwxSxTB4GNsQGN+SHSd9Togau43Gw/sDTpWeCPGX6PUOod14iTelTT2deS
-	vlPJ6DD9iUywALT+VGXiaGIEjFbSMGa2kTogEqC/maZKIftggmSq2kO0KgL7oEfcSABIPZVPFVM
-	WX7uWkLUV547tLzeWGQmkN9IuKYMaDrzi70xRZJHjMSrSNvV9TjG9RACS/NVMWUwPpxRHh+xaqL
-	/WAQvs/4o5V7HuHUEecSYWw==
-X-Received: by 2002:a05:600c:c04c:b0:495:5890:8f6c with SMTP id 5b1f17b1804b1-495648fb143mr40821705e9.7.1784645997152;
-        Tue, 21 Jul 2026 07:59:57 -0700 (PDT)
-X-Received: by 2002:a05:600c:c04c:b0:495:5890:8f6c with SMTP id 5b1f17b1804b1-495648fb143mr40821295e9.7.1784645996584;
-        Tue, 21 Jul 2026 07:59:56 -0700 (PDT)
-Received: from redhat.com (IGLD-80-230-37-66.inter.net.il. [80.230.37.66])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63e496afsm41604679f8f.1.2026.07.21.07.59.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 07:59:56 -0700 (PDT)
-Date: Tue, 21 Jul 2026 10:59:52 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Simon Schippers <simon.schippers@tu-dortmund.de>
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Tim Gebauer <tim.gebauer@tu-dortmund.de>,
-	Brett Sheffield <brett@librecast.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v3] tun/tap & vhost-net: make qdisc backpressure
- opt-in via IFF_BACKPRESSURE
-Message-ID: <20260721105853-mutt-send-email-mst@kernel.org>
-References: <20260709095511.168235-1-simon.schippers@tu-dortmund.de>
- <20260714092506-mutt-send-email-mst@kernel.org>
- <5016ae84-7049-4a5f-91c9-ba0047b06ee3@tu-dortmund.de>
- <5089fc5e-2fb8-41fb-9aab-42b22cc2c201@tu-dortmund.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cxXu/Jgl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2559E1F000E9;
+	Tue, 21 Jul 2026 15:19:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784647157;
+	bh=NcQHotnRc1YltaL0d91NNFzXPnSIvU2fa84uq1Kqf80=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=cxXu/JglamTfxZku20/hvwti8kyhkeyVDle5r6Gs3gp+SkJnbyhtcGv/c18jtV/cw
+	 7gSgQmx19CA7r6u805JO5I8cZ3xBRPmkyR/TaKUjbH5t+Gm9nKMDsP+xj1jwAvi8dW
+	 owS3DMGZ59TLPI3kIqnJaRSYe1gjvqDyjXDBUA50bTQChhd5HKjqPm/P51z59oZg6/
+	 DbaXmu+vpmoqXHG96HzQT4+JM+fRaZglAuD4Kv4OKXvbdx+2jLMN67pqWyuu0y85qm
+	 dUyOAjy7uV0NxLmjNVxyy+EME6N/YRuWZvdtvW6P4ZjgS0iJJkfPgii0UTXWZb8cqx
+	 way087G+3sExg==
+Message-ID: <0b9be5b3-93aa-407f-b83d-409bec4b55e1@kernel.org>
+Date: Tue, 21 Jul 2026 17:19:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5089fc5e-2fb8-41fb-9aab-42b22cc2c201@tu-dortmund.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 1/8] mm/hmm: move page fault handling out of walk
+ callbacks
+To: Stanislav Kinsburskii <skinsburskii@gmail.com>, airlied@gmail.com,
+ akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org, corbet@lwn.net,
+ dakr@kernel.org, decui@microsoft.com, haiyangz@microsoft.com, jgg@ziepe.ca,
+ kees@kernel.org, kys@microsoft.com, leon@kernel.org, liam@infradead.org,
+ lizhi.hou@amd.com, ljs@kernel.org, longli@microsoft.com, lyude@redhat.com,
+ maarten.lankhorst@linux.intel.com, mamin506@gmail.com, mhocko@suse.com,
+ mripard@kernel.org, nouveau@lists.freedesktop.org, ogabbay@kernel.org,
+ oleg@redhat.com, rppt@kernel.org, shuah@kernel.org, simona@ffwll.ch,
+ skhan@linuxfoundation.org, surenb@google.com, tzimmermann@suse.de,
+ vbabka@kernel.org, wei.liu@kernel.org
+Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-rdma@vger.kernel.org
+References: <178413903133.1155966.3904063656020521607.stgit@skinsburskii>
+ <178413935809.1155966.6398279131483632373.stgit@skinsburskii>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <178413935809.1155966.6398279131483632373.stgit@skinsburskii>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 21, 2026 at 04:04:33PM +0200, Simon Schippers wrote:
-> On 7/14/26 18:50, Simon Schippers wrote:
-> > On 7/14/26 15:40, Michael S. Tsirkin wrote:
-> >> On Thu, Jul 09, 2026 at 11:55:11AM +0200, Simon Schippers wrote:
-> >>> Commit 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop
-> >>> when a qdisc is present") did not show a relevant performance regression
-> >>> in my testing but on Brett Sheffield's librecast testbed it shows a
-> >>> significant performance drop in a IPv6 multicast testcase. The regression
-> >>> can be pinpointed when multiple iperf3 TCP threads are sending. For 8
-> >>> threads the performance dropped from 13.5 Gbit/s to 9.13 Gbit/s. This is
-> >>> the reason why this patch makes the qdisc backpressure behavior opt-in.
-> >>>
-> >>> One option to accomplish the opt-in would be to set the default qdisc to
-> >>> noqueue at init. However this may also break userspace as users might
-> >>> have chosen a custom qdisc even though most of the qdiscs did nothing
-> >>> for tun/tap in the past due to missing backpressure...
-> >>>
-> >>> This is the reason why in this patch, the flag IFF_BACKPRESSURE is
-> >>> introduced instead which is required to enable the backpressure logic.
-> >>> This means the stopping logic in tun_net_xmit() and the waking logic in
-> >>> __tun_wake_queue() are skipped if the flag is disabled. Setting
-> >>> IFF_BACKPRESSURE makes an attached qdisc effective by stopping the queue
-> >>> instead of tail-dropping when the internal ring is full.
-> >>>
-> >>> To avoid a possible stall due to disabling IFF_BACKPRESSURE, the new
-> >>> helper tun_force_wake_queue() is implemented. The helper safely wakes the
-> >>> respective netdev queue and resets cons_cnt while the consumer_lock and
-> >>> the producer_lock of the ring are held. The helper is run in tun_attach()
-> >>> when a queue (re)attaches, in tun_set_iff() for attached tfiles, and
-> >>> in tun_queue_resize().
-> >>>
-> >>> The documentation in tuntap.rst is updated accordingly.
-> >>>
-> >>> Fixes: 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop when a qdisc is present")
-> >>> Reported-by: Brett Sheffield <brett@librecast.net>
-> >>> Closes: https://lore.kernel.org/netdev/akVnoOYQOrt8k-Gu@karahi.librecast.net/T/#u
-> >>> Signed-off-by: Simon Schippers <simon.schippers@tu-dortmund.de>
-> >>
-> >>
-> >> The patch itself is fine:
-> >>
-> >> Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> >>
-> >> What bothers me is the timing: we
-> >> are past freeze and this new interface hasn't been tested
-> >> much.
-> >>
-> >> We can either apply this, or revert the original patch for now
-> >> and reapply with this for next.
-> > 
-> > I prefer applying it, but you maintainers must decide that.
-> > 
+On 7/15/26 20:15, Stanislav Kinsburskii wrote:
+> hmm_range_fault() currently triggers page faults from inside the page-table
+> walk callbacks: hmm_vma_walk_pmd(), hmm_vma_walk_pud(),
+> hmm_vma_walk_hugetlb_entry() and the pte-level helper all call
+> hmm_vma_fault(), which in turn calls handle_mm_fault() while the walker
+> still holds nested locks.  The pte spinlock is dropped explicitly by each
+> caller, and the hugetlb path manually drops and retakes
+> hugetlb_vma_lock_read around the fault to dodge a deadlock against the walk
+> framework's unconditional unlock.
 > 
-> Hi,
-> just a gentle ping.
-> Has there been any decision on this patch?
+> This layering does not extend cleanly to fault handlers that may release
+> mmap_lock (VM_FAULT_RETRY, VM_FAULT_COMPLETED). If the lock is dropped
+> while walk_page_range() is mid-traversal, the VMA can be freed before the
+> walk framework's matching hugetlb_vma_unlock_read(), turning that unlock
+> into a use-after-free.
 > 
-> Thanks!
+> Split the responsibilities the way get_user_pages() does. Walk callbacks
+> become inspect-only: when they detect a range that needs to be faulted in,
+> they record it in struct hmm_vma_walk and return a private sentinel
+> (HMM_FAULT_PENDING). The outer loop in hmm_range_fault() then drops out of
+> walk_page_range(), invokes a new helper hmm_do_fault() that calls
+> handle_mm_fault() with only mmap_lock held, and restarts the walk so the
+> now-present entries are collected into hmm_pfns.
+> 
+> No functional change for existing callers. As a side effect the hugetlb
+> callback no longer needs the hugetlb_vma_{un}lock_read dance, and every
+> fault-path exit from the callbacks now releases the pte spinlock on a
+> single, common path. This refactor is also a precursor for adding an
+> unlockable variant of hmm_range_fault() in a follow-up patch.
+> 
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Stanislav Kinsburskii <skinsburskii@gmail.com>
+> ---
 
 
-Hi netdev maintainers. Given there's a perf regression otherwise,
-we should either take this or revert the original and reapply
-in next.
+[...]
 
-Thanks!
+
+>  
+>  		pfn = pud_pfn(pud) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
+> @@ -564,21 +561,8 @@ static int hmm_vma_walk_hugetlb_entry(pte_t *pte, unsigned long hmask,
+>  	required_fault =
+>  		hmm_pte_need_fault(hmm_vma_walk, pfn_req_flags, cpu_flags);
+>  	if (required_fault) {
+> -		int ret;
+> -
+>  		spin_unlock(ptl);
+> -		hugetlb_vma_unlock_read(vma);
+> -		/*
+> -		 * Avoid deadlock: drop the vma lock before calling
+> -		 * hmm_vma_fault(), which will itself potentially take and
+> -		 * drop the vma lock. This is also correct from a
+> -		 * protection point of view, because there is no further
+> -		 * use here of either pte or ptl after dropping the vma
+> -		 * lock.
+> -		 */
+> -		ret = hmm_vma_fault(addr, end, required_fault, walk);
+> -		hugetlb_vma_lock_read(vma);
+> -		return ret;
+> +		return hmm_record_fault(addr, end, required_fault, walk);
+
+Yes, that looks much better, as discussed. The downside is another vma_lookup()
+in hmm_do_fault().
+
+>  	}
+>  
+>  	pfn = pte_pfn(entry) + ((start & ~hmask) >> PAGE_SHIFT);
+> @@ -637,6 +621,44 @@ static const struct mm_walk_ops hmm_walk_ops = {
+>  	.walk_lock	= PGWALK_RDLOCK,
+>  };
+>  
+> +/*
+> + * hmm_do_fault - fault in a range recorded by a walk callback
+> + *
+> + * Called from the outer loop in hmm_range_fault() after a callback
+> + * returned HMM_FAULT_PENDING.  At this point we hold only mmap_lock;
+> + * the page-table spinlock and any hugetlb_vma_lock acquired by the walk
+> + * framework have already been released by the unwind.
+> + *
+> + * Returns -EBUSY on success (all pages faulted, caller should re-walk).
+> + * Returns a negative errno on failure.
+> + */
+> +static int hmm_do_fault(struct mm_struct *mm,
+> +			struct hmm_vma_walk *hmm_vma_walk)
+> +{
+> +	unsigned long addr = hmm_vma_walk->last;
+> +	unsigned long end = hmm_vma_walk->end;
+> +	unsigned int required_fault = hmm_vma_walk->required_fault;
+
+end and required_fault could be const.
+
+
+Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
+
 
 -- 
-MST
+Cheers,
 
+David
