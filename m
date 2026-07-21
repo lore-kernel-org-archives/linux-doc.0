@@ -1,200 +1,176 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4043B994F
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 21:35:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8447542DFEC
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 21:55:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784669744; cv=none; b=Y3njDwjcnEQWbZj4DIz62nspryTJUs5y2GqPWlCF14J0sGo849ziG/rpdIYccnwH2wBIifdKMgieKSp3/6HPVYdQDlC/rLuYj34mlCfMTwY3O7c16KbMBTAbk9a2VOQa0ClyAK6wYaC5k5ub0yffJPDu2ck+x4/drTrIgLLHqnM=
+	t=1784670953; cv=none; b=uF4uXsoui3zOtuD+PdSCy9TDlpyGE8pfgp0mvGVLojiGl5HJQDzA0RtS3kyHVRETONcQ0XMZPFcDQC+bVbeUqwkkxlNW2B+ZrsN4KoHurK7Mh33Luz0oZPwBiP2VcLj3gBvWStgyhzD9i5f0VVSnZu5Uw/wDwykngCLSeeyxN9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784669744; c=relaxed/simple;
-	bh=n9GCy6FourVHMw42pszPZ/kxYjrtx0ToMvEFR8X96Jo=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=haKzsiaS6g0DyPIgC57t3Go+gfrTehKB5V3jwWDPzgP3M2A1U039jfMk6FDWbUb7nxEK4zxEZ5fbAnjpy1MDsKeyMIq7OJQ9nPsNLC4ok8JUetb+2cVpoHJpQKFtjPM1+hgvoTX8Lyi+JnzKfsWzDIsIclN7AsL9WH1FkBQF91E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=U/3K4VWO; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1784670953; c=relaxed/simple;
+	bh=7IX6sTZ9uoh4JcyuiFFUm1/R83+MwsqcFFX21YeSkPk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WfJN3i7FTa5uY5XNnLAHXBAbUJVXBJIOYmyQyVuQW1y/TdKx7D7yy88mZW3Y/PEtF1274FPXY137dlYJMag1AQ0glCs5UtsS/MTFM05CJUOAfHVMDQ43OdNeQJH5rYO5mc8qnAHo8sMbdGFDNwRx55vfkzpZHQm3WMhq4wezWs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SZ2g2fQ8; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="U/3K4VWO"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-92f03daaa97so937026985a.2
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 14:35:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SZ2g2fQ8"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cad68425a7so16948555ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 14:55:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1784669742; x=1785274542; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/L09p9hjhfnJuq67NKuGgM+hS4Xq9h8jqqROmbVMupo=;
-        b=U/3K4VWOOuKMff8VtNDkHS6Fla6njlPIRUsOVtjxuHihefQZCJC4yHncm9heheYcKy
-         epE/BvuC2jlYWAGhgSii/dlN7s+A5uluIkkME5Fx+QDmG98NZoKKu9G65AsDrKp6uE8X
-         umpZumUSrzLvzmFhrDEG/GA9V023uqIa4xim2F+cvf1oHZbe6QmeMOvYztY5JhGeilC/
-         a2e8+h5t1VybKI4OGpJmNJVyCDTrTSSyr8IU0UzxsyA2bEGn0o0cFsxHWzl1xZHXye/8
-         GkEZPRsEiaXUeo7kLeh/beiqOohNq4jRasyDkEoZ94KXzQVmcnfEBF5diUf3mwm7rb36
-         R9Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784669742; x=1785274542;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1784670951; x=1785275751; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=/L09p9hjhfnJuq67NKuGgM+hS4Xq9h8jqqROmbVMupo=;
-        b=Qz+/vKJxM5tgJkTMQouGzou6twgIGdoB2tQV0bo1sWtmcTjrYOrd+7YYct7bDcptSC
-         xkUbYQ/Fotl8uBROj7RUgyJIRazt0FPQ91tCi+LNhjhWZsuOefB0hXW/487RuissTZce
-         PWme2xKyXhRKwj+JVrMCiHzFGD/OUVpYeoRO7+E5CuLphpguftQyvnaMZwzeX0OWEtib
-         dx3yF0h86+2gGcjfrF1ERjF5LfVZRFokdBlgKE1IWyHbvPZ/V/Hvk01mZtFE3W0PzZnZ
-         LHGCIUEJl33BKKFG0dVPJ++CUEpPSAkVQsvEoGVfi7/NqfQ5Q17lGWlOz8rzXIP4C9VB
-         PPkQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqLsX1BEttP2KQoEW/u44u5T148vYDVoU3vR7BBiApZ2d209nejBAWrlxE3fs3KJOzlC0Bp7LYQWNw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjyO3jUpUev57idVSvTNceu2X7gxL2S0bi50TTSHFtRtcPOPgW
-	KHuqD6CqGoiVtgtXAh5QONtnUmTwTSp9T+BgOtd7RD8b3LvUD9eLLMlaf4ojHuRZkD9shreE0+Z
-	skF+P
-X-Gm-Gg: AfdE7clyOaM5+43+TpojDBn6KqixxYpRr4q1/C55tP+5inDbxtt35W9CJ00/l4qlH4B
-	K+SLdhCdBtZy4hHi9GGhr0KciruYE/ZRP5G4aQ4t7SzHlSulVyGLu1L/hgf8pYzPJ21jXbJf4cU
-	P2u5bQoIJCL5BBoH8Cc/GWP70YrJ02igkzGAdzWP7bi2X29IiIwvC1ILoNd3pMQdz6xIi1TUiCA
-	Kg1wGMYVvj5RvAkciWRt1QidKVouS+kXpz9adRRnC4eJZ4HAshhkE4N3dpJcAU+4sr3ZQLGD5XQ
-	jYhj/tuid5KCGKI3E5WqldPI9lYL7VzZuex/+yRo94ca1+e2FeARC7UN3lG4pghJHxiFWlpC3v2
-	qnqeO+pkxpJofQsWNoOKJMOWCf0Z5s3PV7Yn7OOQ2uSEtWz2agM4JadrROOKoUm4bbScE3QPy0G
-	xxPtppZ15CGwQR6VCcjZXAfXDTVdy9IiBrFscen8o=
-X-Received: by 2002:a05:620a:2b82:b0:92e:fc42:2c1d with SMTP id af79cd13be357-930b3ec9e69mr1935028585a.20.1784669741912;
-        Tue, 21 Jul 2026 14:35:41 -0700 (PDT)
-Received: from [127.0.1.1] ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b54773fbsm1200457785a.39.2026.07.21.14.35.39
+        bh=KR2ZmokLIKjMAWHhrn+iBhwYSMA4SMI4rjPnpQ304Ks=;
+        b=SZ2g2fQ8IHTe0qCnmkiFNqMKUYqFxLvvvxIrNs/8so9J5HVwMvfJfBHpiG/xBtEkQp
+         dPpD/iOnvaNa+iNAduWXMywSRTJYhqEJRDsPotK70tfPz9JEki2vgq71YU9RiiETzHaA
+         lSmzZa0svA+Xz34dE+3++969z3uiidcmrvmqb1fOpAsc04LMiIqz+tnUSLJ2t4UalvIW
+         igvLF72aGKaB7cFXLqRegCLudQHgNDrgj8GFc6CUlRfH6PEu5s194zn9C01FeCF15D/4
+         DVtJ4yAP45mIJkhue6EIfEVW6tHMhujXrOXddgj8aCPCkm72cNG0ASslHc3AOqijGmtp
+         c5jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784670951; x=1785275751;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KR2ZmokLIKjMAWHhrn+iBhwYSMA4SMI4rjPnpQ304Ks=;
+        b=Tok3tORNwpHbzIz8L9ETuiagGc9SWvWyzoEb8iE0/byg+fpHXaeuAOoeptgylmHc5j
+         hoCl+E22bSoNwVHR+HXZVwDIXEnaQ+632edc5cEthEo76THfR14KXXBfjpPQwXh5V+2T
+         DiL+r5RcVSQzzn8aqsgQOz/aVEkk8fgHdBpg8nrjl6BuhH2ammAagBMLO/Kw19l8YSkL
+         KPhM9t+SzYId446Z8bGzlQjOz1s7uQ9nydDX1heImhy/bOvV0H3eF/WoapNOvALjXrPj
+         cRF8DBcB08uBNWazgNFjq/WyLzBIMJ12XIOrVAX28TGC1EAeWKsOZlLJb+DISJVOVDzu
+         jF+g==
+X-Forwarded-Encrypted: i=1; AHgh+Rps4PcSDs6x9Cw5C5cK5Shlq+V0d3d9CITHgWAAMhOxq+I2L9GPFTihTAQEc27OlbZomS0j8lr+N0k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNyWFGPqk6fsvuiJcBN71PoCwtfw/8561Jxdm8V8Qd0PC4JBQb
+	ho8GExF8TF2t/WCUvQA9+ZR9Nz0Py0FANzJx8lZNy2uYSkTYVtPMoHIX
+X-Gm-Gg: AR+sD12bfvcwNVJ4a6ppcZnsLvRY+v4snqVdk1FWbnF5J6dhSRTrQdWvss+dK3y3jji
+	1p2bR/SV0+oolYL0oGiAL/C2qJQZjv5nd9JqaaoROdDh8SZ82/LXDOCexsL8syWyy7nRG2ZMp63
+	PbMYzZhdtYEmpdN/vKbZSJc7OrKPkrh+jK5n+oF9bssCI0Uiix3Rf4OanbcJMDNlap3LrltEgKb
+	zTLKWv3GfDh2gBDsgOjbIv+M3J2/hq6VCPgsyymFMDq5LvruXaUAyT+QXywpnxzhsg4Jq1k1jNT
+	N3AkjpdXRCv+Ov9f0jLukXGUv45IoeeNQa/6gpBQ0gtsEcnnCSXZ/APj6AAVQiCn1jb/pCpT6V1
+	JpSChrBK0LztOezE9yHyQQkEhM+7CwUz69VeUQ691JaYdkIa1aekCL4S+59OBl/ZzMATmoLdw7b
+	zn2yBIJgJNDHnuVCmLw8Ef4annmd2Afnoomxl6G3o082rYz19sVOHK1oSoCkESRsIDBQ3MgrQUX
+	KKdieha78TMwvCHPFGhQd4rKrFabPtL6M4FxRGN
+X-Received: by 2002:a17:902:d48c:b0:2cc:7d4a:3f59 with SMTP id d9443c01a7336-2cf805b00d7mr40517485ad.6.1784670951452;
+        Tue, 21 Jul 2026 14:55:51 -0700 (PDT)
+Received: from chenyou.R15NEW (112-104-169-66.adsl.dynamic.seed.net.tw. [112.104.169.66])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8edea703sm3697115ad.0.2026.07.21.14.55.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 14:35:40 -0700 (PDT)
+        Tue, 21 Jul 2026 14:55:50 -0700 (PDT)
+From: Chen-Yu Yeh <chenyou910331@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Alex Shi <alexs@kernel.org>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Weijie Yuan <wy@wyuan.org>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen-Yu Yeh <chenyou910331@gmail.com>
+Subject: [PATCH 00/16] docs/zh_TW: localize terminology and sync process/ documents
+Date: Wed, 22 Jul 2026 05:55:26 +0800
+Message-ID: <20260721215542.98435-1-chenyou910331@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v7 03/12] PCI: liveupdate: Track incoming preserved PCI
- devices
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: David Matlack <dmatlack@google.com>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, kexec@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>, 
- Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
- David Rientjes <rientjes@google.com>, 
- Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
- Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
- Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, 
- Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
- Pranjal Shrivastava <praan@google.com>, 
- Pratyush Yadav <pratyush@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, 
- Samiullah Khawaja <skhawaja@google.com>, 
- Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
- William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
-In-Reply-To: <al_VrpvPE-RLCF5X@google.com>
-References: <20260710212616.1351130-1-dmatlack@google.com>
- <20260710212616.1351130-4-dmatlack@google.com>
- <178432481253.189683.3297727348836286619.b4-review@b4>
- <CALzav=e1Gcu-9TD7F--41cYqKBrStKOE4VqQ4K3PKdNuYnNmcQ@mail.gmail.com>
- <178458744511.332171.13770778781241262180.b4-reply@b4>
- <CALzav=fjTOnyg2++GFFe5B17rHqNCWW=afjsD0A=EEjycPW7Sg@mail.gmail.com>
- <178465652971.412167.17838319728990505256.b4-reply@b4>
- <al_VrpvPE-RLCF5X@google.com>
-Date: Tue, 21 Jul 2026 21:35:38 +0000
-Message-Id: <178466973829.1257886.900641450757526076.b4-reply@b4>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3133;
- i=pasha.tatashin@soleen.com; h=from:subject:message-id;
- bh=n9GCy6FourVHMw42pszPZ/kxYjrtx0ToMvEFR8X96Jo=;
- b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBqX+YrXoUG+/twOz13pZ+ErnnGUFKhvMcK9TUHm
- 5U4aFzfcD+JAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCal/mKwAKCRC7dyhM23N6
- 3h7TD/4mAowZzUytWw/GBQF/1nJIoe+y01Mpv8f7eHQexJ7iATsttb+FbfYLpomH6zguTcBsIoW
- 91QFuHteD+mVmq6lMNDVxqr8K693bfjCPLXN5Yscg9ZF7cQ25fLLtxm5K8f1iQ9lYd9lRKq032E
- bx9u4OycAUnkuka7y3ETFu9ILaNao+94NQxkZXKetmUfOj2Zz1N2sxm7lbEMnLru1NFm9ZcyGp9
- 1ytJ+H9MG3aafd5hmEB2IAZjS2BBgeB5SFG6rsJgcyd8OWKjWfsxvsY6PnvPeI2F+dEF2sM5wOX
- FQehPH+uHOqKk+AGUFUaPR8riMnzcbRju3SGFc3oJfz0BwGEokGw+DydfGI1bdP7qQd6aNL/2IJ
- /oKDcb131mYKVvU/sNoEjbbEHAO1W0Ikr70/GJ+LK7bki9dd/f2BcCrB9t2AuIcJfDDJxViqOEG
- b87uMr6gD7FDN0UHaiiFE22QN/rS3oA32+ABhGQumkv0QRBKnkS6s1wMo+56rTyxpa7ifn5oYRC
- B/DIkST6h/nSQazKrWUGhUoecK0s/AZgViO/YvZCJSYUqPh9noqC7hBiYGoXcmGAKZV0YjRqJpz
- GQ/C03e3p+3cug90wTpUluvrVrvZ1jal6JH6wzs0MBiaxFP24X1zUtHUitFs3Qj8g0M/aSUW7Hd
- g5Jx4S1u6NpTsjA==
-X-Developer-Key: i=pasha.tatashin@soleen.com; a=openpgp;
- fpr=CAAAB722DD22A081F0D49F35633A6A993D43B569
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2026-07-21 20:25:18+00:00, David Matlack wrote:
-> On 2026-07-21 05:55 PM, Pasha Tatashin wrote:
-> 
-> > On 2026-07-20 16:07:47-07:00, David Matlack wrote:
-> > 
-> > From a design perspective, liveupdate_flb_get/put_incoming() is a 
-> > logical read-lock/unlock pair on the FLB data. We use a refcount for 
-> > optimization and sharing, but holding a get over a long asynchronous gap 
-> > (from boot-time device setup to driver probe) is essentially holding an 
-> > unbound lock.
-> > 
-> > Unbound locks make it difficult to trace refcount leaks or debug 
-> > lifecycle issues.
-> 
-> It's very standard for refcounts to be held for a long time, e.g. file
-> refcounts and device refcounts. LUO FLBs themselves already have
-> long-lived refcounts taken by each file that depends on themm, which
-> aren't released until that file handler's finish callback runs. The PCI
-> core is just doing the same thing.
+The zh_TW (Traditional Chinese) translations were originally converted
+from the zh_CN tree, so they still use mainland Chinese terminology
+(e.g. 內核, 軟件, 接口) that reads unnatural to Taiwanese readers, and
+most of the process/ documents have fallen behind their English
+originals.
 
-That is right, but that refcount is tracked internally by LUO and 
-follows the design of File-Lifecycle-Bound objects, not the lifecycle of 
-the FLB's users.
+This series localizes the terminology of the existing zh_TW process/
+documents to Taiwanese Mandarin and, in the same pass, syncs each
+document with its current English original, so that the "update to
+commit" markers stay honest for tools/docs/checktransupdate.py.
 
-It really seems backward to me to force FLB objects to have a different 
-lifecycle. Let's start with a concise lifecycle without setting a 
-precedent where clients of FLB try to control the duration for which 
-objects exist.
+Each patch covers one document and does both the terminology
+localization and the content sync for it. Notable content syncs
+include:
 
-> 
-> > Can we do a fast-path check first?
-> > 
-> > static struct pci_flb_incoming *pci_liveupdate_get_incoming(struct pci_dev *dev)
-> > {
-> > 	struct pci_flb_incoming *incoming;
-> > 
-> > 	/* Fast-path to avoid unnecessary FLB querying */
-> > 	if (!dev->liveupdate.incoming)
-> > 		return NULL;
-> > 
-> > 	incoming = pci_liveupdate_flb_get_incoming();
-> > 	if (!incoming)
-> > 		return NULL;
-> > 
-> > 	/* Check again, now that FLB is acquired */
-> > 	if (dev->liveupdate.incoming)
-> > 		return incoming;
-> > 
-> > 	pci_liveupdate_flb_put_incoming();
-> > 	return NULL;
-> > }
-> > 
-> > This seems to gives us the best of both worlds: robust refcount hygiene 
-> > and a sane fast path.
-> > 
-> > What do you think?
-> 
-> It still seems like an overall worse approach to me.
-> 
->  * From a performance perspective, the PCI core would still have to
->    acquire the FLB mutex twice every time it needs to use the device's
->    serialized state (once to acquire a new reference and once to release
->    it).
+  - code-of-conduct-interpretation: new "Enforcement for Unacceptable
+    Behavior" section and updated TAB voting language
+  - stable-kernel-rules: retranslated from the heavily restructured
+    English text (three submission options, stable tag variants)
+  - submitting-patches: interleaved-reply etiquette, reworked Acked-by
+    semantics, tagging-people permission rules, Assisted-by:, canonical
+    patch format subsections and the b4 tooling section
+  - embargoed-hardware-issues: "Early access" section and the current
+    ambassadors list
+  - index: mirrors the reworked English process index layout
+  - programming-language: Rust is no longer experimental
 
-I suspect, acquiring/releasing the FLB mutex in this case is trivial and 
-won't be noticeable in any  real-world scenario.
+The final patch adds Documentation/translations/zh_TW/glossary.rst,
+which documents the terminology mapping used across the series (with
+zh_CN equivalents for cross-reference) so that reviewers can check the
+replacements against a single reference, and future translations can
+stay consistent.
 
-> 
->  * From a locking perspective, the refcount doesn't actually protect
->    against the device itself going through finish. So we still need the
->    pci_liveupdate.rwsem.
-> 
->  * From a hygiene perspective, each reference is held for less time yes,
->    but there will more places in the code that need to acquire and
->    release a refcount.  That is more room for bugs to leak a refcount.
->    So I'm not sure taking more small refcounts is an improvement.
+A short summary of the main mappings (English / zh_TW / old zh_CN-style):
 
-IMO, short-scoped acquire/release helpers around actual usage are much 
-easier to audit than holding a refcount open across an arbitrary, 
-asynchronous gap waiting for driver probe.
+  kernel      核心   (內核)      software    軟體   (軟件)
+  interface   介面   (接口)      memory      記憶體 (內存)
+  process     行程   (進程)      queue       佇列   (隊列)
+  network     網路   (網絡)      server      伺服器 (服務器)
+  default     預設   (默認)      user        使用者 (用戶)
+  code        程式碼 (代碼)      file        檔案   (文件)
+  community   社群   (社區)      documentation 文件 (文檔)
+
+  - 8.Conclusion: carries a Reviewed-by from an earlier standalone
+    review; see the note under --- in that patch for what changed since.
+
+The zh_TW documents were built with "make SPHINXDIRS=translations
+htmldocs" without new warnings, and tools/docs/checktransupdate.py -l
+zh_TW now reports the series' documents as up to date.
+
+Chen-Yu Yeh (16):
+  docs/zh_TW: process: localize terminology in 7.AdvancedTopics.rst
+  docs/zh_TW: process: localize terminology in 1.Intro.rst
+  docs/zh_TW: process: localize terminology in
+    code-of-conduct-interpretation.rst
+  docs/zh_TW: process: localize terminology in license-rules.rst
+  docs/zh_TW: process: localize terminology in email-clients.rst
+  docs/zh_TW: process: localize terminology in programming-language.rst
+  docs/zh_TW: process: localize terminology in coding-style.rst
+  docs/zh_TW: process: localize terminology in stable-kernel-rules.rst
+  docs/zh_TW: process: localize terminology in 5.Posting.rst
+  docs/zh_TW: process: localize terminology in 2.Process.rst
+  docs/zh_TW: process: localize terminology in howto.rst
+  docs/zh_TW: process: localize terminology in
+    embargoed-hardware-issues.rst
+  docs/zh_TW: process: localize terminology in submitting-patches.rst
+  docs/zh_TW: process: localize terminology in 8.Conclusion.rst
+  docs/zh_TW: process: localize terminology in index.rst
+  docs/zh_TW: Add a glossary for Traditional Chinese translations
+
+ Documentation/translations/zh_TW/glossary.rst | 145 +++++
+ Documentation/translations/zh_TW/index.rst    |   5 +-
+ .../translations/zh_TW/process/1.Intro.rst    | 211 +++----
+ .../translations/zh_TW/process/2.Process.rst  | 304 +++++----
+ .../translations/zh_TW/process/5.Posting.rst  | 226 ++++---
+ .../zh_TW/process/7.AdvancedTopics.rst        | 103 ++--
+ .../zh_TW/process/8.Conclusion.rst            |  51 +-
+ .../code-of-conduct-interpretation.rst        | 162 +++--
+ .../zh_TW/process/coding-style.rst            | 580 +++++++++---------
+ .../zh_TW/process/email-clients.rst           | 184 +++---
+ .../process/embargoed-hardware-issues.rst     | 194 +++---
+ .../translations/zh_TW/process/howto.rst      | 343 +++++------
+ .../translations/zh_TW/process/index.rst      |  99 ++-
+ .../zh_TW/process/license-rules.rst           | 200 +++---
+ .../zh_TW/process/programming-language.rst    |  94 ++-
+ .../zh_TW/process/stable-kernel-rules.rst     | 256 ++++++--
+ .../zh_TW/process/submitting-patches.rst      | 503 ++++++++-------
+ 17 files changed, 2125 insertions(+), 1535 deletions(-)
+ create mode 100644 Documentation/translations/zh_TW/glossary.rst
+
+-- 
+2.43.0
 
