@@ -1,134 +1,305 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE6E30C148
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 12:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F5533F58B;
+	Tue, 21 Jul 2026 13:02:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784638117; cv=none; b=brl+oAWEZAmwPT7Km1gEoBvR2v2oPAUDhRC4I3XM2V9DVrP4PP9mL+Ky7dfho/wyQIWNIuMTlAkd2ezA9j8h14nxwoPJ5jPw0+BgrmdqYFDWEwy/YKmKwykgVKLwDkEwuGArpLA/HQJqTi/jC5UgxBWN75v5hVF3nPhqObA1X2k=
+	t=1784638973; cv=none; b=l3O/kMOI59Zi7tsTquYkdf3YEjhf2M3jeQAaYnnhCHWqPG/yvDRSsYDJd1wnHr6K+pCjZBlZFAbAwv6IJFKZxAfwXxKjEp9h6H9wpAqpEGL7zVdrvFUp7IievM44hAPuPenP7sOk/wGvuUoAsu1HsCEZCNyggIDwBi67cmNyrb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784638117; c=relaxed/simple;
-	bh=+3pPPzkN5vSN5uc06d/jwUE+LQ23KJmEngSIHcTZfSQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IXd7yBiSudyEuzzwADz6zHY+K0aIfW6tJp5gHdr0JEi2SjJOvCPBB9yqsuFBH9SWPnZvm58Ipl2JZ/ouNU904veJubqSYOZEdVNdsQEgsHXzF0r63kT4A0l9xpd1Vv5jPayOBKJX4eNQ9Tue3R9r4OTGHJPqUmRkmMCf2NdHlPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kyyZpskx; arc=none smtp.client-ip=209.85.161.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784638973; c=relaxed/simple;
+	bh=sjeXmR/Z4rwlhwIQVY4on9e3k4faAXrNAG7QKTziaV4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FT8H5qCOrJZxjgZbaul3WgHOfp5TJ/qzVDDsSVF1iQCihKSRkcuSe+7vPkmAvW+0J9LdH89akq4bjC/CiDW1W/aTqTdcKtxTaMFH6CiYyhkWpJPcpR8gyWNftJD81rrKOlIe9WrG/5xJMOqp5NSl8b7nbMybxIKy9ugXrPORPS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Egt377wU; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1nJJvWLp; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kyyZpskx"
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-6a168dc590cso437856eaf.0
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 05:48:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784638115; x=1785242915; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=f9BdUyGIX1sBYdd4LfNbX4BHjyUWmMKKhhuvfWpGKTI=;
-        b=kyyZpskxRIMFVzDhGWhVTDRIY3ucz1uBiZD5JhdQEBmfQtbVUuZfcpLhDbCnyAKW7r
-         xgXNiSB1WFi3ZYQsbrh+SP/P+H4dS6YnluZ+vS3KqOeJcC0msl1TYlMbvZH4W8C20DBg
-         ATMnMfrXr/+WBR8YpJ/chFVDDlBSE3Wfnf6hooPPflJ0zXYTOGvQmSdljeYvYYYw0t00
-         96SlYwx6DDckhfFKkP8M3wVdu8rT+x+cbnnzud2LQ/QcEf9rxB9YhwEKj5xs/MT8ftmH
-         isWba7m8yk68idBUVVFN0IP4Q0/Xtfers/POhHJclHVznig4yLcd/s1yVCbT/Jj46y/W
-         LUHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784638115; x=1785242915;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=f9BdUyGIX1sBYdd4LfNbX4BHjyUWmMKKhhuvfWpGKTI=;
-        b=l1FEGgtAuVRCZe90A6QoJvHZogqDIzuEAGZB6j1cR+XEmPcuGw7aHLHyaQOKW6i1s0
-         NNhpg/81aK1y81EjNSJboIIX9xGAcorCZXx2QRKMKzE/AKwgVlvREcem1mBD37q4tLcG
-         70IAlehR/B14PfJGCQ7va9JWs9NrKat9OnmJ5mMURYR69Sg90Ff3rsTnAXcLgRUECHPV
-         ueJDa9fJfm/scMzOD4UCkL3Lmj3EZetG3tiEHTZNbnzelvHAkltVAD7dwECh70nHUsL6
-         8IVYnGXFoBiiaEZ89PqB70iItqXgCUlGk5X4BNrzKoH6Qr31/JUdWKzN9mjbTdnR9Q/O
-         bLKg==
-X-Forwarded-Encrypted: i=1; AHgh+RoOxxBH5DdupQa9bx8XehjFnlzzv/DMuy21HlUcvahgneSfm+C6/eIY5zAMnAb+ESvlvGv8fG6kqAQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4B4zkykwij+Tb+1BT4j23PgOVok0Tp02oRbQTQg4n5qBwsF8W
-	T4JrpV7hwpRSPx0dwbuM6mJpDTEUv6PKXKjWcYmlgFlxoKx9H3v7hdrU
-X-Gm-Gg: AfdE7cnxkk5S21WIxGPRxg7z9zGrZ2tvhzdTBVmyAWPDUgk/1i2PUFTZ3yHDTEG9pD5
-	v16VrKdEO/kl/P6/ShYRbxiFr+ozU1bUAsMcZBQtSD2PEivf1ZskfRA2nC/gKYHaVvuuY/5TvOL
-	IG91X9Gm8W+tQFzbLwzUgSI/ZWU9hjmbPul27dupQSJXEKCzRS1uRjUUBv38kWC+tu+HIdDm8tp
-	HH9GUnAGqaotv+tbYWbcnRiJR70fEXDCrzszz1xW5KKQyuHBGeaOOXwfl/L0YYlAoII/G829GEs
-	+l+X5PuPTZaoiSAe/fKnVtdSJAWsBCC4TEXWScMyzrPNWzEe19lqbFnyVANmkzBI+fYMVYpJTb4
-	SoeMT8flrcddfZKaljDj10EUUGD6o/FO+JbBfuejWKTA9sHKSWZxqOebTVs2QloVkfEr7yfC8y/
-	+8YeI88A==
-X-Received: by 2002:a05:6820:f02f:b0:6a1:8cd5:c9d8 with SMTP id 006d021491bc7-6a536ada646mr9327016eaf.68.1784638114876;
-        Tue, 21 Jul 2026 05:48:34 -0700 (PDT)
-Received: from [198.18.0.1] ([144.24.58.22])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4568e0bddefsm11251568fac.4.2026.07.21.05.48.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jul 2026 05:48:34 -0700 (PDT)
-Message-ID: <f23b0cf4-840f-4fb0-aab5-750dee42a7b2@gmail.com>
-Date: Tue, 21 Jul 2026 08:48:22 -0400
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Egt377wU";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1nJJvWLp"
+Date: Tue, 21 Jul 2026 15:02:48 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1784638970;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7Za6PGkEODuRbJ50NfX1WZG2KsYZXVLDYi5vUBm/sq0=;
+	b=Egt377wU5QX/p3ZNww43WnsDsNIfuzK9BhSmhF/2Jrbn3bXZ1Y2dfH1xGIXTKDr2lakkuY
+	gpTtZyHjnIdAdpv0cVodvhch+Jq2EfRr8QSvIVC7YIs3F92ZLrMXJkCsiGN0wtWvIzqpTQ
+	Vx3h7Km2DHSj9oj+6d7fQK+0rLbPsjpPT5zOc580DZIBqAZ7VLjtv69WQ0FAA0/Luxjkh7
+	rfXRfmrBOlZCOneaNDWLch3SPbw2u1KO1XRMBACRZvsNgSqxYc4zEdH10cg5KDyUjr8CnH
+	uUl8m1Ac9hO8MKHTAFPEBhETq6sQTXqQY96sKwS4IlLJsrX3CjzNLYALVvjjow==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1784638970;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7Za6PGkEODuRbJ50NfX1WZG2KsYZXVLDYi5vUBm/sq0=;
+	b=1nJJvWLpPBH5cU3nK0pzhjz9Tixr2QS8dGQooso+MLdkiuWz7aolIQ0jKGO0E2sCWbuyAj
+	VZ3uakRP0V7WAFCA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: "Ahmed S. Darwish" <darwi@linutronix.de>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev,
+	Matthew Wilcox <willy@infradead.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/1] Documentation: real-time: Add kernel
+ configuration guide
+Message-ID: <20260721130248.ndwsFtHE@linutronix.de>
+References: <20260716195716.256025-1-darwi@linutronix.de>
+ <20260716195716.256025-2-darwi@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 00/13] mm/kwatch: dynamic hardware watchpoints for
- hunting memory corruption
-Content-Language: en-US
-To: Dave Hansen <dave.hansen@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
- <hpa@zytor.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- David Hildenbrand <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Matthew Wilcox <willy@infradead.org>, Alan Stern
- <stern@rowland.harvard.edu>, Randy Dunlap <rdunlap@infradead.org>,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260717125023.1895892-1-wangjinchao600@gmail.com>
- <91f3486b-3b85-4b43-b099-0a5325643352@intel.com>
-From: Jinchao Wang <wangjinchao600@gmail.com>
-In-Reply-To: <91f3486b-3b85-4b43-b099-0a5325643352@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260716195716.256025-2-darwi@linutronix.de>
 
-On 7/17/2026 9:41 AM, Dave Hansen wrote:
-> On 7/17/26 05:50, Jinchao Wang wrote:
->>  24 files changed, 2115 insertions(+), 63 deletions(-)
-> Reading this, I wonder how many kernel debugging features we need. I
-> don't even think we have a centralized list of them. They all just live
-> in their own silos.
-> 
-> This one really seems like a super specialized tool. It has to be
-> enabled at compile time and specifically aimed at a specific function.
-> 
-> Maybe this should live off on the side for a while. If folks end up
-> actually needing it, they can point their friendly LLM over to its tree.
+On 2026-07-16 21:57:14 [+0200], Ahmed S. Darwish wrote:
+> diff --git a/Documentation/core-api/real-time/kernel-configuration.rst b/=
+Documentation/core-api/real-time/kernel-configuration.rst
+> new file mode 100644
+> index 000000000000..99dfc73aa4d3
+> --- /dev/null
+> +++ b/Documentation/core-api/real-time/kernel-configuration.rst
+> @@ -0,0 +1,310 @@
+=E2=80=A6
+> +``CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE``
+> +-------------------------------------------
+> +
+> +:Expectation: enabled
+> +:Severity: *high*
+> +
+> +Real-Time workloads expect a fixed CPU frequency during execution.  Using
+> +the performance governor is an easy way to achieve that purely from kern=
+el
+> +configuration.
+> +
+> +This is not a blanket rule.  Some setups might prefer to clock the CPU to
+> +lower speeds due to thermal packaging or other requirements.  The key is
+> +that the CPU frequency remains constant once set.
 
-Thanks, Dave.
+A dynamic governor such as CONFIG_CPU_FREQ_GOV_POWERSAVE must be
+avoided.
 
-I agree that adding another standalone in-kernel debugging facility of
-this size is not the right direction.
+=E2=80=A6
+> +For more information, please see:
+> +
+> +- ``linux/tools/power/cpupower``
+> +- :doc:`/admin-guide/pm/cpuidle`
+> +- :doc:`/admin-guide/pm/index`
+> +
+> +``CONFIG_DRM``
+> +--------------
+> +
+> +:Expectation: disabled
+> +:Severity: *info*
+> +
+> +GPU-accelerated workloads can share system resources with the CPU,
+> +including last-level cache (LLC) and memory bandwidth.  Modern integrated
+> +GPUs optimize graphics performance at the expense of CPU determinism.
+> +
+> +Examples of affected platforms:
+> +
+> +- Intel processors with integrated graphics (Gen9 and later)
+> +- AMD APUs with Radeon Graphics
+> +- Xilinx Zynq UltraScale+ MPSoC EG/EV series
+> +
+> +If graphics workloads must run alongside real-time tasks, users must
+> +conduct thorough stress testing using tools like ``glmark2`` while
+> +measuring the overall system latency.
+> +
+> +For more information, please check:
+> +
+> +- :doc:`Regarding hardware (System memory and cache) </core-api/real-tim=
+e/hardware>`
+> +- :doc:`/filesystems/resctrl`
 
-The motivation was practical. I have encountered several silent memory
-corruption bugs for which I wrote similar one-off instrumentation to
-identify the writer. KWatch was an attempt to make that technique
-reusable instead of rebuilding it for each bug, and to reduce the same
-setup cost for other developers facing similar problems.
+I've been told by Jonathan to avoid this and just use plain file
+references such as
+- Documentation/admin-guide/pm/cpuidle.rst
+- Documentation/admin-guide/pm/index.rst
 
-This approach proved useful for localizing the dummy_hcd corruption:
+> +- `Real-Time and Graphics: A Contradiction?`_
 
-https://lore.kernel.org/all/20260714064829.172098-1-wangjinchao600@gmail.com/
+And this might be included inline, too.
 
-It identified the copy that overwrote req->complete and recorded the
-writer's call stack. So I believe the debugging use case is valid, but
-it does not require a separate KWatch implementation.
+> +``CONFIG_TRACING`` (and tracing options)
+> +----------------------------------------
+> +
+> +:Expectation: enabled
+> +:Severity: *info*
+> +
+> +Shipping kernels with tracing support enabled (but not actively running)=
+ is
+> +highly recommended.  This will allow the users to extract more informati=
+on
+> +if latency problems arise.  Nonetheless, some tracers do incur latency
+> +overhead by just being enabled; see :ref:`tracers`.
 
-As discussed in my reply to Masami and Boris, I will stop pursuing the
-standalone KWatch series and work with Masami on implementing the
-necessary scoped watchpoint features in wprobe/tracing instead.
+Instead of this jumping forth and back while reading, couldn't the
+CONFIG_IRQSOFF_TRACER and CONFIG_PREEMPT_TRACER be added here?
 
-Thanks,
-Jinchao
+> +.. caution::
+> +
+> +  Users should *not* make use of tracers or trace events during producti=
+on
+> +  real-time kernel operation as they can add considerable overhead and
+> +  degrade the system's latency.
+>
+> +Non-performance CPU frequency governors
+> +---------------------------------------
+
+so here it is.
+
+> +:Expectation: disabled
+> +:Severity: *medium*
+> +
+> +To ensure reproducible system latency measurements, disable the
+> +non-``PERFORMANCE`` CPU frequency governors when possible.  This avoids =
+the
+> +risk of unknown userspace tasks implicitly or explicitly setting a
+> +different CPU frequency governor, and thus achieving different latency
+> +results across the system's runtime.
+> +
+> +If disabling other frequency governors is not an option, then
+> +``CONFIG_CPU_FREQ_DEFAULT_GOV_USERSPACE`` should be enabled.  In that ca=
+se,
+> +users should set a *stable* CPU frequency setting during the system
+> +runtime, as changing the CPU frequency will increase the system latency =
+and
+> +affect latency measurements reproducibility.  If a lower CPU frequency is
+> +desired, then ``CONFIG_CPU_FREQ_DEFAULT_GOV_POWERSAVE`` should be set.
+> +
+> +The ``ONDEMAND`` CPU frequency governor should *not* be enabled in a
+> +real-time system since it dramatically affects determinism depending on =
+the
+> +workload.
+> +
+> +For more information, please check :doc:`/admin-guide/pm/cpufreq`.
+
+Could we please merge this in the previous section so that we don't have
+two times the CPU frequency governors.
+
+> +Kernel Debug Options
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Most kernel debug options add runtime overhead that increases the
+> +worst-case latency.
+> +
+> +.. caution::
+> +
+> +  During development and early testing, users are encouraged to run their
+> +  real-time workloads and peripherals with lockdep (:ref:`lockdep`) and
+> +  other kernel debug options enabled, for a considerable amount of time.
+> +  Such workloads might trigger kernel code paths that were not triggered
+> +  during the internal Linux real-time kernel development, thus helping to
+> +  uncover locking and other types of kernel bugs.
+> +
+> +Problematic debug options
+> +-------------------------
+=E2=80=A6
+> +``CONFIG_PROVE_LOCKING``
+> +^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +Severity: *high*
+> +
+> +Proving the correctness of all kernel locking adds substantial overhead
+> +and significantly increases worst-case latency.
+
+Could we merge the caution box from before here somehow? The statement
+is that lockdep is very helpful in validating lockchains and so on
+especially on paths which are only seen if the real-time workload is
+active. However, since it can easily introduce scheduling latencies of
+10ms it is hardly an option that ca be enabled in production.
+
+> +Allowed kernel debug options
+> +----------------------------
+> +
+> +Kernel debug options which are not included in this list should be enabl=
+ed
+> +with caution, after extensive auditing of their impact on system latency.
+> +
+> +``CONFIG_DEBUG_ATOMIC_SLEEP``
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +This sanity check catches common kernel programming errors with
+> +a tolerable latency cost.
+
+It also increases scheduling since each might_sleep() can lead to
+context switch.
+
+> +
+> +``CONFIG_DEBUG_BUGVERBOSE``
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +This improves the debugging capabilities without affecting normal
+> +operation latency.
+> +
+> +``CONFIG_DEBUG_FS``
+> +^^^^^^^^^^^^^^^^^^^
+> +
+> +This is safe to include in real-time kernels, *provided that debugfs is
+> +not accessed during production runtime*.
+
+It is safe to have as long as you don't use it.
+
+I would drop it. That filesystem is not dangerous on its own. It depends
+on the options you change and how this affect the system.
+We used to have it always enabled because you needed it for tracing.
+This is no longer the case as it has its own tracefs which has its own
+live outside of debugfs. So I don't think it is needed to mention it.
+
+> +``CONFIG_DEBUG_INFO``
+> +^^^^^^^^^^^^^^^^^^^^^
+> +
+> +This increases the kernel image size but has no latency impact.  It is
+> +also essential for meaningful crash dumps and profiling.
+
+This is also the case for CONFIG_DEBUG_BUGVERBOSE. However this option
+can't be selected on its own. It is selected by other options such as
+DEBUG_INFO_REDUCED or if you select the compression method of it.
+
+> +
+> +``CONFIG_DEBUG_KERNEL``
+> +^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +Meta-option which allows debug features to be enabled.  This configurati=
+on
+> +option has no runtime impact, but be aware of any debug features that it
+> +may have allowed to be enabled.
+
+This one should come first (if at all) because it enables to access of
+few of the options mentioned in this section.
+
+> +Summary
+> +=3D=3D=3D=3D=3D=3D=3D
+> +
+> +There is no "one size fits all" solution for configuring a real-time Lin=
+ux
+> +system.  Beginning with the system real-time requirements, integrators
+> +must consider the features and functions of the system's hardware, kerne=
+l,
+> +and userspace.  All such components must be properly configured in order
+> +to establish and constrain the system's maximum latency.
+> +
+> +With that in mind, any incorrect real-time kernel configuration could ca=
+use
+> +a new maximum latency that shows up at the wrong time and is catastrophic
+> +for the real-time system's latency.
+
+Basically everything could be turned on during testing but later it must
+go. Certain things like CONFIG_DEBUG_LIST are probably good have but
+others, such as those you mentioned, need to go in order to have a
+usable system.
+
+Sebastian
