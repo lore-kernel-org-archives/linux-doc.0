@@ -1,119 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA42836A34E;
-	Tue, 21 Jul 2026 11:13:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B1938238F
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 11:20:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784632416; cv=none; b=hjmb08nlhVgewob1/ze9QCU5tPStV0coHK9yu5sPkZExcR4/Hv535GpXkHzJeW7RodDveLdCtDl8UsrLB8jmd5sr2pZBnTcvXAIvhrHkaEbiOXgv/9xrIITv61shTkX2MUNmV6l8HGS2coGlbfhrv6o9UOuVuRIuZ6Ga4mYIo1U=
+	t=1784632802; cv=none; b=amb6QbkyEGRU47DZfLN/VmSDH1a81+VgDmqwQsx+dvjL/Lb8wlFeue4PTYRrqEXkASXLRod4G+c4lixtBQIzJU+qyaGbzGcfoKoPqxQ2/z1lW8EBTRM0y2zgptR4AO4X6mYrlFeMzKK7BdKuiWcLJG6SCoD8VOPIqjMxG5NGi48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784632416; c=relaxed/simple;
-	bh=hVMFgW7GFpsFn+27vHqJFVJodoLBHMreceKvyVqTWgQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hyLiknYUpy/kEw5EydU+5QS6oAFiTDuxon5kIthFk9/gj6FhkFcJ2zzASZ4M/RIRJ0RT2vVTOiFR/7aC9c4/jwPxlo5JkG+5KOZSTW0ryM3aTcPnL77BCKMETEeM3DvOpVvy2J3Bk82txImcvQKuF20G2m/wlZLYa83eCUcsf6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HhpYzzM/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784632802; c=relaxed/simple;
+	bh=VstWFe1QGiLgqMfN9MhMyJmjYtgBbA+GCpM1/cHklkY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SN4xUPJh+NlmlWf5RTN+oB4CtwikkBTjNCSUees49eYPiWgjNGAtuHqB9Z644DaTlvcpoSSczHBMGoea5GzJSFdipysBixaDyEi61X/9kAzarGgKRwKxdrJh4SFllPjeby08rtygxHoFzw9Z+AGxbt6eH9B/rq6svwt0Hb/OybY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eQOaxyJc; arc=none smtp.client-ip=95.215.58.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HhpYzzM/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 954BC1F000E9;
-	Tue, 21 Jul 2026 11:13:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784632415;
-	bh=OJ9YfaBFSXj+Hk6UH0eG4jUTBf/umVD52Blq68hhcTs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HhpYzzM/oimKKYM+22iuflbObTtTZTtdDQiTiyxYtxAy56bVm2RUMe/378V24lMCy
-	 N9e8S8m+u3CgY8ts4zAtzzn/7vOUZMXBdf24qhCZv9/TwkwwqyROndhV2evLOQdqu8
-	 HBoTX5g3VolANyAmdxRBf+OKSdf8wzTD4gVePThB5rnLNMi21tyuQah/hjS+xzmi6O
-	 +V6KY+DG0MFNy6G9jhnjGbGb6gjRw/JJMT1JAVLM8HYueumFcgncpSyOhJzG/H7zL+
-	 pCiAXWPO74jZeBAiR5ITzdAOIhaTIq1nFewaleXIqgld/by6+2YLS8eesfYNZWbUK3
-	 W+mvBX/jSsBVg==
-Date: Tue, 21 Jul 2026 12:13:30 +0100
-From: Simon Horman <horms@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Pnina Feder <pnina.feder@mobileye.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Dave Young <ruirui.yang@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, Alexandre Ghiti <alex@ghiti.fr>,
-	kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/4] vmcore-tasks: export per-task metadata to vmcoreinfo
-Message-ID: <20260721111330.GA1768252@horms.kernel.org>
-References: <20260622211430.4008899-1-pnina.feder@mobileye.com>
- <akybBoCAm-kJbfHL@kernel.org>
- <20260720091927.GA1736709@horms.kernel.org>
- <al4X300UObXawEIJ@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eQOaxyJc"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784632787;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=uSH6xOaL/2+ur3DFoIQmHK2qeCYPezL02KujIX/OmBU=;
+	b=eQOaxyJcCAlYAbiR4y3RqVxueLsjhvF0KS7IiI463PKNcpwLd68vxYFQrfI55HkKKPnS/S
+	lukSTPU1madTjYLXejpDZoDxZkc0EwMDLuM1vVcjzJVOLaC+SCJU7y5xpJyV/cOYEFCGGo
+	gXhlf0ZI3bLdCDd6imLrnuh7XRKng+M=
+From: Zenghui Yu <zenghui.yu@linux.dev>
+To: linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: akpm@linux-foundation.org,
+	david@kernel.org,
+	ljs@kernel.org,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	"Zenghui Yu (Huawei)" <zenghui.yu@linux.dev>
+Subject: [PATCH] docs/mm: Physical Memory: remove deferred_split_queue
+Date: Tue, 21 Jul 2026 19:19:19 +0800
+Message-ID: <20260721111919.22923-1-zenghui.yu@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <al4X300UObXawEIJ@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Jul 20, 2026 at 03:43:11PM +0300, Mike Rapoport wrote:
-> Hi Simon,
-> 
-> On Mon, Jul 20, 2026 at 10:19:27AM +0100, Simon Horman wrote:
-> > On Tue, Jul 07, 2026 at 09:21:58AM +0300, Mike Rapoport wrote:
-> > > On Tue, Jun 23, 2026 at 12:14:26AM +0300, Pnina Feder wrote:
-> > > > This series extends vmcoreinfo with struct offsets and sizes needed by
-> > > > the vmcore-tasks userspace tool to extract per-task state from a vmcore
-> > > > dump without requiring kernel debug symbols (DWARF/BTF).
-> > > > 
-> > > > The vmcore-tasks tool reads /proc/vmcore (or a saved vmcore file) and
-> > > > reconstructs, for each task:
-> > > >   - task name, pid, state, flags
-> > > >   - VMA list (start, end, flags, backing file)
-> > > >   - user register state (saved on the kernel stack at kernel entry)
-> > > >   - user-space backtrace with VMA/filename mapping
-> > > >   - kernel dmesg buffer
-> > > > 
-> > > > This provides a lightweight post-mortem crash analysis capability for
-> > > > production environments where full debug info (DWARF/BTF) is not
-> > > > available.
-> > > > 
-> > > > The companion userspace tool is submitted to kexec-tools:
-> > > >   https://lore.kernel.org/all/20260622205550.1087163-1-pnina.feder@mobileye.com/
-> > > 
-> > > Sorry for the delay, this fell between the cracks somehow.
-> > > 
-> > > The kernel side looks fine overall, but to merge it there should be an
-> > > agreement from the userspace side maintainers that vmcore-tasks is
-> > > something they are wishing to accept.
-> > 
-> > Hi Mike, all,
-> > 
-> > Sorry for the extended delay.
-> > 
-> > I will send some minor feedback to the user-space tool patchset
-> > but overall, yes, this is something I would be happy to accept.
-> > 
-> > I don't want to create a chicken-and-egg type problem here.
-> > But it's probably worth mentioning that usually features
-> > hit the kernel before the corresponding code is accepted
-> > into kexec-tools.
-> 
-> Sorry if I wasn't clear. 
-> 
-> I didn't mean that the feature should be merged into kexec-tools before
-> merging the kernel bits. I just wanted to make sure there's no fundamental
-> issue from kexec-tools perspective.
+From: "Zenghui Yu (Huawei)" <zenghui.yu@linux.dev>
 
-Thanks, it is clear :)
+deferred_split_queue was removed from struct pglist_data {} in commit
+fafaeceb89a5 ("mm: switch deferred split shrinker to list_lru").  Remove
+its description in doc as well.
 
-> > Let me know how you would like to proceed.
-> 
-> I'm going to wait for Baoquan's review and once that's done I'll pick up
-> the kernel bits.
+Signed-off-by: Zenghui Yu (Huawei) <zenghui.yu@linux.dev>
+---
+ Documentation/mm/physical_memory.rst | 3 ---
+ 1 file changed, 3 deletions(-)
 
-I see that conversation is now active.
+diff --git a/Documentation/mm/physical_memory.rst b/Documentation/mm/physical_memory.rst
+index b76183545e5b..a09407d72973 100644
+--- a/Documentation/mm/physical_memory.rst
++++ b/Documentation/mm/physical_memory.rst
+@@ -262,9 +262,6 @@ General
+   PFN that needs to be initialized. Defined only when
+   ``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` is enabled
+ 
+-``deferred_split_queue``
+-  Per-node queue of huge pages that their split was deferred. Defined only when ``CONFIG_TRANSPARENT_HUGEPAGE`` is enabled.
+-
+ ``__lruvec``
+   Per-node lruvec holding LRU lists and related parameters. Used only when
+   memory cgroups are disabled. It should not be accessed directly, use
+-- 
+2.53.0
 
-Thanks to all.
