@@ -1,301 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515F73DC4C2;
-	Tue, 21 Jul 2026 17:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B75401494
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 17:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784654104; cv=none; b=hezt+jsOgUTvgcGGwFjjxTu1BxEzfAexcWr6TLnjrJo+Fi5InrMffBWNCKzCcTYgH3+CxOicGWBvqizH2ES5ghjeL9XNaIWEiH8JzCMNZG9V/juJvcd9rntc1dD+3NcxDzMHKhuNSuclvJmbORBNueonrC4EIXY45L0/EKLIQfA=
+	t=1784654307; cv=none; b=OvfPCYC4v/7FFfx8iKvVXH09/p35k/HkCTKcCUS3ku6BQy57hS0JhBjbNfEQwykbB49MnZb5D/ePy25DTDe0wz9z7NmPPUOiT3+JZZli+ZFdSRHRrQ7tWIzHqX593wF4xav5TV2KajDivgw/bfECm9DLtxIUECZRigoyKiKbXU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784654104; c=relaxed/simple;
-	bh=QXVr+st/401NkrVcm1s6B7Rservjc1nLuLd9Jjs0Gg0=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=ogO+pe8NC6NcCDcIGsCRX3d5l20CHb/S8aby1VFnHYVFAx+8dSfTRgyWoJvRY3QzvSLQkSwe5+LklWo2AS5lz8Epp7+ixUU0PxhjyKQ5dM2Ds3aT+/Zjp2DmmmwlDPw7AvvbVWXTosod6JC1qkE+QNjuH5a0X7V/FAlg7x4ibvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uk8c3Lnw; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1784654307; c=relaxed/simple;
+	bh=SjqvhxrsnJlMovW4pU2RS91mvs9nZ/kSb5bsQ/v8cRk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ART2ZqK4fB2tzODk3/DHt83b+dY5Zp86SqgtEKAReGkBS12gDWJTnSOCeiFXwqy1g+23/6g0UB/Bs0OiE917k1P8LD+U9j/QV0quw6iyQJaprx7iYSZuhGgdnllnF2xzOXdMUa9hdscjSrBchMq/OTsbF8MKzoTPZg3X8XR+bcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=TGksaEoW; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uk8c3Lnw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784654102; x=1816190102;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=QXVr+st/401NkrVcm1s6B7Rservjc1nLuLd9Jjs0Gg0=;
-  b=Uk8c3Lnwt/cWkHperosdQtPBrWplMqWyG981IN+4Er+/TQjFtQvfhIod
-   1TMpX1OyvYjov0a407Td8MV3+HOOkHDQ43m8p68t61iR/uOsFBFBmFOws
-   vC6iE7K9U+EJdpRat3uC6TCoOsap4cHHIBNHvi9xO6URVsNMHuiZym7Vb
-   nn91CDjCwPod8N4oJnVBaXPK+gKQ+bD7bc8rL1fBD7WZvlVscEyP8KQCX
-   2LulhShn7JkHiFH2khMS/eU3NT61JVHmwXF22F73SnYVnRFkjrsPO8jIU
-   hvIVjm3bx+LK3/ACw7gTBkivwDshMlU6m9MA3Y+JZweZCVMyO51C+Ih9u
-   g==;
-X-CSE-ConnectionGUID: 7qb76LcdSleM5x+bWdLBNg==
-X-CSE-MsgGUID: 3bK/vApQRNipz2dSX85q+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11853"; a="102815067"
-X-IronPort-AV: E=Sophos;i="6.25,177,1779174000"; 
-   d="scan'208";a="102815067"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 10:15:01 -0700
-X-CSE-ConnectionGUID: WwM1UaXIRnmhjhPUg0x0kw==
-X-CSE-MsgGUID: fbfu61zQQOi1mbLays6b7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,177,1779174000"; 
-   d="scan'208";a="282343251"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.47])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 10:14:53 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 21 Jul 2026 20:14:50 +0300 (EEST)
-To: Rong Zhang <i@rong.moe>
-cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-    Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-    =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>, 
-    Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-    =?ISO-8859-15?Q?Marek_Beh=FAn?= <kabel@kernel.org>, 
-    Mark Pearson <mpearson-lenovo@squebb.ca>, 
-    "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-    Hans de Goede <hansg@kernel.org>, Ike Panhc <ikepanhc@gmail.com>, 
-    Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, 
-    Vishnu Sankar <vishnuocv@gmail.com>, Vishnu Sankar <vsankar@lenovo.com>, 
-    linux-leds@vger.kernel.org, Netdev <netdev@vger.kernel.org>, 
-    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-    chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH RFC v3 11/11] platform/x86: ideapad-laptop: Fully support
- auto keyboard backlight
-In-Reply-To: <20260719-leds-trigger-hw-changed-v3-11-5fb55722e36e@rong.moe>
-Message-ID: <e4d81cf2-a44d-bcdb-1bc9-f5847b447984@linux.intel.com>
-References: <20260719-leds-trigger-hw-changed-v3-0-5fb55722e36e@rong.moe> <20260719-leds-trigger-hw-changed-v3-11-5fb55722e36e@rong.moe>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="TGksaEoW"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51c05dcdf49so7895001cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 10:18:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1784654304; x=1785259104; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=SiPzgqRnSOFoo7wTJovboHrNHjQGCGe0NFhohlpad+8=;
+        b=TGksaEoWZzWhcXSxUzzrG4O3GyIxT7k8EPWGQ8V5WdJW8N137HjooMDxcagL7sMvCd
+         ROI1BixAhOHJtEP6+SJUI1iLX7eqHWL2FwHXHWluvCGSd/0NbycIqrVR6XBG8rELDXpF
+         T+hXmywTOFphBPvsWt4faKozZ11xiILglhx7xc/6SEp0bKx8WTis8a1D/98goGgbfUL8
+         /13HsJW82C5tuvAVGLOGzo0dWCUcBKFNRp0NEICm+hD5txPie/nmDsm69MLoCb+L46a1
+         3d+jxwMiFKsEnaRxqiPdso/k1/qdTOFnSRACAcElJBdl4Mhb6sv1zyLVRvIFeriP9Gyq
+         LpTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784654304; x=1785259104;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SiPzgqRnSOFoo7wTJovboHrNHjQGCGe0NFhohlpad+8=;
+        b=eHukSkOgPgF3glBU2tFFmERNRPmuIY9GsiNyNle8lvSUN4nTg37w9mgW1CCK91ok6v
+         DRtuyzf5HGBg+E8kWp1ZnuoQgXEU8kncTrOVswWsjFm0XwwgZy5noeeg6QIOJcpZfvSI
+         7T622nZ0mH5Za7rpQ6/b8Q3+sqIZUkuFo4a+xdnKcyJDuFl4nZqJlvMFmuLPzLzE3xkQ
+         J0crrOVdx45L5SpWZcrjPHNswJ3VRzdYf5Boje3d99jF7WT0uFBqSBnPh5nyRIE/wN9P
+         i+04AuheG7CLgSWi4TmX4lexmKFExdVOZe7Zfn+xcYlHPMbpwPVXNeBGk+Du6XBfws8G
+         C6+w==
+X-Forwarded-Encrypted: i=1; AHgh+RqnGmhxY/zZip++Aev7mvFly2ZV/0Ka3LeLXn8M5tCJzyd4GNfMAq4Qn7tzxfsrQVYA5gU+ST4iMbs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnCc6gCO7kIF2BhNd9x9lZVnRtMQPb0FamQSiovQOmWJLG7kTq
+	jR6w5TVqQluAESGp2iFJVH1G/i04yAov/NT9cIFpIdbVPHe1c+h0PuUMfwYNa/ympaQ=
+X-Gm-Gg: AfdE7cmLKCMOwvZIUJtyq6xc27H57+9reqMpmE7v9oVQQLWpTym+JMZwMDZitX1z1lC
+	dE9qn+pQqpUUYttZ653dqWd5V5btMFrPnZeS6ii2dXxSOMlNCVa4tU5YBdT8d3g4g6SW7hBx90a
+	36uRptx6ts8h+bE+wanPhMN8NOL3C6n1WVrJgGd1USwW1jocR+QfkGlIJvi47NvZx/MHYDGjAyt
+	ncWtLFSKQg54iTPbfpsXkkrykClSe/VQ9pLEE68vWk8scymIJLmgJYXzBJuX5hQPtXwDWrLkLIH
+	jysreqwBEddKMV75hy60gjpZIgHf9z1s6wty2AoVVreTveMWLy9m/fAbSinqvjGdJdLIsPacAx3
+	P7eD9L4XdEjIVO8tdVpHgQiTwuFeHolMB0/SYLs1RyWmdt39DB7q7UeUzy3Dtu3601OFBeFzJ0l
+	Oz7nOG78lKYEpwRzt4AghPYUS/TJ0TE0ct9sLmXzapEerMa6mI++VMj2y3xA==
+X-Received: by 2002:a05:622a:5789:b0:527:7521:3f8 with SMTP id d75a77b69052e-52775210a4dmr13363251cf.44.1784654304162;
+        Tue, 21 Jul 2026 10:18:24 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5214f504892sm98076131cf.20.2026.07.21.10.18.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2026 10:18:23 -0700 (PDT)
+Date: Tue, 21 Jul 2026 13:18:17 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Zenghui Yu <yuzenghui@huawei.com>
+Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
+	balbirs@nvidia.com, brendan.jackman@linux.dev, apopple@nvidia.com, alucerop@amd.com, 
+	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, 
+	vishal.l.verma@intel.com, dave.jiang@intel.com, alison.schofield@intel.com, 
+	osandov@osandov.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com, 
+	hannes@cmpxchg.org, ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
+	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
+	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
+	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
+	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
+	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
+Message-ID: <al-pkvmgIxGu3LzM@gourry-fedora-PF4VCD3F>
+References: <20260720193431.3841992-1-gourry@gourry.net>
+ <a9c52bb6-5e04-1d41-913a-685a7be3fad4@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a9c52bb6-5e04-1d41-913a-685a7be3fad4@huawei.com>
 
-On Sun, 19 Jul 2026, Rong Zhang wrote:
-
-> Currently, the auto brightness mode of keyboard backlight maps to
-> brightness=0 in LED classdev. The only method to switch to such a mode
-> is by pressing the manufacturer-defined shortcut (Fn+Space). However, 0
-> is a multiplexed brightness value; writing 0 simply results in the
-> backlight being turned off.
+On Tue, Jul 21, 2026 at 09:26:09PM +0800, Zenghui Yu wrote:
+> On 2026/7/21 3:33, Gregory Price wrote:
+> >   KVM: guest_memfd: bind backing memory to a NUMA node at creation
+> >   KVM: selftests: add a guest_memfd FLAG_BIND_NODE test
 > 
-> With brightness processing code decoupled from LED classdev, we can now
-> fully support the auto brightness mode. In this mode, the keyboard
-> backlight is controlled by the EC according to the ambient light sensor
-> (ALS).
+> I can't find the last patch in my inbox or on the lore. Not sure what went
+> wrong.
 > 
-> To utilize this, a private hardware control trigger "ideapad-auto" is
-> added, with the event handling procedure calling the
-> led_trigger_notify_hw_control_changed() interface to activate/deactivate
-> the private trigger according to the current LED trigger state.
-> 
-> Meanwhile, block brightness changes on exit to prevent the side effect
-> of LED device unregistration when the private trigger is active from
-> resetting the brightness to zero, so that we can retain the state of
-> auto mode among boots.
-> 
-> Signed-off-by: Rong Zhang <i@rong.moe>
-> ---
-> Changes in v3:
-> - Address concerns from Sashiko
->   - Fix a race condition in ideapad_kbd_bl_led_cdev_brightness_set()
->   - Fix trigger re-registration of ideapad_kbd_bl_auto_trigger
->   - https://sashiko.dev/#/patchset/20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3%40rong.moe
-> - Make registration failures of ideapad_kbd_bl_auto_trigger non-fatal
-> ---
->  drivers/platform/x86/lenovo/ideapad-laptop.c | 112 ++++++++++++++++++++++++---
->  1 file changed, 103 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/lenovo/ideapad-laptop.c b/drivers/platform/x86/lenovo/ideapad-laptop.c
-> index 66e16abda5e3..253d2962b927 100644
-> --- a/drivers/platform/x86/lenovo/ideapad-laptop.c
-> +++ b/drivers/platform/x86/lenovo/ideapad-laptop.c
-> @@ -1714,9 +1714,58 @@ static int ideapad_kbd_bl_led_cdev_brightness_set(struct led_classdev *led_cdev,
->  {
->  	struct ideapad_private *priv = container_of(led_cdev, struct ideapad_private, kbd_bl.led);
->  
-> +	/*
-> +	 * When deinitializing: It must be the side effect of led_cdev
-> +	 * unregistration when our private trigger is active. We've set
-> +	 * LED_RETAIN_AT_SHUTDOWN to retain led_cdev brightness level.
-> +	 * To do the same for auto mode, gate changes and return early.
-> +	 */
-> +	if (unlikely(!priv->kbd_bl.initialized))
+> Thanks,
+> Zenghui
 
-This too would need include, but I think addressing some earlier include 
-request will cover it.
+Apologies, my email account got rate-limited to the number of recipients.
 
-> +		return 0;
-> +
->  	return ideapad_kbd_bl_brightness_set(priv, brightness);
->  }
->  
-> +static bool ideapad_kbd_bl_auto_trigger_offloaded(struct led_classdev *led_cdev)
-> +{
-> +	struct ideapad_private *priv = container_of(led_cdev, struct ideapad_private, kbd_bl.led);
+It should be in everyone's box shortly.
 
-Add include for container_of().
-
-> +
-> +	return atomic_read(&priv->kbd_bl.last_hw_brightness) == KBD_BL_AUTO_MODE_HW_BRIGHTNESS;
-> +}
-> +
-> +static int ideapad_kbd_bl_auto_trigger_activate(struct led_classdev *led_cdev)
-> +{
-> +	struct ideapad_private *priv = container_of(led_cdev, struct ideapad_private, kbd_bl.led);
-> +
-> +	return ideapad_kbd_bl_hw_brightness_set(priv, KBD_BL_AUTO_MODE_HW_BRIGHTNESS);
-> +}
-> +
-> +static struct led_hw_trigger_type ideapad_kbd_bl_auto_trigger_type;
-> +
-> +static struct led_trigger ideapad_kbd_bl_auto_trigger = {
-> +	.name = "ideapad-auto",
-> +	.trigger_type = &ideapad_kbd_bl_auto_trigger_type,
-> +	.activate = ideapad_kbd_bl_auto_trigger_activate,
-> +	.offloaded = ideapad_kbd_bl_auto_trigger_offloaded,
-> +};
-> +
-> +static bool ideapad_kbd_bl_auto_trigger_registered;
-> +
-> +static void ideapad_kbd_bl_notify_hw_control(struct ideapad_private *priv,
-> +					     int hw_brightness, int last_hw_brightness)
-> +{
-> +	bool hw_control, last_hw_control;
-> +
-> +	if (priv->kbd_bl.type != KBD_BL_TRISTATE_AUTO)
-> +		return;
-> +
-> +	hw_control = hw_brightness == KBD_BL_AUTO_MODE_HW_BRIGHTNESS;
-> +	last_hw_control = last_hw_brightness == KBD_BL_AUTO_MODE_HW_BRIGHTNESS;
-> +
-> +	if (hw_control != last_hw_control)
-> +		led_trigger_notify_hw_control_changed(&priv->kbd_bl.led, hw_control);
-> +}
-> +
->  static void ideapad_kbd_bl_notify(struct ideapad_private *priv)
->  {
->  	int hw_brightness, brightness, last_hw_brightness;
-> @@ -1738,6 +1787,8 @@ static void ideapad_kbd_bl_notify(struct ideapad_private *priv)
->  	if (hw_brightness == last_hw_brightness)
->  		return;
->  
-> +	ideapad_kbd_bl_notify_hw_control(priv, hw_brightness, last_hw_brightness);
-> +
->  	led_classdev_notify_brightness_hw_changed(&priv->kbd_bl.led, brightness);
->  }
->  
-> @@ -1768,6 +1819,24 @@ static int ideapad_kbd_bl_init(struct ideapad_private *priv)
->  
->  	switch (priv->kbd_bl.type) {
->  	case KBD_BL_TRISTATE_AUTO:
-> +		priv->kbd_bl.led.max_brightness = 2;
-> +
-> +		if (!ideapad_kbd_bl_auto_trigger_registered) {
-> +			dev_warn(&priv->platform_device->dev,
-> +				 "Could not provide LED trigger %s for keyboard backlight\n",
-> +				 ideapad_kbd_bl_auto_trigger.name);
-> +			break;
-> +		}
-> +
-> +		priv->kbd_bl.led.flags             |= LED_TRIG_HW_CHANGED;
-> +		priv->kbd_bl.led.hw_control_trigger = ideapad_kbd_bl_auto_trigger.name;
-> +		priv->kbd_bl.led.trigger_type       = &ideapad_kbd_bl_auto_trigger_type;
-
-I'm skeptical aligning makes things better here.
-
-> +
-> +		/* Hardware remembers the last brightness level, including auto mode. */
-> +		if (hw_brightness == KBD_BL_AUTO_MODE_HW_BRIGHTNESS)
-> +			priv->kbd_bl.led.default_trigger = ideapad_kbd_bl_auto_trigger.name;
-> +
-> +		break;
->  	case KBD_BL_TRISTATE:
->  		priv->kbd_bl.led.max_brightness = 2;
->  		break;
-> @@ -1779,13 +1848,22 @@ static int ideapad_kbd_bl_init(struct ideapad_private *priv)
->  		unreachable();
->  	}
->  
-> -	err = led_classdev_register(&priv->platform_device->dev, &priv->kbd_bl.led);
-> -	if (err)
-> -		return err;
-> +	/* Queue notifications, as kbd_bl.initialized is about to be set. */
-> +	guard(mutex)(&priv->kbd_bl.notif_mutex);
->  
-> +	/*
-> +	 * Setting kbd_bl.initialized after led_classdev_register() could lead
-> +	 * to race conditions in ideapad_kbd_bl_led_cdev_brightness_set() where
-> +	 * kbd_bl.initialized is checked, so set it now. It can be reverted back
-> +	 * if the LED classdev failed to register.
-> +	 */
->  	priv->kbd_bl.initialized = true;
->  
-> -	return 0;
-> +	err = led_classdev_register(&priv->platform_device->dev, &priv->kbd_bl.led);
-> +	if (err)
-> +		priv->kbd_bl.initialized = false;
-> +
-> +	return err;
->  }
->  
->  static void ideapad_kbd_bl_exit(struct ideapad_private *priv)
-> @@ -2612,17 +2690,30 @@ static int __init ideapad_laptop_init(void)
->  {
->  	int err;
->  
-> +	err = led_trigger_register(&ideapad_kbd_bl_auto_trigger);
-> +	if (err) {
-> +		pr_warn("Failed to register LED trigger %s: %d\n",
-
-include missing.
-
-> +			ideapad_kbd_bl_auto_trigger.name, err);
-> +	} else {
-> +		ideapad_kbd_bl_auto_trigger_registered = true;
-> +	}
-> +
->  	err = ideapad_wmi_driver_register();
->  	if (err)
-> -		return err;
-> +		goto err_ledtrig;
->  
->  	err = platform_driver_register(&ideapad_acpi_driver);
-> -	if (err) {
-> -		ideapad_wmi_driver_unregister();
-> -		return err;
-> -	}
-> +	if (err)
-> +		goto err_wmi;
->  
->  	return 0;
-> +
-> +err_wmi:
-> +	ideapad_wmi_driver_unregister();
-> +err_ledtrig:
-> +	if (ideapad_kbd_bl_auto_trigger_registered)
-> +		led_trigger_unregister(&ideapad_kbd_bl_auto_trigger);
-> +	return err;
->  }
->  module_init(ideapad_laptop_init)
->  
-> @@ -2630,6 +2721,9 @@ static void __exit ideapad_laptop_exit(void)
->  {
->  	ideapad_wmi_driver_unregister();
->  	platform_driver_unregister(&ideapad_acpi_driver);
-
-Why is the order not the reverse of the init order?
-
-> +
-> +	if (ideapad_kbd_bl_auto_trigger_registered)
-> +		led_trigger_unregister(&ideapad_kbd_bl_auto_trigger);
->  }
->  module_exit(ideapad_laptop_exit)
->  
-> 
-> 
-
--- 
- i.
-
+~Gregory
