@@ -1,129 +1,105 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5793C060E
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 08:53:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75D034DB4A;
+	Tue, 21 Jul 2026 09:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784623985; cv=none; b=oxhZcdiS4SXuIbdvUxO9LmZg7vv2nBo7KRi66z1DjTwvpitsojorcdiKZd6eDnf/kCF99+oABVxajAwV+uIFP4Ij2O1+839BnWCLpCwKtj5KJx4JY7DX3erLq3Wwgi497NC08Rin0GWjCm4aszf8H3Xb//pgnicc/ChW1TsydxA=
+	t=1784624455; cv=none; b=KT0IvQ5UwP0SJ2cKIO+bWMgV1h5XhgYtTzvR5NrSEwummTtRfCrm5PGfxSGTsHGdHme6aYvfTeaXyh+mWfFPBcxCMMud+Zm9PCkGHunifsImuTnhzaA60VkJ5u9SdSa9OFqdrIxe3xhNSR66YXvUTOgN89guGLk8c89e0hQRjUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784623985; c=relaxed/simple;
-	bh=1MHRIePTbHHk9xjWYi87u8AUAEPnxZmCw9kRQrxCc/s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YFP4jUnsS2SvLLdpt+j5qqiLM/1yuQkIGqy3+/c9DWHNGCeuu7+eWDdWVHbq3FlDP+sPU/vKaWf/2xdRFHUw4j93zcIcj63ELbh4YDwmz3n6suyEzslTIC9GrBMZSup51EYgiSrl0/Oj9qD8MkuDurh2z7D8Z6r/blkGCh1W55E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SXMdEDLk; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=oL4BLraz; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1784624455; c=relaxed/simple;
+	bh=Ce3TgVnFtM9NuJ9xl91qVQ2BBavQQ218Ymd+/A6JliQ=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=Q4ZaSblRcXaoWel6+VU7yuUeqZobY8o/z7vaCSRY2OQ2mgzebBvGU/4GqaeRxUjWwC34wJ87H30aBLtfZFdQsLO/JPztVtJSZJNj22WHUFcFjgO+pkY7Mk2247GFlIX8TwJZiG2SmE0Woi1gHP7N80m/0YRS15CHDrbe/YBIdEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZkdLiIqu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SXMdEDLk";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="oL4BLraz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784623982;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=motssK5KBh9ULfnUG/euYaWhuODun2kccAtLo6xRXEw=;
-	b=SXMdEDLkAYaeqX2bEGVt4MxCQjHAgEpWZbbWYw0oVd5VW0E3INk1c66e4OUjH6Q91GW4Y1
-	SvKB88o3bZzA0P/VbXXS1bOjnm5ioFmWMwBuKmS1oyBd1NaB2Kcx6Y3Z1Sses0D2rqn5Kg
-	WZmV0nApoMqqk4N1hLTXPXtmRCcbM9o=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-634-qyDSfeOoMri329gBjUhaLA-1; Tue, 21 Jul 2026 04:53:01 -0400
-X-MC-Unique: qyDSfeOoMri329gBjUhaLA-1
-X-Mimecast-MFC-AGG-ID: qyDSfeOoMri329gBjUhaLA_1784623980
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-49545071724so53483015e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 01:53:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1784623980; x=1785228780; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=motssK5KBh9ULfnUG/euYaWhuODun2kccAtLo6xRXEw=;
-        b=oL4BLrazkPAuEUYGRLa5AFFm+2RNBSIRl7r8e5KienT82BpkqpLZbbOdnyHEVQ8fJX
-         lxpE2X2o/WNbq+AIQ9Hi15X/m4m1XXWVjRkXhfbNj69lULVl+mkd4TT6dxJDU2ickzTF
-         GflATpaE+nFPIPukYESqJuQOVy1hSQu1TbjfeFjvrVaMzGfYcVZxCe1088kUrLPAtSFm
-         Lf6znKPKbUyX5CKjrO0WCsKysXDuDapjYLsUXjmNm1cJDL/yxOKTvcf07KuZ3Oulgi24
-         VLvzkfGpXwTLK2TOcPqmRuS2RGtA9H9go2q0bx4D24i/3sR3C4z3INDjBv6V6n1nKJoL
-         qhXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784623980; x=1785228780;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=motssK5KBh9ULfnUG/euYaWhuODun2kccAtLo6xRXEw=;
-        b=JgjJSPr68WbkC0zm5BJ7k8vqye4cYGM3TjDPqyCreS+Ul0bOnn7FA4PDod26cWraQK
-         ssCpL2BF3Zv7S9H0MGsEjM3mbJTCAvklku+gp3sz9kNu/4dkCuQV0m38Ov3O4yGhdNiY
-         QNM3E9/pwTU6j0Vv/nmcAF254LTPFGcIv1WNtxAfRaZ7Rrqz0vrI6oROD99tOkf8NdOt
-         /ngm6QeypdtSs8ihmQBs9KbAbb6SUx2IGNDoE9L+B+tWna3v4z27KKqINmzvNTOG8r9v
-         yqZ7gqiAG6Yrdtpgh+fEUAuSlcotO4DvUuacwgvv7kGmgDcCwHQH2n5YZwlIzHj8qGlS
-         +hpw==
-X-Forwarded-Encrypted: i=1; AHgh+RphVCXL5Wps2CP6nK0lzJilq4pLXohh8dwAXLkgGUVAlIYSnwCFlQzwAkdxv0PN2cJxKZQIClpJR6U=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxk3VQQyNG6DOcTXFSW1R45bJNCEifgdzpcif/tMLufyDvKfFTX
-	rk86oUzCNePnPQOepVixNPfvXaUbdY5IIhM9TtXqp6I7zOdaW+qusJ4oCTAOx1inbUrYrdyNsW5
-	k0ZUM7QGIXEwvLtTZBNE89DpeVOkccMaJVyYltG9mhRz+7/wOWjCwjxoFlCid7Q==
-X-Gm-Gg: AfdE7cmo1s+DPZPJEpOne/6lAmLpyPV9PuBRpONinwjtIrwqBBN0zHI778mX/b3hyYG
-	U5sKjI8IcsnpzH1Avrl7Za2G0tEqUkWvyRJgxm5d8vg4Qxn28zD0JTKNchZ5yTWuqdXFNSJoL8z
-	iOwzjn2kRhrR6LgXkU5OgnQ3ZJTaAbEEjr7zVzsdSwoJXTvcHixcA0tWGCz5uDxrVjW5XEIQNh0
-	QUaMAmW9x3oNZKpdkcHEM5tddzHEuJTm7+S8WWeXDJfNR1PGbDXAIi7Uzzpp053h/r6A9zaPXOM
-	k0RFy3sQgjI3Hp2yDOHK0eBuLD+IVQflo3X0cq1wX5f5qu3EVnUnJ9/PKto3aok53fuRUAbnkDD
-	WnsK/axh0dQ4DoZM24EsjKiVk0ViECiadLQKb0Yhotc0d22zOZ+cbyXDH8FrRNoiqAt7UXXAGW/
-	CnLg==
-X-Received: by 2002:a05:600c:1d1b:b0:493:f7c8:eae2 with SMTP id 5b1f17b1804b1-4954a3db7dbmr188111825e9.15.1784623980311;
-        Tue, 21 Jul 2026 01:53:00 -0700 (PDT)
-X-Received: by 2002:a05:600c:1d1b:b0:493:f7c8:eae2 with SMTP id 5b1f17b1804b1-4954a3db7dbmr188111425e9.15.1784623979848;
-        Tue, 21 Jul 2026 01:52:59 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:5521:6b10:58fd:68f:7756:389d? ([2a0d:3344:5521:6b10:58fd:68f:7756:389d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49563969482sm145264925e9.3.2026.07.21.01.52.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jul 2026 01:52:59 -0700 (PDT)
-Message-ID: <4793fa8e-36d0-48fb-95a4-f22549b5e1cf@redhat.com>
-Date: Tue, 21 Jul 2026 10:52:57 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZkdLiIqu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 500DF1F00A3A;
+	Tue, 21 Jul 2026 09:00:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784624454;
+	bh=kT+Q8kRcBsmrQIxq+3cEUACSAv9IYbo+YgFCNmr8RMg=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=ZkdLiIqueP2AZ/FKt7r4mv1kyFPSyDr2vcZc0iRJsNHKcN+jexQ9Jy0RR+KpPz7RW
+	 lUb3LheAgAP6FFPydYQxdbZudvJdQY5PO37x1+2vE10+/LncOAtXc7Fr3xUficKAW2
+	 nVbrRdU4gWBFTSykugHpLL0fVPdWP2bRr6nMdJBlGxBnpbsWbpHma7HyvkyWxsjOSq
+	 1g50hYeFAB7LaSZDPleHPnDvZf4ITFwrpI8PYLUHF1UP6zFYtyw4+UgGout0t2D0QU
+	 Ev7GGrkMm7H5LdH5VTblhXPhV6nuT6oHxdVhqJo5uJUGRc6zvu+a8IRK2Z+DzIvid4
+	 3M4AxxM9AHdmQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56BC73924A44;
+	Tue, 21 Jul 2026 09:00:25 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 13/13] net: ethernet: adi: Add a driver for
- the ADIN1140 MACPHY
-To: ciprian.regus@analog.com,
- Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v5 00/13] net: Add ADIN1140 support
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178462442388.169679.4872315897072342362.git-patchwork-notify@kernel.org>
+Date: Tue, 21 Jul 2026 09:00:23 +0000
 References: <20260708-adin1140-driver-v5-0-4aca7b51a58b@analog.com>
- <20260708-adin1140-driver-v5-13-4aca7b51a58b@analog.com>
-From: Paolo Abeni <pabeni@redhat.com>
-Content-Language: en-US
-In-Reply-To: <20260708-adin1140-driver-v5-13-4aca7b51a58b@analog.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20260708-adin1140-driver-v5-0-4aca7b51a58b@analog.com>
+To: Ciprian Regus <ciprian.regus@analog.com>
+Cc: parthiban.veerasooran@microchip.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, andrew@lunn.ch,
+ hkallweit1@gmail.com, linux@armlinux.org.uk, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, conor.dooley@microchip.com
 
-On 7/8/26 12:33 AM, Ciprian Regus via B4 Relay wrote:
-> +static void adin1140_get_eth_mac_stats(struct net_device *netdev,
-> +				       struct ethtool_eth_mac_stats *mac_stats)
-> +{
-> +	struct adin1140_priv *priv = netdev_priv(netdev);
-> +
-> +	scoped_guard(spinlock, &priv->stat_lock)
-> +		__adin1140_eth_mac_stats(priv, mac_stats);
+Hello:
 
-I understand that past reviews suggested scoped_guard usage explicitly,
-but FYI this is not the netdev preference, especially in trivial case
-like the above, where it has very little - if any - advantages over
-plain spin_lock.
+This series was applied to netdev/net-next.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
 
-Not a blocker anyway, just a note for future submissions.
+On Wed, 08 Jul 2026 01:33:28 +0300 you wrote:
+> This series introduces support for the ADIN1140 (also called AD3306)
+> 10BASE-T1S single port MACPHY. The device integrates the MAC and PHY in
+> the same package. The communication with the host CPU is done through an
+> SPI interface, using the Open Alliance TC6 protocol for control and data
+> transactions. As a result, the oa_tc6 framework is used to implement
+> the communication with the device (register accesses and Ethernet frame
+> RX/TX).
+> 
+> [...]
 
-/P
+Here is the summary with links:
+  - [net-next,v5,01/13] dt-bindings: net: Add ADIN1140
+    https://git.kernel.org/netdev/net-next/c/2aa955bc52e9
+  - [net-next,v5,02/13] net: ethernet: oa_tc6: Handle the OA TC6 SPI protected mode
+    https://git.kernel.org/netdev/net-next/c/7d0e4c4b8c85
+  - [net-next,v5,03/13] net: ethernet: oa_tc6: add OA_TC6_BROKEN_PHY quirk flag
+    https://git.kernel.org/netdev/net-next/c/1d030cdd52ee
+  - [net-next,v5,04/13] net: ethernet: oa_tc6: Export the C45 access functions
+    https://git.kernel.org/netdev/net-next/c/87ac7ea2153c
+  - [net-next,v5,05/13] net: ethernet: oa_tc6: Export standard defined registers
+    https://git.kernel.org/netdev/net-next/c/9210d402bdf5
+  - [net-next,v5,06/13] net: ethernet: oa_tc6: Add the OA_TC6_ prefix to standard registers
+    https://git.kernel.org/netdev/net-next/c/31bc75f17c1f
+  - [net-next,v5,07/13] net: ethernet: oa_tc6: Add read_mms/write_mms register access functions
+    https://git.kernel.org/netdev/net-next/c/6ad250179486
+  - [net-next,v5,08/13] net: ethernet: oa_tc6: Use the read_mms/write_mms functions for C45
+    https://git.kernel.org/netdev/net-next/c/92ec8d69ddb0
+  - [net-next,v5,09/13] net: ethernet: oa_tc6: Add new register address defines
+    https://git.kernel.org/netdev/net-next/c/638b41f770ad
+  - [net-next,v5,10/13] net: phy: add generic helpers for direct C45 MMD access
+    https://git.kernel.org/netdev/net-next/c/aa63217916e1
+  - [net-next,v5,11/13] net: phy: microchip-t1s: use generic C45 MMD access helpers
+    https://git.kernel.org/netdev/net-next/c/85032df227f9
+  - [net-next,v5,12/13] net: phy: Add support for the ADIN1140 PHY
+    https://git.kernel.org/netdev/net-next/c/0feaf415b782
+  - [net-next,v5,13/13] net: ethernet: adi: Add a driver for the ADIN1140 MACPHY
+    https://git.kernel.org/netdev/net-next/c/20e69e671070
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
