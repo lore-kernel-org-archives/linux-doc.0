@@ -1,356 +1,135 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012015.outbound.protection.outlook.com [40.93.195.15])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C87043FD34;
-	Tue, 21 Jul 2026 20:59:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784667583; cv=fail; b=gMA+e6tD994rjvBQn7WZEKMmmdSAJeupJtkbZ7gZ2B2zSrZ7GdhtPcK36tziqMhvMLywSmbalccbhj5FniSLwc4N1JBdHAUl29O77FI3Lyo3HEm1nOZuj86J2EbIwksssgfNWemdbRTAUO+yQkFETy11oYBGx7XjU91YdNFic4w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784667583; c=relaxed/simple;
-	bh=TXUmmRQfelzIL+ILbR5TxNb4pxrXSXqqQGzHccTarJA=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=OXqDcmakV9QdbqrAMvc/y++Ne1r98+IuUuAIS7MZJLZRweNs3KE7T5n95ho0w8hYbYlDybXOjrxvk9kFTBt5ViZUuHrAy5BTBpkerAzJwaiIoJ586MNUC/OPqWXJHK68l4HgKBJwsBe9Qk8mucLWxHNbP3Ryf0EW//3hJsDcNp4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=xkaiAZ4M; arc=fail smtp.client-ip=40.93.195.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="xkaiAZ4M"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jvf65H8acdmx6b67UQwNQY3ZIJJyx+5YYmAoOmdy8/C5n3szi5dOAx3V66cF6cGpzW2v9gqVWLXtnM6F054xJExO+gEocQBWnBbdnbSiJaUOtv/LjW+f45RIiAc0LfwgYW5RK6Wi5xRFIM3t8GRH7nE3Wx5Ncem5UhZ5IV4Fi0QhEwVjEcJ56TfyOLTtRw4z2M+sPaYEXwvDLT1W+DzIaXbSuYC91mH2m3KXiJiR6ubgcTPPzrbFjsswSBaWPCGVNviDRmN0XL0v4kJgkLpgP21b3C14AZT1mXQYdyM0kkqwio6VFZdcR0JvGMseZsxgK6oZH71K//6KQOeTOMtJtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wB53e5x2wgeqj9sBbbnGjtfJi2sYLQhdyQHwQjlNJDo=;
- b=bV94U9StCpU/39QcAILKU27CKhMV+NChLKnxiGFJH09g2LhJj83ikzmIpkFeq9NaQSnZoyRjCWhoOv2t/K14IvSp9fbaJ0kuKxCnJv33UcYRcuLHg4LN/gCJTi+i/1THQ/6nh38tn5yADaLQQfYoLIk4Ixc7h4sL8E5fuV7Yl03zWKxJmFYY8UKt8BwBpzcmWBZw/ibo8yyvTBtIndLcO4QNZcpRsUQFROZWAPhNHpLVlOWhddYxkywCPLuL2HHoH/Iplo8mzlHVI7HP9b2HTfXYTkypSIZxt3HjaWu0l/aoBG3/sTqX+HuWZyaBo3W3WHyyF0rqIMRLZ1vz7vZlKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wB53e5x2wgeqj9sBbbnGjtfJi2sYLQhdyQHwQjlNJDo=;
- b=xkaiAZ4MytmHVxpk5bPjvfkm5Y63YxzEl7ICWv38MwG5vcyxwX1GIWy1EqzrbAEVy8J2j+Xb3m9H0VxUZepWB71klP31XqzxHqtaLC/U7BJDMeBn5MWqdsRqMltu/PdlFRPWLvYBpx02Ncmx6W/4BWWIDEomb45a/Odb2eeqT2Y=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS2PR12MB9749.namprd12.prod.outlook.com (2603:10b6:8:2b9::14)
- by DS0PR12MB6485.namprd12.prod.outlook.com (2603:10b6:8:c6::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.223.18; Tue, 21 Jul 2026 20:59:35 +0000
-Received: from DS2PR12MB9749.namprd12.prod.outlook.com
- ([fe80::ad8d:e59a:e61:4e9e]) by DS2PR12MB9749.namprd12.prod.outlook.com
- ([fe80::ad8d:e59a:e61:4e9e%5]) with mapi id 15.21.0245.009; Tue, 21 Jul 2026
- 20:59:33 +0000
-Message-ID: <d68019bc-dbd7-4990-9fee-d12276bee531@amd.com>
-Date: Tue, 21 Jul 2026 15:59:28 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v18 10/13] cxl: Add port and dport identifiers to CXL AER
- trace events
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <djbw@kernel.org>,
- Dave Jiang <dave.jiang@intel.com>, Ira Weiny <iweiny@kernel.org>,
- Len Brown <lenb@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
- Robert Richter <rrichter@amd.com>, linux-acpi@vger.kernel.org,
- linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, Alejandro Lucero <alucerop@amd.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Ankit Agrawal <ankita@nvidia.com>, Ard Biesheuvel <ardb@kernel.org>,
- Ben Cheatham <Benjamin.Cheatham@amd.com>, Borislav Petkov <bp@alien8.de>,
- Breno Leitao <leitao@debian.org>, Davidlohr Bueso <dave@stgolabs.net>,
- "Fabio M . De Francesco" <fabio.m.de.francesco@linux.intel.com>,
- Gregory Price <gourry@gourry.net>, Hanjun Guo <guohanjun@huawei.com>,
- Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
- Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
- Li Ming <ming.li@zohomail.com>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Oliver O'Halloran <oohall@gmail.com>, Shiju Jose <shiju.jose@huawei.com>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Shuai Xue <xueshuai@linux.alibaba.com>,
- Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
- Tony Luck <tony.luck@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
- linux-acpi@vger.kernel.org,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- linux-doc@vger.kernel.org,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
-References: <20260717222706.3540281-1-terry.bowman@amd.com>
- <20260717222706.3540281-11-terry.bowman@amd.com>
- <20260721010050.7b5654fb@jic23-huawei>
-Content-Language: en-US
-From: "Bowman, Terry" <terry.bowman@amd.com>
-In-Reply-To: <20260721010050.7b5654fb@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH5PR02CA0004.namprd02.prod.outlook.com
- (2603:10b6:610:1ed::21) To DS2PR12MB9749.namprd12.prod.outlook.com
- (2603:10b6:8:2b9::14)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23B744AB99;
+	Tue, 21 Jul 2026 21:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784668648; cv=none; b=fAg0nQ94+z3B007aR9bceN3qC+Va0bZK+OhrMGkfyjaAPOj/MlZ+Jh6fN0gKmUmI0l5lRA3XaDEEAZMCj/sN30eS47+7uKApqbNBQiCiW/Ifxa/bCuRM49dQnKmk2jawEzcyO3iSmvQevy6tfQF0p0w1BAWxx2nPZ3/gpOATIGg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784668648; c=relaxed/simple;
+	bh=h30UGIZK08XsmJvolZCHLVOqPJztOVef21mXHYnzCEg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PXTvZqR4RJUZa0e2HwzAkxa7K9nFXwVQ/JM842WJggMq4dtxDXfoVutbgiVRDlEk4BSeiOJUIydHXgYlgX9i713h7fWZ4Am/6Tk+dT5Yo4tiQqjuWWT5zWIV1KVYf6hI2bTHI+PHYUgsdopPLcUjYO8nHvYRHAuX8W9Gw49avKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf10.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id 204EA1C03FB;
+	Tue, 21 Jul 2026 21:17:13 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf10.hostedemail.com (Postfix) with ESMTPA id DF8AF35;
+	Tue, 21 Jul 2026 21:17:05 +0000 (UTC)
+Date: Tue, 21 Jul 2026 17:17:24 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Aditya Sharma <adi.sharma@zohomail.in>
+Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand
+ <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
+ <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+ <mhocko@suse.com>, David Rientjes <rientjes@google.com>, Shakeel Butt
+ <shakeel.butt@linux.dev>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Kees Cook
+ <kees@kernel.org>, Ingo Molnar <mingo@redhat.com>, Peter Zijlstra
+ <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
+ <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin
+ Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ imbrenda@linux.ibm.com
+Subject: Re: [RFC PATCH 6/7] mm: add tracepoints and vmstat counters for
+ async teardown
+Message-ID: <20260721171724.56f1aad5@gandalf.local.home>
+In-Reply-To: <20260719185409.409685-7-adi.sharma@zohomail.in>
+References: <20260719185409.409685-1-adi.sharma@zohomail.in>
+	<20260719185409.409685-7-adi.sharma@zohomail.in>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9749:EE_|DS0PR12MB6485:EE_
-X-MS-Office365-Filtering-Correlation-Id: c6c70a75-7630-4aa8-d6c8-08dee76af73d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|23010399003|376014|22082099003|18002099003|4143699003|3023799007|11063799006|56012099006|10067099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	eZO2NDZAJ0+jUlWGgKyTYfr5NH+g8+Np5gzOtzSI4rMCV7I0d0PyGwbEGLJrp7QYHCgzm85VJXxaJxHSUzsiZI0CB4+0sGr3gI3O8Up88UNSnLMmtTd3ZVY7CcogBrAgpfGGzml9hxagEcQ10Dy5dvQRIHTTf2iDVj16+IQlZ08U7HaIiAC5aON2o8FHH9eIfmfyaBeFWFjJU47k81+1eKdwSz23BA6gQn+WPoM0ndrcAB/wsCnrZ9UYcFWTFCjSdIwyLsdoYZKZ8sv2GKhDxQ42L3jpy+TM5bqHOp9znGOPcFHTKHQgoroXSUTgwJVs+5oDFYzV6yqruuSAtf1mN7V7rA3P01JFX87OgYpUdKHDu9oti7RkYk6zqYwfDRNIqgClOprcbppsSa/NQ4doGYRhKTnmyKZgihteDb75yBRspPx0LrzPFPNttVFEVhK5MRytAASP2xnX43RD2p3Kz/Eb2ch2DAKA+sVFwUQbKGDiC2zdGaGIHbJRSHSJNx1T9zq0ANaVG9JPisbwITYT0VDdHT26hy9sALLFVqEIcU2M7kf8NEdTPUqvuvLYe6QzfYXIbwXX7DXUwDf7EaeFynSn2eVS7mQDlmZiePbgzMFUFIMA4C8yPxrdjbvfhf9mmLJhZ7YLDefnm4YxJlQqN8kO4F08o28GIcdmAjFvCEg=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9749.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(23010399003)(376014)(22082099003)(18002099003)(4143699003)(3023799007)(11063799006)(56012099006)(10067099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?R1ByYlBYbHpXV1RZc1E2UTdqWCtDVk9LR3UzaFFwMWRvN243N3BYTUg5bHhM?=
- =?utf-8?B?VnMrSk1wVVplbTl6WHZwVVNKbTRja1hBZEZFaTBXaXY3Yjhzc3VtaGRsV2Vx?=
- =?utf-8?B?cEZPQmVIQWlVSXladS9DMjhXWFZkMDRtR0g1UzFNWDVQT0k0RXBWSlhjc1dW?=
- =?utf-8?B?UnFnblhVL2QxWHY5MWJyanpTSGJCb1k3dkxHZms0Ulg5ZVRmY2prWXRLMHdr?=
- =?utf-8?B?WlhaTlB4cE5lSWNGYm5oc2VYMFNoajB0NXBVT2NKdW0xSnJjcTlTVEp6MWh0?=
- =?utf-8?B?U1FYRzNabVJNQXFJdXNwd0M0NEhMNElqSFVBdEpzaWdSV0pzcEpZMVBORERa?=
- =?utf-8?B?Uy9xRTBCWW5FMnhMYUhCdXRLRTVpWVF5eG14aFo2TithUlMrS1dmVHFGbmxC?=
- =?utf-8?B?aGR0RmxlQjNyTGNNRm9yNy82LzR2WTdQVG41ckxsT0k5bXhWNzRVVE5OcVlT?=
- =?utf-8?B?YkZkYzlqL01yQ3M2K3Bxb2hZejIySitjQXJoVGg0bG85RktWWG1YaG5mcEV4?=
- =?utf-8?B?NnhHUFdMRTBOM0tNbGVLZWN5ZjNSNzZjZEJqM25YSFNvTU5RUXI2djlvQTFF?=
- =?utf-8?B?eFVmSzF0SWdrazlIakdnMFhIZmk0UkRaWU1QbzJLSG1pVVJLN2RsL3dwZGJp?=
- =?utf-8?B?RCtkNHo3V2prZFJzZGNEay90NmxCMWNUZDhwMmFtakl2RTVJNEwzZlFiRXZp?=
- =?utf-8?B?VzlibWFuZGE5aFBnc0syYkdVSkFvaWJIaExjeXByRG9paHZmcHF5Mlcrd2hx?=
- =?utf-8?B?K1ZOWVJrZDNaTFQrTHFpQnZIVDZUcVdhT3ZpVm96cXcyeHhKVm1nUFVXZWkx?=
- =?utf-8?B?MGFreEVDMG9mT1A4bGM5Wk1ZbHJoRDFjZzNyQ0NjMkV2RW1uR2tGYnMyVnRQ?=
- =?utf-8?B?dFcwUFZBUTNhTnRJRUVIZWVlbTFZU3hKaXorUmU5WU8vaUhyMVh0ajV6UHVR?=
- =?utf-8?B?WlVGQkc3VVlhRlVHOHl3dnhxYUtWWkhtYVdQOEZibnMwSEp2S0FBQ213S0VH?=
- =?utf-8?B?TjlLbHd0SHlkc2NXK29YWWhoNnpjNXlZNGxaTmtGQTg0eUpOcUg3ell0MGRK?=
- =?utf-8?B?Sk5LdGFsenFoZzljZWtScHVBVnArTndpVlU5MTFaYitJZ0NEVUN2MHdmV2Qr?=
- =?utf-8?B?Mm82ckZpb3JXWlh6ZUFtZTd3K2NleDM0V285S1NRMWY3aDc4b0RNbnUyLzg5?=
- =?utf-8?B?M1VHTkhhcE1TeTZ4MHRlaGdUUmcvQmZIQXJSQ2J5K1ROTXlEdHpWa0I4N3Qy?=
- =?utf-8?B?bGVZOStLQXRydStlWjc3blAxVzU5NUI3S0p2Vm16VUd6ZmhTM1Vadjd2N2t2?=
- =?utf-8?B?U0hXNy80ZTBsYklKTithN1VMNDhvL29rRUoraEJpZE9SMEJ3UlJTVTh3UUVN?=
- =?utf-8?B?M0FlOHVRalZLMzViWUJPTWw1MVlPaGVFYU0zSDRZbzRhY0RocmYwL0ZBeGt2?=
- =?utf-8?B?dzZuUWNrejRyM1E1YkZuNThIa1ArRGVSZ1c3R3NFVytPY2RQdDNiM2tFWG5n?=
- =?utf-8?B?MURYQmxIMWZERlMreWhYU3dLYmFaSkxpZ2F0UkI0emx2MmQvNWpZV3V0enhm?=
- =?utf-8?B?eUowa1orUkRDeC91dmRLUnpVdytwd0xjNUtXWS9UZ2xxejVmWTZVNVkzRGVG?=
- =?utf-8?B?Y0NSRnJ3MFoxbmdXZFJYbitGbklRMndVUElRVHBJbnRrZjVWZDFBd3pyVFdI?=
- =?utf-8?B?VHRwUmg2SmVCMTNvVWpBZjNiYkVZczJjNTVlbklJOW03VHR3NUJVOHB2UGFZ?=
- =?utf-8?B?UU4vUnlUYVZwQWRXem15NFhJRmdHd1gvbGpPUm1JaGpUR2ZUOUVoNFZKNEMr?=
- =?utf-8?B?UHBSZ2JCNUhya2NoWkwxUlFGTDRoUjk1d1I0WnRSTzdMZHJ5SHpwWVliRG96?=
- =?utf-8?B?Q3U5RlJCVkU4ei9sQ1Avd3BjL1lDVXh3RkdvUEJpbmZlUWgzN2xsSG5MN04v?=
- =?utf-8?B?dEZldUpQNlVIa3Bwa3hVTXNBdytLd3RFYW1aNE9IY2taTUw2VExTL2I1QjBj?=
- =?utf-8?B?ZWxYSDFLKzJYL3BNWWhmcGFjTEZ5RHNpUW5jRlcvY3R5emdjOXEyVVJuQ29m?=
- =?utf-8?B?S2p1MnVJRjJScEk5TWc3bVByTXNQMVNvYWM4ZWtSRWhYODZGQzJFN3NLQ3RT?=
- =?utf-8?B?TEFHdFpiOWllWFZ3RzFsdEpRY1U4aXV0VFhEUjVqZlhFUnpoTmNVY1Z2Vnd3?=
- =?utf-8?B?S0h6MldKbFhFd3Y2V2E1dTVYb2d0ZzE1eUZxeHZYMjJzdGozQy9EVE1Vajd0?=
- =?utf-8?B?S2N5dWpYVVYrb0tsV1ZpaVdLZGtOZ1BhS3dneG9IL0RGajRjdC8xWmY2MXdJ?=
- =?utf-8?Q?7PkAZY/zIliwjWlMPI?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6c70a75-7630-4aa8-d6c8-08dee76af73d
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9749.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 20:59:33.5067
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: US4SMnzXenJKUOE4D/ni4IznbEHNy0s+nj/NyGCKHkaviOM8qOxdCoHWMmQwuxKeDpMwsf1jIUb8W0S+Zq/PMg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6485
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: DF8AF35
+X-Stat-Signature: pq97feacsw775doex8t9efs7h5zba3oi
+X-Rspamd-Server: rspamout07
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+/ste/MyujSSeKSM6VrsZlDhaJTmhqqpE=
+X-HE-Tag: 1784668625-226901
+X-HE-Meta: U2FsdGVkX1+37sIM9lG4/zgdYQ9Eq4DMj9ICc9L+iKjZogAd1/mA/GA6amAuJMJbN3PsQ0qohHAMZGj7vbCevm3bBwwvOmY6AED/Ow+q6CVegC+1eRe/+akgpMaHk8PjPnmNUoI4uuFKKl0KtKxmQjpsEY2ZI6It5d4pD4hjUp32ge0UDoqIeflNRvXHurGfgaR7L3E2gvANNnVQHz9S7/W2oVTnBzRtJ9VSIWGY1MNdPtUYoVNOAdFVxrRfp1tBRzlUFFpGImYwryMsrmMRQ17caaZHPwu2aKixNJIhwzWZe+NLXb/GcPA6ab5mtk+t
 
-On 7/20/2026 7:00 PM, Jonathan Cameron wrote:
-> On Fri, 17 Jul 2026 17:27:03 -0500
-> Terry Bowman <terry.bowman@amd.com> wrote:
-> 
->> From: Dan Williams <djbw@kernel.org>
->>
->> Pass struct cxl_port * and struct cxl_dport * to the cxl_aer_*
->> trace events instead of a plain struct device * derived at the
->> caller. The trace event helpers then derive the right strings for
->> endpoints, switch ports, root ports, and RCH downstream ports
->> consistently across the CPER and native AER paths.
->>
->> The unified cxl_aer_* events keep "memdev" as the legacy field
->> (endpoint events populate it with the memdev name; non-endpoint
->> events emit memdev="") and add new "port" and "dport" string fields
->> populated for all CXL device classes. Updated userspace can key
->> off "port" and "dport" without a parallel set of events.
->>
->> Remove the separate cxl_port_aer_uncorrectable_error and
->> cxl_port_aer_correctable_error trace events. All CXL AER events now
->> use the unified cxl_aer_* events with port and dport fields.
->>
->> Rework cxl_cper_handle_prot_err() to use find_cxl_port_by_dev() and
->> the unified trace helpers, replacing the per-port-type branching and
->> bus_find_device() memdev lookup.
->>
->> The TP_printk format string places "port=%s dport=%s" between
->> "memdev=%s" and "host=%s", changing the text-mode field order from
->> the pre-patch output. This does not affect consumers such as
->> rasdaemon that use libtraceevent to parse fields by name rather than
->> by fixed text position.
->>
->> For non-endpoint events (switch port, root port, RCH dport),
->> "memdev" is empty and "port"/"dport" carry the topology information.
->>
->> The serial number is retrieved via pci_get_dsn() which performs live
->> PCI configuration space reads. A following patch ("PCI: Cache PCI
->> DSN into pci_dev->dsn during probe") replaces these with a cached
->> serial number to avoid config space access in error handlers and panic
->> paths.
->>
->> Below are examples of the different CXL devices' error trace logs
->> after this patch:
->>
->>      ---------------------
->>      | CXL RP - 0C:00.0  |
->>      ---------------------
->>                |
->>      ---------------------
->>      | CXL USP - 0D:00.0 |
->>      ---------------------
->>                |
->>      --------------------
->>      | CXL DSP - 0E:00.0 |
->>      --------------------
->>                |
->>      ---------------------
->>      | CXL EP - 0F:00.0  |
->>      ---------------------
->>
->> Root Port:
->> cxl_aer_correctable_error: memdev= port=port1 dport=0000:0c:00.0 \
->>    host=pci0000:0c serial=0: status: 'Memory Data ECC Error'
->>
->> cxl_aer_uncorrectable_error: memdev= port=port1 dport=0000:0c:00.0 \
->>    host=pci0000:0c serial=0: status: 'Cache Address Parity Error'  \
->>    first_error: 'Cache Address Parity Error'
->>
->> Upstream Switch Port:
->> cxl_aer_correctable_error: memdev= port=port2 dport= host=0000:0d:00.0 \
->>    serial=0: status: 'Memory Data ECC Error'
->>
->> UCE NA - Upstream Switch Port UCE's are handled in the portdrv driver's
->> PCI AER callbacks that are not CXL aware.
->>
->> Downstream Switch Port:
->> cxl_aer_correctable_error: memdev= port=port2 dport=0000:0e:00.0 \
->>    host=0000:0d:00.0 serial=0: status: 'Memory Data ECC Error'
->>
->> cxl_aer_uncorrectable_error: memdev= port=port2 dport=0000:0e:00.0 \
->>    host=0000:0d:00.0 serial=0: status: 'Cache Address Parity Error' \
->>    first_error: 'Cache Address Parity Error'
->>
->> Endpoint:
->> cxl_aer_uncorrectable_error: memdev=mem1 port=endpoint4 dport= \
->>    host=0000:0f:00.0 serial=0: status: 'Cache Address Parity Error' \
->>    first_error: 'Cache Address Parity Error'
->>
->> cxl_aer_correctable_error: memdev=mem1 port=endpoint4 dport= host=0000:0f:00.0 \
->>    serial=0: status: 'Memory Data ECC Error'
->>
->> Co-developed-by: Terry Bowman <terry.bowman@amd.com>
->> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
->> Signed-off-by: Dan Williams <djbw@kernel.org>
-> 
-> One question inline about reference counts for the port.
-> 
->>
->> diff --git a/drivers/cxl/core/ras.c b/drivers/cxl/core/ras.c
->> index d5dc2c22565da..acf40b2396c3b 100644
->> --- a/drivers/cxl/core/ras.c
->> +++ b/drivers/cxl/core/ras.c
-> ...
->>  
->> @@ -109,47 +77,34 @@ static struct cxl_port *find_cxl_port_by_dev(struct device *dev, struct cxl_dpor
->>  
->>  void cxl_cper_handle_prot_err(struct cxl_cper_prot_err_work_data *data)
->>  {
->> +	struct cxl_dport *dport;
->>  	unsigned int devfn = PCI_DEVFN(data->prot_err.agent_addr.device,
->>  				       data->prot_err.agent_addr.function);
->> -	struct pci_dev *pdev __free(pci_dev_put) =
->> -		pci_get_domain_bus_and_slot(data->prot_err.agent_addr.segment,
->> -					    data->prot_err.agent_addr.bus,
->> -					    devfn);
->> -	struct cxl_memdev *cxlmd;
->> -	int port_type;
->> -
->> -	if (!pdev)
->> -		return;
->> -
->> -	port_type = pci_pcie_type(pdev);
->> -	if (port_type == PCI_EXP_TYPE_ROOT_PORT ||
->> -	    port_type == PCI_EXP_TYPE_DOWNSTREAM ||
->> -	    port_type == PCI_EXP_TYPE_UPSTREAM) {
->> -		if (data->severity == AER_CORRECTABLE)
->> -			cxl_cper_trace_corr_port_prot_err(pdev, data->ras_cap);
->> -		else
->> -			cxl_cper_trace_uncorr_port_prot_err(pdev, data->ras_cap);
->> -
->> +	struct pci_dev *pdev __free(pci_dev_put) = pci_get_domain_bus_and_slot(
->> +		data->prot_err.agent_addr.segment, data->prot_err.agent_addr.bus, devfn);
->> +	if (!pdev) {
->> +		pr_err_ratelimited("Failed to find CPER device in CXL topology\n");
->>  		return;
->>  	}
->>  
->> -	guard(device)(&pdev->dev);
->> -	if (!pdev->dev.driver) {
->> -		dev_warn_ratelimited(&pdev->dev,
->> -				     "Device is unbound, abort CPER error handling\n");
->> +	struct cxl_port *port __free(put_cxl_port) = find_cxl_port_by_dev(&pdev->dev, NULL);
->> +	if (!port) {
->> +		dev_err_ratelimited(&pdev->dev,
->> +				    "Failed to find parent port device in CXL topology\n");
->>  		return;
->>  	}
->>  
->> -	struct device *mem_dev __free(put_device) = bus_find_device(
->> -		&cxl_bus_type, NULL, pdev, match_memdev_by_parent);
->> -	if (!mem_dev)
->> -		return;
->> +	guard(device)(&port->dev);
-> 
-> Don't we have a reference for this from find_cxl_port_by_dev()?
-> 
-> Superficially scope looks the same.
-> 
-> 
+On Mon, 20 Jul 2026 00:24:08 +0530
+Aditya Sharma <adi.sharma@zohomail.in> wrote:
 
-I somehow missed this yesterday. Yes, find_cxl_port_by_dev() ref increments. 
+> diff --git a/include/trace/events/mm_reaper.h b/include/trace/events/mm_reaper.h
+> new file mode 100644
+> index 000000000..315bced7c
+> --- /dev/null
+> +++ b/include/trace/events/mm_reaper.h
+> @@ -0,0 +1,73 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM mm_reaper
+> +
+> +#if !defined(_TRACE_MM_REAPER_H) || defined(TRACE_HEADER_MULTI_READ)
+> +#define _TRACE_MM_REAPER_H
+> +
+> +#include <linux/tracepoint.h>
+> +#include <linux/sched.h>
+> +#include <linux/topology.h>
+> +
+> +TRACE_EVENT(mm_async_teardown_queue,
+> +
+> +	TP_PROTO(struct mm_struct *mm, unsigned long rss),
+> +
+> +	TP_ARGS(mm, rss),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(struct mm_struct *, mm)
+> +		__field(int, pid)
+> +		__array(char, comm, TASK_COMM_LEN)
 
->> +
->> +	/* dport is NULL for Endpoint and Upstream Port devices */
->> +	dport = cxl_find_dport_by_dev(port, &pdev->dev);
->>  
->> -	cxlmd = to_cxl_memdev(mem_dev);
->>  	if (data->severity == AER_CORRECTABLE)
->> -		cxl_cper_trace_corr_prot_err(cxlmd, data->ras_cap);
->> +		cxl_cper_trace_corr_prot_err(port, dport, pci_get_dsn(pdev),
->> +					     &data->ras_cap);
->>  	else
->> -		cxl_cper_trace_uncorr_prot_err(cxlmd, data->ras_cap);
->> +		cxl_cper_trace_uncorr_prot_err(port, dport, pci_get_dsn(pdev),
->> +					       &data->ras_cap);
->>  }
->>  EXPORT_SYMBOL_GPL(cxl_cper_handle_prot_err);
->>  
->> @@ -240,14 +195,14 @@ void cxl_do_recovery(struct pci_dev *pdev, struct cxl_port *port, struct cxl_dpo
->>  		return;
->>  	}
->>  
->> -	if (cxl_handle_ras(port, dport, ras_base))
->> +	if (cxl_handle_ras(port, dport, ras_base, pci_get_dsn(pdev)))
->>  		panic("CXL cachemem error");
->>  
->>  	dev_dbg(&pdev->dev,
->>  		"CXL UCE signaled but no CXL RAS status bits set\n");
->>  }
->>  
->> -void cxl_handle_cor_ras(struct cxl_port *port, struct cxl_dport *dport, void __iomem *ras_base)
->> +void cxl_handle_cor_ras(struct cxl_port *port, struct cxl_dport *dport, void __iomem *ras_base, u64 serial)
-> That's over even the modern 100 char limit. Needs a line break.
->>  {
-> 
+There's an effort to make comm size more dynamic and we want to prevent more
+memcpy of the comm based on TASK_COMM_LEN. Please change the above to:
 
-Yup, I'll linewrap at 75-80. Thanks.
+		__string(comm, comm);
 
-- Terry
 
+> +		__field(unsigned long, rss)
+> +		__field(int, node)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__entry->mm = mm;
+> +		__entry->pid = current->pid;
+> +		memcpy(__entry->comm, current->comm, TASK_COMM_LEN);
+
+And this to:
+
+		__assign_str(comm);
+
+> +		__entry->rss = rss;
+> +		__entry->node = numa_node_id();
+> +	),
+> +
+> +	TP_printk("mm=%p pid=%d comm=%s rss=%lukB node=%d",
+> +		__entry->mm,
+> +		__entry->pid,
+> +		__entry->comm,
+
+and this to:
+
+		__get_str(comm),
+
+Thanks,
+
+-- Steve
+
+> +		__entry->rss << (PAGE_SHIFT - 10),
+> +		__entry->node
+> +	)
+> +);
+> +
