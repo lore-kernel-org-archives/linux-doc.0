@@ -1,117 +1,142 @@
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D293749E9
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 16:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319BB31B803
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 16:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784652470; cv=none; b=buUDlDPvW7YUbYrevml+0ItsHkweWdW+EMZ6APukJX4a4F2Ffy14k0mItxCYVQgla7MfNGST+20vdz3HehnRQwPnxHM7BrYDgeiI4GxfOmMfgn+5fLL21aX7RrwPPQ0P/V6/qCpdPSAivZeoS5GdLX2x3I9MpHkPdo5TGwk89Wk=
+	t=1784652576; cv=none; b=kr7iKuX7aiSSQ2nkRilWlzEMELVQxnM4giVcQhdLmUK3QLFzPPkzXWSDc+w987+dOyvOE10Zmdxc86s5lKKuqMgJk82MPJhBARo4agLQKkQf7U4w1uLGQRqQsgpQJspQseeIkIHWxPisWXNKS47J35j+aZSMlGL1apm8Mc0eJBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784652470; c=relaxed/simple;
-	bh=pYw4qJYEuIKXAeuRPdQmYxpzWhSWZPRkfjwhKHTgS20=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=XcaGnqst7lYbNe+Ib21vT5rXruXefBVo0xyt8LzXFVY1JrC8ufobAHhcGuT3BqjwVAbwBu6klzP1n5Tt10wXr1SdBKoiw6JfSNTFXnuu3U2sYpGiH5RYbarI3elQSRWzRz1a6pvkYOFOUdAq2ZJOHEddVvT9rq55fh/t6OESvOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rKfLAUmr; arc=none smtp.client-ip=209.85.215.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1784652576; c=relaxed/simple;
+	bh=1Eewe62A+0W0Tj8OlkqWwebX8DuY99PcvPtXyaE4KnQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dcyLMMKIlQhINbbTZ0urAqJa0655LhFBUL49XM9YtHTCWSoKMByPwDOFOFLpxs1WjPHzk5B261Knn2wvw0r/eHtXqfBiLZsAA2bSzPicmEqwQamD8PCtmG46ZDQOFRz7yUSIErdKAk49+FzkTkv9I8cxGOwJGwLQHJx6A4YrZ3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X3dVJ2T0; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rKfLAUmr"
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cb5bdd8450dso2675775a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 09:47:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X3dVJ2T0"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-84874b52eabso10900710b3a.0
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 09:49:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784652467; x=1785257267; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=unwEFoUznbE0xbP8WwUDTc6RnsTSmOdGWxnp8ooVbH0=;
-        b=rKfLAUmrpt3S1xlpCY086YrNJi3HkIFTu316nvuv8aoAoGzAu1VvUmInZgira7Epue
-         BngnIazBsuS7Zn4o1iFY18OI0Abe/pPaLXaVaIi2iEA41L4LC0TsgUX8Mxli9599b/7W
-         OU1K++OVapigTWloFTxFVevPhP9vzKc7JPlvd/Rof1f/p0gAEYoDvULFKIcUSmKW4LcK
-         501VSEqttE+KziaJviqP15lGO2eIhpKdlsmn/m3jpSI3jILw2lpGoms/k3A9aXkSJCvo
-         425SHs2+8QezINQHqWpbKl6DcAYkuxs0GgmO6wG/BFOPUdGMXJXbqfFUA2inhkieeG5v
-         Xdnw==
+        d=gmail.com; s=20251104; t=1784652574; x=1785257374; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=jz3tCmNLomhxeSHRRM/RsgqxQHXL6/1WUZFNVLX32Kw=;
+        b=X3dVJ2T03PUCWc2hQlcjesoleW222Gl/XDcL9L/y2HmrUNhA4ZQR6uAiyQqwNTSuDM
+         Og79l0p0EGCO1tfaTNwp5Nx+J3Kpb3Wmb5ttiaVoU90tTfsSxicuXAG8cETB7LwMSwoH
+         KTFvd1BJI8i0GuI7rCa1J3suSYPLcncxpd8VsjlmMDKwzEJ8Kpqw4XiNcSECCCm1+iDe
+         GVrHOJMTU6DOUEh2e+8jTbuSCCtQF4fDZx6RVjKIjNv6xE0bt/rspSeZqUtbBPZ3CZ6k
+         gmkrg2dLDUXicwewJrKyX9WJB/BEG3rHqjr9lzjZrFEO4TvMy1jhK7c8MCBEJTKnakl6
+         cclg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784652467; x=1785257267;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
+        d=1e100.net; s=20251104; t=1784652574; x=1785257374;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=unwEFoUznbE0xbP8WwUDTc6RnsTSmOdGWxnp8ooVbH0=;
-        b=RjzoBRzN4SddldKFSjUMP9cTCkCRApZrryp2f66BKfvYW8R5fkg9RnOhe5pCe+Rs1O
-         J8BRILDa2OfP60pKznL6iR+ZUEQXm9qI1sIrA7UDIiZEJ0YbnJaFCslZmJiqAJZdHVPN
-         mbrHvKptYHzIkx8bv0GrEMGe+wBxSNWZWIAnCCSp81fvyEYnNCZCLXPiS26B+cBYppcm
-         HtRyFhxlwL4Rf22hV9sc5BbzNP/r0BXKnAsjso5h5Y9JwvEonrrVDuExGPHV1f1Qfx4z
-         OZku9sL/NkJI/2bVFJDvpHTKAwBr9R68ng6Jgo2ydkBKkhqaIN25oBwYdZmiRtq2fK1U
-         O0aw==
-X-Forwarded-Encrypted: i=1; AHgh+RorPvhvs1DRkQ5l9zOomdSF34NWRxAi+AhSPfUWfhn4upWJrd0q/2sKXi31yeBWAEBRnjs3Z35TYHg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWJwy1vmUoFpveHt8y4MswfJpcsNuOgxssU007Z5i6A5bODriV
-	0hPpxQ0Zp9cuBlXu46/n1XldB6mH5+Fo714FpJcS6kU60Fi+ncmgfhPFCxx6NLWEoMqFgC/BDAi
-	rY3IxYg==
-X-Received: from pfbgu27.prod.google.com ([2002:a05:6a00:4e5b:b0:84b:1607:a892])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:12ce:b0:848:824d:aff4
- with SMTP id d2e1a72fcca58-84c2954bdafmr17836552b3a.56.1784652466889; Tue, 21
- Jul 2026 09:47:46 -0700 (PDT)
-Date: Tue, 21 Jul 2026 09:47:46 -0700
-In-Reply-To: <f5552576fc749b4b453514f52921332cc104c6a6.camel@infradead.org>
+        bh=jz3tCmNLomhxeSHRRM/RsgqxQHXL6/1WUZFNVLX32Kw=;
+        b=KOrxqimHBLqV0EAl3G0fFXtrfa6FV1BqatsO6kvb7Eq3LTkF5Ujgt6Rrub0T/DT0Ol
+         6ArkS8TmZP7VNQTYcZa15ulU8ntAjI1h2UWmZRZjA/2gP4BeDRh2QlcTW0RtuIfsSzSc
+         Alh54PnOFpKKNs7MWTqT/Y0EnwaJiM1Pqx/i5K1ah60Pc8ni5rxeOg6spKv/RH6zLq/7
+         nvRSmtKwUN1niSEODjvR5N6XBskWE6MUYf5lmt7jk4xA5Uh65BYLn3vaklUA9ssmBASx
+         fexia9nkgy8np+fhy1vj6/LOP87wGxscJYbsAMk0tZfbrt3i7pyhB/cBKB/GcEQVYw7I
+         /gZg==
+X-Forwarded-Encrypted: i=1; AHgh+RoGUQZ8Ovn4Y7thKc1UbHhyzOfvg7quNm3V+UsxbZBwa6ZEltMnMSF2kXP5n3aiUR8PEDuB+jnvKGg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTZQdpFE7Xu7Y25zuz79hoiW9M+nd1seQudFeb6E47SB7Avu/L
+	cQRkze4LyKi4ePZ/EsCX2m6K2vTnVgtkLcxfZ10zRxq/JlAQrAxVPGq1
+X-Gm-Gg: AR+sD105digqlYrVSUcux0lYfn0LfbR/xlj4qJ0iPHtNR4zgtlrLWpIAuIj/ke8wjf/
+	yIEYZ2TXYt03QUxLgPK9xx1ZxWW7d4Ed5o95oW3SDIe6efHxaLlJ9dsWmA3/sDqX9n7lYpr3DKT
+	QPanE96lVXi40L8f1I10zGPIWb0W2SYl5VPUAuBjzbv7NN5dT4aioJCOLPPjYNyXLpJWB+eRKhT
+	WW4faB40RzmPha1bZrzrd4Wyew7+vvMSIzlVWNdMlyaxzMzgkEeUhFafZmL6zNdlXroJraok+rn
+	C+/vkyl1MeV+cHoJ29P0/OGVGw90PKTksGG2CtoRMUL3b5cib210AGdaalFr2HUGeR4tc3avO/o
+	4KE7SuWWibeuw6pPCh0NxujvPiAVU8ygwGhZUneC6NMGjVGkGpvkGWakqj2IxbQMtgsuWYep1Bh
+	dakC9rXsVtqnytPi+77QpCySlCeImE1qsyQd6wJ3KKLsYR
+X-Received: by 2002:a05:6a00:cc7:b0:848:6f5c:a327 with SMTP id d2e1a72fcca58-84c29270ea2mr18663190b3a.15.1784652574553;
+        Tue, 21 Jul 2026 09:49:34 -0700 (PDT)
+Received: from skinsburskii (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e175aad1asm5186b3a.44.2026.07.21.09.49.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2026 09:49:34 -0700 (PDT)
+Date: Tue, 21 Jul 2026 09:49:31 -0700
+From: Stanislav Kinsburskii <skinsburskii@gmail.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: airlied@gmail.com, akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org,
+	corbet@lwn.net, dakr@kernel.org, decui@microsoft.com,
+	haiyangz@microsoft.com, jgg@ziepe.ca, kees@kernel.org,
+	kys@microsoft.com, leon@kernel.org, liam@infradead.org,
+	lizhi.hou@amd.com, ljs@kernel.org, longli@microsoft.com,
+	lyude@redhat.com, maarten.lankhorst@linux.intel.com,
+	mamin506@gmail.com, mhocko@suse.com, mripard@kernel.org,
+	nouveau@lists.freedesktop.org, ogabbay@kernel.org, oleg@redhat.com,
+	rppt@kernel.org, shuah@kernel.org, simona@ffwll.ch,
+	skhan@linuxfoundation.org, surenb@google.com, tzimmermann@suse.de,
+	vbabka@kernel.org, wei.liu@kernel.org,
+	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH v9 2/8] mm/hmm: add hmm_range_fault_unlocked_timeout()
+ for mmap lock-drop support
+Message-ID: <al-jG2fROgMWUq_T@skinsburskii>
+References: <178413903133.1155966.3904063656020521607.stgit@skinsburskii>
+ <178413936536.1155966.8918127042760531802.stgit@skinsburskii>
+ <3ed2043b-88e7-4a86-9efb-fe788191e8e8@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260720192221.72912-1-absandze@amazon.de> <f5552576fc749b4b453514f52921332cc104c6a6.camel@infradead.org>
-Message-ID: <al-isty0nYjQEwqH@google.com>
-Subject: Re: [RFC PATCH 0/2] KVM: x86/pmu: Let userspace disable SW accounting
- of emulated instructions
-From: Sean Christopherson <seanjc@google.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Luka Absandze <absandze@amazon.de>, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Alexander Graf <graf@amazon.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3ed2043b-88e7-4a86-9efb-fe788191e8e8@kernel.org>
 
-On Tue, Jul 21, 2026, David Woodhouse wrote:
-> On Mon, 2026-07-20 at 19:22 +0000, Luka Absandze wrote:
-> > On hosts that run guests with an *emulated* vPMU -- guest PMU MSR
-> > accesses trap into KVM and each guest counter is backed by a host
-> > perf_event -- the per-emulated-instruction PMU accounting added by comm=
-it
-> > 9cd803d496e7 ("KVM: x86: Update vPMCs when retiring instructions") is
-> > pathologically expensive.
->=20
-> Given that the guest PMU MSR accesses are trapped... is there a reason
-> we can't fold a *separate* count of emulated instructions into the
-> value we return to the guest?
->=20
-> I guess the overflow would come late... but isn't that tolerable?=20
+On Tue, Jul 21, 2026 at 05:42:53PM +0200, David Hildenbrand (Arm) wrote:
+> On 7/15/26 20:16, Stanislav Kinsburskii wrote:
+> > hmm_range_fault() requires the caller to hold the mmap read lock for the
+> > duration of the call. This is incompatible with mappings whose fault
+> > handler may release the mmap lock, notably userfaultfd-managed regions,
+> > where handle_mm_fault() can return VM_FAULT_RETRY or VM_FAULT_COMPLETED
+> > after dropping the lock. Drivers that need to populate device page tables
+> > for such mappings have no way to do so today.
+> > 
+> > Add hmm_range_fault_unlocked_timeout() for callers that do not need to hold
+> > mmap_lock across any work outside the HMM fault itself. The helper takes
+> > mmap_read_lock_killable() internally, calls the common HMM fault
+> > implementation, and releases the lock before returning if it is still held.
+> > The timeout is specified in jiffies; passing 0 retries indefinitely, while
+> > a non-zero timeout makes the helper return -EBUSY when the retry budget
+> > expires.
+> 
+> The timeout does not / cannot affect how long we might be stuck without the mmap
+> lock in e.g., the userfaultfd handler. And also not how long it would take to
+> actually grab the mmap lock.
+> 
+> That's expected with the timeout, right?
+> 
+> [...]
+> 
 
-Like ignoring emulated instructions entirely, it probably depends on the gu=
-est.
+You are right. Ideally, the timeout should account for the time needed
+to acquire the lock.
 
-> And we could probably impose a limit on how large the addend could be =E2=
-=80=94 even
-> if we only reprogram the PMU once every 100 times, that's still a win?
+However, this timeout is not strict, especially with userfaultfd. It is
+more of a sentinel to make sure the kernel does not get stuck for too
+long and that progress is being made.
 
-Hmm, yeah, that'd be better than ignoring emulated instruction entirely, an=
-d
-would give userspace far better control over how shoddy KVM's emulation is.=
-  Off
-the cuff, the change would be fairly trivial too?  E.g.
+The default value used by most callers is 1000 ms, so accounting for the
+time needed to acquire the mmap_lock does not really make much sense to
+me yet, given the sentinel goal.
 
-diff --git arch/x86/kvm/pmu.c arch/x86/kvm/pmu.c
-index 7f777049d328..c5f436c6f83f 100644
---- arch/x86/kvm/pmu.c
-+++ arch/x86/kvm/pmu.c
-@@ -1084,7 +1084,8 @@ static void kvm_pmu_incr_counter(struct kvm_pmc *pmc)
-         */
-        if (!kvm_vcpu_has_mediated_pmu(vcpu)) {
-                pmc->emulated_counter++;
--               kvm_pmu_request_counter_reprogram(pmc);
-+               if (pmc->emulated_counter > pmu_something_something_toleran=
-ce)
-+                       kvm_pmu_request_counter_reprogram(pmc);
-                return;
-        }
-=20
+Thanks,
+Stanislav
 
+> 
+> Nothing else jumped at me.
+> 
+> -- 
+> Cheers,
+> 
+> David
