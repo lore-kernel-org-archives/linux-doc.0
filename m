@@ -1,105 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75D034DB4A;
-	Tue, 21 Jul 2026 09:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A6844604F
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 09:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784624455; cv=none; b=KT0IvQ5UwP0SJ2cKIO+bWMgV1h5XhgYtTzvR5NrSEwummTtRfCrm5PGfxSGTsHGdHme6aYvfTeaXyh+mWfFPBcxCMMud+Zm9PCkGHunifsImuTnhzaA60VkJ5u9SdSa9OFqdrIxe3xhNSR66YXvUTOgN89guGLk8c89e0hQRjUA=
+	t=1784627331; cv=none; b=NoqlRUcW1TEAFBL2Wgd8kHajH6xG+85sxbpK+hYp7crL6ygvE5xXUdzti6V2Rspxd7E4MfKT41nRyZeQKVCkFWMUhz5cNSi6VlFlIeJy9MXRbZ4OnFPiWN4Beg121D+GO+dAtPdas9EZk1lToAcGkO0aHhmRTQZC+C42y8LIjoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784624455; c=relaxed/simple;
-	bh=Ce3TgVnFtM9NuJ9xl91qVQ2BBavQQ218Ymd+/A6JliQ=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=Q4ZaSblRcXaoWel6+VU7yuUeqZobY8o/z7vaCSRY2OQ2mgzebBvGU/4GqaeRxUjWwC34wJ87H30aBLtfZFdQsLO/JPztVtJSZJNj22WHUFcFjgO+pkY7Mk2247GFlIX8TwJZiG2SmE0Woi1gHP7N80m/0YRS15CHDrbe/YBIdEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZkdLiIqu; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784627331; c=relaxed/simple;
+	bh=ZuBbGDtILLJc9cljeN2cxK5OUQN09Do0FRqsNBN0hcg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=msHdLhFRC2caweB7jK9QNkVM9j2N6bHjQAJ8/E9ODk4PTKdroltgcqRmQiI1vGvnThVeo+rBhneirIxqMyJI2ext25FdCkwfybs9ZJWYXppIwc1FtMQHoAHbOiji6tzXPz9cZHfzOzyRcwUJRnC9H28Yy3ElG/M9ZvKmBTNLOF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=n34G9VU4; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZkdLiIqu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 500DF1F00A3A;
-	Tue, 21 Jul 2026 09:00:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784624454;
-	bh=kT+Q8kRcBsmrQIxq+3cEUACSAv9IYbo+YgFCNmr8RMg=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=ZkdLiIqueP2AZ/FKt7r4mv1kyFPSyDr2vcZc0iRJsNHKcN+jexQ9Jy0RR+KpPz7RW
-	 lUb3LheAgAP6FFPydYQxdbZudvJdQY5PO37x1+2vE10+/LncOAtXc7Fr3xUficKAW2
-	 nVbrRdU4gWBFTSykugHpLL0fVPdWP2bRr6nMdJBlGxBnpbsWbpHma7HyvkyWxsjOSq
-	 1g50hYeFAB7LaSZDPleHPnDvZf4ITFwrpI8PYLUHF1UP6zFYtyw4+UgGout0t2D0QU
-	 Ev7GGrkMm7H5LdH5VTblhXPhV6nuT6oHxdVhqJo5uJUGRc6zvu+a8IRK2Z+DzIvid4
-	 3M4AxxM9AHdmQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56BC73924A44;
-	Tue, 21 Jul 2026 09:00:25 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="n34G9VU4"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784627326;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=qItdemN2VjjBBlZQtxInsZBw9ADrmvr0MbevsqcHD1s=;
+	b=n34G9VU4ASHowXrkO6ymj5wOj+Hhz7LPiaXvB2nNIMszIkqTdqaEIdEqRQdFDIwZy2TELB
+	1B8P2aCnGrmLwmfzmmiy2ejsxcHXyvwgkGRFI91I+UfnaSHtBXAerO/qobiXIuKJLn4ySC
+	ii6P833hl+YUP9JDkrHTOMlsoRjfL8U=
+From: Troy Mitchell <troy.mitchell@linux.dev>
+Subject: [PATCH v2 0/6] hwmon: (lm63) Add Sensylink CTF2301 support
+Date: Tue, 21 Jul 2026 02:48:26 -0700
+Message-Id: <20260721-ctl2301-v2-0-ef5fb342872a@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v5 00/13] net: Add ADIN1140 support
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178462442388.169679.4872315897072342362.git-patchwork-notify@kernel.org>
-Date: Tue, 21 Jul 2026 09:00:23 +0000
-References: <20260708-adin1140-driver-v5-0-4aca7b51a58b@analog.com>
-In-Reply-To: <20260708-adin1140-driver-v5-0-4aca7b51a58b@analog.com>
-To: Ciprian Regus <ciprian.regus@analog.com>
-Cc: parthiban.veerasooran@microchip.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, andrew@lunn.ch,
- hkallweit1@gmail.com, linux@armlinux.org.uk, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, conor.dooley@microchip.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2XMQQ6CMBCF4auQWVszHSoFV97DsNAyyCQESIsNh
+ vTuVrYu/5eXb4fAXjjAtdjBc5Qg85SDTgW44TG9WEmXGwjpgo2ulFtHKlErNLp6oi0d1Qj5vXj
+ uZTuke5t7kLDO/nPAUf/WfyNmRjWWratNT87Y2yjTezt3HKFNKX0BUHUPFZ4AAAA=
+X-Change-ID: 20250916-ctl2301-0416b073c280
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Yixun Lan <dlan@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: Troy Mitchell <troy.mitchell@linux.dev>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
+ linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.de>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5529;
+ i=troy.mitchell@linux.dev; h=from:subject:message-id;
+ bh=ZuBbGDtILLJc9cljeN2cxK5OUQN09Do0FRqsNBN0hcg=;
+ b=owGbwMvMwCU2g/N9w09jE33G02pJDFnxDnlPzDzTcg1bZky8su906bqlev4H332b6yFzQoa5q
+ HVvmNe3jlIWBjEuBlkxRZbuBzzbCnyibAsECn1h5rAygQxh4OIUgImsusLwv+jXFbtlq7vbTv8+
+ sFswl8eiv7VaRfjlhr6NOdlnF3m8b2Bk+KvafvfxloTObI0oqa2rk5nXeHNtbau2s3r3cmPR/sU
+ PeQE=
+X-Developer-Key: i=troy.mitchell@linux.dev; a=openpgp;
+ fpr=3FE5535CF1B0E658E57DB59BAE1C2FBEA7DB42E1
+X-Migadu-Flow: FLOW_OUT
 
-Hello:
+Sensylink CTF2301 is a system-level thermal management solution chip.
 
-This series was applied to netdev/net-next.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
+The CTF2301 is an I2C/SMBus compatible device featuring:
+  - One local temperature sensor with +/-0.5 degree C accuracy and
+    0.0625 degree C resolution.
+  - One remote temperature sensor for external diode-connected
+    transistors, offering +/-1 degree C accuracy and 0.125 degree C
+    resolution (temperature range: -40 degree C to +125 degree C).
+  - An integrated PWM fan controller capable of operating in two modes:
+      1. Direct-DCY: Open-loop direct duty cycle control.
+      2. Auto-Temp: Closed-loop automatic fan speed control based on
+         measured temperature.
+  - A 1-channel fan speed monitor (TACH input) for RPM measurement.
 
-On Wed, 08 Jul 2026 01:33:28 +0300 you wrote:
-> This series introduces support for the ADIN1140 (also called AD3306)
-> 10BASE-T1S single port MACPHY. The device integrates the MAC and PHY in
-> the same package. The communication with the host CPU is done through an
-> SPI interface, using the Open Alliance TC6 protocol for control and data
-> transactions. As a result, the oa_tc6 framework is used to implement
-> the communication with the device (register accesses and Ethernet frame
-> RX/TX).
-> 
-> [...]
+As Guenter pointed out on v1, the CTF2301 register map is a near match
+for the LM63/LM96163 family (local and remote temperature, tachometer and
+PWM fan control), so this version drops the standalone ctf2301 driver
+and instead adds CTF2301 as a new chip type in the existing lm63 driver.
+This reuses the shared temperature, limit, alarm and PWM handling instead
+of duplicating it.
 
-Here is the summary with links:
-  - [net-next,v5,01/13] dt-bindings: net: Add ADIN1140
-    https://git.kernel.org/netdev/net-next/c/2aa955bc52e9
-  - [net-next,v5,02/13] net: ethernet: oa_tc6: Handle the OA TC6 SPI protected mode
-    https://git.kernel.org/netdev/net-next/c/7d0e4c4b8c85
-  - [net-next,v5,03/13] net: ethernet: oa_tc6: add OA_TC6_BROKEN_PHY quirk flag
-    https://git.kernel.org/netdev/net-next/c/1d030cdd52ee
-  - [net-next,v5,04/13] net: ethernet: oa_tc6: Export the C45 access functions
-    https://git.kernel.org/netdev/net-next/c/87ac7ea2153c
-  - [net-next,v5,05/13] net: ethernet: oa_tc6: Export standard defined registers
-    https://git.kernel.org/netdev/net-next/c/9210d402bdf5
-  - [net-next,v5,06/13] net: ethernet: oa_tc6: Add the OA_TC6_ prefix to standard registers
-    https://git.kernel.org/netdev/net-next/c/31bc75f17c1f
-  - [net-next,v5,07/13] net: ethernet: oa_tc6: Add read_mms/write_mms register access functions
-    https://git.kernel.org/netdev/net-next/c/6ad250179486
-  - [net-next,v5,08/13] net: ethernet: oa_tc6: Use the read_mms/write_mms functions for C45
-    https://git.kernel.org/netdev/net-next/c/92ec8d69ddb0
-  - [net-next,v5,09/13] net: ethernet: oa_tc6: Add new register address defines
-    https://git.kernel.org/netdev/net-next/c/638b41f770ad
-  - [net-next,v5,10/13] net: phy: add generic helpers for direct C45 MMD access
-    https://git.kernel.org/netdev/net-next/c/aa63217916e1
-  - [net-next,v5,11/13] net: phy: microchip-t1s: use generic C45 MMD access helpers
-    https://git.kernel.org/netdev/net-next/c/85032df227f9
-  - [net-next,v5,12/13] net: phy: Add support for the ADIN1140 PHY
-    https://git.kernel.org/netdev/net-next/c/0feaf415b782
-  - [net-next,v5,13/13] net: ethernet: adi: Add a driver for the ADIN1140 MACPHY
-    https://git.kernel.org/netdev/net-next/c/20e69e671070
+The CTF2301-specific differences are handled on top of lm63: 12-bit local
+temperature input and high-limit values, nine conversion rates, 12
+fan-control lookup table entries, and optional 22.5 kHz high-resolution
+PWM. When no IRQ is described, the shared ALERT/TACH pin is configured as
+a tachometer input. The LM63 family can also register as a thermal cooling
+device when the device tree provides the #cooling-cells property.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+The required SpacemiT I2C controller clock series has been merged but is
+not yet included in an rc release:
+https://lore.kernel.org/all/20260508-k1-i2c-ilcr-v7-0-8c2dde5c3ed5@linux.spacemit.com/
 
+Apply that series before testing this series on K3. Without it, the I2C
+controller cannot generate an accurate 400 kHz SCL clock and CTF2301
+accesses may fail.
+
+Tested on a SpacemiT K3 CoM260 by booting an initramfs and verifying the
+CTF2301 probe. Temperature, tachometer, PWM, and conversion-rate behavior
+were checked against direct I2C register accesses and the datasheet.
+
+Datasheet:
+https://www.sensylink.com/upload/1/net.sensylink.portal/1689557281035.pdf
+
+Register description:
+https://github.com/TroyMitchell911/ctf2301-datasheet
+
+Signed-off-by: Troy Mitchell <troy.mitchell@linux.dev>
+---
+Changes in v2:
+- Replace the standalone CTF2301 driver with a new lm63 chip type, as
+  suggested by Guenter, reusing the existing temperature, limit, alarm,
+  tachometer, PWM, and automatic fan-control paths.
+- Add the temperature thresholds, alarms, and automatic fan-control lookup
+  table support which were missing from the v1 driver.
+- Handle CTF2301-specific 12-bit local temperature values, nine conversion
+  rates, 12 lookup table entries, shared ALERT/TACH pin, and optional
+  22.5 kHz high-resolution PWM.
+- Propagate SMBus failures from lm63 initialization and write paths.
+- Add optional thermal cooling-device support for the LM63 family using
+  the existing manual PWM control path.
+- Move the National LM63-family compatibles from trivial-devices.yaml to a
+  dedicated binding which permits #cooling-cells.
+- Add CTF2301 to the LM63-family binding instead of keeping the standalone
+  schema from v1. Do not declare #cooling-cells on K3 CoM260 yet because
+  the board has no thermal consumer.
+- Fix the binding errors reported by Rob by using a plain compatible string
+  and wrapping the description.
+- Document CTF2301 support in the lm63 hwmon documentation and provide the
+  detailed register description used for review.
+- Add the K3 CoM260 I2C6 pinctrl state and CTF2301 device node for hardware
+  testing.
+- Link to v1: https://lore.kernel.org/r/20250916-ctl2301-v1-0-97e7c84f2c47@linux.dev
+
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Guenter Roeck <linux@roeck-us.net>
+To: Paul Walmsley <pjw@kernel.org>
+To: Palmer Dabbelt <palmer@dabbelt.com>
+To: Albert Ou <aou@eecs.berkeley.edu>
+To: Alexandre Ghiti <alex@ghiti.fr>
+To: Yixun Lan <dlan@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-hwmon@vger.kernel.org
+Cc: linux-riscv@lists.infradead.org
+Cc: spacemit@lists.linux.dev
+Cc: linux-doc@vger.kernel.org
+
+---
+Troy Mitchell (6):
+      dt-bindings: vendor-prefixes: Add Sensylink
+      dt-bindings: hwmon: Move LM63 family to a dedicated binding
+      dt-bindings: hwmon: Add Sensylink CTF2301
+      hwmon: (lm63) Add Sensylink CTF2301 support
+      riscv: dts: spacemit: Add K3 I2C6 pinctrl state
+      riscv: dts: spacemit: Add CTF2301 on K3 CoM260
+
+ .../devicetree/bindings/hwmon/national,lm63.yaml   |  52 +++
+ .../devicetree/bindings/trivial-devices.yaml       |   6 -
+ .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
+ Documentation/hwmon/lm63.rst                       |  22 ++
+ arch/riscv/boot/dts/spacemit/k3-com260.dtsi        |  19 +
+ arch/riscv/boot/dts/spacemit/k3-pinctrl.dtsi       |  11 +
+ drivers/hwmon/Kconfig                              |   8 +-
+ drivers/hwmon/lm63.c                               | 393 +++++++++++++++++----
+ 8 files changed, 433 insertions(+), 80 deletions(-)
+---
+base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
+change-id: 20250916-ctl2301-0416b073c280
+
+Best regards,
+--  
+Troy Mitchell <troy.mitchell@linux.dev>
 
