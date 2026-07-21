@@ -1,484 +1,787 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011002.outbound.protection.outlook.com [52.101.52.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407BA471257;
-	Tue, 21 Jul 2026 19:28:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.2
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784662138; cv=fail; b=cu5f386HwhkGx7jB4cEvXQveuGhdwon20xnwItGn0Nikz2T3fuqFIQ47HOa4LM9LvNO/Z4pEB1HBHuvd2pijlp/9gDUvHXFi4sTyk7c6HR9YO/NNRS8CoFjK4Ay5wDpaA1gNBduB5Aq70hvUftkn44r1j19wIP/shyMKCYGK6G4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784662138; c=relaxed/simple;
-	bh=gEoFNXpfd36WXfmZDDTjaBtRxF/2WqW6sMJXLmSAB20=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=FwbjXmn3sM2sxuT4W6RZ8456nqI19xMlGZ4TY+hyHnUi+IsgQGmMCF74PJithEqEdnZVaJ8bdeAuhvjEtycJK2cMTYPYdFcIWD/jO7MryidhuESvivBBW5C1e52gosHFNG9JIn2d5/XqIsaiaAsunFXBACgwIXw0wN16R3/1j6U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=pKm6zXUX; arc=fail smtp.client-ip=52.101.52.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2145C35DA40;
+	Tue, 21 Jul 2026 19:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784662737; cv=none; b=nF0HlTSxO9gq7yU+1yVTj0DPxqDyonfEFSyynIJUJ0mF1ytNnMlYW2OxPuwEYAPRWN7XpVfeMzv+D8MytJVPpTeiNk3UNWiG947fNmQmBvvNKYmP/waKPrE6BbdbZKlJsZEcu+sy8iY547TKXKPQfjXVFFflrKdoOdkX8Uobhvk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784662737; c=relaxed/simple;
+	bh=RSU/PtydK8SaiQbqGXkysP3gD/Ig9nRqTWVXn1ZDhQQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=opHeX/jE+J+D4AuKitPDXIumY01SqsabjcniGkXGQ74TDzQoGbGg0eXGZY9PH//fC0cfxoI+U29sVrmfX9Bw49FchC6SroXqyhPIwV1y+HPwvPv+/s/D4muhTtxnPPJ+2VVWRk91sagVmJhlPO4ZnapEAgic7oWbTGvJvVxymBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=vZYTWx46; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="pKm6zXUX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x9LSFHWgXN+g6Lt0m+NLLn27luc5AaJcncbUVtMbZf9LMXAEZSi9eZVKPvnv9pgshLRX3hehXnO9uEVPMYXoeYI0b1gc+g8jTWErWz51jxPVlhkjRrYho8ZYfZs7l12PNotxnbciohVMlmGLRCmyBI9qv93+GSQuS39SlSoAjeGhvXOmQmkU5BFqK4V/ziPBVeo6aoL6Xj2raW0tOWVCQkBa00fL/T3UoQfXdzkPkvSihKhklgsoNXorwmzAJqphVL5rsXe0qnK1fS+t5UaGsE8WMdlmMWvDdXrrCubtO88eLXvUDYyGTgFlNyH2aOfQxI1cvP0MR/S+L6HJQUin8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ipgKk8RIKawZ2CEzN9dVQfg8apSYevm42Bt7XwRw3iM=;
- b=VHQQg0zHvzQSMJdoYYTVsWpuP3jbTrGmNP2Mb+Ry5ew9mUPALuOkAnIck/X+MZ+EVV5MlKaZjU3UUZF+PORLBdNTb/Lt4i0v4mRo85wAtlT3h6JAHcfs40338tt3C5pHTlcDici8Z/AOZ5rlFA6Fa5gq3UANofh/0P3cmSxUL4j5JsEbvZo0On6UVF8S4OS5BIrqmMvweBijrQE06j8eeX7Lxh8688MLPbTb6w7vBNo/ykQcVUYUwrAhJ7leiRk9+b1ApaJWTR8Zz64JiB+nRMpwO5UMWI3Yb5WgtOnfcEaLbCmDJr1mdsTyP5Me6R2/q4Yp5iLJP89ixx2Lany7Iw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ipgKk8RIKawZ2CEzN9dVQfg8apSYevm42Bt7XwRw3iM=;
- b=pKm6zXUXEM2RV0E5q4UibXTp1FqmSOMFMn0Ge033hMCiyBAVv84HhFTgHRVY3vj0kujH7zKTXY3y8Qh0aL9e2VYMFQlqv3bFgCyCzMDF4UV4Set3K3eU6PGjtLeTrONJHuViZXHhmcSc4I9KqbVmcROOBYcrBAc06ztmBdsouM/eY7v0mZVctbsjQnQwHcu8PM4IQ4mc3r3f1o9TOEGEknWoFj5DSwA18JCJDxs1jh21hDt2GO8KQT6VQdGDJYQkK+yn4T7qwuwKn3nV5nT5m1OP4g1vXGz5tWvLLRPvV7CibZoLNH6AEZhR0pZSobCD3whaUWLCO4I0mUQvyca7zw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM3PR12MB9349.namprd12.prod.outlook.com (2603:10b6:0:49::12) by
- IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.245.10; Tue, 21 Jul 2026 19:28:49 +0000
-Received: from DM3PR12MB9349.namprd12.prod.outlook.com
- ([fe80::7678:ab4c:4a7d:7f9f]) by DM3PR12MB9349.namprd12.prod.outlook.com
- ([fe80::7678:ab4c:4a7d:7f9f%4]) with mapi id 15.21.0245.009; Tue, 21 Jul 2026
- 19:28:49 +0000
-Date: Tue, 21 Jul 2026 15:28:45 -0400
-From: Yury Norov <ynorov@nvidia.com>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-	corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
-	pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-	huschle@linux.ibm.com, rostedt@goodmis.org,
-	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
-	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
-	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
-	christian.loehle@arm.com, tj@kernel.org,
-	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-	rdunlap@infradead.org, kernellwp@gmail.com,
-	linux-doc@vger.kernel.org, jgross@suse.com,
-	virtualization@lists.linux.dev
-Subject: Re: [PATCH v8 10/11] virt/steal_governor: Implement steal_governor
- policy loop
-Message-ID: <al_IbeAa3sDrt9A7@yury>
-References: <20260720172250.2257582-1-sshegde@linux.ibm.com>
- <20260720172250.2257582-11-sshegde@linux.ibm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260720172250.2257582-11-sshegde@linux.ibm.com>
-X-ClientProxiedBy: BY3PR04CA0008.namprd04.prod.outlook.com
- (2603:10b6:a03:217::13) To DM3PR12MB9349.namprd12.prod.outlook.com
- (2603:10b6:0:49::12)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vZYTWx46"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CE481F000E9;
+	Tue, 21 Jul 2026 19:38:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1784662735;
+	bh=CRUd43O26w5LRwAiy/zNG1FV/oKe1PzWEb5iCXC4gwk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=vZYTWx46Kh4uETjFhz2g8H2YbubJ1POfOanasnwjwmaJhUYQwaFXAYEd1AO86fwy4
+	 Q7YIJmGHSOe4bshqyljr6urBK+1WMBbvacsZJ0XFEofMhc19SZ7OxYvXj2y+keLXxX
+	 J7/ql1YgKUjmklgPn4j4eDA/m0foiFW5FSM7M5ss=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	Amir Ayupov <aaupov@meta.com>,
+	Leo Yan <leo.yan@arm.com>,
+	Ian Rogers <irogers@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Mike Leach <mike.leach@arm.com>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Paschalis Mpeis <Paschalis.Mpeis@arm.com>,
+	Robert Walker <robert.walker@arm.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suzuki Poulouse <suzuki.poulose@arm.com>,
+	James Clark <james.clark@linaro.org>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.12 0514/1276] perf cs-etm: Queue context packets for frontend
+Date: Tue, 21 Jul 2026 17:15:57 +0200
+Message-ID: <20260721152457.613946811@linuxfoundation.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260721152446.065700225@linuxfoundation.org>
+References: <20260721152446.065700225@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM3PR12MB9349:EE_|IA0PR12MB8374:EE_
-X-MS-Office365-Filtering-Correlation-Id: 292051f3-c5c8-4ccf-6d4b-08dee75e4a4c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|1800799024|7416014|376014|11063799006|5023799004|4143699003|10067099003|56012099006|6133799003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	V/FP/HdG8LDEsrjQmDrwxFionRU27xwbgoDUdqTXRsgMyLSd2ePpwhBUVtOAaQst7qdtT4pL1WL4EnEK8h0xN5dI5c4O2b5/YZTInobZ6S0StS1bGiNomodvrF1Tfl5+W+Odvi2rV0XP2z5vvBvBis6Hm31CN764bdsNGcNkKuq39ypNhAR1W502SGFaRDSKufl/lxOUHp3fNX3KhvkI5S2RPwMfhPd2tlkiuuG9nc3jd52oq++OLKD8YNHsJxnV1FcQ5KEeUm4MMr46+1rE/+XYgrmXF/EjGeA/8dqe6FyYe7IrWNno1/N/bMgg+tuIvqG/X9gGHYKcPQTqHReFGTHBpt5mVpJjouhGmrUWLvfJ3bt+/8aQB1oiM4AsVxxGWzleiwksAjbdrePh7YkcfQfjNMU6osOtlWIexp+LtQU8VIH9MIPi7kIz1PU4KUqr+eGG/7TcQmdPhU7EEnwTcjzgRx5R1fAU9UzInX7R+D80WB5obTP4uaD2UXC3XiAQpX56yDkn93ydTb3HFcbzidNOO4L7ysraBCml6ogd4+NZu5q94kM7d7lY6vWeTXBMPewOtDbkSDnaDN5hvP2106ZVYk4gwgy2dJFC9JXc034JHtT63YIWh/uemfU3YUAix8hY7Kw1AeijmzFW8jPsRI4H6T0c+6+nECN+pfcxPW8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR12MB9349.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(7416014)(376014)(11063799006)(5023799004)(4143699003)(10067099003)(56012099006)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?oaPkCKBga4E2Nhb/xSmLx3XeYzhdTXJ+0BvzDQklBmO3UOCN4ydLBJxOV4XW?=
- =?us-ascii?Q?LGh7Xy7EIq3+NK/fS/YjP6bNI+mHKPsSwU0AHOlwS2ORduJ1skzRAnhadl/T?=
- =?us-ascii?Q?5AEQoz72+V0C//bvZrRZXE1TI5dsJa7VLfeF6/jEUO9PAK/6ukWWptCQsKqG?=
- =?us-ascii?Q?b7wpq2Z/YyJ0UZUofNVRzMWWOUFw98EEsk5tjGVQmpNDncChwP8l2HK6IGb0?=
- =?us-ascii?Q?SUuV8mHIZVpfJkhrIZMKkdpDcWZ3LC7o0s2/Ki/jCv3OFHHvEAqO1mMH+vo8?=
- =?us-ascii?Q?gXcqw+bo8mq8zusqQuOuFZTgevSLvoG8o071uVO/reeMk/C3Hn2hWjHHPOQj?=
- =?us-ascii?Q?icajeNlCh8//yExmuinErb8jL6/zPWMCwwC861haMPrmqR9xAOkICxioOM+8?=
- =?us-ascii?Q?n8+EbVk9OsBLC62lLxHNtHVCSayJGjVsYqyGk2IPSP18dMJ8Bf/ON/YHsmcm?=
- =?us-ascii?Q?JjULigBEaXa1vZ16QvXy17Xl/jR6bhYQiFmy89YJmu3fqr/HGZAh/bj3hRs7?=
- =?us-ascii?Q?s1nz94J3RRiW4bdKRQpQyof15gK45h6gsxj0T+bWV3NCGbhCqmVIkc2AHby9?=
- =?us-ascii?Q?awyXmxkAu6b/Q+1bP2p+KV0YQNxqRT6y3cI5DNI5B+2bLx1sm974nUakMnJv?=
- =?us-ascii?Q?z6NpEhueleFTMzexXykatmdtC1k9Lw9VRLZqELxyQ6sgpsV4D02kzNAuO377?=
- =?us-ascii?Q?mULNW2SkvsI99Pn85TNQhzIjRqLjKZRwjUtnDWgyEeKQbVfrU4LqpQ4wzFS2?=
- =?us-ascii?Q?7Zvb0jbwTfYohAsAAEHarwC8902x3TEeLltQemCjYzFDwRBBUjToO5vucxb9?=
- =?us-ascii?Q?KTk2Zmjp1CvH35zki/PfF8hf6jOJKmkEGy+fVVz/0mCOk/KmDSvSngVGk3JX?=
- =?us-ascii?Q?gfFAzB7HXOp9VhblYOKwUBHTpQHGjO3ndmP4GgMGk0rfS15cK5aM6H0UJrQ4?=
- =?us-ascii?Q?oGSYLWqSs6kjb2RYEAVFbOO+1+08ajF9yvVP0GD0PeUUsuIqCW8Q9Yk1Mdwi?=
- =?us-ascii?Q?5n0IjAGHKhMMskBrvrSMLTmX/StmGZ8hAmrxI+Q6p8G9jMKa/RIeGlTUxM3i?=
- =?us-ascii?Q?U6rVc1zzWf8b6BCjf7LmiUFT3jhMfdHeOBtc723i9jkuNgTGVsw71kILX+RZ?=
- =?us-ascii?Q?nBzPl3giwtUM8Hz4QZMhhLW3AbXM+FEhnukuEkgnaMKtAQFI2LIBH1x2RDr+?=
- =?us-ascii?Q?kwr8fYCQyQgHjYMeUkrjxsbjmMp2j6nErvX8zwf8Xe8ZlMfCmgP+YKU/tfIw?=
- =?us-ascii?Q?sBP+AayP8QQd/+k5jdspmYiFWqs5rsRa+6h3IqOP5Wox993OXyAG85GiNmuv?=
- =?us-ascii?Q?U7wB3gn/ZTJlkSnMzfW8O5LNR/aYS0HBWDjLS4s7ZBHrO69loUnNaBMXJNKq?=
- =?us-ascii?Q?q26slWvF7dTqJhWPteVAa7JqCQpVVkW0b//6lnOoEFuEIwl1FAEC+2TNYWVU?=
- =?us-ascii?Q?96zwOH5g4YE7wcE4SDl37h5+3H7dQKBXyp3oH8/rQJKwWAI5yaO5ZRWiRWfN?=
- =?us-ascii?Q?Jor06V6ZYUr7IclDPaDib1MtLXH1v0CbOBQ3pexQTarirzjj1mXesa1UkNys?=
- =?us-ascii?Q?Fo6lu3ZQhkBy0S2CqfaISk8UklGxYpQgOTaShrEVZ4S4nP/dFcTYMEvcsW7R?=
- =?us-ascii?Q?TkSzgk+aIq00w3FG8d1u7opJOPbIwBt1Mtlx+IRtChgpXA4SUX7Z8RbvWa35?=
- =?us-ascii?Q?5RTDptSqfJHst7umpxBuyG8gPr0zduX48AqHmCCKAMSe2svI3qghwFiXUxjZ?=
- =?us-ascii?Q?4oB4Jvy4vQ=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 292051f3-c5c8-4ccf-6d4b-08dee75e4a4c
-X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9349.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 19:28:49.5096
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7SVq1+H9mVGNNFfp2MAT1xpTQW33/+tAK345QUKgnn/iTuCQZIRkDE5n9ngbKMuiGYdVjyXv+2rMYa7rDm/4TA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8374
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 20, 2026 at 10:52:49PM +0530, Shrikanth Hegde wrote:
-> schedule work at regular intervals to implement the steal_governor
-> policy of monitoring the steal time and take action on the state of
-> preferred CPUs. The interval is determined by interval_ms parameter.
-> schedule_delayed_work is used since interval_ms
-> is in the order of milliseconds. Work need not happen instantly.
-> 
-> Periodic policy loop essentially does:
-> - Gets the total/delta steal values and cpus to use steal_ratio.
->   (get_system_steal_time, get_num_cpus_steal_ratio)
-> - Calculate the steal_ratio as below.
-> 
->        steal_ratio = (delta_steal * 100*100)/(delta_ns * num_cpus())
-> 
->   It is calculated to consider the fractional values of steal time.
->   I.e 10 means 0.1% steal time. A few tricks such as divide by 10,000
->   are used to avoid possible overflow.
-> - If steal value is higher than high threshold, call the method to reduce
->   the preferred CPUs. (decrease_preferred_cpus)
-> - If steal value is lower or equal to low threshold, call the method to
->   increase the preferred CPUs. (increase_preferred_cpus)
-> - If the steal value is in between, no action is taken.
-> - Save the values for next delta calculations.
-> - Ensure design checks are met.
->   1. At least one core/CPU must be there in preferred mask.
->   2. preferred CPUs is subset of active CPUs.
-> If not met, then restore preferred CPUs to active and stop
-> requeue of the work. Driver is effectively non-functional after that.
-> 
-> In Order to help the above loop, a few helper functions have been added.
-> 
-> 1. get_system_steal_time()
-> - steal governor takes global view of steal time instead of individual
->   vCPU. Collect the steal values across the vCPUs of interest.
-> - Sum up steal time values across possible CPUs. This helps to keep it
->   a monotonically increasing number and avoids spikes due to CPU
->   hotplug.
-> 
-> 2. decrease_preferred_cpus()
-> - Called when there is high steal time. It needs to decide which CPUs to
->   mark as non-preferred and set that state.
-> - Get first housekeeping CPU and its core mask. Mark it as
->   protected core. This helps to keep at least one core as preferred.
->   kernel ensures at least one housekeeping CPU stays active.
-> - Find the last CPU outside of this protected core mask. (target CPU)
-> - Based on that target CPU, get its sibling and mark them as
->   non-preferred.
-> 
-> 3. increase_preferred_cpus()
-> - Called when there is low steal time. It needs to decide which CPUs to
->   mark as preferred and set that state.
-> - Get the first active non-preferred CPUs. This likely is the last
->   set of CPUs being marked as non-preferred.
-> - get the siblings of that CPU and mark them as preferred.
-> 
-> 4. get_num_cpus_steal_ratio()
-> - informs how many CPUs needs to be considered for steal_ratio
->   calculations.
-> - Return number of possible CPUs as get_system_steal_time computes
->   steal values across possible CPUs.
-> 
-> Notes:
-> 1. Using core instead of individual CPUs performs better as SMT is
->    quite common and some hypervisor such as powerVM does core scheduling.
-> 
-> 2. This doesn't do any NUMA splicing to keep the code simpler and
->    minimal overhead. Current code expects CPUs spread uniformly
->    across NUMA nodes.
-> 
-> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-> ---
->  drivers/virt/steal_governor/core.c | 160 +++++++++++++++++++++++++++++
->  drivers/virt/steal_governor/core.h |   5 +
->  2 files changed, 165 insertions(+)
-> 
-> diff --git a/drivers/virt/steal_governor/core.c b/drivers/virt/steal_governor/core.c
-> index 1cb766a8ce28..97f82d6df60f 100644
-> --- a/drivers/virt/steal_governor/core.c
-> +++ b/drivers/virt/steal_governor/core.c
-> @@ -89,6 +89,158 @@ module_param_named(low_threshold, sg_core_ctx.low_threshold, uint, 0444);
->  MODULE_PARM_DESC(low_threshold,
->  		 "Low steal threshold. default: 200 i.e 2%. Must be < high_threshold");
->  
-> +/*
-> + * Returns steal time of the full system.
-> + * Compute collective steal time across all possible CPUs.
-> + */
-> +static u64 get_system_steal_time(void)
-> +{
-> +	int cpu;
-> +	u64 total_steal = 0;
-> +
-> +	for_each_possible_cpu(cpu)
-> +		total_steal += kcpustat_cpu(cpu).cpustat[CPUTIME_STEAL];
-> +
-> +	return total_steal;
-> +}
+6.12-stable review patch.  If anyone has any objections, please let me know.
 
-There's another implementation of the same logic in
-hd_calculate_steal_percentage())
+------------------
 
-It means it should live in include/linux/kernel_stat.h as:
-        
-        u64 kcpustat_steal_time(struct cpumask *cpus);
+From: James Clark <james.clark@linaro.org>
 
-Or possibly even more generic:
+[ Upstream commit 68ca50bc0fa64841cd73b8a1538df1d7f7eb4108 ]
 
-        u64 kcpustat_field_total(enum cpu_usage_stat usage, struct cpumask *cpus);
+PE_CONTEXT elements update the context ID and exception level, but the
+decoder may still have prior packets cached for frontend processing.
+Updating the context immediately in the decoder backend can make those
+cached packets get consumed with the wrong thread or EL state.
 
-Similarly to the existing kcpustat_field().
+Add a CS_ETM_CONTEXT packet carrying the TID and EL to the frontend,
+this keeps context changes ordered with the rest of the packet stream
+and avoids mismatches when synthesizing samples from cached packets.
 
-The other possible candidates are: fs/proc/stat.c:: show_stat()
-arch_cpu_idle_time(), but I think it's out of the scope of your
-series. 
+Separate the memory access function into one for the frontend and one
+for decoding. The frontend also needs memory access to attach the
+instruction to samples. Because the frontend does memory access for
+both previous and current packets, change all the frontend memory access
+function signatures to take both a tidq and packet. But backend always
+uses the current backend EL and thread from the tidq.
 
-What's the relation between the arch/s390/kernel/hiperdispatch.c and
-your steal governor? Is that a similar concept?
+Treat context packets as a boundary for branch sample generation and
+remove tidq->prev_packet_thread because it's not possible to branch to a
+different thread, so only tracking the current thread is required for
+sample generation.
 
-> +/*
-> + * Returns number of CPUs to consider for steal ratio.
-> + * Return possible CPUs.
-> + */
+Fixes: e573e978fb12e160 ("perf cs-etm: Inject capabilitity for CoreSight traces")
+Reported-by: Amir Ayupov <aaupov@meta.com>
+Closes: https://lore.kernel.org/linux-perf-users/20260515021135.1729028-1-aaupov@meta.com/
+Co-authored-by: James Clark <james.clark@linaro.org>
+Signed-off-by: Leo Yan <leo.yan@arm.com>
+Cc: Ian Rogers <irogers@google.com>
+Cc: Jiri Olsa <jolsa@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Mike Leach <mike.leach@arm.com>
+Cc: Namhyung Kim <namhyung@kernel.org>
+Cc: Paschalis Mpeis <Paschalis.Mpeis@arm.com>
+Cc: Robert Walker <robert.walker@arm.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Suzuki Poulouse <suzuki.poulose@arm.com>
+Signed-off-by: James Clark <james.clark@linaro.org>
+Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../perf/util/cs-etm-decoder/cs-etm-decoder.c |  21 +-
+ tools/perf/util/cs-etm.c                      | 236 +++++++++++-------
+ tools/perf/util/cs-etm.h                      |   8 +-
+ 3 files changed, 163 insertions(+), 102 deletions(-)
 
-Can you rephrase the comment? It has 2 'return' sections with
-different meaning. If the 2nd one is the implementation detail,
-I'd put it inside the function scope, or drop entirely.
+diff --git a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
+index 9bf09a856b44a3..c1257c5ef42567 100644
+--- a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
++++ b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
+@@ -399,6 +399,8 @@ cs_etm_decoder__buffer_packet(struct cs_etm_queue *etmq,
+ 	packet_queue->packet_buffer[et].flags = 0;
+ 	packet_queue->packet_buffer[et].exception_number = UINT32_MAX;
+ 	packet_queue->packet_buffer[et].trace_chan_id = trace_chan_id;
++	packet_queue->packet_buffer[et].el = ocsd_EL_unknown;
++	packet_queue->packet_buffer[et].tid = -1;
+ 
+ 	if (packet_queue->packet_count == CS_ETM_PACKET_MAX_BUFFER - 1)
+ 		return OCSD_RESP_WAIT;
+@@ -446,6 +448,7 @@ cs_etm_decoder__buffer_range(struct cs_etm_queue *etmq,
+ 	packet->last_instr_type = elem->last_i_type;
+ 	packet->last_instr_subtype = elem->last_i_subtype;
+ 	packet->last_instr_cond = elem->last_instr_cond;
++	packet->el = elem->context.exception_level;
+ 
+ 	if (elem->last_i_type == OCSD_INSTR_BR || elem->last_i_type == OCSD_INSTR_BR_INDIRECT)
+ 		packet->last_instr_taken_branch = elem->last_instr_exec;
+@@ -522,7 +525,9 @@ cs_etm_decoder__set_tid(struct cs_etm_queue *etmq,
+ 			const ocsd_generic_trace_elem *elem,
+ 			const uint8_t trace_chan_id)
+ {
++	struct cs_etm_packet *packet;
+ 	pid_t tid = -1;
++	int ret;
+ 
+ 	/*
+ 	 * Process the PE_CONTEXT packets if we have a valid contextID or VMID.
+@@ -543,12 +548,18 @@ cs_etm_decoder__set_tid(struct cs_etm_queue *etmq,
+ 		break;
+ 	}
+ 
+-	if (cs_etm__etmq_set_tid_el(etmq, tid, trace_chan_id,
+-				    elem->context.exception_level))
++	if (cs_etm__etmq_update_decode_context(etmq, trace_chan_id,
++				elem->context.exception_level, tid))
+ 		return OCSD_RESP_FATAL_SYS_ERR;
+ 
+-	if (tid == -1)
+-		return OCSD_RESP_CONT;
++	ret = cs_etm_decoder__buffer_packet(etmq, packet_queue, trace_chan_id,
++					    CS_ETM_CONTEXT);
++	if (ret != OCSD_RESP_CONT && ret != OCSD_RESP_WAIT)
++		return ret;
++
++	packet = &packet_queue->packet_buffer[packet_queue->tail];
++	packet->tid = tid;
++	packet->el = elem->context.exception_level;
+ 
+ 	/*
+ 	 * A timestamp is generated after a PE_CONTEXT element so make sure
+@@ -556,7 +567,7 @@ cs_etm_decoder__set_tid(struct cs_etm_queue *etmq,
+ 	 */
+ 	cs_etm_decoder__reset_timestamp(packet_queue);
+ 
+-	return OCSD_RESP_CONT;
++	return ret;
+ }
+ 
+ static ocsd_datapath_resp_t cs_etm_decoder__gen_trace_elem_printer(
+diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
+index 51994ccbfbcb52..3fd669817eb9bf 100644
+--- a/tools/perf/util/cs-etm.c
++++ b/tools/perf/util/cs-etm.c
+@@ -86,15 +86,22 @@ struct cs_etm_traceid_queue {
+ 	u64 period_instructions;
+ 	size_t last_branch_pos;
+ 	union perf_event *event_buf;
+-	struct thread *thread;
+-	struct thread *prev_packet_thread;
+-	ocsd_ex_level prev_packet_el;
+-	ocsd_ex_level el;
+ 	struct branch_stack *last_branch;
+ 	struct branch_stack *last_branch_rb;
+ 	struct cs_etm_packet *prev_packet;
+ 	struct cs_etm_packet *packet;
+ 	struct cs_etm_packet_queue packet_queue;
++
++	struct thread *decode_thread;
++	ocsd_ex_level decode_el;
++
++	/*
++	 * The frontend accesses the EL from '[prev_]packet' because it needs
++	 * previous EL for branch and current EL for instruction samples. It's
++	 * not possible to change thread in a single branch sample so no need to
++	 * store or access the thread through the packet.
++	 */
++	struct thread *frontend_thread;
+ };
+ 
+ enum cs_etm_format {
+@@ -608,10 +615,11 @@ static int cs_etm__init_traceid_queue(struct cs_etm_queue *etmq,
+ 
+ 	queue = &etmq->etm->queues.queue_array[etmq->queue_nr];
+ 	tidq->trace_chan_id = trace_chan_id;
+-	tidq->el = tidq->prev_packet_el = ocsd_EL_unknown;
+-	tidq->thread = machine__findnew_thread(&etm->session->machines.host, -1,
++	tidq->decode_el = ocsd_EL_unknown;
++	tidq->frontend_thread = machine__findnew_thread(&etm->session->machines.host, -1,
++					       queue->tid);
++	tidq->decode_thread = machine__findnew_thread(&etm->session->machines.host, -1,
+ 					       queue->tid);
+-	tidq->prev_packet_thread = machine__idle_thread(&etm->session->machines.host);
+ 
+ 	tidq->packet = zalloc(sizeof(struct cs_etm_packet));
+ 	if (!tidq->packet)
+@@ -744,21 +752,10 @@ static void cs_etm__packet_swap(struct cs_etm_auxtrace *etm,
+ 		/*
+ 		 * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
+ 		 * the next incoming packet.
+-		 *
+-		 * Threads and exception levels are also tracked for both the
+-		 * previous and current packets. This is because the previous
+-		 * packet is used for the 'from' IP for branch samples, so the
+-		 * thread at that time must also be assigned to that sample.
+-		 * Across discontinuity packets the thread can change, so by
+-		 * tracking the thread for the previous packet the branch sample
+-		 * will have the correct info.
+ 		 */
+ 		tmp = tidq->packet;
+ 		tidq->packet = tidq->prev_packet;
+ 		tidq->prev_packet = tmp;
+-		tidq->prev_packet_el = tidq->el;
+-		thread__put(tidq->prev_packet_thread);
+-		tidq->prev_packet_thread = thread__get(tidq->thread);
+ 	}
+ }
+ 
+@@ -931,8 +928,8 @@ static void cs_etm__free_traceid_queues(struct cs_etm_queue *etmq)
+ 
+ 		/* Free this traceid_queue from the array */
+ 		tidq = etmq->traceid_queues[idx];
+-		thread__zput(tidq->thread);
+-		thread__zput(tidq->prev_packet_thread);
++		thread__zput(tidq->frontend_thread);
++		thread__zput(tidq->decode_thread);
+ 		zfree(&tidq->event_buf);
+ 		zfree(&tidq->last_branch);
+ 		zfree(&tidq->last_branch_rb);
+@@ -1077,47 +1074,43 @@ static u8 cs_etm__cpu_mode(struct cs_etm_queue *etmq, u64 address,
+ 	}
+ }
+ 
+-static u32 cs_etm__mem_access(struct cs_etm_queue *etmq, u8 trace_chan_id,
+-			      u64 address, size_t size, u8 *buffer,
+-			      const ocsd_mem_space_acc_t mem_space)
++static u32 __cs_etm__mem_access(struct cs_etm_queue *etmq,
++				u64 address, size_t size, u8 *buffer,
++				const ocsd_mem_space_acc_t mem_space,
++				ocsd_ex_level el, struct thread *thread)
+ {
+ 	u8  cpumode;
+ 	u64 offset;
+ 	int len;
+ 	struct addr_location al;
+ 	struct dso *dso;
+-	struct cs_etm_traceid_queue *tidq;
+ 	int ret = 0;
+ 
+ 	if (!etmq)
+ 		return 0;
+ 
+ 	addr_location__init(&al);
+-	tidq = cs_etm__etmq_get_traceid_queue(etmq, trace_chan_id);
+-	if (!tidq)
+-		goto out;
+ 
+ 	/*
+-	 * We've already tracked EL along side the PID in cs_etm__set_thread()
+-	 * so double check that it matches what OpenCSD thinks as well. It
+-	 * doesn't distinguish between EL0 and EL1 for this mem access callback
+-	 * so we had to do the extra tracking. Skip validation if it's any of
+-	 * the 'any' values.
++	 * We track EL for the frontend and the backend when receiving context
++	 * and range packets. OpenCSD doesn't distinguish between EL0 and EL1
++	 * for this mem access callback so we had to do the extra tracking. Skip
++	 * validation if it's any of the 'any' values.
+ 	 */
+ 	if (!(mem_space == OCSD_MEM_SPACE_ANY ||
+ 	      mem_space == OCSD_MEM_SPACE_N || mem_space == OCSD_MEM_SPACE_S)) {
+ 		if (mem_space & OCSD_MEM_SPACE_EL1N) {
+ 			/* Includes both non secure EL1 and EL0 */
+-			assert(tidq->el == ocsd_EL1 || tidq->el == ocsd_EL0);
++			assert(el == ocsd_EL1 || el == ocsd_EL0);
+ 		} else if (mem_space & OCSD_MEM_SPACE_EL2)
+-			assert(tidq->el == ocsd_EL2);
++			assert(el == ocsd_EL2);
+ 		else if (mem_space & OCSD_MEM_SPACE_EL3)
+-			assert(tidq->el == ocsd_EL3);
++			assert(el == ocsd_EL3);
+ 	}
+ 
+-	cpumode = cs_etm__cpu_mode(etmq, address, tidq->el);
++	cpumode = cs_etm__cpu_mode(etmq, address, el);
+ 
+-	if (!thread__find_map(tidq->thread, cpumode, address, &al))
++	if (!thread__find_map(thread, cpumode, address, &al))
+ 		goto out;
+ 
+ 	dso = map__dso(al.map);
+@@ -1132,7 +1125,7 @@ static u32 cs_etm__mem_access(struct cs_etm_queue *etmq, u8 trace_chan_id,
+ 
+ 	map__load(al.map);
+ 
+-	len = dso__data_read_offset(dso, maps__machine(thread__maps(tidq->thread)),
++	len = dso__data_read_offset(dso, maps__machine(thread__maps(thread)),
+ 				    offset, buffer, size);
+ 
+ 	if (len <= 0) {
+@@ -1152,6 +1145,30 @@ static u32 cs_etm__mem_access(struct cs_etm_queue *etmq, u8 trace_chan_id,
+ 	return ret;
+ }
+ 
++static u32 cs_etm__frontend_mem_access(struct cs_etm_queue *etmq,
++				       struct cs_etm_traceid_queue *tidq,
++				       struct cs_etm_packet *packet,
++				       u64 address, size_t size, u8 *buffer)
++{
++	return __cs_etm__mem_access(etmq, address, size, buffer, 0, packet->el,
++				    tidq->frontend_thread);
++}
++
++static u32 cs_etm__decoder_mem_access(struct cs_etm_queue *etmq, u8 trace_chan_id,
++				      u64 address, size_t size, u8 *buffer,
++				      const ocsd_mem_space_acc_t mem_space)
++{
++	struct cs_etm_traceid_queue *tidq;
++
++	tidq = cs_etm__etmq_get_traceid_queue(etmq, trace_chan_id);
++	if (!tidq)
++		return 0;
++
++	return __cs_etm__mem_access(etmq, address, size, buffer,
++				    mem_space, tidq->decode_el,
++				    tidq->decode_thread);
++}
++
+ static struct cs_etm_queue *cs_etm__alloc_queue(void)
+ {
+ 	struct cs_etm_queue *etmq = zalloc(sizeof(*etmq));
+@@ -1327,12 +1344,13 @@ void cs_etm__reset_last_branch_rb(struct cs_etm_traceid_queue *tidq)
+ }
+ 
+ static inline int cs_etm__t32_instr_size(struct cs_etm_queue *etmq,
+-					 u8 trace_chan_id, u64 addr)
++					 struct cs_etm_traceid_queue *tidq,
++					 struct cs_etm_packet *packet, u64 addr)
+ {
+ 	u8 instrBytes[2];
+ 
+-	cs_etm__mem_access(etmq, trace_chan_id, addr, ARRAY_SIZE(instrBytes),
+-			   instrBytes, 0);
++	cs_etm__frontend_mem_access(etmq, tidq, packet, addr,
++				    ARRAY_SIZE(instrBytes), instrBytes);
+ 	/*
+ 	 * T32 instruction size is indicated by bits[15:11] of the first
+ 	 * 16-bit word of the instruction: 0b11101, 0b11110 and 0b11111
+@@ -1365,16 +1383,16 @@ u64 cs_etm__last_executed_instr(const struct cs_etm_packet *packet)
+ }
+ 
+ static inline u64 cs_etm__instr_addr(struct cs_etm_queue *etmq,
+-				     u64 trace_chan_id,
+-				     const struct cs_etm_packet *packet,
++				     struct cs_etm_traceid_queue *tidq,
++				     struct cs_etm_packet *packet,
+ 				     u64 offset)
+ {
+ 	if (packet->isa == CS_ETM_ISA_T32) {
+ 		u64 addr = packet->start_addr;
+ 
+ 		while (offset) {
+-			addr += cs_etm__t32_instr_size(etmq,
+-						       trace_chan_id, addr);
++			addr += cs_etm__t32_instr_size(etmq, tidq, packet,
++						       addr);
+ 			offset--;
+ 		}
+ 		return addr;
+@@ -1484,34 +1502,51 @@ cs_etm__get_trace(struct cs_etm_queue *etmq)
+ 	return etmq->buf_len;
+ }
+ 
+-static void cs_etm__set_thread(struct cs_etm_queue *etmq,
+-			       struct cs_etm_traceid_queue *tidq, pid_t tid,
+-			       ocsd_ex_level el)
++/*
++ * Convert a raw thread number to a thread struct and assign it to **thread.
++ */
++static int cs_etm__etmq_update_thread(struct cs_etm_queue *etmq,
++				      ocsd_ex_level el, pid_t tid,
++				      struct thread **thread)
+ {
+ 	struct machine *machine = cs_etm__get_machine(etmq, el);
+ 
++	if (!machine || !*thread)
++		return -EINVAL;
++
+ 	if (tid != -1) {
+-		thread__zput(tidq->thread);
+-		tidq->thread = machine__find_thread(machine, -1, tid);
++		thread__zput(*thread);
++		*thread = machine__find_thread(machine, -1, tid);
+ 	}
+ 
+ 	/* Couldn't find a known thread */
+-	if (!tidq->thread)
+-		tidq->thread = machine__idle_thread(machine);
++	if (!*thread)
++		*thread = machine__idle_thread(machine);
+ 
+-	tidq->el = el;
++	return 0;
+ }
+ 
+-int cs_etm__etmq_set_tid_el(struct cs_etm_queue *etmq, pid_t tid,
+-			    u8 trace_chan_id, ocsd_ex_level el)
++/*
++ * Set the thread and EL of the decode context which is ahead in time of the
++ * frontend context.
++ */
++int cs_etm__etmq_update_decode_context(struct cs_etm_queue *etmq,
++				       u8 trace_chan_id,
++				       ocsd_ex_level el, pid_t tid)
+ {
+ 	struct cs_etm_traceid_queue *tidq;
++	int ret;
+ 
+ 	tidq = cs_etm__etmq_get_traceid_queue(etmq, trace_chan_id);
+ 	if (!tidq)
+ 		return -EINVAL;
+ 
+-	cs_etm__set_thread(etmq, tidq, tid, el);
++	ret = cs_etm__etmq_update_thread(etmq, el, tid,
++					 &tidq->decode_thread);
++	if (ret)
++		return ret;
++
++	tidq->decode_el = el;
+ 	return 0;
+ }
+ 
+@@ -1521,8 +1556,8 @@ bool cs_etm__etmq_is_timeless(struct cs_etm_queue *etmq)
+ }
+ 
+ static void cs_etm__copy_insn(struct cs_etm_queue *etmq,
+-			      u64 trace_chan_id,
+-			      const struct cs_etm_packet *packet,
++			      struct cs_etm_traceid_queue *tidq,
++			      struct cs_etm_packet *packet,
+ 			      struct perf_sample *sample)
+ {
+ 	/*
+@@ -1539,14 +1574,14 @@ static void cs_etm__copy_insn(struct cs_etm_queue *etmq,
+ 	 * cs_etm__t32_instr_size().
+ 	 */
+ 	if (packet->isa == CS_ETM_ISA_T32)
+-		sample->insn_len = cs_etm__t32_instr_size(etmq, trace_chan_id,
++		sample->insn_len = cs_etm__t32_instr_size(etmq, tidq, packet,
+ 							  sample->ip);
+ 	/* Otherwise, A64 and A32 instruction size are always 32-bit. */
+ 	else
+ 		sample->insn_len = 4;
+ 
+-	cs_etm__mem_access(etmq, trace_chan_id, sample->ip, sample->insn_len,
+-			   (void *)sample->insn, 0);
++	cs_etm__frontend_mem_access(etmq, tidq, packet, sample->ip,
++				    sample->insn_len, (void *)sample->insn);
+ }
+ 
+ u64 cs_etm__convert_sample_time(struct cs_etm_queue *etmq, u64 cs_timestamp)
+@@ -1573,6 +1608,7 @@ static inline u64 cs_etm__resolve_sample_time(struct cs_etm_queue *etmq,
+ 
+ static int cs_etm__synth_instruction_sample(struct cs_etm_queue *etmq,
+ 					    struct cs_etm_traceid_queue *tidq,
++					    struct cs_etm_packet *packet,
+ 					    u64 addr, u64 period)
+ {
+ 	int ret = 0;
+@@ -1581,23 +1617,23 @@ static int cs_etm__synth_instruction_sample(struct cs_etm_queue *etmq,
+ 	struct perf_sample sample = {.ip = 0,};
+ 
+ 	event->sample.header.type = PERF_RECORD_SAMPLE;
+-	event->sample.header.misc = cs_etm__cpu_mode(etmq, addr, tidq->el);
++	event->sample.header.misc = cs_etm__cpu_mode(etmq, addr, packet->el);
+ 	event->sample.header.size = sizeof(struct perf_event_header);
+ 
+ 	/* Set time field based on etm auxtrace config. */
+ 	sample.time = cs_etm__resolve_sample_time(etmq, tidq);
+ 
+ 	sample.ip = addr;
+-	sample.pid = thread__pid(tidq->thread);
+-	sample.tid = thread__tid(tidq->thread);
++	sample.pid = thread__pid(tidq->frontend_thread);
++	sample.tid = thread__tid(tidq->frontend_thread);
+ 	sample.id = etmq->etm->instructions_id;
+ 	sample.stream_id = etmq->etm->instructions_id;
+ 	sample.period = period;
+-	sample.cpu = tidq->packet->cpu;
++	sample.cpu = packet->cpu;
+ 	sample.flags = tidq->prev_packet->flags;
+ 	sample.cpumode = event->sample.header.misc;
+ 
+-	cs_etm__copy_insn(etmq, tidq->trace_chan_id, tidq->packet, &sample);
++	cs_etm__copy_insn(etmq, tidq, packet, &sample);
+ 
+ 	if (etm->synth_opts.last_branch)
+ 		sample.branch_stack = tidq->last_branch;
+@@ -1641,15 +1677,15 @@ static int cs_etm__synth_branch_sample(struct cs_etm_queue *etmq,
+ 
+ 	event->sample.header.type = PERF_RECORD_SAMPLE;
+ 	event->sample.header.misc = cs_etm__cpu_mode(etmq, ip,
+-						     tidq->prev_packet_el);
++						     tidq->prev_packet->el);
+ 	event->sample.header.size = sizeof(struct perf_event_header);
+ 
+ 	/* Set time field based on etm auxtrace config. */
+ 	sample.time = cs_etm__resolve_sample_time(etmq, tidq);
+ 
+ 	sample.ip = ip;
+-	sample.pid = thread__pid(tidq->prev_packet_thread);
+-	sample.tid = thread__tid(tidq->prev_packet_thread);
++	sample.pid = thread__pid(tidq->frontend_thread);
++	sample.tid = thread__tid(tidq->frontend_thread);
+ 	sample.addr = cs_etm__first_executed_instr(tidq->packet);
+ 	sample.id = etmq->etm->branches_id;
+ 	sample.stream_id = etmq->etm->branches_id;
+@@ -1658,8 +1694,7 @@ static int cs_etm__synth_branch_sample(struct cs_etm_queue *etmq,
+ 	sample.flags = tidq->prev_packet->flags;
+ 	sample.cpumode = event->sample.header.misc;
+ 
+-	cs_etm__copy_insn(etmq, tidq->trace_chan_id, tidq->prev_packet,
+-			  &sample);
++	cs_etm__copy_insn(etmq, tidq, tidq->prev_packet, &sample);
+ 
+ 	/*
+ 	 * perf report cannot handle events without a branch stack
+@@ -1783,7 +1818,6 @@ static int cs_etm__sample(struct cs_etm_queue *etmq,
+ {
+ 	struct cs_etm_auxtrace *etm = etmq->etm;
+ 	int ret;
+-	u8 trace_chan_id = tidq->trace_chan_id;
+ 	u64 instrs_prev;
+ 
+ 	/* Get instructions remainder from previous packet */
+@@ -1869,10 +1903,10 @@ static int cs_etm__sample(struct cs_etm_queue *etmq,
+ 			 * been executed, but PC has not advanced to next
+ 			 * instruction)
+ 			 */
+-			addr = cs_etm__instr_addr(etmq, trace_chan_id,
+-						  tidq->packet, offset - 1);
++			addr = cs_etm__instr_addr(etmq, tidq, tidq->packet,
++						  offset - 1);
+ 			ret = cs_etm__synth_instruction_sample(
+-				etmq, tidq, addr,
++				etmq, tidq, tidq->packet, addr,
+ 				etm->instructions_sample_period);
+ 			if (ret)
+ 				return ret;
+@@ -1954,7 +1988,7 @@ static int cs_etm__flush(struct cs_etm_queue *etmq,
+ 		addr = cs_etm__last_executed_instr(tidq->prev_packet);
+ 
+ 		err = cs_etm__synth_instruction_sample(
+-			etmq, tidq, addr,
++			etmq, tidq, tidq->prev_packet, addr,
+ 			tidq->period_instructions);
+ 		if (err)
+ 			return err;
+@@ -2009,7 +2043,7 @@ static int cs_etm__end_block(struct cs_etm_queue *etmq,
+ 		addr = cs_etm__last_executed_instr(tidq->prev_packet);
+ 
+ 		err = cs_etm__synth_instruction_sample(
+-			etmq, tidq, addr,
++			etmq, tidq, tidq->prev_packet, addr,
+ 			tidq->period_instructions);
+ 		if (err)
+ 			return err;
+@@ -2046,9 +2080,9 @@ static int cs_etm__get_data_block(struct cs_etm_queue *etmq)
+ 	return etmq->buf_len;
+ }
+ 
+-static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq, u8 trace_chan_id,
+-				 struct cs_etm_packet *packet,
+-				 u64 end_addr)
++static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq,
++				 struct cs_etm_traceid_queue *tidq,
++				 struct cs_etm_packet *packet, u64 end_addr)
+ {
+ 	/* Initialise to keep compiler happy */
+ 	u16 instr16 = 0;
+@@ -2070,8 +2104,8 @@ static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq, u8 trace_chan_id,
+ 		 * so below only read 2 bytes as instruction size for T32.
+ 		 */
+ 		addr = end_addr - 2;
+-		cs_etm__mem_access(etmq, trace_chan_id, addr, sizeof(instr16),
+-				   (u8 *)&instr16, 0);
++		cs_etm__frontend_mem_access(etmq, tidq, packet, addr,
++					    sizeof(instr16), (u8 *)&instr16);
+ 		if ((instr16 & 0xFF00) == 0xDF00)
+ 			return true;
+ 
+@@ -2086,8 +2120,8 @@ static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq, u8 trace_chan_id,
+ 		 * +---------+---------+-------------------------+
+ 		 */
+ 		addr = end_addr - 4;
+-		cs_etm__mem_access(etmq, trace_chan_id, addr, sizeof(instr32),
+-				   (u8 *)&instr32, 0);
++		cs_etm__frontend_mem_access(etmq, tidq, packet, addr,
++					    sizeof(instr32), (u8 *)&instr32);
+ 		if ((instr32 & 0x0F000000) == 0x0F000000 &&
+ 		    (instr32 & 0xF0000000) != 0xF0000000)
+ 			return true;
+@@ -2103,8 +2137,8 @@ static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq, u8 trace_chan_id,
+ 		 * +-----------------------+---------+-----------+
+ 		 */
+ 		addr = end_addr - 4;
+-		cs_etm__mem_access(etmq, trace_chan_id, addr, sizeof(instr32),
+-				   (u8 *)&instr32, 0);
++		cs_etm__frontend_mem_access(etmq, tidq, packet, addr,
++					    sizeof(instr32), (u8 *)&instr32);
+ 		if ((instr32 & 0xFFE0001F) == 0xd4000001)
+ 			return true;
+ 
+@@ -2120,7 +2154,6 @@ static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq, u8 trace_chan_id,
+ static bool cs_etm__is_syscall(struct cs_etm_queue *etmq,
+ 			       struct cs_etm_traceid_queue *tidq, u64 magic)
+ {
+-	u8 trace_chan_id = tidq->trace_chan_id;
+ 	struct cs_etm_packet *packet = tidq->packet;
+ 	struct cs_etm_packet *prev_packet = tidq->prev_packet;
+ 
+@@ -2135,7 +2168,7 @@ static bool cs_etm__is_syscall(struct cs_etm_queue *etmq,
+ 	 */
+ 	if (magic == __perf_cs_etmv4_magic) {
+ 		if (packet->exception_number == CS_ETMV4_EXC_CALL &&
+-		    cs_etm__is_svc_instr(etmq, trace_chan_id, prev_packet,
++		    cs_etm__is_svc_instr(etmq, tidq, prev_packet,
+ 					 prev_packet->end_addr))
+ 			return true;
+ 	}
+@@ -2173,7 +2206,6 @@ static bool cs_etm__is_sync_exception(struct cs_etm_queue *etmq,
+ 				      struct cs_etm_traceid_queue *tidq,
+ 				      u64 magic)
+ {
+-	u8 trace_chan_id = tidq->trace_chan_id;
+ 	struct cs_etm_packet *packet = tidq->packet;
+ 	struct cs_etm_packet *prev_packet = tidq->prev_packet;
+ 
+@@ -2199,7 +2231,7 @@ static bool cs_etm__is_sync_exception(struct cs_etm_queue *etmq,
+ 		 * (SMC, HVC) are taken as sync exceptions.
+ 		 */
+ 		if (packet->exception_number == CS_ETMV4_EXC_CALL &&
+-		    !cs_etm__is_svc_instr(etmq, trace_chan_id, prev_packet,
++		    !cs_etm__is_svc_instr(etmq, tidq, prev_packet,
+ 					  prev_packet->end_addr))
+ 			return true;
+ 
+@@ -2223,7 +2255,6 @@ static int cs_etm__set_sample_flags(struct cs_etm_queue *etmq,
+ {
+ 	struct cs_etm_packet *packet = tidq->packet;
+ 	struct cs_etm_packet *prev_packet = tidq->prev_packet;
+-	u8 trace_chan_id = tidq->trace_chan_id;
+ 	u64 magic;
+ 	int ret;
+ 
+@@ -2304,11 +2335,11 @@ static int cs_etm__set_sample_flags(struct cs_etm_queue *etmq,
+ 		if (prev_packet->flags == (PERF_IP_FLAG_BRANCH |
+ 					   PERF_IP_FLAG_RETURN |
+ 					   PERF_IP_FLAG_INTERRUPT) &&
+-		    cs_etm__is_svc_instr(etmq, trace_chan_id,
+-					 packet, packet->start_addr))
++		    cs_etm__is_svc_instr(etmq, tidq, packet, packet->start_addr)) {
+ 			prev_packet->flags = PERF_IP_FLAG_BRANCH |
+ 					     PERF_IP_FLAG_RETURN |
+ 					     PERF_IP_FLAG_SYSCALLRET;
++		}
+ 		break;
+ 	case CS_ETM_DISCONTINUITY:
+ 		/*
+@@ -2389,6 +2420,7 @@ static int cs_etm__set_sample_flags(struct cs_etm_queue *etmq,
+ 					     PERF_IP_FLAG_RETURN |
+ 					     PERF_IP_FLAG_INTERRUPT;
+ 		break;
++	case CS_ETM_CONTEXT:
+ 	case CS_ETM_EMPTY:
+ 	default:
+ 		break;
+@@ -2464,6 +2496,19 @@ static int cs_etm__process_traceid_queue(struct cs_etm_queue *etmq,
+ 			 */
+ 			cs_etm__sample(etmq, tidq);
+ 			break;
++		case CS_ETM_CONTEXT:
++			/*
++			 * Update context but don't swap packet. Keep the
++			 * previous one for branch source address info, if
++			 * tracing the kernel the context packet will be emitted
++			 * between two ranges.
++			 */
++			ret = cs_etm__etmq_update_thread(etmq, tidq->packet->el,
++							 tidq->packet->tid,
++							 &tidq->frontend_thread);
++			if (ret)
++				goto out;
++			break;
+ 		case CS_ETM_EXCEPTION:
+ 		case CS_ETM_EXCEPTION_RET:
+ 			/*
+@@ -2492,6 +2537,7 @@ static int cs_etm__process_traceid_queue(struct cs_etm_queue *etmq,
+ 		}
+ 	}
+ 
++out:
+ 	return ret;
+ }
+ 
+@@ -2615,7 +2661,7 @@ static int cs_etm__process_timeless_queues(struct cs_etm_auxtrace *etm,
+ 			if (!tidq)
+ 				continue;
+ 
+-			if (tid == -1 || thread__tid(tidq->thread) == tid)
++			if (tid == -1 || thread__tid(tidq->frontend_thread) == tid)
+ 				cs_etm__run_per_thread_timeless_decoder(etmq);
+ 		} else
+ 			cs_etm__run_per_cpu_timeless_decoder(etmq);
+@@ -3326,7 +3372,7 @@ static int cs_etm__create_queue_decoders(struct cs_etm_queue *etmq)
+ 	 */
+ 	if (cs_etm_decoder__add_mem_access_cb(etmq->decoder,
+ 					      0x0L, ((u64) -1L),
+-					      cs_etm__mem_access))
++					      cs_etm__decoder_mem_access))
+ 		goto out_free_decoder;
+ 
+ 	zfree(&t_params);
+diff --git a/tools/perf/util/cs-etm.h b/tools/perf/util/cs-etm.h
+index a8caeea720aa17..dfc9aeacfd0b62 100644
+--- a/tools/perf/util/cs-etm.h
++++ b/tools/perf/util/cs-etm.h
+@@ -158,6 +158,7 @@ enum cs_etm_sample_type {
+ 	CS_ETM_DISCONTINUITY,
+ 	CS_ETM_EXCEPTION,
+ 	CS_ETM_EXCEPTION_RET,
++	CS_ETM_CONTEXT,
+ };
+ 
+ enum cs_etm_isa {
+@@ -184,6 +185,8 @@ struct cs_etm_packet {
+ 	u8 last_instr_size;
+ 	u8 trace_chan_id;
+ 	int cpu;
++	int el;
++	pid_t tid;
+ };
+ 
+ #define CS_ETM_PACKET_MAX_BUFFER 1024
+@@ -244,8 +247,9 @@ enum cs_etm_pid_fmt {
+ #include <opencsd/ocsd_if_types.h>
+ int cs_etm__get_cpu(struct cs_etm_queue *etmq, u8 trace_chan_id, int *cpu);
+ enum cs_etm_pid_fmt cs_etm__get_pid_fmt(struct cs_etm_queue *etmq);
+-int cs_etm__etmq_set_tid_el(struct cs_etm_queue *etmq, pid_t tid,
+-			    u8 trace_chan_id, ocsd_ex_level el);
++int cs_etm__etmq_update_decode_context(struct cs_etm_queue *etmq,
++				       u8 trace_chan_id, ocsd_ex_level el,
++				       pid_t tid);
+ bool cs_etm__etmq_is_timeless(struct cs_etm_queue *etmq);
+ void cs_etm__etmq_set_traceid_queue_timestamp(struct cs_etm_queue *etmq,
+ 					      u8 trace_chan_id);
+-- 
+2.53.0
 
-> +static unsigned int get_num_cpus_steal_ratio(void)
-> +{
-> +	return num_possible_cpus();
-> +}
-> +
-> +/*
-> + * Take action to decrease preferred CPUs.
-> + *
 
-Drop this 'Take action' wording please.
 
-> + * Decrease the preferred CPUs by 1 core.
-> + * Take out the last core in the active & preferred.
-> + *
-> + * Must ensure
-> + * - least one housekeeping core is always kept as preferred
-
-s/least/at least/ ?
-
-> + * - preferred is always subset of active.
-> + */
-> +static void decrease_preferred_cpus(void)
-> +{
-> +	int tmp_cpu, first_hk_cpu, last_cpu;
-> +	const struct cpumask *first_hk_core;
-> +	int target_cpu = nr_cpu_ids;
-> +
-> +	guard(cpus_read_lock)();
-> +	first_hk_cpu = cpumask_first_and(housekeeping_cpumask(HK_TYPE_KERNEL_NOISE),
-> +					 cpu_preferred_mask);
-> +	if (first_hk_cpu >= nr_cpu_ids)
-> +		return;
-> +
-> +	last_cpu = cpumask_last(cpu_preferred_mask);
-> +
-> +	if (last_cpu >= nr_cpu_ids)
-> +		return;
-> +
-> +	/* Always leave first housekeeping core as preferred. */
-> +	first_hk_core = topology_sibling_cpumask(first_hk_cpu);
-> +
-> +	/* Find the last CPU which doesn't belong to that first hk_core. */
-> +	if (!cpumask_test_cpu(last_cpu, first_hk_core)) {
-> +		target_cpu = last_cpu;
-> +	} else {
-> +		for_each_cpu_andnot(tmp_cpu, cpu_preferred_mask, first_hk_core)
-> +			target_cpu = tmp_cpu;
-> +	}
-
-Too much local variables. You can drop those tmp_cpu, last_cpu and
-target_cpu, and just use a single variable 'cpu'. That would also
-simplify your logic:
-
-        cpu = cpumask_last(cpu_preferred_mask);
-        core = topology_sibling_cpumask(first_hk_cpu);
-
-        if (cpumask_test_cpu(cpu, core)) {
-                for_each_cpu_andnot(cpu, cpu_preferred_mask, core)
-                        /* nop */ ;
-        }
-
-        if (cpu >= nr_cpu_ids)
-                return;
-
-And so on.
-
-> +
-> +	/* Only the first housekeeping core remains */
-> +	if (target_cpu >= nr_cpu_ids)
-> +		return;
-> +
-> +	for_each_cpu_and(tmp_cpu, topology_sibling_cpumask(target_cpu),
-> +			 cpu_preferred_mask)
-> +		set_cpu_preferred(tmp_cpu, false);
-> +}
-> +
-> +/*
-> + * Take action to increase preferred CPUs.
-> + *
-
-Again, drop this 'take action' thing.
-
-> + * Increase the preferred CPUs by 1 core.
-> + * Add the first core in active & !preferred
-> + *
-> + * Must ensure preferred is subset of active.
-> + */
-> +static void increase_preferred_cpus(void)
-> +{
-> +	int first_cpu, tmp_cpu;
-> +
-> +	guard(cpus_read_lock)();
-> +	first_cpu = cpumask_first_andnot(cpu_active_mask, cpu_preferred_mask);
-> +
-> +	/* All CPUs are preferred. Nothing to increase further */
-> +	if (first_cpu >= nr_cpu_ids)
-> +		return;
-> +
-> +	for_each_cpu_and(tmp_cpu, topology_sibling_cpumask(first_cpu),
-> +			 cpu_active_mask)
-> +		set_cpu_preferred(tmp_cpu, true);
-> +}
-> +
-> +static void compute_preferred_cpus_work(struct work_struct *work)
-> +{
-> +	u64 curr_steal, delta_steal, delta_ns, steal_ratio;
-> +	ktime_t now;
-> +
-> +	now = ktime_get();
-> +	delta_ns = ktime_to_ns(ktime_sub(now, sg_core_ctx.time));
-> +
-> +	if (unlikely(delta_ns < NSEC_PER_MSEC)) {
-> +		pr_err_ratelimited("steal_governor: work scheduled too soon delta_ns: %llu\n",
-> +				   delta_ns);
-> +		goto requeue_work;
-> +	}
-> +
-> +	curr_steal = get_system_steal_time();
-> +	delta_steal = curr_steal > sg_core_ctx.steal ?
-> +		      curr_steal - sg_core_ctx.steal : 0;
-> +
-> +	/* Update for next calculation */
-> +	sg_core_ctx.steal = curr_steal;
-> +	sg_core_ctx.time = now;
-> +
-> +	/*
-> +	 * steal_ratio = (delta_steal * 100*100)/(delta_ns * num_cpus())
-> +	 * To avoid possible overflow, divide the denominator early.
-> +	 * Note minimum interval is 100ms.
-> +	 */
-> +	delta_ns = max_t(u64, div_u64(delta_ns * get_num_cpus_steal_ratio(),
-> +				      100 * 100), 1);
-> +	steal_ratio = div64_u64(delta_steal, delta_ns);
-> +
-> +	if (steal_ratio > sg_core_ctx.high_threshold)
-> +		decrease_preferred_cpus();
-> +	if (steal_ratio <= sg_core_ctx.low_threshold)
-> +		increase_preferred_cpus();
-
-If you neither increase, nor decrease, you don't need to check the mask
-because you know you don't modify it. Also, I'd wrap the below integrity
-checks into a helper function.
-
-	if (steal_ratio > sg_core_ctx.high_threshold)
-		decrease_preferred_cpus();
-	else if (steal_ratio <= sg_core_ctx.low_threshold)
-		increase_preferred_cpus();
-        else
-                goto requeue_work;
-
-        if (check_integrity())
-                return;
-
-> +	/* maintain design constructs always */
-> +	if (cpumask_empty(cpu_preferred_mask)) {
-> +		pr_err("empty preferred mask. stop steal governor\n");
-> +		restore_preferred_to_active();
-> +		return;
-> +	}
-> +
-> +	if (!cpumask_subset(cpu_preferred_mask, cpu_active_mask)) {
-> +		pr_err("preferred: %*pbl is not subset of active: %*pbl, stop steal governor\n",
-> +		       cpumask_pr_args(cpu_preferred_mask),
-> +		       cpumask_pr_args(cpu_active_mask));
-> +		restore_preferred_to_active();
-> +		return;
-> +	}
-> +
-> +requeue_work:
-> +	/* Trigger for next sampling */
-
-The lablel above is pretty explaining to me. The comment just
-duplicates it. Maybe drop the comment?
-
-> +	schedule_delayed_work(&sg_core_ctx.work,
-> +			      msecs_to_jiffies(sg_core_ctx.interval_ms));
-
-If you need jiffies, why don't you have them in the structure, instead of
-milliseconds?
-
-	schedule_delayed_work(&sg_core_ctx.work, sg_core_ctx.delay);
-
-> +}
-> +
->  static int __init steal_governor_init(void)
->  {
->  	if (sg_core_ctx.low_threshold >= sg_core_ctx.high_threshold) {
-> @@ -100,11 +252,19 @@ static int __init steal_governor_init(void)
->  	pr_info("steal_governor is enabled. interval: %ums, high_threshold: %u, low_threshold: %u\n",
->  		sg_core_ctx.interval_ms, sg_core_ctx.high_threshold, sg_core_ctx.low_threshold);
->  
-> +	INIT_DELAYED_WORK(&sg_core_ctx.work, compute_preferred_cpus_work);
-> +	sg_core_ctx.steal = get_system_steal_time();
-> +	sg_core_ctx.time = ktime_get();
-> +
-> +	schedule_delayed_work(&sg_core_ctx.work,
-> +			      msecs_to_jiffies(sg_core_ctx.interval_ms));
-> +
->  	return 0;
->  }
->  
->  static void __exit steal_governor_exit(void)
->  {
-> +	disable_delayed_work_sync(&sg_core_ctx.work);
->  	restore_preferred_to_active();
->  	pr_info("steal_governor is disabled\n");
->  }
-> diff --git a/drivers/virt/steal_governor/core.h b/drivers/virt/steal_governor/core.h
-> index e27305284ac0..59329c1d7109 100644
-> --- a/drivers/virt/steal_governor/core.h
-> +++ b/drivers/virt/steal_governor/core.h
-> @@ -12,6 +12,11 @@
->  #include <linux/workqueue.h>
->  #include <linux/ktime.h>
->  #include <linux/kconfig.h>
-> +#include <linux/kernel_stat.h>
-> +#include <linux/topology.h>
-> +#include <linux/sched/isolation.h>
-> +#include <linux/cleanup.h>
-> +#include <linux/math64.h>
->  
->  struct steal_governor {
->  	struct delayed_work	work;
-> -- 
-> 2.47.3
