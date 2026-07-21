@@ -1,197 +1,139 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3570415F02
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 18:20:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF0846C4D0
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 18:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784658030; cv=none; b=AiHNu3SLLW9kjiN/qybvUDplHGTncOrQDxgs2yvucIwgNiqW7ulGNmX6WjidssfuLYWMYj1AYnSysh99hhc27G39E+qz2q/xzW9ZMynrw+RElflqzkTbP+r+hVeilbAqwiZbYN+uSUTAM7sQMC95rttoiXBMR1zOxR9Mu23Yjq4=
+	t=1784658253; cv=none; b=JIc715MpejuFjm3v8HMZKP4TOjELlSz+JnmXIfLdthyuwLCE/7qYujIF7ptCz2z4TV3FtY/aKi2B8qxKBoZ3JUl0pl/jIm4TfXvI4M4wyO+0P20teypd0r8sGo1WK4pu+k5dzm1CYW99xYslADZYC/hDsgknVlaUgO0yAqRr1dE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784658030; c=relaxed/simple;
-	bh=9I8SuSEzPUmQkXgAoO8qB39k16yQ61FTlzIkj3Jiy8U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=It6L2158sxQzhDTIjriemkHJiyDg5mu3qIxhfBLNlGzrmwzZffhDhWR1VDkeq06UzA67jrgKlnaifxXJfhihyPhwVRVEpk74T7En12ufv19HC+ImH6picNf7wzPudy41eaolD3xQL5VtRhf/NP5B2v7LCpbGxI6M+9fuJjMavcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FJj05R2s; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IeRmYYGt; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1784658253; c=relaxed/simple;
+	bh=SZS4vrqaL+vnrrQt0MkPNv7usniW4HDi8BZyvpJS1NA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IzGM49cAppXgnb/q0hXJdp+bG1jiaQfQ4Lml92L6r4MODBX2QT/sqayG8TFZZerY3ru0xs9eYUkj80rhuOpoCoKInEgUKZgbw+sBkq/NkcrZKMg2G9e3IBVP3NcInmd9cP+gq9Vz1ArMnjN6wb7I6T8I5SSQ9OPBSTgFsZAk+io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B5XvVBoZ; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FJj05R2s";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IeRmYYGt"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66LH2gMa2418301
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 18:20:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	fc5hVouaXSdYpjHELQxCbl6GfmZ4wxwxC4HC57BPPkk=; b=FJj05R2svGpfrQnX
-	c4tc7mBvFM9B4aQNDUteAR7It2s6TbFcwp6eeV+GQ+dxnRwu7id/oQFmugx1iFfs
-	M96r+iZL1B8zDG38y5RvigS6wes1uF5nrMDq9xvpt9tClke6yOW2xFyw2WQEGowt
-	2VBHXx74dRPKyUeIHBYPKWuhnxXVmob39F36XTu+qx8nS925V1A97i0O2jkILy9u
-	Gikiv0FdE4LRx3Oj/+qL3AdcN4Zz+q7VdyxB+vXn/A0auBxFvkqYS3CIg15tk47q
-	z4c23L3sCtCMvuDTX/KJOah7FDg4OHwR7jPQDJbTdhxPtoNYVPJYr0SgYzF5UXqQ
-	OExG+w==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fj9bs9jaw-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 18:20:28 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2ca5d2474c7so212921475ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 11:20:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B5XvVBoZ"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-38d489b6b71so11006578a91.0
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 11:24:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784658028; x=1785262828; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fc5hVouaXSdYpjHELQxCbl6GfmZ4wxwxC4HC57BPPkk=;
-        b=IeRmYYGtxW6HjkSbKsjC/0OHYZnVjN7zFd3Ntp3NWP3MN84/Vt1JAHf20foS+eXpPZ
-         QuEg0mznMb6YbOzdXI5YyU7amROZA62U2VsHsk1cjo2dWxB2YjkeV89HVIKmmT4CUQ+f
-         Ov9/hG1ndQ0PUXN9V9YPIS8SuAPf7lDq3JcRZFOMrRVVfFagqCQgbEltkDLJQ+Zwq0AA
-         ztc2TvTrYQOGY6QHJBaZcKk/3XNKujoQGRpxfHpxxmKc6Zd+5da0t+cGUNApRPK9b+Qq
-         SQqE19+G8WjB/eAtl3qU+IUQoY7WPBmuJCjZ6K7lCCrDlugfTIQKkNXXduOZtEdf06Ks
-         ORwA==
+        d=gmail.com; s=20251104; t=1784658252; x=1785263052; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kPAByUFNjXARQRVB7YGyFb7Dt669+QjeYcGeM1abPys=;
+        b=B5XvVBoZ+9bnklGRFdQ9zXHoVNSpCqgwh83zmMgd65crjf1jbiOsYmdjbDkiWKLwlI
+         k5WUJ4jLrYqzNkjHJvoK5vTW2Hqt/glpD7RfSeMjuUNgy81IbYflvZYV5EXbIZHV9/Nv
+         5Kth6GNIsHK09t7lor/P2kbVw9YOxyz8o34Bai0I8gtlUq0ONz+JJNduHNU8XnhHpkHy
+         2LfgLt9WDA2kGqrI8M1OxEUQoDeHKddCwuAbykPadiweQ/53sws8uG0jl69y5hmdlfpL
+         X/91NztWiTEIs9dXyBtoaMGJ1bugRDMbVUjoCVwMEcQnXYxC9CskDVIQO4QNha0F0Gj3
+         Eqxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784658028; x=1785262828;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fc5hVouaXSdYpjHELQxCbl6GfmZ4wxwxC4HC57BPPkk=;
-        b=hyDHEMt7+jywc2ux2z2ijIA2k1B39Rr26vFrmascLChGEar009htpPaz1nU7SzaKks
-         cEPGL/fAZRta6a89xYxRAZ0OrYmxAQzvBeuuE/hx6MvXUbywyBtW9jkCrXfEysIloPNU
-         xrPUSdXSfUIN8paOu+4oUV4zImvN4NAf3HiI810xRckCmr/ZQ2Pkdqs3ZlaMWukMf/yX
-         biJaYAHMohOBamxo8VcjsqMAWygI2TuJPnXx0NJZDAmoFym1KnuX4MVnUwR5zyy7TCO1
-         TuQDFqyU86EgIfelnJ4tWgp9F6h83Tl53RLMClbX85f7mY+0AscXfH/EDvczwJcJSr+n
-         RgKw==
-X-Forwarded-Encrypted: i=1; AHgh+RqRHPxnxuCH0gyfNJe9Ne8OCsOyqpytQ3D3jhR3C0FSD6k7lYxQ3WjUFwnVa/8emimzICqZ3fnU5mw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdB6RGA0RiYzJhVGMWmqWdb0FM9ugvNLhyBv5+KdvpF615G5eE
-	FZbegX03jptAwo8qdRoHSM4PVN3Dzoyi2iu5ZFC/ckSulDg5a4Cov5Y+chBMWRRJ379FKGaO5pI
-	dwSwlh050Up0cXaEohf7/CVQgRZBAR0nh0hQuAop8dIbuAdMrQriDyE/mIVQSiEY=
-X-Gm-Gg: AR+sD10mLZrrgHvvd0e22SFd3358+nEFx0axQA7QjQSAJqnW5QDq3r9ZROnaiG4F2+E
-	qBbkTJQup6gIqACLE9otWEeSVJqeHmiud6P9ObpReudoKkHhaB8tTVCR8IBtxFjGb9Xh4cdsq+5
-	J7vHvSna0uprGC71+yGeSuqGokAV5vFmzJ1xZ3KElAPUZKfYAmCEsTu1ibiRL+Ra3cEt481qkxL
-	uH9/zCMp04VaYpY4n88wMRqoVNf6SHYfxdDmAPKzTO6eOTAjQn+NJ7SlboIDXuVNR6F/+HLLI5E
-	31B510OQLeP+Qmx2irxcv54ZWVzXkoJvQgyQ/gax2iovBdaL6L9p0MeWJFhT3O2kTZDkoOzJUCC
-	fsXxpj+Y8u+AMRpkwa43aYui7j+GGVvQH6is=
-X-Received: by 2002:a05:6a21:7008:b0:3c0:9c1b:d0b5 with SMTP id adf61e73a8af0-3c3ad9a4de9mr22508051637.64.1784658027483;
-        Tue, 21 Jul 2026 11:20:27 -0700 (PDT)
-X-Received: by 2002:a05:6a21:7008:b0:3c0:9c1b:d0b5 with SMTP id adf61e73a8af0-3c3ad9a4de9mr22508005637.64.1784658026958;
-        Tue, 21 Jul 2026 11:20:26 -0700 (PDT)
-Received: from [192.168.1.8] ([106.222.235.145])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147e07000fsm2341770eec.21.2026.07.21.11.20.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jul 2026 11:20:26 -0700 (PDT)
-Message-ID: <773715fd-823f-4564-ba42-c60bc8284b45@oss.qualcomm.com>
-Date: Tue, 21 Jul 2026 23:50:05 +0530
+        d=1e100.net; s=20251104; t=1784658252; x=1785263052;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kPAByUFNjXARQRVB7YGyFb7Dt669+QjeYcGeM1abPys=;
+        b=MjF6Ugi68m+6htCHOqc8je32bBbfGdVtW0GfQEZlMm5mHgbiau9+NOL7r0Tn4Pv7Yy
+         QKwKlIG9KnngN4ayuru3kGIsVPOG1plVuMJFxlVsU3qeoPW6WlfltvXkWzWg5VctZQWe
+         6I4gumcbs4Z0RF5+aGiaInIz0cbnrhw4/61YY4LXsK8FqNekFlkavwj4kXwNTC9rBbIT
+         JoR1W3iH9xhuLwfWMYozTr2VpoLwVb8gQK4XsXo+5MdBKXOZqbIGKXyICT+FxgizFOCn
+         9hY5ITBNZkb3ZR+ZOu9tMhZYq/D762MIANBHy+yJMCUzcU2YMAub48K1XzbHCtKI0v8M
+         n83g==
+X-Forwarded-Encrypted: i=1; AHgh+RpG1j//f915A14A82iB01LBbkYDZnBsJ0HxaxJEbItEWQ/l0U0jvitd133mb/vAJ/09zmeDMpAUeTE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuD7QJMEI4kC8baljOg9lNpBf35Bqy+dHtMohzaqq5nlEKHvJz
+	kcnK2VgTQYpXTQPKCdQxsEdEZQS6nsPU7uvFuD214v2BqE2iFJCvkSNa
+X-Gm-Gg: AR+sD11eeAlVD07TPvr+6gSNZ2a2BKB2qrU9XxmSpO3sNxaG5nbKwYi6a5AS9LEnBQK
+	tbx/gqm9JXNiNrK3L38N0uzsdNtwNnaHjlB5wanUiEyxv4NYU18LYaiFTWlkZBVPExw8eA7Y7dM
+	FX69qhf/aSN5i7dWlArfBHls6kAqKHjLxcTrDWwQLA2tS3ggw7VDnu9EPX0H/K6hYHf6c2iGGdL
+	WIXI5L3eY9mkzi+AWzdJnICiLsR37ESYQZt1yD8x3GkMILhVI1qlW+WTZwyi71r/BsFKess3C3/
+	mZNQ5LzWNyfGNKmEVx5v64RPe39jVRdIpmWK7butkj9P+ZYqLZ4XtYFHEunaqW7H6bcUukCC6HQ
+	mQ2ttJnOFrh024kiVhB6sYEGbVNn8yFdp8B/58F4WTjZhm9S+iaK61PgBDxpbCi/4vsta+IDFMm
+	DVOg==
+X-Received: by 2002:a17:90a:c104:b0:38e:679f:3b2a with SMTP id 98e67ed59e1d1-38e679f4dc9mr9940872a91.30.1784658251458;
+        Tue, 21 Jul 2026 11:24:11 -0700 (PDT)
+Received: from google.com ([118.150.148.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e92396445sm2047911a91.17.2026.07.21.11.24.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2026 11:24:10 -0700 (PDT)
+Date: Wed, 22 Jul 2026 02:24:05 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: Jyun-An Chen <jun930436@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"open list:MIN HEAP" <linux-kernel@vger.kernel.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2] Documentation/core-api: min_heap: remove undocumented
+ min_heap_empty()
+Message-ID: <al-5RcMAtUMGmSU0@google.com>
+References: <20260721180127.132730-1-jun930436@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v23 12/14] crypto: qce - Map crypto memory for DMA
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-        Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Thara Gopinath <thara.gopinath@gmail.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Udit Tiwari <quic_utiwari@quicinc.com>,
-        Md Sadre Alam <mdalam@qti.qualcomm.com>,
-        Dmitry Baryshkov
- <lumag@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Stephan Gerhold <stephan.gerhold@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
-        Andy Gross <agross@codeaurora.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>
-Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        brgl@kernel.org, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-References: <20260721-qcom-qce-cmd-descr-v23-0-1be02deffda9@oss.qualcomm.com>
- <20260721-qcom-qce-cmd-descr-v23-12-1be02deffda9@oss.qualcomm.com>
-Content-Language: en-US
-From: Mukesh Savaliya <mukesh.savaliya@oss.qualcomm.com>
-In-Reply-To: <20260721-qcom-qce-cmd-descr-v23-12-1be02deffda9@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: jed5Xzt1zPIKcwJGTzaN5FYFryK1evFL
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIxMDE5MiBTYWx0ZWRfX1QeI/e38RuBs
- VvRv44Be+MT3+XLmIGmFo0pFa2Jsy2mRCp0PURWMBZc1FQh7PpLJmrKak9ZavFthB0ea9zv+aGP
- 23bug4/nlkXV6pMtzC6XiEDjfIfWkPe/M/w0/bwm2rEFsRiO+atmgCiuFJeB+V+3Mq36AQOI/Wy
- px8jAO9oajYKgxSyLydarxSZ87X1EhrMXEkfYv7FDskoKicdRUDeq6bVWb5Vvwet4gGJF9SD0QF
- sZQMOxajt42b0P/Ud0Xgg9gR4uUWmaZ1+3iYvvyz72i5FPgwzQFN+qSUCHjSmj76wQ6d8Cc7MdD
- ROaprXMTKpw/2X2EuNDJuproAgNBb/9NYQMYfMkPtuPi51eSa8q1OAzD5yB1b6pu8au5PErGy4b
- z7EkntaccKGH+4icwJSjvtnanTwleUOdcK/p/PcSTc5TvGeuVn0ra8C7sFZTfShhSgvtQNbBUIt
- o5/8YKjdl4jKVmZ/lJg==
-X-Proofpoint-GUID: jed5Xzt1zPIKcwJGTzaN5FYFryK1evFL
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIxMDE5MiBTYWx0ZWRfX8lXaFG6lCUh9
- zNTLZKMmh5Hq0dxtPOOZjpCC0ILE8CcsFOfGKC6XC5ijKhkdSxtCe3bobtUrVlAbG/+I7zhZpDI
- 3uMqrbBzyDVpmO+yHi+4AD9exmGUzaQ=
-X-Authority-Analysis: v=2.4 cv=QK1YgALL c=1 sm=1 tr=0 ts=6a5fb86c cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=nYgDJefOb7ZtON2RxEtQrg==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=KKAkSRfTAAAA:8 a=DV7x2YVLp9Y0dp68W6cA:9 a=QEXdDO2ut3YA:10
- a=324X-CrmTo6CU4MGRt3R:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-21_03,2026-07-21_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 phishscore=0 impostorscore=0 bulkscore=0
- suspectscore=0 clxscore=1015 adultscore=0 lowpriorityscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607210192
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260721180127.132730-1-jun930436@gmail.com>
 
+Hi Jyun-An,
 
+On Tue, Jul 21, 2026 at 06:01:26PM +0000, Jyun-An Chen wrote:
+> min_heap_empty()/min_heap_empty_inline() are documented as part of
+> the Min Heap API, but no such functions or macros exist in
+> include/linux/min_heap.h or lib/min_heap.c. Remove the stale
+> description instead of adding unused API surface.
+> 
+> Signed-off-by: Jyun-An Chen <jun930436@gmail.com>
 
-On 7/21/2026 7:03 PM, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+One minor nit: the subject line says "remove undocumented", but it
+actually removes a documented function.
 
-[...]
+With fixing subject line:
 
->   static int qce_crypto_probe(struct platform_device *pdev)
->   {
->   	struct device *dev = &pdev->dev;
->   	struct qce_device *qce;
-> +	struct resource *res;
->   	int ret;
->   
->   	qce = devm_kzalloc(dev, sizeof(*qce), GFP_KERNEL);
-> @@ -204,7 +213,7 @@ static int qce_crypto_probe(struct platform_device *pdev)
->   	qce->dev = dev;
->   	platform_set_drvdata(pdev, qce);
->   
-> -	qce->base = devm_platform_ioremap_resource(pdev, 0);
-> +	qce->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
->   	if (IS_ERR(qce->base))
-Would you like to add any debug/error log ?
->   		return PTR_ERR(qce->base);
->   
-> @@ -254,6 +263,18 @@ static int qce_crypto_probe(struct platform_device *pdev)
->   	qce->async_req_enqueue = qce_async_request_enqueue;
->   	qce->async_req_done = qce_async_request_done;
->   
-> +	qce->dma_size = resource_size(res);
-> +	qce->base_dma = dma_map_resource(dev, res->start, qce->dma_size,
-> +					 DMA_BIDIRECTIONAL, 0);
-> +	qce->base_phys = res->start;
-> +	ret = dma_mapping_error(dev, qce->base_dma);
-> +	if (ret)
-Would you like to add any debug/error log ?
-> +		return ret;
-> +
-> +	ret = devm_add_action_or_reset(qce->dev, qce_crypto_unmap_dma, qce);
-> +	if (ret)
-same here
-> +		return ret;
-> +
->   	return devm_qce_register_algs(qce);
->   }
->   
+Acked-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 
-[...]
+Regards,
+Kuan-Wei
 
+> ---
+> Changes since v1:
+> - Per Kuan-Wei's review, dropped the min_heap_empty()/min_heap_empty_inline()
+>   implementation (unused API with no in-tree callers) and instead just
+>   removed the stale documentation for it.
+> - Signed-off-by now uses real name instead of GitHub handle.
+> 
+>  Documentation/core-api/min_heap.rst | 13 -------------
+>  1 file changed, 13 deletions(-)
+> 
+> diff --git a/Documentation/core-api/min_heap.rst b/Documentation/core-api/min_heap.rst
+> index 9f57766581df..919dcf1bdec7 100644
+> --- a/Documentation/core-api/min_heap.rst
+> +++ b/Documentation/core-api/min_heap.rst
+> @@ -240,19 +240,6 @@ This macro returns `true` if the heap is full, otherwise `false`.
+>  
+>  **Inline Version:** min_heap_full_inline(heap)
+>  
+> -- **min_heap_empty(heap)**: Checks whether the heap is empty.
+> -  Complexity: **O(1)**.
+> -
+> -.. code-block:: c
+> -
+> -    bool empty = min_heap_empty(heap);
+> -
+> -- `heap`: A pointer to the min-heap to check.
+> -
+> -This macro returns `true` if the heap is empty, otherwise `false`.
+> -
+> -**Inline Version:** min_heap_empty_inline(heap)
+> -
+>  Example Usage
+>  =============
+>  
+> -- 
+> 2.43.0
+> 
