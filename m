@@ -1,164 +1,341 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0EB48C408
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 12:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8EBA446838
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 12:11:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784635578; cv=none; b=GKQCIoPli00OHdtuEFs8Lf+HSB7aMANvQ2WZHXkLRtefeFRpS1v3KA8qRrLEm/JWlzL85UivOV4Gsyz06zvmuvqMhYXDxHAyRORJ1w8X0ajmmiTZPvEqObd1Pt8GMZ1N3tWhKWip1WuLediB57GsE/ZzB2V8kTjETIpFMx2BnJc=
+	t=1784635918; cv=none; b=RV9Qoe8G84Vz3wlwrAAaXlnQlpWEreRJOzD4cgQjE4ALAhROqvAAeRxwKjm8gufqPN5xG9KxheK6eSjstDFrJUrcCbvNXbbkoXDQOXVgcaGH3AoDStXSGYXS1QB48LK8faYeOysdXL3Jo2o2GBIZEYomT/iCjFPMyOdcm6YOtLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784635578; c=relaxed/simple;
-	bh=3oupU7+5mQICPbOMW24bukRFFTm81wEOBpej2miz2tE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hz4UkaCtdriE3G/dve9HaaqENjZjaLjR30hc4Fc09Z5NsSQntootcmjSmXjKPoFohzW/7bWir8Yo35lJnLGNJJFfjyKRfU7/S1GFBqHB4rb9+LXZsWCSSA61yHI/UNHQsSkJiQuOqfaL9+ZCucxvRCNfKy6FW6nepGhhL/KlWng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eZwE3YxB; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1784635918; c=relaxed/simple;
+	bh=+zHZ5PzmKghukeL8+eHAp5DwJnZO9BWn/3DAJ9VXlpg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=eR+fuzTpoxp52RDvWjvtsM2ioY3bdsX8uR8DzJiCdIJDUhtER7TqvIX18rd++YaKfSZVTbGqTYnv/8V9EXzFjgJNg0JzixakzIKVQFjaeexDab2NlycTR7/8kFxvjN68TuTB+FXJQn8Rd/XYW7Y9zrTEzLdsM4nkOpihG15purU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Jv4X/mtn; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eZwE3YxB"
-Date: Tue, 21 Jul 2026 20:05:49 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784635564;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A7dYAlxy/AmMUyH+MlvfhyBiS8Q0C6HxH/Mauukj/gQ=;
-	b=eZwE3YxBH34e9tRiCPggwYdYaOw6NhkKu6BTNStYMe942ZxlIFt9cE8RPfN+rNf2WBfllB
-	dRtZZhVUmLMxoo5O5g9KDUWfGfoIsGLousnSIDCtVH38WaSJPywwXrv5D8cF+wN4+r7uBQ
-	iKjh+SXv0L25Chs5leSM8+RdGynHSSE=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Baoquan He <baoquan.he@linux.dev>
-To: Omar Sandoval <osandov@osandov.com>
-Cc: Mike Rapoport <rppt@kernel.org>, Pnina Feder <pnina.feder@mobileye.com>,
-	Simon Horman <horms@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Dave Young <ruirui.yang@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, Alexandre Ghiti <alex@ghiti.fr>,
-	kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-debuggers@vger.kernel.org
-Subject: Re: [PATCH 0/4] vmcore-tasks: export per-task metadata to vmcoreinfo
-Message-ID: <al9gnbT5S0ALDieg@MiWiFi-R3L-srv>
-References: <20260622211430.4008899-1-pnina.feder@mobileye.com>
- <akybBoCAm-kJbfHL@kernel.org>
- <20260720091927.GA1736709@horms.kernel.org>
- <al4X300UObXawEIJ@kernel.org>
- <al4yeHrkDHFoo6A0@MiWiFi-R3L-srv>
- <al5cbYMD18UbKe-6@telecaster>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Jv4X/mtn"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 1B3DB4E40E9D;
+	Tue, 21 Jul 2026 12:11:54 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id DCFED60368;
+	Tue, 21 Jul 2026 12:11:53 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DE78611BD2234;
+	Tue, 21 Jul 2026 14:11:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1784635912; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=T1tYZTvpzDvMK4rw9RmHIPrKZF4dWTXEwTZdv2ZLscA=;
+	b=Jv4X/mtnG7ibsnjwuVog6xUsw2C2LLw8vMlCYMtddRjJxKg5d/8X4erodSaK6ZBPsUE51t
+	oZA9WjaUHsPcC7xPM4imRle0MBbvRL2bUSSO+gCXF53DJfX7z544eH6bfa5MWjwJ/6zjAh
+	5jz9TNSNbc9tXtraR3ZXCvRimlavknv/j4g0iaBfsYhorhnxoWLQ5+81McFN6IdXmVzLSq
+	ka0nTCmfwP9q2lyxQpJtep/zEIkZ3zvTPZFlkzgs8ZypzDW3efnxxC3EgQ0QjhdyNz6bmL
+	FReKKqSb0bfp5VZcmt/FB0ExnV+xJZVktmpEuwAAQ6U45hT1iEG57yekwVU2cQ==
+Message-ID: <d9ffe027-c3de-4b96-949b-8e9dd4e53dd1@bootlin.com>
+Date: Tue, 21 Jul 2026 14:11:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <al5cbYMD18UbKe-6@telecaster>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 06/12] net: Document PCS subsystem
+To: Christian Marangi <ansuelsmth@gmail.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Saravana Kannan <saravanak@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+References: <20260717065448.1498335-1-ansuelsmth@gmail.com>
+ <20260717065448.1498335-7-ansuelsmth@gmail.com>
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Content-Language: en-US
+In-Reply-To: <20260717065448.1498335-7-ansuelsmth@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 07/20/26 at 10:35am, Omar Sandoval wrote:
-> On Mon, Jul 20, 2026 at 10:40:43PM +0800, Baoquan He wrote:
-> > On 07/20/26 at 03:43pm, Mike Rapoport wrote:
-> > > Hi Simon,
-> > > 
-> > > On Mon, Jul 20, 2026 at 10:19:27AM +0100, Simon Horman wrote:
-> > > > On Tue, Jul 07, 2026 at 09:21:58AM +0300, Mike Rapoport wrote:
-> > > > > On Tue, Jun 23, 2026 at 12:14:26AM +0300, Pnina Feder wrote:
-> > > > > > This series extends vmcoreinfo with struct offsets and sizes needed by
-> > > > > > the vmcore-tasks userspace tool to extract per-task state from a vmcore
-> > > > > > dump without requiring kernel debug symbols (DWARF/BTF).
-> > > > > > 
-> > > > > > The vmcore-tasks tool reads /proc/vmcore (or a saved vmcore file) and
-> > > > > > reconstructs, for each task:
-> > > > > >   - task name, pid, state, flags
-> > > > > >   - VMA list (start, end, flags, backing file)
-> > > > > >   - user register state (saved on the kernel stack at kernel entry)
-> > > > > >   - user-space backtrace with VMA/filename mapping
-> > > > > >   - kernel dmesg buffer
-> > > > > > 
-> > > > > > This provides a lightweight post-mortem crash analysis capability for
-> > > > > > production environments where full debug info (DWARF/BTF) is not
-> > > > > > available.
-> > > > > > 
-> > > > > > The companion userspace tool is submitted to kexec-tools:
-> > > > > >   https://lore.kernel.org/all/20260622205550.1087163-1-pnina.feder@mobileye.com/
-> > > > > 
-> > > > > Sorry for the delay, this fell between the cracks somehow.
-> > > > > 
-> > > > > The kernel side looks fine overall, but to merge it there should be an
-> > > > > agreement from the userspace side maintainers that vmcore-tasks is
-> > > > > something they are wishing to accept.
-> > > > 
-> > > > Hi Mike, all,
-> > > > 
-> > > > Sorry for the extended delay.
-> > > > 
-> > > > I will send some minor feedback to the user-space tool patchset
-> > > > but overall, yes, this is something I would be happy to accept.
-> > > > 
-> > > > I don't want to create a chicken-and-egg type problem here.
-> > > > But it's probably worth mentioning that usually features
-> > > > hit the kernel before the corresponding code is accepted
-> > > > into kexec-tools.
-> > > 
-> > > Sorry if I wasn't clear. 
-> > > 
-> > > I didn't mean that the feature should be merged into kexec-tools before
-> > > merging the kernel bits. I just wanted to make sure there's no fundamental
-> > > issue from kexec-tools perspective.
-> > > 
-> > > > Let me know how you would like to proceed.
-> > > 
-> > > I'm going to wait for Baoquan's review and once that's done I'll pick up
-> > > the kernel bits.
-> > 
-> > Oh, sorry, I just noticed this series, but a quick look give me a hint
-> > of 'No, I don't like it.' We have had Crash utility, Drgn, now a new one
-> > comes up. I have some concerns to Pnina:
-> > 
-> > 1. Exporting maple tree internals (maple_node, maple_range_64,
-> >    maple_arange_64, maple_metadata) as vmcoreinfo ABI is problematic.
-> >    These are private implementation details, not stable structures like
-> >    task_struct. Any refactoring of the maple tree will silently break
-> >    the userspace tool. 
-> > 
-> > 2. Without DWARF/BTF, the debugging scope is inherently limited — no
-> >    kernel stack backtrace, no symbol resolution, no variable access.
-> >    That's essentially "ps + /proc/PID/maps" from a vmcore. Have you
-> >    considered enabling CONFIG_DEBUG_INFO_BTF on your platforms instead?
-> >    BTF is compact (typically < 1 MB) and would give drgn full access
-> >    without needing vmlinux debug packages. That seems like a better
-> >    return-on-investment than maintaining ~40 new vmcoreinfo exports.
-> > 
-> > 3. Beyond the technical concerns, I wonder about adoption. vmcore-tasks
-> >    targets a fairly narrow use case — platforms without DWARF/BTF, where
-> >    you still have vmcore but can't ship vmlinux. Is Mobileye currently
-> >    the only consumer? Are you guys already using it widely and fully?
-> >    If this lands but doesn't see broader uptake, the ~40 exports risk
-> >    becoming dead weight in vmcoreinfo — nobody actively uses them, but
-> >    kernel changes still need to keep them consistent, or they silently
-> >    rot and give users wrong results. 
-> > 
-> > Regards,
-> > Baoquan
-> 
-> (Adding linux-debuggers mailing list).
-> 
-> I agree with all of Baoquan's points here, with a couple of notes:
-> 
-> 1. drgn's BTF support is currently a work in progress, but it's shaping
->    up well: https://github.com/osandov/drgn/pull/625.
-> 2. makedumpfile is also gaining BTF extension support:
->    https://lore.kernel.org/all/20260617051834.95404-1-ltao@redhat.com/.
->    It's lighter-weight than drgn while still being much more general
->    than this series.
 
-Thanks for adding the information, very helpful.
+
+On 7/17/26 08:54, Christian Marangi wrote:
+> Add extensive documentation of the new PCS subsystem and the fwnode
+> implementation with producer/consumer API.
+> 
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> ---
+>  Documentation/networking/index.rst |   1 +
+>  Documentation/networking/pcs.rst   | 229 +++++++++++++++++++++++++++++
+>  2 files changed, 230 insertions(+)
+>  create mode 100644 Documentation/networking/pcs.rst
+> 
+> diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+> index 44a422ad3b05..3fce8f6ac089 100644
+> --- a/Documentation/networking/index.rst
+> +++ b/Documentation/networking/index.rst
+> @@ -28,6 +28,7 @@ Contents:
+>     net_failover
+>     page_pool
+>     phy
+> +   pcs
+>     sfp-phylink
+>     alias
+>     bridge
+> diff --git a/Documentation/networking/pcs.rst b/Documentation/networking/pcs.rst
+> new file mode 100644
+> index 000000000000..98592cdee3ef
+> --- /dev/null
+> +++ b/Documentation/networking/pcs.rst
+> @@ -0,0 +1,229 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=============
+> +PCS Subsystem
+> +=============
+> +
+> +The PCS (Physical Coding Sublayer) subsystem handles the registration and lookup
+> +of PCS devices. These devices contain the upper sublayers of the Ethernet
+> +physical layer, generally handling framing, scrambling, and encoding tasks. PCS
+> +devices may also include PMA (Physical Medium Attachment) components. PCS
+> +devices transfer data between the Link-layer MAC device, and the rest of the
+> +physical layer, typically via a serdes. The output of the serdes may be
+> +connected more-or-less directly to the medium when using fiber-optic or
+> +backplane connections (1000BASE-SX, 1000BASE-KX, etc). It may also communicate
+> +with a separate PHY (such as over SGMII) which handles the connection to the
+> +medium (such as 1000BASE-T).
+> +
+> +Remark on usage of .mac_select_pcs and fw_node PCS
+> +--------------------------------------------------
+> +
+> +There are generally two ways to look up a PCS device.
+> +
+> +1. MAC OP struct .mac_select_pcs (considered legacy)
+> +2. firmware node (fwnode) PCS entirely handled by phylink
+> +
+> +Implementation 1 leaves the entire handling of the PCS to the MAC
+> +driver with the selection of the PCS driven by .mac_select_pcs.
+> +Custom implementations are required if the PCS is external to the MAC
+> +and needs to be handled by a separate driver.
+> +
+> +This implementation is considered legacy and it's suggested to
+> +switch to the new fwnode PCS.
+
+The .mac_select_pcs can be deprecated, with the .fill_available_pcs()
+mecanism available, we can keep PCS implems inside the MAC driver when
+it makes sense, no ?
+
+If PCSs aren't described in firmware (i.e. DT), we have to use .fill_available_pcs()
+without using the fwnode API if I get your code right.
+
+The 'legacy' part is the only remark I have, the rest is all good :)
+
+Maxime
+
+> +
+> +Looking up PCS Devices (fwnode implementation)
+> +-----------------------------------------------
+> +
+> +The lookup of a PCS device follows the common producer/consumer implementation
+> +used by similar subsystems with a ``#pcs-cells`` on the producer and a
+> +``pcs-handle`` property on the consumer::
+> +
+> +    pcs: pcs {
+> +        // ...
+> +        #pcs-cells = <0>;
+> +    };
+> +
+> +    ethernet-controller {
+> +        // ...
+> +        pcs-handle = <&pcs>;
+> +    };
+> +
+> +On :c:func:`phylink_create`, phylink will use the ``num_possible_pcs``
+> +value and ``fill_available_pcs`` helper function in
+> +:c:struct:`phylink_config` to compose the list of available PCS that can be
+> +used for the phylink instance.
+> +
+> +Phylink will then internally handle the selection of the correct PCS for
+> +the requested interface mode based on the interface modes configured in
+> +``pcs_interfaces`` in :c:struct:`phylink_config` struct and
+> +``supported_interfaces`` in :c:struct:`phylink_pcs` struct.
+> +
+> +A PCS is considered eligible when the requested interface mode is present
+> +in both ``pcs_interfaces`` in :c:struct:`phylink_config` struct and
+> +``supported_interfaces`` in :c:struct:`phylink_pcs` struct.
+> +
+> +``supported_interfaces`` describes all interface modes supported by the MAC,
+> +whereas ``pcs_interfaces`` identifies the subset that require PCS selection.
+> +
+> +For the special implementation where the PCS is internal or part of the MAC
+> +and a dedicated driver is not needed, it's possible to leave the implementation
+> +of the PCS to the MAC driver and just implement the ``num_possible_pcs``
+> +value and ``fill_available_pcs`` helper  function in
+> +:c:struct:`phylink_config` referencing the local :c:struct:`phylink_pcs`
+> +struct allocated from the MAC driver.
+> +
+> +Using PCS Devices
+> +-----------------
+> +
+> +It's mandatory to either implement the ``mac_select_pcs`` callback
+> +of :c:struct:`phylink_mac_ops` or ``num_possible_pcs`` and ``fill_available_pcs``
+> +of :c:struct:`phylink_config` to use a PCS for a MAC.
+> +
+> +The fwnode implementation exposes simple helpers to parse the PCS from
+> +the fwnode :c:func:`fwnode_phylink_pcs_count` and
+> +:c:func:`fwnode_phylink_pcs_parse`. The :c:func:`fwnode_phylink_pcs_count` helper
+> +takes the fwnode where the ``pcs-handle`` should be parsed and return the
+> +number of PCS entries described in the fwnode.
+> +The :c:func:`fwnode_phylink_pcs_parse` helper takes three arguments,
+> +the fwnode where the ``pcs-handle`` should be parsed, an allocated array
+> +of :c:struct:`phylink_pcs` pointer where to put the parsed PCS from the fwnode
+> +and the maximum number of PCS to parse.
+> +Contrary to :c:func:`fwnode_phylink_pcs_count`, :c:func:`fwnode_phylink_pcs_parse`
+> +helper fills the allocated array with ONLY the available PCS and return the
+> +number of available PCS found. PCS that returns -ENODEV will be skipped and
+> +won't be inserted in the allocated array.
+> +
+> +A phylink instance may use multiple PCS devices. The maximum number is reported
+> +through ``num_possible_pcs``.
+> +
+> +It's mandatory to specify for what interface a PCS is needed. This can be done
+> +by filling the ``pcs_interfaces`` in :c:struct:`phylink_config` struct.
+> +If the requested interface mode is not present in this bitmask, phylink does
+> +not search for a PCS for  that specific mode. (example MAC doesn't need a PCS
+> +for SGMII but require one for USXGMII)
+> +
+> +With the use of the :c:func:`fwnode_phylink_pcs_parse` a common implementation
+> +is the following::
+> +
+> +   static int mac_fill_available_pcs(struct phylink_config *config,
+> +   				                      struct phylink_pcs **available_pcs,
+> +					                      unsigned int num_possible_pcs)
+> +   {
+> +   	struct device *dev = config->dev;
+> +
+> +   	return fwnode_phylink_pcs_parse(dev_fwnode(dev), available_pcs,
+> +						                    num_possible_pcs);
+> +   }
+> +
+> +   static int mac_setup_phylink(struct net_device *netdev)
+> +   {
+> +      struct phylink_config *config;
+> +
+> +      // ...
+> +
+> +      config->dev = &netdev->dev;
+> +
+> +      // ...
+> +
+> +      // Parse possible PCS and fill num_possible_pcs.
+> +      config->num_possible_pcs = fwnode_phylink_pcs_count(dev_fwnode(&netdev->dev));
+> +      config->fill_available_pcs = mac_fill_available_pcs;
+> +
+> +      __set_bit(PHY_INTERFACE_MODE_INTERNAL, config->supported_interfaces);
+> +      __set_bit(PHY_INTERFACE_MODE_SGMII, config->supported_interfaces);
+> +      __set_bit(PHY_INTERFACE_MODE_1000BASEX, config->supported_interfaces);
+> +      __set_bit(PHY_INTERFACE_MODE_USXGMII, config->supported_interfaces);
+> +
+> +      // PCS required only for USXGMII
+> +      __set_bit(PHY_INTERFACE_MODE_USXGMII, config->pcs_interfaces);
+> +
+> +      phylink = phylink_create(config, //...
+> +
+> +It's worth to mention that it's phylink code that takes care of allocating
+> +the array of :c:struct:`phylink_pcs` pointer for ``fill_available_pcs``
+> +callback based on the value set in ``num_possible_pcs`` for
+> +:c:struct:`phylink_config` struct.
+> +
+> +The ``fill_available_pcs`` callback must not write more than
+> +``num_possible_pcs`` entries. The third argument may be used to validate
+> +that there is enough space to fill all the available PCS in the passed array
+> +of :c:struct:`phylink_pcs` pointer.
+> +
+> +The ``fill_available_pcs`` callback is called only on :c:func:`phylink_create`
+> +and is used only to compose the initial available PCS list. Ownership of PCS
+> +is held by phylink and :c:func:`phylink_release_pcs` should be used to release
+> +them.
+> +
+> +Writing PCS Drivers
+> +-------------------
+> +
+> +To write a PCS driver, first implement :c:struct:`phylink_pcs_ops`. Then,
+> +register your PCS in your probe function using :c:func:`fwnode_pcs_add_provider`.
+> +The :c:func:`fwnode_pcs_add_provider` takes three arguments, the fwnode where
+> +the PCS provider should be registered to, a get function to return the requested
+> +PCS based on ``#pcs-cells`` and a pointer to reference private data for the get
+> +function.
+> +
+> +The PCS will then be registered to a global list of PCS provider that the
+> +PCS fwnode implementation will use to parse it.
+> +
+> +For the simple case where the PCS driver expose a single PCS,
+> +:c:func:`fwnode_pcs_simple_get` can be used as the get function.
+> +
+> +You must call :c:func:`fwnode_pcs_del_provider` from your remove function and
+> +release the PCS from any phylink instance under RTNL lock with
+> +:c:func:`phylink_release_pcs`::
+> +
+> +   fwnode_pcs_del_provider(dev_fwnode(&pdev->dev));
+> +
+> +	rtnl_lock();
+> +
+> +	for (i = 0; i < data->num_port; i++) {
+> +		struct pcs_port *port = &priv->ports[i];
+> +
+> +		phylink_release_pcs(&port->pcs);
+> +	}
+> +
+> +	rtnl_unlock();
+> +
+> +Late PCS registration handling
+> +------------------------------
+> +
+> +It's possible that a PCS becomes available after the MAC finished probing.
+> +Contrary to the usual producer/consumer implementation, when a PCS is not
+> +registered and can't be found, the fwnode parser helper returns ``-ENODEV``
+> +instead of ``-EPROBE_DEFER``.
+> +
+> +This is to prevent race condition with particular devices that register
+> +MAC and PCS with USB or PCIe and require the MAC to be registered before
+> +the PCS.
+> +
+> +The phylink logic correctly handle this special case and keep the phylink
+> +instance in a fail condition.
+> +
+> +The PCS fwnode implementation provides a notifier to which each phylink
+> +instance with a non-empty ``pcs_interfaces`` in :c:type:`phylink_config`
+> +registers. When a new PCS provider is registered, the notifier is called
+> +triggering the :c:func:`pcs_provider_notify` function.
+> +
+> +Function :c:func:`pcs_provider_notify` will check if the just added PCS
+> +should be used by the phylink instance. If it should be used then,
+> +it's added to the internal list of available PCS and a phylink major
+> +config is forced.
+> +
+> +If a phylink instance was in a failure state, with the just added PCS
+> +now part of the available PCS internal phylink list, provided all other
+> +conditions are satisfied, the configuration is retried and the failure
+> +condition is cleared.
+> +
+> +API Reference
+> +-------------
+> +
+> +.. kernel-doc:: include/linux/phylink.h
+> +   :identifiers: phylink_pcs
+> +
+> +.. kernel-doc:: include/linux/pcs/pcs.h
+> +   :internal:
+> +
+> +.. kernel-doc:: include/linux/pcs/pcs-provider.h
+> +   :internal:
 
