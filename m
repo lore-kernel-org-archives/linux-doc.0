@@ -1,153 +1,72 @@
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F555375AC3
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 17:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A43C3E008A;
+	Tue, 21 Jul 2026 17:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784653519; cv=none; b=bHRm8Q1YJOxWCHSYjGN2KGExOG0fEa3ufreV2xVi3jH/5HHM44KhdNW2yLxJI+3XQcPNzpKarejhsrwtof1QAEqxyvSWxJZyT8rkU+R5pMUaq/OeL/TBjUvYRmESEy/eOAZSDUnW2eawfmCusHQG56UgkBiqmnJS6qN0oJmITr4=
+	t=1784653637; cv=none; b=MGnZfdHamaX6lbChn3enIP1kb4HwMx7JzccTzMwVY55EdqFo8JiX0EQi8JB+YILWx+0Ui9ymD4BkXsElp2+m2W29a7ms6xvlchX7cicLj6UCVqrTKGDVUckV+MQmrYC9cKAicOC2zwCbl26ezEfJ/qeLKWcBWg7blXhzNlZR8UI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784653519; c=relaxed/simple;
-	bh=86doQxjvvmHu0NHEyunCYya4Z9MmxCNH9DQpD10H/v4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ZTiDMBPLKKjNuYkzh3zCLC1NAvrQ4LiyVALoI1u1hi+9C+EhqLk3sC1uEfw9W8GrKeO2gURxsg2hpbpbpUFIhgTAXHB7flv1G6O1Jifd9hVDhH0vF4bXibmUVqh1oJPClP+7Ep8dRnjrfAmSafqsBFK6GuIjjnQwzuC73A7YP14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NXOz20Ch; arc=none smtp.client-ip=209.85.216.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1784653637; c=relaxed/simple;
+	bh=4rZPySlm1kJx2jgOID9EdUExj2LM9FU2gvnkJtA8SN4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=J+/WL8ewqva5mw2LNaCl1EDxmbRn5V0kxX6xwoP9X4YQnUEbMiky18+OPzNwnUZMzEpAy7L1leKywbG18+u/PuPrSWxdd1ptY1fjBE0nGYAVXrc4manmDDM1MYmiLDHeT+SW7Hg4xif04KxcxiYhA67tF0wfdVomMYXvzXr/K7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oWRj5Vad; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NXOz20Ch"
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-38e8e864ef0so2413759a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 10:05:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784653517; x=1785258317; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=GzQBL2aNFImRgoUYSHTdbAgRa66XmOoIgdSc5UWwGek=;
-        b=NXOz20Ch5aqo1++LilRRlvrpyu2TAIOqg1hbZAyhRTPOIEkr2INQw6U2BzQlaFaCJz
-         pQUwTe7XWDBJEYTOhM2sgqjRyDj9ZppOO7OkODeKiIZ7fcjR3bAeDDXi5gjGm9Lb8pyz
-         KGuQBVIauP4rb0Hk2J1bJzuj92ZGh07eHUsRFbUWb1IX37dFPPoVmbEO+hYquvIsTMX4
-         ivgzrxu6tJ5y93aOV8fcDAjufljTPkpoAcwgvR9P4OC+ejrQixvKE13xZqHhqa88CpTQ
-         gSbAN8G1bIrNQaWBiT7sqKbXjG092WsJLdi5N2ohcTkiJtUq2qg2OsLM8BXYBTXdudKe
-         n9og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784653517; x=1785258317;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GzQBL2aNFImRgoUYSHTdbAgRa66XmOoIgdSc5UWwGek=;
-        b=qJnfroGrGPcvkIvQqxeius3uMSS1BKKKtVkwb5vWILBVlWmAS8XFKRiIHb4otD4wEt
-         zGggRA+xZYQbvBqRVBOVgf1Qs4+vQOhn5odMPIZZbtSBqeX/+ekSc5kcSK5RErAnSBh3
-         t5kzW4QZCw7J5Ag1kb3mvpRs5n9pgnkugd5/e7bXLXqJ1ymBcZhp9U+uJ8ZvMTW7iRc/
-         m1dtE9/mTSSyQTduu8/jnHAQOjt0pA8+IBXzin1Lt6tDgywgGuPf6YOMpoFCApfHLomq
-         xz1hxgRMpwW2bxuj0iXGiMbiukhaaOVDL1fHgRmkWTy135gXQdRS0t0DW13/vBwWFTuZ
-         kWCw==
-X-Forwarded-Encrypted: i=1; AHgh+Ro0iXuGn45W5MU0wQxyKjC2plmfco0vIm6vAv8eRGxbpKpjf0NMzhRWduLILyRForRlx07cipM+/aw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPXDrMfx5L1C1mbKqUGjoga1MMFYKuNlt4EKeDz7gG8zGVeKeH
-	LbY4+qlO1EbQStb13xvlb+h8qdM+u9LeF1mXl9B1ixEjx/kAQaEPZEMyLfn5Ix/0kY5ir6zu5Mz
-	bTzZfAg==
-X-Received: from pjdn90.prod.google.com ([2002:a17:90a:2ce3:b0:37f:acb7:9d81])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90a:d60f:b0:37e:b6a:6cdf
- with SMTP id 98e67ed59e1d1-38e4b538979mr19429131a91.20.1784653516620; Tue, 21
- Jul 2026 10:05:16 -0700 (PDT)
-Date: Tue, 21 Jul 2026 10:05:16 -0700
-In-Reply-To: <fab46e0b7217e9b712706074189f372f11c7ca19.camel@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oWRj5Vad"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD5371F000E9;
+	Tue, 21 Jul 2026 17:07:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784653636;
+	bh=No86Rgbsfe8g6CBup7wiU+il6SjDU6UqnELCDaKqTuc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=oWRj5VadivhKeCptOTEc5fBXR2+XHQra9EBMUrkjH0MyiXOqHUnabiWlcW8BkulnW
+	 OpAUtPRQZ+o/fXj+mJy+qBfmcPGAC+e0CbldIGD7Tub64UofhtKQ5P+6bvGdO7wof0
+	 yUM5oA2ulQWdoc1rI1AwWa86C3q5t0IKdPbAb2usbvOa8hPH9fqwEBVpgPKOTMBpzl
+	 cfLeQxH5zJn80gaCz/1cSfn4WdF9QwzSg8y15bNrvx1uuHwgPLPZPgdQY/Mm1RD8wo
+	 mR5fcRruLYTC1Vn3IV8VKefJwAFPB7OTWuzqAMPezyplhXLAnRamQ9vIGbxfZLNKOU
+	 fiPK/EiT5OcKA==
+Date: Tue, 21 Jul 2026 10:07:15 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Simon Schippers <simon.schippers@tu-dortmund.de>, Willem de Bruijn
+ <willemdebruijn.kernel@gmail.com>, Jason Wang <jasowangio@gmail.com>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Tim Gebauer <tim.gebauer@tu-dortmund.de>, Brett
+ Sheffield <brett@librecast.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v3] tun/tap & vhost-net: make qdisc backpressure
+ opt-in via IFF_BACKPRESSURE
+Message-ID: <20260721100715.5b43412d@kernel.org>
+In-Reply-To: <20260721105853-mutt-send-email-mst@kernel.org>
+References: <20260709095511.168235-1-simon.schippers@tu-dortmund.de>
+	<20260714092506-mutt-send-email-mst@kernel.org>
+	<5016ae84-7049-4a5f-91c9-ba0047b06ee3@tu-dortmund.de>
+	<5089fc5e-2fb8-41fb-9aab-42b22cc2c201@tu-dortmund.de>
+	<20260721105853-mutt-send-email-mst@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260720192221.72912-1-absandze@amazon.de> <f5552576fc749b4b453514f52921332cc104c6a6.camel@infradead.org>
- <al-isty0nYjQEwqH@google.com> <fab46e0b7217e9b712706074189f372f11c7ca19.camel@infradead.org>
-Message-ID: <al-mzECrdUsy0ThI@google.com>
-Subject: Re: [RFC PATCH 0/2] KVM: x86/pmu: Let userspace disable SW accounting
- of emulated instructions
-From: Sean Christopherson <seanjc@google.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Luka Absandze <absandze@amazon.de>, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Alexander Graf <graf@amazon.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 21, 2026, David Woodhouse wrote:
-> On Tue, 2026-07-21 at 09:47 -0700, Sean Christopherson wrote:
-> > On Tue, Jul 21, 2026, David Woodhouse wrote:
-> > > On Mon, 2026-07-20 at 19:22 +0000, Luka Absandze wrote:
-> > > > On hosts that run guests with an *emulated* vPMU -- guest PMU MSR
-> > > > accesses trap into KVM and each guest counter is backed by a host
-> > > > perf_event -- the per-emulated-instruction PMU accounting added by =
-commit
-> > > > 9cd803d496e7 ("KVM: x86: Update vPMCs when retiring instructions") =
-is
-> > > > pathologically expensive.
-> > >=20
-> > > Given that the guest PMU MSR accesses are trapped... is there a reaso=
-n
-> > > we can't fold a *separate* count of emulated instructions into the
-> > > value we return to the guest?
-> > >=20
-> > > I guess the overflow would come late... but isn't that tolerable?=20
-> >=20
-> > Like ignoring emulated instructions entirely, it probably depends on th=
-e guest.
-> >=20
-> > > And we could probably impose a limit on how large the addend could be=
- =E2=80=94 even
-> > > if we only reprogram the PMU once every 100 times, that's still a win=
-?
-> >=20
-> > Hmm, yeah, that'd be better than ignoring emulated instruction entirely=
-, and
-> > would give userspace far better control over how shoddy KVM's emulation=
- is.=C2=A0 Off
-> > the cuff, the change would be fairly trivial too?=C2=A0 E.g.
-> >=20
-> > diff --git arch/x86/kvm/pmu.c arch/x86/kvm/pmu.c
-> > index 7f777049d328..c5f436c6f83f 100644
-> > --- arch/x86/kvm/pmu.c
-> > +++ arch/x86/kvm/pmu.c
-> > @@ -1084,7 +1084,8 @@ static void kvm_pmu_incr_counter(struct kvm_pmc *=
-pmc)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!kvm_vcpu_has_mediated_p=
-mu(vcpu)) {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 pmc->emulated_counter++;
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 kvm_pmu_request_counter_reprogram(pmc);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 if (pmc->emulated_counter > pmu_something_something_toleran=
-ce)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kvm_pmu_req=
-uest_counter_reprogram(pmc);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 return;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> >=20
->=20
-> We also want to add the same delta when the the guest reads the counter?
+On Tue, 21 Jul 2026 10:59:52 -0400 Michael S. Tsirkin wrote:
+> > > I prefer applying it, but you maintainers must decide that.
+> > 
+> > Hi,
+> > just a gentle ping.
+> > Has there been any decision on this patch?
+> 
+> Hi netdev maintainers. Given there's a perf regression otherwise,
+> we should either take this or revert the original and reapply
+> in next.
 
-Isn't that already handled by pmc_read_counter()?  Or am I misunderstanding=
- the
-concern?
-
-  static inline u64 pmc_read_counter(struct kvm_pmc *pmc)
-  {
-	u64 counter, enabled, running;
-
-	if (kvm_vcpu_has_mediated_pmu(pmc->vcpu))
-		return pmc->counter & pmc_bitmask(pmc);
-
-	counter =3D pmc->counter + pmc->emulated_counter;  <=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-
-	if (pmc->perf_event && !pmc->is_paused)
-		counter +=3D perf_event_read_value(pmc->perf_event,
-						 &enabled, &running);
-	/* FIXME: Scaling needed? */
-	return counter & pmc_bitmask(pmc);
-  }
+Revert, please. We were AFK and are now working thru a backlog
+of 1k patches. The new IFF_* flag needs scrutiny we can't afford
+at present.
