@@ -1,107 +1,153 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A012D5436;
-	Tue, 21 Jul 2026 18:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC09415F2C
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 18:16:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784657309; cv=none; b=iDhGrTRJFMJsZCAnDfwiw9qydBfXhiSClTYLkZru62wmf1v8lzzto3Dsxn6f8P5IL3Qnb26AoXdrLs8Hn12zjP4wmQGvmanoWiwgml/zfVOXzX35koNvlEg3gIpnTXGrLRPAPRblVt6dUPTkwCKubAM3IbaCODVUDCvunzHy9nk=
+	t=1784657790; cv=none; b=su1pQP6Wa4Zyuvou7H1v/5NqYEAfkRN6+sr5+G77kNoSJW2Xe/ppHl+ShjL/UfHeHZq0y51YFIeeK9pWemGSFpTughSNv0ka/ei5cEVPF9b+qYKsBYIExvjyDdi+obKMxSUenJNLexYRIPmxXhyA6cTXK/pLiM8hIZlE10cCi9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784657309; c=relaxed/simple;
-	bh=z/IDNeo3CYfMaSBman2RZmqnvh3FinzpYHXH5rjaeQM=;
+	s=arc-20240116; t=1784657790; c=relaxed/simple;
+	bh=oFlvw3giOtGQsSkXQn6VVdx6osu4tro2T3RPW7SBhU0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IcW3kls3hgJfnlrcesscDzoYDwAtl5m3s5OlAtPMTfsS6vco8ImnsIniUT1BoaN/Wqbi60mih7WNliGW9POa49tjFSw9qhU9p4PnSBU9ar62zruKccJ9cB4JQCiRrJ0Zw1biizgQLEOzuBquxXxsmJz9Dsk9vTo6OZjQoOmbXto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gS0Du2K1; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=P3sCM1aB; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=YQCtezcZ/SOWCOq3rg05b7r80aRDbuJoTY/k4CY2PFHherfWHbvo/nDbEbzQi8zRjnFlT3Hgi5oFhj114l48bmBpNy9Z8RZEnLG7KrQoVO2HWMeyMmdpEftvwv/d7GeDYoi2GvFc98Mi6kHVT8cD6wJSnNn2ZScGmh7tZI8ssmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=lWiMqNe1; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gS0Du2K1";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="P3sCM1aB"
-Date: Tue, 21 Jul 2026 20:08:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1784657300;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yFentBsonVa5YUM+Pkq+IObssXO7JGS8Ljqy5X8W/OE=;
-	b=gS0Du2K16qvjG19Z0OiqiW45JIigAf2vGlRxFRuTtWpbridHz25QuV5lgNSNT779miSYes
-	glyFC9mhUhfv0WDSuU1UlTaUVKu7263UduUR04tqn0i3JlniCs5iY0SkPsti9SdonjuYFw
-	fL7GG5FLq08L/V4IhT/jqJC1Msxg2UAxXG94bBqsUsAEZadnE7lBNFdefg5RIp0IV4WLN9
-	XrZ9l8M/MuI3BQofWnu7KSUF1eC2yhb8EZ+FNFJC3BGkUIVWCGQpEMnDQQbQrwSy8p9cw1
-	F/ubMbkv9X6jvmsUTAgAHhzvV+0GY022GatQQT3LWiQPhTaEIOMIM+kmUInJqw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1784657300;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yFentBsonVa5YUM+Pkq+IObssXO7JGS8Ljqy5X8W/OE=;
-	b=P3sCM1aBFGA+2mjcOWPtuaLcb2tK+TnKzrOQYOlscGvoaoA4KE0/aXqzyRtR7tl5iPOcks
-	w6XLC8DEZU8QG7Cw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: John Ogness <john.ogness@linutronix.de>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	"Ahmed S. Darwish" <darwi@linutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Clark Williams <clrkwllms@kernel.org>,
-	linux-rt-devel@lists.linux.dev,
-	Matthew Wilcox <willy@infradead.org>,
-	Derek Barbosa <debarbos@redhat.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/1] Documentation: real-time: Add kernel
- configuration guide
-Message-ID: <20260721180819.DY-zkSU1@linutronix.de>
-References: <20260716195716.256025-1-darwi@linutronix.de>
- <20260716195716.256025-2-darwi@linutronix.de>
- <20260721130248.ndwsFtHE@linutronix.de>
- <874ihs5s4d.fsf@jogness.linutronix.de>
- <20260721143606.NqT15H0p@linutronix.de>
- <20260721104806.64afcd8f@gandalf.local.home>
- <20260721152114.wTED4bR5@linutronix.de>
- <87wluo49y7.fsf@jogness.linutronix.de>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="lWiMqNe1"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51c15bf5000so79310581cf.3
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 11:16:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1784657788; x=1785262588; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=tK6CpaworNApxpcs4ZRJbHY7w08bgOkmP8ipHWd1tq8=;
+        b=lWiMqNe1aGdlndmF0DEIX11ekT+kppi6ZCsdKP+nARwmUcbPRB2RiqFp9CcVZlrCMe
+         a7iQJIUlHGgwrTlgeBPrEB9RYw65vbDnpQS/W6FXlBeixFMzdS/zMQMhcf9prwyKh9Tg
+         zZM1P1+WyYLol3M86HhbDS8lLf0qvp8NnbVepemntzhrmA+vdbVuvJTjusRGwuudCrDN
+         IJnhW0U1qCJ9qu+q+c/HoRATkAolbkeQ7YmmUklTRfiHMdfAYBd7KPK3bsHOQiTqkD7y
+         nQk7+E507U93KpaB3JodhTTR0dnlAPaEgPrkM70sUwYbhPsJOnuOLMGTZLlANx5BWdjy
+         4gWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784657788; x=1785262588;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tK6CpaworNApxpcs4ZRJbHY7w08bgOkmP8ipHWd1tq8=;
+        b=qH70p59PVMpPGklvwHNObIK+scOn7DSitqRHVUPVttWX6qEOTA+DUWmyqSS+zeat6q
+         dnxBwrGl//fqn1gkeXxeIe6A9vUDu8UP+6De0GUHIph0+OgLAsvf/ygGUVz+qyuiXyNS
+         OctbKCRoC8MtihacMBPQcqJ/5YTrHPRzdsOWoDUDYaHAROjOsKQhk1jp5GPPFRPxTWKF
+         eYDxaTKrt6YS4CxWJsCAkvPz8cWyN8h0osvcau+UvaoQrVFTPADFcga9/qha5qr9bGPM
+         qEXFP3Xqkl+S81+0ZKmKUCumh2zwNvT8KlEmZRi7tyFgAzqzjaf/CjP3lu6PDY7JFu1n
+         XQ4g==
+X-Forwarded-Encrypted: i=1; AHgh+RoyFjUz8oKB88npGJ27G6tjTRXtMa9dO4ufXvhkstVty+lohruHAmiskv6SKArTya2Uh3+1mwWgwu8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpiTfyPl285OoPGGzU157ZrPfSt52GMbidATlwu5cQ3p8zZvae
+	rFDuCmeim8n1BIG8EChd4JQXCfBr2gq/MV5/h4JLx3eILbSZOvbw8UAqnhLBr19BWfQ=
+X-Gm-Gg: AfdE7ckCtc9V7brkHmYH5UGlkAEc4qX4HOC+vi7ikreNmsZLYIdOyGRf/eSQhZztT48
+	sGt31Y8lr2fvS2TPCLlZWnSTOzKHDQK1TUJVqYrA1FfA9RDXq+HyeE4pJwky8pty7VPBfBNkPOl
+	1Xu2beW9OX4D1p6kJgH7a3HGjcsGfKed/etcq8dRZXojc7bfhhfzm8r7pcIDIlL3JvSR6NKFr7g
+	AN+kecRZPqpFQo1zSrS6jtN8/0AnUR5tn40Nc3B7i3UelwZrD7iYZyFaBX+vD81LwglcZgaEmbB
+	YSQbBiwp9NWJIpFNxYMxPQNkaIH6rTVSbVyVp8fvu72aAeskedv09i/fnbLpmqcP+oPw3FZ1a20
+	xpVFXHPSG7D80LfkEtDIhChVZbRrey/8yTUrKEd17/LiKM3AZ222Bpbds8dwtIwUc5PZcABUFvt
+	uTH1uJE5iWC1z1kJ5KyAKFut2NxTOBaR+hnJHUPWIPEyXKynm9FWaNRtpR4rbWheza+BBL
+X-Received: by 2002:ac8:5845:0:b0:51c:7b12:600a with SMTP id d75a77b69052e-5213e881e44mr171868611cf.86.1784657787636;
+        Tue, 21 Jul 2026 11:16:27 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-527d066fa6asm463921cf.6.2026.07.21.11.16.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2026 11:16:27 -0700 (PDT)
+Date: Tue, 21 Jul 2026 14:16:21 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Balbir Singh <balbirs@nvidia.com>
+Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
+	brendan.jackman@linux.dev, yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, 
+	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, 
+	vishal.l.verma@intel.com, dave.jiang@intel.com, alison.schofield@intel.com, 
+	osandov@osandov.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com, 
+	hannes@cmpxchg.org, ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
+	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
+	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
+	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
+	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
+	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
+Message-ID: <al-2D_7NcwMxqmsM@gourry-fedora-PF4VCD3F>
+References: <20260720193431.3841992-1-gourry@gourry.net>
+ <6a7aaac3-e70d-4063-9c84-e643db1488e0@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87wluo49y7.fsf@jogness.linutronix.de>
+In-Reply-To: <6a7aaac3-e70d-4063-9c84-e643db1488e0@nvidia.com>
 
-On 2026-07-21 17:58:00 [+0206], John Ogness wrote:
-> On 2026-07-21, Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
-> > On 2026-07-21 10:48:06 [-0400], Steven Rostedt wrote:
-> >> On Tue, 21 Jul 2026 16:36:06 +0200
-> >> Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
-> >> 
-> >>>> Unfortunately, debugfs is needed to configure the fair deadline server:
-> >>>> 
-> >>>>     /sys/kernel/debug/sched/fair_server/cpu*/runtime  
-> >>> 
-> >>> So drop the reference to it. It is not "bad" to have it enabled. It is
-> >> 
-> >> I believe that some distros feel that it is bad to enable because there's
-> >> no real auditing of its interface. Although, it is now only accessible by
-> >> root.
-> >
-> > Yeah. Either way, there shouldn't be anything real-time specific that
-> > requires the user have it enabled or disabled.
+On Tue, Jul 21, 2026 at 01:46:01PM +1000, Balbir Singh wrote:
+> On 7/21/26 5:33 AM, Gregory Price wrote:
+> > 
+> > Patch Layout
+> > ============
+> > The series is broken into two sections:
+> > 
+> > 1) N_MEMORY_PRIVATE Introduction.
+> >    Introduce the node state.
+> >    Opt those nodes out of mm/ services.
+> > 
+> > 2) NODE_PRIVATE_CAP_* features
+> >    A set of mm/ service opt-in flags that augment private
+> >    nodes to make them more useful (i.e. reclaim = overcommit).
+> > 
+> >    NODE_PRIVATE_CAP_LTPIN for private node folio pinning
+> >    NODE_PRIVATE_CAP_NUMA_BALANCING for private-node NUMA balancing
+> >    NODE_PRIVATE_CAP_DEMOTION for private-node tiering demotion
+> >    NODE_PRIVATE_CAP_HOTUNPLUG for opted-in private nodes
+> >    NODE_PRIVATE_CAP_USER_NUMA for userland numa controls
+> >    NODE_PRIVATE_CAP_RECLAIM for opted-in private node reclaim
+> > 
 > 
-> The fair deadline server is certainly real-time specific. It is the
-> new/additional RT throttling mechanism. Generally speaking, RT systems
-> will want to disable it or at least reduce the 50ms default.
->
-> This document is not about runtime settings, but if debugfs is not
-> enabled, the user will have no way to configure the fair deadline server
-> at runtime.
-
-I would suggest to delegate it to the proper section. Also, maybe we get
-a proper interface outside of debugfs.
-
-> I am OK if it is completely dropped from this document. But if there are
-> distros that think it is bad, it might be worth mentioning that this
-> config is important (if not critical) for real-time systems.
+> Looks reasonable, I wonder why USER_NUMA/HOTUNPUG is an opt-in?
 > 
-> John
 
-Sebastian
+Ideologically: Private nodes default to fully isolated, why should any
+given feature be special?
+
+Concretely: 
+
+User-numa
+
+   Some devices don't want the user to have control over placement.
+   I have been working on compressed memory, for example, which only
+   ever wants to be used as a reclaim-demotion target.
+   
+   (The reasoning for this is another thread, i plan on publishing
+    my research on this this year)
+
+Hot-unplug:
+
+   Some devices can't necessarily handle unexpected migration, and
+   hot-unplug is fundamentally a migration.  So the HOTUNPLUG cap
+   actually means "hot-unplug can execute migrations".
+
+   If the entire device has pre-drained the memory (all memory is free)
+   then unplug works - it's just not very hot (no migrations) :]
+
+   Maybe a naming issue?
+
+~Gregory
+
