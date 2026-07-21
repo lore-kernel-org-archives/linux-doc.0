@@ -1,315 +1,174 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010053.outbound.protection.outlook.com [52.101.201.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE17C3C2BB9;
-	Tue, 21 Jul 2026 02:18:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784600293; cv=fail; b=BjoUJTFkZYw/9INc/DcIrrQE/quTkppo2xGC9eJgAeiOVyhN892VqKIYY3bG/afJIXnudrIecESme75296coVAmHlUoEy9PIq/2F6EBX1WP9yKZHmt8WS9tQo52D5s+bF64iBqrvOE27Jv+eyPuNAO/HkB8jq1/Ek33CDS3wHjs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784600293; c=relaxed/simple;
-	bh=1Xn4LnZk0EKVDIXuwrPvSRooxANBcs2IqDDtVv52UT0=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RuN8CGJKtIUJQHfH/arHv2mBuEhPt9lgkukgCkjORHWPB60HU1HPvfQIAmH6VK/p8n9tN8BPaW3asf3tHpK/xhY53wAf/M2Q1/0+eI5vvHglEMfhguz2Axfpn+cHSgoumM6Dm6oSMk10x1tHx6KwGwDjnwUVoZk1HcsYOt6aLqQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com; spf=pass smtp.mailfrom=altera.com; dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b=lj79HCBg; arc=fail smtp.client-ip=52.101.201.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altera.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75FAF33F585
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 03:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784603296; cv=none; b=lDtEmWU4PgCU7a6qRXZLKfOXaNA28/hfvMd6xuxEh72tK/RaBUSELsPjfLv3Jq2WnO8mBxe76KzGMZwSB9nsRxtj7vLny/z5/ByiUZ+SKJmROK9/leoD916FPgzDjQ/Gn3yhfEEorQNANIgQU2KT3cBRNEwWas6kSUYU00w1eQw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784603296; c=relaxed/simple;
+	bh=Ne2iuDjiuVXRvnwTMWrVareFyl4DUbiMhJrmz6+Oew4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=WdSfJLjtBCiT3EKdNlvOuTNyLcEXawWrX5zNh4KMBUYjls4hK+oB02EnomTZm3eiilnE+bkpkJT2zCsm1QLNQwLhfc3vzO6y8TfEl/De3cEp7QCyFCkT/DYYvexbuGYjTDbWk91pQnv/evqYWsCfBGWgimb0N1qwpQM+LqNz+Xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZR7yunx+; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b="lj79HCBg"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qFp+8ZKuf1P73aGa3+vAG5Tt2XDcNbVQZ3+vSGx4zT7z4aViWH94BhHbhi1kJ4vM2+4MYMy347Wl8IyUSFJ1/zA+sM772WmkSZnvQ4oAA2i4bgAl0Dp/GN791fVyGGxAZIH4hDIfzxOggPLULxVM5bC0FgXebd1V7zmUc5+dW9iUnsRJ/jr1SuChaq97U4I/hhDP4oVdGPcGyGch31dhbP4tr/Iwd/M01PcnBTo92A3aXMNXfmhoDfFfQCxySCJak5AWrZpoHsu3OlQ0inKwGpdyp4oI949HtIc9iqPkzA+QIsariJvbAUTdbtrQh3cynlMh0A6jKWqG0PK0gN9FYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bZ/L18l+O4KopMFWOcVrhuwM1EKBJDS/GQR4FYuyAnE=;
- b=B0h0Dp7woRj+vUOIk1mOk6jKrKf2jExWqLbQcfLq8ZQj1q7Jwo80OXiHoOceEAy0OvSeU8jecJcIXBDUrPFi4ubeySrPr1bHrNEPVTHG7+GX4DW8gsZEdmKG5/FSe6jwycmz7QBKymmFDU5396QkGu9Cpr/AcbM5k3tDDUy0jAFhqAv3SlfSAmgxDmzwI+uHMowpQE/Wnf6H3MyCuZaTz3L+l6KxnnXDN0COtzMTDVI3qlYV9JZBsyHXaDfnQZdCaewxzqcPO5A0U7XaKHXP6nZGPWUcWonyDkFfJu6k5cjE33ikLVi3zu0EgdXFH8BHLjxXpa6T8fQZ1e42KdXr2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=altera.com; dmarc=pass action=none header.from=altera.com;
- dkim=pass header.d=altera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altera.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bZ/L18l+O4KopMFWOcVrhuwM1EKBJDS/GQR4FYuyAnE=;
- b=lj79HCBgd352Zv6S4ifMRA9i01IwjlPGl6B10CzDr9z5usTM23QbypuliAeZG/y9167c3pM4B7d76oqeJ9cFHwG1HG39v9JZmlp/MumuaQf0ACjgdzYmIhAsJXnzSwGAX4nUlxPsjGJK8TCng+f9X9Xuc5cYg8OrahpNd7K2Cntdyw6bC/PkOGPrxQ06rA5wkpk17h+cNsaiEzRmCDjU+1IFx4WICJ7GCdlmzu/fkRrbcL0x25CuF0LaYD/qZV5SiM4Hc36Ulss+giNZIjrKVm6m9zGXC2900Tnzj2Xx03E7MBnB9bE7A0NJtUOaP0KnNyjbTMqUGK8BE0c7jufTFQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=altera.com;
-Received: from SJ0PR03MB5950.namprd03.prod.outlook.com (2603:10b6:a03:2d3::20)
- by PH8PR03MB989113.namprd03.prod.outlook.com (2603:10b6:510:3a9::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Tue, 21 Jul
- 2026 02:18:05 +0000
-Received: from SJ0PR03MB5950.namprd03.prod.outlook.com
- ([fe80::53a0:bf93:6b6b:de01]) by SJ0PR03MB5950.namprd03.prod.outlook.com
- ([fe80::53a0:bf93:6b6b:de01%5]) with mapi id 15.21.0223.017; Tue, 21 Jul 2026
- 02:18:05 +0000
-From: tze.yee.ng@altera.com
-To: Dinh Nguyen <dinguyen@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v7 1/2] firmware: stratix10-svc: add async HWMON read commands and register socfpga-hwmon device
-Date: Mon, 20 Jul 2026 19:18:00 -0700
-Message-ID: <a79aee37be7067691fd02a3a9cfd134c995e5a95.1784599864.git.tze.yee.ng@altera.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <cover.1784599864.git.tze.yee.ng@altera.com>
-References: <cover.1784599864.git.tze.yee.ng@altera.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ2P221CA0013.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:a03:5db::8) To SJ0PR03MB5950.namprd03.prod.outlook.com
- (2603:10b6:a03:2d3::20)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZR7yunx+"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cad8076b01so130145085ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2026 20:08:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784603295; x=1785208095; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8o57jIUac7gEOQAej8Y91pT61byF7IYHrKZJcFBk5RQ=;
+        b=ZR7yunx+brW80FHNWNnSxt+3Ludp+M/FXAqlmRRrAZDjZwRS3wQ6fcDFDGFSZw8yGO
+         jW45AtDB5P64xjvok5vAbSxjugZMahybrZ+UmA4Uztw/CujFJ5K+/IQ+yvt9fZ/2xeXV
+         DM/wx8in5rEqMT23odW23o/4dvF2FVmhVWX9n1ZOQkK5xFVrz1yW6+ZF8wAilR2lCvzY
+         azda1qphjTmdE8yCt3064M1JGG23dC7lmAqOxykKB46tStzS/38zjvYldmz4LfdPwn7S
+         QljBjU7liJv7wpiTAcizX5rqMrXH3BmNVjfodJvcSvZF/0+Ztu37Seaf1dw0xQLN49k/
+         0ezA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784603295; x=1785208095;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8o57jIUac7gEOQAej8Y91pT61byF7IYHrKZJcFBk5RQ=;
+        b=JWGyomZU9ruFufKhhzrQzH8xTjn4kAIuhxfGlcbvoLm4VTGDRcDjmz1qi2awGjXSNS
+         k/7j4QegEqrXRzyPVr9V5RBEfwTGGOws0xO1N24+hpjqUEYT90C2A+z1tqb3fvCXkRla
+         sJyVa65aKOGcu8QMrCQZhECzJiEsOjjiwyY2oZITpfIZgPr1zYGQKFXdVrQLDHFkrlZA
+         KBzC0gEuALKaOOBSsnWjIGU5t/1VLqbtpHMTsRTYwP/IGELEBYAULWE5pEl9GnoR9SJw
+         xEdjWE+0m+wz2VZC/bqgJF/V/S+EhVKgdkPcyRoYE71zqoAkbSxBdo9Rjl4g4eUSmUei
+         0l/A==
+X-Forwarded-Encrypted: i=1; AHgh+Rqh3aa5BlIKzy66QUHmwCp9H8+rlC5V2B4lmBKRujQCzMLJCyA5m3DoIW7Je7hABAPoUvP5olmKs9w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytW3jAPWv+e/HiBaXSwdkdqsFNIwyOJMY5Ed8/Nk4yoyDNng3Q
+	cnJlKK7URJ9+FpI3+h8ke45EOai6dIm69+2sPGHowj0LiZH0eLJS4NMj
+X-Gm-Gg: AR+sD105GJGQFpTR/WfCaKajRgWHqTu2qQdbZnKGM8uG2gWpcJ6LrS3uqch3YlupIt4
+	pj/wva0pKKwayMujqKCplJmXGMaSH6C0VOiVr+P0rLLtqLXSpgD2GMt0KRx+CdIolYGvq8Auo4H
+	SHmdj1QIXEuMqvYECagvZNO8xWsl3DDwxUtTjkqGzQyKs9IRxFLrUSN4yRYkwnV9P/hNxwenTuY
+	xHrmlV5cHu/pzc5fxaqGCkzoETSoPp6KOen5V+/tWC30ARGwgYtv24bqF/w8ghiz9m0sfQLnbJA
+	SMzbvxGFHgPS6PoNj+IpRVcVpDMzXoH4lW7JKf0F2bT10OXwuaSTCG/YKdF3nPNu4rpy+j6djiK
+	xNa+EZHxuJALTRJh2WHBMdZ15TPtEJTuAH6b/irbqFGxJ404y9z/Y6wauW7Vlp2JNA2m67eKD2U
+	WzFFoJ3JGuRh9p/1r8X2KTKBVYG/OPkUO/edGe4IdR8cnVq+0Lnf8=
+X-Received: by 2002:a17:903:26c4:b0:2cc:f1e7:18c6 with SMTP id d9443c01a7336-2cf34821a56mr179306445ad.2.1784603294818;
+        Mon, 20 Jul 2026 20:08:14 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf3471557bsm66118425ad.58.2026.07.20.20.08.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jul 2026 20:08:13 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <2c99fa33-515b-46f7-b2b8-b7a2b9dcbd84@roeck-us.net>
+Date: Mon, 20 Jul 2026 20:08:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR03MB5950:EE_|PH8PR03MB989113:EE_
-X-MS-Office365-Filtering-Correlation-Id: e992185d-9cf5-46a2-5e89-08dee6ce4c1a
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|18002099003|22082099003|55112099003|3023799007|6133799003|11063799006|56012099006|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	3FUXEcvvc5VaKa62i1Z7XcSjPY4Bp6h+Rq0iCWp69D53a59syhD0eyrQS9bm5LI2+6G/fl07h0uicHiF83sJWqfFrtA+FQOKRj8Igg2tUD7/LlxygSM3maNYSNbf1hdKkNQB4x/tHbtsPdzM7J5Z2d3UP8po7E16EDMCrZk1KSM+dy/VosOGL2qvWBzNLLI+BN1wYJi60DugFKPp6ireUqRpA/vkA0MK+s0sc2upfUOPPuhLbIpxC+dNa8JrWsbrsE16H3YRmmONPGZ+KcJo3vzVpaGLk3F08VMnMCZFCyokrZNov/aNgeYjIotyUzZrYGOOS8vF3uTtifPUZyNJbHo9NIX5490VxDZBDcrQ+FXXesCwn0tn29Zx7xMxO792CxEU5PrBSb0YWJkG2CP+fDSmY9jnymXknTWK1fzY92dvqEZ2aldrIgQaVVist9+lkn9aBVqI9cw7b0SV5fXer24OHWYD0xU2JkN+Cl91tMOM5Se7p1hoUsdzZzeS49fucC6K1idhFBr04VRVsg1caLbCEXBHSiaU8z6TaEGchZScNRzAn4xh8Thzhfm2tldn0dTFZXMm/IpkrF8PdlJGYwpBfbTSl9sjLxum1qPjrlOAJsk3mogxUEizG0RIZLGs7Pa/Ft853gmvUDQk1EY+S4IOrxMVXion29NV2nTHeZs=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB5950.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(18002099003)(22082099003)(55112099003)(3023799007)(6133799003)(11063799006)(56012099006)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?3WAzwdpJrOiZtuaWxb712JjmoS/DEavY87QtInIaif76ziqBmtnQw1/B5d8K?=
- =?us-ascii?Q?7F2KwJj26pPWTn4lf77mfcGHFHHyOO18ALoFxQERFCL73BG3UnlYHMsAGbOq?=
- =?us-ascii?Q?gecvJ71hPfMqT1tKAwx1F9oS6DOZAp5qLWelGhXHQUBAJ80pPvJYKAXkKafO?=
- =?us-ascii?Q?SDoQ49L9juCp8P8pV4mssZHuNmvF1/RkyJB3JPGSnZ4HjxqhIb7PdSXygG5Q?=
- =?us-ascii?Q?wYk5oe97JGhF/rz/uxR/zwEzJbo5ZVW/PSbvvX3S/lQqBGTHlC6HBSt72iII?=
- =?us-ascii?Q?jdICVle3Ti+dSf5mHDC43bd2QTw7ooY08Pr6mZaompOJGN3JSlSmmyYudlO/?=
- =?us-ascii?Q?LF4qor0Usd1DIz5No6p4sqC6lr+RpZMCZgurw05IqH6AA/dXQV+hkCCWMv+F?=
- =?us-ascii?Q?cAR2qf8bHTEfG5Qng6Xyl9UExlDpENPcB2knb/kOO8NWNxZnKkOjQaWY89zp?=
- =?us-ascii?Q?HgToouoOj8RR5x4xPiG6L2Kc9pmrb/8tXwWT1i53n25H6NMXyEMpiyMjeJhn?=
- =?us-ascii?Q?FGma7hfDMxhvKC4SQe7NMC9wBGm9Dj7YzZ8ERDW/rksxCAoQVpTfaP1s0D97?=
- =?us-ascii?Q?bHVEWPy3qxftGVaZvKru62qfhwDJQ595FTL6+nBGnCqKQSOQhSe53pt204fI?=
- =?us-ascii?Q?2Q/sytYTQtopxzPFOqiyF+7bY1mGH2wzS/sb+OAqJlWDW+jVvVVjrsTJehga?=
- =?us-ascii?Q?VITstEoclyMiL8cSY9yCGQW/tj1/uvx6uUh+xAw3jsyr0ajfLc5QynVLjmUK?=
- =?us-ascii?Q?RjDg91pOEOGgNL9LZtA6Eobjzcqwu7UgD2sowKAYLYR7wD8VODuGanC7xLC8?=
- =?us-ascii?Q?LPk0iVfk/Ig5vJIPoJwN7a4EWxncIKRiNibNLvM/f4nulCeTjKcAy+istCTA?=
- =?us-ascii?Q?EySnkKzsfuqHOcSj5sZCIDwW7mFGZQ9za2yb3f7MTtRGDGUHN6vm6amorlh4?=
- =?us-ascii?Q?E1BM2Ci7RVexPqGPSBD7kon7UIRzKqyJv7K6rDX32t4PGzcwM/zY8ssh7pE0?=
- =?us-ascii?Q?S1wjbxBw62M+cLiS/FkUN5mLTIY+V/kQ5JLt6I8AxbtcYLTGQHgeULlX0JeI?=
- =?us-ascii?Q?y3EUkY/RQxge6uncF53r47oJ1At0KlD5laS3Nvo+3VY6WHghK2Y2OZwhHnJz?=
- =?us-ascii?Q?D5oa/yFyBD29zCssE/i4b4EZuh7TE6h0ICJWN5E+qtdZwt/BYJkastRaTXPE?=
- =?us-ascii?Q?YcZF/ftUwxQTD95VasVYzJnkAwupiAgp2yULKA50cnFJ+Mr+hh+gIGxltOAO?=
- =?us-ascii?Q?FziqSMCwwn+psYn0Zhm+u/g4cVnFcJ7s9p3GaFC+svTssIRikkXDr22VLEnj?=
- =?us-ascii?Q?AsLPPNeJr/yhZ8YmkzIbfw2W7fgxL6XE8utxDcg14sL0nMQadEK37KgGV9F3?=
- =?us-ascii?Q?hNMlTXwZ31iL2IjNJXHWq4684U6+1REP4DGEXkPp6cTlGtPqM5XGGTrc9p/Y?=
- =?us-ascii?Q?pRHjVLDroz8YbVc3Ljw7sRKJ0TwjTshPgO6O8fPJh7KU0laglWI+fbhs+Cb3?=
- =?us-ascii?Q?v8B6Pey3sElKA96pKezQi82W9y28A8HRKKGbZxw1VuYgkPYZphDRrPc4Tk9w?=
- =?us-ascii?Q?MOMXCtY4mRSIqO413AgIt5N6Sii3eErmTadBRasiMpBPGMfrqQYlChGmUKc9?=
- =?us-ascii?Q?0hZSllbxlYhlr3qrux75mQU/sLMGVUZAdUCqtug9H/5/dkc0hvU/QZE6Yq1P?=
- =?us-ascii?Q?8FzmcLiQaepcfwqlpLtzQ2EBI5LAcsmNGIFprH0GKNPiiPTuD2uJnUPRRig3?=
- =?us-ascii?Q?KI6iYCrnQw=3D=3D?=
-X-OriginatorOrg: altera.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e992185d-9cf5-46a2-5e89-08dee6ce4c1a
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB5950.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 02:18:05.0730
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fbd72e03-d4a5-4110-adce-614d51f2077a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: a2WCrm2rH+0s8y1v4xr+tbz+bsRFXlRuENsJoLXcogJPBI2QD8Cvn+qoNC+GarAUVA4hrqDvxYDpK8gJVNIIzw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR03MB989113
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 2/2] hwmon: add Altera SoC FPGA hardware monitoring
+ driver
+To: tze.yee.ng@altera.com, Dinh Nguyen <dinguyen@kernel.org>,
+ linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <cover.1784599864.git.tze.yee.ng@altera.com>
+ <c8f4fbc1d8c3b1d161c94f66feb2ebbc038dab6d.1784599864.git.tze.yee.ng@altera.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <c8f4fbc1d8c3b1d161c94f66feb2ebbc038dab6d.1784599864.git.tze.yee.ng@altera.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Tze Yee Ng <tze.yee.ng@altera.com>
+On 7/20/26 19:18, tze.yee.ng@altera.com wrote:
+> From: Tze Yee Ng <tze.yee.ng@altera.com>
+> 
+> Add a hardware monitor driver for Altera SoC FPGA devices using the
+> Stratix 10 service layer. Sensor channels are selected based on the
+> service layer compatible string.
+> 
+> Signed-off-by: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
+> Signed-off-by: Tze Yee Ng <tze.yee.ng@altera.com>
+> ---
+...
+> +
+> +static int socfpga_hwmon_sync_read(struct device *dev,
+> +				   enum hwmon_sensor_types type,
+> +				   struct stratix10_svc_client_msg *msg)
+> +{
+> +	struct socfpga_hwmon_priv *priv = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	reinit_completion(&priv->completion);
+> +
+> +	if (type == hwmon_temp)
+> +		priv->client.receive_cb = socfpga_hwmon_readtemp_cb;
+> +	else
+> +		priv->client.receive_cb = socfpga_hwmon_readvolt_cb;
+> +
+> +	ret = stratix10_svc_send(priv->chan, msg);
+> +	if (ret < 0)
+> +		goto status_done;
+> +
+> +	ret = wait_for_completion_timeout(&priv->completion, HWMON_TIMEOUT);
+> +	if (!ret) {
+> +		dev_err(priv->client.dev, "timeout waiting for SMC call\n");
+> +		/*
+> +		 * stratix10_svc_done() stops the worker but does not flush
+> +		 * svc_fifo. Wait for the outstanding callback before stopping
+> +		 * so a leftover request cannot complete a later sensor read.
+> +		 * Discard the late result and still report -ETIMEDOUT.
+> +		 */
+> +		wait_for_completion(&priv->completion);
 
-Add asynchronous Stratix 10 service layer support for hardware monitor
-temperature and voltage read commands in stratix10_svc_async_send() and
-stratix10_svc_async_prepare_response().
+Just like Sashiko, I am puzzled and do not understand this code.
 
-Register a socfpga-hwmon platform device from the service layer driver
-when hardware monitor support is enabled, similar to the RSU device.
-
-Signed-off-by: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
-Signed-off-by: Tze Yee Ng <tze.yee.ng@altera.com>
----
-Changes in v7:
-- No functional changes from v6
-
-Changes in v6:
-- No functional changes from v5
-
-Changes in v5:
-- No functional changes from v4
-
-Changes in v3:
-- No functional changes from v2
-
-Changes in v2:
-- Extend patch scope beyond async SMC support: register socfpga-hwmon
-  platform device from stratix10-svc when CONFIG_SENSORS_ALTERA_SOCFPGA_HWMON
-  is enabled
-- Follow RSU-style registration; RSU probe error handling is unchanged
-- Add err_unregister_clients to unregister hwmon and RSU on populate failure
-- Unregister hwmon platform device in stratix10-svc remove()
----
- drivers/firmware/stratix10-svc.c             | 46 ++++++++++++++++++--
- include/linux/firmware/intel/stratix10-smc.h | 38 ++++++++++++++++
- 2 files changed, 81 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/firmware/stratix10-svc.c b/drivers/firmware/stratix10-svc.c
-index c24ca5823078..fc38afed5b7f 100644
---- a/drivers/firmware/stratix10-svc.c
-+++ b/drivers/firmware/stratix10-svc.c
-@@ -45,6 +45,7 @@
- 
- /* stratix10 service layer clients */
- #define STRATIX10_RSU				"stratix10-rsu"
-+#define SOCFPGA_HWMON				"socfpga-hwmon"
- 
- /* Maximum number of SDM client IDs. */
- #define MAX_SDM_CLIENT_IDS			16
-@@ -104,9 +105,11 @@ struct stratix10_svc_chan;
- /**
-  * struct stratix10_svc - svc private data
-  * @stratix10_svc_rsu: pointer to stratix10 RSU device
-+ * @stratix10_svc_hwmon: pointer to stratix10 HWMON device
-  */
- struct stratix10_svc {
- 	struct platform_device *stratix10_svc_rsu;
-+	struct platform_device *stratix10_svc_hwmon;
- };
- 
- /**
-@@ -1329,6 +1332,14 @@ int stratix10_svc_async_send(struct stratix10_svc_chan *chan, void *msg,
- 		args.a0 = INTEL_SIP_SMC_ASYNC_RSU_NOTIFY;
- 		args.a2 = p_msg->arg[0];
- 		break;
-+	case COMMAND_HWMON_READTEMP:
-+		args.a0 = INTEL_SIP_SMC_ASYNC_HWMON_READTEMP;
-+		args.a2 = p_msg->arg[0];
-+		break;
-+	case COMMAND_HWMON_READVOLT:
-+		args.a0 = INTEL_SIP_SMC_ASYNC_HWMON_READVOLT;
-+		args.a2 = p_msg->arg[0];
-+		break;
- 	default:
- 		dev_err(ctrl->dev, "Invalid command ,%d\n", p_msg->command);
- 		ret = -EINVAL;
-@@ -1422,6 +1433,10 @@ static int stratix10_svc_async_prepare_response(struct stratix10_svc_chan *chan,
- 		 */
- 		data->kaddr1 = (void *)&handle->res;
- 		break;
-+	case COMMAND_HWMON_READTEMP:
-+	case COMMAND_HWMON_READVOLT:
-+		data->kaddr1 = (void *)&handle->res.a2;
-+		break;
- 
- 	default:
- 		dev_alert(ctrl->dev, "Invalid command\n ,%d", p_msg->command);
-@@ -2013,16 +2028,38 @@ static int stratix10_svc_drv_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_put_device;
- 
-+	if (IS_ENABLED(CONFIG_SENSORS_ALTERA_SOCFPGA_HWMON)) {
-+		svc->stratix10_svc_hwmon =
-+			platform_device_alloc(SOCFPGA_HWMON, 0);
-+		if (!svc->stratix10_svc_hwmon) {
-+			dev_err(dev, "failed to allocate %s device\n",
-+				SOCFPGA_HWMON);
-+		} else {
-+			svc->stratix10_svc_hwmon->dev.parent = dev;
-+
-+			ret = platform_device_add(svc->stratix10_svc_hwmon);
-+			if (ret) {
-+				dev_err(dev, "failed to add %s device: %d\n",
-+					SOCFPGA_HWMON, ret);
-+				platform_device_put(svc->stratix10_svc_hwmon);
-+				svc->stratix10_svc_hwmon = NULL;
-+			}
-+		}
-+	}
-+
- 	ret = of_platform_default_populate(dev_of_node(dev), NULL, dev);
- 	if (ret)
--		goto err_unregister_rsu_dev;
-+		goto err_unregister_clients;
- 
- 	pr_info("Intel Service Layer Driver Initialized\n");
- 
- 	return 0;
- 
--err_unregister_rsu_dev:
--	platform_device_unregister(svc->stratix10_svc_rsu);
-+err_unregister_clients:
-+	if (svc->stratix10_svc_hwmon)
-+		platform_device_unregister(svc->stratix10_svc_hwmon);
-+	if (svc->stratix10_svc_rsu)
-+		platform_device_unregister(svc->stratix10_svc_rsu);
- 	goto err_free_fifos;
- err_put_device:
- 	platform_device_put(svc->stratix10_svc_rsu);
-@@ -2046,6 +2083,9 @@ static void stratix10_svc_drv_remove(struct platform_device *pdev)
- 	struct stratix10_svc_controller *ctrl = platform_get_drvdata(pdev);
- 	struct stratix10_svc *svc = ctrl->svc;
- 
-+	if (svc->stratix10_svc_hwmon)
-+		platform_device_unregister(svc->stratix10_svc_hwmon);
-+
- 	stratix10_svc_async_exit(ctrl);
- 
- 	of_platform_depopulate(ctrl->dev);
-diff --git a/include/linux/firmware/intel/stratix10-smc.h b/include/linux/firmware/intel/stratix10-smc.h
-index 9116512169dc..18ac6fe96d9d 100644
---- a/include/linux/firmware/intel/stratix10-smc.h
-+++ b/include/linux/firmware/intel/stratix10-smc.h
-@@ -695,6 +695,44 @@ INTEL_SIP_SMC_FAST_CALL_VAL(INTEL_SIP_SMC_FUNCID_FPGA_CONFIG_COMPLETED_WRITE)
- #define INTEL_SIP_SMC_ASYNC_POLL \
- 	INTEL_SIP_SMC_ASYNC_VAL(INTEL_SIP_SMC_ASYNC_FUNC_ID_POLL)
- 
-+/**
-+ * Request INTEL_SIP_SMC_ASYNC_HWMON_READTEMP
-+ * Async call to request temperature
-+ *
-+ * Call register usage:
-+ * a0 INTEL_SIP_SMC_ASYNC_HWMON_READTEMP
-+ * a1 transaction job id
-+ * a2 Temperature Channel
-+ * a3-a17 not used
-+ *
-+ * Return status
-+ * a0 INTEL_SIP_SMC_STATUS_OK, INTEL_SIP_SMC_STATUS_REJECTED
-+ * or INTEL_SIP_SMC_STATUS_BUSY
-+ * a1-a17 not used
-+ */
-+#define INTEL_SIP_SMC_ASYNC_FUNC_ID_HWMON_READTEMP	0xE8
-+#define INTEL_SIP_SMC_ASYNC_HWMON_READTEMP \
-+	INTEL_SIP_SMC_ASYNC_VAL(INTEL_SIP_SMC_ASYNC_FUNC_ID_HWMON_READTEMP)
-+
-+/**
-+ * Request INTEL_SIP_SMC_ASYNC_HWMON_READVOLT
-+ * Async call to request voltage
-+ *
-+ * Call register usage:
-+ * a0 INTEL_SIP_SMC_ASYNC_HWMON_READVOLT
-+ * a1 transaction job id
-+ * a2 Voltage Channel
-+ * a3-a17 not used
-+ *
-+ * Return status
-+ * a0 INTEL_SIP_SMC_STATUS_OK, INTEL_SIP_SMC_STATUS_REJECTED
-+ * or INTEL_SIP_SMC_STATUS_BUSY
-+ * a1-a17 not used
-+ */
-+#define INTEL_SIP_SMC_ASYNC_FUNC_ID_HWMON_READVOLT	0xE9
-+#define INTEL_SIP_SMC_ASYNC_HWMON_READVOLT \
-+	INTEL_SIP_SMC_ASYNC_VAL(INTEL_SIP_SMC_ASYNC_FUNC_ID_HWMON_READVOLT)
-+
- /**
-  * Request INTEL_SIP_SMC_ASYNC_RSU_GET_SPT
-  * Async call to get RSU SPT from SDM.
--- 
-2.43.7
+Guenter
 
