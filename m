@@ -1,168 +1,119 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11021100.outbound.protection.outlook.com [40.107.130.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DA43446C7;
-	Tue, 21 Jul 2026 10:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.100
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784631051; cv=fail; b=RjgYJ/Te7a0mjB/eQymUFFOR4vPXZqPjt0GDIXC2LQRt5OW+jUStOHZ9LwGq8Uy3bo75u+UlpWZLyjlhUEBQEvouTFgiycIvS2gVlQ9aJo0Ifj5nuSo/Erexf8wWwaVz9cOjmifF/yhXXWec8jI3rXdNqsTCJiV8b0O+gq4VYu0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784631051; c=relaxed/simple;
-	bh=rTe/6UeQ/TuWXKJmVM2hykN9qLRIqrsyNallfQ09IeA=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=QbiNaGYw1vMi7N9t4cd7dZo9RQI4TuW95i0QiwJFCrSlL/qN6lWYlmKvZpoUQ5Mp/4EvvR4ke+wt5TmkGYZCHhE2562SJdxfaqr6srrTZgdyC6Z5XDBeX0C5Ehl8hm2opoP17eWuSXlAgPUXlxiXegOm8mzeigzeJ8u3ORycw5c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kontron.de; spf=pass smtp.mailfrom=kontron.de; dkim=pass (2048-bit key) header.d=kontron.de header.i=@kontron.de header.b=h4ot+std; arc=fail smtp.client-ip=40.107.130.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kontron.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kontron.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA42836A34E;
+	Tue, 21 Jul 2026 11:13:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784632416; cv=none; b=hjmb08nlhVgewob1/ze9QCU5tPStV0coHK9yu5sPkZExcR4/Hv535GpXkHzJeW7RodDveLdCtDl8UsrLB8jmd5sr2pZBnTcvXAIvhrHkaEbiOXgv/9xrIITv61shTkX2MUNmV6l8HGS2coGlbfhrv6o9UOuVuRIuZ6Ga4mYIo1U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784632416; c=relaxed/simple;
+	bh=hVMFgW7GFpsFn+27vHqJFVJodoLBHMreceKvyVqTWgQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hyLiknYUpy/kEw5EydU+5QS6oAFiTDuxon5kIthFk9/gj6FhkFcJ2zzASZ4M/RIRJ0RT2vVTOiFR/7aC9c4/jwPxlo5JkG+5KOZSTW0ryM3aTcPnL77BCKMETEeM3DvOpVvy2J3Bk82txImcvQKuF20G2m/wlZLYa83eCUcsf6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HhpYzzM/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kontron.de header.i=@kontron.de header.b="h4ot+std"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Lkey7eSPcSIL+zbq+lLOUtwnqZAQeNQnsxeVX9FNBXcneTsPhMkm6xnoV6TorYpILeQ/df13kCVwwh+6Hgq3NJ6Pr5X552gmCLFFcOQLd/KIMMDFptvSBQLoC4vtIMUZfu8ZY572BsXZUNXfxpQKJzLyVk/30H1hxc1pP6/KOjuGe3huZ1u4xt3ziKofF0UJzU8VCyLBYglB66gzdPWT8a4pf1nqSvU8NvIHdhMJcbbHTatrdefcFe/x4YxFYi8AEdNwMEm5llvUSQPPOLbOvxoPWpfMDXOg9KJZ+0oJbCw3Tvnp9/+s5Ayz8zU10Tg+s36Im9iGsDAvNp+xCoXD4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KeaeIii+jMVGhy5xnXeECxFPMOxLUTADYCcaXFjueFo=;
- b=VM5Y10D3simu5rNeUlMQk6oDEYDqbIx+17TNM7xxvACFBTOiibIBNMzV0rflEhGSQfjlbVg49XrqBltTvn2jazGcxJQ14xBLP3LkGl2RsOqTsmtilZcjHUnjTjYtfbrQJ5YHLWd9zSInAJG2yTMjAywSJdggozGrMAvobZBworjfup2iifM8F+TgspkXE3uTSJJpPoJ7p5UtaFbpM9AGSR9iwRI4cCHZ24YklM4/yKbT4411VNoyMYSKXY2BITwAPK/FSz965TOxP9XPNZRAkqgASlLvvjAmvI+sEoorUOBZJHeHIe2H34JYSZnVaRC9N4Zeb2f5jolYzHwF7dNBzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
- dkim=pass header.d=kontron.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kontron.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KeaeIii+jMVGhy5xnXeECxFPMOxLUTADYCcaXFjueFo=;
- b=h4ot+std8DQLUKoGrDgUonqwOFo97zEyPpiBTT6mzvYD7x9GECnbF/YWeO3icOEan0i/s3NdM43LWhBpZhQNS45AAvLQjkJd2rbO+C1TiG9s5xHMUo1kRj/yoNJFWaT5VJ4T9YZ6NmB4/ViMDnAyvbdUAGB/1RV9lkdyT3JCMvxNF6jTyN80oYBBYmOz4aioZzisNjE0m2KkLxfZ1rMVR9I/94Us25zm85U8lfUfPt64bqgG2DtJQyOe6FBSLzXKpjYAWB1SzFhcctkMZ6TASNGtIIMokNdnQa5pp1wodG9LpEXHge98lVlzGy8fxAM+bJqy0KzA8LgeimrR9knlww==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kontron.de;
-Received: from PR3PR10MB4288.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:97::22)
- by AS2PR10MB7024.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:598::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Tue, 21 Jul
- 2026 10:50:42 +0000
-Received: from PR3PR10MB4288.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6aec:a389:7814:860f]) by PR3PR10MB4288.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6aec:a389:7814:860f%4]) with mapi id 15.21.0245.009; Tue, 21 Jul 2026
- 10:50:42 +0000
-Message-ID: <7a799385-fcc4-49a5-bef1-700e3bfb7c5d@kontron.de>
-Date: Tue, 21 Jul 2026 12:50:40 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v29 3/7] firmware: imx: add driver for NXP EdgeLock
- Enclave
-To: pankaj.gupta@oss.nxp.com, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, sashiko-bot <sashiko-bot@kernel.org>
-References: <20260721-imx-se-if-v29-0-04a362f4fcca@nxp.com>
- <20260721-imx-se-if-v29-3-04a362f4fcca@nxp.com>
-Content-Language: en-US, de-DE
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
-In-Reply-To: <20260721-imx-se-if-v29-3-04a362f4fcca@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0050.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4a::19) To PR3PR10MB4288.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:97::22)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HhpYzzM/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 954BC1F000E9;
+	Tue, 21 Jul 2026 11:13:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784632415;
+	bh=OJ9YfaBFSXj+Hk6UH0eG4jUTBf/umVD52Blq68hhcTs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=HhpYzzM/oimKKYM+22iuflbObTtTZTtdDQiTiyxYtxAy56bVm2RUMe/378V24lMCy
+	 N9e8S8m+u3CgY8ts4zAtzzn/7vOUZMXBdf24qhCZv9/TwkwwqyROndhV2evLOQdqu8
+	 HBoTX5g3VolANyAmdxRBf+OKSdf8wzTD4gVePThB5rnLNMi21tyuQah/hjS+xzmi6O
+	 +V6KY+DG0MFNy6G9jhnjGbGb6gjRw/JJMT1JAVLM8HYueumFcgncpSyOhJzG/H7zL+
+	 pCiAXWPO74jZeBAiR5ITzdAOIhaTIq1nFewaleXIqgld/by6+2YLS8eesfYNZWbUK3
+	 W+mvBX/jSsBVg==
+Date: Tue, 21 Jul 2026 12:13:30 +0100
+From: Simon Horman <horms@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Pnina Feder <pnina.feder@mobileye.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Dave Young <ruirui.yang@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>, Alexandre Ghiti <alex@ghiti.fr>,
+	kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/4] vmcore-tasks: export per-task metadata to vmcoreinfo
+Message-ID: <20260721111330.GA1768252@horms.kernel.org>
+References: <20260622211430.4008899-1-pnina.feder@mobileye.com>
+ <akybBoCAm-kJbfHL@kernel.org>
+ <20260720091927.GA1736709@horms.kernel.org>
+ <al4X300UObXawEIJ@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PR3PR10MB4288:EE_|AS2PR10MB7024:EE_
-X-MS-Office365-Filtering-Correlation-Id: eaed3766-503b-47b8-1555-08dee715e91a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|7416014|376014|1800799024|56012099006|11063799006|4143699003|10067099003|921020|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	dklNlYHB5tjTqIuUu4fzS8F5F4lWR16u7bEc1xBWf4aziYIG2R37WGhWHfQ0iqhyNQzDZ80ofUAR7fN23YoIHefUFCNqYQQIkRKp+OTcoVn3Azpgmh+CPB4fsS6lnpMmaiED6UJYikpvB40N0UvTNu0Fmra0j5yrRSRlRBKSk2XtAyS87BfosKxZUyEwG4pskZexWqyz+gqC7RGvEtDWa4EGIkuMz9AMIcBZ+6Z3ipuanUTRCj9EX8ndxiBIXjpHr2P9//O7h2wOyP6HCIt8SrIEroiVl60u56kOWAB9VF6TjfqfLcQAv0lU4Vj+A3ep+Y9igzv8F/8iBBzYS3Jjt/uCYPzQc5I8LjKyi/pMc01iFbQmOuyeFGxXQaL+gFuawM+9PRmmVHE6stfFOvD76XOCkguZ3sj3QVcaca8Hi48GPKKxywcvBdV+AyT/hbwrWJ+4w4nviTOYfAD+9meTjY1OPv7DeqKYHMinbawgN664Te6VyWWD8l9CanJvdEK/Nh2yYcga64mPsBmmJhUB2GLKy35DLnKxjYER+XzCOniyJTGFJQM9BrfiIUKs6uvoQnpvOgu8aMQkqaebrxegiDrymrzwyCGb90zFzcIHG3YdM3EQ7uejh0ND8NIUaQjWGeHxZMGl+09lqY8b31QOyVBJm44/JHOkdPbPOp+8ShRlq2Ap7+wK6dg0TPtEo3YEOnFWwfSrfVVIMdBsF9ZKOA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PR3PR10MB4288.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(7416014)(376014)(1800799024)(56012099006)(11063799006)(4143699003)(10067099003)(921020)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?T3FMSTdEM3diZGFnNXoxOFVYVTRiUXlQSjB4a0R6QVlBZzF3TTE0MmVYS3d0?=
- =?utf-8?B?bmluSWFKMkVNMmlWUUxMNU9NR2dDRjMrNTFiMERWSHlDMEpqc3JOTVo1OUhp?=
- =?utf-8?B?TFA3WmluenRpRlpMRm5CVUg1WEwxM3RTcmVEMmJjY0ZVM3FPZ3c4Ukhnclo3?=
- =?utf-8?B?eU9vVmk3M0Z4YXpPZmFjVTZHWHlCalF2VkNxK2NURGc5S0RzRllUbDlZMURS?=
- =?utf-8?B?cmZKMy9JT0xDL3lpK3E1cEhSYXExcE16R1FiT0N2V2YzVVNiOU4rRlVSWE9q?=
- =?utf-8?B?bEpVQUV1NkdyVW1XcDZvMzdxWlhhUlF1UU9PbHJVOXN4SC93SzJCdDcxYVBW?=
- =?utf-8?B?d2NSbi9zVDVzWm85M09SN2dKOEttdjBsWGVSNkhVN1VMNWtnTDBIcXQ2S3J2?=
- =?utf-8?B?djNhRVo2TVp1dEtuVU0xcjZaQ0h4czd4bnUvbFdHdGUvOS9EMnd4aXRtTnEr?=
- =?utf-8?B?MldINmM5NHl3S1ZPOGE3eGpENUZzbGJWNDlFWjJLakFIM0c4OGdGd2Y3WEhn?=
- =?utf-8?B?WDd0WExjd3Mra2o4Z1VoZDlyMGpJSmFuTDFTNGRNLzlGQ2tJQXo4VGZ4b3Bz?=
- =?utf-8?B?bWZCQk5GWHpzWWlGWGpHOElsT1B6aThSVGlWYlplY2VvSnU3a0pkeFBWeU4v?=
- =?utf-8?B?TjVBUWlFQ2hRTUloem9PQ2dyVzJyUWNTeE5WSFpPamJ6KzlzVFdHY1lyZ2N0?=
- =?utf-8?B?ekRQT0tqdlpZaVFVZU1waDIvY1lzTUpjdjhKM0lPU2cvR0FER2MyVGVhcDdK?=
- =?utf-8?B?aVkwSUM3RTZKTGU3R3ZvejI1cmxQbmJ5Q3kxMEVmbCt6Q1BvVzFqRG1zNzMz?=
- =?utf-8?B?eUJlTkd0S0hnQ09salhnTjFiWlRPbUNqN29GRUNpQjRaUjdjb1pmaDhkZkVk?=
- =?utf-8?B?aG95bXppMkFsUGMxYStjY2pMb0FCblBiems2bXQyNFNOdnJmdHVCUjVLb2V3?=
- =?utf-8?B?cnhCR0VGQjRsdHdzb1poZE12SUN6a1ZuYVRmMkxwYUtUTzQ0aksyVnYwcVVO?=
- =?utf-8?B?WkE2YkRESXQxMDZsc2o1Z2NEcldMSFJLaW9XVDNLTWhMcGZFcTJzWjNtcUlZ?=
- =?utf-8?B?TXE4bHoyOWZTQ3Z0d0gzaWVyMmxyMElMdEY3S1RYWUhhNGJWMmtnQzlKU3RD?=
- =?utf-8?B?a05iRFpERE9ocmVFRFpOdGUwTnFlUUpQMWMvbDBUZURwVHMxZXk5NVorckNF?=
- =?utf-8?B?NnN2SmlHZFRHczB1bUs4clIzOXVVQVJTQVh2QTJmZEVJNkxMZEl6KzZaenU1?=
- =?utf-8?B?a1BPOXlOQkVLSklic3hBNW9nRGN6dXJtdVl5d0lRNzkrUjAzblQvdzM5VWNo?=
- =?utf-8?B?a3hCVDVyOGY2eCtiaG1Tb1NwR2dVbEVKdnN5MjR0dStOckNHUm81YTByc3Jz?=
- =?utf-8?B?aUZPZHVUVGt0L2RFTDAyeDVzc2RhR3RzZU96NGF1RTdKUnQwZXA3c1lETS82?=
- =?utf-8?B?bzlVVHh6Z1RtZnB3RllHcXh4NW9qYUxvc0FPNHhGL3QrcDdhWVRMWXVrSTdj?=
- =?utf-8?B?WU54L0gyNzFBUmVlWDdTR2FuN202VWVCK2hLT2YwSHpEUXgzUEJpNTdocjN4?=
- =?utf-8?B?MmE4RGMyRkIwTGdVQnBxS1lCRHpOcVpRa3gvaS9kNHRmRUF1cDV5Z2JJR2h6?=
- =?utf-8?B?Y25STTcyZHlhQkpzb0RsTGkzSVVJY1lwZ21NTnZud2dHNFF6NnlkRHdaaEV0?=
- =?utf-8?B?WDZ6UXBpZ21zWFBtVGRWUi9RbGg4dWlBcmVIbWptb1pKQ091NitFVzdHbCsx?=
- =?utf-8?B?bVNWR0dvWWxhYUpxRjk0TXhMcWpMTnpxTTFsbkdkRFlyY0RpZTlFZzdrQldl?=
- =?utf-8?B?L0d0TTZ5aVhOdTJnZ2hnMHFkT2hieGRjN25sd25xSWl0bGMycEx1NlBUd2VS?=
- =?utf-8?B?ZExqRldpVTlmekxHSDQ4Q2c1aGNBUnNJb2RPOSt6MkNuZ29wR1Q0SWZKSWxI?=
- =?utf-8?B?VEwrb2xLbU9ON05UU1I2ODZQZzBBNkhCWndvTzJWMHUrNml5c0NMWmZ2cERU?=
- =?utf-8?B?bUxsYWdJRGtOTHZiK201R3ZlL25DSC9XSE4vTWZWczFDd2N4TERFR284Qy9X?=
- =?utf-8?B?RUNWSzVmdXNkZmFySzJVeUMvbEhDTWVoMUV4Qk1XTGRUMmRaWG9KbjhYUXI1?=
- =?utf-8?B?OG96aDY1M3BzcXptc3QxcEJSVmRkMHN4R2RRQnJZaUdpTlowc1h6ZlM3bVFV?=
- =?utf-8?B?ZGplYndnUVZlUUNOMC84T050ZStTNC9yYVNJRktYQzVIMFBxeWFJSWIrUFBW?=
- =?utf-8?B?MW1FVXc3UjRwZ25qamU3RnZYdTNSQWs4VXVPL1hBak1vcTFNTEVCaXI5NSt4?=
- =?utf-8?B?ditWSHliMjBXQU5sS1BHejJhdWt2QU5ZV1ZmTDRUZDNxK1BxUDlyc1F4VXZ1?=
- =?utf-8?Q?5oM2OXaVL1BbseaE=3D?=
-X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: eaed3766-503b-47b8-1555-08dee715e91a
-X-MS-Exchange-CrossTenant-AuthSource: PR3PR10MB4288.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 10:50:42.6294
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MxnpPoaO9xyf8au8pcVOWFrmnGSbVln8VoB4rIYlkmObngzehUc2ar6KEwfHgFOlwDUgwuSPcyPLzbv/0EXx8qcslxopIrRA2vlhpo7LZDg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB7024
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <al4X300UObXawEIJ@kernel.org>
 
-On 21.07.26 13:23, pankaj.gupta@oss.nxp.com wrote:
-> From: Pankaj Gupta <pankaj.gupta@nxp.com>
+On Mon, Jul 20, 2026 at 03:43:11PM +0300, Mike Rapoport wrote:
+> Hi Simon,
 > 
-> Add MU-based communication interface for secure enclave.
+> On Mon, Jul 20, 2026 at 10:19:27AM +0100, Simon Horman wrote:
+> > On Tue, Jul 07, 2026 at 09:21:58AM +0300, Mike Rapoport wrote:
+> > > On Tue, Jun 23, 2026 at 12:14:26AM +0300, Pnina Feder wrote:
+> > > > This series extends vmcoreinfo with struct offsets and sizes needed by
+> > > > the vmcore-tasks userspace tool to extract per-task state from a vmcore
+> > > > dump without requiring kernel debug symbols (DWARF/BTF).
+> > > > 
+> > > > The vmcore-tasks tool reads /proc/vmcore (or a saved vmcore file) and
+> > > > reconstructs, for each task:
+> > > >   - task name, pid, state, flags
+> > > >   - VMA list (start, end, flags, backing file)
+> > > >   - user register state (saved on the kernel stack at kernel entry)
+> > > >   - user-space backtrace with VMA/filename mapping
+> > > >   - kernel dmesg buffer
+> > > > 
+> > > > This provides a lightweight post-mortem crash analysis capability for
+> > > > production environments where full debug info (DWARF/BTF) is not
+> > > > available.
+> > > > 
+> > > > The companion userspace tool is submitted to kexec-tools:
+> > > >   https://lore.kernel.org/all/20260622205550.1087163-1-pnina.feder@mobileye.com/
+> > > 
+> > > Sorry for the delay, this fell between the cracks somehow.
+> > > 
+> > > The kernel side looks fine overall, but to merge it there should be an
+> > > agreement from the userspace side maintainers that vmcore-tasks is
+> > > something they are wishing to accept.
+> > 
+> > Hi Mike, all,
+> > 
+> > Sorry for the extended delay.
+> > 
+> > I will send some minor feedback to the user-space tool patchset
+> > but overall, yes, this is something I would be happy to accept.
+> > 
+> > I don't want to create a chicken-and-egg type problem here.
+> > But it's probably worth mentioning that usually features
+> > hit the kernel before the corresponding code is accepted
+> > into kexec-tools.
 > 
-> NXP hardware IP(s) for secure-enclaves like Edgelock Enclave(ELE), are
-> embedded in the SoC to support the features like HSM, SHE & V2X, using
-> message based communication interface.
+> Sorry if I wasn't clear. 
 > 
-> The secure enclave FW communicates with Linux over single or multiple
-> dedicated messaging unit(MU) based interface(s).
-> Exists on i.MX SoC(s) like i.MX8ULP, i.MX93, i.MX95 etc.
+> I didn't mean that the feature should be merged into kexec-tools before
+> merging the kernel bits. I just wanted to make sure there's no fundamental
+> issue from kexec-tools perspective.
+
+Thanks, it is clear :)
+
+> > Let me know how you would like to proceed.
 > 
-> For i.MX9x SoC(s) there is at least one dedicated ELE MU(s) for each
-> world - Linux(one or more) and OPTEE-OS (one or more).
-> 
-> Other dependent kernel drivers will be:
-> - NVMEM: that supports non-volatile devices like EFUSES,
->   managed by NXP's secure-enclave.
-> 
-> Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-My test and review tags were sent for v25 of this patchset. Meanwhile it
-looks like you have added tons of fixes for Sashiko reports and it is
-quite obvious that I haven't reviewed and tested those. So my tags
-definitely don't apply anymore and should be dropped. Thanks!
+> I'm going to wait for Baoquan's review and once that's done I'll pick up
+> the kernel bits.
+
+I see that conversation is now active.
+
+Thanks to all.
