@@ -1,33 +1,26 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from unimail.uni-dortmund.de (mx1.hrz.uni-dortmund.de [129.217.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639BE372EC2;
-	Tue, 21 Jul 2026 13:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8939379C36;
+	Tue, 21 Jul 2026 14:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.217.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784641943; cv=none; b=Fvf81snTTONeMq9R+pDlMhyWM8y7ecLcK8AgfDI+elK7UjJL7ytMiTlfxgqfYVhooWD2JgyQFwZmZcXzFtrA41Gj+Kb1feEw5cziISQkIgaYmUz+PyWllX6aktY2ni5f6TA4dl9O1PNmRguRsZU/CfouXZezJZzn7fDKuTDO7rE=
+	t=1784642883; cv=none; b=sTT+oViaQD12nzcym3QoKjgzr3FNuAftQ7F+ZDODskwbXdpCQIGp97+K3tj/PRI+7NF2GrkGyA3AHA1xH2paPSTvEq2yPAaNYz09qyiSVroL8G3tPgHiQBUs5bcLxo22vc6QYGPrUnZ3aRF0F1tRGnG1+IvW8qx6N/Vf+TofWbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784641943; c=relaxed/simple;
-	bh=2P4lZGxUGYtLyIwWk6vFiHRKo/t+Hk1t+hVzWNCWm+I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a56XN9bThKyr+VkZ7ilxe7n6eSxwk3ROp8AaZc+oeem9/g+4Sx2zIiBzsE6YTXH1flq+X3vdhzdcHkTi7ab1ocZNmprh01Q4gOMdYjmY8Ugw6dzo82MdVRWQ7lAUX3lwCrYkYFNm4TR917jn/jdQwjHtvFlzvmH+w6+NtOhlYGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d/72xT/o; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d/72xT/o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8189F1F000E9;
-	Tue, 21 Jul 2026 13:52:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784641942;
-	bh=RaZK4/uxB2KhVDJNW2ZeJFh2hP5pmFvK0FffjAu88PI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=d/72xT/oXv/TB6QjoTEzJixPbZfa8WBCinpxoRj4KHF56so2jsmgMi8UlSszLchc0
-	 VmskP0UPL1HE86D25Kh+6Lua1r3cjU0OtNgLwH1H9W3vDBmUJ3S7UVpKCVEqvpxu7r
-	 Y4YbBGRXNN/QTS7O4KBaRJqJzhLYpxYQ8w8Xfx/zypYYHx5755R9ue2ACdp4ZqUJer
-	 s0cRbIdimcIzS9AYa9sEtnKdf2M3O91OOzbFHdn0ZI2CXYp1fAXOaFLGYZ5Y4Jh6HH
-	 eBfjBl3m7rKa+a8pMQkz63klyqx2kDKQCkSmOyIXJaMbQXWiP11Cc0F6P+Qpx+6Sw7
-	 BM+ElcTn9HISA==
-Message-ID: <4665dd2d-99c8-492c-a4cf-b72028317d0b@kernel.org>
-Date: Tue, 21 Jul 2026 15:52:14 +0200
+	s=arc-20240116; t=1784642883; c=relaxed/simple;
+	bh=N1LKOqLFTOBSOUTDuX/e0IyhD0wJrThFp1keQVautug=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=h2ZGVFSFkgsuD3Na1wa1Wao2RYyQL91J/sNXHFLa5+jMOCA5tt7mavrzm7mno55YJBFuuxqjpjWr8y2J+98c1X73xBVQN1ZUeLiJAWo77R6SN3MmN2p7iFIa8s2xr5+x7D3UgkkBNJ+qnmWZTsnrAUXOFClzfSGUUdaznvz/zmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de; spf=pass smtp.mailfrom=tu-dortmund.de; arc=none smtp.client-ip=129.217.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tu-dortmund.de
+Received: from [129.217.186.204] ([129.217.186.204])
+	(authenticated bits=0)
+	by unimail.uni-dortmund.de (8.19.0.2/8.19.0.2) with ESMTPSA id 66LE4XV1002729
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 21 Jul 2026 16:04:33 +0200 (CEST)
+Message-ID: <5089fc5e-2fb8-41fb-9aab-42b22cc2c201@tu-dortmund.de>
+Date: Tue, 21 Jul 2026 16:04:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,159 +28,84 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/5] tools/mm: add a standalone GUP microbenchmark
-To: Sarthak Sharma <sarthak.sharma@arm.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
- <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
- Leon Romanovsky <leon@kernel.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260716123226.197736-1-sarthak.sharma@arm.com>
- <20260716123226.197736-5-sarthak.sharma@arm.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: [PATCH net v3] tun/tap & vhost-net: make qdisc backpressure
+ opt-in via IFF_BACKPRESSURE
+From: Simon Schippers <simon.schippers@tu-dortmund.de>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Jason Wang <jasowangio@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+        Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        Tim Gebauer <tim.gebauer@tu-dortmund.de>,
+        Brett Sheffield <brett@librecast.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260709095511.168235-1-simon.schippers@tu-dortmund.de>
+ <20260714092506-mutt-send-email-mst@kernel.org>
+ <5016ae84-7049-4a5f-91c9-ba0047b06ee3@tu-dortmund.de>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260716123226.197736-5-sarthak.sharma@arm.com>
+In-Reply-To: <5016ae84-7049-4a5f-91c9-ba0047b06ee3@tu-dortmund.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/16/26 14:32, Sarthak Sharma wrote:
-> Add a command-line tool for benchmarking get_user_pages fast-path
-> (GUP_FAST), pin_user_pages fast-path (PIN_FAST), and pin_user_pages
-> longterm (PIN_LONGTERM) via the CONFIG_GUP_TEST debugfs interface.
+On 7/14/26 18:50, Simon Schippers wrote:
+> On 7/14/26 15:40, Michael S. Tsirkin wrote:
+>> On Thu, Jul 09, 2026 at 11:55:11AM +0200, Simon Schippers wrote:
+>>> Commit 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop
+>>> when a qdisc is present") did not show a relevant performance regression
+>>> in my testing but on Brett Sheffield's librecast testbed it shows a
+>>> significant performance drop in a IPv6 multicast testcase. The regression
+>>> can be pinpointed when multiple iperf3 TCP threads are sending. For 8
+>>> threads the performance dropped from 13.5 Gbit/s to 9.13 Gbit/s. This is
+>>> the reason why this patch makes the qdisc backpressure behavior opt-in.
+>>>
+>>> One option to accomplish the opt-in would be to set the default qdisc to
+>>> noqueue at init. However this may also break userspace as users might
+>>> have chosen a custom qdisc even though most of the qdiscs did nothing
+>>> for tun/tap in the past due to missing backpressure...
+>>>
+>>> This is the reason why in this patch, the flag IFF_BACKPRESSURE is
+>>> introduced instead which is required to enable the backpressure logic.
+>>> This means the stopping logic in tun_net_xmit() and the waking logic in
+>>> __tun_wake_queue() are skipped if the flag is disabled. Setting
+>>> IFF_BACKPRESSURE makes an attached qdisc effective by stopping the queue
+>>> instead of tail-dropping when the internal ring is full.
+>>>
+>>> To avoid a possible stall due to disabling IFF_BACKPRESSURE, the new
+>>> helper tun_force_wake_queue() is implemented. The helper safely wakes the
+>>> respective netdev queue and resets cons_cnt while the consumer_lock and
+>>> the producer_lock of the ring are held. The helper is run in tun_attach()
+>>> when a queue (re)attaches, in tun_set_iff() for attached tfiles, and
+>>> in tun_queue_resize().
+>>>
+>>> The documentation in tuntap.rst is updated accordingly.
+>>>
+>>> Fixes: 1d6e569b7d0c ("tun/tap & vhost-net: avoid ptr_ring tail-drop when a qdisc is present")
+>>> Reported-by: Brett Sheffield <brett@librecast.net>
+>>> Closes: https://lore.kernel.org/netdev/akVnoOYQOrt8k-Gu@karahi.librecast.net/T/#u
+>>> Signed-off-by: Simon Schippers <simon.schippers@tu-dortmund.de>
+>>
+>>
+>> The patch itself is fine:
+>>
+>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+>>
+>> What bothers me is the timing: we
+>> are past freeze and this new interface hasn't been tested
+>> much.
+>>
+>> We can either apply this, or revert the original patch for now
+>> and reapply with this for next.
 > 
-> When invoked without arguments, gup_bench runs the benchmark subset
-> of configurations covered by run_gup_matrix() in run_vmtests.sh: all
-
-To we really need the matrix in there? The matrix was good for selftests, but
-not when using it as a benchmarking tool, no?
-
-> three GUP commands across read/write, private/shared mappings, and a
-> range of page counts, with THP on/off for regular mappings and hugetlb
-> for huge page mappings. Restore HugeTLB settings after each hugetlb
-> benchmark run. Validate numeric command-line arguments instead of
-> relying on atoi().
+> I prefer applying it, but you maintainers must decide that.
 > 
-> This tool is a mix of reused and new logic. The mapping/setup path comes
-> from selftests/mm/gup_test.c, while the default benchmark matrix matches
-> the benchmark subset of run_gup_matrix() in run_vmtests.sh. The standalone
-> CLI and tools/mm integration are added here and the HugeTLB setup code is
-> shared via tools/lib/mm.
-> 
-> Add gup_bench to BUILD_TARGETS and INSTALL_TARGETS in tools/mm/Makefile,
-> link it against the shared tools/lib/mm hugepage helpers, and ignore the
-> resulting binary in tools/mm/.gitignore. While here, also add the
-> missing thp_swap_allocator_test entry to .gitignore.
-> 
-> Add tools/mm/gup_bench.c to the GUP entry in MAINTAINERS.
-> 
-> Suggested-by: David Hildenbrand (Arm) <david@kernel.org>
-> Signed-off-by: Sarthak Sharma <sarthak.sharma@arm.com>
-> ---
->  MAINTAINERS          |   1 +
->  tools/mm/.gitignore  |   2 +
->  tools/mm/Makefile    |  10 +-
->  tools/mm/gup_bench.c | 482 +++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 492 insertions(+), 3 deletions(-)
->  create mode 100644 tools/mm/gup_bench.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 26b06d80ab45..7d121dee9f0f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -17024,6 +17024,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
->  F:	mm/gup.c
->  F:	mm/gup_test.c
->  F:	mm/gup_test.h
-> +F:	tools/mm/gup_bench.c
->  F:	tools/testing/selftests/mm/gup_longterm.c
->  F:	tools/testing/selftests/mm/gup_test.c
->  
-> diff --git a/tools/mm/.gitignore b/tools/mm/.gitignore
-> index 922879f93fc8..154d740be02e 100644
-> --- a/tools/mm/.gitignore
-> +++ b/tools/mm/.gitignore
-> @@ -2,3 +2,5 @@
->  slabinfo
->  page-types
->  page_owner_sort
-> +thp_swap_allocator_test
 
-^ Does that belong into this patch?
+Hi,
+just a gentle ping.
+Has there been any decision on this patch?
 
-> +gup_bench
+Thanks!
 
-I wonder if it makes sense to "git mv" the existing tool (only slightly fixing
-header inclusion to make it compile), essentially removing the old benchmark.
-
-So it would be
-
-1) Move tools, fixing up includes and removing the gup testing logic+matrix to
-   make it compile
-
-2) Extend tool by XYZ
-
-3) Add completely new selftest
-
-Because looking at patch #5, there is not really any code reuse there, but I
-suspect there should be some in this patch here when moving instead of copying.
-
-That would make this a lot easier to review.
-
--- 
-Cheers,
-
-David
