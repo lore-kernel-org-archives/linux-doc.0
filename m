@@ -1,108 +1,83 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396A03A9624
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 11:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25500331A77
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 11:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784634498; cv=none; b=lgNimjMtUydTwEus2vRXa6MPv5ioHeKT/lpf7Fs1uplYJw6glRaThVNSorVhu5Mi7VbYMJ+hwTNWsSoKyR5xoDTzIqNBdQhNYqHzvGbK6Zsb/T98VAosK3FPBQ5Lz3cwPGLhNIfc6ltCFMMJdc0qZNTsKKCwgATt7Y+ficKnOe0=
+	t=1784634755; cv=none; b=FR2xRlwXW6QAAkerG2SprcvBROWPyDfY233kQYHyj/n3BulV89p2IoA/1OEDFf7RZPHvKPyNGlOTvrFd7edz5xVKhnAchSnDfrmYPktrL86oexxL+nlxYe26w89pn2PRlq8NCQdp2YQjC0IeEH1in84rzVnOCO1PHU5PnoWTFFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784634498; c=relaxed/simple;
-	bh=EwpVX7ZHMTLsHnk7KktRMqnoJ2PHnWSUNUhXFSL8Nmg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S1trcnR1QWvO5a7LFScgVTDPk02YdHBDpXj699U9yc+zgo2NjM3DUQnZb28KY56Zxyib81avhfX48bMfXdRjV0JeygEAGsLZkhqfczH2LzuIECZRM2Z6F17+/9vUlNp4U3MyOY/Ce5rueSzZ38V9ASO0Gc0BhXK2O15UXIUWYus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OrrRGBci; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784634755; c=relaxed/simple;
+	bh=jfeNo9sY+CV+61r2cYiAL9DDVOqrE8w2PYAqnuzcsKI=;
+	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
+	 In-Reply-To:MIME-Version:Content-Disposition; b=AOvVZzYjD58mfqJTzXUQXLO9Dd+f4sr2ulhOZVgTlLNBAUasMkIzN4cRiT+/PRrAaKVOMcvL0heKF48KB3rN4EK2GM7+ohjNl0I9e4PuFO9eZq9N3HpN1x14iOY42wLrj+hMes9CE2wgZtrIcJ/FbI1U1b8BHyFN1Ak2quTR28Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Q26gUfo1; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OrrRGBci"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ce7d2adef4so111895735ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 04:48:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784634497; x=1785239297; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zdYBxmmt+QH571hWt4TmDhR35+9SuouIs4ZUf0AXqHw=;
-        b=OrrRGBciOmB7upzIMxRSufL2CnCLTJiAzNEKr1AqxY2MzZKl+1VvgsnAW1+tcVkwIC
-         XAPO59JvrD1lx7MpOAYs3AOjz4CBv1NU0bDcnAFHzOLeufhD4nfEU2Uuj139B3h7yfxk
-         OA2jy4pEFMSOE+/J7odK7Q3gcnGufl3TrOiS6Vlc4j5H0mR9P9lgU41weFvmsFX0zdQR
-         mpabohnMkDs/z/z2La9r9K/Msc6RDbVUfWWiMvWgWdPfaIfbkXQtZtBT7HVjnYiD31a9
-         kWkDqrqNYu3nWBRw9663V4N/9MOqNrMvSA05dh2WyZLZD6VVgqGPuWGxyGLwJiKXEuDh
-         96wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784634497; x=1785239297;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zdYBxmmt+QH571hWt4TmDhR35+9SuouIs4ZUf0AXqHw=;
-        b=nwND9RNcv/EyhlqtIaIYAdlHtNZkr37W5IL3UwiAtDFS2NkqrLeIdbkgs34XRAghnA
-         72aBs1/kz1htDLPPuxXnpChOnyxotWIMmrlyhrGm2B0gI5QIOy9pokHGjrO2er5qrAdG
-         WzJohWZ6d4GziUojUGBnFzW90pKHN5iVgw86eiIvzBS1Jh3t3UaLjlaRLplX1s5Bo3wk
-         Djg4gfgk9k8KnJvqdO29K8n6cEfqmLO19DuWGBoGIIYt7yBPcc7cZ8GFtezmwz1fLzw0
-         33Fov9iqUCg2tl0moLHgOO4sifWgRQHU63p6gpgvcH5lGDGKj/mMac5Zjq8ERLvgf7DG
-         62NQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rr6iIFI3/0sDh9o2F7bcN5zr05j18xuEQXNC2sGtHYr4ROskY7jc9yxkIn8TDZvqiVG2sajBIJMDvI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4ONXvRmAFZ1Sgs0FMp1x0Vnj4GO7RCnYqqdQEs+VkbxRlr4Mo
-	bSY+L2LYCc9OTsFLvkhXf2zmrytKerGQX/kKP7OD9DVnjUIRo0zRp9s+
-X-Gm-Gg: AR+sD10r7ZDmfW2ZQEwIlTLYWJ6IlIknT6kvoWlXPPr4QLVryw1wHoJx6bFcogEoxsr
-	AVZTHENdEtpuGQQ66SjeJ9MYEuVI5mWGrnKsataClFj+lIDn1LwkXMUl6zzcB2BQtLE4KARJWXp
-	UZgb1EhtOVLOcUeF20GxjT4b1XzMGnK64+iQdTs2bE+CDxf81mcUVB6XHmzoYZOStG4cRX3Yve6
-	3rlCKGmsS12EOPvKo2j1SuCS9LM5SMzEf21vRWvV3AQUHyWsqmmVXlJ4RBI6G37r/MIsyaSnELA
-	h7SzSnfBJLo1H4uQi9umyTTLq6ztyaDYaRes7WCQeGVpf5Cxg2m5N1MnxwjaYNi/VQo64t6YtiI
-	fETklj7KvL6eGvuNr/ccU8qHFXlXFI8ZQsbQvXhqDK8YkGASSYtaU8ikWztYykhJgJYwOv57KI6
-	D+CtNpwubFOjEaAlLk4RduOFynLCIVj2IuaPaLmpfa/O5Ug6P0LLaTO8dQug==
-X-Received: by 2002:a17:902:d984:b0:2ca:11af:5ee9 with SMTP id d9443c01a7336-2cf3494b34dmr199820265ad.25.1784634496590;
-        Tue, 21 Jul 2026 04:48:16 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf3448d9b0sm74755305ad.13.2026.07.21.04.48.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jul 2026 04:48:16 -0700 (PDT)
-Message-ID: <4a75b54a-04ea-4f94-bd62-a18e0ce26ebe@gmail.com>
-Date: Tue, 21 Jul 2026 20:48:09 +0900
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Q26gUfo1"
+Content-Type: text/plain; charset=UTF-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784634742;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=saPQNRXNr4uVjroUD0Lw5F38mIc84uTGGZFC3b1RqYo=;
+	b=Q26gUfo1WQCFaXMCnKGGdL3LL9K4urpBsFjjlc8rJ2iknWOPf2bp22QYMRWaK19H8IrSso
+	LI2cvDmA01yHI79tJaqXq5/a5/BHbimUbvxgO+l1+pDDVG95y9Sf5BHpuTZt5NDRn6Aefp
+	D8N83wAXa7XK81tCXohhDc7Q4E/9C50=
+Date: Tue, 21 Jul 2026 04:52:12 -0700
+Message-Id: <DK487PYQKFZK.HX96HW3B22XZ@linux.dev>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Troy Mitchell" <troy.mitchell@linux.dev>
+To: "Troy Mitchell" <troy.mitchell@linux.dev>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Guenter Roeck" <linux@roeck-us.net>, "Paul
+ Walmsley" <pjw@kernel.org>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
+ Ou" <aou@eecs.berkeley.edu>, "Alexandre Ghiti" <alex@ghiti.fr>, "Yixun Lan"
+ <dlan@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
+ <skhan@linuxfoundation.org>
+Cc: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-hwmon@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+ <spacemit@lists.linux.dev>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 4/6] hwmon: (lm63) Add Sensylink CTF2301 support
+References: <20260721-ctl2301-v2-0-ef5fb342872a@linux.dev>
+	<20260721-ctl2301-v2-4-ef5fb342872a@linux.dev>
+	<20260721100004.D93AC1F000E9@smtp.kernel.org>
+In-Reply-To: <20260721100004.D93AC1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6] docs/ja_JP: translate submitting-patches.rst
- (sign-off)
-To: Akiyoshi Kurita <weibu@redadmin.org>, corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Akira Yokosawa <akiyks@gmail.com>
-References: <20260720223410.421262-1-weibu@redadmin.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20260720223410.421262-1-weibu@redadmin.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Mutt-References: <20260721100004.D93AC1F000E9@smtp.kernel.org>
+X-Mutt-Fcc: =Sent
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, 21 Jul 2026 07:34:10 +0900, Akiyoshi Kurita wrote:
-> Translate the "Include PATCH in the subject" and "Sign your work -
-> the Developer's Certificate of Origin" sections into Japanese.
-> 
-> Keep the DCO text in English as the original certificate text, and add
-> a Japanese note that the sign-off refers to the English DCO text.
-> 
-> Use a reStructuredText note directive to make it clear that the note is
-> specific to the Japanese translation.
-> 
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
-Acked-by: Akira Yokosawa <akiyks@gmail.com>
+On Tue, Jul 21, 2026 at 10:00:04AM +0000, sashiko-bot@kernel.org wrote:
+> [Severity: Medium]
+> Will this corrupt the temperature reading if the I2C read fails?
+>
+> In lm63_update_device(), if i2c_smbus_read_byte_data() for the LSB returns
+> a negative error code (such as -EIO), it gets bitwise-ORed with the shifted
+> MSB. The negative s32 error code would sign-extend, overwriting the MSB
+> bits entirely and resulting in a large negative temperature spike instead
+> of propagating the error or maintaining the previous valid reading.
+>
+> Could we check the return value of i2c_smbus_read_byte_data() before
+> merging it into temp1_input and temp1_max?
 
-Thanks, Akira
+Good catch. A failed read must not be combined with the other temperature
+byte. I will read both bytes into temporary integers, check both return
+values, and update the cached 12-bit value only after both reads succeed.
 
-> ---
-> Changes in v6:
-> 
-> Remove the extra blank line at EOF introduced during the rebase.
-> 
->  .../ja_JP/process/submitting-patches.rst      | 77 +++++++++++++++++++
->  1 file changed, 77 insertions(+)
-> 
-[...]
+The existing lm63_update_device() also truncates or combines unchecked
+i2c_smbus_read_byte_data() results in several other paths. I will address
+those existing error-handling issues in a separate patch, rather than mix
+that broader change into the CTF2301 support patch.
 
+                                            - Troy
