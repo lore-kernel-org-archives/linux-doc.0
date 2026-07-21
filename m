@@ -1,184 +1,92 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 989443033D8
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 13:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF5E30BF6D;
+	Tue, 21 Jul 2026 13:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784640325; cv=none; b=M7+ahJmh3hYJFSrqGGejThnIwfIcwuUuVU5TNYwJOH2JQzRjFQ7cPosUU7/MYUqwWYOnhJYkRw1/8ntlDUWk6p007tn0S6cNBn/w407BJQ4YF7LWglogrg36kidbM/QuDuBkmOREomUdXI0AdQisGTlAEezmVihwAmVMQ3COewI=
+	t=1784640390; cv=none; b=ipoE0gGtEjJKuy2TvAGZLbNIVfVO2mPg43KNXEeuwJPs5dNCm9wCK27dxsb9WAQwVk8XkSnLnZC4T5fqzca6vrsxZuFwcG3/5NGzNe00rtuIkTXvECQ3AxcBbV9jYbE725Stz9/oTKXXdDMYOkGXWnxXhnJrtBzcUSl5BQzCg4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784640325; c=relaxed/simple;
-	bh=mBgn0w0K5UbBJxILaFSI5FT01iGeSBDgXfKOAFVnQbw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=od3Lbmz7V52NccmnRR3jexvTaj7pxPGRspzZPa+8ADaS6CvRlIRnKDS7JmAYkLBVH4IjLIcmzPOVutNueBXkBKBzXaUiwdJvkBfHT580REfXrAt19Otn1aYpp+VIOjJGgwi4F4MfkVoS8swm3UfNZnaLUAyfJL30lU9RR0D/JNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s6AsbF9D; arc=none smtp.client-ip=209.85.210.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784640390; c=relaxed/simple;
+	bh=Hc9kzoQ9rFyyW8XHyUKHR1d2Dsj44oWw597yXAQp+uc=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=S6qY3atJleIeiRt1c/1j6Bspp/lblM9kVDLGTGnkrV70y8vZeSQWSOC5sjHNYs32T4w9s/Zx1YoiYRttA64c/j3yTGNu7/DKJ7XfzTjMvTvM3nkFemGh4/hx3mTbf9EKVGJmPsiWAaBffG2a/6uaeoFw83HsaC70+F7o4HVXhcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Uj1oBLm2; arc=none smtp.client-ip=113.46.200.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s6AsbF9D"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7e9f69ee6f4so6101281a34.2
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 06:25:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784640322; x=1785245122; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NUGRrLpcbADBJyrtxfRhKxWvRc1OgkKW+dNy23AsVnk=;
-        b=s6AsbF9DpU8ULTgrvc0/tzsaDjesyt9YhpAhRwr//iHzIMAf/e2Mp9Lzz/HJanvhnp
-         Wtfkn/VFKSY/HmZwVknlhNMwmkMhOn3YA7P9VAZ9kVTGQIlgtrYuOnsV413Rkbyj5kqg
-         b8sNQ49cNrzM7sJWvphpy34Cug6H6aUhSYpIWEsI2LWj0nDSkdlwlhS6gd8eqwP2tbQD
-         ZFIqjzWaXoq4NKkaVo47dH3Id+oNXw24bkah4MZtIbBsXkh2/dxb+GCfJuDK3oPUNoB5
-         W9LLclVyV6JJFaTlHGniXjTf76I191z8YBschfvQShpXhYXYbl/qitJi6sd4BOVFqTy2
-         kWgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784640322; x=1785245122;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NUGRrLpcbADBJyrtxfRhKxWvRc1OgkKW+dNy23AsVnk=;
-        b=GmZZXJOpAZar4h+WRY34KDCniuBleMsLgS19eTC3d2zJLgWNRLtCc5edFRxPcXwZf9
-         DmjGTF86o5b+izmmBBWrkcj6YyLGmN0kPO/6eC5/aF9fyiNMBUZIKrpRJplOamsI9Gn5
-         65NVAYbcMjz2zIJnmpo1LNjWYiBUUcJ0uQXS2XzUAlb75o+mLeADsQIsAXSHnQb90X66
-         c7PNMc9ixmoPSbTb2r17zuB6Ig6/BFHZW6/VQRYwnb/q/96Or/WfKAQXgY2p2pwqa87K
-         BWJinZcd6OGeRk/SOfol/Mif2ZoDtXnMOFTW4wyJizjidY9j8AhY9gdwYjjIPB0A6pRL
-         9ziw==
-X-Forwarded-Encrypted: i=1; AHgh+Rob1nhUsYzoKt/VauShJI1lNbBFQJ2MDStrzD8fgUrLtP+fmX1jtAoSlGCeiUGHSjoykMojKIrSfHA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzb1+VI/xbUawOiEgdMZdzRZDMgR1Qr8rWTODGVXCDVCkwoHDxh
-	R85Yv2RfjDnr6PLyMS5np94UdjEJCfCQTY9dZ05Q50KtqccanjeweRXL
-X-Gm-Gg: AfdE7cnDZQnKVRfNUUHKS7uJy6iM4FxGKyutndAYKGIi4T7g7FUTtNLDJNowR+JQpJh
-	6MzIWJbpI6dah/+oyYXppLa1rF95CboMzlO/eyyTvWiKkTLmTypQ5zv0nNRZyMvobPSAqbAhkFE
-	XR16ruIRjdQBJ7XOwWlT28T9bVe1Jx6F+FT3ipXR+u5g/SGE79MBEhijOMNXgwX1dLMMIVyKg8c
-	YvznEkW6d/fgTzunni9e1LxmjJ2kl0EJk6T4w7aNraMhh8uPhadkfmyQeOWXHADnZmYc0PeE8/i
-	rF7MzcNSLh9qHTc9nAcvlipAUakak54n/ErYsSLgqq7i3DRFLNcVth015B6PiEpQAbZOlrCjhNB
-	pRPRJy3GsnjAHaf84MABqCRJOkgZUXjblb3JFsQM4LQXtGx38eHiYSWW+ra+c+/twMZeYnUmvA7
-	guBbIwpg==
-X-Received: by 2002:a05:6830:6a97:b0:7e9:b4cf:d8cc with SMTP id 46e09a7af769-7eda4d90dd0mr12044065a34.32.1784640322334;
-        Tue, 21 Jul 2026 06:25:22 -0700 (PDT)
-Received: from [198.18.0.1] ([144.24.58.22])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7edad94e86csm11116231a34.7.2026.07.21.06.25.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jul 2026 06:25:21 -0700 (PDT)
-Message-ID: <c3fc1db1-5199-42b1-9e29-e7766b23a599@gmail.com>
-Date: Tue, 21 Jul 2026 09:25:09 -0400
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Uj1oBLm2"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=9hgq2bOlQdWO8j42MpZzQv278XodO4khDw3hgg8g+EE=;
+	b=Uj1oBLm2piRS2jcNrVUUdAj64NR7QB2AifXV29XsiXtXTCt8/PmMpEq+nwr+s8iX+TO4SVXy8
+	IusYOu5A+t3ilK/5m8l2t6qY1s1aIGuzFz4Xh3ZFK7Gj4qZgTf2WIrFuLXxQw3LkIeDfDM4c4Ja
+	qOFsHfRNHFyUbXAQwQgO+MU=
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4h4HwN5h1CzKmTp;
+	Tue, 21 Jul 2026 21:16:52 +0800 (CST)
+Received: from whupemo200006.china.huawei.com (unknown [7.152.185.252])
+	by mail.maildlp.com (Postfix) with ESMTPS id 668704056C;
+	Tue, 21 Jul 2026 21:26:17 +0800 (CST)
+Received: from [10.174.178.219] (10.174.178.219) by
+ whupemo200006.china.huawei.com (7.152.185.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 21 Jul 2026 21:26:10 +0800
+Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
+To: Gregory Price <gourry@gourry.net>
+CC: <linux-mm@kvack.org>, <Zhigang.Luo@amd.com>, <arun.george@samsung.com>,
+	<balbirs@nvidia.com>, <brendan.jackman@linux.dev>, <apopple@nvidia.com>,
+	<alucerop@amd.com>, <matthew.brost@intel.com>, <akpm@linux-foundation.org>,
+	<david@kernel.org>, <ljs@kernel.org>, <liam@infradead.org>,
+	<vbabka@kernel.org>, <rppt@kernel.org>, <surenb@google.com>,
+	<mhocko@suse.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+	<gregkh@linuxfoundation.org>, <rafael@kernel.org>, <dakr@kernel.org>,
+	<djbw@kernel.org>, <vishal.l.verma@intel.com>, <dave.jiang@intel.com>,
+	<alison.schofield@intel.com>, <osandov@osandov.com>, <jannh@google.com>,
+	<pfalcato@suse.de>, <jackmanb@google.com>, <hannes@cmpxchg.org>,
+	<ziy@nvidia.com>, <pbonzini@redhat.com>, <osalvador@suse.de>,
+	<joshua.hahnjy@gmail.com>, <rakie.kim@sk.com>, <byungchul@sk.com>,
+	<ying.huang@linux.alibaba.com>, <kasong@tencent.com>, <qi.zheng@linux.dev>,
+	<shakeel.butt@linux.dev>, <baohua@kernel.org>, <axelrasmussen@google.com>,
+	<yuanchu@google.com>, <weixugc@google.com>, <yury.norov@gmail.com>,
+	<linux@rasmusvillemoes.dk>, <longman@redhat.com>, <ridong.chen@linux.dev>,
+	<tj@kernel.org>, <mkoutny@suse.com>, <sj@kernel.org>, <jgg@ziepe.ca>,
+	<jhubbard@nvidia.com>, <peterx@redhat.com>, <baolin.wang@linux.alibaba.com>,
+	<npache@redhat.com>, <ryan.roberts@arm.com>, <dev.jain@arm.com>,
+	<lance.yang@linux.dev>, <usama.arif@linux.dev>, <xu.xin16@zte.com.cn>,
+	<chengming.zhou@linux.dev>, <roman.gushchin@linux.dev>,
+	<muchun.song@linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <driver-core@lists.linux.dev>,
+	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
+	<linux-debuggers@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<kvm@vger.kernel.org>, <cgroups@vger.kernel.org>, <damon@lists.linux.dev>,
+	<linux-kselftest@vger.kernel.org>, <kernel-team@meta.com>
+References: <20260720193431.3841992-1-gourry@gourry.net>
+From: Zenghui Yu <yuzenghui@huawei.com>
+Message-ID: <a9c52bb6-5e04-1d41-913a-685a7be3fad4@huawei.com>
+Date: Tue, 21 Jul 2026 21:26:09 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 00/13] mm/kwatch: dynamic hardware watchpoints for
- hunting memory corruption
+In-Reply-To: <20260720193431.3841992-1-gourry@gourry.net>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-To: Marco Elver <elver@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- David Hildenbrand <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Matthew Wilcox <willy@infradead.org>, Alan Stern
- <stern@rowland.harvard.edu>, Randy Dunlap <rdunlap@infradead.org>,
- Alexander Potapenko <glider@google.com>, Mike Rapoport <rppt@kernel.org>,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260717125023.1895892-1-wangjinchao600@gmail.com>
- <CANpmjNMpKXxk2KsZORakwwdOpDG=pRbtJKi7doBt7QmQwUKdgw@mail.gmail.com>
-From: Jinchao Wang <wangjinchao600@gmail.com>
-In-Reply-To: <CANpmjNMpKXxk2KsZORakwwdOpDG=pRbtJKi7doBt7QmQwUKdgw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ whupemo200006.china.huawei.com (7.152.185.252)
 
-On 7/20/2026 11:26 AM, Marco Elver wrote:
-> On Fri, 17 Jul 2026 at 14:50, Jinchao Wang <wangjinchao600@gmail.com> wrote:
->>
->> Motivation
->> ==========
->>
->> The hardest memory corruption bugs are the silent ones: a rogue writer
->> scribbles over a live object through a stale pointer or a race, and
-> 
-Thanks, Marco. These are good points. My cover letter did not clearly
-separate two different classes of bugs.
+On 2026/7/21 3:33, Gregory Price wrote:
+>   KVM: guest_memfd: bind backing memory to a NUMA node at creation
+>   KVM: selftests: add a guest_memfd FLAG_BIND_NODE test
 
-> The stale/dangling pointer (use-after-free) case is the main one you're after?
-
-Not exclusively. KASAN already does a good job as a general
-use-after-free detector. However, a stale-pointer write after the
-storage has been recycled, which may no longer be reported by Generic
-KASAN, is one of the cases that the scoped watchpoint can help
-localize.
-
-The broader target is silent corruption of a known live victim object,
-including non-UAF cases such as an in-bounds racing write to an object
-whose allocation is still live.
-
->> the victim crashes in a code path far away from the culprit. Any
->> single developer hits such a bug rarely, but across the kernel's code
->> base and install base they keep arriving, and each one is
->> disproportionately expensive to localize. The question to answer is
->> "who wrote to this object, and from where?", and it is hard to get at
->> with the existing tools:
->>
->>  - The kernel's own reports - an oops on a clobbered pointer, a
->>    BUG_ON, a list-corruption warning - fire at the victim's access,
->>    not at the corrupting write.
->>  - KASAN/KFENCE catch memory-safety violations: out-of-bounds
->>    accesses and use-after-free. But they have a blind spot: a
->>    corrupting write can be fully memory-safe - a *valid* pointer, in
-> 
-> Language-semantically speaking, a use-after-free write to recycled
-> memory (be it in heap or stack) is NOT memory-safe. The detectors may
-> not always catch these (KASAN relies on quarantine for that to
-> increase the chances, but yeah, not guaranteed..).
-> 
-
-You are right that a stale-pointer write to recycled storage remains a
-use-after-free, so "memory-safe" was the wrong term. What I meant was
-that such a corrupting write may not be detected by Generic KASAN at
-the point where it occurs. KWatch was intended to use a hardware
-watchpoint to catch the write and report the actual writer and its call
-stack.
-
->>    bounds, to a live object, written just at the wrong time or to the
->>    wrong place - and then they stay silent by design. And even for
->>    the bugs they can catch, KASAN's rebuild, overhead and redzones
->>    change timing and layout enough that racy corruption often no
->>    longer reproduces.
-> 
-> There's also tag-based KASAN (KASAN_SW_TAGS or KASAN_HW_TAGS), of
-> which KASAN_SW_TAGS has an x86 version based on LAM (not yet merged
-> though? see https://lwn.net/ml/all/cover.1773164688.git.m.wieczorretman@pm.me/).
-> 
-> One property of tag-based schemes (and any other lock+key detection
-> scheme) is that upon recycling some memory, the tag (or key) to that
-> location changes, and any previous pointer that still has the old tag
-> will fault. The caveat with current pointer-tagging schemes is that
-> entropy is relatively low (4 bit tags).
-Thanks for pointing this out. I agree that tag-based KASAN can detect a
-recycled-storage UAF when the new allocation receives a different tag,
-so it covers part of the intended use case.
-
-There are still cases it cannot detect, such as an in-bounds corrupting
-write to the same still-live allocation, or a recycled allocation which
-reuses the same tag. Software tag-based KASAN also still instruments
-memory accesses and can perturb a timing-sensitive bug enough that it
-no longer reproduces; hardware tag checking reduces this overhead but
-is not available everywhere.
-
-The original goal of KWatch, which I now plan to pursue through wprobe,
-was to provide a simple and targeted interface to hardware watchpoints.
-It does not instrument every memory access system-wide, so it can have
-lower overall overhead and less timing perturbation while identifying
-the actual writer. I see this as complementary to KASAN rather than a
-replacement for it.
+I can't find the last patch in my inbox or on the lore. Not sure what went
+wrong.
 
 Thanks,
-Jinchao
-
+Zenghui
