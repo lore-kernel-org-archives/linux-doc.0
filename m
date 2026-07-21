@@ -1,68 +1,33 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D9B45BD4E
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 14:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30C936680E;
+	Tue, 21 Jul 2026 14:55:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784644998; cv=none; b=VO/aKmzHNzQfeRNd66skV0mBZn6e+qSAN2GvGqbtwDMa6OHgXtqDLcBzCA6ubnWIPvwHai2Y5ZhWhJ4wDINrhny7CPro0k/YqNDSl7au9qNR9CBi+iyVPoFGIx2GWeg0T3+Reh+yeTnXzHfPPjMS2TPR2MGG3jrKew7LYUjf1io=
+	t=1784645703; cv=none; b=ps2/5Q65xGfEGBjhURayhmGRkiLpJKYTs0Oo2LRc4DhuoqyX6iVGuszKtmLwJJ5fGoAURyxrU+FiliZt0NveK+/f/0ktTBa51dOEZkHz3pWvO+pr70Tw8ULfQjvY61u0cCuMik2gNYtCrocRRkgxydahAogilmy4qPUpp2aPAko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784644998; c=relaxed/simple;
-	bh=hQsgZYWQqH9i/NrORImdmeSLXv9aDfUjV6uIDqOqU9g=;
+	s=arc-20240116; t=1784645703; c=relaxed/simple;
+	bh=hNUb+KfDfwntsKI5r7TjXhKEmYmJ0uxteCKV0SphkXw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uE1xLFLHMzatbw01oEqJ78WTuGxkQXVMMygNzWYzyHF0410dtLsssBleMgloYQJ2a97hXPXRX9mMvFHymvT7SPZYVcjE7GjomtWBUXZETwsoOrVLIdBk/6Leu+9Ty4AFi8rBg7/qasqoMIefBUoa/uPJsMOpdSYU+akNJHwC280=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WeW533e7; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=c8lRrPlM7wpyGTD5jXp3cze6bexwa4y5Pe3KUE+ONSERjYxeZ7SAaqwToA3cjufj+zkPhaSGxjL5UTFwT1+bSu8D7TXWB2Lhan4+FrRcQEOsf6wKLipXTX6okWMKjkD09WB1VcFLy0/PT4yJ+rrW8C95zsE7cPQdLcbNstsmrFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mjfmhz7N; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WeW533e7"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2cf52d15d88so31037315ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 07:43:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784644995; x=1785249795; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8dyETNxShtGcQyPOyiuGpwnqCxI5IoVaAZT4rR6milw=;
-        b=WeW533e7Py5abaOMzxL3zih0MPtcZ6zQWRMvmcndevHlWxFcf4sExvqRly1uiwhkeM
-         Bu6fZ76rmdd78hssYqUtv0P194UoYhDWA2izePnjHKVYKHySMAeFgZTZclMQhierWuu0
-         gsOGedIl+a9Au0qmGPI0uriN370ZkybQm6j523sTmiblkgq+BXGsXh4YmEzu7KXa48xB
-         cfjtJXh75lHeuEMWsYMaPXqUZGDN7iaSpfPgBZKF3j0sRcZsablvhBkp7CAFpuNMdLue
-         ciPumJonRkXFa617cpEnMOSv9ov0N8a+JdNO4A1ekkXOm4SQtntzbSMBf8wU4oaCq31K
-         RD8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784644995; x=1785249795;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=8dyETNxShtGcQyPOyiuGpwnqCxI5IoVaAZT4rR6milw=;
-        b=Dxz7O41DhYNmX/31nipWlRfkkfSRceD5YbnXWMcR6RaroUZVNrDZJ2DFHy1/FIdEyi
-         LSyAuwXZjBivjgKjLIJKq+heWBJEzo+hyf8JkLvz/J0GbAgF2gIIVL6tOGzPysy4UG/8
-         APmUskhJikWZjgXBJ9Qwag+U5j47cxwRQVf13JtIaV0DtYhY2yfNO7AU5tdBXd1gziIR
-         PAeuVfobSA+XnA3n1IKY37N6FI6ctmMz8ZMeaG59pIrTF4XotA3SzOlgaI7tbv0Xm0VM
-         BJcw84XYHpJk7rRY4Hpt4q8PMDXNs2kJ9u6WcLZtAHVbWRCs96BgoqDjhQlQzHip1/wZ
-         zgLw==
-X-Forwarded-Encrypted: i=1; AHgh+Rp0KPzeH4PUclNThkkuJbm1MNXzeyiW0yYtAPAGXjR2l6Dxfvwthvl5ucHL2N3jMUfBOtrefMYexa4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YytRg+DWUFDMWWxAMCL5T4EEaIAutrrBsokAjJYEf6e85lO+C50
-	nEW2f3nFdYzFUuD+VaRVnBlR69mrKN1GEL4HrQEUm4O+cw4+CW9W6Yma
-X-Gm-Gg: AR+sD11bReoJ+BNxXSGQIFxdPnn+4QZlE5EPahnOmtd1jv2h++rzjSCHL/DpnZ21kKF
-	yCTCnVB5D4s3U1yA4qrURqERMq2fjJhOhlHRvZNYljMC1q+tgr0ClWkPgNcncBem7q3rh05pdlY
-	qxu/lzGUDbvSRke405AnbW6AGiubtI1eK9EChv6L6LtkzXgGvcNpVQPB299P+alpSgx0UW+nv/y
-	2mRmqOyA54/t+hPsOmqUzi7mjXjyENLGfw9DXQysQNsQPJAjFSXqA0FaXD5fAkoMwONjGmxOLXp
-	ni5lS0aiLQxe5ipY3+a+F8cPm5KBe1tDGnzVD/ddPXagQdObIdW7S2A34mWhBP6yKCsm2FVjsFp
-	eVpp0/XIatcsGPvnRdjIGo6ua84s9EUnGa0T6vQfgegqpymHmtbgIGNP7aKMfvBewkFp3Il52Ip
-	qHZFg3HsNrAxZr73kM6iWpDRTBbRfbgj/fzMtmOGUELJfren304M1DVuhqPZCq4A==
-X-Received: by 2002:a17:902:fc43:b0:2ca:6d2a:871 with SMTP id d9443c01a7336-2cf349eb38amr186463805ad.37.1784644994914;
-        Tue, 21 Jul 2026 07:43:14 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3142a1dde81sm81473429eec.21.2026.07.21.07.43.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jul 2026 07:43:13 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <3c287fdd-a32d-448b-af04-4d03f895e618@roeck-us.net>
-Date: Tue, 21 Jul 2026 07:43:11 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mjfmhz7N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15F4C1F000E9;
+	Tue, 21 Jul 2026 14:54:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784645702;
+	bh=tXvMkjXAn7y2m4HY7s7QUvSgtEyYKfTxuKxsFjU19Mk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=mjfmhz7NR5yJZTJdX1z31PRts2NK/a4cqCWaMBfl4jwVaRpkq/t+dQUoJihlx7yBF
+	 jnTH4ge8oxxPrj7ph8sEb5t7R9IZdX1eHl5QOF4AsAjdWpwJIN4n2bU9bEs2dcw3u6
+	 sUXCgZGcFh4JF/IyKXsqUyg1HHH0SSUX9jH97narrkWcXpPEvWKogCVIpC1BDgFCpt
+	 k1xFsKvE1UdeT0dE5hLHq8CVUt+fmKnZflpvll8CfsXsrZN37ZMGck6ezOcw5dsmPS
+	 F3VWeemCIdg/Lds/BCV5wW4iEHYIXaPRHpa+663/5H+x2o9PL4b+g+FFm6+psLYydC
+	 NMTnpGthyVzjA==
+Message-ID: <cefe62b7-0167-46c1-9fe3-fe7efee90a7e@kernel.org>
+Date: Tue, 21 Jul 2026 16:54:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,629 +35,102 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] hwmon: (kb9002) Add driver for Kandou KB9002
- retimer
-To: Andy.Chung@amd.com, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260721-kb9002-upstream-v3-0-70563922be8d@amd.com>
- <20260721-kb9002-upstream-v3-3-70563922be8d@amd.com>
+Subject: Re: [PATCH v5 1/5] selftests/mm: make file helpers return errors
+To: Mark Brown <broonie@kernel.org>
+Cc: Sarthak Sharma <sarthak.sharma@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka
+ <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+ Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260716123226.197736-1-sarthak.sharma@arm.com>
+ <20260716123226.197736-2-sarthak.sharma@arm.com>
+ <b66c233a-7956-461a-a3d8-3421c76c937a@kernel.org>
+ <004e11f5-ab21-479d-80a3-64ab89465b85@sirena.org.uk>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260721-kb9002-upstream-v3-3-70563922be8d@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <004e11f5-ab21-479d-80a3-64ab89465b85@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/20/26 23:31, Andy Chung via B4 Relay wrote:
-> From: Andy Chung <Andy.Chung@amd.com>
+On 7/21/26 15:48, Mark Brown wrote:
+> On Tue, Jul 21, 2026 at 03:39:09PM +0200, David Hildenbrand (Arm) wrote:
+>> On 7/16/26 14:32, Sarthak Sharma wrote:
 > 
-> The Kandou KB9002 is an 8-lane PCIe 5.0 retimer that exposes an SMBus
-> target with mandatory PEC. Add a hwmon driver reporting the firmware
-> aggregated maximum die temperature as temp1_input, with the firmware
-> version and boot status under debugfs.
+>>>  	fd = open(path, O_RDONLY);
+>>> -	if (fd == -1)
+>>> -		return 0;
+>>> +	if (fd == -1) {
+>>> +		int err = errno;
+>>> +
+>>> +		printf("# %s: %s (%d)\n", path, strerror(err), err);
 > 
-> Signed-off-by: Andy Chung <Andy.Chung@amd.com>
-> ---
->   MAINTAINERS            |   8 +
->   drivers/hwmon/Kconfig  |  11 ++
->   drivers/hwmon/Makefile |   1 +
->   drivers/hwmon/kb9002.c | 469 +++++++++++++++++++++++++++++++++++++++++++++++++
->   4 files changed, 489 insertions(+)
+>> Shouldn't we be using
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9b4b1575bdbd..1d80ac2660e2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13931,6 +13931,14 @@ S:	Maintained
->   F:	Documentation/hwmon/k8temp.rst
->   F:	drivers/hwmon/k8temp.c
->   
-> +KANDOU KB9002 PCIE RETIMER HWMON DRIVER
-> +M:	Andy Chung <andy.chung@amd.com>
-> +L:	linux-hwmon@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/hwmon/kandou,kb9002.yaml
-> +F:	Documentation/hwmon/kb9002.rst
-> +F:	drivers/hwmon/kb9002.c
-> +
->   KASAN
->   M:	Andrey Ryabinin <ryabinin.a.a@gmail.com>
->   R:	Alexander Potapenko <glider@google.com>
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 08c29685126a..300329773e87 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -335,6 +335,17 @@ config SENSORS_K10TEMP
->   	  This driver can also be built as a module. If so, the module
->   	  will be called k10temp.
->   
-> +config SENSORS_KB9002
-> +	tristate "Kandou KB9002 PCIe retimer"
-> +	depends on I2C
-> +	help
-> +	  If you say yes here you get support for the integrated
-> +	  temperature sensor and firmware version readout on Kandou
-> +	  KB9002 PCIe 5.0 retimers, accessed over SMBus.
-> +
-> +	  This driver can also be built as a module. If so, the module
-> +	  will be called kb9002.
-> +
->   config SENSORS_KBATT
->   	tristate "KEBA battery controller support"
->   	depends on KEBA_CP500
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index 63809eeec2f4..0cad7e21634c 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -113,6 +113,7 @@ obj-$(CONFIG_SENSORS_IT87)	+= it87.o
->   obj-$(CONFIG_SENSORS_JC42)	+= jc42.o
->   obj-$(CONFIG_SENSORS_K8TEMP)	+= k8temp.o
->   obj-$(CONFIG_SENSORS_K10TEMP)	+= k10temp.o
-> +obj-$(CONFIG_SENSORS_KB9002)	+= kb9002.o
->   obj-$(CONFIG_SENSORS_KBATT)	+= kbatt.o
->   obj-$(CONFIG_SENSORS_KFAN)	+= kfan.o
->   obj-$(CONFIG_SENSORS_LAN966X)	+= lan966x-hwmon.o
-> diff --git a/drivers/hwmon/kb9002.c b/drivers/hwmon/kb9002.c
-> new file mode 100644
-> index 000000000000..61a6e522e770
-> --- /dev/null
-> +++ b/drivers/hwmon/kb9002.c
-> @@ -0,0 +1,469 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Kandou KB9002 PCIe 5.0 retimer hwmon driver.
-> + *
-> + * The retimer exposes a system management bus (SMBus 3.0 with PEC)
-> + * target for firmware-managed status registers. This driver assumes
-> + * the chip is strapped to SMBus mode and exports the aggregated
-> + * maximum die temperature as hwmon temp1_input (millidegrees Celsius)
-> + * plus the firmware version and boot status under debugfs.
-> + *
-> + * Datasheet: Kandou KB9002 PCIe retimer (KA-015171-PD).
-> + */
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/bitops.h>
-> +#include <linux/cleanup.h>
-> +#include <linux/debugfs.h>
-> +#include <linux/err.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/i2c.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/seq_file.h>
-> +#include <linux/types.h>
-> +#include <linux/unaligned.h>
-> +
-> +#define KB9002_DEV_NAME			"kb9002"
-> +
-> +/*
-> + * SMBus read command codes. Each read is a two-phase PEC-protected
-> + * transaction: prime writes the target address, data reads it back with
-> + * the register contents. FW reads use a 16-bit address, HW reads 32-bit.
-> + */
-> +#define KB9002_CC_FW_READ_PRIME		0x82
-> +#define KB9002_CC_FW_READ_DATA		0x81
-> +#define KB9002_CC_HW_READ_PRIME		0x8a
-> +#define KB9002_CC_HW_READ_DATA		0x89
-> +
-> +/* Firmware register offsets (16-bit). */
-> +#define KB9002_FW_REG_VID		0x0004
-> +#define KB9002_FW_REG_FW_VERSION	0x0500
-> +#define KB9002_FW_REG_TEMP_MAXIMUM	0x0550
-> +
-> +#define KB9002_VID_MASK			GENMASK(31, 16)
-> +#define KB9002_VID_KANDOU		0x1e6f
-> +
-> +/* Firmware boot status: 0xe8 in the top byte means init completed OK. */
-> +#define KB9002_HW_REG_FW_BOOT_STATUS	0xe0090008
-> +#define KB9002_FW_BOOT_STATUS_OK_MSB	0xe8
-> +
-> +/*
-> + * Hardware registers reached over raw I2C (32-bit addressing). The
-> + * host-interface bit selects SMBus (set) vs raw-I2C target; parts
-> + * strapped to raw I2C need it set before SMBus access works.
-> + */
-> +#define KB9002_HW_REG_REVID		0x00480004
-> +#define KB9002_HW_REG_HOST_IF		0x00480008
-> +#define KB9002_HOST_IF_SMBUS		BIT(1)
-> +
-> +#define KB9002_REVID_MASK		GENMASK(7, 0)
-> +#define KB9002_REVID_B0			0x10
-> +#define KB9002_REVID_B1			0x11
-> +
-> +/* Retries to drain a stray leading 0xff from the raw-I2C FIFO. */
-> +#define KB9002_REVID_READ_RETRIES	16
-> +
-> +/* Temperature: 32-bit Q16.16 absolute Kelvin. */
-> +#define KB9002_TEMP_FRAC_BITS		16
-> +#define KB9002_ABS_ZERO_MILLI_C		(-273150)
-> +
-> +/* Firmware takes up to ~2s to respond after a host-interface change. */
-> +#define KB9002_FW_READY_POLL_US		(25 * USEC_PER_MSEC)
-> +#define KB9002_FW_READY_TIMEOUT_US	(2 * USEC_PER_SEC)
-> +
-> +struct kb9002_data {
-> +	struct i2c_client *client;
-> +	struct device *hwmon_dev;
-> +};
-> +
-> +/* Raw-I2C read: write the 32-bit BE address, then read 4 BE data bytes. */
-> +static int kb9002_i2c_read(struct i2c_client *client, u32 reg, u32 *val)
-> +{
-> +	u8 addr[4];
-> +	u8 rbuf[4];
-> +	struct i2c_msg msgs[2] = {
-> +		{
-> +			.addr = client->addr,
-> +			.flags = 0,
-> +			.len = sizeof(addr),
-> +			.buf = addr,
-> +		},
-> +		{
-> +			.addr = client->addr,
-> +			.flags = I2C_M_RD,
-> +			.len = sizeof(rbuf),
-> +			.buf = rbuf,
-> +		},
-> +	};
-> +	int ret;
-> +
-> +	put_unaligned_be32(reg, addr);
-> +
-> +	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-> +	if (ret < 0)
-> +		return ret;
-> +	if (ret != ARRAY_SIZE(msgs))
-> +		return -EIO;
-> +
-> +	*val = get_unaligned_be32(rbuf);
-> +	return 0;
-> +}
-> +
-> +/* Raw-I2C write: 4 BE address bytes followed by 4 BE data bytes. */
-> +static int kb9002_i2c_write(struct i2c_client *client, u32 reg, u32 val)
-> +{
-> +	u8 buf[8];
-> +	struct i2c_msg msg = {
-> +		.addr = client->addr,
-> +		.flags = 0,
-> +		.len = sizeof(buf),
-> +		.buf = buf,
-> +	};
-> +	int ret;
-> +
-> +	put_unaligned_be32(reg, &buf[0]);
-> +	put_unaligned_be32(val, &buf[4]);
-> +
-> +	ret = i2c_transfer(client->adapter, &msg, 1);
-> +	if (ret < 0)
-> +		return ret;
-> +	if (ret != 1)
-> +		return -EIO;
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Read the silicon revision ID. A fresh FIFO may start with a stray
-> + * 0xff that shifts the result, so drain one byte between retries until
-> + * the top byte is no longer 0xff.
-> + */
-> +static int kb9002_read_revid(struct i2c_client *client, u32 *revid)
-> +{
-> +	u8 dummy;
-> +	int ret;
-> +	int i;
-> +
-> +	for (i = 0; i < KB9002_REVID_READ_RETRIES; i++) {
-> +		ret = kb9002_i2c_read(client, KB9002_HW_REG_REVID, revid);
-> +		if (ret)
-> +			return ret;
-> +		if ((*revid >> 24) != 0xff)
-> +			return 0;
-> +		/* Drain one byte from the chip to re-align the I2C FIFO. */
-> +		i2c_master_recv(client, &dummy, 1);
-> +	}
-> +
-> +	return -EIO;
-> +}
-> +
-> +/*
-> + * Read a 32-bit firmware register over SMBus: block-write the 16-bit LE
-> + * address, then block-read the echoed address plus 4 LE data bytes.
-> + */
-> +static int kb9002_fw_read(struct kb9002_data *data, u16 reg, u32 *val)
-> +{
-> +	struct i2c_client *client = data->client;
-> +	u8 addr[2];
-> +	u8 rbuf[I2C_SMBUS_BLOCK_MAX];
-> +	int ret;
-> +
-> +	put_unaligned_le16(reg, addr);
-> +
-> +	ret = i2c_smbus_write_block_data(client, KB9002_CC_FW_READ_PRIME,
-> +					 sizeof(addr), addr);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = i2c_smbus_read_block_data(client, KB9002_CC_FW_READ_DATA, rbuf);
-> +	if (ret < 0)
-> +		return ret;
-> +	if (ret < (int)(sizeof(addr) + sizeof(*val)))
-> +		return -EIO;
-> +
-> +	*val = get_unaligned_le32(&rbuf[sizeof(addr)]);
-> +	return 0;
-> +}
-> +
-> +/* Like kb9002_fw_read but for a hardware register (32-bit LE address). */
-> +static int kb9002_smbus_hw_read(struct kb9002_data *data, u32 reg, u32 *val)
-> +{
-> +	struct i2c_client *client = data->client;
-> +	u8 addr[4];
-> +	u8 rbuf[I2C_SMBUS_BLOCK_MAX];
-> +	int ret;
-> +
-> +	put_unaligned_le32(reg, addr);
-> +
-
-Just for verification: Some accesses are LE, others are BE. This is unusual.
-To help understand what is LE and what is BE, please add a comment at the
-top o the file describing which accesses are LE and which accesses are BE.
-
-> +	ret = i2c_smbus_write_block_data(client, KB9002_CC_HW_READ_PRIME,
-> +					 sizeof(addr), addr);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = i2c_smbus_read_block_data(client, KB9002_CC_HW_READ_DATA, rbuf);
-> +	if (ret < 0)
-> +		return ret;
-> +	if (ret < (int)(sizeof(addr) + sizeof(*val)))
-> +		return -EIO;
-> +
-> +	*val = get_unaligned_le32(&rbuf[sizeof(addr)]);
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Switch the host interface from raw-I2C to SMBus and wait for firmware
-> + * to come back up. Called only when SMBus access failed in probe, i.e.
-> + * the chip is strapped to raw-I2C mode. Confirms the revision, sets the
-> + * SMBus-mode bit, then polls until firmware responds again.
-> + */
-> +static int kb9002_enable_smbus_target(struct kb9002_data *data)
-> +{
-> +	struct i2c_client *client = data->client;
-> +	u32 revid;
-> +	u32 val;
-> +	int op_ret;
-> +	int ret;
-> +
-> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
-> +		return dev_err_probe(&client->dev, -ENODEV,
-> +				     "raw I2C required to switch to SMBus mode\n");
-> +
-> +	ret = kb9002_read_revid(client, &revid);
-> +	if (ret)
-> +		return dev_err_probe(&client->dev, ret,
-> +				     "revision ID read failed\n");
-> +
-> +	switch (FIELD_GET(KB9002_REVID_MASK, revid)) {
-> +	case KB9002_REVID_B0:
-> +	case KB9002_REVID_B1:
-> +		break;
-> +	default:
-> +		return dev_err_probe(&client->dev, -ENODEV,
-> +				     "unsupported revision ID 0x%08x\n", revid);
-> +	}
-> +
-> +	ret = kb9002_i2c_read(client, KB9002_HW_REG_HOST_IF, &val);
-> +	if (ret)
-> +		return dev_err_probe(&client->dev, ret,
-> +				     "host interface read failed\n");
-> +
-> +	val |= KB9002_HOST_IF_SMBUS;
-> +
-> +	ret = kb9002_i2c_write(client, KB9002_HW_REG_HOST_IF, val);
-> +	if (ret)
-> +		return dev_err_probe(&client->dev, ret,
-> +				     "host interface write failed\n");
-> +
-> +	/* Wait until firmware re-initialisation completes. */
-> +	ret = read_poll_timeout(kb9002_fw_read, op_ret, op_ret == 0,
-> +				KB9002_FW_READY_POLL_US,
-> +				KB9002_FW_READY_TIMEOUT_US, true,
-> +				data, KB9002_FW_REG_VID, &val);
-> +	if (ret)
-> +		return dev_err_probe(&client->dev, ret,
-> +				     "firmware not responding over SMBus\n");
-> +
-> +	return 0;
-> +}
-> +
-> +/* Convert Q16.16 absolute Kelvin to millidegrees Celsius. */
-> +static long kb9002_temp_to_milli_c(u32 raw)
-> +{
-> +	s64 milli_k = ((s64)raw * 1000) >> KB9002_TEMP_FRAC_BITS;
-> +
-> +	return (long)milli_k + KB9002_ABS_ZERO_MILLI_C;
-> +}
-> +
-> +static int kb9002_read_temp(struct kb9002_data *data, long *val)
-> +{
-> +	u32 raw;
-> +	int ret;
-> +
-> +	ret = kb9002_fw_read(data, KB9002_FW_REG_TEMP_MAXIMUM, &raw);
-> +	if (ret)
-> +		return ret;
-> +
-> +	*val = kb9002_temp_to_milli_c(raw);
-> +	return 0;
-> +}
-> +
-> +static umode_t kb9002_is_visible(const void *drvdata,
-> +				 enum hwmon_sensor_types type,
-> +				 u32 attr, int channel)
-> +{
-> +	if (type == hwmon_temp &&
-> +	    (attr == hwmon_temp_input || attr == hwmon_temp_label))
-> +		return 0444;
-> +	return 0;
-> +}
-
-In this context, the function can just return 0444 without any checks.
-
-> +
-> +static int kb9002_read(struct device *dev, enum hwmon_sensor_types type,
-> +		       u32 attr, int channel, long *val)
-> +{
-> +	struct kb9002_data *data = dev_get_drvdata(dev);
-> +
-> +	if (type == hwmon_temp && attr == hwmon_temp_input)
-> +		return kb9002_read_temp(data, val);
-> +
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static int kb9002_read_string(struct device *dev, enum hwmon_sensor_types type,
-> +			      u32 attr, int channel, const char **str)
-> +{
-> +	if (type == hwmon_temp && attr == hwmon_temp_label) {
-> +		*str = KB9002_DEV_NAME;
-> +		return 0;
-> +	}
-> +	return -EOPNOTSUPP;
-> +}
-
-This is a pointless attribute. The label attribute is supposed to return
-the sensor location, not the chip name. The chip name is already reported
-in the "name" attribute. Please drop.
-
-> +
-> +static const struct hwmon_ops kb9002_hwmon_ops = {
-> +	.is_visible = kb9002_is_visible,
-> +	.read = kb9002_read,
-> +	.read_string = kb9002_read_string,
-> +};
-> +
-> +static const struct hwmon_channel_info * const kb9002_hwmon_info[] = {
-> +	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_LABEL),
-> +	NULL,
-> +};
-> +
-> +static const struct hwmon_chip_info kb9002_chip_info = {
-> +	.ops = &kb9002_hwmon_ops,
-> +	.info = kb9002_hwmon_info,
-> +};
-> +
-> +static int kb9002_fw_version_show(struct seq_file *s, void *unused)
-> +{
-> +	struct kb9002_data *data = s->private;
-> +	u32 ver;
-> +	int ret;
-> +
-> +	guard(hwmon_lock)(data->hwmon_dev);
-> +
-> +	ret = kb9002_fw_read(data, KB9002_FW_REG_FW_VERSION, &ver);
-> +	if (ret)
-> +		return ret;
-> +
-> +	seq_printf(s, "%u.%02u.%02u.%u\n",
-> +		   (ver >> 24) & 0xff, (ver >> 16) & 0xff,
-> +		   (ver >>  8) & 0xff, (ver >>  0) & 0xff);
-> +	return 0;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(kb9002_fw_version);
-> +
-> +static int kb9002_fw_load_status_show(struct seq_file *s, void *unused)
-> +{
-> +	struct kb9002_data *data = s->private;
-> +	u32 status;
-> +	int ret;
-> +
-> +	guard(hwmon_lock)(data->hwmon_dev);
-> +
-> +	ret = kb9002_smbus_hw_read(data, KB9002_HW_REG_FW_BOOT_STATUS, &status);
-> +	if (ret)
-> +		return ret;
-> +
-> +	seq_printf(s, "%s\n",
-> +		   (status >> 24) == KB9002_FW_BOOT_STATUS_OK_MSB ?
-> +		   "normal" : "abnormal");
-> +	return 0;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(kb9002_fw_load_status);
-> +
-> +static void kb9002_debugfs_init(struct kb9002_data *data)
-> +{
-> +	struct dentry *dir = data->client->debugfs;
-> +
-> +	debugfs_create_file("fw_ver", 0444, dir, data,
-> +			    &kb9002_fw_version_fops);
-> +	debugfs_create_file("fw_load_status", 0444, dir, data,
-> +			    &kb9002_fw_load_status_fops);
-> +}
-> +
-> +static int kb9002_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct kb9002_data *data;
-> +	struct device *hwmon_dev;
-> +	u32 vid;
-> +	int ret;
-> +
-> +	if (!i2c_check_functionality(client->adapter,
-> +				     I2C_FUNC_SMBUS_BLOCK_DATA |
-> +				     I2C_FUNC_SMBUS_PEC))
-> +		return -ENODEV;
-> +
-> +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	data->client = client;
-> +
-> +	/* All firmware register accesses are PEC-protected. */
-> +	client->flags |= I2C_CLIENT_PEC;
-> +
-
-Doesn't this depend on controller PEC support (I2C_FUNC_SMBUS_PEC) ?
-Also, the driver depends on I2C_FUNC_SMBUS_BLOCK_DATA support,
-which is not always available. I would suggest to check for both.
-
-Thanks,
-Guenter
-
-> +	i2c_set_clientdata(client, data);
-> +
-> +	/*
-> +	 * Try SMBus first. If the chip is strapped to raw-I2C mode it
-> +	 * will not respond to SMBus framing, so fall back to switching
-> +	 * the host interface over raw I2C and retry.
-> +	 */
-> +	ret = kb9002_fw_read(data, KB9002_FW_REG_VID, &vid);
-> +	if (ret) {
-> +		dev_dbg(dev, "SMBus probe failed (%d), trying raw-I2C host-interface switch\n",
-> +			ret);
-> +		ret = kb9002_enable_smbus_target(data);
-> +		if (ret)
-> +			return ret;
-> +		ret = kb9002_fw_read(data, KB9002_FW_REG_VID, &vid);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret,
-> +					     "VID read failed after host-interface switch\n");
-> +	}
-> +	if (FIELD_GET(KB9002_VID_MASK, vid) != KB9002_VID_KANDOU)
-> +		return dev_err_probe(dev, -ENODEV,
-> +				     "unexpected VID 0x%08x\n", vid);
-> +
-> +	hwmon_dev = devm_hwmon_device_register_with_info(dev, KB9002_DEV_NAME,
-> +							 data,
-> +							 &kb9002_chip_info,
-> +							 NULL);
-> +	if (IS_ERR(hwmon_dev))
-> +		return PTR_ERR(hwmon_dev);
-> +
-> +	data->hwmon_dev = hwmon_dev;
-> +	kb9002_debugfs_init(data);
-> +	return 0;
-> +}
-> +
-> +static const struct i2c_device_id kb9002_id[] = {
-> +	{ .name = KB9002_DEV_NAME },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, kb9002_id);
-> +
-> +static const struct of_device_id kb9002_of_match[] = {
-> +	{ .compatible = "kandou,kb9002" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, kb9002_of_match);
-> +
-> +static struct i2c_driver kb9002_driver = {
-> +	.driver = {
-> +		.name = KB9002_DEV_NAME,
-> +		.of_match_table = kb9002_of_match,
-> +	},
-> +	.probe = kb9002_probe,
-> +	.id_table = kb9002_id,
-> +};
-> +module_i2c_driver(kb9002_driver);
-> +
-> +MODULE_AUTHOR("Andy Chung <andy.chung@amd.com>");
-> +MODULE_DESCRIPTION("Kandou KB9002 PCIe retimer hwmon driver");
-> +MODULE_LICENSE("GPL");
+>> ksft_print_msg()
 > 
+>> That does the magic "# " for us.
+> 
+> Or ksft_perror().
 
+
+Right, and if we want to move this to tools/lib/mm later, maybe we can just not
+print anything and instead only return expressive errnos.
+
+-- 
+Cheers,
+
+David
