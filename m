@@ -1,98 +1,266 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2871343849A
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 08:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6483142FCC9
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 08:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784710120; cv=none; b=sfLj0mvtEuM6rdvsFF1t1rUyNg9i0wiR+ge19q5yot1HEjna0PQoKTnRlNoPQvEhftUvJFCz5nj60knm82FiGUIfjQXnG+k09NHlcrtyIiW58h2m2XxNirU3qWFUWjLoonYoAOhCED0hTtt6KYuk44W7Y0wDaHWzWSB/QcDbhGY=
+	t=1784710758; cv=none; b=TJ/hM9IxORMvxxIEygMsgbDMQi5m4y81BW8MiIZEbk73gft2HDqHYMdy9+FOi/pXgUAebfMpwIlOZ4uSF65FywNrIIQ6I5lbhpmIijFwhFBttk/GbAb4idvNI0Js37VdBzS4C+W0+IBwyVLnmQ0eXLgmrvBd84yPEmO940bUdzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784710120; c=relaxed/simple;
-	bh=bWt7dnOJDShNOxj3ZEQgheOpS95Y1If9pWQk3LmklBY=;
+	s=arc-20240116; t=1784710758; c=relaxed/simple;
+	bh=kAhsFnpMMGSdnrXFMd+QnnJ8OmeMFzLuIG+aMiiQ0V4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ckCaKIXcpapA50jxWvVcXQzN/5iBahEEBiUGdXl/qL3f9Od27l8G7FLyLaSfHTPueQK2s7TdWu3we7ZPWyWRbLanOSHM18xIG8PYDgqkxznu/GYkvFiQJAMzvE7HwwgzXfHN0kgq5cvRLaJDa4XArCb2PUl9V2IPIUk/NB1/Cl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=TxgLR16l; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=XDHvrpse+2IZe9V9imc+/KW1J1XBlOhJ5UL4xW8RLNR4XbSof8Ydy/c2q0+sUbGMSjava4ElKgCaNigdMbao7hXynUMfhns0TIPQfTURbu+efzjObRJ8H3kr0o/128xgum+vG38821ocFHopfu3NL1t4NrWpvsi+gZX4aq5F25Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fqNeW9sf; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="TxgLR16l"
-Date: Wed, 22 Jul 2026 16:48:08 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1784710104;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/CtpAiqSORgC1PVp8aqaTTDXM1iTIxgl2ktAak8yUfo=;
-	b=TxgLR16lKXGF0pdddIsxaIZ7ZbXrnW8H7/s2NvPdPlYTc60IgARSWSYA/jzZ2cWUq/s4jC
-	6l6VewNglWWTxMyxEM/17aW6G7vhgT6yMtvjW9/wzBQ2AKHdtPJ8wIvlYXQAUKRDUXvp92
-	YfTn3RdRK6ygN9hwNYuN+VY09YT2zwN3xSFxaRDqLF7fpMzmYS75jB1xGaeFMDexPOH4sf
-	YoNJ6p6rKj4L4Vl8+LIxxzNrnyg5jYivNLc4MmaOu81lDQAzQ4kbDIzNjLBBLhW+nI0YqL
-	9SuRoFMyh3skYiwjSg1ARlr6a5JpHe/1fUYKBgO2whGzbgcbARePlHbJHSfRQw==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: Chen-Yu Yeh <chenyou910331@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 01/16] docs/zh_TW: process: localize terminology in
- 7.AdvancedTopics.rst
-Message-ID: <amCDyEKqNzkjgu-H@wyuan.org>
-References: <20260721215542.98435-1-chenyou910331@gmail.com>
- <20260721215542.98435-2-chenyou910331@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fqNeW9sf"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47c6e9a694bso6955776f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 01:59:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1784710754; x=1785315554; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=wVkzG+wHl7b0hFwJEBuSwYI7fFrwiKABhZ91z4775sk=;
+        b=fqNeW9sfa1toRnDMGjmVPGCP1baEA3JPIcfDTRDeeUNGO6hH1MoyRUgcJ3EanzPnmy
+         WIbon2hzmVC0IcSDEZ3t+tHgWTfYtycfTGBQLg2ljzAzeKC2kaGwM/hSJ5trMUfC2jZn
+         XW8iPr67bjh9dmgQ/qhBGzCx8xCwvfL9H80JaOQr2PJwxvmX+ZZymm7l8DB3mjf3nZ0+
+         eohcgZcBtArLlpl97rdHUaAxVOqYuf4QYhQ6QQSWURs3J3R+4TS+ZO58Q92bZSjbbOM5
+         9MwHwXrf/ihQ/uILZOBU8uKtLmNHU8BQczKRgabBhbUVitr+wjD5yZc6rGVBTB9J+5h0
+         XLWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784710754; x=1785315554;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wVkzG+wHl7b0hFwJEBuSwYI7fFrwiKABhZ91z4775sk=;
+        b=tYW5reGZGX2NSvz12cs3TQH7yGSzp1r+tn/jAILDN19XUgpG38C80XQnQyiJpk5gg7
+         Imqfhmge6CcoGftSH2F9meSZarwFE6kd6zSkQyHKgJW25HA2PbG+O7s7qplCqR22iALk
+         6Sv61/a4Xk6qTVUgIdKV7CDhz/8F3DWY6wzOj54SHkYCPrDSmBfBSxTkubr05UKg6CRA
+         MyOcEjKVNUbx+c/fFFC6VKAK6XzM2RzuvrzZnla/Gzvv32QbAWBKE0KmP3bg0ickTjcN
+         PITbX9UdiQhMs48SyF7HbDkrjMUnO3btNUn4OvYmJq4o9/7krZgf7KrKpIlQJC/Qe6Pe
+         ezqw==
+X-Forwarded-Encrypted: i=1; AHgh+Rrm+dPy4+QrkSt+RQJ4iVwsu5qP8fBDb6z2nYO8nQwOBPF26FPye+v/bcexDmihpOSDGFsWRVm0R6w=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy98SNRbCqfR98/6EnDLkIdB5sHtnHpPvGcRuIXvThFo9luYhv5
+	3b8AthcNten3JUQs7HqAtXuoBSD7QEiMKUSgJmZN6E8OfMdWo1sf3nyZBNY1i22JqfA=
+X-Gm-Gg: AR+sD13ozcJGxLes+nF0pcIzTnSXmINYZgvNNk6bu8ZhDINFRuDAVBlcuFaWC4pLNA/
+	5PC5qcGM5odeBCvexo6942Ern1XvLyZxEgFjyUOyUiYGsYGepDzykVIezEGKo0caW/AbYzrhHwB
+	esFPgfXJHF4Y2Ckbckp5JHx3kvqp7yuUZl2Qgkva/AdLPdAQQgjGQ+FfO0UUCxCiBDkC7m+mNVh
+	RfTKD6cPGNhNlK5Sz0/RyXSdwcZulIB0O6W0cLdQvRjvUcv1A/37JgXDDQJJ+zyI6cN5/KL+dkG
+	OEEInc9ub8yp54JBUIYjwA3FnyJHwZbH7hKI59iA4rxjZ2i6rSEioYQAGrcxNv7qIfFwufDtjOI
+	w5AA/KezCFYyhiWkfH8PI77bjG1YXm/gbOjngz/q8zAr1YmZRapAsCcTRHrsjdw3P/5MpLJK3xn
+	wJlYqDohrgcfys
+X-Received: by 2002:a05:6000:310f:b0:47f:83f8:a956 with SMTP id ffacd0b85a97d-47f83f8ac9cmr3886714f8f.37.1784710754365;
+        Wed, 22 Jul 2026 01:59:14 -0700 (PDT)
+Received: from linaro.org ([2a02:2454:ff24:7210:7ae3:a857:e482:495])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85bb5127sm4587664f8f.10.2026.07.22.01.59.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 01:59:13 -0700 (PDT)
+Date: Wed, 22 Jul 2026 10:59:09 +0200
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Udit Tiwari <quic_utiwari@quicinc.com>,
+	Md Sadre Alam <mdalam@qti.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Vignesh Raghavendra <vigneshr@ti.com>, dmaengine@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, brgl@kernel.org,
+	sashiko-reviews@lists.linux.dev
+Subject: Re: [PATCH v23 06/14] dmaengine: qcom: bam_dma: add support for BAM
+ locking
+Message-ID: <amCGXUUd4VmuQRGD@linaro.org>
+References: <20260721-qcom-qce-cmd-descr-v23-0-1be02deffda9@oss.qualcomm.com>
+ <20260721-qcom-qce-cmd-descr-v23-6-1be02deffda9@oss.qualcomm.com>
+ <20260721134853.2B2401F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260721215542.98435-2-chenyou910331@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20260721134853.2B2401F000E9@smtp.kernel.org>
 
-On Wed, Jul 22, 2026 at 05:55:27AM +0800, Chen-Yu Yeh wrote:
->  審閱補丁
->  --------
->  
-> -一些讀者顯然會反對將本節與“高級主題”放在一起，因爲即使是剛開始的內核開發人員
-> -也應該審閱補丁。當然，沒有比查看其他人發佈的代碼更好的方法來學習如何在內核環境
-> -中編程了。此外，審閱者永遠供不應求；通過審閱代碼，您可以對整個流程做出重大貢獻。
-> +一些讀者顯然會反對將本節與“進階主題”放在一起，因為即使是剛開始的核心開發人員
-> +也應該審閱補丁。當然，沒有比查看其他人發布的程式碼更好的方法來學習如何在核心環境
-> +中撰寫程式了。此外，審閱者永遠供不應求；透過審閱程式碼，您可以對整個流程做出重大貢獻。
->  
-> -審查代碼可能是一副令人生畏的圖景，特別是對一個新的內核開發人員來說，他們
-> -可能會對公開詢問代碼感到緊張，而這些代碼是由那些有更多經驗的人發佈的。不過，
-> -即使是最有經驗的開發人員編寫的代碼也可以得到改進。也許對（所有）審閱者最好
-> +審查程式碼可能是一副令人生畏的圖景，特別是對一個新的核心開發人員來說，他們
-> +可能會對公開詢問程式碼感到緊張，而這些程式碼是由那些有更多經驗的人發布的。不過，
-> +即使是最有經驗的開發人員編寫的程式碼也可以得到改進。也許對（所有）審閱者最好
->  的建議是：把審閱評論當成問題而不是批評。詢問“在這條路徑中如何釋放鎖？”
-> -總是比說“這裏的鎖是錯誤的”更好。
-> +總是比說“這裡的鎖是錯誤的”更好。
->  
-> -不同的開發人員將從不同的角度審查代碼。部分人會主要關注代碼風格以及代碼行是
-> -否有尾隨空格。其他人會主要關注補丁作爲一個整體實現的變更是否對內核有好處。
-> -同時也有人會檢查是否存在鎖問題、堆棧使用過度、可能的安全問題、在其他地方
-> -發現的代碼重複、足夠的文檔、對性能的不利影響、用戶空間ABI更改等。所有類型
-> -的檢查，只要它們能引導更好的代碼進入內核，都是受歡迎和值得的。
-> +不同的開發人員將從不同的角度審查程式碼。部分人會主要關注程式碼風格以及程式碼行是
-> +否有尾隨空格。其他人會主要關注補丁作為一個整體實作的變更是否對核心有好處。
-> +同時也有人會檢查是否存在鎖問題、堆疊使用過度、可能的安全問題、在其他地方
-> +發現的程式碼重複、足夠的文件、對效能的不利影響、使用者空間ABI更改等。所有類型
-> +的檢查，只要它們能引導更好的程式碼進入核心，都是受歡迎和值得的。
+On Tue, Jul 21, 2026 at 01:48:52PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 5 potential issue(s) to consider:
+> - [High] State leak causing hardware misconfiguration on channel reuse due to uncleared `lock_scratchpad_addr` and hardcoded direction.
+> - [High] Channel state corruption when `bam_slave_config` fails validation.
+> - [High] Infinite BH workqueue loop and unratelimited log flood on memory allocation failure.
+> - [High] DMA API violation: `lock_ce` buffer shares a cacheline with frequently CPU-modified struct members.
+> - [Low] Unused assignment of `hdesc` in IRQ handler.
+> --
+> 
+> --- Patch [6]: [PATCH v23 06/14] dmaengine: qcom: bam_dma: add support for BAM locking ---
+> commit 8b44c5e4935cbb61832adb3262df00b3b606a283
+> Author: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> 
+> dmaengine: qcom: bam_dma: add support for BAM locking
+> 
+> This commit adds support for BAM pipe locking by prepending and appending
+> dummy command descriptors with LOCK/UNLOCK bits when starting DMA on a TX
+> channel. It uses a peripheral-local scratchpad address communicated via slave
+> config for the dummy writes.
+> 
+> > diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
+> > index f3e713a5259c2..411c60c4433e2 100644
+> > --- a/drivers/dma/qcom/bam_dma.c
+> > +++ b/drivers/dma/qcom/bam_dma.c
+> [ ... ]
+> > @@ -72,6 +76,11 @@ struct bam_async_desc {
+> >  
+> >  	struct bam_desc_hw *curr_desc;
+> >  
+> > +	/* BAM locking infrastructure */
+> > +	bool is_lock_desc;
+> > +	struct scatterlist lock_sg;
+> > +	struct bam_cmd_element lock_ce;
+> > +
+> >  	/* list node for the desc in the bam_chan list of descriptors */
+> >  	struct list_head desc_node;
+> 
+> [Severity: High]
+> Does placing lock_ce immediately adjacent to desc_node risk a DMA API
+> violation? lock_ce is mapped for DMA via dma_map_sg(), but desc_node is
+> actively modified by the CPU via list_add_tail() during bam_start_dma()
+> while the mapping is active. On non-coherent architectures, could this
+> cause cacheline tearing or stale data writebacks if they share the same
+> cacheline?
+> 
 
-Should we wrap lines earlier throughout the series? After the certain
-terminology was changed, many lines became longer but were not reflowed.
+I think this complaint was there in some revisions before. Could be
+mostly a false positive given that the lock_ce is just DMA_MEM_TO_DEV
+(i.e. read-only for the BAM)...
 
-Just a thought. I'am also fine with current changes.
+> [ ... ]
+> > @@ -676,13 +691,26 @@ static void bam_free_chan(struct dma_chan *chan)
+> >  static int bam_slave_config(struct dma_chan *chan,
+> >  			    struct dma_slave_config *cfg)
+> >  {
+> > +	struct bam_config *peripheral_cfg = cfg->peripheral_config;
+> >  	struct bam_chan *bchan = to_bam_chan(chan);
+> > +	const struct bam_device_data *bdata = bchan->bdev->dev_data;
+> >  
+> >  	guard(spinlock_irqsave)(&bchan->vc.lock);
+> >  
+> >  	memcpy(&bchan->slave, cfg, sizeof(*cfg));
+> >  	bchan->reconfigure = 1;
+> >  
+> 
+> [Severity: High]
+> Is it safe to overwrite bchan->slave and set bchan->reconfigure = 1 before
+> validating the configuration direction below? If cfg->direction !=
+> DMA_MEM_TO_DEV, this returns -EINVAL to the caller, but the channel
+> retains the rejected parameters and will apply them on the next transfer
+> because bchan->reconfigure remains set.
+> 
 
-Thanks.
+Yeah, better to swap the order.
 
-See:
+> > +	/*
+> > +	 * This is required to setup the pipe locking and must be done even
+> > +	 * before the first call to bam_start_dma().
+> > +	 */
+> > +	if (bdata->pipe_lock_supported && peripheral_cfg) {
+> > +		if (cfg->direction != DMA_MEM_TO_DEV)
+> > +			return -EINVAL;
+> > +
+> > +		bchan->lock_scratchpad_addr = peripheral_cfg->lock_scratchpad_addr;
+> > +	}
+> 
+> [Severity: High]
+> If bam_slave_config() is called without peripheral_cfg, should
+> bchan->lock_scratchpad_addr be reset to 0 to avoid leaking state from a
+> prior configuration? If the previous lock_scratchpad_addr is retained,
+> bam_start_dma() might erroneously inject dummy lock descriptors on new
+> transfers.
+> 
 
-  https://docs.kernel.org/translations/zh_CN/how-to.html#id9
-  https://docs.kernel.org/translations/zh_CN/how-to.html#id10
+Probably unlikely to happen, but yeah.
+
+I would also check if (cfg->peripheral_size == sizeof(peripheral_cfg)),
+just to be safe.
+
+> [ ... ]
+> > @@ -919,13 +959,19 @@ static u32 process_channel_irqs(struct bam_device *bdev)
+> >  			 * push back to front of desc_issued so that
+> >  			 * it gets restarted by the work queue.
+> >  			 */
+> > +
+> > +			list_del(&async_desc->desc_node);
+> >  			if (!async_desc->num_desc) {
+> > -				vchan_cookie_complete(&async_desc->vd);
+> > +				hdesc = async_desc->desc;
+> > +
+> 
+> [Severity: Low]
+> Is the assignment to hdesc used anywhere? It appears to be assigned here but
+> is never read.
+> 
+
+Yeah, I think I pointed this out before.
+
+> [ ... ]
+> > @@ -1064,6 +1197,7 @@ static void bam_start_dma(struct bam_chan *bchan)
+> >  
+> >  	lockdep_assert_held(&bchan->vc.lock);
+> >  
+> > +	vd = vchan_next_desc(&bchan->vc);
+> >  	if (!vd)
+> >  		return;
+> >  
+> > @@ -1072,6 +1206,24 @@ static void bam_start_dma(struct bam_chan *bchan)
+> >  		return;
+> >  
+> >  	while (vd && !IS_BUSY(bchan)) {
+> > +		/*
+> > +		 * Open a LOCK/UNLOCK bracket around each fresh sequence.
+> > +		 * Sentinels inserted by bam_setup_pipe_lock() are skipped: they
+> > +		 * already have bam_locked set and must not trigger a second pair.
+> > +		 */
+> > +		if (!bchan->bam_locked) {
+> > +			ret = bam_setup_pipe_lock(bchan);
+> > +			if (ret) {
+> > +				dev_err_ratelimited(bdev->dev,
+> > +					"failed to setup the pipe lock, deferring transfer: %d\n",
+> > +					ret);
+> > +				queue_work(system_bh_highpri_wq, &bdev->work);
+> > +				break;
+> > +			}
+> 
+> [Severity: High]
+> Does requeuing to a high-priority BH workqueue upon ENOMEM cause CPU
+> starvation? Because system_bh_highpri_wq executes in softirq context,
+> requeuing immediately without sleeping prevents the memory reclaim needed
+> to resolve the GFP_NOWAIT failure, leading to an infinite spin loop.
+> 
+
+It looks like my suggestion to queue_work() again in the error path of
+bam_start_dma() wasn't great if we end up causing an infinite spin loop.
+We do need to retry somehow or report an error though, I don't think
+aborting and leaving the desccriptors completely unhandled is an option
+either... :(
+
+One option would be to try to avoid the allocation and write the lock
+descriptors directly into the FIFO, but this will probably get really
+messy as well, since you would need to carefully modify the FIFO
+management in several functions ...
+
+I don't have a good spontaenous idea how to solve this right now. :/
+
+Thanks,
+Stephan
