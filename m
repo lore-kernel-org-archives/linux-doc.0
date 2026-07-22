@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A34245D5D3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B764445D5DA;
 	Wed, 22 Jul 2026 23:41:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784763680; cv=none; b=XkzESrRCXnAdDPHGhoAUi7N4HoQgQkwLQRGJOZq5vxzlL99Jl9ZF9bQxyUx0zkV/HgHigcBmlxvVEI1VP6WEMDzW5aAheKNQD5RY8ggPZ5XokAD761fAeEKo6SyqoWPVTRi9U7XvrFdchUXklduTbOju1c1VUst4UfkgTvPgF04=
+	t=1784763680; cv=none; b=Ut4GoW1KnM2R1uNVWwqJXoE1/vZHRCpkbWAjKm68000YVXKPFb0Pj5QR3vK/08x6B79QDAb0OMLvONp7R/zFuehGCTtVr/POgyRn4GHqtUKz1uCdKCa+fO2udz5UjJ68shaLUq1npZZp+om730BGL7xesyMuNSSAFhI5tvMFgIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784763680; c=relaxed/simple;
-	bh=5/iRF3xNqMsJsR53Yn485u1SJJR2JsiIiVvY2SQNe+s=;
+	bh=Va4m5Sx9fYuEtvTR2h5n8C+dF3X7m38XYQ8knPwStVc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HX9WUdja1h9seS7Rbl1gmmYsQ21FOwIt0Z+fSOzAwaoa860MkVf6XCQM76dlPYz1mfjWK4G64sDJrkBCvPPJvwjaqCUbECdHWDNq9I9HksjJ9ZFucEeAdb5AZoLsijAVHybV8CnbHP9noX3plAgpT43CRDx1gL0vO5GB4jcKnuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c+SxcELL; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=m4xQ+4BpZZ8Kvwc56q1xtMpjOp1nw+Iz/shNowvPhe/S+0ZHgqsrCcproaxwQMfwbNMQDQqhjG9X0+hamdgFc6fQFCMywgwtyW+pMFxEHDFX0GiSAQ3XZpfbI6frl7LJr6DdhEHw7YQAVYVhpSWsoFCz0iD+kFQ39VOyCIYRT80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PnwuS69l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c+SxcELL"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 79314C2BCFB;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PnwuS69l"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 999D1C2BCFC;
 	Wed, 22 Jul 2026 23:41:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1784763680;
-	bh=5/iRF3xNqMsJsR53Yn485u1SJJR2JsiIiVvY2SQNe+s=;
+	bh=Va4m5Sx9fYuEtvTR2h5n8C+dF3X7m38XYQ8knPwStVc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=c+SxcELLjBmZdtQTreWKXPNovxnW3u7q1JQ10iW2wkifkQmxpZYDgskte5XeqvBNm
-	 PNrXcMFlRbxCeOEeollYUTgXaOl3GLV7G2H8Fow4XuQcOhzJunxXRuO6KG0AagMrXu
-	 U/2yO8njKtb97sVW68BEkxcMQtnKs5m60gsRABH4Tt5jmGeZq81q95djQnIbeZRAoJ
-	 iP38iUplPnQxQP+CCyoZYAOGksNwUFjs4DQEBDWTEh8YJ9W+q1VXmjCyoZOF7fGcfu
-	 Uf6Txk5Errh4Ckax4kGdHZ3MrnORlhH94SCSjIxC5/EUzMu3Tfn7SPOkyIKT+WrEhK
-	 NdtmrjAE0NuEw==
+	b=PnwuS69lJKLV13AjZe1OBVkwxTjEICmt5ZlCaILdYj3It+aN2xHPMMQh5kVcfczg4
+	 J2+PgB0oP+qt+0wpTmFUkgpWuV0XqjbDSBwgmlhReo2ISu8QdmjIn0QIaG6hOmQxEk
+	 cu26STNOlSqVkhPth4WSd0QZd5PJy9wFrRpHxvj37hOO8d+/rZQBFEsb8wKL7zFkVW
+	 lEgMWXl0AXZe+Mbx8bRCIdvt/P0SDZIuzZTv23reBu+/0X+BjTiraviDgde3OPE2oj
+	 igffL2TOrayeoB0WWk9NXi5LM85Ps4LYHfQwyQb2O652QpR1X+Pv10vKEtPDL6Stya
+	 +dtfkJyTYwaiA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67147C44536;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 866BCC44532;
 	Wed, 22 Jul 2026 23:41:20 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Wed, 22 Jul 2026 16:41:18 -0700
-Subject: [PATCH v4 10/16] WIP: fs: hugetlbfs: Refactor subpool getters and
- integrate with hugetlb_subpool API
+Date: Wed, 22 Jul 2026 16:41:20 -0700
+Subject: [PATCH v4 12/16] WIP: tools: testing: Add unit tests for HugeTLB
+ subpool functions
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260722-hugetlb-alloc-failure-fixes-v4-10-88e8b81970dc@google.com>
+Message-Id: <20260722-hugetlb-alloc-failure-fixes-v4-12-88e8b81970dc@google.com>
 References: <20260722-hugetlb-alloc-failure-fixes-v4-0-88e8b81970dc@google.com>
 In-Reply-To: <20260722-hugetlb-alloc-failure-fixes-v4-0-88e8b81970dc@google.com>
 To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
@@ -62,11 +62,11 @@ Cc: vannapurve@google.com, erdemaktas@google.com, linux-mm@kvack.org,
  linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
  linux-doc@vger.kernel.org, Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784763678; l=5109;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784763678; l=14658;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=Rr0t6FQpLc5GBEHSOpDNGxRyeiM/tB/HQxHFWvewyxI=;
- b=r8aum4myXhKIuGOvNFNRV2xnP+sRjMi82PJGF7WGGuvumuJvvLXs2oRu08WpAjRrptqeMPkev
- cpDbibmLIwAB3MMC8TVRLPb2o/yYixAdK/+t9iAz2EISXgaiFArJ1q+
+ bh=mkZsBkGR1i2iMA6usas88vw7grWu7JqdfT5S4nhfgh0=;
+ b=ktCZhZBR1fq1rX8XzhqdfUzrgnujNlZmpVtJioipANfWI+nvudolTpM42bFhOmozkCbgwr4SA
+ q5+14r4sr5lBkqUY9t/n+Wemw/6PlDBMIAL97tN3cJN7zFLgjjZWrqG
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -76,144 +76,457 @@ Reply-To: ackerleytng@google.com
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-Refactor the direct field accesses to spool->max_hpages, spool->min_hpages,
-and calculate subpool properties using getters inside
-mm/hugetlb_subpool.c.
+Introduce unit tests for HugeTLB subpool functions to exercise subpool
+functions. Set testing up so that tests can be run directly from userspace.
 
-This will allow the definition of struct hugepage_subpool to be
-encapsulated and private to mm/hugetlb_subpool.c
+Reuses the private kernel struct hugepage_subpool struct layout natively by
+embedding the implementation directly, avoiding structural definition drift
+between implementation and testing.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- fs/hugetlbfs/inode.c | 28 +++++++++-------------------
- mm/hugetlb_subpool.c | 39 ++++++++++++++++++++++++++++++++++++++-
- mm/hugetlb_subpool.h |  4 ++++
- 3 files changed, 51 insertions(+), 20 deletions(-)
+ tools/testing/hugetlb_subpool/.gitignore     |   1 +
+ tools/testing/hugetlb_subpool/Makefile       |  18 ++
+ tools/testing/hugetlb_subpool/test_subpool.c | 400 +++++++++++++++++++++++++++
+ 3 files changed, 419 insertions(+)
 
-diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
-index 86c21f8272470..b424afdedb3ee 100644
---- a/fs/hugetlbfs/inode.c
-+++ b/fs/hugetlbfs/inode.c
-@@ -1060,7 +1060,6 @@ static int hugetlbfs_show_options(struct seq_file *m, struct dentry *root)
- 	struct hugetlbfs_sb_info *sbinfo = HUGETLBFS_SB(root->d_sb);
- 	struct hugepage_subpool *spool = sbinfo->spool;
- 	unsigned long hpage_size = huge_page_size(sbinfo->hstate);
--	unsigned hpage_shift = huge_page_shift(sbinfo->hstate);
- 	char mod;
- 
- 	if (!uid_eq(sbinfo->uid, GLOBAL_ROOT_UID))
-@@ -1082,12 +1081,13 @@ static int hugetlbfs_show_options(struct seq_file *m, struct dentry *root)
- 	}
- 	seq_printf(m, ",pagesize=%lu%c", hpage_size, mod);
- 	if (spool) {
--		if (spool->max_hpages != -1)
--			seq_printf(m, ",size=%llu",
--				   (unsigned long long)spool->max_hpages << hpage_shift);
--		if (spool->min_hpages != -1)
--			seq_printf(m, ",min_size=%llu",
--				   (unsigned long long)spool->min_hpages << hpage_shift);
-+		unsigned long long max_size = hugepage_subpool_max_size(spool);
-+		unsigned long long min_size = hugepage_subpool_min_size(spool);
+diff --git a/tools/testing/hugetlb_subpool/.gitignore b/tools/testing/hugetlb_subpool/.gitignore
+new file mode 100644
+index 0000000000000..7348c2c72f1e1
+--- /dev/null
++++ b/tools/testing/hugetlb_subpool/.gitignore
+@@ -0,0 +1 @@
++test_subpool
+diff --git a/tools/testing/hugetlb_subpool/Makefile b/tools/testing/hugetlb_subpool/Makefile
+new file mode 100644
+index 0000000000000..1bdb7e2635614
+--- /dev/null
++++ b/tools/testing/hugetlb_subpool/Makefile
+@@ -0,0 +1,18 @@
++# SPDX-License-Identifier: GPL-2.0
++.PHONY: all clean test
 +
-+		if (max_size != -1ULL)
-+			seq_printf(m, ",size=%llu", max_size);
-+		if (min_size != -1ULL)
-+			seq_printf(m, ",min_size=%llu", min_size);
- 	}
- 	return 0;
- }
-@@ -1106,18 +1106,8 @@ static int hugetlbfs_statfs(struct dentry *dentry, struct kstatfs *buf)
- 		/* If no limits set, just report 0 or -1 for max/free/used
- 		 * blocks, like simple_statfs() */
- 		if (sbinfo->spool) {
--			long free_pages;
--
--			spin_lock_irq(&sbinfo->spool->lock);
--			buf->f_blocks = sbinfo->spool->max_hpages;
--			if (sbinfo->spool->max_hpages == -1) {
--				free_pages = -1;
--			} else {
--				free_pages = sbinfo->spool->max_hpages -
--					     sbinfo->spool->used_hpages;
--			}
--			buf->f_bavail = buf->f_bfree = free_pages;
--			spin_unlock_irq(&sbinfo->spool->lock);
-+			buf->f_blocks = hugepage_subpool_max_hpages(sbinfo->spool);
-+			buf->f_bavail = buf->f_bfree = hugepage_subpool_free_hpages(sbinfo->spool);
- 			buf->f_files = sbinfo->max_inodes;
- 			buf->f_ffree = sbinfo->free_inodes;
- 		}
-diff --git a/mm/hugetlb_subpool.c b/mm/hugetlb_subpool.c
-index 6184860ed7374..ac0f9057b4921 100644
---- a/mm/hugetlb_subpool.c
-+++ b/mm/hugetlb_subpool.c
-@@ -12,7 +12,6 @@
- #endif
- #include <linux/spinlock.h>
- #include <linux/bug.h>
--
- #include "hugetlb_subpool.h"
- 
- static inline bool subpool_is_free(struct hugepage_subpool *spool)
-@@ -38,6 +37,44 @@ static inline void unlock_or_release_subpool(struct hugepage_subpool *spool,
- 	}
- }
- 
-+long hugepage_subpool_free_hpages(struct hugepage_subpool *spool)
++CC = gcc
++CFLAGS = -Wall -O2 -I../shared -I. -I../../include -I../../arch/x86/include -pthread
++KERNEL_SUBPOOL_H = ../../../mm/hugetlb_subpool.h
++KERNEL_SUBPOOL_C = ../../../mm/hugetlb_subpool.c
++
++all: test
++
++test_subpool: test_subpool.c $(KERNEL_SUBPOOL_C) $(KERNEL_SUBPOOL_H)
++	$(CC) $(CFLAGS) test_subpool.c -o test_subpool
++
++test: test_subpool
++	./test_subpool
++
++clean:
++	rm -f test_subpool
+diff --git a/tools/testing/hugetlb_subpool/test_subpool.c b/tools/testing/hugetlb_subpool/test_subpool.c
+new file mode 100644
+index 0000000000000..78900274cc264
+--- /dev/null
++++ b/tools/testing/hugetlb_subpool/test_subpool.c
+@@ -0,0 +1,400 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <assert.h>
++#include <stdlib.h>
++#include <linux/types.h>
++#include <linux/slab.h>
++#include <linux/bug.h>
++
++/* Mocked Userspace implementation for Kernel Subpool allocation dependencies */
++struct hstate {
++	int dummy;
++};
++
++#undef kzalloc_obj
++#undef kzalloc_objs
++#define kzalloc_obj(P, ...) malloc(sizeof(P))
++#define kzalloc_objs(P, COUNT, ...) malloc(sizeof(P) * (COUNT))
++
++#define kfree free
++#define kmalloc malloc
++
++#define huge_page_shift(h) (21 + (0 * ((unsigned long)(h) & 0)))
++#define huge_page_size(h) (1UL << huge_page_shift(h))
++
++static bool hugetlb_acct_memory_called;
++static struct hstate *hugetlb_acct_memory_h;
++static long hugetlb_acct_memory_delta;
++
++static int hugetlb_acct_memory(struct hstate *h, long delta)
 +{
-+	long free_pages;
-+
-+	spin_lock_irq(&spool->lock);
-+	if (spool->max_hpages == -1)
-+		free_pages = -1;
-+	else
-+		free_pages = spool->max_hpages - spool->used_hpages;
-+	spin_unlock_irq(&spool->lock);
-+
-+	return free_pages;
++	hugetlb_acct_memory_called = true;
++	hugetlb_acct_memory_h = h;
++	hugetlb_acct_memory_delta = delta;
++	return 0;
 +}
 +
-+static unsigned int hugepage_subpool_hpage_shift(struct hugepage_subpool *spool)
++static void reset_hugetlb_acct_memory_mock(void)
 +{
-+	return huge_page_shift(spool->hstate);
++	hugetlb_acct_memory_called = false;
++	hugetlb_acct_memory_h = NULL;
++	hugetlb_acct_memory_delta = 0;
 +}
 +
-+unsigned long long hugepage_subpool_max_size(struct hugepage_subpool *spool)
++static void assert_hugetlb_acct_memory_called(struct hstate *h, long delta)
 +{
-+	if (spool->max_hpages == -1)
-+		return -1ULL;
-+	return (unsigned long long)spool->max_hpages << hugepage_subpool_hpage_shift(spool);
++	assert(hugetlb_acct_memory_called);
++	assert(hugetlb_acct_memory_h == h);
++	assert(hugetlb_acct_memory_delta == delta);
++
++	reset_hugetlb_acct_memory_mock();
 +}
 +
-+unsigned long long hugepage_subpool_min_size(struct hugepage_subpool *spool)
++static void assert_hugetlb_acct_memory_not_called(void)
 +{
-+	if (spool->min_hpages == -1)
-+		return -1ULL;
-+	return (unsigned long long)spool->min_hpages << hugepage_subpool_hpage_shift(spool);
++	assert(!hugetlb_acct_memory_called);
 +}
 +
-+long hugepage_subpool_max_hpages(struct hugepage_subpool *spool)
++#include "../../../mm/hugetlb_subpool.h"
++#include "../../../mm/hugetlb_subpool.c"
++
++static void test_subpool_new_put_no_min_limit(void)
 +{
-+	return spool->max_hpages;
++	struct hstate h;
++	struct hugepage_subpool *spool;
++
++	spool = hugepage_new_subpool(&h, 10, -1);
++	assert(spool != NULL);
++	assert(spool->max_hpages == 10);
++	assert(spool->min_hpages == -1);
++	assert(spool->rsv_hpages == -1);
++	assert(spool->count == 1);
++	assert_hugetlb_acct_memory_not_called();
++
++	hugepage_put_subpool(spool);
++	assert_hugetlb_acct_memory_not_called();
 +}
 +
- struct hugepage_subpool *hugepage_new_subpool(struct hstate *h, long max_hpages,
- 						long min_hpages)
- {
-diff --git a/mm/hugetlb_subpool.h b/mm/hugetlb_subpool.h
-index be1f1cf012c9c..41d22239f2c3e 100644
---- a/mm/hugetlb_subpool.h
-+++ b/mm/hugetlb_subpool.h
-@@ -13,5 +13,9 @@ struct hugepage_subpool *hugepage_new_subpool(struct hstate *h, long max_hpages,
- void hugepage_put_subpool(struct hugepage_subpool *spool);
- long hugepage_subpool_get_pages(struct hugepage_subpool *spool, long delta);
- long hugepage_subpool_put_pages(struct hugepage_subpool *spool, long delta);
-+long hugepage_subpool_free_hpages(struct hugepage_subpool *spool);
-+long hugepage_subpool_max_hpages(struct hugepage_subpool *spool);
-+unsigned long long hugepage_subpool_max_size(struct hugepage_subpool *spool);
-+unsigned long long hugepage_subpool_min_size(struct hugepage_subpool *spool);
- 
- #endif /* _MM_HUGETLB_SUBPOOL_H */
++static void test_subpool_new_put_with_min_limit(void)
++{
++	struct hstate h;
++	struct hugepage_subpool *spool;
++
++	spool = hugepage_new_subpool(&h, 20, 5);
++	assert(spool != NULL);
++	assert(spool->max_hpages == 20);
++	assert(spool->min_hpages == 5);
++	assert(spool->rsv_hpages == 5);
++	assert(spool->count == 1);
++	assert_hugetlb_acct_memory_called(&h, 5);
++
++	hugepage_put_subpool(spool);
++	assert_hugetlb_acct_memory_called(&h, -5);
++}
++
++static void test_subpool_get_pages_below_min(void)
++{
++	struct hstate h;
++	struct hugepage_subpool *spool;
++	long ret;
++
++	/* Let's initialize: min_hpages = 10, used_hpages = 9, rsv_hpages = 1 */
++	spool = hugepage_new_subpool(&h, -1, 10);
++	assert_hugetlb_acct_memory_called(&h, 10);
++
++	ret = hugepage_subpool_get_pages(spool, 9);
++	assert(ret == 0);
++	assert(spool->used_hpages == 9);
++	assert(spool->rsv_hpages == 1);
++
++	/* Invoke Get (Consumes the remaining 1 subpool reserve!) */
++	ret = hugepage_subpool_get_pages(spool, 1);
++	assert(ret == 0); /* Covered by subpool reserve! */
++	assert(spool->used_hpages == 10);
++	assert(spool->rsv_hpages == 0);
++
++	/* Invoke Put (Replenishes the subpool reserve!) */
++	ret = hugepage_subpool_put_pages(spool, 1);
++	assert(ret == 0); /* Kept by subpool reserve! */
++	assert(spool->used_hpages == 9);
++	assert(spool->rsv_hpages == 1);
++
++	/* Cleanup: Return used_hpages to 0 so the subpool frees symmetrically! */
++	hugepage_subpool_put_pages(spool, 9);
++	hugepage_put_subpool(spool);
++	assert_hugetlb_acct_memory_called(&h, -10);
++}
++
++static void test_subpool_get_pages_crossing_min(void)
++{
++	struct hstate h;
++	struct hugepage_subpool *spool;
++	long ret;
++
++	/* Let's initialize: min_hpages = 10, used_hpages = 10, rsv_hpages = 0 */
++	spool = hugepage_new_subpool(&h, -1, 10);
++	assert_hugetlb_acct_memory_called(&h, 10);
++
++	hugepage_subpool_get_pages(spool, 10);
++	assert(spool->used_hpages == 10);
++	assert(spool->rsv_hpages == 0);
++
++	/* Invoke Get (Triggers a request for a Global Buddy/Surplus page!) */
++	ret = hugepage_subpool_get_pages(spool, 1);
++	assert(ret == 1); /* Requires global page! */
++	assert(spool->used_hpages == 11);
++	assert(spool->rsv_hpages == 0);
++
++	/* Invoke Put (Above minimum, so it releases the page to the Global Pool!) */
++	ret = hugepage_subpool_put_pages(spool, 1);
++	assert(ret == 1); /* Dropped to global pool! */
++	assert(spool->used_hpages == 10);
++	assert(spool->rsv_hpages == 0);
++
++	/* Cleanup */
++	hugepage_subpool_put_pages(spool, 10);
++	hugepage_put_subpool(spool);
++	assert_hugetlb_acct_memory_called(&h, -10);
++}
++
++static void test_subpool_get_pages_crossing_min_multi(void)
++{
++	struct hstate h;
++	struct hugepage_subpool *spool;
++	long ret;
++
++	/* Scenario 1: Crossing entirely into surplus territory by a delta > 1 */
++	/* Let's initialize: min_hpages = 10, used_hpages = 8, rsv_hpages = 2 */
++	spool = hugepage_new_subpool(&h, -1, 10);
++	assert_hugetlb_acct_memory_called(&h, 10);
++
++	ret = hugepage_subpool_get_pages(spool, 8);
++	assert(ret == 0);
++	assert(spool->used_hpages == 8);
++	assert(spool->rsv_hpages == 2);
++
++	/* Invoke Get with delta = 5 (Crosses min limit of 10 up to 13) */
++	ret = hugepage_subpool_get_pages(spool, 5);
++	assert(ret == 3); /* (8 + 5) - 10 = 3 global pages required! */
++	assert(spool->used_hpages == 13);
++	assert(spool->rsv_hpages == 0);
++
++	/* Invoke Put with delta = 5 (Drops from 13 down to 8) */
++	ret = hugepage_subpool_put_pages(spool, 5);
++	assert(ret == 3); /* 3 surplus pages released to the global pool! */
++	assert(spool->used_hpages == 8);
++	assert(spool->rsv_hpages == 2); /* 2 subpool reserves perfectly restored! */
++
++	/* Scenario 2: Landing exactly on the min_hpages boundary with delta > 1 */
++	ret = hugepage_subpool_get_pages(spool, 2);
++	assert(ret == 0); /* Perfectly covered by remaining 2 subpool reserves! */
++	assert(spool->used_hpages == 10);
++	assert(spool->rsv_hpages == 0);
++
++	ret = hugepage_subpool_put_pages(spool, 2);
++	assert(ret == 0); /* Swallowed perfectly to replenish the 2 subpool reserves! */
++	assert(spool->used_hpages == 8);
++	assert(spool->rsv_hpages == 2);
++
++	/* Cleanup */
++	hugepage_subpool_put_pages(spool, 8);
++	hugepage_put_subpool(spool);
++	assert_hugetlb_acct_memory_called(&h, -10);
++}
++
++static void test_subpool_get_pages_max_limit(void)
++{
++	struct hstate h;
++	struct hugepage_subpool *spool;
++	long ret;
++
++	spool = hugepage_new_subpool(&h, 5, -1);
++	assert_hugetlb_acct_memory_not_called();
++
++	ret = hugepage_subpool_get_pages(spool, 5);
++	assert(ret == 5);
++	assert(spool->used_hpages == 5);
++	assert(spool->rsv_hpages == -1);
++
++	/* Invoke Get (Should trigger -ENOMEM due to max cap limit exceeded!) */
++	ret = hugepage_subpool_get_pages(spool, 1);
++	assert(ret == -ENOMEM);
++	assert(spool->used_hpages == 5); /* Unchanged */
++
++	/* Cleanup */
++	hugepage_subpool_put_pages(spool, 5);
++	hugepage_put_subpool(spool);
++	assert_hugetlb_acct_memory_not_called();
++}
++
++static void test_subpool_get_pages_no_limits(void)
++{
++	struct hstate h;
++	struct hugepage_subpool *spool;
++	long ret;
++
++	spool = hugepage_new_subpool(&h, -1, -1);
++	assert_hugetlb_acct_memory_not_called();
++
++	hugepage_subpool_get_pages(spool, 5);
++	assert(spool->used_hpages == 5);
++
++	/* Invoke Get (Surplus Global Territory) */
++	ret = hugepage_subpool_get_pages(spool, 2);
++	assert(ret == 2);
++	assert(spool->used_hpages == 7);
++
++	/* Invoke Put */
++	ret = hugepage_subpool_put_pages(spool, 2);
++	assert(ret == 2);
++	assert(spool->used_hpages == 5);
++
++	/* Cleanup */
++	hugepage_subpool_put_pages(spool, 5);
++	hugepage_put_subpool(spool);
++	assert_hugetlb_acct_memory_not_called();
++}
++
++static void test_subpool_free_hpages(void)
++{
++	struct hstate h;
++	struct hugepage_subpool *spool;
++
++	/* Test that free_hpages with NO min_size works perfectly */
++	spool = hugepage_new_subpool(&h, 15, -1);
++	hugepage_subpool_get_pages(spool, 3);
++	assert(hugepage_subpool_free_hpages(spool) == 12);
++	hugepage_subpool_put_pages(spool, 3);
++	hugepage_put_subpool(spool);
++
++	/* Test that free_hpages with a min_size configured is COMPLETELY UNAFFECTED by it */
++	spool = hugepage_new_subpool(&h, 15, 5);
++	assert_hugetlb_acct_memory_called(&h, 5);
++	hugepage_subpool_get_pages(spool, 3);
++	assert(hugepage_subpool_free_hpages(spool) == 12); /* Should still be 15 - 3 = 12! */
++	hugepage_subpool_put_pages(spool, 3);
++	hugepage_put_subpool(spool);
++	assert_hugetlb_acct_memory_called(&h, -5);
++
++	spool = hugepage_new_subpool(&h, -1, -1);
++	hugepage_subpool_get_pages(spool, 3);
++	assert(hugepage_subpool_free_hpages(spool) == -1);
++	hugepage_subpool_put_pages(spool, 3);
++	hugepage_put_subpool(spool);
++
++	/* Test that free_hpages with a min_size configured and NO max size returns -1 */
++	spool = hugepage_new_subpool(&h, -1, 5);
++	assert_hugetlb_acct_memory_called(&h, 5);
++	hugepage_subpool_get_pages(spool, 3);
++	assert(hugepage_subpool_free_hpages(spool) == -1);
++	hugepage_subpool_put_pages(spool, 3);
++	hugepage_put_subpool(spool);
++	assert_hugetlb_acct_memory_called(&h, -5);
++
++	spool = hugepage_new_subpool(&h, 3, -1);
++	hugepage_subpool_get_pages(spool, 3);
++	assert(hugepage_subpool_free_hpages(spool) == 0);
++	hugepage_subpool_put_pages(spool, 3);
++	hugepage_put_subpool(spool);
++}
++
++static void test_subpool_max_hpages(void)
++{
++	struct hstate h;
++	struct hugepage_subpool *spool;
++
++	spool = hugepage_new_subpool(&h, 123, -1);
++	assert(hugepage_subpool_max_hpages(spool) == 123);
++	hugepage_put_subpool(spool);
++
++	/* Test that max_hpages with a min_size configured is COMPLETELY UNAFFECTED by it */
++	spool = hugepage_new_subpool(&h, 123, 5);
++	assert_hugetlb_acct_memory_called(&h, 5);
++	assert(hugepage_subpool_max_hpages(spool) == 123);
++	hugepage_put_subpool(spool);
++	assert_hugetlb_acct_memory_called(&h, -5);
++
++	spool = hugepage_new_subpool(&h, -1, -1);
++	assert(hugepage_subpool_max_hpages(spool) == -1);
++	hugepage_put_subpool(spool);
++
++	spool = hugepage_new_subpool(&h, -1, 5);
++	assert_hugetlb_acct_memory_called(&h, 5);
++	assert(hugepage_subpool_max_hpages(spool) == -1);
++	hugepage_put_subpool(spool);
++	assert_hugetlb_acct_memory_called(&h, -5);
++
++	spool = hugepage_new_subpool(&h, 0, -1);
++	assert(hugepage_subpool_max_hpages(spool) == 0);
++	hugepage_put_subpool(spool);
++}
++
++static void test_subpool_max_size(void)
++{
++	struct hstate h;
++	struct hugepage_subpool *spool;
++
++	spool = hugepage_new_subpool(&h, 10, -1);
++	assert(hugepage_subpool_max_size(spool) == (10ULL << 21));
++	hugepage_put_subpool(spool);
++
++	/* Test that max_size with a min_size configured is COMPLETELY UNAFFECTED by it */
++	spool = hugepage_new_subpool(&h, 10, 5);
++	assert_hugetlb_acct_memory_called(&h, 5);
++	assert(hugepage_subpool_max_size(spool) == (10ULL << 21));
++	hugepage_put_subpool(spool);
++	assert_hugetlb_acct_memory_called(&h, -5);
++
++	spool = hugepage_new_subpool(&h, -1, -1);
++	assert(hugepage_subpool_max_size(spool) == -1ULL);
++	hugepage_put_subpool(spool);
++
++	spool = hugepage_new_subpool(&h, 0, -1);
++	assert(hugepage_subpool_max_size(spool) == 0ULL);
++	hugepage_put_subpool(spool);
++}
++
++static void test_subpool_min_size(void)
++{
++	struct hstate h;
++	struct hugepage_subpool *spool;
++
++	spool = hugepage_new_subpool(&h, -1, 5);
++	assert_hugetlb_acct_memory_called(&h, 5);
++	assert(hugepage_subpool_min_size(spool) == (5ULL << 21));
++	hugepage_put_subpool(spool);
++	assert_hugetlb_acct_memory_called(&h, -5);
++
++	/* Test that min_size with a max_size configured is COMPLETELY UNAFFECTED by it */
++	spool = hugepage_new_subpool(&h, 20, 5);
++	assert_hugetlb_acct_memory_called(&h, 5);
++	assert(hugepage_subpool_min_size(spool) == (5ULL << 21));
++	hugepage_put_subpool(spool);
++	assert_hugetlb_acct_memory_called(&h, -5);
++
++	spool = hugepage_new_subpool(&h, -1, -1);
++	assert(hugepage_subpool_min_size(spool) == -1ULL);
++	hugepage_put_subpool(spool);
++
++	spool = hugepage_new_subpool(&h, -1, 0);
++	assert_hugetlb_acct_memory_called(&h, 0);
++	assert(hugepage_subpool_min_size(spool) == 0ULL);
++	hugepage_put_subpool(spool);
++	assert_hugetlb_acct_memory_called(&h, 0);
++}
++
++int main(void)
++{
++	test_subpool_new_put_no_min_limit();
++	test_subpool_new_put_with_min_limit();
++	test_subpool_get_pages_below_min();
++	test_subpool_get_pages_crossing_min();
++	test_subpool_get_pages_crossing_min_multi();
++	test_subpool_get_pages_max_limit();
++	test_subpool_get_pages_no_limits();
++	test_subpool_free_hpages();
++	test_subpool_max_hpages();
++	test_subpool_max_size();
++	test_subpool_min_size();
++
++	return 0;
++}
 
 -- 
 2.55.0.229.g6434b31f56-goog
