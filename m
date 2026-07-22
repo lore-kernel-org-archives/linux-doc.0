@@ -1,218 +1,132 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010057.outbound.protection.outlook.com [52.101.85.57])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3211383999
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 18:58:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784746686; cv=none; b=Pw9hCiIBjL9Ew7FcustmO4AAoG1PZ55FFrUtaSkbdHTEgQ6Jr356wNrUX89X365J1YB3Qj1ydslnmzuXxgqdpDkK4m+zff/J0o9Q7WF0A9NRblXpXw8FVZzRwf2jb35jzBowBfobQ+S9SQmZ1QtTVfLeH4vZ9nY9DeRqd4m7Gvk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784746686; c=relaxed/simple;
-	bh=hTxnvCCR3zR+4xEII5otMAMtiwZ/u8ZxjcxhCkNWxJU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MXaVeSMhHLltwPnzu0g/IGkOiISbm3YquaHOJuI+tFz40c1AO+5kQj6G7rm/jgAr9c8cy9ht14I+CLKXyCc69CXCFs0lYHlt0BYJJy+JF59mRv0rM4ETLqg3m9Fd4emZUzY/Riu7XhLWksgkrCsac/fW2kcX4AvOMcbx5rLu86o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F6le+HOX; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E7123D7F4;
+	Wed, 22 Jul 2026 19:03:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.57
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784747018; cv=fail; b=S6f+H42Eyt/6sbNnfbbrRNP/fZ0LiWl3U6JLTLynH9l3CaSLE6VaqwfCEa4pE0pmBlQUw92FpK3f2YKO7831eGcSQrmN6DlyUEFLDkMEQATKyJOuYqW/dxdadfNOT9ZM2uvL++8wDY561YOhzeqzwsHM9TaC4rVZAuV+WRoQgdQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784747018; c=relaxed/simple;
+	bh=engaHWERp9cX/gscSBpxDl0S9rv4LGVZCtHOYiG767U=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IJRxIc3XQGsMNqnRICalosPDlqhS52SZcq/evGYaC8i/mfKvuhgZkWZsrDh8noCd16kfQbhD1n8ruQvuwwfdGjA6Z2F70uaknbcdPHQiW0T3DtF8Dd7EmYviF/BJQIUZSTP8WXOPQkIKuO0gNlc6n49clE867rSAXo1SVzDJG3Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=UowvK/OP; arc=fail smtp.client-ip=52.101.85.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F6le+HOX"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-848643382fcso13854714b3a.1
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 11:58:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784746677; x=1785351477; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wj+1LGqAFiJSD/N1c7ShfQVKFXacB+69/Yy7TCDPawc=;
-        b=F6le+HOXvP/ZOuVPNPFYtKS5tNYZPCBuhXrXPgC+qvmwhOiU5p2PlJszAvuHUSFQsg
-         IK1NrpoasQbk5UzPwgHEj0M0SF4uoP51aYUe/684EEEy1hPUEVKFl+qRPL4WKUZtfc/t
-         Jc8KXONcVGQesFnCFPRUovrD2KR8oZczetsekeQahnZW9WggSAE8b69iVg53GHczoISM
-         67WhKTLp1uDqEqJ2EPp4xXvWdQCAh/MWgtw2kfmVmCPDuRJQiLJ7z7VHnPhnStofxsqw
-         U4lFoM2Ec4cy5taEgWUfj6SC93XPCl/gnLo8gTgY25UGZME9hZeWaa7GwoDDi6BYn9/K
-         Nsdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784746677; x=1785351477;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=wj+1LGqAFiJSD/N1c7ShfQVKFXacB+69/Yy7TCDPawc=;
-        b=dBKzl30kMRkkiKqkIqGvGUqdZVUFV8PPKhh3GJ/CGy2pXgAevJN9uTHezHTlzQ6a9j
-         vwLKipHpaCprn8K7aNNHKTZzgd025+1TC7+IZi0NQFtTosZzPRTPXogXsInTHJhoXnqB
-         HBne8YGcfM//3vxgEFqdwAUCn9BravFSX63WqU/OQLZfW66izMcGlpxtLj0nveGDOoGO
-         b7ggybX+gYwDsIygqF+iJ9/RyjPFs8WHeLSfDBeo1X9KnFUI2rXUfnjMvkDLT1iUZCtp
-         uBrBJUu2+nhT+/FrgbpkhnFq0+aGgrSVaN+DZaSXsUFYFIHMswsKa3YxcGAvBl982l7X
-         Cahg==
-X-Gm-Message-State: AOJu0YyhQ6wCz0comnYfOcA2mAUiofEDRGCDMQS94J73W1don8i1MpjS
-	vBZLatkOzUbA/lCLPgjTEu7NBW0+IQSOTgNQXH4mfTMvFOlTfPG+btGe
-X-Gm-Gg: AR+sD13awVWX1E9HnB/pVMptmUujz+Tx18aofc7se1ti0AHowSFskQRgyrOFvV3diU9
-	VEAdRAfw+/j7UKvcXZNi9wFJMAbaYwuF6w6BKnqTPFvEX3/S8ikEkS8t7WxueT7FH1BQc4D5byV
-	IpVaYaq3V6gl0pMVh6Wv7LaLo1VaL8UEjfbZBKnR0IsvnW15GNu629vXcuErBAG3NQ/fzvhFOqM
-	MIhvPBVn+RV6VqRIVeo4KEb6v7gwt8+RHrsav3wCQ4WjFSFF1QHowdxuBUcaf5m0xH9iusKI2K+
-	AQ/36K7ZhnDLx2+7ZhwuGi34KfgtTs85ww+PTkZmmz0CNgYo9kqeDLJgFD+eCBD8QS5wJYmbquH
-	mJdnnuuZP0KAeQbuOjicpvzpemUj8SXtB6SXcFH/V5VP3/nFSU6+Uik/zGh9bkWbCk+rdScR2IC
-	+3HZnuAzAs3qs/I89MLjQzCBJ3MA==
-X-Received: by 2002:a05:6a00:b48:b0:848:7443:f2de with SMTP id d2e1a72fcca58-84e2bbe8f2amr109545b3a.13.1784746677083;
-        Wed, 22 Jul 2026 11:57:57 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e17236c6fsm1827827b3a.5.2026.07.22.11.57.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 11:57:56 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-To: Hardware Monitoring <linux-hwmon@vger.kernel.org>
-Cc: linux-doc@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>,
-	Manaf Meethalavalappu Pallikunhi <manaf.pallikunhi@oss.qualcomm.com>
-Subject: [RFT PATCH] hwmon: Add support for currX_emergency and inX_emergency attributes
-Date: Wed, 22 Jul 2026 11:57:49 -0700
-Message-ID: <20260722185749.2313572-1-linux@roeck-us.net>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="UowvK/OP"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wniiWiFSfBmzPCBjjUK4gKPwpePlO1avKT5jZ/tgW99kXBhvYIZQSOyZf0zbP7oWHWIbAeQgDPh4BkMNOlpweA0k9tXi8kwICLswdy2u8ngqZsz1VA13hr3ttAPW3Dhk1TLHBpFqzNkDZrZ/GdgWyNeXjFakR9/POCYLYKow/FSR8O0fwz8sq1Mrox8/x9O41ufRcCz+U8KkdTpTFBHxtilXe5BSlPEygul4WxzbVw4VMdNh5Uj2HWMdZ8f+sYT1RXO1LHvvZW8svjn1Hlub1KUT65ojj10f9xIL55GJ0meB3m/QT2OFX5BoBHUWUP+fblNnq8L9yvdA790F/aGF0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5KicxVulK3HqmHrROj2ARhu8cuKUS1FsISSK81263eY=;
+ b=TLum72O6HvyC/AvaMi/VGj/k0wKqpJwOj/ltGTxS+5FztrNsF4oRbfrlo9ekWR0yeZFqAA22Ce35IrYNakOI3zTd3c+zxBthvZrKK+TBavL/gd51gR8MwBCCI3l/lbMQxYwVE4deyCnrg8Zu2ncPUURFKQPZKeDN+LiIesLyHAE7aPPRj+AuRebu+B4BqHZIyyoF21g7mGHy4pezcTmzF91XP/HAFRvxAsTpa0kN0JwaU0qGyTk8kDnBLP85vEIBxxKCxu4Ta2pTURd2WyUdDYhvzw5gyLEwYKX9FHvy6OF8JcFl9ulTMC/w8MebuNuIgWHUdsULVXi119S9saeeuw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=arm.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5KicxVulK3HqmHrROj2ARhu8cuKUS1FsISSK81263eY=;
+ b=UowvK/OPqtivwpD74pxtRzuRkEn6J9yibrjEeJaRzMaX4TlCct1r+ru/sSHmXopkn2mYQuLw3VbqfZ757Z70OtouxetQGJ55BkoUJ9gtVAtVyF9n33YTVmRtk4G8ruBESN2bILoOJ3AiqLPDG5BSQYnOa5DotegjzwOEiFnyg1Wc5KCkV3EfIl1MmWS2I+e93nDYxD62IBJZy23AFS8iJ/nhj/v4aYYLPo1noymkMwhKkWE7IIU1yLk5gNTRbkyLs2HMjsixGiBxe9Rm5RwMF/PYTL0Pya745t3+idnVGnViAwuFvVK3wxvY/1Wk18F0xdLWuYTULSyxr2L2d2aA+A==
+Received: from SJ0PR13CA0106.namprd13.prod.outlook.com (2603:10b6:a03:2c5::21)
+ by SN7PR12MB7204.namprd12.prod.outlook.com (2603:10b6:806:2ab::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
+ 2026 19:03:28 +0000
+Received: from SJ1PEPF000026C5.namprd04.prod.outlook.com
+ (2603:10b6:a03:2c5:cafe::8e) by SJ0PR13CA0106.outlook.office365.com
+ (2603:10b6:a03:2c5::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.10 via Frontend Transport; Wed,
+ 22 Jul 2026 19:03:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SJ1PEPF000026C5.mail.protection.outlook.com (10.167.244.102) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.245.5 via Frontend Transport; Wed, 22 Jul 2026 19:03:28 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 22 Jul
+ 2026 12:03:00 -0700
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 22 Jul
+ 2026 12:03:00 -0700
+Received: from nvidia.com (10.127.8.14) by mail.nvidia.com (10.129.68.7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 22 Jul 2026 12:02:59 -0700
+Date: Wed, 22 Jul 2026 12:02:58 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Ashish Mhetre <amhetre@nvidia.com>
+CC: <catalin.marinas@arm.com>, <will@kernel.org>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <robin.murphy@arm.com>, <joro@8bytes.org>,
+	<jgg@ziepe.ca>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<iommu@lists.linux.dev>, <linux-tegra@vger.kernel.org>, Jason Gunthorpe
+	<jgg@nvidia.com>
+Subject: Re: [PATCH v8 2/3] iommu/arm-smmu-v3: Introduce CFGI/TLBI-repeat
+ workaround infrastructure
+Message-ID: <amETqr7ZBtgt2DKu@nvidia.com>
+References: <20260722102033.1122277-1-amhetre@nvidia.com>
+ <20260722102033.1122277-3-amhetre@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260722102033.1122277-3-amhetre@nvidia.com>
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000026C5:EE_|SN7PR12MB7204:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f23fddd-d67c-4d7a-7140-08dee823ea18
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|82310400026|23010399003|36860700016|22082099003|18002099003|11063799006|10067099003|56012099006|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	v9Fjq+3Gku4JNpMuypQ9962zCf31x3T0R4Cb2MUBpGgi8zjSr1WfDLxoUjKgAqfXi8JWxo1jbhKleXf0bjdGtUZcGXg1+gEGR3yPpwgT5WjU8ajqY/lFtayoDrAt4dnqKvj5iZP+SGdvfyqSmK47bDcpdmCf1b2nznon+TFQ3T7yeK9QpBOXammnb70N9DzIOSih6igBdATpH6O/7aROq9HXvbXFRneBCeWwtqFF6GtsYNVdAwbb07tCX6Omirtmz97KxR3gbgkgM45FV+E89HDUwtnc/WF9p30HcsTij/r1KZsOp2++4wceKi4n0fCa57SMebx3bG+q9lBE034ZpHMiNmW4j9OR4g/xGcJVQEIICt7JZ++K0KE/glZNH5JeFdY9FajvMNOb4vTRuaDzrcqWqwWfexEDA1ILPLctk6pYxeR2dL40SpYuGZjSwa0ThlLltZG82CLtQpJTAnEvrOVdJ9OE5dpAO6zI6lXUtl/ezXYdo9Tyb6bo4Ro93rFeIKZAIornqX3gQRQc13HK6e+bo1t6dQGnC22870oYXJe38PtGGnkmQaFVaTuvd5OXA4HjHYbYXmNN1z9MOw2i2stAZR/t4Qrk3KooxLULjTnP1eYa4X5+ce8ol3wWkWqsUi7vwWqbhjr0Sj0Shl10j5Wn91xkQGnBkPqRH+GL/7i1JpwPQWF2tNAKXv/5L7zb+VwMeKMnk09RWpjjvfI2HA==
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(82310400026)(23010399003)(36860700016)(22082099003)(18002099003)(11063799006)(10067099003)(56012099006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	J4Jp6cdtqM7XZx+htLaP5Juh2BvsN5SiNSbPa5/7JHRDGo8TNfaO+oNlHaheqKAx9EaWVpPt67Ro6F0srqR+85a+MdKh35LEttKWklu+Udjf+5IDvf4kEBjhdHZbm3jvCajD6vprBjKbd+UYjCf5zwqJQkGaUF4uYjUeGT8y9lCY6SvnmZw6y1tblmu43sijZOUlWUMP2uBpV2H9g07DmfYF3tyD1vdwnQiSCWFaS23rWRBYkXqVy9zBzmtGDM/20D+ZEsf+ubUmk1GhMDgLS8D1buTgjqX3cyQPibkr+ALRHq6Bp1cpfixlBmuG0Shfgfbj8RMqsqMrzudPCM5nkKFcRZhIzONges9AtoLjj9BCGVRMNhdmWrl3bryQFRR2Bj98uhFfmJEUX+gQWPqLVieksHzr0RgdOAPwtv9uRp3feqcLAXgbNz75iZewGYna
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 19:03:28.1853
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f23fddd-d67c-4d7a-7140-08dee823ea18
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF000026C5.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7204
 
-Some hardware monitoring chips support three alarm levels for current and
-voltage measurements. Add support for currX_emergency and inX_emergency
-attributes to support such chips.
+On Wed, Jul 22, 2026 at 10:20:32AM +0000, Ashish Mhetre wrote:
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+> index c909c9a88538..9508bf50d14c 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+> @@ -1207,10 +1207,15 @@ void arm_smmu_attach_commit(struct arm_smmu_attach_state *state);
+>  int arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
+>  				struct arm_smmu_cmdq *cmdq,
+>  				struct arm_smmu_cmd *cmds, int n,
+>  				bool sync);
+> +bool arm_smmu_erratum_cmd_needs_repeating(struct arm_smmu_cmd *cmd);
+ 
+Is this needed?
 
-Cc: Manaf Meethalavalappu Pallikunhi <manaf.pallikunhi@oss.qualcomm.com>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
-RFT: Waiting for an actual chip driver using the new attributes.
-
- Documentation/ABI/testing/sysfs-class-hwmon | 26 +++++++++++++++++++++
- Documentation/hwmon/sysfs-interface.rst     |  6 +++++
- drivers/hwmon/hwmon.c                       |  2 ++
- include/linux/hwmon.h                       |  4 ++++
- 4 files changed, 38 insertions(+)
-
-diff --git a/Documentation/ABI/testing/sysfs-class-hwmon b/Documentation/ABI/testing/sysfs-class-hwmon
-index b185bdfc7186..42fd89305101 100644
---- a/Documentation/ABI/testing/sysfs-class-hwmon
-+++ b/Documentation/ABI/testing/sysfs-class-hwmon
-@@ -81,6 +81,18 @@ Description:
- 		take drastic action such as power down or reset. At the very
- 		least, it should report a fault.
- 
-+What:		/sys/class/hwmon/hwmonX/inY_emergency
-+Description:
-+		Voltage emergency max value.
-+
-+		Unit: millivolt
-+
-+		RW
-+
-+		If voltage reaches or exceeds this limit, the system is expected
-+		to take drastic action such as immediate power down or reset.
-+		At the very least, it should report a fault.
-+
- What:		/sys/class/hwmon/hwmonX/inY_input
- Description:
- 		Voltage input value.
-@@ -647,6 +659,20 @@ Description:
- 
- 		RW
- 
-+What:		/sys/class/hwmon/hwmonX/currY_emergency
-+Description:
-+		Current emergency high value.
-+
-+		Unit: milliampere
-+
-+		RW
-+
-+		If a current reaches or exceeds this limit, the system is
-+		expected to take drastic action such as immediate power down
-+		or reset. At the very least, it should report a fault.
-+
-+What:		/sys/class/hwmon/hwmonX/inY_input
-+
- What:		/sys/class/hwmon/hwmonX/currY_input
- Description:
- 		Current input value
-diff --git a/Documentation/hwmon/sysfs-interface.rst b/Documentation/hwmon/sysfs-interface.rst
-index 94e1bbce172a..e8f2a12793af 100644
---- a/Documentation/hwmon/sysfs-interface.rst
-+++ b/Documentation/hwmon/sysfs-interface.rst
-@@ -127,6 +127,9 @@ Voltages
- `in[0-*]_crit`
- 		Voltage critical max value.
- 
-+`in[0-*]_emergency`
-+		Voltage emergency max value.
-+
- `in[0-*]_input`
- 		Voltage input value.
- 
-@@ -332,6 +335,9 @@ Currents
- `curr[1-*]_crit`
- 		Current critical high value.
- 
-+`curr[1-*]_emergency`
-+		Current emergency high value.
-+
- `curr[1-*]_input`
- 		Current input value.
- 
-diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
-index 55a9a3ddd4aa..a07bfe7ac7db 100644
---- a/drivers/hwmon/hwmon.c
-+++ b/drivers/hwmon/hwmon.c
-@@ -621,6 +621,7 @@ static const char * const hwmon_in_attr_templates[] = {
- 	[hwmon_in_max] = "in%d_max",
- 	[hwmon_in_lcrit] = "in%d_lcrit",
- 	[hwmon_in_crit] = "in%d_crit",
-+	[hwmon_in_emergency] = "in%d_emergency",
- 	[hwmon_in_average] = "in%d_average",
- 	[hwmon_in_lowest] = "in%d_lowest",
- 	[hwmon_in_highest] = "in%d_highest",
-@@ -644,6 +645,7 @@ static const char * const hwmon_curr_attr_templates[] = {
- 	[hwmon_curr_max] = "curr%d_max",
- 	[hwmon_curr_lcrit] = "curr%d_lcrit",
- 	[hwmon_curr_crit] = "curr%d_crit",
-+	[hwmon_curr_emergency] = "curr%d_emergency",
- 	[hwmon_curr_average] = "curr%d_average",
- 	[hwmon_curr_lowest] = "curr%d_lowest",
- 	[hwmon_curr_highest] = "curr%d_highest",
-diff --git a/include/linux/hwmon.h b/include/linux/hwmon.h
-index 77a6f2bffcba..2cd433966723 100644
---- a/include/linux/hwmon.h
-+++ b/include/linux/hwmon.h
-@@ -134,6 +134,7 @@ enum hwmon_in_attributes {
- 	hwmon_in_max,
- 	hwmon_in_lcrit,
- 	hwmon_in_crit,
-+	hwmon_in_emergency,
- 	hwmon_in_average,
- 	hwmon_in_lowest,
- 	hwmon_in_highest,
-@@ -156,6 +157,7 @@ enum hwmon_in_attributes {
- #define HWMON_I_MAX		BIT(hwmon_in_max)
- #define HWMON_I_LCRIT		BIT(hwmon_in_lcrit)
- #define HWMON_I_CRIT		BIT(hwmon_in_crit)
-+#define HWMON_I_EMERGENCY	BIT(hwmon_in_emergency)
- #define HWMON_I_AVERAGE		BIT(hwmon_in_average)
- #define HWMON_I_LOWEST		BIT(hwmon_in_lowest)
- #define HWMON_I_HIGHEST		BIT(hwmon_in_highest)
-@@ -178,6 +180,7 @@ enum hwmon_curr_attributes {
- 	hwmon_curr_max,
- 	hwmon_curr_lcrit,
- 	hwmon_curr_crit,
-+	hwmon_curr_emergency,
- 	hwmon_curr_average,
- 	hwmon_curr_lowest,
- 	hwmon_curr_highest,
-@@ -199,6 +202,7 @@ enum hwmon_curr_attributes {
- #define HWMON_C_MAX		BIT(hwmon_curr_max)
- #define HWMON_C_LCRIT		BIT(hwmon_curr_lcrit)
- #define HWMON_C_CRIT		BIT(hwmon_curr_crit)
-+#define HWMON_C_EMERGENCY	BIT(hwmon_curr_emergency)
- #define HWMON_C_AVERAGE		BIT(hwmon_curr_average)
- #define HWMON_C_LOWEST		BIT(hwmon_curr_lowest)
- #define HWMON_C_HIGHEST		BIT(hwmon_curr_highest)
--- 
-2.45.2
-
+Nicolin
