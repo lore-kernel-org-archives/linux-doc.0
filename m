@@ -1,287 +1,142 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D334322F3
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 16:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D7CE2E1F06;
+	Wed, 22 Jul 2026 16:18:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784737104; cv=none; b=iRVDWHrhYEH3/8N+tMHN8SPrtls0/mWUqO07lMpVxZa3RUlHbPZUzYrokdduW2HEQgospVSKI4UzJV3ta1OhPwEm7r0Em6hLSNteQ26Ajb1wXd6z/fqIjHX4X9+Yf5GjdxtbgfKaNGxjbleecobwK5F728pCTmlnoVs1nEaz8do=
+	t=1784737126; cv=none; b=vAYKrYdVN7kaOsnWnyJ8Ha6cfR2vxSpR+G6iLDtTN4mHsdmo2nqTLlu3kcDzGdRijAZTeXvhtxkLfNIbpIpSiWM7ShvXXTN2y+gBlqcxbUURztAG0C4n4HDgSjoyNyrNH5BrPgEoNS44scjmGA+/lKQWCYEnDmW+fDbhMixrCwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784737104; c=relaxed/simple;
-	bh=t4Yu/l3+n4Dg3Ay764lxdWlSnMX1kMs2lKX+ZYNnRiI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nkMQuSOtADXnjxsgK3A7l2J1GH3iG4GgOGG2L1ZKMWxEaCOpAt+DYFnoXysQZvWkxgM+8TXP9lc4ehYbMvLdKpJvYmeuBqQGPjOt/hkIMOWDoKBlNinsJ+sm8lk5wVv6smUvPZuWwW5YcaetcabLpL4Vx7YItLVPDOh5VPjIwsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EgQ1TfcF; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784737126; c=relaxed/simple;
+	bh=ijwvJXV+xy9CKVTRIkKn7PD/GR4IgLBduYFz7l9BuYo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gaAV0PbELZCbpkRmOU6Olf8bH2q4PzKjfIz6EsW5bbcpnR328bmv7SQXJTmwM8yuTvUXHV+lroScryC/dYXjE5nyGYNPy9Ws5LjAyGAdesAVcIoaANU8Wp4Folbag2ghgUBHV7A67FWstiiATwIAOQA+dBEbSARyfn649vGy2nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DIwYPKqg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EgQ1TfcF"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4954a2dba6cso20875e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 09:18:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784737101; x=1785341901; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ezU3S5XBj+xHmGu/LKkIZW4oZfgFAkNBIcxczmu9hdw=;
-        b=EgQ1TfcFUkilHJshaW5N52yib/aAJuhCfgLCyxoXxFH2hzDpYLFKcvxOppGQxlR+aO
-         ImqeynLJ05LPRRmr4zzDLg+CBcIDoBdsWl7/v2Z0v1X8z/I4F3ee4rkIalNAJlORT31u
-         5fOVSJgXnp7Ej3atdqEjgw117J9SirkqKmdDVeEf3Rukj+PsnEFWZoyvgfckHVCL0Ryk
-         xPrf44iHp4mTnMcWyKd6E6s9cr5E5KdyvevR6Ria/BJON2NXXrcZIT0oCu+CTC99eABC
-         jPbYbhPbv2yaAafgCcxZB2m0jfUsmTDq4mddR4rZAMN4ePM2I5xr/eecu3MDYVBbuDTI
-         VnUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784737101; x=1785341901;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ezU3S5XBj+xHmGu/LKkIZW4oZfgFAkNBIcxczmu9hdw=;
-        b=jh3FDRaQp/yapGqHJRULB2PqK56YWTPnHhfagIb4v4cTkcXlQv+/8qGtvNDN1yl/sO
-         cFE+8D01/LD++M+iD+AUMO7P94Oup1hMpL38eh1GqlqUJkJtqzKF1i3sYUSvO6c2Fz6S
-         rKHO85R5jqIri2FhnoDZsXv8saKi5kOYcNcoD/pEH9eJwQ2zzmrUPo9PUgxWXjde9MM+
-         Dg5LLsxi7cVVDWay5UgyC+62UCculPu/9hqkQSBzBIJsoNK84oug8gsGp4LIweZ2QmwW
-         S0guddCsftguSZiBoamZF8Xk6rmJpFs5H2W0cYyoHz32QvmlGrqSIBl/tmnP8rMekoO1
-         ibQw==
-X-Gm-Message-State: AOJu0YwjeqQulNyYj5Yb46zMydxD9Xos2l663J9L5S/KGNHtzN+1xZ6I
-	kM37i7RRJ3BhVOUqavloATWWdPcl8JZt5HP7xZ/a123YuHnQDXob0hy7z3EDbA==
-X-Gm-Gg: AR+sD12fXv04oR27oUdYLh4quvEL7wZz9kWNuZvROQZ5RCMUU+a3M45vPb7TFfmvUlg
-	YpegnZoQ1+1/ODHXajLjzGfaYlLnpqwJd5mJhLYvAbk4Ks3yl6xuF2ByovVZFCBj+rlHXWQncaB
-	IkJWNjUNWXU2fYAfsurKSRQGRdztUDryTf0+svp+rtmJXfe1iC02tRvxm14bDE26BVPNMFaWFQx
-	BwMs9g7B05js5RxIV75bRzfQjvkRQO4Wb7xzMhm0G/+/t2odZvJqxnGZW0FUysE3cmh4kWuKazv
-	lSwQzWPQdme6zXiiSDw/zddHvrOrXibbBXotSP6SLaokda85OoNX8c+BNBSeKUe6NPlZLUpFNmr
-	fW8J1WGqe0NIm4RQ4lqT60Dv6sLGMbquG9vv4Y2Ubd1xR6rp5DksWWOq4MPWETqX3Zs0ihLdhDi
-	ZcVLTC8wWcy0pf5tZj5EWZRYqrCosY+Z+jBQcs9xsojR4E6qX3y/Fc1+87QFg6J+xL7zGo7aYyQ
-	dwgfb5ruccMfltnq/VjGqdtfk4qDLlzf7ycHn3bsb1uxKi3EHb45tXa4kTWcJ4=
-X-Received: by 2002:a05:600c:4708:b0:495:4840:c6b with SMTP id 5b1f17b1804b1-4956586d547mr61479015e9.1.1784737100733;
-        Wed, 22 Jul 2026 09:18:20 -0700 (PDT)
-Received: from doehyun-dev.pradel.rg.cispa.de (x06.xlate.fw.cispa.de. [195.37.157.6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49565373200sm145454715e9.5.2026.07.22.09.18.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 09:18:20 -0700 (PDT)
-From: Doehyun Baek <doehyunbaek@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: Doehyun Baek <doehyunbaek@gmail.com>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v4] Docs/translations/it_IT: sync changes.rst requirements
-Date: Wed, 22 Jul 2026 16:18:13 +0000
-Message-ID: <20260722161814.2007502-1-doehyunbaek@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DIwYPKqg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AD0F1F000E9;
+	Wed, 22 Jul 2026 16:18:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784737124;
+	bh=GGp7JkSm2uepD+Jz34R1YK4ZxPDXmhI1h6ZeT7G2HaQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=DIwYPKqgL8dQCZiHI2h3naLctasug779p1OZmRxZPGSv4o6Mk67/mF7Y4dmfhtgSy
+	 nzOay37HxCZ7b9cUrORjDSJaA5PoWIVz0NKBNJrh8t/extG0U24RU3sLxUFeoGQcYE
+	 2VeY3UdSzwEsMIk6diNtLoqLzt50vfhS/qMYQQALqDSP8mac0agBEvCKxyHYprAe+Z
+	 oNZb9gAwGEn8yFlig50dC/3nqqd7zgBeEixRHY5RSsQxncRxudLziS8l2hraGLULXn
+	 3QoekSFhqK07RPEEEmHkYqSgmS8ojtr6mjWWa/fZ6+I6mJnMwF7COmLmJXDkR1wSr0
+	 /xbrhC04bu5gQ==
+From: Simon Horman <horms@kernel.org>
+To: anthony.l.nguyen@intel.com
+Cc: Simon Horman <horms@kernel.org>,
+	davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	andrew+netdev@lunn.ch,
+	netdev@vger.kernel.org,
+	larysa.zaremba@intel.com,
+	przemyslaw.kitszel@intel.com,
+	aleksander.lobakin@intel.com,
+	sridhar.samudrala@intel.com,
+	michal.swiatkowski@linux.intel.com,
+	maciej.fijalkowski@intel.com,
+	emil.s.tantilov@intel.com,
+	madhu.chittim@intel.com,
+	joshua.a.hay@intel.com,
+	jacob.e.keller@intel.com,
+	jayaprakash.shanmugam@intel.com,
+	jiri@resnulli.us,
+	corbet@lwn.net,
+	richardcochran@gmail.com,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	Bharath.r@intel.com
+Subject: Re: [PATCH net-next v5 14/15] ixd: add the core initialization
+Date: Wed, 22 Jul 2026 17:18:36 +0100
+Message-ID: <20260722161836.544694-1-horms@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260715180042.1972010-15-anthony.l.nguyen@intel.com>
+References: <20260715180042.1972010-15-anthony.l.nguyen@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The Italian current requirements text had fallen behind the English
-Documentation/process/changes.rst version.
-
-Sync the current requirements table and add the missing ver_linux note.
-Also update directly related text for pahole, Python and GNU AWK, add the
-Rust/bindgen source links, and remove the stale cpio source entry.
-
-Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+https://sashiko.dev/#/patchset/20260715180042.1972010-2-anthony.l.nguyen@intel.com?part=14
 ---
-I am really sorry that I wasted your time with v3.
+--- Patch [14]: [PATCH net-next v5 14/15] ixd: add the core initialization ---
+commit 43763d63c75ee5bcdd9189c20cf8b272997bdfec
+Author: Larysa Zaremba <larysa.zaremba@intel.com>
 
-Tested with:
+ixd: add the core initialization
 
-  make SPHINXDIRS=translations/it_IT htmldocs
+This patch initializes the core when the mailbox is set up. The driver
+confirms the virtchnl version, requests necessary capabilities, and sets up
+the message handling framework.
 
-Note: this version focuses on keeping the "Current Minimal Requirements"
-section and directly related requirements text in sync with the English file.
-If a full-file sync is preferred, I can do that instead.
+> diff --git a/drivers/net/ethernet/intel/ixd/ixd_ctlq.c b/drivers/net/ethernet/intel/ixd/ixd_ctlq.c
+> index 0000000000000..6d658be0695d4
+> --- /dev/null
+> +++ b/drivers/net/ethernet/intel/ixd/ixd_ctlq.c
 
-Changes in v4:
-- Fix the malformed requirements table.
-- Run the Italian documentation build.
+[ ... ]
 
-Changes in v3:
-- Sync the full current requirements table with the English version.
-- Update directly related requirements text for pahole, Python and GNU AWK.
-- Add Rust/bindgen source links and remove the stale cpio source entry.
+> @@ -0,0 +1,146 @@
 
-Changes in v2:
-- Rebase on current docs-next.
+[ ... ]
 
- .../translations/it_IT/process/changes.rst    | 118 +++++++++++-------
- 1 file changed, 73 insertions(+), 45 deletions(-)
+> +void ixd_ctlq_rx_task(struct work_struct *work)
+> +{
+> +	struct ixd_adapter *adapter;
+> +
+> +	adapter = container_of(work, struct ixd_adapter, mbx_task.work);
+> +
+> +	queue_delayed_work(system_unbound_wq, &adapter->mbx_task,
+> +			   msecs_to_jiffies(300));
+> +
+> +	ixd_ctlq_recv_mb_msg(adapter);
+> +}
 
-diff --git a/Documentation/translations/it_IT/process/changes.rst b/Documentation/translations/it_IT/process/changes.rst
-index 7ee54c972418..78d875312694 100644
---- a/Documentation/translations/it_IT/process/changes.rst
-+++ b/Documentation/translations/it_IT/process/changes.rst
-@@ -23,50 +23,53 @@ Requisiti minimi correnti
- 
- Prima di pensare d'avere trovato un baco, aggiornate i seguenti programmi
- **almeno** alla versione indicata!  Se non siete certi della versione che state
--usando, il comando indicato dovrebbe dirvelo.
-+usando, il comando indicato dovrebbe dirvelo. Per avere una lista dei programmi
-+sul vostro sistema, incluse le rispettive versioni, eseguite
-+./scripts/ver_linux.
- 
- Questa lista presume che abbiate già un kernel Linux funzionante.  In aggiunta,
- non tutti gli strumenti sono necessari ovunque; ovviamente, se non avete una
- PC Card, per esempio, probabilmente non dovreste preoccuparvi di pcmciautils.
- 
--====================== =================  ========================================
--        Programma       Versione minima       Comando per verificare la versione
--====================== =================  ========================================
--GNU C                  8.1                gcc --version
--Clang/LLVM (optional)  17.0.1             clang --version
--Rust (opzionale)       1.78.0             rustc --version
--bindgen (opzionale)    0.65.1             bindgen --version
--GNU make               4.0                make --version
--bash                   4.2                bash --version
--binutils               2.30               ld -v
--flex                   2.5.35             flex --version
--bison                  2.0                bison --version
--pahole                 1.16               pahole --version
--util-linux             2.10o              mount --version
--kmod                   13                 depmod -V
--e2fsprogs              1.41.4             e2fsck -V
--jfsutils               1.1.3              fsck.jfs -V
--xfsprogs               2.6.0              xfs_db -V
--squashfs-tools         4.0                mksquashfs -version
--btrfs-progs            0.18               btrfsck
--pcmciautils            004                pccardctl -V
--quota-tools            3.09               quota -V
--PPP                    2.4.0              pppd --version
--nfs-utils              1.0.5              showmount --version
--procps                 3.2.0              ps --version
--udev                   081                udevd --version
--grub                   0.93               grub --version || grub-install --version
--mcelog                 0.6                mcelog --version
--iptables               1.4.2              iptables -V
--openssl & libcrypto    1.0.0              openssl version
--bc                     1.06.95            bc --version
--Sphinx\ [#f1]_         2.4.4              sphinx-build --version
--cpio                   any                cpio --version
--GNU tar                1.28               tar --version
--gtags (opzionale)      6.6.5              gtags --version
--mkimage (opzionale)    2017.01            mkimage --version
--Python (opzionale)     3.5.x              python3 --version
--====================== =================  ========================================
-+====================== ===============  ========================================
-+        Programma      Versione minima        Comando per verificare la versione
-+====================== ===============  ========================================
-+bash                   4.2              bash --version
-+bc                     1.06.95          bc --version
-+bindgen (opzionale)    0.71.1           bindgen --version
-+binutils               2.30             ld -v
-+bison                  2.0              bison --version
-+btrfs-progs            0.18             btrfs --version
-+Clang/LLVM (opzionale) 17.0.1           clang --version
-+e2fsprogs              1.41.4           e2fsck -V
-+flex                   2.5.35           flex --version
-+gdb                    7.2              gdb --version
-+GNU awk (opzionale)    5.1.0            gawk --version
-+GNU C                  8.1              gcc --version
-+GNU make               4.0              make --version
-+GNU tar                1.28             tar --version
-+GRUB                   0.93             grub --version || grub-install --version
-+gtags (opzionale)      6.6.5            gtags --version
-+iptables               1.4.2            iptables -V
-+jfsutils               1.1.3            fsck.jfs -V
-+kmod                   13               kmod -V
-+mcelog                 0.6              mcelog --version
-+mkimage (opzionale)    2017.01          mkimage --version
-+nfs-utils              1.0.5            showmount --version
-+openssl & libcrypto    1.0.0            openssl version
-+pahole                 1.26             pahole --version
-+pcmciautils            004              pccardctl -V
-+PPP                    2.4.0            pppd --version
-+procps                 3.2.0            ps --version
-+Python                 3.9.x            python3 --version
-+quota-tools            3.09             quota -V
-+Rust (opzionale)       1.85.0           rustc --version
-+Sphinx\ [#f1]_         3.4.3            sphinx-build --version
-+squashfs-tools         4.0              mksquashfs -version
-+udev                   081              udevadm --version
-+util-linux             2.10o            mount --version
-+xfsprogs               2.6.0            xfs_db -V
-+====================== ===============  ========================================
- 
- .. [#f1] Sphinx è necessario solo per produrre la documentazione del Kernel
- 
-@@ -144,7 +147,13 @@ pahole
- 
- Dalla versione 5.2, quando viene impostato CONFIG_DEBUG_INFO_BTF, il sistema di
- compilazione genera BTF (BPF Type Format) a partire da DWARF per vmlinux. Più
--tardi anche per i moduli. Questo richiede pahole v1.16 o successivo.
-+tardi anche per i moduli. Questo richiede pahole v1.22 o successivo.
-+
-+Dalla versione 7.0, le kfunc annotate con KF_IMPLICIT_ARGS richiedono pahole
-+v1.26 o successivo. Senza questa versione, tali kfunc avranno prototipi BTF
-+errati in vmlinux, causando il fallimento del caricamento dei programmi BPF con
-+l'errore "func_proto incompatible with vmlinux". Molte kfunc sched_ext sono
-+interessate.
- 
- A seconda della distribuzione, lo si può trovare nei pacchetti 'dwarves' o
- 'pahole'. Oppure lo si può trovare qui: https://fedorapeople.org/~acme/dwarves/.
-@@ -155,6 +164,14 @@ Perl
- Per compilare il kernel vi servirà perl 5 e i seguenti moduli ``Getopt::Long``,
- ``Getopt::Std``, ``File::Basename``, e ``File::Find``.
- 
-+Python
-+------
-+
-+Diverse opzioni di configurazione lo richiedono: è necessario per le
-+configurazioni predefinite di arm/arm64, CONFIG_LTO_CLANG, alcune opzioni
-+configurabili del DRM, lo strumento kernel-doc e la generazione della
-+documentazione (Sphinx), fra gli altri.
-+
- BC
- --
- 
-@@ -193,6 +210,12 @@ pacchetto ``u-boot-tools`` oppure può essere compilato dal codice sorgente di
- U-Boot. Consultate le istruzioni
- https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-linux
- 
-+GNU AWK
-+-------
-+
-+GNU AWK è necessario se si vuole che la compilazione del kernel generi dati
-+sugli intervalli di indirizzi per i moduli incorporati
-+(CONFIG_BUILTIN_MODULE_RANGES).
- 
- Strumenti di sistema
- ********************
-@@ -405,6 +428,16 @@ Clang/LLVM
- 
- - :ref:`Getting LLVM <getting_llvm>`.
- 
-+Rust
-+----
-+
-+- Documentation/rust/quick-start.rst.
-+
-+bindgen
-+-------
-+
-+- Documentation/rust/quick-start.rst.
-+
- Make
- ----
- 
-@@ -507,11 +540,6 @@ mcelog
- 
- - <https://www.mcelog.org/>
- 
--cpio
------
--
--- <https://www.gnu.org/software/cpio/>
--
- Rete
- ****
- 
--- 
-2.43.0
+[Severity: High]
+Does queueing the delayed work before executing the main logic create a race
+condition? If cancel_delayed_work_sync() is called (for example, during
+teardown in ixd_deinit_dflt_mbx()), try_to_grab_pending() could successfully
+delete the newly queued timer and return immediately, assuming the work is
+fully cancelled.
 
+This would bypass flush_work() and allow the teardown path to free
+adapter->xnm and set adapter->arq to NULL while ixd_ctlq_recv_mb_msg() is
+still running, potentially causing a use-after-free or NULL pointer
+dereference. Should the re-arming be moved to the end of the task?
+
+> diff --git a/drivers/net/ethernet/intel/ixd/ixd_lib.c b/drivers/net/ethernet/intel/ixd/ixd_lib.c
+> index afc413d3650fb..ce870aba143d4 100644
+> --- a/drivers/net/ethernet/intel/ixd/ixd_lib.c
+> +++ b/drivers/net/ethernet/intel/ixd/ixd_lib.c
+
+[ ... ]
+
+> @@ -136,8 +145,27 @@ void ixd_init_task(struct work_struct *work)
+
+[ ... ]
+
+> +	libie_ctlq_xn_shutdown(adapter->xnm);
+> +	ixd_trigger_reset(adapter);
+> +	ixd_deinit_dflt_mbx(adapter);
+
+[Severity: High]
+Is it safe to trigger a hardware reset before cancelling the mailbox polling
+task? ixd_deinit_dflt_mbx() is responsible for cancelling the mbx_task, but
+calling ixd_trigger_reset() first means the polling task could run while the
+hardware is resetting.
+
+During reset, MMIO reads or DMA ring memory might temporarily contain invalid
+states, and the still-running mbx_task might process corrupted descriptors.
+Should the polling task be cancelled before asserting the hardware reset here,
+as well as in ixd_remove() in ixd_main.c?
