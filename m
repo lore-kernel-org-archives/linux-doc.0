@@ -1,180 +1,156 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2603515FC
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 15:50:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2045F4746B1;
+	Wed, 22 Jul 2026 15:50:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784735429; cv=none; b=nloH1ZhkrUa1MmBjLuvI17VV0uFwXfeTdyRFSf3g3o99hZB+7UBn03K37a8DmbbrsaZN0W6WwzxGEWnsVRnpA0CDiJ7U1s+71UgqqnSXrs/9OF1+90Ee0kDcYYEQohVKagSfet5/kDWoOdK/47jWqQBi9PL3v5Hu4yPB8VE6yY0=
+	t=1784735458; cv=none; b=n9Un8JpFhVyV4aC/kq3JymW+FWSTv2jWWlIlTkrKSGg8FRA9dfi6vNCrXeXqYsJGXi7UkqM/FJoB5ZP1tXRJHRLgH4EuNgw//HWMf+3cJunrk5/hu6U4XjlwmfbCr2DE0d7FvPT9jviUSsxpvAUnhkCh/r9/Iwzxtn0Em9apDqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784735429; c=relaxed/simple;
-	bh=vMNtmvgfCwzuV9Mp7ibnIelDK8SHl7G4m0EOAF12z+U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fBRTQHGxh0bT2e0lI7GHdOHJmM8DDt4bdTnzUAj+o3fK12SDtgpm0+aQQYqtEb72IfCDu9PjjCmiYwj0jsrVaK0q3AiXOu0asNNsehmOObPdEirIVtCqfwtFMn7BCznIZcdbtAmd1ubpxL+WIu+4N58mEnv3M0LZmMa6YLZ1FUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=cXq1hmZO; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1784735458; c=relaxed/simple;
+	bh=c2p5L1q6zxv7wWh9EpdRkFyHFnzsFh472s+WmtKCZhw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=LLebX7Fhd5bR8NkTrm3kgZq4dThLVzJIOK6iald0Km2zGmN5F5E3N7lgsOWmybtmfMPrqBh1zACFUJR35F1xpTisqmbnlzkzc813jIN9C7uXSe+4D0hdNEsCU9lGGG1rE6VSY2Liau1Q/mFF+Jms1+HJE5FqkeUkxityddba+cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tvn3pqSK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="cXq1hmZO"
-Date: Wed, 22 Jul 2026 23:49:56 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1784735422;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=oykDmaPwfRnt0iweJwUY7kmeMVExpI8InhZ46/xSz0s=;
-	b=cXq1hmZOIK4V57zPgNBWe358Cl4jn488S0ScyIHi12bD8SS7Z3wnV9+1XXkg3qVusVhFWJ
-	QggNeoK7F4S9iYzRQnNXI+RwNYRBhPRoyCpO4Mulq/oX/XWRPtm7+PKC1tcMqftr8IZDmI
-	Sci9w9aoP4WHGiG2HX4/4QAbQr2zmPODdeoUqdWE6bJ7Xl7WcUy1uxoplKm/ap4bVnq3U9
-	A/ANuMGMoKnoWUdCWn+ZHQrZzCl8lqGrXdz19tWzVQmnu0I0hFdlwZ1F6Kf/hEyFrl2494
-	cJnhYCZ5uLoo+35FcojXwjmQAXUaZI60aDlk9bIHuYlDc0vAgUzWDH+yPkIECA==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: linux-doc@vger.kernel.org
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Yan Zhu <zhuyan2015@qq.com>,
-	Doehyun Baek <doehyunbaek@gmail.com>,
-	Jiandong Qiu <qiujiandong1998@gmail.com>,
-	Haoyang Liu <tttturtleruss@gmail.com>,
-	Chen-Yu Yeh <chenyou910331@gmail.com>, cuishuang <imcusg@gmail.com>
-Subject: What's cooking in zh_CN & zh_TW (Jul 2026, #03)
-Message-ID: <amDmpLJPtY0qe4Sy@wyuan.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tvn3pqSK"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BAE89C2BCFC;
+	Wed, 22 Jul 2026 15:50:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784735457;
+	bh=c2p5L1q6zxv7wWh9EpdRkFyHFnzsFh472s+WmtKCZhw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=tvn3pqSKsFHfok9BwBydRARoJ1m04vciW0OyO6b0h7ckcA9Xm1aH5IGh8Z8HmLnQM
+	 B31TAP/xN7RdQEXO8OwYG4nX4DM1WzxupMKDhLfOzFXqfLc9cjJFmfesi116aBAW4D
+	 TMrCwSaTnyEhziLauGlXxCXHxI8UL8tdppAbopOPYpUf7yQT3m7mrTx1sSgsSHyAne
+	 Q76x8SsxvZGK1JU+KxoqbrWegp7xgqb8b9fnfnu+nMe50vSRfrLxJHHYg/Im3IV5+e
+	 Kk7KFgHIL6YVxnTkebD1ZlUqKrv0e/0SWxILq0m44yALY4Vr6T8Ay2fTir6VZvU0wC
+	 PoIF5EsYOPv0Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 963CEC44536;
+	Wed, 22 Jul 2026 15:50:57 +0000 (UTC)
+From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+Date: Wed, 22 Jul 2026 16:50:10 +0100
+Subject: [PATCH v9 01/17] iio: ABI: add attributes for altcurrent channels
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260722-ad9910-iio-driver-v9-1-459d1df5ac56@analog.com>
+References: <20260722-ad9910-iio-driver-v9-0-459d1df5ac56@analog.com>
+In-Reply-To: <20260722-ad9910-iio-driver-v9-0-459d1df5ac56@analog.com>
+To: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-hardening@vger.kernel.org
+Cc: Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Rodrigo Alencar <rodrigo.alencar@analog.com>, 
+ Johan Hovold <johan@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784735456; l=3588;
+ i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
+ bh=NMyQtwKnhP7ghLAaLd8Vv8Yqv0bWLLVXShCmZ6SK4qg=;
+ b=jPE8V/mOW+rnINhBGXR8IHAvefsCXxeDvnqDh09fTspG4Od13kNyaJoKFtwFkGmUg8VIAHUUK
+ FZ/kycpkdxFB1R80n7cHDkDMfV0PIpEvufvs11lh/g+7kn/fFMryqqe
+X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
+ pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
+X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
+ with auth_id=561
+X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Reply-To: rodrigo.alencar@analog.com
 
-Here are the topics waiting to get into Alex´s tree.
+From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
-Copies of the source code to Chinese documentation development tree live
-in here:
+Add attributes applicable to altcurrent channels, e.g., frequency, phase,
+scale, raw, label and powerdown. Those are going to be used by a DDS
+device to be introduced shortly.
 
-    git://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
-    https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
-    https://kernel.googlesource.com/pub/scm/linux/kernel/git/alexs/linux.git
+Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+---
+ Documentation/ABI/testing/sysfs-bus-iio | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-Mirrors:
+diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
+index 5cc2e82c4997..3e75ce1c97c6 100644
+--- a/Documentation/ABI/testing/sysfs-bus-iio
++++ b/Documentation/ABI/testing/sysfs-bus-iio
+@@ -478,6 +478,10 @@ What:		/sys/bus/iio/devices/iio:deviceX/in_currentY_scale
+ What:		/sys/bus/iio/devices/iio:deviceX/in_currentY_supply_scale
+ What:		/sys/bus/iio/devices/iio:deviceX/in_current_scale
+ What:		/sys/bus/iio/devices/iio:deviceX/in_current_q_scale
++What:		/sys/bus/iio/devices/iio:deviceX/in_altcurrentY_scale
++What:		/sys/bus/iio/devices/iio:deviceX/in_altcurrent_scale
++What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_scale
++What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrent_scale
+ What:		/sys/bus/iio/devices/iio:deviceX/in_accel_scale
+ What:		/sys/bus/iio/devices/iio:deviceX/in_accel_peak_scale
+ What:		/sys/bus/iio/devices/iio:deviceX/in_anglvel_scale
+@@ -799,6 +803,8 @@ What:		/sys/bus/iio/devices/iio:deviceX/out_voltageY_powerdown
+ What:		/sys/bus/iio/devices/iio:deviceX/out_voltage_powerdown
+ What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_powerdown
+ What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltage_powerdown
++What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_powerdown
++What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrent_powerdown
+ KernelVersion:	2.6.38
+ Contact:	linux-iio@vger.kernel.org
+ Description:
+@@ -809,6 +815,7 @@ Description:
+ 		together.
+ 
+ What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency
++What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_frequency
+ KernelVersion:	3.4.0
+ Contact:	linux-iio@vger.kernel.org
+ Description:
+@@ -835,8 +842,10 @@ Description:
+ 		all the other channels, since it involves changing the VCO
+ 		fundamental output frequency.
+ 
++What:		/sys/bus/iio/devices/iio:deviceX/in_altcurrentY_phase
+ What:		/sys/bus/iio/devices/iio:deviceX/in_altvoltageY_i_phase
+ What:		/sys/bus/iio/devices/iio:deviceX/in_altvoltageY_q_phase
++What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_phase
+ What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_phase
+ What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_i_phase
+ What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_q_phase
+@@ -850,6 +859,7 @@ Description:
+ 		channel.
+ 
+ What:		/sys/bus/iio/devices/iio:deviceX/out_currentY_raw
++What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_raw
+ Date:		May 2012
+ KernelVersion:	3.5
+ Contact:	Johan Hovold <jhovold@gmail.com>
+@@ -1736,6 +1746,7 @@ Description:
+ 
+ What:		/sys/bus/iio/devices/iio:deviceX/in_currentY_raw
+ What:		/sys/bus/iio/devices/iio:deviceX/in_currentY_supply_raw
++What:		/sys/bus/iio/devices/iio:deviceX/in_altcurrentY_raw
+ KernelVersion:	3.17
+ Contact:	linux-iio@vger.kernel.org
+ Description:
+@@ -2126,7 +2137,9 @@ Description:
+ 
+ 		Raw counter device counters direction for channel Y.
+ 
++What:		/sys/bus/iio/devices/iio:deviceX/in_altcurrentY_label
+ What:		/sys/bus/iio/devices/iio:deviceX/in_voltageY_label
++What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_label
+ What:		/sys/bus/iio/devices/iio:deviceX/out_voltageY_label
+ KernelVersion:	5.8
+ Contact:	linux-iio@vger.kernel.org
 
-    https://mirrors.hust.edu.cn/git/kernel-doc-zh.git
-    https://mirror.nju.edu.cn/git/kernel-doc-zh.git (experimental)
-
-Please report any mirror instability to linux-doc@vger.kernel.org
-
------------------------------------------------------------------------
-
-NOTICE 2026-07-22
-
-Traditional Chinese or Taiwanese Mandarin (zh_TW) is currently going
-through a transition, and any comments would be welcome to help the new
-maintainer get familiar with the development process.
-
-NOTICE 2026-07-14
-
-The first time I cc'ed all relevant personnel. Is everyone happy to keep
-it this way, or should I only send it to the list? I´m concerned that
-unrelated discussions may create unnecessary noise in their inbox.
-
-
-This report is experimental. Please feel free to offer your suggestions.
-
------------------------------------------------------------------------
-
-[New topic]
-
-* Cui Shuang (2026-07-22) 1 commit
-  [PATCH v3] docs/zh_CN: Add configurable error injection translation
-
-  Needs review.
-
-  source: https://lore.kernel.org/linux-doc/20260722123240.22979-1-imcusg@gmail.com/
-
-
-* Chen-Yu Yeh (2026-07-21) 16 commits (zh_TW)
-  [PATCH 00/16] docs/zh_TW: localize terminology and sync process/ documents
-  [PATCH 01/16] docs/zh_TW: process: localize terminology in 7.AdvancedTopics.rst
-  [PATCH 02/16] docs/zh_TW: process: localize terminology in 1.Intro.rst
-  [PATCH 03/16] docs/zh_TW: process: localize terminology in code-of-conduct-interpretation.rst
-  [PATCH 04/16] docs/zh_TW: process: localize terminology in license-rules.rst
-  [PATCH 05/16] docs/zh_TW: process: localize terminology in email-clients.rst
-  [PATCH 06/16] docs/zh_TW: process: localize terminology in programming-language.rst
-  [PATCH 07/16] docs/zh_TW: process: localize terminology in coding-style.rst
-  [PATCH 08/16] docs/zh_TW: process: localize terminology in stable-kernel-rules.rst
-  [PATCH 09/16] docs/zh_TW: process: localize terminology in 5.Posting.rst
-  [PATCH 10/16] docs/zh_TW: process: localize terminology in 2.Process.rst
-  [PATCH 11/16] docs/zh_TW: process: localize terminology in howto.rst
-  [PATCH 12/16] docs/zh_TW: process: localize terminology in embargoed-hardware-issues.rst
-  [PATCH 13/16] docs/zh_TW: process: localize terminology in submitting-patches.rst
-  [PATCH 14/16] docs/zh_TW: process: localize terminology in 8.Conclusion.rst
-  [PATCH 15/16] docs/zh_TW: process: localize terminology in index.rst
-  [PATCH 16/16] docs/zh_TW: Add a glossary for Traditional Chinese translations
-
-  Needs review.
-
-  Source: https://lore.kernel.org/linux-doc/20260721215542.98435-1-chenyou910331@gmail.com/
-
------------------------------------------------------------------------
-
-[Cooking]
-
-* Doehyun Baek (2026-07-08) 7 commits
-  [PATCH v6 0/7] docs/zh_CN: update DAMON translations
-  [PATCH v6 1/7] docs/zh_CN: update DAMON design translation
-  [PATCH v6 2/7] docs/zh_CN: add DAMON_STAT usage translation
-  [PATCH v6 3/7] docs/zh_CN: update DAMON index translation
-  [PATCH v6 4/7] docs/zh_CN: update DAMON start translation
-  [PATCH v6 5/7] docs/zh_CN: update DAMON usage translation
-  [PATCH v6 6/7] docs/zh_CN: update DAMON reclaim translation
-  [PATCH v6 7/7] docs/zh_CN: update DAMON LRU sort translation
-
-  Needs review.
-
-  source: https://lore.kernel.org/linux-doc/20260708073246.1652828-1-doehyunbaek@gmail.com/
+-- 
+2.43.0
 
 
-* Jiandong Qiu (2026-07-06) 2 commits
-  [PATCH v3 0/2] docs/zh_CN: update translation of doc-guide/sphinx.rst
-  [PATCH v3 1/2] docs/zh_CN: add process/changes.rst translation
-  [PATCH v3 2/2] docs/zh_CN: update sphinx.rst translation
-
-  Needs review.
-
-  cf. https://lore.kernel.org/linux-doc/ak1SG5mw7y2UZrvR@wyuan.org/
-  source: https://lore.kernel.org/linux-doc/20260706151358.2103703-1-qiujiandong1998@gmail.com/
-
-
-* Yan Zhu (2026-06-12) 10 commits
-  [PATCH 00/10] docs/zh_CN: add LSM admin-guide Chinese translation
-  [PATCH 01/10] docs/zh_CN: add LSM/index Chinese translation
-  [PATCH 02/10] docs/zh_CN: add LSM/apparmor Chinese translation
-  [PATCH 03/10] docs/zh_CN: add LSM/LoadPin Chinese translation
-  [PATCH 04/10] docs/zh_CN: add LSM/SELinux Chinese translation
-  [PATCH 05/10] docs/zh_CN: add LSM/Smack Chinese translation
-  [PATCH 06/10] docs/zh_CN: add LSM/tomoyo Chinese translation
-  [PATCH 07/10] docs/zh_CN: add LSM/Yama Chinese translation
-  [PATCH 08/10] docs/zh_CN: add LSM/SafeSetID Chinese translation
-  [PATCH 09/10] docs/zh_CN: add LSM/ipe Chinese translation
-  [PATCH 10/10] docs/zh_CN: add LSM/landlock Chinese translation
-
-  Needs review.
-
-  Cover letter: https://lore.kernel.org/linux-doc/tencent_001080DF135CEE2CD1B260EFA08E3CC71A09@qq.com/
-  Patch 01/10: https://lore.kernel.org/linux-doc/tencent_7080BF6BB8F05936649DDC091FFD8C45210A@qq.com/
-  Note: the cover letter and following patched are not threaded correctly
-
------------------------------------------------------------------------
-
-[Stalled]
-
-* Haoyang Liu (2026-03-05) 1 commit
-  [PATCH] docs/zh_CN: fix an inconsistent statement in dev-tools/testing-overview
-
-  Expecting a reroll.
-
-  cf. https://lore.kernel.org/linux-doc/29bd0dbc-c6f9-43ce-b95f-4e787e3fe9c3@gmail.com/
-  source: https://lore.kernel.org/linux-doc/20260305192048.16405-1-tttturtleruss@gmail.com/
