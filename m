@@ -1,170 +1,238 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48146215075;
-	Wed, 22 Jul 2026 22:48:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45D82741A0;
+	Wed, 22 Jul 2026 23:02:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784760500; cv=none; b=InVAIXU26Syjp7HEWeY6ukNjS+oduHEfYxfmYz9eNEOQcDxEAu4pxFmwIxP1+Dc8i8KiBcIpgSFkuPJDMRAR6B85kceTovDxpm40VYe5TkPo3c5EH7xQFd78ddWwPnE2AXPGzB8TxR4Iz+5rph+KGmqivKC1i8yPTRr6MrLvlio=
+	t=1784761356; cv=none; b=Hr03h/Irtm8A3bnvEyIMNb7mlsAHbDRSKO472aZ89019L7HS6N5030QGluG1NsjkueCaCqD21u+JobufQIEhHdfbR7RCuj9oOlH29fv0VcHodGIY/paiNaQvhUov5RBkk97P0wJc0jm38NYXEgmxyeZ6Wv4ALzD/at0O8kWcwvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784760500; c=relaxed/simple;
-	bh=3KozxUktFFuphNeoA5oY3DRrjqfB3qtuLGq2VnUnylE=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=osnb2+DYBjkqhXxXYCCws/ueKN3W1BxFCw5ghEsgO3Y7uMjk92HeFt4a3RS5DBwfudn7V+9ZK5/FdOM5pmKovI6GTW3OyAemq/6i1ENTPxOlIiaKaDIESiBWCP08Q6WE2lIuKGVhWDxQ/fDa88YC2kIIWzRMZWZNRX5m3F1sfFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ey11rnFQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784761356; c=relaxed/simple;
+	bh=bvLB011Sm5dmD8Mz/zmUcWFCnSA1Y8VC0VUGPtd6eMY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ToZtHRu4WnyptocTDCo7PCzgpwQq7NFV9WVPMD3jfG3Z2bSapDWsvROOrzx0FD7GYKUcLDrQXEdRlQrzbEdCkAPX3aQNcv06+ICY149L0i9HF15d1vuWcS29T9rwfNpg7PqiaTEQxtR1t1hzuUkMdJQtikVcZljSczSzGfvmTWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HbzLblx4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ey11rnFQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2A931F000E9;
-	Wed, 22 Jul 2026 22:48:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1784760498;
-	bh=PNgL8SYp9VI1NhjQT8Ovt6BfZV4gAJBoTR6QXW/SnYQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=ey11rnFQSaKacaNArWVfr0eeKP+Coih9IwasoSNFGEWkgFxEAp6Gj30weTETOSTMu
-	 Kb3glBybuhz+H4qunDZQxS9olJTmLRVgjyXlAi+i+JjF52ZA7V5vh6IJduz1xNJhqy
-	 6T2KvTOpUyORKJL9JJtXt564uLU4rprlu8gbdCNE=
-Date: Wed, 22 Jul 2026 15:48:17 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Stanislav Kinsburskii <skinsburskii@gmail.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, David
- Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka
- <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
- <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan
- <shuah@kernel.org>, "K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang
- <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
- <decui@microsoft.com>, Long Li <longli@microsoft.com>, Lyude Paul
- <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Min Ma <mamin506@gmail.com>, Lizhi Hou
- <lizhi.hou@amd.com>, Oded Gabbay <ogabbay@kernel.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-hyperv@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-rdma@vger.kernel.org
-Subject: Re: [PATCH v10 0/8] mm/hmm: Add mmap lock-drop support for
- userfaultfd-backed mappings
-Message-Id: <20260722154817.8c036f2d007edccbd7ab84c7@linux-foundation.org>
-In-Reply-To: <20260722-hmm-v10-v1-0-606464dd601a@gmail.com>
-References: <20260722-hmm-v10-v1-0-606464dd601a@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HbzLblx4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FD021F000E9;
+	Wed, 22 Jul 2026 23:02:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784761354;
+	bh=uig3pVN/J3FMcxzYiz9PSoJw+bQoCVuUExLZ2b5dx14=;
+	h=From:To:Cc:Subject:Date;
+	b=HbzLblx4TBJsKHQEfxYjDi66yN1C7+GGxCtbg9hmL14GM71ya+1u0Kpnjy1/9OqML
+	 TWTT3SfhH3hMQItVZXNOtKuekELt+IoqoZsyRXJCqh+xb7p2xk7I2MljPqOjWhHi1M
+	 5aekzB8uyTJjVDUibfW/tA5QRxz3FzKsLn2OPqrhmJ7oW4Yhxc4em3lttAaV9cn8jo
+	 QTtRnL+qylrPZ4XPQwfGcL8f+NNOrbW0J8IXolPNEBe2JCoiRrilYJculKrTv25uqy
+	 brUDGTkBEUNg1qTZJEPSGg8EAH8o7wNfewPs6WYqCfgmJpEcHcUzTa2IBtkm9lV2K2
+	 ohnWkKaiA2lvg==
+From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	x86@kernel.org
+Cc: Jinchao Wang <wangjinchao600@gmail.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Ian Rogers <irogers@google.com>,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-perf-users@vger.kernel.org
+Subject: [PATCH v10 00/11] tracing: wprobe: x86: Add wprobe for watchpoint
+Date: Thu, 23 Jul 2026 08:02:28 +0900
+Message-ID: <178476134787.26117.10094977293012760490.stgit@devnote2>
+X-Mailer: git-send-email 2.43.0
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Wed, 22 Jul 2026 14:44:22 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
+Hi,
 
-> This series extends the HMM framework to support userfaultfd-backed memory
-> by allowing the mmap read lock to be dropped during hmm_range_fault().
+Here is the 10th version of the series for adding new wprobe (watch probe)
+which provides memory access tracing event. Moreover, this can be used
+via event trigger. Thus it can trace memory access on a dynamically
+allocated objects too.
+The previous version is here:
 
-Thanks, I've updated mm.git's mm-unstable branch to this version.
+  https://lore.kernel.org/all/178429796992.157981.3393977217853767915.stgit@devnote2/
 
-Sashiko pointed at a few things, some pre-existing.  The jiffies race
-in [8/8] looks legit.
+This version add BTF support in wprobe trigger command[11/11]. With this
+feature, user do not need to decode the offset of structure fields.
+(Since the previous version lacked base-commit tag, Sashiko failed to
+ apply it for review. Thus this is just add a BTF support.)
 
-	https://sashiko.dev/#/patchset/20260722-hmm-v10-v1-0-606464dd601a@gmail.com
+To support kprobe events, we need to check the previous NMI context
+or need to use an atomic refcount etc. But that should be another
+patch for review.
 
-> Changes in v10:
->   - Included contended mmap_lock acquisition in the
->     hmm_range_fault_unlocked_timeout() retry budget.
->   - Dropped the redundant top-level fatal_signal_pending() check in the HMM
->     unlocked retry loop; mmap_read_lock_killable() now covers that path.
->   - Restored the absolute outer timeout in drm_gpusvm_get_pages(), since it can
->     run from GPU page-fault workers and must not rely on the worker task’s fatal
->     signal state to stop invalidation retries.
+To support arm64, we need to avoid major pagefault on single-stepping
+issue. I think we can solve it with checking whether the address is the
+kernel (which must not cause a major page fault), or not.
 
-Here's how v10 altered mm.git:
+Public branch
+-------------
+I will push this branch as topic/wprobe-v2 to my tree so that it
+can be easily tested.
+
+https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git/log/?h=topic/wprobe-v2 
+
+This is based on linux-trace tree's probes/for-next.
+
+Usage
+-----
+
+The basic usage of this wprobe is similar to other probes;
+
+  w:[GRP/][EVENT] [r|w|rw]@<ADDRESS|SYMBOL[+OFFS]> [FETCHARGS]
+
+This defines a new wprobe event. For example, to trace jiffies update,
+you can do;
+
+ echo 'w:my_jiffies w@jiffies:8 value=+0($addr)' >> dynamic_events
+ echo 1 > events/wprobes/my_jiffies/enable
+
+Moreover, this can be combined with event trigger to trace the memory
+accecss on slab objects. The trigger syntax is;
+
+  set_wprobe:WPROBE_EVENT:FIELD[+OFFSET] [if FILTER]
+  clear_wprobe:WPROBE_EVENT[:FIELD[+OFFSET]] [if FILTER]
+
+set_wprobe sets WPROBE_EVENT's watch address on FIELD[+OFFSET].
+clear_wprobe clears WPROBE_EVENT's watch address if it is set to
+FIELD[+OFFSET]. If FIELD is omitted, forcibly clear the watch address
+when trigger event is hit.
+
+For example, trace the first 8 byte of the dentry data structure passed
+to do_truncate() until it is deleted by dentry_kill().
+(Note: all tracefs setup uses '>>' so that it does not kick do_truncate())
+
+  # echo 'w:watch rw@0:8 address=$addr value=+0($addr)' > dynamic_events
+
+  # echo 'f:truncate do_truncate dentry=$arg2' >> dynamic_events
+  # echo 'set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
+
+  # echo 'f:dentry_kill dentry_kill dentry=$arg1' >> dynamic_events
+  # echo 'clear_wprobe:watch:dentry' >> events/fprobes/dentry_kill/trigger
+
+  # echo 1 >> events/fprobes/truncate/enable
+  # echo 1 >> events/fprobes/dentry_kill/enable
+
+  # echo aaa > /tmp/hoge
+  # echo bbb > /tmp/hoge
+  # echo ccc > /tmp/hoge
+  # rm /tmp/hoge
+
+Then, the trace data will show;
+
+ # tracer: nop
+ #
+ # entries-in-buffer/entries-written: 32/32   #P:8
+ #
+ #                                _-----=> irqs-off/BH-disabled
+ #                               / _----=> need-resched
+ #                              | / _---=> hardirq/softirq
+ #                              || / _--=> preempt-depth
+ #                              ||| / _-=> migrate-disable
+ #                              |||| /     delay
+ #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+ #              | |         |   |||||     |         |
+               sh-107     [004] ...1.     9.990418: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
+               sh-107     [004] ...1.     9.990914: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b3de78
+               sh-107     [004] ...1.     9.993175: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049ddd40
+               sh-107     [004] .....     9.995198: truncate: (do_truncate+0x4/0x120) dentry=0xffff8880048083a8
+               sh-107     [004] ...1.     9.995389: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db998
+               sh-107     [004] ..Zff     9.997503: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+               sh-107     [004] ..Zff     9.997509: watch: (path_openat+0x211/0xda0) address=0xffff8880048083a8 value=0x8200080
+               sh-107     [004] ..Zff     9.997514: watch: (path_openat+0xa56/0xda0) address=0xffff8880048083a8 value=0x8200080
+               sh-107     [004] ..Zff     9.997518: watch: (path_openat+0xae2/0xda0) address=0xffff8880048083a8 value=0x8200080
+               sh-107     [004] .....     9.997521: truncate: (do_truncate+0x4/0x120) dentry=0xffff8880048083a8
+               sh-107     [004] ...1.     9.997582: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004808270
+               sh-107     [004] ...1.     9.999365: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db728
+               sh-107     [004] ...1.     9.999388: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b1c000
+               rm-113     [005] ..Zff    10.000965: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.000971: watch: (path_lookupat+0x97/0x1e0) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.000984: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.000988: watch: (path_lookupat+0x97/0x1e0) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001010: watch: (lookup_one_qstr_excl+0x28/0x140) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001014: watch: (lookup_one_qstr_excl+0xd1/0x140) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001018: watch: (may_delete_dentry+0x1c/0x200) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001021: watch: (may_delete_dentry+0x195/0x200) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001031: watch: (vfs_unlink+0x5e/0x260) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] d.Z..    10.001067: watch: (d_make_discardable+0x1b/0x40) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] d.Z..    10.001071: watch: (d_make_discardable+0x29/0x40) address=0xffff8880048083a8 value=0x200080
+               rm-113     [005] ...1.    10.001072: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880048083a8
+               rm-113     [005] ...1.    10.001218: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880048083a8
+               sh-107     [004] ...1.    10.001416: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db110
+               sh-107     [004] ...1.    10.001444: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db248
+               sh-107     [004] ...1.    10.001500: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
+               sh-107     [004] ...1.    10.002067: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b41e78
+               sh-107     [004] ...1.    10.904920: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b41e78
+               sh-107     [004] ...1.    10.905129: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
 
 
- drivers/gpu/drm/drm_gpusvm.c |   11 +++++++++--
- mm/hmm.c                     |   29 +++++++++++++----------------
- 2 files changed, 22 insertions(+), 18 deletions(-)
+Thank you,
 
---- a/drivers/gpu/drm/drm_gpusvm.c~b
-+++ a/drivers/gpu/drm/drm_gpusvm.c
-@@ -1405,7 +1405,9 @@ int drm_gpusvm_get_pages(struct drm_gpus
- 		.dev_private_owner = ctx->device_private_page_owner,
- 	};
- 	void *zdd;
--	unsigned long timeout = msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
-+	unsigned long timeout =
-+		jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
-+	unsigned long remaining;
- 	unsigned long i, j;
- 	unsigned long npages = npages_in_range(pages_start, pages_end);
- 	unsigned long num_dma_mapped;
-@@ -1420,6 +1422,11 @@ int drm_gpusvm_get_pages(struct drm_gpus
- 	struct dma_iova_state *state = &svm_pages->state;
- 
- retry:
-+	if (time_after_eq(jiffies, timeout))
-+		return -EBUSY;
-+
-+	remaining = timeout - jiffies;
-+
- 	hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
- 	if (drm_gpusvm_pages_valid_unlocked(gpusvm, svm_pages))
- 		goto set_seqno;
-@@ -1434,7 +1441,7 @@ retry:
- 	}
- 
- 	hmm_range.hmm_pfns = pfns;
--	err = hmm_range_fault_unlocked_timeout(&hmm_range, timeout);
-+	err = hmm_range_fault_unlocked_timeout(&hmm_range, remaining);
- 	mmput(mm);
- 	if (err)
- 		goto err_free;
---- a/mm/hmm.c~b
-+++ a/mm/hmm.c
-@@ -790,22 +790,14 @@ int hmm_range_fault_unlocked_timeout(str
- 	int ret;
- 
- 	do {
--		if (fatal_signal_pending(current))
--			return -EINTR;
--
--		if (timeout) {
--			/*
--			 * If the previous fault dropped mmap_lock, then the fault
--			 * handler made progress. Restart the retry timeout in that
--			 * case, but keep the existing deadline for ordinary -EBUSY
--			 * retries.
--			 */
--			if (!locked)
--				deadline = jiffies + timeout;
--
--			if (time_after(jiffies, deadline))
--				return -EBUSY;
--		}
-+		/*
-+		 * If the previous fault dropped mmap_lock, then the fault
-+		 * handler made progress. Restart the retry timeout in that
-+		 * case, but keep the existing deadline for ordinary -EBUSY
-+		 * retries.
-+		 */
-+		if (timeout && !locked)
-+			deadline = jiffies + timeout;
- 
- 		range->notifier_seq =
- 			mmu_interval_read_begin(range->notifier);
-@@ -814,6 +806,11 @@ int hmm_range_fault_unlocked_timeout(str
- 		if (ret)
- 			return ret;
- 
-+		if (timeout && time_after(jiffies, deadline)) {
-+			mmap_read_unlock(mm);
-+			return -EBUSY;
-+		}
-+
- 		locked = true;
- 		ret = hmm_range_fault_locked(range, &locked);
- 		if (locked)
-_
+---
+base-commit: 1a416ae446afa42d2d8500ce25bd61c564508721
 
+Jinchao Wang (2):
+      x86/hw_breakpoint: Unify breakpoint install/uninstall
+      x86/hw_breakpoint: Add arch_reinstall_hw_breakpoint
+
+Masami Hiramatsu (Google) (9):
+      tracing: wprobe: Add watchpoint probe event based on hardware breakpoint
+      x86: hw_breakpoint: Add a kconfig to clarify when a breakpoint fires
+      selftests: tracing: Add a basic testcase for wprobe
+      selftests: tracing: Add syntax testcase for wprobe
+      HWBP: Add modify_wide_hw_breakpoint_local() API
+      tracing: wprobe: Add wprobe event trigger
+      selftests: ftrace: Add wprobe trigger testcase
+      tracing/wprobe: Support BTF typecast in fetchargs
+      tracing/wprobe: Support BTF typecast in wprobe trigger command
+
+
+ Documentation/trace/index.rst                      |    1 
+ Documentation/trace/wprobetrace.rst                |  163 +++
+ arch/Kconfig                                       |   20 
+ arch/x86/Kconfig                                   |    2 
+ arch/x86/include/asm/hw_breakpoint.h               |    8 
+ arch/x86/kernel/hw_breakpoint.c                    |  164 ++-
+ include/linux/hw_breakpoint.h                      |    6 
+ include/linux/trace_events.h                       |    3 
+ kernel/events/hw_breakpoint.c                      |   61 +
+ kernel/trace/Kconfig                               |   24 
+ kernel/trace/Makefile                              |    1 
+ kernel/trace/trace.c                               |    9 
+ kernel/trace/trace.h                               |    7 
+ kernel/trace/trace_events_trigger.c                |   12 
+ kernel/trace/trace_probe.c                         |   24 
+ kernel/trace/trace_probe.h                         |   14 
+ kernel/trace/trace_wprobe.c                        | 1300 ++++++++++++++++++++
+ tools/testing/selftests/ftrace/config              |    2 
+ .../ftrace/test.d/dynevent/add_remove_wprobe.tc    |   63 +
+ .../test.d/dynevent/wprobes_syntax_errors.tc       |   20 
+ .../test.d/trigger/trigger-wprobe-btf-offset.tc    |   73 +
+ .../test.d/trigger/trigger-wprobe-btf-typecast.tc  |   80 +
+ .../ftrace/test.d/trigger/trigger-wprobe.tc        |   70 +
+ 23 files changed, 2056 insertions(+), 71 deletions(-)
+ create mode 100644 Documentation/trace/wprobetrace.rst
+ create mode 100644 kernel/trace/trace_wprobe.c
+ create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/add_remove_wprobe.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/wprobes_syntax_errors.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-typecast.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc
+
+--
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
