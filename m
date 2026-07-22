@@ -1,103 +1,78 @@
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AE12F6596
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 14:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC15C1B78F3;
+	Wed, 22 Jul 2026 14:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784730303; cv=none; b=Xg7bziOyEqvo7+eOT+bYpggF1JgyqPtMoJFfcktB8HOXSHvIkiqBqkOkHYG5k0qeKrDT+LnZKcNbhlxDiTlibKwjwEYUp1snCJJMfLz6DnZK+p2VY/d5xfu8pU2KPW0cSx5VEx6//V5vKPJXSoJPGzdHjKzoQxgPaDzSnK4nkkk=
+	t=1784730393; cv=none; b=Son9tH7BqEKm6EUqxQ10YOXYmQcI1LoXZA25xKR7p1HdnzNhpN1GiC2oyMasWHqbY1rYqWGo5fwd9c8r2p7gyp2sv+XNTWghkc32yi63TmXXrYcYRaiCaIdMpUFYe2QBmCXruiSfLc6BRhKbNGU26NrnqOzUv55fREDgwxzOxDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784730303; c=relaxed/simple;
-	bh=AXA0HNgTMbIlUb23tf+ahP4P6GnlvzCxpMrcpKNGmHA=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=MEv+D7fssxvoYE16uDzUZtzKTRsNiaw23gk+VeykE2+uymb0D7moOajysoUcYOoUQr7ocumjRQz/kRCgru7JFAEwN1TqETRF9TWGcszhuprw1dB45azbJ5TEzYbgicaeGUC4aPGUbVSfA0z5kFFzOZjPkHiqDmlnFa/4iVq/KeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XQhqvx8b; arc=none smtp.client-ip=209.85.210.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1784730393; c=relaxed/simple;
+	bh=XcaYw6VDHPgYoR4lnw1nAoEjgpD7zdhASaWE8DodbvM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Mgqo+Ou8bi44ulqOs7pJQGMhJRwEOEY7IEcYySCMTxApQ5NlTKkB7hR2G22X40RIA81mojxnVWYQTEOwWsIRZ882v+BaavKnXWYC4Q4ZiI6ecYGcYY4b9AebTgpePgc9WVCBCpXwqPhNPW1bHaxPgABMrwW5Tm77Lw+I5cgFV6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sy7fbMKg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XQhqvx8b"
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-848662cd2a1so10095392b3a.2
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 07:25:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784730301; x=1785335101; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=edl2D2XPYY/pyvIQyZo7/zY3nQepPhnkcqrKbyKWnNs=;
-        b=XQhqvx8bw+bjlEt8I+ztgEjlabLuCrCT1J60b/zKGZwPsaeJyAe+2yyuGIDl/st8TD
-         Sb3cPjCV9RhjrZlXyh+m1P/noVvSYTVHCSIjXot+/h4JGiV7dMurvtNbs4NlDcEytu3W
-         GNmY9jTuZNp3erGb1oP1ieFrIaFAhH06yShZcBWrUpripyZ7j+dWoWC5ZWr25ZF0+yM2
-         DIMcfAn2jtvGWPsy8918bJCLBuILuVxYXnTtrR/9DcyPSQVTmoWiXfMUnwrlX0zfAU/W
-         P/tGcEorL8CCMQnpxKWm6EpJA+B7B2ibKnBPkjSxgRakta2sgEnB13PHjm1xu6ZUpSUg
-         SlrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784730301; x=1785335101;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=edl2D2XPYY/pyvIQyZo7/zY3nQepPhnkcqrKbyKWnNs=;
-        b=hesAjwxDxu8pLt5Gs0zpM0b8P31pk6YV7tw1ln6clH879XlCgrKQZS2snZm+9VnKqR
-         rrEZUCRVL6WcUKlw3l0pRIAzlqLSr99aJsYqq4q/k3o9N/a6bt2IHHY0QkF8T1TFvs/u
-         I8XVRlJki4G91P4UFlriSkb+H6avz8IAr4nkmtRpjK04rYlpMySSsJPRplTX2fkdrAbR
-         rT2LFnRgxlyDomhWgKegP8r+PCVm7X7NGQU/JaDsyo+t53Ijb0LVkSvBO9rY2bkNjdA5
-         7GE5DVVr128dEymbFx3VFay3U5x1UrTpDj7oibMk3B/4wX2lavogQCpQbaxJDkL2+8hZ
-         GmHA==
-X-Forwarded-Encrypted: i=1; AHgh+RoqfTAf0HhtyM2i7ZH6ndm6sDrooVwv6FXxCc7Csh04mUrVrz+IZuluexUqW+krTPYv/Nd6CESF2Oc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGFaCu5N2bW+C0iRN7+BPe1kQr/QvOxJGQ245B1ZsOTnQEF+O/
-	HuRqaPvFkvaY6uY8sW9tUKUgzhD3cxHpIqnYHyVa0NmfdXHCNMEkq46C9RTwQbOzlkDR5TqSLKL
-	I1hslag==
-X-Received: from pfbfm6.prod.google.com ([2002:a05:6a00:2f86:b0:847:a85b:6c23])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:3cc8:b0:848:5f4f:289d
- with SMTP id d2e1a72fcca58-84c2922a36cmr22279903b3a.4.1784730301156; Wed, 22
- Jul 2026 07:25:01 -0700 (PDT)
-Date: Wed, 22 Jul 2026 07:25:00 -0700
-In-Reply-To: <20260718014500.2231262-9-rick.p.edgecombe@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sy7fbMKg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24C6F1F000E9;
+	Wed, 22 Jul 2026 14:26:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784730392;
+	bh=kGZ9n0pbWYL3A6KhWezEcua+WEtRYw0llEcbuqPEedg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Sy7fbMKgMfdkvlmTbnuf4kV/ZgbY4RqUJFD2/jJQi6OMM8NFV4gtGshnwwaBSmJ9W
+	 QwqiKAVH6CLd0SIpLlYJx1raxmKUiFIsaD6K+VK8u8ta0grQ7RFISiiVdmuVd6VsUy
+	 uaYgMRCYqK/9gAtl60QP+hp3wwDnn6BqQtO6YSVdo1MQHr7b4cJi/w5Cuy4Jq9zH7X
+	 3TwHJeTX2Yrk7IPKPPwGqKPyi57iwQZeb4i8yz1vs8Xqabdj1wAGdWes7d98qpSmb5
+	 otOSiBH7TrCXYuROdVzyktNEcgfhJ7ZkpflA1uQ794TDe7t8Wo8fV4sMCqaXL00ssV
+	 nRh3pB/aJK5YA==
+Date: Wed, 22 Jul 2026 07:26:31 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Simon Schippers <simon.schippers@tu-dortmund.de>, Willem de Bruijn
+ <willemdebruijn.kernel@gmail.com>, Jason Wang <jasowangio@gmail.com>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Tim Gebauer <tim.gebauer@tu-dortmund.de>, Brett
+ Sheffield <brett@librecast.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v3] tun/tap & vhost-net: make qdisc backpressure
+ opt-in via IFF_BACKPRESSURE
+Message-ID: <20260722072631.21b57e1e@kernel.org>
+In-Reply-To: <20260722040722-mutt-send-email-mst@kernel.org>
+References: <20260709095511.168235-1-simon.schippers@tu-dortmund.de>
+	<20260714092506-mutt-send-email-mst@kernel.org>
+	<5016ae84-7049-4a5f-91c9-ba0047b06ee3@tu-dortmund.de>
+	<5089fc5e-2fb8-41fb-9aab-42b22cc2c201@tu-dortmund.de>
+	<20260721105853-mutt-send-email-mst@kernel.org>
+	<20260721100715.5b43412d@kernel.org>
+	<20260722020611-mutt-send-email-mst@kernel.org>
+	<8814700c-7549-4d12-b657-c990dfeec14f@tu-dortmund.de>
+	<20260722040722-mutt-send-email-mst@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260718014500.2231262-1-rick.p.edgecombe@intel.com> <20260718014500.2231262-9-rick.p.edgecombe@intel.com>
-Message-ID: <amDSvGlgaQRWnWfP@google.com>
-Subject: Re: [PATCH v7 08/11] KVM: TDX: Get/put PAMT pages when (un)mapping
- private memory
-From: Sean Christopherson <seanjc@google.com>
-To: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, kas@kernel.org, 
-	kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, mingo@redhat.com, nik.borisov@suse.com, 
-	pbonzini@redhat.com, tglx@kernel.org, vannapurve@google.com, x86@kernel.org, 
-	chao.gao@intel.com, yan.y.zhao@intel.com, kai.huang@intel.com, 
-	tony.lindgren@linux.intel.com, binbin.wu@intel.com, 
-	Binbin Wu <binbin.wu@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 17, 2026, Rick Edgecombe wrote:
-> diff --git a/arch/x86/include/asm/kvm-x86-ops.h b/arch/x86/include/asm/kvm-x86-ops.h
-> index 83dc5086138b3..588563dfe88d5 100644
-> --- a/arch/x86/include/asm/kvm-x86-ops.h
-> +++ b/arch/x86/include/asm/kvm-x86-ops.h
-> @@ -98,6 +98,7 @@ KVM_X86_OP_OPTIONAL_RET0(tdp_has_smep)
->  KVM_X86_OP(load_mmu_pgd)
->  KVM_X86_OP_OPTIONAL_RET0(set_external_spte)
->  KVM_X86_OP_OPTIONAL(free_external_spt)
-> +KVM_X86_OP_OPTIONAL_RET0(topup_external_cache)
->  KVM_X86_OP(has_wbinvd_exit)
->  KVM_X86_OP(get_l2_tsc_offset)
->  KVM_X86_OP(get_l2_tsc_multiplier)
-> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-> index 5f6c1ce9673b7..1c706e2d773b0 100644
-> --- a/arch/x86/include/asm/kvm_host.h
-> +++ b/arch/x86/include/asm/kvm_host.h
-> @@ -1922,6 +1922,8 @@ struct kvm_x86_ops {
->  	/* Update external page tables for page table about to be freed. */
->  	void (*free_external_spt)(struct kvm *kvm, struct kvm_mmu_page *sp);
->  
-> +	int (*topup_external_cache)(struct kvm_vcpu *vcpu, int min_nr_spts);
-> +
+On Wed, 22 Jul 2026 04:09:25 -0400 Michael S. Tsirkin wrote:
+> > Would be great if you could do the revert.
+> > I don't want to mess it up. :P
+> > 
+> > For the re-apply:
+> > I can post a v13 to net-next soon with the flag included
+> > into the existing commits.
+> > Or would you rather take v12 plus this opt-in commit as-is?
+> > 
+> > Thanks!  
+> 
+> jacub if the revert goes into next what is the process to
+> target a patch on top of it for net-next? Thanks!
 
-Unnecessary newline (not your fault, but it stands out here).
-
->  	bool (*has_wbinvd_exit)(void);
->  
+misheal, revert will be merged to net and reach net-next on Thu after
+the downstream PR, at which point you can post the net-next patch.
