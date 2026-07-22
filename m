@@ -1,82 +1,172 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1C73AB480;
-	Wed, 22 Jul 2026 16:15:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4923741D10A;
+	Wed, 22 Jul 2026 16:15:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784736933; cv=none; b=FwbpLVFFl94V4LxE99F1XUcmX6bgF92pkALrHZnqIpcwAR3ouExtkNjxRtLmYkng6X8rXq5royuhYht8qLrPbtFlEaIwdW1zHn9hivoPdKn8QXUkU1aNqB2rG2gTibjGdfuYtwXFR5//furE1hQgXdZSAoLq5vw7gOsWmJL0ER8=
+	t=1784736941; cv=none; b=K7CsXxQ0aZnCFLBaomZd9h0lNbTfneYpfGpHSEuaYPD0Nzxd1ctiWOzY1QzBSl3OYw3+/Rtv9CGMlL0RivFyPK9qfK2NGWlquNPP0KeizI//Ei7zOL9KlcneoJNdOriQXK1XhfRQlpJdt5oGLXSuSyy9xwX/Y482jT0ZlSwY5oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784736933; c=relaxed/simple;
-	bh=xQCj34XAHN19DM7GQaS66eid/ow3k7gWEARp3L3+cGc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=g5XSJ0jt5LI6N7VyajwyI/GobzR3XltXPlg9KyOoE08BKI47pd4kT6zNeTJtwhKEEXKtfAS1xZSn6lEkIP8ibe1RSO8KEREGPETSntuFkFRF90eBxEsCZXFnpzS54ay8PCHmmSU2XJLfbIOcaOBq2zdcX/tNYFAmVBJsvZC/Up4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=VWiQHXJG; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1784736941; c=relaxed/simple;
+	bh=JRSSPH5/mIjuijfbAtoGLk+DIcsPFNtlz6RKZFC686Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IpP4FHCXqatIpYvWNeERHDdHDcFy+hAd4L4axliKN7Fce8uL2TnMq6x4f1RK2HcacMCA93/o3ZqSB6jGJMVoF55Y6NvvrnX7ivrWDOmMK0h/hxR83+iHDc7px3N6u+y/brw92EmhyGNF6FKg2EecVDe5Pts99yIsIt7waDFLQRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XM0FpB8U; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="VWiQHXJG"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 888B2408B4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1784736931; bh=ZLpvDn4QgPBvfntCUNJBmz0mWDjXAd4XvY3JSqNSHzs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=VWiQHXJGEPl2ql6kn8ILZaIqpPT9VNVmjPKOgN2LwQFKcsfDHiwECrzh2QwgNZ1Mj
-	 7hEvWtSJfveHaF1HSq6BH+RKF6PlYHwLbj0KcgE+a37n03+iSB6jZrUkBQG10VrAFv
-	 th73MHwi8MjEoB6ksQi0hdEyfQOGSmNoPzgATXyBLnBLpZ4cnZl7o6aPwCrw8tQC+A
-	 Xi1r+87bn352mTe2pTZyQqAQlN/v0V3ekZOKSP+OmpzLxQs1YsiSvP9Ii0pw4IVLhA
-	 bMdFbk1PS/HEt1r5rTBScJjAXU/2WdqcCy0tLVLzF172cV9ij7Ua2xDj/B43jxc/o8
-	 M7jpwcZ9JScpA==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 888B2408B4;
-	Wed, 22 Jul 2026 16:15:31 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Ryszard Knop <ryszard.knop@intel.com>, Randy Dunlap
- <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Cc: Shuicheng Lin <shuicheng.lin@intel.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, linux-kernel@vger.kernel.org,
- intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v3] scripts/kernel-doc: Suggest possible names for
- excess descriptions
-In-Reply-To: <20260717125753.634550-1-ryszard.knop@intel.com>
-References: <20260714111208.323108-1-ryszard.knop@intel.com>
- <20260717125753.634550-1-ryszard.knop@intel.com>
-Date: Wed, 22 Jul 2026 10:15:30 -0600
-Message-ID: <87jyqnc865.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XM0FpB8U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACF311F000E9;
+	Wed, 22 Jul 2026 16:15:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784736940;
+	bh=UCNZNSZ/KaKi2HN6huz+/6/BGuqPjjLEs0PsS30eq/Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XM0FpB8U/90EUWbEOIg1nBMzeofr1gZH6J9DDpXlLp4O25TXo+64QORFvIO7W6Y2p
+	 XATOmuAWT4AMBig2bgQo40IhsC31gg6igpFfyYF3r0CwYXtRuYUhduCVzFp0RkGVKE
+	 61TH8e72D9xgVWfpkuNLAHKJhsdFxs7i4sULhnTfg6kCPfhCnJlFr1jOFXGpGd7+6W
+	 rey7BHkkIlxSjZNu3Ve9cXHqpgUjCaHGOY7gLJR0/JdBZjypdhzeLrRIwh0JMDznh7
+	 2sK8M1h2hXrOleY3m8zbpncqD4THVvImQfrDqWDEM/9FgvR/Qp1w7DaUUkl6t0Xsd7
+	 +6bRabeO/FP3g==
+Date: Wed, 22 Jul 2026 17:15:34 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Troy Mitchell <troy.mitchell@linux.dev>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Yixun Lan <dlan@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/6] dt-bindings: vendor-prefixes: Add Sensylink
+Message-ID: <20260722-devious-seventh-9859bb3741b3@spud>
+References: <20260721-ctl2301-v2-0-ef5fb342872a@linux.dev>
+ <20260721-ctl2301-v2-1-ef5fb342872a@linux.dev>
+ <20260721-dill-dab-df15585090d2@spud>
+ <673be23a-2a84-43b7-9be7-a661cf0e7935@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="EpgLK6YPQDxaGwyB"
+Content-Disposition: inline
+In-Reply-To: <673be23a-2a84-43b7-9be7-a661cf0e7935@roeck-us.net>
 
-Ryszard Knop <ryszard.knop@intel.com> writes:
+--EpgLK6YPQDxaGwyB
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Recent check_sections() change added a warning if a documentation tag
-> member name does not match the detected struct/union member names. Since
-> the checker knows all possible names, we can suggest known names, so
-> that it's more obvious how to deal with the warning.
->
-> Signed-off-by: Ryszard Knop <ryszard.knop@intel.com>
-> ---
-> Changes in v1:
-> - Added the suggestion hint in the warning, with basic name substring checks
-> - Link: https://lore.kernel.org/linux-doc/20260714111208.323108-1-ryszard.knop@intel.com/
->
-> Changes in v2:
-> - Strip trailing whitespace from the warning when the generated hint is empty
-> - Link: https://lore.kernel.org/linux-doc/20260715111726.394565-1-ryszard.knop@intel.com/
->
-> v3:
-> - Use difflib to generate suggestions even if the tag member is mistyped
-> - Suggest names based on the nested struct members too
-> ---
->  tools/lib/python/kdoc/kdoc_parser.py | 51 ++++++++++++++++++++++++++--
->  1 file changed, 49 insertions(+), 2 deletions(-)
+On Tue, Jul 21, 2026 at 10:56:36AM -0700, Guenter Roeck wrote:
+> On 7/21/26 08:49, Conor Dooley wrote:
+> > On Tue, Jul 21, 2026 at 02:48:27AM -0700, Troy Mitchell wrote:
+> > > Add the vendor prefix for Sensylink Microelectronics.
+> > >=20
+> > > Signed-off-by: Troy Mitchell <troy.mitchell@linux.dev>
+> > > ---
+> > >   Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+> > >   1 file changed, 2 insertions(+)
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b=
+/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> > > index 396044f368e7..22d0d26f1bbd 100644
+> > > --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> > > +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> > > @@ -1467,6 +1467,8 @@ patternProperties:
+> > >       description: Sensirion AG
+> > >     "^sensortek,.*":
+> > >       description: Sensortek Technology Corporation
+> > > +  "^sensylink,.*":
+> > > +    description: Sensylink Microelectronics Technology Co., Ltd.
+> >=20
+> > Googling the company to see what their website is, I seem to see a
+> > different name for the company: Shanghai Sensylink Microelectronics Inc.
+> > Their website has that with the Shanghai dropped.
+> >=20
+> > Also, probably the commit message should contain
+> > Link: https://en.sensylink.com/
+> >=20
+>=20
+> Asking Google search: "Why the two names ? Did they rename themselves at =
+some point ?"
 
-Applied, thanks.
+The google search "AI" response was what showed me the different name,
+sounds like I should have questioned it some more!
 
-jon
+>=20
+> Response:
+>=20
+> Understanding the Name Structure
+>=20
+> 1. English Legal Name vs. Marketing Abbreviation
+>=20
+> Sensylink Microelectronics Technology Co., Ltd.:
+> This is the literal translation of their full, formal registered corporat=
+e name
+> used for international trade, customs, and legal documentation.
+>=20
+> Sensylink Microelectronics Inc.:
+> This is a simplified, Westernized abbreviation used on their official
+> English website and marketing materials for cleaner global branding.
+>=20
+> 2. The Native Chinese Name
+>=20
+> =E4=B8=8A=E6=B5=B7=E7=94=B3=E7=9F=BD=E5=87=8C=E5=BE=AE=E7=94=B5=E5=AD=90=
+=E7=A7=91=E6=8A=80=E8=82=A1=E4=BB=BD=E6=9C=89=E9=99=90=E5=85=AC=E5=8F=B8 (S=
+hanghai Shenxiling Microelectronics Technology
+> Co., Ltd.): This is the company's sole, official legal name registered wi=
+th
+> the Chinese government.
+>=20
+> "Sensylink" is a portmanteau created specifically for international marke=
+ts,
+> blending "Sensing" (their core technology) and "Link" (their interface and
+> connectivity products).
+>=20
+> Prodding further, asking if the previous response was complete, it tells
+> me that there was a name change:
+>=20
+> According to Chinese corporate registry data (via Tianyancha and Qcc),
+> they did change their official Chinese legal name:
+>=20
+> Old Name: =E4=B8=8A=E6=B5=B7=E7=94=B3=E7=9F=BD=E5=87=8C=E5=BE=AE=E7=94=B5=
+=E5=AD=90=E7=A7=91=E6=8A=80=E6=9C=89=E9=99=90=E5=85=AC=E5=8F=B8 (Shanghai S=
+ensylink Microelectronics Technology
+> Co., Ltd.)
+>=20
+> New Name: =E4=B8=8A=E6=B5=B7=E7=94=B3=E7=9F=BD=E5=87=8C=E5=BE=AE=E7=94=B5=
+=E5=AD=90=E7=A7=91=E6=8A=80=E8=82=A1=E4=BB=BD=E6=9C=89=E9=99=90=E5=85=AC=E5=
+=8F=B8 (Shanghai Sensylink Microelectronics Technology
+> Co., Ltd. by Shares / Joint-Stock Company)
+>=20
+> I don't know if Linux has a policy about Legal vs. Marketing names. Perso=
+nally
+> I don't have an opinion. Your call, really.
+
+I don't know what the policy is, or if there is one, but personally I
+wouldn't use the westernised abbreviation since they may decide to rebrand
+that etc and the vendor prefix information should remain static.
+
+So this is probably fine as-is, just I'd like to see that link added to
+their website.
+
+Thanks (and thanks for doing the extra digging),
+Conor.
+
+
+--EpgLK6YPQDxaGwyB
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCamDsowAKCRB4tDGHoIJi
+0tcBAP44s90TlKfjWN2tr4LUjXBc0U/1shHw59sier4x+iVQ/gEAr8zXcYYlzXk4
+TCp4Mym7totPI/aTPLaNyKSkbm8gLgM=
+=aJPc
+-----END PGP SIGNATURE-----
+
+--EpgLK6YPQDxaGwyB--
