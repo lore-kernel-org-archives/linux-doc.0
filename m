@@ -1,183 +1,551 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010038.outbound.protection.outlook.com [52.101.85.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE045345CBC
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 13:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908992EC086;
+	Wed, 22 Jul 2026 13:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.38
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784727142; cv=pass; b=SFD1lYLZnpn9DnUwksqS85tz5XoNdIg9qDvjSytEa7F0PhDZRmpmyT94DHd5Md1627JcjpsXrg1VGGnOyQbURSiMDa71Q8RT4KZXQwyKiO4hjHKF7HoMAf3x00srz/phNqHsMwkPUSZMPNgwrocZdbHCV8OLVA7gXo8xQLKPsog=
+	t=1784727392; cv=fail; b=WduW3Fm0g5fcDP+KHyryrHuQoSXBGPAOV3OnW6jXFY4Sp0uUTBMkuZ3cdCv+HsYOFRvRolFtKOn3RGahwH6T6mbZQQABktJc/x6JjBQdTUw2ntSWGpXLFEnkc060MEYdfzPnP1mycdix/8EDG6pnSy44nf9YVwYysVKVIZrkpMk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784727142; c=relaxed/simple;
-	bh=bT2vr2pGofjO6HVhs1OsOpxbY7HDW5tNstjVsp6JA8A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gJuEA/405M7HbTzI34qtn9S/KR79k2/LcPDa0ZcEeLKBkVM1h/ye7JN74thG0OHnySHdQGmJXWECen7EIFkv/ddBPvONCdJywr7Diii60VKlpeGw/92npncDJ2a6cMjYF2vDbsC+H+Xuq1zU9Qrqe6kwtXdgs40G5sPuupjhNz8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pmcWDnW0; arc=pass smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784727392; c=relaxed/simple;
+	bh=zrbC/xR2U9IEbAXnOGvMiLl8TcCIFWtws/tTmKF6NBo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=c8uFQRjSmJHOxOrpuzlYuS1uYwqwR2NLmfi1Rp0mO8WGiOGLoXf+HIHcAYUsm6aDjISN6pvyDeMbdGE313t1uovlXc5Q+yGmDIrNqjffo7Ch9U1so3eKW5G9pJepnEVpiKeJkmZ42Pck6m/5oXWsMvkBby7+QI5xVn/VOoZ+R2E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=m8aTjM95; arc=fail smtp.client-ip=52.101.85.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pmcWDnW0"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5b2960ea2fbso393021e87.3
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 06:32:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784727137; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kYfu2YgwT/UhCaA8dDXKUb6Uar0z95Grdkn7EHbFVKYLl9EIdBbWDAnuaB6TdaQy+p
-         epmvprp2IrZM1Ttr+LGt/sXAA2GpbhLDb8O6CIn9OAEgsmtux4ez+nIwT5mSHebxHoBv
-         +c7QtqSMvOZ1dSrpb9moVOIWH2YS8AodRr91pZ44LkJaiJjW0tEuo9d4hgyRnhOS6BPK
-         knSHN/AUe1EwLRtVY9nvxSxsLcqa+SjhiFM0YMDSkp6eS+AUg8GLN6cBaAsmZa0JSR2m
-         ZUOFQ7PMBbp7ncDXysDPQ7RQTMkbc7/uej0QPXWlchLBpYEZ4bU/DWAE+AhSl4aEQ2nH
-         165w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=bT2vr2pGofjO6HVhs1OsOpxbY7HDW5tNstjVsp6JA8A=;
-        fh=HoaiGut7YoD6NG8Y9OT3hOiczqf9wbpkCSFv+WLbNs8=;
-        b=auSkM0/gAy4Qs5yt6JxwVC6/xKKPlMGOJXxbvZQGcSy83U+LwD5Rc9a0zfplPpCwyP
-         ELf9w7Q/Or4I7qo6TDXjulEp65caIJjX/jrTitCn6N0UElfjYSgaXZxN54Mf4AFvCFW3
-         tQbNyLnek8wABxj21KRvY6KmQLsI11cnJswFMLWaaFCNTI14qLORp/3vPcFmOR81ML21
-         znUUG6Iw7ieqKGwgn+Zw3TNO/48vi9pz0jG6DvmG/ipzNVtXrvfBH6gJv3f3jHM97u1n
-         aCuOJWVRWH3NYcOjdtqwMXNLILmU/qmnG9VxpD61HmawVja+I/s/bzKRspxyJxc8cmpw
-         QyFw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784727137; x=1785331937; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bT2vr2pGofjO6HVhs1OsOpxbY7HDW5tNstjVsp6JA8A=;
-        b=pmcWDnW0zfAoUUob7e7TlPkwxwRkRB2d3cH12TBS2DMYNrJN8mldZ8mi5Q0qY5E7T9
-         dP51D/6mry8p/dmhGMM9ZZ8vJyXacVbZjKnz/TZJZjmoGJIV3JxMLi1i8HHBVG9vkjkf
-         0+GF4VlH4gzBxiBp7+gDx5cTT/CikO7OIEVyGT/cbnUSidVOFwftNtfVpDvfPw/WFEC9
-         89hl0+bXrLt4RM3J1raQa7eyVgFExvfu2PCOuNstf1xCCaCRDdvMOM/beQPSNI3/TdTr
-         Z9/y+zV5ECQsrJovwUT5hbcy53Y3t/PC6Cxbzh4nqWEX4Lfk0/ddvqt6wJbTlH2cGIMi
-         DFng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784727137; x=1785331937;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bT2vr2pGofjO6HVhs1OsOpxbY7HDW5tNstjVsp6JA8A=;
-        b=CakjyNnM2LM//MVKUyQJGcfr8KBr+G9MzX/+29k0gX7wQrwF9YWGcYdcO9S3JuJvkh
-         Q6/QL/dNPHh1DJY+HUhf3fdYE15I8lZkm2vT2rzg27uHUmVDMyHTR69PW17GXF2npiFN
-         wTE2mwBEmuajidD2s5wQb9boA5/Bd47AgfIaHet4qNOSmMgJABLL6TrU6moEtoSpVPEf
-         aIufCbswCD/2se4UvUPKVc8IqxzpeZ/QyxG5VtP09aeGR5iESR+lqOA1Cd8NQZL32iML
-         x47/cQoGGABmP3zJ+1wW9brNHSokkQmd/pGYkl3vcnBhfNgza/pRf82Q8NMbRev/a/EC
-         OMpw==
-X-Forwarded-Encrypted: i=1; AHgh+RrRXnheoTYXRwyyZIGZB3LixeaVpG5arj36UYmPys5aYpedpNfDoBGAspaL9gFrzKbnDwX7kkZwPu8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3XfdT+pfWCmuL7sbG/M+miIvN/upas9x2Jr2nWYjFFm3WL5w3
-	D27veYHfuFb5khHSqSIPZ/bHPqOGDhMqogCMUgnQ7B4frY0R9h7yaY/UYULjQrGvq8HR59ruz+5
-	OQ5ZV0cvQKPUemu/ir0UD9yaOpGaSBK4=
-X-Gm-Gg: AR+sD13NVibi2DumPfjCedUKWXRbzkqAWuqYccU5nBsgabXWZ3Ftx5evmJ6Lp0bBM77
-	KBj0GZvTDF4ESPDcjY8UpYfR+EOUJ3ZghiRaUVT+XsNQGxnUqm1R0PhbOd+pRB9+I27+mZ/mMRi
-	UcGJ/nub4/S9mRINjwsHdwVQV06Da7ga7tagFLo9KxgDpIi253ma6B4s/HpZBP9SRCxNfsnqznM
-	WJlxaPy5d5eKSmikXDbyrOzSGfbD9Pv8/B0ihXm6SRp5APGzBCFNwxLSg9KC0pOmK+kpUw11aDf
-	3/PRcb338UhSbE4KcD2+ZY8gLkZ3cvJzA8ZbS8srxipt
-X-Received: by 2002:a05:651c:505:b0:39c:67c4:4eb0 with SMTP id
- 38308e7fff4ca-39eeb84d79fmr8806641fa.8.1784727136403; Wed, 22 Jul 2026
- 06:32:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="m8aTjM95"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wxwcrxfVGhR1SkuBMzC2IyPw0lFFNA2keJG5uZjfuz9iVEDv7HlfHbJlX8qEbCzBONkNGtKEQuo8ncadwxsFbTL5u8AHVBofaIkhA4f8a53hS0HqOD9kHXdD7plteNlck2jkkybUpa7IRymYTWp+82pAjWnV2SNzupeZwUG3xuU+v8g0sdaKQRt5yiVdRl/Fb2xbmS3YLGNPJVtoDbWMS1D6bMpv/J3R/++ZPphc9/FqeE9HxNBsZ6RisuTidG3/D5LO8kY2PwkSILC44S7dIkUxIuEkbbysHRNkRPgv4f2+5Kc+/im9pUAaGiWxW1LvJs1GXq+/jtMH2ZUJYysNVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fRUrYgb8VYs7iMc4cdGBLzB5K5CS4S2zIISeJC5duUA=;
+ b=U2l/X0tNZjxwCRzG3EbslDX5GLcbTK9jqMHGOPLF5UkF4twoo7ETG/5jADvKkw70w77P+1GzlosSG3PKk7IcJcyRtRKNver1kq/N7z/7SR/3xMhlv23ueEYIaQGkDi4mtBS0DAAf+es2ju18fBG7BD6GcZ713fEO4h8M7nrvTwkywhD45nD44h0L4f79k/dJP1umhjBLpc29ikpWnJC0u/eYoC3Dny4lP3x2RyJ/j3q/uh2VilBRh9gqzOZRrY8FGa92+CLADyp/2AanlsUYuI3V+Ik9v4s/pSBwwoasZBFhvcFSxiWYFEy5zq4Y0V8nYaKtlQ20DxnPi8xsqj5+gA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fRUrYgb8VYs7iMc4cdGBLzB5K5CS4S2zIISeJC5duUA=;
+ b=m8aTjM95G3Q2C89GsIxOlVcQyY2rmjPdkiv96r957fgHQ0G0l7ueuU9MMo97On5hTomBwwWA8HCn/ndyqUV+Pkv4BfECQ4u7dCfFbsPp7vm7X8nTT/1cn3htCOS+jwdh/F8fBvM7CuhS4ZE2brhaBhIKZ2xGrn3HUqxoGeNU7d9UzbHugSgPvgthmUkI9h/B1+aDSNCHuYR8buN5ycDkIC+vPWXM2taUMumpLk1cBJ9V7Ka1YQ4669GJsUGezZ96ZzuMkIBFtpW/5tXlTtRf+C+sIfbSjLg9Rk8ELlB5l+W8XOguQHrc/CYbugdRn+of2gA/QOD/XZGBkErdC5xxkA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB2370.namprd12.prod.outlook.com (2603:10b6:207:47::27)
+ by LV8PR12MB9229.namprd12.prod.outlook.com (2603:10b6:408:191::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
+ 2026 13:36:20 +0000
+Received: from BL0PR12MB2370.namprd12.prod.outlook.com
+ ([fe80::86cf:c3ec:2cf5:74c8]) by BL0PR12MB2370.namprd12.prod.outlook.com
+ ([fe80::86cf:c3ec:2cf5:74c8%5]) with mapi id 15.21.0245.009; Wed, 22 Jul 2026
+ 13:36:20 +0000
+Date: Wed, 22 Jul 2026 21:36:14 +0800
+From: Richard Cheng <icheng@nvidia.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
+	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com, 
+	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
+	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
+	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
+	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
+	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
+	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
+	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
+	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
+	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
+	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
+	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
+	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v5 26/36] mm: add NODE_PRIVATE_CAP_RECLAIM for opted-in
+ private node reclaim
+Message-ID: <amDGXU94trqlXUgR@MWDK4CY14F>
+References: <20260720193431.3841992-1-gourry@gourry.net>
+ <20260720193431.3841992-27-gourry@gourry.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260720193431.3841992-27-gourry@gourry.net>
+X-ClientProxiedBy: TPYP295CA0009.TWNP295.PROD.OUTLOOK.COM (2603:1096:7d0:9::8)
+ To BL0PR12MB2370.namprd12.prod.outlook.com (2603:10b6:207:47::27)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260721215542.98435-1-chenyou910331@gmail.com>
- <20260721215542.98435-2-chenyou910331@gmail.com> <amCDyEKqNzkjgu-H@wyuan.org>
-In-Reply-To: <amCDyEKqNzkjgu-H@wyuan.org>
-From: =?UTF-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
-Date: Wed, 22 Jul 2026 21:32:05 +0800
-X-Gm-Features: AUfX_mxkBPq7QpIOVp80_QmHYVGjIk44qSHuPZOOr7Eh04Dezo7qQE9pYVP8-tQ
-Message-ID: <CAKspUhJH=3jn8LKqB2gNC1ajJ8V4g1avvH6tWewhvu7ojcfjBw@mail.gmail.com>
-Subject: Re: [PATCH 01/16] docs/zh_TW: process: localize terminology in 7.AdvancedTopics.rst
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	Yanteng Si <si.yanteng@linux.dev>, Hu Haowen <2023002089@link.tyut.edu.cn>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2370:EE_|LV8PR12MB9229:EE_
+X-MS-Office365-Filtering-Correlation-Id: dd6d9e10-abf1-45ad-6f9c-08dee7f6367e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|7416014|376014|1800799024|56012099006|11063799006|10067099003|4143699003|3023799007|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	xMm+SBtK4TvRLYiK5lZ9uA8zUtf00ay9ltu6jixyHtqgWHzP2R2IBKyTsWn44D2IaxiZ9Ouky1cikrrbxdZxlSOIvh/eUkRhPT3o8H+KuWGWGiJcrebr4WizlcwYcWBqm07r+TWAeEx2QtC5IjQ8W/w3mxOojhSCfbPPjEMWuVrCawQljW80Mco3YJtf0gVOW2FkwzpVrzgJJ82on1slvslEKNuicp2HOC+qruz0beG4QQclP0u7N2ouxx5JOGVgAG2nn3UIMmqLYj+TnFiDY8SOIgYCydHQJYclbnE+8S3KNNnE98VoaYnabK9lbpDd85/uqFZfax65tNDCFmBjG+xxH55tHXcKN17NpDBXCsgmH2QH/7G5VV0DMw8VdbAs9VyjAbazR/csvaM7OVKoOLhHNBKbLD13dj5c77rI4cB1w+Y2wEgRhTZwOFR0Vq5fvEZGFwIKPca2hAAu+XIMJlT0zdlJvgA2TICfZ9gOgO1JDYzOF3kyDvj+W+vdqWIkTyJNljM+fboyH7Xt6Z7/j01l+BZC+lM2jUUjB/58dFcreU3wv3E/i7MMsWcIracMWVXuF2cjqvIGYETVuMipRdZGSzGnfRY4q9fhK/JnxZv0Tb+1Tpkc3Z5UNYbYubdBG+4Z1GiKCw1XixH08QhdPzCWt/XLSWb5CEZJpLjTwOw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB2370.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(7416014)(376014)(1800799024)(56012099006)(11063799006)(10067099003)(4143699003)(3023799007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?R+fqMu6uoev+npYl8Y1XmmlbqdqazmGDuzcVIv+BIbowyNTlmPZs/r4etm0i?=
+ =?us-ascii?Q?ZrSeJ8dK1792uXtWUgaIRukUhwVOiOJZDOl7EYI4syx9RdDxGHqlpiSRo79L?=
+ =?us-ascii?Q?6905anhx7RwhNg+Uu8ebgSo/JRgW31M/TPhUGURgrHcA+liY5geJVbfcWao3?=
+ =?us-ascii?Q?20wlgrYkOBxxLpk2vVmaoe+viUvKrIoJfOztdfRm8TTXtGsOLtIrhiUuM1Mg?=
+ =?us-ascii?Q?4kRFtthCYez50DSFtsAqIwkkzYYJaZt7da2G/VBPBh9YY7sheRg3U/4egl8J?=
+ =?us-ascii?Q?M42KmTnl4xu/Okz8Ms2nHTCxsV8Ihj9HnbgYgTQ0j79BMY6PQRlZdQ6St/Wz?=
+ =?us-ascii?Q?M+jN/CComlGfNt+NSSrUdw3XpGLJjLeGbRStqZVeU/d3nCuWhjRLbd/aiZ/j?=
+ =?us-ascii?Q?vRpeW9x5IronIeLn5BrO2rvMXDpCzM3vxpo+T8rpks0DOu+br6q9HHJD47t3?=
+ =?us-ascii?Q?squwwKUyYAQXpjkoEAd1W/LW2wh1TP/NGzxbAT7uvyNwJuywRc3G1x8KYwfy?=
+ =?us-ascii?Q?OBTJZcoBIDR4Fe3HIia47QHrYwyMe8cgCec/mPYXzZKJcB+7ewT6Y5yw/WUE?=
+ =?us-ascii?Q?1KEviyQ/gBzdO95npWuT413k66k9xTdX+kRtvgWm+WeiWHWtQWXXVj6iJXhu?=
+ =?us-ascii?Q?VdDUGlAusLgdpj2VpASOM9dB90T4Vv137Ipc6Pmbg/MJnnMw002wTzefY8tf?=
+ =?us-ascii?Q?yVUv/+klT7sMe/cM2DGq2DTkAR/W/2WI2D+hnyXyk9d3LAXnmuAinziE/3sK?=
+ =?us-ascii?Q?oB26bI6RXZQOsgO4sIfhl/UqjXwhICso2UTejhPx4Qiu6eYn/iC8OdoW03tE?=
+ =?us-ascii?Q?JP1NXvx+jOrfdh69EgFTfWiO95oog0cf2VRqlFLGtYjKicFwWaUCvO7xeaNj?=
+ =?us-ascii?Q?JMDHHOFGCNIX5D+SgfdgVy2vcA8KARPzpOFRrc4gYglhlMC/+nPB6/iN4Us7?=
+ =?us-ascii?Q?bP35p6MUofGC1wXnGSdTQ0uKzJ9blcoeML8evh6pWehb9uHjVtbpSlfREBVt?=
+ =?us-ascii?Q?c8vRxj291EsqRVZ/tXyuBkQPivnNz7ZU2QrdRZgu852Yhw1SOEhQ6JlHyM67?=
+ =?us-ascii?Q?PxGOXnATgxPcw4s1x8aQ77re4kB+kZGdVEaPYernwF0gWLloIo22hXleK93U?=
+ =?us-ascii?Q?NsFJgv85tIx/2TZNE8FGhGB4gicpREC+P5vmTm+RxORX3bz1JmNfTEg3rfyn?=
+ =?us-ascii?Q?Mk0/DiHwNmd1lN+hkwWcx5yxxdEf/lt9oWDNYQcQ3s4e2vZWGbm7d9v4ca+u?=
+ =?us-ascii?Q?ir/7+OoC5/lOQfzyEidrLyh85MYQ5+XsHbXbM8doox8Cvn7dWZLPS4JRJX1A?=
+ =?us-ascii?Q?u+hHwm4veLRE0rIMcKdD4/lf34jVFT9RKb//RYjy8CSUNbt0JkT0j2Ah+zx/?=
+ =?us-ascii?Q?BvLvlUIsIOIryKLbendUwBisO9u7vvzcaikaJtbAx+q16K7UTxRmabzBzO3n?=
+ =?us-ascii?Q?NlkCy4HK1Og3gfCNd4mPRMXCkPz6TMbEnlLRWnOlc5Z/dwJC+0czyRI7zojm?=
+ =?us-ascii?Q?quU/XfmFXFuTofw5C9+s79ZkG3GVs8FVpWExExAeXnQApKC2/ho3HGwpsu1N?=
+ =?us-ascii?Q?kAs/WKhuze6dCe40/YqR85HYXfLrJVXvbGTiMoURMT99D77EqhLd8BFzg+xf?=
+ =?us-ascii?Q?ur4TcIeZLIiGfO7Ws+rvTBTWQSwwOwnUSQWFae9irZ2HB1QPvC/fWw/kBKzL?=
+ =?us-ascii?Q?fQ4WkclSTdJinw1D5+m0U6bFgtX/CPjTyJ/W22yP3LAcw4ebEl7Xmtbtmkcy?=
+ =?us-ascii?Q?1ivcmchaAw=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd6d9e10-abf1-45ad-6f9c-08dee7f6367e
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2370.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 13:36:19.9085
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: e0fqRf3EjXwgqm7g6cu3cN1VCHuWkLss/2N61GVLnbHHvfSOBVLDTc/icm6cDJT5VZ8QD4wXU2DuNLoHuer3vg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9229
 
-T24gV2VkLCBKdWwgMjIsIDIwMjYgYXQgMDE6NTY6NDZQTSArMDgwMCwgV2VpamllIFl1YW4gd3Jv
-dGU6DQo+ICLlhY3otLnnmoRCaXRLZWVwZXLmm7/ku6Plk4EiIHNob3VsZCBiZSAi6Ieq55Sx55qE
-Qml0S2VlcGVy5pu/5Luj5ZOBIg0KPiBUaGUgdGV4dCBhYm92ZSBpcyBhYm91dCBwcm9wcmlldGFy
-eSDkuJPmnInnmoQv5bCI5pyJ55qELCBzbyBoZXJlIHNob3VsZCBiZQ0KPiDoh6rnlLHnmoQuDQoN
-Ckdvb2QgY2F0Y2gsIHlvdSBhcmUgcmlnaHQgLS0gdGhlIHNlbnRlbmNlIGNvbnRyYXN0cyB3aXRo
-IHRoZQ0KcHJvcHJpZXRhcnkgQml0a2VlcGVyLCBzbyB0aGlzIGlzIGZyZWUtYXMtaW4tZnJlZWRv
-bSBhbmQgc2hvdWxkIGJlDQroh6rnlLHnmoQsIG5vdCDlhY3osrvnmoQuIEkgbWFkZSB0aGlzIGNv
-cnJlY3Rpb24gaW4gMS5JbnRybyAo5YWN6LS56L2v5Lu2IOKGkg0K6Ieq55Sx6Luf6auUKSBidXQg
-bWlzc2VkIHRoaXMgaW5zdGFuY2UgaW4gNy5BZHZhbmNlZFRvcGljcy4gSSB3aWxsIGZpeCBpdA0K
-aW4gdjIsIGFuZCBjYW4gc2VuZCBhbiBpbmNyZW1lbnRhbCBwYXRjaCBmb3IgdGhlIHNhbWUgaXNz
-dWUgaW4gemhfQ04NCmFmdGVyd2FyZHMgYXMgeW91IHN1Z2dlc3RlZC4NCg0KPiBTaG91bGQgd2Ug
-d3JhcCBsaW5lcyBlYXJsaWVyIHRocm91Z2hvdXQgdGhlIHNlcmllcz8NCg0KRmFpciBwb2ludC4g
-U29tZSBUYWl3YW5lc2UgdGVybXMgYXJlIG9uZSBjaGFyYWN0ZXIgbG9uZ2VyIHRoYW4gdGhlaXIN
-CnpoX0NOIGNvdW50ZXJwYXJ0cyAo56iL5byP56K8IHZzIOS7o+eivCwg5L2/55So6ICFIHZzIOeU
-qOaItiksIHNvIGEgZmV3IGxpbmVzDQpncmV3IHBhc3QgYSBjb21mb3J0YWJsZSB3aWR0aCB3aXRo
-b3V0IGJlaW5nIHJlZmxvd2VkLiBJIHdpbGwgcmVmbG93IHRoZQ0KYWZmZWN0ZWQgcGFyYWdyYXBo
-cyBpbiB2MiBmb2xsb3dpbmcgdGhlIHpoX0NOIGhvdy10byB5b3UgbGlua2VkLCBhbmQNCnRoZSBs
-b25nIGxpY2Vuc2UtcnVsZXMgbGluZXMgeW91IHBvaW50ZWQgb3V0IG9uIDA0LzE2IHdpbGwgYmUg
-d3JhcHBlZA0KaW4gdGhlIHNhbWUgcGFzcy4NCg0KVG8ga2VlcCB0aGlzIHJldmlld2FibGUsIEkg
-cGxhbiB0byBjb2xsZWN0IGV2ZXJ5b25lJ3MgY29tbWVudHMgZmlyc3QNCmFuZCB0aGVuIHNlbmQg
-YSBzaW5nbGUgdjIgYWRkcmVzc2luZyB0aGVtIHRvZ2V0aGVyLCByYXRoZXIgdGhhbg0KcmVzcGlu
-bmluZyBwZXIgY29tbWVudC4gUGxlYXNlIGxldCBtZSBrbm93IGlmIHlvdSB3b3VsZCBwcmVmZXIN
-Cm90aGVyd2lzZS4NCg0KVGhhbmtzIGEgbG90IGZvciB0aGUgY2FyZWZ1bCByZXZpZXcuDQoNCkNo
-ZW4tWXUNCg0KV2VpamllIFl1YW4gPHd5QHd5dWFuLm9yZz4g5pa8IDIwMjblubQ35pyIMjLml6Xp
-gLHkuIkg5LiL5Y2INDo0OOWvq+mBk++8mg0KPg0KPiBPbiBXZWQsIEp1bCAyMiwgMjAyNiBhdCAw
-NTo1NToyN0FNICswODAwLCBDaGVuLVl1IFllaCB3cm90ZToNCj4gPiAg5a+p6Zax6KOc5LiBDQo+
-ID4gIC0tLS0tLS0tDQo+ID4NCj4gPiAt5LiA5Lqb6K6A6ICF6aGv54S25pyD5Y+N5bCN5bCH5pys
-56+A6IiH4oCc6auY57Sa5Li76aGM4oCd5pS+5Zyo5LiA6LW377yM5Zug54iy5Y2z5L2/5piv5Ymb
-6ZaL5aeL55qE5YWn5qC46ZaL55m85Lq65ZOhDQo+ID4gLeS5n+aHieipsuWvqemWseijnOS4geOA
-gueVtueEtu+8jOaykuacieavlOafpeeci+WFtuS7luS6uueZvOS9iOeahOS7o+eivOabtOWlveea
-hOaWueazleS+huWtuOe/kuWmguS9leWcqOWFp+aguOeSsOWigw0KPiA+IC3kuK3nt6jnqIvkuobj
-gILmraTlpJbvvIzlr6nplrHogIXmsLjpgaDkvpvkuI3mh4nmsYLvvJvpgJrpgY7lr6nplrHku6Pn
-orzvvIzmgqjlj6/ku6XlsI3mlbTlgIvmtYHnqIvlgZrlh7rph43lpKfosqLnjbvjgIINCj4gPiAr
-5LiA5Lqb6K6A6ICF6aGv54S25pyD5Y+N5bCN5bCH5pys56+A6IiH4oCc6YCy6ZqO5Li76aGM4oCd
-5pS+5Zyo5LiA6LW377yM5Zug54K65Y2z5L2/5piv5Ymb6ZaL5aeL55qE5qC45b+D6ZaL55m85Lq6
-5ZOhDQo+ID4gK+S5n+aHieipsuWvqemWseijnOS4geOAgueVtueEtu+8jOaykuacieavlOafpeec
-i+WFtuS7luS6uueZvOW4g+eahOeoi+W8j+eivOabtOWlveeahOaWueazleS+huWtuOe/kuWmguS9
-leWcqOaguOW/g+eSsOWigw0KPiA+ICvkuK3mkrDlr6vnqIvlvI/kuobjgILmraTlpJbvvIzlr6np
-lrHogIXmsLjpgaDkvpvkuI3mh4nmsYLvvJvpgI/pgY7lr6nplrHnqIvlvI/norzvvIzmgqjlj6/k
-u6XlsI3mlbTlgIvmtYHnqIvlgZrlh7rph43lpKfosqLnjbvjgIINCj4gPg0KPiA+IC3lr6nmn6Xk
-u6Pnorzlj6/og73mmK/kuIDlia/ku6TkurrnlJ/nlY/nmoTlnJbmma/vvIznibnliKXmmK/lsI3k
-uIDlgIvmlrDnmoTlhafmoLjplovnmbzkurrlk6HkvoboqqrvvIzku5blgJENCj4gPiAt5Y+v6IO9
-5pyD5bCN5YWs6ZaL6Kmi5ZWP5Luj56K85oSf5Yiw57eK5by177yM6ICM6YCZ5Lqb5Luj56K85piv
-55Sx6YKj5Lqb5pyJ5pu05aSa57aT6amX55qE5Lq655m85L2I55qE44CC5LiN6YGO77yMDQo+ID4g
-LeWNs+S9v+aYr+acgOaciee2k+mpl+eahOmWi+eZvOS6uuWToee3qOWvq+eahOS7o+eivOS5n+WP
-r+S7peW+l+WIsOaUuemAsuOAguS5n+ioseWwje+8iOaJgOacie+8ieWvqemWseiAheacgOWlvQ0K
-PiA+ICvlr6nmn6XnqIvlvI/norzlj6/og73mmK/kuIDlia/ku6TkurrnlJ/nlY/nmoTlnJbmma/v
-vIznibnliKXmmK/lsI3kuIDlgIvmlrDnmoTmoLjlv4Pplovnmbzkurrlk6HkvoboqqrvvIzku5bl
-gJENCj4gPiAr5Y+v6IO95pyD5bCN5YWs6ZaL6Kmi5ZWP56iL5byP56K85oSf5Yiw57eK5by177yM
-6ICM6YCZ5Lqb56iL5byP56K85piv55Sx6YKj5Lqb5pyJ5pu05aSa57aT6amX55qE5Lq655m85biD
-55qE44CC5LiN6YGO77yMDQo+ID4gK+WNs+S9v+aYr+acgOaciee2k+mpl+eahOmWi+eZvOS6uuWT
-oee3qOWvq+eahOeoi+W8j+eivOS5n+WPr+S7peW+l+WIsOaUuemAsuOAguS5n+ioseWwje+8iOaJ
-gOacie+8ieWvqemWseiAheacgOWlvQ0KPiA+ICDnmoTlu7rorbDmmK/vvJrmiorlr6nplrHoqZXo
-q5bnlbbmiJDllY/poYzogIzkuI3mmK/mibnoqZXjgILoqaLllY/igJzlnKjpgJnmop3ot6/lvpHk
-uK3lpoLkvZXph4vmlL7pjpbvvJ/igJ0NCj4gPiAt57i95piv5q+U6Kqq4oCc6YCZ6KOP55qE6Y6W
-5piv6Yyv6Kqk55qE4oCd5pu05aW944CCDQo+ID4gK+e4veaYr+avlOiqquKAnOmAmeijoeeahOmO
-luaYr+mMr+iqpOeahOKAneabtOWlveOAgg0KPiA+DQo+ID4gLeS4jeWQjOeahOmWi+eZvOS6uuWT
-oeWwh+W+nuS4jeWQjOeahOinkuW6puWvqeafpeS7o+eivOOAgumDqOWIhuS6uuacg+S4u+imgemX
-nOazqOS7o+eivOmiqOagvOS7peWPiuS7o+eivOihjOaYrw0KPiA+IC3lkKbmnInlsL7pmqjnqbrm
-oLzjgILlhbbku5bkurrmnIPkuLvopoHpl5zms6joo5zkuIHkvZzniLLkuIDlgIvmlbTpq5Tlr6bn
-j77nmoTorormm7TmmK/lkKblsI3lhafmoLjmnInlpb3omZXjgIINCj4gPiAt5ZCM5pmC5Lmf5pyJ
-5Lq65pyD5qqi5p+l5piv5ZCm5a2Y5Zyo6Y6W5ZWP6aGM44CB5aCG5qOn5L2/55So6YGO5bqm44CB
-5Y+v6IO955qE5a6J5YWo5ZWP6aGM44CB5Zyo5YW25LuW5Zyw5pa5DQo+ID4gLeeZvOePvueahOS7
-o+eivOmHjeikh+OAgei2s+WkoOeahOaWh+aqlOOAgeWwjeaAp+iDveeahOS4jeWIqeW9semfv+OA
-geeUqOaItuepuumWk0FCSeabtOaUueetieOAguaJgOaciemhnuWeiw0KPiA+IC3nmoTmqqLmn6Xv
-vIzlj6ropoHlroPlgJHog73lvJXlsI7mm7Tlpb3nmoTku6PnorzpgLLlhaXlhafmoLjvvIzpg73m
-mK/lj5fmraHov47lkozlgLzlvpfnmoTjgIINCj4gPiAr5LiN5ZCM55qE6ZaL55m85Lq65ZOh5bCH
-5b6e5LiN5ZCM55qE6KeS5bqm5a+p5p+l56iL5byP56K844CC6YOo5YiG5Lq65pyD5Li76KaB6Zec
-5rOo56iL5byP56K86aKo5qC85Lul5Y+K56iL5byP56K86KGM5pivDQo+ID4gK+WQpuacieWwvuma
-qOepuuagvOOAguWFtuS7luS6uuacg+S4u+imgemXnOazqOijnOS4geS9nOeCuuS4gOWAi+aVtOmr
-lOWvpuS9nOeahOiuiuabtOaYr+WQpuWwjeaguOW/g+acieWlveiZleOAgg0KPiA+ICvlkIzmmYLk
-uZ/mnInkurrmnIPmqqLmn6XmmK/lkKblrZjlnKjpjpbllY/poYzjgIHloIbnlorkvb/nlKjpgY7l
-uqbjgIHlj6/og73nmoTlronlhajllY/poYzjgIHlnKjlhbbku5blnLDmlrkNCj4gPiAr55m854++
-55qE56iL5byP56K86YeN6KSH44CB6Laz5aSg55qE5paH5Lu244CB5bCN5pWI6IO955qE5LiN5Yip
-5b2x6Z+/44CB5L2/55So6ICF56m66ZaTQUJJ5pu05pS5562J44CC5omA5pyJ6aGe5Z6LDQo+ID4g
-K+eahOaqouafpe+8jOWPquimgeWug+WAkeiDveW8leWwjuabtOWlveeahOeoi+W8j+eivOmAsuWF
-peaguOW/g++8jOmDveaYr+WPl+atoei/juWSjOWAvOW+l+eahOOAgg0KPg0KPiBTaG91bGQgd2Ug
-d3JhcCBsaW5lcyBlYXJsaWVyIHRocm91Z2hvdXQgdGhlIHNlcmllcz8gQWZ0ZXIgdGhlIGNlcnRh
-aW4NCj4gdGVybWlub2xvZ3kgd2FzIGNoYW5nZWQsIG1hbnkgbGluZXMgYmVjYW1lIGxvbmdlciBi
-dXQgd2VyZSBub3QgcmVmbG93ZWQuDQo+DQo+IEp1c3QgYSB0aG91Z2h0LiBJJ2FtIGFsc28gZmlu
-ZSB3aXRoIGN1cnJlbnQgY2hhbmdlcy4NCj4NCj4gVGhhbmtzLg0KPg0KPiBTZWU6DQo+DQo+ICAg
-aHR0cHM6Ly9kb2NzLmtlcm5lbC5vcmcvdHJhbnNsYXRpb25zL3poX0NOL2hvdy10by5odG1sI2lk
-OQ0KPiAgIGh0dHBzOi8vZG9jcy5rZXJuZWwub3JnL3RyYW5zbGF0aW9ucy96aF9DTi9ob3ctdG8u
-aHRtbCNpZDEwDQo=
+On Mon, Jul 20, 2026 at 03:34:20PM +0800, Gregory Price wrote:
+> Provide a mechanism to opt private nodes into the reclaim process.
+> 
+> Reclaim as a "singular service" is actually made up of:
+> 
+>    - kswapd reclaim
+>    - direct reclaim
+>    - kcompactd compaction
+>    - direct compaction
+>    - both mglru / lru paths
+>    - madvise reclaim hints
+>    - damon reclaim operations
+> 
+> CAP_RECLAIM gates whether the kernel may do inter-node placement
+> (compaction) or swap for the folios on that private node.
+> 
+> node_allows_reclaim() encapsulates the policy as a whole.  Ordinary
+> nodes are always reclaimable, private nodes only when opted in.
+> 
+> With the exception of madvise and DAMON, reclaim operations are
+> highly integrated with one another, so they are opted in/out of
+> together - otherwise reclaim becomes unpredictable.
+> 
+> To prevent bisect debugging failures, this stays in a single commit.
+> 
+> For example: reclaim without compaction will OOM on high-order
+> allocation failure despite a large amount of free memory. Normally
+> compaction would (potentially) resolve this issue.
+> 
+> If a private node opts into reclaim, we create normal watermarks for
+> that node - otherwise pgdat_balanced() is always true and reclaim
+> thinks there is no work to do.
+> 
+> Cross-node operations (demotion, promotion, khugepaged) are NOT
+> included in CAP_RECLAIM because some workflows may desire different
+> behaviors for this kind of operation:
+> 
+>    - prefer direct-to-swap, do not demote
+>    - remain resident and OOM
+>    - __GFP_THISNODE: fail and let the driver augment reclaim
+> 
+> Normal swap-out is allowed because there are clear userland controls
+> (not registering swap, cgroup.swap, etc) to control that per-workload.
+> 
+> Signed-off-by: Gregory Price <gourry@gourry.net>
+> ---
+>  include/linux/node_private.h | 33 +++++++++++++++++++++++++
+>  mm/compaction.c              |  9 ++++---
+>  mm/damon/paddr.c             |  4 +--
+>  mm/huge_memory.c             |  2 +-
+>  mm/internal.h                | 13 ++++++++++
+>  mm/madvise.c                 |  6 ++---
+>  mm/memory_hotplug.c          |  3 +--
+>  mm/page_alloc.c              |  2 +-
+>  mm/vmscan.c                  | 48 ++++++++++++++++++++++++++++++------
+>  9 files changed, 100 insertions(+), 20 deletions(-)
+> 
+> diff --git a/include/linux/node_private.h b/include/linux/node_private.h
+> index 475496c84249f..f7cbae1309904 100644
+> --- a/include/linux/node_private.h
+> +++ b/include/linux/node_private.h
+> @@ -7,6 +7,13 @@
+>  
+>  struct page;
+>  
+> +/*
+> + * Per-node service opt-ins (node_private.caps).  A private node is isolated
+> + * from all general mm services by default; the registering driver sets these
+> + * to let specific services operate on its node.
+> + */
+> +#define NODE_PRIVATE_CAP_RECLAIM	(1UL << 0)	/* allow mm reclaim */
+> +
+>  /**
+>   * struct node_private - Per-node container for N_MEMORY_PRIVATE nodes
+>   *
+> @@ -41,6 +48,27 @@ static inline bool node_is_private(int nid)
+>  	return node_state(nid, N_MEMORY_PRIVATE);
+>  }
+>  
+> +/**
+> + * node_allows_reclaim - may the mm reclaim from this node?
+> + * @nid: the node to test
+> + *
+> + * Only a private node is ever excluded.  Every other node can safely
+> + * be operated on by reclaim.
+> + */
+> +static inline bool node_allows_reclaim(int nid)
+> +{
+> +	struct node_private *np;
+> +	bool ret;
+> +
+> +	if (!node_state(nid, N_MEMORY_PRIVATE))
+> +		return true;
+> +	rcu_read_lock();
+> +	np = rcu_dereference(NODE_DATA(nid)->node_private);
+> +	ret = np && (np->caps & NODE_PRIVATE_CAP_RECLAIM);
+> +	rcu_read_unlock();
+> +	return ret;
+> +}
+> +
+>  #else /* !CONFIG_NUMA */
+>  
+>  static inline bool folio_is_private_node(struct folio *folio)
+> @@ -58,6 +86,11 @@ static inline bool node_is_private(int nid)
+>  	return false;
+>  }
+>  
+> +static inline bool node_allows_reclaim(int nid)
+> +{
+> +	return true;
+> +}
+> +
+>  #endif /* CONFIG_NUMA */
+>  
+>  #if defined(CONFIG_NUMA) && defined(CONFIG_MEMORY_HOTPLUG)
+> diff --git a/mm/compaction.c b/mm/compaction.c
+> index 8c1351cce7bcc..b9c25c599732f 100644
+> --- a/mm/compaction.c
+> +++ b/mm/compaction.c
+> @@ -25,6 +25,7 @@
+>  #include <linux/psi.h>
+>  #include <linux/cpuset.h>
+>  #include "page_alloc.h"
+> +#include <linux/node_private.h>
+>  #include "internal.h"
+>  
+>  #ifdef CONFIG_COMPACTION
+> @@ -2462,7 +2463,7 @@ bool compaction_zonelist_suitable(struct alloc_context *ac, int order,
+>  		    !__cpuset_zone_allowed(zone, gfp_mask))
+>  			continue;
+>  
+> -		if (node_is_private(zone_to_nid(zone)))
+> +		if (!node_allows_reclaim(zone_to_nid(zone)))
+>  			continue;
+>  
+>  		/*
+> @@ -2856,7 +2857,7 @@ enum compact_result try_to_compact_pages(gfp_t gfp_mask, unsigned int order,
+>  			!__cpuset_zone_allowed(zone, gfp_mask))
+>  				continue;
+>  
+> -		if (node_is_private(zone_to_nid(zone)))
+> +		if (!node_allows_reclaim(zone_to_nid(zone)))
+>  			continue;
+>  
+>  		if (prio > MIN_COMPACT_PRIORITY
+> @@ -2928,7 +2929,7 @@ static int compact_node(pg_data_t *pgdat, bool proactive)
+>  		.proactive_compaction = proactive,
+>  	};
+>  
+> -	if (node_is_private(pgdat->node_id))
+> +	if (!node_allows_reclaim(pgdat->node_id))
+>  		return 0;
+>  
+>  	for (zoneid = 0; zoneid < MAX_NR_ZONES; zoneid++) {
+> @@ -3026,7 +3027,7 @@ static ssize_t compact_store(struct device *dev,
+>  {
+>  	int nid = dev->id;
+>  
+> -	if (node_is_private(nid))
+> +	if (!node_allows_reclaim(nid))
+>  		return -EINVAL;
+>  
+>  	if (nid >= 0 && nid < nr_node_ids && node_online(nid)) {
+> diff --git a/mm/damon/paddr.c b/mm/damon/paddr.c
+> index c741a94319750..b668cf55d1b67 100644
+> --- a/mm/damon/paddr.c
+> +++ b/mm/damon/paddr.c
+> @@ -251,8 +251,8 @@ static unsigned long damon_pa_pageout(struct damon_region *r,
+>  			continue;
+>  		}
+>  
+> -		/* private node memory is not reclaimable by default */
+> -		if (folio_is_private_node(folio))
+> +		/* DAMOS pageout is reclaim; gate a private node on CAP_RECLAIM */
+> +		if (!node_allows_reclaim(folio_nid(folio)))
+>  			goto put_folio;
+>  
+>  		if (damos_pa_filter_out(s, folio))
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 1df91b4e5c2bc..cebc89eb0541f 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -2340,7 +2340,7 @@ bool madvise_free_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
+>  
+>  	folio = pmd_folio(orig_pmd);
+>  
+> -	if (folio_is_private_node(folio))
+> +	if (!node_allows_reclaim(folio_nid(folio)))
+>  		goto out;
+>  
+>  	/*
+> diff --git a/mm/internal.h b/mm/internal.h
+> index 85c460296cea1..8329034ae561f 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -110,6 +110,19 @@ static inline bool page_is_private_managed(struct page *page)
+>  	return folio_is_private_managed(page_folio(page));
+>  }
+>  
+> +/*
+> + * folio_allows_madvise() - may madvise reclaim hints act on this folio?
+> + *
+> + * madvise reclaim hints (COLD/PAGEOUT/FREE) are userland-driven reclaim, so
+> + * they follow reclaim opt-in: false for ZONE_DEVICE and for N_MEMORY_PRIVATE
+> + * nodes without CAP_RECLAIM, true for all other normal folios.
+> + */
+> +static inline bool folio_allows_madvise(struct folio *folio)
+> +{
+> +	return !folio_is_zone_device(folio) &&
+> +	       node_allows_reclaim(folio_nid(folio));
+> +}
+> +
+>  /*
+>   * folio_allows_longterm_pin() - may this folio be long-term GUP-pinned?
+>   *
+> diff --git a/mm/madvise.c b/mm/madvise.c
+> index 29f35a23919a0..56ca974542707 100644
+> --- a/mm/madvise.c
+> +++ b/mm/madvise.c
+> @@ -396,7 +396,7 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
+>  
+>  		folio = pmd_folio(orig_pmd);
+>  
+> -		if (folio_is_private_node(folio))
+> +		if (!node_allows_reclaim(folio_nid(folio)))
+>  			goto huge_unlock;
+>  
+>  		/* Do not interfere with other mappings of this folio */
+> @@ -478,7 +478,7 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
+>  			continue;
+>  
+>  		folio = vm_normal_folio(vma, addr, ptent);
+> -		if (!folio || folio_is_private_managed(folio))
+> +		if (!folio || !folio_allows_madvise(folio))
+>  			continue;
+>  
+>  		/*
+> @@ -707,7 +707,7 @@ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
+>  		}
+>  
+>  		folio = vm_normal_folio(vma, addr, ptent);
+> -		if (!folio || folio_is_private_managed(folio))
+> +		if (!folio || !folio_allows_madvise(folio))
+>  			continue;
+>  
+>  		/*
+> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+> index be230ac9efe5a..1f42ed303366c 100644
+> --- a/mm/memory_hotplug.c
+> +++ b/mm/memory_hotplug.c
+> @@ -1237,8 +1237,7 @@ int online_pages(unsigned long pfn, unsigned long nr_pages,
+>  	/* reinitialise watermarks and update pcp limits */
+>  	init_per_zone_wmark_min();
+>  
+> -	/* Private nodes opt-out of reclaim/compaction by default */
+> -	if (!node_is_private(nid)) {
+> +	if (node_allows_reclaim(nid)) {
+>  		kswapd_run(nid);
+>  		kcompactd_run(nid);
+>  	}
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 2b08bea2379a9..2667a4564b7ac 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -6667,7 +6667,7 @@ static void __setup_per_zone_wmarks(void)
+>  		u64 tmp;
+>  
+>  		spin_lock_irqsave(&zone->lock, flags);
+> -		if (node_is_private(zone_to_nid(zone))) {
+> +		if (!node_allows_reclaim(zone_to_nid(zone))) {
+>  			zone->_watermark[WMARK_MIN] = 0;
+>  			zone->_watermark[WMARK_LOW] = 0;
+>  			zone->_watermark[WMARK_HIGH] = 0;
+> diff --git a/mm/vmscan.c b/mm/vmscan.c
+> index 86b2334c23b98..f1722693ac2db 100644
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -5396,6 +5396,21 @@ static const struct attribute_group lru_gen_attr_group = {
+>   *                          debugfs interface
+>   ******************************************************************************/
+>  
+> +/*
+> + * Nodes the lru_gen debugfs interface lists: ordinary memory nodes plus any
+> + * N_MEMORY_PRIVATE nodes opted into reclaim.  run_cmd() already accepts the
+> + * latter, so keep the listing in sync with what it accepts.
+> + */
+> +static void lru_gen_seq_nodes(nodemask_t *nodes)
+> +{
+> +	int nid;
+> +
+> +	*nodes = node_states[N_MEMORY];
+> +	for_each_node_state(nid, N_MEMORY_PRIVATE)
+> +		if (node_allows_reclaim(nid))
+> +			node_set(nid, *nodes);
+> +}
+> +
+>  static void *lru_gen_seq_start(struct seq_file *m, loff_t *pos)
+>  {
+>  	struct mem_cgroup *memcg;
+> @@ -5407,9 +5422,11 @@ static void *lru_gen_seq_start(struct seq_file *m, loff_t *pos)
+>  
+>  	memcg = mem_cgroup_iter(NULL, NULL, NULL);
+>  	do {
+> +		nodemask_t nodes;
+>  		int nid;
+>  
+> -		for_each_node_state(nid, N_MEMORY) {
+> +		lru_gen_seq_nodes(&nodes);
+> +		for_each_node_mask(nid, nodes) {
+>  			if (!nr_to_skip--)
+>  				return get_lruvec(memcg, nid);
+>  		}
+> @@ -5431,16 +5448,18 @@ static void *lru_gen_seq_next(struct seq_file *m, void *v, loff_t *pos)
+>  {
+>  	int nid = lruvec_pgdat(v)->node_id;
+>  	struct mem_cgroup *memcg = lruvec_memcg(v);
+> +	nodemask_t nodes;
+>  
+>  	++*pos;
+>  
+> -	nid = next_memory_node(nid);
+> +	lru_gen_seq_nodes(&nodes);
+> +	nid = next_node(nid, nodes);
+>  	if (nid == MAX_NUMNODES) {
+>  		memcg = mem_cgroup_iter(NULL, memcg, NULL);
+>  		if (!memcg)
+>  			return NULL;
+>  
+> -		nid = first_memory_node;
+> +		nid = first_node(nodes);
+>  	}
+>  
+>  	return get_lruvec(memcg, nid);
+> @@ -5509,10 +5528,12 @@ static int lru_gen_seq_show(struct seq_file *m, void *v)
+>  	struct lru_gen_folio *lrugen = &lruvec->lrugen;
+>  	int nid = lruvec_pgdat(lruvec)->node_id;
+>  	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
+> +	nodemask_t nodes;
+>  	DEFINE_MAX_SEQ(lruvec);
+>  	DEFINE_MIN_SEQ(lruvec);
+>  
+> -	if (nid == first_memory_node) {
+> +	lru_gen_seq_nodes(&nodes);
+> +	if (nid == first_node(nodes)) {
+>  		const char *path = memcg ? m->private : "";
+>  
+>  #ifdef CONFIG_MEMCG
+> @@ -5612,7 +5633,9 @@ static int run_cmd(char cmd, u64 memcg_id, int nid, unsigned long seq,
+>  	int err = -EINVAL;
+>  	struct mem_cgroup *memcg = NULL;
+>  
+> -	if (nid < 0 || nid >= MAX_NUMNODES || !node_state(nid, N_MEMORY))
+> +	if (nid < 0 || nid >= MAX_NUMNODES ||
+> +	    !(node_state(nid, N_MEMORY) ||
+> +	      (node_is_private(nid) && node_allows_reclaim(nid))))
+>  		return -EINVAL;
+>  
+>  	if (!mem_cgroup_disabled()) {
+> @@ -6145,7 +6168,7 @@ static void shrink_node(pg_data_t *pgdat, struct scan_control *sc)
+>  	 * Private nodes do not support reclaim by default, filtering here
+>  	 * captures all normal reclaim paths that may attempt eviction.
+>  	 */
+> -	if (node_is_private(pgdat->node_id))
+> +	if (!node_allows_reclaim(pgdat->node_id))
+>  		return;
+>  
+>  	if ((lru_gen_enabled() || lru_gen_switching()) && root_reclaim(sc)) {
+> @@ -6758,6 +6781,16 @@ unsigned long mem_cgroup_shrink_node(struct mem_cgroup *memcg,
+>  	return sc.nr_reclaimed;
+>  }
+>  
+> +static struct zonelist *memcg_reclaim_zonelist(int nid, gfp_t gfp_mask)
+> +{
+> +	unsigned int aflags = ALLOC_DEFAULT;
+> +
+> +	if (unlikely(!nodes_empty(node_states[N_MEMORY_PRIVATE])))
+> +		aflags = ALLOC_ZONELIST_PRIVATE;
+> +
+> +	return select_zonelist(nid, gfp_mask, aflags);
+> +}
+
+
+I applied this code change and notice in mem_cgroup_shrink_node(), it calls
+shrink_lruvec() directly and never passes through shrink_node().
+
+This patch makes private nodes reachable through memcg reclaim zonelist, but
+what prevents the direct per-node memcg path from reclaiming a private node
+that has not set NODE_PRIVATE_CAP_RECLAIM ?
+
+--Richard
+
+
+> +
+>  unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
+>  					   unsigned long nr_pages,
+>  					   gfp_t gfp_mask,
+> @@ -6784,7 +6817,8 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
+>  	 * equal pressure on all the nodes. This is based on the assumption that
+>  	 * the reclaim does not bail out early.
+>  	 */
+> -	struct zonelist *zonelist = node_zonelist(numa_node_id(), sc.gfp_mask);
+> +	struct zonelist *zonelist = memcg_reclaim_zonelist(numa_node_id(),
+> +							   sc.gfp_mask);
+>  
+>  	set_task_reclaim_state(current, &sc.reclaim_state);
+>  	trace_mm_vmscan_memcg_reclaim_begin(sc.gfp_mask, 0, memcg);
+> -- 
+> 2.53.0-Meta
+> 
+> 
