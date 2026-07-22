@@ -1,208 +1,218 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011004.outbound.protection.outlook.com [40.107.208.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F392435C6B9;
-	Wed, 22 Jul 2026 18:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.4
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784746681; cv=fail; b=lPmW/zn1H+cwXORyN+c8vPxAQbqUn1Qsz0OgPtLhjx88vwljgtCMzKczFT2ja9uS9XGbNXHUvS8I/FhYBRU6wG7a1OE5RJZJVFqLPguetipbm5ZcJsrWsq8TXVZOzUTxwz0Gcwrz2MC1tdZJfKcHS68NBT7UXmVQCAQSaCItXaU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784746681; c=relaxed/simple;
-	bh=DrM9YJozpDWQ9QnVGeXoupCZer0nM5Nw8jdb2cWSymY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=b8zW2gaM6+dwrqTJQ/3eWLlM81mG1CJPlGYTYMclkw958JuYRFcU0ALR1JOQwLq46owsWa2QxPoFDpew8k1xYUl4VDj/M8TfNio1vOvvGoT2B0JZ11pqayk1XSrTPSjK3Uvy1IuFYKTZPj3wGpbr+g4LYEL83R7xaMs1lG0iM0g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=J/Dbd0/h; arc=fail smtp.client-ip=40.107.208.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3211383999
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 18:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784746686; cv=none; b=Pw9hCiIBjL9Ew7FcustmO4AAoG1PZ55FFrUtaSkbdHTEgQ6Jr356wNrUX89X365J1YB3Qj1ydslnmzuXxgqdpDkK4m+zff/J0o9Q7WF0A9NRblXpXw8FVZzRwf2jb35jzBowBfobQ+S9SQmZ1QtTVfLeH4vZ9nY9DeRqd4m7Gvk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784746686; c=relaxed/simple;
+	bh=hTxnvCCR3zR+4xEII5otMAMtiwZ/u8ZxjcxhCkNWxJU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MXaVeSMhHLltwPnzu0g/IGkOiISbm3YquaHOJuI+tFz40c1AO+5kQj6G7rm/jgAr9c8cy9ht14I+CLKXyCc69CXCFs0lYHlt0BYJJy+JF59mRv0rM4ETLqg3m9Fd4emZUzY/Riu7XhLWksgkrCsac/fW2kcX4AvOMcbx5rLu86o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F6le+HOX; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="J/Dbd0/h"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yqwqAOAuwDNMYKqGPv73/DfhCNPwX3DdfYsm6hHxezrtMBGBUngt0iLLK3GOlEdJyWoWeE5J9/BhJRwjWCp3hOGTVUNoiNedwxxHssgD61gZ/V5BoecemClwGqOGfxh+jX/wuNetmtLxq+lzNeeRB26INy5mxuzIKeT0DuNPwAVgcHpsn4uc8JO9gD5eSv/SIhmforV6uIkQ8hoT27ddlDCECYgipTxAjHdNO8fG/E+jwSCP0xPu8knkXz7VExRRz3Dfdyu0iWnpbD0UirQ4HlYmebVZCBX6pOy0wRY6QU8cor4cmvCtrjaIwntBOwylGeI6dbtK+X9F1vJTieah/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CX8i7FbDHjoLET5/UZuYmEvLMLYGtL9pMrNjlWbLnaE=;
- b=wcvxsGXK1+bchALbubLluz6xSmA8O7qFVmk/ohgWbURK8+BH27e9b/O/bJ7dGL66TLRee3DceFSp5kciDzbhoVZL/feJFZg9rfUxZ4PGyscRaIrJ54PtE7wUccvklqXAKJR4mDPv3GqADGb/13wzF2zAkr6I3AOKKm62GDD5oEY3FQz+liuitncuRW3h7JjqAN8f2Ql6uQADJNk5nty/3SfXyKyRoYxZnDSGyLo+7/xrqy5ai+d1K2lxLD/pVS7fpQOjM3rl0AQ7+Du4+ieB+YMJMsZjaSqIVIYeWgPu8NJhcLVwgpgWEoQrzyNK++PtHJYucUBI1pvSvY5m//oBPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CX8i7FbDHjoLET5/UZuYmEvLMLYGtL9pMrNjlWbLnaE=;
- b=J/Dbd0/hOnH42kJ3jRsgsJYlT5u1mq1Xb4dAOyufkDOOncW4kGyLiT9U3tjMS36qGwhj1l9eg31/Z9if5/omeFqpY9XOVDdldGB+oRVlOU6Z284sg0vh71MCJDO2l8hMuQ21ihVzUw8034V80XbbDrX8bhQK4CANT9fdUPnYHddpmK+i1iqeeqiF4dHltZZrT95bH5r2XgkgDFJXXL6akMQKj+JOSR4I6ZnXxrutnNKJo016ZH2VnBc8Ly+Uo3pfpJJWbIw6E/iKXWZss94ZCMbMFlfEEnGDW14szBL4JCn2yt2FqcvOuDVN7JoRvXchCT7yEgsNoK7kAaZR+0MOsw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
- BN3PR12MB9572.namprd12.prod.outlook.com (2603:10b6:408:2ca::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
- 2026 18:57:43 +0000
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8%4]) with mapi id 15.21.0245.009; Wed, 22 Jul 2026
- 18:57:43 +0000
-Message-ID: <4ad4c2f0-aa6b-435d-b649-a8320a418730@nvidia.com>
-Date: Wed, 22 Jul 2026 11:57:40 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/5] selftests/mm: make file helpers return errors
-To: Sarthak Sharma <sarthak.sharma@arm.com>,
- "David Hildenbrand (Arm)" <david@kernel.org>, Mark Brown <broonie@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Peter Xu <peterx@redhat.com>,
- Leon Romanovsky <leon@kernel.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>,
- Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260716123226.197736-1-sarthak.sharma@arm.com>
- <20260716123226.197736-2-sarthak.sharma@arm.com>
- <b66c233a-7956-461a-a3d8-3421c76c937a@kernel.org>
- <004e11f5-ab21-479d-80a3-64ab89465b85@sirena.org.uk>
- <cefe62b7-0167-46c1-9fe3-fe7efee90a7e@kernel.org>
- <cd539861-5f98-4906-8e36-f2a5a70687a5@arm.com>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <cd539861-5f98-4906-8e36-f2a5a70687a5@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR21CA0022.namprd21.prod.outlook.com
- (2603:10b6:a03:114::32) To DM3PR12MB9416.namprd12.prod.outlook.com
- (2603:10b6:0:4b::8)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F6le+HOX"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-848643382fcso13854714b3a.1
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 11:58:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784746677; x=1785351477; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wj+1LGqAFiJSD/N1c7ShfQVKFXacB+69/Yy7TCDPawc=;
+        b=F6le+HOXvP/ZOuVPNPFYtKS5tNYZPCBuhXrXPgC+qvmwhOiU5p2PlJszAvuHUSFQsg
+         IK1NrpoasQbk5UzPwgHEj0M0SF4uoP51aYUe/684EEEy1hPUEVKFl+qRPL4WKUZtfc/t
+         Jc8KXONcVGQesFnCFPRUovrD2KR8oZczetsekeQahnZW9WggSAE8b69iVg53GHczoISM
+         67WhKTLp1uDqEqJ2EPp4xXvWdQCAh/MWgtw2kfmVmCPDuRJQiLJ7z7VHnPhnStofxsqw
+         U4lFoM2Ec4cy5taEgWUfj6SC93XPCl/gnLo8gTgY25UGZME9hZeWaa7GwoDDi6BYn9/K
+         Nsdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784746677; x=1785351477;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=wj+1LGqAFiJSD/N1c7ShfQVKFXacB+69/Yy7TCDPawc=;
+        b=dBKzl30kMRkkiKqkIqGvGUqdZVUFV8PPKhh3GJ/CGy2pXgAevJN9uTHezHTlzQ6a9j
+         vwLKipHpaCprn8K7aNNHKTZzgd025+1TC7+IZi0NQFtTosZzPRTPXogXsInTHJhoXnqB
+         HBne8YGcfM//3vxgEFqdwAUCn9BravFSX63WqU/OQLZfW66izMcGlpxtLj0nveGDOoGO
+         b7ggybX+gYwDsIygqF+iJ9/RyjPFs8WHeLSfDBeo1X9KnFUI2rXUfnjMvkDLT1iUZCtp
+         uBrBJUu2+nhT+/FrgbpkhnFq0+aGgrSVaN+DZaSXsUFYFIHMswsKa3YxcGAvBl982l7X
+         Cahg==
+X-Gm-Message-State: AOJu0YyhQ6wCz0comnYfOcA2mAUiofEDRGCDMQS94J73W1don8i1MpjS
+	vBZLatkOzUbA/lCLPgjTEu7NBW0+IQSOTgNQXH4mfTMvFOlTfPG+btGe
+X-Gm-Gg: AR+sD13awVWX1E9HnB/pVMptmUujz+Tx18aofc7se1ti0AHowSFskQRgyrOFvV3diU9
+	VEAdRAfw+/j7UKvcXZNi9wFJMAbaYwuF6w6BKnqTPFvEX3/S8ikEkS8t7WxueT7FH1BQc4D5byV
+	IpVaYaq3V6gl0pMVh6Wv7LaLo1VaL8UEjfbZBKnR0IsvnW15GNu629vXcuErBAG3NQ/fzvhFOqM
+	MIhvPBVn+RV6VqRIVeo4KEb6v7gwt8+RHrsav3wCQ4WjFSFF1QHowdxuBUcaf5m0xH9iusKI2K+
+	AQ/36K7ZhnDLx2+7ZhwuGi34KfgtTs85ww+PTkZmmz0CNgYo9kqeDLJgFD+eCBD8QS5wJYmbquH
+	mJdnnuuZP0KAeQbuOjicpvzpemUj8SXtB6SXcFH/V5VP3/nFSU6+Uik/zGh9bkWbCk+rdScR2IC
+	+3HZnuAzAs3qs/I89MLjQzCBJ3MA==
+X-Received: by 2002:a05:6a00:b48:b0:848:7443:f2de with SMTP id d2e1a72fcca58-84e2bbe8f2amr109545b3a.13.1784746677083;
+        Wed, 22 Jul 2026 11:57:57 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e17236c6fsm1827827b3a.5.2026.07.22.11.57.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 11:57:56 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+To: Hardware Monitoring <linux-hwmon@vger.kernel.org>
+Cc: linux-doc@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>,
+	Manaf Meethalavalappu Pallikunhi <manaf.pallikunhi@oss.qualcomm.com>
+Subject: [RFT PATCH] hwmon: Add support for currX_emergency and inX_emergency attributes
+Date: Wed, 22 Jul 2026 11:57:49 -0700
+Message-ID: <20260722185749.2313572-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|BN3PR12MB9572:EE_
-X-MS-Office365-Filtering-Correlation-Id: fb19e792-206e-4a4d-daca-08dee8231c37
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|7416014|22082099003|18002099003|6133799003|4143699003|10067099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	Utsb440LDfw+IEfIrNFoy3e5ai14fIKtcQBNfmUKx+7F80zv48fCOpiZ0MNXnbAvtMrKMoABC7cvZnkxLHqMzVckFuavlNSCuShyN+Pc6TJEunaouCEZ1iX67UQEo5Qh8A0pqApi3jKQl29K5C7rtjDzxM249QiBteVg7W1rdcmBjNS3pO4Bcs1OTFz6HsPUGG5vBKtuI8Q/2qHStHsD238A3SwP0unOExtlJKPMkLCQyIslMhs+8rV0sB3Ld59fkY9JIMLe1SFWDvwdQ/CMW++lm2Hv+cHfSWwxs4wHqIvzBJvUoLzBSoGdLVBa4uUdxFDN79sKFDIAQl1jn8217PXg3i1afPrgwQOHGJueyW4Tw7fCUiwF8G9TDi/ZwPdJB1H08XHBwElc9w2txX1ea7BVfDo6Oya5cB0Xu2UZtgiSrBQnbuyIbq/q6UjIOqq/WdB+inqzcMm5t2ezC0IGDuo8UW9Olq/EkO6bxQajGAFZ8qPHEPfOX75TXGD62CndvC8zAEtASfJ90npSYMeVK5zym0KW7c9qFKn86sTqIAbkKmWGxVLeca4H0wxSpVsCO8xhl0lc99GBRT/Kr4SY7lBdc5WrQ2RxlchHDAG53RltfCTaIFByV7TGjzXrhLX318NRykije77A/YM10GHw1IuLaRPXqiL7x9MnOnTY8bI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR12MB9416.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(7416014)(22082099003)(18002099003)(6133799003)(4143699003)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bUlkdHV5eU10L0NDZStxNmRxZmNIbkg1bW5GMmh5ME8rdkZLelBFOEdyb05P?=
- =?utf-8?B?Mmw4SUtqTjk4cjZ4MFo4S0dQRVNZdGVKUTZhTmZLSklOQmZ6S2txOEJQdEht?=
- =?utf-8?B?MzBzV3Jad2U1R3l2aXM2R3NXVFRCYVNxN2VpY2dGanVFeFRhNXU3S2NGTWVz?=
- =?utf-8?B?Q2M5dlByZkZZcEplZ3BDenExakx0RmZOTjRZNjNzd0orZEpzNCtVVU5yV1ZE?=
- =?utf-8?B?WHRyMU5HOS9qMEdnczF4b0pLYVFvM3hOR1c1SS9oNnFwNHpDWEVtRHFiUHlN?=
- =?utf-8?B?aHdLNXVtLzdpL0F1WGJiL29NeXd4WW9YVVJmdUI2UXV2MTJMZW9rMmR3Y0hI?=
- =?utf-8?B?YXQ5Zml3Q2tiNjRNeHRZZ1VsVzZPYTlVZDhPZUtrTzhEMWRBWi8rM1RRbEdl?=
- =?utf-8?B?Vk51MFhLTjMxa2pPOWtkUXBwR0UwQVVrRHBoUmNWQnJRQ3V6VTV0TlVseS9E?=
- =?utf-8?B?TXY4SXFSdmRIWFdiN2N4REFxTEo4L2VKK0hEVnEzM3lISXdxRFpFdzZpTi9p?=
- =?utf-8?B?c1lIVjBYZDlSb0wxYVlJTk94ZGJ5cStaeGlkUjlsRGYyZnZQS25RZjBMZitC?=
- =?utf-8?B?c1BxOS9YWm5VSDQ2cHBWbGZJTjhEeWJ1SFAzejQ2NC81WmFUcTBROXdBbmcy?=
- =?utf-8?B?WnA4MzhJcUc2eWRiRXpaQUREb3BGS1dWbjd3dityRWFsZEo4anhUcXV0S1By?=
- =?utf-8?B?MlRsa1ZFeHB0R3lQSURDTnN5bnYwTmtXUlVXNlJRRFQ2VmFBQ0F6NVQ5dk8z?=
- =?utf-8?B?dDNCNmszV1hSc01TYTZMa24yRVg1VlU0d2F4TEw2WjRsY083TFVxRDV3YzdT?=
- =?utf-8?B?SERKc0FaZSt3T2xNSXRnQm03dDE2MFhYakhMZmRXQW90WWE2eXdBeUFzYkRl?=
- =?utf-8?B?S3FOdlBNN1FLSk4vZloyV1JRaXRxOENyenFEaXg0MHU2Z0pPUmhVd1FEQnRn?=
- =?utf-8?B?NTJaeWt5U083NGhFaW9zQmV3b2hMVlRKMFord21EZVFCMVllSjhhSlFIVUhO?=
- =?utf-8?B?VU1rc0Y5TDVuRmpidzh2Q0ZpZ2NzaGFLbWV3U056TEY1WW80T2k2NGtFUUZW?=
- =?utf-8?B?WHlHOGFSTVoxc0xNWHF1QjFmNVJTcVJhYnBXUWp5SjQzeVZWdC93NVBrQ2VC?=
- =?utf-8?B?U21rMXhhUnJjN2Uwd2Zib2ZyQTJ0ajQzLzYwTHhMeGU5M3dxKzdwbVp0RUFs?=
- =?utf-8?B?Z0xRbjFlTHNCK1BtNDNSbVpPTTFHMElWTzRhd2U1VDRCVmlBaHErSEZUZVNa?=
- =?utf-8?B?MU9kalZnV2xaSzRnclZiNjIyVUhONU9aSUd5aU5kVHNvT1doK1E1K2xiZ0dx?=
- =?utf-8?B?WEdDSUptcWN4b29BeDVueDJtUVIvS3RYdFd2akhiZmJDK0tVRitaQ2FHbEM1?=
- =?utf-8?B?TXpFSFQ1TnN1ZnpJYXhjN0NhdThSakFteUxlSHJIaFgzdFFJbENKTkducnFC?=
- =?utf-8?B?dHZrSjFPTDNZc1ArQ0h1Q1F6VlJWWjBUclBiTDZHRlNrTHRTeS8xa3ZiaDlT?=
- =?utf-8?B?NGtRa0szN0pXYy8rWFY1azFSS1BvY2JJeWx1OThRTG83YUhaWUdWRExKRys1?=
- =?utf-8?B?ZGVvV0RrZHZnU2h3M2c5V3lOQkxpeGl0YXRhUHhZVVdZMkRBWFNnNzVKa3pX?=
- =?utf-8?B?K0RoT0FGcFFZT0xPNU9uWTRBUzhEUTYzcncxekI1S1BYVGZiVlFQd0g0ZDVv?=
- =?utf-8?B?amlYeTVMdjBCQmJQK3BiNGNJdzJVQWN3cEFKTnlOeS85cDZGZng3T1Y1YzE0?=
- =?utf-8?B?UkVKL3owSHlXUnQzYW82VTV0d0pmSm1NMTkyRWJzQXhzM0ZHenNteUlaeEpT?=
- =?utf-8?B?a1Z0bndxZUFCNktmaXJUdklEK1hsdmNmTWRTWXR0aUxza3FsYjdVTjBxbXJH?=
- =?utf-8?B?bzNJL0Z6OVlSR1dxc202c1YxRWNnMEZML25hL2Vqc0tyN3hvTGJ3S213OTZx?=
- =?utf-8?B?clJkY2JkTGo1VEgydk5xOFZ2WlFvZklpWUpxWFRod2FWSWZSam52S09oM3VO?=
- =?utf-8?B?Rlo0Z0N3eklIUHJyOHZyNytuY3dKQTZzTENiM1huUXozZVdNaktXMjVKbFB4?=
- =?utf-8?B?emE5M2ZtMm16Q2I3ZCtxaStxYkxWU2d2WEpCWmE5MGE1YWErSTg5Skc4NzZG?=
- =?utf-8?B?UVFoNXI2VENHSjFWWmVhQWNlN2F0VkFpYTNPbzIvanZGOWtaM0htbUlIcml2?=
- =?utf-8?B?MGg2VnVENUNXdncrT1JGSC91THFmTi8vY2MzNTdrNW1tclZhcUt1ek9kWG1n?=
- =?utf-8?B?NHdQZmhHZUttRTRWQkZWbFFiU1NRVlV4ZW05dXV4MTU3TWErTDd5RnBWZ3Fh?=
- =?utf-8?B?MXB1ZUlaK3JlRld1cTArUnorMFV4YzVJWVBLaUNRcUZuc2hCNmppUT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb19e792-206e-4a4d-daca-08dee8231c37
-X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 18:57:42.9968
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nG0ndGTVo/S1aoj1CmXSebvr6iYlWSvvDaVdpBgVF6lDPKIUlSLJnRj7EcXRxjzIDFbchFoXpjBdxNZ6jgeJGQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR12MB9572
+Content-Transfer-Encoding: 8bit
 
-On 7/21/26 10:24 PM, Sarthak Sharma wrote:
-> Hi David and Mark!
-> 
-> On 7/21/26 8:24 PM, David Hildenbrand (Arm) wrote:
->> On 7/21/26 15:48, Mark Brown wrote:
->>> On Tue, Jul 21, 2026 at 03:39:09PM +0200, David Hildenbrand (Arm) wrote:
->>>> On 7/16/26 14:32, Sarthak Sharma wrote:
->>>
->>>>>  	fd = open(path, O_RDONLY);
->>>>> -	if (fd == -1)
->>>>> -		return 0;
->>>>> +	if (fd == -1) {
->>>>> +		int err = errno;
->>>>> +
->>>>> +		printf("# %s: %s (%d)\n", path, strerror(err), err);
->>>
->>>> Shouldn't we be using
->>>
->>>> ksft_print_msg()
->>>
->>>> That does the magic "# " for us.
->>>
->>> Or ksft_perror().
->>
->>
->> Right, and if we want to move this to tools/lib/mm later, maybe we can just not
->> print anything and instead only return expressive errnos.
->>
-> 
-> Yes, we are not using ksft_* prints here because these functions move to
-> tools/lib/mm later in the series.
-> 
-> Printing errors from the helpers was suggested by Mike [1]. I also think
-> this is useful since the diagnostic handling stays at one place, instead
-> of duplicating it in every caller.
+Some hardware monitoring chips support three alarm levels for current and
+voltage measurements. Add support for currX_emergency and inX_emergency
+attributes to support such chips.
 
-This is a common pitfall. In fact, the lower ("leaf") routines, *especially*
-library-like functions that are called by disparate callers, should be
-usually be silent. 
+Cc: Manaf Meethalavalappu Pallikunhi <manaf.pallikunhi@oss.qualcomm.com>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+RFT: Waiting for an actual chip driver using the new attributes.
 
-That's because printing is a policy choice, and libraries must refrain
-from imposing that policy onto their callers.
+ Documentation/ABI/testing/sysfs-class-hwmon | 26 +++++++++++++++++++++
+ Documentation/hwmon/sysfs-interface.rst     |  6 +++++
+ drivers/hwmon/hwmon.c                       |  2 ++
+ include/linux/hwmon.h                       |  4 ++++
+ 4 files changed, 38 insertions(+)
 
-Higher up the call stack, the code has more context, and is able to
-make more informed choices about whether or not to print something.
-And when or if they do print, they may include some of that extra
-context, and so you can now see that the printing code is potentially
-different at each call site, and now you haven't actually saved any
-duplication after all by trying to centralize it.> 
-> If we want helpers to be silent, I can change them to return errors and
-> let the callers handle the diagnostics. Please let me know how I should
-> proceed here.
-> 
-> [1]
-> https://lore.kernel.org/all/178048086818.472368.16811711474077698399.b4-review@b4/
-
-thanks,
+diff --git a/Documentation/ABI/testing/sysfs-class-hwmon b/Documentation/ABI/testing/sysfs-class-hwmon
+index b185bdfc7186..42fd89305101 100644
+--- a/Documentation/ABI/testing/sysfs-class-hwmon
++++ b/Documentation/ABI/testing/sysfs-class-hwmon
+@@ -81,6 +81,18 @@ Description:
+ 		take drastic action such as power down or reset. At the very
+ 		least, it should report a fault.
+ 
++What:		/sys/class/hwmon/hwmonX/inY_emergency
++Description:
++		Voltage emergency max value.
++
++		Unit: millivolt
++
++		RW
++
++		If voltage reaches or exceeds this limit, the system is expected
++		to take drastic action such as immediate power down or reset.
++		At the very least, it should report a fault.
++
+ What:		/sys/class/hwmon/hwmonX/inY_input
+ Description:
+ 		Voltage input value.
+@@ -647,6 +659,20 @@ Description:
+ 
+ 		RW
+ 
++What:		/sys/class/hwmon/hwmonX/currY_emergency
++Description:
++		Current emergency high value.
++
++		Unit: milliampere
++
++		RW
++
++		If a current reaches or exceeds this limit, the system is
++		expected to take drastic action such as immediate power down
++		or reset. At the very least, it should report a fault.
++
++What:		/sys/class/hwmon/hwmonX/inY_input
++
+ What:		/sys/class/hwmon/hwmonX/currY_input
+ Description:
+ 		Current input value
+diff --git a/Documentation/hwmon/sysfs-interface.rst b/Documentation/hwmon/sysfs-interface.rst
+index 94e1bbce172a..e8f2a12793af 100644
+--- a/Documentation/hwmon/sysfs-interface.rst
++++ b/Documentation/hwmon/sysfs-interface.rst
+@@ -127,6 +127,9 @@ Voltages
+ `in[0-*]_crit`
+ 		Voltage critical max value.
+ 
++`in[0-*]_emergency`
++		Voltage emergency max value.
++
+ `in[0-*]_input`
+ 		Voltage input value.
+ 
+@@ -332,6 +335,9 @@ Currents
+ `curr[1-*]_crit`
+ 		Current critical high value.
+ 
++`curr[1-*]_emergency`
++		Current emergency high value.
++
+ `curr[1-*]_input`
+ 		Current input value.
+ 
+diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
+index 55a9a3ddd4aa..a07bfe7ac7db 100644
+--- a/drivers/hwmon/hwmon.c
++++ b/drivers/hwmon/hwmon.c
+@@ -621,6 +621,7 @@ static const char * const hwmon_in_attr_templates[] = {
+ 	[hwmon_in_max] = "in%d_max",
+ 	[hwmon_in_lcrit] = "in%d_lcrit",
+ 	[hwmon_in_crit] = "in%d_crit",
++	[hwmon_in_emergency] = "in%d_emergency",
+ 	[hwmon_in_average] = "in%d_average",
+ 	[hwmon_in_lowest] = "in%d_lowest",
+ 	[hwmon_in_highest] = "in%d_highest",
+@@ -644,6 +645,7 @@ static const char * const hwmon_curr_attr_templates[] = {
+ 	[hwmon_curr_max] = "curr%d_max",
+ 	[hwmon_curr_lcrit] = "curr%d_lcrit",
+ 	[hwmon_curr_crit] = "curr%d_crit",
++	[hwmon_curr_emergency] = "curr%d_emergency",
+ 	[hwmon_curr_average] = "curr%d_average",
+ 	[hwmon_curr_lowest] = "curr%d_lowest",
+ 	[hwmon_curr_highest] = "curr%d_highest",
+diff --git a/include/linux/hwmon.h b/include/linux/hwmon.h
+index 77a6f2bffcba..2cd433966723 100644
+--- a/include/linux/hwmon.h
++++ b/include/linux/hwmon.h
+@@ -134,6 +134,7 @@ enum hwmon_in_attributes {
+ 	hwmon_in_max,
+ 	hwmon_in_lcrit,
+ 	hwmon_in_crit,
++	hwmon_in_emergency,
+ 	hwmon_in_average,
+ 	hwmon_in_lowest,
+ 	hwmon_in_highest,
+@@ -156,6 +157,7 @@ enum hwmon_in_attributes {
+ #define HWMON_I_MAX		BIT(hwmon_in_max)
+ #define HWMON_I_LCRIT		BIT(hwmon_in_lcrit)
+ #define HWMON_I_CRIT		BIT(hwmon_in_crit)
++#define HWMON_I_EMERGENCY	BIT(hwmon_in_emergency)
+ #define HWMON_I_AVERAGE		BIT(hwmon_in_average)
+ #define HWMON_I_LOWEST		BIT(hwmon_in_lowest)
+ #define HWMON_I_HIGHEST		BIT(hwmon_in_highest)
+@@ -178,6 +180,7 @@ enum hwmon_curr_attributes {
+ 	hwmon_curr_max,
+ 	hwmon_curr_lcrit,
+ 	hwmon_curr_crit,
++	hwmon_curr_emergency,
+ 	hwmon_curr_average,
+ 	hwmon_curr_lowest,
+ 	hwmon_curr_highest,
+@@ -199,6 +202,7 @@ enum hwmon_curr_attributes {
+ #define HWMON_C_MAX		BIT(hwmon_curr_max)
+ #define HWMON_C_LCRIT		BIT(hwmon_curr_lcrit)
+ #define HWMON_C_CRIT		BIT(hwmon_curr_crit)
++#define HWMON_C_EMERGENCY	BIT(hwmon_curr_emergency)
+ #define HWMON_C_AVERAGE		BIT(hwmon_curr_average)
+ #define HWMON_C_LOWEST		BIT(hwmon_curr_lowest)
+ #define HWMON_C_HIGHEST		BIT(hwmon_curr_highest)
 -- 
-John Hubbard
+2.45.2
 
