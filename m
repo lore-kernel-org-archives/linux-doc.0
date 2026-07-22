@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266A7381E98;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5C442B302;
 	Wed, 22 Jul 2026 23:41:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784763680; cv=none; b=GMC1LK7KYfiWZa4gMvzP/27+CSObfEKdOEiYN0Fc9Z9wGgcUxe57U7xv/yP6D2Kdcy8Efpg6/G3Kx1pYGpa6SvrVVafNJOGxthWt4OzZQfTLDh1PgIFpkL9hBk3g50En2IdhbOCNJe96R9+mxOrJYhOVbyQs1Dvpfj+yLgu5fOA=
+	t=1784763680; cv=none; b=spxHoVa6Qq50YKeOsiEC4eNp0HtbtZJYnIm9amuqnHDlE80Ma3dHAcGlH9VZViAzNEyvTs8MlJck7iqftspRXHwkPZb96gHoyNzqDp7UI12B/GMLjasJy1kMshwbu1lpu6uJbxo+wIgVpce+GahRfP69qCRAUqWG3c9a4GkuqEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784763680; c=relaxed/simple;
-	bh=QXp1uGYftwwR09EE5b5f4pGTnNpsJYm35tb0ykFlE3s=;
+	bh=gdyXfp6oV2z7yddoLW13M8klm/MDNV0FUwUjUXRLoak=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lf2SnVovTc8GI1rS2CytNO3E2iRDUc6+dDlikeFj0bLwftKLWbgImDYGa4WcCJ0bAOFsuLHFlVK0zu4aNuMi2Ghka7maSozqfk1TBspYxdZ0rKp1kP+BXiDixzOy6Rz8s2wBxKrUPwngdS/ZeTpTHfT6GFXqvv2xjn8zRgZUIeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UbXvg1Bt; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=OMvlqVALxYS+PMSoRFFPqxiRLH/30iO7jIvR5YxvT7yTQz6udcdFlKqfwNx62EqC9/dHSHVoH6s7qf1QnZrLLtNXt6r5CypFnUvuq+uiQzLldD5JpaxtCFz7qKFkCdpndZrptTvp9HC++xnKVqrIeMyngrNfF7iw8cCLHiIjKgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z/+b1J2j; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UbXvg1Bt"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B4967C2BCF6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z/+b1J2j"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EBEE0C2BD00;
 	Wed, 22 Jul 2026 23:41:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784763679;
-	bh=QXp1uGYftwwR09EE5b5f4pGTnNpsJYm35tb0ykFlE3s=;
+	s=k20201202; t=1784763680;
+	bh=gdyXfp6oV2z7yddoLW13M8klm/MDNV0FUwUjUXRLoak=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=UbXvg1Bt1s145jeF4rWovqS58MES8avtXkEjqqPO38Xythxqu58Nh6N/44p3uyqEY
-	 cQTaCXOzR0vElWX08dLVLGKGAZhCtybDMnz+41NqkUhjmGje9/Sa5WzVlvBK5pOI2t
-	 kUtmNTfgcQQUtasT1FS3ZzrPqfbdT35lQoIRdiJV72UBpNtw1kBF2K0H/Uk12OlLb6
-	 dIjgIjT9aXfPbPTp7wvfGKVr6ojBqHfQvBHXXsvG1RwRXAk6NLL1V5LD88wjAbUweZ
-	 orFJUj+7BSCuD+h+J9vcZ/FNheljdDQ/eYrR3yXOKsUpt+Ea4jL49RRqp9EtE6AfXt
-	 KpSkSbMvgt7Xg==
+	b=Z/+b1J2jr/NLTK6eDcWdxX8SF6KLayk+pvoOrE7IGnih1EV3hEMXO4Zd6HuamfKeF
+	 SDifgvho/8/TKQgoDuzA2ZSYkS9pZ25zVo8tzL/ouRtU6pKTksopLgtD3XziJnD7HX
+	 IT1RbjcehTU3JJAXnufFjVSCU7dK0htbcOhvHxpXoSIVaku1S7dEPMIO1mEj9m6hyJ
+	 imJmB6N4r9Fq7a8ad5ltb+mHj9yGrhass7umXJ23HpzTWUgfr1kCulHvbx5egVAppE
+	 hyu1BTeifjBoIVu5wHcp0csuHPXizP8Sa007V90gfP+q5nmiX6L4maSb7SSV81DImV
+	 d3LoFfzi0sFeA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92846C4453A;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6CC6C44532;
 	Wed, 22 Jul 2026 23:41:19 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Wed, 22 Jul 2026 16:41:09 -0700
-Subject: [PATCH v4 01/16] mm: hugetlb: Track used_hpages when
- getting/putting pages from subpool
+Date: Wed, 22 Jul 2026 16:41:11 -0700
+Subject: [PATCH v4 03/16] mm: hugetlb: Use try-commit-cancel protocol for
+ memcg charge of folios
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,8 +40,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260722-hugetlb-alloc-failure-fixes-v4-1-88e8b81970dc@google.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260722-hugetlb-alloc-failure-fixes-v4-3-88e8b81970dc@google.com>
 References: <20260722-hugetlb-alloc-failure-fixes-v4-0-88e8b81970dc@google.com>
 In-Reply-To: <20260722-hugetlb-alloc-failure-fixes-v4-0-88e8b81970dc@google.com>
 To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
@@ -63,11 +63,11 @@ Cc: vannapurve@google.com, erdemaktas@google.com, linux-mm@kvack.org,
  linux-doc@vger.kernel.org, Ackerley Tng <ackerleytng@google.com>, 
  stable@vger.kernel.org
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784763678; l=15585;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784763678; l=10726;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=LjOzgnGx28MPv1Yhb1uCUnMcPrMOx9BKzeq+bcSee/E=;
- b=hd6+xuUmlxAzNJra6Q4jn1V7MPjPDpyeeckJSVaSuGFNE9zNfsKAY595pUL3NHsqR1cTzF+9x
- eo25kJ5PB+TCw5zBRMO2mJxkQy2yf2JlZADQOwOU9DhmaLFpCU6fN4N
+ bh=vqQmK3vN70VbiuGHrvYrgKdPuFJc0Ryl2R9yY2WzCMc=;
+ b=FrpFLnNeyQ3odoN5g/ynV4evoTr/eoT6mQ2NGQz780SQ4+n3wcukCV/XcDDhN/ShTiyR4BlX1
+ p8UNLtHCnEMCI5eROYm7u8CY3JSd5dEg9TehHnOB1fSlzXl16S/e3nL
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -77,373 +77,305 @@ Reply-To: ackerleytng@google.com
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-hugepage_subpool_put_pages() currently has two distinct responsibilities
-that conflict:
+Using mem_cgroup_charge_hugetlb() to charge a HugeTLB folio during page
+fault creates a reservation leak bug if the task hits its memory cgroup
+limit.
 
-1. When size is specified for the mount, max_hpages != -1: Keep track of
-   total active pages (allocated + reserved) and decrement this count
-   (used_hpages) when a page is freed or allocation fails.
-2. When min_size is specified for the mount, min_hpages != -1: Ensure we
-   don't drop below the guaranteed minimum, and restore a reservation
-   (rsv_hpages) if we do.
+When alloc_hugetlb_folio() commits the VMA reservation, the reserved
+page is removed from the reserve map. If a subsequent call to
+mem_cgroup_charge_hugetlb() returns -ENOMEM, the allocation is aborted
+and the physical folio is disposed of via free_huge_page(). However,
+because the VMA reservation was already consumed, the reservation count
+in the reserve map is lost. This causes subsequent faults in the VMA
+address range to fail with premature reservation exhaustion.
 
-This causes trouble because when allocation fails (refer to
-alloc_hugetlb_folio()) if gbl_chg = 1 (i.e. no subpool reservation was
-taken):
+Additionally, dropping the use of free_huge_folio() on the failure path
+fixes an issue where free_huge_folio() was incorrectly invoked on a
+folio with a refcount of 1, triggering refcount mismatches and kernel
+warnings.
 
-+ To keep used_hpages consistent, HugeTLB needs to call
-  hugepage_subpool_put_pages() to restore undo used_hpages being
-  incremented
-+ But can't call hugepage_subpool_put_pages() if no reservation was
-  consumed.
+To fix this, introduce a try-commit-cancel protocol for memory cgroup
+charging of HugeTLB folios, matching the architecture used by the
+hugetlb cgroup controller. Invoking mem_cgroup_hugetlb_try_charge()
+before consuming the VMA reservation ensures that if the memory cgroup
+limit is reached, the allocation is aborted cleanly without leaking
+the reservation entry or having to dispose of a partially initialized
+folio.
 
-One option would be to conditionally do subpool tracking updates outside of
-the hugepage_subpool_put_pages() function, but that would spread logic all
-over.
+An alternative would be to retain the current usage of
+mem_cgroup_charge_hugetlb() and free_huge_page(), but freeing the folio
+performs reservation management for subpools and global hstate, which
+complicates rollback in alloc_hugetlb_folio(). Using a try-commit-cancel
+protocol is more consistent with the other charging performed in
+alloc_hugetlb_folio() and easier to understand.
 
-Instead, always track used_hpages, regardless of whether a max_size was
-requested for the mount, so that the subpool always knows how many pages
-were allocated through it. Every page allocated through the subpool
-increments used_hpages, regardless of whether a reservation was taken from
-it.
-
-Conceptually, now, every allocation involving a subpool uses a page from
-the subpool, which must be returned to the subpool. Every page taken from
-the subpool tries to use a subpool reservation. Restoring a page to the
-subpool reservations only if the page was taken from subpool
-reservations. (If used_hpages >= min_hpages, the page must have not have
-been taken from the reservations.)
-
-Always tracking used_hpages provides the subpool with information of both
-used and reserved counts to make the correct decision for both max_size and
-min_size correctly.
-
-With used_hpages always tracked,
-
-+ subpool_is_free() can be simplified, such that the subpool can be
-  declared free if there are no more pages in use.
-+ open-coding in hugetlb_reserve_pages() can be removed.
-
-Also update the
-
-+ Documentation for used_hpages in the subpool struct, since it no longer
-  matters whether the used pages count against the maximum.
-+ Docstring for hugepage_subpool_{get,put}_pages
-+ Documentation to use active voice, and remove some details in favor of
-  having details documented in the docstring
-
-Also update statfs reporting. Previously, if max_hpages is negative,
-used_hpages is static at 0, so returning max_hpages - used_hpages returns
--1 and is always correct. Now, if the subpool doesn't have a maximum
-requested size, indicate no limit for free pages (-1). If it does have a
-maximum size, report the difference between the requested size and the
-number of used pages. This difference is always positive, because if the
-mount does have a maximum size, hugepage_subpool_get_pages() ensures that
-the subpool usage never exceeds the maximum.
-
-This fixes a bug in hugetlb_unreserve_pages(), where pages are returned to
-the subpool regardless of whether it consumed a reservation. The
-corresponding bug in the failure handling path of alloc_hugetlb_folio() was
-fixed in a833a693a490e.
-
-Fixes: 1c5ecae3a93fa ("hugetlbfs: add minimum size accounting to subpools")
+Fixes: 991135774c0e0 ("memcg/hugetlb: introduce mem_cgroup_charge_hugetlb")
 Cc: stable@vger.kernel.org
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- Documentation/mm/hugetlbfs_reserv.rst              |  17 +--
- .../translations/zh_CN/mm/hugetlbfs_reserv.rst     |  11 +-
- fs/hugetlbfs/inode.c                               |   8 +-
- include/linux/hugetlb.h                            |   4 +-
- mm/hugetlb.c                                       | 118 +++++++++++----------
- 5 files changed, 75 insertions(+), 83 deletions(-)
+ include/linux/memcontrol.h |  30 ++++++++++++
+ mm/hugetlb.c               |  30 ++++++------
+ mm/memcontrol.c            | 114 +++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 159 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/mm/hugetlbfs_reserv.rst b/Documentation/mm/hugetlbfs_reserv.rst
-index a49115db18c76..d244583fdcbc3 100644
---- a/Documentation/mm/hugetlbfs_reserv.rst
-+++ b/Documentation/mm/hugetlbfs_reserv.rst
-@@ -314,21 +314,8 @@ huge pages.  If they can not be reserved, the mount fails.
- The routines hugepage_subpool_get/put_pages() are called when pages are
- obtained from or released back to a subpool.  They perform all subpool
- accounting, and track any reservations associated with the subpool.
--hugepage_subpool_get/put_pages are passed the number of huge pages by which
--to adjust the subpool 'used page' count (down for get, up for put).  Normally,
--they return the same value that was passed or an error if not enough pages
--exist in the subpool.
--
--However, if reserves are associated with the subpool a return value less
--than the passed value may be returned.  This return value indicates the
--number of additional global pool adjustments which must be made.  For example,
--suppose a subpool contains 3 reserved huge pages and someone asks for 5.
--The 3 reserved pages associated with the subpool can be used to satisfy part
--of the request.  But, 2 pages must be obtained from the global pools.  To
--relay this information to the caller, the value 2 is returned.  The caller
--is then responsible for attempting to obtain the additional two pages from
--the global pools.
--
-+hugepage_subpool_get/put_pages() use the number of huge pages passed to adjust
-+the subpool 'used page' count.
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index e1f46a0016fcf..2c3e2c62f4176 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -642,6 +642,15 @@ static inline int mem_cgroup_charge(struct folio *folio, struct mm_struct *mm,
+ }
  
- COW and Reservations
- ====================
-diff --git a/Documentation/translations/zh_CN/mm/hugetlbfs_reserv.rst b/Documentation/translations/zh_CN/mm/hugetlbfs_reserv.rst
-index 20947f8bd0654..ae1f1f31477fc 100644
---- a/Documentation/translations/zh_CN/mm/hugetlbfs_reserv.rst
-+++ b/Documentation/translations/zh_CN/mm/hugetlbfs_reserv.rst
-@@ -246,15 +246,8 @@ hugepage_subpool的min_hpages字段中被跟踪。在挂载时，hugetlb_acct_me
- 被调用以预留指定数量的巨页。如果它们不能被预留，挂载就会失败。
+ int mem_cgroup_charge_hugetlb(struct folio* folio, gfp_t gfp);
++int mem_cgroup_hugetlb_try_charge(unsigned int nr_pages, gfp_t gfp,
++				  struct mem_cgroup **memcg_p,
++				  struct obj_cgroup **objcg_p);
++void mem_cgroup_hugetlb_commit_charge(struct folio *folio,
++				      struct mem_cgroup *memcg,
++				      struct obj_cgroup *objcg);
++void mem_cgroup_hugetlb_cancel_charge(unsigned int nr_pages,
++				      struct mem_cgroup *memcg,
++				      struct obj_cgroup *objcg);
  
- 当从子池中获取或释放页面时，会调用hugepage_subpool_get/put_pages()函数。
--hugepage_subpool_get/put_pages被传递给巨页数量，以此来调整子池的 “已用页面” 计数
--（get为下降，put为上升）。通常情况下，如果子池中没有足够的页面，它们会返回与传递的相同的值或
--一个错误。
--
--然而，如果预留与子池相关联，可能会返回一个小于传递值的返回值。这个返回值表示必须进行的额外全局
--池调整的数量。例如，假设一个子池包含3个预留的巨页，有人要求5个。与子池相关的3个预留页可以用来
--满足部分请求。但是，必须从全局池中获得2个页面。为了向调用者转达这一信息，将返回值2。然后，调用
--者要负责从全局池中获取另外两个页面。
--
-+它们负责所有子池的统计核算，并跟踪与子池相关联的预留。
-+hugepage_subpool_get/put_pages()函数使用传入的巨页数量来调整子池的“已用页面”计数。
+ int mem_cgroup_swapin_charge_folio(struct folio *folio, unsigned short id,
+ 				   struct mm_struct *mm, gfp_t gfp);
+@@ -1133,6 +1142,27 @@ static inline int mem_cgroup_charge_hugetlb(struct folio* folio, gfp_t gfp)
+         return 0;
+ }
  
- COW和预留
- ==========
-diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
-index 216e1a0dd0b23..26c0187340636 100644
---- a/fs/hugetlbfs/inode.c
-+++ b/fs/hugetlbfs/inode.c
-@@ -1109,8 +1109,12 @@ static int hugetlbfs_statfs(struct dentry *dentry, struct kstatfs *buf)
- 
- 			spin_lock_irq(&sbinfo->spool->lock);
- 			buf->f_blocks = sbinfo->spool->max_hpages;
--			free_pages = sbinfo->spool->max_hpages
--				- sbinfo->spool->used_hpages;
-+			if (sbinfo->spool->max_hpages == -1) {
-+				free_pages = -1;
-+			} else {
-+				free_pages = sbinfo->spool->max_hpages -
-+					     sbinfo->spool->used_hpages;
-+			}
- 			buf->f_bavail = buf->f_bfree = free_pages;
- 			spin_unlock_irq(&sbinfo->spool->lock);
- 			buf->f_files = sbinfo->max_inodes;
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 2abaf99321e90..34b9a3e1be0fa 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -38,8 +38,8 @@ struct hugepage_subpool {
- 	spinlock_t lock;
- 	long count;
- 	long max_hpages;	/* Maximum huge pages or -1 if no maximum. */
--	long used_hpages;	/* Used count against maximum, includes */
--				/* both allocated and reserved pages. */
-+	long used_hpages;	/* Used page count, includes both */
-+				/* allocated and reserved pages. */
- 	struct hstate *hstate;
- 	long min_hpages;	/* Minimum huge pages or -1 if no minimum. */
- 	long rsv_hpages;	/* Pages reserved against global pool to */
++static inline int mem_cgroup_hugetlb_try_charge(unsigned int nr_pages, gfp_t gfp,
++						struct mem_cgroup **memcg_p,
++						struct obj_cgroup **objcg_p)
++{
++	*memcg_p = NULL;
++	*objcg_p = NULL;
++	return 0;
++}
++
++static inline void mem_cgroup_hugetlb_commit_charge(struct folio *folio,
++						    struct mem_cgroup *memcg,
++						    struct obj_cgroup *objcg)
++{
++}
++
++static inline void mem_cgroup_hugetlb_cancel_charge(unsigned int nr_pages,
++						    struct mem_cgroup *memcg,
++						    struct obj_cgroup *objcg)
++{
++}
++
+ static inline int mem_cgroup_swapin_charge_folio(struct folio *folio,
+ 		 unsigned short id, struct mm_struct *mm, gfp_t gfp)
+ {
 diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 571212b80835e..36fa3fb3945d8 100644
+index 15f9c5a9f75e2..5ee1bc5c00bfe 100644
 --- a/mm/hugetlb.c
 +++ b/mm/hugetlb.c
-@@ -129,12 +129,8 @@ static inline bool subpool_is_free(struct hugepage_subpool *spool)
- {
- 	if (spool->count)
- 		return false;
--	if (spool->max_hpages != -1)
--		return spool->used_hpages == 0;
--	if (spool->min_hpages != -1)
--		return spool->rsv_hpages == spool->min_hpages;
+@@ -38,6 +38,7 @@
+ #include <linux/mm_inline.h>
+ #include <linux/padata.h>
+ #include <linux/pgalloc.h>
++#include <linux/memcontrol.h>
  
--	return true;
-+	return spool->used_hpages == 0;
- }
+ #include <asm/page.h>
+ #include <asm/tlb.h>
+@@ -2876,6 +2877,8 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+ 	int ret, idx;
+ 	struct hugetlb_cgroup *h_cg = NULL;
+ 	struct hugetlb_cgroup *h_cg_rsvd = NULL;
++	struct mem_cgroup *mem_cg = NULL;
++	struct obj_cgroup *obj_cg = NULL;
+ 	gfp_t gfp = htlb_alloc_mask(h) | __GFP_RETRY_MAYFAIL;
  
- static inline void unlock_or_release_subpool(struct hugepage_subpool *spool,
-@@ -187,13 +183,18 @@ void hugepage_put_subpool(struct hugepage_subpool *spool)
- 	unlock_or_release_subpool(spool, flags);
- }
+ 	idx = hstate_index(h);
+@@ -2935,6 +2938,11 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+ 	if (ret)
+ 		goto out_uncharge_cgroup_reservation;
  
--/*
-- * Subpool accounting for allocating and reserving pages.
-- * Return -ENOMEM if there are not enough resources to satisfy the
-- * request.  Otherwise, return the number of pages by which the
-- * global pools must be adjusted (upward).  The returned value may
-- * only be different than the passed value (delta) in the case where
-- * a subpool minimum size must be maintained.
-+/**
-+ * hugepage_subpool_get_pages - Get pages from a subpool
-+ * @spool: pointer to subpool structure (may be NULL)
-+ * @delta: number of pages to allocate or reserve
-+ *
-+ * Check and update subpool page usage counts when allocating or
-+ * reserving @delta hugepages.
-+ *
-+ * Context: Takes spool->lock using spin_lock_irq().
-+ * Return: Non-negative number of reservations that cannot be
-+ *         satisfied by the subpool, or -ENOMEM if the subpool maximum
-+ *         limit would be exceeded.
-  */
- static long hugepage_subpool_get_pages(struct hugepage_subpool *spool,
- 				      long delta)
-@@ -205,15 +206,14 @@ static long hugepage_subpool_get_pages(struct hugepage_subpool *spool,
++	ret = mem_cgroup_hugetlb_try_charge(pages_per_huge_page(h), gfp,
++					    &mem_cg, &obj_cg);
++	if (ret)
++		goto out_uncharge_cgroup;
++
+ 	spin_lock_irq(&hugetlb_lock);
+ 	/*
+ 	 * glb_chg is passed to indicate whether or not a page must be taken
+@@ -2946,7 +2954,7 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+ 		spin_unlock_irq(&hugetlb_lock);
+ 		folio = alloc_buddy_hugetlb_folio_with_mpol(h, vma, addr);
+ 		if (!folio)
+-			goto out_uncharge_cgroup;
++			goto out_uncharge_cgroup_memcg;
+ 		spin_lock_irq(&hugetlb_lock);
+ 		list_add(&folio->lru, &h->hugepage_activelist);
+ 		folio_ref_unfreeze(folio, 1);
+@@ -2973,6 +2981,9 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
  
- 	spin_lock_irq(&spool->lock);
+ 	spin_unlock_irq(&hugetlb_lock);
  
--	if (spool->max_hpages != -1) {		/* maximum size accounting */
--		if ((spool->used_hpages + delta) <= spool->max_hpages)
--			spool->used_hpages += delta;
--		else {
--			ret = -ENOMEM;
--			goto unlock_ret;
--		}
-+	if (spool->max_hpages != -1 &&
-+	    spool->used_hpages + delta > spool->max_hpages) {
-+		ret = -ENOMEM;
-+		goto unlock_ret;
++	mem_cgroup_hugetlb_commit_charge(folio, mem_cg, obj_cg);
++	lruvec_stat_mod_folio(folio, NR_HUGETLB, pages_per_huge_page(h));
++
+ 	hugetlb_set_folio_subpool(folio, spool);
+ 
+ 	if (map_chg != MAP_CHG_ENFORCED) {
+@@ -3000,21 +3011,10 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+ 		}
  	}
  
-+	spool->used_hpages += delta;
+-	ret = mem_cgroup_charge_hugetlb(folio, gfp);
+-	/*
+-	 * Unconditionally increment NR_HUGETLB here. If it turns out that
+-	 * mem_cgroup_charge_hugetlb failed, then immediately free the page and
+-	 * decrement NR_HUGETLB.
+-	 */
+-	lruvec_stat_mod_folio(folio, NR_HUGETLB, pages_per_huge_page(h));
+-
+-	if (ret == -ENOMEM) {
+-		free_huge_folio(folio);
+-		goto err;
+-	}
+-
+ 	return folio;
+ 
++out_uncharge_cgroup_memcg:
++	mem_cgroup_hugetlb_cancel_charge(pages_per_huge_page(h), mem_cg, obj_cg);
+ out_uncharge_cgroup:
+ 	hugetlb_cgroup_uncharge_cgroup(idx, pages_per_huge_page(h), h_cg);
+ out_uncharge_cgroup_reservation:
+@@ -3035,7 +3035,7 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+ out_end_reservation:
+ 	if (map_chg != MAP_CHG_ENFORCED)
+ 		vma_end_reservation(h, vma, addr);
+-err:
 +
- 	/* minimum size accounting */
- 	if (spool->min_hpages != -1 && spool->rsv_hpages) {
- 		if (delta > spool->rsv_hpages) {
-@@ -234,11 +234,19 @@ static long hugepage_subpool_get_pages(struct hugepage_subpool *spool,
+ 	/*
+ 	 * Return -ENOSPC when this function fails to allocate or charge a huge
+ 	 * page. If a standard (PAGE_SIZE) page allocation fails, the OOM killer
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 6dc4888a90f3f..0beee5c0ce93b 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -5180,6 +5180,120 @@ int mem_cgroup_charge_hugetlb(struct folio *folio, gfp_t gfp)
  	return ret;
  }
  
--/*
-- * Subpool accounting for freeing and unreserving pages.
-- * Return the number of global page reservations that must be dropped.
-- * The return value may only be different than the passed value (delta)
-- * in the case where a subpool minimum size must be maintained.
 +/**
-+ * hugepage_subpool_put_pages - Release pages back to a subpool
-+ * @spool: pointer to subpool structure (may be NULL)
-+ * @delta: number of pages to free or unreserve
++ * mem_cgroup_hugetlb_try_charge - Try to charge the memcg for a hugetlb folio
++ * @nr_pages: number of base pages to charge
++ * @gfp: reclaim mode
++ * @memcg_p: Output pointer to the charged mem_cgroup (if successful and enabled)
++ * @objcg_p: Output pointer to the charged obj_cgroup (if successful and enabled)
 + *
-+ * Check and update subpool page usage counts when freeing or
-+ * unreserving @delta hugepages.
++ * Prepares and tries to reserve the memory counter for the folio from the current
++ * task's memcg. If successful, both *memcg_p and *objcg_p are populated and their
++ * references are pinned until a subsequent call to mem_cgroup_hugetlb_commit_charge
++ * or mem_cgroup_hugetlb_cancel_charge.
 + *
-+ * Context: Takes spool->lock using spin_lock_irqsave(). May release
-+ *          and free @spool if its usage count and references reach
-+ *          zero.
-+ * Return: Non-negative number of reservations that the subpool cannot
-+ *         absorb.
-  */
- static long hugepage_subpool_put_pages(struct hugepage_subpool *spool,
- 				       long delta)
-@@ -251,19 +259,24 @@ static long hugepage_subpool_put_pages(struct hugepage_subpool *spool,
- 
- 	spin_lock_irqsave(&spool->lock, flags);
- 
--	if (spool->max_hpages != -1)		/* maximum size accounting */
--		spool->used_hpages -= delta;
-+	spool->used_hpages -= delta;
- 
- 	 /* minimum size accounting */
- 	if (spool->min_hpages != -1 && spool->used_hpages < spool->min_hpages) {
--		if (spool->rsv_hpages + delta <= spool->min_hpages)
-+		/*
-+		 * limit is the maximum number of reservations that
-+		 * can be restored to this subpool.
-+		 */
-+		long limit = spool->min_hpages - spool->used_hpages;
++ * Returns ENOMEM if the memcg is already full.
++ * Returns 0 if either the charge was successful, or if we skip charging.
++ */
++int mem_cgroup_hugetlb_try_charge(unsigned int nr_pages, gfp_t gfp,
++				  struct mem_cgroup **memcg_p,
++				  struct obj_cgroup **objcg_p)
++{
++	struct mem_cgroup *memcg;
++	struct obj_cgroup *objcg;
++	int ret = 0;
 +
-+		if (spool->rsv_hpages + delta <= limit)
- 			ret = 0;
- 		else
--			ret = spool->rsv_hpages + delta - spool->min_hpages;
-+			ret = spool->rsv_hpages + delta - limit;
- 
- 		spool->rsv_hpages += delta;
--		if (spool->rsv_hpages > spool->min_hpages)
--			spool->rsv_hpages = spool->min_hpages;
-+		if (spool->rsv_hpages > limit)
-+			spool->rsv_hpages = limit;
- 	}
- 
- 	/*
-@@ -6542,7 +6555,7 @@ long hugetlb_reserve_pages(struct inode *inode,
- 		struct vm_area_struct *vma,
- 		vma_flags_t vma_flags)
- {
--	long chg = -1, add = -1, spool_resv, gbl_resv;
-+	long chg = -1, add = -1, gbl_resv;
- 	struct hstate *h = hstate_inode(inode);
- 	struct hugepage_subpool *spool = subpool_inode(inode);
- 	struct resv_map *resv_map;
-@@ -6622,9 +6635,9 @@ long hugetlb_reserve_pages(struct inode *inode,
- 	 * the subpool has a minimum size, there may be some global
- 	 * reservations already in place (gbl_reserve).
- 	 */
--	gbl_reserve = hugepage_subpool_get_pages(spool, chg);
--	if (gbl_reserve < 0) {
--		err = gbl_reserve;
-+	gbl_resv = hugepage_subpool_get_pages(spool, chg);
-+	if (gbl_resv < 0) {
-+		err = gbl_resv;
- 		goto out_uncharge_cgroup;
- 	}
- 
-@@ -6632,7 +6645,7 @@ long hugetlb_reserve_pages(struct inode *inode,
- 	 * Check enough hugepages are available for the reservation.
- 	 * Hand the pages back to the subpool if there are not
- 	 */
--	err = hugetlb_acct_memory(h, gbl_reserve);
-+	err = hugetlb_acct_memory(h, gbl_resv);
- 	if (err < 0)
- 		goto out_put_pages;
- 
-@@ -6651,7 +6664,7 @@ long hugetlb_reserve_pages(struct inode *inode,
- 		add = region_add(resv_map, from, to, regions_needed, h, h_cg);
- 
- 		if (unlikely(add < 0)) {
--			hugetlb_acct_memory(h, -gbl_reserve);
-+			hugetlb_acct_memory(h, -gbl_resv);
- 			err = add;
- 			goto out_put_pages;
- 		} else if (unlikely(chg > add)) {
-@@ -6687,26 +6700,21 @@ long hugetlb_reserve_pages(struct inode *inode,
- 	}
- 	return chg;
- 
--out_put_pages:
--	spool_resv = chg - gbl_reserve;
--	if (spool_resv) {
--		/* put sub pool's reservation back, chg - gbl_reserve */
--		gbl_resv = hugepage_subpool_put_pages(spool, spool_resv);
--		/*
--		 * subpool's reserved pages can not be put back due to race,
--		 * return to hstate.
--		 */
--		hugetlb_acct_memory(h, -gbl_resv);
--	}
--	/* Restore used_hpages for pages that failed global reservation */
--	if (gbl_reserve && spool) {
--		unsigned long flags;
-+ out_put_pages:
++	*memcg_p = NULL;
++	*objcg_p = NULL;
++
++	if (mem_cgroup_disabled() || !memcg_accounts_hugetlb() ||
++	    !cgroup_subsys_on_dfl(memory_cgrp_subsys))
++		return 0;
++
++	memcg = get_mem_cgroup_from_current();
++	if (!memcg)
++		return 0;
++
++	objcg = get_obj_cgroup_from_memcg(memcg);
++	if (!objcg)
++		goto put_memcg;
++
++	if (!obj_cgroup_is_root(objcg)) {
++		ret = try_charge_memcg(memcg, gfp, nr_pages);
++		if (ret)
++			goto put_objcg;
++	}
++
++	*memcg_p = memcg;
++	*objcg_p = objcg;
++	return 0;
++
++put_objcg:
++	obj_cgroup_put(objcg);
++put_memcg:
++	mem_cgroup_put(memcg);
++	return ret;
++}
++
++/**
++ * mem_cgroup_hugetlb_commit_charge - Commit the memcg charge for a hugetlb folio
++ * @folio: folio being charged
++ * @memcg: Target mem_cgroup obtained from mem_cgroup_hugetlb_try_charge
++ * @objcg: Target obj_cgroup obtained from mem_cgroup_hugetlb_try_charge
++ *
++ * Finalizes the memory and statistics charging for the folio in the specified memcg.
++ * Transfers the pinned objcg reference to the folio structure (for automatic
++ * uncharging upon freeing via mem_cgroup_uncharge). Releases the try-commit reference
++ * on memcg.
++ */
++void mem_cgroup_hugetlb_commit_charge(struct folio *folio,
++				      struct mem_cgroup *memcg,
++				      struct obj_cgroup *objcg)
++{
++	if (!memcg || !objcg)
++		return;
++
++	commit_charge(folio, objcg);
++	memcg1_commit_charge(folio, memcg);
++
 +	/*
-+	 * Return all that was requested from the subpool, let subpool
-+	 * tell us the new number of reservations that need to be
-+	 * returned to the global pool.
++	 * Drop our try-commit-cancel protocol reference on memcg.
++	 * The objcg reference is TRANSFERRED to the folio by commit_charge,
++	 * so it will be put automatically by __mem_cgroup_uncharge() when
++	 * the folio is freed.
 +	 */
-+	gbl_reserve = hugepage_subpool_put_pages(spool, chg);
++	mem_cgroup_put(memcg);
++}
++
++/**
++ * mem_cgroup_hugetlb_cancel_charge - Cancel and undo a hugetlb folio memcg charge
++ * @nr_pages: number of base pages to uncharge
++ * @memcg: Target mem_cgroup obtained from mem_cgroup_hugetlb_try_charge
++ * @objcg: Target obj_cgroup obtained from mem_cgroup_hugetlb_try_charge
++ *
++ * Cancels and safely rolls back the prepared memory charge for the folio in the
++ * specified memcg. Releases the try-commit pinned references on both memcg and objcg.
++ */
++void mem_cgroup_hugetlb_cancel_charge(unsigned int nr_pages,
++				      struct mem_cgroup *memcg,
++				      struct obj_cgroup *objcg)
++{
++	if (!memcg || !objcg)
++		return;
++
++	if (!obj_cgroup_is_root(objcg))
++		refill_stock(memcg, nr_pages);
++
 +	/*
-+	 * There may be a difference between the number of
-+	 * reservations to consume and the number to restore now if
-+	 * there are multiple threads interacting with the subpool -
-+	 * restore the difference.
++	 * Drop our try-commit-cancel protocol references on both objcg
++	 * and memcg, since this mapping attempt was aborted and the folio
++	 * was never committed.
 +	 */
-+	hugetlb_acct_memory(h, gbl_resv - gbl_reserve);
- 
--		spin_lock_irqsave(&spool->lock, flags);
--		if (spool->max_hpages != -1)
--			spool->used_hpages -= gbl_reserve;
--		unlock_or_release_subpool(spool, flags);
--	}
- out_uncharge_cgroup:
- 	hugetlb_cgroup_uncharge_cgroup_rsvd(hstate_index(h),
- 					    chg * pages_per_huge_page(h), h_cg);
++	obj_cgroup_put(objcg);
++	mem_cgroup_put(memcg);
++}
++
++
+ /**
+  * mem_cgroup_swapin_charge_folio - Charge a newly allocated folio for swapin.
+  * @folio: the folio to charge
 
 -- 
 2.55.0.229.g6434b31f56-goog
