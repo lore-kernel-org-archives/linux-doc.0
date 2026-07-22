@@ -1,269 +1,147 @@
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+Received: from mail-pj2-f4.google.com (mail-pj2-f4.google.com [74.125.227.132])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74034416843
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 17:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2FEC471432
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 18:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784741469; cv=none; b=haTupeeXYkhS8qbQdaW5reYOGIaaWN4zZ0Z3U0ge1glJDE9jslTe9C2YAUXM8XnR7wFMynaJN1HKBLgdPeYeTW0D9ZZ/TLq+5YYl33avht/X42z0TGZRlH+RvTH9FrdlkV8R9uZkM8W9Kb5r6jxATMdlWkf+0rfdo9r1abjNSew=
+	t=1784743237; cv=none; b=KYqWnXtJJ5I4NqadJan+rlgBrxNngtTxOQLKXQzBY/jb02MEq7lyTZl8na7IDVXE9XVRRpDbT7irLCVJtnLKJy+EgMSfDH55GJR7YfmDyHKxcut21RDQwg+J8SRggXhqsvCSOjyyLpkaZ1q6QX2DEL+50biSc71jDy7BngljogY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784741469; c=relaxed/simple;
-	bh=yh3nwxxty+42EDVurx7iROkKSxeEI7Rnpv8icJAAzBI=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=PXPboQCQGWpydp8EIC9z6f/PIv2igf2eM7WsjOXxQWpYBHGtgVEad+vgV7xVBoU1aHHyb6qFAigFQeLiQld1M/YjOpmOSe96sPflz7dYVbyISU2rl1adUiCptxZi3S3Or4rMVhv1ans8iLchsZkzje34waC+p8x4FzuZ/ynsJA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pQ6hJiA4; arc=none smtp.client-ip=209.85.214.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1784743237; c=relaxed/simple;
+	bh=Vm9pdnoQiEjS5jrO+VcZAmAh4KLL2aDUZZ2ez/tDOZU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kfjqDM7mDrgmDZ91CgNC/PEHYaBKwnsxa9F0aGtTPcUP6ANLKoEqDe0f9gPX6+9UIMJtA315b6apmtnMQXLglt002PdRIHPfDCZ32aAH+23nVlLqSHaG8jbgVq+wx+yw5Qa7YWUqpFLnNkpaWNTRV6StNWfTzgk6hhfVwR6kUjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KOvIcX3K; arc=none smtp.client-ip=74.125.227.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pQ6hJiA4"
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2ce7dfd33ffso160531155ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 10:31:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KOvIcX3K"
+Received: by mail-pj2-f4.google.com with SMTP id d9443c01a7336-2cc7ef596c6so110013515ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 11:00:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784741468; x=1785346268; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=e0sTtp1Aj6Ox8W1SalC52QZ59OwsL2hIx36ZjzuLNzY=;
-        b=pQ6hJiA4+2lJpT6ak31+He2RaaoheOceBtpXKwm2He2sDslC8zpi96lbKL7L/lKVXG
-         YxVNge0nBEm3nTM86mN4vYdzwVwUUOzO0XERiwu4sQLicaArv5GthAuBv7RvjJqV5fnt
-         6PU49jcXcTR/qRelw1QI5tj/HXeO3m3XczQGiCjubyNDdEXOHem8QkEjwVcXNEoJ6vVo
-         7D6s0Wlo0t2PYpyzrkQqQaCysayxbWRkw/FQxfB2gmEhzaCCFTZw8Ubt8j5ppkUQStBi
-         rg4OXacLfhE+r0rXnuy2VdJaG0oQNN4yP1Q4OPObtib5YO0Tl9DawViazU5Gmb7je2FA
-         iSpw==
+        d=gmail.com; s=20251104; t=1784743235; x=1785348035; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HnNlfSj3fIGtu585qe6eLWjGneo6zvxtz8A2jHYq8n0=;
+        b=KOvIcX3Ki/9DH/Q+5M2g+Sn5rSwVtABWmBNsDuFWR0iN8/nAaKDq1BIVv+5v2kctGs
+         QnaOKR6zj/PJMwdhPNjmaUEJLPvyigqHaG48exG2TfywbyG7wuXNvSlJlQ5RMd4CPRqG
+         Sd1lgzPEP5trV5+qGfahIqOenKW+OAXMxHEWGpJJiyfFi8a+hnR6sBNl/LJdXPWhBP3b
+         /Nw5J1LIyBArYTTVINrTlXaeIJKIUi9ErdnjxwBKsxf4Y3ptGISvdSGF3QdIkeaLsH7h
+         7pPLxyM6t4uXy8cTP0QvoNCjtHZUzdcP/bzvrxpIvIeWsCTgPEaPV5Dr1Haz5hTM9v4/
+         pasw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784741468; x=1785346268;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
+        d=1e100.net; s=20251104; t=1784743235; x=1785348035;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=e0sTtp1Aj6Ox8W1SalC52QZ59OwsL2hIx36ZjzuLNzY=;
-        b=HHf3iwTxNTsGzFKZD+AO6M/FncmiuUmBKHZ2/JOtEaFbcIbvYvmkgWQJmv6lvx8o/D
-         6JnPcQaFQB+0jrZy8FPNMkyaVhsiR7kpS2mM/wmGk3FgJYuO1h/dShwAAoZtnuGZJA3e
-         dhpIvv9xk8yXZIQsiW7M+hPqkGY8vJKvqQYpwd6TKXoh82rrYCfVcgdacLersuAUVQH9
-         JdfQE7t8Mb05rncv+/RVqwAgBnLfC9YZ8+f3IoL/p3He8Q0eusTOYp/swa4u7eQbFa0H
-         rd+PfUiWxKqTrbuMMj6Guf+brpZwIv5Z4QDfKD/42SupVedleo5mUt8B05lQ2BnmCkdm
-         HZrw==
-X-Forwarded-Encrypted: i=1; AHgh+RqeuExnPvDkLuexiPtNpPAK1ev6KYXSr5v2KJ4/IJannKGxy9/dRshmdD/GSvcHqnIJECHpGAXoLZw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxufcy6gsA468m9POZo07PHDcxhmbECIH+64y9dteVp6wnVKBEh
-	RJKAdBnFV6jwUvBCIxzs+qagdn1HAKWbooZgmnUJRryF7usiThwJ5Ii3cLk7/Q9YTMy7rP4Vhps
-	Dmo2Slw==
-X-Received: from plbke5.prod.google.com ([2002:a17:903:3405:b0:2c8:1ded:d061])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:988:b0:2cc:f5aa:9513
- with SMTP id d9443c01a7336-2cf34821a87mr273375475ad.10.1784741467498; Wed, 22
- Jul 2026 10:31:07 -0700 (PDT)
-Date: Wed, 22 Jul 2026 10:31:06 -0700
-In-Reply-To: <5ef176573157b595d674cfca28923d919e54ad73.camel@intel.com>
+        bh=HnNlfSj3fIGtu585qe6eLWjGneo6zvxtz8A2jHYq8n0=;
+        b=A1NdRmwzIbdsV2U1OHmQ3hlFN9xKg6ghjL6AefzBVXdaOiAi1rORjNmrraYlByxHx5
+         4V3mwBqIpIfZ2aaEvdmbNNjmFvkxy8riY13BsIZtJqHZF9TO4Vv/B6JoREUlGYoyGGLU
+         v/2lcQ05zugqagYJREtvJz4a8YbH4erRtzh2b9Sa820SZkhr+cNiiRTIfpvDEyP0ndWG
+         Ld2qUTsZIt0/BrvFcMad83PpJWLoq/NsGAlv58VCADrPr6dnsNv5+SemnSFldKzo7tTP
+         zvyhsXOU1vh1zs3Z1PEf19bOuazd88R9SPJae2MiuLPMEnSX+eLF3TMpgFB0+lo7HSfj
+         CrYg==
+X-Forwarded-Encrypted: i=1; AHgh+Rq2RiuH9gPzWzqAkn7EKU5px5a75CYcw3PYIFbx+VnNoKP5s8E54LYq30VCn7rUJf4pnkhL9qVbh9c=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0PyHDjxZr2Qdyc8XKiV56pQR2V4oDEZYSJ0SJ7OdUjH4nNiyn
+	qpxsmlq3ebcVBADKj9LyI927YBbYG6Sit3i1XcDaI/RKTTzfr4bt99fN
+X-Gm-Gg: AR+sD10UrahnMLmUh9qCXYi9r5QfcPJtzPuPoO0eXRgnuXJDctr2ixDr+jOOxwDcBCN
+	FWn+7TNvwHeALKenCoYF5SwO3G2BQRwFGFOVoNMIFwmuQmVC3dAoPcWnXo723RVxiHC4SREJ+Mi
+	hyHst535hAAd92coa6wKZ6qSYMk8/oBZzqhzrcrjC8l9e3lMjXrlodgGzdUeTPfE9i8jobij9Tw
+	mPSmLUhW7OzbGF2RNkJokv/hWnDF7r1MumncPPxrnC5F+rYzIuggdlKnSEJIxw9+pzWcbf80n9y
+	ERL9A880nbEjz/R6ZERDpHAz7ou78+rt/+mQLoQG9e98avwV+CgAFBx39kRnSYwkwRg3w928glr
+	dSozDv2hmBZ614AA6SmGL6RXNJf/In58+CqsN9BaBcOtUUrgAyPV3tiWX74xgnVOPxgGg0w==
+X-Received: by 2002:aa7:8744:0:b0:84e:89a:b8ed with SMTP id d2e1a72fcca58-84e089ab9d8mr6443533b3a.70.1784743234973;
+        Wed, 22 Jul 2026 11:00:34 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:4::])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e17266107sm1750442b3a.17.2026.07.22.11.00.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 11:00:33 -0700 (PDT)
+Date: Wed, 22 Jul 2026 11:00:07 -0700
+From: Stanislav Fomichev <sdf.kernel@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Lorenzo Bianconi <lorenzo@kernel.org>, 
+	Donald Hunter <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, Vladimir Vdovin <deliran@verdict.gg>, 
+	Jakub Sitnicki <jakub@cloudflare.com>, netdev@vger.kernel.org, bpf@vger.kernel.org, 
+	intel-wired-lan@lists.osuosl.org, linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH bpf-next v5 8/8] selftests: net: add test for XDP_PASS
+ skb checksum invalidation
+Message-ID: <amEEEohxmC8hkBvY@devvm7509.cco0.facebook.com>
+References: <20260715-bpf-xdp-meta-rxcksum-v5-0-623d5c0d0ab7@kernel.org>
+ <20260715-bpf-xdp-meta-rxcksum-v5-8-623d5c0d0ab7@kernel.org>
+ <aljNR2sf8qJVKFgb@devvm7509.cco0.facebook.com>
+ <alkBnI3XcH0XGjEo@lore-desk>
+ <al53WS9FMTnu7tBI@devvm7509.cco0.facebook.com>
+ <20260721082728.74142e6c@kernel.org>
+ <al_4VWS_EyyZLe8z@devvm7509.cco0.facebook.com>
+ <20260721183256.6f49d6e1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260718014500.2231262-1-rick.p.edgecombe@intel.com>
- <20260718014500.2231262-9-rick.p.edgecombe@intel.com> <20260718061050.E17B01F000E9@smtp.kernel.org>
- <1417841720b8435f8fb95ac0bd95be6e0e9390d4.camel@intel.com>
- <amDd1Ip3XTvKSTcb@google.com> <5ef176573157b595d674cfca28923d919e54ad73.camel@intel.com>
-Message-ID: <amD-WjxP05qKdK-t@google.com>
-Subject: Re: [PATCH v7 08/11] KVM: TDX: Get/put PAMT pages when (un)mapping
- private memory
-From: Sean Christopherson <seanjc@google.com>
-To: Rick P Edgecombe <rick.p.edgecombe@intel.com>
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
-	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>, Kai Huang <kai.huang@intel.com>, 
-	Dave Hansen <dave.hansen@intel.com>, Yan Y Zhao <yan.y.zhao@intel.com>, 
-	Binbin Wu <binbin.wu@intel.com>, "kas@kernel.org" <kas@kernel.org>, 
-	"mingo@redhat.com" <mingo@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>, 
-	"sashiko-reviews@lists.linux.dev" <sashiko-reviews@lists.linux.dev>, 
-	"tony.lindgren@linux.intel.com" <tony.lindgren@linux.intel.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "nik.borisov@suse.com" <nik.borisov@suse.com>, 
-	"hpa@zytor.com" <hpa@zytor.com>, "tglx@kernel.org" <tglx@kernel.org>, 
-	Vishal Annapurve <vannapurve@google.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Chao Gao <chao.gao@intel.com>, 
-	"x86@kernel.org" <x86@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260721183256.6f49d6e1@kernel.org>
 
-On Wed, Jul 22, 2026, Rick P Edgecombe wrote:
-> On Wed, 2026-07-22 at 08:12 -0700, Sean Christopherson wrote:
-> > Hmm, yeah, I think I agree.=C2=A0 Super duper technically, that's a fix=
- for an
-> > existing flaw.=C2=A0 Because very, very, VERY theoretically, the cache =
-of page
-> > table pages could be exhausted.=C2=A0 E.g. if some other task managed t=
-o free non-
-> > leaf page tables while mmu_lock was dropped, thus forcing
-> > kvm_tdp_mmu_map_private_pfn() to allocate from its cache over and over.=
-=C2=A0 In
-> > practice, that's likely impossible thanks to holding slots_lock, but gi=
-ven
-> > that (a) retry should be rare and (b) kvm_mmu_topup_memory_cache()
-> > is basically free if no work needs to be done, I don't see any reason t=
-o do
-> > topup outside of the retry loop.
-> >=20
-> > The other thing we should address is the call to kvm_mmu_reload().=C2=
-=A0 Like cache
-> > exhaustion, it *should* be impossible for the root to be
-> > invalidated/obsoleted, thanks to holding slots lock.=C2=A0 But as evide=
-nced by the
-> > rash of recent shadow MMU bugs, we don't always get things perfect, and=
- lack
-> > of defense-in-depth can be *extremely* painful.
->=20
-> Should we assert that we are holding slots lock then? Otherwise the reaso=
-n for
-> the warnings would be confusing. To me at least.
+On 07/21, Jakub Kicinski wrote:
+> On Tue, 21 Jul 2026 16:03:37 -0700 Stanislav Fomichev wrote:
+> > > > For unnecessary, I think the safe expectation is that the bpf program
+> > > > will update the value of the checksum in the packet if it touches the data?  
+> > > 
+> > > Documenting as expected behavior which no driver currently follows 
+> > > is a bit silly. I thought the ask was to sketch out the plan of
+> > > explicitly updating/invalidating the checksum even if we don't
+> > > implement it today?  
+> > 
+> > This is about current drivers that only report UNNECESSARY with xdp: the xdp
+> > prog has to maintain in-packet checksum if it changes the payload. I think
+> > it's a fair assumption?
+> 
+> What about decap? If we decap the header that device validated 
+> as UNNECESSARY there's no possibility of maintaining the checksum
+> (by which IIUC you mean correcting it in along the payload changes).
+> 
+> I think we'd need some API to "decrement the csum level" ?
+> Or some heuristic in the drivers to decrement if the head moved
+> by at least len(IP+UDP) into the packet ?
 
-It's already there:
+True :-/ I guess one more case to document?
 
-int kvm_tdp_mmu_map_private_pfn(struct kvm_vcpu *vcpu, gfn_t gfn, kvm_pfn_t=
- pfn)
-{
-	struct kvm_page_fault fault =3D {
-		.addr =3D gfn_to_gpa(gfn),
-		.error_code =3D PFERR_GUEST_FINAL_MASK | PFERR_PRIVATE_ACCESS,
-		.prefetch =3D true,
-		.is_tdp =3D true,
-		.nx_huge_page_workaround_enabled =3D is_nx_huge_page_enabled(vcpu->kvm),
+> > In terms of documentation, here is what I have on my side, lmk if that makes
+> > sense, roughly:
+> > 
+> > - TODAY
+> >   - some drivers (correctly) disable reporting COMPLETE when XDP is attached
+> >     - the xdp program has to modify the packet checksum value if it
+> >       changes the payload
+> >   - some drivers (incorrectly?) report COMPLETE for xdp-to-skb path -> unsafe,
+> >     needs to be fixed
+> >     - updating the payload doesn't update skb->csum, so the safest
+> >       option right now is to only do UNNECESSARY with xdp for all drivers
+> 
+> Yes, that sounds fair.
+> 
+> >   - the hw test needs to make sure that the csum is either
+> >     NONE or UNNECESSARY, and will error out on COMPLETE
+> 
+> Driver can report COMPLETE to XDP, just not to the stack.
+> I think we can use a tracepoint (bpftrace) or attach in TCP
+> to check the skb state?
 
-		.max_level =3D PG_LEVEL_4K,
-		.req_level =3D PG_LEVEL_4K,
-		.goal_level =3D PG_LEVEL_4K,
-		.is_private =3D true,
-
-		.gfn =3D gfn,
-		.slot =3D kvm_vcpu_gfn_to_memslot(vcpu, gfn),
-		.pfn =3D pfn,
-		.map_writable =3D true,
-	};
-	struct kvm *kvm =3D vcpu->kvm;
-	int r;
-
-	lockdep_assert_held(&kvm->slots_lock);  <=3D=3D=3D=3D=3D
-
-> > I don't think I want to just move kvm_mmu_reload() into the loop, becau=
-se KVM
-> > should provide stronger guarantees with respect to the validity of the =
-loop,
-> > versus the population of the caches.=C2=A0 I.e. I want to WARN if the r=
-oot becomes
-> > obsolete after the initial reload.=C2=A0 And more importantly, KVM real=
-ly should
-> > check the validity of the root after acquiring mmu_lock.
-> >=20
-> > We can't simply call is_page_fault_stale(), because mmu_invalidate_retr=
-y_gfn()
-> > is inherently fuzzy, i.e. could get false positives, even though the pf=
-n
-> > provided by guest_memfd is guaranteed to be valid.=C2=A0 E.g. if shared=
- gfns
-> > surrounding the to-be-mapped gfn are concurrently invalidated.
-> >=20
-> > So, this?
-> >=20
-> > 	r =3D kvm_mmu_reload(vcpu);
-> > 	if (r)
-> > 		return r;
-> >=20
-> > 	do {
-> > 		if (signal_pending(current))
-> > 			return -EINTR;
-> >=20
-> > 		if (kvm_test_request(KVM_REQ_VM_DEAD, vcpu))
-> > 			return -EIO;
-> >=20
-> > 		r =3D mmu_topup_memory_caches(vcpu, false);
-> > 		if (r)
-> > 			return r;
-> >=20
-> > 		cond_resched();
-> > =09
-> > 		guard(read_lock)(&kvm->mmu_lock);
-> >=20
-> > 		if
-> > (WARN_ON_ONCE(kvm_test_request(KVM_REQ_MMU_FREE_OBSOLETE_ROOTS, vcpu)))
-> > 			return -EIO;
-> >=20
-> > 		r =3D kvm_tdp_mmu_map(vcpu, &fault);
-> > 	} while (r =3D=3D RET_PF_RETRY);
-> >=20
->=20
-> Ok. Is there something we can add to connect the slots lock to the root f=
-reeing?
-> Like maybe a helper to encode that rule? Or better to not wrap the delica=
-te
-> details? A comment instead...
-
-Ya, a comment.
-
-LOL, hilarious.  I just discovered a (not fully functional) patch sitting i=
-n one
-of my many branches that adds the is_page_fault_stale() check, with this as=
- the
-changelog:
-
-    KVM: x86/mmu: Ensure page fault isn't stale/obsolete when mapping priva=
-te PFN
-   =20
-    Add a sanity check in the helper used to map private pages into a TDX g=
-uest
-    to ensure KVM isn't attempting to map memory into an invalid/obsolete r=
-oot.
-    It _should_ be impossible for the root to be invalid, as the only flow =
-that
-    marks TDP MMU roots as invalid is "fast all zap", and doing a "fast zap=
-" is
-    mutually exclusive with populating TDX memory thanks to slots_lock (thi=
-s is
-    also why KVM doesn't retry kvm_mmu_reload()).
-   =20
-    Note, KVM will already WARN on an invalid root if CONFIG_KVM_PROVE_MMU=
-=3Dy,
-    but the check is inexpensive compared to the cost of populating memory =
-into
-    a TDX guest, and not having a is_page_fault_stale() check _looks_ wrong=
-.
-
-I'll munge that into a mini-series to add the sanity checks.  No need to ho=
-ld
-the D-PAMT series, I see this as orthogonal hardening.  I'm leaning towards=
- the
-"have our cake and eat it too" option as the final resting state:
-
-        do {
-                if (signal_pending(current))
-                        return -EINTR;
-
-                if (kvm_test_request(KVM_REQ_VM_DEAD, vcpu))
-                        return -EIO;
-
-                r =3D kvm_mmu_reload(vcpu);
-                if (r)
-                        return r;
-
-                r =3D mmu_topup_memory_caches(vcpu, false);
-                if (r)
-                        return r;
-
-                cond_resched();
-
-                guard(read_lock)(&kvm->mmu_lock);
-
-		/* Comment goes here. */
-                WARN_ON_ONCE(kvm_test_request(KVM_REQ_MMU_FREE_OBSOLETE_ROO=
-TS, vcpu));
-
-                /*
-                 * Snapshot the invalidation sequence counter after acquiri=
-ng
-                 * mmu_lock, as guest_memfd guarantees the validity of the =
-pfn,
-                 * i.e. any concurrent invalidations are guaranteed to be
-                 * irrelevant.
-                 */
-                fault.mmu_seq =3D vcpu->kvm->mmu_invalidate_seq;
-                if (is_page_fault_stale(vcpu, &fault))
-                        continue;
-
-                r =3D kvm_tdp_mmu_map(vcpu, &fault);
-        } while (r =3D=3D RET_PF_RETRY);
+No strong opinion on this, it seems easier to report the same to both
+xdp and bpf (at least initially)
