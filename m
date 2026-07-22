@@ -1,220 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E50647141A;
-	Wed, 22 Jul 2026 09:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784713521; cv=fail; b=tiEW0pjQOMz5zWU4uGIBwI4LFz7fTpJizsoW3lqbgoifN2UIKhbkC+8XdgLnnKKyukwfdYitpSHv+1eaqkuJRtCc8G8C6ujQ89CADfNx4iz8tlgijmwPeATzcyu0DwollRNY450OIAizMXYu7KXxZv2UB60Z7P1pXO7yA8JZpaM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784713521; c=relaxed/simple;
-	bh=JipqE+jfkPp/VkTsyuKaDsLCPlIcSEx67Vx3/++HJOU=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=mTXdZAn2FMiG//Iwd6mpoQz3gNRJZ9dzNuxRUxQCSZ3TlZYebRvuKE7xinrVTiZCW3/qie8a9Ngk8j3VuFDizsvYHiD2O28lMLTT1ATpULWrPBiNHMfHqGzVjpPSv36VMaV3MqcwpBSTIznaw6ysRY95nglyboP7q3q6GRi8o1I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T2nbNOyT; arc=fail smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14EDC4C0433
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 10:01:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784714466; cv=none; b=DRWLncPEYlg+zKLtpLwo5V5iBdHfYYgaXI0eq7fX/AAoYQX/n7InY7xqvqud4QrVOCzkK/+b+bIdjgov84tUAtb1nFU+QkuAIXT4V0SZwqVEA5SmGl0HE+BNdYLASVO88ZAlVfU0OyEZ1C7RGPO0CZ/afgSzHQQn7KfDlu47/wg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784714466; c=relaxed/simple;
+	bh=LB6mkfpwyuV7L4MLYcj5izjMBkynXBMZovzmhJA5To8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lFeyBoCMmsTZ8vfVPDxGMWgosXpExE3Br8rIdQU3n4FkeATD+/3C4fYrhieIYFtA+QiyLD/2CiZqf1t4M7/8hgzVvCj4Fb8dpTQVONSATXBKCykKHHEHOt8fv82BJs/1nkRwVdA7Rr8sFQ3959Ybz8yVzI3Zv3AL/ISSBc+zRQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NtRnVNsX; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T2nbNOyT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784713520; x=1816249520;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=JipqE+jfkPp/VkTsyuKaDsLCPlIcSEx67Vx3/++HJOU=;
-  b=T2nbNOyTYx8TBmuT96rqia/IR5+p4qGKBF0n9EdpYmY/Id5IF/PNiIb/
-   Ximt2klSDcFGW8nxgTlBz+QDwYqDX2TjPI/kYRlHuwea+G7yfZrKK3iH/
-   OPoscDSEigzd6Vpgn0VY9PWSPULWNqqoRJKPVINbDE2nZWbTdEuxbju0U
-   QoqAfISTIyNmVMmQKk/uEE2FSBOSCNqZQpkJ5Ri5pF/wiLOrRbuDNmlK4
-   CUeMjes+C1RMUs1SdKBeStuJJzTKB6pQy1NEpI75UoaH6Y+8AMDBgaw42
-   pPJ+tSgvL96YGyye44GWNhQK/pJZovnp9gXJ4NvZ9kpYTmCLlYECHwTuX
-   A==;
-X-CSE-ConnectionGUID: g1INllNnQgCyIDiW21UR9Q==
-X-CSE-MsgGUID: 04kFKirGRnCd6P30Em/4uQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11853"; a="87879892"
-X-IronPort-AV: E=Sophos;i="6.25,178,1779174000"; 
-   d="scan'208";a="87879892"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2026 02:45:18 -0700
-X-CSE-ConnectionGUID: 6NFil9/6THSdI0+9DSEs5g==
-X-CSE-MsgGUID: 2macCuL9RPacnbzUg9PWGw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,178,1779174000"; 
-   d="scan'208";a="253684291"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2026 02:45:17 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Wed, 22 Jul 2026 02:45:14 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Wed, 22 Jul 2026 02:45:14 -0700
-Received: from BN1PR04CU002.outbound.protection.outlook.com (52.101.56.22) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Wed, 22 Jul 2026 02:45:14 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x7RjrEDtCkugmIjZ7vEjL1v2880SfF1MHeial1YluJEAtaIA+Cs4nqQ9vlSw05DYxwQQBwpV/qgb3aXcg86QUkIK1zIxJxWK2qIOYj8XMa24X/ltCMqBB1rnU03Dh0o6BLAz9eUaF/FszYZEpxxnGtvBeN4ZhvVMBfJ+wu2GWsUYVpH+yQMI020DGTs5Y3xPQb4dQDxGQsdJDjsNfiyhNPyfrsEyvVn1clmqRa4l2K02RGN0oBY/BPwS8jtuW0hbvlzVqJj03c1GyFDrqZq3/FFquIPBixreHE8xpOIIaIuQtWJGDpzCWrzYGwvg0K+KrEE+pjP50pwi4R/fD3o1wQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=L99ra2N52L2ws31+ScPquPdjVMHvkxb06NaPWM0AERU=;
- b=yjbhJjEJSk96CxSgSHEvFQ0rDh77vDvbAbShdG6e3ed7Fo4/Gl0unAQeFtutDt0VomIAED6OPzGeljd25jXO5xSWl5YeMZvwNLfi/cukMr1TX7sauNr1ALJy5mJX2sg9Cehnd2UGXdAoGSUmNs64rZj6dJVLNzkquRtSCpMkThGY6n2vS7WdntHdL/nGpFdM7CZfmJCfQi6Gt/MgyktuNhT1g7QbPT24DeZHLARvjscgWbLEnc22y35Uryi3aJNVlEsI0id2Epzrs5cuZDJVC1/M+BDchb/SJsCRg7LCQbuYto/mG5DxgOT3wkzUVThOfgkxVdYOP7Wkw/l85yWBTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB6020.namprd11.prod.outlook.com (2603:10b6:8:61::19) by
- IA0PR11MB7790.namprd11.prod.outlook.com (2603:10b6:208:403::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
- 2026 09:45:06 +0000
-Received: from DM4PR11MB6020.namprd11.prod.outlook.com
- ([fe80::3058:1480:e4ac:5765]) by DM4PR11MB6020.namprd11.prod.outlook.com
- ([fe80::3058:1480:e4ac:5765%4]) with mapi id 15.21.0245.009; Wed, 22 Jul 2026
- 09:45:05 +0000
-Message-ID: <719cd113-11a8-463a-a145-59f2b7460a84@intel.com>
-Date: Wed, 22 Jul 2026 17:44:57 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] sched/cache: Add PR_SCHED_CACHE prctl for per-mm
- control
-To: Yangyu Chen <cyy@cyyself.name>
-CC: Tim Chen <tim.c.chen@linux.intel.com>, K Prateek Nayak
-	<kprateek.nayak@amd.com>, Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Valentin Schneider <vschneid@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, Yangyu Chen <yangyu.chen@intel.com>,
-	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, Peter Zijlstra <peterz@infradead.org>, "Ingo
- Molnar" <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, "Vincent
- Guittot" <vincent.guittot@linaro.org>
-References: <tencent_93116D14C771DC8C988C10E3C634BE0CC107@qq.com>
- <tencent_4F460FBE0B41016D2247455CEE988A90D707@qq.com>
-Content-Language: en-US
-From: "Chen, Yu C" <yu.c.chen@intel.com>
-In-Reply-To: <tencent_4F460FBE0B41016D2247455CEE988A90D707@qq.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TP0P295CA0035.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:910:4::17) To DM4PR11MB6020.namprd11.prod.outlook.com
- (2603:10b6:8:61::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NtRnVNsX"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-38759bcd877so11042062a91.2
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 03:01:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784714460; x=1785319260; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=t2FLl3EYq5a8O1kn/GPuHEqJed81QF0dAjbrMIW2Jus=;
+        b=NtRnVNsXufbSQEiIgYMkXWJGDil1rq/O3wkgtHbvcYIHnQA7zbF18cp9ryZQI1dRLe
+         Ry33/oSE+Qd7Xy0rjmI4sSDT2mdNq6NFfJ52YDc81MON2icQfrlLyD6gN27OEVxvMuXj
+         pUijKI13UcOjcOeHACiEGJ1BYKccZ0HmPwDARfS0NxHeeNQJ3mUC4bNjLxDzYnfja5e2
+         w1OTsX1uokDA0Bp/BJvp2EJUMqTNJqSNWXLJpg+vJLzBSc/yVr9WTS2xehxEj6bUR6fp
+         6CI15ch6eX2fjDDV1SHyRpKFYTEBSirY3C2azh/xcHGvila20Av3VSf7guQP/qUNAaaP
+         LhqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784714460; x=1785319260;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=t2FLl3EYq5a8O1kn/GPuHEqJed81QF0dAjbrMIW2Jus=;
+        b=WEvsN98+lH+FFzball6UiM8glJXFBDnZXxc/c4c/m11nO3t4EZgkZqvIRM9csz+jxy
+         hue/PB0mK933kNydlsSZUhGTaDW6qYShyL9DZc4GI7F4TjNK7rNrUXWm9MeWQDun3/QV
+         dm2d7uW++J7OEzWaI9ctljMNn5aMRTP1gx20vQA7wUuAjfOGybyKUUq+eyK3xR5HtB/k
+         0RJNgkjOKHm56hRM65e8ti102k0DIAGTnQ3BrNXL35Au7AQXNDxIzYHlfoNNf1Qu7BAh
+         koQLSXrm/upS7I+EzInhAuAWMunHhisBLNuYHHxXy2N3j2wOcy/1YJYsh0XXLq39n14J
+         zT8A==
+X-Forwarded-Encrypted: i=1; AHgh+RpGZkiHUmAGrlXWoFJUKStAlDVQJZpz4qTgkzDqVYStgYFNScRWChh1YK5l/w9XWG5e6mBDjQmvmXc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6XIK3rER4TtgNHvVOEzEzXdI+KpoGitGsmovXlelcW6HDYtih
+	8GmLORTXPVd3mtWRh6RjXI+ZG1sTvNWaPtxgmijtfEyTul8X4aoyZjpU
+X-Gm-Gg: AR+sD11/ls3MwXH1Ca0HcoqOUzfnRFjJRT3yVh2mPbdoaXGvCo83opkQwGYSrgqUXOa
+	T1xvDZ7UKzTVZqcHfjI5x7Hf/aBIWRwF2MJrHDsARDSTr21HVMgbSNDrCg6yorE0+zqtT9RSTpZ
+	+xjFSUL1FU2Yj2ncS5nBgkOIoozv5zr00KfDSdszLARx+iOX7kfBo5ojz3pf5pwqGo6uS05ByZP
+	er58OKoOfsc6N39gHSU+tan6ovat7ciW9Uvp14czRpqQPwxV7Sl6fpWK1xyhReV9tC1mrNIz7YI
+	dXVegLbvEhMCBIQLnBvghP/XuPNVdzXuT5e+QpuY5zdZhlyafzzJUhM3zRsGE7fqx0xEOjrebhz
+	Sx3BWFVRoYGiEuT8h4D0FGz8utkkWBv50GgcnFnY5/fvFzBDQKpy39UN5jFio/H12RKaUEVVngx
+	4HryiP+NKcpjRss5bJVDNKrBnNCiUAq4zwyAaRQeOBfip3BKo6aj5TYxcVryZfzm8pIblr/fBPk
+	yr7LdLZGnFyVetBQsQOE4VihvLYKrTL1X7X99BqBaXcr5iGDfM=
+X-Received: by 2002:a17:90b:180e:b0:38e:97f0:aa4b with SMTP id 98e67ed59e1d1-38e97f0ab08mr5103948a91.13.1784714460027;
+        Wed, 22 Jul 2026 03:01:00 -0700 (PDT)
+Received: from localhost.localdomain ([240e:391:eb4:a950:4453:203b:e14c:36ea])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38eb2eb81d4sm189514a91.14.2026.07.22.03.00.56
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 22 Jul 2026 03:00:59 -0700 (PDT)
+From: cuishuang <imcusg@gmail.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev
+Cc: dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	wangyuli@aosc.io,
+	kezijie@leap-io-kernel.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] docs/zh_CN: Add configurable error injection translation
+Date: Wed, 22 Jul 2026 18:00:53 +0800
+Message-ID: <20260722100053.71691-1-imcusg@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB6020:EE_|IA0PR11MB7790:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6b8dd5a3-fcd8-4948-196a-08dee7d5e902
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014|23010399003|11063799006|4143699003|56012099006|10067099003|18002099003|22082099003|3023799007;
-X-Microsoft-Antispam-Message-Info: TADB1/jkQW/SiRMicfSk++PvdI6lxzykYPdGjik6ORHV8cY2GbiNhZ1oFKTFcSEtEgJEMUPtsmbudk5zJiHHuOCU20PaYL7MSxLogchxNQv3hIba8Qs5gDrigm6Bj+kHbDRDuZxg4k3ubqpPX+lY7cf9bS0Ka5pCa2DKrQdnf7xpEGTz6bIbd4c4OQl8fS2O/OMAVrpHFdurpVazeWqy7W3/tnDl74D4LfT418SsQjEHLYcXdhq2aQsJvYGoF9MzxyM34JoJe5UJV9sVdGNu+w/spYLLXOg2zxTH8JjD98Y1lOT5QqaCKhuFkbqQ/dD5oSb5dHQh7tlUzuBkU/4jeqJ6ax3kxHr4QweNWHSgsZLjVKqWbuJB6D4tZE4cIX/zcaa2Dh0qpQ+KgwgyAygneg44547U893C0yc6u32v4to2S2ZZdkIb3UoywkjjzPtzdX8u0UHGocPiTRteoPnzQyuxYTcRbR+GO8qddizYoO7FD/mK7a/l4yApkh2dwJHAoSbDbfJVHSO6ygQKvS9LJ3NONa7kQYVjNHhsKaRqPwSNgKe2Wr7yyAWn4YQECHYA1HltYArzEYLl3RAux7SqetfGZtZqYQtHntB4QYrHjTEQKydjCEs8QORJNscs/ZTDGp3OEoN9qDKtkflipHkSecEsWEzzKGQY5i+cWH7YjZ0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6020.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(23010399003)(11063799006)(4143699003)(56012099006)(10067099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UEZ5d2JhVFRtM21nWWQ4dHYzKytHU1dpR0JsMENLT3hsekx0M0c5VFB3NE0z?=
- =?utf-8?B?ZXh3RGFkY3ZvRGNXQ29NdFFkVzRvcnRPeC8rdGwzTHpnK08xUnlVRWhaMERH?=
- =?utf-8?B?aDRDSEFGZEdVUDcxV1ZOdy85VCtLdUZtUFRqNkdDKzNodDlMcHFWR0Q3N1lK?=
- =?utf-8?B?N1ZFaDYwSTlGWmNodmtIUXJibW9kZlZqL1MyT2Zia1lEendYSDhmcEMxbVJ5?=
- =?utf-8?B?RFNJU2RBaVdzc0RRY3RRN2JoN0ZiWG9BZHNvemdPOE1aU1NTOWFOUzA2VFpJ?=
- =?utf-8?B?NXBEZFRoSzJVbTA1WGtGaDdTTDEwbVFsL09YYXNIbDdKT1RFbDlRZzlRbCs2?=
- =?utf-8?B?cFJPS0M5MzZWQ2tjQVdvV0ZzTW1UeDQzVWRtL3hwTm1zSmplcWxmZnNUczk5?=
- =?utf-8?B?WWtkUHl4VWNsbUMrd3ZkTHhXcytSZWc4aks2UHFhQlB1Qmd2eUFZSG01VGQ1?=
- =?utf-8?B?MHlTVk9YWVQyQTlzS24vSkNFYVhqNFlsWGM0UGtEdENVaDhoTTM2TXFib0F0?=
- =?utf-8?B?QkxZbTNZKytOd1kveTJiUFlXSFM4dXlFYkZadk1hMSt6cTBTVGh0UGtCajNY?=
- =?utf-8?B?ZVNMWkhKVnM5cEVWWklJd05QZzBPK0F4aGR1blZGaE9SaFpPSzZCNGhOWHpT?=
- =?utf-8?B?cm1XMWJWM3ZvUlZ2NkNTRmpsRnVzRnRoc0JVZ2o1MFZ5RHlqSlNuT2h1Q2lh?=
- =?utf-8?B?dXZXakJJQVBXVnhMdlJ1R2RUbi9HbHI2UjVHTUE4b2wxbUJPOVZPbFQxTllR?=
- =?utf-8?B?djBrOEhreGRWQjZIdnNpb0Y2TWZEZGp5RXdHMU9xcitURTh0TVdTRW1oTG00?=
- =?utf-8?B?TnRlUEVnRm9oZkVyNVZCZERTUy9pN1FxNnRyWVFXTUVGOG1Zenh0ZjZYb1Jq?=
- =?utf-8?B?dDZwVnErbUxBQlRVMSt6cUZXTklkVm1SNnRwQUppQkJTZ0ptaXRudzg0d1RJ?=
- =?utf-8?B?aG95bEZOVmNUQkE4eU02RzRUcHVFMTZ6L1cvYkZGNG1wbElyR2VhTEIzazQv?=
- =?utf-8?B?MVlzWEhDTXhFdjE5WkYvbFg4d3BQVk9EQlV3eVE1cXQ4RnVNNzNZMkJaNEdP?=
- =?utf-8?B?SDNZb21XNEwyNm1uWThLVlJFa3hiemxMc01YRnYxaXVIYjVXZXNTKzQ4UzE0?=
- =?utf-8?B?YXZnUUQ1UXltTDA3ZGk3QS9IcFhYalRiaHBvY0JyMFhNOFhibDBCZStIMm1P?=
- =?utf-8?B?dm11T3VRSE0yRmlkeEMwR3JPazlaOFFNbFd1N050VnYwRjRyZWc0eDY0T0VX?=
- =?utf-8?B?WTlJb1UyTUVBLzROYmdDM0FpSjhDWnZjQ0J5K0JqRWJoM2RoZy9TczhYWXl0?=
- =?utf-8?B?NGVjK0ovQXpIZWhodGxoS1h6QWRhN29DcnRIOS80citRQ3dqQi93UjVtdmtT?=
- =?utf-8?B?ZUFwSGYwelhuMHFUT3llTTN6c0FKSWd1dythSE1heDhpWlQ3WGUydTRQd29B?=
- =?utf-8?B?QnNXVWMxWmMvV0FBSXU5UnFoMnhqWVJYbytVVTQ4ZlNha24zaUZ6bERyWE9B?=
- =?utf-8?B?cFpEZHlFZm9FVTNveUQ1Wm5MTjN4ejhtbGlOdGdqNXhaTWZ5ODVSRWU1S3p1?=
- =?utf-8?B?R0YwOThqK1c5Rkh1b1R3SGxnS2VSUnJiRUgwTTFmU3BQSm41Y0E0bXB1bUxl?=
- =?utf-8?B?UEExc3d2SlVydHBuRE96RlJlVFU2d1lFaWVyazk0elh1cW95MmFXaExUYmhs?=
- =?utf-8?B?TWdZK29CcmRnb2xPbzZnVHdVeGJheDdzaHNvT05CM0FKc25lUVozdEZYa2Rk?=
- =?utf-8?B?cTRzSU42ZXhyb0lLTit2dVhXNXd6MjRUcExSanI5UXV4QTlkdjhOWXk1bWRs?=
- =?utf-8?B?bFcxdElWM25EMDFJejkxRmN3Y1NnVkF5RzQwaWdDT29sNG9lanYxdTNtSHhP?=
- =?utf-8?B?VWE5c25INDlmbG10d045YmppRGtJLzNjVzhuREpKTGVyUVRtRVlxL0M2QlNR?=
- =?utf-8?B?UHNDVzBHSWorcElOaUVSekVHYVVwS0R3QWo1VlBtbDY1cExXVkE0ekhXd1Mr?=
- =?utf-8?B?OVJvR3FLSElraWhlZUFxN1J3K1NDdHBhU1pIUHhCSG0wMUV5Vm5lOW1hcTc1?=
- =?utf-8?B?WFgvSVFsU1pESHlkZEx3Mkkvc29qc29BWHpvY3M1UGs2cXVYYUJxSVpzaG85?=
- =?utf-8?B?VDh3Q1ZmWDNEM2dTVk9pK0pSaWszeU40UElHSkRqbTJiUTduY2x0OHNCaFYx?=
- =?utf-8?B?c3AxamhYSFVubEF1eW5UZW8zSFJwK2I5SzI4Zkp3anJwUkpic0RrTEJUWElp?=
- =?utf-8?B?RW5GWDlscktWLytTZHhidzV0Um1vTVFidWU0dXprN2FrdWM1azJFL2k2VWVy?=
- =?utf-8?B?clhLTFkveEFOckhwMitGbWowSzNuVkhXQWhpV21lODZyUktDYk9UUT09?=
-X-Exchange-RoutingPolicyChecked: SMirWqbyqkO9QkUA0NiCR7B82L3sVB4KztV7o8hoxqP8tOQNhJHpFOk5i8skZk0Gv8VrP5El0q5dJmWVf+QmRHTPzyLFbqYknk5vcwPCWkksQofjHEXRHiGYKtUBBfogT17o/crXk6FFnHyvKSSQWJA0alUO43njxKmBqV2nFi1J9jPC1gxZ4a/cRD6e77277k4bNrzx5ergGYIMB4lU6Wi+gz976ZsLIgjc+ow4/FbGfWb1buZIyB2NoTmxpuMlG2qe5d7F/uYXtICwEmHuSa0cLN5gmgwl+WahVkvgwqLr5RIL9xCgC9mtvkENj3/vwf3XuzeesF3LM3sN25g1Jw==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b8dd5a3-fcd8-4948-196a-08dee7d5e902
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6020.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 09:45:05.9065
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0ig3tJxwcbQyZzjLa9WqXzZ4laoaWA5lPoB4VrJ4Z523DYvyNmFyifXVuAQWMF6x5ZI6w8jeh7U85b6VvqerJw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7790
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Yangyu,
+Translate Documentation/block/error-injection.rst into Chinese and add
+it to the Chinese block documentation index.
 
-thanks very much for enhancing cache-aware scheduling,
+Update the translation through commit e8dcf2d142bd
+("block: add configurable error injection").
 
-On 7/22/2026 5:10 PM, Yangyu Chen wrote:
-> Cache aware scheduling is currently controlled only through global
-> debugfs knobs, but the right aggressiveness is workload and platform
-> specific. A multi-threaded Verilator run is one example: its RSS is
-> large while only a small part of it is hot, so an RSS-based footprint
-> estimate should not decide whether it is aggregated; and packing its
-> threads onto the SMT siblings of one LLC beats spreading them across
-> LLCs on some platforms (e.g. AMD EPYC Turin) but not on others (e.g.
-> EPYC Milan). Such choices cannot be made globally for the whole
-> machine. Add a prctl interface to override the knobs per process
-> (per mm_struct):
-> 
->    prctl(PR_SCHED_CACHE, PR_SCHED_CACHE_SET, attr, value, 0);
->    prctl(PR_SCHED_CACHE, PR_SCHED_CACHE_GET, attr, &value, 0);
-> 
-> A single prctl command implements both directions, like
-> PR_RSEQ_SLICE_EXTENSION. The attributes are a per-process enable
-> (effective only while the feature is globally active), the two
-> aggregation tolerances, the overaggr percentage (applied where a
-> task's own migration is admitted; group level statistics span many
-> processes and keep using the global value), and an inherit mask
-> selecting which attributes an mm created by execve() keeps. fork()
-> always inherits everything, and the mask itself lives on the
-> task_struct so it survives both, which lets a numactl-like launcher
-> configure a workload and exec it.
-> 
-> The overrides live in mm->sc_stat with -1 meaning "follow the global
-> default"; GET stores the raw value through an int pointer so this
-> sentinel round-trips without being mistaken for an errno.
-> mm_init_sched() gains the creating task to tell fork (p != current)
-> from exec (p == current) apart. A disabled mm has its preferred LLC
-> invalidated at the existing invalidation points, so all group-level
-> statistics self-neutralize.
-> 
+Signed-off-by: cuishuang <imcusg@gmail.com>
+---
+v1->v2:
+  - Add the required Assisted-by trailer.
+  - Resend via authenticated SMTP because the original message was only
+    partially delivered and did not reach the linux-doc archive.
 
-We are working on a version that uses prctl to turn on/off/share
-among tasks, which performs similar operations to core-scheduling
-based on cookies[1]. That version decouples the mm from
-cache-aware scheduling so that processes, tasks, or cgroups can
-tag tasks with different "cookies". We are also exploring how to
-leverage schedqos (from Qais) to take advantage of these
-interfaces.
+ .../zh_CN/block/error-injection.rst           | 63 +++++++++++++++++++
+ .../translations/zh_CN/block/index.rst        |  1 +
+ 2 files changed, 64 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/block/error-injection.rst
 
-Your enhancement for tuning the parameters could be applied on top
-of that, I suppose.
+diff --git a/Documentation/translations/zh_CN/block/error-injection.rst b/Documentation/translations/zh_CN/block/error-injection.rst
+new file mode 100644
+index 000000000000..91563ea055ba
+--- /dev/null
++++ b/Documentation/translations/zh_CN/block/error-injection.rst
+@@ -0,0 +1,63 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/block/error-injection.rst
++
++:翻译:
++
++ cuishuang <imcusg@gmail.com>
++
++==============
++可配置错误注入
++==============
++
++概述
++----
++
++可配置错误注入允许针对块设备的扇区范围注入特定的块层状态码。错误可以无条件
++注入，也可以按给定概率注入。
++
++要使用可配置错误注入，必须启用 ``CONFIG_BLK_ERROR_INJECTION``。
++
++唯一的接口是 ``error_injection`` debugfs 文件，每个已注册的 gendisk 都会
++创建该文件。写入此文件用于创建或删除规则，读取则返回当前错误注入点的列表。
++
++选项
++----
++
++以下选项指定操作：
++
++===================	=======================================================
++add			添加一条新规则
++removeall		删除所有现有规则
++===================	=======================================================
++
++以下选项指定 ``add`` 操作的规则详情：
++
++===================	=======================================================
++op=<string>		此规则适用的块层操作。它使用每个 ``REQ_OP_XYZ``
++			操作中的 ``XYZ``，例如 ``READ``、``WRITE`` 或
++			``DISCARD``。必填。
++status=<string>		要返回的状态。它使用每个 ``BLK_STS_XYZ`` 状态码
++			中的 ``XYZ``，例如 ``IOERR`` 或 ``MEDIUM``。必填。
++start=<number>		此规则适用的第一个块层扇区。可选，默认为 0。
++nr_sectors=<number>	此规则适用的扇区数。可选，默认覆盖设备的剩余部分。
++chance=<number>		仅以 ``1/chance`` 的概率返回失败。可选，默认为 1
++			（总是失败）。
++===================	=======================================================
++
++示例
++----
++
++对 ``/dev/nvme0n1`` 扇区 0 的读取，每 10 次中有一次返回
++``BLK_STS_IOERR``：
++
++	$ echo 'add,op=READ,start=0,status=IOERR,chance=10' > /sys/kernel/debug/block/nvme0n1/error_injection
++
++对 ``/dev/nvme0n1`` 的每次写入都返回 ``BLK_STS_MEDIUM``：
++
++	$ echo 'add,op=WRITE,start=0,status=MEDIUM' > /sys/kernel/debug/block/nvme0n1/error_injection
++
++删除 ``/dev/nvme0n1`` 的所有规则：
++
++	$ echo 'removeall' > /sys/kernel/debug/block/nvme0n1/error_injection
+diff --git a/Documentation/translations/zh_CN/block/index.rst b/Documentation/translations/zh_CN/block/index.rst
+index f2ae5096ed68..4877432cc4ff 100644
+--- a/Documentation/translations/zh_CN/block/index.rst
++++ b/Documentation/translations/zh_CN/block/index.rst
+@@ -18,6 +18,7 @@ Block
+ 
+    blk-mq
+    data-integrity
++   error-injection
+ 
+ TODOList:
+ * bfq-iosched
+-- 
+2.50.1 (Apple Git-155)
 
-[1] https://github.com/chen-yu-surf/linux/commits/cache_aware_prctl_v1.4/
