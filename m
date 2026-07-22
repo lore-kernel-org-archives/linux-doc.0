@@ -1,94 +1,92 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C35A2F745D
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 02:38:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44953E314F
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 03:41:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784687897; cv=none; b=hTXwWDyNaTBcNNjdBrVLqk+sn8vtQ37vjD8AmC9oQClMGocDpuU73yIQABe7C29NADNhjxvItQ/2jgTmWbvog2oQGK9Z2uJlDPngsL85yE1zXVkrNkp4y2nz9SYxu3ECM/6ql/bEfN/SKICzEhAOn0HOqvZl4s01rhcO4dUwMS0=
+	t=1784691668; cv=none; b=Bk4+yAjGHm2EUmOdqqoLLLCSud0Luh2Y777wD/kGjR79YexG0O8cYvxPA56ui28ztXSqwUBTYvfusRApKhTK4pxVyzoBhgDKvk6YeoATXYiQGMmREI4w2cHV1+feu4DJv4KkayVnKOITeykq++PdiOmehfhnCivr0tem9BovODU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784687897; c=relaxed/simple;
-	bh=V1tkE/Iqm8Ll1E91rJzh6adocMuhR6hteT/6dS1xPM0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QHiqT8R/Cd9iPusbadh7+xXOJ+//Lp4dG+H4/nVU490dezFRK3nA3yuOMun/qc3yZZfgppe+DR+stjfznu0DABsrGhNTKMq1CMX4jkM048VHNAb6Upj1lb0ps4KozsU+ZiGEPVeaGheFQhNRNZbqWkEkppLObyJ8O6x1q4fkTSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jG0JqRcv; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1784691668; c=relaxed/simple;
+	bh=cxjKITW/kFgxFK8bzfNiDEj39FZ/WhzrXjgH+LURSnU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=IYb0q385xgxnJQ6+JNcKRgmEXOil0dGZwPqLCSpGXtgpa/Wq/iy00D6uMONaodErBss/np5Y84e3+/tCkO3t6wCESZuOMiUgr7PK1RrSGY63GshI/oRnL/9ZxHRi1P+0RlwSp31cr7qGvi2Tn0GnZnSBM+1VdrNhH/Qm/og+8+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=euFHvr2l; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jG0JqRcv"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784687882;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Ml2B/ksyU1FNvd+iabrZqVktSSMC0qeu3ATx01Yf8Tw=;
-	b=jG0JqRcv9aUBRHoUTpnC+RthNmdjxiNQnok24toetuarjDeMOy5DT256Z9xD+c9NaSLoZE
-	QYTWHNBQTvl9j8a/4Gvq9b6Jg2h78lsw8jzK7P5p+gi/5aCfh7M/Ij1lX0c+OcdAnxzj5i
-	3fV7mMoreBPOkNcuEKiyBmOtpzSb9Dw=
-From: Ye Liu <ye.liu@linux.dev>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Ye Liu <liuye@kylinos.cn>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] tools/mm/page_owner_sort: fix --sort, add module filter, improve usage
-Date: Wed, 22 Jul 2026 10:37:23 +0800
-Message-Id: <20260722023726.600200-1-ye.liu@linux.dev>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="euFHvr2l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784691664; x=1816227664;
+  h=date:from:to:cc:subject:message-id;
+  bh=cxjKITW/kFgxFK8bzfNiDEj39FZ/WhzrXjgH+LURSnU=;
+  b=euFHvr2lOYX5p47njX180Bco+MtYwn/Tq8sHIvYmV7plyDB3znf7yF4Q
+   +4+cT7ZHWkbB7fEMeRCF5WztCjjCbEOJA5b/NQvbbE5P7K/+TQ2XUMGF2
+   6QA/vmNUxSVT2lQa1h6adJqa+lOT6TBClCdwSLxwoM6pVBxy8UhcDUMck
+   4uLue/UYEizuHW4kwdF0fXMUKywRjpFOoyisW+OLMg6XcVooMox5pqdx3
+   Vh32nnVGJscsSSshDMs+cp5H8vXvs9nKD8QodvOjSVS33K7lFfhDbyBSZ
+   QMV8qr3pdKZOlXz/vuxWQLdEvPdnCVj4kGB//EOr57amjJOdRb/+NtWFz
+   A==;
+X-CSE-ConnectionGUID: Az1lIu+GQMip9c3SZyIWkg==
+X-CSE-MsgGUID: 0KcdLmfdTheCBvTb6Ztg1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11853"; a="96684792"
+X-IronPort-AV: E=Sophos;i="6.25,177,1779174000"; 
+   d="scan'208";a="96684792"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 20:41:03 -0700
+X-CSE-ConnectionGUID: yY907YXFTwelcZOvMwAW2A==
+X-CSE-MsgGUID: vuhq34rvSaCiuNDf+cGURg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,177,1779174000"; 
+   d="scan'208";a="256740084"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 21 Jul 2026 20:41:00 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wmNpK-000000000Du-0yfl;
+	Wed, 22 Jul 2026 03:40:58 +0000
+Date: Wed, 22 Jul 2026 05:40:47 +0200
+From: kernel test robot <lkp@intel.com>
+To: Tejas Mutalikdesai <tejasmutalikdesai@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Rob Herring (Arm)" <robh@kernel.org>,
+ linux-doc@vger.kernel.org
+Subject: [linux-next:master 1586/8209] htmldocs: Warning:
+ arch/arm/xen/enlighten.c references a file that doesn't exist:
+ Documentation/devicetree/bindings/arm/xen.txt
+Message-ID: <202607220529.ilLrtj8D-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-From: Ye Liu <liuye@kylinos.cn>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   290aaf24a551d5a0dce037e3fab30820f9113a10
+commit: 4dbfe54674859e67b3564ace6cd8a384dfb997ad [1586/8209] dt-bindings: arm: xen: Convert to DT schema
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260722/202607220529.ilLrtj8D-lkp@intel.com/reproduce)
 
-This series improves the page_owner_sort tool with a bug fix, a new
-module-name feature, and better usage text.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607220529.ilLrtj8D-lkp@intel.com/
 
-Patch 1 fixes a long-standing bug where --sort was silently ignored
-when used without a short option (-a, -m, -p, etc.).  The COMP_NO_FLAG
-case fell through to COMP_NUM and overwrote the sort conditions
-configured by parse_sort_args().
+All warnings (new ones prefixed by >>):
 
-Patch 2 adds kernel module name support for sort, cull, and filter
-operations.  Page owner stack traces already contain module names in
-the [module] format produced by %pS, but page_owner_sort had no way
-to use them.  Records without module frames are assigned "vmlinux".
+   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
+   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+>> Warning: arch/arm/xen/enlighten.c references a file that doesn't exist: Documentation/devicetree/bindings/arm/xen.txt
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
+   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
 
-  # Aggregate page usage per module
-  ./page_owner_sort input.txt output.txt --cull=mod
-
-  # Filter to records from xfs module only
-  ./page_owner_sort input.txt output.txt --module xfs
-
-  # Sort by module name, then by pid descending
-  ./page_owner_sort input.txt output.txt --sort=mod,-pid
-
-Patch 3 lists all available sort keys with abbreviations and examples
-directly in the --sort help section so users no longer need to read
-the source to discover valid keys.
-
-Ye Liu (3):
-  tools/mm/page_owner_sort: fix --sort option being silently ignored
-  tools/mm/page_owner_sort: add module name sort/cull/filter support
-  tools/mm/page_owner_sort: show available sort keys in usage text
-
- Documentation/mm/page_owner.rst |   8 +-
- tools/mm/page_owner_sort.c      | 125 +++++++++++++++++++++++++++-----
- 2 files changed, 113 insertions(+), 20 deletions(-)
-
--- 
-2.25.1
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
