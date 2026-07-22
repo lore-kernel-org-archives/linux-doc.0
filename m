@@ -1,56 +1,38 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2EBC44CF29;
-	Wed, 22 Jul 2026 23:04:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26732403AEC;
+	Wed, 22 Jul 2026 23:41:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784761484; cv=none; b=C9ndv7DcC9cw0dEYHttoyPzpmheAWQwNVrOWOidvJkBmcAB4jNi5ImoY8mhExoAN/lKBysbHgIME12eo7fkfUdPAR91J3aTaRUsLQU/0tDfgzdmL202LgdRjl5VJWUYViPHFqgGE9fjAo/v5aNszdR3uEFXoU/NdV7bZ0tJ2pu8=
+	t=1784763680; cv=none; b=XZed4UfjS29gBDotwYqlvLQdDKNy/iTCho1E6DsImXCaLtB2VriTSvW+MXEc7Ur5RFSzKyx2KW0FOPN0Fql+6w87UJrXlByF0dzm57rgwlH9BG4ld1N7DG8pFnTEumLEXgxGUexhVxlAtprO8L48mEAVMMxVqNl5/RLy7dN0rqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784761484; c=relaxed/simple;
-	bh=Pwp3DTbDWAHMZBKTIp3inueKr/FH671qpG5umKXf9NY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=l5jCsw4KVsIbWisvl0MRHt+I79u3anm38WMWRO8U7hi9uSb19tgvCnj1mtYN+92w7bAhVylJT8xDEdRrrq/TwLgR35wG2Re2xwl9LynGB4+wjltb7GBVy7b01slwCtB6TwtZ3yuUEhyZZ5cMDKECpLQ6PEpBOEsMbUS+m9yxNqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E4i3DdXA; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784763680; c=relaxed/simple;
+	bh=NeJlLVVMf++c5nZhAc/KqZ/hq04Bz1Dk6297RE4toKs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kib5jXwdj8rL2gb9F/57nPtocDUKhoYPAqh5h6n6W1dn4LlfC9ADtSX2hE2U/87x/Ku2+h1PcmqMgWxf/swgnFJpJ34+Xf2Zv0LY5Ehl4XWqbS2DTCTSTuD6MNcOJ8VwwxmUDi8bbGMVDo3Rx6Hqp9YDMQwofaDQ1plhfDEjtA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Trr2vdLh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E4i3DdXA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADAB01F000E9;
-	Wed, 22 Jul 2026 23:04:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784761482;
-	bh=OFfrTirb0RoZWwyLYN5/BFmnIozpd9sUJoG452yw/XQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=E4i3DdXALdGCRrfP/cWZ9lRk7zZD98n3LRzXjkb1XqVEJDIIBF5rtIQz/efksHvAg
-	 i4gwoTKQAuqGXwOpFkGX+cx6M9ztvpJUfx+tMk4XOvHrNyypzwWQJlaEwScpKnCj9M
-	 otJ747jAdFmsgB6azZEJQhsHaPHeik+JWQNO1wRg7fF2VWfXcW/kWCsEWZVlqg+h2U
-	 jOkNS/eiI9PqxYv1alAbZw3EgSAnXJsRxlzf7fpIWpqJRq/3Ynue7Anu3nLyz3wV3L
-	 1dQap0wX5yiWaKLsY7C+9njZLKhp5UAHvrDJe+OpjXuraXrmAbc6CsT0cftrYHhLF6
-	 P0Omsi9y7bKOw==
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	x86@kernel.org
-Cc: Jinchao Wang <wangjinchao600@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ian Rogers <irogers@google.com>,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-perf-users@vger.kernel.org
-Subject: [PATCH v10 11/11] tracing/wprobe: Support BTF typecast in wprobe trigger command
-Date: Thu, 23 Jul 2026 08:04:36 +0900
-Message-ID: <178476147632.26117.14371948325944867725.stgit@devnote2>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <178476134787.26117.10094977293012760490.stgit@devnote2>
-References: <178476134787.26117.10094977293012760490.stgit@devnote2>
-User-Agent: StGit/0.19
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Trr2vdLh"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A482DC19425;
+	Wed, 22 Jul 2026 23:41:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784763679;
+	bh=NeJlLVVMf++c5nZhAc/KqZ/hq04Bz1Dk6297RE4toKs=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=Trr2vdLhCdMV6FlD3ih3cgioCpipymobS5BR0iPYq8TOcB9z5cYLm/nNE0q05gzl6
+	 jr45Wrb4Y9vCeLPaK7K2EGGMOwz1QsmLJNclQrA01YgfQX6ArjMZLArd/4+5ngNHmh
+	 xHZisHt0xQLW7YKXsLAYq2+5LeJxZCz3t4ASwnQTzGcSee3UlkDVnCIs7pC5FQkeX9
+	 9RsFPrCA9R7rMfZdYr1NlPeJpKXpypOFUySNGn7Xn7v0pxblChLh+o8D+NKBbchdh2
+	 cGDoCDKWHl3OzUqzhVJdaxLnDPDvTHDo3/7uBG2CbxU42duCQeP13SQnS4KpGD3P9E
+	 jCFS5eBprIj8Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DC53C44532;
+	Wed, 22 Jul 2026 23:41:19 +0000 (UTC)
+From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
+Subject: [PATCH v4 00/16] Fix bugs on HugeTLB folio allocation failure
+ paths
+Date: Wed, 22 Jul 2026 16:41:08 -0700
+Message-Id: <20260722-hugetlb-alloc-failure-fixes-v4-0-88e8b81970dc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,323 +40,215 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABRVYWoC/33OwQqDMAyA4VeRntdRo7a6095j7NDWqIXOjlZlQ
+ 3z3VWHgGHj8E/iSmQT0BgO5JDPxOJlgXB8jPyVEd7JvkZo6NgEGnAnGaTe2OFhFpbVO00YaO3q
+ kjXlhoFo0QhSoJVQNicLT47aIwO0euzNhcP69HZvSdfp1xaE7pZTRQqk6k7kqM15fW+dai2ftH
+ mSFJ9hj5TEGEYufgtBK5RzUH5btMGDHWBYxUYNMeSVlhfiDLcvyAdjqG2xhAQAA
+X-Change-ID: 20260706-hugetlb-alloc-failure-fixes-c7f775eca29f
+To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+ David Hildenbrand <david@kernel.org>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Nhat Pham <nphamcs@gmail.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, Peter Xu <peterx@redhat.com>, 
+ Wupeng Ma <mawupeng1@huawei.com>, fvdl@google.com, rientjes@google.com, 
+ jthoughton@google.com, Mike Kravetz <mike.kravetz@oracle.com>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+ Roman Gushchin <roman.gushchin@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>, 
+ Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
+ Hongxiang Lou <louhongxiang@huawei.com>, Miaohe Lin <linmiaohe@huawei.com>
+Cc: vannapurve@google.com, erdemaktas@google.com, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Ackerley Tng <ackerleytng@google.com>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784763678; l=8919;
+ i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
+ bh=NeJlLVVMf++c5nZhAc/KqZ/hq04Bz1Dk6297RE4toKs=;
+ b=7dRun2bww5d+94a6EUgKYhDHc0fhMbujyDJkpXqg7z757v09Akq7Esh/Vj/YQiD6CGXdvf1h9
+ xn81To5pmSFBRP4n2Z4ZP3HY4t6A6qzSay8cWFJ6jYdnwkqejhXLXbr
+X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
+ pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
+X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
+ auth_id=649
+X-Original-From: Ackerley Tng <ackerleytng@google.com>
+Reply-To: ackerleytng@google.com
 
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+This series fixes a few bugs on HugeTLB folio allocation failure paths.
 
-Extend the set_wprobe trigger syntax to support automatic BTF-based
-offset calculation using the form:
+Some of these issues were pointed out by Sashiko while I was working on
+[1], and others were revealed while fixing the original issues.
 
-  set_wprobe:WPEVENT:(TYPE[,ASGN])FIELD->MEMBER[.SUBMEMBER[...]]
+1. subpool usage leak on allocation failure (Sashiko pointed this out
+   in [2])
 
-Previously, the ADJUST value in FIELD[+/-ADJUST] had to be a numeric
-literal, requiring the user to know the exact byte offset of the
-target struct member.
+   When alloc_hugetlb_folio() fails early (e.g. buddy allocation failure or
+   hugetlb cgroup charging failure) and gbl_chg == 1, the error path skips
+   restoring the page to the subpool, leaking the subpool's used_hpages
+   counter. Fix this by calling hugepage_subpool_put_pages()
+   unconditionally if map_chg is true.
 
-With this change, if the FIELD portion starts with (STRUCTTYPE), the
-offset of MEMBER within STRUCTTYPE is automatically resolved via BTF.
-This allows symbolic, kernel-version-independent watchpoint placement
-at specific struct fields.
+2. Folio refcount mismatch on memcg charge failure leading to
+   VM_BUG_ON_FOLIO() (Sashiko pointed this out in [3])
 
-For example, to watch when the d_inode pointer inside a dentry is
-modified (not just when the dentry itself is accessed):
+   The error path in alloc_hugetlb_folio() calls free_huge_folio() directly
+   on a folio with a refcount of 1 (set via folio_ref_unfreeze() earlier).
+   This triggers VM_BUG_ON_FOLIO(folio_ref_count(folio), folio) if
+   CONFIG_DEBUG_VM is enabled, and can corrupt allocator state otherwise.
+   Fix this by using folio_put() instead of free_huge_folio() to correctly
+   drop the refcount before freeing.
 
-  echo 'w:watch rw@0:8 address=$addr value=$value' >> dynamic_events
-  echo 'f:truncate do_truncate dentry=$arg2' >> dynamic_events
-  echo 'set_wprobe:watch:(dentry)dentry->d_inode' \
-           >> events/fprobes/truncate/trigger
+3. Returning -ENOMEM on memcg charge failure causes infinite loop
 
-Here, "dentry" is a field in the fprobe event record. The BTF
-lookup resolves offsetof(struct dentry, d_inode) at set_wprobe parse
-time, so no manual numeric offset is needed.
+   alloc_hugetlb_folio() propagates -ENOMEM on charge failure, which maps
+   to VM_FAULT_OOM. Because HugeTLB physical allocations are high-order and
+   use __GFP_RETRY_MAYFAIL, the OOM killer is bypassed. Returning
+   VM_FAULT_OOM leaks to the #PF handler, which cannot make progress and
+   retries the faulting instruction indefinitely. Fix this by returning
+   -ENOSPC instead of -ENOMEM on charge failure, which maps to
+   VM_FAULT_SIGBUS, terminating the process cleanly.
 
-Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+4. vma reservation leak on mem_cgroup_charge_hugetlb() failure
+
+   When mem_cgroup_charge_hugetlb() fails, the error path historically
+   bypassed vma_end_reservation(). Since the reservation had already been
+   committed via vma_commit_reservation(), this left the reservation map in
+   an inconsistent state, leaking resv_huge_pages when the process
+   exited. Fix this by moving mem_cgroup_charge_hugetlb() earlier in
+   alloc_hugetlb_folio(), before vma_commit_reservation() is called.
+
+Cleaned up patches, updated documentation, and fixed Sashiko's comments on
+v3:
+
+1. subpool cleanup in alloc_hugetlb_folio() was incomplete - I folded the
+   fix in.
+2. More issues (UAF, and another accounting issue) reported [5] - I added
+   two more patches.
+
+Keeping this section since I think people didn't have much time to review
+v3.
+
+1. subpool page tracking
+
+The subpool now tracks every page allocated via
+the subpool through used_hpages, regardless of whether min_hpages or
+max_hpages is requested by the user.
+
+When min_hpages is set, rsv_hpages is initialized to be equal to
+min_hpages. As reserved pages are used, the count is transferred from
+rsv_hpages to used_hpages. When reserved pages run out, as long as
+max_hpages is not requested or not yet met, used_hpages continues to be
+incremented. The following invariant holds true while used_hpages <=
+min_hpages:
+
+  used_hpages + rsv_hpages = min_hpages
+
+when used_hpages exceeds min_hpages, rsv_hpages must always be 0.
+
+With this, pages can and must always be returned to the subpool if there's
+some reservation or allocation failure after getting a page from the
+subpool. One thing I missed in v2 was in processing the returned page. In
+v2, the number of pages returned was compared to min_hpages, ignoring
+used_hpages if it exists. v3 limits the number of pages returned to
+min_hpages - used_hpages, upholding the invariant above.
+
+2. (Re-)introduction of the try-commit-cancel protocol for memcg charging.
+
+In v2, I took the shortcut where I moved mem_cgroup_charge_hugetlb() up
+above committing vma reservations, and jumped to subpool cleanup when the
+charging failed. With that, Sashiko pointed out that there are still issues
+with subpool tracking.
+
+In [4] I thought the issue was that gbl_chg == 0 (I flipped the condition
+in [4], omg) doesn't always mean a reservation was actually used, but after
+digging more, that doesn't seem to be true, since if gbl_chg == 0,
+restore_reserve is set on the folio, and free_huge_folio() would have done
+a h->resv_huge_pages++.
+
+In my opinion, calling free_huge_folio() in the middle of the cleanup does
+too much, and I think the cleaner approach would be to do all the charging
+symmetrically, so that the subpool cleanup will also be symmetric
+and (hopefully) easier to understand.
+
++ I would like reviews on all the non-WIP patches. Those are the ones that
+  I'd like merged first.
++ There are reproducers (not meant to be merged) to help prove
+  effectiveness of fixes.
++ There are WIP patches for subpool-related refactoring. Those helped me
+  check that the subpool stuff is working and is posted to show how it
+  works. I think the subpool-related refactoring and tests would be good to
+  merge, but perhaps in another patch series? The refactoring was heavily
+  AI-driven and should be considered RFC. Would like to have your feedback
+  on that refactoring too.
+
++ libhugetlbfs tests pass
++ ./tools/testing/selftests/mm/ksft_hugetlb.sh passes
++ Reproducers all pass
+
+v1: https://lore.kernel.org/r/20260707-hugetlb-alloc-failure-fixes-v1-0-5bbd3a4b836d@google.com
+v2: https://lore.kernel.org/r/20260708-hugetlb-alloc-failure-fixes-v2-0-c7f27cbb462b@google.com
+v3: https://lore.kernel.org/r/20260720-hugetlb-alloc-failure-fixes-v3-0-7d2a169aa9ee@google.com
+
+The series [1] has some changes that are dependent on these fixes, so I'll wait
+for your reviews before continuing on [1].
+
+Thank you!
+
+[1] https://lore.kernel.org/all/20260702-hugetlb-open-up-v4-0-d53cefcccf34@google.com/T/
+[2] https://sashiko.dev/#/patchset/20260518-hugetlb-open-up-v3-0-e14b302477f8%40google.com?part=5
+[3] https://sashiko.dev/#/patchset/20260702-hugetlb-open-up-v4-0-d53cefcccf34%40google.com?part=6
+[4] https://lore.kernel.org/all/CAEvNRgGN0HSJ2iLSDD2haSKOxifa-uhkO9Hwossh0+Q_d9fzOw@mail.gmail.com/
+[5] https://sashiko.dev/#/patchset/20260720-hugetlb-alloc-failure-fixes-v3-0-7d2a169aa9ee%40google.com?part=8
+
+Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- Changes in v10:
-  - Newly added.
----
- kernel/trace/trace_wprobe.c                        |  166 +++++++++++++++++---
- .../test.d/trigger/trigger-wprobe-btf-offset.tc    |   73 +++++++++
- 2 files changed, 214 insertions(+), 25 deletions(-)
- create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
+Ackerley Tng (16):
+      mm: hugetlb: Track used_hpages when getting/putting pages from subpool
+      mm: hugetlb: Return -ENOSPC on memcg charge failure
+      mm: hugetlb: Use try-commit-cancel protocol for memcg charge of folios
+      mm: hugetlb: Remove unused mem_cgroup_charge_hugetlb function
+      mm: hugetlb: Fix subpool usage leak on allocation failure
+      mm: hugetlb: Rename local variables for clarity in hugetlb_reserve_pages()
+      mm: hugetlb: Fix Use-After-Free in unlock_or_release_subpool()
+      fs: hugetlbfs: Fix global reservation leak in hugetlbfs_fill_super()
+      WIP: mm: hugetlb: Move subpool functions to hugetlb_subpool.c
+      WIP: fs: hugetlbfs: Refactor subpool getters and integrate with hugetlb_subpool API
+      WIP: mm: hugetlb: Make struct hugepage_subpool private to hugetlb_subpool.c
+      WIP: tools: testing: Add unit tests for HugeTLB subpool functions
+      WIP: Reproducer for allocation failure due to cgroup v2 memory limits
+      WIP: Reproducer for subpool usage leak
+      WIP: Reproducer for false restoration on shared HugeTLB mappings
+      WIP: Reproducer for out_put_pages subpool reserve leakage
 
-diff --git a/kernel/trace/trace_wprobe.c b/kernel/trace/trace_wprobe.c
-index 1edfdddf241d..2926eabfe3c1 100644
---- a/kernel/trace/trace_wprobe.c
-+++ b/kernel/trace/trace_wprobe.c
-@@ -27,6 +27,7 @@
- #include <asm/ptrace.h>
- 
- #include "trace.h"
-+#include "trace_btf.h"
- #include "trace_dynevent.h"
- #include "trace_probe.h"
- #include "trace_probe_kernel.h"
-@@ -925,6 +926,143 @@ static void wprobe_trigger_free(struct event_trigger_data *data)
- 	}
- }
- 
-+#ifdef CONFIG_PROBE_EVENTS_BTF_ARGS
-+
-+static int get_offset_of_field(struct btf *btf, const struct btf_type *type, char *field_name)
-+{
-+	const struct btf_member *field;
-+	int bitoffs = 0;
-+	u32 anon_offs;
-+	char *next;
-+
-+	do {
-+		next = strchr(field_name, '.');
-+		if (next)
-+			*next++ = '\0';
-+
-+		field = btf_find_struct_member(btf, type, field_name, &anon_offs);
-+		if (IS_ERR_OR_NULL(field))
-+			return -ENOENT;
-+		type = btf_type_by_id(btf, field->type);
-+
-+		/* Reject bitfield member access */
-+		if (btf_type_kflag(type))
-+			return -EINVAL;
-+
-+		/* add offset for anonymous struct type */
-+		bitoffs += anon_offs + field->offset;
-+		field_name = next;
-+		if (next) {
-+			type = btf_type_skip_modifiers(btf, field->type, NULL);
-+			if (!type)
-+				return -ENOENT;
-+		}
-+	} while (next);
-+	return bitoffs / BITS_PER_BYTE;
-+}
-+
-+/* btf_put(NULL) is acceptable. */
-+DEFINE_FREE(btf_put, struct btf *, btf_put(_T))
-+
-+/* parse typecast: (TYPE[,ASGN])EVENT_FIELD->FIELD[.SUBFIELD...] and set adjust. */
-+static int wprobe_trigger_typecast_parse(char **field_str_ptr,
-+					 struct wprobe_trigger_data *wprobe_data)
-+{
-+	struct btf *btf __free(btf_put) = NULL;
-+	const struct btf_type *type;
-+	char *assign_field;
-+	char *event_field;
-+	char *type_field;
-+	char *type_name;
-+	int id;
-+	int adjust;
-+
-+	type_name = *field_str_ptr + 1;
-+	event_field = strchr(type_name, ')');
-+	if (!event_field)
-+		return -EINVAL;
-+	*event_field++ = '\0';
-+
-+	/* Check the optional assign field. */
-+	assign_field = strchr(type_name, ',');
-+	if (assign_field)
-+		*assign_field++ = '\0';
-+
-+	/* Get the type field name. */
-+	type_field = strstr(event_field, "->");
-+	if (!type_field)
-+		return -EINVAL;
-+	*type_field = '\0';
-+	type_field += 2;
-+
-+	/* find type from BTF */
-+	id = bpf_find_btf_id(type_name, BTF_KIND_STRUCT, &btf);
-+	if (id < 0)
-+		return id;
-+
-+	type = btf_type_by_id(btf, id);
-+	if (!type)
-+		return -EINVAL;
-+
-+	adjust = get_offset_of_field(btf, type, type_field);
-+	if (adjust < 0)
-+		return adjust;
-+	wprobe_data->adjust = adjust;
-+
-+	if (assign_field) {
-+		/* assign_field should be a struct field */
-+		adjust = get_offset_of_field(btf, type, assign_field);
-+		if (adjust < 0)
-+			return adjust;
-+		wprobe_data->adjust -= adjust;
-+	}
-+
-+	*field_str_ptr = event_field;
-+	return 0;
-+}
-+#else
-+static int wprobe_trigger_typecast_parse(char **field_str_ptr, struct wprobe_trigger_data *wprobe_data)
-+{
-+	return -EOPNOTSUPP;
-+}
-+#endif /* CONFIG_PROBE_EVENTS_BTF_ARGS */
-+
-+static int wprobe_trigger_field_parse(char *field_str, struct trace_event_file *file,
-+					struct wprobe_trigger_data *wprobe_data)
-+{
-+	struct ftrace_event_field *field;
-+	char *offs;
-+
-+	if (field_str[0] == '(') {
-+		int ret = wprobe_trigger_typecast_parse(&field_str, wprobe_data);
-+
-+		if (ret < 0)
-+			return ret;
-+	} else {
-+		offs = strpbrk(field_str, "+-");
-+		if (offs) {
-+			long val;
-+
-+			if (kstrtol(offs, 0, &val) < 0)
-+				return -EINVAL;
-+			wprobe_data->adjust = val;
-+			*offs = '\0';
-+		}
-+	}
-+
-+	field = trace_find_event_field(file->event_call, field_str);
-+	if (!field)
-+		return -ENOENT;
-+	if (field->size != sizeof(void *))
-+		return -ENOEXEC;
-+	wprobe_data->offset = field->offset;
-+	wprobe_data->field = kstrdup(field_str, GFP_KERNEL);
-+	if (!wprobe_data->field)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+
- static int wprobe_trigger_cmd_parse(struct event_command *cmd_ops,
- 				    struct trace_event_file *file,
- 				    char *glob, char *cmd,
-@@ -936,10 +1074,8 @@ static int wprobe_trigger_cmd_parse(struct event_command *cmd_ops,
- 	 */
- 	struct wprobe_trigger_data *wprobe_data __free(free_wprobe_trigger_data) = NULL;
- 	struct event_trigger_data *trigger_data __free(kfree) = NULL;
--	struct ftrace_event_field *field = NULL;
- 	struct trace_event_file *wprobe_file;
- 	struct trace_array *tr = file->tr;
--	struct trace_event_call *event;
- 	char *event_str, *field_str;
- 	bool remove, clear = false;
- 	struct trace_wprobe *tw;
-@@ -986,29 +1122,9 @@ static int wprobe_trigger_cmd_parse(struct event_command *cmd_ops,
- 		return -EINVAL;
- 
- 	if (field_str) {
--		char *offs;
--
--		offs = strpbrk(field_str, "+-");
--		if (offs) {
--			long val;
--
--			if (kstrtol(offs, 0, &val) < 0)
--				return -EINVAL;
--			wprobe_data->adjust = val;
--			*offs = '\0';
--		}
--
--		event = file->event_call;
--		field = trace_find_event_field(event, field_str);
--		if (!field)
--			return -ENOENT;
--
--		if (field->size != sizeof(void *))
--			return -ENOEXEC;
--		wprobe_data->offset = field->offset;
--		wprobe_data->field = kstrdup(field_str, GFP_KERNEL);
--		if (!wprobe_data->field)
--			return -ENOMEM;
-+		ret = wprobe_trigger_field_parse(field_str, file, wprobe_data);
-+		if (ret < 0)
-+			return ret;
- 	}
- 
- 	trigger_data = trigger_data_alloc(cmd_ops, cmd, param, wprobe_data);
-diff --git a/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc b/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
-new file mode 100644
-index 000000000000..b79427caf974
---- /dev/null
-+++ b/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
-@@ -0,0 +1,73 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# description: event trigger - test set_wprobe trigger with BTF struct offset
-+# requires: dynamic_events "w[:[<group>/][<event>]] [r|w|rw]@<addr>[:<len>]":README events/sched/sched_process_fork/trigger "[(structname[,field])]<argname>[->field[->field|.field...]]":README
-+
-+echo 0 >> tracing_on
-+
-+rm -f $TMPDIR/hoge
-+
-+# we will skip this test if fprobe is not supported.
-+if ! grep -Fq "f[:[<group>/][<event>]] <func-name>[%return] [<args>]" README; then
-+    echo "UNRESOLVED: fprobe is not supported"
-+    exit_unresolved
-+fi
-+
-+# we will skip this test if the target function does not exist.
-+if ! grep -wq "do_truncate" /proc/kallsyms; then
-+    echo "UNRESOLVED: do_truncate not found"
-+    exit_unresolved
-+fi
-+if ! grep -wq "dentry_kill" /proc/kallsyms; then
-+    echo "UNRESOLVED: dentry_kill not found"
-+    exit_unresolved
-+fi
-+
-+:;: "Add a wprobe event watching 8 bytes" ;:
-+echo 'w:watch rw@0:8 address=$addr value=$value' >> dynamic_events
-+
-+:;: "Add fprobe events for do_truncate and dentry_kill" ;:
-+echo 'f:truncate do_truncate dentry=$arg2' >> dynamic_events
-+echo 'f:dentry_kill dentry_kill dentry=$arg1' >> dynamic_events
-+
-+:;: "Add set_wprobe trigger using BTF struct offset resolution" ;:
-+# Syntax: set_wprobe:WPEVENT:(STRUCT)EVENT_FIELD->MEMBER
-+# (dentry) is the BTF struct type (without 'struct' keyword, matching fetcharg syntax)
-+# dentry   is the event record field name holding the pointer
-+# d_inode  is the struct member whose offset is resolved automatically via BTF
-+# This sets the watchpoint at the resolved d_inode pointer.
-+echo 'set_wprobe:watch:(dentry)dentry->d_inode' >> events/fprobes/truncate/trigger
-+echo 'clear_wprobe:watch:dentry' >> events/fprobes/dentry_kill/trigger
-+
-+:;: "Verify triggers are set" ;:
-+cat events/fprobes/truncate/trigger | grep ^set_wprobe
-+cat events/fprobes/dentry_kill/trigger | grep ^clear_wprobe
-+
-+:;: "Ensure wprobe is still disabled" ;:
-+cat events/wprobes/watch/enable | grep 0
-+
-+:;: "Enable fprobe events" ;:
-+echo 1 >> events/fprobes/truncate/enable
-+echo 1 >> events/fprobes/dentry_kill/enable
-+
-+:;: "Start test workload" ;:
-+echo 1 >> tracing_on
-+
-+echo aaa > $TMPDIR/hoge
-+echo bbb > $TMPDIR/hoge
-+echo ccc > $TMPDIR/hoge
-+rm $TMPDIR/hoge
-+
-+:;: "Drop dentry caches (for dentry_kill)" ;:
-+sync && echo 2 >> /proc/sys/vm/drop_caches
-+
-+:;: "Check trace results" ;:
-+cat trace | grep watch
-+
-+:;: "Remove wprobe triggers" ;:
-+echo '!set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
-+echo '!clear_wprobe:watch' >> events/fprobes/dentry_kill/trigger
-+! grep ^set_wprobe events/fprobes/truncate/trigger
-+! grep ^clear_wprobe events/fprobes/dentry_kill/trigger
-+
-+exit 0
+ Documentation/mm/hugetlbfs_reserv.rst              |  17 +-
+ .../translations/zh_CN/mm/hugetlbfs_reserv.rst     |  11 +-
+ cgroup_v2_allocation_failure.c                     | 169 +++++++++
+ fs/hugetlbfs/inode.c                               |  31 +-
+ hugetlb_reserve_pages_out_put_pages.c              |  49 +++
+ hugetlb_reserve_pages_out_put_pages.sh             | 153 ++++++++
+ include/linux/hugetlb.h                            |  17 +-
+ include/linux/memcontrol.h                         |  30 +-
+ mm/Makefile                                        |   2 +-
+ mm/hugetlb.c                                       | 260 +++-----------
+ mm/hugetlb_subpool.c                               | 230 ++++++++++++
+ mm/hugetlb_subpool.h                               |  21 ++
+ mm/memcontrol.c                                    | 116 +++++-
+ subpool_leak_max_size.sh                           |  72 ++++
+ subpool_shared_leak.c                              |  43 +++
+ subpool_shared_leak.sh                             |  87 +++++
+ tools/testing/hugetlb_subpool/.gitignore           |   1 +
+ tools/testing/hugetlb_subpool/Makefile             |  18 +
+ tools/testing/hugetlb_subpool/test_subpool.c       | 400 +++++++++++++++++++++
+ 19 files changed, 1445 insertions(+), 282 deletions(-)
+---
+base-commit: 4539944e515183668109bdf4d0c3d7d228383d88
+change-id: 20260706-hugetlb-alloc-failure-fixes-c7f775eca29f
+
+Best regards,
+--
+Ackerley Tng <ackerleytng@google.com>
+
 
