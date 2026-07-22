@@ -1,49 +1,54 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC19136197D;
-	Wed, 22 Jul 2026 16:25:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8858E3F3295;
+	Wed, 22 Jul 2026 16:30:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784737520; cv=none; b=dgUhOVyMWVIFjACzsH/Z+ETx1LbxAuK+TQ0FiLTgTqeNjogGe4EVYgNjUbaTgenyTWA+IyiO0GEeYwZYgmWOVHxUBYXmWcBdtNNLfuMV6SDPftp4neyUnNyF5xlH0jfkqC8wYkjq2DoLWaPdpmesPmzgJhyrfVhZ14R2+BUsJDA=
+	t=1784737801; cv=none; b=kxZEViIY6stCqrP8rEaqt0oAuULCi371QODfjUrCSB7pPiCfODfetonRdQyZbF3zV0E+n5DuIdm/ZLdAvZOLdbvpWVeKXrFSqRN2tBDlI7qHbMDNUMVF1jhqeAacbchmq1MOM77NC0uDFzAP037G2FRHWUECaASLtDcIIR3n3G4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784737520; c=relaxed/simple;
-	bh=qKIKPBUsD4LND34KJuiB+VeheOo0HJOFwq+aNMdZ5Gw=;
+	s=arc-20240116; t=1784737801; c=relaxed/simple;
+	bh=aMM/vNOboogkoZh2yQiIqH/EjZ7Zy72+CldEaNj7DiA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=qLvMdPEI2trBtp/rLbulyED464Ag2JWjT7Qoslo6DgylhQ27lz2P9SiCZo+k8+yLvHXPoUoJG4Te6I/dDcQqug/1hatmqqpWKMmS5lxMsikOdXr9IjjK0bMtgEeGFDy+VCp/3X/0Lt38gwvhi2eVSaja3HsAfNfe4JvXOYBkZRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=pusuLSjg; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=QERn3Hbw4mDd2otSl2j2PIifgEK8sSORC/0Ga338avnBsOaN+6RXZwGYPsxX8sI+h1GVWvw4rKpmxI1W+WlAFLi737nmTHNRk4pJFq/2rJrE5ig1wArvO7L+G/saqkuZgeQLxqMuklgnUq6HJZcqXpLRmhGaLYMPM+XK1GR0U84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XgXMC54e; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="pusuLSjg"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 03C38408B4
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XgXMC54e"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BA6AE408B4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1784737518; bh=oI1MXZI8y+dwyxJfDWYiXWEhzC6e16kQlFJCyHYmqjY=;
+	t=1784737799; bh=ykJFhFb2lMkt34AUT7+/qCXmaKy5AGwqKYWzTJfCU3c=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=pusuLSjg0G4+VOOR2ixBjx3H75VZEzDPZQA27grXICM8IaJ56AUS/9bktTeGFtf4U
-	 FP4cy1WyXlrNUZmmmh/e92rm852xj/7xxp+my3MRq4Q5/c6zg7uxkIq+ES34YtePh9
-	 SjJq/jqBcVK0EcU+/MJ9DVcFOEF1xmFOu/YnaEzsfQVOr/2spcTZ/rZmA4lL2bGQgo
-	 z45e7xcFtiYV4rR1la8w/qyuTMYYFV6ZxrDVGEJpe9a8HelSbqo1INoHQgYHVbveTe
-	 ej6C13vIuHwLhegbVk1KXdGf38by2q3o0s0Hh8liWJfJF2hAAOXiJCaDEbbJ9CGCx7
-	 XDVdAYuwQZ7qQ==
+	b=XgXMC54eq2XWYsiz6UFJCjgbWQOglYWWrtapkyqs4rIbuldg7rWllwVUgmC5miXLC
+	 iiFxKmg8HWFHC7v7+kksaDcN0WUhs7mGpC2hwjrSkeURuz8dDtRUvQb48nwE2UpJH2
+	 1E9kwwLfqjq8vNeWc31evlUR+fuwrrm3BOEYDF7AFIck11r5dA46Ch2qXTCCtIkPLp
+	 XDORHwe/WaGDpWCaVJR1d11kjOm7s4pG7Camm6m6l4ux9/QrTtmBFfpgi+glXlKn2t
+	 l1QENwajMCZ+eIkyFkRfH5hCNZr0g/+aW/EMdNKgYkg/oHg22lRvCnCHj/gHFHXhrs
+	 sRfMw1UE/lgqg==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 03C38408B4;
-	Wed, 22 Jul 2026 16:25:17 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id BA6AE408B4;
+	Wed, 22 Jul 2026 16:29:59 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Jyun-An Chen <jun930436@gmail.com>, Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: Jyun-An Chen <jun930436@gmail.com>, Randy Dunlap
- <rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>, "open
- list:MIN HEAP" <linux-kernel@vger.kernel.org>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v4] Documentation/core-api: min_heap: remove documented
- but unimplemented min_heap_empty()
-In-Reply-To: <20260722044236.6346-1-jun930436@gmail.com>
-References: <20260722044236.6346-1-jun930436@gmail.com>
-Date: Wed, 22 Jul 2026 10:25:17 -0600
-Message-ID: <877bmnc7pu.fsf@trenco.lwn.net>
+To: Yahya Toubali <yahya@yahyatoubali.me>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Michal =?utf-8?Q?Koutn=C3=BD?=
+ <mkoutny@suse.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, "open list:CONTROL GROUP (CGROUP)"
+ <cgroups@vger.kernel.org>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>, "open
+ list:SOUND" <linux-sound@vger.kernel.org>
+Cc: Yahya Toubali <yahya@yahyatoubali.me>
+Subject: Re: [PATCH v3] Documentation: add SPDX license identifiers to RST
+ files
+In-Reply-To: <20260718165618.1923627-1-yahya@yahyatoubali.me>
+References: <20260718165618.1923627-1-yahya@yahyatoubali.me>
+Date: Wed, 22 Jul 2026 10:29:58 -0600
+Message-ID: <87y0f3asxl.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,49 +57,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Jyun-An Chen <jun930436@gmail.com> writes:
+Yahya Toubali <yahya@yahyatoubali.me> writes:
 
-> min_heap_empty()/min_heap_empty_inline() are documented as part of
-> the Min Heap API, but no such functions or macros exist in
-> include/linux/min_heap.h or lib/min_heap.c. Remove the stale
-> description.
+> Add SPDX-License-Identifier: GPL-2.0 to RST documentation files
+> that were missing it. This aligns with kernel documentation
+> conventions.
 >
-> Signed-off-by: Jyun-An Chen <jun930436@gmail.com>
-> Acked-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-For future reference, your signoff should be the last of the tags; acks
-should go before.  I have fixed that up this time.
-
+> Signed-off-by: Yahya Toubali <yahya@yahyatoubali.me>
 > ---
-> Changes since v3:
-> - removed an unnecessary clause. 
->
->  Documentation/core-api/min_heap.rst | 13 -------------
->  1 file changed, 13 deletions(-)
->
-> diff --git a/Documentation/core-api/min_heap.rst b/Documentation/core-api/min_heap.rst
-> index 9f57766581df..919dcf1bdec7 100644
-> --- a/Documentation/core-api/min_heap.rst
-> +++ b/Documentation/core-api/min_heap.rst
-> @@ -240,19 +240,6 @@ This macro returns `true` if the heap is full, otherwise `false`.
->  
->  **Inline Version:** min_heap_full_inline(heap)
->  
-> -- **min_heap_empty(heap)**: Checks whether the heap is empty.
-> -  Complexity: **O(1)**.
-> -
-> -.. code-block:: c
-> -
-> -    bool empty = min_heap_empty(heap);
-> -
-> -- `heap`: A pointer to the min-heap to check.
-> -
-> -This macro returns `true` if the heap is empty, otherwise `false`.
-> -
-> -**Inline Version:** min_heap_empty_inline(heap)
-> -
+>  Documentation/admin-guide/cgroup-v2.rst      | 1 +
+>  Documentation/core-api/housekeeping.rst      | 2 ++
+>  Documentation/core-api/memory-allocation.rst | 1 +
+>  Documentation/doc-guide/sphinx.rst           | 1 +
+>  Documentation/process/5.Posting.rst          | 1 +
+>  Documentation/process/howto.rst              | 1 +
+>  Documentation/sound/designs/index.rst        | 2 ++
+>  7 files changed, 9 insertions(+)
 
-Applied, thanks.
+In addition to Greg's comments, you'll want to split these out, since
+they need to be judged by different maintainers.
+
+Also, have you verified that GPL-2.0 is the intended license for all of
+those files?  I wrote one of them and big parts of another, but you
+haven't asked me...
+
+Thanks,
 
 jon
