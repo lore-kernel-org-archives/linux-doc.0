@@ -1,193 +1,202 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9E1CA52
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 12:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784724475; cv=pass; b=MpptbEGyJp4R+iKjPgoOzoeiZ4lw6+Y/m7lvPIqbaiX+OEJeNC3CFanuVIK/IoIuup8x+hgObzVAyZu4uVMfw49hDR1s2t9yyfEkxw30Ot2l5XB6yKefxwm+DD6DM1OOkoDkpOnMr5JBgkcAzJb6TuGZcPIVSZl2CWea6JpjMpQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784724475; c=relaxed/simple;
-	bh=TWe1Cg0XZd9aKCfBim6632tR82TsQqkTtOSHRxZ8GhA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jAgWwA668muvBF26g+J3fgvEVDn3W1oeTDYsnc+qAqMKrzK8fwPleg3XtCuRT3u/ub75wByyKVJWAm52fnuSplu5iza++jAmqU9A1GN8mOTGJmxb88U0tAdViIzTcDsYacmkNMKLooecOeFR+ku6ZJqJl8zEvldgpjcGiL0c1/4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=brRId3TP; arc=pass smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64B64158535
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 12:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784724493; cv=none; b=d3nmDZy2xOwXWwmX1EakhA6iEqVm6EF0NH5+2c0SwOVtxyQM8FqjF3DYBSsr+J7yjsUNbgMTi694Y3xGYNwFu4Ubk3+AfgQTdGiFv520olIlGaMql/IPZg47l2pbhh5QjMSfqEjbyh0q9Xqh9qoyjvBwHUO4T1ZVDh2q6IlkoJQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784724493; c=relaxed/simple;
+	bh=LSan+qsl/PdUzA+3tf/f+0lljAi+xqioinYXzBQFQpM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LY1v6s6WL63bAQzcFH9OgLtwU65IrLJ8jyLERypPDOX3JBoviYSi1UtXWEUhue+Eedlm462AcgknTCo8BEhKPCpFIM4uuyD81gUfPacKuIjMguoDkdhuE9JyGwIV1C43APEm2AFO9YRAJWSw3RRGEy/T5SMNOZ6wo1NX5boefrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QTDcGTKP; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="brRId3TP"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c15f020a223so1626730066b.1
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 05:47:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784724472; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RvlJMCQnCM87UpA93h2O2dEdCLbxM5EfaRvQAnWjSY8WFr4MDGFmYj7tWQYd95QSTx
-         jcMnfKw+fX8yBn0Qs0lVX8SsSNFwhOMjw424XORvmhvZwYRlR8cW49VF/tbmnudhRyEv
-         Wpej3Dh5L3syLwYdHiDykVs7w6st9jWtE5jf74Zwk5oh3LcVz6qXI+XJI+KHAcPJc2wN
-         cKYP4H7579mjA4YH3SZSi+BDFwHLFHzCqHPIVYbMMrKQ7C7CS75vy/1+8eRJzJe67eJM
-         OyRmVRB1kbJwmYOx6d10kSC0CCPwoWIKsAJdVqGtH+QzNv+VBumXeL0tLGAI81eTob2X
-         YVJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=XYV9hkuF2d5ODBMLR+pFWv3rbaq2dbZuJ+4IyfPmr+A=;
-        fh=DTiG7+V3bVTyTFBKTElAc+jRYKj/ML/uDuhubC83YE0=;
-        b=NqWHUF9bwQboKpPAvj96b/2/YIm+id8s9ZzGJL9mU3MN/s7iqfg9qIoHrJDL3dlILW
-         GX3rCiLS2X5Mcl38GZMVtFhSMGR7QtNRH9McRuHlU3T8nqP7mLFz7J745VpTQdUyHLXD
-         OJT7GXHXmemm07/2kkaVD6Kczz+bC7N8/HRNehk+Vq42MF6dfJknX4ANd89e0lzkJw11
-         0KyZ50rV2XUd/1qmY63TQqvGkhfUYJbAggbY6cPt5RCPizQofZTigWZSt5lDh+6pfupY
-         Nocf2UeJOYvs/U2CpwJS+Im6t3rxUhICCslbLmZ/R3oEOpCkygNCxOeLvBvxTvB7r03m
-         OaIg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QTDcGTKP"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49553515a8bso46933195e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 05:48:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784724472; x=1785329272; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=linaro.org; s=google; t=1784724490; x=1785329290; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=XYV9hkuF2d5ODBMLR+pFWv3rbaq2dbZuJ+4IyfPmr+A=;
-        b=brRId3TPWt1m/r+PuXSWAwdfqAY4dtCCP5M63A4yYVkmjXM/Vtfgc8136k4/ty3Y1n
-         QVuQ5GkIubXX/JyQKYOCLeMH5i4EM91ZUTrkyqEuOZfnL/n5XD4kbUllgiFLnuUinUaR
-         zF0Y/Nqzn0XDu98ZhtEmLfq/r3+B2pcsxe/CZtBqdSWfqUR5+8OvOaCqDp2mqiniPmi6
-         lxdYD3LUGRCdCEcD6tc0Qb7xZlxx7ULPjXehFIOjT9JV0JNQxMGJYbXsILsDpmrqndST
-         UNjgAwCkJj4dbYw7keH9EuHoKdlcpjXuufHpdn+oUNyfkKQtFChYO/oNIGmqUUBtwhr5
-         Hdcg==
+        bh=3vll96HvxjohoJS+PNU+ieDa/RF4H+N4kRxOCCao22w=;
+        b=QTDcGTKPsYGAlYqslFtyfqpQMz8CFViRPzgVwUFv1krUZ4zz0Pen5q33Xp7SHZp4yI
+         cND4LWrHo2fylcNol1+GAj1fBz02X6aGJRiIiwLT3K7EGRQMbWwWtvgjm9jNEj8tChlk
+         c1CrMx8PT2QM2BB90OL2owbQne8LE7OpC74PT7Iju+h5aCpaHAjykyterGAqRoJ6rYNz
+         a7UzrVvUQ1htleJtablQs6t6fm4yzdejCQiAmwh5M/1MdVgEETMMbsXyvNHHG86GZ7Hj
+         pkhMzvlcL6yXsIvtBiTCsYNugCTx3+xEcu0ttUzakA3mI5hIJNy5AglGOsrtj6BYEOKT
+         UfZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784724472; x=1785329272;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1784724490; x=1785329290;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=XYV9hkuF2d5ODBMLR+pFWv3rbaq2dbZuJ+4IyfPmr+A=;
-        b=YHk/uZHJtW7OXvrgmDWIGyavMY4NA7tgSIW+rDnBQH6JIx2WIHw2FXSdTdXBRoc2lx
-         dxHDZasFYilj11g62ZhXt4mRs5Cc/k91DwxaTXr68bExcJk1Ql4xTM5FuVgyFQQGt55L
-         p/7pj7/KfkCx1zeXzud+lChE7mWoNSVOaLsh/nQtBx9mkJIOqngASHoKBE1N58hHu5c3
-         MFTrzyLhv0ftyOM8Kn47WKL7WHI1LTCV32CPiclCzge4FMNDLZ3RoofZrBe21tKJ69Dg
-         3fWP2AHzZCA2wppKdLZyzW7UITfkkLY7mBjKP4zfIl9oxoKoKuqsNA+ZIYKSHRGRJdr+
-         tFIg==
-X-Forwarded-Encrypted: i=1; AHgh+RqpHSI8okCri/apCRLjbW0tbxPSn/61l6YmdsMArV5hmNUyEUyyxAJ6ml3+x9xVUMwtSjp4zJoYKaI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuZ10RDMf/EGhBBMFL0EJm54lPehP9ahL+gc0yfTN/o+npuEry
-	ayggEBI1n4gsRfmWwUOJembzp7MHcrAI7mChOmivqk00q3b72MhiyeBmyFvobLMb5MsWaGvUkvr
-	0pm8ZjqUALd8ZHduQV9a/wOhgrw78Lig=
-X-Gm-Gg: AR+sD12gftlFs3qIY84m8kAkLXQmP1rvISSrQIriojVj0CFrkWPrA1FRF+tyM4H+6tI
-	2wweTikio7o+zyZCQcF2kv2kFIOZ0LOD+NxQhX7JE/d3VESRX35FB4ww9iYCAfG/vaDOxyLcg6Y
-	iGJfUa/5m4pC+fcoFYuZjl7Oh0iq6GNEDzCAEU3+/Ous4zLHTdsR0431skuFnR6Yo8R4t/MqOJa
-	ibiZhCVOS0qgSC+tcZo+r5wxCeYmxonBWLck5MFKlK2KletjzVVQk11YxjPuAs=
-X-Received: by 2002:a17:907:972a:b0:c16:46b1:e0c2 with SMTP id
- a640c23a62f3a-c16b48a8b9dmr984425966b.62.1784724471369; Wed, 22 Jul 2026
- 05:47:51 -0700 (PDT)
+        bh=3vll96HvxjohoJS+PNU+ieDa/RF4H+N4kRxOCCao22w=;
+        b=YVnN6w5EklgzbtrloWlys5b4jivHAQq4HuLYN2fr/Sfb9y5SOH2YcvhtVgUUptaDF7
+         tjJiUuX8VMOKy8M+M17fGEExI0Dfb/G/aNxbQ6IusANe0zTn44P6ZXGBX9L/NGPugwmH
+         cM+uiGN4v6Cb8teKS2msfZxKaChK6f6thYm7Hd/2EC/r9XMEB+8pES3323C1Aneu0kMt
+         dkdAABbu/QeyxM4SD+ug0OWDSLEVeQrqMJrKN+MQ0Bo2+r47n+SH6z8nU0Qw3oFYmj2F
+         JSFnNhQ4FYzBZ8m7bwQxgU2YW/Y4Bq+IuA+rmeyb0/dbZ/agdYJtR3/2Yvd+Yh7dtaPe
+         wwRw==
+X-Forwarded-Encrypted: i=1; AHgh+Rq1CwWf8p7pw6KHufa2m5ZkOxPE8sHaiIyh5WpKCc8HITswFIdFl+dj1k2XkdEkvVIchDh2D21DFaI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0a9Sf186SPiHB8vtTJBft9/bTX/KFniZZU7raXE+GRZIEtf6A
+	Ub/O9DvLuGi+ia9oewJciLqLTOx1AIIuLYGSFE9EINiiFirxG1lcjXDtmTtTC2kJFJ8=
+X-Gm-Gg: AR+sD12as8+5q2iaFKutvx5RxBt+TwI/jpbcIm5uSsx3RLgOjfSnhD+YtCVq0UoUVCM
+	3e/zu13EiPrzyjvN/H5i5dAmAEtxNTnvFzOv+82h2M8Ehz1tnHHfMfmUcKhN4VMpv4D42OdVvA4
+	Ob5NhehOg8i8udMxPcA0QoTjqvx5BiiOkQ8Cqg9oNgVpV8wnJ/8hF2BiBu7Cx0+9mRAthiiwRXL
+	m9z5LN791mHiZNqIXxCFhpOZ5dDWXrSO7+ZnSsBzdqMlZC1EoFhyioK+OZA+/w0UX6noi3Zvlhw
+	uYKLOg6xR+WOhAvfpjy+yhI7v3yaJg4S8K7Baly+PGNM/V/ddh2HttP9B0Vg29NYA0NyHaFmYxq
+	sz9boqWRzEJ7IbEbk1Xrv2BOyFBYdjanxnLPLCWt9wcXoa+drOIQQwbpjtMz3sACTjtIfGx+HCq
+	2chxLhIBB9PnLb
+X-Received: by 2002:a05:600c:474e:b0:493:915b:dc4a with SMTP id 5b1f17b1804b1-4954a3d005amr297618495e9.8.1784724489524;
+        Wed, 22 Jul 2026 05:48:09 -0700 (PDT)
+Received: from linaro.org ([2a02:2454:ff24:7210:7ae3:a857:e482:495])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653bffefsm131520645e9.9.2026.07.22.05.48.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 05:48:08 -0700 (PDT)
+Date: Wed, 22 Jul 2026 14:47:56 +0200
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Udit Tiwari <quic_utiwari@quicinc.com>,
+	Md Sadre Alam <mdalam@qti.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Vignesh Raghavendra <vigneshr@ti.com>, dmaengine@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	sashiko-reviews@lists.linux.dev,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v23 06/14] dmaengine: qcom: bam_dma: add support for BAM
+ locking
+Message-ID: <amC7_M-HjVZ3sQuT@linaro.org>
+References: <20260721-qcom-qce-cmd-descr-v23-0-1be02deffda9@oss.qualcomm.com>
+ <20260721-qcom-qce-cmd-descr-v23-6-1be02deffda9@oss.qualcomm.com>
+ <20260721134853.2B2401F000E9@smtp.kernel.org>
+ <amCGXUUd4VmuQRGD@linaro.org>
+ <CAMRc=MfBNB0pvv1kPPcswE4Y2m7PXBO49bwJg=v0+aY=JmJKWw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260720034358.68714-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
- <CAOQ4uxiEzP2e=cRw-AiGxtSv6WMSA5yR3cmgrF97s7ggU6wzqg@mail.gmail.com> <CAJfpegt9PwHksYhsQZeCsW0eooXVVihyieTpeHMmC-+Pq8BWaw@mail.gmail.com>
-In-Reply-To: <CAJfpegt9PwHksYhsQZeCsW0eooXVVihyieTpeHMmC-+Pq8BWaw@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 22 Jul 2026 14:47:37 +0200
-X-Gm-Features: AUfX_my2cSFlhFYxiKgO1hiNmZM0_RgRfBeCPM6_N17W9wq10tY2PdKKMNctT2o
-Message-ID: <CAOQ4uxhuivjMMt_Dm3VwKmOhHg7ZHdAww6j6jp+RMjPoRde+bA@mail.gmail.com>
-Subject: Re: [PATCH V11 0/9] famfs: port into fuse
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: John Groves <john@jagalactic.com>, John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, 
-	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMRc=MfBNB0pvv1kPPcswE4Y2m7PXBO49bwJg=v0+aY=JmJKWw@mail.gmail.com>
 
-On Wed, Jul 22, 2026 at 12:47=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu>=
- wrote:
->
-> On Mon, 20 Jul 2026 at 12:07, Amir Goldstein <amir73il@gmail.com> wrote:
->
-> > It's not about this ioctl, it's about infrastructure reuse.
-> > It's about the fact that there is NOTHING special about dax_devlist;
-> > and no reason not to manage it via backing_files_map.
+On Wed, Jul 22, 2026 at 02:34:52AM -0700, Bartosz Golaszewski wrote:
+> On Wed, 22 Jul 2026 10:59:09 +0200, Stephan Gerhold
+> <stephan.gerhold@linaro.org> said:
+> > On Tue, Jul 21, 2026 at 01:48:52PM +0000, sashiko-bot@kernel.org wrote:
+> >> Thank you for your contribution! Sashiko AI review found 5 potential issue(s) to consider:
+> >> - [High] State leak causing hardware misconfiguration on channel reuse due to uncleared `lock_scratchpad_addr` and hardcoded direction.
+> >> - [High] Channel state corruption when `bam_slave_config` fails validation.
+> >> - [High] Infinite BH workqueue loop and unratelimited log flood on memory allocation failure.
+> >> - [High] DMA API violation: `lock_ce` buffer shares a cacheline with frequently CPU-modified struct members.
+> >> - [Low] Unused assignment of `hdesc` in IRQ handler.
+> >> --
+> >>
+> >> --- Patch [6]: [PATCH v23 06/14] dmaengine: qcom: bam_dma: add support for BAM locking ---
+> >> commit 8b44c5e4935cbb61832adb3262df00b3b606a283
+> >> Author: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> >>
+> >> dmaengine: qcom: bam_dma: add support for BAM locking
+> >>
+> >> This commit adds support for BAM pipe locking by prepending and appending
+> >> dummy command descriptors with LOCK/UNLOCK bits when starting DMA on a TX
+> >> channel. It uses a peripheral-local scratchpad address communicated via slave
+> >> config for the dummy writes.
+> >>
+> >> > diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
+> >> > index f3e713a5259c2..411c60c4433e2 100644
+> >> > --- a/drivers/dma/qcom/bam_dma.c
+> >> > +++ b/drivers/dma/qcom/bam_dma.c
+> [...]
+> >> [ ... ]
+> >> > @@ -1064,6 +1197,7 @@ static void bam_start_dma(struct bam_chan *bchan)
+> >> >
+> >> >  	lockdep_assert_held(&bchan->vc.lock);
+> >> >
+> >> > +	vd = vchan_next_desc(&bchan->vc);
+> >> >  	if (!vd)
+> >> >  		return;
+> >> >
+> >> > @@ -1072,6 +1206,24 @@ static void bam_start_dma(struct bam_chan *bchan)
+> >> >  		return;
+> >> >
+> >> >  	while (vd && !IS_BUSY(bchan)) {
+> >> > +		/*
+> >> > +		 * Open a LOCK/UNLOCK bracket around each fresh sequence.
+> >> > +		 * Sentinels inserted by bam_setup_pipe_lock() are skipped: they
+> >> > +		 * already have bam_locked set and must not trigger a second pair.
+> >> > +		 */
+> >> > +		if (!bchan->bam_locked) {
+> >> > +			ret = bam_setup_pipe_lock(bchan);
+> >> > +			if (ret) {
+> >> > +				dev_err_ratelimited(bdev->dev,
+> >> > +					"failed to setup the pipe lock, deferring transfer: %d\n",
+> >> > +					ret);
+> >> > +				queue_work(system_bh_highpri_wq, &bdev->work);
+> >> > +				break;
+> >> > +			}
+> >>
+> >> [Severity: High]
+> >> Does requeuing to a high-priority BH workqueue upon ENOMEM cause CPU
+> >> starvation? Because system_bh_highpri_wq executes in softirq context,
+> >> requeuing immediately without sleeping prevents the memory reclaim needed
+> >> to resolve the GFP_NOWAIT failure, leading to an infinite spin loop.
+> >>
 > >
-> > The reason you stated was that you want userspace to determine the
-> > daxdev_index/backing_id - fine, no problem - this is why I asked that
-> > you pass it the desired backing_id in the ioctl.
-> > In fact I think that all fuse backing_ids would be better assigned by u=
-ser space
-> > so the extension of padding =3D> backing_id is not unique to famfs.
->
-> Right, so I suggest to just reuse FUSE_DEV_IOC_BACKING_OPEN and add
-> two flags: one to enable user supplied backing ID and the other to
-> indicate that fd refers to DAX device.  The changes to do compared to
-> the current patchset are quite minimal.
->
-> > And the best part is that this request requires no changes to your user=
-space.
-> > You already bite the bullet and maintain the new/old uapi but changing =
-the
-> > kernel implementation does not require this burden from you, so to be h=
-onest
-> > I really don't understand why you did not follow Miklos' suggestion.
->
-> Code reuse is also important, but I understand John's position to want
-> to separate famfs from existing codebase as much as possible.  And
-> because this is an implementation detail I don't want to make this a
-> show stopper.  We can easily fix it later.
->
-> > > - Lose the famfs interleaved extent format. I have complied with this=
- request.
-> > >   It makes some things worse, but we'll discuss that later.
-> > >
+> > It looks like my suggestion to queue_work() again in the error path of
+> > bam_start_dma() wasn't great if we end up causing an infinite spin loop.
+> > We do need to retry somehow or report an error though, I don't think
+> > aborting and leaving the desccriptors completely unhandled is an option
+> > either... :(
 > >
-> > I am really not aware of a request to lose the interleaved extent forma=
-t.
-> > How can this patch [2] from Miklos which reimplements this format as a =
-generic
-> > uapi be mistaken for a request to lose this format?
->
-> Let's not care.  We can easily add this later if famfs (or any other
-> use case) decides to want this after all.
->
-> Making the initial patchset smaller is win in any case.
->
-> > Let me recap the former review requests as I understand them:
+> > One option would be to try to avoid the allocation and write the lock
+> > descriptors directly into the FIFO, but this will probably get really
+> > messy as well, since you would need to carefully modify the FIFO
+> > management in several functions ...
 > >
-> > 1. Use ioctl instead of GET_DAXDEV
->
-> This is done, just need to reuse the existing ioctl instead of add a
-> new one with the same semantics (okay not true because of the fixed
-> backing ID extension...)
->
-> > 2. Use backing files infra for daxdev table
->
-> Leave this later.
->
-> > 3. Use ioctl instead of GET_FMAP
->
-> Not sure we agreed to use an ioctl for extent mapping.   What we did
-> agree on was to use a generic interface that doesn't have anything
-> famfs specific in it.
+> > I don't have a good spontaenous idea how to solve this right now. :/
+> >
+> 
+> Pre-allocate the lock descriptors (if needed) in bam_prep_slave_sg()? As in:
+> call bam_make_lock_desc() in bam_prep_slave_sg(), store the descriptors and
+> make bam_setup_pipe_lock() return void as it will no longer be possible for it
+> to fail? It would just grab the preallocated descriptors.
+> 
 
-My bad. I thought that FUSE_DEV_IOC_STRIPE_OPEN was an
-example of how GET_FMAP should be made into a generic interface.
+I considered suggesting this, but how do you know which descriptor needs
+it in bam_prep_slave_sg()? It's just the allocation, afaict it doesn't
+tell you anything about the order in which they will be submitted. :/
 
-Sorry for the misunderstanding John.
+We could always allocate the extra lock descriptors and waste the extra
+memory for the descriptors that won't need it. That should work, but is
+also not great ...
+
+I was hammering at the code a bit earlier to try the "write the lock
+descriptors directly into the FIFO" approach. It has some advantages,
+but also makes the FIFO management quite a bit trickier, hard to get it
+right without full concentration. :')
+
+I _think_ it could potentially work, but if you have a simpler idea I'm
+also happy to throw away the mess I started. :-)
 
 Thanks,
-Amir.
+Stephan
