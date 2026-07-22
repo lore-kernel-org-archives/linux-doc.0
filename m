@@ -1,96 +1,263 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7DB407570;
-	Wed, 22 Jul 2026 18:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F68335C685
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 18:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784745330; cv=none; b=tRTMdRrJR6MG1zvR+mb9WlfRPq7HXQRXofRWH70SY0ivSGQolIK9DSeFvQh8oUP9UNkoqGWe54KuxOkEVneomJIez2CkqyTILDs9vyKIsvY/43GycyrPnPXxR9LInoxiWNG4padM5TnDovQwog114XSkSmOzbDX65N2fiBAISsg=
+	t=1784746365; cv=none; b=gXBdJkzNItNe8k1bee9eftBfp+7kSfAB7kwb2MstbSdCoEsBHOSs7AYRL9lAHWbnZ2Ntx866clh75aoOoHm2gLfZtmKqYbm7KKE8PmbJvBEMCFBy/ta610W5KFf/oXGl8krvf3tEAtVd1lzz+ys7QlkdBK7Lf5f29KvNqfHI9nY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784745330; c=relaxed/simple;
-	bh=dSlnlKe07hlOR23uhYPBh8ZTHKH8iB8wQID+iaO+xXo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Hbttmt6bzJ+qz87tSjj9nn9pSwITKXiQZuChare3AfCLELk6YzoNowcBIfUZNvMpDcbcVzmjmwCBwiAlCkN2Nk+C1AWS5Hs6Tm+evZGXOA0r3V1OYHgsxbhL7Zby5QY7SXftqJk10+onzvZraiqUPUZAv7sabBzImeGGJJjLvVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a6LTxb6M; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784746365; c=relaxed/simple;
+	bh=0l6MVvOJRh+S8vgqEY5AG8STSmRz2uSsmD/X3ffNyHU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EvskMUaAQF1Tt2wUEDhayv7g3+/olUOp/vWrHfGi/QkOoMhrRsaH7ky4LjMPOGonouZUPFo8r4lrFBrPSryOzW6H9j9wJAnyekq7TuLWgWme+BRje1cL6Pd829eNO3gi/NPNyQqcz4/ZVth/qT8jwnB5lN890fp43LidgsEOito=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cGrm4QFp; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a6LTxb6M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C4751F00A3A;
-	Wed, 22 Jul 2026 18:35:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784745328;
-	bh=670ICVCxpkbIIsTKMOsa+I+z+C4FgJRDQNs6RF7SdGI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=a6LTxb6Me6mG2aUNvx62hRLaJopZgj2ogTsG8vH+9nTrF7phHbWJSmGpvev0Mxvvt
-	 3c8U84ok5cF/v+rxZT6PsnyNEZnEti27oSLMZ9CjBWQ14jQOM+KjpEdYKOjUnyscea
-	 bD75r9/q7UDGNM7PAAcphCZ39vlipGyeAoYzQ+fLUEH8VNtac1NbFbz50FqsCzoChy
-	 yx4Eo3Q4/fyiLdyQPCRVfHlVSFX0DNSbXI2sqB0ToGN4AG0xOBFEB1dtrm4HHoicKc
-	 Z1YlaRTqCujzVsoH4VJYq92fziN8WHTbT/wc//wfZW0o1XGNXS+uwZmLenI7DcjKu+
-	 iVpXtEUew6/mw==
-Date: Wed, 22 Jul 2026 11:35:25 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Stanislav Fomichev <sdf.kernel@gmail.com>
-Cc: Lorenzo Bianconi <lorenzo@kernel.org>, Donald Hunter
- <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev
- <sdf@fomichev.me>, Andrew Lunn <andrew+netdev@lunn.ch>, Tony Nguyen
- <anthony.l.nguyen@intel.com>, Przemek Kitszel
- <przemyslaw.kitszel@intel.com>, Alexander Lobakin
- <aleksander.lobakin@intel.com>, Andrii Nakryiko <andrii@kernel.org>, Martin
- KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
- Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, KP
- Singh <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>, Maciej Fijalkowski
- <maciej.fijalkowski@intel.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Kumar Kartikeya Dwivedi
- <memxor@gmail.com>, Emil Tsalapatis <emil@etsalapatis.com>, Vladimir Vdovin
- <deliran@verdict.gg>, Jakub Sitnicki <jakub@cloudflare.com>,
- netdev@vger.kernel.org, bpf@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH bpf-next v5 8/8] selftests: net: add test for XDP_PASS
- skb checksum invalidation
-Message-ID: <20260722113525.34092660@kernel.org>
-In-Reply-To: <amEEEohxmC8hkBvY@devvm7509.cco0.facebook.com>
-References: <20260715-bpf-xdp-meta-rxcksum-v5-0-623d5c0d0ab7@kernel.org>
-	<20260715-bpf-xdp-meta-rxcksum-v5-8-623d5c0d0ab7@kernel.org>
-	<aljNR2sf8qJVKFgb@devvm7509.cco0.facebook.com>
-	<alkBnI3XcH0XGjEo@lore-desk>
-	<al53WS9FMTnu7tBI@devvm7509.cco0.facebook.com>
-	<20260721082728.74142e6c@kernel.org>
-	<al_4VWS_EyyZLe8z@devvm7509.cco0.facebook.com>
-	<20260721183256.6f49d6e1@kernel.org>
-	<amEEEohxmC8hkBvY@devvm7509.cco0.facebook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cGrm4QFp"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2ca64c3ce5fso147336285ad.3
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 11:52:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784746362; x=1785351162; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Uym772qkEh9LOk/iL6aKk1xWDH0j1Tlr0rPbsmQanS4=;
+        b=cGrm4QFpmYKxTJ7Ok+BjVqPMTUxCP0tuPiPrt9pSWNhLEToaIN0LaxMf4dzmTgMH67
+         yTgNSlDlMUGxR1UpzLZhno2yXQxAdpWfRphUmXCYRgKLcKFXKG1gdg/50Pm1e2Hzmdy2
+         do9T2lC7VItQZ4QqtzY2rAcx+NavZNkeggd4aHXTBo8xKb4DOTNu4gmIu8ky+l390KjS
+         MTo4qo8R1zUUimkLGcH/lR3Z1ISusZy+bA9BW1h+05E6gfHW+EXqElptkAdwcY0S5GbD
+         ecimiIQb720CpincUStXDdsdfgNgyjaXVCXQaplL7RlZNhNIYZjjth/7izuo0x3OA3/y
+         9GJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784746362; x=1785351162;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Uym772qkEh9LOk/iL6aKk1xWDH0j1Tlr0rPbsmQanS4=;
+        b=H8nQqx7Vz81e9CZeG/LK9AR3pbGkrP4/NUB+iVRUk5ytJHbhlQwkt5GTDi8PV+j+RV
+         VQgWQMPxGgnguEr57I9Qcf2xymULivnKGU2/4LMHFQ2h0uD310j2U9wf0muAYdwpuBfQ
+         MMfIvA5F3vGz3q1DtEvLdfLoRFqWYbe2Obb2ln+AOwHosWVthpSb0ZGLPI0CyAZxtwqg
+         yL19Zndf5/g5gnzgItArz/5aMSqcijjxJtMp4zvRHTZ4tCMwqXkLsNW9EUnBM3rsIyUn
+         yhic1hjDF+hL1nS0a/dnxGnb9F4wn1y00J25Cp4Q6sPl6BWDEK50hcM7tqrAr/vprlZt
+         VQLg==
+X-Forwarded-Encrypted: i=1; AHgh+RrWyzRhKwlDZGhcjtSiqS+xdf67IfBLLDU+qrUwPKO0WC93fgrV/aYKBNKV6ZXn7hSUMhOICkHK8OY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxiZv0Sw3u5sHnGGCmlLTFELGGbJ090QmC/4uyWjMKl0VAr8E/U
+	9hA97mKaByQh+F1y70ipZq3bmOUgyrxeQag1K9//cqE19msiGHMyFYWj
+X-Gm-Gg: AR+sD12RtaJdLpUf9FvINtg1mku0ssdlgY/YRI0nD178SZhkMx86BgNeL6T/i6KERYz
+	FronWVioZH2wmkjP++YHk7sY+BGrvVVXDf5esgxOcna9qDPu5FnwIpItUgaSt8jHoF5HrT8Msbk
+	sczpGwYPzlhMZyU45QiVYdCrC3/9xIp9ACSH0PSOWnmLHk4g4istmucJ5V0WBiZ+HYN7N3N+3f8
+	X7cqjrVibopNhAGf7vD5N2xe1yTbTLeuO8sxCinUJLG6Ij9fXyaplACf3FilhD+TtPlSzOSK5sP
+	dW1BVMlEuBszEk7IskV4Bzxr9NaMsYmdbtUPBkRI4DYdGArTpDJctdjz+8Y2IE8XymLUyKe/y/N
+	KIswl68FgU7WlTX3Ph/d9n40nsTe475oLUagVDbRp83iOSeQ+tB/1TTo1ippVr4mjlbDV/WbK4M
+	Fm87n2voyqsTPSyQapaf0mE7r3Octf6p93mC2RDW9pCZu/IrcI/ePTWsI=
+X-Received: by 2002:a17:902:da8b:b0:2cc:7e4a:bcc5 with SMTP id d9443c01a7336-2cfa71aa7demr1018275ad.32.1784746361700;
+        Wed, 22 Jul 2026 11:52:41 -0700 (PDT)
+Received: from skinsburskii (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8efde5cfsm19378335ad.31.2026.07.22.11.52.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 11:52:41 -0700 (PDT)
+Date: Wed, 22 Jul 2026 11:52:38 -0700
+From: Stanislav Kinsburskii <skinsburskii@gmail.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: airlied@gmail.com, akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org,
+	corbet@lwn.net, dakr@kernel.org, david@kernel.org,
+	decui@microsoft.com, haiyangz@microsoft.com, jgg@ziepe.ca,
+	kees@kernel.org, kys@microsoft.com, leon@kernel.org,
+	liam@infradead.org, lizhi.hou@amd.com, ljs@kernel.org,
+	longli@microsoft.com, lyude@redhat.com,
+	maarten.lankhorst@linux.intel.com, mamin506@gmail.com,
+	mhocko@suse.com, mripard@kernel.org, nouveau@lists.freedesktop.org,
+	ogabbay@kernel.org, oleg@redhat.com, rppt@kernel.org,
+	shuah@kernel.org, simona@ffwll.ch, skhan@linuxfoundation.org,
+	surenb@google.com, tzimmermann@suse.de, vbabka@kernel.org,
+	wei.liu@kernel.org, dri-devel@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-rdma@vger.kernel.org
+Subject: Re: [PATCH v9 8/8] drm/gpusvm: Use
+ hmm_range_fault_unlocked_timeout() for range faults
+Message-ID: <amERdq2X5l5vHfJo@skinsburskii>
+References: <178413903133.1155966.3904063656020521607.stgit@skinsburskii>
+ <178413941236.1155966.14485211391150425997.stgit@skinsburskii>
+ <al7CGPdJGM+asOFK@gsse-cloud1.jf.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <al7CGPdJGM+asOFK@gsse-cloud1.jf.intel.com>
 
-On Wed, 22 Jul 2026 11:00:07 -0700 Stanislav Fomichev wrote:
-> > > This is about current drivers that only report UNNECESSARY with xdp: the xdp
-> > > prog has to maintain in-packet checksum if it changes the payload. I think
-> > > it's a fair assumption?  
+On Mon, Jul 20, 2026 at 05:49:28PM -0700, Matthew Brost wrote:
+> On Wed, Jul 15, 2026 at 11:16:52AM -0700, Stanislav Kinsburskii wrote:
+> > Several GPU SVM paths take mmap_read_lock() only to call hmm_range_fault()
+> > and open-code mmu interval sequence setup before each HMM walk. They also
+> > retry -EBUSY until HMM_RANGE_DEFAULT_TIMEOUT expires.
 > > 
-> > What about decap? If we decap the header that device validated 
-> > as UNNECESSARY there's no possibility of maintaining the checksum
-> > (by which IIUC you mean correcting it in along the payload changes).
+> > Use hmm_range_fault_unlocked_timeout() for those faults. The HMM helper now
+> > owns mmap_lock acquisition and refreshes range->notifier_seq for its
+> > internal retries, while GPU SVM keeps its existing driver-lock validation
+> > with mmu_interval_read_retry() after a successful fault.
 > > 
-> > I think we'd need some API to "decrement the csum level" ?
-> > Or some heuristic in the drivers to decrement if the head moved
-> > by at least len(IP+UDP) into the packet ?  
+> > Pass HMM_RANGE_DEFAULT_TIMEOUT as the helper retry budget for each HMM
+> > fault attempt. This scopes the timeout to repeated HMM notifier retries
+> > while preserving the outer retry loops that restart when the interval is
+> > invalidated before GPU SVM updates or consumes the mapping state.
+> > 
 > 
-> True :-/ I guess one more case to document?
+> This part doesn't seem right for get_pages(), see below.
+> 
+> > Leave drm_gpusvm_check_pages() on hmm_range_fault() because that path is
+> > called with the mmap lock already held by its caller.
+> > 
+> > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> > Signed-off-by: Stanislav Kinsburskii <skinsburskii@gmail.com>
+> > ---
+> >  drivers/gpu/drm/drm_gpusvm.c |   61 +++++-------------------------------------
+> >  1 file changed, 7 insertions(+), 54 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
+> > index 958cb605aedd..de5bbfe58ee9 100644
+> > --- a/drivers/gpu/drm/drm_gpusvm.c
+> > +++ b/drivers/gpu/drm/drm_gpusvm.c
+> > @@ -773,8 +773,7 @@ enum drm_gpusvm_scan_result drm_gpusvm_scan_mm(struct drm_gpusvm_range *range,
+> >  		.end = end,
+> >  		.dev_private_owner = dev_private_owner,
+> >  	};
+> > -	unsigned long timeout =
+> > -		jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
+> > +	unsigned long timeout = msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
+> >  	enum drm_gpusvm_scan_result state = DRM_GPUSVM_SCAN_UNPOPULATED, new_state;
+> >  	unsigned long *pfns;
+> >  	unsigned long npages = npages_in_range(start, end);
+> > @@ -788,22 +787,7 @@ enum drm_gpusvm_scan_result drm_gpusvm_scan_mm(struct drm_gpusvm_range *range,
+> >  	hmm_range.hmm_pfns = pfns;
+> >  
+> >  retry:
+> > -	hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
+> > -	mmap_read_lock(range->gpusvm->mm);
+> > -
+> > -	while (true) {
+> > -		err = hmm_range_fault(&hmm_range);
+> > -		if (err == -EBUSY) {
+> > -			if (time_after(jiffies, timeout))
+> > -				break;
+> > -
+> > -			hmm_range.notifier_seq =
+> > -				mmu_interval_read_begin(notifier);
+> > -			continue;
+> > -		}
+> > -		break;
+> > -	}
+> > -	mmap_read_unlock(range->gpusvm->mm);
+> > +	err = hmm_range_fault_unlocked_timeout(&hmm_range, timeout);
+> >  	if (err)
+> >  		goto err_free;
+> >  
+> > @@ -1406,8 +1390,7 @@ int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
+> >  		.dev_private_owner = ctx->device_private_page_owner,
+> >  	};
+> >  	void *zdd;
+> > -	unsigned long timeout =
+> > -		jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
+> > +	unsigned long timeout = msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
+> >  	unsigned long i, j;
+> >  	unsigned long npages = npages_in_range(pages_start, pages_end);
+> >  	unsigned long num_dma_mapped;
+> > @@ -1422,9 +1405,6 @@ int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
+> >  	struct dma_iova_state *state = &svm_pages->state;
+> >  
+> >  retry:
+> > -	if (time_after(jiffies, timeout))
+> > -		return -EBUSY;
+> > -
+> 
+> I think that by deleting the code above, you have changed this function's
+> semantics by removing the hard cap of HMM_RANGE_DEFAULT_TIMEOUT. This
+> code was added because, on some non-production platforms, the timing in
+> this function could cause it to livelock.
+> 
+> Is there any reason this was remove aside from timeout variable not
+> being a deadline now? You likely should add the deadline back in.
+> 
 
-What would we be documenting? That it's a known bug and we have no idea
-how to address it? Or am I missing something?
+Indeed, this one can be called from a kernel thread context as well.
+I'll revert the change in the next revision.
 
-Again: 
- .. the ask was to sketch out the plan of explicitly
- updating/invalidating the checksum even if we don't 
- implement it today
+Thanks,
+Stanislav
+
+
+> Matt
+> 
+> >  	hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
+> >  	if (drm_gpusvm_pages_valid_unlocked(gpusvm, svm_pages))
+> >  		goto set_seqno;
+> > @@ -1439,21 +1419,7 @@ int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
+> >  	}
+> >  
+> >  	hmm_range.hmm_pfns = pfns;
+> > -	while (true) {
+> > -		mmap_read_lock(mm);
+> > -		err = hmm_range_fault(&hmm_range);
+> > -		mmap_read_unlock(mm);
+> > -
+> > -		if (err == -EBUSY) {
+> > -			if (time_after(jiffies, timeout))
+> > -				break;
+> > -
+> > -			hmm_range.notifier_seq =
+> > -				mmu_interval_read_begin(notifier);
+> > -			continue;
+> > -		}
+> > -		break;
+> > -	}
+> > +	err = hmm_range_fault_unlocked_timeout(&hmm_range, timeout);
+> >  	mmput(mm);
+> >  	if (err)
+> >  		goto err_free;
+> > @@ -1720,8 +1686,7 @@ int drm_gpusvm_range_evict(struct drm_gpusvm *gpusvm,
+> >  		.end = drm_gpusvm_range_end(range),
+> >  		.dev_private_owner = NULL,
+> >  	};
+> > -	unsigned long timeout =
+> > -		jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
+> > +	unsigned long timeout = msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
+> >  	unsigned long *pfns;
+> >  	unsigned long npages = npages_in_range(drm_gpusvm_range_start(range),
+> >  					       drm_gpusvm_range_end(range));
+> > @@ -1736,24 +1701,12 @@ int drm_gpusvm_range_evict(struct drm_gpusvm *gpusvm,
+> >  		return -ENOMEM;
+> >  
+> >  	hmm_range.hmm_pfns = pfns;
+> > -	while (!time_after(jiffies, timeout)) {
+> > -		hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
+> > -		if (time_after(jiffies, timeout)) {
+> > -			err = -ETIME;
+> > -			break;
+> > -		}
+> > -
+> > -		mmap_read_lock(mm);
+> > -		err = hmm_range_fault(&hmm_range);
+> > -		mmap_read_unlock(mm);
+> > -		if (err != -EBUSY)
+> > -			break;
+> > -	}
+> > +	err = hmm_range_fault_unlocked_timeout(&hmm_range, timeout);
+> >  
+> >  	kvfree(pfns);
+> >  	mmput(mm);
+> >  
+> > -	return err;
+> > +	return err == -EBUSY ? -ETIME : err;
+> >  }
+> >  EXPORT_SYMBOL_GPL(drm_gpusvm_range_evict);
+> >  
+> > 
+> > 
