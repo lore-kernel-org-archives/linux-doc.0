@@ -1,43 +1,46 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75C0471268;
-	Wed, 22 Jul 2026 07:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD38E426439
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 07:42:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784706094; cv=none; b=pF+AzQgigLhMM7uiDNvkdTVBv9cQ+RntJHx+Cr4fOZzN45nE1Mb9HsXv8nywrk5F3Wz5SvfFPmicHHkFWz0qfGqseuBIs6mhMUqPWdUIHl9xuvsnajfmAUgqcaSzgPWvXXWOFnSXudcsXcGRvoQl38TC1dz2oSKy6/2Hd0QcosU=
+	t=1784706157; cv=none; b=mKytu2DLiBJF3pCQIRn0KS6rMx4xvnxNBz8dPL4H1e5R5k3DzTzVw1yx+2Qm60mMod8HtEJh7PAwoUcC2asmhQAnnfJ7s2TbQGG0WCCxxnQat+KAp+x0epC1zX978ptrkz7t05056YroYwsD6Cd5d7L/xnvlnbHYX5Ma4ioqTsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784706094; c=relaxed/simple;
-	bh=BvvRKmxKycl+3sMCau1lIJTYhbKVLgoO0gBIZx1xdPk=;
+	s=arc-20240116; t=1784706157; c=relaxed/simple;
+	bh=+f1OMNJCfMnlZEEN+bTgJYq8IH8slysGyownVhjslHg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QvYTPYBQC3fmtPYso5uFwFlqXjaeikmxgTCyGCuFMXWLxGK2Gqy325EOuZXWxG1Fy8z07vP2wcwqjJkBcrEX0DFi7uSt50DX3iVVZOY9uDnBA89Qvcscr6WCgoNMQucTyyYUTWG/z1R+geHu9nqpaFfilvUHyb1CD3X3QzpWAHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jv8tYQax; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=qlXZaLU8g8s3Mf+Sy6HEPQPuhP+io5fGy0YF2VXOun/Ohw3RDu/dxjt5s+4Jp73YBSX1H8UzimI3SCMd+xje6uYNvR8ER8OCaHKsU+cyFjnYniaYMAz1L50lVCxQaL3ZnkpKPujXC8VJLNwvCe+eqAOI+PoYzXZ+dSFyf24VtCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=aMXNTzJR; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jv8tYQax"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 067711F000E9;
-	Wed, 22 Jul 2026 07:41:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784706093;
-	bh=sp/SGJFqKQzCbpo3NzPatfiA/2iBXboNQlGAF1b3xDU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Jv8tYQaxPAF5+BVpYsA6tGqNNkF5NakW0XsmYITqrGBdVF3ZFGvpJfx8GqefHB+Ez
-	 nyKcjhqSRIBiXuwYA5v1W11ZSJ7cR79Kg29x/2Gncw6vQ4XnL3qH13c3Xx3aDJqPjp
-	 WaGU++br9h9XRdl0kqeiY2Whl5wVuAmescPjIpmyYU69Tc1FpLXvZjKSbxo2gcbBuP
-	 LwhJsSkMRW//UdJAe1Db1wenagF/UV4oQAil5NXJ2Io9uD8dc/ijpypNj7h/1lPY7i
-	 35kHnZQqaErvWbGPGRJtz9DGpQpOpS/9JqLCjg2AyKtvIgRAnk+h+/PvjeSM61BPb2
-	 qqmmZgiSJugyw==
-Date: Wed, 22 Jul 2026 09:41:29 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Andy Chung <Andy.Chung@amd.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] dt-bindings: hwmon: Add Kandou KB9002
-Message-ID: <20260722-efficient-mussel-of-enthusiasm-1df91c@quoll>
-References: <20260721-kb9002-upstream-v3-0-70563922be8d@amd.com>
- <20260721-kb9002-upstream-v3-2-70563922be8d@amd.com>
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="aMXNTzJR"
+Date: Wed, 22 Jul 2026 15:42:24 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
+	t=1784706151;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=76XUqIOdS18bNMK2fQusD4AOgEfN3fp+oeZVFVaslBI=;
+	b=aMXNTzJRYhcZSSiH47tuElu5i15rxKeeT25ERNIrIGi3+4ILpzrgM8srF8xprUR/kfzzTN
+	2hOLoXc4FZ/qAky7flmjJAmA10+B7+llyetMlQ70jMii1o6xI5Au6rtIbMwT61m5HTQLPD
+	dkHEuDF/aNgg86gtgHNli3VgfPun1HZH5Uj40f4gvwwKoSd5GMvY4Ap9s3EyDvmUWFeu7p
+	PtBiPIX8e3GfiO6k0GhREpF2fzYSJ5biUOjOw4DlFuSkjdIpxCeTqzAEPWk9oSxfjQFeYM
+	3ncVHsaMIsIYP+JncfYIjrAsGHfZNfZ0iraIumjHRdrrmMMj+AvE044k2B9ECg==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Weijie Yuan <wy@wyuan.org>
+To: Chen-Yu Yeh <chenyou910331@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 02/16] docs/zh_TW: process: localize terminology in
+ 1.Intro.rst
+Message-ID: <amB0YHlmmfqbJZXR@wyuan.org>
+References: <20260721215542.98435-1-chenyou910331@gmail.com>
+ <20260721215542.98435-3-chenyou910331@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,21 +49,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260721-kb9002-upstream-v3-2-70563922be8d@amd.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260721215542.98435-3-chenyou910331@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Jul 21, 2026 at 02:31:33PM +0800, Andy Chung wrote:
-> Add device tree bindings for the Kandou KB9002 PCIe 5.0 retimer, an
-> SMBus target that exposes an aggregated die temperature.
+On Wed, Jul 22, 2026 at 05:55:28AM +0800, Chen-Yu Yeh wrote:
+> Localize mainland terms to Taiwanese Mandarin (內核→核心, 軟件→軟體,
+> 免費軟件→自由軟體, 操作系統→作業系統, 模塊→模組, 社區→社群, ...) and
+> sync with the English original: contributor identity wording now
+> follows commit 43e9076a00b1 ("docs: Fix conflicting contributor
+> identity info").
 > 
-> Signed-off-by: Andy Chung <Andy.Chung@amd.com>
+> update to commit 5ce70894f6ca ("Doc: correct spelling and wording mistakes")
+> 
+> Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 > ---
->  .../devicetree/bindings/hwmon/kandou,kb9002.yaml   | 46 ++++++++++++++++++++++
->  1 file changed, 46 insertions(+)
->
+>  .../translations/zh_TW/process/1.Intro.rst    | 211 +++++++++---------
+>  1 file changed, 106 insertions(+), 105 deletions(-)
 
-So a trivial device and can go to trivial-devices? What is incomplete
-here, what is missing?
+Reviewed-by: Weijie Yuan <wy@wyuan.org>
 
-Best regards,
-Krzysztof
-
+I have noticed that you have already made the correction from "免费软件"
+to "自由軟體" in this patch, nice.
