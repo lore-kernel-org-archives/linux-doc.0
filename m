@@ -1,73 +1,287 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D255C361950;
-	Wed, 22 Jul 2026 16:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D334322F3
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 16:18:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784737102; cv=none; b=TzzbG3vOxcVTyx36FLj9861+qvjYiv0V+G19o9JXcsXv1mviIblc1IMRo+plBMFlfu+NguW5eo1ivQcPBOwu+Bh9+iL9BX0pkD/VQ26tPEKTQXsbMmHafnW+YoVzoL3jXzWZu8YuaApB8CgUBNPbqtG9ZeyHRaspMQO49mp72T4=
+	t=1784737104; cv=none; b=iRVDWHrhYEH3/8N+tMHN8SPrtls0/mWUqO07lMpVxZa3RUlHbPZUzYrokdduW2HEQgospVSKI4UzJV3ta1OhPwEm7r0Em6hLSNteQ26Ajb1wXd6z/fqIjHX4X9+Yf5GjdxtbgfKaNGxjbleecobwK5F728pCTmlnoVs1nEaz8do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784737102; c=relaxed/simple;
-	bh=JUuh4mDQVDmwH6GKdj06kY+zYYBoUQp4jzgfe2wKEg0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ZgkRnqibYAFbsByFHZwNBuIO8IbqqYUnqfo1CJ3P6d8By+34LCY7G66+9bfVEGN7Ev2tXPK2AVWWB55yDsLK8gz6PU8KeeuNrKVFIdzPFHEfuGnC6KMPWzZl2h2Kcr5Ul5cwF3/Y9FoK1sDdzddJ2DQz2IBshSO5wAINZKIQ38w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=leu/CGV+; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1784737104; c=relaxed/simple;
+	bh=t4Yu/l3+n4Dg3Ay764lxdWlSnMX1kMs2lKX+ZYNnRiI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nkMQuSOtADXnjxsgK3A7l2J1GH3iG4GgOGG2L1ZKMWxEaCOpAt+DYFnoXysQZvWkxgM+8TXP9lc4ehYbMvLdKpJvYmeuBqQGPjOt/hkIMOWDoKBlNinsJ+sm8lk5wVv6smUvPZuWwW5YcaetcabLpL4Vx7YItLVPDOh5VPjIwsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EgQ1TfcF; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="leu/CGV+"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 12AD8408B4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1784737099; bh=HSPF5Fs1FjH0cLJ+UbOF91bZ4piLAlxGT5FqeMNuqp0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=leu/CGV+L/P4UZFI+FjX5TXKGn8IT+9PHyUjkKVzMM205EVXgXkQDnyS/rFsG8MRR
-	 a2MvtkuXfP+El9PrZS+gML+sohPCPOfELufZ4dJf+jb+G4MsDImZWI5TjIkj/ZSMvi
-	 CAxGqv1nN8o1O8bm8Iz5BBEB6FaJ7qehEf7fQGOZB5LWQ4LS62sjepKUpvnKfmu34/
-	 EG92j4mFtJ9t7JQu2n0M7gf836XVe5NyDR32LNtPfIV+6xTs8F4x3gmpfx5DhULBXJ
-	 +exl2/zF+53M9qpO2OtSvstH4VUjmfiSZ5frRBgd9ObMg+6AOFI02PWj8urRjUzm/y
-	 xpg7IeV2pyyuw==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 12AD8408B4;
-	Wed, 22 Jul 2026 16:18:19 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Akiyoshi Kurita <weibu@redadmin.org>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, akiyks@gmail.com, weibu@redadmin.org
-Subject: Re: [PATCH v6] docs/ja_JP: translate submitting-patches.rst (sign-off)
-In-Reply-To: <20260720223410.421262-1-weibu@redadmin.org>
-References: <20260720223410.421262-1-weibu@redadmin.org>
-Date: Wed, 22 Jul 2026 10:18:18 -0600
-Message-ID: <87bjbzc81h.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EgQ1TfcF"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4954a2dba6cso20875e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 09:18:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784737101; x=1785341901; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ezU3S5XBj+xHmGu/LKkIZW4oZfgFAkNBIcxczmu9hdw=;
+        b=EgQ1TfcFUkilHJshaW5N52yib/aAJuhCfgLCyxoXxFH2hzDpYLFKcvxOppGQxlR+aO
+         ImqeynLJ05LPRRmr4zzDLg+CBcIDoBdsWl7/v2Z0v1X8z/I4F3ee4rkIalNAJlORT31u
+         5fOVSJgXnp7Ej3atdqEjgw117J9SirkqKmdDVeEf3Rukj+PsnEFWZoyvgfckHVCL0Ryk
+         xPrf44iHp4mTnMcWyKd6E6s9cr5E5KdyvevR6Ria/BJON2NXXrcZIT0oCu+CTC99eABC
+         jPbYbhPbv2yaAafgCcxZB2m0jfUsmTDq4mddR4rZAMN4ePM2I5xr/eecu3MDYVBbuDTI
+         VnUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784737101; x=1785341901;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ezU3S5XBj+xHmGu/LKkIZW4oZfgFAkNBIcxczmu9hdw=;
+        b=jh3FDRaQp/yapGqHJRULB2PqK56YWTPnHhfagIb4v4cTkcXlQv+/8qGtvNDN1yl/sO
+         cFE+8D01/LD++M+iD+AUMO7P94Oup1hMpL38eh1GqlqUJkJtqzKF1i3sYUSvO6c2Fz6S
+         rKHO85R5jqIri2FhnoDZsXv8saKi5kOYcNcoD/pEH9eJwQ2zzmrUPo9PUgxWXjde9MM+
+         Dg5LLsxi7cVVDWay5UgyC+62UCculPu/9hqkQSBzBIJsoNK84oug8gsGp4LIweZ2QmwW
+         S0guddCsftguSZiBoamZF8Xk6rmJpFs5H2W0cYyoHz32QvmlGrqSIBl/tmnP8rMekoO1
+         ibQw==
+X-Gm-Message-State: AOJu0YwjeqQulNyYj5Yb46zMydxD9Xos2l663J9L5S/KGNHtzN+1xZ6I
+	kM37i7RRJ3BhVOUqavloATWWdPcl8JZt5HP7xZ/a123YuHnQDXob0hy7z3EDbA==
+X-Gm-Gg: AR+sD12fXv04oR27oUdYLh4quvEL7wZz9kWNuZvROQZ5RCMUU+a3M45vPb7TFfmvUlg
+	YpegnZoQ1+1/ODHXajLjzGfaYlLnpqwJd5mJhLYvAbk4Ks3yl6xuF2ByovVZFCBj+rlHXWQncaB
+	IkJWNjUNWXU2fYAfsurKSRQGRdztUDryTf0+svp+rtmJXfe1iC02tRvxm14bDE26BVPNMFaWFQx
+	BwMs9g7B05js5RxIV75bRzfQjvkRQO4Wb7xzMhm0G/+/t2odZvJqxnGZW0FUysE3cmh4kWuKazv
+	lSwQzWPQdme6zXiiSDw/zddHvrOrXibbBXotSP6SLaokda85OoNX8c+BNBSeKUe6NPlZLUpFNmr
+	fW8J1WGqe0NIm4RQ4lqT60Dv6sLGMbquG9vv4Y2Ubd1xR6rp5DksWWOq4MPWETqX3Zs0ihLdhDi
+	ZcVLTC8wWcy0pf5tZj5EWZRYqrCosY+Z+jBQcs9xsojR4E6qX3y/Fc1+87QFg6J+xL7zGo7aYyQ
+	dwgfb5ruccMfltnq/VjGqdtfk4qDLlzf7ycHn3bsb1uxKi3EHb45tXa4kTWcJ4=
+X-Received: by 2002:a05:600c:4708:b0:495:4840:c6b with SMTP id 5b1f17b1804b1-4956586d547mr61479015e9.1.1784737100733;
+        Wed, 22 Jul 2026 09:18:20 -0700 (PDT)
+Received: from doehyun-dev.pradel.rg.cispa.de (x06.xlate.fw.cispa.de. [195.37.157.6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49565373200sm145454715e9.5.2026.07.22.09.18.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 09:18:20 -0700 (PDT)
+From: Doehyun Baek <doehyunbaek@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: Doehyun Baek <doehyunbaek@gmail.com>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH v4] Docs/translations/it_IT: sync changes.rst requirements
+Date: Wed, 22 Jul 2026 16:18:13 +0000
+Message-ID: <20260722161814.2007502-1-doehyunbaek@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Akiyoshi Kurita <weibu@redadmin.org> writes:
+The Italian current requirements text had fallen behind the English
+Documentation/process/changes.rst version.
 
-> Translate the "Include PATCH in the subject" and "Sign your work -
-> the Developer's Certificate of Origin" sections into Japanese.
->
-> Keep the DCO text in English as the original certificate text, and add
-> a Japanese note that the sign-off refers to the English DCO text.
->
-> Use a reStructuredText note directive to make it clear that the note is
-> specific to the Japanese translation.
->
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
-> ---
-> Changes in v6:
->
-> Remove the extra blank line at EOF introduced during the rebase.
->
->  .../ja_JP/process/submitting-patches.rst      | 77 +++++++++++++++++++
->  1 file changed, 77 insertions(+)
+Sync the current requirements table and add the missing ver_linux note.
+Also update directly related text for pahole, Python and GNU AWK, add the
+Rust/bindgen source links, and remove the stale cpio source entry.
 
-Applied, thanks.
+Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
+Cc: Federico Vaga <federico.vaga@vaga.pv.it>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+---
+I am really sorry that I wasted your time with v3.
 
-jon
+Tested with:
+
+  make SPHINXDIRS=translations/it_IT htmldocs
+
+Note: this version focuses on keeping the "Current Minimal Requirements"
+section and directly related requirements text in sync with the English file.
+If a full-file sync is preferred, I can do that instead.
+
+Changes in v4:
+- Fix the malformed requirements table.
+- Run the Italian documentation build.
+
+Changes in v3:
+- Sync the full current requirements table with the English version.
+- Update directly related requirements text for pahole, Python and GNU AWK.
+- Add Rust/bindgen source links and remove the stale cpio source entry.
+
+Changes in v2:
+- Rebase on current docs-next.
+
+ .../translations/it_IT/process/changes.rst    | 118 +++++++++++-------
+ 1 file changed, 73 insertions(+), 45 deletions(-)
+
+diff --git a/Documentation/translations/it_IT/process/changes.rst b/Documentation/translations/it_IT/process/changes.rst
+index 7ee54c972418..78d875312694 100644
+--- a/Documentation/translations/it_IT/process/changes.rst
++++ b/Documentation/translations/it_IT/process/changes.rst
+@@ -23,50 +23,53 @@ Requisiti minimi correnti
+ 
+ Prima di pensare d'avere trovato un baco, aggiornate i seguenti programmi
+ **almeno** alla versione indicata!  Se non siete certi della versione che state
+-usando, il comando indicato dovrebbe dirvelo.
++usando, il comando indicato dovrebbe dirvelo. Per avere una lista dei programmi
++sul vostro sistema, incluse le rispettive versioni, eseguite
++./scripts/ver_linux.
+ 
+ Questa lista presume che abbiate già un kernel Linux funzionante.  In aggiunta,
+ non tutti gli strumenti sono necessari ovunque; ovviamente, se non avete una
+ PC Card, per esempio, probabilmente non dovreste preoccuparvi di pcmciautils.
+ 
+-====================== =================  ========================================
+-        Programma       Versione minima       Comando per verificare la versione
+-====================== =================  ========================================
+-GNU C                  8.1                gcc --version
+-Clang/LLVM (optional)  17.0.1             clang --version
+-Rust (opzionale)       1.78.0             rustc --version
+-bindgen (opzionale)    0.65.1             bindgen --version
+-GNU make               4.0                make --version
+-bash                   4.2                bash --version
+-binutils               2.30               ld -v
+-flex                   2.5.35             flex --version
+-bison                  2.0                bison --version
+-pahole                 1.16               pahole --version
+-util-linux             2.10o              mount --version
+-kmod                   13                 depmod -V
+-e2fsprogs              1.41.4             e2fsck -V
+-jfsutils               1.1.3              fsck.jfs -V
+-xfsprogs               2.6.0              xfs_db -V
+-squashfs-tools         4.0                mksquashfs -version
+-btrfs-progs            0.18               btrfsck
+-pcmciautils            004                pccardctl -V
+-quota-tools            3.09               quota -V
+-PPP                    2.4.0              pppd --version
+-nfs-utils              1.0.5              showmount --version
+-procps                 3.2.0              ps --version
+-udev                   081                udevd --version
+-grub                   0.93               grub --version || grub-install --version
+-mcelog                 0.6                mcelog --version
+-iptables               1.4.2              iptables -V
+-openssl & libcrypto    1.0.0              openssl version
+-bc                     1.06.95            bc --version
+-Sphinx\ [#f1]_         2.4.4              sphinx-build --version
+-cpio                   any                cpio --version
+-GNU tar                1.28               tar --version
+-gtags (opzionale)      6.6.5              gtags --version
+-mkimage (opzionale)    2017.01            mkimage --version
+-Python (opzionale)     3.5.x              python3 --version
+-====================== =================  ========================================
++====================== ===============  ========================================
++        Programma      Versione minima        Comando per verificare la versione
++====================== ===============  ========================================
++bash                   4.2              bash --version
++bc                     1.06.95          bc --version
++bindgen (opzionale)    0.71.1           bindgen --version
++binutils               2.30             ld -v
++bison                  2.0              bison --version
++btrfs-progs            0.18             btrfs --version
++Clang/LLVM (opzionale) 17.0.1           clang --version
++e2fsprogs              1.41.4           e2fsck -V
++flex                   2.5.35           flex --version
++gdb                    7.2              gdb --version
++GNU awk (opzionale)    5.1.0            gawk --version
++GNU C                  8.1              gcc --version
++GNU make               4.0              make --version
++GNU tar                1.28             tar --version
++GRUB                   0.93             grub --version || grub-install --version
++gtags (opzionale)      6.6.5            gtags --version
++iptables               1.4.2            iptables -V
++jfsutils               1.1.3            fsck.jfs -V
++kmod                   13               kmod -V
++mcelog                 0.6              mcelog --version
++mkimage (opzionale)    2017.01          mkimage --version
++nfs-utils              1.0.5            showmount --version
++openssl & libcrypto    1.0.0            openssl version
++pahole                 1.26             pahole --version
++pcmciautils            004              pccardctl -V
++PPP                    2.4.0            pppd --version
++procps                 3.2.0            ps --version
++Python                 3.9.x            python3 --version
++quota-tools            3.09             quota -V
++Rust (opzionale)       1.85.0           rustc --version
++Sphinx\ [#f1]_         3.4.3            sphinx-build --version
++squashfs-tools         4.0              mksquashfs -version
++udev                   081              udevadm --version
++util-linux             2.10o            mount --version
++xfsprogs               2.6.0            xfs_db -V
++====================== ===============  ========================================
+ 
+ .. [#f1] Sphinx è necessario solo per produrre la documentazione del Kernel
+ 
+@@ -144,7 +147,13 @@ pahole
+ 
+ Dalla versione 5.2, quando viene impostato CONFIG_DEBUG_INFO_BTF, il sistema di
+ compilazione genera BTF (BPF Type Format) a partire da DWARF per vmlinux. Più
+-tardi anche per i moduli. Questo richiede pahole v1.16 o successivo.
++tardi anche per i moduli. Questo richiede pahole v1.22 o successivo.
++
++Dalla versione 7.0, le kfunc annotate con KF_IMPLICIT_ARGS richiedono pahole
++v1.26 o successivo. Senza questa versione, tali kfunc avranno prototipi BTF
++errati in vmlinux, causando il fallimento del caricamento dei programmi BPF con
++l'errore "func_proto incompatible with vmlinux". Molte kfunc sched_ext sono
++interessate.
+ 
+ A seconda della distribuzione, lo si può trovare nei pacchetti 'dwarves' o
+ 'pahole'. Oppure lo si può trovare qui: https://fedorapeople.org/~acme/dwarves/.
+@@ -155,6 +164,14 @@ Perl
+ Per compilare il kernel vi servirà perl 5 e i seguenti moduli ``Getopt::Long``,
+ ``Getopt::Std``, ``File::Basename``, e ``File::Find``.
+ 
++Python
++------
++
++Diverse opzioni di configurazione lo richiedono: è necessario per le
++configurazioni predefinite di arm/arm64, CONFIG_LTO_CLANG, alcune opzioni
++configurabili del DRM, lo strumento kernel-doc e la generazione della
++documentazione (Sphinx), fra gli altri.
++
+ BC
+ --
+ 
+@@ -193,6 +210,12 @@ pacchetto ``u-boot-tools`` oppure può essere compilato dal codice sorgente di
+ U-Boot. Consultate le istruzioni
+ https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-linux
+ 
++GNU AWK
++-------
++
++GNU AWK è necessario se si vuole che la compilazione del kernel generi dati
++sugli intervalli di indirizzi per i moduli incorporati
++(CONFIG_BUILTIN_MODULE_RANGES).
+ 
+ Strumenti di sistema
+ ********************
+@@ -405,6 +428,16 @@ Clang/LLVM
+ 
+ - :ref:`Getting LLVM <getting_llvm>`.
+ 
++Rust
++----
++
++- Documentation/rust/quick-start.rst.
++
++bindgen
++-------
++
++- Documentation/rust/quick-start.rst.
++
+ Make
+ ----
+ 
+@@ -507,11 +540,6 @@ mcelog
+ 
+ - <https://www.mcelog.org/>
+ 
+-cpio
+-----
+-
+-- <https://www.gnu.org/software/cpio/>
+-
+ Rete
+ ****
+ 
+-- 
+2.43.0
+
