@@ -1,80 +1,137 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f4.google.com (mail-pj2-f4.google.com [74.125.227.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7BFF31AA8F;
-	Wed, 22 Jul 2026 20:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C30426EBB
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 20:41:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784752722; cv=none; b=n9P3Gtu/92e4TZSZsTiFBFgxQNimUiFhxdaxEkMDHWdWblOHF4xqkmmew0tsYUwwcTHaEm9dN6Rc1hf3+6SVJRLM0X7wqud2/kUxlnMtI3bcfA/+i/8BOoRVL+NvOrGSHLwt8KkOOJE8ddB2eDgXKA2HeidA7e/aTPb36xEBPZ8=
+	t=1784752887; cv=none; b=W0JQ4Pb0R+IJYagNdpKA1CCp6kdvBrBhrkOFyAGwQcWB4OncYfn8I1pvTy1N5RbdUmkcGoF5rYtMvAC0oUC+KDeI2UIlaql2m3ndB7C4ZtjNjBtpZjQIUQx5FmLB+O7bQENtBX9KU5U4dyOmWgf/1mqP7/nFrjp9flm/2pQy9KQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784752722; c=relaxed/simple;
-	bh=+nThf52Avm3/Tb3sglbmL8K+cZPpJ5Pq2kgJKX028Lg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mXlEpLsRISjT0Gply2MQH/fV2YI8u5HNV5tK2XCglRLJuIz7jbhfvaSg9m/Q3DYviMDrJ+8Sy5qL71qMRsNoTlblfEHeV7loVSNcBrx457hOy+6UPbzIijV3jFV6vUITaLeBe3jX5XSYnpHFkdR7pNMbmqJjHfQrH1eP8Bya42E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CmkpMHqQ; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1784752887; c=relaxed/simple;
+	bh=Yf15RLlhXlooxQ5ojngrKI3NfRjWBJYoBlpiscAPU24=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C9ZYP5zzyE4nLpu3tiCRvN/Jf3AYBIEROSP+IzhbtZHvBnArdMFoNP7xOUMDRfmRk3dkpg0xNTXvqSxSx+tI/TmBTBE+tpyw7YyGkccEOlvIHYzFjQJE8oHv++Z49DZ8rL8HBixe3N6YhR0lZiYqyg+ZsE4ZzRmcYRvgBGlvugQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OvkoZmOM; arc=none smtp.client-ip=74.125.227.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CmkpMHqQ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BB9EB408BB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1784752719; bh=d+uzLJLSXew5J0Iu7JkEniDE/a3cAS9EOkP6LgOz9nU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=CmkpMHqQKNH3FJHRLSFFXnrHg4FFQC5mkVz8qG129bXnFSzmkUYW7k/CpnJBundMu
-	 wMhKi3doIW2pZkxHQ/BYvm1HYALU//dor5FFP8AW9GKefAeUrVFn++EUo1h0k0XUTu
-	 cMnUwRPgc3qhbdKqr+4ugBlOPpjQOGr3aAX6UxgDueaMDcKMXd9dX+lFoCn7RRtRVM
-	 XLHScrGGlfmp47ywCRwroonBEVucwM6hILjRbLyO1HvO0K4zzf+RdhlIvLKlY/Z9N+
-	 tfiF6xunFq0C6hF1+/ZRPfxJ/A0Aw9LC2WvSaxzR6lrjf0oJPt2D0ZuAOALqbMdR7U
-	 3h26XS8VzBiDQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id BB9EB408BB;
-	Wed, 22 Jul 2026 20:38:39 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Justin Stitt
- <justinstitt@google.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Carlos Maiolino <cem@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>,
- Krzysztof Kozlowski <krzk@kernel.org>, Brian Foster <bfoster@redhat.com>,
- Christoph Hellwig <hch@infradead.org>, David Disseldorp <ddiss@suse.de>,
- Mark Brown <broonie@kernel.org>, Jani Nikula <jani.nikula@intel.com>, Jens
- Axboe <axboe@kernel.dk>, David Hildenbrand <david@kernel.org>, Vlastimil
- Babka <vbabka@kernel.org>, Christian Brauner <brauner@kernel.org>, Jeff
- Layton <jlayton@kernel.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] docs: link AI coding assistants and tool-generated
- content pages
-In-Reply-To: <20260702164901.121128-1-ljs@kernel.org>
-References: <20260702164901.121128-1-ljs@kernel.org>
-Date: Wed, 22 Jul 2026 14:38:38 -0600
-Message-ID: <87mrviahf5.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OvkoZmOM"
+Received: by mail-pj2-f4.google.com with SMTP id 98e67ed59e1d1-3896ccc93b5so3912522a91.1
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 13:41:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784752886; x=1785357686; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=lwCODOyVSYFhI5c3HdXAxVNdit7/+b6pODVCWxPDLeg=;
+        b=OvkoZmOMoZHgmw+uthSEVZwNaDuIVjFK8r4wZ5vcwzk1Qmle2wf/d9bnQi7DIwBuGy
+         h7y13hdrNMox/fnxHCtGBAHc7KTIjEXL94fET8o/Mrx55Aog950ugI93RdQcrchmOP9I
+         TVDYhfYydNaVHIspnhmuEy55MXIzI3gaJ+FCdzbibdeazu4m5uGj3FRb9vxqq3CnikDX
+         lLXogicjPaQDGxkDxwzRh4hs6v86kKKXZf5NwvReJJ3C4hrI/8HVHgeDIISm3BiwA5OX
+         nrmhFK+GobX+1TWgBrj+Zgx23kb8PGPUX3GLX5JdoD48npqknWp3WhPfLS3IuC2DkuUk
+         fNfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784752886; x=1785357686;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lwCODOyVSYFhI5c3HdXAxVNdit7/+b6pODVCWxPDLeg=;
+        b=hHcqKCtCZfH3J/VMoGUt5g6a4kH4gm+C9YC5zRaJWFsJoZt8+PdzD7wg4QdNX9E76l
+         cCOupGeQFs8ozM8ITaTUCmKeswIRefSMzsxUjqhsd5lmxXICo1iz17Sdrn2BCCo76/T6
+         Iohyg9fC6PMUNHmYM9YRpc0GW72iZooLmIU+h5ca5PMepgg7zRs+ErdOJe9sod+bZ+sK
+         cUi41WgV6wSfZDeUJdOqR1yHjhmU5w6qMFc2vMRsdIVvuFBKXp6wZNA1Pz0/1x5VfOga
+         LwaG6OEkP5eKwxZCLN9G1S5PKYx9kium4rql5r3vlYLSfCISJrBdGjfa6+Kwy8hMTmcm
+         KxOg==
+X-Forwarded-Encrypted: i=1; AHgh+Rr+inVpJAJZsiIOHH/wCQbK8tbIXo9FpTJetDDJ+PtJcucRd5BYMeFDyYjbwez1453HCKyHyaQc/TA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyt4PMCEFQWXs1fusMQFBGnF4clao68cC5cBjwofxeVwIM2pMHh
+	8dgittmpl/lQIffgchX6nyW3exaJEIEXwPf8x12SVpKN5QOVYgauKTQN
+X-Gm-Gg: AR+sD12pvc/GFOCFStvPRlaiXn93WH5x0mLgfkSJeISbjGxkT8bPzF3IZf4jFJrVrA/
+	Q2cf0I9g4L3CjHHccOa308ftalyQXo5TPWpgUTR7QNu+wQ7ntpT58Cs0x36vc8dIuB6c2nHuMXf
+	dI+cuIXGo2C7ORv3t9hVplv743HKRmp5VP7NzzoL4zb650pFv+mDg/smXHQEBQ+pCzA69YCl3Je
+	sxyMujxU8VhLaOrucPezuLrGjtbYSHqKj83KB0Lhzh9X/yqqE3BBRKO+yDqUz/aY++MmTExP/jq
+	eLWvhtyt3CjeCig8QFnuJ1Z1yIjaFtSpiByQx/p2KdcJeCaxpjCDK9uL4t0FztXTHG05Bsj71Tv
+	LgtvdcDRvCkUcP9UdcIoPUU8+mMJVp0PxCmMLkn17XxFIiAnHuW/v8wuChzPmpt0/qm6QRpRHsT
+	IynVoA5Q==
+X-Received: by 2002:a17:90a:e703:b0:38d:ddc2:7ccb with SMTP id 98e67ed59e1d1-38ec6406625mr281164a91.1.1784752885668;
+        Wed, 22 Jul 2026 13:41:25 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:4e::])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38ea466e62fsm1240712a91.1.2026.07.22.13.41.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 13:41:24 -0700 (PDT)
+Date: Wed, 22 Jul 2026 13:40:58 -0700
+From: Stanislav Fomichev <sdf.kernel@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Lorenzo Bianconi <lorenzo@kernel.org>, 
+	Donald Hunter <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, Vladimir Vdovin <deliran@verdict.gg>, 
+	Jakub Sitnicki <jakub@cloudflare.com>, netdev@vger.kernel.org, bpf@vger.kernel.org, 
+	intel-wired-lan@lists.osuosl.org, linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH bpf-next v5 8/8] selftests: net: add test for XDP_PASS
+ skb checksum invalidation
+Message-ID: <amEojEGsIGkUjIWn@devvm7509.cco0.facebook.com>
+References: <20260715-bpf-xdp-meta-rxcksum-v5-0-623d5c0d0ab7@kernel.org>
+ <20260715-bpf-xdp-meta-rxcksum-v5-8-623d5c0d0ab7@kernel.org>
+ <aljNR2sf8qJVKFgb@devvm7509.cco0.facebook.com>
+ <alkBnI3XcH0XGjEo@lore-desk>
+ <al53WS9FMTnu7tBI@devvm7509.cco0.facebook.com>
+ <20260721082728.74142e6c@kernel.org>
+ <al_4VWS_EyyZLe8z@devvm7509.cco0.facebook.com>
+ <20260721183256.6f49d6e1@kernel.org>
+ <amEEEohxmC8hkBvY@devvm7509.cco0.facebook.com>
+ <20260722113525.34092660@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260722113525.34092660@kernel.org>
 
-Lorenzo Stoakes <ljs@kernel.org> writes:
+On 07/22, Jakub Kicinski wrote:
+> On Wed, 22 Jul 2026 11:00:07 -0700 Stanislav Fomichev wrote:
+> > > > This is about current drivers that only report UNNECESSARY with xdp: the xdp
+> > > > prog has to maintain in-packet checksum if it changes the payload. I think
+> > > > it's a fair assumption?  
+> > > 
+> > > What about decap? If we decap the header that device validated 
+> > > as UNNECESSARY there's no possibility of maintaining the checksum
+> > > (by which IIUC you mean correcting it in along the payload changes).
+> > > 
+> > > I think we'd need some API to "decrement the csum level" ?
+> > > Or some heuristic in the drivers to decrement if the head moved
+> > > by at least len(IP+UDP) into the packet ?  
+> > 
+> > True :-/ I guess one more case to document?
+> 
+> What would we be documenting? That it's a known bug and we have no idea
+> how to address it? Or am I missing something?
 
-> Both of these guidelines are complimentary to one another - one specifying
-> guidelines on AI coding assistants, and the other specifying those for
-> tool-generated content.
->
-> Since they are complimentary to one another, provide a link to each in the
-> other.
->
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
-> ---
->  Documentation/process/coding-assistants.rst | 4 ++++
->  Documentation/process/generated-content.rst | 7 +++++++
->  2 files changed, 11 insertions(+)
+Yeah, that UNECESSARY + decap in xdp has this corner case of inner
+csum being not validated (and currently no way to flip it to NONE from
+bpf).
 
-Applied (finally), thanks.
+(idk whether we really have nics that do csum_level>=2, so I'd just add
+bpf_invalidate_csum or something, but it's a separate conversation)
 
-jon
+> Again: 
+>  .. the ask was to sketch out the plan of explicitly
+>  updating/invalidating the checksum even if we don't 
+>  implement it today
+
+SGTM, I'll leave it up to Lorenzo. I had this TODAY vs TOMORROW summary,
+we can expand on that with UNNECESSARY+csum_level plus maybe more
+details on the shape of kfuncs for TOMORROW section..
