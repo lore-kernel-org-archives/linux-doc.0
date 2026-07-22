@@ -1,141 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B1D41A51F;
-	Wed, 22 Jul 2026 16:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D255C361950;
+	Wed, 22 Jul 2026 16:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784737077; cv=none; b=WtVkmMixs2JNJ4rc2V28Ll1soccXZjF5nWXskiyT8NIBOdjurN6AsojbILBHRKT8DT3uKKgLxEfCxqzu14Rs9EtIcGy4Of2IAUTnq8ndabf3/iPBI4Gsrfpwv5FTdqUT0TUn/KE6r5xT83gkveynkLmG78SJ6/E4Dj1BHXU/6rM=
+	t=1784737102; cv=none; b=TzzbG3vOxcVTyx36FLj9861+qvjYiv0V+G19o9JXcsXv1mviIblc1IMRo+plBMFlfu+NguW5eo1ivQcPBOwu+Bh9+iL9BX0pkD/VQ26tPEKTQXsbMmHafnW+YoVzoL3jXzWZu8YuaApB8CgUBNPbqtG9ZeyHRaspMQO49mp72T4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784737077; c=relaxed/simple;
-	bh=P8/sMtdSMKxJmobas/0QPomlj8pJ5gAPx7RDJQo7siE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IcItoW+5eDOBlCBcY9Pre3uf70nlu1mvXYc4kYJ8btI1wIezeNUu6Q8du7zLfgmdSu3FC6ka92R1tviKtDfPtzOBvcfSq1O6SFyPMLRi0YTbSg7rDjpMsHO35cX2j7QKOUSW0tIooutvV6eix9JABH/9uNbtvSgtYYOQMM78uMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XT0WX7D+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784737102; c=relaxed/simple;
+	bh=JUuh4mDQVDmwH6GKdj06kY+zYYBoUQp4jzgfe2wKEg0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ZgkRnqibYAFbsByFHZwNBuIO8IbqqYUnqfo1CJ3P6d8By+34LCY7G66+9bfVEGN7Ev2tXPK2AVWWB55yDsLK8gz6PU8KeeuNrKVFIdzPFHEfuGnC6KMPWzZl2h2Kcr5Ul5cwF3/Y9FoK1sDdzddJ2DQz2IBshSO5wAINZKIQ38w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=leu/CGV+; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XT0WX7D+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 377571F000E9;
-	Wed, 22 Jul 2026 16:17:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784737076;
-	bh=YXfFrDI1Gbs1aZPpZE/egTbSAbU7MCuNUiXD/BjcYx8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=XT0WX7D+HtENNn44tPUmJ6EXie/+lCvZtd2vSns15v/W1fmj9ElS2o1NG1H2xdknM
-	 2KKOBRSfFhJsZoJDMnDEKiol1DTKuLap33CZPyfreF8sbN3A0vtK5Xabl1nGS6qYRA
-	 QdwlLUZOv491ZxrBhPmqLb6uXmjoovghU0UvLYftKOnRl8yjFrjmBhgdyGDCzKs3aV
-	 ukg625n3qAwnBSoylbKfjyzq0MVg0NOycLzhMrBvsPEP7y9bXmDeHQGqYj3ImWGZpv
-	 XidPXLrZdWyIqJe2x0NpeyQZfL5K+ak7HyZMML/6nCpWvVZn65TcIUHT8RuYNpQK5j
-	 cO55RUlgvZEMQ==
-From: Simon Horman <horms@kernel.org>
-To: anthony.l.nguyen@intel.com
-Cc: Simon Horman <horms@kernel.org>,
-	davem@davemloft.net,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	edumazet@google.com,
-	andrew+netdev@lunn.ch,
-	netdev@vger.kernel.org,
-	larysa.zaremba@intel.com,
-	przemyslaw.kitszel@intel.com,
-	aleksander.lobakin@intel.com,
-	sridhar.samudrala@intel.com,
-	michal.swiatkowski@linux.intel.com,
-	maciej.fijalkowski@intel.com,
-	emil.s.tantilov@intel.com,
-	madhu.chittim@intel.com,
-	joshua.a.hay@intel.com,
-	jacob.e.keller@intel.com,
-	jayaprakash.shanmugam@intel.com,
-	jiri@resnulli.us,
-	corbet@lwn.net,
-	richardcochran@gmail.com,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	Bharath.r@intel.com
-Subject: Re: [PATCH net-next v5 13/15] ixd: add reset checks and initialize the mailbox
-Date: Wed, 22 Jul 2026 17:17:47 +0100
-Message-ID: <20260722161747.544002-1-horms@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260715180042.1972010-14-anthony.l.nguyen@intel.com>
-References: <20260715180042.1972010-14-anthony.l.nguyen@intel.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="leu/CGV+"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 12AD8408B4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1784737099; bh=HSPF5Fs1FjH0cLJ+UbOF91bZ4piLAlxGT5FqeMNuqp0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=leu/CGV+L/P4UZFI+FjX5TXKGn8IT+9PHyUjkKVzMM205EVXgXkQDnyS/rFsG8MRR
+	 a2MvtkuXfP+El9PrZS+gML+sohPCPOfELufZ4dJf+jb+G4MsDImZWI5TjIkj/ZSMvi
+	 CAxGqv1nN8o1O8bm8Iz5BBEB6FaJ7qehEf7fQGOZB5LWQ4LS62sjepKUpvnKfmu34/
+	 EG92j4mFtJ9t7JQu2n0M7gf836XVe5NyDR32LNtPfIV+6xTs8F4x3gmpfx5DhULBXJ
+	 +exl2/zF+53M9qpO2OtSvstH4VUjmfiSZ5frRBgd9ObMg+6AOFI02PWj8urRjUzm/y
+	 xpg7IeV2pyyuw==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 12AD8408B4;
+	Wed, 22 Jul 2026 16:18:19 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Akiyoshi Kurita <weibu@redadmin.org>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, akiyks@gmail.com, weibu@redadmin.org
+Subject: Re: [PATCH v6] docs/ja_JP: translate submitting-patches.rst (sign-off)
+In-Reply-To: <20260720223410.421262-1-weibu@redadmin.org>
+References: <20260720223410.421262-1-weibu@redadmin.org>
+Date: Wed, 22 Jul 2026 10:18:18 -0600
+Message-ID: <87bjbzc81h.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
-https://sashiko.dev/#/patchset/20260715180042.1972010-2-anthony.l.nguyen@intel.com?part=13
----
---- Patch [13]: [PATCH net-next v5 13/15] ixd: add reset checks and initialize the mailbox ---
-commit 9019dd0f9c2d33f542f42c411b53c595e9c03614
-Author: Larysa Zaremba <larysa.zaremba@intel.com>
-Subject: ixd: add reset checks and initialize the mailbox
+Akiyoshi Kurita <weibu@redadmin.org> writes:
 
-This commit introduces the reset and mailbox initialization sequence for the
-Intel CPF device driver. It adds functions to trigger and verify hardware
-resets, initializes default control queues, and sets up a delayed work task to
-handle the post-reset initialization flow. It also adds cleanup logic to the
-device removal path.
+> Translate the "Include PATCH in the subject" and "Sign your work -
+> the Developer's Certificate of Origin" sections into Japanese.
+>
+> Keep the DCO text in English as the original certificate text, and add
+> a Japanese note that the sign-off refers to the English DCO text.
+>
+> Use a reStructuredText note directive to make it clear that the note is
+> specific to the Japanese translation.
+>
+> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+> ---
+> Changes in v6:
+>
+> Remove the extra blank line at EOF introduced during the rebase.
+>
+>  .../ja_JP/process/submitting-patches.rst      | 77 +++++++++++++++++++
+>  1 file changed, 77 insertions(+)
 
-> diff --git a/drivers/net/ethernet/intel/ixd/ixd_dev.c b/drivers/net/ethernet/intel/ixd/ixd_dev.c
-> new file mode 100644
-> index 0000000000000..cdd5477cc1f4d
-> --- /dev/null
-> +++ b/drivers/net/ethernet/intel/ixd/ixd_dev.c
-[ ... ]
-> +void ixd_trigger_reset(struct ixd_adapter *adapter)
-> +{
-> +	void __iomem *addr;
-> +	u32 reg_val;
-> +
-> +	addr = libie_pci_get_mmio_addr(&adapter->cp_ctx.mmio_info,
-> +				       ixd_reset_reg.rtrigger);
-> +	reg_val = readl(addr);
-> +	writel(reg_val | ixd_reset_reg.rtrigger_m, addr);
+Applied, thanks.
 
-[Severity: Medium]
-If the device has been hot-removed or is experiencing a PCIe link error,
-could readl() return 0xFFFFFFFF?
-
-If reg_val is not checked for 0xFFFFFFFF, this will write all 1s back to
-the PFGEN_CTRL register. Could this trigger unintended hardware actions or
-test modes if the link recovers or the write completes?
-
-> +}
-[ ... ]
-> diff --git a/drivers/net/ethernet/intel/ixd/ixd_main.c b/drivers/net/ethernet/intel/ixd/ixd_main.c
-> index 75ee53152e614..35d0ff5c8d983 100644
-> --- a/drivers/net/ethernet/intel/ixd/ixd_main.c
-> +++ b/drivers/net/ethernet/intel/ixd/ixd_main.c
-[ ... ]
-> @@ -16,7 +17,15 @@ static void ixd_remove(struct pci_dev *pdev)
->  {
->  	struct ixd_adapter *adapter = pci_get_drvdata(pdev);
->  
-> -	libie_pci_unmap_all_mmio_regions(&adapter->hw);
-> +	/* Do not mix removal with (re)initialization */
-> +	cancel_delayed_work_sync(&adapter->init_task.init_work);
-> +	/* Leave the device clean on exit */
-> +	if (adapter->xnm)
-> +		libie_ctlq_xn_shutdown(adapter->xnm);
-> +	ixd_trigger_reset(adapter);
-> +	ixd_deinit_dflt_mbx(adapter);
-
-[Severity: High]
-Since ixd_trigger_reset() uses a posted write (writel) without a following
-readl() to flush it, could the reset fail to reach the hardware before the
-PCI subsystem disables Memory Space Enable?
-
-Additionally, ixd_deinit_dflt_mbx() is called immediately after triggering
-the reset. Does this free the control queue DMA memory before the hardware
-is guaranteed to have halted? If the reset hasn't taken effect yet, could
-the device continue to master DMA to the freed memory and cause IOMMU DMAR
-faults or memory corruption?
-
-> +
-> +	libie_pci_unmap_all_mmio_regions(&adapter->cp_ctx.mmio_info);
->  }
+jon
